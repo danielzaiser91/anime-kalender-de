@@ -63,6 +63,7 @@ const { loadDataset, loadAllTitles, loadOhneSynchroNamen } = await import('../we
 const { zaehleVersteckteEcchiTreffer } = await import('../web/src/lib/ecchi-hinweis.ts')
 const { hoereAufEinstellungen } = await import('../web/src/lib/einstellungen-offen.ts')
 const { EMPTY_FILTERS } = await import('../web/src/lib/filters.ts')
+const { nachZahlGeordnet, genreAnzeige } = await import('../web/src/lib/filter-liste.ts')
 const { ohneEcchiEinstiege } = await import('../web/src/lib/empfehlung-daten.ts')
 const { EcchiZeile } = await import('../web/src/components/Einstellungen.tsx')
 const { EcchiHinweis } = await import('../web/src/components/EcchiHinweis.tsx')
@@ -116,6 +117,13 @@ pruefe('Genre-Filter „Ecchi“ fehlt', data.meta.genres.join() === 'Comedy,Fan
 ecchiSetzen(true)
 const offen = await loadDataset()
 pruefe('Schalter an: alle Titel, Termine und der Genre-Filter', ids(offen.titles) === '900001,900002' && offen.events.length === 2 && offen.meta.genres.includes('Ecchi'))
+const zaehlung = new Map<string, number>([['Ecchi', 9], ['Comedy', 1]])
+const genreAnsichten = (d: typeof data) => {
+  const geordnet = nachZahlGeordnet(d.meta.genres, zaehlung)
+  return [genreAnzeige(geordnet, [], false, false), genreAnzeige(geordnet, [], true, false), genreAnzeige(geordnet, [], false, true)]
+}
+pruefe('Genre-Liste (Filter aus 2297): Ecchi weder in Vorschlägen noch bei „alle anzeigen“ noch in der Suche', genreAnsichten(data).every((a) => !a.sichtbar.includes('Ecchi')), genreAnsichten(data))
+pruefe('Genre-Liste mit Schalter an: Ecchi steht als häufigstes vorn, auch in „alle“ und der Suche', genreAnsichten(offen).every((a) => a.sichtbar[0] === 'Ecchi'), genreAnsichten(offen))
 ecchiSetzen(false)
 
 // Datenbank-Liste und Namensindex
