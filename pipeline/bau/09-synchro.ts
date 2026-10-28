@@ -15,6 +15,7 @@ import { werteCrunchyrollDubAus } from './09-4-crunchyroll-dub.ts'
 import { werteWeitereQuellenAus } from './09-5-weitere-quellen.ts'
 import { ergaenzeAnisearchWege } from './09-6-anisearch-wege.ts'
 import { schliesseSynchroAb } from './09-7-abschluss.ts'
+import { haltePunkt } from './phasen-zustand.ts'
 import { kennzeichneAdnNeuzugaengeOhneSprache } from './adn-sprache-offen.ts'
 
 /**
@@ -60,6 +61,7 @@ export function pruefeSynchroJePlattform({
   const belege = sammleBelege({ releases, titles, crBySeriesId, tmdbMehrdeutig, tmdbTitles, tvJeTmdb, toteAdressen, crDub })
   const pruefung = werteLinkpruefungAus({ ...belege, titles, netflixOhneKennung, vorherTitles })
   uebernehmePrimeUndCrVorschlaege({ ...belege, ...pruefung, titles, tmdbTitles, anisearch })
+  haltePunkt('09-3-prime', titles)
   werteCrunchyrollDubAus({
     crDub,
     titles,
@@ -69,6 +71,7 @@ export function pruefeSynchroJePlattform({
     anisearch,
     releases,
   })
+  haltePunkt('09-4-crunchyroll-dub', titles)
   const { adnArchiv, adnStreamSchaerfen, motnBelege, motnTon } = werteWeitereQuellenAus({
     releases,
     titles,
@@ -77,6 +80,7 @@ export function pruefeSynchroJePlattform({
     verweiseEntfernt,
     schreibWurzel,
   })
+  haltePunkt('09-5-weitere-quellen', titles)
   ergaenzeAnisearchWege({
     ...belege,
     ...pruefung,
@@ -87,6 +91,7 @@ export function pruefeSynchroJePlattform({
     adnArchiv,
     adnStreamSchaerfen,
   })
+  haltePunkt('09-6-anisearch-wege', titles)
   schliesseSynchroAb({ titles, verweiseEntfernt, releases, crDub, belegFuer: belege.belegFuer, schreibWurzel })
   kennzeichneAdnNeuzugaengeOhneSprache(releases, titles, belege.belegFuer)
   /* Erst hier sind alle Crunchyroll-Termine da; vor Phase 10 übernehmen die Ereignisse das Flag. */
