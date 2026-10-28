@@ -36500,18 +36500,6 @@
   dub: true
   checkedAt: '2026-10-16'
   note: "Folgen 1–14 mit deutschem Ton — Tonspuren: de, en, es-419, ja, pt-BR — Widersprüchliche Meldungen zu Folge 8"
-- anilistId: 2225
-  title: "Heidi"
-  platform: disneyplus
-  url: https://www.disneyplus.com/de-de/browse/entity-cfb90125-8678-4327-a1b8-e608f293eccd
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 39
-      dub: true
-      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39]
-  checkedAt: '2026-10-16'
-  note: "Folgen 1–39 mit deutschem Ton — Tonspuren: de, fr-FR"
 - anilistId: 161476
   title: "Ishura"
   platform: disneyplus
