@@ -35,6 +35,7 @@ pruefe('keine deutsche Folge auf der Seite: weiterlesen', !seiteNurBekannt([ja('
 pruefe('leere Seite: weiterlesen (die Schleife endet dort selbst)', !seiteNurBekannt([], bekannt))
 pruefe('bekannte Kennung in anderer Sprache zählt nicht als deutsch', !seiteNurBekannt([ja(PSYREN)], bekannt))
 pruefe('deutsche Folge ohne Kennung: weiterlesen', !seiteNurBekannt([{ episode_metadata: { audio_locale: 'de-DE' } }], bekannt))
+pruefe('bekannte deutsche Folge plus eine ohne Kennung (die Hauptschleife überspringt sie): aufhören', seiteNurBekannt([de(AOASHI), { episode_metadata: { audio_locale: 'de-DE' } }], bekannt))
 
 /* Der Prozess mit gefälschtem fetch. */
 const wurzel = mkdtempSync(join(tmpdir(), 'cr-neu-seiten-'))
@@ -90,6 +91,8 @@ const f = lauf('seiten-2', [[de(LAST_BOSS_1)], [de('NEU2')], [de('NEU3')], [], [
 pruefe('--seiten 2 begrenzt weiter: zwei Abrufe', f.status === 0 && f.abrufe === 2, f)
 const g = lauf('leere-seite', [[de(LAST_BOSS_1)], [], [de('NEU3')]], [PSYREN])
 pruefe('leere zweite Seite beendet das Lesen: zwei Abrufe', g.status === 0 && g.abrufe === 2 && !g.gespeichert.includes('NEU3'), g)
+const h = lauf('verschoben', [[de(LAST_BOSS_1)], [de(LAST_BOSS_1)], [de('SPAET1')], [], [], []], [PSYREN])
+pruefe('Katalog verschiebt sich beim Blättern (dieselbe Folge auf Seite 1 und 2): die in diesem Lauf gefundene zählt als bekannt', h.status === 0 && h.abrufe === 2 && !h.gespeichert.includes('SPAET1'), h)
 pruefe('die Zusammenfassung nennt die gelesenen Seiten', /1 Seiten, 3 Folgen gelesen/.test(a.ausgabe), a.ausgabe)
 
 console.log(verletzt ? `\n${verletzt} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
