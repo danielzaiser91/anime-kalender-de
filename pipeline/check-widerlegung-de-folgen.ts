@@ -85,6 +85,10 @@ console.log('\nWiderlegung und deutsche Folgen danach:')
   pruefe('Katalog nicht deutsch: Weg gelöst', ausland.streams[0].dub === undefined, ausland.streams[0])
   const fremd = lauf('https://www.crunchyroll.com/de/series/GFREMD/x', '2026-10-18')
   pruefe('Serie nicht im Katalog: Weg gelöst', fremd.streams[0].dub === undefined, fremd.streams[0])
+  const angenommen = reihe(900016, 'https://www.crunchyroll.com/de/series/GFREMD/x')
+  angenommen.get(900016)!.streams[0].dubAbgeleitet = 'kanal-erbt'
+  loeseGeteilteWegeVonWiderlegten([release(900016, '2026-10-18')], angenommen, crDub)
+  pruefe('gelöster Weg verliert mit dem Ja auch dubAbgeleitet', angenommen.get(900016)!.streams[0].dubAbgeleitet === undefined, angenommen.get(900016)!.streams[0])
   /* Folgenzahl unbekannt (laufende Staffel, 20.10.2026): der Bereich besteht nur aus belegten deutschen Folgen, ungekappt. */
   const ohneZahl = reihe(900009, URL_A, null)
   loeseGeteilteWegeVonWiderlegten([release(900009, '2026-10-18')], ohneZahl, crDub)

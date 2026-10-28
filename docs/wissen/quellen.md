@@ -4032,6 +4032,12 @@ Anlass: Prüfer-Befund zum freenet-PR. Videoload trug seit 22.09.2026 pauschal `
 - **Prüfung:** `check-telekom-annahme.ts` (`check:logic`: Regel, Gegenprobe Angry Birds, Abo bleibt offen, freenet leitet nichts ab, Blase und Legende, Zusicherung des Baus) und `check-telekom-annahme-bestand.ts` (`check:bestand`). Der Bau bricht ab, wenn die Kennzeichnung an einem fremden Anbieter oder neben einem Nein steht.
 - **Offen (erledigt 19.10.2026, s. u. „Telekom-Zwilling“):** Videoload ist bei JustWatch nicht gelistet; der MagentaTV-Zwilling (gleiche Gracenote-Kennung) ist der Beleg. Taucht ein Gegenbeispiel auf, genügt ein Handbeleg mit `dub: false` (eigene Angabe geht vor).
 
+## Joyn pauschal und Prime-Kanal-Erbe tragen `dubAbgeleitet` (28.10.2026)
+
+- **Regel:** Zwei Wege setzen `dub: true`, ohne dass der Weg oder eine Messquelle Deutsch nennt: Joyn (`bau/joyn-pauschal.ts`, Daniel 02.09.2026, „deutscher Anbieter“) und ein Prime-Kanal-Weg, der das Ja seines Anbieters Crunchyroll/ADN erbt (`bau/kanal-erbt-anbieter.ts`). Sie tragen jetzt `dubAbgeleitet: 'joyn-pauschal'` bzw. `'kanal-erbt'` an `streams` (Typ `DubAbgeleitet`, `shared/watchlink-typ.ts`). Die `dub`-Werte blieben unverändert. Wege mit Handbeleg oder eigenem Urteil tragen das Kennzeichen nie. Nimmt der Bau das Ja zurück (Sprachtermin, Widerlegung), fällt das Kennzeichen mit.
+- **Prüfung:** `check-dub-abgeleitet.ts` (Regel, Kreislauf Erbe → Sprachtermin), `check-dub-abgeleitet-lauf.ts` (der Bau-Aufrufer `auslieferungsInvarianten` bricht bei Kennzeichen ohne `dub: true` oder an fremdem Anbieter ab; `lib/dub-abgeleitet.ts`).
+- **Oberfläche:** liest `dubAbgeleitet` an Streams noch nicht; beide Wege zeigen weiter „✓ Deutsch“ wie ein gemessenes Ja. Eine Anzeige „angenommen“ wäre ein eigener Auftrag.
+
 ## AKIBA PASS SHOP gegen Bestand: Sailor Moon Staffel 2–5 und A New Dawn (13.10.2026)
 
 - **Sailor Moon Staffel 2–5 (Steelbook-Gesamtausgaben):** Der Shop (Anime2You 1056789, 02.10.) nennt 20.11./18.12./15.01./19.02. Bestand war der aniSearch-Stand vor den Verschiebungen (Anime2You 1045437, 01.09.: 11-06→12-18, 12-04→01-15, 01-15→02-19). Phase 08 (`verschiebungenAnwenden`) griff nicht, weil der Name abweicht („Sailor Moon – Staffel 3“ gegen „Sailor Moon S“). Staffel 2: Shop-Seite am 13.10. `releaseDate: "20.11.2026"`, die Tabelle von 1045437 nannte 06.11. — der Shop gilt. Jahre ohne Jahresangabe im Artikel sind abgeleitet (`estimated`), nur Staffel 2 hat sie belegt.

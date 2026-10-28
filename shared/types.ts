@@ -2,7 +2,7 @@ import type { Zugangsart } from './zugangsart.ts'
 import type { PremiereVorher, ReleasePremiere } from './premiere.ts'
 import type { FolgenFenster } from './folgen-fenster.ts'
 import type { ReleaseRhythmus } from './folgenrhythmus.ts'
-import type { WatchLink } from './watchlink-typ.ts'
+import type { DubAbgeleitet, WatchLink } from './watchlink-typ.ts'
 import type { VermerkAusgeblieben } from './vermerk-typ.ts'
 import type { Quelle } from './quelle-typ.ts'
 /** Gemeinsame Typen für Pipeline, Web-App und Newsletter-Worker. */
@@ -167,6 +167,8 @@ export interface StreamLink {
   dubQuelle?: 'justwatch'
   /** Datum des JustWatch-Befunds hinter `dubQuelle` (JJJJ-MM-TT). */
   dubStand?: string
+  /** Neben `dub: true`: das Ja ist angenommen, nicht gemessen — `joyn-pauschal` (deutscher Anbieter, `bau/joyn-pauschal.ts`) oder `kanal-erbt` (Prime-Kanal übernimmt das Ja seines Anbieters, `bau/kanal-erbt-anbieter.ts`). Fehlt es, ist `dub` gemessen oder belegt. */
+  dubAbgeleitet?: DubAbgeleitet
   /** JustWatch spricht nur von der Staffel, nicht von dieser Seite, oder der Wächter hat den Anbieter abgeschaltet: nur Hinweis „laut JustWatch“. */
   dubHintOnly?: true
   /** Woher der Weg stammt, wenn nicht aus unseren Anime-Quellen: `tmdb` = nur der Anbieter laut TMDB (Deutschland), ohne Sprachangabe (Cartoon-Umzug, 09.10.2026); `termin` = nur der Anbieter eines sicheren Kalendertermins, ohne Tonurteil (11.10.2026); `handbeleg` = Weg eines Titels nur bei aniSearch, den ein Handbeleg „deutsch“ mit Adresse trägt (14.10.2026); `justwatch` = Prime-Kauf-/Leihweg nur aus JustWatch (23.10.2026), meldet nicht „neu“. */

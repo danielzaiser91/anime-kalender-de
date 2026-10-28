@@ -238,6 +238,7 @@ export function loeseGeteilteWegeVonWiderlegten(releases: Release[], titles: Map
         continue
       }
       delete s.dub
+      delete s.dubAbgeleitet
       geloest++
     }
   }
