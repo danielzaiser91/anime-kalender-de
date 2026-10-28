@@ -77,6 +77,7 @@ pipeline/check-cr-folgestaffel.ts
 pipeline/check-cr-frisch.ts
 pipeline/check-cr-ja-deckung.ts
 pipeline/check-cr-katalog-ein-werk.ts
+pipeline/check-cr-kennwort.ts
 pipeline/check-cr-komplettabwurf.ts
 pipeline/check-cr-nein-ueberholt.ts
 pipeline/check-cr-nein-verdrahtung.ts
