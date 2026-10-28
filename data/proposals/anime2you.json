@@ -1,11 +1,11 @@
 {
-  "scrapedAt": "2026-10-28T16:04:03.293Z",
+  "scrapedAt": "2026-10-28T17:06:25.003Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 9,
-    "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 5,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 8,
+    "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 4,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 11,
-    "schon in einem Rubrik-Feed gelesen": 8,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 13,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 11,
+    "schon in einem Rubrik-Feed gelesen": 10,
     "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 1,
     "Sprachhinweis älter als 45 Tage": 4
   },
@@ -39,6 +39,68 @@
       "dates": [],
       "dub": "ja",
       "pause": "pause",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Zwei Anime-Neuzugänge auf Deutsch bei Crunchyroll",
+      "articleUrl": "https://www.anime2you.de/news/1065119/crunchyroll-detective-is-already-dead-synchro-und-mehr/",
+      "publishedAt": "2026-10-28",
+      "category": "streaming",
+      "platforms": [
+        "crunchyroll"
+      ],
+      "dates": [],
+      "dub": "ja",
+      "zeiten": [
+        {
+          "tag": "Mittwoch",
+          "zeit": "17:15",
+          "satz": "ch: »Magic Knight Rayearth« »The Detective Is Already Dead« – Staffel 2 »Magic Knight Rayearth« Episoden: 1 auf Deutsch verfügbar Sprache: Deutsch, Japanisch (UT) Simulcast: Jeden Mittwoch um 17:15 Uhr Stream: Crunchyroll , Prime Video Handl"
+        },
+        {
+          "tag": "Mittwoch",
+          "zeit": "15:30",
+          "satz": "e drei Mädchen Prinzessin Emeraude zur Hilfe eilen. »The Detective Is Already Dead« – Staffel 2 Episoden: 1 auf Deutsch verfügbar Sprache: Deutsch, Japanisch (UT) Simulcast: Jeden Mittwoch um 15:30 Uhr Stream: Crunchyroll , Prime Video Handl"
+        }
+      ],
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Crunchyroll zeigt dritte »Mashle«-Staffel im Simulcast",
+      "articleUrl": "https://www.anime2you.de/news/1064990/crunchyroll-dritte-mashle-staffel/",
+      "publishedAt": "2026-10-28",
+      "category": "streaming",
+      "platforms": [
+        "crunchyroll"
+      ],
+      "dates": [
+        {
+          "month": "2027-01",
+          "context": "»Mashle: Magic and Muscles« gesichert hat. Wir fassen zusammen. Start im Januar 2027 Die dritte Staffel, die den »Tri-Magicathlon Divine Vis"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "»Neon Genesis Evangelion« erhält neue Blu-ray-Komplettbox",
+      "articleUrl": "https://www.anime2you.de/news/1065042/neon-genesis-evangelion-neue-blu-ray-komplettbox/",
+      "publishedAt": "2026-10-28",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2027-02-05",
+          "context": "Komplettbox wird als »Special Edition« bezeichnet und derzeit für den 5. Februar 2027 gelistet. Weitere Einzelheiten, wie etwa zur Ausstattu"
+        },
+        {
+          "month": "2027-02",
+          "context": "hst erneut in einer Blu-ray-Komplettbox. Wir fassen zusammen. Release im Februar 2027 Die neue Blu-ray-Komplettbox wird als »Special Edition"
+        }
+      ],
+      "dub": "unklar",
       "alreadyCurated": false
     },
     {
