@@ -2,7 +2,9 @@
  * Warteschlange des ADN-Katalog-Laufs (28.10.2026): Der Stand `data/adn-katalog-stand.json` kennt 661 Serien, gefragt wurden je Lauf nur 273, weil 388 Schlüssel
  * weder in der aktuellen ADN-Liste noch im Katalog noch im Archiv stehen. Sie kommen hier als Einträge ohne Titel zusätzlich in die Schlange.
  */
-import type { AdnListenEintrag, AdnVideo } from './adn-folgen.ts'
+import { katalogShowAus, type AdnListenEintrag, type AdnVideo } from './adn-folgen.ts'
+import type { AdnShow } from './adn.ts'
+import type { KatalogAuskunft } from './adn-sprachriegel.ts'
 
 /** Stand-Schlüssel, die weder `bekannt` noch gültige Kennung sind, als Einträge ohne Titel (der Titel kommt aus der Antwort, siehe `mitTitelAusAntwort`). */
 export function standOhneKopf(stand: Readonly<Record<string, string>>, bekannt: ReadonlySet<number>): AdnListenEintrag[] {
@@ -31,4 +33,53 @@ export function mitTitelAusAntwort(eintrag: AdnListenEintrag, videos: AdnVideo[]
 
 export function warteschlangeZeile(gefragt: number, gesamt: number): string {
   return `ADN-Katalog: ${gefragt} von ${gesamt} Serien in der Warteschlange gefragt`
+}
+
+export type LaufHilfen = {
+  ladeSerie: (id: number) => Promise<{ videos: AdnVideo[]; abbruch?: string }>
+  archiviere: (id: number, videos: AdnVideo[]) => void
+  pause: () => Promise<void>
+  jetzt: () => string
+  log: (text: string) => void
+  warn: (text: string) => void
+}
+
+/** Fragt die Warteschlange der Reihe nach; `stand` wird fortgeschrieben (Stempel je beantworteter Serie), fünf Fehler in Folge beenden den Lauf. */
+export async function fragWarteschlange(
+  alle: AdnListenEintrag[],
+  stand: Record<string, string>,
+  h: LaufHilfen,
+): Promise<{ shows: AdnShow[]; auskunft: KatalogAuskunft }> {
+  const out: AdnShow[] = []
+  const auskunft: KatalogAuskunft = { gefragt: new Set(), entschieden: new Set() }
+  let geprueft = 0
+  let fehlerInFolge = 0
+  for (const eintrag of alle) {
+    geprueft++
+    auskunft.gefragt.add(eintrag.id)
+    if (geprueft % 100 === 0) h.log(`  ${geprueft}/${alle.length} — ${out.length} mit Synchro`)
+    try {
+      const antwort = await h.ladeSerie(eintrag.id)
+      if (antwort.abbruch) {
+        if (++fehlerInFolge >= 5) {
+          h.warn(`ADN-Katalog: fünf Fehler in Folge (zuletzt ${antwort.abbruch}) — Lauf wird beendet.`)
+          break
+        }
+        await h.pause()
+        continue
+      }
+      fehlerInFolge = 0
+      auskunft.entschieden.add(eintrag.id)
+      stand[String(eintrag.id)] = h.jetzt()
+      const videos = antwort.videos
+      if (videos.length) h.archiviere(eintrag.id, videos)
+      const mitTitel = mitTitelAusAntwort(eintrag, videos)
+      const show = mitTitel.title ? katalogShowAus(mitTitel, videos) : undefined
+      if (show) out.push(show)
+    } catch (err) {
+      h.warn(`ADN-Katalog ${eintrag.id}: ${(err as Error).message}`)
+    }
+    await h.pause()
+  }
+  return { shows: out, auskunft }
 }

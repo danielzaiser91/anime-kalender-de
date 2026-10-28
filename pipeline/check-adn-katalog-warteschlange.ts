@@ -2,7 +2,7 @@
  * Zusicherungen zu `lib/adn-katalog-warteschlange.ts` (28.10.2026): Stand-Schlüssel ohne Archivdatei (388 von 661) kamen nie in die Warteschlange des
  * Katalog-Laufs; je Lauf wurden 273 gefragt. Schlüssel 50, 53, 57 stammen wörtlich aus `adn-katalog-stand.json` (Stempel 23.10.2026, ohne Archivdatei).
  */
-import { aelteste, mitTitelAusAntwort, standOhneKopf, warteschlangeZeile } from './lib/adn-katalog-warteschlange.ts'
+import { aelteste, fragWarteschlange, type LaufHilfen, mitTitelAusAntwort, standOhneKopf, warteschlangeZeile } from './lib/adn-katalog-warteschlange.ts'
 import type { AdnListenEintrag, AdnVideo } from './lib/adn-folgen.ts'
 
 let verletzt = 0
@@ -46,5 +46,42 @@ pruefe('ohne Videos bleibt der Titel leer', mitTitelAusAntwort({ id: 50, title: 
 
 pruefe('Logzeile nennt N von M', warteschlangeZeile(400, 661) === 'ADN-Katalog: 400 von 661 Serien in der Warteschlange gefragt', warteschlangeZeile(400, 661))
 
-console.log(verletzt ? `✖ ${verletzt} Zusicherung(en) verletzt` : '✓ adn-katalog-warteschlange: 14 Zusicherungen erfüllt')
+// Umbau-Beleg (A3): `aelteste` reiht wie der alte Aufruf in `fetchCatalog` (`alle.sort(nach Stempel).slice(0, limit)`), mit Gleichständen und fehlenden Stempeln.
+const altStand: Record<string, string> = {}
+for (let i = 0; i < 661; i += 1) if (i % 7 !== 0) altStand[String(1000 + i)] = `2026-10-${String(10 + (i % 15)).padStart(2, '0')}T0${i % 6}:00:00.000Z`
+const alterAlt = (id: number): number => Date.parse(altStand[String(id)] ?? '') || 0
+const alteReihe = [...alle].sort((a, b) => alterAlt(a.id) - alterAlt(b.id)).slice(0, 600).map((e) => e.id)
+const neueReihe = aelteste(alle, altStand, 600).map((e) => e.id)
+pruefe('Reihenfolge bei Limit 600 gleich dem alten Sortieraufruf', JSON.stringify(alteReihe) === JSON.stringify(neueReihe))
+
+// Umlauf mit Attrappen (A1): `fragWarteschlange` ist der Schleifenkörper von `fetchCatalog`.
+function hilfen(antworten: Record<number, { videos: AdnVideo[]; abbruch?: string }>, zeiten: string[], archiviert: number[]): LaufHilfen {
+  return {
+    ladeSerie: async (id) => antworten[id] ?? { videos: [] },
+    archiviere: (id) => void archiviert.push(id),
+    pause: async () => {},
+    jetzt: () => zeiten.shift() ?? 'Z',
+    log: () => {},
+    warn: () => {},
+  }
+}
+const ep = (id: number, show: object): AdnVideo => ({ id, show, number: '1', releaseDate: '2026-10-01T10:00:00Z', languages: ['vde'] }) as unknown as AdnVideo
+{
+  const zeiten = ['T1', 'T2']
+  const archiviert: number[] = []
+  const stand2: Record<string, string> = {}
+  const lauf = await fragWarteschlange(
+    [{ id: 50, title: '' }, { id: 51, title: 'Eigen' }],
+    stand2,
+    hilfen({ 50: { videos: [ep(1, { id: 50, title: 'Aus Antwort' })] }, 51: { videos: [ep(2, { id: 51, title: 'X' })] } }, zeiten, archiviert),
+  )
+  pruefe('Umlauf: Serie ohne Titel nimmt ihn aus der Antwort', lauf.shows.map((s) => s.title).sort().join('|') === 'Aus Antwort|Eigen', lauf.shows.map((s) => s.title))
+  pruefe('Umlauf: Stempel und Archiv je beantworteter Serie', JSON.stringify(stand2) === '{"50":"T1","51":"T2"}' && archiviert.join() === '50,51', { stand2, archiviert })
+}
+{
+  const lauf = await fragWarteschlange([{ id: 60, title: '' }], {}, hilfen({ 60: { videos: [] } }, [], []))
+  pruefe('Umlauf: ohne Titel und ohne Videos entsteht keine Serie', lauf.shows.length === 0)
+}
+
+console.log(verletzt ? `✖ ${verletzt} Zusicherung(en) verletzt` : '✓ adn-katalog-warteschlange: 19 Zusicherungen erfüllt')
 process.exit(verletzt ? 1 : 0)

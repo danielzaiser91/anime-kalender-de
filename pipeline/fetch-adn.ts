@@ -21,10 +21,10 @@ import { gunzipSync } from 'node:zlib'
 import { addDays, diffDays, todayIso } from '../shared/time.ts'
 import { log, readJson, ROOT, sleep, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
-import { episodeAus, katalogShowAus, sortiereFolgen, toBerlin, type AdnListenEintrag, type AdnVideo } from './lib/adn-folgen.ts'
+import { episodeAus, sortiereFolgen, toBerlin, type AdnListenEintrag, type AdnVideo } from './lib/adn-folgen.ts'
 import { holeAdnNews } from './lib/adn-news.ts'
 import { type KatalogAuskunft, katalogBilanzZeile, mitUngepruftenAlten, riegelBilanz, schreibeArchiv, verwirfFranzoesische, verworfen } from './lib/adn-sprachriegel.ts'
-import { aelteste, mitTitelAusAntwort, standOhneKopf, warteschlangeZeile } from './lib/adn-katalog-warteschlange.ts'
+import { aelteste, fragWarteschlange, standOhneKopf, warteschlangeZeile } from './lib/adn-katalog-warteschlange.ts'
 import { fragNeuzugaenge, katalogMitNeuen } from './lib/adn-neuzugaenge.ts'
 import { ordneKatalogZuAnisearch } from './lib/adn-zuordnung-lauf.ts'
 import {
@@ -310,37 +310,14 @@ async function fetchCatalog(): Promise<{ shows: AdnShow[]; auskunft: KatalogAusk
       'wird je Serie auf deutsche Synchro geprüft…',
   )
 
-  const out: AdnShow[] = []
-  const auskunft: KatalogAuskunft = { gefragt: new Set(), entschieden: new Set() }
-  let geprueft = 0
-  let fehlerInFolge = 0
-  for (const eintrag of alle) {
-    geprueft++
-    auskunft.gefragt.add(eintrag.id)
-    if (geprueft % 100 === 0) log(`  ${geprueft}/${alle.length} — ${out.length} mit Synchro`)
-    try {
-      const antwort = await ladeSerie(eintrag.id)
-      if (antwort.abbruch) {
-        if (++fehlerInFolge >= 5) {
-          warn(`ADN-Katalog: fünf Fehler in Folge (zuletzt ${antwort.abbruch}) — Lauf wird beendet.`)
-          break
-        }
-        await sleep(700)
-        continue
-      }
-      fehlerInFolge = 0
-      auskunft.entschieden.add(eintrag.id)
-      stand[String(eintrag.id)] = new Date().toISOString()
-      const videos = antwort.videos
-      if (videos.length) archiviereSerie(eintrag.id, videos)
-      const mitTitel = mitTitelAusAntwort(eintrag, videos)
-      const show = mitTitel.title ? katalogShowAus(mitTitel, videos) : undefined
-      if (show) out.push(show)
-    } catch (err) {
-      warn(`ADN-Katalog ${eintrag.id}: ${(err as Error).message}`)
-    }
-    await sleep(700)
-  }
+  const { shows: out, auskunft } = await fragWarteschlange(alle, stand, {
+    ladeSerie,
+    archiviere: archiviereSerie,
+    pause: () => sleep(700),
+    jetzt: () => new Date().toISOString(),
+    log,
+    warn,
+  })
   writeJson(KATALOG_STAND, stand)
 
   // Zuordnung zu aniSearch aus der Titelliste im Cache (`lib/adn-anisearch.ts`): keine Abfrage je Serie, bei Mehrdeutigkeit bleibt die Serie offen.
