@@ -91,7 +91,7 @@ export function EcchiZeile({ neuLaden = () => location.reload() }: { neuLaden?: 
           ecchiSetzen(e.target.checked)
           neuLaden()
         }}
-        className="mt-0.5 h-4 w-4 shrink-0 accent-[#ff5a36]"
+        className="mt-0.5 h-4 w-4 shrink-0 accent-ak-akzent"
       />
       <span className="flex flex-col gap-0.5">
         <span className="text-sm font-semibold">{t('einstellungen.ecchi' as TranslationKey)}</span>

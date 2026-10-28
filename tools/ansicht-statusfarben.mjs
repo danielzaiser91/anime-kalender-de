@@ -20,8 +20,8 @@ function tokenFarben(namen) {
   )
 }
 
-/** Die Genre-Pillen, an denen gemessen wird: Auswählen trifft Action, Ausschließen Ecchi (beide stehen in jedem Bestand). */
-const PILLE_VON_MODUS = { include: 'Action', exclude: 'Ecchi' }
+/** Die Genre-Pillen, an denen gemessen wird: Auswählen trifft Action, Ausschließen Comedy (beide stehen in jedem Bestand; Ecchi nicht: standardmäßig ausgeblendet). */
+const PILLE_VON_MODUS = { include: 'Action', exclude: 'Comedy' }
 
 /** Klickt „Auswählen" bzw. „Ausschließen". Läuft im Browser. */
 function waehleModus(modus) {
