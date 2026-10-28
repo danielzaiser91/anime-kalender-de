@@ -2,7 +2,7 @@ import { ohneDoppelte } from './rohfolgen-doppelte.ts'
 
 /**
  * Ab diesem Zeitpunkt liest die Erweiterung nach einem Staffelwechsel ohne Neuladen die Folgen der neuen Seite
- * (4.20.8/4.20.9, Commits cb57345e7 und 8d67c2f60 vom 15.09.2026, Folgetag wegen Neuladens der Erweiterung).
+ * (Commits cb57345e7 und 8d67c2f60 vom 15.09.2026, Folgetag wegen Neuladens der Erweiterung).
  */
 export const STAFFELWECHSEL_BEHOBEN = '2026-09-16T00:00:00Z'
 
