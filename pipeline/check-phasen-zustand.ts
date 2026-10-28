@@ -60,7 +60,7 @@ try {
   pruefe('ohne Schalter läuft der Bau durch', aus.status === 0 && aus.stdout.includes('nach dem letzten Punkt') && !aus.zustand, aus)
   const erste = fahre(skript, { AK_PHASE_ZUSTAND: '02-titel', AK_PHASE_TITEL: '1' })
   pruefe('Halt am ersten Punkt: Exit 0, Titel 1 ohne episodes, Titel 2 nicht dabei', erste.status === 0 && erste.zustand?.['1']?.episodes === undefined && erste.zustand?.['2'] === undefined && !erste.stdout.includes('zwischen'), erste)
-  pruefe('Halt weist auf das Aufräumen hin', erste.stderr.includes('git restore data public/data && git clean -fdq public/data'), erste)
+  pruefe('Halt weist auf das Aufräumen hin', erste.stderr.includes('Aufräumen: git restore data public/data && git clean -fdq public/data'), erste)
   const zweite = fahre(skript, { AK_PHASE_ZUSTAND: '08-news-tv', AK_PHASE_TITEL: '1' })
   pruefe('Halt am zweiten Punkt zeigt den gesetzten Wert, Bau endet davor', zweite.status === 0 && zweite.zustand?.['1']?.episodes === 13 && !zweite.stdout.includes('nach dem letzten'), zweite)
   const alle = fahre(skript, { AK_PHASE_ZUSTAND: '02-titel' })
@@ -71,6 +71,8 @@ try {
   pruefe('unbekannter Name: Exit 1 vor dem Bau, Meldung mit Liste', name.status === 1 && name.stderr.includes('unbekannte Phase') && name.stderr.includes('09-4-crunchyroll-dub') && !name.stdout.includes('Bau beginnt'), name)
   const text = fahre(skript, { AK_PHASE_ZUSTAND: '02-titel', AK_PHASE_TITEL: 'abc' })
   pruefe('nicht numerische Titelkennung: Exit 1 vor dem Bau', text.status === 1 && text.stderr.includes('nur Zahlen') && !text.stdout.includes('Bau beginnt'), text)
+  const bruch = fahre(skript, { AK_PHASE_ZUSTAND: '02-titel', AK_PHASE_TITEL: '1.5' })
+  pruefe('Bruchzahl ist keine Titelkennung', bruch.status === 1, bruch)
   const gemischt = fahre(skript, { AK_PHASE_ZUSTAND: '02-titel', AK_PHASE_TITEL: '1,x' })
   pruefe('eine nicht numerische Kennung in der Liste genügt', gemischt.status === 1, gemischt)
   const echt = fahre(join(import.meta.dirname, 'build.ts'), { AK_PHASE_ZUSTAND: 'x' })
@@ -82,4 +84,4 @@ try {
 }
 
 if (fehler) process.exit(1)
-console.log('✔ Haltepunkt im Bau: 11 Fälle (aus, erster, zweiter, alle Titel, Titel unbekannt, Name falsch, Titel nicht numerisch, Liste mit Fehler, echtes build.ts, Aufräumhinweis, Aufrufe gegen Liste)')
+console.log('✔ Haltepunkt im Bau: 12 Fälle (Bruchzahl, aus, erster, zweiter, alle Titel, Titel unbekannt, Name falsch, Titel nicht numerisch, Liste mit Fehler, echtes build.ts, Aufräumhinweis, Aufrufe gegen Liste)')
