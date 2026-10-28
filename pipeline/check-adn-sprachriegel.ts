@@ -13,6 +13,7 @@ import {
   franzoesischeArchive,
   istFranzoesischeSicht,
   MAX_VERWORFEN,
+  mitVerworfenenAlten,
   riegelBilanz,
   schreibeArchiv,
   verworfen,
@@ -87,6 +88,16 @@ try {
 } finally {
   rmSync(dir, { recursive: true, force: true })
 }
+
+const eintrag = (showId: number, titel: string) => ({ showId, titel })
+const katalogAlt = [eintrag(1, 'alt eins'), eintrag(2, 'alt zwei'), eintrag(3, 'alt drei')]
+const katalogNeu = [eintrag(2, 'neu zwei'), eintrag(4, 'neu vier')]
+const zusammen = mitVerworfenenAlten(katalogAlt, katalogNeu, [1, 2, 9]).map((e) => e.titel)
+pruefe('verworfene Serie ohne neuen Eintrag behält den alten', zusammen.includes('alt eins'), zusammen)
+pruefe('Serie mit neuem Eintrag nimmt den neuen, nicht den alten', zusammen.includes('neu zwei') && !zusammen.includes('alt zwei'), zusammen)
+pruefe('nicht verworfene Serie ohne neuen Eintrag fällt weg wie bisher', !zusammen.includes('alt drei'), zusammen)
+pruefe('Reihenfolge: neue vor behaltenen alten', zusammen.join() === 'neu zwei,neu vier,alt eins', zusammen)
+pruefe('ohne Verwerfung ist das Ergebnis der neue Katalog', mitVerworfenenAlten(katalogAlt, katalogNeu, []).length === 2)
 
 pruefe(`genau ${MAX_VERWORFEN} verworfene Serien sind noch nicht rot`, !riegelBilanz(MAX_VERWORFEN).rot)
 pruefe(`${MAX_VERWORFEN + 1} verworfene Serien sind rot`, riegelBilanz(MAX_VERWORFEN + 1).rot)

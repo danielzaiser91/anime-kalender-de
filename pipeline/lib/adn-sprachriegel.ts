@@ -38,19 +38,29 @@ export function franzoesischeArchive(verzeichnis: string): string[] {
 /** Zähler der in diesem Lauf verworfenen Serien. */
 export const verworfen: number[] = []
 
+/** Prüft eine Antwort am Abruf: französische Sicht wird gezählt und gemeldet (true), nichts davon darf weiterverarbeitet werden. */
+export function verwirfFranzoesische(showId: number, videos: MitSprachen[]): boolean {
+  if (!istFranzoesischeSicht(videos)) return false
+  verworfen.push(showId)
+  console.warn(`⚠  ADN ${showId}: Antwort trägt nur französische Sprachkürzel (vostf/vf) — verworfen, alter Stand bleibt.`)
+  return true
+}
+
 /** Legt die Serie ab, außer die Antwort ist die französische Sicht — dann bleibt das alte Archiv. */
 export function schreibeArchiv(verzeichnis: string, showId: number, videos: MitSprachen[]): boolean {
-  if (istFranzoesischeSicht(videos)) {
-    verworfen.push(showId)
-    console.warn(`⚠  ADN ${showId}: Antwort trägt nur französische Sprachkürzel (vostf/vf) — verworfen, altes Archiv bleibt.`)
-    return false
-  }
+  if (verwirfFranzoesische(showId, videos)) return false
   if (!existsSync(verzeichnis)) mkdirSync(verzeichnis, { recursive: true })
   const pfad = `${verzeichnis}/${showId}.json.gz`
   const neu = gzipSync(JSON.stringify({ showId, videos }), { level: 9 })
   if (existsSync(pfad) && readFileSync(pfad).equals(neu)) return true
   writeFileSync(pfad, neu)
   return true
+}
+
+/** Der neue Katalog; Serien mit verworfener Antwort behalten ihren alten Eintrag (sonst fielen sie heraus, `neu` trägt nur Serien mit deutscher Folge). */
+export function mitVerworfenenAlten<T extends { showId: number }>(alt: T[], neu: T[], verworfene: number[]): T[] {
+  const da = new Set(neu.map((s) => s.showId))
+  return [...neu, ...alt.filter((s) => verworfene.includes(s.showId) && !da.has(s.showId))]
 }
 
 /** Schlusszeile des Laufs; `rot` heißt: mehr als eine Handvoll verworfen. */

@@ -23,7 +23,7 @@ import { log, readJson, ROOT, sleep, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
 import { episodeAus, katalogShowAus, sortiereFolgen, toBerlin, type AdnListenEintrag, type AdnVideo } from './lib/adn-folgen.ts'
 import { holeAdnNews } from './lib/adn-news.ts'
-import { riegelBilanz, schreibeArchiv, verworfen } from './lib/adn-sprachriegel.ts'
+import { mitVerworfenenAlten, riegelBilanz, schreibeArchiv, verwirfFranzoesische, verworfen } from './lib/adn-sprachriegel.ts'
 import { fragNeuzugaenge, katalogMitNeuen } from './lib/adn-neuzugaenge.ts'
 import { ordneKatalogZuAnisearch } from './lib/adn-zuordnung-lauf.ts'
 import {
@@ -195,6 +195,8 @@ async function ladeSerie(showId: number): Promise<{ videos: AdnVideo[]; abbruch?
     if (seite.length < SEITE) break
     await sleep(700)
   }
+  // Französische Sicht ist keine Auskunft: wie ein Abbruch behandeln, damit Archiv, Katalog und Stand unberührt bleiben und die Serie wieder drankommt.
+  if (verwirfFranzoesische(showId, videos)) return { videos: [], abbruch: 'franzoesisch' }
   return { videos }
 }
 
@@ -541,7 +543,8 @@ async function main(): Promise<void> {
     return
   }
   if (args.includes('--catalog')) {
-    const shows = await fetchCatalog()
+    const alterKatalog = readJson<AdnData>(KATALOG_DATEI, { scrapedAt: '', window: { from: '', to: '' }, shows: [] }).shows
+    const shows = mitVerworfenenAlten(alterKatalog, await fetchCatalog(), verworfen)
     writeJson(
       'data/adn-catalog.json',
       { scrapedAt: new Date().toISOString(), window: { from: '', to: '' }, shows } satisfies AdnData,
