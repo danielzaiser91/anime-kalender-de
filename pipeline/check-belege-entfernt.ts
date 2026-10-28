@@ -13,6 +13,7 @@ import yaml from 'js-yaml'
 import { haengeBelegeAn } from './lib/belege-anhaengen.ts'
 import { blockIstEntfernt, istEntfernt, ladeBelegeEntfernt } from './lib/belege-entfernt.ts'
 import { ROOT } from './lib/util.ts'
+import { ohneGesperrteSeiten } from './lib/prime-meldung-riegel.ts'
 
 const MIA = [
   '- anilistId: 97986',
@@ -81,6 +82,16 @@ erwarte('Dopplung: derselbe Block zweimal ergibt nur einen', eintraege([...NAGAT
 n.faelle += 2
 erwarte('Eintrag ohne Adresse sperrt keinen Beleg ohne Adresse', istEntfernt([{ anilistId: 1, url: '', grund: 'x', entferntAm: 'x' }], 1, undefined), false)
 erwarte('unlesbarer Block gilt nicht als entfernt', blockIstEntfernt([{ anilistId: 1, url: 'https://x.example/a', grund: 'x', entferntAm: 'x' }], ['- a: [', '  b: {']), false)
+
+/* Die Prime-/Disney+-Zuordnung (`prime-zugeordnet.json`): Heidi (2225) an der Disney+-Seite des Cartoons, Schlüssel und Werte wörtlich wie im Bestand vom 28.10.2026. */
+const HEIDI_SEITE = 'https://www.disneyplus.com/browse/entity-cfb90125-8678-4327-a1b8-e608f293eccd'
+const zuordnungsEintrag = (titleId: number) => ({ titleId, plattform: 'disneyplus', seite: null, asin: null, folgen: [{ unsere: 19, sprachen: ['de', 'fr-FR'] }] })
+const uebrig = (roh: Record<string, ReturnType<typeof zuordnungsEintrag>>) => ohneGesperrteSeiten(roh).map(([k, e]) => `${e.titleId} ${k}`)
+n.faelle += 4
+erwarte('Zuordnung: Heidi an der Cartoon-Seite fällt weg', uebrig({ [`${HEIDI_SEITE}#0`]: zuordnungsEintrag(2225) }), [])
+erwarte('Zuordnung: auch mit Ländersegment', uebrig({ [`${HEIDI_SEITE.replace('.com/', '.com/de-de/')}#0`]: zuordnungsEintrag(2225) }), [])
+erwarte('Kontrolle: dieselbe Seite beim Cartoon bleibt', uebrig({ [`${HEIDI_SEITE}#0`]: zuordnungsEintrag(-62475) }), [`-62475 ${HEIDI_SEITE}#0`])
+erwarte('Kontrolle: Heidi an einer anderen Seite bleibt', uebrig({ 'https://www.disneyplus.com/browse/entity-00000000#0': zuordnungsEintrag(2225) }), ['2225 https://www.disneyplus.com/browse/entity-00000000#0'])
 
 /* Der Bestand: Liste gelesen (nicht leer), und nichts davon steht in den Handbelegen. */
 n.faelle++

@@ -1,4 +1,6 @@
-import { readJson } from './util.ts'
+import { resolve } from 'node:path'
+import { ROOT, readJson } from './util.ts'
+import { istEntfernt, ladeBelegeEntfernt } from './belege-entfernt.ts'
 import { adressGleich, type DubCheck } from './dub-confirmed.ts'
 
 /** Führt ein Handbeleg eines **anderen** Titels diese Adresse auf dieser Plattform? Dann gilt die Meldung nicht ihr. */
@@ -39,8 +41,10 @@ export function leseZugeordnet<T extends { titleId: number; seite?: string | nul
 /** Die Meldungen aus `prime-zugeordnet.json` ohne die von Hand gesperrten Seiten (`data/prime-seiten-von-hand.json`). */
 export function ohneGesperrteSeiten<T extends { titleId: number; seite?: string | null }>(roh: Record<string, T>): [string, T][] {
   const sperren = readJson<SeitenSperre[]>('data/prime-seiten-von-hand.json', [])
+  const entfernt = ladeBelegeEntfernt(resolve(ROOT, 'data/belege-entfernt.yaml'))
   return Object.entries(roh).filter(
-    ([schluessel, e]) => !seiteGesperrt(sperren, e.titleId, e.seite) && !seiteGesperrt(sperren, e.titleId, asinAusSchluessel(schluessel)),
+    ([schluessel, e]) =>
+      !seiteGesperrt(sperren, e.titleId, e.seite) && !seiteGesperrt(sperren, e.titleId, asinAusSchluessel(schluessel)) && !istEntfernt(entfernt, e.titleId, schluessel.split('#')[0]),
   )
 }
 

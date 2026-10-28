@@ -6,7 +6,7 @@
  * Made-in-Abyss-Beleg zurück, den #2257 entfernt hatte, weil die Meldung vom 28.09. noch in der Abholung lag.
  * Ein Eintrag gilt für Kennung **und** Adresse; dieselbe Adresse an einem anderen Titel (Staffel, OVA) bleibt erlaubt.
  */
-import { readFileSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import yaml from 'js-yaml'
 import { adressKern } from '../../shared/adresse-kern.ts'
 
@@ -22,7 +22,9 @@ export function sperrKern(url: string | undefined): string {
   return adressKern(url).replace(/^(disneyplus\.com|netflix\.com|crunchyroll\.com)\/(?:[a-z]{2}(?:-[a-z0-9]{2,3})?\/)+/, '$1/')
 }
 
+/** Eine fehlende Datei ist eine leere Liste (Wegwerf-Repos der Tests); dass die echte Liste da ist, prüft `pipeline/check-belege-entfernt.ts`. */
 export function ladeBelegeEntfernt(datei: string): BelegEntfernt[] {
+  if (!existsSync(datei)) return []
   const geladen = yaml.load(readFileSync(datei, 'utf8'))
   return Array.isArray(geladen) ? (geladen as BelegEntfernt[]) : []
 }
