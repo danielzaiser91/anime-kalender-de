@@ -38,7 +38,8 @@ const { meldungsZuordnung } = await import('./fetch-urteile.ts')
 const { meldungGrund, titelDerMeldung } = await import('./lib/urteil-je-folge.ts')
 const titel = [
   { id: 900001, titleDe: 'Magic High' },
-  { id: 900002, titleDe: 'Heidi' },
+  { id: 900002, titleDe: 'Eigener Anime' },
+  { id: 900005, titleDe: 'Heidi' },
   { id: 900003, titleDe: 'Freezing', streams: [{ url: GETEILT }] },
 ] as Title[]
 const { nachAdresse, staffelKandidaten, nachName, reiheVon } = meldungsZuordnung(titel)
@@ -56,12 +57,13 @@ const faelle: [string, number | null, number | null][] = [
   ['Adresse eines Titels ohne Synchro', ziel(OHNE, 'Magic High'), null],
   ['Prime-Zuordnung einer fremden Kennung (mit #-Anhang)', ziel(PRIME_FREMD, 'Heidi'), null],
   ['Handbeleg einer fremden Kennung', ziel(BELEG_FREMD, 'Freezing'), null],
-  ['Kontrolle: unbekannte Adresse, exakter Name', ziel('https://www.netflix.com/title/123', 'Heidi'), 900002],
-  ['Kontrolle: andere Disney+-Seite mit Ländersegment', ziel('https://www.disneyplus.com/de-de/browse/entity-900002', 'Heidi'), 900002],
-  ['Kontrolle: Prime-Zuordnung eines eigenen Titels sperrt nicht', ziel(PRIME_EIGEN, 'Heidi'), 900002],
-  ['Kontrolle: andere YouTube-Liste', ziel(YOUTUBE.replace('PLcartoon', 'PLanime'), 'Heidi'), 900002],
+  ['Namensvetter eines Cartoons, unbekannte Adresse (Heidi bei Disney+ ohne Ländersegment)', ziel('https://www.disneyplus.com/browse/entity-900099', 'Heidi'), null],
+  ['Kontrolle: unbekannte Adresse, exakter Name', ziel('https://www.netflix.com/title/123', 'Eigener Anime'), 900002],
+  ['Kontrolle: andere Disney+-Seite mit Ländersegment', ziel('https://www.disneyplus.com/de-de/browse/entity-900002', 'Eigener Anime'), 900002],
+  ['Kontrolle: Prime-Zuordnung eines eigenen Titels sperrt nicht', ziel(PRIME_EIGEN, 'Eigener Anime'), 900002],
+  ['Kontrolle: andere YouTube-Liste', ziel(YOUTUBE.replace('PLcartoon', 'PLanime'), 'Eigener Anime'), 900002],
   ['Kontrolle: Handbeleg eines eigenen und eines fremden Titels an einer Sammelseite', ziel(BELEG_GETEILT, 'Magic High'), 900001],
-  ['Kontrolle: Handbeleg eines eigenen Titels sperrt nicht', ziel('https://www.amazon.de/gp/video/detail/B0EIGEN002', 'Heidi'), 900002],
+  ['Kontrolle: Handbeleg eines eigenen Titels sperrt nicht', ziel('https://www.amazon.de/gp/video/detail/B0EIGEN002', 'Eigener Anime'), 900002],
   ['Kontrolle: der eigene Weg schlägt den Cartoon an derselben Adresse', ziel(GETEILT, 'Heidi'), 900003],
 ]
 const fehler = faelle.filter(([, ist, soll]) => ist !== soll).map(([name, ist, soll]) => `${name}: ${ist} statt ${soll}`)
