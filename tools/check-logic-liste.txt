@@ -278,6 +278,7 @@ pipeline/check-seiten-ansicht.ts
 pipeline/check-seiten-seo.ts
 pipeline/check-sichtung-folge.ts
 pipeline/check-sichtungsfenster.ts
+pipeline/check-sonderfolgen.ts
 pipeline/check-sprache-netz.ts
 pipeline/check-sprache-termin.ts
 pipeline/check-sprecher-anisearch.ts
