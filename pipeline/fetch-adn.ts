@@ -187,8 +187,9 @@ async function ladeSerie(showId: number): Promise<{ videos: AdnVideo[]; abbruch?
       return { videos, abbruch: '400' }
     }
     if (!res.ok) {
-      // 404 heißt hier schlicht „in Deutschland nicht im Angebot".
-      return { videos, abbruch: res.status >= 500 ? String(res.status) : undefined }
+      // Nur 404/410 auf der ersten Seite verneinen („in Deutschland nicht im Angebot"); 429, 403, 5xx und jeder Fehler ab Seite 2 sind Nichtauskunft.
+      const verneint = offset === 0 && (res.status === 404 || res.status === 410)
+      return { videos, abbruch: verneint ? undefined : String(res.status) }
     }
     const seite = ((await res.json()) as { videos?: AdnVideo[] }).videos ?? []
     videos.push(...seite)

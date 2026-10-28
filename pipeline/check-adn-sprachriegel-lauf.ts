@@ -115,6 +115,22 @@ pruefe('--catalog --limit: Serie mit frischer Antwort ohne Deutsch (404) fällt 
 pruefe('--catalog --limit: Zähler je Weg in der Logzeile', begrenzt.ausgabe.includes('ADN-Katalog behalten: 1 nicht gefragt, 1 Abbruch, 1 entfernt'), begrenzt.ausgabe.slice(-500))
 pruefe('--catalog --limit: Serie mit 5xx steht nicht im Abfrage-Stand (kommt wieder dran)', !('3001' in begrenzt.abfrageStand), begrenzt.abfrageStand)
 
+// Nur eindeutige Antworten (404/410 auf Seite 1) verneinen; Zeitüberschreitung, 429 und ein Fehler auf Seite 2 sind Nichtauskunft.
+const nichtauskunft = lauf('--catalog', [], [], {
+  katalog: [mitId(3004), mitId(3005), mitId(3006), mitId(3007), mitId(3008)],
+  args: ['--limit', '5'],
+  status: '3004:throw,3005:429,3006:410,3007:404,3008:seite2-500',
+})
+const bleibt = ids(nichtauskunft)
+const stand2 = nichtauskunft.abfrageStand
+pruefe('--catalog: Zeitüberschreitung (fetch wirft) lässt die Serie im Katalog', bleibt.includes(3004), bleibt)
+pruefe('--catalog: 429 lässt die Serie im Katalog', bleibt.includes(3005), bleibt)
+pruefe('--catalog: 410 auf Seite 1 verneint', !bleibt.includes(3006), bleibt)
+pruefe('--catalog: 404 auf Seite 1 verneint', !bleibt.includes(3007), bleibt)
+pruefe('--catalog: Fehler auf Seite 2 (Seite 1 voll) lässt die Serie im Katalog', bleibt.includes(3008), bleibt)
+pruefe('--catalog: Nichtauskunft steht nicht im Abfrage-Stand, Verneinung schon', !('3004' in stand2) && !('3005' in stand2) && !('3008' in stand2) && '3006' in stand2 && '3007' in stand2, stand2)
+pruefe('--catalog: Zähler Nichtauskunft', nichtauskunft.ausgabe.includes('ADN-Katalog behalten: 0 nicht gefragt, 3 Abbruch, 2 entfernt'), nichtauskunft.ausgabe.slice(-500))
+
 console.log()
 if (fehler) {
   console.error(`${fehler} Zusicherung(en) verletzt.`)
