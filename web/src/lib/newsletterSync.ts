@@ -102,10 +102,6 @@ export function clearSyncToken(): void {
  * Sie liegt neben dem Abgleich-Schlüssel im selben Browser und wird mit ihm
  * zusammen gelöscht. Der Dienst liefert sie nur gegen diesen Schlüssel aus.
  */
-export function getSyncMail(): string | undefined {
-  return localStorage.getItem(MAIL_KEY) ?? undefined
-}
-
 export function setSyncMail(mail: string): void {
   localStorage.setItem(MAIL_KEY, mail)
   melden()
