@@ -24,7 +24,7 @@ import { schreibeEmpfehlung } from './bau/13-10-empfehlung.ts'
 import { schreibeAboFeeds } from './bau/14-ics.ts'
 import { entferneVomKalender } from './bau/sperre.ts'
 import { type EntfernterVerweis } from './bau/grundlagen.ts'
-import { haltePunkt } from './bau/phasen-zustand.ts'
+import { haltePunkt, pruefeSchalter } from './bau/phasen-zustand.ts'
 import { merkeBestandVorher } from './lib/bestand-vorher.ts'
 import type { ZurueckgestellterTitel } from '../shared/meta-typ.ts'
 
@@ -135,5 +135,6 @@ function liefereAus({ synchro, quarantaene, ...rest }: Auslieferung): void {
   schreibeEmpfehlung()
 }
 
+pruefeSchalter()
 merkeBestandVorher()
 main()
