@@ -45,7 +45,7 @@ const AUFRUFE = [
   'api --paginate --slurp repos/o/r/issues/7/comments',
   'api repos/o/r/actions/workflows/pr-pruefung.yml/runs?head_sha=' + KOPF + '&event=pull_request&per_page=30 -q .workflow_runs[] | [.id, .status, (.conclusion // "")] | @tsv',
   'api --paginate repos/o/r/actions/runs/5/jobs?per_page=100 -q .jobs[] | [.id, .name, .status, (.conclusion // "")] | @tsv',
-  'api repos/o/r/actions/jobs/11/logs',
+  'api --allow-escape-sequences repos/o/r/actions/jobs/11/logs',
 ]
 pruefe('Ablauf: Kettenlog liegt im Prüfordner, mit Lauf, Jobergebnis und der Logzeile ohne Zeitstempel',
   /abgeschlossen \(success\)/.test(gut.kettenlog ?? '') && /- Kulissen-Job: success/.test(gut.kettenlog ?? '') && /^kulissen-waechter: ok \(3 Fälle\)$/m.test(gut.kettenlog ?? ''), gut.kettenlog)

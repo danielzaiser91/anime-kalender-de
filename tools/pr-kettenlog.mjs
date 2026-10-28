@@ -123,7 +123,8 @@ async function holeLog(repo, j, gh, warte, versuche) {
   for (let versuch = 0; versuch < versuche; versuch++) {
     if (versuch > 0) await warte(LOG_PAUSE_MS)
     try {
-      return gh(['api', `repos/${repo}/actions/jobs/${j.id}/logs`])
+      // Der gh des Runners verweigert (gemessen 28.10.2026) Logs mit ANSI-Farben ohne diese Option; bereinige() entfernt sie danach.
+      return gh(['api', '--allow-escape-sequences', `repos/${repo}/actions/jobs/${j.id}/logs`])
     } catch (e) {
       letzter = e
     }

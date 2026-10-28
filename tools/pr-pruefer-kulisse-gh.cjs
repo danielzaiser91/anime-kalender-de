@@ -41,7 +41,7 @@ if (schluessel === `api ${r}/actions/workflows/pr-pruefung.yml/runs?head_sha=${'
   ende('5\tcompleted\tsuccess\n')
 }
 if (schluessel === `api --paginate ${r}/actions/runs/5/jobs?per_page=100` && abfrage !== null) ende('11\tKulissen-Job\tcompleted\tsuccess\n')
-if (schluessel === `api ${r}/actions/jobs/11/logs` && abfrage === null) ende('2026-10-28T10:00:00.0000000Z kulissen-waechter: ok (3 Fälle)\n')
+if (schluessel === `api --allow-escape-sequences ${r}/actions/jobs/11/logs` && abfrage === null) ende('2026-10-28T10:00:00.0000000Z kulissen-waechter: ok (3 Fälle)\n')
 const einzel = new RegExp(`^api ${r}/commits/([0-9a-f]{40})$`).exec(schluessel)
 const dateien = einzel && abfrage === null ? Object.values(daten.prs).find((p) => p.einzel[einzel[1]])?.einzel[einzel[1]] : undefined
 if (dateien) ende(JSON.stringify({ files: dateien.map((filename) => ({ filename })) }))
