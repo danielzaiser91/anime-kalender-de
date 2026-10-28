@@ -94,6 +94,7 @@ pipeline/check-cr-zeit-woche.ts
 pipeline/check-datei-kennungen.ts
 pipeline/check-daten-adressen.ts
 pipeline/check-daten-kennung.ts
+pipeline/check-db-karte-lauf.ts
 pipeline/check-db-relevanz.ts
 pipeline/check-db-staffel-kachel.ts
 pipeline/check-detektiv-funde.ts

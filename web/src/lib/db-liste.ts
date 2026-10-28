@@ -8,7 +8,7 @@ interface Kachel {
 }
 
 /** Eine Kachel der Liste; in der Gruppenansicht mit ihrer Gruppe und, wo bekannt, dem Start der deutschen Fassung. */
-export type ListenEintrag = Kachel & { art?: RelevanzArt; ab?: string }
+export type ListenEintrag = Kachel & { art?: RelevanzArt; ab?: string; titelId?: number; staffel?: string }
 
 /**
  * Bringt die Kacheln der Datenbank in die gewählte Reihenfolge. „Relevanz" ohne Suche gruppiert (`zahlen`: Kacheln je
@@ -26,7 +26,7 @@ export function ordneListe(
     const liste: ListenEintrag[] = []
     for (const g of gruppiereNachRelevanz(base, releasesByTitle, today)) {
       zahlen[g.art] = g.eintraege.length
-      for (const e of g.eintraege) liste.push({ ...e.gruppe, art: g.art, ab: e.ab })
+      for (const e of g.eintraege) liste.push({ ...e.gruppe, art: g.art, ab: e.ab, titelId: e.titelId, staffel: e.staffel })
     }
     return { liste, zahlen }
   }

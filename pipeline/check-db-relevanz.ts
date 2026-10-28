@@ -2,7 +2,7 @@
  * Zusicherungen zur Gruppierung der Datenbank ohne Suche (Daniel, 09.10.2026): Maßgeblich ist die deutsche Erstausgabe,
  * ein späteres Neuerscheinen bei einem weiteren Anbieter zählt nicht. Aufruf: `npm run check:logic`.
  */
-import { gruppiereNachRelevanz, istGruppiert, ueberschriftSagtStatus } from '../web/src/lib/db-relevanz.ts'
+import { gruppiereNachRelevanz, istGruppiert, stufeReiheEin, ueberschriftSagtStatus } from '../web/src/lib/db-relevanz.ts'
 import type { Release, Title } from '../shared/types.ts'
 
 let verletzt = 0
@@ -16,10 +16,10 @@ const HEUTE = '2026-10-09'
 const titel = (id: number, extra: Partial<Title> = {}) => ({ id, jpYear: 2020, streams: [], ...extra }) as unknown as Title
 const termin = (titleId: number, von: string, folgen: number) => ({ titleId, releaseType: 'weekly', schedule: { firstEpisodeDate: von, episodeCount: folgen } }) as unknown as Release
 const reihe = (...members: Title[]) => ({ main: members[0], members })
-const lauf = (gruppen: ReturnType<typeof reihe>[], releases: Release[]) => {
+const lauf = (gruppen: ReturnType<typeof reihe>[], releases: Release[], heute = HEUTE) => {
   const by = new Map<number, Release[]>()
   for (const r of releases) by.set(r.titleId, [...(by.get(r.titleId) ?? []), r])
-  return gruppiereNachRelevanz(gruppen, by, HEUTE)
+  return gruppiereNachRelevanz(gruppen, by, heute)
 }
 const art = (g: ReturnType<typeof lauf>, id: number) => g.find((x) => x.eintraege.some((e) => e.gruppe.main.id === id))?.art
 
@@ -118,6 +118,62 @@ pruefe('Platzhalter in der Zukunft (2030-01-01) ist kein Datum → „Ohne bekan
 pruefe('Cartoon ohne jedes Datum → „Ohne bekannten Termin"', art(gCartoon, 33) === 'unbekannt', art(gCartoon, 33))
 pruefe('Anime ohne Termin und mit nur einem japanischen Startdatum bleibt „Ohne bekannten Termin" (das ist keine deutsche Ausgabe)', art(gCartoon, 34) === 'unbekannt', art(gCartoon, 34))
 pruefe('Kein stiller Verlust: Summe der Gruppen = Gesamtzahl', gCartoon.reduce((n, g) => n + g.eintraege.length, 0) === cartoonTitel.length)
+
+console.log('\nDatenbank-Relevanz: „Demnächst" nur, solange die Staffel nirgends erschienen ist (Daniel, 26.10.2026; Daten: public/data vom 28.10.2026)')
+const H2 = '2026-10-28'
+const crDub = [{ platform: 'crunchyroll', dub: true, dubRanges: [{ from: 1, to: 12, dub: true }] }] as unknown as Title['streams']
+const lastBoss1 = titel(180523, { franchiseId: 180523, titleDe: 'A Wild Last Boss Appeared!', jpYear: 2025, format: 'ONA', deErstausgabe: { von: '2026-11-06', synchro: true }, streams: crDub })
+const lastBoss2 = titel(204389, { franchiseId: 180523, titleDe: 'A Wild Last Boss Appeared! Staffel 2', jpYear: 2026, format: 'ONA', streams: crDub })
+const bananaFish = titel(100388, { titleDe: 'Banana Fish', jpYear: 2018 })
+const cafe1 = titel(154412, { titleDe: 'The Café Terrace and Its Goddesses', deErstausgabe: { von: '2026-11-20', synchro: true }, streams: crDub })
+const g8 = lauf(
+  [reihe(lastBoss1), reihe(bananaFish), reihe(cafe1), reihe(titel(940001, { deErstausgabe: { von: '2026-11-20' } })), reihe(titel(940002)), reihe(titel(940003)), reihe(titel(940004)), reihe(titel(940005, { deErstausgabe: { von: '2026-11-20' } }))],
+  [
+    disc(180523, '2026-11-06'),
+    disc(100388, '2026-08-21'), disc(100388, '2026-11-06'),
+    disc(154412, '2026-11-20'),
+    plat(940001, 'tv', '2026-10-20', 12), // Fernsehen zählt nicht: die deutsche Erstausgabe steht noch aus
+    plat(940002, 'primevideo', '2026-10-01', 1, 'kauf'), disc(940002, '2026-12-01'), // digitaler Kauf zählt
+    { ...plat(940003, 'crunchyroll', '2026-10-01', 12), widerlegt: true } as unknown as Release, disc(940003, '2026-12-01'), // widerlegter Termin zählt nicht
+    plat(940004, 'crunchyroll', '2026-10-29', 12), // erst morgen: noch nicht erschienen
+    disc(940005, H2), // Disc heute: erschienen (Grenze)
+  ],
+  H2,
+)
+pruefe('Last Boss S1 (Crunchyroll-Synchro, Disc erst 06.11.) → „Schon erschienen"', art(g8, 180523) === 'erschienen', art(g8, 180523))
+pruefe('Banana Fish (Disc 21.08. vorbei, zweite Disc 06.11.) → „Schon erschienen"', art(g8, 100388) === 'erschienen', art(g8, 100388))
+pruefe('Café Terrace (Erstausgabe 20.11., aber Crunchyroll-Synchro) → „Schon erschienen"', art(g8, 154412) === 'erschienen', art(g8, 154412))
+pruefe('TV-Termin in der Vergangenheit macht nicht „erschienen": Erstausgabe 20.11. bleibt „Demnächst"', art(g8, 940001) === 'bald', art(g8, 940001))
+pruefe('digitaler Kauf in der Vergangenheit → „Schon erschienen"', art(g8, 940002) === 'erschienen', art(g8, 940002))
+pruefe('widerlegter Termin zählt nicht: künftige Disc → „Demnächst"', art(g8, 940003) === 'bald', art(g8, 940003))
+pruefe('Termin erst morgen → „Demnächst"', art(g8, 940004) === 'bald', art(g8, 940004))
+pruefe('Disc heute (Erstausgabe erst 20.11.) → „Schon erschienen"', art(g8, 940005) === 'erschienen', art(g8, 940005))
+
+console.log('\nDatenbank-Relevanz: Kachel nennt die Staffel (titelId, Beschriftung)')
+const lb = stufeReiheEin([lastBoss1, lastBoss2], new Map([[180523, [disc(180523, '2026-11-06')]], [204389, [plat(204389, 'crunchyroll', '2026-10-24', 12)]]]), H2)
+pruefe('Last Boss: Reihe läuft, titelId ist Staffel 2 (nicht der Vertreter 180523)', lb.art === 'laeuft' && lb.titelId === 204389, lb)
+const seduction1 = titel(158559, { franchiseId: 158559, titleDe: '2.5 Dimensional Seduction', jpYear: 2024, jpSeason: 'SUMMER', format: 'TV', deErstausgabe: { von: '2025-08-29', synchro: true } })
+const seduction2 = titel(185515, { franchiseId: 158559, titleDe: '2.5 Dimensional Seduction', jpYear: undefined, jpSeason: undefined, format: 'TV' })
+const g9 = lauf([reihe(seduction1, seduction2), reihe(lastBoss1, lastBoss2), reihe(titel(940010))], [disc(158559, '2026-09-07'), disc(185515, '2026-10-30'), disc(180523, '2026-11-06'), plat(204389, 'crunchyroll', '2026-10-24', 12), disc(940010, '2026-12-01')], H2)
+const kacheln = g9.filter((x) => x.art === 'bald' || x.art === 'laeuft').flatMap((x) => x.eintraege.map((e) => ({ art: x.art, id: e.gruppe.main.id, titelId: e.titelId, staffel: e.staffel, mitglieder: e.gruppe.members.length })))
+const zwei = (a: [number, string, string], b: [number, string, string], kind: string) => {
+  const by2 = new Map<number, Release[]>([[a[0], [plat(a[0], 'crunchyroll', a[1], 12)]], [b[0], [plat(b[0], 'crunchyroll', b[1], 12)]]])
+  return stufeReiheEin([titel(a[0], { deErstausgabe: { von: a[1], bis: a[2] } }), titel(b[0], { deErstausgabe: { von: b[1], bis: b[2] } })], by2, kind)
+}
+const zweiLaeuft = zwei([940021, '2026-09-01', '2026-12-31'], [940022, '2026-10-01', '2026-12-31'], H2)
+pruefe('zwei laufende Staffeln: die jüngere liefert Datum und titelId', zweiLaeuft.titelId === 940022 && zweiLaeuft.ab === '2026-10-01', zweiLaeuft)
+const zweiLaeuftUmgekehrt = zwei([940023, '2026-10-01', '2026-12-31'], [940024, '2026-09-01', '2026-12-31'], H2)
+pruefe('zwei laufende Staffeln, Reihenfolge vertauscht: wieder die jüngere', zweiLaeuftUmgekehrt.titelId === 940023, zweiLaeuftUmgekehrt)
+const zweiBald = zwei([940025, '2026-12-01', '2027-02-28'], [940026, '2026-11-15', '2027-02-28'], H2)
+pruefe('zwei kommende Staffeln: die nähere liefert Datum und titelId', zweiBald.art === 'bald' && zweiBald.titelId === 940026 && zweiBald.ab === '2026-11-15', zweiBald)
+const zweiBaldUmgekehrt = zwei([940027, '2026-11-15', '2027-02-28'], [940028, '2026-12-01', '2027-02-28'], H2)
+pruefe('zwei kommende Staffeln, Reihenfolge vertauscht: wieder die nähere', zweiBaldUmgekehrt.titelId === 940027, zweiBaldUmgekehrt)
+const nurErschienen = stufeReiheEin([titel(940031, { deErstausgabe: { von: '2020-01-01', bis: '2020-03-31' } }), titel(940032, { deErstausgabe: { von: '2021-01-01', bis: '2021-03-31' } })], new Map(), H2)
+pruefe('Reihe nur aus erschienenen Staffeln: „erschienen", titelId = erstes Mitglied', nurErschienen.art === 'erschienen' && nurErschienen.titelId === 940031, nurErschienen)
+pruefe('jede Kachel in „Läuft jetzt"/„Demnächst" trägt titelId, und es ist ihr Titel', kacheln.length === 3 && kacheln.every((k) => k.titelId === k.id), kacheln)
+pruefe('Reihe mit zwei Staffeln: „Staffel 2" auf der Kachel von 2.5 Dimensional Seduction (Demnächst) und Last Boss (Läuft jetzt)', kacheln.find((k) => k.id === 185515)?.staffel === 'Staffel 2' && kacheln.find((k) => k.id === 204389)?.staffel === 'Staffel 2', kacheln)
+pruefe('Titel mit einer Staffel: keine Beschriftung', kacheln.find((k) => k.id === 940010)?.staffel === undefined, kacheln)
+pruefe('Reihe mit mehreren Staffeln: keine Kachel ohne Staffelzahl', kacheln.filter((k) => [185515, 204389].includes(k.id)).every((k) => /Staffel \d/.test(k.staffel ?? '')), kacheln)
 
 if (verletzt) {
   console.error(`\n${verletzt} Zusicherung(en) verletzt.`)
