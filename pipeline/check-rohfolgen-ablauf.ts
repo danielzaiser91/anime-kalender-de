@@ -48,6 +48,13 @@ const rohfolgen = [
   zeile(5, FREMD, ['Deutsch'], 'primevideo'),
   zeile(6, FREMD, ['Deutsch'], 'primevideo'),
   zeile(7, ANIME, ['Deutsch'], 'netflix', 'Erste Kulissenfolge'),
+  // Zeile aus dem Bungo-Vorfall (Meldungskopie 24.10.2026, id 18012): vor dem Staffelwechsel-Fix, „Staffel 1“ mit Nummer 5.
+  {
+    ...zeile(9, 'https://www.amazon.de/dp/B0BZGQZCFT', ['Deutsch'], 'primevideo', 'Die Zukunft ist unvorhersehbar und änderbar'),
+    staffel_text: 'Staffel 1',
+    staffel_nr: 5,
+    gemeldet_am: '2026-09-10T06:49:16Z',
+  },
 ]
 
 const cartoons = [{ id: -100, titleDe: 'Testpony', streams: [{ platform: 'netflix', url: NETFLIX }] }]
@@ -100,7 +107,7 @@ function pruefeAbhakenNachCommit(): string[] {
   const fehler: string[] = []
   if (existsSync(join(kulisse, 'post.json'))) fehler.push('der Zuordner hat selbst abgehakt — das darf erst nach dem Commit geschehen')
   const gemerkt = (lies(MERKER) as number[]).sort()
-  if (JSON.stringify(gemerkt) !== '[1,2,3,4,7,8]') fehler.push(`gemerkt: ${JSON.stringify(gemerkt)}, erwartet [1,2,3,4,7,8]`)
+  if (JSON.stringify(gemerkt) !== '[1,2,3,4,7,8,9]') fehler.push(`gemerkt: ${JSON.stringify(gemerkt)}, erwartet [1,2,3,4,7,8,9]`)
   const vorher = abhaken(200)
   if (vorher.status !== 0 || existsSync(join(kulisse, 'post.json'))) fehler.push('vor der Freigabe abgehakt (Quittung vor dem Commit)')
   if (!existsSync(join(kulisse, MERKER))) fehler.push('Abhaken vor der Freigabe hat den Merker angefasst')
@@ -111,7 +118,7 @@ function pruefeAbhakenNachCommit(): string[] {
   const lauf2 = abhaken(200)
   if (lauf2.status !== 0) fehler.push(`Abhaken endete mit ${lauf2.status}: ${lauf2.stderr.slice(-300)}`)
   const abgehakt = (lies('post.json') as { rohfolgenUebernommen: number[] }).rohfolgenUebernommen.sort()
-  if (JSON.stringify(abgehakt) !== '[1,2,3,4,7,8]') fehler.push(`abgehakt: ${JSON.stringify(abgehakt)}, erwartet [1,2,3,4,7,8]`)
+  if (JSON.stringify(abgehakt) !== '[1,2,3,4,7,8,9]') fehler.push(`abgehakt: ${JSON.stringify(abgehakt)}, erwartet [1,2,3,4,7,8,9]`)
   if (existsSync(join(kulisse, FREI))) fehler.push('der Merker bleibt nach erfolgreichem Abhaken liegen')
   return fehler
 }
