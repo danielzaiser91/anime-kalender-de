@@ -291,10 +291,11 @@ export function ausAnisearch(folgen: AsFolgeRoh[]): TmdbFolge[] {
  *
  * `ordneZu` vergleicht einen Titel je Folge. Wo aniSearch beide führt, ist der
  * englische ein zweiter Versuch, der nichts kostet: Er wird nur gebraucht, wenn
- * der deutsche nicht traf.
+ * der deutsche nicht traf. Gleicht der Kern dem deutschen („Reality-Datingshow“ /
+ * „Reality Dating Show“), entfällt die Zeile: `ordneZu` verlangt genau einen Treffer.
  */
 export function englischeSchreibweisen(folgen: AsFolgeRoh[]): TmdbFolge[] {
   return folgen
-    .filter((f) => f.en && f.en !== f.de)
+    .filter((f) => f.en && f.en !== f.de && folgenKern(ohneBd(f.en)) !== folgenKern(ohneBd(f.de)))
     .map((f) => ({ s: 1, e: f.nr, titel: ohneBd(f.en), datum: f.datum ?? null, minuten: f.minuten ?? null }))
 }
