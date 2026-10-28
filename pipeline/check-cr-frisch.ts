@@ -103,8 +103,8 @@ pruefe('Fehlersatz über altem Fehlersatz: der neue wird abgelegt', serieAblegen
 
 /* `main()` braucht einen Browser: Quelltext-Befunde für Aufruf und Übergabe als Gürtel zusätzlich zum Lauf oben. */
 const lauf = readFileSync(new URL('./scrape-crunchyroll-dub.ts', import.meta.url), 'utf8')
-pruefe('Dub-Lauf legt die Serie über serieAblegen ab, mit Serienkennung und Katalogfund', lauf.includes("serieAblegen(bestand, url, serie, seriesId, neuFolgen) === 'behalten'"))
-pruefe('Dub-Lauf gibt die Kennungen des Katalogfunds an crFrisch',/crFrisch\(s, \{[^}]*\bneuFolgen,[^}]*\}\)/.test(lauf))
+pruefe('Dub-Lauf legt die Serie über serieAblegen ab, mit Serienkennung und Katalogfund', lauf.includes("if (serieAblegen(bestand, url, serie, seriesId, neuFolgen) === 'behalten') {\n        gestoert++\n        melden(i, kurz, bestand.get(url)!)"))
+pruefe('Dub-Lauf gibt die Kennungen des Katalogfunds an crFrisch', /crFrisch\(s, \{[^}]*\bneuFolgen,[^}]*\}\)/.test(lauf))
 pruefe('Dub-Lauf liest die Kennungen aus dem Katalogfund', lauf.includes('neuFolgenJeSerie(neuFunde)') && lauf.includes('guid?: string'))
 
 console.log(verletzt ? `\n${verletzt} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
