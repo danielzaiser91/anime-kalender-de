@@ -102,6 +102,7 @@ pipeline/check-dub-durchgehende-zaehlung.ts
 pipeline/check-effekt-abhaengigkeiten.ts
 pipeline/check-empfehlung-ablage.ts
 pipeline/check-empfehlung-ablauf.ts
+pipeline/check-empfehlung-aktionen.ts
 pipeline/check-empfehlung-ansicht.ts
 pipeline/check-empfehlung-detail.ts
 pipeline/check-empfehlung-duell-lauf.ts
