@@ -150,6 +150,31 @@ pruefe('widerlegter Termin zählt nicht: künftige Disc → „Demnächst"', art
 pruefe('Termin erst morgen → „Demnächst"', art(g8, 940004) === 'bald', art(g8, 940004))
 pruefe('Disc heute (Erstausgabe erst 20.11.) → „Schon erschienen"', art(g8, 940005) === 'erschienen', art(g8, 940005))
 
+// Ein Stream mit `dub: true` beweist das Erscheinen nur, wenn er deutsche Folgen nennt; sonst kann es eine Ankündigung sein.
+const mitStream = (id: number, stream: Record<string, unknown>) => titel(id, { deErstausgabe: { von: '2026-11-20' }, streams: [{ platform: 'crunchyroll', ...stream }] as unknown as Title['streams'] })
+const g8b = lauf(
+  [
+    reihe(mitStream(940011, { dub: true })),
+    reihe(mitStream(940012, { dub: true, dubRanges: [{ from: 1, to: 12, dub: false }] })),
+    reihe(mitStream(940013, { dub: true, dubRanges: [] })),
+    reihe(mitStream(940014, { dub: true, dubRanges: [{ from: 3, to: 2, dub: true }] })),
+    reihe(mitStream(940015, { dub: true, dubRanges: [{ from: 4, to: 4, dub: true }] })),
+    reihe(mitStream(940016, { dub: true, dubRanges: [{ from: 1, to: 6, dub: false }, { from: 7, to: 12, dub: true }] })),
+    reihe(mitStream(940017, { dubRanges: [{ from: 1, to: 12, dub: true }] })),
+    reihe(mitStream(940018, { dub: false, dubRanges: [{ from: 1, to: 12, dub: true }] })),
+  ],
+  [940011, 940012, 940013, 940014, 940015, 940016, 940017, 940018].map((id) => disc(id, '2026-11-20')),
+  H2,
+)
+pruefe('dub: true ohne Folgenbereiche (Ankündigung) und künftige Disc → „Demnächst"', art(g8b, 940011) === 'bald', art(g8b, 940011))
+pruefe('dub: true, aber der einzige Bereich ohne deutschen Ton → „Demnächst"', art(g8b, 940012) === 'bald', art(g8b, 940012))
+pruefe('dub: true mit leerer Bereichsliste → „Demnächst"', art(g8b, 940013) === 'bald', art(g8b, 940013))
+pruefe('dub: true mit umgekehrtem Bereich (3 bis 2) → „Demnächst"', art(g8b, 940014) === 'bald', art(g8b, 940014))
+pruefe('dub: true mit genau einer deutschen Folge (4 bis 4) → „Schon erschienen"', art(g8b, 940015) === 'erschienen', art(g8b, 940015))
+pruefe('dub: true, ein Bereich ohne, ein Bereich mit deutschem Ton → „Schon erschienen"', art(g8b, 940016) === 'erschienen', art(g8b, 940016))
+pruefe('Bereich mit deutschem Ton, aber Stream ohne dub: true → „Demnächst"', art(g8b, 940017) === 'bald', art(g8b, 940017))
+pruefe('Bereich mit deutschem Ton, aber dub: false → „Demnächst"', art(g8b, 940018) === 'bald', art(g8b, 940018))
+
 console.log('\nDatenbank-Relevanz: Kachel nennt die Staffel (titelId, Beschriftung)')
 const lb = stufeReiheEin([lastBoss1, lastBoss2], new Map([[180523, [disc(180523, '2026-11-06')]], [204389, [plat(204389, 'crunchyroll', '2026-10-24', 12)]]]), H2)
 pruefe('Last Boss: Reihe läuft, titelId ist Staffel 2 (nicht der Vertreter 180523)', lb.art === 'laeuft' && lb.titelId === 204389, lb)

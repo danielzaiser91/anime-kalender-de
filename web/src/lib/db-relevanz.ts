@@ -76,12 +76,15 @@ function stufeRoh(t: Title, alle: Release[], today: string): Roh {
   return t.deErstausgabe ? stufeMitErstausgabe(t.deErstausgabe, nichtDisc, today) : stufeOhneErstausgabe(t, alle, nichtDisc, today)
 }
 
+/** Ein Stream, der deutsche Folgen nennt (Bereiche aus dem Crunchyroll-Katalog, Netflix-Tonspuren oder Handbeleg); `dub: true` allein kann eine Ankündigung sein. */
+const hatDeutscheFolgen = (s: NonNullable<Title['streams']>[number]): boolean => s.dub === true && (s.dubRanges ?? []).some((b) => b.dub && b.to >= b.from)
+
 /**
  * Ist die Staffel irgendwo schon erschienen (Daniel, 26.10.2026)? Ein Nicht-TV-Termin mit Start bis heute zählt (auch eine Disc,
- * auch ein Kauf), ebenso ein Stream mit belegter Synchro; Fernsehen nicht (Wiederholung). Widerlegte Termine fallen weg.
+ * auch ein Kauf), ebenso ein Stream mit belegten deutschen Folgen; Fernsehen nicht (Wiederholung). Widerlegte Termine fallen weg.
  */
 function schonErschienen(t: Title, alle: Release[], today: string): boolean {
-  if ((t.streams ?? []).some((s) => s.dub === true)) return true
+  if ((t.streams ?? []).some(hatDeutscheFolgen)) return true
   return alle.some((r) => r.platform !== 'tv' && startVon(r) <= today && releaseStatus(r, today) !== 'unbekannt')
 }
 
