@@ -10,6 +10,9 @@ import { ordneCrKatalogZu } from './09-4-3-katalog.ts'
 import { ordneCrBloeckeZu } from './09-4-2-bloecke.ts'
 import { ordneCrSerienZu } from './09-4-1-serien.ts'
 import { ordneStandardnamenBloeckeZu } from '../lib/cr-block-standardname.ts'
+import { neueSerienZeilen, ordneNeueSerienZu, type NeueSerienFolge } from '../lib/cr-neue-serie.ts'
+import { loadDubChecks, neinHandbelege } from '../lib/dub-confirmed.ts'
+import { log, readJson } from '../lib/util.ts'
 
 export function werteCrunchyrollDubAus({
   crDub,
@@ -39,6 +42,14 @@ export function werteCrunchyrollDubAus({
     ordneCrBloeckeZu({ crDub, nachUrl, titles, katalogEintraege })
 
     ordneStandardnamenBloeckeZu({ crDub, nachUrl })
+
+    const neueSerien = ordneNeueSerienZu({
+      folgen: readJson<{ folgen?: NeueSerienFolge[] }>('data/crunchyroll-neu.json', {}).folgen ?? [],
+      titles: titles.values(),
+      nachUrl,
+      handNein: neinHandbelege(loadDubChecks()),
+    })
+    for (const zeile of neueSerienZeilen(neueSerien)) log(zeile)
 
     ordneCrKatalogZu({ titles, crDub, verweiseEntfernt })
 
