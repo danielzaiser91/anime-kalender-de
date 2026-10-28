@@ -10,7 +10,7 @@
  *
  * Der Name allein darf also nicht entscheiden.
  */
-import { PLATFORMS, type PlatformId } from './types.ts'
+import type { PlatformId } from './types.ts'
 
 /** Woran eine Adresse ihren Anbieter erkennen lässt. */
 const HOSTS: Record<PlatformId, string[]> = {
@@ -72,9 +72,6 @@ export function adressePasst(url: string, platform: PlatformId): boolean {
     return false
   }
 }
-
-/** Nur damit die Tabelle oben vollständig bleibt, wenn eine Plattform dazukommt. */
-export const HOSTS_VOLLSTAENDIG = Object.keys(PLATFORMS).every((p) => p in HOSTS)
 
 /**
  * Zu welchem Anbieter eine Adresse gehört — unabhängig davon, unter welchem
