@@ -11,7 +11,7 @@ const Einleitung: Entwurf = () => (
     <p className="font-display text-sm text-ak-akzent-text">Entdecken</p>
     <h1 className="text-3xl font-bold text-ak-text">Zeig uns, was du magst.</h1>
     <p className="max-w-sm text-ak-leise">Wir zeigen dir, was du als Nächstes guckst. Sechs schnelle Duelle, dann kommen die Vorschläge.</p>
-    <button type="button" className="min-h-11 rounded-full bg-ak-akzent px-6 font-semibold text-white">Los geht&apos;s</button>
+    <button type="button" className="min-h-11 rounded-full bg-ak-akzent px-6 font-semibold text-ak-auf-akzent">Los geht&apos;s</button>
     <span className="text-xs text-ak-leise">Alles bleibt in deinem Browser.</span>
   </section>
 )
@@ -43,7 +43,7 @@ export function VorschlaegeAnsicht({ fall, data }: { fall: Fall; data: Pick<Data
         })}
       </ul>
       <div className="mt-4 flex flex-wrap gap-2">
-        <button type="button" className="min-h-11 rounded-full bg-ak-akzent px-5 font-semibold text-white">Noch vier Duelle – genauer</button>
+        <button type="button" className="min-h-11 rounded-full bg-ak-akzent px-5 font-semibold text-ak-auf-akzent">Noch vier Duelle – genauer</button>
         <button type="button" className="min-h-11 rounded-full border border-ak-rand px-5 text-ak-text">Von vorn</button>
       </div>
     </section>

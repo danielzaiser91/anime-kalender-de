@@ -19,7 +19,8 @@ export function tippzieleImRahmen(minimum) {
   const fehler = []
   for (const el of document.querySelectorAll(ZIELE)) {
     const stil = getComputedStyle(el)
-    const r = el.getBoundingClientRect()
+    /* Ein unsichtbar gemachtes Eingabefeld (sr-only) in einem Etikett: das Etikett ist das Tippziel. */
+    const r = (el.closest('label') ?? el).getBoundingClientRect()
     const sichtbar = r.width > 0 && r.height > 0 && stil.visibility !== 'hidden' && stil.display !== 'none'
     if (!sichtbar || stil.display === 'inline' || el.closest('[aria-hidden="true"]')) continue
     if (r.width < minimum || r.height < minimum) fehler.push({ schluessel: beschreibung(el), w: Math.round(r.width), h: Math.round(r.height) })
@@ -78,7 +79,9 @@ export function kontrastImRahmen() {
     gesehen.add(el)
     const s = getComputedStyle(el)
     const r = el.getBoundingClientRect()
-    if (r.width === 0 || r.height === 0 || s.visibility === 'hidden' || el.closest('[aria-hidden="true"]') || s.webkitTextFillColor === 'rgba(0, 0, 0, 0)') continue
+    /* Deaktivierte Bedienelemente sind von WCAG 1.4.3 ausgenommen (`aus` = Zustand „deaktiviert“ der Design-Tafel). */
+    const inaktiv = el.closest(':disabled, [aria-disabled="true"], [data-zustand="aus"]')
+    if (inaktiv || r.width === 0 || r.height === 0 || s.visibility === 'hidden' || el.closest('[aria-hidden="true"]') || s.webkitTextFillColor === 'rgba(0, 0, 0, 0)') continue
     const grund = aufBild(r) ? undefined : hintergrund(el)
     const vorn = farbe(s.color)
     const alpha = (vorn[3] / 255) * deckkraft(el)
