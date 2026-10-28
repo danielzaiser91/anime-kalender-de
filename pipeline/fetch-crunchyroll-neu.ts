@@ -34,6 +34,7 @@
  */
 import { todayIso } from '../shared/time.ts'
 import { recordSource } from './lib/health.ts'
+import { seiteNurBekannt } from './lib/cr-neu-seiten.ts'
 import { log, readJson, writeJson } from './lib/util.ts'
 
 const BETA_API = 'https://beta-api.crunchyroll.com'
@@ -123,12 +124,15 @@ async function main(): Promise<void> {
   const bekannt = new Map(alt.folgen.map((f) => [f.guid, f]))
   const neu: NeueFolge[] = []
   let gelesen = 0
+  let seiten = 0
   let ergaenzt = 0
 
   for (let start = 0; start < SEITEN * 100; start += 100) {
     const daten = await seite(bearer, start)
     if (!daten.length) break
     gelesen += daten.length
+    seiten++
+    const nurBekannt = seiteNurBekannt(daten, new Set(bekannt.keys()))
     for (const eintrag of daten) {
       const m = (eintrag.episode_metadata ?? {}) as Record<string, unknown>
       if (m.audio_locale !== DEUTSCH) continue
@@ -166,6 +170,7 @@ async function main(): Promise<void> {
       bekannt.set(guid, folge)
       neu.push(folge)
     }
+    if (nurBekannt) break
   }
 
   /* Alte Funde fallen nach der Haltbarkeit heraus — die Datei ist ein Fenster, kein Archiv. */
@@ -178,7 +183,7 @@ async function main(): Promise<void> {
   /* Leer ist der Normalfall an einem ruhigen Tag — die Quelle hat trotzdem gearbeitet. */
   recordSource('crunchyroll-neu', folgen.length, undefined, undefined, true)
   const serien = new Set(neu.map((f) => f.serie))
-  log(`${gelesen} Folgen gelesen, ${neu.length} neue deutsche aus ${serien.size} Serien`)
+  log(`${seiten} Seiten, ${gelesen} Folgen gelesen, ${neu.length} neue deutsche aus ${serien.size} Serien`)
   if (ergaenzt) log(`${ergaenzt} bekannte Funde um ihr deutsches Verfügbarkeitsdatum ergänzt`)
   for (const s of [...serien].slice(0, 15)) log(`  neu auf Deutsch: ${s}`)
   log(`${folgen.length} Funde im Fenster der letzten ${HALTBAR_TAGE} Tage`)
