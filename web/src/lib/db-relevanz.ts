@@ -114,21 +114,20 @@ function vergleicher<T extends { main: Title }>(art: RelevanzArt) {
 }
 
 /**
- * In „Läuft jetzt" und „Demnächst" zeigt eine zusammengefasste Reihe nur die Staffeln, die diese Einstufung tragen, je als
- * eigene Kachel wie bei ausgeschalteter Zusammenfassung (Daniel, 27.10.2026); die übrigen Staffeln entfallen dort.
- * Einzeltitel liefern `undefined` und bleiben unverändert.
+ * In „Läuft jetzt" und „Demnächst" steht eine zusammengefasste Reihe mit jeder laufenden bzw. kommenden Staffel als eigene
+ * Kachel, die Mengen sind dieselben wie bei ausgeschalteter Zusammenfassung (Daniel, 27.10.2026); erschienene Staffeln
+ * entfallen dort. Einzeltitel liefern `undefined` und bleiben unverändert.
  */
 function einzelneStaffeln<T extends { main: Title; members: Title[] }>(
   gruppe: T,
-  art: RelevanzArt,
   releasesByTitle: Map<number, Release[]>,
   today: string,
-): RelevanzEintrag<T>[] | undefined {
+): { art: RelevanzArt; eintrag: RelevanzEintrag<T> }[] | undefined {
   if (gruppe.members.length < 2) return undefined
-  const treffer: RelevanzEintrag<T>[] = []
+  const treffer: { art: RelevanzArt; eintrag: RelevanzEintrag<T> }[] = []
   for (const m of gruppe.members) {
     const s = stufeTitelEin(m, releasesByTitle.get(m.id) ?? [], today)
-    if (s.art === art) treffer.push({ gruppe: { ...gruppe, main: m, members: [m] }, ab: s.ab })
+    if (s.art === 'laeuft' || s.art === 'bald') treffer.push({ art: s.art, eintrag: { gruppe: { ...gruppe, main: m, members: [m] }, ab: s.ab } })
   }
   return treffer
 }
@@ -142,8 +141,8 @@ export function gruppiereNachRelevanz<T extends { main: Title; members: Title[] 
   const korb: Record<RelevanzArt, RelevanzEintrag<T>[]> = { laeuft: [], bald: [], erschienen: [], unbekannt: [] }
   for (const gruppe of gruppen) {
     const s = stufeReiheEin(gruppe.members, releasesByTitle, today)
-    const staffeln = s.art === 'laeuft' || s.art === 'bald' ? einzelneStaffeln(gruppe, s.art, releasesByTitle, today) : undefined
-    if (staffeln) korb[s.art].push(...staffeln)
+    const staffeln = s.art === 'laeuft' || s.art === 'bald' ? einzelneStaffeln(gruppe, releasesByTitle, today) : undefined
+    if (staffeln) for (const k of staffeln) korb[k.art].push(k.eintrag)
     else korb[s.art].push({ gruppe, ab: s.ab })
   }
   return RELEVANZ_REIHENFOLGE.map((art) => ({ art, eintraege: korb[art].sort(vergleicher<T>(art)) })).filter((g) => g.eintraege.length > 0)

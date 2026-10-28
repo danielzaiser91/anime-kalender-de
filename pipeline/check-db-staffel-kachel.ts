@@ -27,9 +27,13 @@ const titles: Title[] = [
   titel(134732, 134732, 'Aoashi', 2022, { deErstausgabe: { von: '2022-04-01', bis: '2022-09-30' } as Title['deErstausgabe'] }),
   titel(191788, 134732, 'Aoashi Staffel 2', 2026, { deErstausgabe: { von: '2026-12-01' } as Title['deErstausgabe'] }),
   titel(900001, 900001, 'Einzelner Titel', 2026, { deErstausgabe: { von: '2026-10-01', bis: '2026-12-31' } as Title['deErstausgabe'] }),
+  // Staffel 1 erschienen, Staffel 2 läuft, Staffel 3 angekündigt: S2 in „Läuft jetzt“ und S3 zusätzlich in „Demnächst“.
+  titel(900010, 900010, 'Dreiteilige Reihe', 2024, { deErstausgabe: { von: '2024-04-01', bis: '2024-06-30' } as Title['deErstausgabe'] }),
+  titel(900011, 900010, 'Dreiteilige Reihe Staffel 2', 2026, { deErstausgabe: { von: '2026-10-05', bis: '2026-12-31' } as Title['deErstausgabe'] }),
+  titel(900012, 900010, 'Dreiteilige Reihe Staffel 3', 2027, { deErstausgabe: { von: '2027-01-10' } as Title['deErstausgabe'] }),
 ]
 const by = new Map<number, Release[]>()
-for (const r of [termin(180523, '2025-10-01', 12), termin(204389, '2026-10-05', 12), termin(134732, '2022-04-01', 12), termin(191788, '2026-12-01', 12), disc(180523, '2026-03-01'), termin(900001, '2026-10-01', 12)]) {
+for (const r of [termin(180523, '2025-10-01', 12), termin(204389, '2026-10-05', 12), termin(134732, '2022-04-01', 12), termin(191788, '2026-12-01', 12), disc(180523, '2026-03-01'), termin(900001, '2026-10-01', 12), termin(900010, '2024-04-01', 12), termin(900011, '2026-10-05', 12), termin(900012, '2027-01-10', 12)]) {
   by.set(r.titleId, [...(by.get(r.titleId) ?? []), r])
 }
 
@@ -44,7 +48,10 @@ const an = liste(true)
 const aus = liste(false)
 pruefe('Läuft jetzt: Kachel Last Boss ist Staffel 2 (Name, Klickziel)', an.some((e) => e.art === 'laeuft' && e.main.id === 204389 && e.main.titleDe === 'A Wild Last Boss Appeared! Staffel 2' && e.members.length === 1), inGruppe(an, 'laeuft'))
 pruefe('Läuft jetzt: mit und ohne Zusammenfassung dieselben Kacheln (Name und Kennung)', JSON.stringify(inGruppe(an, 'laeuft').sort()) === JSON.stringify(inGruppe(aus, 'laeuft').sort()), [inGruppe(an, 'laeuft'), inGruppe(aus, 'laeuft')])
-pruefe('Demnächst: Aoashi Staffel 2 (nicht Staffel 1), wie ohne Zusammenfassung', JSON.stringify(inGruppe(an, 'bald')) === '[191788]' && JSON.stringify(inGruppe(aus, 'bald')) === '[191788]', inGruppe(an, 'bald'))
+const sortiert = (l: ReturnType<typeof liste>, art: string) => JSON.stringify(inGruppe(l, art).sort((a, b) => a - b))
+pruefe('Demnächst: Aoashi Staffel 2 (nicht Staffel 1), wie ohne Zusammenfassung', inGruppe(an, 'bald').includes(191788) && !inGruppe(an, 'bald').includes(134732), inGruppe(an, 'bald'))
+pruefe('Staffel 2 läuft, Staffel 3 angekündigt: S2 in „Läuft jetzt“, S3 zusätzlich in „Demnächst“', inGruppe(an, 'laeuft').includes(900011) && inGruppe(an, 'bald').includes(900012) && !inGruppe(an, 'bald').includes(900011), [inGruppe(an, 'laeuft'), inGruppe(an, 'bald')])
+pruefe('Demnächst: dieselbe Menge mit und ohne Zusammenfassung', sortiert(an, 'bald') === sortiert(aus, 'bald'), [sortiert(an, 'bald'), sortiert(aus, 'bald')])
 pruefe('Staffel 1 steht nicht noch einmal in „Schon erschienen"', !inGruppe(an, 'erschienen').some((id) => id === 180523 || id === 134732), inGruppe(an, 'erschienen'))
 pruefe('Läuft jetzt trägt keine Kachel mit mehreren Mitgliedern („N Staffeln"-Hinweis entfällt)', an.filter((e) => e.art === 'laeuft' || e.art === 'bald').every((e) => e.members.length === 1))
 
