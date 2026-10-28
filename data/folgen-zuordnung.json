@@ -4031,12 +4031,9 @@
     "gesehen": "2026-10-15T10:33:47Z"
   },
   "primevideo:B0CH754DJD": {
-    "grund": "offen",
-    "kandidaten": [
-      21518,
-      20923,
-      109963
-    ],
+    "titel": 99255,
+    "folge": 11,
+    "grund": "titel",
     "gesehen": "2026-10-15T10:33:47Z"
   },
   "primevideo:B0CH5GNTQX": {
@@ -4378,7 +4375,8 @@
   },
   "primevideo:B0BZMSFC5P": {
     "titel": 302,
-    "grund": "einziger-kandidat",
+    "folge": 6,
+    "grund": "titel",
     "gesehen": "2026-10-13T15:44:27Z"
   },
   "primevideo:B0C8WP4M4M": {
@@ -4463,7 +4461,8 @@
   },
   "primevideo:B0CN6MWLVS": {
     "titel": 99699,
-    "grund": "einziger-kandidat",
+    "folge": 1,
+    "grund": "titel",
     "gesehen": "2026-10-13T16:07:35Z"
   },
   "primevideo:B0CMR3JLSC": {
@@ -6218,7 +6217,8 @@
   },
   "primevideo:B0C5F6CD8P": {
     "titel": 140457,
-    "grund": "einziger-kandidat",
+    "folge": 12,
+    "grund": "titel",
     "gesehen": "2026-09-27T23:02:30Z"
   },
   "primevideo:B0DW8RZ56M": {
@@ -6901,7 +6901,8 @@
   },
   "primevideo:B0D84DMV4N": {
     "titel": 16049,
-    "grund": "einziger-kandidat",
+    "folge": 22,
+    "grund": "titel",
     "gesehen": "2026-10-13T15:38:58Z"
   },
   "primevideo:B0CWPWJJBV": {
@@ -7672,7 +7673,8 @@
   },
   "primevideo:B0B77RMRT8": {
     "titel": 20727,
-    "grund": "einziger-kandidat",
+    "folge": 6,
+    "grund": "titel",
     "gesehen": "2026-10-13T16:03:37Z"
   },
   "primevideo:B0BXRD6453": {
@@ -7695,7 +7697,8 @@
   },
   "primevideo:B0BX31FPMS": {
     "titel": 20727,
-    "grund": "einziger-kandidat",
+    "folge": 10,
+    "grund": "titel",
     "gesehen": "2026-10-13T16:03:37Z"
   },
   "primevideo:B0B8PCSKST": {
@@ -7705,7 +7708,8 @@
   },
   "primevideo:B0B6Q5Q426": {
     "titel": 20727,
-    "grund": "einziger-kandidat",
+    "folge": 11,
+    "grund": "titel",
     "gesehen": "2026-10-13T16:03:37Z"
   },
   "primevideo:B0B8Q3W464": {
@@ -9372,7 +9376,8 @@
   },
   "primevideo:B0CGZVKD48": {
     "titel": 20711,
-    "grund": "einziger-kandidat",
+    "folge": 7,
+    "grund": "titel",
     "gesehen": "2026-09-27T22:57:17Z"
   },
   "primevideo:B0CGQ574PD": {
@@ -10633,11 +10638,9 @@
     "gesehen": "2026-09-28T10:21:25Z"
   },
   "primevideo:B0DC29MV2S": {
-    "grund": "offen",
-    "kandidaten": [
-      15565,
-      9936
-    ],
+    "titel": 15565,
+    "folge": 4,
+    "grund": "titel",
     "gesehen": "2026-09-28T10:21:25Z"
   },
   "primevideo:B0DK4DHTJM": {
@@ -16373,7 +16376,8 @@
   },
   "primevideo:B0H4G6V3BN": {
     "titel": 154116,
-    "grund": "einziger-kandidat",
+    "folge": 6,
+    "grund": "titel",
     "gesehen": "2026-09-28T11:41:24Z"
   },
   "primevideo:B0H4LJW1F9": {
@@ -16462,7 +16466,8 @@
   },
   "primevideo:B0H685SST6": {
     "titel": 154116,
-    "grund": "einziger-kandidat",
+    "folge": 21,
+    "grund": "titel",
     "gesehen": "2026-09-28T11:41:24Z"
   },
   "primevideo:B0H4WGWW8N": {
@@ -20562,7 +20567,8 @@
   },
   "primevideo:B0GTTWLSWG": {
     "titel": 3010,
-    "grund": "einziger-kandidat",
+    "folge": 44,
+    "grund": "titel",
     "gesehen": "2026-08-31T14:25:47Z"
   },
   "primevideo:B0GQGSJSBT": {
@@ -22168,7 +22174,8 @@
   },
   "primevideo:B0CHQ3X9C7": {
     "titel": 104276,
-    "grund": "einziger-kandidat",
+    "folge": 3,
+    "grund": "titel",
     "gesehen": "2026-10-21T01:00:00Z"
   },
   "primevideo:B0CHZ7G9T7": {
@@ -23543,8 +23550,9 @@
     "gesehen": "2026-10-24T15:31:29Z"
   },
   "primevideo:B09ZJXZF5S": {
-    "titel": 11771,
-    "grund": "einziger-kandidat",
+    "titel": 16894,
+    "folge": 3,
+    "grund": "titel",
     "gesehen": "2026-10-24T15:31:29Z"
   },
   "primevideo:B09ZJ88ZMQ": {
@@ -23968,8 +23976,9 @@
     "gesehen": "2026-10-15T10:35:26Z"
   },
   "primevideo:B0H7YHLF3Q": {
-    "titel": 142074,
-    "grund": "einziger-kandidat",
+    "titel": 159309,
+    "folge": 9,
+    "grund": "titel",
     "gesehen": "2026-10-15T10:35:26Z"
   },
   "primevideo:B0H7XQ86LZ": {
@@ -24776,7 +24785,8 @@
   },
   "primevideo:B0DPLQ8KH1": {
     "titel": 178680,
-    "grund": "einziger-kandidat",
+    "folge": 9,
+    "grund": "titel",
     "gesehen": "2026-10-15T10:35:46Z"
   },
   "primevideo:B0D723LTL5": {
@@ -24829,7 +24839,8 @@
   },
   "primevideo:B0CW4K74HX": {
     "titel": 102977,
-    "grund": "einziger-kandidat",
+    "folge": 6,
+    "grund": "titel",
     "gesehen": "2026-10-13T16:07:37Z"
   },
   "primevideo:B0CGGDNT4M": {
@@ -25581,7 +25592,8 @@
   },
   "primevideo:B0DJDLJPND": {
     "titel": 171025,
-    "grund": "einziger-kandidat",
+    "folge": 6,
+    "grund": "titel",
     "gesehen": "2026-09-19T19:22:57Z"
   },
   "primevideo:B0DM9PPHJ6": {
@@ -28042,14 +28054,9 @@
     "gesehen": "2026-10-21T00:58:00Z"
   },
   "primevideo:B0CJP65BJV": {
-    "grund": "offen",
-    "kandidaten": [
-      14719,
-      102883,
-      20474,
-      20799,
-      21450
-    ],
+    "titel": 21450,
+    "folge": 6,
+    "grund": "titel",
     "gesehen": "2026-10-21T00:58:00Z"
   },
   "primevideo:B0CJT51W2L": {
@@ -28321,13 +28328,9 @@
     "gesehen": "2026-10-21T00:58:00Z"
   },
   "primevideo:B0CHFDJFVT": {
-    "grund": "offen",
-    "kandidaten": [
-      14719,
-      102883,
-      20474,
-      20799
-    ],
+    "titel": 102883,
+    "folge": 11,
+    "grund": "titel",
     "gesehen": "2026-09-19T20:44:05Z"
   },
   "primevideo:B0CHQQLVSD": {
@@ -33557,8 +33560,9 @@
     "gesehen": "2026-09-28T10:55:25Z"
   },
   "primevideo:B0CWTVFCNG": {
-    "titel": 527,
-    "grund": "einziger-kandidat",
+    "titel": 1564,
+    "folge": 145,
+    "grund": "titel",
     "gesehen": "2026-09-28T10:55:25Z"
   },
   "primevideo:B0CW2CB2BM": {
@@ -35794,7 +35798,8 @@
   },
   "primevideo:B017CH0RQU": {
     "titel": 1564,
-    "grund": "einziger-kandidat",
+    "folge": 145,
+    "grund": "titel",
     "gesehen": "2026-09-25T15:31:09Z"
   },
   "primevideo:B017CH6YSA": {
@@ -38535,7 +38540,8 @@
   },
   "primevideo:B0BZW7V7V5": {
     "titel": 19,
-    "grund": "einziger-kandidat",
+    "folge": 15,
+    "grund": "titel",
     "gesehen": "2026-09-26T07:46:41Z"
   },
   "primevideo:B0BZYV4CTX": {
@@ -40511,7 +40517,8 @@
   },
   "primevideo:B0GVLJX54H": {
     "titel": 198113,
-    "grund": "einziger-kandidat",
+    "folge": 7,
+    "grund": "titel",
     "gesehen": "2026-09-26T09:28:07Z"
   },
   "primevideo:B0H3DZZM1W": {
@@ -40528,7 +40535,8 @@
   },
   "primevideo:B0H3FWQC3N": {
     "titel": 198113,
-    "grund": "einziger-kandidat",
+    "folge": 10,
+    "grund": "titel",
     "gesehen": "2026-09-26T09:28:07Z"
   },
   "primevideo:B0GX1647FM": {
@@ -41259,7 +41267,8 @@
   },
   "primevideo:B0CJ3FYYHM": {
     "titel": 6213,
-    "grund": "einziger-kandidat",
+    "folge": 12,
+    "grund": "titel",
     "gesehen": "2026-10-13T15:39:02Z"
   },
   "primevideo:B0CHJJFSMP": {
@@ -41615,7 +41624,8 @@
   },
   "primevideo:B0FWJLQ31X": {
     "titel": 20613,
-    "grund": "einziger-kandidat",
+    "folge": 24,
+    "grund": "titel",
     "gesehen": "2026-10-13T15:39:11Z"
   },
   "primevideo:B0GS35NQTL": {
@@ -41798,7 +41808,8 @@
   },
   "primevideo:B0CBD69XKS": {
     "titel": 116566,
-    "grund": "einziger-kandidat",
+    "folge": 7,
+    "grund": "titel",
     "gesehen": "2026-09-29T20:10:59Z"
   },
   "primevideo:B0C5JXVM7W": {
@@ -43222,7 +43233,8 @@
   },
   "primevideo:B0D45WZZ61": {
     "titel": 18153,
-    "grund": "einziger-kandidat",
+    "folge": 4,
+    "grund": "titel",
     "gesehen": "2026-09-27T22:07:45Z"
   },
   "primevideo:B0DP1NLYL7": {
@@ -47869,8 +47881,9 @@
     "gesehen": "2026-09-27T22:35:05Z"
   },
   "primevideo:B0DV88HY22": {
-    "titel": 105333,
-    "grund": "einziger-kandidat",
+    "titel": 113936,
+    "folge": 2,
+    "grund": "titel",
     "gesehen": "2026-09-27T22:35:05Z"
   },
   "primevideo:B0DVF774MN": {
@@ -47928,13 +47941,15 @@
     "gesehen": "2026-09-27T22:35:05Z"
   },
   "primevideo:B0DSCP12H6": {
-    "titel": 105333,
-    "grund": "einziger-kandidat",
+    "titel": 172019,
+    "folge": 1,
+    "grund": "titel",
     "gesehen": "2026-09-27T22:35:25Z"
   },
   "primevideo:B0DP6TBD1V": {
-    "titel": 105333,
-    "grund": "einziger-kandidat",
+    "titel": 172019,
+    "folge": 2,
+    "grund": "titel",
     "gesehen": "2026-09-27T22:35:25Z"
   },
   "primevideo:B0D49ZQTC2": {
@@ -47950,13 +47965,15 @@
     "gesehen": "2026-09-27T22:35:25Z"
   },
   "primevideo:B0DS6F3NMQ": {
-    "titel": 105333,
-    "grund": "einziger-kandidat",
+    "titel": 172019,
+    "folge": 5,
+    "grund": "titel",
     "gesehen": "2026-09-27T22:35:25Z"
   },
   "primevideo:B0DWZMB36B": {
-    "titel": 105333,
-    "grund": "einziger-kandidat",
+    "titel": 172019,
+    "folge": 6,
+    "grund": "titel",
     "gesehen": "2026-09-27T22:35:25Z"
   },
   "primevideo:B0DWZ5FRMH": {
@@ -47966,8 +47983,9 @@
     "gesehen": "2026-09-27T22:35:25Z"
   },
   "primevideo:B0DXS9JSRJ": {
-    "titel": 105333,
-    "grund": "einziger-kandidat",
+    "titel": 172019,
+    "folge": 8,
+    "grund": "titel",
     "gesehen": "2026-09-27T22:35:25Z"
   },
   "primevideo:B0DN81PWT3": {
@@ -48073,8 +48091,9 @@
     "gesehen": "2026-09-27T22:35:25Z"
   },
   "primevideo:B0GPMVMCN6": {
-    "titel": 105333,
-    "grund": "einziger-kandidat",
+    "titel": 199221,
+    "folge": 2,
+    "grund": "titel",
     "gesehen": "2026-09-27T22:35:25Z"
   },
   "primevideo:B0GQXHXJD6": {
@@ -50255,7 +50274,8 @@
   },
   "primevideo:B0CH3TRKDR": {
     "titel": 9367,
-    "grund": "einziger-kandidat",
+    "folge": 12,
+    "grund": "titel",
     "gesehen": "2026-09-27T22:44:09Z"
   },
   "primevideo:B0CHMGCJC3": {
@@ -54050,8 +54070,9 @@
     "gesehen": "2026-10-12T11:21:49Z"
   },
   "primevideo:B0FVFGD93C": {
-    "titel": 145064,
-    "grund": "einziger-kandidat",
+    "titel": 113415,
+    "folge": 21,
+    "grund": "titel",
     "gesehen": "2026-10-12T11:21:49Z"
   },
   "primevideo:B0FXJQ9SPV": {
@@ -54860,7 +54881,8 @@
   },
   "primevideo:B0CBJ5M9KZ": {
     "titel": 1559,
-    "grund": "einziger-kandidat",
+    "folge": 9,
+    "grund": "titel",
     "gesehen": "2026-09-28T10:18:10Z"
   },
   "primevideo:B0CBJCSZCR": {
@@ -55425,7 +55447,8 @@
   },
   "primevideo:B09KG27DJP": {
     "titel": 16894,
-    "grund": "einziger-kandidat",
+    "folge": 3,
+    "grund": "titel",
     "gesehen": "2026-10-24T15:31:30Z"
   },
   "primevideo:B0H6QSLJ82": {
@@ -56199,7 +56222,8 @@
   },
   "primevideo:B078BLSZ3N": {
     "titel": 20790,
-    "grund": "einziger-kandidat",
+    "folge": 3,
+    "grund": "titel",
     "gesehen": "2026-09-28T10:20:51Z"
   },
   "primevideo:B08D6Y5BLH": {
@@ -57880,7 +57904,8 @@
   },
   "primevideo:B0BYR5B6HK": {
     "titel": 877,
-    "grund": "einziger-kandidat",
+    "folge": 17,
+    "grund": "titel",
     "gesehen": "2026-09-28T10:30:25Z"
   },
   "primevideo:B0BZWWD4VM": {
@@ -59540,11 +59565,9 @@
     "gesehen": "2026-09-28T11:10:39Z"
   },
   "primevideo:B01K0PND44": {
-    "grund": "offen",
-    "kandidaten": [
-      19291,
-      21356
-    ],
+    "titel": 19291,
+    "folge": 13,
+    "grund": "titel",
     "gesehen": "2026-09-28T11:10:46Z"
   },
   "primevideo:B01K0PQ2GA": {
@@ -67024,62 +67047,74 @@
   },
   "primevideo:B0H63RYLKL": {
     "titel": 101337,
-    "grund": "einziger-kandidat",
+    "folge": 2,
+    "grund": "titel",
     "gesehen": "2026-09-28T11:42:37Z"
   },
   "primevideo:B0H3371JP4": {
     "titel": 101337,
-    "grund": "einziger-kandidat",
+    "folge": 3,
+    "grund": "titel",
     "gesehen": "2026-09-28T11:42:37Z"
   },
   "primevideo:B0H4J5HMDH": {
     "titel": 101337,
-    "grund": "einziger-kandidat",
+    "folge": 4,
+    "grund": "titel",
     "gesehen": "2026-09-28T11:42:37Z"
   },
   "primevideo:B0H5S6LRNH": {
     "titel": 101337,
-    "grund": "einziger-kandidat",
+    "folge": 5,
+    "grund": "titel",
     "gesehen": "2026-09-28T11:42:37Z"
   },
   "primevideo:B0H8Y1WPRH": {
     "titel": 101337,
-    "grund": "einziger-kandidat",
+    "folge": 6,
+    "grund": "titel",
     "gesehen": "2026-09-28T11:42:37Z"
   },
   "primevideo:B0GZY8Q7B9": {
     "titel": 101337,
-    "grund": "einziger-kandidat",
+    "folge": 7,
+    "grund": "titel",
     "gesehen": "2026-09-28T11:42:37Z"
   },
   "primevideo:B0H76SK5WM": {
     "titel": 101337,
-    "grund": "einziger-kandidat",
+    "folge": 8,
+    "grund": "titel",
     "gesehen": "2026-09-28T11:42:37Z"
   },
   "primevideo:B0H6KP6YKS": {
     "titel": 101337,
-    "grund": "einziger-kandidat",
+    "folge": 9,
+    "grund": "titel",
     "gesehen": "2026-09-28T11:42:37Z"
   },
   "primevideo:B0H5ZYQP9H": {
     "titel": 101337,
-    "grund": "einziger-kandidat",
+    "folge": 10,
+    "grund": "titel",
     "gesehen": "2026-09-28T11:42:37Z"
   },
   "primevideo:B0H758VT88": {
     "titel": 101337,
-    "grund": "einziger-kandidat",
+    "folge": 11,
+    "grund": "titel",
     "gesehen": "2026-09-28T11:42:37Z"
   },
   "primevideo:B0H6VLNN23": {
     "titel": 101337,
-    "grund": "einziger-kandidat",
+    "folge": 12,
+    "grund": "titel",
     "gesehen": "2026-09-28T11:42:37Z"
   },
   "primevideo:B0GWY7ZZJX": {
     "titel": 101337,
-    "grund": "einziger-kandidat",
+    "folge": 13,
+    "grund": "titel",
     "gesehen": "2026-09-28T11:42:37Z"
   },
   "primevideo:B0H6484J9K": {
@@ -69346,7 +69381,8 @@
   },
   "primevideo:B07FBF4S7Q": {
     "titel": 482,
-    "grund": "einziger-kandidat",
+    "folge": 70,
+    "grund": "titel",
     "gesehen": "2026-10-15T10:37:31Z"
   },
   "primevideo:B07FBJCSND": {
@@ -70397,11 +70433,9 @@
     "gesehen": "2026-10-11T16:10:55Z"
   },
   "primevideo:B0BYVNXNM6": {
-    "grund": "offen",
-    "kandidaten": [
-      150672,
-      182587
-    ],
+    "titel": 150672,
+    "folge": 5,
+    "grund": "titel",
     "gesehen": "2026-10-11T16:10:55Z"
   },
   "primevideo:B0C54H1X5Z": {
@@ -70423,11 +70457,9 @@
     "gesehen": "2026-10-11T16:10:55Z"
   },
   "primevideo:B0C54784PN": {
-    "grund": "offen",
-    "kandidaten": [
-      150672,
-      182587
-    ],
+    "titel": 150672,
+    "folge": 9,
+    "grund": "titel",
     "gesehen": "2026-10-11T16:10:55Z"
   },
   "primevideo:B0BVGDB75H": {
@@ -73783,8 +73815,9 @@
     "gesehen": "2026-10-12T11:09:19Z"
   },
   "primevideo:B0DJQW8YG7": {
-    "titel": 137822,
-    "grund": "einziger-kandidat",
+    "titel": 163146,
+    "folge": 9,
+    "grund": "titel",
     "gesehen": "2026-10-12T11:09:19Z"
   },
   "primevideo:B0DLNR48CP": {
@@ -85915,7 +85948,8 @@
   },
   "primevideo:B0C6TYW8WR": {
     "titel": 2116,
-    "grund": "einziger-kandidat",
+    "folge": 7,
+    "grund": "titel",
     "gesehen": "2026-10-13T15:40:45Z"
   },
   "primevideo:B0C6TYH6K4": {
@@ -88049,8 +88083,9 @@
     "gesehen": "2026-10-13T15:47:02Z"
   },
   "primevideo:B0GKFKT9TS": {
-    "titel": 249,
-    "grund": "einziger-kandidat",
+    "titel": 6811,
+    "folge": 2,
+    "grund": "titel",
     "gesehen": "2026-10-13T15:47:02Z"
   },
   "primevideo:B0GPLSZ1PJ": {
@@ -89150,7 +89185,8 @@
   },
   "primevideo:B0CZS8Q8SB": {
     "titel": 21340,
-    "grund": "einziger-kandidat",
+    "folge": 12,
+    "grund": "titel",
     "gesehen": "2026-10-13T15:54:03Z"
   },
   "primevideo:B0DB2M66X1": {
@@ -89459,8 +89495,9 @@
     "gesehen": "2026-10-13T15:56:08Z"
   },
   "primevideo:B0CGQKGSVR": {
-    "titel": 104276,
-    "grund": "einziger-kandidat",
+    "titel": 21459,
+    "folge": 11,
+    "grund": "titel",
     "gesehen": "2026-10-13T15:56:08Z"
   },
   "primevideo:B0CHN2V119": {
@@ -89626,8 +89663,9 @@
     "gesehen": "2026-10-21T01:00:01Z"
   },
   "primevideo:B0CH74T4P7": {
-    "titel": 104276,
-    "grund": "einziger-kandidat",
+    "titel": 100166,
+    "folge": 2,
+    "grund": "titel",
     "gesehen": "2026-10-21T01:00:01Z"
   },
   "primevideo:B0CH1GYWT5": {
@@ -89667,8 +89705,9 @@
     "gesehen": "2026-10-21T01:00:01Z"
   },
   "primevideo:B0CG7BG3B2": {
-    "titel": 104276,
-    "grund": "einziger-kandidat",
+    "titel": 100166,
+    "folge": 9,
+    "grund": "titel",
     "gesehen": "2026-10-21T01:00:01Z"
   },
   "primevideo:B0CGXX2SD3": {
@@ -89678,8 +89717,9 @@
     "gesehen": "2026-10-21T01:00:01Z"
   },
   "primevideo:B0CGPJD2J2": {
-    "titel": 104276,
-    "grund": "einziger-kandidat",
+    "titel": 100166,
+    "folge": 11,
+    "grund": "titel",
     "gesehen": "2026-10-21T01:00:01Z"
   },
   "primevideo:B0CHN34W2V": {
@@ -89719,8 +89759,9 @@
     "gesehen": "2026-10-21T01:00:01Z"
   },
   "primevideo:B0CJ5MHWPD": {
-    "titel": 104276,
-    "grund": "einziger-kandidat",
+    "titel": 100166,
+    "folge": 18,
+    "grund": "titel",
     "gesehen": "2026-10-21T01:00:01Z"
   },
   "primevideo:B0CGYK7CC3": {
@@ -89889,8 +89930,9 @@
     "gesehen": "2026-10-21T01:00:10Z"
   },
   "primevideo:B0CHBPSXGS": {
-    "titel": 104276,
-    "grund": "einziger-kandidat",
+    "titel": 117193,
+    "folge": 22,
+    "grund": "titel",
     "gesehen": "2026-10-21T01:00:10Z"
   },
   "primevideo:B0CH76GFFC": {
@@ -90187,8 +90229,9 @@
     "gesehen": "2026-10-21T01:00:09Z"
   },
   "primevideo:B0FSKZ7GR3": {
-    "titel": 104276,
-    "grund": "einziger-kandidat",
+    "titel": 182896,
+    "folge": 1,
+    "grund": "titel",
     "gesehen": "2026-10-21T01:00:14Z"
   },
   "primevideo:B0FSLXBR6Q": {
@@ -90228,8 +90271,9 @@
     "gesehen": "2026-10-21T01:00:14Z"
   },
   "primevideo:B0G3GWH3QW": {
-    "titel": 104276,
-    "grund": "einziger-kandidat",
+    "titel": 182896,
+    "folge": 8,
+    "grund": "titel",
     "gesehen": "2026-10-21T01:00:14Z"
   },
   "primevideo:B0G1RCHGQM": {
@@ -91660,7 +91704,8 @@
   },
   "primevideo:B0FL7GY8HH": {
     "titel": 3010,
-    "grund": "einziger-kandidat",
+    "folge": 44,
+    "grund": "titel",
     "gesehen": "2026-10-13T16:02:55Z"
   },
   "primevideo:B0FGK67BC1": {
@@ -91864,7 +91909,8 @@
   },
   "primevideo:B0B6D1R12V": {
     "titel": 103871,
-    "grund": "einziger-kandidat",
+    "folge": 1,
+    "grund": "titel",
     "gesehen": "2026-10-13T16:03:08Z"
   },
   "primevideo:B0CH772KYV": {
@@ -91916,7 +91962,8 @@
   },
   "primevideo:B0CGMRMWZG": {
     "titel": 103871,
-    "grund": "einziger-kandidat",
+    "folge": 10,
+    "grund": "titel",
     "gesehen": "2026-10-13T16:03:08Z"
   },
   "primevideo:B0CH1HZSBR": {
@@ -91962,8 +92009,9 @@
     "gesehen": "2026-10-13T16:03:06Z"
   },
   "primevideo:B0CGVTHPXD": {
-    "titel": 103871,
-    "grund": "einziger-kandidat",
+    "titel": 110733,
+    "folge": 6,
+    "grund": "titel",
     "gesehen": "2026-10-13T16:03:06Z"
   },
   "primevideo:B0CGMJHMH3": {
@@ -92756,7 +92804,8 @@
   },
   "primevideo:B0FV7XM7HH": {
     "titel": 97938,
-    "grund": "einziger-kandidat",
+    "folge": 1,
+    "grund": "titel",
     "gesehen": "2026-10-15T10:42:03Z"
   },
   "primevideo:B0FV8MPNCC": {
@@ -93907,7 +93956,8 @@
   },
   "primevideo:B0CNVT6ZHH": {
     "titel": 97938,
-    "grund": "einziger-kandidat",
+    "folge": 208,
+    "grund": "titel",
     "gesehen": "2026-10-15T10:42:28Z"
   },
   "primevideo:B0CPQ66W8L": {
@@ -96048,12 +96098,14 @@
   },
   "primevideo:B07NMYKJMX": {
     "titel": 12413,
-    "grund": "einziger-kandidat",
+    "folge": 3,
+    "grund": "titel",
     "gesehen": "2026-10-16T19:48:17Z"
   },
   "primevideo:B07PXLRL16": {
     "titel": 12413,
-    "grund": "einziger-kandidat",
+    "folge": 4,
+    "grund": "titel",
     "gesehen": "2026-10-16T19:48:17Z"
   },
   "primevideo:B07NMYH6TR": {
@@ -96081,12 +96133,14 @@
   },
   "primevideo:B07NMYS4SJ": {
     "titel": 12413,
-    "grund": "einziger-kandidat",
+    "folge": 9,
+    "grund": "titel",
     "gesehen": "2026-10-16T19:48:17Z"
   },
   "primevideo:B07PXMZ695": {
     "titel": 12413,
-    "grund": "einziger-kandidat",
+    "folge": 10,
+    "grund": "titel",
     "gesehen": "2026-10-16T19:48:17Z"
   },
   "primevideo:B07NMYMJSD": {
@@ -96105,13 +96159,15 @@
     "gesehen": "2026-10-16T19:48:21Z"
   },
   "primevideo:B07PVLQ67Z": {
-    "titel": 12413,
-    "grund": "einziger-kandidat",
+    "titel": 13331,
+    "folge": 2,
+    "grund": "titel",
     "gesehen": "2026-10-16T19:48:21Z"
   },
   "primevideo:B07PWJK8CY": {
-    "titel": 12413,
-    "grund": "einziger-kandidat",
+    "titel": 13331,
+    "folge": 3,
+    "grund": "titel",
     "gesehen": "2026-10-16T19:48:21Z"
   },
   "primevideo:B07NMYKD7N": {
@@ -96121,13 +96177,15 @@
     "gesehen": "2026-10-16T19:48:21Z"
   },
   "primevideo:B07NMYS44V": {
-    "titel": 12413,
-    "grund": "einziger-kandidat",
+    "titel": 13331,
+    "folge": 5,
+    "grund": "titel",
     "gesehen": "2026-10-16T19:48:21Z"
   },
   "primevideo:B07PVLQVWB": {
-    "titel": 12413,
-    "grund": "einziger-kandidat",
+    "titel": 13331,
+    "folge": 6,
+    "grund": "titel",
     "gesehen": "2026-10-16T19:48:21Z"
   },
   "primevideo:B07NMYYW8Z": {
@@ -96137,18 +96195,21 @@
     "gesehen": "2026-10-16T19:48:21Z"
   },
   "primevideo:B07NMYKM2C": {
-    "titel": 12413,
-    "grund": "einziger-kandidat",
+    "titel": 13331,
+    "folge": 8,
+    "grund": "titel",
     "gesehen": "2026-10-16T19:48:21Z"
   },
   "primevideo:B07NMXHMD9": {
-    "titel": 12413,
-    "grund": "einziger-kandidat",
+    "titel": 13331,
+    "folge": 9,
+    "grund": "titel",
     "gesehen": "2026-10-16T19:48:21Z"
   },
   "primevideo:B07PVLQM8Y": {
-    "titel": 12413,
-    "grund": "einziger-kandidat",
+    "titel": 13331,
+    "folge": 10,
+    "grund": "titel",
     "gesehen": "2026-10-16T19:48:21Z"
   },
   "primevideo:B07PVLPYGN": {
@@ -98095,7 +98156,8 @@
   },
   "primevideo:B0FVFSXWCN": {
     "titel": 1735,
-    "grund": "einziger-kandidat",
+    "folge": 271,
+    "grund": "titel",
     "gesehen": "2026-10-16T19:50:44Z"
   },
   "primevideo:B0FYGDBHS5": {
@@ -99297,7 +99359,8 @@
   },
   "primevideo:B0FWXZ38N5": {
     "titel": 1735,
-    "grund": "einziger-kandidat",
+    "folge": 479,
+    "grund": "titel",
     "gesehen": "2026-10-16T19:51:19Z"
   },
   "primevideo:B0FVLTP74Y": {
@@ -107898,7 +107961,8 @@
   },
   "primevideo:B0GCK7KLPD": {
     "titel": 21459,
-    "grund": "einziger-kandidat",
+    "folge": 11,
+    "grund": "titel",
     "gesehen": "2026-10-21T00:59:53Z"
   },
   "primevideo:B0GCFCV12B": {
@@ -108319,11 +108383,9 @@
     "gesehen": "2026-10-24T18:30:59Z"
   },
   "primevideo:B0CP691HV4": {
-    "grund": "offen",
-    "kandidaten": [
-      21236,
-      98289
-    ],
+    "titel": 21236,
+    "folge": 13,
+    "grund": "titel",
     "gesehen": "2026-10-24T18:30:59Z"
   },
   "primevideo:B0CNS2TX9H": {
@@ -109964,11 +110026,9 @@
     "gesehen": "2026-10-15T09:39:12Z"
   },
   "adn:31263": {
-    "grund": "offen",
-    "kandidaten": [
-      173172,
-      105228
-    ],
+    "titel": 105228,
+    "folge": 1,
+    "grund": "titel",
     "gesehen": "2026-10-15T09:39:12Z"
   },
   "adn:31264": {
@@ -123457,11 +123517,9 @@
     "gesehen": "2026-09-27T22:10:47Z"
   },
   "disneyplus:eyJtZWRpYUlkIjoiZjJkZDAzZDgtNjZiYi00ODdlLWFkYmMtNmRlMjVmMmRm": {
-    "grund": "offen",
-    "kandidaten": [
-      21459,
-      21856
-    ],
+    "titel": 21459,
+    "folge": 11,
+    "grund": "titel",
     "gesehen": "2026-09-27T22:10:47Z"
   },
   "disneyplus:eyJtZWRpYUlkIjoiZWE2MDY5MWUtOTUxNy00YTQwLWEyMTAtYjg2MzAzYzQ3": {
@@ -148463,7 +148521,8 @@
   },
   "disneyplus:eyJtZWRpYUlkIjoiNDNiMTgxMGYtYzVjMy00MzQwLTlmMzQtYWEzZmMwZGIz": {
     "titel": 154116,
-    "grund": "einziger-kandidat",
+    "folge": 6,
+    "grund": "titel",
     "gesehen": "2026-10-16T19:03:55Z"
   },
   "disneyplus:eyJtZWRpYUlkIjoiNTQ1MGU2MGUtODQ1ZC00OTI2LWJmZGYtZDkxODgyNTgz": {
@@ -148552,7 +148611,8 @@
   },
   "disneyplus:eyJtZWRpYUlkIjoiNjk2ODhiYmMtNzhhZi00MTFlLWI3NTAtODgyZjBiYzlk": {
     "titel": 154116,
-    "grund": "einziger-kandidat",
+    "folge": 21,
+    "grund": "titel",
     "gesehen": "2026-10-16T19:03:56Z"
   },
   "disneyplus:eyJtZWRpYUlkIjoiNDA0YTM3YTQtYjk1Ny00ZjRhLTg3NzUtNDU4MjU1MTBl": {
@@ -155815,13 +155875,9 @@
     "gesehen": "2026-09-25T14:35:13Z"
   },
   "netflix:80146001": {
-    "grund": "offen",
-    "kandidaten": [
-      11771,
-      16894,
-      16916,
-      20725
-    ],
+    "titel": 16894,
+    "folge": 3,
+    "grund": "titel",
     "gesehen": "2026-09-25T14:35:13Z"
   },
   "netflix:80146002": {
@@ -160790,16 +160846,9 @@
     "gesehen": "2026-09-29T21:21:20Z"
   },
   "netflix:80135747": {
-    "grund": "offen",
-    "kandidaten": [
-      21459,
-      139630,
-      21856,
-      100166,
-      104276,
-      117193,
-      163139
-    ],
+    "titel": 21459,
+    "folge": 11,
+    "grund": "titel",
     "gesehen": "2026-09-29T21:21:20Z"
   },
   "netflix:80135748": {
@@ -161020,16 +161069,9 @@
     "gesehen": "2026-09-29T21:21:32Z"
   },
   "netflix:81021694": {
-    "grund": "offen",
-    "kandidaten": [
-      21459,
-      139630,
-      21856,
-      100166,
-      104276,
-      117193,
-      163139
-    ],
+    "titel": 100166,
+    "folge": 2,
+    "grund": "titel",
     "gesehen": "2026-09-29T21:21:32Z"
   },
   "netflix:81021695": {
@@ -161069,16 +161111,9 @@
     "gesehen": "2026-09-29T21:21:32Z"
   },
   "netflix:81021701": {
-    "grund": "offen",
-    "kandidaten": [
-      21459,
-      139630,
-      21856,
-      100166,
-      104276,
-      117193,
-      163139
-    ],
+    "titel": 100166,
+    "folge": 9,
+    "grund": "titel",
     "gesehen": "2026-09-29T21:21:32Z"
   },
   "netflix:81021702": {
@@ -161088,16 +161123,9 @@
     "gesehen": "2026-09-29T21:21:32Z"
   },
   "netflix:81021703": {
-    "grund": "offen",
-    "kandidaten": [
-      21459,
-      139630,
-      21856,
-      100166,
-      104276,
-      117193,
-      163139
-    ],
+    "titel": 100166,
+    "folge": 11,
+    "grund": "titel",
     "gesehen": "2026-09-29T21:21:32Z"
   },
   "netflix:81021704": {
@@ -161137,16 +161165,9 @@
     "gesehen": "2026-09-29T21:21:32Z"
   },
   "netflix:81021710": {
-    "grund": "offen",
-    "kandidaten": [
-      21459,
-      139630,
-      21856,
-      100166,
-      104276,
-      117193,
-      163139
-    ],
+    "titel": 100166,
+    "folge": 18,
+    "grund": "titel",
     "gesehen": "2026-09-29T21:21:32Z"
   },
   "netflix:81021711": {
@@ -161225,16 +161246,9 @@
     "gesehen": "2026-09-29T21:21:37Z"
   },
   "netflix:81310096": {
-    "grund": "offen",
-    "kandidaten": [
-      21459,
-      139630,
-      21856,
-      100166,
-      104276,
-      117193,
-      163139
-    ],
+    "titel": 104276,
+    "folge": 3,
+    "grund": "titel",
     "gesehen": "2026-09-29T21:21:37Z"
   },
   "netflix:81310097": {
@@ -163034,16 +163048,9 @@
     "gesehen": "2026-09-23T22:45:47Z"
   },
   "netflix:81031087": {
-    "grund": "offen",
-    "kandidaten": [
-      14719,
-      20474,
-      20799,
-      21450,
-      102883,
-      131942,
-      146722
-    ],
+    "titel": 102883,
+    "folge": 11,
+    "grund": "titel",
     "gesehen": "2026-09-23T22:45:47Z"
   },
   "netflix:81031088": {
@@ -163511,16 +163518,9 @@
     "gesehen": "2026-09-23T22:56:59Z"
   },
   "netflix:80179961": {
-    "grund": "offen",
-    "kandidaten": [
-      14719,
-      20474,
-      20799,
-      21450,
-      102883,
-      131942,
-      146722
-    ],
+    "titel": 21450,
+    "folge": 6,
+    "grund": "titel",
     "gesehen": "2026-09-23T22:56:59Z"
   },
   "netflix:80179962": {
@@ -167449,12 +167449,9 @@
     "gesehen": "2026-09-24T17:13:08Z"
   },
   "netflix:80231489": {
-    "grund": "offen",
-    "kandidaten": [
-      100663,
-      109911,
-      147729
-    ],
+    "titel": 100663,
+    "folge": 12,
+    "grund": "titel",
     "gesehen": "2026-09-24T17:13:08Z"
   },
   "netflix:80231490": {
@@ -173484,7 +173481,8 @@
   },
   "netflix:81080525": {
     "titel": 97938,
-    "grund": "einziger-kandidat",
+    "folge": 1,
+    "grund": "titel",
     "gesehen": "2026-09-23T22:11:40Z"
   },
   "netflix:81080526": {
@@ -178608,12 +178606,9 @@
     "gesehen": "2026-09-24T15:46:21Z"
   },
   "netflix:81343467": {
-    "grund": "offen",
-    "kandidaten": [
-      113415,
-      145064,
-      172463
-    ],
+    "titel": 113415,
+    "folge": 21,
+    "grund": "titel",
     "gesehen": "2026-09-24T15:46:21Z"
   },
   "netflix:81343468": {
@@ -179923,7 +179918,8 @@
   },
   "netflix:81684739": {
     "titel": 150672,
-    "grund": "einziger-kandidat",
+    "folge": 5,
+    "grund": "titel",
     "gesehen": "2026-10-15T10:27:57Z"
   },
   "netflix:81684740": {
@@ -179946,7 +179942,8 @@
   },
   "netflix:81684743": {
     "titel": 150672,
-    "grund": "einziger-kandidat",
+    "folge": 9,
+    "grund": "titel",
     "gesehen": "2026-10-15T10:27:57Z"
   },
   "netflix:81684744": {
@@ -181265,7 +181262,8 @@
   },
   "netflix:82757018": {
     "titel": 198113,
-    "grund": "einziger-kandidat",
+    "folge": 7,
+    "grund": "titel",
     "gesehen": "2026-09-26T09:31:48Z"
   },
   "netflix:82757019": {
@@ -181282,7 +181280,8 @@
   },
   "netflix:82757021": {
     "titel": 198113,
-    "grund": "einziger-kandidat",
+    "folge": 10,
+    "grund": "titel",
     "gesehen": "2026-09-26T09:31:48Z"
   },
   "netflix:82757022": {

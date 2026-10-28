@@ -137,11 +137,6 @@ export function baueKarte(l: Luecke, funde: Fund[], fehler: string[], as?: Anise
   }
 }
 
-/** Quellenzeile wie in den PoC-Mustern: Link und Lizenz. */
-export function quellenzeile(k: Karte): string {
-  return k.quellen.map((q) => `[${q.name}](${q.url}) (${q.lizenz})`).join(' · ')
-}
-
 /** Die Karte für den Schreiber: Stichpunkte ohne Quellsätze. Die Prämisse füllt der Stichpunkt-Schritt aus `quellsaetzeMarkdown`. */
 export function kartenMarkdown(k: Karte): string {
   const liste = (zs: string[]) => (zs.length ? zs.map((z) => `- ${z}`).join('\n') : '- –')

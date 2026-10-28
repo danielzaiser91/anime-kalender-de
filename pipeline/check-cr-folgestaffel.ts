@@ -38,7 +38,8 @@ const titel = (id: number, zusatz: Record<string, unknown> = {}) => ({
   ...zusatz,
 })
 const s1 = () => titel(128712, { titleRomaji: 'Tantei wa mou, Shindeiru.', titleEn: 'The Detective Is Already Dead', episodes: 12, streams: [{ platform: 'crunchyroll', url: URL_DT, dub: true }] })
-const s2 = () => titel(152677, { titleRomaji: 'Tantei wa mou, Shindeiru. Season 2', titleEn: 'The Detective Is Already Dead Season 2' })
+/** Wie im Bau bei Phase 09-4: die laufende Staffel hat noch keine Folgenzahl (gemessen 28.10.2026, Bau 40764932881: `episodes` fehlt, erst später 13). */
+const s2 = (episodes?: number) => titel(152677, { titleRomaji: 'Tantei wa mou, Shindeiru. Season 2', titleEn: 'The Detective Is Already Dead Season 2', episodes })
 
 async function kind(): Promise<void> {
   const { werteCrunchyrollDubAus } = await import('./bau/09-4-crunchyroll-dub.ts')
@@ -100,9 +101,11 @@ function direkt(): void {
   pruefe('Regel: „Staffel 1“ ist keine Folgestaffel', gib(block('Staffel 1', 4, 1)) === null)
   pruefe('Regel: Name mit Zusatz („Foo Staffel 2“) ist kein Standardname', gib(block('Foo Staffel 2', 4, 1)) === null)
   pruefe('Regel: ohne deutsche Folge kein Treffer', gib(block('Staffel 2', 4, 0, [])) === null)
-  pruefe('Regel: Block mit mehr Folgen (14) als der Titel (13): kein Treffer', gib(block('Staffel 2', 14, 1)) === null)
-  pruefe('Regel: genau so viele Folgen wie der Titel (13): Treffer', gib(block('Staffel 2', 13, 1))?.id === 152677)
-  pruefe('Regel: deutsche Folge hinter dem Ende des Titels: kein Treffer', gib(block('Staffel 2', 4, 1, nummers(14))) === null)
+  const bekannt = [s1(), s2(13)]
+  pruefe('Regel: Block mit mehr Folgen (14) als der Titel (13): kein Treffer', gib(block('Staffel 2', 14, 1), [s1()], bekannt) === null)
+  pruefe('Regel: genau so viele Folgen wie der Titel (13): Treffer', gib(block('Staffel 2', 13, 1), [s1()], bekannt)?.id === 152677)
+  pruefe('Regel: deutsche Folge hinter dem Ende des Titels: kein Treffer', gib(block('Staffel 2', 4, 1, nummers(14)), [s1()], bekannt) === null)
+  pruefe('Regel: Titel ohne Folgenzahl (wie im Bau): Block mit 14 Folgen und Folge 14 deutsch trifft', gib(block('Staffel 2', 14, 1, nummers(14)))?.id === 152677)
   pruefe('Regel: Gruppe trägt Staffel 2 schon: kein Treffer', gib(eins, [s1(), s2()]) === null)
   pruefe('Regel: zwei Kandidaten für Staffel 2: mehrdeutig', gib(eins, [s1()], [s1(), s2(), titel(900001, { titleRomaji: 'Foo Season 2', format: 'TV' })]) === null)
   pruefe('Regel: Kandidat mit eigenem Crunchyroll-Weg bleibt unberührt', gib(eins, [s1()], [s1(), titel(152677, { titleRomaji: 'X Season 2', streams: [{ platform: 'crunchyroll', url: '' }] })]) === null)
@@ -112,10 +115,10 @@ function direkt(): void {
   pruefe('Regel: Block „Staffel 1“ trifft keinen Titel „Season 1“ (Nummer ab 2)', gib(block('Staffel 1', 4, 1), [titel(900003, { titleRomaji: 'Foo Season 2' })], [titel(900001, { titleRomaji: 'Foo Season 1' })]) === null)
   pruefe('Regel: TV ohne Staffelnummer im Namen ist kein Kandidat für Staffel 2', gib(eins, [s1()], [s1(), ohneNr]) === null)
   pruefe('Regel: ein OVA „Season 2“ in der Gruppe sperrt die TV-Staffel 2 nicht', gib(eins, [s1(), titel(900004, { titleRomaji: 'Foo Season 2', format: 'OVA' })])?.id === 152677)
-  pruefe('Regel: Kandidat ohne Folgenzahl: kein Treffer', gib(eins, [s1()], [s1(), titel(152677, { titleRomaji: 'X Season 2', episodes: undefined })]) === null)
+  pruefe('Regel: Kandidat ohne Folgenzahl (episodes null statt fehlend) trifft ebenso', gib(eins, [s1()], [s1(), titel(152677, { titleRomaji: 'X Season 2', episodes: null })])?.id === 152677)
 
-  const lauf = (zusatz: { handNein?: Set<string>; serien?: unknown[]; adresse?: string } = {}) => {
-    const t2 = s2()
+  const lauf = (zusatz: { handNein?: Set<string>; serien?: unknown[]; adresse?: string; folgen?: number } = {}) => {
+    const t2 = s2(zusatz.folgen)
     const titles = new Map([[128712, s1()], [152677, t2]])
     const nachUrl = new Map([[zusatz.adresse ?? URL_DT, [titles.get(128712)!]]])
     const gesetzt = ordneFolgestaffelBloeckeZu({
@@ -140,12 +143,12 @@ function direkt(): void {
   bereicheFaelle(lauf)
 }
 
-type Lauf = (zusatz?: { serien?: unknown[] }) => { gesetzt: number[]; t2: ReturnType<typeof s2> }
+type Lauf = (zusatz?: { serien?: unknown[]; folgen?: number }) => { gesetzt: number[]; t2: ReturnType<typeof s2> }
 
 /** Bereiche der Folgen: Lücke, Nummer 0 und null, doppelte Nummer, vollständig deutsch. */
 function bereicheFaelle(lauf: Lauf): void {
   const mit = (deutscheFolgen: { nummer: number | null; laufend: number; guid: string }[], folgen = 13) =>
-    lauf({ serien: [serie([block('Staffel 1', 12, 12), block('Staffel 2', folgen, deutscheFolgen.length, deutscheFolgen as never)])] })
+    lauf({ folgen: 13, serien: [serie([block('Staffel 1', 12, 12), block('Staffel 2', folgen, deutscheFolgen.length, deutscheFolgen as never)])] })
   const wege = (l: ReturnType<Lauf>) => JSON.stringify((l.t2.streams[0] as { dubRanges?: unknown }).dubRanges)
   const f = (nummer: number | null, laufend = 1) => ({ nummer, laufend, guid: `G${nummer}x${laufend}` })
   pruefe('Bereiche: 1, 2 und 4 ergeben zwei Bereiche', wege(mit([f(1), f(2, 2), f(4, 4)])) === '[{"from":1,"to":2,"dub":true},{"from":4,"to":4,"dub":true}]', wege(mit([f(1), f(2, 2), f(4, 4)])))
@@ -154,6 +157,8 @@ function bereicheFaelle(lauf: Lauf): void {
   pruefe('Bereiche: unsortiert 3, 1, 2 ergibt einen Bereich', wege(mit([f(3), f(1, 2), f(2, 3)])) === '[{"from":1,"to":3,"dub":true}]', wege(mit([f(3), f(1, 2), f(2, 3)])))
   const alle = mit(Array.from({ length: 13 }, (_, i) => f(i + 1, i + 1)))
   pruefe('Bereiche: alle 13 Folgen deutsch: Verweis ohne Bereiche', alle.gesetzt.join() === '152677' && alle.t2.streams[0]!.dubRanges === undefined, alle.t2.streams)
+  const offen = lauf({ serien: [serie([block('Staffel 1', 12, 12), block('Staffel 2', 4, 4)])] })
+  pruefe('Bereiche: Titel ohne Folgenzahl, 4 von 4 deutsch: Bereich 1–4 (nicht „voll“)', wege(offen) === '[{"from":1,"to":4,"dub":true}]', wege(offen))
   const nur = mit([f(null)])
   pruefe('Bereiche: nur eine Folge ohne Nummer: Verweis ohne Bereiche', nur.gesetzt.join() === '152677' && nur.t2.streams[0]!.dubRanges === undefined, nur.t2.streams)
 }

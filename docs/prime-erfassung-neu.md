@@ -97,7 +97,7 @@ einer falschen Antwort zu werden.
 
 ### 3. Die Prüfliste bringt mit, was sie schon weiß
 
-`shared/staffel-aus-titel.ts` liegt fertig vor (römische Ziffern, Zahlwörter,
+Ein Staffel-Erkenner (`shared/staffel-aus-titel.ts`, am 28.10.2026 als ungenutzt gelöscht, in der Git-Historie; römische Ziffern, Zahlwörter,
 nackte Zahlen, Ordnungszahlen). Der Prüflisten-Bau schreibt künftig je Eintrag:
 
 - `staffel` — aus dem Titel bestimmt, einmal, im Bau

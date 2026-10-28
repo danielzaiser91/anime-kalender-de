@@ -31,8 +31,3 @@ export function serienMitDeutsch(pfad = 'data/cr-katalog-de.json'): Set<string> 
   gemerkt = new Set(liste.filter((e) => (e.audio ?? []).includes('de-DE')).map((e) => e.id))
   return gemerkt
 }
-
-/** Nur für Prüfungen: den gemerkten Katalog vergessen. */
-export function vergissKatalog(): void {
-  gemerkt = undefined
-}
