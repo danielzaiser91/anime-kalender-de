@@ -86,7 +86,19 @@ const ausn = [{ datei: 'tools/a.sh', text: 'rm x' }, { datei: 'tools/c.sh', text
 const r = bewerte(funde, ausn)
 assert.deepEqual(r.offen, [funde[1]], 'gleiche Zeile in anderer Datei bleibt offen')
 assert.deepEqual(r.verwaist, [ausn[1]])
-assert.deepEqual(bewerte([], []), { offen: [], verwaist: [] })
+assert.deepEqual(r.abweichend, [])
+assert.deepEqual(bewerte([], []), { offen: [], verwaist: [], abweichend: [] })
+
+// Mehrfachtreffer: eine Ausnahme deckt genau `anzahl` (Standard 1) Funde
+const zwei = [{ datei: 'tools/a.sh', text: 'rm x || true' }, { datei: 'tools/a.sh', text: 'rm x || true # neu' }]
+const ohneAnzahl = bewerte(zwei, [{ datei: 'tools/a.sh', text: 'rm x' }])
+assert.deepEqual(ohneAnzahl.abweichend.map((x) => x.gefunden), [2], 'zwei Funde ohne anzahl: rot')
+assert.deepEqual(ohneAnzahl.offen, [], 'beide sind gedeckt, die Abweichung meldet')
+assert.deepEqual(bewerte(zwei, [{ datei: 'tools/a.sh', text: 'rm x', anzahl: 2 }]).abweichend, [], 'anzahl 2 bei zwei Funden: grün')
+assert.deepEqual(bewerte(zwei, [{ datei: 'tools/a.sh', text: 'rm x', anzahl: 3 }]).abweichend.map((x) => x.gefunden), [2], 'anzahl 3 bei zwei Funden: gemeldet')
+assert.deepEqual(bewerte(zwei, [{ datei: 'tools/a.sh', text: 'rm x', anzahl: 1 }]).abweichend.map((x) => x.gefunden), [2], 'anzahl 1 ausdrücklich')
+assert.deepEqual(bewerte([zwei[0]], [{ datei: 'tools/a.sh', text: 'rm x', anzahl: 2 }]).abweichend.map((x) => x.gefunden), [1], 'weniger als anzahl: gemeldet')
+assert.deepEqual(bewerte([zwei[0]], [{ datei: 'tools/a.sh', text: 'rm x' }]).abweichend, [], 'genau ein Fund: grün')
 
 // pruefe an einem Wegwerf-Baum
 const wurzel = mkdtempSync(join(tmpdir(), 'oder-true-'))
@@ -104,6 +116,12 @@ try {
   const erlaubt = [{ datei: '.github/workflows/w.yml', text: 'sammler.mjs || true' }, { datei: 'tools/s.sh', text: 'x.ts || :' }, { datei: '.github/workflows/v.yaml', text: 'npm run daten' }]
   assert.deepEqual(pruefe(wurzel, erlaubt), [])
   assert.equal(pruefe(wurzel, [...erlaubt, { datei: 'tools/s.sh', text: 'gibt es nicht' }]).length, 1, 'verwaiste Ausnahme meldet')
+  writeFileSync(join(wurzel, 'tools/s.sh'), 'set -e\ntsx pipeline/x.ts || :\ntsx pipeline/x.ts || : # zweites\n')
+  const doppelt = pruefe(wurzel, erlaubt)
+  assert.equal(doppelt.length, 1, 'zweites gleichlautendes Vorkommen meldet')
+  assert.match(doppelt[0], /tools\/oder-true-ausnahmen\.mjs.*tools\/s\.sh.*2-mal statt 1-mal/)
+  const mitAnzahl = erlaubt.map((e) => (e.datei === 'tools/s.sh' ? { ...e, anzahl: 2 } : e))
+  assert.deepEqual(pruefe(wurzel, mitAnzahl), [], 'anzahl 2 deckt beide')
 } finally {
   rmSync(wurzel, { recursive: true, force: true })
 }

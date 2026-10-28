@@ -49,17 +49,24 @@ export function laufTexte(yamlText) {
   return jobs.flatMap((job) => (job?.steps ?? []).map((s) => s?.run).filter((r) => typeof r === 'string'))
 }
 
-/** Treffer abzüglich Ausnahmen; `verwaist` = Ausnahmen, die nichts mehr treffen. */
+/**
+ * Treffer abzüglich Ausnahmen; `verwaist` = Ausnahmen ohne Treffer, `abweichend` = Ausnahmen, deren
+ * Trefferzahl nicht `anzahl` (Standard 1) entspricht — sonst deckte eine Ausnahme ein später
+ * dazukommendes gleichlautendes `|| true` still mit.
+ */
 export function bewerte(funde, ausnahmen) {
-  const benutzt = new Set()
+  const zaehler = ausnahmen.map(() => 0)
   const offen = funde.filter((f) => {
     const hit = ausnahmen.findIndex((a) => a.datei === f.datei && f.text.includes(a.text))
     if (hit < 0) return true
-    benutzt.add(hit)
+    zaehler[hit] += 1
     return false
   })
-  const verwaist = ausnahmen.filter((_, i) => !benutzt.has(i))
-  return { offen, verwaist }
+  const verwaist = ausnahmen.filter((_, i) => zaehler[i] === 0)
+  const abweichend = ausnahmen
+    .map((ausnahme, i) => ({ ausnahme, gefunden: zaehler[i] }))
+    .filter((x) => x.gefunden > 0 && x.gefunden !== (x.ausnahme.anzahl ?? 1))
+  return { offen, verwaist, abweichend }
 }
 
 /** Alle Funde unter `wurzel`: `.github/workflows/*.yml` und `tools/*.sh`. */
@@ -80,9 +87,10 @@ export function sammleFunde(wurzel) {
 
 /** Meldezeilen; leer = grün. */
 export function pruefe(wurzel, ausnahmen = OHNE_BEFUND) {
-  const { offen, verwaist } = bewerte(sammleFunde(wurzel), ausnahmen)
+  const { offen, verwaist, abweichend } = bewerte(sammleFunde(wurzel), ausnahmen)
   return [
     ...offen.map((f) => `✗ ${f.datei}: \`${f.text.slice(0, 120)}\` verschluckt einen Fehler (${f.art}). Beheben oder mit Begründung in tools/oder-true-ausnahmen.mjs eintragen.`),
+    ...abweichend.map((x) => `✗ tools/oder-true-ausnahmen.mjs: Ausnahme für ${x.ausnahme.datei} („${x.ausnahme.text}“) trifft ${x.gefunden}-mal statt ${x.ausnahme.anzahl ?? 1}-mal — neues Vorkommen prüfen oder \`anzahl\` setzen.`),
     ...verwaist.map((a) => `✗ tools/oder-true-ausnahmen.mjs: Ausnahme für ${a.datei} („${a.text}“) trifft nichts mehr — streichen.`),
   ]
 }
