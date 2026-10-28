@@ -4,11 +4,34 @@
  */
 import type { CrSerie } from './crunchyroll-dub.ts'
 
+/** Eine gelesene Serie samt den Folgenkennungen aus `data/crunchyroll-neu.json`, die beim Lesen schon vorlagen. */
+export type CrSerieMitFolgen = CrSerie & { neuFolgen?: string[] }
+
+/** Je Serienkennung die Kennungen (GUID) ihrer deutschen Folgen aus dem Katalogfund. */
+export function neuFolgenJeSerie(folgen: { serieId?: string; guid?: string }[]): Map<string, string[]> {
+  const jeSerie = new Map<string, string[]>()
+  for (const f of folgen) {
+    if (!f.serieId || !f.guid) continue
+    jeSerie.set(f.serieId, [...(jeSerie.get(f.serieId) ?? []), f.guid])
+  }
+  return jeSerie
+}
+
+/**
+ * Hält fest, welche Folgen beim Lesen schon bekannt waren. Nur bei einer echten Antwort: Eine Nichtauskunft soll die Serie nicht
+ * als „auf dem Stand“ ausweisen (sie kommt über die Frist wieder dran).
+ */
+export function merkeNeuFolgen(serie: CrSerie, guids: string[] | undefined): CrSerieMitFolgen {
+  return serie.fehler || !guids?.length ? serie : { ...serie, neuFolgen: guids }
+}
+
 export interface FrischKontext {
   /** Region des Zugangs, mit dem gerade gefragt wird (`de`), oder keiner. */
   katalogJetzt?: string
   /** Je Serienkennung der Tag, ab dem eine neue deutsche Folge oder eine Kachel vorliegt. */
   neuSeit: Map<string, string>
+  /** Je Serienkennung die Folgenkennungen des Katalogfunds (`neuFolgenJeSerie`). */
+  neuFolgen: Map<string, string[]>
   nurNeu: boolean
   nurFehler: boolean
   /** Frühester Tag, an dem ein Befund dieser Adresse noch gilt (ihre eigene Frist). */
@@ -17,7 +40,7 @@ export interface FrischKontext {
   fehlerGrenze: string
 }
 
-export function crFrisch(s: CrSerie, k: FrischKontext): boolean {
+export function crFrisch(s: CrSerieMitFolgen, k: FrischKontext): boolean {
   /**
    * Ein Befund aus einem anderen Katalog ist keiner — egal wie jung er ist.
    *
@@ -35,6 +58,13 @@ export function crFrisch(s: CrSerie, k: FrischKontext): boolean {
   /* Seit dem letzten Blick ist dort eine deutsche Folge dazugekommen. */
   const neuAm = s.seriesId ? k.neuSeit.get(s.seriesId) : undefined
   if (neuAm && (s.geprueftAm ?? '') < neuAm) return false
+  /*
+    Das Datum allein übersieht die zweite Folge desselben Tages (Doppelstart): Ihr Fundtag ist nicht später als der letzte Blick.
+    Steht eine Kennung im Katalogfund, die der letzte Blick nicht kannte, kommt die Serie dran. Ohne gemerkte Kennungen
+    (Stand vor dieser Regel, oder Nichtauskunft) bleibt es beim Datum.
+  */
+  const bekannt = s.neuFolgen
+  if (bekannt && s.seriesId && k.neuFolgen.get(s.seriesId)?.some((g) => !bekannt.includes(g))) return false
   /*
     Beim täglichen Lauf zählt nur genau das: Alles andere gilt als frisch,
     auch wenn seine Frist längst abgelaufen ist. Der Wochenlauf holt es nach.

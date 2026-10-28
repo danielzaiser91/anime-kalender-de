@@ -67,7 +67,7 @@ import type { Title } from '../shared/types.ts'
 import { addDays, todayIso } from '../shared/time.ts'
 import type { CrSerie, CrStaffel } from './lib/crunchyroll-dub.ts'
 import { crunchyrollSeriesId } from './lib/crunchyroll.ts'
-import { crFrisch } from './lib/cr-frisch.ts'
+import { crFrisch, merkeNeuFolgen, neuFolgenJeSerie } from './lib/cr-frisch.ts'
 import { serieHinterFolge, serieLesen } from './lib/crunchyroll-lesen.ts'
 import { crunchyrollAdressen, crunchyrollNeinAbrufLaden } from './lib/crunchyroll-adressen.ts'
 import {
@@ -636,10 +636,9 @@ async function main(): Promise<void> {
    * hinzugekommen ist; was dort steht, kommt hier sofort wieder dran.
    */
   const neuSeit = new Map<string, string>()
-  for (const f of readJson<{ folgen?: { serieId?: string; gesehenAm?: string }[] }>(
-    'data/crunchyroll-neu.json',
-    {},
-  ).folgen ?? []) {
+  const neuFunde = readJson<{ folgen?: { serieId?: string; gesehenAm?: string; guid?: string }[] }>('data/crunchyroll-neu.json', {}).folgen ?? []
+  const neuFolgen = neuFolgenJeSerie(neuFunde)
+  for (const f of neuFunde) {
     if (!f.serieId || !f.gesehenAm) continue
     const bisher = neuSeit.get(f.serieId)
     if (!bisher || f.gesehenAm > bisher) neuSeit.set(f.serieId, f.gesehenAm)
@@ -662,7 +661,7 @@ async function main(): Promise<void> {
    */
   const frisch = (u: string) => {
     const s = bestand.get(u)
-    return s ? crFrisch(s, { katalogJetzt, neuSeit, nurNeu: NUR_NEU, nurFehler: NUR_FEHLER, befundGrenze: grenzeFuer(u), fehlerGrenze }) : false
+    return s ? crFrisch(s, { katalogJetzt, neuSeit, neuFolgen, nurNeu: NUR_NEU, nurFehler: NUR_FEHLER, befundGrenze: grenzeFuer(u), fehlerGrenze }) : false
   }
   /*
     **`--nur-neu` filtert die Liste, nicht nur die Frist.**
@@ -935,7 +934,7 @@ async function main(): Promise<void> {
         melden(i, kurz, vorherige)
         continue
       }
-      bestand.set(url, serie)
+      bestand.set(url, merkeNeuFolgen(serie, neuFolgen.get(seriesId)))
       // Gezählt wird nur, wo die Antwort auch eine ist: „nicht verfügbar" und
       // „keine Auskunft" sind kein „ohne deutsche Tonspur".
       if (serie.deutschImAngebot === false) ohneDeutsch++
