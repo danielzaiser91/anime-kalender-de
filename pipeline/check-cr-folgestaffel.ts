@@ -82,7 +82,7 @@ function prozess(nein: boolean): { url?: string; dub?: boolean; dubRanges?: unkn
   const katalogEintrag = { id: 'G24H1N334', typ: 'serie', titel: 'The Detective Is Already Dead', slug: 'the-detective-is-already-dead', audio: ['ja-JP', 'de-DE'], folgen: 12, staffeln: 1, jahr: 2023 }
   writeFileSync(join(wurzel, 'data', 'cr-katalog-de.json'), JSON.stringify({ geholtAm: '2026-09-09T17:26:33.450Z', eintraege: [katalogEintrag] }))
   writeFileSync(join(wurzel, 'data', 'crunchyroll-dub.json'), JSON.stringify({ scrapedAt: '2026-10-28T00:00:00Z', serien: [echt()] }))
-  writeFileSync(join(wurzel, 'data', 'crunchyroll-series-ids.json'), JSON.stringify({ adressen: {} }))
+  writeFileSync(join(wurzel, 'data', 'crunchyroll-series-ids.json'), JSON.stringify({ adressen: { [URL_DT]: { seriesId: 'G24H1N334' } } }))
   writeFileSync(join(wurzel, 'data', 'kino-ankuendigungen.yaml'), '[]\n')
   writeFileSync(join(wurzel, 'data', 'ankuendigungen.yaml'), 'eintraege: []\n')
   const beleg = [{ anilistId: 152677, platform: 'crunchyroll', dub: false, checkedAt: '2026-10-28', url: URL_DT }]
@@ -159,7 +159,7 @@ function direkt(): void {
     normal.t2.streams,
   )
   const ohneWeg = lauf({ streams: [] })
-  pruefe('Läufer: Titel ganz ohne Crunchyroll-Weg bekommt einen neuen und wird in nachUrl ergänzt', ohneWeg.t2.streams.length === 1 && ohneWeg.t2.streams[0]!.dub === true && ohneWeg.nachUrl.get(URL_DT)!.length === 2, ohneWeg.t2.streams)
+  pruefe('Läufer: Titel ganz ohne Crunchyroll-Weg bekommt einen neuen und wird in nachUrl ergänzt', ohneWeg.t2.streams.length === 1 && ohneWeg.t2.streams[0]!.url === URL_DT && ohneWeg.t2.streams[0]!.dub === true && ohneWeg.nachUrl.get(URL_DT)!.length === 2, ohneWeg.t2.streams)
   const schonDeutsch = lauf({ streams: [{ platform: 'crunchyroll', url: URL_DT, dub: true }] })
   pruefe('Läufer: Titel mit dub: true wird nicht noch einmal angefasst', schonDeutsch.gesetzt.length === 0 && schonDeutsch.t2.streams.length === 1, schonDeutsch.gesetzt)
   pruefe('Läufer: Titel in der Gruppe, Handbeleg „nein“: Weg bleibt ohne dub', (() => { const l = lauf({ handNein: new Set(['152677|crunchyroll']) }); return l.t2.streams[0]!.dub === undefined })())
