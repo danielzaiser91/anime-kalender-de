@@ -37,7 +37,7 @@ export function FilterBarDock(props: FilterBarProps) {
   return (
     <div
       className={[
-        'fixed inset-x-2 bottom-[calc(1rem+env(safe-area-inset-bottom))] z-30 mx-auto flex max-h-[calc(100dvh-5.5rem-env(safe-area-inset-bottom)-77px)] flex-col max-w-[1180px]',
+        'fixed inset-x-2 bottom-[calc(0.25rem+env(safe-area-inset-bottom))] z-30 mx-auto flex max-h-[calc(100dvh-5.5rem-env(safe-area-inset-bottom)-77px)] flex-col max-w-[1180px]',
         pille && 'right-2 left-auto mx-0 w-max max-w-[calc(100vw-1rem)] md:right-4 md:max-w-[calc(100vw-2rem)]',
       ]
         .filter(Boolean)
@@ -76,7 +76,7 @@ export function FilterBar({
         </div>
       )}
       {/* Auswahl links, Filter-Knopf rechts auf derselben Zeile. */}
-      <div className="flex flex-wrap items-center gap-2 p-2">
+      <div className="flex flex-wrap items-center gap-2 p-1.5">
         <div className="max-h-[5.5rem] min-w-0 flex-1 overflow-y-auto">
           <AktiveFilter filters={filters} onChange={onChange} />
         </div>
