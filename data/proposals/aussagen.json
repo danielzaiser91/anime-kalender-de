@@ -1,6 +1,6 @@
 {
   "format": 2,
-  "stand": "2026-10-27",
+  "stand": "2026-10-28",
   "hinweis": "Vorschlagsmodus: nur gelesen, nie übernommen — docs/wissen/sammelartikel-poc.md (Abschnitt „Vorschlagslauf\"). Schreiber: pipeline/fetch-sammelartikel.ts",
   "aussagen": [
     {
@@ -11414,6 +11414,224 @@
           "hatSynchroBelege": true
         },
         "inhaltZeichen": 308
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1064806/adn-neuzugaenge-im-november-2026/|I Parry Everything!||start|adn+primevideo",
+      "erstGesehen": "2026-10-28",
+      "fingerabdruck": "dddda631ce9d",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1064806/adn-neuzugaenge-im-november-2026/",
+          "veroeffentlicht": "2026-10-27",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "I Parry Everything!",
+        "art": "start",
+        "plattformen": [
+          "adn",
+          "primevideo"
+        ],
+        "datum": "2026-11-02",
+        "datumBedeutung": "genannt",
+        "deutsch": "ja",
+        "folgen": 12,
+        "konfidenz": 0.95,
+        "gruende": [],
+        "zitat": "Ab 02.11.: »I Parry Everything!« (Dub)\n2. November: »I Parry Everything!« (Synchro)\nEpisoden: 12 (komplett)\nSprache: Deutsch, Japanisch (UT)\nHinweis: Der Originalton ist bereits verfügbar\nStream: ADN, Prime Video",
+        "zuordnung": {
+          "anilistId": 170695,
+          "name": "I Parry Everything!",
+          "wie": "name-genau",
+          "abstandTage": 850
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 341
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1064806/adn-neuzugaenge-im-november-2026/|Pretty Cure||start|adn",
+      "erstGesehen": "2026-10-28",
+      "fingerabdruck": "78aadbf3c9de",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1064806/adn-neuzugaenge-im-november-2026/",
+          "veroeffentlicht": "2026-10-27",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Pretty Cure",
+        "art": "start",
+        "plattformen": [
+          "adn"
+        ],
+        "datum": "2026-11-04",
+        "datumBedeutung": "genannt",
+        "deutsch": "nein",
+        "folgen": 49,
+        "konfidenz": 0.95,
+        "gruende": [],
+        "zitat": "Ab 04.11.: »Pretty Cure« (Sub)\n4. November: »Pretty Cure«\nEpisoden: 49 (komplett)\nSprache: Japanisch (UT)\nStream: ADN",
+        "zuordnung": {
+          "anilistId": 603,
+          "name": "Pretty Cure",
+          "wie": "name-genau",
+          "abstandTage": 8312
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 227
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1064806/adn-neuzugaenge-im-november-2026/|Kotoura-san||start|adn",
+      "erstGesehen": "2026-10-28",
+      "fingerabdruck": "96ca92239f6d",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1064806/adn-neuzugaenge-im-november-2026/",
+          "veroeffentlicht": "2026-10-27",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Kotoura-san",
+        "art": "start",
+        "plattformen": [
+          "adn"
+        ],
+        "datum": "2026-11-11",
+        "datumBedeutung": "genannt",
+        "deutsch": "nein",
+        "folgen": 12,
+        "konfidenz": 0.95,
+        "gruende": [],
+        "zitat": "Ab 11.11.: »Kotoura-san« (Sub)\n11. November: »Kotoura-san«\nEpisoden: 12 (komplett)\nSprache: Japanisch (UT)\nStream: ADN",
+        "zuordnung": {
+          "anilistId": 15379,
+          "name": "The Troubled Life of Miss Kotoura",
+          "wie": "name-genau",
+          "abstandTage": 5052
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": false
+        },
+        "inhaltZeichen": 212
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1064806/adn-neuzugaenge-im-november-2026/|KILL la KILL||start|adn",
+      "erstGesehen": "2026-10-28",
+      "fingerabdruck": "ae9262c28802",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1064806/adn-neuzugaenge-im-november-2026/",
+          "veroeffentlicht": "2026-10-27",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "KILL la KILL",
+        "art": "start",
+        "plattformen": [
+          "adn"
+        ],
+        "datum": "2026-11-18",
+        "datumBedeutung": "genannt",
+        "deutsch": "ja",
+        "folgen": 24,
+        "konfidenz": 0.95,
+        "gruende": [],
+        "zitat": "Ab 18.11.: »KILL la KILL« (Dub + Sub)\n18. November: »KILL la KILL«\nEpisoden: 24 (komplett)\nSprache: Deutsch, Japanisch (UT)\nStream: ADN",
+        "zuordnung": {
+          "anilistId": 18679,
+          "name": "Kill La Kill",
+          "wie": "name-genau",
+          "abstandTage": 4793
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 323
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1064806/adn-neuzugaenge-im-november-2026/|Cross Game||start|adn",
+      "erstGesehen": "2026-10-28",
+      "fingerabdruck": "91b60589176a",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1064806/adn-neuzugaenge-im-november-2026/",
+          "veroeffentlicht": "2026-10-27",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Cross Game",
+        "art": "start",
+        "plattformen": [
+          "adn"
+        ],
+        "datum": "2026-11-25",
+        "datumBedeutung": "genannt",
+        "deutsch": "nein",
+        "folgen": 50,
+        "konfidenz": 0.95,
+        "gruende": [],
+        "zitat": "Ab 25.11.: »Cross Game« (Sub)\n25. November: »Cross Game«\nEpisoden: 50 (komplett)\nSprache: Japanisch (UT)\nStream: ADN",
+        "zuordnung": {
+          "anilistId": 5941,
+          "name": "Cross Game",
+          "wie": "name-genau",
+          "abstandTage": 6443
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": false
+        },
+        "inhaltZeichen": 241
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1064806/adn-neuzugaenge-im-november-2026/|Reborn!|Episode 102 bis 153|start|adn",
+      "erstGesehen": "2026-10-28",
+      "fingerabdruck": "a869ff83431a",
+      "offenOderUnklar": true,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1064806/adn-neuzugaenge-im-november-2026/",
+          "veroeffentlicht": "2026-10-27",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Reborn!",
+        "zusatz": "Episode 102 bis 153",
+        "art": "start",
+        "plattformen": [
+          "adn"
+        ],
+        "datum": "2026-11-28",
+        "datumBedeutung": "genannt",
+        "deutsch": "nein",
+        "konfidenz": 0.95,
+        "gruende": [],
+        "zitat": "Ab 28.11.: »Reborn!« – Episode 102 bis 153 (Sub)\n28. November: »Reborn!« – Episode 102 bis 153\nEpisoden: 52\nSprache: Japanisch (UT)\nStream: ADN",
+        "zuordnung": {
+          "anilistId": 1604,
+          "name": "REBORN!",
+          "wie": "name-genau",
+          "abstandTage": 7357,
+          "vorbehalt": "Zusatz „Episode 102 bis 153\" nicht aufgelöst"
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": false
+        },
+        "inhaltZeichen": 231
       }
     }
   ]

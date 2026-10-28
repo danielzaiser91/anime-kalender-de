@@ -2,7 +2,7 @@
   "verbrauch": {
     "2026-08": 55,
     "2026-09": 68,
-    "2026-10": 90
+    "2026-10": 93
   },
   "gesehen": {
     "26341901:netflix": {
@@ -9349,7 +9349,18 @@
       "am": "2026-10-26",
       "deutsch": true,
       "deutschBeiDienst": true
+    },
+    "new:26596616:netflix": {
+      "art": "new",
+      "titel": "The One About Matthew Perry",
+      "originalTitel": "The One About Matthew Perry",
+      "imdbId": "tt44941753",
+      "tmdbId": "tv/333533",
+      "dienst": "netflix",
+      "am": "2026-10-27",
+      "deutsch": false,
+      "deutschBeiDienst": false
     }
   },
-  "fetchedAt": "2026-10-27T04:13:47.283Z"
+  "fetchedAt": "2026-10-28T04:10:35.003Z"
 }
