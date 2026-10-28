@@ -16,7 +16,8 @@ function folgestaffelNr(block: CrStaffel): number | null {
  * der noch keinen Crunchyroll-Weg hat. Anlass 28.10.2026: The Detective Is Already Dead Staffel 2 (152677) lief deutsch, blieb aber
  * „nur Untertitel“, weil die Adresse nur an Staffel 1 hing und die laufende Staffel (4 von 13 Folgen) keine der Block-Regeln erfüllt.
  * Eng: genau ein Kandidat, kein Titel der Adresse trägt die Nummer schon, deutsche Folge liegt nicht hinter dem Ende des Titels,
- * der Block hat nicht mehr Folgen als der Titel.
+ * der Block hat nicht mehr Folgen als der Titel. Laufende Staffeln haben zu diesem Zeitpunkt des Baus noch keine Folgenzahl
+ * (`episodes` fehlt, erst eine spätere Phase setzt sie): dann entfallen die beiden Folgenzahl-Vergleiche, es bleibt die Nummer.
  */
 export function folgestaffelTitel(block: CrStaffel, gruppe: Title[], titles: Iterable<Title>): Title | null {
   const nr = folgestaffelNr(block)
@@ -32,7 +33,7 @@ export function folgestaffelTitel(block: CrStaffel, gruppe: Title[], titles: Ite
   )
   if (passend.length !== 1) return null
   const t = passend[0]!
-  if (!t.episodes || (block.folgen ?? 0) > t.episodes) return null
+  if (t.episodes && (block.folgen ?? 0) > t.episodes) return null
   if (deutscheFolgenNachDemEnde([block], t.episodes)) return null
   return t
 }
