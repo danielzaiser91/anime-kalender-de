@@ -35,6 +35,28 @@ export function warteschlangeZeile(gefragt: number, gesamt: number): string {
   return `ADN-Katalog: ${gefragt} von ${gesamt} Serien in der Warteschlange gefragt`
 }
 
+/** Stand-Schlüssel ohne Archivdatei, die ein Lauf zusätzlich fragt (661 − 273 = 388 Gespenster, rund drei Läufe bis alle einmal dran waren, 28.10.2026). */
+export const GESPENSTER_JE_LAUF = 130
+
+/**
+ * Bekannte Serien (Liste, Katalog, Archiv) wie bisher mit `limit`, dahinter höchstens `GESPENSTER_JE_LAUF` Stand-Schlüssel ohne Archivdatei, jeweils die ältesten
+ * Stempel zuerst. Die bekannten werden so nie von den Gespenstern verdrängt (273 < 600), und die Fünf-Fehler-Bremse trifft zuerst die bekannten.
+ * `limit` 0 = alles.
+ */
+export function baueWarteschlange(
+  bekannte: AdnListenEintrag[],
+  stand: Readonly<Record<string, string>>,
+  limit: number,
+): { alle: AdnListenEintrag[]; vorLimit: number } {
+  const gespenster = standOhneKopf(stand, new Set(bekannte.map((e) => e.id)))
+  const vorLimit = bekannte.length + gespenster.length
+  return { alle: [...aelteste(bekannte, stand, limit), ...aelteste(gespenster, stand, limit > 0 ? GESPENSTER_JE_LAUF : 0)], vorLimit }
+}
+
+export function antwortZeile(gefragt: number, ohneAntwort: number): string {
+  return `ADN-Katalog: ${gefragt} gefragt, davon ${ohneAntwort} ohne Antwort`
+}
+
 export type LaufHilfen = {
   ladeSerie: (id: number) => Promise<{ videos: AdnVideo[]; abbruch?: string }>
   archiviere: (id: number, videos: AdnVideo[]) => void
@@ -44,7 +66,7 @@ export type LaufHilfen = {
   warn: (text: string) => void
 }
 
-/** Fragt die Warteschlange der Reihe nach; `stand` wird fortgeschrieben (Stempel je beantworteter Serie), fünf Fehler in Folge beenden den Lauf. */
+/** Fragt die Warteschlange der Reihe nach; `stand` wird fortgeschrieben (Stempel je gefragter Serie, auch bei Fehlantwort), fünf Fehler in Folge beenden den Lauf. */
 export async function fragWarteschlange(
   alle: AdnListenEintrag[],
   stand: Record<string, string>,
@@ -53,6 +75,7 @@ export async function fragWarteschlange(
   const out: AdnShow[] = []
   const auskunft: KatalogAuskunft = { gefragt: new Set(), entschieden: new Set() }
   let geprueft = 0
+  let ohneAntwort = 0
   let fehlerInFolge = 0
   for (const eintrag of alle) {
     geprueft++
@@ -61,6 +84,9 @@ export async function fragWarteschlange(
     try {
       const antwort = await h.ladeSerie(eintrag.id)
       if (antwort.abbruch) {
+        // Auch die Fehlantwort stempelt, sonst bliebe eine dauerhaft stumme Serie für immer vorn (kein `entschieden`, Archiv und Katalog bleiben unberührt).
+        stand[String(eintrag.id)] = h.jetzt()
+        ohneAntwort++
         if (++fehlerInFolge >= 5) {
           h.warn(`ADN-Katalog: fünf Fehler in Folge (zuletzt ${antwort.abbruch}) — Lauf wird beendet.`)
           break
@@ -81,5 +107,6 @@ export async function fragWarteschlange(
     }
     await h.pause()
   }
+  h.log(antwortZeile(geprueft, ohneAntwort))
   return { shows: out, auskunft }
 }

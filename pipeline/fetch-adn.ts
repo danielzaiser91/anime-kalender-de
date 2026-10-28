@@ -24,7 +24,7 @@ import { recordSource } from './lib/health.ts'
 import { episodeAus, sortiereFolgen, toBerlin, type AdnListenEintrag, type AdnVideo } from './lib/adn-folgen.ts'
 import { holeAdnNews } from './lib/adn-news.ts'
 import { type KatalogAuskunft, katalogBilanzZeile, mitUngepruftenAlten, riegelBilanz, schreibeArchiv, verwirfFranzoesische, verworfen } from './lib/adn-sprachriegel.ts'
-import { aelteste, fragWarteschlange, standOhneKopf, warteschlangeZeile } from './lib/adn-katalog-warteschlange.ts'
+import { baueWarteschlange, fragWarteschlange, warteschlangeZeile } from './lib/adn-katalog-warteschlange.ts'
 import { fragNeuzugaenge, katalogMitNeuen } from './lib/adn-neuzugaenge.ts'
 import { ordneKatalogZuAnisearch } from './lib/adn-zuordnung-lauf.ts'
 import {
@@ -297,13 +297,11 @@ async function fetchCatalog(): Promise<{ shows: AdnShow[]; auskunft: KatalogAusk
   /*
     **Das Alter steht im Repo, nicht im Dateisystem** (05.10.2026): Nach einem frischen Checkout tragen alle Archivdateien die Checkout-Zeit, die Sortierung blieb
     stabil bei der Reihenfolge der Liste, und jede Woche kamen dieselben 600 dran. Jetzt merkt `data/adn-katalog-stand.json`, wann welche Serie zuletzt gefragt wurde;
-    wer noch nie dran war, kommt zuerst.
+    wer noch nie dran war, kommt zuerst. Bekannte Serien bis `--limit`, dahinter höchstens 130 Stand-Schlüssel ohne Archivdatei (`baueWarteschlange`); mit Stempel auch bei Fehlantwort.
   */
   const stand = readJson<Record<string, string>>(KATALOG_STAND, {})
-  const bekannt = new Set([...nachId.keys(), ...zusaetzlich.keys()])
-  const vorLimit = [...nachId.values(), ...zusaetzlich.values(), ...standOhneKopf(stand, bekannt)]
-  const alle = aelteste(vorLimit, stand, KATALOG_LIMIT)
-  log(warteschlangeZeile(alle.length, vorLimit.length))
+  const { alle, vorLimit } = baueWarteschlange([...nachId.values(), ...zusaetzlich.values()], stand, KATALOG_LIMIT)
+  log(warteschlangeZeile(alle.length, vorLimit))
   log(
     `ADN-Katalog: ${alle.length} Serien in der Warteschlange (${nachId.size} aus der aktuellen Liste, ` +
       `${zusaetzlich.size} aus früheren Läufen${KATALOG_LIMIT ? `, begrenzt auf ${KATALOG_LIMIT}` : ''}), ` +
