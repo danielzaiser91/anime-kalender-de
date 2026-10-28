@@ -1112,6 +1112,17 @@ DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
 CATEGORIES:ProSieben FUN
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-170695-adn@2026-11-02@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261102
+DTEND;VALUE=DATE:20261103
+SUMMARY:I Parry Everything! (neu bei ADN)
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nIm Angebot seit dies
+ em Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrzeit noch 
+ nicht bestätigt.\nDetails: https://anime-kalender.de/t/15542/
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-118399-tv-prosieben-maxx@2026-11-03@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261103T154000Z
@@ -1716,16 +1727,6 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
   Anbieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgel
  eitet.\nDetails: https://anime-kalender.de/t/12/
 CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:good-luck-girl-vol-1-2026-11-20@2026-11-20@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261120
-DTEND;VALUE=DATE:20261121
-SUMMARY:Good Luck Girl! – Vol. 1 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/5901/
-CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
 UID:as-a-reincarnated-aristocrat-s2-vol1@2026-11-20@anime-kalender-de
@@ -2974,16 +2975,6 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
-UID:spice-and-wolf-2024-vol4@2027-01-15@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20270115
-DTEND;VALUE=DATE:20270116
-SUMMARY:Spice and Wolf: Merchant Meets the Wise Wolf – Vol. 4 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/13965/
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
 UID:dr-stone-science-future-part2@2027-01-15@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20270115
@@ -3274,11 +3265,11 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:good-luck-girl-vol-2-2027-02-05@2027-02-05@anime-kalender-de
+UID:good-luck-girl-vol-1-2026-11-20@2027-02-05@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20270205
 DTEND;VALUE=DATE:20270206
-SUMMARY:Good Luck Girl! – Vol. 2 (Disc)
+SUMMARY:Good Luck Girl! – Vol. 1 (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/t/5901/
 CATEGORIES:DVD / Blu-ray
@@ -3436,6 +3427,16 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
+UID:spice-and-wolf-2024-vol4@2027-02-19@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20270219
+DTEND;VALUE=DATE:20270220
+SUMMARY:Spice and Wolf: Merchant Meets the Wise Wolf – Vol. 4 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/13965/
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2027-02-22@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270222T175000Z
@@ -3554,6 +3555,16 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
   Anbieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgel
  eitet.\nDetails: https://anime-kalender.de/t/12/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:good-luck-girl-vol-2-2027-02-05@2027-03-05@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20270305
+DTEND;VALUE=DATE:20270306
+SUMMARY:Good Luck Girl! – Vol. 2 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/5901/
+CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
 UID:afro-samurai-steelbook@2027-03-05@anime-kalender-de

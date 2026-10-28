@@ -1414,19 +1414,19 @@
   ],
   "spice-and-wolf-2024-vol4": [
     {
-      "url": "https://www.anime2you.de/news/1045437/30-crunchyroll-animoon-termine-verschoben/",
-      "name": "anime2you.de",
-      "gesehenAm": "2026-10-01",
-      "sagt": "2027-01-15",
-      "stand": "aktuell"
-    },
-    {
       "url": "https://www.anime2you.de/news/1061001/neun-animoon-crunchyroll-hardball-disc-verschiebungen/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-17",
       "sagt": "2027-02-19",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://www.anime2you.de/news/1045437/30-crunchyroll-animoon-termine-verschoben/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-01",
+      "sagt": "2027-01-15",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2027-01-15"
+      "grund": "Termin verschoben auf: 2027-02-19"
     },
     {
       "url": "https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/",
@@ -1434,7 +1434,7 @@
       "gesehenAm": "2026-10-01",
       "sagt": "2026-12-18",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2027-01-15"
+      "grund": "Termin verschoben auf: 2027-02-19"
     }
   ],
   "oshi-no-ko-s3-vol1": [
@@ -3642,7 +3642,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-01",
       "stand": "aktuell",
-      "gelesenAm": "2026-10-27",
+      "gelesenAm": "2026-10-28",
       "bestaetigt": "2026-09-17",
       "sagt": "2026-09-17"
     },
@@ -4072,17 +4072,25 @@
   ],
   "good-luck-girl-vol-1-2026-11-20": [
     {
+      "url": "https://www.anime2you.de/news/1061001/neun-animoon-crunchyroll-hardball-disc-verschiebungen/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-17",
+      "sagt": "2027-02-05",
+      "stand": "aktuell"
+    },
+    {
       "url": "https://www.anisearch.de/article/216284,good-luck-girl-vol-1-2-limited-steelcase-edition-blu-ray-sammelschuber",
       "name": "anisearch.de",
       "gesehenAm": "2026-10-02",
-      "stand": "aktuell",
-      "sagt": "2026-11-20"
+      "sagt": "2026-11-20",
+      "stand": "ueberholt",
+      "grund": "Termin verschoben auf: 2027-02-05"
     },
     {
       "url": "https://www.anisearch.de/article/216284",
       "name": "anisearch.de",
       "gesehenAm": "2026-10-01",
-      "stand": "vermutlich-ueberholt",
+      "stand": "ueberholt",
       "sagt": "2026-11-20",
       "grund": "Termin verschoben auf: 2027-02-05"
     },
@@ -4090,32 +4098,32 @@
       "url": "good-luck-girl-vol-1-2-limited-steelcase-edition-blu-ray-sammelschuber",
       "name": "good-luck-girl-vol-1-2-limited-steelcase-edition-blu-ray-sammelschuber",
       "gesehenAm": "2026-10-01",
-      "stand": "vermutlich-ueberholt",
+      "stand": "ueberholt",
       "sagt": "2026-11-20",
       "grund": "Termin verschoben auf: 2027-02-05"
-    },
-    {
-      "url": "https://www.anime2you.de/news/1061001/neun-animoon-crunchyroll-hardball-disc-verschiebungen/",
-      "name": "anime2you.de",
-      "gesehenAm": "2026-10-17",
-      "sagt": "2027-02-05",
-      "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-11-20"
     }
   ],
   "good-luck-girl-vol-2-2027-02-05": [
     {
+      "url": "https://www.anime2you.de/news/1061001/neun-animoon-crunchyroll-hardball-disc-verschiebungen/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-17",
+      "sagt": "2027-03-05",
+      "stand": "aktuell"
+    },
+    {
       "url": "https://www.anisearch.de/article/216285,good-luck-girl-vol-2-2-limited-steelcase-edition-blu-ray",
       "name": "anisearch.de",
       "gesehenAm": "2026-10-02",
-      "stand": "aktuell",
-      "sagt": "2027-02-05"
+      "sagt": "2027-02-05",
+      "stand": "ueberholt",
+      "grund": "Termin verschoben auf: 2027-03-05"
     },
     {
       "url": "https://www.anisearch.de/article/216285",
       "name": "anisearch.de",
       "gesehenAm": "2026-10-01",
-      "stand": "vermutlich-ueberholt",
+      "stand": "ueberholt",
       "sagt": "2027-02-05",
       "grund": "Termin verschoben auf: 2027-03-05"
     },
@@ -4123,17 +4131,9 @@
       "url": "good-luck-girl-vol-2-2-limited-steelcase-edition-blu-ray",
       "name": "good-luck-girl-vol-2-2-limited-steelcase-edition-blu-ray",
       "gesehenAm": "2026-10-01",
-      "stand": "vermutlich-ueberholt",
+      "stand": "ueberholt",
       "sagt": "2027-02-05",
       "grund": "Termin verschoben auf: 2027-03-05"
-    },
-    {
-      "url": "https://www.anime2you.de/news/1061001/neun-animoon-crunchyroll-hardball-disc-verschiebungen/",
-      "name": "anime2you.de",
-      "gesehenAm": "2026-10-17",
-      "sagt": "2027-03-05",
-      "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2027-02-05"
     }
   ],
   "road-to-ninja-naruto-the-movie-2026-11-19": [
@@ -6062,7 +6062,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-14",
       "stand": "aktuell",
-      "gelesenAm": "2026-10-27",
+      "gelesenAm": "2026-10-28",
       "bestaetigt": "2026-10-12"
     },
     {
@@ -6084,7 +6084,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-14",
       "stand": "aktuell",
-      "gelesenAm": "2026-10-27",
+      "gelesenAm": "2026-10-28",
       "bestaetigt": "2026-10-12"
     },
     {
@@ -6106,7 +6106,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-14",
       "stand": "aktuell",
-      "gelesenAm": "2026-10-27",
+      "gelesenAm": "2026-10-28",
       "bestaetigt": "2026-10-12"
     },
     {
@@ -6482,7 +6482,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-08",
       "stand": "aktuell",
-      "gelesenAm": "2026-10-27",
+      "gelesenAm": "2026-10-28",
       "bestaetigt": "2026-10-12"
     }
   ],
@@ -6880,26 +6880,27 @@
   ],
   "kaiju-no8-s2-komplettbox": [
     {
+      "url": "https://www.anime2you.de/news/1061001/neun-animoon-crunchyroll-hardball-disc-verschiebungen/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-17",
+      "sagt": "2027-05-07",
+      "stand": "aktuell"
+    },
+    {
       "url": "https://www.anime2you.de/news/1058332/kaiju-no-8-staffel-1-steelbook-edition/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-12",
-      "stand": "aktuell",
-      "sagt": "2027-03-05"
+      "sagt": "2027-03-05",
+      "stand": "ueberholt",
+      "grund": "Termin verschoben auf: 2027-05-07"
     },
     {
       "url": "https://www.anime2you.de/news/1044367/kaiju-no-8-staffel-2-disc-release/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-12",
-      "stand": "aktuell",
-      "sagt": "2027-03-05"
-    },
-    {
-      "url": "https://www.anime2you.de/news/1061001/neun-animoon-crunchyroll-hardball-disc-verschiebungen/",
-      "name": "anime2you.de",
-      "gesehenAm": "2026-10-17",
-      "sagt": "2027-05-07",
+      "sagt": "2027-03-05",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2027-03-05"
+      "grund": "Termin verschoben auf: 2027-05-07"
     }
   ],
   "demon-slayer-entertainment-district-arc-primevideo": [
@@ -7433,7 +7434,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-16",
       "stand": "aktuell",
-      "gelesenAm": "2026-10-27",
+      "gelesenAm": "2026-10-28",
       "bestaetigt": "2026-10-17"
     }
   ],
@@ -7618,6 +7619,24 @@
       "name": "anime2you.de",
       "gesehenAm": "2026-10-27",
       "sagt": "2026-12-11",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-170695-adn": [
+    {
+      "url": "https://www.anime2you.de/news/1064806/adn-neuzugaenge-im-november-2026/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-28",
+      "sagt": "2026-11-02",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-18679-adn": [
+    {
+      "url": "https://www.anime2you.de/news/1064806/adn-neuzugaenge-im-november-2026/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-28",
+      "sagt": "2026-11-18",
       "stand": "aktuell"
     }
   ]

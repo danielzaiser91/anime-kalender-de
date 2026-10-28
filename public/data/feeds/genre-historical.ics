@@ -476,16 +476,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:spice-and-wolf-2024-vol4@2027-01-15@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20270115
-DTEND;VALUE=DATE:20270116
-SUMMARY:Spice and Wolf: Merchant Meets the Wise Wolf – Vol. 4 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/13965/
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
 UID:apothecary-diaries-s2-vol2@2027-01-15@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20270115
@@ -505,6 +495,16 @@ DTEND;VALUE=DATE:20270201
 SUMMARY:Black Butler: Emerald Witch Arc – Vol. 1 (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/t/16017/
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:spice-and-wolf-2024-vol4@2027-02-19@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20270219
+DTEND;VALUE=DATE:20270220
+SUMMARY:Spice and Wolf: Merchant Meets the Wise Wolf – Vol. 4 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/13965/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 END:VCALENDAR
