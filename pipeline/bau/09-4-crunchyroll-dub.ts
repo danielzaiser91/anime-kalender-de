@@ -10,6 +10,9 @@ import { ordneCrKatalogZu } from './09-4-3-katalog.ts'
 import { ordneCrBloeckeZu } from './09-4-2-bloecke.ts'
 import { ordneCrSerienZu } from './09-4-1-serien.ts'
 import { ordneStandardnamenBloeckeZu } from '../lib/cr-block-standardname.ts'
+import { ordneFolgestaffelBloeckeZu } from '../lib/cr-folgestaffel.ts'
+import { loadDubChecks, neinHandbelege } from '../lib/dub-confirmed.ts'
+import { log } from '../lib/util.ts'
 
 export function werteCrunchyrollDubAus({
   crDub,
@@ -39,6 +42,9 @@ export function werteCrunchyrollDubAus({
     ordneCrBloeckeZu({ crDub, nachUrl, titles, katalogEintraege })
 
     ordneStandardnamenBloeckeZu({ crDub, nachUrl })
+
+    const folgestaffeln = ordneFolgestaffelBloeckeZu({ crDub, nachUrl, titles, handNein: neinHandbelege(loadDubChecks()) })
+    if (folgestaffeln.length) log(`${folgestaffeln.length} Folgestaffeln über ihren deutschen Block „Staffel N“ belegt`)
 
     ordneCrKatalogZu({ titles, crDub, verweiseEntfernt })
 
