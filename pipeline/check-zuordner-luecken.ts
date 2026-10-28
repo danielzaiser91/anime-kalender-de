@@ -175,6 +175,7 @@ pruefe('ein Titel, der mit E anfängt, bleibt', folgenKern('Eden of the East') !
   pruefe('gleicher Kern in de und en: keine zweite Zeile', englischeSchreibweisen(oshi.slice(0, 2)).length === 0)
   pruefe('verschiedener Kern bleibt zweiter Versuch', englischeSchreibweisen(oshi).map((f) => f.e).join() === '10')
   pruefe('„ BD“ im deutschen Titel zählt beim Kernvergleich nicht', englischeSchreibweisen([{ nr: 1, de: 'Gleich BD', en: 'Gleich' }]).length === 0)
+  pruefe('„ BD“ im englischen Titel zählt beim Kernvergleich nicht', englischeSchreibweisen([{ nr: 1, de: 'Gleich', en: 'Gleich BD' }]).length === 0)
   const oshiPaare = ordneZu(oshiPrime, [...ausAnisearch(oshi), ...englischeSchreibweisen(oshi)])
   pruefe('Oshi no Ko Folge 5, 9 und englisch geführte 10 werden zugeordnet', oshiPaare.map((p) => p.unsere).join() === '5,9,10', oshiPaare.map((p) => p.unsere).join())
   const knapp: Record<number, AsFolgeRoh[]> = { 1: s2.slice(0, 6), 2: [], 3: [] }
