@@ -7,6 +7,8 @@ import type { TvKasten } from '../src/components/kalender/TvKasten.tsx'
 import type { ZeitMarke } from '../src/components/kalender/Marken.tsx'
 import type { discZeilen } from '../src/components/detail/wege-zeilen.tsx'
 import type { AntwortKastenMitMarke } from '../src/components/detail/kasten-marke.tsx'
+import type { FilterBarProps } from '../src/components/FilterBar.tsx'
+import type { Werkzeugleiste } from '../src/components/filter/Werkzeugleiste.tsx'
 
 /** Die Zeilen unter „Disc“ als Bauteil: dieselben Angaben, die `discZeilen()` bekommt. */
 export type DiscBereichEigenschaften = Parameters<typeof discZeilen>[0]
@@ -23,6 +25,10 @@ export interface Ersatz {
   DbRaster: ComponentType<ComponentProps<typeof DbRaster>>
   DbLeer: ComponentType<ComponentProps<typeof DbLeer>>
   DbKopfzeile: ComponentType<ComponentProps<typeof DbKopfzeile>>
+  /** Die unten angedockte Filterleiste der Datenbank am Rechner (`FilterBar.tsx`). */
+  FilterBarDock: ComponentType<FilterBarProps>
+  /** Die Werkzeugleiste am unteren Rand des Handys (`filter/Werkzeugleiste.tsx`), geteilt mit dem Kalender. */
+  Werkzeugleiste: ComponentType<ComponentProps<typeof Werkzeugleiste>>
 }
 
 export const ErsatzKontext = createContext<Partial<Ersatz>>({})
