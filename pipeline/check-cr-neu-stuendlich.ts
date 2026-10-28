@@ -108,24 +108,24 @@ abweichung('Urteil mit anderem Limit als die Zählung', (w) => {
 abweichung('Zählung ohne Schritt-Kennung', (w) => delete schritteVon(w)[indexVon(w, ZAEHLEN)].id, /Kennung/)
 abweichung('Zählung mit falscher Schritt-Kennung', (w) => (schritteVon(w)[indexVon(w, ZAEHLEN)].id = 'offen'), /Kennung/)
 
-/* Zeitbudget: 30 min Schrittgrenzen (gemessen am echten Lauf) plus 10 min Reserve. */
+/* Zeitbudget: 49 min Schrittgrenzen (gemessen am echten Lauf) plus 10 min Reserve. */
 const budget = (w: Workflow) => w.jobs!.sendezeiten['timeout-minutes']!
-pruefe('Kontrolle: der echte Job trägt 45 Minuten', budget(stunde) === 45, budget(stunde))
-ohneBefund('timeout genau 40 (30 + 10)', (w) => (w.jobs!.sendezeiten['timeout-minutes'] = 40))
-abweichung('timeout eine Minute zu knapp (39)', (w) => (w.jobs!.sendezeiten['timeout-minutes'] = 39), /Zeitbudget sendezeiten: Zeitgrenzen 30 min \+ 10 min Reserve über timeout-minutes 39/)
+pruefe('Kontrolle: der echte Job trägt 59 Minuten', budget(stunde) === 59, budget(stunde))
+ohneBefund('timeout genau 59 (49 + 10)', (w) => (w.jobs!.sendezeiten['timeout-minutes'] = 59))
+abweichung('timeout eine Minute zu knapp (58)', (w) => (w.jobs!.sendezeiten['timeout-minutes'] = 58), /Zeitbudget sendezeiten: Zeitgrenzen 49 min \+ 10 min Reserve über timeout-minutes 58/)
 abweichung('timeout wie früher 25', (w) => (w.jobs!.sendezeiten['timeout-minutes'] = 25), /Zeitbudget/)
 abweichung('timeout fehlt', (w) => delete w.jobs!.sendezeiten['timeout-minutes'], /kein timeout-minutes/)
 abweichung('eine Schrittgrenze um 10 Minuten länger', (w) => {
   const s = schritteVon(w)[indexVon(w, 'pipeline/messbelege.ts')]
-  s.run = s.run!.replace('--zeit 2m', '--zeit 12m')
-}, /40 min/)
+  s.run = s.run!.replace('--zeit 10m', '--zeit 20m')
+}, /59 min/)
 abweichung('Schrittgrenze in Stunden zählt 60 Minuten', (w) => {
   const s = schritteVon(w)[indexVon(w, 'pipeline/messbelege.ts')]
-  s.run = s.run!.replace('--zeit 2m', '--zeit 1h')
-}, /88 min/)
+  s.run = s.run!.replace('--zeit 10m', '--zeit 1h')
+}, /99 min/)
 abweichung('Schritt über schritt.sh ohne Zeitgrenze', (w) => {
   const s = schritteVon(w)[indexVon(w, 'pipeline/messbelege.ts')]
-  s.run = s.run!.replace('--zeit 2m ', '')
+  s.run = s.run!.replace('--zeit 10m ', '')
 }, /Schritt ohne --zeit/)
 
 const ohneBau = tief(bau)
@@ -136,4 +136,4 @@ if (fehler) {
   console.error(`\n${fehler} Zusicherung(en) verletzt`)
   process.exit(1)
 }
-console.log(`\nCR-Neu stündlich: alle Zusicherungen erfüllt (echter Stundenlauf + ${abwandlungen} Abwandlungen, Zeitbudget 30 + 10 ≤ 45)`)
+console.log(`\nCR-Neu stündlich: alle Zusicherungen erfüllt (echter Stundenlauf + ${abwandlungen} Abwandlungen, Zeitbudget 49 + 10 ≤ 59)`)
