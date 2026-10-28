@@ -15,7 +15,7 @@ import { fileURLToPath } from 'node:url'
 import { neueSerienZeilen, ordneNeueSerienZu, type NeueSerienFolge } from './lib/cr-neue-serie.ts'
 
 const SERIE_RAY = { url: 'https://www.crunchyroll.com/de/series/GT00383994', seriesId: 'GT00383994', quelle: 'api', katalog: 'de', geprueftAm: '2026-10-28', deutschImAngebot: true, staffeln: [{ name: 'Staffel 1', folgen: 1, deutsch: 1, kacheln: 1, fremd: 0, deutscheFolgen: [{ nummer: 1, laufend: 1, guid: 'GE00385869DEDE', verfuegbarAb: '2026-10-28T15:15:00.000Z' }] }] }
-const URL_RAY ='https://www.crunchyroll.com/de/series/GT00383994'
+const URL_RAY = 'https://www.crunchyroll.com/de/series/GT00383994'
 const FOLGE: NeueSerienFolge & Record<string, unknown> = {
   guid: 'GE00385869DEDE',
   serieId: 'GT00383994',
