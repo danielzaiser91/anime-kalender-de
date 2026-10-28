@@ -39092,3 +39092,65 @@
   available: false
   checkedAt: '2026-10-28'
   note: "Daniels Urteil vom 13.09. gilt weiter: Die Seite ist die Hauptserie als Kauftitel, nicht das Special. Die Tonspurmessung vom 16.10. (12 Folgen) liest dieselbe Hauptserie und widerlegt das nicht."
+
+- anilistId: 97986
+  title: "Made in Abyss"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CWLSM344
+  dub: true
+  checkedAt: '2026-09-28'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B0CWLSM344: alle 6 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.d5e0cc8d-0a8e-4110-980f-88fc6a08c351"
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-10-28 ---
+
+- anilistId: 140596
+  title: "Don’t Toy with Me, Miss Nagatoro 2nd Attack"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CH4TWTLL
+  dub: true
+  kanalMessung: ja
+  checkedAt: '2026-09-28'
+  note: "Tonspuren: Deutsch, English, Español (Latinoamérica), Français, Português (Brasil), 日本語 — Amazon-Seite B0CH4TWTLL: alle 12 Folgen geprüft, Abos: crunchyrollde, zugang=abo, gti=amzn1.dv.gti.a6af9404-efa2-4164-be52-a4b591a4fc25 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 113936
+  title: "Dr. Stone: Stone Wars"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0F1TJ8PSR
+  dub: true
+  kanalMessung: ja
+  checkedAt: '2026-09-28'
+  note: "Tonspuren: Deutsch, English, Español (España), Español (Latinoamérica), Français, Italiano, Português (Brasil), Русский, 日本語 — Amazon-Seite B0F1TJ8PSR: alle 11 Folgen geprüft, Abos: crunchyrollde, zugang=abo, gti=amzn1.dv.gti.a42b9f59-b570-448a-ab55-7d3d09bec968 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 3712
+  title: "The Familiar of Zero 3: “Rondo” of Princesses"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CC5GCCKZ
+  dub: true
+  kanalMessung: ja
+  checkedAt: '2026-09-28'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0CC5GCCKZ: alle 13 Folgen geprüft, Abos: aniversede, zugang=abo_und_kauf, gti=amzn1.dv.gti.a924131b-efcb-4ef4-89d9-233556c2a5dd — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 2787
+  title: "Shakugan no Shana: Second"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/0NQ6I1WXBDFEZHZBCNOTC626F9
+  dub: true
+  checkedAt: '2026-09-28'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite 0NQ6I1WXBDFEZHZBCNOTC626F9: alle 24 Folgen geprüft, Abos: Prime, zugang=abo, gti=amzn1.dv.gti.a3c90ca6-cc9e-4e95-b58e-f8379597f04f"
+
+- anilistId: 2787
+  title: "Shakugan no Shana: Second"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0FFGWVYVK
+  dub: true
+  checkedAt: '2026-09-28'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0FFGWVYVK: alle 24 Folgen geprüft, Abos: Prime, laut Adresse Staffel 2, zugang=abo, gti=amzn1.dv.gti.a3c90ca6-cc9e-4e95-b58e-f8379597f04f"
+
+- anilistId: 4181
+  title: "Clannad: After Story"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0H4834VK9
+  dub: true
+  kanalMessung: ja
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0H4834VK9: alle 25 Folgen geprüft, Abos: animedigitalde, aniversede, zugang=abo, gti=amzn1.dv.gti.f9ee478f-98aa-4891-bc42-fcce09ccf175 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
