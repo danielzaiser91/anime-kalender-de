@@ -98,6 +98,8 @@ pruefe('Fehlersatz ohne guten Vorgänger wird abgelegt, ohne gemerkte Kennungen'
 neuerBestand.set(url, lastBoss({ fehler: 'alt' }))
 pruefe('guter Satz ersetzt einen Fehlersatz', serieAblegen(neuerBestand, url, lastBoss(), LB, fundeJeSerie(F1)) === 'abgelegt' && neuerBestand.get(url)!.fehler === undefined)
 pruefe('Serie ohne Eintrag im Katalogfund: abgelegt ohne Kennungen', serieAblegen(new Map(), url, lastBoss(), 'GXYZ', fundeJeSerie(F1)) === 'abgelegt')
+const nurFehler = new Map<string, CrSerie>([[url, lastBoss({ fehler: 'alt' })]])
+pruefe('Fehlersatz über altem Fehlersatz: der neue wird abgelegt', serieAblegen(nurFehler, url, lastBoss({ fehler: 'neu' }), LB, fundeJeSerie(F1)) === 'abgelegt' && nurFehler.get(url)!.fehler === 'neu')
 
 /* `main()` braucht einen Browser: Quelltext-Befunde für Aufruf und Übergabe als Gürtel zusätzlich zum Lauf oben. */
 const lauf = readFileSync(new URL('./scrape-crunchyroll-dub.ts', import.meta.url), 'utf8')
