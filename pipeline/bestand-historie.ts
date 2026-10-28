@@ -41,6 +41,7 @@ import { appendFileSync, existsSync, readFileSync, writeFileSync } from 'node:fs
 import { resolve } from 'node:path'
 import type { Title } from '../shared/types.ts'
 import { findeAuffaelliges, kanalTitelMenge, messen, type Kennzahlen } from './lib/bestand-delta.ts'
+import { titelAusCommit, verschobeneTitel } from './lib/bestand-verschoben.ts'
 import { letzteGeltende, letzteVerwerfen } from './lib/historie-zeilen.ts'
 import { ladeHandbelege } from './lib/dub-confirmed.ts'
 import { ROOT } from './lib/util.ts'
@@ -73,6 +74,14 @@ function messenAusDateien(): Kennzahlen {
   })
 }
 
+/** Namen der Titel, die seit dem letzten Commit in `ohne-synchro.json` gewandert sind; gelesen wird nur, wenn der Hauptbestand schrumpfte. */
+function verschobenSeitCommit(schrumpft: boolean): string[] {
+  if (!schrumpft) return []
+  const roh = lies<Title[] | Record<string, Title>>('public/data/titles.json', [])
+  const jetztTitel = Array.isArray(roh) ? roh : Object.values(roh)
+  return verschobeneTitel(titelAusCommit(ROOT), jetztTitel, lies<Title[]>('public/data/ohne-synchro.json', []))
+}
+
 const dateiText = () => (existsSync(DATEI) ? readFileSync(DATEI, 'utf8') : '')
 
 /** Markiert die letzte Zeile des laufenden Laufs als verworfen; sonst bleibt die Datei, wie sie ist. */
@@ -88,7 +97,7 @@ if (args.includes('--verwerfen') || args.includes('--ersetzen')) verwirfLetzte()
 if (!args.includes('--verwerfen')) {
   const jetzt = messenAusDateien()
   const vorher = letzteGeltende(dateiText()) as (Kennzahlen & { zeitpunkt: string }) | null
-  const { auffaellig, erklaert } = findeAuffaelliges(jetzt, vorher)
+  const { auffaellig, erklaert } = findeAuffaelliges(jetzt, vorher, verschobenSeitCommit(!!vorher && jetzt.titel < vorher.titel))
 
   const zeile = {
     zeitpunkt: new Date().toISOString(),
