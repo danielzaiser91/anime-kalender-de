@@ -1,6 +1,7 @@
 /**
  * Erlaubte `|| true`-Stellen (Wächter: tools/oder-true-wache.mjs). `text` ist ein Teilstring der getrimmten Zeile.
  * `offen: true` = datenführend, Bestand seit 25.10.2026 hingenommen (Workflow-Änderung wäre ein eigener PR);
+ * Jede Ausnahme deckt genau einen Treffer; deckt sie mehrere, steht `anzahl: <n>` mit genau dieser Zahl dabei.
  * Besitzer ist der Dirigent, Auflösung in daniel-zum-abarbeiten/vorrat/laufend/waechter-oder-true.md.
  */
 const ANMELDUNG = 'Lauf-Anmeldung/Statusmeldung an den Worker; sie belegt nichts, ein Ausfall darf den Lauf nicht stoppen'
