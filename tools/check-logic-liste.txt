@@ -95,6 +95,7 @@ pipeline/check-deutsche-folgenzahl-hinweis.ts
 pipeline/check-deutsche-folgenzahl.ts
 pipeline/check-disc-bereich.ts
 pipeline/check-disc-ean.ts
+pipeline/check-dub-abgeleitet.ts
 pipeline/check-disc-suchlinks.ts
 pipeline/check-disc-teil-hinweis.ts
 pipeline/check-disc-teil-verdrahtung.ts
