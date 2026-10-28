@@ -147,12 +147,14 @@ export function ordneZu(anbieter: AnbieterFolge[], staffel: TmdbFolge[]): Zuordn
 
   /* Folgen, die nur das Datum getroffen hat (der Titel schwieg). */
   const nurDatum = new Set<number>()
+  let widerspruch = false
   const ergebnis = anbieter.map((a, index) => {
     const perDatum = a.datum ? nachDatum.get(a.datum) : undefined
     const perTitel = nachTitel.get(folgenKern(a.titel))
     const datumE = perDatum?.length === 1 ? perDatum[0]!.e : null
     const titelE = perTitel?.length === 1 ? perTitel[0]!.e : null
     /* Widersprechen sich beide, gilt der Titel: Prime führt bei manchen Serien (Digimon Tamers) das Datum der Vorwoche. */
+    if (datumE !== null && titelE !== null && titelE !== datumE) widerspruch = true
     if (datumE !== null && titelE === null) nurDatum.add(index)
     if (datumE !== null && (titelE === null || titelE === datumE)) return { index, unsere: datumE, grund: 'datum' as const }
     if (titelE !== null) return { index, unsere: titelE, grund: 'titel' as const }
@@ -177,13 +179,17 @@ export function ordneZu(anbieter: AnbieterFolge[], staffel: TmdbFolge[]): Zuordn
     */
     return { index, unsere: null, grund: 'offen' as const }
   })
-  return verwirfDatumGegenTitel(ergebnis, nurDatum)
+  return verwirfDatumGegenTitel(ergebnis, nurDatum, widerspruch)
 }
 
-/** Ein reiner Datumstreffer, dessen Folge eine andere Anbieterfolge per Titel schon hat, ist verschoben: offen. */
-function verwirfDatumGegenTitel(z: Zuordnung[], nurDatum: Set<number>): Zuordnung[] {
+/**
+ * Ein reiner Datumstreffer bleibt offen, wenn
+ * - die Seite sich selbst widerspricht (Titel zeigt auf Folge X, Datum auf Y): ihr Datum ist verschoben, oder
+ * - seine Folge einer anderen Anbieterfolge per Titel schon gehört.
+ */
+function verwirfDatumGegenTitel(z: Zuordnung[], nurDatum: Set<number>, widerspruch: boolean): Zuordnung[] {
   const perTitel = new Set(z.filter((x) => x.grund === 'titel').map((x) => x.unsere))
-  return z.map((x) => (nurDatum.has(x.index) && perTitel.has(x.unsere) ? { index: x.index, unsere: null, grund: 'offen' as const } : x))
+  return z.map((x) => (nurDatum.has(x.index) && (widerspruch || perTitel.has(x.unsere)) ? { index: x.index, unsere: null, grund: 'offen' as const } : x))
 }
 
 /**

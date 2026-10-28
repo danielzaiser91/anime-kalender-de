@@ -34,7 +34,8 @@ const faelle: [string, string | null | undefined, string | null][] = [
   ['Monat Juli', '9. Juli 2024', '2024-07-09'],
   ['Monat August', '10. Aug. 2024', '2024-08-10'],
   ['Monat September', '11. Sep. 2024', '2024-09-11'],
-  ['Monat Oktober', '12. Okt. 2024', '2024-10-12'],
+  ['Monat September ausgeschrieben (neun Buchstaben)', '11. September 2024', '2024-09-11'],
+  ['Monat Oktober','12. Okt. 2024', '2024-10-12'],
   ['Monat November', '13. Nov. 2024', '2024-11-13'],
   ['Monat Dezember', '14. Dezember 2024', '2024-12-14'],
   ['unbekannte Form', 'Frühling 2023', null],
@@ -78,6 +79,40 @@ const nurDatum = ordneZu([{ nummer: null, titel: 'Ganz anderer Titel', datum: '2
 pruefe('Datum ohne Titeltreffer und ohne Widerspruch ordnet zu', nurDatum[0]!.unsere === 24 && nurDatum[0]!.grund === 'datum', JSON.stringify(nurDatum))
 const einig = ordneZu([{ nummer: null, titel: 'Das Tal der Stürme', datum: '2001-09-30', minuten: null }], tamers)
 pruefe('Titel und Datum auf dieselbe Folge: Grund Datum', einig[0]!.unsere === 26 && einig[0]!.grund === 'datum', JSON.stringify(einig))
+/* Widerspruch auf der Seite (Titel „Tal der Stürme“ = 26, Datum der Vorwoche = 25): Das Datum der Seite taugt nicht, auch der stumme Titel bleibt offen. */
+const verschoben = ordneZu(
+  [
+    { nummer: null, titel: 'Das Tal der Stürme', datum: '2001-09-23', minuten: null },
+    { nummer: null, titel: 'Ganz anderer Titel', datum: '2001-09-16', minuten: null },
+  ],
+  tamers,
+)
+pruefe('Seite mit Widerspruch: Titel gilt', verschoben[0]!.unsere === 26 && verschoben[0]!.grund === 'titel', JSON.stringify(verschoben))
+pruefe('Seite mit Widerspruch: stummer Titel bleibt trotz Datumstreffer offen', verschoben[1]!.unsere === null && verschoben[1]!.grund === 'offen', JSON.stringify(verschoben))
+const einigeSeite = ordneZu(
+  [
+    { nummer: null, titel: 'Das Tal der Stürme', datum: '2001-09-30', minuten: null },
+    { nummer: null, titel: 'Ganz anderer Titel', datum: '2001-09-16', minuten: null },
+  ],
+  tamers,
+)
+pruefe('Seite ohne Widerspruch: Datumstreffer des stummen Titels gilt', einigeSeite[1]!.unsere === 24 && einigeSeite[1]!.grund === 'datum', JSON.stringify(einigeSeite))
+const ohneDatum = ordneZu(
+  [
+    { nummer: null, titel: 'Das Tal der Stürme', datum: null, minuten: null },
+    { nummer: null, titel: 'Ganz anderer Titel', datum: '2001-09-16', minuten: null },
+  ],
+  tamers,
+)
+pruefe('Titeltreffer ohne Datum ist kein Widerspruch: Datumstreffer gilt', ohneDatum[1]!.unsere === 24 && ohneDatum[1]!.grund === 'datum', JSON.stringify(ohneDatum))
+const doppelt = ordneZu(
+  [
+    { nummer: null, titel: 'Das Tal der Stürme', datum: null, minuten: null },
+    { nummer: null, titel: 'Ganz anderer Titel', datum: '2001-09-30', minuten: null },
+  ],
+  tamers,
+)
+pruefe('Ohne Widerspruch: Datumstreffer auf eine per Titel vergebene Folge bleibt offen', doppelt[1]!.unsere === null && doppelt[0]!.unsere === 26, JSON.stringify(doppelt))
 const mehrdeutig = [
   { s: 1, e: 1, titel: 'Erste Folge hier', datum: '2000-01-01', minuten: null },
   { s: 1, e: 2, titel: 'Zweite Folge hier', datum: '2000-01-01', minuten: null },
@@ -95,4 +130,4 @@ pruefe('zwei Folgen am selben Tag: Datum ordnet nicht zu', zwei[0]!.unsere === n
 pruefe('zwei Folgen mit demselben Titel: Titel ordnet nicht zu', zwei[1]!.unsere === null, JSON.stringify(zwei))
 
 if (fehler) process.exit(1)
-console.log(`check-folgen-datum: ok (${faelle.length + 2 + 7} Fälle)`)
+console.log(`check-folgen-datum: ok (${faelle.length + 2 + 12} Fälle)`)
