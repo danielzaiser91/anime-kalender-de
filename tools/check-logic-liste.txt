@@ -129,6 +129,7 @@ pipeline/check-erstausgabe.ts
 pipeline/check-erwartet-wort.ts
 pipeline/check-favoriten-feed-faelle.ts
 pipeline/check-film-ohne-weg.ts
+pipeline/check-filter-genres.ts
 pipeline/check-finale-wache.ts
 pipeline/check-folge-ueber-anzahl-bau.ts
 pipeline/check-folge-ueber-anzahl.ts

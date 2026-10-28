@@ -3,6 +3,7 @@ import type { PlatformId, ReleaseEvent } from '@shared/types.ts'
 import type { Dataset } from '../../lib/data.ts'
 import { EMPTY_FILTERS, isFilterActive, type FilterState } from '../../lib/filters.ts'
 import { useLang } from '../../lib/i18n.tsx'
+import { nachZahlGeordnet } from '../../lib/filter-liste.ts'
 import { zaehleHerkunft } from '../../lib/herkunft.ts'
 import { HerkunftZaehlungContext } from '../../lib/herkunft-zaehlung.ts'
 import { FilterDetailsFeld } from '../FilterDetails.tsx'
@@ -43,13 +44,8 @@ export function FilterFeld(p: FilterFeldProps) {
     return { proPlattform, proGenre }
   }, [p.zeitraum, p.data])
   const herkunftZaehlung = useMemo(() => zaehleHerkunft(p.zeitraum.map((ev) => p.data.titleById.get(ev.titleId))), [p.zeitraum, p.data])
-  const genreListe = useMemo(() => {
-    const gewaehlt = [...p.filters.genres, ...p.filters.excluded.genres]
-    return [...zaehlungen.proGenre.entries()]
-      .sort((a, b) => b[1] - a[1])
-      .map(([g]) => g)
-      .filter((g, i) => i < 12 || gewaehlt.includes(g))
-  }, [zaehlungen, p.filters.genres, p.filters.excluded.genres])
+  /* Alle Genres, die häufigsten des Zeitraums zuerst — gekürzt wird erst im Filter (Vorschau, Suche, „alle anzeigen"). */
+  const genreListe = useMemo(() => nachZahlGeordnet(p.data.meta.genres, zaehlungen.proGenre), [zaehlungen, p.data.meta.genres])
   /* Der Streifen bringt nur etwas, wenn er etwas zu zeigen hat — sonst bliebe eine leere Zeile. */
   const etwasGewaehlt = isFilterActive(p.filters) || p.filters.search.trim() !== '' || p.tvAn === false
 
