@@ -537,9 +537,6 @@ export function* eventsFuerAnsichtGen(
   return { liste: gefiltert, fundstellen }
 }
 
-/** Dasselbe in einem Zug. */
-export const eventsFuerAnsicht = (...args: Parameters<typeof eventsFuerAnsichtGen>) => treibe(eventsFuerAnsichtGen(...args))
-
 /** Dasselbe für die Datenbank-Ansicht (Schlüssel: Titel-Kennung). */
 export function* titelFuerAnsichtGen(
   quelle: Title[],
@@ -555,9 +552,6 @@ export function* titelFuerAnsichtGen(
   const sichtbar = gruppiert ? reihenKopf(quelle) : (t: Title) => anzeigeName(t)
   return { liste: yield* filterTitlesGen(quelle, data, f, today, favorites, fundstellen, sichtbar, sprecher), fundstellen }
 }
-
-/** Dasselbe in einem Zug. */
-export const titelFuerAnsicht = (...args: Parameters<typeof titelFuerAnsichtGen>) => treibe(titelFuerAnsichtGen(...args))
 
 /**
  * **Wer im Katalog als Reihe angezeigt wird** — für die Rangfolge der Suche (29.09.2026).

@@ -1150,3 +1150,7 @@ Folge: Notizen mit Besucherwert (z. B. „Erhielt in Deutschland keine FSK-Freig
 ## Handbelege: `sonderfolgen` für Bonusfolgen der Anbieter-Liste (28.10.2026)
 
 `sonderfolgen: [25]` am Beleg nennt Folgen, die der Anbieter in seiner Liste führt, die aber keine Folgen unseres Titels sind. Anlass: Higurashi Kai (1889) bei Amazon B09KX2VLPR, Folge 25 = „The Cat Killing Chapter (OmU)“, 23 Min., 17.12.2007, nur Originalton mit Untertiteln (Daniels Sichtung 28.10.2026), bei 24 Folgen des Titels. `belegeUeberFolgenzahl` (Wächter „höchstens 8“ in `check-logic-bestand.ts`) zählt solche Folgen am oberen Ende einer Spanne nicht; sonst gelesen wird das Feld nirgends (verschmolzene Zeilen behalten es, `verschmelze` überschreibt nur mit gesetzten Werten). Zusicherung: `pipeline/check-sonderfolgen.ts`.
+
+## Entfernte Fehlbelege: `data/belege-entfernt.yaml` (28.10.2026)
+
+Wer einen Handbeleg aus `data/dub-confirmed.yaml` als falsch entfernt, trägt Kennung und Adresse im selben Commit in `data/belege-entfernt.yaml` ein (mit `grund`, `entferntAm`). Sonst hängt der nächste Bestandsbau ihn aus den abgeholten Browser-Meldungen wieder an (`pipeline/lib/belege-anhaengen.ts`, Regel `pipeline/lib/belege-entfernt.ts`). `check-belege-entfernt.ts` prüft, dass kein Eintrag der Liste in der Beleg-Datei steht. Anlass: Heidi 1974 (2225) bekam den Disney+-Weg des Cartoons zurück, Made in Abyss (97986) die Amazon-Seite der Goldenen Stadt (PR 2288).

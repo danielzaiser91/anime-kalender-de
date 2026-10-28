@@ -75,6 +75,7 @@ pipeline/check-cr-batch-wache.ts
 pipeline/check-cr-block-standardname.ts
 pipeline/check-cr-einzelwerk-urteil.ts
 pipeline/check-cr-film-wege.ts
+pipeline/check-cr-folgestaffel.ts
 pipeline/check-cr-frisch.ts
 pipeline/check-cr-ja-deckung.ts
 pipeline/check-cr-katalog-ein-werk.ts
@@ -85,6 +86,7 @@ pipeline/check-cr-nein-verdrahtung.ts
 pipeline/check-cr-neu-seiten.ts
 pipeline/check-cr-neu-stuendlich.ts
 pipeline/check-cr-neu-wache.ts
+pipeline/check-cr-neue-serie.ts
 pipeline/check-cr-offen.ts
 pipeline/check-cr-teilseiten-bestand-kulisse.ts
 pipeline/check-cr-teilseiten.ts
@@ -145,6 +147,7 @@ pipeline/check-folgenzahl-kennzeichnung.ts
 pipeline/check-gleiche-adresse.ts
 pipeline/check-handbeleg-fremde-adresse.ts
 pipeline/check-handbeleg-serienton.ts
+pipeline/check-handbeleg-staffelzaehlung.ts
 pipeline/check-handbeleg-weg.ts
 pipeline/check-handlung-eigen-hinweis.ts
 pipeline/check-handlung-eigen.ts

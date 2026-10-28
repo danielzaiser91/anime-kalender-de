@@ -96,7 +96,7 @@ export function folgenAuskunft({ releases, title, t, releaseJePlattform, today }
       const text = spanne ? t('detail.folgenBereich', { bereich: spanne }) : raus ? t('detail.folgenKurz', { n: raus }) : ''
       return text && ungefaehr(text, planGeschaetzt(events, s?.dubRanges, s?.ergaenzteFolgen))
     }
-    /* Liegen Bereiche vor, nennt die Pille immer sie selbst — nie eine Zählung ab 1: Netflix hat bei Mushoku Tensei Cour 2 die Folgen 12–23, nicht 1–12 (11.10.2026). */
+    /* Liegen Bereiche vor, nennt die Pille immer sie selbst — nie eine Zählung ab 1 aus den Releases: Bei Mushoku Tensei Cour 2 steht der Beleg in Staffelzählung (1–12), Netflix zählt durchgehend 12–23 (11.10.2026; Belege umgerechnet 28.10.2026). */
     if (deutsch.length) return ungefaehr(t('detail.folgenBereich', { bereich: bereicheKurz(zusammengefasst(deutsch)) }), ergaenzungGeschaetzt(anbieterReleases, s?.ergaenzteFolgen))
     /*
       **Ohne Sprachbeleg keine Titelzahl** (21.09.2026). Regel 4 war an 1.982 deutschen

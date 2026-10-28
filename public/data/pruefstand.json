@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-10-28T17:44:01.081Z",
+ "erzeugtAm": "2026-10-28T20:09:55.920Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -910,8 +910,8 @@
    "name": "Disney+",
    "plattform": "disneyplus",
    "gemeldet": 178,
-   "gesamt": 343,
-   "offen": 165,
+   "gesamt": 342,
+   "offen": 164,
    "ohneSeite": 17,
    "ziel": "https://www.disneyplus.com/browse/entity-faa35b37-3287-4a7c-9d42-a3a5f9ad9185",
    "ziele": [
@@ -963,10 +963,6 @@
      "url": "https://www.disneyplus.com/de-de/browse/entity-54a25fcf-a472-4d40-9968-13e2957e5abf",
      "titel": "One-Punch Man: Staffel 3",
      "seit": "2026-08-26"
-    },
-    {
-     "url": "https://www.disneyplus.com/de-de/series/spyfamily/fet1h9jqmrAM",
-     "titel": "Spy × Family"
     },
     {
      "url": "https://www.disneyplus.com/de-de/series/the-rising-of-the-shield-hero-aka-tate-no-yuusha-no/4lgHH2jdAefe",
@@ -1175,7 +1171,6 @@
     "3AHbeFV7Lqvn": 25,
     "5AiiTRJ7OaKg": 9,
     "dea589b3-2f6d-4991-a875-c67d625a4e37": 8,
-    "fet1h9jqmrAM": 25,
     "52e7dbe7-b28a-428a-963e-acfaa81b4ba6": 12,
     "0e46c665-5191-407f-8dc5-e22a0095578c": 100,
     "4XHzb6tQBRtd": 12,
