@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-10-27T04:12:46.490Z",
+  "scrapedAt": "2026-10-28T14:02:37.891Z",
   "serien": [
     {
       "url": "http://www.crunchyroll.com/de/a-place-further-than-the-universe",
@@ -14263,7 +14263,7 @@
       "seriesId": "GRGG9798R",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-10-22",
+      "geprueftAm": "2026-10-28",
       "deutschImAngebot": true,
       "staffeln": [
         {
@@ -14651,8 +14651,8 @@
           "staffelId": "GS00371932JAJP",
           "folgen": 19,
           "kacheln": 19,
-          "deutsch": 17,
-          "fremd": 2,
+          "deutsch": 19,
+          "fremd": 0,
           "deutscheFassung": true,
           "deutscheFolgen": [
             {
@@ -14756,9 +14756,31 @@
               "guid": "GE00345573DEDE",
               "laufend": 17,
               "verfuegbarAb": "2026-10-21T14:00:00Z"
+            },
+            {
+              "nummer": 18,
+              "guid": "GE00345576DEDE",
+              "laufend": 18,
+              "verfuegbarAb": "2026-10-28T14:00:00Z"
+            },
+            {
+              "nummer": 19,
+              "guid": "GE00345579DEDE",
+              "laufend": 19,
+              "verfuegbarAb": "2026-10-28T14:00:00Z"
             }
           ]
         }
+      ],
+      "neuFolgen": [
+        "GE00345579DEDE",
+        "GE00345576DEDE",
+        "GE00345570DEDE",
+        "GE00345573DEDE",
+        "GE00345567DEDE",
+        "GE00345564DEDE",
+        "GE00345561DEDE",
+        "GE00345558DEDE"
       ]
     },
     {
@@ -48894,7 +48916,7 @@
       "seriesId": "GRGG9798R",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-10-22",
+      "geprueftAm": "2026-10-28",
       "deutschImAngebot": true,
       "staffeln": [
         {
@@ -49282,8 +49304,8 @@
           "staffelId": "GS00371932JAJP",
           "folgen": 19,
           "kacheln": 19,
-          "deutsch": 17,
-          "fremd": 2,
+          "deutsch": 19,
+          "fremd": 0,
           "deutscheFassung": true,
           "deutscheFolgen": [
             {
@@ -49387,9 +49409,31 @@
               "guid": "GE00345573DEDE",
               "laufend": 17,
               "verfuegbarAb": "2026-10-21T14:00:00Z"
+            },
+            {
+              "nummer": 18,
+              "guid": "GE00345576DEDE",
+              "laufend": 18,
+              "verfuegbarAb": "2026-10-28T14:00:00Z"
+            },
+            {
+              "nummer": 19,
+              "guid": "GE00345579DEDE",
+              "laufend": 19,
+              "verfuegbarAb": "2026-10-28T14:00:00Z"
             }
           ]
         }
+      ],
+      "neuFolgen": [
+        "GE00345579DEDE",
+        "GE00345576DEDE",
+        "GE00345570DEDE",
+        "GE00345573DEDE",
+        "GE00345567DEDE",
+        "GE00345564DEDE",
+        "GE00345561DEDE",
+        "GE00345558DEDE"
       ]
     },
     {
@@ -49397,7 +49441,7 @@
       "seriesId": "GRGG9798R",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-10-22",
+      "geprueftAm": "2026-10-28",
       "deutschImAngebot": true,
       "staffeln": [
         {
@@ -49785,8 +49829,8 @@
           "staffelId": "GS00371932JAJP",
           "folgen": 19,
           "kacheln": 19,
-          "deutsch": 17,
-          "fremd": 2,
+          "deutsch": 19,
+          "fremd": 0,
           "deutscheFassung": true,
           "deutscheFolgen": [
             {
@@ -49890,9 +49934,31 @@
               "guid": "GE00345573DEDE",
               "laufend": 17,
               "verfuegbarAb": "2026-10-21T14:00:00Z"
+            },
+            {
+              "nummer": 18,
+              "guid": "GE00345576DEDE",
+              "laufend": 18,
+              "verfuegbarAb": "2026-10-28T14:00:00Z"
+            },
+            {
+              "nummer": 19,
+              "guid": "GE00345579DEDE",
+              "laufend": 19,
+              "verfuegbarAb": "2026-10-28T14:00:00Z"
             }
           ]
         }
+      ],
+      "neuFolgen": [
+        "GE00345579DEDE",
+        "GE00345576DEDE",
+        "GE00345570DEDE",
+        "GE00345573DEDE",
+        "GE00345567DEDE",
+        "GE00345564DEDE",
+        "GE00345561DEDE",
+        "GE00345558DEDE"
       ]
     },
     {
@@ -71764,7 +71830,7 @@
       "seriesId": "GRGG9798R",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-10-22",
+      "geprueftAm": "2026-10-28",
       "deutschImAngebot": true,
       "staffeln": [
         {
@@ -72152,8 +72218,8 @@
           "staffelId": "GS00371932JAJP",
           "folgen": 19,
           "kacheln": 19,
-          "deutsch": 17,
-          "fremd": 2,
+          "deutsch": 19,
+          "fremd": 0,
           "deutscheFassung": true,
           "deutscheFolgen": [
             {
@@ -72257,9 +72323,31 @@
               "guid": "GE00345573DEDE",
               "laufend": 17,
               "verfuegbarAb": "2026-10-21T14:00:00Z"
+            },
+            {
+              "nummer": 18,
+              "guid": "GE00345576DEDE",
+              "laufend": 18,
+              "verfuegbarAb": "2026-10-28T14:00:00Z"
+            },
+            {
+              "nummer": 19,
+              "guid": "GE00345579DEDE",
+              "laufend": 19,
+              "verfuegbarAb": "2026-10-28T14:00:00Z"
             }
           ]
         }
+      ],
+      "neuFolgen": [
+        "GE00345579DEDE",
+        "GE00345576DEDE",
+        "GE00345570DEDE",
+        "GE00345573DEDE",
+        "GE00345567DEDE",
+        "GE00345564DEDE",
+        "GE00345561DEDE",
+        "GE00345558DEDE"
       ]
     },
     {
@@ -161436,11 +161524,11 @@
       "seriesId": "G24H1N334",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-09-21",
+      "geprueftAm": "2026-10-28",
       "deutschImAngebot": true,
       "staffeln": [
         {
-          "name": "The Detective Is Already Dead",
+          "name": "Staffel 1",
           "staffelId": "GRMGC3508",
           "folgen": 12,
           "kacheln": 12,
@@ -161452,76 +161540,96 @@
               "nummer": 1,
               "guid": "G14U4MNN4",
               "laufend": 1,
-              "verfuegbarAb": "2023-02-25T01:00:00Z"
+              "verfuegbarAb": "2023-02-25T04:00:00Z"
             },
             {
               "nummer": 2,
               "guid": "GMKUXVKKN",
               "laufend": 2,
-              "verfuegbarAb": "2023-02-25T01:00:00Z"
+              "verfuegbarAb": "2023-02-25T04:00:00Z"
             },
             {
               "nummer": 3,
               "guid": "GVWU09KKD",
               "laufend": 3,
-              "verfuegbarAb": "2023-02-25T01:00:00Z"
+              "verfuegbarAb": "2023-02-25T05:30:00Z"
             },
             {
               "nummer": 4,
               "guid": "G31UX9GGP",
               "laufend": 4,
-              "verfuegbarAb": "2023-02-25T01:00:00Z"
+              "verfuegbarAb": "2023-02-25T05:30:00Z"
             },
             {
               "nummer": 5,
               "guid": "GPWUKGPP0",
               "laufend": 5,
-              "verfuegbarAb": "2023-02-25T01:00:00Z"
+              "verfuegbarAb": "2023-02-25T05:30:00Z"
             },
             {
               "nummer": 6,
               "guid": "G2XU0QEE3",
               "laufend": 6,
-              "verfuegbarAb": "2023-02-25T01:00:00Z"
+              "verfuegbarAb": "2023-02-25T05:30:00Z"
             },
             {
               "nummer": 7,
               "guid": "G8WUNMZZE",
               "laufend": 7,
-              "verfuegbarAb": "2023-02-25T01:00:00Z"
+              "verfuegbarAb": "2023-02-25T05:30:00Z"
             },
             {
               "nummer": 8,
               "guid": "GD9UVX55J",
               "laufend": 8,
-              "verfuegbarAb": "2023-02-25T01:00:00Z"
+              "verfuegbarAb": "2023-02-25T05:30:00Z"
             },
             {
               "nummer": 9,
               "guid": "G50UZ5QQQ",
               "laufend": 9,
-              "verfuegbarAb": "2023-02-25T01:00:00Z"
+              "verfuegbarAb": "2023-02-25T05:30:00Z"
             },
             {
               "nummer": 10,
               "guid": "G0DUN877D",
               "laufend": 10,
-              "verfuegbarAb": "2023-02-25T01:00:00Z"
+              "verfuegbarAb": "2023-02-25T05:30:00Z"
             },
             {
               "nummer": 11,
               "guid": "G9DUE383Z",
               "laufend": 11,
-              "verfuegbarAb": "2023-02-25T01:00:00Z"
+              "verfuegbarAb": "2023-02-25T05:30:00Z"
             },
             {
               "nummer": 12,
               "guid": "G4VUQ2N27",
               "laufend": 12,
-              "verfuegbarAb": "2023-02-25T01:00:00Z"
+              "verfuegbarAb": "2023-02-25T05:30:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Staffel 2",
+          "staffelId": "GS00385708JAJP",
+          "folgen": 4,
+          "kacheln": 4,
+          "deutsch": 1,
+          "fremd": 1,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "GE00389819DEDE",
+              "laufend": 1,
+              "verfuegbarAb": "2026-10-28T13:30:00Z"
             }
           ]
         }
+      ],
+      "neuFolgen": [
+        "GE00389819DEDE"
       ]
     },
     {
