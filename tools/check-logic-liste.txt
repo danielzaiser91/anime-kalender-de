@@ -262,6 +262,7 @@ pipeline/check-remake-verdrahtung.ts
 pipeline/check-remake-zaehlung.ts
 pipeline/check-rohfolgen-ablauf.ts
 pipeline/check-rohfolgen-cartoons.ts
+pipeline/check-rohfolgen-staffelmisch.ts
 pipeline/check-saison-deutsch.ts
 pipeline/check-saison-termin.ts
 pipeline/check-sammel-erste-folgen.ts
