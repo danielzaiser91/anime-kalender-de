@@ -21,6 +21,7 @@ import { log, readJson, ROOT, warn } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
 import { schliesseRohfolgenAb, type Offen } from './lib/rohfolgen-abschluss.ts'
 import { sortiereKanalGruppenAus, type ZugeordneteSeiten } from './lib/kanal-aussortieren.ts'
+import { anbieterFolgeAus } from './lib/folgen-datum.ts'
 import { leseZugeordnet } from './lib/prime-meldung-riegel.ts'
 import { ladeHandbelege } from './lib/dub-confirmed.ts'
 import { kanalWissen } from './lib/kanal-wissen.ts'
@@ -692,12 +693,7 @@ async function main(): Promise<void> {
     }
 
     const ak = listenFuer(titel)
-    const anbieter: AnbieterFolge[] = liste.map((f) => ({
-      nummer: f.nummer,
-      titel: f.titel,
-      datum: f.erschienen ? f.erschienen.slice(0, 10) : null,
-      minuten: f.dauer_sek ? Math.round(f.dauer_sek / 60) : null,
-    }))
+    const anbieter: AnbieterFolge[] = liste.map(anbieterFolgeAus)
 
     /*
       **Welche Folge gemeint ist, bleibt offen — welche Sprache, nicht.**
