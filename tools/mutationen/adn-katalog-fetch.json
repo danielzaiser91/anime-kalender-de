@@ -1,0 +1,11 @@
+[
+ ["    auskunft.gefragt.add(eintrag.id)\n", ""],
+ ["      auskunft.entschieden.add(eintrag.id)\n", ""],
+ ["      auskunft.entschieden.add(eintrag.id)\n", "      auskunft.entschieden.add(eintrag.id)\n      auskunft.entschieden.add(9999)\n"],
+ ["    auskunft.gefragt.add(eintrag.id)\n", "    auskunft.gefragt.add(eintrag.id)\n    auskunft.entschieden.add(eintrag.id)\n"],
+ ["mitUngepruftenAlten(alterKatalog, frisch.shows, frisch.auskunft)", "mitUngepruftenAlten([], frisch.shows, frisch.auskunft)"],
+ ["mitUngepruftenAlten(alterKatalog, frisch.shows, frisch.auskunft)", "mitUngepruftenAlten(alterKatalog, frisch.shows, { gefragt: new Set(), entschieden: new Set(alterKatalog.map((s) => s.showId)) })"],
+ ["mitUngepruftenAlten(alterKatalog, frisch.shows, frisch.auskunft)", "mitUngepruftenAlten(alterKatalog, frisch.shows, { gefragt: frisch.auskunft.gefragt, entschieden: new Set() })"],
+ ["    log(katalogBilanzZeile(zaehler))\n", ""],
+ ["  return { shows: out, auskunft }", "  return { shows: out, auskunft: { gefragt: auskunft.gefragt, entschieden: new Set(alle.map((e) => e.id)) } }"]
+]

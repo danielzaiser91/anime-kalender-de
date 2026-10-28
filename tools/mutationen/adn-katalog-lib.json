@@ -1,0 +1,17 @@
+[
+ ["const offen = alt.filter((s) => !da.has(s.showId) && !auskunft.entschieden.has(s.showId))", "const offen = alt.filter((s) => !da.has(s.showId) && false)"],
+ ["const offen = alt.filter((s) => !da.has(s.showId) && !auskunft.entschieden.has(s.showId))", "const offen = alt.filter((s) => !da.has(s.showId) && auskunft.entschieden.has(s.showId))"],
+ ["const offen = alt.filter((s) => !da.has(s.showId) && !auskunft.entschieden.has(s.showId))", "const offen = alt.filter((s) => !auskunft.entschieden.has(s.showId))"],
+ ["const offen = alt.filter((s) => !da.has(s.showId) && !auskunft.entschieden.has(s.showId))", "const offen = alt.filter((s) => !da.has(s.showId) && !auskunft.gefragt.has(s.showId))"],
+ ["const abbruch = offen.filter((s) => auskunft.gefragt.has(s.showId)).length", "const abbruch = offen.filter((s) => !auskunft.gefragt.has(s.showId)).length"],
+ ["const abbruch = offen.filter((s) => auskunft.gefragt.has(s.showId)).length", "const abbruch = 0"],
+ ["nichtGefragt: offen.length - abbruch,", "nichtGefragt: offen.length,"],
+ ["nichtGefragt: offen.length - abbruch,", "nichtGefragt: abbruch,"],
+ ["shows: [...neu, ...offen],", "shows: [...offen, ...neu],"],
+ ["shows: [...neu, ...offen],", "shows: [...neu],"],
+ ["shows: [...neu, ...offen],", "shows: [...offen],"],
+ ["entfernt: alt.filter((s) => !da.has(s.showId) && auskunft.entschieden.has(s.showId)).length,", "entfernt: alt.filter((s) => auskunft.entschieden.has(s.showId)).length,"],
+ ["entfernt: alt.filter((s) => !da.has(s.showId) && auskunft.entschieden.has(s.showId)).length,", "entfernt: alt.filter((s) => !da.has(s.showId) && !auskunft.entschieden.has(s.showId)).length,"],
+ ["entfernt: alt.filter((s) => !da.has(s.showId) && auskunft.entschieden.has(s.showId)).length,", "entfernt: 0,"],
+ ["`ADN-Katalog behalten: ${b.nichtGefragt} nicht gefragt, ${b.abbruch} Abbruch, ${b.entfernt} entfernt`", "`ADN-Katalog behalten: ${b.abbruch} nicht gefragt, ${b.nichtGefragt} Abbruch, ${b.entfernt} entfernt`"]
+]
