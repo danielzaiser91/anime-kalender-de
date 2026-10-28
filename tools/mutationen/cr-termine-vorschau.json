@@ -1,0 +1,7 @@
+[
+  ["(s.url?.includes(serieId) || adressen.has(s.url))", "s.url?.includes(serieId)"],
+  ["(s.url?.includes(serieId) || adressen.has(s.url))", "adressen.has(s.url)"],
+  ["filter((s) => s.seriesId === serieId)", "filter((s) => s.seriesId !== serieId)"],
+  ["filter((s) => s.seriesId === serieId)", "filter(() => true)"],
+  ["if (!existsSync('data/crunchyroll-dub.json')) return new Set()", ""]
+]

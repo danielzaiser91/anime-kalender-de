@@ -14,7 +14,7 @@
  *   --streng      Exit 1, sobald eine Folge fehlt
  *   --stand <ISO> "Jetzt" des 14-Tage-Fensters (Standard: die Uhr; für Messungen an alten Bau-Ständen und Tests)
  */
-import { readFileSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import { expandEvents } from '../shared/logic.ts'
 import { toIsoDate } from '../shared/time.ts'
 import type { Release, Title } from '../shared/types.ts'
@@ -32,9 +32,17 @@ function widerlegungNeuRechnen(releases: Release[], titles: Map<number, Title>):
   for (const r of releases) if (gedaechtnis[r.slug]) r.widerlegt = gedaechtnis[r.slug]
 }
 
+/** Adressen, unter denen der Dub-Bestand die Serie führt: eine Adresse ohne Kennung (`…/de/<slug>`) gehört ihr trotzdem. */
+function serienAdressen(serieId: string): Set<string> {
+  if (!existsSync('data/crunchyroll-dub.json')) return new Set()
+  const dub = lies<{ serien?: { url: string; seriesId?: string }[] }>('data/crunchyroll-dub.json')
+  return new Set((dub.serien ?? []).filter((s) => s.seriesId === serieId).map((s) => s.url))
+}
+
 /** Titel derselben Reihe wie der Titel, dessen Crunchyroll-Weg die Serienkennung trägt. */
 function reihenTitel(titel: Title[], serieId: string): Set<number> {
-  const direkt = titel.filter((t) => t.streams.some((s) => s.platform === 'crunchyroll' && s.url?.includes(serieId)))
+  const adressen = serienAdressen(serieId)
+  const direkt = titel.filter((t) => t.streams.some((s) => s.platform === 'crunchyroll' && (s.url?.includes(serieId) || adressen.has(s.url))))
   const reihen = new Set(direkt.map((t) => t.franchiseId ?? t.id))
   return new Set(titel.filter((t) => reihen.has(t.franchiseId ?? t.id)).map((t) => t.id))
 }

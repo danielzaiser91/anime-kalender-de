@@ -38,11 +38,12 @@ function lauf({ npmAusgabe, exit, vorher = '' }) {
 }
 
 /** Die Prüfung selbst: Wegwerf-Ordner mit Titel, Release und Katalog; `serieId` des Katalogs verweist auf den Crunchyroll-Weg. */
-function pruefung(releaseSlug, { folgeTag = '2026-10-20', start = '2026-10-20', stand = '2026-10-25T12:00:00Z', fremd = false } = {}) {
+function pruefung(releaseSlug, { folgeTag = '2026-10-20', start = '2026-10-20', stand = '2026-10-25T12:00:00Z', fremd = false, slug = '', kennung = 'G900SERIE' } = {}) {
   const d = join(ordner, `daten-${Math.random().toString(36).slice(2)}`)
   mkdirSync(join(d, 'public/data'), { recursive: true })
   mkdirSync(join(d, 'data'), { recursive: true })
-  const titel = { id: 900001, franchiseId: 900001, streams: [{ platform: 'crunchyroll', url: 'https://www.crunchyroll.com/de/series/G900SERIE' }] }
+  const titel = { id: 900001, franchiseId: 900001, streams: [{ platform: 'crunchyroll', url: slug || 'https://www.crunchyroll.com/de/series/G900SERIE' }] }
+  if (slug) writeFileSync(join(d, 'data/crunchyroll-dub.json'), JSON.stringify({ serien: [{ url: slug, seriesId: kennung }] }))
   writeFileSync(join(d, 'public/data/titles.json'), JSON.stringify({ titles: [titel] }))
   const release = releaseSlug && {
     slug: releaseSlug,
@@ -109,6 +110,12 @@ try {
   assert.equal(pruefung('crunchyroll-g900serie', { start: '2026-10-22' }).status, 1, 'Termin zwei Tage danach trifft nicht')
   assert.equal(pruefung('crunchyroll-g900serie', { start: '2026-10-18' }).status, 1, 'Termin zwei Tage davor trifft nicht')
   assert.equal(pruefung('crunchyroll-fremd', { fremd: true }).status, 1, 'Termin eines fremden Titels am selben Tag zählt nicht')
+  // Adresse ohne Kennung (Detective Is Already Dead, 28.10.2026): der Dub-Bestand verbindet Kennung und Adresse.
+  const slugAdresse = 'https://www.crunchyroll.com/de/testserie-ohne-kennung'
+  assert.equal(pruefung('crunchyroll-g900serie', { slug: slugAdresse }).status, 0, 'Adresse ohne Kennung, im Dub-Bestand verbunden: Termin trifft')
+  assert.equal(pruefung('', { slug: slugAdresse }).status, 1, 'Adresse ohne Kennung ohne Termin: weiter FEHLT')
+  assert.equal(pruefung('crunchyroll-fremd', { slug: slugAdresse, fremd: true }).status, 1, 'Adresse ohne Kennung: Termin eines fremden Titels zählt nicht')
+  assert.equal(pruefung('crunchyroll-g900serie', { slug: slugAdresse, kennung: 'GANDERE' }).status, 1, 'Adresse gehört im Dub-Bestand einer anderen Kennung: zählt nicht')
   console.log('bestand-cr-termine-schritt: ok')
 } finally {
   rmSync(ordner, { recursive: true, force: true })
