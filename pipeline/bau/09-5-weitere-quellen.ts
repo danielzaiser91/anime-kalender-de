@@ -13,6 +13,7 @@ import { anisearchFelderAnwenden } from '../lib/anisearch-felder.ts'
 import { handErstausgabe, ladeErstausgabeVonHand } from '../lib/erstausgabe-von-hand.ts'
 import { type EntfernterVerweis } from './grundlagen.ts'
 import { istNahAmJapanStart } from '../lib/nah-am-japan-start.ts'
+import { setzeJoynDeutsch } from './joyn-pauschal.ts'
 
 export function werteWeitereQuellenAus({ releases, titles, adnKatalog, adnVerweiseErgaenzt, verweiseEntfernt, schreibWurzel }: {
   releases: Release[]
@@ -232,17 +233,8 @@ export function werteWeitereQuellenAus({ releases, titles, adnKatalog, adnVerwei
    * `dub === undefined` sorgt dafür: Wo jemand etwas anderes festgestellt hat,
    * bleibt es stehen.
    */
-  {
-    let joynJa = 0
-    for (const title of titles.values()) {
-      for (const stream of title.streams) {
-        if (stream.platform !== 'joyn' || stream.dub !== undefined) continue
-        stream.dub = true
-        joynJa++
-      }
-    }
-    if (joynJa) log(`${joynJa} Joyn-Verweis(e) als deutsch gesetzt — deutscher Anbieter`)
-  }
+  const joynJa = setzeJoynDeutsch(titles.values())
+  if (joynJa) log(`${joynJa} Joyn-Verweis(e) als deutsch gesetzt — deutscher Anbieter`)
 
   /**
    * **Alte ADN-Adressen bekommen ihre Serienkennung — vor der Auswertung.**

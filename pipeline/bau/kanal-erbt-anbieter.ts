@@ -37,6 +37,7 @@ export function kanalErbtVomAnbieter(titles: Iterable<Title>, jwNein: (t: Title,
       const quelle = anbieterWegMitJa(s, t.streams)
       if (!quelle || (s.dubQuelle && !s.dubHintOnly) || jwNein(t, s)) continue
       s.dub = true
+      s.dubAbgeleitet = 'kanal-erbt'
       delete s.dubQuelle
       delete s.dubStand
       delete s.dubHintOnly
