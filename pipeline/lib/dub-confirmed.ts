@@ -75,6 +75,8 @@ export interface DubCheck {
    * 91 Folgen für eine Staffel, die 39 hat.
    */
   teilBereich?: { von: number; bis: number }
+  /** Folgen der Anbieter-Liste, die keine Folgen unseres Titels sind (Bonusfolge nur OmU): Die Prüfung „über der Folgenzahl“ zählt sie nicht. */
+  sonderfolgen?: number[]
   /**
    * Nur Cartoons (negative Kennung): die Staffeln der Serie beim Anbieter, wie Daniel sie gezählt hat (Jack der
    * Monsterschreck: Buch 1 = 1 Folge, Buch 2 = 10, Buch 3 = 10). Gewinnt gegen JustWatch und TMDB
@@ -350,13 +352,26 @@ export function wegVerneint(nein: ReadonlySet<string>, anilistId: number, platfo
   return nein.has(titel) || nein.has(`${titel}|${adressKern(url)}`)
 }
 
-type BelegFolgen = { anilistId?: number; platform?: string; url?: string; dubRanges?: { to?: number }[] }
+type BelegFolgen = {
+  anilistId?: number
+  platform?: string
+  url?: string
+  dubRanges?: { from?: number; to?: number }[]
+  sonderfolgen?: number[]
+}
 
-/** Belege, deren höchste dubRanges-Folge die Folgenzahl ihres Titels übersteigt, je als Zeile mit Titel, Plattform, Adresse und Zahlen. */
+/** Die höchste Folge einer Spanne, die keine Sonderfolge ist (0, wenn nur Sonderfolgen am oberen Ende stehen). */
+function hoechsteEchteFolge(r: { from?: number; to?: number }, sonder: number[]): number {
+  let bis = r.to ?? 0
+  while (bis >= (r.from ?? 1) && sonder.includes(bis)) bis--
+  return bis >= (r.from ?? 1) ? bis : 0
+}
+
+/** Belege, deren höchste dubRanges-Folge (ohne `sonderfolgen`) die Folgenzahl ihres Titels übersteigt, je als Zeile mit Titel, Plattform, Adresse und Zahlen. */
 export function belegeUeberFolgenzahl(liste: BelegFolgen[], folgenJeTitel: ReadonlyMap<number, number>): string[] {
   return liste.flatMap((b) => {
     const n = folgenJeTitel.get(b.anilistId ?? -1) ?? 0
-    const bis = Math.max(0, ...(b.dubRanges ?? []).map((r) => r.to ?? 0))
+    const bis = Math.max(0, ...(b.dubRanges ?? []).map((r) => hoechsteEchteFolge(r, b.sonderfolgen ?? [])))
     return n > 0 && bis > n ? [`${b.anilistId} ${b.platform ?? '?'} ${b.url ?? 'ohne Adresse'}: bis Folge ${bis} bei ${n}`] : []
   })
 }

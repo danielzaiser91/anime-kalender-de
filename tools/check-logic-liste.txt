@@ -11,6 +11,8 @@ pipeline/check-adn-lesetag.ts
 pipeline/check-adn-neuzugaenge.ts
 pipeline/check-adn-offen-wache.ts
 pipeline/check-adn-sprache-offen.ts
+pipeline/check-adn-sprachriegel-lauf.ts
+pipeline/check-adn-sprachriegel.ts
 pipeline/check-adn-titelliste-abruf.ts
 pipeline/check-adressen-schreiben.ts
 pipeline/check-adressen.ts
@@ -136,6 +138,7 @@ pipeline/check-folgenflaggen.ts
 pipeline/check-folgenzahl-belegt.ts
 pipeline/check-folgenzahl-kennzeichnung.ts
 pipeline/check-handbeleg-fremde-adresse.ts
+pipeline/check-gleiche-adresse.ts
 pipeline/check-handbeleg-serienton.ts
 pipeline/check-handbeleg-weg.ts
 pipeline/check-handlung-eigen-hinweis.ts
@@ -265,6 +268,7 @@ pipeline/check-remake-verdrahtung.ts
 pipeline/check-remake-zaehlung.ts
 pipeline/check-rohfolgen-ablauf.ts
 pipeline/check-rohfolgen-cartoons.ts
+pipeline/check-rohfolgen-staffelmisch.ts
 pipeline/check-saison-deutsch.ts
 pipeline/check-saison-termin.ts
 pipeline/check-sammel-erste-folgen.ts
@@ -278,11 +282,13 @@ pipeline/check-seiten-ansicht.ts
 pipeline/check-seiten-seo.ts
 pipeline/check-sichtung-folge.ts
 pipeline/check-sichtungsfenster.ts
+pipeline/check-sonderfolgen.ts
 pipeline/check-sprache-netz.ts
 pipeline/check-sprache-termin.ts
 pipeline/check-sprecher-anisearch.ts
 pipeline/check-sprecher-filter.ts
 pipeline/check-staffel-jahr0.ts
+pipeline/check-staffel-synonyme.ts
 pipeline/check-staffel-teil.ts
 pipeline/check-staffel-verdrahtung.ts
 pipeline/check-staffel-von-hand-ablauf.ts
@@ -337,6 +343,7 @@ pipeline/check-wege-aus-terminen.ts
 pipeline/check-werk-doppelt.ts
 pipeline/check-widerlegung-de-folgen-bau.ts
 pipeline/check-widerlegung-de-folgen.ts
+pipeline/check-wikibis-wegbereiche.ts
 pipeline/check-woche-beleg.ts
 pipeline/check-woche-groesse.ts
 pipeline/check-woche-neue-serien.ts
