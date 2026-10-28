@@ -206,7 +206,6 @@ pipeline/check-netflix-quellen.ts
 pipeline/check-netflix-staffel-ablauf.ts
 pipeline/check-netflix-staffeln.ts
 pipeline/check-netflix-umleitung-ablauf.ts
-pipeline/check-norm-schluessel.ts
 pipeline/check-netflix-umleitung.ts
 pipeline/check-neuigkeiten-panel.ts
 pipeline/check-news-einfrieren.ts
@@ -215,6 +214,7 @@ pipeline/check-news-felder-fest.ts
 pipeline/check-news-offiziell.ts
 pipeline/check-news-rhythmus.ts
 pipeline/check-news-staffel-zuordnung.ts
+pipeline/check-norm-schluessel.ts
 pipeline/check-notiz-fassung.ts
 pipeline/check-nur-omu-hauptbestand.ts
 pipeline/check-offizielle-lauf.ts
