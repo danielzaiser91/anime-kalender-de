@@ -132,6 +132,21 @@ const ep = (id: number, show: object): AdnVideo => ({ id, show, number: '1', rel
   pruefe('Lauf 2 beginnt bei den nie gefragten (85, 86, 87, dann 80…)', JSON.stringify(reihe2.slice(0, 3)) === '[85,86,87]', reihe2)
 }
 
+{
+  // Gespenster-Schlüssel, die zugleich bekannt sind (Archivdatei), zählen nicht doppelt; Limit 450 von 500 Bekannten gilt für die Bekannten allein.
+  const bekannte = Array.from({ length: 500 }, (_, i) => ({ id: 3000 + i, title: `K${i}` }))
+  const stand5: Record<string, string> = { '3000': '2026-10-01T00:00:00.000Z', '9999': '2026-10-01T00:00:00.000Z' }
+  const q = baueWarteschlange(bekannte, stand5, 450)
+  pruefe('bekannte Kennung im Stand ist kein Gespenst: 450 + 1', q.alle.length === 451 && q.vorLimit === 501, { laenge: q.alle.length, vorLimit: q.vorLimit })
+  pruefe('Limit 450 begrenzt die Bekannten, Gespenst 9999 steht hinten', q.alle.slice(0, 450).every((e) => e.id !== 9999) && q.alle[450].id === 9999)
+  pruefe('Limit 600 bei 500 Bekannten: alle 500 + 1', baueWarteschlange(bekannte, stand5, 600).alle.length === 501)
+}
+{
+  const leerTitel = ep(7, { id: 61, title: '' })
+  const lauf = await fragWarteschlange([{ id: 61, title: '' }], {}, hilfen({ 61: { videos: [leerTitel] } }, [], []))
+  pruefe('deutsche Folge ohne jeden Titel ergibt keine Serie mit leerem Titel', lauf.shows.length === 0, lauf.shows)
+}
+
 // A2: erstes Video ohne show.title, zweites mit; Übernahme von originalTitle und age nur, wenn der Eintrag sie nicht trägt.
 {
   const ohneTitel = { show: { id: 50, title: '' } } as unknown as AdnVideo
@@ -157,5 +172,5 @@ const ep = (id: number, show: object): AdnVideo => ({ id, show, number: '1', rel
   pruefe('beantwortete Serien (94, 99) sind entschieden, Fehlserien nicht', [...lauf.auskunft.entschieden].sort().join() === '94,99', [...lauf.auskunft.entschieden])
 }
 
-console.log(verletzt ? `✖ ${verletzt} Zusicherung(en) verletzt` : '✓ adn-katalog-warteschlange: 39 Zusicherungen erfüllt')
+console.log(verletzt ? `✖ ${verletzt} Zusicherung(en) verletzt` : '✓ adn-katalog-warteschlange: 43 Zusicherungen erfüllt')
 process.exit(verletzt ? 1 : 0)
