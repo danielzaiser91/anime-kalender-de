@@ -67,6 +67,7 @@ import type { Title } from '../shared/types.ts'
 import { addDays, todayIso } from '../shared/time.ts'
 import type { CrSerie, CrStaffel } from './lib/crunchyroll-dub.ts'
 import { crunchyrollSeriesId } from './lib/crunchyroll.ts'
+import { crFrisch } from './lib/cr-frisch.ts'
 import { serieHinterFolge, serieLesen } from './lib/crunchyroll-lesen.ts'
 import { crunchyrollAdressen, crunchyrollNeinAbrufLaden } from './lib/crunchyroll-adressen.ts'
 import {
@@ -661,39 +662,7 @@ async function main(): Promise<void> {
    */
   const frisch = (u: string) => {
     const s = bestand.get(u)
-    if (!s) return false
-    /**
-     * Ein Befund aus einem anderen Katalog ist keiner — egal wie jung er ist.
-     *
-     * Der Lauf vom 21.08.2026 lief von einem US-Runner und schrieb 172 Serien
-     * mit `katalog: "us"` fort. Diese Antworten sind nicht *veraltet*, sie
-     * beantworten eine **andere Frage**: „Fairy Tail" hat in Deutschland 277
-     * deutsche Folgen und in der US-Antwort keine einzige. Die Frist schützte
-     * sie trotzdem — vier Wochen lang wäre die falsche Auskunft stehen
-     * geblieben, obwohl ein deutscher Zugang längst da war.
-     *
-     * Deshalb entscheidet der Katalog **vor** dem Datum: Was aus einer anderen
-     * Region stammt als der Zugang, mit dem wir gerade fragen, kommt neu dran.
-     */
-    if (katalogJetzt && s.katalog && s.katalog !== katalogJetzt) return false
-    /* Seit dem letzten Blick ist dort eine deutsche Folge dazugekommen. */
-    const neuAm = s.seriesId ? neuSeit.get(s.seriesId) : undefined
-    if (neuAm && (s.geprueftAm ?? '') < neuAm) return false
-    /*
-      Beim täglichen Lauf zählt nur genau das: Alles andere gilt als frisch,
-      auch wenn seine Frist längst abgelaufen ist. Der Wochenlauf holt es nach.
-    */
-    if (NUR_NEU) return true
-    if (NUR_FEHLER) return !s.fehler
-    /**
-     * „Nicht verfügbar" ist ein Befund, „hat nicht geantwortet" ist keiner.
-     *
-     * Beide tragen einen `fehler` — bei `nichtVerfuegbar` ist er die Zeile, mit
-     * der Crunchyroll selbst sagt, dass es das Angebot nicht mehr gibt. Alles
-     * andere mit `fehler` ist eine Nichtauskunft und kommt früher wieder dran.
-     */
-    const befund = s.nichtVerfuegbar === true || !s.fehler
-    return s.geprueftAm >= (befund ? grenzeFuer(u) : fehlerGrenze)
+    return s ? crFrisch(s, { katalogJetzt, neuSeit, nurNeu: NUR_NEU, nurFehler: NUR_FEHLER, befundGrenze: grenzeFuer(u), fehlerGrenze }) : false
   }
   /*
     **`--nur-neu` filtert die Liste, nicht nur die Frist.**
