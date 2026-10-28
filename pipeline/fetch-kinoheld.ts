@@ -20,7 +20,7 @@
  * Wöchentlich, nur Kinotermine ohne kinoheld-Adresse, 3 s Abstand. Ergebnis:
  * `data/kinoheld.json` — Release-Slug → Adresse; der Bau hängt sie als Quelle an.
  */
-import { readJson, writeJson, log, warn } from './lib/util.ts'
+import { readJson, writeJson, log, warn, sleep } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
 import type { Release, Title } from '../shared/types.ts'
 import { todayIso } from '../shared/time.ts'
@@ -53,7 +53,6 @@ export function passendeAdresse(html: string, namen: string[]): string | undefin
   return undefined
 }
 
-const warte = (ms: number) => new Promise((r) => setTimeout(r, ms))
 
 if (process.argv[1]?.endsWith('fetch-kinoheld.ts')) {
   const releases = readJson<Release[]>('public/data/releases.json', [])
@@ -100,7 +99,7 @@ if (process.argv[1]?.endsWith('fetch-kinoheld.ts')) {
       fehler++
       warn(`kinoheld ${r.name}: ${err instanceof Error ? err.message : String(err)}`)
     }
-    await warte(3000)
+    await sleep(3000)
   }
   writeJson(ZIEL, bestand, true)
   recordSource('kinoheld', gefunden, fehler ? `${fehler} Suche(n) gescheitert` : undefined, offen.length, true)

@@ -206,6 +206,7 @@ pipeline/check-netflix-quellen.ts
 pipeline/check-netflix-staffel-ablauf.ts
 pipeline/check-netflix-staffeln.ts
 pipeline/check-netflix-umleitung-ablauf.ts
+pipeline/check-norm-schluessel.ts
 pipeline/check-netflix-umleitung.ts
 pipeline/check-neuigkeiten-panel.ts
 pipeline/check-news-einfrieren.ts

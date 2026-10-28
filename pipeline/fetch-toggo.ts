@@ -25,7 +25,7 @@
  * Europe/Berlin, ISO ohne Zone, wie überall im Datensatz). Der Bau hängt sie an den
  * TOGGO-Weg; ob eine Folge *jetzt* abrufbar ist, rechnet die Seite beim Anzeigen.
  */
-import { readJson, writeJson, log, warn } from './lib/util.ts'
+import { readJson, writeJson, log, warn, sleep } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
 import { figurAusAdresse, serieFuerFigur, serienAdresse, type ToggoSerie } from './lib/toggo-serien.ts'
 import { namenIndex, titelZuordnen } from './fetch-tv-programm.ts'
@@ -57,7 +57,6 @@ function ortszeit(sek: number): string {
   return `${teile.year}-${teile.month}-${teile.day}T${teile.hour}:${teile.minute}`
 }
 
-const warte = (ms: number) => new Promise((r) => setTimeout(r, ms))
 
 const titles = readJson<Titel[] | { titles: Titel[] }>('public/data/titles.json', [])
 const liste = Array.isArray(titles) ? titles : titles.titles
@@ -86,7 +85,7 @@ let serien: ToggoSerie[] = []
   } catch (err) {
     warn(`TOGGO-Serienliste: ${err instanceof Error ? err.message : String(err)}`)
   }
-  await warte(1500)
+  await sleep(1500)
 }
 
 for (const t of liste) {
@@ -180,7 +179,7 @@ for (const [serie, ids] of jeSerie) {
     const alt = readJson<ToggoDatei>(ZIEL, { geholtAm: '', titel: {} })
     for (const id of ids) if (alt.titel[String(id)]) ergebnis.titel[String(id)] = alt.titel[String(id)]
   }
-  await warte(1500)
+  await sleep(1500)
 }
 
 writeJson(ZIEL, ergebnis, true)
