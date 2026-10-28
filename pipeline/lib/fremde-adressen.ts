@@ -34,7 +34,8 @@ export function streamAdressen(wurzel: string): Map<string, string[]> {
  * Namen keinem Anime zufallen (`titelDerMeldung`): Die Meldungen zum Cartoon „Heidi“ (2015, -62475) bei Disney+ und Prime
  * landeten so beim Anime „Heidi“ (1974, 2225). Belegt ein Handbeleg die Adresse auch für einen eigenen Titel (Sammelseite
  * „Freezing“ mit Staffel und OVAs), bleibt sie offen; eine Prime-Zuordnung zählt dafür nicht, sie kann selbst aus dem
- * Namensweg stammen (Heidi-Seite bei Disney+ → 2225).
+ * Namensweg stammen (Heidi-Seite bei Disney+ → 2225). Ein falscher Handbeleg stützt die Sperre so gegen sich selbst:
+ * `check-handbeleg-fremde-adresse-bestand.ts` meldet jeden Beleg an einer fremden Adresse (Ausnahmen: `SAMMELSEITEN`).
  */
 export function fremdeAdressen(wurzel: string, bestand: Set<number>): (url: string) => boolean {
   const fremd = new Set<string>()
