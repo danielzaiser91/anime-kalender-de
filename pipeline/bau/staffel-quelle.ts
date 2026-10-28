@@ -38,10 +38,14 @@ export function staffelNummerAusSynonymen(synonyme: string[]): number | undefine
 
 type AnisearchEintrag = { info?: { languages?: { language?: string; title?: string }[]; synonyms?: string[] } }
 
-/** Staffelnummer eines aniSearch-Eintrags: Sprachblock „Deutsch", sonst die Synonyme. */
+/**
+ * Staffelnummer eines aniSearch-Eintrags: Sprachblock „Deutsch", sonst die Synonyme.
+ * Nennt der deutsche Titel selbst „Teil N" („Kengan Ashura: Teil 2", Synonym trotzdem „Staffel 2"), ist er die zweite Hälfte — das Synonym bleibt außen vor.
+ */
 export function staffelNummerAusEintrag(e: AnisearchEintrag): number | undefined {
   const de = e.info?.languages?.find((l) => /deutsch/i.test(l.language ?? ''))
-  return (de?.title ? staffelNummerAusQuelle(de.title) : undefined) ?? staffelNummerAusSynonymen(e.info?.synonyms ?? [])
+  if (de?.title && staffelNummerAusQuelle(de.title)) return staffelNummerAusQuelle(de.title)
+  return /\b(?:Teil|Part|Cour)\s*\d/i.test(de?.title ?? '') ? undefined : staffelNummerAusSynonymen(e.info?.synonyms ?? [])
 }
 
 /** Titel-Kennung → Staffelnummer aus dem aniSearch-Sprachblock „Deutsch" und den Synonymen. */

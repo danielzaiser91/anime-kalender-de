@@ -27,6 +27,9 @@ const doremi = eintrag('DoReMi', ['Bothersome Witch Doremi', 'Magical DoReMi Sta
 pruefe('DoReMi: „Staffel 1" ist keine Angabe', staffelNummerAusEintrag(doremi) === undefined)
 const sailor = eintrag('Pretty Guardian Sailor Moon Cosmos: Der Film', ['Pretty Guardian Sailor Moon Cosmos The Movie', 'Pretty Guardian Sailor Moon Crystal Season 5'])
 pruefe('Sailor Moon Cosmos: „Season 5" zählt nicht', staffelNummerAusEintrag(sailor) === undefined)
+/* Kengan Ashura: Teil 2 (111048): das Synonym „Staffel 2" meint die zweite Hälfte der ersten Staffel */
+pruefe('Kengan: deutscher Titel „Teil 2" sperrt das Synonym', staffelNummerAusEintrag(eintrag('Kengan Ashura: Teil 2', ['Kengan Ashura Season 2', 'Kengan Ashura Staffel 2'])) === undefined)
+pruefe('Kengan: „Cour 3" im Titel sperrt ebenso', staffelNummerAusEintrag(eintrag('X Cour 3', ['X Staffel 2'])) === undefined)
 pruefe('Zwei verschiedene Staffel-Synonyme: keine Angabe', staffelNummerAusSynonymen(['X Staffel 2', 'X Staffel 3']) === undefined)
 pruefe('Zwei gleiche Staffel-Synonyme: gilt', staffelNummerAusSynonymen(['X Staffel 3', 'X: Staffel 3']) === 3)
 pruefe('Genau Staffel 2 ist die Untergrenze', staffelNummerAusSynonymen(['X Staffel 2']) === 2)
@@ -45,4 +48,4 @@ if (fehler) {
   console.error(`${fehler} Prüfung(en) fehlgeschlagen`)
   process.exit(1)
 }
-console.log('Staffel aus Synonymen: 15 Fälle bestätigt')
+console.log('Staffel aus Synonymen: 17 Fälle bestätigt')
