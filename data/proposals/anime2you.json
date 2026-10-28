@@ -1,15 +1,46 @@
 {
-  "scrapedAt": "2026-10-28T05:02:17.032Z",
+  "scrapedAt": "2026-10-28T16:04:03.293Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 11,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 9,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 5,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 11,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 14,
-    "schon in einem Rubrik-Feed gelesen": 6,
+    "schon in einem Rubrik-Feed gelesen": 8,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 13,
     "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 1,
     "Sprachhinweis älter als 45 Tage": 4
   },
   "proposals": [
+    {
+      "articleTitle": "Neue Anime-Katalogtitel im November 2026 bei aniverse",
+      "articleUrl": "https://www.anime2you.de/news/1065078/aniverse-november-2026-neuzugaenge/",
+      "publishedAt": "2026-10-28",
+      "category": "streaming",
+      "platforms": [
+        "primevideo",
+        "aniverse"
+      ],
+      "dates": [
+        {
+          "month": "2026-11",
+          "context": "Neue Anime-Katalogtitel im November 2026 bei aniverse Der Prime Video Channel aniverse stockt"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Disney+ nimmt zwei Anime-Neuzugänge ins Programm",
+      "articleUrl": "https://www.anime2you.de/news/1065067/disney-plus-bleach-finale-und-mehr/",
+      "publishedAt": "2026-10-28",
+      "category": "streaming",
+      "platforms": [
+        "disneyplus"
+      ],
+      "dates": [],
+      "dub": "ja",
+      "pause": "pause",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "»Rascal Does Not Dream«-Finalfilm startet heute im Kino",
       "articleUrl": "https://www.anime2you.de/news/1064211/rascal-does-not-dream-of-a-dear-friend-startet-heute/",
