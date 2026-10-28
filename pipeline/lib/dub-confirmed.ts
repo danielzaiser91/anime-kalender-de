@@ -288,6 +288,8 @@ export function verschmelze(a: DubCheck, b: DubCheck): DubCheck {
   delete verschmolzen.juengstesUrteil
   const urteil = juengeresUrteil(alt, neu)
   if (urteil) verschmolzen.juengstesUrteil = urteil
+  // Ein jüngeres Ja hebt das ältere „nicht verfügbar“ auf (Spy × Family, Disney+: sonst fiel der Weg live weg).
+  if (urteil === 'ja' && verschmolzen.available === false) delete verschmolzen.available
   return verschmolzen
 }
 
