@@ -35,6 +35,7 @@
  * Aufruf: npm run data:cr-katalog
  */
 import { readFileSync, writeFileSync } from 'node:fs'
+import { normSchluessel } from './lib/util.ts'
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0 Safari/537.36'
 const tok = await fetch('https://beta-api.crunchyroll.com/auth/v1/token', {
   method: 'POST',
@@ -113,7 +114,6 @@ writeFileSync('data/cr-katalog-de.json', JSON.stringify({ geholtAm: new Date().t
   erster Versuch ordnete so 16 von 30 zu, die Mehrzahl falsch.
 */
 const titles = JSON.parse(readFileSync('public/data/titles.json', 'utf8'))
-const norm = (s) => (s ?? '').toLowerCase().replace(/[^a-z0-9]/g, '')
 const offen = []
 for (const x of titles) {
   for (const s of x.streams ?? []) {
@@ -124,10 +124,10 @@ for (const x of titles) {
 
 const zuordnung = []
 for (const o of offen) {
-  const namen = [o.titel, o.en, o.romaji].filter(Boolean).map(norm)
+  const namen = [o.titel, o.en, o.romaji].filter(Boolean).map(normSchluessel)
   const kandidaten = alle
     .map((k) => {
-      const kn = norm(k.titel)
+      const kn = normSchluessel(k.titel)
       const exakt = namen.includes(kn)
       const teil = kn.length >= 6 && !exakt && namen.some((n) => n.includes(kn))
       if (!exakt && !teil) return null

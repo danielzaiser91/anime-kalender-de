@@ -15,7 +15,7 @@
  * `plus.rtl.de/robots.txt`: `User-agent: *` / `Allow: /`, die Sitemaps bietet der
  * Betreiber selbst an (gelesen 19.09.2026). Deshalb nur wöchentlich.
  */
-import { readJson, writeJson, log, warn } from './lib/util.ts'
+import { readJson, writeJson, log, warn, sleep } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
 import {
   durchzaehlen,
@@ -37,7 +37,6 @@ export type RtlplusFolgenDatei = {
   titel: Record<string, { programm: string; videos: RtlVideo[]; folgen: RtlFolge[] }>
 }
 
-const warte = (ms: number) => new Promise((r) => setTimeout(r, ms))
 const hole = async (url: string) => {
   const r = await fetch(url, { headers: { 'User-Agent': UA } })
   if (!r.ok) throw new Error(`HTTP ${r.status} bei ${url}`)
@@ -78,7 +77,7 @@ if (programme.size) {
       warn(`RTL+ ${teil}: ${err instanceof Error ? err.message : String(err)}`)
     }
     abrufe++
-    await warte(PAUSE)
+    await sleep(PAUSE)
   }
 
   /* 2. Staffelseiten aus der Staffel-Sitemap. */
@@ -89,7 +88,7 @@ if (programme.size) {
     abrufe++
     for (const m of xml.matchAll(/<loc>(https:\/\/plus\.rtl\.de\/([^/<]+)\/season-[^<]+)<\/loc>/g))
       if (programme.has(m[2]!)) staffelSeiten.set(m[2]!, [...(staffelSeiten.get(m[2]!) ?? []), m[1]!])
-    await warte(PAUSE)
+    await sleep(PAUSE)
   }
 
   for (const [slug, id] of programme) {
@@ -104,14 +103,14 @@ if (programme.size) {
       for (const seite of staffelSeiten.get(slug) ?? []) {
         zuordnen(liste, staffelEintraege(await hole(seite)))
         abrufe++
-        await warte(PAUSE)
+        await sleep(PAUSE)
       }
       /* 3. Der Rest über die Folgenseite, je Folge einmal. */
       for (const v of liste.filter((x) => !x.staffel)) {
         const f = folgeAusSeite(await hole(`https://plus.rtl.de/${slug}/video/${v.video}`))
         abrufe++
         if (f) Object.assign(v, f)
-        await warte(PAUSE)
+        await sleep(PAUSE)
       }
     } catch (err) {
       fehler++

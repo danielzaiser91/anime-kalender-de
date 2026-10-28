@@ -218,6 +218,7 @@ pipeline/check-news-felder-fest.ts
 pipeline/check-news-offiziell.ts
 pipeline/check-news-rhythmus.ts
 pipeline/check-news-staffel-zuordnung.ts
+pipeline/check-norm-schluessel.ts
 pipeline/check-notiz-fassung.ts
 pipeline/check-nur-omu-hauptbestand.ts
 pipeline/check-offizielle-lauf.ts

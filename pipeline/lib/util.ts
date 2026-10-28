@@ -26,6 +26,11 @@ export function sleep(ms: number): Promise<void> {
   return new Promise((r) => setTimeout(r, ms))
 }
 
+/** Vergleichsschlüssel eines Titels: klein, nur a–z und 0–9 (Umlaute und Satzzeichen fallen weg). */
+export function normSchluessel(s: string | null | undefined): string {
+  return (s ?? '').toLowerCase().replace(/[^a-z0-9]/g, '')
+}
+
 export function log(...args: unknown[]): void {
   console.log('[pipeline]', ...args)
 }

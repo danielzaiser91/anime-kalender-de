@@ -1,4 +1,4 @@
-import { readJson, log, ROOT } from '../lib/util.ts'
+import { readJson, log, ROOT, normSchluessel } from '../lib/util.ts'
 import { eigenerTerminVerdraengt, mitDubKennzeichen, terminAusEintrag, verlagAlsDienst } from '../lib/anisearch-termine.ts'
 import yaml from 'js-yaml'
 import { readFileSync } from 'node:fs'
@@ -505,7 +505,6 @@ export function werteWeitereQuellenAus({ releases, titles, adnKatalog, adnVerwei
    * trotzdem etwas — der Katalog ist ein Ausschnitt, keine Gesamtschau.
    */
   {
-    const norm = (s: string | undefined) => (s ?? '').toLowerCase().replace(/[^a-z0-9]/g, '')
     const katalog = readJson<{ shows?: { title?: string; originalTitle?: string; episodes?: unknown[] }[] }>(
       'data/adn-catalog.json',
       {},
@@ -516,7 +515,7 @@ export function werteWeitereQuellenAus({ releases, titles, adnKatalog, adnVerwei
       if (!folgen) continue
       for (const n of [s.title, s.originalTitle]) {
         if (!n) continue
-        const k = norm(n)
+        const k = normSchluessel(n)
         if (!nachName.has(k)) nachName.set(k, [])
         nachName.get(k)!.push({ titel: n, folgen })
       }
@@ -525,7 +524,7 @@ export function werteWeitereQuellenAus({ releases, titles, adnKatalog, adnVerwei
     for (const title of titles.values()) {
       const stream = title.streams.find((s) => s.platform === 'adn' && s.dub === undefined)
       if (!stream) continue
-      const namen = [title.titleDe, title.titleEn, title.titleRomaji].filter(Boolean).map((n) => norm(n))
+      const namen = [title.titleDe, title.titleEn, title.titleRomaji].filter(Boolean).map((n) => normSchluessel(n))
       const treffer = namen.map((n) => nachName.get(n)).find(Boolean)
       if (!treffer || treffer.length !== 1) continue
       if (treffer[0]!.folgen !== title.episodes) continue
