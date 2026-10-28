@@ -1,3 +1,4 @@
 kategorie: bugfix
-text: Demnächst zeigt nur noch nicht erschienene Staffeln
-untertitel: Kacheln nennen die Staffel und öffnen genau sie
+text: 'Datenbank: „Demnächst“ zeigt nur Staffeln, die noch kommen'
+untertitel: Die Kachel nennt die Staffel und öffnet genau sie
+link: '#/datenbank'
