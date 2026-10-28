@@ -14,7 +14,8 @@
 import { log, readJson, ROOT, warn, writeJson } from './lib/util.ts'
 import { fremdeAdressen } from './lib/fremde-adressen.ts'
 import { abrufMitStempel } from './lib/abruf-stempel.ts'
-import { adressIndex, artDerMeldung, artDerRohfolge, folgenDerMeldung, meldungGrund, nameIndex, rohfolgenSpanne, titelDerMeldung, urteileJeFolge, type StaffelKandidat, type Urteil, type UrteilBeobachtung } from './lib/urteil-je-folge.ts'
+import { adressIndex, artDerMeldung, folgenDerMeldung, meldungGrund, nameIndex, rohfolgenSpanne, titelDerMeldung, urteileJeFolge, type StaffelKandidat, type Urteil } from './lib/urteil-je-folge.ts'
+import { beobachtungenAusRohfolgen, fremdNach, type RohFolge } from './lib/urteil-rohfolgen.ts'
 import type { Title } from '../shared/types.ts'
 import { adressKern } from './lib/dub-confirmed.ts'
 import type { FolgenZuordnung } from './lib/folgen-je-folge.ts'
@@ -50,18 +51,6 @@ interface RohMeldung {
   vorhanden: string | null
   ton_de: string | null
   art: string | null
-}
-interface RohFolge {
-  plattform: string
-  url: string
-  asin: string | null
-  gti: string | null
-  sprachen: string | null
-  gemeldet_am: string
-  vorhanden: string | null
-  ton_de: string | null
-  /** 1, wenn die Randprobe diese Folge nur angenommen hat (`roh.angenommen`); ältere Worker liefern das Feld nicht. */
-  angenommen?: number | null
 }
 
 /** Holt eine seitenweise Liste; `null` heißt Störung — dann wird nichts geschrieben. */
@@ -156,36 +145,12 @@ async function main() {
     Rohfolgen derselben Adresse: Dort trägt die Zeile nur Tonspuren, nicht den Kanal.
   */
   const kanalAdresse = new Set(meldungen.filter((m) => KANAL.test(m.abos ?? '')).map((m) => adressKern(m.url)))
-  const beobachtungen: UrteilBeobachtung[] = []
-  for (const f of rohfolgen) {
-    const z = zuordnung[`${f.plattform}:${f.asin ?? f.gti}`]
-    if (!z?.titel || !z.folge) continue
-    /* Eine Rohfolge ohne Tonspuren ist eine Störung, keine Beobachtung (Szenario 10). */
-    let sprachen: string[] = []
-    try {
-      sprachen = JSON.parse(f.sprachen ?? '[]') as string[]
-    } catch {
-      sprachen = []
-    }
-    const vorhanden = f.vorhanden ?? (sprachen.length ? 'ja' : null)
-    if (!vorhanden) continue
-    const tonDe = f.ton_de ?? (sprachen.some((s) => /deutsch|german|^de(\||$)/i.test(s)) ? 'ja' : 'nein')
-    beobachtungen.push({
-      titel: z.titel,
-      anbieter: f.plattform,
-      folge: z.folge,
-      vorhanden,
-      tonDe,
-      art: artDerRohfolge(f),
-      tag: f.gemeldet_am.slice(0, 10),
-      kanal: tonDe === 'nein' && kanalAdresse.has(adressKern(f.url)),
-    })
-  }
   /* Ein Einzelwerk (Film, einteiliges Special) hat genau Folge 1 — siehe `folgenDerMeldung`. */
   const titelListe = readJson<Title[] | { titles: Title[] }>('public/data/titles.json', [])
   const titelAlle = Array.isArray(titelListe) ? titelListe : titelListe.titles
   const einzel = new Set(titelAlle.filter((t) => t.format === 'MOVIE' || t.episodes === 1).map((t) => t.id))
   const { nachAdresse, staffelKandidaten, nachName, reiheVon } = meldungsZuordnung(titelAlle)
+  const beobachtungen = beobachtungenAusRohfolgen(rohfolgen, zuordnung, kanalAdresse, fremdNach(nachAdresse))
   const verworfen: Record<string, number> = {}
   /* Eine Meldung ohne die Felder aus Migration 034 trägt nur `befund`. */
   for (const roh of meldungen) {
