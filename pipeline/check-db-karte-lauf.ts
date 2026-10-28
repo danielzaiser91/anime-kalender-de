@@ -8,6 +8,7 @@ import type { Release, Title } from '../shared/types.ts'
 import { attrappeUhr, ignoriereCss, installiereMiniDom, klicke, type MiniKnoten } from '../tools/mini-dom.ts'
 ignoriereCss()
 const { DbKarte } = await import('../web/src/components/db-karte.tsx')
+const { ordneListe } = await import('../web/src/lib/db-liste.ts')
 const { DbRaster } = await import('../web/src/components/db-bedienung.tsx')
 
 let verletzt = 0
@@ -81,6 +82,27 @@ console.log('\nDbRaster läuft wirklich: titelId und Staffelmarke kommen aus der
   await act(async () => klicke(dom.wurzel, karte()))
   pruefe('Raster: Klick öffnet titelId aus der Liste', geoeffnet.length === 1 && geoeffnet[0] === 185515, geoeffnet)
   pruefe('Raster: Pille „Staffel 2 · ab 30.10." steht auf der Kachel', text().includes('Staffel 2 · ab 30.10.'), text())
+}
+console.log('\nListe -> DbRaster -> DbKarte: Kachel-Text und Klickziel an echten Reihen (Kamisama Kiss, Clannad)')
+{
+  const kamisama1 = { id: 14713, franchiseId: 14713, format: 'TV', titleDe: 'Kamisama Kiss', jpYear: 2012, jpSeason: 'FALL', deErstausgabe: { von: '2026-06-15', synchro: true }, streams: [] } as unknown as Title
+  const kamisama2 = { id: 20801, franchiseId: 14713, format: 'TV', titleDe: 'Kamisama Kiss: Staffel 2', jpYear: 2015, jpSeason: 'WINTER', streams: [] } as unknown as Title
+  const film = { id: 1723, franchiseId: 1723, format: 'MOVIE', titleDe: 'Clannad: Der Film', jpYear: 2007, jpSeason: 'SUMMER', deErstausgabe: { von: '2020-11-05', synchro: true }, streams: [] } as unknown as Title
+  const serie = { id: 2167, franchiseId: 1723, format: 'TV', titleDe: 'Clannad', jpYear: 2007, jpSeason: 'FALL', deErstausgabe: { von: '2014-11-28', bis: '2015-04-24', synchro: true }, streams: [] } as unknown as Title
+  const termine = new Map<number, Release[]>([
+    [14713, [{ titleId: 14713, platform: 'primevideo', releaseType: 'batch', schedule: { firstEpisodeDate: '2026-10-08', episodeCount: 12 } } as unknown as Release]],
+    [20801, [{ titleId: 20801, platform: 'disc', releaseType: 'disc', schedule: { firstEpisodeDate: '2026-11-15' } } as unknown as Release]],
+  ])
+  const { liste } = ordneListe([{ main: kamisama1, members: [kamisama1, kamisama2] }, { main: serie, members: [film, serie] }], 'relevanz', '', termine, '2026-10-28')
+  const geoeffnet: number[] = []
+  await act(async () => wurzel.render(h(DbRaster, { liste, zahlen: {}, ...gemeinsam(geoeffnet) })))
+  const kachel = (id: number) => dom.wurzel.finde((x) => (x.getAttribute('class') ?? '').includes('cursor-pointer') && x.textContent.includes(id === 20801 ? 'Kamisama' : 'Clannad'))[0]!
+  const sichtbar = (k: MiniKnoten) => k.textContent.replace(knoepfe(k).textContent, '')
+  const kamisamaText = sichtbar(kachel(20801))
+  pruefe('Kamisama Kiss Staffel 2: „Staffel 2" steht genau einmal auf der Kachel, das Datum bleibt', kamisamaText.split('Staffel 2').length === 2 && kamisamaText.includes('ab 15.11.'), kamisamaText)
+  await act(async () => klicke(dom.wurzel, kachel(2167)))
+  pruefe('Clannad (erschienen): Klick öffnet main 2167, nicht den Film 1723', geoeffnet.length === 1 && geoeffnet[0] === 2167, geoeffnet)
+  pruefe('Liste: nur bei „Läuft jetzt"/„Demnächst" weicht titelId von main ab', liste.every((e) => e.art === 'laeuft' || e.art === 'bald' || e.titelId === e.main.id), liste.map((e) => [e.art, e.titelId, e.main.id]))
 }
 await act(async () => wurzel.unmount())
 dom.entferne()

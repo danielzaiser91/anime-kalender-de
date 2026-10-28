@@ -1,7 +1,7 @@
 import type { Release, ReleaseStatus, Title } from '@shared/types.ts'
 import { releaseStatus, titleStatus } from '@shared/logic.ts'
 import { addDays } from '@shared/time.ts'
-import { staffelMarken } from './db-staffel-marke.ts'
+import { markeOhneDoppel, staffelMarken } from './db-staffel-marke.ts'
 
 /**
  * Datenbank ohne Suche: Gruppen statt einer langen Liste (Daniel, 09.10.2026, Variante C im Mockup „Datenbank-Einstieg").
@@ -153,7 +153,7 @@ function einzelneStaffeln<T extends { main: Title; members: Title[] }>(
   for (const m of gruppe.members) {
     const s = stufeTitelEin(m, releasesByTitle.get(m.id) ?? [], today)
     if (s.art === 'laeuft' || s.art === 'bald') {
-      treffer.push({ art: s.art, eintrag: { gruppe: { ...gruppe, main: m, members: [m] }, ab: s.ab, titelId: s.titelId, staffel: marken.get(m.id) } })
+      treffer.push({ art: s.art, eintrag: { gruppe: { ...gruppe, main: m, members: [m] }, ab: s.ab, titelId: s.titelId, staffel: markeOhneDoppel(marken.get(m.id), m) } })
     }
   }
   return treffer
@@ -170,7 +170,7 @@ export function gruppiereNachRelevanz<T extends { main: Title; members: Title[] 
     const s = stufeReiheEin(gruppe.members, releasesByTitle, today)
     const staffeln = s.art === 'laeuft' || s.art === 'bald' ? einzelneStaffeln(gruppe, releasesByTitle, today) : undefined
     if (staffeln) for (const k of staffeln) korb[k.art].push(k.eintrag)
-    else korb[s.art].push({ gruppe, ab: s.ab, titelId: s.titelId })
+    else korb[s.art].push({ gruppe, ab: s.ab, titelId: s.art === 'laeuft' || s.art === 'bald' ? s.titelId : gruppe.main.id })
   }
   return RELEVANZ_REIHENFOLGE.map((art) => ({ art, eintraege: korb[art].sort(vergleicher<T>(art)) })).filter((g) => g.eintraege.length > 0)
 }

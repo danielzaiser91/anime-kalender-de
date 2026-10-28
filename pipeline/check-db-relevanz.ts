@@ -197,9 +197,32 @@ pruefe('zwei kommende Staffeln, Reihenfolge vertauscht: wieder die nähere', zwe
 const nurErschienen = stufeReiheEin([titel(940031, { deErstausgabe: { von: '2020-01-01', bis: '2020-03-31' } }), titel(940032, { deErstausgabe: { von: '2021-01-01', bis: '2021-03-31' } })], new Map(), H2)
 pruefe('Reihe nur aus erschienenen Staffeln: „erschienen", titelId = erstes Mitglied', nurErschienen.art === 'erschienen' && nurErschienen.titelId === 940031, nurErschienen)
 pruefe('jede Kachel in „Läuft jetzt"/„Demnächst" trägt titelId, und es ist ihr Titel', kacheln.length === 3 && kacheln.every((k) => k.titelId === k.id), kacheln)
-pruefe('Reihe mit zwei Staffeln: „Staffel 2" auf der Kachel von 2.5 Dimensional Seduction (Demnächst) und Last Boss (Läuft jetzt)', kacheln.find((k) => k.id === 185515)?.staffel === 'Staffel 2' && kacheln.find((k) => k.id === 204389)?.staffel === 'Staffel 2', kacheln)
+pruefe('Reihe mit zwei Staffeln: „Staffel 2" auf der Kachel von 2.5 Dimensional Seduction (Name ohne Staffelzahl); Last Boss trägt sie schon im Namen, also keine zweite Marke', kacheln.find((k) => k.id === 185515)?.staffel === 'Staffel 2' && kacheln.find((k) => k.id === 204389)?.staffel === undefined, kacheln)
 pruefe('Titel mit einer Staffel: keine Beschriftung', kacheln.find((k) => k.id === 940010)?.staffel === undefined, kacheln)
-pruefe('Reihe mit mehreren Staffeln: keine Kachel ohne Staffelzahl', kacheln.filter((k) => [185515, 204389].includes(k.id)).every((k) => /Staffel \d/.test(k.staffel ?? '')), kacheln)
+// A1: Clannad (echte Reihe aus public/data): main ist die Serie 2167, das erste Mitglied der Film 1723. Erschienene Kacheln öffnen main.
+const clannadFilm = titel(1723, { franchiseId: 1723, format: 'MOVIE', titleDe: 'Clannad: Der Film', jpYear: 2007, jpSeason: 'SUMMER', deErstausgabe: { von: '2020-11-05', synchro: true } })
+const clannad = titel(2167, { franchiseId: 1723, format: 'TV', titleDe: 'Clannad', jpYear: 2007, jpSeason: 'FALL', deErstausgabe: { von: '2014-11-28', bis: '2015-04-24', synchro: true } })
+const clannadReihe = { main: clannad, members: [clannadFilm, clannad] }
+const gClannad = lauf([clannadReihe, reihe(titel(940071))], [], H2)
+const clannadEintrag = gClannad.flatMap((x) => x.eintraege).find((e) => e.gruppe.main.id === 2167)
+pruefe('Clannad (erschienen, main 2167 ist nicht das erste Mitglied): die Kachel öffnet main, nicht den Film 1723', clannadEintrag?.titelId === 2167, clannadEintrag?.titelId)
+const unbekanntEintrag = gClannad.flatMap((x) => x.eintraege).find((e) => e.gruppe.main.id === 940071)
+pruefe('Titel ohne Termin („unbekannt"): die Kachel öffnet main', unbekanntEintrag?.titelId === 940071, unbekanntEintrag?.titelId)
+const mehrfach = lauf([{ main: lastBoss1, members: [lastBoss1, lastBoss2] }], [disc(180523, '2026-11-06'), plat(204389, 'crunchyroll', '2026-10-24', 12)], H2)
+pruefe('Reihe mit laufender Staffel: die Kachel der Staffel öffnet die Staffel (204389), nicht main (180523)', mehrfach.flatMap((x) => x.eintraege).every((e) => e.titelId === 204389), mehrfach.flatMap((x) => x.eintraege).map((e) => [e.titelId, e.gruppe.main.id]))
+
+// A2: Kamisama Kiss (echte Reihe): Staffel 2 heißt schon so, die Liste fügt „Staffel 2" nicht noch einmal an.
+const kamisama1 = titel(14713, { franchiseId: 14713, format: 'TV', titleDe: 'Kamisama Kiss', jpYear: 2012, jpSeason: 'FALL', deErstausgabe: { von: '2026-06-15', synchro: true } })
+const kamisama2 = titel(20801, { franchiseId: 14713, format: 'TV', titleDe: 'Kamisama Kiss: Staffel 2', jpYear: 2015, jpSeason: 'WINTER' })
+const gKamisama = lauf([reihe(kamisama1, kamisama2)], [plat(14713, 'primevideo', '2026-10-08', 12, 'batch'), disc(20801, '2026-11-15')], H2)
+const kamisamaEintrag = gKamisama.flatMap((x) => x.eintraege).find((e) => e.titelId === 20801)
+pruefe('Kamisama Kiss Staffel 2 (Demnächst ab 15.11.): Name trägt „Staffel 2", keine zweite Marke, Datum bleibt', gKamisama[0]?.art === 'bald' && kamisamaEintrag?.staffel === undefined && kamisamaEintrag?.ab === '2026-11-15', kamisamaEintrag)
+
+// A3: ein reiner OmU-Stream-Termin bis heute macht die Staffel „erschienen", auch wenn die Synchro erst angekündigt ist (Entscheidung Daniel 26.10.2026).
+const omu = titel(940081, { deErstausgabe: { von: '2026-11-20', synchro: true } })
+const gOmu = lauf([reihe(omu)], [plat(940081, 'crunchyroll', '2026-10-01', 12), disc(940081, '2026-11-20')], H2)
+pruefe('OmU-Termin (Crunchyroll, 01.10.) + angekündigte Synchro (20.11.) → „Schon erschienen"', art(gOmu, 940081) === 'erschienen', art(gOmu, 940081))
+
 const laeuftUndBald = stufeReiheEin(
   [titel(940051, { deErstausgabe: { von: '2026-10-01', bis: '2026-12-31' } }), titel(940052, { deErstausgabe: { von: '2027-01-10' } })],
   new Map([[940051, [plat(940051, 'crunchyroll', '2026-10-01', 12)]], [940052, [plat(940052, 'crunchyroll', '2027-01-10', 12)]]]),

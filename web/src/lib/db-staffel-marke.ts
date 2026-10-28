@@ -20,3 +20,8 @@ export function staffelMarken(members: Title[]): Map<number, string> {
   }
   return marken
 }
+
+/** Die Marke entfällt, wenn der Anzeigename sie schon trägt („Kamisama Kiss: Staffel 2"): keine Information zweimal auf der Kachel. */
+export function markeOhneDoppel(marke: string | undefined, m: Title): string | undefined {
+  return marke && !anzeigeName(m).includes(marke) ? marke : undefined
+}
