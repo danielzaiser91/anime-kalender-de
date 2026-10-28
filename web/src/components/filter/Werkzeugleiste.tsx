@@ -5,7 +5,7 @@ import { filterFarbe } from '../kalender/KalenderKopf.tsx'
 import { FilterZeichen } from '../kalender/Zeichen.tsx'
 
 /**
- * Die Leiste (48 px) am unteren Rand, in Daumenreichweite — Filter, Ansicht, Blättern. Per Portal am `body`: Die Kopfleiste
+ * Die Leiste (rund 61 px hoch, gemessen 28.10.2026) am unteren Rand, in Daumenreichweite — Filter, Ansicht, Blättern. Per Portal am `body`: Die Kopfleiste
  * rollt per `transform` ein, und darunter bezöge sich `position: fixed` auf die Kopfleiste statt auf das Fenster.
  */
 export function Werkzeugleiste({ children }: { children: ReactNode }) {
