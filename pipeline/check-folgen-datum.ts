@@ -113,6 +113,25 @@ const doppelt = ordneZu(
   tamers,
 )
 pruefe('Ohne Widerspruch: Datumstreffer auf eine per Titel vergebene Folge bleibt offen', doppelt[1]!.unsere === null && doppelt[0]!.unsere === 26, JSON.stringify(doppelt))
+/* ADN Show 1125 (Demon Slave S1): Folge 6 trägt den Titel von Folge 7; Titel und Daten wörtlich aus data/adn-raw/1125 und data/anisearch-folgen.json (16798). */
+const demon = [
+  { s: 1, e: 5, titel: 'Schwestern, Yachiho, Necken', datum: '2024-02-01', minuten: null },
+  { s: 1, e: 6, titel: 'Angriff, Sahara, Funkeln', datum: '2024-02-08', minuten: null },
+  { s: 1, e: 7, titel: 'Gemeinsamer Kampf, Tenka, Fliegen', datum: '2024-02-15', minuten: null },
+  { s: 1, e: 8, titel: 'Versprechen, Nei, Reminiszenz', datum: '2024-02-22', minuten: null },
+]
+const adn = ordneZu(
+  [
+    { nummer: 5, titel: 'Schwestern, Yachiho, Necken', datum: '2024-02-01', minuten: null },
+    { nummer: 6, titel: 'Gemeinsamer Kampf, Tenka, Fliegen', datum: '2024-02-08', minuten: null },
+    { nummer: 7, titel: 'Gemeinsamer Kampf, Tenka, Fliegen', datum: '2024-02-15', minuten: null },
+    { nummer: 8, titel: 'Versprechen, Nei, Reminiszenz', datum: '2024-02-22', minuten: null },
+  ],
+  demon,
+)
+pruefe('Doppelter Titel auf der Seite belegt keine Folge: das Datum entscheidet (ADN 1125)', adn.map((x) => x.unsere).join() === '5,6,7,8', JSON.stringify(adn))
+const einmalig = ordneZu([{ nummer: 7, titel: 'Gemeinsamer Kampf, Tenka, Fliegen', datum: null, minuten: null }], demon)
+pruefe('Derselbe Titel einmal auf der Seite ordnet per Titel zu', einmalig[0]!.unsere === 7 && einmalig[0]!.grund === 'titel', JSON.stringify(einmalig))
 const mehrdeutig = [
   { s: 1, e: 1, titel: 'Erste Folge hier', datum: '2000-01-01', minuten: null },
   { s: 1, e: 2, titel: 'Zweite Folge hier', datum: '2000-01-01', minuten: null },
@@ -130,4 +149,4 @@ pruefe('zwei Folgen am selben Tag: Datum ordnet nicht zu', zwei[0]!.unsere === n
 pruefe('zwei Folgen mit demselben Titel: Titel ordnet nicht zu', zwei[1]!.unsere === null, JSON.stringify(zwei))
 
 if (fehler) process.exit(1)
-console.log(`check-folgen-datum: ok (${faelle.length + 2 + 12} Fälle)`)
+console.log(`check-folgen-datum: ok (${faelle.length + 2 + 14} Fälle)`)

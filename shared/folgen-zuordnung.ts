@@ -148,9 +148,10 @@ export function ordneZu(anbieter: AnbieterFolge[], staffel: TmdbFolge[]): Zuordn
   /* Folgen, die nur das Datum getroffen hat (der Titel schwieg). */
   const nurDatum = new Set<number>()
   let widerspruch = false
+  const geteilt = geteilteTitel(anbieter)
   const ergebnis = anbieter.map((a, index) => {
     const perDatum = a.datum ? nachDatum.get(a.datum) : undefined
-    const perTitel = nachTitel.get(folgenKern(a.titel))
+    const perTitel = geteilt.has(folgenKern(a.titel)) ? undefined : nachTitel.get(folgenKern(a.titel))
     const datumE = perDatum?.length === 1 ? perDatum[0]!.e : null
     const titelE = perTitel?.length === 1 ? perTitel[0]!.e : null
     /* Widersprechen sich beide, gilt der Titel: Prime führt bei manchen Serien (Digimon Tamers) das Datum der Vorwoche. */
@@ -180,6 +181,13 @@ export function ordneZu(anbieter: AnbieterFolge[], staffel: TmdbFolge[]): Zuordn
     return { index, unsere: null, grund: 'offen' as const }
   })
   return verwirfDatumGegenTitel(ergebnis, nurDatum, widerspruch)
+}
+
+/** Titel (als `folgenKern`), die mehrere Anbieterfolgen einer Seite tragen (ADN, Demon Slave S1 Folge 6 und 7): Sie belegen keine. */
+function geteilteTitel(anbieter: AnbieterFolge[]): Set<string> {
+  const wieOft = new Map<string, number>()
+  for (const a of anbieter) wieOft.set(folgenKern(a.titel), (wieOft.get(folgenKern(a.titel)) ?? 0) + 1)
+  return new Set([...wieOft].filter(([, n]) => n > 1).map(([k]) => k))
 }
 
 /**
