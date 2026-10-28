@@ -266,6 +266,7 @@ pipeline/check-remake-verdrahtung.ts
 pipeline/check-remake-zaehlung.ts
 pipeline/check-rohfolgen-ablauf.ts
 pipeline/check-rohfolgen-cartoons.ts
+pipeline/check-rohfolgen-staffelmisch.ts
 pipeline/check-saison-deutsch.ts
 pipeline/check-saison-termin.ts
 pipeline/check-sammel-erste-folgen.ts
@@ -279,6 +280,7 @@ pipeline/check-seiten-ansicht.ts
 pipeline/check-seiten-seo.ts
 pipeline/check-sichtung-folge.ts
 pipeline/check-sichtungsfenster.ts
+pipeline/check-sonderfolgen.ts
 pipeline/check-sprache-netz.ts
 pipeline/check-sprache-termin.ts
 pipeline/check-sprecher-anisearch.ts
