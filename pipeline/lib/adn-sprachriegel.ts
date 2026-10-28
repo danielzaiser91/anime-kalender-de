@@ -57,10 +57,29 @@ export function schreibeArchiv(verzeichnis: string, showId: number, videos: MitS
   return true
 }
 
-/** Der neue Katalog; Serien mit verworfener Antwort behalten ihren alten Eintrag (sonst fielen sie heraus, `neu` trägt nur Serien mit deutscher Folge). */
-export function mitVerworfenenAlten<T extends { showId: number }>(alt: T[], neu: T[], verworfene: number[]): T[] {
+/** Was ein Katalog-Durchgang über die Serien weiß: wer gefragt wurde und wer davon eine vollständige Antwort bekam. */
+export type KatalogAuskunft = { gefragt: Set<number>; entschieden: Set<number> }
+
+/**
+ * Der neue Katalog: `neu` (frische Treffer mit Deutsch) plus jeder alte Eintrag ohne vollständige Antwort in diesem Lauf — nicht gefragt
+ * (`--limit`, Abbruch nach fünf Fehlern) oder gefragt und abgebrochen (5xx, Zeitüberschreitung, französische Sicht). Nur wer frisch und
+ * vollständig ohne Deutsch antwortete, fällt heraus. Die Zähler nennen jeden Weg.
+ */
+export function mitUngepruftenAlten<T extends { showId: number }>(alt: T[], neu: T[], auskunft: KatalogAuskunft) {
   const da = new Set(neu.map((s) => s.showId))
-  return [...neu, ...alt.filter((s) => verworfene.includes(s.showId) && !da.has(s.showId))]
+  const offen = alt.filter((s) => !da.has(s.showId) && !auskunft.entschieden.has(s.showId))
+  const abbruch = offen.filter((s) => auskunft.gefragt.has(s.showId)).length
+  return {
+    shows: [...neu, ...offen],
+    nichtGefragt: offen.length - abbruch,
+    abbruch,
+    entfernt: alt.filter((s) => !da.has(s.showId) && auskunft.entschieden.has(s.showId)).length,
+  }
+}
+
+/** Logzeile mit den Zählern je Weg. */
+export function katalogBilanzZeile(b: { nichtGefragt: number; abbruch: number; entfernt: number }): string {
+  return `ADN-Katalog behalten: ${b.nichtGefragt} nicht gefragt, ${b.abbruch} Abbruch, ${b.entfernt} entfernt`
 }
 
 /** Schlusszeile des Laufs; `rot` heißt: mehr als eine Handvoll verworfen. */
