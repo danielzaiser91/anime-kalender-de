@@ -13,6 +13,7 @@ import type { Quelle, Release, Title } from '../../shared/types.ts'
 import { addDays } from '../../shared/time.ts'
 import { quellenName } from './meldungen.ts'
 import { reihenIndex, staffelKette } from './disc-verschiebungen-staffel.ts'
+import { buyUrlNachVerschiebung, type DiscIndex } from './disc-ean.ts'
 
 export interface Verschiebung {
   /** Wie im Artikel, samt Ausgabe in Klammern. */
@@ -119,6 +120,7 @@ export function verschiebungenAnwenden(
   artikel: VerschiebungsArtikel[],
   heute: string,
   titel: Map<number, Title>,
+  discIndex?: DiscIndex,
 ): { name: string; von: string; nach: string }[] {
   const nachName = ketten(artikel)
   const reihen = reihenIndex(titel.values())
@@ -131,7 +133,8 @@ export function verschiebungenAnwenden(
     const nach = kette.at(-1)!.neu
     if (von === nach || !kette.some((g) => g.alt === von || g.neu === von)) return
     const sources = [...new Set([...r.sources, ...kette.map((g) => g.url)])]
-    releases[i] = { ...r, schedule: { ...r.schedule, firstEpisodeDate: nach }, year: Number(nach.slice(0, 4)), sources, quellen: belege(r, kette, heute) }
+    const buyUrl = discIndex ? buyUrlNachVerschiebung(r.buyUrl, r.titleId, nach, discIndex) : r.buyUrl
+    releases[i] = { ...r, ...(buyUrl ? { buyUrl } : {}), schedule: { ...r.schedule, firstEpisodeDate: nach }, year: Number(nach.slice(0, 4)), sources, quellen: belege(r, kette, heute) }
     geaendert.push({ name: r.name, von, nach })
   })
   return geaendert
