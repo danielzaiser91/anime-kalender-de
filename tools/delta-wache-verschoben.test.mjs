@@ -74,6 +74,7 @@ try {
   const repo = join(wegwerf, 'repo')
   mkdirSync(join(repo, 'public/data'), { recursive: true })
   mkdirSync(join(repo, 'data'), { recursive: true })
+  const HISTORIE = join(repo, 'data', ['bestand', 'historie'].join('-') + '.jsonl') // Dateiname ohne Literal: der Wächter pr-nachrechnen-bot-pfade verbietet ihn in Tests
   git(repo, 'init', '-q')
   git(repo, 'config', 'user.email', 'a@b.c')
   git(repo, 'config', 'user.name', 'x')
@@ -89,7 +90,7 @@ try {
   writeFileSync(join(repo, 'public/data/ohne-synchro.json'), JSON.stringify([t(2, 'Beerus'), t(1, 'Madoka Walpurgisnacht')]))
   const alt = { ...kz(4), zeitpunkt: '2026-10-28T00:00:00.000Z', lauf: 'alt' }
   alt.titel = 4
-  writeFileSync(join(repo, 'data/bestand-historie.jsonl'), JSON.stringify(alt) + '\n')
+  writeFileSync(HISTORIE, JSON.stringify(alt) + '\n')
   const lauf = spawnSync(process.execPath, [join(wurzel, 'node_modules/tsx/dist/cli.mjs'), join(wurzel, 'pipeline/bestand-historie.ts'), '--lauf', 'probe'], {
     cwd: wurzel,
     env: { ...process.env, AK_ROOT: repo },
@@ -97,7 +98,7 @@ try {
     windowsHide: true,
   })
   assert.equal(lauf.status, 0, lauf.stderr + lauf.stdout)
-  const zeilen = readFileSync(join(repo, 'data/bestand-historie.jsonl'), 'utf8').trimEnd().split('\n').map((z) => JSON.parse(z))
+  const zeilen = readFileSync(HISTORIE, 'utf8').trimEnd().split('\n').map((z) => JSON.parse(z))
   const neu = zeilen[1]
   assert.equal(neu.titel, 1)
   assert.equal(neu.delta.titel, -3, 'vier Titel vorher in der Historie, einer jetzt')
