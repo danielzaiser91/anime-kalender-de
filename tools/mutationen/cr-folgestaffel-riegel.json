@@ -1,0 +1,18 @@
+[
+  ["s.platform !== 'crunchyroll' || (s.url === url && s.dub === undefined)", "false || (s.url === url && s.dub === undefined)"],
+  ["s.platform !== 'crunchyroll' || (s.url === url && s.dub === undefined)", "s.platform !== 'crunchyroll' || (s.dub === undefined)"],
+  ["s.platform !== 'crunchyroll' || (s.url === url && s.dub === undefined)", "s.platform !== 'crunchyroll' || (s.url !== url && s.dub === undefined)"],
+  ["s.platform !== 'crunchyroll' || (s.url === url && s.dub === undefined)", "s.platform !== 'crunchyroll' || (s.url === url)"],
+  ["s.platform !== 'crunchyroll' || (s.url === url && s.dub === undefined)", "s.platform !== 'crunchyroll' || (s.url === url && s.dub !== false)"],
+  ["s.platform !== 'crunchyroll' || (s.url === url && s.dub === undefined)", "true"],
+  ["if (vorhanden) Object.assign(vorhanden, urteil)", "if (!vorhanden) Object.assign(vorhanden ?? {}, urteil)"],
+  ["if (vorhanden) Object.assign(vorhanden, urteil)", "if (0 && vorhanden) Object.assign(vorhanden, urteil)"],
+  ["if (!liste.includes(t)) nachUrl.set", "if (true) nachUrl.set"],
+  ["if (!liste.includes(t)) nachUrl.set", "if (false) nachUrl.set"],
+  ["t.streams.find((s) => s.platform === 'crunchyroll')", "t.streams.find((s) => s.platform !== 'crunchyroll')"],
+  ["const urteil = { dub: true,", "const urteil = { dub: false,"],
+  ["reihen.has(t.franchiseId ?? t.id) &&", "true &&"],
+  ["titelStaffelNr(t) === nr &&", "true &&"],
+  ["titles.values(), serie.url)", "titles.values(), '')"],
+  ["else t.streams.push({ platform: 'crunchyroll', url: serie.url, ...urteil })", "else t.streams.push({ platform: 'crunchyroll', url: '', ...urteil })"]
+]
