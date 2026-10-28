@@ -1,5 +1,8 @@
 import type { Zugangsart } from './zugangsart.ts'
 
+/** Woher ein angenommenes Ja stammt: Schwester-Shop und Telekom bei Kaufwegen, Joyn pauschal und Prime-Kanal bei Streams (Streams: `bau/joyn-pauschal.ts`, `bau/kanal-erbt-anbieter.ts`). */
+export type DubAbgeleitet = 'schwester-shop' | 'telekom-annahme' | 'joyn-pauschal' | 'kanal-erbt'
+
 /**
  * Ein Weg, den Titel zu sehen oder zu kaufen — jenseits der Plattformen, die
  * dieses Projekt selbst kennt.
@@ -60,7 +63,7 @@ export interface WatchLink {
    * JustWatch die Tonspur nennt (`pipeline/lib/telekom-annahme.ts`). Hier steht `dubRanges` daneben (Daniels
    * Annahme vom 22.09.2026); sie zählt aber weder als Deutsch-Häkchen noch im Antwort-Kasten (`belegteBereiche` in `antwort-regeln.ts`).
    */
-  dubAbgeleitet?: 'schwester-shop' | 'telekom-annahme'
+  dubAbgeleitet?: DubAbgeleitet
   /**
    * **Nur TOGGO: wann welche Folgen kostenlos abrufbar sind** (19.09.2026, `pipeline/fetch-toggo.ts`).
    * Blöcke aufeinanderfolgender Folgen mit gleichem Fenster; `ab`/`bis` in Berliner Ortszeit.
