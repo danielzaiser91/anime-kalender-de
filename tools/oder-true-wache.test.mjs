@@ -99,6 +99,8 @@ assert.deepEqual(bewerte(zwei, [{ datei: 'tools/a.sh', text: 'rm x', anzahl: 3 }
 assert.deepEqual(bewerte(zwei, [{ datei: 'tools/a.sh', text: 'rm x', anzahl: 1 }]).abweichend.map((x) => x.gefunden), [2], 'anzahl 1 ausdrücklich')
 assert.deepEqual(bewerte([zwei[0]], [{ datei: 'tools/a.sh', text: 'rm x', anzahl: 2 }]).abweichend.map((x) => x.gefunden), [1], 'weniger als anzahl: gemeldet')
 assert.deepEqual(bewerte([zwei[0]], [{ datei: 'tools/a.sh', text: 'rm x' }]).abweichend, [], 'genau ein Fund: grün')
+assert.deepEqual(bewerte([zwei[0]], [{ datei: 'tools/a.sh', text: 'rm x', anzahl: 0 }]).abweichend.map((x) => x.gefunden), [1], 'anzahl 0 ist keine Standardzahl: ein Fund meldet')
+assert.deepEqual(bewerte(zwei, [{ datei: 'tools/a.sh', text: 'rm x', anzahl: '2' }]).abweichend.map((x) => x.gefunden), [2], 'anzahl als Text deckt nicht')
 
 // pruefe an einem Wegwerf-Baum
 const wurzel = mkdtempSync(join(tmpdir(), 'oder-true-'))
