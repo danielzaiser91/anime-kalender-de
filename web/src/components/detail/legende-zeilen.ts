@@ -15,6 +15,8 @@ type Kaufweg = Wege[number]['streamWege'][number]
 export function streamStatus(title: Title, s: StreamLink, releases: Release[]): DubStatusArt {
   const art = statusArt(s.dub, s.dubQuelle === 'justwatch' ? s.dubStand : undefined)
   if (art === 'justwatch' && !s.dubHintOnly) return 'jwDeutsch'
+  /* Abgeleitet (Joyn pauschal, Prime-Kanal erbt), nicht am Weg gemessen: zählt als Deutsch, sieht aber nicht wie ein Beleg aus. */
+  if (art === 'belegt' && s.dubAbgeleitet) return 'anbieter'
   return art === 'offen' && (streamNurOmu(title, s, releases) || adresseIstOmu(s.url)) ? 'omu' : art
 }
 
