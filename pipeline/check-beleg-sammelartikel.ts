@@ -5,7 +5,7 @@
  */
 import { chromium } from 'playwright'
 import { belegAusschnitt } from './lib/beleg-bild.ts'
-import { fensterStart } from './lib/beleg-stelle.ts'
+import { fensterStart, terminMarken } from './lib/beleg-stelle.ts'
 import { gruppenJeAdresse, suchbegriffeJeAdresse, tageJeAdresse, zuordnungFuerLesen, type BestandLeser } from './lib/beleg-suche.ts'
 import type { NewsEintrag, Release, Title } from '../shared/types.ts'
 
@@ -121,7 +121,7 @@ async function verschiebungsFall(): Promise<void> {
   const browser = await chromium.launch()
   const seite = await browser.newPage({ viewport: { width: 1280, height: 900 } })
   const gruppe = { id: 1, suchen: ['Virgin Road – Vol. 1', 'Virgin Road'], tage: ['2026-09-11'] }
-  const ohneTag = { id: 2, suchen: ['Wind Breaker – Vol. 2'], tage: ['2026-09-18'] }
+  const ohneTag = { id: 2, suchen: ['Wind Breaker – Vol. 2'], tage: ['2026-09-19'] }
   await seite.setContent(`<!doctype html><html><body style="margin:0">${VERSCHIEBUNG(false)}</body></html>`)
   const nurAbsatz = await belegAusschnitt(seite, ['Virgin Road'], ['2026-09-11'], [gruppe])
   await seite.setContent(`<!doctype html><html><body style="margin:0">${VERSCHIEBUNG(true)}</body></html>`)
@@ -131,11 +131,30 @@ async function verschiebungsFall(): Promise<void> {
   /* Der Name steht nur in der Überschrift h1: `stuetzstelle` liest sie nicht, die zweite Suche in `messeAusschnitt` schon — ohne Termin gilt sie weiter. */
   await seite.setContent('<!doctype html><html><body style="margin:0"><article><h1>Zorro Staffel 2 startet bald auf Deutsch</h1><p>Ein Absatz mit genug Text, damit das Bild nicht einfarbig ist und der Ausschnitt etwas zu zeigen hat.</p><p>Noch ein Absatz mit Text, der keinen Namen nennt.</p></article></body></html>')
   const kurzerName = await belegAusschnitt(seite, ['Zorro'], [], [])
+  /* Wörtlich der Aufbau einer aniSearch-Produktseite: Der Titel steht in der Überschrift, der Tag im Feld „Veröffentlicht: 22. Okt 2026" (data/beleg-lesungen.json, Artikel 216206). */
+  const produktseite = (feld: string): string => `<!doctype html><html><body style="margin:0"><article><h1>Detektei Layton: Katrielles rätselhafte Fälle - Gesamtausgabe [Blu-ray] (Re-Release)</h1><p>Produktinformationen mit genug Text, damit das Bild etwas zeigt.</p><p>${feld}</p><p>Medium: Blu-ray, Publisher: KSM Anime, Sprache: Deutsch, Japanisch</p></article></body></html>`
+  const layton = ['Detektei Layton: Katrielles rätselhafte Fälle']
+  await seite.setContent(produktseite('Veröffentlicht: 22. Okt 2026'))
+  const tagImFeld = await belegAusschnitt(seite, layton, ['2026-10-22'], [])
+  await seite.setContent(produktseite('Veröffentlicht: 3. Nov 2026'))
+  const anderesDatum = await belegAusschnitt(seite, layton, ['2026-12-04'], [])
+  /* ADN schreibt „24 August 2026", Crunchyroll „im Oktober 2026". */
+  await seite.setContent(produktseite('Autor: Mady | 24 August 2026'))
+  const ohnePunkt = await belegAusschnitt(seite, layton, ['2026-08-24'], [])
+  await seite.setContent(produktseite('Die Premiere ist im Oktober 2026'))
+  const nurMonat = await belegAusschnitt(seite, layton, ['2026-10-03'], [])
   await browser.close()
   pruefe('Verschiebung: Absatz ohne Datum bekommt keine Marke, obwohl er den Titel nennt', typeof nurAbsatz === 'object' && !nurAbsatz.markierung, JSON.stringify(typeof nurAbsatz === 'object' ? nurAbsatz.markierung : nurAbsatz))
   pruefe('Verschiebung: die Tabellenzeile mit dem Datum bekommt die Marke, weit unter dem Absatz', typeof mitTabelle === 'object' && (mitTabelle.markierung?.[1] ?? 0) > 0.3, JSON.stringify(typeof mitTabelle === 'object' ? mitTabelle.markierung : mitTabelle))
   pruefe('Verschiebung: ohne Termin gilt weiter eine Stelle mit dem Titel (kein Termin zu belegen)', typeof ohneDatum === 'object' && Boolean(ohneDatum.markierung),JSON.stringify(typeof ohneDatum === 'object' ? ohneDatum.markierung : ohneDatum))
   pruefe('Ohne Termin sucht `messeAusschnitt` den Namen weiter selbst (Name nur in der Überschrift)', typeof kurzerName === 'object' && Boolean(kurzerName.markierung), JSON.stringify(typeof kurzerName === 'object' ? kurzerName.markierung : kurzerName))
+  const marke = (b: unknown): string => JSON.stringify(typeof b === 'object' && b ? (b as { markierung?: unknown }).markierung : b)
+  const hat = (b: unknown): boolean => typeof b === 'object' && b !== null && Boolean((b as { markierung?: unknown }).markierung)
+  pruefe('Produktseite: Titel in der Überschrift, Tag im Feld „22. Okt 2026" — die Marke bleibt', hat(tagImFeld), marke(tagImFeld))
+  pruefe('Produktseite mit anderem Tag („3. Nov 2026" gegen 4.12.): keine Marke', typeof anderesDatum === 'object' && !hat(anderesDatum), marke(anderesDatum))
+  pruefe('„24 August 2026" ohne Punkt zählt als Tag', hat(ohnePunkt), marke(ohnePunkt))
+  pruefe('„im Oktober 2026" stützt einen Tag im Oktober', hat(nurMonat), marke(nurMonat))
+  pruefe('Marken-Schreibweisen: aniSearch, ADN, Monat und die bisherigen', ['22. okt 2026', '22 oktober 2026', 'oktober 2026', '22. oktober 2026', '22. oktober', '22.10.'].every((m) => terminMarken(['2026-10-22']).includes(m)), terminMarken(['2026-10-22']).join('|'))
   pruefe('Verschiebung: Sammelartikel — der Titel mit Datum hat seine Marke, der ohne Datum im Text den Grund', typeof zwei === 'object' && Boolean(zwei.markierungen?.['1']) && !zwei.markierungen?.['2'] && zwei.ohneMarke?.['2'] === 'nicht-gefunden', JSON.stringify(typeof zwei === 'object' ? [zwei.markierungen, zwei.ohneMarke] : zwei))
 }
 

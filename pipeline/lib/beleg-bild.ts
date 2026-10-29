@@ -10,7 +10,7 @@
 import { gzipSync } from 'node:zlib'
 import type { Page } from 'playwright'
 import { sperreEntfernen } from './cookie-banner.ts'
-import { fensterStart, stuetzstelle, verdecktesMarkieren, type Stelle } from './beleg-stelle.ts'
+import { fensterStart, stuetzstelle, terminFehltImText, verdecktesMarkieren, type Stelle } from './beleg-stelle.ts'
 import type { Gruppe } from './beleg-suche.ts'
 import type { OhneMarkeGrund } from './beleg-marken.ts'
 
@@ -78,7 +78,7 @@ function messeAusschnitt({ maxHoehe, maxBisStelle, skala, suchen, stelle, bisUnt
   let markierung: [number, number, number, number] | undefined
   if (stelle) markierung = anteile({ top: stelle.oben - window.scrollY, left: stelle.links, width: stelle.breite, height: stelle.markeUnten - stelle.oben })
   const norm = (s: string) => s.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').trim()
-  /* Belegt der Artikel einen Termin, zählt kein Absatz ohne ihn (`stuetzstelle`): lieber keine Marke als eine falsche. */
+  /* Nennt der Artikel den Termin nirgends, zählt kein Absatz mit dem Titel (`stuetzstelle`): lieber keine Marke als eine falsche. */
   for (const name of markierung || datumPflicht ? [] : suchen) {
     const gesucht = norm(name)
     const treffer = [h1, ...absaetze].filter((e): e is HTMLElement => Boolean(e)).find((e) => {
@@ -131,7 +131,7 @@ export async function belegAusschnitt(seite: Page, suchen: string[] = [], tage: 
   const bisUnten = Math.max(0, ...stellen.map(([, st]) => st?.unten ?? 0)) || undefined
   const hoechstens = gruppen.length > 1 ? MAX_SAMMEL : MAX_BIS_STELLE
   const vonOben = bisUnten ? fensterStart(stellen.flatMap(([, st]) => (st ? [st.oben] : [])), bisUnten, hoechstens) : undefined
-  const gemessen = await seite.evaluate(messeAusschnitt, { maxHoehe: MAX_HOEHE, maxBisStelle: hoechstens, skala: BILD_SKALA, suchen, stelle, bisUnten, vonOben, datumPflicht: tage.length > 0 })
+  const gemessen = await seite.evaluate(messeAusschnitt, { maxHoehe: MAX_HOEHE, maxBisStelle: hoechstens, skala: BILD_SKALA, suchen, stelle, bisUnten, vonOben, datumPflicht: await terminFehltImText(seite, tage) })
   if (!gemessen || gemessen === 'wand') return gemessen
   /* Ein Sammelartikel-Ausschnitt über `MAX_BIS_STELLE` (samt 16 Pixel Rand) wird einfach aufgelöst, sonst wächst das Bild auf über 400 KB. */
   if (gruppen.length > 1 && gemessen.clip.height > MAX_BIS_STELLE + 16) gemessen.clip.scale = 1
