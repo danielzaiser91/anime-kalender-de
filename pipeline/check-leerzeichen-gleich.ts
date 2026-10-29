@@ -84,7 +84,7 @@ function kommaPruefung(): number {
 function auswahlPruefung(): number {
   const faelle: [string, boolean][] = [
     ['pipeline/a.ts', true], ['extension/inhalt.js', true], ['tools/a.mjs', true], ['extension/offene-netflix.js', false],
-    ['extension/offene-amazon-suche.js', false], ['tools/archiv/x/a.cjs', false], ['tools/archiviert.mjs', true], ['docs/a.md', false],
+    ['extension/offene-amazon-suche.js', false], ['tools/archiv/x/a.cjs', false], ['tools/archiviert.mjs', true], ['tools/daten.json', false],
   ]
   let fehler = 0
   for (const [datei, soll] of faelle) {
