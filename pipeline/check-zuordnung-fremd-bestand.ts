@@ -3,7 +3,7 @@
  * gehört** (29.10.2026, Anlass: fünf Fehlzuordnungen — vier Netflix-Cartoonseiten an Hero Mask, Swordgai ×2, Pokémon und eine
  * Serienseite an einem Film —, live unsichtbar, weil `adresseFremdBelegt` sie im Bau überspringt, im Bestand aber geblieben).
  * Besitzer: ein Cartoon oder Titel ohne Synchro (`streams`) oder ein Handbeleg einer anderen Kennung.
- * Die 75 Altfälle (Stand 29.10.2026, 80 Zuordnungen) stehen in `data/zuordnung-fremd-bekannt.json`: neue Treffer sind rot, ein Eintrag ohne Treffer auch (streichen).
+ * Die 35 Altfälle (Stand 29.10.2026 nach der Sichtung: 40 von 75 gesperrt) stehen in `data/zuordnung-fremd-bekannt.json`: neue Treffer sind rot, ein Eintrag ohne Treffer auch (streichen).
  * Liest `public/data` und gehört deshalb in `check:bestand`; die Fälle ohne Bestand stehen in `check-zuordnung-fremd.ts`.
  */
 import { readFileSync } from 'node:fs'
