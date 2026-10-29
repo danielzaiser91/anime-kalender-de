@@ -8,11 +8,14 @@
  * ist fest, so bleibt ein Fall dauerhaft derselbe, auch wenn der Bestand weiterläuft.
  *
  * Aufruf: node tools/buehne-faelle.mjs        (oder: npm run buehne:faelle)
+ *         node tools/buehne-faelle.mjs --nur <slug>   rechnet nur diesen Fall neu, der Rest der Datei bleibt byteweise gleich
+ *         (`--ziel <datei>` schreibt statt nach `web/buehne/faelle.json` in eine andere Datei, für Tests)
  */
 import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { ladeAkVon, uebersetzeDatei } from '../pipeline/lib/ausgabe-kennung.ts'
 import { namensIndex } from '../pipeline/bau/ohne-synchro-namen.ts'
+import { leseOptionen, uebernimmFall } from './buehne-faelle-nur.mjs'
 
 const WURZEL = resolve(import.meta.dirname, '..')
 const DATEN = resolve(WURZEL, 'public/data')
@@ -154,17 +157,32 @@ function pruefeKeineUeberschneidung(faelle) {
   }
 }
 
-function main() {
-  const { akVon } = ladeAkVon(resolve(WURZEL, 'data/kennungen.json'))
-  const faelle = {}
-  for (const fall of [...FAELLE, ...FERNSEHTAG]) {
-    faelle[fall.slug] = { name: fall.name, titleId: akVon(fall.titel), ...schneide(fall, akVon) }
+function schneideFall(fall, akVon) {
+  return { name: fall.name, titleId: akVon(fall.titel), ...schneide(fall, akVon) }
+}
+
+/** Ohne Option: alles neu. Mit `--nur <slug>`: nur dieser Fall, der Rest der Datei bleibt, wie er ist. */
+function baueAusgabe(nur, ziel, akVon) {
+  const alleFaelle = [...FAELLE, ...FERNSEHTAG]
+  if (!nur) {
+    const faelle = Object.fromEntries(alleFaelle.map((fall) => [fall.slug, schneideFall(fall, akVon)]))
+    return { heute: HEUTE, meta: lies('meta.json'), faelle }
   }
-  pruefeKeineUeberschneidung(faelle)
-  const ausgabe = { heute: HEUTE, meta: lies('meta.json'), faelle }
-  writeFileSync(ZIEL, `${JSON.stringify(ausgabe)}\n`)
-  for (const [slug, f] of Object.entries(faelle)) console.log(`${slug}: ${f['titles.json'].length} Titel, ${f['releases.json'].length} Releases, ${f['events.json'].length} Termine`)
-  console.log(`${ZIEL}: ${Math.round(readFileSync(ZIEL).length / 1024)} KB`)
+  const fall = alleFaelle.find((f) => f.slug === nur)
+  if (!fall) throw new Error(`Unbekannter Fall ${nur}; bekannt: ${alleFaelle.map((f) => f.slug).join(', ')}`)
+  return uebernimmFall(JSON.parse(readFileSync(ziel, 'utf8')), nur, schneideFall(fall, akVon))
+}
+
+function main() {
+  const { nur, ziel = ZIEL } = leseOptionen(process.argv.slice(2))
+  const { akVon } = ladeAkVon(resolve(WURZEL, 'data/kennungen.json'))
+  const ausgabe = baueAusgabe(nur, ziel, akVon)
+  pruefeKeineUeberschneidung(ausgabe.faelle)
+  writeFileSync(ziel, `${JSON.stringify(ausgabe)}\n`)
+  for (const [slug, f] of Object.entries(ausgabe.faelle)) {
+    if (!nur || slug === nur) console.log(`${slug}: ${f['titles.json'].length} Titel, ${f['releases.json'].length} Releases, ${f['events.json'].length} Termine`)
+  }
+  console.log(`${ziel}: ${Math.round(readFileSync(ziel).length / 1024)} KB`)
 }
 
 main()
