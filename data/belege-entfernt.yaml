@@ -98,3 +98,143 @@
   url: https://www.amazon.de/gp/video/detail/B09ZJW8HGH
   grund: 'Seite hat 25 Folgen und gehört der 3. Staffel (20725), nicht der OVA (1 Folge) (Fremdzuordnung, 29.10.2026)'
   entferntAm: '2026-10-29'
+- anilistId: 102977
+  url: https://www.amazon.de/gp/video/detail/B0CHBQ91TK
+  grund: 'Seite gehört Golden Kamuy 3 (110355, Beleg „laut Adresse Staffel 3“), nicht Staffel 2 (Fremdzuordnung, 29.10.2026)'
+  entferntAm: '2026-10-29'
+- anilistId: 110355
+  url: https://www.amazon.de/gp/video/detail/B0CGGJKCT8
+  grund: 'Seite gehört Golden Kamuy 2 (102977, Beleg „laut Adresse Staffel 2“), nicht Staffel 3 (Fremdzuordnung, 29.10.2026)'
+  entferntAm: '2026-10-29'
+- anilistId: 16049
+  url: https://www.amazon.de/gp/video/detail/B0CYWDP17J
+  grund: 'Seite hat 24 Folgen und gehört Railgun (6213); Railgun S hat B0CVFNLP9D „laut Adresse Staffel 2“ (Fremdzuordnung, 29.10.2026)'
+  entferntAm: '2026-10-29'
+- anilistId: 15583
+  url: https://www.amazon.de/gp/video/detail/B0FLKK79P9
+  grund: 'Seite gehört Date a Live V (151380, Beleg „laut Adresse Staffel 5“), nicht der 1. Staffel (Fremdzuordnung, 29.10.2026)'
+  entferntAm: '2026-10-29'
+- anilistId: 159309
+  url: https://www.amazon.de/gp/video/detail/B0CJRDG5R6
+  grund: 'Seite gehört Trapped in a Dating Sim (142074); Staffel 2 hat B0H7YCRTJN „laut Adresse Staffel 2“ (Fremdzuordnung, 29.10.2026)'
+  entferntAm: '2026-10-29'
+- anilistId: 21087
+  url: https://www.amazon.de/gp/video/detail/B0D4KNHDMT
+  grund: 'Seite gehört One Punch Man 2 (97668, Beleg „laut Adresse Staffel 2“); Staffel 1 hat B0DCPGLMHR (Fremdzuordnung, 29.10.2026)'
+  entferntAm: '2026-10-29'
+- anilistId: 143277
+  url: https://www.netflix.com/title/81642888
+  grund: 'Netflix-Seite gehört Urusei Yatsura Staffel 2 (155645, Folge 23 „Boy Meets Girl“ = Folge 46), nicht der 1. Staffel (Fremdzuordnung, 29.10.2026)'
+  entferntAm: '2026-10-29'
+- anilistId: 21087
+  url: https://www.amazon.de/gp/video/detail/B0FTGLMFP3
+  grund: 'Beleg „laut Adresse Staffel 3“ gehört One-Punch Man Staffel 3 (153800) und ist dorthin umgehängt (Fehlablage, 29.10.2026)'
+  entferntAm: '2026-10-29'
+- anilistId: 1889
+  url: https://www.amazon.de/gp/video/detail/B0CW5RP53F
+  grund: 'Seite (15 Folgen) gehört Higurashi Sotsu (131149), nicht Kai (24 Folgen); Beleg umgehängt (Fehlablage, 29.10.2026)'
+  entferntAm: '2026-10-29'
+- anilistId: 21196
+  url: https://www.amazon.de/gp/video/detail/0M8DANTSGA69M1PDY94H2WE49L
+  grund: 'Seite hat 1 Folge und gehört dem Film Kabaneri: Brennendes Leben (98663), nicht der Serie; Beleg umgehängt (Fehlablage, 29.10.2026)'
+  entferntAm: '2026-10-29'
+- anilistId: 130050
+  url: https://www.amazon.de/gp/video/detail/B0CC5GCCKZ
+  grund: 'Seite hat 13 Folgen (Rondo of Princesses mit OVA, 3712), ein Film hat keine 13 Folgen; Summer Ghost hat B0B8NF5X8N (Fehlablage, 29.10.2026)'
+  entferntAm: '2026-10-29'
+- anilistId: 20605
+  url: https://www.amazon.de/gp/video/detail/B0GVJFZD1W
+  grund: 'Amazon-Seite gehört Tokyo Ghoul:re, nicht Staffel 1 (Seitensperre, 20.10.2026)'
+  entferntAm: '2026-10-20'
+- anilistId: 20605
+  url: https://www.amazon.de/gp/video/detail/B0D188KVH4
+  grund: 'Amazon-Seite gehört Tokyo Ghoul:re, nicht Staffel 1 (#1612)'
+  entferntAm: '2026-10-20'
+- anilistId: 182205
+  url: https://www.amazon.de/gp/video/detail/B0CJC11GRB
+  grund: 'Seite hat laut Adresse Staffel 2 (108511/116742), nicht Staffel 4 (Fremdzuordnung, 29.10.2026)'
+  entferntAm: '2026-10-29'
+- anilistId: 182205
+  url: https://www.amazon.de/gp/video/detail/B0CVS8488Z
+  grund: 'Seite hat laut Adresse Staffel 3 (156822), nicht Staffel 4 (Fremdzuordnung, 29.10.2026)'
+  entferntAm: '2026-10-29'
+- anilistId: 6213
+  url: https://www.amazon.de/gp/video/detail/B0CGGZVNFS
+  grund: 'Seite hat 25 Folgen und ist Railgun T (100185, laut Adresse Staffel 3), nicht Staffel 1 (24 Folgen) (Fremdzuordnung, 29.10.2026)'
+  entferntAm: '2026-10-29'
+- anilistId: 180745
+  url: https://www.amazon.de/gp/video/detail/B0GGJKGT5P
+  grund: 'Seite hat 12 Folgen und gehört der 1. Staffel (98659), nicht der 4. Staffel (Fremdzuordnung, 29.10.2026)'
+  entferntAm: '2026-10-29'
+- anilistId: 146066
+  url: https://www.amazon.de/gp/video/detail/B0F1DKXTW7
+  grund: 'Seite gehört laut Adresse Staffel 2 (145545), nicht Staffel 3 (Fremdzuordnung, 29.10.2026)'
+  entferntAm: '2026-10-29'
+- anilistId: 146066
+  url: https://www.amazon.de/gp/video/detail/B0GGJKGT5P
+  grund: 'Seite hat 12 Folgen und gehört der 1. Staffel (98659), nicht Staffel 3 (13 Folgen) (Fremdzuordnung, 29.10.2026)'
+  entferntAm: '2026-10-29'
+- anilistId: 21003
+  url: https://www.amazon.de/gp/video/detail/B0GP83RCNX
+  grund: 'Seite hat 13 Folgen, laut Adresse Staffel 3 der Serie (14355), nicht die 2 Specials (Fremdzuordnung, 29.10.2026)'
+  entferntAm: '2026-10-29'
+- anilistId: 124194
+  url: https://www.amazon.de/gp/video/detail/B0GFGTTR3N
+  grund: 'Seite hat 25 Folgen und gehört Fruits Basket Staffel 2 (111762), nicht Staffel 3 (13 Folgen) (Fremdzuordnung, 29.10.2026)'
+  entferntAm: '2026-10-29'
+- anilistId: 145064
+  url: https://www.amazon.de/gp/video/detail/B0H8NJSHG8
+  grund: 'Seite gehört Staffel 3 Teil 1 (172463, laut Adresse Staffel 4 / 12 Folgen), nicht Staffel 2 (23 Folgen) (Fremdzuordnung, 29.10.2026)'
+  entferntAm: '2026-10-29'
+- anilistId: 116742
+  url: https://www.amazon.de/gp/video/detail/B0CVS8488Z
+  grund: 'Seite hat 24 Folgen und gehört Staffel 3 (156822), nicht Staffel 2 Teil 2 (12 Folgen) (Fremdzuordnung, 29.10.2026)'
+  entferntAm: '2026-10-29'
+- anilistId: 14813
+  url: https://www.amazon.de/gp/video/detail/B0B5HRCG7M
+  grund: 'Seite hat 12 Folgen und gehört Climax/TOO (108489, 20698), nicht der 1. Staffel (13 Folgen) (Fremdzuordnung, 29.10.2026)'
+  entferntAm: '2026-10-29'
+- anilistId: 1195
+  url: https://www.amazon.de/gp/video/detail/B0DHYDBJWD
+  grund: 'Seite hat 12 Folgen und gehört „F“ (11319), nicht Staffel 1 (13 Folgen) (Fremdzuordnung, 29.10.2026)'
+  entferntAm: '2026-10-29'
+- anilistId: 2167
+  url: https://www.amazon.de/gp/video/detail/B0H4834VK9
+  grund: 'Seite hat 25 Folgen und gehört After Story (4181), nicht Clannad (23 Folgen) (Fremdzuordnung, 29.10.2026)'
+  entferntAm: '2026-10-29'
+- anilistId: 8937
+  url: https://www.amazon.de/gp/video/detail/B0CH5YL4B4
+  grund: 'Seite hat 25 Folgen und ist Railgun T (100185), nicht Index II (24 Folgen) (Fremdzuordnung, 29.10.2026)'
+  entferntAm: '2026-10-29'
+- anilistId: 98437
+  url: https://www.amazon.de/gp/video/detail/B0DN482ZYY
+  grund: 'Seite hat laut Adresse Staffel 1 (20832), nicht Staffel 2 (Fremdzuordnung, 29.10.2026)'
+  entferntAm: '2026-10-29'
+- anilistId: 133844
+  url: https://www.amazon.de/gp/video/detail/B0DN482ZYY
+  grund: 'Seite hat laut Adresse Staffel 1 (20832), nicht Staffel 4 (Fremdzuordnung, 29.10.2026)'
+  entferntAm: '2026-10-29'
+- anilistId: 5764
+  url: https://www.amazon.de/gp/video/detail/B0B8RQ86ZZ
+  grund: 'Seite hat 13 Folgen und gehört der Serie (1195), nicht der OVA (1 Folge) (Fremdzuordnung, 29.10.2026)'
+  entferntAm: '2026-10-29'
+- anilistId: 111762
+  url: https://www.amazon.de/gp/video/detail/B0GDFC7BL6
+  grund: 'Seite gehört Fruits Basket Staffel 3 (124194, 13 Folgen, deutsch), nicht Staffel 2 (25 Folgen) (Fremdzuordnung, 29.10.2026)'
+  entferntAm: '2026-10-29'
+- anilistId: 131149
+  url: https://www.amazon.de/gp/video/detail/B0CBKJKYM4
+  grund: 'Seite hat 24 Folgen und gehört Kai (1889), nicht Sotsu (15 Folgen) (Fremdzuordnung, 29.10.2026)'
+  entferntAm: '2026-10-29'
+- anilistId: 1195
+  url: https://www.amazon.de/gp/video/detail/B0B8PXXV17
+  grund: 'Seite hat 12 Folgen und gehört Staffel 2 (1840), nicht Staffel 1 (13 Folgen) (Fremdzuordnung, 29.10.2026)'
+  entferntAm: '2026-10-29'
+- anilistId: 3712
+  url: https://www.amazon.de/gp/video/detail/B0B8RQ86ZZ
+  grund: 'Seite hat 13 Folgen und gehört Staffel 1 (1195), nicht „Rondo“ (12 Folgen) (Fremdzuordnung, 29.10.2026)'
+  entferntAm: '2026-10-29'
+- anilistId: 101280
+  url: https://www.amazon.de/gp/video/detail/B0F4V6JFZK
+  grund: 'Seite hat 12 Folgen, laut Adresse Staffel 2 (108511), nicht Staffel 1 (24 Folgen) (Fremdzuordnung, 29.10.2026)'
+  entferntAm: '2026-10-29'

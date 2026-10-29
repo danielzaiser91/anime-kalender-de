@@ -152,14 +152,14 @@ pruefe('leerer Grund: rot', fehler(funde(['pipeline/a.ts', 'data/a.json']), [zul
 for (const z of ['data/crunchyroll-woche-belege.json', 'data/crunchyroll-woche.json', 'data/crunchyroll.json']) {
   pruefe(`${z}: rot, auch mit Eintrag`, fehler(funde(['pipeline/a.ts', z]), [zul('pipeline/a.ts', z)]).length === 2, fehler(funde(['pipeline/a.ts', z]), [zul('pipeline/a.ts', z)]))
 }
-pruefe('Handdateien (YAML, -von-hand.json) brauchen keinen Eintrag', fehler(funde(['pipeline/a.ts', 'data/dub-confirmed.yaml']), []).length === 0 && fehler(funde(['pipeline/a.ts', 'data/prime-seiten-von-hand.json']), []).length === 0)
+pruefe('Handdateien (YAML, -von-hand.json) brauchen keinen Eintrag', fehler(funde(['pipeline/a.ts', 'data/dub-confirmed.yaml']), []).length === 0 && fehler(funde(['pipeline/a.ts', 'data/x-von-hand.json']), []).length === 0)
 pruefe('.yml ist eine Handdatei, .yaml.json (Endung nur am Ende) nicht', fehler(funde(['pipeline/a.ts', 'data/a.yml']), []).length === 0 && fehler(funde(['pipeline/a.ts', 'data/a.yaml.json']), []).length === 1)
 pruefe('eine ähnlich benannte Sammlerdatei ist keine Handdatei', fehler(funde(['pipeline/a.ts', 'data/von-hand-liste.json']), []).length === 1)
 
 console.log('\nLauf gegen eine Kulisse (Quelle und Ziel aus dem Wurzel-Argument)')
 const LISTE_TXT = '# Kopf\npipeline/check-a.ts\npipeline/check-b.ts\ntools/x.test.ts\n'
 const gelistet = JSON.stringify([zul('pipeline/check-a.ts', 'data/a.json')])
-const basis = { 'tools/check-logic-liste.txt': LISTE_TXT, 'tools/sammler-lesezugriffe.json': gelistet, 'pipeline/check-a.ts': `readJson('data/a.json', {})`, 'pipeline/check-b.ts': `appendFileSync('data/b.json', '')`,'tools/x.test.ts': `join(kulisse, 'data/c.json')\nconst L = ['data/d.json']` }
+const basis = { 'tools/check-logic-liste.txt': LISTE_TXT, 'tools/sammler-lesezugriffe.json': gelistet, 'pipeline/check-a.ts': `readJson('data/a.json', {})`, 'pipeline/check-b.ts': `appendFileSync('data/b.json', '')`, 'tools/x.test.ts': `join(kulisse, 'data/c.json')\nconst L = ['data/d.json']` }
 const w1 = legeKulisseAn(basis)
 pruefe('Kulisse grün: gelisteter Zugriff, Schreiben und Kulisse in tools/ stören nicht', lauf(w1).fehler.length === 0 && lauf(w1).zeile.includes('1 Lesezugriffe begründet in 1 Prüfungen'), lauf(w1))
 pruefe('sammleFunde: nur pipeline/check-a.ts, tools/ zählt nur echtes Lesen', [...sammleFunde(w1).keys()].join() === 'pipeline/check-a.ts')

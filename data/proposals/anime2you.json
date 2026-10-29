@@ -1,12 +1,12 @@
 {
-  "scrapedAt": "2026-10-29T12:02:06.559Z",
+  "scrapedAt": "2026-10-29T17:02:10.621Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
-    "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 4,
+    "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 11,
     "schon in einem Rubrik-Feed gelesen": 12,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 1,
     "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 10,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 1,
     "Sprachhinweis älter als 45 Tage": 4
   },
   "proposals": [
@@ -50,6 +50,18 @@
         }
       ],
       "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Prime Video kündigt vier Anime-Neuzugänge an",
+      "articleUrl": "https://www.anime2you.de/news/1065256/prime-video-goblin-slayer-staffel-2-und-mehr/",
+      "publishedAt": "2026-10-29",
+      "category": "streaming",
+      "platforms": [
+        "primevideo"
+      ],
+      "dates": [],
+      "dub": "ja",
       "alreadyCurated": false
     },
     {

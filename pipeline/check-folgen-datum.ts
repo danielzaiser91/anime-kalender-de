@@ -35,7 +35,7 @@ const faelle: [string, string | null | undefined, string | null][] = [
   ['Monat August', '10. Aug. 2024', '2024-08-10'],
   ['Monat September', '11. Sep. 2024', '2024-09-11'],
   ['Monat September ausgeschrieben (neun Buchstaben)', '11. September 2024', '2024-09-11'],
-  ['Monat Oktober','12. Okt. 2024', '2024-10-12'],
+  ['Monat Oktober', '12. Okt. 2024', '2024-10-12'],
   ['Monat November', '13. Nov. 2024', '2024-11-13'],
   ['Monat Dezember', '14. Dezember 2024', '2024-12-14'],
   ['unbekannte Form', 'Frühling 2023', null],

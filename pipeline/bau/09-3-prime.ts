@@ -1,6 +1,7 @@
 import { readJson, log } from '../lib/util.ts'
 import { type PlatformId, type Title } from '../../shared/types.ts'
 import { dubKey, adressGleich, adressKern, type DubCheck } from '../lib/dub-confirmed.ts'
+import { istSchwaechereSchwester } from '../lib/staerkste-seite.ts'
 import { amazonAdresseRichten, amazonTitelAdresse } from '../lib/amazon-adresse.ts'
 import { adresseFremdBelegt, adresseVerneint, leseZugeordnet } from '../lib/prime-meldung-riegel.ts'
 import { rohDeutsch } from '../lib/kanal-titel.ts'
@@ -244,7 +245,11 @@ export function uebernehmePrimeUndCrVorschlaege({
           **Der Deckel gilt nur für das Anlegen.** Eine Sprachangabe an einem
           vorhandenen Verweis (oben) und ein Handbeleg gehen ihn nichts an.
         */
-        if (title.streams.filter((x) => x.platform === plattform).length >= 2) {
+        /* Die schwächere Schwester einer vorhandenen Seite bringt keinen zweiten Weg neben ihr. */
+        const vorhandene = title.streams.filter((x) => x.platform === plattform)
+        const belegeDerPlattform = checksJePlattform.get(dubKey(eintrag.titleId, plattform)) ?? []
+        if (vorhandene.some((v) => istSchwaechereSchwester(belegeDerPlattform, v.url, seite))) continue
+        if (vorhandene.length >= 2) {
           uebersprungen++
           continue
         }

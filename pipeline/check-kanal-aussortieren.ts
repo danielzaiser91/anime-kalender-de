@@ -123,6 +123,7 @@ function schreibeKulisse(kulisse: string): void {
   schreibe('public/data/titles.json', JSON.stringify(faelle.map((f) => ({ id: f.titel, titleDe: `Kulisse ${f.titel}`, episodes: 5, jpYear: 2020, streams: [] }))))
   schreibe('data/tmdb-folgen.json', JSON.stringify({ 814: { tmdbId: 1, folgen: [1, 2, 3, 4, 5].map((e) => ({ s: 1, e, titel: `Folge ${e} von 814`, datum: '2020-04-01', minuten: null })) } }))
   schreibe('public/data/cartoons.json', '[]')
+  schreibe('public/data/ohne-synchro.json', '[]')
   schreibe('data/dub-confirmed.yaml', handbelege())
   schreibe('data/kanal-seiten.json', JSON.stringify(faelle.filter((f) => f.nurMerkliste).map((f) => ({ anilistId: f.titel, platform: 'primevideo', url: gruppenUrl(f), checkedAt: '', note: NOTIZ(f.belegSeite!), kanalOhneBeleg: true }))))
   const netflixDeutsch = [`https://www.netflix.com/title/806#0`, { titleId: 806, plattform: 'netflix', asin: null, seite: null, folgen: [{ unsere: 1, sprachen: ['Deutsch'] }] }]

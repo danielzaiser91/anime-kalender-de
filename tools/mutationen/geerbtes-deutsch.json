@@ -1,0 +1,14 @@
+[
+  { "name": "Kontrolle", "aenderungen": [] },
+  { "name": "A1 STATUS_TEXT anbieter -> statusDeutsch", "datei": "web/src/components/detail/pille.tsx", "suche": "anbieter: 'detail.statusAnbieter'", "ersetze": "anbieter: 'detail.statusDeutsch'" },
+  { "name": "A1 STATUS_KLASSE anbieter gruen", "datei": "web/src/components/detail/pille.tsx", "suche": "  anbieter: FREMDANGABE,", "ersetze": "  anbieter: 'bg-ak-gut text-ak-auf-gut'," },
+  { "name": "A1 Panel zeigt belegt statt anbieter", "datei": "web/src/components/detail/legende-zeilen.ts", "suche": "return 'anbieter'", "ersetze": "return 'belegt'" },
+  { "name": "A1 Legende ohne anbieter", "datei": "web/src/components/detail/legende-zeilen.ts", "suche": "return legendeFuer(arten, ", "ersetze": "return legendeFuer(arten.filter((a) => a !== 'anbieter'), " },
+  { "name": "A1 ohneBeleg anbieter", "datei": "web/src/components/detail/legende-zeilen.ts", "suche": "art === 'offen' || art === 'omu'", "ersetze": "art === 'offen' || art === 'omu' || art === 'anbieter'" },
+  { "name": "A2 sig ohne dubAbgeleitet", "datei": "web/src/components/detail/wege-sortieren.ts", "suche": "|${x.dubAbgeleitet ?? ''}", "ersetze": "" },
+  { "name": "A2 aussage ohne dubAbgeleitet", "datei": "web/src/components/detail/wege-falten.ts", "suche": "w.dub, w.dubAbgeleitet,", "ersetze": "w.dub," },
+  { "name": "Zeile weg", "datei": "web/src/components/detail/legende-zeilen.ts", "suche": "if (art === 'belegt' && s.dubAbgeleitet) return 'anbieter'", "ersetze": "" },
+  { "name": "nur joyn", "datei": "web/src/components/detail/legende-zeilen.ts", "suche": "art === 'belegt' && s.dubAbgeleitet)", "ersetze": "art === 'belegt' && s.dubAbgeleitet === 'joyn-pauschal')" },
+  { "name": "nur kanal", "datei": "web/src/components/detail/legende-zeilen.ts", "suche": "art === 'belegt' && s.dubAbgeleitet)", "ersetze": "art === 'belegt' && s.dubAbgeleitet === 'kanal-erbt')" },
+  { "name": "offen statt belegt", "datei": "web/src/components/detail/legende-zeilen.ts", "suche": "art === 'belegt' && s.dubAbgeleitet)", "ersetze": "art === 'offen' && s.dubAbgeleitet)" }
+]

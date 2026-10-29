@@ -15,10 +15,11 @@ const pruefe = (name: string, ok: boolean, info = ''): void => {
   if (!ok) fehler++
 }
 
-/** Vier Abschnitte (300, 1300, 2100 und 1300 Pixel); der Name „Psyren“ steht auch im Fließtext des Nachbarn darüber. Der tiefste Titel (mit Datum) liegt über 3600 Pixel unter dem Kopf; Psyren (3492 Pixel) passt noch ins Fenster, der erste Titel (3792) nicht mehr.  */
+/** Vier Abschnitte (300, 1300, 2100 und 1300 Pixel); der Name „Psyren“ steht auch im Fließtext des Nachbarn darüber. Der erste Titel liegt 3792 Pixel über der Fundstelle des tiefsten: Das Fenster eines Sammelartikels (6000) fasst alle vier — mit Zwischenstück (`zwischen`) nicht mehr. */
 const ABSCHNITT = (hoehe: number, kopf: string, text: string): string => `<section style="height:${hoehe}px"><h2>${kopf}</h2><p>${text}</p></section>`
-const SAMMELARTIKEL = `<article><h1>Deutsche Synchros im Herbst 2026</h1><p>Die Übersicht aller Titel mit deutscher Synchronfassung im Herbst.</p>${[
+const sammelartikel = (zwischen: number): string => `<article><h1>Deutsche Synchros im Herbst 2026</h1><p>Die Übersicht aller Titel mit deutscher Synchronfassung im Herbst.</p>${[
   ABSCHNITT(300, 'Reborn as a Space Mercenary', 'Aus der Feder des Machers von Psyren, mit viel Weltraum und noch mehr Söldnern.'),
+  zwischen ? `<div style="height:${zwischen}px">Anderes Zeug ohne Titel dieser Übersicht.</div>` : '',
   ABSCHNITT(1300, 'PSYREN', 'Inhalt: Eine Gruppe Jugendlicher wird in eine Parallelwelt gezogen und muss überleben.'),
   ABSCHNITT(2100, 'Fillertitel Zwei Beispiel', 'Inhalt: Ein Text über einen weiteren Titel dieser Übersicht, ohne Datum.'),
   ABSCHNITT(1300, 'Die Tagebücher der Apothekerin Staffel 3', 'Die Tagebücher der Apothekerin Staffel 3 startet am 2. Oktober 2026 mit deutscher Synchronfassung.'),
@@ -28,25 +29,38 @@ const GRUPPEN = [
   { id: 2, suchen: ['Fillertitel Zwei Beispiel'], tage: [] },
   { id: 3, suchen: ['Die Tagebücher der Apothekerin Staffel 3'], tage: ['2026-10-02'] },
   { id: 4, suchen: ['Reborn as a Space Mercenary'], tage: [] },
+  { id: 5, suchen: ['Ein Titel, den der Artikel nicht nennt'], tage: [] },
 ]
 
-async function sammelartikelFall(): Promise<void> {
+/** Breite des WebP-Bildes in Pixeln (Kopf `VP8X` oder `VP8 `): 520 bei einfacher, 1040 bei doppelter Auflösung. */
+const bildBreite = (bild: Buffer): number => (bild.toString('latin1', 12, 16) === 'VP8X' ? 1 + bild.readUIntLE(24, 3) : bild.readUInt16LE(26) & 0x3fff)
+
+async function sammelartikelFall(zwischen: number): Promise<void> {
   const browser = await chromium.launch()
   const seite = await browser.newPage({ viewport: { width: 1280, height: 900 } })
-  await seite.setContent(`<!doctype html><html><body style="margin:0">${SAMMELARTIKEL}</body></html>`)
+  await seite.setContent(`<!doctype html><html><body style="margin:0">${sammelartikel(zwischen)}</body></html>`)
   const alleNamen = GRUPPEN.flatMap((g) => g.suchen)
   const b = await belegAusschnitt(seite, alleNamen, ['2026-10-02'], GRUPPEN)
   await browser.close()
   const m = typeof b === 'object' ? b.markierungen : undefined
-  pruefe('Sammelartikel: Bild entsteht', typeof b === 'object')
-  pruefe('Sammelartikel: der Titel mitten im Artikel hat seine Marke', Boolean(m?.['1']), JSON.stringify(m?.['1']))
-  pruefe('Sammelartikel: auch Titel 2 und 3 haben eine Marke', Boolean(m?.['2'] && m['3']))
+  const grund = typeof b === 'object' ? b.ohneMarke : undefined
+  const wort = zwischen ? 'Zwischenstück' : 'Sammelartikel'
+  pruefe(`${wort}: Bild entsteht`, typeof b === 'object')
+  pruefe(`${wort}: der Titel mitten im Artikel hat seine Marke`, Boolean(m?.['1']), JSON.stringify(m?.['1']))
+  pruefe(`${wort}: auch Titel 2 und 3 haben eine Marke`, Boolean(m?.['2'] && m['3']))
+  pruefe(`${wort}: ein Titel, den der Artikel nicht nennt, hat den Grund nicht-gefunden`, grund?.['5'] === 'nicht-gefunden' && !m?.['5'], JSON.stringify(grund))
   if (!m?.['1'] || !m['2'] || !m['3']) return
   /* Die Abschnitte sind gleich hoch: stehen die Marken auf den Überschriften, sind ihre Abstände gleich — eine Marke im Fließtext des Nachbarn verschöbe die erste. */
   const abstand1 = m['2'][1] - m['1'][1]
   const abstand2 = m['3'][1] - m['2'][1]
-  pruefe('Sammelartikel: die Marke sitzt auf der Überschrift, nicht im Fließtext des Nachbarn', Math.abs(abstand1 / abstand2 - 1300 / 2100) < 0.03, `Abstände ${abstand1.toFixed(3)} / ${abstand2.toFixed(3)}`)
-  pruefe('Sammelartikel: der Titel über dem Fenster hat keine Marke (kein falsches Bild)', !m['4'])
+  pruefe(`${wort}: die Marke sitzt auf der Überschrift, nicht im Fließtext des Nachbarn`, Math.abs(abstand1 / abstand2 - 1300 / 2100) < 0.03, `Abstände ${abstand1.toFixed(3)} / ${abstand2.toFixed(3)}`)
+  if (typeof b !== 'object') return
+  if (zwischen) {
+    pruefe('Zwischenstück: der Titel über dem Fenster hat keine Marke (kein falsches Bild), aber den Grund ausserhalb', !m['4'] && grund?.['4'] === 'ausserhalb', JSON.stringify(grund))
+  } else {
+    pruefe('Sammelartikel: auch der oberste Titel, 3792 Pixel über dem tiefsten, hat seine Marke (Rayearth)', Boolean(m['4']) && !grund?.['4'], JSON.stringify(grund))
+    pruefe('Sammelartikel: der Ausschnitt über 3600 Pixel ist einfach aufgelöst (Breite 520)', bildBreite(b.bild) === 520, String(bildBreite(b.bild)))
+  }
 }
 
 function fensterFaelle(): void {
@@ -84,8 +98,24 @@ function newsFaelle(): void {
   pruefe('Suchbegriffe: ohne Meldungen fehlt er', !(suchbegriffeJeAdresse([release], titles).get(url) ?? []).includes('Psyren'))
 }
 
+/** Ein Artikel für einen Titel bleibt bei Fenster 3600 und doppelter Auflösung: Liegt die Fundstelle 4600 px unter dem Kopf, beginnt das Bild 500 px davor (Marke weit unten). */
+async function einzelFall(): Promise<void> {
+  const browser = await chromium.launch()
+  const seite = await browser.newPage({ viewport: { width: 1280, height: 900 } })
+  const html = `<article><h1>Ein Titel im Artikel</h1><p>Vorspann.</p><div style="height:4500px">Anderes Zeug.</div>${ABSCHNITT(300, 'Einzeltitel Beispiel', 'Inhalt: Der einzige Titel dieses Artikels.')}</article>`
+  await seite.setContent(`<!doctype html><html><body style="margin:0">${html}</body></html>`)
+  const b = await belegAusschnitt(seite, ['Einzeltitel Beispiel'], [], [{ id: 1, suchen: ['Einzeltitel Beispiel'], tage: [] }])
+  await browser.close()
+  pruefe('Einzeltitel: Bild entsteht', typeof b === 'object')
+  if (typeof b !== 'object') return
+  pruefe('Einzeltitel: das Fenster bleibt 3600 — das Bild beginnt vor der Fundstelle, nicht beim Kopf', (b.markierung?.[1] ?? 0) > 0.5 && (b.markierung?.[1] ?? 1) < 0.95, JSON.stringify(b.markierung))
+  pruefe('Einzeltitel: doppelte Auflösung bleibt (Breite 1040)', bildBreite(b.bild) === 1040, String(bildBreite(b.bild)))
+}
+
 fensterFaelle()
 newsFaelle()
-await sammelartikelFall()
+await sammelartikelFall(0)
+await sammelartikelFall(2600)
+await einzelFall()
 console.log(fehler ? `✖ ${fehler} Verstöße` : '✔ Sammelartikel-Zuschnitt: Fenster, Meldungstitel und Marken je Titel in Ordnung')
 process.exit(fehler ? 1 : 0)

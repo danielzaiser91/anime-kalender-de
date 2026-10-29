@@ -62,7 +62,7 @@ export function Pille({ name, farbe, url, unten, titel, icon, durchgestrichen, s
 }
 
 /** Sprachzustand eines Wegs: Beleg am Weg, JustWatch-Ton an genau dieser Seite (`jwDeutsch`, sieht aus wie belegt, Herkunft im Hover), Hinweis laut JustWatch, nur Untertitel (die Quelle nennt nur den Originalton) oder offen. */
-export type DubStatusArt = 'belegt' | 'jwDeutsch' | 'justwatch' | 'schwester' | 'annahme' | 'omu' | 'offen'
+export type DubStatusArt = 'belegt' | 'jwDeutsch' | 'justwatch' | 'schwester' | 'annahme' | 'anbieter' | 'omu' | 'offen'
 
 /** `stand` steht nur, wo die Angabe von JustWatch stammt (Datum des Abrufs). */
 export function statusArt(dub: boolean | undefined, stand?: string): DubStatusArt {
@@ -71,16 +71,18 @@ export function statusArt(dub: boolean | undefined, stand?: string): DubStatusAr
 }
 
 /* Kontrast (14.10.2026, dunkel / hell): belegt 10,0 / 5,5 und offen 6,2 / 5,6 aus `tools/design-kontrast.mjs`; Weiß auf #475569 7,6 und auf #1d4ed8 6,7 von Hand gerechnet. */
+const FREMDANGABE = 'bg-[#475569] text-white'
 const STATUS_KLASSE: Record<DubStatusArt, string> = {
   belegt: 'bg-ak-gut text-ak-auf-gut',
   jwDeutsch: 'bg-ak-gut text-ak-auf-gut',
-  justwatch: 'bg-[#475569] text-white',
-  schwester: 'bg-[#475569] text-white',
-  annahme: 'bg-[#475569] text-white',
+  justwatch: FREMDANGABE,
+  schwester: FREMDANGABE,
+  annahme: FREMDANGABE,
+  anbieter: FREMDANGABE,
   omu: 'bg-[#1d4ed8] text-white',
   offen: 'bg-ak-flaeche-2 text-ak-leise',
 }
-const STATUS_TEXT = { belegt: 'detail.statusDeutsch', jwDeutsch: 'detail.statusDeutsch', justwatch: 'detail.statusJustwatch', schwester: 'detail.statusSchwester', annahme: 'detail.statusAnnahme', omu: 'detail.statusOmu', offen: 'detail.statusOffen' } as const
+const STATUS_TEXT = { belegt: 'detail.statusDeutsch', jwDeutsch: 'detail.statusDeutsch', justwatch: 'detail.statusJustwatch', schwester: 'detail.statusSchwester', annahme: 'detail.statusAnnahme', anbieter: 'detail.statusAnbieter', omu: 'detail.statusOmu', offen: 'detail.statusOffen' } as const
 
 /** Wahr, wenn der Kopf des Kastens „Sprache offen“ schon sagt (`kasten-marke.tsx`). */
 export const KopfSagtOffen = createContext(false)
@@ -106,6 +108,7 @@ export function legendeFuer(arten: Iterable<DubStatusArt>, geschaetzt: boolean, 
     da.has('justwatch') ? t('detail.legendeJustwatch') : '',
     da.has('schwester') ? t('detail.legendeSchwester') : '',
     da.has('annahme') ? t('detail.legendeAnnahme') : '',
+    da.has('anbieter') ? t('detail.legendeAnbieter') : '',
     geschaetzt ? t('detail.legendeGeschaetzt') : '',
   ].filter(Boolean)
   return saetze.length ? saetze.join(' ') : undefined

@@ -222,13 +222,13 @@ import { kennungAusPfad, kennungMitAdressgedaechtnis } from './lib/cr-kennung-ge
 import { adressenAusNews, adressenMitOffenemTermin, belegeFuerAlle, crunchyrollDatum, entzieheBild, kopfzeilenDatum, istArtikel, merkeLesung, traegtArtikeldatum, unveraendertSeit, warteschlange, type BelegGedaechtnis } from './lib/beleg-lesung.ts'
 import { baldImTv, namensKern, sendungenAusSeite, titelZuordnen, tvDeSendungen } from './fetch-tv-programm.ts'
 
-let fehler = 0
+const verletzt: string[] = []
 function pruefe(name: string, bedingung: boolean, gefunden?: unknown): void {
   if (bedingung) {
     console.log(`  ✓ ${name}`)
     return
   }
-  fehler++
+  verletzt.push(name)
   console.error(`  ✖ ${name}${gefunden === undefined ? '' : ` — gefunden: ${JSON.stringify(gefunden)}`}`)
 }
 
@@ -3626,7 +3626,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   */
   pruefe(
     'ein dritter Prime-Verweis aus einer Meldung wird nicht angelegt',
-    /if \(title\.streams\.filter\(\(x\) => x\.platform === plattform\)\.length >= 2\) \{/.test(bau),
+    /if \(vorhandene\.length >= 2\) \{/.test(bau),
     'ohne den Deckel wächst ein Titel auf 52 Verweise bei einem Anbieter — je Folge einen, wie im Verlauf von prime-zugeordnet.json',
   )
 
@@ -4331,7 +4331,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   */
   pruefe(
     'bei mehreren Belegen gilt der jüngste',
-    bau.includes("liste.sort((a, b) => (b.checkedAt ?? '').localeCompare(a.checkedAt ?? ''))"),
+    bau.includes('liste.sort(vergleicheBelege)'),
     'sonst entscheidet die Reihenfolge in der Datei, nicht das Prüfdatum',
   )
   /*
@@ -8697,5 +8697,5 @@ pruefe('TV-Beleg springt zur Stunde der Sendung (Boruto, ProSieben MAXX)', tvdeS
   pruefe('Katalog: der Wochenlauf bei anderem Fingerabdruck holt alles neu und setzt den neuen Fingerabdruck', !wochenAlt.frisch && wochenAlt.ersteJahr === 1907 && wochenAlt.fertig.length === 0 && wochenAlt.relFassung === 'neu', wochenAlt)
   pruefe('Katalog: --frisch ohne vorhandenen Katalog tut nichts', planeKatalogLauf({ ...katalogArgs, vorhanden: undefined, frischGewuenscht: true }).ueberspringen)
 }
-console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
-process.exit(fehler ? 1 : 0)
+console.log(verletzt.length ? `\n${verletzt.length} Zusicherung(en) verletzt:\n${verletzt.map((n) => `  ✖ ${n}`).join('\n')}` : '\nAlle Zusicherungen halten.')
+process.exit(verletzt.length ? 1 : 0)

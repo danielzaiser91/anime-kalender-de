@@ -4,6 +4,7 @@ import { log, readJson } from '../lib/util.ts'
 import { type Zugangsart } from '../../shared/zugangsart.ts'
 import { adressKern, adressGleich, loadDubChecks, type DubCheck, dubKey } from '../lib/dub-confirmed.ts'
 import { kanalWissen } from '../lib/kanal-wissen.ts'
+import { ersetztBeleg, vergleicheBelege } from '../lib/staerkste-seite.ts'
 import { providerToPlatform } from './titel-hilfen.ts'
 import { ergaenzeVerweiseVonHand } from '../lib/verweise-von-hand.ts'
 import { kanalAusNotiz } from '../lib/amazon-adresse.ts'
@@ -243,7 +244,7 @@ export function sammleBelege({
     ist für alle Aufrufe dieselbe, also wird sie einmal hier festgelegt.
   */
   for (const liste of checksJePlattform.values()) {
-    liste.sort((a, b) => (b.checkedAt ?? '').localeCompare(a.checkedAt ?? ''))
+    liste.sort(vergleicheBelege)
   }
 
   /**
@@ -499,7 +500,11 @@ export function sammleBelege({
   if (ohnePfad) log(`${ohnePfad} Verweise ohne Pfad über den deutschen Katalog auf ihre Serienadresse gesetzt`)
   if (ohnePfadWeg) log(`${ohnePfadWeg} Verweise ohne Pfad entfernt — eine nackte Domain ist kein Weg zu einem Titel`)
 
-  const checks = new Map(alleChecks.map((c) => [dubKey(c.anilistId, c.platform), c]))
+  const checks = new Map<string, DubCheck>()
+  for (const c of alleChecks) {
+    const k = dubKey(c.anilistId, c.platform)
+    if (ersetztBeleg(checks.get(k), c)) checks.set(k, c)
+  }
   /** Befund je YouTube-Adresse aus `pipeline/check-youtube.ts`. */
   const youtubeBefunde = readJson<Record<string, { art: string; inDE: number; unklar?: boolean }>>(
     'data/youtube-check.json',

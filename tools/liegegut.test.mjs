@@ -9,7 +9,7 @@ import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
-import { geteilteEntscheidungen, liegegut, main, mainCommits, naechsterSchritt, signaleEinzel, ueberholtTreffer, urteile } from './liegegut.mjs'
+import { checkStand, geteilteEntscheidungen, liegegut, main, mainCommits, naechsterSchritt, signaleEinzel, ueberholtTreffer, urteile } from './liegegut.mjs'
 
 const fehler = []
 const pruefe = (name, ok, info) => {
@@ -150,6 +150,22 @@ console.log('liegegut: Grenzen und Randfälle (Mutationsprobe 21.10.2026)')
   pruefe('CANCELLED ist weder grün noch rot', nummern(pr(32, { comments: [bot(20, KOPF, 'ok')], statusCheckRollup: [...GRUEN, { status: 'COMPLETED', conclusion: 'CANCELLED', completedAt: h(20) }] })).length === 0)
   pruefe('StatusContext state SUCCESS zählt als grün', nummern(pr(33, { comments: [bot(20, KOPF, 'ok')], statusCheckRollup: [{ state: 'SUCCESS' }] })).includes(1))
   pruefe('zweiter, jüngerer Fehlschlag (5 h) setzt die Rotzeit zurück', !nummern(pr(34, { statusCheckRollup: [{ status: 'COMPLETED', conclusion: 'FAILURE', completedAt: h(30) }, { status: 'COMPLETED', conclusion: 'FAILURE', completedAt: h(5) }] })).includes(4))
+  // Doppelstart der Kette (pr-nachrechnen öffnet zweimal): der abgebrochene Sammeljob bleibt neben dem neuen im Rollup (PR 2340: 3 CANCELLED + 4 SUCCESS)
+  const lauf = (konkl, vor, name = 'PR-Prüfkette') => ({ name, status: 'COMPLETED', conclusion: konkl, completedAt: h(vor) })
+  const mitLauf = (...laeufe) => nummern(pr(40, { comments: [bot(20, KOPF, 'ok')], statusCheckRollup: [...GRUEN, ...laeufe] }))
+  pruefe('Doppelstart: älterer CANCELLED, jüngerer SUCCESS gleichen Namens → grün', mitLauf(lauf('CANCELLED', 30), lauf('SUCCESS', 25)).includes(1))
+  pruefe('Doppelstart: Reihenfolge der Einträge egal', mitLauf(lauf('SUCCESS', 25), lauf('CANCELLED', 30)).includes(1))
+  pruefe('Abbruch ohne Nachfolger: jüngerer CANCELLED über älterem SUCCESS → nicht grün', !mitLauf(lauf('SUCCESS', 30), lauf('CANCELLED', 25)).includes(1))
+  // Laufender Eintrag: gh liefert completedAt "0001-01-01T00:00:00Z"; die Zeit kommt dann aus startedAt
+  const laeuft = (vor) => ({ name: 'PR-Prüfkette', status: 'IN_PROGRESS', conclusion: '', startedAt: h(vor), completedAt: '0001-01-01T00:00:00Z' })
+  pruefe('älterer SUCCESS, jüngerer laufender Eintrag (completedAt 0001) → nicht grün', !mitLauf(lauf('SUCCESS', 30), laeuft(25)).includes(1))
+  pruefe('laufender Eintrag in anderer Reihenfolge → nicht grün', !mitLauf(laeuft(25), lauf('SUCCESS', 30)).includes(1))
+  pruefe('älterer FAILURE, jüngerer laufender Eintrag → nicht rot', !nummern(pr(43, { statusCheckRollup: [lauf('FAILURE', 30), laeuft(25)] })).includes(4))
+  pruefe('laufender Eintrag älter als der abgeschlossene SUCCESS → grün', mitLauf(laeuft(30), lauf('SUCCESS', 25)).includes(1))
+  pruefe('CANCELLED eines anderen Namens wird nicht vom SUCCESS verdeckt', !mitLauf(lauf('CANCELLED', 30, 'Anderer'), lauf('SUCCESS', 25)).includes(1))
+  pruefe('Wiederholungslauf: älterer FAILURE, jüngerer SUCCESS → nicht rot', !nummern(pr(41, { statusCheckRollup: [lauf('FAILURE', 30), lauf('SUCCESS', 25)] })).includes(4))
+  pruefe('jüngerer FAILURE über älterem SUCCESS → rot', nummern(pr(42, { statusCheckRollup: [lauf('SUCCESS', 30), lauf('FAILURE', 25)] })).includes(4))
+  pruefe('gleicher Zeitpunkt: der spätere Listeneintrag gewinnt', checkStand([lauf('CANCELLED', 30), lauf('SUCCESS', 30)]).art === 'gruen')
   pruefe('StatusContext ohne completedAt: startedAt zählt (5 h → nicht rot lang genug)', !nummern(pr(35, { statusCheckRollup: [{ state: 'ERROR', startedAt: h(5) }] })).includes(4))
   const widerspruch = signaleEinzel(pr(36, { comments: [bot(60, KOPF, 'ok'), bot(50, KOPF, 'aendern'), bot(40, KOPF, 'ok'), bot(30, KOPF, 'aendern')] }), JETZT - 100 * 3600 * 1000, JETZT).find((s) => s.nr === 2)
   pruefe('Signal 2 „seit“ ist das jüngste Urteil', widerspruch !== undefined && widerspruch.seit === JETZT - 30 * 3600 * 1000, widerspruch)

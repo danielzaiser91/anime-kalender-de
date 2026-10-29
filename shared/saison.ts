@@ -40,7 +40,9 @@ export function ersterTermin(releases: Release[] | undefined): { datum: string; 
   return liste.sort((a, b) => a.datum.localeCompare(b.datum))[0]
 }
 
-export const hatDeutsch = (t: Pick<Title, 'streams' | 'deErstausgabe' | 'hasVoices'>): boolean => Boolean((t.streams ?? []).some((s) => s.dub === true) || t.deErstausgabe?.synchro || t.hasVoices)
+/** Deutsch belegt: Weg mit Tonspur-Beleg, Erstausgabe mit Synchro oder Sprecherliste. Ein nur abgeleiteter Weg (`dubAbgeleitet`: Joyn pauschal, Prime-Kanal erbt) zählt nicht, das Detail nennt ihn „Deutsch laut Anbieter“. */
+export const hatDeutsch = (t: Pick<Title, 'streams' | 'deErstausgabe' | 'hasVoices'>): boolean =>
+  Boolean((t.streams ?? []).some((s) => s.dub === true && !s.dubAbgeleitet) || t.deErstausgabe?.synchro || t.hasVoices)
 
 /**
  * Wo die Synchro läuft — oder, wo sie nur angekündigt ist, der Anbieter der Ankündigung (nicht der des Untertitel-Starts allein).

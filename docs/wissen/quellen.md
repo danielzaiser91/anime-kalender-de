@@ -603,7 +603,7 @@ Der Kanal-Hinweis steht nur in der Notiz des Handbelegs. Stellt der Lauf „Neue
 
 - **Wer schreibt:** `fetch-pruefungen.ts` über `schreibeBelege()` (`pipeline/lib/dub-confirmed.ts`, Liste in `pipeline/lib/kanal-merkliste.ts`), nach jedem Schreiben der Handbelege, sortiert und ohne Dubletten. Die Datei wird beim Zurückstellen nicht zurückgesetzt (`ARBEITSDATEIEN` in `tools/meldungen-eingrenzen.mjs` nennt sie bewusst nicht).
 - **Wer liest:** jeder Leser des Kanal-Wissens über `ladeKanalWissen()` bzw. `kanalWissen()` (`pipeline/lib/kanal-wissen.ts`): Wegwahl (`belegFuer`), Prime-Phase (`rohDeutsch`), Stufe 3 und spätes Urteil, die Wächter D-25 bis D-27, das Aussortieren der Rohfolgen und die Bestandsprüfung `check:kalender-plausibilitaet`. Ein neuer Leser nimmt dieselbe Quelle; `pipeline/check-kanal-leser.ts` führt jeden Leser gegen eine Kulisse.
-- **Wann wirkt ein Eintrag:** solange kein Handbeleg desselben Titels dieselbe Seite nennt. Ein Handbeleg zur Seite (zweite Quelle, Korrektur) gilt vor dem Eintrag.
+- **Wann wirkt ein Eintrag:** solange kein Handbeleg desselben Titels dieselbe Seite nennt. Ein Handbeleg zur Seite (zweite Quelle, Korrektur) gilt vor dem Eintrag. Steht dieselbe Kennung@Adresse in `data/belege-entfernt.yaml`, lässt `kanalWissen()` den Eintrag weg (Filter beim Lesen; die Datei bleibt, `ergaenzeMerkliste` sieht sie ungefiltert), damit ein umgehängter Handbeleg seinen Kanal-Hinweis nicht an der fremden Seite behält (29.10.2026).
 - **Entfernen:** nur von Hand aus der Datei; der Lauf fügt Einträge hinzu und löscht nie. Ein von Hand entfernter Eintrag kommt mit dem nächsten Lauf zurück, solange der Kanal-Beleg in der YAML steht (`tools/quellen-liste.sh` führt die Datei als Lauf-Ausgabe).
 
 ## Ein Beleg gehört einer Ausgabe, nicht einem Titel
@@ -4182,3 +4182,7 @@ Lauf `adn-laufende.yml` vom 28.10.2026 14:01 UTC (Commit 4b8f4c268) schrieb für
 
 
 **Katalog (28.10.2026):** `adn-catalog.json` verliert eine Serie nur noch durch eine frische, vollständige Antwort ohne `vde`/`vostde`. Wer in dem Lauf nicht gefragt wurde (`--limit`, Abbruch nach fünf Fehlern) oder abgebrochen hat (5xx, Zeitüberschreitung, französische Sicht), behält den alten Eintrag (`mitUngepruftenAlten`); die Logzeile `ADN-Katalog behalten: N nicht gefragt, N Abbruch, N entfernt` nennt jeden Weg. Gemessen an 160f62e0a (26.10.): 0 Serien verloren (alle 113 alten Einträge wurden gefragt), der Fehler war latent.
+
+## Fremdzuordnung: Wächter für Seiten an Titeln verschiedener Reihen (29.10.2026)
+
+`check-zuordnung-fremd-bestand.ts` meldet zusätzlich jede Prime-/Plattform-Seite in `prime-zugeordnet.json`, an der Titel mit verschiedener `franchiseId` liegen (Meldung nennt beide Besitzer samt „laut Adresse Staffel k“ aus dem Handbeleg). Gemessen am Bestand 29.10.2026 (355418756): 37 Seiten mit mehreren Kennungen, alle gleiche Reihe (Staffelseiten, legitim) → 0 Funde. Verworfen: „mehrere Kennungen an einer Seite“ (37 falsch-positiv) und „Folgenzahl der Seite ≫ Folgen des Titels“ (Belegnotiz „alle N Folgen“ größer als `episodes`: 225 von 1.803 Belegen, ≥ doppelt 36, überwiegend ganze Reihenseiten wie Slime, JoJo, Space Dandy).

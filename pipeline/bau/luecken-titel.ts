@@ -38,7 +38,7 @@ function sammle(hauptbestand: Titel[], katalog: Titel[], beschreibungen: Beschre
   const eintraege = anisearchEintraege()
   const liste: Liste = { hb: {}, kat: {}, zeilen: {} }
   const aufnehmen = (t: Titel, klasse: Klasse) => {
-    const fehlt = fehlendes(t, klasse === 'hb' ? beschreibungen : undefined,eintraege[String(t.id - ANISEARCH_ID_BASIS)]?.mal)
+    const fehlt = fehlendes(t, klasse === 'hb' ? beschreibungen : undefined, eintraege[String(t.id - ANISEARCH_ID_BASIS)]?.mal)
     if (fehlt) liste[klasse][t.id] = fehlt
   }
   const imHaupt = new Set(hauptbestand.map((t) => t.id))

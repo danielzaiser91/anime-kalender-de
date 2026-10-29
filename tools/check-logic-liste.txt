@@ -50,7 +50,10 @@ pipeline/check-beleg-anbieter.ts
 pipeline/check-beleg-api-web.ts
 pipeline/check-beleg-api.ts
 pipeline/check-beleg-bis-anker.ts
+pipeline/check-beleg-fundstelle-hinweis.ts
 pipeline/check-beleg-href.ts
+pipeline/check-beleg-lauf.ts
+pipeline/check-beleg-marken.ts
 pipeline/check-beleg-stoerung.ts
 pipeline/check-belege-entfernt.ts
 pipeline/check-belegstaerke-forum.ts
@@ -111,6 +114,7 @@ pipeline/check-disc-verschiebung-staffel.ts
 pipeline/check-disney-gesamtnummer.ts
 pipeline/check-dub-abgeleitet-lauf.ts
 pipeline/check-dub-abgeleitet.ts
+pipeline/check-dub-anbieter-pille.ts
 pipeline/check-dub-aus-terminen.ts
 pipeline/check-dub-bereiche.ts
 pipeline/check-dub-durchgehende-zaehlung.ts
@@ -300,6 +304,7 @@ pipeline/check-sprache-netz.ts
 pipeline/check-sprache-termin.ts
 pipeline/check-sprecher-anisearch.ts
 pipeline/check-sprecher-filter.ts
+pipeline/check-staerkste-seite.ts
 pipeline/check-staffel-jahr0.ts
 pipeline/check-staffel-synonyme.ts
 pipeline/check-staffel-teil.ts
@@ -372,6 +377,7 @@ pipeline/check-zaehlung.ts
 pipeline/check-zeit-ausgabe.ts
 pipeline/check-zuordner-ablauf.ts
 pipeline/check-zuordner-luecken.ts
+pipeline/check-zuordner-riegel.ts
 pipeline/check-zuordnung-fremd-lauf.ts
 pipeline/check-zuordnung-fremd.ts
 pipeline/check-zweitanbieter.ts

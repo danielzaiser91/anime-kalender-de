@@ -43,8 +43,26 @@ export function urteileAufKopf(liste, kopf, kopfZeit) {
   return liste.filter((u) => (u.kopf === null ? u.zeit >= kopfZeit : kopf.startsWith(u.kopf)))
 }
 
+/** Zeit eines Eintrags; ein laufender Check meldet completedAt "0001-01-01T00:00:00Z" (vor 1970), dann zählt startedAt. */
+const zeitVon = (c) => {
+  const ende = Date.parse(c.completedAt ?? 0) || 0
+  return ende > 0 ? ende : Date.parse(c.startedAt ?? 0) || 0
+}
+
+/** Je Check-Name nur der jüngste Eintrag (so wertet GitHub); ein Doppelstart lässt einen abgebrochenen Sammeljob neben dem neuen stehen. Einträge ohne Namen bleiben. */
+export function jeNameJuengster(rollup) {
+  const juengster = new Map()
+  const ohneName = []
+  for (const c of rollup) {
+    if (!c.name) ohneName.push(c)
+    else if (!juengster.has(c.name) || zeitVon(c) >= zeitVon(juengster.get(c.name))) juengster.set(c.name, c)
+  }
+  return [...juengster.values(), ...ohneName]
+}
+
 /** Checks des Kopfs: 'gruen' (alle fertig und grün), 'rot' (einer rot, mit Zeitpunkt) oder 'offen'. */
-export function checkStand(rollup) {
+export function checkStand(alle) {
+  const rollup = jeNameJuengster(alle)
   if (rollup.length === 0) return { art: 'offen' }
   const rote = rollup.filter((c) => ROT.has(c.conclusion) || ROT.has(c.state))
   if (rote.length > 0) return { art: 'rot', seit: Math.max(...rote.map((c) => Date.parse(c.completedAt ?? c.startedAt ?? 0) || 0)) }
