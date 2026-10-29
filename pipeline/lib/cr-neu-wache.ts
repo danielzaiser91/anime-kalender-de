@@ -45,7 +45,7 @@ const adressKern = (u: string): string =>
  * `/de/<name>` trägt keine Kennung, das Gedächtnis löst sie auf — wie die Katalog-Runde des Baus (`bau/09-4-3-katalog.ts`).
  */
 export function kennungMitGedaechtnis(adressen: Record<string, { seriesId?: string }>): KennungVon {
-  const je = new Map(Object.entries(adressen).filter(([, v]) => v.seriesId).map(([u, v]) => [adressKern(u), v.seriesId as string]))
+  const je = new Map(Object.entries(adressen).map(([u, v]) => [adressKern(u), v.seriesId]))
   return (url) => crSerienKennung(url) ?? je.get(adressKern(url))
 }
 
@@ -145,8 +145,7 @@ export function kennzeichneWiderlegte(
   const titelJeSlug = new Map(releases.map((r) => [r.slug, r.titleId]))
   return fehlt.map((f) => {
     const treffer = Object.entries(gedaechtnis).find(([slug, w]) => {
-      const titelId = titelJeSlug.get(slug)
-      return titelId !== undefined && f.ids.includes(titelId) && Math.abs(diffDays(f.tag, w.am)) <= 1
+      return f.ids.some((id) => id === titelJeSlug.get(slug)) && Math.abs(diffDays(f.tag, w.am)) <= 1
     })
     return treffer ? { ...f, widerlegt: treffer[1].grund } : f
   })

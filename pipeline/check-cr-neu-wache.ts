@@ -186,7 +186,7 @@ const SLUG = 'magic-knight-rayearth-crunchyroll-de-2026-10-28'
 const rayearth = { id: 178868, franchiseId: 178868, titleEn: 'Magic Knight Rayearth (2026)', streams: [{ platform: 'crunchyroll', url: crUrl('GT00383994') }] } as unknown as Title
 const rayFolge: NeueFolge = { serieId: 'GT00383994', serie: 'Magic Knight Rayearth (2026)', staffel: 'Staffel 1', nummer: 1, verfuegbarAb: '2026-10-28T15:15:00.000Z' }
 const widerlegung: Record<string, { am: string; grund: string }> = { [SLUG]: { am: '2026-10-28', grund: GRUND } }
-const releases = [{ slug: SLUG, titleId: 178868 }, { slug: 'anderer-slug', titleId: 5 }]
+const releases = [{ slug: 'anderer-slug', titleId: 5 }, { slug: SLUG, titleId: 178868 }, { slug: 'dritter-slug', titleId: 6 }]
 const rayFehlt = fehlendeCrFolgen([rayFolge], [rayearth], [], '2026-10-29')
 const kenn = (w = widerlegung, r = releases, f = rayFehlt) => kennzeichneWiderlegte(f, w, r)[0]?.widerlegt
 pruefe('Widerlegung: Grund wörtlich an der Folge', kenn() === GRUND, kenn())
@@ -208,6 +208,8 @@ const ohneGedaechtnis = prozess('x', rayNeu, [ev(128712, '2026-10-28')], { ...be
 pruefe('Prozess: ohne Gedächtnisdateien (kaputter Stand): „ohne Termin“ und Serie ohne Titel, kein „widerlegt“', ohneGedaechtnis.status === 0 && ohneGedaechtnis.out.includes('Crunchyroll-Folgen ohne Termin') && ohneGedaechtnis.out.includes('Crunchyroll-Serien ohne Titel') && !ohneGedaechtnis.out.includes('widerlegt'), ohneGedaechtnis)
 const echtUndWider = prozess('y', { folgen: [rayFolge, { ...rayFolge, nummer: 2, verfuegbarAb: '2026-10-22T15:15:00.000Z' }] }, [], beilageRay)
 pruefe('Prozess: eine widerlegte und eine echt fehlende Folge: beide Zeilen, getrennt', echtUndWider.out.includes('Crunchyroll-Folgen ohne Termin: 1 Titel') && echtUndWider.out.includes('Crunchyroll-Folgen widerlegt: 1 Titel') && echtUndWider.out.includes('Folge 2, 2026-10-22') && !echtUndWider.out.includes('Folge 2, 2026-10-22 —'), echtUndWider)
+const nurDetektiv = prozess('v', { folgen: [detektivFolge] }, [], beilageRay)
+pruefe('Prozess: Altadresse ohne Termin: der Titel wird als „ohne Termin“ genannt, die Serie gilt nicht als unbekannt', nurDetektiv.out.includes('Crunchyroll-Folgen ohne Termin: 1 Titel: 128712') && !nurDetektiv.out.includes('ohne Titel'), nurDetektiv)
 const kaputtGed = prozess('z', rayNeu, [], { ...beilageRay, widerlegt: '{kaputt' })
 pruefe('Prozess: kaputte Widerlegungsdatei: Exit 1', kaputtGed.status === 1, kaputtGed)
 
