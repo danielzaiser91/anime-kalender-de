@@ -46,12 +46,14 @@ function klassenVonText(k: MiniKnoten, text: string): string | undefined {
   return undefined
 }
 
-async function zeige(beleg: NewsBeleg, antwort: Antwort, worker = 'https://worker.test'): Promise<{ text: string; klassen?: string; abgerufen: boolean }> {
+async function zeige(beleg: NewsBeleg, antwort: Antwort, worker = 'https://worker.test'): Promise<{ text: string; klassen?: string; abgerufen: boolean; adresse: string }> {
   const dom = installiereMiniDom({ ...attrappeUhr(), matchMedia: () => ({ matches: false, addEventListener() {}, removeEventListener() {} }) }, () => ({}))
   let abgerufen = false
+  let adresse = ''
   const g = globalThis as unknown as Record<string, unknown>
-  g.fetch = async () => {
+  g.fetch = async (a: string) => {
     abgerufen = true
+    adresse = a
     if (antwort === 'netz') throw new TypeError('offline')
     if (antwort === 'offen') return new Promise(() => undefined)
     return antwort === 'nichtGefunden' ? { ok: false, status: 404 } : { ok: true, status: 200, blob: async () => ({}) }
@@ -64,7 +66,7 @@ async function zeige(beleg: NewsBeleg, antwort: Antwort, worker = 'https://worke
   const klassen = klassenVonText(dom.wurzel as unknown as MiniKnoten, HINWEIS)
   await act(async () => wurzel.unmount())
   dom.entferne()
-  return { text, klassen, abgerufen }
+  return { text, klassen, abgerufen, adresse }
 }
 
 console.log('Beleg-Fenster: Bild ohne Marke im Sammelartikel sagt es')
@@ -73,6 +75,7 @@ const sammel = await zeige(RAYEARTH, 'ok')
 pruefe('Sammelartikel, Bild geladen, keine Marke: Hinweis steht da', sammel.text.includes(HINWEIS), sammel.text)
 pruefe('Hinweis steht in eigener Zeile außerhalb der zwei Zeilen Kürzung (Handy)', sammel.klassen !== undefined && !sammel.klassen.includes('line-clamp'), sammel.klassen)
 pruefe('alter Wortlaut ist weg', !sammel.text.includes('Fundstelle markiert'), sammel.text)
+pruefe('Bild kommt vom übergebenen Worker', sammel.adresse.startsWith('https://worker.test/beleg?key='), sammel.adresse)
 const mit = await zeige(MIT_MARKE, 'ok')
 pruefe('mit Marke: kein Hinweis', !mit.text.includes(HINWEIS), mit.text)
 const einzel = await zeige(EINZEL, 'ok')
@@ -85,6 +88,9 @@ const netz = await zeige(RAYEARTH, 'netz')
 pruefe('Bild nicht erreichbar (Netzfehler): kein Hinweis', netz.abgerufen && !netz.text.includes(HINWEIS), netz.text)
 const laedt = await zeige(RAYEARTH, 'offen')
 pruefe('Bild lädt noch: kein Hinweis', laedt.abgerufen && !laedt.text.includes(HINWEIS), laedt.text)
+
+merkeSammelartikel([eintrag(178868, [EINZEL])])
+pruefe('neuer Stand ersetzt den alten (Rayearth nicht mehr geteilt)', !istSammelartikel(RAYEARTH.url))
 
 console.log(verletzt ? `✖ ${verletzt} Verstöße` : '✔ Beleg-Fundstelle: Sammelartikel-Bild ohne Marke trägt den Hinweis, sonst nie')
 process.exit(verletzt ? 1 : 0)

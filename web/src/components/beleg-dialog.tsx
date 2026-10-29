@@ -161,7 +161,7 @@ function useBelegBild(bild: string | undefined, worker: string): { url?: string;
       aktiv = false
       if (blobUrl) URL.revokeObjectURL(blobUrl)
     }
-  }, [bild])
+  }, [bild, worker])
   return { url, fehler }
 }
 
@@ -211,7 +211,7 @@ export function BelegAnsicht({ beleg, zu, worker = WORKER }: { beleg: NewsBeleg;
             </a>
           )}
         </div>
-        {hinweis && <p className="mt-1 text-xs text-slate-300">{hinweis}</p>}
+        {hinweis && <p className="mt-1 text-xs">{hinweis}</p>}
       </div>
       <div className={`min-h-0 flex-1 ${einpassen ? 'flex items-center justify-center p-3 md:p-6' : 'overflow-auto p-3 md:p-6'}`} onClick={zu}>
         {!bild ? (
