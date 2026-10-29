@@ -593,7 +593,7 @@
     ]
   },
   "https://www.anisearch.de/article/213058": {
-    "zuletzt": "2026-10-16",
+    "zuletzt": "2026-10-29",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -616,7 +616,7 @@
             0.19371268734605268
           ]
         },
-        "bildfassung": 2
+        "bildfassung": 3
       }
     ]
   },
@@ -1509,7 +1509,7 @@
     ]
   },
   "https://www.anisearch.de/article/213891,my-next-life-as-a-villainess-wie-ueberlebe-ich-in-einem-dating-game-x-komplettset-blu-ray": {
-    "zuletzt": "2026-10-16",
+    "zuletzt": "2026-10-29",
     "lesungen": [
       {
         "am": "2026-10-04",
@@ -1524,12 +1524,12 @@
           0.3173076923076923,
           0.19015808940298967
         ],
-        "bildfassung": 2
+        "bildfassung": 3
       }
     ]
   },
   "https://www.anisearch.de/article/213891": {
-    "zuletzt": "2026-10-16",
+    "zuletzt": "2026-10-29",
     "lesungen": [
       {
         "am": "2026-10-04",
@@ -1544,7 +1544,7 @@
           0.3173076923076923,
           0.19015808940298967
         ],
-        "bildfassung": 2
+        "bildfassung": 3
       }
     ]
   },
@@ -1813,7 +1813,7 @@
     ]
   },
   "https://www.anisearch.de/article/211705,code-geass-lelouch-of-the-rebellion-staffel-1-2-komplettset-blu-ray": {
-    "zuletzt": "2026-10-20",
+    "zuletzt": "2026-10-29",
     "lesungen": [
       {
         "am": "2026-10-04",
@@ -1860,6 +1860,31 @@
         },
         "bild": "www.anisearch.de/e300a78c8772ee87/2026-10-13-a17cd8b4545638a7.webp",
         "text": "www.anisearch.de/e300a78c8772ee87/2026-10-13-a17cd8b4545638a7.txt.gz"
+      },
+      {
+        "am": "2026-10-29",
+        "hash": "4c050d17fad9bca0",
+        "hf": 2,
+        "ausgabe": "2026-09-18",
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.17307692307692307,
+          0.6082725060827251,
+          0.3173076923076923,
+          0.35279805352798055
+        ],
+        "markierungen": {
+          "2904": [
+            0.17307692307692307,
+            0.6082725060827251,
+            0.3173076923076923,
+            0.35279805352798055
+          ]
+        },
+        "bild": "www.anisearch.de/e300a78c8772ee87/2026-10-29-4c050d17fad9bca0.webp",
+        "text": "www.anisearch.de/e300a78c8772ee87/2026-10-29-4c050d17fad9bca0.txt.gz"
       }
     ]
   },
@@ -2012,7 +2037,7 @@
     ]
   },
   "https://www.anisearch.de/article/213001,my-hero-academia-season-7-blu-ray": {
-    "zuletzt": "2026-10-16",
+    "zuletzt": "2026-10-29",
     "lesungen": [
       {
         "am": "2026-10-04",
@@ -2043,11 +2068,28 @@
         ],
         "bild": "www.anisearch.de/8cb176fb71150c8a/2026-10-16-a352bb9c73dd11af.webp",
         "text": "www.anisearch.de/8cb176fb71150c8a/2026-10-16-a352bb9c73dd11af.txt.gz"
+      },
+      {
+        "am": "2026-10-29",
+        "hash": "8d7b739b206f1d05",
+        "hf": 2,
+        "ausgabe": "2026-10-20",
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.34134615384615385,
+          0.8203782794386821,
+          0.3173076923076923,
+          0.16177111479124903
+        ],
+        "bild": "www.anisearch.de/8cb176fb71150c8a/2026-10-29-8d7b739b206f1d05.webp",
+        "text": "www.anisearch.de/8cb176fb71150c8a/2026-10-29-8d7b739b206f1d05.txt.gz"
       }
     ]
   },
   "https://www.anisearch.de/article/213001": {
-    "zuletzt": "2026-10-16",
+    "zuletzt": "2026-10-29",
     "lesungen": [
       {
         "am": "2026-10-04",
@@ -2078,6 +2120,23 @@
         ],
         "bild": "www.anisearch.de/c9837dc2aa01553c/2026-10-16-a352bb9c73dd11af.webp",
         "text": "www.anisearch.de/c9837dc2aa01553c/2026-10-16-a352bb9c73dd11af.txt.gz"
+      },
+      {
+        "am": "2026-10-29",
+        "hash": "8d7b739b206f1d05",
+        "hf": 2,
+        "ausgabe": "2026-10-20",
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.34134615384615385,
+          0.8203782794386821,
+          0.3173076923076923,
+          0.16177111479124903
+        ],
+        "bild": "www.anisearch.de/c9837dc2aa01553c/2026-10-29-8d7b739b206f1d05.webp",
+        "text": "www.anisearch.de/c9837dc2aa01553c/2026-10-29-8d7b739b206f1d05.txt.gz"
       }
     ]
   },
@@ -2194,7 +2253,7 @@
     ]
   },
   "https://www.anisearch.de/article/215273,from-bureaucrat-to-villainess-dads-been-reincarnated-complete-series-blu-ray": {
-    "zuletzt": "2026-10-16",
+    "zuletzt": "2026-10-29",
     "lesungen": [
       {
         "am": "2026-10-04",
@@ -2210,11 +2269,21 @@
           0.026245228857133845
         ],
         "bildfassung": 2
+      },
+      {
+        "am": "2026-10-29",
+        "hash": "1fbca6ff336fb060",
+        "hf": 2,
+        "ausgabe": "2026-10-12",
+        "qs": "ok",
+        "bildfassung": 3,
+        "bild": "www.anisearch.de/d09e26381507d795/2026-10-29-1fbca6ff336fb060.webp",
+        "text": "www.anisearch.de/d09e26381507d795/2026-10-29-1fbca6ff336fb060.txt.gz"
       }
     ]
   },
   "https://www.anisearch.de/article/215273": {
-    "zuletzt": "2026-10-16",
+    "zuletzt": "2026-10-29",
     "lesungen": [
       {
         "am": "2026-10-04",
@@ -2230,6 +2299,16 @@
           0.026245228857133845
         ],
         "bildfassung": 2
+      },
+      {
+        "am": "2026-10-29",
+        "hash": "1fbca6ff336fb060",
+        "hf": 2,
+        "ausgabe": "2026-10-12",
+        "qs": "ok",
+        "bildfassung": 3,
+        "bild": "www.anisearch.de/c7d9603d2fa5522a/2026-10-29-1fbca6ff336fb060.webp",
+        "text": "www.anisearch.de/c7d9603d2fa5522a/2026-10-29-1fbca6ff336fb060.txt.gz"
       }
     ]
   },
@@ -2374,7 +2453,7 @@
     ]
   },
   "https://www.anisearch.de/article/213787,miss-kobayashis-dragon-maid-ein-einsamer-drache-sehnt-sich-nach-liebe-blu-ray": {
-    "zuletzt": "2026-10-16",
+    "zuletzt": "2026-10-29",
     "lesungen": [
       {
         "am": "2026-10-04",
@@ -2389,12 +2468,12 @@
           0.25769230769230766,
           0.024713360660607142
         ],
-        "bildfassung": 2
+        "bildfassung": 3
       }
     ]
   },
   "https://www.anisearch.de/article/213787": {
-    "zuletzt": "2026-10-16",
+    "zuletzt": "2026-10-29",
     "lesungen": [
       {
         "am": "2026-10-04",
@@ -2409,7 +2488,7 @@
           0.25769230769230766,
           0.024713360660607142
         ],
-        "bildfassung": 2
+        "bildfassung": 3
       }
     ]
   },
@@ -2892,7 +2971,7 @@
     ]
   },
   "https://www.anisearch.de/article/210270,sailor-moon-super-s-gesamtausgabe-limited-steelbook-edition": {
-    "zuletzt": "2026-10-17",
+    "zuletzt": "2026-10-29",
     "lesungen": [
       {
         "am": "2026-10-04",
@@ -2907,12 +2986,12 @@
           0.3173076923076923,
           0.35279805352798055
         ],
-        "bildfassung": 2
+        "bildfassung": 3
       }
     ]
   },
   "https://www.anisearch.de/article/210270": {
-    "zuletzt": "2026-10-17",
+    "zuletzt": "2026-10-29",
     "lesungen": [
       {
         "am": "2026-10-04",
@@ -2927,7 +3006,7 @@
           0.3173076923076923,
           0.35279805352798055
         ],
-        "bildfassung": 2
+        "bildfassung": 3
       }
     ]
   },
@@ -4574,7 +4653,7 @@
     ]
   },
   "https://www.anime2you.de/news/1035810/dr-stone-staffel-4-blu-ray-termin/": {
-    "zuletzt": "2026-10-17",
+    "zuletzt": "2026-10-29",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -4598,7 +4677,7 @@
         "veroeffentlicht": "2026-07-30",
         "aktualisiert": "2026-08-01",
         "qs": "ok",
-        "bildfassung": 2,
+        "bildfassung": 3,
         "markierung": [
           0.038461538461538464,
           0.705593248386563,
@@ -4611,7 +4690,7 @@
     ]
   },
   "https://www.anime2you.de/news/1035817/miss-kobayashis-dragon-maid-film-blu-ray-release/": {
-    "zuletzt": "2026-10-17",
+    "zuletzt": "2026-10-29",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -4652,7 +4731,7 @@
         "aktualisiert": "2026-08-01",
         "aenderungOhneDatum": true,
         "qs": "ok",
-        "bildfassung": 2,
+        "bildfassung": 3,
         "markierung": [
           0.038461538461538464,
           0.705593248386563,
@@ -4665,7 +4744,7 @@
     ]
   },
   "https://www.anime2you.de/news/1035798/rent-a-girlfriend-staffel-4-blu-ray-komplettbox/": {
-    "zuletzt": "2026-10-17",
+    "zuletzt": "2026-10-29",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -4706,7 +4785,7 @@
         "aktualisiert": "2026-08-01",
         "aenderungOhneDatum": true,
         "qs": "ok",
-        "bildfassung": 2,
+        "bildfassung": 3,
         "markierung": [
           0.038461538461538464,
           0.7623364084960309,
@@ -4756,7 +4835,7 @@
     ]
   },
   "https://www.anime2you.de/news/1039622/all-you-need-is-kill-deutscher-kinostart/": {
-    "zuletzt": "2026-10-17",
+    "zuletzt": "2026-10-29",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -4806,6 +4885,24 @@
         ],
         "bild": "www.anime2you.de/67d7544bc4064e1a/2026-10-17-7e09424918c70d32.webp",
         "text": "www.anime2you.de/67d7544bc4064e1a/2026-10-17-7e09424918c70d32.txt.gz"
+      },
+      {
+        "am": "2026-10-29",
+        "hash": "df97883bce04952f",
+        "hf": 2,
+        "veroeffentlicht": "2026-08-11",
+        "aktualisiert": "2026-08-14",
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.7623364084960309,
+          0.8942307692307693,
+          0.20104770077951797
+        ],
+        "bild": "www.anime2you.de/67d7544bc4064e1a/2026-10-29-df97883bce04952f.webp",
+        "text": "www.anime2you.de/67d7544bc4064e1a/2026-10-29-df97883bce04952f.txt.gz"
       }
     ]
   },
@@ -5466,7 +5563,7 @@
     ]
   },
   "https://www.anime2you.de/news/1036946/a-new-dawn-deutscher-kinostart/": {
-    "zuletzt": "2026-10-17",
+    "zuletzt": "2026-10-29",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -5516,6 +5613,24 @@
         ],
         "bild": "www.anime2you.de/9ffafe21235528c9/2026-10-17-68a47d84aa1bd477.webp",
         "text": "www.anime2you.de/9ffafe21235528c9/2026-10-17-68a47d84aa1bd477.txt.gz"
+      },
+      {
+        "am": "2026-10-29",
+        "hash": "ff5544cfa5950fbf",
+        "hf": 2,
+        "veroeffentlicht": "2026-08-02",
+        "aktualisiert": "2026-08-03",
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.7623364084960309,
+          0.8942307692307693,
+          0.20104770077951797
+        ],
+        "bild": "www.anime2you.de/9ffafe21235528c9/2026-10-29-ff5544cfa5950fbf.webp",
+        "text": "www.anime2you.de/9ffafe21235528c9/2026-10-29-ff5544cfa5950fbf.txt.gz"
       }
     ]
   },
@@ -6383,7 +6498,7 @@
     ]
   },
   "https://www.anime2you.de/news/1022385/crunchyroll-sommer-2026-synchros/": {
-    "zuletzt": "2026-10-18",
+    "zuletzt": "2026-10-29",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -6464,6 +6579,32 @@
         },
         "bild": "www.anime2you.de/15f97ae2eb0fd099/2026-10-18-542977f9ca23625e.webp",
         "text": "www.anime2you.de/15f97ae2eb0fd099/2026-10-18-542977f9ca23625e.txt.gz"
+      },
+      {
+        "am": "2026-10-29",
+        "hash": "ec6bcfb7d0d58421",
+        "hf": 2,
+        "veroeffentlicht": "2026-06-17",
+        "aktualisiert": "2026-06-20",
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.7201958736902747,
+          0.8942307692307693,
+          0.24293378461095308
+        ],
+        "markierungen": {
+          "178789": [
+            0.038461538461538464,
+            0.7201958736902747,
+            0.8942307692307693,
+            0.24293378461095308
+          ]
+        },
+        "bild": "www.anime2you.de/15f97ae2eb0fd099/2026-10-29-ec6bcfb7d0d58421.webp",
+        "text": "www.anime2you.de/15f97ae2eb0fd099/2026-10-29-ec6bcfb7d0d58421.txt.gz"
       }
     ]
   },
@@ -6662,7 +6803,7 @@
     ]
   },
   "https://news.animationdigitalnetwork.com/de/2026/09/17/servamp-der-faule-diener-vampir-kommt-in-den-stream-zu-adn/": {
-    "zuletzt": "2026-10-20",
+    "zuletzt": "2026-10-29",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -6679,6 +6820,23 @@
         "bild": "news.animationdigitalnetwork.com/c0d0161b2fb7b8f2/2026-10-05-ca79dbe840178072.webp",
         "text": "news.animationdigitalnetwork.com/c0d0161b2fb7b8f2/2026-10-05-ca79dbe840178072.txt.gz",
         "bildfassung": 2
+      },
+      {
+        "am": "2026-10-29",
+        "hash": "78fc1a0ab513716b",
+        "hf": 2,
+        "veroeffentlicht": "2026-09-17",
+        "aktualisiert": "2026-09-21",
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.057692307692307696,
+          0.5967572908557399,
+          0.8846153846153846,
+          0.03777172285765615
+        ],
+        "bild": "news.animationdigitalnetwork.com/c0d0161b2fb7b8f2/2026-10-29-78fc1a0ab513716b.webp",
+        "text": "news.animationdigitalnetwork.com/c0d0161b2fb7b8f2/2026-10-29-78fc1a0ab513716b.txt.gz"
       }
     ]
   },
@@ -7262,7 +7420,7 @@
     ]
   },
   "https://news.animationdigitalnetwork.com/de/2026/04/07/adn-nimmt-9-simulcasts-im-april-2026-ins-programm-auf/": {
-    "zuletzt": "2026-10-15",
+    "zuletzt": "2026-10-29",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -7295,11 +7453,29 @@
         ],
         "bild": "news.animationdigitalnetwork.com/beb1076ba7cfd0d1/2026-10-15-52532d27a2e96366.webp",
         "text": "news.animationdigitalnetwork.com/beb1076ba7cfd0d1/2026-10-15-52532d27a2e96366.txt.gz"
+      },
+      {
+        "am": "2026-10-29",
+        "hash": "15b9ab57e83ae0f9",
+        "hf": 2,
+        "veroeffentlicht": "2026-04-07",
+        "aktualisiert": "2026-03-31",
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.10384615384615385,
+          0.9819336306599138,
+          0.7923076923076923,
+          0.007008412254462598
+        ],
+        "bild": "news.animationdigitalnetwork.com/beb1076ba7cfd0d1/2026-10-29-15b9ab57e83ae0f9.webp",
+        "text": "news.animationdigitalnetwork.com/beb1076ba7cfd0d1/2026-10-29-15b9ab57e83ae0f9.txt.gz"
       }
     ]
   },
   "https://news.animationdigitalnetwork.com/de/2026/04/24/eyeshield-21-ab-sofort-im-stream-bei-adn/": {
-    "zuletzt": "2026-10-15",
+    "zuletzt": "2026-10-29",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -7316,11 +7492,28 @@
         "bild": "news.animationdigitalnetwork.com/14b46f978345a510/2026-10-05-4f81ef65d480e95c.webp",
         "text": "news.animationdigitalnetwork.com/14b46f978345a510/2026-10-05-4f81ef65d480e95c.txt.gz",
         "bildfassung": 2
+      },
+      {
+        "am": "2026-10-29",
+        "hash": "69e5e07402a70383",
+        "hf": 2,
+        "veroeffentlicht": "2026-04-24",
+        "aktualisiert": "2026-09-21",
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.057692307692307696,
+          0.6984889835585436,
+          0.8846153846153846,
+          0.01728017040537842
+        ],
+        "bild": "news.animationdigitalnetwork.com/14b46f978345a510/2026-10-29-69e5e07402a70383.webp",
+        "text": "news.animationdigitalnetwork.com/14b46f978345a510/2026-10-29-69e5e07402a70383.txt.gz"
       }
     ]
   },
   "https://news.animationdigitalnetwork.com/de/2026/06/29/maedchen-mit-toedlichen-waffen-gunslinger-girl-jetzt-bei-adn/": {
-    "zuletzt": "2026-10-15",
+    "zuletzt": "2026-10-29",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -7345,11 +7538,36 @@
           ]
         },
         "bildfassung": 2
+      },
+      {
+        "am": "2026-10-29",
+        "hash": "72132d77414d1ecd",
+        "hf": 2,
+        "veroeffentlicht": "2026-06-29",
+        "aktualisiert": "2026-06-25",
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.057692307692307696,
+          0.8849616014100465,
+          0.8846153846153846,
+          0.010213395442528013
+        ],
+        "markierungen": {
+          "134": [
+            0.057692307692307696,
+            0.8849616014100465,
+            0.8846153846153846,
+            0.010213395442528013
+          ]
+        },
+        "bild": "news.animationdigitalnetwork.com/2c17b9d820c4e73c/2026-10-29-72132d77414d1ecd.webp",
+        "text": "news.animationdigitalnetwork.com/2c17b9d820c4e73c/2026-10-29-72132d77414d1ecd.txt.gz"
       }
     ]
   },
   "https://news.animationdigitalnetwork.com/de/2026/08/17/love-lies-jetzt-im-stream-bei-adn-dystopisches-romance-drama/": {
-    "zuletzt": "2026-10-15",
+    "zuletzt": "2026-10-29",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -7360,11 +7578,22 @@
         "bild": "news.animationdigitalnetwork.com/bf78426d9436648d/2026-10-05-2333c901e8bf8ae1.webp",
         "text": "news.animationdigitalnetwork.com/bf78426d9436648d/2026-10-05-2333c901e8bf8ae1.txt.gz",
         "bildfassung": 2
+      },
+      {
+        "am": "2026-10-29",
+        "hash": "dca81cbdb7d89066",
+        "hf": 2,
+        "veroeffentlicht": "2026-08-17",
+        "aktualisiert": "2026-09-21",
+        "qs": "ok",
+        "bildfassung": 3,
+        "bild": "news.animationdigitalnetwork.com/bf78426d9436648d/2026-10-29-dca81cbdb7d89066.webp",
+        "text": "news.animationdigitalnetwork.com/bf78426d9436648d/2026-10-29-dca81cbdb7d89066.txt.gz"
       }
     ]
   },
   "https://news.animationdigitalnetwork.com/de/2026/07/20/sci-fi-donghua-ringing-fate-kommt-zu-adn/": {
-    "zuletzt": "2026-10-15",
+    "zuletzt": "2026-10-29",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -7376,11 +7605,23 @@
         "text": "news.animationdigitalnetwork.com/e108c0bad0b0f10f/2026-10-05-5cf540610709f774.txt.gz",
         "markierungen": {},
         "bildfassung": 2
+      },
+      {
+        "am": "2026-10-29",
+        "hash": "f766646e2730f573",
+        "hf": 2,
+        "veroeffentlicht": "2026-07-20",
+        "aktualisiert": "2026-09-21",
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierungen": {},
+        "bild": "news.animationdigitalnetwork.com/e108c0bad0b0f10f/2026-10-29-f766646e2730f573.webp",
+        "text": "news.animationdigitalnetwork.com/e108c0bad0b0f10f/2026-10-29-f766646e2730f573.txt.gz"
       }
     ]
   },
   "https://news.animationdigitalnetwork.com/de/2026/06/01/sailor-moon-sailor-stars-staffel-5-im-stream-bei-adn/": {
-    "zuletzt": "2026-10-15",
+    "zuletzt": "2026-10-29",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -7429,11 +7670,60 @@
           ]
         },
         "bildfassung": 2
+      },
+      {
+        "am": "2026-10-29",
+        "hash": "2cc46dd1a6d54131",
+        "hf": 2,
+        "veroeffentlicht": "2026-06-01",
+        "aktualisiert": "2026-06-05",
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.057692307692307696,
+          0.3609481443276814,
+          0.8846153846153846,
+          0.01859612174872313
+        ],
+        "markierungen": {
+          "530": [
+            0.057692307692307696,
+            0.2741710184170374,
+            0.8846153846153846,
+            0.009298060874361564
+          ],
+          "532": [
+            0.057692307692307696,
+            0.2741710184170374,
+            0.8846153846153846,
+            0.009298060874361564
+          ],
+          "740": [
+            0.1616887019230769,
+            0.973703250023281,
+            0.7806189903846154,
+            0.01162615778049986
+          ],
+          "996": [
+            0.057692307692307696,
+            0.3609481443276814,
+            0.8846153846153846,
+            0.01859612174872313
+          ],
+          "1239": [
+            0.1616887019230769,
+            0.6440232379888108,
+            0.7806189903846154,
+            0.01162615778049986
+          ]
+        },
+        "bild": "news.animationdigitalnetwork.com/0f2a10feb4c14a58/2026-10-29-2cc46dd1a6d54131.webp",
+        "text": "news.animationdigitalnetwork.com/0f2a10feb4c14a58/2026-10-29-2cc46dd1a6d54131.txt.gz"
       }
     ]
   },
   "https://news.animationdigitalnetwork.com/de/2026/04/09/one-piece-streame-den-neuen-elbaph-arc-bei-adn/": {
-    "zuletzt": "2026-10-15",
+    "zuletzt": "2026-10-29",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -7466,11 +7756,29 @@
         ],
         "bild": "news.animationdigitalnetwork.com/d9377a855379107a/2026-10-15-a300e7a8c3ba3b26.webp",
         "text": "news.animationdigitalnetwork.com/d9377a855379107a/2026-10-15-a300e7a8c3ba3b26.txt.gz"
+      },
+      {
+        "am": "2026-10-29",
+        "hash": "28046741994b18cb",
+        "hf": 2,
+        "veroeffentlicht": "2026-04-09",
+        "aktualisiert": "2026-09-21",
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.057692307692307696,
+          0.5910776648020521,
+          0.8846153846153846,
+          0.020057483697499767
+        ],
+        "bild": "news.animationdigitalnetwork.com/d9377a855379107a/2026-10-29-28046741994b18cb.webp",
+        "text": "news.animationdigitalnetwork.com/d9377a855379107a/2026-10-29-28046741994b18cb.txt.gz"
       }
     ]
   },
   "https://news.animationdigitalnetwork.com/de/2026/08/10/prison-school-bei-adn-der-ecchi-kultanime-ueber-die-haerteste-schule-aller-zeiten/": {
-    "zuletzt": "2026-10-15",
+    "zuletzt": "2026-10-29",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -7487,11 +7795,28 @@
         "bild": "news.animationdigitalnetwork.com/37eeb5b9232e5384/2026-10-05-29b103d0b37ab93f.webp",
         "text": "news.animationdigitalnetwork.com/37eeb5b9232e5384/2026-10-05-29b103d0b37ab93f.txt.gz",
         "bildfassung": 2
+      },
+      {
+        "am": "2026-10-29",
+        "hash": "60583421f8cc9432",
+        "hf": 2,
+        "veroeffentlicht": "2026-08-10",
+        "aktualisiert": "2026-09-21",
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.057692307692307696,
+          0.7811653755473223,
+          0.8846153846153846,
+          0.017487369484674976
+        ],
+        "bild": "news.animationdigitalnetwork.com/37eeb5b9232e5384/2026-10-29-60583421f8cc9432.webp",
+        "text": "news.animationdigitalnetwork.com/37eeb5b9232e5384/2026-10-29-60583421f8cc9432.txt.gz"
       }
     ]
   },
   "https://news.animationdigitalnetwork.com/de/2026/10/01/dragon-ball-super-beerus-kommt-in-den-simulcast-zu-adn/": {
-    "zuletzt": "2026-10-15",
+    "zuletzt": "2026-10-29",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -7508,11 +7833,28 @@
         "bild": "news.animationdigitalnetwork.com/5b0a8454b87637f0/2026-10-05-1f85e3fbf08521ea.webp",
         "text": "news.animationdigitalnetwork.com/5b0a8454b87637f0/2026-10-05-1f85e3fbf08521ea.txt.gz",
         "bildfassung": 2
+      },
+      {
+        "am": "2026-10-29",
+        "hash": "32006b100ad2bb0e",
+        "hf": 2,
+        "veroeffentlicht": "2026-10-01",
+        "aktualisiert": "2026-10-01",
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.057692307692307696,
+          0.6724259321842965,
+          0.8846153846153846,
+          0.018277571251548948
+        ],
+        "bild": "news.animationdigitalnetwork.com/5b0a8454b87637f0/2026-10-29-32006b100ad2bb0e.webp",
+        "text": "news.animationdigitalnetwork.com/5b0a8454b87637f0/2026-10-29-32006b100ad2bb0e.txt.gz"
       }
     ]
   },
   "https://news.animationdigitalnetwork.com/de/2026/07/30/urusei-yatsura-erscheint-mit-synchro-bei-adn/": {
-    "zuletzt": "2026-10-15",
+    "zuletzt": "2026-10-29",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -7543,6 +7885,37 @@
           ]
         },
         "bildfassung": 2
+      },
+      {
+        "am": "2026-10-29",
+        "hash": "4804d67ad3741cfc",
+        "hf": 2,
+        "veroeffentlicht": "2026-07-30",
+        "aktualisiert": "2026-09-21",
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.057692307692307696,
+          0.6538465866255584,
+          0.8846153846153846,
+          0.014605439344668115
+        ],
+        "markierungen": {
+          "143277": [
+            0.057692307692307696,
+            0.6538465866255584,
+            0.8846153846153846,
+            0.014605439344668115
+          ],
+          "155645": [
+            0.057692307692307696,
+            0.6538465866255584,
+            0.8846153846153846,
+            0.014605439344668115
+          ]
+        },
+        "bild": "news.animationdigitalnetwork.com/d095ae6b8dbcb089/2026-10-29-4804d67ad3741cfc.webp",
+        "text": "news.animationdigitalnetwork.com/d095ae6b8dbcb089/2026-10-29-4804d67ad3741cfc.txt.gz"
       }
     ]
   },
@@ -8264,7 +8637,7 @@
     ]
   },
   "https://www.anime2you.de/news/1045863/animoon-monatsangebot-dan-da-dan/": {
-    "zuletzt": "2026-10-20",
+    "zuletzt": "2026-10-29",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -8298,11 +8671,29 @@
         ],
         "bild": "www.anime2you.de/68ace30ddaf36765/2026-10-20-1532f3b53835f02d.webp",
         "text": "www.anime2you.de/68ace30ddaf36765/2026-10-20-1532f3b53835f02d.txt.gz"
+      },
+      {
+        "am": "2026-10-29",
+        "hash": "d806f706070373d9",
+        "hf": 2,
+        "veroeffentlicht": "2026-09-01",
+        "aktualisiert": "2026-09-03",
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.6942128873687287,
+          0.8942307692307693,
+          0.27058661762431035
+        ],
+        "bild": "www.anime2you.de/68ace30ddaf36765/2026-10-29-d806f706070373d9.webp",
+        "text": "www.anime2you.de/68ace30ddaf36765/2026-10-29-d806f706070373d9.txt.gz"
       }
     ]
   },
   "https://www.anime2you.de/news/1039547/dan-da-dan-staffel-1-blu-ray-komplettbox/": {
-    "zuletzt": "2026-10-15",
+    "zuletzt": "2026-10-29",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -8335,6 +8726,24 @@
         ],
         "bild": "www.anime2you.de/9da87c9f2eeaa4ba/2026-10-15-d46d1574ceac0842.webp",
         "text": "www.anime2you.de/9da87c9f2eeaa4ba/2026-10-15-d46d1574ceac0842.txt.gz"
+      },
+      {
+        "am": "2026-10-29",
+        "hash": "238ece665f89a1ac",
+        "hf": 2,
+        "veroeffentlicht": "2026-08-09",
+        "aktualisiert": "2026-09-29",
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.4503735325506937,
+          0.8942307692307693,
+          0.15739104571618526
+        ],
+        "bild": "www.anime2you.de/9da87c9f2eeaa4ba/2026-10-29-238ece665f89a1ac.webp",
+        "text": "www.anime2you.de/9da87c9f2eeaa4ba/2026-10-29-238ece665f89a1ac.txt.gz"
       }
     ]
   },
@@ -8560,7 +8969,7 @@
     ]
   },
   "https://www.anime2you.de/news/1043546/dr-stone-staffel-4-blu-ray-sammelschuber/": {
-    "zuletzt": "2026-10-17",
+    "zuletzt": "2026-10-29",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -8598,7 +9007,7 @@
         "veroeffentlicht": "2026-08-24",
         "aktualisiert": "2026-08-27",
         "qs": "ok",
-        "bildfassung": 2,
+        "bildfassung": 3,
         "markierung": [
           0.038461538461538464,
           0.7623364084960309,
@@ -8611,7 +9020,7 @@
     ]
   },
   "https://www.anime2you.de/news/1043903/theres-no-freaking-way-ill-be-your-lover-unless-disc-termin/": {
-    "zuletzt": "2026-10-18",
+    "zuletzt": "2026-10-29",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -8662,6 +9071,24 @@
         ],
         "bild": "www.anime2you.de/f2d736bb2408c94c/2026-10-18-ef0c003cbd6b1977.webp",
         "text": "www.anime2you.de/f2d736bb2408c94c/2026-10-18-ef0c003cbd6b1977.txt.gz"
+      },
+      {
+        "am": "2026-10-29",
+        "hash": "84aec922af8c5d95",
+        "hf": 2,
+        "veroeffentlicht": "2026-08-24",
+        "aktualisiert": "2026-08-27",
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.771523349547103,
+          0.8942307692307693,
+          0.19327615544593596
+        ],
+        "bild": "www.anime2you.de/f2d736bb2408c94c/2026-10-29-84aec922af8c5d95.webp",
+        "text": "www.anime2you.de/f2d736bb2408c94c/2026-10-29-84aec922af8c5d95.txt.gz"
       }
     ]
   },
@@ -8739,7 +9166,7 @@
     ]
   },
   "https://www.anime2you.de/news/1039474/dangers-in-my-heart-staffel-2-auf-netflix/": {
-    "zuletzt": "2026-10-15",
+    "zuletzt": "2026-10-29",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -8772,11 +9199,29 @@
         ],
         "bild": "www.anime2you.de/56c2903920858b25/2026-10-15-dcdff0d7e68057ab.webp",
         "text": "www.anime2you.de/56c2903920858b25/2026-10-15-dcdff0d7e68057ab.txt.gz"
+      },
+      {
+        "am": "2026-10-29",
+        "hash": "3833533168225b13",
+        "hf": 2,
+        "veroeffentlicht": "2026-08-08",
+        "aktualisiert": "2026-08-11",
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.7328681184579158,
+          0.8942307692307693,
+          0.23193138653512316
+        ],
+        "bild": "www.anime2you.de/56c2903920858b25/2026-10-29-3833533168225b13.webp",
+        "text": "www.anime2you.de/56c2903920858b25/2026-10-29-3833533168225b13.txt.gz"
       }
     ]
   },
   "https://www.anime2you.de/news/1037860/zweiter-mobile-suit-gundam-hathaway-film-auf-netflix/": {
-    "zuletzt": "2026-10-15",
+    "zuletzt": "2026-10-29",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -8809,6 +9254,24 @@
         ],
         "bild": "www.anime2you.de/0c49b6fae541c148/2026-10-15-1c0761a52967f5ec.webp",
         "text": "www.anime2you.de/0c49b6fae541c148/2026-10-15-1c0761a52967f5ec.txt.gz"
+      },
+      {
+        "am": "2026-10-29",
+        "hash": "1967b2c038eea29b",
+        "hf": 2,
+        "veroeffentlicht": "2026-08-04",
+        "aktualisiert": "2026-08-05",
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.7699974046197768,
+          0.8942307692307693,
+          0.19456700406609567
+        ],
+        "bild": "www.anime2you.de/0c49b6fae541c148/2026-10-29-1967b2c038eea29b.webp",
+        "text": "www.anime2you.de/0c49b6fae541c148/2026-10-29-1967b2c038eea29b.txt.gz"
       }
     ]
   },
@@ -9071,7 +9534,7 @@
     ]
   },
   "https://news.animationdigitalnetwork.com/de/2026/10/05/school-babysitters-die-besondere-kita-im-stream-bei-adn/": {
-    "zuletzt": "2026-10-15",
+    "zuletzt": "2026-10-29",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -9083,6 +9546,18 @@
         "text": "news.animationdigitalnetwork.com/a488df2449ecd0bf/2026-10-05-a7fe03c2a6d24627.txt.gz",
         "markierungen": {},
         "bildfassung": 2
+      },
+      {
+        "am": "2026-10-29",
+        "hash": "8e58b904ef2dfa73",
+        "hf": 2,
+        "veroeffentlicht": "2026-10-05",
+        "aktualisiert": "2026-10-01",
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierungen": {},
+        "bild": "news.animationdigitalnetwork.com/a488df2449ecd0bf/2026-10-29-8e58b904ef2dfa73.webp",
+        "text": "news.animationdigitalnetwork.com/a488df2449ecd0bf/2026-10-29-8e58b904ef2dfa73.txt.gz"
       }
     ]
   },
@@ -9260,7 +9735,7 @@
     ]
   },
   "https://www.kinoheld.de/film/detektiv-conan-film-29-der-gefallene-engel-des-highways": {
-    "zuletzt": "2026-10-15",
+    "zuletzt": "2026-10-29",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -9289,11 +9764,27 @@
         ],
         "bild": "www.kinoheld.de/e0cef710a098ab5f/2026-10-15-5e606527745a7f7e.webp",
         "text": "www.kinoheld.de/e0cef710a098ab5f/2026-10-15-5e606527745a7f7e.txt.gz"
+      },
+      {
+        "am": "2026-10-29",
+        "hash": "73588768a17be9be",
+        "hf": 2,
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.9165103954341622,
+          0.9230769230769231,
+          0.04870226933007202
+        ],
+        "bild": "www.kinoheld.de/e0cef710a098ab5f/2026-10-29-73588768a17be9be.webp",
+        "text": "www.kinoheld.de/e0cef710a098ab5f/2026-10-29-73588768a17be9be.txt.gz"
       }
     ]
   },
   "https://www.kinoheld.de/film/sen-to-chihiro-no-kamikakushi": {
-    "zuletzt": "2026-10-15",
+    "zuletzt": "2026-10-29",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -9316,6 +9807,22 @@
         ],
         "bild": "www.kinoheld.de/4e88e2d21c29ac26/2026-10-15-051dbdaecc91f3ef.webp",
         "text": "www.kinoheld.de/4e88e2d21c29ac26/2026-10-15-051dbdaecc91f3ef.txt.gz"
+      },
+      {
+        "am": "2026-10-29",
+        "hash": "64aa6d9a3d247c5b",
+        "hf": 2,
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.7990045566070803,
+          0.9230769230769231,
+          0.05024886084822993
+        ],
+        "bild": "www.kinoheld.de/4e88e2d21c29ac26/2026-10-29-64aa6d9a3d247c5b.webp",
+        "text": "www.kinoheld.de/4e88e2d21c29ac26/2026-10-29-64aa6d9a3d247c5b.txt.gz"
       }
     ]
   },
@@ -9385,7 +9892,7 @@
     ]
   },
   "https://www.kinoheld.de/film/a-new-dawn": {
-    "zuletzt": "2026-10-20",
+    "zuletzt": "2026-10-29",
     "lesungen": [
       {
         "am": "2026-10-13",
@@ -9417,11 +9924,27 @@
         ],
         "bild": "www.kinoheld.de/209a8813db133b35/2026-10-20-c4c8e31c23baad60.webp",
         "text": "www.kinoheld.de/209a8813db133b35/2026-10-20-c4c8e31c23baad60.txt.gz"
+      },
+      {
+        "am": "2026-10-29",
+        "hash": "58e149a42b43dce8",
+        "hf": 2,
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.9103183523332701,
+          0.9230769230769231,
+          0.05231429447225912
+        ],
+        "bild": "www.kinoheld.de/209a8813db133b35/2026-10-29-58e149a42b43dce8.webp",
+        "text": "www.kinoheld.de/209a8813db133b35/2026-10-29-58e149a42b43dce8.txt.gz"
       }
     ]
   },
   "https://www.kinoheld.de/film/all-you-need-is-kill": {
-    "zuletzt": "2026-10-20",
+    "zuletzt": "2026-10-29",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -9466,6 +9989,22 @@
         ],
         "bild": "www.kinoheld.de/7f8d0deb14322f4d/2026-10-20-6396cce3edda1395.webp",
         "text": "www.kinoheld.de/7f8d0deb14322f4d/2026-10-20-6396cce3edda1395.txt.gz"
+      },
+      {
+        "am": "2026-10-29",
+        "hash": "61de72a5ec0eda47",
+        "hf": 2,
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.9246735732238093,
+          0.9230769230769231,
+          0.04394041561944462
+        ],
+        "bild": "www.kinoheld.de/7f8d0deb14322f4d/2026-10-29-61de72a5ec0eda47.webp",
+        "text": "www.kinoheld.de/7f8d0deb14322f4d/2026-10-29-61de72a5ec0eda47.txt.gz"
       }
     ]
   },
@@ -9905,7 +10444,7 @@
     ]
   },
   "https://www.joyn.de/serien/higurashi-when-they-cry-gou": {
-    "zuletzt": "2026-10-15",
+    "zuletzt": "2026-10-29",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -9919,7 +10458,7 @@
         "hash": "95316096bb4ca4a7",
         "hf": 2,
         "qs": "ok",
-        "bildfassung": 2,
+        "bildfassung": 3,
         "bild": "www.joyn.de/7a74cef9a8018e36/2026-10-15-95316096bb4ca4a7.webp",
         "text": "www.joyn.de/7a74cef9a8018e36/2026-10-15-95316096bb4ca4a7.txt.gz"
       }
@@ -10427,7 +10966,7 @@
     ]
   },
   "https://www.anisearch.de/article/15034": {
-    "zuletzt": "2026-10-15",
+    "zuletzt": "2026-10-29",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -10457,19 +10996,25 @@
         "hf": 2,
         "ausgabe": "2026-09-18",
         "qs": "ok",
-        "bildfassung": 2,
+        "bildfassung": 3,
         "markierung": [
           0.17307692307692307,
-          0.795924026064051,
+          0.8008465567560255,
           0.3173076923076923,
-          0.18379513180566834
+          0.17936179671041189
         ],
         "markierungen": {
+          "103572": [
+            0.28846153846153844,
+            0.009895823266781345,
+            0.25769230769230766,
+            0.016080712808519686
+          ],
           "109261": [
             0.17307692307692307,
-            0.795924026064051,
+            0.8008465567560255,
             0.3173076923076923,
-            0.18379513180566834
+            0.17936179671041189
           ]
         },
         "bild": "www.anisearch.de/d8ba690026ff25fe/2026-10-15-4295ab6404f89301.webp",
@@ -10478,7 +11023,7 @@
     ]
   },
   "https://www.anisearch.de/article/213058,steins-gate-0-komplettset-blu-ray": {
-    "zuletzt": "2026-10-16",
+    "zuletzt": "2026-10-29",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -10501,7 +11046,7 @@
         },
         "bild": "www.anisearch.de/ae4e92f2fb197138/2026-10-05-a38d971fa17f400b.webp",
         "text": "www.anisearch.de/ae4e92f2fb197138/2026-10-05-a38d971fa17f400b.txt.gz",
-        "bildfassung": 2
+        "bildfassung": 3
       }
     ]
   },
@@ -12130,7 +12675,7 @@
     ]
   },
   "https://www.anime2you.de/news/1056789/akiba-pass-shop-sailor-moon-und-mehr/": {
-    "zuletzt": "2026-10-21",
+    "zuletzt": "2026-10-29",
     "lesungen": [
       {
         "am": "2026-10-14",
@@ -12171,7 +12716,7 @@
         "aktualisiert": "2026-10-05",
         "aenderungOhneDatum": true,
         "qs": "ok",
-        "bildfassung": 2,
+        "bildfassung": 3,
         "markierung": [
           0.038461538461538464,
           0.7523797105228843,
@@ -12198,7 +12743,7 @@
     ]
   },
   "https://www.anime2you.de/news/1058349/": {
-    "zuletzt": "2026-10-21",
+    "zuletzt": "2026-10-29",
     "lesungen": [
       {
         "am": "2026-10-14",
@@ -12225,7 +12770,7 @@
         "aktualisiert": "2026-10-12",
         "aenderungOhneDatum": true,
         "qs": "ok",
-        "bildfassung": 2,
+        "bildfassung": 3,
         "markierung": [
           0.038461538461538464,
           0.4333232333434333,
@@ -12238,7 +12783,7 @@
     ]
   },
   "https://www.anime2you.de/news/1058465/fate-stay-night-heavens-feel-erscheint-als-komplettbox/": {
-    "zuletzt": "2026-10-21",
+    "zuletzt": "2026-10-29",
     "lesungen": [
       {
         "am": "2026-10-14",
@@ -12247,7 +12792,7 @@
         "veroeffentlicht": "2026-10-08",
         "aktualisiert": "2026-10-11",
         "qs": "ok",
-        "bildfassung": 2,
+        "bildfassung": 3,
         "markierungen": {},
         "bild": "www.anime2you.de/6028ef2470e1efb3/2026-10-14-629bd4cc99663d75.webp",
         "text": "www.anime2you.de/6028ef2470e1efb3/2026-10-14-629bd4cc99663d75.txt.gz"
@@ -12255,7 +12800,7 @@
     ]
   },
   "https://www.anime2you.de/news/1058438/akiba-pass-shop-shield-hero-und-mehr/": {
-    "zuletzt": "2026-10-21",
+    "zuletzt": "2026-10-29",
     "lesungen": [
       {
         "am": "2026-10-14",
@@ -12290,7 +12835,7 @@
         "aktualisiert": "2026-10-11",
         "aenderungOhneDatum": true,
         "qs": "ok",
-        "bildfassung": 2,
+        "bildfassung": 3,
         "markierung": [
           0.038461538461538464,
           0.7523797105228843,
@@ -12311,7 +12856,7 @@
     ]
   },
   "https://www.anime2you.de/news/1058332/kaiju-no-8-staffel-1-steelbook-edition/": {
-    "zuletzt": "2026-10-21",
+    "zuletzt": "2026-10-29",
     "lesungen": [
       {
         "am": "2026-10-14",
@@ -12352,7 +12897,7 @@
         "aktualisiert": "2026-10-13",
         "aenderungOhneDatum": true,
         "qs": "ok",
-        "bildfassung": 2,
+        "bildfassung": 3,
         "markierung": [
           0.038461538461538464,
           0.4503735325506937,
@@ -12379,7 +12924,7 @@
     ]
   },
   "https://www.anime2you.de/news/1046924/as-a-reincarnated-aristocrat-staffel-2-disc-termin/": {
-    "zuletzt": "2026-10-21",
+    "zuletzt": "2026-10-29",
     "lesungen": [
       {
         "am": "2026-10-14",
@@ -12406,7 +12951,7 @@
         "aktualisiert": "2026-09-09",
         "aenderungOhneDatum": true,
         "qs": "ok",
-        "bildfassung": 2,
+        "bildfassung": 3,
         "markierung": [
           0.038461538461538464,
           0.4175168275079069,
@@ -12419,7 +12964,7 @@
     ]
   },
   "https://www.anime2you.de/news/1058300/20-blu-ray-neuheiten-bei-amazon-vorbestellbar/": {
-    "zuletzt": "2026-10-21",
+    "zuletzt": "2026-10-29",
     "lesungen": [
       {
         "am": "2026-10-14",
@@ -12440,7 +12985,7 @@
         "veroeffentlicht": "2026-10-12",
         "aktualisiert": "2026-10-15",
         "qs": "ok",
-        "bildfassung": 2,
+        "bildfassung": 3,
         "markierung": [
           0.038461538461538464,
           0.7523797105228843,
@@ -12461,7 +13006,7 @@
     ]
   },
   "https://www.anime2you.de/news/1046360/akiba-pass-shop-vier-polyband-neuheiten/": {
-    "zuletzt": "2026-10-21",
+    "zuletzt": "2026-10-29",
     "lesungen": [
       {
         "am": "2026-10-14",
@@ -12496,7 +13041,7 @@
         "aktualisiert": "2026-09-06",
         "aenderungOhneDatum": true,
         "qs": "ok",
-        "bildfassung": 2,
+        "bildfassung": 3,
         "markierung": [
           0.038461538461538464,
           0.7221268683401273,
@@ -12517,7 +13062,7 @@
     ]
   },
   "https://www.anime2you.de/news/1044146/apothecary-diaries-staffel-2-disc-release/": {
-    "zuletzt": "2026-10-21",
+    "zuletzt": "2026-10-29",
     "lesungen": [
       {
         "am": "2026-10-14",
@@ -12544,7 +13089,7 @@
         "aktualisiert": "2026-09-11",
         "aenderungOhneDatum": true,
         "qs": "ok",
-        "bildfassung": 2,
+        "bildfassung": 3,
         "markierung": [
           0.038461538461538464,
           0.705593248386563,
@@ -13026,7 +13571,7 @@
     ]
   },
   "https://www.anime2you.de/news/1048315/prime-video-date-a-live-staffel-2-und-mehr/": {
-    "zuletzt": "2026-10-18",
+    "zuletzt": "2026-10-29",
     "lesungen": [
       {
         "am": "2026-10-14",
@@ -13047,7 +13592,7 @@
         "aktualisiert": "2026-09-12",
         "aenderungOhneDatum": true,
         "qs": "ok",
-        "bildfassung": 2,
+        "bildfassung": 3,
         "markierungen": {},
         "bild": "www.anime2you.de/02ab64f1a52af6c6/2026-10-18-3620f30e8f8035c0.webp",
         "text": "www.anime2you.de/02ab64f1a52af6c6/2026-10-18-3620f30e8f8035c0.txt.gz"
@@ -14562,7 +15107,7 @@
     ]
   },
   "https://www.anime2you.de/news/1061001/neun-animoon-crunchyroll-hardball-disc-verschiebungen/": {
-    "zuletzt": "2026-10-21",
+    "zuletzt": "2026-10-29",
     "lesungen": [
       {
         "am": "2026-10-18",
@@ -14622,7 +15167,7 @@
         "veroeffentlicht": "2026-10-16",
         "aktualisiert": "2026-10-19",
         "qs": "ok",
-        "bildfassung": 2,
+        "bildfassung": 3,
         "markierung": [
           0.038461538461538464,
           0.7505016615028975,
@@ -14790,7 +15335,7 @@
     ]
   },
   "https://www.anime2you.de/news/1047034/disney-plus-classroom-of-the-elite-und-mehr/": {
-    "zuletzt": "2026-10-20",
+    "zuletzt": "2026-10-29",
     "lesungen": [
       {
         "am": "2026-10-20",
@@ -14816,6 +15361,32 @@
         },
         "bild": "www.anime2you.de/95b79c7b29a0abd8/2026-10-20-e4668278b8f56ce6.webp",
         "text": "www.anime2you.de/95b79c7b29a0abd8/2026-10-20-e4668278b8f56ce6.txt.gz"
+      },
+      {
+        "am": "2026-10-29",
+        "hash": "f6960508b1cbdb5a",
+        "hf": 2,
+        "veroeffentlicht": "2026-09-06",
+        "aktualisiert": "2026-09-09",
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.7415522805926041,
+          0.8942307692307693,
+          0.2186297001983124
+        ],
+        "markierungen": {
+          "98659": [
+            0.038461538461538464,
+            0.7415522805926041,
+            0.8942307692307693,
+            0.2186297001983124
+          ]
+        },
+        "bild": "www.anime2you.de/95b79c7b29a0abd8/2026-10-29-f6960508b1cbdb5a.webp",
+        "text": "www.anime2you.de/95b79c7b29a0abd8/2026-10-29-f6960508b1cbdb5a.txt.gz"
       }
     ]
   },
@@ -14990,6 +15561,58 @@
         ],
         "bild": "www.anime2you.de/4bd6768318119f83/2026-10-28-b8052e0f27edbcf8.webp",
         "text": "www.anime2you.de/4bd6768318119f83/2026-10-28-b8052e0f27edbcf8.txt.gz"
+      }
+    ]
+  },
+  "https://www.anime2you.de/news/1064806/adn-neuzugaenge-im-november-2026/": {
+    "zuletzt": "2026-10-29",
+    "lesungen": [
+      {
+        "am": "2026-10-29",
+        "hash": "b8b9f4f318687ed7",
+        "hf": 2,
+        "veroeffentlicht": "2026-10-27",
+        "aktualisiert": "2026-10-28",
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.7415522805926041,
+          0.8942307692307693,
+          0.2186297001983124
+        ],
+        "markierungen": {
+          "18679": [
+            0.038461538461538464,
+            0.7415522805926041,
+            0.8942307692307693,
+            0.2186297001983124
+          ]
+        },
+        "bild": "www.anime2you.de/65c55d9a4f0dabdd/2026-10-29-b8b9f4f318687ed7.webp",
+        "text": "www.anime2you.de/65c55d9a4f0dabdd/2026-10-29-b8b9f4f318687ed7.txt.gz"
+      }
+    ]
+  },
+  "https://www.anime2you.de/news/1065042/neon-genesis-evangelion-neue-blu-ray-komplettbox/": {
+    "zuletzt": "2026-10-29",
+    "lesungen": [
+      {
+        "am": "2026-10-29",
+        "hash": "5c814cdda2353647",
+        "hf": 2,
+        "veroeffentlicht": "2026-10-28",
+        "aktualisiert": "2026-10-28",
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.4688205725941575,
+          0.8942307692307693,
+          0.20479711517447366
+        ],
+        "bild": "www.anime2you.de/d5d2af56783075e1/2026-10-29-5c814cdda2353647.webp",
+        "text": "www.anime2you.de/d5d2af56783075e1/2026-10-29-5c814cdda2353647.txt.gz"
       }
     ]
   }

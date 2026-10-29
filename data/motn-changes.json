@@ -2,7 +2,7 @@
   "verbrauch": {
     "2026-08": 55,
     "2026-09": 68,
-    "2026-10": 93
+    "2026-10": 95
   },
   "gesehen": {
     "26341901:netflix": {
@@ -9360,7 +9360,40 @@
       "am": "2026-10-27",
       "deutsch": false,
       "deutschBeiDienst": false
+    },
+    "new:18416:prime": {
+      "art": "new",
+      "titel": "Giants",
+      "originalTitel": "Gigantes",
+      "imdbId": "tt6970690",
+      "tmdbId": "tv/82533",
+      "dienst": "prime",
+      "am": "2026-10-28",
+      "deutsch": true,
+      "deutschBeiDienst": true
+    },
+    "new:209:prime": {
+      "art": "new",
+      "titel": "The X-Files",
+      "originalTitel": "The X-Files",
+      "imdbId": "tt0106179",
+      "tmdbId": "tv/4087",
+      "dienst": "prime",
+      "am": "2026-10-28",
+      "deutsch": true,
+      "deutschBeiDienst": true
+    },
+    "new:175:prime": {
+      "art": "new",
+      "titel": "The 100",
+      "originalTitel": "The 100",
+      "imdbId": "tt2661044",
+      "tmdbId": "tv/48866",
+      "dienst": "prime",
+      "am": "2026-10-28",
+      "deutsch": true,
+      "deutschBeiDienst": true
     }
   },
-  "fetchedAt": "2026-10-28T04:10:35.003Z"
+  "fetchedAt": "2026-10-29T04:11:20.821Z"
 }

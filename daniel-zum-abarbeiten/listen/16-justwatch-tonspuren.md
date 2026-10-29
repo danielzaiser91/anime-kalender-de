@@ -1,13 +1,13 @@
 # Was JustWatch zu offenen Verweisen sagt
 
-Stand: 2026-10-27. Erzeugt von `npm run data:justwatch`.
+Stand: 2026-10-29. Erzeugt von `npm run data:justwatch`.
 
 **Das sind Kandidaten, keine Belege.** Die Angabe gilt der **Serie**, nicht der
 einzelnen Folge — bei „Kill Blue" meldet JustWatch `de` für alle zwölf, belegt
 sind acht. Und ein fehlendes `de` belegt nichts: Netflix meldet dort gar keine
 Tonspur. Was hier steht, sagt, **wo sich das Nachsehen lohnt**.
 
-26 offene Verweise, zu denen JustWatch eine Tonspur nennt.
+25 offene Verweise, zu denen JustWatch eine Tonspur nennt.
 
 | Titel | Anbieter | JustWatch sagt | Tonspuren | Quelle |
 |---|---|---|---|---|
@@ -23,7 +23,6 @@ Tonspur. Was hier steht, sagt, **wo sich das Nachsehen lohnt**.
 | [Sylvanian Families](https://anime-kalender.de/#/datenbank?t=187052) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/Sylvanian-Families) |
 | [KonoSuba: God’s Blessing on This Wonderful World! The Movie - Legend of Crimson](https://anime-kalender.de/#/datenbank?t=102976) | primevideo | 🇩🇪 **Deutsch dabei** | `de, en, es, fr, ja, pt` | [JustWatch](https://www.justwatch.com/de/Film/Kono-Subarashii-Sekai-ni-Shukufuku-wo-Kurenai-Densetsu) |
 | [Karakai Jozu no Takagi-san: Staffel 2](https://anime-kalender.de/#/datenbank?t=107068) | crunchyroll | 🇩🇪 **Deutsch dabei** | `de, en, ja, ru` | [JustWatch](https://www.justwatch.com/de/Serie/karakaiShang-Shou-noGao-Mu-san) |
-| [Tonikawa: Over the Moon for You](https://anime-kalender.de/#/datenbank?t=116267) | crunchyroll | 🇩🇪 **Deutsch dabei** | `de, en, es, fr, ja, pt, ru` | [JustWatch](https://www.justwatch.com/de/Serie/Tonikawa-Kawaii) |
 | [Jujutsu Kaisen 0](https://anime-kalender.de/#/datenbank?t=131573) | crunchyroll | 🇩🇪 **Deutsch dabei** | `de, en, es, fr, it, ja, pl, pt, ru, th` | [JustWatch](https://www.justwatch.com/de/Film/jujutsu-kaisen-0) |
 | [Demon Slayer: Kimetsu no Yaiba - Infinity Castle](https://anime-kalender.de/#/datenbank?t=178788) | primevideo | 🇩🇪 **Deutsch dabei** | `de, en, es, fr, hi, it, ja, pl, pt, ta, te` | [JustWatch](https://www.justwatch.com/de/Film/demon-slayer-kimetsu-no-yaiba-infinity-castle) |
 | [Tayo und die kleinen Zauberer](https://anime-kalender.de/#/datenbank?t=188076) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/mabeobbeoseu-tayo) |
@@ -49,7 +48,7 @@ dass JustWatch für dieses Angebot auch eine deutsche Tonspur kennt.
 | [Drei kleine Geister](https://anime-kalender.de/#/datenbank?t=310) | [Amazon Prime Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.4ab84d22-8eb7-4a0e-8cc1-9e2146a69910) 🇩🇪, [Amazon Prime Video with Ads](https://watch.amazon.de/detail?gti=amzn1.dv.gti.4ab84d22-8eb7-4a0e-8cc1-9e2146a69910) 🇩🇪, [Amazon Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.0b279223-d147-465f-9182-6d3ceb7537dd) |
 | [Kuroko’s Basketball - Winter Cup Highlights Movie 1 Shadow and Light](https://anime-kalender.de/#/datenbank?t=102093) | [Amazon Prime Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.9095f403-0aba-4d18-aea4-36284e16fb0c) 🇩🇪, [Amazon Prime Video with Ads](https://watch.amazon.de/detail?gti=amzn1.dv.gti.9095f403-0aba-4d18-aea4-36284e16fb0c) 🇩🇪, [Aniverse Amazon Channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.9095f403-0aba-4d18-aea4-36284e16fb0c) 🇩🇪, [Amazon Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.9095f403-0aba-4d18-aea4-36284e16fb0c) 🇩🇪 |
 | [Petals of Reincarnation](https://anime-kalender.de/#/datenbank?t=179950) | [Aniverse Amazon Channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.b89b927e-502e-4990-97b3-5a0a40e4a24b) |
-| [Rascal Does Not Dream of a Dear Friend](https://anime-kalender.de/#/datenbank?t=199340) | [Cineplex DE](https://www.cineplex.de/berlin-neukoelln/film/rascal-does-not-dream-of-a-dear-friend-79341000012FWBXJYB), [Cinestar](https://www.cinestar.de/kino-wildau/veranstaltung-cineanime-rascal-does-not-dream-of-a-dear-friend-omu) |
+| [Dusk Beyond the End of the World](https://anime-kalender.de/#/datenbank?t=195153) | [Aniverse Amazon Channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.13bde570-6de4-421c-8495-4979bd84ff87), [Animation Digital Network](https://animationdigitalnetwork.com/de/video/1334-dusk-beyond-the-end-of-the-world/30005-folge-1), [Anime Digital Network Amazon Channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.13bde570-6de4-421c-8495-4979bd84ff87), [Amazon Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.32466d79-d505-4816-9cfe-41adaff4075e) |
 | [Es war einmal … Amerika](https://anime-kalender.de/#/datenbank?t=10004750) | [ARD Plus Amazon channel ](https://watch.amazon.de/detail?gti=amzn1.dv.gti.4ca9f6d9-8dbb-059e-1644-ae369a6d19ba) |
 | [Es war einmal … Die Entdeckung unserer Welt](https://anime-kalender.de/#/datenbank?t=10005217) | [ARD Plus Amazon channel ](https://watch.amazon.de/detail?gti=amzn1.dv.gti.cca9f6be-670f-1d2b-8bc0-9d37f890c04e), [Videobuster](https://www.videobuster.de/dvd-bluray-verleih/169521/es-war-einmal-abenteurer-entdecker?campaign=vb50feed#rental&rental-dvd) |
 | [Es war einmal … Entdecker und Erfinder](https://anime-kalender.de/#/datenbank?t=10005293) | [ARD Plus Amazon channel ](https://watch.amazon.de/detail?gti=amzn1.dv.gti.c2a9f6af-5937-52f1-6ed1-08648ae0af74), [Videobuster](https://www.videobuster.de/dvd-bluray-verleih/169514/es-war-einmal-forscher-erfinder?campaign=vb50feed#rental&rental-dvd) |
