@@ -12,11 +12,14 @@ import type { Page } from 'playwright'
 import { sperreEntfernen } from './cookie-banner.ts'
 import { fensterStart, stuetzstelle, verdecktesMarkieren, type Stelle } from './beleg-stelle.ts'
 import type { Gruppe } from './beleg-suche.ts'
+import type { OhneMarkeGrund } from './beleg-marken.ts'
 
 /** So hoch darf der Ausschnitt ab der Überschrift werden, wenn keine Stützstelle weiter unten liegt. */
 const MAX_HOEHE = 1100
 /** Liegt die Stützstelle weiter unten, darf der Ausschnitt bis hierher reichen; darüber entfällt der Kopf und das Bild beginnt vor der Stelle. */
 const MAX_BIS_STELLE = 3600
+/** Bei einem Sammelartikel (ab zwei Titeln) reicht der Ausschnitt weiter: 14 Titel der Crunchyroll-Herbstübersicht brauchen rund 4700 Pixel (Magic Knight Rayearth, 29.10.2026). Über `MAX_BIS_STELLE` wird nur einfach aufgelöst. */
+const MAX_SAMMEL = 6000
 /** Doppelte Auflösung: lesbar auch auf dem Desktop (Daniel, 07.10.2026). Steigt die Fassung, werden alle Bilder einmal neu aufgenommen. */
 export const BILD_SKALA = 2
 export { BILD_FASSUNG } from './beleg-lesung.ts'
@@ -28,6 +31,8 @@ export interface Beleg {
   markierung?: [number, number, number, number]
   /** Bei einem Artikel für mehrere Titel: die Fundstelle je Titel-Kennung. */
   markierungen?: Record<string, [number, number, number, number]>
+  /** Jeder Titel des Artikels ohne Marke mit dem Grund; zusammen mit `markierungen` deckt es alle Titel ab. */
+  ohneMarke?: Record<string, OhneMarkeGrund>
 }
 
 interface Messung {
@@ -123,27 +128,32 @@ export async function belegAusschnitt(seite: Page, suchen: string[] = [], tage: 
   const stelle = await stuetzstelle(seite, stuetzbegriffe(seite.url(), suchen), tage)
   const stellen = gruppen.length > 1 ? await Promise.all(gruppen.map(async (g) => [g.id, await stuetzstelle(seite, g.suchen, g.tage)] as const)) : []
   const bisUnten = Math.max(0, ...stellen.map(([, st]) => st?.unten ?? 0)) || undefined
-  const vonOben = bisUnten ? fensterStart(stellen.flatMap(([, st]) => (st ? [st.oben] : [])), bisUnten, MAX_BIS_STELLE) : undefined
-  const gemessen = await seite.evaluate(messeAusschnitt, { maxHoehe: MAX_HOEHE, maxBisStelle: MAX_BIS_STELLE, skala: BILD_SKALA, suchen, stelle, bisUnten, vonOben })
+  const hoechstens = gruppen.length > 1 ? MAX_SAMMEL : MAX_BIS_STELLE
+  const vonOben = bisUnten ? fensterStart(stellen.flatMap(([, st]) => (st ? [st.oben] : [])), bisUnten, hoechstens) : undefined
+  const gemessen = await seite.evaluate(messeAusschnitt, { maxHoehe: MAX_HOEHE, maxBisStelle: hoechstens, skala: BILD_SKALA, suchen, stelle, bisUnten, vonOben })
   if (!gemessen || gemessen === 'wand') return gemessen
+  /* Ein Sammelartikel-Ausschnitt über `MAX_BIS_STELLE` (samt 16 Pixel Rand) wird einfach aufgelöst, sonst wächst das Bild auf über 400 KB. */
+  if (gruppen.length > 1 && gemessen.clip.height > MAX_BIS_STELLE + 16) gemessen.clip.scale = 1
   const cdp = await seite.context().newCDPSession(seite)
   const { data } = await cdp.send('Page.captureScreenshot', { format: 'webp', quality: 20, captureBeyondViewport: true, clip: gemessen.clip })
   await cdp.detach()
   if (await istEinfarbig(seite, data)) return 'leer'
-  const markierungen = markierungenJeTitel(stellen, gemessen.clip)
+  const je = markierungenJeTitel(stellen, gemessen.clip)
   /* Die Marke muss auf Text liegen: eine Marke auf leerer Fläche zeigt dem Leser nichts (Kinoheld, 12.10.2026). */
-  for (const m of [gemessen.markierung, ...Object.values(markierungen ?? {})]) if (m && (await istEinfarbig(seite, data, m))) return 'leer'
-  return { bild: Buffer.from(data, 'base64'), text: gzipSync(Buffer.from(gemessen.text, 'utf8')), ...(gemessen.markierung ? { markierung: gemessen.markierung } : {}), ...(markierungen ? { markierungen } : {}) }
+  for (const m of [gemessen.markierung, ...Object.values(je?.markierungen ?? {})]) if (m && (await istEinfarbig(seite, data, m))) return 'leer'
+  return { bild: Buffer.from(data, 'base64'), text: gzipSync(Buffer.from(gemessen.text, 'utf8')), ...(gemessen.markierung ? { markierung: gemessen.markierung } : {}), ...(je ?? {}) }
 }
 
-/** Die Fundstelle jedes Titels als Anteile des Bildes; liegt sie außerhalb des Ausschnitts, gibt es für den Titel keine Marke. */
-function markierungenJeTitel(stellen: (readonly [number, Stelle | undefined])[], clip: Messung['clip']): Record<string, [number, number, number, number]> | undefined {
-  const raus: Record<string, [number, number, number, number]> = {}
+/** Die Fundstelle jedes Titels als Anteile des Bildes; liegt sie außerhalb des Ausschnitts oder fehlt sie, gibt es für den Titel keine Marke, aber einen Grund (`beleg-marken.ts`). */
+export function markierungenJeTitel(stellen: (readonly [number, Stelle | undefined])[], clip: Messung['clip']): { markierungen: Record<string, [number, number, number, number]>; ohneMarke: Record<string, OhneMarkeGrund> } | undefined {
+  const markierungen: Record<string, [number, number, number, number]> = {}
+  const ohneMarke: Record<string, OhneMarkeGrund> = {}
   for (const [id, st] of stellen) {
-    if (!st || st.oben < clip.y || st.markeUnten > clip.y + clip.height) continue
-    raus[id] = [Math.max(0, st.links / 520), (st.oben - clip.y) / clip.height, Math.min(1, st.breite / 520), (st.markeUnten - st.oben) / clip.height]
+    if (!st) ohneMarke[id] = 'nicht-gefunden'
+    else if (st.oben < clip.y || st.markeUnten > clip.y + clip.height) ohneMarke[id] = 'ausserhalb'
+    else markierungen[id] = [Math.max(0, st.links / 520), (st.oben - clip.y) / clip.height, Math.min(1, st.breite / 520), (st.markeUnten - st.oben) / clip.height]
   }
-  return stellen.length ? raus : undefined
+  return stellen.length ? { markierungen, ohneMarke } : undefined
 }
 
 /** Kinoheld nennt den Erscheinungstag unter „Veröffentlichung“ — der Titel steht nur im Kopf und in der (eingeklappten) Kritik, also wird dort gesucht. */

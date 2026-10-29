@@ -26,6 +26,8 @@ const meldung = (titleId: number, asin: string) => ({ titleId, plattform: 'prime
 const fehler: string[] = []
 try {
   schreibe('data/dub-confirmed.yaml', '[]\n')
+  schreibe('public/data/cartoons.json', '[]')
+  schreibe('public/data/ohne-synchro.json', '[]')
   mkdirSync(join(kulisse, 'data/curated'), { recursive: true })
   schreibe('data/prime-seiten-von-hand.json', JSON.stringify([{ titleId: GESPERRT, seite: SPERRE }]))
   schreibe('data/prime-zugeordnet.json', JSON.stringify({ [`${gp('B0ALTALT01')}#2`]: meldung(GESPERRT, 'B0ALTALT01') }))
