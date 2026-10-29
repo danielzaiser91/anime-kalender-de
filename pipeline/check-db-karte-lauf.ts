@@ -90,6 +90,8 @@ console.log('\nAngekündigte Synchro ohne deutsche Folge (F71): Streifen und Abz
   pruefe('Abzeichen ist ein eigenes Element, nicht der Streifen', dom.wurzel.finde((x) => (x.getAttribute('class') ?? '').includes('bg-ak-info-grund') && x.textContent.includes('angekündigt')).length === 1)
   pruefe('Ankündigung „offen“ (nur Untertitel): kein Abzeichen', !(await mit([nurOmu])).includes('angekündigt'))
   pruefe('ohne Ankündigung: kein Abzeichen, Streifen bleibt', !(await mit([ohneAlles])).includes('angekündigt') && text().includes('keine deutsche Synchro'))
+  const cartoon = { id: 900074, titleDe: 'Cartoon', format: 'TV', streams: [], os: true, westlich: true, ankuendigung: ank('angekuendigt') } as unknown as Title
+  pruefe('westlicher Titel mit Ankündigung: kein Abzeichen (wie im Antwortkasten), Streifen bleibt', !(await mit([cartoon])).includes('angekündigt') && text().includes('keine deutsche Synchro'), text())
   const gemischt = await mit([blackClover, mitSynchro])
   pruefe('Reihe, in der ein Glied Synchro hat: weder Streifen noch Abzeichen', !gemischt.includes('angekündigt') && !gemischt.includes('keine deutsche Synchro'), gemischt)
   pruefe('Reihe, in der alle Glieder ohne Synchro sind und eines angekündigt ist: Abzeichen', (await mit([ohneAlles, blackClover])).includes('angekündigt'))

@@ -20,5 +20,7 @@ assert.equal(pixelFehler({ gleich: gleich({ 'Zeile unter dem Abzeichen': [blau, 
 assert.equal(pixelFehler({ gleich: gleich({ 'Kachelecke oben links': [[100, 100, 111], grau] }), sichtbar: [blau, grau] }).length, 0, 'Unterschied 11 gilt nicht')
 assert.equal(pixelFehler({ gleich: gleich({ 'Kachelecke oben links': [[100, 100, 112], grau] }), sichtbar: [blau, grau] }).length, 1, 'Unterschied 12 gilt')
 assert.equal(pixelFehler({ gleich: gleich(), sichtbar: [grau, grau] }).length, 1, 'Abzeichen unsichtbar')
+assert.equal(pixelFehler({ gleich: gleich(), sichtbar: [[100, 100, 111], grau] }).length, 1, 'Mitte: Unterschied 11 reicht nicht')
+assert.equal(pixelFehler({ gleich: gleich(), sichtbar: [[100, 100, 112], grau] }).length, 0, 'Mitte: Unterschied 12 reicht')
 assert.equal(pixelFehler({ gleich: gleich({ 'Unterkante der Kachel': [blau, grau] }), sichtbar: [grau, grau] }).length, 2, 'zwei Fehler zugleich')
 console.log('abzeichen-urteil: ok (Abstände 3/4 px je Seite, Streifen, Pixel 11/12, unsichtbar, zwei Fehler)')
