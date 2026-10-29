@@ -23,7 +23,7 @@ const stellung = (seite) => seite.locator(BESTAETIGT).first().getAttribute('aria
 async function main() {
   const { browser, seite, fremde } = await starteBuehne()
   try {
-    await seite.setViewportSize({ width: 1200, height: 900 })
+    await seite.setViewportSize({ width: 1200, height: 12000 })
     await lade(seite, 'A')
     const anfang = await stellung(seite)
     assert.equal(anfang, 'false', 'Ausgangszustand: Filter aus')

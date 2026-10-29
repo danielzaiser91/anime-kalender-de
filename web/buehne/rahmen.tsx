@@ -69,11 +69,11 @@ function Rahmen({ faelle }: { faelle: FaelleDatei }) {
   const ersteVariante = Object.keys(def.varianten)[0] ?? ''
   const zustand = mitVorgaben(zustandAus(name, werte), def)
   return (
-    <>
+    <div className="seite">
       <Leiste def={def} zustand={zustand} faelle={namen} />
       {def.varianten[zustand.variante]?.notiz && <p className="notiz">{def.varianten[zustand.variante]!.notiz}</p>}
       <Raster def={def} zustand={zustand} ersteVariante={ersteVariante} />
-    </>
+    </div>
   )
 }
 
