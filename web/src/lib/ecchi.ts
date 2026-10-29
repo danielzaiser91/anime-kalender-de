@@ -51,3 +51,13 @@ export const vergissVersteckte = (): void => versteckt.clear()
 
 /** Ob dieser Titel gerade ausgeblendet ist — für Listen, die nicht über die geladenen Titel laufen (Meldungen). */
 export const istAusgeblendet = (t: Title | undefined): boolean => t !== undefined && istEcchi(t) && !ecchiZeigen()
+
+/** Ein Genre-Filter „Ecchi“ aus Adresse oder Merkzettel gilt bei ausgeblendetem Ecchi nicht: er ergäbe eine leere Liste ohne Chip. */
+export function ohneEcchiGenre<F extends { genres: string[] }>(filters: F, zeigen = ecchiZeigen()): F {
+  if (zeigen || !filters.genres.includes(GENRE)) return filters
+  return { ...filters, genres: filters.genres.filter((g) => g !== GENRE) }
+}
+
+/** Die Einträge (Meldungen, Kinofilme), deren Titel gerade nicht ausgeblendet ist; unbekannte Titel bleiben. */
+export const ohneAusgeblendete = <T extends { titelId: number }>(liste: T[], titleById: Map<number, Title>): T[] =>
+  liste.filter((e) => !istAusgeblendet(titleById.get(e.titelId)))

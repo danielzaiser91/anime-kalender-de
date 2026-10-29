@@ -24,8 +24,8 @@ g.window = {
 const kopf = (id: number, name: string, genres: string[], extra: object = {}) =>
   ({ id, slug: `t-${id}`, titleRomaji: name, titleEn: name, genres, keywords: [], streams: [], ...extra })
 const TITEL = [
-  kopf(900001, 'Frostwind Seduction', ['Ecchi', 'Comedy']),
-  kopf(900002, 'Frostwind Chronicle', ['Fantasy']),
+  kopf(900001, 'Frostwind Seduction', ['Ecchi', 'Comedy'], { franchiseId: 900002 }),
+  kopf(900002, 'Frostwind Chronicle', ['Fantasy'], { franchiseId: 900002 }),
   kopf(900003, 'Salzmond Seduction', ['Ecchi'], { ohneSynchro: true }),
 ]
 const dateien: Record<string, unknown> = {
@@ -41,6 +41,7 @@ const dateien: Record<string, unknown> = {
   ],
   'meta.json': { genres: ['Comedy', 'Ecchi', 'Fantasy'] },
   'ohne-synchro-namen.json': [TITEL[2]],
+  'ohne-synchro.json': [TITEL[2], kopf(900004, 'Salzmond Chronicle', ['Drama'], { ohneSynchro: true })],
   'empfehlung.json': {
     pool: 2,
     genres: ['Fantasy', 'Ecchi'],
@@ -58,8 +59,12 @@ g.fetch = async (url: string) => {
   return { ok: inhalt !== undefined, status: inhalt === undefined ? 404 : 200, json: async () => inhalt }
 }
 
-const { ecchiZeigen, ecchiSetzen, istEcchi, ohneEcchi, versteckteEcchi, vergissVersteckte, istAusgeblendet } = await import('../web/src/lib/ecchi.ts')
-const { loadDataset, loadAllTitles, loadOhneSynchroNamen } = await import('../web/src/lib/data.ts')
+const { ecchiZeigen, ecchiSetzen, istEcchi, ohneEcchi, versteckteEcchi, vergissVersteckte, istAusgeblendet, ohneEcchiGenre, ohneAusgeblendete } = await import('../web/src/lib/ecchi.ts')
+const { loadDataset, loadAllTitles, loadOhneSynchro, loadOhneSynchroNamen } = await import('../web/src/lib/data.ts')
+const { reihenTeileVon } = await import('../web/src/components/detail/reihen-daten.ts')
+const { KinoKarussell } = await import('../web/src/components/NewsView.tsx')
+const { DatabaseView } = await import('../web/src/components/DatabaseView.tsx')
+const { parseHash } = await import('../web/src/lib/router.ts')
 const { zaehleVersteckteEcchiTreffer } = await import('../web/src/lib/ecchi-hinweis.ts')
 const { hoereAufEinstellungen } = await import('../web/src/lib/einstellungen-offen.ts')
 const { EMPTY_FILTERS } = await import('../web/src/lib/filters.ts')
@@ -180,6 +185,83 @@ hoerer['ak-einstellungen']?.()
 pruefe('Einstellungen öffnen sich auf das Ereignis', ereignisse.at(-1) === 'GEOEFFNET', ereignisse)
 abmelden()
 pruefe('Abmelden entfernt den Hörer', abgemeldet.join() === 'ak-einstellungen')
+
+// A5: Schalter-Zweige einzeln
+ecchiSetzen(true)
+pruefe('istAusgeblendet: bei angeschaltetem Schalter nichts ausgeblendet', !istAusgeblendet(TITEL[0] as never))
+ecchiSetzen(false)
+const echterSpeicher = g.localStorage
+g.localStorage = { getItem: () => { throw new Error('gesperrt') }, setItem: () => { throw new Error('gesperrt') }, removeItem: () => { throw new Error('gesperrt') } }
+pruefe('Gesperrter Speicher: Vorgabe ausblenden', ecchiZeigen() === false)
+g.localStorage = echterSpeicher
+
+// A5: die Datei mit den Titeln ohne Synchro
+const ohneSynchroTitel = await loadOhneSynchro(data)
+pruefe('Titel ohne Synchro: Ecchi fehlt, anderer bleibt', ids(ohneSynchroTitel) === '900004', ids(ohneSynchroTitel))
+
+// A1: Reihen-Panel eines gemischten Franchises (Teil 900001 Ecchi, 900002 nicht)
+const mitglied = (id: number) => ({ id, name: `Teil ${id}` })
+const teileIds = (titel: number, reihe: number[]) => reihenTeileVon(data.titleById.get(titel), reihe.map(mitglied) as never, data).map((m) => m.id).join()
+pruefe('Reihe: Ecchi-Teil fehlt neben einem normalen Titel', teileIds(900002, []) === '900002', teileIds(900002, []))
+pruefe('Reihe: Ecchi-Teil aus franchises.json fehlt ebenfalls', teileIds(900002, [900001, 900002]) === '900002', teileIds(900002, [900001, 900002]))
+pruefe('Reihe: der geöffnete Ecchi-Titel selbst bleibt (Direktaufruf)', teileIds(900001, []).split(',').includes('900001'), teileIds(900001, []))
+const eigenerName = reihenTeileVon(data.titleById.get(900001), [mitglied(900001)] as never, data).find((m) => m.id === 900001)?.name
+pruefe('Reihe: der geöffnete Ecchi-Titel behält den Eintrag aus franchises.json', eigenerName === 'Teil 900001', eigenerName)
+ecchiSetzen(true)
+pruefe('Reihe: mit Schalter an beide Teile', teileIds(900002, []).split(',').sort().join() === '900001,900002', teileIds(900002, []))
+ecchiSetzen(false)
+
+// A5: Meldungen und Kinofilme teilen sich `ohneAusgeblendete`
+const eintraege = [{ titelId: 900001 }, { titelId: 900002 }, { titelId: 900099 }]
+pruefe('ohneAusgeblendete: Ecchi fällt weg, normaler und unbekannter Titel bleiben', ohneAusgeblendete(eintraege, data.titleById).map((e) => e.titelId).join() === '900002,900099')
+ecchiSetzen(true)
+pruefe('ohneAusgeblendete mit Schalter an: alle', ohneAusgeblendete(eintraege, data.titleById).length === 3)
+ecchiSetzen(false)
+
+// A2: Kinofilme im Nachrichten-Reiter
+const kino = (slug: string, titleId: number) => ({ slug, titleId, platform: 'kino', schedule: { firstEpisodeDate: '2999-01-01' } })
+const kinoDaten = { ...data, releases: [kino('k-1', 900001), kino('k-2', 900002), kino('k-3', 900099)] }
+const kinoSeite = () => renderToStaticMarkup(h(KinoKarussell, { data: kinoDaten as never, oeffne: () => {} }))
+const kinoAus = kinoSeite()
+pruefe('Kinofilme: nur der normale Titel', kinoAus.includes('Frostwind Chronicle') && !kinoAus.includes('Frostwind Seduction'), kinoAus.length)
+ecchiSetzen(true)
+const kinoAn = kinoSeite()
+pruefe('Kinofilme mit Schalter an: beide', kinoAn.includes('Frostwind Chronicle') && kinoAn.includes('Frostwind Seduction'), kinoAn.length)
+ecchiSetzen(false)
+
+// A5: Hinweis in der Datenbank-Ansicht
+const nichts = () => {}
+const datenbankProps = (suche: string) => ({
+  data,
+  titles: alle,
+  grouped: false,
+  onGroupedChange: nichts,
+  ohneSynchro: false,
+  onOhneSynchroChange: nichts,
+  ohneSynchroLaedt: false,
+  favorites: new Set<number>(),
+  hidden: new Set<number>(),
+  onToggleFavorite: nichts,
+  onToggleHidden: nichts,
+  onOpenTitle: nichts,
+  suche,
+  onSortChange: nichts,
+  filters: { ...EMPTY_FILTERS, search: suche },
+  onFiltersChange: nichts,
+  onHinweisLoesen: nichts,
+})
+const datenbank = (suche: string) => renderToStaticMarkup(h(DatabaseView, datenbankProps(suche) as never))
+pruefe('Datenbank: der Ecchi-Hinweis steht in der Ansicht', datenbank('seduction').includes('Ecchi-Titel ausgeblendet'))
+pruefe('Datenbank: ohne Suche kein Ecchi-Hinweis', !datenbank('').includes('Ecchi-Titel ausgeblendet'))
+
+// A6: gemerkter Genre-Filter „Ecchi“
+const ecchiAdresse = '#/datenbank?g=Ecchi,Comedy&xg=Ecchi'
+pruefe('Adresse mit g=Ecchi: Filter verworfen, andere Genres und Ausschluss bleiben', parseHash(ecchiAdresse).filters.genres.join() === 'Comedy' && parseHash(ecchiAdresse).filters.excluded.genres.join() === 'Ecchi', parseHash(ecchiAdresse).filters.genres)
+ecchiSetzen(true)
+pruefe('Adresse mit g=Ecchi und Schalter an: Filter bleibt', parseHash(ecchiAdresse).filters.genres.join() === 'Ecchi,Comedy', parseHash(ecchiAdresse).filters.genres)
+ecchiSetzen(false)
+const ohneGenre = { genres: ['Comedy'] }
+pruefe('ohneEcchiGenre: ohne Ecchi-Genre dasselbe Objekt', ohneEcchiGenre(ohneGenre, false) === ohneGenre)
 
 if (verletzt) {
   console.error(`✖ Ecchi ausblenden: ${verletzt} Zusicherung(en) verletzt`)
