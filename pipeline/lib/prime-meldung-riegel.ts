@@ -22,30 +22,17 @@ export function adresseVerneint(alleChecks: DubCheck[], titleId: number, plattfo
   )
 }
 
-/** Eine von Hand gesperrte Prime-Seite für einen Titel (`data/prime-seiten-von-hand.json`). */
-export type SeitenSperre = { titleId: number; seite: string }
-
-/**
- * Sperrt die Meldungsseite dieses Titels? Für Seiten, die sicher nicht zu ihm gehören, ohne dass ein Handbeleg
- * sie einem anderen Titel zuweist (B0GVJFZD1W: Teil von Tokyo Ghoul:re, nicht Staffel 1; welche der beiden, ist offen).
- */
-export function seiteGesperrt(sperren: SeitenSperre[], titleId: number, seite: string | null | undefined): boolean {
-  return !!seite && sperren.some((s) => s.titleId === titleId && s.seite === seite)
-}
-
-/** Der eine Zugang zu `data/prime-zugeordnet.json`: Meldungen ohne die von Hand gesperrten Seiten, für jeden Leser und den Zuordner-Schreibweg. */
+/** Der eine Zugang zu `data/prime-zugeordnet.json`: Meldungen ohne die in `data/belege-entfernt.yaml` gesperrten Seiten, für jeden Leser und den Zuordner-Schreibweg. */
 export function leseZugeordnet<T extends { titleId: number; seite?: string | null }>(roh?: Record<string, T>): Record<string, T> {
   return Object.fromEntries(ohneGesperrteSeiten(roh ?? readJson<Record<string, T>>('data/prime-zugeordnet.json', {})))
 }
 
-/** Die Meldungen aus `prime-zugeordnet.json` ohne die von Hand gesperrten Seiten (`data/prime-seiten-von-hand.json`). */
+/** Die Meldungen aus `prime-zugeordnet.json` ohne die Seiten, die `data/belege-entfernt.yaml` sperrt (Kennung + Adresse; die einzige Sperrliste). */
 export function ohneGesperrteSeiten<T extends { titleId: number; seite?: string | null }>(roh: Record<string, T>): [string, T][] {
-  const sperren = readJson<SeitenSperre[]>('data/prime-seiten-von-hand.json', [])
   const entfernt = ladeBelegeEntfernt(resolve(ROOT, 'data/belege-entfernt.yaml'))
   return Object.entries(roh).filter(
     ([schluessel, e]) =>
-      !seiteGesperrt(sperren, e.titleId, e.seite) &&
-      !seiteGesperrt(sperren, e.titleId, asinAusSchluessel(schluessel)) &&
+      !seiteEntfernt(entfernt, e.titleId, asinAusSchluessel(schluessel)) &&
       !istEntfernt(entfernt, e.titleId, schluessel.split('#')[0]) &&
       !seiteEntfernt(entfernt, e.titleId, e.seite),
   )

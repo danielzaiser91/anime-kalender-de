@@ -1,6 +1,6 @@
 /**
  * Zusicherung: **Außerhalb von `leseZugeordnet` und einer kleinen Ausnahmeliste nennt kein Code `data/prime-zugeordnet.json`** (20.10.2026, Folge von PR 1612).
- * Anlass: Eine Seitensperre (`data/prime-seiten-von-hand.json`) wirkt nur dort, wo gelesen wird wie `leseZugeordnet`; sechs Leser lasen roh.
+ * Anlass: Eine Seitensperre (`data/belege-entfernt.yaml`) wirkt nur dort, wo gelesen wird wie `leseZugeordnet`; sechs Leser lasen roh.
  * Geprüft wird der Syntaxbaum aller verfolgten Code-Dateien (Zeichenketten und Vorlagen, keine Kommentare), nicht der Text.
  * Prüfdateien (`check-*`, `*.test.*`) legen die Datei in Kulissen an und lesen das Ergebnis; sie sind ausgenommen.
  * Grenze: ein aus Teilen zusammengesetzter Pfad (`'prime-' + name`) wird nicht erkannt. Läuft in `check:logic`.
