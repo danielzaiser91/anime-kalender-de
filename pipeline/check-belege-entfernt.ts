@@ -88,6 +88,20 @@ const HEIDI_SEITE = 'https://www.disneyplus.com/browse/entity-cfb90125-8678-4327
 const zuordnungsEintrag = (titleId: number) => ({ titleId, plattform: 'disneyplus', seite: null, asin: null, folgen: [{ unsere: 19, sprachen: ['de', 'fr-FR'] }] })
 const uebrig = (roh: Record<string, ReturnType<typeof zuordnungsEintrag>>) => ohneGesperrteSeiten(roh).map(([k, e]) => `${e.titleId} ${k}`)
 n.faelle += 4
+/* Die fünf Fremdzuordnungen vom 29.10.2026 (Schlüssel wörtlich), gegen die echte Liste: Cartoonseiten bei Netflix, Grisaia-Serie an Film. */
+const FREMD = [
+  [105096, 'https://www.netflix.com/title/80057610'],
+  [20875, 'https://www.netflix.com/title/80180600'],
+  [20875, 'https://www.netflix.com/title/81628023'],
+  [527, 'https://www.netflix.com/title/81553278#0'],
+  [99470, 'https://www.amazon.de/dp/B0DMMT9B67'],
+] as const
+for (const [id, schluessel] of FREMD) {
+  n.faelle++
+  erwarte(`Zuordnung: ${id} an ${schluessel} fällt weg`, uebrig({ [schluessel]: zuordnungsEintrag(id) }), [])
+}
+n.faelle++
+erwarte('Kontrolle: Hero Mask an einer anderen Netflix-Seite bleibt', uebrig({ 'https://www.netflix.com/title/80200027': zuordnungsEintrag(105096) }), ['105096 https://www.netflix.com/title/80200027'])
 erwarte('Zuordnung: Heidi an der Cartoon-Seite fällt weg', uebrig({ [`${HEIDI_SEITE}#0`]: zuordnungsEintrag(2225) }), [])
 erwarte('Zuordnung: auch mit Ländersegment', uebrig({ [`${HEIDI_SEITE.replace('.com/', '.com/de-de/')}#0`]: zuordnungsEintrag(2225) }), [])
 erwarte('Kontrolle: dieselbe Seite beim Cartoon bleibt', uebrig({ [`${HEIDI_SEITE}#0`]: zuordnungsEintrag(-62475) }), [`-62475 ${HEIDI_SEITE}#0`])
@@ -96,7 +110,7 @@ erwarte('Kontrolle: Heidi an einer anderen Seite bleibt', uebrig({ 'https://www.
 /* Der Bestand: Liste gelesen (nicht leer), und nichts davon steht in den Handbelegen. */
 n.faelle++
 const liste = ladeBelegeEntfernt(join(ROOT, 'data', 'belege-entfernt.yaml'))
-if (liste.length < 2) fehler.push(`data/belege-entfernt.yaml: ${liste.length} Einträge, erwartet mindestens 2 (Heidi, Made in Abyss)`)
+if (liste.length < 7) fehler.push(`data/belege-entfernt.yaml: ${liste.length} Einträge, erwartet mindestens 7 (Heidi, Made in Abyss, fünf Fremdzuordnungen)`)
 const belege = yaml.load(readFileSync(join(ROOT, 'data', 'dub-confirmed.yaml'), 'utf8')) as { anilistId?: number; url?: string }[]
 const zurueck = belege.filter((b) => istEntfernt(liste, b.anilistId, b.url)).map((b) => `${b.anilistId} ${b.url}`)
 if (zurueck.length) fehler.push(`Entfernte Belege stehen wieder in data/dub-confirmed.yaml: ${zurueck.join('; ')}`)
