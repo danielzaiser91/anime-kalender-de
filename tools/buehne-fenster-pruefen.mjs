@@ -15,9 +15,9 @@ import { starteBuehne } from './buehne-seite.mjs'
 
 const ADRESSE = 'http://buehne.test/buehne.html#relative-uhrzeit?v=A&fall=alle&thema=beide&teil=beide&geraet='
 
-/** Überlauf der Seite, Höhe der Zellen (ohne Zoom: `clientHeight`) und tiefste Unterkante einer Zelle. */
+/** Überlauf der Seite, sichtbare Höhe der Rahmen und Zellen und tiefste Unterkante einer Zelle. */
 async function messe(seite, geraet, breite, hoehe) {
-  await seite.setViewportSize({ width: breite, height: hoehe })
+  if (breite) await seite.setViewportSize({ width: breite, height: hoehe })
   await seite.goto('about:blank')
   await seite.goto(`${ADRESSE}${geraet}`, { waitUntil: 'load' })
   await seite.locator('iframe[data-zelle]').first().waitFor()
@@ -27,7 +27,7 @@ async function messe(seite, geraet, breite, hoehe) {
     return {
       html: ueberlauf(document.documentElement),
       body: ueberlauf(document.body),
-      rahmen: zellen.map((z) => z.querySelector('iframe').clientHeight),
+      rahmen: zellen.map((z) => z.querySelector('iframe').getBoundingClientRect().height.toFixed(1)),
       figuren: zellen.map((z) => z.getBoundingClientRect().height.toFixed(1)),
       unterkante: Math.max(...zellen.map((z) => z.getBoundingClientRect().bottom)),
     }
@@ -48,23 +48,25 @@ async function pruefeFensterFuellt(seite) {
 
 async function pruefeUntergrenze(seite) {
   const m = await messe(seite, '375', 1280, 500)
-  assert.ok(Math.min(...m.rahmen) >= 240, `1280×500: eine Zelle ist nur ${Math.min(...m.rahmen)} px hoch (Untergrenze 240)`)
+  const kleinste = Math.min(...m.rahmen.map(Number))
+  assert.ok(kleinste >= 240, `1280×500: eine Zelle ist nur ${kleinste} px hoch (Untergrenze 240)`)
 }
 
+/** Läuft vor jedem `setViewportSize`: Es misst das Fenster, das `starteBuehne` den anderen Werkzeugen gibt. */
 async function pruefeVolleHoehe(seite) {
-  const handy = await messe(seite, '375', 1400, 12000)
-  assert.deepEqual(handy.rahmen, [812, 812, 812, 812], 'hohes Fenster, Handy: jede Zelle voll 812 px hoch')
+  const handy = await messe(seite, '375')
+  assert.deepEqual(handy.rahmen, ['812.0', '812.0', '812.0', '812.0'], 'hohes Fenster, Handy: jede Zelle voll 812 px hoch')
   assert.deepEqual(handy.figuren, ['834.8', '834.8', '834.8', '834.8'], 'hohes Fenster, Handy: Zelle samt Beschriftung 834,8 px wie vor dem Umbau')
-  const beide = await messe(seite, 'beide', 1400, 12000)
-  assert.deepEqual(beide.rahmen, [812, 812, 812, 812, 800, 800, 800, 800], 'hohes Fenster, beide: Handy 812, Desktop 800 px, nicht verkleinert')
+  const beide = await messe(seite, 'beide')
+  assert.deepEqual(beide.rahmen, ['812.0', '812.0', '812.0', '812.0', '800.0', '800.0', '800.0', '800.0'], 'hohes Fenster, beide: Handy 812, Desktop 800 px, nicht verkleinert')
 }
 
 async function main() {
   const { browser, seite, fremde } = await starteBuehne()
   try {
+    await pruefeVolleHoehe(seite)
     await pruefeFensterFuellt(seite)
     await pruefeUntergrenze(seite)
-    await pruefeVolleHoehe(seite)
   } finally {
     await browser.close()
   }
