@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState, type KeyboardEvent, type RefObject } from 'react'
 import type { DataMeta } from '@shared/types.ts'
 import { activeFilterCount, type FilterState } from '../lib/filters.ts'
 import { useLang } from '../lib/i18n.tsx'
@@ -14,6 +14,8 @@ import { AktiveFilter } from './kalender/AktiveFilter.tsx'
  * Kasten, der Rest hinter „mehr Filter". Gesucht wird seit dem 26.09.2026 im
  * Kopf der Seite.
  */
+const DOCK_FELD_ID = 'ak-filterdock'
+
 export type FilterBarProps = {
   meta: DataMeta
   filters: FilterState
@@ -27,23 +29,22 @@ export type FilterBarProps = {
  * war beim Scrollen
  * weg. Platz für die letzten Kacheln lässt die Fußzeile (kein Leerraum oben, 04.10.2026).
  *
- * **Ohne aktive Filter nur so breit wie der Knopf**, rechts unten: Eine leere Leiste über die
- * ganze Breite deckte sonst eine Kachelreihe ab, ohne etwas zu sagen. Mit Chips oder offenem
- * Feld nimmt sie die volle Breite.
+ * **Zugeklappt immer nur der Knopf**, rechts unten: Chips und „Alle zurücksetzen" verdeckten sonst
+ * eine Kachelreihe (62 × 1180 px). Sie erscheinen mit dem Feld beim Aufklappen darüber. Das Dock
+ * hängt in beiden Zuständen an derselben rechten unteren Ecke, der Knopf springt nicht (29.10.2026).
  */
 export function FilterBarDock(props: FilterBarProps) {
   const [open, setOpen] = useState(false)
-  const pille = (!open && activeFilterCount(props.filters) === 0)
+  const knopf = useRef<HTMLButtonElement>(null)
+  /* Escape gilt nur, wenn der Fokus im Dock liegt und kein Bauteil darin (Sprecher-Eingabe) es schon verbraucht hat. */
+  const taste = (e: KeyboardEvent<HTMLDivElement>) => {
+    if (!open || e.key !== 'Escape' || e.defaultPrevented) return
+    setOpen(false)
+    knopf.current?.focus()
+  }
   return (
-    <div
-      className={[
-        'fixed inset-x-2 bottom-[calc(0.25rem+env(safe-area-inset-bottom))] z-30 mx-auto flex max-h-[calc(100dvh-5.5rem-env(safe-area-inset-bottom)-77px)] flex-col max-w-[1180px]',
-        pille && 'right-2 left-auto mx-0 w-max max-w-[calc(100vw-1rem)] md:right-4 md:max-w-[calc(100vw-2rem)]',
-      ]
-        .filter(Boolean)
-        .join(' ')}
-    >
-      <FilterBar {...props} pille={pille} open={open} setOpen={setOpen} />
+    <div onKeyDown={taste} className="fixed right-2 bottom-[calc(0.25rem+env(safe-area-inset-bottom))] z-30 flex w-max max-w-[calc(100vw-1rem)] max-h-[calc(100dvh-5.5rem-env(safe-area-inset-bottom)-77px)] flex-col md:right-4 md:max-w-[calc(100vw-2rem)]">
+      <FilterBar {...props} pille open={open} setOpen={setOpen} knopfRef={knopf} />
     </div>
   )
 }
@@ -57,7 +58,8 @@ export function FilterBar({
   pille,
   open,
   setOpen,
-}: FilterBarProps & { pille?: boolean; open: boolean; setOpen: (next: boolean) => void }) {
+  knopfRef,
+}: FilterBarProps & { pille?: boolean; open: boolean; setOpen: (next: boolean) => void; knopfRef?: RefObject<HTMLButtonElement | null> }) {
   const { t } = useLang()
   const count = activeFilterCount(filters)
 
@@ -65,7 +67,7 @@ export function FilterBar({
     <div className={pille && open ? 'flex min-h-0 flex-col overflow-hidden rounded-2xl border border-ak-rand bg-ak-flaeche md:w-[min(720px,calc(100vw-2rem))]' : 'flex min-h-0 flex-col overflow-hidden rounded-2xl border border-ak-rand bg-ak-flaeche shadow-[0_12px_32px_rgba(0,0,0,.18)]'}>
       {/* Die Leiste bleibt an ihrer Stelle, der Inhalt klappt darüber auf (Daniel, 04.10.2026). */}
       {open && (
-        <div className="flex min-h-0 flex-1 flex-col animate-fade-in border-b border-ak-linie">
+        <div id={DOCK_FELD_ID} className="flex min-h-0 flex-1 flex-col animate-fade-in border-b border-ak-linie">
           <FilterDetailsFeld
             meta={meta}
             filters={filters}
@@ -76,14 +78,19 @@ export function FilterBar({
         </div>
       )}
       {/* Auswahl links, Filter-Knopf rechts auf derselben Zeile. */}
-      <div className="flex flex-wrap items-center gap-2 p-1.5">
-        <div className="max-h-[5.5rem] min-w-0 flex-1 overflow-y-auto">
-          <AktiveFilter filters={filters} onChange={onChange} />
-        </div>
+      <div className={pille ? 'flex flex-wrap items-end gap-2 p-1.5' : 'flex flex-wrap items-center gap-2 p-1.5'}>
+        {(open || !pille) && (
+          <div className="max-h-[5.5rem] min-w-0 flex-1 overflow-y-auto">
+            <AktiveFilter filters={filters} onChange={onChange} />
+          </div>
+        )}
         <button
+          ref={knopfRef}
+          data-filter-knopf
           type="button"
           onClick={() => setOpen(!open)}
           aria-expanded={open}
+          aria-controls={open ? DOCK_FELD_ID : undefined}
           className="ml-auto inline-flex min-h-11 shrink-0 cursor-pointer items-center gap-2 rounded-full border border-ak-rand px-3 py-1.5 text-sm font-semibold text-ak-text transition hover:bg-ak-flaeche-2"
         >
           {t('filter.button')}

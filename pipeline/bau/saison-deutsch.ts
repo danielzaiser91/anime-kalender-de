@@ -12,10 +12,14 @@ export interface DeutschAngabe {
 
 const ganzerTag = (tag: string | undefined): string | undefined => (tag && /^\d{4}-\d{2}-\d{2}$/.test(tag) && !tag.includes('-00') ? tag : undefined)
 
+/** Tonspur-Beleg mit belegter Folge auf einem nicht abgeleiteten Weg (Maßstab von `check-saison-deutsch-bestand.ts`). */
+export const tonspurBeleg = (t: Title | undefined): boolean =>
+  (t?.streams ?? []).some((s) => s.dub === true && !s.dubAbgeleitet && (s.dubRanges?.length ?? 0) > 0)
+
 /** Der Tag, an dem eine belegte deutsche Folge auf dem Weg mit Tonbeleg erschien: Folge 1 am ersten sicheren Termin der Plattform, sonst der beobachtete Tag der Folge. */
 function tagDerBelegtenFolge(t: Title, releases: Release[]): string | undefined {
   const tage: string[] = []
-  for (const s of (t.streams ?? []).filter((x) => x.dub === true)) {
+  for (const s of (t.streams ?? []).filter((x) => x.dub === true && !x.dubAbgeleitet)) {
     const termine = releases.filter((r) => r.platform === s.platform && !r.schedule?.estimated)
     for (const bereich of (s.dubRanges ?? []).filter((b) => b.dub)) {
       const tag = bereich.from === 1 ? ersterTermin(termine)?.datum : termine.map((r) => r.schedule?.observed?.[bereich.from]).find(Boolean)

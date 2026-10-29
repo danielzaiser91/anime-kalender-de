@@ -215,6 +215,8 @@ jobs:
           PFADE="$PFADE|^tools/ansicht-duell\.mjs$"
           PFADE="$PFADE|^tools/ansicht-filterfenster\.mjs$"
           PFADE="$PFADE|^tools/ansicht-filterfenster-rechner\.mjs$"
+          PFADE="$PFADE|^tools/ansicht-filterknopf\.mjs$"
+          PFADE="$PFADE|^tools/ansicht-filterknopf-escape\.mjs$"
           PFADE="$PFADE|^tools/ansicht-fortsetzen\.mjs$"
           PFADE="$PFADE|^tools/ansicht-hover-cover\.mjs$"
           PFADE="$PFADE|^tools/ansicht-hover-cover-zeilen\.mjs$"

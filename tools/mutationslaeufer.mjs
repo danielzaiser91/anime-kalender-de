@@ -15,6 +15,8 @@
  * Mehrere Änderungen einer Datei beziehen sich alle auf das Original (kein Verschieben der Anker).
  * Sicherung: Kopie `<datei>.mutlauf-orig` neben jeder berührten Datei, Rückspiel bytegleich nach jedem
  * Mutanten, bei Abbruch (Signal) und beim Ende; Rest eines toten Laufs verweigert den Start.
+ * Vor dem Testlauf druckt der Läufer je Mutant `@@ Datei:Zeile` mit `-`/`+`-Zeilen; ändert die Änderung den Text nicht
+ * (suche == ersetze), gilt der Mutant als „wirkungslos“ (unbrauchbar, Exit 1) und die Tests laufen nicht.
  * Exit 0 alle rot (Kontrollen grün), 1 Überlebende/unbrauchbare, 2 Aufruf/Grundlauf rot/Rückspiel kaputt.
  */
 import { execFileSync, spawn } from "node:child_process"
@@ -206,6 +208,7 @@ async function lauf(opt, mutanten, originale) {
   for (const m of mutanten) {
     const plan = planeMutant(m, originale, opt.cwd)
     let z = { m, kontrolle: m.aenderungen.length === 0, ...plan }
+    if (plan.diff) console.log(`--- ${m.name}\n${plan.diff.join("\n")}`)
     if (plan.texte) {
       for (const [pfad, text] of plan.texte) writeFileSync(pfad, text)
       z = { ...z, ...(await probiereTests(m.tests ?? opt.tests, opt.cwd, opt.timeout)) }
