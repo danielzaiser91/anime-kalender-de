@@ -3,7 +3,7 @@ import { expandEvents, istErschienen, istAusgeblieben, titleStatus } from '@shar
 import { dubAbdeckung } from '@shared/dub-grenze.ts'
 import { type Title, type Release } from '@shared/types.ts'
 import { ausgebliebenBis } from './antwort-kasten.tsx'
-import { belegteBereiche, zaehleErschienenJeAnbieter, ohneSchonErschienene, istBelegtAbgeschlossen, deutschBegonnen, gesamtGeschaetzt, angekuendigteLaenge, fertigAntwort } from './antwort-regeln.ts'
+import { belegteBereiche, zaehleErschienenJeAnbieter, ohneSchonErschienene, istBelegtAbgeschlossen, deutschBegonnen, gesamtGeschaetzt, angekuendigteLaenge, fertigAntwort, kopfReleases } from './antwort-regeln.ts'
 import { filmTermine } from './film-termine.ts'
 import { restUndBlock } from './antwort-block.ts'
 import { jpErschienen, KINO_LAND } from './kino.tsx'
@@ -88,7 +88,7 @@ export function berechneAntwort({ title, releases, today, jetzt }: AntwortEingab
     44 Titel sind betroffen, darunter beide Code-Geass-Staffeln, fünf
     Naruto-Filme und „Mila Superstar".
   */
-  const fuerKopf = ohneDisc.length ? ohneDisc : hatSynchro ? [] : releases.filter((r) => !imKinoBanner(r))
+  const fuerKopf = kopfReleases({ ohneDisc, releases, imKino: imKinoBanner, hatSynchro, title, heute: today })
   const alleEvents = fuerKopf.flatMap((r) => expandEvents(r))
   const offen = alleEvents.filter((e) => !istErschienen(e, jetzt))
   /*
@@ -237,7 +237,7 @@ export function berechneAntwort({ title, releases, today, jetzt }: AntwortEingab
   if (kuenftig.length > 0) {
     const n = kuenftig[0]!
     /* Ein abgeschlossenes, vollständig deutsches Werk bleibt „fertig" (`antwort-regeln.ts`). */
-    if (istBelegtAbgeschlossen(hatSynchro && deutschBegonnen(title, raus, today), vollstaendig, abgeschlossenFuerKasten, alleEvents, jetzt)) {
+    if (istBelegtAbgeschlossen(hatSynchro && deutschBegonnen(title, raus, today, releases), vollstaendig, abgeschlossenFuerKasten, alleEvents, jetzt)) {
       return fertigAntwort(raus || gesamt, gesamt, vereint.size, alleEvents)
     }
     /*

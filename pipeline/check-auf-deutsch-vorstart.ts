@@ -1,0 +1,79 @@
+/**
+ * Der Antwort-Kasten sagt „Auf Deutsch“ erst, wenn ein belegter deutscher Termin am oder vor heute liegt (29.10.2026, Virgin Road:
+ * aniSearch nannte den 11.04.2026, die Blu-ray Vol. 1 kam erst am 30.10.2026). Titel- und Release-Felder stehen wörtlich aus
+ * `public/data/titles.json` und `releases.json` (Stand 29.10.2026). Läuft in `check:logic`.
+ */
+import type { Release, Title } from '../shared/types.ts'
+import { berechneAntwort } from '../web/src/components/detail/antwort-berechnen.ts'
+import { ersteDiscNochOffen } from '../web/src/components/detail/antwort-regeln.ts'
+
+let fehler = 0
+function pruefe(name: string, ok: boolean, info = ''): void {
+  if (ok) return
+  fehler++
+  console.error(`FEHLER: ${name} ${info}`)
+}
+
+const HEUTE = '2026-10-29'
+
+const disc = (slug: string, titleId: number, name: string, datum: string): Release =>
+  ({ slug, titleId, name, platform: 'disc', platformUrl: 'https://www.example.org/', releaseType: 'disc', schedule: { firstEpisodeDate: datum }, sources: [] }) as unknown as Release
+const antwort = (title: unknown, releases: Release[], heute = HEUTE) =>
+  berechneAntwort({ title: title as Title, releases, today: heute, jetzt: new Date(`${heute}T12:00:00Z`) }) as { art: string; datum?: string; baende?: unknown[] } | undefined
+
+const virgin = { id: 129193, format: 'TV', episodes: 12, jpYear: 2022, jpEnd: '2022-06-18', streams: [], titleDe: 'Virgin Road: Die Henkerin und ihre Art zu leben', deErstausgabe: { von: '2026-04-11', publisher: 'AniMoon Publishing GmbH', synchro: true }, hasVoices: true }
+const virginVol1 = disc('virgin-road-vol1', 129193, 'Virgin Road – Vol. 1', '2026-10-30')
+const bocchi = { id: 130003, format: 'TV', episodes: 12, jpYear: 2022, jpEnd: '2022-12-25', streams: [], titleDe: 'Bocchi the Rock!', hasVoices: true }
+const bocchiBaende = [
+  disc('bocchi-the-rock-vol1', 130003, 'Bocchi the Rock! – Vol. 1', '2026-11-06'),
+  disc('bocchi-the-rock-vol2', 130003, 'Bocchi the Rock! – Vol. 2', '2026-11-06'),
+  disc('bocchi-the-rock-vol3', 130003, 'Bocchi the Rock! – Vol. 3', '2026-12-04'),
+]
+const goodLuck = { id: 13535, format: 'TV', episodes: 13, jpYear: 2012, jpEnd: '2012-09-27', streams: [], titleDe: 'Good Luck Girl!', hasVoices: true }
+const goodLuckBaende = [
+  disc('good-luck-girl-vol-1-2026-11-20', 13535, 'Good Luck Girl! – Vol. 1', '2026-11-20'),
+  disc('good-luck-girl-vol-2-2027-02-05', 13535, 'Good Luck Girl! – Vol. 2', '2027-02-05'),
+]
+const nukitashi = { id: 174188, format: 'TV', episodes: 11, jpYear: 2025, jpEnd: '2025-09-27', streams: [], titleDe: 'Nukitashi: Welcome to Love Island!', hasVoices: true }
+const nukitashiVol1 = disc('nukitashi-vol1', 174188, 'Nukitashi – Vol. 1', '2026-10-30')
+const anne = { id: 184639, format: 'TV', episodes: 24, jpYear: 2025, jpEnd: '2025-09-27', streams: [], titleDe: 'Anne Shirley', deErstausgabe: { von: '2026-07-17', publisher: 'peppermint anime GmbH', synchro: true }, hasVoices: true }
+const anneVol2 = disc('anne-shirley-vol2', 184639, 'Anne Shirley: Anne mit den roten Haaren – Vol. 2', '2026-11-20')
+const eureka = { id: 237, format: 'TV', episodes: 50, jpYear: 2005, jpEnd: '2006-04-02', streams: [], titleDe: 'Eureka Seven', deErstausgabe: { von: '2007-03-09', bis: '2007-11-02', publisher: 'Beez Entertainment', synchro: true }, hasVoices: true }
+const eurekaBox = disc('auto-237-disc', 237, 'Eureka Seven', '2027-01-28')
+const yamada = { id: 154965, format: 'TV', episodes: 13, jpYear: 2023, jpEnd: '2023-06-25', streams: [{ platform: 'netflix', url: 'https://www.netflix.com/title/81685150', dub: true, zugang: 'abo' }], titleDe: 'My Love Story with Yamada-kun at Lv999', deErstausgabe: { von: '2024-07-23', publisher: 'AniMoon Publishing GmbH', synchro: true }, hasVoices: true }
+const yamadaVol1 = disc('my-love-story-with-yamada-kun-vol1', 154965, 'My Love Story with Yamada-kun at Lv999 – Vol. 1', '2026-11-06')
+
+// Die vier Anlassfälle: erster deutscher Termin ist ein künftiger Band, der Kasten zeigt die Disc-Auskunft statt „Auf Deutsch“.
+const v = antwort(virgin, [virginVol1])
+pruefe('Virgin Road (aniSearch 11.04., Vol. 1 am 30.10.): keine Fertig-Antwort', v?.art === 'disc', JSON.stringify(v))
+pruefe('Virgin Road: nennt den Termin von Vol. 1', v?.datum === '2026-10-30', JSON.stringify(v))
+const b = antwort(bocchi, bocchiBaende)
+pruefe('Bocchi (nur Sprecher, drei Bände künftig): Disc-Auskunft', b?.art === 'disc' && b.datum === '2026-11-06' && b.baende?.length === 3, JSON.stringify(b))
+pruefe('Good Luck Girl! (nur Sprecher): Disc-Auskunft', antwort(goodLuck, goodLuckBaende)?.art === 'disc')
+pruefe('Nukitashi (nur Sprecher): Disc-Auskunft', antwort(nukitashi, [nukitashiVol1])?.art === 'disc')
+
+// Gegenfälle: hier stimmt „Auf Deutsch“.
+pruefe('Anne Shirley (Vol. 1 seit 17.07., nur Vol. 2 künftig): bleibt fertig', antwort(anne, [anneVol2])?.art === 'fertig')
+pruefe('Eureka Seven (TV 2007, Box-Neuauflage künftig, kein „Vol. 1“): bleibt fertig', antwort(eureka, [eurekaBox])?.art === 'fertig')
+pruefe('Yamada-kun (Netflix-Stream mit deutscher Tonspur, Vol. 1 künftig): bleibt fertig', antwort(yamada, [yamadaVol1])?.art === 'fertig')
+pruefe('Virgin Road am Erscheinungstag von Vol. 1: fertig', antwort(virgin, [virginVol1], '2026-10-30')?.art === 'fertig')
+pruefe('Virgin Road einen Tag vor Vol. 1: noch Disc-Auskunft', antwort(virgin, [virginVol1], '2026-10-29')?.art === 'disc')
+pruefe('Virgin Road ohne Band im Bestand (Fassung läuft nur über aniSearch): fertig', antwort(virgin, [])?.art === 'fertig')
+pruefe('Film mit Sprechern und künftigem Vol. 1 behält den Film-Zweig', antwort({ ...bocchi, format: 'MOVIE' }, bocchiBaende)?.art !== 'disc')
+
+// Die Regel selbst, Grenzfälle der Namen und Daten.
+const offen = (namen: string[], datum = '2026-11-06', heute = HEUTE) => ersteDiscNochOffen(namen.map((n, i) => disc(`x${i}`, 1, n, datum)), heute)
+pruefe('Vol. 1 künftig: offen', offen(['Titel – Vol. 1']))
+pruefe('Vol.1 ohne Leerzeichen: offen', offen(['Titel – Vol.1']))
+pruefe('Vol. 15 ist kein erster Band', !offen(['Titel – Vol. 15']))
+pruefe('Vol. 2 allein ist kein erster Band', !offen(['Titel – Vol. 2']))
+pruefe('keine Disc: nicht offen', !ersteDiscNochOffen([], HEUTE))
+pruefe('Vol. 1 erschienen: nicht offen', !offen(['Titel – Vol. 1'], '2026-10-28'))
+pruefe('Vol. 1 genau heute: nicht offen', !offen(['Titel – Vol. 1'], HEUTE))
+pruefe('Vol. 1 künftig, aber ein Band schon erschienen: nicht offen', !ersteDiscNochOffen([disc('a', 1, 'T – Vol. 1', '2026-11-06'), disc('b', 1, 'T – Vol. 2', '2026-10-01')], HEUTE))
+
+if (fehler) {
+  console.error(`${fehler} Zusicherung(en) zu „Auf Deutsch“ vor dem ersten deutschen Termin verletzt`)
+  process.exit(1)
+}
+console.log('Auf Deutsch vor dem ersten deutschen Termin: Zusicherungen erfüllt (4 Anlassfälle, 7 Gegenfälle, 8 Regelfälle)')
