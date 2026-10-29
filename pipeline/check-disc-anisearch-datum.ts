@@ -119,7 +119,9 @@ const kaputt = discTerminFehler([virgin()], HEUTE, { index: index(), veroeffentl
 pruefe('Wächter: der kaputte Stand (30.10. gegen aniSearch 06.11.) ist rot', kaputt.length === 1 && kaputt[0]!.includes('Virgin Road – Vol. 1') && kaputt[0]!.includes('2026-11-06'), kaputt)
 pruefe('Wächter: der reparierte Stand ist grün', discTerminFehler(rs, HEUTE, { index: index(), veroeffentlicht: tage('2026-10-02') }).length === 0)
 pruefe('Wächter: kein Disc-Release, keine Prüfung (und kein Lesen von Dateien)', discTerminFehler([kino], HEUTE).length === 0)
-const ergebnis = pruefeErgebnis([virgin()], [], new Map(), HEUTE, { index: index(), veroeffentlicht: tage('2026-10-02') })
+/* Kennung 900001 kennt nur die übergebene Kulisse, nicht die echten Dateien: Ohne weitergereichte Quellen bliebe der Fehler aus. */
+const fremd = { ...index(), ausgaben: { '900001': index().ausgaben['129193']! } }
+const ergebnis = pruefeErgebnis([{ ...virgin(), titleId: 900001 }], [], new Map(), HEUTE, { index: fremd, veroeffentlicht: tage('2026-10-02') })
 pruefe('Verdrahtung: `pruefeErgebnis` meldet den kaputten Stand als Fehler', ergebnis.fehler.some((f) => f.includes('aniSearch nennt 2026-11-06')), ergebnis.fehler)
 const gut = pruefeErgebnis(rs, [], new Map(), HEUTE, { index: index(), veroeffentlicht: tage('2026-10-02') })
 pruefe('Verdrahtung: `pruefeErgebnis` ist am reparierten Stand ohne Disc-Fehler', !gut.fehler.some((f) => f.includes('aniSearch nennt')), gut.fehler)
