@@ -106,7 +106,7 @@ export function deutschBegonnen(title: Title, erschieneneFolgen: number, heute: 
 export function ersteDiscNochOffen(releases: Release[], heute: string): boolean {
   const discs = releases.filter((r) => r.platform === 'disc')
   const datum = (r: Release) => r.schedule?.firstEpisodeDate ?? ''
-  return discs.length > 0 && discs.every((r) => datum(r) > heute) && discs.some((r) => /\bVol\.?\s*1\b/.test(r.name))
+  return discs.every((r) => datum(r) > heute) && discs.some((r) => /\bVol\.?\s*1\b/.test(r.name))
 }
 
 /**
