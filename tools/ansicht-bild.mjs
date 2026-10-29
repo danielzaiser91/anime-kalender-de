@@ -30,6 +30,7 @@ import { pruefeAdressen } from './ansicht-adressen.mjs'
 import { pruefeHoverCover } from './ansicht-hover-cover.mjs'
 import { pruefeStatusfarben } from './ansicht-statusfarben.mjs'
 import { distPruefen } from './dist-frisch.mjs'
+import { pruefeTvReihe, meldeTvReihe } from './ansicht-tv-reihe.mjs'
 import { eckenFehler } from './ecken-urteil.mjs'
 import { messeDuell } from './ansicht-duell.mjs'
 import { messeDetailsOverlay } from './ansicht-details-overlay.mjs'
@@ -479,6 +480,7 @@ async function meldeZusatzpruefungen(seite, ansichten, handy) {
     console.log(`\nTrefferprobe (360 px, beide Themen, ${Object.values(treffer.geprueft).reduce((a, b) => a + b, 0)} Bedienelemente): ${treffer.abweichungen.length ? '' : 'ok'}`)
     for (const l of treffer.abweichungen) console.log(`  ✕ ${l}`)
     if (treffer.abweichungen.length) rot = true
+    if (meldeTvReihe(await pruefeTvReihe(DIST))) rot = true
   }
   return rot
 }
