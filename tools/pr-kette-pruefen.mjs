@@ -112,7 +112,7 @@ function pruefeSammler(jobs, sammlerId) {
     fehler.push(`Sammeljob: if ist nicht textgleich "${erwartetIf}" (always() ist Pflicht, sonst überspringt ihn ein roter Teiljob = bestanden)`)
   }
   if (JSON.stringify(sammler.permissions) !== JSON.stringify(SAMMEL_RECHTE)) fehler.push('Sammeljob: permissions sind nicht exakt contents: read, actions: write')
-  fehler.push(...pruefeJobForm('Sammeljob', sammler, SAMMEL_JOB_SCHLUESSEL),...pruefeSammlerSchritte(sammler))
+  fehler.push(...pruefeJobForm('Sammeljob', sammler, SAMMEL_JOB_SCHLUESSEL), ...pruefeSammlerSchritte(sammler))
   return fehler
 }
 

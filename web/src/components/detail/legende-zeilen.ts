@@ -93,6 +93,6 @@ export function legendeDerZeilen({ sortiert, title, releases, folgenAngabeFuer, 
   t: Translate
 }): string | undefined {
   const links = sortiert.flatMap((x) => x.plattformen)
-  const arten = [...links.map((s) => streamStatus(title, s, releases)),...sortiert.flatMap((x) => x.streamWege.map((g) => streamWegStatus(g, title)))]
+  const arten = [...links.map((s) => streamStatus(title, s, releases)), ...sortiert.flatMap((x) => x.streamWege.map((g) => streamWegStatus(g, title)))]
   return legendeFuer(arten, links.some((s) => folgenAngabeFuer(s).startsWith('≈')), t)
 }

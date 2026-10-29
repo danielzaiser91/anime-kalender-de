@@ -282,7 +282,7 @@ const ok = z('19.10.2026 09:00', '2922 / 2036 / 211', 'Urteile -37', 'unauffäll
     assert.equal(lauf('ok').status, 0)
     assert.equal(zaehle(), 4, 'unauffällige Läufe werden jedes Mal angehängt')
     assert.equal(lauf().status, 0)
-    assert.equal(zaehle(), 5,'derselbe Befund nach unauffälligen Läufen kehrt wieder: neue Zeile')
+    assert.equal(zaehle(), 5, 'derselbe Befund nach unauffälligen Läufen kehrt wieder: neue Zeile')
   } finally {
     rmSync(ordner, { recursive: true, force: true })
   }

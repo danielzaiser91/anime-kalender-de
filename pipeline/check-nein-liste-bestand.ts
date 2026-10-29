@@ -48,7 +48,7 @@ try {
   pruefe('der Hinweis nennt Messdatum und Alter', /vom 2026-01-05 ist \d+ Tage alt/.test(verdacht.verdachtHinweis(faelle.get(7))), verdacht.verdachtHinweis(faelle.get(7)))
   const prime = titel[1]?.streams?.find((s: { platform: string }) => s.platform === 'primevideo')
   pruefe('Prime: die Partneradresse (/dp/…?tag=) wird zur Titelseite, die die Prüfliste kennt', prime?.url === 'https://www.amazon.de/gp/video/detail/B0D84DKFSH', prime)
-  pruefe('für Netflix gilt der Fall nicht',verdacht.verdachtsfaelle(wurzel, 'netflix').size === 0)
+  pruefe('für Netflix gilt der Fall nicht', verdacht.verdachtsfaelle(wurzel, 'netflix').size === 0)
   pruefe('der Beleg bleibt unverändert', readFileSync(join(wurzel, 'data/dub-confirmed.yaml'), 'utf8') === belegVorher)
 } finally {
   rmSync(wurzel, { recursive: true, force: true })

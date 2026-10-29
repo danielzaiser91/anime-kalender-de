@@ -57,7 +57,7 @@ console.log('\nWochen-Datei:')
   const ohneKern = pruefeWochenDatei(baueWochenDatei('2026-10-08', titles, releasesC, mitCartoon), titles, releasesC, mitCartoon)
   pruefe('fehlt der Cartoon-Titel im Kern, wird das gemeldet', ohneKern.some((f) => f.includes('Titel -284833')))
 
-  pruefe('Anker und heute in der Woche: reicht',wocheDeckt(w, '2026-10-07', '2026-10-08'))
+  pruefe('Anker und heute in der Woche: reicht', wocheDeckt(w, '2026-10-07', '2026-10-08'))
   pruefe('Anker in der Nachbarwoche: reicht nicht', !wocheDeckt(w, '2026-10-12', '2026-10-08') && !wocheDeckt(w, '2026-10-04', '2026-10-08'))
   pruefe('heute hinter der Woche (alter Stand): reicht nicht', !wocheDeckt(w, '2026-10-08', '2026-10-12'))
 }
