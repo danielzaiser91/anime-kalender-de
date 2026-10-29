@@ -1,5 +1,5 @@
 /**
- * Zusicherung: **Eine Prime-Meldung legt keinen Weg an einer Seite an, die `data/prime-seiten-von-hand.json` für diesen Titel sperrt** (19.10.2026).
+ * Zusicherung: **Eine Prime-Meldung legt keinen Weg an einer Seite an, die `data/belege-entfernt.yaml` für diesen Titel sperrt** (19.10.2026).
  * Anlass: Seite B0GVJFZD1W gehört zu Tokyo Ghoul:re, hing aber an Tokyo Ghoul (20605); kein Handbeleg eines anderen Titels sperrte sie
  * (`adresseFremdBelegt` greift erst mit Beleg). Fährt den Prime-Schritt der Bauphase 9 gegen eine Kulisse (`AK_ROOT`). Läuft in `check:logic`.
  */
@@ -29,7 +29,7 @@ const faelle = [
 const fehler: string[] = []
 try {
   schreibe('data/dub-confirmed.yaml', '[]\n')
-  schreibe('data/prime-seiten-von-hand.json', JSON.stringify([{ titleId: 900021, seite: SPERRE }, { titleId: 900023, seite: SPERRE }]))
+  schreibe('data/belege-entfernt.yaml', JSON.stringify([900021, 900023].map((anilistId) => ({ anilistId, url: gp(SPERRE), grund: 'Sperre', entferntAm: '2026-10-29' }))))
   const zugeordnet: Record<string, unknown> = {}
   for (const f of faelle) {
     zugeordnet[f.schluessel] = {

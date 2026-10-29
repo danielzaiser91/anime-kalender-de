@@ -103,7 +103,7 @@ const HANDGEPFLEGT = new Set([
   'data/blocker-von-hand.yaml',
   'data/tmdb-von-hand.yaml',
   'data/adn-staffelzuordnung.yaml',
-  'data/prime-seiten-von-hand.json',
+  'data/belege-entfernt.yaml',
   'data/synchron-forum-treffer.yaml',
   'data/belege-entfernt.yaml',
 ])

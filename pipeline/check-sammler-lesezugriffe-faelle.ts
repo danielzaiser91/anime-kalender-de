@@ -152,7 +152,7 @@ pruefe('leerer Grund: rot', fehler(funde(['pipeline/a.ts', 'data/a.json']), [zul
 for (const z of ['data/crunchyroll-woche-belege.json', 'data/crunchyroll-woche.json', 'data/crunchyroll.json']) {
   pruefe(`${z}: rot, auch mit Eintrag`, fehler(funde(['pipeline/a.ts', z]), [zul('pipeline/a.ts', z)]).length === 2, fehler(funde(['pipeline/a.ts', z]), [zul('pipeline/a.ts', z)]))
 }
-pruefe('Handdateien (YAML, -von-hand.json) brauchen keinen Eintrag', fehler(funde(['pipeline/a.ts', 'data/dub-confirmed.yaml']), []).length === 0 && fehler(funde(['pipeline/a.ts', 'data/prime-seiten-von-hand.json']), []).length === 0)
+pruefe('Handdateien (YAML, -von-hand.json) brauchen keinen Eintrag', fehler(funde(['pipeline/a.ts', 'data/dub-confirmed.yaml']), []).length === 0 && fehler(funde(['pipeline/a.ts', 'data/x-von-hand.json']), []).length === 0)
 pruefe('.yml ist eine Handdatei, .yaml.json (Endung nur am Ende) nicht', fehler(funde(['pipeline/a.ts', 'data/a.yml']), []).length === 0 && fehler(funde(['pipeline/a.ts', 'data/a.yaml.json']), []).length === 1)
 pruefe('eine ähnlich benannte Sammlerdatei ist keine Handdatei', fehler(funde(['pipeline/a.ts', 'data/von-hand-liste.json']), []).length === 1)
 
