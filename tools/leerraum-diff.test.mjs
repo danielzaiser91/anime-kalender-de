@@ -57,7 +57,7 @@ assert.equal(leerraumFunde(verschachtelt).length, 3, 'Zeilenende-Leerraum zählt
 assert.equal(leerraumFunde(diff('public/data/titles.json', eins(3, 'a b', 'ab'))).length, 0, 'erzeugte Datei ausgelassen')
 assert.equal(leerraumFunde(diff('package-lock.json', eins(3, 'a b', 'ab'))).length, 0, 'Lockfile ausgelassen')
 assert.equal(leerraumFunde(diff('extension/pruefstand.json', eins(3, 'a b', 'ab'))).length, 0, 'Prüfstand ausgelassen')
-assert.equal(leerraumFunde(diff(['data', 'cache', 'x.json'].join('/'),eins(3, 'a b', 'ab'))).length, 0, 'Cache ausgelassen')
+assert.equal(leerraumFunde(diff(['data', 'cache', 'x.json'].join('/'), eins(3, 'a b', 'ab'))).length, 0, 'Cache ausgelassen')
 assert.equal(leerraumFunde(diff('web/public/data/x.ts', eins(3, 'a b', 'ab'))).length, 1, 'nur der Ordner public/data an der Wurzel')
 const kopfImInhalt = diff('a.ts', { ab: 1, minus: ['x = 1'], plus: ['++ b/q.ts', 'x =1'] })
 assert.deepEqual(leerraumFunde(kopfImInhalt).map((f) => f.datei), ['a.ts'], 'Inhaltszeile „+++ b/…“ ist keine Dateikopfzeile')

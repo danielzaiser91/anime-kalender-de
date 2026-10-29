@@ -32,7 +32,11 @@ function fahre(dir) {
 
 const sauber = baueRepo(() => 'export const x = 1\n')
 const geplant = baueRepo((d) => (d === 'tools/a.mjs' ? 'export const x =1\n' : 'export const x = 1\n'))
+const komma = baueRepo((d) => (d === 'pipeline/a.ts' ? 'export const x = [1,2]\n' : 'export const x = 1\n'))
 try {
+  const k = fahre(komma)
+  assert.equal(k.status, 1, k.stdout)
+  assert.match(k.stderr, /pipeline\/a\.ts:1 Leerzeichen nach , fehlt/)
   const a = fahre(sauber)
   assert.equal(a.status, 0, a.stderr)
   assert.match(a.stdout, /^check-leerzeichen-gleich: ok \(6 Dateien, 0 Treffer/m)
@@ -44,4 +48,5 @@ try {
 } finally {
   rmSync(sauber, { recursive: true, force: true })
   rmSync(geplant, { recursive: true, force: true })
+  rmSync(komma, { recursive: true, force: true })
 }

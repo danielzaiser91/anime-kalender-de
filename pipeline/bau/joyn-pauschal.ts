@@ -17,3 +17,21 @@ export function setzeJoynDeutsch(titles: Iterable<Title>): number {
   }
   return joynJa
 }
+
+/**
+ * Die Bau-Zeile zu `setzeJoynDeutsch`: gesetzte Wege und die übrigen Joyn-Wege, die ihr eigenes Urteil behalten (nicht
+ * gesetzt, davon ohne Deutsch). Nach dem Setzen aufrufen; ohne Joyn-Weg leer.
+ */
+export function joynZeile(titles: Iterable<Title>, gesetzt: number): string {
+  let behalten = 0
+  let davonNein = 0
+  for (const title of titles) {
+    for (const stream of title.streams) {
+      if (stream.platform !== 'joyn' || stream.dubAbgeleitet) continue
+      behalten++
+      if (stream.dub === false) davonNein++
+    }
+  }
+  if (!gesetzt && !behalten) return ''
+  return `${gesetzt} Joyn-Verweis(e) als deutsch gesetzt — deutscher Anbieter; ${behalten} mit eigenem Urteil unverändert (${davonNein} ohne Deutsch)`
+}
