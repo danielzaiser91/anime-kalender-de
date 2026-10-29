@@ -44,7 +44,7 @@ function unversehrt() {
   }
 }
 
-const zeile = (aus, name) => aus.split("\n").find((z) => z.includes(name)) ?? ""
+const zeile = (aus, name) => aus.split("\n").find((z) => z.includes(name) && !z.startsWith("--- ")) ?? ""
 const urteilVon = (aus, name) => zeile(aus, name).split(/\s+/)[0]
 const mut = [
   { name: "plain", datei: "a.mjs", suche: "return 1\r\n}\r\nexport function g", ersetze: "return 2\r\n}\r\nexport function g" },
@@ -96,6 +96,13 @@ unversehrt()
 const logOrdner = join(ordner, "log")
 const r3 = lauf([mut[2], mut[11]], ["--log", logOrdner])
 assert.equal(r3.exit, 0, r3.aus)
+// Konsole: Diff je Mutant steht vor dessen Urteilszeile; der wirkungslose Mutant zeigt seinen Diff und bleibt unbrauchbar.
+assert.match(r3.aus, /--- zweites\n@@ a\.mjs:6\n- return 1\n\+ return 2\n(rot|GRÜN)\s+zweites/)
+assert.match(r3.aus, /--- beide\n@@ a\.mjs:1\n[^]*@@ b\.mjs:1\n[^]*\nrot\s+beide/)
+const rNichts = lauf([mut.find((x) => x.name === "nichts")])
+assert.equal(rNichts.exit, 1, rNichts.aus)
+assert.match(rNichts.aus, /--- nichts\n@@ a\.mjs:\d+\n- (.+)\n\+ \1\nwirkungslos/)
+unversehrt()
 const dateienLog = readdirSync(logOrdner).sort()
 assert.deepEqual(dateienLog, ["01-zweites.diff", "01-zweites.log", "02-beide.diff", "02-beide.log", "tabelle.md"])
 assert.match(readFileSync(join(logOrdner, "01-zweites.diff"), "utf8"), /^@@ a\.mjs:6\n- return 1\n\+ return 2\n$/)

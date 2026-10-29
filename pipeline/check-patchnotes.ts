@@ -3,7 +3,7 @@ import { mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { auslieferbarePatchnotes, pruefePatchnotes } from '../shared/patchnotes.ts'
 import { todayIso } from '../shared/time.ts'
-import { lesePatchnotesDateien, mitDatum, PATCHNOTES_ORDNER } from './lib/patchnotes.ts'
+import { doppelteUntertitel, lesePatchnotesDateien, mitDatum, PATCHNOTES_ORDNER } from './lib/patchnotes.ts'
 import { einfuehrungstage, hinzufuegungenAusLog, tageAusGit } from './lib/patchnotes-datum.ts'
 
 /** Zusicherung für `data/patchnotes/` und die Auslieferung; reale Fehlerfälle als Gegenproben. */
@@ -38,6 +38,8 @@ const dateien = lesePatchnotesDateien()
 const roh = dateien.map((d) => d.eintrag)
 const f = pruefePatchnotes(roh, dateien.map((d) => d.name))
 pruefe('Patch-Notes: Datum parsebar, Kategorie gültig, Text ≤ 8 Wörter, keine Duplikate, höchstens 2 Highlights je Tag', f.length === 0, f)
+const doppelt = doppelteUntertitel(dateien)
+pruefe('Patch-Notes: kein Untertitel steht in zwei Einträgen', doppelt.length === 0, doppelt)
 const nachtrag = datumNachtragImOrdner(dateien, (namen) => tageAusGit(PATCHNOTES_ORDNER, namen, todayIso()))
 const mitDatumAnzahl = dateien.filter((d) => d.eintrag.datum !== undefined).length
 pruefe('Patch-Notes: datum liegt nicht nach dem Anlagetag der Datei (alle Einträge mit datum geprüft)', nachtrag.fehler.length === 0 && nachtrag.geprueft === mitDatumAnzahl, { fehler: nachtrag.fehler, geprueft: nachtrag.geprueft, mitDatum: mitDatumAnzahl })
@@ -58,6 +60,10 @@ pruefe('Patch-Notes (Gegenprobe): datum am Anlagetag ist erlaubt', nachAnlage('2
 pruefe('Patch-Notes (Gegenprobe): älteres datum (Bündeln) ist erlaubt', nachAnlage('2026-10-13', '2026-10-14').fehler.length === 0)
 pruefe('Patch-Notes (Gegenprobe): ohne Anlagetag (nicht eingecheckt) wird nichts geprüft', pruefeDatumNachtrag([{ name: 'neu', eintrag: ok }], new Map()).geprueft === 0)
 pruefe('Patch-Notes (Gegenprobe): Eintrag ohne datum wird nicht geprüft', pruefeDatumNachtrag([{ name: 'neu', eintrag: { kategorie: 'bugfix', text: 'Neu' } }], new Map([['neu', '2026-10-13']])).geprueft === 0)
+const eintragMit = (name: string, untertitel?: string) => ({ name, eintrag: { kategorie: 'bugfix', text: name, ...(untertitel === undefined ? {} : { untertitel }) } })
+const zweiGleiche = doppelteUntertitel([eintragMit('a', 'Du siehst mehr'), eintragMit('b', 'Du siehst mehr'), eintragMit('c', 'Anderes'), eintragMit('d')])
+pruefe('Patch-Notes (Gegenprobe): zwei Einträge mit demselben Untertitel werden mit beiden Namen gemeldet', zweiGleiche.length === 1 && zweiGleiche[0]!.includes('a, b'), zweiGleiche)
+pruefe('Patch-Notes (Gegenprobe): verschiedene und fehlende Untertitel (auch mehrfach fehlend) sind erlaubt', doppelteUntertitel([eintragMit('a', 'Eins'), eintragMit('b', 'Zwei'), eintragMit('c'), eintragMit('d')]).length === 0)
 // Aufrufer: reicht die Dateinamen an die Anlagetage und deren Ergebnis an die Prüfung weiter; unabhängig davon, ob der Ordner gerade Einträge mit datum hat.
 const angefragt: string[][] = []
 const spaeterDatum = datumNachtragImOrdner(
