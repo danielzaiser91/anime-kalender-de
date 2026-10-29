@@ -4182,3 +4182,7 @@ Lauf `adn-laufende.yml` vom 28.10.2026 14:01 UTC (Commit 4b8f4c268) schrieb für
 
 
 **Katalog (28.10.2026):** `adn-catalog.json` verliert eine Serie nur noch durch eine frische, vollständige Antwort ohne `vde`/`vostde`. Wer in dem Lauf nicht gefragt wurde (`--limit`, Abbruch nach fünf Fehlern) oder abgebrochen hat (5xx, Zeitüberschreitung, französische Sicht), behält den alten Eintrag (`mitUngepruftenAlten`); die Logzeile `ADN-Katalog behalten: N nicht gefragt, N Abbruch, N entfernt` nennt jeden Weg. Gemessen an 160f62e0a (26.10.): 0 Serien verloren (alle 113 alten Einträge wurden gefragt), der Fehler war latent.
+
+## Fremdzuordnung: Wächter für Seiten an Titeln verschiedener Reihen (29.10.2026)
+
+`check-zuordnung-fremd-bestand.ts` meldet zusätzlich jede Prime-/Plattform-Seite in `prime-zugeordnet.json`, an der Titel mit verschiedener `franchiseId` liegen (Meldung nennt beide Besitzer samt „laut Adresse Staffel k“ aus dem Handbeleg). Gemessen am Bestand 29.10.2026 (355418756): 37 Seiten mit mehreren Kennungen, alle gleiche Reihe (Staffelseiten, legitim) → 0 Funde. Verworfen: „mehrere Kennungen an einer Seite“ (37 falsch-positiv) und „Folgenzahl der Seite ≫ Folgen des Titels“ (Belegnotiz „alle N Folgen“ größer als `episodes`: 225 von 1.803 Belegen, ≥ doppelt 36, überwiegend ganze Reihenseiten wie Slime, JoJo, Space Dandy).

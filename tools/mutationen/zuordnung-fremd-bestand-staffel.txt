@@ -1,0 +1,4 @@
+b.anilistId === titleId && adressGleich ⟶ adressGleich
+&& adressGleich(b.url, adresse) && /laut ⟶ && /laut
+k === undefined ? undefined : Number(k) ⟶ k === undefined ? 0 : Number(k)
+Staffel (\d+)/.exec ⟶ Staffel (\d)/.exec

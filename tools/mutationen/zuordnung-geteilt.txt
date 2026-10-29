@@ -1,0 +1,11 @@
+if (istSammelKern(kern)) continue ⟶ if (false) continue
+if (istSammelKern(kern)) continue ⟶ if (true) continue
+return franchiseId === undefined ? [] : [ ⟶ return false ? [] : [
+return franchiseId === undefined ? [] : [ ⟶ return true ? [] : [
+.size > 1) treffer.push ⟶ .size > 0) treffer.push
+.size > 1) treffer.push ⟶ .size > 2) treffer.push
+stelle.ids.add(e.titleId) ⟶ stelle.ids.add(0)
+const kern = adressKern(adresse) ⟶ const kern = adresse
+e.plattform === 'primevideo' && e.seite ? ⟶ e.plattform === 'primevideo' ?
+e.plattform === 'primevideo' && e.seite ? ⟶ false ?
+b.staffel === undefined ? '' : ⟶ b.staffel === undefined ? ', x' :
