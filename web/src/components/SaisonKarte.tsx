@@ -53,11 +53,11 @@ export function SaisonKarte({ z, data, favorit, oeffne, ausblick }: { z: SaisonZ
           {anbieter.length > 0 && (
             <span className="flex flex-wrap gap-1 text-xs">
               {anbieter.map((a) => (
-                <span key={a.name} className={`rounded-md border px-1.5 ${a.laut ? 'border-dashed border-ak-leise' : 'border-ak-rand'}`}>{a.name}</span>
+                <span key={a.name} data-anbieter-chip="" className={`rounded-md border px-1.5 ${a.laut ? 'border-dashed border-ak-leise' : 'border-ak-rand'}`}>{a.name}</span>
               ))}
             </span>
           )}
-          {anbieter.some((a) => a.laut) && <span className="text-xs text-ak-leise">{t('detail.statusAnbieter')}</span>}
+          {anbieter.some((a) => a.laut) && <span className="text-xs text-ak-leise">{anbieter.filter((a) => a.laut).map((a) => a.name).join(', ')}: {t('detail.statusAnbieter')}</span>}
         </span>
       </button>
     </li>
