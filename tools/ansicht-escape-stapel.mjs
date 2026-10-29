@@ -3,6 +3,8 @@
  * Ebene, das Panel darunter bleibt stehen; der zweite Escape schließt das Panel. Regel `stapelAbweichungen` aus den Zählungen
  * nach jedem Escape; `pruefeEscapeStapel` fährt die Fälle im Browser (Rechner, 1366 px).
  */
+import { pruefeEscapeEinzeln } from './ansicht-escape-einzeln.mjs'
+
 const adresse = (id) => `http://ak.test/#/datenbank?t=${id}`
 const PANEL = '[data-panel]'
 const klicke = (muster) => async (s) => {
@@ -59,6 +61,8 @@ export async function pruefeEscapeStapel(chromium, antworte) {
     const m = await fahreFall(browser, antworte, fall)
     abweichungen.push(...stapelAbweichungen(`Detail-Panel + ${fall.name}`, m))
   }
+  const einzeln = await pruefeEscapeEinzeln(browser, antworte)
+  abweichungen.push(...einzeln.abweichungen)
   await browser.close()
-  return { abweichungen, faelle: FAELLE.length }
+  return { abweichungen, faelle: FAELLE.length + einzeln.faelle }
 }
