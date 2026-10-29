@@ -17,7 +17,7 @@ export function Raster({ def, zustand, ersteVariante }: { def: MockupDef; zustan
   const teile = zustand.teil === 'beide' ? (['vorher', 'nachher'] as const) : ([zustand.teil] as const)
   const variante = zustand.variante || ersteVariante
   return (
-    <div className="raster">
+    <div className={zustand.geraet === 'beide' ? 'raster beide' : 'raster'}>
       {geraete.flatMap((g) =>
         themen.flatMap((thema) =>
           teile.map((teil) => {

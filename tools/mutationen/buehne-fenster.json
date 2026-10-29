@@ -1,0 +1,14 @@
+[
+ { "name": "100dvh entfernt", "datei": "web/buehne/rahmen.css", "suche": "flex-direction: column; height: 100dvh; }", "ersetze": "flex-direction: column; }" },
+ { "name": "min-height 240 entfernt", "datei": "web/buehne/rahmen.css", "suche": "flex: 1 1 0; min-height: 240px; border: 0;", "ersetze": "flex: 1 1 0; border: 0;" },
+ { "name": "max-height der Zelle entfernt", "datei": "web/buehne/rahmen.css", "suche": " max-height: calc(var(--hoehe) * var(--zoom, 1) + 22.8px); }", "ersetze": " }" },
+ { "name": "Viewport 12000 auf 900", "datei": "tools/buehne-seite.mjs", "suche": "viewport: { width: 1400, height: 12000 } })", "ersetze": "viewport: { width: 1400, height: 900 } })" },
+ { "name": "Zoom von beide entfernt", "datei": "web/buehne/rahmen.css", "suche": "  .raster.beide iframe { zoom: var(--zoom); }", "ersetze": "" },
+ { "name": "Zoom 1 statt 0,5", "datei": "web/buehne/rahmen.css", "suche": ".raster.beide { --zoom: .5; }", "ersetze": ".raster.beide { --zoom: 1; }" },
+ { "name": "Klasse beide nicht gesetzt", "datei": "web/buehne/raster.tsx", "suche": "zustand.geraet === 'beide' ? 'raster beide' : 'raster'", "ersetze": "'raster'" },
+ { "name": "Zoom nur unter 100 px Fensterhöhe", "datei": "web/buehne/rahmen.css", "suche": "@media (max-height: 1400px) {", "ersetze": "@media (max-height: 100px) {" },
+ { "name": "Zoom auch im hohen Fenster", "datei": "web/buehne/rahmen.css", "suche": "@media (max-height: 1400px) {", "ersetze": "@media (min-height: 1px) {" },
+ { "name": "Beschriftung 23 px fest", "datei": "web/buehne/rahmen.css", "suche": ".zelle figcaption { font-size: 12px; margin: 0 0 6px;", "ersetze": ".zelle figcaption { font-size: 12px; line-height: 17px; height: 23px; margin: 0;" },
+ { "name": "Zuschlag 23 statt 22,8", "datei": "web/buehne/rahmen.css", "suche": "* var(--zoom, 1) + 22.8px)", "ersetze": "* var(--zoom, 1) + 23px)" },
+ { "name": "Kontrolle", "aenderungen": [] }
+]
