@@ -11,6 +11,7 @@ import { ablegen } from './beleg-ablage.ts'
 import { neueStoerungen, ohneRuhende, seiteninfo } from './beleg-stoerung.ts'
 import { merkeFehlschlag, vergissFehlschlag, type Fehlschlaege } from './beleg-fehlschlag.ts'
 import { BILD_FASSUNG, belegAusschnitt } from './beleg-bild.ts'
+import { markenLuecken, meldeMarkenLuecken } from './beleg-marken.ts'
 import type { Gruppe } from './beleg-suche.ts'
 
 const STOERUNGEN_BIS_ABBRUCH = 3
@@ -99,10 +100,11 @@ export async function leseUndMerke(seite: Page, url: string, k: Lesekontext, les
   }
   /* Derselbe Text hat dasselbe Bild — eine Lesung mit neuem Datum verweist darauf, statt es neu zu erzeugen. */
   if (letzte?.hash === hash) Object.assign(lesung, { bild: letzte.bild, text: letzte.text, html: letzte.html, markierung: letzte.markierung, markierungen: letzte.markierungen, bildfassung: letzte.bildfassung })
+  if (letzte?.hash === hash) lesung.ohneMarke = letzte.ohneMarke
   /* Ein neuer Stand bekommt sein Bild; fehlt es einem alten (Ablage war nicht erreichbar), wird es nachgeholt. */
   const ziel = letzte?.hash === hash ? letzte : lesung
   /* Auch ein Bild ohne Fundstelle wird neu gemacht (04.10.2026): Ältere Belege bekommen so ihre Markierung. */
-  if (braucheBild(ziel, suchbegriffe.get(url) ?? [], gruppen.get(url)?.length ?? 0)) {
+  if (braucheBild(ziel, suchbegriffe.get(url) ?? [], gruppen.get(url) ?? [])) {
     const basis = `${new URL(url).hostname}/${textHash(url)}/${ziel.am}-${hash}`
     const beleg = await leser.bild(seite, suchbegriffe.get(url) ?? [], tage.get(url) ?? [], gruppen.get(url) ?? [])
     if (beleg === 'wand') {
@@ -114,9 +116,12 @@ export async function leseUndMerke(seite: Page, url: string, k: Lesekontext, les
       ziel.qs = 'ok'; ziel.bildfassung = BILD_FASSUNG
       if (beleg.markierung) ziel.markierung = lesung.markierung = beleg.markierung
       if (beleg.markierungen) ziel.markierungen = lesung.markierungen = beleg.markierungen
+      if (beleg.ohneMarke) ziel.ohneMarke = lesung.ohneMarke = beleg.ohneMarke
       ziel.bild = await leser.ablegen(`${basis}.webp`, beleg.bild, 'image/webp')
       ziel.text = await leser.ablegen(`${basis}.txt.gz`, beleg.text, 'application/gzip')
     }
+    /* Ohne Ausschnitt (keine Überschrift auf der Seite) bleibt die Lücke: ein Fehlschlag mit Pause, kein gelesener Beleg — sonst wäre der Lauf täglich rot. Eine Lücke trotz Ausschnitt ist ein Fehler im Lesen: sie fängt der Wächter am Lauf-Ende. */
+    if (!beleg && markenLuecken(ziel, gruppen.get(url) ?? []).length > 0) throw new Error(`kein Ausschnitt — Marken je Titel fehlen (${await leser.info(seite)})`)
   }
   if (gedaechtnis[url]) gedaechtnis[url]!.lesungen = gedaechtnis[url]!.lesungen.filter((l) => l.qs === 'ok')
   return merkeLesung(gedaechtnis, url, lesung)
@@ -150,7 +155,7 @@ export interface Umgebung {
 /** Die Schlange abarbeiten: je Adresse lesen, Störungen und Fehlschläge führen, am Ende speichern. */
 export async function fuehreLaufAus(l: Lauf, u: Umgebung): Promise<void> {
   const { gedaechtnis, heute, gruppen, fehlschlaege } = l
-  const sofort = ohneMarkenJeTitel(gedaechtnis, new Set([...gruppen].filter(([, g]) => g.length > 1).map(([url]) => url)))
+  const sofort = ohneMarkenJeTitel(gedaechtnis, gruppen)
   /* Ohne Obergrenze: Sie zählt erst beim Abruf (`ohneRuhende`), damit ruhende Anbieter keine Plätze belegen. */
   const schlange = warteschlange([...l.adressen, ...sofort], gedaechtnis, heute, l.abstand, Infinity, sofort, fehlschlaege)
   log(`Belege: ${schlange.length} Artikel fällig`)
@@ -158,6 +163,7 @@ export async function fuehreLaufAus(l: Lauf, u: Umgebung): Promise<void> {
   const browser = await u.oeffne()
   let gelesen = 0
   let neu = 0
+  const gelesenAdressen: string[] = []
   const stoerungen = neueStoerungen(STOERUNGEN_BIS_ABBRUCH)
   try {
     for (const url of ohneRuhende(schlange, l.limit, stoerungen)) {
@@ -165,6 +171,7 @@ export async function fuehreLaufAus(l: Lauf, u: Umgebung): Promise<void> {
         const seite = url.includes('crunchyroll.com') ? browser.cr : browser.andere
         if (await leseUndMerke(seite, url, kontext, u.leser)) neu++
         gelesen++
+        gelesenAdressen.push(url)
         stoerungen.erfolg(url)
         vergissFehlschlag(fehlschlaege, url)
       } catch (e) {
@@ -178,4 +185,5 @@ export async function fuehreLaufAus(l: Lauf, u: Umgebung): Promise<void> {
   }
   u.speichern(gelesen)
   log(`Belege: ${gelesen} gelesen, ${neu} mit neuem Stand, ${Object.keys(gedaechtnis).length} im Gedächtnis`)
+  meldeMarkenLuecken(gedaechtnis, gruppen, gelesenAdressen)
 }

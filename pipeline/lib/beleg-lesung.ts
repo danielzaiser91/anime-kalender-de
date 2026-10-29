@@ -12,6 +12,8 @@ import { hostVon } from '../../shared/quelle.ts'
 import { apiBelegMitInhalt } from './beleg-api.ts'
 import { releaseStatus } from '../../shared/logic.ts'
 import { inPause, type Fehlschlaege } from './beleg-fehlschlag.ts'
+import { markenLuecken, type OhneMarkeGrund } from './beleg-marken.ts'
+import type { Gruppe } from './beleg-suche.ts'
 
 /** Fassung der Aufnahme: steigt sie, werden alle Bilder einmal neu aufgenommen (2 seit 07.10.2026: doppelte Auflösung; 3 seit 27.10.2026: Ausschnitt reicht bis zur obersten Titel-Überschrift). */
 export const BILD_FASSUNG = 3
@@ -74,6 +76,8 @@ export interface Lesung {
   markierung?: [number, number, number, number]
   /** Bei einem Artikel für mehrere Titel: die Fundstelle je Titel-Kennung (`markierung` gilt dann keinem einzelnen). */
   markierungen?: Record<string, [number, number, number, number]>
+  /** Titel-Kennungen eines Sammelartikels ohne Marke, mit Grund (`beleg-marken.ts`); fehlt das Feld, stammt die Lesung aus der Zeit davor. */
+  ohneMarke?: Record<string, OhneMarkeGrund>
   /** Artikeltext, gepackt (seit 03.10.2026; davor die ganze HTML-Seite in `html`). */
   text?: string
   html?: string
@@ -155,13 +159,13 @@ export function warteschlange(urls: string[], gedaechtnis: BelegGedaechtnis, heu
     .slice(0, limit)
 }
 
-/** Artikel für mehrere Titel, deren letzte Lesung noch eine gemeinsame Marke statt Marken je Titel trägt — sie werden einmal neu fotografiert (05.10.2026). */
-export const ohneMarkenJeTitel = (gedaechtnis: BelegGedaechtnis, mehrereTitel: Set<string>): Set<string> =>
-  new Set(Object.keys(gedaechtnis).filter((u) => mehrereTitel.has(u) && gedaechtnis[u]!.lesungen.some((l) => l.bild) && !gedaechtnis[u]!.lesungen.at(-1)?.markierungen))
+/** Artikel für mehrere Titel, deren letzte Lesung für einen Titel weder Marke noch Grund hat — sie werden neu fotografiert (05.10.2026 gemeinsame Marke, 29.10.2026 einzelne Titel ohne Marke). */
+export const ohneMarkenJeTitel = (gedaechtnis: BelegGedaechtnis, gruppen: Map<string, Gruppe[]>): Set<string> =>
+  new Set(Object.keys(gedaechtnis).filter((u) => gedaechtnis[u]!.lesungen.some((l) => l.bild) && markenLuecken(gedaechtnis[u]!.lesungen.at(-1) ?? {}, gruppen.get(u) ?? []).length > 0))
 
-/** Ob die Lesung ein (neues) Bild braucht: keins, ohne Wand-Prüfung, ältere Fassung, ohne Fundstelle trotz Suchbegriffen oder — Sammelartikel — ohne Marken je Titel. */
-export function braucheBild(ziel: Lesung, suchbegriffe: string[], titelAnzahl: number): boolean {
-  return !ziel.bild || !ziel.qs || (ziel.bildfassung ?? 1) < BILD_FASSUNG || (!ziel.markierung && suchbegriffe.length > 0) || (titelAnzahl > 1 && !ziel.markierungen)
+/** Ob die Lesung ein (neues) Bild braucht: keins, ohne Wand-Prüfung, ältere Fassung, ohne Fundstelle trotz Suchbegriffen oder — Sammelartikel — ein Titel ohne Marke und ohne Grund. */
+export function braucheBild(ziel: Lesung, suchbegriffe: string[], gruppen: Gruppe[]): boolean {
+  return !ziel.bild || !ziel.qs || (ziel.bildfassung ?? 1) < BILD_FASSUNG || (!ziel.markierung && suchbegriffe.length > 0) || markenLuecken(ziel, gruppen).length > 0
 }
 
 /** Altbestand ohne Wand-Prüfung (Bild, `qs` fehlt), entzogene Wände und Bilder älterer Fassung kommen zuerst wieder an die Reihe — sonst steht ein frisch gelesener Artikel am Ende der Warteschlange, hinter dem Limit. */
@@ -179,6 +183,7 @@ export function entzieheBild(gedaechtnis: BelegGedaechtnis, url: string): void {
     delete l.html
     delete l.markierung
     delete l.markierungen
+    delete l.ohneMarke
     l.qs = 'wand'
   }
 }
