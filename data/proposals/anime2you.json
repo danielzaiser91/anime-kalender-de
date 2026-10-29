@@ -1,12 +1,12 @@
 {
-  "scrapedAt": "2026-10-29T11:02:27.639Z",
+  "scrapedAt": "2026-10-29T12:02:06.559Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 8,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 4,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 11,
+    "schon in einem Rubrik-Feed gelesen": 12,
     "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 1,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 11,
-    "schon in einem Rubrik-Feed gelesen": 10,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 10,
     "Sprachhinweis älter als 45 Tage": 4
   },
   "proposals": [
@@ -26,6 +26,27 @@
         {
           "iso": "2026-11-10",
           "context": "n. DVDs für 19,99 Euro Die Rabattaktion läuft vom 29. Oktober bis zum 10. November 2026 und umfasst zahlreiche DVD-Komplettboxen und Volumes"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Starttermin der zweiten »Disney Twisted-Wonderland«-Staffel + Visual",
+      "articleUrl": "https://www.anime2you.de/news/1065177/disney-twisted-wonderland-staffel-2-starttermin/",
+      "publishedAt": "2026-10-29",
+      "category": "streaming",
+      "platforms": [
+        "disneyplus"
+      ],
+      "dates": [
+        {
+          "iso": "2026-12-23",
+          "context": "»Disney Twisted-Wonderland« umfasst demnach acht Episoden, die ab dem 23. Dezember 2026 im wöchentlichen Rhythmus auf Disney+ erscheinen. Ob"
+        },
+        {
+          "month": "2026-12",
+          "context": "on »Disney Twisted-Wonderland« bekannt. Wir fassen zusammen. Premiere im Dezember 2026 Die zweite Staffel von »Disney Twisted-Wonderland« um"
         }
       ],
       "dub": "unklar",
