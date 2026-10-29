@@ -15,6 +15,15 @@ import { useHoverCover } from './HoverCover.tsx'
 import { TREFFER_24_HOCH } from '../detail/tippziel.ts'
 
 /**
+ * Unterhalb von lg (Desktop-Breakpoint der Wochenansicht) steht der TV-Kasten als eine Kachelreihe
+ * zum Wischen; die nächste Kachel ragt an, damit man sieht, dass es weitergeht. Ab lg: Liste.
+ */
+const REIHE =
+  'flex flex-col max-lg:relative max-lg:snap-x max-lg:snap-mandatory max-lg:flex-row max-lg:gap-2 max-lg:overflow-x-auto max-lg:overscroll-x-contain max-lg:scroll-px-3.5 max-lg:pb-1 max-lg:[scrollbar-width:thin]'
+const REIHE_KACHEL =
+  'max-lg:flex max-lg:w-[80%] max-lg:shrink-0 max-lg:snap-start max-lg:flex-col max-lg:rounded-xl max-lg:border max-lg:border-ak-tv-rand max-lg:px-2 max-lg:py-1 max-lg:min-[520px]:w-[46%]'
+
+/**
  * Die Fernsehtermine eines Tages als Liste neben den Postern. Wiederholungen desselben Titels beim
  * selben Sender stehen als eine Zeile mit „+2, zuletzt um 18:50" (Beginn der letzten, nicht ihr Ende); ein Klick darauf nennt die Zeiten.
  */
@@ -42,7 +51,7 @@ export function TvKasten({
   const gruppen = buendeleTermine(termine, (ev) => !!ev.verpasst || tvPremiere(ev, data))
   const stand = jetzt ? tvJetzt(gruppen, data.releaseBySlug, jetzt) : undefined
   const liste = (
-    <ul className="flex flex-col">
+    <ul className={kompakt ? 'flex flex-col' : REIHE}>
       {gruppen.map((g, i) => (
         <Fragment key={g[0].id}>
           {stand?.linie.linieVor === i && <JetztLinie uhr={jetzt!} nichtsMehr={false} />}
@@ -53,6 +62,7 @@ export function TvKasten({
             vorbei={stand ? stand.zustand.zeilen[i]?.art === 'vorbei' : !!vorbeiBis && (g[g.length - 1].time ?? '99') < vorbeiBis}
             zustand={stand?.zustand.zeilen[i]}
             restZeigen={!!stand?.linie.restInZeile}
+            kachel={!kompakt}
             onOpen={onOpen}
           />
         </Fragment>
@@ -83,6 +93,7 @@ function TvZeile({
   vorbei,
   zustand,
   restZeigen,
+  kachel,
   onOpen,
 }: {
   gruppe: ReleaseEvent[]
@@ -91,6 +102,7 @@ function TvZeile({
   vorbei: boolean
   zustand: Zeilenzustand | undefined
   restZeigen: boolean
+  kachel: boolean
   onOpen: (ev: ReleaseEvent) => void
 }) {
   const { t } = useLang()
@@ -99,17 +111,17 @@ function TvZeile({
   const cover = data.titleById.get(ev.titleId)?.coverImage
   const { zeiger, vorschau } = useHoverCover(versteckt ? undefined : cover)
   if (versteckt) {
-    return <li className="py-1 text-[13px] italic text-ak-sehr-leise">{ev.name}</li>
+    return <li className={`py-1 text-[13px] italic text-ak-sehr-leise ${kachel ? REIHE_KACHEL : ''}`}>{ev.name}</li>
   }
   const premiere = tvPremiere(ev, data)
   const letzte = zeitMitMarke(weitere[weitere.length - 1] ?? {}, '≈ ')
   return (
-    <li data-tv-zeile className={vorbei ? 'ak-vorbei' : ''} {...zeiger}>
+    <li data-tv-zeile className={[kachel ? REIHE_KACHEL : '', vorbei ? 'ak-vorbei' : ''].join(' ')} {...zeiger}>
       <button
         type="button"
         data-schliesst
         onClick={() => onOpen(ev)}
-        className="grid w-full cursor-pointer grid-cols-[24px_54px_minmax(0,1fr)] items-center gap-2 rounded-lg py-1 text-left text-[13px] transition hover:bg-ak-flaeche-2 focus-visible:-outline-offset-2"
+        className="grid w-full cursor-pointer grid-cols-[24px_54px_minmax(0,1fr)] items-center gap-2 rounded-lg py-1 text-left max-lg:min-h-11 text-[13px] transition hover:bg-ak-flaeche-2 focus-visible:-outline-offset-2"
       >
         {cover ? (
           <img {...coverBild(cover, 24)} alt="" loading="lazy" className="h-[34px] w-6 rounded object-cover" />
