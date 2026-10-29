@@ -37,7 +37,7 @@ export async function messeEscape(seite, knopf) {
   await sprecher.fill('ab')
   await seite.keyboard.press('Escape')
   await seite.waitForTimeout(300)
-  const sprecherGeleert = (await sprecher.inputValue()) === ''
+  const sprecherGeleert = (await sprecher.inputValue({ timeout: 2000 }).catch(() => null)) === ''
   const sprecherFeldOffen = await offen()
   await seite.keyboard.press('Escape')
   await seite.waitForTimeout(300)
