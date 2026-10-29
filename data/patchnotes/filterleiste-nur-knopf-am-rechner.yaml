@@ -1,3 +1,4 @@
-kategorie: bugfix
-text: Filterleiste verdeckt am Rechner weniger Kacheln
-untertitel: Gewählte Filter zählt der Knopf, die Liste bleibt frei
+kategorie: feature
+text: 'Datenbank am Rechner: Filter zugeklappt nur als Knopf'
+untertitel: Er nennt die Zahl gewählter Filter; Chips erscheinen beim Aufklappen
+link: '#/datenbank'
