@@ -195,7 +195,7 @@ pruefe('ein zweiter Abruf derselben Staffel verdoppelt nichts', folgen.size === 
       erneutBeantwortet: new Set(),
       wartetAufUebernahme: new Set(),
       offeneEintraege: () => [],
-      globalThis: { AK_DISNEY_NETZ: { frischGemeldet: async () => new Set() }, AK_DISNEY_WEG: wegKontext.AK_DISNEY_WEG },
+      globalThis: { akDisneyStandEinarbeiten: async () => null, AK_DISNEY_NETZ: { frischGemeldet: async () => new Set() }, AK_DISNEY_WEG: wegKontext.AK_DISNEY_WEG },
       liste: {},
       WORKER: 'w',
       fetch: async () => ({ ok: true, json: async () => antwort }),
@@ -495,7 +495,7 @@ pruefe('ein zweiter Abruf derselben Staffel verdoppelt nichts', folgen.size === 
       },
     }
     ktx.globalThis = ktx
-    for (const datei of ['pruefstand-zeit.js', 'disney-beantwortet.js']) vm.runInNewContext(readFileSync(__dirname + '/' + datei, 'utf8'), ktx)
+    for (const datei of ['pruefstand-zeit.js', 'disney-stand-ziele.js', 'disney-beantwortet.js']) vm.runInNewContext(readFileSync(__dirname + '/' + datei, 'utf8'), ktx)
     return { ktx, knoepfe, modul: ktx.AK_DISNEY_BEANTWORTET }
   }
   const ok = (j) => async () => ({ ok: true, json: async () => j })
