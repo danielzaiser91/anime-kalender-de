@@ -9,6 +9,8 @@ interface MitNachholfeldern {
   volltextGelesen?: string
   dates?: unknown
   verschiebungen?: unknown[]
+  discZeilen?: unknown[]
+  discGelesen?: string
 }
 
 export function vorschlaegeMitBestand<T extends MitNachholfeldern>(previous: T[], proposals: T[]): T[] {
@@ -24,6 +26,8 @@ export function vorschlaegeMitBestand<T extends MitNachholfeldern>(previous: T[]
       /* Ebenso die Tage aus dem Volltext eines Shop-Artikels (`shopTabellenNachholen`): Der Feed-Auszug kennt die Tabelle nicht. */
       /* Und die Tabelle eines Verschiebungs-Sammelartikels (`verschiebungenNachholen`): Der Stundenlauf (`--leicht`) holt nichts nach und löschte sie, solange der Artikel im Feed stand — am 29.10.2026 fehlten so die neun Termine des Artikels vom 16.10. im Bau. */
       ...(vorher?.verschiebungen ? { verschiebungen: vorher.verschiebungen } : {}),
+      /* Und die Monatsübersicht der Disc-Neuheiten (`discUebersichtNachholen`): auch sie holt der Stundenlauf nicht nach. */
+      ...(vorher?.discZeilen ? { discZeilen: vorher.discZeilen, discGelesen: vorher.discGelesen } : {}),
       ...(vorher?.volltextGelesen ? { volltextGelesen: vorher.volltextGelesen, dates: vorher.dates } : {}),
     })
   }
