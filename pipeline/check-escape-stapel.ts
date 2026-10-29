@@ -15,8 +15,9 @@ class Quelle implements EscapeQuelle {
   addEventListener(_t: string, f: EventListenerOrEventListenerObject, capture?: boolean | AddEventListenerOptions) {
     this.hoerer.push({ f: f as (e: Event) => void, capture: capture === true })
   }
-  removeEventListener(_t: string, f: EventListenerOrEventListenerObject) {
-    this.hoerer = this.hoerer.filter((h) => h.f !== f)
+  /** Wie im Browser: nur ein Hörer mit derselben Phase wird abgehängt. */
+  removeEventListener(_t: string, f: EventListenerOrEventListenerObject, capture?: boolean | EventListenerOptions) {
+    this.hoerer = this.hoerer.filter((h) => h.f !== f || h.capture !== (capture === true))
   }
   feuere(e: Taste, capture: boolean) {
     for (const h of [...this.hoerer]) if (h.capture === capture) h.f(e as unknown as Event)
@@ -80,6 +81,7 @@ const ebene = (name: string, q: Quelle, capture = false) => haengeEscape(q, capt
   const a = ebene('A', win)
   const b = ebene('B', dok)
   const c = ebene('C', dok, true)
+  pruefe('Fangphase wird an das Ziel durchgereicht', '1', String(dok.hoerer.filter((h) => h.capture).length))
   druecke()
   pruefe('Fangphase später geöffnet: nur sie', 'C', nimm())
   b()

@@ -11,5 +11,6 @@
  { "name": "jede Taste zählt", "datei": "web/src/lib/escape.ts", "suche": "k.key !== 'Escape' || ", "ersetze": "" },
  { "name": "Escape wird nicht markiert", "datei": "web/src/lib/escape.ts", "suche": "    k.preventDefault()\n", "ersetze": "" },
  { "name": "Aufruf fehlt", "datei": "web/src/lib/escape.ts", "suche": "    aufruf(k)\n", "ersetze": "" },
+ { "name": "Abhängen ohne Fangphase (Leck bei Capture)", "datei": "web/src/lib/escape.ts", "suche": "quelle.removeEventListener('keydown', taste, capture)", "ersetze": "quelle.removeEventListener('keydown', taste)" },
  { "name": "Fangphase wird nicht durchgereicht", "datei": "web/src/lib/escape.ts", "suche": "quelle.addEventListener('keydown', taste, capture)", "ersetze": "quelle.addEventListener('keydown', taste)" }
 ]
