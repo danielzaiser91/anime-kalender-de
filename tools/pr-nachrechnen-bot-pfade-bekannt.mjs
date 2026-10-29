@@ -18,6 +18,7 @@ const WEGWERF_WURZEL = {
   'pipeline/check-anisearch-marke-nachziehen.ts': ['data/source-health.json'],
   'pipeline/check-og-schaetz.ts': ['public/og/fassung.txt', 'public/og/schaetz.txt'],
   'pipeline/check-kanal-aussortieren.ts': ['data/prime-kanal-aussortiert.json'],
+  'pipeline/check-folgen-fremde-adressen-lauf.ts': ['data/folgen-zuordnung.json'],
   'pipeline/check-sammelartikel.ts': ['data/proposals/aussagen.json', 'data/sammelartikel-stand.json'],
   'pipeline/check-vorfaelle-ablauf.ts': ['daniel-zum-abarbeiten/listen/17-vorfaelle.md'],
   'tools/bau-eingaben.test.mjs': ['data/bestand-historie.jsonl'],

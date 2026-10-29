@@ -15,6 +15,8 @@ const wurzel = join(dirname(fileURLToPath(import.meta.url)), '..')
 const tsx = createRequire(join(wurzel, 'package.json')).resolve('tsx/cli')
 const EIGEN = 'https://www.amazon.de/gp/video/detail/B0KULISSE1'
 const FREMD = 'https://www.disneyplus.com/browse/entity-00000000-kulisse-fremd'
+/* Cartoon-Adresse, die ein Handbeleg auch für den eigenen Titel belegt (Sammelseite): bleibt offen. */
+const SAMMEL = 'https://www.disneyplus.com/browse/entity-00000000-kulisse-sammel'
 
 const beobachtung = (id: number, url: string, asin: string) => ({
   id,
@@ -35,16 +37,34 @@ const schreibe = (pfad: string, inhalt: unknown) => {
   writeFileSync(join(kulisse, pfad), typeof inhalt === 'string' ? inhalt : JSON.stringify(inhalt))
 }
 schreibe('public/data/titles.json', [
-  { id: 900001, titleDe: 'Kulissenserie Eins', episodes: 12, streams: [{ platform: 'primevideo', url: EIGEN }], watchLinks: [] },
+  {
+    id: 900001,
+    titleDe: 'Kulissenserie Eins',
+    episodes: 12,
+    streams: [
+      { platform: 'primevideo', url: EIGEN },
+      { platform: 'disneyplus', url: SAMMEL },
+    ],
+    watchLinks: [],
+  },
 ])
-schreibe('public/data/cartoons.json', [{ id: -900100, titleDe: 'Kulissencartoon', streams: [{ platform: 'disneyplus', url: FREMD }] }])
+schreibe('public/data/cartoons.json', [
+  {
+    id: -900100,
+    titleDe: 'Kulissencartoon',
+    streams: [
+      { platform: 'disneyplus', url: FREMD },
+      { platform: 'disneyplus', url: SAMMEL },
+    ],
+  },
+])
 schreibe('public/data/ohne-synchro.json', [])
-schreibe('data/dub-confirmed.yaml', '[]\n')
+schreibe('data/dub-confirmed.yaml', `- anilistId: 900001\n  url: ${SAMMEL}\n`)
 schreibe('data/folgen-zuordnung.json', {
   'primevideo:ALTFREMD01': { titel: 900009, folge: 3, grund: 'titel', gesehen: '2026-09-01' },
 })
 schreibe('beobachtungen.json', [
-  { results: [beobachtung(1, EIGEN, 'KULISSE001'), beobachtung(2, FREMD, 'KULISSE002'), beobachtung(3, FREMD, 'KULISSE003')] },
+  { results: [beobachtung(1, EIGEN, 'KULISSE001'), beobachtung(2, FREMD, 'KULISSE002'), beobachtung(3, FREMD, 'KULISSE003'), beobachtung(4, SAMMEL, 'KULISSE004')] },
 ])
 
 const lauf = spawnSync(process.execPath, [tsx, join(wurzel, 'pipeline/fetch-folgen-zuordnung.ts'), '--aus', join(kulisse, 'beobachtungen.json')], {
@@ -72,9 +92,13 @@ pruefe('Folge an der eigenen Adresse ordnet dem Titel zu', ergebnis['primevideo:
 pruefe('Folge an der Cartoon-Adresse bleibt ohne Titel', ergebnis['primevideo:KULISSE002']?.titel === undefined && ergebnis['primevideo:KULISSE002']?.grund === 'ohne-kandidat')
 pruefe('zweite Folge an der Cartoon-Adresse ebenso', ergebnis['primevideo:KULISSE003']?.titel === undefined && ergebnis['primevideo:KULISSE003']?.grund === 'ohne-kandidat')
 pruefe('frühere Zuordnung auf Titel außerhalb von titles.json entfällt', ergebnis['primevideo:ALTFREMD01']?.titel === undefined)
-pruefe('Lauf meldet die Zählung', ausgabe.includes('2 Beobachtungen und 2 Folgen ohne Zuordnung, 1 frühere Zuordnungen'))
+pruefe('Folge an der Sammelseite (Handbeleg für den eigenen Titel) bleibt zugeordnet', ergebnis['primevideo:KULISSE004']?.titel === 900001)
+pruefe(
+  'Lauf meldet die Zählung',
+  ausgabe.includes('Fremde Adressen (Cartoon, ohne Synchro, fremder Beleg): 2 Beobachtungen und 2 Folgen ohne Zuordnung, 1 frühere Zuordnungen'),
+)
 if (fehler.length) {
   console.error(`check-folgen-fremde-adressen-lauf: ${fehler.join('; ')}\n${ausgabe.slice(-1500)}`)
   process.exit(1)
 }
-console.log('check-folgen-fremde-adressen-lauf: 6 Zusicherungen grün, der Lauf sperrt Folgen an fremden Adressen und entfernt veraltete Zuordnungen.')
+console.log('check-folgen-fremde-adressen-lauf: 7 Zusicherungen grün, der Lauf sperrt Folgen an fremden Adressen und entfernt veraltete Zuordnungen.')

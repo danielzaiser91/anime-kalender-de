@@ -72,6 +72,25 @@ pruefe('veraltete Zuordnung entfällt (Beerus)', v.ergebnis['netflix:83189606']?
 pruefe('Kontrolle: Zuordnung im Bestand bleibt', v.ergebnis['primevideo:IMBESTAND01']?.titel === 900002 && v.ergebnis['primevideo:IMBESTAND01']?.folge === 5, v.ergebnis)
 pruefe('Zählung: 2 veraltet', v.verworfen.veraltet === 2 && v.verworfen.beobachtungen === 0, v.verworfen)
 
+pruefe('veraltete Zuordnung behält ihr gesehen', v.ergebnis['primevideo:B0G4S4F5W6']?.gesehen === '2026-09-01', v.ergebnis)
+
+/* Nur an der fremden Adresse und früher auf einen Titel außerhalb: zählt als fremd, nicht zusätzlich als veraltet. */
+const nf = ordneFolgenOhneFremde([beob(7, FREMD, 'FREMDALT01', '2026-10-03T10:00')], kontext(fremdNurDisney), { 'primevideo:FREMDALT01': alt(185262) })
+pruefe('fremde Folge mit veralteter Zuordnung: 1 Folge, 0 veraltet', nf.verworfen.folgen === 1 && nf.verworfen.veraltet === 0, nf.verworfen)
+
+/* Veraltete Zuordnung, aber die Folge hat eine eigene Adresse: sie wird neu zugeordnet statt gestrichen. */
+const ne = ordneFolgenOhneFremde([beob(8, EIGEN, 'NEUZUORD01', '2026-10-03T10:00')], kontext(fremdNurDisney), { 'primevideo:NEUZUORD01': alt(185262) })
+pruefe('veraltete Zuordnung mit eigener Adresse ordnet neu zu', ne.ergebnis['primevideo:NEUZUORD01']?.titel === 900002 && ne.verworfen.veraltet === 1, ne)
+
+/* Die fremde Beobachtung einer gemischten Folge zählt nicht mit: sonst wären es zwei Kandidaten. */
+const zwei = new Map([...titel, [900003, { id: 900003, episodes: 12, streams: [{ url: FREMD }], watchLinks: [] } as unknown as Title]])
+const gemischt = ordneFolgenOhneFremde(
+  [{ ...beob(9, FREMD, 'GEMISCHT02', '2026-10-01T10:00'), titel_id: 900003 }, beob(10, EIGEN, 'GEMISCHT02', '2026-10-01T11:00')],
+  { ...kontext(fremdNurDisney), titel: zwei, jeAdresse: adressIndex(zwei, []) },
+  {},
+)
+pruefe('gemischte Folge: fremder Titel fällt nicht als Kandidat an', gemischt.ergebnis['primevideo:GEMISCHT02']?.titel === 900002, gemischt.ergebnis)
+
 /* Eine Folge ohne Kennung zählt nicht als „nur fremd“. */
 const ohneKennung = ordneFolgenOhneFremde([{ ...beob(6, FREMD, 'X', '2026-10-01T10:00'), asin: null }], kontext(fremdNurDisney), {})
 pruefe('Beobachtung ohne Kennung: 1 verworfen, keine Folge', ohneKennung.verworfen.beobachtungen === 1 && ohneKennung.verworfen.folgen === 0, ohneKennung.verworfen)
@@ -80,4 +99,4 @@ if (fehler.length) {
   console.error(`check-folgen-fremde-adressen: ${fehler.join('; ')}`)
   process.exit(1)
 }
-console.log('check-folgen-fremde-adressen: 11 Zusicherungen grün, fremde Adressen und Titel außerhalb von titles.json ordnen keine Plattform-Folge zu.')
+console.log('check-folgen-fremde-adressen: 15 Zusicherungen grün, fremde Adressen und Titel außerhalb von titles.json ordnen keine Plattform-Folge zu.')

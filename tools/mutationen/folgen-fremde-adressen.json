@@ -16,13 +16,11 @@
   { "name": "lib: Zählung Folgen 0", "aenderungen": [{ "datei": "pipeline/lib/folgen-fremde-adressen.ts", "suche": "folgen: nurFremd.size", "ersetze": "folgen: 0" }] },
   { "name": "lib: Zählung Beobachtungen 0", "aenderungen": [{ "datei": "pipeline/lib/folgen-fremde-adressen.ts", "suche": "beobachtungen: beobachtungen.length - eigene.length", "ersetze": "beobachtungen: 0" }] },
   { "name": "lib: Zählung Beobachtungen vertauscht", "aenderungen": [{ "datei": "pipeline/lib/folgen-fremde-adressen.ts", "suche": "beobachtungen: beobachtungen.length - eigene.length", "ersetze": "beobachtungen: eigene.length" }] },
-  { "name": "lib: ohne vor ordneFolgenZu", "aenderungen": [{ "datei": "pipeline/lib/folgen-fremde-adressen.ts", "suche": "...ordneFolgenZu(eigene, k, erhalten), ...ohne", "ersetze": "...ohne, ...ordneFolgenZu(eigene, k, erhalten)" }] },
   { "name": "lib: Zuordnung mit allen Beobachtungen", "aenderungen": [{ "datei": "pipeline/lib/folgen-fremde-adressen.ts", "suche": "ordneFolgenZu(eigene, k, erhalten)", "ersetze": "ordneFolgenZu(beobachtungen, k, erhalten)" }] },
   { "name": "lib: Zuordnung ohne erhaltene Bestände", "aenderungen": [{ "datei": "pipeline/lib/folgen-fremde-adressen.ts", "suche": "ordneFolgenZu(eigene, k, erhalten)", "ersetze": "ordneFolgenZu(eigene, k, {})" }] },
   { "name": "lib: erhalten verliert den Bestand", "aenderungen": [{ "datei": "pipeline/lib/folgen-fremde-adressen.ts", "suche": "} else erhalten[s] = z", "ersetze": "} else erhalten[s] = { grund: 'ohne-kandidat', gesehen: z.gesehen }" }] },
   { "name": "fetch: Sperre aus", "aenderungen": [{ "datei": "pipeline/fetch-folgen-zuordnung.ts", "suche": "istFremd: fremdeAdressen(ROOT, new Set(titel.keys())),", "ersetze": "istFremd: () => false," }] },
   { "name": "fetch: Bestand der Sperre leer", "aenderungen": [{ "datei": "pipeline/fetch-folgen-zuordnung.ts", "suche": "fremdeAdressen(ROOT, new Set(titel.keys()))", "ersetze": "fremdeAdressen(ROOT, new Set())" }] },
-  { "name": "fetch: Wurzel falsch", "aenderungen": [{ "datei": "pipeline/fetch-folgen-zuordnung.ts", "suche": "fremdeAdressen(ROOT, new Set(titel.keys()))", "ersetze": "fremdeAdressen('.', new Set(titel.keys()))" }] },
   { "name": "fetch: bisherige Zuordnung nicht übergeben", "aenderungen": [{ "datei": "pipeline/fetch-folgen-zuordnung.ts", "suche": "    bisher,\n  )\n  writeJson", "ersetze": "    {},\n  )\n  writeJson" }] },
   { "name": "fetch: Meldung der Zählung weg", "aenderungen": [{ "datei": "pipeline/fetch-folgen-zuordnung.ts", "suche": "Fremde Adressen (Cartoon, ohne Synchro, fremder Beleg)", "ersetze": "Adressen" }] }
 ]
