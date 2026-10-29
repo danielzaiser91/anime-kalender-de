@@ -121,7 +121,7 @@ export function DbKarte({ main, members, data, today, grouped, favorites, hidden
           „ohne Synchro"-Band unten kollidiert; beides zugleich kommt
           vor.
         */}
-        <LinkeMarken main={main} />
+        <LinkeMarken main={main} angekuendigt={keinDub && members.some((m) => m.ankuendigung?.synchro === 'angekuendigt')} />
         {keinDub && (
           <span className="absolute inset-x-0 bottom-0 bg-slate-900/80 px-1.5 py-1 text-center text-[10px] font-semibold uppercase tracking-wide text-slate-200 backdrop-blur-[1px]">
             {t(members.every((m) => erscheintErst(m, today)) ? 'geplant.marke' : 'db.noDubBadge')}
@@ -209,9 +209,9 @@ function StaffelMarke({ staffel }: { staffel: string }) {
 }
 
 /** Marken oben links auf dem Cover: die FSK (eine Angabe, steht immer), darunter ein Cartoon-Hinweis — untereinander, nie nebeneinander. */
-function LinkeMarken({ main }: { main: Title }) {
+function LinkeMarken({ main, angekuendigt }: { main: Title; angekuendigt: boolean }) {
   const { t } = useLang()
-  if (main.fsk === undefined && !main.westlich) return null
+  if (main.fsk === undefined && !main.westlich && !angekuendigt) return null
   return (
     <span className="absolute left-1 top-1 flex flex-col items-start gap-1">
       {main.fsk !== undefined && (
@@ -223,6 +223,13 @@ function LinkeMarken({ main }: { main: Title }) {
         <span className="rounded bg-slate-600/90 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white backdrop-blur-[1px]">
           <Tooltip text={t('db.westlichHinweis')} eigenerFokus>
             {t('db.westlich')}
+          </Tooltip>
+        </span>
+      )}
+      {angekuendigt && (
+        <span className="rounded bg-ak-info-grund px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-ak-info-text ring-1 ring-ak-info/40">
+          <Tooltip text={t('antwort.synchroAngekuendigt')} eigenerFokus>
+            {t('db.angekuendigt')}
           </Tooltip>
         </span>
       )}
