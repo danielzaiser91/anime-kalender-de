@@ -67,7 +67,16 @@ const zweiter2 = entfernterBelegSchluessel({ anilistId: 900002, url: 'https://ww
 const nurEiner = findeAuffaelliges(kz({ mitUrteil: 89, jeAnbieter: { disneyplus: 3, netflix: 3 }, entfernteBelege: [SCHLUESSEL, zweiter2] }), vor, [], GRUENDE)
 assert.deepEqual(nurEiner.auffaellig, [], 'zwei Einträge, ein Rückgang: erklärt')
 assert.equal(nurEiner.erklaert.length, 1, 'nur so viele Zeilen wie erklärter Rückgang')
-const keinVerlust =findeAuffaelliges(kz({ entfernteBelege: [SCHLUESSEL] }), vor, [], GRUENDE)
+const imGedaechtnis = kz({
+  mitUrteil: 89,
+  entferntProtokolliert: 1,
+  entferntJeAnbieter: { disneyplus: 1 },
+  jeAnbieter: { disneyplus: 3, netflix: 3 },
+  entfernteBelege: [SCHLUESSEL],
+})
+const schonErklaert = findeAuffaelliges(imGedaechtnis, vor, [], GRUENDE)
+assert.deepEqual(schonErklaert, { auffaellig: [], erklaert: [] }, 'das Gedächtnis erklärt den Rückgang schon, der Eintrag wird nicht zusätzlich genannt')
+const keinVerlust = findeAuffaelliges(kz({ entfernteBelege: [SCHLUESSEL] }), vor, [], GRUENDE)
 assert.deepEqual(keinVerlust, { auffaellig: [], erklaert: [] }, 'ein Eintrag ohne Rückgang bleibt stumm')
 
 // Vorige Zeile ohne das Feld (vor dem 29.10.2026): nichts wird erklärt.
