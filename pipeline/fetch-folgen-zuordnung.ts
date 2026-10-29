@@ -14,10 +14,12 @@
  */
 import { readFileSync } from 'node:fs'
 import yaml from 'js-yaml'
-import { log, readJson, warn, writeJson } from './lib/util.ts'
+import { log, readJson, ROOT, warn, writeJson } from './lib/util.ts'
+import { fremdeAdressen } from './lib/fremde-adressen.ts'
+import { entfallenZeile, ordneFolgenOhneFremde } from './lib/folgen-fremde-adressen.ts'
 import { abrufMitStempel } from './lib/abruf-stempel.ts'
 import { leseZugeordnet } from './lib/prime-meldung-riegel.ts'
-import { adressIndex, ankerAdresse, ordneFolgenZu, type Beobachtung, type FolgenZuordnung } from './lib/folgen-je-folge.ts'
+import { adressIndex, ankerAdresse, type Beobachtung, type FolgenZuordnung } from './lib/folgen-je-folge.ts'
 import { namenIndex, namensKern, titelZuordnen } from './fetch-tv-programm.ts'
 import type { AsFolgeRoh, TmdbFolge } from '../shared/folgen-zuordnung.ts'
 import type { Title } from '../shared/types.ts'
@@ -96,7 +98,7 @@ async function main() {
     if (b.anilistId && b.url) frueher.push([b.url, b.anilistId])
   }
   const bisher = readJson<Record<string, FolgenZuordnung>>(ZIEL, {})
-  const ergebnis = ordneFolgenZu(
+  const { ergebnis, verworfen } = ordneFolgenOhneFremde(
     beobachtungen,
     {
       titel,
@@ -106,10 +108,16 @@ async function main() {
       jeAdresse: adressIndex(titel, frueher),
       namenJeAdresse,
       nameZuTitel,
+      istFremd: fremdeAdressen(ROOT, new Set(titel.keys())),
     },
     bisher,
   )
   writeJson(ZIEL, ergebnis, true)
+  log(
+    `Fremde Adressen (Cartoon, ohne Synchro, fremder Beleg): ${verworfen.beobachtungen} Beobachtungen und ${verworfen.folgen} Folgen ohne Zuordnung, ` +
+      `${verworfen.veraltet} frühere Zuordnungen auf Titel außerhalb von titles.json entfallen.`,
+  )
+  log(`Einträge, die ihren Titel verlieren (Titel-ID: Anzahl): ${entfallenZeile(verworfen.entfallen)}`)
   const zaehl: Record<string, number> = {}
   for (const z of Object.values(ergebnis)) zaehl[z.titel ? (z.folge ? 'Titel und Folge' : 'nur Titel') : z.grund] = (zaehl[z.titel ? (z.folge ? 'Titel und Folge' : 'nur Titel') : z.grund] ?? 0) + 1
   log(

@@ -103,7 +103,7 @@ for (const datei of GELESEN) pruefe(`gelesen/ausgeschlossen: ${datei} -> keine A
 const wurzel = path.join(path.dirname(fileURLToPath(import.meta.url)), '..')
 // Dazu die Prüfungen der Kette (kettenDateien): ihre Treffer (Wegwerf-Wurzeln, Verbotslisten) stehen mit Grund in pr-nachrechnen-bot-pfade-bekannt.mjs.
 const BEKANNT = BEKANNT_TREFFER
-pruefe('Wächter: 42 bekannte Treffer (4 Bau, 38 Kette), keine stille Vergrößerung der Liste', BEKANNT.size === 42, BEKANNT.size)
+pruefe('Wächter: 43 bekannte Treffer (4 Bau, 39 Kette), keine stille Vergrößerung der Liste', BEKANNT.size === 43, BEKANNT.size)
 const bau = bauDateien(wurzel)
 const kette = kettenDateien(wurzel)
 pruefe('Wächter: sieht die Kette (Logik-Liste, Tests, Kettenworkflow)', kette.includes('pipeline/check-sammelartikel.ts') && kette.includes('tools/briefkasten-wache.test.mjs') && kette.includes('.github/workflows/pr-pruefung.yml') && !kette.includes('tools/pr-nachrechnen-bot-pfade.test.mjs') && kette.length > 350, kette.length)
