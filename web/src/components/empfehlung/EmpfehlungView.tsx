@@ -67,7 +67,7 @@ export default function EmpfehlungView({ data }: { data: Dataset }) {
       {kontext && phase === 'duell' && reise.sitzung && (
         <Duell kontext={kontext} sitzung={reise.sitzung} ziel={reise.ziel} titel={titel} antworte={reise.antworte} zurueck={reise.zurueckDuell} schein={setSchein} />
       )}
-      {kontext && phase === 'ergebnis' && reise.stehen && (
+      {kontext && phase === 'ergebnis' && (
         <Vorschlaege
           kontext={kontext}
           gezeigt={reise.gezeigt}
