@@ -15,10 +15,11 @@ const FAELLE = [
   { name: 'Cover-Schicht', titel: 11, oben: '[role="dialog"][aria-label^="Cover"]', oeffne: (s) => s.evaluate(() => window.dispatchEvent(new CustomEvent('cover-maximieren', { detail: 'cover' }))) },
 ]
 
-/** `vorher`, `nachEins`, `nachZwei`: { oben, panel } = Anzahl offener Ebenen vor, nach dem ersten und nach dem zweiten Escape. */
-export function stapelAbweichungen(wo, { vorher, nachEins, nachZwei }) {
+/** `vorher`, `nachTaste` (eine andere Taste), `nachEins`, `nachZwei`: { oben, panel } = Anzahl offener Ebenen vor, nach der Taste, nach dem ersten und nach dem zweiten Escape. */
+export function stapelAbweichungen(wo, { vorher, nachTaste, nachEins, nachZwei }) {
   const a = []
   if (!vorher.oben || !vorher.panel) return [`${wo}: Stapel nicht aufgebaut (oben ${vorher.oben}, Panel ${vorher.panel})`]
+  if (nachTaste.oben !== vorher.oben || nachTaste.panel !== vorher.panel) a.push(`${wo}: eine andere Taste als Escape schließt eine Ebene`)
   if (nachEins.oben !== 0) a.push(`${wo}: erster Escape schließt die oberste Ebene nicht`)
   if (nachEins.panel !== 1) a.push(`${wo}: erster Escape schließt das Panel darunter mit`)
   if (nachZwei.panel !== 0) a.push(`${wo}: zweiter Escape schließt das Panel nicht`)
@@ -37,6 +38,9 @@ async function fahreFall(browser, antworte, fall) {
   await fall.oeffne(seite)
   await seite.waitForTimeout(600)
   const vorher = await zaehle(seite, fall.oben)
+  await seite.keyboard.press('Shift')
+  await seite.waitForTimeout(300)
+  const nachTaste = await zaehle(seite, fall.oben)
   await seite.keyboard.press('Escape')
   await seite.waitForTimeout(500)
   const nachEins = await zaehle(seite, fall.oben)
@@ -44,7 +48,7 @@ async function fahreFall(browser, antworte, fall) {
   await seite.waitForTimeout(500)
   const nachZwei = await zaehle(seite, fall.oben)
   await seite.close()
-  return { vorher, nachEins, nachZwei }
+  return { vorher, nachTaste, nachEins, nachZwei }
 }
 
 /** Alle Stapelfälle; liefert { abweichungen, faelle }. `antworte` ist der `page.route`-Handler der Ansichtsprüfung. */
