@@ -862,6 +862,15 @@
       "am": "2026-10-27",
       "vorschlaege": 1
     },
+    "1064266": {
+      "am": "2026-10-29",
+      "vorschlaege": 0
+    },
+    "1064338": {
+      "am": "2026-10-29",
+      "vorschlaege": 0,
+      "uebersprungen": "kein Deutschland-Bezug"
+    },
     "1064512": {
       "am": "2026-10-28",
       "vorschlaege": 0
@@ -885,6 +894,51 @@
     "1064806": {
       "am": "2026-10-28",
       "vorschlaege": 7
+    },
+    "1064916": {
+      "am": "2026-10-29",
+      "vorschlaege": 0
+    },
+    "1064990": {
+      "am": "2026-10-29",
+      "vorschlaege": 1
+    },
+    "1065042": {
+      "am": "2026-10-29",
+      "vorschlaege": 1
+    },
+    "1065063": {
+      "am": "2026-10-29",
+      "vorschlaege": 0
+    },
+    "1065067": {
+      "am": "2026-10-29",
+      "vorschlaege": 2
+    },
+    "1065078": {
+      "am": "2026-10-29",
+      "vorschlaege": 7
+    },
+    "1065119": {
+      "am": "2026-10-29",
+      "vorschlaege": 2
+    },
+    "1065124": {
+      "am": "2026-10-29",
+      "vorschlaege": 0,
+      "uebersprungen": "kein Deutschland-Bezug"
+    },
+    "1065171": {
+      "am": "2026-10-29",
+      "vorschlaege": 1
+    },
+    "1065177": {
+      "am": "2026-10-29",
+      "vorschlaege": 1
+    },
+    "1065186": {
+      "am": "2026-10-29",
+      "vorschlaege": 0
     }
   },
   "vorschlaege": [
@@ -7368,6 +7422,356 @@
       "quelle": "https://www.anime2you.de/news/1064672/venus-wars-blu-ray-termin/",
       "veroeffentlicht": "2026-10-27",
       "gelesenAm": "2026-10-28"
+    },
+    {
+      "titel": "Disney Twisted-Wonderland – Staffel 2",
+      "zitat": "Die zweite Staffel von »Disney Twisted-Wonderland« umfasst demnach acht Episoden, die ab dem 23. Dezember 2026 im wöchentlichen Rhythmus auf Disney+ erscheinen.",
+      "art": "start",
+      "sprache": "unklar",
+      "plattform": "disneyplus",
+      "datum": "2026-12-23",
+      "uhrzeit": null,
+      "anbieter": "Disney+",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "8",
+      "unsicher": "Ob die zweite Staffel auch mit deutscher Synchronisation erscheint, ist laut Artikel noch nicht bestätigt.",
+      "wochentag": "Mittwoch",
+      "warnungen": [],
+      "artikelId": "1065177",
+      "artikel": "Starttermin der zweiten »Disney Twisted-Wonderland«-Staffel + Visual",
+      "quelle": "https://www.anime2you.de/news/1065177/disney-twisted-wonderland-staffel-2-starttermin/",
+      "veroeffentlicht": "2026-10-29",
+      "gelesenAm": "2026-10-29"
+    },
+    {
+      "titel": "I’m Looking for a Zombie",
+      "zitat": "»I’m Looking for a Zombie« umfasst demzufolge zwölf Episoden, die seit dem 3. Oktober 2026 jeden Samstag um 17:00 Uhr im japanischen Originalton mit deutschen Untertiteln bei Crunchyroll im Simulcast zu sehen sind.",
+      "art": "start",
+      "sprache": "omu",
+      "plattform": "crunchyroll",
+      "datum": "2026-10-03",
+      "uhrzeit": "17:00",
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": "jeden Samstag",
+      "folgen": "12",
+      "unsicher": null,
+      "wochentag": "Samstag",
+      "warnungen": [],
+      "artikelId": "1065171",
+      "artikel": "Episodenanzahl von »I’m Looking for a Zombie« steht fest",
+      "quelle": "https://www.anime2you.de/news/1065171/im-looking-for-a-zombie-episodenanzahl/",
+      "veroeffentlicht": "2026-10-29",
+      "gelesenAm": "2026-10-29"
+    },
+    {
+      "titel": "Magic Knight Rayearth",
+      "zitat": "»Magic Knight Rayearth« Episoden: 1 auf Deutsch verfügbar Sprache: Deutsch, Japanisch (UT) Simulcast: Jeden Mittwoch um 17:15 Uhr",
+      "art": "sprachfassung",
+      "sprache": "deutsch+omu",
+      "plattform": "crunchyroll",
+      "datum": null,
+      "uhrzeit": "17:15",
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": "Jeden Mittwoch",
+      "folgen": "1",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „Crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1065119",
+      "artikel": "Zwei Anime-Neuzugänge auf Deutsch bei Crunchyroll",
+      "quelle": "https://www.anime2you.de/news/1065119/crunchyroll-detective-is-already-dead-synchro-und-mehr/",
+      "veroeffentlicht": "2026-10-28",
+      "gelesenAm": "2026-10-29"
+    },
+    {
+      "titel": "The Detective Is Already Dead – Staffel 2",
+      "zitat": "»The Detective Is Already Dead« – Staffel 2 Episoden: 1 auf Deutsch verfügbar Sprache: Deutsch, Japanisch (UT) Simulcast: Jeden Mittwoch um 15:30 Uhr",
+      "art": "sprachfassung",
+      "sprache": "deutsch+omu",
+      "plattform": "crunchyroll",
+      "datum": null,
+      "uhrzeit": "15:30",
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": "Jeden Mittwoch",
+      "folgen": "1",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „Crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1065119",
+      "artikel": "Zwei Anime-Neuzugänge auf Deutsch bei Crunchyroll",
+      "quelle": "https://www.anime2you.de/news/1065119/crunchyroll-detective-is-already-dead-synchro-und-mehr/",
+      "veroeffentlicht": "2026-10-28",
+      "gelesenAm": "2026-10-29"
+    },
+    {
+      "titel": "Mashle: Magic and Muscles",
+      "zitat": "Die dritte Staffel, die den »Tri-Magicathlon Divine Visionary Final Exam Arc« aus der originalen Manga-Reihe von Hajime Komoto adaptiert, startet im Januar 2027 im japanischen Fernsehen und bei Crunchyroll im Simulcast.",
+      "art": "ankuendigung",
+      "sprache": "unklar",
+      "plattform": "crunchyroll",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1064990",
+      "artikel": "Crunchyroll zeigt dritte »Mashle«-Staffel im Simulcast",
+      "quelle": "https://www.anime2you.de/news/1064990/crunchyroll-dritte-mashle-staffel/",
+      "veroeffentlicht": "2026-10-28",
+      "gelesenAm": "2026-10-29"
+    },
+    {
+      "titel": "Neon Genesis Evangelion",
+      "zitat": "Die neue Blu-ray-Komplettbox wird als »Special Edition« bezeichnet und derzeit für den 5. Februar 2027 gelistet.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2027-02-05",
+      "uhrzeit": null,
+      "anbieter": "LEONINE Anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": "Termin basiert laut Artikel auf einem Amazon-Eintrag und ist noch nicht offiziell bestätigt.",
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „LEONINE Anime“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1065042",
+      "artikel": "»Neon Genesis Evangelion« erhält neue Blu-ray-Komplettbox",
+      "quelle": "https://www.anime2you.de/news/1065042/neon-genesis-evangelion-neue-blu-ray-komplettbox/",
+      "veroeffentlicht": "2026-10-28",
+      "gelesenAm": "2026-10-29"
+    },
+    {
+      "titel": "M.A.S.K.",
+      "zitat": "1. November: »M.A.S.K.« Episoden: 73 (komplett) Sprache: Deutsch",
+      "art": "start",
+      "sprache": "deutsch",
+      "plattform": "aniverse",
+      "datum": "2026-11-01",
+      "uhrzeit": null,
+      "anbieter": "aniverse",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "73 (komplett)",
+      "unsicher": null,
+      "wochentag": "Sonntag",
+      "warnungen": [
+        "anbieter „aniverse“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „aniverse“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1065078",
+      "artikel": "Neue Anime-Katalogtitel im November 2026 bei aniverse",
+      "quelle": "https://www.anime2you.de/news/1065078/aniverse-november-2026-neuzugaenge/",
+      "veroeffentlicht": "2026-10-28",
+      "gelesenAm": "2026-10-29"
+    },
+    {
+      "titel": "The Forsaken Saintess and Her Foodie Road Trip in Another World",
+      "zitat": "1. November: »The Forsaken Saintess and Her Foodie Road Trip in Another World« Episoden: 12 (komplett) Sprache: Japanisch (UT)",
+      "art": "start",
+      "sprache": "omu",
+      "plattform": "aniverse",
+      "datum": "2026-11-01",
+      "uhrzeit": null,
+      "anbieter": "aniverse",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "12 (komplett)",
+      "unsicher": null,
+      "wochentag": "Sonntag",
+      "warnungen": [
+        "anbieter „aniverse“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „aniverse“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1065078",
+      "artikel": "Neue Anime-Katalogtitel im November 2026 bei aniverse",
+      "quelle": "https://www.anime2you.de/news/1065078/aniverse-november-2026-neuzugaenge/",
+      "veroeffentlicht": "2026-10-28",
+      "gelesenAm": "2026-10-29"
+    },
+    {
+      "titel": "Angel’s Egg",
+      "zitat": "5. November: »Angel’s Egg« Laufzeit: 72 Minuten Sprache: Deutsch, Japanisch (UT)",
+      "art": "start",
+      "sprache": "deutsch+omu",
+      "plattform": "aniverse",
+      "datum": "2026-11-05",
+      "uhrzeit": null,
+      "anbieter": "aniverse",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Donnerstag",
+      "warnungen": [
+        "anbieter „aniverse“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „aniverse“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1065078",
+      "artikel": "Neue Anime-Katalogtitel im November 2026 bei aniverse",
+      "quelle": "https://www.anime2you.de/news/1065078/aniverse-november-2026-neuzugaenge/",
+      "veroeffentlicht": "2026-10-28",
+      "gelesenAm": "2026-10-29"
+    },
+    {
+      "titel": "Shaman King – Staffel 4",
+      "zitat": "12. November: »Shaman King« – Staffel 4 Episoden: 16 (komplett) Sprache: Deutsch",
+      "art": "start",
+      "sprache": "deutsch",
+      "plattform": "aniverse",
+      "datum": "2026-11-12",
+      "uhrzeit": null,
+      "anbieter": "aniverse",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "16 (komplett)",
+      "unsicher": null,
+      "wochentag": "Donnerstag",
+      "warnungen": [
+        "anbieter „aniverse“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „aniverse“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1065078",
+      "artikel": "Neue Anime-Katalogtitel im November 2026 bei aniverse",
+      "quelle": "https://www.anime2you.de/news/1065078/aniverse-november-2026-neuzugaenge/",
+      "veroeffentlicht": "2026-10-28",
+      "gelesenAm": "2026-10-29"
+    },
+    {
+      "titel": "Wolf Girl and Black Prince – Staffel 1",
+      "zitat": "19. November: »Wolf Girl and Black Prince« – Staffel 1 Episoden: 12 (komplett) Sprache: Deutsch, Japanisch (UT)",
+      "art": "start",
+      "sprache": "deutsch+omu",
+      "plattform": "aniverse",
+      "datum": "2026-11-19",
+      "uhrzeit": null,
+      "anbieter": "aniverse",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "12 (komplett)",
+      "unsicher": null,
+      "wochentag": "Donnerstag",
+      "warnungen": [
+        "anbieter „aniverse“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „aniverse“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1065078",
+      "artikel": "Neue Anime-Katalogtitel im November 2026 bei aniverse",
+      "quelle": "https://www.anime2you.de/news/1065078/aniverse-november-2026-neuzugaenge/",
+      "veroeffentlicht": "2026-10-28",
+      "gelesenAm": "2026-10-29"
+    },
+    {
+      "titel": "Call of the Night – Staffel 2",
+      "zitat": "20. November: »Call of the Night« – Staffel 2 (Synchro) Episoden: 13 (komplett) Sprache: Deutsch, Japanisch (UT)",
+      "art": "sprachfassung",
+      "sprache": "deutsch",
+      "plattform": "aniverse",
+      "datum": "2026-11-20",
+      "uhrzeit": null,
+      "anbieter": "aniverse",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "13 (komplett)",
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „aniverse“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „aniverse“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1065078",
+      "artikel": "Neue Anime-Katalogtitel im November 2026 bei aniverse",
+      "quelle": "https://www.anime2you.de/news/1065078/aniverse-november-2026-neuzugaenge/",
+      "veroeffentlicht": "2026-10-28",
+      "gelesenAm": "2026-10-29"
+    },
+    {
+      "titel": "The Most Heretical Last Boss Queen – Staffel 1",
+      "zitat": "26. November: »The Most Heretical Last Boss Queen« – Staffel 1 (Synchro) Episoden: 12 (komplett) Sprache: Deutsch, Japanisch (UT)",
+      "art": "sprachfassung",
+      "sprache": "deutsch",
+      "plattform": "aniverse",
+      "datum": "2026-11-26",
+      "uhrzeit": null,
+      "anbieter": "aniverse",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "12 (komplett)",
+      "unsicher": null,
+      "wochentag": "Donnerstag",
+      "warnungen": [
+        "anbieter „aniverse“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „aniverse“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1065078",
+      "artikel": "Neue Anime-Katalogtitel im November 2026 bei aniverse",
+      "quelle": "https://www.anime2you.de/news/1065078/aniverse-november-2026-neuzugaenge/",
+      "veroeffentlicht": "2026-10-28",
+      "gelesenAm": "2026-10-29"
+    },
+    {
+      "titel": "Bleach: Thousand-Year Blood War",
+      "zitat": "»Bleach: Thousand-Year Blood War« – Finale Episoden: 2 (Episode 9 und 10 von Part 4) Sprache: Japanisch (UT)",
+      "art": "folgen",
+      "sprache": "omu",
+      "plattform": "disneyplus",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Disney+",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "2 (Episode 9 und 10 von Part 4)",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „Disney+“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „disney+“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1065067",
+      "artikel": "Disney+ nimmt zwei Anime-Neuzugänge ins Programm",
+      "quelle": "https://www.anime2you.de/news/1065067/disney-plus-bleach-finale-und-mehr/",
+      "veroeffentlicht": "2026-10-28",
+      "gelesenAm": "2026-10-29"
+    },
+    {
+      "titel": "Yu-Gi-Oh! – Staffel 5",
+      "zitat": "»Yu-Gi-Oh!« – Staffel 5 Episoden: 52 (komplett) Sprache: Deutsch",
+      "art": "start",
+      "sprache": "deutsch",
+      "plattform": "disneyplus",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Disney+",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "52 (komplett)",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „Disney+“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „disney+“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1065067",
+      "artikel": "Disney+ nimmt zwei Anime-Neuzugänge ins Programm",
+      "quelle": "https://www.anime2you.de/news/1065067/disney-plus-bleach-finale-und-mehr/",
+      "veroeffentlicht": "2026-10-28",
+      "gelesenAm": "2026-10-29"
     }
   ]
 }
