@@ -16,7 +16,7 @@ export function ersteDiscNochOffen(releases: Release[], heute: string): boolean 
  * zählt nicht, solange Vol. 1 aussteht — es sei denn, ein deutscher Stream oder ein erschienener Nicht-Disc-Termin
  * belegt den früheren Beginn (Yamada-kun: Netflix-Dub, Vol. 1 erst im November).
  */
-export function erstausgabeVorDisc(title: Pick<Title, 'streams'>, releases: Release[], heute: string): boolean {
+export function erstausgabeVorDisc(title: Partial<Pick<Title, 'streams'>>, releases: Release[], heute: string): boolean {
   if ((title.streams ?? []).some((s) => s.dub === true)) return false
   const frueherNichtDisc = releases.some((r) => r.platform !== 'disc' && (r.schedule?.firstEpisodeDate ?? '9') <= heute)
   return !frueherNichtDisc && ersteDiscNochOffen(releases, heute)
