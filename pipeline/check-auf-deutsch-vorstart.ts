@@ -49,7 +49,7 @@ pruefe('Virgin Road (aniSearch 11.04., Vol. 1 am 30.10.): keine Fertig-Antwort',
 pruefe('Virgin Road: nennt den Termin von Vol. 1', v?.datum === '2026-10-30', JSON.stringify(v))
 const b = antwort(bocchi, bocchiBaende)
 pruefe('Bocchi (nur Sprecher, drei Bände künftig): Disc-Auskunft', b?.art === 'disc' && b.datum === '2026-11-06' && b.baende?.length === 3, JSON.stringify(b))
-const tvSichtung = { slug: 'bocchi-tv', titleId: 130003, name: 'Bocchi the Rock!', platform: 'tv', platformUrl: 'https://www.example.org/', releaseType: 'weekly', automatisch: true, tvLetzteSichtung: '2026-11-01', schedule: { firstEpisodeDate: '2026-11-01', episodeCount: 1 }, sources: [] } as unknown as Release
+const tvSichtung = { slug: 'bocchi-tv', titleId: 130003, name: 'Bocchi the Rock!', platform: 'tv', platformUrl: 'https://www.example.org/', releaseType: 'weekly', automatisch: true, tvLetzteSichtung: '2026-11-01', schedule: { firstEpisodeDate: '2026-11-01', episodeCount: 1, observed: { 1: '2026-11-01' } }, sources: [] } as unknown as Release
 const mitTv = antwort(bocchi, [...bocchiBaende, tvSichtung])
 pruefe('Bocchi mit automatischer TV-Sichtung: der Kopf bleibt bei der Disc, nicht beim Sichtungstag', mitTv?.art === 'disc' && mitTv.datum === '2026-11-06', JSON.stringify(mitTv))
 const kinoBanner = { slug: 'bocchi-kino', titleId: 130003, name: 'Bocchi the Rock!', platform: 'kino', platformUrl: 'https://www.example.org/', releaseType: 'movie', cinemaUntil: '2026-12-01', schedule: { firstEpisodeDate: '2026-11-02' }, sources: [] } as unknown as Release
@@ -74,7 +74,7 @@ const offen = (namen: string[], datum = '2026-11-06', heute = HEUTE) => ersteDis
 pruefe('Vol. 1 künftig: offen', offen(['Titel – Vol. 1']))
 pruefe('Vol.1 ohne Leerzeichen: offen', offen(['Titel – Vol.1']))
 pruefe('Vol 1 ohne Punkt: offen', offen(['Titel – Vol 1']))
-pruefe('Wort mit Endung „vol“ ist kein Band', !offen(['Nirvol. 1']))
+pruefe('Wort mit Endung „vol“ ist kein Band', !offen(['NirVol. 1']))
 pruefe('Vol. 15 ist kein erster Band', !offen(['Titel – Vol. 15']))
 pruefe('Vol. 2 allein ist kein erster Band', !offen(['Titel – Vol. 2']))
 pruefe('keine Disc: nicht offen', !ersteDiscNochOffen([], HEUTE))
