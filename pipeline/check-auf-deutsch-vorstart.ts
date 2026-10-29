@@ -107,6 +107,10 @@ const tvHeute = { ...tvVergangen, schedule: { firstEpisodeDate: HEUTE } } as unk
 pruefe('Neuigkeiten: Virgin Road mit TV-Termin genau heute mit Zeile', neu(virgin, [virginVol1, tvHeute]))
 const vol2 = disc('virgin-road-vol2', 129193, 'Virgin Road – Vol. 2', '2026-11-27')
 pruefe('Entdecken: mehrere Bände, „bald ab“ nennt den frühesten', stufe(virgin, [vol2, virginVol1]).ab === '2026-10-30')
+const ohneSynchroMarke = { ...virgin, deErstausgabe: { von: '2026-04-11', publisher: 'AniMoon Publishing GmbH' } }
+pruefe('Entdecken: Erstausgabe ohne Synchro-Marke bleibt erschienen', stufe(ohneSynchroMarke, [virginVol1]).art === 'erschienen')
+const zukunftVon = stufe({ ...virgin, deErstausgabe: { von: '2026-12-01', synchro: true } }, [virginVol1])
+pruefe('Entdecken: Erstausgabe selbst in der Zukunft nennt ihr eigenes Datum', zukunftVon.art === 'bald' && zukunftVon.ab === '2026-12-01', JSON.stringify(zukunftVon))
 pruefe('Entdecken: Virgin Road am 30.10. ist erschienen', stufe(virgin, [virginVol1], '2026-10-30').art === 'erschienen')
 pruefe('Entdecken: Anne Shirley bleibt erschienen', stufe(anne, [anneVol2]).art === 'erschienen')
 pruefe('Entdecken: Yamada-kun bleibt erschienen', stufe(yamada, [yamadaVol1]).art === 'erschienen')
@@ -115,4 +119,4 @@ if (fehler) {
   console.error(`${fehler} Zusicherung(en) zu „Auf Deutsch“ vor dem ersten deutschen Termin verletzt`)
   process.exit(1)
 }
-console.log('Auf Deutsch vor dem ersten deutschen Termin: Zusicherungen erfüllt (8 Anlassfälle, 8 Gegenfälle, 12 Regelfälle, 14 Folgestellen)')
+console.log('Auf Deutsch vor dem ersten deutschen Termin: Zusicherungen erfüllt (8 Anlassfälle, 8 Gegenfälle, 12 Regelfälle, 16 Folgestellen)')
