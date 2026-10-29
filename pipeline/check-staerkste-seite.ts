@@ -48,10 +48,10 @@ function meldung(gemeldet: string): string {
 }
 
 /** Baut wie `09-synchro` mit der Handbelegdatei; liefert die Prime-Adressen des Titels. */
-function primeWege(zeilen: string[], gemeldet?: string, ohneWeg = false): string[] {
+function primeWege(zeilen: string[], gemeldet?: string, ohneWeg = false, startWege: string[] = ['B07Q6VL4QC/']): string[] {
   writeFileSync(join(kulisse, 'data', 'dub-confirmed.yaml'), zeilen.join(''))
   writeFileSync(join(kulisse, 'data', 'prime-zugeordnet.json'), gemeldet ? meldung(gemeldet) : '{}')
-  const wege = ohneWeg ? [] : [{ platform: 'primevideo', url: `${AMAZON}B07Q6VL4QC/` }]
+  const wege = ohneWeg ? [] : startWege.map((s) => ({ platform: 'primevideo', url: AMAZON + s }))
   const titel = { id: 1735, slug: 'naruto-shippuden', streams: wege } as unknown as Title
   const titles = new Map<number, Title>([[1735, titel]])
   const belege = sammleBelege({ releases: [] as Release[], titles, crBySeriesId: new Map(), tmdbMehrdeutig: new Set(), tmdbTitles: {}, tvJeTmdb: new Set(), toteAdressen: new Set(), crDub: { scrapedAt: '', serien: [] } as never })
@@ -83,6 +83,11 @@ try {
   pruefe('gleich starke gemeldete Seite: unverändert die erste Zeile der Datei', gleichstark.join() === 'B0AAAAAAA1', gleichstark)
   const ohneBeleg = primeWege([DREI_UND_DREISSIG], 'B0ZZZZZZZZ')
   pruefe('gemeldete Seite ohne eigenen Beleg: bleibt als zweiter Weg', ohneBeleg.length === 2, ohneBeleg)
+
+  const dritter = primeWege([zeile('B0AAAAAAA1', 14), zeile('B0AAAAAAA2', 14)], 'B0ZZZZZZZZ', false, ['B0AAAAAAA1', 'B0AAAAAAA2'])
+  pruefe('höchstens zwei Prime-Wege: eine gemeldete dritte Seite wird nicht angelegt', dritter.length === 2, dritter)
+  const zweiter = primeWege([zeile('B0AAAAAAA1', 14)], 'B0ZZZZZZZZ', false, ['B0AAAAAAA1'])
+  pruefe('mit einem Weg wird die gemeldete zweite Seite angelegt', zweiter.length === 2, zweiter)
 
   console.log('\nBausteine:')
   const ja = (seite: string, folgen: number, datum = '2026-10-16'): DubCheck => ({ anilistId: 1, platform: 'primevideo', url: AMAZON + seite, dub: true, checkedAt: datum, note: `alle ${folgen} Folgen geprüft` })

@@ -3626,7 +3626,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   */
   pruefe(
     'ein dritter Prime-Verweis aus einer Meldung wird nicht angelegt',
-    /if \(title\.streams\.filter\(\(x\) => x\.platform === plattform\)\.length >= 2\) \{/.test(bau),
+    /if \(vorhandene\.length >= 2\) \{/.test(bau),
     'ohne den Deckel wächst ein Titel auf 52 Verweise bei einem Anbieter — je Folge einen, wie im Verlauf von prime-zugeordnet.json',
   )
 
@@ -4331,7 +4331,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   */
   pruefe(
     'bei mehreren Belegen gilt der jüngste',
-    bau.includes("liste.sort((a, b) => (b.checkedAt ?? '').localeCompare(a.checkedAt ?? ''))"),
+    bau.includes('liste.sort(vergleicheBelege)'),
     'sonst entscheidet die Reihenfolge in der Datei, nicht das Prüfdatum',
   )
   /*
