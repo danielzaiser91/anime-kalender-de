@@ -10,5 +10,6 @@
  { "name": "Zoom auch im hohen Fenster", "datei": "web/buehne/rahmen.css", "suche": "@media (max-height: 1400px) {", "ersetze": "@media (min-height: 1px) {" },
  { "name": "Beschriftung 23 px fest", "datei": "web/buehne/rahmen.css", "suche": ".zelle figcaption { font-size: 12px; margin: 0 0 6px;", "ersetze": ".zelle figcaption { font-size: 12px; line-height: 17px; height: 23px; margin: 0;" },
  { "name": "Zuschlag 23 statt 22,8", "datei": "web/buehne/rahmen.css", "suche": "* var(--zoom, 1) + 22.8px)", "ersetze": "* var(--zoom, 1) + 23px)" },
+ { "name": "align-content im hohen Fenster entfernt", "datei": "web/buehne/rahmen.css", "suche": "  .raster { align-content: flex-start; }", "ersetze": "" },
  { "name": "Kontrolle", "aenderungen": [] }
 ]

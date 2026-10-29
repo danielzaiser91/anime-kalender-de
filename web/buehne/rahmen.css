@@ -29,6 +29,11 @@ body { margin: 0; font: 14px/1.4 system-ui, sans-serif; background: #e9e9ee; col
   .raster.beide { --zoom: .5; }
   .raster.beide iframe { zoom: var(--zoom); }
 }
+/* Im hohen Fenster (Werkzeuge) verteilt `stretch` den Rest auf die Zeilen und verschöbe die Zellen: feste Gerätehöhe wie vorher. */
+@media (min-height: 1401px) {
+  .raster { align-content: flex-start; }
+  .zelle iframe { flex: none; height: var(--hoehe); }
+}
 
 .uebersicht { padding: 16px; }
 .uebersicht h1 { font-size: 18px; margin: 0 0 4px; }

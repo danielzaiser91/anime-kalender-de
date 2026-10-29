@@ -29,6 +29,7 @@ async function messe(seite, geraet, breite, hoehe) {
       body: ueberlauf(document.body),
       rahmen: zellen.map((z) => z.querySelector('iframe').getBoundingClientRect().height.toFixed(1)),
       figuren: zellen.map((z) => z.getBoundingClientRect().height.toFixed(1)),
+      oberkanten: zellen.map((z) => z.getBoundingClientRect().top),
       unterkante: Math.max(...zellen.map((z) => z.getBoundingClientRect().bottom)),
     }
   })
@@ -57,6 +58,8 @@ async function pruefeVolleHoehe(seite) {
   const handy = await messe(seite, '375')
   assert.deepEqual(handy.rahmen, ['812.0', '812.0', '812.0', '812.0'], 'hohes Fenster, Handy: jede Zelle voll 812 px hoch')
   assert.deepEqual(handy.figuren, ['834.8', '834.8', '834.8', '834.8'], 'hohes Fenster, Handy: Zelle samt Beschriftung 834,8 px wie vor dem Umbau')
+  const [oben, , , vierte] = handy.oberkanten
+  assert.ok(Math.abs(vierte - oben - 854.8) < 0.05, `hohes Fenster: zweite Zeile ${vierte - oben} px unter der ersten (erwartet 854,8 = Zelle + 20 Abstand)`)
   const beide = await messe(seite, 'beide')
   assert.deepEqual(beide.rahmen, ['812.0', '812.0', '812.0', '812.0', '800.0', '800.0', '800.0', '800.0'], 'hohes Fenster, beide: Handy 812, Desktop 800 px, nicht verkleinert')
 }
