@@ -220,6 +220,7 @@ try {
   const BASIS_ANIME = { titleId: 7, plattform: 'netflix', folgen: [{ unsere: 1 }] }
   schreibe('repo/public/data/titles.json', [{ id: 7, titleDe: 'Kulissen-Anime', streams: [{ platform: 'netflix', url: ANIME }] }])
   schreibe('repo/public/data/cartoons.json', [])
+  schreibe('repo/public/data/ohne-synchro.json', [])
   schreibe('repo/data/dub-confirmed.yaml', '[]\n')
   // Eine aniSearch-Liste als Anker, deren Folgen die gemeldeten treffen.
   schreibe('repo/data/anisearch.json', { 7: { anisearchId: 1 } })
