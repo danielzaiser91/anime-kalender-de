@@ -27,7 +27,7 @@ schreibe('data/prime-zugeordnet.json', JSON.stringify({ [`${KULIPARI}#0`]: { tit
 let fehler = 0
 let faelle = 0
 function lauf(bekannt: string[]) {
-  schreibe('data/zuordnung-fremd-bekannt.json', JSON.stringify(bekannt))
+  schreibe(join('data', 'zuordnung-fremd-bekannt.json'), JSON.stringify(bekannt))
   const r = spawnSync(process.execPath, [join(repo, 'node_modules/tsx/dist/cli.mjs'), join(repo, 'pipeline/check-zuordnung-fremd-bestand.ts')], {
     cwd: wurzel,
     env: { ...process.env, AK_ROOT: wurzel },
