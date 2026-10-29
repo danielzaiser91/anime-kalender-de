@@ -53,6 +53,13 @@ async function pruefeUntergrenze(seite) {
   assert.ok(kleinste >= 240, `1280×500: eine Zelle ist nur ${kleinste} px hoch (Untergrenze 240)`)
 }
 
+/** Ein mittelhohes Fenster (1728×1300, eine Zeile Handy-Zellen) gibt mehr Platz als die Gerätehöhe: Die Zelle bleibt bei 812 + Beschriftung. */
+async function pruefeObergrenze(seite) {
+  const m = await messe(seite, '375', 1728, 1300)
+  assert.deepEqual(m.rahmen, ['812.0', '812.0', '812.0', '812.0'], '1728×1300: Rahmen höher oder niedriger als die Gerätehöhe 812 px')
+  assert.deepEqual(m.figuren, ['834.8', '834.8', '834.8', '834.8'], '1728×1300: Zelle samt Beschriftung nicht 834,8 px')
+}
+
 /** Läuft vor jedem `setViewportSize`: Es misst das Fenster, das `starteBuehne` den anderen Werkzeugen gibt. */
 async function pruefeVolleHoehe(seite) {
   const handy = await messe(seite, '375')
@@ -70,11 +77,12 @@ async function main() {
     await pruefeVolleHoehe(seite)
     await pruefeFensterFuellt(seite)
     await pruefeUntergrenze(seite)
+    await pruefeObergrenze(seite)
   } finally {
     await browser.close()
   }
   assert.equal(fremde.length, 0, `Anfragen nach draußen: ${fremde[0]}`)
-  console.log('buehne-fenster-pruefen: ok (4 Fenster ohne Überlauf, Untergrenze, volle Gerätehöhe im hohen Fenster)')
+  console.log('buehne-fenster-pruefen: ok (4 Fenster ohne Überlauf, Unter- und Obergrenze, volle Gerätehöhe im hohen Fenster)')
 }
 
 main().catch((e) => {
