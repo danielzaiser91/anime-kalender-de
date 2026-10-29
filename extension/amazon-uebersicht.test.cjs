@@ -585,6 +585,20 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
   )
 }
 
+// --- 1b. Führt der Worker Ziele, die das Paket nicht kennt: Hinweis am Knopf (29.10.2026) -----
+
+{
+  const mitStandEintrag = {
+    ...TEST_LISTE,
+    B000STAND1: { titel: 'Nur im Worker', url: 'https://www.amazon.de/dp/B000STAND1', ausStand: true, eintraege: [] },
+  }
+  const { angehaengt } = starte('B000TESTAA', {}, mitStandEintrag)
+  const knopf = angehaengt.find((e) => e.className.includes('ak-uebersicht'))
+  pruefe('Eintrag aus dem Worker-Stand: Knopf trägt „Liste veraltet“ auch bei offener Zählung', /Prime-Titel offen · Liste veraltet$/.test(knopf?.textContent ?? ''), knopf?.textContent)
+  const ohne = starte('B000TESTAA').angehaengt.find((e) => e.className.includes('ak-uebersicht'))
+  pruefe('ohne Eintrag aus dem Worker-Stand: kein Hinweis', !/veraltet/.test(ohne?.textContent ?? ''), ohne?.textContent)
+}
+
 // --- 2b. Aber nicht auf einer Seite, die gar kein Video ist ----------------
 
 /*
