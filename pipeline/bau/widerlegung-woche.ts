@@ -138,11 +138,19 @@ export function sammleWiderlegungen(
   return { anzahl, gedaechtnis: neu }
 }
 
-/** Ein Titel allein in seiner Reihe ist Staffel 1; sonst zählt die errechnete Staffel. */
+/**
+ * Es zählt die errechnete Staffel der Reihe (ein Titel allein in seiner Reihe ist Staffel 1). Dazu gilt „Staffel 1“ des Katalogs,
+ * wenn der Titel allein an seiner Crunchyroll-Serie hängt: Die Katalogstaffel zählt je Serie, nicht je Reihe. Magic Knight
+ * Rayearth (2026) hat eine eigene Serie, die Reihe liegt mit Titeln von 1994 bis 1998 davor (29.10.2026: Reihe Staffel 3 gegen
+ * Katalog „Staffel 1“, deutsche Folge 1 widerlegt).
+ */
 function deutschImKatalog(tage: Set<string>, kennungTag: string, title: Title | undefined, titles: Map<number, Title>): boolean {
   if (!tage.size || !title) return false
-  const allein = ![...titles.values()].some((x) => x.id !== title.id && x.franchiseId !== undefined && x.franchiseId === title.franchiseId)
-  const staffel = allein ? 1 : staffelDesTitels(title, titles.values())
+  const kennung = kennungTag.split('|')[0]
+  const teilt = (x: Title) => x.streams.some((s) => s.platform === 'crunchyroll' && crunchyrollSeriesId(s.url) === kennung)
+  const andere = [...titles.values()].filter((x) => x.id !== title.id && x.franchiseId !== undefined && x.franchiseId === title.franchiseId)
+  if (!andere.some(teilt) && teilt(title) && tage.has(`${kennungTag}|1`)) return true
+  const staffel = andere.length ? staffelDesTitels(title, titles.values()) : 1
   return staffel !== undefined && tage.has(`${kennungTag}|${staffel}`)
 }
 
