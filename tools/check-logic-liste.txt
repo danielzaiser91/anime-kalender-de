@@ -269,6 +269,7 @@ pipeline/check-prime-zugeordnet-jw.ts
 pipeline/check-prime-zugeordnet-lader.ts
 pipeline/check-prime-zugeordnet-leser-faelle.ts
 pipeline/check-prime-zugeordnet-leser.ts
+pipeline/check-proposals-bestand.ts
 pipeline/check-pruefliste-verdrahtung.ts
 pipeline/check-quarantaene.ts
 pipeline/check-quellen-schreiber.ts
