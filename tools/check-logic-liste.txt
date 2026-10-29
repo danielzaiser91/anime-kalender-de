@@ -375,6 +375,7 @@ pipeline/check-zaehlung.ts
 pipeline/check-zeit-ausgabe.ts
 pipeline/check-zuordner-ablauf.ts
 pipeline/check-zuordner-luecken.ts
+pipeline/check-zuordner-riegel.ts
 pipeline/check-zuordnung-fremd-lauf.ts
 pipeline/check-zuordnung-fremd.ts
 pipeline/check-zweitanbieter.ts
