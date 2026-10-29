@@ -26,7 +26,7 @@ function adresseDesEintrags(schluessel: string, e: ZuordnungEintrag): string {
  * oder Titel ohne Synchro (`streams`, Besitzer `Datei:Kennung`) oder einem Handbeleg einer anderen Kennung. Der Zuordner
  * wählt den Titel über Namen und Folgenzahl, nicht über die Adresse; der Bau überspringt solche Einträge nur still.
  * Hat die Kennung selbst einen Handbeleg an der Adresse oder ist sie der Besitzer, gilt die Adresse als ihre.
- * Suchadressen zeigen auf keinen Titel und zählen nicht.
+ * Such- und Startseiten (`istSammelKern`) zeigen auf keinen Titel und zählen nicht.
  */
 export function findeFremdZugeordnete(
   zugeordnet: readonly [string, ZuordnungEintrag][],
@@ -36,7 +36,7 @@ export function findeFremdZugeordnete(
   const treffer: FremdZugeordnet[] = []
   for (const [schluessel, e] of zugeordnet) {
     const adresse = adresseDesEintrags(schluessel, e)
-    if (!adressKern(adresse) || istSammelKern(adressKern(adresse))) continue
+    if (istSammelKern(adressKern(adresse))) continue
     if (belege.some((b) => b.anilistId === e.titleId && adressGleich(b.url, adresse))) continue
     const besitzer = [
       ...(streams.get(ohneSprache(adresse)) ?? []).filter((b) => !b.endsWith(`:${e.titleId}`)),
