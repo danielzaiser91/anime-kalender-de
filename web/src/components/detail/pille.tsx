@@ -82,7 +82,7 @@ const STATUS_KLASSE: Record<DubStatusArt, string> = {
   omu: 'bg-[#1d4ed8] text-white',
   offen: 'bg-ak-flaeche-2 text-ak-leise',
 }
-const STATUS_TEXT = { belegt: 'detail.statusDeutsch', jwDeutsch: 'detail.statusDeutsch', justwatch: 'detail.statusJustwatch', schwester: 'detail.statusSchwester', annahme: 'detail.statusAnnahme', anbieter: 'detail.statusAnbieter',omu: 'detail.statusOmu', offen: 'detail.statusOffen' } as const
+const STATUS_TEXT = { belegt: 'detail.statusDeutsch', jwDeutsch: 'detail.statusDeutsch', justwatch: 'detail.statusJustwatch', schwester: 'detail.statusSchwester', annahme: 'detail.statusAnnahme', anbieter: 'detail.statusAnbieter', omu: 'detail.statusOmu', offen: 'detail.statusOffen' } as const
 
 /** Wahr, wenn der Kopf des Kastens „Sprache offen“ schon sagt (`kasten-marke.tsx`). */
 export const KopfSagtOffen = createContext(false)
