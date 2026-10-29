@@ -3,10 +3,19 @@
  * Genre-Filter fehlt, Hinweis in der Datenbank nur bei Treffern, Direktaufruf bleibt möglich.
  * Die Daten kommen über eine Attrappe von `fetch` (Schlüssel = Dateiname) durch die echten Ladefunktionen.
  */
-import { createElement as h, type ReactElement, type ReactNode } from 'react'
+import { act, createElement as h, type ReactElement, type ReactNode } from 'react'
+import { createRoot } from 'react-dom/client'
 import { renderToStaticMarkup } from 'react-dom/server'
+import { attrappeUhr, installiereMiniDom, type MiniKnoten } from '../tools/mini-dom.ts'
 
 const g = globalThis as Record<string, unknown>
+class BeobachterAttrappe {
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+}
+g.ResizeObserver = BeobachterAttrappe
+g.IntersectionObserver = BeobachterAttrappe
 const speicher = new Map<string, string>()
 const ereignisse: string[] = []
 g.localStorage = {
@@ -40,6 +49,10 @@ const dateien: Record<string, unknown> = {
     { id: 'e2', releaseSlug: 'r-2', titleId: 900002, date: '2999-01-01' },
   ],
   'meta.json': { genres: ['Comedy', 'Ecchi', 'Fantasy'] },
+  'news.json': [
+    { am: '2999-12-31T10:00:00', titelId: 900001, titel: 'Frostwind Seduction', slug: 't-900001', meldungen: [{ art: 'neu' }] },
+    { am: '2999-12-31T10:00:00', titelId: 900002, titel: 'Frostwind Chronicle', slug: 't-900002', meldungen: [{ art: 'neu' }] },
+  ],
   'ohne-synchro-namen.json': [TITEL[2]],
   'ohne-synchro.json': [TITEL[2], kopf(900004, 'Salzmond Chronicle', ['Drama'], { ohneSynchro: true })],
   'empfehlung.json': {
@@ -62,7 +75,7 @@ g.fetch = async (url: string) => {
 const { ecchiZeigen, ecchiSetzen, istEcchi, ohneEcchi, versteckteEcchi, vergissVersteckte, istAusgeblendet, ohneEcchiGenre, ohneAusgeblendete } = await import('../web/src/lib/ecchi.ts')
 const { loadDataset, loadAllTitles, loadOhneSynchro, loadOhneSynchroNamen } = await import('../web/src/lib/data.ts')
 const { reihenTeileVon } = await import('../web/src/components/detail/reihen-daten.ts')
-const { KinoKarussell } = await import('../web/src/components/NewsView.tsx')
+const { KinoKarussell, NewsView } = await import('../web/src/components/NewsView.tsx')
 const { DatabaseView } = await import('../web/src/components/DatabaseView.tsx')
 const { parseHash } = await import('../web/src/lib/router.ts')
 const { zaehleVersteckteEcchiTreffer } = await import('../web/src/lib/ecchi-hinweis.ts')
@@ -263,6 +276,28 @@ pruefe('Adresse mit g=Ecchi und Schalter an: Filter bleibt', parseHash(ecchiAdre
 ecchiSetzen(false)
 const ohneGenre = { genres: ['Comedy'] }
 pruefe('ohneEcchiGenre: ohne Ecchi-Genre dasselbe Objekt', ohneEcchiGenre(ohneGenre, false) === ohneGenre)
+
+// A5: die Meldungsliste der Nachrichten-Ansicht, echt gerendert (die Meldungen kommen erst im Effekt)
+async function meldungsText(): Promise<string> {
+  const dom = installiereMiniDom({ ...attrappeUhr(), matchMedia: () => ({ matches: false, addEventListener() {}, removeEventListener() {} }) }, () => ({ decode: () => Promise.resolve() }))
+  const wurzel = createRoot(dom.wurzel as unknown as Element)
+  await act(async () => {
+    wurzel.render(h(NewsView, { data: data as never, oeffne: nichts }))
+  })
+  await act(async () => {
+    await new Promise((fertig) => setTimeout(fertig, 20))
+  })
+  const text = (dom.wurzel as unknown as MiniKnoten).textContent
+  await act(async () => wurzel.unmount())
+  dom.entferne()
+  return text
+}
+const meldungenAus = await meldungsText()
+pruefe('Meldungen: nur der normale Titel', meldungenAus.includes('Frostwind Chronicle') && !meldungenAus.includes('Frostwind Seduction'), meldungenAus.slice(0, 200))
+ecchiSetzen(true)
+const meldungenAn = await meldungsText()
+pruefe('Meldungen mit Schalter an: beide Titel', meldungenAn.includes('Frostwind Chronicle') && meldungenAn.includes('Frostwind Seduction'), meldungenAn.slice(0, 200))
+ecchiSetzen(false)
 
 if (verletzt) {
   console.error(`✖ Ecchi ausblenden: ${verletzt} Zusicherung(en) verletzt`)
