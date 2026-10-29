@@ -136,6 +136,8 @@ pipeline/check-episodentitel.ts
 pipeline/check-erscheint-erst.ts
 pipeline/check-erstausgabe.ts
 pipeline/check-erwartet-wort.ts
+pipeline/check-escape-hoerer-faelle.ts
+pipeline/check-escape-hoerer.ts
 pipeline/check-favoriten-feed-faelle.ts
 pipeline/check-film-ohne-weg.ts
 pipeline/check-filter-genres.ts

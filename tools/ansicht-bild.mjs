@@ -25,6 +25,7 @@ import path from 'node:path'
 import { bilderOrdner } from './bilder-ordner.mjs'
 import { pruefeFilterfenster } from './ansicht-filterfenster.mjs'
 import { pruefeFilterfensterRechner } from './ansicht-filterfenster-rechner.mjs'
+import { pruefeEscapeStapel } from './ansicht-escape-stapel.mjs'
 import { pruefeFilterknopf } from './ansicht-filterknopf.mjs'
 import { pruefeTrefferprobe } from './ansicht-trefferprobe.mjs'
 import { pruefeAdressen } from './ansicht-adressen.mjs'
@@ -461,6 +462,14 @@ async function meldeFilterknopf() {
   return r.abweichungen.length > 0
 }
 
+/** Escape in gestapelten Ebenen (Detail-Panel + Quellen, Trailer, Cover): schließt genau die oberste; wahr, wenn rot. */
+async function meldeEscapeStapel() {
+  const r = await pruefeEscapeStapel(chromium, antworteAusDist)
+  console.log(`\nEscape schließt nur die oberste Ebene (Detail-Panel mit Quellen-Fenster, Trailer-Kino und Cover-Schicht, ${r.faelle} Fälle; zweiter Escape schließt das Panel): ${r.abweichungen.length ? '' : 'ok'}`)
+  for (const l of r.abweichungen) console.log(`  ✕ ${l}`)
+  return r.abweichungen.length > 0
+}
+
 /** Die Zusatzprüfungen nach den Bildern; wahr, wenn eine rot ist. */
 async function meldeZusatzpruefungen(seite, ansichten, handy) {
   /* Der Cartoon-Filter wird am Rechner geprüft; am Handy liegt der Schalter im geschlossenen Filterfenster. */
@@ -474,6 +483,7 @@ async function meldeZusatzpruefungen(seite, ansichten, handy) {
     if (rechner.abweichungen.length) rot = true
   }
   if (!handy && ansichten.includes('datenbank') && (await meldeFilterknopf())) rot = true
+  if (!handy && ansichten.includes('datenbank') && (await meldeEscapeStapel())) rot = true
   if (!handy && ansichten.includes('woche') && (await meldeHoverCover())) rot = true
   if (!handy && ansichten.includes('entdecken') && (await meldeEmpfehlung())) rot = true
   if (!handy && ansichten.includes('entdecken') && (await meldeZuruecksetzen())) rot = true
