@@ -1,7 +1,7 @@
 /**
  * Bestandswache: Jede neue deutsche Crunchyroll-Folge der letzten 1–10 Tage (`data/crunchyroll-neu.json`) steht als Termin im
  * Kalender (`public/data/events.json`). Fehlt eine, steht eine Zeile „⚠ WARNUNG“ (Exit 0, blockiert keine anderen Daten);
- * hat der Anbieter den Tag selbst verneint (`data/widerlegte-termine.json`), heißt die Zeile „widerlegt“ samt Grund.
+ * hat der Anbieter den Tag selbst verneint (`data/widerlegte-termine.json`), steht nur eine Info-Zeile „widerlegt“ samt Grund (kein „⚠ WARNUNG“).
  * Rot nur bei unlesbarer Eingabe. Bewertung in `lib/cr-neu-wache.ts`, Test `check-cr-neu-wache.ts`.
  */
 import { existsSync, readFileSync } from 'node:fs'
@@ -32,7 +32,8 @@ function meldeFehlende(fehlt: FehlendeFolge[]): void {
     echt.forEach((f) => console.log(zeile(f)))
   }
   if (widerlegt.length) {
-    console.log(bestandWarnzeile('Crunchyroll-Folgen widerlegt', 'Titel', [...new Set(widerlegt.flatMap((f) => f.ids))]))
+    const titel = [...new Set(widerlegt.flatMap((f) => f.ids))]
+    console.log(`  ℹ Crunchyroll-Folgen widerlegt (kein Bau-Fehler): ${titel.length} Titel: ${titel.join(', ')}`)
     widerlegt.forEach((f) => console.log(zeile(f)))
   }
 }
