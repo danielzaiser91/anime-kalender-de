@@ -12,6 +12,7 @@ const schlecht: [string, string, number[]][] = [
   ['Zugriff über Klammern', "window['addEventListener']('keydown', (e) => e.key === 'Escape' && zu())", [1]],
   ['Vorlage ohne Platzhalter', 'document.addEventListener(`keydown`, (e) => e.key === `Escape` && zu())', [1]],
   ['Escape nur in der umgebenden Funktion', "function f() {\n  const w = (e: KeyboardEvent) => ende(e)\n  const k = 'Escape'\n  window.addEventListener('keydown', w)\n}", [4]],
+  ['Hörer nach JSX', "const a = <div className=\"x\">{b}</div>\nfunction F() {\n  return <p>{c}</p>\n}\nwindow.addEventListener('keydown', (e) => e.key === 'Escape' && zu())", [5]],
   ['zwei Hörer', "a.addEventListener('keydown', (e) => e.key === 'Escape')\nb.addEventListener('keydown', (e) => e.key === 'Escape')", [1, 2]],
 ]
 const gut: [string, string][] = [
