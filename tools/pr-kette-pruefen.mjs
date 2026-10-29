@@ -55,7 +55,7 @@ function zaehleVorkommen(teiljobs, vorCommit) {
 const SAMMEL_ZEILEN = 'node tools/kette-urteil.mjs'
 const CHECKOUT = { uses: 'actions/checkout@v4' }
 const SAMMEL_ENV = { NEEDS: '${{ toJSON(needs) }}', GH_TOKEN: '${{ github.token }}' }
-/** `actions: write` nur für `gh run cancel` im Urteilsskript (nichts sonst am Sammeljob). */
+/** `actions: write` nur für `force-cancel` (API) im Urteilsskript (nichts sonst am Sammeljob). */
 const SAMMEL_RECHTE = { contents: 'read', actions: 'write' }
 const WORKFLOW_SCHLUESSEL = ['name', 'on', 'permissions', 'env', 'concurrency', 'jobs']
 const JOB_SCHLUESSEL = ['name', 'if', 'runs-on', 'timeout-minutes', 'steps']
