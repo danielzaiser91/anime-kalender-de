@@ -1,0 +1,11 @@
+[
+  { "name": "Kontrolle (unmutiert)", "aenderungen": [], "tests": [ "npx tsx pipeline/check-beleg-sammelartikel.ts" ] },
+  { "name": "beleg: Absatz ohne Datum bekommt Marke (stuetzstelle)", "datei": "pipeline/lib/beleg-stelle.ts", "suche": "stuetzend.length ? stuetzend : tage.length ? [] :", "ersetze": "stuetzend.length ? stuetzend :", "tests": [ "npx tsx pipeline/check-beleg-sammelartikel.ts" ] },
+  { "name": "beleg: Absatz ohne Datum bekommt Marke (messeAusschnitt)", "datei": "pipeline/lib/beleg-bild.ts", "suche": "markierung || datumPflicht ? [] : suchen", "ersetze": "markierung ? [] : suchen", "tests": [ "npx tsx pipeline/check-beleg-sammelartikel.ts" ] },
+  { "name": "beleg: datumPflicht wird nie gesetzt", "datei": "pipeline/lib/beleg-bild.ts", "suche": "datumPflicht: tage.length > 0 })", "ersetze": "datumPflicht: false })", "tests": [ "npx tsx pipeline/check-beleg-sammelartikel.ts" ] },
+  { "name": "beleg: datumPflicht auch ohne Termine", "datei": "pipeline/lib/beleg-bild.ts", "suche": "datumPflicht: tage.length > 0 })", "ersetze": "datumPflicht: true })", "tests": [ "npx tsx pipeline/check-beleg-sammelartikel.ts" ] },
+  { "name": "beleg: alter Tag der Quelle fehlt in tageJeAdresse", "datei": "pipeline/lib/beleg-suche.ts", "suche": "for (const q of r.quellen ?? []) if (ISO_TAG.test(q.sagt ?? '')) je.get(q.url)?.add(q.sagt!)", "ersetze": "", "tests": [ "npx tsx pipeline/check-beleg-sammelartikel.ts" ] },
+  { "name": "beleg: alter Tag der Quelle fehlt in gruppenJeAdresse", "datei": "pipeline/lib/beleg-suche.ts", "suche": "for (const q of r.quellen ?? []) if (q.url === url && ISO_TAG.test(q.sagt ?? '')) g.tage.add(q.sagt!)", "ersetze": "", "tests": [ "npx tsx pipeline/check-beleg-sammelartikel.ts" ] },
+  { "name": "beleg: Text als Tag zugelassen (gruppenJeAdresse)", "datei": "pipeline/lib/beleg-suche.ts", "suche": "q.url === url && ISO_TAG.test(q.sagt ?? '')", "ersetze": "q.url === url && Boolean(q.sagt)", "tests": [ "npx tsx pipeline/check-beleg-sammelartikel.ts" ] },
+  { "name": "beleg: Tage aller Adressen vermischt (gruppenJeAdresse)", "datei": "pipeline/lib/beleg-suche.ts", "suche": "q.url === url && ISO_TAG.test(q.sagt ?? '')", "ersetze": "ISO_TAG.test(q.sagt ?? '')", "tests": [ "npx tsx pipeline/check-beleg-sammelartikel.ts" ] }
+]
