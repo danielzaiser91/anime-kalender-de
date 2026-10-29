@@ -128,10 +128,14 @@ async function verschiebungsFall(): Promise<void> {
   const mitTabelle = await belegAusschnitt(seite, ['Virgin Road'], ['2026-09-11'], [gruppe])
   const ohneDatum = await belegAusschnitt(seite, ['Virgin Road'], [], [])
   const zwei = await belegAusschnitt(seite, ['Virgin Road', 'Wind Breaker'], ['2026-09-11'], [gruppe, ohneTag])
+  /* Der Name steht nur in der Überschrift h1: `stuetzstelle` liest sie nicht, die zweite Suche in `messeAusschnitt` schon — ohne Termin gilt sie weiter. */
+  await seite.setContent('<!doctype html><html><body style="margin:0"><article><h1>Zorro Staffel 2 startet bald auf Deutsch</h1><p>Ein Absatz mit genug Text, damit das Bild nicht einfarbig ist und der Ausschnitt etwas zu zeigen hat.</p><p>Noch ein Absatz mit Text, der keinen Namen nennt.</p></article></body></html>')
+  const kurzerName = await belegAusschnitt(seite, ['Zorro'], [], [])
   await browser.close()
   pruefe('Verschiebung: Absatz ohne Datum bekommt keine Marke, obwohl er den Titel nennt', typeof nurAbsatz === 'object' && !nurAbsatz.markierung, JSON.stringify(typeof nurAbsatz === 'object' ? nurAbsatz.markierung : nurAbsatz))
   pruefe('Verschiebung: die Tabellenzeile mit dem Datum bekommt die Marke, weit unter dem Absatz', typeof mitTabelle === 'object' && (mitTabelle.markierung?.[1] ?? 0) > 0.3, JSON.stringify(typeof mitTabelle === 'object' ? mitTabelle.markierung : mitTabelle))
   pruefe('Verschiebung: ohne Termin gilt weiter eine Stelle mit dem Titel (kein Termin zu belegen)', typeof ohneDatum === 'object' && Boolean(ohneDatum.markierung),JSON.stringify(typeof ohneDatum === 'object' ? ohneDatum.markierung : ohneDatum))
+  pruefe('Ohne Termin sucht `messeAusschnitt` den Namen weiter selbst (Name nur in der Überschrift)', typeof kurzerName === 'object' && Boolean(kurzerName.markierung), JSON.stringify(typeof kurzerName === 'object' ? kurzerName.markierung : kurzerName))
   pruefe('Verschiebung: Sammelartikel — der Titel mit Datum hat seine Marke, der ohne Datum im Text den Grund', typeof zwei === 'object' && Boolean(zwei.markierungen?.['1']) && !zwei.markierungen?.['2'] && zwei.ohneMarke?.['2'] === 'nicht-gefunden', JSON.stringify(typeof zwei === 'object' ? [zwei.markierungen, zwei.ohneMarke] : zwei))
 }
 
@@ -144,13 +148,13 @@ function sagtFaelle(): void {
     name: 'Virgin Road – Vol. 1',
     sources: [alt, neu],
     schedule: { firstEpisodeDate: '2026-11-06' },
-    quellen: [{ url: alt, sagt: '2026-09-11' }, { url: neu, sagt: '2026-11-06' }, { url: 'https://x.example/', sagt: 'bald' }],
+    quellen: [{ url: alt, sagt: '2026-09-11' }, { url: neu, sagt: '2026-11-06' }, { url: alt, sagt: 'bald' }],
   } as unknown as Release
   const g = gruppenJeAdresse([r], []).get(alt)?.[0]?.tage ?? []
-  pruefe('Tage: die überholte Adresse nennt ihren alten Tag und den heutigen', g.includes('2026-09-11') && g.includes('2026-11-06'), g.join())
+  pruefe('Tage: die überholte Adresse nennt ihren alten Tag und den heutigen', g.sort().join() === '2026-09-11,2026-11-06', g.join())
   pruefe('Tage: die aktuelle Adresse nennt nur ihren Tag (nicht den alten der anderen)', (gruppenJeAdresse([r], []).get(neu)?.[0]?.tage ?? []).join() === '2026-11-06')
   const t = tageJeAdresse([r])
-  pruefe('Tage je Adresse: alter und heutiger Tag, kein Text', t.get(alt)?.sort().join() === '2026-09-11,2026-11-06' && !(t.get('https://x.example/') ?? []).includes('bald'), JSON.stringify([...t]))
+  pruefe('Tage je Adresse: alter und heutiger Tag, kein Text', t.get(alt)?.sort().join() === '2026-09-11,2026-11-06', JSON.stringify([...t]))
 }
 
 fensterFaelle()
