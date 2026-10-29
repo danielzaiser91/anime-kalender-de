@@ -3,6 +3,7 @@ import { useUeberlaeuft } from '../lib/use-ueberlaeuft.ts'
 import { type NewsArt, type NewsEintrag, type NewsMeldung } from '@shared/types.ts'
 import { feedUrl, loadNews, type Dataset } from '../lib/data.ts'
 import { useLang } from '../lib/i18n.tsx'
+import { ohneAusgeblendete } from '../lib/ecchi.ts'
 import { coverBild } from '../lib/cover.ts'
 import { artLabel, datumKurz, newsKurz, newsSatz } from '../lib/news-text.ts'
 import { hostVon, istLink } from '@shared/quelle.ts'
@@ -84,7 +85,7 @@ const KINO_RUECKBLICK_TAGE = 28
  * Quelle sind die Kino-Releases des Datensatzes. Laufende stehen vorn, dann die
  * kommenden nach Starttermin. Eine Karte öffnet das Detail-Panel.
  */
-function KinoKarussell({
+export function KinoKarussell({
   data,
   oeffne,
 }: {
@@ -114,7 +115,7 @@ function KinoKarussell({
     }
     const laufend = [...jeTitel.values()].filter((f) => f.start < heute).sort((a, b) => b.start.localeCompare(a.start))
     const kommend = [...jeTitel.values()].filter((f) => f.start >= heute).sort((a, b) => a.start.localeCompare(b.start))
-    return [...laufend, ...kommend].filter((f) => data.titleById.has(f.titelId))
+    return ohneAusgeblendete([...laufend, ...kommend].filter((f) => data.titleById.has(f.titelId)), data.titleById)
   }, [data, heute])
 
   if (!filme.length) return null
@@ -220,8 +221,8 @@ export function NewsView({ data, oeffne }: { data: Dataset; oeffne: (titelId: nu
   /* Überholte Meldungen stehen unter der, die sie überholt hat — nicht mehr in ihrer eigenen Tagesliste. */
   const verlaeufe = useMemo(() => verlaeufeAus(meldungen ?? []), [meldungen])
   const sichtbar = useMemo(
-    () => ohneEingeordnete((meldungen ?? []).filter((e) => e.am >= grenze), verlaeufe.eingeordnet),
-    [meldungen, grenze, verlaeufe],
+    () => ohneEingeordnete(ohneAusgeblendete((meldungen ?? []).filter((e) => e.am >= grenze), data.titleById), verlaeufe.eingeordnet),
+    [meldungen, grenze, verlaeufe, data],
   )
   const aeltereGibtEs = ohneEingeordnete(meldungen ?? [], verlaeufe.eingeordnet).some((e) => e.am < grenze)
 

@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import type { FranchiseMember, Franchises, Title } from '@shared/types.ts'
 import { anzeigeName, nachJahrUndId } from '@shared/titles.ts'
 import { loadFranchises, type Dataset } from '../../lib/data.ts'
+import { istAusgeblendet } from '../../lib/ecchi.ts'
 
 /**
  * Die ganze Reihe — Staffeln, Filme und Specials.
@@ -55,9 +56,11 @@ export function reihenTeileVon(title: Title | undefined, reihe: FranchiseMember[
   if (!title) return []
   const wurzel = title.franchiseId ?? title.id
   const teile = new Map<number, FranchiseMember>()
-  for (const m of reihe) teile.set(m.id, m)
+  for (const m of reihe) if (m.id === title.id || !istAusgeblendet(data.titleById.get(m.id))) teile.set(m.id, m)
   for (const t of data.titleById.values()) {
     if ((t.franchiseId ?? t.id) !== wurzel) continue
+    /* Der geöffnete Titel selbst kommt unten über den Rückfall dazu, auch wenn er ausgeblendet ist. */
+    if (istAusgeblendet(t)) continue
     const bisher = teile.get(t.id)
     /*
       **Was `franchises.json` sagt, gewinnt — und zwar vollständig.**

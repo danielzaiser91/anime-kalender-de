@@ -217,7 +217,9 @@ async function klickSchliesst(seite, zeile) {
 
 /** Namen, die weder in einem anderen Namen der Ansicht stecken noch einen enthalten — damit die Zeile eindeutig zu finden ist. */
 function eindeutigeTitel(woche, plattform) {
-  const ev = woche.events.filter((e) => e.platform === plattform)
+  /* Ecchi-Titel sind in der App standardmäßig ausgeblendet und stehen in der Liste nicht. */
+  const ausgeblendet = new Set(woche.titles.filter((t) => t.genres?.includes('Ecchi')).map((t) => t.id))
+  const ev = woche.events.filter((e) => e.platform === plattform && !ausgeblendet.has(e.titleId))
   const einzig = ev.filter((e) => ev.every((o) => o.titleId === e.titleId || (!o.name.includes(e.name) && !e.name.includes(o.name))))
   return [...new Map(einzig.map((e) => [e.titleId, e])).values()]
 }

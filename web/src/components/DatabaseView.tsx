@@ -6,6 +6,7 @@ import type { Dataset } from '../lib/data.ts'
 import { DbKopfbereich } from './filter/DbWerkzeug.tsx'
 import { zaehleMitSynchro } from './db-kopfzeile.tsx'
 import { DbLeer, DbRaster, MehrKnopf } from './db-bedienung.tsx'
+import { EcchiHinweis } from './EcchiHinweis.tsx'
 import type { FilterState } from '../lib/filters.ts'
 import { groupByFranchise, type TitleGroup } from '../lib/db-gruppen.ts'
 import { ordneListe } from '../lib/db-liste.ts'
@@ -87,6 +88,8 @@ export function DatabaseView({
         grouped={grouped} onGroupedChange={onGroupedChange}
         hinweis={hinweis} onHinweisLoesen={onHinweisLoesen}
       />
+
+      <EcchiHinweis data={data} filters={filters} favorites={favorites} ohneSynchro={ohneSynchro} titles={titles} />
 
       <DbRaster
         liste={liste.slice(0, visible)}

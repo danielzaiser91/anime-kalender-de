@@ -1,5 +1,6 @@
 import { ANILIST_COVER_BASIS } from '@shared/mappings.ts'
 import { datenAdresse } from './daten-adresse.ts'
+import { ecchiZeigen, istEcchi, ohneEcchi } from './ecchi.ts'
 import { SYNOPSIS_GROUPS, type DiscAusgabe } from '@shared/types.ts'
 import type { WochenDatei } from '@shared/wochen-datei.ts'
 import { KACHEL_DATEI } from '@shared/wochen-kacheln.ts'
@@ -81,9 +82,15 @@ export function loadWochenStart(): Promise<WochenStart> {
   return wochenStartPromise
 }
 
-function baueDataset(titles: Title[], releases: Release[], events: ReleaseEvent[], meta: DataMeta): Dataset {
-  const titleById = new Map(titles.map((t) => [t.id, t]))
-  const releaseBySlug = new Map(releases.map((r) => [r.slug, r]))
+function baueDataset(alleTitel: Title[], alleReleases: Release[], alleEvents: ReleaseEvent[], meta: DataMeta): Dataset {
+  /* Nachschlagen (Panel, geteilter Link) kennt alle Titel; die Listen der Ansichten nur die nicht ausgeblendeten (`ecchi.ts`). */
+  const titleById = new Map(alleTitel.map((t) => [t.id, t]))
+  const releaseBySlug = new Map(alleReleases.map((r) => [r.slug, r]))
+  const titles = ohneEcchi(alleTitel)
+  const ausgeblendet = titles.length !== alleTitel.length
+  const sichtbar = (id: number): boolean => !istEcchi(titleById.get(id) ?? { genres: [] })
+  const releases = ausgeblendet ? alleReleases.filter((r) => sichtbar(r.titleId)) : alleReleases
+  const events = ausgeblendet ? alleEvents.filter((e) => sichtbar(e.titleId)) : alleEvents
 
   const eventsByDate = new Map<string, ReleaseEvent[]>()
   for (const ev of events) {
@@ -93,13 +100,15 @@ function baueDataset(titles: Title[], releases: Release[], events: ReleaseEvent[
   }
 
   const releasesByTitle = new Map<number, Release[]>()
-  for (const r of releases) {
+  for (const r of alleReleases) {
     const list = releasesByTitle.get(r.titleId)
     if (list) list.push(r)
     else releasesByTitle.set(r.titleId, [r])
   }
 
-  return { titles, titleById, releases, releaseBySlug, events, eventsByDate, releasesByTitle, meta }
+  /* Solange Ecchi ausgeblendet ist, gibt es auch den Genre-Filter dafür nicht. */
+  const filterMeta = !ecchiZeigen() ? { ...meta, genres: meta.genres.filter((g) => g !== 'Ecchi') } : meta
+  return { titles, titleById, releases, releaseBySlug, events, eventsByDate, releasesByTitle, meta: filterMeta }
 }
 
 let allTitlesPromise: Promise<Title[]> | undefined
@@ -116,7 +125,7 @@ export function loadAllTitles(data: Dataset): Promise<Title[]> {
       // Kuratierte Ergänzungen aus dem Kern-Datensatz nicht überschreiben.
       data.titleById.set(t.id, existing ? { ...t, ...existing } : t)
     }
-    return titles.map((t) => data.titleById.get(t.id)!)
+    return ohneEcchi(titles.map((t) => data.titleById.get(t.id)!))
   })
   return allTitlesPromise
 }
@@ -169,7 +178,7 @@ export function loadOhneSynchro(data: Dataset): Promise<Title[]> {
         streams: [],
       }))
       for (const t of titles) data.titleById.set(t.id, data.titleById.get(t.id) ?? t)
-      return titles
+      return ohneEcchi(titles)
     })
     .catch(() => [])
   return ohneSynchroPromise
@@ -183,7 +192,7 @@ let ohneNamenPromise: Promise<Title[]> | undefined
  */
 export function loadOhneSynchroNamen(): Promise<Title[]> {
   ohneNamenPromise ??= loadJson<Title[]>('ohne-synchro-namen.json')
-    .then((zeilen) => zeilen.map((t) => ({ ...t, slug: String(t.id), genres: t.genres ?? [], keywords: [], streams: [], dubConfidence: 'low' as const, ohneSynchro: true })))
+    .then((zeilen) => ohneEcchi(zeilen.map((t) => ({ ...t, slug: String(t.id), genres: t.genres ?? [], keywords: [], streams: [], dubConfidence: 'low' as const, ohneSynchro: true }))))
     .catch(() => [])
   return ohneNamenPromise
 }
