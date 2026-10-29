@@ -15,6 +15,8 @@ export interface DiscAusgabeRoh {
   url?: string
   format?: string
   kurz?: string
+  /** Voller Name mit Staffel („Tsubasa Chronicle: Staffel 2 - Vol. 1/3“); `kurz` lässt sie weg. */
+  edition?: string
 }
 export interface DiscIndex {
   ausgaben: Record<string, DiscAusgabeRoh[]>

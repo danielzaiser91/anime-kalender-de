@@ -22,7 +22,7 @@ const ARTIKEL = 'https://www.anisearch.de/article/198024,virgin-road-die-henkeri
 const EAN = '4260497796626'
 
 /* Wörtlich aus `data/disc-ausgaben.json` (Schlüssel 129193) und `data/anisearch-artikel.json` (198024). */
-function index(daten: { datum: string; gelesen?: string }[] = [{ datum: '2026-11-06', gelesen: '2026-10-12T05:53:59.292Z' }]): DiscIndex {
+function index(daten: { datum: string; gelesen?: string; edition?: string }[] =[{ datum: '2026-11-06', gelesen: '2026-10-12T05:53:59.292Z' }]): DiscIndex {
   return {
     ausgaben: {
       '129193': daten.map((d, i) => ({
@@ -30,6 +30,7 @@ function index(daten: { datum: string; gelesen?: string }[] = [{ datum: '2026-11
         url: i === 0 ? ARTIKEL : `https://www.anisearch.de/article/19802${4 + i},vol-1-${i}`,
         format: 'Blu-ray',
         kurz: 'Vol. 1/3: Limited Edition + Sammelschuber',
+        ...(d.edition ? { edition: d.edition } : {}),
       })),
     },
     artikel: Object.fromEntries(daten.map((d, i) => [i === 0 ? '198024' : `19802${4 + i}`, { ean: EAN, publisher: 'AniMoon Publishing GmbH', umfang: 'Einzelnes Vol.', fetchedAt: d.gelesen }])),
@@ -99,6 +100,26 @@ aniSearchDatumAnwenden(jahr, index([{ datum: '2027-01-15', gelesen: '2026-10-12T
 pruefe('Jahreswechsel: das Jahr des Releases folgt dem neuen Tag', jahr[0]!.schedule.firstEpisodeDate === '2027-01-15' && jahr[0]!.year === 2027, jahr[0])
 const box = { ...virgin(), name: 'Virgin Road – Box 1' } as Release
 pruefe('Box 1 ist nicht Vol. 1', aniSearchTermin(box, index()) === undefined)
+
+/* Mehrere Staffeln unter einer Kennung (Index 20, 351, 527, 969): Vol. 1 der Staffel 2 ist nicht Vol. 1 der Staffel 1; `kurz` lässt die Staffel weg, `edition` nennt sie. */
+const mitStaffel = (name: string, edition: string | undefined, gelesen = '2026-10-12T05:00:00Z'): ReturnType<typeof aniSearchTermin> =>
+  aniSearchTermin({ ...virgin(), name }, index([{ datum: '2026-11-06', gelesen, ...(edition ? { edition } : {}) }]))
+const S1 = 'Virgin Road - Staffel 1 - Vol. 1/3: Limited Edition [Blu-ray]'
+const S2 = 'Virgin Road - Staffel 2 - Vol. 1/3: Limited Edition [Blu-ray]'
+pruefe('Staffel 2 Vol. 1 gegen Ausgabe Staffel 1 Vol. 1: kein Treffer', mitStaffel('Virgin Road (Staffel 2) – Vol. 1', S1) === undefined)
+pruefe('Staffel 2 Vol. 1 gegen Ausgabe Staffel 2 Vol. 1: Treffer', mitStaffel('Virgin Road (Staffel 2) – Vol. 1', S2)?.datum === '2026-11-06')
+pruefe('ohne Staffelangabe gegen Ausgabe „Staffel 1": Treffer (aniSearch schreibt Staffel 1 aus)', mitStaffel('Virgin Road – Vol. 1', S1)?.datum === '2026-11-06')
+pruefe('ohne Staffelangabe gegen Ausgabe Staffel 2: kein Treffer', mitStaffel('Virgin Road – Vol. 1', S2) === undefined)
+pruefe('Staffel 2 gegen Ausgabe ohne Staffel im Namen: kein Treffer', mitStaffel('Virgin Road (Staffel 2) – Vol. 1', 'Virgin Road - Vol. 1/3: Limited Edition') === undefined)
+pruefe('Teil 2 gegen Ausgabe Teil 1: kein Treffer', mitStaffel('Sakamoto Days: Teil 2 – Vol. 1', 'Sakamoto Days: Teil 1 - Vol. 1/3') === undefined)
+pruefe('Season 2 zählt wie Staffel 2', mitStaffel('Virgin Road (Season 2) – Vol. 1', S2)?.datum === '2026-11-06')
+/* Wörtlich aus `data/disc-ausgaben.json`, Kennung 969: „Tsubasa Chronicle: Staffel 2 - Vol. 1/3". */
+pruefe('Tsubasa Chronicle Vol. 1 (Staffel 1) gegen die Ausgabe der Staffel 2: kein Treffer', mitStaffel('Tsubasa Chronicle – Vol. 1', 'Tsubasa Chronicle: Staffel 2 - Vol. 1/3') === undefined)
+pruefe('Tsubasa Chronicle (Staffel 2) Vol. 1 gegen dieselbe Ausgabe: Treffer', mitStaffel('Tsubasa Chronicle (Staffel 2) – Vol. 1', 'Tsubasa Chronicle: Staffel 2 - Vol. 1/3')?.datum === '2026-11-06')
+const andereStaffel = index([{ datum: '2026-11-06', gelesen: '2026-10-12T05:00:00Z', edition: S1 }])
+pruefe('Wächter: eine andere Staffel erzeugt keinen Fehler', discTerminFehler([{ ...virgin(), name: 'Virgin Road (Staffel 2) – Vol. 1' }], HEUTE, { index: andereStaffel, veroeffentlicht: tage('2026-10-02') }).length === 0)
+const staffelListe = [{ ...virgin(), name: 'Virgin Road (Staffel 2) – Vol. 1' }]
+pruefe('Bau: eine andere Staffel ändert den Tag nicht', aniSearchDatumAnwenden(staffelListe, andereStaffel, tage('2026-10-02'), HEUTE).length === 0 && staffelListe[0]!.schedule.firstEpisodeDate === '2026-10-30')
 
 /* Kreislauf: Meldung → Bau → aniSearch → neuere Meldung → Bau. */
 const spaeter = [{ articleUrl: A2Y, publishedAt: '2026-10-02', verschiebungen: [] as { titel: string; alt: string; neu: string }[] }, {

@@ -15,7 +15,7 @@ import { readJson } from './util.ts'
 
 export interface AniSearchTermin {
   datum: string
-  /** Tag, an dem der aniSearch-Artikel gelesen wurde (der älteste, wenn mehrere Ausgaben denselben Tag nennen). */
+  /** Tag, an dem der aniSearch-Artikel zuletzt gelesen wurde (`fetchedAt`; der älteste, wenn mehrere Ausgaben denselben Tag nennen). */
   gelesen: string
   url: string
 }
@@ -23,13 +23,24 @@ export interface AniSearchTermin {
 const ARTIKEL_ID = /article\/(\d+)/
 const ohneSchraegstrich = (url: string): string => url.replace(/\/$/, '')
 
+/**
+ * „staffel 2", „teil 2" aus einem Namen („Tsubasa Chronicle: Staffel 2 - Vol. 1/3", „Strike Witches (Staffel 2) – Vol. 1"), sonst `''`.
+ * Dieselbe Nummer in einer anderen Staffel ist eine andere Ware; „Staffel 1" gilt als keine Angabe, fehlt sie nur auf einer Seite sonst, ist es kein Treffer.
+ */
+function staffelVon(name: string): string {
+  const m = /\b(staffel|season|teil|part|cour)\s*(\d+)/i.exec(name)
+  const art = /^(staffel|season)$/i.test(m?.[1] ?? '') ? 'staffel' : (m?.[1] ?? '').toLowerCase()
+  /* aniSearch schreibt „Staffel 1" aus, wo unsere Namen die erste Staffel ohne Angabe lassen (Bocchi the Rock!, Spice and Wolf). */
+  return !m || (art === 'staffel' && Number(m[2]) === 1) ? '' : `${art} ${m[2]}`
+}
+
 /** Der Tag, den aniSearch für die Nummer dieser Disc nennt — nur bei genau einem Tag und gelesenen Artikeln. */
 export function aniSearchTermin(r: Pick<Release, 'name' | 'titleId'>, index: DiscIndex): AniSearchTermin | undefined {
   const nummer = discNummer(r.name)
   if (!nummer || r.titleId === undefined) return undefined
   const treffer = (index.ausgaben[String(r.titleId)] ?? []).filter((a) => {
     const n = discNummer(a.kurz ?? '')
-    return n && n.art === nummer.art && n.nr === nummer.nr
+    return n && n.art === nummer.art && n.nr === nummer.nr && staffelVon(a.edition ?? '') === staffelVon(r.name)
   })
   if (new Set(treffer.map((a) => a.datum)).size !== 1) return undefined
   const gelesen = treffer.map((a) => index.artikel[ARTIKEL_ID.exec(a.url ?? '')?.[1] ?? '']?.fetchedAt?.slice(0, 10))
