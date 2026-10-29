@@ -12,9 +12,9 @@ export interface Verworfen {
   entfallen: Record<number, number>
 }
 
-/** Die Aufstellung „Titel-ID: Anzahl“ für das Lauflog, größte Zahl zuerst (bei Gleichstand die kleinere ID). */
+/** Die Aufstellung „Titel-ID: Anzahl“ für das Lauflog, größte Zahl zuerst (bei Gleichstand die kleinere ID: ganzzahlige Schlüssel laufen aufsteigend, `sort` ist stabil). */
 export function entfallenZeile(entfallen: Record<number, number>): string {
-  const liste = Object.entries(entfallen).sort((a, b) => b[1] - a[1] || Number(a[0]) - Number(b[0]))
+  const liste = Object.entries(entfallen).sort((a, b) => b[1] - a[1])
   if (!liste.length) return 'keine'
   return liste.map(([id, n]) => `${id}: ${n}`).join(', ')
 }
