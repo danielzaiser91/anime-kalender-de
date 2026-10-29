@@ -71,13 +71,14 @@ export function statusArt(dub: boolean | undefined, stand?: string): DubStatusAr
 }
 
 /* Kontrast (14.10.2026, dunkel / hell): belegt 10,0 / 5,5 und offen 6,2 / 5,6 aus `tools/design-kontrast.mjs`; Weiß auf #475569 7,6 und auf #1d4ed8 6,7 von Hand gerechnet. */
+const FREMDANGABE = 'bg-[#475569] text-white'
 const STATUS_KLASSE: Record<DubStatusArt, string> = {
   belegt: 'bg-ak-gut text-ak-auf-gut',
   jwDeutsch: 'bg-ak-gut text-ak-auf-gut',
-  justwatch: 'bg-[#475569] text-white',
-  schwester: 'bg-[#475569] text-white',
-  annahme: 'bg-[#475569] text-white',
-  anbieter: 'bg-[#475569] text-white',
+  justwatch: FREMDANGABE,
+  schwester: FREMDANGABE,
+  annahme: FREMDANGABE,
+  anbieter: FREMDANGABE,
   omu: 'bg-[#1d4ed8] text-white',
   offen: 'bg-ak-flaeche-2 text-ak-leise',
 }
