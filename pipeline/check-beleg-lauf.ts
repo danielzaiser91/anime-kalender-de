@@ -138,6 +138,10 @@ const neuste = d9[HERBST]!.lesungen.at(-1)!
 pruefe('Erbe: eine Lesung mit neuem Datum trägt die Gründe und Marken der alten weiter', d9[HERBST]!.lesungen.length === 2 && neuste.ohneMarke?.[3] === 'nicht-gefunden' && Boolean(neuste.markierungen?.[1]) && r9.spur.seiten.length === 1)
 const r9b = await lauf([], { gedaechtnis: d9, gruppen: g3 })
 pruefe('Erbe: am nächsten Tag steht sie nicht wegen einer Lücke in der Schlange', r9b.spur.seiten.length === 0)
+const d10 = altlesung({ aktualisiert: '2026-10-02' })
+await lauf([HERBST], { gedaechtnis: d10, gruppen: g3, bild: mitMarken({ 1: M, 2: M }, { 3: 'ausserhalb' }) })
+const neuste10 = d10[HERBST]!.lesungen.at(-1)!
+pruefe('Erbe: hatte die alte Lesung eine Lücke, trägt die neue Lesung die frisch festgestellten Gründe, nicht nur die alte', d10[HERBST]!.lesungen.length === 2 && neuste10.ohneMarke?.[3] === 'ausserhalb' && Boolean(neuste10.markierungen?.[2]))
 
 /* Altlesungen, die ein Lauf nicht mehr schafft (Limit), stehen als Warnzeile im Log. */
 const log6 = await ausgabe(() => lauf([], { gedaechtnis: altlesung(), gruppen: g3, limit: 0 }))
