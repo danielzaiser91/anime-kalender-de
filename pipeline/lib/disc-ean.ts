@@ -18,7 +18,7 @@ export interface DiscAusgabeRoh {
 }
 export interface DiscIndex {
   ausgaben: Record<string, DiscAusgabeRoh[]>
-  artikel: Record<string, Pick<Artikel, 'ean' | 'publisher' | 'umfang'>>
+  artikel: Record<string, Pick<Artikel, 'ean' | 'publisher' | 'umfang'> & { fetchedAt?: string }>
 }
 
 export const discIndexLaden = (): DiscIndex => ({
