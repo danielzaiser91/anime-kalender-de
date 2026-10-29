@@ -48,6 +48,7 @@ pruefe('belegter Weg: Chip ohne Kennzeichnung', chips({ streams: [{ platform: 'n
 pruefe('belegt und abgeleitet beim selben Anbieter: belegt gewinnt', chips({ streams: [{ platform: 'primevideo', dub: true, dubAbgeleitet: 'joyn-pauschal' }, { platform: 'primevideo', dub: true }] }), 'primevideo')
 pruefe('zwei Anbieter gemischt: nur der abgeleitete gekennzeichnet', chips({ streams: [{ platform: 'netflix', dub: true }, { platform: 'joyn', dub: true, dubAbgeleitet: 'joyn-pauschal' }] }), 'netflix+joyn*')
 pruefe('abgeleiteter Weg mit sicherem Termin beim selben Anbieter: ohne Kennzeichnung', chips({ streams: [{ platform: 'joyn', dub: true, dubAbgeleitet: 'joyn-pauschal' }] }, [termin('joyn')]), 'joyn')
+pruefe('abgeleiteter Weg mit nur geschätztem Termin: bleibt gekennzeichnet', chips({ streams: [{ platform: 'joyn', dub: true, dubAbgeleitet: 'joyn-pauschal' }] }, [termin('joyn', true)]), 'joyn*')
 pruefe('Anbieter nur aus Termin: ohne Kennzeichnung', chips({ streams: [] }, [termin('disneyplus')]), 'disneyplus')
 pruefe('Ankündigung: ohne Kennzeichnung', chips({ streams: [], ankuendigung: { synchro: 'angekuendigt', platform: 'netflix' } }), 'netflix')
 
