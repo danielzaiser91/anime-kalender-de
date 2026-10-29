@@ -1,11 +1,11 @@
 {
-  "scrapedAt": "2026-10-29T17:02:10.621Z",
+  "scrapedAt": "2026-10-29T23:02:12.376Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 11,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 11,
     "schon in einem Rubrik-Feed gelesen": 12,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 10,
     "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 1,
     "Sprachhinweis älter als 45 Tage": 4
   },
@@ -19,10 +19,6 @@
         "disc"
       ],
       "dates": [
-        {
-          "iso": "2026-10-29",
-          "context": "reis angeboten werden. DVDs für 19,99 Euro Die Rabattaktion läuft vom 29. Oktober bis zum 10. November 2026 und umfasst zahlreiche DVD-Kompl"
-        },
         {
           "iso": "2026-11-10",
           "context": "n. DVDs für 19,99 Euro Die Rabattaktion läuft vom 29. Oktober bis zum 10. November 2026 und umfasst zahlreiche DVD-Komplettboxen und Volumes"
