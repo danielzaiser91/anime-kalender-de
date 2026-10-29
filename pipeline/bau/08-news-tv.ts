@@ -2,6 +2,7 @@ import { readJson, log, warn } from '../lib/util.ts'
 import { type Vorschlag, releasesAus, nurOriginaltonMeldungen } from '../lib/meldungen.ts'
 import { verschiebungenAnwenden } from '../lib/disc-verschiebungen.ts'
 import { discIndexLaden } from '../lib/disc-ean.ts'
+import { aniSearchDatumAnwenden, veroeffentlichungstage } from '../lib/disc-anisearch-datum.ts'
 import { vorschlaegeAusAllenSammelartikeln } from '../lib/sammelartikel.ts'
 import { schreibeUnzugeordnet } from '../lib/sammel-unzugeordnet.ts'
 import { schreibeNurOriginalton } from '../lib/nur-originalton-liste.ts'
@@ -41,6 +42,8 @@ export function ergaenzeTermineAusNewsUndTv({ titles, releases }: {
   schreibeUnzugeordnet(sammelV, ausMeldungen, abgedeckt)
   const verschoben = verschiebungenAnwenden(releases, rohVorschlaege.proposals ?? [], todayIso(), titles, discIndexLaden())
   if (verschoben.length) log(`${verschoben.length} Disc-Termine laut Anime2You verschoben: ${verschoben.map((v) => `${v.name} (${v.von} → ${v.nach})`).join(', ')}`)
+  const neuerBeiAniSearch = aniSearchDatumAnwenden(releases, discIndexLaden(), veroeffentlichungstage(rohVorschlaege.proposals ?? []), todayIso())
+  if (neuerBeiAniSearch.length) log(`${neuerBeiAniSearch.length} Disc-Termine laut aniSearch (später gelesen als die Anime2You-Meldung): ${neuerBeiAniSearch.map((v) => `${v.name} (${v.von} → ${v.nach})`).join(', ')}`)
   if (ausMeldungen.length)
     log(
       `${ausMeldungen.length} Termine automatisch aus Anime2You übernommen: ` +

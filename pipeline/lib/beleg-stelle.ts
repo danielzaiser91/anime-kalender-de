@@ -38,19 +38,44 @@ export async function verdecktesMarkieren(seite: Page): Promise<void> {
   })
 }
 
+const MONATE = ['januar', 'februar', 'märz', 'april', 'mai', 'juni', 'juli', 'august', 'september', 'oktober', 'november', 'dezember']
+
+/** Schreibweisen, in denen ein Artikel einen Tag nennt: `8. august 2026`, `8. august`, `8. aug 2026` (aniSearch: „22. Okt 2026"), `8 august 2026` (ADN), `08.08.`, `8.8.`, zuletzt nur `august 2026`. */
+export function terminMarken(tage: string[]): string[] {
+  return tage.flatMap((iso) => {
+    const [y, m, d] = iso.split('-').map(Number) as [number, number, number]
+    const monat = MONATE[m - 1]!
+    return [
+      `${d}. ${monat} ${y}`,
+      `${d}. ${monat}`,
+      `${d}. ${monat.slice(0, 3)} ${y}`,
+      `${d} ${monat} ${y}`,
+      `${String(d).padStart(2, '0')}.${String(m).padStart(2, '0')}.`,
+      `${d}.${m}.`,
+      /* Nennt der Artikel nur den Monat („im Oktober 2026"), stützt er den Tag nicht genau, aber er sagt dasselbe wie die Quelle. */
+      `${monat} ${y}`,
+    ]
+  })
+}
+
+/** Nennt der Artikel keinen der Termine (`tage`) irgendwo? Ohne Termine: nein. Dann darf keine Zeile mit dem Titel als Beleg des Termins markiert werden. */
+export async function terminFehltImText(seite: Page, tage: string[]): Promise<boolean> {
+  const marken = terminMarken(tage)
+  if (!marken.length) return false
+  return seite.evaluate((marken) => {
+    const wurzel = document.querySelector('article') ?? document.querySelector('main') ?? document.body
+    return !marken.some((m) => wurzel.innerText.toLowerCase().includes(m))
+  }, marken)
+}
+
 /**
  * **Die Stelle, die die Behauptung wirklich stützt** (Daniel, 05.10.2026: „Beleg und Behauptung müssen zusammenpassen"): der kleinste Absatz, Listenpunkt oder
- * die Tabellenzeile, die den Titel nennt **und** einen der Termine (`8. August 2026`, `04.12.`). Gibt es keinen mit beidem, der erste, der den Titel nennt.
+ * die Tabellenzeile, die den Titel nennt **und** einen der Termine (`8. August 2026`, `04.12.`). Gibt es keinen mit beidem: keine Stelle, wenn der Artikel den Termin nirgends nennt, sonst der erste, der den Titel nennt.
  * Ohne diese Suche zeigte das Bild nur die ersten Absätze — ein Datum weiter unten im Artikel stand nicht darauf.
  */
 export async function stuetzstelle(seite: Page, suchen: string[], tage: string[]): Promise<Stelle | undefined> {
   return seite.evaluate(
-    ({ suchen, tage }) => {
-      const MON = ['januar', 'februar', 'märz', 'april', 'mai', 'juni', 'juli', 'august', 'september', 'oktober', 'november', 'dezember']
-      const marken = tage.flatMap((iso) => {
-        const [y, m, d] = iso.split('-').map(Number) as [number, number, number]
-        return [`${d}. ${MON[m - 1]} ${y}`, `${d}. ${MON[m - 1]}`, `${String(d).padStart(2, '0')}.${String(m).padStart(2, '0')}.`, `${d}.${m}.`]
-      })
+    ({ suchen, marken }) => {
       const norm = (s: string) => s.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').trim()
       const wurzel = document.querySelector('article') ?? document.querySelector('main') ?? document.body
       const kandidaten = [...wurzel.querySelectorAll('p, li, tr, h2, h3')]
@@ -63,7 +88,9 @@ export async function stuetzstelle(seite: Page, suchen: string[], tage: string[]
       const stuetzend = kandidaten.filter((k) => gesucht.some((g) => k.text.includes(g)) && marken.some((m) => k.roh.includes(m)))
       /* Ohne Termin im Text: lieber der Abschnitt mit dem Titel als Überschrift (Anbieter, Folgen, Sprache stehen darunter) als ein Listenpunkt in der Übersicht ganz oben. */
       const alsUeberschrift = gesucht.flatMap((g) => kandidaten.filter((k) => /^H[23]$/.test(k.e.tagName) && k.text.includes(g)).slice(0, 1)).slice(0, 1)
-      const gewaehlt = stuetzend.length ? stuetzend : alsUeberschrift.length ? alsUeberschrift : gesucht.flatMap((g) => kandidaten.filter((k) => k.text.includes(g)).slice(0, 1)).slice(0, 1)
+      /* Nennt der Artikel den Termin nirgends, ist die Zeile mit dem Titel kein Beleg dafür („Betroffen sind … Virgin Road …" ohne Datum, 29.10.2026). Steht er irgendwo (aniSearch-Produktseite: Datum in einem eigenen Feld), gilt der Titel wie bisher. */
+      const termineFehlen = marken.length > 0 && !marken.some((m) => wurzel.innerText.toLowerCase().includes(m))
+      const gewaehlt = stuetzend.length ? stuetzend : termineFehlen ? [] : alsUeberschrift.length ? alsUeberschrift : gesucht.flatMap((g) => kandidaten.filter((k) => k.text.includes(g)).slice(0, 1)).slice(0, 1)
       if (!gewaehlt.length) return undefined
       const rects = gewaehlt.map((k) => k.e.getBoundingClientRect())
       const erste = rects.reduce((a, b) => (b.top < a.top ? b : a))
@@ -79,6 +106,6 @@ export async function stuetzstelle(seite: Page, suchen: string[], tage: string[]
         markeUnten: erste.bottom + window.scrollY,
       }
     },
-    { suchen, tage },
+    { suchen, marken: terminMarken(tage) },
   )
 }

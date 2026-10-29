@@ -77,6 +77,17 @@ const html = renderToStaticMarkup(h(Vorschlaege, {
   ablage: { gesehen: [], verworfen: [], zurueckholen: nichts, alleZurueck: nichts } as never,
 }))
 
+/* Gemerkte Vorschläge nach neuem Pool kommen ohne Duellstand (`reiseWiederherstellen`): die Galerie muss trotzdem zeichnen. */
+const ohneStand = renderToStaticMarkup(h(Vorschlaege, {
+  kontext,
+  gezeigt: [900901],
+  favoriten: new Set<number>(),
+  vonVorn: nichts,
+  aktionen: { favorit: nichts, gesehen: nichts, nein: nichts, oeffne: nichts },
+  ablage: { gesehen: [], verworfen: [], zurueckholen: nichts, alleZurueck: nichts } as never,
+}))
+pruefe('Vorschläge ohne Duellstand: Titel gezeichnet, keine Zahlenzeile', ohneStand.includes('Testserie') && !ohneStand.includes('NaN') && !ohneStand.includes('undefined'), ohneStand.slice(0, 200))
+
 const knopf = html.match(/<button[^>]*aria-label="Schon gesehen"[^>]*>(.*?)<\/button>/)?.[1] ?? ''
 const textKlassen = (knopf.match(/<span class="([^"]*)">Schon gesehen<\/span>/)?.[1] ?? '').split(' ').filter(Boolean)
 pruefe('der Gesehen-Knopf trägt sichtbaren Text „Schon gesehen“ in einem eigenen span', textKlassen.length > 0, knopf)
