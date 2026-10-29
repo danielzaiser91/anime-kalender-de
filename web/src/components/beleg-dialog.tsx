@@ -124,13 +124,19 @@ function BelegDialog({ belege, betreff, zu }: { belege: NewsBeleg[]; betreff?: s
   )
 }
 
+/** Ohne Marke zeigt das Bild die Seite von oben, nicht die Stelle des Titels (Rayearth, 29.10.2026): Das sagen wir, statt einen Ausschnitt vorzutäuschen. */
+export function fundstellenHinweis(b: NewsBeleg, mitBild: boolean): string {
+  return mitBild && !b.markierung ? ' Auf dem Bild ist keine Fundstelle markiert; der Titel kann an anderer Stelle des Artikels stehen.' : ''
+}
+
 /** Auf dem Handy zwei Zeilen; ein Tipp klappt den ganzen Text auf (Rooster Fighter: die Kopfzeile fraß den halben Bildschirm). */
-function Erklaerung({ beleg, mitBild }: { beleg: NewsBeleg; mitBild: boolean }) {
+export function Erklaerung({ beleg, mitBild }: { beleg: NewsBeleg; mitBild: boolean }) {
   const [lang, setLang] = useState(false)
   return (
     <p className={`min-w-0 flex-1 cursor-pointer md:cursor-auto ${lang ? '' : 'line-clamp-2 md:line-clamp-none'}`} onClick={() => setLang((l) => !l)} aria-expanded={lang}>
       {erklaerung(beleg)}
       {pruefzeile(beleg, mitBild)}
+      {fundstellenHinweis(beleg, mitBild)}
       {mitBild ? ' Wir sichern von jeder Quelle ein Bild, damit prüfbar bleibt, worauf die Meldung beruht.' : ''}
     </p>
   )
