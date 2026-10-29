@@ -12,10 +12,16 @@ body { margin: 0; font: 14px/1.4 system-ui, sans-serif; background: #e9e9ee; col
 .gruppe button[aria-pressed="true"] { border-color: #e8590c; background: #e8590c22; color: #e8590c; font-weight: 600; }
 .notiz { padding: 8px 16px 0; font-size: 12px; max-width: 900px; opacity: .85; margin: 0; }
 
-.raster { display: flex; flex-wrap: wrap; gap: 20px; padding: 16px; align-items: flex-start; }
-.zelle { margin: 0; }
-.zelle figcaption { font-size: 12px; margin: 0 0 6px; opacity: .75; }
-.zelle iframe { display: block; border: 0; outline: 1px solid #8886; background: transparent; }
+/*
+  Die Seite füllt genau das Fenster: Die Zellen teilen sich die Höhe unter der Leiste, höchstens bis zur Gerätehöhe (--hoehe an der
+  Zelle, siehe raster.tsx) — so gibt es bei 900 px Fensterhöhe keinen Seiten-Scrollbalken. Die App in der Zelle scrollt für sich.
+  Untergrenze 240 px, damit viele Zeilen nicht zu Schlitzen werden (dann scrollt die Seite).
+*/
+.seite { display: flex; flex-direction: column; height: 100dvh; }
+.raster { display: flex; flex-wrap: wrap; flex: 1 1 0; min-height: 0; gap: 20px; padding: 16px; align-items: stretch; }
+.zelle { margin: 0; display: flex; flex-direction: column; max-height: calc(var(--hoehe) + 23px); }
+.zelle figcaption { font-size: 12px; line-height: 17px; height: 23px; margin: 0; opacity: .75; }
+.zelle iframe { display: block; flex: 1 1 0; min-height: 240px; border: 0; outline: 1px solid #8886; background: transparent; }
 
 .uebersicht { padding: 16px; }
 .uebersicht h1 { font-size: 18px; margin: 0 0 4px; }

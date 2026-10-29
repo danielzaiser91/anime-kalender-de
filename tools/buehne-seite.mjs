@@ -46,7 +46,7 @@ async function antworte(route, fremde) {
 export async function starteBuehne() {
   if (!existsSync(path.join(BUEHNE, 'buehne.html'))) throw new Error('buehne-dist/ fehlt — erst `npm run buehne:bauen`.')
   const browser = await chromium.launch()
-  const seite = await browser.newPage({ viewport: { width: 1400, height: 900 } })
+  const seite = await browser.newPage({ viewport: { width: 1400, height: 12000 } })
   const fremde = []
   await seite.route('**/*', (route) => antworte(route, fremde))
   return { browser, seite, fremde }

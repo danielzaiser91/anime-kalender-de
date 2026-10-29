@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react'
 import { GROESSE, geraeteFuer } from './geraete.ts'
 import type { MockupDef } from './register.ts'
 import type { Zustand } from './zustand.ts'
@@ -22,9 +23,9 @@ export function Raster({ def, zustand, ersteVariante }: { def: MockupDef; zustan
           teile.map((teil) => {
             const adresse = zellenAdresse(zustand, thema, teil === 'vorher' ? '' : variante)
             return (
-              <figure key={adresse + g} className="zelle">
+              <figure key={adresse + g} className="zelle" style={{ '--hoehe': `${GROESSE[g].hoehe}px` } as CSSProperties}>
                 <figcaption>{teil === 'vorher' ? 'Vorher' : `Nachher (${variante})`} · {GROESSE[g].name} · {thema}</figcaption>
-                <iframe title={`${teil} ${g} ${thema}`} src={adresse} width={GROESSE[g].breite} height={GROESSE[g].hoehe} data-zelle={`${teil}-${g}-${thema}`} />
+                <iframe title={`${teil} ${g} ${thema}`} src={adresse} width={GROESSE[g].breite} data-zelle={`${teil}-${g}-${thema}`} />
               </figure>
             )
           }),
