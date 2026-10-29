@@ -21,6 +21,7 @@ import { lastEpisodeDate } from '../../shared/logic.ts'
 import { addDays } from '../../shared/time.ts'
 import { premiereFehler } from './premiere.ts'
 import { beobachtetOhneTermin } from './folge-ueber-anzahl.ts'
+import { discTerminFehler, type DiscPruefQuellen } from './disc-anisearch-datum.ts'
 import { sichtungsZeilen } from './sichtungsfenster.ts'
 
 export interface Pruefergebnis {
@@ -63,6 +64,7 @@ export function pruefeErgebnis(
   events: ReleaseEvent[],
   titles: Map<number, Title>,
   heute: string,
+  discQuellen?: DiscPruefQuellen,
 ): Pruefergebnis {
   const fehler: string[] = []
   const warnungen: string[] = []
@@ -226,13 +228,14 @@ export function pruefeErgebnis(
       if (/themoviedb\.org/.test(w.url) && !w.ueberTmdb)
         fehler.push(`Anime ${t.id}: Bezugsweg „${w.name}" zeigt auf TMDB, ohne als „über TMDB" gekennzeichnet zu sein`)
 
-  const schluss = schlussPruefung(releases, events, titles)
+  const schluss = schlussPruefung(releases, events, titles, heute, discQuellen)
   return { fehler: [...fehler, ...schluss.fehler], warnungen: [...warnungen, ...schluss.warnungen] }
 }
 
 /** Die Prüfungen am Ende von `pruefeErgebnis`, die nicht je Release laufen (eigene Funktion, damit jene nicht wächst). */
-function schlussFehler(releases: Release[], events: ReleaseEvent[], titles: Map<number, Title>): string[] {
+function schlussFehler(releases: Release[], events: ReleaseEvent[], titles: Map<number, Title>, heute: string, discQuellen?: DiscPruefQuellen): string[] {
   return [
+    ...discTerminFehler(releases, heute, discQuellen),
     ...landFehler(titles),
     ...geteilteWegeTrotzWiderlegung(releases, titles),
     ...premiereFehler(releases),
@@ -241,8 +244,8 @@ function schlussFehler(releases: Release[], events: ReleaseEvent[], titles: Map<
 }
 
 /** Schluss-Fehler plus die Ergebniszeile der Sichtungen fürs Bau-Log (sie belegt, dass die Prüfung am echten Bestand lief). */
-function schlussPruefung(releases: Release[], events: ReleaseEvent[], titles: Map<number, Title>): Pruefergebnis {
-  return { fehler: schlussFehler(releases, events, titles), warnungen: sichtungsZeilen(releases) }
+function schlussPruefung(releases: Release[], events: ReleaseEvent[], titles: Map<number, Title>, heute: string, discQuellen?: DiscPruefQuellen): Pruefergebnis {
+  return { fehler: schlussFehler(releases, events, titles, heute, discQuellen), warnungen: sichtungsZeilen(releases) }
 }
 
 /**
