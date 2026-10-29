@@ -14,6 +14,7 @@ import { type Env } from './env.ts'
 import { rechneAnbieter, type Gemeldet } from './pruefung-stand-anbieter.ts'
 import { holeWartende } from './pruefung-stand-briefkasten.ts'
 import { gedeckteZiele, netflixZiele } from './pruefung-gedeckt.ts'
+import { suchenSeit } from './pruefung-stand-suchen.ts'
 import { staffelnSeit } from './titelzeile-lesen.ts'
 
 /** `bekannt` (höchste Folge laut Datensatz je Kennung, 4.24.21) kommt unverändert aus `pruefstand.json`. */
@@ -90,6 +91,13 @@ export async function berechnePruefstand({ env, antwort, zwischen }: StandKontex
           st.add(r.staffel)
           staffelnGemeldet.set(r.url, st)
         }
+      }
+
+      /* Eine gemeldete Suche ist erledigt, auch wenn der Treffer unter seiner Titeladresse kam. */
+      for (const r of await suchenSeit(env, seit)) {
+        const dazu = jeGemeldet.get(r.plattform) ?? new Set<string>()
+        dazu.add(r.such_url)
+        jeGemeldet.set(r.plattform, dazu)
       }
 
       const gemeldet: Gemeldet = {
