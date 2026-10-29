@@ -19,6 +19,8 @@ interface V {
   volltextGelesen?: string
   dates?: string[]
   verschiebungen?: { titel: string; alt: string; neu: string }[]
+  discZeilen?: { titel: string }[]
+  discGelesen?: string
 }
 
 const ALT: V = { articleUrl: 'https://x/alt', publishedAt: '2026-10-01' }
@@ -53,6 +55,12 @@ const leereTabelle = vorschlaegeMitBestand<V>([{ ...NEUN, verschiebungen: [] }],
 pruefe('auch eine gelesene, leere Tabelle bleibt (kein erneutes Holen bei jedem Lauf)', Array.isArray(leereTabelle[0]!.verschiebungen) && leereTabelle[0]!.verschiebungen.length === 0, leereTabelle)
 const frischeTabelle = vorschlaegeMitBestand<V>([ALT], [{ ...NEUN }])
 pruefe('neuer Treffer mit eigener Tabelle behält sie', frischeTabelle.find((p) => p.articleUrl === NEUN.articleUrl)?.verschiebungen?.length === 2, frischeTabelle)
+
+const MIT_DISC: V = { ...ALT, discZeilen: [{ titel: 'A' }], discGelesen: '2026-10-28' }
+const disc = vorschlaegeMitBestand<V>([MIT_DISC], [frisch(MIT_DISC)])
+pruefe('Stundenlauf: gelesene Disc-Übersicht bleibt samt Lesedatum', JSON.stringify(disc[0]!.discZeilen) === '[{"titel":"A"}]' && disc[0]!.discGelesen === '2026-10-28', disc)
+const ohneDisc = vorschlaegeMitBestand<V>([ALT], [frisch(ALT)])
+pruefe('ohne gelesene Übersicht entstehen keine Disc-Felder', !('discZeilen' in ohneDisc[0]!) && !('discGelesen' in ohneDisc[0]!), ohneDisc)
 
 if (fehler) {
   console.error(`\n${fehler} Zusicherung(en) verletzt`)
