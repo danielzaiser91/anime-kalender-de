@@ -1,6 +1,6 @@
 import { resolve } from 'node:path'
 import { ROOT, readJson } from './util.ts'
-import { istEntfernt, ladeBelegeEntfernt } from './belege-entfernt.ts'
+import { istEntfernt, ladeBelegeEntfernt, type BelegEntfernt } from './belege-entfernt.ts'
 import { adressGleich, type DubCheck } from './dub-confirmed.ts'
 
 /** Führt ein Handbeleg eines **anderen** Titels diese Adresse auf dieser Plattform? Dann gilt die Meldung nicht ihr. */
@@ -44,8 +44,17 @@ export function ohneGesperrteSeiten<T extends { titleId: number; seite?: string 
   const entfernt = ladeBelegeEntfernt(resolve(ROOT, 'data/belege-entfernt.yaml'))
   return Object.entries(roh).filter(
     ([schluessel, e]) =>
-      !seiteGesperrt(sperren, e.titleId, e.seite) && !seiteGesperrt(sperren, e.titleId, asinAusSchluessel(schluessel)) && !istEntfernt(entfernt, e.titleId, schluessel.split('#')[0]),
+      !seiteGesperrt(sperren, e.titleId, e.seite) &&
+      !seiteGesperrt(sperren, e.titleId, asinAusSchluessel(schluessel)) &&
+      !istEntfernt(entfernt, e.titleId, schluessel.split('#')[0]) &&
+      !seiteEntfernt(entfernt, e.titleId, e.seite),
   )
+}
+
+/** Container-Schlüssel (`…?gti=…#0`) tragen die Seite nur in `seite` (eine Kennung): sie steht in `belege-entfernt.yaml` als Amazon-Adresse (`adressKern` kennt dp und gp/video/detail gleich). */
+function seiteEntfernt(entfernt: readonly BelegEntfernt[], titleId: number, seite: string | null | undefined): boolean {
+  if (!seite) return false
+  return istEntfernt(entfernt, titleId, `https://www.amazon.de/dp/${seite}`)
 }
 
 /** Die Seitenkennung im Schlüssel einer Meldung (`…/B0D188KVH4#4`): auch ein Container, dessen Teilseite anders heißt, ist sperrbar. */
