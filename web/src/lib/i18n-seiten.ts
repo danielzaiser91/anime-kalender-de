@@ -251,7 +251,6 @@ export const TEXTE_SEITEN = {
   'db.abStaffel': '{staffel} · ab {datum}',
   // Entdecken (Spezifikation 18, Daniels Wortlaut)
   'view.entdecken': 'Entdecken',
-  'empf.zuruecksetzen': 'Empfehlungen zurücksetzen',
   'einstellungen.ecchi': 'Ecchi-Titel zeigen',
   'einstellungen.ecchiHinweis': 'Aus: Ecchi-Titel fehlen in allen Listen. Ein geteilter Link öffnet sie trotzdem.',
   'db.ecchi1': 'Ein Ecchi-Titel ausgeblendet',

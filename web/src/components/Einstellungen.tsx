@@ -1,7 +1,6 @@
 import { useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import { useLang, type TranslationKey } from '../lib/i18n.tsx'
-import { empfehlungenZuruecksetzen } from '../lib/empfehlung-reset.ts'
 import { useThema } from '../lib/thema.ts'
 import { ecchiSetzen, ecchiZeigen } from '../lib/ecchi.ts'
 
@@ -60,7 +59,6 @@ export function EinstellungenDialog({
 
         <ThemaZeile />
         <EcchiZeile />
-        <EmpfehlungZeile />
       </div>
     </div>,
     document.body,
@@ -98,22 +96,5 @@ export function EcchiZeile({ neuLaden = () => location.reload() }: { neuLaden?: 
         <span className="text-xs text-ak-leise">{t('einstellungen.ecchiHinweis' as TranslationKey)}</span>
       </span>
     </label>
-  )
-}
-
-/** Löscht, was „Entdecken“ im Browser abgelegt hat (Favoriten und Datenbank-Vorlieben bleiben) und lädt neu, damit eine offene Ansicht den leeren Stand zeigt. */
-export function EmpfehlungZeile({ neuLaden = () => location.reload() }: { neuLaden?: () => void }) {
-  const { t } = useLang()
-  return (
-    <button
-      type="button"
-      onClick={() => {
-        empfehlungenZuruecksetzen()
-        neuLaden()
-      }}
-      className="mt-2 flex w-full cursor-pointer items-center gap-3 rounded-2xl border border-ak-rand p-3 text-left text-sm font-semibold transition hover:bg-ak-flaeche-2"
-    >
-      <span className="flex-1">{t('empf.zuruecksetzen' as TranslationKey)}</span>
-    </button>
   )
 }

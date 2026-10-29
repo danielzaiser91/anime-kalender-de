@@ -1,13 +1,9 @@
 import { useState } from 'react'
-import { REISE_SCHLUESSEL } from './empfehlung-reise-speicher.ts'
 import { createIdSet } from './idSet.ts'
 
 const GESEHEN = 'empfehlung:gesehen'
 const VERWORFEN = 'empfehlung:verworfen'
 const ANBIETER_SCHLUESSEL = 'empfehlung:anbieter'
-
-/** Alles, was die Ansicht im Browser ablegt; „Empfehlungen zurücksetzen“ löscht genau diese Schlüssel. */
-export const EMPFEHLUNG_SCHLUESSEL = [GESEHEN, VERWORFEN, ANBIETER_SCHLUESSEL, REISE_SCHLUESSEL] as const
 
 /** „Schon gesehen“ (nimmt den Titel für immer aus dem Pool) und „Nicht interessiert“ (endgültig, einzeln zurückholbar); nur im Browser. */
 export const empfehlungGesehen = createIdSet(GESEHEN)
