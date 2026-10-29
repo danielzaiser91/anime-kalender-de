@@ -55,6 +55,8 @@ function seite({ suchVermerk, titelVermerk, imStand = [SUCHE, TITEL], mitDatei =
     vermerkVerwerfen: () => {},
   })
   k.globalThis = k
+  vm.runInContext(lies('pruefstand-zeit.js'), k)
+  k.akPruefstandAm = vor(60)
   if (mitDatei) vm.runInContext(lies('prime-such-bruecke.js'), k)
   const q = lies('amazon.js')
   vm.runInContext([schneide(q, 'istGemeldet'), schneide(q, 'fertig')].join('\n'), k)
@@ -70,11 +72,12 @@ console.log('Zusicherungen: eigene Meldung überbrückt den Stand über Seitenwe
 pruefe('Suche ohne Vermerk, Stand führt sie: offen', seite({}).suche() === false)
 pruefe('Suche vor 6 Minuten gemeldet (neue Seite, leeres frischGemeldet): erledigt', seite({ suchVermerk: vor(6) }).suche() === true)
 pruefe('Suche vor 1 Minute gemeldet: erledigt', seite({ suchVermerk: vor(1) }).suche() === true)
-pruefe('Suche genau vor 10 Minuten: offen (Frist abgelaufen)', seite({ suchVermerk: vor(10) }).suche() === false)
+pruefe('Suche vor 10 Minuten (jünger als der Prüfstand, Stand führt sie noch): erledigt (29.10.2026, früher Brücke 10 min)', seite({ suchVermerk: vor(10) }).suche() === true)
 pruefe('Suche vor 9 Minuten: erledigt', seite({ suchVermerk: vor(9) }).suche() === true)
+pruefe('Suche vor 59 Minuten, Prüfstand vor 60: erledigt', seite({ suchVermerk: vor(59) }).suche() === true)
+pruefe('Suche vor 61 Minuten, Prüfstand vor 60, Stand führt sie noch: offen (der Prüfstand hat sie überholt)', seite({ suchVermerk: vor(61) }).suche() === false)
 pruefe('Suche vor 2 Stunden gemeldet, Stand führt sie noch: offen (der Worker entscheidet)', seite({ suchVermerk: vor(120) }).suche() === false)
-pruefe('Vermerk aus der Zukunft zählt nicht', seite({ suchVermerk: new Date(FEST + 5 * MIN).toISOString() }).suche() === false)
-pruefe('Alter Vermerk nur mit Datum (4.31.9 und früher): offen', seite({ suchVermerk: '2026-10-21' }).suche() === false)
+pruefe('Alter Vermerk nur mit Datum, Tag vor dem Prüfstand: offen', seite({ suchVermerk: '2026-10-20' }).suche() === false)
 pruefe('Kaputter Vermerk: offen', seite({ suchVermerk: 'gestern' }).suche() === false)
 pruefe('Führt der Stand die Suche nicht mehr: erledigt, auch ohne Vermerk', seite({ imStand: [] }).suche() === true)
 
