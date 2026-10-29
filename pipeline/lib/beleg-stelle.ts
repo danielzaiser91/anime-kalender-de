@@ -40,7 +40,7 @@ export async function verdecktesMarkieren(seite: Page): Promise<void> {
 
 /**
  * **Die Stelle, die die Behauptung wirklich stützt** (Daniel, 05.10.2026: „Beleg und Behauptung müssen zusammenpassen"): der kleinste Absatz, Listenpunkt oder
- * die Tabellenzeile, die den Titel nennt **und** einen der Termine (`8. August 2026`, `04.12.`). Gibt es keinen mit beidem, der erste, der den Titel nennt.
+ * die Tabellenzeile, die den Titel nennt **und** einen der Termine (`8. August 2026`, `04.12.`). Gibt es keinen mit beidem: mit Terminen keine Stelle, ohne Termine der erste, der den Titel nennt.
  * Ohne diese Suche zeigte das Bild nur die ersten Absätze — ein Datum weiter unten im Artikel stand nicht darauf.
  */
 export async function stuetzstelle(seite: Page, suchen: string[], tage: string[]): Promise<Stelle | undefined> {
@@ -63,7 +63,8 @@ export async function stuetzstelle(seite: Page, suchen: string[], tage: string[]
       const stuetzend = kandidaten.filter((k) => gesucht.some((g) => k.text.includes(g)) && marken.some((m) => k.roh.includes(m)))
       /* Ohne Termin im Text: lieber der Abschnitt mit dem Titel als Überschrift (Anbieter, Folgen, Sprache stehen darunter) als ein Listenpunkt in der Übersicht ganz oben. */
       const alsUeberschrift = gesucht.flatMap((g) => kandidaten.filter((k) => /^H[23]$/.test(k.e.tagName) && k.text.includes(g)).slice(0, 1)).slice(0, 1)
-      const gewaehlt = stuetzend.length ? stuetzend : alsUeberschrift.length ? alsUeberschrift : gesucht.flatMap((g) => kandidaten.filter((k) => k.text.includes(g)).slice(0, 1)).slice(0, 1)
+      /* Belegt der Artikel einen Termin (`tage`), sitzt die Marke nur auf einer Zeile, die ihn nennt: Auf einem Absatz „Betroffen sind … Virgin Road …" ohne Datum stünde sie als Beleg da (29.10.2026). Ohne Termin gilt der Titel. */
+      const gewaehlt = stuetzend.length ? stuetzend : tage.length ? [] : alsUeberschrift.length ? alsUeberschrift : gesucht.flatMap((g) => kandidaten.filter((k) => k.text.includes(g)).slice(0, 1)).slice(0, 1)
       if (!gewaehlt.length) return undefined
       const rects = gewaehlt.map((k) => k.e.getBoundingClientRect())
       const erste = rects.reduce((a, b) => (b.top < a.top ? b : a))
