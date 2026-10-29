@@ -1,13 +1,13 @@
 {
-  "stand": "2026-10-28",
+  "stand": "2026-10-29",
   "deckung": {
     "titel": 20669,
     "mitSeite": 16325,
-    "ohneSeite": 8,
-    "ohneAnisearchKennung": 3065,
+    "ohneSeite": 9,
+    "ohneAnisearchKennung": 3064,
     "ohneReferenz": 1271,
     "seitenImArchiv": 17523,
-    "kanten": 18602
+    "kanten": 18603
   },
   "gesamt": {
     "titel": 16325,

@@ -1689,7 +1689,7 @@
         "téknolàiz"
       ]
     },
-    "fetchedAt": "2026-09-28T11:07:27.984Z"
+    "fetchedAt": "2026-10-29T04:17:54.532Z"
   },
   "27": {
     "anisearchId": 2570,
@@ -1778,7 +1778,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:07:35.064Z"
+    "fetchedAt": "2026-10-29T04:18:01.475Z"
   },
   "28": {
     "anisearchId": 2782,
@@ -2053,7 +2053,7 @@
         "Shin Seiki Evangelion"
       ]
     },
-    "fetchedAt": "2026-09-28T11:07:42.271Z"
+    "fetchedAt": "2026-10-29T04:01:34.324Z"
   },
   "31": {
     "anisearchId": 1301,
@@ -2182,7 +2182,7 @@
         "Neon Genesis Evangelion: Death and Rebirth"
       ]
     },
-    "fetchedAt": "2026-09-28T11:07:49.300Z"
+    "fetchedAt": "2026-10-29T04:18:08.404Z"
   },
   "32": {
     "anisearchId": 2877,
@@ -2310,12 +2310,16 @@
         "Shin Seiki Evangelion Gekijouban: The End of Evangelion"
       ]
     },
-    "fetchedAt": "2026-09-28T11:07:56.483Z"
+    "fetchedAt": "2026-10-29T04:18:15.462Z"
   },
   "33": {
     "anisearchId": 927,
     "descriptionDe": "Der keine Herausforderung scheuende Krieger Guts ist schon lange auf der Suche nach dem Grafen der Region, die er momentan durchstreift. Nach einigen Kämpfen mit dessen Untergebenen steht er dem Adligen schließlich endlich gegenüber. Dieser verwandelt sich jedoch während des Kampfes in ein riesiges, schlangenähnliches Monster. Nachdem er als Sieger hervorgegangen ist, flieht Guts in den Wald, wo er von Stimmen geplagt wird.\n\nEr muss an einen Teil seine Vergangenheit zurückdenken, als er noch als jugendlicher Söldner durch das Land gezogen ist. Nach einem erledigten Auftrag wird er, kaum, dass er den Kampfschauplatz verlassen hat, von Banditen angegriffen. Bei der Auseinandersetzung verwundet er diese schwer, es stellt sich aber heraus, dass es sich um keine Banditen, sondern um eine bekannte Söldnertruppe handelt, die von Griffith angeführt wird. Guts findet bei dieser Söldnerarmee seine neue Heimat, doch er ahnt noch nicht, wie sehr sein Schicksal mit dem von Griffiths verknüpft ist …Anmerkung:\nDie Serie erzählt die Geschichte von »Berserk« bis zum 13. Band, jedoch in abgewandelter Form. Dieser Teil dreht sich um die Vergangenheit von Guts und Griffith.",
     "streams": [
+      {
+        "provider": "amazon-de",
+        "url": "https://www.amazon.de/dp/B0FC7GPC31?tag=anisearch.de-21"
+      },
       {
         "provider": "netflix",
         "url": "https://www.netflix.com/title/80243876"
@@ -2423,7 +2427,7 @@
         "Berserk TV"
       ]
     },
-    "fetchedAt": "2026-09-28T11:08:03.651Z"
+    "fetchedAt": "2026-10-29T04:18:22.503Z"
   },
   "43": {
     "anisearchId": 2088,
@@ -2555,7 +2559,7 @@
         "gits"
       ]
     },
-    "fetchedAt": "2026-09-28T11:08:10.819Z"
+    "fetchedAt": "2026-10-29T04:18:29.562Z"
   },
   "44": {
     "anisearchId": 1283,
@@ -2658,7 +2662,7 @@
         "Samurai X: Trust and Betrayal"
       ]
     },
-    "fetchedAt": "2026-09-28T11:08:17.861Z"
+    "fetchedAt": "2026-10-29T04:18:36.499Z"
   },
   "45": {
     "anisearchId": 2363,
@@ -2861,7 +2865,7 @@
         "Samurai X: The Movie"
       ]
     },
-    "fetchedAt": "2026-09-28T11:08:24.890Z"
+    "fetchedAt": "2026-10-29T04:18:43.411Z"
   },
   "47": {
     "anisearchId": 1730,
@@ -2992,7 +2996,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:08:31.934Z"
+    "fetchedAt": "2026-10-29T04:18:50.346Z"
   },
   "48": {
     "anisearchId": 3491,
@@ -3105,7 +3109,7 @@
         "hack//SIGN"
       ]
     },
-    "fetchedAt": "2026-09-28T11:08:38.972Z"
+    "fetchedAt": "2026-10-29T04:18:57.493Z"
   },
   "49": {
     "anisearchId": 2497,
@@ -3214,7 +3218,7 @@
         "Oh! My Goddess"
       ]
     },
-    "fetchedAt": "2026-09-28T11:08:46.005Z"
+    "fetchedAt": "2026-10-29T04:19:04.423Z"
   },
   "50": {
     "anisearchId": 590,
@@ -3298,7 +3302,7 @@
         "Oh! Mi Diosa"
       ]
     },
-    "fetchedAt": "2026-09-28T11:08:53.043Z"
+    "fetchedAt": "2026-10-29T04:19:11.372Z"
   },
   "51": {
     "anisearchId": 3350,
@@ -3403,7 +3407,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:09:00.077Z"
+    "fetchedAt": "2026-10-29T04:19:18.303Z"
   },
   "52": {
     "anisearchId": 1705,
@@ -3490,7 +3494,7 @@
         "Battle Doll Angelic Layer"
       ]
     },
-    "fetchedAt": "2026-09-28T11:09:07.115Z"
+    "fetchedAt": "2026-10-29T04:19:25.239Z"
   },
   "53": {
     "anisearchId": 555,
@@ -3665,7 +3669,7 @@
         "Appleseed: The Movie"
       ]
     },
-    "fetchedAt": "2026-09-28T11:09:14.148Z"
+    "fetchedAt": "2026-10-29T04:19:32.164Z"
   },
   "55": {
     "anisearchId": 2621,
@@ -4023,7 +4027,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:09:21.193Z"
+    "fetchedAt": "2026-10-29T04:19:39.111Z"
   },
   "60": {
     "anisearchId": 386,
@@ -4122,7 +4126,7 @@
         "Chrno Crusade: Mary Magdalene"
       ]
     },
-    "fetchedAt": "2026-09-28T11:09:28.232Z"
+    "fetchedAt": "2026-10-29T04:19:46.047Z"
   },
   "61": {
     "anisearchId": 2536,
@@ -4342,7 +4346,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:09:35.274Z"
+    "fetchedAt": "2026-10-29T04:19:52.988Z"
   },
   "64": {
     "anisearchId": 201,
@@ -4424,7 +4428,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:09:42.311Z"
+    "fetchedAt": "2026-10-29T04:19:59.919Z"
   },
   "65": {
     "anisearchId": 2852,
@@ -4509,7 +4513,7 @@
         "Rozen Maiden: Dreaming"
       ]
     },
-    "fetchedAt": "2026-09-28T11:09:49.348Z"
+    "fetchedAt": "2026-10-29T04:20:06.851Z"
   },
   "66": {
     "anisearchId": 2305,
@@ -4603,7 +4607,7 @@
         "Azu Manga Daioh: The Animation"
       ]
     },
-    "fetchedAt": "2026-09-28T10:59:06.581Z"
+    "fetchedAt": "2026-10-29T06:01:30.460Z"
   },
   "67": {
     "anisearchId": 3167,
@@ -4711,7 +4715,7 @@
         "Basilisk: Die Chroniken der Kouga-Ninja"
       ]
     },
-    "fetchedAt": "2026-09-28T11:09:56.390Z"
+    "fetchedAt": "2026-10-29T04:20:13.783Z"
   },
   "68": {
     "anisearchId": 300,
@@ -4814,7 +4818,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:10:03.432Z"
+    "fetchedAt": "2026-10-29T04:20:20.724Z"
   },
   "69": {
     "anisearchId": 3034,
@@ -4974,7 +4978,7 @@
         "Fullmetal Panic!"
       ]
     },
-    "fetchedAt": "2026-09-28T11:10:10.482Z"
+    "fetchedAt": "2026-10-29T04:20:27.664Z"
   },
   "72": {
     "anisearchId": 1465,
@@ -5085,7 +5089,7 @@
         "Fullmetal Panic? Fumoffu"
       ]
     },
-    "fetchedAt": "2026-09-28T11:10:17.523Z"
+    "fetchedAt": "2026-10-29T04:20:34.607Z"
   },
   "73": {
     "anisearchId": 304,
@@ -6497,7 +6501,7 @@
         "New Mobile War Century: Gundam Wing"
       ]
     },
-    "fetchedAt": "2026-09-28T11:10:24.568Z"
+    "fetchedAt": "2026-10-29T04:20:41.548Z"
   },
   "91": {
     "anisearchId": 1861,
@@ -6772,7 +6776,7 @@
         "Gundam Seed"
       ]
     },
-    "fetchedAt": "2026-09-28T11:10:38.797Z"
+    "fetchedAt": "2026-10-29T04:20:48.592Z"
   },
   "94": {
     "anisearchId": 1444,
@@ -7102,7 +7106,7 @@
         "LastEXILE"
       ]
     },
-    "fetchedAt": "2026-09-28T11:10:45.833Z"
+    "fetchedAt": "2026-10-29T04:20:55.533Z"
   },
   "98": {
     "anisearchId": 2162,
@@ -7192,7 +7196,7 @@
         "My Princess"
       ]
     },
-    "fetchedAt": "2026-09-28T11:10:52.876Z"
+    "fetchedAt": "2026-10-29T04:21:02.460Z"
   },
   "99": {
     "anisearchId": 1195,
@@ -8041,7 +8045,7 @@
         "Exploding Angel"
       ]
     },
-    "fetchedAt": "2026-09-28T11:10:59.911Z"
+    "fetchedAt": "2026-10-29T04:21:09.406Z"
   },
   "110": {
     "anisearchId": 1811,
@@ -8574,7 +8578,7 @@
         "Shinpi no Sekai El-Hazard"
       ]
     },
-    "fetchedAt": "2026-09-28T11:11:06.940Z"
+    "fetchedAt": "2026-10-29T04:21:16.320Z"
   },
   "118": {
     "anisearchId": 2224,
@@ -8916,7 +8920,7 @@
         "HagaRen"
       ]
     },
-    "fetchedAt": "2026-09-28T11:11:13.990Z"
+    "fetchedAt": "2026-10-29T04:21:23.377Z"
   },
   "122": {
     "anisearchId": 646,
@@ -10492,7 +10496,7 @@
         "Thief of the Heavenly Wind Joan of Arc"
       ]
     },
-    "fetchedAt": "2026-09-28T11:11:28.192Z"
+    "fetchedAt": "2026-10-29T04:21:30.310Z"
   },
   "143": {
     "anisearchId": 1407,
@@ -10715,7 +10719,7 @@
         "Tales at North Hills High"
       ]
     },
-    "fetchedAt": "2026-09-28T11:11:35.231Z"
+    "fetchedAt": "2026-10-29T04:21:37.258Z"
   },
   "146": {
     "anisearchId": 73,
@@ -10874,7 +10878,7 @@
         "The Eternity You Wish For"
       ]
     },
-    "fetchedAt": "2026-09-28T11:11:42.276Z"
+    "fetchedAt": "2026-10-29T04:21:44.195Z"
   },
   "148": {
     "anisearchId": 2859,
@@ -10990,7 +10994,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:11:49.312Z"
+    "fetchedAt": "2026-10-29T04:21:51.363Z"
   },
   "150": {
     "anisearchId": 3261,
@@ -11093,7 +11097,7 @@
         "Blood TV"
       ]
     },
-    "fetchedAt": "2026-09-28T11:11:56.351Z"
+    "fetchedAt": "2026-10-29T04:21:58.299Z"
   },
   "151": {
     "anisearchId": 2500,
@@ -11249,7 +11253,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:12:03.393Z"
+    "fetchedAt": "2026-10-29T04:22:05.239Z"
   },
   "153": {
     "anisearchId": 1558,
@@ -11453,7 +11457,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:12:10.434Z"
+    "fetchedAt": "2026-10-29T04:22:12.170Z"
   },
   "155": {
     "anisearchId": 1028,
@@ -11567,7 +11571,7 @@
         "X: Der Film"
       ]
     },
-    "fetchedAt": "2026-09-28T11:12:17.465Z"
+    "fetchedAt": "2026-10-29T04:22:19.111Z"
   },
   "156": {
     "anisearchId": 1655,
@@ -11675,7 +11679,7 @@
         "X: Die Serie"
       ]
     },
-    "fetchedAt": "2026-09-28T11:12:24.628Z"
+    "fetchedAt": "2026-10-29T04:22:26.154Z"
   },
   "157": {
     "anisearchId": 2505,
@@ -11775,7 +11779,7 @@
         "Mahou Sensei Negima"
       ]
     },
-    "fetchedAt": "2026-09-28T11:12:31.666Z"
+    "fetchedAt": "2026-10-29T04:22:33.101Z"
   },
   "158": {
     "anisearchId": 3295,
@@ -12105,7 +12109,7 @@
         "Peacemaker Kurogane"
       ]
     },
-    "fetchedAt": "2026-09-28T10:59:13.625Z"
+    "fetchedAt": "2026-10-29T04:01:47.517Z"
   },
   "162": {
     "anisearchId": 395,
@@ -12237,7 +12241,7 @@
         "Powerstone"
       ]
     },
-    "fetchedAt": "2026-09-28T11:12:38.688Z"
+    "fetchedAt": "2026-10-29T04:22:40.009Z"
   },
   "164": {
     "anisearchId": 3320,
@@ -12387,7 +12391,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:12:45.744Z"
+    "fetchedAt": "2026-10-29T04:22:47.069Z"
   },
   "165": {
     "anisearchId": 1015,
@@ -12499,7 +12503,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:12:52.907Z"
+    "fetchedAt": "2026-10-29T04:22:54.103Z"
   },
   "166": {
     "anisearchId": 996,
@@ -12595,7 +12599,7 @@
         "Samurai Seven"
       ]
     },
-    "fetchedAt": "2026-09-28T11:12:59.958Z"
+    "fetchedAt": "2026-10-29T04:23:01.047Z"
   },
   "167": {
     "anisearchId": 248,
@@ -12691,7 +12695,7 @@
         "Haiki Oujo"
       ]
     },
-    "fetchedAt": "2026-09-28T11:13:07.001Z"
+    "fetchedAt": "2026-10-29T04:23:07.979Z"
   },
   "168": {
     "anisearchId": 2707,
@@ -13159,7 +13163,7 @@
         "Tenjho Tenge"
       ]
     },
-    "fetchedAt": "2026-09-28T11:13:14.043Z"
+    "fetchedAt": "2026-10-29T04:23:14.935Z"
   },
   "175": {
     "anisearchId": 2637,
@@ -13369,7 +13373,7 @@
         "Tsubasa Reservoir Chronicles"
       ]
     },
-    "fetchedAt": "2026-09-28T10:59:20.673Z"
+    "fetchedAt": "2026-10-29T04:01:54.494Z"
   },
   "178": {
     "anisearchId": 2173,
@@ -13799,7 +13803,7 @@
         "The Vision of EscaFlowne"
       ]
     },
-    "fetchedAt": "2026-09-28T11:13:21.228Z"
+    "fetchedAt": "2026-10-29T04:23:21.980Z"
   },
   "183": {
     "anisearchId": 419,
@@ -14294,7 +14298,7 @@
         "Love Hina TV"
       ]
     },
-    "fetchedAt": "2026-09-28T10:59:27.715Z"
+    "fetchedAt": "2026-10-29T04:02:01.541Z"
   },
   "190": {
     "anisearchId": 1753,
@@ -14371,7 +14375,7 @@
         "Love Hina OVA"
       ]
     },
-    "fetchedAt": "2026-09-28T11:13:28.306Z"
+    "fetchedAt": "2026-10-29T04:23:28.926Z"
   },
   "191": {
     "anisearchId": 1916,
@@ -14473,7 +14477,7 @@
       ],
       "adaptedFrom": "Manga"
     },
-    "fetchedAt": "2026-09-28T11:13:35.337Z"
+    "fetchedAt": "2026-10-29T04:23:35.856Z"
   },
   "192": {
     "anisearchId": 862,
@@ -14568,7 +14572,7 @@
       ],
       "adaptedFrom": "Manga"
     },
-    "fetchedAt": "2026-09-28T11:13:42.366Z"
+    "fetchedAt": "2026-10-29T04:23:42.793Z"
   },
   "193": {
     "anisearchId": 736,
@@ -15044,7 +15048,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:13:49.529Z"
+    "fetchedAt": "2026-10-29T04:23:49.838Z"
   },
   "199": {
     "anisearchId": 2895,
@@ -15411,7 +15415,8 @@
           "released": "21.12.2004 - 08.08.2006",
           "publisher": [
             "SHIN ViSiON",
-            "Fool Frame"
+            "Fool Frame",
+            "Yamato Video S.r.l."
           ]
         }
       ],
@@ -15454,7 +15459,7 @@
         "Wolfs Rain"
       ]
     },
-    "fetchedAt": "2026-09-28T10:59:34.761Z"
+    "fetchedAt": "2026-10-29T04:02:08.495Z"
   },
   "204": {
     "anisearchId": 431,
@@ -15630,7 +15635,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:13:56.573Z"
+    "fetchedAt": "2026-10-29T04:23:56.787Z"
   },
   "206": {
     "anisearchId": 2691,
@@ -15732,7 +15737,7 @@
         "Nouvelles Chroniques de la Guerre de Lodoss : La légende du Chevalier héroïque"
       ]
     },
-    "fetchedAt": "2026-09-28T11:14:03.616Z"
+    "fetchedAt": "2026-10-29T04:24:03.721Z"
   },
   "207": {
     "anisearchId": 1694,
@@ -15851,7 +15856,7 @@
         "RoLW"
       ]
     },
-    "fetchedAt": "2026-09-28T11:14:10.650Z"
+    "fetchedAt": "2026-10-29T04:24:10.667Z"
   },
   "208": {
     "anisearchId": 1322,
@@ -15929,7 +15934,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:14:17.679Z"
+    "fetchedAt": "2026-10-29T04:24:17.598Z"
   },
   "209": {
     "anisearchId": 618,
@@ -16104,7 +16109,7 @@
         "Ranma ½"
       ]
     },
-    "fetchedAt": "2026-09-28T11:14:24.716Z"
+    "fetchedAt": "2026-10-29T04:24:24.536Z"
   },
   "212": {
     "anisearchId": 961,
@@ -16504,7 +16509,7 @@
         "Mezzo TV Danger Service Agency"
       ]
     },
-    "fetchedAt": "2026-09-28T11:14:31.747Z"
+    "fetchedAt": "2026-10-29T04:24:31.466Z"
   },
   "223": {
     "anisearchId": 468,
@@ -16606,7 +16611,7 @@
         "Dragonball"
       ]
     },
-    "fetchedAt": "2026-09-28T10:59:41.924Z"
+    "fetchedAt": "2026-10-29T04:02:15.537Z"
   },
   "225": {
     "anisearchId": 2748,
@@ -16713,7 +16718,7 @@
         "ドラゴンボール グランド・ツーリング"
       ]
     },
-    "fetchedAt": "2026-09-28T11:14:38.928Z"
+    "fetchedAt": "2026-10-29T04:24:38.539Z"
   },
   "226": {
     "anisearchId": 1822,
@@ -16830,7 +16835,7 @@
         "Elven Song"
       ]
     },
-    "fetchedAt": "2026-09-28T11:14:46.092Z"
+    "fetchedAt": "2026-10-29T06:01:44.674Z"
   },
   "227": {
     "anisearchId": 776,
@@ -16933,7 +16938,7 @@
         "Furi Kuri"
       ]
     },
-    "fetchedAt": "2026-09-28T11:14:53.138Z"
+    "fetchedAt": "2026-10-29T06:01:51.723Z"
   },
   "228": {
     "anisearchId": 2256,
@@ -17310,7 +17315,7 @@
         "Chasseuse de Cartes"
       ]
     },
-    "fetchedAt": "2026-09-28T11:15:00.179Z"
+    "fetchedAt": "2026-10-29T06:01:58.798Z"
   },
   "233": {
     "anisearchId": 3215,
@@ -17643,7 +17648,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:15:07.218Z"
+    "fetchedAt": "2026-10-29T06:02:05.833Z"
   },
   "237": {
     "anisearchId": 3475,
@@ -17745,7 +17750,7 @@
         "Eureka Seven: Psalms of Planets"
       ]
     },
-    "fetchedAt": "2026-09-28T11:15:14.384Z"
+    "fetchedAt": "2026-10-29T04:02:22.596Z"
   },
   "238": {
     "anisearchId": 3173,
@@ -17930,7 +17935,7 @@
         "Gankutsuou De Monte Cristo"
       ]
     },
-    "fetchedAt": "2026-09-28T11:15:21.551Z"
+    "fetchedAt": "2026-10-29T06:02:13.012Z"
   },
   "240": {
     "anisearchId": 3357,
@@ -18024,7 +18029,7 @@
         "現代視覚文化研究会"
       ]
     },
-    "fetchedAt": "2026-09-28T11:15:28.588Z"
+    "fetchedAt": "2026-10-29T06:02:20.057Z"
   },
   "241": {
     "anisearchId": 44,
@@ -18255,7 +18260,7 @@
         "Gravitation TV"
       ]
     },
-    "fetchedAt": "2026-09-28T11:15:35.625Z"
+    "fetchedAt": "2026-10-29T06:02:27.104Z"
   },
   "244": {
     "anisearchId": 1415,
@@ -18761,7 +18766,7 @@
         "Inu Yasha"
       ]
     },
-    "fetchedAt": "2026-09-28T10:59:49.099Z"
+    "fetchedAt": "2026-10-29T04:02:29.640Z"
   },
   "250": {
     "anisearchId": 1648,
@@ -19204,7 +19209,7 @@
         "Stimme eines fernen Sterns"
       ]
     },
-    "fetchedAt": "2026-09-28T11:15:42.659Z"
+    "fetchedAt": "2026-10-29T06:02:34.158Z"
   },
   "257": {
     "anisearchId": 1865,
@@ -19297,7 +19302,7 @@
         "Battle Vixens"
       ]
     },
-    "fetchedAt": "2026-09-28T11:15:49.698Z"
+    "fetchedAt": "2026-10-29T06:02:41.216Z"
   },
   "258": {
     "anisearchId": 2502,
@@ -20020,7 +20025,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:15:56.860Z"
+    "fetchedAt": "2026-10-29T06:02:48.389Z"
   },
   "268": {
     "anisearchId": 2982,
@@ -20113,7 +20118,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:16:03.905Z"
+    "fetchedAt": "2026-10-29T06:02:55.446Z"
   },
   "269": {
     "anisearchId": 1078,
@@ -20229,7 +20234,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:16:11.094Z"
+    "fetchedAt": "2026-10-29T04:02:36.726Z"
   },
   "270": {
     "anisearchId": 312,
@@ -20344,7 +20349,7 @@
         "Hellsing TV"
       ]
     },
-    "fetchedAt": "2026-09-28T11:16:18.148Z"
+    "fetchedAt": "2026-10-29T06:03:02.508Z"
   },
   "271": {
     "anisearchId": 657,
@@ -20511,7 +20516,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:16:25.231Z"
+    "fetchedAt": "2026-10-29T06:03:09.560Z"
   },
   "273": {
     "anisearchId": 253,
@@ -20687,7 +20692,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:16:32.268Z"
+    "fetchedAt": "2026-10-29T06:03:16.593Z"
   },
   "275": {
     "anisearchId": 2696,
@@ -21329,7 +21334,7 @@
         "Red Haired Anne"
       ]
     },
-    "fetchedAt": "2026-09-28T11:16:39.299Z"
+    "fetchedAt": "2026-10-29T06:03:23.635Z"
   },
   "284": {
     "anisearchId": 2629,
@@ -21597,7 +21602,7 @@
         "Grappler Baki TV"
       ]
     },
-    "fetchedAt": "2026-09-28T11:16:46.331Z"
+    "fetchedAt": "2026-10-29T06:03:30.675Z"
   },
   "288": {
     "anisearchId": 78,
@@ -21695,7 +21700,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:16:53.361Z"
+    "fetchedAt": "2026-10-29T06:03:37.731Z"
   },
   "289": {
     "anisearchId": 2998,
@@ -22231,7 +22236,7 @@
         "Grenadier: The Smiling Senshi"
       ]
     },
-    "fetchedAt": "2026-09-28T11:17:00.396Z"
+    "fetchedAt": "2026-10-29T06:03:44.769Z"
   },
   "298": {
     "anisearchId": 1650,
@@ -22333,7 +22338,7 @@
         "UdeDen"
       ]
     },
-    "fetchedAt": "2026-09-28T11:17:07.431Z"
+    "fetchedAt": "2026-10-29T06:03:51.837Z"
   },
   "299": {
     "anisearchId": 159,
@@ -22717,7 +22722,7 @@
         "the Boy in Future"
       ]
     },
-    "fetchedAt": "2026-09-28T11:17:14.461Z"
+    "fetchedAt": "2026-10-29T06:03:58.871Z"
   },
   "303": {
     "anisearchId": 130,
@@ -22806,11 +22811,11 @@
         "Oh My Goddess!: Small is Useful"
       ]
     },
-    "fetchedAt": "2026-09-28T11:17:21.487Z"
+    "fetchedAt": "2026-10-29T06:04:05.927Z"
   },
   "304": {
     "anisearchId": 2085,
-    "descriptionDe": "Belldandys Mentor Celestin wurde für seinen Versuch, gegen das System des Himmels zu rebellieren, eingesperrt. Doch nach seiner Flucht verfolgte er seine Pläne weiter – und hat dafür einen Virus in den göttlichen Computer eingespeist, der Belldandys Erinnerungen an Keiichi löschen soll! Wird sich Belldandys Liebe als stark genug erweisen, um Celestins Plan scheitern zu lassen? Oder ist vielleicht gerade Belldandy der Schlüssel zur Zerstörung der bestehenden Realität?Anmerkung:\nDie Handlung spielt zeitlich nach allem, was an OVA und TV-Serien-Material erschienen ist, kommt aber im Manga-Original nicht vor.",
+    "descriptionDe": "Drei Jahre sind seit Belldandys Ankunft auf der Erde vergangen und der Motorclub stellt gerade neue Fahrzeuge für ein bevorstehendes Rennen vor, bei dem auch ein Zweisitzer für Belldandy und Keiichi mit dabei ist. Belldandys alter Mentor Celestin ist für seinen Versuch, gegen das System des Himmels zu rebellieren, unterdessen immer noch auf dem Mond eingesperrt. Zumindest bis die dämonische Feenprinzessin Morgan Le Fay dort auftaucht und ihm die Flucht ermöglicht. Nun setzt er seinen Plan in die Tat um, mit einem Kuss einen Virus einzuschleusen, der Belldandys Erinnerungen an Keiichi löschen soll. Wird Keiichi das bevorstehende Rennen trotzdem bestreiten können und ist ihre Liebe stark genug, um Celestins Plan scheitern zu lassen? \n\nQuelle: www.anisearch.de/anime/2085",
     "streams": [],
     "info": {
       "languages": [
@@ -22897,7 +22902,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:17:28.543Z"
+    "fetchedAt": "2026-10-29T06:04:12.957Z"
   },
   "305": {
     "anisearchId": 2791,
@@ -23045,7 +23050,7 @@
         "Magical Shopping Arcade Abenobashi"
       ]
     },
-    "fetchedAt": "2026-09-28T11:17:35.578Z"
+    "fetchedAt": "2026-10-29T06:04:20.018Z"
   },
   "307": {
     "anisearchId": 1502,
@@ -23128,7 +23133,7 @@
         "The Brave Frog"
       ]
     },
-    "fetchedAt": "2026-09-28T11:17:42.601Z"
+    "fetchedAt": "2026-10-29T06:04:27.348Z"
   },
   "308": {
     "anisearchId": 342,
@@ -23271,7 +23276,7 @@
         "Where"
       ]
     },
-    "fetchedAt": "2026-09-28T11:17:49.622Z"
+    "fetchedAt": "2026-10-29T06:04:34.398Z"
   },
   "311": {
     "anisearchId": 85,
@@ -23748,7 +23753,7 @@
         "Final Fantasy 7: Advent Children"
       ]
     },
-    "fetchedAt": "2026-09-28T11:17:56.669Z"
+    "fetchedAt": "2026-10-29T06:04:41.436Z"
   },
   "318": {
     "anisearchId": 1809,
@@ -23937,7 +23942,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:18:03.706Z"
+    "fetchedAt": "2026-10-29T06:04:48.495Z"
   },
   "322": {
     "anisearchId": 1416,
@@ -24032,7 +24037,7 @@
         "parakiss"
       ]
     },
-    "fetchedAt": "2026-09-28T11:18:10.743Z"
+    "fetchedAt": "2026-10-29T06:04:55.532Z"
   },
   "323": {
     "anisearchId": 708,
@@ -24137,7 +24142,7 @@
         "Mousou"
       ]
     },
-    "fetchedAt": "2026-09-28T11:18:17.779Z"
+    "fetchedAt": "2026-10-29T06:05:02.599Z"
   },
   "324": {
     "anisearchId": 1942,
@@ -24645,7 +24650,7 @@
         "ΠΛΑΝΗΤΕΣ"
       ]
     },
-    "fetchedAt": "2026-09-28T11:18:24.941Z"
+    "fetchedAt": "2026-10-29T06:05:09.765Z"
   },
   "330": {
     "anisearchId": 911,
@@ -25095,7 +25100,7 @@
         "Wandering Revelations Meine Liebe"
       ]
     },
-    "fetchedAt": "2026-09-28T11:18:31.970Z"
+    "fetchedAt": "2026-10-29T06:05:16.824Z"
   },
   "337": {
     "anisearchId": 643,
@@ -25258,7 +25263,7 @@
         "Lady Oscar"
       ]
     },
-    "fetchedAt": "2026-09-28T11:18:39.006Z"
+    "fetchedAt": "2026-10-29T04:02:43.661Z"
   },
   "339": {
     "anisearchId": 469,
@@ -25355,7 +25360,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:18:46.169Z"
+    "fetchedAt": "2026-10-29T06:05:23.989Z"
   },
   "340": {
     "anisearchId": 2993,
@@ -25555,7 +25560,7 @@
         "SO"
       ]
     },
-    "fetchedAt": "2026-09-28T11:18:53.200Z"
+    "fetchedAt": "2026-10-29T06:05:31.046Z"
   },
   "343": {
     "anisearchId": 1218,
@@ -25755,7 +25760,7 @@
         "Emma: Un romance de época"
       ]
     },
-    "fetchedAt": "2026-09-28T11:19:00.239Z"
+    "fetchedAt": "2026-10-29T06:05:38.090Z"
   },
   "346": {
     "anisearchId": 1582,
@@ -26064,7 +26069,7 @@
         "Useless Witchgirl Doremi"
       ]
     },
-    "fetchedAt": "2026-09-28T11:19:07.275Z"
+    "fetchedAt": "2026-10-29T06:05:45.153Z"
   },
   "351": {
     "anisearchId": 3496,
@@ -26151,7 +26156,7 @@
         "Useless Witch Doremi Sharp"
       ]
     },
-    "fetchedAt": "2026-09-28T11:19:14.303Z"
+    "fetchedAt": "2026-10-29T06:05:52.184Z"
   },
   "352": {
     "anisearchId": 3340,
@@ -26443,7 +26448,7 @@
         "SnS"
       ]
     },
-    "fetchedAt": "2026-09-28T11:19:21.534Z"
+    "fetchedAt": "2026-10-29T04:02:50.749Z"
   },
   "356": {
     "anisearchId": 3538,
@@ -27039,7 +27044,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:19:28.558Z"
+    "fetchedAt": "2026-10-29T06:05:59.238Z"
   },
   "366": {
     "anisearchId": 3383,
@@ -27130,7 +27135,7 @@
         "AIKa New Mission"
       ]
     },
-    "fetchedAt": "2026-09-28T11:19:35.594Z"
+    "fetchedAt": "2026-10-29T06:06:06.283Z"
   },
   "367": {
     "anisearchId": 1768,
@@ -27444,7 +27449,7 @@
         "Gekijouban Card Captor Sakura"
       ]
     },
-    "fetchedAt": "2026-09-28T11:19:42.623Z"
+    "fetchedAt": "2026-10-29T06:06:13.324Z"
   },
   "372": {
     "anisearchId": 2051,
@@ -27536,7 +27541,7 @@
         "Gekijouban Card Captor Sakura: Fuuin Sareta Card"
       ]
     },
-    "fetchedAt": "2026-09-28T11:19:49.650Z"
+    "fetchedAt": "2026-10-29T06:06:20.368Z"
   },
   "373": {
     "anisearchId": 3271,
@@ -27868,7 +27873,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:19:56.677Z"
+    "fetchedAt": "2026-10-29T06:06:27.411Z"
   },
   "378": {
     "anisearchId": 3442,
@@ -28107,7 +28112,7 @@
         "Fushigi Yuugi OVA 1"
       ]
     },
-    "fetchedAt": "2026-09-28T11:20:03.707Z"
+    "fetchedAt": "2026-10-29T06:06:34.459Z"
   },
   "381": {
     "anisearchId": 356,
@@ -28220,7 +28225,7 @@
         "Fushigi Yuugi OVA 2"
       ]
     },
-    "fetchedAt": "2026-09-28T11:20:10.742Z"
+    "fetchedAt": "2026-10-29T06:06:41.497Z"
   },
   "383": {
     "anisearchId": 2666,
@@ -28359,7 +28364,7 @@
       ],
       "adaptedFrom": "Manga"
     },
-    "fetchedAt": "2026-09-28T11:20:17.778Z"
+    "fetchedAt": "2026-10-29T06:06:48.548Z"
   },
   "386": {
     "anisearchId": 6,
@@ -28507,7 +28512,7 @@
         "Graywing League"
       ]
     },
-    "fetchedAt": "2026-09-28T11:20:24.815Z"
+    "fetchedAt": "2026-10-29T06:06:55.598Z"
   },
   "388": {
     "anisearchId": 1523,
@@ -28687,7 +28692,7 @@
         "Crow"
       ]
     },
-    "fetchedAt": "2026-09-28T11:20:31.851Z"
+    "fetchedAt": "2026-10-29T06:07:02.652Z"
   },
   "390": {
     "anisearchId": 2958,
@@ -28927,7 +28932,7 @@
         "Ghost Fighter"
       ]
     },
-    "fetchedAt": "2026-09-28T11:20:38.890Z"
+    "fetchedAt": "2026-10-29T06:07:09.708Z"
   },
   "393": {
     "anisearchId": 1990,
@@ -29041,7 +29046,7 @@
         "La Vision d’Escaflowne : Le Film"
       ]
     },
-    "fetchedAt": "2026-09-28T11:20:45.924Z"
+    "fetchedAt": "2026-10-29T06:07:16.763Z"
   },
   "394": {
     "anisearchId": 1764,
@@ -29535,7 +29540,7 @@
         "Samurai X: Reflections"
       ]
     },
-    "fetchedAt": "2026-09-28T11:20:52.958Z"
+    "fetchedAt": "2026-10-29T06:07:24.138Z"
   },
   "402": {
     "anisearchId": 77,
@@ -29803,7 +29808,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:20:59.992Z"
+    "fetchedAt": "2026-10-29T06:07:31.187Z"
   },
   "406": {
     "anisearchId": 3336,
@@ -30106,7 +30111,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:21:07.034Z"
+    "fetchedAt": "2026-10-29T06:07:38.242Z"
   },
   "413": {
     "anisearchId": 288,
@@ -30285,7 +30290,7 @@
         "My Neighbours the Yamadas"
       ]
     },
-    "fetchedAt": "2026-09-28T11:21:14.068Z"
+    "fetchedAt": "2026-10-29T06:07:45.297Z"
   },
   "416": {
     "anisearchId": 1386,
@@ -30424,7 +30429,7 @@
         "The Scarlet Pig"
       ]
     },
-    "fetchedAt": "2026-09-28T11:21:21.101Z"
+    "fetchedAt": "2026-10-29T06:07:52.344Z"
   },
   "417": {
     "anisearchId": 914,
@@ -30510,7 +30515,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:21:28.135Z"
+    "fetchedAt": "2026-10-29T06:07:59.400Z"
   },
   "418": {
     "anisearchId": 1057,
@@ -30614,7 +30619,7 @@
         "China- A Battle To Defy the Rules"
       ]
     },
-    "fetchedAt": "2026-09-28T11:21:35.163Z"
+    "fetchedAt": "2026-10-29T06:08:06.450Z"
   },
   "419": {
     "anisearchId": 2111,
@@ -30777,7 +30782,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:21:42.196Z"
+    "fetchedAt": "2026-10-29T06:08:13.548Z"
   },
   "421": {
     "anisearchId": 1623,
@@ -31450,7 +31455,7 @@
         "Gekijouban Hagane no Renkinjutsushi: Shambala wo Yuku Mono"
       ]
     },
-    "fetchedAt": "2026-09-28T11:21:49.234Z"
+    "fetchedAt": "2026-10-29T06:08:20.596Z"
   },
   "431": {
     "anisearchId": 156,
@@ -31594,7 +31599,7 @@
         "Hauru no Ugoku Shiro"
       ]
     },
-    "fetchedAt": "2026-09-28T11:21:56.280Z"
+    "fetchedAt": "2026-10-29T06:08:27.648Z"
   },
   "432": {
     "anisearchId": 1470,
@@ -31811,7 +31816,7 @@
         "der Ort unseres Versprechens"
       ]
     },
-    "fetchedAt": "2026-09-28T11:22:03.317Z"
+    "fetchedAt": "2026-10-29T06:08:34.701Z"
   },
   "434": {
     "anisearchId": 445,
@@ -32093,7 +32098,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:22:10.497Z"
+    "fetchedAt": "2026-10-29T06:08:41.870Z"
   },
   "438": {
     "anisearchId": 2024,
@@ -32163,7 +32168,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:22:18.627Z"
+    "fetchedAt": "2026-10-29T06:08:48.909Z"
   },
   "439": {
     "anisearchId": 1588,
@@ -32350,7 +32355,12 @@
   "441": {
     "anisearchId": 1159,
     "descriptionDe": "»Utena: La fillette révolutionnaire - The Movie« handelt von Utena Tenjou, einem Mädchen voller Ideale und mit hohen Zielen, das neu an die Ohtori-Akademie kommt, wo sie dank ihrer Kleidung zuerst für einen Jungen gehalten wird. Unverhofft trifft sie dort ihre alte Liebe Touga Kiryuu, der behauptet, durch ein Rosensiegel ebenfalls dorthin geführt worden zu sein. Wortwörtlich durch die Blume gelangt auch Utena an so ein Siegel in Form eines Ringes und schon dreht sich die Spirale weiter, in der sie Anthy Himemiya trifft, die Rosenbraut. Wer sie besitzt, erlangt die Macht die Welt zu revolutionieren, und um sie zu bekommen, muss man sich in einem Schwertduell messen. Ohne genau zu wissen warum, stürzt sich Utena in dieses gefährliche Spiel und bald wird klar, dass sie und Anthy ihre eigene Vergangenheit bewältigen müssen, um eine neue Zukunft für sich zu finden.Anmerkung:\nDer Film zur Serie »Shoujo Kakumei Utena« führt die Handlung weder fort noch ist er in die 39 Episoden der Serie einzugliedern, stattdessen erzählt die Geschichte in einer alternativen Version. Er macht es sich zur Aufgabe, bekannte Figuren in neuem Licht zu präsentieren und konzentriert sich dabei vor allem auf Utena, Anthy und ihre Prinzen.",
-    "streams": [],
+    "streams": [
+      {
+        "provider": "animation-digital-network-(de)",
+        "url": "https://animationdigitalnetwork.com/de/video/1338"
+      }
+    ],
     "info": {
       "languages": [
         {
@@ -32382,7 +32392,8 @@
           "dubbed": true,
           "released": "26.02.2007",
           "publisher": [
-            "Kazé Deutschland"
+            "Kazé Deutschland",
+            "Animation Digital Network (DE)"
           ]
         },
         {
@@ -32457,7 +32468,7 @@
         "Utena : La fillette révolutionnaire - Le Film"
       ]
     },
-    "fetchedAt": "2026-09-28T11:22:25.663Z"
+    "fetchedAt": "2026-10-29T06:08:55.940Z"
   },
   "442": {
     "anisearchId": 604,
@@ -32581,7 +32592,7 @@
         "Naruto: It’s the Snow Princess’ Ninja Art Book!"
       ]
     },
-    "fetchedAt": "2026-09-28T11:22:32.705Z"
+    "fetchedAt": "2026-10-29T06:09:02.995Z"
   },
   "443": {
     "anisearchId": 4393,
@@ -32985,7 +32996,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:22:39.736Z"
+    "fetchedAt": "2026-10-29T06:09:10.028Z"
   },
   "449": {
     "anisearchId": 1902,
@@ -33083,7 +33094,7 @@
         "Inuyasha: The Crimson Hourai Island"
       ]
     },
-    "fetchedAt": "2026-09-28T10:59:56.125Z"
+    "fetchedAt": "2026-10-29T04:02:57.672Z"
   },
   "450": {
     "anisearchId": 671,
@@ -33182,7 +33193,7 @@
         "Inuyasha: Dream Castle Inside the Mirror"
       ]
     },
-    "fetchedAt": "2026-09-28T11:00:03.167Z"
+    "fetchedAt": "2026-10-29T04:03:04.611Z"
   },
   "451": {
     "anisearchId": 1455,
@@ -33286,7 +33297,7 @@
         "Inuyasha: The World Conquering Swords"
       ]
     },
-    "fetchedAt": "2026-09-28T11:00:10.204Z"
+    "fetchedAt": "2026-10-29T04:03:11.536Z"
   },
   "452": {
     "anisearchId": 1930,
@@ -33396,7 +33407,7 @@
         "Inuyasha: Toki wo Koeru Omoi"
       ]
     },
-    "fetchedAt": "2026-09-28T11:00:17.234Z"
+    "fetchedAt": "2026-10-29T04:03:18.473Z"
   },
   "454": {
     "anisearchId": 2559,
@@ -33671,7 +33682,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:22:46.786Z"
+    "fetchedAt": "2026-10-29T06:09:17.088Z"
   },
   "458": {
     "anisearchId": 1375,
@@ -33827,7 +33838,7 @@
         "One Piece: 1. Film - Der Film"
       ]
     },
-    "fetchedAt": "2026-09-28T11:22:53.819Z"
+    "fetchedAt": "2026-10-29T04:03:25.398Z"
   },
   "460": {
     "anisearchId": 1815,
@@ -33937,7 +33948,7 @@
         "One Piece: 2. Film - Abenteuer auf der Spiralinsel"
       ]
     },
-    "fetchedAt": "2026-09-28T11:23:00.853Z"
+    "fetchedAt": "2026-10-29T04:03:32.340Z"
   },
   "461": {
     "anisearchId": 1854,
@@ -34050,7 +34061,7 @@
         "l’île des bêtes étranges"
       ]
     },
-    "fetchedAt": "2026-09-28T11:00:24.270Z"
+    "fetchedAt": "2026-10-29T04:03:39.269Z"
   },
   "462": {
     "anisearchId": 3260,
@@ -34165,7 +34176,7 @@
         "One Piece : L’Aventure sans issue"
       ]
     },
-    "fetchedAt": "2026-09-28T11:00:31.303Z"
+    "fetchedAt": "2026-10-29T04:03:46.206Z"
   },
   "463": {
     "anisearchId": 2376,
@@ -34278,7 +34289,7 @@
         "One Piece: The Curse of the Sacred Sword"
       ]
     },
-    "fetchedAt": "2026-09-28T11:00:38.336Z"
+    "fetchedAt": "2026-10-29T04:03:53.133Z"
   },
   "464": {
     "anisearchId": 2553,
@@ -34393,7 +34404,7 @@
         "One Piece: Baron Omatsuri and the Island of Secrets"
       ]
     },
-    "fetchedAt": "2026-09-28T11:00:45.370Z"
+    "fetchedAt": "2026-10-29T04:04:00.079Z"
   },
   "465": {
     "anisearchId": 3359,
@@ -34507,7 +34518,7 @@
         "One Piece: Karakuri Shiro no Meka Kyohei"
       ]
     },
-    "fetchedAt": "2026-09-28T11:00:52.403Z"
+    "fetchedAt": "2026-10-29T04:04:07.004Z"
   },
   "466": {
     "anisearchId": 1369,
@@ -34667,7 +34678,7 @@
         "Koukaku Kidoutai SAC"
       ]
     },
-    "fetchedAt": "2026-09-28T11:23:08.020Z"
+    "fetchedAt": "2026-10-29T06:09:24.294Z"
   },
   "468": {
     "anisearchId": 2753,
@@ -34793,7 +34804,7 @@
         "gits2"
       ]
     },
-    "fetchedAt": "2026-09-28T11:23:15.060Z"
+    "fetchedAt": "2026-10-29T06:09:31.345Z"
   },
   "469": {
     "anisearchId": 1703,
@@ -35786,7 +35797,7 @@
         "Yugioh! GX"
       ]
     },
-    "fetchedAt": "2026-09-28T11:23:22.223Z"
+    "fetchedAt": "2026-10-29T04:04:14.066Z"
   },
   "483": {
     "anisearchId": 443,
@@ -35943,7 +35954,7 @@
         "Gensoumaden Saiyuuki: Requiem - Erabarezaru Mono e no Chinkonka"
       ]
     },
-    "fetchedAt": "2026-09-28T11:23:29.246Z"
+    "fetchedAt": "2026-10-29T06:09:38.381Z"
   },
   "485": {
     "anisearchId": 2067,
@@ -36092,7 +36103,7 @@
         "KnT"
       ]
     },
-    "fetchedAt": "2026-09-28T11:23:36.288Z"
+    "fetchedAt": "2026-10-29T06:09:45.431Z"
   },
   "487": {
     "anisearchId": 938,
@@ -36521,7 +36532,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:23:43.317Z"
+    "fetchedAt": "2026-10-29T06:09:52.466Z"
   },
   "493": {
     "anisearchId": 3177,
@@ -36603,7 +36614,7 @@
         "Armitage III: Polymatrix"
       ]
     },
-    "fetchedAt": "2026-09-28T11:23:50.343Z"
+    "fetchedAt": "2026-10-29T06:09:59.505Z"
   },
   "495": {
     "anisearchId": 1939,
@@ -36660,7 +36671,7 @@
         "Spell Wars: Sorcerer Hunters Revenge"
       ]
     },
-    "fetchedAt": "2026-09-28T11:23:57.372Z"
+    "fetchedAt": "2026-10-29T06:10:06.539Z"
   },
   "496": {
     "anisearchId": 483,
@@ -36974,7 +36985,7 @@
         "Monster City"
       ]
     },
-    "fetchedAt": "2026-09-28T11:24:04.400Z"
+    "fetchedAt": "2026-10-29T06:10:13.578Z"
   },
   "501": {
     "anisearchId": 1840,
@@ -37115,7 +37126,7 @@
         "The Legend of Shenlong"
       ]
     },
-    "fetchedAt": "2026-09-28T11:24:11.433Z"
+    "fetchedAt": "2026-10-29T06:10:20.905Z"
   },
   "503": {
     "anisearchId": 2839,
@@ -37451,7 +37462,7 @@
         "Gravitation OVA"
       ]
     },
-    "fetchedAt": "2026-09-28T11:24:18.463Z"
+    "fetchedAt": "2026-10-29T06:10:27.942Z"
   },
   "508": {
     "anisearchId": 764,
@@ -37536,7 +37547,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:24:25.488Z"
+    "fetchedAt": "2026-10-29T06:10:34.970Z"
   },
   "509": {
     "anisearchId": 2674,
@@ -37850,7 +37861,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:24:32.531Z"
+    "fetchedAt": "2026-10-29T06:10:42.025Z"
   },
   "513": {
     "anisearchId": 2767,
@@ -37982,7 +37993,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:24:39.577Z"
+    "fetchedAt": "2026-10-29T06:10:49.065Z"
   },
   "514": {
     "anisearchId": 1858,
@@ -38066,7 +38077,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:24:46.614Z"
+    "fetchedAt": "2026-10-29T06:10:56.115Z"
   },
   "515": {
     "anisearchId": 1347,
@@ -38322,7 +38333,7 @@
         "Sukuran OVA"
       ]
     },
-    "fetchedAt": "2026-09-28T11:24:53.653Z"
+    "fetchedAt": "2026-10-29T06:11:03.156Z"
   },
   "518": {
     "anisearchId": 844,
@@ -38700,7 +38711,7 @@
         "Osamu Tezuka’s Metropolis"
       ]
     },
-    "fetchedAt": "2026-09-28T11:25:00.687Z"
+    "fetchedAt": "2026-10-29T06:11:10.203Z"
   },
   "523": {
     "anisearchId": 1289,
@@ -38844,7 +38855,7 @@
         "My Neighbour Totoro"
       ]
     },
-    "fetchedAt": "2026-09-28T11:25:07.733Z"
+    "fetchedAt": "2026-10-29T06:11:17.251Z"
   },
   "524": {
     "anisearchId": 4392,
@@ -39197,7 +39208,7 @@
         "Pokémon: The Series - The Beginning / Gold and Silver"
       ]
     },
-    "fetchedAt": "2026-09-28T11:25:14.970Z"
+    "fetchedAt": "2026-10-29T04:04:21.141Z"
   },
   "528": {
     "anisearchId": 2831,
@@ -39321,7 +39332,7 @@
         "Pokémon the Movie: Mew vs. Mewtwo"
       ]
     },
-    "fetchedAt": "2026-09-28T11:25:22.006Z"
+    "fetchedAt": "2026-10-29T06:11:24.306Z"
   },
   "529": {
     "anisearchId": 780,
@@ -39585,7 +39596,8 @@
           "released": "15.05.1996",
           "publisher": [
             "Mediawan Thematics",
-            "Kazé France"
+            "Kazé France",
+            "Animation Digital Network"
           ]
         },
         {
@@ -39632,7 +39644,7 @@
         "Pretty Soldier Sailor Moon R: The Movie"
       ]
     },
-    "fetchedAt": "2026-09-28T11:25:29.034Z"
+    "fetchedAt": "2026-10-29T06:11:31.332Z"
   },
   "532": {
     "anisearchId": 83,
@@ -39738,7 +39750,7 @@
         "Sailor Moon Season 3"
       ]
     },
-    "fetchedAt": "2026-09-28T11:00:59.435Z"
+    "fetchedAt": "2026-10-29T04:04:28.324Z"
   },
   "533": {
     "anisearchId": 1142,
@@ -39896,7 +39908,7 @@
         "Reena Y Gaudy"
       ]
     },
-    "fetchedAt": "2026-09-28T11:25:36.076Z"
+    "fetchedAt": "2026-10-29T06:11:38.380Z"
   },
   "535": {
     "anisearchId": 2378,
@@ -40012,7 +40024,7 @@
         "The Slayers: Season 2"
       ]
     },
-    "fetchedAt": "2026-09-28T11:25:43.111Z"
+    "fetchedAt": "2026-10-29T06:11:45.427Z"
   },
   "536": {
     "anisearchId": 678,
@@ -40103,7 +40115,7 @@
         "Slayers Perfect: The Movie"
       ]
     },
-    "fetchedAt": "2026-09-28T11:25:50.135Z"
+    "fetchedAt": "2026-10-29T06:11:52.469Z"
   },
   "537": {
     "anisearchId": 2459,
@@ -40178,7 +40190,7 @@
         "The King Of Iron Fist Tournament The Movie"
       ]
     },
-    "fetchedAt": "2026-09-28T11:25:57.167Z"
+    "fetchedAt": "2026-10-29T06:11:59.514Z"
   },
   "538": {
     "anisearchId": 2842,
@@ -40350,7 +40362,7 @@
         "Tenchi Muyo! Ryo-Ohki"
       ]
     },
-    "fetchedAt": "2026-09-28T11:26:04.198Z"
+    "fetchedAt": "2026-10-29T06:12:06.563Z"
   },
   "540": {
     "anisearchId": 1994,
@@ -40455,7 +40467,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:26:11.220Z"
+    "fetchedAt": "2026-10-29T06:12:13.598Z"
   },
   "541": {
     "anisearchId": 2754,
@@ -40622,7 +40634,7 @@
         "吸血鬼ハンターD ブラッドラスト"
       ]
     },
-    "fetchedAt": "2026-09-28T11:26:18.257Z"
+    "fetchedAt": "2026-10-29T06:12:20.657Z"
   },
   "544": {
     "anisearchId": 339,
@@ -40921,7 +40933,7 @@
         "ワンダフル・デイズ"
       ]
     },
-    "fetchedAt": "2026-09-28T11:26:25.292Z"
+    "fetchedAt": "2026-10-29T06:12:27.702Z"
   },
   "550": {
     "anisearchId": 482,
@@ -41058,7 +41070,7 @@
         "Grappler Baki TV 2"
       ]
     },
-    "fetchedAt": "2026-09-28T11:26:39.348Z"
+    "fetchedAt": "2026-10-29T06:12:34.747Z"
   },
   "552": {
     "anisearchId": 2710,
@@ -41178,7 +41190,7 @@
         "Digimon: Digital Monsters Season 1"
       ]
     },
-    "fetchedAt": "2026-09-28T11:26:46.396Z"
+    "fetchedAt": "2026-10-29T06:12:41.812Z"
   },
   "553": {
     "anisearchId": 838,
@@ -42009,7 +42021,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:26:53.433Z"
+    "fetchedAt": "2026-10-29T06:12:48.854Z"
   },
   "566": {
     "anisearchId": 2557,
@@ -42424,7 +42436,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:27:00.468Z"
+    "fetchedAt": "2026-10-29T06:12:55.905Z"
   },
   "571": {
     "anisearchId": 1139,
@@ -42494,7 +42506,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:27:07.498Z"
+    "fetchedAt": "2026-10-29T06:13:02.932Z"
   },
   "572": {
     "anisearchId": 153,
@@ -42641,7 +42653,7 @@
         "Nausicaä: Guerreros del viento"
       ]
     },
-    "fetchedAt": "2026-09-28T11:27:14.555Z"
+    "fetchedAt": "2026-10-29T06:13:09.989Z"
   },
   "573": {
     "anisearchId": 2154,
@@ -43043,7 +43055,7 @@
         "La Tomba delle Lucciole"
       ]
     },
-    "fetchedAt": "2026-09-28T11:27:21.601Z"
+    "fetchedAt": "2026-10-29T06:13:17.346Z"
   },
   "579": {
     "anisearchId": 1967,
@@ -43448,7 +43460,7 @@
         "Mimi wo Sumaseba"
       ]
     },
-    "fetchedAt": "2026-09-28T11:27:28.640Z"
+    "fetchedAt": "2026-10-29T06:13:24.396Z"
   },
   "586": {
     "anisearchId": 2040,
@@ -43678,7 +43690,7 @@
         "Watashi no Santa"
       ]
     },
-    "fetchedAt": "2026-09-28T11:27:35.680Z"
+    "fetchedAt": "2026-10-29T06:13:31.424Z"
   },
   "589": {
     "anisearchId": 2633,
@@ -44049,7 +44061,7 @@
         "Naruto: Jump Festa Anime Tour 2004 (ナルト ジャンプフェスタ・アニメツアー2004)"
       ]
     },
-    "fetchedAt": "2026-09-28T11:27:42.707Z"
+    "fetchedAt": "2026-10-29T06:13:38.468Z"
   },
   "595": {
     "anisearchId": 3565,
@@ -44125,7 +44137,7 @@
         "X: Episode 0"
       ]
     },
-    "fetchedAt": "2026-09-28T11:27:49.731Z"
+    "fetchedAt": "2026-10-29T06:13:45.498Z"
   },
   "596": {
     "anisearchId": 4803,
@@ -44174,7 +44186,7 @@
       ],
       "adaptedFrom": "Manga"
     },
-    "fetchedAt": "2026-09-28T11:27:56.753Z"
+    "fetchedAt": "2026-10-29T06:13:52.535Z"
   },
   "597": {
     "anisearchId": 541,
@@ -44303,7 +44315,7 @@
         "The Cat Returns the Favor"
       ]
     },
-    "fetchedAt": "2026-09-28T11:28:03.802Z"
+    "fetchedAt": "2026-10-29T06:13:59.573Z"
   },
   "598": {
     "anisearchId": 1068,
@@ -44443,7 +44455,7 @@
         "Exorciste S.A."
       ]
     },
-    "fetchedAt": "2026-09-28T11:28:10.877Z"
+    "fetchedAt": "2026-10-29T06:14:06.629Z"
   },
   "600": {
     "anisearchId": 688,
@@ -44679,7 +44691,7 @@
         "purikyaa"
       ]
     },
-    "fetchedAt": "2026-09-28T11:28:17.906Z"
+    "fetchedAt": "2026-10-29T06:14:13.661Z"
   },
   "604": {
     "anisearchId": 2023,
@@ -45406,7 +45418,8 @@
             "Manga Entertainment, LLC",
             "Sentai",
             "Madman Entertainment",
-            "Manga Entertainment Ltd."
+            "Manga Entertainment Ltd.",
+            "Anime Limited (UK)"
           ]
         },
         {
@@ -45485,7 +45498,7 @@
         "El oro de los ninjas"
       ]
     },
-    "fetchedAt": "2026-09-28T11:28:24.943Z"
+    "fetchedAt": "2026-10-29T06:14:20.712Z"
   },
   "618": {
     "anisearchId": 2499,
@@ -45574,7 +45587,7 @@
         "Wind Ninja Chronicles [Dragon Stone Chapter]"
       ]
     },
-    "fetchedAt": "2026-09-28T11:28:31.976Z"
+    "fetchedAt": "2026-10-29T06:14:27.749Z"
   },
   "619": {
     "anisearchId": 2510,
@@ -45698,7 +45711,7 @@
         "Rumic Theater: Mermaid Forest"
       ]
     },
-    "fetchedAt": "2026-09-28T11:28:39.009Z"
+    "fetchedAt": "2026-10-29T06:14:34.801Z"
   },
   "621": {
     "anisearchId": 2109,
@@ -46203,7 +46216,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:28:46.571Z"
+    "fetchedAt": "2026-10-29T06:14:41.829Z"
   },
   "630": {
     "anisearchId": 1328,
@@ -46838,7 +46851,7 @@
         "In a Distant Time"
       ]
     },
-    "fetchedAt": "2026-09-28T11:28:53.591Z"
+    "fetchedAt": "2026-10-29T06:14:48.871Z"
   },
   "648": {
     "anisearchId": 3054,
@@ -47384,7 +47397,7 @@
         "Azumanga Daiou: Gekijou Tanpen (あずまんが大王 劇場短編)"
       ]
     },
-    "fetchedAt": "2026-09-28T11:29:00.620Z"
+    "fetchedAt": "2026-10-29T06:14:55.900Z"
   },
   "660": {
     "anisearchId": 1940,
@@ -47883,7 +47896,7 @@
         "Kujibiki Anbaransu"
       ]
     },
-    "fetchedAt": "2026-09-28T11:29:07.648Z"
+    "fetchedAt": "2026-10-29T06:15:02.941Z"
   },
   "670": {
     "anisearchId": 3300,
@@ -48024,7 +48037,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:29:14.669Z"
+    "fetchedAt": "2026-10-29T06:15:09.962Z"
   },
   "675": {
     "anisearchId": 1746,
@@ -48238,7 +48251,7 @@
       ],
       "adaptedFrom": "Manga"
     },
-    "fetchedAt": "2026-09-28T11:29:21.706Z"
+    "fetchedAt": "2026-10-29T06:15:17.002Z"
   },
   "679": {
     "anisearchId": 1081,
@@ -50208,7 +50221,7 @@
       ],
       "adaptedFrom": "Light Novel"
     },
-    "fetchedAt": "2026-09-28T11:29:28.740Z"
+    "fetchedAt": "2026-10-29T06:15:24.033Z"
   },
   "733": {
     "anisearchId": 1074,
@@ -50265,7 +50278,7 @@
       ],
       "adaptedFrom": "Manga"
     },
-    "fetchedAt": "2026-09-28T11:29:35.763Z"
+    "fetchedAt": "2026-10-29T06:15:31.072Z"
   },
   "734": {
     "anisearchId": 2098,
@@ -50313,7 +50326,7 @@
         "Bond: Much Ado About Nothing"
       ]
     },
-    "fetchedAt": "2026-09-28T11:29:42.786Z"
+    "fetchedAt": "2026-10-29T06:15:38.094Z"
   },
   "738": {
     "anisearchId": 2941,
@@ -50501,7 +50514,7 @@
         "Sailormoon R"
       ]
     },
-    "fetchedAt": "2026-09-28T11:01:06.472Z"
+    "fetchedAt": "2026-10-29T04:04:35.259Z"
   },
   "743": {
     "anisearchId": 2885,
@@ -50635,7 +50648,7 @@
         "I Can Hear the Sea"
       ]
     },
-    "fetchedAt": "2026-09-28T11:29:49.821Z"
+    "fetchedAt": "2026-10-29T06:15:45.143Z"
   },
   "744": {
     "anisearchId": 1313,
@@ -50733,7 +50746,7 @@
         "Papa to Kiss: Kiss in the Dark"
       ]
     },
-    "fetchedAt": "2026-09-28T11:29:56.849Z"
+    "fetchedAt": "2026-10-29T06:15:52.174Z"
   },
   "747": {
     "anisearchId": 936,
@@ -50827,7 +50840,7 @@
         "Haru wo Daite Ita"
       ]
     },
-    "fetchedAt": "2026-09-28T11:30:03.879Z"
+    "fetchedAt": "2026-10-29T06:15:59.233Z"
   },
   "748": {
     "anisearchId": 636,
@@ -51359,7 +51372,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:30:10.914Z"
+    "fetchedAt": "2026-10-29T06:16:06.292Z"
   },
   "760": {
     "anisearchId": 580,
@@ -51390,7 +51403,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:30:17.941Z"
+    "fetchedAt": "2026-10-29T06:16:13.647Z"
   },
   "761": {
     "anisearchId": 4097,
@@ -51838,7 +51851,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:30:24.981Z"
+    "fetchedAt": "2026-10-29T06:16:20.699Z"
   },
   "771": {
     "anisearchId": 311,
@@ -52123,7 +52136,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:01:13.641Z"
+    "fetchedAt": "2026-10-29T04:04:42.215Z"
   },
   "779": {
     "anisearchId": 120,
@@ -52243,7 +52256,7 @@
         "Meitantei Conan Movie 1"
       ]
     },
-    "fetchedAt": "2026-09-28T11:30:39.039Z"
+    "fetchedAt": "2026-10-29T06:16:27.745Z"
   },
   "780": {
     "anisearchId": 2591,
@@ -52370,7 +52383,7 @@
         "Detektiv Conan Film 2"
       ]
     },
-    "fetchedAt": "2026-09-28T11:30:46.085Z"
+    "fetchedAt": "2026-10-29T06:16:34.793Z"
   },
   "781": {
     "anisearchId": 1368,
@@ -52479,7 +52492,7 @@
         "Detektiv Conan Film 3"
       ]
     },
-    "fetchedAt": "2026-09-28T11:30:53.125Z"
+    "fetchedAt": "2026-10-29T06:16:41.839Z"
   },
   "782": {
     "anisearchId": 258,
@@ -52947,7 +52960,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:31:00.289Z"
+    "fetchedAt": "2026-10-29T06:16:49.024Z"
   },
   "791": {
     "anisearchId": 2005,
@@ -53116,7 +53129,7 @@
         "Ranma ½: La isla de las doncellas"
       ]
     },
-    "fetchedAt": "2026-09-28T11:31:07.364Z"
+    "fetchedAt": "2026-10-29T06:16:56.069Z"
   },
   "793": {
     "anisearchId": 1944,
@@ -53216,7 +53229,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:31:14.389Z"
+    "fetchedAt": "2026-10-29T06:17:03.119Z"
   },
   "795": {
     "anisearchId": 1976,
@@ -53696,7 +53709,7 @@
         "gitssac2"
       ]
     },
-    "fetchedAt": "2026-09-28T11:31:21.435Z"
+    "fetchedAt": "2026-10-29T06:17:10.168Z"
   },
   "807": {
     "anisearchId": 1536,
@@ -53801,7 +53814,7 @@
         "劇場版 ツバサ・クロニクル 鳥カゴの国の姫君"
       ]
     },
-    "fetchedAt": "2026-09-28T11:31:28.465Z"
+    "fetchedAt": "2026-10-29T06:17:17.214Z"
   },
   "808": {
     "anisearchId": 152,
@@ -53899,7 +53912,7 @@
         "The Original Sorcerer Hunters"
       ]
     },
-    "fetchedAt": "2026-09-28T11:31:35.486Z"
+    "fetchedAt": "2026-10-29T06:17:24.250Z"
   },
   "810": {
     "anisearchId": 682,
@@ -54022,7 +54035,7 @@
         "I''s [アイズ]"
       ]
     },
-    "fetchedAt": "2026-09-28T11:31:42.519Z"
+    "fetchedAt": "2026-10-29T06:17:31.299Z"
   },
   "812": {
     "anisearchId": 46,
@@ -54118,7 +54131,7 @@
         "Earth Maiden Arjuna"
       ]
     },
-    "fetchedAt": "2026-09-28T11:31:49.559Z"
+    "fetchedAt": "2026-10-29T06:17:38.357Z"
   },
   "813": {
     "anisearchId": 2938,
@@ -54223,7 +54236,7 @@
         "Bola de Dragón Z"
       ]
     },
-    "fetchedAt": "2026-09-28T11:01:20.694Z"
+    "fetchedAt": "2026-10-29T04:04:49.258Z"
   },
   "814": {
     "anisearchId": 4659,
@@ -54860,7 +54873,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:31:56.590Z"
+    "fetchedAt": "2026-10-29T06:17:45.408Z"
   },
   "825": {
     "anisearchId": 3050,
@@ -55945,7 +55958,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:32:03.755Z"
+    "fetchedAt": "2026-10-29T06:17:52.594Z"
   },
   "850": {
     "anisearchId": 3584,
@@ -56214,7 +56227,7 @@
         "Ouran Koukou Host-bu"
       ]
     },
-    "fetchedAt": "2026-09-28T11:32:10.798Z"
+    "fetchedAt": "2026-10-29T04:04:56.179Z"
   },
   "854": {
     "anisearchId": 687,
@@ -56440,7 +56453,7 @@
         "The One Being Sung"
       ]
     },
-    "fetchedAt": "2026-09-28T11:32:17.839Z"
+    "fetchedAt": "2026-10-29T06:17:59.645Z"
   },
   "857": {
     "anisearchId": 2561,
@@ -56538,7 +56551,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:01:27.738Z"
+    "fetchedAt": "2026-10-29T04:05:03.121Z"
   },
   "858": {
     "anisearchId": 3438,
@@ -56694,7 +56707,7 @@
         "Digimon: Digital Monsters Season 5"
       ]
     },
-    "fetchedAt": "2026-09-28T11:32:24.888Z"
+    "fetchedAt": "2026-10-29T06:18:06.696Z"
   },
   "860": {
     "anisearchId": 310,
@@ -56859,7 +56872,7 @@
         "xxxHolic"
       ]
     },
-    "fetchedAt": "2026-09-28T11:32:31.931Z"
+    "fetchedAt": "2026-10-29T06:18:13.748Z"
   },
   "863": {
     "anisearchId": 1046,
@@ -57113,7 +57126,7 @@
         "Slayers Premium: The Movie"
       ]
     },
-    "fetchedAt": "2026-09-28T11:32:38.958Z"
+    "fetchedAt": "2026-10-29T06:18:20.793Z"
   },
   "867": {
     "anisearchId": 2115,
@@ -57195,7 +57208,7 @@
         "Slayers Movie 4"
       ]
     },
-    "fetchedAt": "2026-09-28T11:32:46.004Z"
+    "fetchedAt": "2026-10-29T06:18:27.835Z"
   },
   "868": {
     "anisearchId": 545,
@@ -57285,7 +57298,7 @@
         "Slayers Movie 3"
       ]
     },
-    "fetchedAt": "2026-09-28T11:32:53.034Z"
+    "fetchedAt": "2026-10-29T06:18:34.885Z"
   },
   "869": {
     "anisearchId": 2089,
@@ -57375,7 +57388,7 @@
         "Slayers Return: The Movie"
       ]
     },
-    "fetchedAt": "2026-09-28T11:33:00.067Z"
+    "fetchedAt": "2026-10-29T06:18:41.928Z"
   },
   "870": {
     "anisearchId": 177,
@@ -57446,7 +57459,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:33:07.098Z"
+    "fetchedAt": "2026-10-29T06:18:48.973Z"
   },
   "872": {
     "anisearchId": 3440,
@@ -57689,7 +57702,7 @@
         "Digimon: Digital Monsters Season 3"
       ]
     },
-    "fetchedAt": "2026-09-28T11:33:14.148Z"
+    "fetchedAt": "2026-10-29T06:18:56.021Z"
   },
   "875": {
     "anisearchId": 2627,
@@ -57789,7 +57802,7 @@
         "Mindgame"
       ]
     },
-    "fetchedAt": "2026-09-28T11:33:21.197Z"
+    "fetchedAt": "2026-10-29T06:19:03.067Z"
   },
   "876": {
     "anisearchId": 3222,
@@ -57987,7 +58000,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:33:28.361Z"
+    "fetchedAt": "2026-10-29T06:19:10.503Z"
   },
   "878": {
     "anisearchId": 3544,
@@ -58416,7 +58429,7 @@
         "Yu Yu Hakusho: Los invasores del infierno"
       ]
     },
-    "fetchedAt": "2026-09-28T11:33:35.390Z"
+    "fetchedAt": "2026-10-29T06:19:17.609Z"
   },
   "884": {
     "anisearchId": 89,
@@ -58599,6 +58612,10 @@
           "url": "https://vertigofilms.es/movie/angels-egg-4k/"
         },
         {
+          "name": "Eurozoom",
+          "url": "https://www.eurozoom.fr/loeufdelange"
+        },
+        {
           "name": "Luckyred",
           "url": "https://www.luckyred.it/movie/luovo-dellangelo-4k/"
         }
@@ -58609,7 +58626,7 @@
         "Mystical Egg of the Angels"
       ]
     },
-    "fetchedAt": "2026-09-28T11:33:42.425Z"
+    "fetchedAt": "2026-10-29T06:01:37.495Z"
   },
   "886": {
     "anisearchId": 3378,
@@ -58742,7 +58759,7 @@
         "The Candidate for Goddess OVA"
       ]
     },
-    "fetchedAt": "2026-09-28T11:33:49.447Z"
+    "fetchedAt": "2026-10-29T06:19:24.640Z"
   },
   "888": {
     "anisearchId": 1675,
@@ -58822,7 +58839,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:33:56.480Z"
+    "fetchedAt": "2026-10-29T06:19:31.688Z"
   },
   "889": {
     "anisearchId": 3462,
@@ -58935,7 +58952,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:34:03.700Z"
+    "fetchedAt": "2026-10-29T06:19:38.853Z"
   },
   "890": {
     "anisearchId": 93,
@@ -59104,7 +59121,7 @@
         "Dragon Ball: La Princesa Durmiente del Castillo del Demonio"
       ]
     },
-    "fetchedAt": "2026-09-28T11:34:10.729Z"
+    "fetchedAt": "2026-10-29T06:19:45.901Z"
   },
   "892": {
     "anisearchId": 245,
@@ -59202,7 +59219,7 @@
         "Dragon Ball: Gran Aventura Mística"
       ]
     },
-    "fetchedAt": "2026-09-28T11:34:17.759Z"
+    "fetchedAt": "2026-10-29T06:19:52.930Z"
   },
   "893": {
     "anisearchId": 831,
@@ -59403,7 +59420,7 @@
         "Dragon Ball Z: Son Goku Super Star"
       ]
     },
-    "fetchedAt": "2026-09-28T11:34:31.832Z"
+    "fetchedAt": "2026-10-29T04:05:10.033Z"
   },
   "895": {
     "anisearchId": 2504,
@@ -59512,7 +59529,7 @@
         "Dragonball Z: Der Stärkste auf Erden"
       ]
     },
-    "fetchedAt": "2026-09-28T11:34:38.868Z"
+    "fetchedAt": "2026-10-29T04:05:16.962Z"
   },
   "896": {
     "anisearchId": 763,
@@ -59616,7 +59633,7 @@
         "Dragon Ball Z: La batalla decisiva por la Tierra"
       ]
     },
-    "fetchedAt": "2026-09-28T11:34:45.898Z"
+    "fetchedAt": "2026-10-29T04:05:23.873Z"
   },
   "897": {
     "anisearchId": 286,
@@ -59728,7 +59745,7 @@
         "Dragon Ball Z: Goku es un super saiyan"
       ]
     },
-    "fetchedAt": "2026-09-28T11:34:52.928Z"
+    "fetchedAt": "2026-10-29T04:05:30.800Z"
   },
   "898": {
     "anisearchId": 2466,
@@ -59829,7 +59846,7 @@
         "Dragon Ball Z: Los rivales más poderosos"
       ]
     },
-    "fetchedAt": "2026-09-28T11:34:59.959Z"
+    "fetchedAt": "2026-10-29T04:05:37.709Z"
   },
   "899": {
     "anisearchId": 1011,
@@ -59934,7 +59951,7 @@
         "Dragon Ball Z: Los guerreros más poderosos"
       ]
     },
-    "fetchedAt": "2026-09-28T11:35:06.995Z"
+    "fetchedAt": "2026-10-29T04:05:44.640Z"
   },
   "900": {
     "anisearchId": 1947,
@@ -60036,7 +60053,7 @@
         "Dragon Ball Z: ¡Una pelea extrema! Los tres grandes Super Saiyans"
       ]
     },
-    "fetchedAt": "2026-09-28T11:35:14.032Z"
+    "fetchedAt": "2026-10-29T04:05:51.554Z"
   },
   "901": {
     "anisearchId": 360,
@@ -60141,7 +60158,7 @@
         "Dragonball Z: Der Legendäre Super-Saiyajin"
       ]
     },
-    "fetchedAt": "2026-09-28T11:35:21.065Z"
+    "fetchedAt": "2026-10-29T04:05:58.481Z"
   },
   "902": {
     "anisearchId": 3449,
@@ -60244,7 +60261,7 @@
         "Dragon Ball Z: La galaxia corre peligro"
       ]
     },
-    "fetchedAt": "2026-09-28T11:35:28.096Z"
+    "fetchedAt": "2026-10-29T06:19:59.988Z"
   },
   "903": {
     "anisearchId": 1269,
@@ -60344,7 +60361,7 @@
         "Dragonball Z: The Movie - Brolys Rückkehr"
       ]
     },
-    "fetchedAt": "2026-09-28T11:35:35.131Z"
+    "fetchedAt": "2026-10-29T06:20:07.020Z"
   },
   "904": {
     "anisearchId": 1054,
@@ -60445,7 +60462,7 @@
         "Dragonball Z: Angriff der Biokämpfer"
       ]
     },
-    "fetchedAt": "2026-09-28T11:35:42.161Z"
+    "fetchedAt": "2026-10-29T06:20:14.073Z"
   },
   "905": {
     "anisearchId": 2849,
@@ -60546,7 +60563,7 @@
         "Dragonball Z: The Movie (Teil 1)"
       ]
     },
-    "fetchedAt": "2026-09-28T11:35:49.200Z"
+    "fetchedAt": "2026-10-29T06:20:21.107Z"
   },
   "906": {
     "anisearchId": 1441,
@@ -60645,7 +60662,7 @@
         "Dragonball Z: The Movie (Teil 2)"
       ]
     },
-    "fetchedAt": "2026-09-28T11:35:56.231Z"
+    "fetchedAt": "2026-10-29T06:20:28.158Z"
   },
   "907": {
     "anisearchId": 444,
@@ -60723,7 +60740,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:36:03.266Z"
+    "fetchedAt": "2026-10-29T06:20:35.193Z"
   },
   "908": {
     "anisearchId": 2145,
@@ -61191,7 +61208,7 @@
         "Tokko: Devils Awaken"
       ]
     },
-    "fetchedAt": "2026-09-28T11:36:10.305Z"
+    "fetchedAt": "2026-10-29T06:20:42.245Z"
   },
   "917": {
     "anisearchId": 2518,
@@ -61247,7 +61264,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:36:17.337Z"
+    "fetchedAt": "2026-10-29T06:20:49.274Z"
   },
   "918": {
     "anisearchId": 3585,
@@ -64048,7 +64065,7 @@
         "Tsubasa: Reservoir Chronicle 2nd Season"
       ]
     },
-    "fetchedAt": "2026-09-28T11:01:34.777Z"
+    "fetchedAt": "2026-10-29T04:06:05.399Z"
   },
   "970": {
     "anisearchId": 2468,
@@ -65444,7 +65461,7 @@
         "Sailormoon Sailor Stars"
       ]
     },
-    "fetchedAt": "2026-09-28T11:01:41.859Z"
+    "fetchedAt": "2026-10-29T04:06:12.331Z"
   },
   "997": {
     "anisearchId": 2333,
@@ -77780,7 +77797,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:01:48.914Z"
+    "fetchedAt": "2026-10-29T04:06:19.361Z"
   },
   "1196": {
     "anisearchId": 2686,
@@ -80164,7 +80181,7 @@
         "Sailormoon Super S"
       ]
     },
-    "fetchedAt": "2026-09-28T11:01:55.952Z"
+    "fetchedAt": "2026-10-29T04:06:26.292Z"
   },
   "1240": {
     "anisearchId": 855,
@@ -82582,7 +82599,7 @@
         "Esteban: The Child of the Sun"
       ]
     },
-    "fetchedAt": "2026-09-28T11:02:02.978Z"
+    "fetchedAt": "2026-10-29T04:06:33.200Z"
   },
   "1280": {
     "anisearchId": 2828,
@@ -83320,7 +83337,7 @@
         "Afrosamurai"
       ]
     },
-    "fetchedAt": "2026-09-28T13:05:44.896Z"
+    "fetchedAt": "2026-10-29T04:06:40.133Z"
   },
   "1293": {
     "anisearchId": 1945,
@@ -84231,7 +84248,7 @@
         "Digimon Adventure Zero Two"
       ]
     },
-    "fetchedAt": "2026-09-28T13:05:51.670Z"
+    "fetchedAt": "2026-10-29T04:06:47.061Z"
   },
   "1314": {
     "anisearchId": 2975,
@@ -87882,7 +87899,7 @@
         "Vanpaia Miyu"
       ]
     },
-    "fetchedAt": "2026-09-28T13:05:58.422Z"
+    "fetchedAt": "2026-10-29T04:06:53.981Z"
   },
   "1391": {
     "anisearchId": 264,
@@ -88535,7 +88552,7 @@
         "Lupin the Third TV"
       ]
     },
-    "fetchedAt": "2026-09-28T11:02:10.009Z"
+    "fetchedAt": "2026-10-29T04:07:00.883Z"
   },
   "1413": {
     "anisearchId": 3098,
@@ -91858,7 +91875,8 @@
           "released": "04.08.2004",
           "publisher": [
             "Sony Pictures Releasing France",
-            "Dybex S.A."
+            "Dybex S.A.",
+            "Euroz00m"
           ]
         },
         {
@@ -91891,6 +91909,10 @@
         {
           "name": "Sonypictures",
           "url": "https://www.sonypictures.com/homevideo/memories/"
+        },
+        {
+          "name": "Eurozoom",
+          "url": "https://www.eurozoom.fr/memories"
         }
       ],
       "synonyms": [
@@ -91899,7 +91921,7 @@
         "Stink Bomb"
       ]
     },
-    "fetchedAt": "2026-09-28T13:06:05.184Z"
+    "fetchedAt": "2026-10-29T04:07:07.812Z"
   },
   "1465": {
     "anisearchId": 2248,
@@ -95958,7 +95980,7 @@
         "Kanon Remake"
       ]
     },
-    "fetchedAt": "2026-09-28T11:02:17.174Z"
+    "fetchedAt": "2026-10-29T04:07:14.830Z"
   },
   "1531": {
     "anisearchId": 4000,
@@ -96407,7 +96429,7 @@
         "DN"
       ]
     },
-    "fetchedAt": "2026-09-28T13:06:12.074Z"
+    "fetchedAt": "2026-10-29T04:07:22.125Z"
   },
   "1536": {
     "anisearchId": 3650,
@@ -97350,7 +97372,7 @@
         "La ilusión de triunfar"
       ]
     },
-    "fetchedAt": "2026-09-28T11:02:24.209Z"
+    "fetchedAt": "2026-10-29T04:07:29.031Z"
   },
   "1552": {
     "anisearchId": 1182,
@@ -97801,7 +97823,7 @@
         "History’s Strongest Disciple Kenichi"
       ]
     },
-    "fetchedAt": "2026-09-28T11:02:31.255Z"
+    "fetchedAt": "2026-10-29T04:07:35.977Z"
   },
   "1560": {
     "anisearchId": 433,
@@ -98988,7 +99010,7 @@
         "Code Geass 1st Season"
       ]
     },
-    "fetchedAt": "2026-09-28T13:06:18.930Z"
+    "fetchedAt": "2026-10-29T04:07:42.993Z"
   },
   "1576": {
     "anisearchId": 3710,
@@ -102007,7 +102029,7 @@
         "Peter Pan: The Animated Series"
       ]
     },
-    "fetchedAt": "2026-09-28T13:06:25.678Z"
+    "fetchedAt": "2026-10-29T04:07:49.908Z"
   },
   "1641": {
     "anisearchId": 2251,
@@ -104143,7 +104165,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T13:06:32.448Z"
+    "fetchedAt": "2026-10-29T04:07:56.812Z"
   },
   "1682": {
     "anisearchId": 2661,
@@ -106369,7 +106391,7 @@
         "Clannad: The Movie"
       ]
     },
-    "fetchedAt": "2026-09-28T11:02:38.301Z"
+    "fetchedAt": "2026-10-29T04:08:03.749Z"
   },
   "1724": {
     "anisearchId": 3578,
@@ -118881,7 +118903,7 @@
         "Meitantei Houmuzu"
       ]
     },
-    "fetchedAt": "2026-09-28T13:06:39.197Z"
+    "fetchedAt": "2026-10-29T04:08:10.646Z"
   },
   "1973": {
     "anisearchId": 3258,
@@ -125297,7 +125319,7 @@
         "One Piece: Episode of Arabasta: The Pirates and the Princess of the Desert"
       ]
     },
-    "fetchedAt": "2026-09-28T13:06:45.963Z"
+    "fetchedAt": "2026-10-29T04:08:17.572Z"
   },
   "2108": {
     "anisearchId": 287,
@@ -128187,7 +128209,7 @@
         "Kuranado"
       ]
     },
-    "fetchedAt": "2026-09-28T11:02:45.466Z"
+    "fetchedAt": "2026-10-29T04:08:24.587Z"
   },
   "2168": {
     "anisearchId": 4075,
@@ -139960,7 +139982,7 @@
         "Naruto Shippuden Movie 1"
       ]
     },
-    "fetchedAt": "2026-09-28T13:06:52.725Z"
+    "fetchedAt": "2026-10-29T04:08:31.516Z"
   },
   "2473": {
     "anisearchId": 1499,
@@ -143143,7 +143165,7 @@
         "Tales of Little Women"
       ]
     },
-    "fetchedAt": "2026-09-28T13:06:59.481Z"
+    "fetchedAt": "2026-10-29T04:08:38.426Z"
   },
   "2549": {
     "anisearchId": 3410,
@@ -158360,6 +158382,7 @@
           "language": "Spanisch",
           "title": "Code Geass: Lelouch of the Rebellion R2",
           "status": "Abgeschlossen",
+          "dubbed": true,
           "released": "?",
           "publisher": [
             "Crunchyroll"
@@ -158435,7 +158458,7 @@
         "Code Geass: Lelouch of the Rebellion Season 2"
       ]
     },
-    "fetchedAt": "2026-09-28T13:07:06.331Z"
+    "fetchedAt": "2026-10-29T04:08:45.466Z"
   },
   "2905": {
     "anisearchId": 3063,
@@ -158715,7 +158738,7 @@
         "Spanky!"
       ]
     },
-    "fetchedAt": "2026-09-28T13:07:13.079Z"
+    "fetchedAt": "2026-10-29T04:08:52.356Z"
   },
   "2913": {
     "anisearchId": 2448,
@@ -161448,7 +161471,7 @@
         "rtv"
       ]
     },
-    "fetchedAt": "2026-09-28T11:02:52.513Z"
+    "fetchedAt": "2026-10-29T04:08:59.297Z"
   },
   "2994": {
     "anisearchId": 4441,
@@ -165359,7 +165382,7 @@
         "Pure Hearted Romance"
       ]
     },
-    "fetchedAt": "2026-09-28T13:07:19.930Z"
+    "fetchedAt": "2026-10-29T04:09:06.214Z"
   },
   "3095": {
     "anisearchId": 2025,
@@ -168944,7 +168967,7 @@
         "Gunslinger Girl 2nd Season"
       ]
     },
-    "fetchedAt": "2026-09-28T11:02:59.549Z"
+    "fetchedAt": "2026-10-29T04:09:13.143Z"
   },
   "3232": {
     "anisearchId": 8535,
@@ -174227,7 +174250,7 @@
         "ToLoveRu"
       ]
     },
-    "fetchedAt": "2026-09-28T11:03:06.597Z"
+    "fetchedAt": "2026-10-29T04:09:20.059Z"
   },
   "3456": {
     "anisearchId": 4604,
@@ -180502,7 +180525,7 @@
         "Graveyard Kitarou"
       ]
     },
-    "fetchedAt": "2026-09-28T13:07:26.684Z"
+    "fetchedAt": "2026-10-29T04:09:26.982Z"
   },
   "3712": {
     "anisearchId": 4638,
@@ -185237,7 +185260,7 @@
         "Miracle Sakura"
       ]
     },
-    "fetchedAt": "2026-09-28T11:03:13.629Z"
+    "fetchedAt": "2026-10-29T04:09:33.883Z"
   },
   "3849": {
     "anisearchId": 8765,
@@ -190911,7 +190934,7 @@
         "Michiko e Hatchin"
       ]
     },
-    "fetchedAt": "2026-09-28T13:07:33.439Z"
+    "fetchedAt": "2026-10-29T04:09:40.813Z"
   },
   "4088": {
     "anisearchId": 2964,
@@ -192420,7 +192443,7 @@
         "One Piece: 10. Film - Strong World"
       ]
     },
-    "fetchedAt": "2026-09-28T11:03:20.670Z"
+    "fetchedAt": "2026-10-29T04:09:47.720Z"
   },
   "4156": {
     "anisearchId": 10422,
@@ -192841,7 +192864,7 @@
         "Clannad Staffel 2"
       ]
     },
-    "fetchedAt": "2026-09-28T11:03:27.727Z"
+    "fetchedAt": "2026-10-29T04:09:54.761Z"
   },
   "4182": {
     "anisearchId": 6849,
@@ -194227,7 +194250,7 @@
         "Rosario + Vampire Season 2"
       ]
     },
-    "fetchedAt": "2026-09-28T11:03:34.771Z"
+    "fetchedAt": "2026-10-29T04:10:01.672Z"
   },
   "4218": {
     "anisearchId": 10428,
@@ -197003,7 +197026,7 @@
         "Naruto Shippūden la película: Lazos"
       ]
     },
-    "fetchedAt": "2026-09-28T13:07:40.201Z"
+    "fetchedAt": "2026-10-29T04:10:08.602Z"
   },
   "4439": {
     "anisearchId": 3043,
@@ -200869,7 +200892,8 @@
           "publisher": [
             "FUNimation",
             "Universal Sony Home Pictures Australia",
-            "Animatsu Entertainment Ltd."
+            "Animatsu Entertainment Ltd.",
+            "Muse Communication Co.,Ltd."
           ]
         },
         {
@@ -200948,7 +200972,7 @@
         "To Aru Majutsu no Index"
       ]
     },
-    "fetchedAt": "2026-09-28T11:03:41.816Z"
+    "fetchedAt": "2026-10-29T06:20:56.340Z"
   },
   "4657": {
     "anisearchId": 5062,
@@ -203948,7 +203972,7 @@
         "Pure Hearted Romance 2"
       ]
     },
-    "fetchedAt": "2026-09-28T13:07:46.952Z"
+    "fetchedAt": "2026-10-29T04:10:15.725Z"
   },
   "4823": {
     "anisearchId": 3587,
@@ -204878,7 +204902,7 @@
         "Kuroshitsuzi"
       ]
     },
-    "fetchedAt": "2026-09-28T11:03:48.869Z"
+    "fetchedAt": "2026-10-29T06:21:03.388Z"
   },
   "4901": {
     "anisearchId": 6023,
@@ -207419,7 +207443,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T13:07:53.703Z"
+    "fetchedAt": "2026-10-29T04:10:22.639Z"
   },
   "5028": {
     "anisearchId": 4956,
@@ -217297,7 +217321,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T13:08:00.468Z"
+    "fetchedAt": "2026-10-29T04:10:29.557Z"
   },
   "5534": {
     "anisearchId": 4933,
@@ -223919,7 +223943,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T13:08:07.237Z"
+    "fetchedAt": "2026-10-29T04:10:36.481Z"
   },
   "5967": {
     "anisearchId": 1270,
@@ -228738,7 +228762,8 @@
           "publisher": [
             "FUNimation",
             "Universal Sony Home Pictures Australia",
-            "Animatsu Entertainment Ltd."
+            "Animatsu Entertainment Ltd.",
+            "Muse Communication Co.,Ltd."
           ]
         },
         {
@@ -228823,7 +228848,7 @@
         "To Aru Kagaku no Choudenjibou"
       ]
     },
-    "fetchedAt": "2026-09-28T13:08:14.019Z"
+    "fetchedAt": "2026-10-29T06:21:10.453Z"
   },
   "6217": {
     "anisearchId": 3747,
@@ -230470,7 +230495,7 @@
         "Naruto Shippūden la película: La voluntad de fuego"
       ]
     },
-    "fetchedAt": "2026-09-28T13:08:20.776Z"
+    "fetchedAt": "2026-10-29T04:10:43.389Z"
   },
   "6327": {
     "anisearchId": 5935,
@@ -236651,7 +236676,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T13:08:27.630Z"
+    "fetchedAt": "2026-10-29T06:21:17.620Z"
   },
   "6704": {
     "anisearchId": 7233,
@@ -237507,7 +237532,7 @@
         "Dyurarara!!"
       ]
     },
-    "fetchedAt": "2026-09-28T13:08:34.450Z"
+    "fetchedAt": "2026-10-29T06:21:24.685Z"
   },
   "6747": {
     "anisearchId": 5472,
@@ -238860,7 +238885,7 @@
         "Inuyasha: El acto final"
       ]
     },
-    "fetchedAt": "2026-09-28T13:08:41.217Z"
+    "fetchedAt": "2026-10-29T04:10:50.318Z"
   },
   "6822": {
     "anisearchId": 6001,
@@ -244392,7 +244417,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T13:08:47.986Z"
+    "fetchedAt": "2026-10-29T04:10:57.231Z"
   },
   "7090": {
     "anisearchId": 3476,
@@ -246515,7 +246540,7 @@
         "The Vanishment of Haruhi Suzumiya"
       ]
     },
-    "fetchedAt": "2026-09-28T13:08:54.756Z"
+    "fetchedAt": "2026-10-29T04:11:04.180Z"
   },
   "7314": {
     "anisearchId": 4747,
@@ -255264,7 +255289,7 @@
         "High School of the Dead - Apocalipsis en el instituto"
       ]
     },
-    "fetchedAt": "2026-09-28T11:03:56.035Z"
+    "fetchedAt": "2026-10-29T04:11:11.196Z"
   },
   "8078": {
     "anisearchId": 6061,
@@ -258315,7 +258340,7 @@
         "Naruto Shippuden : La Tour Perdue"
       ]
     },
-    "fetchedAt": "2026-09-28T13:09:01.514Z"
+    "fetchedAt": "2026-10-29T04:11:18.127Z"
   },
   "8247": {
     "anisearchId": 6350,
@@ -258669,7 +258694,7 @@
         "Samurai Girls : Expertes en Strip Fighting !"
       ]
     },
-    "fetchedAt": "2026-09-28T11:04:03.077Z"
+    "fetchedAt": "2026-10-29T04:11:25.040Z"
   },
   "8278": {
     "anisearchId": 7390,
@@ -258998,7 +259023,7 @@
         "Kid The Phantom Thief"
       ]
     },
-    "fetchedAt": "2026-09-28T13:09:08.273Z"
+    "fetchedAt": "2026-10-29T04:11:31.960Z"
   },
   "8311": {
     "anisearchId": 6207,
@@ -260643,7 +260668,7 @@
         "Metal Fight Beyblade Explosion"
       ]
     },
-    "fetchedAt": "2026-09-28T13:09:15.027Z"
+    "fetchedAt": "2026-10-29T04:11:38.862Z"
   },
   "8415": {
     "anisearchId": 3010,
@@ -263945,7 +263970,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T13:09:21.783Z"
+    "fetchedAt": "2026-10-29T04:11:45.786Z"
   },
   "8630": {
     "anisearchId": 6226,
@@ -267757,7 +267782,7 @@
         "Stitch! Season 3"
       ]
     },
-    "fetchedAt": "2026-09-28T13:09:28.531Z"
+    "fetchedAt": "2026-10-29T06:21:31.710Z"
   },
   "8965": {
     "anisearchId": 1859,
@@ -270438,7 +270463,7 @@
         "To Love-Ru: Staffel 2"
       ]
     },
-    "fetchedAt": "2026-09-28T11:04:10.110Z"
+    "fetchedAt": "2026-10-29T04:11:52.699Z"
   },
   "9200": {
     "anisearchId": 6787,
@@ -271210,7 +271235,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T13:09:35.416Z"
+    "fetchedAt": "2026-10-29T04:11:59.780Z"
   },
   "9254": {
     "anisearchId": 7166,
@@ -274137,7 +274162,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T13:09:42.177Z"
+    "fetchedAt": "2026-10-29T04:12:06.693Z"
   },
   "9488": {
     "anisearchId": 6547,
@@ -278043,7 +278068,7 @@
         "Mahou Shoujo Madoka Magika"
       ]
     },
-    "fetchedAt": "2026-09-28T13:09:49.035Z"
+    "fetchedAt": "2026-10-29T04:12:13.736Z"
   },
   "9759": {
     "anisearchId": 1165,
@@ -280821,7 +280846,7 @@
         "Ao no Futsumashi"
       ]
     },
-    "fetchedAt": "2026-09-28T13:09:55.809Z"
+    "fetchedAt": "2026-10-29T06:21:38.776Z"
   },
   "9922": {
     "anisearchId": 6650,
@@ -284808,7 +284833,7 @@
         "Fate/Zero (2011)"
       ]
     },
-    "fetchedAt": "2026-09-28T13:10:02.591Z"
+    "fetchedAt": "2026-10-29T04:12:20.652Z"
   },
   "10098": {
     "anisearchId": 16250,
@@ -291483,7 +291508,7 @@
         "Blood-C: The Series"
       ]
     },
-    "fetchedAt": "2026-09-28T13:10:09.445Z"
+    "fetchedAt": "2026-10-29T04:12:27.695Z"
   },
   "10491": {
     "anisearchId": 6978,
@@ -293270,7 +293295,7 @@
     "streams": [
       {
         "provider": "amazon-de",
-        "url": "http://www.amazon.de/exec/obidos/ASIN/B071G3LJZX/anisearch.de-21/"
+        "url": "https://www.amazon.de/dp/B0GMZ2GY36?tag=anisearch.de-21"
       },
       {
         "provider": "rakuten",
@@ -293397,7 +293422,7 @@
         "Naruto Shippūden la película: Prisión de sangre"
       ]
     },
-    "fetchedAt": "2026-09-28T13:10:16.207Z"
+    "fetchedAt": "2026-10-29T04:12:34.608Z"
   },
   "10592": {
     "anisearchId": 6963,
@@ -294233,7 +294258,7 @@
         "Naruto Shippuden Movie 4 Special"
       ]
     },
-    "fetchedAt": "2026-09-28T13:10:22.961Z"
+    "fetchedAt": "2026-10-29T04:12:41.526Z"
   },
   "10666": {
     "anisearchId": 16629,
@@ -294578,7 +294603,7 @@
         "Naruto Shippuden Movie 5 Special"
       ]
     },
-    "fetchedAt": "2026-09-28T13:10:29.714Z"
+    "fetchedAt": "2026-10-29T04:12:48.433Z"
   },
   "10687": {
     "anisearchId": 6906,
@@ -302844,7 +302869,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T13:10:36.481Z"
+    "fetchedAt": "2026-10-29T04:12:55.379Z"
   },
   "11505": {
     "anisearchId": 12890,
@@ -303505,7 +303530,7 @@
         "Steins;Gate: Loading Area Of Déjà Vu"
       ]
     },
-    "fetchedAt": "2026-09-28T13:10:43.335Z"
+    "fetchedAt": "2026-10-29T04:13:02.401Z"
   },
   "11593": {
     "anisearchId": 651,
@@ -305297,7 +305322,7 @@
         "Fate/Zero: Second Season"
       ]
     },
-    "fetchedAt": "2026-09-28T13:10:50.099Z"
+    "fetchedAt": "2026-10-29T04:13:09.569Z"
   },
   "11743": {
     "anisearchId": 7338,
@@ -305716,7 +305741,7 @@
         "SAO"
       ]
     },
-    "fetchedAt": "2026-09-28T11:04:17.278Z"
+    "fetchedAt": "2026-10-29T04:13:16.591Z"
   },
   "11759": {
     "anisearchId": 7328,
@@ -307367,7 +307392,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T13:10:56.867Z"
+    "fetchedAt": "2026-10-29T04:13:23.533Z"
   },
   "11889": {
     "anisearchId": 8778,
@@ -312207,7 +312232,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T13:11:03.632Z"
+    "fetchedAt": "2026-10-29T04:13:30.444Z"
   },
   "12481": {
     "anisearchId": 6590,
@@ -315221,7 +315246,7 @@
         "One Piece Movie 11"
       ]
     },
-    "fetchedAt": "2026-09-28T13:11:10.394Z"
+    "fetchedAt": "2026-10-29T06:21:45.809Z"
   },
   "12861": {
     "anisearchId": 4060,
@@ -316315,7 +316340,7 @@
         "Naruto Spin off: Rock Lee und seine Ninja Kumpels"
       ]
     },
-    "fetchedAt": "2026-09-28T13:11:17.151Z"
+    "fetchedAt": "2026-10-29T06:21:52.860Z"
   },
   "12981": {
     "anisearchId": 3460,
@@ -317335,7 +317360,7 @@
         "Hagure Yusha no Estetica"
       ]
     },
-    "fetchedAt": "2026-09-28T11:04:24.317Z"
+    "fetchedAt": "2026-10-29T04:13:37.389Z"
   },
   "13163": {
     "anisearchId": 7639,
@@ -318008,7 +318033,7 @@
         "Lupin the 3rd: The Woman Called Fujiko Mine"
       ]
     },
-    "fetchedAt": "2026-09-28T13:11:23.963Z"
+    "fetchedAt": "2026-10-29T04:13:44.300Z"
   },
   "13207": {
     "anisearchId": 6949,
@@ -320814,7 +320839,7 @@
           "language": "Deutsch",
           "title": "Good Luck Girl!",
           "status": "Zukünftig",
-          "released": "2026 - ?",
+          "released": "05.02.2027 - ?",
           "publisher": [
             "Hardball Films"
           ]
@@ -320856,7 +320881,7 @@
         "Viel Glück Mädchen!"
       ]
     },
-    "fetchedAt": "2026-09-28T13:11:30.729Z"
+    "fetchedAt": "2026-10-29T04:13:51.240Z"
   },
   "13541": {
     "anisearchId": 7581,
@@ -321381,7 +321406,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T13:11:37.590Z"
+    "fetchedAt": "2026-10-29T06:22:00.022Z"
   },
   "13619": {
     "anisearchId": 8463,
@@ -321854,7 +321879,7 @@
         "Naruto Shippūden la película: El camino Ninja"
       ]
     },
-    "fetchedAt": "2026-09-28T13:11:44.363Z"
+    "fetchedAt": "2026-10-29T04:13:58.149Z"
   },
   "13673": {
     "anisearchId": 7594,
@@ -330134,7 +330159,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T13:11:51.125Z"
+    "fetchedAt": "2026-10-29T04:14:05.089Z"
   },
   "15125": {
     "anisearchId": 8003,
@@ -331406,7 +331431,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:04:31.352Z"
+    "fetchedAt": "2026-10-29T04:14:12.003Z"
   },
   "15379": {
     "anisearchId": 8024,
@@ -339408,6 +339433,10 @@
         "url": "https://www.amazon.de/dp/B0GZJ7KH73?tag=anisearch.de-21"
       },
       {
+        "provider": "amazon-de",
+        "url": "https://www.amazon.de/dp/B0CWG9V8VB?tag=anisearch.de-21"
+      },
+      {
         "provider": "youtube",
         "url": "https://www.youtube.com/playlist?list=PLNcqwhPhO46GSE_1eBVzMpx4eu8NjIrG-"
       },
@@ -339526,7 +339555,7 @@
         "SnK"
       ]
     },
-    "fetchedAt": "2026-09-28T11:04:38.564Z"
+    "fetchedAt": "2026-10-29T04:14:19.061Z"
   },
   "16506": {
     "anisearchId": 11108,
@@ -346024,7 +346053,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T13:11:57.981Z"
+    "fetchedAt": "2026-10-29T04:14:26.083Z"
   },
   "17267": {
     "anisearchId": 8352,
@@ -350584,7 +350613,7 @@
         "InuHasa"
       ]
     },
-    "fetchedAt": "2026-09-28T13:12:04.742Z"
+    "fetchedAt": "2026-10-29T04:14:33.015Z"
   },
   "17835": {
     "anisearchId": 8393,
@@ -353106,7 +353135,7 @@
         "Beyond the Horizon"
       ]
     },
-    "fetchedAt": "2026-09-28T11:04:45.607Z"
+    "fetchedAt": "2026-10-29T04:14:39.934Z"
   },
   "18155": {
     "anisearchId": 8434,
@@ -353994,7 +354023,7 @@
         "StB"
       ]
     },
-    "fetchedAt": "2026-09-28T13:12:11.510Z"
+    "fetchedAt": "2026-10-29T06:22:07.499Z"
   },
   "18283": {
     "anisearchId": 3855,
@@ -356048,7 +356077,7 @@
         "Free! Staffel 1"
       ]
     },
-    "fetchedAt": "2026-09-28T13:12:18.289Z"
+    "fetchedAt": "2026-10-29T04:14:46.877Z"
   },
   "18521": {
     "anisearchId": 8630,
@@ -367249,7 +367278,7 @@
         "SAO: Extra Edition"
       ]
     },
-    "fetchedAt": "2026-09-28T13:12:25.048Z"
+    "fetchedAt": "2026-10-29T04:14:53.791Z"
   },
   "20023": {
     "anisearchId": 10616,
@@ -371559,7 +371588,7 @@
         "HQ!!"
       ]
     },
-    "fetchedAt": "2026-09-28T11:04:52.651Z"
+    "fetchedAt": "2026-10-29T04:15:00.736Z"
   },
   "20465": {
     "anisearchId": 8961,
@@ -379437,7 +379466,7 @@
         "Sword Art Online: Staffel 2"
       ]
     },
-    "fetchedAt": "2026-09-28T11:04:59.838Z"
+    "fetchedAt": "2026-10-29T04:15:07.787Z"
   },
   "20595": {
     "anisearchId": 9328,
@@ -382274,7 +382303,7 @@
         "Terraformars"
       ]
     },
-    "fetchedAt": "2026-09-28T11:05:06.876Z"
+    "fetchedAt": "2026-10-29T04:15:14.729Z"
   },
   "20630": {
     "anisearchId": 9649,
@@ -406195,7 +406224,7 @@
         "Haikyuu!! 2"
       ]
     },
-    "fetchedAt": "2026-09-28T11:05:13.924Z"
+    "fetchedAt": "2026-10-29T04:15:21.643Z"
   },
   "20993": {
     "anisearchId": 10122,
@@ -414853,7 +414882,7 @@
         "Dragonball Super"
       ]
     },
-    "fetchedAt": "2026-09-28T11:05:20.962Z"
+    "fetchedAt": "2026-10-29T04:15:28.589Z"
   },
   "21177": {
     "anisearchId": 10948,
@@ -429325,7 +429354,7 @@
         "Alderamin of the Sky"
       ]
     },
-    "fetchedAt": "2026-09-28T11:05:28.003Z"
+    "fetchedAt": "2026-10-29T04:15:35.500Z"
   },
   "21411": {
     "anisearchId": 9431,
@@ -443532,7 +443561,7 @@
         "Haikyuu!! Third Season"
       ]
     },
-    "fetchedAt": "2026-09-28T11:05:35.037Z"
+    "fetchedAt": "2026-10-29T04:15:42.432Z"
   },
   "21699": {
     "anisearchId": 11210,
@@ -494621,7 +494650,7 @@
         "SAO: Alicization"
       ]
     },
-    "fetchedAt": "2026-09-28T11:05:42.203Z"
+    "fetchedAt": "2026-10-29T04:15:49.458Z"
   },
   "100183": {
     "anisearchId": 12853,
@@ -555670,7 +555699,7 @@
         "Haikyu!! 4th Season"
       ]
     },
-    "fetchedAt": "2026-09-28T11:05:49.232Z"
+    "fetchedAt": "2026-10-29T04:15:56.378Z"
   },
   "106674": {
     "anisearchId": 14805,
@@ -568342,7 +568371,7 @@
         "SAO Alicization 2"
       ]
     },
-    "fetchedAt": "2026-09-28T11:05:56.284Z"
+    "fetchedAt": "2026-10-29T04:16:03.527Z"
   },
   "108760": {
     "anisearchId": 14189,
@@ -591771,7 +591800,7 @@
         "Haikyuu!! To the Top Part II"
       ]
     },
-    "fetchedAt": "2026-09-28T11:06:10.364Z"
+    "fetchedAt": "2026-10-29T04:16:17.368Z"
   },
   "113555": {
     "anisearchId": 14074,
@@ -597764,7 +597793,7 @@
         "SAO: Alicization - War of Underworld 2"
       ]
     },
-    "fetchedAt": "2026-09-28T11:06:03.326Z"
+    "fetchedAt": "2026-10-29T04:16:10.445Z"
   },
   "114333": {
     "anisearchId": 15484,
@@ -642000,7 +642029,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-28T11:06:17.411Z"
+    "fetchedAt": "2026-10-29T04:16:24.285Z"
   },
   "127368": {
     "anisearchId": 15917,
@@ -688720,7 +688749,7 @@
         "Demon Slave"
       ]
     },
-    "fetchedAt": "2026-09-28T11:06:24.447Z"
+    "fetchedAt": "2026-10-29T04:16:31.212Z"
   },
   "141852": {
     "anisearchId": 17102,
@@ -697163,7 +697192,7 @@
         "Urusei Yatsura Reboot"
       ]
     },
-    "fetchedAt": "2026-09-28T11:06:31.496Z"
+    "fetchedAt": "2026-10-29T04:16:38.156Z"
   },
   "143287": {
     "anisearchId": 19477,
@@ -720387,7 +720416,7 @@
         "The Bad Part of My Heart"
       ]
     },
-    "fetchedAt": "2026-09-28T11:06:38.538Z"
+    "fetchedAt": "2026-10-29T04:16:45.092Z"
   },
   "153288": {
     "anisearchId": 17576,
@@ -730177,7 +730206,7 @@
         "Lum: Urusei Yatsura Part 2"
       ]
     },
-    "fetchedAt": "2026-09-28T11:06:52.621Z"
+    "fetchedAt": "2026-10-29T04:16:58.962Z"
   },
   "155657": {
     "anisearchId": 17776,
@@ -737657,7 +737686,7 @@
         "My Instant Death Ability Is Overpowered"
       ]
     },
-    "fetchedAt": "2026-09-28T11:06:45.590Z"
+    "fetchedAt": "2026-10-29T04:16:52.038Z"
   },
   "158036": {
     "anisearchId": 17926,
@@ -750229,7 +750258,7 @@
           "dubbed": true,
           "released": "06.04.2024 - 22.06.2024",
           "publisher": [
-            "HIDIVE, LLC",
+            "Sentai",
             "Muse Communication Co.,Ltd."
           ]
         },
@@ -750300,7 +750329,7 @@
         "Jellyfish Can’t Swim at Night"
       ]
     },
-    "fetchedAt": "2026-09-28T11:06:59.670Z"
+    "fetchedAt": "2026-10-29T04:17:05.903Z"
   },
   "163079": {
     "anisearchId": 18299,
@@ -758028,7 +758057,7 @@
         "The Dangers in My Heart: Staffel 2"
       ]
     },
-    "fetchedAt": "2026-09-28T11:07:06.713Z"
+    "fetchedAt": "2026-10-29T04:17:12.835Z"
   },
   "166217": {
     "anisearchId": 18588,
@@ -782542,7 +782571,7 @@
         "Lonely Attack on the Different World"
       ]
     },
-    "fetchedAt": "2026-09-28T11:07:13.762Z"
+    "fetchedAt": "2026-10-29T04:17:19.775Z"
   },
   "173694": {
     "anisearchId": 19024,
@@ -812185,7 +812214,7 @@
         "Mission: Yozakura Family 2nd Season"
       ]
     },
-    "fetchedAt": "2026-09-28T10:58:52.513Z"
+    "fetchedAt": "2026-10-29T04:17:26.696Z"
   },
   "182587": {
     "anisearchId": 19667,
@@ -821417,7 +821446,7 @@
         "Dandadan 2nd Season"
       ]
     },
-    "fetchedAt": "2026-09-28T11:07:20.800Z"
+    "fetchedAt": "2026-10-29T04:17:33.640Z"
   },
   "185663": {
     "anisearchId": 17574,
@@ -822601,7 +822630,13 @@
   },
   "185756": {
     "anisearchId": 19993,
-    "streams": [],
+    "descriptionDe": "Ars Louvent steigt nach mehreren Kriegserfolgen auf. Er verwaltet nun nicht mehr nur sein kleines Heimatgebiet, sondern die gesamte umliegende Region. Die Folgen des Krieges treffen das Land jedoch schwer. Viele Bauern mussten ihre Höfe verkaufen, weshalb Lebensmittel knapp werden und die Städte überquellen. Ars entscheidet sich für einen ungewöhnlichen Weg, um die Lage zu verbessern. Er überlässt den armen Bewohnern staatliche Bauernhöfe und verlangt kaum Steuern von ihnen. Im Gegenzug verpflichten sich die Menschen dazu, im Ernstfall als Soldaten zu kämpfen. So stärkt Ars den Zusammenhalt in der Bevölkerung und gibt ihnen ein Zuhause, das sie aus eigener Überzeugung verteidigen.\n\nDer Frieden währt jedoch nicht lange. Während im Osten der Bürgerkrieg weiterbrennt, nutzt das benachbarte Herzogtum Seitz die Situation aus. Die feindlichen Truppen marschieren überraschend direkt in Ars’ Herrschaftsgebiet ein. Obwohl er zahlenmäßig stark unterlegen ist, steht Ars keineswegs allein da. Durch seine ehrliche und hilfsbereite Art hat er sich viel Vertrauen erarbeitet. Graf Kran schickt ihm trotz eigener Kämpfe wichtige Verstärkung. Gleichzeitig schließen sich ihm freiwillig Söldnergruppen und andere Gebiete an, um sein Land gemeinsam zu beschützen.\n\nNeben der Verteidigung fördert Ars weiterhin vielversprechende Talente in seinen Reihen. Der geschickte Anführer Zatt übernimmt Verantwortung auf dem Schlachtfeld. Er unterstützt den noch ungestümen Joe Braham, weil er dessen großes Talent erkennt. Zur selben Zeit leidet das junge Landmädchen Musica unter starken Selbstzweifeln an ihren magischen Fähigkeiten. Die erfahrene Kampfmagierin Charlotte nimmt das Mädchen unter ihre Fittiche und schenkt ihr neues Selbstvertrauen. Durch diese Unterstützung wächst Musica über sich hinaus. Ars’ freundliche Art überträgt sich so auf sein gesamtes Umfeld und macht seine Gefährten gemeinsam stärker. \n\nQuelle: www.anisearch.de/anime/19993",
+    "streams": [
+      {
+        "provider": "crunchyroll",
+        "url": "https://www.crunchyroll.com/series/GG5H5XQMD/as-a-reincarnated-aristocrat-ill-use-my-appraisal-skill-to-rise-in-the-world"
+      }
+    ],
     "info": {
       "languages": [
         {
@@ -822615,6 +822650,7 @@
           "language": "Englisch",
           "title": "As a Reincarnated Aristocrat, I’ll Use My Appraisal Skill to Rise in the World: Season 3",
           "status": "Laufend",
+          "dubbed": true,
           "released": "27.09.2026 - ?",
           "publisher": [
             "Crunchyroll",
@@ -822625,6 +822661,7 @@
           "language": "Deutsch",
           "title": "As a Reincarnated Aristocrat, I’ll Use My Appraisal Skill to Rise in the World: Staffel 3",
           "status": "Laufend",
+          "dubbed": true,
           "released": "27.09.2026 - ?",
           "publisher": [
             "Crunchyroll"
@@ -822703,7 +822740,7 @@
         "I’ll Use My Appraisal Skill to Rise in the World 3rd Season"
       ]
     },
-    "fetchedAt": "2026-09-28T10:58:59.538Z"
+    "fetchedAt": "2026-10-29T04:17:40.559Z"
   },
   "185773": {
     "anisearchId": 20000,
@@ -843169,22 +843206,28 @@
   },
   "195539": {
     "anisearchId": 20705,
-    "streams": [],
+    "descriptionDe": "Einst war King eine Legende von Night City. Doch nach einer schweren Cyberpsychose wird ihm seine gesamte Cyberware entfernt und er ist gezwungen, ein Leben als Niemand zu führen. Als Talia, die Tochter seiner einzigen großen Liebe Avida, immer tiefer in die gefährliche Welt der Cybermodifikationen und der Maelstrom-Gang abrutscht, muss King sich seiner Vergangenheit stellen, um sie zu retten.\n\nZur gleichen Zeit begegnet der zwölfjährige Nachwuchsfilmer Roman während eines Auftrags über Maelstrom dem geheimnisvollen D. Fasziniert von dessen ungewöhnlicher Persönlichkeit beschließt er, ihn zum Mittelpunkt seines nächsten Films zu machen. Doch seine Neugier zieht ihn immer tiefer in die Abgründe von Night City, wo sich die Schicksale aller Beteiligten unaufhaltsam miteinander verflechten.\n\nIn einer Stadt, die ihre Legenden verschlingt, stellt sich die Frage: Ist es schlimmer, als Legende zu sterben … oder als Niemand weiterzuleben? \n\nQuelle: www.anisearch.de/anime/20705",
+    "streams": [
+      {
+        "provider": "netflix",
+        "url": "https://www.netflix.com/title/81054853"
+      }
+    ],
     "info": {
       "languages": [
         {
           "language": "Japanisch",
           "title": "Cyberpunk: Edgerunners 2",
           "titleNative": "サイバーパンクエッジランナーズ2",
-          "status": "Zukünftig",
-          "released": "20.10.2026 - ?"
+          "status": "Abgeschlossen",
+          "released": "20.10.2026"
         },
         {
           "language": "Englisch",
           "title": "Cyberpunk: Edgerunners 2",
-          "status": "Zukünftig",
+          "status": "Abgeschlossen",
           "dubbed": true,
-          "released": "20.10.2026 - ?",
+          "released": "20.10.2026",
           "publisher": [
             "Netflix, Inc."
           ]
@@ -843192,8 +843235,9 @@
         {
           "language": "Deutsch",
           "title": "Cyberpunk: Edgerunners 2",
-          "status": "Zukünftig",
-          "released": "20.10.2026 - ?",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "20.10.2026",
           "publisher": [
             "Netflix, Inc."
           ]
@@ -843201,8 +843245,9 @@
         {
           "language": "Spanisch",
           "title": "Cyberpunk: Edgerunners 2",
-          "status": "Zukünftig",
-          "released": "20.10.2026 - ?",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "20.10.2026",
           "publisher": [
             "Netflix, Inc."
           ]
@@ -843210,8 +843255,9 @@
         {
           "language": "Französisch",
           "title": "Cyberpunk : Edgerunners 2",
-          "status": "Zukünftig",
-          "released": "20.10.2026 - ?",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "20.10.2026",
           "publisher": [
             "Netflix, Inc."
           ]
@@ -843219,8 +843265,9 @@
         {
           "language": "Italienisch",
           "title": "Cyberpunk: Edgerunners 2",
-          "status": "Zukünftig",
-          "released": "20.10.2026 - ?",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "20.10.2026",
           "publisher": [
             "Netflix, Inc."
           ]
@@ -843277,7 +843324,7 @@
         "Cyberpunk: Edgerunners II"
       ]
     },
-    "fetchedAt": "2026-09-28T10:58:45.487Z"
+    "fetchedAt": "2026-10-29T04:17:47.492Z"
   },
   "195571": {
     "anisearchId": 21216,
@@ -879458,5 +879505,38 @@
       ]
     },
     "fetchedAt": "2026-10-26T06:01:47.913Z"
+  },
+  "218956": {
+    "anisearchId": 22081,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Dual Shadow: Precure Villain Heroines",
+          "titleNative": "デュアルシャドウ ～Precure Villain Heroines～",
+          "status": "Zukünftig",
+          "released": "2027 - ?"
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "Twitter",
+          "url": "https://twitter.com/precure_15th"
+        },
+        {
+          "name": "Toei Animation",
+          "url": "https://www.toei-anim.co.jp/tv/dualshadow/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-10-29T06:22:14.530Z"
   }
 }

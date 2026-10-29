@@ -1,12 +1,11 @@
 {
-  "scrapedAt": "2026-10-28T17:06:25.003Z",
+  "scrapedAt": "2026-10-29T05:02:33.937Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 8,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 4,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 11,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 11,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 12,
     "schon in einem Rubrik-Feed gelesen": 10,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 1,
     "Sprachhinweis älter als 45 Tage": 4
   },
   "proposals": [
@@ -26,7 +25,75 @@
         }
       ],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "sammel": [
+        {
+          "titel": "M.A.S.K.",
+          "datum": "2026-11-01",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [],
+          "folgen": 73
+        },
+        {
+          "titel": "The Forsaken Saintess and Her Foodie Road Trip in Another World",
+          "datum": "2026-11-01",
+          "deutsch": false,
+          "woechentlich": false,
+          "stream": [],
+          "folgen": 12
+        },
+        {
+          "titel": "Angel’s Egg",
+          "datum": "2026-11-05",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": []
+        },
+        {
+          "titel": "Shaman King",
+          "zusatz": "Staffel 4",
+          "datum": "2026-11-12",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "aniverse"
+          ],
+          "folgen": 16
+        },
+        {
+          "titel": "Wolf Girl and Black Prince",
+          "zusatz": "Staffel 1",
+          "datum": "2026-11-19",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [],
+          "folgen": 12
+        },
+        {
+          "titel": "Call of the Night",
+          "zusatz": "Staffel 2",
+          "datum": "2026-11-20",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "aniverse"
+          ],
+          "folgen": 13
+        },
+        {
+          "titel": "The Most Heretical Last Boss Queen",
+          "zusatz": "Staffel 1",
+          "datum": "2026-11-26",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "aniverse"
+          ],
+          "folgen": 12
+        }
+      ],
+      "sammelGelesen": "2026-10-29"
     },
     {
       "articleTitle": "Disney+ nimmt zwei Anime-Neuzugänge ins Programm",
@@ -39,7 +106,33 @@
       "dates": [],
       "dub": "ja",
       "pause": "pause",
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "sammel": [
+        {
+          "titel": "Bleach: Thousand-Year Blood War",
+          "zusatz": "Finale",
+          "deutsch": false,
+          "woechentlich": false,
+          "stream": [
+            "Disney+"
+          ],
+          "datum": "2026-10-28",
+          "datumGeschaetzt": true
+        },
+        {
+          "titel": "Yu-Gi-Oh!",
+          "zusatz": "Staffel 5",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Disney+"
+          ],
+          "folgen": 52,
+          "datum": "2026-10-28",
+          "datumGeschaetzt": true
+        }
+      ],
+      "sammelGelesen": "2026-10-29"
     },
     {
       "articleTitle": "Zwei Anime-Neuzugänge auf Deutsch bei Crunchyroll",
@@ -63,7 +156,33 @@
           "satz": "e drei Mädchen Prinzessin Emeraude zur Hilfe eilen. »The Detective Is Already Dead« – Staffel 2 Episoden: 1 auf Deutsch verfügbar Sprache: Deutsch, Japanisch (UT) Simulcast: Jeden Mittwoch um 15:30 Uhr Stream: Crunchyroll , Prime Video Handl"
         }
       ],
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "sammel": [
+        {
+          "titel": "Magic Knight Rayearth",
+          "deutsch": true,
+          "woechentlich": true,
+          "stream": [
+            "Crunchyroll",
+            "Prime Video"
+          ],
+          "datum": "2026-10-28",
+          "datumGeschaetzt": true
+        },
+        {
+          "titel": "The Detective Is Already Dead",
+          "zusatz": "Staffel 2",
+          "deutsch": true,
+          "woechentlich": true,
+          "stream": [
+            "Crunchyroll",
+            "Prime Video"
+          ],
+          "datum": "2026-10-28",
+          "datumGeschaetzt": true
+        }
+      ],
+      "sammelGelesen": "2026-10-29"
     },
     {
       "articleTitle": "Crunchyroll zeigt dritte »Mashle«-Staffel im Simulcast",
@@ -890,7 +1009,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-26"
+      "sammelGelesen": "2026-10-29"
     },
     {
       "articleTitle": "»Lady Oscar« erscheint in einer neuen Blu-ray-Komplettbox",
@@ -1420,7 +1539,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-26"
+      "sammelGelesen": "2026-10-29"
     },
     {
       "articleTitle": "»Black Clover« stellt neuen Crunchyroll-Bestwert für 2026 auf",
@@ -1545,13 +1664,6 @@
       ],
       "dates": [],
       "dub": "nein",
-      "zeiten": [
-        {
-          "tag": "Sonntag",
-          "zeit": "10:30",
-          "satz": ": Yozakura Family« – Staffel 2, Part 2 »Naruto Shippuden« – Staffel 4 »Mission: Yozakura Family« – Staffel 2, Part 2 Episoden: 1 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Sonntag um 10:30 Uhr Stream: Disney+ Handlung: Seit dem trag"
-        }
-      ],
       "alreadyCurated": false,
       "sammel": [
         {
@@ -1905,7 +2017,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-26"
+      "sammelGelesen": "2026-10-29"
     },
     {
       "articleTitle": "AniMoon startet Online-Rabattaktion zur Frankfurter Buchmesse 2026",

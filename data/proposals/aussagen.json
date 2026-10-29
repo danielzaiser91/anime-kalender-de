@@ -1,6 +1,6 @@
 {
   "format": 2,
-  "stand": "2026-10-28",
+  "stand": "2026-10-29",
   "hinweis": "Vorschlagsmodus: nur gelesen, nie übernommen — docs/wissen/sammelartikel-poc.md (Abschnitt „Vorschlagslauf\"). Schreiber: pipeline/fetch-sammelartikel.ts",
   "aussagen": [
     {
@@ -9897,146 +9897,6 @@
       }
     },
     {
-      "id": "https://www.anime2you.de/news/1045122/prosieben-maxx-filme-september-2026/|Naruto Shippuden: The Movie – Bonds||start|",
-      "erstGesehen": "2026-10-13",
-      "fingerabdruck": "1f67eca22662",
-      "offenOderUnklar": false,
-      "ergebnis": {
-        "quelle": {
-          "url": "https://www.anime2you.de/news/1045122/prosieben-maxx-filme-september-2026/",
-          "veroeffentlicht": "2026-08-29",
-          "leser": "anime2you-sammel"
-        },
-        "titel": "Naruto Shippuden: The Movie – Bonds",
-        "art": "start",
-        "plattformen": [],
-        "datum": "2026-09-04",
-        "datumBedeutung": "genannt",
-        "deutsch": "ja",
-        "konfidenz": 0.6,
-        "gruende": [
-          "kein Anbieter genannt"
-        ],
-        "zitat": "4. September: »Naruto Shippuden: The Movie – Bonds«\n4. September: »Naruto Shippuden: The Movie – Bonds«\nLaufzeit: 98 Minuten\nSprache: Deutsch\nStream: Joyn (nach TV-Ausstrahlung)",
-        "zuordnung": {
-          "anilistId": 4437,
-          "name": "Naruto Shippuden: The Movie - Bonds",
-          "wie": "name-genau",
-          "abstandTage": 6607
-        },
-        "bestand": {
-          "status": "neu",
-          "hatSynchroBelege": true
-        },
-        "inhaltZeichen": 392
-      }
-    },
-    {
-      "id": "https://www.anime2you.de/news/1045122/prosieben-maxx-filme-september-2026/|Naruto Shippuden: The Movie – Die Erben des Willens des Feuers||start|",
-      "erstGesehen": "2026-10-13",
-      "fingerabdruck": "2a6ea9e99359",
-      "offenOderUnklar": false,
-      "ergebnis": {
-        "quelle": {
-          "url": "https://www.anime2you.de/news/1045122/prosieben-maxx-filme-september-2026/",
-          "veroeffentlicht": "2026-08-29",
-          "leser": "anime2you-sammel"
-        },
-        "titel": "Naruto Shippuden: The Movie – Die Erben des Willens des Feuers",
-        "art": "start",
-        "plattformen": [],
-        "datum": "2026-09-11",
-        "datumBedeutung": "genannt",
-        "deutsch": "ja",
-        "konfidenz": 0.6,
-        "gruende": [
-          "kein Anbieter genannt"
-        ],
-        "zitat": "11. September: »Naruto Shippuden: The Movie – Die Erben des Willens des Feuers«\n11. September: »Naruto Shippuden: The Movie – Die Erben des Willens des Feuers«\nLaufzeit: 95 Minuten\nSprache: Deutsch\nStream: Joyn (nach TV-Ausstrahlung)",
-        "zuordnung": {
-          "anilistId": 6325,
-          "name": "Naruto Shippuden: The Movie - Die Erben des Willens des Feuers",
-          "wie": "name-genau",
-          "abstandTage": 6250
-        },
-        "bestand": {
-          "status": "neu",
-          "hatSynchroBelege": true
-        },
-        "inhaltZeichen": 406
-      }
-    },
-    {
-      "id": "https://www.anime2you.de/news/1045122/prosieben-maxx-filme-september-2026/|Naruto Shippuden: The Movie – The Lost Tower||start|",
-      "erstGesehen": "2026-10-13",
-      "fingerabdruck": "d6fc0fc74648",
-      "offenOderUnklar": false,
-      "ergebnis": {
-        "quelle": {
-          "url": "https://www.anime2you.de/news/1045122/prosieben-maxx-filme-september-2026/",
-          "veroeffentlicht": "2026-08-29",
-          "leser": "anime2you-sammel"
-        },
-        "titel": "Naruto Shippuden: The Movie – The Lost Tower",
-        "art": "start",
-        "plattformen": [],
-        "datum": "2026-09-18",
-        "datumBedeutung": "genannt",
-        "deutsch": "ja",
-        "konfidenz": 0.6,
-        "gruende": [
-          "kein Anbieter genannt"
-        ],
-        "zitat": "18. September: »Naruto Shippuden: The Movie – The Lost Tower«\n18. September: »Naruto Shippuden: The Movie – The Lost Tower«\nLaufzeit: 85 Minuten\nSprache: Deutsch\nStream: Joyn (nach TV-Ausstrahlung)",
-        "zuordnung": {
-          "anilistId": 8246,
-          "name": "Naruto Shippuden: The Movie 4 - The Lost Tower",
-          "wie": "name-genau",
-          "abstandTage": 5893
-        },
-        "bestand": {
-          "status": "neu",
-          "hatSynchroBelege": true
-        },
-        "inhaltZeichen": 359
-      }
-    },
-    {
-      "id": "https://www.anime2you.de/news/1045122/prosieben-maxx-filme-september-2026/|Naruto Shippuden: The Movie – Blood Prison||start|",
-      "erstGesehen": "2026-10-13",
-      "fingerabdruck": "15c22d28ad16",
-      "offenOderUnklar": false,
-      "ergebnis": {
-        "quelle": {
-          "url": "https://www.anime2you.de/news/1045122/prosieben-maxx-filme-september-2026/",
-          "veroeffentlicht": "2026-08-29",
-          "leser": "anime2you-sammel"
-        },
-        "titel": "Naruto Shippuden: The Movie – Blood Prison",
-        "art": "start",
-        "plattformen": [],
-        "datum": "2026-09-25",
-        "datumBedeutung": "genannt",
-        "deutsch": "ja",
-        "konfidenz": 0.6,
-        "gruende": [
-          "kein Anbieter genannt"
-        ],
-        "zitat": "25. September: »Naruto Shippuden: The Movie – Blood Prison«\n25. September: »Naruto Shippuden: The Movie – Blood Prison«\nLaufzeit: 108 Minuten\nSprache: Deutsch\nStream: Joyn (nach TV-Ausstrahlung)",
-        "zuordnung": {
-          "anilistId": 10589,
-          "name": "Naruto Shippuden: The Movie 5 - Blood Prison",
-          "wie": "name-genau",
-          "abstandTage": 5536
-        },
-        "bestand": {
-          "status": "neu",
-          "hatSynchroBelege": true
-        },
-        "inhaltZeichen": 374
-      }
-    },
-    {
       "id": "https://www.anime2you.de/news/1060717/crunchyroll-full-clearing-another-world-und-mehr/|Snowball Earth||start|crunchyroll+primevideo",
       "erstGesehen": "2026-10-14",
       "fingerabdruck": "0762254e6b70",
@@ -11419,7 +11279,7 @@
     {
       "id": "https://www.anime2you.de/news/1064806/adn-neuzugaenge-im-november-2026/|I Parry Everything!||start|adn+primevideo",
       "erstGesehen": "2026-10-28",
-      "fingerabdruck": "dddda631ce9d",
+      "fingerabdruck": "0c516fbd8580",
       "offenOderUnklar": false,
       "ergebnis": {
         "quelle": {
@@ -11439,7 +11299,7 @@
         "folgen": 12,
         "konfidenz": 0.95,
         "gruende": [],
-        "zitat": "Ab 02.11.: »I Parry Everything!« (Dub)\n2. November: »I Parry Everything!« (Synchro)\nEpisoden: 12 (komplett)\nSprache: Deutsch, Japanisch (UT)\nHinweis: Der Originalton ist bereits verfügbar\nStream: ADN, Prime Video",
+        "zitat": "2. November: »I Parry Everything!« (Dub)\n2. November: »I Parry Everything!« (Synchro)\nEpisoden: 12 (komplett)\nSprache: Deutsch, Japanisch (UT)\nHinweis: Der Originalton ist bereits verfügbar\nStream: ADN, Prime Video",
         "zuordnung": {
           "anilistId": 170695,
           "name": "I Parry Everything!",
@@ -11447,16 +11307,21 @@
           "abstandTage": 850
         },
         "bestand": {
-          "status": "neu",
+          "status": "bekannt",
+          "release": {
+            "slug": "auto-170695-adn",
+            "firstEpisodeDate": "2026-11-02"
+          },
           "hatSynchroBelege": true
         },
         "inhaltZeichen": 341
-      }
+      },
+      "geaendert": "2026-10-29"
     },
     {
       "id": "https://www.anime2you.de/news/1064806/adn-neuzugaenge-im-november-2026/|Pretty Cure||start|adn",
       "erstGesehen": "2026-10-28",
-      "fingerabdruck": "78aadbf3c9de",
+      "fingerabdruck": "46f0f61f9cb0",
       "offenOderUnklar": false,
       "ergebnis": {
         "quelle": {
@@ -11475,7 +11340,7 @@
         "folgen": 49,
         "konfidenz": 0.95,
         "gruende": [],
-        "zitat": "Ab 04.11.: »Pretty Cure« (Sub)\n4. November: »Pretty Cure«\nEpisoden: 49 (komplett)\nSprache: Japanisch (UT)\nStream: ADN",
+        "zitat": "4. November: »Pretty Cure« (Sub)\n4. November: »Pretty Cure«\nEpisoden: 49 (komplett)\nSprache: Japanisch (UT)\nStream: ADN",
         "zuordnung": {
           "anilistId": 603,
           "name": "Pretty Cure",
@@ -11487,12 +11352,13 @@
           "hatSynchroBelege": true
         },
         "inhaltZeichen": 227
-      }
+      },
+      "geaendert": "2026-10-29"
     },
     {
       "id": "https://www.anime2you.de/news/1064806/adn-neuzugaenge-im-november-2026/|Kotoura-san||start|adn",
       "erstGesehen": "2026-10-28",
-      "fingerabdruck": "96ca92239f6d",
+      "fingerabdruck": "cae5b104f8af",
       "offenOderUnklar": false,
       "ergebnis": {
         "quelle": {
@@ -11511,7 +11377,7 @@
         "folgen": 12,
         "konfidenz": 0.95,
         "gruende": [],
-        "zitat": "Ab 11.11.: »Kotoura-san« (Sub)\n11. November: »Kotoura-san«\nEpisoden: 12 (komplett)\nSprache: Japanisch (UT)\nStream: ADN",
+        "zitat": "11. November: »Kotoura-san« (Sub)\n11. November: »Kotoura-san«\nEpisoden: 12 (komplett)\nSprache: Japanisch (UT)\nStream: ADN",
         "zuordnung": {
           "anilistId": 15379,
           "name": "The Troubled Life of Miss Kotoura",
@@ -11523,12 +11389,13 @@
           "hatSynchroBelege": false
         },
         "inhaltZeichen": 212
-      }
+      },
+      "geaendert": "2026-10-29"
     },
     {
       "id": "https://www.anime2you.de/news/1064806/adn-neuzugaenge-im-november-2026/|KILL la KILL||start|adn",
       "erstGesehen": "2026-10-28",
-      "fingerabdruck": "ae9262c28802",
+      "fingerabdruck": "e4c526acbf48",
       "offenOderUnklar": false,
       "ergebnis": {
         "quelle": {
@@ -11547,7 +11414,7 @@
         "folgen": 24,
         "konfidenz": 0.95,
         "gruende": [],
-        "zitat": "Ab 18.11.: »KILL la KILL« (Dub + Sub)\n18. November: »KILL la KILL«\nEpisoden: 24 (komplett)\nSprache: Deutsch, Japanisch (UT)\nStream: ADN",
+        "zitat": "18. November: »KILL la KILL« (Dub + Sub)\n18. November: »KILL la KILL«\nEpisoden: 24 (komplett)\nSprache: Deutsch, Japanisch (UT)\nStream: ADN",
         "zuordnung": {
           "anilistId": 18679,
           "name": "Kill La Kill",
@@ -11555,16 +11422,21 @@
           "abstandTage": 4793
         },
         "bestand": {
-          "status": "neu",
+          "status": "bekannt",
+          "release": {
+            "slug": "auto-18679-adn",
+            "firstEpisodeDate": "2026-11-18"
+          },
           "hatSynchroBelege": true
         },
         "inhaltZeichen": 323
-      }
+      },
+      "geaendert": "2026-10-29"
     },
     {
       "id": "https://www.anime2you.de/news/1064806/adn-neuzugaenge-im-november-2026/|Cross Game||start|adn",
       "erstGesehen": "2026-10-28",
-      "fingerabdruck": "91b60589176a",
+      "fingerabdruck": "04884fb6b34e",
       "offenOderUnklar": false,
       "ergebnis": {
         "quelle": {
@@ -11583,7 +11455,7 @@
         "folgen": 50,
         "konfidenz": 0.95,
         "gruende": [],
-        "zitat": "Ab 25.11.: »Cross Game« (Sub)\n25. November: »Cross Game«\nEpisoden: 50 (komplett)\nSprache: Japanisch (UT)\nStream: ADN",
+        "zitat": "25. November: »Cross Game« (Sub)\n25. November: »Cross Game«\nEpisoden: 50 (komplett)\nSprache: Japanisch (UT)\nStream: ADN",
         "zuordnung": {
           "anilistId": 5941,
           "name": "Cross Game",
@@ -11595,12 +11467,13 @@
           "hatSynchroBelege": false
         },
         "inhaltZeichen": 241
-      }
+      },
+      "geaendert": "2026-10-29"
     },
     {
       "id": "https://www.anime2you.de/news/1064806/adn-neuzugaenge-im-november-2026/|Reborn!|Episode 102 bis 153|start|adn",
       "erstGesehen": "2026-10-28",
-      "fingerabdruck": "a869ff83431a",
+      "fingerabdruck": "af78b496d598",
       "offenOderUnklar": true,
       "ergebnis": {
         "quelle": {
@@ -11619,7 +11492,7 @@
         "deutsch": "nein",
         "konfidenz": 0.95,
         "gruende": [],
-        "zitat": "Ab 28.11.: »Reborn!« – Episode 102 bis 153 (Sub)\n28. November: »Reborn!« – Episode 102 bis 153\nEpisoden: 52\nSprache: Japanisch (UT)\nStream: ADN",
+        "zitat": "28. November: »Reborn!« – Episode 102 bis 153 (Sub)\n28. November: »Reborn!« – Episode 102 bis 153\nEpisoden: 52\nSprache: Japanisch (UT)\nStream: ADN",
         "zuordnung": {
           "anilistId": 1604,
           "name": "REBORN!",
@@ -11632,6 +11505,522 @@
           "hatSynchroBelege": false
         },
         "inhaltZeichen": 231
+      },
+      "geaendert": "2026-10-29"
+    },
+    {
+      "id": "https://www.anime2you.de/news/1065119/crunchyroll-detective-is-already-dead-synchro-und-mehr/|Magic Knight Rayearth||start|crunchyroll+primevideo",
+      "erstGesehen": "2026-10-29",
+      "fingerabdruck": "74ca85e5b688",
+      "offenOderUnklar": true,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1065119/crunchyroll-detective-is-already-dead-synchro-und-mehr/",
+          "veroeffentlicht": "2026-10-28",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Magic Knight Rayearth",
+        "art": "start",
+        "plattformen": [
+          "crunchyroll",
+          "primevideo"
+        ],
+        "datum": "2026-10-28",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "ja",
+        "woechentlich": true,
+        "zeit": "17:15",
+        "konfidenz": 0.8,
+        "gruende": [
+          "Sprache: Deutsch, Japanisch (UT)",
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»Magic Knight Rayearth«\nEpisoden: 1 auf Deutsch verfügbar\nSprache: Deutsch, Japanisch (UT)\nSimulcast: Jeden Mittwoch um 17:15 Uhr\nStream: Crunchyroll, Prime Video",
+        "offen": {
+          "grund": "Japan-Start passt nicht zum genannten Tag 2026-10-28 (Magic Knight Rayearth: 2026-10-07; Magic Knight Rayearth: 1994-10-17)",
+          "kandidaten": [
+            {
+              "id": 178868,
+              "name": "Magic Knight Rayearth",
+              "jpStart": "2026-10-07"
+            },
+            {
+              "id": 435,
+              "name": "Magic Knight Rayearth",
+              "jpStart": "1994-10-17"
+            }
+          ]
+        },
+        "bestand": {
+          "status": "ohne-zuordnung"
+        },
+        "inhaltZeichen": 339
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1065119/crunchyroll-detective-is-already-dead-synchro-und-mehr/|The Detective Is Already Dead|Staffel 2|start|crunchyroll+primevideo",
+      "erstGesehen": "2026-10-29",
+      "fingerabdruck": "96dc536e5bf0",
+      "offenOderUnklar": true,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1065119/crunchyroll-detective-is-already-dead-synchro-und-mehr/",
+          "veroeffentlicht": "2026-10-28",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "The Detective Is Already Dead",
+        "zusatz": "Staffel 2",
+        "art": "start",
+        "plattformen": [
+          "crunchyroll",
+          "primevideo"
+        ],
+        "datum": "2026-10-28",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "ja",
+        "woechentlich": true,
+        "zeit": "15:30",
+        "konfidenz": 0.8,
+        "gruende": [
+          "Sprache: Deutsch, Japanisch (UT)",
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»The Detective Is Already Dead« – Staffel 2\nEpisoden: 1 auf Deutsch verfügbar\nSprache: Deutsch, Japanisch (UT)\nSimulcast: Jeden Mittwoch um 15:30 Uhr\nStream: Crunchyroll, Prime Video",
+        "offen": {
+          "grund": "Japan-Start passt nicht zum genannten Tag 2026-10-28 (The Detective Is Already Dead: Staffel 2: 2026-10-07)",
+          "kandidaten": [
+            {
+              "id": 152677,
+              "name": "The Detective Is Already Dead: Staffel 2",
+              "jpStart": "2026-10-07"
+            }
+          ]
+        },
+        "bestand": {
+          "status": "ohne-zuordnung"
+        },
+        "inhaltZeichen": 363
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1065078/aniverse-november-2026-neuzugaenge/|M.A.S.K.||start|primevideo",
+      "erstGesehen": "2026-10-29",
+      "fingerabdruck": "fc4bfafaaa0c",
+      "offenOderUnklar": true,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1065078/aniverse-november-2026-neuzugaenge/",
+          "veroeffentlicht": "2026-10-28",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "M.A.S.K.",
+        "art": "start",
+        "plattformen": [
+          "primevideo"
+        ],
+        "kanal": "aniverse",
+        "datum": "2026-11-01",
+        "datumBedeutung": "genannt",
+        "deutsch": "ja",
+        "folgen": 73,
+        "konfidenz": 0.95,
+        "gruende": [],
+        "zitat": "1. November: »M.A.S.K.«\n1. November: »M.A.S.K.«\nEpisoden: 73 (komplett)\nSprache: Deutsch\nStream: Noch nicht verfügbar",
+        "offen": {
+          "grund": "kein Titel mit diesem Namen",
+          "kandidaten": []
+        },
+        "bestand": {
+          "status": "ohne-zuordnung"
+        },
+        "inhaltZeichen": 347
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1065078/aniverse-november-2026-neuzugaenge/|The Forsaken Saintess and Her Foodie Road Trip in Another World||start|primevideo",
+      "erstGesehen": "2026-10-29",
+      "fingerabdruck": "65ef367289b8",
+      "offenOderUnklar": true,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1065078/aniverse-november-2026-neuzugaenge/",
+          "veroeffentlicht": "2026-10-28",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "The Forsaken Saintess and Her Foodie Road Trip in Another World",
+        "art": "start",
+        "plattformen": [
+          "primevideo"
+        ],
+        "kanal": "aniverse",
+        "datum": "2026-11-01",
+        "datumBedeutung": "genannt",
+        "deutsch": "nein",
+        "folgen": 12,
+        "konfidenz": 0.95,
+        "gruende": [],
+        "zitat": "1. November: »The Forsaken Saintess and Her Foodie Road Trip in Another World«\n1. November: »The Forsaken Saintess and Her Foodie Road Trip in Another World«\nEpisoden: 12 (komplett)\nSprache: Japanisch (UT)\nStream: Noch nicht verfügbar",
+        "offen": {
+          "grund": "kein Titel mit diesem Namen",
+          "kandidaten": []
+        },
+        "bestand": {
+          "status": "ohne-zuordnung"
+        },
+        "inhaltZeichen": 270
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1065078/aniverse-november-2026-neuzugaenge/|Angel’s Egg||start|primevideo",
+      "erstGesehen": "2026-10-29",
+      "fingerabdruck": "fe1df5de3618",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1065078/aniverse-november-2026-neuzugaenge/",
+          "veroeffentlicht": "2026-10-28",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Angel’s Egg",
+        "art": "start",
+        "plattformen": [
+          "primevideo"
+        ],
+        "kanal": "aniverse",
+        "datum": "2026-11-05",
+        "datumBedeutung": "genannt",
+        "deutsch": "ja",
+        "konfidenz": 0.95,
+        "gruende": [],
+        "zitat": "5. November: »Angel’s Egg«\n5. November: »Angel’s Egg«\nLaufzeit: 72 Minuten\nSprache: Deutsch, Japanisch (UT)\nStream: Noch nicht verfügbar",
+        "zuordnung": {
+          "anilistId": 885,
+          "name": "Angel’s Egg",
+          "wie": "name-genau"
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 229
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1065078/aniverse-november-2026-neuzugaenge/|Shaman King|Staffel 4|start|primevideo",
+      "erstGesehen": "2026-10-29",
+      "fingerabdruck": "38c8cf60f897",
+      "offenOderUnklar": true,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1065078/aniverse-november-2026-neuzugaenge/",
+          "veroeffentlicht": "2026-10-28",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Shaman King",
+        "zusatz": "Staffel 4",
+        "art": "start",
+        "plattformen": [
+          "primevideo"
+        ],
+        "kanal": "aniverse",
+        "datum": "2026-11-12",
+        "datumBedeutung": "genannt",
+        "deutsch": "ja",
+        "folgen": 16,
+        "konfidenz": 0.95,
+        "gruende": [],
+        "zitat": "12. November: »Shaman King« – Staffel 4\n12. November: »Shaman King« – Staffel 4\nEpisoden: 16 (komplett)\nSprache: Deutsch\nStream: aniverse",
+        "offen": {
+          "grund": "kein Titel mit diesem Namen",
+          "kandidaten": []
+        },
+        "bestand": {
+          "status": "ohne-zuordnung"
+        },
+        "inhaltZeichen": 248
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1065078/aniverse-november-2026-neuzugaenge/|Wolf Girl and Black Prince|Staffel 1|start|primevideo",
+      "erstGesehen": "2026-10-29",
+      "fingerabdruck": "56264233e328",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1065078/aniverse-november-2026-neuzugaenge/",
+          "veroeffentlicht": "2026-10-28",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Wolf Girl and Black Prince",
+        "zusatz": "Staffel 1",
+        "art": "start",
+        "plattformen": [
+          "primevideo"
+        ],
+        "kanal": "aniverse",
+        "datum": "2026-11-19",
+        "datumBedeutung": "genannt",
+        "deutsch": "ja",
+        "folgen": 12,
+        "konfidenz": 0.95,
+        "gruende": [],
+        "zitat": "19. November: »Wolf Girl and Black Prince« – Staffel 1\n19. November: »Wolf Girl and Black Prince« – Staffel 1\nEpisoden: 12 (komplett)\nSprache: Deutsch, Japanisch (UT)\nStream: Noch nicht verfügbar",
+        "zuordnung": {
+          "anilistId": 20701,
+          "name": "Wolf Girl & Black Prince",
+          "wie": "name-genau",
+          "abstandTage": 4428
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 220
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1065078/aniverse-november-2026-neuzugaenge/|Call of the Night|Staffel 2|start|primevideo",
+      "erstGesehen": "2026-10-29",
+      "fingerabdruck": "f0ee86ab8449",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1065078/aniverse-november-2026-neuzugaenge/",
+          "veroeffentlicht": "2026-10-28",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Call of the Night",
+        "zusatz": "Staffel 2",
+        "art": "start",
+        "plattformen": [
+          "primevideo"
+        ],
+        "kanal": "aniverse",
+        "datum": "2026-11-20",
+        "datumBedeutung": "genannt",
+        "deutsch": "ja",
+        "folgen": 13,
+        "konfidenz": 0.95,
+        "gruende": [],
+        "zitat": "20. November: »Call of the Night« – Staffel 2 (Synchro)\n20. November: »Call of the Night« – Staffel 2 (Synchro)\nEpisoden: 13 (komplett)\nSprache: Deutsch, Japanisch (UT)\nHinweis: Der Originalton ist bereits verfügbar\nStream: aniverse",
+        "zuordnung": {
+          "anilistId": 175914,
+          "name": "Call of the Night: Season 2",
+          "wie": "name-genau",
+          "abstandTage": 504
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 232
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1065078/aniverse-november-2026-neuzugaenge/|The Most Heretical Last Boss Queen|Staffel 1|start|primevideo",
+      "erstGesehen": "2026-10-29",
+      "fingerabdruck": "1b84c424b39e",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1065078/aniverse-november-2026-neuzugaenge/",
+          "veroeffentlicht": "2026-10-28",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "The Most Heretical Last Boss Queen",
+        "zusatz": "Staffel 1",
+        "art": "start",
+        "plattformen": [
+          "primevideo"
+        ],
+        "kanal": "aniverse",
+        "datum": "2026-11-26",
+        "datumBedeutung": "genannt",
+        "deutsch": "ja",
+        "folgen": 12,
+        "konfidenz": 0.95,
+        "gruende": [],
+        "zitat": "26. November: »The Most Heretical Last Boss Queen« – Staffel 1 (Synchro)\n26. November: »The Most Heretical Last Boss Queen« – Staffel 1 (Synchro)\nEpisoden: 12 (komplett)\nSprache: Deutsch, Japanisch (UT)\nHinweis: Der Originalton ist bereits verfügbar\nStream: aniverse",
+        "zuordnung": {
+          "anilistId": 156040,
+          "name": "The Most Heretical Last Boss Queen: From Villainess to Savior",
+          "wie": "name-teil",
+          "abstandTage": 1238
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 277
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1065067/disney-plus-bleach-finale-und-mehr/|Bleach: Thousand-Year Blood War|Finale|start|disneyplus",
+      "erstGesehen": "2026-10-29",
+      "fingerabdruck": "815c0b260a4f",
+      "offenOderUnklar": true,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1065067/disney-plus-bleach-finale-und-mehr/",
+          "veroeffentlicht": "2026-10-28",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Bleach: Thousand-Year Blood War",
+        "zusatz": "Finale",
+        "art": "start",
+        "plattformen": [
+          "disneyplus"
+        ],
+        "datum": "2026-10-28",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "nein",
+        "konfidenz": 0.8,
+        "gruende": [
+          "Sprache: Japanisch (UT)",
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»Bleach: Thousand-Year Blood War« – Finale\nEpisoden: 2 (Episode 9 und 10 von Part 4)\nSprache: Japanisch (UT)\nStream: Disney+",
+        "offen": {
+          "grund": "3 Titel mit diesem Namen",
+          "kandidaten": [
+            {
+              "id": 116674,
+              "name": "Bleach: Thousand-Year Blood War",
+              "jpStart": "2022-10-11"
+            },
+            {
+              "id": 159322,
+              "name": "Bleach: Thousand-Year Blood War",
+              "jpStart": "2023-07-08"
+            },
+            {
+              "id": 169755,
+              "name": "Bleach: Thousand-Year Blood War",
+              "jpStart": "2024-10-05"
+            }
+          ]
+        },
+        "bestand": {
+          "status": "ohne-zuordnung"
+        },
+        "inhaltZeichen": 335
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1065067/disney-plus-bleach-finale-und-mehr/|Yu-Gi-Oh!|Staffel 5|start|disneyplus",
+      "erstGesehen": "2026-10-29",
+      "fingerabdruck": "9492ac0457d2",
+      "offenOderUnklar": true,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1065067/disney-plus-bleach-finale-und-mehr/",
+          "veroeffentlicht": "2026-10-28",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Yu-Gi-Oh!",
+        "zusatz": "Staffel 5",
+        "art": "start",
+        "plattformen": [
+          "disneyplus"
+        ],
+        "datum": "2026-10-28",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "ja",
+        "folgen": 52,
+        "konfidenz": 0.8,
+        "gruende": [
+          "Sprache: Deutsch",
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»Yu-Gi-Oh!« – Staffel 5\nEpisoden: 52 (komplett)\nSprache: Deutsch\nStream: Disney+",
+        "offen": {
+          "grund": "16 Titel mit diesem Namen",
+          "kandidaten": [
+            {
+              "id": 859,
+              "name": "Digimon Data Squad",
+              "jpStart": "2006-04-02"
+            },
+            {
+              "id": 20552,
+              "name": "Yu-Gi-Oh! Arc-V",
+              "jpStart": "2014-04-06"
+            },
+            {
+              "id": 132477,
+              "name": "Larva Island Staffel 2",
+              "jpStart": "2019-03-01"
+            },
+            {
+              "id": 154983,
+              "name": "Aggretsuko: Staffel 5",
+              "jpStart": "2023-02-16"
+            },
+            {
+              "id": 185880,
+              "name": "Blue Exorcist: The Blue Night Saga",
+              "jpStart": "2025-01-05"
+            },
+            {
+              "id": 926,
+              "name": "Transformers Victory",
+              "jpStart": "1989-03-14"
+            },
+            {
+              "id": 1068,
+              "name": "Combattler V",
+              "jpStart": "1976-04-17"
+            },
+            {
+              "id": 1069,
+              "name": "VOLTES V",
+              "jpStart": "1977-06-04"
+            },
+            {
+              "id": 5028,
+              "name": "Major S5",
+              "jpStart": "2009-01-10"
+            },
+            {
+              "id": 5233,
+              "name": "The Slayers: Season 5",
+              "jpStart": "2009-01-12"
+            },
+            {
+              "id": 16347,
+              "name": "Usavich V",
+              "jpStart": "2012-12-05"
+            },
+            {
+              "id": 21673,
+              "name": "Symphogear XV",
+              "jpStart": "2019-07-07"
+            },
+            {
+              "id": 142298,
+              "name": "The Outcast: Staffel 5",
+              "jpStart": "2022-12-09"
+            },
+            {
+              "id": 155227,
+              "name": "Kingdom: Staffel 5",
+              "jpStart": "2024-01-14"
+            },
+            {
+              "id": 186834,
+              "name": "Immortality 5",
+              "jpStart": "2025-12-20"
+            },
+            {
+              "id": 10015286,
+              "name": "Ttobot V"
+            }
+          ]
+        },
+        "bestand": {
+          "status": "ohne-zuordnung"
+        },
+        "inhaltZeichen": 402
       }
     }
   ]

@@ -1895,13 +1895,13 @@
       "url": "https://www.crunchyroll.com/de/news/seasonal-lineup/2026/10/5/crunchyroll-wochenprogramm-herbst-2026",
       "name": "Crunchyroll News",
       "gesehenAm": "2026-10-27",
-      "stand": "aktuell"
+      "stand": "vermutlich-ueberholt"
     },
     {
       "url": "https://www.crunchyroll.com/de/simulcastcalendar",
       "name": "crunchyroll.com",
       "gesehenAm": "2026-10-01",
-      "stand": "vermutlich-ueberholt",
+      "stand": "aktuell",
       "sagt": "2026-04-08"
     }
   ],
@@ -3638,10 +3638,18 @@
   ],
   "adn-1419": [
     {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1419",
+      "name": "ADN API",
+      "gesehenAm": "2026-10-29",
+      "stand": "aktuell",
+      "gelesenAm": "2026-10-26",
+      "bestaetigt": "2026-09-17"
+    },
+    {
       "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
       "name": "ADN API",
       "gesehenAm": "2026-10-01",
-      "stand": "aktuell",
+      "stand": "vermutlich-ueberholt",
       "gelesenAm": "2026-10-28",
       "bestaetigt": "2026-09-17",
       "sagt": "2026-09-17"
@@ -5635,7 +5643,7 @@
       "url": "https://www.anisearch.de/anime/14596/episodes",
       "name": "anisearch.de",
       "gesehenAm": "2026-10-01",
-      "stand": "aktuell",
+      "stand": "vermutlich-ueberholt",
       "sagt": "2026-09-24"
     },
     {
@@ -6052,6 +6060,14 @@
   ],
   "bleach-diamonddust-rebellion-adn": [
     {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/198",
+      "name": "ADN API",
+      "gesehenAm": "2026-10-29",
+      "stand": "aktuell",
+      "gelesenAm": "2026-10-26",
+      "bestaetigt": "2026-10-12"
+    },
+    {
       "url": "https://news.animationdigitalnetwork.com/de/2026/10/12/bleach-alle-vier-filme-jetzt-im-stream-bei-adn/",
       "name": "news.animationdigitalnetwork.com",
       "gesehenAm": "2026-10-14",
@@ -6061,7 +6077,7 @@
       "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
       "name": "ADN API",
       "gesehenAm": "2026-10-14",
-      "stand": "aktuell",
+      "stand": "vermutlich-ueberholt",
       "gelesenAm": "2026-10-28",
       "bestaetigt": "2026-10-12"
     },
@@ -6074,6 +6090,14 @@
   ],
   "bleach-fade-to-black-adn": [
     {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/352",
+      "name": "ADN API",
+      "gesehenAm": "2026-10-29",
+      "stand": "aktuell",
+      "gelesenAm": "2026-10-26",
+      "bestaetigt": "2026-10-12"
+    },
+    {
       "url": "https://news.animationdigitalnetwork.com/de/2026/10/12/bleach-alle-vier-filme-jetzt-im-stream-bei-adn/",
       "name": "news.animationdigitalnetwork.com",
       "gesehenAm": "2026-10-14",
@@ -6083,7 +6107,7 @@
       "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
       "name": "ADN API",
       "gesehenAm": "2026-10-14",
-      "stand": "aktuell",
+      "stand": "vermutlich-ueberholt",
       "gelesenAm": "2026-10-28",
       "bestaetigt": "2026-10-12"
     },
@@ -6096,6 +6120,14 @@
   ],
   "bleach-hell-verse-adn": [
     {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/361",
+      "name": "ADN API",
+      "gesehenAm": "2026-10-29",
+      "stand": "aktuell",
+      "gelesenAm": "2026-10-26",
+      "bestaetigt": "2026-10-12"
+    },
+    {
       "url": "https://news.animationdigitalnetwork.com/de/2026/10/12/bleach-alle-vier-filme-jetzt-im-stream-bei-adn/",
       "name": "news.animationdigitalnetwork.com",
       "gesehenAm": "2026-10-14",
@@ -6105,7 +6137,7 @@
       "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
       "name": "ADN API",
       "gesehenAm": "2026-10-14",
-      "stand": "aktuell",
+      "stand": "vermutlich-ueberholt",
       "gelesenAm": "2026-10-28",
       "bestaetigt": "2026-10-12"
     },
@@ -6466,6 +6498,14 @@
   ],
   "adn-197": [
     {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/197",
+      "name": "ADN API",
+      "gesehenAm": "2026-10-29",
+      "stand": "aktuell",
+      "gelesenAm": "2026-10-26",
+      "bestaetigt": "2026-10-12"
+    },
+    {
       "url": "https://news.animationdigitalnetwork.com/de/2026/10/12/bleach-alle-vier-filme-jetzt-im-stream-bei-adn/",
       "name": "news.animationdigitalnetwork.com",
       "gesehenAm": "2026-10-14",
@@ -6481,7 +6521,7 @@
       "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
       "name": "ADN API",
       "gesehenAm": "2026-10-08",
-      "stand": "aktuell",
+      "stand": "vermutlich-ueberholt",
       "gelesenAm": "2026-10-28",
       "bestaetigt": "2026-10-12"
     }
@@ -7645,6 +7685,42 @@
       "name": "anime2you.de",
       "gesehenAm": "2026-10-28",
       "sagt": "2027-02-05",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-885-primevideo": [
+    {
+      "url": "https://www.anime2you.de/news/1065078/aniverse-november-2026-neuzugaenge/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-29",
+      "sagt": "2026-11-05",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-20701-primevideo": [
+    {
+      "url": "https://www.anime2you.de/news/1065078/aniverse-november-2026-neuzugaenge/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-29",
+      "sagt": "2026-11-19",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-175914-primevideo": [
+    {
+      "url": "https://www.anime2you.de/news/1065078/aniverse-november-2026-neuzugaenge/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-29",
+      "sagt": "2026-11-20",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-10015-disneyplus": [
+    {
+      "url": "https://www.anime2you.de/news/1065067/disney-plus-bleach-finale-und-mehr/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-29",
+      "sagt": "2026-10-28",
       "stand": "aktuell"
     }
   ]

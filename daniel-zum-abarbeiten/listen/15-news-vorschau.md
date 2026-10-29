@@ -1,10 +1,10 @@
 # Angekündigt, aber noch nicht im Datensatz
 
-Stand: 2026-10-28. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
+Stand: 2026-10-29. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
 
 ## Kuratierung: was noch fehlt
 
-45 Meldungen mit künftigem Termin sind noch nicht eingearbeitet.
+47 Meldungen mit künftigem Termin sind noch nicht eingearbeitet.
 
 | Termin | Plattform | Synchro | Meldung |
 |---|---|---|---|
@@ -16,6 +16,7 @@ Stand: 2026-10-28. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | 2026-10-30, 2026-10 (Monat) | crunchyroll | – unklar | [Crunchyroll bald nicht mehr auf Nintendo Switch verfügbar](https://www.anime2you.de/news/1044861/crunchyroll-bald-nicht-mehr-auf-nintendo-switch/) |
 | 2026-10-29 | crunchyroll | – unklar | [Crunchyroll bringt besonderes »Black Clover«-Erlebnis nach Deutschland](https://www.anime2you.de/news/1064175/crunchyroll-black-clover-erlebnis-in-berlin/) |
 | 2026-10-31 | primevideo | ✅ zugesagt | [Drei Anime-Serien verlassen bald den Prime-Video-Katalog](https://www.anime2you.de/news/1056183/prime-video-entfernt-naruto-und-mehr/) |
+| 2026-11 (Monat) | primevideo, aniverse | – unklar | [Neue Anime-Katalogtitel im November 2026 bei aniverse](https://www.anime2you.de/news/1065078/aniverse-november-2026-neuzugaenge/) |
 | 2026-11 (Monat) | adn | – unklar | [ADN kündigt sechs Anime-Neuzugänge für November 2026 an](https://www.anime2you.de/news/1064806/adn-neuzugaenge-im-november-2026/) |
 | 2026-11-06, 2026-11 (Monat) | ? | – unklar | [»Anime Night« auf ProSieben MAXX kehrt verkürzt zurück](https://www.anime2you.de/news/1063716/prosieben-maxx-anime-night-kehrt-verkuerzt-zurueck/) |
 | 2026-11-16, 2026-11-23, 2026-11 (Monat) | ? | ✅ zugesagt | [ProSieben FUN zeigt »Akame ga KILL!« als Pay-TV-Premiere](https://www.anime2you.de/news/1063292/prosieben-fun-zeigt-akame-ga-kill/) |
@@ -31,6 +32,7 @@ Stand: 2026-10-28. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | 2026-11-01 | netflix | – unklar | [Netflix nimmt Fantasy-Anime »Der Held ohne Klasse« ins Programm](https://www.anime2you.de/news/1062497/der-held-ohne-klasse-auf-netflix/) |
 | 2026-11-02, 2026-11-09 | crunchyroll | – unklar | [Nächste Episode von »PSYREN« erscheint später + Recap](https://www.anime2you.de/news/1064592/psyren-episode-5-verschoben/) |
 | 2026-12-13, 2026-12 (Monat) | kino | – unklar | [»Umamusume: Pretty Derby – Beginning of a New Era« kommt ins Kino](https://www.anime2you.de/news/1064556/umamusume-pretty-derby-film-im-kino/) |
+| 2027-01 (Monat) | crunchyroll | – unklar | [Crunchyroll zeigt dritte »Mashle«-Staffel im Simulcast](https://www.anime2you.de/news/1064990/crunchyroll-dritte-mashle-staffel/) |
 | 2027-01-26, 2027-01 (Monat) | crunchyroll, kino | ✅ zugesagt | [Neuer Teaser zum deutschen Kinostart von »Witch on the Holy Night«](https://www.anime2you.de/news/1064788/witch-on-the-holy-night-kinostart-neuer-teaser/) |
 | 2027-01 (Monat) | crunchyroll | ❌ nur Originalton | [Crunchyroll zeigt »Bless« im Simulcast + Teaser](https://www.anime2you.de/news/1062951/crunchyroll-zeigt-bless-im-simulcast/) |
 | 2027-01 (Monat) | ? | – unklar | [Start von »The True Saint Was Banished« steht fest + Teaser](https://www.anime2you.de/news/1056952/start-von-the-true-saint-was-banished/) |
@@ -46,62 +48,60 @@ Stand: 2026-10-28. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | 2027-04 (Monat) | ? | – unklar | [Neue »Apothecary Diaries«-Plüschfigur von Jinshi vorgestellt](https://www.anime2you.de/news/1056535/apothecary-diaries-plueschfigur-jinshi/) |
 | 2027-04 (Monat) | crunchyroll | – unklar | [Action-Anime »The Vermilion Mask« erhält einen zweiten Teil](https://www.anime2you.de/news/1058275/the-vermilion-mask-erhaelt-zweiten-teil/) |
 | 2027-04 (Monat) | ? | – unklar | [Start von »Walking Home with You« steht fest + Visual](https://www.anime2you.de/news/1058153/start-von-walking-home-with-you/) |
-| 2027-04 (Monat) | ? | – unklar | [Start von »The Case Files of Biblia Bookstore« + Teaser](https://www.anime2you.de/news/1057109/start-von-the-case-files-of-biblia-bookstor/) |
-| 2027-05-07, 2027-04-30 | kino | – unklar | [Nintendo verschiebt »The Legend of Zelda«-Film erneut + Bilder](https://www.anime2you.de/news/1010428/the-legend-of-zelda-film-erneut-verschoben/) |
 
-… und 5 weitere.
+… und 7 weitere.
 
-Dazu 55 Disc-Meldungen mit künftigem Termin; sie laufen über die Disc-Übersicht.
+Dazu 56 Disc-Meldungen mit künftigem Termin; sie laufen über die Disc-Übersicht.
 
 ## Quellen
 
 | Quelle | zuletzt erfolgreich | Treffer |
 |---|---|---|
-| adn | 0.0 Tage her | 7 |
-| adn-catalog | 2.0 Tage her | 115 |
+| adn | 1.0 Tage her | 0 |
+| adn-catalog | 3.0 Tage her | 115 |
 | adn-news | 0.1 Tage her | 73 |
-| anilist-voices | 2.0 Tage her | 0 |
-| anime-offline-database | 2.0 Tage her | 8876 |
+| anilist-voices | 3.0 Tage her | 0 |
+| anime-offline-database | 3.0 Tage her | 8876 |
 | anime2you | 0.0 Tage her | 103 |
 | anisearch | 0.9 Tage her | 14866 |
-| anisearch-cover-eigen | 16.5 Tage her | 1874 |
-| anisearch-dubs | 1.0 Tage her | 11937 |
-| anisearch-eintraege | 2.0 Tage her | 400 |
-| anisearch-folgen | 2.0 Tage her | 464 |
-| anisearch-slugs | 2.0 Tage her | 14899 |
+| anisearch-cover-eigen | 17.5 Tage her | 1874 |
+| anisearch-dubs | 1.0 Tage her | 11938 |
+| anisearch-eintraege | 3.0 Tage her | 400 |
+| anisearch-folgen | 3.0 Tage her | 464 |
+| anisearch-slugs | 3.0 Tage her | 14899 |
 | anisearch-zuordnung | 1.0 Tage her | 18493 |
-| ann-voices | 2.0 Tage her | 8876 |
+| ann-voices | 3.0 Tage her | 8876 |
 | beleg-lesungen | 0.0 Tage her | 57 |
-| cartoon-folgen | 2.0 Tage her | 357 |
+| cartoon-folgen | 3.0 Tage her | 357 |
 | cartoon-reihen | 1.0 Tage her | 0 |
-| cartoons | 1.0 Tage her | 1 |
-| cinestar | 2.0 Tage her | 2 |
-| cr-einzelwerke | 7.6 Tage her | 6 |
-| cr-filmbloecke | 7.6 Tage her | 2 |
-| crunchyroll-dub | 1.0 Tage her | 1142 |
-| crunchyroll-neu | 0.0 Tage her | 154 |
-| crunchyroll-offene | 1.9 Tage her | 9 |
-| crunchyroll-woche | 0.0 Tage her | 61 |
-| justwatch-audio | 1.0 Tage her | 17 |
-| kinoheld | 2.0 Tage her | 0 |
-| kitsu-folgen | 2.0 Tage her | 112 |
-| link-check | 2.0 Tage her | 150 |
-| messbelege | 0.0 Tage her | 0 |
-| motn | 5.0 Tage her | 2034 |
-| motn-changes | 0.0 Tage her | 1 |
-| rohfolgen | 1.7 Tage her | 0 |
-| rtlplus-folgen | 2.0 Tage her | 3 |
-| tmdb-banner | 0.4 Tage her | 2039 |
-| tmdb-folgen | 2.0 Tage her | 885 |
-| tmdb-kino | 2.0 Tage her | 3 |
-| tmdb-poster | 0.4 Tage her | 2400 |
-| tmdb-titles | 2.0 Tage her | 400 |
+| cartoons | 1.0 Tage her | 2 |
+| cinestar | 3.0 Tage her | 2 |
+| cr-einzelwerke | 8.6 Tage her | 6 |
+| cr-filmbloecke | 8.6 Tage her | 2 |
+| crunchyroll-dub | 0.3 Tage her | 1143 |
+| crunchyroll-neu | 0.0 Tage her | 158 |
+| crunchyroll-offene | 2.9 Tage her | 9 |
+| crunchyroll-woche | 0.1 Tage her | 61 |
+| justwatch-audio | 2.0 Tage her | 0 |
+| kinoheld | 3.0 Tage her | 0 |
+| kitsu-folgen | 3.0 Tage her | 112 |
+| link-check | 3.0 Tage her | 150 |
+| messbelege | 0.1 Tage her | 0 |
+| motn | 6.0 Tage her | 2034 |
+| motn-changes | 0.0 Tage her | 3 |
+| rohfolgen | 0.4 Tage her | 0 |
+| rtlplus-folgen | 3.0 Tage her | 3 |
+| tmdb-banner | 1.4 Tage her | 2039 |
+| tmdb-folgen | 3.0 Tage her | 885 |
+| tmdb-kino | 3.0 Tage her | 3 |
+| tmdb-poster | 1.4 Tage her | 2400 |
+| tmdb-titles | 3.0 Tage her | 400 |
 | toggo | 0.0 Tage her | 22 |
-| trailer | 1.0 Tage her | 0 |
-| tv-de | 0.2 Tage her | 69 |
-| tv-programm | 0.0 Tage her | 289 |
+| trailer | 1.0 Tage her | 186 |
+| tv-de | 0.2 Tage her | 65 |
+| tv-programm | 0.1 Tage her | 302 |
 | vorfaelle | 0.0 Tage her | 5 |
-| wikidata-imdb | 2.0 Tage her | 5313 |
-| wikidata-titel | 2.0 Tage her | 15 |
+| wikidata-imdb | 3.0 Tage her | 5313 |
+| wikidata-titel | 3.0 Tage her | 15 |
 | wikipedia-folgen | 0.0 Tage her | 9 |
-| youtube-check | 2.0 Tage her | 514 |
+| youtube-check | 3.0 Tage her | 514 |
