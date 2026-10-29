@@ -22,7 +22,7 @@ const ARTIKEL = 'https://www.anisearch.de/article/198024,virgin-road-die-henkeri
 const EAN = '4260497796626'
 
 /* Wörtlich aus `data/disc-ausgaben.json` (Schlüssel 129193) und `data/anisearch-artikel.json` (198024). */
-function index(daten: { datum: string; gelesen?: string; edition?: string }[] =[{ datum: '2026-11-06', gelesen: '2026-10-12T05:53:59.292Z' }]): DiscIndex {
+function index(daten: { datum: string; gelesen?: string; edition?: string }[] = [{ datum: '2026-11-06', gelesen: '2026-10-12T05:53:59.292Z' }]): DiscIndex {
   return {
     ausgaben: {
       '129193': daten.map((d, i) => ({

@@ -146,7 +146,7 @@ async function verschiebungsFall(): Promise<void> {
   await browser.close()
   pruefe('Verschiebung: Absatz ohne Datum bekommt keine Marke, obwohl er den Titel nennt', typeof nurAbsatz === 'object' && !nurAbsatz.markierung, JSON.stringify(typeof nurAbsatz === 'object' ? nurAbsatz.markierung : nurAbsatz))
   pruefe('Verschiebung: die Tabellenzeile mit dem Datum bekommt die Marke, weit unter dem Absatz', typeof mitTabelle === 'object' && (mitTabelle.markierung?.[1] ?? 0) > 0.3, JSON.stringify(typeof mitTabelle === 'object' ? mitTabelle.markierung : mitTabelle))
-  pruefe('Verschiebung: ohne Termin gilt weiter eine Stelle mit dem Titel (kein Termin zu belegen)', typeof ohneDatum === 'object' && Boolean(ohneDatum.markierung),JSON.stringify(typeof ohneDatum === 'object' ? ohneDatum.markierung : ohneDatum))
+  pruefe('Verschiebung: ohne Termin gilt weiter eine Stelle mit dem Titel (kein Termin zu belegen)', typeof ohneDatum === 'object' && Boolean(ohneDatum.markierung), JSON.stringify(typeof ohneDatum === 'object' ? ohneDatum.markierung : ohneDatum))
   pruefe('Ohne Termin sucht `messeAusschnitt` den Namen weiter selbst (Name nur in der Überschrift)', typeof kurzerName === 'object' && Boolean(kurzerName.markierung), JSON.stringify(typeof kurzerName === 'object' ? kurzerName.markierung : kurzerName))
   const marke = (b: unknown): string => JSON.stringify(typeof b === 'object' && b ? (b as { markierung?: unknown }).markierung : b)
   const hat = (b: unknown): boolean => typeof b === 'object' && b !== null && Boolean((b as { markierung?: unknown }).markierung)
