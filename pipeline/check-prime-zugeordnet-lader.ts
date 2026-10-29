@@ -1,6 +1,6 @@
 /**
  * Zusicherung: **`data/prime-zugeordnet.json` wird nur über `leseZugeordnet` gelesen und geschrieben; eine von Hand gesperrte Seite
- * (`data/prime-seiten-von-hand.json`) zählt dort für keinen Leser** (19.10.2026, PR 1612 R4).
+ * (`data/belege-entfernt.yaml`) zählt dort für keinen Leser** (19.10.2026, PR 1612 R4).
  * Anlass: Der Zuordner schreibt die Datei per `{...bisher, ...zugeordnet}`; eine wieder angelegte Zeile B0GVJFZD1W→20605 wäre in
  * `09-3` gesperrt, in `09-7` (geteilte Seiten) aber weiter gezählt worden. Fährt den echten Zuordner-Abschluss und `09-7` gegen eine Kulisse
  * (`AK_ROOT`). Läuft in `check:logic`. `09-3` deckt `check-prime-seiten-sperre.ts`; `11-6`/`cartoon-jw-seite` lesen über dieselbe Funktion (Lücke: ohne eigenen Fall).
@@ -29,7 +29,7 @@ try {
   schreibe('public/data/cartoons.json', '[]')
   schreibe('public/data/ohne-synchro.json', '[]')
   mkdirSync(join(kulisse, 'data/curated'), { recursive: true })
-  schreibe('data/prime-seiten-von-hand.json', JSON.stringify([{ titleId: GESPERRT, seite: SPERRE }]))
+  schreibe('data/belege-entfernt.yaml', JSON.stringify([{ anilistId: GESPERRT, url: `https://www.amazon.de/dp/${SPERRE}`, grund: 'Sperre', entferntAm: '2026-10-29' }]))
   schreibe('data/prime-zugeordnet.json', JSON.stringify({ [`${gp('B0ALTALT01')}#2`]: meldung(GESPERRT, 'B0ALTALT01') }))
 
   // Schreibweg: der Zuordner legt die gesperrte Zeile neu an (und eine freie Zeile desselben Laufs).

@@ -32,7 +32,7 @@ pruefe(
   neu.map((t) => `Titel ${t.titleId}, Adresse ${t.adresse}, Besitzer ${t.besitzer.join(', ')}`),
 )
 pruefe(
-  'Keine Seite liegt an Titeln verschiedener Reihen (Staffeln derselben Reihe teilen Seiten legitim; sonst Zuordnung sperren in data/prime-seiten-von-hand.json)',
+  'Keine Seite liegt an Titeln verschiedener Reihen (Staffeln derselben Reihe teilen Seiten legitim; sonst Zuordnung sperren in data/belege-entfernt.yaml)',
   geteilt.length === 0,
   geteilt.map(beschreibeGeteilte),
 )

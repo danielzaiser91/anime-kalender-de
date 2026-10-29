@@ -35,7 +35,7 @@ const titel = (f: (typeof faelle)[number]): Title =>
 const fehler: string[] = []
 try {
   schreibe('data/urteile.json', {})
-  schreibe('data/prime-seiten-von-hand.json', faelle.filter((f) => f.seite === SPERRE).map((f) => ({ titleId: f.id, seite: SPERRE })))
+  schreibe('data/belege-entfernt.yaml', faelle.filter((f) => f.seite === SPERRE).map((f) => ({ anilistId: f.id, url: `https://www.amazon.de/dp/${SPERRE}`, grund: 'Sperre', entferntAm: '2026-10-29' })))
   schreibe('data/justwatch-audio.json', Object.fromEntries(faelle.map((f) => [String(f.id), {
     geprueftAm: heute,
     jwId: `ts${f.id}`,
