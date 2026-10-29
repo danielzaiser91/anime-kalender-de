@@ -10,3 +10,23 @@
   url: https://www.amazon.de/gp/video/detail/B0CWLSM344
   grund: 'Amazon-Seite gehört Made in Abyss: Die Goldene Stadt der sengenden Sonne (114745), nicht der ersten Staffel (#2257)'
   entferntAm: '2026-10-28'
+- anilistId: 99470
+  url: https://www.amazon.de/dp/B0DMMT9B67
+  grund: 'Amazon-Seite gehört der Serie Grisaia Phantom Trigger (145740, 13 Folgen, nur Japanisch, Handbeleg dub:false), nicht dem 2-Folgen-Film 99470 (Zuordnung 29.10.2026)'
+  entferntAm: '2026-10-29'
+- anilistId: 105096
+  url: https://www.netflix.com/title/80057610
+  grund: 'Netflix-Seite gehört dem Cartoon Kulipari – Die Frosch-Armee (-74222), nicht Hero Mask (Zuordnung 29.10.2026)'
+  entferntAm: '2026-10-29'
+- anilistId: 20875
+  url: https://www.netflix.com/title/80180600
+  grund: 'Netflix-Seite gehört dem Cartoon Kulipari: Traumwandler (-83723), nicht Swordgai (Zuordnung 29.10.2026)'
+  entferntAm: '2026-10-29'
+- anilistId: 20875
+  url: https://www.netflix.com/title/81628023
+  grund: 'Netflix-Seite gehört dem Cartoon My Little Pony: Erzähle deine Geschichte (-202905), nicht Swordgai (Zuordnung 29.10.2026)'
+  entferntAm: '2026-10-29'
+- anilistId: 527
+  url: https://www.netflix.com/title/81553278
+  grund: 'Netflix-Seite gehört dem Cartoon Thomas & seine Freunde – Alle Maschinen los (-138523), nicht Pokémon (Zuordnung 29.10.2026)'
+  entferntAm: '2026-10-29'
