@@ -58,6 +58,8 @@ pruefe('abgeleitet, sicherer Termin erschienen: Auf Deutsch (der Kalender führt
 const mitAbgeleiteterFolge = titel({ streams: [{ platform: 'netflix', url: 'https://y', dub: true }, { platform: 'joyn', url: 'https://x', dub: true, dubAbgeleitet: 'joyn-pauschal', dubRanges: [{ from: 1, to: 1, dub: true }] }] })
 pruefe('abgeleiteter Weg mit dubRanges neben belegtem Weg ohne Folge: bestätigt, aber kein Tag (deVon)', deutscheAngabe(mitAbgeleiteterFolge, [sub('joyn', '2026-07-02')]).deVon === undefined)
 pruefe('Tonspur-Beleg: nur der nicht abgeleitete Weg mit Folge zählt', tonspurBeleg(mitFolge) && !tonspurBeleg(mitDub) && !tonspurBeleg(mitAbgeleiteterFolge) &&!tonspurBeleg(titel({ streams: [{ platform: 'joyn', url: 'https://x', dub: true, dubAbgeleitet: 'kanal-erbt', dubRanges: [{ from: 1, to: 1, dub: true }] }] })))
+const mitFalschemWeg = titel({ streams: [{ platform: 'netflix', url: 'https://y', dub: true }, { platform: 'joyn', url: 'https://x', dub: false, dubRanges: [{ from: 1, to: 1, dub: true }] }] })
+pruefe('Weg mit dub false und dubRanges liefert keinen Tag (deVon)', deutscheAngabe(mitFalschemWeg, [sub('joyn', '2026-07-02')]).deVon === undefined && !tonspurBeleg(mitFalschemWeg))
 pruefe('Weg ohne dub (false oder fehlt) zählt nicht als Deutsch', !hatDeutsch(titel({ streams: [{ platform: 'netflix', url: 'https://x', dub: false }] })) && !hatDeutsch(titel({ streams: [{ platform: 'netflix', url: 'https://x' }] })))
 pruefe('abgeleitet neben einem belegten Weg: bestätigt', hatDeutsch(gemischt) && stufeVon(gemischt, undefined, T0) === 'bestaetigt')
 
