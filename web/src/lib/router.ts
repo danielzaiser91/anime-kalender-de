@@ -13,6 +13,7 @@ import { todayIso } from '@shared/time.ts'
 import { vorliebenLesen, vorliebenNachfuehren } from './vorlieben.ts'
 import { kalenderBasis } from './kalender-filter.ts'
 import { HERKUENFTE } from './herkunft.ts'
+import { ohneEcchiGenre } from './ecchi.ts'
 
 /** Woche und Monat haben ihre Filter nicht in der Adresse (`kalender-filter.ts`). */
 const istKalender = (view: ViewId): boolean => view === 'woche' || view === 'monat'
@@ -201,7 +202,7 @@ export function parseHash(hash: string): AppRoute {
     date: params.get('d') ?? todayIso(),
     title: params.get('t') ? Number(params.get('t')) : undefined,
     disc: params.get('disc') === '1' ? true : undefined,
-    filters,
+    filters: ohneEcchiGenre(filters),
     sort: DB_SORTS.find((s) => s === params.get('sort')),
     ...schalterAusAdresse(params, view),
   }
