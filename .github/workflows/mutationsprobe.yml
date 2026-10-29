@@ -1,0 +1,119 @@
+name: Mutationsprobe
+
+# Die Mutationsprobe läuft hier und nicht auf Daniels Rechner (F40, Schritt 2, 29.10.2026).
+# Start per Knopf (workflow_dispatch) mit Zweig, Mutantenliste und Testbefehl; Ergebnis im Job-Log,
+# in der Zusammenfassung und, wenn eine PR-Nummer mitgegeben ist, als Kommentar am PR.
+# Es läuft `tools/mutationslaeufer.mjs` aus dem geprüften Zweig; die Liste muss dort liegen
+# (Vorbilder: tools/mutationen/*.json). Der Lauf schreibt nichts ins Repo.
+#
+# Aufruf: gh workflow run mutationsprobe.yml --repo danielzaiser91/anime-kalender-de \
+#           -f zweig=<zweig> -f liste=tools/mutationen/<liste>.json -f test="npx tsx pipeline/check-x.ts" [-f pr=<nr>]
+on:
+  workflow_dispatch:
+    inputs:
+      zweig:
+        description: 'Zweig des Repos, der geprüft wird'
+        required: true
+        type: string
+      liste:
+        description: 'Mutantenliste (JSON) im Zweig, z. B. tools/mutationen/cr-termine-vorschau.json'
+        required: true
+        type: string
+      test:
+        description: 'Testbefehl (Standard für Mutanten ohne eigenes "tests")'
+        required: true
+        type: string
+      pr:
+        description: 'PR-Nummer für den Ergebnis-Kommentar (leer = kein Kommentar)'
+        required: false
+        default: ''
+        type: string
+      timeout:
+        description: 'Sekunden je Testlauf'
+        required: false
+        default: '300'
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  mutation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    steps:
+      # Eingaben nur über env (nie in `run` einsetzen) und vor Gebrauch auf Form prüfen.
+      - name: Eingaben prüfen
+        env:
+          PR: ${{ inputs.pr }}
+          TIMEOUT: ${{ inputs.timeout }}
+          LISTE: ${{ inputs.liste }}
+        run: |
+          case "$PR" in ''|*[!0-9]*) [ -z "$PR" ] || { echo "pr muss eine Zahl sein: $PR"; exit 2; } ;; esac
+          case "$TIMEOUT" in ''|*[!0-9]*) echo "timeout muss eine Zahl sein: $TIMEOUT"; exit 2 ;; esac
+          case "$LISTE" in *..*|/*) echo "liste muss ein Pfad im Repo sein: $LISTE"; exit 2 ;; esac
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.zweig }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Mutanten einspielen und Tests laufen lassen
+        env:
+          LISTE: ${{ inputs.liste }}
+          TEST: ${{ inputs.test }}
+          TIMEOUT: ${{ inputs.timeout }}
+          ZWEIG: ${{ inputs.zweig }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/mutation"
+          set -o pipefail
+          code=0
+          node tools/mutationslaeufer.mjs "$LISTE" --test "$TEST" --timeout "$TIMEOUT" \
+            --log "$RUNNER_TEMP/mutation/log" 2>&1 | tee "$RUNNER_TEMP/mutation/lauf.txt" || code=$?
+          {
+            echo "## Mutationsprobe für \`$ZWEIG\` (\`$LISTE\`)"
+            echo
+            echo "Exit $code (0 = alle Mutanten rot, 1 = Überlebende oder unbrauchbare, 2 = Aufruf oder Grundlauf rot). Lauf: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+            echo
+            if [ -f "$RUNNER_TEMP/mutation/log/tabelle.md" ]; then cat "$RUNNER_TEMP/mutation/log/tabelle.md"; else tail -n 40 "$RUNNER_TEMP/mutation/lauf.txt"; fi
+          } > "$RUNNER_TEMP/mutation/ergebnis.md"
+          cat "$RUNNER_TEMP/mutation/ergebnis.md" >> "$GITHUB_STEP_SUMMARY"
+          exit "$code"
+      - name: Ergebnis anhängen
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mutation-ergebnis
+          path: ${{ runner.temp }}/mutation/
+          retention-days: 14
+          if-no-files-found: warn
+
+  kommentar:
+    needs: mutation
+    if: ${{ always() && inputs.pr != '' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Ergebnis holen
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          name: mutation-ergebnis
+          path: ergebnis
+      # Dieser Job führt keinen Code aus dem Zweig aus; er gibt nur den Text weiter.
+      - name: Am PR kommentieren
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          PR: ${{ inputs.pr }}
+        run: |
+          if [ ! -f ergebnis/ergebnis.md ]; then
+            mkdir -p ergebnis
+            printf '## Mutationsprobe ohne Ergebnis\n\nDer Lauf hat keine Tabelle geliefert: %s/%s/actions/runs/%s\n' \
+              "$GITHUB_SERVER_URL" "$GITHUB_REPOSITORY" "$GITHUB_RUN_ID" > ergebnis/ergebnis.md
+          fi
+          gh pr comment "$PR" --body-file ergebnis/ergebnis.md
