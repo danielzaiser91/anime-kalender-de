@@ -4,7 +4,7 @@
  * `folgen-zuordnung.json`, obwohl sie nur noch in `ohne-synchro.json` stehen. Geprüft wird `ordneFolgenOhneFremde` mit den
  * echten Schlüsseln und einer Attrappe des Bestands; jeder Fall verwirft gezählt. Läuft in `check:logic`.
  */
-import { ordneFolgenOhneFremde } from './lib/folgen-fremde-adressen.ts'
+import { entfallenZeile, ordneFolgenOhneFremde } from './lib/folgen-fremde-adressen.ts'
 import { adressIndex, type Beobachtung, type FolgenZuordnung } from './lib/folgen-je-folge.ts'
 import type { Title } from '../shared/types.ts'
 
@@ -95,8 +95,24 @@ pruefe('gemischte Folge: fremder Titel fällt nicht als Kandidat an', gemischt.e
 const ohneKennung = ordneFolgenOhneFremde([{ ...beob(6, FREMD, 'X', '2026-10-01T10:00'), asin: null }], kontext(fremdNurDisney), {})
 pruefe('Beobachtung ohne Kennung: 1 verworfen, keine Folge', ohneKennung.verworfen.beobachtungen === 1 && ohneKennung.verworfen.folgen === 0, ohneKennung.verworfen)
 
+/* Aufstellung der entfallenden Einträge je Titel: nur Einträge, die vorher einen Titel hatten und jetzt keinen, je Titel gezählt. */
+const au = ordneFolgenOhneFremde(
+  [beob(11, FREMD, 'AUF000001', '2026-10-01T10:00'), beob(12, FREMD, 'AUF000002', '2026-10-01T10:00'), beob(13, FREMD, 'AUF000003', '2026-10-01T10:00'), beob(14, EIGEN, 'AUF000004', '2026-10-01T10:00')],
+  kontext(fremdNurDisney),
+  {
+    'primevideo:AUF000001': alt(900002),
+    'primevideo:AUF000002': alt(900002),
+    'primevideo:AUF000003': alt(185262),
+    'primevideo:AUF000004': alt(900002),
+    'primevideo:OHNETITEL1': { grund: 'ohne-kandidat', gesehen: '2026-09-01' },
+  },
+)
+pruefe('entfallen je Titel: 900002 zweimal, 185262 einmal, Eintrag an eigener Adresse und ohne Titel zählen nicht', au.verworfen.entfallen[900002] === 2 && au.verworfen.entfallen[185262] === 1 && Object.keys(au.verworfen.entfallen).length === 2, au.verworfen.entfallen)
+pruefe('Aufstellung: größte Zahl zuerst', entfallenZeile({ 185262: 1, 900002: 2, 5: 1 }) === '900002: 2, 5: 1, 185262: 1', entfallenZeile({ 185262: 1, 900002: 2, 5: 1 }))
+pruefe('Aufstellung ohne Einträge', entfallenZeile({}) === 'keine', entfallenZeile({}))
+
 if (fehler.length) {
   console.error(`check-folgen-fremde-adressen: ${fehler.join('; ')}`)
   process.exit(1)
 }
-console.log('check-folgen-fremde-adressen: 15 Zusicherungen grün, fremde Adressen und Titel außerhalb von titles.json ordnen keine Plattform-Folge zu.')
+console.log('check-folgen-fremde-adressen: 18 Zusicherungen grün, fremde Adressen und Titel außerhalb von titles.json ordnen keine Plattform-Folge zu.')

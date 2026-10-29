@@ -22,5 +22,17 @@
   { "name": "fetch: Sperre aus", "aenderungen": [{ "datei": "pipeline/fetch-folgen-zuordnung.ts", "suche": "istFremd: fremdeAdressen(ROOT, new Set(titel.keys())),", "ersetze": "istFremd: () => false," }] },
   { "name": "fetch: Bestand der Sperre leer", "aenderungen": [{ "datei": "pipeline/fetch-folgen-zuordnung.ts", "suche": "fremdeAdressen(ROOT, new Set(titel.keys()))", "ersetze": "fremdeAdressen(ROOT, new Set())" }] },
   { "name": "fetch: bisherige Zuordnung nicht übergeben", "aenderungen": [{ "datei": "pipeline/fetch-folgen-zuordnung.ts", "suche": "    bisher,\n  )\n  writeJson", "ersetze": "    {},\n  )\n  writeJson" }] },
-  { "name": "fetch: Meldung der Zählung weg", "aenderungen": [{ "datei": "pipeline/fetch-folgen-zuordnung.ts", "suche": "Fremde Adressen (Cartoon, ohne Synchro, fremder Beleg)", "ersetze": "Adressen" }] }
+  { "name": "fetch: Meldung der Zählung weg", "aenderungen": [{ "datei": "pipeline/fetch-folgen-zuordnung.ts", "suche": "Fremde Adressen (Cartoon, ohne Synchro, fremder Beleg)", "ersetze": "Adressen" }] },
+  { "name": "fetch R1: Aufstellung je Titel weg", "aenderungen": [{ "datei": "pipeline/fetch-folgen-zuordnung.ts", "suche": "  log(`Einträge, die ihren Titel verlieren (Titel-ID: Anzahl): ${entfallenZeile(verworfen.entfallen)}`)\n", "ersetze": "" }] },
+  { "name": "fetch R1: Aufstellung leer übergeben", "aenderungen": [{ "datei": "pipeline/fetch-folgen-zuordnung.ts", "suche": "entfallenZeile(verworfen.entfallen)", "ersetze": "entfallenZeile({})" }] },
+  { "name": "lib R1: entfallen nicht berechnet", "aenderungen": [{ "datei": "pipeline/lib/folgen-fremde-adressen.ts", "suche": "entfallen: zaehleEntfallen(bisher, ergebnis),", "ersetze": "entfallen: {}," }] },
+  { "name": "lib R1: zaehleEntfallen zählt auch Erhaltene", "aenderungen": [{ "datei": "pipeline/lib/folgen-fremde-adressen.ts", "suche": "if (!z.titel || ergebnis[s]?.titel) continue", "ersetze": "if (!z.titel) continue" }] },
+  { "name": "lib R1: zaehleEntfallen zählt Einträge ohne Titel", "aenderungen": [{ "datei": "pipeline/lib/folgen-fremde-adressen.ts", "suche": "if (!z.titel || ergebnis[s]?.titel) continue", "ersetze": "if (ergebnis[s]?.titel) continue" }] },
+  { "name": "lib R1: zaehleEntfallen zählt zwei je Eintrag", "aenderungen": [{ "datei": "pipeline/lib/folgen-fremde-adressen.ts", "suche": "(entfallen[z.titel] ?? 0) + 1", "ersetze": "(entfallen[z.titel] ?? 0) + 2" }] },
+  { "name": "lib R1: zaehleEntfallen zählt neuen Titel statt alten", "aenderungen": [{ "datei": "pipeline/lib/folgen-fremde-adressen.ts", "suche": "entfallen[z.titel] = (entfallen[z.titel] ?? 0) + 1", "ersetze": "entfallen[0] = (entfallen[0] ?? 0) + 1" }] },
+  { "name": "lib R1: Aufstellung kleinste Zahl zuerst", "aenderungen": [{ "datei": "pipeline/lib/folgen-fremde-adressen.ts", "suche": "b[1] - a[1] || Number(a[0]) - Number(b[0])", "ersetze": "a[1] - b[1] || Number(a[0]) - Number(b[0])" }] },
+  { "name": "lib R1: Aufstellung ohne Gleichstandsregel", "aenderungen": [{ "datei": "pipeline/lib/folgen-fremde-adressen.ts", "suche": "b[1] - a[1] || Number(a[0]) - Number(b[0])", "ersetze": "b[1] - a[1]" }] },
+  { "name": "lib R1: Aufstellung leer heißt nichts", "aenderungen": [{ "datei": "pipeline/lib/folgen-fremde-adressen.ts", "suche": "return 'keine'", "ersetze": "return ''" }] },
+  { "name": "fremde R1: Beleg nichtImBestand sperrt nicht", "aenderungen": [{ "datei": "pipeline/lib/fremde-adressen.ts", "suche": "else if (b.anilistId) dazu(b.url)", "ersetze": "else if (b.anilistId) void 0" }] },
+  { "name": "fremde R1: jeder Beleg gilt als eigener", "aenderungen": [{ "datei": "pipeline/lib/fremde-adressen.ts", "suche": "if (b.anilistId && bestand.has(b.anilistId)) belegtEigen.add", "ersetze": "if (b.anilistId) belegtEigen.add" }] }
 ]

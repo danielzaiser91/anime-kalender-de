@@ -8,6 +8,24 @@ export interface Verworfen {
   folgen: number
   /** Frühere Zuordnungen auf einen Titel, der nicht mehr in `titles.json` steht. */
   veraltet: number
+  /** Je Titel-ID: Einträge, die vorher einen Titel hatten und jetzt keinen mehr (ein falsch gesperrter eigener Titel fiele hier auf). */
+  entfallen: Record<number, number>
+}
+
+/** Die Aufstellung „Titel-ID: Anzahl“ für das Lauflog, größte Zahl zuerst (bei Gleichstand die kleinere ID). */
+export function entfallenZeile(entfallen: Record<number, number>): string {
+  const liste = Object.entries(entfallen).sort((a, b) => b[1] - a[1] || Number(a[0]) - Number(b[0]))
+  if (!liste.length) return 'keine'
+  return liste.map(([id, n]) => `${id}: ${n}`).join(', ')
+}
+
+function zaehleEntfallen(bisher: Record<string, FolgenZuordnung>, ergebnis: Record<string, FolgenZuordnung>): Record<number, number> {
+  const entfallen: Record<number, number> = {}
+  for (const [s, z] of Object.entries(bisher)) {
+    if (!z.titel || ergebnis[s]?.titel) continue
+    entfallen[z.titel] = (entfallen[z.titel] ?? 0) + 1
+  }
+  return entfallen
 }
 
 const schluesselVon = (b: Beobachtung) => `${b.plattform}:${b.asin ?? b.gti}`
@@ -43,8 +61,14 @@ export function ordneFolgenOhneFremde(
     } else erhalten[s] = z
   }
   for (const [s, am] of nurFremd) ohne[s] = { grund: 'ohne-kandidat', gesehen: am }
+  const ergebnis = { ...ordneFolgenZu(eigene, k, erhalten), ...ohne }
   return {
-    ergebnis: { ...ordneFolgenZu(eigene, k, erhalten), ...ohne },
-    verworfen: { beobachtungen: beobachtungen.length - eigene.length, folgen: nurFremd.size, veraltet },
+    ergebnis,
+    verworfen: {
+      beobachtungen: beobachtungen.length - eigene.length,
+      folgen: nurFremd.size,
+      veraltet,
+      entfallen: zaehleEntfallen(bisher, ergebnis),
+    },
   }
 }

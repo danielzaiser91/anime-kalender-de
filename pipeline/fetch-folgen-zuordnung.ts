@@ -16,7 +16,7 @@ import { readFileSync } from 'node:fs'
 import yaml from 'js-yaml'
 import { log, readJson, ROOT, warn, writeJson } from './lib/util.ts'
 import { fremdeAdressen } from './lib/fremde-adressen.ts'
-import { ordneFolgenOhneFremde } from './lib/folgen-fremde-adressen.ts'
+import { entfallenZeile, ordneFolgenOhneFremde } from './lib/folgen-fremde-adressen.ts'
 import { abrufMitStempel } from './lib/abruf-stempel.ts'
 import { leseZugeordnet } from './lib/prime-meldung-riegel.ts'
 import { adressIndex, ankerAdresse, type Beobachtung, type FolgenZuordnung } from './lib/folgen-je-folge.ts'
@@ -117,6 +117,7 @@ async function main() {
     `Fremde Adressen (Cartoon, ohne Synchro, fremder Beleg): ${verworfen.beobachtungen} Beobachtungen und ${verworfen.folgen} Folgen ohne Zuordnung, ` +
       `${verworfen.veraltet} frühere Zuordnungen auf Titel außerhalb von titles.json entfallen.`,
   )
+  log(`Einträge, die ihren Titel verlieren (Titel-ID: Anzahl): ${entfallenZeile(verworfen.entfallen)}`)
   const zaehl: Record<string, number> = {}
   for (const z of Object.values(ergebnis)) zaehl[z.titel ? (z.folge ? 'Titel und Folge' : 'nur Titel') : z.grund] = (zaehl[z.titel ? (z.folge ? 'Titel und Folge' : 'nur Titel') : z.grund] ?? 0) + 1
   log(
