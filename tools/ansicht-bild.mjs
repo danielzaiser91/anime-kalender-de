@@ -25,6 +25,7 @@ import path from 'node:path'
 import { bilderOrdner } from './bilder-ordner.mjs'
 import { pruefeFilterfenster } from './ansicht-filterfenster.mjs'
 import { pruefeFilterfensterRechner } from './ansicht-filterfenster-rechner.mjs'
+import { pruefeFilterknopf } from './ansicht-filterknopf.mjs'
 import { pruefeTrefferprobe } from './ansicht-trefferprobe.mjs'
 import { pruefeAdressen } from './ansicht-adressen.mjs'
 import { pruefeHoverCover } from './ansicht-hover-cover.mjs'
@@ -452,6 +453,14 @@ async function meldeEmpfehlung() {
   return fehler.length > 0
 }
 
+/** Filter-Knopf der Datenbank: gleiche Stelle zu, offen, zu (1366/1920 px, hell/dunkel); wahr, wenn rot. */
+async function meldeFilterknopf() {
+  const r = await pruefeFilterknopf(chromium, antworteAusDist)
+  console.log(`\nFilter-Knopf der Datenbank springt nicht (1366/1920 px, hell und dunkel, ohne und mit Filter, ${r.faelle} Fälle; Escape schließt, Fokus zurück): ${r.abweichungen.length ? '' : 'ok'}`)
+  for (const l of r.abweichungen) console.log(`  ✕ ${l}`)
+  return r.abweichungen.length > 0
+}
+
 /** Die Zusatzprüfungen nach den Bildern; wahr, wenn eine rot ist. */
 async function meldeZusatzpruefungen(seite, ansichten, handy) {
   /* Der Cartoon-Filter wird am Rechner geprüft; am Handy liegt der Schalter im geschlossenen Filterfenster. */
@@ -464,6 +473,7 @@ async function meldeZusatzpruefungen(seite, ansichten, handy) {
     for (const l of rechner.abweichungen) console.log(`  ✕ ${l}`)
     if (rechner.abweichungen.length) rot = true
   }
+  if (!handy && ansichten.includes('datenbank') && (await meldeFilterknopf())) rot = true
   if (!handy && ansichten.includes('woche') && (await meldeHoverCover())) rot = true
   if (!handy && ansichten.includes('entdecken') && (await meldeEmpfehlung())) rot = true
   if (!handy && ansichten.includes('entdecken') && (await meldeZuruecksetzen())) rot = true

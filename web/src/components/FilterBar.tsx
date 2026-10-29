@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState, type RefObject } from 'react'
 import type { DataMeta } from '@shared/types.ts'
 import { activeFilterCount, type FilterState } from '../lib/filters.ts'
 import { useLang } from '../lib/i18n.tsx'
@@ -27,25 +27,34 @@ export type FilterBarProps = {
  * war beim Scrollen
  * weg. Platz für die letzten Kacheln lässt die Fußzeile (kein Leerraum oben, 04.10.2026).
  *
- * **Ohne aktive Filter nur so breit wie der Knopf**, rechts unten: Eine leere Leiste über die
- * ganze Breite deckte sonst eine Kachelreihe ab, ohne etwas zu sagen. Mit Chips oder offenem
- * Feld nimmt sie die volle Breite.
+ * **Zugeklappt immer nur der Knopf**, rechts unten: Chips und „Alle zurücksetzen" verdeckten sonst
+ * eine Kachelreihe (62 × 1180 px). Sie erscheinen mit dem Feld beim Aufklappen darüber. Das Dock
+ * hängt in beiden Zuständen an derselben rechten unteren Ecke, der Knopf springt nicht (29.10.2026).
  */
 export function FilterBarDock(props: FilterBarProps) {
   const [open, setOpen] = useState(false)
-  const pille = (!open && activeFilterCount(props.filters) === 0)
+  const knopf = useRef<HTMLButtonElement>(null)
+  useEscapeZu(open, () => {
+    setOpen(false)
+    knopf.current?.focus()
+  })
   return (
-    <div
-      className={[
-        'fixed inset-x-2 bottom-[calc(0.25rem+env(safe-area-inset-bottom))] z-30 mx-auto flex max-h-[calc(100dvh-5.5rem-env(safe-area-inset-bottom)-77px)] flex-col max-w-[1180px]',
-        pille && 'right-2 left-auto mx-0 w-max max-w-[calc(100vw-1rem)] md:right-4 md:max-w-[calc(100vw-2rem)]',
-      ]
-        .filter(Boolean)
-        .join(' ')}
-    >
-      <FilterBar {...props} pille={pille} open={open} setOpen={setOpen} />
+    <div className="fixed right-2 bottom-[calc(0.25rem+env(safe-area-inset-bottom))] z-30 flex w-max max-w-[calc(100vw-1rem)] max-h-[calc(100dvh-5.5rem-env(safe-area-inset-bottom)-77px)] flex-col md:right-4 md:max-w-[calc(100vw-2rem)]">
+      <FilterBar {...props} pille open={open} setOpen={setOpen} knopfRef={knopf} />
     </div>
   )
+}
+
+/** Escape schließt das offene Feld (Tastatur); der Aufrufer gibt den Fokus an den Knopf zurück. */
+function useEscapeZu(offen: boolean, zu: () => void) {
+  const aktuell = useRef(zu)
+  aktuell.current = zu
+  useEffect(() => {
+    if (!offen) return
+    const taste = (e: KeyboardEvent) => e.key === 'Escape' && aktuell.current()
+    window.addEventListener('keydown', taste)
+    return () => window.removeEventListener('keydown', taste)
+  }, [offen])
 }
 
 export function FilterBar({
@@ -57,7 +66,8 @@ export function FilterBar({
   pille,
   open,
   setOpen,
-}: FilterBarProps & { pille?: boolean; open: boolean; setOpen: (next: boolean) => void }) {
+  knopfRef,
+}: FilterBarProps & { pille?: boolean; open: boolean; setOpen: (next: boolean) => void; knopfRef?: RefObject<HTMLButtonElement | null> }) {
   const { t } = useLang()
   const count = activeFilterCount(filters)
 
@@ -76,11 +86,15 @@ export function FilterBar({
         </div>
       )}
       {/* Auswahl links, Filter-Knopf rechts auf derselben Zeile. */}
-      <div className="flex flex-wrap items-center gap-2 p-1.5">
-        <div className="max-h-[5.5rem] min-w-0 flex-1 overflow-y-auto">
-          <AktiveFilter filters={filters} onChange={onChange} />
-        </div>
+      <div className="flex flex-wrap items-end gap-2 p-1.5">
+        {(open || !pille) && (
+          <div className="max-h-[5.5rem] min-w-0 flex-1 overflow-y-auto">
+            <AktiveFilter filters={filters} onChange={onChange} />
+          </div>
+        )}
         <button
+          ref={knopfRef}
+          data-filter-knopf
           type="button"
           onClick={() => setOpen(!open)}
           aria-expanded={open}

@@ -207,7 +207,7 @@ jobs:
           PFADE='^(web/src/|web/buehne/|extension/.*\.css$|\.github/workflows/pr-pruefung\.yml$|package\.json$'
           PFADE="$PFADE|tools/(panel-bild|ansicht-bild|ak-von|bilder-ordner|dist-frisch|panel-sperre"
           PFADE="$PFADE|schwer|schwerer-lauf|einzel-sperre|einzel-sperre-schlange|bau-vergleich-log"
-          PFADE="$PFADE|ansicht-filterfenster|ansicht-filterfenster-rechner|ansicht-adressen"
+          PFADE="$PFADE|ansicht-filterfenster|ansicht-filterfenster-rechner|ansicht-filterknopf|ansicht-adressen"
           PFADE="$PFADE|ansicht-trefferprobe|trefferprobe-browser|trefferprobe-ausnahmen|trefferprobe-selbsttest"
           PFADE="$PFADE|panel-messen|panel-messen-browser|panel-reihe-schalter|panel-sprung|panel-zurueck|such-chip-messen"
           PFADE="$PFADE|ansicht-duell|duell-urteil"
