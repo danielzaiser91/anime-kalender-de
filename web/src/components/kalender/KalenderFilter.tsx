@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import type { ReleaseEvent } from '@shared/types.ts'
 import type { Dataset } from '../../lib/data.ts'
 import type { ViewId } from '../../lib/router.ts'
+import { useEscape } from '../../lib/escape.ts'
 import { activeFilterCount, type FilterState } from '../../lib/filters.ts'
 import { useMobil } from '../../lib/use-mobil.ts'
 import { KalenderWerkzeug } from '../filter/KalenderWerkzeug.tsx'
@@ -70,10 +71,5 @@ export function KalenderFilter(p: KalenderFilterProps) {
 
 /** Escape schließt das Filterfeld, solange es offen ist. */
 function useEscapeSchliesst(offen: boolean, schliessen: () => void) {
-  useEffect(() => {
-    if (!offen) return
-    const taste = (e: KeyboardEvent) => e.key === 'Escape' && schliessen()
-    window.addEventListener('keydown', taste)
-    return () => window.removeEventListener('keydown', taste)
-  }, [offen, schliessen])
+  useEscape(offen, () => schliessen())
 }

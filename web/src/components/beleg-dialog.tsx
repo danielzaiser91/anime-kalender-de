@@ -4,6 +4,7 @@ import type { NewsBeleg } from '@shared/types.ts'
 import { belegLink, hostVon } from '@shared/quelle.ts'
 import { BELEG_TYP_LABEL, belegTyp } from '@shared/beleg-anbieter.ts'
 import { datumKurz } from '../lib/news-text.ts'
+import { useEscape } from '../lib/escape.ts'
 import { useSeiteGesperrt } from '../lib/use-seite-gesperrt.ts'
 import { istSammelartikel } from '../lib/sammel-belege.ts'
 import { quellenLabel } from './news-belege.tsx'
@@ -87,11 +88,7 @@ const BTN = 'cursor-pointer rounded border border-slate-600 px-2.5 py-1 text-xs 
  */
 function BelegDialog({ belege, betreff, zu }: { belege: NewsBeleg[]; betreff?: string; zu: () => void }) {
   const [aktiv, setAktiv] = useState(() => Math.max(0, belege.findIndex((b) => b.bild)))
-  useEffect(() => {
-    const esc = (e: KeyboardEvent) => e.key === 'Escape' && zu()
-    document.addEventListener('keydown', esc)
-    return () => document.removeEventListener('keydown', esc)
-  }, [zu])
+  useEscape(true, () => zu(), { ziel: 'document' })
   /* Hinter dem Dialog bleibt die Seite stehen — und ihre Bildlaufleiste verschwindet (Daniel, 04.10.2026). */
   useSeiteGesperrt(true)
   return createPortal(
