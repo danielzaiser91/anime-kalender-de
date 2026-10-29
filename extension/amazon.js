@@ -5593,7 +5593,7 @@ async function speicherSchreiben(werte) {
         Auftrag fertig.
       */
       if (standZiele && suchliste?.[url]) {
-        if (standZiele.has(url) && !frischGemeldet.has(url) && !globalThis.akPrimeSuchVermerkGilt(suchErledigt[url])) return false
+        if (standZiele.has(url) && !frischGemeldet.has(url) && !globalThis.akPrimeBruecke(suchErledigt[url], Date.now())) return false
         const erwartetStand = erwartungZu(url)
         if (erwartetStand && briefkastenSeiten) {
           return erwartetStand.every((k) => briefkastenSeiten.has(String(k)))
@@ -5656,7 +5656,7 @@ async function speicherSchreiben(werte) {
       */
       if (briefkastenSuchen) {
         const gefuehrt = briefkastenSuchen.has(url)
-        if (!gefuehrt && globalThis.akPrimeSuchVermerkGilt(suchErledigt[url])) return true // Vermerk jünger als der Prüfstand bleibt
+        if (!gefuehrt && globalThis.akPrimeBruecke(suchErledigt[url], Date.now())) return true // frischer Vermerk bleibt
         if (!gefuehrt && suchErledigt[url]) vermerkVerwerfen(url)
         return gefuehrt
       }
