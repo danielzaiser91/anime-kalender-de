@@ -2,7 +2,7 @@
  * Saison-Ansicht (Daniel, 11.10.2026): Ein Titel mit belegtem deutschen Weg steht nie unter „Kommt noch“ einer abgeschlossenen Saison.
  * Gerechnet wird wie der Bau (`katalogAusBestand`) auf `titles.json`, nicht auf der erzeugten `saison.json` — die kommt erst mit dem nächsten Bestandsbau. Die Prüfung auf den echten Daten steht in `check-saison-deutsch-bestand.ts`.
  */
-import { deutscheAngabe } from './bau/saison-deutsch.ts'
+import { deutscheAngabe, tonspurBeleg } from './bau/saison-deutsch.ts'
 import { hatDeutsch } from '../shared/saison.ts'
 import { katalogZeile, stufeVon, type SaisonKatalogTitel } from '../web/src/lib/saison.ts'
 import type { Release, Title } from '../shared/types.ts'
@@ -55,6 +55,10 @@ pruefe('abgeleitet und Synchro angekündigt: angekündigt', stufeVon(angekuendig
 pruefe('abgeleitet, sicherer Termin in der Zukunft: angekündigt, nicht bestätigt', stufeVon(abgeleitet('joyn-pauschal'), zukunft, T0) === 'angekuendigt')
 pruefe('abgeleitet, abgeleiteter Termin in der Zukunft: Termin', stufeVon(abgeleitet('joyn-pauschal'), { ...zukunft, geschaetzt: true }, T0) === 'termin')
 pruefe('abgeleitet, sicherer Termin erschienen: Auf Deutsch (der Kalender führt nur deutsche Termine)', stufeVon(abgeleitet('kanal-erbt'), { datum: '2026-10-01', geschaetzt: false }, T0) === 'auf-deutsch')
+const mitAbgeleiteterFolge = titel({ streams: [{ platform: 'netflix', url: 'https://y', dub: true }, { platform: 'joyn', url: 'https://x', dub: true, dubAbgeleitet: 'joyn-pauschal', dubRanges: [{ from: 1, to: 1, dub: true }] }] })
+pruefe('abgeleiteter Weg mit dubRanges neben belegtem Weg ohne Folge: bestätigt, aber kein Tag (deVon)', deutscheAngabe(mitAbgeleiteterFolge, [sub('joyn', '2026-07-02')]).deVon === undefined)
+pruefe('Tonspur-Beleg: nur der nicht abgeleitete Weg mit Folge zählt', tonspurBeleg(mitFolge) && !tonspurBeleg(mitDub) && !tonspurBeleg(mitAbgeleiteterFolge) &&!tonspurBeleg(titel({ streams: [{ platform: 'joyn', url: 'https://x', dub: true, dubAbgeleitet: 'kanal-erbt', dubRanges: [{ from: 1, to: 1, dub: true }] }] })))
+pruefe('Weg ohne dub (false oder fehlt) zählt nicht als Deutsch', !hatDeutsch(titel({ streams: [{ platform: 'netflix', url: 'https://x', dub: false }] })) && !hatDeutsch(titel({ streams: [{ platform: 'netflix', url: 'https://x' }] })))
 pruefe('abgeleitet neben einem belegten Weg: bestätigt', hatDeutsch(gemischt) && stufeVon(gemischt, undefined, T0) === 'bestaetigt')
 
 if (fehler) {
