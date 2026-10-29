@@ -66,6 +66,7 @@ pipeline/check-verweise-von-hand-bestand.ts
 pipeline/check-woche-groesse-bestand.ts
 pipeline/check-wochen-datei-bestand.ts
 pipeline/check-zaehlung-synchro.ts
+pipeline/check-zuordnung-fremd-bestand.ts
 tools/cartoon-jw-stichprobe-bestand-pruefen.mjs
 tools/pruefliste-asid-bestand.mjs
 tools/sprache-netz-bestand-pruefen.mjs
