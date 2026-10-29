@@ -368,8 +368,8 @@ const pillenForm = await seite.evaluate(() =>
   })),
 )
 pruefe(
-  'die vier sind Amazon, Suchadressen, Netflix, Disney+',
-  ['Amazon', 'Suchadressen', 'Netflix', 'Disney+'].every((n) => pillenForm.some((p) => p.text.startsWith(n))),
+  'die vier sind Amazon, Verweise ohne Titelseite, Netflix, Disney+',
+  ['Amazon', 'Verweise ohne Titelseite', 'Netflix', 'Disney+'].every((n) => pillenForm.some((p) => p.text.startsWith(n))),
   pillenForm.map((p) => p.text).join(' | '),
 )
 pruefe(
