@@ -64,7 +64,7 @@ export function Vorschlaege({ kontext, gezeigt, titel, favoriten, aktionen, stan
   titel?: Map<number, Title>
   favoriten: Set<number>
   aktionen: VorschlagAktionen
-  stand: Stand
+  stand?: Stand
   genauer?: () => void
   vonVorn: () => void
   ablage: ComponentProps<typeof Ablage>
@@ -72,7 +72,7 @@ export function Vorschlaege({ kontext, gezeigt, titel, favoriten, aktionen, stan
   const { t } = useLang()
   const kandidaten = gezeigt.map((id) => kontext.datei.einstiege[kontext.index.get(id)!])
   const wenige = kandidaten.length < 5
-  const unter = stand.rest === null ? 'empf.untenGrenze' : 'empf.untenZahl'
+  const unter = stand?.rest === null ? 'empf.untenGrenze' : 'empf.untenZahl'
   return (
     <section className="empf-galerie-abschnitt flex-1 overflow-auto px-4 pb-8 pt-24" aria-live="polite">
       <div className="empf-galerie mx-auto max-w-[1040px]">
@@ -84,7 +84,7 @@ export function Vorschlaege({ kontext, gezeigt, titel, favoriten, aktionen, stan
         ) : (
           <>
             <h2 className="m-0 text-[clamp(28px,6vw,48px)] font-extrabold leading-none tracking-tight">{t(wenige ? 'empf.vorschlaegeWenige' : 'empf.vorschlaege')}</h2>
-            <p className="mb-4 mt-1 text-sm text-ak-leise">{t(unter, { gesamt: stand.gesamt, rest: stand.rest ?? 0 })}</p>
+            {stand && <p className="mb-4 mt-1 text-sm text-ak-leise">{t(unter, { gesamt: stand.gesamt, rest: stand.rest ?? 0 })}</p>}
             {wenige && <p className="mb-3 text-sm font-semibold">{kandidaten.length === 1 ? t('empf.nurNochEiner') : t('empf.nurNoch', { n: kandidaten.length })}</p>}
             <ul className="m-0 grid list-none grid-cols-2 gap-x-3 gap-y-3.5 p-0 min-[600px]:grid-cols-3 min-[900px]:grid-cols-5 min-[900px]:gap-x-4">
               {kandidaten.map((k) => (
