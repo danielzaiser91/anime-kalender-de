@@ -154,11 +154,11 @@ for (const art of ['fehler', 'status', 'ohne-disney', 'ohne-ziele'] as const) {
 }
 
 /* Paket-Eintrag ohne Staffeln (Worker führt ihn): zählt mit; Ziel ohne Titel wird nicht angelegt (die Liste sortiert nach Titel). */
-const leer = sandkasten({ x: { titel: 'Leer', url: ZIELE[0]!.url, staffeln: [] } }, 'stand', {
+const leer = sandkasten({ x: { titel: 'Leer', url: ZIELE[0]!.url, staffeln: [] }, y: { titel: 'Leer ohne Ziel', url: NUR_PAKET.url, staffeln: [] } }, 'stand', {
   anbieter: [{ ...worker, ziele: [ZIELE[0]!, { url: 'https://www.disneyplus.com/browse/entity-ohne-titel' }] }],
 })
 await leer.holen()
-pruefe(leer.zahl() === 1 && Object.keys(leer.liste()).length === 1, `leere Staffelliste zählt mit, titelloses Ziel bleibt draußen: ${leer.zahl()} / ${Object.keys(leer.liste()).length} Einträge`)
+pruefe(leer.zahl() === 1 && Object.keys(leer.liste()).length === 2, `leere Staffelliste zählt mit (nur wenn der Worker das Ziel führt), titelloses Ziel bleibt draußen: ${leer.zahl()} / ${Object.keys(leer.liste()).length} Einträge`)
 
 /* Der Worker führt genau ein Ziel (Grenze 1, nicht 0). */
 const eins = sandkasten(paketVon(ZIELE), 'stand', { anbieter: [{ ...worker, titel: 1, ziele: worker.ziele.slice(0, 1) }] })
