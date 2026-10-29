@@ -7,7 +7,7 @@
  */
 const BREITEN = [1366, 1920]
 const THEMEN = ['hell', 'dunkel']
-const ADRESSEN = { 'ohne Filter': 'http://ak.test/#/datenbank', 'mit Filter': 'http://ak.test/#/datenbank?g=Fantasy' }
+const ADRESSEN = { 'ohne Filter': 'http://ak.test/#/datenbank', 'mit Filter': 'http://ak.test/#/datenbank?g=Fantasy', 'mit vielen Filtern': 'http://ak.test/#/datenbank?g=Fantasy,Action,Comedy,Drama,Magie,Mecha,Musik,Horror,Romance,Samurai' }
 const KNOPF = 'button[data-filter-knopf]'
 
 /** Abweichungen zwischen den Boxen des Knopfs (zu, offen, wieder zu); `boxen` = { zu, offen, danach } mit x, y, width, height. */
@@ -23,8 +23,16 @@ export function knopfAbweichungen(wo, boxen) {
 
 /** Box des Filter-Knopfs; läuft im Browser. */
 function messeKnopf(sel) {
-  const b = document.querySelector(sel)?.getBoundingClientRect()
-  return b ? { x: b.x, y: b.y, width: b.width, height: b.height } : null
+  const knopf = document.querySelector(sel)
+  const b = knopf?.getBoundingClientRect()
+  const dock = knopf?.closest('.fixed')?.getBoundingClientRect()
+  return b ? { x: b.x, y: b.y, width: b.width, height: b.height, dockBreite: dock?.width ?? 0 } : null
+}
+
+/** Zugeklappt steht unten nur der Knopf: das Dock ist höchstens 20 px (Rand und Luft) breiter als er. */
+export function dockAbweichung(wo, zu) {
+  const mehr = zu.dockBreite - zu.width
+  return mehr > 20 ? [`${wo}: zugeklappt ${Math.round(zu.dockBreite)} px breit statt nur Knopf (${Math.round(zu.width)} px)`] : []
 }
 
 async function pruefeFall(browser, antworte, breite, thema, adresse) {
@@ -44,6 +52,7 @@ async function pruefeFall(browser, antworte, breite, thema, adresse) {
   const danach = await seite.evaluate(messeKnopf, KNOPF)
   await knopf.click()
   await seite.waitForTimeout(500)
+  await seite.evaluate(() => document.activeElement?.blur())
   await seite.keyboard.press('Escape')
   await seite.waitForTimeout(500)
   const fokus = await seite.evaluate((sel) => document.activeElement === document.querySelector(sel), KNOPF)
@@ -67,7 +76,7 @@ export async function pruefeFilterknopf(chromium, antworte) {
           abweichungen.push(`${wo}: Filter-Knopf nicht gefunden`)
           continue
         }
-        abweichungen.push(...knopfAbweichungen(wo, m))
+        abweichungen.push(...knopfAbweichungen(wo, m), ...dockAbweichung(wo, m.zu))
         if (m.zuNachEsc !== 'false') abweichungen.push(`${wo}: Escape schließt das Feld nicht`)
         if (!m.fokus) abweichungen.push(`${wo}: Fokus kehrt nach Escape nicht zum Knopf zurück`)
         if (m.zu.height < 44) abweichungen.push(`${wo}: Knopf nur ${m.zu.height} px hoch (soll ≥ 44)`)
