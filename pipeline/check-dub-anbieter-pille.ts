@@ -104,7 +104,7 @@ console.log('\nAntwort-Kasten gerendert (Art „fertig“, Rahmen des Panels):')
 const alleTexte: Record<string, string> = { ...TEXTE_ANTWORT, ...TEXTE_ZEILEN }
 const uebersetze = (k: string, v?: Record<string, string | number>): string =>
   (alleTexte[k] ?? k).replace(/\{(\w+)\}/g, (_, n: string) => String(v?.[n] ?? ''))
-const jwWeg = prime('B0JWWEG', { dubQuelle: 'justwatch', dubStand: '2026-10-01' })
+const jwWeg = prime('B0JWWEG', { dub: undefined, dubQuelle: 'justwatch', dubStand: '2026-10-01' })
 const offenerWeg = { platform: 'netflix', url: 'https://www.netflix.com/title/81', zugang: 'abo' } as StreamLink
 function kasten(streams: StreamLink[]): string {
   const title = titelMit(streams)
