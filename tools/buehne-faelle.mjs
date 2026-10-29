@@ -40,6 +40,8 @@ const FAELLE = [
   { slug: 'sakamoto-days', name: 'Sakamoto Days (Netflix, Disc-Termine seit und ab)', titel: 177709 },
   { slug: 'dan-da-dan', name: 'Dan Da Dan (Disc: Editionen, Gesamtausgabe kommend)', titel: 171018 },
   { slug: 'trigun-stampede', name: 'Trigun Stampede (genau eine Disc)', titel: 151040 },
+  /* Synchro angekündigt, noch keine deutsche Folge (Streifen und Abzeichen auf der Kachel, F71). */
+  { slug: 'black-clover-s2', name: 'Black Clover Staffel 2 (Synchro angekündigt)', titel: 195604 },
   /* Antwortkasten vor dem ersten deutschen Termin (Mockup antwortkasten-vorstart): Disc Vol. 1 am 06.11.2026. */
   { slug: 'virgin-road', name: 'Virgin Road (Disc Vol. 1 kommt, noch keine deutsche Folge)', titel: 129193 },
 ]

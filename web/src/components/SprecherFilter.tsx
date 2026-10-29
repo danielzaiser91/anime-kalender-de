@@ -235,7 +235,11 @@ export function SprecherFilter({ filters, onChange, mode }: { filters: FilterSta
       const aktuell = v.anfrage === eingabe.trim() ? treffer : v.index.index && eingabe.trim().length >= MIN_ZEICHEN ? sprecherVorschlaege(v.index.index.sprecher, eingabe.trim(), new Set(gewaehlt), MAX_VORSCHLAEGE).treffer : []
       const ziel = aktuell[v.anfrage === eingabe.trim() ? aktiv : 0]
       if (ziel) waehlen(ziel[0])
-    } else if (e.key === 'Escape') setEingabe('')
+    } else if (e.key === 'Escape' && eingabe) {
+      /* Der erste Escape leert nur das Feld; erst der nächste schließt das Filterfeld darum herum. */
+      e.preventDefault()
+      setEingabe('')
+    }
   }
   const verlassen = (e: FocusEvent<HTMLDivElement>) => {
     if (!e.currentTarget.contains(e.relatedTarget)) setFokus(false)

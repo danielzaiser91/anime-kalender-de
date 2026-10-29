@@ -73,6 +73,29 @@ console.log('\nDbKarte läuft wirklich: Klick öffnet die Staffel der Kachel')
   await zeige({ gruppe: 'bald' })
   pruefe('„Demnächst" ohne Startdatum: keine Pille, kein Absturz', !text().includes('ab '), text())
 }
+console.log('\nAngekündigte Synchro ohne deutsche Folge (F71): Streifen und Abzeichen zugleich')
+{
+  const ank = (synchro: 'angekuendigt' | 'offen') => ({ platform: 'crunchyroll', omuAb: '2026-10-07', synchro, quellen: [], stand: '2026-09-15' })
+  const blackClover = { id: 195604, titleDe: 'Black Clover Staffel 2', format: 'TV', streams: [], os: true, ankuendigung: ank('angekuendigt') } as unknown as Title
+  const nurOmu = { id: 900071, titleDe: 'Nur Untertitel', format: 'TV', streams: [], os: true, ankuendigung: ank('offen') } as unknown as Title
+  const mitSynchro = { id: 900072, titleDe: 'Mit Synchro', format: 'TV', streams: [], ankuendigung: ank('angekuendigt') } as unknown as Title
+  const ohneAlles = { id: 900073, titleDe: 'Ohne Ankündigung', format: 'TV', streams: [], os: true } as unknown as Title
+  const mit = async (members: Title[]) => {
+    await act(async () => wurzel.render(h(DbKarte, { main: members[0]!, members, ...gemeinsam([]) })))
+    return text()
+  }
+  const a = await mit([blackClover])
+  pruefe('Streifen „keine deutsche Synchro“ bleibt', a.includes('keine deutsche Synchro'), a)
+  pruefe('Abzeichen „angekündigt“ kommt dazu', a.includes('angekündigt'), a)
+  pruefe('Abzeichen ist ein eigenes Element, nicht der Streifen', dom.wurzel.finde((x) => (x.getAttribute('class') ?? '').includes('bg-ak-info-grund') && x.textContent.includes('angekündigt')).length === 1)
+  pruefe('Ankündigung „offen“ (nur Untertitel): kein Abzeichen', !(await mit([nurOmu])).includes('angekündigt'))
+  pruefe('ohne Ankündigung: kein Abzeichen, Streifen bleibt', !(await mit([ohneAlles])).includes('angekündigt') && text().includes('keine deutsche Synchro'))
+  const cartoon = { id: 900074, titleDe: 'Cartoon', format: 'TV', streams: [], os: true, westlich: true, ankuendigung: ank('angekuendigt') } as unknown as Title
+  pruefe('westlicher Titel mit Ankündigung: kein Abzeichen (wie im Antwortkasten), Streifen bleibt', !(await mit([cartoon])).includes('angekündigt') && text().includes('keine deutsche Synchro'), text())
+  const gemischt = await mit([blackClover, mitSynchro])
+  pruefe('Reihe, in der ein Glied Synchro hat: weder Streifen noch Abzeichen', !gemischt.includes('angekündigt') && !gemischt.includes('keine deutsche Synchro'), gemischt)
+  pruefe('Reihe, in der alle Glieder ohne Synchro sind und eines angekündigt ist: Abzeichen', (await mit([ohneAlles, blackClover])).includes('angekündigt'))
+}
 console.log('\nDbRaster läuft wirklich: titelId und Staffelmarke kommen aus der Liste auf die Kachel')
 {
   const geoeffnet: number[] = []

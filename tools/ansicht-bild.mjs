@@ -25,6 +25,7 @@ import path from 'node:path'
 import { bilderOrdner } from './bilder-ordner.mjs'
 import { pruefeFilterfenster } from './ansicht-filterfenster.mjs'
 import { pruefeFilterfensterRechner } from './ansicht-filterfenster-rechner.mjs'
+import { pruefeFilterknopf } from './ansicht-filterknopf.mjs'
 import { pruefeTrefferprobe } from './ansicht-trefferprobe.mjs'
 import { pruefeAdressen } from './ansicht-adressen.mjs'
 import { pruefeHoverCover } from './ansicht-hover-cover.mjs'
@@ -35,6 +36,7 @@ import { eckenFehler } from './ecken-urteil.mjs'
 import { messeDuell } from './ansicht-duell.mjs'
 import { messeDetailsOverlay } from './ansicht-details-overlay.mjs'
 import { pruefeFortsetzen } from './ansicht-fortsetzen.mjs'
+import { meldeAbzeichen } from './ansicht-abzeichen.mjs'
 
 const WURZEL = path.resolve(import.meta.dirname, '..')
 const DIST = path.join(WURZEL, 'dist')
@@ -452,6 +454,14 @@ async function meldeEmpfehlung() {
   return fehler.length > 0
 }
 
+/** Filter-Knopf der Datenbank: gleiche Stelle zu, offen, zu (1366/1920 px, hell/dunkel); wahr, wenn rot. */
+async function meldeFilterknopf() {
+  const r = await pruefeFilterknopf(chromium, antworteAusDist)
+  console.log(`\nFilter-Knopf der Datenbank springt nicht (1366/1920 px, hell und dunkel, ohne, mit einem und mit vielen Filtern, ${r.faelle} Fälle; zugeklappt nur der Knopf; Escape nur mit Fokus im Dock, auch aus dem Eingabefeld, Sprecher-Eingabe zuerst, Fokus zurück; aria-controls): ${r.abweichungen.length ? '' : 'ok'}`)
+  for (const l of r.abweichungen) console.log(`  ✕ ${l}`)
+  return r.abweichungen.length > 0
+}
+
 /** Die Zusatzprüfungen nach den Bildern; wahr, wenn eine rot ist. */
 async function meldeZusatzpruefungen(seite, ansichten, handy) {
   /* Der Cartoon-Filter wird am Rechner geprüft; am Handy liegt der Schalter im geschlossenen Filterfenster. */
@@ -464,6 +474,7 @@ async function meldeZusatzpruefungen(seite, ansichten, handy) {
     for (const l of rechner.abweichungen) console.log(`  ✕ ${l}`)
     if (rechner.abweichungen.length) rot = true
   }
+  if (!handy && ansichten.includes('datenbank') && (await meldeFilterknopf())) rot = true
   if (!handy && ansichten.includes('woche') && (await meldeHoverCover())) rot = true
   if (!handy && ansichten.includes('entdecken') && (await meldeEmpfehlung())) rot = true
   if (!handy && ansichten.includes('entdecken') && (await meldeZuruecksetzen())) rot = true
@@ -481,6 +492,7 @@ async function meldeZusatzpruefungen(seite, ansichten, handy) {
     for (const l of treffer.abweichungen) console.log(`  ✕ ${l}`)
     if (treffer.abweichungen.length) rot = true
     if (meldeTvReihe(await pruefeTvReihe(DIST))) rot = true
+    if (await meldeAbzeichen({ chromium, antworte: antworteAusDist, dist: DIST, lesePixel: lesePixelPng })) rot = true
   }
   return rot
 }

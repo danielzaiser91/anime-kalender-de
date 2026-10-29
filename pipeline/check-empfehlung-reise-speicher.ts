@@ -10,6 +10,7 @@ import type { EmpfehlungsDatei, Kandidat } from '../shared/empfehlung-pool.ts'
 import { baueKontext } from '../shared/empfehlung-vektor.ts'
 import { ANFANG, antworten, fortfahren, neueReise, oeffnen, vorschauIds, zuStart, type Ablauf } from '../web/src/lib/empfehlung-ablauf.ts'
 import { reiseMerken, reiseVergessen, reiseWiederherstellen, type ReiseSpeicher } from '../web/src/lib/empfehlung-reise-speicher.ts'
+import { zeichnung, type Zeichenlage } from '../web/src/lib/empfehlung-zeichnung.ts'
 import { rangliste } from '../web/src/lib/empfehlung-reise.ts'
 import { installiereMiniDom, attrappeUhr, ignoriereCss } from '../tools/mini-dom.ts'
 ignoriereCss()
@@ -35,6 +36,8 @@ const datei: EmpfehlungsDatei = {
 }
 const k = baueKontext(datei)
 const KEINE = new Set<number>()
+/** Die Lage, in der `EmpfehlungView` einen wiederhergestellten Ablauf zeichnet (Daten geladen, Hook-Felder aus dem Ablauf). */
+const lage = (a: Ablauf): Zeichenlage => ({ kontext: true, phase: a.phase, sitzung: !!a.sitzung, fortsetzbar: !!a.sitzung, aktuell: a.aktuell !== undefined })
 const rang = (z: Parameters<Parameters<typeof antworten>[3]>[0]) => rangliste(k, z, [], new Set())
 
 function attrappe(sperre = false): ReiseSpeicher & { daten: Map<string, string> } {
@@ -80,6 +83,8 @@ console.log('Merken und Wiederherstellen')
   reiseMerken(eine, k, s3)
   const offen = reiseWiederherstellen(k, KEINE, s3)
   pruefe('Duell mit genau einer Antwort wird gemerkt und kommt als Start zum Fortfahren zurück', offen?.phase === 'start' && offen.sitzung?.zustand.gewertet === 1 && offen.ziel === 6, offen?.phase)
+  pruefe('Offenes Duell: die Ansicht zeichnet das Fortsetzen', offen !== undefined && zeichnung(lage(offen)) === 'fortsetzen', offen && zeichnung(lage(offen)))
+  pruefe('Ergebnis mit Duellstand: die Ansicht zeichnet die Vorschläge', zurueck !== undefined && zeichnung(lage(zurueck)) === 'ergebnis')
   pruefe('Zum offenen Duell gehört ein Zustand, den fortfahren() ins Duell zurückführt', fortfahren(k, offen!).phase === 'duell')
   s3.daten.clear()
   reiseMerken(ANFANG, k, s3)
@@ -126,6 +131,9 @@ console.log('Veraltet und kaputt')
   pruefe('Neuer Titel hinten → Vorschläge bleiben, kein Duellstand', hinten?.phase === 'ergebnis' && gleich(hinten, fertig) && hinten.sitzung === undefined, hinten)
   const vertauscht = mitPool(andererPool((l) => [l[1], l[0], ...l.slice(2)]))
   pruefe('Zwei Titel vertauscht → Vorschläge bleiben, kein Duellstand', gleich(vertauscht, fertig) && vertauscht?.sitzung === undefined, vertauscht)
+  for (const [name, a] of [['Pool-Kennung anders', anders], ['Neuer Titel vorn', vorn], ['Neuer Titel hinten', hinten], ['Titel vertauscht', vertauscht], ['gleicher Pool', gleicher]] as const) {
+    pruefe(`${name}: die Ansicht zeichnet etwas (nicht schwarz)`, a !== undefined && zeichnung(lage(a)) === 'ergebnis', a && zeichnung(lage(a)))
+  }
   const ohneEinen = mitPool(andererPool((l) => l.filter((e) => e.id !== fertig.gezeigt[0])))
   pruefe('Titel aus dem Pool entfernt → fällt aus den Vorschlägen', JSON.stringify(ohneEinen?.gezeigt) === JSON.stringify(fertig.gezeigt.slice(1)), ohneEinen?.gezeigt)
   const nurEiner = mitPool(andererPool((l) => l.filter((e) => e.id === fertig.gezeigt[0] || !fertig.gezeigt.includes(e.id))))
