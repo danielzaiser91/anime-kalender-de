@@ -44,7 +44,7 @@
    * Minuten der Brücke stand die Suche sonst bei der nächsten Meldung wieder in der Liste (29.10.2026).
    */
   globalThis.akPrimeSuchVermerkGilt = (vermerk) =>
-    Number.isFinite(Date.parse(vermerk)) && globalThis.akVermerkGilt(vermerk, globalThis.AK_OFFENE_AMAZON_ERZEUGT ?? null)
+    Date.parse(vermerk) <= Date.now() && globalThis.akVermerkGilt(vermerk, globalThis.AK_OFFENE_AMAZON_ERZEUGT ?? null)
 
   /** Gilt ein gespeicherter Vermerk (ISO-Zeit) zur Zeit `jetzt` (ms) noch als Überbrückung? */
   globalThis.akPrimeBruecke = (vermerk, jetzt) => {

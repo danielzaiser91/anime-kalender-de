@@ -77,6 +77,8 @@ pruefe('Suche vor 9 Minuten: erledigt', seite({ suchVermerk: vor(9) }).suche() =
 pruefe('Suche vor 59 Minuten, Prüfstand vor 60: erledigt', seite({ suchVermerk: vor(59) }).suche() === true)
 pruefe('Suche vor 61 Minuten, Prüfstand vor 60, Stand führt sie noch: offen (der Prüfstand hat sie überholt)', seite({ suchVermerk: vor(61) }).suche() === false)
 pruefe('Suche vor 2 Stunden gemeldet, Stand führt sie noch: offen (der Worker entscheidet)', seite({ suchVermerk: vor(120) }).suche() === false)
+pruefe('Vermerk aus der Zukunft zählt nicht', seite({ suchVermerk: new Date(FEST + 5 * MIN).toISOString() }).suche() === false)
+pruefe('Vermerk eine Sekunde in der Zukunft zählt nicht, genau jetzt schon', seite({ suchVermerk: new Date(FEST + 1000).toISOString() }).suche() === false && seite({ suchVermerk: new Date(FEST).toISOString() }).suche() === true)
 pruefe('Alter Vermerk nur mit Datum, Tag vor dem Prüfstand: offen', seite({ suchVermerk: '2026-10-20' }).suche() === false)
 pruefe('Kaputter Vermerk: offen', seite({ suchVermerk: 'gestern' }).suche() === false)
 pruefe('Führt der Stand die Suche nicht mehr: erledigt, auch ohne Vermerk', seite({ imStand: [] }).suche() === true)
