@@ -1414,19 +1414,19 @@
   ],
   "spice-and-wolf-2024-vol4": [
     {
-      "url": "https://www.anime2you.de/news/1045437/30-crunchyroll-animoon-termine-verschoben/",
-      "name": "anime2you.de",
-      "gesehenAm": "2026-10-01",
-      "sagt": "2027-01-15",
-      "stand": "aktuell"
-    },
-    {
       "url": "https://www.anime2you.de/news/1061001/neun-animoon-crunchyroll-hardball-disc-verschiebungen/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-17",
       "sagt": "2027-02-19",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://www.anime2you.de/news/1045437/30-crunchyroll-animoon-termine-verschoben/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-01",
+      "sagt": "2027-01-15",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2027-01-15"
+      "grund": "Termin verschoben auf: 2027-02-19"
     },
     {
       "url": "https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/",
@@ -1434,7 +1434,7 @@
       "gesehenAm": "2026-10-01",
       "sagt": "2026-12-18",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2027-01-15"
+      "grund": "Termin verschoben auf: 2027-02-19"
     }
   ],
   "oshi-no-ko-s3-vol1": [
@@ -3638,10 +3638,18 @@
   ],
   "adn-1419": [
     {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1419",
+      "name": "ADN API",
+      "gesehenAm": "2026-10-29",
+      "stand": "aktuell",
+      "gelesenAm": "2026-10-26",
+      "bestaetigt": "2026-09-17"
+    },
+    {
       "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
       "name": "ADN API",
       "gesehenAm": "2026-10-01",
-      "stand": "aktuell",
+      "stand": "vermutlich-ueberholt",
       "gelesenAm": "2026-10-28",
       "bestaetigt": "2026-09-17",
       "sagt": "2026-09-17"
@@ -4072,17 +4080,25 @@
   ],
   "good-luck-girl-vol-1-2026-11-20": [
     {
+      "url": "https://www.anime2you.de/news/1061001/neun-animoon-crunchyroll-hardball-disc-verschiebungen/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-17",
+      "sagt": "2027-02-05",
+      "stand": "aktuell"
+    },
+    {
       "url": "https://www.anisearch.de/article/216284,good-luck-girl-vol-1-2-limited-steelcase-edition-blu-ray-sammelschuber",
       "name": "anisearch.de",
       "gesehenAm": "2026-10-02",
-      "stand": "aktuell",
-      "sagt": "2026-11-20"
+      "sagt": "2026-11-20",
+      "stand": "ueberholt",
+      "grund": "Termin verschoben auf: 2027-02-05"
     },
     {
       "url": "https://www.anisearch.de/article/216284",
       "name": "anisearch.de",
       "gesehenAm": "2026-10-01",
-      "stand": "vermutlich-ueberholt",
+      "stand": "ueberholt",
       "sagt": "2026-11-20",
       "grund": "Termin verschoben auf: 2027-02-05"
     },
@@ -4090,32 +4106,32 @@
       "url": "good-luck-girl-vol-1-2-limited-steelcase-edition-blu-ray-sammelschuber",
       "name": "good-luck-girl-vol-1-2-limited-steelcase-edition-blu-ray-sammelschuber",
       "gesehenAm": "2026-10-01",
-      "stand": "vermutlich-ueberholt",
+      "stand": "ueberholt",
       "sagt": "2026-11-20",
       "grund": "Termin verschoben auf: 2027-02-05"
-    },
-    {
-      "url": "https://www.anime2you.de/news/1061001/neun-animoon-crunchyroll-hardball-disc-verschiebungen/",
-      "name": "anime2you.de",
-      "gesehenAm": "2026-10-17",
-      "sagt": "2027-02-05",
-      "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-11-20"
     }
   ],
   "good-luck-girl-vol-2-2027-02-05": [
     {
+      "url": "https://www.anime2you.de/news/1061001/neun-animoon-crunchyroll-hardball-disc-verschiebungen/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-17",
+      "sagt": "2027-03-05",
+      "stand": "aktuell"
+    },
+    {
       "url": "https://www.anisearch.de/article/216285,good-luck-girl-vol-2-2-limited-steelcase-edition-blu-ray",
       "name": "anisearch.de",
       "gesehenAm": "2026-10-02",
-      "stand": "aktuell",
-      "sagt": "2027-02-05"
+      "sagt": "2027-02-05",
+      "stand": "ueberholt",
+      "grund": "Termin verschoben auf: 2027-03-05"
     },
     {
       "url": "https://www.anisearch.de/article/216285",
       "name": "anisearch.de",
       "gesehenAm": "2026-10-01",
-      "stand": "vermutlich-ueberholt",
+      "stand": "ueberholt",
       "sagt": "2027-02-05",
       "grund": "Termin verschoben auf: 2027-03-05"
     },
@@ -4123,17 +4139,9 @@
       "url": "good-luck-girl-vol-2-2-limited-steelcase-edition-blu-ray",
       "name": "good-luck-girl-vol-2-2-limited-steelcase-edition-blu-ray",
       "gesehenAm": "2026-10-01",
-      "stand": "vermutlich-ueberholt",
+      "stand": "ueberholt",
       "sagt": "2027-02-05",
       "grund": "Termin verschoben auf: 2027-03-05"
-    },
-    {
-      "url": "https://www.anime2you.de/news/1061001/neun-animoon-crunchyroll-hardball-disc-verschiebungen/",
-      "name": "anime2you.de",
-      "gesehenAm": "2026-10-17",
-      "sagt": "2027-03-05",
-      "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2027-02-05"
     }
   ],
   "road-to-ninja-naruto-the-movie-2026-11-19": [
@@ -6052,6 +6060,14 @@
   ],
   "bleach-diamonddust-rebellion-adn": [
     {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/198",
+      "name": "ADN API",
+      "gesehenAm": "2026-10-29",
+      "stand": "aktuell",
+      "gelesenAm": "2026-10-26",
+      "bestaetigt": "2026-10-12"
+    },
+    {
       "url": "https://news.animationdigitalnetwork.com/de/2026/10/12/bleach-alle-vier-filme-jetzt-im-stream-bei-adn/",
       "name": "news.animationdigitalnetwork.com",
       "gesehenAm": "2026-10-14",
@@ -6061,7 +6077,7 @@
       "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
       "name": "ADN API",
       "gesehenAm": "2026-10-14",
-      "stand": "aktuell",
+      "stand": "vermutlich-ueberholt",
       "gelesenAm": "2026-10-28",
       "bestaetigt": "2026-10-12"
     },
@@ -6074,6 +6090,14 @@
   ],
   "bleach-fade-to-black-adn": [
     {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/352",
+      "name": "ADN API",
+      "gesehenAm": "2026-10-29",
+      "stand": "aktuell",
+      "gelesenAm": "2026-10-26",
+      "bestaetigt": "2026-10-12"
+    },
+    {
       "url": "https://news.animationdigitalnetwork.com/de/2026/10/12/bleach-alle-vier-filme-jetzt-im-stream-bei-adn/",
       "name": "news.animationdigitalnetwork.com",
       "gesehenAm": "2026-10-14",
@@ -6083,7 +6107,7 @@
       "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
       "name": "ADN API",
       "gesehenAm": "2026-10-14",
-      "stand": "aktuell",
+      "stand": "vermutlich-ueberholt",
       "gelesenAm": "2026-10-28",
       "bestaetigt": "2026-10-12"
     },
@@ -6096,6 +6120,14 @@
   ],
   "bleach-hell-verse-adn": [
     {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/361",
+      "name": "ADN API",
+      "gesehenAm": "2026-10-29",
+      "stand": "aktuell",
+      "gelesenAm": "2026-10-26",
+      "bestaetigt": "2026-10-12"
+    },
+    {
       "url": "https://news.animationdigitalnetwork.com/de/2026/10/12/bleach-alle-vier-filme-jetzt-im-stream-bei-adn/",
       "name": "news.animationdigitalnetwork.com",
       "gesehenAm": "2026-10-14",
@@ -6105,7 +6137,7 @@
       "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
       "name": "ADN API",
       "gesehenAm": "2026-10-14",
-      "stand": "aktuell",
+      "stand": "vermutlich-ueberholt",
       "gelesenAm": "2026-10-28",
       "bestaetigt": "2026-10-12"
     },
@@ -6466,6 +6498,14 @@
   ],
   "adn-197": [
     {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/197",
+      "name": "ADN API",
+      "gesehenAm": "2026-10-29",
+      "stand": "aktuell",
+      "gelesenAm": "2026-10-26",
+      "bestaetigt": "2026-10-12"
+    },
+    {
       "url": "https://news.animationdigitalnetwork.com/de/2026/10/12/bleach-alle-vier-filme-jetzt-im-stream-bei-adn/",
       "name": "news.animationdigitalnetwork.com",
       "gesehenAm": "2026-10-14",
@@ -6481,7 +6521,7 @@
       "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
       "name": "ADN API",
       "gesehenAm": "2026-10-08",
-      "stand": "aktuell",
+      "stand": "vermutlich-ueberholt",
       "gelesenAm": "2026-10-28",
       "bestaetigt": "2026-10-12"
     }
@@ -6880,26 +6920,27 @@
   ],
   "kaiju-no8-s2-komplettbox": [
     {
+      "url": "https://www.anime2you.de/news/1061001/neun-animoon-crunchyroll-hardball-disc-verschiebungen/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-17",
+      "sagt": "2027-05-07",
+      "stand": "aktuell"
+    },
+    {
       "url": "https://www.anime2you.de/news/1058332/kaiju-no-8-staffel-1-steelbook-edition/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-12",
-      "stand": "aktuell",
-      "sagt": "2027-03-05"
+      "sagt": "2027-03-05",
+      "stand": "ueberholt",
+      "grund": "Termin verschoben auf: 2027-05-07"
     },
     {
       "url": "https://www.anime2you.de/news/1044367/kaiju-no-8-staffel-2-disc-release/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-12",
-      "stand": "aktuell",
-      "sagt": "2027-03-05"
-    },
-    {
-      "url": "https://www.anime2you.de/news/1061001/neun-animoon-crunchyroll-hardball-disc-verschiebungen/",
-      "name": "anime2you.de",
-      "gesehenAm": "2026-10-17",
-      "sagt": "2027-05-07",
+      "sagt": "2027-03-05",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2027-03-05"
+      "grund": "Termin verschoben auf: 2027-05-07"
     }
   ],
   "demon-slayer-entertainment-district-arc-primevideo": [
@@ -7645,6 +7686,42 @@
       "name": "anime2you.de",
       "gesehenAm": "2026-10-28",
       "sagt": "2027-02-05",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-885-primevideo": [
+    {
+      "url": "https://www.anime2you.de/news/1065078/aniverse-november-2026-neuzugaenge/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-29",
+      "sagt": "2026-11-05",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-20701-primevideo": [
+    {
+      "url": "https://www.anime2you.de/news/1065078/aniverse-november-2026-neuzugaenge/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-29",
+      "sagt": "2026-11-19",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-175914-primevideo": [
+    {
+      "url": "https://www.anime2you.de/news/1065078/aniverse-november-2026-neuzugaenge/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-29",
+      "sagt": "2026-11-20",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-10015-disneyplus": [
+    {
+      "url": "https://www.anime2you.de/news/1065067/disney-plus-bleach-finale-und-mehr/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-29",
+      "sagt": "2026-10-28",
       "stand": "aktuell"
     }
   ]

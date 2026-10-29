@@ -20,6 +20,19 @@ DESCRIPTION:Plattform: Disney+\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
 CATEGORIES:Disney+
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-10015-disneyplus@2026-10-28@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261028
+DTEND;VALUE=DATE:20261029
+SUMMARY:Yu-Gi-Oh! Zexal (neu bei Disney+)
+DESCRIPTION:Plattform: Disney+\nRelease-Art: Katalogtitel\nIm Angebot seit 
+ diesem Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrzeit n
+ och nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter genannter Ta
+ g\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetails: https
+ ://anime-kalender.de/t/5070/
+CATEGORIES:Disney+
+END:VEVENT
+BEGIN:VEVENT
 UID:tokyo-revengers-s3-disneyplus@2026-10-30@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261030T170000Z

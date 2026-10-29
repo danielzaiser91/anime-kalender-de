@@ -1,5 +1,5 @@
 {
-  "stand": "2026-10-28",
+  "stand": "2026-10-29",
   "bestand": {
     "inReihen": 3028,
     "reihen": 818,
@@ -1004,6 +1004,23 @@
         ],
         "alleinstehende": [],
         "beispiel": "Mi Feng Huodong Jilu: The Sealed Esoteric History —Gemeinsames Universum→ Gensou Mangekyou: The Memories of Phantasm"
+      },
+      {
+        "art": "universum",
+        "reihen": [
+          {
+            "id": 147,
+            "name": "Kimi ga Nozomu Eien",
+            "titel": 4
+          },
+          {
+            "id": 10008298,
+            "name": "Muv-Luv Alternative: Total Eclipse - Climax Chokuzen Special",
+            "titel": 4
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Kimi ga Nozomu Eien —Gemeinsames Universum→ Muv-Luv Alternative"
       },
       {
         "art": "universum",
@@ -5037,6 +5054,23 @@
         ],
         "alleinstehende": [],
         "beispiel": "Chivas 1-2-3 —Gemeinsames Universum→ Bakuretsu Hunters"
+      },
+      {
+        "art": "universum",
+        "reihen": [
+          {
+            "id": 147,
+            "name": "Kimi ga Nozomu Eien",
+            "titel": 4
+          },
+          {
+            "id": 11021,
+            "name": "Muv-Luv Alternative: Total Eclipse",
+            "titel": 4
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Kimi ga Nozomu Eien —Gemeinsames Universum→ Muv-Luv Alternative"
       },
       {
         "art": "universum",

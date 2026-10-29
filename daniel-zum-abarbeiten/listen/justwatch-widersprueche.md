@@ -22,7 +22,7 @@ JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine
 | Titel | Anbieter | Adresse | JustWatch | Gemessen |
 |---|---|---|---|---|
 
-### Kandidaten für neue Wege (735)
+### Kandidaten für neue Wege (736)
 
 JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „Weg ohne Kennung“: ein Weg zum Anbieter steht, seine Adresse trägt aber keine Seitenkennung.
 
@@ -644,7 +644,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | I May Be a Guild Receptionist, but I’ll Solo Any Boss to Clock Out on Time (167143) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.63237988-633d-4826-8cd0-fe6d93e3888f | nein |
 | Sentenced to Be a Hero (167152) | Crunchyroll | crunchyroll:GE00356811ITIT | nein |
 | Sentenced to Be a Hero (167152) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.3bfcc30d-163b-4afd-b185-86940d5cc139 | nein |
-| I’ll Become a Villainess Who Goes Down in History (168139) | Crunchyroll | crunchyroll:GG1UXW92V | nein |
+| I’ll Become a Villainess Who Goes Down in History (168139) | Crunchyroll | crunchyroll:G0DUMGPNN | nein |
 | I’ll Become a Villainess Who Goes Down in History (168139) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.702dd44b-54d8-45bd-9bed-c3381a87898a | nein |
 | Dungeon People (168345) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.4158d4ca-afed-48fa-a85e-a055a7d57409 | ja |
 | Fist of the North Star: Hokuto No Ken (169228) | Amazon Prime Video | amazon:amzn1.dv.gti.d1393f28-73de-40bb-a1e3-45f3212cee27 | ja |
@@ -697,7 +697,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | May I Ask for One Final Thing? (181447) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.26996afa-102d-46d0-8778-b4fcf61904bb | nein |
 | Dark Moon: The Blood Altar (181443) | Crunchyroll | crunchyroll:GE00366126DEDE | nein |
 | Dark Moon: The Blood Altar (181443) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.233082bf-86cf-4248-a368-093ace5947b0 | nein |
-| Miss Kobayashi’s Dragon Maid: Ein einsamer Drache sehnt sich nach Liebe (181839) | Crunchyroll | crunchyroll:GMEE00351664ENUS | nein |
+| Miss Kobayashi’s Dragon Maid: Ein einsamer Drache sehnt sich nach Liebe (181839) | Crunchyroll | crunchyroll:GMEE00351664FRFR | nein |
 | Miss Kobayashi’s Dragon Maid: Ein einsamer Drache sehnt sich nach Liebe (181839) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.1e61a3d8-44c3-4dc0-ae7c-5c655deceff5 | nein |
 | City The Animation (181841) | Amazon Prime Video | amazon:amzn1.dv.gti.8c1f778c-d940-4c50-895a-f498c55101f3 | ja |
 | The Gorilla God’s Go-To Girl (182060) | Crunchyroll | crunchyroll:GD9UEGZVN | nein |
@@ -716,6 +716,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Cat’s Eye: Ein Supertrio (184718) | Disney Plus | disney:entity-94d70c2e-5ded-45bc-907a-8eb6a654d7f3 | nein |
 | The After-Dinner Mysteries (184989) | Amazon Prime Video | amazon:amzn1.dv.gti.791957df-f3b5-4986-8eb5-d366996f3866 | ja |
 | Mobile Suit Gundam GQuuuuuuX (185213) | Amazon Prime Video | amazon:amzn1.dv.gti.f5ad8a9d-f1e5-4d09-934b-6d462852c8e3 | ja |
+| Alice im Wunderland: Dive in Wonderland (186181) | Anime Digital Network Amazon Channel | amazon:amzn1.dv.gti.c916af87-7d88-4180-afae-d285303cf578 | nein |
 | Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Starship! (186541) | Crunchyroll | crunchyroll:GE00389229ENUS | nein |
 | Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Starship! (186541) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.46be8191-8efd-4650-bef7-bd640a44f1b2 | ja |
 | Ein Stern, heller als die Sonne (186621) | Amazon Prime Video | amazon:amzn1.dv.gti.4604d36e-9206-4746-9b00-9ffd17026546 | ja |
@@ -770,7 +771,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 
 Flagge „Deutsch“: 2 Wege, nur Hinweis: 0.
 
-JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine Flagge): Mehrteiler 3, mehrere Staffeln 142.
+JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine Flagge): Mehrteiler 3, mehrere Staffeln 143.
 
 | Anbieter | mit eigener Messung | Widersprüche | Anteil | Anzeige |
 |---|---|---|---|---|
