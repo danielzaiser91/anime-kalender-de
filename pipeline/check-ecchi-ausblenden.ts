@@ -86,6 +86,9 @@ const { nachZahlGeordnet, genreAnzeige } = await import('../web/src/lib/filter-l
 const { ohneEcchiEinstiege } = await import('../web/src/lib/empfehlung-daten.ts')
 const { EcchiZeile } = await import('../web/src/components/Einstellungen.tsx')
 const { EcchiHinweis } = await import('../web/src/components/EcchiHinweis.tsx')
+const { FilterSuchHinweis } = await import('../web/src/components/filter/such-hinweis.tsx')
+const { bereichsSuche } = await import('../web/src/lib/filter-suche.ts')
+const { translate } = await import('../web/src/lib/i18n.tsx')
 
 let verletzt = 0
 function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
@@ -181,6 +184,28 @@ pruefe('Einstellungen: Anlegen speichert und lädt neu', ecchiZeigen() && neu.jo
 umlegen({ target: { checked: false } })
 pruefe('Einstellungen: Ausschalten blendet wieder aus', !ecchiZeigen() && neu.length === 2)
 pruefe('Einstellungen: Beschriftung', renderToStaticMarkup(h(() => EcchiZeile({}))).includes('Ecchi-Titel zeigen'))
+
+// Hinweis unter der Filtersuche: der Knopf „Ecchi-Titel zeigen“ (FilterSuchHinweis)
+const hinweisNeu: string[] = []
+const hinweisBaum = (query: string, bleibt?: string) => {
+  const s = bereichsSuche(query)!
+  if (bleibt) s.bereich(bleibt, [])
+  return baumVon(() => FilterSuchHinweis({ t: translate, suche: s, neuLaden: () => hinweisNeu.push('NEULADEN') }))
+}
+const hinweisKnopf = finde(hinweisBaum('ecchi'), (e) => e.type === 'button')
+pruefe('Filterhinweis: „ecchi“ ohne Treffer bietet den Knopf', hinweisKnopf?.props.children === 'Ecchi-Titel zeigen', hinweisKnopf?.props.children)
+pruefe('Filterhinweis: vor dem Klick bleibt alles aus', !ecchiZeigen() && hinweisNeu.length === 0)
+;(hinweisKnopf?.props.onClick as (() => void) | undefined)?.()
+pruefe('Filterhinweis: der Klick setzt den Schalter und lädt genau einmal neu', ecchiZeigen() && hinweisNeu.join() === 'NEULADEN', hinweisNeu)
+pruefe('Filterhinweis: bei angeschaltetem Schalter kein Knopf mehr', !finde(hinweisBaum('ecchi'), (e) => e.type === 'button'))
+ecchiSetzen(false)
+pruefe('Filterhinweis: „xyz“ ohne Treffer hat keinen Knopf', !finde(hinweisBaum('xyz'), (e) => e.type === 'button'))
+pruefe('Filterhinweis: mit einem gebliebenen Bereich gar kein Hinweis', hinweisBaum('ecchi', 'Ecchi') === null)
+const zaehler = bereichsSuche('quellen')!
+zaehler.bereich('Quellen', [])
+zaehler.bereich('Quellen', [])
+zaehler.bereich('Jahr', [])
+pruefe('Filterhinweis: derselbe Bereich zählt bei jedem Durchlauf nur einmal', zaehler.treffer() === 1, zaehler.treffer())
 
 // Entdecken
 const emp = dateien['empfehlung.json'] as Parameters<typeof ohneEcchiEinstiege>[0]
