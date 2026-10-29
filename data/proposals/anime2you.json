@@ -1,14 +1,36 @@
 {
-  "scrapedAt": "2026-10-29T05:02:33.937Z",
+  "scrapedAt": "2026-10-29T11:02:27.639Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 8,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 4,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 11,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 12,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 1,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 11,
     "schon in einem Rubrik-Feed gelesen": 10,
     "Sprachhinweis älter als 45 Tage": 4
   },
   "proposals": [
+    {
+      "articleTitle": "19,99 Euro pro Staffel: polyband startet große »Pokémon«-Rabattaktion",
+      "articleUrl": "https://www.anime2you.de/news/1065186/polyband-grosse-pokemon-rabattaktion/",
+      "publishedAt": "2026-10-29",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2026-10-29",
+          "context": "reis angeboten werden. DVDs für 19,99 Euro Die Rabattaktion läuft vom 29. Oktober bis zum 10. November 2026 und umfasst zahlreiche DVD-Kompl"
+        },
+        {
+          "iso": "2026-11-10",
+          "context": "n. DVDs für 19,99 Euro Die Rabattaktion läuft vom 29. Oktober bis zum 10. November 2026 und umfasst zahlreiche DVD-Komplettboxen und Volumes"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Neue Anime-Katalogtitel im November 2026 bei aniverse",
       "articleUrl": "https://www.anime2you.de/news/1065078/aniverse-november-2026-neuzugaenge/",
