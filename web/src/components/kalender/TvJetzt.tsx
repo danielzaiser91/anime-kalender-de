@@ -41,11 +41,11 @@ export function JetztLinie({ uhr, nichtsMehr }: { uhr: string; nichtsMehr: boole
   const { t } = useLang()
   return (
     <>
-      <li className="flex items-center gap-2 py-0.5">
+      <li className="flex items-center gap-2 py-0.5 max-lg:hidden">
         <span aria-hidden="true" className="h-px flex-1 bg-ak-akzent" />
         <span className="shrink-0 text-[11px] font-semibold tabular-nums text-ak-akzent-text">{t('kal.jetztUhr', { zeit: uhr })}</span>
       </li>
-      {nichtsMehr && <li className="py-1 text-[13px] font-bold text-ak-tv">{t('kal.nichtsMehr')}</li>}
+      {nichtsMehr && <li className="py-1 text-[13px] font-bold text-ak-tv max-lg:hidden">{t('kal.nichtsMehr')}</li>}
     </>
   )
 }

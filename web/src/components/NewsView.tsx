@@ -224,7 +224,7 @@ export function NewsView({ data, oeffne }: { data: Dataset; oeffne: (titelId: nu
     () => ohneEingeordnete(ohneAusgeblendete((meldungen ?? []).filter((e) => e.am >= grenze), data.titleById), verlaeufe.eingeordnet),
     [meldungen, grenze, verlaeufe, data],
   )
-  const aeltereGibtEs = ohneEingeordnete(meldungen ?? [], verlaeufe.eingeordnet).some((e) => e.am < grenze)
+  const aeltereGibtEs = ohneEingeordnete(ohneAusgeblendete(meldungen ?? [], data.titleById), verlaeufe.eingeordnet).some((e) => e.am < grenze)
 
   /* Wie oft jede Art vorkommt — die Filterleiste zeigt nur, was es gibt. */
   const jeArt = useMemo(() => {

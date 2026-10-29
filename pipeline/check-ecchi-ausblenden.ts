@@ -52,6 +52,7 @@ const dateien: Record<string, unknown> = {
   'news.json': [
     { am: '2999-12-31T10:00:00', titelId: 900001, titel: 'Frostwind Seduction', slug: 't-900001', meldungen: [{ art: 'neu' }] },
     { am: '2999-12-31T10:00:00', titelId: 900002, titel: 'Frostwind Chronicle', slug: 't-900002', meldungen: [{ art: 'neu' }] },
+    { am: '2000-01-01T10:00:00', titelId: 900001, titel: 'Frostwind Seduction', slug: 't-900001', meldungen: [{ art: 'neu' }] },
   ],
   'ohne-synchro-namen.json': [TITEL[2]],
   'ohne-synchro.json': [TITEL[2], kopf(900004, 'Salzmond Chronicle', ['Drama'], { ohneSynchro: true })],
@@ -297,6 +298,8 @@ pruefe('Meldungen: nur der normale Titel', meldungenAus.includes('Frostwind Chro
 ecchiSetzen(true)
 const meldungenAn = await meldungsText()
 pruefe('Meldungen mit Schalter an: beide Titel', meldungenAn.includes('Frostwind Chronicle') && meldungenAn.includes('Frostwind Seduction'), meldungenAn.slice(0, 200))
+pruefe('Ältere News: Knopf fehlt, wenn die älteren Meldungen nur Ecchi sind', !meldungenAus.includes('Ältere News'), meldungenAus.slice(-200))
+pruefe('Ältere News mit Schalter an: Knopf da', meldungenAn.includes('Ältere News'), meldungenAn.slice(-200))
 ecchiSetzen(false)
 
 if (verletzt) {
