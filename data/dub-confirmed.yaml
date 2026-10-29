@@ -7407,13 +7407,6 @@
   available: false
   checkedAt: '2026-08-25'
   note: "Amazon-Seite B0C941RR12: alle 0 Folgen geprüft, Abos: keine Angabe"
-- anilistId: 130050
-  title: "Summer Ghost"
-  platform: primevideo
-  url: https://www.amazon.de/gp/video/detail/B0CC5GCCKZ
-  dub: true
-  checkedAt: '2026-08-25'
-  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0CC5GCCKZ: alle 13 Folgen geprüft, Abos: aniversede, laut Adresse Staffel 3, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
 - anilistId: 3667
   title: "Strike Witches"
   platform: primevideo
@@ -8522,8 +8515,8 @@
       dub: true
   checkedAt: '2026-08-25'
   note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High, 日本語 — Amazon-Seite 0LT5I796GDNEXFC0NA9A653MJR: alle 24 Folgen geprüft, Abos: keine Angabe, zugang=kauf"
-- anilistId: 21196
-  title: "Kabaneri of the Iron Fortress"
+- anilistId: 98663
+  title: "Kabaneri of the Iron Fortress: Life That Burns"
   platform: primevideo
   url: https://www.amazon.de/gp/video/detail/0M8DANTSGA69M1PDY94H2WE49L
   dub: true
@@ -11473,8 +11466,8 @@
       checked: [10, 11, 12]
   checkedAt: '2026-08-30'
   note: "Folgen 1–3 mit deutschem Ton, Folge 4 ohne deutschen Ton, Folgen 5–8 mit deutschem Ton, Folge 9 ohne deutschen Ton, Folgen 10–12 mit deutschem Ton — Tonspuren: Deutsch, 日本語 — Amazon-Seite B0D4KNHDMT: alle 12 Folgen geprüft, Abos: crunchyrollde — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 2, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-- anilistId: 21087
-  title: "One Punch Man"
+- anilistId: 153800
+  title: "One-Punch Man: Staffel 3"
   platform: primevideo
   url: https://www.amazon.de/dp/B0FTGLMFP3
   dub: true
@@ -32528,8 +32521,8 @@
   kanalMessung: ja
   checkedAt: '2026-10-13'
   note: "Tonspuren: Deutsch — Amazon-Seite B0GLHZ3N1C: alle 1 Folge geprüft, Abos: aniversede, zugang=abo_und_kauf, gti=amzn1.dv.gti.2de0b0ad-4550-42e2-8f43-d98ed8f1bfa5 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-- anilistId: 21196
-  title: "Kabaneri of the Iron Fortress"
+- anilistId: 98663
+  title: "Kabaneri of the Iron Fortress: Life That Burns"
   platform: primevideo
   url: https://www.amazon.de/gp/video/detail/0M8DANTSGA69M1PDY94H2WE49L
   dub: true
@@ -33967,8 +33960,8 @@
       checked: [1, 2, 3]
   checkedAt: '2026-10-13'
   note: "Folgen 1–3 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], fr|Französisch, es|Spanisch (Lateinamerika), pt-BR|Portugiesisch (Brasilien) — Gemessen in der Randprobe — gemessen: Folge 1 und 3, dazwischen nicht geprüft — Folge 3: Gemeinsame Sing-Zeit."
-- anilistId: 1889
-  title: "Higurashi no Naku Koro ni Kai"
+- anilistId: 131149
+  title: "Higurashi: When They Cry Sotsu"
   platform: primevideo
   url: https://www.amazon.de/gp/video/detail/B0CW5RP53F
   dub: true
@@ -38544,7 +38537,7 @@
 - anilistId: 1889
   title: "Higurashi no Naku Koro ni Kai"
   platform: primevideo
-  url: https://www.amazon.de/gp/video/detail/B0CW5RP53F
+  url: https://www.amazon.de/gp/video/detail/B09JTSD79F
   dub: true
   kanalMessung: ja
   checkedAt: '2026-10-21'
