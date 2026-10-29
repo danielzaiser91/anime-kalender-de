@@ -54,6 +54,11 @@ const APP = 'C:/code/ai/__assets/tools/lauf-status/app'
 const ANZEIGE = 'C:/code/ai/__assets/tools/lauf-status/index.html'
 const EXE = path.join(APP, 'node_modules/electron/dist/electron.exe')
 
+if (!existsSync(ANZEIGE)) {
+  console.error(`Anzeige fehlt: ${ANZEIGE}`)
+  process.exit(1)
+}
+
 /* Soll-Zahl der Kacheln = die Lauf-Arten, die die Anzeige selbst führt (`ARTEN` in ihrer index.html). */
 const ARTEN_LISTE = artenAusAnzeige(readFileSync(ANZEIGE, 'utf8'))
 const ARTEN_SOLL = ARTEN_LISTE.length
