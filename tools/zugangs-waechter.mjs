@@ -121,6 +121,7 @@ export const OHNE_WECKPLAN = {
   'claude-auftrag.yml': 'von Hand angestoßener Arbeitsauftrag (Kopfkommentar)',
   'crunchyroll-nachholen.yml': 'Nachhol-Lauf von Hand, auf Ansage (Kopfkommentar)',
   'fund-nachliefern.yml': 'spielt den Fund eines gescheiterten Sammel-Laufs auf Ansage nach, Lauf-Nummer als Eingabe',
+  'mutationsprobe.yml': 'Mutationsreihe per Knopf (gh workflow run), Zweig und Liste als Eingabe',
   'region-test.yml': 'einmaliger Versuch von Hand (Kopfkommentar)',
   'weiche-test.yml': 'einmalige Messung von Hand (Kopfkommentar)',
 }

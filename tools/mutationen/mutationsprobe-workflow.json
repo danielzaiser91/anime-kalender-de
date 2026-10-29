@@ -1,0 +1,13 @@
+[
+  { "name": "Kontrolle", "aenderungen": [] },
+  { "name": "pipefail weg", "datei": ".github/workflows/mutationsprobe.yml", "suche": "set -o pipefail", "ersetze": "true" },
+  { "name": "Kommentar ohne always", "datei": ".github/workflows/mutationsprobe.yml", "suche": "${{ always() && inputs.pr != '' }}", "ersetze": "${{ inputs.pr != '' }}" },
+  { "name": "Kommentar ohne PR-Bedingung", "datei": ".github/workflows/mutationsprobe.yml", "suche": "${{ always() && inputs.pr != '' }}", "ersetze": "${{ always() }}" },
+  { "name": "Ausdruck in run", "datei": ".github/workflows/mutationsprobe.yml", "suche": "gh pr comment \"$PR\"", "ersetze": "gh pr comment \"${{ inputs.pr }}\"" },
+  { "name": "Zweig nicht ausgecheckt", "datei": ".github/workflows/mutationsprobe.yml", "suche": "ref: ${{ inputs.zweig }}", "ersetze": "ref: main" },
+  { "name": "PR-Prüfung weg", "datei": ".github/workflows/mutationsprobe.yml", "suche": "[ -z \"$PR\" ] || { echo \"pr muss eine Zahl sein: $PR\"; exit 2; }", "ersetze": "true" },
+  { "name": "Pfadprüfung weg", "datei": ".github/workflows/mutationsprobe.yml", "suche": "*..*|/*)", "ersetze": "NIE)" },
+  { "name": "Schreibrecht im Lauf-Job", "datei": ".github/workflows/mutationsprobe.yml", "suche": "    timeout-minutes: 50\n", "ersetze": "    timeout-minutes: 50\n    permissions:\n      pull-requests: write\n" },
+  { "name": "Exit verschluckt", "datei": ".github/workflows/mutationsprobe.yml", "suche": "exit \"$code\"", "ersetze": "exit 0" },
+  { "name": "Fallback ohne Ergebnis weg", "datei": ".github/workflows/mutationsprobe.yml", "suche": "if [ ! -f ergebnis/ergebnis.md ]; then", "ersetze": "if false; then" }
+]
