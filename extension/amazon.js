@@ -4954,6 +4954,10 @@ async function speicherSchreiben(werte) {
       als offenes Ziel, ist der Eintrag offen. Die eigene Meldung dieser Sitzung
       (`frischGemeldet`) überbrückt nur die Sekunden bis zum nächsten Abruf. Ohne
       Antwort des Workers bleibt die ältere Rechnung darunter der Rückfall.
+
+      **Auch die Titelmenge folgt dem Worker** (29.10.2026): Am 26.10. zählte der Knopf 32, der Worker 62,
+      weil das Paket (`AK_OFFENE_AMAZON`) nur 39 Adressen kannte und Fehlendes nie auftauchte. Ziele ohne
+      Paket-Eintrag legt `prime-stand-ziele.js` mit Titel und Adresse des Workers an.
     */
     const url = liste[asinEintrag]?.url
     if (standZiele && url) return !standZiele.has(url) || frischGemeldet.has(url) || globalThis.akPrimeBruecke(erledigt[asinEintrag]?.zeit, Date.now())
@@ -5458,16 +5462,7 @@ async function speicherSchreiben(werte) {
         bildet die eigene Meldung erst nach dieser Frist ab — bis dahin trägt
         die Überbrückung in `frischGemeldet` die Adresse.
       */
-      try {
-        const stand = await fetch(`${WORKER}?stand=1`, { cache: 'no-store' }).then((r) => (r.ok ? r.json() : null))
-        const prime = (stand?.anbieter ?? []).find((a) => a.plattform === 'primevideo')
-        if (prime && Array.isArray(prime.ziele)) {
-          standZiele = new Set(prime.ziele.map((z) => z.url))
-          for (const u of [...frischGemeldet]) if (!standZiele.has(u)) frischGemeldet.delete(u)
-        }
-      } catch {
-        /* Ohne Stand gilt die ältere Rechnung in `fertig()`. */
-      }
+      standZiele = (await globalThis.akPrimeStandLaden(WORKER, liste, frischGemeldet)) ?? standZiele // ohne Stand gilt in `fertig()` die ältere Rechnung
       briefkastenSuchen = neueSuchen // erst mit standZiele: die Zählung ist bis 2 h alt
       briefkastenSeiten = neueSeiten
       briefkastenErwartungen = neueErwartungen
@@ -5781,27 +5776,16 @@ async function speicherSchreiben(werte) {
       Titelseite liest die Erweiterung selbst, eine Suchadresse verlangt, den
       richtigen Treffer herauszusuchen.
     */
-    setz(
-      uebersichtKnopf,
-      'textContent',
-      gesamt
-      ? suchen && offen
-        ? `${offen} Prime-Titel · ${suchen} Suchen offen`
-        : suchen
-          ? `${suchen} Prime-Suchen offen`
-          : `${offen} Prime-Titel offen`
-      : listeVeraltet
-        ? 'Prime-Liste veraltet — neu laden'
-        : 'Prime: alles geprüft',
-    )
+    const veraltet = globalThis.akPrimeListeVeraltet(listeVeraltet, liste)
+    setz(uebersichtKnopf, 'textContent', globalThis.akPrimeKnopfText(offen, suchen, veraltet))
     setz(
       uebersichtKnopf,
       'title',
       gesamt
-        ? listeVeraltet
+        ? veraltet
           ? 'Der Bestand ist neuer als diese Liste — es können weitere Aufträge dazugekommen sein. In chrome://extensions auf „Aktualisieren".'
           : 'Liste öffnen — Seite aufrufen, warten bis der Knopf eine Zahl zeigt, klicken'
-        : listeVeraltet
+        : veraltet
           ? 'Der Bestand ist neuer als diese Liste. In chrome://extensions auf „Aktualisieren", dann stehen die neuen Aufträge hier.'
           : 'Keine offenen Prime-Titel mehr',
     )
