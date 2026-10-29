@@ -53,3 +53,16 @@ export function anbieterVon(t: Pick<Title, 'streams' | 'ankuendigung'>, releases
   const ausTermin = (releases ?? []).filter((r) => !r.schedule?.estimated).map((r) => r.platform)
   return [...new Set([...(t.streams ?? []).filter((s) => s.dub === true).map((s) => s.platform), ...angekuendigt, ...ausTermin])]
 }
+
+/** Ein Anbieter-Chip; `laut` = Deutsch nur aus abgeleitetem Weg (alle Tonspur-Wege dieses Anbieters `dubAbgeleitet`, kein Termin und keine Ankündigung dazu). */
+export type AnbieterChip = { platform: PlatformId; laut: boolean }
+
+export function anbieterChips(t: Pick<Title, 'streams' | 'ankuendigung'>, releases?: Release[]): AnbieterChip[] {
+  const dub = (t.streams ?? []).filter((s) => s.dub === true)
+  const angekuendigt = t.ankuendigung?.synchro === 'angekuendigt' ? [t.ankuendigung.platform] : []
+  const sonst = new Set([...angekuendigt, ...(releases ?? []).filter((r) => !r.schedule?.estimated).map((r) => r.platform)])
+  return anbieterVon(t, releases).map((platform) => ({
+    platform,
+    laut: !sonst.has(platform) && dub.filter((s) => s.platform === platform).every((s) => Boolean(s.dubAbgeleitet)),
+  }))
+}
