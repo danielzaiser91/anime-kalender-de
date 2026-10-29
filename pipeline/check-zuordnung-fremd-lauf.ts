@@ -22,6 +22,7 @@ const schreibe = (datei: string, inhalt: string) => {
 schreibe('public/data/cartoons.json', JSON.stringify([{ id: -74222, titleEn: 'Kulipari', streams: [{ url: KULIPARI }] }]))
 schreibe('public/data/ohne-synchro.json', '[]')
 schreibe('data/dub-confirmed.yaml', `- anilistId: 145740\n  url: ${GRISAIA}\n`)
+schreibe('public/data/titles.json', JSON.stringify([{ id: 105096, franchiseId: 105096 }, { id: 99470, franchiseId: 99470 }]))
 schreibe('data/prime-zugeordnet.json', JSON.stringify({ [`${KULIPARI}#0`]: { titleId: 105096, plattform: 'netflix' }, [GRISAIA]: { titleId: 99470, plattform: 'primevideo', seite: 'B0DMMT9B67' } }))
 
 let fehler = 0
@@ -55,6 +56,13 @@ try {
   pruefe('Zeile ohne Treffer: Exit 1', veraltet.status === 1 && veraltet.aus.includes('streichen'), veraltet)
   pruefe('Unsortierte Bekannt-Liste: Exit 1', lauf([...BEKANNT].reverse()).status === 1)
   pruefe('Doppelte Zeile in der Bekannt-Liste: Exit 1', lauf([BEKANNT[0]!, BEKANNT[0]!, BEKANNT[1]!]).status === 1)
+  const NETFLIX = 'https://www.netflix.com/title/80000001'
+  schreibe('data/prime-zugeordnet.json', JSON.stringify({ [`${NETFLIX}#0`]: { titleId: 105096, plattform: 'netflix' }, [`${NETFLIX}#1`]: { titleId: 99470, plattform: 'netflix' } }))
+  const geteilt = lauf([])
+  pruefe('Zwei Reihen an einer Seite: Exit 1, beide Besitzer genannt', geteilt.status === 1 && geteilt.aus.includes(`${NETFLIX}: 105096 (Reihe 105096) und 99470 (Reihe 99470)`), geteilt)
+  schreibe('public/data/titles.json', JSON.stringify([{ id: 105096, franchiseId: 7 }, { id: 99470, franchiseId: 7 }]))
+  const gleiche = lauf([])
+  pruefe('Gleiche Reihe an einer Seite: Exit 0', gleiche.status === 0 && /0 Altfälle bekannt/.test(gleiche.aus), gleiche)
 } finally {
   rmSync(wurzel, { recursive: true, force: true })
 }
