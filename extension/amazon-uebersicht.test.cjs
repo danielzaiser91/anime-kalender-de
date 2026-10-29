@@ -271,7 +271,7 @@ function takten(takte, durchlaeufe = 5) {
 
 /* Wie im Manifest: `prime-stand.js` und `prime-such-bruecke.js` vor `amazon.js`, das beim Melden `akPrimeMeldungEintragen` und `akPrimeVermerk` aufruft. */
 function ladeSkripte(sandkasten) {
-  for (const datei of ['melde-sperre.js', 'pruefstand-zeit.js', 'prime-stand.js', 'prime-such-bruecke.js', 'prime-region.js', 'amazon.js']) vm.runInContext(readFileSync(`${__dirname}/${datei}`, 'utf8'), sandkasten)
+  for (const datei of ['melde-sperre.js', 'pruefstand-zeit.js', 'prime-stand.js', 'prime-stand-ziele.js', 'prime-such-bruecke.js', 'prime-region.js', 'amazon.js']) vm.runInContext(readFileSync(`${__dirname}/${datei}`, 'utf8'), sandkasten)
 }
 
 function starte(seitenAsin, gespeichert = {}, liste = TEST_LISTE, alsVideoSeite = true) {
@@ -583,6 +583,20 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
     '… und räumt dabei den Sparmodus ab',
     /function adresseNeuPruefen\(\)[\s\S]{0,900}langsam = false/.test(quellText),
   )
+}
+
+// --- 1b. Führt der Worker Ziele, die das Paket nicht kennt: Hinweis am Knopf (29.10.2026) -----
+
+{
+  const mitStandEintrag = {
+    ...TEST_LISTE,
+    B000STAND1: { titel: 'Nur im Worker', url: 'https://www.amazon.de/dp/B000STAND1', ausStand: true, eintraege: [] },
+  }
+  const { angehaengt } = starte('B000TESTAA', {}, mitStandEintrag)
+  const knopf = angehaengt.find((e) => e.className.includes('ak-uebersicht'))
+  pruefe('Eintrag aus dem Worker-Stand: Knopf trägt „Liste veraltet“ auch bei offener Zählung', /Prime-Titel offen · Liste veraltet$/.test(knopf?.textContent ?? ''), knopf?.textContent)
+  const ohne = starte('B000TESTAA').angehaengt.find((e) => e.className.includes('ak-uebersicht'))
+  pruefe('ohne Eintrag aus dem Worker-Stand: kein Hinweis', !/veraltet/.test(ohne?.textContent ?? ''), ohne?.textContent)
 }
 
 // --- 2b. Aber nicht auf einer Seite, die gar kein Video ist ----------------

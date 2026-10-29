@@ -21,7 +21,7 @@ function pruefe(name, bedingung, gefunden) {
   console.error(`  ✗ ${name}${gefunden === undefined ? '' : ` — gefunden: ${JSON.stringify(gefunden)}`}`)
 }
 
-const quelle = ['box.js', 'melde-sperre.js', 'prime-region.js', 'prime-fassungen.js', 'amazon.js'].map(lies).join('\n')
+const quelle = ['box.js', 'melde-sperre.js', 'prime-stand-ziele.js', 'prime-region.js', 'prime-fassungen.js', 'amazon.js'].map(lies).join('\n')
 const GLOBALE = Object.fromEntries(
   [Date, JSON, Math, Set, Map, Number, String, Object, Array, Boolean, RegExp, Promise, Error].map((f) => [f.name, f]),
 )

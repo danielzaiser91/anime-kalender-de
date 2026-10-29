@@ -15,7 +15,7 @@
 const { readFileSync } = require('node:fs')
 const vm = require('node:vm')
 
-const quelle = readFileSync(__dirname + '/box.js', 'utf8') + String.fromCharCode(10) + readFileSync(__dirname + '/melde-sperre.js', 'utf8') + String.fromCharCode(10) + readFileSync(__dirname + '/prime-region.js', 'utf8') + String.fromCharCode(10) + readFileSync(__dirname + '/prime-fassungen.js', 'utf8') + String.fromCharCode(10) + readFileSync(__dirname + '/amazon.js', 'utf8')
+const quelle = readFileSync(__dirname + '/box.js', 'utf8') + String.fromCharCode(10) + readFileSync(__dirname + '/melde-sperre.js', 'utf8') + String.fromCharCode(10) + readFileSync(__dirname + '/prime-stand-ziele.js', 'utf8') + String.fromCharCode(10) + readFileSync(__dirname + '/prime-region.js', 'utf8') + String.fromCharCode(10) + readFileSync(__dirname + '/prime-fassungen.js', 'utf8') + String.fromCharCode(10) + readFileSync(__dirname + '/amazon.js', 'utf8')
 
 const SUCHLISTE = {
   'https://www.amazon.de/s?k=Cowboy%20Bebop&i=instant-video': {
