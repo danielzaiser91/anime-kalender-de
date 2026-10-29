@@ -37,6 +37,7 @@ import { eckenFehler } from './ecken-urteil.mjs'
 import { messeDuell } from './ansicht-duell.mjs'
 import { messeDetailsOverlay } from './ansicht-details-overlay.mjs'
 import { pruefeFortsetzen } from './ansicht-fortsetzen.mjs'
+import { meldeAbzeichen } from './ansicht-abzeichen.mjs'
 
 const WURZEL = path.resolve(import.meta.dirname, '..')
 const DIST = path.join(WURZEL, 'dist')
@@ -501,6 +502,7 @@ async function meldeZusatzpruefungen(seite, ansichten, handy) {
     for (const l of treffer.abweichungen) console.log(`  ✕ ${l}`)
     if (treffer.abweichungen.length) rot = true
     if (meldeTvReihe(await pruefeTvReihe(DIST))) rot = true
+    if (await meldeAbzeichen({ chromium, antworte: antworteAusDist, dist: DIST, lesePixel: lesePixelPng })) rot = true
   }
   return rot
 }
