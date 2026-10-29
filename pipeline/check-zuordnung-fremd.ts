@@ -23,6 +23,7 @@ const SUCHE = 'https://www.amazon.de/s?k=Hero%20Mask&i=instant-video'
 const streams = new Map([[ohneSprache(KULIPARI), ['cartoons.json:-74222']]])
 const belege = [
   { anilistId: 145740, url: 'https://www.amazon.de/dp/B0DMMT9B67' },
+  { anilistId: 145740, url: GRISAIA_SERIE },
   { anilistId: 900001, url: EIGEN },
   { anilistId: 900002, url: EIGEN },
   { anilistId: 900003, url: SUCHE },
