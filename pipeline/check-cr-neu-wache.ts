@@ -197,6 +197,7 @@ pruefe('Widerlegung: ein Tag Abstand zählt', kenn({ [SLUG]: { am: '2026-10-29',
 pruefe('Widerlegung: zwei Tage Abstand zählt nicht', kenn({ [SLUG]: { am: '2026-10-30', grund: GRUND } }) === undefined)
 pruefe('Widerlegung: ein Tag davor zählt', kenn({ [SLUG]: { am: '2026-10-27', grund: GRUND } }) === GRUND)
 pruefe('Widerlegung: zwei Tage davor zählt nicht', kenn({ [SLUG]: { am: '2026-10-26', grund: GRUND } }) === undefined)
+pruefe('Widerlegung: Folge einer Franchise mit zwei Titeln, ein Titel hat den Release', kennzeichneWiderlegte([{ ...rayFehlt[0]!, ids: [999, 178868] }], widerlegung, releases)[0]?.widerlegt === GRUND)
 const gemischt = [...rayFehlt, ...fehlt([folge('GG5H5XQMD', 'Staffel 3', 1, '2026-10-24T13:30:00.000Z')], [])]
 pruefe('Widerlegung: nur die betroffene Folge wird gekennzeichnet', kennzeichneWiderlegte(gemischt, widerlegung, releases).map((f) => Boolean(f.widerlegt)).join() === 'true,false')
 
