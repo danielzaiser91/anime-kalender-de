@@ -39,7 +39,7 @@ console.log('Leinwand: Detailansicht')
   const alles = dom.wurzel.textContent ?? ''
   pruefe('Keine Knöpfe in der Detailansicht (Zurück sitzt in der Kopfzeile)', dom.wurzel.finde((k) => k.tagName === 'BUTTON').length === 0)
   pruefe('Kein Text zu Nein, Gesehen, mehr oder Tastenhinweisen', !/Nicht interessiert|Schon gesehen|Favorit|mehr|Esc zurück/.test(alles), alles.slice(0, 200))
-  const taste = (key: string, mehr: object = {}) => tasten.forEach((f) => f({ key, altKey: false, ctrlKey: false, metaKey: false, shiftKey: false, target: { tagName: 'BODY' }, ...mehr }))
+  const taste = (key: string, mehr: object = {}) => tasten.forEach((f) => f({ key, altKey: false, ctrlKey: false, metaKey: false, shiftKey: false, target: { tagName: 'BODY' }, defaultPrevented: false, preventDefault() {}, ...mehr }))
   for (const key of ['ArrowLeft', 'ArrowRight', 'ArrowDown', 'ArrowUp', 'g', 'G']) taste(key)
   pruefe('Pfeile und G lösen nichts aus', zurueck === 0, zurueck)
   taste('Escape', { ctrlKey: true })

@@ -212,7 +212,7 @@ jobs:
           PFADE="$PFADE|ansicht-filterfenster|ansicht-filterfenster-rechner|ansicht-filterknopf|ansicht-filterknopf-escape|ansicht-adressen"
           PFADE="$PFADE|ansicht-trefferprobe|trefferprobe-browser|trefferprobe-ausnahmen|trefferprobe-selbsttest"
           PFADE="$PFADE|panel-messen|panel-messen-browser|panel-reihe-schalter|panel-sprung|panel-zurueck|such-chip-messen"
-          PFADE="$PFADE|ansicht-duell|duell-urteil"
+          PFADE="$PFADE|ansicht-duell|duell-urteil|ansicht-escape-stapel|ansicht-escape-einzeln"
           PFADE="$PFADE|suchhinweis-quickfix-pruefen|buehne-seite|buehne-fenster-pruefen"
           PFADE="$PFADE|aehnlich-kacheln-bild|ansicht-hover-cover|ansicht-hover-cover-zeilen|ansicht-hover-weitere|einstellungen-bild|ansicht-statusfarben|ansicht-details-overlay|ansicht-fortsetzen|ecken-urteil|kachel-ecken-messen|ansicht-tv-reihe|tv-reihe-urteil|ansicht-abzeichen|abzeichen-urteil)\.mjs$)"
           if git diff --name-only HEAD^1 HEAD | grep -qE "$PFADE"; then

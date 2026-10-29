@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
 import { formatDate, monthName, todayIso, weekdayIndex } from '@shared/time.ts'
+import { useEscape } from '../lib/escape.ts'
 import { useLang } from '../lib/i18n.tsx'
 import { sprungLage, type SprungLage } from '../lib/sprung-lage.ts'
 import { sichtbareBreite } from '../lib/sichtbare-breite.ts'
@@ -55,15 +56,11 @@ export function DatumSprung({
 
   useEffect(() => {
     if (!offen) return
-    const zu = (e: KeyboardEvent) => e.key === 'Escape' && setOffen(false)
     const weg = () => setOffen(false)
-    window.addEventListener('keydown', zu)
     window.addEventListener('resize', weg)
-    return () => {
-      window.removeEventListener('keydown', zu)
-      window.removeEventListener('resize', weg)
-    }
+    return () => window.removeEventListener('resize', weg)
   }, [offen])
+  useEscape(offen, () => setOffen(false))
 
   const oeffnen = () => {
     if (offen) return setOffen(false)

@@ -1,0 +1,16 @@
+[
+ { "name": "Kontrolle", "aenderungen": [] },
+ { "name": "Gate: oberste Ebene nicht verlangt", "datei": "web/src/lib/escape.ts", "suche": " || ebenen[ebenen.length - 1] !== marke", "ersetze": "" },
+ { "name": "Gate: älteste statt oberste", "datei": "web/src/lib/escape.ts", "suche": "ebenen[ebenen.length - 1] !== marke", "ersetze": "ebenen[0] !== marke" },
+ { "name": "Ebene wird nicht eingetragen", "datei": "web/src/lib/escape.ts", "suche": "ebenen.push(marke)", "ersetze": "" },
+ { "name": "Rücknahme trägt nicht aus", "datei": "web/src/lib/escape.ts", "suche": "ebenen.splice(ebenen.indexOf(marke), 1)", "ersetze": "" },
+ { "name": "Rücknahme entfernt nichts (Länge 0)", "datei": "web/src/lib/escape.ts", "suche": "ebenen.splice(ebenen.indexOf(marke), 1)", "ersetze": "ebenen.splice(ebenen.indexOf(marke), 0)" },
+ { "name": "Rücknahme entfernt immer die oberste", "datei": "web/src/lib/escape.ts", "suche": "ebenen.splice(ebenen.indexOf(marke), 1)", "ersetze": "ebenen.pop()" },
+ { "name": "Hörer wird nicht abgehängt", "datei": "web/src/lib/escape.ts", "suche": "quelle.removeEventListener('keydown', taste, capture)", "ersetze": "" },
+ { "name": "verbrauchtes Escape zählt nicht", "datei": "web/src/lib/escape.ts", "suche": " || k.defaultPrevented", "ersetze": "" },
+ { "name": "jede Taste zählt", "datei": "web/src/lib/escape.ts", "suche": "k.key !== 'Escape' || ", "ersetze": "" },
+ { "name": "Escape wird nicht markiert", "datei": "web/src/lib/escape.ts", "suche": "    k.preventDefault()\n", "ersetze": "" },
+ { "name": "Aufruf fehlt", "datei": "web/src/lib/escape.ts", "suche": "    aufruf(k)\n", "ersetze": "" },
+ { "name": "Abhängen ohne Fangphase (Leck bei Capture)", "datei": "web/src/lib/escape.ts", "suche": "quelle.removeEventListener('keydown', taste, capture)", "ersetze": "quelle.removeEventListener('keydown', taste)" },
+ { "name": "Fangphase wird nicht durchgereicht", "datei": "web/src/lib/escape.ts", "suche": "quelle.addEventListener('keydown', taste, capture)", "ersetze": "quelle.addEventListener('keydown', taste)" }
+]
