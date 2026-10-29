@@ -7,7 +7,7 @@ import { ecchiSetzen, ecchiZeigen } from '../../lib/ecchi.ts'
  * die Bereiche davor haben beim Rendern gezählt (`suche.treffer`). „ecchi" führt zum Schalter,
  * weil Ecchi-Titel und -Genre standardmäßig ausgeblendet sind (`ecchi.ts`).
  */
-export function SuchHinweis({
+export function FilterSuchHinweis({
   t,
   suche,
   neuLaden = () => location.reload(),

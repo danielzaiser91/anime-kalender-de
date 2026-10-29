@@ -11,7 +11,7 @@ import { Chip, Tooltip } from './ui.tsx'
 import { TIPPFLAECHE_HOCH } from './detail/tippziel.ts'
 import { SchnellChips } from './schnellfilter.tsx'
 import { FilterSuche, KlickModusLeiste } from './filter/klick-modus.tsx'
-import { SuchHinweis } from './filter/such-hinweis.tsx'
+import { FilterSuchHinweis } from './filter/such-hinweis.tsx'
 import { filterMode, modusVon, toggleFilter, type ModusFeld, type FilterState, type ListKey } from '../lib/filters.ts'
 import { nachZahlGeordnet } from '../lib/filter-liste.ts'
 import { useGenreSicht } from './filter/genre-sicht.tsx'
@@ -576,7 +576,7 @@ function FilterMehr(props: FilterMehrProps) {
 
       <FilterMehrRest {...props} />
     </div>
-    <SuchHinweis t={t} suche={suche} />
+    <FilterSuchHinweis t={t} suche={suche} />
     </>
   )
 }
