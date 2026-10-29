@@ -4,6 +4,7 @@
  *
  * Cartoons schaltet nur der Schnellfilter (Filter `kw`/`xkw` in der Adresse). Gemessen wird: Das Zahnrad steht
  * bei 393 px in der Tab-Leiste, der Dialog geht auf, enthält die Thema-Zeile und keine Cartoon-Zeile; am
+ * Rechner (1280 px) steht es in der Kopfleiste.
  *
  * Aufruf: `node tools/einstellungen-bild.mjs` · `npm run check:einstellungen`
  */
