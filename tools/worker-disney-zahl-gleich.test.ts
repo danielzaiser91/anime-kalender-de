@@ -49,7 +49,7 @@ const paketVon = (ziele: { url: string; titel: string; seit?: string }[], offen 
   Object.fromEntries(ziele.map((z, i) => [`k${i}-${z.url.slice(-6)}`, paketEintrag(z, offen)]))
 
 type Antwort = 'stand' | 'fehler' | 'status' | 'ohne-disney' | 'ohne-ziele'
-function sandkasten(paket: Record<string, any>, antwort: Antwort, stand: any) {
+function sandkasten(paket: Record<string, any>, antwort: Antwort, stand: any, gemeldet: string[] = []) {
   const k: Record<string, any> = {
     Date: class extends Date {
       static now() {
@@ -73,7 +73,7 @@ function sandkasten(paket: Record<string, any>, antwort: Antwort, stand: any) {
     liste: paket,
     gemeldeteHolen: async () => new Set(),
     fetch: async (adresse: string) => {
-      if (String(adresse).includes('zaehlen=1')) return { ok: true, json: async () => ({ adressen: [], gemeldet: [], eintraege: [] }) }
+      if (String(adresse).includes('zaehlen=1')) return { ok: true, json: async () => ({ adressen: [], gemeldet, eintraege: [] }) }
       if (antwort === 'fehler') throw new Error('Netz')
       if (antwort === 'status') return { ok: false, json: async () => ({}) }
       if (antwort === 'ohne-disney') return { ok: true, json: async () => ({ anbieter: [{ plattform: 'netflix', ziele: [] }] }) }
@@ -102,6 +102,7 @@ function sandkasten(paket: Record<string, any>, antwort: Antwort, stand: any) {
     holen: () => vm.runInContext('briefkastenHolen()', ctx) as Promise<void>,
     zahl: () => vm.runInContext('offeneEintraege().filter((e) => !istErledigt(e)).length', ctx) as number,
     liste: () => ctx.liste as Record<string, any>,
+    pruefstandAm: () => ctx.akPruefstandAm as string | null,
     titelId: (e: any) => ctx.AK_DISNEY_STAFFELN.titelIdFuer(e?.staffeln, 1, [{ gesamt: 12 }]) as number | null,
   }
 }
@@ -109,17 +110,20 @@ function sandkasten(paket: Record<string, any>, antwort: Antwort, stand: any) {
 const rechne = async (zeilen: Zeile[] = []) => (await rechnePruefstand(zeilen, [anbieter], ERZEUGT)).anbieter[0]!
 const worker = await rechne()
 pruefe(worker.titel === 8, `Worker: acht Disney+-Titel offen: ${worker.titel}`)
-const stand = { anbieter: [worker] }
+const stand = { anbieter: [worker], pruefstandAm: ERZEUGT }
 
 /* Paket kennt nur 5 der 8 Ziele (und eines, das der Worker nicht führt): Knopf = Worker-Zahl. */
-const alt = sandkasten(paketVon([...ZIELE.slice(0, 5), NUR_PAKET]), 'stand', stand)
+const PAKET_ALT = [ZIELE[1]!, ZIELE[4]!, ZIELE[5]!, ZIELE[6]!, ZIELE[7]!]
+const alt = sandkasten(paketVon([...PAKET_ALT, NUR_PAKET]), 'stand', stand)
 await alt.holen()
 pruefe(alt.zahl() === worker.titel, `verkleinertes Paket (5 + 1 überzählig): Knopfzahl ${alt.zahl()} = Worker ${worker.titel}`)
-const fehlend = Object.values(alt.liste()).find((e) => e.url === ZIELE[7]!.url)
-pruefe(fehlend?.titel === ZIELE[7]!.titel, 'fehlendes Ziel erscheint mit Titel und Adresse des Workers')
-pruefe(Object.values(alt.liste()).find((e) => e.url === ZIELE[0]!.url)?.titel === `Paket ${ZIELE[0]!.titel}`, 'Eintrag aus dem Paket behält seinen Namen')
+const fehlend = Object.values(alt.liste()).find((e) => e.url === ZIELE[0]!.url)
+pruefe(fehlend?.titel === ZIELE[0]!.titel, 'fehlendes Ziel erscheint mit Titel und Adresse des Workers')
+pruefe(Object.values(alt.liste()).find((e) => e.url === ZIELE[1]!.url)?.titel === `Paket ${ZIELE[1]!.titel}`, 'Eintrag aus dem Paket behält seinen Namen')
 const mitSeit = Object.values(alt.liste()).find((e) => e.url === ZIELE[2]!.url)
-pruefe(mitSeit?.seit === '2026-08-26', 'Wiedervorlage (seit) bleibt am Eintrag')
+pruefe(fehlend?.seit === '2026-10-15', 'Wiedervorlage (seit) des Workers kommt mit')
+pruefe(mitSeit?.seit === '2026-08-26' && mitSeit?.titel === ZIELE[2]!.titel, 'zweites fehlendes Ziel mit seit')
+pruefe(alt.pruefstandAm() === ERZEUGT, 'Prüfstand-Zeit für die Vermerke gesetzt (akGemeldetSeit läuft mit)')
 pruefe(alt.titelId(fehlend) === null, 'angelegter Eintrag meldet ohne Kennung (titelId null, nie eine falsche)')
 pruefe(Object.keys(alt.liste()).length === 9, `Einträge: 5 Paket + 1 überzählig + 3 vom Worker = 9 (${Object.keys(alt.liste()).length})`)
 
@@ -144,9 +148,9 @@ pruefe(zu.zahl() === worker.titel, `Paket ohne offene Staffel, Worker mit 8 Ziel
 
 /* Nichtauskunft (Netz weg, HTTP-Fehler, Disney+ fehlt im Stand oder ohne ziele-Feld): nichts wird erfunden, die Paketzahl gilt. */
 for (const art of ['fehler', 'status', 'ohne-disney', 'ohne-ziele'] as const) {
-  const ohne = sandkasten(paketVon(ZIELE.slice(0, 5)), art, stand)
+  const ohne = sandkasten(paketVon(ZIELE.slice(0, 5)), art, stand, [ZIELE[1]!.url])
   await ohne.holen()
-  pruefe(ohne.zahl() === 5 && Object.keys(ohne.liste()).length === 5, `Nichtauskunft (${art}): Paketzahl ${ohne.zahl()}, keine neuen Einträge`)
+  pruefe(ohne.zahl() === 4 && Object.keys(ohne.liste()).length === 5, `Nichtauskunft (${art}): Paketzahl (eine Adresse laut Briefkasten gemeldet, sie wird weiter gelesen) ${ohne.zahl()}, keine neuen Einträge`)
 }
 
 /* Paket-Eintrag ohne Staffeln (Worker führt ihn): zählt mit; Ziel ohne Titel wird nicht angelegt (die Liste sortiert nach Titel). */

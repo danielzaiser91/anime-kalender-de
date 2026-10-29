@@ -12,17 +12,17 @@
   Ohne Auskunft des Workers (Netz, HTTP-Fehler, Anbieter fehlt) bleibt die Liste, wie sie ist. Mehrfaches Aufrufen ändert nichts.
 */
 
-/** Gleicht `liste` mit den Zielen des Workers ab; `null` ohne Auskunft. */
+/** Gleicht `liste` mit den Zielen des Workers ab; ohne Auskunft bleibt sie unverändert. */
 globalThis.akDisneyStandEinarbeiten = async (liste) => {
   /* Setzt `akPruefstandAm` für die Vermerke (siehe `akVermerkGilt`) und holt den Stand einmal je Seite. */
   await globalThis.akGemeldetSeit(null)
   const stand = await globalThis.akPruefstand()
   const anbieter = (stand?.anbieter ?? []).find((a) => a.plattform === 'disneyplus')
-  if (!anbieter || !Array.isArray(anbieter.ziele)) return null
+  if (!anbieter || !Array.isArray(anbieter.ziele)) return
   const imStand = new Set(anbieter.ziele.map((z) => z.url))
-  const bekannt = new Set(Object.values(liste).map((e) => e?.url))
+  const bekannt = new Set(Object.values(liste).map((e) => e.url))
   for (const e of Object.values(liste)) {
-    if (!e?.staffeln || e.staffeln.some((st) => st.offen) === imStand.has(e.url)) continue
+    if (e.staffeln.some((st) => st.offen) === imStand.has(e.url)) continue
     e.staffeln = e.staffeln.map((st) => ({ ...st, offen: imStand.has(e.url) }))
     if (!e.staffeln.length) e.staffeln = [{ nr: 1, folgen: null, film: false, offen: true }]
   }
@@ -31,7 +31,5 @@ globalThis.akDisneyStandEinarbeiten = async (liste) => {
     const eintrag = { titel: z.titel, url: z.url, staffeln: [{ nr: 1, folgen: null, film: false, offen: true }] }
     if (z.seit) eintrag.seit = z.seit
     liste[z.url] = eintrag
-    bekannt.add(z.url)
   }
-  return imStand
 }
