@@ -68,6 +68,11 @@ const handbelege = `- anilistId: -987654
   platform: netflix
   url: ${ANIME}
   dub: false
+- anilistId: 7
+  title: "Kulissen-Anime"
+  platform: netflix
+  url: ${ANIME}
+  dub: true
 `
 
 const anime = { id: 7, titleDe: 'Kulissen-Anime', streams: [{ platform: 'netflix', url: ANIME }] }
@@ -80,6 +85,7 @@ const schreibe = (pfad: string, inhalt: string) => {
 schreibe('rohfolgen.json', JSON.stringify(rohfolgen))
 schreibe('public/data/titles.json', JSON.stringify([anime]))
 schreibe('public/data/cartoons.json', JSON.stringify(cartoons))
+schreibe('public/data/ohne-synchro.json', '[]')
 schreibe('data/dub-confirmed.yaml', handbelege)
 schreibe('data/cartoon-folgen.json', JSON.stringify({ '-100': { folgen: [{ s: 1, e: 1, en: 'Ausflug zum Leuchtturm' }, { s: 1, e: 2, en: 'Hitch und das Geheimnis' }] } }))
 

@@ -98,3 +98,47 @@
   url: https://www.amazon.de/gp/video/detail/B09ZJW8HGH
   grund: 'Seite hat 25 Folgen und gehört der 3. Staffel (20725), nicht der OVA (1 Folge) (Fremdzuordnung, 29.10.2026)'
   entferntAm: '2026-10-29'
+- anilistId: 102977
+  url: https://www.amazon.de/gp/video/detail/B0CHBQ91TK
+  grund: 'Seite gehört Golden Kamuy 3 (110355, Beleg „laut Adresse Staffel 3“), nicht Staffel 2 (Fremdzuordnung, 29.10.2026)'
+  entferntAm: '2026-10-29'
+- anilistId: 110355
+  url: https://www.amazon.de/gp/video/detail/B0CGGJKCT8
+  grund: 'Seite gehört Golden Kamuy 2 (102977, Beleg „laut Adresse Staffel 2“), nicht Staffel 3 (Fremdzuordnung, 29.10.2026)'
+  entferntAm: '2026-10-29'
+- anilistId: 16049
+  url: https://www.amazon.de/gp/video/detail/B0CYWDP17J
+  grund: 'Seite hat 24 Folgen und gehört Railgun (6213); Railgun S hat B0CVFNLP9D „laut Adresse Staffel 2“ (Fremdzuordnung, 29.10.2026)'
+  entferntAm: '2026-10-29'
+- anilistId: 15583
+  url: https://www.amazon.de/gp/video/detail/B0FLKK79P9
+  grund: 'Seite gehört Date a Live V (151380, Beleg „laut Adresse Staffel 5“), nicht der 1. Staffel (Fremdzuordnung, 29.10.2026)'
+  entferntAm: '2026-10-29'
+- anilistId: 159309
+  url: https://www.amazon.de/gp/video/detail/B0CJRDG5R6
+  grund: 'Seite gehört Trapped in a Dating Sim (142074); Staffel 2 hat B0H7YCRTJN „laut Adresse Staffel 2“ (Fremdzuordnung, 29.10.2026)'
+  entferntAm: '2026-10-29'
+- anilistId: 21087
+  url: https://www.amazon.de/gp/video/detail/B0D4KNHDMT
+  grund: 'Seite gehört One Punch Man 2 (97668, Beleg „laut Adresse Staffel 2“); Staffel 1 hat B0DCPGLMHR (Fremdzuordnung, 29.10.2026)'
+  entferntAm: '2026-10-29'
+- anilistId: 143277
+  url: https://www.netflix.com/title/81642888
+  grund: 'Netflix-Seite gehört Urusei Yatsura Staffel 2 (155645, Folge 23 „Boy Meets Girl“ = Folge 46), nicht der 1. Staffel (Fremdzuordnung, 29.10.2026)'
+  entferntAm: '2026-10-29'
+- anilistId: 21087
+  url: https://www.amazon.de/gp/video/detail/B0FTGLMFP3
+  grund: 'Beleg „laut Adresse Staffel 3“ gehört One-Punch Man Staffel 3 (153800) und ist dorthin umgehängt (Fehlablage, 29.10.2026)'
+  entferntAm: '2026-10-29'
+- anilistId: 1889
+  url: https://www.amazon.de/gp/video/detail/B0CW5RP53F
+  grund: 'Seite (15 Folgen) gehört Higurashi Sotsu (131149), nicht Kai (24 Folgen); Beleg umgehängt (Fehlablage, 29.10.2026)'
+  entferntAm: '2026-10-29'
+- anilistId: 21196
+  url: https://www.amazon.de/gp/video/detail/0M8DANTSGA69M1PDY94H2WE49L
+  grund: 'Seite hat 1 Folge und gehört dem Film Kabaneri: Brennendes Leben (98663), nicht der Serie; Beleg umgehängt (Fehlablage, 29.10.2026)'
+  entferntAm: '2026-10-29'
+- anilistId: 130050
+  url: https://www.amazon.de/gp/video/detail/B0CC5GCCKZ
+  grund: 'Seite hat 13 Folgen (Rondo of Princesses mit OVA, 3712), ein Film hat keine 13 Folgen; Summer Ghost hat B0B8NF5X8N (Fehlablage, 29.10.2026)'
+  entferntAm: '2026-10-29'

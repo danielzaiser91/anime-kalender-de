@@ -4,15 +4,18 @@
  * Serienseite an einem Film —, live unsichtbar, weil `adresseFremdBelegt` sie im Bau überspringt, im Bestand aber geblieben).
  * Besitzer: ein Cartoon oder Titel ohne Synchro (`streams`) oder ein Handbeleg einer anderen Kennung.
  * Die 35 Altfälle (Stand 29.10.2026 nach der Sichtung: 40 von 75 gesperrt) stehen in `data/zuordnung-fremd-bekannt.json`: neue Treffer sind rot, ein Eintrag ohne Treffer auch (streichen).
+ * Dazu (29.10.2026): keine Seite an Titeln verschiedener Reihen (`franchiseId`), Fälle in `check-zuordnung-fremd.ts`.
  * Liest `public/data` und gehört deshalb in `check:bestand`; die Fälle ohne Bestand stehen in `check-zuordnung-fremd.ts`.
  */
 import { readFileSync } from 'node:fs'
 import { melde } from './lib/quarantaene.ts'
-import { fremdZugeordneteImBestand, gegenBekannt } from './lib/zuordnung-fremd-bestand.ts'
+import { fremdZugeordneteImBestand, gegenBekannt, geteilteSeitenImBestand } from './lib/zuordnung-fremd-bestand.ts'
+import { beschreibeGeteilte } from './lib/zuordnung-geteilt.ts'
 
 const treffer = fremdZugeordneteImBestand('.')
 const bekannt = JSON.parse(readFileSync('data/zuordnung-fremd-bekannt.json', 'utf8')) as string[]
 const { neu, veraltet } = gegenBekannt(treffer, bekannt)
+const geteilt = geteilteSeitenImBestand('.')
 for (const id of new Set(neu.map((t) => t.titleId))) melde(id, 'zuordnung-fremd', 'Zuordnung an der Adresse eines anderen Titels')
 
 let verletzt = 0
@@ -27,6 +30,11 @@ pruefe(
   'Keine neue Zuordnung liegt an der Adresse eines anderen Titels (sonst Eintrag in data/belege-entfernt.yaml oder Beleg richtigstellen)',
   neu.length === 0,
   neu.map((t) => `Titel ${t.titleId}, Adresse ${t.adresse}, Besitzer ${t.besitzer.join(', ')}`),
+)
+pruefe(
+  'Keine Seite liegt an Titeln verschiedener Reihen (Staffeln derselben Reihe teilen Seiten legitim; sonst Zuordnung sperren in data/prime-seiten-von-hand.json)',
+  geteilt.length === 0,
+  geteilt.map(beschreibeGeteilte),
 )
 pruefe('Jede Zeile der Bekannt-Liste hat noch einen Treffer (sonst aus data/zuordnung-fremd-bekannt.json streichen)', veraltet.length === 0, veraltet)
 pruefe('Die Bekannt-Liste ist nicht doppelt und sortiert', bekannt.length === new Set(bekannt).size && bekannt.join('\n') === [...bekannt].sort().join('\n'))

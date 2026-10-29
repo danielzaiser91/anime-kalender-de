@@ -1154,3 +1154,7 @@ Folge: Notizen mit Besucherwert (z. B. „Erhielt in Deutschland keine FSK-Freig
 ## Entfernte Fehlbelege: `data/belege-entfernt.yaml` (28.10.2026)
 
 Wer einen Handbeleg aus `data/dub-confirmed.yaml` als falsch entfernt, trägt Kennung und Adresse im selben Commit in `data/belege-entfernt.yaml` ein (mit `grund`, `entferntAm`). Sonst hängt der nächste Bestandsbau ihn aus den abgeholten Browser-Meldungen wieder an (`pipeline/lib/belege-anhaengen.ts`, Regel `pipeline/lib/belege-entfernt.ts`). `check-belege-entfernt.ts` prüft, dass kein Eintrag der Liste in der Beleg-Datei steht. Anlass: Heidi 1974 (2225) bekam den Disney+-Weg des Cartoons zurück, Made in Abyss (97986) die Amazon-Seite der Goldenen Stadt (PR 2288).
+
+## Prime-Handbelege: `url` ist oft die Einstiegsseite (29.10.2026)
+
+Die `url` eines Prime-Handbelegs ist oft die Einstiegsseite; die gemessene Seite steht in der Notiz („Amazon-Seite X“, „Seitenadresse“). Die `asin` in `prime-zugeordnet.json` ist kein Seitenbeleg. Gleiche `gti` an zwei Adressen heißt: derselbe Inhalt. „Laut Adresse Staffel k“ in der Notiz belegt, zu welcher Staffel die Adresse gehört; ein Beleg mit abweichendem k ist falsch abgelegt und wird umgehängt oder in `belege-entfernt.yaml` eingetragen (Quelle: Analyse der 32 Fremdpaare, 29.10.2026).

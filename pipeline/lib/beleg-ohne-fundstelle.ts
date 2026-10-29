@@ -20,7 +20,8 @@ export function ohneFundstelle(gedaechtnis: BelegGedaechtnis, gruppen: Map<strin
     if ((l?.bildfassung ?? 1) < BILD_FASSUNG) continue
     if (!l) continue
     const g = gruppen.get(url) ?? []
-    const fehlt = g.length > 1 ? g.filter((x) => !l.markierungen?.[x.id]) : l.markierung ? [] : g.slice(0, 1)
+    /* Ein Titel, dessen Fundstelle nur außerhalb des Bild-Ausschnitts liegt, steht im Artikel — er gehört nicht auf die Liste „nicht zu finden“ (29.10.2026). */
+    const fehlt = g.length > 1 ? g.filter((x) => !l.markierungen?.[x.id] && l.ohneMarke?.[x.id] !== 'ausserhalb') : l.markierung ? [] : g.slice(0, 1)
     if (fehlt.length || (!g.length && !l.markierung)) raus.push({ url, am: l.am, titel: fehlt.map((x) => `${x.suchen[0] ?? x.id} (${x.id})`) })
   }
   return raus
