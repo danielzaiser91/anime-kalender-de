@@ -25,6 +25,16 @@ export function lesePatchnotesDateien(ordner = PATCHNOTES_ORDNER): PatchnotesDat
     .sort((a, b) => (a.name < b.name ? -1 : 1))
 }
 
+/** Meldungen für Dateien mit demselben `untertitel` (je Untertitel eine Meldung mit allen Dateinamen). */
+export function doppelteUntertitel(dateien: PatchnotesDatei[]): string[] {
+  const jeUntertitel = new Map<string, string[]>()
+  for (const d of dateien) {
+    if (typeof d.eintrag.untertitel !== 'string') continue
+    jeUntertitel.set(d.eintrag.untertitel, [...(jeUntertitel.get(d.eintrag.untertitel) ?? []), d.name])
+  }
+  return [...jeUntertitel].filter(([, namen]) => namen.length > 1).map(([text, namen]) => `Untertitel „${text}“ mehrfach: ${namen.join(', ')}`)
+}
+
 /** Setzt bei Einträgen ohne `datum` den Tag des Commits, der ihre Datei angelegt hat. */
 export function mitDatum(dateien: PatchnotesDatei[], tage: (namen: string[]) => Map<string, string>): Roh[] {
   const tagVon = tage(dateien.filter((d) => d.eintrag.datum === undefined).map((d) => d.name))
