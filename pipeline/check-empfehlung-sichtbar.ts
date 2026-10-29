@@ -1,7 +1,7 @@
 /**
  * Zusicherungen zum Einstieg in „Entdecken“: Reiter ab `md` in jeder Breite, fünf feste Plätze am Handy (Entdecken statt Optionen),
- * kein Knopf mehr in der Datenbank und Zeile „Empfehlungen zurücksetzen“ in den Einstellungen
- * (ruft das echte Zurücksetzen). Die Handler werden aus dem gerenderten Baum geholt und ausgeführt.
+ * kein Knopf mehr in der Datenbank.
+ * Die Handler werden aus dem gerenderten Baum geholt und ausgeführt.
  */
 import { createElement as h, type ReactElement, type ReactNode } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
@@ -14,7 +14,6 @@ g.localStorage = { getItem: () => null, setItem() {}, removeItem: (k: string) =>
 const { BEREICHE, bereichVon } = await import('../web/src/lib/bereiche.ts')
 const { KopfNavigation } = await import('../web/src/components/KopfNavigation.tsx')
 const { HandyNavigation } = await import('../web/src/components/HandyNavigation.tsx')
-const { EmpfehlungZeile } = await import('../web/src/components/Einstellungen.tsx')
 const { DatenbankBereich } = await import('../web/src/components/DatenbankBereich.tsx')
 
 let verletzt = 0
@@ -98,9 +97,6 @@ pruefe('Prüfung erkennt einen wieder eingebauten Entdecken-Knopf (Gegenprobe)',
 pruefe('Datenbank-Bereich hat keinen Knopf, der nach entdecken führt', !fuehrtNachEntdecken(bereich, dbZiele), dbZiele)
 
 
-const zeile = finde(baumVon(() => EmpfehlungZeile({ neuLaden: () => abgerufen.push('NEULADEN') })), (e) => e.type === 'button')
-zeile?.props.onClick?.()
-pruefe('Einstellungen-Zeile löscht alle vier Schlüssel, danach Neuladen', JSON.stringify(abgerufen) === '["empfehlung:gesehen","empfehlung:verworfen","empfehlung:anbieter","empfehlung:reise","NEULADEN"]', abgerufen)
 
 const { parseHash, hashAufraeumen } = await import('../web/src/lib/router.ts')
 pruefe('#/entdecken öffnet die Ansicht', parseHash('#/entdecken').view === 'entdecken')

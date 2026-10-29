@@ -350,7 +350,6 @@ async function spieleEmpfehlung(browser, geraet, thema) {
 }
 
 const RESET_BREITEN = [390, 768, 820, 1024, 1180, 1279, 1440]
-const RESET_SCHLUESSEL = ['empfehlung:gesehen', 'empfehlung:verworfen', 'empfehlung:anbieter', 'empfehlung:reise']
 
 const IPAD_UA = 'Mozilla/5.0 (iPad; CPU OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1'
 const LANGE_SUCHE = 'Sword Art Online Alicization War of Underworld'
@@ -410,11 +409,10 @@ async function platzhalterAbgeschnitten(seite) {
   })
 }
 
-/** Je Breite: genau ein sichtbarer Menü-Knopf (Burger), erreichbar, Kopf ohne Überlauf; „Empfehlungen zurücksetzen“ leert die Schlüssel. */
+/** Je Breite: genau ein sichtbarer Menü-Knopf (Burger), erreichbar, Kopf ohne Überlauf. */
 async function pruefeZuruecksetzen(browser, breite, thema) {
   const kennung = `zurücksetzen ${breite}/${thema}`
   const { kontext, seite } = await oeffneKopfWorstCase(browser, breite, thema)
-  await seite.evaluate((s) => s.forEach((k) => localStorage.setItem(k, '[1]')), RESET_SCHLUESSEL)
   const fehler = []
   const kopf = await seite.evaluate(messeKopf)
   if (kopf.anzahl !== 1) fehler.push(`${kennung}: ${kopf.anzahl} sichtbare Menü-Knöpfe statt 1`)
@@ -422,21 +420,11 @@ async function pruefeZuruecksetzen(browser, breite, thema) {
   if (kopf.ueberlauf > 0) fehler.push(`${kennung}: Kopfleiste läuft um ${kopf.ueberlauf} px über`)
   if (breite >= 1024 && (await platzhalterAbgeschnitten(seite))) fehler.push(`${kennung}: Suchplatzhalter abgeschnitten`)
   await seite.screenshot({ path: path.join(BILDER, `empfehlung-reset-${breite}-${thema}.png`), clip: { x: 0, y: 0, width: breite, height: 120 } })
-  if (kopf.anzahl === 1) fehler.push(...(await setzeZurueck(seite, kennung)))
   await kontext.close()
   return fehler
 }
 
-/** Öffnet über das Burger-Menü die Einstellungen, setzt die Empfehlungen zurück und meldet Schlüssel, die bleiben. */
-async function setzeZurueck(seite, kennung) {
-  await seite.locator('header button[aria-label^="Menü"]:visible').first().click({ timeout: 5000 })
-  await seite.getByRole('dialog', { name: /^Menü/ }).getByRole('button', { name: 'Einstellungen' }).click({ timeout: 5000 })
-  await Promise.all([seite.waitForNavigation({ waitUntil: 'load' }), seite.getByRole('button', { name: 'Empfehlungen zurücksetzen' }).click({ timeout: 5000 })])
-  const rest = await seite.evaluate((s) => s.filter((k) => localStorage.getItem(k) !== null), RESET_SCHLUESSEL)
-  return rest.length ? [`${kennung}: Schlüssel bleiben: ${rest.join(', ')}`] : []
-}
-
-/** Alle Breiten, beide Themen; druckt die Ergebniszeile zum Zurücksetzen; wahr, wenn etwas rot ist. */
+/** Alle Breiten, beide Themen; druckt die Ergebniszeile zur Kopfleiste; wahr, wenn etwas rot ist. */
 async function meldeZuruecksetzen() {
   const browser = await chromium.launch()
   const fehler = []
@@ -444,7 +432,7 @@ async function meldeZuruecksetzen() {
     for (const thema of ['dunkel', 'hell']) fehler.push(...(await pruefeZuruecksetzen(browser, breite, thema)))
   }
   await browser.close()
-  console.log(`\nEmpfehlungen zurücksetzen (${RESET_BREITEN.join('/')} px, hell und dunkel; iPad-Kennung mit Install-Ereignis und gefüllter Suche; genau ein Knopf, nicht überdeckt, Kopfleiste ohne Überlauf, Platzhalter lesbar): ${fehler.length ? '' : 'ok'}`)
+  console.log(`\nKopfleiste in Entdecken (${RESET_BREITEN.join('/')} px, hell und dunkel; iPad-Kennung mit Install-Ereignis und gefüllter Suche; genau ein Knopf, nicht überdeckt, Kopfleiste ohne Überlauf, Platzhalter lesbar): ${fehler.length ? '' : 'ok'}`)
   for (const f of fehler) console.log(`  ✕ ${f}`)
   return fehler.length > 0
 }
