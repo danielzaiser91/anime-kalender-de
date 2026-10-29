@@ -43,12 +43,14 @@ const eurekaBox = disc('auto-237-disc', 237, 'Eureka Seven', '2027-01-28')
 const yamada = { id: 154965, format: 'TV', episodes: 13, jpYear: 2023, jpEnd: '2023-06-25', streams: [{ platform: 'netflix', url: 'https://www.netflix.com/title/81685150', dub: true, zugang: 'abo' }], titleDe: 'My Love Story with Yamada-kun at Lv999', deErstausgabe: { von: '2024-07-23', publisher: 'AniMoon Publishing GmbH', synchro: true }, hasVoices: true }
 const yamadaVol1 = disc('my-love-story-with-yamada-kun-vol1', 154965, 'My Love Story with Yamada-kun at Lv999 – Vol. 1', '2026-11-06')
 
-// Die vier Anlassfälle: erster deutscher Termin ist ein künftiger Band, der Kasten zeigt die Disc-Auskunft statt „Auf Deutsch“.
+// Die Anlassfälle: erster deutscher Termin ist ein künftiger Band, der Kasten zeigt die Disc-Auskunft statt „Auf Deutsch“.
 const v = antwort(virgin, [virginVol1])
 pruefe('Virgin Road (aniSearch 11.04., Vol. 1 am 30.10.): keine Fertig-Antwort', v?.art === 'disc', JSON.stringify(v))
 pruefe('Virgin Road: nennt den Termin von Vol. 1', v?.datum === '2026-10-30', JSON.stringify(v))
 const b = antwort(bocchi, bocchiBaende)
 pruefe('Bocchi (nur Sprecher, drei Bände künftig): Disc-Auskunft', b?.art === 'disc' && b.datum === '2026-11-06' && b.baende?.length === 3, JSON.stringify(b))
+const tvSichtung = { slug: 'bocchi-tv', titleId: 130003, name: 'Bocchi the Rock!', platform: 'tv', platformUrl: 'https://www.example.org/', releaseType: 'weekly', automatisch: true, tvLetzteSichtung: '2026-11-01', schedule: { firstEpisodeDate: '2026-11-01', episodeCount: 1 }, sources: [] } as unknown as Release
+pruefe('Bocchi mit automatischer TV-Sichtung: der Kopf bleibt bei der Disc', antwort(bocchi, [...bocchiBaende, tvSichtung])?.art === 'disc')
 pruefe('Good Luck Girl! (nur Sprecher): Disc-Auskunft', antwort(goodLuck, goodLuckBaende)?.art === 'disc')
 pruefe('Nukitashi (nur Sprecher): Disc-Auskunft', antwort(nukitashi, [nukitashiVol1])?.art === 'disc')
 
@@ -76,4 +78,4 @@ if (fehler) {
   console.error(`${fehler} Zusicherung(en) zu „Auf Deutsch“ vor dem ersten deutschen Termin verletzt`)
   process.exit(1)
 }
-console.log('Auf Deutsch vor dem ersten deutschen Termin: Zusicherungen erfüllt (4 Anlassfälle, 7 Gegenfälle, 8 Regelfälle)')
+console.log('Auf Deutsch vor dem ersten deutschen Termin: Zusicherungen erfüllt (5 Anlassfälle, 7 Gegenfälle, 8 Regelfälle)')
