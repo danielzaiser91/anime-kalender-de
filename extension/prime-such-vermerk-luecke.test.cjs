@@ -33,7 +33,7 @@ function schneide(quelle, kopf) {
 }
 
 /** Frische Seite: Vermerk gesetzt, Zählung ohne die Suche; `stand` ist ein Versprechen, das der Test einlöst. */
-function seite({ vermerk, zaehlungOhneSuche = true, standMitSuche = true, pruefstandVor = 60 }) {
+function seite({ vermerk, zaehlungOhneSuche = true, standMitSuche = true }) {
   class FestDate extends Date {
     static now() {
       return FEST
@@ -79,9 +79,7 @@ function seite({ vermerk, zaehlungOhneSuche = true, standMitSuche = true, pruefs
     },
   })
   k.globalThis = k
-  vm.runInContext(lies('pruefstand-zeit.js'), k)
   k.akGemeldetSeit = async () => {}
-  k.akPruefstandAm = new Date(FEST - pruefstandVor * MIN).toISOString()
   k.akPrimeAufraeumen = () => ({ bereinigt: {}, entfernt: 0 })
   vm.runInContext(lies('prime-such-bruecke.js'), k)
   vm.runInContext(lies('prime-stand-ziele.js'), k)
@@ -144,20 +142,27 @@ async function standScheitert() {
   pruefe('Vermerk älter als der Prüfstand, Zählung kennt die Suche nicht: offen (Briefkasten gewinnt)', alt.gemeldet() === false)
   pruefe('… und der alte Vermerk wird aufgeräumt', alt.vermerk() === undefined, alt.vermerk())
   const mittel = await spiele({ vermerk: vor(30) }, 'scheitere')
-  pruefe('Vermerk 30 Minuten alt, jünger als der Prüfstand, Zählung (2 h alt) kennt die Suche nicht: erledigt', mittel.gemeldet() === true)
-  pruefe('… und der Vermerk bleibt im Speicher', mittel.vermerk() === vor(30) && mittel.geschrieben.length === 0)
+  pruefe('Vermerk 30 Minuten alt, Zählung kennt die Suche nicht: offen (nur der Worker entscheidet)', mittel.gemeldet() === false)
+  const grenze = await spiele({ vermerk: vor(10) }, 'scheitere')
+  pruefe('Vermerk genau 10 Minuten alt: offen', grenze.gemeldet() === false)
+  const knapp = await spiele({ vermerk: vor(9) }, 'scheitere')
+  pruefe('Vermerk 9 Minuten alt: erledigt, bleibt im Speicher', knapp.gemeldet() === true && knapp.vermerk() === vor(9))
 }
 
-/* 29.10.2026: Der Worker-Stand führt die Suchadresse weiter (er rechnet mit der Titeladresse der Meldung); nach den
-   zehn Minuten der Brücke stand die Suche bei der nächsten Meldung wieder in der Liste. */
+/* 29.10.2026: Der Worker zieht gemeldete `such_url` ab (#2330). Die Erweiterung überbrückt nur noch das Cache-Fenster des
+   Stands (5 min, Brücke 10 min), wie für Titeladressen; danach entscheidet der Stand. */
 async function standFuehrtDieSuche() {
-  for (const minuten of [11, 30, 59]) {
+  for (const minuten of [1, 9]) {
     const s = await spiele({ vermerk: vor(minuten) }, 'loese')
-    pruefe(`Stand führt die Suche, Vermerk ${minuten} Minuten alt (jünger als der Prüfstand): erledigt`, s.gemeldet() === true)
+    pruefe(`Stand (aus dem Cache) führt die Suche noch, Vermerk ${minuten} Minuten alt: erledigt`, s.gemeldet() === true)
     pruefe(`… Vermerk ${minuten} Minuten: bleibt im Speicher`, s.vermerk() === vor(minuten))
   }
-  const alt = await spiele({ vermerk: vor(90) }, 'loese')
-  pruefe('Stand führt die Suche, Vermerk älter als der Prüfstand: offen (der Prüfstand hat ihn überholt)', alt.gemeldet() === false)
+  for (const minuten of [10, 11, 30, 59]) {
+    const s = await spiele({ vermerk: vor(minuten) }, 'loese')
+    pruefe(`Stand führt die Suche, Vermerk ${minuten} Minuten alt: offen (der Stand entscheidet)`, s.gemeldet() === false)
+  }
+  const frei = await spiele({ vermerk: vor(30), standMitSuche: false }, 'loese')
+  pruefe('Stand führt die Suche nicht mehr (Worker hat sie abgezogen), Vermerk 30 Minuten alt: erledigt', frei.gemeldet() === true)
 }
 
 async function ohneVermerkUndMitZaehlung() {
