@@ -92,6 +92,11 @@ async function pruefeAnsicht(wo: string, bau: Wurzelbauer, vorn: string, rang13:
   pruefe(`${wo}: Suche findet das Genre auf Rang 13`, a.hat(rang13) && !a.hat(vorn), a.chips())
   pruefe(`${wo}: Suche ohne Treffer in „Schnell“ lässt keine leere Fläche stehen`, a.leereFlaechen().length === 0, a.leereFlaechen())
   pruefe(`${wo}: Suche mit Treffer zeigt keinen Hinweis`, !a.text().includes('Probier ein anderes Wort') && !a.knopf('Ecchi-Titel zeigen'))
+  /* Der Hinweis zählt beim Rendern: steht er vor einem Bereich, übersieht er dessen Treffer (Status = erster, Keywords = letzter Bereich hinter „mehr Filter“). */
+  for (const wort of ['Abgeschlossen', 'Keywords']) {
+    await a.tippe(wort)
+    pruefe(`${wo}: Treffer nur hinter „mehr Filter“ („${wort}“) zeigt keinen Hinweis`, a.text().includes(wort) && !a.text().includes('Probier ein anderes Wort'), a.text())
+  }
   await a.tippe('xyz')
   pruefe(`${wo}: Suche „xyz“ zeigt den allgemeinen Hinweis ohne Ecchi-Knopf`, a.text().includes('Probier ein anderes Wort') && !a.knopf('Ecchi-Titel zeigen'), a.text())
   await a.tippe('ecchi')
