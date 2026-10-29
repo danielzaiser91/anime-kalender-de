@@ -11,6 +11,7 @@ import { Chip, Tooltip } from './ui.tsx'
 import { TIPPFLAECHE_HOCH } from './detail/tippziel.ts'
 import { SchnellChips } from './schnellfilter.tsx'
 import { FilterSuche, KlickModusLeiste } from './filter/klick-modus.tsx'
+import { SuchHinweis } from './filter/such-hinweis.tsx'
 import { filterMode, modusVon, toggleFilter, type ModusFeld, type FilterState, type ListKey } from '../lib/filters.ts'
 import { nachZahlGeordnet } from '../lib/filter-liste.ts'
 import { useGenreSicht } from './filter/genre-sicht.tsx'
@@ -563,6 +564,7 @@ function FilterMehr(props: FilterMehrProps) {
   const { t, chipState, pick, suche } = props
   const statusLabel = t('filter.status')
   return (
+    <>
     <div className="mt-3 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
       <Bereich label={statusLabel} suche={suche} texte={STATUS_OPTIONS.map((s) => t(STATUS_LABEL_KEY[s]))}>
         {STATUS_OPTIONS.filter((s) => zeigePille(suche, statusLabel, t(STATUS_LABEL_KEY[s]))).map((s) => (
@@ -574,6 +576,8 @@ function FilterMehr(props: FilterMehrProps) {
 
       <FilterMehrRest {...props} />
     </div>
+    <SuchHinweis t={t} suche={suche} />
+    </>
   )
 }
 
