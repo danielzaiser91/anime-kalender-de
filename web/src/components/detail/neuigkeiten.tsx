@@ -13,7 +13,7 @@ import { laeuftFuerSlug, meldungenImPanel, type Zeile } from './neuigkeiten-rege
 import { hostVon, istLink } from '@shared/quelle.ts'
 import { GlockeZeichen, PanelKarte } from './panel-karte.tsx'
 import { ErstausgabeZeile } from './erstausgabe-zeile.tsx'
-import { erstausgabeAlsNeuigkeit } from './antwort-regeln.ts'
+import { erstausgabeNeuigkeitTitel } from './antwort-regeln.ts'
 
 /** Wie viele Meldungen ohne Aufklappen zu sehen sind. */
 const SICHTBAR = 3
@@ -37,8 +37,7 @@ export function Neuigkeiten({ data, titelId }: { data: Dataset; titelId: number 
     () => meldungenImPanel(liste ?? [], titelId, todayIso(), laeuftFuerSlug(data.releaseBySlug, todayIso())),
     [liste, titelId, data],
   )
-  const titel = data.titleById.get(titelId)
-  const erst = titel && erstausgabeAlsNeuigkeit(titel, todayIso(), data.releasesByTitle.get(titelId) ?? []) ? titel : undefined
+  const erst = erstausgabeNeuigkeitTitel(data, titelId, todayIso())
   if (!zeilen.length && !erst) return null
   const gezeigt = alle ? zeilen : zeilen.slice(0, SICHTBAR)
   return (

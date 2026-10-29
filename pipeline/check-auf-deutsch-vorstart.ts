@@ -5,7 +5,7 @@
  */
 import type { Release, Title } from '../shared/types.ts'
 import { berechneAntwort } from '../web/src/components/detail/antwort-berechnen.ts'
-import { erstausgabeAlsNeuigkeit } from '../web/src/components/detail/antwort-regeln.ts'
+import { erstausgabeNeuigkeitTitel } from '../web/src/components/detail/antwort-regeln.ts'
 import { ersteDiscNochOffen } from '../web/src/lib/erste-disc.ts'
 import { stufeTitelEin } from '../web/src/lib/db-relevanz.ts'
 
@@ -91,7 +91,11 @@ pruefe('Disc ohne Datum neben Vol. 1 künftig: nicht offen', !ersteDiscNochOffen
 pruefe('erschienener TV-Termin neben künftigem Vol. 1: die Regel zählt nur Discs, offen', ersteDiscNochOffen([disc('a', 1, 'T – Vol. 1', '2026-11-06'), tvVergangen], HEUTE))
 
 /* Zweite und dritte Anzeigestelle: Neuigkeiten-Zeile und Entdecken-Stufe folgen derselben Regel wie der Kasten. */
-const neu = (t: unknown, r: Release[], heute = HEUTE) => erstausgabeAlsNeuigkeit(t as Title, heute, r)
+const neu = (t: unknown, r: Release[], heute = HEUTE) => {
+  const id = (t as Title).id
+  const karten = { titleById: new Map([[id, t as Title]]), releasesByTitle: new Map(r.length ? [[id, r]] : []) }
+  return erstausgabeNeuigkeitTitel(karten, id, heute) !== undefined
+}
 const stufe = (t: unknown, r: Release[], heute = HEUTE) => stufeTitelEin(t as Title, r, heute) as { art: string; ab?: string }
 pruefe('Neuigkeiten: Virgin Road (Vol. 1 am 30.10.) ohne Erstausgaben-Zeile', !neu(virgin, [virginVol1]))
 pruefe('Neuigkeiten: Virgin Road am Erscheinungstag von Vol. 1 mit Zeile', neu(virgin, [virginVol1], '2026-10-30'))

@@ -226,6 +226,16 @@ export function erstausgabeAlsNeuigkeit(title: Pick<Title, 'deErstausgabe'> & Pa
   return !(angebot?.date && angebot.date < von && (title.streams ?? []).some((x) => x.platform === angebot.platform && x.dub === true))
 }
 
+/** Der Titel, dessen deutsche Erstausgabe in den Neuigkeiten steht; holt die Termine selbst aus der Karte (Aufrufer: `Neuigkeiten`). */
+export function erstausgabeNeuigkeitTitel(
+  daten: { titleById: Map<number, Title>; releasesByTitle: Map<number, Release[]> },
+  titelId: number,
+  heute: string,
+): Title | undefined {
+  const titel = daten.titleById.get(titelId)
+  return titel && erstausgabeAlsNeuigkeit(titel, heute, daten.releasesByTitle.get(titelId) ?? []) ? titel : undefined
+}
+
 /** Die Überschrift des „fertig“-Kastens mit Zahl; abgeleitet ohne „Alle“, mit „≈“ (siehe `fertigAntwort`). */
 export function fertigZahlText(
   gesamt: number,
