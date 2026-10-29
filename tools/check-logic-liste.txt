@@ -301,6 +301,7 @@ pipeline/check-sprache-netz.ts
 pipeline/check-sprache-termin.ts
 pipeline/check-sprecher-anisearch.ts
 pipeline/check-sprecher-filter.ts
+pipeline/check-staerkste-seite.ts
 pipeline/check-staffel-jahr0.ts
 pipeline/check-staffel-synonyme.ts
 pipeline/check-staffel-teil.ts
