@@ -84,5 +84,34 @@ pruefe(einStaffel.titel === 1, 'nur Staffel 1 im Briefkasten: Ziel bleibt offen'
 const beide = (await rechnePruefstand([staffel(1), staffel(2)], [netflix], ERZEUGT)).anbieter[0]
 pruefe(beide.titel === 0, 'beide Staffeln im Briefkasten: erledigt')
 
+console.log('gemeldete Prime-Suche (such_url)')
+const SUCHE_A = 'https://www.amazon.de/s?k=suche-a'
+const SUCHE_B = 'https://www.amazon.de/s?k=suche-b'
+const prime: Anbieter = {
+  name: 'Prime Video',
+  plattform: 'primevideo',
+  offen: 2,
+  gesamt: 10,
+  gemeldet: 0,
+  ziele: [],
+  suchAdressen: [SUCHE_A, SUCHE_B],
+}
+const treffer = (such_url: string | undefined, gemeldet_am: string): Zeile => ({
+  plattform: 'primevideo',
+  url: 'https://www.amazon.de/dp/B0TREFFER01',
+  such_url,
+  uebernommen: 1,
+  gemeldet_am,
+})
+const ohneSuche = (await rechnePruefstand([], [prime], ERZEUGT)).anbieter[0]
+pruefe(ohneSuche.ohneSeite === 2 && ohneSuche.offen === 2, 'ohne Meldung: beide Suchen offen')
+const sucheA = (await rechnePruefstand([treffer(SUCHE_A, NACH_PRUEFSTAND)], [prime], ERZEUGT)).anbieter[0]
+pruefe(sucheA.ohneSeite === 1 && sucheA.offen === 1, 'Treffer unter Titeladresse, such_url A: Suche A erledigt')
+pruefe(sucheA.ziele.length === 1 && sucheA.ziele[0].url === SUCHE_B, '… Suche B bleibt als Ziel offen')
+const sucheAlt = (await rechnePruefstand([treffer(SUCHE_A, VOR_PRUEFSTAND)], [prime], ERZEUGT)).anbieter[0]
+pruefe(sucheAlt.ohneSeite === 2, 'such_url vor dem Prüfstand gemeldet: der Bau kennt sie, bleibt offen')
+const ohneUrl = (await rechnePruefstand([treffer(undefined, NACH_PRUEFSTAND)], [prime], ERZEUGT)).anbieter[0]
+pruefe(ohneUrl.ohneSeite === 2, 'Meldung ohne such_url: beide Suchen offen')
+
 console.log(fehler ? `\n${fehler} Fehler` : '\nalles ok')
 process.exit(fehler ? 1 : 0)

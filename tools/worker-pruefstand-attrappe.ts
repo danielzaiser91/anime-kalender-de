@@ -5,7 +5,7 @@
 import { berechnePruefstand } from '../worker/src/pruefung-stand.ts'
 import { type Env } from '../worker/src/env.ts'
 
-export type Zeile = { plattform: string; url: string; staffel?: number | null; uebernommen: 0 | 1; gemeldet_am: string }
+export type Zeile = { plattform: string; url: string; staffel?: number | null; such_url?: string; uebernommen: 0 | 1; gemeldet_am: string }
 
 type Ziel = { url: string; titel: string; staffeln?: number[]; seit?: string }
 export type Anbieter = { name: string; plattform: string; offen: number; gesamt: number; gemeldet: number; ziele: Ziel[]; ohneSeite?: number; suchAdressen?: string[] }
@@ -19,6 +19,10 @@ function ergebnisFuer(zeilen: Zeile[], sql: string, arg: unknown[], titelzeilen:
   if (sql.includes('FROM titel_zeile WHERE url IN')) {
     if (titelzeilen instanceof Error) throw titelzeilen
     return titelzeilen
+  }
+  if (sql.includes('such_url IS NOT NULL')) {
+    const seit = sql.includes('gemeldet_am > ?1') ? String(arg[0]) : ''
+    return zeilen.filter((z) => z.such_url && z.gemeldet_am > seit).map((z) => ({ plattform: z.plattform, such_url: z.such_url }))
   }
   const mitUrl = zeilen.filter((z) => z.url)
   if (sql.includes('uebernommen = 0')) return zeilen.filter((z) => !z.uebernommen).map(nurAdresse)
