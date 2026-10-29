@@ -1,5 +1,5 @@
 {
-  "stand": "2026-10-28T23:11:33.150Z",
+  "stand": "2026-10-29T07:09:51.659Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -4659,6 +4659,17 @@
       "titel": "Fushigi Yûgi New OVA: The Mysterious Play",
       "plattform": "primevideo",
       "url": "https://www.amazon.de/dp/B0CJYMLW6W",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-29",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 441,
+      "titel": "Utena: La fillette révolutionnaire - The Movie",
+      "plattform": "adn",
+      "url": "https://animationdigitalnetwork.com/de/video/1338",
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
