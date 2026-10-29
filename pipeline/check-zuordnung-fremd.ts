@@ -5,7 +5,8 @@
  */
 import { ohneSprache } from './lib/fremde-adressen.ts'
 import { findeFremdZugeordnete, type ZuordnungEintrag } from './lib/zuordnung-fremd.ts'
-import { bekanntZeile, gegenBekannt } from './lib/zuordnung-fremd-bestand.ts'
+import { bekanntZeile, gegenBekannt, staffelLautAdresse } from './lib/zuordnung-fremd-bestand.ts'
+import { beschreibeGeteilte, findeGeteilteSeiten } from './lib/zuordnung-geteilt.ts'
 
 let fehler = 0
 let faelle = 0
@@ -52,6 +53,30 @@ pruefe('Suchadresse trifft nie, auch wenn ein Beleg sie führt', finde([[SUCHE, 
 pruefe('Netflix-Seite eines Handbelegs, Staffelmarke im Schlüssel: Treffer', finde([[`${NETFLIX_BELEG}#0`, netflix(105096)]])[0]?.besitzer.join() === 'Handbeleg:900004')
 pruefe('Kennung 74222 ist nicht der Besitzer -74222 (Ziffernfolge am Ende genügt nicht)', finde([[KULIPARI, netflix(74222)]]).length === 1)
 pruefe('Leere Eingabe: keine Treffer', finde([]).length === 0)
+
+// Seiten an Titeln verschiedener Reihen: echte Kennungen (Reihen laut titles.json 29.10.2026), Seiten wörtlich aus prime-zugeordnet.json
+const reihen = new Map([[102977, 99699], [99699, 99699], [110355, 110355], [11757, 11757], [20605, 20605]])
+const staffeln = new Map([['110355 https://www.amazon.de/gp/video/detail/B0CGGJKCT8', 3]])
+const geteilt = (z: [string, ZuordnungEintrag][]) =>
+  findeGeteilteSeiten(z, (id) => reihen.get(id), (id, a) => staffeln.get(`${id} ${a}`))
+const NF = 'https://www.netflix.com/title/70302573'
+const AM = 'https://www.amazon.de/gp/video/detail/B0CGGJKCT8'
+const sao = geteilt([[`${NF}#0`, netflix(11757)], [`${NF}#1`, netflix(20605)]])
+pruefe('Zwei Reihen an einer Netflix-Seite: ein Fund mit beiden Besitzern', sao.length === 1 && sao[0]!.besitzer.map((b) => b.titleId).join() === '11757,20605', sao)
+pruefe('Staffeln derselben Reihe an einer Seite: kein Fund', geteilt([[AM, prime(99699, 'B0CGGJKCT8')], [`${AM}#1`, prime(102977, 'B0CGGJKCT8')]]).length === 0)
+pruefe('Dieselbe Kennung zweimal an der Seite: kein Fund', geteilt([[`${NF}#0`, netflix(11757)], [`${NF}#1`, netflix(11757)]]).length === 0)
+pruefe('Kennung ohne bekannte Reihe zählt nicht', geteilt([[`${NF}#0`, netflix(11757)], [`${NF}#1`, netflix(5)]]).length === 0)
+pruefe('Suchadresse zählt nie, auch bei zwei Reihen', geteilt([[SUCHE, prime(11757, null)], [SUCHE, prime(20605, null)]]).length === 0)
+pruefe('Seite der Rohfolge ersetzt die gemeldete Adresse', geteilt([['https://www.amazon.de/dp/B0EIGEN002', prime(11757, 'B0CGGJKCT8')], [AM, prime(110355, 'B0CGGJKCT8')]]).length === 1)
+pruefe('Verschiedene Seiten zweier Reihen: kein Fund', geteilt([[NF, netflix(11757)], ['https://www.netflix.com/title/70302574', netflix(20605)]]).length === 0)
+const kamuy = geteilt([[AM, prime(110355, 'B0CGGJKCT8')], [`${AM}#1`, prime(11757, 'B0CGGJKCT8')]])
+pruefe('Staffel laut Adresse steht beim Besitzer, beim anderen fehlt sie', kamuy[0]?.besitzer.map((b) => b.staffel).join() === '3,', kamuy)
+pruefe('Meldezeile nennt beide Besitzer und „laut Adresse Staffel 3“', beschreibeGeteilte(kamuy[0]!) === `${AM}: 110355 (Reihe 110355, laut Adresse Staffel 3) und 11757 (Reihe 11757)`, kamuy[0] && beschreibeGeteilte(kamuy[0]))
+const notiz = 'Amazon-Seite B0CGGJKCT8: alle 12 Folgen, laut Adresse Staffel 3'
+const beleg = (anilistId: number, url: string, note?: string) => ({ anilistId, url, note })
+pruefe('Staffel aus der Notiz des Belegs an derselben Adresse', staffelLautAdresse([beleg(110355, AM, notiz)], 110355, AM) === 3)
+pruefe('Beleg einer anderen Kennung oder Adresse liefert keine Staffel', staffelLautAdresse([beleg(1, AM, notiz), beleg(110355, NF, notiz)], 110355, AM) === undefined)
+pruefe('Notiz ohne Staffelwähler liefert keine Staffel', staffelLautAdresse([beleg(110355, AM, 'alle 12 Folgen')], 110355, AM) === undefined)
 
 const ein = { titleId: 99470, adresse: GRISAIA_SERIE, besitzer: [] }
 const andere = { titleId: 105096, adresse: KULIPARI, besitzer: [] }
