@@ -33,7 +33,7 @@ function schneide(quelle, kopf) {
 }
 
 /** Frische Seite: Vermerk gesetzt, Zählung ohne die Suche; `stand` ist ein Versprechen, das der Test einlöst. */
-function seite({ vermerk, zaehlungOhneSuche = true, standMitSuche = true }) {
+function seite({ vermerk, zaehlungOhneSuche = true, standMitSuche = true, pruefstandVor = 60 }) {
   class FestDate extends Date {
     static now() {
       return FEST
@@ -79,7 +79,9 @@ function seite({ vermerk, zaehlungOhneSuche = true, standMitSuche = true }) {
     },
   })
   k.globalThis = k
+  vm.runInContext(lies('pruefstand-zeit.js'), k)
   k.akGemeldetSeit = async () => {}
+  k.akPruefstandAm = new Date(FEST - pruefstandVor * MIN).toISOString()
   k.akPrimeAufraeumen = () => ({ bereinigt: {}, entfernt: 0 })
   vm.runInContext(lies('prime-such-bruecke.js'), k)
   const q = lies('amazon.js')
@@ -105,73 +107,75 @@ const warte = async () => {
   for (let i = 0; i < 20; i++) await Promise.resolve()
 }
 
+
+/** Spielt einen Seitenaufruf: `briefkastenHolen` läuft, der Stand kommt (`loese`) oder scheitert (`scheitere`). */
+async function spiele(optionen, wie) {
+  const s = seite(optionen)
+  const lauf = s.holen()
+  await warte()
+  s.stand[wie]()
+  await lauf
+  return s
+}
+
+async function inDerLuecke() {
+  const s = seite({ vermerk: vor(3) })
+  const lauf = s.holen()
+  await warte()
+  pruefe('Lücke: der Stand ist noch nicht da', vm.runInContext('standZiele', s.k) === null)
+  pruefe('Lücke: die 2-h-Zählung ist noch nicht sichtbar (Mengen kommen gemeinsam)', vm.runInContext('briefkastenSuchen', s.k) === null)
+  pruefe('Lücke: auch Seiten und Erwartungen sind noch nicht sichtbar', vm.runInContext('briefkastenSeiten', s.k) === null && vm.runInContext('briefkastenErwartungen', s.k) === null)
+  pruefe('Lücke: frisch gemeldete Suche gilt als erledigt', s.gemeldet() === true)
+  pruefe('Lücke: der Vermerk bleibt im Speicher', s.vermerk() === vor(3) && s.geschrieben.length === 0, s.vermerk())
+  s.stand.loese()
+  await lauf
+  pruefe('nach dem Stand (führt die Suche noch): Vermerk überbrückt', s.gemeldet() === true)
+  pruefe('nach dem Stand: Vermerk weiter da', s.vermerk() === vor(3))
+  pruefe('nach dem Stand: Seiten und Erwartungen gesetzt', vm.runInContext('briefkastenSeiten', s.k)?.has('S1') === true && vm.runInContext('briefkastenErwartungen', s.k)?.[SUCHE]?.[0] === 'S1')
+}
+
+async function standScheitert() {
+  const frisch = await spiele({ vermerk: vor(3) }, 'scheitere')
+  pruefe('Stand scheitert, Zählung ohne die Suche, Vermerk frisch: weiter erledigt', frisch.gemeldet() === true)
+  pruefe('Stand scheitert: Vermerk bleibt', frisch.vermerk() === vor(3))
+  pruefe('Stand scheitert: die Zählung ist trotzdem gesetzt', vm.runInContext('briefkastenSuchen', frisch.k)?.has(ANDERE) === true)
+  const alt = await spiele({ vermerk: vor(90) }, 'scheitere')
+  pruefe('Vermerk älter als der Prüfstand, Zählung kennt die Suche nicht: offen (Briefkasten gewinnt)', alt.gemeldet() === false)
+  pruefe('… und der alte Vermerk wird aufgeräumt', alt.vermerk() === undefined, alt.vermerk())
+  const mittel = await spiele({ vermerk: vor(30) }, 'scheitere')
+  pruefe('Vermerk 30 Minuten alt, jünger als der Prüfstand, Zählung (2 h alt) kennt die Suche nicht: erledigt', mittel.gemeldet() === true)
+  pruefe('… und der Vermerk bleibt im Speicher', mittel.vermerk() === vor(30) && mittel.geschrieben.length === 0)
+}
+
+/* 29.10.2026: Der Worker-Stand führt die Suchadresse weiter (er rechnet mit der Titeladresse der Meldung); nach den
+   zehn Minuten der Brücke stand die Suche bei der nächsten Meldung wieder in der Liste. */
+async function standFuehrtDieSuche() {
+  for (const minuten of [11, 30, 59]) {
+    const s = await spiele({ vermerk: vor(minuten) }, 'loese')
+    pruefe(`Stand führt die Suche, Vermerk ${minuten} Minuten alt (jünger als der Prüfstand): erledigt`, s.gemeldet() === true)
+    pruefe(`… Vermerk ${minuten} Minuten: bleibt im Speicher`, s.vermerk() === vor(minuten))
+  }
+  const alt = await spiele({ vermerk: vor(90) }, 'loese')
+  pruefe('Stand führt die Suche, Vermerk älter als der Prüfstand: offen (der Prüfstand hat ihn überholt)', alt.gemeldet() === false)
+}
+
+async function ohneVermerkUndMitZaehlung() {
+  const s = seite({ vermerk: undefined })
+  const lauf = s.holen()
+  await warte()
+  pruefe('Lücke: ohne Vermerk bleibt die Suche offen', s.gemeldet() === false)
+  s.stand.loese()
+  await lauf
+  const z = await spiele({ vermerk: vor(30), zaehlungOhneSuche: false, standMitSuche: false }, 'loese')
+  pruefe('Zählung führt die Suche, Vermerk alt: erledigt, Vermerk bleibt unberührt', z.gemeldet() === true && z.geschrieben.length === 0)
+}
+
 async function haupt() {
   console.log('Prime: gemeldete Suche in der Lücke vor dem Stand\n')
-
-  {
-    const s = seite({ vermerk: vor(3) })
-    const lauf = s.holen()
-    await warte()
-    pruefe('Lücke: der Stand ist noch nicht da', vm.runInContext('standZiele', s.k) === null)
-    pruefe('Lücke: die 2-h-Zählung ist noch nicht sichtbar (Mengen kommen gemeinsam)', vm.runInContext('briefkastenSuchen', s.k) === null)
-    pruefe('Lücke: auch Seiten und Erwartungen sind noch nicht sichtbar', vm.runInContext('briefkastenSeiten', s.k) === null && vm.runInContext('briefkastenErwartungen', s.k) === null)
-    pruefe('Lücke: frisch gemeldete Suche gilt als erledigt', s.gemeldet() === true)
-    pruefe('Lücke: der Vermerk bleibt im Speicher', s.vermerk() === vor(3) && s.geschrieben.length === 0, s.vermerk())
-    s.stand.loese()
-    await lauf
-    pruefe('nach dem Stand (führt die Suche noch): Vermerk überbrückt', s.gemeldet() === true)
-    pruefe('nach dem Stand: Vermerk weiter da', s.vermerk() === vor(3))
-    pruefe('nach dem Stand: Seiten und Erwartungen gesetzt', vm.runInContext('briefkastenSeiten', s.k)?.has('S1') === true && vm.runInContext('briefkastenErwartungen', s.k)?.[SUCHE]?.[0] === 'S1')
-  }
-
-  {
-    const s = seite({ vermerk: vor(3) })
-    const lauf = s.holen()
-    await warte()
-    s.stand.scheitere()
-    await lauf
-    pruefe('Stand scheitert, Zählung ohne die Suche, Vermerk frisch: weiter erledigt', s.gemeldet() === true)
-    pruefe('Stand scheitert: Vermerk bleibt', s.vermerk() === vor(3))
-    pruefe('Stand scheitert: die Zählung ist trotzdem gesetzt', vm.runInContext('briefkastenSuchen', s.k)?.has(ANDERE) === true)
-  }
-
-  {
-    const s = seite({ vermerk: vor(30) })
-    const lauf = s.holen()
-    await warte()
-    s.stand.scheitere()
-    await lauf
-    pruefe('Vermerk 30 Minuten alt, Zählung kennt die Suche nicht: offen (Briefkasten gewinnt)', s.gemeldet() === false)
-    pruefe('… und der alte Vermerk wird aufgeräumt', s.vermerk() === undefined, s.vermerk())
-  }
-
-  {
-    const s = seite({ vermerk: vor(10) })
-    const lauf = s.holen()
-    await warte()
-    s.stand.scheitere()
-    await lauf
-    pruefe('Vermerk genau 10 Minuten alt: offen', s.gemeldet() === false)
-  }
-
-  {
-    const s = seite({ vermerk: undefined })
-    const lauf = s.holen()
-    await warte()
-    pruefe('Lücke: ohne Vermerk bleibt die Suche offen', s.gemeldet() === false)
-    s.stand.loese()
-    await lauf
-  }
-
-  {
-    const s = seite({ vermerk: vor(30), zaehlungOhneSuche: false, standMitSuche: false })
-    const lauf = s.holen()
-    await warte()
-    s.stand.loese()
-    await lauf
-    pruefe('Zählung führt die Suche, Vermerk alt: erledigt, Vermerk bleibt unberührt', s.gemeldet() === true && s.geschrieben.length === 0)
-  }
-
+  await inDerLuecke()
+  await standScheitert()
+  await standFuehrtDieSuche()
+  await ohneVermerkUndMitZaehlung()
   if (fehler.length) {
     console.error(`\n${fehler.length} Zusicherung(en) verletzt.`)
     process.exit(1)
