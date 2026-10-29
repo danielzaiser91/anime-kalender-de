@@ -1158,3 +1158,7 @@ Wer einen Handbeleg aus `data/dub-confirmed.yaml` als falsch entfernt, trägt Ke
 ## Prime-Handbelege: `url` ist oft die Einstiegsseite (29.10.2026)
 
 Die `url` eines Prime-Handbelegs ist oft die Einstiegsseite; die gemessene Seite steht in der Notiz („Amazon-Seite X“, „Seitenadresse“). Die `asin` in `prime-zugeordnet.json` ist kein Seitenbeleg. Gleiche `gti` an zwei Adressen heißt: derselbe Inhalt. „Laut Adresse Staffel k“ in der Notiz belegt, zu welcher Staffel die Adresse gehört; ein Beleg mit abweichendem k ist falsch abgelegt und wird umgehängt oder in `belege-entfernt.yaml` eingetragen (Quelle: Analyse der 32 Fremdpaare, 29.10.2026).
+
+## Folgen-Zuordnung ohne fremde Adressen (29.10.2026)
+
+`pipeline/fetch-folgen-zuordnung.ts` nutzt die Sperre aus `pipeline/lib/fremde-adressen.ts` (Cartoon, ohne Synchro, fremder Beleg): Eine Beobachtung an einer solchen Adresse ordnet keinem Titel zu, eine frühere Zuordnung auf einen Titel außerhalb von `titles.json` entfällt (beides wird „ohne-kandidat“, Logik in `pipeline/lib/folgen-fremde-adressen.ts`). Der Lauf meldet die Zählung (`Fremde Adressen …`). `data/folgen-zuordnung.json` wird erst beim nächsten Lauf mit Worker-Export bereinigt. Wächter: `check-folgen-fremde-adressen`, `-lauf`.
