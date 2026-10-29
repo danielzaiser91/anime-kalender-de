@@ -75,6 +75,7 @@ pruefe('Meldezeile nennt beide Besitzer und „laut Adresse Staffel 3“', besch
 const notiz = 'Amazon-Seite B0CGGJKCT8: alle 12 Folgen, laut Adresse Staffel 3'
 const beleg = (anilistId: number, url: string, note?: string) => ({ anilistId, url, note })
 pruefe('Staffel aus der Notiz des Belegs an derselben Adresse', staffelLautAdresse([beleg(110355, AM, notiz)], 110355, AM) === 3)
+pruefe('Zweistellige Staffel wird ganz gelesen', staffelLautAdresse([beleg(110355, AM, 'laut Adresse Staffel 12')], 110355, AM) === 12)
 pruefe('Beleg einer anderen Kennung oder Adresse liefert keine Staffel', staffelLautAdresse([beleg(1, AM, notiz), beleg(110355, NF, notiz)], 110355, AM) === undefined)
 pruefe('Notiz ohne Staffelwähler liefert keine Staffel', staffelLautAdresse([beleg(110355, AM, 'alle 12 Folgen')], 110355, AM) === undefined)
 
