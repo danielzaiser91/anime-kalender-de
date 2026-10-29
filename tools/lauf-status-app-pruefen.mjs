@@ -38,20 +38,38 @@
  * beendet einen zweiten Start sofort, und Daniel hat die Anzeige fast immer offen. Mit eigenem
  * `--user-data-dir` hat der Probelauf seinen eigenen Riegel und seinen eigenen Speicher.
  *
- * Aufruf: `node tools/lauf-status-app-pruefen.mjs`
- * Ergebnis: `docs/lauf-status-app.png`, `docs/lauf-status-app-detail.png`,
- *           `docs/lauf-status-app-ausfall.png`
+ * Aufruf: `node tools/lauf-status-app-pruefen.mjs [--doku-bilder]`
+ * Ergebnis: Bilder lauf-status-app.png, -detail.png, -ausfall.png im Temp-Ordner (Pfad am Ende);
+ *           mit `--doku-bilder` stattdessen in docs/ (nur dann ändern sich die versionierten Bilder)
  */
 import { _electron as electron } from 'playwright'
-import { existsSync, readdirSync, readFileSync } from 'node:fs'
+import { existsSync, mkdtempSync, readdirSync, readFileSync } from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { artenAusAnzeige } from './lauf-arten-lesen.mjs'
 
 const WURZEL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const APP = 'C:/code/ai/__assets/tools/lauf-status/app'
 const ANZEIGE = 'C:/code/ai/__assets/tools/lauf-status/index.html'
 const EXE = path.join(APP, 'node_modules/electron/dist/electron.exe')
+
+if (!existsSync(ANZEIGE)) {
+  console.error(`Anzeige fehlt: ${ANZEIGE}`)
+  process.exit(1)
+}
+
+/* Soll-Zahl der Kacheln = die Lauf-Arten, die die Anzeige selbst führt (`ARTEN` in ihrer index.html). */
+const ARTEN_LISTE = artenAusAnzeige(readFileSync(ANZEIGE, 'utf8'))
+const ARTEN_SOLL = ARTEN_LISTE.length
+if (ARTEN_SOLL === 0) {
+  console.error(`Keine Lauf-Arten in ${ANZEIGE} gefunden.`)
+  process.exit(1)
+}
+
+/* Bilder landen im Temp-Ordner; nur `--doku-bilder` schreibt die versionierten Bilder in docs/. */
+const DOKU_BILDER = process.argv.includes('--doku-bilder')
+const BILDORDNER = DOKU_BILDER ? path.join(WURZEL, 'docs') : mkdtempSync(path.join(os.tmpdir(), 'laufstatus-bilder-'))
 
 if (!existsSync(EXE)) {
   console.error(`Electron fehlt: ${EXE} — vorher \`npm install\` im App-Ordner.`)
@@ -209,7 +227,7 @@ pruefe(
   }),
 )
 
-await seite.screenshot({ path: path.join(WURZEL, 'docs', 'lauf-status-app.png') })
+await seite.screenshot({ path: path.join(BILDORDNER, 'lauf-status-app.png') })
 
 /* 1. Der Weg der Pillen: leeres Fenster jetzt, Adresse nach einem await. */
 await seite.evaluate(async () => {
@@ -261,7 +279,7 @@ const gitter = await seite.evaluate(() => ({
   kopf: (document.getElementById('kopf') || {}).textContent || '',
   erste: document.querySelector('.kachel .kurz')?.textContent ?? '',
 }))
-pruefe('das Gitter zeigt jede Lauf-Art', gitter.kacheln === 19, String(gitter.kacheln))
+pruefe('das Gitter zeigt jede Lauf-Art', gitter.kacheln === ARTEN_SOLL, String(gitter.kacheln))
 pruefe('die erste Kachel ist der Deploy', gitter.erste === 'Deploy', gitter.erste)
 pruefe('die laufende Art ist blau und trägt den Balken', gitter.laeuft === 1 && gitter.balken === 1)
 pruefe('die Kästchenreihe zeigt den Verlauf', gitter.kaestchen >= 4, String(gitter.kaestchen))
@@ -317,12 +335,12 @@ pruefe(
 pruefe('mit Ziel und Schritt', /Schritt 6 von 6/.test(detail.text), detail.text.slice(0, 120))
 pruefe('und dem Verlauf', detail.zeilen >= 2, String(detail.zeilen))
 pruefe('samt Grund des Fehlschlags', /schiefgegangen/.test(detail.text))
-await seite.screenshot({ path: path.join(WURZEL, 'docs', 'lauf-status-app-detail.png') })
+await seite.screenshot({ path: path.join(BILDORDNER, 'lauf-status-app-detail.png') })
 
 await seite.click('.zurueck')
 await seite.waitForTimeout(700)
 pruefe('der Weg zurück führt ins Gitter',
-  (await seite.evaluate(() => document.querySelectorAll('.kachel').length)) === 19)
+  (await seite.evaluate(() => document.querySelectorAll('.kachel').length)) === ARTEN_SOLL)
 
 /*
   **6. Antwortet der Dienst nicht, bleibt der letzte Stand stehen**.
@@ -349,7 +367,7 @@ pruefe('beim Ausfall steht ein Hinweisbalken oben', ausfall.banner)
 pruefe('er nennt die Uhrzeit des Stands', /Stand von \d{2}:\d{2}/.test(ausfall.text), ausfall.text.slice(0, 120))
 pruefe('und ab wann es weitergeht', /Neue Werte gibt es ab \d{2}:\d{2}/.test(ausfall.text))
 pruefe('und dass nichts zu tun ist', /Nichts zu tun/.test(ausfall.text))
-pruefe('die Kacheln bleiben stehen', ausfall.kacheln === 19, String(ausfall.kacheln))
+pruefe('die Kacheln bleiben stehen', ausfall.kacheln === ARTEN_SOLL, String(ausfall.kacheln))
 pruefe('die Kopfzeile nennt den alten Stand', /^Stand von \d{2}:\d{2}$/.test(ausfall.kopf.trim()), ausfall.kopf)
 pruefe('die Fußzeile sagt, dass der Dienst nicht antwortet',
   ausfall.stand.includes('der Dienst antwortet nicht'), ausfall.stand)
@@ -388,7 +406,7 @@ pruefe(
   pillenForm.some((p) => p.klasse.includes('fertig') && /netflix\.com\/browse/.test(p.href)),
   pillenForm.filter((p) => p.klasse.includes('fertig')).map((p) => p.href).join(' | '),
 )
-await seite.screenshot({ path: path.join(WURZEL, 'docs', 'lauf-status-app-ausfall.png') })
+await seite.screenshot({ path: path.join(BILDORDNER, 'lauf-status-app-ausfall.png') })
 
 /* Und ohne gemerkten Stand: nur der Grund — ebenfalls lesbar. */
 await seite.evaluate(() => localStorage.removeItem('laufstatus-letzter-stand'))
@@ -405,7 +423,7 @@ pruefe('und auch dort nicht beschnitten', ohneStand.grundLang)
   **7. Die feste Liste der Lauf-Arten gegen die Workflows.** Läuft beides auseinander, findet eine
   Kachel ihre Läufe nicht mehr — und zwar still.
 */
-const ausDerAnzeige = [...readFileSync(ANZEIGE, 'utf8').matchAll(/\{ kurz: '[^']+', lang: '([^']+)' \}/g)].map((m) => m[1])
+const ausDerAnzeige = ARTEN_LISTE
 const ausDenWorkflows = readdirSync(path.join(WURZEL, '.github/workflows'))
   .filter((f) => f.endsWith('.yml'))
   .map((f) => /^name:\s*(.+)$/m.exec(readFileSync(path.join(WURZEL, '.github/workflows', f), 'utf8'))?.[1]?.trim())
@@ -418,5 +436,5 @@ pruefe('und keine, die es nicht gibt',
   ausDerAnzeige.filter((n) => !ausDenWorkflows.includes(n)).join(', '))
 
 await programm.close()
-console.log('\n  Bilder: docs/lauf-status-app.png, docs/lauf-status-app-detail.png, docs/lauf-status-app-ausfall.png')
+console.log(`\n  Bilder: ${BILDORDNER}`)
 process.exit(fehler.length ? 1 : 0)
