@@ -15,6 +15,8 @@ const FAELLE = [
   { name: 'Quellen-Fenster', titel: 775, oben: '[role="dialog"][aria-label^="Quellen"]', oeffne: klicke(/^(▣ )?(Quelle|Quellen|Beleg|Belege)/) },
   { name: 'Trailer-Kino', titel: 11, oben: '[role="dialog"][aria-label*="Trailer"]:not([data-panel])', oeffne: klicke(/Trailer/) },
   { name: 'Cover-Schicht', titel: 11, oben: '[role="dialog"][aria-label^="Cover"]', oeffne: (s) => s.evaluate(() => window.dispatchEvent(new CustomEvent('cover-maximieren', { detail: 'cover' }))) },
+  // Das Panel liegt über der News-Ansicht; der Dialog öffnet sich dort (Patchnotes-Knopf) und ist die oberste Ebene.
+  { name: 'Patch-Notes-Dialog', adresse: 'http://ak.test/#/news?t=775', titel: 775, oben: '[role="dialog"][aria-labelledby="pn-titel"]', oeffne: (s) => s.evaluate(() => [...document.querySelectorAll('button')].find((b) => b.textContent.includes('Neu auf der Webseite'))?.click()) },
 ]
 
 /** `vorher`, `nachTaste` (eine andere Taste), `nachEins`, `nachZwei`: { oben, panel } = Anzahl offener Ebenen vor, nach der Taste, nach dem ersten und nach dem zweiten Escape. */
@@ -34,7 +36,7 @@ async function fahreFall(browser, antworte, fall) {
   const seite = await browser.newPage({ viewport: { width: 1366, height: 900 } })
   await seite.route('**/*', antworte)
   await seite.goto('about:blank')
-  await seite.goto(adresse(fall.titel), { waitUntil: 'networkidle' })
+  await seite.goto(fall.adresse ?? adresse(fall.titel), { waitUntil: 'networkidle' })
   await seite.locator(PANEL).first().waitFor({ timeout: 15_000 })
   await seite.waitForTimeout(800)
   await fall.oeffne(seite)

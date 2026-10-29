@@ -1,59 +1,69 @@
 /**
- * Findet rohe Tastenhörer für Escape (`addEventListener('keydown', …)` mit `'Escape'` im Handler) im Syntaxbaum.
- * Escape-Hörer auf `window`/`document` gehen über `useEscape` (`web/src/lib/escape.ts`): nur er beachtet `defaultPrevented`.
+ * Findet Tastenhörer im Syntaxbaum: jeden `addEventListener` für keydown/keyup/keypress oder mit einem Ereignisnamen, der sich nicht
+ * auflösen lässt, jede `on…`-Zuweisung für Tasten und jeden Zugriff auf `addEventListener`, der kein Aufruf ist (Alias, `bind`,
+ * Destrukturierung). Escape-Hörer auf `window`/`document` gehen über `useEscape` (`web/src/lib/escape.ts`); der Wächter fragt
+ * bewusst nicht nach `'Escape'` im Handler (`keyCode`, Konstanten und Tabellen-Hörer umgingen das).
  */
 import ts from 'typescript'
 
 const TASTEN = new Set(['keydown', 'keyup', 'keypress'])
+const TASTEN_ZUWEISUNG = new Set(['onkeydown', 'onkeyup', 'onkeypress'])
+const GLOBALE = new Set(['window', 'document', 'globalThis', 'self'])
 
-const istText = (n: ts.Node, wert?: string): n is ts.StringLiteralLike => ts.isStringLiteralLike(n) && (wert === undefined || n.text === wert)
+const istText = (n: ts.Node): n is ts.StringLiteralLike => ts.isStringLiteralLike(n)
 
-function enthaeltEscape(n: ts.Node): boolean {
-  let gefunden = false
-  const geh = (k: ts.Node) => {
-    if (istText(k, 'Escape')) gefunden = true
-    else ts.forEachChild(k, geh)
-  }
-  geh(n)
-  return gefunden
+function lies(text: string, datei: string): ts.SourceFile {
+  return ts.createSourceFile(datei, text, ts.ScriptTarget.Latest, true, datei.endsWith('x') ? ts.ScriptKind.TSX : ts.ScriptKind.TS)
 }
 
-/** Namen von Variablen/Funktionen, deren Rumpf `'Escape'` enthält (ein Handler, der als Name übergeben wird). */
-function escapeNamen(quelle: ts.SourceFile): Set<string> {
-  const namen = new Set<string>()
-  const geh = (n: ts.Node) => {
-    if (ts.isVariableDeclaration(n) && ts.isIdentifier(n.name) && n.initializer && enthaeltEscape(n.initializer)) namen.add(n.name.text)
-    if (ts.isFunctionDeclaration(n) && n.name && n.body && enthaeltEscape(n.body)) namen.add(n.name.text)
-    ts.forEachChild(n, geh)
-  }
-  geh(quelle)
-  return namen
-}
-
-function umgebendeFunktion(n: ts.Node): ts.Node | undefined {
-  for (let p = n.parent; p; p = p.parent) if (ts.isFunctionLike(p)) return p
+/** Name eines Zugriffs `x.name` oder `x['name']`; `undefined`, wenn er sich nicht statisch lesen lässt. */
+function zugriffsName(n: ts.Node): string | undefined {
+  if (ts.isPropertyAccessExpression(n)) return n.name.text
+  if (ts.isElementAccessExpression(n) && istText(n.argumentExpression)) return n.argumentExpression.text
   return undefined
 }
 
-/** Ob der Aufruf `x.addEventListener(<Taste>, …)` ist; `x['addEventListener']` zählt ebenso. */
-function istTastenHoerer(c: ts.CallExpression): boolean {
-  const f = c.expression
-  const name = ts.isPropertyAccessExpression(f) ? f.name.text : ts.isElementAccessExpression(f) && istText(f.argumentExpression) ? f.argumentExpression.text : ''
-  return name === 'addEventListener' && c.arguments.length >= 2 && istText(c.arguments[0]) && TASTEN.has((c.arguments[0] as ts.StringLiteralLike).text)
+/** Texte, die `const NAME = '…'` in dieser Quelle bindet (Name → Werte); damit lässt sich ein Ereignisname aus einer Konstante lesen. */
+export function textKonstanten(text: string, datei: string): Map<string, Set<string>> {
+  const aus = new Map<string, Set<string>>()
+  const geh = (n: ts.Node) => {
+    if (ts.isVariableDeclaration(n) && ts.isIdentifier(n.name) && n.initializer && istText(n.initializer)) {
+      aus.set(n.name.text, (aus.get(n.name.text) ?? new Set()).add(n.initializer.text))
+    }
+    ts.forEachChild(n, geh)
+  }
+  geh(lies(text, datei))
+  return aus
 }
 
-/** Zeilen (ab 1) aller Tastenhörer, die auf Escape reagieren: Handler enthält `'Escape'`, wird mit einem Namen übergeben, der es enthält, oder die umgebende Funktion tut es. */
-export function findeRoheEscapeHoerer(text: string, datei: string): number[] {
-  const quelle = ts.createSourceFile(datei, text, ts.ScriptTarget.Latest, true, datei.endsWith('x') ? ts.ScriptKind.TSX : ts.ScriptKind.TS)
-  const namen = escapeNamen(quelle)
+/** Ob der Ereignisname eine Taste ist oder sich nicht auflösen lässt (dann gilt er als Treffer). */
+function istTastenName(arg: ts.Node, konstanten: Map<string, Set<string>>): boolean {
+  if (istText(arg)) return TASTEN.has(arg.text)
+  const werte = ts.isIdentifier(arg) ? konstanten.get(arg.text) : undefined
+  return werte === undefined || [...werte].some((w) => TASTEN.has(w))
+}
+
+const istAufrufVon = (n: ts.Node): boolean => ts.isCallExpression(n.parent) && n.parent.expression === n
+
+/** Ob `n` ein Tastenhörer ist: Aufruf mit Tastenname, Zugriff ohne Aufruf (Alias), Destrukturierung, `on…`-Zuweisung, dynamischer Zugriff auf eine Globale. */
+function istHoerer(n: ts.Node, konstanten: Map<string, Set<string>>): boolean {
+  const name = zugriffsName(n)
+  if (name === 'addEventListener' && istAufrufVon(n)) {
+    const aufruf = n.parent as ts.CallExpression
+    return aufruf.arguments.length >= 1 && istTastenName(aufruf.arguments[0], konstanten)
+  }
+  if (name === 'addEventListener') return true
+  if (ts.isBindingElement(n)) return (n.propertyName ?? n.name).getText() === 'addEventListener'
+  if (name !== undefined) return TASTEN_ZUWEISUNG.has(name)
+  return ts.isElementAccessExpression(n) && GLOBALE.has(n.expression.getText())
+}
+
+/** Zeilen (ab 1) aller Tastenhörer in `text`; `konstanten` sind die Textkonstanten des ganzen Baums (`textKonstanten`). */
+export function findeTastenHoerer(text: string, datei: string, konstanten: Map<string, Set<string>> = new Map()): number[] {
+  const quelle = lies(text, datei)
   const zeilen: number[] = []
   const geh = (n: ts.Node) => {
-    if (ts.isCallExpression(n) && istTastenHoerer(n)) {
-      const handler = n.arguments[1]
-      const umgebung = umgebendeFunktion(n)
-      const trifft = enthaeltEscape(handler) || (ts.isIdentifier(handler) && namen.has(handler.text)) || (umgebung !== undefined && enthaeltEscape(umgebung))
-      if (trifft) zeilen.push(quelle.getLineAndCharacterOfPosition(n.getStart()).line + 1)
-    }
+    if (istHoerer(n, konstanten)) zeilen.push(quelle.getLineAndCharacterOfPosition(n.getStart()).line + 1)
     ts.forEachChild(n, geh)
   }
   geh(quelle)

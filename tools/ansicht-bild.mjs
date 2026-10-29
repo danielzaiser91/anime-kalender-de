@@ -466,7 +466,7 @@ async function meldeFilterknopf() {
 /** Escape in gestapelten Ebenen (Detail-Panel + Quellen, Trailer, Cover): schließt genau die oberste; wahr, wenn rot. */
 async function meldeEscapeStapel() {
   const r = await pruefeEscapeStapel(chromium, antworteAusDist)
-  console.log(`\nEscape schließt nur die oberste Ebene (Detail-Panel mit Quellen-Fenster, Trailer-Kino und Cover-Schicht, ${r.faelle} Fälle; zweiter Escape schließt das Panel): ${r.abweichungen.length ? '' : 'ok'}`)
+  console.log(`\nEscape schließt nur die oberste Ebene (Detail-Panel mit Quellen-Fenster, Trailer-Kino, Cover-Schicht und Patch-Notes-Dialog, Einzelfälle ohne Panel mit Einstellungen und Patch Notes, ${r.faelle} Fälle; zweiter Escape schließt das Panel): ${r.abweichungen.length ? '' : 'ok'}`)
   for (const l of r.abweichungen) console.log(`  ✕ ${l}`)
   return r.abweichungen.length > 0
 }

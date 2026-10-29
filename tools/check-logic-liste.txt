@@ -206,6 +206,7 @@ pipeline/check-kopf-menue.ts
 pipeline/check-kopfzeile-premiere.ts
 pipeline/check-leerer-kasten.ts
 pipeline/check-leerzeichen-gleich.ts
+pipeline/check-leinwand-escape.ts
 pipeline/check-link-leere-adresse.ts
 pipeline/check-logic.ts
 pipeline/check-luecken-staffel0.ts
