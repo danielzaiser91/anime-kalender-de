@@ -123,6 +123,20 @@ async function pruefeAdresseGemerkt(): Promise<void> {
   pruefe('Adresse gemerkt: ein anderer Titel unter derselben Adresse nicht', !kanalAdresseGemerkt(checks, 9343, 'netflix', dp('B0ADRESSEG')), checks)
 }
 
+/** `belege-entfernt.yaml` macht einen Merkliste-Eintrag wirkungslos: gleiche Kennung und Adresse (auch als gp/video/detail), nicht eine andere Kennung oder Adresse. */
+async function pruefeEntfernt(): Promise<void> {
+  const { kanalWissen, kanalAdresseGemerkt } = await import('./lib/kanal-wissen.ts')
+  const eintrag = (id: number, asin: string) => ({ anilistId: id, platform: 'primevideo', url: dp(asin), checkedAt: '', note: `Amazon-Seite ${asin} — ACHTUNG: Kanal-Titel`, kanalOhneBeleg: true })
+  schreibe('data/kanal-seiten.json', JSON.stringify([eintrag(9351, 'B0ENTFERNT'), eintrag(9352, 'B0ENTFERNT'), eintrag(9351, 'B0BLEIBT01')]))
+  const ohne = kanalWissen([])
+  pruefe('Merkliste ohne Entfernen-Zeile: alle drei Einträge wirken', ohne.length === 3, ohne)
+  schreibe('data/belege-entfernt.yaml', `- anilistId: 9351\n  url: https://www.amazon.de/gp/video/detail/B0ENTFERNT\n  grund: Probe\n  entferntAm: '2026-10-29'\n`)
+  const mit = kanalWissen([])
+  const rest = mit.map((c) => `${c.anilistId}@${c.url}`)
+  pruefe('Entfernen-Zeile: Kennung und Adresse fallen weg, andere Adresse und andere Kennung bleiben', mit.length === 2 && rest.includes(`9352@${dp('B0ENTFERNT')}`) && rest.includes(`9351@${dp('B0BLEIBT01')}`), rest)
+  pruefe('Entfernen-Zeile: kanalAdresseGemerkt kennt die Adresse nicht mehr', !kanalAdresseGemerkt([], 9351, 'primevideo', dp('B0ENTFERNT')) && kanalAdresseGemerkt([], 9352, 'primevideo', dp('B0ENTFERNT')), rest)
+}
+
 try {
   schreibe('data/dub-confirmed.yaml', [9301, 9302, 9303].map(fremdesNein).join(''))
   schreibe('data/kanal-seiten.json', JSON.stringify(LISTE))
@@ -135,6 +149,7 @@ try {
   await pruefeWegwahl()
   await pruefeSchreibweg()
   await pruefeAdresseGemerkt()
+  await pruefeEntfernt()
 } finally {
   rmSync(kulisse, { recursive: true, force: true })
 }
