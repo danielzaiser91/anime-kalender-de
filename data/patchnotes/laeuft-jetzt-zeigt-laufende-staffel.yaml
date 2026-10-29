@@ -1,3 +1,4 @@
 kategorie: bugfix
-text: „Läuft jetzt“ zeigt die laufende Staffel
-untertitel: Auch mit „Staffeln zusammenfassen“; ein Klick öffnet genau diese Staffel
+text: 'Datenbank: „Läuft jetzt“ zeigt die laufende Staffel'
+untertitel: Auch bei „Staffeln zusammenfassen“; ein Klick öffnet genau diese Staffel
+link: '#/datenbank'
