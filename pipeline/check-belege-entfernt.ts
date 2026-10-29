@@ -85,7 +85,7 @@ erwarte('unlesbarer Block gilt nicht als entfernt', blockIstEntfernt([{ anilistI
 
 /* Die Prime-/Disney+-Zuordnung (`prime-zugeordnet.json`): Heidi (2225) an der Disney+-Seite des Cartoons, Schlüssel und Werte wörtlich wie im Bestand vom 28.10.2026. */
 const HEIDI_SEITE = 'https://www.disneyplus.com/browse/entity-cfb90125-8678-4327-a1b8-e608f293eccd'
-const zuordnungsEintrag = (titleId: number) => ({ titleId, plattform: 'disneyplus', seite: null, asin: null, folgen: [{ unsere: 19, sprachen: ['de', 'fr-FR'] }] })
+const zuordnungsEintrag = (titleId: number) => ({ titleId, plattform: 'disneyplus', seite: null as string | null, asin: null, folgen: [{ unsere: 19, sprachen: ['de', 'fr-FR'] }] })
 const uebrig = (roh: Record<string, ReturnType<typeof zuordnungsEintrag>>) => ohneGesperrteSeiten(roh).map(([k, e]) => `${e.titleId} ${k}`)
 n.faelle += 4
 /* Die fünf Fremdzuordnungen vom 29.10.2026 (Schlüssel wörtlich), gegen die echte Liste: Cartoonseiten bei Netflix, Grisaia-Serie an Film. */
@@ -106,6 +106,14 @@ erwarte('Zuordnung: Heidi an der Cartoon-Seite fällt weg', uebrig({ [`${HEIDI_S
 erwarte('Zuordnung: auch mit Ländersegment', uebrig({ [`${HEIDI_SEITE.replace('.com/', '.com/de-de/')}#0`]: zuordnungsEintrag(2225) }), [])
 erwarte('Kontrolle: dieselbe Seite beim Cartoon bleibt', uebrig({ [`${HEIDI_SEITE}#0`]: zuordnungsEintrag(-62475) }), [`-62475 ${HEIDI_SEITE}#0`])
 erwarte('Kontrolle: Heidi an einer anderen Seite bleibt', uebrig({ 'https://www.disneyplus.com/browse/entity-00000000#0': zuordnungsEintrag(2225) }), ['2225 https://www.disneyplus.com/browse/entity-00000000#0'])
+
+/* Container-Schlüssel (watch.amazon.de/detail?gti=…#0): die gesperrte Adresse steht nur in `seite`. B0DMMT9B67 = Grisaia-Fremdzuordnung (99470). */
+const CONTAINER = 'https://watch.amazon.de/detail?gti=amzn1.dv.gti.00000000-0000-0000-0000-000000000000#0'
+const container = (id: number, seite: string) => ({ [CONTAINER]: { ...zuordnungsEintrag(id), plattform: 'primevideo', seite } })
+n.faelle += 3
+erwarte('Container: gesperrte Adresse in seite fällt weg', uebrig(container(99470, 'B0DMMT9B67')), [])
+erwarte('Kontrolle: Container mit anderer Seite desselben Titels bleibt', uebrig(container(99470, 'B0AAAAAAAA')), [`99470 ${CONTAINER}`])
+erwarte('Kontrolle: Container mit derselben Seite bei anderem Titel bleibt', uebrig(container(145740, 'B0DMMT9B67')), [`145740 ${CONTAINER}`])
 
 /* Der Bestand: Liste gelesen (nicht leer), und nichts davon steht in den Handbelegen. */
 n.faelle++
