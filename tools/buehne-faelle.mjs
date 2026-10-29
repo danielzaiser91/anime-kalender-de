@@ -170,6 +170,7 @@ function baueAusgabe(nur, ziel, akVon) {
   }
   const fall = alleFaelle.find((f) => f.slug === nur)
   if (!fall) throw new Error(`Unbekannter Fall ${nur}; bekannt: ${alleFaelle.map((f) => f.slug).join(', ')}`)
+  if (!existsSync(ziel)) throw new Error(`--nur braucht eine vorhandene faelle.json, ${ziel} fehlt (erst ohne Option erzeugen)`)
   return uebernimmFall(JSON.parse(readFileSync(ziel, 'utf8')), nur, schneideFall(fall, akVon))
 }
 
@@ -185,4 +186,9 @@ function main() {
   console.log(`${ziel}: ${Math.round(readFileSync(ziel).length / 1024)} KB`)
 }
 
-main()
+try {
+  main()
+} catch (fehler) {
+  console.error(fehler.message)
+  process.exitCode = 1
+}
