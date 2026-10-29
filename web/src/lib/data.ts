@@ -1,6 +1,7 @@
 import { ANILIST_COVER_BASIS } from '@shared/mappings.ts'
 import { datenAdresse } from './daten-adresse.ts'
 import { ecchiZeigen, istEcchi, ohneEcchi } from './ecchi.ts'
+import { merkeSammelartikel } from './sammel-belege.ts'
 import { SYNOPSIS_GROUPS, type DiscAusgabe } from '@shared/types.ts'
 import type { WochenDatei } from '@shared/wochen-datei.ts'
 import { KACHEL_DATEI } from '@shared/wochen-kacheln.ts'
@@ -264,6 +265,7 @@ export function loadNews(): Promise<NewsEintrag[]> {
   newsPromise ??= loadJson<NewsEintrag[]>('news.json')
     .then((liste) => {
       for (const m of liste) if (m.cover && !m.cover.startsWith('http')) m.cover = ANILIST_COVER_BASIS + m.cover
+      merkeSammelartikel(liste)
       return liste
     })
     .catch(() => [])

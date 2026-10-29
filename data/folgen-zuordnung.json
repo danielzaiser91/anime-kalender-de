@@ -2651,11 +2651,8 @@
     "gesehen": "2026-10-13T15:41:33Z"
   },
   "primevideo:B0CJY1DSPL": {
-    "grund": "offen",
-    "kandidaten": [
-      21178,
-      101811
-    ],
+    "titel": 21178,
+    "grund": "einziger-kandidat",
     "gesehen": "2026-10-13T15:41:38Z"
   },
   "primevideo:B0B8TQBBS6": {
@@ -2736,11 +2733,8 @@
     "gesehen": "2026-09-27T22:17:36Z"
   },
   "primevideo:B0GYMG931Z": {
-    "grund": "offen",
-    "kandidaten": [
-      101166,
-      112125
-    ],
+    "titel": 101166,
+    "grund": "einziger-kandidat",
     "gesehen": "2026-10-13T15:41:45Z"
   },
   "primevideo:B0BX2L5BVS": {
@@ -6521,8 +6515,8 @@
   "primevideo:B0FHT11KYH": {
     "grund": "strittig",
     "kandidaten": [
-      124194,
-      105334
+      105334,
+      124194
     ],
     "gesehen": "2026-10-13T16:07:13Z"
   },
@@ -70930,7 +70924,7 @@
     "gesehen": "2026-10-02T21:22:00Z"
   },
   "primevideo:B0CJKTY7CH": {
-    "titel": 21874,
+    "titel": 21064,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-03T13:09:19Z"
   },
@@ -86714,11 +86708,8 @@
     "gesehen": "2026-10-13T15:42:18Z"
   },
   "primevideo:B0CBYD69D2": {
-    "grund": "offen",
-    "kandidaten": [
-      780,
-      2171
-    ],
+    "titel": 780,
+    "grund": "einziger-kandidat",
     "gesehen": "2026-10-13T15:42:22Z"
   },
   "primevideo:B0D96NY7LF": {
@@ -86732,19 +86723,13 @@
     "gesehen": "2026-10-13T15:42:31Z"
   },
   "primevideo:B0CBJ6CMF7": {
-    "grund": "offen",
-    "kandidaten": [
-      779,
-      1505
-    ],
+    "titel": 779,
+    "grund": "einziger-kandidat",
     "gesehen": "2026-10-13T15:42:35Z"
   },
   "primevideo:B0FVGK7W4P": {
-    "grund": "offen",
-    "kandidaten": [
-      9963,
-      12117
-    ],
+    "titel": 9963,
+    "grund": "einziger-kandidat",
     "gesehen": "2026-10-13T15:42:39Z"
   },
   "primevideo:B0FVG5729D": {
@@ -90310,11 +90295,8 @@
     "gesehen": "2026-10-13T15:56:34Z"
   },
   "primevideo:B0GLD5J9DF": {
-    "grund": "offen",
-    "kandidaten": [
-      2472,
-      6325
-    ],
+    "titel": 2472,
+    "grund": "einziger-kandidat",
     "gesehen": "2026-10-13T15:56:38Z"
   },
   "primevideo:B01HSH3W1G": {

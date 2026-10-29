@@ -105,6 +105,7 @@ const HANDGEPFLEGT = new Set([
   'data/adn-staffelzuordnung.yaml',
   'data/prime-seiten-von-hand.json',
   'data/synchron-forum-treffer.yaml',
+  'data/belege-entfernt.yaml',
 ])
 for (const datei of readdirSync(pipelineDir, { recursive: true })) {
   if (typeof datei !== 'string' || !/\.(ts|mjs|js)$/.test(datei)) continue

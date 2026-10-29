@@ -50,6 +50,7 @@ pipeline/check-beleg-anbieter.ts
 pipeline/check-beleg-api-web.ts
 pipeline/check-beleg-api.ts
 pipeline/check-beleg-bis-anker.ts
+pipeline/check-beleg-fundstelle-hinweis.ts
 pipeline/check-beleg-href.ts
 pipeline/check-beleg-lauf.ts
 pipeline/check-beleg-marken.ts
@@ -113,6 +114,7 @@ pipeline/check-disc-verschiebung-staffel.ts
 pipeline/check-disney-gesamtnummer.ts
 pipeline/check-dub-abgeleitet-lauf.ts
 pipeline/check-dub-abgeleitet.ts
+pipeline/check-dub-anbieter-pille.ts
 pipeline/check-dub-aus-terminen.ts
 pipeline/check-dub-bereiche.ts
 pipeline/check-dub-durchgehende-zaehlung.ts
