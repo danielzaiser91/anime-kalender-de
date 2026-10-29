@@ -228,6 +228,7 @@ const TEXTE = {
     'Holt zusätzlich alle Anime, zu denen wir keine deutsche Synchro kennen. Der Schalter beginnt bei jedem Aufruf wieder aus.',
   'db.withoutDubLoading': 'Wird geladen. Das ist die größte Liste der Seite.',
   'db.noDubBadge': 'keine deutsche Synchro',
+  'db.angekuendigt': 'angekündigt',
   'db.noDubWatch': '☆ merken → Bescheid bei Synchro',
   'db.noDubWatched': '★ gemerkt',
   'db.seasons': '{count} Staffeln',

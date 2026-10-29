@@ -207,8 +207,10 @@ jobs:
           # Außer der Oberfläche zählen genau die Dateien, die dieser Job ausführt: die Werkzeuge von check:panel und
           # check:ansichten, deren direkte Importe und dieser Workflow.
           PFADE='^(web/src/|web/buehne/|extension/.*\.css$|\.github/workflows/pr-pruefung\.yml$|package\.json$'
+          PFADE="$PFADE|^tools/abzeichen-urteil\.mjs$"
           PFADE="$PFADE|^tools/aehnlich-kacheln-bild\.mjs$"
           PFADE="$PFADE|^tools/ak-von\.mjs$"
+          PFADE="$PFADE|^tools/ansicht-abzeichen\.mjs$"
           PFADE="$PFADE|^tools/ansicht-adressen\.mjs$"
           PFADE="$PFADE|^tools/ansicht-bild\.mjs$"
           PFADE="$PFADE|^tools/ansicht-details-overlay\.mjs$"

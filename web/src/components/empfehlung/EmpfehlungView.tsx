@@ -14,6 +14,7 @@ import { Fortsetzen } from './Fortsetzen.tsx'
 import { Kopfzeile, AnbieterLasche } from './Kopfzeile.tsx'
 import { Leinwand } from './Leinwand.tsx'
 import { useReise } from './use-reise.ts'
+import { zeichnung } from '../../lib/empfehlung-zeichnung.ts'
 import { Vorschlaege } from './Vorschlaege.tsx'
 import './empfehlung.css'
 
@@ -46,6 +47,7 @@ export default function EmpfehlungView({ data }: { data: Dataset }) {
     gesehenHolen: (id: number) => nimmWeg(empfehlungGesehen, id),
   }
   const phase = kontext ? reise.phase : 'start'
+  const abschnitt = zeichnung({ kontext: !!kontext, phase, sitzung: !!reise.sitzung, fortsetzbar: reise.fortsetzbar, aktuell: reise.aktuell !== undefined })
 
   return (
     <div className="empf fixed inset-0 z-50 flex flex-col bg-ak-grund text-ak-text">
@@ -53,8 +55,8 @@ export default function EmpfehlungView({ data }: { data: Dataset }) {
       <Kopfzeile phase={phase} anbieter={eigene.length} blattOffen={blatt} vorschlaege={() => reise.setPhase('ergebnis')} blatt={() => setBlatt(true)} />
       {fehler && <p className="m-auto text-ak-fehler-text">{t('empf.fehler')}</p>}
       {!fehler && !kontext && <p className="m-auto text-ak-leise">{t('empf.laedt')}</p>}
-      {kontext && phase === 'start' && !reise.fortsetzbar && <Einleitung titel={titel} ids={mosaik} los={reise.neu} />}
-      {kontext && phase === 'start' && reise.fortsetzbar && (
+      {kontext && abschnitt === 'einleitung' && <Einleitung titel={titel} ids={mosaik} los={reise.neu} />}
+      {kontext && abschnitt === 'fortsetzen' && (
         <Fortsetzen
           vorschau={reise.vorschau.map(kandidat)}
           titel={titel}
@@ -64,10 +66,10 @@ export default function EmpfehlungView({ data }: { data: Dataset }) {
           neu={reise.verwerfenUndNeu}
         />
       )}
-      {kontext && phase === 'duell' && reise.sitzung && (
+      {kontext && abschnitt === 'duell' && reise.sitzung && (
         <Duell kontext={kontext} sitzung={reise.sitzung} ziel={reise.ziel} titel={titel} antworte={reise.antworte} zurueck={reise.zurueckDuell} schein={setSchein} />
       )}
-      {kontext && phase === 'ergebnis' && reise.stehen && (
+      {kontext && abschnitt === 'ergebnis' && (
         <Vorschlaege
           kontext={kontext}
           gezeigt={reise.gezeigt}
@@ -80,7 +82,7 @@ export default function EmpfehlungView({ data }: { data: Dataset }) {
           ablage={ablage}
         />
       )}
-      {kontext && phase === 'leinwand' && reise.aktuell !== undefined && (
+      {kontext && abschnitt === 'leinwand' && reise.aktuell !== undefined && (
         <Leinwand
           key={reise.aktuell}
           k={kandidat(reise.aktuell)}
