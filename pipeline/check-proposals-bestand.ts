@@ -2,6 +2,8 @@
  * Zusicherungen zur Zusammenführung frischer Anime2You-Vorschläge mit dem Bestand (`lib/proposals-bestand.ts`).
  * Läuft in `check:logic`.
  */
+import { readFileSync } from 'node:fs'
+import ts from 'typescript'
 import { vorschlaegeMitBestand } from './lib/proposals-bestand.ts'
 
 let fehler = 0
@@ -61,6 +63,22 @@ const disc = vorschlaegeMitBestand<V>([MIT_DISC], [frisch(MIT_DISC)])
 pruefe('Stundenlauf: gelesene Disc-Übersicht bleibt samt Lesedatum', JSON.stringify(disc[0]!.discZeilen) === '[{"titel":"A"}]' && disc[0]!.discGelesen === '2026-10-28', disc)
 const ohneDisc = vorschlaegeMitBestand<V>([ALT], [frisch(ALT)])
 pruefe('ohne gelesene Übersicht entstehen keine Disc-Felder', !('discZeilen' in ohneDisc[0]!) && !('discGelesen' in ohneDisc[0]!), ohneDisc)
+
+/* Klasse schließen: Jedes optionale Feld von `Proposal` (Syntaxbaum von `scrape-anime2you.ts`) bleibt erhalten oder steht hier als „kommt aus dem Feed“. Ein neues Nachhol-Feld ohne Erhaltung löscht der Stundenlauf sonst still (verschiebungen und discZeilen, 29.10.2026). */
+const KOMMT_AUS_DEM_FEED = ['pause', 'zeiten', 'hinweis']
+const quelle = ts.createSourceFile('scrape-anime2you.ts', readFileSync(new URL('./scrape-anime2you.ts', import.meta.url), 'utf8'), ts.ScriptTarget.Latest, true)
+const optional: string[] = []
+quelle.forEachChild((n) => {
+  if (!ts.isInterfaceDeclaration(n) || n.name.text !== 'Proposal') return
+  for (const m of n.members) if (ts.isPropertySignature(m) && m.questionToken && ts.isIdentifier(m.name)) optional.push(m.name.text)
+})
+pruefe('Proposal: optionale Felder gelesen', optional.length >= 9, optional)
+const nachholfelder = optional.filter((f) => !KOMMT_AUS_DEM_FEED.includes(f))
+const vollerBestand: Record<string, unknown> = { articleUrl: 'https://x/voll', publishedAt: '2026-10-01', dates: ['2026-11-01'] }
+for (const f of nachholfelder) vollerBestand[f] = f.endsWith('Gelesen') ? '2026-10-05' : [{ marker: f }]
+const erhalten = vorschlaegeMitBestand<V>([vollerBestand as unknown as V], [{ articleUrl: 'https://x/voll', publishedAt: '2026-10-01' }])
+const verloren = nachholfelder.filter((f) => JSON.stringify((erhalten[0] as unknown as Record<string, unknown>)[f]) !== JSON.stringify(vollerBestand[f]))
+pruefe('Stundenlauf: jedes Nachhol-Feld von Proposal bleibt erhalten', verloren.length === 0, verloren)
 
 if (fehler) {
   console.error(`\n${fehler} Zusicherung(en) verletzt`)
