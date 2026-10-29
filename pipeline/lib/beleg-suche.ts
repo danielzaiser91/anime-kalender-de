@@ -45,6 +45,8 @@ export function suchbegriffeJeAdresse(releases: Release[], titles: Title[], news
   return new Map([...je].map(([url, menge]) => [url, [...menge].sort((a, b) => b.length - a.length)]))
 }
 
+const ISO_TAG = /^\d{4}-\d{2}-\d{2}$/
+
 /** Die Starttage, die ein Artikel belegt (`YYYY-MM-DD`) — die Stützstelle im Artikel nennt Titel **und** einen davon (`beleg-stelle.ts`). */
 export function tageJeAdresse(releases: Release[]): Map<string, string[]> {
   const je = new Map<string, Set<string>>()
@@ -52,6 +54,8 @@ export function tageJeAdresse(releases: Release[]): Map<string, string[]> {
     const tag = r.schedule?.firstEpisodeDate
     if (!tag) continue
     for (const url of new Set([...(r.sources ?? []), ...(r.quellen ?? []).map((q) => q.url)])) je.set(url, (je.get(url) ?? new Set<string>()).add(tag))
+    /* Eine überholte Quelle nennt ihren alten Tag, nicht den heutigen (Virgin Road: der Artikel vom 18.08. sagt 11.09., angezeigt wird der 06.11.). */
+    for (const q of r.quellen ?? []) if (ISO_TAG.test(q.sagt ?? '')) je.get(q.url)?.add(q.sagt!)
   }
   return new Map([...je].map(([url, tage]) => [url, [...tage]]))
 }
@@ -80,6 +84,7 @@ export function gruppenJeAdresse(releases: Release[], titles: Title[], news: New
         if (kopf.length >= 5) g.namen.add(kopf)
       }
       if (r.schedule?.firstEpisodeDate) g.tage.add(r.schedule.firstEpisodeDate)
+      for (const q of r.quellen ?? []) if (q.url === url && ISO_TAG.test(q.sagt ?? '')) g.tage.add(q.sagt!)
       gruppen.set(r.titleId, g)
       je.set(url, gruppen)
     }

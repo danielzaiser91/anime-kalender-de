@@ -57,6 +57,10 @@ export function streamNurOmu(t: { ankuendigung?: Ankuendigung }, s: StreamLink, 
 export const synchroAngekuendigt = (t: { ankuendigung?: Ankuendigung }, s: StreamLink): boolean =>
   t.ankuendigung?.platform === s.platform && t.ankuendigung.synchro === 'angekuendigt'
 
+/** Hat der Anbieter für diesen Titel eine deutsche Synchro angekündigt? Westliche Animation nie (dort gilt die Ankündigung nicht). Antwortkasten und Kachel fragen hier. */
+export const titelSynchroAngekuendigt = (t: { westlich?: true; ankuendigung?: Ankuendigung }): boolean =>
+  !t.westlich && t.ankuendigung?.synchro === 'angekuendigt'
+
 export function ankuendigungZeile(
   a: Ankuendigung,
   T: (k: string, v?: Record<string, string | number>) => string,

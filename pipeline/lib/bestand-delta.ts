@@ -2,7 +2,10 @@
  * Die Kennzahlen eines Bestands und der Vergleich mit dem vorigen — der Kern von `pipeline/bestand-historie.ts`,
  * hier ohne Dateizugriff, damit ein Test die Urteile der Wache mit gebauten Zeilen durchspielen kann.
  */
+import { plattformAusAdresse } from '../../shared/adresse-passt.ts'
 import type { Title } from '../../shared/types.ts'
+import { anzeigeName } from '../../shared/titles.ts'
+import { sperrKern, type BelegEntfernt } from './belege-entfernt.ts'
 
 export interface Kennzahlen {
   titel: number
@@ -26,6 +29,8 @@ export interface Kennzahlen {
   entferntProtokolliert: number
   /** Dasselbe je Anbieter — damit die Aufschlüsselung ihre Erklärung mitbringt. */
   entferntJeAnbieter?: Record<string, number>
+  /** Schlüssel (`entfernterBelegSchluessel`) der Handbelege, die `data/belege-entfernt.yaml` gewollt entzieht. Fehlt das Feld (Zeilen vor dem 29.10.2026), erklärt die Wache daraus nichts. */
+  entfernteBelege?: string[]
   releases: number
   termine: number
   /** Je Anbieter die Zahl der Verweise mit belegter Synchro. */
@@ -55,6 +60,19 @@ export interface Eingabe {
   entfernt: { verweise?: unknown[] }
   /** Schlüssel „Titel|Anbieter“ der Handbelege mit `kanalOhneBeleg` (`kanalTitelSchluessel()`). Titelweit, nicht je Adresse: JustWatch ersetzt die Amazon-Adresse (gti), der Beleg nennt die alte. */
   kanal: ReadonlySet<string>
+  /** Einträge aus `data/belege-entfernt.yaml`. */
+  belegeEntfernt?: readonly BelegEntfernt[]
+}
+
+/** „Kennung|Anbieter|Adresskern“ eines gewollt entfernten Belegs; der Anbieter folgt der Adresse. */
+export function entfernterBelegSchluessel(b: Pick<BelegEntfernt, 'anilistId' | 'url'>): string {
+  return `${b.anilistId}|${plattformAusAdresse(b.url) ?? 'unbekannt'}|${sperrKern(b.url)}`
+}
+
+/** Zeile je entferntem Beleg für die Wache: „Titel (Kennung): Grund“, unter dem Schlüssel von `entfernterBelegSchluessel`. */
+export function belegGruende(liste: readonly BelegEntfernt[], titel: readonly Pick<Title, 'id' | 'titleDe' | 'titleEn' | 'titleRomaji'>[]): Record<string, string> {
+  const namen = new Map(titel.map((t) => [t.id, anzeigeName(t)]))
+  return Object.fromEntries(liste.map((b) => [entfernterBelegSchluessel(b), `${namen.get(b.anilistId) ?? 'Titel'} (${b.anilistId}): ${b.grund}`]))
 }
 
 export function messen(e: Eingabe): Kennzahlen {
@@ -119,6 +137,7 @@ export function messen(e: Eingabe): Kennzahlen {
           return n
         }, {})
       : {},
+    entfernteBelege: (e.belegeEntfernt ?? []).map(entfernterBelegSchluessel),
     releases: Array.isArray(releases) ? releases.length : 0,
     termine: Array.isArray(termine) ? termine.length : 0,
     jeAnbieter,
@@ -155,7 +174,12 @@ function kanalZuwachs(jetzt: Kennzahlen, vorher: Kennzahlen): { jeAnbieter: Reco
  * Die Schwellen sind bewusst niedrig: Lieber eine Zeile zu viel in der Historie
  * als ein stiller Verlust. Wer sie liest, entscheidet — die Datei urteilt nicht.
  */
-export function findeAuffaelliges(jetzt: Kennzahlen, vorher: Kennzahlen | null, verschoben: string[] = []): Befund {
+export function findeAuffaelliges(
+  jetzt: Kennzahlen,
+  vorher: Kennzahlen | null,
+  verschoben: string[] = [],
+  gruende: Record<string, string> = {},
+): Befund {
   const auffaellig: string[] = []
   const erklaert: string[] = []
   if (!vorher) return { auffaellig, erklaert }
@@ -163,7 +187,7 @@ export function findeAuffaelliges(jetzt: Kennzahlen, vorher: Kennzahlen | null, 
   const kanal = kanalZuwachs(jetzt, vorher)
   /* Je Anbieter zuerst: Nur was ein Anbieter selbst an Kanal-Titeln zugelegt hat, erklärt auch Urteile (Prime-Kanäle erklären keine Netflix-Abnahme). */
   const je: Befund = { auffaellig: [], erklaert: [] }
-  const anbieterKanal = anbieterBefunde(jetzt, vorher, kanal.jeAnbieter, je)
+  const anbieter = anbieterBefunde(jetzt, vorher, kanal.jeAnbieter, je, { neue: neueBelege(jetzt, vorher), gruende })
 
   /* Verschoben nach ohne-synchro (hinter den Toggle) ist begründet, nicht verloren; die Namen stehen in der Zeile. */
   const titelWeg0 = Math.max(0, -d('titel'))
@@ -177,8 +201,8 @@ export function findeAuffaelliges(jetzt: Kennzahlen, vorher: Kennzahlen | null, 
     Wache, alle fünf erklärt.
   */
   const urteilWeg = -d('mitUrteil')
-  const urteilRest = urteilWeg - Math.max(0, d('entferntProtokolliert'))
-  const urteilKanal = anbieterKanal
+  const urteilRest = urteilWeg - Math.max(0, d('entferntProtokolliert')) - anbieter.beleg
+  const urteilKanal = anbieter.kanal
   if (urteilRest - urteilKanal > 0) {
     auffaellig.push(
       `${urteilRest - urteilKanal} Urteile verloren` +
@@ -227,8 +251,15 @@ export function findeAuffaelliges(jetzt: Kennzahlen, vorher: Kennzahlen | null, 
  * Arbeit, für die es das Gedächtnis gibt. Gemeldet wird der Rest; passt alles
  * zusammen, steht die Zeile gar nicht erst da.
  */
-function anbieterBefunde(jetzt: Kennzahlen, vorher: Kennzahlen, kanal: Record<string, number>, befund: Befund): number {
+function anbieterBefunde(
+  jetzt: Kennzahlen,
+  vorher: Kennzahlen,
+  kanal: Record<string, number>,
+  befund: Befund,
+  belege: { neue: string[]; gruende: Record<string, string> },
+): { kanal: number; beleg: number } {
   let erklaertGesamt = 0
+  let belegGesamt = 0
   for (const [anbieter, zahl] of Object.entries(jetzt.jeAnbieter)) {
     const alt = vorher.jeAnbieter?.[anbieter] ?? 0
     if (zahl >= alt) continue
@@ -237,21 +268,40 @@ function anbieterBefunde(jetzt: Kennzahlen, vorher: Kennzahlen, kanal: Record<st
       0,
       (jetzt.entferntJeAnbieter?.[anbieter] ?? 0) - (vorher.entferntJeAnbieter?.[anbieter] ?? 0),
     )
-    const rest = weg - begruendet
+    const durchBeleg = belegErklaerung(anbieter, weg - begruendet, belege, befund)
+    belegGesamt += durchBeleg
+    const rest = weg - begruendet - durchBeleg
     const durchKanal = Math.min(kanal[anbieter] ?? 0, Math.max(0, rest))
     erklaertGesamt += durchKanal
     if (durchKanal) befund.erklaert.push(`${anbieter}: ${durchKanal} Synchro-Belege herabgestuft (Kanal-Titel, Amazons Sprachangabe)`)
     if (rest - durchKanal <= 0) continue
     befund.auffaellig.push(
       `${anbieter}: ${rest - durchKanal} Synchro-Belege weniger` +
-        (begruendet ? ` (${begruendet} weitere sind begründet entfernt)` : '') +
+        (begruendet + durchBeleg ? ` (${begruendet + durchBeleg} weitere sind begründet entfernt)` : '') +
         (durchKanal ? ` (${durchKanal} weitere durch Kanal-Titel herabgestuft)` : ''),
     )
   }
   for (const [anbieter, alt] of Object.entries(vorher.jeAnbieter ?? {})) {
     if (!(anbieter in jetzt.jeAnbieter) && alt > 0) {
-      befund.auffaellig.push(`${anbieter}: alle ${alt} Synchro-Belege weg`)
+      const durchBeleg = belegErklaerung(anbieter, alt, belege, befund)
+      belegGesamt += durchBeleg
+      if (alt - durchBeleg > 0) befund.auffaellig.push(`${anbieter}: alle ${alt} Synchro-Belege weg`)
     }
   }
-  return erklaertGesamt
+  return { kanal: erklaertGesamt, beleg: belegGesamt }
+}
+
+/** Schlüssel der Belege, die `data/belege-entfernt.yaml` seit der vorigen Zeile neu entzieht; ohne das Feld in einer der Zeilen nichts. */
+function neueBelege(jetzt: Kennzahlen, vorher: Kennzahlen): string[] {
+  if (!vorher.entfernteBelege || !jetzt.entfernteBelege) return []
+  const alt = new Set(vorher.entfernteBelege)
+  return jetzt.entfernteBelege.filter((k) => !alt.has(k))
+}
+
+/** Wie viele des Rückgangs `rest` bei diesem Anbieter auf neu entzogene Belege gehen; deren Zeilen (Titel, Grund) landen in `befund.erklaert`. */
+function belegErklaerung(anbieter: string, rest: number, belege: { neue: string[]; gruende: Record<string, string> }, befund: Befund): number {
+  const eigene = belege.neue.filter((k) => k.split('|')[1] === anbieter)
+  const n = Math.min(eigene.length, Math.max(0, rest))
+  for (const k of eigene.slice(0, n)) befund.erklaert.push(`${anbieter}: Beleg gewollt entfernt – ${belege.gruende[k] ?? k}`)
+  return n
 }
