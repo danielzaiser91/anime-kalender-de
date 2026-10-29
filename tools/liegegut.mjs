@@ -43,7 +43,11 @@ export function urteileAufKopf(liste, kopf, kopfZeit) {
   return liste.filter((u) => (u.kopf === null ? u.zeit >= kopfZeit : kopf.startsWith(u.kopf)))
 }
 
-const zeitVon = (c) => Date.parse(c.completedAt ?? c.startedAt ?? 0) || 0
+/** Zeit eines Eintrags; ein laufender Check meldet completedAt "0001-01-01T00:00:00Z" (vor 1970), dann zählt startedAt. */
+const zeitVon = (c) => {
+  const ende = Date.parse(c.completedAt ?? 0) || 0
+  return ende > 0 ? ende : Date.parse(c.startedAt ?? 0) || 0
+}
 
 /** Je Check-Name nur der jüngste Eintrag (so wertet GitHub); ein Doppelstart lässt einen abgebrochenen Sammeljob neben dem neuen stehen. Einträge ohne Namen bleiben. */
 export function jeNameJuengster(rollup) {
