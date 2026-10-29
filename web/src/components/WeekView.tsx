@@ -150,7 +150,7 @@ function TvSpalte({ tag, p, vorbeiBis, jetzt }: { tag: Tag; p: WocheProps; vorbe
     <TvKasten termine={tag.tv} data={p.data} hidden={p.hidden} vorbeiBis={vorbeiBis} jetzt={jetzt} onOpen={(ev) => p.onOpen(ev.releaseSlug, ev.date)} />
   )
   return (
-    <div className="relative lg:min-h-0">
+    <div className="relative min-w-0 lg:min-h-0">
       <div className="lg:absolute lg:inset-0 lg:overflow-y-auto lg:rounded-2xl">{kasten}</div>
     </div>
   )
