@@ -24,16 +24,25 @@ export interface ReiseSpeicher {
 const istZahlenliste = (x: unknown, unter: number): x is number[] =>
   Array.isArray(x) && x.every((n) => Number.isInteger(n) && n >= 0 && n < unter)
 
-/** Prüft ein gelesenes Objekt gegen die Pool-Größe; ein Schlüssel, der nicht mehr passt, wird verworfen statt geraten. */
-function alsReise(roh: unknown, einstiege: number, pool: number): GemerkteReise | undefined {
+/** Ob der Duellstand aus Indizes zu dieser Pool-Größe passt. */
+function zustandPasst(z: Partial<Zustand>, einstiege: number): boolean {
+  const indizes = [z.rest, z.sieger, z.gesehen, z.ausgeschlossen]
+  if (!indizes.every((l) => istZahlenliste(l, einstiege))) return false
+  if (![z.startwert, z.schritt, z.gewertet].every((n) => typeof n === 'number')) return false
+  return z.neutral === null || (Array.isArray(z.neutral) && z.neutral.length === 2 && istZahlenliste(z.neutral, einstiege))
+}
+
+/**
+ * Prüft ein gelesenes Objekt. Die Vorschläge (Titel-IDs) überleben einen neuen Pool; der Duellstand (Indizes) nur bei gleicher
+ * Kennung und Größe, sonst fehlt `zustand` und die Vorschläge stehen ohne „genauer“.
+ */
+function alsReise(roh: unknown, einstiege: number, pool: number): (Omit<GemerkteReise, 'zustand'> & { zustand?: Zustand }) | undefined {
   const r = roh as Partial<GemerkteReise> | null
   const z = r?.zustand as Partial<Zustand> | undefined
-  if (!r || r.pool !== pool || !z || typeof r.ziel !== 'number' || !Array.isArray(r.gezeigt) || !r.gezeigt.every((n) => Number.isInteger(n))) return undefined
-  const indizes = [z.rest, z.sieger, z.gesehen, z.ausgeschlossen]
-  if (!indizes.every((l) => istZahlenliste(l, einstiege))) return undefined
-  if (![z.startwert, z.schritt, z.gewertet].every((n) => typeof n === 'number')) return undefined
-  if (z.neutral !== null && !(Array.isArray(z.neutral) && z.neutral.length === 2 && istZahlenliste(z.neutral, einstiege))) return undefined
-  return { ziel: r.ziel, gezeigt: r.gezeigt, zustand: z as Zustand, pool }
+  if (!r || !z || typeof r.pool !== 'number' || typeof r.ziel !== 'number' || !Array.isArray(r.gezeigt) || !r.gezeigt.every((n) => Number.isInteger(n))) return undefined
+  const passt = r.pool === pool && zustandPasst(z, einstiege)
+  if (r.pool === pool && !passt) return undefined
+  return { ziel: r.ziel, gezeigt: r.gezeigt, zustand: passt ? (z as Zustand) : undefined, pool: r.pool }
 }
 
 export function reiseMerken(a: Ablauf, k: Kontext | undefined, speicher: ReiseSpeicher = localStorage): void {
@@ -65,6 +74,7 @@ export function reiseWiederherstellen(k: Kontext, weg: ReadonlySet<number>, spei
     const reise = roh ? alsReise(JSON.parse(roh), k.datei.einstiege.length, poolKennung(k)) : undefined
     if (!reise) return undefined
     const gezeigt = reise.gezeigt.filter((id) => k.index.has(id) && !weg.has(id))
+    if (!reise.zustand) return gezeigt.length ? { phase: 'ergebnis', ziel: reise.ziel, gezeigt } : undefined
     const sitzung = { zustand: reise.zustand, verlauf: [] }
     if (!istFertig(k, reise.zustand, reise.ziel)) return { phase: 'start', sitzung, ziel: reise.ziel, gezeigt }
     return gezeigt.length ? { phase: 'ergebnis', sitzung, ziel: reise.ziel, gezeigt } : undefined
