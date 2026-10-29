@@ -37,6 +37,14 @@
     return { bereinigt, entfernt }
   }
 
+  /**
+   * Eine gemeldete Suche gilt, solange ihr Vermerk jünger ist als der Prüfstand — dieselbe Regel wie für
+   * Titelvermerke (`akPrimeAufraeumen`). Der Worker-Stand kennt die Suchadresse einer Meldung nicht (er
+   * rechnet mit der Titeladresse), und die Zählung `gemeldeteSuchen` ist bis zu 2 h alt: nach den zehn
+   * Minuten der Brücke stand die Suche sonst bei der nächsten Meldung wieder in der Liste (29.10.2026).
+   */
+  globalThis.akPrimeSuchVermerkGilt = (vermerk) => globalThis.akVermerkGilt(vermerk, globalThis.AK_OFFENE_AMAZON_ERZEUGT ?? null)
+
   /** Gilt ein gespeicherter Vermerk (ISO-Zeit) zur Zeit `jetzt` (ms) noch als Überbrückung? */
   globalThis.akPrimeBruecke = (vermerk, jetzt) => {
     const am = Date.parse(vermerk)
