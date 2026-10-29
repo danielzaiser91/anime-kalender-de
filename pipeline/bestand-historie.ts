@@ -40,13 +40,15 @@
 import { appendFileSync, existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import type { Title } from '../shared/types.ts'
-import { findeAuffaelliges, kanalTitelMenge, messen, type Kennzahlen } from './lib/bestand-delta.ts'
+import { belegGruende, findeAuffaelliges, kanalTitelMenge, messen, type Kennzahlen } from './lib/bestand-delta.ts'
+import { ladeBelegeEntfernt } from './lib/belege-entfernt.ts'
 import { titelAusCommit, verschobeneTitel } from './lib/bestand-verschoben.ts'
 import { letzteGeltende, letzteVerwerfen } from './lib/historie-zeilen.ts'
 import { ladeHandbelege } from './lib/dub-confirmed.ts'
 import { ROOT } from './lib/util.ts'
 
 const DATEI = resolve(ROOT, 'data/bestand-historie.jsonl')
+const DATEI_BELEGE_ENTFERNT = resolve(ROOT, 'data/belege-entfernt.yaml')
 
 const args = process.argv.slice(2)
 const laufName = args[args.indexOf('--lauf') + 1] ?? process.env.GITHUB_WORKFLOW ?? 'lokal'
@@ -71,7 +73,14 @@ function messenAusDateien(): Kennzahlen {
     termine: lies<unknown[]>('public/data/events.json', []),
     entfernt: lies<{ verweise?: unknown[] }>('data/verweise-entfernt.json', {}),
     kanal: kanalTitelMenge(ladeHandbelege()),
+    belegeEntfernt: ladeBelegeEntfernt(DATEI_BELEGE_ENTFERNT),
   })
+}
+
+/** Titel und Grund der gewollt entfernten Belege, für die ℹ-Zeilen der Wache. */
+function belegGruendeAusDateien(): Record<string, string> {
+  const roh = lies<Title[] | Record<string, Title>>('public/data/titles.json', [])
+  return belegGruende(ladeBelegeEntfernt(DATEI_BELEGE_ENTFERNT), Array.isArray(roh) ? roh : Object.values(roh))
 }
 
 /** Namen der Titel, die seit dem letzten Commit in `ohne-synchro.json` gewandert sind; gelesen wird nur, wenn der Hauptbestand schrumpfte. */
@@ -97,7 +106,7 @@ if (args.includes('--verwerfen') || args.includes('--ersetzen')) verwirfLetzte()
 if (!args.includes('--verwerfen')) {
   const jetzt = messenAusDateien()
   const vorher = letzteGeltende(dateiText()) as (Kennzahlen & { zeitpunkt: string }) | null
-  const { auffaellig, erklaert } = findeAuffaelliges(jetzt, vorher, verschobenSeitCommit(!!vorher && jetzt.titel < vorher.titel))
+  const { auffaellig, erklaert } = findeAuffaelliges(jetzt, vorher, verschobenSeitCommit(!!vorher && jetzt.titel < vorher.titel), belegGruendeAusDateien())
 
   const zeile = {
     zeitpunkt: new Date().toISOString(),
