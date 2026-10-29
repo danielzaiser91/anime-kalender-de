@@ -5,7 +5,9 @@
  */
 import type { Release, Title } from '../shared/types.ts'
 import { berechneAntwort } from '../web/src/components/detail/antwort-berechnen.ts'
-import { ersteDiscNochOffen } from '../web/src/components/detail/antwort-regeln.ts'
+import { erstausgabeAlsNeuigkeit } from '../web/src/components/detail/antwort-regeln.ts'
+import { ersteDiscNochOffen } from '../web/src/lib/erste-disc.ts'
+import { stufeTitelEin } from '../web/src/lib/db-relevanz.ts'
 
 let fehler = 0
 function pruefe(name: string, ok: boolean, info = ''): void {
@@ -82,8 +84,31 @@ pruefe('Vol. 1 erschienen: nicht offen', !offen(['Titel – Vol. 1'], '2026-10-2
 pruefe('Vol. 1 genau heute: nicht offen', !offen(['Titel – Vol. 1'], HEUTE))
 pruefe('Vol. 1 künftig, aber ein Band schon erschienen: nicht offen', !ersteDiscNochOffen([disc('a', 1, 'T – Vol. 1', '2026-11-06'), disc('b', 1, 'T – Vol. 2', '2026-10-01')], HEUTE))
 
+/* Disc ohne Datum neben künftigem Vol. 1 (eine Disc ohne Datum ist nicht „künftig“) und erschienene Nicht-Disc-Termine daneben. */
+const discOhneDatum = { slug: 'o', titleId: 1, name: 'T – Box', platform: 'disc', releaseType: 'disc', sources: [] } as unknown as Release
+const tvVergangen = { slug: 'tv', titleId: 1, name: 'T', platform: 'tv', releaseType: 'weekly', schedule: { firstEpisodeDate: '2026-10-01' }, sources: [] } as unknown as Release
+pruefe('Disc ohne Datum neben Vol. 1 künftig: nicht offen', !ersteDiscNochOffen([disc('a', 1, 'T – Vol. 1', '2026-11-06'), discOhneDatum], HEUTE))
+pruefe('erschienener TV-Termin neben künftigem Vol. 1: die Regel zählt nur Discs, offen', ersteDiscNochOffen([disc('a', 1, 'T – Vol. 1', '2026-11-06'), tvVergangen], HEUTE))
+
+/* Zweite und dritte Anzeigestelle: Neuigkeiten-Zeile und Entdecken-Stufe folgen derselben Regel wie der Kasten. */
+const neu = (t: unknown, r: Release[], heute = HEUTE) => erstausgabeAlsNeuigkeit(t as Title, heute, r)
+const stufe = (t: unknown, r: Release[], heute = HEUTE) => stufeTitelEin(t as Title, r, heute) as { art: string; ab?: string }
+pruefe('Neuigkeiten: Virgin Road (Vol. 1 am 30.10.) ohne Erstausgaben-Zeile', !neu(virgin, [virginVol1]))
+pruefe('Neuigkeiten: Virgin Road am Erscheinungstag von Vol. 1 mit Zeile', neu(virgin, [virginVol1], '2026-10-30'))
+pruefe('Neuigkeiten: Virgin Road ohne Band im Bestand mit Zeile', neu(virgin, []))
+pruefe('Neuigkeiten: Anne Shirley (Vol. 2 künftig) mit Zeile', neu(anne, [anneVol2]))
+pruefe('Neuigkeiten: Yamada-kun (Netflix-Dub, Vol. 1 künftig) mit Zeile', neu(yamada, [yamadaVol1]))
+pruefe('Neuigkeiten: Virgin Road mit erschienenem TV-Termin mit Zeile', neu(virgin, [virginVol1, tvVergangen]))
+const tvOhneDatum = { ...tvVergangen, schedule: {} } as unknown as Release
+pruefe('Neuigkeiten: Virgin Road mit TV-Termin ohne Datum ohne Zeile', !neu(virgin, [virginVol1, tvOhneDatum]))
+const virginStufe = stufe(virgin, [virginVol1])
+pruefe('Entdecken: Virgin Road ist „bald“ ab Vol. 1', virginStufe.art === 'bald' && virginStufe.ab === '2026-10-30', JSON.stringify(virginStufe))
+pruefe('Entdecken: Virgin Road am 30.10. ist erschienen', stufe(virgin, [virginVol1], '2026-10-30').art === 'erschienen')
+pruefe('Entdecken: Anne Shirley bleibt erschienen', stufe(anne, [anneVol2]).art === 'erschienen')
+pruefe('Entdecken: Yamada-kun bleibt erschienen', stufe(yamada, [yamadaVol1]).art === 'erschienen')
+
 if (fehler) {
   console.error(`${fehler} Zusicherung(en) zu „Auf Deutsch“ vor dem ersten deutschen Termin verletzt`)
   process.exit(1)
 }
-console.log('Auf Deutsch vor dem ersten deutschen Termin: Zusicherungen erfüllt (8 Anlassfälle, 8 Gegenfälle, 10 Regelfälle)')
+console.log('Auf Deutsch vor dem ersten deutschen Termin: Zusicherungen erfüllt (8 Anlassfälle, 8 Gegenfälle, 12 Regelfälle, 11 Folgestellen)')

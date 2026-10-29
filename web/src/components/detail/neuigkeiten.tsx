@@ -38,7 +38,7 @@ export function Neuigkeiten({ data, titelId }: { data: Dataset; titelId: number 
     [liste, titelId, data],
   )
   const titel = data.titleById.get(titelId)
-  const erst = titel && erstausgabeAlsNeuigkeit(titel) ? titel : undefined
+  const erst = titel && erstausgabeAlsNeuigkeit(titel, todayIso(), data.releasesByTitle.get(titelId) ?? []) ? titel : undefined
   if (!zeilen.length && !erst) return null
   const gezeigt = alle ? zeilen : zeilen.slice(0, SICHTBAR)
   return (

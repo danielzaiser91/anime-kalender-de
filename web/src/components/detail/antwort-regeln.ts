@@ -5,6 +5,7 @@
 import { anzeigeFolge, istErschienen, releaseStatus } from '@shared/logic.ts'
 import { formatDate, todayIso, weekdayName } from '@shared/time.ts'
 import type { Release, ReleaseEvent, Title, WatchLink } from '@shared/types.ts'
+import { erstausgabeVorDisc } from '../../lib/erste-disc.ts'
 import type { Antwort } from './antwort-typ.ts'
 
 /**
@@ -95,18 +96,7 @@ export function deutschBegonnen(title: Title, erschieneneFolgen: number, heute: 
   if ((title.streams ?? []).some((s) => s.dub === true) || erschieneneFolgen > 0) return true
   const von = title.deErstausgabe?.von
   const aniSearchTag = Boolean(title.deErstausgabe?.synchro && von && /^\d{4}-\d{2}-\d{2}$/.test(von) && von <= heute)
-  return aniSearchTag && !ersteDiscNochOffen(releases, heute)
-}
-
-/**
- * **Der aniSearch-Tag der deutschen Fassung ist veraltet, wenn Band 1 noch aussteht.** Virgin Road: aniSearch 11.04.2026,
- * die Blu-ray Vol. 1 wurde auf 30.10.2026 verschoben (anime2you), der Kasten sagte „Auf Deutsch“. Ohne erschienene Disc und mit
- * einem künftigen „Vol. 1“ ist der erste deutsche Termin der des Bandes. Ein Box-Neuauflage-Termin (kein „Vol. 1“) zählt nicht.
- */
-export function ersteDiscNochOffen(releases: Release[], heute: string): boolean {
-  const discs = releases.filter((r) => r.platform === 'disc')
-  const datum = (r: Release) => r.schedule?.firstEpisodeDate ?? ''
-  return discs.every((r) => datum(r) > heute) && discs.some((r) => /\bVol\.?\s*1\b/.test(r.name))
+  return aniSearchTag && !erstausgabeVorDisc(title, releases, heute)
 }
 
 /**
@@ -226,9 +216,11 @@ export const erschieneneFuerFolgenliste = (a: { art: string; raus?: unknown } | 
  * **Die deutsche Erstausgabe steht in den Neuigkeiten, nicht unter „Auf Deutsch verfügbar"** (Daniel, 07.10.2026: „Text kann weg, der Trenner rückt nach oben;
  * das Datum wandert in die Neuigkeiten, zurückdatiert"). Gilt nur mit Tagesdatum und Synchro-Marke — ohne Datum bleibt die Zeile im Kasten die einzige Spur.
  */
-export function erstausgabeAlsNeuigkeit(title: Pick<Title, 'deErstausgabe'> & Partial<Pick<Title, 'angebotSeit' | 'streams'>>, heute = todayIso()): boolean {
+export function erstausgabeAlsNeuigkeit(title: Pick<Title, 'deErstausgabe'> & Partial<Pick<Title, 'angebotSeit' | 'streams'>>, heute = todayIso(), releases: Release[] = []): boolean {
   const von = title.deErstausgabe?.von
   if (!title.deErstausgabe?.synchro || !von || !/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/.test(von) || von > heute) return false
+  /* Steht Vol. 1 noch aus, war die Erstausgabe noch nicht (Virgin Road): keine Zeile, der Kasten nennt den Termin. */
+  if (erstausgabeVorDisc(title, releases, heute)) return false
   /* Liegt das Angebot eines Anbieters mit deutscher Tonspur davor, ist die Ausgabe nicht die erste Gelegenheit (wie in `deSeitZeile`). */
   const angebot = title.angebotSeit
   return !(angebot?.date && angebot.date < von && (title.streams ?? []).some((x) => x.platform === angebot.platform && x.dub === true))

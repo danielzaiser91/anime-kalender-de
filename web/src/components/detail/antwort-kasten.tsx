@@ -270,7 +270,7 @@ export function AntwortKasten({
     setzen weiterhin schlichte Zeichenketten, die als Knoten durchgehen.
   */
   /* „Auf Deutsch seit …“ der Zustände fertig und Film: Neuigkeit, Zukunft oder eine frühere Pille ersetzen die Zeile (`de-seit.ts`). */
-  const deSeitNeben = !erstausgabeAlsNeuigkeit(title) && deSeitZeigen(title, releases, today) ? deSeitZeile(title, T) : ''
+  const deSeitNeben = !erstausgabeAlsNeuigkeit(title, today, releases) && deSeitZeigen(title, releases, today) ? deSeitZeile(title, T) : ''
   let haupt: ReactNode
   let neben: string
   let anteil: number | undefined
