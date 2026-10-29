@@ -201,7 +201,7 @@ pruefe('Filterhinweis: bei angeschaltetem Schalter kein Knopf mehr', !finde(hinw
 ecchiSetzen(false)
 pruefe('Filterhinweis: „xyz“ ohne Treffer hat keinen Knopf', !finde(hinweisBaum('xyz'), (e) => e.type === 'button'))
 pruefe('Filterhinweis: mit einem gebliebenen Bereich gar kein Hinweis', hinweisBaum('ecchi', 'Ecchi') === null)
-const zaehler = bereichsSuche('quelle')!
+const zaehler = bereichsSuche('quellen')!
 zaehler.bereich('Quellen', [])
 zaehler.bereich('Quellen', [])
 zaehler.bereich('Jahr', [])
