@@ -45,7 +45,7 @@ async function main() {
   const geprueft = []
   const uebersprungen = []
   try {
-    await seite.setViewportSize({ width: 1200, height: 900 })
+    await seite.setViewportSize({ width: 1200, height: 12000 })
     const alle = (await listeMockups(seite)).map((m) => ({ mockup: m.name, fall: m.faelle[0] }))
     for (const fall of [...alle, ...ZUSATZ]) {
       const ok = await pruefe(seite, fall)

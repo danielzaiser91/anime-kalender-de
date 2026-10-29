@@ -27,7 +27,7 @@ export function sortiereNachZugang({ title }: {
       .filter((s) => (s.zugang ?? 'abo') === art)
       .filter((s, i, alle) => {
         const sig = (x: typeof s) =>
-          `${x.platform}|${x.zugang ?? ''}|${x.dub}|${JSON.stringify((x.dubRanges ?? []).filter((r) => r.dub).map((r) => [r.from, r.to]))}|${JSON.stringify(x.teilBereich ?? null)}`
+          `${x.platform}|${x.zugang ?? ''}|${x.dub}|${x.dubAbgeleitet ?? ''}|${JSON.stringify((x.dubRanges ?? []).filter((r) => r.dub).map((r) => [r.from, r.to]))}|${JSON.stringify(x.teilBereich ?? null)}`
         return alle.findIndex((x) => sig(x) === sig(s)) === i
       }),
     /*

@@ -79,6 +79,7 @@ export const LAUF_ARTEN = [
   'Cache ablegen (für lokale Bauten)',
   'Erweiterung — Version zählen',
   'Abnahme — Freigabe',
+  'Mutationsprobe',
 ]
 
 /** Alle Abfragen dieses Moduls — für den Prüflauf. */

@@ -7,7 +7,7 @@ import type { Translate } from '../../lib/i18n.tsx'
  * Was sich in Urteil, Hinweis oder Haken-Bereichen unterscheidet (Jack: je Buch ein eigener Beleg), bleibt getrennt.
  */
 const aussage = (w: StreamLink) =>
-  JSON.stringify([w.platform, w.url, w.zugang, w.kanal, w.dub, w.dubQuelle, w.dubHintOnly, w.dubRanges, w.entferntAm, w.sharedWith])
+  JSON.stringify([w.platform, w.url, w.zugang, w.kanal, w.dub, w.dubAbgeleitet, w.dubQuelle, w.dubHintOnly, w.dubRanges, w.entferntAm, w.sharedWith])
 
 function schliesstAn(vorher: StreamLink | undefined, w: StreamLink): boolean {
   return Boolean(vorher?.teilBereich && w.teilBereich && vorher.teilBereich.bis + 1 === w.teilBereich.von && aussage(vorher) === aussage(w))
