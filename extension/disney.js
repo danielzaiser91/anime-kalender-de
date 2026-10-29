@@ -409,7 +409,7 @@
   */
   async function briefkastenHolen() {
     try {
-      const [antwort] = await Promise.all([fetch(`${WORKER}?zaehlen=1&nummern=1`, { cache: 'no-store' }), globalThis.akGemeldetSeit?.(null)])
+      const [antwort] = await Promise.all([fetch(`${WORKER}?zaehlen=1&nummern=1`, { cache: 'no-store' }), globalThis.akDisneyStandEinarbeiten(liste)])
       if (!antwort.ok) return
       const daten = await antwort.json()
       const gesammelt = new Map()

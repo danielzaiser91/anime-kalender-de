@@ -57,6 +57,7 @@ async function seite(vermerke, stand) {
   })
   k.globalThis = k
   vm.runInContext(lies('pruefstand-zeit.js'), k)
+  vm.runInContext(lies('disney-stand-ziele.js'), k)
   vm.runInContext(lies('disney-weg.js'), k)
   /* Alles im Gedächtnis: `frischGemeldet` ruft `holen` (und damit `akGemeldetSeit`) nie. */
   k.AK_DISNEY_NETZ = { frischGemeldet: async () => new Set() }
