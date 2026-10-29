@@ -10,7 +10,7 @@ import { coverBild } from '../web/src/lib/cover.ts'
 import { VORSCHAU_BREITE, VORSCHAU_HOEHE } from '../web/src/lib/hover-cover.ts'
 
 const ANSICHTEN = [
-  { name: 'Im Handel', plattform: 'disc', wahl: '[data-hover-zeile]:not([data-tv-zeile])' },
+  { name: 'Im Handel', plattform: 'disc', wahl: '[data-hover-zeile]:not([data-tv-zeile]):not([data-zweitanbieter] *)' },
   { name: 'Im Fernsehen', plattform: 'tv', wahl: '[data-tv-zeile][data-hover-zeile]' },
 ]
 /** Zweitanbieter-Zeilen unter dem Raster (23.10.2026): gleiche Vorschau, aber nur Ereignisse mit `zweitanbieter` zählen; ohne solche Ereignisse übersprungen. */
