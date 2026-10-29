@@ -159,6 +159,11 @@ export function warteschlange(urls: string[], gedaechtnis: BelegGedaechtnis, heu
 export const ohneMarkenJeTitel = (gedaechtnis: BelegGedaechtnis, mehrereTitel: Set<string>): Set<string> =>
   new Set(Object.keys(gedaechtnis).filter((u) => mehrereTitel.has(u) && gedaechtnis[u]!.lesungen.some((l) => l.bild) && !gedaechtnis[u]!.lesungen.at(-1)?.markierungen))
 
+/** Ob die Lesung ein (neues) Bild braucht: keins, ohne Wand-Prüfung, ältere Fassung, ohne Fundstelle trotz Suchbegriffen oder — Sammelartikel — ohne Marken je Titel. */
+export function braucheBild(ziel: Lesung, suchbegriffe: string[], titelAnzahl: number): boolean {
+  return !ziel.bild || !ziel.qs || (ziel.bildfassung ?? 1) < BILD_FASSUNG || (!ziel.markierung && suchbegriffe.length > 0) || (titelAnzahl > 1 && !ziel.markierungen)
+}
+
 /** Altbestand ohne Wand-Prüfung (Bild, `qs` fehlt), entzogene Wände und Bilder älterer Fassung kommen zuerst wieder an die Reihe — sonst steht ein frisch gelesener Artikel am Ende der Warteschlange, hinter dem Limit. */
 export const bildOhnePruefung = (e: BelegGedaechtnis[string] | undefined): boolean => {
   /* Nur die jüngste Lesung zählt: Eine ältere in alter Fassung bleibt neben der neuen stehen und hielte den Artikel sonst für immer vorn in der Schlange (66 von 238 am 13.10.2026). */

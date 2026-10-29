@@ -21,6 +21,7 @@ import { meldeAbbruch } from './lib/abbruch.ts'
 import { todayIso } from '../shared/time.ts'
 import type { NewsEintrag, Release } from '../shared/types.ts'
 import {
+  braucheBild,
   adressenAusNews, adressenMitOffenemTermin, bildOhnePruefung, ohneMarkenJeTitel, crunchyrollDatum, entzieheBild, kopfzeilenDatum, isoTag, merkeLesung, textHash, traegtArtikeldatum, warteschlange, type BelegGedaechtnis, type Lesung,
 } from './lib/beleg-lesung.ts'
 import { ablegen } from './lib/beleg-ablage.ts'
@@ -134,7 +135,7 @@ async function leseUndMerke(seite: Page, url: string, k: Lesekontext): Promise<b
   /* Ein neuer Stand bekommt sein Bild; fehlt es einem alten (Ablage war nicht erreichbar), wird es nachgeholt. */
   const ziel = letzte?.hash === hash ? letzte : lesung
   /* Auch ein Bild ohne Fundstelle wird neu gemacht (04.10.2026): Ältere Belege bekommen so ihre Markierung. */
-  if (!ziel.bild || !ziel.qs || (ziel.bildfassung ?? 1) < BILD_FASSUNG || (!ziel.markierung && (suchbegriffe.get(url)?.length ?? 0) > 0) || ((gruppen.get(url)?.length ?? 0) > 1 && !ziel.markierungen)) {
+  if (braucheBild(ziel, suchbegriffe.get(url) ?? [], gruppen.get(url)?.length ?? 0)) {
     const basis = `${new URL(url).hostname}/${textHash(url)}/${ziel.am}-${hash}`
     const beleg = await belegAusschnitt(seite, suchbegriffe.get(url) ?? [], tage.get(url) ?? [], gruppen.get(url) ?? [])
     if (beleg === 'wand') {
