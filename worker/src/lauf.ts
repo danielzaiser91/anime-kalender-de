@@ -68,7 +68,7 @@ export async function handleLauf(request: Request, env: Env, ctx?: ExecutionCont
       return antwort({ jetzt: jetztIso(), laeufe: await laufVerlauf(env, art, n) })
     }
     /* 120 Sekunden gehalten (12.10.2026, vorher 30): die Anzeige fragt im ~40-s-Takt und las so 226.000 Zeilen am Tag (11.10.2026). */
-    return await ausEdgeCache(request, ctx, 120,async () => antwort(await laufUebersicht(env, request, ctx)))
+    return await ausEdgeCache(request, ctx, 120, async () => antwort(await laufUebersicht(env, request, ctx)))
   }
 
   if (request.method !== 'POST') return antwort({ error: 'GET oder POST erwartet' }, 405)

@@ -10,7 +10,7 @@ import { ankuendigungZeile } from '@shared/ankuendigung.ts'
 import { VermerkAuskunft } from './vermerk.tsx'
 import { Umschalter } from './umschalter.tsx'
 import { gruppeVon as gruppeVonPille, sichtbareStreamPillen, type Gruppe } from './stream-pillen.ts'
-import { deSeitQuelleSchluessel, erstausgabeAlsNeuigkeit, terminSatz, ungefaehr, fertigZahlText, teilweiseNeben } from './antwort-regeln.ts'
+import { deSeitQuelleSchluessel, kopfSchluesselOhneBeleg, erstausgabeAlsNeuigkeit, terminSatz, ungefaehr, fertigZahlText, teilweiseNeben } from './antwort-regeln.ts'
 import { abstandImSatz } from '../../lib/abstand.ts'
 import { type Antwort } from './antwort-typ.ts'
 import { deSeitZeigen } from './de-seit.ts'
@@ -128,7 +128,7 @@ export function AntwortKasten({
   /** Erklärt die Zustände der Anbieterzeilen (Stream-Seite) — nur, was dort wirklich vorkommt. */
   legende?: string
   /** Alle Stream-Zeilen ohne Sprachbeleg: Die Überschrift „Auf Deutsch …“ entfällt. */
-  ohneSprachbeleg?: boolean | 'omu'
+  ohneSprachbeleg?: boolean | 'omu' | 'anbieter'
   /** Die Termine des Titels — gebraucht für den frühesten deutschen Start (`de-seit.ts`). */
   releases?: Release[]
   antwort: Antwort
@@ -619,7 +619,7 @@ export function AntwortKasten({
     zaehl = ''
   }
   /* Keine Zeile mit Sprachbeleg: „Auf Deutsch …“ wäre eine Behauptung, die keine Zeile darunter trägt. */
-  if (ohneSprachbeleg && (antwort.art === 'fertig' || antwort.art === 'film')) haupt = T(ohneSprachbeleg === 'omu' ? 'antwort.nurUntertitel' : 'antwort.sprachOffen')
+  if (ohneSprachbeleg && (antwort.art === 'fertig' || antwort.art === 'film')) haupt = T(kopfSchluesselOhneBeleg(ohneSprachbeleg))
 
   return (
     /*

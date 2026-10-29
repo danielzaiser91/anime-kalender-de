@@ -124,7 +124,7 @@ async function tabelle() {
   pruefe('Liste noch nicht vollständig: die Entscheidung greift am Knopf nicht (andere Sperre zuständig)', laeuft.knopf.textContent === '' && laeuft.bietet === true, laeuft.knopf)
   const mehr = kasten.akPrimeLeseStand({ sollFolgen: 5, geladen: 7, gesperrt: 0, fertig: false })
   pruefe('Ladetext: nie eine negative Zahl', /fehlen 0$/.test(mehr), mehr)
-  pruefe('Kanal-Titel: Hinweis nennt das Kanal-Abo',/Kanal-Abo/.test(kanal.knopf.title), kanal.knopf.title)
+  pruefe('Kanal-Titel: Hinweis nennt das Kanal-Abo', /Kanal-Abo/.test(kanal.knopf.title), kanal.knopf.title)
   const normal = await klick({ geladen: 75, gesamt: 99 })
   pruefe('ohne Kanal: Hinweis nennt keinen Kanal', !/Kanal/.test(normal.knopf.title), normal.knopf.title)
   pruefe('Stillstand: Text nennt das Gelieferte, kein „fehlen"', normal.knopf.textContent === '75 Folgen gelesen — mehr zeigt die Seite nicht', normal.knopf.textContent)

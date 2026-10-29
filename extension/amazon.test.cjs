@@ -409,7 +409,7 @@ function veraltetTest(schritte) {
   pruefe('„führt keine Folgen" greift nicht auf einer Fehler-, Region- oder Nicht-verfügbar-Seite', /!fehlerseite/.test(keineFolgen) && /!nichtAbrufbar/.test(keineFolgen) && /!regionWeg/.test(keineFolgen))
   /* Peace Maker Kurogane, 19.09.2026: Nach dem Neuladen einer gemeldeten 404 stand gar nichts mehr da. */
   pruefe('eine gemeldete tote Seite zeigt „gemeldet ✓" statt nichts', /knopf\.disabled = true\s*gemeldetMarke\(true\)\s*return/.test(quelle))
-  pruefe('die Listen-Marke liest nur den eigenen Eintrag, nicht die Reihe',kurz.length > 0 && !/staffelnDerSerie|serienGefaehrten/.test(kurz.replace(/\/\*[\s\S]*?\*\//g, '')))
+  pruefe('die Listen-Marke liest nur den eigenen Eintrag, nicht die Reihe', kurz.length > 0 && !/staffelnDerSerie|serienGefaehrten/.test(kurz.replace(/\/\*[\s\S]*?\*\//g, '')))
   const leser = require('node:fs').readFileSync(require('node:path').resolve(__dirname, 'amazon-leser.js'), 'utf8')
   /*
     **Gezählt wird nicht, verglichen wird.**

@@ -1,5 +1,5 @@
 /**
- * Wächter gegen verschluckte Leerzeichen nach `=` („const x =y“, 24 Stellen in PR 2194 repariert).
+ * Wächter gegen verschluckte Leerzeichen nach `=` („const x =y“, 24 Stellen in PR 2194 repariert) und nach `,` („f(a,b)“, 27 Stellen in 25 Dateien repariert).
  * Prüft alle getrackten Quelldateien in pipeline, shared, web/src, tools, extension und worker; Läufe in `check:logic`.
  */
 import { execFileSync } from 'node:child_process'
@@ -11,6 +11,11 @@ import { findeVerschluckte } from './lib/leerzeichen-gleich.ts'
 const WURZEL = resolve(process.argv[2] === '--wurzel' ? process.argv[3] : resolve(import.meta.dirname, '..'))
 const ORDNER = ['pipeline', 'shared', 'web/src', 'tools', 'extension', 'worker']
 const ENDUNGEN = ['ts', 'tsx', 'mjs', 'cjs', 'js']
+
+/** Quelldatei mit gepflegtem Text: erzeugte Daten (`extension/offene-*.js`, eine Zeile Komma-getrennte Daten) und das Archiv alter Messskripte bleiben außen vor. */
+export function wirdGeprueft(datei: string): boolean {
+  return /\.(ts|tsx|mjs|cjs|js)$/.test(datei) && !/^extension\/offene-|^tools\/archiv\//.test(datei)
+}
 
 /** Urteil über eine Dateiliste: Meldungen und Zahl der Treffer; fehlt ein Ordner oder eine Endung, ist der Wächter blind. */
 export function bewerte(dateien: string[], lies: (d: string) => string): { meldungen: string[]; treffer: number } {
@@ -25,7 +30,7 @@ export function bewerte(dateien: string[], lies: (d: string) => string): { meldu
   for (const datei of dateien) {
     for (const f of findeVerschluckte(lies(datei), datei)) {
       treffer++
-      meldungen.push(`${datei}:${f.zeile} Leerzeichen nach = fehlt: ${f.text}`)
+      meldungen.push(`${datei}:${f.zeile} Leerzeichen nach ${f.zeichen} fehlt: ${f.text}`)
     }
   }
   return { meldungen, treffer }
@@ -56,7 +61,36 @@ function selbstpruefung(): number {
   }
   // Ende ohne Zeichen danach (danach === '') darf nicht abstürzen und gilt nicht als Treffer, auch ohne TSX.
   if (findeVerschluckte('a =', 'x.ts').length !== 0) { fehler++; console.error('FEHLER: „a =“ am Dateiende') }
-  return fehler + torpruefung()
+  return fehler + kommaPruefung() + auswahlPruefung() + torpruefung()
+}
+
+/** Komma ohne folgendes Leerzeichen: Treffer; Zeilenende, Schlussklammer, Zeichenkette, Kommentar und Dateiende nicht. */
+function kommaPruefung(): number {
+  const gut = ['f(a, b)', 'f(a,\n  b)', '[1,]', 'f(a,)', 'const s = "a,b"', "const t = `a,b`", '// a,b', '/* a,b */', 'const r = /a,b/', 'f(a,', 'const {a, b} = o', 'const o = {a: 1,}', 'f({a,})', 'const g = <T,>(x: T) => x']
+  const schlecht: [string, number][] = [['f(a,b)', 1], ['const x = [1,2,3]', 2], ['const { a,b } = o', 1], ['function f(a,b) {}', 1], ["f('x',y)", 1], ['const j = <A b={f(1,2)} />', 1]]
+  let fehler = 0
+  for (const text of gut) {
+    const n = findeVerschluckte(text, 'x.tsx').length
+    if (n !== 0) { fehler++; console.error(`FEHLER: ${JSON.stringify(text)} gilt als Komma ohne Leerzeichen (${n})`) }
+  }
+  for (const [text, soll] of schlecht) {
+    const funde = findeVerschluckte(text, 'x.tsx')
+    if (funde.length !== soll || funde.some((f) => f.zeichen !== ',')) { fehler++; console.error(`FEHLER: ${JSON.stringify(text)} ergibt ${funde.length} statt ${soll}`) }
+  }
+  return fehler
+}
+
+/** Welche Dateien gelesen werden: Quelle ja, erzeugte Daten und Archiv nein. */
+function auswahlPruefung(): number {
+  const faelle: [string, boolean][] = [
+    ['pipeline/a.ts', true], ['extension/inhalt.js', true], ['tools/a.mjs', true], ['extension/offene-netflix.js', false],
+    ['extension/offene-amazon-suche.js', false], ['tools/archiv/x/a.cjs', false], ['tools/archiviert.mjs', true], ['tools/daten.json', false],
+  ]
+  let fehler = 0
+  for (const [datei, soll] of faelle) {
+    if (wirdGeprueft(datei) !== soll) { fehler++; console.error(`FEHLER: wirdGeprueft(${datei}) ist nicht ${soll}`) }
+  }
+  return fehler
 }
 
 /** Ein geplanter Treffer muss den Exit-Code von `lauf` auf 1 setzen, ein fehlender Ordner, eine fehlende Endung oder ein roter Selbstfall ebenso. */
@@ -99,7 +133,7 @@ function main(): number {
   const selbst = selbstpruefung()
   const dateien = execFileSync('git', ['ls-files', '-z', ...ORDNER], { cwd: WURZEL, encoding: 'utf8', windowsHide: true, maxBuffer: 1 << 26 })
     .split('\0')
-    .filter((d) => /\.(ts|tsx|mjs|cjs|js)$/.test(d))
+    .filter(wirdGeprueft)
   return lauf(dateien, (d) => readFileSync(resolve(WURZEL, d), 'utf8'), selbst, console)
 }
 

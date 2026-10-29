@@ -139,7 +139,12 @@ export function abgeleiteteFolgen(title: Title, releases: Release[], today: stri
   return deutschAbgeschlossen(title, releases, today) ? title.episodes : undefined
 }
 
-/** Der Tooltip an „Auf Deutsch seit …": woher das Datum stammt. */
+/** Der Kopf, wenn keine Zeile die Sprache belegt: dieselbe Aussage wie die Blase „Deutsch laut Anbieter“ an der Pille. */
+export function kopfSchluesselOhneBeleg(art: true | 'omu' | 'anbieter'): 'antwort.nurUntertitel' | 'detail.statusAnbieter' | 'antwort.sprachOffen' {
+  return art === 'omu' ? 'antwort.nurUntertitel' : art === 'anbieter' ? 'detail.statusAnbieter' : 'antwort.sprachOffen'
+}
+
+/** Der Tooltip an „Auf Deutsch seit …“: woher das Datum stammt. */
 export function deSeitQuelleSchluessel(quelle: 'wikipedia' | 'disc' | undefined): 'antwort.deSeitWikipedia' | 'antwort.deSeitDisc' | 'antwort.deSeitQuelle' {
   return quelle === 'wikipedia' ? 'antwort.deSeitWikipedia' : quelle === 'disc' ? 'antwort.deSeitDisc' : 'antwort.deSeitQuelle'
 }

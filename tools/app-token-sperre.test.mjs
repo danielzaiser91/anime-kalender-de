@@ -180,7 +180,7 @@ erwarte('einreichen: BASH_ENV am mittleren von drei Einreich-Schritten', (s) => 
   const e = einreichSchritt(s, 'refresh-weekly.yml', 'crunchyroll')
   steps.splice(steps.indexOf(e), 0, { ...e }, { ...e, env: { BASH_ENV: './x.sh' } })
 }, /refresh-weekly\.yml: Job crunchyroll: der Schritt einreichen darf nur/)
-erwarte('andere Aktion holt ein Token',(s) => { s.aktionen.einrichten.runs.steps.push({ uses: 'actions/create-github-app-token@v3', with: {} }) }, /\.github\/actions\/einrichten: holt oder nennt ein App-Token/)
+erwarte('andere Aktion holt ein Token', (s) => { s.aktionen.einrichten.runs.steps.push({ uses: 'actions/create-github-app-token@v3', with: {} }) }, /\.github\/actions\/einrichten: holt oder nennt ein App-Token/)
 
 // Ohne App-Token bleibt ein Befehl in jeder Form ohne Wirkung auf main: GITHUB_TOKEN umgeht das Ruleset nicht, der Nachholer mergt nur App-PRs.
 erwarteOk('gh pr merge mit GITHUB_TOKEN in einem neuen Workflow', (s) => { s.workflows['neu.yml'] = { jobs: { a: { steps: [{ env: { GH_TOKEN: '${{ secrets.GITHUB_TOKEN }}' }, run: ARRAY_FORM }] } } } })
