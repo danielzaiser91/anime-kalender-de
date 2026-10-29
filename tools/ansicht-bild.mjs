@@ -456,7 +456,7 @@ async function meldeEmpfehlung() {
 /** Filter-Knopf der Datenbank: gleiche Stelle zu, offen, zu (1366/1920 px, hell/dunkel); wahr, wenn rot. */
 async function meldeFilterknopf() {
   const r = await pruefeFilterknopf(chromium, antworteAusDist)
-  console.log(`\nFilter-Knopf der Datenbank springt nicht (1366/1920 px, hell und dunkel, ohne, mit einem und mit vielen Filtern, ${r.faelle} Fälle; zugeklappt nur der Knopf; Escape schließt, Fokus zurück): ${r.abweichungen.length ? '' : 'ok'}`)
+  console.log(`\nFilter-Knopf der Datenbank springt nicht (1366/1920 px, hell und dunkel, ohne, mit einem und mit vielen Filtern, ${r.faelle} Fälle; zugeklappt nur der Knopf; Escape nur mit Fokus im Dock, auch aus dem Eingabefeld, Sprecher-Eingabe zuerst, Fokus zurück; aria-controls): ${r.abweichungen.length ? '' : 'ok'}`)
   for (const l of r.abweichungen) console.log(`  ✕ ${l}`)
   return r.abweichungen.length > 0
 }

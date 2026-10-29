@@ -5,7 +5,9 @@
  *
  * Eigener Browser ohne `--hide-scrollbars` (sonst misst man eine Leiste von 0 px und sieht keinen Sprung).
  */
-const BREITEN = [1366, 1920]
+import { escapeAbweichungen, messeEscape } from './ansicht-filterknopf-escape.mjs'
+
+const BREITEN =[1366, 1920]
 const THEMEN = ['hell', 'dunkel']
 const ADRESSEN = { 'ohne Filter': 'http://ak.test/#/datenbank', 'mit Filter': 'http://ak.test/#/datenbank?g=Fantasy', 'mit vielen Filtern': 'http://ak.test/#/datenbank?g=Fantasy,Action,Comedy,Drama,Magie,Mecha,Musik,Horror,Romance,Samurai' }
 const KNOPF = 'button[data-filter-knopf]'
@@ -54,11 +56,16 @@ async function pruefeFall(browser, antworte, breite, thema, adresse) {
   await seite.waitForTimeout(500)
   await seite.evaluate(() => document.activeElement?.blur())
   await seite.keyboard.press('Escape')
+  await seite.waitForTimeout(300)
+  const draussen = await seite.evaluate((sel) => document.querySelector(sel)?.getAttribute('aria-expanded'), KNOPF)
+  await knopf.focus()
+  await seite.keyboard.press('Escape')
   await seite.waitForTimeout(500)
   const fokus = await seite.evaluate((sel) => document.activeElement === document.querySelector(sel), KNOPF)
   const zuNachEsc = await seite.evaluate((sel) => document.querySelector(sel)?.getAttribute('aria-expanded'), KNOPF)
+  const escape = await messeEscape(seite, KNOPF)
   await seite.close()
-  return { zu, offen, danach, fokus, zuNachEsc }
+  return { zu, offen, danach, fokus, zuNachEsc, escape, draussen }
 }
 
 /** Alle Fälle; `antworte` ist der `page.route`-Handler der Ansichtsprüfung. */
@@ -77,6 +84,8 @@ export async function pruefeFilterknopf(chromium, antworte) {
           continue
         }
         abweichungen.push(...knopfAbweichungen(wo, m), ...dockAbweichung(wo, m.zu))
+        abweichungen.push(...escapeAbweichungen(wo, m.escape))
+        if (m.draussen !== 'true') abweichungen.push(`${wo}: Escape mit Fokus außerhalb des Docks schließt das Feld`)
         if (m.zuNachEsc !== 'false') abweichungen.push(`${wo}: Escape schließt das Feld nicht`)
         if (!m.fokus) abweichungen.push(`${wo}: Fokus kehrt nach Escape nicht zum Knopf zurück`)
         if (m.zu.height < 44) abweichungen.push(`${wo}: Knopf nur ${m.zu.height} px hoch (soll ≥ 44)`)

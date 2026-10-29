@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type RefObject } from 'react'
+import { useRef, useState, type KeyboardEvent, type RefObject } from 'react'
 import type { DataMeta } from '@shared/types.ts'
 import { activeFilterCount, type FilterState } from '../lib/filters.ts'
 import { useLang } from '../lib/i18n.tsx'
@@ -14,6 +14,8 @@ import { AktiveFilter } from './kalender/AktiveFilter.tsx'
  * Kasten, der Rest hinter „mehr Filter". Gesucht wird seit dem 26.09.2026 im
  * Kopf der Seite.
  */
+const DOCK_FELD_ID = 'ak-filterdock'
+
 export type FilterBarProps = {
   meta: DataMeta
   filters: FilterState
@@ -34,27 +36,17 @@ export type FilterBarProps = {
 export function FilterBarDock(props: FilterBarProps) {
   const [open, setOpen] = useState(false)
   const knopf = useRef<HTMLButtonElement>(null)
-  useEscapeZu(open, () => {
+  /* Escape gilt nur, wenn der Fokus im Dock liegt und kein Bauteil darin (Sprecher-Eingabe) es schon verbraucht hat. */
+  const taste = (e: KeyboardEvent<HTMLDivElement>) => {
+    if (!open || e.key !== 'Escape' || e.defaultPrevented) return
     setOpen(false)
     knopf.current?.focus()
-  })
+  }
   return (
-    <div className="fixed right-2 bottom-[calc(0.25rem+env(safe-area-inset-bottom))] z-30 flex w-max max-w-[calc(100vw-1rem)] max-h-[calc(100dvh-5.5rem-env(safe-area-inset-bottom)-77px)] flex-col md:right-4 md:max-w-[calc(100vw-2rem)]">
+    <div onKeyDown={taste} className="fixed right-2 bottom-[calc(0.25rem+env(safe-area-inset-bottom))] z-30 flex w-max max-w-[calc(100vw-1rem)] max-h-[calc(100dvh-5.5rem-env(safe-area-inset-bottom)-77px)] flex-col md:right-4 md:max-w-[calc(100vw-2rem)]">
       <FilterBar {...props} pille open={open} setOpen={setOpen} knopfRef={knopf} />
     </div>
   )
-}
-
-/** Escape schließt das offene Feld (Tastatur); der Aufrufer gibt den Fokus an den Knopf zurück. */
-function useEscapeZu(offen: boolean, zu: () => void) {
-  const aktuell = useRef(zu)
-  aktuell.current = zu
-  useEffect(() => {
-    if (!offen) return
-    const taste = (e: KeyboardEvent) => e.key === 'Escape' && aktuell.current()
-    window.addEventListener('keydown', taste)
-    return () => window.removeEventListener('keydown', taste)
-  }, [offen])
 }
 
 export function FilterBar({
@@ -75,7 +67,7 @@ export function FilterBar({
     <div className={pille && open ? 'flex min-h-0 flex-col overflow-hidden rounded-2xl border border-ak-rand bg-ak-flaeche md:w-[min(720px,calc(100vw-2rem))]' : 'flex min-h-0 flex-col overflow-hidden rounded-2xl border border-ak-rand bg-ak-flaeche shadow-[0_12px_32px_rgba(0,0,0,.18)]'}>
       {/* Die Leiste bleibt an ihrer Stelle, der Inhalt klappt darüber auf (Daniel, 04.10.2026). */}
       {open && (
-        <div className="flex min-h-0 flex-1 flex-col animate-fade-in border-b border-ak-linie">
+        <div id={DOCK_FELD_ID} className="flex min-h-0 flex-1 flex-col animate-fade-in border-b border-ak-linie">
           <FilterDetailsFeld
             meta={meta}
             filters={filters}
@@ -86,7 +78,7 @@ export function FilterBar({
         </div>
       )}
       {/* Auswahl links, Filter-Knopf rechts auf derselben Zeile. */}
-      <div className="flex flex-wrap items-end gap-2 p-1.5">
+      <div className={pille ? 'flex flex-wrap items-end gap-2 p-1.5' : 'flex flex-wrap items-center gap-2 p-1.5'}>
         {(open || !pille) && (
           <div className="max-h-[5.5rem] min-w-0 flex-1 overflow-y-auto">
             <AktiveFilter filters={filters} onChange={onChange} />
@@ -98,6 +90,7 @@ export function FilterBar({
           type="button"
           onClick={() => setOpen(!open)}
           aria-expanded={open}
+          aria-controls={open ? DOCK_FELD_ID : undefined}
           className="ml-auto inline-flex min-h-11 shrink-0 cursor-pointer items-center gap-2 rounded-full border border-ak-rand px-3 py-1.5 text-sm font-semibold text-ak-text transition hover:bg-ak-flaeche-2"
         >
           {t('filter.button')}
