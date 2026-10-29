@@ -8,6 +8,7 @@ import { serienBesitz, istFremd, entferneFremdeCrWege, entferneFremdeNachStaffel
 import { vorDemStart } from '../lib/crunchyroll-vollstaendig.ts'
 import { neinUeberholtMitLog, serienNachKennung, type OffenerBefund } from '../lib/cr-nein-ueberholt.ts'
 import { katalogSerieIstEinWerk } from '../lib/cr-katalog-ein-werk.ts'
+import { kennungAusPfad, kennungMitAdressgedaechtnis, type KennungsAdressen } from '../lib/cr-kennung-gedaechtnis.ts'
 
 export function ordneCrKatalogZu({ titles, crDub, verweiseEntfernt }: {
   titles: Map<number, Title>
@@ -167,22 +168,9 @@ export function ordneCrKatalogZu({ titles, crDub, verweiseEntfernt }: {
        * 29 hängen am Franchise-Problem: Ihre Kennung nennt mehrere Blöcke, und
        * welcher unsere Staffel ist, sagt die Serienebene nicht.
        */
-      const kennungsGedaechtnis = readJson<{ adressen?: Record<string, { seriesId?: string }> }>(
-        'data/crunchyroll-series-ids.json',
-        {},
-      ).adressen
-      const kernVon = (u: string): string =>
-        u
-          .replace(/^https?:\/\//, '')
-          .replace(/^www\./, '')
-          .split('?')[0]!
-          .replace(/\/$/, '')
-          .toLowerCase()
-      const kennungJeAdresse = new Map(
-        Object.entries(kennungsGedaechtnis ?? {})
-          .filter(([, v]) => v.seriesId)
-          .map(([u, v]) => [kernVon(u), v.seriesId as string]),
-      ); const kennungVon = (u: string): string | undefined => /\/series\/([A-Z0-9]+)/.exec(u)?.[1] ?? kennungJeAdresse.get(kernVon(u)) // auch die Adressen ohne Kennung (der Bau normalisiert sie erst später)
+      const kennungsGedaechtnis = readJson<{ adressen?: KennungsAdressen }>('data/crunchyroll-series-ids.json', {}).adressen
+      // auch die Adressen ohne Kennung (der Bau normalisiert sie erst später)
+      const kennungVon = kennungMitAdressgedaechtnis(kennungsGedaechtnis ?? {}, kennungAusPfad)
       /*
         Eine Staffel im Katalog kann trotzdem zwei Werke tragen: Captain Tsubasa
         2018 und „Junior Youth" liegen unter `GZJH3D7G9` in einem Block, deutsch
@@ -201,8 +189,7 @@ export function ordneCrKatalogZu({ titles, crDub, verweiseEntfernt }: {
         for (const title of titles.values()) {
           for (const stream of title.streams) {
             if (stream.platform !== 'crunchyroll' || stream.dub !== undefined) continue
-            const kennung =
-              /\/series\/([A-Z0-9]+)/.exec(stream.url)?.[1] ?? kennungJeAdresse.get(kernVon(stream.url))
+            const kennung = kennungVon(stream.url)
             if (!kennung) continue
             const eintrag = nachKennung.get(kennung)
             if (!eintrag || !eintrag.folgen) continue

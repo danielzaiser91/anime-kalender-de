@@ -9,6 +9,7 @@
 import type { ReleaseEvent, Title } from '../../shared/types.ts'
 import { diffDays, toIsoDate } from '../../shared/time.ts'
 import { HERABGESTUFT } from './bestand-warnzeile.ts'
+import { kennungMitAdressgedaechtnis, type KennungsAdressen } from './cr-kennung-gedaechtnis.ts'
 
 export interface NeueFolge {
   serieId: string
@@ -37,16 +38,9 @@ function crSerienKennung(url: string): string | undefined {
   return /crunchyroll\.com\/(?:[a-z]{2}\/)?series\/([A-Z0-9]+)/.exec(url)?.[1]
 }
 
-const adressKern = (u: string): string =>
-  u.replace(/^https?:\/\//, '').replace(/^www\./, '').split('?')[0]!.replace(/\/$/, '').toLowerCase()
-
-/**
- * Serienkennung aus der Adresse, sonst aus dem Kennungsgedächtnis (`data/crunchyroll-series-ids.json`): Die alte Slug-Form
- * `/de/<name>` trägt keine Kennung, das Gedächtnis löst sie auf — wie die Katalog-Runde des Baus (`bau/09-4-3-katalog.ts`).
- */
-export function kennungMitGedaechtnis(adressen: Record<string, { seriesId?: string }>): KennungVon {
-  const je = new Map(Object.entries(adressen).map(([u, v]) => [adressKern(u), v.seriesId]))
-  return (url) => crSerienKennung(url) ?? je.get(adressKern(url))
+/** Wie die Katalog-Runde des Baus, nur mit der strengeren Adressform (`crunchyroll.com/…/series/`). */
+export function kennungMitGedaechtnis(adressen: KennungsAdressen): KennungVon {
+  return kennungMitAdressgedaechtnis(adressen, crSerienKennung)
 }
 
 export function fehlendeCrFolgen(
