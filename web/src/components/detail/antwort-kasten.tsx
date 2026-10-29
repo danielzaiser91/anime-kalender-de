@@ -6,7 +6,7 @@ import { type ReactNode, useState } from 'react'
 import { useFolgenZaehlung } from './folgen-bereich.tsx'
 import { Countdown } from './hilfen.tsx'
 import { KINO_LAND, kinoDatum } from './kino.tsx'
-import { ankuendigungZeile } from '@shared/ankuendigung.ts'
+import { ankuendigungZeile, titelSynchroAngekuendigt } from '@shared/ankuendigung.ts'
 import { VermerkAuskunft } from './vermerk.tsx'
 import { Umschalter } from './umschalter.tsx'
 import { gruppeVon as gruppeVonPille, sichtbareStreamPillen, type Gruppe } from './stream-pillen.ts'
@@ -590,7 +590,7 @@ export function AntwortKasten({
     const ankuendigung = title.westlich ? undefined : title.ankuendigung
     haupt = title.westlich
       ? T(title.dubHinweis ? 'antwort.westlichJw' : title.streams.length ? 'antwort.westlichVerfuegbar' : 'antwort.synchroOffen')
-      : ankuendigung?.synchro === 'angekuendigt'
+      : titelSynchroAngekuendigt(title)
         ? T('antwort.synchroAngekuendigt')
         : T('antwort.ohneTitel')
     /*
@@ -615,7 +615,7 @@ export function AntwortKasten({
         ? T(deSeitQuelleSchluessel(title.deErstausgabe.quelle))
         : undefined
     /* Eine angekündigte Synchro ist eine Nachricht, kein Nein — der Kasten steht dann nicht gedämpft. */
-    gedaempft = ankuendigung?.synchro !== 'angekuendigt'
+    gedaempft = !titelSynchroAngekuendigt(title)
     zaehl = ''
   }
   /* Keine Zeile mit Sprachbeleg: „Auf Deutsch …“ wäre eine Behauptung, die keine Zeile darunter trägt. */
