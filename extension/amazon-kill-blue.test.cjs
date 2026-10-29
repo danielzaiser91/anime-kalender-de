@@ -178,7 +178,7 @@ function starte() {
   sandkasten.globalThis = sandkasten
   sandkasten.window.document = sandkasten.document
 
-  vm.runInNewContext(readFileSync('extension/melde-sperre.js', 'utf8') + readFileSync('extension/prime-region.js', 'utf8') + readFileSync('extension/amazon.js', 'utf8'), sandkasten, { filename: 'amazon.js' })
+  vm.runInNewContext(readFileSync('extension/melde-sperre.js', 'utf8') + readFileSync('extension/prime-stand-ziele.js', 'utf8') + readFileSync('extension/prime-region.js', 'utf8') + readFileSync('extension/amazon.js', 'utf8'), sandkasten, { filename: 'amazon.js' })
 
   /**
    * **So kommen die Folgen wirklich an: als Widget-Antwort, nicht als Quelltext.**

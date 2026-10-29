@@ -11,7 +11,7 @@
 const { readFileSync } = require('node:fs')
 const vm = require('node:vm')
 
-const quelle = ['box.js', 'melde-sperre.js', 'prime-titelseite.js', 'prime-region.js', 'amazon.js'].map((n) => readFileSync(__dirname + '/' + n, 'utf8')).join('\n')
+const quelle = ['box.js', 'melde-sperre.js', 'prime-titelseite.js', 'prime-stand-ziele.js', 'prime-region.js', 'amazon.js'].map((n) => readFileSync(__dirname + '/' + n, 'utf8')).join('\n')
 
 const fehler = []
 function pruefe(name, bedingung, gefunden) {

@@ -82,6 +82,7 @@ function seite({ vermerk, zaehlungOhneSuche = true, standMitSuche = true }) {
   k.akGemeldetSeit = async () => {}
   k.akPrimeAufraeumen = () => ({ bereinigt: {}, entfernt: 0 })
   vm.runInContext(lies('prime-such-bruecke.js'), k)
+  vm.runInContext(lies('prime-stand-ziele.js'), k)
   const q = lies('amazon.js')
   const code = [
     schneide(q, 'async function briefkastenHolen('),

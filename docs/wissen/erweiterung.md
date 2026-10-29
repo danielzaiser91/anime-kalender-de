@@ -2295,6 +2295,10 @@ Daniel startete „▶ alle durchgehen“ in 4.25.0, der Lauf endete mit „nich
 - **Wo der Code steht:** `extension/prime-titelseite.js` (lädt vor `amazon.js`; `amazon.js` liegt über der Zeilengrenze). Test: `amazon-durchgang.test.cjs` — gti-Titel zählt, erster Frame über watch.amazon.de, Auftrag einmal gemerkt, Staffeln über ASIN, Suche bleibt zu; dazu „jeder Eintrag der echten Prüfliste hat eine Titelseite oder eine Suchadresse“ (eine dritte Adressform fiele sonst wieder lautlos heraus).
 - **Nicht gemessen:** der Lauf selbst im Browser (116 Titel, jeder mit mindestens einer Seite, drei Frames gleichzeitig). Landet ein Frame auf einer Seite ohne Meldeknopf, steht der Titel im Schluss unter „übersprungen“ — nie als „nicht da“ gemeldet.
 
+## Prime-Zahl folgt dem Worker, nicht dem Paket (29.10.2026)
+
+Anlass (26.10.2026, dritte Wiederholung nach 14./15.09.): Statusanzeige „Amazon 62 offen“, Knopf „32 Prime-Titel“ — `AK_OFFENE_AMAZON` kannte 39 von 62 Adressen. `extension/prime-stand-ziele.js` legt aus `?stand=1` (derselbe Abruf wie vorher in `briefkastenHolen`) für jedes Titel-Ziel (nichtleerer Titel) ohne Paket-Eintrag einen Eintrag mit `ausStand` an; Zählung, Liste und Durchgang rechnen unverändert. Der Knopf zeigt „· Liste veraltet“, sobald ein solcher Eintrag existiert. Wächter: `tools/worker-amazon-zahl-gleich.test.ts` (in `check:worker`). Gleiche Klasse bei Disney+ (`AK_OFFENE_DISNEY`, am 29.10.2026 fehlten 3 von 8 Worker-Zielen im Paket) und Netflix (`AK_OFFENE_TITEL`, 0 von 7); dort noch nicht umgesetzt.
+
 ## Netflix-Durchgang: keine Titelzahl als Grenze mehr (4.27.0, 11.10.2026)
 
 Daniel startete „▶ alle durchgehen" mit 245 offenen Titeln; nach genau 20 stand im Kasten „Durchgang fertig". Ursache: `SELBST_HOECHSTENS = 20` (Lehre vom 26.08.2026, erster One-Piece-Lauf mit 42 falschen Meldungen), und `durchgangEndeZeigen` wertete „… Titel geschafft" als regulär. Die Titelzahl traf den damaligen Fehler nie; ihn fängt je Titel der Reihen-Riegel im Durchlauf (`stand.reihe` muss zur Seite passen, „Zweiter Riegel").
