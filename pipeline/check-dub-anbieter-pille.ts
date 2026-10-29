@@ -5,13 +5,15 @@
 import { createElement, Fragment } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import type { StreamLink, Title } from '../shared/types.ts'
-import { legendeDerZeilen, ohneSprachbelegFuer, streamStatus, zeilenGruppen } from '../web/src/components/detail/legende-zeilen.ts'
+import { legendeDerZeilen, nurAnbieterDeutsch, ohneSprachbelegFuer, streamStatus, zeilenGruppen } from '../web/src/components/detail/legende-zeilen.ts'
 import { kopfSchluesselOhneBeleg } from '../web/src/components/detail/antwort-regeln.ts'
 import { falteTeilwege } from '../web/src/components/detail/wege-falten.ts'
 import { pillenSchluessel, sortiereNachZugang } from '../web/src/components/detail/wege-sortieren.ts'
 import { streamZeilen } from '../web/src/components/detail/wege-zeilen.tsx'
 import { legendeFuer } from '../web/src/components/detail/pille.tsx'
 import { TEXTE_ZEILEN } from '../web/src/lib/i18n-zeilen.ts'
+import { TEXTE_ANTWORT } from '../web/src/lib/i18n-antwort.ts'
+import { KastenRahmen } from '../web/src/components/detail/kasten-leer.tsx'
 
 let verletzt = 0
 function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
@@ -98,8 +100,49 @@ pruefe('nur gemessen: Kopf bleibt „Auf Deutsch“ (Gegenprobe)', kopf([gemesse
 pruefe('Kopftext „anbieter“ ist die Blase der Pille', text(kopfSchluesselOhneBeleg('anbieter')) === 'Deutsch laut Anbieter', kopfSchluesselOhneBeleg('anbieter'))
 pruefe('Kopftext „omu“ und „offen“ unverändert', kopfSchluesselOhneBeleg('omu') === 'antwort.nurUntertitel' && kopfSchluesselOhneBeleg(true) === 'antwort.sprachOffen')
 
+console.log('\nAntwort-Kasten gerendert (Art „fertig“, Rahmen des Panels):')
+const alleTexte: Record<string, string> = { ...TEXTE_ANTWORT, ...TEXTE_ZEILEN }
+const uebersetze = (k: string, v?: Record<string, string | number>): string =>
+  (alleTexte[k] ?? k).replace(/\{(\w+)\}/g, (_, n: string) => String(v?.[n] ?? ''))
+const jwWeg = prime('B0JWWEG', { dubQuelle: 'justwatch', dubStand: '2026-10-01' })
+const offenerWeg = { platform: 'netflix', url: 'https://www.netflix.com/title/81', zugang: 'abo' } as StreamLink
+function kasten(streams: StreamLink[]): string {
+  const title = titelMit(streams)
+  return renderToStaticMarkup(createElement(KastenRahmen, {
+    antwort: { art: 'fertig', gesamt: 13, raus: 13, gesamtAbgeleitet: true },
+    sortiertNachZugang: sortiertVon(streams),
+    title,
+    t: uebersetze,
+    today: '2026-10-13',
+    folgenListe: false,
+    releases: [],
+    terminReleases: [],
+    streamReleases: [],
+    discAusgaben: [],
+    discReleases: [],
+    tvVorbei: [],
+    wegeHinweis: undefined,
+    kastenNotiz: undefined,
+    folgenLuecke: null,
+    favorites: new Set(),
+    verbindung: { verbunden: false },
+    folgenAngabeFuer: () => '',
+    dubZeilen: () => [],
+    releaseJePlattform: new Map(),
+  } as never))
+}
+const nurJoynKasten = kasten([joyn])
+pruefe('nur Joyn abgeleitet: der Kopf sagt „Deutsch laut Anbieter“, nicht „Auf Deutsch“', nurJoynKasten.includes('Deutsch laut Anbieter') && !nurJoynKasten.includes('Auf Deutsch'), nurJoynKasten.slice(0, 400))
+const joynUndJw = kasten([joyn, jwWeg])
+pruefe('Joyn plus JustWatch-Ton: der Kopf bleibt „Auf Deutsch“', joynUndJw.includes('Auf Deutsch'), joynUndJw.slice(0, 400))
+const nurOffen = kasten([offenerWeg])
+pruefe('nur ein offener Weg: der Kopf sagt „Sprache offen“, nicht „laut Anbieter“', nurOffen.includes(text('antwort.sprachOffen')) && !nurOffen.includes('Deutsch laut Anbieter'), nurOffen.slice(0, 400))
+const anbieterArt = (streams: StreamLink[]) => nurAnbieterDeutsch(sortiertVon(streams), titelMit(streams), [])
+pruefe('nurAnbieterDeutsch: Joyn plus JustWatch-Ton ist false', anbieterArt([joyn, jwWeg]) === false)
+pruefe('nurAnbieterDeutsch: nur ein offener Weg ist false', anbieterArt([offenerWeg]) === false)
+
 if (verletzt) {
   console.error(`\n✖ ${verletzt} Zusicherung(en) verletzt`)
   process.exit(1)
 }
-console.log('\n✓ Pille „Deutsch laut Anbieter“: 28 Zusicherungen ok')
+console.log('\n✓ Pille „Deutsch laut Anbieter“: 38 Zusicherungen ok')

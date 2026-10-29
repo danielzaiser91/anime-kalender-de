@@ -66,7 +66,7 @@ function selbstpruefung(): number {
 
 /** Komma ohne folgendes Leerzeichen: Treffer; Zeilenende, Schlussklammer, Zeichenkette, Kommentar und Dateiende nicht. */
 function kommaPruefung(): number {
-  const gut = ['f(a, b)', 'f(a,\n  b)', '[1,]', 'f(a,)', 'const s = "a,b"', "const t = `a,b`", '// a,b', '/* a,b */', 'const r = /a,b/', 'f(a,', 'const {a, b} = o']
+  const gut = ['f(a, b)', 'f(a,\n  b)', '[1,]', 'f(a,)', 'const s = "a,b"', "const t = `a,b`", '// a,b', '/* a,b */', 'const r = /a,b/', 'f(a,', 'const {a, b} = o', 'const o = {a: 1,}', 'f({a,})', 'const g = <T,>(x: T) => x']
   const schlecht: [string, number][] = [['f(a,b)', 1], ['const x = [1,2,3]', 2], ['const { a,b } = o', 1], ['function f(a,b) {}', 1], ["f('x',y)", 1], ['const j = <A b={f(1,2)} />', 1]]
   let fehler = 0
   for (const text of gut) {
