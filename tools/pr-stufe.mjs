@@ -140,9 +140,16 @@ function stufeOhneModus(d, n) {
   return [2, 'Pfad ohne Herabstufungsregel (Pipeline, Logik, Workflow, Worker, Schema oder unbekannt)']
 }
 
+// Unter public/ und extension/ liegt ausgelieferter Code: ein Testname dort ist kein Test.
+const AUSGELIEFERT = /^(public|extension)\//
+
+function istTest(pfad) {
+  return TESTDATEI.test(pfad) && !AUSGELIEFERT.test(pfad)
+}
+
 function nurTest(d) {
   if (d.unlesbar || d.symlink) return false
-  return TESTDATEI.test(d.pfad) && (!d.quelle || TESTDATEI.test(d.quelle))
+  return istTest(d.pfad) && (!d.quelle || istTest(d.quelle))
 }
 
 /** Stufe des ganzen Diffs. Eingabe: Ergebnis von liesDiff. */
