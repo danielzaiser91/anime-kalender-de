@@ -85,6 +85,7 @@ const schreibe = (pfad: string, inhalt: string) => {
 schreibe('rohfolgen.json', JSON.stringify(rohfolgen))
 schreibe('public/data/titles.json', JSON.stringify(titles))
 schreibe('public/data/cartoons.json', '[]')
+schreibe('public/data/ohne-synchro.json', '[]')
 schreibe('data/dub-confirmed.yaml', '[]\n')
 schreibe('data/cartoon-folgen.json', '{}')
 // Netflix' Staffellisten (data/anbieter-staffeln.json): die Zuordnung gilt nur, wo unsere Folgenzahlen Position für Position gleichen.

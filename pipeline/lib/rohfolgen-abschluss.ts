@@ -7,6 +7,7 @@ import { merkeZumQuittieren, ROHFOLGEN_ABHAKEN } from './spaeter-quittieren.ts'
 import { recordSource } from './health.ts'
 import { verschiebeKanalGruppen, type KanalAussortiert } from './kanal-aussortieren.ts'
 import { leseZugeordnet } from './prime-meldung-riegel.ts'
+import { trenneFremdImBestand } from './zuordnung-riegel.ts'
 
 /** Ein Fall, der geklärt werden muss, statt geraten zu werden. */
 export interface Offen {
@@ -33,7 +34,7 @@ export interface Zaehler {
 }
 
 export function schliesseRohfolgenAb({
-  zugeordnet,
+  zugeordnet: gemeldet,
   kanalWeg,
   offen,
   erledigt,
@@ -68,6 +69,9 @@ export function schliesseRohfolgenAb({
     nichts findet, darf nicht löschen, was ein früherer gefunden hat.
   */
   erledigt.push(...verschiebeKanalGruppen(kanalWeg, offen))
+  const { eigene: zugeordnet, abgewiesen } = trenneFremdImBestand(gemeldet)
+  offen.push(...abgewiesen)
+  if (abgewiesen.length) log(`${abgewiesen.length} Adressen gehören einem anderen Eintrag (Cartoon, ohne Synchro, Handbeleg) und bleiben offen`)
   const bisher = leseZugeordnet<(typeof zugeordnet)[string]>()
   writeJson('data/prime-zugeordnet.json', leseZugeordnet({ ...bisher, ...zugeordnet }))
   writeJson('data/prime-unzugeordnet.json', offen)

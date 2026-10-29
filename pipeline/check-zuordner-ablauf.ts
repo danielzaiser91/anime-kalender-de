@@ -128,6 +128,9 @@ schreibe('data/anisearch-folgen.json', asFolgen)
 schreibe('data/tmdb-folgen.json', tmdbFolgen)
 mkdirSync(join(kulisse, 'data'), { recursive: true })
 writeFileSync(join(kulisse, 'data/dub-confirmed.yaml'), '[]\n')
+mkdirSync(join(kulisse, 'public/data'), { recursive: true })
+writeFileSync(join(kulisse, 'public/data/cartoons.json'), '[]')
+writeFileSync(join(kulisse, 'public/data/ohne-synchro.json'), '[]')
 
 const lauf = spawnSync(process.execPath, [tsx, '--import', mock, join(wurzel, 'pipeline/fetch-rohfolgen.ts')], {
   cwd: wurzel,
