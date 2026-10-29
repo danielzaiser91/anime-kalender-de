@@ -20,6 +20,7 @@ const KULIPARI = 'https://www.netflix.com/title/80057610'
 const GRISAIA_SERIE = 'https://www.amazon.de/gp/video/detail/B0DMMT9B67'
 const EIGEN = 'https://www.amazon.de/gp/video/detail/B0EIGEN001'
 const SUCHE = 'https://www.amazon.de/s?k=Hero%20Mask&i=instant-video'
+const NETFLIX_BELEG = 'https://www.netflix.com/title/81000004'
 const streams = new Map([[ohneSprache(KULIPARI), ['cartoons.json:-74222']]])
 const belege = [
   { anilistId: 145740, url: 'https://www.amazon.de/dp/B0DMMT9B67' },
@@ -27,6 +28,7 @@ const belege = [
   { anilistId: 900001, url: EIGEN },
   { anilistId: 900002, url: EIGEN },
   { anilistId: 900003, url: SUCHE },
+  { anilistId: 900004, url: NETFLIX_BELEG },
 ]
 const netflix = (titleId: number): ZuordnungEintrag => ({ titleId, plattform: 'netflix' })
 const prime = (titleId: number, seite: string | null): ZuordnungEintrag => ({ titleId, plattform: 'primevideo', seite })
@@ -47,6 +49,8 @@ pruefe('Prime ohne Seite zählt die gemeldete Adresse', finde([['https://www.ama
 pruefe('Sammelseite: Beleg der eigenen Kennung neben dem eines anderen Titels, kein Treffer', finde([[EIGEN, prime(900001, 'B0EIGEN001')]]).length === 0)
 pruefe('Zweiter Titel an derselben Seite ohne eigenen Beleg: Treffer (Besitzer beide Belege)', finde([[EIGEN, prime(900009, 'B0EIGEN001')]])[0]?.besitzer.join() === 'Handbeleg:900001,Handbeleg:900002')
 pruefe('Suchadresse trifft nie, auch wenn ein Beleg sie führt', finde([[SUCHE, prime(900009, null)]]).length === 0)
+pruefe('Netflix-Seite eines Handbelegs, Staffelmarke im Schlüssel: Treffer', finde([[`${NETFLIX_BELEG}#0`, netflix(105096)]])[0]?.besitzer.join() === 'Handbeleg:900004')
+pruefe('Kennung 74222 ist nicht der Besitzer -74222 (Ziffernfolge am Ende genügt nicht)', finde([[KULIPARI, netflix(74222)]]).length === 1)
 pruefe('Leere Eingabe: keine Treffer', finde([]).length === 0)
 
 const ein = { titleId: 99470, adresse: GRISAIA_SERIE, besitzer: [] }

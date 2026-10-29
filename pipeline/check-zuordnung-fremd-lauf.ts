@@ -13,6 +13,7 @@ import { liesMarken } from '../tools/quarantaene.mjs'
 
 const repo = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const KULIPARI = 'https://www.netflix.com/title/80057610'
+const GRISAIA = 'https://www.amazon.de/gp/video/detail/B0DMMT9B67'
 const wurzel = mkdtempSync(join(tmpdir(), 'zuordnung-fremd-'))
 const schreibe = (datei: string, inhalt: string) => {
   mkdirSync(join(wurzel, datei, '..'), { recursive: true })
@@ -20,8 +21,8 @@ const schreibe = (datei: string, inhalt: string) => {
 }
 schreibe('public/data/cartoons.json', JSON.stringify([{ id: -74222, titleEn: 'Kulipari', streams: [{ url: KULIPARI }] }]))
 schreibe('public/data/ohne-synchro.json', '[]')
-schreibe('data/dub-confirmed.yaml', '[]\n')
-schreibe('data/prime-zugeordnet.json', JSON.stringify({ [KULIPARI]: { titleId: 105096, plattform: 'netflix' } }))
+schreibe('data/dub-confirmed.yaml', `- anilistId: 145740\n  url: ${GRISAIA}\n`)
+schreibe('data/prime-zugeordnet.json', JSON.stringify({ [`${KULIPARI}#0`]: { titleId: 105096, plattform: 'netflix' }, [GRISAIA]: { titleId: 99470, plattform: 'primevideo', seite: 'B0DMMT9B67' } }))
 
 let fehler = 0
 let faelle = 0
@@ -45,12 +46,15 @@ function pruefe(name: string, ok: boolean, ist?: unknown): void {
 
 try {
   const neu = lauf([])
-  pruefe('Neuer Treffer: Exit 1, Titel, Adresse und Besitzer genannt', neu.status === 1 && neu.aus.includes(`Titel 105096, Adresse ${KULIPARI}, Besitzer cartoons.json:-74222`), neu)
-  pruefe('Neuer Treffer: Titelmarke für 105096', liesMarken(neu.aus).some((m) => m.titleId === 105096 && m.pruefung === 'zuordnung-fremd'), neu.aus)
-  const bekannt = lauf([`105096 ${KULIPARI}`])
-  pruefe('Bekannter Treffer: Exit 0, Schlusszeile, keine Marke', bekannt.status === 0 && /check-zuordnung-fremd-bestand: 1 Altfälle bekannt/.test(bekannt.aus) && liesMarken(bekannt.aus).length === 0, bekannt)
-  const veraltet = lauf([`1 ${KULIPARI}x`, `105096 ${KULIPARI}`])
+  pruefe('Neuer Treffer: Exit 1, Titel, Adresse und Besitzer genannt', neu.status === 1 && neu.aus.includes(`Titel 105096, Adresse ${KULIPARI}, Besitzer cartoons.json:-74222`) && neu.aus.includes(`Titel 99470, Adresse ${GRISAIA}, Besitzer Handbeleg:145740`), neu)
+  pruefe('Neuer Treffer: Titelmarke für 105096', [105096, 99470].every((id) => liesMarken(neu.aus).some((m) => m.titleId === id && m.pruefung === 'zuordnung-fremd')), neu.aus)
+  const BEKANNT = [`105096 ${KULIPARI}`, `99470 ${GRISAIA}`]
+  const bekannt = lauf(BEKANNT)
+  pruefe('Bekannter Treffer: Exit 0, Schlusszeile, keine Marke', bekannt.status === 0 && /check-zuordnung-fremd-bestand: 2 Altfälle bekannt/.test(bekannt.aus) && liesMarken(bekannt.aus).length === 0, bekannt)
+  const veraltet = lauf([`1 ${KULIPARI}x`, ...BEKANNT])
   pruefe('Zeile ohne Treffer: Exit 1', veraltet.status === 1 && veraltet.aus.includes('streichen'), veraltet)
+  pruefe('Unsortierte Bekannt-Liste: Exit 1', lauf([...BEKANNT].reverse()).status === 1)
+  pruefe('Doppelte Zeile in der Bekannt-Liste: Exit 1', lauf([BEKANNT[0]!, BEKANNT[0]!, BEKANNT[1]!]).status === 1)
 } finally {
   rmSync(wurzel, { recursive: true, force: true })
 }

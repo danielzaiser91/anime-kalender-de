@@ -40,7 +40,7 @@ export function findeFremdZugeordnete(
     if (belege.some((b) => b.anilistId === e.titleId && adressGleich(b.url, adresse))) continue
     const besitzer = [
       ...(streams.get(ohneSprache(adresse)) ?? []).filter((b) => !b.endsWith(`:${e.titleId}`)),
-      ...belege.filter((b) => b.anilistId !== e.titleId && adressGleich(b.url, adresse)).map((b) => `Handbeleg:${b.anilistId}`),
+      ...belege.filter((b) => adressGleich(b.url, adresse)).map((b) => `Handbeleg:${b.anilistId}`),
     ]
     if (besitzer.length) treffer.push({ titleId: e.titleId, adresse, besitzer: [...new Set(besitzer)] })
   }
