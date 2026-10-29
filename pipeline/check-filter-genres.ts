@@ -63,6 +63,11 @@ async function rendere(bau: Wurzelbauer) {
     dom,
     hat: (g: string) => chips().some((c) => c.includes(g)),
     chips,
+    /** Farbige Flächen (Band, Rand) ohne jeden Inhalt — das, was ein ausgeblendeter Bereich nicht hinterlassen darf. */
+    leereFlaechen: () =>
+      dom.wurzel
+        .finde((k) => /\b(bg-ak-info-grund|border-ak-info)\b/.test(k.getAttribute('class') ?? '') && k.textContent.trim() === '')
+        .map((k) => k.getAttribute('class')),
     text: () => dom.wurzel.textContent,
     knopf: (teil: string) => dom.wurzel.finde((k) => k.tagName === 'BUTTON' && zeile(k).includes(teil))[0],
     klick: (k: MiniKnoten) => act(async () => klicke(dom.wurzel, k)),
@@ -85,6 +90,7 @@ async function pruefeAnsicht(wo: string, bau: Wurzelbauer, vorn: string, rang13:
   pruefe(`${wo}: Suche findet das Genre ohne Termin`, a.hat(ohneTermin), a.chips())
   await a.tippe(rang13)
   pruefe(`${wo}: Suche findet das Genre auf Rang 13`, a.hat(rang13) && !a.hat(vorn), a.chips())
+  pruefe(`${wo}: Suche ohne Treffer in „Schnell“ lässt keine leere Fläche stehen`, a.leereFlaechen().length === 0, a.leereFlaechen())
   await a.tippe('')
   pruefe(`${wo}: Suche geleert, wieder nur die Vorschau`, a.hat(vorn) && !a.hat(rang13))
   const mehr = a.knopf('alle anzeigen')
