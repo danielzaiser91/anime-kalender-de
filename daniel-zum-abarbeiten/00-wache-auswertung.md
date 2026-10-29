@@ -501,3 +501,14 @@ wer die Ursache dann noch kennt, hat Glück. Deshalb diese Datei.
 **Wo sind echte Risiken und Lücken?** Die Wache kann einen gewollten Verschiebe-Fix nicht von einem Abruf-Verlust unterscheiden. Nicht gemessen: ob Madoka (133007) und Dear Friend (199340) wirklich keinen Deutsch-Beleg haben; alle drei hatten `streams: []` und `dubConfidence: low`. Beerus' Crunchyroll-/Disney+-/ADN-Verweise stehen als „belegtes Nein" in `verweise-entfernt.json`.
 
 **Was läuft komplett falsch?** Nichts, was ich belegen kann; kein Fehlerschritt, der Lauf ist absichtlich rot. Kein Pull Request, da keine Codeursache.
+
+
+## 29.10.2026 (Nachmittag) — Wache meldet „1 Urteil verloren (Disney+)" und „1 Synchro-Beleg weniger (Crunchyroll)" (Lauf 40890524142, Issue #2367)
+
+**Was läuft korrekt.** Die Wache hat beide Bausprünge gefunden; gemessen über Git-Stände von `public/data/titles.json`. (1) 28.10., Bau 9985dff2: Heidi (2225) verlor den Disney+-Stream (Vergleich mit dem Vorgänger), genau der Fehlbeleg, den #2288 (e53cf05d, „entfernte Fehlbelege kommen nicht zurück") bewusst nach `belege-entfernt.yaml` verschoben hat. Gewollt, nichts verloren. (2) 29.10., Bau 424c6978 (04:41 UTC): Magic Knight Rayearth (2026, 178868) verlor `dub:true` am Crunchyroll-Stream (`dubConfidence` high → low); mit dem Bau 8f2c5b57 (08:56 UTC) war der Beleg wieder da, aktuell `high`.
+
+**Wo ist Verbesserungspotenzial?** Die Wache nennt weder Titel noch Gegenrechnung; beide Fälle mussten per Hand aus Git gebaut werden. Eine Zeile mit den Titel-IDs je Verlust und ein Abgleich gegen `belege-entfernt.yaml` hätte Fall 1 sofort als „gewollt" eingestuft.
+
+**Wo sind echte Risiken und Lücken?** Fall 2 ist ein ~4 Stunden langer Rücksprung eines Synchro-Belegs, der von selbst heilte. **Nicht belegt:** warum. Zeitlich fällt er mit dem Lauf „Tagesquellen gesammelt" 00e36cee (04:26 UTC) zusammen, der `beleg-lesungen.json` stark umschrieb (811 Zeilen); ein Beweis für die Ursache ist das nicht. Eine Wache, die nur Tageswerte sähe, würde ihn nicht bemerken.
+
+**Was läuft komplett falsch?** Nichts, was ich belegen kann: kein Fehlerschritt, der Lauf ist absichtlich rot. Kein Pull Request, da keine Codeursache gefunden.
