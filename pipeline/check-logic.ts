@@ -218,6 +218,7 @@ import { passendeAdresse } from './fetch-kinoheld.ts'
 import { staffelNummern } from './lib/staffel-nummern.ts'
 import { deutscheFolgenTage, loeseGeteilteWegeVonWiderlegten, sammleWiderlegungen, widerlegtDurchWoche, widerlegungAusDateien, type Wochenprogramm, type WiderlegungsGedaechtnis } from './bau/widerlegung-woche.ts'
 import { istUnplausibel } from './lib/justwatch-plausibel.ts'
+import { kennungAusPfad, kennungMitAdressgedaechtnis } from './lib/cr-kennung-gedaechtnis.ts'
 import { adressenAusNews, adressenMitOffenemTermin, belegeFuerAlle, crunchyrollDatum, entzieheBild, kopfzeilenDatum, istArtikel, merkeLesung, traegtArtikeldatum, unveraendertSeit, warteschlange, type BelegGedaechtnis } from './lib/beleg-lesung.ts'
 import { baldImTv, namensKern, sendungenAusSeite, titelZuordnen, tvDeSendungen } from './fetch-tv-programm.ts'
 
@@ -4468,7 +4469,11 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   )
   pruefe(
     'die Crunchyroll-Kennung wird notfalls im Gedächtnis nachgeschlagen',
-    bau.includes("readJson<{ adressen?: Record<string, { seriesId?: string }> }>(\n        'data/crunchyroll-series-ids.json'"),
+    kennungMitAdressgedaechtnis(
+      { 'http://www.crunchyroll.com/de/a-place-further-than-the-universe': { seriesId: 'GYK541EPR' } },
+      kennungAusPfad,
+    )('http://www.crunchyroll.com/de/a-place-further-than-the-universe') === 'GYK541EPR' &&
+      /kennungMitAdressgedaechtnis\(/.test(bau),
     '43 der 44 offenen Verweise standen in der alten Slug-Form ohne Kennung in der Adresse',
   )
 

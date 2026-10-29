@@ -1,5 +1,6 @@
 import type { Title } from '../../shared/types.ts'
 import { readJson } from '../lib/util.ts'
+import { kennungAusPfad, kennungMitAdressgedaechtnis, type KennungsAdressen } from '../lib/cr-kennung-gedaechtnis.ts'
 
 /**
  * **Eine Crunchyroll-Serie mit einer Staffel gehört einem Titel, nicht jedem, der auf sie zeigt.**
@@ -96,10 +97,8 @@ let aufloeser: KennungVon | undefined
 /** Serienkennung aus der Adresse, sonst aus dem Kennungsgedächtnis — wie die Katalog-Runde in `09-4-3-katalog.ts`. */
 export function kennungAusAdresse(): KennungVon {
   if (aufloeser) return aufloeser
-  const kern = (u: string): string => u.replace(/^https?:\/\//, '').replace(/^www\./, '').split('?')[0]!.replace(/\/$/, '').toLowerCase()
-  const gedaechtnis = readJson<{ adressen?: Record<string, { seriesId?: string }> }>('data/crunchyroll-series-ids.json', {}).adressen ?? {}
-  const je = new Map(Object.entries(gedaechtnis).filter(([, v]) => v.seriesId).map(([u, v]) => [kern(u), v.seriesId as string]))
-  aufloeser = (u) => /\/series\/([A-Z0-9]+)/.exec(u)?.[1] ?? je.get(kern(u))
+  const gedaechtnis = readJson<{ adressen?: KennungsAdressen }>('data/crunchyroll-series-ids.json', {}).adressen ?? {}
+  aufloeser = kennungMitAdressgedaechtnis(gedaechtnis, kennungAusPfad)
   return aufloeser
 }
 
