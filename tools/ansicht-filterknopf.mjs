@@ -7,7 +7,7 @@
  */
 import { escapeAbweichungen, messeEscape } from './ansicht-filterknopf-escape.mjs'
 
-const BREITEN =[1366, 1920]
+const BREITEN = [1366, 1920]
 const THEMEN = ['hell', 'dunkel']
 const ADRESSEN = { 'ohne Filter': 'http://ak.test/#/datenbank', 'mit Filter': 'http://ak.test/#/datenbank?g=Fantasy', 'mit vielen Filtern': 'http://ak.test/#/datenbank?g=Fantasy,Action,Comedy,Drama,Magie,Mecha,Musik,Horror,Romance,Samurai' }
 const KNOPF = 'button[data-filter-knopf]'
