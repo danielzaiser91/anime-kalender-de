@@ -5,7 +5,8 @@
 import { createElement, Fragment } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import type { StreamLink, Title } from '../shared/types.ts'
-import { legendeDerZeilen, streamStatus, zeilenGruppen } from '../web/src/components/detail/legende-zeilen.ts'
+import { legendeDerZeilen, ohneSprachbelegFuer, streamStatus, zeilenGruppen } from '../web/src/components/detail/legende-zeilen.ts'
+import { kopfSchluesselOhneBeleg } from '../web/src/components/detail/antwort-regeln.ts'
 import { falteTeilwege } from '../web/src/components/detail/wege-falten.ts'
 import { pillenSchluessel, sortiereNachZugang } from '../web/src/components/detail/wege-sortieren.ts'
 import { streamZeilen } from '../web/src/components/detail/wege-zeilen.tsx'
@@ -88,8 +89,17 @@ pruefe('legendeDerZeilen mit Anbieter-Stream nennt die Legende', legendeKasten?.
 const gruppen = zeilenGruppen(mitAnbieter.sortiert, mitAnbieter.title, [])
 pruefe('zeilenGruppen: der Anbieter-Stream bleibt unter „Auf Deutsch“ (nicht offen)', gruppen.length === 1 && gruppen[0][1] === 'abo' && gruppen[0][0] === pillenSchluessel(abgeleitet), gruppen)
 
+console.log('\nAntwort-Kasten (Kopf über den Zeilen):')
+const kopf = (streams: StreamLink[]) => ohneSprachbelegFuer(sortiertVon(streams), titelMit(streams), [])
+pruefe('nur Joyn abgeleitet: Kopf sagt „laut Anbieter“, nicht „Auf Deutsch“', kopf([joyn]) === 'anbieter', kopf([joyn]))
+pruefe('nur Prime-Kanal abgeleitet: Kopf sagt „laut Anbieter“', kopf([abgeleitet]) === 'anbieter', kopf([abgeleitet]))
+pruefe('abgeleitet und gemessen (Horimiya): Kopf bleibt „Auf Deutsch“', kopf([abgeleitet, gemessen]) === false, kopf([abgeleitet, gemessen]))
+pruefe('nur gemessen: Kopf bleibt „Auf Deutsch“ (Gegenprobe)', kopf([gemessen]) === false, kopf([gemessen]))
+pruefe('Kopftext „anbieter“ ist die Blase der Pille', text(kopfSchluesselOhneBeleg('anbieter')) === 'Deutsch laut Anbieter', kopfSchluesselOhneBeleg('anbieter'))
+pruefe('Kopftext „omu“ und „offen“ unverändert', kopfSchluesselOhneBeleg('omu') === 'antwort.nurUntertitel' && kopfSchluesselOhneBeleg(true) === 'antwort.sprachOffen')
+
 if (verletzt) {
   console.error(`\n✖ ${verletzt} Zusicherung(en) verletzt`)
   process.exit(1)
 }
-console.log('\n✓ Pille „Deutsch laut Anbieter“: 22 Zusicherungen ok')
+console.log('\n✓ Pille „Deutsch laut Anbieter“: 28 Zusicherungen ok')

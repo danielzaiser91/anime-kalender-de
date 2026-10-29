@@ -71,6 +71,19 @@ export function alleNurUntertitel(sortiert: Wege, title: Title, releases: Releas
   return arten.length > 0 && arten.every((a) => a === 'omu')
 }
 
+/** Deutsch steht nur laut Anbieter da (Joyn, Prime-Kanal): keine Zeile ist belegt, mindestens eine „laut Anbieter“. */
+export function nurAnbieterDeutsch(sortiert: Wege, title: Title, releases: Release[]): boolean {
+  const arten = zeilenArten(sortiert, title, releases)
+  return arten.includes('anbieter') && !arten.some((a) => a === 'belegt' || a === 'jwDeutsch')
+}
+
+/** Was der Kopf über die Sprache sagt, wenn keine Zeile sie belegt: nur Untertitel, nur laut Anbieter, offen — oder nichts davon. */
+export function ohneSprachbelegFuer(sortiert: Wege, title: Title, releases: Release[]): boolean | 'omu' | 'anbieter' {
+  if (alleNurUntertitel(sortiert, title, releases)) return 'omu'
+  if (nurAnbieterDeutsch(sortiert, title, releases)) return 'anbieter'
+  return alleOhneSprachbeleg(sortiert, title, releases)
+}
+
 /** Die Legende unter den Stream-Zeilen: erklärt „laut JustWatch“ und „≈“, wo sie vorkommen. */
 export function legendeDerZeilen({ sortiert, title, releases, folgenAngabeFuer, t }: {
   sortiert: Wege
