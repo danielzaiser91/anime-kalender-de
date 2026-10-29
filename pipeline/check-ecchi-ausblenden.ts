@@ -205,7 +205,8 @@ const teileIds = (titel: number, reihe: number[]) => reihenTeileVon(data.titleBy
 pruefe('Reihe: Ecchi-Teil fehlt neben einem normalen Titel', teileIds(900002, []) === '900002', teileIds(900002, []))
 pruefe('Reihe: Ecchi-Teil aus franchises.json fehlt ebenfalls', teileIds(900002, [900001, 900002]) === '900002', teileIds(900002, [900001, 900002]))
 pruefe('Reihe: der geöffnete Ecchi-Titel selbst bleibt (Direktaufruf)', teileIds(900001, []).split(',').includes('900001'), teileIds(900001, []))
-const eigenerName = reihenTeileVon(data.titleById.get(900001), [mitglied(900001)] as never, data).find((m) => m.id === 900001)?.name
+pruefe('Reihe: ein Teil nur aus franchises.json (nicht geladen) bleibt', teileIds(900002, [900050]).split(',').includes('900050'), teileIds(900002, [900050]))
+const eigenerName =reihenTeileVon(data.titleById.get(900001), [mitglied(900001)] as never, data).find((m) => m.id === 900001)?.name
 pruefe('Reihe: der geöffnete Ecchi-Titel behält den Eintrag aus franchises.json', eigenerName === 'Teil 900001', eigenerName)
 ecchiSetzen(true)
 pruefe('Reihe: mit Schalter an beide Teile', teileIds(900002, []).split(',').sort().join() === '900001,900002', teileIds(900002, []))
