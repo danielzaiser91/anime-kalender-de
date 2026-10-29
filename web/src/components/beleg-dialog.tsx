@@ -5,6 +5,7 @@ import { belegLink, hostVon } from '@shared/quelle.ts'
 import { BELEG_TYP_LABEL, belegTyp } from '@shared/beleg-anbieter.ts'
 import { datumKurz } from '../lib/news-text.ts'
 import { useSeiteGesperrt } from '../lib/use-seite-gesperrt.ts'
+import { istSammelartikel } from '../lib/sammel-belege.ts'
 import { quellenLabel } from './news-belege.tsx'
 import { Ladeanzeige } from './ui.tsx'
 
@@ -125,8 +126,8 @@ function BelegDialog({ belege, betreff, zu }: { belege: NewsBeleg[]; betreff?: s
 }
 
 /** Ohne Marke zeigt das Bild die Seite von oben, nicht die Stelle des Titels (Rayearth, 29.10.2026): Das sagen wir, statt einen Ausschnitt vorzutäuschen. */
-export function fundstellenHinweis(b: NewsBeleg, mitBild: boolean): string {
-  return mitBild && !b.markierung ? ' Auf dem Bild ist keine Fundstelle markiert; der Titel kann an anderer Stelle des Artikels stehen.' : ''
+export function fundstellenHinweis(b: NewsBeleg, bildGezeigt: boolean): string {
+  return bildGezeigt && !b.markierung && istSammelartikel(b.url) ? 'Auf dem Bild ist keine Stelle markiert.' : ''
 }
 
 /** Auf dem Handy zwei Zeilen; ein Tipp klappt den ganzen Text auf (Rooster Fighter: die Kopfzeile fraß den halben Bildschirm). */
@@ -136,21 +137,20 @@ export function Erklaerung({ beleg, mitBild }: { beleg: NewsBeleg; mitBild: bool
     <p className={`min-w-0 flex-1 cursor-pointer md:cursor-auto ${lang ? '' : 'line-clamp-2 md:line-clamp-none'}`} onClick={() => setLang((l) => !l)} aria-expanded={lang}>
       {erklaerung(beleg)}
       {pruefzeile(beleg, mitBild)}
-      {fundstellenHinweis(beleg, mitBild)}
       {mitBild ? ' Wir sichern von jeder Quelle ein Bild, damit prüfbar bleibt, worauf die Meldung beruht.' : ''}
     </p>
   )
 }
 
 /** Holt das gesicherte Bild vom Worker und gibt es als Blob-Adresse zurück; räumt sie beim Schließen auf. */
-function useBelegBild(bild: string | undefined): { url?: string; fehler?: string } {
+function useBelegBild(bild: string | undefined, worker: string): { url?: string; fehler?: string } {
   const [url, setUrl] = useState<string>()
   const [fehler, setFehler] = useState<string>()
   useEffect(() => {
     if (!bild) return
     let aktiv = true
     let blobUrl: string | undefined
-    fetch(`${WORKER}/beleg?key=${encodeURIComponent(bild)}`)
+    fetch(`${worker}/beleg?key=${encodeURIComponent(bild)}`)
       .then(async (r) => {
         if (!r.ok) throw new Error(r.status === 404 ? 'Bild nicht gefunden' : `Fehler ${r.status}`)
         blobUrl = URL.createObjectURL(await r.blob())
@@ -166,10 +166,11 @@ function useBelegBild(bild: string | undefined): { url?: string; fehler?: string
 }
 
 /** Eine Quelle: Erklärung, Originaladresse und — wo gesichert — das Bild mit der Fundstelle. */
-export function BelegAnsicht({ beleg, zu }: { beleg: NewsBeleg; zu: () => void }) {
-  const bild = WORKER ? beleg.bild : undefined
+export function BelegAnsicht({ beleg, zu, worker = WORKER }: { beleg: NewsBeleg; zu: () => void; worker?: string }) {
+  const bild = worker ? beleg.bild : undefined
   const original = belegLink(beleg)
-  const { url, fehler } = useBelegBild(bild)
+  const { url, fehler } = useBelegBild(bild, worker)
+  const hinweis = fundstellenHinweis(beleg, Boolean(url))
   const [einpassen, setEinpassen] = useState(false)
   /* Mit Markierung öffnet das Bild gleich an der Fundstelle (Daniel, 11.10.2026); der Schalter nimmt die Marke zurück. */
   const [markiert, setMarkiert] = useState(Boolean(beleg.markierung))
@@ -210,6 +211,7 @@ export function BelegAnsicht({ beleg, zu }: { beleg: NewsBeleg; zu: () => void }
             </a>
           )}
         </div>
+        {hinweis && <p className="mt-1 text-xs text-slate-300">{hinweis}</p>}
       </div>
       <div className={`min-h-0 flex-1 ${einpassen ? 'flex items-center justify-center p-3 md:p-6' : 'overflow-auto p-3 md:p-6'}`} onClick={zu}>
         {!bild ? (
