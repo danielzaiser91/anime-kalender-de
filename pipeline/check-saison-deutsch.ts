@@ -2,8 +2,9 @@
  * Saison-Ansicht (Daniel, 11.10.2026): Ein Titel mit belegtem deutschen Weg steht nie unter „Kommt noch“ einer abgeschlossenen Saison.
  * Gerechnet wird wie der Bau (`katalogAusBestand`) auf `titles.json`, nicht auf der erzeugten `saison.json` — die kommt erst mit dem nächsten Bestandsbau. Die Prüfung auf den echten Daten steht in `check-saison-deutsch-bestand.ts`.
  */
-import { deutscheAngabe } from './bau/saison-deutsch.ts'
-import { katalogZeile, type SaisonKatalogTitel } from '../web/src/lib/saison.ts'
+import { deutscheAngabe, tonspurBeleg } from './bau/saison-deutsch.ts'
+import { hatDeutsch } from '../shared/saison.ts'
+import { katalogZeile, stufeVon, type SaisonKatalogTitel } from '../web/src/lib/saison.ts'
 import type { Release, Title } from '../shared/types.ts'
 
 let fehler = 0
@@ -40,6 +41,27 @@ const ohneTag = katalogZeile(katalog({ deutsch: true }), T0)
 pruefe('Weg mit Tonbeleg, aber ohne belegte Folge: bestätigt unter „Kommt noch“, nicht erschienen', !ohneTag.erschienen && ohneTag.de === undefined && ohneTag.stufe === 'bestaetigt' && ohneTag.deutsch, ohneTag)
 pruefe('belegter Weg, Tag in der Zukunft: bestätigt, noch nicht erschienen', katalogZeile(katalog({ deutsch: true, deVon: '2026-11-01' }), T0).stufe === 'bestaetigt')
 pruefe('ohne belegten Weg: offen, angekündigt bleibt angekündigt', katalogZeile(katalog({}), T0).stufe === 'offen' && katalogZeile(katalog({ angekuendigt: true }), T0).stufe === 'angekuendigt')
+
+console.log('Nur abgeleitetes Deutsch (Joyn pauschal, Prime-Kanal erbt) ist nicht bestätigt')
+const abgeleitet = (art: 'joyn-pauschal' | 'kanal-erbt') => titel({ streams: [{ platform: 'joyn', url: 'https://x', dub: true, dubAbgeleitet: art }] })
+const gemischt = titel({ streams: [{ platform: 'joyn', url: 'https://x', dub: true, dubAbgeleitet: 'joyn-pauschal' }, { platform: 'netflix', url: 'https://y', dub: true }] })
+const angekuendigt = titel({ ...abgeleitet('joyn-pauschal'), ankuendigung: { platform: 'crunchyroll', omuAb: '2026-10-01', synchro: 'angekuendigt', quellen: [], stand: '2026-10-01' } })
+const zukunft = { datum: '2026-11-01', geschaetzt: false }
+for (const art of ['joyn-pauschal', 'kanal-erbt'] as const) {
+  pruefe(`${art}: kein belegtes Deutsch, keine Angabe in der Saison-Datei`, !hatDeutsch(abgeleitet(art)) && Object.keys(deutscheAngabe(abgeleitet(art), [])).length === 0)
+  pruefe(`${art}: ohne Termin offen, nicht bestätigt`, stufeVon(abgeleitet(art), undefined, T0) === 'offen')
+}
+pruefe('abgeleitet und Synchro angekündigt: angekündigt', stufeVon(angekuendigt, undefined, T0) === 'angekuendigt')
+pruefe('abgeleitet, sicherer Termin in der Zukunft: angekündigt, nicht bestätigt', stufeVon(abgeleitet('joyn-pauschal'), zukunft, T0) === 'angekuendigt')
+pruefe('abgeleitet, abgeleiteter Termin in der Zukunft: Termin', stufeVon(abgeleitet('joyn-pauschal'), { ...zukunft, geschaetzt: true }, T0) === 'termin')
+pruefe('abgeleitet, sicherer Termin erschienen: Auf Deutsch (der Kalender führt nur deutsche Termine)', stufeVon(abgeleitet('kanal-erbt'), { datum: '2026-10-01', geschaetzt: false }, T0) === 'auf-deutsch')
+const mitAbgeleiteterFolge = titel({ streams: [{ platform: 'netflix', url: 'https://y', dub: true }, { platform: 'joyn', url: 'https://x', dub: true, dubAbgeleitet: 'joyn-pauschal', dubRanges: [{ from: 1, to: 1, dub: true }] }] })
+pruefe('abgeleiteter Weg mit dubRanges neben belegtem Weg ohne Folge: bestätigt, aber kein Tag (deVon)', deutscheAngabe(mitAbgeleiteterFolge, [sub('joyn', '2026-07-02')]).deVon === undefined)
+pruefe('Tonspur-Beleg: nur der nicht abgeleitete Weg mit Folge zählt', tonspurBeleg(mitFolge) && !tonspurBeleg(mitDub) && !tonspurBeleg(mitAbgeleiteterFolge) &&!tonspurBeleg(titel({ streams: [{ platform: 'joyn', url: 'https://x', dub: true, dubAbgeleitet: 'kanal-erbt', dubRanges: [{ from: 1, to: 1, dub: true }] }] })))
+const mitFalschemWeg = titel({ streams: [{ platform: 'netflix', url: 'https://y', dub: true }, { platform: 'joyn', url: 'https://x', dub: false, dubRanges: [{ from: 1, to: 1, dub: true }] }] })
+pruefe('Weg mit dub false und dubRanges liefert keinen Tag (deVon)', deutscheAngabe(mitFalschemWeg, [sub('joyn', '2026-07-02')]).deVon === undefined && !tonspurBeleg(mitFalschemWeg))
+pruefe('Weg ohne dub (false oder fehlt) zählt nicht als Deutsch', !hatDeutsch(titel({ streams: [{ platform: 'netflix', url: 'https://x', dub: false }] })) && !hatDeutsch(titel({ streams: [{ platform: 'netflix', url: 'https://x' }] })))
+pruefe('abgeleitet neben einem belegten Weg: bestätigt', hatDeutsch(gemischt) && stufeVon(gemischt, undefined, T0) === 'bestaetigt')
 
 if (fehler) {
   console.error(`${fehler} Zusicherung(en) verletzt.`)

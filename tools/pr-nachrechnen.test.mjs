@@ -198,7 +198,7 @@ for (const [name, prDateien] of [['public/data', 'src/a.ts\npublic/data/titles.j
   const code = main(['7'], k.gh, k.melde, k.warte)
   pruefe(`PR berührt ${name} -> 1, neu angestoßen`, code === 1 && schreibend(k.aufrufe).length === 4, { code, m: k.meldungen })
   pruefe(`PR berührt ${name}: Grund steht genau einmal`, k.meldungen.join().split('der PR berührt').length === 2, k.meldungen)
-  pruefe(`PR berührt ${name}: Meldung nennt die Datei`,/; der PR berührt (public\/data\/|data\/cache\/|public\/data\/x\.json)/.test(k.meldungen.join()), k.meldungen)
+  pruefe(`PR berührt ${name}: Meldung nennt die Datei`, /; der PR berührt (public\/data\/|data\/cache\/|public\/data\/x\.json)/.test(k.meldungen.join()), k.meldungen)
 }
 for (const [name, roh, erwartet] of [
   ['diverged', vergleich(DATEN_MAIN, 'diverged'), 1],
@@ -361,7 +361,7 @@ for (const fremd of ['tools/umfang-grenzen.json', 'extension/a.json', 'datax/a.j
 const botVergleich = (o) => ({ status: 'ahead', anzahl: 1, dateien: ['data/a.json'], commitsGesamt: 2, autoren: BOTS, ...o })
 pruefe('C: mehr Commits als geliefert (Liste abgeschnitten) -> Grund', botSprungAusnahme(botVergleich({ commitsGesamt: 3 }), ['worker/a.ts'], leserStub(null)) === 'Vergleich evtl. abgeschnitten')
 pruefe('C: design-regeln.md unter den Bewegungen -> Bot bewegte die Datei', botSprungAusnahme(botVergleich({ dateien: ['data/a.json', 'docs/wissen/design-regeln.md'] }), ['web/src/index.css'], leserStub(null)) === 'main bewegte docs/wissen/design-regeln.md')
-pruefe('C: genau an der Compare-Grenze -> Grund',botSprungAusnahme(botVergleich({ anzahl: 300 }), ['worker/a.ts'], leserStub(null)) === 'Vergleich evtl. abgeschnitten')
+pruefe('C: genau an der Compare-Grenze -> Grund', botSprungAusnahme(botVergleich({ anzahl: 300 }), ['worker/a.ts'], leserStub(null)) === 'Vergleich evtl. abgeschnitten')
 pruefe('C: eine unter der Compare-Grenze -> null', botSprungAusnahme(botVergleich({ anzahl: 299 }), ['docs/a.md'], leserStub(null)) === null)
 pruefe('C: diverged -> Grund', /diverged/.test(botSprungAusnahme(botVergleich({ status: 'diverged' }), ['worker/a.ts'], leserStub(null))))
 pruefe('C: Umbenennung aus data/ heraus auf PR-Seite: alter Name trifft eine bewegte Datei -> berührt', botSprungAusnahme(botVergleich({ dateien: ['data/alt.json', 'data/a.json'] }), ['docs/a.md', 'data/alt.json'], leserStub(null)) === 'der PR berührt data/alt.json')

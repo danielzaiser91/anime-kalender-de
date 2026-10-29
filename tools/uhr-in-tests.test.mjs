@@ -126,7 +126,7 @@ try {
     assert.deepEqual(funde(`const t = ${form}\n`), [], `zählt nicht: ${JSON.stringify(form)}`)
   }
 
-  for (const bindung of ['const D = Foo', 'const D = Foo as any', 'const D = (Foo)', 'const D = (Foo as any).Date','const D = Date.UTC(1)', 'const D = fn(Date)', 'const D', 'const { y } = globalThis.fetch', 'const o = { a: Date }', 'function f(D = Date) {}']) {
+  for (const bindung of ['const D = Foo', 'const D = Foo as any', 'const D = (Foo)', 'const D = (Foo as any).Date', 'const D = Date.UTC(1)', 'const D = fn(Date)', 'const D', 'const { y } = globalThis.fetch', 'const o = { a: Date }', 'function f(D = Date) {}']) {
     assert.deepEqual(funde(`${bindung}\n`), [], `Bindung zählt nicht: ${JSON.stringify(bindung)}`)
   }
 

@@ -92,7 +92,7 @@ pruefe('offener Befund ohne dub deckt nicht', !gedeckt({ offene: { [URL]: {} }, 
 pruefe('offener Befund mit dub false deckt nicht', !gedeckt({ offene: { [URL]: { dub: false } }, titel: [ungedeckt] }))
 const nurNetflix = titel(7, [{ platform: 'netflix', url: URL } as StreamLink])
 pruefe('offener Befund an einer Adresse einer anderen Plattform deckt nicht', !gedeckt({ offene: { [URL]: { dub: true } }, titel: [nurNetflix] }))
-pruefe('offener Befund mit dub true deckt',gedeckt({ offene: { [URL]: { dub: true } }, titel: [ungedeckt] }))
+pruefe('offener Befund mit dub true deckt', gedeckt({ offene: { [URL]: { dub: true } }, titel: [ungedeckt] }))
 
 console.log('\nmehrere Serien, Null-Block nicht an erster Stelle')
 pruefe('Null-Block als zweiter Block derselben Serie wird erkannt', lauf([[11, 11], [0, 13]], ungedeckt).length === 1)

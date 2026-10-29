@@ -446,7 +446,7 @@ async function main(): Promise<void> {
     }
     /* Gezählt wird, was dieser Lauf gefunden hat — nicht, was schon dastand. */
     zaehleBefund(zaehler, neu.status)
-    fortschritt(++geprueft, arbeit.length, zaehler.tot,bestand, log, sichere)
+    fortschritt(++geprueft, arbeit.length, zaehler.tot, bestand, log, sichere)
     await sleep(Math.round(PAUSE * (0.7 + Math.random() * 0.6)))
   }
 

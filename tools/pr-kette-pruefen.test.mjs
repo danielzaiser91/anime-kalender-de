@@ -87,7 +87,7 @@ fall('Sammeljob mit mehr Rechten', (d) => { sammler(d).permissions['pull-request
 fall('Sammeljob ohne Schreibrecht für Läufe', (d) => { sammler(d).permissions.actions = 'read' }, /permissions sind nicht exakt/)
 fall('Sammeljob ohne GH_TOKEN', (d) => { delete sammler(d).steps[1].env.GH_TOKEN }, /env ist nicht exakt/)
 fall('Teiljob mit eigenen permissions', (d) => { d.jobs.logik.permissions = { actions: 'write' } }, /Schlüssel "permissions" nicht erlaubt/)
-fall('Sammeljob env verändert',(d) => { sammler(d).steps[1].env = { NEEDS: '[]' } }, /env ist nicht exakt/)
+fall('Sammeljob env verändert', (d) => { sammler(d).steps[1].env = { NEEDS: '[]' } }, /env ist nicht exakt/)
 
 // Prüfer Runde 4 (16.10.2026): Rahmen, `with` je Action und Composite-Action. Der Fall npm_config_dry_run entfällt: die Skripte laufen trotzdem (gemessen).
 fall('Checkout mit ref: main', (d) => { d.jobs.logik.steps[0].with = { ref: 'main' } }, /Checkout mit with/)

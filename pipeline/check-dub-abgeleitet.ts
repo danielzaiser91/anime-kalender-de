@@ -4,7 +4,7 @@
  * Fälle nach den echten Titeln (Eyeshield 21, Naruto, Inuyasha), kein Netz.
  */
 import type { Release, StreamLink, Title } from '../shared/types.ts'
-import { setzeJoynDeutsch } from './bau/joyn-pauschal.ts'
+import { joynZeile, setzeJoynDeutsch } from './bau/joyn-pauschal.ts'
 import { kanalErbtVomAnbieter } from './bau/kanal-erbt-anbieter.ts'
 import { nimmKanalJaGegenSprachTermin } from './bau/deutsch-nicht-gegen-sprach-termin.ts'
 import { dubAbgeleitetFehler } from './lib/dub-abgeleitet.ts'
@@ -35,6 +35,11 @@ const nein = [joyn({ dub: false })]
 pruefe('Joyn mit Handbeleg Nein bleibt Nein, ohne Kennzeichen', setzeJoynDeutsch([titelMit(20, nein)]) === 0 && nein[0]!.dub === false && nein[0]!.dubAbgeleitet === undefined, nein)
 const gemessen = [joyn({ dub: true, dubRanges: bereiche })]
 pruefe('Joyn mit eigenem Ja bleibt gemessen, ohne Kennzeichen', setzeJoynDeutsch([titelMit(223, gemessen)]) === 0 && gemessen[0]!.dubAbgeleitet === undefined, gemessen)
+const zeileTitel = [titelMit(1, [joyn(), joyn({ dub: false }), joyn({ dub: true, dubRanges: bereiche }), netflix()]), titelMit(2, [joyn({ dub: false })])]
+const zeileGesetzt = setzeJoynDeutsch(zeileTitel)
+pruefe('Bau-Zeile: 1 gesetzt, 3 behalten (2 davon Nein), Netflix zählt nicht', joynZeile(zeileTitel, zeileGesetzt) === '1 Joyn-Verweis(e) als deutsch gesetzt — deutscher Anbieter; 3 mit eigenem Urteil unverändert (2 ohne Deutsch)', joynZeile(zeileTitel, zeileGesetzt))
+pruefe('Bau-Zeile: ohne Joyn-Weg leer', joynZeile([titelMit(3, [netflix()])], 0) === '')
+pruefe('Bau-Zeile: nur behaltene Wege, 0 gesetzt, wird trotzdem gemeldet', joynZeile([titelMit(4, [joyn({ dub: false })])], 0) === '0 Joyn-Verweis(e) als deutsch gesetzt — deutscher Anbieter; 1 mit eigenem Urteil unverändert (1 ohne Deutsch)')
 
 console.log('\nPrime-Kanal erbt:')
 const erbt = [cr({ dub: true, dubRanges: bereiche }), kanal()]
