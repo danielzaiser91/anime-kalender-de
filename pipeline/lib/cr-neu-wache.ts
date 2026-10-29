@@ -23,14 +23,30 @@ export interface FehlendeFolge {
   folge: string
   tag: string
   ids: number[]
+  /** Grund, wenn der Anbieter den deutschen Termin dieses Tages selbst verneint hat (`data/widerlegte-termine.json`). */
+  widerlegt?: string
 }
 
 /** Nur Folgen, die 1 bis 10 Tage zurückliegen: heute kann der Bau noch aufholen, ältere sind Altlast. */
 const MIN_TAGE = 1
 const MAX_TAGE = 10
 
+export type KennungVon = (url: string) => string | undefined
+
 function crSerienKennung(url: string): string | undefined {
   return /crunchyroll\.com\/(?:[a-z]{2}\/)?series\/([A-Z0-9]+)/.exec(url)?.[1]
+}
+
+const adressKern = (u: string): string =>
+  u.replace(/^https?:\/\//, '').replace(/^www\./, '').split('?')[0]!.replace(/\/$/, '').toLowerCase()
+
+/**
+ * Serienkennung aus der Adresse, sonst aus dem Kennungsgedächtnis (`data/crunchyroll-series-ids.json`): Die alte Slug-Form
+ * `/de/<name>` trägt keine Kennung, das Gedächtnis löst sie auf — wie die Katalog-Runde des Baus (`bau/09-4-3-katalog.ts`).
+ */
+export function kennungMitGedaechtnis(adressen: Record<string, { seriesId?: string }>): KennungVon {
+  const je = new Map(Object.entries(adressen).map(([u, v]) => [adressKern(u), v.seriesId]))
+  return (url) => crSerienKennung(url) ?? je.get(adressKern(url))
 }
 
 export function fehlendeCrFolgen(
@@ -38,6 +54,7 @@ export function fehlendeCrFolgen(
   titles: Title[],
   events: Pick<ReleaseEvent, 'platform' | 'titleId' | 'date'>[],
   heute: string,
+  kennungVon: KennungVon = crSerienKennung,
 ): FehlendeFolge[] {
   const nachId = new Map(titles.map((t) => [t.id, t]))
   const reihe = (t: Title) => t.franchiseId ?? t.id
@@ -50,7 +67,7 @@ export function fehlendeCrFolgen(
     const alter = diffDays(tag, heute)
     if (alter < MIN_TAGE || alter > MAX_TAGE) continue
     const unsere = titles.filter((t) =>
-      t.streams.some((s) => s.platform === 'crunchyroll' && crSerienKennung(s.url) === f.serieId),
+      t.streams.some((s) => s.platform === 'crunchyroll' && kennungVon(s.url) === f.serieId),
     )
     if (!unsere.length) continue
     const reihen = new Set(unsere.map(reihe))
@@ -88,9 +105,14 @@ export function serienWarnzeile(serien: UnbekannteSerie[]): string {
  * Serien mit neuer deutscher Folge der letzten 1 bis 10 Tage, zu denen wir keinen Titel haben. `fehlendeCrFolgen` und der
  * `--nur-neu`-Lauf übergehen sie, weil sie keine Adresse haben, an der man ansetzen könnte; hier werden sie gezählt und genannt.
  */
-export function unbekannteCrSerien(folgen: NeueFolge[], titles: Title[], heute: string): UnbekannteSerie[] {
+export function unbekannteCrSerien(
+  folgen: NeueFolge[],
+  titles: Title[],
+  heute: string,
+  kennungVon: KennungVon = crSerienKennung,
+): UnbekannteSerie[] {
   const bekannt = new Set(
-    titles.flatMap((t) => t.streams.filter((s) => s.platform === 'crunchyroll').map((s) => crSerienKennung(s.url))),
+    titles.flatMap((t) => t.streams.filter((s) => s.platform === 'crunchyroll').map((s) => kennungVon(s.url))),
   )
   const nachId = new Map<string, UnbekannteSerie>()
   for (const f of folgen) {
@@ -103,4 +125,28 @@ export function unbekannteCrSerien(folgen: NeueFolge[], titles: Title[], heute: 
     nachId.set(f.serieId, e)
   }
   return [...nachId.values()]
+}
+
+export interface WiderlegterTermin {
+  am: string
+  grund: string
+}
+
+/**
+ * Hängt jeder fehlenden Folge den Grund an, wenn der Anbieter den Tag selbst verneint hat: Das Gedächtnis
+ * (`data/widerlegte-termine.json`, Schlüssel = Release-Slug) nennt Tag und Grund, der Release (`releases.json`) seinen Titel.
+ * Der Tag zählt wie beim Termin mit ±1; so fehlt die Folge zu Recht und ist kein Bau-Fehler.
+ */
+export function kennzeichneWiderlegte(
+  fehlt: FehlendeFolge[],
+  gedaechtnis: Record<string, WiderlegterTermin>,
+  releases: { slug: string; titleId: number }[],
+): FehlendeFolge[] {
+  const titelJeSlug = new Map(releases.map((r) => [r.slug, r.titleId]))
+  return fehlt.map((f) => {
+    const treffer = Object.entries(gedaechtnis).find(([slug, w]) => {
+      return f.ids.some((id) => id === titelJeSlug.get(slug)) && Math.abs(diffDays(f.tag, w.am)) <= 1
+    })
+    return treffer ? { ...f, widerlegt: treffer[1].grund } : f
+  })
 }
