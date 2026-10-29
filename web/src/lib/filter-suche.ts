@@ -45,6 +45,8 @@ export interface BereichsSuche {
   bereich: (label: string, pillen: (string | undefined)[]) => boolean
   /** Bleibt diese Pille stehen? */
   zeige: (label: string, text: string) => boolean
+  /** Wie viele verschiedene Bereiche seit der Anlage geblieben sind — zählt beim Rendern, ein zweiter Durchlauf zählt nichts doppelt; der Hinweis „kein Treffer" steht hinter allen Bereichen. */
+  treffer: () => number
 }
 
 /** `undefined`, solange nicht gesucht wird — dann gilt überall die normale Ansicht. */
@@ -53,9 +55,15 @@ export function bereichsSuche(query: string): BereichsSuche | undefined {
   if (!q) return undefined
   const label = (l: string) => titelTrifft(l, q)
   const pille = (text: string) => pilleTrifft(text, q)
+  const geblieben = new Set<string>()
   return {
     query,
-    bereich: (l, pillen) => label(l) || pillen.some((p) => p !== undefined && pille(p)),
+    treffer: () => geblieben.size,
+    bereich: (l, pillen) => {
+      const bleibt = label(l) || pillen.some((p) => p !== undefined && pille(p))
+      if (bleibt) geblieben.add(l)
+      return bleibt
+    },
     zeige: (l, text) => label(l) || pille(text),
   }
 }
