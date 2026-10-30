@@ -20,12 +20,12 @@ const PFAD = '/gp/video/detail/B01MSMV5MA'
 const QUELLEN = ['box.js', 'melde-sperre.js', 'prime-stand-ziele.js', 'prime-region.js', 'amazon.js'].map(lies)
 
 /** Lädt amazon.js; `antwort` ist, was der Briefkasten auf jeden Abruf zurückgibt. Liefert `lage()` vor/nach dem Durchlauf. */
-function lade(antwort) {
+function lade(antwort, stand = {}) {
   const fenster = { addEventListener() {}, location: { pathname: PFAD, search: '' } }
   const k = sandkasten({
     chromeLokal: { get: () => ({ amazonErledigt: {}, amazonSuche: {} }), set: () => Promise.resolve() },
     /* Die Suchliste (prime-suche.json) bleibt die gepackte; nur der Briefkasten bekommt die Antwort. */
-    fetch: (u) => Promise.resolve({ ok: true, json: () => Promise.resolve(String(u).includes('prime-suche.json') ? {} : antwort) }),
+    fetch: (u) => Promise.resolve({ ok: true, json: () => Promise.resolve(String(u).includes('prime-suche.json') ? {} : String(u).includes('stand=1') ? stand : antwort) }),
   })
   const dokument = {
     documentElement: { innerHTML: '<html></html>', classList: { add() {}, remove() {}, toggle() {}, contains: () => false } },
@@ -88,6 +88,19 @@ async function haupt() {
   const gegen = lade(antwort(['A'], {}, [SUCHE]))
   await durchlaufen()
   pruefe('ohne Erwartung, Suche im Briefkasten geführt: fertig (Gegenprobe)', zeile(gegen.lage())?.istGemeldet === true, zeile(gegen.lage()))
+
+  console.log('\nMit Stand des Workers (`?stand=1` ohne diese Suche)')
+  const stand = (ziele) => ({ anbieter: [{ plattform: 'primevideo', ziele }] })
+  const anderes = { url: 'https://www.amazon.de/s?k=Anderes', titel: '' }
+  const standTeil = lade(antwort(['A'], { [SUCHE]: ['A', 'B'] }), stand([anderes]))
+  await durchlaufen()
+  pruefe('Stand da, eine von zwei Ausgaben gemeldet: Suche offen', zeile(standTeil.lage())?.istGemeldet === false, zeile(standTeil.lage()))
+  const standBeide = lade(antwort(['A', 'B'], { [SUCHE]: ['A', 'B'] }), stand([anderes]))
+  await durchlaufen()
+  pruefe('Stand da, beide Ausgaben gemeldet: Suche fertig', zeile(standBeide.lage())?.istGemeldet === true, zeile(standBeide.lage()))
+  const standFuehrt = lade(antwort(['A', 'B'], { [SUCHE]: ['A', 'B'] }), stand([{ url: SUCHE, titel: '' }]))
+  await durchlaufen()
+  pruefe('Stand führt die Suche noch, beide gemeldet: offen (der Stand entscheidet)', zeile(standFuehrt.lage())?.istGemeldet === false, zeile(standFuehrt.lage()))
 
   if (fehler.length) {
     console.error(`\n${fehler.length} Zusicherung(en) verletzt.`)
