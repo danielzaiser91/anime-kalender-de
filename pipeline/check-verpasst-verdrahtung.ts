@@ -46,10 +46,10 @@ if (!r?.schedule.verpasst?.[vermerk.episode as number]) {
   console.error(`check-verpasst-verdrahtung: Release ${vermerk.slug} trägt den Vermerk zu Folge ${vermerk.episode} nicht`, JSON.stringify(r?.schedule))
   process.exit(1)
 }
-/* Der Aufruf in build.ts selbst: eine Phase, die dort fehlt oder abgeschaltet ist, fängt sonst nur der Bau-Vergleich. */
-const bau = readFileSync(new URL('./build.ts', import.meta.url), 'utf8')
+/* Der Aufruf in der Phasenfolge selbst: eine Phase, die dort fehlt oder abgeschaltet ist, fängt sonst nur der Bau-Vergleich. */
+const bau = readFileSync(new URL('./bau/phasenfolge.ts', import.meta.url), 'utf8')
 if (!/^ {2}ergaenzeCrReleases\(\{ \.\.\.cr, /m.test(bau)) {
-  console.error('check-verpasst-verdrahtung: build.ts ruft ergaenzeCrReleases nicht unbedingt auf')
+  console.error('check-verpasst-verdrahtung: phasenfolge.ts ruft ergaenzeCrReleases nicht unbedingt auf')
   process.exit(1)
 }
 console.log('check-verpasst-verdrahtung: alles grün')
