@@ -364,7 +364,7 @@ export function AntwortKasten({
         )
       : ''
     const vorstart = vorstartSatz(antwort, Boolean(ohneSprachbeleg), releases)
-    if (vorstart) [haupt, neben, anteil, zaehl] = [vorstart, '', undefined, '']
+    if (vorstart) [haupt, neben, anteil, zaehl] = [betont(vorstart), '', undefined, '']
   } else if (antwort.art === 'teilweise') {
     /*
       **Teilweise synchronisiert — die Zahl statt „alle".**
@@ -413,7 +413,7 @@ export function AntwortKasten({
     zaehl = ''
   } else if (antwort.art === 'disc') {
     const vorstart = vorstartSatz(antwort, false)
-    haupt = vorstart ?? discKopf(antwort, T)
+    haupt = vorstart ? betont(vorstart) : discKopf(antwort, T)
     neben = vorstart ? '' : T('antwort.discNeben')
     zaehl = ''
     /*
