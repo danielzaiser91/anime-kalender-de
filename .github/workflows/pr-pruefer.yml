@@ -127,12 +127,14 @@ jobs:
 
       # Kettenlog (28.10.2026): Der Prüfer hat kein Bash und kann das CI-Log nicht lesen, soll aber Ergebniszeilen
       # daraus zitieren (PRs 1954, 2219, 2241, 2246: „aendern“/„nicht beurteilt“ nur wegen eines fehlenden Zitats). Dieser
-      # Schritt wartet bis zu 9 min auf das Ende der PR-Prüfkette des Kopfes und legt ihre Ergebniszeilen
+      # Schritt wartet bis zu 13 min auf das Ende der PR-Prüfkette des Kopfes und legt ihre Ergebniszeilen
       # (kettenlog.txt) und das bereinigte Log (kettenlog-voll.txt) in den Prüfordner. Fail-soft: ohne Datei gilt „nicht beurteilt“.
+      # 13 statt 9 min (30.10.2026): die Kette braucht im Median 9,6 min, p90 12,9 min (316 Läufe seit 28.10.); bei 9 min
+      # sah jeder fünfte Prüfer-Lauf (12 von 64 Stichproben) nur eine unfertige Kette. Rest: 13 + Prüfer < timeout 30 min.
       - name: Kettenlog bereitlegen
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: node tools/pr-kettenlog.mjs "$HEAD_SHA" "$RUNNER_TEMP/pruefer" 540 || echo "Kettenlog nicht bereitgelegt"
+        run: node tools/pr-kettenlog.mjs "$HEAD_SHA" "$RUNNER_TEMP/pruefer" 780 || echo "Kettenlog nicht bereitgelegt"
 
       # Laufzeitsperre (PR 1427): "ok" nur bei vollständigem Diff und einer Beschreibung, die mit der Commit-Liste bis
       # zum Kopf endet. Direkt vor den Prüfern, damit kein früherer Schritt die Beschreibung danach noch ändert.
@@ -147,8 +149,12 @@ jobs:
       # Stufe 0 (Daniel, 12.10.2026): schlanker Lauf statt Überspringen, damit grüne Kleinigkeiten eine echte Freigabe
       # bekommen (der Branch-Schutz verlangt sie). Gleiche Einstellungen, Dateien und Freigabe-Schritt wie unten; nur den
       # Diff lesen, kleines Zugbudget, kurzer Auftrag. Fehlt das Urteil, gibt es keine Freigabe.
+      # continue-on-error bei allen drei Prüfer-Schritten (PR 2436, 30.10.2026): die Action meldet "successful result after
+      # 13 turns, exceeding the maximum of 12" als Fehler, obwohl Urteil und Protokoll geschrieben sind; der Lauf stand
+      # rot trotz "ok". Ob es ein Urteil gibt, entscheidet allein "Protokoll und Freigabe" (urteil.json/protokoll.md).
       - name: Prüfer (Stufe 0, schlank)
         if: steps.stufe.outputs.stufe == '0' && steps.modus.outputs.modus != 'abnahme'
+        continue-on-error: true
         uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
@@ -199,6 +205,7 @@ jobs:
       # beim Installieren ab); Bash ist ohnehin verboten.
       - name: Prüfer
         if: steps.stufe.outputs.stufe != '0' && steps.modus.outputs.modus != 'abnahme'
+        continue-on-error: true
         uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
@@ -319,6 +326,7 @@ jobs:
       # Auflagen stehen in auflagen.md, der Nachtrag-Diff in pr.diff). Neue Funde sind ausgeschlossen, außer Regression.
       - name: Prüfer (Abnahme)
         if: steps.modus.outputs.modus == 'abnahme'
+        continue-on-error: true
         uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
