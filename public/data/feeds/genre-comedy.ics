@@ -517,6 +517,16 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-112153-tv-toggo-plus@2026-10-30@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261030T201500Z
+DTEND:20261030T204500Z
+SUMMARY:Pokémon Reisen: Die Serie
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/10852/
+CATEGORIES:TOGGO plus
+END:VEVENT
+BEGIN:VEVENT
 UID:2-5-dimensional-seduction-vol4@2026-10-30@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261030

@@ -1109,6 +1109,36 @@ DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-10012621-tv-super-rtl@2026-10-30#34@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261030T085000Z
+DTEND:20261030T092000Z
+SUMMARY:Super Wings
+DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
+ ails: https://anime-kalender.de/t/18191/
+CATEGORIES:Super RTL
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-10012621-tv-super-rtl@2026-10-30#35@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261030T090000Z
+DTEND:20261030T093000Z
+SUMMARY:Super Wings
+DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
+ ails: https://anime-kalender.de/t/18191/
+CATEGORIES:Super RTL
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-10012621-tv-toggo-plus@2026-10-30#34@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261030T095000Z
+DTEND:20261030T102000Z
+SUMMARY:Super Wings
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/18191/
+CATEGORIES:TOGGO plus
+END:VEVENT
+BEGIN:VEVENT
 UID:avatar-die-sieben-haefen-paramountplus@2026-10-30#10@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261030T100000Z
@@ -1118,6 +1148,26 @@ DESCRIPTION:Plattform: Paramount+\nRelease-Art: Wöchentlich (Simuldub)\nUh
  rzeit voraussichtlich\, nicht gemessen.\nDetails: https://anime-kalender.d
  e/t/-284833/
 CATEGORIES:Paramount+
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-10012621-tv-toggo-plus@2026-10-30#35@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261030T100000Z
+DTEND:20261030T103000Z
+SUMMARY:Super Wings
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/18191/
+CATEGORIES:TOGGO plus
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-158871-tv-super-rtl@2026-10-30@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261030T150500Z
+DTEND:20261030T153500Z
+SUMMARY:Pokémon Horizonte – Folge 21/132
+DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
+ ails: https://anime-kalender.de/t/14839/
+CATEGORIES:Super RTL
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-118399-tv-prosieben-maxx@2026-10-30@anime-kalender-de
@@ -1138,6 +1188,16 @@ SUMMARY:Die Tagebücher der Apothekerin: Staffel 3 - Teil 1 – Folge 2/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/t/16914/
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-158871-tv-toggo-plus@2026-10-30@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261030T160500Z
+DTEND:20261030T163500Z
+SUMMARY:Pokémon Horizonte – Folge 21/132
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/14839/
+CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-10-30#50@anime-kalender-de
@@ -1200,6 +1260,16 @@ SUMMARY:One Piece
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/12/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-112153-tv-toggo-plus@2026-10-30@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261030T201500Z
+DTEND:20261030T204500Z
+SUMMARY:Pokémon Reisen: Die Serie
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/10852/
+CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
 UID:2-5-dimensional-seduction-vol4@2026-10-30@anime-kalender-de

@@ -565,6 +565,16 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nIm Angebot seit dies
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-158871-tv-super-rtl@2026-10-30@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261030T150500Z
+DTEND:20261030T153500Z
+SUMMARY:Pokémon Horizonte – Folge 21/132
+DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
+ ails: https://anime-kalender.de/t/14839/
+CATEGORIES:Super RTL
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-118399-tv-prosieben-maxx@2026-10-30@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261030T154000Z
@@ -573,6 +583,16 @@ SUMMARY:Yashahime: Princess Half-Demon
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/11570/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-158871-tv-toggo-plus@2026-10-30@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261030T160500Z
+DTEND:20261030T163500Z
+SUMMARY:Pokémon Horizonte – Folge 21/132
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/14839/
+CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-10-30#50@anime-kalender-de
@@ -613,6 +633,16 @@ SUMMARY:One Piece
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/12/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-112153-tv-toggo-plus@2026-10-30@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261030T201500Z
+DTEND:20261030T204500Z
+SUMMARY:Pokémon Reisen: Die Serie
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/10852/
+CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-G6793XKZY@2026-10-31@anime-kalender-de
