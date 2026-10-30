@@ -31,6 +31,13 @@ export function mitProbetitel(titel) {
     streams: [{ platform: 'crunchyroll', url: 'https://www.crunchyroll.com/de/series/PROBE', kind: 'stream', zugang: 'abo' }],
     watchLinks: [],
     os: true,
+    /* Alles, was die Antwort „ohne“ in „fertig“ kippen würde (`hatSynchro`, `titleStatus`), kommt nicht aus der Vorlage. */
+    hasVoices: undefined,
+    deErstausgabe: undefined,
+    jpEnd: undefined,
+    einzelquelle: undefined,
+    dubConfidence: 'low',
+    jpYear: 2026,
     ankuendigung: { platform: 'crunchyroll', omuAb: '2026-10-07', synchro: 'angekuendigt', quellen: ['https://www.crunchyroll.com/de/news/synchro-probe'], stand: '2026-09-15' },
   }
   return [...titel, probe]
@@ -97,7 +104,8 @@ export async function meldeTerminKarte({ chromium, antworte, dist, lesePixel }) 
       await seite.waitForSelector(KARTE, { timeout: 15_000 })
       fehler.push(...(await messe(seite, (a) => seite.evaluate(lesePixel, a), thema)))
     } catch (e) {
-      fehler.push(`${thema}: keine Karte „Termin offen“ für „${PROBE_NAME}“ gefunden (${String(e).slice(0, 80)})`)
+      const sicht = await seite.evaluate(() => document.body.innerText.replace(/\s+/g, ' ').slice(0, 160)).catch(() => '')
+      fehler.push(`${thema}: keine Karte „Termin offen“ für „${PROBE_NAME}“ gefunden (${String(e).slice(0, 80)}; Seite zeigt: ${sicht})`)
     }
     await kontext.close()
   }
