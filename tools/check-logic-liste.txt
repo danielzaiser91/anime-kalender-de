@@ -59,6 +59,7 @@ pipeline/check-beleg-lauf.ts
 pipeline/check-beleg-marken.ts
 pipeline/check-beleg-stoerung.ts
 pipeline/check-belege-entfernt.ts
+pipeline/check-belege-riegel-schreiben.ts
 pipeline/check-belegstaerke-forum.ts
 pipeline/check-belegstaerke-handbelegt.ts
 pipeline/check-belegstaerke.ts
@@ -275,6 +276,7 @@ pipeline/check-prime-kanal.ts
 pipeline/check-prime-kaufweg-ablauf.ts
 pipeline/check-prime-kaufweg.ts
 pipeline/check-prime-nein-beleg.ts
+pipeline/check-prime-phase-laufzeit.ts
 pipeline/check-prime-pille.ts
 pipeline/check-prime-seite-richten.ts
 pipeline/check-prime-seiten-sperre.ts
