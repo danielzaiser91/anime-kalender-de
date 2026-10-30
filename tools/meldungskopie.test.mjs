@@ -172,6 +172,15 @@ assert.equal(cli('abfrage', '--datei', sqlDatei, '--kopie', basis).stdout.trim()
 const viele = cli('abfrage', 'WITH RECURSIVE n(i) AS (SELECT 1 UNION ALL SELECT i + 1 FROM n WHERE i < 250) SELECT i FROM n', '--kopie', basis)
 assert.equal(viele.stdout.trim().split('\n').length, 200, 'ohne --max höchstens 200 Zeilen')
 assert.match(viele.stderr, /… 50 weitere Zeilen \(--max 200\)/)
+{
+  // Großes Ergebnis: 200.000 Zeilen à 2 KB bei 64 MB Heap; `all()` stürzte ab, gestreamt bleibt der Speicher klein und die Gesamtzahl stimmt.
+  const gross = 'WITH RECURSIVE n(i) AS (SELECT 1 UNION ALL SELECT i + 1 FROM n WHERE i < 200000) SELECT i, hex(zeroblob(1000)) AS d FROM n'
+  const l = spawnSync(process.execPath, ['--max-old-space-size=64', join(WURZEL, 'tools/meldungskopie.mjs'), 'abfrage', gross, '--kopie', basis, '--max', '3'], { encoding: 'utf8', cwd: WURZEL, env: UMGEBUNG })
+  assert.equal(l.status, 0, l.stderr.slice(-300))
+  assert.equal(l.stdout.trim().split('\n').length, 3)
+  assert.match(l.stderr, /… 199997 weitere Zeilen \(--max 3\)/)
+  assert.match(l.stderr, /200000 Zeilen in \d+ ms/)
+}
 assert.equal(cli().status, 2)
 
 /* ---- Holen: nur wenn der jüngste erfolgreiche Lauf neuer ist als die vorhandene Kopie; das Artefakt ist verschlüsselt ---- */
