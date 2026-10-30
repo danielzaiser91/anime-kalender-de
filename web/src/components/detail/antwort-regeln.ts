@@ -5,6 +5,7 @@
 import { anzeigeFolge, istErschienen, releaseStatus } from '@shared/logic.ts'
 import { formatDate, todayIso, weekdayName } from '@shared/time.ts'
 import type { Release, ReleaseEvent, Title, WatchLink } from '@shared/types.ts'
+import { erstausgabeVorDisc } from '../../lib/erste-disc.ts'
 import type { Antwort } from './antwort-typ.ts'
 
 /**
@@ -91,10 +92,27 @@ export function deutscherWochentaktLaeuft(events: ReleaseEvent[], jetzt: Date = 
  * deutsche Erstausgabe mit Tagesdatum bis heute. Ohne eines davon ist ein künftiger Termin eine Premiere, kein Nachschlag
  * (Yaiba: Sprecher belegt, erste TV-Folge am 05.11.2026 — der Kasten sagte „Alle 24 Folgen auf Deutsch“, 21.10.2026).
  */
-export function deutschBegonnen(title: Title, erschieneneFolgen: number, heute: string): boolean {
+export function deutschBegonnen(title: Title, erschieneneFolgen: number, heute: string, releases: Release[] = []): boolean {
   if ((title.streams ?? []).some((s) => s.dub === true) || erschieneneFolgen > 0) return true
   const von = title.deErstausgabe?.von
-  return Boolean(title.deErstausgabe?.synchro && von && /^\d{4}-\d{2}-\d{2}$/.test(von) && von <= heute)
+  const aniSearchTag = Boolean(title.deErstausgabe?.synchro && von && /^\d{4}-\d{2}-\d{2}$/.test(von) && von <= heute)
+  return aniSearchTag && !erstausgabeVorDisc(title, releases, heute)
+}
+
+/**
+ * **Welche Releases beantworten die Kopffrage?** Streams ohne Disc und Kino-Banner; gibt es keine, fällt der Kopf auf die Disc
+ * zurück — außer die deutsche Fassung hat nachweislich begonnen (dann ist die Disc nur eine Kaufausgabe). Ohne Beleg der Synchro
+ * zählt alles; mit Synchro-Hinweis, aber ohne begonnene Fassung (Bocchi: nur Sprecher, Vol. 1 am 06.11.), antwortet die Disc.
+ */
+export function kopfReleases(
+  { ohneDisc, releases, imKino, hatSynchro, title, heute }: { ohneDisc: Release[]; releases: Release[]; imKino: (r: Release) => boolean; hatSynchro: boolean; title: Title; heute: string },
+): Release[] {
+  if (ohneDisc.length) return ohneDisc
+  const ohneKino = releases.filter((r) => !imKino(r))
+  if (!hatSynchro) return ohneKino
+  /* Filme haben ihren eigenen Zweig („film“, Kino); dort bleibt der Kopf wie er war. */
+  if (title.format === 'MOVIE' || deutschBegonnen(title, 0, heute, releases)) return []
+  return ohneKino.filter((r) => r.releaseType === 'disc')
 }
 
 /**
@@ -198,12 +216,24 @@ export const erschieneneFuerFolgenliste = (a: { art: string; raus?: unknown } | 
  * **Die deutsche Erstausgabe steht in den Neuigkeiten, nicht unter „Auf Deutsch verfügbar"** (Daniel, 07.10.2026: „Text kann weg, der Trenner rückt nach oben;
  * das Datum wandert in die Neuigkeiten, zurückdatiert"). Gilt nur mit Tagesdatum und Synchro-Marke — ohne Datum bleibt die Zeile im Kasten die einzige Spur.
  */
-export function erstausgabeAlsNeuigkeit(title: Pick<Title, 'deErstausgabe'> & Partial<Pick<Title, 'angebotSeit' | 'streams'>>, heute = todayIso()): boolean {
+export function erstausgabeAlsNeuigkeit(title: Pick<Title, 'deErstausgabe'> & Partial<Pick<Title, 'angebotSeit' | 'streams'>>, heute = todayIso(), releases: Release[] = []): boolean {
   const von = title.deErstausgabe?.von
   if (!title.deErstausgabe?.synchro || !von || !/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/.test(von) || von > heute) return false
+  /* Steht Vol. 1 noch aus, war die Erstausgabe noch nicht (Virgin Road): keine Zeile, der Kasten nennt den Termin. */
+  if (erstausgabeVorDisc(title, releases, heute)) return false
   /* Liegt das Angebot eines Anbieters mit deutscher Tonspur davor, ist die Ausgabe nicht die erste Gelegenheit (wie in `deSeitZeile`). */
   const angebot = title.angebotSeit
   return !(angebot?.date && angebot.date < von && (title.streams ?? []).some((x) => x.platform === angebot.platform && x.dub === true))
+}
+
+/** Der Titel, dessen deutsche Erstausgabe in den Neuigkeiten steht; holt die Termine selbst aus der Karte (Aufrufer: `Neuigkeiten`). */
+export function erstausgabeNeuigkeitTitel(
+  daten: { titleById: Map<number, Title>; releasesByTitle: Map<number, Release[]> },
+  titelId: number,
+  heute: string,
+): Title | undefined {
+  const titel = daten.titleById.get(titelId)
+  return titel && erstausgabeAlsNeuigkeit(titel, heute, daten.releasesByTitle.get(titelId) ?? []) ? titel : undefined
 }
 
 /** Die Überschrift des „fertig“-Kastens mit Zahl; abgeleitet ohne „Alle“, mit „≈“ (siehe `fertigAntwort`). */

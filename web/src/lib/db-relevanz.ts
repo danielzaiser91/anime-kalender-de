@@ -1,6 +1,7 @@
 import type { Release, ReleaseStatus, Title } from '@shared/types.ts'
 import { releaseStatus, titleStatus } from '@shared/logic.ts'
 import { addDays } from '@shared/time.ts'
+import { erstausgabeVorDisc, ersterDiscTermin } from './erste-disc.ts'
 import { markeOhneDoppel, staffelMarken } from './db-staffel-marke.ts'
 
 /**
@@ -73,6 +74,9 @@ function cartoonSchonErschienen(t: Title, today: string): boolean {
 /** Disc-Termine bestimmen weder „Läuft jetzt" noch (außer als einzige) „Demnächst". */
 function stufeRoh(t: Title, alle: Release[], today: string): Roh {
   const nichtDisc = alle.filter((r) => !istDisc(r))
+  /* Der aniSearch-Tag liegt vor Vol. 1 (Virgin Road): die deutsche Fassung beginnt erst mit dem Band. */
+  const e = t.deErstausgabe
+  if (e?.synchro && e.von && e.von <= today && erstausgabeVorDisc(t, alle, today)) return { art: 'bald', ab: ersterDiscTermin(alle) }
   return t.deErstausgabe ? stufeMitErstausgabe(t.deErstausgabe, nichtDisc, today) : stufeOhneErstausgabe(t, alle, nichtDisc, today)
 }
 

@@ -1,3 +1,4 @@
+import { useEscape } from '../../lib/escape.ts'
 import { useLang } from '../../lib/i18n.tsx'
 import { useState, useEffect } from 'react'
 import { createPortal } from 'react-dom'
@@ -76,17 +77,13 @@ export function TrailerKino({
   */
   useEffect(() => {
     if (!offen) return
-    const beiTaste = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setOffen(false)
-    }
-    document.addEventListener('keydown', beiTaste)
     const vorher = document.body.style.overflow
     document.body.style.overflow = 'hidden'
     return () => {
-      document.removeEventListener('keydown', beiTaste)
       document.body.style.overflow = vorher
     }
   }, [offen])
+  useEscape(offen, () => setOffen(false), { ziel: 'document' })
 
   return (
     <>

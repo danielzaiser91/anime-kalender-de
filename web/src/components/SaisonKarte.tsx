@@ -5,7 +5,7 @@ import { ANILIST_COVER_BASIS } from '@shared/mappings.ts'
 import { ladeTitelBestand, type Dataset } from '../lib/data.ts'
 import { coverBild } from '../lib/cover.ts'
 import { useLang, type TranslationKey } from '../lib/i18n.tsx'
-import { anbieterVon, type SaisonZeile, type Stufe } from '../lib/saison.ts'
+import { anbieterChips, type SaisonZeile, type Stufe } from '../lib/saison.ts'
 import { terminText } from '../lib/saison-termin.ts'
 import { useHoverCover } from './kalender/HoverCover.tsx'
 
@@ -26,7 +26,8 @@ export function SaisonKarte({ z, data, favorit, oeffne, ausblick }: { z: SaisonZ
   const name = zeilenName(z)
   const cover = z.titel?.coverImage ?? (z.katalog?.coverImage && !z.katalog.coverImage.startsWith('http') ? ANILIST_COVER_BASIS + z.katalog.coverImage : z.katalog?.coverImage)
   const { zeiger, vorschau } = useHoverCover(cover)
-  const anbieter = (z.titel ? anbieterVon(z.titel, data.releasesByTitle.get(z.id)) : (z.katalog?.anbieter ?? [])).map((p) => PLATFORMS[p]?.name ?? p).slice(0, 3)
+  const chips = (z.titel ? anbieterChips(z.titel, data.releasesByTitle.get(z.id)) : (z.katalog?.anbieter ?? []).map((platform) => ({ platform, laut: false }))).slice(0, 3)
+  const anbieter = chips.map((c) => ({ name: PLATFORMS[c.platform]?.name ?? c.platform, laut: c.laut }))
   const termin = terminText(z, Boolean(ausblick), todayIso().slice(0, 4), t)
   const rand = favorit ? 'border-ak-favorit/70 shadow-[0_0_0_1px_color-mix(in_srgb,var(--ak-favorit)_30%,transparent)]' : z.erschienen ? 'border-ak-rand hover:border-ak-leise' : 'border-dashed border-ak-rand hover:border-ak-leise'
   /* Ein Titel außerhalb des Kerns liegt in titles.json, ein Katalogtitel hinter dem Schalter: Erst beim Klick wird geholt, was das Panel zum Finden braucht. */
@@ -52,10 +53,11 @@ export function SaisonKarte({ z, data, favorit, oeffne, ausblick }: { z: SaisonZ
           {anbieter.length > 0 && (
             <span className="flex flex-wrap gap-1 text-xs">
               {anbieter.map((a) => (
-                <span key={a} className="rounded-md border border-ak-rand px-1.5">{a}</span>
+                <span key={a.name} data-anbieter-chip="" className={`rounded-md border px-1.5 ${a.laut ? 'border-dashed border-ak-leise' : 'border-ak-rand'}`}>{a.name}</span>
               ))}
             </span>
           )}
+          {anbieter.some((a) => a.laut) && <span className="text-xs text-ak-leise">{anbieter.filter((a) => a.laut).map((a) => a.name).join(', ')}: {t('detail.statusAnbieter')}</span>}
         </span>
       </button>
     </li>

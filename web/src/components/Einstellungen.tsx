@@ -1,5 +1,5 @@
-import { useEffect } from 'react'
 import { createPortal } from 'react-dom'
+import { useEscape } from '../lib/escape.ts'
 import { useLang, type TranslationKey } from '../lib/i18n.tsx'
 import { useThema } from '../lib/thema.ts'
 import { ecchiSetzen, ecchiZeigen } from '../lib/ecchi.ts'
@@ -14,14 +14,7 @@ export function EinstellungenDialog({
 }) {
   const { t } = useLang()
 
-  useEffect(() => {
-    if (!offen) return
-    const beiTaste = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') schliessen()
-    }
-    document.addEventListener('keydown', beiTaste)
-    return () => document.removeEventListener('keydown', beiTaste)
-  }, [offen, schliessen])
+  useEscape(offen, () => schliessen(), { ziel: 'document' })
 
   if (!offen) return null
 

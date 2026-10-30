@@ -44,6 +44,7 @@ pipeline/check-anisearch-sprecher.ts
 pipeline/check-ankuendigung-news.ts
 pipeline/check-ankuendigung-sichtbar.ts
 pipeline/check-antwort-jetzt.ts
+pipeline/check-auf-deutsch-vorstart.ts
 pipeline/check-ausgeblieben-text.ts
 pipeline/check-auto-disc-handeintrag.ts
 pipeline/check-beleg-anbieter.ts
@@ -138,6 +139,9 @@ pipeline/check-episodentitel.ts
 pipeline/check-erscheint-erst.ts
 pipeline/check-erstausgabe.ts
 pipeline/check-erwartet-wort.ts
+pipeline/check-escape-hoerer-faelle.ts
+pipeline/check-escape-hoerer.ts
+pipeline/check-escape-stapel.ts
 pipeline/check-favoriten-feed-faelle.ts
 pipeline/check-film-ohne-weg.ts
 pipeline/check-filter-genres.ts
@@ -148,6 +152,8 @@ pipeline/check-folge-ueber-titel.ts
 pipeline/check-folge-zwoelf-hinweis.ts
 pipeline/check-folgen-datum.ts
 pipeline/check-folgen-erschienen-je-weg.ts
+pipeline/check-folgen-fremde-adressen-lauf.ts
+pipeline/check-folgen-fremde-adressen.ts
 pipeline/check-folgenblock.ts
 pipeline/check-folgenflaggen.ts
 pipeline/check-folgenzahl-belegt.ts
@@ -203,6 +209,7 @@ pipeline/check-kopf-menue.ts
 pipeline/check-kopfzeile-premiere.ts
 pipeline/check-leerer-kasten.ts
 pipeline/check-leerzeichen-gleich.ts
+pipeline/check-leinwand-escape.ts
 pipeline/check-link-leere-adresse.ts
 pipeline/check-logic.ts
 pipeline/check-luecken-staffel0.ts
@@ -290,6 +297,7 @@ pipeline/check-rohfolgen-ablauf.ts
 pipeline/check-rohfolgen-cartoons.ts
 pipeline/check-rohfolgen-staffelmisch.ts
 pipeline/check-saison-deutsch.ts
+pipeline/check-saison-karte-chip.ts
 pipeline/check-saison-termin.ts
 pipeline/check-sammel-erste-folgen.ts
 pipeline/check-sammel-unzugeordnet.ts
