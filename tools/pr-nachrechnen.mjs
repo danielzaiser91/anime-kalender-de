@@ -14,7 +14,7 @@
  *           die Meldung sagt, warum. Scheitert es erst nach dem Schließen, steht „SCHON ANGESTOSSEN“ in der Meldung.
  * Die Basis steht in der Checkout-Zeile des Jobs JOB: „HEAD is now at … Merge <Kopf> into <Basis>“ (Text des Merge-Commits von GitHub).
  */
-import { execFileSync } from 'node:child_process'
+import { LIMIT_STAPEL_MS, mitLimit } from './kind-mit-limit.mjs'
 import { pathToFileURL } from 'node:url'
 import { BOT_DATEIEN_OHNE_LESER, istBotBild, istBotDatei } from './pr-nachrechnen-bot-pfade.mjs'
 import { gitAufruf, gitLeser } from './pr-nachrechnen-leser-git.mjs'
@@ -217,7 +217,8 @@ export function nachrechnen(nummer, gh, melde, warte, leser = gitLeser(gitAufruf
 }
 
 export function gh(args) {
-  return execFileSync('gh', args, { encoding: 'utf8', windowsHide: true, maxBuffer: 64 * 1024 * 1024 })
+  // Gemessen 30.10.2026 (3 Läufe): Job-Log 154 kB 1,2-1,4 s, Listen 0,8-0,9 s; Stapel-Limit 120 s deckt lange Logs.
+  return mitLimit('gh', args, { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 }, { limitMs: LIMIT_STAPEL_MS })
 }
 
 /** Wartet synchron (das Werkzeug ist durchgehend synchron); Rückgabe von Atomics.wait, nach Ablauf 'timed-out'. */
