@@ -40,6 +40,8 @@ pruefe(
 )
 pruefe('Titel ohne eigenen Netflix-Verweis bekommt keinen Zusatz', Object.keys(zusatz([titel(6, null, 16)], dateien({ 16: ['900001'] }, { 6: ['900002'] }))).length === 0)
 pruefe('Umleitung (Ranma) ist keine zweite Kennung', Object.keys(zusatz([titel(7, '81171925', 17)], dateien({ 17: ['81301833'] }, {}))).length === 0)
+const zweiEigene: QuellenTitel = { id: 8, anisearchId: 18, streams: [{ platform: 'netflix', url: nf('900001') }, { platform: 'netflix', url: nf('900002') }] }
+pruefe('zwei Kennungen im Datensatz, keine fremde: kein Eintrag', zusatz([zweiEigene], dateien({ 18: ['900001'] }, {})).hasOwnProperty('8') === false, zusatz([zweiEigene], dateien({ 18: ['900001'] }, {})))
 
 /* Einhängen in die Liste: gleiche Kennung doppelt eingetragen ergibt einen Eintrag, ein Fremdtitel bleibt unberührt. */
 const eintrag = (id: number) => ({ t: { id }, dub: undefined, wartet: false })
@@ -67,16 +69,19 @@ const TITEL = [
   { ...basis, id: 12, titleDe: 'Einfach', anisearchId: 5012, streams: [stream('900010')] },
   { ...basis, id: 13, titleDe: 'Gleiche zweite', anisearchId: 5013, streams: [stream('900020')] },
   { ...basis, id: 14, titleDe: 'Fremd', anisearchId: 5014, streams: [stream('900030')] },
+  { ...basis, id: 15, titleDe: 'Nur JustWatch', anisearchId: 5015, streams: [stream('900050')] },
 ]
 const ANISEARCH = {
   a: { anisearchId: 5011, streams: [{ url: nf('900001') }, { url: nf('900002') }] },
   b: { anisearchId: 5012, streams: [{ url: nf('900010') }] },
   c: { anisearchId: 5013, streams: [{ url: nf('900021') }] },
   d: { anisearchId: 5014, streams: [{ url: nf('900030') }] },
+  e: { anisearchId: 5015, streams: [{ url: nf('900050') }] },
 }
 const JUSTWATCH = {
   13: { angebote: [{ url: nf('900021') }, { url: nf('900021') }] },
   14: { angebote: [{ url: nf('900030') }] },
+  15: { angebote: [{ url: nf('900051') }] },
   '-5': { angebote: [{ url: nf('900041') }] },
 }
 const CARTOON = { ...basis, id: -5, titleDe: 'Cartoon', streams: [stream('900040')] }
@@ -101,15 +106,16 @@ try {
   pruefe('Erzeuger endet mit Exit 0', lauf.status === 0 && /Netflix-Adressen/.test(lauf.stdout), { status: lauf.status, stderr: lauf.stderr.slice(0, 300) })
   const liste = JSON.parse(readFileSync(join(wurzel, 'extension/offene-netflix.js'), 'utf8').replace(/^[^{]*=\s*/, '')) as Record<string, { asTitel: number }>
   pruefe('Titel mit zwei Kennungen: zwei Ziele, beide für Titel 11', liste['900001']?.asTitel === 11 && liste['900002']?.asTitel === 11, Object.keys(liste))
-  pruefe('Titel mit einer Kennung: ein Ziel', liste['900010']?.asTitel === 12 && Object.keys(liste).length === 7, Object.keys(liste))
+  pruefe('Titel mit einer Kennung: ein Ziel', liste['900010']?.asTitel === 12 && Object.keys(liste).length === 9, Object.keys(liste))
   pruefe('fremde Kennung aus zwei Quellen: ein zusätzliches Ziel', liste['900020']?.asTitel === 13 && liste['900021']?.asTitel === 13, Object.keys(liste))
   pruefe('alle Quellen einig: kein Zusatz für Titel 14', liste['900030']?.asTitel === 14)
+  pruefe('nur JustWatch nennt die zweite: ein zusätzliches Ziel', liste['900051']?.asTitel === 15, Object.keys(liste))
   pruefe('Cartoon: eigene Kennung geführt, JustWatch-Kennung nicht als Zusatz', liste['900040']?.asTitel === -5 && !('900041' in liste), Object.keys(liste))
-  /* Prüfstand im selben Ordner: sieben Ziele (fünf Verweise, zwei Zusätze), alle offen und alle im Gesamt. */
+  /* Prüfstand im selben Ordner: neun Ziele (sechs Verweise, drei Zusätze), alle offen und alle im Gesamt. */
   const stand = spawnSync(process.execPath, [fileURLToPath(new URL('../tools/pruefstand.mjs', import.meta.url))], { env: { ...process.env, AK_ROOT: wurzel }, encoding: 'utf8' })
   pruefe('Prüfstand endet mit Exit 0', stand.status === 0, { status: stand.status, stderr: stand.stderr.slice(0, 300) })
   const netflix = JSON.parse(readFileSync(join(wurzel, 'public/data/pruefstand.json'), 'utf8')).anbieter.find((a: { plattform: string }) => a.plattform === 'netflix')
-  pruefe('Prüfstand: sieben Ziele, Gesamt 7 (5 Verweise, 2 Zusätze)', netflix?.ziele.length === 7 && netflix.gesamt === 7 && netflix.offen === 7, netflix)
+  pruefe('Prüfstand: neun Ziele, Gesamt 9 (6 Verweise, 3 Zusätze)', netflix?.ziele.length === 9 && netflix.gesamt === 9 && netflix.offen === 9, netflix)
 } finally {
   rmSync(wurzel, { recursive: true, force: true })
 }
