@@ -1,5 +1,5 @@
 {
-  "stand": "2026-10-29T23:05:43.241Z",
+  "stand": "2026-10-30T07:10:15.978Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -3289,17 +3289,6 @@
       "geprueftAm": "2026-08-21",
       "entferntAm": "2026-10-30",
       "letzterWeg": true
-    },
-    {
-      "titleId": 1430,
-      "titel": "Das Schloss des Cagliostro",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/lupin-the-3rd-the-castle-of-cagliostro/lupin-iii-das-schloss-des-cagliostro-unbekannt-817943?ssid=414931",
-      "seriesId": null,
-      "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
-      "geprueftAm": "2026-08-21",
-      "entferntAm": "2026-10-30",
-      "letzterWeg": false
     },
     {
       "titleId": 1132,
@@ -7920,6 +7909,17 @@
       "geprueftAm": null,
       "entferntAm": "2026-10-30",
       "letzterWeg": true
+    },
+    {
+      "titleId": 1430,
+      "titel": "Das Schloss des Cagliostro",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/lupin-the-3rd-the-castle-of-cagliostro/lupin-iii-das-schloss-des-cagliostro-unbekannt-817943?ssid=414931",
+      "seriesId": null,
+      "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
+      "geprueftAm": "2026-08-21",
+      "entferntAm": "2026-10-30",
+      "letzterWeg": false
     },
     {
       "titleId": 206814,
