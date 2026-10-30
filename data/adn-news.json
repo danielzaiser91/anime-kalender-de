@@ -1,5 +1,5 @@
 {
-  "geholtAm": "2026-10-29T02:01:37.835Z",
+  "geholtAm": "2026-10-30T02:01:31.390Z",
   "artikel": [
     {
       "titel": "THE LEGEND OF HEI II im Stream bei ADN verfügbar!",
@@ -728,6 +728,22 @@
         438,
         1395,
         1397
+      ]
+    },
+    {
+      "titel": "My Gift Lvl 9999 jetzt mit deutscher Synchro bei ADN",
+      "url": "https://news.animationdigitalnetwork.com/de/2026/04/27/my-gift-lvl-9999-jetzt-mit-deutscher-synchro-bei-adn/",
+      "datum": "2026-04-27",
+      "showIds": [
+        1333
+      ]
+    },
+    {
+      "titel": "Eyeshield 21 ab sofort im Stream bei ADN",
+      "url": "https://news.animationdigitalnetwork.com/de/2026/04/24/eyeshield-21-ab-sofort-im-stream-bei-adn/",
+      "datum": "2026-04-24",
+      "showIds": [
+        329
       ]
     }
   ]
