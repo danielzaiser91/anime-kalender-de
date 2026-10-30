@@ -196892,6 +196892,21 @@
     "fetchedAt": "2026-10-29T04:41:18.179Z",
     "stand": 1
   },
+  "221336": {
+    "ean": "5061085520314",
+    "publisher": "MVM Entertainment Ltd.",
+    "umfang": "Staffel / Gesamtausgabe",
+    "medium": "Blu-ray",
+    "enthalten": [
+      {
+        "anisearchId": 2416,
+        "typ": "TV-Serie",
+        "folgen": 26
+      }
+    ],
+    "fetchedAt": "2026-10-30T04:40:46.645Z",
+    "stand": 1
+  },
   "221364": {
     "ean": "5061085520291",
     "publisher": "MVM Entertainment Ltd.",
@@ -196953,6 +196968,21 @@
       }
     ],
     "fetchedAt": "2026-10-27T03:58:01.573Z",
+    "stand": 1
+  },
+  "221675": {
+    "ean": "5037899094839",
+    "publisher": "Anime Limited (UK)",
+    "umfang": "Film",
+    "medium": "Blu-ray + 4K UHD",
+    "enthalten": [
+      {
+        "anisearchId": 1998,
+        "typ": "OVA",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-10-30T04:40:53.170Z",
     "stand": 1
   }
 }
