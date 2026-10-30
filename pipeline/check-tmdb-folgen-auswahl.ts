@@ -2,7 +2,8 @@
  * Zusicherungen zu `lib/tmdb-folgen-auswahl.ts`: laufende Serien mit titellosen, schon erschienenen Folgen kommen nach 6 Tagen wieder und zuerst.
  * Aufruf: `npm run check:logic`.
  */
-import { frischFaellig, grundFaellig, waehleFaellige, type BestandKurz, type FolgeKurz } from './lib/tmdb-folgen-auswahl.ts'
+import { addDays, diffDays } from '../shared/time.ts'
+import { frischFaellig, grundFaellig, versatzTage, waehleFaellige,type BestandKurz, type FolgeKurz } from './lib/tmdb-folgen-auswahl.ts'
 
 let verletzt = 0
 function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
@@ -55,6 +56,33 @@ pruefe('Limit 1 behält den frischen', ids(waehleFaellige(eingabe, b, heute, 30,
 pruefe('Limit 2', ids(waehleFaellige(eingabe, b, heute, 30, 2)) === 'neu,alt1')
 pruefe('Grundfrist des Aufrufs gilt auch in der Auswahl', ids(waehleFaellige([k('alt1'), k('ruhig')], b, heute, 60, 5)) === '')
 pruefe('frischer Titel mit Alter über Grundfrist erscheint einmal', ids(waehleFaellige([k('x')], { x: bestand('2026-09-01', folge(2, 'Folge 2', '2026-10-15')) }, heute, 30, 5)) === 'x')
+
+console.log('\nTMDB-Folgen: Welle zerfällt in Wochenportionen')
+const welle = (kennungen: string[], wochen: number, limit: number): { je: number[]; kuerzester: number } => {
+  const stand: Record<string, BestandKurz> = {}
+  const zuletzt: Record<string, string> = {}
+  for (const id of kennungen) stand[id] = bestand('2026-10-06', echt)
+  const je: number[] = []
+  let kuerzester = Infinity
+  for (let w = 0; w < wochen; w++) {
+    const tag = addDays('2026-11-05', 7 * w)
+    const geholt = waehleFaellige(kennungen.map(k), stand, tag, 30, limit)
+    je.push(geholt.length)
+    for (const x of geholt) {
+      kuerzester = Math.min(kuerzester, diffDays(zuletzt[x.id] ?? stand[x.id]!.geholtAm, tag))
+      zuletzt[x.id] = tag
+      stand[x.id] = bestand(tag, echt)
+    }
+  }
+  return { je, kuerzester }
+}
+const kennungen776 = Array.from({ length: 776 }, (_, i) => String(i + 1))
+const lauf = welle(kennungen776, 9, 300)
+pruefe('776 gleich alte Einträge: 194 je Woche in den ersten vier Läufen ab 05.11.', lauf.je.slice(0, 4).join() === '194,194,194,194', lauf.je)
+pruefe('kein Titel kommt öfter als alle 30 Tage', lauf.kuerzester >= 30, lauf.kuerzester)
+pruefe('Versatz je Gruppe 0/7/14/21 Tage, nicht numerische Kennung 0', [1, 2, 3, 4].map((n) => versatzTage(String(n))).join() === '7,14,21,0' && versatzTage('alt1') === 0 && versatzTage(undefined) === 0)
+pruefe('Limit bleibt Obergrenze der Welle', welle(kennungen776, 1, 50).je[0] === 50)
+pruefe('frischer Titel kommt trotz Versatz nach 6 Tagen', ids(waehleFaellige([k('3')], { 3: bestand('2026-10-18', folge(2, 'Folge 2', '2026-10-15')) }, heute, 30, 5)) === '3')
 
 if (verletzt > 0) {
   console.error(`\n${verletzt} Zusicherung(en) verletzt.`)

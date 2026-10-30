@@ -32,9 +32,15 @@ export function frischFaellig(alt: BestandKurz, heute: string): boolean {
   return alt.folgen.some((f) => f.s >= 1 && !!f.datum && f.datum <= heute && f.datum >= addDays(heute, -FENSTER_TAGE) && !hatEchtenTitel(f))
 }
 
-export function grundFaellig(alt: BestandKurz | undefined, heute: string, alterTage: number): boolean {
+/** Zusatztage der Grundfrist: 0/7/14/21 je Kennung mod 4, damit eine Welle gleich alter Abrufe in Wochenportionen zerfällt. Später statt früher, damit kein Titel öfter als alle `alterTage` kommt; eine nicht numerische Kennung bekommt 0. */
+export function versatzTage(id: string | undefined): number {
+  const n = Number(id)
+  return Number.isInteger(n) && n >= 0 ? (n % 4) * 7 : 0
+}
+
+export function grundFaellig(alt: BestandKurz | undefined, heute: string, alterTage: number, id?: string): boolean {
   if (!alt) return true
-  if (diffDays(alt.geholtAm, heute) >= alterTage) return true
+  if (diffDays(alt.geholtAm, heute) >= alterTage + versatzTage(id)) return true
   return alt.folgen.some((f) => f.s >= 1 && f.en === undefined)
 }
 
@@ -47,7 +53,7 @@ export function waehleFaellige<T extends { id: string }>(
   for (const k of kandidaten) {
     const alt = bestand[k.id]
     if (alt && frischFaellig(alt, heute)) frisch.push(k)
-    else if (grundFaellig(alt, heute, alterTage)) rest.push(k)
+    else if (grundFaellig(alt, heute, alterTage, k.id)) rest.push(k)
   }
   return [...frisch, ...rest].slice(0, limit)
 }
