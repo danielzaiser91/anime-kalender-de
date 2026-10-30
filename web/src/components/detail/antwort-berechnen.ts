@@ -1,5 +1,6 @@
 import { addDays } from '@shared/time.ts'
 import { expandEvents, istErschienen, istAusgeblieben, titleStatus } from '@shared/logic.ts'
+import { titelSynchroAngekuendigt, widerlegterTermin } from '@shared/ankuendigung.ts'
 import { dubAbdeckung } from '@shared/dub-grenze.ts'
 import { type Title, type Release } from '@shared/types.ts'
 import { ausgebliebenBis } from './antwort-kasten.tsx'
@@ -103,9 +104,9 @@ export function berechneAntwort({ title, releases, today, jetzt }: AntwortEingab
     .sort((a, b) => a.date.localeCompare(b.date) || (a.episode ?? 0) - (b.episode ?? 0))
   const raus = zaehleErschienenJeAnbieter(alleEvents, jetzt)
   /* Ein widerlegter deutscher Termin erzeugt kein Ereignis — er bekommt seine eigene Antwort (02.10.2026). */
-  const widerlegt = releases.find((r) => r.widerlegt)?.widerlegt
-  if (widerlegt && !alleEvents.length) {
-    return { art: 'widerlegt' as const, datum: widerlegt.am, grund: widerlegt.grund, quelle: widerlegt.quelle }
+  const widerlegt = widerlegterTermin(releases, alleEvents.length)
+  if (widerlegt) {
+    return { art: 'widerlegt' as const, datum: widerlegt.am, grund: widerlegt.grund, quelle: widerlegt.quelle, terminOffen: titelSynchroAngekuendigt(title) }
   }
   /*
     **Keine Folgenzahl aus der Zahl der Termine.**

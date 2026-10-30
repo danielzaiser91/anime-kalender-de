@@ -96,22 +96,6 @@ console.log('\nAngekündigte Synchro ohne deutsche Folge (F71): Streifen und Abz
   pruefe('Reihe, in der ein Glied Synchro hat: weder Streifen noch Abzeichen', !gemischt.includes('angekündigt') && !gemischt.includes('keine deutsche Synchro'), gemischt)
   pruefe('Reihe, in der alle Glieder ohne Synchro sind und eines angekündigt ist: Abzeichen', (await mit([ohneAlles, blackClover])).includes('angekündigt'))
 }
-console.log('\nAngekündigt, aber vom Anbieter widerlegt: kein Abzeichen (wie im Detail-Panel)')
-{
-  const widerlegt = { titleId: 195604, platform: 'crunchyroll', releaseType: 'weekly', widerlegt: { am: '2026-10-03', grund: 'nur OmU', gemeldet: true } } as unknown as Release
-  const gueltig = { titleId: 195604, platform: 'crunchyroll', releaseType: 'weekly', schedule: { firstEpisodeDate: '2026-10-10' } } as unknown as Release
-  const ank = { platform: 'crunchyroll', omuAb: '2026-10-07', synchro: 'angekuendigt', quellen: [], stand: '2026-09-15' }
-  const titel = { id: 195604, titleDe: 'Black Clover Staffel 2', format: 'TV', streams: [], os: true, ankuendigung: ank } as unknown as Title
-  const mitTermin = async (releases: Release[]) => {
-    const d = { releasesByTitle: new Map<number, Release[]>([[195604, releases]]) } as never
-    await act(async () => wurzel.render(h(DbKarte, { main: titel, members: [titel], ...gemeinsam([]), data: d })))
-    return text()
-  }
-  pruefe('alle Termine widerlegt: kein Abzeichen', !(await mitTermin([widerlegt])).includes('angekündigt'))
-  pruefe('mehrere Termine, alle widerlegt: kein Abzeichen', !(await mitTermin([widerlegt, widerlegt])).includes('angekündigt'))
-  pruefe('ein gültiger Termin daneben: Abzeichen bleibt', (await mitTermin([widerlegt, gueltig])).includes('angekündigt'))
-  pruefe('ohne Termin: Abzeichen bleibt', (await mitTermin([])).includes('angekündigt'))
-}
 console.log('\nDbRaster läuft wirklich: titelId und Staffelmarke kommen aus der Liste auf die Kachel')
 {
   const geoeffnet: number[] = []

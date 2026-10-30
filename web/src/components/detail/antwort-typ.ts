@@ -82,7 +82,7 @@ export type Antwort =
    * die japanische Fassung, kommt keine deutsche Folge — „Erste Folge erscheint
    * heute" wäre falsch. Der Kasten nennt den widerlegten Tag und den Grund.
    */
-  | { art: 'widerlegt'; datum: string; grund: string; quelle?: string }
+  | { art: 'widerlegt'; datum: string; grund: string; quelle?: string; terminOffen: boolean }
   /**
    * **Eine Disc ist kein Sendeplan.**
    *

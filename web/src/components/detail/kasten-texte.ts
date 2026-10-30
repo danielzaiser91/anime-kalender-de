@@ -44,3 +44,13 @@ export function ausgebliebenTerminText(
   if (!e.time) return T(schluessel, werte)
   return T(`${schluessel}Zeit`, { ...werte, zeit: e.timeEstimated ? `≈ ${e.time}` : e.time })
 }
+
+/** Ein widerlegter Termin sagt nicht „erscheint heute“ (02.10.2026). Kopf, Nebenzeile und Dämpfung bei widerlegtem Termin: widerlegt ist der Termin, nicht die Ankündigung (`terminOffen`). */
+export function widerlegtTexte(
+  antwort: Extract<Antwort, { art: 'widerlegt' }>,
+  T: (k: string, v?: Record<string, string | number>) => string,
+): { haupt: string; neben: string; gedaempft: boolean } {
+  const grund = T('antwort.widerlegtNeben', { datum: formatDate(antwort.datum) })
+  if (!antwort.terminOffen) return { haupt: T('antwort.widerlegtTitel'), neben: grund, gedaempft: true }
+  return { haupt: T('antwort.synchroAngekuendigt'), neben: `${T('antwort.synchroTerminOffen')} · ${grund}`, gedaempft: false }
+}

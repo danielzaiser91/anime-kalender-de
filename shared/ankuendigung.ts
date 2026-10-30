@@ -62,11 +62,11 @@ export const titelSynchroAngekuendigt = (t: { westlich?: true; ankuendigung?: An
   !t.westlich && t.ankuendigung?.synchro === 'angekuendigt'
 
 /**
- * Gilt die Ankündigung noch? Nicht, wenn der Anbieter sie selbst widerlegt hat: alle Termine des Titels sind widerlegt
- * (Wochenprogramm führt nur die Originalfassung) — das Panel zeigt dann „vom Anbieter widerlegt“, die Kachel kein Abzeichen.
+ * Der widerlegte deutsche Termin eines Titels: ein widerlegter Release und kein einziges Ereignis (Wochenprogramm führt nur die
+ * Originalfassung). Widerlegt ist der Termin, nicht die Synchro-Ankündigung — Panel und Kachel fragen hier.
  */
-export const ankuendigungGilt = (t: { westlich?: true; ankuendigung?: Ankuendigung }, releases: Release[]): boolean =>
-  titelSynchroAngekuendigt(t) && !(releases.length > 0 && releases.every((r) => r.widerlegt))
+export const widerlegterTermin = (releases: Release[], anzahlEreignisse: number): NonNullable<Release['widerlegt']> | undefined =>
+  anzahlEreignisse > 0 ? undefined : releases.find((r) => r.widerlegt)?.widerlegt
 
 export function ankuendigungZeile(
   a: Ankuendigung,
