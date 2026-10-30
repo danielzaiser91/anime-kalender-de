@@ -1,5 +1,6 @@
 [
   { "name": "Kontrolle", "aenderungen": [] },
+  { "name": "Gegenprobe: lokale Variable umbenannt", "aenderungen": [{ "datei": "pipeline/bau/09-3-prime.ts", "suche": "const belegZurAdresse = belegFuer(title.id, 'primevideo', echt, 2)\n    if (belegZurAdresse?.available === false || belegZurAdresse?.dub === false) continue", "ersetze": "const urteilZurSeite = belegFuer(title.id, 'primevideo', echt, 2)\n    if (urteilZurSeite?.available === false || urteilZurSeite?.dub === false) continue" }] },
   { "name": "R1 schreibeBelege entdoppelt nicht", "tests": ["npx tsx pipeline/check-belege-riegel-schreiben.ts"], "aenderungen": [{ "datei": "pipeline/lib/dub-confirmed.ts", "suche": "writeFileSync(datei, entdoppleBelege(text, melde))", "ersetze": "writeFileSync(datei, text)" }] },
   { "name": "R2 haengeBelegeAn prüft YAML nicht", "tests": ["npx tsx pipeline/check-belege-riegel-schreiben.ts"], "aenderungen": [{ "datei": "pipeline/lib/belege-anhaengen.ts", "suche": "    yaml.load(neu)\n", "ersetze": "    void neu\n" }] },
   { "name": "R3 haengeBelegeAn schreibt nie", "tests": ["npx tsx pipeline/check-belege-riegel-schreiben.ts"], "aenderungen": [{ "datei": "pipeline/lib/belege-anhaengen.ts", "suche": "if (erneuert || neueZeilen.some((z) => z.startsWith('- '))) schreibeBelege", "ersetze": "if (false) schreibeBelege" }] },
