@@ -31,9 +31,9 @@ export function useReise(kontext: Kontext | undefined, m: Mengen, startwert: () 
   useLayoutEffect(() => {
     if (!kontext || versucht.current) return
     versucht.current = true
-    const gemerkt = reiseWiederherstellen(kontext, new Set(weg))
+    const gemerkt = reiseWiederherstellen(kontext, new Set(weg), undefined, eigene)
     if (gemerkt) setA(gemerkt)
-  }, [kontext, weg])
+  }, [kontext, weg, eigene])
   useEffect(() => reiseMerken(a, kontext), [a, kontext])
   const aendere = (f: (alt: Ablauf, k: Kontext) => Ablauf) => kontext && setA((alt) => f(alt, kontext))
   const neu = () => {

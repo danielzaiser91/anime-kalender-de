@@ -8,6 +8,7 @@ import { act, createElement as h } from 'react'
 import { createRoot } from 'react-dom/client'
 import type { EmpfehlungsDatei, Kandidat } from '../shared/empfehlung-pool.ts'
 import { baueKontext } from '../shared/empfehlung-vektor.ts'
+import type { Zustand } from '../shared/empfehlung-kern.ts'
 import { ANFANG, antworten, fortfahren, neueReise, oeffnen, vorschauIds, zuStart, type Ablauf } from '../web/src/lib/empfehlung-ablauf.ts'
 import { reiseMerken, reiseVergessen, reiseWiederherstellen, type ReiseSpeicher } from '../web/src/lib/empfehlung-reise-speicher.ts'
 import { zeichnung, type Zeichenlage } from '../web/src/lib/empfehlung-zeichnung.ts'
@@ -98,8 +99,14 @@ console.log('Veraltet und kaputt')
   reiseMerken(fertig, k, s)
   const [a, b] = fertig.gezeigt
   const ohne = reiseWiederherstellen(k, new Set([a, b]), s)
-  pruefe('Seitdem verworfene oder gesehene Titel fehlen', JSON.stringify(ohne?.gezeigt) === JSON.stringify(fertig.gezeigt.slice(2)), ohne?.gezeigt)
-  pruefe('Genau einer übrig → noch da (Schwelle 1)', reiseWiederherstellen(k, new Set(fertig.gezeigt.slice(1)), s)?.gezeigt.length === 1)
+  const weitere = ohne?.gezeigt.slice(3) ?? []
+  pruefe('Seitdem verworfene oder gesehene Titel fehlen, die übrigen bleiben vorn', JSON.stringify(ohne?.gezeigt.slice(0, 3)) === JSON.stringify(fertig.gezeigt.slice(2)) && !ohne?.gezeigt.some((id) => id === a || id === b), ohne?.gezeigt)
+  pruefe('Zwei fehlen → aus der Rangliste auf fünf aufgefüllt, ohne Doppelte', ohne?.gezeigt.length === 5 && new Set(ohne.gezeigt).size === 5, ohne?.gezeigt)
+  const rangOhne = rangliste(k, (JSON.parse(s.daten.get('empfehlung:reise')!) as { zustand: Zustand }).zustand, [a, b], new Set()).map((x) => x.id)
+  const erwartet = rangOhne.filter((id) => !fertig.gezeigt.slice(2).includes(id)).slice(0, 2)
+  pruefe('Aufgefüllt in der Reihenfolge der Rangliste', JSON.stringify(weitere) === JSON.stringify(erwartet), weitere)
+  const einer = reiseWiederherstellen(k, new Set(fertig.gezeigt.slice(1)), s)
+  pruefe('Genau einer übrig → wieder fünf (Schwelle 1)', einer?.gezeigt.length === 5 && einer.gezeigt[0] === fertig.gezeigt[0] && new Set(einer.gezeigt).size === 5, einer?.gezeigt)
   pruefe('Alle weg → Start statt leerer Galerie', reiseWiederherstellen(k, new Set(fertig.gezeigt), s) === undefined)
 
   const kaputt = ['', '{', 'null', '[]', '{"ziel":6}', '"x"']
