@@ -9,7 +9,7 @@ import { renderToStaticMarkup } from 'react-dom/server'
 import type { Release, Title } from '../shared/types.ts'
 import { berechneAntwort } from '../web/src/components/detail/antwort-berechnen.ts'
 import { AntwortKastenMitMarke } from '../web/src/components/detail/kasten-marke.tsx'
-import { bandFolgen, bandName, discSatz, streamSatz } from '../web/src/components/detail/antwort-vorstart.ts'
+import { bandFolgen, bandName, discSatz, discVorStream, streamSatz } from '../web/src/components/detail/antwort-vorstart.ts'
 import { translate } from '../web/src/lib/i18n.tsx'
 
 let fehler = 0
@@ -103,7 +103,9 @@ pruefe('ohne Händlerbeleg nur „Vol. 1 erscheint am 06.11.2026“', ohneSpanne
 const gesamt = text(kasten(titel(), [disc('2026-11-06', 'Vorstarttest')]))
 pruefe('Gesamtausgabe ohne Bandname: „Die Disc erscheint am 06.11.2026“', gesamt.includes('Die Disc erscheint am 06.11.2026'), gesamt.slice(0, 300))
 const zweiOffen = text(kasten(titel({ watchLinks }), [vol1, disc('2026-12-04', 'Vorstarttest – Vol. 2')]))
-pruefe('zwei offene Bände: der erste steht in der Überschrift', zweiOffen.includes('Vol. 1 (Folgen 1–4) erscheint am 06.11.2026') && !zweiOffen.includes('Vol. 2 am'), zweiOffen.slice(0, 300))
+pruefe('zwei offene Bände: Vol. 1 mit Spanne, dahinter Vol. 2', zweiOffen.includes('Vol. 1 (Folgen 1–4) erscheint am 06.11.2026 · Vol. 2 am 04.12.2026'), zweiOffen.slice(0, 300))
+const dreiOffen = text(kasten(titel({ watchLinks }), [vol1, disc('2026-12-04', 'Vorstarttest – Vol. 2'), disc('2027-01-15', 'Vorstarttest – Vol. 3')]))
+pruefe('drei offene Bände (wie 130003): alle drei Termine stehen da', dreiOffen.includes('erscheint am 06.11.2026 · Vol. 2 am 04.12.2026 · Vol. 3 am 15.01.2027'), dreiOffen.slice(0, 300))
 const kurzName = text(kasten(titel({ titleDe: 'Ganz anderer Titel: Mit langem Zusatz', watchLinks }), [vol1]))
 pruefe('Terminname kürzer als der Titel (Virgin Road): „Vol. 1“ steht trotzdem', kurzName.includes('Vol. 1 (Folgen 1–4) erscheint am 06.11.2026'), kurzName.slice(0, 300))
 const bandRaus = text(kasten(titel(), [disc('2026-10-02', 'Vorstarttest – Vol. 1'), disc('2026-12-04', 'Vorstarttest – Vol. 2')]))
@@ -120,6 +122,40 @@ const belegt = text(kasten(titel(), [wochentakt('2026-11-06', { observed: { 1: '
 pruefe('belegtes Datum: ohne „voraussichtlich“', belegt.includes('Die erste Folge mit deutscher Synchro erscheint am 06.11.2026') && !belegt.includes('voraussichtlich am 06.11.2026'), belegt.slice(0, 300))
 const ohneBeleg = text(kasten(titel(), [wochentakt('2026-11-06')], true))
 pruefe('ohne Sprachbeleg entfällt „mit deutscher Synchro“', ohneBeleg.includes('Die erste Folge erscheint') && !ohneBeleg.includes('Synchro erscheint'), ohneBeleg.slice(0, 300))
+
+console.log('\nMehrere Plattformen, Disc davor, Komplettabwurf, Tageswechsel:')
+const plattform = (slug: string, platform: string, start: string, schedule: object): Release =>
+  ({ ...wochentakt(start, schedule), slug, platform, platformUrl: `https://${platform}.example.org/1` }) as Release
+const spaet = plattform('s-spaet', 'prime', '2026-12-01', { observed: { 1: '2026-12-01' } })
+const frueh = plattform('s-frueh', 'netflix', '2026-11-20', { estimated: true })
+const mehrere = text(kasten(titel(), [spaet, frueh]))
+pruefe('zwei Plattformen, späterer zuerst: der frühere Termin, geschätzt: „voraussichtlich am 20.11.2026“', mehrere.includes('erscheint voraussichtlich am 20.11.2026') && !mehrere.includes('01.12.2026'), mehrere.slice(0, 300))
+const mehrereBelegt = text(kasten(titel(), [plattform('s-frueh2', 'netflix', '2026-11-20', { observed: { 1: '2026-11-20' } }), plattform('s-spaet2', 'prime', '2026-12-01', { estimated: true })]))
+pruefe('zwei Plattformen, früher belegt, später geschätzt: „erscheint am 20.11.2026“ ohne „voraussichtlich“', mehrereBelegt.includes('erscheint am 20.11.2026') && !mehrereBelegt.includes('voraussichtlich'), mehrereBelegt.slice(0, 300))
+const batch = (typ: string, extra: object = {}): Release => ({ ...wochentakt('2026-11-20', { observed: { 1: '2026-11-20' } }), releaseType: typ, ...extra }) as Release
+for (const [name, r] of [['Batch', batch('batch')], ['Batch available-from', batch('batch', { dateMeaning: 'available-from' })]] as const) {
+  const k = text(kasten(titel(), [r]))
+  pruefe(`${name}: „Alle Folgen im Angebot ab …“ bleibt, kein „erste Folge“`, /Alle .*Folgen/.test(k) && k.includes('20.11.2026') && !k.includes('erste Folge'), k.slice(0, 300))
+}
+pruefe('streamSatz mit Komplettabwurf: kein Satz', streamSatz({ art: 'laeuft', haupt: { date: '2026-11-20', episode: 1 }, rest: 12, raus: 0, komplett: true } as never, false) === undefined)
+const stream1212 = wochentakt('2026-12-01', { observed: { 1: '2026-12-01' } })
+const discFrueh = text(kasten(titel({ watchLinks }), [stream1212, vol1]))
+pruefe('Disc (06.11.) vor dem Stream (01.12.): kein „erste Folge … 01.12.“', !discFrueh.includes('erscheint am 01.12.2026'), discFrueh.slice(0, 300))
+const discSpaet = text(kasten(titel(), [stream1212, disc('2027-01-10', 'Vorstarttest – Vol. 1')]))
+pruefe('Disc nach dem Stream: der Stream bleibt der erste Termin', discSpaet.includes('Die erste Folge mit deutscher Synchro erscheint am 01.12.2026'), discSpaet.slice(0, 300))
+pruefe('discVorStream: Disc am Tag des Streams ist nicht davor', !discVorStream([disc('2026-12-01', 'x')], '2026-12-01'))
+pruefe('discVorStream: Disc einen Tag davor', discVorStream([disc('2026-11-30', 'x')], '2026-12-01'))
+const kastenZu = (t: Title, releases: Release[], jetzt: Date, today: string): string => {
+  const antwort = berechneAntwort({ title: t, releases, today, jetzt })
+  return text(renderToStaticMarkup(createElement(AntwortKastenMitMarke, { antwort, title: t, t: translate, today, releases } as never)))
+}
+const heute = (zeit: string) => wochentakt('2026-10-30', { observed: { 1: '2026-10-30' }, time: zeit })
+pruefe('Termin heute, Uhrzeit später als jetzt (12:00Z = 13:00 Berlin): Satz mit heutigem Datum', kastenZu(titel(), [heute('20:00')], JETZT, HEUTE).includes('erscheint am 30.10.2026'))
+pruefe('Termin heute, Uhrzeit schon vorbei: Folge 1 ist erschienen, kein Satz', !kastenZu(titel(), [heute('09:00')], JETZT, HEUTE).includes('erste Folge'))
+const nachts = new Date('2026-10-30T23:30:00Z')
+const tw = (zeit: string) => wochentakt('2026-10-31', { observed: { 1: '2026-10-31' }, time: zeit })
+pruefe('Berlin-Tageswechsel (23:30Z = 00:30 am 31.10.), Termin 01:00: Satz mit 31.10.2026', kastenZu(titel(), [tw('01:00')], nachts, '2026-10-31').includes('erscheint am 31.10.2026'))
+pruefe('Berlin-Tageswechsel, Termin 00:15 schon vorbei: kein Satz', !kastenZu(titel(), [tw('00:15')], nachts, '2026-10-31').includes('erste Folge'))
 
 console.log('\nWo der Satz nicht gilt (Antwort „läuft“ unmittelbar):')
 type Laeuft = Parameters<typeof streamSatz>[0]

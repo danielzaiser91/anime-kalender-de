@@ -363,7 +363,7 @@ export function AntwortKasten({
           </>
         )
       : ''
-    const vorstart = vorstartSatz(antwort, Boolean(ohneSprachbeleg))
+    const vorstart = vorstartSatz(antwort, Boolean(ohneSprachbeleg), releases)
     if (vorstart) [haupt, neben, anteil, zaehl] = [vorstart, '', undefined, '']
   } else if (antwort.art === 'teilweise') {
     /*

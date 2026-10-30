@@ -4,7 +4,7 @@
  * voraussichtlich am 20.10.2026“ statt „Auf Deutsch, ≈ 12 Folgen“ über „0 von 12 Folgen erschienen“. Der Satz ist die ganze
  * Überschrift: keine Nebenzeile, keine Zählzeile, kein leerer Balken.
  */
-import { istAusgeblieben } from '@shared/logic.ts'
+import { expandEvents, istAusgeblieben } from '@shared/logic.ts'
 import { formatDate } from '@shared/time.ts'
 import type { Release, Title } from '@shared/types.ts'
 import type { Antwort } from './antwort-typ.ts'
@@ -48,15 +48,25 @@ export function discSatz(a: Disc): string | undefined {
   if (a.baende?.some((b) => b.raus)) return undefined
   const datum = formatDate(a.datum)
   if (!a.vol) return `Die Disc erscheint am ${datum}`
-  return `${a.vol}${a.folgen ? ` (${folgenText(a.folgen)})` : ''} erscheint am ${datum}`
+  const erster = `${a.vol}${a.folgen ? ` (${folgenText(a.folgen)})` : ''} erscheint am ${datum}`
+  /* Weitere offene Bände bleiben im Satz („· Vol. 2 am 04.12.2026“), sonst verschwänden ihre Termine aus dem Kasten. */
+  const weitere = (a.baende ?? []).slice(1).map((b) => `${b.name ?? 'Disc'} am ${formatDate(b.datum)}`)
+  return [erster, ...weitere].join(' · ')
+}
+
+/** Liegt vor dem Stream schon ein deutscher Disc-Termin (auch erschienen)? Dann ist der Stream nicht der erste. */
+export function discVorStream(releases: Release[], streamDatum: string): boolean {
+  return releases.some((r) => r.releaseType === 'disc' && expandEvents(r).some((e) => e.date < streamDatum))
 }
 
 /**
  * Noch keine Folge erschienen und die erste ist die nächste? „Voraussichtlich“ nur, wo das Datum geschätzt ist. Ohne Sprachbeleg
  * (alle Zeilen ohne DE-Haken) entfällt „mit deutscher Synchro“: der Satz behauptete sonst, was keine Zeile trägt.
  */
-export function streamSatz(a: Laeuft, ohneSprachbeleg: boolean): string | undefined {
+export function streamSatz(a: Laeuft, ohneSprachbeleg: boolean, discDavor = false): string | undefined {
   const e = a.haupt
+  /* Komplettabwurf: „Alle Folgen im Angebot ab …“ bleibt (Im Angebot seit ≠ erschienen am); liegt eine Disc früher, ist der Stream nicht der erste Termin. */
+  if (a.komplett || discDavor) return undefined
   if (a.raus !== 0 || a.sichtung || a.offenesEnde || a.verschobenVon || istAusgeblieben(e)) return undefined
   if (e.episode !== undefined && e.episode !== 1) return undefined
   const was = ohneSprachbeleg ? 'Die erste Folge' : 'Die erste Folge mit deutscher Synchro'
@@ -64,8 +74,8 @@ export function streamSatz(a: Laeuft, ohneSprachbeleg: boolean): string | undefi
 }
 
 /** Der Satz der Überschrift, wo die Lage „vor dem Start“ ist; sonst `undefined` und der Kasten bleibt, wie er ist. */
-export function vorstartSatz(antwort: Antwort, ohneSprachbeleg: boolean): string | undefined {
+export function vorstartSatz(antwort: Antwort, ohneSprachbeleg: boolean, releases: Release[] = []): string | undefined {
   if (antwort.art === 'disc') return discSatz(antwort)
-  if (antwort.art === 'laeuft') return streamSatz(antwort, ohneSprachbeleg)
+  if (antwort.art === 'laeuft') return streamSatz(antwort, ohneSprachbeleg, discVorStream(releases, antwort.haupt.date))
   return undefined
 }
