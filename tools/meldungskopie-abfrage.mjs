@@ -37,6 +37,8 @@ function lies(stmt, max) {
 
 /** Ergebnis einer Abfrage: `zeilen` (höchstens `max`) samt `gesamt` bei einer einzelnen SELECT-Anweisung, sonst `geaendert` und `differenz` je Tabelle. */
 function laufe(db, sql, max) {
+  // Nur Kommentar/Leerraum/`;`: `prepare` liefert eine schon abgeschlossene Anweisung ("statement has been finalized").
+  if (ohneLiterale(sql).replace(/[\s;]/g, '') === '') throw new Error('Keine SQL-Anweisung (nur Kommentar oder leer)')
   const einzeln = istEinzeln(sql) ? db.prepare(sql) : null
   if (einzeln && einzeln.columns().length > 0) return { art: 'zeilen', ...lies(einzeln, max) }
   const vorher = zeilenJeTabelle(db)
