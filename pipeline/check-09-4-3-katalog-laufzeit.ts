@@ -57,6 +57,7 @@ const faelle: Fall[] = [
   { id: 900413, name: 'Nachrunde: Katalog ohne de-DE, Nein bleibt', kennung: 'KNACHR003', stream: { dub: false }, eintrag: { audio: OHNE_DE }, serie: { seriesId: 'KNACHR003', geprueftAm: '2026-10-01', staffeln: [] }, dub: false },
   { id: 900414, name: 'Nachrunde: deutsche Folgen hinter dem Titelende, Nein bleibt', kennung: 'KNACHR004', stream: { dub: false }, serie: { seriesId: 'KNACHR004', geprueftAm: '2026-10-01', staffeln: block(53) }, dub: false },
   { id: 900415, name: 'Nachrunde: Prüfdatum fehlt, Stand des Dub-Bestands gilt', kennung: 'KNACHR005', stream: { dub: false }, serie: { seriesId: 'KNACHR005', staffeln: [] }, dub: false },
+  { id: 900416, name: 'Nachrunde: Titel beginnt erst nach dem Katalogstand, Nein bleibt', kennung: 'KNACHR006', stream: { dub: false }, serie: { seriesId: 'KNACHR006', geprueftAm: '2026-10-01', staffeln: [] }, dub: false },
 ]
 /* Ein Fall mit zwei Titeln an einer Serie: der Besitzer (12 Folgen) gehört dazu, der andere (6) ist fremd. */
 const BESITZER = 900420
@@ -68,7 +69,7 @@ try {
   schreibe('data/kino-ankuendigungen.yaml', '[]\n')
   schreibe(
     'data/ankuendigungen.yaml',
-    [900405, 900450]
+    [900405, 900416, 900450]
       .map((id) => `  - {anilistId: ${id}, platform: crunchyroll, omuAb: '2026-12-01', synchro: offen, stand: '2026-10-01', quellen: ['https://example.org/a']}`)
       .join('\n')
       .replace(/^/, 'eintraege:\n'),

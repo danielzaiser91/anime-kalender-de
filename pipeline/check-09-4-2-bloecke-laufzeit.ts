@@ -52,6 +52,7 @@ const BEREICHE: BereichFall[] = [
   { id: 900613, name: 'Nummern 0, negativ und Text zählen nicht', kennung: 'BSCHROTT01', episodes: 12, bloecke: [block('S1', 12, 0, -2, 'x', 4)], soll: [r(4, 4)] },
   { id: 900614, name: 'Block ohne verwertbare Nummer: keine Bereiche', kennung: 'BKEINENUM1', episodes: 12, bloecke: [block('S1', 12, 0, 'x')], soll: undefined },
   { id: 900615, name: 'Titel ohne Folgenzahl: Bereiche trotzdem', kennung: 'BOHNEZAHL1', bloecke: [block('S1', 12, 1)], soll: [r(1, 1)] },
+  { id: 900616, name: 'Ein einzelner Bereich, der nicht bei 1 beginnt, bleibt stehen', kennung: 'BNICHTAB01', episodes: 3, bloecke: [block('S1', 3, 2, 3)], soll: [r(2, 3)] },
 ]
 
 /** Geschwisterblock: Serie mit Titel A (12 Folgen) und einem deutschen Block von 3 Folgen. */
@@ -70,8 +71,8 @@ interface GeschwisterFall {
 }
 const DREI = { name: 'Special', folgen: 3, kacheln: 3, deutsch: 3, fremd: 0 }
 const geschwister: GeschwisterFall[] = [
-  { a: 900701, name: 'Kontrolle: ein Bestandstitel mit 3 Folgen in der Reihe bekommt den Block', kennung: 'GKONTR001', bestand: [{ id: 900702, episodes: 3, franchise: true }], geht: 900702 },
-  { a: 900710, name: 'Geschwister aus dem Katalog (Eltern nennen den Titel) wird angelegt', kennung: 'GKATALOG1', katalog: [{ id: 900711, folgen: 3, eltern: [900710], t: ['Romaji', 'English', null] }], geht: 900711 },
+  { a: 900701, name: 'Kontrolle: ein Bestandstitel mit 3 Folgen in der Reihe bekommt den Block', kennung: 'GKONTR001', bestand: [{ id: 900702, episodes: 3, franchise: true }, { id: 900703, episodes: 5, franchise: true }], geht: 900702 },
+  { a: 900710, name: 'Geschwister aus dem Katalog (Eltern nennen den Titel) wird angelegt', kennung: 'GKATALOG1', katalog: [{ id: 900711, folgen: 3, eltern: [900710], t: ['Romaji', 'English', null] }, { id: 900712, folgen: 5, eltern: [900710] }], geht: 900711 },
   { a: 900720, name: 'Katalogtitel mit anderen Eltern: kein Geschwister', kennung: 'GFREMDEL1', katalog: [{ id: 900721, folgen: 3, eltern: [1] }] },
   { a: 900730, name: 'Katalogtitel ohne Elternangabe: kein Geschwister', kennung: 'GOHNEELT1', katalog: [{ id: 900731, folgen: 3, eltern: undefined as unknown as number[] }] },
   { a: 900740, name: 'Bestand und Katalog zugleich: nicht eindeutig, kein Geschwister', kennung: 'GZWEIFEL1', bestand: [{ id: 900741, episodes: 3, franchise: true }], katalog: [{ id: 900742, folgen: 3, eltern: [900740] }] },
@@ -82,6 +83,9 @@ const geschwister: GeschwisterFall[] = [
   { a: 900790, name: 'Geschwister hat schon einen Crunchyroll-Weg: nichts doppelt', kennung: 'GSCHONWEG1', bestand: [{ id: 900791, episodes: 3, franchise: true, cr: true }] },
   { a: 900800, name: 'Handbeleg verneint den Weg: kein Geschwister', kennung: 'GHANDNEIN1', bestand: [{ id: 900801, episodes: 3, franchise: true }] },
   { a: 900810, name: 'Block hat so viele Folgen wie unser Titel: kein Geschwister', kennung: 'GGLEICHZA1', block: { ...DREI, folgen: 12, deutsch: 12 }, bestand: [{ id: 900811, episodes: 12, franchise: true }] },
+  { a: 900820, name: 'Block ohne Folgen und ohne deutsche Folge: kein Geschwister', kennung: 'GNULLBLOC1', block: { ...DREI, folgen: 0, deutsch: 0 }, bestand: [{ id: 900821, episodes: 0, franchise: true }] },
+  { a: 900830, name: 'Katalogtitel, den der Bestand schon führt, zählt nicht doppelt', kennung: 'GSCHONBES1', bestand: [{ id: 900831, episodes: 3, franchise: true }], katalog: [{ id: 900831, folgen: 3, eltern: [900830] }], geht: 900831 },
+  { a: 900840, name: 'Katalogtitel nur mit lateinischem Namen: der Name wird englischer Titel', kennung: 'GLATEIN01', katalog: [{ id: 900841, folgen: 3, eltern: [900840], t: ['Romaji', null, null], latein: 'Latin Name' }], geht: 900841 },
 ]
 
 try {
@@ -115,7 +119,7 @@ try {
       titles.set(bid, t)
     }
     for (const k of f.katalog ?? []) {
-      katalogEintraege.push({ id: k.id, folgen: k.folgen, eltern: k.eltern, t: k.t ?? ['Romaji', null, null], format: 'SPECIAL', jahr: 2026 } as unknown as KatalogEintrag)
+      katalogEintraege.push({ id: k.id, folgen: k.folgen, eltern: k.eltern, latein: k.latein, t: k.t ?? ['Romaji', null, null], format: 'SPECIAL', jahr: 2026 } as unknown as KatalogEintrag)
     }
     serien.push({ url: adresse(f.kennung), seriesId: f.kennung, katalog: 'de', deutschImAngebot: true, ...f.serie, staffeln: [f.block ?? DREI] })
   }
@@ -126,11 +130,12 @@ try {
   for (const f of BEREICHE) erwarte(f.name, titles.get(f.id)!.streams[0]!.dubRanges, f.soll)
   for (const f of geschwister) {
     const kandidaten = [...(f.bestand ?? []).map((b) => b.id), ...(f.katalog ?? []).map((k) => k.id)]
-    const hat = kandidaten.filter((id) => titles.get(id)?.streams.some((s) => s.platform === 'crunchyroll' && s.url === adresse(f.kennung)))
+    const hat = [...new Set(kandidaten)].filter((id) => titles.get(id)?.streams.some((s) => s.platform === 'crunchyroll' && s.url === adresse(f.kennung)))
     erwarte(f.name, hat, f.geht ? [f.geht] : [])
   }
   const neu = titles.get(900711)
   erwarte('Katalog-Geschwister: Titel angelegt mit Reihe, englischem Namen und deutschem Weg', [neu?.franchiseId, neu?.titleEn, neu?.streams[0]?.dub], [900710, 'English', true])
+  erwarte('Katalog-Geschwister nur mit lateinischem Namen: Anzeige aus dem lateinischen Namen', titles.get(900841)?.titleEn, 'Latin Name')
   erwarte('Bestands-Geschwister: Weg deutsch belegt', titles.get(900702)!.streams[0]!.dub, true)
   erwarte('Katalogtitel mit fremden Eltern wird nicht angelegt', titles.has(900721), false)
   erwarte('Katalogtitel ohne Eltern wird nicht angelegt', titles.has(900731), false)
