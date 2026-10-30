@@ -1,6 +1,5 @@
 [
   { "name": "Kontrolle", "aenderungen": [] },
-  { "name": "Gegenprobe: lokale Variable umbenannt", "aenderungen": [{ "datei": "pipeline/bau/09-3-prime.ts", "suche": "const belegZurAdresse = belegFuer(title.id, 'primevideo', echt, 2)\n    if (belegZurAdresse?.available === false || belegZurAdresse?.dub === false) continue", "ersetze": "const urteilZurSeite = belegFuer(title.id, 'primevideo', echt, 2)\n    if (urteilZurSeite?.available === false || urteilZurSeite?.dub === false) continue" }] },
   { "name": "R1 schreibeBelege entdoppelt nicht", "tests": ["npx tsx pipeline/check-belege-riegel-schreiben.ts"], "aenderungen": [{ "datei": "pipeline/lib/dub-confirmed.ts", "suche": "writeFileSync(datei, entdoppleBelege(text, melde))", "ersetze": "writeFileSync(datei, text)" }] },
   { "name": "R2 haengeBelegeAn prüft YAML nicht", "tests": ["npx tsx pipeline/check-belege-riegel-schreiben.ts"], "aenderungen": [{ "datei": "pipeline/lib/belege-anhaengen.ts", "suche": "    yaml.load(neu)\n", "ersetze": "    void neu\n" }] },
   { "name": "R3 haengeBelegeAn schreibt nie", "tests": ["npx tsx pipeline/check-belege-riegel-schreiben.ts"], "aenderungen": [{ "datei": "pipeline/lib/belege-anhaengen.ts", "suche": "if (erneuert || neueZeilen.some((z) => z.startsWith('- '))) schreibeBelege", "ersetze": "if (false) schreibeBelege" }] },
@@ -16,5 +15,9 @@
   { "name": "P9 Deckel schon ab einem", "aenderungen": [{ "datei": "pipeline/bau/09-3-prime.ts", "suche": "if (vorhandene.length >= 2) {", "ersetze": "if (vorhandene.length >= 1) {" }] },
   { "name": "P10 Plattform fest Prime", "aenderungen": [{ "datei": "pipeline/bau/09-3-prime.ts", "suche": "title.streams.push({ platform: plattform, url: seite, dub: belegt || undefined })", "ersetze": "title.streams.push({ platform: 'primevideo', url: seite, dub: belegt || undefined })" }] },
   { "name": "P11 Netflix-Adresse über Amazon-Zweig", "aenderungen": [{ "datei": "pipeline/bau/09-3-prime.ts", "suche": "plattform !== 'primevideo'\n          ? germanizeUrl", "ersetze": "false\n          ? germanizeUrl" }] },
-  { "name": "P12 pauschaler Riegel je Anbieter", "aenderungen": [{ "datei": "pipeline/bau/09-3-prime.ts", "suche": "if (beleg ? !beleg.url || adressGleich(beleg.url, seite ?? undefined)", "ersetze": "if (beleg ? true || adressGleich(beleg.url, seite ?? undefined)" }] }
+  { "name": "P12 pauschaler Riegel je Anbieter", "aenderungen": [{ "datei": "pipeline/bau/09-3-prime.ts", "suche": "if (beleg ? !beleg.url || adressGleich(beleg.url, seite ?? undefined)", "ersetze": "if (beleg ? true || adressGleich(beleg.url, seite ?? undefined)" }] },
+  { "name": "E1 adressGleich false", "aenderungen": [{ "datei": "pipeline/bau/09-3-prime.ts", "suche": "!beleg.url || adressGleich(beleg.url, seite ?? undefined) :", "ersetze": "!beleg.url || false :" }] },
+  { "name": "E2 !beleg.url weg", "aenderungen": [{ "datei": "pipeline/bau/09-3-prime.ts", "suche": "beleg ? !beleg.url || adressGleich", "ersetze": "beleg ? adressGleich" }] },
+  { "name": "E3 kanalAdresseGemerkt false", "aenderungen": [{ "datei": "pipeline/bau/09-3-prime.ts", "suche": ": kanalAdresseGemerkt(alleChecks, eintrag.titleId, plattform, seite)) continue", "ersetze": ": false) continue" }] },
+  { "name": "E4 Amazon-Zweig ungeputzt", "aenderungen": [{ "datei": "pipeline/bau/09-3-prime.ts", "suche": "            ? amazonAdresseRichten(gemeldeteAdresse)\n            : eintrag.asin", "ersetze": "            ? gemeldeteAdresse\n            : eintrag.asin" }] }
 ]

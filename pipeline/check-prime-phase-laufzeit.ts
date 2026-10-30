@@ -26,10 +26,13 @@ const meldung = (id: number, seite: string, asin: string | null, plattform = 'pr
   wert: { titleId: id, plattform, asin, folgen: DEUTSCH },
 })
 const meldungen = [
-  meldung(900101, dp('B0TITELSEIT'), 'B0ERSTEFOLG'),
+  meldung(900101, dp('B0TITELSEIT') + '?ref=abc', 'B0ERSTEFOLG'),
   meldung(900102, dp('B0DRITTESEI'), 'B0DRITTESEI'),
   meldung(900103, NETFLIX, null, 'netflix'),
   meldung(900104, dp('B0ANDEREAUS'), 'B0ANDEREAUS'),
+  meldung(900105, dp('B0GLEICHSEI'), 'B0GLEICHSEI'),
+  meldung(900106, dp('B0OHNEURL01'), 'B0OHNEURL01'),
+  meldung(900107, dp('B0KANALGEM1'), 'B0KANALGEM1'),
 ]
 const prime = (url: string) => ({ platform: 'primevideo', url })
 
@@ -64,20 +67,27 @@ try {
   const { dubKey } = await import('./lib/dub-confirmed.ts')
   /* Ein Handbeleg zur ersten Ausgabe sperrt die Meldung zur zweiten nicht. */
   const ersterBeleg = { anilistId: 900104, platform: 'primevideo' as const, url: dp('B0VORHAND03'), dub: true, checkedAt: '2026-10-30' }
+  const beleg = (id: number, url?: string) => ({ anilistId: id, platform: 'primevideo' as const, ...(url ? { url } : {}), dub: true, checkedAt: '2026-10-30' })
+  const gleicheSeite = beleg(900105, dp('B0GLEICHSEI'))
+  const ohneUrl = beleg(900106)
+  const kanalGemerkt = { ...beleg(900107, dp('B0KANALGEM1')), kanalOhneBeleg: true as const }
   const mk = (id: number, streams: unknown[], mehr: object = {}) => [id, { id, slug: `laufzeit-${id}`, streams, ...mehr } as unknown as Title] as const
   const titles = new Map<number, Title>([
     mk(900101, [prime(suche('eins'))]),
     mk(900102, [prime(dp('B0VORHAND01')), prime(dp('B0VORHAND02'))]),
     mk(900103, []),
     mk(900104, [prime(dp('B0VORHAND03'))]),
+    mk(900105, []),
+    mk(900106, []),
+    mk(900107, []),
     ...suchFaelle.map((f) => mk(f.id, [prime(suche(`s${f.id}`))], { watchLinks: [{ name: 'Amazon', url: ECHT(f.id), kind: 'stream' }] })),
   ])
   const linkBefunde = Object.fromEntries(suchFaelle.map((f) => [ECHT(f.id), { prime: true, status: 200, ...f.befund }]))
   const tot = new Set(suchFaelle.filter((f) => f.tot).map((f) => ECHT(f.id)))
   uebernehmePrimeUndCrVorschlaege({
     titles,
-    checks: new Map([[dubKey(900104, 'primevideo'), ersterBeleg]]),
-    alleChecks: [ersterBeleg],
+    checks: new Map([ersterBeleg, gleicheSeite, ohneUrl].map((b) => [dubKey(b.anilistId, 'primevideo'), b] as const)),
+    alleChecks: [ersterBeleg, gleicheSeite, ohneUrl, kanalGemerkt],
     lautPruefungTot: (url) => tot.has(url),
     tmdbTitles: {},
     ytKanal: {},
@@ -103,11 +113,14 @@ try {
   /* Verweis zeigt auf die gemeldete Seite, nicht auf die ASIN der ersten Folge (My First Girlfriend Is a Gal, 02.09.2026). */
   const gemeldet = urls(900101, 'primevideo')
   erwarte('Meldung zur Titelseite: ein Weg', gemeldet.length, 1)
-  erwarte('… auf die gemeldete Seite', gemeldet[0]?.includes('B0TITELSEIT'), true)
+  erwarte('… auf die gemeldete Seite, geputzt (gp-Form, ohne Anhang)', gemeldet, ['https://www.amazon.de/gp/video/detail/B0TITELSEIT'])
   erwarte('… nicht auf die ASIN der ersten Folge', gemeldet[0]?.includes('B0ERSTEFOLG'), false)
   /* Deckel: ein dritter Prime-Verweis aus einer Meldung wird nicht angelegt, ein zweiter schon. */
   erwarte('dritter Prime-Verweis wird nicht angelegt', urls(900102, 'primevideo'), [dp('B0VORHAND01'), dp('B0VORHAND02')])
   erwarte('zweiter Prime-Verweis wird angelegt', urls(900104, 'primevideo').length, 2)
+  erwarte('Meldung zur selben Adresse wie der Beleg: kein Weg', urls(900105, 'primevideo'), [])
+  erwarte('Beleg ohne Adresse sperrt den Anbieter: kein Weg', urls(900106, 'primevideo'), [])
+  erwarte('Adresse im Kanal-Wissen gemerkt: kein Weg', urls(900107, 'primevideo'), [])
   /* Der Verweis gehört dem Anbieter, der gemeldet hat. */
   erwarte('Netflix-Meldung: Weg bei Netflix auf die gemeldete Adresse', urls(900103, 'netflix'), [NETFLIX])
   erwarte('Netflix-Meldung: kein Prime-Weg', urls(900103, 'primevideo'), [])
@@ -122,4 +135,4 @@ if (fehler.length) {
   console.error(`FEHL check-prime-phase-laufzeit:\n  ${fehler.join('\n  ')}`)
   process.exit(1)
 }
-console.log(`check-prime-phase-laufzeit: ${suchFaelle.length + 6} Fälle ok.`)
+console.log(`check-prime-phase-laufzeit: ${suchFaelle.length + 11} Fälle ok.`)
