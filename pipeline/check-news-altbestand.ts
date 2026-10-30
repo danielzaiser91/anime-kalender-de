@@ -110,7 +110,7 @@ pruefe('Keine Adresse: unlesbarer Text wird nur getrimmt und klein verglichen', 
 
 /* 8. Mehrstaffel-Adresse: zwei Titel teilen dieselbe Seite und hatten sie beide als Watchlink; jeder bekommt seine eigene Marke, ein dritter mit anderer Seite nicht. */
 const bekannt8 = vorigeWatchAdressen([...vorigerBestand, titel(20923, [], [{ name: 'Amazon Prime (Crunchyroll)', url: PRIME, kind: 'stream', zugang: 'abo' }])])
-const h8 ={ zuerst: {}, anbieter: { '20923:crunchyroll': '0000-00-00', '109963:crunchyroll': '0000-00-00', '5:crunchyroll': '0000-00-00' } } as NewsHistorie
+const h8 = {zuerst: {}, anbieter: { '20923:crunchyroll': '0000-00-00', '109963:crunchyroll': '0000-00-00', '5:crunchyroll': '0000-00-00' } } as NewsHistorie
 const mehrere = [titel(20923, [cr, prime()]), titel(109963, [cr, prime()]), titel(5, [cr, prime('https://www.amazon.de/gp/video/detail/B0ANDERE')])]
 pruefe('Geteilte Seite: beide Titel markiert, der dritte nicht', traegeAltbestandEin(h8, mehrere, bekannt8).sort().join() === '109963:primevideo,20923:primevideo', h8.anbieter)
 
