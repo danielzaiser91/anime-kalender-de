@@ -104,4 +104,7 @@ export type Antwort =
       edition?: string
       /** Alle Kaufausgaben des Titels, erschienene zuerst. Ab zwei Bänden gezeigt. */
       baende?: { name?: string; datum: string; raus: boolean }[]
+      /** Der Band des Termins („Vol. 1“) und die Folgen darin — nur, wo ein Händler sie belegt (`antwort-vorstart.ts`). */
+      vol?: string
+      folgen?: { von: number; bis: number }
     }
