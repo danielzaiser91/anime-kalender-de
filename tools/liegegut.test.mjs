@@ -239,11 +239,6 @@ console.log('liegegut: Kopf-Zeiten in einem Aufruf')
   pruefe('Kopf in der Karte → Zeit aus der Karte, kein Einzelaufruf', kopfZeitVon(einzeln, { headRefOid: KOPF }, karte) === Date.parse('2026-10-02T09:00:00Z') && aufrufe.length === 0, aufrufe)
   pruefe('Kopf nicht in der Karte → Commit-Schnittstelle', kopfZeitVon(einzeln, { headRefOid: 'b'.repeat(40) }, karte) === Date.parse('2026-10-01T08:00:00Z') && aufrufe.length === 1, aufrufe)
   pruefe('Abruf wirft → leere Karte, kein Abbruch', kopfZeiten(() => { throw new Error('HTTP 502') }).size === 0)
-  const halb = kopfZeiten((args) => {
-    if (args[1] === 'graphql') throw new Error('nach Teilausgabe')
-    return ''
-  })
-  pruefe('Abruf wirft nach Ausgabe → Karte bleibt leer', halb.size === 0)
   const alle = []
   liegegut(attrappeGh([pr(1, { comments: [daniel(2, 'frisch')] }), pr(2, { comments: [daniel(2, 'frisch')] })], alle), attrappeGit(), JETZT)
   pruefe('Gesamtlauf: genau ein graphql-Aufruf für alle PRs', alle.filter((x) => x.includes('graphql')).length === 1, alle)

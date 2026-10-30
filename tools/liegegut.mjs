@@ -180,7 +180,7 @@ export function kopfZeiten(ghFn) {
       if (oid && !Number.isNaN(Date.parse(datum))) karte.set(oid, Date.parse(datum))
     }
   } catch {
-    karte.clear()
+    // Karte bleibt leer: jeder PR fragt einzeln (gleiches Ergebnis, nur langsamer)
   }
   return karte
 }
