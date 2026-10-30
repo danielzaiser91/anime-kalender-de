@@ -9,6 +9,7 @@
 import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import type { DubCheck } from './dub-confirmed.ts'
+import { istEntfernt, ladeBelegeEntfernt } from './belege-entfernt.ts'
 import { belegSeitenKern, notizSeite } from './kanal-titel.ts'
 import { ROOT } from './util.ts'
 
@@ -46,10 +47,12 @@ export function ladeMerkliste(wurzel = ROOT): DubCheck[] {
   return existsSync(datei) ? (JSON.parse(readFileSync(datei, 'utf8')) as DubCheck[]) : []
 }
 
-/** Hängt die Kanal-Belege aus `neu` an die Merkliste, jeden einmal. Ohne Neues bleibt die Datei unberührt. */
+/** Hängt die Kanal-Belege aus `neu` an die Merkliste, jeden einmal, ohne Seiten, die `data/belege-entfernt.yaml` für denselben Titel sperrt (wie der Leser in `kanal-wissen.ts`). Ohne Neues bleibt die Datei unberührt. */
 export function ergaenzeMerkliste(neu: DubCheck[], wurzel = ROOT): number {
   const bisher = ladeMerkliste(wurzel)
-  const alle = merkEintraege([...bisher, ...neu])
+  const entfernt = ladeBelegeEntfernt(resolve(wurzel, 'data/belege-entfernt.yaml'))
+  const erlaubt = neu.filter((c) => !istEntfernt(entfernt, c.anilistId, c.url))
+  const alle = merkEintraege([...bisher, ...erlaubt])
   const einmal = alle.filter((e, i) => alle.findIndex((x) => JSON.stringify(x) === JSON.stringify(e)) === i)
   if (einmal.length === bisher.length) return 0
   writeFileSync(resolve(wurzel, MERKLISTE), '[\n' + einmal.map((e) => JSON.stringify(e)).join(',\n') + '\n]\n')
