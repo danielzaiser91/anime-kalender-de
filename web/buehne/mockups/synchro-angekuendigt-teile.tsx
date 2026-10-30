@@ -1,8 +1,7 @@
-import { useState, type ReactNode } from 'react'
+import { useState } from 'react'
 import { useLang } from '../../src/lib/i18n.tsx'
 import { useNewsletterVerbindung } from '../../src/lib/newsletterSync.ts'
-import { GlockeZeichen, PanelKarte } from '../../src/components/detail/panel-karte.tsx'
-import { quelleVon, standText, zeilenTeile, grossAnfang, type Ankuendigung } from './synchro-angekuendigt-text.ts'
+import { quelleVon, standText, zeilenTeile, type Ankuendigung } from './synchro-angekuendigt-text.ts'
 
 const LEISE = 'text-t4 text-slate-500 dark:text-slate-400'
 const KNOPF =
@@ -75,30 +74,5 @@ export function ZeileImKasten({ a, anbieterUrl }: { a: Ankuendigung; anbieterUrl
         <BescheidKnopf />
       </div>
     </div>
-  )
-}
-
-/** Variante B: eigene Karte unter dem Kasten mit Anbieter, Stand, Quelle und Knopf. */
-export function KarteUnterKasten({ a, anbieterUrl }: { a: Ankuendigung; anbieterUrl: string | undefined }) {
-  const { t } = useLang()
-  const z = zeilenTeile(a, t)
-  const inhalt: ReactNode = (
-    <div className="flex flex-col gap-2">
-      <p className="text-t3 text-ak-text">
-        <AnbieterLink name={z.anbieter} url={anbieterUrl} /> hat die deutsche Synchro angekündigt.
-      </p>
-      <p className={LEISE}>
-        {standText(a)} · <QuelleLink a={a} />
-      </p>
-      <p className={LEISE}>
-        {grossAnfang(z.untertitel)}. {z.termin}.
-      </p>
-      <BescheidKnopf />
-    </div>
-  )
-  return (
-    <PanelKarte symbol={<GlockeZeichen />} titel="Termin offen" akzent="akzent" label="Synchro angekündigt, Termin offen">
-      {inhalt}
-    </PanelKarte>
   )
 }

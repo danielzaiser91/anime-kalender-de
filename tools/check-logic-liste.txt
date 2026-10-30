@@ -343,6 +343,7 @@ pipeline/check-synchro-termin-offen.ts
 pipeline/check-takt.ts
 pipeline/check-telekom-annahme.ts
 pipeline/check-telekom-pille.ts
+pipeline/check-termin-offen-karte.ts
 pipeline/check-termin-pille.ts
 pipeline/check-termine-observed-lauf.ts
 pipeline/check-termine-uebersicht.ts
