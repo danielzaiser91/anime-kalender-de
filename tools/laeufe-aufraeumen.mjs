@@ -22,7 +22,7 @@
  *     setzt genau diesen roten Verlaufseintrag auf erledigt (geprüft und behoben, der grüne Nachfolger steht noch aus);
  *     die Notiz ist Pflicht, die Lauf-ID steht in `<Worker>?verlauf=<Art>` (Feld lauf_id).
  */
-import { mitLimit, LIMIT_STAPEL_MS } from './kind-mit-limit.mjs'
+import { abbruchText, ghStapel, mitLimit } from './kind-mit-limit.mjs'
 import { erledigtArgumente, findeRotenLauf, holeLaeufe, holeVerlauf, letzteDatenAenderung, roteArten, stillstand, STILLSTAND_GRENZE_STUNDEN } from './laeufe-abruf.mjs'
 import { rotAlarmText } from './bestand-rot-alarm.mjs'
 import { meldeRoteSammlerPrs } from './rote-sammler-prs.mjs'
@@ -120,10 +120,6 @@ function weichSpeicher() {
   return i >= 0 ? args[i + 1] : join(tmpdir(), 'ak-wache-weicher-schritt.json')
 }
 
-/** Alle gh-Aufrufe einer Liste parallel in einem Kindprozess (`tools/gh-stapel.mjs`). */
-const ghStapel = (liste) =>
-  JSON.parse(mitLimit(process.execPath, [fileURLToPath(new URL('./gh-stapel.mjs', import.meta.url))], { input: JSON.stringify(liste), encoding: 'utf8', maxBuffer: 256 << 20 }, { limitMs: LIMIT_STAPEL_MS }))
-
 async function main() {
   // Ein roter Sammler-Fund lässt den Lauf grün; er bleibt als PR liegen und muss hier auffallen (tools/rote-sammler-prs.mjs).
   const erledigt = erledigtArgumente(args)
@@ -200,5 +196,5 @@ try {
   await main()
 } catch (fehler) {
   // Ein Zeitlimit (tools/kind-mit-limit.mjs) wird zur klaren Zeile statt zum Stacktrace.
-  fehlerAbbruch(String(fehler.message).startsWith('FEHLER:') ? fehler.message : fehler.stack)
+  fehlerAbbruch(abbruchText(fehler))
 }
