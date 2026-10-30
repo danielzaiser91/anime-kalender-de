@@ -1,5 +1,5 @@
 {
-  "geholtAm": "2026-10-30T02:01:31.390Z",
+  "geholtAm": "2026-10-30T12:02:02.629Z",
   "artikel": [
     {
       "titel": "THE LEGEND OF HEI II im Stream bei ADN verfügbar!",
@@ -45,8 +45,6 @@
       "url": "https://news.animationdigitalnetwork.com/de/2026/10/15/revolutionary-girl-utena-legendaerer-kult-shojo-im-stream-bei-adn/",
       "datum": "2026-10-15",
       "showIds": [
-        213,
-        427,
         1338
       ]
     },
@@ -66,8 +64,7 @@
       "url": "https://news.animationdigitalnetwork.com/de/2026/10/05/school-babysitters-die-besondere-kita-im-stream-bei-adn/",
       "datum": "2026-10-05",
       "showIds": [
-        502,
-        344
+        502
       ]
     },
     {
@@ -75,8 +72,7 @@
       "url": "https://news.animationdigitalnetwork.com/de/2026/10/04/warum-gibt-es-diese-woche-keine-neue-folge-one-piece/",
       "datum": "2026-10-04",
       "showIds": [
-        561,
-        1412
+        561
       ]
     },
     {
@@ -108,8 +104,7 @@
       "url": "https://news.animationdigitalnetwork.com/de/2026/10/01/monster-strike-deadverse-reloaded-im-stream-bei-adn/",
       "datum": "2026-10-01",
       "showIds": [
-        1377,
-        131
+        1377
       ]
     },
     {
@@ -117,8 +112,7 @@
       "url": "https://news.animationdigitalnetwork.com/de/2026/10/01/dragon-ball-super-beerus-kommt-in-den-simulcast-zu-adn/",
       "datum": "2026-10-01",
       "showIds": [
-        1432,
-        999
+        1432
       ]
     },
     {
@@ -142,15 +136,15 @@
       "url": "https://news.animationdigitalnetwork.com/de/2026/09/29/adn-nimmt-10-simulcasts-im-oktober-2026-ins-programm-auf/",
       "datum": "2026-09-29",
       "showIds": [
+        1432,
         1311,
         970,
+        887,
         1431,
+        1428,
         1433,
         1429,
         1430,
-        1432,
-        887,
-        1428,
         1381
       ]
     },
@@ -164,10 +158,6 @@
         970,
         887,
         1431,
-        197,
-        213,
-        1318,
-        1347,
         1428,
         1433,
         1429,
@@ -176,13 +166,17 @@
         1377,
         502,
         1423,
+        197,
         198,
         352,
         361,
+        213,
         1338,
         1208,
+        1347,
         1427,
         108,
+        1318,
         1319,
         1320,
         1321
@@ -201,8 +195,7 @@
       "url": "https://news.animationdigitalnetwork.com/de/2026/09/21/86-eighty-six-kommt-im-oktober-zu-adn/",
       "datum": "2026-09-21",
       "showIds": [
-        1423,
-        442
+        1423
       ]
     },
     {
@@ -242,8 +235,7 @@
       "url": "https://news.animationdigitalnetwork.com/de/2026/09/10/undefeated-bahamut-chronicle-ecchi-mecha-anime-bei-adn/",
       "datum": "2026-09-10",
       "showIds": [
-        398,
-        344
+        398
       ]
     },
     {
@@ -251,8 +243,7 @@
       "url": "https://news.animationdigitalnetwork.com/de/2026/09/07/full-moon-wo-sagashite-shojo-musik-klassiker-bei-adn/",
       "datum": "2026-09-07",
       "showIds": [
-        1366,
-        427
+        1366
       ]
     },
     {
@@ -280,10 +271,10 @@
         1383,
         634,
         1366,
-        108,
         398,
         1419,
-        1372
+        1372,
+        108
       ]
     },
     {
@@ -299,8 +290,7 @@
       "url": "https://news.animationdigitalnetwork.com/de/2026/08/24/the-seven-deadly-sins-streame-staffel-1-jetzt-bei-adn/",
       "datum": "2026-08-24",
       "showIds": [
-        587,
-        442
+        587
       ]
     },
     {
@@ -325,8 +315,7 @@
       "url": "https://news.animationdigitalnetwork.com/de/2026/08/13/der-held-ohne-klasse-cast-alle-infos-zur-deutschen-synchro/",
       "datum": "2026-08-13",
       "showIds": [
-        1331,
-        967
+        1331
       ]
     },
     {
@@ -358,13 +347,13 @@
       "url": "https://news.animationdigitalnetwork.com/de/2026/07/30/7-neue-anime-im-august-2026-bei-adn/",
       "datum": "2026-07-30",
       "showIds": [
-        1331,
-        587,
-        1415,
-        617,
         1392,
+        617,
+        1415,
         1373,
-        1403
+        1403,
+        1331,
+        587
       ]
     },
     {
@@ -372,8 +361,7 @@
       "url": "https://news.animationdigitalnetwork.com/de/2026/07/30/urusei-yatsura-erscheint-mit-synchro-bei-adn/",
       "datum": "2026-07-30",
       "showIds": [
-        971,
-        444
+        971
       ]
     },
     {
@@ -389,8 +377,7 @@
       "url": "https://news.animationdigitalnetwork.com/de/2026/07/23/der-held-ohne-klasse-kommt-mit-deutscher-synchro-zu-adn/",
       "datum": "2026-07-23",
       "showIds": [
-        1331,
-        967
+        1331
       ]
     },
     {
@@ -406,8 +393,7 @@
       "url": "https://news.animationdigitalnetwork.com/de/2026/07/20/sci-fi-donghua-ringing-fate-kommt-zu-adn/",
       "datum": "2026-07-20",
       "showIds": [
-        1402,
-        405
+        1402
       ]
     },
     {
@@ -423,8 +409,7 @@
       "url": "https://news.animationdigitalnetwork.com/de/2026/07/10/hyakko-ein-weiterer-anime-klassiker-im-stream-bei-adn/",
       "datum": "2026-07-10",
       "showIds": [
-        1408,
-        1322
+        1408
       ]
     },
     {
@@ -448,7 +433,6 @@
       "url": "https://news.animationdigitalnetwork.com/de/2026/07/03/one-piece-heroines-nami-im-spotlight-mit-eigener-story/",
       "datum": "2026-07-03",
       "showIds": [
-        561,
         1412
       ]
     },
@@ -458,11 +442,11 @@
       "datum": "2026-07-02",
       "showIds": [
         1350,
-        1412,
         1399,
+        1412,
         1409,
-        1362,
         1411,
+        1362,
         1381
       ]
     },
@@ -480,9 +464,9 @@
       "datum": "2026-06-30",
       "showIds": [
         1350,
-        1412,
         1399,
         561,
+        1412,
         1409,
         1411,
         1362,
@@ -563,8 +547,7 @@
       "url": "https://news.animationdigitalnetwork.com/de/2026/06/15/kenichi-the-mightiest-disciple-the-attack-of-darkness-bei-adn/",
       "datum": "2026-06-15",
       "showIds": [
-        1370,
-        1136
+        1370
       ]
     },
     {
@@ -621,12 +604,6 @@
       "datum": "2026-05-28",
       "showIds": [
         1396,
-        427,
-        190,
-        1391,
-        1370,
-        131,
-        770,
         522,
         1368,
         1364
@@ -645,8 +622,7 @@
       "url": "https://news.animationdigitalnetwork.com/de/2026/05/27/card-captor-sakura-ab-sofort-im-stream-bei-adn/",
       "datum": "2026-05-27",
       "showIds": [
-        1069,
-        427
+        1069
       ]
     },
     {
@@ -679,8 +655,6 @@
         1362,
         1303,
         1051,
-        1324,
-        1379,
         1378,
         1323
       ]
@@ -715,35 +689,6 @@
       "datum": "2026-05-04",
       "showIds": [
         438
-      ]
-    },
-    {
-      "titel": "6 neue Anime ab Mai 2026 im Stream bei ADN",
-      "url": "https://news.animationdigitalnetwork.com/de/2026/04/28/6-neue-anime-ab-mai-2026-im-stream-bei-adn/",
-      "datum": "2026-04-28",
-      "showIds": [
-        1390,
-        1389,
-        1069,
-        438,
-        1395,
-        1397
-      ]
-    },
-    {
-      "titel": "My Gift Lvl 9999 jetzt mit deutscher Synchro bei ADN",
-      "url": "https://news.animationdigitalnetwork.com/de/2026/04/27/my-gift-lvl-9999-jetzt-mit-deutscher-synchro-bei-adn/",
-      "datum": "2026-04-27",
-      "showIds": [
-        1333
-      ]
-    },
-    {
-      "titel": "Eyeshield 21 ab sofort im Stream bei ADN",
-      "url": "https://news.animationdigitalnetwork.com/de/2026/04/24/eyeshield-21-ab-sofort-im-stream-bei-adn/",
-      "datum": "2026-04-24",
-      "showIds": [
-        329
       ]
     }
   ]

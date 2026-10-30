@@ -23,7 +23,7 @@ const POSTS_API = 'https://news.animationdigitalnetwork.com/wp-json/wp/v2/posts'
 /** Zwei Seiten à 100 Beiträge reichen rund einen Monat zurück. */
 const SEITEN = 2
 
-interface WpPost {
+export interface WpPost {
   link?: string
   date?: string
   title?: { rendered?: string }
@@ -42,6 +42,21 @@ export interface AdnNews {
   artikel: AdnNewsArtikel[]
 }
 
+const SERIEN_LINK = /animationdigitalnetwork\.com\/(?:de\/)?video\/(\d+)/
+
+/**
+ * Serien, um die es im Artikel geht. Hat der Artikel „auf die Watchlist"-Knöpfe, zählen nur deren Serien: Verweise im
+ * Fließtext („Studio: Lerche (Assassination Classroom, …)") nennen andere Serien als Auskunft über Studio oder Regie.
+ * Ohne Knopf (Line-ups, Trailer) bleiben alle Verweise.
+ */
+export function serienDesArtikels(html: string): number[] {
+  const links = (html.match(/<a\b[^>]*>/g) ?? []).filter((a) => SERIEN_LINK.test(a))
+  const knoepfe = links.filter((a) => a.includes('wp-block-button__link'))
+  const gewaehlt = knoepfe.length ? knoepfe : links
+  const ids = gewaehlt.map((a) => Number(SERIEN_LINK.exec(a)?.[1]))
+  return [...new Set(ids)].filter((n) => Number.isFinite(n))
+}
+
 /** HTML-Reste aus der Überschrift entfernen — die News-Titel tragen `&#8211;` & Co. */
 function ohneHtml(s: string): string {
   return s
@@ -52,6 +67,18 @@ function ohneHtml(s: string): string {
     .replace(/&quot;/g, '"')
     .replace(/\s+/g, ' ')
     .trim()
+}
+
+/** Deutsche Beiträge mit Serienverweis als Artikel; die Schnittstelle liefert auch `/fr/`. */
+export function artikelAusBeitraegen(beitraege: WpPost[]): AdnNewsArtikel[] {
+  const artikel: AdnNewsArtikel[] = []
+  for (const p of beitraege) {
+    if (!p.link?.includes('/de/')) continue
+    const showIds = serienDesArtikels(p.content?.rendered ?? '')
+    if (!showIds.length) continue
+    artikel.push({ titel: ohneHtml(p.title?.rendered ?? ''), url: p.link, datum: (p.date ?? '').slice(0, 10), showIds })
+  }
+  return artikel
 }
 
 /**
@@ -83,21 +110,7 @@ export async function holeAdnNews(force = false): Promise<void> {
     }
     if (!seite.length) break
     posts += seite.length
-    for (const p of seite) {
-      /* Nur die deutsche Fassung — die Schnittstelle liefert auch `/fr/`. */
-      if (!p.link?.includes('/de/')) continue
-      const html = p.content?.rendered ?? ''
-      const showIds = [
-        ...new Set([...html.matchAll(/animationdigitalnetwork\.com\/(?:de\/)?video\/(\d+)/g)].map((m) => Number(m[1]))),
-      ].filter((n) => Number.isFinite(n))
-      if (!showIds.length) continue
-      artikel.push({
-        titel: ohneHtml(p.title?.rendered ?? ''),
-        url: p.link,
-        datum: (p.date ?? '').slice(0, 10),
-        showIds,
-      })
-    }
+    artikel.push(...artikelAusBeitraegen(seite))
   }
 
   if (!posts) {

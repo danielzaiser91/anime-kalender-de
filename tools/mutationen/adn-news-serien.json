@@ -1,0 +1,13 @@
+[
+  { "name": "Kontrolle", "aenderungen": [] },
+  { "name": "M1 Knopf-Filter aus (immer alle Links)", "datei": "pipeline/lib/adn-news.ts", "suche": "const gewaehlt = knoepfe.length ? knoepfe : links", "ersetze": "const gewaehlt = links" },
+  { "name": "M2 immer nur Knöpfe (ohne Rückfall)", "datei": "pipeline/lib/adn-news.ts", "suche": "const gewaehlt = knoepfe.length ? knoepfe : links", "ersetze": "const gewaehlt = knoepfe" },
+  { "name": "M3 Knopf-Klasse falsch", "datei": "pipeline/lib/adn-news.ts", "suche": "a.includes('wp-block-button__link')", "ersetze": "a.includes('wp-block-buttons')" },
+  { "name": "M4 Serienlink nicht verlangt", "datei": "pipeline/lib/adn-news.ts", "suche": ".filter((a) => SERIEN_LINK.test(a))", "ersetze": "" },
+  { "name": "M5 Rückfall wählt nur ersten Link", "datei": "pipeline/lib/adn-news.ts", "suche": "const gewaehlt = knoepfe.length ? knoepfe : links", "ersetze": "const gewaehlt = knoepfe.length ? knoepfe : links.slice(0, 1)" },
+  { "name": "M6 Knöpfe nur der erste", "datei": "pipeline/lib/adn-news.ts", "suche": "const gewaehlt = knoepfe.length ? knoepfe : links", "ersetze": "const gewaehlt = knoepfe.length ? knoepfe.slice(0, 1) : links" },
+  { "name": "M7 Aufrufer: Fließtext-Regex statt serienDesArtikels", "datei": "pipeline/lib/adn-news.ts", "suche": "const showIds = serienDesArtikels(p.content?.rendered ?? '')", "ersetze": "const showIds = [...new Set([...(p.content?.rendered ?? '').matchAll(/video\\/(\\d+)/g)].map((m) => Number(m[1])))]" },
+  { "name": "M9 Aufrufer: /de/-Filter aus", "datei": "pipeline/lib/adn-news.ts", "suche": "if (!p.link?.includes('/de/')) continue", "ersetze": "" },
+  { "name": "M10 Aufrufer: Beitrag ohne Verweis bleibt", "datei": "pipeline/lib/adn-news.ts", "suche": "if (!showIds.length) continue", "ersetze": "" },
+  { "name": "M8 Doppelte nicht entfernt", "datei": "pipeline/lib/adn-news.ts", "suche": "return [...new Set(ids)].filter", "ersetze": "return [...ids].filter" }
+]
