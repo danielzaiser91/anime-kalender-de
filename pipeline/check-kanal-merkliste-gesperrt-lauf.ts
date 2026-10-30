@@ -49,7 +49,7 @@ const andere = lauf([{ anilistId: 900003, url: ADRESSE }])
 pruefe('dieselbe Adresse unter anderer Kennung bleibt erlaubt', andere.code === 0, andere)
 
 const fehlt = lauf(null)
-pruefe('fehlende Merkliste: Exit 1 mit Fehlertext', fehlt.code === 1 && fehlt.aus.includes('data/kanal-seiten.json fehlt'), fehlt)
+pruefe('fehlende Merkliste: Exit 1 mit Fehlertext', fehlt.code === 1 && fehlt.aus.includes('kanal-seiten.json fehlt'), fehlt)
 
 const leer = lauf([])
 pruefe('leere Liste: Exit 0 und Schlusszeile', leer.code === 0 && leer.aus.includes('0 Zeilen, 0 gesperrt'), leer)
@@ -63,7 +63,7 @@ pruefe('positive Zwillingskennung zur gesperrten negativen bleibt erlaubt', zwil
 const andereAdresse = lauf([{ anilistId: 900001, url: 'https://www.amazon.de/gp/video/detail/B0TESTANDERE' }])
 pruefe('gesperrte Kennung auf anderer Adresse bleibt erlaubt', andereAdresse.code === 0, andereAdresse)
 
-const negAndere =lauf([{ anilistId: -900007, url: ADRESSE_NEG }])
+const negAndere = lauf([{ anilistId: -900007, url: ADRESSE_NEG }])
 pruefe('negative Kennung: dieselbe Adresse unter anderer Kennung bleibt erlaubt', negAndere.code === 0, negAndere)
 
 const echt = spawnSync(process.execPath, [tsx, skript], { cwd: wurzel, encoding: 'utf8', windowsHide: true, timeout: 60000 })
