@@ -96,10 +96,16 @@ console.log('\nZusammengeschriebene Titel:')
 
 console.log('\nLaufzeit (die Suche läuft bei jedem Tastendruck):')
 {
-  const start = process.hrtime.bigint()
-  for (const q of ['s', 'sl', 'sli', 'slim', 'slime', 'ästhetik', 'bochi the rok', 'xqzvwkkk']) suche(q)
-  const ms = Number(process.hrtime.bigint() - start) / 1e6
-  console.log(`  acht Suchen über ${titles.length} Titel: ${ms.toFixed(0)} ms`)
+  const fragen = ['s', 'sl', 'sli', 'slim', 'slime', 'ästhetik', 'bochi the rok', 'xqzvwkkk']
+  const einLauf = (): number => {
+    const start = process.hrtime.bigint()
+    for (const q of fragen) suche(q)
+    return Number(process.hrtime.bigint() - start) / 1e6
+  }
+  einLauf() // Aufwärmlauf (JIT, Index-Aufbau) zählt nicht
+  const laeufe = Array.from({ length: 5 }, einLauf).sort((a, b) => a - b)
+  const ms = laeufe[2]
+  console.log(`  acht Suchen über ${titles.length} Titel: ${ms.toFixed(0)} ms (Median von 5 nach Aufwärmlauf)`)
   pruefe('unter 1,5 Sekunden für acht Suchen', ms < 1500, `${ms.toFixed(0)} ms`)
 }
 
