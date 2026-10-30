@@ -473,11 +473,6 @@ const TEXTE = {
 
   // Die Antwortzeile ganz oben im Panel — sie beantwortet in einem Satz,
   // wonach jemand das Panel überhaupt öffnet. Vier Fälle, gleiche Höhe.
-  // Relative Angaben zuerst: Niemand rechnet gern nach, welcher Wochentag
-  // der 25. ist (Daniel, 24.08.2026 am Mockup).
-  'antwort.heute': 'Heute',
-  'antwort.morgen': 'Morgen',
-  'antwort.inTagen': 'In {count} Tagen',
   'antwort.folge': 'Folge {n}',
   /*
     **Die Überschrift nennt zuerst, wonach gefragt wird.**
