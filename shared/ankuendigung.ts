@@ -61,6 +61,13 @@ export const synchroAngekuendigt = (t: { ankuendigung?: Ankuendigung }, s: Strea
 export const titelSynchroAngekuendigt = (t: { westlich?: true; ankuendigung?: Ankuendigung }): boolean =>
   !t.westlich && t.ankuendigung?.synchro === 'angekuendigt'
 
+/**
+ * Die Ankündigung, die im Panel die Karte „Termin offen“ trägt (statt Nebenzeile des Kastens und Anbieter-Pille): Synchro angekündigt
+ * und noch kein deutscher Termin (Antwort „ohne“). Jede andere Antwort behält den Kasten, wie er ist.
+ */
+export const ankuendigungOhneTermin = (t: { westlich?: true; ankuendigung?: Ankuendigung }, antwortArt: string | undefined): Ankuendigung | undefined =>
+  antwortArt === 'ohne' && titelSynchroAngekuendigt(t) ? t.ankuendigung : undefined
+
 type Uebersetze = (k: string, v?: Record<string, string | number>) => string
 
 /** „mit Untertiteln ab/seit 07.10.2026“ — vor dem Start „ab“, danach „seit“. */

@@ -12,8 +12,10 @@ import { terminPillen, streamZeilen, discZeilen } from './wege-zeilen.tsx'
 import { angebotSeitZeileVon } from './kasten-hinweise.ts'
 import { KinoZuletzt } from './kino-zuletzt.tsx'
 import type { sortiereNachZugang } from './wege-sortieren.ts'
+import { ankuendigungOhneTermin } from '@shared/ankuendigung.ts'
+import { ohneAnkuendigungsWeg, TerminOffenKarte } from './termin-offen-karte.tsx'
 
-export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, terminReleases, title, t, today, wegeHinweis, tvVorbei, kastenNotiz, folgenLuecke, verbindung, favorites, folgenAngabeFuer, dubZeilen, releaseJePlattform, releases, discAusgaben, discReleases, discZuerst }: {
+export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, terminReleases, title, t, today, wegeHinweis, tvVorbei, kastenNotiz, folgenLuecke, verbindung, favorites, onToggleFavorite, folgenAngabeFuer, dubZeilen, releaseJePlattform, releases, discAusgaben, discReleases, discZuerst }: {
   antwort: ReturnType<typeof berechneAntwort>
   sortiertNachZugang: ReturnType<typeof sortiereNachZugang>
   streamReleases: Release[]
@@ -28,6 +30,7 @@ export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, te
   folgenLuecke: string | null
   verbindung: NewsletterVerbindung
   favorites: Set<number>
+  onToggleFavorite: (id: number) => void
   folgenAngabeFuer: (s: { platform?: string; url?: string; nurFolge?: number; dubRanges?: StreamLink['dubRanges']; dub?: boolean; fenster?: StreamLink['fenster']; } | undefined) => string
   dubZeilen: (s: { dubRanges?: StreamLink['dubRanges']; }) => string[]
   releaseJePlattform: Map<string, Release>
@@ -37,10 +40,12 @@ export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, te
   /** Über einen Disc-Termin geöffnet — der Umschalter startet auf „Disc". */
   discZuerst?: boolean
 }) {
+  const ankuendigung = ankuendigungOhneTermin(title, antwort?.art)
   return (
     <>
       {antwort && (
         <KastenMitFolgenKarte
+          karte={ankuendigung && <TerminOffenKarte title={title} ankuendigung={ankuendigung} gemerkt={favorites.has(title.id)} onToggleFavorite={onToggleFavorite} verbindung={verbindung} t={t} />}
           pillenGruppen={
             new Map([
               ...zeilenGruppen(sortiertNachZugang, title, releases),
@@ -82,7 +87,7 @@ export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, te
               </>
             ) : <KinoZuletzt titleId={title.id} antwort={antwort} t={t} />
           }
-          stream={streamZeilen({ sortiertNachZugang, title, t, today, folgenAngabeFuer, dubZeilen, releaseJePlattform, streamReleases, releases, tvVorbei })}
+          stream={streamZeilen({ sortiertNachZugang: ohneAnkuendigungsWeg(sortiertNachZugang, ankuendigung), title, t, today, folgenAngabeFuer, dubZeilen, releaseJePlattform, streamReleases, releases, tvVorbei })}
           disc={discZeilen({ sortiertNachZugang, title, t, today, folgenAngabeFuer, discAusgaben, discReleases })}
           discZuerst={discZuerst}
           key={discZuerst ? 'disc' : 'stream'}

@@ -509,6 +509,7 @@ export function DetailPanel({
             folgenLuecke={folgenLuecke}
             verbindung={verbindung}
             favorites={favorites}
+            onToggleFavorite={onToggleFavorite}
             folgenAngabeFuer={folgenAngabeFuer}
             dubZeilen={dubZeilen}
             releaseJePlattform={releaseJePlattform}
