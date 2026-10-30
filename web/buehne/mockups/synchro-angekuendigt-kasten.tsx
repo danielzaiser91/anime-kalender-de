@@ -2,7 +2,7 @@ import { useLayoutEffect, useRef, type ComponentProps } from 'react'
 import { titelSynchroAngekuendigt } from '@shared/ankuendigung.ts'
 import { AntwortKastenMitMarke } from '../../src/components/detail/kasten-marke.tsx'
 import { mockup } from '../register.ts'
-import { KarteUnterKasten, ZeileImKasten } from './synchro-angekuendigt-teile.tsx'
+import { ZeileImKasten } from './synchro-angekuendigt-teile.tsx'
 import type { Ankuendigung } from './synchro-angekuendigt-text.ts'
 
 type Kasten = ComponentProps<typeof AntwortKastenMitMarke>
@@ -50,22 +50,6 @@ function KastenMitZeile(p: Kasten) {
   )
 }
 
-/** Variante B: der Kasten nur mit der Überschrift; Ankündigung, Quelle und Knopf stehen in einer eigenen Karte darunter. */
-function KastenMitKarte(p: Kasten) {
-  const wurzel = useRef<HTMLDivElement>(null)
-  const a = ankuendigungVon(p)
-  useLayoutEffect(() => {
-    if (a) nebenzeileAus(wurzel.current, true)
-  })
-  if (!a) return <AntwortKastenMitMarke {...p} />
-  return (
-    <div ref={wurzel} className="flex flex-col gap-3">
-      <AntwortKastenMitMarke {...ohnePille(p, a)} />
-      <KarteUnterKasten a={a} anbieterUrl={anbieterUrl(p, a)} />
-    </div>
-  )
-}
-
 mockup({
   name: 'synchro-angekuendigt-kasten',
   titel: 'Antwortkasten: Synchro angekündigt',
@@ -77,8 +61,8 @@ mockup({
       notiz: 'Im Kasten: Anbieter einmal (als Link zur Serie), darunter „Angekündigt, Stand … · Quelle“ und der Knopf „Bescheid bei Termin“; die Pille unter „Weitere Anbieter“ entfällt.',
     },
     B: {
-      ersatz: { AntwortKasten: KastenMitKarte },
-      notiz: 'Der Kasten behält nur die Überschrift; eine eigene Karte „Termin offen“ trägt Anbieter, Stand, Quelle und Knopf. Keine Pille mehr unter „Weitere Anbieter“.',
+      ersatz: {},
+      notiz: 'Der Bau (PR 2430): der Kasten behält nur die Überschrift; die echte Karte „Termin offen“ trägt Anbieter, Stand, Quelle und Knopf. Keine Pille mehr unter „Weitere Anbieter“. Gilt nicht für A, das die Karte zusätzlich zeigt.',
     },
   },
 })

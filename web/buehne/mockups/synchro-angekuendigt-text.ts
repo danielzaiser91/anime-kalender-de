@@ -19,4 +19,3 @@ export function quelleVon(a: Ankuendigung): string | undefined {
 /** „Stand 15.09.2026“ — das Datum der Quelle, nie der Tag der Synchro. */
 export const standText = (a: Ankuendigung): string => `Stand ${formatDate(a.stand)}`
 
-export const grossAnfang = (s: string): string => s.charAt(0).toUpperCase() + s.slice(1)
