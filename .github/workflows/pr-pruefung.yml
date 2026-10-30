@@ -240,6 +240,7 @@ jobs:
           PFADE="$PFADE|^tools/einzel-sperre\.mjs$"
           PFADE="$PFADE|^tools/einzel-sperre-schlange\.mjs$"
           PFADE="$PFADE|^tools/kachel-ecken-messen\.mjs$"
+          PFADE="$PFADE|^tools/linux-schrift\.mjs$"
           PFADE="$PFADE|^tools/panel-bild\.mjs$"
           PFADE="$PFADE|^tools/panel-messen\.mjs$"
           PFADE="$PFADE|^tools/panel-messen-browser\.mjs$"

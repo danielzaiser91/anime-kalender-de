@@ -163,6 +163,7 @@
     "check:ansichten-teile": "npm run check:ansichten-desktop && npm run check:ansichten-handy",
     "check:ansichten-desktop": "node tools/schwer.mjs node tools/ansicht-bild.mjs && node tools/schwer.mjs node tools/kachel-ecken-messen.mjs",
     "check:ansichten-handy": "node tools/schwer.mjs node tools/ansicht-bild.mjs --handy woche monat datenbank",
+    "check:ansichten-handy-linux": "node tools/schwer.mjs node tools/ansicht-bild.mjs --handy --linux-schrift woche monat datenbank",
     "ansichten:bilder": "node tools/ansicht-bild.mjs --docs",
     "check:adress-schalter": "node tools/adress-schalter-pruefen.mjs",
     "check:install": "node tools/install-zustaende-pruefen.mjs && node tools/daten-adressen-pruefen.mjs && node tools/daten-adressen-browser.mjs && node tools/kachel-felder-messen.mjs",
