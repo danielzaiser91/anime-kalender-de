@@ -36429,6 +36429,8 @@
       to: 25
       dub: false
       checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]
+  # Folge 25 ist das TV-Special „Winter Arc“ (48 Min., Japan 25./26.12.2025; aniSearch 19505 führt es als eigenen Eintrag, Hulu zählt 24 + 1 = 25 Folgen): keine der 24 Folgen des Titels.
+  sonderfolgen: [25]
   checkedAt: '2026-10-16'
   note: "Folgen 1–25 ohne deutschen Ton — Tonspuren: en, es-419, fr-FR, pt-BR"
 - anilistId: -131532

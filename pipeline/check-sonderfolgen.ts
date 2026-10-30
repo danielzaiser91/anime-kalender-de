@@ -47,8 +47,15 @@ pruefe('der echte Beleg: keine Zeile über der Folgenzahl 24', zeilen(echt).leng
 const ohne = echt.map((b) => ({ ...b, sonderfolgen: undefined }))
 pruefe('derselbe Beleg ohne Kennzeichnung würde zählen', zeilen(ohne).length === 1, zeilen(ohne))
 
+/* Undead Unluck (30.10.2026): Disney+ führt als Folge 25 das TV-Special „Winter Arc“; unser Titel hat 24 Folgen. */
+const URL_UU = 'https://www.disneyplus.com/de-de/series/undead-unluck/6yBbjezPBwNW'
+const uu = liste.filter((b) => b.anilistId === 154116 && b.url === URL_UU && JSON.stringify((b as { dubRanges?: unknown }).dubRanges).includes('"to":25'))
+const folgenUu = new Map([[154116, 24]])
+pruefe('Undead Unluck: der Disney+-Beleg bis Folge 25 nennt sie als Sonderfolge', uu.length === 1 && JSON.stringify(uu[0]?.sonderfolgen) === '[25]', uu.map((b) => b.sonderfolgen))
+pruefe('Undead Unluck: keine Zeile über der Folgenzahl 24', zeilen(uu, folgenUu).length === 0, zeilen(uu, folgenUu))
+
 if (fehler) {
   console.error(`FEHL check-sonderfolgen: ${fehler} Zusicherung(en) rot`)
   process.exit(1)
 }
-console.log('OK check-sonderfolgen: 16 Zusicherungen')
+console.log('OK check-sonderfolgen: 18 Zusicherungen')
