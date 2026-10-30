@@ -8,6 +8,7 @@ import type { Release, StreamLink, Title } from '../shared/types.ts'
 import { folgenAuskunft } from '../web/src/components/detail/folgen-angabe.ts'
 import { zaehlPlattform } from '../web/src/components/detail/prime-kanal.ts'
 import { titelMitTerminBereichen } from '../web/src/components/detail/stream-bereiche.ts'
+import { leereListe } from './lib/leere-liste.ts'
 
 let fehler = 0
 function pruefe(name: string, ok: boolean, info = ''): void {
@@ -25,9 +26,10 @@ function pille(title: Title, s: StreamLink, releases: Release[] = []): string {
   return fn(s)
 }
 
-function pruefeBestand(datei: string, releasesJeTitel: Map<number, Release[]>): number {
+function pruefeBestand(datei: string, releasesJeTitel: Map<number, Release[]>): { markiert: number; gesehen: number } {
   let unmarkiert = 0
   let markiert = 0
+  let gesehen = 0
   const titel = JSON.parse(readFileSync(`public/data/${datei}`, 'utf8')) as Title[]
   for (const roh of titel) {
     const releases = releasesJeTitel.get(roh.id) ?? []
@@ -35,6 +37,7 @@ function pruefeBestand(datei: string, releasesJeTitel: Map<number, Release[]>): 
     if (!t0) continue
     for (const s of t0.streams ?? []) {
       const text = pille(t0, s, releases)
+      gesehen++
       if (text.startsWith('≈')) {
         markiert++
         continue
@@ -48,19 +51,21 @@ function pruefeBestand(datei: string, releasesJeTitel: Map<number, Release[]>): 
     }
   }
   pruefe(`${datei}: Folgenzahl ohne Beleg und ohne „≈“ (${unmarkiert} Wege)`, unmarkiert === 0)
-  return markiert
+  return { markiert, gesehen }
 }
 
 const releases = JSON.parse(readFileSync('public/data/releases.json', 'utf8')) as Release[]
 const jeTitel = new Map<number, Release[]>()
 for (const r of releases) jeTitel.set(r.titleId, [...(jeTitel.get(r.titleId) ?? []), r])
 const gekennzeichnet = ['titles.json', 'ohne-synchro.json', 'cartoons.json'].map((d) => pruefeBestand(d, jeTitel))
-pruefe('Bestand: mindestens ein Weg trägt „≈“ (sonst prüft diese Prüfung nichts)', gekennzeichnet[0]! > 0)
+const lage = leereListe('Bestand: Wege mit „≈“ im Hauptbestand (von allen gesehenen Wegen)', gekennzeichnet[0]!.markiert, gekennzeichnet[0]!.gesehen)
+console.log(lage.zeile)
+pruefe(lage.zeile, lage.ok)
 
 if (fehler) {
   console.error(`${fehler} Prüfung(en) fehlgeschlagen`)
   console.log(`VERSTÖSSE: ${fehler}`)
   process.exit(1)
 }
-console.log(`check-folgenzahl-kennzeichnung-bestand: ok (mit „≈“: Hauptbestand ${gekennzeichnet[0]}, Katalog ${gekennzeichnet[1]}, Cartoons ${gekennzeichnet[2]})`)
+console.log(`check-folgenzahl-kennzeichnung-bestand: ok (mit „≈“: Hauptbestand ${gekennzeichnet[0]!.markiert}, Katalog ${gekennzeichnet[1]!.markiert}, Cartoons ${gekennzeichnet[2]!.markiert})`)
 console.log('VERSTÖSSE: 0')
