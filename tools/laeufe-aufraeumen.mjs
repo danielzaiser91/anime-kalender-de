@@ -29,6 +29,7 @@ import { meldeRoteSammlerPrs } from './rote-sammler-prs.mjs'
 import { eskalationsText } from './wache-eskalation.mjs'
 import { wacheZeilen } from './wache-bilanz.mjs'
 import { fixZusatz } from './wache-fix-gemergt.mjs'
+import { weichWache } from './wache-weicher-schritt.mjs'
 import { fileURLToPath } from 'node:url'
 
 const WORKER = 'https://newsletter.animekalender.workers.dev/lauf'
@@ -121,6 +122,7 @@ async function main() {
   for (const zeile of rotZeilen) if (zeile.startsWith('ALARM')) console.log(zeile)
   const quellenZeilen = eskalationsText(gesundheitsDatei(), Date.now(), fixZusatz(wurzel()))
   for (const zeile of quellenZeilen) console.log(zeile)
+  for (const zeile of weichWache(gh, REPO, wurzel(), Date.now())) console.log(zeile)
   try {
     await laeufePruefen(erledigt)
   } finally {
