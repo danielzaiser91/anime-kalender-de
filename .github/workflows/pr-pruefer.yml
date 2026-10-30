@@ -130,7 +130,7 @@ jobs:
       # Schritt wartet bis zu 13 min auf das Ende der PR-Prüfkette des Kopfes und legt ihre Ergebniszeilen
       # (kettenlog.txt) und das bereinigte Log (kettenlog-voll.txt) in den Prüfordner. Fail-soft: ohne Datei gilt „nicht beurteilt“.
       # 13 statt 9 min (30.10.2026): die Kette braucht im Median 9,6 min, p90 12,9 min (316 Läufe seit 28.10.); bei 9 min
-      # sah jeder fünfte Prüfer-Lauf (12 von 64 Stichproben) nur eine unfertige Kette. Rest: 13 + Prüfer < timeout 30 min.
+      # sah jeder fünfte Prüfer-Lauf (33 von 174) nur eine unfertige Kette. Rest: 13 + Prüfer < timeout 30 min.
       - name: Kettenlog bereitlegen
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
