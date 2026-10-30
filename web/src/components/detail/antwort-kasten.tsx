@@ -14,7 +14,7 @@ import { deSeitQuelleSchluessel, kopfSchluesselOhneBeleg, erstausgabeAlsNeuigkei
 import { abstandImSatz } from '../../lib/abstand.ts'
 import { type Antwort } from './antwort-typ.ts'
 import { deSeitZeigen } from './de-seit.ts'
-import { ausgebliebenTerminText, kostenlosKopfVon } from './kasten-texte.ts'
+import { ausgebliebenTerminText, kostenlosKopfVon, widerlegtTexte } from './kasten-texte.ts'
 import { folgenKopf, laeuftNeben } from './antwort-block.ts'
 import { discKopf } from './antwort-disc-kopf.ts'
 import { vorstartSatz } from './antwort-vorstart.ts'
@@ -364,7 +364,7 @@ export function AntwortKasten({
         )
       : ''
     const vorstart = vorstartSatz(antwort, Boolean(ohneSprachbeleg), releases)
-    if (vorstart) [haupt, neben, anteil, zaehl] = [vorstart, '', undefined, '']
+    if (vorstart) [haupt, neben, anteil, zaehl] = [betont(vorstart), '', undefined, '']
   } else if (antwort.art === 'teilweise') {
     /*
       **Teilweise synchronisiert — die Zahl statt „alle".**
@@ -413,7 +413,7 @@ export function AntwortKasten({
     zaehl = ''
   } else if (antwort.art === 'disc') {
     const vorstart = vorstartSatz(antwort, false)
-    haupt = vorstart ?? discKopf(antwort, T)
+    haupt = vorstart ? betont(vorstart) : discKopf(antwort, T)
     neben = vorstart ? '' : T('antwort.discNeben')
     zaehl = ''
     /*
@@ -544,10 +544,10 @@ export function AntwortKasten({
     */
     fakten = []
   } else if (antwort.art === 'widerlegt') {
-    /* Ein widerlegter Termin sagt nicht „erscheint heute" — er nennt Tag und Grund (02.10.2026). */
-    haupt = T('antwort.widerlegtTitel')
-    neben = T('antwort.widerlegtNeben', { datum: formatDate(antwort.datum) })
-    gedaempft = true
+    const w = widerlegtTexte(antwort, T)
+    haupt = w.haupt
+    neben = w.neben
+    gedaempft = w.gedaempft
     zaehl = ''
   } else {
     /*

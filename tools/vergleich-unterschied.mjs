@@ -12,6 +12,12 @@ const kurz = (x) => {
 /** Liste aus Objekten mit eigener Kennung: dann wird nach Kennung verglichen, nicht nach Stelle. */
 const mitKennung = (l) => l.length > 0 && l.every((e) => istObjekt(e) && (typeof e.id === 'number' || typeof e.id === 'string'))
 
+/** Kennung samt Titelname („2167 (Tokyo Revengers)“), wenn das Element einen trägt; sonst nur die Kennung. */
+function mitName(e) {
+  const name = [e.titleDe, e.titleEn, e.titleRomaji].find((n) => typeof n === 'string' && n !== '')
+  return name ? `${e.id} (${name})` : e.id
+}
+
 /** `weg`: Feld bzw. Listenelement fehlt im neuen Stand; solche Zeilen stehen vorn und fallen nicht dem Kürzen zum Opfer. */
 function merke(aus, muster, beispiel, weg = false) {
   const alt = aus.get(muster)
@@ -28,11 +34,11 @@ function vergleicheListen(a, b, pfad, kennung, aus) {
   if (mitKennung(a) && mitKennung(b)) {
     const jeId = new Map(b.map((e) => [e.id, e]))
     for (const e of a) {
-      if (jeId.has(e.id)) vergleiche(e, jeId.get(e.id), `${pfad}[]`, e.id, aus)
-      else merke(aus, `${pfad}[] (entfallen)`, `Kennung ${e.id}`, true)
+      if (jeId.has(e.id)) vergleiche(e, jeId.get(e.id), `${pfad}[]`, mitName(e), aus)
+      else merke(aus, `${pfad}[] (entfallen)`, `Kennung ${mitName(e)}`, true)
     }
     const alt = new Set(a.map((e) => e.id))
-    for (const e of b) if (!alt.has(e.id)) merke(aus, `${pfad}[] (hinzugekommen)`, `Kennung ${e.id}`)
+    for (const e of b) if (!alt.has(e.id)) merke(aus, `${pfad}[] (hinzugekommen)`, `Kennung ${mitName(e)}`)
     const inBeiden = (liste) => liste.filter((e) => alt.has(e.id) && jeId.has(e.id)).map((e) => e.id)
     if (inBeiden(a).join() !== inBeiden(b).join()) merkeReihenfolge(aus, pfad)
     return

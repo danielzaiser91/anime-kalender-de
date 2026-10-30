@@ -17,6 +17,7 @@ const NENNT_DATEI = /prime-zugeordnet/
 export const AUSNAHMEN: Record<string, string> = {
   'pipeline/lib/prime-meldung-riegel.ts': 'der Zugang selbst',
   'pipeline/lib/rohfolgen-abschluss.ts': 'Schreibziel des Zuordners; gelesen wird über leseZugeordnet',
+  'tools/urteile-aus-kopie.mjs': 'kopiert die Datei nur in die Wegwerf-Wurzel; gelesen wird sie vom Baum über leseZugeordnet',
   'tools/worker-rohfolgen-rettung.ts': 'kopiert die Datei als Ganzes aus dem Briefkasten-Zweig, liest keine Meldungen',
 }
 

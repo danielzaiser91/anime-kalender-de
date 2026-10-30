@@ -5,10 +5,7 @@
  * „Auswahl schon bestätigt" und die Zugangsart der eigenen Seite (Leser-Nachricht) wirken.
  * Die Zeit ist fest (3000), nie die echte Uhr.
  */
-const { readFileSync } = require('node:fs')
-const vm = require('node:vm')
-
-const lies = (n) => readFileSync(__dirname + '/' + n, 'utf8')
+const { lies, element, sandkasten, durchlaufen, laufen } = require('./test-kulisse-amazon.cjs')
 const FIXTURE = lies('prime-fassungen.fixture.json')
 const SUCHE = 'https://www.amazon.de/s?k=Fischen+Impossible&i=instant-video'
 const FEST = 32503680000000
@@ -22,51 +19,11 @@ function pruefe(name, bedingung, gefunden) {
 }
 
 const quelle = ['box.js', 'melde-sperre.js', 'prime-stand-ziele.js', 'prime-region.js', 'prime-fassungen.js', 'amazon.js'].map(lies).join('\n')
-const GLOBALE = Object.fromEntries(
-  [Date, JSON, Math, Set, Map, Number, String, Object, Array, Boolean, RegExp, Promise, Error].map((f) => [f.name, f]),
-)
-GLOBALE.encodeURIComponent = encodeURIComponent
-GLOBALE.decodeURIComponent = decodeURIComponent
-
-function element() {
-  return {
-    className: '',
-    isConnected: true,
-    style: { cssText: '' },
-    dataset: {},
-    textContent: '',
-    title: '',
-    type: '',
-    disabled: false,
-    kinder: [],
-    hoerer: {},
-    classList: { add() {}, remove() {}, toggle() {}, contains: () => false },
-    replaceChildren(...neu) { this.kinder = neu },
-    appendChild(k) { this.kinder.push(k); return k },
-    append(...k) { this.kinder.push(...k) },
-    insertBefore(k) { this.kinder.push(k); return k },
-    remove() {},
-    addEventListener(art, fn) { this.hoerer[art] = fn },
-    querySelector(sel) {
-      const klasse = String(sel).trim().split(/\s+/).pop().replace(/^\./, '')
-      for (const k of this.kinder) {
-        if (String(k?.className ?? '').split(/\s+/).includes(klasse)) return k
-        const tiefer = k?.querySelector?.(sel)
-        if (tiefer) return tiefer
-      }
-      return null
-    },
-    querySelectorAll: () => [],
-    focus() {},
-    getBoundingClientRect: () => ({ top: 0, left: 0, right: 0, bottom: 0, width: 0, height: 0 }),
-  }
-}
 
 /** Lädt amazon.js für `pfad`; `seite` kommt als Leser-Nachricht, `erwartungen` vom Briefkasten. */
 async function lauf({ hydration, pfad = SELBST, seite = {}, erwartungen = {}, erwartet = undefined } = {}) {
   const angehaengt = []
   const handler = []
-  const takte = []
   let geschickt = false
   const auftrag = { titel: 'Fischen Impossible', id: 1, suchUrl: SUCHE, zeit: FEST, erwartet }
   const speicher = { 'ak-prime-suchauftrag': JSON.stringify(auftrag) }
@@ -75,35 +32,9 @@ async function lauf({ hydration, pfad = SELBST, seite = {}, erwartungen = {}, er
     location: { pathname: pfad, search: '' },
   }
   const antwort = { imBriefkasten: {}, adressen: [], gemeldet: [], gemeldeteSeiten: [], erwartungen }
-  const sandkasten = {
-    globalThis: null,
-    AK_OFFENE_AMAZON: {},
-    AK_PRIME_SUCHE: { [SUCHE]: { titel: 'Fischen Impossible', id: 1 } },
-    URLSearchParams,
-    URL,
-    location: { pathname: pfad, search: '', href: 'https://www.amazon.de' + pfad },
-    sessionStorage: {
-      getItem: (k) => speicher[k] ?? null,
-      setItem: (k, v) => { speicher[k] = v },
-      removeItem: (k) => { delete speicher[k] },
-      clear() {},
-    },
-    document: {
-      documentElement: { innerHTML: '<html></html>', classList: { add() {}, remove() {}, toggle() {}, contains: () => false } },
-      body: { ...element(), appendChild(k) { angehaengt.push(k); return k } },
-      title: 'Amazon.de',
-      createElement: () => element(),
-      createTextNode: (t) => ({ textContent: t }),
-      getElementById: (id) => (id === 'dv-web-page-hydration-data' ? hydration : null),
-      querySelector: (sel) => (sel === '.ak-amazon-suchhinweis' ? angehaengt.find((e) => String(e.className).includes('ak-amazon-suchhinweis')) ?? null : null),
-      querySelectorAll: () => [],
-      addEventListener() {},
-      head: element(),
-    },
-    chrome: { runtime: { id: 'test' }, storage: { local: { get: () => ({ amazonErledigt: {}, amazonSuche: {} }), set: () => Promise.resolve() } } },
-    window: fenster,
-    MutationObserver: class { observe() {} },
-    requestAnimationFrame: () => 0,
+  const k = sandkasten({
+    speicher,
+    chromeLokal: { get: () => ({ amazonErledigt: {}, amazonSuche: {} }), set: () => Promise.resolve() },
     fetch: (u) => {
       if (!geschickt && String(u).includes('stand=1')) {
         geschickt = true
@@ -112,26 +43,30 @@ async function lauf({ hydration, pfad = SELBST, seite = {}, erwartungen = {}, er
       }
       return Promise.resolve({ ok: true, json: () => Promise.resolve(antwort) })
     },
-    setInterval: (fn) => { takte.push(fn); return 0 },
-    setTimeout: () => 0,
-    clearInterval() {},
-    console: { log() {}, warn() {}, error() {} },
-    performance: { now: () => 0 },
-    navigator: { clipboard: { writeText: () => Promise.resolve() } },
-    ...GLOBALE,
+  })
+  const dokument = {
+    documentElement: { innerHTML: '<html></html>', classList: { add() {}, remove() {}, toggle() {}, contains: () => false } },
+    body: { ...element(), appendChild(e) { angehaengt.push(e); return e } },
+    title: 'Amazon.de',
+    createElement: () => element(),
+    createTextNode: (t) => ({ textContent: t }),
+    getElementById: (id) => (id === 'dv-web-page-hydration-data' ? hydration : null),
+    querySelector: (sel) => (sel === '.ak-amazon-suchhinweis' ? angehaengt.find((e) => String(e.className).includes('ak-amazon-suchhinweis')) ?? null : null),
+    querySelectorAll: () => [],
+    addEventListener() {},
+    head: element(),
   }
-  sandkasten.globalThis = sandkasten
-  fenster.document = sandkasten.document
-  let absturz = null
-  try {
-    vm.runInNewContext(quelle, sandkasten, { filename: 'amazon.js' })
-  } catch (err) {
-    absturz = err
-  }
-  const warte = async () => { for (let i = 0; i < 5; i++) await new Promise((r) => setImmediate(r)) }
-  await warte()
-  for (const t of takte) t()
-  await warte()
+  Object.assign(k, {
+    AK_PRIME_SUCHE: { [SUCHE]: { titel: 'Fischen Impossible', id: 1 } },
+    location: { pathname: pfad, search: '', href: 'https://www.amazon.de' + pfad },
+    document: dokument,
+    window: fenster,
+  })
+  fenster.document = dokument
+  const { absturz } = laufen([quelle], k)
+  await durchlaufen()
+  k.takt()
+  await durchlaufen()
   return { absturz, angehaengt }
 }
 

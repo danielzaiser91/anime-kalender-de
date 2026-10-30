@@ -6,7 +6,7 @@ import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { wortIndex, type AsTitel } from './lib/anisearch-katalog-abgleich.ts'
-import { kalenderOhneNetz, ordneAdnZuAnisearch, titellisteFrisch, TITELLISTE_MAX_TAGE, type AdnOffen } from './lib/adn-anisearch.ts'
+import { kalenderLueckenZeile, kalenderOhneNetz, ordneAdnZuAnisearch, titellisteFrisch, TITELLISTE_MAX_TAGE, type AdnOffen } from './lib/adn-anisearch.ts'
 import { ordneKatalogZuAnisearch, uebernimmOhneTitelliste } from './lib/adn-zuordnung-lauf.ts'
 import { besterTitel, nameTraegt } from './bau/adn-show-titel.ts'
 import type { AdnShow } from './lib/adn.ts'
@@ -128,7 +128,8 @@ pruefe('Kalenderserien: alles leer ergibt alle, nichts im Kalender ergibt nichts
 // Der eingecheckte Kalender: Lücken sind erlaubt (Katalog-Lauf hinkt), aber sichtbar. Warnung statt Fehler, weil eine neue Serie bis zum nächsten Lauf fehlen darf.
 const kalenderShows = (JSON.parse(readFileSync('data/adn.json', 'utf8')) as { shows: { showId: number; title: string }[] }).shows
 const luecken = kalenderOhneNetz(kalenderShows, katalog.shows, offen)
-if (luecken.length) console.log(`::warning::ADN-Kalender: ${luecken.length} von ${kalenderShows.length} Serien weder im Katalog noch auf der Liste der offenen: ${luecken.map((s) => `${s.showId} ${s.title}`).join('; ')}`)
+const lueckenZeile = kalenderLueckenZeile(luecken, kalenderShows.length)
+if (lueckenZeile) console.log(lueckenZeile)
 console.log(`check-adn-anisearch: Kalenderserien ohne Katalog und Liste: ${luecken.length}`)
 
 if (fehler) process.exit(1)

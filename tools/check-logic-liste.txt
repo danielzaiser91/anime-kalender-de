@@ -8,6 +8,7 @@ pipeline/check-adn-film.ts
 pipeline/check-adn-katalog-warteschlange.ts
 pipeline/check-adn-kuratiert-ton.ts
 pipeline/check-adn-kuratiert.ts
+pipeline/check-adn-laufend-archiv.ts
 pipeline/check-adn-lesetag.ts
 pipeline/check-adn-neuzugaenge.ts
 pipeline/check-adn-news-serien.ts
@@ -136,6 +137,7 @@ pipeline/check-empfehlung-fortsetzen.ts
 pipeline/check-empfehlung-kern.ts
 pipeline/check-empfehlung-reise-speicher.ts
 pipeline/check-empfehlung-sichtbar.ts
+pipeline/check-empfehlung-view-fremder-pool.ts
 pipeline/check-empfehlung.ts
 pipeline/check-episodentitel.ts
 pipeline/check-erscheint-erst.ts
@@ -201,6 +203,7 @@ pipeline/check-kanal-erbt.ts
 pipeline/check-kanal-ja-sprach-termin.ts
 pipeline/check-kanal-je-seite.ts
 pipeline/check-kanal-leser.ts
+pipeline/check-kanal-merkliste-gesperrt-lauf.ts
 pipeline/check-kanal-merkliste.ts
 pipeline/check-kanal-messung.ts
 pipeline/check-kanal-verlust.ts
@@ -239,6 +242,7 @@ pipeline/check-netflix-staffeln.ts
 pipeline/check-netflix-umleitung-ablauf.ts
 pipeline/check-netflix-umleitung.ts
 pipeline/check-neuigkeiten-panel.ts
+pipeline/check-news-altbestand.ts
 pipeline/check-news-einfrieren.ts
 pipeline/check-news-felder-bestand-ablauf.ts
 pipeline/check-news-felder-fest.ts
@@ -333,6 +337,7 @@ pipeline/check-suchhinweis-bereich.ts
 pipeline/check-suchhinweis-lauf.ts
 pipeline/check-sw-cache-regeln.ts
 pipeline/check-synchro-original.ts
+pipeline/check-synchro-termin-offen.ts
 pipeline/check-takt.ts
 pipeline/check-telekom-annahme.ts
 pipeline/check-telekom-pille.ts
@@ -429,3 +434,4 @@ tools/uhr-in-tests.mjs
 tools/web-hosting.test.ts
 tools/web-push-voll.test.ts
 tools/workflow-abbruch-waechter.mjs
+tools/workflow-ohne-pakete.mjs

@@ -74,7 +74,7 @@ export interface NewsHistorie extends TerminGedaechtnis {
  * Die Plattformen mit belegter Synchro, die als „weiterer Anbieter“ gelten können. YouTube bleibt draußen; ein Prime-Kanal, der sein Ja vom
  * Anbieter hat (`kanalErbtVomAnbieter`), ist kein weiterer: Die Titel laufen dort seit Langem, die Meldung wäre zu ihrem Tag falsch (13.10.2026).
  */
-function anbieterMitDeutsch(t: Title): Set<PlatformId> {
+export function anbieterMitDeutsch(t: Title): Set<PlatformId> {
   return new Set(t.streams.filter((s) => meldetNeu(s) && s.platform !== 'youtube').map((s) => s.platform))
 }
 
@@ -84,7 +84,7 @@ function anbieterMitDeutsch(t: Title): Set<PlatformId> {
  * Ein Prime-Kauf-/Leihweg nur aus JustWatch (`herkunft: 'justwatch'`, `bau/11-2-4-kauf-wege.ts`) trägt kein Datum seines Beginns: der Tag der
  * Aufnahme wäre eine falsche Aussage (Starship Troopers: Traitor of Mars, 23.10.2026).
  */
-function meldetNeu(s: StreamLink): boolean {
+export function meldetNeu(s: StreamLink): boolean {
   return eigenesJa(s) && s.herkunft !== 'handbeleg' && s.herkunft !== 'justwatch'
 }
 

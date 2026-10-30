@@ -1,7 +1,10 @@
 /**
  * Mini-DOM für Komponenten- und Hook-Tests ohne Browser und ohne jsdom: gerade genug, damit `react-dom/client`
  * rendert, Ereignisse am Wurzelknoten ankommen und `window`/`document` nur das tun, was der Test erlaubt.
- * Gebrauch: `installiereMiniDom(fenster)`, dann `createRoot(dom.wurzel)`; Klicks über `klicke(knoten)`.
+ * Gebrauch: `installiereMiniDom(fenster)`, dann `createRoot(dom.wurzel)`; Klicks über `klicke(knoten)`, Eingaben über `tippe`.
+ * Falle bei Eingaben (`tippe`): React entscheidet beim Laden von `react-dom/client` (canUseDOM, `oninput` im Dokument), ob es
+ * `input`-Ereignisse gibt. Das Mini-DOM muss darum vor dem Import von `react-dom` stehen (kurz installieren, `document.oninput = null`,
+ * `await import('react-dom/client')`, wieder entfernen); Vorbild `pipeline/check-filter-genres.ts`. Sonst greift `tippe` still ins Leere.
  */
 import { registerHooks } from 'node:module'
 
@@ -130,6 +133,14 @@ export function installiereMiniDom(fenster: MiniFenster, neuesBild: () => unknow
 export function klicke(wurzel: MiniKnoten, ziel: MiniKnoten): void {
   const e = { type: 'click', target: ziel, bubbles: true, cancelable: true, defaultPrevented: false, timeStamp: 0, preventDefault() {}, stopPropagation() {} }
   const hoerer = wurzel.hoerer.get('click') ?? []
+  for (const capture of [true, false]) hoerer.filter((h) => h.capture === capture).forEach((h) => h.f(e))
+}
+
+/** Tippt `text` in `feld`: setzt Wert (und Art) und löst `input` wie vom Browser aus (erst Erfassungs-, dann Blasenhörer am Wurzelknoten). */
+export function tippe(wurzel: MiniKnoten, feld: MiniKnoten, text: string, art = 'search'): void {
+  Object.assign(feld, { value: text, type: art })
+  const e = { type: 'input', target: feld, bubbles: true, cancelable: true, defaultPrevented: false, timeStamp: 0, preventDefault() {}, stopPropagation() {} }
+  const hoerer = wurzel.hoerer.get('input') ?? []
   for (const capture of [true, false]) hoerer.filter((h) => h.capture === capture).forEach((h) => h.f(e))
 }
 

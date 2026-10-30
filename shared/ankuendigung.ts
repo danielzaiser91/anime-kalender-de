@@ -62,6 +62,13 @@ export const titelSynchroAngekuendigt = (t: { westlich?: true; ankuendigung?: An
   !t.westlich && t.ankuendigung?.synchro === 'angekuendigt'
 
 /**
+ * Der widerlegte deutsche Termin eines Titels: ein widerlegter Release und kein einziges Ereignis (Wochenprogramm führt nur die
+ * Originalfassung). Widerlegt ist der Termin, nicht die Synchro-Ankündigung — Panel und Kachel fragen hier.
+ */
+export const widerlegterTermin = (releases: Release[], anzahlEreignisse: number): NonNullable<Release['widerlegt']> | undefined =>
+  anzahlEreignisse > 0 ? undefined : releases.find((r) => r.widerlegt)?.widerlegt
+
+/**
  * Die Ankündigung, die im Panel die Karte „Termin offen“ trägt (statt Nebenzeile des Kastens und Anbieter-Pille): Synchro angekündigt
  * und noch kein deutscher Termin (Antwort „ohne“). Jede andere Antwort behält den Kasten, wie er ist.
  */
