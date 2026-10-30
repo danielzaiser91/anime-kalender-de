@@ -1,0 +1,7 @@
+DejaVu Fonts (DejaVuSans, DejaVuSans-Bold, DejaVuSerif, DejaVuSerif-Bold).
+
+Copyright (c) 2003 Bitstream, Inc.; Arev Fonts (c) 2006; Tavmjong Bah. Änderungen der DejaVu-Autoren sind gemeinfrei.
+
+Die Schriften dürfen frei genutzt, kopiert und weitergegeben werden (Bitstream-Vera-Lizenz mit Arev-Zusatz, https://dejavu-fonts.github.io/License.html);
+nur der Verkauf der Schriften allein und die Weitergabe unter den Namen "Bitstream Vera" oder "DejaVu" nach Änderung sind ausgeschlossen.
+Verwendung hier: ausschließlich lokale Prüfwerkzeuge (tools/linux-schrift.mjs), nicht in der ausgelieferten Seite.

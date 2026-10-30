@@ -11,6 +11,7 @@
  * Anfrage aus `dist/`, gerendert wird also genau das, was ausgeliefert wird.
  *
  * Aufruf: node tools/ansicht-bild.mjs [--handy] [--docs] [<ansicht> …]   (Vorgabe: alle)
+ *         --linux-schrift: DejaVu statt Windows-Systemschrift wie auf dem CI-Läufer (linux-schrift.mjs)
  *         npm run check:ansichten
  *
  * Ergebnis: `ansicht-<name>-<hell|dunkel>.png` im Temp-Ordner; nur mit `--docs` (`npm run ansichten:bilder`) nach `docs/`.
@@ -23,6 +24,7 @@ import { readFile } from 'node:fs/promises'
 import { existsSync } from 'node:fs'
 import path from 'node:path'
 import { bilderOrdner } from './bilder-ordner.mjs'
+import { installiereLinuxSchrift } from './linux-schrift.mjs'
 import { pruefeFilterfenster } from './ansicht-filterfenster.mjs'
 import { pruefeFilterfensterRechner } from './ansicht-filterfenster-rechner.mjs'
 import { pruefeEscapeStapel } from './ansicht-escape-stapel.mjs'
@@ -322,6 +324,7 @@ async function spieleEmpfehlung(browser, geraet, thema) {
   seite.on('console', (m) => m.type() === 'error' && fehler.push(`${kennung}: Konsole ${m.text().slice(0, 140)}`))
   seite.on('pageerror', (e) => fehler.push(`${kennung}: ${String(e).slice(0, 140)}`))
   await seite.route('**/*', antworteAusDist)
+  if (process.argv.includes('--linux-schrift')) await installiereLinuxSchrift(seite)
   const los = seite.getByRole('button', { name: "Los geht's" })
   await seite.goto('http://ak.test/#/entdecken', { waitUntil: 'networkidle' })
   await los.waitFor({ timeout: 20_000 })
@@ -371,6 +374,7 @@ async function oeffneKopfWorstCase(browser, breite, thema) {
   })
   const seite = await kontext.newPage()
   await seite.route('**/*', antworteAusDist)
+  if (process.argv.includes('--linux-schrift')) await installiereLinuxSchrift(seite)
   await seite.addInitScript(() => {
     setTimeout(() => {
       const e = new Event('beforeinstallprompt')
@@ -559,6 +563,7 @@ async function main() {
   seite.on('pageerror', (e) => fehler.push(String(e).slice(0, 160)))
 
   await seite.route('**/*', antworteAusDist)
+  if (process.argv.includes('--linux-schrift')) await installiereLinuxSchrift(seite)
 
   const befunde = []
   for (const name of ansichten) {
