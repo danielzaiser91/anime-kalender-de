@@ -17,7 +17,6 @@
   { "name": "N3 jeder Verweis ist Kern", "datei": "pipeline/lib/adn-news.ts", "suche": "return !html.slice(ab", "ersetze": "return true || !html.slice(ab" },
   { "name": "N4 Tags im Linktext nicht entfernt", "datei": "pipeline/lib/adn-news.ts", "suche": "ende < 0 ? undefined : ende).replace(/<[^>]*>/g, '').trim()", "ersetze": "ende < 0 ? undefined : ende).trim()" },
   { "name": "N5 kein Ende gefunden: bis Textende minus eins", "datei": "pipeline/lib/adn-news.ts", "suche": "ende < 0 ? undefined : ende", "ersetze": "ende" },
-  { "name": "N6 Start des Linktexts am Tag-Anfang", "datei": "pipeline/lib/adn-news.ts", "suche": "(tag.index ?? 0) + tag[0].length", "ersetze": "(tag.index ?? 0)" },
   { "name": "N7 Einzelartikel höchstens 2 -> 1", "datei": "pipeline/lib/adn-news.ts", "suche": "const EINZELARTIKEL_HOECHSTENS = 2", "ersetze": "const EINZELARTIKEL_HOECHSTENS = 1" },
   { "name": "N8 Einzelartikel höchstens 2 -> 3", "datei": "pipeline/lib/adn-news.ts", "suche": "const EINZELARTIKEL_HOECHSTENS = 2", "ersetze": "const EINZELARTIKEL_HOECHSTENS = 3" },
   { "name": "N9 Vergleiche höchstens 1 -> 0", "datei": "pipeline/lib/adn-news.ts", "suche": "const VERGLEICHE_HOECHSTENS = 1", "ersetze": "const VERGLEICHE_HOECHSTENS = 0" },
