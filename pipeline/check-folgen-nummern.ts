@@ -59,5 +59,6 @@ assert.deepEqual(unerlaubteDoppelte(131586, [9, 10, 10, 11]), [])
 assert.deepEqual(unerlaubteDoppelte(131586, [9, 10, 10, 11, 11]), [11])
 assert.deepEqual(unerlaubteDoppelte(151126, [10, 10]), [10])
 assert.deepEqual(unerlaubteDoppelte(131586, [13, 13]), [13])
+assert.deepEqual(unerlaubteDoppelte(877, [11, 11]), [11])
 
 console.log('check-folgen-nummern: ok (Zusammenführen, echte Doppelungen, Wächter-Regel)')
