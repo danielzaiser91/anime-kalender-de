@@ -26,6 +26,7 @@ import { OUT } from './grundlagen.ts'
 import { hoechsteFolgeJeAnbieter } from './folgen-erschienen-je-weg.ts'
 import { ladeTitelQuellen, mitFremdTiteln } from './folgentitel-stufen.ts'
 import { folgenZeilen } from './folgentitel-zeilen.ts'
+import { eineZeileJeNummer } from './folgen-nummern.ts'
 
 interface Folge {
   nr: number
@@ -104,11 +105,14 @@ export function schreibeFolgenDateien(titel: Title[], releases: Release[]): void
   const index: number[] = []
   const zaehlung: Record<number, [number, number]> = {}
   let folgenGesamt = 0
+  let verschmolzen = 0
   for (const t of titel) {
     const asId = zuordnung[String(t.id)]?.anisearchId
     const wikiFolgen = wiki[String(t.id)]?.folgen
-    const ausAs = asId && jeAsId.get(asId) === 1 ? erschieneneFolgen(roh[String(asId)]?.folgen ?? [], wikiFolgen?.length ? Math.max(...wikiFolgen.map((w) => w.nr)) : 0, heute) : undefined
-    const f = mitFremdTiteln(t, ausAs, quellen)
+    const erschienen = asId && jeAsId.get(asId) === 1 ? erschieneneFolgen(roh[String(asId)]?.folgen ?? [], wikiFolgen?.length ? Math.max(...wikiFolgen.map((w) => w.nr)) : 0, heute) : undefined
+    const ausAs = erschienen && eineZeileJeNummer(erschienen)
+    verschmolzen += ausAs?.verschmolzen ?? 0
+    const f = mitFremdTiteln(t, ausAs?.folgen, quellen)
     if (!f || f.length < 2) continue
     const minuten = new Set(f.map((x) => x.minuten).filter(Boolean))
     const einheitlich = minuten.size === 1 ? [...minuten][0] : minuten.size === 0 ? t.runtimeMin : undefined
@@ -125,5 +129,5 @@ export function schreibeFolgenDateien(titel: Title[], releases: Release[]): void
   }
   writeJson(`${ordner}/index.json`, index.sort((a, b) => a - b))
   writeJson(`${ordner}/zaehlung.json`, zaehlung)
-  log(`${index.length} Folgenlisten geschrieben (${folgenGesamt} Folgen)`)
+  log(`${index.length} Folgenlisten geschrieben (${folgenGesamt} Folgen, ${verschmolzen} doppelte Nummern aus aniSearch zusammengeführt)`)
 }
