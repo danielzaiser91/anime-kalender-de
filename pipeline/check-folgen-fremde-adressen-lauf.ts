@@ -32,6 +32,12 @@ const beobachtung = (id: number, url: string, asin: string) => ({
   titel_id: null,
   gemeldet_am: '2026-10-16T10:00:00Z',
 })
+/* Netflix-Folgen ohne gti: zwei an der eigenen Adresse (zählen), eine an der fremden (zählt als fremd). */
+const ZUSATZ = [
+  { ...beobachtung(6, 'https://www.netflix.com/title/900001', ''), plattform: 'netflix', asin: null, titel: 'Netflixfolge Sechs' },
+  { ...beobachtung(7, 'https://www.netflix.com/title/900001', ''), plattform: 'netflix', asin: null, titel: 'Netflixfolge Sieben' },
+  { ...beobachtung(8, FREMD, ''), plattform: 'netflix', asin: null, titel: 'Fremdfolge Acht' },
+]
 
 const kulisse = mkdtempSync(join(tmpdir(), 'ffa-lauf-'))
 const schreibe = (pfad: string, inhalt: unknown) => {
@@ -68,7 +74,7 @@ schreibe('data/folgen-zuordnung.json', {
   'primevideo:NBELEG0001': { titel: 900002, folge: 1, grund: 'titel', gesehen: '2026-09-01' },
 })
 schreibe('beobachtungen.json', [
-  { results: [beobachtung(1, EIGEN, 'KULISSE001'), beobachtung(2, FREMD, 'KULISSE002'), beobachtung(3, FREMD, 'KULISSE003'), beobachtung(4, SAMMEL, 'KULISSE004'), { ...beobachtung(5, NICHTIMBESTAND, 'NBELEG0001'), titel: 'Kulissenserie Zwei I' }] },
+  { results: [beobachtung(1, EIGEN, 'KULISSE001'), beobachtung(2, FREMD, 'KULISSE002'), beobachtung(3, FREMD, 'KULISSE003'), beobachtung(4, SAMMEL, 'KULISSE004'), { ...beobachtung(5, NICHTIMBESTAND, 'NBELEG0001'), titel: 'Kulissenserie Zwei I' }, ...ZUSATZ] },
 ])
 
 const lauf = spawnSync(process.execPath, [tsx, join(wurzel, 'pipeline/fetch-folgen-zuordnung.ts'), '--aus', join(kulisse, 'beobachtungen.json')], {
@@ -103,11 +109,15 @@ pruefe(
 )
 pruefe(
   'Lauf meldet die Zählung',
-  ausgabe.includes('Fremde Adressen (Cartoon, ohne Synchro, fremder Beleg): 3 Beobachtungen und 3 Folgen ohne Zuordnung, 1 frühere Zuordnungen'),
+  ausgabe.includes('Fremde Adressen (Cartoon, ohne Synchro, fremder Beleg): 4 Beobachtungen und 3 Folgen ohne Zuordnung, 1 frühere Zuordnungen'),
 )
 pruefe('Lauf nennt je Titel, wie viele Einträge ihren Titel verlieren', ausgabe.includes('Titel-ID: Anzahl): 900002: 1, 900009: 1\n'))
+pruefe(
+  'Lauf meldet Beobachtungen ohne Kennung mit Beispielen (die fremde zählt dort, nicht hier)',
+  ausgabe.includes('Beobachtungen ohne ASIN und gti (fallen aus der Zuordnung): 2 (z. B. netflix: Netflixfolge Sechs; netflix: Netflixfolge Sieben)\n'),
+)
 if (fehler.length) {
   console.error(`check-folgen-fremde-adressen-lauf: ${fehler.join('; ')}\n${ausgabe.slice(-1500)}`)
   process.exit(1)
 }
-console.log('check-folgen-fremde-adressen-lauf: 9 Zusicherungen grün, der Lauf sperrt Folgen an fremden Adressen und entfernt veraltete Zuordnungen.')
+console.log('check-folgen-fremde-adressen-lauf: 10 Zusicherungen grün, der Lauf sperrt Folgen an fremden Adressen und entfernt veraltete Zuordnungen.')

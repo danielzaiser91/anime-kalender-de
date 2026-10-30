@@ -5,7 +5,7 @@
 import { plattformAusAdresse } from '../../shared/adresse-passt.ts'
 import type { Title } from '../../shared/types.ts'
 import { anzeigeName } from '../../shared/titles.ts'
-import { sperrKern, type BelegEntfernt } from './belege-entfernt.ts'
+import { sperrKern, type BelegEntfernt } from './sperr-kern.ts'
 
 export interface Kennzahlen {
   titel: number
