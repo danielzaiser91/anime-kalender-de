@@ -871,6 +871,10 @@
       "vorschlaege": 0,
       "uebersprungen": "kein Deutschland-Bezug"
     },
+    "1064405": {
+      "am": "2026-10-30",
+      "vorschlaege": 3
+    },
     "1064512": {
       "am": "2026-10-28",
       "vorschlaege": 0
@@ -878,6 +882,11 @@
     "1064556": {
       "am": "2026-10-28",
       "vorschlaege": 1
+    },
+    "1064577": {
+      "am": "2026-10-30",
+      "vorschlaege": 0,
+      "uebersprungen": "kein Deutschland-Bezug"
     },
     "1064592": {
       "am": "2026-10-28",
@@ -894,6 +903,11 @@
     "1064806": {
       "am": "2026-10-28",
       "vorschlaege": 7
+    },
+    "1064887": {
+      "am": "2026-10-30",
+      "vorschlaege": 0,
+      "uebersprungen": "kein Deutschland-Bezug"
     },
     "1064916": {
       "am": "2026-10-29",
@@ -938,6 +952,36 @@
     },
     "1065186": {
       "am": "2026-10-29",
+      "vorschlaege": 0
+    },
+    "1065213": {
+      "am": "2026-10-30",
+      "vorschlaege": 15
+    },
+    "1065227": {
+      "am": "2026-10-30",
+      "vorschlaege": 0,
+      "uebersprungen": "kein Deutschland-Bezug"
+    },
+    "1065256": {
+      "am": "2026-10-30",
+      "vorschlaege": 5
+    },
+    "1065270": {
+      "am": "2026-10-30",
+      "vorschlaege": 13
+    },
+    "1065500": {
+      "am": "2026-10-30",
+      "vorschlaege": 1
+    },
+    "1065546": {
+      "am": "2026-10-30",
+      "vorschlaege": 0,
+      "uebersprungen": "kein Deutschland-Bezug"
+    },
+    "1065570": {
+      "am": "2026-10-30",
       "vorschlaege": 0
     }
   },
@@ -7772,6 +7816,467 @@
       "quelle": "https://www.anime2you.de/news/1065067/disney-plus-bleach-finale-und-mehr/",
       "veroeffentlicht": "2026-10-28",
       "gelesenAm": "2026-10-29"
+    },
+    {
+      "titel": "Death Note",
+      "zitat": "Die 37-teilige Anime-Umsetzung von »Death Note« wurde hierzulande durch KAZÉ Anime (Crunchyroll) auf DVD und Blu-ray veröffentlicht und kann auf Netflix und Crunchyroll mit deutscher und japanischer Vertonung gestreamt werden.",
+      "art": "sprachfassung",
+      "sprache": "deutsch+omu",
+      "plattform": "netflix",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Netflix",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1064405",
+      "artikel": "Offizieller Gürtel zu »Death Note« angekündigt",
+      "quelle": "https://www.anime2you.de/news/1064405/offizieller-death-note-guertel/",
+      "veroeffentlicht": "2026-10-30",
+      "gelesenAm": "2026-10-30"
+    },
+    {
+      "titel": "Death Note",
+      "zitat": "Die 37-teilige Anime-Umsetzung von »Death Note« wurde hierzulande durch KAZÉ Anime (Crunchyroll) auf DVD und Blu-ray veröffentlicht und kann auf Netflix und Crunchyroll mit deutscher und japanischer Vertonung gestreamt werden.",
+      "art": "sprachfassung",
+      "sprache": "deutsch+omu",
+      "plattform": "crunchyroll",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1064405",
+      "artikel": "Offizieller Gürtel zu »Death Note« angekündigt",
+      "quelle": "https://www.anime2you.de/news/1064405/offizieller-death-note-guertel/",
+      "veroeffentlicht": "2026-10-30",
+      "gelesenAm": "2026-10-30"
+    },
+    {
+      "titel": "Neon Genesis Evangelion (Special Edition)",
+      "zitat": "Neon Genesis Evangelion (Special Edition) 05.02. Blu-ray",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2027-02-05",
+      "uhrzeit": null,
+      "anbieter": "LEONINE Anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „LEONINE Anime“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1065270",
+      "artikel": "13 Disc-Neuheiten ab sofort bei Amazon vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1065270/amazon-evangelion-und-mehr-vorbestellbar/",
+      "veroeffentlicht": "2026-10-29",
+      "gelesenAm": "2026-10-30"
+    },
+    {
+      "titel": "Die letzte Blüte",
+      "zitat": "Die letzte Blüte 28.01. Blu-ray",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2027-01-28",
+      "uhrzeit": null,
+      "anbieter": "KSM Anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Donnerstag",
+      "warnungen": [
+        "anbieter „KSM Anime“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1065270",
+      "artikel": "13 Disc-Neuheiten ab sofort bei Amazon vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1065270/amazon-evangelion-und-mehr-vorbestellbar/",
+      "veroeffentlicht": "2026-10-29",
+      "gelesenAm": "2026-10-30"
+    },
+    {
+      "titel": "Eureka Seven (Komplettbox)",
+      "zitat": "Eureka Seven (Komplettbox) 28.01. Blu-ray",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2027-01-28",
+      "uhrzeit": null,
+      "anbieter": "KSM Anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Donnerstag",
+      "warnungen": [
+        "anbieter „KSM Anime“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1065270",
+      "artikel": "13 Disc-Neuheiten ab sofort bei Amazon vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1065270/amazon-evangelion-und-mehr-vorbestellbar/",
+      "veroeffentlicht": "2026-10-29",
+      "gelesenAm": "2026-10-30"
+    },
+    {
+      "titel": "Isekai Onsen Paradise (Komplettbox)",
+      "zitat": "Isekai Onsen Paradise (Komplettbox) 28.01. Blu-ray",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2027-01-28",
+      "uhrzeit": null,
+      "anbieter": "KSM Anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Donnerstag",
+      "warnungen": [
+        "anbieter „KSM Anime“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1065270",
+      "artikel": "13 Disc-Neuheiten ab sofort bei Amazon vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1065270/amazon-evangelion-und-mehr-vorbestellbar/",
+      "veroeffentlicht": "2026-10-29",
+      "gelesenAm": "2026-10-30"
+    },
+    {
+      "titel": "Lady Oscar (Komplettbox)",
+      "zitat": "Lady Oscar (Komplettbox) 28.01. Blu-ray",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2027-01-28",
+      "uhrzeit": null,
+      "anbieter": "KSM Anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Donnerstag",
+      "warnungen": [
+        "anbieter „KSM Anime“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1065270",
+      "artikel": "13 Disc-Neuheiten ab sofort bei Amazon vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1065270/amazon-evangelion-und-mehr-vorbestellbar/",
+      "veroeffentlicht": "2026-10-29",
+      "gelesenAm": "2026-10-30"
+    },
+    {
+      "titel": "Pokémon: Die Anfänge (Staffel 1 und 2)",
+      "zitat": "Pokémon: Die Anfänge (Staffel 1 und 2) 18.12. DVD",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2026-12-18",
+      "uhrzeit": null,
+      "anbieter": "polyband anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „polyband anime“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1065270",
+      "artikel": "13 Disc-Neuheiten ab sofort bei Amazon vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1065270/amazon-evangelion-und-mehr-vorbestellbar/",
+      "veroeffentlicht": "2026-10-29",
+      "gelesenAm": "2026-10-30"
+    },
+    {
+      "titel": "Pokémon: Gold und Silber (Staffel 3 bis 5)",
+      "zitat": "Pokémon: Gold und Silber (Staffel 3 bis 5) 18.12. DVD",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2026-12-18",
+      "uhrzeit": null,
+      "anbieter": "polyband anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „polyband anime“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1065270",
+      "artikel": "13 Disc-Neuheiten ab sofort bei Amazon vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1065270/amazon-evangelion-und-mehr-vorbestellbar/",
+      "veroeffentlicht": "2026-10-29",
+      "gelesenAm": "2026-10-30"
+    },
+    {
+      "titel": "Pokémon: Rubin und Saphir (Staffel 6 bis 9)",
+      "zitat": "Pokémon: Rubin und Saphir (Staffel 6 bis 9) 18.12. DVD",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2026-12-18",
+      "uhrzeit": null,
+      "anbieter": "polyband anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „polyband anime“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1065270",
+      "artikel": "13 Disc-Neuheiten ab sofort bei Amazon vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1065270/amazon-evangelion-und-mehr-vorbestellbar/",
+      "veroeffentlicht": "2026-10-29",
+      "gelesenAm": "2026-10-30"
+    },
+    {
+      "titel": "Pokémon: Diamant und Perl (Staffel 10 bis 13)",
+      "zitat": "Pokémon: Diamant und Perl (Staffel 10 bis 13) 18.12. DVD",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2026-12-18",
+      "uhrzeit": null,
+      "anbieter": "polyband anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „polyband anime“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1065270",
+      "artikel": "13 Disc-Neuheiten ab sofort bei Amazon vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1065270/amazon-evangelion-und-mehr-vorbestellbar/",
+      "veroeffentlicht": "2026-10-29",
+      "gelesenAm": "2026-10-30"
+    },
+    {
+      "titel": "Pokémon: Schwarz und Weiß (Staffel 14 bis 16)",
+      "zitat": "Pokémon: Schwarz und Weiß (Staffel 14 bis 16) 18.12. DVD",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2026-12-18",
+      "uhrzeit": null,
+      "anbieter": "polyband anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „polyband anime“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1065270",
+      "artikel": "13 Disc-Neuheiten ab sofort bei Amazon vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1065270/amazon-evangelion-und-mehr-vorbestellbar/",
+      "veroeffentlicht": "2026-10-29",
+      "gelesenAm": "2026-10-30"
+    },
+    {
+      "titel": "Pokémon: XY (Staffel 17 bis 19)",
+      "zitat": "Pokémon: XY (Staffel 17 bis 19) 18.12. DVD",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2026-12-18",
+      "uhrzeit": null,
+      "anbieter": "polyband anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „polyband anime“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1065270",
+      "artikel": "13 Disc-Neuheiten ab sofort bei Amazon vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1065270/amazon-evangelion-und-mehr-vorbestellbar/",
+      "veroeffentlicht": "2026-10-29",
+      "gelesenAm": "2026-10-30"
+    },
+    {
+      "titel": "Pokémon: Sonne und Mond (Staffel 20 bis 22)",
+      "zitat": "Pokémon: Sonne und Mond (Staffel 20 bis 22) 18.12. DVD",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2026-12-18",
+      "uhrzeit": null,
+      "anbieter": "polyband anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „polyband anime“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1065270",
+      "artikel": "13 Disc-Neuheiten ab sofort bei Amazon vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1065270/amazon-evangelion-und-mehr-vorbestellbar/",
+      "veroeffentlicht": "2026-10-29",
+      "gelesenAm": "2026-10-30"
+    },
+    {
+      "titel": "Pokémon: Reisen (Staffel 23 bis 25)",
+      "zitat": "Pokémon: Reisen (Staffel 23 bis 25) 18.12. DVD",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2026-12-18",
+      "uhrzeit": null,
+      "anbieter": "polyband anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „polyband anime“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1065270",
+      "artikel": "13 Disc-Neuheiten ab sofort bei Amazon vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1065270/amazon-evangelion-und-mehr-vorbestellbar/",
+      "veroeffentlicht": "2026-10-29",
+      "gelesenAm": "2026-10-30"
+    },
+    {
+      "titel": "Chaika – Die Sargprinzessin – Staffel 1",
+      "zitat": "Ab sofort: »Chaika – Die Sargprinzessin« – Staffel 1 Episoden: 12 (komplett) Sprache: Deutsch",
+      "art": "start",
+      "sprache": "deutsch",
+      "plattform": "primevideo",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Prime Video",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "12",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „Prime Video“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „prime video“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1065256",
+      "artikel": "Prime Video kündigt vier Anime-Neuzugänge an",
+      "quelle": "https://www.anime2you.de/news/1065256/prime-video-goblin-slayer-staffel-2-und-mehr/",
+      "veroeffentlicht": "2026-10-29",
+      "gelesenAm": "2026-10-30"
+    },
+    {
+      "titel": "Waiting in the Summer",
+      "zitat": "Ab sofort: »Waiting in the Summer« Episoden: 12 (komplett) Sprache: Deutsch",
+      "art": "start",
+      "sprache": "deutsch",
+      "plattform": "primevideo",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Prime Video",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "12",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „Prime Video“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „prime video“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1065256",
+      "artikel": "Prime Video kündigt vier Anime-Neuzugänge an",
+      "quelle": "https://www.anime2you.de/news/1065256/prime-video-goblin-slayer-staffel-2-und-mehr/",
+      "veroeffentlicht": "2026-10-29",
+      "gelesenAm": "2026-10-30"
+    },
+    {
+      "titel": "Chaika – Die Sargprinzessin – Staffel 2",
+      "zitat": "Die zweite »Chaika«-Staffel wurde erst kürzlich entfernt.",
+      "art": "abgang",
+      "sprache": "unklar",
+      "plattform": "primevideo",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Prime Video",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „Prime Video“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „prime video“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1065256",
+      "artikel": "Prime Video kündigt vier Anime-Neuzugänge an",
+      "quelle": "https://www.anime2you.de/news/1065256/prime-video-goblin-slayer-staffel-2-und-mehr/",
+      "veroeffentlicht": "2026-10-29",
+      "gelesenAm": "2026-10-30"
+    },
+    {
+      "titel": "Goblin Slayer – Staffel 2",
+      "zitat": "Ab 1. November: »Goblin Slayer« – Staffel 2 Episoden: 12 (komplett) Sprache: Deutsch, Japanisch (UT)",
+      "art": "start",
+      "sprache": "deutsch+omu",
+      "plattform": "primevideo",
+      "datum": "2026-11-01",
+      "uhrzeit": null,
+      "anbieter": "Prime Video",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "12",
+      "unsicher": null,
+      "wochentag": "Sonntag",
+      "warnungen": [
+        "anbieter „Prime Video“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „prime video“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1065256",
+      "artikel": "Prime Video kündigt vier Anime-Neuzugänge an",
+      "quelle": "https://www.anime2you.de/news/1065256/prime-video-goblin-slayer-staffel-2-und-mehr/",
+      "veroeffentlicht": "2026-10-29",
+      "gelesenAm": "2026-10-30"
+    },
+    {
+      "titel": "Devils‘ Crest",
+      "zitat": "Ab 6. November: »Devils‘ Crest« (Simulcast) Episoden: unbekannt Sprache: Deutsch, Japanisch (UT) Simulcast: Jeden Freitag eine neue Episode",
+      "art": "start",
+      "sprache": "deutsch+omu",
+      "plattform": "primevideo",
+      "datum": "2026-11-06",
+      "uhrzeit": null,
+      "anbieter": "Prime Video",
+      "sender": null,
+      "wochentage": "Jeden Freitag",
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „Prime Video“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „prime video“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1065256",
+      "artikel": "Prime Video kündigt vier Anime-Neuzugänge an",
+      "quelle": "https://www.anime2you.de/news/1065256/prime-video-goblin-slayer-staffel-2-und-mehr/",
+      "veroeffentlicht": "2026-10-29",
+      "gelesenAm": "2026-10-30"
     }
   ]
 }
