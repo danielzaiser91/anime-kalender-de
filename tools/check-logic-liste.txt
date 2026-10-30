@@ -208,6 +208,7 @@ pipeline/check-katalog-release.ts
 pipeline/check-kino-zuletzt.ts
 pipeline/check-kopf-menue.ts
 pipeline/check-kopfzeile-premiere.ts
+pipeline/check-laut-gleich.ts
 pipeline/check-leerer-kasten.ts
 pipeline/check-leerzeichen-gleich.ts
 pipeline/check-leinwand-escape.ts

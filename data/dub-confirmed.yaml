@@ -39143,3 +39143,25 @@
   kanalMessung: ja
   checkedAt: '2026-10-12'
   note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0H4834VK9: alle 25 Folgen geprüft, Abos: animedigitalde, aniversede, zugang=abo, gti=amzn1.dv.gti.f9ee478f-98aa-4891-bc42-fcce09ccf175 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+- anilistId: 101347
+  title: "Dororo"
+  platform: joyn
+  url: https://www.joyn.de/serien/dororo
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 24
+      dub: true
+  checkedAt: '2026-10-30'
+  note: "Anime2You, 02.10.2026 (anime2you.de/news/1056837/joyn-plus-hells-paradise-und-mehr/): „die 24-teilige Actionserie »Dororo«, die ab sofort mit deutscher Synchronisation in der Mediathek von ProSieben FUN auf Joyn […] zur Verfügung steht“; Abruf 30.10.2026."
+- anilistId: 128893
+  title: "Jigokuraku (Hell's Paradise)"
+  platform: joyn
+  url: https://www.joyn.de/serien/hells-paradise
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 13
+      dub: true
+  checkedAt: '2026-10-30'
+  note: "Anime2You, 02.10.2026 (anime2you.de/news/1056837/joyn-plus-hells-paradise-und-mehr/): „die 13-teilige erste Staffel von »Hell’s Paradise« ebenfalls mit deutscher Vertonung in den Katalog von Joyn+ aufgenommen“, Steckbrief „Episoden: 13 (komplett) Sprache: Deutsch Stream: Joyn+“; Abruf 30.10.2026."

@@ -40,6 +40,12 @@ export function rangliste(k: Kontext, z: Zustand, weg: number[], eigene: Readonl
 /** Die ersten Plätze der Galerie. */
 export const ersteVorschlaege = (rang: Kandidat[]): number[] => rang.slice(0, VORSCHLAEGE).map((x) => x.id)
 
+/** Füllt die Galerie aus der Rangliste auf die Soll-Zahl auf (Reihenfolge der Rangliste, ohne Doppelte); `gezeigt` bleibt vorn. */
+export function fuelleAuf(gezeigt: number[], rang: Kandidat[]): number[] {
+  const mehr = rang.map((x) => x.id).filter((id) => !gezeigt.includes(id))
+  return [...gezeigt, ...mehr.slice(0, Math.max(0, VORSCHLAEGE - gezeigt.length))]
+}
+
 /** Ersetzt `entfernt` durch den nächsten Titel der Rangliste, der noch nicht gezeigt wird; gibt es keinen, rückt die Galerie zusammen. */
 export function ersetzeVorschlag(gezeigt: number[], entfernt: number, rang: Kandidat[]): number[] {
   const naechster = rang.find((x) => !gezeigt.includes(x.id))
