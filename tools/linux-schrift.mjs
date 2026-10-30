@@ -6,7 +6,7 @@
  * der breiteren Linux-Schrift auftreten, zeigten sich bisher erst in der CI. Mit `--linux-schrift` legt
  * `ansicht-bild.mjs` DejaVu über beide Variablen.
  *
- * Schrift: DejaVu (Bitstream Vera + gemeinfreie Ergänzungen), frei weitergebbar, Lizenz in `schriften/DejaVu-LIZENZ.txt`.
+ * Schrift: DejaVu, unverändert, Lizenz (Originaltext) in `schriften/DejaVu-LIZENZ.txt`.
  */
 import { readFile } from 'node:fs/promises'
 import path from 'node:path'
