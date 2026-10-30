@@ -1,6 +1,7 @@
-import { istFertig, type Zustand } from '@shared/empfehlung-kern.ts'
+import { istFertig, neuerZustand, type Zustand } from '@shared/empfehlung-kern.ts'
 import type { Kontext } from '@shared/empfehlung-vektor.ts'
 import type { Ablauf } from './empfehlung-ablauf.ts'
+import { fuelleAuf, rangliste } from './empfehlung-reise.ts'
 
 /** Die letzten Vorschläge im Browser: wer zurückkommt, landet wieder bei ihnen. Nur Ergebnis und Leinwand werden gemerkt, kein halbes Duell. */
 
@@ -68,12 +69,20 @@ export function reiseVergessen(speicher: ReiseSpeicher = localStorage): void {
  * Der gemerkte Stand als Ablauf: bei erreichtem Ziel auf den Vorschlägen, bei abgebrochenem Duell auf dem Start (zum Fortfahren);
  * `undefined`, wenn nichts da ist, es nicht mehr zum Pool passt oder kein Vorschlag übrig bleibt (verworfen oder gesehen seitdem).
  */
-export function reiseWiederherstellen(k: Kontext, weg: ReadonlySet<number>, speicher: ReiseSpeicher = localStorage): Ablauf | undefined {
+export function reiseWiederherstellen(
+  k: Kontext,
+  weg: ReadonlySet<number>,
+  speicher: ReiseSpeicher = localStorage,
+  eigene: ReadonlySet<string> = new Set(),
+): Ablauf | undefined {
   try {
     const roh = speicher.getItem(REISE_SCHLUESSEL)
     const reise = roh ? alsReise(JSON.parse(roh), k.datei.einstiege.length, poolKennung(k)) : undefined
     if (!reise) return undefined
-    const gezeigt = reise.gezeigt.filter((id) => k.index.has(id) && !weg.has(id))
+    const uebrig = reise.gezeigt.filter((id) => k.index.has(id) && !weg.has(id))
+    /* Ohne Duellstand (neuer Pool) rechnet die Rangliste aus frischem Zustand. */
+    const rang = () => rangliste(k, reise.zustand ?? neuerZustand(k, 0, [...weg]), [...weg], eigene)
+    const gezeigt = uebrig.length ? fuelleAuf(uebrig, rang()) : uebrig
     if (!reise.zustand) return gezeigt.length ? { phase: 'ergebnis', ziel: reise.ziel, gezeigt } : undefined
     const sitzung = { zustand: reise.zustand, verlauf: [] }
     if (!istFertig(k, reise.zustand, reise.ziel)) return { phase: 'start', sitzung, ziel: reise.ziel, gezeigt }

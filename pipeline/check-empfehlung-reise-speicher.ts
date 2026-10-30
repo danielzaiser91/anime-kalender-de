@@ -8,6 +8,7 @@ import { act, createElement as h } from 'react'
 import { createRoot } from 'react-dom/client'
 import type { EmpfehlungsDatei, Kandidat } from '../shared/empfehlung-pool.ts'
 import { baueKontext } from '../shared/empfehlung-vektor.ts'
+import { neuerZustand, type Zustand } from '../shared/empfehlung-kern.ts'
 import { ANFANG, antworten, fortfahren, neueReise, oeffnen, vorschauIds, zuStart, type Ablauf } from '../web/src/lib/empfehlung-ablauf.ts'
 import { reiseMerken, reiseVergessen, reiseWiederherstellen, type ReiseSpeicher } from '../web/src/lib/empfehlung-reise-speicher.ts'
 import { zeichnung, type Zeichenlage } from '../web/src/lib/empfehlung-zeichnung.ts'
@@ -98,8 +99,14 @@ console.log('Veraltet und kaputt')
   reiseMerken(fertig, k, s)
   const [a, b] = fertig.gezeigt
   const ohne = reiseWiederherstellen(k, new Set([a, b]), s)
-  pruefe('Seitdem verworfene oder gesehene Titel fehlen', JSON.stringify(ohne?.gezeigt) === JSON.stringify(fertig.gezeigt.slice(2)), ohne?.gezeigt)
-  pruefe('Genau einer übrig → noch da (Schwelle 1)', reiseWiederherstellen(k, new Set(fertig.gezeigt.slice(1)), s)?.gezeigt.length === 1)
+  const weitere = ohne?.gezeigt.slice(3) ?? []
+  pruefe('Seitdem verworfene oder gesehene Titel fehlen, die übrigen bleiben vorn', JSON.stringify(ohne?.gezeigt.slice(0, 3)) === JSON.stringify(fertig.gezeigt.slice(2)) && !ohne?.gezeigt.some((id) => id === a || id === b), ohne?.gezeigt)
+  pruefe('Zwei fehlen → aus der Rangliste auf fünf aufgefüllt, ohne Doppelte', ohne?.gezeigt.length === 5 && new Set(ohne.gezeigt).size === 5, ohne?.gezeigt)
+  const rangOhne = rangliste(k, (JSON.parse(s.daten.get('empfehlung:reise')!) as { zustand: Zustand }).zustand, [a, b], new Set()).map((x) => x.id)
+  const erwartet = rangOhne.filter((id) => !fertig.gezeigt.slice(2).includes(id)).slice(0, 2)
+  pruefe('Aufgefüllt in der Reihenfolge der Rangliste', JSON.stringify(weitere) === JSON.stringify(erwartet), weitere)
+  const einer = reiseWiederherstellen(k, new Set(fertig.gezeigt.slice(1)), s)
+  pruefe('Genau einer übrig → wieder fünf (Schwelle 1)', einer?.gezeigt.length === 5 && einer.gezeigt[0] === fertig.gezeigt[0] && new Set(einer.gezeigt).size === 5, einer?.gezeigt)
   pruefe('Alle weg → Start statt leerer Galerie', reiseWiederherstellen(k, new Set(fertig.gezeigt), s) === undefined)
 
   const kaputt = ['', '{', 'null', '[]', '{"ziel":6}', '"x"']
@@ -134,14 +141,24 @@ console.log('Veraltet und kaputt')
   for (const [name, a] of [['Pool-Kennung anders', anders], ['Neuer Titel vorn', vorn], ['Neuer Titel hinten', hinten], ['Titel vertauscht', vertauscht], ['gleicher Pool', gleicher]] as const) {
     pruefe(`${name}: die Ansicht zeichnet etwas (nicht schwarz)`, a !== undefined && zeichnung(lage(a)) === 'ergebnis', a && zeichnung(lage(a)))
   }
-  const ohneEinen = mitPool(andererPool((l) => l.filter((e) => e.id !== fertig.gezeigt[0])))
-  pruefe('Titel aus dem Pool entfernt → fällt aus den Vorschlägen', JSON.stringify(ohneEinen?.gezeigt) === JSON.stringify(fertig.gezeigt.slice(1)), ohneEinen?.gezeigt)
-  const nurEiner = mitPool(andererPool((l) => l.filter((e) => e.id === fertig.gezeigt[0] || !fertig.gezeigt.includes(e.id))))
-  pruefe('Anderer Pool, nur ein Vorschlag übrig → noch da (Schwelle 1)', nurEiner?.gezeigt.length === 1)
+  /** Neuer Pool: Übrige vorn, danach die Rangliste eines frischen Zustands ohne die Entfernten, bis fünf. */
+  const aufgefuellt = (a: Ablauf | undefined, kk: ReturnType<typeof baueKontext>, vorn: number[], weg: number[]) => {
+    const rangNeu = rangliste(kk, neuerZustand(kk, 0, weg), weg, new Set()).map((x) => x.id)
+    const soll = [...vorn, ...rangNeu.filter((id) => !vorn.includes(id)).slice(0, 5 - vorn.length)]
+    return a?.phase === 'ergebnis' && a.sitzung === undefined && a.gezeigt.length === 5 && JSON.stringify(a.gezeigt) === JSON.stringify(soll) && !a.gezeigt.some((id) => weg.includes(id))
+  }
+  const ersterWeg = fertig.gezeigt[0]
+  const poolOhneEinen = andererPool((l) => l.filter((e) => e.id !== ersterWeg))
+  const ohneEinen = mitPool(poolOhneEinen)
+  pruefe('Titel aus dem Pool entfernt → übrige vorn, auf fünf aufgefüllt', aufgefuellt(ohneEinen, poolOhneEinen, fertig.gezeigt.slice(1), [ersterWeg]), ohneEinen?.gezeigt)
+  const poolNurEiner = andererPool((l) => l.filter((e) => e.id === ersterWeg || !fertig.gezeigt.includes(e.id)))
+  const nurEiner = mitPool(poolNurEiner)
+  pruefe('Anderer Pool, nur ein Vorschlag übrig → wieder fünf (Schwelle 1)', aufgefuellt(nurEiner, poolNurEiner, [ersterWeg], fertig.gezeigt.slice(1)), nurEiner?.gezeigt)
   const keiner = mitPool(andererPool((l) => l.filter((e) => !fertig.gezeigt.includes(e.id))))
   pruefe('Anderer Pool, alle Vorschläge fort → undefined', keiner === undefined)
-  const verworfen = reiseWiederherstellen(andererPool((l) => [...l, { ...l[0], id: 909999, n: 'Neu' }]), new Set([fertig.gezeigt[1]]), s)
-  pruefe('Anderer Pool: verworfene fallen heraus', JSON.stringify(verworfen?.gezeigt) === JSON.stringify(fertig.gezeigt.filter((id) => id !== fertig.gezeigt[1])), verworfen?.gezeigt)
+  const poolNeu = andererPool((l) => [...l, { ...l[0], id: 909999, n: 'Neu' }])
+  const verworfen = reiseWiederherstellen(poolNeu, new Set([fertig.gezeigt[1]]), s)
+  pruefe('Anderer Pool: verworfene fallen heraus, fünf bleiben', aufgefuellt(verworfen, poolNeu, fertig.gezeigt.filter((id) => id !== fertig.gezeigt[1]), [fertig.gezeigt[1]]), verworfen?.gezeigt)
   pruefe('Index außerhalb des Pools (rest) → undefined', mit((r) => ((r.zustand.rest as number[])[0] = 60)) === undefined)
   pruefe('Index im Pool (rest, 59) → geht', mit((r) => ((r.zustand.rest as number[])[0] = 59)) !== undefined)
   pruefe('Index außerhalb (sieger) → undefined', mit((r) => (r.zustand.sieger = [60])) === undefined)
@@ -240,6 +257,43 @@ console.log('Der Hook läuft wirklich (use-reise.ts)')
   await act(async () => dritter.reise().fortfahren())
   pruefe('Fortfahren setzt das Duell fort (drittes Duell)', dritter.reise().phase === 'duell' && dritter.reise().stehen?.nr === 3, [dritter.reise().phase, dritter.reise().stehen?.nr])
   await dritter.abbau()
+}
+
+console.log('Auffüllen mit Vorrang der eigenen Anbieter')
+{
+  /* Jeder dritte Titel bei prime, damit der Vorrang die Reihenfolge der Auffüllung spürbar ändert. */
+  const k2 = baueKontext({ ...datei, einstiege: datei.einstiege.map((e, i) => ({ ...e, p: [[i % 3 === 0 ? 'prime' : 'netflix']] })) })
+  const rang2 = (z: Parameters<Parameters<typeof antworten>[3]>[0]) => rangliste(k2, z, [], new Set())
+  let a2 = neueReise(k2, ANFANG, 7, [])
+  for (let i = 0; a2.phase === 'duell' && i < 30; i++) a2 = antworten(k2, a2, i % 2 ? 'B' : 'A', rang2)
+  const s2 = attrappe()
+  reiseMerken(a2, k2, s2)
+  const [x, y] = a2.gezeigt
+  const weg2 = new Set([x, y])
+  const prime = new Set(['prime'])
+  const mitVorrang = reiseWiederherstellen(k2, weg2, s2, prime)
+  const ohneVorrang = reiseWiederherstellen(k2, weg2, s2)
+  const tail = (a?: Ablauf) => JSON.stringify(a?.gezeigt.slice(3))
+  const ersatz = (eigene: ReadonlySet<string>) => rangliste(k2, a2.sitzung!.zustand, [x, y], eigene).map((e) => e.id).filter((id) => !a2.gezeigt.slice(2).includes(id)).slice(0, 2)
+  pruefe('Kulisse: der Vorrang ändert die Auffüllung', JSON.stringify(ersatz(prime)) !== JSON.stringify(ersatz(new Set())), [ersatz(prime), ersatz(new Set())])
+  pruefe('Auffüllung folgt dem Vorrang der eigenen Anbieter', tail(mitVorrang) === JSON.stringify(ersatz(prime)) && mitVorrang?.gezeigt.length === 5, mitVorrang?.gezeigt)
+  pruefe('Ohne eigene Anbieter: Auffüllung in Ranglisten-Reihenfolge', tail(ohneVorrang) === JSON.stringify(ersatz(new Set())), ohneVorrang?.gezeigt)
+
+  /* Derselbe Weg durch den echten Hook: die eigenen Anbieter der Ansicht müssen bei der Wiederherstellung ankommen. */
+  const g = globalThis as unknown as { localStorage: ReiseSpeicher }
+  g.localStorage = s2
+  const dom = installiereMiniDom({ ...attrappeUhr(), matchMedia: () => ({ matches: false, addEventListener() {}, removeEventListener() {} }) }, () => ({}))
+  let jetzt!: ReturnType<typeof useReise>
+  const mengen2 = { favoriten: new Set<number>(), ausgeblendet: new Set<number>(), gesehen: weg2, verworfen: new Set<number>(), eigene: ['prime'] }
+  const Probe = () => {
+    jetzt = useReise(k2, mengen2, () => 7)
+    return h('div')
+  }
+  const wurzel = createRoot(dom.wurzel as unknown as Element)
+  await act(async () => wurzel.render(h(Probe)))
+  pruefe('Hook: Wiederkehr füllt mit Vorrang der eigenen Anbieter auf', jetzt.phase === 'ergebnis' && tail({ ...a2, gezeigt: jetzt.gezeigt }) === JSON.stringify(ersatz(prime)), jetzt.gezeigt)
+  await act(async () => wurzel.unmount())
+  dom.entferne()
 }
 
 if (verletzt > 0) {
