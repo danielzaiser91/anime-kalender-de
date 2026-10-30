@@ -25,6 +25,7 @@ import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 import { blockStand } from './extension-block.mjs'
+import { ergaenzeZweiteKennungen, ladeZusatz } from './netflix-zweite-kennung.mjs'
 import { verdachtHinweis, verdachtsfaelle } from './verdacht.mjs'
 import { ausgeblendet, brauchtUrteil, eintragsInfo, ladeBestand, ladeCartoons, nachRang, wartet } from './pruef-bestand.mjs'
 
@@ -66,6 +67,8 @@ for (const t of titel) {
     jeAdresse.set(id, [...(jeAdresse.get(id) ?? []), { t, dub: s.dub, wartet: wartet(wurzel, t, 'netflix', s) }])
   }
 }
+/* Nennen aniSearch oder JustWatch eine andere Kennung, ist auch sie ein Prüfziel. */
+ergaenzeZweiteKennungen(jeAdresse, ladeZusatz(titel, wurzel))
 
 /**
  * Was der Anbieter über seine eigenen Staffeln gesagt hat.

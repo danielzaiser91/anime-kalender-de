@@ -28,6 +28,7 @@ import { readFileSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { bekannteFolgen } from './pruefstand-bekannt.mjs'
+import { ladeZusatz, zaehleZusatzZiele } from './netflix-zweite-kennung.mjs'
 import { ladeBestand, ladeCartoons, sortiereListe } from './pruef-bestand.mjs'
 
 const wurzel = resolve(dirname(fileURLToPath(import.meta.url)), '..')
@@ -260,6 +261,10 @@ const stand = ANBIETER.map((a) => {
 ANBIETER.forEach((a, i) => {
   stand[i].bekannt = bekannteFolgen(titel.filter((t) => !t.cartoon), a.plattform, a.kennung)
 })
+
+/* Jede zweite Netflix-Kennung ist ein eigenes Ziel der Prüfliste (`extension-offene-liste.mjs`) und zählt zum Gesamt. */
+const netflixStand = stand.find((s) => s.plattform === 'netflix')
+if (netflixStand) zaehleZusatzZiele(netflixStand, ladeZusatz(titel, wurzel))
 
 /**
  * **Was keine Erweiterung hat, ist trotzdem Arbeit.**
