@@ -413,7 +413,7 @@ export function AntwortKasten({
     zaehl = ''
   } else if (antwort.art === 'disc') {
     const vorstart = vorstartSatz(antwort, false)
-    haupt = vorstart ?? discKopf(antwort, today, T)
+    haupt = vorstart ?? discKopf(antwort, T)
     neben = vorstart ? '' : T('antwort.discNeben')
     zaehl = ''
     /*

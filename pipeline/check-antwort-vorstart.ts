@@ -80,6 +80,12 @@ pruefe('„Vorstarttest – Vol. 1“ gibt „Vol. 1“', bandName('Vorstarttest
 pruefe('„Vol.2“ bleibt, wie die Quelle es schreibt', bandName('Vorstarttest: Vol.2') === 'Vol.2')
 pruefe('„Limited Edition“ ist kein Band', bandName('Vorstarttest – Limited Edition') === undefined)
 pruefe('Gesamtausgabe ohne Zusatz: kein Band', bandName('Vorstarttest') === undefined)
+pruefe('Band mitten im Namen („Vol. 1 Limited Edition“) zählt nicht', bandName('Vorstarttest – Vol. 1 Limited Edition') === undefined)
+const zweiHaendler = [
+  { ...watchLinks[0], dubRanges: [{ from: 3, to: 4, dub: true }] },
+  { ...watchLinks[0], dubRanges: [{ from: 1, to: 2, dub: true }, { from: 5, to: 6, dub: true }] },
+]
+pruefe('mehrere Bereiche: kleinstes von, größtes bis (1–6)', JSON.stringify(bandFolgen(disc('2026-11-06', 'Vorstarttest – Vol. 1'), titel({ watchLinks: zweiHaendler }))) === '{"von":1,"bis":6}')
 const vol1 = disc('2026-11-06', 'Vorstarttest – Vol. 1')
 pruefe('Händler mit gleicher Adresse und Spanne: 1–4', JSON.stringify(bandFolgen(vol1, titel({ watchLinks }))) === '{"von":1,"bis":4}')
 pruefe('Händler mit anderer Adresse: keine Spanne', bandFolgen(vol1, titel({ watchLinks: [{ ...watchLinks[0], url: 'https://shop.example.org/anderer' }] })) === undefined)
@@ -100,12 +106,13 @@ const zweiOffen = text(kasten(titel({ watchLinks }), [vol1, disc('2026-12-04', '
 pruefe('zwei offene Bände: der erste steht in der Überschrift', zweiOffen.includes('Vol. 1 (Folgen 1–4) erscheint am 06.11.2026') && !zweiOffen.includes('Vol. 2 am'), zweiOffen.slice(0, 300))
 const kurzName = text(kasten(titel({ titleDe: 'Ganz anderer Titel: Mit langem Zusatz', watchLinks }), [vol1]))
 pruefe('Terminname kürzer als der Titel (Virgin Road): „Vol. 1“ steht trotzdem', kurzName.includes('Vol. 1 (Folgen 1–4) erscheint am 06.11.2026'), kurzName.slice(0, 300))
-const bandRaus =text(kasten(titel(), [disc('2026-10-02', 'Vorstarttest – Vol. 1'), disc('2026-12-04', 'Vorstarttest – Vol. 2')]))
+const bandRaus = text(kasten(titel(), [disc('2026-10-02', 'Vorstarttest – Vol. 1'), disc('2026-12-04', 'Vorstarttest – Vol. 2')]))
 pruefe('Band 1 schon im Handel: bleibt „Vol. 1 seit … · Vol. 2 am …“', bandRaus.includes('Vol. 1 seit 02.10.2026 · Vol. 2 am 04.12.2026') && !bandRaus.includes('erscheint am'), bandRaus.slice(0, 300))
 
 console.log('\nStream vor der ersten Folge:')
 const geschaetzt = text(kasten(titel(), [wochentakt('2026-11-06')]))
 pruefe('geschätztes Datum: „… erscheint voraussichtlich am 06.11.2026“', geschaetzt.includes('Die erste Folge mit deutscher Synchro erscheint voraussichtlich am 06.11.2026'), geschaetzt.slice(0, 300))
+pruefe('keine Nebenzeile mit Takt („Wöchentlich“, „letzte Folge“)', !/Wöchentlich|letzte Folge/.test(geschaetzt), geschaetzt.slice(0, 300))
 pruefe('„0 von 12 Folgen erschienen“ entfällt', !/0\s+von/.test(geschaetzt), geschaetzt.slice(0, 300))
 const rohHtml = kasten(titel(), [wochentakt('2026-11-06')])
 pruefe('kein leerer Balken (h-1.5 … rounded-full)', !rohHtml.includes('h-1.5'), '')

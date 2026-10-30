@@ -34,5 +34,7 @@
   { "name": "Kasten Stream: Nebenzeile bleibt", "datei": "web/src/components/detail/antwort-kasten.tsx", "suche": "[vorstart, '', undefined, '']", "ersetze": "[vorstart, neben, undefined, '']" },
   { "name": "Kasten Stream: Sprachbeleg ignoriert", "datei": "web/src/components/detail/antwort-kasten.tsx", "suche": "vorstartSatz(antwort, Boolean(ohneSprachbeleg))", "ersetze": "vorstartSatz(antwort, false)" },
   { "name": "berechneAntwort: Bandangaben weg", "datei": "web/src/components/detail/antwort-berechnen.ts", "suche": "...bandAngaben(quelle, title),", "ersetze": "" },
-  { "name": "discKopf: alter Satz gemutet (Datum fehlt)", "datei": "web/src/components/detail/antwort-disc-kopf.ts", "suche": "[relativ(antwort.datum, heute, T), formatDate(antwort.datum)]", "ersetze": "[relativ(antwort.datum, heute, T)]" }
+  { "name": "discKopf: erschienen wie offen", "datei": "web/src/components/detail/antwort-disc-kopf.ts", "suche": "b.raus ? 'antwort.discSeit' : 'antwort.discAm'", "ersetze": "false ? 'antwort.discSeit' : 'antwort.discAm'" },
+  { "name": "discKopf: Trenner", "datei": "web/src/components/detail/antwort-disc-kopf.ts", "suche": ".join(' · ')", "ersetze": ".join(' ')" },
+  { "name": "discKopf: Bandname weg", "datei": "web/src/components/detail/antwort-disc-kopf.ts", "suche": "[b.name, T(", "ersetze": "[undefined, T(" }
 ]
