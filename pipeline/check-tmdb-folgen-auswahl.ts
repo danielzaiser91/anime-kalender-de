@@ -3,7 +3,7 @@
  * Aufruf: `npm run check:logic`.
  */
 import { addDays, diffDays } from '../shared/time.ts'
-import { frischFaellig, grundFaellig, versatzTage, waehleFaellige,type BestandKurz, type FolgeKurz } from './lib/tmdb-folgen-auswahl.ts'
+import { frischFaellig, grundFaellig, versatzTage, waehleFaellige, type BestandKurz, type FolgeKurz } from './lib/tmdb-folgen-auswahl.ts'
 
 let verletzt = 0
 function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
