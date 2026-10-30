@@ -6,9 +6,9 @@
     "lastError": "keine Folge mit vde gefunden"
   },
   "anime2you": {
-    "lastOk": "2026-10-30T11:02:38.640Z",
-    "lastRun": "2026-10-30T11:02:38.640Z",
-    "lastCount": 52
+    "lastOk": "2026-10-30T12:02:21.080Z",
+    "lastRun": "2026-10-30T12:02:21.080Z",
+    "lastCount": 51
   },
   "anisearch": {
     "lastOk": "2026-10-30T06:15:31.931Z",
@@ -83,7 +83,7 @@
   },
   "rohfolgen": {
     "lastOk": "2026-10-29T13:08:47.526Z",
-    "lastRun": "2026-10-30T11:48:15.400Z",
+    "lastRun": "2026-10-30T12:09:15.934Z",
     "lastCount": 0
   },
   "anisearch-folgen": {
@@ -112,13 +112,13 @@
     "lastCount": 9
   },
   "vorfaelle": {
-    "lastOk": "2026-10-30T11:48:07.862Z",
-    "lastRun": "2026-10-30T11:48:07.862Z",
-    "lastCount": 0
+    "lastOk": "2026-10-30T12:09:08.222Z",
+    "lastRun": "2026-10-30T12:09:08.222Z",
+    "lastCount": 1
   },
   "crunchyroll-neu": {
-    "lastOk": "2026-10-30T11:02:25.653Z",
-    "lastRun": "2026-10-30T11:02:25.653Z",
+    "lastOk": "2026-10-30T12:02:08.511Z",
+    "lastRun": "2026-10-30T12:02:08.511Z",
     "lastCount": 159
   },
   "cartoons": {
@@ -137,8 +137,8 @@
     "lastCount": 15
   },
   "tv-programm": {
-    "lastOk": "2026-10-30T11:02:41.960Z",
-    "lastRun": "2026-10-30T11:02:41.960Z",
+    "lastOk": "2026-10-30T12:02:24.094Z",
+    "lastRun": "2026-10-30T12:02:24.094Z",
     "lastCount": 303
   },
   "tv-de": {
@@ -173,8 +173,9 @@
   },
   "crunchyroll-woche": {
     "lastOk": "2026-10-30T11:02:21.431Z",
-    "lastRun": "2026-10-30T11:02:21.431Z",
-    "lastCount": 61
+    "lastRun": "2026-10-30T12:02:06.481Z",
+    "lastCount": 0,
+    "lastError": "Kein Wochenprogramm-Artikel in der Kategorie gefunden"
   },
   "adn-news": {
     "lastOk": "2026-10-30T02:01:31.389Z",
@@ -182,8 +183,8 @@
     "lastCount": 75
   },
   "messbelege": {
-    "lastOk": "2026-10-30T11:02:40.130Z",
-    "lastRun": "2026-10-30T11:02:40.130Z",
+    "lastOk": "2026-10-30T12:02:22.807Z",
+    "lastRun": "2026-10-30T12:02:22.807Z",
     "lastCount": 0
   },
   "beleg-lesungen": {
