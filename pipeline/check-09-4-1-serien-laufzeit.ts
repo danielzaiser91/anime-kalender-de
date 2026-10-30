@@ -29,6 +29,8 @@ interface Fall {
   stream: string
   /** Derselbe Titel führt unter der Adresse zusätzlich einen Netflix-Weg. */
   netflixDazu?: boolean
+  /** Ein zweiter Crunchyroll-Weg ohne Kennung, der zur toten Serie nicht gehört. */
+  zweiterCrWeg?: string
   serie: Partial<CrSerie> & { url: string }
   /** Soll: bleibt der Verweis stehen? */
   bleibt: boolean
@@ -46,6 +48,7 @@ const faelle: Fall[] = [
   { id: 900308, name: 'US-Katalog ohne Block: Verweis bleibt', stream: cr('GIIIIIII9'), serie: { url: cr('GIIIIIII9'), seriesId: 'GIIIIIII9', katalog: 'us', staffeln: [] }, bleibt: true },
   { id: 900309, name: 'deutscher Katalog ohne Block, aber ohne Kennung: Verweis bleibt', stream: cr('GJJJJJJJA'), serie: { url: cr('GJJJJJJJA'), katalog: 'de', staffeln: [] }, bleibt: true },
   { id: 900310, name: 'US-Nein vom deutschen Katalog widerlegt: Verweis bleibt', stream: cr('GKKKKKKKB'), serie: { url: cr('GKKKKKKKB'), seriesId: 'GKKKKKKKB', ...TOT }, bleibt: true },
+  { id: 900311, name: 'Adresse ohne Kennung: nur der Weg der toten Serie geht, ein anderer kennungsloser Weg bleibt', stream: 'https://www.crunchyroll.com/de/slug-der-toten-serie', zweiterCrWeg: 'https://www.crunchyroll.com/de/ein-anderer-slug', serie: { url: 'https://www.crunchyroll.com/de/slug-der-toten-serie', ...TOT }, bleibt: false },
 ]
 /* Das Gedächtnis hängt an der Kennung: der widerlegte Fall ist der einzige, den `usNeinWiderlegt` durchlässt. */
 const widerlegt = (serie: { seriesId?: string | null }) => serie.seriesId === 'GKKKKKKKB'
@@ -59,13 +62,13 @@ try {
   const titles = new Map<number, Title>(
     faelle.map((f) => [
       f.id,
-      { id: f.id, slug: `serie-${f.id}`, titleDe: `Serie ${f.id}`, streams: [{ platform: 'crunchyroll', url: f.stream }, ...(f.netflixDazu ? [{ platform: 'netflix', url: f.stream }] : [])] } as unknown as Title,
+      { id: f.id, slug: `serie-${f.id}`, titleDe: `Serie ${f.id}`, streams: [{ platform: 'crunchyroll', url: f.stream }, ...(f.netflixDazu ? [{ platform: 'netflix', url: f.stream }] : []), ...(f.zweiterCrWeg ? [{ platform: 'crunchyroll', url: f.zweiterCrWeg }] : [])] } as unknown as Title,
     ]),
   )
   const crDub = { serien: faelle.map((f) => ({ staffeln: [], ...f.serie })) } as unknown as CrDubData
   const verweiseEntfernt: EntfernterVerweis[] = []
   const ergebnis = ordneCrSerienZu({ titles, crDub, usNeinWiderlegt: widerlegt, verweiseEntfernt })
-  for (const f of faelle) erwarte(f.name, titles.get(f.id)!.streams.some((s) => s.platform === 'crunchyroll'), f.bleibt)
+  for (const f of faelle) erwarte(f.name, titles.get(f.id)!.streams.filter((s) => s.platform === 'crunchyroll').map((s) => s.url), f.bleibt ? [f.stream] : f.zweiterCrWeg ? [f.zweiterCrWeg] : [])
   erwarte('der Netflix-Weg an der Adresse der toten Serie bleibt', titles.get(900305)!.streams.map((s) => s.platform), ['netflix'])
   const weg = faelle.filter((f) => !f.bleibt)
   erwarte('verschwunden zählt die entfernten Verweise', ergebnis.verschwunden, weg.length)
@@ -73,7 +76,7 @@ try {
   erwarte('Protokoll: ein Eintrag je entfernter Verweis', verweiseEntfernt.map((e) => e.titleId).sort(), weg.map((f) => f.id).sort())
   for (const e of verweiseEntfernt) {
     erwarte(`Eintrag ${e.titleId}: entferntAm ist ein Datum`, /^\d{4}-\d{2}-\d{2}$/.test(e.entferntAm ?? ''), true)
-    erwarte(`Eintrag ${e.titleId}: letzter Weg`, e.letzterWeg, !faelle.find((f) => f.id === e.titleId)?.netflixDazu)
+    erwarte(`Eintrag ${e.titleId}: letzter Weg`, e.letzterWeg, !faelle.find((f) => f.id === e.titleId)?.netflixDazu && !faelle.find((f) => f.id === e.titleId)?.zweiterCrWeg)
   }
   const kennung = verweiseEntfernt.find((e) => e.titleId === 900302)
   erwarte('Eintrag Kennungsfall: Serienadresse und Kennung des Dub-Bestands', [kennung?.url, kennung?.seriesId], [cr('GBBBBBBB2', 'de/fr/series'), 'GBBBBBBB2'])

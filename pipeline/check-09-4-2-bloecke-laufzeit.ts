@@ -136,6 +136,7 @@ try {
   const neu = titles.get(900711)
   erwarte('Katalog-Geschwister: Titel angelegt mit Reihe, englischem Namen und deutschem Weg', [neu?.franchiseId, neu?.titleEn, neu?.streams[0]?.dub], [900710, 'English', true])
   erwarte('Katalog-Geschwister nur mit lateinischem Namen: Anzeige aus dem lateinischen Namen', titles.get(900841)?.titleEn, 'Latin Name')
+  erwarte('Katalog-Geschwister: Folgenzahl aus dem Katalog', titles.get(900711)?.episodes, 3)
   erwarte('Bestands-Geschwister: Weg deutsch belegt', titles.get(900702)!.streams[0]!.dub, true)
   erwarte('Katalogtitel mit fremden Eltern wird nicht angelegt', titles.has(900721), false)
   erwarte('Katalogtitel ohne Eltern wird nicht angelegt', titles.has(900731), false)
