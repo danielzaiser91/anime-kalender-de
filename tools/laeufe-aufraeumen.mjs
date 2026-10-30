@@ -31,6 +31,8 @@ import { wacheZeilen } from './wache-bilanz.mjs'
 import { fixZusatz } from './wache-fix-gemergt.mjs'
 import { weichWache } from './wache-weicher-schritt.mjs'
 import { fileURLToPath } from 'node:url'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
 
 const WORKER = 'https://newsletter.animekalender.workers.dev/lauf'
 const REPO = 'danielzaiser91/anime-kalender-de'
@@ -112,6 +114,16 @@ function wurzel() {
   return i >= 0 ? args[i + 1] : fileURLToPath(new URL('..', import.meta.url))
 }
 
+/** `--weich-speicher <datei>` (Test) oder eine Datei im Temp-Ordner: nur Zwischenspeicher, kein Repo-Inhalt. */
+function weichSpeicher() {
+  const i = args.indexOf('--weich-speicher')
+  return i >= 0 ? args[i + 1] : join(tmpdir(), 'ak-wache-weicher-schritt.json')
+}
+
+/** Alle gh-Aufrufe einer Liste parallel in einem Kindprozess (`tools/gh-stapel.mjs`). */
+const ghStapel = (liste) =>
+  JSON.parse(execFileSync(process.execPath, [fileURLToPath(new URL('./gh-stapel.mjs', import.meta.url))], { input: JSON.stringify(liste), encoding: 'utf8', maxBuffer: 256 << 20, windowsHide: true }))
+
 async function main() {
   // Ein roter Sammler-Fund lässt den Lauf grün; er bleibt als PR liegen und muss hier auffallen (tools/rote-sammler-prs.mjs).
   const erledigt = erledigtArgumente(args)
@@ -122,7 +134,7 @@ async function main() {
   for (const zeile of rotZeilen) if (zeile.startsWith('ALARM')) console.log(zeile)
   const quellenZeilen = eskalationsText(gesundheitsDatei(), Date.now(), fixZusatz(wurzel()))
   for (const zeile of quellenZeilen) console.log(zeile)
-  for (const zeile of weichWache(gh, REPO, wurzel(), Date.now())) console.log(zeile)
+  for (const zeile of weichWache(ghStapel, REPO, wurzel(), Date.now(), weichSpeicher())) console.log(zeile)
   try {
     await laeufePruefen(erledigt)
   } finally {
