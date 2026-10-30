@@ -56,9 +56,25 @@ export function huelle(start, lies) {
   return alle
 }
 
+/** Werkzeugnamen der `PFADE`-Zeilen; wirft, wenn eine Zeile nicht genau einen Namen trägt oder die Namen nicht alphabetisch stehen. */
+export function werkzeugNamen(text) {
+  const zeilen = text.split('\n').filter((z) => /^\s*PFADE=/.test(z))
+  const namen = zeilen.slice(1, -1).map((z) => z.match(/^\s*PFADE="\$PFADE\|\^tools\/([a-z0-9-]+)\\\.mjs\$"$/)?.[1])
+  assert.ok(namen.every(Boolean), 'jede Werkzeug-Zeile trägt genau einen Namen')
+  assert.deepEqual(namen, [...namen].sort(), 'Namen stehen alphabetisch')
+  return namen
+}
+
 function main() {
   const doc = parse(readFileSync(resolve(WURZEL, '.github/workflows/pr-pruefung.yml'), 'utf8'))
-  const ausdruck = pfadAusdruck(doc.jobs.aussehen.steps.find((s) => s.id === 'pfad').run)
+  const lauf = doc.jobs.aussehen.steps.find((s) => s.id === 'pfad').run
+  const zeilenNamen = werkzeugNamen(lauf)
+  assert.ok(zeilenNamen.length >= 15, `zu wenige Namenszeilen (${zeilenNamen.length})`)
+  /* Mutant: eine gelöschte Zeile lässt das Werkzeug aus der Liste fallen. */
+  const ohne = lauf.split('\n').filter((z) => !z.includes('^tools/panel-bild\\.')).join('\n')
+  assert.match('tools/panel-bild.mjs', pfadAusdruck(lauf), 'Werkzeug fehlt in der Liste')
+  assert.doesNotMatch('tools/panel-bild.mjs', pfadAusdruck(ohne), 'gelöschte Zeile wirkt nicht')
+  const ausdruck = pfadAusdruck(lauf)
   const scripts = JSON.parse(readFileSync(resolve(WURZEL, 'package.json'), 'utf8')).scripts
   const namen = Object.keys(scripts).filter((n) => WURZELN.some((w) => n === w || n.startsWith(`${w}-`)))
   const dateien = huelle(namen.flatMap((n) => [...skripteVon(scripts, n)]))
