@@ -339,6 +339,7 @@ pipeline/check-suchhinweis-bereich.ts
 pipeline/check-suchhinweis-lauf.ts
 pipeline/check-sw-cache-regeln.ts
 pipeline/check-synchro-original.ts
+pipeline/check-synchro-termin-offen.ts
 pipeline/check-takt.ts
 pipeline/check-telekom-annahme.ts
 pipeline/check-telekom-pille.ts
