@@ -3346,10 +3346,10 @@ console.log('\nStaffel und Teil zählen:')
 console.log('\nHandbelege: ein wörtlich vorhandener Beleg wird nicht erneut angehängt:')
 {
   const abholung = readFileSync('pipeline/fetch-pruefungen.ts', 'utf8')
-  const anhaengen = readFileSync('pipeline/lib/belege-anhaengen.ts', 'utf8')
   const { neu } = neueBelegBloecke('- a: 1\n', ['- a: 1', '- b: 2', '  c: x', '- b: 2', '  c: "x"', '- d: 3'])
   pruefe('neue Belege: vorhandene und doppelte fallen, der Rest bleibt', neu.length === 2, neu)
-  pruefe('fetch-pruefungen nutzt diesen Abgleich', /neueBelegBloecke\(alt, zeilen\)/.test(anhaengen) && /haengeBelegeAn\(/.test(abholung))
+  /* Der Abgleich selbst läuft in pipeline/check-belege-riegel-schreiben.ts; hier bleibt nur der Aufruf aus dem Abholer. */
+  pruefe('fetch-pruefungen schreibt über haengeBelegeAn', /haengeBelegeAn\(/.test(abholung))
   /* Haikyu!!-Summenseite, 20.10.2026: das Prüfdatum zählt beim Abgleich nicht, die Folgenspanne schon. */
   const bereich = (von: number, bis: number) => ({ von, bis, dub: true, belegt: Array.from({ length: bis - von + 1 }, (_, i) => von + i) })
   const gekappt = begrenzeAufFolgenzahl([bereich(1, 3), bereich(4, 15)], 12)
@@ -3404,8 +3404,7 @@ console.log('\nHandbelege: ein wörtlich vorhandener Beleg wird nicht erneut ang
       new Set((yaml.load(fertig) as unknown[]).map((b) => JSON.stringify(b))).size === 2)
   pruefe('Kommentare und Reihenfolge bleiben stehen',
     entdoppleBelege('# Kopf\n\n- a: 1\n') === '# Kopf\n\n- a: 1\n')
-  pruefe('fetch-pruefungen ruft den Riegel vor dem Schreiben',
-    /schreibeBelege\(p, neu, warn\)/.test(anhaengen) && /entdoppleBelege\(text, melde\)/.test(readFileSync('pipeline/lib/dub-confirmed.ts', 'utf8')))
+  /* Dass der Schreibweg diesen Riegel wirklich durchläuft, prüft pipeline/check-belege-riegel-schreiben.ts als Lauf. */
   /* 22.09.2026: Haikyu!! TO THE TOP — Netflix-Staffel 4 ohne Zahl in unseren Titeln blieb liegen. */
   pruefe(
     'eine Netflix-Staffel ohne Nummer in unserer Reihe wird über Netflix\' Aufteilung verteilt',
@@ -3511,17 +3510,7 @@ console.log('\nCrunchyroll: nur ein verstrichener Start wird mangels Kalenderein
   (21.09.2026, Golden Wind: B0CG7KDCTS kam als Ersatz einer Prime-Suche zurück, obwohl ein
   Handbeleg ihn mit `available: false` ausgetragen hatte).
 */
-console.log('\nPrime: ein ersetzter Suchlink respektiert das belegte Nein:')
-{
-  const bau = bauQuelltext()
-  const stelle = bau.indexOf('    prime.url = echt\n')
-  const davor = bau.slice(Math.max(0, stelle - 1500), stelle)
-  pruefe(
-    'vor der Zuweisung steht der Beleg zur neuen Adresse',
-    stelle > 0 && /belegFuer\(title\.id, 'primevideo', echt/.test(davor) && /available === false/.test(davor),
-    'der Riegel gegen ein belegtes „nicht verfügbar" fehlt vor `prime.url = echt`',
-  )
-}
+/* Als Lauf geprüft: pipeline/check-prime-phase-laufzeit.ts („Suchlink respektiert das belegte Nein"). */
 
 /* Gemessene Zugangsart je Seite schlägt JustWatch je Titel (21.09.2026, 111 falsche Pillen). */
 console.log('\nPrime: die Zugangsart der Seite kommt aus der Meldung:')
@@ -3581,21 +3570,7 @@ console.log('\nPrime: der Zusatzkanal kommt aus der Notiz der Meldung:')
 console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
 {
   const bau = bauQuelltext()
-  pruefe(
-    'der Riegel sperrt nicht mehr pauschal je Anbieter',
-    !/if \(checks\.has\(dubKey\(eintrag\.titleId, 'primevideo'\)\)\) continue/.test(bau),
-    'der pauschale Riegel steht wieder da — Meldungen zur zweiten Ausgabe kommen nicht an',
-  )
-  pruefe(
-    '… sondern vergleicht die Adresse des Belegs',
-    /if \(beleg \? !beleg\.url \|\| adressGleich\(beleg\.url, seite \?\? undefined\) : kanalAdresseGemerkt\(/.test(bau),
-    'der Adressvergleich fehlt',
-  )
-  pruefe(
-    'der Verweis zeigt auf die gemeldete Seite, nicht auf die ASIN der ersten Folge',
-    /const gemeldeteAdresse = schluessel\.split\('#'\)\[0\]!/.test(bau) && /\? germanizeUrl\(plattform, gemeldeteAdresse\)/.test(bau),
-    'die Folgen-ASIN wird wieder als Titelseite verlinkt (B0GSSL7BMZ statt B0GPD4GNLL)',
-  )
+  /* Riegel je Adresse, gemeldete Seite statt Folgen-ASIN, Deckel und Plattform des Melders: pipeline/check-prime-phase-laufzeit.ts (Lauf). */
 
   /*
     Und die beiden Stellen in `fetch-rohfolgen.ts`, ohne die die Meldung gar
@@ -3624,11 +3599,6 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     holte, ausließ und liegen ließ. Die Entscheidung ist endgültig (Kanal-Titel,
     Adresse bekannt, kein Folgenbefund) — morgen käme dasselbe heraus.
   */
-  pruefe(
-    'ein dritter Prime-Verweis aus einer Meldung wird nicht angelegt',
-    /if \(vorhandene\.length >= 2\) \{/.test(bau),
-    'ohne den Deckel wächst ein Titel auf 52 Verweise bei einem Anbieter — je Folge einen, wie im Verlauf von prime-zugeordnet.json',
-  )
 
   /*
     **Und die Zuordnungen sammeln sich, statt sich zu ersetzen.**
@@ -3663,17 +3633,6 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     'die Zuordnung schreibt mit, wer gemeldet hat',
     /plattform: liste\[0\]!\.plattform \?\? 'primevideo'/.test(roh),
     'ohne die Plattform kann der Bau nur raten — und riet bisher immer Prime',
-  )
-  pruefe(
-    'der Bau legt den Verweis beim gemeldeten Anbieter an',
-    /const plattform = eintrag\.plattform as PlatformId/.test(bau) &&
-      /title\.streams\.push\(\{ platform: plattform, url: seite, dub: belegt \|\| undefined \}\)/.test(bau),
-    'die Plattform ist wieder fest verdrahtet',
-  )
-  pruefe(
-    'Amazon-Eigenes bleibt an Prime gebunden',
-    /plattform !== 'primevideo'\n\s+\? germanizeUrl\(plattform, gemeldeteAdresse\)/.test(bau),
-    'die Seite aus der ASIN gilt nur bei Amazon — bei Netflix ist die gemeldete Adresse die Seite',
   )
 
   /*
