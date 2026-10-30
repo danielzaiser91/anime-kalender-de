@@ -63,6 +63,8 @@ const faelle: Fall[] = [
 /* Ein Fall mit zwei Titeln an einer Serie: der Besitzer (12 Folgen) gehört dazu, der andere (6) ist fremd. */
 const BESITZER = 900420
 const FREMD = 900421
+/* Nachrunde: fremder Titel mit altem Nein (Prüfung vor dem Katalogstand), Nein bleibt. */
+const FREMD_NEIN = 900422
 
 try {
   mkdirSync(join(kulisse, 'data/curated'), { recursive: true })
@@ -102,6 +104,7 @@ try {
     ...faelle.map((f) => titel(f.id, f.stream?.url ?? adresse(f.kennung), f.episodes ?? 12, {}, f.stream?.dub)),
     titel(BESITZER, adresse('KFREMD001'), 12),
     titel(FREMD, adresse('KFREMD001'), 6),
+    titel(FREMD_NEIN, adresse('KFREMD001'), 6, {}, false),
     titel(900430, adresse('OTOT00001'), 12, { streams: [{ platform: 'crunchyroll', url: adresse('OTOT00001') }] }),
     titel(900431, adresse('OTOT00002'), 12),
     titel(900432, adresse('OTOT00003'), 12, {}, true),
@@ -127,6 +130,7 @@ try {
   const gibtEsNoch = (id: number) => titles.get(id)!.streams.some((s) => s.platform === 'crunchyroll')
   for (const f of faelle) erwarte(f.name, dubVon(f.id), f.dub)
   erwarte('Fremder Titel an einer Serie, die dem anderen gehört: kein Urteil', dubVon(FREMD), undefined)
+  erwarte('Nachrunde: fremder Titel mit altem Nein, jüngerer Katalog führt de-DE: Nein bleibt', dubVon(FREMD_NEIN), false)
   erwarte('… der Besitzer (Folgenzahl des Katalogs) bekommt das Ja', dubVon(BESITZER), true)
   /* Offene Befunde: Adresse führt ins Leere. */
   erwarte('toter offener Befund: Verweis entfernt', gibtEsNoch(900430), false)
