@@ -6,6 +6,7 @@
 import type { Release, Title } from '../shared/types.ts'
 import { widerlegterTermin } from '../shared/ankuendigung.ts'
 import { berechneAntwort } from '../web/src/components/detail/antwort-berechnen.ts'
+import { widerlegtTexte } from '../web/src/components/detail/kasten-texte.ts'
 
 let fehler = 0
 function pruefe(name: string, ok: boolean, info = ''): void {
@@ -58,5 +59,20 @@ pruefe('widerlegt plus gültig mit Termin: nicht „widerlegt“', !a3.widerlegt
 const a4 = offen(ohneAnk, [widerlegt])
 pruefe('ohne Ankündigung: „widerlegt“ ohne terminOffen', a4.widerlegt && a4.terminOffen === false, JSON.stringify(a4))
 
+/** Kastentext: T gibt den Schlüssel zurück, damit Zweig und Dämpfung ohne Übersetzung sichtbar sind. */
+const T = (k: string) => k
+const texte = (title: Title) => {
+  const a = berechneAntwort({ title, releases: [widerlegt], today: HEUTE, jetzt: JETZT })
+  return a?.art === 'widerlegt' ? widerlegtTexte(a, T) : undefined
+}
+const t1 = texte(mitAnk)
+pruefe('Kasten terminOffen: „angekündigt“, Termin offen mit Grund, nicht gedämpft',
+  t1?.haupt === 'antwort.synchroAngekuendigt' && t1.neben === 'antwort.synchroTerminOffen · antwort.widerlegtNeben' && t1.gedaempft === false,
+  JSON.stringify(t1))
+const t2 = texte(ohneAnk)
+pruefe('Kasten ohne Ankündigung: „widerlegt“, nur Grund, gedämpft',
+  t2?.haupt === 'antwort.widerlegtTitel' && t2.neben === 'antwort.widerlegtNeben' && t2.gedaempft === true,
+  JSON.stringify(t2))
+
 if (fehler) process.exit(1)
-console.log('check-synchro-termin-offen: 7 Fälle ok')
+console.log('check-synchro-termin-offen: 9 Fälle ok')
