@@ -88,6 +88,7 @@ pruefe('ein Knopf, zwei Fließtext-Verweise: alle bleiben (Aufzählung)', serien
 pruefe('derselbe Knopf zweimal zählt als eine Serie', serienDesArtikels(`${KNOPF(1)}${KNOPF(1)}${SERIE(2)}`).join() === '1')
 pruefe('Bild-Teaser zählt wie ein Knopf', serienDesArtikels(`${BILD(1)}${SERIE(2)}`).join() === '1')
 pruefe('Verweis mit Text im Link ist kein Bild-Teaser', serienDesArtikels(`${SERIE(1)}${SERIE(2)}`).join() === '1,2')
+pruefe('Knopf in einer Klammer ist kein Kern der Serien', serienDesArtikels(`${KNOPF(1)}(${KNOPF(2)})${SERIE(3)}`).join() === '1')
 pruefe('Klammer-Verweis zählt nicht zu den Fließtext-Vergleichen', serienDesArtikels(`${KNOPF(1)}(${SERIE(2)})${SERIE(3)}`).join() === '1')
 
 /* Folge für die Quelle: Assassination Classroom (344) bekommt den Bahamut-Artikel nicht mehr. */
