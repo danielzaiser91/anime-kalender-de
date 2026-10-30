@@ -23991,11 +23991,8 @@
     "gesehen": "2026-10-16T20:01:18Z"
   },
   "primevideo:B0DLRFKRN5": {
-    "grund": "offen",
-    "kandidaten": [
-      101348,
-      136430
-    ],
+    "titel": 101348,
+    "grund": "einziger-kandidat",
     "gesehen": "2026-10-16T20:01:18Z"
   },
   "primevideo:B0DL4W8XG8": {
@@ -77096,11 +77093,8 @@
     "gesehen": "2026-10-13T15:56:38Z"
   },
   "primevideo:B01HSH3W1G": {
-    "grund": "offen",
-    "kandidaten": [
-      936,
-      4437
-    ],
+    "titel": 936,
+    "grund": "einziger-kandidat",
     "gesehen": "2026-10-13T15:56:43Z"
   },
   "primevideo:B01HSH4AC6": {
