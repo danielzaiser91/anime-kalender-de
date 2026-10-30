@@ -10,6 +10,22 @@ export interface Verworfen {
   veraltet: number
   /** Je Titel-ID: Einträge, die vorher einen Titel hatten und jetzt keinen mehr (ein falsch gesperrter eigener Titel fiele hier auf). */
   entfallen: Record<number, number>
+  /** Eigene Beobachtungen ohne ASIN und gti: `ordneFolgenZu` lässt sie still fallen (Netflix-Folgen ohne gti). */
+  ohneKennung: number
+  /** Bis zu fünf verschiedene Folgentitel davon, mit Plattform. */
+  ohneKennungBeispiele: string[]
+}
+
+/** Zeile fürs Lauflog zu den Beobachtungen ohne Kennung. */
+export function ohneKennungZeile(v: Pick<Verworfen, 'ohneKennung' | 'ohneKennungBeispiele'>): string {
+  const beispiele = v.ohneKennungBeispiele.length ? ` (z. B. ${v.ohneKennungBeispiele.join('; ')})` : ''
+  return `Beobachtungen ohne ASIN und gti (fallen aus der Zuordnung): ${v.ohneKennung}${beispiele}`
+}
+
+function ohneKennungVon(eigene: Beobachtung[]): { anzahl: number; beispiele: string[] } {
+  const ohne = eigene.filter((b) => !(b.asin ?? b.gti))
+  const beispiele = [...new Set(ohne.map((b) => `${b.plattform}: ${b.titel ?? b.url}`))].slice(0, 5)
+  return { anzahl: ohne.length, beispiele }
 }
 
 /** Die Aufstellung „Titel-ID: Anzahl“ für das Lauflog, größte Zahl zuerst (bei Gleichstand die kleinere ID: ganzzahlige Schlüssel laufen aufsteigend, `sort` ist stabil). */
@@ -62,9 +78,12 @@ export function ordneFolgenOhneFremde(
   }
   for (const [s, am] of nurFremd) ohne[s] = { grund: 'ohne-kandidat', gesehen: am }
   const ergebnis = { ...ordneFolgenZu(eigene, k, erhalten), ...ohne }
+  const ohneKennung = ohneKennungVon(eigene)
   return {
     ergebnis,
     verworfen: {
+      ohneKennung: ohneKennung.anzahl,
+      ohneKennungBeispiele: ohneKennung.beispiele,
       beobachtungen: beobachtungen.length - eigene.length,
       folgen: nurFremd.size,
       veraltet,

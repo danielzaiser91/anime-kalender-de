@@ -4,7 +4,7 @@
  * `folgen-zuordnung.json`, obwohl sie nur noch in `ohne-synchro.json` stehen. Geprüft wird `ordneFolgenOhneFremde` mit den
  * echten Schlüsseln und einer Attrappe des Bestands; jeder Fall verwirft gezählt. Läuft in `check:logic`.
  */
-import { entfallenZeile, ordneFolgenOhneFremde } from './lib/folgen-fremde-adressen.ts'
+import { entfallenZeile, ohneKennungZeile, ordneFolgenOhneFremde } from './lib/folgen-fremde-adressen.ts'
 import { adressIndex, type Beobachtung, type FolgenZuordnung } from './lib/folgen-je-folge.ts'
 import type { Title } from '../shared/types.ts'
 
@@ -111,8 +111,23 @@ pruefe('entfallen je Titel: 900002 zweimal, 185262 einmal, Eintrag an eigener Ad
 pruefe('Aufstellung: größte Zahl zuerst', entfallenZeile({ 185262: 1, 900002: 2, 5: 1 }) === '900002: 2, 5: 1, 185262: 1', entfallenZeile({ 185262: 1, 900002: 2, 5: 1 }))
 pruefe('Aufstellung ohne Einträge', entfallenZeile({}) === 'keine', entfallenZeile({}))
 
+/* Beobachtungen ohne Kennung: eigene zählen, fremde und solche mit ASIN oder gti nicht; Beispiele höchstens fünf, ohne Doppelte. */
+const netflix = (id: number, titel: string, gti: string | null): Beobachtung => ({ ...beob(id, EIGEN, '', '2026-10-01T10:00'), plattform: 'netflix', asin: null, gti, titel })
+const ok = ordneFolgenOhneFremde([beob(30, EIGEN, 'MITASIN001', '2026-10-01T10:00'), netflix(31, 'Mit gti', 'GTI31')], kontext(fremdNurDisney), {})
+pruefe('mit ASIN oder gti: 0 ohne Kennung', ok.verworfen.ohneKennung === 0 && ok.verworfen.ohneKennungBeispiele.length === 0, ok.verworfen)
+const eins = ordneFolgenOhneFremde([netflix(32, 'Einzige Folge', null)], kontext(fremdNurDisney), {})
+pruefe('genau eine ohne Kennung: 1 und ein Beispiel', eins.verworfen.ohneKennung === 1 && eins.verworfen.ohneKennungBeispiele[0] === 'netflix: Einzige Folge', eins.verworfen)
+const viele = ordneFolgenOhneFremde(
+  [...[1, 2, 3, 4, 5, 6, 7].map((n) => netflix(40 + n, `Folge ${n}`, null)), netflix(50, 'Folge 1', null), { ...netflix(51, 'Fremd', null), url: FREMD }],
+  kontext(fremdNurDisney),
+  {},
+)
+pruefe('viele: 8 eigene gezählt, fremde nicht, 5 verschiedene Beispiele', viele.verworfen.ohneKennung === 8 && viele.verworfen.ohneKennungBeispiele.length === 5 && viele.verworfen.ohneKennungBeispiele[4] === 'netflix: Folge 5', viele.verworfen)
+pruefe('Zeile mit Beispielen', ohneKennungZeile(eins.verworfen) === 'Beobachtungen ohne ASIN und gti (fallen aus der Zuordnung): 1 (z. B. netflix: Einzige Folge)', ohneKennungZeile(eins.verworfen))
+pruefe('Zeile ohne Beispiele', ohneKennungZeile(ok.verworfen) === 'Beobachtungen ohne ASIN und gti (fallen aus der Zuordnung): 0', ohneKennungZeile(ok.verworfen))
+
 if (fehler.length) {
   console.error(`check-folgen-fremde-adressen: ${fehler.join('; ')}`)
   process.exit(1)
 }
-console.log('check-folgen-fremde-adressen: 18 Zusicherungen grün, fremde Adressen und Titel außerhalb von titles.json ordnen keine Plattform-Folge zu.')
+console.log('check-folgen-fremde-adressen: 23 Zusicherungen grün, fremde Adressen und Titel außerhalb von titles.json ordnen keine Plattform-Folge zu.')
