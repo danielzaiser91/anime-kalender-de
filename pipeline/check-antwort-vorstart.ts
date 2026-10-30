@@ -176,6 +176,18 @@ const discAntwort = (extra: object): Parameters<typeof discSatz>[0] => ({ art: '
 pruefe('Disc, Folgen nur eine: „Folge 3“', discSatz(discAntwort({ vol: 'Vol. 3', folgen: { von: 3, bis: 3 } })) === 'Vol. 3 (Folge 3) erscheint am 06.11.2026')
 pruefe('Disc, Band 2 schon erschienen und Band 1 nicht: kein Satz', discSatz(discAntwort({ vol: 'Vol. 1', baende: [{ datum: '2026-11-06', raus: false }, { datum: '2026-10-01', raus: true }] })) === undefined)
 
+console.log('\nHervorhebung der Überschrift:')
+/** Klasse des Spans, der den Beginn der Überschrift (`wort`) umschließt; beim laufenden Titel der Kopf „Nächste Folge“. */
+const kopfKlasse = (html: string, wort: string): string | undefined => new RegExp(`<span class="([^"]*)">[^<]*${wort}`).exec(html)?.[1]
+const klasseLauf = kopfKlasse(kasten(titel(), [wochentakt('2026-10-16')]), 'Folge')
+pruefe('laufender Titel: Kopf trägt eine Akzentfarbe', klasseLauf !== undefined && klasseLauf.includes('text-'), String(klasseLauf))
+const klasseDisc = kopfKlasse(kasten(titel({ watchLinks }), [vol1]), 'Vol\\. 1')
+pruefe('Disc-Vorstart: dieselbe Klasse wie beim laufenden Titel', klasseDisc === klasseLauf, `${klasseDisc} / ${klasseLauf}`)
+const klasseGesamt = kopfKlasse(kasten(titel(), [disc('2026-11-06', 'Vorstarttest')]), 'Die Disc')
+pruefe('Disc ohne Band: dieselbe Klasse', klasseGesamt === klasseLauf, `${klasseGesamt} / ${klasseLauf}`)
+const klasseStream = kopfKlasse(kasten(titel(), [wochentakt('2026-11-06')]), 'Die erste Folge')
+pruefe('Stream-Vorstart: dieselbe Klasse wie beim laufenden Titel', klasseStream === klasseLauf, `${klasseStream} / ${klasseLauf}`)
+
 console.log('\nLaufender Titel bleibt unverändert:')
 const lauf = text(kasten(titel(), [wochentakt('2026-10-16')]))
 pruefe('Folge 3 ist die nächste, 2 sind erschienen: Zählzeile bleibt', /2\s+von\s+12/.test(lauf) && !lauf.includes('erscheint voraussichtlich am'), lauf.slice(0, 300))
