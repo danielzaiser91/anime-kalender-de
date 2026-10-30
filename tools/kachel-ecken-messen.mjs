@@ -9,6 +9,7 @@
  *  - gemessen wird die erste Woche ab dem Datenstand (dist/data/meta.json) mit Kino-Saal-Kacheln; die Antwort auf events.json bekommt je Woche einen Kulissen-Kinotermin (saalKulisse), der Datensatz muss also keinen Kinofilm haben; zählt die App trotzdem keinen Saal, endet der Lauf rot.
  * Ohne Server: `page.route()` liefert `dist/` (vorher `npm run build`); `--dist <ordner>` misst einen anderen Bau (Vorher-Bilder).
  * Aufruf: `node tools/kachel-ecken-messen.mjs [--dist <ordner>] [--bilder <ordner>]`.
+ * `--live [url]` misst stattdessen die ausgelieferte Seite (Standard anime-kalender.de; Service Worker gesperrt, fremde Bilder ersetzt, Näheres in `kachel-ecken-live.mjs`); dann braucht es weder `dist/` noch einen Bau.
  */
 import { chromium } from 'playwright'
 import { readFile, mkdir } from 'node:fs/promises'
@@ -16,14 +17,15 @@ import { existsSync } from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { distPruefen } from './dist-frisch.mjs'
+import { antworteLive, ERSATZ_SVG, liveArgument, liveDatenstand } from './kachel-ecken-live.mjs'
 
 const WURZEL = path.resolve(import.meta.dirname, '..')
 const arg = (name) => (process.argv.includes(name) ? path.resolve(process.argv[process.argv.indexOf(name) + 1]) : undefined)
 const DIST = arg('--dist') ?? path.join(WURZEL, 'dist')
 const BILDER = arg('--bilder')
+const LIVE = liveArgument(process.argv)
+const BASIS = LIVE ?? 'http://ak.test'
 const TYPEN = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.svg': 'image/svg+xml', '.woff2': 'font/woff2', '.png': 'image/png', '.ico': 'image/x-icon', '.webmanifest': 'application/manifest+json' }
-/** Fremde Bilder (Cover) werden durch einen Verlauf ersetzt, damit ein Rand gegen ein Bild und nicht gegen Weiß geprüft wird. */
-const COVER_SVG = '<svg xmlns="http://www.w3.org/2000/svg" width="200" height="300"><rect width="200" height="300" fill="#4a5a80"/></svg>'
 const THEMEN = ['dunkel', 'hell']
 const ANSICHTEN = ['woche', 'monat', 'fenster', 'handy']
 /** So viele Wochen ab dem Datenstand werden nach einer Woche mit Kino-Saal abgesucht; die erste mit Saal wird gemessen (kein fester Tag: die Daten wechseln täglich). */
@@ -52,9 +54,10 @@ const MIN_SAAL = 1
 const UNTER = [[11, 1], [4, 2], [5, 3], [6, 4]]
 
 async function antworte(route) {
+  if (LIVE) return antworteLive(route, LIVE, (inhalt) => kulisseAntwort('events.json', inhalt, kulisseWochen))
   const url = new URL(route.request().url())
   if (url.protocol !== 'http:' && url.protocol !== 'https:') return route.continue()
-  if (url.hostname !== 'ak.test') return route.fulfill({ status: 200, contentType: 'image/svg+xml', body: COVER_SVG })
+  if (url.hostname !== 'ak.test') return route.fulfill({ status: 200, contentType: 'image/svg+xml', body: ERSATZ_SVG })
   const datei = path.join(DIST, url.pathname === '/' ? '/index.html' : url.pathname)
   if (!datei.startsWith(DIST) || !existsSync(datei)) return route.fulfill({ status: 404, body: '' })
   const inhalt = await readFile(datei)
@@ -117,9 +120,9 @@ async function lesePixel({ png, punkte }) {
 
 const abstand = (a, b) => a.reduce((s, v, i) => s + Math.abs(v - b[i]), 0)
 
-async function neueSeite(browser, thema, favoriten, handy = false) {
+export async function neueSeite(browser, thema, favoriten, handy = false) {
   const geraet = handy ? { viewport: { width: 360, height: 800 }, isMobile: true, hasTouch: true } : { viewport: { width: 1280, height: 900 } }
-  const kontext = await browser.newContext({ ...geraet, colorScheme: thema === 'dunkel' ? 'dark' : 'light' })
+  const kontext = await browser.newContext({ ...geraet, serviceWorkers: 'block', colorScheme: thema === 'dunkel' ? 'dark' : 'light' })
   /* Die Kennungs-Umzüge der App (anilist → ak, `kennung:*`) laufen sonst an und leeren die gesetzten Favoriten. */
   await kontext.addInitScript((ids) => {
     localStorage.setItem('kennung:ak1', '1')
@@ -133,7 +136,7 @@ async function neueSeite(browser, thema, favoriten, handy = false) {
 
 async function ladeAnsicht(seite, ansicht, datum) {
   await seite.goto('about:blank')
-  await seite.goto(`http://ak.test/#/${ansicht}?d=${datum}`, { waitUntil: 'networkidle' })
+  await seite.goto(`${BASIS}/#/${ansicht}?d=${datum}`, { waitUntil: 'networkidle' })
   await seite.locator('header').first().waitFor({ state: 'visible', timeout: 20_000 })
   await seite.waitForTimeout(2500)
 }
@@ -170,14 +173,20 @@ export function messwocheAbbruch(woche) {
   return woche.fehler ? [{ fehler: [woche.fehler], zeile: 'Messwoche: keine' }] : null
 }
 
-/** Wählt die Messwoche aus den Daten des gebauten dist/ (Datenstand aus `data/meta.json`); Saal-Kacheln zählt die Woche in der App. */
-async function findeMesswoche(browser) {
-  let erzeugt
+/** Datenstand (`generatedAt` aus `data/meta.json`) des gebauten dist/ oder der Live-Seite; sonst ein Fehlertext. */
+async function lieseDatenstand() {
+  if (LIVE) return liveDatenstand(LIVE)
   try {
-    erzeugt = JSON.parse(await readFile(path.join(DIST, 'data', 'meta.json'), 'utf8')).generatedAt
+    return { erzeugt: JSON.parse(await readFile(path.join(DIST, 'data', 'meta.json'), 'utf8')).generatedAt }
   } catch (e) {
     return { fehler: `Messwoche: data/meta.json in ${DIST} nicht lesbar (${e.message})` }
   }
+}
+
+/** Wählt die Messwoche aus den Daten (Datenstand aus `data/meta.json`); Saal-Kacheln zählt die Woche in der App. */
+async function findeMesswoche(browser) {
+  const { erzeugt, fehler } = await lieseDatenstand()
+  if (fehler) return { fehler }
   kulisseWochen = kandidatenWochen(erzeugt)
   const seite = await neueSeite(browser, 'dunkel', [])
   const saalZahl = async (datum) => {
@@ -422,7 +431,7 @@ async function messeWoche(browser, datum) {
 
 /** Exit-Code des Laufs: 0 ohne Fehler, sonst 1; `messe` ist eingespeist, damit der Test ohne Browser auskommt. */
 export async function main(messe = messeAlles) {
-  if (!arg('--dist') && !distPruefen(WURZEL)) return 1
+  if (!LIVE && !arg('--dist') && !distPruefen(WURZEL)) return 1
   const fehler = sammleFehler(await messe())
   if (fehler.length) {
     console.error(`${fehler.length} Fehler, je Art das erste Beispiel:\n${zeigeArten(fehler)}`)
