@@ -1,4 +1,4 @@
-import type { PlatformId, Release, Title } from './types.ts'
+import type { PlatformId, Release, StreamLink, Title } from './types.ts'
 
 /** Die vier Anime-Saisons Japans; `jpSeason` am Titel nutzt dieselben Namen wie AniList. */
 export type Saison = 'WINTER' | 'SPRING' | 'SUMMER' | 'FALL'
@@ -54,6 +54,9 @@ export function anbieterVon(t: Pick<Title, 'streams' | 'ankuendigung'>, releases
   return [...new Set([...(t.streams ?? []).filter((s) => s.dub === true).map((s) => s.platform), ...angekuendigt, ...ausTermin])]
 }
 
+/** Ein Tonspur-Weg, dessen Deutsch nur abgeleitet ist (Joyn pauschal, Prime-Kanal erbt): „Deutsch laut Anbieter“. Pille und Chip fragen hier. */
+export const istLautAnbieter = (s: Pick<StreamLink, 'dub' | 'dubAbgeleitet'>): boolean => s.dub === true && Boolean(s.dubAbgeleitet)
+
 /** Ein Anbieter-Chip; `laut` = Deutsch nur aus abgeleitetem Weg (alle Tonspur-Wege dieses Anbieters `dubAbgeleitet`, kein Termin und keine Ankündigung dazu). */
 export type AnbieterChip = { platform: PlatformId; laut: boolean }
 
@@ -63,6 +66,6 @@ export function anbieterChips(t: Pick<Title, 'streams' | 'ankuendigung'>, releas
   const sonst = new Set([...angekuendigt, ...(releases ?? []).filter((r) => !r.schedule?.estimated).map((r) => r.platform)])
   return anbieterVon(t, releases).map((platform) => ({
     platform,
-    laut: !sonst.has(platform) && dub.filter((s) => s.platform === platform).every((s) => Boolean(s.dubAbgeleitet)),
+    laut: !sonst.has(platform) && dub.filter((s) => s.platform === platform).every(istLautAnbieter),
   }))
 }
