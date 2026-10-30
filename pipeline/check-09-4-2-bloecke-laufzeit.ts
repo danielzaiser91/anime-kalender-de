@@ -91,7 +91,7 @@ const geschwister: GeschwisterFall[] = [
 try {
   mkdirSync(join(kulisse, 'data/curated'), { recursive: true })
   writeFileSync(join(kulisse, 'data/kino-ankuendigungen.yaml'), '[]\n')
-  writeFileSync(join(kulisse, 'data/ankuendigungen.yaml'), 'eintraege: []\n')
+  writeFileSync(join(kulisse, 'data', 'ankuendigungen.yaml'), 'eintraege: []\n')
   writeFileSync(
     join(kulisse, 'data/dub-confirmed.yaml'),
     `- anilistId: 900801\n  platform: crunchyroll\n  url: ${adresse('GHANDNEIN1')}\n  dub: false\n  checkedAt: '2026-10-30'\n`,

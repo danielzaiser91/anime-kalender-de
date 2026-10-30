@@ -69,7 +69,7 @@ try {
   schreibe('data/dub-confirmed.yaml', '# leer\n')
   schreibe('data/kino-ankuendigungen.yaml', '[]\n')
   schreibe(
-    'data/ankuendigungen.yaml',
+    join('data', 'ankuendigungen.yaml'),
     [900405, 900416, 900450]
       .map((id) => `  - {anilistId: ${id}, platform: crunchyroll, omuAb: '2026-12-01', synchro: offen, stand: '2026-10-01', quellen: ['https://example.org/a']}`)
       .join('\n')
