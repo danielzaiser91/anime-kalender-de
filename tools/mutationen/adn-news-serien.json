@@ -1,13 +1,15 @@
 [
   { "name": "Kontrolle", "aenderungen": [] },
-  { "name": "M1 Knopf-Filter aus (immer alle Links)", "datei": "pipeline/lib/adn-news.ts", "suche": "const gewaehlt = knoepfe.length ? knoepfe : links", "ersetze": "const gewaehlt = links" },
-  { "name": "M2 immer nur Knöpfe (ohne Rückfall)", "datei": "pipeline/lib/adn-news.ts", "suche": "const gewaehlt = knoepfe.length ? knoepfe : links", "ersetze": "const gewaehlt = knoepfe" },
-  { "name": "M3 Knopf-Klasse falsch", "datei": "pipeline/lib/adn-news.ts", "suche": "a.includes('wp-block-button__link')", "ersetze": "a.includes('wp-block-buttons')" },
-  { "name": "M4 Serienlink nicht verlangt", "datei": "pipeline/lib/adn-news.ts", "suche": ".filter((a) => SERIEN_LINK.test(a))", "ersetze": "" },
-  { "name": "M5 Rückfall wählt nur ersten Link", "datei": "pipeline/lib/adn-news.ts", "suche": "const gewaehlt = knoepfe.length ? knoepfe : links", "ersetze": "const gewaehlt = knoepfe.length ? knoepfe : links.slice(0, 1)" },
-  { "name": "M6 Knöpfe nur der erste", "datei": "pipeline/lib/adn-news.ts", "suche": "const gewaehlt = knoepfe.length ? knoepfe : links", "ersetze": "const gewaehlt = knoepfe.length ? knoepfe.slice(0, 1) : links" },
-  { "name": "M7 Aufrufer: Fließtext-Regex statt serienDesArtikels", "datei": "pipeline/lib/adn-news.ts", "suche": "const showIds = serienDesArtikels(p.content?.rendered ?? '')", "ersetze": "const showIds = [...new Set([...(p.content?.rendered ?? '').matchAll(/video\\/(\\d+)/g)].map((m) => Number(m[1])))]" },
-  { "name": "M9 Aufrufer: /de/-Filter aus", "datei": "pipeline/lib/adn-news.ts", "suche": "if (!p.link?.includes('/de/')) continue", "ersetze": "" },
-  { "name": "M10 Aufrufer: Beitrag ohne Verweis bleibt", "datei": "pipeline/lib/adn-news.ts", "suche": "if (!showIds.length) continue", "ersetze": "" },
-  { "name": "M8 Doppelte nicht entfernt", "datei": "pipeline/lib/adn-news.ts", "suche": "return [...new Set(ids)].filter", "ersetze": "return [...ids].filter" }
+  { "name": "M1 Klammer-Filter aus", "datei": "pipeline/lib/adn-news.ts", "suche": "const gewaehlt = ohneKlammer.length ? ohneKlammer : treffer", "ersetze": "const gewaehlt = treffer" },
+  { "name": "M2 ohne Rückfall auf alle", "datei": "pipeline/lib/adn-news.ts", "suche": "const gewaehlt = ohneKlammer.length ? ohneKlammer : treffer", "ersetze": "const gewaehlt = ohneKlammer" },
+  { "name": "M3 Klammer-Richtung vertauscht", "datei": "pipeline/lib/adn-news.ts", "suche": "text.lastIndexOf('(') > text.lastIndexOf(')')", "ersetze": "text.lastIndexOf('(') < text.lastIndexOf(')')" },
+  { "name": "M4 geschlossene Klammer zählt als offen", "datei": "pipeline/lib/adn-news.ts", "suche": "text.lastIndexOf('(') > text.lastIndexOf(')')", "ersetze": "text.lastIndexOf('(') >= 0" },
+  { "name": "M5 Tags im Text nicht entfernt", "datei": "pipeline/lib/adn-news.ts", "suche": ".replace(/<[^>]*>/g, '')\n  return", "ersetze": "\n  return" },
+  { "name": "M6 Fenster unbegrenzt", "datei": "pipeline/lib/adn-news.ts", "suche": "Math.max(0, stelle - 400)", "ersetze": "0" },
+  { "name": "M7 Fenster 400 -> 600", "datei": "pipeline/lib/adn-news.ts", "suche": "Math.max(0, stelle - 400)", "ersetze": "Math.max(0, stelle - 600)" },
+  { "name": "M8 Serienlink nicht verlangt", "datei": "pipeline/lib/adn-news.ts", "suche": ".filter((m) => SERIEN_LINK.test(m[0]))", "ersetze": "" },
+  { "name": "M9 Doppelte nicht entfernt", "datei": "pipeline/lib/adn-news.ts", "suche": "return [...new Set(ids)].filter", "ersetze": "return [...ids].filter" },
+  { "name": "M10 Aufrufer: Fließtext-Regex statt serienDesArtikels", "datei": "pipeline/lib/adn-news.ts", "suche": "const showIds = serienDesArtikels(p.content?.rendered ?? '')", "ersetze": "const showIds = [...new Set([...(p.content?.rendered ?? '').matchAll(/video\\/(\\d+)/g)].map((m) => Number(m[1])))]" },
+  { "name": "M11 Aufrufer: /de/-Filter aus", "datei": "pipeline/lib/adn-news.ts", "suche": "if (!p.link?.includes('/de/')) continue", "ersetze": "" },
+  { "name": "M12 Aufrufer: Beitrag ohne Verweis bleibt", "datei": "pipeline/lib/adn-news.ts", "suche": "if (!showIds.length) continue", "ersetze": "" }
 ]

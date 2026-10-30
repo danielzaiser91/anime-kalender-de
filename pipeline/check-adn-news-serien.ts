@@ -40,7 +40,11 @@ pruefe(
 )
 const IN_KLAMMER = '(<a href="https://animationdigitalnetwork.com/de/video/344-x">x</a>)'
 pruefe('nur Klammer-Verweise: alle bleiben', serienDesArtikels(IN_KLAMMER).join() === '344')
-pruefe('Klammer weit zurück und geschlossen: Verweis zählt', serienDesArtikels('(a) <a href="https://animationdigitalnetwork.com/de/video/5-x">x</a>').join() === '5')
+const SERIE = (n: number) => `<a href="https://animationdigitalnetwork.com/de/video/${n}-x">x</a>`
+pruefe('geschlossene Klammer davor: Verweis zählt', serienDesArtikels(`${SERIE(7)}(a) ${SERIE(5)}`).join() === '7,5', serienDesArtikels(`${SERIE(7)}(a) ${SERIE(5)}`))
+pruefe('Verweis ohne Serie zählt nicht als Verweis außerhalb', serienDesArtikels(`<a href="https://example.org/">x</a>(${SERIE(344)})`).join() === '344')
+const TAG_MIT_KLAMMER = `${SERIE(7)}Lerche (<a href="https://animationdigitalnetwork.com/de/video/5-x" title=")">x</a>, ${SERIE(6)}`
+pruefe('Klammer in einem Tag schließt nichts', serienDesArtikels(TAG_MIT_KLAMMER).join() === '7', serienDesArtikels(TAG_MIT_KLAMMER))
 const weitWeg = '<a href="https://animationdigitalnetwork.com/de/video/7-z">z</a>(' + 'x'.repeat(500) + '<a href="https://animationdigitalnetwork.com/de/video/5-x">x</a>'
 pruefe('Klammer über 400 Zeichen zurück gilt nicht mehr', serienDesArtikels(weitWeg).join() === '7,5', serienDesArtikels(weitWeg))
 pruefe('Bahamut: nur die Serie des Knopfs', serienDesArtikels(BAHAMUT).join() === '398', serienDesArtikels(BAHAMUT))
@@ -65,4 +69,4 @@ pruefe('398 mit Bahamut-Artikel', jeShow.get(398)?.url === 'https://news.example
 pruefe('502 mit Kita-Artikel', jeShow.get(502)?.url === 'https://news.example/de/2026/10/05/kita/')
 
 if (fehler) process.exit(1)
-console.log('check-adn-news-serien: 14 Zusicherungen ok (Verweise in Klammern zählen nicht, Sammelmeldung bleibt vollständig)')
+console.log('check-adn-news-serien: 16 Zusicherungen ok (Verweise in Klammern zählen nicht, Sammelmeldung bleibt vollständig)')
