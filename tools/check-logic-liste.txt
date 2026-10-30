@@ -240,6 +240,7 @@ pipeline/check-netflix-staffeln.ts
 pipeline/check-netflix-umleitung-ablauf.ts
 pipeline/check-netflix-umleitung.ts
 pipeline/check-neuigkeiten-panel.ts
+pipeline/check-news-altbestand.ts
 pipeline/check-news-einfrieren.ts
 pipeline/check-news-felder-bestand-ablauf.ts
 pipeline/check-news-felder-fest.ts
