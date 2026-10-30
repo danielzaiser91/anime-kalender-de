@@ -153,6 +153,14 @@ try {
     if (!f.zweiteQuelle && b !== f.erwartet) fehler.push(`${f.name}: Handbeleg zurückgestellt, Häkchen ${b}, erwartet ${f.erwartet}`)
     if (f.kanal && !f.zweiteQuelle && c !== true) fehler.push(`${f.name}: ohne Handbeleg und Merkliste müsste das alte Ja erscheinen (Kulisse greift nicht), war ${c}`)
   }
+
+  // Gesperrte Kennung@Adresse wird nicht (wieder) gemerkt.
+  schreibe('data/belege-entfernt.yaml', `- anilistId: 9202\n  url: ${dp('B0MERKBBBB')}\n  grund: Test\n  entferntAm: '2026-10-30'\n`)
+  rmSync(join(kulisse, MERKLISTE))
+  schreibeBelege(join(kulisse, 'data/dub-confirmed.yaml'), yamlKanal, () => {})
+  const ohneGesperrt = JSON.parse(readFileSync(join(kulisse, MERKLISTE), 'utf8')) as { anilistId: number }[]
+  if (ohneGesperrt.some((e) => e.anilistId === 9202)) fehler.push('gesperrter Eintrag 9202 steht in der Merkliste')
+  if (ohneGesperrt.length !== 5) fehler.push(`Merkliste mit Sperre hält ${ohneGesperrt.length} Einträge, erwartet 5`)
 } finally {
   rmSync(kulisse, { recursive: true, force: true })
 }
@@ -160,4 +168,4 @@ if (fehler.length) {
   console.error(`FEHL check-kanal-merkliste:\n  ${fehler.join('\n  ')}`)
   process.exit(1)
 }
-console.log(`check-kanal-merkliste: ${faelle.length} Fälle in drei Welten ok.`)
+console.log(`check-kanal-merkliste: ${faelle.length} Fälle in drei Welten und der Sperrfall ok.`)
