@@ -57,15 +57,13 @@ export function anbieterVon(t: Pick<Title, 'streams' | 'ankuendigung'>, releases
 /** Ein Tonspur-Weg, dessen Deutsch nur abgeleitet ist (Joyn pauschal, Prime-Kanal erbt): „Deutsch laut Anbieter“. Pille und Chip fragen hier. */
 export const istLautAnbieter = (s: Pick<StreamLink, 'dub' | 'dubAbgeleitet'>): boolean => s.dub === true && Boolean(s.dubAbgeleitet)
 
-/** Ein Anbieter-Chip; `laut` = Deutsch nur aus abgeleitetem Weg (alle Tonspur-Wege dieses Anbieters `dubAbgeleitet`, kein Termin und keine Ankündigung dazu). */
+/** Ein Anbieter-Chip; `laut` = Deutsch nur aus abgeleitetem Weg: mindestens ein Tonspur-Weg dieses Anbieters, alle `dubAbgeleitet` (dieselbe Frage wie die Pille am Weg; Termine und Ankündigungen belegen die Tonspur nicht). */
 export type AnbieterChip = { platform: PlatformId; laut: boolean }
 
 export function anbieterChips(t: Pick<Title, 'streams' | 'ankuendigung'>, releases?: Release[]): AnbieterChip[] {
   const dub = (t.streams ?? []).filter((s) => s.dub === true)
-  const angekuendigt = t.ankuendigung?.synchro === 'angekuendigt' ? [t.ankuendigung.platform] : []
-  const sonst = new Set([...angekuendigt, ...(releases ?? []).filter((r) => !r.schedule?.estimated).map((r) => r.platform)])
-  return anbieterVon(t, releases).map((platform) => ({
-    platform,
-    laut: !sonst.has(platform) && dub.filter((s) => s.platform === platform).every(istLautAnbieter),
-  }))
+  return anbieterVon(t, releases).map((platform) => {
+    const wege = dub.filter((s) => s.platform === platform)
+    return { platform, laut: wege.length > 0 && wege.every(istLautAnbieter) }
+  })
 }
