@@ -2032,6 +2032,10 @@ Die Wache (`wecker-wache.yml`) wiederholte einen roten Lauf erst nach der vollen
 - Hochrechnung gegen das Kontingent (5 Mio. Lesen, 100.000 Schreiben je Tag): Schreiben begrenzt, rund 900 Adressen pro Tag ohne andere Last; bei der heutigen Grundlast (~8.000 Schreibzeilen bis 13 UTC) bleibt Platz für mehrere volle Durchgänge.
 - Ein zusätzlicher Meldungskopie-Lauf (`meldungskopie.yml`, 12:57 UTC) fiel in dasselbe Fenster: Lauf 39130682076 (13:16 UTC) zeigte 553.567 gelesen, also rund 187.000 mehr — fast alles der Export. Eine Kopie nur für eine einzelne Kennung zu ziehen ist deshalb teuer; der nächtliche Lauf reicht, wenn es nicht eilt.
 
+## Belegstärke vorher/nachher ohne Bau (30.10.2026)
+
+`node tools/belegstaerke-vergleich.mjs [alt] [neu]` (Standard origin/main gegen HEAD) liest `dubConfidence` aus `public/data/titles.json` beider Git-Stände und druckt die Summen je Stufe plus je geändertem Titel „Kennung (Name): alt → neu“; für Beleg-PRs, wo ein Vollbau lokal am fehlenden Cache scheitert.
+
 ## Höchstens ein schwerer Lauf gleichzeitig (18.10.2026)
 
 - `tools/schwer.mjs <Befehl>` (Logik in `tools/schwerer-lauf.mjs`) wartet auf die Sperre `schwerer-lauf` in `tmpdir()` und startet den Befehl erst, wenn kein anderer schwerer Lauf auf dem Rechner läuft. Die Warteschlange ist die von `bau-vergleich` (`einzel-sperre-schlange.mjs`): der Älteste zuerst, Meldung „Platz n von m — Sperre hält PID …, Befehl …“, verwaiste Sperre (PID tot) wird übernommen, Frist 45 min.
