@@ -16,6 +16,7 @@ import { schliesseWegeAb } from './11-wege-abschluss.ts'
 import { stelleZurueck } from './11-9-quarantaene.ts'
 import { entferneVomKalender } from './sperre.ts'
 import { type EntfernterVerweis } from './grundlagen.ts'
+import { meldeBilanz } from './phasen-bilanz.ts'
 import { haltePunkt } from './phasen-zustand.ts'
 import type { ladeQuellen } from './01-quellen.ts'
 
@@ -27,6 +28,10 @@ export type Phasenergebnis = {
   tmdbTitles: ReturnType<typeof ladeQuellen>['tmdbTitles']
   mitStimmen: ReturnType<typeof rolleTermineAusMitKomplettabwurf>['mitStimmen']
   verschoben: ReturnType<typeof rolleTermineAusMitKomplettabwurf>['verschoben']
+  /**
+   * **Jeder entfernte Verweis mit seinem Grund — vollständig** (Anlass 29.08.2026: 46 Titel ohne
+   * Weg und ohne Begründung). Jede Phase, die einen entfernt, trägt ihn hier mit Grund ein.
+   */
   verweiseEntfernt: EntfernterVerweis[]
   titles: ReturnType<typeof baueTitelGemessen>['titles']
   jpStartAnzeige: ReturnType<typeof baueTitelGemessen>['jpStartAnzeige']
@@ -35,10 +40,6 @@ export type Phasenergebnis = {
 }
 
 export function bauePhasenfolge(quellen: ReturnType<typeof ladeQuellen>): Phasenergebnis {
-  /**
-   * **Jeder entfernte Verweis mit seinem Grund — vollständig** (Anlass 29.08.2026: 46 Titel ohne
-   * Weg und ohne Begründung). Jede Phase, die einen entfernt, trägt ihn hier mit Grund ein.
-   */
   const verweiseEntfernt: EntfernterVerweis[] = []
   const { byMal, byAniId, tmdbTitles, anisearch, curated, curatedIds, tmdb, anisearchEpisodes, tmdbMehrdeutig } =
     quellen
@@ -64,6 +65,7 @@ export function bauePhasenfolge(quellen: ReturnType<typeof ladeQuellen>): Phasen
     crKalenderBis: cr.crKalenderBis,
     crunchyroll: cr.crunchyroll,
   })
+  meldeBilanz({ phase: '05-releases', titel: titles.size, releases: releases.length, kuratiert: curated.length })
   ergaenzeCrReleases({ ...cr, usedCrKeys, seenSlugs, releases, anisearchEpisodes, unverified })
   const { adnKatalog, adnVerweiseErgaenzt } = ergaenzeAdnTitel({
     titles,
@@ -93,6 +95,7 @@ export function bauePhasenfolge(quellen: ReturnType<typeof ladeQuellen>): Phasen
 
   const { events, mitStimmen, verschoben } = rolleTermineAusMitKomplettabwurf({ releases, titles, jpStart })
   entferneVomKalender(releases, events)
+  meldeBilanz({ phase: '10-komplettabwurf', titel: titles.size, releases: releases.length, events: events.length, kuratiert: curated.length })
   haltePunkt('10-komplettabwurf', titles)
 
   // Alles, was Verweise ändert, muss vor `baueMeta` stehen — dort beginnt die Auslieferung.
