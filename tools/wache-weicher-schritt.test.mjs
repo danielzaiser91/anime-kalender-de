@@ -31,6 +31,7 @@ assert.equal(ersteFehlerZeile(''), undefined)
 const URL_LAUF = 'https://github.com/x/actions/runs/7'
 const kulisse = ({ conclusion = 'success', createdAt = iso(JETZT - TAG), jobs, logs, liste = true }) => (...a) => {
   const k = a.join(' ')
+  if (k.startsWith('run list')) assert.match(k, /--workflow \S+ --branch main --status completed --limit 1 /, 'nur der jüngste fertige Lauf auf main')
   if (k.startsWith('run list')) return JSON.stringify(liste ? [{ databaseId: 7, conclusion, createdAt, url: URL_LAUF }] : [])
   if (k.includes('/runs/7/jobs')) return JSON.stringify({ jobs })
   const m = k.match(/\/jobs\/(\d+)\/logs/)
@@ -86,15 +87,20 @@ try {
     '/jobs/11/logs': logs[11],
     '/jobs/12/logs': logs[12],
   }
-  const r = spawnSync(process.execPath, ['--import', `data:text/javascript,${encodeURIComponent(stubCode)}`, aufraeumen, '--trocken'], {
-    encoding: 'utf8',
-    windowsHide: true,
-    timeout: 60000,
-    env: { ...process.env, LAUF_TOKEN: '', GH_KULISSE: JSON.stringify(tabelle) },
-  })
+  const fahre = (kulissenTabelle) =>
+    spawnSync(process.execPath, ['--import', `data:text/javascript,${encodeURIComponent(stubCode)}`, aufraeumen, '--trocken'], {
+      encoding: 'utf8',
+      windowsHide: true,
+      timeout: 60000,
+      env: { ...process.env, LAUF_TOKEN: '', GH_KULISSE: JSON.stringify(kulissenTabelle) },
+    })
+  const r = fahre(tabelle)
   assert.match(r.stdout, /Läufe nicht lesbar|Worker|WACHE/, `der Prozess lief bis zur Wache: ${r.stderr}`)
   assert.match(r.stdout, new RegExp(`^WEICH refresh-weekly\\.yml / anilist / Link-Check: FEHLER: 3 Links tot \\(${URL_LAUF.replace(/\./g, '\\.')}\\)$`, 'm'), r.stdout)
   assert.doesNotMatch(r.stdout, /tmdb/, 'Job ohne FEHLER-Zeile bleibt still')
+  // Echte Uhr: ein Lauf von 2020 ist längst über 14 Tage alt.
+  const alt = fahre({ ...tabelle, '--workflow refresh-weekly.yml': JSON.stringify([{ databaseId: 7, conclusion: 'success', createdAt: '2020-01-01T00:00:00Z', url: URL_LAUF }]) })
+  assert.doesNotMatch(alt.stdout, /^WEICH refresh-weekly/m, 'alter Lauf bleibt still')
 } finally {
   rmSync(wegwerf, { recursive: true, force: true })
 }
