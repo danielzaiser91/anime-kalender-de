@@ -2,9 +2,11 @@
  * Pille am Weg und Anbieter-Chip der Saison-Karte fragen dieselbe Funktion (`istLautAnbieter`, `shared/saison.ts`):
  * Ein sicherer Termin (Verfügbarkeit, Zeitungsmeldung) belegt die Tonspur nicht und hebt „Deutsch laut Anbieter“ nicht auf.
  * Fälle: die drei Titel, an denen beide Seiten auseinanderliefen (AniList 101004, 101347, 128893; Wege und Termine
- * wörtlich aus `public/data/titles.json` und `releases.json`, Stand 30.10.2026). Aufruf: `npm run check:logic`.
+ * wörtlich aus `public/data/titles.json` und `releases.json`, Stand 30.10.2026). Dororo und Jigokuraku sind danach per Handbeleg
+ * (Anime2You nennt deutsche Synchronisation) belegt; ihre Fälle bleiben als eingefrorener Stand vor dem Handbeleg erhalten,
+ * der heutige Stand steht in "Mit Handbeleg". Aufruf: `npm run check:logic`.
  */
-import { anbieterChips } from '../shared/saison.ts'
+import { anbieterChips, istLautAnbieter } from '../shared/saison.ts'
 import type { Release, StreamLink, Title } from '../shared/types.ts'
 import { streamStatus } from '../web/src/components/detail/legende-zeilen.ts'
 
@@ -62,6 +64,19 @@ for (const f of FAELLE) {
   pruefe(`${f.name}: belegter Weg bleibt ohne Kennzeichnung`, belegt !== undefined && chip(f.t, f.releases, belegt.platform) === false && streamStatus(f.t, belegt, f.releases) === 'belegt')
 }
 
+console.log('Mit Handbeleg (Stand nach data/dub-confirmed.yaml): Joyn-Weg ohne dubAbgeleitet ist belegt, Pille und Chip ohne Kennzeichnung')
+for (const f of FAELLE.filter((x) => x.platform === 'joyn')) {
+  const belegt = titelMit(f.t.id, (f.t.streams ?? []).map((s) => (s.platform === 'joyn' ? weg('joyn', s.url) : s)))
+  pruefe(`${f.name}: Chip ohne Kennzeichnung`, chip(belegt, f.releases, 'joyn') === false, chip(belegt, f.releases, 'joyn'))
+  pruefe(`${f.name}: Pille „belegt“`, belegt.streams?.every((s) => streamStatus(belegt, s, f.releases) === 'belegt') === true)
+}
+
+console.log('istLautAnbieter direkt')
+pruefe('dub true und abgeleitet: laut', istLautAnbieter({ dub: true, dubAbgeleitet: 'joyn-pauschal' }) === true)
+pruefe('dub true ohne Ableitung: nicht laut', istLautAnbieter({ dub: true }) === false)
+pruefe('dub false mit Ableitung: nicht laut', istLautAnbieter({ dub: false, dubAbgeleitet: 'joyn-pauschal' }) === false)
+pruefe('dub fehlt mit Ableitung: nicht laut', istLautAnbieter({ dubAbgeleitet: 'kanal-erbt' }) === false)
+
 console.log('Grenzen des Chips')
 {
   const joyn = weg('joyn', 'https://www.joyn.de/serien/x', { dubAbgeleitet: 'joyn-pauschal' })
@@ -76,4 +91,4 @@ if (verletzt) {
   console.error(`\n✖ ${verletzt} Zusicherung(en) verletzt`)
   process.exit(1)
 }
-console.log('\n✓ Pille und Chip „laut Anbieter“: dieselbe Funktion, drei Anlassfälle und fünf Grenzen ok')
+console.log('\n✓ Pille und Chip „laut Anbieter“: dieselbe Funktion, drei Anlassfälle, Handbeleg, Funktion direkt und fünf Grenzen ok')

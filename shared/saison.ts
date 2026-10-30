@@ -54,7 +54,7 @@ export function anbieterVon(t: Pick<Title, 'streams' | 'ankuendigung'>, releases
   return [...new Set([...(t.streams ?? []).filter((s) => s.dub === true).map((s) => s.platform), ...angekuendigt, ...ausTermin])]
 }
 
-/** Ein Tonspur-Weg, dessen Deutsch nur abgeleitet ist (Joyn pauschal, Prime-Kanal erbt): „Deutsch laut Anbieter“. Pille und Chip fragen hier. */
+/** Ein Tonspur-Weg, dessen Deutsch nur abgeleitet ist (Joyn pauschal, Prime-Kanal erbt): „Deutsch laut Anbieter“. Pille und Chip fragen hier. Ein Termin belegt die Tonspur nicht; nennt ein Artikel die Sprache, wird er als Handbeleg geführt (`data/dub-confirmed.yaml`), und der Weg trägt kein `dubAbgeleitet` mehr. */
 export const istLautAnbieter = (s: Pick<StreamLink, 'dub' | 'dubAbgeleitet'>): boolean => s.dub === true && Boolean(s.dubAbgeleitet)
 
 /** Ein Anbieter-Chip; `laut` = Deutsch nur aus abgeleitetem Weg: mindestens ein Tonspur-Weg dieses Anbieters, alle `dubAbgeleitet` (dieselbe Frage wie die Pille am Weg; Termine und Ankündigungen belegen die Tonspur nicht). */
