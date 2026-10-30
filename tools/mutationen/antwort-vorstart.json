@@ -47,5 +47,6 @@
   {"name":"discSatz: weitere Bände weg","datei":"web/src/components/detail/antwort-vorstart.ts","suche":".slice(1).map(","ersetze":".slice(1, 1).map("},
   {"name":"discSatz: Trenner","datei":"web/src/components/detail/antwort-vorstart.ts","suche":"return [erster, ...weitere].join(' · ')","ersetze":"return [erster, ...weitere].join(' ')"},
   {"name":"discSatz: weitere ab dem ersten","datei":"web/src/components/detail/antwort-vorstart.ts","suche":".slice(1).map(","ersetze":".slice(0).map("},
-  {"name":"vorstartSatz: Releases nicht durchgereicht","datei":"web/src/components/detail/antwort-vorstart.ts","suche":"discVorStream(releases, antwort.haupt.date)","ersetze":"false"}
+  {"name":"vorstartSatz: Releases nicht durchgereicht","datei":"web/src/components/detail/antwort-vorstart.ts","suche":"discVorStream(releases, antwort.haupt.date)","ersetze":"false"},
+  {"name":"berechneAntwort: letzter statt frühester Termin","datei":"web/src/components/detail/antwort-berechnen.ts","suche":"const n = kuenftig[0]!","ersetze":"const n = kuenftig.at(-1)!"}
 ]
