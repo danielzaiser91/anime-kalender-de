@@ -71,20 +71,7 @@ export function schreibeKernUndNews({ releases, events, titles, meta }: {
     newsFuerRss = meldungen
     setzeVerlaufEin(newsHistorie, gehalten)
     writeJson('data/news-historie.json', newsHistorie)
-    const jeArt = new Map<string, number>()
-    let einzeln = 0
-    let abgeloest = 0
-    for (const e of meldungen)
-      for (const m of e.meldungen) {
-        einzeln++
-        if (m.ersetzt || m.zurueckgezogen) abgeloest++
-        jeArt.set(m.art, (jeArt.get(m.art) ?? 0) + 1)
-      }
-    log(
-      `${meldungen.length} Einträge für die Nachrichtenseite, ${einzeln} Meldungen darin (` +
-        [...jeArt].map(([a, n]) => `${a} ${n}`).join(', ') +
-        `), davon ${abgeloest} abgelöst und sichtbar geblieben`,
-    )
+    protokolliereNews(meldungen)
   }
   /* Releases kommen nach `baueMeta` noch hinzu (motn-*, Erstausgaben): gezählt wird, was in der Datei steht. */
   meta.releaseCount = releases.length
@@ -93,6 +80,24 @@ export function schreibeKernUndNews({ releases, events, titles, meta }: {
   writeJson(`${OUT}/meta.json`, meta, true)
   bruecheBeiWiderspruchAb({ fehler: zaehlworteAusDateien(), warnungen: [] })
   return { newsFuerRss }
+}
+
+/** Eine Logzeile über die ausgelieferten Meldungen: Einträge, Meldungen, Arten, abgelöste. */
+function protokolliereNews(meldungen: NewsEintrag[]): void {
+  const jeArt = new Map<string, number>()
+  let einzeln = 0
+  let abgeloest = 0
+  for (const e of meldungen)
+    for (const m of e.meldungen) {
+      einzeln++
+      if (m.ersetzt || m.zurueckgezogen) abgeloest++
+      jeArt.set(m.art, (jeArt.get(m.art) ?? 0) + 1)
+    }
+  log(
+    `${meldungen.length} Einträge für die Nachrichtenseite, ${einzeln} Meldungen darin (` +
+      [...jeArt].map(([a, n]) => `${a} ${n}`).join(', ') +
+      `), davon ${abgeloest} abgelöst und sichtbar geblieben`,
+  )
 }
 
 /** Die Zählworte der Oberfläche müssen zur Länge der ausgelieferten Dateien passen (B-07). */
