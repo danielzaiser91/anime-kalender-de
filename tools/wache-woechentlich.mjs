@@ -62,7 +62,7 @@ try {
   Die harten Regeln laufen als Bau-Invarianten (`pipeline/lib/invarianten*.ts`) und brechen den Bau ab, nicht diese Wache.
 */
 try {
-  // Daten-Detektiv gemessen 30.10.2026 (3 Läufe): 3,0-3,1 s; Stapel-Limit 120 s.
+  // Daten-Detektiv gemessen 30.10.2026 (3 Läufe): 3,0-3,1 s; Stapel-Limit 30 s.
   const ausgabe = mitLimit('npx', ['tsx', 'tools/daten-detektiv.ts', '--wache'], { encoding: 'utf8', maxBuffer: 32 << 20, shell: process.platform === 'win32' }, { limitMs: LIMIT_STAPEL_MS })
   const neu = JSON.parse(ausgabe.trim().split('\n').at(-1)).neu
   console.log(`Daten-Detektiv (weiche Regeln): ${neu.length} neue Schlüssel`)

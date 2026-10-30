@@ -15,7 +15,7 @@ try {
   mkdirSync(join(wurzel, 'tools'))
   for (const f of ['wache-woechentlich.mjs', 'wache-fristen.mjs', 'kind-mit-limit.mjs']) copyFileSync(join(tools, f), join(wurzel, 'tools', f))
   const env = { ...process.env, ...legeGhAttrappe(dir), WACHE_LIMIT_MS: '2000', npm_config_offline: 'true' }
-  const lauf = (args, cwd) => spawnSync(process.execPath, args, { cwd, encoding: 'utf8', windowsHide: true, timeout: 120_000, env })
+  const lauf = (args, cwd) => spawnSync(process.execPath, args, { cwd, encoding: 'utf8', windowsHide: true, timeout: 30_000, env })
 
   // 1. pr-nachrechnen: erster gh-Aufruf hängt -> Exit 2 und FEHLER-Zeile.
   const nach = lauf([join(tools, 'pr-nachrechnen.mjs'), '1'], tools)

@@ -217,7 +217,7 @@ export function nachrechnen(nummer, gh, melde, warte, leser = gitLeser(gitAufruf
 }
 
 export function gh(args) {
-  // Gemessen 30.10.2026 (3 Läufe): Job-Log 154 kB 1,2-1,4 s, Listen 0,8-0,9 s; Stapel-Limit 120 s deckt lange Logs.
+  // Gemessen 30.10.2026 (3 Läufe): Job-Log 154 kB 1,2-1,4 s, Listen 0,8-0,9 s; Stapel-Limit 30 s deckt lange Logs.
   return mitLimit('gh', args, { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 }, { limitMs: LIMIT_STAPEL_MS })
 }
 
