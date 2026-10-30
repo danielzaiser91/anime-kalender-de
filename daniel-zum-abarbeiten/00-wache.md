@@ -1,6 +1,6 @@
 # Wache — Bestand und Briefkasten
 
-**⚠ Auffälligkeit** · letzter Befund vom 29.10.2026 um 15:21 Uhr
+**⚠ Auffälligkeit** · letzter Befund vom 30.10.2026 um 15:10 Uhr
 
 Diese Zeile nennt den letzten **Befund**, nicht den letzten Lauf: Seit dem 26.09.2026 wird nur noch
 ein Befund committet (Daniel: „Behalten, still bei Ruhe"). Ob die Wache täglich läuft, steht in
@@ -17,40 +17,10 @@ Disney-Meldungen wurden zu einem einzigen Eintrag abgehakt, 216
 One-Piece-Meldungen verschwanden ganz. Gefunden hat es Daniel, weil ihm eine Zahl
 komisch vorkam. Das soll ihm keiner mehr abverlangen.
 
-## Was aufgefallen ist
-
-- 1 Urteile verloren; disneyplus: 1 Synchro-Belege weniger
-- 1 Titel ohne Synchro-Beleg; crunchyroll: 1 Synchro-Belege weniger
-
 ## Bestand — die letzten 24 Stunden
 
 ```
-44 Läufe in den letzten 1 Tagen (1645 insgesamt)
 
-28.10., 14:38  Bestand — zusammenführ   verweise +1, ohneUrteil +1, termine +12
-28.10., 16:25  Bestand — zusammenführ   verweise +4, mitUrteil +2, ohneUrteil +2
-28.10., 17:29  Bestand — zusammenführ   releases +1, termine +1
-28.10., 17:43  Bestand — zusammenführ   verweise +13, mitUrteil +13, titelMitSynchro +5
-28.10., 19:42  Bestand — zusammenführ   verweise -1, mitUrteil -1
-            ⚠  1 Urteile verloren; disneyplus: 1 Synchro-Belege weniger
-28.10., 21:10  Bestand — zusammenführ   mitUrteil -1, ohneUrteil +1, titelMitSynchro -1, releases -1, termine -1
-            ℹ  erklärt, nicht rot: 1 Titel ohne Synchro-Beleg, weil ihr Ja nur Amazons Sprachangabe auf einem Kanal-Titel war; primevideo: 1 Synchro-Belege herabgestuft (Kanal-Titel, Amazons Sprachangabe)
-28.10., 21:38  Bestand — zusammenführ   verweise +1, mitUrteil +1, titelMitSynchro +1
-28.10., 22:12  Bestand — zusammenführ   releases +1
-28.10., 22:53  Bestand — zusammenführ   mitUrteil +1, ohneUrteil -1, titelMitSynchro +1, releases +1, termine +1
-28.10., 23:23  Bestand — zusammenführ   termine +6
-29.10., 04:34  Bestand — zusammenführ   verweise +2, mitUrteil +1, ohneUrteil +1, titelMitSynchro -1, releases +3, termine +4
-            ⚠  1 Titel ohne Synchro-Beleg; crunchyroll: 1 Synchro-Belege weniger
-29.10., 05:10  Bestand — zusammenführ   mitUrteil +1, ohneUrteil -1, titelMitSynchro +1, releases +1
-29.10., 06:10  Bestand — zusammenführ   termine +7
-29.10., 08:47  Bestand — zusammenführ   termine +12
-29.10., 10:50  Bestand — zusammenführ   mitUrteil -1, ohneUrteil +1
-            ℹ  erklärt, nicht rot: primevideo: 1 Synchro-Belege herabgestuft (Kanal-Titel, Amazons Sprachangabe)
-
-Stand jetzt: 2924 Titel, 2016 Urteile, 291 offen
-Über den Zeitraum: Titel 0, Urteile +16, offen +3
-
-⚠  2 Lauf/Läufe mit Auffälligkeiten — siehe oben.
 ```
 
 ## Briefkasten
@@ -63,12 +33,12 @@ Alle Adressen sind gelistet.
 Übernahme: zuletzt 2026-10-28T16:20:46.343Z (data/meldungen-uebernahme.json)
 ✓ refresh-hourly.yml: letzter Erfolg vor 0 h (Frist 5 h)
 ✓ refresh-data.yml: letzter Erfolg vor 10 h (Frist 36 h)
-✓ refresh-weekly.yml: letzter Erfolg vor 81 h (Frist 216 h)
+✓ refresh-weekly.yml: letzter Erfolg vor 105 h (Frist 216 h)
 ✓ daten-auf-abruf.yml: letzter Erfolg vor 6 h (Frist 36 h)
 ✓ anisearch-katalog.yml: letzter Erfolg vor 8 h (Frist 36 h)
-✓ tonspuren-monatlich.yml: letzter Erfolg vor 154 h (Frist 840 h)
+✓ tonspuren-monatlich.yml: letzter Erfolg vor 178 h (Frist 840 h)
 ✓ bestand-bauen.yml: letzter Erfolg vor 0 h (Frist 24 h)
-✓ d1-verbrauch.yml: letzter Erfolg vor 24 h (Frist 48 h)
+✓ d1-verbrauch.yml: letzter Erfolg vor 23 h (Frist 48 h)
 ✓ claude-anime2you-extraktion.yml: letzter Erfolg vor 2 h (Frist 48 h)
 ✓ claude-wache-urteil.yml: letzter Erfolg vor 5 h (Frist 48 h)
 ✓ claude-verpasst-recherche.yml: letzter Erfolg vor 3 h (Frist 48 h)
@@ -97,6 +67,7 @@ Die letzten 60 Läufe. Älteres hat seinen Zweck erfüllt.
 
 | Zeitpunkt | Titel / Urteile / offen | Veränderung | Befund |
 |---|---|---|---|
+| 30.10.2026 15:10 | — | — | Auffälligkeit |
 | 29.10.2026 15:21 | 2924 / 2016 / 291 | Titel 0, Urteile +16, offen +3 | 1 Urteile verloren; disneyplus: 1 Synchro-Belege weniger; 1 Titel ohne Synchro-Beleg; crunchyroll: 1 Synchro-Belege weniger |
 | 27.10.2026 14:13 | 2924 / 1999 / 286 | Titel +2, Urteile +2, offen -1 | 3 Titel weniger |
 | 26.10.2026 15:16 | 2922 / 1997 / 287 | Titel 0, Urteile -18, offen +42 | 1 Titel weniger; 2 Urteile verloren (3 weitere sind begründet entfernt) (14 weitere durch Kanal-Titel herabgestuft); 3 Titel ohne Synchro-Beleg (2 weitere durch Kanal-Titel herabgestuft); netflix: 1 Synchro-Belege weniger; joyn: 1 Synchro-Belege weniger; 1 Titel ohne Synchro-Beleg |
