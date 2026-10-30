@@ -44,16 +44,21 @@ export interface AdnNews {
 
 const SERIEN_LINK = /animationdigitalnetwork\.com\/(?:de\/)?video\/(\d+)/
 
+/** Steht die Stelle im Text in einer offenen Klammer? Tags zählen nicht zum Text. */
+function inKlammer(html: string, stelle: number): boolean {
+  const text = html.slice(Math.max(0, stelle - 400), stelle).replace(/<[^>]*>/g, '')
+  return text.lastIndexOf('(') > text.lastIndexOf(')')
+}
+
 /**
- * Serien, um die es im Artikel geht. Hat der Artikel „auf die Watchlist"-Knöpfe, zählen nur deren Serien: Verweise im
- * Fließtext („Studio: Lerche (Assassination Classroom, …)") nennen andere Serien als Auskunft über Studio oder Regie.
- * Ohne Knopf (Line-ups, Trailer) bleiben alle Verweise.
+ * Serien, um die es im Artikel geht. Verweise in Klammern („Studio: Lerche (Assassination Classroom, …)") nennen
+ * andere Serien als Auskunft über Studio oder Regie und zählen nicht. Bestehen alle Verweise aus solchen, bleiben alle.
  */
 export function serienDesArtikels(html: string): number[] {
-  const links = (html.match(/<a\b[^>]*>/g) ?? []).filter((a) => SERIEN_LINK.test(a))
-  const knoepfe = links.filter((a) => a.includes('wp-block-button__link'))
-  const gewaehlt = knoepfe.length ? knoepfe : links
-  const ids = gewaehlt.map((a) => Number(SERIEN_LINK.exec(a)?.[1]))
+  const treffer = [...html.matchAll(/<a\b[^>]*>/g)].filter((m) => SERIEN_LINK.test(m[0]))
+  const ohneKlammer = treffer.filter((m) => !inKlammer(html, m.index))
+  const gewaehlt = ohneKlammer.length ? ohneKlammer : treffer
+  const ids = gewaehlt.map((m) => Number(SERIEN_LINK.exec(m[0])?.[1]))
   return [...new Set(ids)].filter((n) => Number.isFinite(n))
 }
 
