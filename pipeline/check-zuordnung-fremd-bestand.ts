@@ -3,7 +3,7 @@
  * gehört** (29.10.2026, Anlass: fünf Fehlzuordnungen — vier Netflix-Cartoonseiten an Hero Mask, Swordgai ×2, Pokémon und eine
  * Serienseite an einem Film —, live unsichtbar, weil `adresseFremdBelegt` sie im Bau überspringt, im Bestand aber geblieben).
  * Besitzer: ein Cartoon oder Titel ohne Synchro (`streams`) oder ein Handbeleg einer anderen Kennung.
- * Die 35 Altfälle (Stand 29.10.2026 nach der Sichtung: 40 von 75 gesperrt) stehen in `data/zuordnung-fremd-bekannt.json`: neue Treffer sind rot, ein Eintrag ohne Treffer auch (streichen).
+ * Die 7 Altfälle (Stand 30.10.2026, vorher 35 nach der Sichtung: 40 von 75 gesperrt) stehen in `data/zuordnung-fremd-bekannt.json`: neue Treffer sind rot, ein Eintrag ohne Treffer auch (streichen).
  * Dazu (29.10.2026): keine Seite an Titeln verschiedener Reihen (`franchiseId`), Fälle in `check-zuordnung-fremd.ts`.
  * Liest `public/data` und gehört deshalb in `check:bestand`; die Fälle ohne Bestand stehen in `check-zuordnung-fremd.ts`.
  */
