@@ -1,15 +1,97 @@
 {
-  "scrapedAt": "2026-10-30T04:13:54.782Z",
+  "scrapedAt": "2026-10-30T17:03:41.836Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 40,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 8,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 11,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 52,
-    "schon in einem Rubrik-Feed gelesen": 32,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 8,
+    "schon in einem Rubrik-Feed gelesen": 9,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 3,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 11,
     "Sprachhinweis älter als 45 Tage": 4
   },
   "proposals": [
+    {
+      "articleTitle": "HBO Max nimmt Original-Serie »Lazarus« ins Programm",
+      "articleUrl": "https://www.anime2you.de/news/1065659/lazarus-bald-auf-hbo-max/",
+      "publishedAt": "2026-10-30",
+      "category": "streaming",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-11-16",
+          "context": "uf. Wir fassen zusammen. Ab November 2026 verfügbar »Lazarus« wird am 16. November 2026 auf HBO Max veröffentlicht. Details zu den angeboten"
+        },
+        {
+          "month": "2026-11",
+          "context": "e Original-Serie »Lazarus« in sein Programm auf. Wir fassen zusammen. Ab November 2026 verfügbar »Lazarus« wird am 16. November 2026 auf HBO"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Bis zu 92 % Rabatt: AKIBA PASS SHOP startet großen Halloween-Sale",
+      "articleUrl": "https://www.anime2you.de/news/1065711/akiba-pass-shop-halloween-sale-2026/",
+      "publishedAt": "2026-10-30",
+      "category": "disc",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-11-02",
+          "context": "is zu 92 % angeboten werden. Wir fassen die Details zusammen. Nur bis 2. November 2026 Die Rabattaktion läuft vom 30. Oktober bis einschließ"
+        },
+        {
+          "iso": "2026-10-30",
+          "context": "Details zusammen. Nur bis 2. November 2026 Die Rabattaktion läuft vom 30. Oktober bis einschließlich 2. November 2026 und gilt nur solange d"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "»Anime Night« auf ProSieben MAXX kehrt mit Film und TV-Premiere zurück",
+      "articleUrl": "https://www.anime2you.de/news/1065927/prosieben-maxx-anime-night-rueckkehr/",
+      "publishedAt": "2026-10-30",
+      "category": "allgemein",
+      "platforms": [],
+      "dates": [
+        {
+          "month": "2026-12",
+          "context": "en MAXX kehrt mit Film und TV-Premiere zurück Die »Anime Night« kehrt im Dezember 2026 in vollem Umfang zu ProSieben MAXX zurück – inklusive"
+        },
+        {
+          "month": "2026-11",
+          "context": "eits seit drei Wochen zugunsten eines Specials zur »Rocky«-Filmreihe. Im November 2026 wird die »Anime Night« mit Wiederholungen von »Solo L"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Disney+ kündigt zwei Anime-Neuzugänge für November 2026 an",
+      "articleUrl": "https://www.anime2you.de/news/1065975/disney-plus-neu-im-november-2026/",
+      "publishedAt": "2026-10-30",
+      "category": "allgemein",
+      "platforms": [
+        "disneyplus"
+      ],
+      "dates": [
+        {
+          "iso": "2026-11-03",
+          "context": "gehört die zwölfteilige Romance-Serie »Honey Lemon Soda«, die ab dem 3. November 2026 sowohl mit deutscher Sprachausgabe als auch im Origin"
+        },
+        {
+          "iso": "2026-11-24",
+          "context": "sgabe als auch im Originalton mit Untertiteln zur Verfügung steht. Am 24. November 2026 werden die […] Der Beitrag Disney+ kündigt zwei An"
+        },
+        {
+          "month": "2026-11",
+          "context": "er 2026 an Der Streaming-Dienst Disney+ erweitert sein Anime-Programm im November 2026 um zwei neue Serien. Wir fassen die Details zusammen."
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "19,99 Euro pro Staffel: polyband startet große »Pokémon«-Rabattaktion",
       "articleUrl": "https://www.anime2you.de/news/1065186/polyband-grosse-pokemon-rabattaktion/",
