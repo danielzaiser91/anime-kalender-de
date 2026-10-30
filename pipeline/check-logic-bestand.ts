@@ -237,6 +237,7 @@ console.log('\nHandbelege gegen den Bestand')
     — ein Messwert von heute ist hier keine Invariante (CLAUDE.md, „Eine
     Prüfung, die rot wird, weil die Arbeit erledigt ist").
     Messwert 28.10.2026: 4 (vorher 6; Oshi no Ko Folge 12 und JoJo Folge 40 stehen als `sonderfolgen`).
+    Messwert 30.10.2026: 0 (Undead Unluck Disney+ Folge 25 = Winter-Arc-Special, `sonderfolgen`).
   */
   pruefe('Handbelege: höchstens 8 nennen Folgen über der Folgenzahl ihres Titels', drueber.length <= 8, drueber)
   /*
