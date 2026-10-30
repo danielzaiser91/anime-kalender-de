@@ -61,15 +61,18 @@ export const synchroAngekuendigt = (t: { ankuendigung?: Ankuendigung }, s: Strea
 export const titelSynchroAngekuendigt = (t: { westlich?: true; ankuendigung?: Ankuendigung }): boolean =>
   !t.westlich && t.ankuendigung?.synchro === 'angekuendigt'
 
-export function ankuendigungZeile(
-  a: Ankuendigung,
-  T: (k: string, v?: Record<string, string | number>) => string,
-  heute = todayIso(),
-): string {
+type Uebersetze = (k: string, v?: Record<string, string | number>) => string
+
+/** „mit Untertiteln ab/seit 07.10.2026“ — vor dem Start „ab“, danach „seit“. */
+export function omuZeile(a: Ankuendigung, T: Uebersetze, heute = todayIso()): string {
   const begonnen = nurMonat(a.omuAb) ? omuLetzterTag(a.omuAb) < heute : a.omuAb <= heute
+  return T(begonnen ? 'antwort.omuSeit' : 'antwort.omuAb', { wann: omuDatumText(a.omuAb) })
+}
+
+export function ankuendigungZeile(a: Ankuendigung, T: Uebersetze, heute = todayIso()): string {
   return [
     PLATFORMS[a.platform]?.name ?? a.platform,
-    T(begonnen ? 'antwort.omuSeit' : 'antwort.omuAb', { wann: omuDatumText(a.omuAb) }),
+    omuZeile(a, T, heute),
     T(a.synchro === 'angekuendigt' ? 'antwort.synchroTerminOffen' : 'antwort.synchroOffen'),
   ].join(' · ')
 }
