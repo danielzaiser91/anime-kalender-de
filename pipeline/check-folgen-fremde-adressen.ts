@@ -118,7 +118,7 @@ pruefe('mit ASIN oder gti: 0 ohne Kennung', ok.verworfen.ohneKennung === 0 && ok
 const eins = ordneFolgenOhneFremde([netflix(32, 'Einzige Folge', null)], kontext(fremdNurDisney), {})
 pruefe('genau eine ohne Kennung: 1 und ein Beispiel', eins.verworfen.ohneKennung === 1 && eins.verworfen.ohneKennungBeispiele[0] === 'netflix: Einzige Folge', eins.verworfen)
 const viele = ordneFolgenOhneFremde(
-  [...[1, 2, 3, 4, 5, 6, 7].map((n) => netflix(40 + n, `Folge ${n}`, null)), netflix(50, 'Folge 1', null), { ...netflix(51, 'Fremd', null), url: FREMD }],
+  [netflix(50, 'Folge 1', null), ...[1, 2, 3, 4, 5, 6, 7].map((n) => netflix(40 + n, `Folge ${n}`, null)), { ...netflix(51, 'Fremd', null), url: FREMD }],
   kontext(fremdNurDisney),
   {},
 )
