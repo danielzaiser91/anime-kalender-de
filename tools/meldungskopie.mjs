@@ -27,10 +27,10 @@ function abfrage(a) {
   const datei = wert(a, '--datei')
   const sql = datei ? readFileSync(datei, 'utf8') : a[1]
   if (!sql) throw new Error('abfrage braucht eine SQL-Anweisung oder --datei <x.sql>')
-  const e = fuehreAus(kopie(a), sql)
   const max = Number(wert(a, '--max') ?? 200)
-  if (e.art === 'zeilen') for (const z of e.zeilen.slice(0, max)) console.log(JSON.stringify(z))
-  if (e.art === 'zeilen' && e.zeilen.length > max) console.error(`… ${e.zeilen.length - max} weitere Zeilen (--max ${max})`)
+  const e = fuehreAus(kopie(a), sql, new Date(), max)
+  if (e.art === 'zeilen') for (const z of e.zeilen) console.log(JSON.stringify(z))
+  if (e.art === 'zeilen' && e.gesamt > max) console.error(`… ${e.gesamt - max} weitere Zeilen (--max ${max})`)
   console.error(fusszeile(e))
 }
 

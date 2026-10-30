@@ -24,10 +24,21 @@ export function alterStunden(stand, jetzt = new Date()) {
 
 const zeilenJeTabelle = (db) => Object.fromEntries(TABELLEN.map((t) => [t, db.prepare(`SELECT COUNT(*) AS n FROM ${t}`).get().n]))
 
-/** Ergebnis einer Abfrage: `zeilen` bei einer einzelnen SELECT-Anweisung, sonst `geaendert` und `differenz` je Tabelle. */
-function laufe(db, sql) {
+/** Liest streamend (kein `all()`: bei Millionen Zeilen sprengt es den Speicher); behält die ersten `max`, zählt den Rest. */
+function lies(stmt, max) {
+  const zeilen = []
+  let gesamt = 0
+  for (const z of stmt.iterate()) {
+    if (gesamt < max) zeilen.push(z)
+    gesamt++
+  }
+  return { zeilen, gesamt }
+}
+
+/** Ergebnis einer Abfrage: `zeilen` (höchstens `max`) samt `gesamt` bei einer einzelnen SELECT-Anweisung, sonst `geaendert` und `differenz` je Tabelle. */
+function laufe(db, sql, max) {
   const einzeln = istEinzeln(sql) ? db.prepare(sql) : null
-  if (einzeln && einzeln.columns().length > 0) return { art: 'zeilen', zeilen: einzeln.all() }
+  if (einzeln && einzeln.columns().length > 0) return { art: 'zeilen', ...lies(einzeln, max) }
   const vorher = zeilenJeTabelle(db)
   db.exec(sql)
   const nachher = zeilenJeTabelle(db)
@@ -35,7 +46,7 @@ function laufe(db, sql) {
   return { art: 'aenderung', geaendert: db.prepare('SELECT total_changes() AS n').get().n, differenz }
 }
 
-export function fuehreAus(kopie, sql, jetzt = new Date()) {
+export function fuehreAus(kopie, sql, jetzt = new Date(), max = Infinity) {
   const ordner = mkdtempSync(join(tmpdir(), 'meldungskopie-'))
   const arbeit = join(ordner, 'arbeit.sqlite')
   copyFileSync(kopie, arbeit)
@@ -43,7 +54,7 @@ export function fuehreAus(kopie, sql, jetzt = new Date()) {
   try {
     const stand = db.prepare('SELECT stand FROM kopie_stand').get().stand
     const t0 = performance.now()
-    const ergebnis = laufe(db, sql)
+    const ergebnis = laufe(db, sql, max)
     return { ...ergebnis, ms: Math.round(performance.now() - t0), stand, alterStunden: alterStunden(stand, jetzt) }
   } finally {
     db.close()
@@ -55,6 +66,6 @@ export function fuehreAus(kopie, sql, jetzt = new Date()) {
 export function fusszeile(e) {
   const alt = `Kopie vom ${e.stand} (vor ${e.alterStunden.toFixed(1)} h)`
   const warnung = e.alterStunden > STAND_MAX_STUNDEN ? ` — ÄLTER ALS ${STAND_MAX_STUNDEN} h: neue Kopie mit "holen" oder den Lauf meldungskopie.yml anstoßen` : ''
-  const was = e.art === 'zeilen' ? `${e.zeilen.length} Zeilen` : `${e.geaendert} Zeilen geändert, Differenz ${JSON.stringify(e.differenz)}`
+  const was = e.art === 'zeilen' ? `${e.gesamt} Zeilen` : `${e.geaendert} Zeilen geändert, Differenz ${JSON.stringify(e.differenz)}`
   return `${was} in ${e.ms} ms · ${alt}${warnung}`
 }
