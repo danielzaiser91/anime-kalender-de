@@ -120,6 +120,14 @@ console.log('\nStart mit Untertiteln liegt noch in der Zukunft')
   pruefe('„Mit Untertiteln ab 01.01.2999.“', w.textContent.includes('Mit Untertiteln ab 01.01.2999.'), w.textContent)
 }
 
+console.log('\nNennt keine Quelle die Synchro, gilt die erste')
+{
+  const nurLineup = { ...vermilion, ankuendigung: { ...vermilion.ankuendigung!, quellen: [LINEUP] } } as Title
+  const w = await rendere(nurLineup, OHNE)
+  const quelle = w.finde((k) => k.tagName === 'A' && k.textContent.startsWith('Quelle'))[0]
+  pruefe('die Quelle ist die erste (Lineup-Artikel)', quelle?.getAttribute('href') === LINEUP, quelle?.getAttribute('href'))
+}
+
 console.log('\nVermilion Mask: schon gemerkt')
 for (const [verbunden, hinweis] of [[true, 'Wir schreiben dir, sobald es einen Termin gibt.'], [false, 'Melde dich noch beim Newsletter an, dann sagen wir Bescheid.']] as const) {
   const w = await rendere(vermilion, OHNE, new Set([195571]), verbunden)
