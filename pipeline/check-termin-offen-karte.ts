@@ -105,9 +105,19 @@ console.log('\nVermilion Mask: Synchro angekündigt, Termin offen')
   pruefe('„Synchro-Termin offen“ steht nicht noch einmal als Nebenzeile', !text.includes('Synchro-Termin offen'), text)
   pruefe('der Knopf heißt „Bescheid bei Termin“', knopf(w)?.textContent.includes('Bescheid bei Termin') === true, knopf(w)?.textContent)
   pruefe('der Knopf ist noch nicht gedrückt', knopf(w)?.getAttribute('aria-pressed') === 'false')
+  const kasten = w.finde((k) => k.tagName === 'SECTION' && k.getAttribute('aria-label') === null)[0]
+  pruefe('der Kasten behält nur die Überschrift: keine Mindesthöhe', !!kasten && !(kasten.getAttribute('class') ?? '').includes('min-h-[11rem]'), kasten?.getAttribute('class'))
+  pruefe('Tippziele ≥ 44 px: Knopf und Quelle haben min-h-11', (knopf(w)?.getAttribute('class') ?? '').includes('min-h-11') && (quelle?.getAttribute('class') ?? '').includes('min-h-11'))
   const taste = knopf(w)
   if (taste) klicke(dom.wurzel, taste)
   pruefe('der Klick schaltet die Merkung des Titels (wie das ☆ im Kopf)', JSON.stringify(gemerkt) === '[195571]', gemerkt)
+}
+
+console.log('\nStart mit Untertiteln liegt noch in der Zukunft')
+{
+  const spaeter = { ...vermilion, ankuendigung: { ...vermilion.ankuendigung!, omuAb: '2999-01-01' } } as Title
+  const w = await rendere(spaeter, OHNE)
+  pruefe('„Mit Untertiteln ab 01.01.2999.“', w.textContent.includes('Mit Untertiteln ab 01.01.2999.'), w.textContent)
 }
 
 console.log('\nVermilion Mask: schon gemerkt')
