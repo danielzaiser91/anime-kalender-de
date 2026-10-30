@@ -9,7 +9,7 @@ import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
-import { checkStand, geteilteEntscheidungen, liegegut, main, mainCommits, naechsterSchritt, signaleEinzel, stillstandSignal, ueberholtTreffer, urteile } from './liegegut.mjs'
+import { checkStand, geteilteEntscheidungen, kopfZeitVon, kopfZeiten, liegegut, main, mainCommits, naechsterSchritt, signaleEinzel, stillstandSignal, ueberholtTreffer, urteile } from './liegegut.mjs'
 
 const fehler = []
 const pruefe = (name, ok, info) => {
@@ -226,6 +226,29 @@ const attrappeGit = (log = GIT_LOG, aufrufe = []) => (args) => {
   return log
 }
 
+console.log('liegegut: Kopf-Zeiten in einem Aufruf')
+{
+  const aufrufe = []
+  const einzeln = (args) => {
+    aufrufe.push(args.join(' '))
+    return '2026-10-01T08:00:00Z\n'
+  }
+  const sammel = (args) => (args[1] === 'graphql' ? `${KOPF} 2026-10-02T09:00:00Z\n${ALT} 2026-09-01T00:00:00Z\nkaputt\n` : einzeln(args))
+  const karte = kopfZeiten(sammel)
+  pruefe('Karte: zwei Köpfe, Zeile ohne Datum ignoriert', karte.size === 2 && karte.get(KOPF) === Date.parse('2026-10-02T09:00:00Z') && karte.get(ALT) === Date.parse('2026-09-01T00:00:00Z'), [...karte])
+  pruefe('Kopf in der Karte → Zeit aus der Karte, kein Einzelaufruf', kopfZeitVon(einzeln, { headRefOid: KOPF }, karte) === Date.parse('2026-10-02T09:00:00Z') && aufrufe.length === 0, aufrufe)
+  pruefe('Kopf nicht in der Karte → Commit-Schnittstelle', kopfZeitVon(einzeln, { headRefOid: 'b'.repeat(40) }, karte) === Date.parse('2026-10-01T08:00:00Z') && aufrufe.length === 1, aufrufe)
+  pruefe('Abruf wirft → leere Karte, kein Abbruch', kopfZeiten(() => { throw new Error('HTTP 502') }).size === 0)
+  const halb = kopfZeiten((args) => {
+    if (args[1] === 'graphql') throw new Error('nach Teilausgabe')
+    return ''
+  })
+  pruefe('Abruf wirft nach Ausgabe → Karte bleibt leer', halb.size === 0)
+  const alle = []
+  liegegut(attrappeGh([pr(1, { comments: [daniel(2, 'frisch')] }), pr(2, { comments: [daniel(2, 'frisch')] })], alle), attrappeGit(), JETZT)
+  pruefe('Gesamtlauf: genau ein graphql-Aufruf für alle PRs', alle.filter((x) => x.includes('graphql')).length === 1, alle)
+}
+
 console.log('liegegut: Signal 8 Stillstand (48 h)')
 {
   const still = (p, kopfStunden) => stillstandSignal(p, JETZT - kopfStunden * 3600 * 1000, JETZT)
@@ -237,6 +260,7 @@ console.log('liegegut: Signal 8 Stillstand (48 h)')
   pruefe('Review vor 5 h setzt zurück (Kopf und Kommentar alt)', still(pr(4, { comments: [daniel(60, 'Hinweis')], reviews: [{ submittedAt: h(5) }] }), 100).length === 0)
   pruefe('Review vor 49 h, Kopf 100 h → Signal 8 seit dem Review', still(pr(5, { reviews: [{ submittedAt: h(49) }] }), 100)[0]?.seit === JETZT - 49 * 3600 * 1000)
   pruefe('Kopf vor 5 h setzt zurück (Kommentar alt)', still(pr(6, { comments: [daniel(90, 'Hinweis')] }), 5).length === 0)
+  pruefe('offene Review ohne Zeitstempel (submittedAt fehlt) verdeckt den Stillstand nicht', still(pr(8, { reviews: [{ state: 'PENDING' }] }), 49).length === 1)
   pruefe('ohne reviews-Feld kein Absturz', still({ ...pr(7), reviews: undefined }, 49).length === 1)
   pruefe('nur Signal 8 → Schritt STILLSTAND, mit Signal 3 → NACHBESSERN', naechsterSchritt([8], [], false) === 'STILLSTAND' && naechsterSchritt([3, 8], [], false) === 'NACHBESSERN')
   const lauf = liegegut(attrappeGh([pr(11, { comments: [daniel(60, 'Hinweis')] })]), attrappeGit(), JETZT)

@@ -167,9 +167,33 @@ export function zeile(nr, schritt, texte, seit, treffer, geprueft) {
   return `PR ${nr}: ${schritt} – Signal ${texte.join('; ')} – seit ${zeitText(seit)}${probe}`
 }
 
+const KOEPFE_ABFRAGE = 'query($owner:String!,$name:String!){repository(owner:$owner,name:$name){pullRequests(states:OPEN,first:100){nodes{commits(last:1){nodes{commit{oid committedDate}}}}}}}'
+const KOEPFE_JQ = '.data.repository.pullRequests.nodes[].commits.nodes[].commit | "\\(.oid) \\(.committedDate)"'
+
+/** Commit-Zeiten aller offenen Köpfe in einem Aufruf (Kopf-Hash → ms); 30.10.2026: ein Aufruf je PR kostete 9 s in der Wachphase. Scheitert er, bleibt die Karte leer und jeder PR fragt einzeln. */
+export function kopfZeiten(ghFn) {
+  const karte = new Map()
+  try {
+    const args = ['api', 'graphql', '-F', 'owner={owner}', '-F', 'name={repo}', '-f', `query=${KOEPFE_ABFRAGE}`, '--jq', KOEPFE_JQ]
+    for (const zeile of ghFn(args).split('\n')) {
+      const [oid, datum] = zeile.trim().split(' ')
+      if (oid && !Number.isNaN(Date.parse(datum))) karte.set(oid, Date.parse(datum))
+    }
+  } catch {
+    karte.clear()
+  }
+  return karte
+}
+
+/** Commit-Zeit des Kopfs: aus der Karte, sonst über die Commit-Schnittstelle. */
+export function kopfZeitVon(ghFn, pr, karte) {
+  if (karte.has(pr.headRefOid)) return karte.get(pr.headRefOid)
+  return Date.parse(ghFn(['api', `repos/{owner}/{repo}/commits/${pr.headRefOid}`, '--jq', '.commit.committer.date']).trim())
+}
+
 /** Bewertet einen PR; null, wenn nichts auffällt, sonst { nr, signale: [{ nr, seit }], zeile }. */
-function bewertePr(ghFn, gitFn, pr, geteilt, jetzt) {
-  const kopfZeit = Date.parse(ghFn(['api', `repos/{owner}/{repo}/commits/${pr.headRefOid}`, '--jq', '.commit.committer.date']).trim())
+function bewertePr(ghFn, gitFn, pr, geteilt, jetzt, karte) {
+  const kopfZeit = kopfZeitVon(ghFn, pr, karte)
   if (Number.isNaN(kopfZeit)) throw new Error(`PR ${pr.number}: Kopf-Zeit nicht lesbar`)
   const signale = [...signaleEinzel(pr, kopfZeit, jetzt), ...stillstandSignal(pr, kopfZeit, jetzt)]
   const texte = signale.map((s) => `${s.nr} ${s.text}`)
@@ -193,7 +217,8 @@ export function liegegutFunde(ghFn, gitFn, jetzt) {
   const felder = 'number,title,headRefOid,createdAt,mergeable,mergeStateStatus,isDraft,body,comments,reviews,statusCheckRollup'
   const offen = JSON.parse(ghFn(['pr', 'list', '--state', 'open', '--limit', '100', '--json', felder])).filter((p) => !p.isDraft)
   const geteilt = geteilteEntscheidungen(offen)
-  return offen.map((pr) => bewertePr(ghFn, gitFn, pr, geteilt.get(pr.number), jetzt)).filter((f) => f !== null)
+  const karte = kopfZeiten(ghFn)
+  return offen.map((pr) => bewertePr(ghFn, gitFn, pr, geteilt.get(pr.number), jetzt, karte)).filter((f) => f !== null)
 }
 
 /** Dieselben Funde als Textzeilen. */

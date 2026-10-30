@@ -5,7 +5,7 @@ import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
-import { liegtZeile, meldeLiegt } from './liegegut.mjs'
+import { kopfZeiten, liegtZeile, meldeLiegt } from './liegegut.mjs'
 
 const fehler = []
 const pruefe = (name, ok, info) => {
@@ -47,10 +47,15 @@ console.log('liegt-wachphase: eigener Prozess laeufe-aufraeumen --trocken')
     reviews: [],
     statusCheckRollup: [],
   }
+  let graphqlSchluessel = ''
+  kopfZeiten((args) => {
+    graphqlSchluessel = args.join(' ')
+    return ''
+  })
   const liste = `pr list --state open --limit 100 --json ${FELDER}`
   const daten = {
     [liste]: { aus: JSON.stringify([still]) },
-    [`api repos/{owner}/{repo}/commits/${KOPF} --jq .commit.committer.date`]: { aus: `${vorStunden(100)}\n` },
+    [graphqlSchluessel]: { aus: `${KOPF} ${vorStunden(100)}\n` },
     'pr list --state open --limit 100 --json number,title,body,createdAt': { aus: '[]' },
   }
   const abruf = path.join(werk, 'abruf-abgelehnt.mjs')
