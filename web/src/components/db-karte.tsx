@@ -7,7 +7,7 @@ import { ueberschriftSagtStatus, type RelevanzArt } from '../lib/db-relevanz.ts'
 import { coverBild } from '../lib/cover.ts'
 import { istOhneBelegteSynchro } from '../lib/titel-sortierung.ts'
 import { teilbarerSlug } from '@shared/teilen.ts'
-import { titelSynchroAngekuendigt } from '@shared/ankuendigung.ts'
+import { ankuendigungGilt } from '@shared/ankuendigung.ts'
 import { FundstellenZeichen, TrefferName } from './Suchtreffer.tsx'
 import { FavoriteStar, FskBadge, HideEye, PlatformBadge, ShareIcon, StatusBadge, Tooltip } from './ui.tsx'
 
@@ -122,7 +122,7 @@ export function DbKarte({ main, members, data, today, grouped, favorites, hidden
           „ohne Synchro"-Band unten kollidiert; beides zugleich kommt
           vor.
         */}
-        <LinkeMarken main={main} angekuendigt={keinDub && members.some(titelSynchroAngekuendigt)} />
+        <LinkeMarken main={main} angekuendigt={keinDub && members.some((m) => ankuendigungGilt(m, data.releasesByTitle.get(m.id) ?? []))} />
         {keinDub && (
           <span className="absolute inset-x-0 bottom-0 bg-slate-900/80 px-1.5 py-1 text-center text-[10px] font-semibold uppercase tracking-wide text-slate-200 backdrop-blur-[1px]">
             {t(members.every((m) => erscheintErst(m, today)) ? 'geplant.marke' : 'db.noDubBadge')}
