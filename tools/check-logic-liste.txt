@@ -158,6 +158,8 @@ pipeline/check-folgen-datum.ts
 pipeline/check-folgen-erschienen-je-weg.ts
 pipeline/check-folgen-fremde-adressen-lauf.ts
 pipeline/check-folgen-fremde-adressen.ts
+pipeline/check-folgen-nummern-lauf.ts
+pipeline/check-folgen-nummern.ts
 pipeline/check-folgenblock.ts
 pipeline/check-folgenflaggen.ts
 pipeline/check-folgenzahl-belegt.ts
