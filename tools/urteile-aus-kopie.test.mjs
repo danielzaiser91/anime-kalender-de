@@ -11,10 +11,15 @@ import { DatabaseSync } from 'node:sqlite'
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { EINGABEN, antworte, d1Attrappe, filtere, legeWurzelAn, vergleiche, zaehle } from './urteile-aus-kopie.mjs'
+import { EINGABEN, antworte, d1Attrappe, filtere, oeffneKopie, vergleiche, zaehle } from './urteile-aus-kopie.mjs'
 
 const TOOL = join(dirname(fileURLToPath(import.meta.url)), 'urteile-aus-kopie.mjs')
 const ordner = mkdtempSync(join(tmpdir(), 'urteile-kopie-test-'))
+/* Aufräumen auch bei fehlgeschlagener Zusicherung (der Exit-Handler läuft in beiden Fällen). */
+process.on('exit', () => rmSync(ordner, { recursive: true, force: true }))
+/* Die Kindläufe bekommen einen eigenen Temp-Ordner: parallele Läufe anderer Tests zählen nicht mit. */
+const eigenesTmp = join(ordner, 'tmp')
+mkdirSync(eigenesTmp)
 const schreibe = (pfad, text) => {
   mkdirSync(dirname(pfad), { recursive: true })
   writeFileSync(pfad, text)
@@ -74,8 +79,19 @@ const k = new DatabaseSync(kopie)
 k.exec("CREATE TABLE m (id INTEGER, adresse TEXT, urteil TEXT); INSERT INTO m VALUES (1,'111','deutsch'),(2,'222','kein deutsch'),(3,'333','deutsch')")
 k.close()
 
-const fahre = (...args) => spawnSync(process.execPath, [TOOL, ...args], { encoding: 'utf8', windowsHide: true })
-const wurzeln = () => readdirSync(tmpdir()).filter((n) => n.startsWith('urteile-kopie-') && n !== ordner.split(/[\\/]/).pop())
+const fahre = (...args) =>
+  spawnSync(process.execPath, [TOOL, ...args], {
+    encoding: 'utf8',
+    windowsHide: true,
+    env: { ...process.env, TMPDIR: eigenesTmp, TEMP: eigenesTmp, TMP: eigenesTmp },
+  })
+const wurzeln = () => readdirSync(eigenesTmp).filter((n) => n.startsWith('urteile-kopie-'))
+
+/* Schreibschutz: die geöffnete Kopie lehnt ein INSERT ab und bleibt unverändert. */
+const geschuetzt = await oeffneKopie(kopie)
+assert.throws(() => geschuetzt.prepare("INSERT INTO m VALUES (4,'444','deutsch')").run(), /readonly/i)
+assert.equal(geschuetzt.prepare('SELECT count(*) AS n FROM m').get().n, 3)
+geschuetzt.close()
 
 const vor = wurzeln().length
 const lauf = fahre('--baum', baum, '--kopie', kopie)
@@ -94,6 +110,9 @@ const mitVergleich = fahre('--baum', baum, '--kopie', kopie, '--vergleich', vglD
 assert.equal(mitVergleich.status, 0, mitVergleich.stderr)
 assert.match(mitVergleich.stderr, /gegen Vergleich: 3 neu, 1 weg, 1 anders/)
 assert.equal(Object.keys(JSON.parse(readFileSync(join(ordner, 'aus.json'), 'utf8'))).length, 4)
+assert.match(mitVergleich.stderr, /^ {2}anders: 111\|primevideo\|1$/m)
+assert.match(mitVergleich.stderr, /^ {2}weg: 7\|adn\|1$/m)
+assert.match(mitVergleich.stderr, /^ {2}neu: 222\|primevideo\|1$/m)
 
 /* Fehlerfälle: laut statt still. */
 const ohneKopie = fahre('--baum', baum, '--kopie', join(ordner, 'gibt-es-nicht.sqlite'))
@@ -111,5 +130,4 @@ assert.notEqual(absturz.status, 0)
 assert.match(absturz.stderr, /fetch-urteile endete mit 1/)
 assert.equal(wurzeln().length, vor, 'Wegwerf-Wurzel nach Absturz liegen geblieben')
 
-rmSync(ordner, { recursive: true, force: true })
-console.log('urteile-aus-kopie.test: ok (Filter, Vergleich, Zählung, Seiten aus der Kopie, Wegwerf-Wurzel, 3 Fehlerfälle)')
+console.log('urteile-aus-kopie.test: ok (Filter, Vergleich, Zählung, Seiten aus der Kopie, Schreibschutz, Differenzzeilen, Wegwerf-Wurzel, 3 Fehlerfälle)')

@@ -56,10 +56,15 @@ export function d1Attrappe(db) {
   return { prepare: (sql) => anweisung(sql) }
 }
 
+/** Öffnet die Meldungskopie nur lesend. */
+export async function oeffneKopie(kopie) {
+  const { DatabaseSync } = await import('node:sqlite')
+  return new DatabaseSync(kopie, { readOnly: true })
+}
+
 /** Setzt `fetch` so, dass der Urteilslauf seine Seiten aus der Kopie bekommt. Gibt die Zahl der beantworteten Abrufe zurück (Funktion). */
 export async function vorladen(baum, kopie) {
-  const { DatabaseSync } = await import('node:sqlite')
-  const env = { DB: d1Attrappe(new DatabaseSync(kopie, { readOnly: true })) }
+  const env = { DB: d1Attrappe(await oeffneKopie(kopie)) }
   const lade = (datei) => import(pathToFileURL(join(baum, 'worker', 'src', datei)).href)
   const funktionen = { ...(await lade('titelzeile-lesen.ts')), ...(await lade('rohfolgen-seiten.ts')) }
   let abrufe = 0
