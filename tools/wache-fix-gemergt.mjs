@@ -3,11 +3,11 @@
  * (`recordSource('<name>', …)` in `pipeline/`) oder einen Workflow berührt, der diesen aufruft, steht der nächste Lauf aus.
  * Gemeldet wird nur die Änderung, kein Fix: ein Workflow startet viele Skripte. Der Alarm bleibt, nur der Zusatz kommt dazu.
  */
-import { execFileSync } from 'node:child_process'
+import { mitLimit } from './kind-mit-limit.mjs'
 import { readdirSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 
-const git = (wurzel, ...a) => execFileSync('git', a, { cwd: wurzel, encoding: 'utf8', maxBuffer: 8 << 20, windowsHide: true })
+const git = (wurzel, ...a) => mitLimit('git', a, { cwd: wurzel, encoding: 'utf8', maxBuffer: 8 << 20 })
 const maskiert = (text) => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 
 /** Dateien unter `pipeline/`, die `recordSource('<name>', …)` aufrufen. */

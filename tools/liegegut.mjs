@@ -4,9 +4,8 @@
  * Abruffehler (nie stilles „nichts gefunden“). Aufruf: node tools/liegegut.mjs
  * Signale und Anlass: daniel-zum-abarbeiten/berichte/liegegut-2026-10-21.md (PR 1676 lag freigegeben und grün 20.10. bis 21.10.).
  */
-import { execFileSync } from 'node:child_process'
+import { mitLimit } from './kind-mit-limit.mjs'
 import { pathToFileURL } from 'node:url'
-import { gh } from './pr-nachrechnen.mjs'
 
 const STUNDE = 3600 * 1000
 // Schwellen (Stand 21.10.2026, aus dem Liegegut-Bericht der 13 PRs vom 21.10.: kürzer meldet bei normalem Prüfer-Takt Fehlalarm).
@@ -192,8 +191,12 @@ function probeFuer(ghFn, gitFn, pr) {
   return ueberholtTreffer(pr.title, dateien, mainCommits(log))
 }
 
+export function gh(args) {
+  return mitLimit('gh', args, { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 })
+}
+
 export function git(args) {
-  return execFileSync('git', args, { encoding: 'utf8', windowsHide: true, maxBuffer: 64 * 1024 * 1024 })
+  return mitLimit('git', args, { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 })
 }
 
 /** Startlogik: Fehler als Exit 2, Funde als Exit 0. */

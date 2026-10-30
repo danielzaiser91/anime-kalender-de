@@ -22,7 +22,7 @@
  *     setzt genau diesen roten Verlaufseintrag auf erledigt (geprüft und behoben, der grüne Nachfolger steht noch aus);
  *     die Notiz ist Pflicht, die Lauf-ID steht in `<Worker>?verlauf=<Art>` (Feld lauf_id).
  */
-import { execFileSync } from 'node:child_process'
+import { mitLimit, LIMIT_STAPEL_MS } from './kind-mit-limit.mjs'
 import { erledigtArgumente, findeRotenLauf, holeLaeufe, holeVerlauf, letzteDatenAenderung, roteArten, stillstand, STILLSTAND_GRENZE_STUNDEN } from './laeufe-abruf.mjs'
 import { rotAlarmText } from './bestand-rot-alarm.mjs'
 import { meldeRoteSammlerPrs } from './rote-sammler-prs.mjs'
@@ -41,7 +41,7 @@ const TROCKEN = args.includes('--trocken')
 const AUCH_GITHUB = args.includes('--auch-github')
 const TOKEN = process.env.LAUF_TOKEN
 
-const gh = (...a) => execFileSync('gh', a, { encoding: 'utf8', maxBuffer: 8 << 20 })
+const gh = (...a) => mitLimit('gh', a, { encoding: 'utf8', maxBuffer: 8 << 20 })
 
 /** Der eine vorhandene Schreibweg zum Worker: Zustand `erledigt` mit Notiz. */
 async function setzeErledigt(laufId, notiz) {
@@ -122,7 +122,7 @@ function weichSpeicher() {
 
 /** Alle gh-Aufrufe einer Liste parallel in einem Kindprozess (`tools/gh-stapel.mjs`). */
 const ghStapel = (liste) =>
-  JSON.parse(execFileSync(process.execPath, [fileURLToPath(new URL('./gh-stapel.mjs', import.meta.url))], { input: JSON.stringify(liste), encoding: 'utf8', maxBuffer: 256 << 20, windowsHide: true }))
+  JSON.parse(mitLimit(process.execPath, [fileURLToPath(new URL('./gh-stapel.mjs', import.meta.url))], { input: JSON.stringify(liste), encoding: 'utf8', maxBuffer: 256 << 20 }, { limitMs: LIMIT_STAPEL_MS }))
 
 async function main() {
   // Ein roter Sammler-Fund lässt den Lauf grün; er bleibt als PR liegen und muss hier auffallen (tools/rote-sammler-prs.mjs).
@@ -196,4 +196,9 @@ async function laeufePruefen(erledigt) {
   console.log(`\n${abgenommen} abgenommen${TROCKEN ? ' (trocken)' : ''}, ${gelassen} bleiben sichtbar`)
 }
 
-await main()
+try {
+  await main()
+} catch (fehler) {
+  // Ein Zeitlimit (tools/kind-mit-limit.mjs) wird zur klaren Zeile statt zum Stacktrace.
+  fehlerAbbruch(String(fehler.message).startsWith('FEHLER:') ? fehler.message : fehler.stack)
+}
