@@ -57,7 +57,7 @@ const sauber = {
   'tools/lauf.sh': '#!/bin/bash\nnode tools/start.mjs\n',
 }
 
-function lauf(name, dateien, workflowText) {
+function lauf(dateien, workflowText) {
   const wurzel = kulisse({ ...sauber, ...dateien, '.github/workflows/w.yml': workflowText })
   try {
     return pruefeAlle(join(wurzel))
@@ -66,10 +66,10 @@ function lauf(name, dateien, workflowText) {
   }
 }
 
-assert.deepEqual(lauf('sauber', {}, nurNode).fehler, [], 'paketfreie Kette ist in Ordnung')
+assert.deepEqual(lauf({}, nurNode).fehler, [], 'paketfreie Kette ist in Ordnung')
 
 // Anlassfall: das Fremdpaket steckt zwei Ebenen tief in einer .ts-Datei.
-const tief = lauf('tief', { 'pipeline/lib/b.ts': "import yaml from 'js-yaml'\nexport const b = yaml\n" }, nurNode)
+const tief = lauf({ 'pipeline/lib/b.ts': "import yaml from 'js-yaml'\nexport const b = yaml\n" }, nurNode)
 assert.equal(tief.fehler.length, 1)
 assert.match(tief.fehler[0], /^w\.yml \(j\): tools\/start\.mjs braucht js-yaml ohne npm ci: tools\/start\.mjs -> pipeline\/lib\/a\.ts -> pipeline\/lib\/b\.ts$/)
 
@@ -81,31 +81,36 @@ for (const [name, text] of [
   ['seiteneffekt', "import 'js-yaml'\nexport const b = 1\n"],
   ['unterpfad', "import x from 'js-yaml/lib/x.js'\nexport const b = x\n"],
 ]) {
-  const r = lauf(name, { 'pipeline/lib/b.ts': text }, nurNode)
+  const r = lauf({ 'pipeline/lib/b.ts': text }, nurNode)
   assert.equal(r.fehler.length, 1, `${name}: genau ein Fund`)
   assert.match(r.fehler[0], /js-yaml/, name)
 }
 
 // Dasselbe Paket an zwei Stellen der Kette: eine Meldung.
-const doppelt = lauf('doppelt', { 'pipeline/lib/b.ts': "import 'js-yaml'\nexport const b = 1\n", 'pipeline/lib/a.ts': "import 'js-yaml'\nimport { b } from './b.ts'\nexport const a = b\n" }, nurNode)
+const doppelt = lauf({ 'pipeline/lib/b.ts': "import 'js-yaml'\nexport const b = 1\n", 'pipeline/lib/a.ts': "import 'js-yaml'\nimport { b } from './b.ts'\nexport const a = b\n" }, nurNode)
 assert.equal(doppelt.fehler.length, 1)
 
 // Fremdpaket im Startskript selbst, und Zyklus in der Kette hängt nicht.
-assert.equal(lauf('start', { 'tools/start.mjs': "import 'js-yaml'\n" }, nurNode).fehler.length, 1)
-assert.deepEqual(lauf('zyklus', { 'pipeline/lib/b.ts': "import { a } from './a.ts'\nexport const b = a\n" }, nurNode).fehler, [])
+assert.equal(lauf({ 'tools/start.mjs': "import 'js-yaml'\n" }, nurNode).fehler.length, 1)
+assert.deepEqual(lauf({ 'pipeline/lib/b.ts': "import { a } from './a.ts'\nexport const b = a\n" }, nurNode).fehler, [])
 
 // Versorgung: `npm ci` davor oder eine lokale Aktion mit `npm ci` erlaubt Pakete; `npm ci` erst danach nicht.
 const yamlB = { 'pipeline/lib/b.ts': "import yaml from 'js-yaml'\nexport const b = yaml\n" }
-assert.deepEqual(lauf('install', yamlB, mitInstall).fehler, [])
-assert.deepEqual(lauf('aktion', yamlB, mitAktion).fehler, [])
-assert.equal(lauf('danach', yamlB, installDanach).fehler.length, 1, 'npm ci nach dem Schritt schützt ihn nicht')
+assert.deepEqual(lauf(yamlB, mitInstall).fehler, [])
+assert.deepEqual(lauf(yamlB, mitAktion).fehler, [])
+assert.equal(lauf(yamlB, installDanach).fehler.length, 1, 'npm ci nach dem Schritt schützt ihn nicht')
+
+// Im selben `run`: ein Aufruf vor `npm ci` ist ungeschützt, einer danach geschützt.
+const gleicherRun = (text) => workflow(`      - run: ${text}`)
+assert.equal(lauf(yamlB, gleicherRun('node tools/start.mjs && npm ci')).fehler.length, 1)
+assert.deepEqual(lauf(yamlB, gleicherRun('npm ci && node tools/start.mjs')).fehler, [])
 
 // Aufruf über ein Shell-Skript wird mitgelesen.
-assert.equal(lauf('shell', yamlB, ueberShell).fehler.length, 1)
-assert.deepEqual(lauf('shell sauber', {}, ueberShell).fehler, [])
+assert.equal(lauf(yamlB, ueberShell).fehler.length, 1)
+assert.deepEqual(lauf({}, ueberShell).fehler, [])
 
 // Eine fehlende Importdatei ist ein Fund („?“), kein stilles Überspringen.
-const fehlt = lauf('fehlt', { 'pipeline/lib/b.ts': "import { x } from './gibt-es-nicht.ts'\nexport const b = x\n" }, nurNode)
+const fehlt = lauf({ 'pipeline/lib/b.ts': "import { x } from './gibt-es-nicht.ts'\nexport const b = x\n" }, nurNode)
 assert.equal(fehlt.fehler.length, 1)
 assert.match(fehlt.fehler[0], /braucht \?/)
 

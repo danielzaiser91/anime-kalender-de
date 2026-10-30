@@ -6,8 +6,10 @@
  * `bestand-delta.ts` zog `delta-pruefen.mjs` es mit: ERR_MODULE_NOT_FOUND, die Wache war seit dem 29.10. blind (Lauf 41069357224).
  *
  * Gemessen wird der Syntaxbaum-Leser von TypeScript (`preProcessFile`, erkennt auch `require` und `import()` mit Literal),
- * nicht ein Regex auf Rohtext. Ein Schritt mit `npm ci`/`npm install` im selben `run` oder davor im selben Job gilt als
- * versorgt. Skripte werden aus `node`/`tsx`/`npx tsx` und aus aufgerufenen `.sh`-Dateien gelesen.
+ * nicht ein Regex auf Rohtext. Ab einem `npm ci`/`npm install` (im `run` ab dieser Stelle, davor im Job oder über eine
+ * lokale Aktion) gilt der Job als versorgt; Aufrufe davor, auch im selben `run`, werden geprüft. Skripte werden aus
+ * `node`/`tsx`/`npx tsx` und aus aufgerufenen `.sh`-Dateien gelesen.
+ * Bekannte Grenzen: `npm run <skript>` und `node -e` werden nicht verfolgt, ebenso kein Skriptname aus einer Shell-Variable.
  */
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { builtinModules } from 'node:module'
@@ -102,13 +104,14 @@ export function ungeschuetzteSkripte(wurzel, job) {
     if (installiertAktion(wurzel, schritt.uses)) return [...skripte]
     const run = schritt.run
     if (!run) continue
-    if (INSTALL.test(run)) return [...skripte]
-    const { skripte: direkt, shells } = aufrufeAusRun(run)
+    const install = INSTALL.exec(run)
+    const { skripte: direkt, shells } = aufrufeAusRun(install ? run.slice(0, install.index) : run)
     direkt.forEach((s) => skripte.add(s))
     for (const sh of shells) {
       const pfad = resolve(wurzel, sh)
       if (existsSync(pfad)) aufrufeAusRun(readFileSync(pfad, 'utf8')).skripte.forEach((s) => skripte.add(s))
     }
+    if (install) return [...skripte]
   }
   return [...skripte]
 }
