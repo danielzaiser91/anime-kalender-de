@@ -491,26 +491,28 @@ async function holeNeueSerien(): Promise<void> {
   log(`ADN: ${shows.length} neue Serien mit deutscher Fassung im Katalog: ${shows.map((s) => s.title).join('; ')}`)
 }
 
+/** Ein Durchgang `--laufend`: laufende Serien auffrischen, dann Neuzugänge der Liste holen. */
+async function laufendLauf(): Promise<void> {
+  const ids = laufendeSerien()
+  if (!ids.length) warn('Keine laufende Serie gefunden — bitte zuerst mit --catalog laufen lassen.')
+  log(`ADN: ${ids.length} laufende Serien werden aufgefrischt…`)
+  let geaendert = 0
+  for (const showId of ids) {
+    const { videos, abbruch } = await ladeSerie(showId)
+    if (abbruch || !videos.length) {
+      warn(`ADN ${showId}: kein Ergebnis (${abbruch ?? 'leer'}) — alter Stand bleibt stehen.`)
+      continue
+    }
+    if (archiviereSerie(showId, videos)) geaendert++
+    await sleep(700)
+  }
+  log(`ADN: ${geaendert} von ${ids.length} laufenden Serien aufgefrischt`)
+  await holeNeueSerien()
+}
+
 async function main(): Promise<void> {
   await holeAdnNews()
-  if (args.includes('--laufend')) {
-    const ids = laufendeSerien()
-    if (!ids.length) warn('Keine laufende Serie gefunden — bitte zuerst mit --catalog laufen lassen.')
-    log(`ADN: ${ids.length} laufende Serien werden aufgefrischt…`)
-    let geaendert = 0
-    for (const showId of ids) {
-      const { videos, abbruch } = await ladeSerie(showId)
-      if (abbruch || !videos.length) {
-        warn(`ADN ${showId}: kein Ergebnis (${abbruch ?? 'leer'}) — alter Stand bleibt stehen.`)
-        continue
-      }
-      if (archiviereSerie(showId, videos)) geaendert++
-      await sleep(700)
-    }
-    log(`ADN: ${geaendert} von ${ids.length} laufenden Serien aufgefrischt`)
-    await holeNeueSerien()
-    return
-  }
+  if (args.includes('--laufend')) return laufendLauf()
   if (args.includes('--refresh')) {
     const shows = await refreshCatalog()
     if (!shows.length) return
