@@ -1,6 +1,6 @@
 /**
- * **Vor dem ersten deutschen Termin sagt der Kasten, wann es losgeht** (Daniel, 29.10.2026, Variante A der Bühne
- * `antwortkasten-vorstart`): „Vol. 1 (Folgen 1–4) erscheint am 06.11.2026“ bzw. „Die erste Folge mit deutscher Synchro erscheint
+ * **Vor dem ersten deutschen Termin sagt der Kasten, wann es losgeht** (Daniel, 29.10.2026):
+ * „Vol. 1 (Folgen 1–4) erscheint am 06.11.2026“ bzw. „Die erste Folge mit deutscher Synchro erscheint
  * voraussichtlich am 20.10.2026“ statt „Auf Deutsch, ≈ 12 Folgen“ über „0 von 12 Folgen erschienen“. Der Satz ist die ganze
  * Überschrift: keine Nebenzeile, keine Zählzeile, kein leerer Balken.
  */
