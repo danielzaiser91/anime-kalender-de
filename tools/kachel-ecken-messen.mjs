@@ -174,7 +174,7 @@ export function messwocheAbbruch(woche) {
 }
 
 /** Datenstand (`generatedAt` aus `data/meta.json`) des gebauten dist/ oder der Live-Seite; sonst ein Fehlertext. */
-async function lieseDatenstand() {
+export async function lieseDatenstand() {
   if (LIVE) return liveDatenstand(LIVE)
   try {
     return { erzeugt: JSON.parse(await readFile(path.join(DIST, 'data', 'meta.json'), 'utf8')).generatedAt }

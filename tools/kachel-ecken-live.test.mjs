@@ -84,7 +84,7 @@ assert.equal(angefragt, `${B}/data/meta.json`, 'meta.json der Live-Adresse')
 
 // Seite: Service Worker gesperrt, Handler eingehängt (das Werkzeug liest `--live` beim Laden).
 process.argv.push('--live', B)
-const { neueSeite } = await import('./kachel-ecken-messen.mjs')
+const { lieseDatenstand, neueSeite } = await import('./kachel-ecken-messen.mjs')
 const optionen = []
 const routen = []
 const browser = {
@@ -103,6 +103,23 @@ assert.equal(a.log[0][1].body, ERSATZ_SVG, 'der eingehängte Handler ersetzt fre
 a = attrappe(`${B}/assets/app.js`)
 await routen[1][1](a.route)
 assert.deepEqual(a.log, [['continue']], 'der eingehängte Handler reicht Eigenes durch')
+a = attrappe(`${B}/data/events.json`, '[{"a": 1}]')
+await routen[1][1](a.route)
+assert.equal(a.log[1][1].body, '[{"a":1}]', 'events.json läuft durch die Saal-Kulisse (neu serialisiert, nicht der rohe Körper)')
+
+// Datenstand der Messwoche kommt im Live-Modus von der Live-Adresse, nicht aus dist/.
+const echterAbruf = globalThis.fetch
+const abgerufen = []
+globalThis.fetch = async (u) => {
+  abgerufen.push(u)
+  return { ok: true, status: 200, json: async () => ({ generatedAt: '2026-10-30T20:33:47.793Z' }) }
+}
+try {
+  assert.deepEqual(await lieseDatenstand(), { erzeugt: '2026-10-30T20:33:47.793Z' }, 'Datenstand der Live-Seite')
+} finally {
+  globalThis.fetch = echterAbruf
+}
+assert.deepEqual(abgerufen, [`${B}/data/meta.json`], 'genau ein Abruf, an der Live-Adresse')
 
 // Prozess: Live braucht kein dist/ und keine Quellen; ohne --live endet derselbe Aufruf mit „dist/ fehlt“. Die Messung kommt aus einer Datei (kein Browser).
 const quelle = path.dirname(fileURLToPath(import.meta.url))
