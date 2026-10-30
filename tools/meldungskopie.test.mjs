@@ -140,6 +140,11 @@ assert.equal(zaehle(basis, 'prime_folge'), 3)
 assert.equal(zaehle(basis, 'titel_zeile'), 1)
 const update = fuehreAus(basis, "WITH n(i) AS (SELECT 1) UPDATE prime_folge SET uebernommen = 1 WHERE id IN (SELECT i FROM n)", jetzt)
 assert.deepEqual([update.art, update.geaendert], ['aenderung', 1])
+// Nur Kommentar, leer oder `;`: klare Meldung statt "statement has been finalized" (nachgestellt 30.10.2026 mit "-- nur kommentar").
+for (const leer of ['-- nur kommentar', '/* x */', '  ', ';', '-- a\n;']) {
+  assert.throws(() => fuehreAus(basis, leer, jetzt), /Keine SQL-Anweisung/, leer)
+}
+assert.equal(fuehreAus(basis, "SELECT ';' AS x -- ende", jetzt).gesamt, 1)
 
 /* ---- Stand: 36 Stunden sind noch frisch, danach steht die Warnung in der Fußzeile ---- */
 const alt = (stunden) => fuehreAus(basis, 'SELECT 1 AS x', new Date(Date.parse(stand) + stunden * 3_600_000))
