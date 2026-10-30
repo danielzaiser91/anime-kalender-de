@@ -201,6 +201,7 @@ pipeline/check-kanal-erbt.ts
 pipeline/check-kanal-ja-sprach-termin.ts
 pipeline/check-kanal-je-seite.ts
 pipeline/check-kanal-leser.ts
+pipeline/check-kanal-merkliste-gesperrt-lauf.ts
 pipeline/check-kanal-merkliste.ts
 pipeline/check-kanal-messung.ts
 pipeline/check-kanal-verlust.ts
