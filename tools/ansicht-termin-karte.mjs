@@ -11,6 +11,7 @@ import path from 'node:path'
 import { lageFehler, pixelFehler } from './termin-karte-urteil.mjs'
 
 const BREITE = 360
+const HOEHE = 800
 const RAND = 6
 const KARTE = 'section[aria-label="Termin offen"]'
 export const PROBE_ID = 990002
@@ -68,13 +69,15 @@ function lage(karteSel) {
 /** Misst einen Zustand; `lesePixel` liest Pixel aus einem PNG (läuft im Browser). Liefert die Fehlertexte. */
 async function messe(seite, lesePixel, name) {
   const karte = seite.locator(KARTE).first()
-  await karte.scrollIntoViewIfNeeded()
+  /* Mitte des Fensters: am Rand läge der Ausschnitt mit dem Grund unter der Karte außerhalb des Bildes (CI 15:07: Pixel „schwarz“). */
+  await karte.evaluate((e) => e.scrollIntoView({ block: 'center' }))
   await seite.waitForTimeout(400)
   const z = await seite.evaluate(lage, KARTE)
   const x = Math.round(z.karte.l)
   const y = Math.round(z.karte.t)
   const w = Math.round(z.karte.r - z.karte.l)
   const h = Math.round(z.karte.b - z.karte.t)
+  if (y - RAND < 0 || y + h + RAND > HOEHE) return [`${name}: Karte liegt am Fensterrand (${y}–${y + h} von ${HOEHE} px), Ausschnitt nicht messbar`]
   const png = (await seite.screenshot({ clip: { x: x - RAND, y: y - RAND, width: w + 2 * RAND, height: h + 2 * RAND } })).toString('base64')
   const mx = RAND + Math.round(w / 2)
   const unten = RAND + h
@@ -97,7 +100,7 @@ export async function meldeTerminKarte({ chromium, antworte, dist, lesePixel }) 
   const browser = await chromium.launch()
   const fehler = []
   for (const thema of ['dunkel', 'hell']) {
-    const kontext = await browser.newContext({ viewport: { width: BREITE, height: 800 }, isMobile: true, hasTouch: true, colorScheme: thema === 'dunkel' ? 'dark' : 'light' })
+    const kontext = await browser.newContext({ viewport: { width: BREITE, height: HOEHE }, isMobile: true, hasTouch: true, colorScheme: thema === 'dunkel' ? 'dark' : 'light' })
     const seite = await kontext.newPage()
     await seite.route('**/*', mitProbe(antworte, dist))
     await seite.goto(`http://ak.test/#/datenbank?t=${PROBE_ID}`, { waitUntil: 'networkidle' })
