@@ -44,6 +44,7 @@ pipeline/check-anisearch-sprecher.ts
 pipeline/check-ankuendigung-news.ts
 pipeline/check-ankuendigung-sichtbar.ts
 pipeline/check-antwort-jetzt.ts
+pipeline/check-antwort-vorstart.ts
 pipeline/check-auf-deutsch-vorstart.ts
 pipeline/check-ausgeblieben-text.ts
 pipeline/check-auto-disc-handeintrag.ts

@@ -17,6 +17,7 @@ import { deSeitZeigen } from './de-seit.ts'
 import { ausgebliebenTerminText, kostenlosKopfVon } from './kasten-texte.ts'
 import { folgenKopf, laeuftNeben } from './antwort-block.ts'
 import { discKopf } from './antwort-disc-kopf.ts'
+import { vorstartSatz } from './antwort-vorstart.ts'
 
 /** Pillenreihe: 8 px zwischen den Pillen, 16 px zwischen den Zeilen (Platz für die Blase), 8 px über der ersten. */
 const PILLEN_REIHE = 'flex flex-wrap items-start gap-x-2 gap-y-4 pt-2'
@@ -362,6 +363,8 @@ export function AntwortKasten({
           </>
         )
       : ''
+    const vorstart = vorstartSatz(antwort, Boolean(ohneSprachbeleg))
+    if (vorstart) [haupt, neben, anteil, zaehl] = [vorstart, '', undefined, '']
   } else if (antwort.art === 'teilweise') {
     /*
       **Teilweise synchronisiert — die Zahl statt „alle".**
@@ -409,8 +412,9 @@ export function AntwortKasten({
       : undefined
     zaehl = ''
   } else if (antwort.art === 'disc') {
-    haupt = discKopf(antwort, today, T)
-    neben = T('antwort.discNeben')
+    const vorstart = vorstartSatz(antwort, false)
+    haupt = vorstart ?? discKopf(antwort, today, T)
+    neben = vorstart ? '' : T('antwort.discNeben')
     zaehl = ''
     /*
       Statt eines Balkens die drei Angaben, die es zu einer Disc wirklich gibt.

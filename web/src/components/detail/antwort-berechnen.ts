@@ -4,6 +4,7 @@ import { dubAbdeckung } from '@shared/dub-grenze.ts'
 import { type Title, type Release } from '@shared/types.ts'
 import { ausgebliebenBis } from './antwort-kasten.tsx'
 import { belegteBereiche, zaehleErschienenJeAnbieter, ohneSchonErschienene, istBelegtAbgeschlossen, deutschBegonnen, gesamtGeschaetzt, angekuendigteLaenge, fertigAntwort, kopfReleases } from './antwort-regeln.ts'
+import { bandAngaben } from './antwort-vorstart.ts'
 import { filmTermine } from './film-termine.ts'
 import { restUndBlock } from './antwort-block.ts'
 import { jpErschienen, KINO_LAND } from './kino.tsx'
@@ -277,6 +278,7 @@ export function berechneAntwort({ title, releases, today, jetzt }: AntwortEingab
         publisher: quelle?.publisher,
         edition: quelle?.edition,
         baende: baende.length > 1 ? baende : undefined,
+        ...bandAngaben(quelle, title),
       }
     }
     /*
