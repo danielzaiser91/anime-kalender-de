@@ -2,7 +2,7 @@
   "verbrauch": {
     "2026-08": 55,
     "2026-09": 68,
-    "2026-10": 95
+    "2026-10": 97
   },
   "gesehen": {
     "26341901:netflix": {
@@ -9393,7 +9393,18 @@
       "am": "2026-10-28",
       "deutsch": true,
       "deutschBeiDienst": true
+    },
+    "new:24862426:netflix": {
+      "art": "new",
+      "titel": "Balaraw: Blood Island",
+      "originalTitel": "Balaraw",
+      "imdbId": "tt39751377",
+      "tmdbId": "tv/313699",
+      "dienst": "netflix",
+      "am": "2026-10-29",
+      "deutsch": false,
+      "deutschBeiDienst": false
     }
   },
-  "fetchedAt": "2026-10-29T04:11:20.821Z"
+  "fetchedAt": "2026-10-30T04:10:22.100Z"
 }

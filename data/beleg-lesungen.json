@@ -280,7 +280,7 @@
     ]
   },
   "https://www.anime2you.de/news/1027799/jojo-steel-ball-run-fortsetzung-netflix-termin/": {
-    "zuletzt": "2026-10-22",
+    "zuletzt": "2026-10-30",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -348,6 +348,24 @@
         ],
         "bild": "www.anime2you.de/aa58cbd60ed6b19e/2026-10-22-4fb4603478d9e8cd.webp",
         "text": "www.anime2you.de/aa58cbd60ed6b19e/2026-10-22-4fb4603478d9e8cd.txt.gz"
+      },
+      {
+        "am": "2026-10-30",
+        "hash": "00091b871bf05cdf",
+        "hf": 2,
+        "veroeffentlicht": "2026-07-04",
+        "aktualisiert": "2026-07-06",
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.4175168275079069,
+          0.8942307692307693,
+          0.218863028140459
+        ],
+        "bild": "www.anime2you.de/aa58cbd60ed6b19e/2026-10-30-00091b871bf05cdf.webp",
+        "text": "www.anime2you.de/aa58cbd60ed6b19e/2026-10-30-00091b871bf05cdf.txt.gz"
       }
     ]
   },
@@ -424,7 +442,7 @@
     ]
   },
   "https://www.anime2you.de/news/1043405/cyberpunk-edgerunners-2-netflix-termin/": {
-    "zuletzt": "2026-10-22",
+    "zuletzt": "2026-10-30",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -492,11 +510,29 @@
         ],
         "bild": "www.anime2you.de/0e6966c07873a4b2/2026-10-22-f44e3253392d512d.webp",
         "text": "www.anime2you.de/0e6966c07873a4b2/2026-10-22-f44e3253392d512d.txt.gz"
+      },
+      {
+        "am": "2026-10-30",
+        "hash": "f767958bd8c63651",
+        "hf": 2,
+        "veroeffentlicht": "2026-08-21",
+        "aktualisiert": "2026-08-25",
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.7523797105228843,
+          0.8942307692307693,
+          0.20947040962688374
+        ],
+        "bild": "www.anime2you.de/0e6966c07873a4b2/2026-10-30-f767958bd8c63651.webp",
+        "text": "www.anime2you.de/0e6966c07873a4b2/2026-10-30-f767958bd8c63651.txt.gz"
       }
     ]
   },
   "https://www.anisearch.de/article/216206,detektei-layton-katrielles-ratselhafte-falle-gesamtausgabe-blu-ray-re-release": {
-    "zuletzt": "2026-10-22",
+    "zuletzt": "2026-10-30",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -504,14 +540,14 @@
         "ausgabe": "2026-10-22",
         "qs": "ok",
         "markierung": [
-          0.28846153846153844,
-          -0.021986885539739206,
-          0.25769230769230766,
-          0.02485474017535736
+          0.625,
+          0.25138713476847974,
+          0.34615384615384615,
+          0.344463522967546
         ],
         "bild": "www.anisearch.de/3ef7ad404dce1337/2026-10-05-b1aab0d3b9a6bb66.webp",
         "text": "www.anisearch.de/3ef7ad404dce1337/2026-10-05-b1aab0d3b9a6bb66.txt.gz",
-        "bildfassung": 2
+        "bildfassung": 3
       }
     ]
   },
@@ -6070,7 +6106,7 @@
     ]
   },
   "https://www.anime2you.de/news/1052708/netflix-anime-neu-im-oktober-2026/": {
-    "zuletzt": "2026-10-22",
+    "zuletzt": "2026-10-30",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -6186,6 +6222,44 @@
         },
         "bild": "www.anime2you.de/c416c762dd43f6db/2026-10-22-d309241ba7e2bfd8.webp",
         "text": "www.anime2you.de/c416c762dd43f6db/2026-10-22-d309241ba7e2bfd8.txt.gz"
+      },
+      {
+        "am": "2026-10-30",
+        "hash": "15beeac459b8209f",
+        "hf": 2,
+        "veroeffentlicht": "2026-09-23",
+        "aktualisiert": "2026-10-04",
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.7623364084960309,
+          0.8942307692307693,
+          0.20104770077951797
+        ],
+        "markierungen": {
+          "189123": [
+            0.038461538461538464,
+            0.7623364084960309,
+            0.8942307692307693,
+            0.20104770077951797
+          ],
+          "213805": [
+            0.038461538461538464,
+            0.7623364084960309,
+            0.8942307692307693,
+            0.20104770077951797
+          ]
+        },
+        "ohneMarke": {
+          "179813": "nicht-gefunden",
+          "185736": "nicht-gefunden",
+          "190054": "nicht-gefunden",
+          "195322": "nicht-gefunden"
+        },
+        "bild": "www.anime2you.de/c416c762dd43f6db/2026-10-30-15beeac459b8209f.webp",
+        "text": "www.anime2you.de/c416c762dd43f6db/2026-10-30-15beeac459b8209f.txt.gz"
       }
     ]
   },
@@ -9514,7 +9588,7 @@
     ]
   },
   "https://www.whats-on-netflix.com/news/steel-ball-run-part-2-netflix-release-date/": {
-    "zuletzt": "2026-10-22",
+    "zuletzt": "2026-10-30",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -9529,7 +9603,7 @@
         ],
         "bild": "www.whats-on-netflix.com/188d7dd68f18b678/2026-10-05-4336f404f93bea0f.webp",
         "text": "www.whats-on-netflix.com/188d7dd68f18b678/2026-10-05-4336f404f93bea0f.txt.gz",
-        "bildfassung": 2
+        "bildfassung": 3
       }
     ]
   },
@@ -10147,7 +10221,7 @@
     ]
   },
   "https://www.disneyplus.com/browse/entity-fc20b0bc-90b6-45b3-b56a-ad3a5cb2b855": {
-    "zuletzt": "2026-10-19",
+    "zuletzt": "2026-10-30",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -10164,6 +10238,22 @@
         "bildfassung": 2,
         "bild": "www.disneyplus.com/8ce399f3cd624faa/2026-10-19-d704e334c14780c0.webp",
         "text": "www.disneyplus.com/8ce399f3cd624faa/2026-10-19-d704e334c14780c0.txt.gz"
+      },
+      {
+        "am": "2026-10-30",
+        "hash": "7eca33e5f9e62eb2",
+        "hf": 2,
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0,
+          0,
+          1,
+          0.05083583714786957
+        ],
+        "bild": "www.disneyplus.com/8ce399f3cd624faa/2026-10-30-7eca33e5f9e62eb2.webp",
+        "text": "www.disneyplus.com/8ce399f3cd624faa/2026-10-30-7eca33e5f9e62eb2.txt.gz"
       }
     ]
   },
@@ -10828,7 +10918,7 @@
     ]
   },
   "https://www.joyn.de/serien/terror-in-tokio": {
-    "zuletzt": "2026-10-22",
+    "zuletzt": "2026-10-30",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -10842,9 +10932,15 @@
         "hash": "d5d2202fdb31ad85",
         "hf": 2,
         "qs": "ok",
-        "bildfassung": 2,
+        "bildfassung": 3,
         "bild": "www.joyn.de/0130429ec0cafd7c/2026-10-15-d5d2202fdb31ad85.webp",
-        "text": "www.joyn.de/0130429ec0cafd7c/2026-10-15-d5d2202fdb31ad85.txt.gz"
+        "text": "www.joyn.de/0130429ec0cafd7c/2026-10-15-d5d2202fdb31ad85.txt.gz",
+        "markierung": [
+          0,
+          0,
+          1,
+          0.18236400462962962
+        ]
       }
     ]
   },
@@ -11534,7 +11630,7 @@
     ]
   },
   "https://www.anime2you.de/news/1054748/adn-neuzugaenge-im-oktober-2026/": {
-    "zuletzt": "2026-10-22",
+    "zuletzt": "2026-10-30",
     "lesungen": [
       {
         "am": "2026-10-06",
@@ -11615,6 +11711,29 @@
         "markierungen": {},
         "bild": "www.anime2you.de/a5f528664cdcca70/2026-10-22-f4457197eed9d765.webp",
         "text": "www.anime2you.de/a5f528664cdcca70/2026-10-22-f4457197eed9d765.txt.gz"
+      },
+      {
+        "am": "2026-10-30",
+        "hash": "aae706f2f49a9aeb",
+        "hf": 2,
+        "veroeffentlicht": "2026-09-28",
+        "aktualisiert": "2026-10-01",
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierungen": {},
+        "ohneMarke": {
+          "1686": "nicht-gefunden",
+          "2889": "nicht-gefunden",
+          "4835": "nicht-gefunden",
+          "8247": "nicht-gefunden",
+          "9756": "nicht-gefunden",
+          "116589": "nicht-gefunden",
+          "131586": "nicht-gefunden",
+          "187941": "nicht-gefunden"
+        },
+        "bild": "www.anime2you.de/a5f528664cdcca70/2026-10-30-aae706f2f49a9aeb.webp",
+        "text": "www.anime2you.de/a5f528664cdcca70/2026-10-30-aae706f2f49a9aeb.txt.gz"
       }
     ]
   },
@@ -12551,7 +12670,7 @@
     ]
   },
   "https://www.anime2you.de/news/1054490/netflix-demon-slayer-infinity-castle-und-mehr/": {
-    "zuletzt": "2026-10-21",
+    "zuletzt": "2026-10-30",
     "lesungen": [
       {
         "am": "2026-10-14",
@@ -12603,11 +12722,40 @@
         },
         "bild": "www.anime2you.de/b430b59b26cc2c47/2026-10-21-3eecda24d1088312.webp",
         "text": "www.anime2you.de/b430b59b26cc2c47/2026-10-21-3eecda24d1088312.txt.gz"
+      },
+      {
+        "am": "2026-10-30",
+        "hash": "ec123f25c6cceeb1",
+        "hf": 2,
+        "veroeffentlicht": "2026-09-28",
+        "aktualisiert": "2026-09-30",
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.7415522805926041,
+          0.8942307692307693,
+          0.2186297001983124
+        ],
+        "markierungen": {
+          "178788": [
+            0.038461538461538464,
+            0.7415522805926041,
+            0.8942307692307693,
+            0.2186297001983124
+          ]
+        },
+        "ohneMarke": {
+          "9513": "nicht-gefunden"
+        },
+        "bild": "www.anime2you.de/b430b59b26cc2c47/2026-10-30-ec123f25c6cceeb1.webp",
+        "text": "www.anime2you.de/b430b59b26cc2c47/2026-10-30-ec123f25c6cceeb1.txt.gz"
       }
     ]
   },
   "https://www.anime2you.de/news/1059441/netflix-snowball-earth-und-mehr/": {
-    "zuletzt": "2026-10-21",
+    "zuletzt": "2026-10-30",
     "lesungen": [
       {
         "am": "2026-10-14",
@@ -12671,6 +12819,39 @@
         },
         "bild": "www.anime2you.de/351add9ae714c215/2026-10-21-4e757d2717da0c7c.webp",
         "text": "www.anime2you.de/351add9ae714c215/2026-10-21-4e757d2717da0c7c.txt.gz"
+      },
+      {
+        "am": "2026-10-30",
+        "hash": "aa38ff81350bf0b3",
+        "hf": 2,
+        "veroeffentlicht": "2026-10-09",
+        "aktualisiert": "2026-10-13",
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.7415522805926041,
+          0.8942307692307693,
+          0.2186297001983124
+        ],
+        "markierungen": {
+          "185736": [
+            0.038461538461538464,
+            0.7415522805926041,
+            0.8942307692307693,
+            0.2186297001983124
+          ],
+          "195322": [
+            0.038461538461538464,
+            0.7415522805926041,
+            0.8942307692307693,
+            0.2186297001983124
+          ]
+        },
+        "ohneMarke": {},
+        "bild": "www.anime2you.de/351add9ae714c215/2026-10-30-aa38ff81350bf0b3.webp",
+        "text": "www.anime2you.de/351add9ae714c215/2026-10-30-aa38ff81350bf0b3.txt.gz"
       }
     ]
   },
@@ -13102,7 +13283,7 @@
     ]
   },
   "https://www.anime2you.de/news/1060073/apothecary-diaries-staffel-2-volume-2-termin/": {
-    "zuletzt": "2026-10-21",
+    "zuletzt": "2026-10-30",
     "lesungen": [
       {
         "am": "2026-10-14",
@@ -13125,11 +13306,23 @@
         "bildfassung": 2,
         "bild": "www.anime2you.de/a4723509339e29c0/2026-10-21-c73b68c805eac237.webp",
         "text": "www.anime2you.de/a4723509339e29c0/2026-10-21-c73b68c805eac237.txt.gz"
+      },
+      {
+        "am": "2026-10-30",
+        "hash": "1e7aaffd255f3205",
+        "hf": 2,
+        "veroeffentlicht": "2026-10-12",
+        "aktualisiert": "2026-10-15",
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "bild": "www.anime2you.de/a4723509339e29c0/2026-10-30-1e7aaffd255f3205.webp",
+        "text": "www.anime2you.de/a4723509339e29c0/2026-10-30-1e7aaffd255f3205.txt.gz"
       }
     ]
   },
   "https://www.anime2you.de/news/1052189/die-koenigin-der-1000-jahre-blu-ray-komplettbox/": {
-    "zuletzt": "2026-10-21",
+    "zuletzt": "2026-10-30",
     "lesungen": [
       {
         "am": "2026-10-14",
@@ -13156,7 +13349,7 @@
         "aktualisiert": "2026-09-22",
         "aenderungOhneDatum": true,
         "qs": "ok",
-        "bildfassung": 2,
+        "bildfassung": 3,
         "markierung": [
           0.038461538461538464,
           0.4333232333434333,
@@ -13169,7 +13362,7 @@
     ]
   },
   "https://www.kinoheld.de/film/rascal-does-not-dream-of-a-dear-friend-6aa4ad25083a6": {
-    "zuletzt": "2026-10-21",
+    "zuletzt": "2026-10-30",
     "lesungen": [
       {
         "am": "2026-10-14",
@@ -13201,11 +13394,27 @@
         ],
         "bild": "www.kinoheld.de/afd600abd2f0804f/2026-10-21-4921d46a630df559.webp",
         "text": "www.kinoheld.de/afd600abd2f0804f/2026-10-21-4921d46a630df559.txt.gz"
+      },
+      {
+        "am": "2026-10-30",
+        "hash": "328d4c94bb617094",
+        "hf": 2,
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.9126043726262785,
+          0.9230769230769231,
+          0.050980782634670915
+        ],
+        "bild": "www.kinoheld.de/afd600abd2f0804f/2026-10-30-328d4c94bb617094.webp",
+        "text": "www.kinoheld.de/afd600abd2f0804f/2026-10-30-328d4c94bb617094.txt.gz"
       }
     ]
   },
   "https://www.anime2you.de/news/1053923/rtl-plus-dragon-ball-daima-und-mehr/": {
-    "zuletzt": "2026-10-21",
+    "zuletzt": "2026-10-30",
     "lesungen": [
       {
         "am": "2026-10-14",
@@ -13214,14 +13423,31 @@
         "veroeffentlicht": "2026-09-25",
         "aktualisiert": "2026-09-28",
         "qs": "ok",
-        "bildfassung": 2,
+        "bildfassung": 3,
         "bild": "www.anime2you.de/5af1ee291eaad0ba/2026-10-14-3da5addb3b1d8a1e.webp",
-        "text": "www.anime2you.de/5af1ee291eaad0ba/2026-10-14-3da5addb3b1d8a1e.txt.gz"
+        "text": "www.anime2you.de/5af1ee291eaad0ba/2026-10-14-3da5addb3b1d8a1e.txt.gz",
+        "markierung": [
+          0.038461538461538464,
+          0.7221268683401273,
+          0.8942307692307693,
+          0.24125724093542159
+        ],
+        "markierungen": {
+          "1668": [
+            0.038461538461538464,
+            0.7221268683401273,
+            0.8942307692307693,
+            0.24125724093542159
+          ]
+        },
+        "ohneMarke": {
+          "170083": "nicht-gefunden"
+        }
       }
     ]
   },
   "https://www.anime2you.de/news/1048545/avatar-die-sieben-haefen-deutscher-trailer/": {
-    "zuletzt": "2026-10-21",
+    "zuletzt": "2026-10-30",
     "lesungen": [
       {
         "am": "2026-10-14",
@@ -13248,7 +13474,7 @@
         "aktualisiert": "2026-09-13",
         "aenderungOhneDatum": true,
         "qs": "ok",
-        "bildfassung": 2,
+        "bildfassung": 3,
         "markierung": [
           0.038461538461538464,
           0.705593248386563,
@@ -13261,7 +13487,7 @@
     ]
   },
   "https://www.anime2you.de/news/1034331/avatar-seven-havens-termin/": {
-    "zuletzt": "2026-10-21",
+    "zuletzt": "2026-10-30",
     "lesungen": [
       {
         "am": "2026-10-14",
@@ -13288,7 +13514,7 @@
         "aktualisiert": "2026-09-10",
         "aenderungOhneDatum": true,
         "qs": "ok",
-        "bildfassung": 2,
+        "bildfassung": 3,
         "markierung": [
           0.038461538461538464,
           0.771523349547103,
@@ -13301,7 +13527,7 @@
     ]
   },
   "https://www.anime2you.de/news/1059426/avatar-die-sieben-haefen-auf-paramount-plus/": {
-    "zuletzt": "2026-10-21",
+    "zuletzt": "2026-10-30",
     "lesungen": [
       {
         "am": "2026-10-14",
@@ -13328,7 +13554,7 @@
         "aktualisiert": "2026-10-12",
         "aenderungOhneDatum": true,
         "qs": "ok",
-        "bildfassung": 2,
+        "bildfassung": 3,
         "markierung": [
           0.038461538461538464,
           0.4503735325506937,
@@ -13341,7 +13567,7 @@
     ]
   },
   "https://www.anime2you.de/news/1059483/avatar-kuruk-wave-of-chaos-angekuendigt/": {
-    "zuletzt": "2026-10-21",
+    "zuletzt": "2026-10-30",
     "lesungen": [
       {
         "am": "2026-10-14",
@@ -13368,7 +13594,7 @@
         "aktualisiert": "2026-10-13",
         "aenderungOhneDatum": true,
         "qs": "ok",
-        "bildfassung": 2,
+        "bildfassung": 3,
         "markierung": [
           0.038461538461538464,
           0.4333232333434333,
@@ -13381,7 +13607,7 @@
     ]
   },
   "https://www.anime2you.de/news/1059642/prime-video-weitere-demon-slayer-staffeln/": {
-    "zuletzt": "2026-10-21",
+    "zuletzt": "2026-10-30",
     "lesungen": [
       {
         "am": "2026-10-14",
@@ -13432,11 +13658,43 @@
         },
         "bild": "www.anime2you.de/04d6255f999ec56f/2026-10-21-b7c605ff06607620.webp",
         "text": "www.anime2you.de/04d6255f999ec56f/2026-10-21-b7c605ff06607620.txt.gz"
+      },
+      {
+        "am": "2026-10-30",
+        "hash": "8dce329247da7f3f",
+        "hf": 2,
+        "veroeffentlicht": "2026-10-10",
+        "aktualisiert": "2026-10-14",
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.7523797105228843,
+          0.8942307692307693,
+          0.20947040962688374
+        ],
+        "markierungen": {
+          "3089": [
+            0.038461538461538464,
+            0.7523797105228843,
+            0.8942307692307693,
+            0.20947040962688374
+          ]
+        },
+        "ohneMarke": {
+          "129874": "nicht-gefunden",
+          "142329": "nicht-gefunden",
+          "145139": "nicht-gefunden",
+          "166240": "nicht-gefunden"
+        },
+        "bild": "www.anime2you.de/04d6255f999ec56f/2026-10-30-8dce329247da7f3f.webp",
+        "text": "www.anime2you.de/04d6255f999ec56f/2026-10-30-8dce329247da7f3f.txt.gz"
       }
     ]
   },
   "https://www.anime2you.de/news/1060009/dragon-ball-super-beerus-simulcast-gestartet/": {
-    "zuletzt": "2026-10-21",
+    "zuletzt": "2026-10-30",
     "lesungen": [
       {
         "am": "2026-10-14",
@@ -13471,11 +13729,29 @@
         ],
         "bild": "www.anime2you.de/1938304cbf77d1dd/2026-10-21-5a1d16cc167d1019.webp",
         "text": "www.anime2you.de/1938304cbf77d1dd/2026-10-21-5a1d16cc167d1019.txt.gz"
+      },
+      {
+        "am": "2026-10-30",
+        "hash": "cd1f0bc0179a3d66",
+        "hf": 2,
+        "veroeffentlicht": "2026-10-11",
+        "aktualisiert": "2026-10-14",
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.4688205725941575,
+          0.8942307692307693,
+          0.16383769213957894
+        ],
+        "bild": "www.anime2you.de/1938304cbf77d1dd/2026-10-30-cd1f0bc0179a3d66.webp",
+        "text": "www.anime2you.de/1938304cbf77d1dd/2026-10-30-cd1f0bc0179a3d66.txt.gz"
       }
     ]
   },
   "https://www.anime2you.de/news/1058843/dragon-ball-super-beerus-bricht-netflix-rekord/": {
-    "zuletzt": "2026-10-21",
+    "zuletzt": "2026-10-30",
     "lesungen": [
       {
         "am": "2026-10-14",
@@ -13511,6 +13787,18 @@
         ],
         "bild": "www.anime2you.de/da09a41d1729634e/2026-10-21-1778a65edd3aa3d7.webp",
         "text": "www.anime2you.de/da09a41d1729634e/2026-10-21-1778a65edd3aa3d7.txt.gz"
+      },
+      {
+        "am": "2026-10-30",
+        "hash": "5367fa487edc126f",
+        "hf": 2,
+        "veroeffentlicht": "2026-10-10",
+        "aktualisiert": "2026-10-13",
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "bild": "www.anime2you.de/da09a41d1729634e/2026-10-30-5367fa487edc126f.webp",
+        "text": "www.anime2you.de/da09a41d1729634e/2026-10-30-5367fa487edc126f.txt.gz"
       }
     ]
   },
@@ -13600,7 +13888,7 @@
     ]
   },
   "https://www.anime2you.de/news/1049795/prime-video-trinity-seven-und-mehr/": {
-    "zuletzt": "2026-10-21",
+    "zuletzt": "2026-10-30",
     "lesungen": [
       {
         "am": "2026-10-14",
@@ -13664,11 +13952,44 @@
         },
         "bild": "www.anime2you.de/11482e94c008812a/2026-10-21-a257d939fd133668.webp",
         "text": "www.anime2you.de/11482e94c008812a/2026-10-21-a257d939fd133668.txt.gz"
+      },
+      {
+        "am": "2026-10-30",
+        "hash": "97a80f7af722a339",
+        "hf": 2,
+        "veroeffentlicht": "2026-09-13",
+        "aktualisiert": "2026-09-16",
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.7523797105228843,
+          0.8942307692307693,
+          0.20947040962688374
+        ],
+        "markierungen": {
+          "102836": [
+            0.038461538461538464,
+            0.7523797105228843,
+            0.8942307692307693,
+            0.20947040962688374
+          ],
+          "102839": [
+            0.038461538461538464,
+            0.7523797105228843,
+            0.8942307692307693,
+            0.20947040962688374
+          ]
+        },
+        "ohneMarke": {},
+        "bild": "www.anime2you.de/11482e94c008812a/2026-10-30-97a80f7af722a339.webp",
+        "text": "www.anime2you.de/11482e94c008812a/2026-10-30-97a80f7af722a339.txt.gz"
       }
     ]
   },
   "https://www.anime2you.de/news/1053585/prime-video-ghost-cat-anzu-und-mehr/": {
-    "zuletzt": "2026-10-21",
+    "zuletzt": "2026-10-30",
     "lesungen": [
       {
         "am": "2026-10-14",
@@ -13720,6 +14041,36 @@
         },
         "bild": "www.anime2you.de/4531cd19e6ded9df/2026-10-21-680076ca193c0722.webp",
         "text": "www.anime2you.de/4531cd19e6ded9df/2026-10-21-680076ca193c0722.txt.gz"
+      },
+      {
+        "am": "2026-10-30",
+        "hash": "853c7ebe19b171c5",
+        "hf": 2,
+        "veroeffentlicht": "2026-09-24",
+        "aktualisiert": "2026-09-27",
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.7523797105228843,
+          0.8942307692307693,
+          0.20947040962688374
+        ],
+        "markierungen": {
+          "158641": [
+            0.038461538461538464,
+            0.7523797105228843,
+            0.8942307692307693,
+            0.20947040962688374
+          ]
+        },
+        "ohneMarke": {
+          "481": "nicht-gefunden",
+          "20709": "nicht-gefunden"
+        },
+        "bild": "www.anime2you.de/4531cd19e6ded9df/2026-10-30-853c7ebe19b171c5.webp",
+        "text": "www.anime2you.de/4531cd19e6ded9df/2026-10-30-853c7ebe19b171c5.txt.gz"
       }
     ]
   },
@@ -13752,7 +14103,7 @@
     ]
   },
   "https://www.anime2you.de/news/1051128/disney-plus-campfire-cooking-und-mehr/": {
-    "zuletzt": "2026-10-21",
+    "zuletzt": "2026-10-30",
     "lesungen": [
       {
         "am": "2026-10-14",
@@ -13804,11 +14155,40 @@
         },
         "bild": "www.anime2you.de/07337dce69fc7cdd/2026-10-21-eb24da1cbc5dcdfa.webp",
         "text": "www.anime2you.de/07337dce69fc7cdd/2026-10-21-eb24da1cbc5dcdfa.txt.gz"
+      },
+      {
+        "am": "2026-10-30",
+        "hash": "1d41f4fc9a3ef541",
+        "hf": 2,
+        "veroeffentlicht": "2026-09-17",
+        "aktualisiert": "2026-09-20",
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.7415522805926041,
+          0.8942307692307693,
+          0.2186297001983124
+        ],
+        "markierungen": {
+          "156067": [
+            0.038461538461538464,
+            0.7415522805926041,
+            0.8942307692307693,
+            0.2186297001983124
+          ]
+        },
+        "ohneMarke": {
+          "21": "nicht-gefunden"
+        },
+        "bild": "www.anime2you.de/07337dce69fc7cdd/2026-10-30-1d41f4fc9a3ef541.webp",
+        "text": "www.anime2you.de/07337dce69fc7cdd/2026-10-30-1d41f4fc9a3ef541.txt.gz"
       }
     ]
   },
   "https://www.anime2you.de/news/1052288/disney-plus-a-sign-of-affection-und-mehr/": {
-    "zuletzt": "2026-10-21",
+    "zuletzt": "2026-10-30",
     "lesungen": [
       {
         "am": "2026-10-14",
@@ -13844,11 +14224,29 @@
         ],
         "bild": "www.anime2you.de/970bfc6653ba3cae/2026-10-21-4a0f6cb5a09e1799.webp",
         "text": "www.anime2you.de/970bfc6653ba3cae/2026-10-21-4a0f6cb5a09e1799.txt.gz"
+      },
+      {
+        "am": "2026-10-30",
+        "hash": "44778f5ca0461682",
+        "hf": 2,
+        "veroeffentlicht": "2026-09-20",
+        "aktualisiert": "2026-09-23",
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.7415522805926041,
+          0.8942307692307693,
+          0.2186297001983124
+        ],
+        "bild": "www.anime2you.de/970bfc6653ba3cae/2026-10-30-44778f5ca0461682.webp",
+        "text": "www.anime2you.de/970bfc6653ba3cae/2026-10-30-44778f5ca0461682.txt.gz"
       }
     ]
   },
   "https://www.anime2you.de/news/1054460/rtl-plus-zwei-pokemon-filme/": {
-    "zuletzt": "2026-10-21",
+    "zuletzt": "2026-10-30",
     "lesungen": [
       {
         "am": "2026-10-14",
@@ -13857,7 +14255,7 @@
         "veroeffentlicht": "2026-09-27",
         "aktualisiert": "2026-09-28",
         "qs": "ok",
-        "bildfassung": 2,
+        "bildfassung": 3,
         "markierung": [
           0.038461538461538464,
           0.7523797105228843,
@@ -13879,12 +14277,13 @@
           ]
         },
         "bild": "www.anime2you.de/a6e894089b86a5aa/2026-10-14-9d051ab8a2fcdacc.webp",
-        "text": "www.anime2you.de/a6e894089b86a5aa/2026-10-14-9d051ab8a2fcdacc.txt.gz"
+        "text": "www.anime2you.de/a6e894089b86a5aa/2026-10-14-9d051ab8a2fcdacc.txt.gz",
+        "ohneMarke": {}
       }
     ]
   },
   "https://www.anime2you.de/news/1059480/yaiba-samurai-legend-prosieben-maxx-termin/": {
-    "zuletzt": "2026-10-21",
+    "zuletzt": "2026-10-30",
     "lesungen": [
       {
         "am": "2026-10-14",
@@ -13902,11 +14301,28 @@
         ],
         "bild": "www.anime2you.de/1d6c7b696641afa8/2026-10-14-10c60c43a0695403.webp",
         "text": "www.anime2you.de/1d6c7b696641afa8/2026-10-14-10c60c43a0695403.txt.gz"
+      },
+      {
+        "am": "2026-10-30",
+        "hash": "721478e954bd8409",
+        "hf": 2,
+        "veroeffentlicht": "2026-10-09",
+        "aktualisiert": "2026-10-24",
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.7623364084960309,
+          0.8942307692307693,
+          0.20104770077951797
+        ],
+        "bild": "www.anime2you.de/1d6c7b696641afa8/2026-10-30-721478e954bd8409.webp",
+        "text": "www.anime2you.de/1d6c7b696641afa8/2026-10-30-721478e954bd8409.txt.gz"
       }
     ]
   },
   "https://www.anime2you.de/news/1059541/": {
-    "zuletzt": "2026-10-21",
+    "zuletzt": "2026-10-30",
     "lesungen": [
       {
         "am": "2026-10-14",
@@ -13958,6 +14374,35 @@
         },
         "bild": "www.anime2you.de/bc08cd354651792a/2026-10-21-a4cf162dd550d37c.webp",
         "text": "www.anime2you.de/bc08cd354651792a/2026-10-21-a4cf162dd550d37c.txt.gz"
+      },
+      {
+        "am": "2026-10-30",
+        "hash": "e5f02f7a38ff2419",
+        "hf": 2,
+        "veroeffentlicht": "2026-10-09",
+        "aktualisiert": "2026-10-13",
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.4503735325506937,
+          0.8942307692307693,
+          0.19673880714523156
+        ],
+        "markierungen": {
+          "21": [
+            0.038461538461538464,
+            0.4503735325506937,
+            0.8942307692307693,
+            0.19673880714523156
+          ]
+        },
+        "ohneMarke": {
+          "177476": "nicht-gefunden"
+        },
+        "bild": "www.anime2you.de/bc08cd354651792a/2026-10-30-e5f02f7a38ff2419.webp",
+        "text": "www.anime2you.de/bc08cd354651792a/2026-10-30-e5f02f7a38ff2419.txt.gz"
       }
     ]
   },
@@ -14042,7 +14487,7 @@
     ]
   },
   "https://www.anime2you.de/news/1058101/a-wild-last-boss-appeared-blu-ray-design/": {
-    "zuletzt": "2026-10-21",
+    "zuletzt": "2026-10-30",
     "lesungen": [
       {
         "am": "2026-10-14",
@@ -14078,11 +14523,29 @@
         ],
         "bild": "www.anime2you.de/acfa167893ba5f5b/2026-10-21-3381833ca92e80a2.webp",
         "text": "www.anime2you.de/acfa167893ba5f5b/2026-10-21-3381833ca92e80a2.txt.gz"
+      },
+      {
+        "am": "2026-10-30",
+        "hash": "488523e994604a95",
+        "hf": 2,
+        "veroeffentlicht": "2026-10-07",
+        "aktualisiert": "2026-10-08",
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.4503735325506937,
+          0.8942307692307693,
+          0.19673880714523156
+        ],
+        "bild": "www.anime2you.de/acfa167893ba5f5b/2026-10-30-488523e994604a95.webp",
+        "text": "www.anime2you.de/acfa167893ba5f5b/2026-10-30-488523e994604a95.txt.gz"
       }
     ]
   },
   "https://www.anime2you.de/news/1057488/crunchyroll-reborn-as-a-space-mercenary-und-mehr/": {
-    "zuletzt": "2026-10-21",
+    "zuletzt": "2026-10-30",
     "lesungen": [
       {
         "am": "2026-10-14",
@@ -14106,11 +14569,23 @@
         "bildfassung": 2,
         "bild": "www.anime2you.de/6d3cb966b32c7c65/2026-10-21-83ba716122054652.webp",
         "text": "www.anime2you.de/6d3cb966b32c7c65/2026-10-21-83ba716122054652.txt.gz"
+      },
+      {
+        "am": "2026-10-30",
+        "hash": "11d302e753373e6e",
+        "hf": 2,
+        "veroeffentlicht": "2026-10-04",
+        "aktualisiert": "2026-10-07",
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "bild": "www.anime2you.de/6d3cb966b32c7c65/2026-10-30-11d302e753373e6e.webp",
+        "text": "www.anime2you.de/6d3cb966b32c7c65/2026-10-30-11d302e753373e6e.txt.gz"
       }
     ]
   },
   "https://www.anime2you.de/news/1057429/netflix-blue-box-staffel-2-und-mehr/": {
-    "zuletzt": "2026-10-21",
+    "zuletzt": "2026-10-30",
     "lesungen": [
       {
         "am": "2026-10-14",
@@ -14146,11 +14621,29 @@
         ],
         "bild": "www.anime2you.de/002aa5c3d82f5bff/2026-10-21-607bf9a477d032d8.webp",
         "text": "www.anime2you.de/002aa5c3d82f5bff/2026-10-21-607bf9a477d032d8.txt.gz"
+      },
+      {
+        "am": "2026-10-30",
+        "hash": "78541d7b58bd3c3a",
+        "hf": 2,
+        "veroeffentlicht": "2026-10-04",
+        "aktualisiert": "2026-10-07",
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.7415522805926041,
+          0.8942307692307693,
+          0.2186297001983124
+        ],
+        "bild": "www.anime2you.de/002aa5c3d82f5bff/2026-10-30-78541d7b58bd3c3a.webp",
+        "text": "www.anime2you.de/002aa5c3d82f5bff/2026-10-30-78541d7b58bd3c3a.txt.gz"
       }
     ]
   },
   "https://www.anime2you.de/news/1056287/netflix-yamada-kun-synchro-und-mehr/": {
-    "zuletzt": "2026-10-21",
+    "zuletzt": "2026-10-30",
     "lesungen": [
       {
         "am": "2026-10-14",
@@ -14214,11 +14707,44 @@
         },
         "bild": "www.anime2you.de/fb43d6de44176106/2026-10-21-a73b8612a95a639b.webp",
         "text": "www.anime2you.de/fb43d6de44176106/2026-10-21-a73b8612a95a639b.txt.gz"
+      },
+      {
+        "am": "2026-10-30",
+        "hash": "083a684fc2138be5",
+        "hf": 2,
+        "veroeffentlicht": "2026-10-01",
+        "aktualisiert": "2026-10-03",
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.705593248386563,
+          0.8942307692307693,
+          0.26051629985106733
+        ],
+        "markierungen": {
+          "154965": [
+            0.038461538461538464,
+            0.705593248386563,
+            0.8942307692307693,
+            0.26051629985106733
+          ],
+          "213805": [
+            0.038461538461538464,
+            0.705593248386563,
+            0.8942307692307693,
+            0.26051629985106733
+          ]
+        },
+        "ohneMarke": {},
+        "bild": "www.anime2you.de/fb43d6de44176106/2026-10-30-083a684fc2138be5.webp",
+        "text": "www.anime2you.de/fb43d6de44176106/2026-10-30-083a684fc2138be5.txt.gz"
       }
     ]
   },
   "https://www.anime2you.de/news/1050718/crunchyroll-19-neue-herbst-2026-simulcasts/": {
-    "zuletzt": "2026-10-21",
+    "zuletzt": "2026-10-30",
     "lesungen": [
       {
         "am": "2026-10-14",
@@ -14282,11 +14808,50 @@
         },
         "bild": "www.anime2you.de/0d4244ec0c3578a2/2026-10-21-15dedc616506b492.webp",
         "text": "www.anime2you.de/0d4244ec0c3578a2/2026-10-21-15dedc616506b492.txt.gz"
+      },
+      {
+        "am": "2026-10-30",
+        "hash": "cd5d1d781f388c1a",
+        "hf": 2,
+        "veroeffentlicht": "2026-09-15",
+        "aktualisiert": "2026-09-19",
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.7523797105228843,
+          0.8942307692307693,
+          0.20947040962688374
+        ],
+        "markierungen": {
+          "152677": [
+            0.038461538461538464,
+            0.7523797105228843,
+            0.8942307692307693,
+            0.20947040962688374
+          ],
+          "185756": [
+            0.038461538461538464,
+            0.7523797105228843,
+            0.8942307692307693,
+            0.20947040962688374
+          ],
+          "204389": [
+            0.038461538461538464,
+            0.7523797105228843,
+            0.8942307692307693,
+            0.20947040962688374
+          ]
+        },
+        "ohneMarke": {},
+        "bild": "www.anime2you.de/0d4244ec0c3578a2/2026-10-30-cd5d1d781f388c1a.webp",
+        "text": "www.anime2you.de/0d4244ec0c3578a2/2026-10-30-cd5d1d781f388c1a.txt.gz"
       }
     ]
   },
   "https://www.anime2you.de/news/1045399/aniverse-september-2026-neuzugaenge/": {
-    "zuletzt": "2026-10-21",
+    "zuletzt": "2026-10-30",
     "lesungen": [
       {
         "am": "2026-10-14",
@@ -14336,11 +14901,62 @@
         },
         "bild": "www.anime2you.de/4b2a51aacf587e70/2026-10-14-71b04f734c5c3bc5.webp",
         "text": "www.anime2you.de/4b2a51aacf587e70/2026-10-14-71b04f734c5c3bc5.txt.gz"
+      },
+      {
+        "am": "2026-10-30",
+        "hash": "f7eb55352ff324e5",
+        "hf": 2,
+        "veroeffentlicht": "2026-08-31",
+        "aktualisiert": "2026-09-03",
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.7415522805926041,
+          0.8942307692307693,
+          0.2186297001983124
+        ],
+        "markierungen": {
+          "134": [
+            0.038461538461538464,
+            0.7415522805926041,
+            0.8942307692307693,
+            0.2186297001983124
+          ],
+          "384": [
+            0.038461538461538464,
+            0.7415522805926041,
+            0.8942307692307693,
+            0.2186297001983124
+          ],
+          "8277": [
+            0.038461538461538464,
+            0.7415522805926041,
+            0.8942307692307693,
+            0.2186297001983124
+          ],
+          "15377": [
+            0.038461538461538464,
+            0.7415522805926041,
+            0.8942307692307693,
+            0.2186297001983124
+          ],
+          "16592": [
+            0.038461538461538464,
+            0.7415522805926041,
+            0.8942307692307693,
+            0.2186297001983124
+          ]
+        },
+        "ohneMarke": {},
+        "bild": "www.anime2you.de/4b2a51aacf587e70/2026-10-30-f7eb55352ff324e5.webp",
+        "text": "www.anime2you.de/4b2a51aacf587e70/2026-10-30-f7eb55352ff324e5.txt.gz"
       }
     ]
   },
   "https://www.anime2you.de/news/1042851/netflix-anime-neu-im-september-2026/": {
-    "zuletzt": "2026-10-21",
+    "zuletzt": "2026-10-30",
     "lesungen": [
       {
         "am": "2026-10-14",
@@ -14376,11 +14992,29 @@
         ],
         "bild": "www.anime2you.de/ee24e79aa3365a4a/2026-10-21-69e6b4ac0c59fb7f.webp",
         "text": "www.anime2you.de/ee24e79aa3365a4a/2026-10-21-69e6b4ac0c59fb7f.txt.gz"
+      },
+      {
+        "am": "2026-10-30",
+        "hash": "39285f8ea4e28e48",
+        "hf": 2,
+        "veroeffentlicht": "2026-08-19",
+        "aktualisiert": "2026-09-29",
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.7328681184579158,
+          0.8942307692307693,
+          0.23193138653512316
+        ],
+        "bild": "www.anime2you.de/ee24e79aa3365a4a/2026-10-30-39285f8ea4e28e48.webp",
+        "text": "www.anime2you.de/ee24e79aa3365a4a/2026-10-30-39285f8ea4e28e48.txt.gz"
       }
     ]
   },
   "https://www.anime2you.de/news/1041622/disney-plus-one-piece-und-mehr/": {
-    "zuletzt": "2026-10-21",
+    "zuletzt": "2026-10-30",
     "lesungen": [
       {
         "am": "2026-10-14",
@@ -14406,11 +15040,30 @@
         "markierungen": {},
         "bild": "www.anime2you.de/e39eb17b2d5cccf2/2026-10-21-43548a3376ede165.webp",
         "text": "www.anime2you.de/e39eb17b2d5cccf2/2026-10-21-43548a3376ede165.txt.gz"
+      },
+      {
+        "am": "2026-10-30",
+        "hash": "b8a48a386e75f565",
+        "hf": 2,
+        "veroeffentlicht": "2026-08-15",
+        "aktualisiert": "2026-08-18",
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierungen": {},
+        "ohneMarke": {
+          "482": "nicht-gefunden",
+          "98659": "nicht-gefunden",
+          "99263": "nicht-gefunden",
+          "116006": "nicht-gefunden"
+        },
+        "bild": "www.anime2you.de/e39eb17b2d5cccf2/2026-10-30-b8a48a386e75f565.webp",
+        "text": "www.anime2you.de/e39eb17b2d5cccf2/2026-10-30-b8a48a386e75f565.txt.gz"
       }
     ]
   },
   "https://www.anime2you.de/news/1058090/suzume-4k-steelbook-edition-design/": {
-    "zuletzt": "2026-10-21",
+    "zuletzt": "2026-10-30",
     "lesungen": [
       {
         "am": "2026-10-14",
@@ -14446,11 +15099,29 @@
         ],
         "bild": "www.anime2you.de/29b46b861aa3a9c1/2026-10-21-d9c2ad70225d30b2.webp",
         "text": "www.anime2you.de/29b46b861aa3a9c1/2026-10-21-d9c2ad70225d30b2.txt.gz"
+      },
+      {
+        "am": "2026-10-30",
+        "hash": "2ef8c7794c355279",
+        "hf": 2,
+        "veroeffentlicht": "2026-10-07",
+        "aktualisiert": "2026-10-09",
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.705593248386563,
+          0.8942307692307693,
+          0.26051629985106733
+        ],
+        "bild": "www.anime2you.de/29b46b861aa3a9c1/2026-10-30-2ef8c7794c355279.webp",
+        "text": "www.anime2you.de/29b46b861aa3a9c1/2026-10-30-2ef8c7794c355279.txt.gz"
       }
     ]
   },
   "https://de.wikipedia.org/wiki/Super_Wings": {
-    "zuletzt": "2026-10-21",
+    "zuletzt": "2026-10-30",
     "lesungen": [
       {
         "am": "2026-10-14",
@@ -14466,11 +15137,21 @@
         ],
         "bild": "de.wikipedia.org/ea48a03c9a53dad4/2026-10-14-cad2e1d8dd1ad0af.webp",
         "text": "de.wikipedia.org/ea48a03c9a53dad4/2026-10-14-cad2e1d8dd1ad0af.txt.gz"
+      },
+      {
+        "am": "2026-10-30",
+        "hash": "6849c8c96f213dd7",
+        "hf": 2,
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "bild": "de.wikipedia.org/ea48a03c9a53dad4/2026-10-30-6849c8c96f213dd7.webp",
+        "text": "de.wikipedia.org/ea48a03c9a53dad4/2026-10-30-6849c8c96f213dd7.txt.gz"
       }
     ]
   },
   "https://www.anime2you.de/news/1059957/sss-class-revival-hunter-neuer-teaser/": {
-    "zuletzt": "2026-10-21",
+    "zuletzt": "2026-10-30",
     "lesungen": [
       {
         "am": "2026-10-14",
@@ -14494,11 +15175,29 @@
         "bildfassung": 2,
         "bild": "www.anime2you.de/c5d44ebafb4fb935/2026-10-21-dbf92caa4f23606d.webp",
         "text": "www.anime2you.de/c5d44ebafb4fb935/2026-10-21-dbf92caa4f23606d.txt.gz"
+      },
+      {
+        "am": "2026-10-30",
+        "hash": "3e97fb61de2c8ecf",
+        "hf": 2,
+        "veroeffentlicht": "2026-10-11",
+        "aktualisiert": "2026-10-13",
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.4503735325506937,
+          0.8942307692307693,
+          0.23608656857427787
+        ],
+        "bild": "www.anime2you.de/c5d44ebafb4fb935/2026-10-30-3e97fb61de2c8ecf.webp",
+        "text": "www.anime2you.de/c5d44ebafb4fb935/2026-10-30-3e97fb61de2c8ecf.txt.gz"
       }
     ]
   },
   "https://www.anime2you.de/news/1044124/jujutsu-kaisen-staffel-1-steelbook-edition/": {
-    "zuletzt": "2026-10-21",
+    "zuletzt": "2026-10-30",
     "lesungen": [
       {
         "am": "2026-10-14",
@@ -14522,11 +15221,29 @@
         "bildfassung": 2,
         "bild": "www.anime2you.de/4b09dcd022f30d5c/2026-10-21-bb9762aae7c4b0a9.webp",
         "text": "www.anime2you.de/4b09dcd022f30d5c/2026-10-21-bb9762aae7c4b0a9.txt.gz"
+      },
+      {
+        "am": "2026-10-30",
+        "hash": "bd1d31368fbc2ea2",
+        "hf": 2,
+        "veroeffentlicht": "2026-09-03",
+        "aktualisiert": "2026-09-06",
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.4688205725941575,
+          0.8942307692307693,
+          0.20479711517447366
+        ],
+        "bild": "www.anime2you.de/4b09dcd022f30d5c/2026-10-30-bd1d31368fbc2ea2.webp",
+        "text": "www.anime2you.de/4b09dcd022f30d5c/2026-10-30-bd1d31368fbc2ea2.txt.gz"
       }
     ]
   },
   "https://www.anime2you.de/news/1058606/crunchyroll-the-boxer-und-mehr/": {
-    "zuletzt": "2026-10-21",
+    "zuletzt": "2026-10-30",
     "lesungen": [
       {
         "am": "2026-10-14",
@@ -14550,6 +15267,24 @@
         "bildfassung": 2,
         "bild": "www.anime2you.de/7767c49e13a467eb/2026-10-21-dc004d3de84313f5.webp",
         "text": "www.anime2you.de/7767c49e13a467eb/2026-10-21-dc004d3de84313f5.txt.gz"
+      },
+      {
+        "am": "2026-10-30",
+        "hash": "36de38dc369260de",
+        "hf": 2,
+        "veroeffentlicht": "2026-10-09",
+        "aktualisiert": "2026-10-12",
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.6942128873687287,
+          0.8942307692307693,
+          0.27058661762431035
+        ],
+        "bild": "www.anime2you.de/7767c49e13a467eb/2026-10-30-36de38dc369260de.webp",
+        "text": "www.anime2you.de/7767c49e13a467eb/2026-10-30-36de38dc369260de.txt.gz"
       }
     ]
   },
@@ -14622,7 +15357,7 @@
     ]
   },
   "https://www.anime2you.de/news/1052617/netflix-bride-of-the-barrier-master-simulcast/": {
-    "zuletzt": "2026-10-21",
+    "zuletzt": "2026-10-30",
     "lesungen": [
       {
         "am": "2026-10-14",
@@ -14646,6 +15381,24 @@
         "bildfassung": 2,
         "bild": "www.anime2you.de/7578d0eabb415ab9/2026-10-21-d50aaed3c6ace79a.webp",
         "text": "www.anime2you.de/7578d0eabb415ab9/2026-10-21-d50aaed3c6ace79a.txt.gz"
+      },
+      {
+        "am": "2026-10-30",
+        "hash": "3c051a83098a808a",
+        "hf": 2,
+        "veroeffentlicht": "2026-09-21",
+        "aktualisiert": "2026-09-24",
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.4688205725941575,
+          0.8942307692307693,
+          0.20479711517447366
+        ],
+        "bild": "www.anime2you.de/7578d0eabb415ab9/2026-10-30-3c051a83098a808a.webp",
+        "text": "www.anime2you.de/7578d0eabb415ab9/2026-10-30-3c051a83098a808a.txt.gz"
       }
     ]
   },
@@ -15093,7 +15846,7 @@
     ]
   },
   "https://www.disneyplus.com/de-de/browse/entity-fc20b0bc-90b6-45b3-b56a-ad3a5cb2b855": {
-    "zuletzt": "2026-10-17",
+    "zuletzt": "2026-10-30",
     "lesungen": [
       {
         "am": "2026-10-17",
@@ -15103,6 +15856,16 @@
         "bildfassung": 2,
         "bild": "www.disneyplus.com/6f797114022ddffb/2026-10-17-ca7d6cc732f8bd64.webp",
         "text": "www.disneyplus.com/6f797114022ddffb/2026-10-17-ca7d6cc732f8bd64.txt.gz"
+      },
+      {
+        "am": "2026-10-30",
+        "hash": "7eca33e5f9e62eb2",
+        "hf": 2,
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "bild": "www.disneyplus.com/6f797114022ddffb/2026-10-30-7eca33e5f9e62eb2.webp",
+        "text": "www.disneyplus.com/6f797114022ddffb/2026-10-30-7eca33e5f9e62eb2.txt.gz"
       }
     ]
   },
@@ -15188,7 +15951,7 @@
     ]
   },
   "https://www.anime2you.de/news/1061704/eureka-seven-blu-ray-komplettbox/": {
-    "zuletzt": "2026-10-21",
+    "zuletzt": "2026-10-30",
     "lesungen": [
       {
         "am": "2026-10-18",
@@ -15257,11 +16020,29 @@
         ],
         "bild": "www.anime2you.de/ff5f36e952e21d64/2026-10-21-c075d0a0b490ea82.webp",
         "text": "www.anime2you.de/ff5f36e952e21d64/2026-10-21-c075d0a0b490ea82.txt.gz"
+      },
+      {
+        "am": "2026-10-30",
+        "hash": "c3e1d363b32f5494",
+        "hf": 2,
+        "veroeffentlicht": "2026-10-17",
+        "aktualisiert": "2026-10-20",
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.7221268683401273,
+          0.8942307692307693,
+          0.24125724093542159
+        ],
+        "bild": "www.anime2you.de/ff5f36e952e21d64/2026-10-30-c3e1d363b32f5494.webp",
+        "text": "www.anime2you.de/ff5f36e952e21d64/2026-10-30-c3e1d363b32f5494.txt.gz"
       }
     ]
   },
   "https://www.anime2you.de/news/1061686/isekai-onsen-paradise-blu-ray-komplettbox/": {
-    "zuletzt": "2026-10-22",
+    "zuletzt": "2026-10-30",
     "lesungen": [
       {
         "am": "2026-10-19",
@@ -15322,7 +16103,7 @@
         "veroeffentlicht": "2026-10-18",
         "aktualisiert": "2026-10-21",
         "qs": "ok",
-        "bildfassung": 2,
+        "bildfassung": 3,
         "markierung": [
           0.038461538461538464,
           0.6819173281842237,
@@ -15475,7 +16256,7 @@
     ]
   },
   "https://www.disneyplus.com/browse/entity-14f5d468-38b2-4d4b-97ed-649e6c3ba4c8": {
-    "zuletzt": "2026-10-21",
+    "zuletzt": "2026-10-30",
     "lesungen": [
       {
         "am": "2026-10-21",
@@ -15485,6 +16266,22 @@
         "bildfassung": 2,
         "bild": "www.disneyplus.com/9b6cc4fdbce1d624/2026-10-21-9e06513fe9130c1f.webp",
         "text": "www.disneyplus.com/9b6cc4fdbce1d624/2026-10-21-9e06513fe9130c1f.txt.gz"
+      },
+      {
+        "am": "2026-10-30",
+        "hash": "eecef08b4e9ad345",
+        "hf": 2,
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0,
+          0,
+          1,
+          0.05083583714786957
+        ],
+        "bild": "www.disneyplus.com/9b6cc4fdbce1d624/2026-10-30-eecef08b4e9ad345.webp",
+        "text": "www.disneyplus.com/9b6cc4fdbce1d624/2026-10-30-eecef08b4e9ad345.txt.gz"
       }
     ]
   },
@@ -15613,6 +16410,271 @@
         ],
         "bild": "www.anime2you.de/d5d2af56783075e1/2026-10-29-5c814cdda2353647.webp",
         "text": "www.anime2you.de/d5d2af56783075e1/2026-10-29-5c814cdda2353647.txt.gz"
+      }
+    ]
+  },
+  "https://www.anisearch.de/article/197485,strike-witches-staffel-2-vol-1-3-limited-mediabook-edition-blu-ray-sammelschuber": {
+    "zuletzt": "2026-10-30",
+    "lesungen": [
+      {
+        "am": "2026-10-30",
+        "hash": "e39e552c926a99c2",
+        "hf": 2,
+        "ausgabe": "2026-11-27",
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.625,
+          0.07205798670769639,
+          0.34615384615384615,
+          0.15587794947156738
+        ],
+        "bild": "www.anisearch.de/590ad3c40e96eb11/2026-10-30-e39e552c926a99c2.webp",
+        "text": "www.anisearch.de/590ad3c40e96eb11/2026-10-30-e39e552c926a99c2.txt.gz"
+      }
+    ]
+  },
+  "https://www.anisearch.de/article/198024,virgin-road-die-henkerin-und-ihre-art-zu-leben-vol-1-3-limited-edition-blu-ray-sammelschuber": {
+    "zuletzt": "2026-10-30",
+    "lesungen": [
+      {
+        "am": "2026-10-30",
+        "hash": "af0f52518f1d2523",
+        "hf": 2,
+        "ausgabe": "2026-11-06",
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.625,
+          0.2544892975147249,
+          0.34615384615384615,
+          0.4080879184025284
+        ],
+        "bild": "www.anisearch.de/6b159a4323d78bcf/2026-10-30-af0f52518f1d2523.webp",
+        "text": "www.anisearch.de/6b159a4323d78bcf/2026-10-30-af0f52518f1d2523.txt.gz"
+      }
+    ]
+  },
+  "https://www.anisearch.de/article/187244,infinite-dendrogram-vol-2-2-day-one-edition-blu-ray": {
+    "zuletzt": "2026-10-30",
+    "lesungen": [
+      {
+        "am": "2026-10-30",
+        "hash": "b9d8020fd8692664",
+        "hf": 2,
+        "ausgabe": "2026-11-13",
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.625,
+          0.1225061374088033,
+          0.34615384615384615,
+          0.17662598112098477
+        ],
+        "bild": "www.anisearch.de/55b7376b23f5a9ca/2026-10-30-b9d8020fd8692664.webp",
+        "text": "www.anisearch.de/55b7376b23f5a9ca/2026-10-30-b9d8020fd8692664.txt.gz"
+      }
+    ]
+  },
+  "https://www.anisearch.de/article/201859,sakamoto-days-vol-1-4-limited-steelcase-edition-blu-ray-sammelschuber": {
+    "zuletzt": "2026-10-30",
+    "lesungen": [
+      {
+        "am": "2026-10-30",
+        "hash": "10699e19bb761c02",
+        "hf": 2,
+        "ausgabe": "2026-11-13",
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.625,
+          0.2551453961486944,
+          0.34615384615384615,
+          0.4065619103858507
+        ],
+        "bild": "www.anisearch.de/b0cf2d8faaa8def7/2026-10-30-10699e19bb761c02.webp",
+        "text": "www.anisearch.de/b0cf2d8faaa8def7/2026-10-30-10699e19bb761c02.txt.gz"
+      }
+    ]
+  },
+  "https://www.anisearch.de/article/189533,nukitashi-welcome-to-love-island-vol-1-3-limited-mediabook-edition-blu-ray-sammelschuber": {
+    "zuletzt": "2026-10-30",
+    "lesungen": [
+      {
+        "am": "2026-10-30",
+        "hash": "688cf3a3ca2c222a",
+        "hf": 2,
+        "ausgabe": "2026-11-06",
+        "qs": "ok",
+        "bildfassung": 3,
+        "bild": "www.anisearch.de/413ab6cb6d8d468d/2026-10-30-688cf3a3ca2c222a.webp",
+        "text": "www.anisearch.de/413ab6cb6d8d468d/2026-10-30-688cf3a3ca2c222a.txt.gz"
+      }
+    ]
+  },
+  "https://www.anisearch.de/article/214968,bocchi-the-rock-staffel-1-vol-1-3-limited-platinum-vip-edition-blu-ray-sammelschuber": {
+    "zuletzt": "2026-10-30",
+    "lesungen": [
+      {
+        "am": "2026-10-30",
+        "hash": "26276bc4ca1bb0d7",
+        "hf": 2,
+        "ausgabe": "2026-11-20",
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.625,
+          0.0959180026964248,
+          0.34615384615384615,
+          0.22849763656741875
+        ],
+        "bild": "www.anisearch.de/a466d77020fa994a/2026-10-30-26276bc4ca1bb0d7.webp",
+        "text": "www.anisearch.de/a466d77020fa994a/2026-10-30-26276bc4ca1bb0d7.txt.gz"
+      }
+    ]
+  },
+  "https://www.anisearch.de/article/191583,bocchi-the-rock-staffel-1-vol-2-3-limited-edition-blu-ray": {
+    "zuletzt": "2026-10-30",
+    "lesungen": [
+      {
+        "am": "2026-10-30",
+        "hash": "e11f05bcac2f81f1",
+        "hf": 2,
+        "ausgabe": "2026-12-04",
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.625,
+          0.10470353208189513,
+          0.34615384615384615,
+          0.18279824105158637
+        ],
+        "bild": "www.anisearch.de/af2a19e29760d75d/2026-10-30-e11f05bcac2f81f1.webp",
+        "text": "www.anisearch.de/af2a19e29760d75d/2026-10-30-e11f05bcac2f81f1.txt.gz"
+      }
+    ]
+  },
+  "https://www.anisearch.de/article/191392,spice-and-wolf-merchant-meets-the-wise-wolf-staffel-1-vol-3-4-limited-edition-blu-ray": {
+    "zuletzt": "2026-10-30",
+    "lesungen": [
+      {
+        "am": "2026-10-30",
+        "hash": "5e00140757935c19",
+        "hf": 2,
+        "ausgabe": "2027-01-15",
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.625,
+          0.24931040306237334,
+          0.34615384615384615,
+          0.42013341589732045
+        ],
+        "bild": "www.anisearch.de/2d0025b813be6f1b/2026-10-30-5e00140757935c19.webp",
+        "text": "www.anisearch.de/2d0025b813be6f1b/2026-10-30-5e00140757935c19.txt.gz"
+      }
+    ]
+  },
+  "https://www.anisearch.de/article/191584,bocchi-the-rock-staffel-1-vol-3-3-limited-edition-blu-ray": {
+    "zuletzt": "2026-10-30",
+    "lesungen": [
+      {
+        "am": "2026-10-30",
+        "hash": "cae2cf6f8209d8fa",
+        "hf": 2,
+        "ausgabe": "2027-01-15",
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.625,
+          0.11810629900261348,
+          0.34615384615384615,
+          0.2061976638754067
+        ],
+        "bild": "www.anisearch.de/4f25005eef965c70/2026-10-30-cae2cf6f8209d8fa.webp",
+        "text": "www.anisearch.de/4f25005eef965c70/2026-10-30-cae2cf6f8209d8fa.txt.gz"
+      }
+    ]
+  },
+  "https://www.anisearch.de/article/191393,spice-and-wolf-merchant-meets-the-wise-wolf-staffel-1-vol-4-4-limited-edition-blu-ray": {
+    "zuletzt": "2026-10-30",
+    "lesungen": [
+      {
+        "am": "2026-10-30",
+        "hash": "c94248ea489c0a29",
+        "hf": 2,
+        "ausgabe": "2027-02-05",
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.625,
+          0.24931040306237334,
+          0.34615384615384615,
+          0.42013341589732045
+        ],
+        "bild": "www.anisearch.de/e59e75d6c2c42023/2026-10-30-c94248ea489c0a29.webp",
+        "text": "www.anisearch.de/e59e75d6c2c42023/2026-10-30-c94248ea489c0a29.txt.gz"
+      }
+    ]
+  },
+  "https://www.anime2you.de/news/1065078/aniverse-november-2026-neuzugaenge/": {
+    "zuletzt": "2026-10-30",
+    "lesungen": [
+      {
+        "am": "2026-10-30",
+        "hash": "92d95e3a4d5ea69c",
+        "hf": 2,
+        "veroeffentlicht": "2026-10-28",
+        "aktualisiert": "2026-10-29",
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.6819173281842237,
+          0.8942307692307693,
+          0.28146678109132517
+        ],
+        "markierungen": {
+          "885": [
+            0.038461538461538464,
+            0.6819173281842237,
+            0.8942307692307693,
+            0.28146678109132517
+          ],
+          "20701": [
+            0.038461538461538464,
+            0.6819173281842237,
+            0.8942307692307693,
+            0.28146678109132517
+          ]
+        },
+        "ohneMarke": {
+          "175914": "nicht-gefunden"
+        },
+        "bild": "www.anime2you.de/a4dc113c6acd9b9f/2026-10-30-92d95e3a4d5ea69c.webp",
+        "text": "www.anime2you.de/a4dc113c6acd9b9f/2026-10-30-92d95e3a4d5ea69c.txt.gz"
+      }
+    ]
+  },
+  "https://www.anime2you.de/news/1065067/disney-plus-bleach-finale-und-mehr/": {
+    "zuletzt": "2026-10-30",
+    "lesungen": [
+      {
+        "am": "2026-10-30",
+        "hash": "732381953c031606",
+        "hf": 2,
+        "veroeffentlicht": "2026-10-28",
+        "aktualisiert": "2026-10-29",
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.7415522805926041,
+          0.8942307692307693,
+          0.2186297001983124
+        ],
+        "bild": "www.anime2you.de/16ff8057f4546a96/2026-10-30-732381953c031606.webp",
+        "text": "www.anime2you.de/16ff8057f4546a96/2026-10-30-732381953c031606.txt.gz"
       }
     ]
   }

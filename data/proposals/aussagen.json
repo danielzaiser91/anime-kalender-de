@@ -1,6 +1,6 @@
 {
   "format": 2,
-  "stand": "2026-10-29",
+  "stand": "2026-10-30",
   "hinweis": "Vorschlagsmodus: nur gelesen, nie übernommen — docs/wissen/sammelartikel-poc.md (Abschnitt „Vorschlagslauf\"). Schreiber: pipeline/fetch-sammelartikel.ts",
   "aussagen": [
     {
@@ -12021,6 +12021,156 @@
           "status": "ohne-zuordnung"
         },
         "inhaltZeichen": 402
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1065256/prime-video-goblin-slayer-staffel-2-und-mehr/|Chaika – Die Sargprinzessin|Staffel 1|start|primevideo",
+      "erstGesehen": "2026-10-30",
+      "fingerabdruck": "ecf1404ac3e4",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1065256/prime-video-goblin-slayer-staffel-2-und-mehr/",
+          "veroeffentlicht": "2026-10-29",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Chaika – Die Sargprinzessin",
+        "zusatz": "Staffel 1",
+        "art": "start",
+        "plattformen": [
+          "primevideo"
+        ],
+        "datum": "2026-10-29",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "ja",
+        "folgen": 12,
+        "konfidenz": 0.8,
+        "gruende": [
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "Ab sofort: »Chaika – Die Sargprinzessin« – Staffel 1\nAb sofort: »Chaika – Die Sargprinzessin« – Staffel 1\nEpisoden: 12 (komplett)\nSprache: Deutsch\nStream: Prime Video",
+        "zuordnung": {
+          "anilistId": 20462,
+          "name": "Chaika, die Sargprinzessin",
+          "wie": "name-genau",
+          "abstandTage": 4585
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 363
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1065256/prime-video-goblin-slayer-staffel-2-und-mehr/|Waiting in the Summer||start|primevideo",
+      "erstGesehen": "2026-10-30",
+      "fingerabdruck": "9c84f60b3ae4",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1065256/prime-video-goblin-slayer-staffel-2-und-mehr/",
+          "veroeffentlicht": "2026-10-29",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Waiting in the Summer",
+        "art": "start",
+        "plattformen": [
+          "primevideo"
+        ],
+        "datum": "2026-10-29",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "ja",
+        "folgen": 12,
+        "konfidenz": 0.8,
+        "gruende": [
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "Ab sofort: »Waiting in the Summer«\nAb sofort: »Waiting in the Summer«\nEpisoden: 12 (komplett)\nSprache: Deutsch\nStream: Prime Video",
+        "zuordnung": {
+          "anilistId": 11433,
+          "name": "Waiting in the Summer",
+          "wie": "name-genau",
+          "abstandTage": 5406
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 297
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1065256/prime-video-goblin-slayer-staffel-2-und-mehr/|Goblin Slayer|Staffel 2|start|primevideo",
+      "erstGesehen": "2026-10-30",
+      "fingerabdruck": "a946e681e4d6",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1065256/prime-video-goblin-slayer-staffel-2-und-mehr/",
+          "veroeffentlicht": "2026-10-29",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Goblin Slayer",
+        "zusatz": "Staffel 2",
+        "art": "start",
+        "plattformen": [
+          "primevideo"
+        ],
+        "datum": "2026-11-01",
+        "datumBedeutung": "genannt",
+        "deutsch": "ja",
+        "folgen": 12,
+        "konfidenz": 0.95,
+        "gruende": [],
+        "zitat": "Ab 1. November: »Goblin Slayer« – Staffel 2\nAb 1. November: »Goblin Slayer« – Staffel 2\nEpisoden: 12 (komplett)\nSprache: Deutsch, Japanisch (UT)\nStream: Prime Video",
+        "zuordnung": {
+          "anilistId": 129188,
+          "name": "Goblin Slayer 2",
+          "wie": "name-genau",
+          "abstandTage": 1122
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 391
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1065256/prime-video-goblin-slayer-staffel-2-und-mehr/|Devils‘ Crest||start|primevideo",
+      "erstGesehen": "2026-10-30",
+      "fingerabdruck": "33dda70b4917",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1065256/prime-video-goblin-slayer-staffel-2-und-mehr/",
+          "veroeffentlicht": "2026-10-29",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Devils‘ Crest",
+        "art": "start",
+        "plattformen": [
+          "primevideo"
+        ],
+        "datum": "2026-11-06",
+        "datumBedeutung": "genannt",
+        "deutsch": "ja",
+        "woechentlich": true,
+        "konfidenz": 0.95,
+        "gruende": [],
+        "zitat": "Ab 6. November: »Devils‘ Crest« (Simulcast)\nAb 6. November: »Devils‘ Crest« (Simulcast)\nEpisoden: unbekannt\nSprache: Deutsch, Japanisch (UT)\nSimulcast: Jeden Freitag eine neue Episode\nStream: Prime Video",
+        "zuordnung": {
+          "anilistId": 203275,
+          "name": "Devils' Crest",
+          "wie": "name+start",
+          "abstandTage": 0
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": false
+        },
+        "inhaltZeichen": 388
       }
     }
   ]
