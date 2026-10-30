@@ -144,6 +144,7 @@ pruefe('Disc (06.11.) vor dem Stream (01.12.): kein „erste Folge … 01.12.“
 const discSpaet = text(kasten(titel(), [stream1212, disc('2027-01-10', 'Vorstarttest – Vol. 1')]))
 pruefe('Disc nach dem Stream: der Stream bleibt der erste Termin', discSpaet.includes('Die erste Folge mit deutscher Synchro erscheint am 01.12.2026'), discSpaet.slice(0, 300))
 pruefe('discVorStream: Disc am Tag des Streams ist nicht davor', !discVorStream([disc('2026-12-01', 'x')], '2026-12-01'))
+pruefe('discVorStream: ein früherer Stream ist keine Disc', !discVorStream([wochentakt('2026-11-01')], '2026-12-01'))
 pruefe('discVorStream: Disc einen Tag davor', discVorStream([disc('2026-11-30', 'x')], '2026-12-01'))
 const kastenZu = (t: Title, releases: Release[], jetzt: Date, today: string): string => {
   const antwort = berechneAntwort({ title: t, releases, today, jetzt })
