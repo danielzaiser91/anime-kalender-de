@@ -1,0 +1,20 @@
+[
+  { "name": "Kontrolle", "aenderungen": [] },
+  { "name": "istFremdpaket: alles eingebaut", "datei": "tools/workflow-ohne-pakete.mjs", "suche": "return !EINGEBAUT.has(spezifizierer)", "ersetze": "return false" },
+  { "name": "istFremdpaket: relative Pfade fremd", "datei": "tools/workflow-ohne-pakete.mjs", "suche": "if (spezifizierer.startsWith('.') || spezifizierer.startsWith('/')) return false", "ersetze": "if (spezifizierer.startsWith('/')) return false" },
+  { "name": "istFremdpaket: node:-Präfix fremd", "datei": "tools/workflow-ohne-pakete.mjs", "suche": "if (spezifizierer.startsWith('node:')) return false", "ersetze": "" },
+  { "name": "INSTALL: npm ci nicht erkannt", "datei": "tools/workflow-ohne-pakete.mjs", "suche": "npm\\s+(?:ci|install|i)", "ersetze": "npm\\s+(?:install|i)" },
+  { "name": "ungeschuetzteSkripte: Install schützt nicht", "datei": "tools/workflow-ohne-pakete.mjs", "suche": "if (INSTALL.test(run)) return [...skripte]", "ersetze": "" },
+  { "name": "ungeschuetzteSkripte: Aktion schützt nicht", "datei": "tools/workflow-ohne-pakete.mjs", "suche": "if (installiertAktion(wurzel, schritt.uses)) return [...skripte]", "ersetze": "" },
+  { "name": "installiertAktion: nur Präfix x", "datei": "tools/workflow-ohne-pakete.mjs", "suche": "!uses.startsWith('./')", "ersetze": "!uses.startsWith('x')" },
+  { "name": "aufrufeAusRun: tsx nicht erkannt", "datei": "tools/workflow-ohne-pakete.mjs", "suche": "['node', 'tsx'].includes(teile[i])", "ersetze": "['node'].includes(teile[i])" },
+  { "name": "aufrufeAusRun: Pipe beendet Aufruf nicht", "datei": "tools/workflow-ohne-pakete.mjs", "suche": "if (ENDE.has(t)) break", "ersetze": "" },
+  { "name": "aufrufeAusRun: Variable als Skript", "datei": "tools/workflow-ohne-pakete.mjs", "suche": "t.startsWith('-') || t.includes('$') ||", "ersetze": "t.startsWith('-') ||" },
+  { "name": "ungeschuetzteSkripte: Shell-Skript nicht gelesen", "datei": "tools/workflow-ohne-pakete.mjs", "suche": "if (existsSync(pfad)) aufrufeAusRun", "ersetze": "if (false) aufrufeAusRun" },
+  { "name": "fremdImporte: require/import() nicht gelesen", "datei": "tools/workflow-ohne-pakete.mjs", "suche": "readFileSync(pfad, 'utf8'), true, true)", "ersetze": "readFileSync(pfad, 'utf8'), true, false)" },
+  { "name": "fremdImporte: Importe nicht gelesen", "datei": "tools/workflow-ohne-pakete.mjs", "suche": "readFileSync(pfad, 'utf8'), true, true)", "ersetze": "readFileSync(pfad, 'utf8'), false, true)" },
+  { "name": "fremdImporte: fehlende Datei still", "datei": "tools/workflow-ohne-pakete.mjs", "suche": "else if (!fileName.startsWith('node:')", "ersetze": "else if (false && !fileName.startsWith('node:')" },
+  { "name": "fremdImporte: Kette nicht weiterverfolgt", "datei": "tools/workflow-ohne-pakete.mjs", "suche": "if (ziel) stapel.push(", "ersetze": "if (false) stapel.push(" },
+  { "name": "pruefeWorkflow: Meldung je Vorkommen", "datei": "tools/workflow-ohne-pakete.mjs", "suche": "if (gemeldet.has(f.paket)) continue", "ersetze": "" },
+  { "name": "pruefeWorkflow: Skript ohne Datei zählt nicht", "datei": "tools/workflow-ohne-pakete.mjs", "suche": "if (!existsSync(resolve(wurzel, skript))) continue", "ersetze": "if (true) continue" }
+]
