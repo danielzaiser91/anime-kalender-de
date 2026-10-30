@@ -12,7 +12,7 @@ export function KastenMitFolgenKarte({ folgen, karte, ...kasten }: ComponentProp
       <div className="mt-2 rounded-xl border border-ak-linie px-3 py-1 empty:hidden [&>div]:mt-0 [&>div]:border-t-0 [&>div]:pt-0" data-folgen-karte>
         {folgen}
       </div>
-      {karte && <div className="mt-3">{karte}</div>}
+      {karte}
     </>
   )
 }

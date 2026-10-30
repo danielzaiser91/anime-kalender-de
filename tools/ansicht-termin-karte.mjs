@@ -54,7 +54,8 @@ function mitProbe(antworte, dist) {
 /** Rechtecke von Karte und Kasten (Seitenkoordinaten), Höhen von Knopf und Quelle. Läuft im Browser. */
 function lage(karteSel) {
   const k = document.querySelector(karteSel)
-  const kasten = [...k.parentElement.parentElement.children].find((c) => c.tagName === 'SECTION')
+  let kasten = k.previousElementSibling
+  while (kasten && !(kasten.tagName === 'SECTION' && !kasten.hasAttribute('aria-label'))) kasten = kasten.previousElementSibling
   const rel = (e) => {
     const r = e.getBoundingClientRect()
     return { l: Math.round(r.left), r: Math.round(r.right), t: Math.round(r.top), b: Math.round(r.bottom), h: r.height }
