@@ -2575,6 +2575,12 @@
   ],
   "adn-999": [
     {
+      "url": "https://news.animationdigitalnetwork.com/de/2026/05/22/adn-animagic-live-synchro-mit-mayumi-tanaka/",
+      "name": "news.animationdigitalnetwork.com",
+      "gesehenAm": "2026-10-30",
+      "stand": "aktuell"
+    },
+    {
       "url": "https://gw.api.animationdigitalnetwork.com/video/show/999",
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
@@ -2586,7 +2592,7 @@
       "url": "https://news.animationdigitalnetwork.com/de/2026/10/01/dragon-ball-super-beerus-kommt-in-den-simulcast-zu-adn/",
       "name": "news.animationdigitalnetwork.com",
       "gesehenAm": "2026-10-01",
-      "stand": "aktuell",
+      "stand": "vermutlich-ueberholt",
       "sagt": "2023-01-04"
     }
   ],
@@ -2731,7 +2737,7 @@
       "url": "https://news.animationdigitalnetwork.com/de/2026/07/10/hyakko-ein-weiterer-anime-klassiker-im-stream-bei-adn/",
       "name": "news.animationdigitalnetwork.com",
       "gesehenAm": "2026-10-01",
-      "stand": "aktuell",
+      "stand": "vermutlich-ueberholt",
       "sagt": "2025-08-06"
     }
   ],
@@ -3308,7 +3314,7 @@
       "url": "https://news.animationdigitalnetwork.com/de/2026/06/15/kenichi-the-mightiest-disciple-the-attack-of-darkness-bei-adn/",
       "name": "news.animationdigitalnetwork.com",
       "gesehenAm": "2026-10-01",
-      "stand": "aktuell",
+      "stand": "vermutlich-ueberholt",
       "sagt": "2023-10-01"
     }
   ],
