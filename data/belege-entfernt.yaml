@@ -238,3 +238,83 @@
   url: https://www.amazon.de/gp/video/detail/B0F4V6JFZK
   grund: 'Seite hat 12 Folgen, laut Adresse Staffel 2 (108511), nicht Staffel 1 (24 Folgen) (Fremdzuordnung, 29.10.2026)'
   entferntAm: '2026-10-29'
+- anilistId: 102351
+  url: https://www.amazon.de/gp/video/detail/B0D83P6X34
+  grund: 'Seite zeigt Tokyo Ghoul Staffel 1 (12 Folgen, gti df2c72f7, Beleg 20605), nicht :re (Fremdzuordnung, 30.10.2026)'
+  entferntAm: '2026-10-30'
+- anilistId: 100240
+  url: https://www.amazon.de/gp/video/detail/B0DB78FWK9
+  grund: 'Seite zeigt Tokyo Ghoul Staffel 1 (gti df2c72f7, Beleg 20605), nicht :re; :re hat B0CW5WH6XZ (Fremdzuordnung, 30.10.2026)'
+  entferntAm: '2026-10-30'
+- anilistId: 100240
+  url: https://www.amazon.de/gp/video/detail/B0D83P6X34
+  grund: 'Seite zeigt Tokyo Ghoul Staffel 1 (Beleg 20605), nicht :re (Fremdzuordnung, 30.10.2026)'
+  entferntAm: '2026-10-30'
+- anilistId: 20850
+  url: https://www.amazon.de/gp/video/detail/B0D83P6X34
+  grund: 'Seite zeigt Tokyo Ghoul Staffel 1 (Beleg 20605); √A hat B0DCXV5GMB (Fremdzuordnung, 30.10.2026)'
+  entferntAm: '2026-10-30'
+- anilistId: 101117
+  url: https://www.amazon.de/gp/video/detail/B0CGVS29ZD
+  grund: 'Seite hat 12 Folgen und gehört Free! Iwatobi (18507); Dive hat B0CJK3GVR1 (Fremdzuordnung, 30.10.2026)'
+  entferntAm: '2026-10-30'
+- anilistId: 101117
+  url: https://www.amazon.de/gp/video/detail/B0CH396B9Y
+  grund: 'Seite hat 13 Folgen und gehört nicht Dive (12 Folgen, B0CJK3GVR1); vermutlich Eternal Summer (Fremdzuordnung, 30.10.2026)'
+  entferntAm: '2026-10-30'
+- anilistId: 18507
+  url: https://www.amazon.de/gp/video/detail/B0CH396B9Y
+  grund: 'Seite hat 13 Folgen, Iwatobi hat 12; vermutlich Eternal Summer (Fremdzuordnung, 30.10.2026)'
+  entferntAm: '2026-10-30'
+- anilistId: 18507
+  url: https://www.amazon.de/gp/video/detail/B0CJK3GVR1
+  grund: 'Seite gehört Free! Dive to the Future (101117, Deutsch, 12 Folgen, gti 836c011c) (Fremdzuordnung, 30.10.2026)'
+  entferntAm: '2026-10-30'
+- anilistId: 14813
+  url: https://www.amazon.de/gp/video/detail/B0B6TTP1TL
+  grund: 'Seite gehört SNAFU TOO! (20698, gti d423b351); Staffel 1 hat B0B5HR8NVX (Fremdzuordnung, 30.10.2026)'
+  entferntAm: '2026-10-30'
+- anilistId: 20698
+  url: https://www.amazon.de/gp/video/detail/B0B5HR8NVX
+  grund: 'Seite gehört SNAFU Staffel 1 (14813, gti a904e94f, „laut Adresse Staffel 1“) (Fremdzuordnung, 30.10.2026)'
+  entferntAm: '2026-10-30'
+- anilistId: 136430
+  url: https://www.amazon.de/gp/video/detail/B0BX1M7K82
+  grund: 'Seite gehört Vinland Saga Staffel 1 (101348, gti 28dcdb64, 24 Folgen); Staffel 2 hat B0B8Q3TSS9 (Fremdzuordnung, 30.10.2026)'
+  entferntAm: '2026-10-30'
+- anilistId: 136430
+  url: https://www.amazon.de/gp/video/detail/B0C55SJB1W
+  grund: 'Seite gehört Vinland Saga Staffel 1 (101348, gti 28dcdb64); Staffel 2 bleibt über B0B8Q3TSS9 (Fremdzuordnung, 30.10.2026)'
+  entferntAm: '2026-10-30'
+- anilistId: 117612
+  url: https://www.amazon.de/gp/video/detail/B0G1DT86QJ
+  grund: 'Seite („laut Adresse Staffel 2“) gehört Realist Hero Teil 2 (139648) und ist dorthin umgehängt; die Messung von B0GFC11F2R hängt jetzt an dieser Adresse (Fehlablage, 30.10.2026)'
+  entferntAm: '2026-10-30'
+- anilistId: 106625
+  url: https://www.amazon.de/gp/video/detail/B0D544CDK6
+  grund: 'Seite hat 11 Folgen und gehört Haikyu!! Staffel 3 (21698); Staffel 4 hat B0D2NL5GYX (Fremdzuordnung, 30.10.2026)'
+  entferntAm: '2026-10-30'
+- anilistId: 21518
+  url: https://www.amazon.de/gp/video/detail/B0CJPKQQNL
+  grund: 'Seite hat 12 Folgen und gehört Food Wars! Fourth Plate (109963), Second Plate hat 13 (Fremdzuordnung, 30.10.2026)'
+  entferntAm: '2026-10-30'
+- anilistId: 1195
+  url: https://www.amazon.de/gp/video/detail/B0CC5GCCKZ
+  grund: 'Seite hat 13 Folgen (Rondo of Princesses 12 + OVA, 3712); Staffel 1 hat B0B8RQ86ZZ (Fremdzuordnung, 30.10.2026)'
+  entferntAm: '2026-10-30'
+- anilistId: 5764
+  url: https://www.amazon.de/gp/video/detail/B0CC5GCCKZ
+  grund: 'Zeile „laut Adresse Staffel 1“ gehört Familiar of Zero Staffel 1 (1195), nicht der OVA (Fehlablage, 30.10.2026)'
+  entferntAm: '2026-10-30'
+- anilistId: 187054
+  url: https://www.amazon.de/gp/video/detail/B07XYDCVFK
+  grund: 'Seite gehört Sylvanian Families Ivy (187053, Prime-Weg, Erstausgabe Amazon); Klee erschien bei Netflix (Fremdzuordnung, 30.10.2026)'
+  entferntAm: '2026-10-30'
+- anilistId: 4437
+  url: https://www.amazon.de/gp/video/detail/B01HSH3W1G
+  grund: 'Seite gehört dem Film Naruto Movie 2 (936, Beleg „Seitenadresse B01HSH3W1G“); 4437 hat B0GMYN3JS9 (Fremdzuordnung, 30.10.2026)'
+  entferntAm: '2026-10-30'
+- anilistId: 20913
+  url: https://www.amazon.de/gp/video/detail/B0C8TKFF2J
+  grund: 'Seite gehört K (14467, gti 8eb57c90); Return of Kings hat B0C8THGKXC (Fremdzuordnung, 30.10.2026)'
+  entferntAm: '2026-10-30'
