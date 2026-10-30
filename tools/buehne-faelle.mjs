@@ -49,8 +49,6 @@ export const FAELLE = [
   /* Synchro angekündigt und ein Crunchyroll-Weg da: der Anbieter steht in der Nebenzeile und als Pille (Mockup synchro-angekuendigt-kasten). */
   { slug: 'vermilion-mask', name: 'The Vermilion Mask (Synchro angekündigt, Crunchyroll-Weg)', titel: 195571 },
   { slug: 'firefly-wedding', name: 'Firefly Wedding (Synchro angekündigt, Crunchyroll-Weg)', titel: 205909 },
-  /* Antwortkasten vor dem ersten deutschen Termin (Mockup antwortkasten-vorstart): Disc Vol. 1 am 06.11.2026. */
-  { slug: 'virgin-road', name: 'Virgin Road (Disc Vol. 1 kommt, noch keine deutsche Folge)', titel: 129193 },
 ]
 
 /**
