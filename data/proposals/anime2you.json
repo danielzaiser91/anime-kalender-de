@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-10-30T18:02:55.549Z",
+  "scrapedAt": "2026-10-30T23:02:18.797Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
@@ -7,7 +7,7 @@
     "schon in einem Rubrik-Feed gelesen": 10,
     "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 3,
     "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 11,
-    "Sprachhinweis älter als 45 Tage": 4
+    "Sprachhinweis älter als 45 Tage": 5
   },
   "proposals": [
     {
@@ -39,10 +39,6 @@
         {
           "iso": "2026-11-02",
           "context": "is zu 92 % angeboten werden. Wir fassen die Details zusammen. Nur bis 2. November 2026 Die Rabattaktion läuft vom 30. Oktober bis einschließ"
-        },
-        {
-          "iso": "2026-10-30",
-          "context": "Details zusammen. Nur bis 2. November 2026 Die Rabattaktion läuft vom 30. Oktober bis einschließlich 2. November 2026 und gilt nur solange d"
         }
       ],
       "dub": "unklar",
@@ -5291,19 +5287,6 @@
         }
       ],
       "sammelGelesen": "2026-10-19"
-    },
-    {
-      "articleTitle": "Crunchyroll zeigt 13 Anime-Neustarts im Herbst 2026 auf Deutsch",
-      "articleUrl": "https://www.anime2you.de/news/1050694/crunchyroll-herbst-2026-synchros/",
-      "publishedAt": "2026-09-15",
-      "category": "streaming",
-      "platforms": [
-        "crunchyroll"
-      ],
-      "dates": [],
-      "dub": "ja",
-      "hinweis": "sprache",
-      "alreadyCurated": false
     },
     {
       "articleTitle": "Netflix nimmt ersten »Demon Slayer: Infinity Castle«-Film ins Programm",
