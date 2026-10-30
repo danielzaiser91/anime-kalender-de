@@ -65,4 +65,27 @@ assert.equal(jsonUnterschiede([{ a: 1 }, { a: 1 }], [{ a: 1 }]).size, 1, 'eine D
 const text = beschreibeUnterschied('_protokoll.txt', 'gleich\nnur alt\n', 'gleich\nnur neu\n')
 assert.deepEqual(text, ['    - nur alt', '    + nur neu'])
 
+// Kennungen tragen den Titelnamen (deutsch, sonst englisch, sonst Romaji); ohne Namen bleibt es die nackte Kennung.
+const namenAlt = [
+  { id: 2167, titleDe: 'Tokyo Revengers', titleEn: 'T', x: 1 },
+  { id: 5, titleDe: '', titleEn: 'Only English', x: 1 },
+  { id: 6, titleRomaji: 'Nur Romaji', x: 1 },
+  { id: 7, x: 1 },
+  { id: 8, titleDe: 'Weg' },
+]
+const namenNeu = namenAlt.slice(0, 4).map((e) => ({ ...e, x: 2 }))
+namenNeu.push({ id: 9, titleDe: 'Neu' })
+const namenAus = jsonUnterschiede(namenAlt, namenNeu)
+assert.equal(namenAus.get('[].x').n, 4)
+assert.match(namenAus.get('[].x').beispiel, /Kennung 2167 \(Tokyo Revengers\)$/)
+assert.equal(namenAus.get('[] (entfallen)').beispiel, 'Kennung 8 (Weg)')
+assert.equal(namenAus.get('[] (hinzugekommen)').beispiel, 'Kennung 9 (Neu)')
+const beispielVon = (id) => {
+  const e = namenAlt.find((t) => t.id === id)
+  return jsonUnterschiede([e], [{ ...e, x: 2 }]).get('[].x').beispiel
+}
+assert.match(beispielVon(5), /Kennung 5 \(Only English\)$/, 'leerer deutscher Titel zählt nicht')
+assert.match(beispielVon(6), /Kennung 6 \(Nur Romaji\)$/)
+assert.match(beispielVon(7), /Kennung 7$/, 'ohne Namen nur die Kennung')
+
 console.log('vergleich-unterschied: ok')

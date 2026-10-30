@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-10-30T15:02:18.731Z",
+  "scrapedAt": "2026-10-30T16:02:02.390Z",
   "serien": [
     {
       "url": "http://www.crunchyroll.com/de/a-place-further-than-the-universe",
@@ -184671,6 +184671,36 @@
       ],
       "neuFolgen": [
         "GE00385869DEDE"
+      ]
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GT00383999",
+      "seriesId": "GT00383999",
+      "quelle": "api",
+      "katalog": "de",
+      "geprueftAm": "2026-10-30",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Staffel 1",
+          "staffelId": "GS00384024JAJP",
+          "folgen": 4,
+          "kacheln": 4,
+          "deutsch": 1,
+          "fremd": 1,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "GE00384155DEDE",
+              "laufend": 1,
+              "verfuegbarAb": "2026-10-30T16:00:00Z"
+            }
+          ]
+        }
+      ],
+      "neuFolgen": [
+        "GE00384155DEDE"
       ]
     }
   ]
