@@ -19,6 +19,10 @@ assert.deepEqual(aufrufeAusRun('echo hi && node tools/d.mjs').skripte, ['tools/d
 assert.deepEqual(aufrufeAusRun('bash tools/s.sh --zeit 2m -- npm run x').shells, ['tools/s.sh'])
 assert.deepEqual(aufrufeAusRun('node tools/e.mjs "$a"; node tools/f.mjs').skripte, ['tools/e.mjs', 'tools/f.mjs'])
 assert.deepEqual(aufrufeAusRun('echo "node ist da" && ls').skripte, [])
+// Hinter Pipe und Umleitung beginnt ein anderer Befehl; ein Skriptname aus einer Shell-Variablen ist unbekannt und zählt nicht.
+assert.deepEqual(aufrufeAusRun('node --version | tee tools/log.mjs').skripte, [])
+assert.deepEqual(aufrufeAusRun('node --version > tools/log.mjs').skripte, [])
+assert.deepEqual(aufrufeAusRun('node tools/$NAME.mjs').skripte, [])
 assert.equal(istFremdpaket('js-yaml'), true)
 assert.equal(istFremdpaket('@scope/paket'), true)
 assert.equal(istFremdpaket('node:fs'), false)
