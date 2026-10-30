@@ -2,10 +2,9 @@ import {
   type Title, type Release, type ReleaseEvent,
   type DataMeta
 } from '../../shared/types.ts'
-import { OUT, type EntfernterVerweis } from './grundlagen.ts'
-import { vorigeWatchAdressen } from '../lib/news-altbestand.ts'
+import { type EntfernterVerweis } from './grundlagen.ts'
 import { type AnisearchEintrag, type TmdbTitelEintrag } from './01-quellen.ts'
-import { schreibeKernUndNews } from './13-5-kerndateien.ts'
+import { bekannteSeitenAusBestand, schreibeKernUndNews } from './13-5-kerndateien.ts'
 import { ergaenzeKennungen } from './13-6-kennungen.ts'
 import { ergaenzeTitelRang } from './titel-rang.ts'
 import { schreibeWochenDatei } from './13-8-wochen-datei.ts'
@@ -27,7 +26,7 @@ import { ergaenzeDeutscheFolgenzahl } from './deutsche-folgenzahl-einbinden.ts'
 import { jwNeinAnSeite } from './kanal-erbt-anbieter.ts'
 import { tonDerKanalWege } from './deutsch-nicht-gegen-sprach-termin.ts'
 import { schliesseSpaeteLuecken } from './urteil-schliesst-luecken.ts'
-import { log, readJson } from '../lib/util.ts'
+import { log } from '../lib/util.ts'
 
 export function schreibeDatensatz({
   allTitles,
@@ -60,7 +59,7 @@ export function schreibeDatensatz({
   meta: DataMeta
 }) {
   /* Der vorige Bestand muss vor dem ersten Schreiben von titles.json gelesen werden (`13-3-listen`). */
-  const bekannteSeiten = vorigeWatchAdressen(readJson<Title[]>(`${OUT}/titles.json`, []))
+  const bekannteSeiten = bekannteSeitenAusBestand()
   const { trenneQuelle, synopses, annKennungen, trailer } = schreibeSynopsenUndReichereAn({
     allTitles,
     releases,

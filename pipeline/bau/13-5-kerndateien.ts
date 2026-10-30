@@ -10,7 +10,7 @@ import { deutschNurAusSpracheTermin, releasesAusNurOriginalton } from '../lib/pr
 import { autoReleaseWidersprueche } from '../lib/auto-release-pruefung.ts'
 import { vorschlaegeAusAllenSammelartikeln } from '../lib/sammelartikel.ts'
 import { baueNews, type NewsHistorie } from '../lib/news.ts'
-import { traegeAltbestandEin } from '../lib/news-altbestand.ts'
+import { traegeAltbestandEin, vorigeWatchAdressen } from '../lib/news-altbestand.ts'
 import { omuTitelAusKatalog } from '../lib/news-omu.ts'
 import { belegeFuerAlle, type BelegGedaechtnis } from '../lib/beleg-lesung.ts'
 import { entdoppeleUndMelde } from '../lib/beleg-anbieter.ts'
@@ -18,6 +18,11 @@ import { messungenFuerFolgen } from '../lib/news-messung.ts'
 import { nimmVerlaufHeraus, setzeVerlaufEin, zurueckgestellt } from '../lib/quarantaene.ts'
 import { nurOriginaltonMeldungen, type Vorschlag } from '../lib/meldungen.ts'
 import { type Release, type ReleaseEvent, type Title, type DataMeta, type NewsEintrag } from '../../shared/types.ts'
+
+/** Die Watchlink-Adressen der zuletzt ausgelieferten `titles.json`; `13-schreiben` liest sie, bevor der Bau die Datei neu schreibt. */
+export function bekannteSeitenAusBestand(): Set<string> {
+  return vorigeWatchAdressen(readJson<Title[]>(`${OUT}/titles.json`, []))
+}
 
 export function schreibeKernUndNews({ releases, events, titles, meta, bekannteSeiten }: {
   releases: Release[]

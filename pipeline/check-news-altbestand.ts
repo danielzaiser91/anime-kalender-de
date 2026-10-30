@@ -7,6 +7,7 @@
 import { copyFileSync, cpSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
+import ts from 'typescript'
 import type { DataMeta, NewsMeldung, Release, ReleaseEvent, StreamLink, Title } from '../shared/types.ts'
 
 const wurzel = mkdtempSync(join(tmpdir(), 'news-altbestand-'))
@@ -20,7 +21,7 @@ cpSync(join(handDaten, 'curated'), join(wurzel, 'data', 'curated'), { recursive:
 process.env.AK_ROOT = wurzel
 const { baueNews } = await import('./lib/news.ts')
 const { adresseVergleich, traegeAltbestandEin, vorigeWatchAdressen } = await import('./lib/news-altbestand.ts')
-const { schreibeKernUndNews } = await import('./bau/13-5-kerndateien.ts')
+const { bekannteSeitenAusBestand, schreibeKernUndNews } = await import('./bau/13-5-kerndateien.ts')
 type NewsHistorie = Parameters<typeof baueNews>[4]
 
 let fehler = 0
@@ -100,13 +101,24 @@ for (const [name, s] of [
   pruefe(`Weg ohne meldbares Ja (${name}): keine Marke`, traegeAltbestandEin(h, jetzt([cr, s]), bekannt).length === 0 && Object.keys(h.anbieter!).length === 1, h.anbieter)
 }
 
+/* 7b. Eine Seite ohne meldbares Ja (JustWatch) neben einer bekannten meldbaren zählt nicht mit; ebenso eine Seite eines anderen Anbieters. */
+const gemischt = jetzt([cr, prime(), prime('https://www.amazon.de/gp/video/detail/B0JWSEITE', { herkunft: 'justwatch' })])
+pruefe('JustWatch-Seite neben bekannter Seite: Weg wird markiert', traegeAltbestandEin(altbestand(), gemischt, bekannt).join() === '109963:primevideo')
+pruefe('Seite eines anderen Anbieters (Crunchyroll, unbekannt) blockiert den Prime-Weg nicht', traegeAltbestandEin({ zuerst: {}, anbieter: {} }, jetzt([cr, prime()]), bekannt).join() === '109963:primevideo')
+pruefe('Adressvergleich: gleicher Pfad bei anderem Anbieter ist eine andere Seite', adresseVergleich('https://www.a.de/x') !== adresseVergleich('https://www.b.de/x'))
+pruefe('Keine Adresse: unlesbarer Text wird nur getrimmt und klein verglichen', adresseVergleich('  B0CJPKQQNL ') === 'b0cjpkqqnl')
+
 /* 8. Mehrstaffel-Adresse: zwei Titel teilen dieselbe Seite; jeder bekommt seine eigene Marke, ein dritter mit anderer Seite nicht. */
 const h8 = { zuerst: {}, anbieter: { '20923:crunchyroll': '0000-00-00', '109963:crunchyroll': '0000-00-00', '5:crunchyroll': '0000-00-00' } } as NewsHistorie
 const mehrere = [titel(20923, [cr, prime()]), titel(109963, [cr, prime()]), titel(5, [cr, prime('https://www.amazon.de/gp/video/detail/B0ANDERE')])]
 pruefe('Geteilte Seite: beide Titel markiert, der dritte nicht', traegeAltbestandEin(h8, mehrere, bekannt).sort().join() === '109963:primevideo,20923:primevideo', h8.anbieter)
 
-/* 9. Verdrahtung: der echte Bau-Schritt trägt ein und liefert keine Meldung; ohne bekannte Seiten (Mutante) entstünde sie. */
-const meta = { generatedAt: '2026-10-30T00:00:00Z', titleCount: 0, releaseCount: 0, eventCount: 0 } as unknown as DataMeta
+/* 9. Verdrahtung: die ausgelieferte titles.json liefert die bekannten Seiten, der echte Bau-Schritt trägt ein und liefert keine Meldung. */
+pruefe('Bestand ohne titles.json: keine bekannten Seiten', bekannteSeitenAusBestand().size === 0)
+writeFileSync(join(wurzel, 'public', 'data', 'titles.json'), JSON.stringify(vorigerBestand))
+const ausDatei = [...bekannteSeitenAusBestand()].sort().join()
+pruefe('Bestand aus titles.json: genau die Watchlink-Seiten, keine Streams', ausDatei === [adresseVergleich(ANISEARCH), adresseVergleich(PRIME)].sort().join(), ausDatei)
+const meta = { generatedAt: '2026-10-30T00:00:00Z', titleCount: 1, releaseCount: 0, eventCount: 0 } as unknown as DataMeta
 function bauSchritt(seiten: ReadonlySet<string>): { meldungen: NewsMeldung[]; historie: NewsHistorie } {
   writeFileSync(join(wurzel, 'data', 'news-historie.json'), JSON.stringify(altbestand()))
   const titles = new Map(jetzt([cr, prime()]).map((t) => [t.id, t]))
@@ -114,11 +126,29 @@ function bauSchritt(seiten: ReadonlySet<string>): { meldungen: NewsMeldung[]; hi
   const news = JSON.parse(readFileSync(join(wurzel, 'public', 'data', 'news.json'), 'utf8')) as { meldungen: NewsMeldung[] }[]
   return { meldungen: news.flatMap((e) => e.meldungen).filter((m) => m.art === 'neu' && m.weiterer), historie: JSON.parse(readFileSync(join(wurzel, 'data', 'news-historie.json'), 'utf8')) }
 }
-const mit = bauSchritt(bekannt)
+const mit = bauSchritt(bekannteSeitenAusBestand())
 pruefe('Bau: bekannte Seite schreibt die Marke ins Gedächtnis', mit.historie.anbieter?.['109963:primevideo'] === '0000-00-00', mit.historie.anbieter)
 pruefe('Bau: bekannte Seite erzeugt keine Meldung in news.json', mit.meldungen.length === 0, mit.meldungen)
 const ohneSeiten = bauSchritt(new Set())
 pruefe('Bau: ohne bekannte Seiten entsteht die Meldung (Kulisse unterscheidet sich)', ohneSeiten.meldungen.length === 1 && ohneSeiten.historie.anbieter?.['109963:primevideo'] !== '0000-00-00', ohneSeiten)
+
+/* 10. Reihenfolge in `schreibeDatensatz` (Syntaxbaum): der vorige Bestand wird als Erstes gelesen, bevor irgendein Schritt titles.json neu schreibt, und geht an den News-Schritt. */
+const quelle = ts.createSourceFile('x.ts', readFileSync(join(import.meta.dirname, 'bau', '13-schreiben.ts'), 'utf8'), ts.ScriptTarget.Latest, true)
+const datensatz = quelle.statements.find((s): s is ts.FunctionDeclaration => ts.isFunctionDeclaration(s) && s.name?.text === 'schreibeDatensatz')
+const koerper = datensatz?.body?.statements ?? []
+const erste = koerper[0]
+const ersteGelesen = erste !== undefined && ts.isVariableStatement(erste) && erste.declarationList.declarations.length === 1 && erste.declarationList.declarations[0]!.name.getText(quelle) === 'bekannteSeiten' && erste.declarationList.declarations[0]!.initializer?.getText(quelle) === 'bekannteSeitenAusBestand()'
+pruefe('schreibeDatensatz: erste Anweisung liest den vorigen Bestand', ersteGelesen, erste?.getText(quelle))
+const aufrufe: ts.CallExpression[] = []
+const sammle = (n: ts.Node): void => {
+  if (ts.isCallExpression(n)) aufrufe.push(n)
+  ts.forEachChild(n, sammle)
+}
+if (datensatz) sammle(datensatz)
+const kernAufruf = aufrufe.find((a) => a.expression.getText(quelle) === 'schreibeKernUndNews')
+const uebergeben = kernAufruf?.arguments[0] !== undefined && ts.isObjectLiteralExpression(kernAufruf.arguments[0]) && kernAufruf.arguments[0].properties.some((p) => ts.isShorthandPropertyAssignment(p) && p.name.text === 'bekannteSeiten')
+pruefe('schreibeDatensatz: bekannteSeiten geht an schreibeKernUndNews', uebergeben, kernAufruf?.getText(quelle))
+pruefe('schreibeDatensatz: bekannteSeitenAusBestand wird genau einmal aufgerufen', aufrufe.filter((a) => a.expression.getText(quelle) === 'bekannteSeitenAusBestand').length === 1)
 
 rmSync(wurzel, { recursive: true, force: true })
 console.log(`check-news-altbestand: ${faelle} Zusicherungen, ${fehler} Fehler`)
