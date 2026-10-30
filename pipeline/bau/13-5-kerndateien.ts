@@ -20,7 +20,7 @@ import { nurOriginaltonMeldungen, type Vorschlag } from '../lib/meldungen.ts'
 import { type Release, type ReleaseEvent, type Title, type DataMeta, type NewsEintrag } from '../../shared/types.ts'
 
 /** Die Watchlink-Adressen der zuletzt ausgelieferten `titles.json`; `13-schreiben` liest sie, bevor der Bau die Datei neu schreibt. */
-export function bekannteSeitenAusBestand(): Set<string> {
+export function bekannteSeitenAusBestand(): Map<number, Set<string>> {
   return vorigeWatchAdressen(readJson<Title[]>(`${OUT}/titles.json`, []))
 }
 
@@ -29,8 +29,8 @@ export function schreibeKernUndNews({ releases, events, titles, meta, bekannteSe
   events: ReleaseEvent[]
   titles: Map<number, Title>
   meta: DataMeta
-  /** Watchlink-Adressen des vorigen Bestands: eine dieser Seiten als Stream ist kein neuer Anbieter (`news-altbestand.ts`). */
-  bekannteSeiten: ReadonlySet<string>
+  /** Watchlink-Adressen des vorigen Bestands je Titel: eine dieser Seiten als Stream desselben Titels ist kein neuer Anbieter (`news-altbestand.ts`). */
+  bekannteSeiten: ReadonlyMap<number, ReadonlySet<string>>
 }) {
   /*
     **Prime-Verweise gehen unter die Video-Adresse — einmal für alle, zum Schluss.**

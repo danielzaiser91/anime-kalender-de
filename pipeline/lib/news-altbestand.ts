@@ -19,26 +19,34 @@ export function adresseVergleich(url: string): string {
   }
 }
 
-/** Alle Watchlink-Adressen des vorigen Bestands (`public/data/titles.json`), egal bei welchem Titel. */
-export function vorigeWatchAdressen(vorige: readonly Pick<Title, 'watchLinks'>[]): Set<string> {
-  return new Set(vorige.flatMap((t) => (t.watchLinks ?? []).map((w) => adresseVergleich(w.url))))
+/** Watchlink-Adressen des vorigen Bestands (`public/data/titles.json`) je Titel: dieselbe Seite bei einem anderen Titel (andere Staffel) ist keine bekannte Seite. */
+export function vorigeWatchAdressen(vorige: readonly Pick<Title, 'id' | 'watchLinks'>[]): Map<number, Set<string>> {
+  const je = new Map<number, Set<string>>()
+  for (const t of vorige) {
+    const adressen = je.get(t.id) ?? new Set<string>()
+    for (const w of t.watchLinks ?? []) adressen.add(adresseVergleich(w.url))
+    je.set(t.id, adressen)
+  }
+  return je
 }
 
 /**
- * Trägt für jeden Weg mit deutschem Ja, dessen Seiten alle schon Watchlinks des vorigen Bestands waren, den Altbestand ein.
+ * Trägt für jeden Weg mit deutschem Ja, dessen Seiten alle schon Watchlinks desselben Titels im vorigen Bestand waren, den Altbestand ein.
  * Ein Weg mit einer neuen Seite bleibt neu. Ohne Gedächtnisfeld `anbieter` sät `baueNews` den ganzen Bestand selbst.
  * Gibt die eingetragenen Schlüssel zurück.
  */
-export function traegeAltbestandEin(historie: NewsHistorie, titles: readonly Title[], bekannt: ReadonlySet<string>): string[] {
+export function traegeAltbestandEin(historie: NewsHistorie, titles: readonly Title[], bekannt: ReadonlyMap<number, ReadonlySet<string>>): string[] {
   const anbieter = historie.anbieter
   if (!anbieter) return []
   const eingetragen: string[] = []
   for (const t of titles) {
+    const seitenDesTitels = bekannt.get(t.id)
+    if (!seitenDesTitels) continue
     for (const p of anbieterMitDeutsch(t)) {
       const schluessel = `${t.id}:${p}`
       if (schluessel in anbieter) continue
       const seiten = t.streams.filter((s) => meldetNeu(s) && s.platform === p).map((s) => adresseVergleich(s.url))
-      if (!seiten.every((a) => bekannt.has(a))) continue
+      if (!seiten.every((a) => seitenDesTitels.has(a))) continue
       anbieter[schluessel] = '0000-00-00'
       eingetragen.push(schluessel)
     }

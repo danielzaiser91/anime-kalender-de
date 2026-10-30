@@ -108,18 +108,27 @@ pruefe('Seite eines anderen Anbieters (Crunchyroll, unbekannt) blockiert den Pri
 pruefe('Adressvergleich: gleicher Pfad bei anderem Anbieter ist eine andere Seite', adresseVergleich('https://www.a.de/x') !== adresseVergleich('https://www.b.de/x'))
 pruefe('Keine Adresse: unlesbarer Text wird nur getrimmt und klein verglichen', adresseVergleich('  B0CJPKQQNL ') === 'b0cjpkqqnl')
 
-/* 8. Mehrstaffel-Adresse: zwei Titel teilen dieselbe Seite; jeder bekommt seine eigene Marke, ein dritter mit anderer Seite nicht. */
-const h8 = { zuerst: {}, anbieter: { '20923:crunchyroll': '0000-00-00', '109963:crunchyroll': '0000-00-00', '5:crunchyroll': '0000-00-00' } } as NewsHistorie
+/* 8. Mehrstaffel-Adresse: zwei Titel teilen dieselbe Seite und hatten sie beide als Watchlink; jeder bekommt seine eigene Marke, ein dritter mit anderer Seite nicht. */
+const bekannt8 = vorigeWatchAdressen([...vorigerBestand, titel(20923, [], [{ name: 'Amazon Prime (Crunchyroll)', url: PRIME, kind: 'stream', zugang: 'abo' }])])
+const h8 ={ zuerst: {}, anbieter: { '20923:crunchyroll': '0000-00-00', '109963:crunchyroll': '0000-00-00', '5:crunchyroll': '0000-00-00' } } as NewsHistorie
 const mehrere = [titel(20923, [cr, prime()]), titel(109963, [cr, prime()]), titel(5, [cr, prime('https://www.amazon.de/gp/video/detail/B0ANDERE')])]
-pruefe('Geteilte Seite: beide Titel markiert, der dritte nicht', traegeAltbestandEin(h8, mehrere, bekannt).sort().join() === '109963:primevideo,20923:primevideo', h8.anbieter)
+pruefe('Geteilte Seite: beide Titel markiert, der dritte nicht', traegeAltbestandEin(h8, mehrere, bekannt8).sort().join() === '109963:primevideo,20923:primevideo', h8.anbieter)
+
+/* 8b. Watchlink bei Titel A, Stream mit Ja bei Titel B auf derselben Seite (neue Staffel): für B echte Neuigkeit, keine Marke, Meldung bleibt. */
+const h8b = { zuerst: {}, anbieter: { '20923:crunchyroll': '0000-00-00', '109963:crunchyroll': '0000-00-00' } } as NewsHistorie
+const staffelB = [titel(20923, [cr, prime()]), titel(109963, [cr, prime()])]
+pruefe('Watchlink nur bei A: A markiert, B nicht', traegeAltbestandEin(h8b, staffelB, bekannt).join() === '109963:primevideo', h8b.anbieter)
+const neuB = weiterer(staffelB, h8b)
+pruefe('Watchlink nur bei A: für B bleibt „weiterer Anbieter“', neuB.length === 1 && neuB[0]!.platform === 'primevideo', neuB)
+pruefe('Titel ohne eigenen Eintrag im vorigen Bestand: keine Marke', traegeAltbestandEin({ zuerst: {}, anbieter: {} }, [titel(777, [cr, prime()])], bekannt).length === 0)
 
 /* 9. Verdrahtung: die ausgelieferte titles.json liefert die bekannten Seiten, der echte Bau-Schritt trägt ein und liefert keine Meldung. */
 pruefe('Bestand ohne titles.json: keine bekannten Seiten', bekannteSeitenAusBestand().size === 0)
 writeFileSync(join(wurzel, 'public', 'data', 'titles.json'), JSON.stringify(vorigerBestand))
-const ausDatei = [...bekannteSeitenAusBestand()].sort().join()
+const ausDatei = [...bekannteSeitenAusBestand().values()].flatMap((s) => [...s]).sort().join()
 pruefe('Bestand aus titles.json: genau die Watchlink-Seiten, keine Streams', ausDatei === [adresseVergleich(ANISEARCH), adresseVergleich(PRIME)].sort().join(), ausDatei)
 const meta = { generatedAt: '2026-10-30T00:00:00Z', titleCount: 1, releaseCount: 0, eventCount: 0 } as unknown as DataMeta
-function bauSchritt(seiten: ReadonlySet<string>): { meldungen: NewsMeldung[]; historie: NewsHistorie } {
+function bauSchritt(seiten: ReadonlyMap<number, ReadonlySet<string>>): { meldungen: NewsMeldung[]; historie: NewsHistorie } {
   writeFileSync(join(wurzel, 'data', 'news-historie.json'), JSON.stringify(altbestand()))
   const titles = new Map(jetzt([cr, prime()]).map((t) => [t.id, t]))
   schreibeKernUndNews({ releases: [] as Release[], events: [] as ReleaseEvent[], titles, meta, bekannteSeiten: seiten })
@@ -129,7 +138,7 @@ function bauSchritt(seiten: ReadonlySet<string>): { meldungen: NewsMeldung[]; hi
 const mit = bauSchritt(bekannteSeitenAusBestand())
 pruefe('Bau: bekannte Seite schreibt die Marke ins Gedächtnis', mit.historie.anbieter?.['109963:primevideo'] === '0000-00-00', mit.historie.anbieter)
 pruefe('Bau: bekannte Seite erzeugt keine Meldung in news.json', mit.meldungen.length === 0, mit.meldungen)
-const ohneSeiten = bauSchritt(new Set())
+const ohneSeiten = bauSchritt(new Map())
 pruefe('Bau: ohne bekannte Seiten entsteht die Meldung (Kulisse unterscheidet sich)', ohneSeiten.meldungen.length === 1 && ohneSeiten.historie.anbieter?.['109963:primevideo'] !== '0000-00-00', ohneSeiten)
 
 /* 10. Reihenfolge in `schreibeDatensatz` (Syntaxbaum): der vorige Bestand wird als Erstes gelesen, bevor irgendein Schritt titles.json neu schreibt, und geht an den News-Schritt. */
