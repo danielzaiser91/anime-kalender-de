@@ -96,7 +96,7 @@ pruefe('Der Lauf alle sechs Stunden ruft data:adn:laufend auf (dort hängt die N
 const paket = JSON.parse(readFileSync('package.json', 'utf8')) as { scripts: Record<string, string> }
 pruefe('data:adn:laufend ist fetch-adn.ts --laufend', paket.scripts['data:adn:laufend']?.includes('fetch-adn.ts --laufend') === true, paket.scripts['data:adn:laufend'])
 const quelle = readFileSync('pipeline/fetch-adn.ts', 'utf8')
-pruefe('--laufend ruft holeNeueSerien auf', /--laufend[\s\S]*?await holeNeueSerien\(\)/.test(quelle))
+pruefe('--laufend ruft holeNeueSerien auf', /--laufend[\s\S]*?await holeNeueSerien\(liste\)/.test(quelle))
 pruefe('holeNeueSerien liest den Stand aus data/adn-katalog-stand.json und übergibt ihn an fragNeuzugaenge', /readJson<.*>\(KATALOG_STAND, \{\}\)\s+const lauf = await fragNeuzugaenge\(.*bekannt, stand,/.test(quelle))
 pruefe('holeNeueSerien schreibt den neuen Stand zurück (sonst fragt jeder Lauf dieselben Serien wieder)', /writeJson\(KATALOG_STAND, lauf\.stand\)/.test(quelle))
 pruefe('Der Katalogeintrag und die Katalogdatei stehen in tools/quellen-liste.sh', /data\/adn-catalog\.json/.test(readFileSync('tools/quellen-liste.sh', 'utf8')))
