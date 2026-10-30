@@ -74,7 +74,12 @@ const ANISEARCH = {
   c: { anisearchId: 5013, streams: [{ url: nf('900021') }] },
   d: { anisearchId: 5014, streams: [{ url: nf('900030') }] },
 }
-const JUSTWATCH = { 13: { angebote: [{ url: nf('900021') }, { url: nf('900021') }] }, 14: { angebote: [{ url: nf('900030') }] } }
+const JUSTWATCH = {
+  13: { angebote: [{ url: nf('900021') }, { url: nf('900021') }] },
+  14: { angebote: [{ url: nf('900030') }] },
+  '-5': { angebote: [{ url: nf('900041') }] },
+}
+const CARTOON = { ...basis, id: -5, titleDe: 'Cartoon', streams: [stream('900040')] }
 function schreibe(wurzel: string, pfad: string, inhalt: unknown) {
   mkdirSync(join(wurzel, pfad, '..'), { recursive: true })
   writeFileSync(join(wurzel, pfad), JSON.stringify(inhalt))
@@ -82,7 +87,7 @@ function schreibe(wurzel: string, pfad: string, inhalt: unknown) {
 const wurzel = mkdtempSync(join(tmpdir(), 'zweite-kennung-'))
 try {
   schreibe(wurzel, 'public/data/titles.json', TITEL)
-  schreibe(wurzel, 'public/data/cartoons.json', [])
+  schreibe(wurzel, 'public/data/cartoons.json', [CARTOON])
   schreibe(wurzel, 'public/data/releases.json', [])
   schreibe(wurzel, 'data/anbieter-staffeln.json', {})
   schreibe(wurzel, 'data/link-check.json', {})
@@ -96,9 +101,15 @@ try {
   pruefe('Erzeuger endet mit Exit 0', lauf.status === 0 && /Netflix-Adressen/.test(lauf.stdout), { status: lauf.status, stderr: lauf.stderr.slice(0, 300) })
   const liste = JSON.parse(readFileSync(join(wurzel, 'extension/offene-netflix.js'), 'utf8').replace(/^[^{]*=\s*/, '')) as Record<string, { asTitel: number }>
   pruefe('Titel mit zwei Kennungen: zwei Ziele, beide für Titel 11', liste['900001']?.asTitel === 11 && liste['900002']?.asTitel === 11, Object.keys(liste))
-  pruefe('Titel mit einer Kennung: ein Ziel', liste['900010']?.asTitel === 12 && Object.keys(liste).length === 6, Object.keys(liste))
+  pruefe('Titel mit einer Kennung: ein Ziel', liste['900010']?.asTitel === 12 && Object.keys(liste).length === 7, Object.keys(liste))
   pruefe('fremde Kennung aus zwei Quellen: ein zusätzliches Ziel', liste['900020']?.asTitel === 13 && liste['900021']?.asTitel === 13, Object.keys(liste))
   pruefe('alle Quellen einig: kein Zusatz für Titel 14', liste['900030']?.asTitel === 14)
+  pruefe('Cartoon: eigene Kennung geführt, JustWatch-Kennung nicht als Zusatz', liste['900040']?.asTitel === -5 && !('900041' in liste), Object.keys(liste))
+  /* Prüfstand im selben Ordner: sieben Ziele (fünf Verweise, zwei Zusätze), alle offen und alle im Gesamt. */
+  const stand = spawnSync(process.execPath, [fileURLToPath(new URL('../tools/pruefstand.mjs', import.meta.url))], { env: { ...process.env, AK_ROOT: wurzel }, encoding: 'utf8' })
+  pruefe('Prüfstand endet mit Exit 0', stand.status === 0, { status: stand.status, stderr: stand.stderr.slice(0, 300) })
+  const netflix = JSON.parse(readFileSync(join(wurzel, 'public/data/pruefstand.json'), 'utf8')).anbieter.find((a: { plattform: string }) => a.plattform === 'netflix')
+  pruefe('Prüfstand: sieben Ziele, Gesamt 7 (5 Verweise, 2 Zusätze)', netflix?.ziele.length === 7 && netflix.gesamt === 7 && netflix.offen === 7, netflix)
 } finally {
   rmSync(wurzel, { recursive: true, force: true })
 }

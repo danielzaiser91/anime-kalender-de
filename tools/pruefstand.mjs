@@ -31,7 +31,8 @@ import { bekannteFolgen } from './pruefstand-bekannt.mjs'
 import { ladeZusatz, zaehleZusatzZiele } from './netflix-zweite-kennung.mjs'
 import { ladeBestand, ladeCartoons, sortiereListe } from './pruef-bestand.mjs'
 
-const wurzel = resolve(dirname(fileURLToPath(import.meta.url)), '..')
+// AK_ROOT: Kulissentest (pipeline/check-netflix-zweite-kennung.ts) lässt den echten Lauf in einem Wegwerf-Ordner arbeiten.
+const wurzel = process.env.AK_ROOT ?? resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const titel = [...ladeBestand(wurzel), ...ladeCartoons(wurzel)]
 
 
