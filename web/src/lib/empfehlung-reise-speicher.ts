@@ -1,4 +1,4 @@
-import { istFertig, type Zustand } from '@shared/empfehlung-kern.ts'
+import { istFertig, neuerZustand, type Zustand } from '@shared/empfehlung-kern.ts'
 import type { Kontext } from '@shared/empfehlung-vektor.ts'
 import type { Ablauf } from './empfehlung-ablauf.ts'
 import { fuelleAuf, rangliste } from './empfehlung-reise.ts'
@@ -80,8 +80,9 @@ export function reiseWiederherstellen(
     const reise = roh ? alsReise(JSON.parse(roh), k.datei.einstiege.length, poolKennung(k)) : undefined
     if (!reise) return undefined
     const uebrig = reise.gezeigt.filter((id) => k.index.has(id) && !weg.has(id))
-    /* Ohne Duellstand (neuer Pool) gibt es keine Rangliste zum Nachfüllen. */
-    const gezeigt = uebrig.length && reise.zustand ? fuelleAuf(uebrig, rangliste(k, reise.zustand, [...weg], eigene)) : uebrig
+    /* Ohne Duellstand (neuer Pool) rechnet die Rangliste aus frischem Zustand. */
+    const rang = () => rangliste(k, reise.zustand ?? neuerZustand(k, 0, [...weg]), [...weg], eigene)
+    const gezeigt = uebrig.length ? fuelleAuf(uebrig, rang()) : uebrig
     if (!reise.zustand) return gezeigt.length ? { phase: 'ergebnis', ziel: reise.ziel, gezeigt } : undefined
     const sitzung = { zustand: reise.zustand, verlauf: [] }
     if (!istFertig(k, reise.zustand, reise.ziel)) return { phase: 'start', sitzung, ziel: reise.ziel, gezeigt }
