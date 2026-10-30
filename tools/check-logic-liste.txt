@@ -1,6 +1,11 @@
 # Prüfungen von npm run check:logic, bis zu 6 gleichzeitig (tools/arbeiterpool.mjs), erster Fehler bricht ab.
 # Alphabetisch sortiert (check-logic-alle.mjs verlangt es): ein neuer Check kommt an die passende Stelle, nicht ans Ende.
 # Zwei Zweige, die verschiedene Checks ergänzen, ändern dann verschiedene Stellen und kollidieren nicht. Die Reihenfolge ist sonst egal.
+pipeline/check-09-2-linkpruefung-laufzeit.ts
+pipeline/check-09-4-1-serien-laufzeit.ts
+pipeline/check-09-4-2-bloecke-laufzeit.ts
+pipeline/check-09-4-3-katalog-laufzeit.ts
+pipeline/check-09-4-4-1-katalog-wege-laufzeit.ts
 pipeline/check-abruf-stempel.ts
 pipeline/check-abstand.ts
 pipeline/check-adn-anisearch.ts
