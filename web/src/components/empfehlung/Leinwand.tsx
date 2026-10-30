@@ -5,6 +5,7 @@ import { loadSynopsis } from '../../lib/data.ts'
 import { belegLink } from '@shared/quelle.ts'
 import { fuehreTasteAus, tasteZuAktion } from '../../lib/empfehlung-bedienung.ts'
 import { metaZeile } from '../../lib/empfehlung-reise.ts'
+import { useEscape } from '../../lib/escape.ts'
 import { useLang } from '../../lib/i18n.tsx'
 import { TrailerKino } from '../detail/kino.tsx'
 import { FskBadge } from '../ui.tsx'
@@ -87,14 +88,10 @@ function ZweiteEbene({ k, titel, genres, eigene }: { k: Kandidat; titel?: Title;
 }
 
 /** Esc löst „zurück“ aus (sonst nichts: keine Pfeile, kein G). */
-function useZurueckTaste(zurueck: () => void) {
-  useEffect(() => {
-    const taste = (e: KeyboardEvent) => {
-      const aktion = tasteZuAktion({ key: e.key, altKey: e.altKey, ctrlKey: e.ctrlKey, metaKey: e.metaKey, shiftKey: e.shiftKey, ziel: (e.target as HTMLElement | null)?.tagName ?? '' })
-      fuehreTasteAus(aktion, { zurueck })
-    }
-    window.addEventListener('keydown', taste)
-    return () => window.removeEventListener('keydown', taste)
+export function useZurueckTaste(zurueck: () => void) {
+  useEscape(true, (e) => {
+    const aktion = tasteZuAktion({ key: e.key, altKey: e.altKey, ctrlKey: e.ctrlKey, metaKey: e.metaKey, shiftKey: e.shiftKey, ziel: (e.target as HTMLElement | null)?.tagName ?? '' })
+    fuehreTasteAus(aktion, { zurueck })
   })
 }
 

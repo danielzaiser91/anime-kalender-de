@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import type { Patchnote } from '@shared/patchnotes.ts'
 import { addDays, todayIso } from '@shared/time.ts'
+import { useEscape } from '../lib/escape.ts'
 import { ladePatchnotes } from '../lib/patchnotes.ts'
 import { PT } from '../lib/patchnotes-texte.ts'
 import { PatchFilter, PatchKopf, PatchTagBlock, SCHLIESS_MS, fokusfalle, useWischen } from './patchnotes-teile.tsx'
@@ -46,11 +47,7 @@ export default function PatchnotesDialog({ laden, beiZu }: { laden: Promise<Patc
   )
   const zu = useCallback(() => schliessen(), [schliessen])
 
-  useEffect(() => {
-    const beiTaste = (e: KeyboardEvent) => e.key === 'Escape' && zu()
-    document.addEventListener('keydown', beiTaste)
-    return () => document.removeEventListener('keydown', beiTaste)
-  }, [zu])
+  useEscape(true, () => zu(), { ziel: 'document' })
 
   const wischen = useWischen(panel, () => schliessen('wisch'))
   const alle = useMemo(() => (Array.isArray(liste) ? liste : []), [liste])

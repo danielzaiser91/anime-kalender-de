@@ -1,0 +1,8 @@
+[
+ { "name": "Kontrolle", "aenderungen": [] },
+ { "name": "Leinwand: roher window-Hörer statt useEscape (A1)", "aenderungen": [
+   { "datei": "web/src/components/empfehlung/Leinwand.tsx", "suche": "  useEscape(true, (e) => {\n", "ersetze": "  useEffect(() => {\n    const f = (e: KeyboardEvent) => {\n" },
+   { "datei": "web/src/components/empfehlung/Leinwand.tsx", "suche": "    fuehreTasteAus(aktion, { zurueck })\n  })\n}", "ersetze": "    fuehreTasteAus(aktion, { zurueck })\n    }\n    window.addEventListener('keydown', f)\n    return () => window.removeEventListener('keydown', f)\n  })\n}" }
+ ] },
+ { "name": "Leinwand: useEscape nie aktiv", "datei": "web/src/components/empfehlung/Leinwand.tsx", "suche": "useEscape(true, (e) => {", "ersetze": "useEscape(false, (e) => {" }
+]

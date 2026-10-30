@@ -2,7 +2,7 @@ import type { PlatformId, Release, Title } from '@shared/types.ts'
 import { ersterTermin, hatDeutsch, istSerie, saisonZeitraum, type SaisonTag } from '@shared/saison.ts'
 import { todayIso } from '@shared/time.ts'
 
-export { anbieterVon, ersterTermin, hatDeutsch, saisonText, saisonVon, versetzt } from '@shared/saison.ts'
+export { anbieterChips, anbieterVon, ersterTermin, hatDeutsch, saisonText, saisonVon, versetzt } from '@shared/saison.ts'
 
 /** Die Titel, die `saison.json` für den Ausblick mitbringt: Katalogtitel hinter dem Schalter mit angekündigtem Japan-Start. */
 export interface SaisonKatalogTitel {

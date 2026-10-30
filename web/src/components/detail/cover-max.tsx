@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type RefObject } from 'react'
 import { createPortal } from 'react-dom'
+import { useEscape } from '../../lib/escape.ts'
 import { useVerlaufEintrag } from '../../lib/use-verlauf-eintrag.ts'
 import { gleichesBild } from './cover-gleich.ts'
 
@@ -74,16 +75,14 @@ export function CoverMaximieren({ bild, banner, gross, titel }: { bild: string |
     schliessen.current?.focus()
     return () => davor?.focus?.()
   }, [offen])
-  useEffect(() => {
-    if (!offen) return
-    const esc = (e: KeyboardEvent) => {
-      if (e.key !== 'Escape') return
+  useEscape(
+    offen,
+    (e) => {
       e.stopImmediatePropagation()
       setOffen(false)
-    }
-    document.addEventListener('keydown', esc, true)
-    return () => document.removeEventListener('keydown', esc, true)
-  }, [offen])
+    },
+    { ziel: 'document', capture: true },
+  )
   useEffect(() => {
     const auf = (e: Event) => {
       setZeigtBanner((e as CustomEvent<string>).detail === 'banner')

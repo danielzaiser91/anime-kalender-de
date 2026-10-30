@@ -25,6 +25,7 @@ import path from 'node:path'
 import { bilderOrdner } from './bilder-ordner.mjs'
 import { pruefeFilterfenster } from './ansicht-filterfenster.mjs'
 import { pruefeFilterfensterRechner } from './ansicht-filterfenster-rechner.mjs'
+import { pruefeEscapeStapel } from './ansicht-escape-stapel.mjs'
 import { pruefeFilterknopf } from './ansicht-filterknopf.mjs'
 import { pruefeTrefferprobe } from './ansicht-trefferprobe.mjs'
 import { pruefeAdressen } from './ansicht-adressen.mjs'
@@ -32,6 +33,7 @@ import { pruefeHoverCover } from './ansicht-hover-cover.mjs'
 import { pruefeStatusfarben } from './ansicht-statusfarben.mjs'
 import { distPruefen } from './dist-frisch.mjs'
 import { pruefeTvReihe, meldeTvReihe } from './ansicht-tv-reihe.mjs'
+import { pruefeSaisonChip, meldeSaisonChip } from './ansicht-saison-chip.mjs'
 import { eckenFehler } from './ecken-urteil.mjs'
 import { messeDuell } from './ansicht-duell.mjs'
 import { messeDetailsOverlay } from './ansicht-details-overlay.mjs'
@@ -462,6 +464,14 @@ async function meldeFilterknopf() {
   return r.abweichungen.length > 0
 }
 
+/** Escape in gestapelten Ebenen (Detail-Panel + Quellen, Trailer, Cover): schließt genau die oberste; wahr, wenn rot. */
+async function meldeEscapeStapel() {
+  const r = await pruefeEscapeStapel(chromium, antworteAusDist)
+  console.log(`\nEscape schließt nur die oberste Ebene (Detail-Panel mit Quellen-Fenster, Trailer-Kino, Cover-Schicht und Patch-Notes-Dialog, Einzelfälle ohne Panel mit Einstellungen und Patch Notes, ${r.faelle} Fälle; zweiter Escape schließt das Panel): ${r.abweichungen.length ? '' : 'ok'}`)
+  for (const l of r.abweichungen) console.log(`  ✕ ${l}`)
+  return r.abweichungen.length > 0
+}
+
 /** Die Zusatzprüfungen nach den Bildern; wahr, wenn eine rot ist. */
 async function meldeZusatzpruefungen(seite, ansichten, handy) {
   /* Der Cartoon-Filter wird am Rechner geprüft; am Handy liegt der Schalter im geschlossenen Filterfenster. */
@@ -475,6 +485,7 @@ async function meldeZusatzpruefungen(seite, ansichten, handy) {
     if (rechner.abweichungen.length) rot = true
   }
   if (!handy && ansichten.includes('datenbank') && (await meldeFilterknopf())) rot = true
+  if (!handy && ansichten.includes('datenbank') && (await meldeEscapeStapel())) rot = true
   if (!handy && ansichten.includes('woche') && (await meldeHoverCover())) rot = true
   if (!handy && ansichten.includes('entdecken') && (await meldeEmpfehlung())) rot = true
   if (!handy && ansichten.includes('entdecken') && (await meldeZuruecksetzen())) rot = true
@@ -493,6 +504,7 @@ async function meldeZusatzpruefungen(seite, ansichten, handy) {
     if (treffer.abweichungen.length) rot = true
     if (meldeTvReihe(await pruefeTvReihe(DIST))) rot = true
     if (await meldeAbzeichen({ chromium, antworte: antworteAusDist, dist: DIST, lesePixel: lesePixelPng })) rot = true
+    if (meldeSaisonChip(await pruefeSaisonChip(DIST))) rot = true
   }
   return rot
 }

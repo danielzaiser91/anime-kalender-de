@@ -9,6 +9,7 @@ import {
   loadDiscAusgaben,
   loadSynopsis, type Synopsis
 } from '../lib/data.ts'
+import { useEscape } from '../lib/escape.ts'
 import { useLang } from '../lib/i18n.tsx'
 import { useSeiteGesperrt } from '../lib/use-seite-gesperrt.ts'
 import { useTitelwechsel } from './detail/titelwechsel.ts'
@@ -120,13 +121,7 @@ export function DetailPanel({
     }
   }, [titleId, title?.synopsis])
 
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose()
-    }
-    window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
-  }, [onClose])
+  useEscape(true, () => onClose())
   /* Das Panel liegt über der Seite: sie bleibt dahinter stehen (Daniel, 11.10.2026). */
   useSeiteGesperrt(true)
 

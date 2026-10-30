@@ -1,5 +1,6 @@
 import { useEffect, useRef, type ReactNode, type RefObject } from 'react'
 import { createPortal } from 'react-dom'
+import { useEscape } from '../../lib/escape.ts'
 import { useVisualViewportHoehe } from '../../lib/use-visual-viewport.ts'
 import { useSeiteGesperrt } from '../../lib/use-seite-gesperrt.ts'
 import { useVerlaufEintrag } from '../../lib/use-verlauf-eintrag.ts'
@@ -44,15 +45,13 @@ export function FilterPopover({ offen, schliessen, ausloeser, label, children }:
     /* Der Scrollbereich nimmt den Fokus, damit Pfeil- und Bild-Tasten ihn scrollen (das Fenster selbst scrollt nicht). */
     const ziel = dialog.current?.querySelector<HTMLElement>('[data-filter-scroll]') ?? dialog.current
     ziel?.focus()
-    const taste = (e: KeyboardEvent) => e.key === 'Escape' && zu.current()
-    window.addEventListener('keydown', taste)
     const knopf = ausloeser.current
     return () => {
-      window.removeEventListener('keydown', taste)
       wieder()
       knopf?.focus()
     }
   }, [offen, leiste, ausloeser])
+  useEscape(offen, () => zu.current())
   if (!offen || !leiste) return null
   return (
     <>

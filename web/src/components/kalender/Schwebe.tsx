@@ -1,6 +1,7 @@
 import { cloneElement, isValidElement, useEffect, useId, useLayoutEffect, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
 import { createPortal } from 'react-dom'
+import { useEscape } from '../../lib/escape.ts'
 import { sichtbareBreite } from '../../lib/sichtbare-breite.ts'
 
 /**
@@ -154,27 +155,24 @@ function useSchliessen(
       const ziel = e.target as Node
       if (!anker.current?.contains(ziel) && !karte.current?.contains(ziel)) zu.current()
     }
-    const taste = (e: KeyboardEvent) => {
-      if (e.key !== 'Escape') return
-      zu.current()
-      const knopf = anker.current?.querySelector<HTMLElement>('button')
-      /* Liegt der Fokus schon dort, kommt kein Fokus-Ereignis — dann darf nichts verschluckt werden. */
-      if (knopf && document.activeElement !== knopf) {
-        stumm.current = true
-        knopf.focus()
-      }
-    }
     /* Die Karte steht `fixed` — rollt die Seite, gehört sie nicht mehr zu ihrem Auslöser. */
     const rollen = (e: Event) => !karte.current?.contains(e.target as Node) && zu.current()
     document.addEventListener('mousedown', draussen)
-    document.addEventListener('keydown', taste)
     window.addEventListener('scroll', rollen, true)
     return () => {
       document.removeEventListener('mousedown', draussen)
-      document.removeEventListener('keydown', taste)
       window.removeEventListener('scroll', rollen, true)
     }
   }, [offen, anker, karte, stumm])
+  useEscape(offen, () => {
+    zu.current()
+    const knopf = anker.current?.querySelector<HTMLElement>('button')
+    /* Liegt der Fokus schon dort, kommt kein Fokus-Ereignis — dann darf nichts verschluckt werden. */
+    if (knopf && document.activeElement !== knopf) {
+      stumm.current = true
+      knopf.focus()
+    }
+  }, { ziel: 'document' })
 }
 
 /** Ein per Klick geöffneter Auslöser meldet Vorlesenden Zustand und (geöffnet) Ziel. */
