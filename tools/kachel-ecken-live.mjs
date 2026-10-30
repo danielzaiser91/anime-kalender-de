@@ -27,7 +27,8 @@ export function liveAktion(anfrageUrl, basis) {
 /** Datenstand der Live-Seite (`generatedAt` aus `data/meta.json`) oder ein Fehlertext; `holen` ist `fetch`. */
 export async function liveDatenstand(basis, holen = fetch) {
   try {
-    const antwort = await holen(`${basis}/data/meta.json`)
+    // Frist, damit ein schweigender Server eine rote Zeile ergibt statt eines Hängers bis zur Job-Frist.
+    const antwort = await holen(`${basis}/data/meta.json`, { signal: AbortSignal.timeout(15_000) })
     if (!antwort.ok) return { fehler: `Messwoche: ${basis}/data/meta.json antwortet mit ${antwort.status}` }
     const { generatedAt } = await antwort.json()
     return typeof generatedAt === 'string' ? { erzeugt: generatedAt } : { fehler: `Messwoche: ${basis}/data/meta.json ohne generatedAt` }
