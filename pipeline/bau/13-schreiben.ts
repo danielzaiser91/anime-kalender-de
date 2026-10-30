@@ -2,7 +2,8 @@ import {
   type Title, type Release, type ReleaseEvent,
   type DataMeta
 } from '../../shared/types.ts'
-import { type EntfernterVerweis } from './grundlagen.ts'
+import { OUT, type EntfernterVerweis } from './grundlagen.ts'
+import { vorigeWatchAdressen } from '../lib/news-altbestand.ts'
 import { type AnisearchEintrag, type TmdbTitelEintrag } from './01-quellen.ts'
 import { schreibeKernUndNews } from './13-5-kerndateien.ts'
 import { ergaenzeKennungen } from './13-6-kennungen.ts'
@@ -26,7 +27,7 @@ import { ergaenzeDeutscheFolgenzahl } from './deutsche-folgenzahl-einbinden.ts'
 import { jwNeinAnSeite } from './kanal-erbt-anbieter.ts'
 import { tonDerKanalWege } from './deutsch-nicht-gegen-sprach-termin.ts'
 import { schliesseSpaeteLuecken } from './urteil-schliesst-luecken.ts'
-import { log } from '../lib/util.ts'
+import { log, readJson } from '../lib/util.ts'
 
 export function schreibeDatensatz({
   allTitles,
@@ -58,6 +59,8 @@ export function schreibeDatensatz({
   events: ReleaseEvent[]
   meta: DataMeta
 }) {
+  /* Der vorige Bestand muss vor dem ersten Schreiben von titles.json gelesen werden (`13-3-listen`). */
+  const bekannteSeiten = vorigeWatchAdressen(readJson<Title[]>(`${OUT}/titles.json`, []))
   const { trenneQuelle, synopses, annKennungen, trailer } = schreibeSynopsenUndReichereAn({
     allTitles,
     releases,
@@ -97,7 +100,7 @@ export function schreibeDatensatz({
   ordneCartoonsZuAnime()
   schreibeSprecherIndex({ ausgeliefert: new Set(slim.map((t) => t.id)) })
 
-  const { newsFuerRss } = schreibeKernUndNews({ releases, events, titles, meta })
+  const { newsFuerRss } = schreibeKernUndNews({ releases, events, titles, meta, bekannteSeiten })
   ergaenzeKennungen(); ergaenzeTitelRang()
   schreibeWochenDatei()
   schreibePatchnotes()

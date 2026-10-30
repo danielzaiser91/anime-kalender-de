@@ -10,6 +10,7 @@ import { deutschNurAusSpracheTermin, releasesAusNurOriginalton } from '../lib/pr
 import { autoReleaseWidersprueche } from '../lib/auto-release-pruefung.ts'
 import { vorschlaegeAusAllenSammelartikeln } from '../lib/sammelartikel.ts'
 import { baueNews, type NewsHistorie } from '../lib/news.ts'
+import { traegeAltbestandEin } from '../lib/news-altbestand.ts'
 import { omuTitelAusKatalog } from '../lib/news-omu.ts'
 import { belegeFuerAlle, type BelegGedaechtnis } from '../lib/beleg-lesung.ts'
 import { entdoppeleUndMelde } from '../lib/beleg-anbieter.ts'
@@ -18,11 +19,13 @@ import { nimmVerlaufHeraus, setzeVerlaufEin, zurueckgestellt } from '../lib/quar
 import { nurOriginaltonMeldungen, type Vorschlag } from '../lib/meldungen.ts'
 import { type Release, type ReleaseEvent, type Title, type DataMeta, type NewsEintrag } from '../../shared/types.ts'
 
-export function schreibeKernUndNews({ releases, events, titles, meta }: {
+export function schreibeKernUndNews({ releases, events, titles, meta, bekannteSeiten }: {
   releases: Release[]
   events: ReleaseEvent[]
   titles: Map<number, Title>
   meta: DataMeta
+  /** Watchlink-Adressen des vorigen Bestands: eine dieser Seiten als Stream ist kein neuer Anbieter (`news-altbestand.ts`). */
+  bekannteSeiten: ReadonlySet<string>
 }) {
   /*
     **Prime-Verweise gehen unter die Video-Adresse — einmal für alle, zum Schluss.**
@@ -55,6 +58,7 @@ export function schreibeKernUndNews({ releases, events, titles, meta }: {
   {
     const newsHistorie = readJson<NewsHistorie>('data/news-historie.json', { zuerst: {} })
     const gehalten = nimmVerlaufHeraus(newsHistorie, zurueckgestellt(meta).releases)
+    traegeAltbestandEin(newsHistorie, [...titles.values()], bekannteSeiten)
     const meldungen = entdoppeleUndMelde(messungenFuerFolgen(belegeFuerAlle(baueNews(
       [...titles.values(), ...cartoonsAusReleases(releases)],
       releases,
