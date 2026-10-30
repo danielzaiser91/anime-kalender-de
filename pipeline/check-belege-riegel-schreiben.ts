@@ -31,6 +31,7 @@ try {
   setze(block(900301, 'B0AAAAAAAA').join('\n') + '\n')
   lauf([...block(900301, 'B0AAAAAAAA'), '', ...block(900302, 'B0BBBBBBBB')])
   erwarte('neuer Beleg wird angehängt, vorhandener nicht doppelt', ids(), [900301, 900302])
+  erwarte('… und meldet den vorhandenen', meldungen.some((m) => /standen wörtlich schon da/.test(m)), true)
 
   /* Die fertige Fassung wird vor dem Schreiben entdoppelt: eine schon vorhandene Dopplung geht beim Anhängen weg. */
   setze([...block(900303, 'B0CCCCCCCC'), '', ...block(900303, 'B0CCCCCCCC')].join('\n') + '\n')

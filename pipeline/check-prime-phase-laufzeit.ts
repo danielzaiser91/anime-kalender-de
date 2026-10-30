@@ -48,7 +48,7 @@ const suchFaelle: SuchFall[] = [
   { id: 900202, name: 'Handbeleg available:false zur neuen Adresse: Suche bleibt', beleg: { available: false }, erwartetErsetzt: false },
   { id: 900203, name: 'Handbeleg dub:false zur neuen Adresse: Suche bleibt', beleg: { dub: false }, erwartetErsetzt: false },
   { id: 900204, name: 'Linkprüfung kennt die Adresse als tot: Suche bleibt', tot: true, erwartetErsetzt: false },
-  { id: 900205, name: 'Befund 404 statt 200: Suche bleibt', befund: { status: 404, prime: true }, erwartetErsetzt: false },
+  { id: 900205, name: 'Befund unklar statt 200: Suche bleibt', befund: { status: 'unklar', prime: true }, erwartetErsetzt: false },
   { id: 900206, name: 'Befund 200, aber keine Produktseite: Suche bleibt', befund: { status: 200, prime: false }, erwartetErsetzt: false },
 ]
 
