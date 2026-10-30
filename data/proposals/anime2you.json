@@ -1,10 +1,10 @@
 {
-  "scrapedAt": "2026-10-30T17:03:41.836Z",
+  "scrapedAt": "2026-10-30T18:02:55.549Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 8,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 11,
-    "schon in einem Rubrik-Feed gelesen": 9,
+    "schon in einem Rubrik-Feed gelesen": 10,
     "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 3,
     "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 11,
     "Sprachhinweis älter als 45 Tage": 4
@@ -71,7 +71,7 @@
       "articleTitle": "Disney+ kündigt zwei Anime-Neuzugänge für November 2026 an",
       "articleUrl": "https://www.anime2you.de/news/1065975/disney-plus-neu-im-november-2026/",
       "publishedAt": "2026-10-30",
-      "category": "allgemein",
+      "category": "streaming",
       "platforms": [
         "disneyplus"
       ],
