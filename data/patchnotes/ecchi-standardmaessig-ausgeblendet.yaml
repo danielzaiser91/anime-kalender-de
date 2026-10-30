@@ -1,3 +1,4 @@
 kategorie: feature
-text: Ecchi-Titel sind ausgeblendet, einblendbar in den Einstellungen
-untertitel: Die Suche in der Datenbank sagt, wenn sie Ecchi-Titel versteckt
+text: Ecchi-Titel ausgeblendet, Schalter in den Einstellungen
+untertitel: Die Datenbank sagt bei der Suche, wie viele fehlen
+highlight: true
