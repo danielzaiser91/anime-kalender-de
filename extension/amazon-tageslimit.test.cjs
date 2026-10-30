@@ -6,56 +6,13 @@
  * Am 12.10.2026 stand die Pille bei gerissenem Limit auf „Titel 86/126 · 344 Seiten gemeldet", und
  * Daniel hielt den Lauf für hängend.
  */
-const { readFileSync } = require('node:fs')
-const vm = require('node:vm')
-
-const lies = (dateien) => dateien.map((n) => readFileSync(__dirname + '/' + n, 'utf8')).join('\n')
+const { lies, element, sandkasten, durchlaufen, laufen } = require('./test-kulisse-amazon.cjs')
 
 const fehler = []
 function pruefe(name, bedingung, gefunden) {
   if (bedingung) return console.log(`  ✓ ${name}`)
   fehler.push(name)
   console.error(`  ✗ ${name}${gefunden === undefined ? '' : ` — gefunden: ${JSON.stringify(gefunden)}`}`)
-}
-
-/** Der Wächter von `dialogFuellen` fragt nach dem Kasten; ohne ihn baute sich die Liste bei jedem Takt neu. */
-const findeKasten = (el) => el.kinder.find((k) => k.className === 'ak-kasten') ?? null
-
-function element(dokument, alle) {
-  const el = {
-    className: '',
-    isConnected: true,
-    style: { cssText: '' },
-    dataset: {},
-    _text: '',
-    get textContent() {
-      return el._text
-    },
-    set textContent(wert) {
-      el._text = wert
-      if (wert === '') el.kinder = []
-    },
-    title: '',
-    type: '',
-    disabled: false,
-    kinder: [],
-    hoerer: {},
-    ownerDocument: dokument,
-    classList: { add() {}, remove() {}, toggle() {}, contains: () => false },
-    replaceChildren(...neu) { el.kinder = neu },
-    appendChild(k) { el.kinder.push(k); return k },
-    append(...neu) { el.kinder.push(...neu) },
-    insertBefore(k) { el.kinder.push(k); return k },
-    remove() {},
-    addEventListener(art, fn) { el.hoerer[art] = fn },
-    setAttribute() {},
-    getAttribute: () => null,
-    querySelector: (wahl) => (wahl === '.ak-kasten' ? findeKasten(el) : null),
-    querySelectorAll: () => [],
-    focus() {},
-  }
-  alle.push(el)
-  return el
 }
 
 /** Alle Texte unterhalb von `el`, eine Zeile je Element. */
@@ -91,63 +48,28 @@ function dokumentBauen(alle) {
   return dokument
 }
 
-function sandkastenBauen(dokument, speicher) {
-  const fenster = { addEventListener() {}, location: { pathname: '/', search: '' }, name: '', document: dokument }
-  fenster.top = fenster
-  fenster.parent = { postMessage() {} }
-  const sandkasten = {
-    takte: [],
-    AK_OFFENE_AMAZON: {},
-    AK_PRIME_SUCHE: {},
-    URLSearchParams,
-    URL,
-    location: { pathname: '/', search: '', hostname: 'www.amazon.de', origin: 'https://www.amazon.de', href: 'https://www.amazon.de/' },
-    sessionStorage: {
-      getItem: (k) => speicher.get(k) ?? null,
-      setItem: (k, v) => speicher.set(k, String(v)),
-      removeItem: (k) => speicher.delete(k),
-    },
-    document: dokument,
-    chrome: {
-      runtime: { id: 'test' },
-      storage: {
-        local: { get: () => Promise.resolve({ amazonErledigt: {}, amazonSuche: {} }), set: () => Promise.resolve() },
-        onChanged: { addListener() {} },
-      },
-    },
-    window: fenster,
-    MutationObserver: class { observe() {} },
-    requestAnimationFrame: () => 0,
-    fetch: () => Promise.resolve({ ok: true, status: 200, json: () => Promise.resolve({}) }),
-    setInterval: (fn) => sandkasten.takte.push(fn),
-    clearInterval() {},
-    setTimeout: () => 0,
-    console: { log() {}, warn() {}, error() {} },
-    performance: { now: () => Date.now() },
-    navigator: { clipboard: { writeText: () => Promise.resolve() } },
-  }
-  for (const name of ['Date', 'JSON', 'Math', 'Set', 'Map', 'Number', 'String', 'Object', 'Array', 'Boolean', 'RegExp', 'Promise', 'Error', 'Intl']) {
-    sandkasten[name] = globalThis[name]
-  }
-  sandkasten.encodeURIComponent = encodeURIComponent
-  sandkasten.decodeURIComponent = decodeURIComponent
-  sandkasten.globalThis = sandkasten
-  return sandkasten
-}
-
 /** Lädt das Skript mit einem Prime-Lauf im Tab-Speicher; `limit` pausiert vorher über `AK_TAGESLIMIT.merken`. */
 async function lade({ limit, ende }) {
   const alle = []
-  const speicher = new Map([['ak-prime-lauf', JSON.stringify({ ...LAUF, seit: Date.now() })]])
-  if (ende) speicher.set('ak-prime-lauf-ende', JSON.stringify(ende))
-  const sandkasten = sandkastenBauen(dokumentBauen(alle), speicher)
+  const speicher = { 'ak-prime-lauf': JSON.stringify({ ...LAUF, seit: Date.now() }) }
+  if (ende) speicher['ak-prime-lauf-ende'] = JSON.stringify(ende)
+  const dokument = dokumentBauen(alle)
+  const fenster = { addEventListener() {}, location: { pathname: '/', search: '' }, name: '', document: dokument }
+  fenster.top = fenster
+  fenster.parent = { postMessage() {} }
+  const k = sandkasten({ speicher })
+  Object.assign(k, {
+    document: dokument,
+    window: fenster,
+    location: { pathname: '/', search: '', hostname: 'www.amazon.de', origin: 'https://www.amazon.de', href: 'https://www.amazon.de/' },
+    performance: { now: () => Date.now() },
+  })
   /* Die Pause gilt schon beim ersten Zeichnen: `merken` läuft zwischen `tageslimit.js` und `amazon.js`. */
   const pause = limit ? `globalThis.AK_TAGESLIMIT.merken(${limit.map((x) => JSON.stringify(x)).join(',')})` : ''
-  const quelle = [lies(['tageslimit.js']), pause, lies(['box.js', 'melde-sperre.js', 'prime-titelseite.js', 'prime-region.js', 'amazon.js'])].join('\n')
-  const ergebnis = vm.runInNewContext(quelle, sandkasten, { filename: 'amazon.js' })
-  await new Promise((r) => setImmediate(r))
-  ergebnis.catch(() => {})
-  return { alle, k: sandkasten, takt: () => sandkasten.takte.forEach((fn) => fn()) }
+  const { absturz } = laufen([lies('tageslimit.js'), pause, ...['box.js', 'melde-sperre.js', 'prime-titelseite.js', 'prime-region.js', 'amazon.js'].map(lies)], k)
+  if (absturz) throw absturz
+  await durchlaufen(1)
+  return { alle, k, takt: k.takt }
 }
 
 const pille = (alle) => alle.find((e) => /^[⏸⏹] \d+\/\d+$/.test(e.textContent))
