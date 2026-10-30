@@ -16,6 +16,8 @@ import { type Antwort } from './antwort-typ.ts'
 import { deSeitZeigen } from './de-seit.ts'
 import { ausgebliebenTerminText, kostenlosKopfVon } from './kasten-texte.ts'
 import { folgenKopf, laeuftNeben } from './antwort-block.ts'
+import { discKopf } from './antwort-disc-kopf.ts'
+import { vorstartSatz } from './antwort-vorstart.ts'
 
 /** Pillenreihe: 8 px zwischen den Pillen, 16 px zwischen den Zeilen (Platz für die Blase), 8 px über der ersten. */
 const PILLEN_REIHE = 'flex flex-wrap items-start gap-x-2 gap-y-4 pt-2'
@@ -240,16 +242,6 @@ export function AntwortKasten({
   const mitBereichen = !aktivDisc && pillen.length > 0
   const kostenlosKopf = mitBereichen && pillen.some((p) => gruppeVon(p) === 'frei') ? kostenlosKopfVon({ title, antwort, T }) : undefined
 
-  /** Relative Angabe zuerst — niemand rechnet gern nach, welcher Tag der 25. ist. */
-  const relativ = (datum: string): string => {
-    const tage = Math.round(
-      (new Date(`${datum}T12:00:00Z`).getTime() - new Date(`${today}T12:00:00Z`).getTime()) / 86400000,
-    )
-    if (tage <= 0) return T('antwort.heute')
-    if (tage === 1) return T('antwort.morgen')
-    if (tage <= 6) return T('antwort.inTagen', { count: tage })
-    return ''
-  }
   /*
     Dieselbe Angabe, aber kleingeschrieben: Sie steht jetzt mitten im Satz
     („erscheint in 2 Tagen, am …") statt am Satzanfang. Ein großes „Heute"
@@ -371,6 +363,8 @@ export function AntwortKasten({
           </>
         )
       : ''
+    const vorstart = vorstartSatz(antwort, Boolean(ohneSprachbeleg), releases)
+    if (vorstart) [haupt, neben, anteil, zaehl] = [vorstart, '', undefined, '']
   } else if (antwort.art === 'teilweise') {
     /*
       **Teilweise synchronisiert — die Zahl statt „alle".**
@@ -418,23 +412,9 @@ export function AntwortKasten({
       : undefined
     zaehl = ''
   } else if (antwort.art === 'disc') {
-    const rel = relativ(antwort.datum)
-    /*
-      **Ab zwei Bänden zählt der Stand, nicht der nächste Termin.**
-
-      „in 2 Monaten, 06.11.2026" verschweigt, dass Band 1 seit dem 21.08. im
-      Laden liegt — und der Kauf-Weg daneben führt genau dorthin. Die Zeile
-      nennt deshalb beide: „Vol. 1 seit 21.08.2026 · Vol. 2 am 06.11.2026".
-    */
-    haupt =
-      antwort.baende
-        ?.map((b) =>
-          [b.name, T(b.raus ? 'antwort.discSeit' : 'antwort.discAm', { datum: formatDate(b.datum) })]
-            .filter(Boolean)
-            .join(' '),
-        )
-        .join(' · ') ?? [rel, formatDate(antwort.datum)].filter(Boolean).join(', ')
-    neben = T('antwort.discNeben')
+    const vorstart = vorstartSatz(antwort, false)
+    haupt = vorstart ?? discKopf(antwort, T)
+    neben = vorstart ? '' : T('antwort.discNeben')
     zaehl = ''
     /*
       Statt eines Balkens die drei Angaben, die es zu einer Disc wirklich gibt.

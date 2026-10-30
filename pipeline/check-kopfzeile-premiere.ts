@@ -73,7 +73,7 @@ console.log('\nTV-Premiere ohne Stream (Yaiba):')
 const yaiba = berechneAntwort({ title: titel(), releases: [tvTermin()], today: HEUTE, jetzt: JETZT })!
 pruefe('Antwort „läuft“ statt „fertig“', yaiba.art === 'laeuft', yaiba.art)
 const yaibaKopf = kopf(titel(), [tvTermin()])
-pruefe('Kopf nennt die erste Folge', yaibaKopf.includes('Erste Folge'), yaibaKopf)
+pruefe('Kopf nennt die erste Folge', yaibaKopf.includes('Die erste Folge mit deutscher Synchro erscheint am 05.11.2026'), yaibaKopf)
 pruefe('Kopf sagt weder „Alle 24 Folgen“ noch „Sprache offen“', !yaibaKopf.includes('Alle 24') && !yaibaKopf.includes('Sprache offen'), yaibaKopf)
 pruefe('keine Kaufausgabe-Zeile', !yaibaKopf.includes('Kaufausgabe'))
 pruefe('kein „Auf Deutsch seit“ vor dem Start', !yaibaKopf.includes('Auf Deutsch seit'))
@@ -189,7 +189,7 @@ const neuigkeit = titel({ episodes: 12, streams: [{ ...cr, dubRanges: [{ from: 1
 pruefe('Erstausgabe als Neuigkeit: keine „seit“-Zeile', !kopf(neuigkeit, [ffTermin]).includes('Auf Deutsch seit'), kopf(neuigkeit, [ffTermin]))
 const zukunftOhneStream = titel({ deErstausgabe: { von: '2026-11-06', synchro: true } })
 const zkKopf = kopf(zukunftOhneStream, [tvTermin()])
-pruefe('Erstausgabe in der Zukunft ist kein Beginn: „Erste Folge“ statt „Alle 24“', zkKopf.includes('Erste Folge') && !zkKopf.includes('Alle 24'), zkKopf)
+pruefe('Erstausgabe in der Zukunft ist kein Beginn: „Erste Folge“ statt „Alle 24“', zkKopf.includes('Die erste Folge mit deutscher Synchro erscheint am 05.11.2026') && !zkKopf.includes('Alle 24'), zkKopf)
 pruefe('Stream ohne Angabe zur Tonspur ist kein Beginn', !deutschBegonnen(titel({ streams: [{ platform: 'x', url: 'https://x/a' }] }), 0, HEUTE))
 pruefe('Zeitraum nach heute (Dezember) wird nicht unterdrückt', deSeitZeigen(erst('2026-12'), [], HEUTE))
 const zwei = [{ ...crTermin, schedule: { firstEpisodeDate: '2025-02-04' } }, { ...crTermin, slug: 'cr2', schedule: { firstEpisodeDate: '2025-05-01' } }] as unknown as Release[]
