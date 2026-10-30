@@ -50,15 +50,36 @@ function inKlammer(html: string, stelle: number): boolean {
   return text.lastIndexOf('(') > text.lastIndexOf(')')
 }
 
+/** Watchlist-Knopf oder Bild-Teaser (Verweis ohne Text): ADN zeigt so die eigene Serie des Artikels, nie einen Vergleich. */
+function istKnopfOderBild(html: string, tag: RegExpMatchArray): boolean {
+  if (/wp-block-button__link/.test(tag[0])) return true
+  const ab = (tag.index ?? 0) + tag[0].length
+  const ende = html.indexOf('</a>', ab)
+  return !html.slice(ab, ende < 0 ? undefined : ende).replace(/<[^>]*>/g, '').trim()
+}
+
+/** Ein Artikel über eine Serie (samt Film/Fortsetzung) hat höchstens so viele Knopf-/Bild-Serien; mehr ist eine Sammelmeldung. */
+const EINZELARTIKEL_HOECHSTENS = 2
+/** Und höchstens so viele nur im Fließtext verlinkte Serien: eine Aufzählung mehrerer Serien ist eine Sammelmeldung. */
+const VERGLEICHE_HOECHSTENS = 1
+
 /**
  * Serien, um die es im Artikel geht. Verweise in Klammern („Studio: Lerche (Assassination Classroom, …)") nennen
  * andere Serien als Auskunft über Studio oder Regie und zählen nicht. Bestehen alle Verweise aus solchen, bleiben alle.
+ * Hat der Artikel nur eine oder zwei Serien mit Knopf/Bild-Teaser, sind Fließtext-Verweise Vergleiche („wie Sailor Moon")
+ * und zählen nicht; eine Sammelmeldung mit mehr Knopf-Serien behält ihre Fließtext-Serien.
  */
 export function serienDesArtikels(html: string): number[] {
   const treffer = [...html.matchAll(/<a\b[^>]*>/g)].filter((m) => SERIEN_LINK.test(m[0]))
   const ohneKlammer = treffer.filter((m) => !inKlammer(html, m.index))
   const gewaehlt = ohneKlammer.length ? ohneKlammer : treffer
-  const ids = gewaehlt.map((m) => Number(SERIEN_LINK.exec(m[0])?.[1]))
+  const kern = gewaehlt.filter((m) => istKnopfOderBild(html, m))
+  const idsVon = (liste: RegExpMatchArray[]) => new Set(liste.map((m) => SERIEN_LINK.exec(m[0])?.[1]))
+  const anzahl = idsVon(kern).size
+  const nurFliesstext = [...idsVon(gewaehlt)].filter((id) => !idsVon(kern).has(id)).length
+  const einzel = anzahl >= 1 && anzahl <= EINZELARTIKEL_HOECHSTENS && nurFliesstext <= VERGLEICHE_HOECHSTENS
+  const quelle = einzel ? kern : gewaehlt
+  const ids = quelle.map((m) => Number(SERIEN_LINK.exec(m[0])?.[1]))
   return [...new Set(ids)].filter((n) => Number.isFinite(n))
 }
 
