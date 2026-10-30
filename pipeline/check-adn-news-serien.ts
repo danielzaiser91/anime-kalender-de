@@ -26,7 +26,8 @@ const LINEUP_MIT_KNOEPFEN =
   '<a class="wp-block-button__link wp-element-button" href="https://animationdigitalnetwork.com/de/video/1321-madoka-rebellion" style="border-width:2px">auf die watchlist</a>'
 /* Trailer-Beitrag ohne Watchlist-Knopf: beide Verweise sind Serien des Beitrags. */
 const OHNE_KNOPF =
-  '<a href="https://animationdigitalnetwork.com/video/887-dreamland"><a href="https://animationdigitalnetwork.com/de/video/1383-kill-blue">'
+  '<a href="https://animationdigitalnetwork.com/video/887-dreamland"><a href="https://animationdigitalnetwork.com/de/video/1383-kill-blue">' +
+  '<a href="https://animationdigitalnetwork.com/video/887-dreamland">'
 
 pruefe('Bahamut: nur die Serie des Knopfs', serienDesArtikels(BAHAMUT).join() === '398', serienDesArtikels(BAHAMUT))
 pruefe('School Babysitters: Studio-Verweis zählt nicht', serienDesArtikels(BABYSITTERS).join() === '502', serienDesArtikels(BABYSITTERS))
