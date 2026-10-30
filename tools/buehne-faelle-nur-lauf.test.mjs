@@ -8,10 +8,12 @@ import { execFileSync } from 'node:child_process'
 import { copyFileSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, join, resolve } from 'node:path'
+import { FAELLE, FERNSEHTAG } from './buehne-faelle.mjs'
 
 const REPO = resolve(import.meta.dirname, '..')
-// AniList-Kennungen der 18 Fälle (ohne Avatar, dessen Kennung negativ ist und nicht im Katalog steht), fest eingetragen.
-const KENNUNGEN = [178083, 110277, 21, 131586, 263, 195539, 199, 210073, 177709, 171018, 151040, 195604, 118399, 223, 235, 182205, 190327]
+// Alle Fälle samt Kennungen kommen aus dem Werkzeug; Avatar mit negativer Kennung steht nicht im Katalog.
+const ALLE_FAELLE = [...FAELLE, ...FERNSEHTAG]
+const KENNUNGEN = ALLE_FAELLE.map((f) => f.titel).filter((id) => id > 0)
 
 function baueWurzel(wurzel, name86) {
   for (const d of ['tools/buehne-faelle.mjs', 'tools/buehne-faelle-nur.mjs', 'pipeline/lib/ausgabe-kennung.ts', 'pipeline/bau/ohne-synchro-namen.ts']) {
@@ -37,7 +39,8 @@ try {
   baueWurzel(wurzel, 'Alt')
   lauf(wurzel, '--ziel', ziel)
   const voll = JSON.parse(readFileSync(ziel, 'utf8'))
-  assert.equal(Object.keys(voll.faelle).length, 18, 'ohne Option entstehen alle 18 Fälle')
+  assert.equal(Object.keys(voll.faelle).length, ALLE_FAELLE.length, 'ohne Option entstehen alle Fälle')
+  assert.ok(ALLE_FAELLE.length >= 18, 'Fall-Liste nicht leer gelesen')
 
   // Fremdfall manipulieren; der gewählte Fall bekommt neue Daten.
   voll.faelle['one-piece'].name = 'MANIPULIERT'
@@ -70,4 +73,4 @@ try {
 } finally {
   rmSync(wurzel, { recursive: true, force: true })
 }
-console.log('buehne-faelle --nur Lauf: 3 Gruppen (Fremdfall bleibt, gewählter Fall neu, fehlende Zieldatei) ok')
+console.log('buehne-faelle --nur Lauf: 3 Gruppen, Wurzel aus Fall-Liste (Fremdfall bleibt, gewählter Fall neu, fehlende Zieldatei) ok')

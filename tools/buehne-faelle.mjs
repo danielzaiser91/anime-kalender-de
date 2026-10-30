@@ -13,6 +13,7 @@
  */
 import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
+import { pathToFileURL } from 'node:url'
 import { ladeAkVon, uebersetzeDatei } from '../pipeline/lib/ausgabe-kennung.ts'
 import { namensIndex } from '../pipeline/bau/ohne-synchro-namen.ts'
 import { leseOptionen, uebernimmFall } from './buehne-faelle-nur.mjs'
@@ -30,7 +31,7 @@ const PLATZHALTER_BILDER = 6
  * AniList-Kennung des geöffneten Titels; die Reihe ergibt sich daraus (`franchiseId`). Die Reihen dürfen sich nicht
  * überschneiden: `kachel` und `ganz` zeigen alle Fälle zusammen als Bestand (`faelle.ts`).
  */
-const FAELLE = [
+export const FAELLE = [
   { slug: 'tokyo-revengers', name: 'Tokyo Revengers (neue Staffel)', titel: 178083 },
   { slug: 'attack-on-titan', name: 'Attack on Titan (Staffeln, Filme, Specials)', titel: 110277 },
   { slug: 'one-piece', name: 'One Piece (lang laufend)', titel: 21 },
@@ -54,7 +55,7 @@ const FAELLE = [
  * `relative-uhrzeit`). One Piece (18:25/18:50) und Tokyo Revengers (19:00, geschätzt) sind schon Fälle oben. Ein Fall ist genau
  * eine Reihe, daher einer je Reihe; zusammen mit den übrigen zeigt der Bestand (`alle`) die ganze Woche um den Tag.
  */
-const FERNSEHTAG = [
+export const FERNSEHTAG = [
   { slug: 'fernsehtag-yashahime', name: 'Yashahime (TV 16:45)', titel: 118399 },
   { slug: 'fernsehtag-dragon-ball', name: 'Dragon Ball (TV 17:10 und 17:35)', titel: 223 },
   { slug: 'fernsehtag-detektiv-conan', name: 'Detektiv Conan (TV 17:55)', titel: 235 },
@@ -188,9 +189,11 @@ function main() {
   console.log(`${ziel}: ${Math.round(readFileSync(ziel).length / 1024)} KB`)
 }
 
-try {
-  main()
-} catch (fehler) {
-  console.error(fehler.message)
-  process.exitCode = 1
+if (import.meta.url === pathToFileURL(process.argv[1]).href) {
+  try {
+    main()
+  } catch (fehler) {
+    console.error(fehler.message)
+    process.exitCode = 1
+  }
 }
