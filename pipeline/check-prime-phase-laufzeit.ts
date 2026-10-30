@@ -61,6 +61,9 @@ try {
   schreibe('data/prime-zugeordnet.json', JSON.stringify(Object.fromEntries(meldungen.map((m) => [m.schluessel, m.wert]))))
   mkdirSync(join(kulisse, 'data/curated'), { recursive: true })
   const { uebernehmePrimeUndCrVorschlaege } = await import('./bau/09-3-prime.ts')
+  const { dubKey } = await import('./lib/dub-confirmed.ts')
+  /* Ein Handbeleg zur ersten Ausgabe sperrt die Meldung zur zweiten nicht. */
+  const ersterBeleg = { anilistId: 900104, platform: 'primevideo' as const, url: dp('B0VORHAND03'), dub: true, checkedAt: '2026-10-30' }
   const mk = (id: number, streams: unknown[], mehr: object = {}) => [id, { id, slug: `laufzeit-${id}`, streams, ...mehr } as unknown as Title] as const
   const titles = new Map<number, Title>([
     mk(900101, [prime(suche('eins'))]),
@@ -73,8 +76,8 @@ try {
   const tot = new Set(suchFaelle.filter((f) => f.tot).map((f) => ECHT(f.id)))
   uebernehmePrimeUndCrVorschlaege({
     titles,
-    checks: new Map(),
-    alleChecks: [],
+    checks: new Map([[dubKey(900104, 'primevideo'), ersterBeleg]]),
+    alleChecks: [ersterBeleg],
     lautPruefungTot: (url) => tot.has(url),
     tmdbTitles: {},
     ytKanal: {},
@@ -92,7 +95,7 @@ try {
     anisearch: {},
     belegFuer: (id, plattform, url) => {
       const f = suchFaelle.find((x) => x.id === id)
-      return f?.beleg && plattform === 'primevideo' && url === ECHT(id) ? ({ anilistId: id, platform: 'primevideo', ...f.beleg }) : undefined
+      return f?.beleg && plattform === 'primevideo' && url === ECHT(id) ? ({ anilistId: id, platform: 'primevideo', checkedAt: '2026-10-30', ...f.beleg }) : undefined
     },
   })
   const urls = (id: number, plattform: string) => titles.get(id)!.streams.filter((s) => s.platform === plattform).map((s) => s.url)
