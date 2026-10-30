@@ -523,3 +523,14 @@ wer die Ursache dann noch kennt, hat Glück. Deshalb diese Datei.
 **Wo sind echte Risiken und Lücken?** Fall 2 ist ein ~4 Stunden langer Rücksprung eines Synchro-Belegs, der von selbst heilte. **Nicht belegt:** warum. Zeitlich fällt er mit dem Lauf „Tagesquellen gesammelt" 00e36cee (04:26 UTC) zusammen, der `beleg-lesungen.json` stark umschrieb (811 Zeilen); ein Beweis für die Ursache ist das nicht. Eine Wache, die nur Tageswerte sähe, würde ihn nicht bemerken.
 
 **Was läuft komplett falsch?** Nichts, was ich belegen kann: kein Fehlerschritt, der Lauf ist absichtlich rot. Kein Pull Request, da keine Codeursache gefunden.
+
+
+## 30.10.2026 (Nachmittag) — Wache rot ohne Befund: Delta-Schritt stürzt ab (Lauf 41069357224, Issue #2432)
+
+**Was läuft korrekt.** Der Briefkasten- und Zugangsteil lief durch (3985 Meldungen, alle Workflows innerhalb der Frist), und der Abschlussschritt hat den Fehler wie vorgesehen rot gemeldet statt still zu bleiben. Das Delta-Skript funktioniert, wenn `js-yaml` vorhanden ist: lokal gemessen, 2924 Titel, 2019 Urteile, 290 offen.
+
+**Wo ist Verbesserungspotenzial?** Der Absturz eines Prüfschritts (`continue-on-error`) wird als „Auffälligkeit" gemeldet; die Wache-Datei zeigt einen leeren Bestandsblock. Ein abgestürzter Schritt sollte als „Wache selbst defekt" auftauchen, nicht als Bestandsbefund.
+
+**Wo sind echte Risiken und Lücken?** Die Wache war faktisch blind: `tools/delta-pruefen.mjs` → `bestand-pendel.ts` → `bestand-delta.ts` → `belege-entfernt.ts` importiert `js-yaml`, der Workflow macht aber bewusst kein `npm ci` („kein Import aus node_modules"). Die Kette wuchs mit dem Belege-entfernt-Abgleich vom 29.10. (der Lauf vom 29.10. und 30.10. fehlte in diesem Schritt wohl ebenso — nur 30.10. ist als Stacktrace belegt). Ein Verlust im Bestand wäre in dieser Zeit nicht bemerkt worden. Da der Vortagsstand-Cache fehlte, entfällt auch der Vergleich der ausgelassenen Termine.
+
+**Was läuft komplett falsch?** `Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'js-yaml' imported from pipeline/lib/belege-entfernt.ts` im Schritt „Delta der letzten 24 Stunden". Behoben im Pull Request: `sperrKern` und `BelegEntfernt` liegen jetzt in `pipeline/lib/sperr-kern.ts` ohne `js-yaml` (ein Workflow-Fix scheiterte an fehlender `workflows`-Berechtigung der App).
