@@ -10,6 +10,7 @@ import { deutschNurAusSpracheTermin, releasesAusNurOriginalton } from '../lib/pr
 import { autoReleaseWidersprueche } from '../lib/auto-release-pruefung.ts'
 import { vorschlaegeAusAllenSammelartikeln } from '../lib/sammelartikel.ts'
 import { baueNews, type NewsHistorie } from '../lib/news.ts'
+import { traegeAltbestandEin, vorigeWatchAdressen } from '../lib/news-altbestand.ts'
 import { omuTitelAusKatalog } from '../lib/news-omu.ts'
 import { belegeFuerAlle, type BelegGedaechtnis } from '../lib/beleg-lesung.ts'
 import { entdoppeleUndMelde } from '../lib/beleg-anbieter.ts'
@@ -18,11 +19,18 @@ import { nimmVerlaufHeraus, setzeVerlaufEin, zurueckgestellt } from '../lib/quar
 import { nurOriginaltonMeldungen, type Vorschlag } from '../lib/meldungen.ts'
 import { type Release, type ReleaseEvent, type Title, type DataMeta, type NewsEintrag } from '../../shared/types.ts'
 
-export function schreibeKernUndNews({ releases, events, titles, meta }: {
+/** Die Watchlink-Adressen der zuletzt ausgelieferten `titles.json`; `13-schreiben` liest sie, bevor der Bau die Datei neu schreibt. */
+export function bekannteSeitenAusBestand(): Map<number, Set<string>> {
+  return vorigeWatchAdressen(readJson<Title[]>(`${OUT}/titles.json`, []))
+}
+
+export function schreibeKernUndNews({ releases, events, titles, meta, bekannteSeiten }: {
   releases: Release[]
   events: ReleaseEvent[]
   titles: Map<number, Title>
   meta: DataMeta
+  /** Watchlink-Adressen des vorigen Bestands je Titel: eine dieser Seiten als Stream desselben Titels ist kein neuer Anbieter (`news-altbestand.ts`). */
+  bekannteSeiten: ReadonlyMap<number, ReadonlySet<string>>
 }) {
   /*
     **Prime-Verweise gehen unter die Video-Adresse — einmal für alle, zum Schluss.**
@@ -55,6 +63,7 @@ export function schreibeKernUndNews({ releases, events, titles, meta }: {
   {
     const newsHistorie = readJson<NewsHistorie>('data/news-historie.json', { zuerst: {} })
     const gehalten = nimmVerlaufHeraus(newsHistorie, zurueckgestellt(meta).releases)
+    traegeAltbestandEin(newsHistorie, [...titles.values()], bekannteSeiten)
     const meldungen = entdoppeleUndMelde(messungenFuerFolgen(belegeFuerAlle(baueNews(
       [...titles.values(), ...cartoonsAusReleases(releases)],
       releases,
@@ -71,20 +80,7 @@ export function schreibeKernUndNews({ releases, events, titles, meta }: {
     newsFuerRss = meldungen
     setzeVerlaufEin(newsHistorie, gehalten)
     writeJson('data/news-historie.json', newsHistorie)
-    const jeArt = new Map<string, number>()
-    let einzeln = 0
-    let abgeloest = 0
-    for (const e of meldungen)
-      for (const m of e.meldungen) {
-        einzeln++
-        if (m.ersetzt || m.zurueckgezogen) abgeloest++
-        jeArt.set(m.art, (jeArt.get(m.art) ?? 0) + 1)
-      }
-    log(
-      `${meldungen.length} Einträge für die Nachrichtenseite, ${einzeln} Meldungen darin (` +
-        [...jeArt].map(([a, n]) => `${a} ${n}`).join(', ') +
-        `), davon ${abgeloest} abgelöst und sichtbar geblieben`,
-    )
+    protokolliereNews(meldungen)
   }
   /* Releases kommen nach `baueMeta` noch hinzu (motn-*, Erstausgaben): gezählt wird, was in der Datei steht. */
   meta.releaseCount = releases.length
@@ -93,6 +89,24 @@ export function schreibeKernUndNews({ releases, events, titles, meta }: {
   writeJson(`${OUT}/meta.json`, meta, true)
   bruecheBeiWiderspruchAb({ fehler: zaehlworteAusDateien(), warnungen: [] })
   return { newsFuerRss }
+}
+
+/** Eine Logzeile über die ausgelieferten Meldungen: Einträge, Meldungen, Arten, abgelöste. */
+function protokolliereNews(meldungen: NewsEintrag[]): void {
+  const jeArt = new Map<string, number>()
+  let einzeln = 0
+  let abgeloest = 0
+  for (const e of meldungen)
+    for (const m of e.meldungen) {
+      einzeln++
+      if (m.ersetzt || m.zurueckgezogen) abgeloest++
+      jeArt.set(m.art, (jeArt.get(m.art) ?? 0) + 1)
+    }
+  log(
+    `${meldungen.length} Einträge für die Nachrichtenseite, ${einzeln} Meldungen darin (` +
+      [...jeArt].map(([a, n]) => `${a} ${n}`).join(', ') +
+      `), davon ${abgeloest} abgelöst und sichtbar geblieben`,
+  )
 }
 
 /** Die Zählworte der Oberfläche müssen zur Länge der ausgelieferten Dateien passen (B-07). */
