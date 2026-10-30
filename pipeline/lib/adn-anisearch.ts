@@ -129,3 +129,9 @@ export function kalenderOhneNetz(kalender: { showId: number; title: string }[], 
   const bekannt = new Set([...katalog, ...offen].map((s) => s.showId))
   return kalender.filter((s) => !bekannt.has(s.showId))
 }
+
+/** Die Warnzeile für Kalenderserien ohne Platz in Katalog und Liste (`undefined` bei keiner Lücke); `::warning::` macht sie in der Kette sichtbar. */
+export function kalenderLueckenZeile(luecken: { showId: number; title: string }[], gesamt: number): string | undefined {
+  if (!luecken.length) return undefined
+  return `::warning::ADN-Kalender: ${luecken.length} von ${gesamt} Serien weder im Katalog noch auf der Liste der offenen: ${luecken.map((s) => `${s.showId} ${s.title}`).join('; ')}`
+}
