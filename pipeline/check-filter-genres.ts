@@ -9,7 +9,7 @@ import type { DataMeta, ReleaseEvent, Title } from '../shared/types.ts'
 import type { Dataset } from '../web/src/lib/data.ts'
 import { EMPTY_FILTERS, type FilterState } from '../web/src/lib/filters.ts'
 import { GENRE_VORSCHAU, genreAnzeige, nachZahlGeordnet } from '../web/src/lib/filter-liste.ts'
-import { attrappeUhr, ignoriereCss, installiereMiniDom, klicke, type MiniKnoten } from '../tools/mini-dom.ts'
+import { attrappeUhr, ignoriereCss, installiereMiniDom, klicke, tippe as tippeInFeld, type MiniKnoten } from '../tools/mini-dom.ts'
 ignoriereCss()
 /* React entscheidet beim Laden, ob es `input`-Ereignisse gibt (canUseDOM, `oninput` im Dokument): das Mini-DOM steht darum vor dem Import. */
 const vorlauf = installiereMiniDom({ setTimeout, clearTimeout, matchMedia: () => ({ matches: false, addEventListener() {}, removeEventListener() {} }) } as never, () => ({}))
@@ -73,10 +73,7 @@ async function rendere(bau: Wurzelbauer) {
     klick: (k: MiniKnoten) => act(async () => klicke(dom.wurzel, k)),
     tippe: (text: string) =>
       act(async () => {
-        const feld = dom.wurzel.finde((k) => k.tagName === 'INPUT')[0]!
-        Object.assign(feld, { value: text, type: 'search' })
-        const e = { type: 'input', target: feld, bubbles: true, cancelable: true, defaultPrevented: false, timeStamp: 0, preventDefault() {}, stopPropagation() {} }
-        for (const capture of [true, false]) (dom.wurzel.hoerer.get('input') ?? []).filter((x) => x.capture === capture).forEach((x) => x.f(e))
+        tippeInFeld(dom.wurzel, dom.wurzel.finde((k) => k.tagName === 'INPUT')[0]!, text)
       }),
   }
 }
