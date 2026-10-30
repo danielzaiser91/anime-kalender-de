@@ -297,6 +297,7 @@ pipeline/check-rohfolgen-ablauf.ts
 pipeline/check-rohfolgen-cartoons.ts
 pipeline/check-rohfolgen-staffelmisch.ts
 pipeline/check-saison-deutsch.ts
+pipeline/check-saison-karte-chip.ts
 pipeline/check-saison-termin.ts
 pipeline/check-sammel-erste-folgen.ts
 pipeline/check-sammel-unzugeordnet.ts

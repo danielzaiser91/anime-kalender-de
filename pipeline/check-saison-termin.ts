@@ -4,7 +4,7 @@
  */
 import { translate } from '../web/src/lib/i18n.tsx'
 import { terminText } from '../web/src/lib/saison-termin.ts'
-import { anbieterVon, type SaisonZeile } from '../web/src/lib/saison.ts'
+import { anbieterChips, anbieterVon, type SaisonZeile } from '../web/src/lib/saison.ts'
 import type { Release, Title } from '../shared/types.ts'
 
 let fehler = 0
@@ -40,6 +40,17 @@ pruefe('Weg ohne Stream, sicherer Termin: der Anbieter des Termins (Tokyo Reveng
 pruefe('abgeleiteter Termin nennt keinen Anbieter', anbieter({ streams: [] }, [termin('disneyplus', true)]), '')
 pruefe('Tonspur-Weg steht vor dem Termin-Anbieter, keine Dopplung', anbieter({ streams: [{ platform: 'netflix', dub: true }] }, [termin('primevideo'), termin('netflix')]), 'netflix+primevideo')
 pruefe('Stream ohne Tonspur-Beleg zählt nicht', anbieter({ streams: [{ platform: 'netflix' }] }, []), '')
+
+console.log('Anbieter-Chip „laut Anbieter“')
+const chips = (t: object, releases: Release[] = []) => anbieterChips(t as Title, releases).map((c) => `${c.platform}${c.laut ? '*' : ''}`).join('+')
+pruefe('nur abgeleiteter Weg (Joyn): Chip mit Kennzeichnung', chips({ streams: [{ platform: 'joyn', dub: true, dubAbgeleitet: 'joyn-pauschal' }] }), 'joyn*')
+pruefe('belegter Weg: Chip ohne Kennzeichnung', chips({ streams: [{ platform: 'netflix', dub: true }] }), 'netflix')
+pruefe('belegt und abgeleitet beim selben Anbieter: belegt gewinnt', chips({ streams: [{ platform: 'primevideo', dub: true, dubAbgeleitet: 'joyn-pauschal' }, { platform: 'primevideo', dub: true }] }), 'primevideo')
+pruefe('zwei Anbieter gemischt: nur der abgeleitete gekennzeichnet', chips({ streams: [{ platform: 'netflix', dub: true }, { platform: 'joyn', dub: true, dubAbgeleitet: 'joyn-pauschal' }] }), 'netflix+joyn*')
+pruefe('abgeleiteter Weg mit sicherem Termin beim selben Anbieter: ohne Kennzeichnung', chips({ streams: [{ platform: 'joyn', dub: true, dubAbgeleitet: 'joyn-pauschal' }] }, [termin('joyn')]), 'joyn')
+pruefe('abgeleiteter Weg mit nur geschätztem Termin: bleibt gekennzeichnet', chips({ streams: [{ platform: 'joyn', dub: true, dubAbgeleitet: 'joyn-pauschal' }] }, [termin('joyn', true)]), 'joyn*')
+pruefe('Anbieter nur aus Termin: ohne Kennzeichnung', chips({ streams: [] }, [termin('disneyplus')]), 'disneyplus')
+pruefe('Ankündigung: ohne Kennzeichnung', chips({ streams: [], ankuendigung: { synchro: 'angekuendigt', platform: 'netflix' } }), 'netflix')
 
 if (fehler) {
   console.error(`${fehler} Zusicherung(en) verletzt.`)
