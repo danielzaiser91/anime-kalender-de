@@ -318,3 +318,7 @@
   url: https://www.amazon.de/gp/video/detail/B0C8TKFF2J
   grund: 'Seite gehört K (14467, gti 8eb57c90); Return of Kings hat B0C8THGKXC (Fremdzuordnung, 30.10.2026)'
   entferntAm: '2026-10-30'
+- anilistId: 21699
+  url: https://www.amazon.de/gp/video/detail/B0F3TCT3TG
+  grund: 'Seite hat 13 Folgen (11 + 2 Bonus) und gehört Staffel 3 (136804), nicht Staffel 2 mit 10 Folgen (Meldungen 4742, 8832, 24007; Zuordnung pendelte zwischen den Bestandsläufen, #2497)'
+  entferntAm: '2026-10-31'
