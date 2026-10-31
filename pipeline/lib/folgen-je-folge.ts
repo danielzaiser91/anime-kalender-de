@@ -28,6 +28,7 @@ import {
 } from '../../shared/folgen-zuordnung.ts'
 import { passendeStaffel } from '../../shared/folgen-anker.ts'
 import type { Title } from '../../shared/types.ts'
+import { korrigiereNachTeiljahr, type RestFolge } from './folgen-teile.ts'
 
 /** Eine Beobachtung aus `prime_folge`, wie `?rohfolgen=1&alle=1` sie liefert. */
 export interface Beobachtung {
@@ -41,6 +42,9 @@ export interface Beobachtung {
   erschienen: string | null
   titel_id: number | null
   gemeldet_am: string
+  /** Die Seite (Amazon-Teil), auf der die Folge stand, und seine Staffelnummer bei Amazon. */
+  seiten_kennung?: string | null
+  staffel_nr?: number | null
 }
 
 export interface FolgenZuordnung {
@@ -49,7 +53,7 @@ export interface FolgenZuordnung {
   /** Unsere Folgennummer in diesem Titel — fehlt, wenn nur der Titel feststeht. */
   folge?: number
   /** Woran es festgemacht wurde. */
-  grund: 'datum' | 'titel' | 'einziger-kandidat' | 'offen' | 'ohne-kandidat' | 'strittig'
+  grund: 'datum' | 'titel' | 'jahr' | 'einziger-kandidat' | 'offen' | 'ohne-kandidat' | 'strittig'
   /** Bei offen und strittig: die Kandidaten, damit die Nachprüfung weiß, wo sie suchen muss. */
   kandidaten?: number[]
   /** Jüngste Beobachtung dieser Folge. */
@@ -192,6 +196,7 @@ export function ordneFolgenZu(
   const jeFolge = jeFolgeGruppieren(beobachtungen)
 
   const aus: Record<string, FolgenZuordnung> = {}
+  const rest: RestFolge[] = []
   for (const [schluessel, liste] of jeFolge) {
     const jung = liste.reduce((a, b) => (b.gemeldet_am > a.gemeldet_am ? b : a))
     const kandidaten = new Set<number>()
@@ -228,6 +233,7 @@ export function ordneFolgenZu(
       if (!vorher.size) for (const id of reihe) kandidaten.add(id)
     }
     let z = urteilAusTreffern(treffer, kandidaten, jung.gemeldet_am)
+    if (z.grund === 'einziger-kandidat' || z.grund === 'offen') rest.push({ schluessel, kandidaten: [...kandidaten] })
     /*
       **Eine Zuordnung wird festgehalten** (erster Schnitt, 22.09.2026): Wege ändern sich, und eine
       Beobachtung, deren Adresse nicht mehr im Bestand steht, verlöre sonst ihren Titel. Fällt der
@@ -237,6 +243,7 @@ export function ordneFolgenZu(
     if (!z.titel && alt?.titel) z = { ...alt, gesehen: jung.gemeldet_am }
     aus[schluessel] = z
   }
+  korrigiereNachTeiljahr(aus, rest, jeFolge, k.titel, reihen)
   /* Was diesmal nicht vorkam (Zeile gelöscht), bleibt stehen — ein Lauf löscht keine Zuordnung. */
   for (const [s, z] of Object.entries(bisher)) if (!aus[s]) aus[s] = z
   return aus
