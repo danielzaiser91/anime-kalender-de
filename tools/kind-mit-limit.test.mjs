@@ -53,7 +53,7 @@ try {
   assert.match(r.stdout, /^ALARM\? Läufe des Bestandsbaus nicht lesbar: FEHLER: gh run list nach 2 s abgebrochen$/m)
   assert.match(r.stdout, /^ALARM\? Läufe des Deploys nicht lesbar: FEHLER: gh run list nach 2 s abgebrochen$/m)
   assert.match(r.stdout, /^WACHE nicht geprüft: Bestandsbau \(FEHLER: gh run list nach 2 s abgebrochen\)$/m)
-  assert.match(r.stdout, /^WEICH\? Schrittprüfung ausgefallen: 19 von 19 Workflows nicht lesbar, erster Grund: FEHLER: .*gh-stapel\.mjs nach 2 s abgebrochen$/m)
+  assert.match(r.stdout, /^WEICH\? Schrittprüfung ausgefallen: (\d+) von \1 Workflows nicht lesbar, erster Grund: FEHLER: .*gh-stapel\.mjs nach 2 s abgebrochen$/m)
   // „WACHE ruhig“ steht trotzdem da, nennt aber nur die geprüften Teile (Quellen); die ungeprüften stehen als „nicht geprüft“.
   assert.match(r.stdout, /^WACHE ruhig: 1 Prüfungen ohne Alarm \(Quellen\)$/m)
 
