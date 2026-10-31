@@ -8,18 +8,6 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:tokyo-revengers-s3-disneyplus@2026-10-23@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261023T170000Z
-DTEND:20261023T173000Z
-SUMMARY:Tokyo Revengers: War of the Three Titans – Folge 4/13
-DESCRIPTION:Plattform: Disney+\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
- it voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom Anbiet
- er genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\
- nDetails: https://anime-kalender.de/t/15957/
-CATEGORIES:Disney+
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-10015-disneyplus@2026-10-28@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261028

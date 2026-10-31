@@ -21,7 +21,7 @@ function Zeichen({ children, gefuellt }: { children: ReactNode; gefuellt?: boole
   )
 }
 
-const Stern = ({ gefuellt }: { gefuellt: boolean }) => (
+export const Stern = ({ gefuellt }: { gefuellt: boolean }) => (
   <Zeichen gefuellt={gefuellt}>
     <path d="m12 3.5 2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.8-5.2 2.8 1-5.8-4.3-4.1 5.9-.9Z" />
   </Zeichen>

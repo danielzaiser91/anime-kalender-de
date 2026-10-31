@@ -1,6 +1,6 @@
 # Was JustWatch zu offenen Verweisen sagt
 
-Stand: 2026-10-30. Erzeugt von `npm run data:justwatch`.
+Stand: 2026-10-31. Erzeugt von `npm run data:justwatch`.
 
 **Das sind Kandidaten, keine Belege.** Die Angabe gilt der **Serie**, nicht der
 einzelnen Folge — bei „Kill Blue" meldet JustWatch `de` für alle zwölf, belegt

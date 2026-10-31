@@ -153,14 +153,17 @@ function mitProtokoll(f: () => void): string {
 
 // Verdrahtung im Bau, geparst: Name, Argumente und Reihenfolge.
 {
-  const haupt = unbedingteAufrufe(quelle('./build.ts'), 'main')
-  pruefe('build.ts: stelleZurueck({ titles, releases, events })', args(haupt, 'stelleZurueck') === '{ titles, releases, events }', args(haupt, 'stelleZurueck'))
+  const folge = quelle('./bau/phasenfolge.ts')
+  const haupt = unbedingteAufrufe(folge, 'bauePhasenfolge')
+  pruefe('phasenfolge.ts: stelleZurueck({ titles, releases, events })', args(haupt, 'stelleZurueck') === '{ titles, releases, events }', args(haupt, 'stelleZurueck'))
   pruefe(
-    'build.ts: stelleZurueck nach schliesseWegeAb, vor liefereAus',
-    stelle(haupt, 'schliesseWegeAb') >= 0 && stelle(haupt, 'stelleZurueck') > stelle(haupt, 'schliesseWegeAb') && stelle(haupt, 'liefereAus') > stelle(haupt, 'stelleZurueck'),
+    'phasenfolge.ts: stelleZurueck nach schliesseWegeAb',
+    stelle(haupt, 'schliesseWegeAb') >= 0 && stelle(haupt, 'stelleZurueck') > stelle(haupt, 'schliesseWegeAb'),
     haupt.map((x) => `${x.stelle}:${x.name}`),
   )
-  pruefe('build.ts: liefereAus bekommt die Quarantäne', /^\{\s*quarantaene,/.test(args(haupt, 'liefereAus') ?? ''), args(haupt, 'liefereAus'))
+  pruefe('phasenfolge.ts: die Rückgabe trägt die Quarantäne', /return \{\s*quarantaene,/.test(folge), 'return')
+  const bauMain = args(unbedingteAufrufe(quelle('./build.ts'), 'main'), 'liefereAus')
+  pruefe('build.ts: liefereAus bekommt das Ergebnis der Phasenfolge', bauMain === 'bauePhasenfolge(ladeQuellen())', bauMain)
   const aus = unbedingteAufrufe(quelle('./build.ts'), 'liefereAus')
   pruefe('build.ts: vermerkeQuarantaene(meta, quarantaene)', args(aus, 'vermerkeQuarantaene') === 'meta|quarantaene', args(aus, 'vermerkeQuarantaene'))
   pruefe(
