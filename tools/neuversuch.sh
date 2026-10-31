@@ -40,6 +40,7 @@ erzeugnisse_behalten_aufsetzen() {
 # Reicht die Restzeit des Jobs für einen vollen Neuversuch der Art `code`? (Bestandsbau 31.10.2026: vier Läufe liefen in `timeout-minutes: 45`,
 # weil ein zweiter Neubau bei ~13 min Dauer — gemessen 783–862 s — erst nach der Frist hätte pushen können.)
 # Ohne BAU_FRIST_EPOCH (Handlauf, andere Workflows) gibt es keine Frist. Art `nichts` und `daten` sind kurz und bleiben unbegrenzt.
+# Der Puffer deckt Neubau und Push; ob der Push bei Frist-Ende noch durchkommt, bleibt eine Sekundenfrage.
 NEUVERSUCH_CODE_SEK=900
 NEUVERSUCH_PUSH_SEK=180
 # Argumente: Art, Frist (Epoche, leer = keine), jetzt (Epoche).

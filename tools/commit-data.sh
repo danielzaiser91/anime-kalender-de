@@ -94,6 +94,10 @@ LOGIK_BASIS=""
 LOGIK_ABDRUCK=""
 if [ -r "${LOGIK_GRUEN_DATEI:-}" ]; then LOGIK_ABDRUCK="$(cat "$LOGIK_GRUEN_DATEI")"; fi
 PRUEFUNG_GRUEN=0
+# Ohne Jobfrist (Schritt „Jobfrist merken“ in bestand-bauen.yml fehlt) wäre der Neuversuch der Art code wieder unbegrenzt: laut melden.
+if [ "${BAU_LAUF:-0}" = 1 ] && [ -z "${BAU_FRIST_EPOCH:-}" ]; then
+  echo "::warning::BAU_FRIST_EPOCH fehlt im Bau-Lauf — der Neuversuch der Art code ist ohne Zeitgrenze (Schritt „Jobfrist merken“ in bestand-bauen.yml prüfen)."
+fi
 for versuch in $(seq 1 "$VERSUCHE"); do
   # Die Quarantäne-Liste gilt nur für den Bau dieses Versuchs; nach dem Neuaufsetzen zählt allein der neue Prüfstand.
   rm -f "$TEMP_LAUF/quarantaene.json" "$TEMP_LAUF/quarantaene.txt"
