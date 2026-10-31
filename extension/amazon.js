@@ -10671,7 +10671,7 @@ async function speicherSchreiben(werte) {
           Die Adresse gibt es trotzdem: Der Suchauftrag trägt sie als `suchUrl`
           über den Sprung von der Trefferliste auf die Titelseite hinweg.
         */
-        const suchAdresse = eintrag.url ?? suchauftrag()?.suchUrl ?? null
+        const suchAdresse = globalThis.akPrimeSuchAdresse(eintrag, suchauftrag(), asin())
         /*
           **Die eigene Seite gilt sofort als gemeldet — sonst zählt die
           Checkliste sie erst nach der nächsten Briefkasten-Antwort.**
@@ -10701,13 +10701,13 @@ async function speicherSchreiben(werte) {
           **Erst wenn keine Ausgabe mehr aussteht.** Bei zwei bestätigten
           Ausgaben ist die Suche nach der ersten Meldung nicht erledigt.
         */
-        if (eintrag.ausSuche && suchAdresse && !erwartungNochOffen(suchAdresse)) await suchAbhaken(suchAdresse)
+        if (suchAdresse && !erwartungNochOffen(suchAdresse)) await suchAbhaken(suchAdresse)
         /*
           Und der Kasten verschwindet mit ihm. Er sagt „Meldung läuft unter
           diesem Titel" — nach der Meldung läuft nichts mehr, und er stand
           trotzdem weiter da.
         */
-        if (eintrag.ausSuche && !erwartungNochOffen(suchAdresse)) suchauftragVergessen()
+        if (suchAdresse && !erwartungNochOffen(suchAdresse)) suchauftragVergessen()
         /* Erst hier, nicht nach dem catch: Ein Fehlschlag darf keine Marke setzen. */
         meldeSperre.vermerken(befundBeimKlick)
         uebersichtZeichnen()
@@ -10910,7 +10910,7 @@ async function speicherSchreiben(werte) {
     const lauf = primeLaufLesen()
     if (!lauf) return
     lauf.laufend = lauf.laufend.filter((k) => k !== f.kennung)
-    primeSpur(lauf, 'seite', { kennung: f.kennung, ok: Boolean(daten.ok), grund: daten.grund ?? null })
+    primeSpur(lauf, 'seite', { kennung: f.kennung, ok: Boolean(daten.ok), grund: daten.grund ?? null, abschnitte: daten.abschnitte ?? undefined })
     if (daten.ok) {
       lauf.seiten = (lauf.seiten ?? 0) + 1
       /*
@@ -10936,7 +10936,7 @@ async function speicherSchreiben(werte) {
     }
     if (!daten.ok && !globalThis.AK_TAGESLIMIT?.zurueckstellen(lauf.plan, f.kennung)) {
       const nr = lauf.staffelNr[f.kennung]
-      lauf.uebersprungen.push(`${liste[lauf.titel]?.titel ?? '?'} · ${nr ? `Staffel ${nr}` : f.kennung}`)
+      lauf.uebersprungen.push(globalThis.akPrimeUebersprungen(liste[lauf.titel]?.titel ?? '?', nr, daten.grund))
     }
     primeLaufSchreiben(lauf)
     primeKoordinieren()
@@ -10996,7 +10996,7 @@ async function speicherSchreiben(werte) {
       .filter((s) => s?.kennung)
       .map((s) => ({ kennung: String(s.kennung), nummer: s.nummer ?? null }))
     window.parent.postMessage(
-      { marke: 'ak-prime-frame', ok, grund, hier: String(asin() ?? ''), staffeln, limit: globalThis.AK_TAGESLIMIT?.rest() ?? null },
+      { marke: 'ak-prime-frame', ok, grund, hier: String(asin() ?? ''), staffeln, abschnitte: ok ? null : globalThis.akPrimeAbschnittSpur(gesehen?.abschnitte), limit: globalThis.AK_TAGESLIMIT?.rest() ?? null },
       location.origin,
     )
   }
@@ -11010,9 +11010,7 @@ async function speicherSchreiben(werte) {
       frameZustand.text = text
       frameZustand.textSeit = jetzt
     }
-    if (jetzt - frameZustand.start > PRIME_SEITE_HOECHSTENS_MS) {
-      return frameFertig(false, `Knopf blieb bei: ${text || '(leer)'}`)
-    }
+    if (jetzt - frameZustand.start > PRIME_SEITE_HOECHSTENS_MS) return frameFertig(...globalThis.akPrimeFrist(text, gesehen))
     const hier = String(asin() ?? '')
     if (!hier) return
     const ruhig = jetzt - frameZustand.textSeit >= PRIME_RUHE_MS
