@@ -52,7 +52,7 @@ pruefe "Zeit: nichts, Frist abgelaufen" ja "$(zeit nichts 999 1000)"
 pruefe "Zeit: code, genau 1080 s übrig" ja "$(zeit code 2080 1000)"
 pruefe "Zeit: code, 1079 s übrig" nein "$(zeit code 2079 1000)"
 
-echo "Neuversuch nach einem nicht grünen Versuch 1(Prüfliste scheitert, Bestand rot): auch bei Bot-Dateien volle Kette"
+echo "Neuversuch nach einem nicht grünen Versuch 1 (Prüfliste scheitert, Bestand rot): auch bei Bot-Dateien volle Kette"
 ERSTEN_ABLEHNEN=ja VERSUCHE_N=2 PAUSE_DATEI=data/abruf-stempel.json szenario nv-liste FAKE_LISTE=einmal FAKE_ZAEHLER="$ARBEIT/nv-liste/zaehler"
 pruefe "Liste: Bau zweimal" 2 "$(aufrufe nv-liste data:build)"
 # Seit dem Logik-Beleg (26.10.2026) genügt der Abdruck: derselbe Inhalt außerhalb der Datenpfade braucht kein zweites check:logic, auch nach einem nicht grünen Versuch.
