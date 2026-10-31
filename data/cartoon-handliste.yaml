@@ -12,9 +12,7 @@ eintraege:
   - { adn: 887, name: Dreamland, original: Dreamland }
   - { adn: 663, name: Bob Morane, original: Bob Morane }
   - { adn: 727, name: Lucky Luke, original: Lucky Luke }
-  - adn: 729
-    name: Spirou
-    pruefen: ADN führt 25 Folgen ab 2021-06-16 und eine ab 2025-05-05; der Bau leitet daraus einen Termin nach dem belegten Ende ab (Bestandsbau rot 31.10.2026)
+  - { adn: 729, name: Spirou }
   - { adn: 731, name: Titeuf, original: Titeuf }
   - { adn: 732, name: Magic Roundabout, original: The Magic Roundabout }
   - { adn: 734, name: Tintin (Adventures), original: Les Aventures de Tintin }
