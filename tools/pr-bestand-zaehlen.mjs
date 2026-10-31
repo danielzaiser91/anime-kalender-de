@@ -50,3 +50,12 @@ export function trenneGeerbtUndNeu(prRot, basisRot) {
   }
   return { geerbt, neu }
 }
+
+/** Setzt `praefix` vor jede nichtleere Zeile, damit Ausgabe der Basis-Gegenprobe nie wie Ausgabe des PR-Baus aussieht (auch `::error::` wird so zu Text). */
+export function mitPraefix(text, praefix) {
+  if (!praefix) return text
+  return text
+    .split('\n')
+    .map((zeile) => (zeile.trim() === '' ? zeile : `${praefix} ${zeile}`))
+    .join('\n')
+}
