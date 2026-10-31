@@ -6,8 +6,8 @@
     "lastError": "keine Folge mit vde gefunden"
   },
   "anime2you": {
-    "lastOk": "2026-10-31T18:02:31.802Z",
-    "lastRun": "2026-10-31T18:02:31.802Z",
+    "lastOk": "2026-10-31T19:02:58.226Z",
+    "lastRun": "2026-10-31T19:02:58.226Z",
     "lastCount": 56
   },
   "anisearch": {
@@ -117,8 +117,8 @@
     "lastCount": 5
   },
   "crunchyroll-neu": {
-    "lastOk": "2026-10-31T18:02:17.686Z",
-    "lastRun": "2026-10-31T18:02:17.686Z",
+    "lastOk": "2026-10-31T19:02:46.403Z",
+    "lastRun": "2026-10-31T19:02:46.403Z",
     "lastCount": 165
   },
   "cartoons": {
@@ -137,8 +137,8 @@
     "lastCount": 15
   },
   "tv-programm": {
-    "lastOk": "2026-10-31T18:02:34.734Z",
-    "lastRun": "2026-10-31T18:02:34.734Z",
+    "lastOk": "2026-10-31T19:03:01.073Z",
+    "lastRun": "2026-10-31T19:03:01.073Z",
     "lastCount": 270
   },
   "tv-de": {
@@ -173,8 +173,9 @@
   },
   "crunchyroll-woche": {
     "lastOk": "2026-10-31T18:02:13.705Z",
-    "lastRun": "2026-10-31T18:02:13.705Z",
-    "lastCount": 61
+    "lastRun": "2026-10-31T19:02:44.038Z",
+    "lastCount": 0,
+    "lastError": "page.waitForSelector: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('h3 a[href*=\"/series/\"]') to be visible\n"
   },
   "adn-news": {
     "lastOk": "2026-10-31T02:01:55.539Z",
@@ -182,8 +183,8 @@
     "lastCount": 72
   },
   "messbelege": {
-    "lastOk": "2026-10-31T18:02:33.281Z",
-    "lastRun": "2026-10-31T18:02:33.281Z",
+    "lastOk": "2026-10-31T19:02:59.754Z",
+    "lastRun": "2026-10-31T19:02:59.754Z",
     "lastCount": 0
   },
   "beleg-lesungen": {
