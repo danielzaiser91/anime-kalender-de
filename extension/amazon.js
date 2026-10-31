@@ -3965,21 +3965,11 @@ async function speicherSchreiben(werte) {
         /**
          * **Auch ein „ähnlicher" Befund bekommt die Ankreuz-Felder.**
          *
-         * Sie standen bis zum 09.09.2026 nur im Zweig für genaue Treffer —
-         * gerade dort, wo sie am wenigsten gebraucht werden. Passt der Name,
-         * ist die Zuordnung ohnehin klar; hier ist sie es nicht, und hier
-         * entscheidet ein Mensch.
-         *
-         * Daniel am 09.09.2026 an „Death Note: Relight" (ein Eintrag, zwei
-         * Folgen): Prime führt „Relight 1: Visions of a God" und „Relight 2:
-         * L's Successors" als zwei Kauftitel mit eigenen Kennungen. Beide
-         * zusammen sind unser Eintrag — der Kasten bot aber nur „Anderes Werk"
-         * an, und nach der ersten Meldung wäre der Auftrag erledigt gewesen.
-         *
-         * Vorgekreuzt wird hier nichts: Ein ähnlicher Treffer kann auch wirklich
-         * ein anderes Werk sein („Sword Art Online" gegen „… Alicization").
+         * Death Note: Relight (09.09.2026) hat zwei Kauftitel mit eigenen Kennungen, die zusammen unser
+         * Eintrag sind; der Kasten bot nur „Anderes Werk" an. Seit 31.10.2026 sind alle angehakt und
+         * Daniel nimmt ab, was fremd ist („Sword Art Online" gegen „… Alicization").
          */
-        ...(nurAehnlich ? erwartungsAuswahl(auftrag, befund.treffer, false) : []),
+        ...(nurAehnlich ? erwartungsAuswahl(auftrag, befund.treffer) : []),
         /*
           **Ein Titel mit Zusatz findet oft nichts, der Haupttitel schon.**
 
@@ -4392,7 +4382,9 @@ async function speicherSchreiben(werte) {
       } catch {
         seitenJahr = null
       }
-      if (Number.isFinite(seitenJahr) && Math.abs(seitenJahr - auftrag.jahr) >= 5) {
+      /* Eine Seite aus der von Daniel bestätigten Auswahl warnt nicht: Er hat sie selbst zugeordnet (Ribbit, 31.10.2026). */
+      const bestaetigt = (erwartungZu(auftrag.suchUrl) ?? []).includes(String(asin()))
+      if (Number.isFinite(seitenJahr) && Math.abs(seitenJahr - auftrag.jahr) >= 5 && !bestaetigt) {
         jahrZeilen.push(
           kastenZeile(
             'ak-such-warn',
@@ -4463,7 +4455,7 @@ async function speicherSchreiben(werte) {
           */
           const suchUrlHier = a?.suchUrl ?? eintrag?.url ?? ''
           const erwartet = erwartungZu(suchUrlHier) ?? (Array.isArray(a?.erwartet) ? a.erwartet : [])
-          if (!erwartet || erwartet.length < 2) return erwartungsAuswahl(auftrag, globalThis.akPrimeKarten(document, asin(), seitenTitel() || auftrag.titel, abos(), zugangsart()), false)
+          if (!erwartet || erwartet.length < 2) return erwartungsAuswahl(auftrag, globalThis.akPrimeKarten(document, asin(), seitenTitel() || auftrag.titel, abos(), zugangsart()))
           const hier = asin()
           reiheMerken(erwartet)
           const gruppe = document.createElement('div')
@@ -5163,24 +5155,12 @@ async function speicherSchreiben(werte) {
   /**
    * **Die Ankreuz-Felder für zusammengehörende Ausgaben — für beide Trefferarten.**
    *
-   * Der Block stand bis zum 09.09.2026 nur im Zweig für **genaue** Treffer.
-   * Genau dort wird er aber am seltensten gebraucht: Passt der Name, ist die
-   * Zuordnung ohnehin klar.
+   * Death Note: Relight (09.09.2026) hat zwei Kauftitel mit eigenen Kennungen, die zusammen unser Eintrag
+   * sind; der Namensvergleich las sie als Fortsetzungen („Anderes Werk"). Ankreuzen, was zusammengehört,
+   * hält den Auftrag offen, bis alle gemeldet sind.
    *
-   * Daniel am 09.09.2026 an „Death Note: Relight" (ein Eintrag, zwei Folgen):
-   * Prime führt „Relight 1: Visions of a God" und „Relight 2: L's
-   * Successors" als zwei Kauftitel mit eigenen Kennungen. Beide zusammen
-   * sind unser Eintrag — der Kasten sagte „Anderes Werk — gehört zu einem
-   * eigenen Eintrag", weil der Namensvergleich sie als Fortsetzungen liest.
-   *
-   * Seine Frage: „kann die extension das zuverlässig zuordnen wenn sie 2
-   * verschiedene asins sind?" Ja — über genau diesen Weg, den er selbst
-   * vorgeschlagen hat (02.09.2026): ankreuzen, was zusammengehört, dann hält
-   * der Auftrag offen, bis beide gemeldet sind.
-   *
-   * `vorausgewaehlt` unterscheidet die beiden Zweige: Bei einem genauen
-   * Treffer sind alle Karten dieselbe Sache, bei einem ähnlichen entscheidet
-   * der Mensch — dort wird nichts vorgekreuzt.
+   * Seit 31.10.2026 sind alle Kästen vorbefüllt und dienen nur noch als Ausschluss (Daniel); darüber steht
+   * eine Zeile Anleitung. `vorausgewaehlt` gilt nur, solange noch nichts bestätigt ist.
    */
   /*
     Dieselbe Frage wie im Trefferzweig, nur an einer Stelle, die beide erreichen:
@@ -5205,7 +5185,7 @@ async function speicherSchreiben(werte) {
     return /channel|subscription/i.test(String(k?.zugang ?? ''))
   }
 
-  function erwartungsAuswahl(auftrag, sortiert, vorausgewaehlt = true) {
+  function erwartungsAuswahl(auftrag, sortiert) {
             const karten = sortiert.slice(0, 4).filter((z) => ohneParameter(z.url))
             if (karten.length < 2) return []
             const kennungVon = (z) => /\/(?:dp|detail)\/([A-Z0-9]{10,32}|amzn1\.dv\.gti\.[a-z0-9-]+)/i.exec(ohneParameter(z.url) ?? '')?.[1] ?? null
@@ -5234,32 +5214,18 @@ async function speicherSchreiben(werte) {
                 const k = kennungVon(z)
                 if (!k) return null
                 const name = `${istKanalKarte(z) ? 'Kanal-Abo' : 'Kauf/Abo'} · ${(z.titel ?? 'Ausgabe').slice(0, 40)}`
-                /*
-                  Bei einem genauen Treffer meinen alle Karten dieselbe Sache —
-                  dort ist alles vorgekreuzt. Bei einem nur ähnlichen entscheidet
-                  der Mensch, welche zusammengehören; eine Vorauswahl wäre dort
-                  eine Behauptung.
-                */
-                return kastenAuswahl(name, k, bereits.size ? bereits.has(k) : vorausgewaehlt, (kennung) => {
-                  /*
-                    Damit die Zielseite weiß, welcher Auftrag gemeint ist — sonst
-                    steht dort „Steht nicht auf der Prüfliste". Die Erwartung
-                    reist mit, sie gilt für beide Ausgaben.
-                  */
+                /* Vorbefüllt, solange nichts bestätigt ist; danach gilt die bestätigte Auswahl. */
+                return kastenAuswahl(name, k, bereits.size ? bereits.has(k) : true, (kennung) => {
+                  /* Damit die Zielseite weiß, welcher Auftrag gemeint ist; die Erwartung reist mit. */
                   suchauftragMerken({ ...auftrag, suchUrl: auftrag.suchUrl, zielAsin: kennung })
                 })
               })
               .filter(Boolean)
             if (zeilen.length < 2) return []
-            /*
-              **Auswahl und Bestätigen stehen in einem Kasten — sie gehören zusammen.**
-
-              Vorher waren es lose Zeilen zwischen anderen Hinweisen, und der
-              Knopf sah aus wie einer von vieren. Die erklärende Überschrift ist im selben Zug entfallen:
-              Ankreuzfelder mit einem Bestätigen-Knopf erklären sich.
-            */
+            /* Auswahl und Bestätigen stehen in einem Kasten; darüber eine Zeile Anleitung (31.10.2026). */
             const gruppe = document.createElement('div')
             gruppe.className = 'ak-such-gruppe'
+            gruppe.appendChild(kastenZeile('ak-such-hinweis', 'Alles angehakt – nimm ab, was nicht zum Titel gehört.'))
             for (const z of zeilen) gruppe.appendChild(z)
             const knopfReihe = document.createElement('div')
             knopfReihe.className = 'ak-such-knopfreihe'
@@ -10769,7 +10735,7 @@ async function speicherSchreiben(werte) {
       Meldehandler (`letzteMeldung`), nicht aus dem Knopftext.
     - **Staffeln aus dem Quelltext** (`seasons`, jede mit eigener ASIN — gemessen an Naruto). Der
       erste Frame eines Titels liefert die Liste, danach laufen die übrigen parallel.
-    - **Nur Titel mit eigener Titelseite**.
+    - **Titel mit eigener Titelseite, danach die Suchaufträge** (Suchseite im Frame, ihre genauen und bestätigten Treffer einzeln).
     - **Der Lauf gehört dem Tab** (`sessionStorage`) und endet spätestens nach zwei Stunden. Die
       Frames teilen ihn (gleiche Herkunft), schreiben ihn aber nie.
   */
@@ -10830,7 +10796,7 @@ async function speicherSchreiben(werte) {
     }
     /* Steht die Seite auf einem offenen Titel der Liste, fängt der Lauf mit ihm an. */
     const hier = liste[listenId] && !fertig(listenId) && akPrimeHatTitelseite(liste[listenId]) ? listenId : null
-    if (!hier && !primeNaechsterTitel(lauf)) return false
+    if (!hier && !primeNaechsterTitel(lauf) && !suchOffen().length) return false
     try {
       sessionStorage.removeItem(PRIME_LAUF_ENDE)
     } catch {
@@ -10880,10 +10846,24 @@ async function speicherSchreiben(werte) {
     primeSpur(lauf, 'titel', { schluessel, titel: liste[schluessel]?.titel ?? null })
   }
 
+  /** Titel sind durch: erst die Treffer einer gelesenen Suche, dann die nächste offene Suche (Weg B). */
+  function primeSucheBeginnen(lauf) {
+    const schritt = globalThis.akPrimeSucheWeiter(lauf, suchOffen(), suchliste)
+    if (!schritt) return false
+    lauf.titel = schritt.schluessel
+    lauf.plan = [schritt.eintrag]
+    lauf.planBekannt = false
+    lauf.staffelNr = {}
+    lauf.suche = schritt.art === 'treffer' ? schritt.suche : null
+    primeSpur(lauf, schritt.art, { schluessel: schritt.schluessel })
+    return true
+  }
+
   function primeFrameOeffnen(lauf, kennung) {
     const el = document.createElement('iframe')
     el.name = PRIME_FRAME_NAME
-    el.src = akPrimeFrameAdresse(kennung, gtiSprungMerken)
+    if (lauf.suche) suchauftragMerken(globalThis.akPrimeZielAuftrag(lauf, kennung, suchliste))
+    el.src = globalThis.akPrimeEintragAdresse(kennung, gtiSprungMerken)
     /* Kein Vorschauvideo mit Ton aus einem Frame, den niemand sieht. */
     el.allow = "autoplay 'none'"
     el.tabIndex = -1
@@ -10910,7 +10890,8 @@ async function speicherSchreiben(werte) {
     const lauf = primeLaufLesen()
     if (!lauf) return
     lauf.laufend = lauf.laufend.filter((k) => k !== f.kennung)
-    primeSpur(lauf, 'seite', { kennung: f.kennung, ok: Boolean(daten.ok), grund: daten.grund ?? null })
+    primeSpur(lauf, 'seite', { kennung: f.kennung, ok: Boolean(daten.ok), grund: daten.grund ?? null, tagebuch: daten.tagebuch ?? null })
+    globalThis.akPrimeSucheErgebnis(lauf, daten, suchliste[lauf.titel]?.titel ?? '?')
     if (daten.ok) {
       lauf.seiten = (lauf.seiten ?? 0) + 1
       /*
@@ -10924,19 +10905,15 @@ async function speicherSchreiben(werte) {
     }
     if (/kein Token/.test(String(daten.grund ?? ''))) return primeLaufBeenden(lauf, 'kein Token in den Optionen')
     if (!lauf.planBekannt) {
-      const staffeln = [...(daten.staffeln ?? [])].sort((a, b) => (a.nummer ?? 0) - (b.nummer ?? 0))
-      for (const s of staffeln) lauf.staffelNr[s.kennung] = s.nummer ?? null
-      lauf.plan.push(
-        ...staffeln
-          .map((s) => String(s.kennung))
-          .filter((k) => k !== f.kennung && k !== daten.hier && !lauf.plan.includes(k)),
-      )
+      const staffeln = globalThis.akPrimePlanEintraege(daten.staffeln, [f.kennung, daten.hier], lauf.plan)
+      for (const s of staffeln) lauf.staffelNr[s.eintrag] = s.nummer
+      lauf.plan.push(...staffeln.map((s) => s.eintrag))
       lauf.planBekannt = true
-      primeSpur(lauf, 'plan', { staffeln: staffeln.map((s) => `${s.nummer}:${s.kennung}`) })
+      primeSpur(lauf, 'plan', { staffeln: staffeln.map((s) => `${s.nummer}:${s.eintrag}`) })
     }
     if (!daten.ok && !globalThis.AK_TAGESLIMIT?.zurueckstellen(lauf.plan, f.kennung)) {
       const nr = lauf.staffelNr[f.kennung]
-      lauf.uebersprungen.push(`${liste[lauf.titel]?.titel ?? '?'} · ${nr ? `Staffel ${nr}` : f.kennung}`)
+      lauf.uebersprungen.push(`${(liste[lauf.titel] ?? suchliste[lauf.suche])?.titel ?? '?'} · ${nr ? `Staffel ${nr}` : f.kennung}`)
     }
     primeLaufSchreiben(lauf)
     primeKoordinieren()
@@ -10969,15 +10946,16 @@ async function speicherSchreiben(werte) {
     }
     if (!lauf.titel) {
       const naechster = primeNaechsterTitel(lauf)
-      if (!naechster) return primeLaufBeenden(lauf, 'nichts mehr offen')
-      primeTitelBeginnen(lauf, naechster)
+      if (naechster) primeTitelBeginnen(lauf, naechster)
+      else if (!primeSucheBeginnen(lauf)) return primeLaufBeenden(lauf, 'nichts mehr offen')
     }
-    /* Bis die Staffelliste da ist, genau ein Frame — sie kommt mit dem ersten. */
-    const grenze = lauf.planBekannt ? PRIME_FRAMES : 1
+    /* Bis die Staffelliste da ist, genau ein Frame; Treffer einer Suche einzeln (ein Auftrag im Tab-Speicher). */
+    const grenze = lauf.planBekannt && !lauf.suche ? PRIME_FRAMES : 1
     while (primeFrames.size < grenze && lauf.plan.length) primeFrameOeffnen(lauf, lauf.plan.shift())
     if (!primeFrames.size && !lauf.plan.length) {
       if (!lauf.fertig.includes(lauf.titel)) lauf.fertig.push(lauf.titel)
       lauf.titel = null
+      lauf.suche = null
       primeLaufSchreiben(lauf)
       return primeKoordinieren()
     }
@@ -10987,28 +10965,41 @@ async function speicherSchreiben(werte) {
   // --- Der Automat: im Frame -----------------------------------------------------
 
   /** Zustand dieser einen Frame-Seite — lebt nur, solange sie lebt. */
-  const frameZustand = { start: Date.now(), text: null, textSeit: Date.now(), geklickt: null, fertig: false }
+  const frameZustand = { start: Date.now(), text: null, textSeit: Date.now(), geklickt: null, fertig: false, tagebuch: [] }
 
-  function frameFertig(ok, grund) {
+  /** `extra`: weitere Felder der Antwort (die Treffer eines Such-Frames). Scheitert der Frame, nennt er seine letzten Knopftexte. */
+  function frameFertig(ok, grund, extra = {}) {
     if (frameZustand.fertig) return
     frameZustand.fertig = true
     const staffeln = (gesehen?.seite?.staffeln ?? [])
       .filter((s) => s?.kennung)
-      .map((s) => ({ kennung: String(s.kennung), nummer: s.nummer ?? null }))
+      .map((s) => ({ kennung: String(s.kennung), nummer: s.nummer ?? null, link: s.link ?? null, gewaehlt: Boolean(s.gewaehlt) }))
     window.parent.postMessage(
-      { marke: 'ak-prime-frame', ok, grund, hier: String(asin() ?? ''), staffeln, limit: globalThis.AK_TAGESLIMIT?.rest() ?? null },
+      { marke: 'ak-prime-frame', ok, grund, hier: String(asin() ?? ''), staffeln, limit: globalThis.AK_TAGESLIMIT?.rest() ?? null, tagebuch: ok ? undefined : frameZustand.tagebuch, ...extra },
       location.origin,
     )
+  }
+
+  /** Such-Frame (Weg B): wartet auf die Karten, liest die Treffer und meldet sie dem Lauf. */
+  function sucheFrameSchritt() {
+    const auftrag = offeneSuche()
+    const gefunden = suchTreffer()
+    const befund = auftrag ? beurteileTreffer(auftrag, gefunden) : null
+    const erwartet = erwartungZu(auftrag?.suchUrl)
+    const urteil = globalThis.akPrimeSucheUrteil({ auftrag, gefunden, befund, erwartet, vergangen: Date.now() - frameZustand.start, kennungAus })
+    if (urteil) frameFertig(urteil.ok, urteil.grund, { treffer: urteil.treffer })
   }
 
   function frameSchritt() {
     if (frameZustand.fertig) return
     if (!verbindungLebt()) return frameFertig(false, 'Erweiterung neu geladen')
+    if (/^\/s(\/|$)/.test(location.pathname)) return sucheFrameSchritt()
     const jetzt = Date.now()
     const text = String(knopf.textContent ?? '').trim()
     if (text !== frameZustand.text) {
       frameZustand.text = text
       frameZustand.textSeit = jetzt
+      frameZustand.tagebuch = globalThis.akPrimeTagebuch(frameZustand.tagebuch, text, jetzt - frameZustand.start)
     }
     if (jetzt - frameZustand.start > PRIME_SEITE_HOECHSTENS_MS) {
       return frameFertig(false, `Knopf blieb bei: ${text || '(leer)'}`)

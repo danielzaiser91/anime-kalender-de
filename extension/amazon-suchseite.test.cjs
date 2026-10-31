@@ -1173,6 +1173,45 @@ console.log('\nBestätigte Auswahl:')
   pruefe('Umlaut auf der Karte, ohne im Titel: derselbe Kern', umlaut.befund.art === 'genau', umlaut.befund)
 }
 
+/*
+  **Das Urteil des Such-Frames im Durchgang (Weg B)** — echter Abgleich (`beurteileTreffer`) mit den drei Karten der
+  Nussknacker-Reihe, dahinter `akPrimeSucheUrteil`. Besucht werden nur genaue Treffer und die bestätigte Auswahl.
+*/
+{
+  vm.runInThisContext(require('node:fs').readFileSync(__dirname + '/prime-durchgang-suche.js', 'utf8'))
+  const kennungAus = (url) => /\/detail\/([A-Z0-9]{10,26})/.exec(String(url ?? ''))?.[1] ?? null
+  const karten = [
+    karte('Operation Nussknacker', 'Movie', 'Unentitled', 'B087Y8ZNF8'),
+    karte('Operation Nußknacker 2 - Voll auf die Nüsse', 'Movie', 'Unentitled', 'B0FNXJ6WD7'),
+    karte('Voll auf die Nüsse', 'Movie', 'Unentitled', 'B00HFCZJWU'),
+  ]
+  const urteil = (titel, nehmen, extra = {}) => {
+    const r = werte([{ label: 'Ergebnisse', karten: nehmen.map((i) => karten[i]) }], { titel, folgen: 1, suchUrl: 'x' })
+    return globalThis.akPrimeSucheUrteil({ auftrag: { titel }, gefunden: r.gefunden, befund: r.befund, erwartet: null, vergangen: 5000, kennungAus, ...extra })
+  }
+  const NUSS_1 = 'Operation: Nussknacker - Auf die Nüsse, fertig, los!'
+  const NUSS_2 = 'Operation Nussknacker 2: Voll auf die Nüsse'
+  pruefe('Frame Teil 1: besucht wird genau B087Y8ZNF8', urteil(NUSS_1, [0, 1, 2])?.treffer.join() === 'B087Y8ZNF8', urteil(NUSS_1, [0, 1, 2]))
+  pruefe('Frame Teil 2: besucht wird genau B0FNXJ6WD7', urteil(NUSS_2, [0, 1, 2])?.treffer.join() === 'B0FNXJ6WD7', urteil(NUSS_2, [0, 1, 2]))
+  const ohne2 = urteil(NUSS_2, [0, 2])
+  pruefe('Teil 2 ohne eigene Karte: ähnlich → nichts besucht, benannt für die Handliste', ohne2?.ok === true && ohne2.treffer.length === 0 && /von Hand/.test(ohne2.grund), ohne2)
+  const bestaetigt = urteil(NUSS_2, [0, 2], { erwartet: ['B0FNXJ6WD7'] })
+  pruefe('… eine bestätigte Auswahl wird trotzdem besucht', bestaetigt?.treffer.join() === 'B0FNXJ6WD7', bestaetigt)
+  const nurFremd = urteil(NUSS_2, [2])
+  pruefe('nur das Fremdwerk: keiner → nichts besucht, „kein Treffer — von Hand", nie als „nicht bei Prime" gemeldet', nurFremd?.treffer.length === 0 && /kein Treffer/.test(nurFremd.grund), nurFremd)
+  pruefe('Karten zu jung (unter 3 s): noch warten', urteil(NUSS_1, [0, 1, 2], { vergangen: 2999 }) === null)
+  pruefe('genau bei 3 s: fertig', urteil(NUSS_1, [0, 1, 2], { vergangen: 3000 })?.ok === true)
+  /* Nichtauskunft: keine Karte und kein Leer-Satz = nicht gelesen, nie „kein Treffer". */
+  const leer = werte([], { titel: NUSS_1, folgen: 1 })
+  const nichtGelesen = (vergangen) => globalThis.akPrimeSucheUrteil({ auftrag: { titel: NUSS_1 }, gefunden: leer.gefunden, befund: leer.befund, erwartet: null, vergangen, kennungAus })
+  pruefe('Seite ohne Karten: bis 25 s warten', nichtGelesen(25_000) === null)
+  pruefe('… danach: Fehlschlag „nicht gelesen", keine Verneinung', nichtGelesen(25_001)?.ok === false && nichtGelesen(25_001).treffer.length === 0)
+  const leerMitSatz = werte([], { titel: NUSS_1, folgen: 1 }, true)
+  const antwortLeer = globalThis.akPrimeSucheUrteil({ auftrag: { titel: NUSS_1 }, gefunden: leerMitSatz.gefunden, befund: leerMitSatz.befund, erwartet: null, vergangen: 5000, kennungAus })
+  pruefe('Amazons „keine Ergebnisse": gelesen, nichts zu besuchen', antwortLeer?.ok === true && antwortLeer.treffer.length === 0, antwortLeer)
+  pruefe('ohne erkannten Auftrag: erst warten, dann Fehlschlag', globalThis.akPrimeSucheUrteil({ auftrag: null, gefunden: leer.gefunden, befund: null, vergangen: 8000, kennungAus }) === null && globalThis.akPrimeSucheUrteil({ auftrag: null, gefunden: leer.gefunden, befund: null, vergangen: 8001, kennungAus })?.ok === false)
+}
+
 if (fehler.length) {
   console.error(`\n${fehler.length} Zusicherung(en) rot.`)
   process.exit(1)

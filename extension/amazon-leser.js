@@ -214,6 +214,8 @@
         name: s.displayName,
         nummer: s.sequenceNumber,
         gewaehlt: Boolean(s.isSelected),
+        /* Bei Reihen mit allen Staffeln unter einer ASIN unterscheidet nur dieser Link die Einträge (Durchgang). */
+        link: s.seasonLink ?? null,
       })),
     }
 

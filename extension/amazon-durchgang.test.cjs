@@ -27,7 +27,7 @@ const zustandsBlock = (() => {
   return a < 0 || b < 0 ? '' : quelle.slice(a, b + '  const primeFrames = new Map()'.length)
 })()
 /* Die Hilfen aus `prime-titelseite.js` laden laut Manifest vor `amazon.js` — hier vor dem Block. */
-const hilfen = readFileSync(__dirname + '/prime-titelseite.js', 'utf8')
+const hilfen = readFileSync(__dirname + '/prime-titelseite.js', 'utf8') + String.fromCharCode(10) + readFileSync(__dirname + '/prime-durchgang-suche.js', 'utf8')
 const gtiSprungAttrappe = 'var gtiSprungMerken = () => {}\n' // in amazon.js weit oben; die Gti-Prüfung unten ersetzt sie
 const block = hilfen + '\n' + gtiSprungAttrappe + zustandsBlock + '\n' + quelle.slice(von, bis)
 
@@ -70,9 +70,15 @@ function neuerSpeicher() {
   }
 }
 
+/** Das Dokument des Sandkastens: Frames sind Elemente mit Fenster, `remove()` merkt sich das Entfernen. */
+function dokumentAttrappe(w) {
+  const frame = () => ({ style: {}, setAttribute() {}, contentWindow: {}, entfernt: false, remove() { this.entfernt = true } })
+  return { createElement: frame, body: { appendChild: (el) => w.frames.push(el) } }
+}
+
 /** Eine Sandkasten-Welt. `imFrame` wählt, welche Seite gespielt wird. */
-function welt({ imFrame = false, speicher = neuerSpeicher() } = {}) {
-  const w = { uhr: 1_000_000, geklickt: 0, neugeladen: 0, frames: [], gepostet: [], briefkasten: 0, gezeichnet: 0 }
+function welt({ imFrame = false, speicher = neuerSpeicher(), suchen = {} } = {}) {
+  const w = { uhr: 1_000_000, geklickt: 0, neugeladen: 0, frames: [], gepostet: [], briefkasten: 0, gezeichnet: 0, gemerkt: [] }
   const fenster = {}
   fenster.top = imFrame ? {} : fenster
   fenster.parent = { postMessage: (d) => w.gepostet.push(d) }
@@ -105,20 +111,11 @@ function welt({ imFrame = false, speicher = neuerSpeicher() } = {}) {
     verbindungLebt: () => true,
     asin: () => 'B07VP6VPVR',
     location: { origin: 'https://www.amazon.de', reload: () => w.neugeladen++ },
-    document: {
-      createElement: () => ({
-        style: {},
-        setAttribute() {},
-        contentWindow: {},
-        entfernt: false,
-        remove() {
-          this.entfernt = true
-        },
-      }),
-      body: { appendChild: (el) => w.frames.push(el) },
-    },
+    document: dokumentAttrappe(w),
     notiere: () => {},
-    suchOffen: () => ['s'],
+    suchliste: suchen,
+    suchauftragMerken: (a) => w.gemerkt.push(a),
+    suchOffen: () => Object.keys(suchen),
     dialog: null,
     dialogUmschalten: () => {},
     uebersichtZeichnen: () => w.gezeichnet++,
@@ -196,8 +193,8 @@ const kennung = (el) => /detail\/([A-Z0-9]+)/.exec(el.src)?.[1]
   w.ergebnis(w.offen()[0], { hier: 'B07FB4D9KM', staffeln: [] })
   pruefe('Titel ohne Staffelliste: eine Seite, dann Ende', w.lauf() === null)
   const ende = w.ende()
-  pruefe('Suchaufträge werden nie geöffnet — Ende mit „nichts mehr offen"', ende?.grund === 'nichts mehr offen', ende)
-  pruefe('das Ende nennt die übersprungenen Staffeln und die Suchaufträge', ende?.uebersprungen?.length === 4 && ende?.suchen === 1, ende)
+  pruefe('ohne Suchaufträge endet der Lauf mit „nichts mehr offen"', ende?.grund === 'nichts mehr offen', ende)
+  pruefe('das Ende nennt die übersprungenen Staffeln und die Suchaufträge', ende?.uebersprungen?.length === 4 && ende?.suchen === 0, ende)
   pruefe('am Ende holt die Seite den Briefkasten neu — sonst „nur auf diesem Rechner“ (26.09.2026)', w.briefkasten === 1, w.briefkasten)
   pruefe('insgesamt geöffnet: 9 Naruto-Seiten + 1 Yu-Gi-Oh!, keine doppelt', w.frames.length === 10 && new Set(w.frames.map(kennung)).size === 10, w.frames.map(kennung))
 }
@@ -306,6 +303,39 @@ const kennung = (el) => /detail\/([A-Z0-9]+)/.exec(el.src)?.[1]
   const d = w.gepostet[0]
   pruefe('Frame: der Handler sagt gemeldet, die Antwort geht an die Seite', d?.marke === 'ak-prime-frame' && d.ok === true && d.grund === 'gemeldet', d)
   pruefe('Frame: die Antwort trägt die Staffelliste', d?.staffeln?.length === 9 && d.staffeln[0].kennung === NARUTO[0], d?.staffeln)
+  pruefe('Frame: gelungen, also kein Tagebuch in der Antwort', d.tagebuch === undefined, d.tagebuch)
+
+  /* Dropdown-Einträge reisen mit Link und Auswahl-Flag, sonst unterscheidet der Lauf Staffeln einer ASIN nicht. */
+  const dd = welt({ imFrame: true })
+  dd.kontext.gesehen = { seite: { staffeln: [{ kennung: 'B0B6HHFR44', nummer: 5, gewaehlt: true, link: '/gp/video/detail/B0B6HHFR44?ref_=atv_dp_season_select_s5' }] } }
+  dd.zeige('x melden', 1500)
+  dd.kontext.letzteMeldung = { pfad: '/x', ok: true, am: dd.uhr }
+  dd.zeige('trage ein …', 0, false)
+  const st = dd.gepostet[0]?.staffeln?.[0]
+  pruefe('Frame: die Staffelliste trägt Link und Auswahl', st?.link?.endsWith('_s5') && st.gewaehlt === true, dd.gepostet[0])
+
+  /* Scheitert der Frame, nennt er seine letzten Knopftexte mit Zeit. */
+  const tb = welt({ imFrame: true })
+  tb.zeige('Folgen werden geladen …', 500)
+  tb.zeige('Staffel wechselt — einen Moment', 500)
+  tb.takt(61_000)
+  const fehl = tb.gepostet[0]
+  pruefe('Frame: Zeitüberschreitung → Antwort ohne Erfolg', fehl?.ok === false && /Knopf blieb bei/.test(fehl.grund), fehl)
+  pruefe('… mit Tagebuch der Knopftexte, in der Reihenfolge und mit Zeit seit Seitenstart', fehl?.tagebuch?.map((x) => x.text).join('|') === 'Folgen werden geladen …|Staffel wechselt — einen Moment' && fehl.tagebuch[1].ms > fehl.tagebuch[0].ms, fehl?.tagebuch)
+
+  /* Such-Frame (Weg B): wartet auf die Karten, meldet dann die Treffer. */
+  const sf = welt({ imFrame: true })
+  sf.kontext.location.pathname = '/s'
+  sf.kontext.offeneSuche = () => ({ titel: 'Operation: Nussknacker - Auf die Nüsse, fertig, los!', suchUrl: 'S1' })
+  sf.kontext.suchTreffer = () => ({ gesehen: 3, leerGemeldet: false, treffer: [] })
+  sf.kontext.beurteileTreffer = () => ({ art: 'genau', treffer: [{ url: '/gp/video/detail/B087Y8ZNF8?sr=1-1' }] })
+  sf.kontext.erwartungZu = () => ['B0GXHFZ68B']
+  sf.kontext.kennungAus = (u) => /detail\/([A-Z0-9]+)/.exec(u)?.[1] ?? null
+  sf.takt(2000)
+  pruefe('Such-Frame: unter 3 s keine Antwort', sf.gepostet.length === 0)
+  sf.takt(1500)
+  const sa = sf.gepostet[0]
+  pruefe('Such-Frame: Antwort mit genauem Treffer und bestätigter Auswahl', sa?.ok === true && sa.treffer.join() === 'B087Y8ZNF8,B0GXHFZ68B', sa)
   w.zeige('trage ein …', 3000, false)
   pruefe('Frame: nur eine Antwort je Seite', w.gepostet.length === 1)
 }
@@ -443,6 +473,118 @@ for (const [text, teil, ort] of [
   vm.runInContext('primeLaufStarten()', ohne.kontext)
   vm.runInContext('primeHoerer', ohne.kontext)({ data: { ...antwort, limit: null }, origin: 'https://www.amazon.de', source: ohne.offen()[0].contentWindow })
   pruefe('Gegenprobe: ein Fehler ohne Limit bleibt „übersprungen" (wie bisher)', ohne.lauf().uebersprungen.length === 1 && !ohne.kontext.AK_TAGESLIMIT.aktiv(), ohne.lauf().uebersprungen)
+}
+
+/*
+  **Alle Staffeln unter einer ASIN (Miraculous, Daniel 31.10.2026):** 24 Staffeln plus „Tagebuch Besonders"
+  und „Besonders" stehen im Dropdown unter B0B6HHFR44; jeder Eintrag unterscheidet sich nur im
+  `?ref_=…_sN` seines `seasonLink` (Aufbau nach `zexal-hydration.fixture.json`; die echte Seite wurde von
+  hier aus nicht abgerufen). Der Plan verwarf bisher jede zweite Staffel derselben ASIN.
+*/
+{
+  const MIRACULOUS = 'B0B6HHFR44'
+  const namen = [...Array.from({ length: 24 }, (_, i) => `Staffel ${i + 1}`), 'Tagebuch Besonders', 'Besonders']
+  const dropdown = namen.map((name, i) => ({
+    kennung: MIRACULOUS,
+    nummer: i + 1,
+    gewaehlt: i === 0,
+    link: `/gp/video/detail/${MIRACULOUS}?ref_=atv_dp_season_select_s${i + 1}`,
+  }))
+  const w = welt()
+  w.kontext.liste = { [MIRACULOUS]: { titel: 'Miraculous', url: `https://www.amazon.de/gp/video/detail/${MIRACULOUS}` } }
+  w.kontext.listenId = MIRACULOUS
+  vm.runInContext('primeLaufStarten()', w.kontext)
+  w.ergebnis(w.offen()[0], { hier: MIRACULOUS, staffeln: dropdown })
+  const plan = w.lauf().plan.length + w.offen().length
+  pruefe('Miraculous: die 25 weiteren Einträge des Dropdowns stehen im Plan, die offene Seite nicht doppelt', plan === 25, plan)
+  while (w.offen().length) w.ergebnis(w.offen()[0], {})
+  const adressen = w.frames.map((f) => f.src)
+  pruefe('Miraculous: 26 Frames, alle verschieden (die erste Seite plain, jede weitere mit ihrem sN)', adressen.length === 26 && new Set(adressen).size === 26, adressen.length)
+  pruefe('Miraculous: „Besonders" ist der letzte Eintrag', adressen.at(-1) === `https://www.amazon.de/gp/video/detail/${MIRACULOUS}?ref_=atv_dp_season_select_s26`, adressen.at(-1))
+  pruefe('Miraculous: der Lauf endet ohne übersprungene Seite', w.ende() !== null && w.ende().uebersprungen.length === 0, w.ende())
+
+  /* Naruto-Form (jede Staffel eine eigene ASIN, Links mit Query) bleibt bei der blanken Kennung. */
+  const n = welt()
+  vm.runInContext('primeLaufStarten()', n.kontext)
+  const mitLinks = STAFFELN.map((s) => ({ ...s, gewaehlt: s.kennung === 'B07VP6VPVR', link: `/gp/video/detail/${s.kennung}?ref_=atv_dp_season_select_s${s.nummer}` }))
+  n.ergebnis(n.offen()[0], { hier: 'B07VP6VPVR', staffeln: mitLinks })
+  /* Ohne Link unterscheidet nichts die Einträge einer ASIN: die offene Seite wird nicht noch einmal geöffnet. */
+  const ohneLink = welt()
+  ohneLink.kontext.liste = { [MIRACULOUS]: { titel: 'Miraculous', url: `https://www.amazon.de/gp/video/detail/${MIRACULOUS}` } }
+  ohneLink.kontext.listenId = MIRACULOUS
+  vm.runInContext('primeLaufStarten()', ohneLink.kontext)
+  ohneLink.ergebnis(ohneLink.offen()[0], { hier: MIRACULOUS, staffeln: dropdown.map((e) => ({ ...e, link: null, gewaehlt: false })) })
+  pruefe('Dropdown ohne Links: keine zweite Öffnung derselben Seite', ohneLink.offen().length === 0 && ohneLink.frames.length === 1, ohneLink.frames.map((f) => f.src))
+  const tb = ohneLink.kontext.akPrimeTagebuch([{ ms: 1, text: 'a' }], 'a', 2)
+  pruefe('Tagebuch: derselbe Text zweimal in Folge steht einmal', tb.length === 1 && ohneLink.kontext.akPrimeTagebuch(tb, 'b', 3).length === 2)
+  pruefe('eigene ASIN je Staffel: der Plan nennt blanke Kennungen, keine Query', n.offen().length === 3 && n.offen().every((f) => !f.src.includes('?')), n.offen().map((f) => f.src))
+}
+
+/*
+  **Suchaufträge im Durchgang (Weg B):** die Suchseite öffnet als Frame, ihre Treffer besucht der Lauf wie Titel,
+  einen Frame zugleich; der Auftrag steht vorher im Tab-Speicher. Aufträge, deren Treffer nur „ähnlich" sind,
+  bleiben benannt auf der Handliste.
+*/
+{
+  const NUSS1 = 'https://www.amazon.de/s?k=Operation%20Nussknacker&i=instant-video'
+  const NUSS2 = 'https://www.amazon.de/s?k=Operation%20Nussknacker%202&i=instant-video'
+  const FISCH = 'https://www.amazon.de/s?k=Fischen%20Impossible&i=instant-video'
+  const suchen = {
+    [NUSS1]: { titel: 'Operation: Nussknacker - Auf die Nüsse, fertig, los!', suchbegriff: 'Operation Nussknacker Auf Nüsse fertig los', folgen: 1 },
+    [NUSS2]: { titel: 'Operation Nussknacker 2: Voll auf die Nüsse', suchbegriff: 'Operation Nussknacker 2 Voll auf Nüsse', folgen: 1 },
+    [FISCH]: { titel: 'Fischen Impossible', suchbegriff: 'Fischen Impossible', folgen: 1 },
+  }
+  const w = welt({ suchen })
+  w.kontext.liste = {}
+  w.kontext.listenId = 'irgendwas'
+  pruefe('nur Suchaufträge offen: der Lauf startet trotzdem', vm.runInContext('primeLaufStarten()', w.kontext) === true && w.offen().length === 1)
+  pruefe('der erste Frame ist die Suchseite mit dem deutschen Suchbegriff', w.offen()[0].src === 'https://www.amazon.de/s?k=Operation%20Nussknacker%20Auf%20N%C3%BCsse%20fertig%20los&i=instant-video', w.offen()[0].src)
+  pruefe('die Suchseite selbst legt keinen Auftrag mit Zielseite ab', w.gemerkt.length === 0, w.gemerkt)
+  w.ergebnis(w.offen()[0], { hier: '', treffer: ['B087Y8ZNF8'], grund: 'Treffer gelesen' })
+  pruefe('Treffer 1: Frame auf die Titelseite', w.offen().length === 1 && w.offen()[0].src === 'https://www.amazon.de/gp/video/detail/B087Y8ZNF8', w.offen().map((f) => f.src))
+  const gemerkt = w.gemerkt.at(-1)
+  pruefe('… der Auftrag liegt vorher im Tab-Speicher, mit Suchadresse und Zielseite', gemerkt?.suchUrl === NUSS1 && gemerkt?.zielAsin === 'B087Y8ZNF8' && gemerkt?.titel === suchen[NUSS1].titel, gemerkt)
+  w.ergebnis(w.offen()[0], { hier: 'B087Y8ZNF8', staffeln: [] })
+  pruefe('danach die nächste Suche (Teil 2), nicht dieselbe noch einmal', w.offen().length === 1 && w.offen()[0].src.includes('Operation%20Nussknacker%202%20Voll'), w.offen().map((f) => f.src))
+  w.ergebnis(w.offen()[0], { hier: '', treffer: ['B0FNXJ6WD7'], grund: 'Treffer gelesen' })
+  pruefe('Teil 2: nur seine Seite, mit seinem Auftrag', w.offen()[0].src === 'https://www.amazon.de/gp/video/detail/B0FNXJ6WD7' && w.gemerkt.at(-1).suchUrl === NUSS2, w.offen().map((f) => f.src))
+  w.ergebnis(w.offen()[0], { hier: 'B0FNXJ6WD7', staffeln: [] })
+  w.ergebnis(w.offen()[0], { hier: '', treffer: [], grund: 'nur ähnliche Treffer — von Hand' })
+  pruefe('nur ähnliche Treffer: kein Frame auf einen Fremdtitel, der Lauf endet', w.lauf() === null && w.offen().length === 0 && w.frames.length === 5, w.frames.map((f) => f.src))
+  pruefe('… und der Auftrag steht benannt auf der Handliste', w.ende()?.uebersprungen.join() === 'Fischen Impossible · nur ähnliche Treffer — von Hand', w.ende())
+
+  /* Eine bestätigte Auswahl mit zwei Treffern (Super Wings): beide werden besucht, einer nach dem anderen. */
+  const sw = welt({ suchen: { [FISCH]: suchen[FISCH] } })
+  sw.kontext.liste = {}
+  sw.kontext.listenId = 'x'
+  vm.runInContext('primeLaufStarten()', sw.kontext)
+  sw.ergebnis(sw.offen()[0], { hier: '', treffer: ['B0GXHFZ68B', 'B0FM8VZSJL'], grund: 'bestätigte Auswahl gelesen' })
+  pruefe('zwei Treffer: erst B0GXHFZ68B allein', sw.offen().length === 1 && sw.offen()[0].src.endsWith('B0GXHFZ68B'), sw.offen().map((f) => f.src))
+  sw.ergebnis(sw.offen()[0], { hier: 'B0GXHFZ68B', staffeln: [{ kennung: 'B0GXHFZ68B', nummer: 10, gewaehlt: true, link: '/gp/video/detail/B0GXHFZ68B?ref_=atv_dp_season_select_s10' }] })
+  pruefe('… dann B0FM8VZSJL mit eigenem Auftrag im Speicher', sw.offen().length === 1 && sw.offen()[0].src.endsWith('B0FM8VZSJL') && sw.gemerkt.at(-1).zielAsin === 'B0FM8VZSJL', sw.offen().map((f) => f.src))
+  sw.ergebnis(sw.offen()[0], { ok: false, grund: 'Knopf blieb bei: x', hier: 'B0FM8VZSJL', staffeln: [], tagebuch: [{ ms: 100, text: 'Sprache wird gelesen' }] })
+  const spur = sw.ende()?.spur?.filter((s) => s.was === 'seite').at(-1)
+  pruefe('Fehlschlag eines Frames: die Spur trägt sein Tagebuch (letzte Knopftexte mit Zeit)', spur?.tagebuch?.[0]?.text === 'Sprache wird gelesen', spur)
+  pruefe('… und der Treffer gilt als übersprungen', sw.ende()?.uebersprungen.length === 1, sw.ende())
+}
+
+{
+  const FISCH = 'https://www.amazon.de/s?k=Fischen%20Impossible&i=instant-video'
+  const staffeln = [1, 2, 3].map((n) => ({ kennung: 'B0GXHFZ68B', nummer: n, gewaehlt: n === 1, link: `/gp/video/detail/B0GXHFZ68B?ref_=atv_dp_season_select_s${n}` }))
+  const s = welt({ suchen: { [FISCH]: { titel: 'Fischen Impossible', suchbegriff: 'Fischen Impossible', folgen: 1 } } })
+  s.kontext.liste = {}
+  s.kontext.listenId = 'x'
+  vm.runInContext('primeLaufStarten()', s.kontext)
+  s.ergebnis(s.offen()[0], { hier: '', treffer: ['B0GXHFZ68B'], grund: 'Treffer gelesen' })
+  s.ergebnis(s.offen()[0], { hier: 'B0GXHFZ68B', staffeln })
+  pruefe('Treffer einer Suche: auch seine Staffeln laufen einzeln, nie drei zugleich', s.offen().length === 1 && s.lauf().plan.length === 1, s.offen().map((f) => f.src))
+  pruefe('… jede mit dem Auftrag im Tab-Speicher und ihrer Query in der Adresse', s.offen()[0].src.endsWith('_s2') && s.gemerkt.at(-1).zielAsin === 'B0GXHFZ68B', s.gemerkt.at(-1))
+  const t = welt({ suchen: { [FISCH]: { titel: 'Fischen Impossible', folgen: 1 } } })
+  t.kontext.liste = {}
+  t.kontext.listenId = 'x'
+  vm.runInContext('primeLaufStarten()', t.kontext)
+  t.ergebnis(t.offen()[0], { ok: false, grund: 'Trefferliste nicht gelesen', treffer: [] })
+  pruefe('Such-Frame ohne Ergebnis: der Auftrag steht genau einmal auf der Handliste', t.ende()?.uebersprungen.length === 1, t.ende())
 }
 
 console.log('')
