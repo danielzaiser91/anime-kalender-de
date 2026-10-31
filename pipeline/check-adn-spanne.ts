@@ -56,22 +56,29 @@ try {
     batch: false,
     episodes,
   })
-  const baue = (episodes: ReturnType<typeof folge>[]): Release | undefined => {
+  const baueMitErgebnis = (episodes: ReturnType<typeof folge>[]) => {
     const datei = (shows: AdnShow[]) => JSON.stringify({ scrapedAt: '2026-10-31', window: { from: '', to: '' }, shows })
     writeFileSync(join(wurzel, 'data', 'adn.json'), datei([]))
     writeFileSync(join(wurzel, 'data', 'adn-catalog.json'), datei([show(episodes)]))
     const cartoon = { id: -900729, tmdbId: 900729, titleEn: 'Spirou', titleDe: 'Spirou', genres: ['Animation'], anbieterDe: [], land: ['FR'], adnId: 729, stand: 3, geholtAm: '2026-10-31' }
     writeFileSync(join(wurzel, 'data', 'cartoons.json'), JSON.stringify({ '-900729': cartoon }))
     const releases: Release[] = []
-    ergaenzeAdnTitel({ titles: new Map(), releases, titleByName: new Map(), seenSlugs: new Set() })
-    return releases.find((r) => r.platform === 'adn')
+    const ergebnis = ergaenzeAdnTitel({ titles: new Map(), releases, titleByName: new Map(), seenSlugs: new Set() })
+    return { release: releases.find((r) => r.platform === 'adn'), verweise: ergebnis.adnVerweiseErgaenzt }
   }
+  const baue = (episodes: ReturnType<typeof folge>[]): Release | undefined => baueMitErgebnis(episodes).release
   const r = baue(alt)
   pruefe('Spirou: Beginn 2021-06-16, Ende 2025-05-05, nie Ende vor Beginn', r?.schedule?.firstEpisodeDate === '2021-06-16' && r.schedule.lastEpisodeDate === '2025-05-05', r?.schedule)
   pruefe('Spirou: Uhrzeit der frühesten Folge, 25 Folgen', r?.schedule?.time === '10:00' && r.schedule.episodeCount === 25, r?.schedule)
+  pruefe('Spirou: Jahr aus dem Beginn (2021), nicht aus dem Ende (2025)', r?.year === 2021, r?.year)
   pruefe('Spirou: Adresse bleibt Folge 1', r?.platformUrl === alt[0].url, r?.platformUrl)
   const n = baue(gestaffelt)
   pruefe('spätere Staffel: Beginn 2025-05-05, Ende 2025-05-19 wie bisher', n?.schedule?.firstEpisodeDate === '2025-05-05' && n.schedule.lastEpisodeDate === '2025-05-19', n?.schedule)
+  console.log('\nADN-Verweis (Beginn gegen heute)')
+  const ausgelaufen = [folge(1, '2021-06-16'), folge(2, '2999-12-31')]
+  pruefe('Beginn vergangen, Ende in der Zukunft: Verweis ergänzt (zählt den Beginn, nicht das Ende)', baueMitErgebnis(ausgelaufen).verweise === 1, baueMitErgebnis(ausgelaufen).verweise)
+  const kommend = [folge(1, '2999-12-30'), folge(2, '2999-12-31')]
+  pruefe('Beginn in der Zukunft: kein Verweis', baueMitErgebnis(kommend).verweise === 0, baueMitErgebnis(kommend).verweise)
 } finally {
   rmSync(wurzel, { recursive: true, force: true })
 }
