@@ -4,7 +4,7 @@
  * nur `commit-data.sh` machte den seltenen Neuaufbau-Weg rot.
  */
 import assert from 'node:assert/strict'
-import { spawnSync } from 'node:child_process'
+import { spawnMitLimit } from './kind-mit-limit.mjs'
 import { chmodSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { delimiter, dirname, join } from 'node:path'
@@ -34,7 +34,7 @@ function lauf({ scheitert, vorher = '' }) {
   const env = { ...process.env, ...schritt.env, GITHUB_ENV: envDatei, PATH: `${join(arbeit, 'bin')}${delimiter}${process.env.PATH}` }
   if (vorher) env.DATEN_WARNUNG = vorher
   else delete env.DATEN_WARNUNG
-  const r = spawnSync('bash', ['-e', '-o', 'pipefail', '-c', schritt.run], { cwd: arbeit, encoding: 'utf8', env })
+  const r = spawnMitLimit('bash', ['-e', '-o', 'pipefail', '-c', schritt.run], { cwd: arbeit, encoding: 'utf8', env })
   return { status: r.status, ausgabe: r.stdout, env: readFileSync(envDatei, 'utf8').trim(), spur: readFileSync(spur, 'utf8').trim().split('\n') }
 }
 
