@@ -694,7 +694,7 @@ for (const [text, teil, ort] of [
   w.kontext.listenId = 'x'
   vm.runInContext('primeLaufStarten()', w.kontext)
   w.ergebnis(w.offen()[0], { ok: false, grund: 'Trefferliste nicht gelesen', treffer: [] })
-  pruefe('fehlgeschlagene Suche: die Handliste nennt den Titel statt „?"', w.ende()?.uebersprungen[0]?.startsWith('Fischen Impossible · ') === true, w.ende()?.uebersprungen)
+  pruefe('fehlgeschlagene Suche: die Handliste nennt den Titel statt „?"', w.ende()?.uebersprungen[0]?.startsWith('Fischen Impossible – ') === true, w.ende()?.uebersprungen)
 
   const gemerkt = []
   const GTI = 'amzn1.dv.gti.0a1b2c3d-4e5f-6789-abcd-ef0123456789'
