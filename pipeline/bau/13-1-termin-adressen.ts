@@ -1,6 +1,8 @@
 import { type Release, type Title } from '../../shared/types.ts'
 import { amazonAdresseRichten } from '../lib/amazon-adresse.ts'
+import { anzeigeName } from '../../shared/titles.ts'
 import { log } from '../lib/util.ts'
+import { type Ausloeser, ausloeserZeilen } from '../lib/ausloeser-zeilen.ts'
 import { istKeineTitelseite } from './11-7-wege-aus-terminen.ts'
 import { uebernehmeBezugswegAdressen } from './13-1-weg-adresse-bezugsweg.ts'
 
@@ -29,9 +31,13 @@ export function richteTerminAdressen(releases: Release[], titles: Title[]): numb
   const titelNachId = new Map(titles.map((t) => [t.id, t]))
   let gerichtet = 0
   let uebernommen = 0
+  const uebernahmen: Ausloeser[] = []
   for (const r of releases) {
     const vomWeg = adresseDesWegs(r, titelNachId.get(r.titleId))
     if (vomWeg) {
+      const titel = titelNachId.get(r.titleId)!
+      const wege = (titel.streams ?? []).map((s) => s.url)
+      uebernahmen.push({ titleId: titel.id, name: anzeigeName(titel), regel: 'terminAdresseVomWeg', terminUrl: `${r.platformUrl ?? '–'} → ${vomWeg}`, wegVorher: wege, wegNachher: wege })
       r.platformUrl = vomWeg
       uebernommen++
     }
@@ -40,6 +46,9 @@ export function richteTerminAdressen(releases: Release[], titles: Title[]): numb
     if (neu !== r.platformUrl) gerichtet++
     r.platformUrl = neu
   }
-  if (uebernommen) log(`${uebernommen} Termine ohne Adresse haben die des Weges desselben Titels übernommen`)
+  if (uebernommen) {
+    log(`${uebernommen} Termine ohne Adresse haben die des Weges desselben Titels übernommen`)
+    for (const z of ausloeserZeilen(uebernahmen)) log(z)
+  }
   return gerichtet
 }

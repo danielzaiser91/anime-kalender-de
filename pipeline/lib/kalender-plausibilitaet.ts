@@ -9,6 +9,7 @@ import { addDays } from '../../shared/time.ts'
 import { stufeTitelEin } from '../../web/src/lib/db-relevanz.ts'
 import { istKeineTitelseite } from '../bau/11-7-wege-aus-terminen.ts'
 import { kanalSchluessel } from './kanal-titel.ts'
+import { ausloeserZeile } from './ausloeser-zeilen.ts'
 import { alleTermineGekennzeichnet } from './pruefung.ts'
 import { urteilDarfBelegen } from './urteil-weg.ts'
 
@@ -177,7 +178,11 @@ export function primeOhneTitelseite(b: Bestand): Treffer[] {
   const titel = new Map(b.titles.map((t) => [t.id, t]))
   return b.releases
     .filter((r) => r.platform === 'primevideo' && r.releaseType !== 'disc' && !!r.platformUrl && istKeineTitelseite(r.platformUrl))
-    .map((r) => ({ titleId: r.titleId, schluessel: r.slug, text: `${name(titel.get(r.titleId), r.titleId)} (${r.slug}): Prime-Termin verlinkt nur eine Suche` }))
+    .map((r) => {
+      const wege = (titel.get(r.titleId)?.streams ?? []).filter((s) => s.platform === 'primevideo').map((s) => s.url)
+      const a = { titleId: r.titleId, name: name(titel.get(r.titleId), r.titleId), regel: 'primeOhneTitelseite', terminUrl: r.platformUrl, wegVorher: wege, wegNachher: wege }
+      return { titleId: r.titleId, schluessel: r.slug, text: `${a.name} (${r.slug}): Prime-Termin verlinkt nur eine Suche — ${ausloeserZeile(a).trim()}` }
+    })
 }
 
 const PRUEFUNG: Record<Regel, (b: Bestand) => Treffer[]> = {
