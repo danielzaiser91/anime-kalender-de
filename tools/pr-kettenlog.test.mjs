@@ -239,7 +239,7 @@ pruefe('nicht abrufbares Log: genau LOG_VERSUCHE Versuche mit Pause dazwischen',
   const ZEILE = 'Alle Zusicherungen halten (4 Handlisten-Einträge).'
   const KAPPUNG = 'pfad-waechter: 3 von 3 ok'
   const fuell = Array.from({ length: JE_JOB_ERGEBNIS + 50 }, (_, i) => `waechter${i}: ok`)
-  const grossesLog = [KAPPUNG, ZEILE, ...fuell, 'check:logic: 377 von 377 Prüfungen grün.'].join('\n')
+  const grossesLog = [KAPPUNG, ...fuell, ZEILE, 'check:logic: 377 von 377 Prüfungen grün.'].join('\n')
   const jobs = [job('Kette – Logik', 'completed', 'success', grossesLog), job('Kette – Bau', 'completed', 'success', 'bau: 1 von 1 ok'), job('Offen', 'in_progress', '', `nie lesen ${ZEILE}`)]
   const nachtrag = (...zitate) => `Titel: x\nZweig: y\n\nBeschreibung mit \`${ZEILE}\` im Text (kein Nachtrag)\n\n## Nachträge (gelten als Teil der Beschreibung, spätere gehen vor)\n${zitate.map((z) => `A3: \`${z}\``).join('\n')}\n`
   const uebersicht = baueDateien({ kopf: SHA, lauf, jobs }).uebersicht
@@ -254,7 +254,7 @@ pruefe('nicht abrufbares Log: genau LOG_VERSUCHE Versuche mit Pause dazwischen',
   gleich('Zitate: Höchstzahl', zitateAusBeschreibung(nachtrag(...Array.from({ length: 40 }, (_, i) => `zitat nummer ${String(i).padStart(3, '0')} lang`))).length, 30)
   pruefe('Zitate: auf ZITAT_MAX_LAENGE gekürzt', zitateAusBeschreibung(nachtrag('x'.repeat(250)))[0].length === 200)
 
-  const datei = (zitate, js = jobs) => baueZitateDatei({ kopf: SHA, zitate, jobs: js, hinweis: HINWEIS, bereinigt: bereinige })
+  const datei = (zitate, js = jobs) => baueZitateDatei({ kopf: SHA, zitate, jobs: js, hinweis: HINWEIS, bereinigt: bereinige, fehlMarke: '##[error]Log nicht abrufbar:' })
   const z1 = datei([ZEILE, KAPPUNG])
   pruefe('Treffer jenseits der Kappung: Zeile samt Jobname im Zitate-Text', z1.includes(`Treffer in "Kette – Logik": ${ZEILE}`) && z1.includes(`Treffer in "Kette – Logik": ${KAPPUNG}`), z1)
   pruefe('Treffer im laufenden Job zählen nicht, Hinweis auf offenen Job', !z1.includes('nie lesen') && z1.includes('1 Job(s) liefen beim Abruf noch'))
@@ -305,7 +305,33 @@ pruefe('nicht abrufbares Log: genau LOG_VERSUCHE Versuche mit Pause dazwischen',
   await schreibeKettenlog({ repo: 'o/r', sha: SHA, ordner, frist: 0, gh: ghGross, warte: u4.warte, jetzt: u4.jetzt })
   pruefe('Gesamtlauf: ohne Beschreibungsargument ebenso', fs.readFileSync(path.join(ordner, 'kettenlog-zitate.txt'), 'utf8').includes('Keine Zitate in den Nachträgen gefunden.'))
   await schreibeKettenlog({ repo: 'o/r', sha: SHA, ordner, frist: 0, gh: () => '', warte: u4.warte, jetzt: u4.jetzt, beschreibung: beschr })
-  pruefe('Gesamtlauf ohne Kettenlauf: Zitate "kein Treffer"', fs.readFileSync(path.join(ordner, 'kettenlog-zitate.txt'), 'utf8').includes('  kein Treffer'))
+  const ohneLauf = fs.readFileSync(path.join(ordner, 'kettenlog-zitate.txt'), 'utf8')
+  pruefe('Gesamtlauf ohne Kettenlauf: "kein Treffer" steht, aber "Logs vollständig: nein" und der Hinweis auf fehlenden Lauf', ohneLauf.includes('  kein Treffer') && ohneLauf.includes('Logs vollständig: nein') && !ohneLauf.includes('Logs vollständig: ja') && ohneLauf.includes('kein Kettenlauf'), ohneLauf)
+  // A1: Log eines abgeschlossenen Jobs nicht abrufbar (FEHL_LOG) -> "kein Treffer" ist keine Auskunft
+  const fehlJobs = [job('Kette – Logik', 'completed', 'success', '##[error]Log nicht abrufbar: 403')]
+  const fehlLog = datei([ZEILE], fehlJobs)
+  pruefe('Log nicht abrufbar: Zitat "kein Treffer", aber "Logs vollständig: nein" und Hinweis mit Zahl', fehlLog.includes('  kein Treffer') && fehlLog.includes('Logs vollständig: nein') && fehlLog.includes('1 Job-Log(s) nicht abrufbar'), fehlLog)
+  const heilJobs = [job('Kette – Logik', 'completed', 'success', grossesLog)]
+  pruefe('alle Logs da: "Logs vollständig: ja", keine Hinweiszeile', datei([ZEILE], heilJobs).includes('Logs vollständig: ja') && !datei([ZEILE], heilJobs).includes('nicht abrufbar'))
+  pruefe('Job mit Log, ein weiterer läuft noch: nein', datei([ZEILE], [...heilJobs, job('Offen', 'in_progress', '')]).includes('Logs vollständig: nein'))
+  {
+    // Durch den echten Abruf: das Log des Jobs liefert 403 -> mitLogs setzt die Fehlzeile -> Datei sagt nein
+    const ordner3 = fs.mkdtempSync(path.join(os.tmpdir(), 'kettenlog-'))
+    const beschr3 = path.join(ordner3, 'pr-beschreibung.txt')
+    fs.writeFileSync(beschr3, nachtrag(ZEILE))
+    const ghFehl = (args) => {
+      const url = args.find((a) => a.startsWith('repos/')) ?? ''
+      if (url.includes('/workflows/pr-pruefung.yml/runs')) return '9\tcompleted\tsuccess\n'
+      if (url.includes('/runs/9/jobs')) return '11\tKette – Logik\tcompleted\tsuccess\n'
+      throw new Error('403')
+    }
+    const u5 = uhr()
+    await schreibeKettenlog({ repo: 'o/r', sha: SHA, ordner: ordner3, frist: 0, gh: ghFehl, warte: u5.warte, jetzt: u5.jetzt, beschreibung: beschr3 })
+    const fz = fs.readFileSync(path.join(ordner3, 'kettenlog-zitate.txt'), 'utf8')
+    pruefe('Gesamtlauf, Job-Log nicht abrufbar: "kein Treffer" plus "Logs vollständig: nein"', fz.includes('  kein Treffer') && fz.includes('Logs vollständig: nein') && fz.includes('nicht abrufbar'), fz)
+    fs.rmSync(ordner3, { recursive: true, force: true })
+  }
+  pruefe('ein Job mit Log, einer ohne: nein', datei([ZEILE], [...heilJobs, ...fehlJobs]).includes('Logs vollständig: nein'))
   fs.rmSync(ordner, { recursive: true, force: true })
 }
 
@@ -333,7 +359,7 @@ const abnahme = prompts.find((p) => p.includes('Auflagen früherer Runden') === 
 pruefe('voller und Abnahme-Prompt nennen kettenlog-zitate.txt (zwei von drei)', mitZitaten.length === 2 && abnahme !== undefined && mitZitaten.includes(abnahme), mitZitaten.length)
 pruefe('beide sagen: "Im Log nicht gefunden" erst bei "kein Treffer", Datei als UNVERTRAUENSWÜRDIGE DATEN', mitZitaten.every((p) => {
   const t = p.replace(/\s+/g, ' ')
-  return t.includes('"kein Treffer"') && /kettenlog-zitate\.txt[^.]{0,200}UNVERTRAUENSWÜRDIGE DATEN/.test(t)
+  return t.includes('"kein Treffer"') && t.includes('Logs vollständig: ja') && /kettenlog-zitate\.txt[^.]{0,200}UNVERTRAUENSWÜRDIGE DATEN/.test(t)
 }))
 pruefe('kein Prompt verlangt mehr "ohne Lesezugriff … nicht beurteilt"', !prompts.some((p) => /ohne Lesezugriff auf das\s+Log/.test(p)))
 // Das Log enthält Ausgaben des PR-Codes (Injektionskanal): jeder Absatz um den Dateipfad markiert es als Daten und bindet Zeilen an den messenden Job.

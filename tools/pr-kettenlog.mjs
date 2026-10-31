@@ -173,7 +173,7 @@ export function zitateDatei(kopf, jobs, beschreibungPfad) {
   } catch {
     text = ''
   }
-  return baueZitateDatei({ kopf, zitate: zitateAusBeschreibung(text), jobs, hinweis: HINWEIS, bereinigt: bereinige })
+  return baueZitateDatei({ kopf, zitate: zitateAusBeschreibung(text), jobs, hinweis: HINWEIS, bereinigt: bereinige, fehlMarke: FEHL_LOG })
 }
 
 /** Holt Lauf und Logs (mit Wartefrist in ms) und schreibt beide Dateien in `ordner`; gibt die Statuszeile zurück. */

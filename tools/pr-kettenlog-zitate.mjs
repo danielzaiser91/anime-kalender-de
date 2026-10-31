@@ -38,10 +38,15 @@ export function zitatTreffer(zitat, jobs, bereinigt) {
 }
 
 /** Dateitext: Hinweis, dann je Zitat die Treffer mit Jobname oder "kein Treffer". */
-export function baueZitateDatei({ kopf, zitate, jobs, hinweis, bereinigt }) {
+export function baueZitateDatei({ kopf, zitate, jobs, hinweis, bereinigt, fehlMarke }) {
   const z = [hinweis, `Zitate der Nachträge (Backticks ab ${ZITAT_MIN} Zeichen) und ihre Treffer im vollen Log der abgeschlossenen Jobs des Kopfs ${kopf}.`]
   const offen = jobs.filter((j) => j.status !== 'completed').length
+  const ohneLog = jobs.filter((j) => j.status === 'completed' && (j.log ?? '').startsWith(fehlMarke)).length
+  const vollstaendig = jobs.length > 0 && !offen && !ohneLog
+  z.push(`Logs vollständig: ${vollstaendig ? 'ja' : 'nein'}`)
+  if (!jobs.length) z.push('Kein Job-Log vorhanden (kein Kettenlauf): "kein Treffer" gilt nicht, "nicht beurteilt" ist richtig.')
   if (offen) z.push(`${offen} Job(s) liefen beim Abruf noch: "kein Treffer" gilt für sie nicht.`)
+  if (ohneLog) z.push(`${ohneLog} Job-Log(s) nicht abrufbar: "kein Treffer" gilt für sie nicht.`)
   if (!zitate.length) z.push('Keine Zitate in den Nachträgen gefunden.')
   for (const zitat of zitate) {
     z.push('', `Zitat: ${einzeilig(zitat)}`)
