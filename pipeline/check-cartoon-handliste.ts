@@ -173,6 +173,9 @@ try {
   pruefe('andere Serienkennung: kein Weg', wege(titelMit(-5), [serie({ showId: 8 })]).neu === 0)
   pruefe('Cartoon ohne ADN-Kennung: kein Weg', wege(titelMit(-6), [serie()]).neu === 0)
   pruefe('Cartoon, der nicht in den Rohdaten steht: kein Weg', wege(titelMit(-9), [serie()]).neu === 0)
+  const { adnShowJeCartoon } = await import('./bau/cartoon-adn.ts')
+  pruefe('ADN-Serie je Cartoon: nur der Eintrag mit Kennung, Folgen und Adresse', [...adnShowJeCartoon(rohMit, [serie()]).keys()].join() === '-5')
+  pruefe('ADN-Serie je Cartoon: ohne Folgen oder Adresse leer', adnShowJeCartoon(rohMit, [serie({ episodes: [] })]).size === 0 && adnShowJeCartoon(rohMit, [serie({ url: '' })]).size === 0)
   pruefe('Titelkarte: nur Einträge mit ADN-Kennung', [...cartoonTitelJeAdn(rohMit).keys()].join() === '7')
 
   console.log('\nVorrang: ein Anime mit gleichem Namen gewinnt vor dem Cartoon')

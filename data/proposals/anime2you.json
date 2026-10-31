@@ -1,15 +1,63 @@
 {
-  "scrapedAt": "2026-10-31T04:13:21.511Z",
+  "scrapedAt": "2026-10-31T15:02:14.994Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 40,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 11,
-    "schon in einem Rubrik-Feed gelesen": 32,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 8,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 52,
+    "schon in einem Rubrik-Feed gelesen": 10,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 11,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 2,
     "Sprachhinweis älter als 45 Tage": 4
   },
   "proposals": [
+    {
+      "articleTitle": "Pluto TV nimmt zwei Anime-Neuzugänge ins Programm",
+      "articleUrl": "https://www.anime2you.de/news/1066055/pluto-tv-black-clover-und-mehr/",
+      "publishedAt": "2026-10-31",
+      "category": "streaming",
+      "platforms": [],
+      "dates": [],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Sieben Disc-Neuheiten ab sofort im AKIBA PASS SHOP vorbestellbar",
+      "articleUrl": "https://www.anime2you.de/news/1066085/akiba-pass-shop-evangelion-und-mehr/",
+      "publishedAt": "2026-10-31",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2027-02-05",
+          "context": "pecial Edition des Anime-Klassikers »Neon Genesis Evangelion«, die am 5. Februar 2027 als Blu-ray erscheint und alle Episoden […] Der Beit"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "IMAX-Fassung von »Godzilla Minus Zero« kommt nach Deutschland + Trailer",
+      "articleUrl": "https://www.anime2you.de/news/1066064/godzilla-minus-zero-imax-fassung-in-deutschland/",
+      "publishedAt": "2026-10-31",
+      "category": "allgemein",
+      "platforms": [
+        "kino"
+      ],
+      "dates": [
+        {
+          "iso": "2026-11-03",
+          "context": "gt wird. Wir fassen nachfolgend zusammen. Gefilmt für IMAX Bereits am 3. November 2026 finden in ausgewählten deutschen IMAX-Kinos exklusive"
+        },
+        {
+          "iso": "2026-11-05",
+          "context": "von »Godzilla Minus Zero« statt. Der reguläre Kinostart folgt dann am 5. November 2026 […] Der Beitrag IMAX-Fassung von »Godzilla Minus Ze"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "HBO Max nimmt Original-Serie »Lazarus« ins Programm",
       "articleUrl": "https://www.anime2you.de/news/1065659/lazarus-bald-auf-hbo-max/",
