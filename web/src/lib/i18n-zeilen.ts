@@ -22,4 +22,10 @@ export const TEXTE_ZEILEN = {
   'kopf.gemerkt': 'Gemerkt',
   'kopf.kopiert': 'Kopiert',
   'kopf.ausblenden': 'Ausblenden',
+  'termin.titel': 'Termin offen',
+  'termin.angekuendigt': 'hat die deutsche Synchro angekündigt.',
+  'termin.quelle': 'Quelle',
+  'termin.bescheid': 'Bescheid bei Termin',
+  'termin.bescheidMail': 'Wir schreiben dir, sobald es einen Termin gibt.',
+  'termin.bescheidOffen': 'Melde dich noch beim Newsletter an, dann sagen wir Bescheid.',
 } as const

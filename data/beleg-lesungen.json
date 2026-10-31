@@ -552,7 +552,7 @@
     ]
   },
   "https://www.anisearch.de/article/216206": {
-    "zuletzt": "2026-10-22",
+    "zuletzt": "2026-10-31",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -560,14 +560,14 @@
         "ausgabe": "2026-10-22",
         "qs": "ok",
         "markierung": [
-          0.28846153846153844,
-          -0.021986885539739206,
-          0.25769230769230766,
-          0.02485474017535736
+          0.625,
+          0.25138713476847974,
+          0.34615384615384615,
+          0.344463522967546
         ],
         "bild": "www.anisearch.de/54eb51a48c66bd02/2026-10-05-b1aab0d3b9a6bb66.webp",
         "text": "www.anisearch.de/54eb51a48c66bd02/2026-10-05-b1aab0d3b9a6bb66.txt.gz",
-        "bildfassung": 2
+        "bildfassung": 3
       }
     ]
   },
@@ -657,7 +657,7 @@
     ]
   },
   "https://www.anisearch.de/article/216205,naruto-shippuden-the-movie-collection-blu-ray-8-filme-re-release": {
-    "zuletzt": "2026-10-23",
+    "zuletzt": "2026-10-31",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -789,11 +789,87 @@
         },
         "bild": "www.anisearch.de/d6cdf6976a8ce7c3/2026-10-23-85f18b2239f3c8dd.webp",
         "text": "www.anisearch.de/d6cdf6976a8ce7c3/2026-10-23-85f18b2239f3c8dd.txt.gz"
+      },
+      {
+        "am": "2026-10-31",
+        "hash": "c9df8bafda3f7896",
+        "hf": 2,
+        "ausgabe": "2026-11-19",
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.625,
+          0.04601011884973404,
+          0.34615384615384615,
+          0.07657185006648937
+        ],
+        "markierungen": {
+          "2472": [
+            0.625,
+            0.04601011884973404,
+            0.34615384615384615,
+            0.07657185006648937
+          ],
+          "4437": [
+            0.625,
+            0.04601011884973404,
+            0.34615384615384615,
+            0.07657185006648937
+          ],
+          "6325": [
+            0.625,
+            0.04601011884973404,
+            0.34615384615384615,
+            0.07657185006648937
+          ],
+          "8246": [
+            0.625,
+            0.04601011884973404,
+            0.34615384615384615,
+            0.07657185006648937
+          ],
+          "10589": [
+            0.625,
+            0.04601011884973404,
+            0.34615384615384615,
+            0.07657185006648937
+          ],
+          "10659": [
+            0.625,
+            0.04601011884973404,
+            0.34615384615384615,
+            0.07657185006648937
+          ],
+          "10686": [
+            0.625,
+            0.04601011884973404,
+            0.34615384615384615,
+            0.07657185006648937
+          ],
+          "13667": [
+            0.17307692307692307,
+            0.2623732546542553,
+            0.3173076923076923,
+            0.048204787234042555
+          ],
+          "16870": [
+            0.5096153846153846,
+            0.2125062333776596,
+            0.3173076923076923,
+            0.048204787234042555
+          ]
+        },
+        "ohneMarke": {
+          "21220": "ausserhalb"
+        },
+        "bild": "www.anisearch.de/d6cdf6976a8ce7c3/2026-10-31-c9df8bafda3f7896.webp",
+        "text": "www.anisearch.de/d6cdf6976a8ce7c3/2026-10-31-c9df8bafda3f7896.txt.gz"
       }
     ]
   },
   "https://www.anisearch.de/article/216205": {
-    "zuletzt": "2026-10-23",
+    "zuletzt": "2026-10-31",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -801,69 +877,78 @@
         "ausgabe": "2026-11-19",
         "qs": "ok",
         "markierung": [
-          0.17307692307692307,
-          0.5194793971238938,
-          0.3173076923076923,
-          0.08019911504424779
+          0.625,
+          0.04601011884973404,
+          0.34615384615384615,
+          0.07657185006648937
         ],
         "bild": "www.anisearch.de/ba3413a74084637c/2026-10-05-c9df8bafda3f7896.webp",
         "text": "www.anisearch.de/ba3413a74084637c/2026-10-05-c9df8bafda3f7896.txt.gz",
         "markierungen": {
+          "2472": [
+            0.625,
+            0.04601011884973404,
+            0.34615384615384615,
+            0.07657185006648937
+          ],
           "4437": [
-            0.17307692307692307,
-            0.6854086006637168,
-            0.3173076923076923,
-            0.08019911504424779
+            0.625,
+            0.04601011884973404,
+            0.34615384615384615,
+            0.07657185006648937
           ],
           "6325": [
-            0.5096153846153846,
-            0.6024439988938053,
-            0.3173076923076923,
-            0.08019911504424779
+            0.625,
+            0.04601011884973404,
+            0.34615384615384615,
+            0.07657185006648937
           ],
           "8246": [
-            0.5096153846153846,
-            0.5194793971238938,
-            0.3173076923076923,
-            0.08019911504424779
+            0.625,
+            0.04601011884973404,
+            0.34615384615384615,
+            0.07657185006648937
           ],
           "10589": [
-            0.5096153846153846,
-            0.4365147953539823,
-            0.3173076923076923,
-            0.08019911504424779
+            0.625,
+            0.04601011884973404,
+            0.34615384615384615,
+            0.07657185006648937
           ],
           "10659": [
-            0.17307692307692307,
-            0.6024439988938053,
-            0.3173076923076923,
-            0.08019911504424779
+            0.625,
+            0.04601011884973404,
+            0.34615384615384615,
+            0.07657185006648937
           ],
           "10686": [
-            0.17307692307692307,
-            0.5194793971238938,
-            0.3173076923076923,
-            0.08019911504424779
+            0.625,
+            0.04601011884973404,
+            0.34615384615384615,
+            0.07657185006648937
           ],
           "13667": [
             0.17307692307692307,
-            0.4365147953539823,
+            0.2623732546542553,
             0.3173076923076923,
-            0.08019911504424779
+            0.048204787234042555
           ],
           "16870": [
             0.5096153846153846,
-            0.3535501935840708,
+            0.2125062333776596,
             0.3173076923076923,
-            0.08019911504424779
+            0.048204787234042555
           ]
         },
-        "bildfassung": 2
+        "bildfassung": 3,
+        "ohneMarke": {
+          "21220": "ausserhalb"
+        }
       }
     ]
   },
   "https://www.anisearch.de/article/216798,miss-kobayashis-dragon-maid-s-gesamtausgabe-steelbook-blu-ray": {
-    "zuletzt": "2026-10-23",
+    "zuletzt": "2026-10-31",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -871,19 +956,19 @@
         "ausgabe": "2026-12-04",
         "qs": "ok",
         "markierung": [
-          0.28846153846153844,
-          -0.021518265674565468,
-          0.25769230769230766,
-          0.024324995979943573
+          0.625,
+          0.09539990952760485,
+          0.34615384615384615,
+          0.15201516489671069
         ],
         "bild": "www.anisearch.de/3da9b7a191a0de58/2026-10-05-55d5027274de7f09.webp",
         "text": "www.anisearch.de/3da9b7a191a0de58/2026-10-05-55d5027274de7f09.txt.gz",
-        "bildfassung": 2
+        "bildfassung": 3
       }
     ]
   },
   "https://www.anisearch.de/article/216599,miss-kobayashis-dragon-maid-s-steelbook-blu-ray": {
-    "zuletzt": "2026-10-23",
+    "zuletzt": "2026-10-31",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -899,11 +984,21 @@
         "bild": "www.anisearch.de/24140bcd15fe7742/2026-10-05-78881a08e32df9b5.webp",
         "text": "www.anisearch.de/24140bcd15fe7742/2026-10-05-78881a08e32df9b5.txt.gz",
         "bildfassung": 2
+      },
+      {
+        "am": "2026-10-31",
+        "hash": "9e49e5bcc6678f8a",
+        "hf": 2,
+        "ausgabe": "2026-11-03",
+        "qs": "ok",
+        "bildfassung": 3,
+        "bild": "www.anisearch.de/24140bcd15fe7742/2026-10-31-9e49e5bcc6678f8a.webp",
+        "text": "www.anisearch.de/24140bcd15fe7742/2026-10-31-9e49e5bcc6678f8a.txt.gz"
       }
     ]
   },
   "https://www.anisearch.de/article/216798": {
-    "zuletzt": "2026-10-23",
+    "zuletzt": "2026-10-31",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -911,19 +1006,19 @@
         "ausgabe": "2026-12-04",
         "qs": "ok",
         "markierung": [
-          0.28846153846153844,
-          -0.021518265674565468,
-          0.25769230769230766,
-          0.024324995979943573
+          0.625,
+          0.2551453961486944,
+          0.34615384615384615,
+          0.4065619103858507
         ],
         "bild": "www.anisearch.de/7328b03d3f468fc9/2026-10-05-55d5027274de7f09.webp",
         "text": "www.anisearch.de/7328b03d3f468fc9/2026-10-05-55d5027274de7f09.txt.gz",
-        "bildfassung": 2
+        "bildfassung": 3
       }
     ]
   },
   "https://www.anisearch.de/article/216599": {
-    "zuletzt": "2026-10-23",
+    "zuletzt": "2026-10-31",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -939,11 +1034,21 @@
         "bild": "www.anisearch.de/95722526d7709f5f/2026-10-05-78881a08e32df9b5.webp",
         "text": "www.anisearch.de/95722526d7709f5f/2026-10-05-78881a08e32df9b5.txt.gz",
         "bildfassung": 2
+      },
+      {
+        "am": "2026-10-31",
+        "hash": "9e49e5bcc6678f8a",
+        "hf": 2,
+        "ausgabe": "2026-11-03",
+        "qs": "ok",
+        "bildfassung": 3,
+        "bild": "www.anisearch.de/95722526d7709f5f/2026-10-31-9e49e5bcc6678f8a.webp",
+        "text": "www.anisearch.de/95722526d7709f5f/2026-10-31-9e49e5bcc6678f8a.txt.gz"
       }
     ]
   },
   "https://www.anime2you.de/news/1044447/miss-kobayashis-dragon-maid-steelbook-edition/": {
-    "zuletzt": "2026-10-23",
+    "zuletzt": "2026-10-31",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -1029,6 +1134,39 @@
         },
         "bild": "www.anime2you.de/26fc1c36d0a90206/2026-10-16-4f3f9c31f19acf5e.webp",
         "text": "www.anime2you.de/26fc1c36d0a90206/2026-10-16-4f3f9c31f19acf5e.txt.gz"
+      },
+      {
+        "am": "2026-10-31",
+        "hash": "88809c072fe1f399",
+        "hf": 2,
+        "veroeffentlicht": "2026-09-01",
+        "aktualisiert": "2026-09-03",
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.7623364084960309,
+          0.8942307692307693,
+          0.20104770077951797
+        ],
+        "markierungen": {
+          "21776": [
+            0.038461538461538464,
+            0.7623364084960309,
+            0.8942307692307693,
+            0.20104770077951797
+          ],
+          "107717": [
+            0.038461538461538464,
+            0.7623364084960309,
+            0.8942307692307693,
+            0.20104770077951797
+          ]
+        },
+        "ohneMarke": {},
+        "bild": "www.anime2you.de/26fc1c36d0a90206/2026-10-31-88809c072fe1f399.webp",
+        "text": "www.anime2you.de/26fc1c36d0a90206/2026-10-31-88809c072fe1f399.txt.gz"
       }
     ]
   },
@@ -1105,7 +1243,7 @@
     ]
   },
   "https://www.anisearch.de/article/216721,jujutsu-kaisen-staffel-1-gesamtausgabe-steelbook-blu-ray": {
-    "zuletzt": "2026-10-23",
+    "zuletzt": "2026-10-31",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -1127,12 +1265,12 @@
         "hf": 2,
         "ausgabe": "2026-12-04",
         "qs": "ok",
-        "bildfassung": 2,
+        "bildfassung": 3,
         "markierung": [
-          0.28846153846153844,
-          -0.021915850281392372,
-          0.25769230769230766,
-          0.024774439448530507
+          0.625,
+          0.2597888253409591,
+          0.34615384615384615,
+          0.39576184191230385
         ],
         "bild": "www.anisearch.de/c512fca8baee779b/2026-10-16-919e2a0538b8083c.webp",
         "text": "www.anisearch.de/c512fca8baee779b/2026-10-16-919e2a0538b8083c.txt.gz"
@@ -1140,7 +1278,7 @@
     ]
   },
   "https://www.anisearch.de/article/216721": {
-    "zuletzt": "2026-10-23",
+    "zuletzt": "2026-10-31",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -1162,12 +1300,12 @@
         "hf": 2,
         "ausgabe": "2026-12-04",
         "qs": "ok",
-        "bildfassung": 2,
+        "bildfassung": 3,
         "markierung": [
-          0.28846153846153844,
-          -0.021915850281392372,
-          0.25769230769230766,
-          0.024774439448530507
+          0.625,
+          0.2597888253409591,
+          0.34615384615384615,
+          0.39576184191230385
         ],
         "bild": "www.anisearch.de/244dd78e5b9c4de4/2026-10-16-919e2a0538b8083c.webp",
         "text": "www.anisearch.de/244dd78e5b9c4de4/2026-10-16-919e2a0538b8083c.txt.gz"
@@ -1175,7 +1313,7 @@
     ]
   },
   "https://www.anisearch.de/article/197791,jujutsu-kaisen-staffel-1-komplettset-blu-ray": {
-    "zuletzt": "2026-10-23",
+    "zuletzt": "2026-10-31",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -1197,7 +1335,7 @@
         "hf": 2,
         "ausgabe": "2027-05-07",
         "qs": "ok",
-        "bildfassung": 2,
+        "bildfassung": 3,
         "markierung": [
           0.625,
           0.27049931287219425,
@@ -1210,7 +1348,7 @@
     ]
   },
   "https://www.anisearch.de/article/197791": {
-    "zuletzt": "2026-10-23",
+    "zuletzt": "2026-10-31",
     "lesungen": [
       {
         "am": "2026-10-04",
@@ -1232,7 +1370,7 @@
         "hf": 2,
         "ausgabe": "2027-05-07",
         "qs": "ok",
-        "bildfassung": 2,
+        "bildfassung": 3,
         "markierung": [
           0.625,
           0.27049931287219425,
@@ -1245,7 +1383,7 @@
     ]
   },
   "https://www.anisearch.de/article/177001,the-familiar-of-zero-gesamtausgabe-blu-ray": {
-    "zuletzt": "2026-10-23",
+    "zuletzt": "2026-10-31",
     "lesungen": [
       {
         "am": "2026-10-04",
@@ -1255,17 +1393,17 @@
         "text": "www.anisearch.de/51c142935ba1e144/2026-10-04-dd92c2a83aff3460.txt.gz",
         "qs": "ok",
         "markierung": [
-          0.28846153846153844,
-          -0.026631929367491678,
-          0.25769230769230766,
-          0.030105659284990594
+          0.625,
+          0.23544657097288677,
+          0.34615384615384615,
+          0.4855528973950027
         ],
-        "bildfassung": 2
+        "bildfassung": 3
       }
     ]
   },
   "https://www.anisearch.de/article/177001": {
-    "zuletzt": "2026-10-23",
+    "zuletzt": "2026-10-31",
     "lesungen": [
       {
         "am": "2026-10-04",
@@ -1275,17 +1413,17 @@
         "text": "www.anisearch.de/56e219f6229d941e/2026-10-04-dd92c2a83aff3460.txt.gz",
         "qs": "ok",
         "markierung": [
-          0.28846153846153844,
-          -0.026631929367491678,
-          0.25769230769230766,
-          0.030105659284990594
+          0.625,
+          0.23544657097288677,
+          0.34615384615384615,
+          0.4855528973950027
         ],
-        "bildfassung": 2
+        "bildfassung": 3
       }
     ]
   },
   "https://www.anisearch.de/article/210269,sailor-moon-super-s-gesamtausgabe-limited-steelbook-edition-blu-ray": {
-    "zuletzt": "2026-10-23",
+    "zuletzt": "2026-10-31",
     "lesungen": [
       {
         "am": "2026-10-04",
@@ -1295,17 +1433,17 @@
         "text": "www.anisearch.de/e5b000657a1af7ee/2026-10-04-1db47e9e243455f6.txt.gz",
         "qs": "ok",
         "markierung": [
-          0.5096153846153846,
-          0.6082725060827251,
-          0.3173076923076923,
-          0.35279805352798055
+          0.625,
+          0.10470353208189513,
+          0.34615384615384615,
+          0.18279824105158637
         ],
-        "bildfassung": 2
+        "bildfassung": 3
       }
     ]
   },
   "https://www.anisearch.de/article/210269": {
-    "zuletzt": "2026-10-23",
+    "zuletzt": "2026-10-31",
     "lesungen": [
       {
         "am": "2026-10-04",
@@ -1315,12 +1453,12 @@
         "text": "www.anisearch.de/b1c998db4208d898/2026-10-04-1db47e9e243455f6.txt.gz",
         "qs": "ok",
         "markierung": [
-          0.5096153846153846,
-          0.6082725060827251,
-          0.3173076923076923,
-          0.35279805352798055
+          0.625,
+          0.10470353208189513,
+          0.34615384615384615,
+          0.18279824105158637
         ],
-        "bildfassung": 2
+        "bildfassung": 3
       }
     ]
   },
@@ -1405,7 +1543,7 @@
     ]
   },
   "https://www.anisearch.de/article/216284,good-luck-girl-vol-1-2-limited-steelcase-edition-blu-ray-sammelschuber": {
-    "zuletzt": "2026-10-23",
+    "zuletzt": "2026-10-31",
     "lesungen": [
       {
         "am": "2026-10-04",
@@ -1436,11 +1574,28 @@
         ],
         "bild": "www.anisearch.de/dcef0a75509c6443/2026-10-16-d850f86a3504bc98.webp",
         "text": "www.anisearch.de/dcef0a75509c6443/2026-10-16-d850f86a3504bc98.txt.gz"
+      },
+      {
+        "am": "2026-10-31",
+        "hash": "14e40d5cf4cddba1",
+        "hf": 2,
+        "ausgabe": "2027-02-05",
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.625,
+          0.2646597445282737,
+          0.34615384615384615,
+          0.42172256666915664
+        ],
+        "bild": "www.anisearch.de/dcef0a75509c6443/2026-10-31-14e40d5cf4cddba1.webp",
+        "text": "www.anisearch.de/dcef0a75509c6443/2026-10-31-14e40d5cf4cddba1.txt.gz"
       }
     ]
   },
   "https://www.anisearch.de/article/216284": {
-    "zuletzt": "2026-10-23",
+    "zuletzt": "2026-10-31",
     "lesungen": [
       {
         "am": "2026-10-04",
@@ -1471,11 +1626,28 @@
         ],
         "bild": "www.anisearch.de/1c5a5983281dba7a/2026-10-16-d850f86a3504bc98.webp",
         "text": "www.anisearch.de/1c5a5983281dba7a/2026-10-16-d850f86a3504bc98.txt.gz"
+      },
+      {
+        "am": "2026-10-31",
+        "hash": "14e40d5cf4cddba1",
+        "hf": 2,
+        "ausgabe": "2027-02-05",
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.625,
+          0.2646597445282737,
+          0.34615384615384615,
+          0.42172256666915664
+        ],
+        "bild": "www.anisearch.de/1c5a5983281dba7a/2026-10-31-14e40d5cf4cddba1.webp",
+        "text": "www.anisearch.de/1c5a5983281dba7a/2026-10-31-14e40d5cf4cddba1.txt.gz"
       }
     ]
   },
   "https://www.anisearch.de/article/216285,good-luck-girl-vol-2-2-limited-steelcase-edition-blu-ray": {
-    "zuletzt": "2026-10-23",
+    "zuletzt": "2026-10-31",
     "lesungen": [
       {
         "am": "2026-10-04",
@@ -1497,12 +1669,12 @@
         "hf": 2,
         "ausgabe": "2027-03-05",
         "qs": "ok",
-        "bildfassung": 2,
+        "bildfassung": 3,
         "markierung": [
-          0.28846153846153844,
-          -0.022829492229907874,
-          0.25769230769230766,
-          0.025807252085982817
+          0.625,
+          0.12356744766780829,
+          0.34615384615384615,
+          0.1869031758542999
         ],
         "bild": "www.anisearch.de/f37479a3e9f90e6c/2026-10-16-14bac315c9394dce.webp",
         "text": "www.anisearch.de/f37479a3e9f90e6c/2026-10-16-14bac315c9394dce.txt.gz"
@@ -1510,7 +1682,7 @@
     ]
   },
   "https://www.anisearch.de/article/216285": {
-    "zuletzt": "2026-10-23",
+    "zuletzt": "2026-10-31",
     "lesungen": [
       {
         "am": "2026-10-04",
@@ -1532,12 +1704,12 @@
         "hf": 2,
         "ausgabe": "2027-03-05",
         "qs": "ok",
-        "bildfassung": 2,
+        "bildfassung": 3,
         "markierung": [
-          0.28846153846153844,
-          -0.022829492229907874,
-          0.25769230769230766,
-          0.025807252085982817
+          0.625,
+          0.12356744766780829,
+          0.34615384615384615,
+          0.1869031758542999
         ],
         "bild": "www.anisearch.de/99d8d78b7f8b6529/2026-10-16-14bac315c9394dce.webp",
         "text": "www.anisearch.de/99d8d78b7f8b6529/2026-10-16-14bac315c9394dce.txt.gz"
@@ -1655,7 +1827,7 @@
     ]
   },
   "https://www.anisearch.de/article/185053,gods-games-we-play-gesamtausgabe-blu-ray": {
-    "zuletzt": "2026-10-23",
+    "zuletzt": "2026-10-31",
     "lesungen": [
       {
         "am": "2026-10-04",
@@ -1670,12 +1842,12 @@
           0.25769230769230766,
           0.025889162025080126
         ],
-        "bildfassung": 2
+        "bildfassung": 3
       }
     ]
   },
   "https://www.anisearch.de/article/185053": {
-    "zuletzt": "2026-10-23",
+    "zuletzt": "2026-10-31",
     "lesungen": [
       {
         "am": "2026-10-04",
@@ -1690,12 +1862,12 @@
           0.25769230769230766,
           0.025889162025080126
         ],
-        "bildfassung": 2
+        "bildfassung": 3
       }
     ]
   },
   "https://www.anisearch.de/article/216207,memories-blu-ray": {
-    "zuletzt": "2026-10-23",
+    "zuletzt": "2026-10-31",
     "lesungen": [
       {
         "am": "2026-10-04",
@@ -1710,12 +1882,12 @@
           0.25769230769230766,
           0.025462892119357306
         ],
-        "bildfassung": 2
+        "bildfassung": 3
       }
     ]
   },
   "https://www.anisearch.de/article/216207": {
-    "zuletzt": "2026-10-23",
+    "zuletzt": "2026-10-31",
     "lesungen": [
       {
         "am": "2026-10-04",
@@ -1730,7 +1902,7 @@
           0.25769230769230766,
           0.025462892119357306
         ],
-        "bildfassung": 2
+        "bildfassung": 3
       }
     ]
   },
@@ -2349,7 +2521,7 @@
     ]
   },
   "https://www.anisearch.de/article/214949,yaiba-samurai-legend-staffel-1-vol-1-2-limited-edition-blu-ray-sammelschuber": {
-    "zuletzt": "2026-10-23",
+    "zuletzt": "2026-10-31",
     "lesungen": [
       {
         "am": "2026-10-04",
@@ -2371,12 +2543,12 @@
         "hf": 2,
         "ausgabe": "2026-12-04",
         "qs": "ok",
-        "bildfassung": 2,
+        "bildfassung": 3,
         "markierung": [
-          0.34134615384615385,
-          0.7311906501095691,
-          0.3173076923076923,
-          0.24209537723051236
+          0.625,
+          0.12261382355791194,
+          0.34615384615384615,
+          0.14666592837663867
         ],
         "bild": "www.anisearch.de/a1cc235de0dcd245/2026-10-16-d5dd4d06d8651d8b.webp",
         "text": "www.anisearch.de/a1cc235de0dcd245/2026-10-16-d5dd4d06d8651d8b.txt.gz"
@@ -2384,7 +2556,7 @@
     ]
   },
   "https://www.anisearch.de/article/214949": {
-    "zuletzt": "2026-10-23",
+    "zuletzt": "2026-10-31",
     "lesungen": [
       {
         "am": "2026-10-04",
@@ -2406,12 +2578,12 @@
         "hf": 2,
         "ausgabe": "2026-12-04",
         "qs": "ok",
-        "bildfassung": 2,
+        "bildfassung": 3,
         "markierung": [
-          0.34134615384615385,
-          0.7311906501095691,
-          0.3173076923076923,
-          0.24209537723051236
+          0.625,
+          0.12261382355791194,
+          0.34615384615384615,
+          0.14666592837663867
         ],
         "bild": "www.anisearch.de/bdd4c8f623c005e5/2026-10-16-d5dd4d06d8651d8b.webp",
         "text": "www.anisearch.de/bdd4c8f623c005e5/2026-10-16-d5dd4d06d8651d8b.txt.gz"
@@ -2419,7 +2591,7 @@
     ]
   },
   "https://www.anisearch.de/article/214951,yaiba-samurai-legend-staffel-1-vol-2-2-limited-edition-blu-ray": {
-    "zuletzt": "2026-10-23",
+    "zuletzt": "2026-10-31",
     "lesungen": [
       {
         "am": "2026-10-04",
@@ -2441,12 +2613,12 @@
         "hf": 2,
         "ausgabe": "2027-02-19",
         "qs": "ok",
-        "bildfassung": 2,
+        "bildfassung": 3,
         "markierung": [
-          0.28846153846153844,
-          -0.03172892462224905,
-          0.25769230769230766,
-          0.03586748000775979
+          0.625,
+          0.1414055141365603,
+          0.34615384615384615,
+          0.1691438241351235
         ],
         "bild": "www.anisearch.de/436bd9bc26fefdf9/2026-10-16-231c5ac43e30500d.webp",
         "text": "www.anisearch.de/436bd9bc26fefdf9/2026-10-16-231c5ac43e30500d.txt.gz"
@@ -2454,7 +2626,7 @@
     ]
   },
   "https://www.anisearch.de/article/214951": {
-    "zuletzt": "2026-10-23",
+    "zuletzt": "2026-10-31",
     "lesungen": [
       {
         "am": "2026-10-04",
@@ -2476,12 +2648,12 @@
         "hf": 2,
         "ausgabe": "2027-02-19",
         "qs": "ok",
-        "bildfassung": 2,
+        "bildfassung": 3,
         "markierung": [
-          0.28846153846153844,
-          -0.03172892462224905,
-          0.25769230769230766,
-          0.03586748000775979
+          0.625,
+          0.1414055141365603,
+          0.34615384615384615,
+          0.1691438241351235
         ],
         "bild": "www.anisearch.de/acd1dabb69a75ec5/2026-10-16-231c5ac43e30500d.webp",
         "text": "www.anisearch.de/acd1dabb69a75ec5/2026-10-16-231c5ac43e30500d.txt.gz"
@@ -2529,7 +2701,7 @@
     ]
   },
   "https://www.anisearch.de/article/201864,sakamoto-days-vol-3-4-limited-steelcase-edition-blu-ray": {
-    "zuletzt": "2026-10-23",
+    "zuletzt": "2026-10-31",
     "lesungen": [
       {
         "am": "2026-10-04",
@@ -2568,12 +2740,12 @@
         "ausgabe": "2027-01-15",
         "aenderungOhneDatum": true,
         "qs": "ok",
-        "bildfassung": 2,
+        "bildfassung": 3,
         "markierung": [
           0.34134615384615385,
-          0.7880816494421307,
+          0.8751476744679175,
           0.3173076923076923,
-          0.1908581418067767
+          0.11244464100715501
         ],
         "bild": "www.anisearch.de/da4a1a7033bf9e0c/2026-10-23-5a7b4232d94d2608.webp",
         "text": "www.anisearch.de/da4a1a7033bf9e0c/2026-10-23-5a7b4232d94d2608.txt.gz"
@@ -2581,7 +2753,7 @@
     ]
   },
   "https://www.anisearch.de/article/201864": {
-    "zuletzt": "2026-10-23",
+    "zuletzt": "2026-10-31",
     "lesungen": [
       {
         "am": "2026-10-04",
@@ -2620,12 +2792,12 @@
         "ausgabe": "2027-01-15",
         "aenderungOhneDatum": true,
         "qs": "ok",
-        "bildfassung": 2,
+        "bildfassung": 3,
         "markierung": [
           0.34134615384615385,
-          0.7880816494421307,
+          0.8751476744679175,
           0.3173076923076923,
-          0.1908581418067767
+          0.11244464100715501
         ],
         "bild": "www.anisearch.de/9625f33a33ec5641/2026-10-23-5a7b4232d94d2608.webp",
         "text": "www.anisearch.de/9625f33a33ec5641/2026-10-23-5a7b4232d94d2608.txt.gz"
@@ -2633,7 +2805,7 @@
     ]
   },
   "https://www.anisearch.de/article/201866,sakamoto-days-vol-4-4-limited-steelcase-edition-blu-ray": {
-    "zuletzt": "2026-10-23",
+    "zuletzt": "2026-10-31",
     "lesungen": [
       {
         "am": "2026-10-04",
@@ -2672,7 +2844,7 @@
         "ausgabe": "2027-02-19",
         "aenderungOhneDatum": true,
         "qs": "ok",
-        "bildfassung": 2,
+        "bildfassung": 3,
         "markierung": [
           0.34134615384615385,
           0.7880816494421307,
@@ -2685,7 +2857,7 @@
     ]
   },
   "https://www.anisearch.de/article/201866": {
-    "zuletzt": "2026-10-23",
+    "zuletzt": "2026-10-31",
     "lesungen": [
       {
         "am": "2026-10-04",
@@ -2724,7 +2896,7 @@
         "ausgabe": "2027-02-19",
         "aenderungOhneDatum": true,
         "qs": "ok",
-        "bildfassung": 2,
+        "bildfassung": 3,
         "markierung": [
           0.34134615384615385,
           0.7880816494421307,
@@ -2777,7 +2949,7 @@
     ]
   },
   "https://www.anisearch.de/article/189227,kamisama-kiss-staffel-2-gesamtausgabe-premium-collection-blu-ray": {
-    "zuletzt": "2026-10-23",
+    "zuletzt": "2026-10-31",
     "lesungen": [
       {
         "am": "2026-10-04",
@@ -2799,7 +2971,7 @@
         "hash": "180da82260749af4",
         "hf": 2,
         "qs": "ok",
-        "bildfassung": 2,
+        "bildfassung": 3,
         "markierung": [
           0.28846153846153844,
           -0.02545699808034865,
@@ -2812,7 +2984,7 @@
     ]
   },
   "https://www.anisearch.de/article/189227": {
-    "zuletzt": "2026-10-23",
+    "zuletzt": "2026-10-31",
     "lesungen": [
       {
         "am": "2026-10-04",
@@ -2834,7 +3006,7 @@
         "hash": "180da82260749af4",
         "hf": 2,
         "qs": "ok",
-        "bildfassung": 2,
+        "bildfassung": 3,
         "markierung": [
           0.28846153846153844,
           -0.02545699808034865,
@@ -2847,7 +3019,7 @@
     ]
   },
   "https://www.anisearch.de/article/216795,a-silent-voice-steelbook-blu-ray": {
-    "zuletzt": "2026-10-23",
+    "zuletzt": "2026-10-31",
     "lesungen": [
       {
         "am": "2026-10-04",
@@ -2863,11 +3035,27 @@
           0.025806851843235782
         ],
         "bildfassung": 2
+      },
+      {
+        "am": "2026-10-31",
+        "hash": "891d1ea40cf0f49c",
+        "hf": 2,
+        "ausgabe": "2026-11-06",
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.625,
+          0.2704456284444987,
+          0.34615384615384615,
+          0.37097537517365614
+        ],
+        "bild": "www.anisearch.de/01a35175524b06de/2026-10-31-891d1ea40cf0f49c.webp",
+        "text": "www.anisearch.de/01a35175524b06de/2026-10-31-891d1ea40cf0f49c.txt.gz"
       }
     ]
   },
   "https://www.anisearch.de/article/216795": {
-    "zuletzt": "2026-10-23",
+    "zuletzt": "2026-10-31",
     "lesungen": [
       {
         "am": "2026-10-04",
@@ -2883,11 +3071,27 @@
           0.025806851843235782
         ],
         "bildfassung": 2
+      },
+      {
+        "am": "2026-10-31",
+        "hash": "891d1ea40cf0f49c",
+        "hf": 2,
+        "ausgabe": "2026-11-06",
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.625,
+          0.2704456284444987,
+          0.34615384615384615,
+          0.37097537517365614
+        ],
+        "bild": "www.anisearch.de/11e3a3ca89c401b2/2026-10-31-891d1ea40cf0f49c.webp",
+        "text": "www.anisearch.de/11e3a3ca89c401b2/2026-10-31-891d1ea40cf0f49c.txt.gz"
       }
     ]
   },
   "https://www.anisearch.de/article/215324,hallo-kurt-gesamtausgabe-re-release": {
-    "zuletzt": "2026-10-23",
+    "zuletzt": "2026-10-31",
     "lesungen": [
       {
         "am": "2026-10-04",
@@ -2897,17 +3101,17 @@
         "text": "www.anisearch.de/eeed757f23174393/2026-10-04-a4147e00a96be6fb.txt.gz",
         "qs": "ok",
         "markierung": [
-          0.28846153846153844,
-          -0.027543879345832866,
-          0.25769230769230766,
-          0.031136559260506718
+          0.625,
+          0.2413158970167552,
+          0.34615384615384615,
+          0.4727285111020297
         ],
-        "bildfassung": 2
+        "bildfassung": 3
       }
     ]
   },
   "https://www.anisearch.de/article/215324": {
-    "zuletzt": "2026-10-23",
+    "zuletzt": "2026-10-31",
     "lesungen": [
       {
         "am": "2026-10-04",
@@ -2917,12 +3121,12 @@
         "text": "www.anisearch.de/a11c497911ca2e84/2026-10-04-a4147e00a96be6fb.txt.gz",
         "qs": "ok",
         "markierung": [
-          0.28846153846153844,
-          -0.027543879345832866,
-          0.25769230769230766,
-          0.031136559260506718
+          0.625,
+          0.2413158970167552,
+          0.34615384615384615,
+          0.4727285111020297
         ],
-        "bildfassung": 2
+        "bildfassung": 3
       }
     ]
   },
@@ -2967,7 +3171,7 @@
     ]
   },
   "https://www.anisearch.de/article/210266,sailor-moon-s-gesamtausgabe-limited-steelbook-edition-blu-ray": {
-    "zuletzt": "2026-10-23",
+    "zuletzt": "2026-10-31",
     "lesungen": [
       {
         "am": "2026-10-04",
@@ -2977,17 +3181,17 @@
         "text": "www.anisearch.de/ef4f2beea9e105e0/2026-10-04-4eebd4b8e4790444.txt.gz",
         "qs": "ok",
         "markierung": [
-          0.17307692307692307,
-          0.6082725060827251,
-          0.3173076923076923,
-          0.35279805352798055
+          0.625,
+          0.09403265531445072,
+          0.34615384615384615,
+          0.16416832986538707
         ],
-        "bildfassung": 2
+        "bildfassung": 3
       }
     ]
   },
   "https://www.anisearch.de/article/210266": {
-    "zuletzt": "2026-10-23",
+    "zuletzt": "2026-10-31",
     "lesungen": [
       {
         "am": "2026-10-04",
@@ -2997,12 +3201,12 @@
         "text": "www.anisearch.de/f87f87034b555a9e/2026-10-04-4eebd4b8e4790444.txt.gz",
         "qs": "ok",
         "markierung": [
-          0.17307692307692307,
-          0.6082725060827251,
-          0.3173076923076923,
-          0.35279805352798055
+          0.625,
+          0.09403265531445072,
+          0.34615384615384615,
+          0.16416832986538707
         ],
-        "bildfassung": 2
+        "bildfassung": 3
       }
     ]
   },
@@ -3047,7 +3251,7 @@
     ]
   },
   "https://www.anisearch.de/article/203257,sailor-moon-r-gesamtausgabe-limited-steelbook-edition-blu-ray": {
-    "zuletzt": "2026-10-23",
+    "zuletzt": "2026-10-31",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -3055,19 +3259,19 @@
         "ausgabe": "2026-11-20",
         "qs": "ok",
         "markierung": [
-          0.5096153846153846,
-          0.6082725060827251,
-          0.3173076923076923,
-          0.35279805352798055
+          0.625,
+          0.08593424078080583,
+          0.34615384615384615,
+          0.14301514460624995
         ],
         "bild": "www.anisearch.de/06f4443aafd19850/2026-10-05-e959f2ab2ef34539.webp",
         "text": "www.anisearch.de/06f4443aafd19850/2026-10-05-e959f2ab2ef34539.txt.gz",
-        "bildfassung": 2
+        "bildfassung": 3
       }
     ]
   },
   "https://www.anisearch.de/article/203257": {
-    "zuletzt": "2026-10-23",
+    "zuletzt": "2026-10-31",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -3075,14 +3279,14 @@
         "ausgabe": "2026-11-20",
         "qs": "ok",
         "markierung": [
-          0.5096153846153846,
-          0.6082725060827251,
-          0.3173076923076923,
-          0.35279805352798055
+          0.625,
+          0.08593424078080583,
+          0.34615384615384615,
+          0.14301514460624995
         ],
         "bild": "www.anisearch.de/62a7696baaec154f/2026-10-05-e959f2ab2ef34539.webp",
         "text": "www.anisearch.de/62a7696baaec154f/2026-10-05-e959f2ab2ef34539.txt.gz",
-        "bildfassung": 2
+        "bildfassung": 3
       }
     ]
   },
@@ -3127,7 +3331,7 @@
     ]
   },
   "https://www.anisearch.de/article/216797,miss-kobayashis-dragon-maid-gesamtausgabe-steelbook-blu-ray": {
-    "zuletzt": "2026-10-24",
+    "zuletzt": "2026-10-31",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -3159,11 +3363,22 @@
         ],
         "bild": "www.anisearch.de/e1450fb8c546e8e5/2026-10-24-213403999ca3d325.webp",
         "text": "www.anisearch.de/e1450fb8c546e8e5/2026-10-24-213403999ca3d325.txt.gz"
+      },
+      {
+        "am": "2026-10-31",
+        "hash": "239c468194a2f16d",
+        "hf": 2,
+        "ausgabe": "2026-12-04",
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "bild": "www.anisearch.de/e1450fb8c546e8e5/2026-10-31-239c468194a2f16d.webp",
+        "text": "www.anisearch.de/e1450fb8c546e8e5/2026-10-31-239c468194a2f16d.txt.gz"
       }
     ]
   },
   "https://www.anisearch.de/article/216797": {
-    "zuletzt": "2026-10-24",
+    "zuletzt": "2026-10-31",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -3178,12 +3393,12 @@
         ],
         "bild": "www.anisearch.de/6d03e104c3428300/2026-10-05-239c468194a2f16d.webp",
         "text": "www.anisearch.de/6d03e104c3428300/2026-10-05-239c468194a2f16d.txt.gz",
-        "bildfassung": 2
+        "bildfassung": 3
       }
     ]
   },
   "https://www.anisearch.de/article/210291,sailor-moon-sailor-stars-gesamtausgabe-limited-steelbook-edition-blu-ray": {
-    "zuletzt": "2026-10-24",
+    "zuletzt": "2026-10-31",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -3191,14 +3406,14 @@
         "ausgabe": "2027-02-19",
         "qs": "ok",
         "markierung": [
-          0.5096153846153846,
-          0.6082725060827251,
-          0.3173076923076923,
-          0.35279805352798055
+          0.625,
+          0.11698860822189203,
+          0.34615384615384615,
+          0.21370975730559683
         ],
         "bild": "www.anisearch.de/eb5608150d05e040/2026-10-05-cb66b3ad55c157ba.webp",
         "text": "www.anisearch.de/eb5608150d05e040/2026-10-05-cb66b3ad55c157ba.txt.gz",
-        "bildfassung": 2
+        "bildfassung": 3
       }
     ]
   },
@@ -10294,7 +10509,7 @@
     ]
   },
   "https://www.disneyplus.com/de-de/browse/entity-71bcb11f-763c-4609-8965-540eaf7fa795": {
-    "zuletzt": "2026-10-05",
+    "zuletzt": "2026-10-31",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -10302,6 +10517,21 @@
         "qs": "ok",
         "bild": "www.disneyplus.com/72e3cfd8414b4349/2026-10-05-b89dc5d44a5c516e.webp",
         "text": "www.disneyplus.com/72e3cfd8414b4349/2026-10-05-b89dc5d44a5c516e.txt.gz"
+      },
+      {
+        "am": "2026-10-31",
+        "hash": "837692b2d641ad12",
+        "hf": 2,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0,
+          0,
+          1,
+          0.05083583714786957
+        ],
+        "bild": "www.disneyplus.com/72e3cfd8414b4349/2026-10-31-837692b2d641ad12.webp",
+        "text": "www.disneyplus.com/72e3cfd8414b4349/2026-10-31-837692b2d641ad12.txt.gz"
       }
     ]
   },
@@ -11147,7 +11377,7 @@
     ]
   },
   "https://www.anime2you.de/news/1052846/animoon-crunchyroll-ksm-25-verschiebungen/": {
-    "zuletzt": "2026-10-23",
+    "zuletzt": "2026-10-31",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -11283,6 +11513,37 @@
         },
         "bild": "www.anime2you.de/761e2b5d7772c6ec/2026-10-23-894f75d465799d21.webp",
         "text": "www.anime2you.de/761e2b5d7772c6ec/2026-10-23-894f75d465799d21.txt.gz"
+      },
+      {
+        "am": "2026-10-31",
+        "hash": "317c87539762ad80",
+        "hf": 2,
+        "veroeffentlicht": "2026-09-22",
+        "aktualisiert": "2026-09-25",
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.7428098626510011,
+          0.8942307692307693,
+          0.22329968558662916
+        ],
+        "markierungen": {
+          "184237": [
+            0.038461538461538464,
+            0.7428098626510011,
+            0.8942307692307693,
+            0.22329968558662916
+          ]
+        },
+        "ohneMarke": {
+          "1292": "nicht-gefunden",
+          "21776": "nicht-gefunden",
+          "107717": "nicht-gefunden"
+        },
+        "bild": "www.anime2you.de/761e2b5d7772c6ec/2026-10-31-317c87539762ad80.webp",
+        "text": "www.anime2you.de/761e2b5d7772c6ec/2026-10-31-317c87539762ad80.txt.gz"
       }
     ]
   },
@@ -11583,7 +11844,7 @@
     ]
   },
   "https://www.anime2you.de/news/1053610/disney-plus-spy-x-family-und-mehr/": {
-    "zuletzt": "2026-10-23",
+    "zuletzt": "2026-10-31",
     "lesungen": [
       {
         "am": "2026-10-06",
@@ -11626,6 +11887,25 @@
         "markierungen": {},
         "bild": "www.anime2you.de/cffde5ea96485cb7/2026-10-23-0afcd1628f8b7678.webp",
         "text": "www.anime2you.de/cffde5ea96485cb7/2026-10-23-0afcd1628f8b7678.txt.gz"
+      },
+      {
+        "am": "2026-10-31",
+        "hash": "dadd7f69d70d9b73",
+        "hf": 2,
+        "veroeffentlicht": "2026-09-24",
+        "aktualisiert": "2026-09-27",
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierungen": {},
+        "ohneMarke": {
+          "1735": "nicht-gefunden",
+          "140960": "nicht-gefunden",
+          "142838": "nicht-gefunden",
+          "158927": "nicht-gefunden"
+        },
+        "bild": "www.anime2you.de/cffde5ea96485cb7/2026-10-31-dadd7f69d70d9b73.webp",
+        "text": "www.anime2you.de/cffde5ea96485cb7/2026-10-31-dadd7f69d70d9b73.txt.gz"
       }
     ]
   },
@@ -11738,7 +12018,7 @@
     ]
   },
   "https://www.anime2you.de/news/1057709/netflix-ranma-12-staffel-3-deutsche-synchro/": {
-    "zuletzt": "2026-10-23",
+    "zuletzt": "2026-10-31",
     "lesungen": [
       {
         "am": "2026-10-06",
@@ -11790,11 +12070,29 @@
         ],
         "bild": "www.anime2you.de/1f0c53dca2992c79/2026-10-23-cd449c42b7060e2e.webp",
         "text": "www.anime2you.de/1f0c53dca2992c79/2026-10-23-cd449c42b7060e2e.txt.gz"
+      },
+      {
+        "am": "2026-10-31",
+        "hash": "46931d102442b8a4",
+        "hf": 2,
+        "veroeffentlicht": "2026-10-05",
+        "aktualisiert": "2026-10-08",
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.6819173281842237,
+          0.8942307692307693,
+          0.28146678109132517
+        ],
+        "bild": "www.anime2you.de/1f0c53dca2992c79/2026-10-31-46931d102442b8a4.webp",
+        "text": "www.anime2you.de/1f0c53dca2992c79/2026-10-31-46931d102442b8a4.txt.gz"
       }
     ]
   },
   "https://collectors-junkies.com/code-geass-lelouch-of-the-rebellion-staffel-12-gesamtausgabe-auf-blu-ray-ab-september-2026/": {
-    "zuletzt": "2026-10-23",
+    "zuletzt": "2026-10-31",
     "lesungen": [
       {
         "am": "2026-10-06",
@@ -11889,11 +12187,44 @@
         },
         "bild": "collectors-junkies.com/49d8bffb16f1bb77/2026-10-23-c50ecc1af3f2920c.webp",
         "text": "collectors-junkies.com/49d8bffb16f1bb77/2026-10-23-c50ecc1af3f2920c.txt.gz"
+      },
+      {
+        "am": "2026-10-31",
+        "hash": "6c5653d96415f54a",
+        "hf": 2,
+        "veroeffentlicht": "2026-07-06",
+        "aktualisiert": "2026-08-11",
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.07884615384615384,
+          0.17641129032258066,
+          0.8423076923076923,
+          0.1975806451612903
+        ],
+        "markierungen": {
+          "1575": [
+            0.07884615384615384,
+            0.17641129032258066,
+            0.8423076923076923,
+            0.1975806451612903
+          ],
+          "2904": [
+            0.07884615384615384,
+            0.17641129032258066,
+            0.8423076923076923,
+            0.1975806451612903
+          ]
+        },
+        "ohneMarke": {},
+        "bild": "collectors-junkies.com/49d8bffb16f1bb77/2026-10-31-6c5653d96415f54a.webp",
+        "text": "collectors-junkies.com/49d8bffb16f1bb77/2026-10-31-6c5653d96415f54a.txt.gz"
       }
     ]
   },
   "https://www.manime.de/news/rtl-toggo-zensiert-dragon-ball-daima/0064225/": {
-    "zuletzt": "2026-10-23",
+    "zuletzt": "2026-10-31",
     "lesungen": [
       {
         "am": "2026-10-06",
@@ -11909,7 +12240,7 @@
         ],
         "bild": "www.manime.de/375fe1be095d1128/2026-10-06-35a7b46fa6880aae.webp",
         "text": "www.manime.de/375fe1be095d1128/2026-10-06-35a7b46fa6880aae.txt.gz",
-        "bildfassung": 2
+        "bildfassung": 3
       }
     ]
   },
@@ -16172,49 +16503,61 @@
     ]
   },
   "https://www.joyn.de/serien/dororo": {
-    "zuletzt": "2026-10-23",
+    "zuletzt": "2026-10-31",
     "lesungen": [
       {
         "am": "2026-10-20",
         "hash": "c26df0a840a9c267",
         "hf": 2,
         "qs": "ok",
-        "bildfassung": 2,
+        "bildfassung": 3,
         "bild": "www.joyn.de/53b4e349807cd59b/2026-10-20-c26df0a840a9c267.webp",
-        "text": "www.joyn.de/53b4e349807cd59b/2026-10-20-c26df0a840a9c267.txt.gz"
+        "text": "www.joyn.de/53b4e349807cd59b/2026-10-20-c26df0a840a9c267.txt.gz",
+        "markierung": [
+          0,
+          0,
+          1,
+          0.045766465761382616
+        ]
       }
     ]
   },
   "https://www.joyn.de/serien/hells-paradise": {
-    "zuletzt": "2026-10-23",
+    "zuletzt": "2026-10-31",
     "lesungen": [
       {
         "am": "2026-10-20",
         "hash": "f17cf49be0eb2631",
         "hf": 2,
         "qs": "ok",
-        "bildfassung": 2,
+        "bildfassung": 3,
         "bild": "www.joyn.de/315681c176a5458b/2026-10-20-f17cf49be0eb2631.webp",
-        "text": "www.joyn.de/315681c176a5458b/2026-10-20-f17cf49be0eb2631.txt.gz"
+        "text": "www.joyn.de/315681c176a5458b/2026-10-20-f17cf49be0eb2631.txt.gz",
+        "markierung": [
+          0,
+          0,
+          1,
+          0.045766465761382616
+        ]
       }
     ]
   },
   "https://www.joyn.de/filme/naruto-shippuden-the-movie-the-lost-tower": {
-    "zuletzt": "2026-10-23",
+    "zuletzt": "2026-10-31",
     "lesungen": [
       {
         "am": "2026-10-20",
         "hash": "fffbe643d07e8031",
         "hf": 2,
         "qs": "ok",
-        "bildfassung": 2,
+        "bildfassung": 3,
         "bild": "www.joyn.de/2c401cc343398e19/2026-10-20-fffbe643d07e8031.webp",
         "text": "www.joyn.de/2c401cc343398e19/2026-10-20-fffbe643d07e8031.txt.gz"
       }
     ]
   },
   "https://www.joyn.de/filme/naruto-shippuden-the-movie-blood-prison": {
-    "zuletzt": "2026-10-23",
+    "zuletzt": "2026-10-31",
     "lesungen": [
       {
         "am": "2026-10-20",
@@ -16224,34 +16567,56 @@
         "bildfassung": 2,
         "bild": "www.joyn.de/0080c66c3aeed85c/2026-10-20-8ba0fc94b3657799.webp",
         "text": "www.joyn.de/0080c66c3aeed85c/2026-10-20-8ba0fc94b3657799.txt.gz"
+      },
+      {
+        "am": "2026-10-31",
+        "hash": "fffbe643d07e8031",
+        "hf": 2,
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "bild": "www.joyn.de/0080c66c3aeed85c/2026-10-31-fffbe643d07e8031.webp",
+        "text": "www.joyn.de/0080c66c3aeed85c/2026-10-31-fffbe643d07e8031.txt.gz"
       }
     ]
   },
   "https://www.joyn.de/filme/the-last-naruto-the-movie": {
-    "zuletzt": "2026-10-23",
+    "zuletzt": "2026-10-31",
     "lesungen": [
       {
         "am": "2026-10-20",
         "hash": "28d9311d45d90feb",
         "hf": 2,
         "qs": "ok",
-        "bildfassung": 2,
+        "bildfassung": 3,
         "bild": "www.joyn.de/d9d748acf253412c/2026-10-20-28d9311d45d90feb.webp",
-        "text": "www.joyn.de/d9d748acf253412c/2026-10-20-28d9311d45d90feb.txt.gz"
+        "text": "www.joyn.de/d9d748acf253412c/2026-10-20-28d9311d45d90feb.txt.gz",
+        "markierung": [
+          0.038461538461538464,
+          0.7394499458029432,
+          0.9230769230769231,
+          0.025389943230879463
+        ]
       }
     ]
   },
   "https://www.joyn.de/filme/boruto-naruto-the-movie": {
-    "zuletzt": "2026-10-23",
+    "zuletzt": "2026-10-31",
     "lesungen": [
       {
         "am": "2026-10-20",
         "hash": "55f033b47578ee47",
         "hf": 2,
         "qs": "ok",
-        "bildfassung": 2,
+        "bildfassung": 3,
         "bild": "www.joyn.de/13e1f06966203f3d/2026-10-20-55f033b47578ee47.webp",
-        "text": "www.joyn.de/13e1f06966203f3d/2026-10-20-55f033b47578ee47.txt.gz"
+        "text": "www.joyn.de/13e1f06966203f3d/2026-10-20-55f033b47578ee47.txt.gz",
+        "markierung": [
+          0.038461538461538464,
+          0.7394499458029432,
+          0.9230769230769231,
+          0.025389943230879463
+        ]
       }
     ]
   },
@@ -16675,6 +17040,45 @@
         ],
         "bild": "www.anime2you.de/16ff8057f4546a96/2026-10-30-732381953c031606.webp",
         "text": "www.anime2you.de/16ff8057f4546a96/2026-10-30-732381953c031606.txt.gz"
+      }
+    ]
+  },
+  "https://www.anime2you.de/news/1065256/prime-video-goblin-slayer-staffel-2-und-mehr/": {
+    "zuletzt": "2026-10-31",
+    "lesungen": [
+      {
+        "am": "2026-10-31",
+        "hash": "60ca4233e6092c62",
+        "hf": 2,
+        "veroeffentlicht": "2026-10-29",
+        "aktualisiert": "2026-10-30",
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.7221268683401273,
+          0.8942307692307693,
+          0.24125724093542159
+        ],
+        "markierungen": {
+          "11433": [
+            0.038461538461538464,
+            0.7221268683401273,
+            0.8942307692307693,
+            0.24125724093542159
+          ],
+          "20462": [
+            0.038461538461538464,
+            0.7221268683401273,
+            0.8942307692307693,
+            0.24125724093542159
+          ]
+        },
+        "ohneMarke": {
+          "129188": "nicht-gefunden"
+        },
+        "bild": "www.anime2you.de/972c5c867cbac703/2026-10-31-60ca4233e6092c62.webp",
+        "text": "www.anime2you.de/972c5c867cbac703/2026-10-31-60ca4233e6092c62.txt.gz"
       }
     ]
   }

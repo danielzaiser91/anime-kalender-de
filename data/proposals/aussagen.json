@@ -1,6 +1,6 @@
 {
   "format": 2,
-  "stand": "2026-10-30",
+  "stand": "2026-10-31",
   "hinweis": "Vorschlagsmodus: nur gelesen, nie übernommen — docs/wissen/sammelartikel-poc.md (Abschnitt „Vorschlagslauf\"). Schreiber: pipeline/fetch-sammelartikel.ts",
   "aussagen": [
     {
@@ -12171,6 +12171,83 @@
           "hatSynchroBelege": false
         },
         "inhaltZeichen": 388
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1065975/disney-plus-neu-im-november-2026/|Honey Lemon Soda||start|disneyplus",
+      "erstGesehen": "2026-10-31",
+      "fingerabdruck": "ed36317cde03",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1065975/disney-plus-neu-im-november-2026/",
+          "veroeffentlicht": "2026-10-30",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Honey Lemon Soda",
+        "art": "start",
+        "plattformen": [
+          "disneyplus"
+        ],
+        "datum": "2026-11-03",
+        "datumBedeutung": "genannt",
+        "deutsch": "ja",
+        "folgen": 12,
+        "konfidenz": 0.95,
+        "gruende": [],
+        "zitat": "3. November: »Honey Lemon Soda«\n3. November: »Honey Lemon Soda«\nEpisoden: 12 (komplett)\nSprache: Deutsch, Japanisch (UT)\nStream: Noch nicht verfügbar",
+        "zuordnung": {
+          "anilistId": 175443,
+          "name": "Honey Lemon Soda",
+          "wie": "name-genau"
+        },
+        "bestand": {
+          "status": "bekannt",
+          "release": {
+            "slug": "honey-lemon-soda-disneyplus",
+            "firstEpisodeDate": "2026-11-03"
+          },
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 228
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1065975/disney-plus-neu-im-november-2026/|One Punch Man|Staffel 1 und 2|start|disneyplus",
+      "erstGesehen": "2026-10-31",
+      "fingerabdruck": "8a6e539a7d89",
+      "offenOderUnklar": true,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1065975/disney-plus-neu-im-november-2026/",
+          "veroeffentlicht": "2026-10-30",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "One Punch Man",
+        "zusatz": "Staffel 1 und 2",
+        "art": "start",
+        "plattformen": [
+          "disneyplus"
+        ],
+        "datum": "2026-11-24",
+        "datumBedeutung": "genannt",
+        "deutsch": "nein",
+        "folgen": 24,
+        "konfidenz": 0.95,
+        "gruende": [],
+        "zitat": "24. November: »One Punch Man« – Staffel 1 und 2\n24. November: »One Punch Man« – Staffel 1 und 2\nEpisoden: 24 (komplett)\nSprache: Noch nicht bekannt\nStream: Noch nicht verfügbar",
+        "zuordnung": {
+          "anilistId": 21087,
+          "name": "One Punch Man",
+          "wie": "name-genau",
+          "abstandTage": 4068,
+          "vorbehalt": "Zusatz „Staffel 1 und 2\" nicht aufgelöst"
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 396
       }
     }
   ]

@@ -1,5 +1,5 @@
 # Crunchyroll: was noch zu prüfen ist
 
-Stand 2026-10-30 · **nichts offen**.
+Stand 2026-10-31 · **nichts offen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**.

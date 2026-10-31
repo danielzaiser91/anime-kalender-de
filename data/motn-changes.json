@@ -2,7 +2,7 @@
   "verbrauch": {
     "2026-08": 55,
     "2026-09": 68,
-    "2026-10": 97
+    "2026-10": 99
   },
   "gesehen": {
     "26341901:netflix": {
@@ -2727,7 +2727,7 @@
       "imdbId": "tt2805096",
       "tmdbId": "tv/58841",
       "dienst": "prime",
-      "am": "2026-10-26",
+      "am": "2026-10-30",
       "deutsch": true,
       "deutschBeiDienst": true
     },
@@ -4879,7 +4879,7 @@
       "imdbId": "tt2261391",
       "tmdbId": "tv/44006",
       "dienst": "prime",
-      "am": "2026-10-22",
+      "am": "2026-10-30",
       "deutsch": true,
       "deutschBeiDienst": true
     },
@@ -7028,8 +7028,9 @@
       "imdbId": "tt2632424",
       "tmdbId": "tv/46896",
       "dienst": "prime",
-      "am": "2026-10-10",
-      "deutsch": true
+      "am": "2026-10-30",
+      "deutsch": true,
+      "deutschBeiDienst": false
     },
     "removed:131:prime": {
       "art": "removed",
@@ -9404,7 +9405,106 @@
       "am": "2026-10-29",
       "deutsch": false,
       "deutschBeiDienst": false
+    },
+    "new:21123:prime": {
+      "art": "new",
+      "titel": "Waiting in the Summer",
+      "originalTitel": "あの夏で待ってる",
+      "imdbId": "tt2187287",
+      "tmdbId": "tv/42499",
+      "dienst": "prime",
+      "am": "2026-10-30",
+      "deutsch": true,
+      "deutschBeiDienst": true
+    },
+    "new:78211:prime": {
+      "art": "new",
+      "titel": "La kermesse des brigands",
+      "originalTitel": "La kermesse des brigands",
+      "imdbId": "tt0173566",
+      "tmdbId": "tv/60881",
+      "dienst": "prime",
+      "am": "2026-10-30",
+      "deutsch": true,
+      "deutschBeiDienst": true
+    },
+    "new:17677:prime": {
+      "art": "new",
+      "titel": "The Machinery",
+      "originalTitel": "Maskineriet",
+      "imdbId": "tt11806034",
+      "tmdbId": "tv/104303",
+      "dienst": "prime",
+      "am": "2026-10-30",
+      "deutsch": true,
+      "deutschBeiDienst": true
+    },
+    "new:15262:prime": {
+      "art": "new",
+      "titel": "Honour",
+      "originalTitel": "Heder",
+      "imdbId": "tt9318602",
+      "tmdbId": "tv/93027",
+      "dienst": "prime",
+      "am": "2026-10-30",
+      "deutsch": true,
+      "deutschBeiDienst": true
+    },
+    "new:8243004:prime": {
+      "art": "new",
+      "titel": "Passenger",
+      "originalTitel": "Passenger",
+      "imdbId": "tt18827746",
+      "tmdbId": "tv/241099",
+      "dienst": "prime",
+      "am": "2026-10-30",
+      "deutsch": true,
+      "deutschBeiDienst": true
+    },
+    "new:26894672:netflix": {
+      "art": "new",
+      "titel": "A Couple of Lies",
+      "originalTitel": "Bytet",
+      "imdbId": "tt42767924",
+      "tmdbId": "tv/336240",
+      "dienst": "netflix",
+      "am": "2026-10-30",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "new:27065890:netflix": {
+      "art": "new",
+      "titel": "Akka",
+      "originalTitel": "அக்கா",
+      "imdbId": "tt29625288",
+      "tmdbId": "tv/243555",
+      "dienst": "netflix",
+      "am": "2026-10-30",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "new:27067063:netflix": {
+      "art": "new",
+      "titel": "Dead-End Job",
+      "originalTitel": "꿀알바",
+      "imdbId": "tt36458668",
+      "tmdbId": "tv/289517",
+      "dienst": "netflix",
+      "am": "2026-10-30",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "new:27068296:netflix": {
+      "art": "new",
+      "titel": "The Gift of Deceit",
+      "originalTitel": "Dom de Iludir",
+      "imdbId": "tt45854934",
+      "tmdbId": "tv/334700",
+      "dienst": "netflix",
+      "am": "2026-10-30",
+      "deutsch": false,
+      "deutschBeiDienst": false
     }
   },
-  "fetchedAt": "2026-10-30T04:10:22.100Z"
+  "fetchedAt": "2026-10-31T04:09:58.292Z"
 }

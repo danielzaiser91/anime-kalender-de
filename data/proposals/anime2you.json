@@ -1,12 +1,12 @@
 {
-  "scrapedAt": "2026-10-30T18:02:55.549Z",
+  "scrapedAt": "2026-10-31T04:13:21.511Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 40,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 11,
-    "schon in einem Rubrik-Feed gelesen": 10,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 3,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 11,
+    "schon in einem Rubrik-Feed gelesen": 32,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 8,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 52,
     "Sprachhinweis älter als 45 Tage": 4
   },
   "proposals": [
@@ -39,10 +39,6 @@
         {
           "iso": "2026-11-02",
           "context": "is zu 92 % angeboten werden. Wir fassen die Details zusammen. Nur bis 2. November 2026 Die Rabattaktion läuft vom 30. Oktober bis einschließ"
-        },
-        {
-          "iso": "2026-10-30",
-          "context": "Details zusammen. Nur bis 2. November 2026 Die Rabattaktion läuft vom 30. Oktober bis einschließlich 2. November 2026 und gilt nur solange d"
         }
       ],
       "dub": "unklar",
@@ -90,7 +86,27 @@
         }
       ],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "sammel": [
+        {
+          "titel": "Honey Lemon Soda",
+          "datum": "2026-11-03",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [],
+          "folgen": 12
+        },
+        {
+          "titel": "One Punch Man",
+          "zusatz": "Staffel 1 und 2",
+          "datum": "2026-11-24",
+          "deutsch": false,
+          "woechentlich": false,
+          "stream": [],
+          "folgen": 24
+        }
+      ],
+      "sammelGelesen": "2026-10-31"
     },
     {
       "articleTitle": "19,99 Euro pro Staffel: polyband startet große »Pokémon«-Rabattaktion",
@@ -581,7 +597,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-10-28"
+      "sammelGelesen": "2026-10-31"
     },
     {
       "articleTitle": "Crunchyroll ergänzt zwei weitere Anime-Neuzugänge auf Deutsch",
@@ -1152,7 +1168,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-10-28"
+      "sammelGelesen": "2026-10-31"
     },
     {
       "articleTitle": "ProSieben FUN zeigt »Akame ga KILL!« als Pay-TV-Premiere",
@@ -1383,7 +1399,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-10-28"
+      "sammelGelesen": "2026-10-31"
     },
     {
       "articleTitle": "Zwei Anime-Neuzugänge ab sofort auf Netflix verfügbar",
@@ -1922,7 +1938,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-10-28"
+      "sammelGelesen": "2026-10-31"
     },
     {
       "articleTitle": "Blu-ray-Design von »My Love Story with Yamada-kun at Lv999« + Extras",
@@ -2881,7 +2897,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-26"
+      "sammelGelesen": "2026-10-31"
     },
     {
       "articleTitle": "Nutzer verlieren gekaufte Inhalte: Tapas bestätigt Abschaltung für 2027",
@@ -5291,19 +5307,6 @@
         }
       ],
       "sammelGelesen": "2026-10-19"
-    },
-    {
-      "articleTitle": "Crunchyroll zeigt 13 Anime-Neustarts im Herbst 2026 auf Deutsch",
-      "articleUrl": "https://www.anime2you.de/news/1050694/crunchyroll-herbst-2026-synchros/",
-      "publishedAt": "2026-09-15",
-      "category": "streaming",
-      "platforms": [
-        "crunchyroll"
-      ],
-      "dates": [],
-      "dub": "ja",
-      "hinweis": "sprache",
-      "alreadyCurated": false
     },
     {
       "articleTitle": "Netflix nimmt ersten »Demon Slayer: Infinity Castle«-Film ins Programm",

@@ -207,6 +207,14 @@ pruefe('Abnahme, Urteil für anderen Stand: nichts gepostet', JSON.stringify(aAn
 const token = laufe({ ...basis, protokoll: 'x ghp_abcdef y\n' })
 pruefe('Token im Protokoll: Kommentar enthält das Token nicht', !token.kommentar.includes('ghp_abcdef') && token.kommentar.includes('verworfen'), token.kommentar)
 
+// PR 2436: 13 Züge bei Grenze 12 ließen die Action scheitern, obwohl ein "ok" geschrieben war. Jeder Prüfer-Schritt darf
+// scheitern, ohne den Lauf zu färben; ob es ein Urteil gibt, entscheidet allein der Freigabe-Schritt (Fall "Urteil fehlt" oben).
+const pruefSchritte = wf.jobs.pruefen.steps.filter((s) => String(s.uses ?? '').startsWith('anthropics/claude-code-action'))
+pruefe('drei Prüfer-Schritte', pruefSchritte.length === 3)
+for (const s of pruefSchritte) pruefe(`Zugbudget-Fehler färbt den Lauf nicht: ${s.name}`, s['continue-on-error'] === true)
+pruefe('Freigabe-Schritt läuft immer und liegt nach allen Prüfer-Schritten',
+  freigabe.if === 'always()' && pruefSchritte.every((s) => wf.jobs.pruefen.steps.indexOf(s) < wf.jobs.pruefen.steps.indexOf(freigabe)))
+
 if (fehler.length) {
   console.error(`pr-pruefer-freigabe.test: ${fehler.length} Fehler`)
   process.exit(1)

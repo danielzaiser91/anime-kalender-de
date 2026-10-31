@@ -1,6 +1,11 @@
 # Prüfungen von npm run check:logic, bis zu 6 gleichzeitig (tools/arbeiterpool.mjs), erster Fehler bricht ab.
 # Alphabetisch sortiert (check-logic-alle.mjs verlangt es): ein neuer Check kommt an die passende Stelle, nicht ans Ende.
 # Zwei Zweige, die verschiedene Checks ergänzen, ändern dann verschiedene Stellen und kollidieren nicht. Die Reihenfolge ist sonst egal.
+pipeline/check-09-2-linkpruefung-laufzeit.ts
+pipeline/check-09-4-1-serien-laufzeit.ts
+pipeline/check-09-4-2-bloecke-laufzeit.ts
+pipeline/check-09-4-3-katalog-laufzeit.ts
+pipeline/check-09-4-4-1-katalog-wege-laufzeit.ts
 pipeline/check-abruf-stempel.ts
 pipeline/check-abstand.ts
 pipeline/check-adn-anisearch.ts
@@ -60,6 +65,7 @@ pipeline/check-beleg-lauf.ts
 pipeline/check-beleg-marken.ts
 pipeline/check-beleg-stoerung.ts
 pipeline/check-belege-entfernt.ts
+pipeline/check-belege-riegel-schreiben.ts
 pipeline/check-belegstaerke-forum.ts
 pipeline/check-belegstaerke-handbelegt.ts
 pipeline/check-belegstaerke.ts
@@ -158,6 +164,9 @@ pipeline/check-folgen-datum.ts
 pipeline/check-folgen-erschienen-je-weg.ts
 pipeline/check-folgen-fremde-adressen-lauf.ts
 pipeline/check-folgen-fremde-adressen.ts
+pipeline/check-folgen-nummern-bau.ts
+pipeline/check-folgen-nummern-lauf.ts
+pipeline/check-folgen-nummern.ts
 pipeline/check-folgenblock.ts
 pipeline/check-folgenflaggen.ts
 pipeline/check-folgenzahl-belegt.ts
@@ -213,6 +222,7 @@ pipeline/check-kino-zuletzt.ts
 pipeline/check-kopf-menue.ts
 pipeline/check-kopfzeile-premiere.ts
 pipeline/check-laut-gleich.ts
+pipeline/check-leere-liste.ts
 pipeline/check-leerer-kasten.ts
 pipeline/check-leerzeichen-gleich.ts
 pipeline/check-leinwand-escape.ts
@@ -241,6 +251,7 @@ pipeline/check-netflix-staffel-ablauf.ts
 pipeline/check-netflix-staffeln.ts
 pipeline/check-netflix-umleitung-ablauf.ts
 pipeline/check-netflix-umleitung.ts
+pipeline/check-netflix-zweite-kennung.ts
 pipeline/check-neuigkeiten-panel.ts
 pipeline/check-news-altbestand.ts
 pipeline/check-news-einfrieren.ts
@@ -277,6 +288,7 @@ pipeline/check-prime-kanal.ts
 pipeline/check-prime-kaufweg-ablauf.ts
 pipeline/check-prime-kaufweg.ts
 pipeline/check-prime-nein-beleg.ts
+pipeline/check-prime-phase-laufzeit.ts
 pipeline/check-prime-pille.ts
 pipeline/check-prime-seite-richten.ts
 pipeline/check-prime-seiten-sperre.ts
@@ -342,6 +354,7 @@ pipeline/check-synchro-termin-offen.ts
 pipeline/check-takt.ts
 pipeline/check-telekom-annahme.ts
 pipeline/check-telekom-pille.ts
+pipeline/check-termin-offen-karte.ts
 pipeline/check-termin-pille.ts
 pipeline/check-termine-observed-lauf.ts
 pipeline/check-termine-uebersicht.ts
