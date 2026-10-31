@@ -913,9 +913,17 @@
       "am": "2026-10-29",
       "vorschlaege": 0
     },
+    "1064958": {
+      "am": "2026-10-31",
+      "vorschlaege": 1
+    },
     "1064990": {
       "am": "2026-10-29",
       "vorschlaege": 1
+    },
+    "1065007": {
+      "am": "2026-10-31",
+      "vorschlaege": 0
     },
     "1065042": {
       "am": "2026-10-29",
@@ -983,6 +991,34 @@
     "1065570": {
       "am": "2026-10-30",
       "vorschlaege": 0
+    },
+    "1065614": {
+      "am": "2026-10-31",
+      "vorschlaege": 2
+    },
+    "1065659": {
+      "am": "2026-10-31",
+      "vorschlaege": 1
+    },
+    "1065711": {
+      "am": "2026-10-31",
+      "vorschlaege": 0
+    },
+    "1065912": {
+      "am": "2026-10-31",
+      "vorschlaege": 4
+    },
+    "1065927": {
+      "am": "2026-10-31",
+      "vorschlaege": 6
+    },
+    "1065962": {
+      "am": "2026-10-31",
+      "vorschlaege": 0
+    },
+    "1065975": {
+      "am": "2026-10-31",
+      "vorschlaege": 2
     }
   },
   "vorschlaege": [
@@ -6980,7 +7016,9 @@
       "folgen": "20",
       "unsicher": null,
       "wochentag": "Freitag",
-      "warnungen": [],
+      "warnungen": [
+        "Uhrzeit widerspricht 23:55 (Artikel 1065927) – gegenlesen"
+      ],
       "artikelId": "1063716",
       "artikel": "»Anime Night« auf ProSieben MAXX kehrt verkürzt zurück",
       "quelle": "https://www.anime2you.de/news/1063716/prosieben-maxx-anime-night-kehrt-verkuerzt-zurueck/",
@@ -7023,7 +7061,8 @@
       "unsicher": null,
       "wochentag": "Samstag",
       "warnungen": [
-        "sender „ProSieben MAXX“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+        "sender „ProSieben MAXX“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "Uhrzeit widerspricht 23:55 (Artikel 1065927) – gegenlesen"
       ],
       "artikelId": "1063716",
       "artikel": "»Anime Night« auf ProSieben MAXX kehrt verkürzt zurück",
@@ -8277,6 +8316,327 @@
       "quelle": "https://www.anime2you.de/news/1065256/prime-video-goblin-slayer-staffel-2-und-mehr/",
       "veroeffentlicht": "2026-10-29",
       "gelesenAm": "2026-10-30"
+    },
+    {
+      "titel": "Solo Leveling",
+      "zitat": "Im November 2026 wird die »Anime Night« mit Wiederholungen von »Solo Leveling« und »Frieren: Nach dem Ende der Reise« zumindest in reduziertem Umfang wieder aufgenommen.",
+      "art": "ankuendigung",
+      "sprache": "unklar",
+      "plattform": "tv",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": "ProSieben MAXX",
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "sender „ProSieben MAXX“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1065927",
+      "artikel": "»Anime Night« auf ProSieben MAXX kehrt mit Film und TV-Premiere zurück",
+      "quelle": "https://www.anime2you.de/news/1065927/prosieben-maxx-anime-night-rueckkehr/",
+      "veroeffentlicht": "2026-10-30",
+      "gelesenAm": "2026-10-31"
+    },
+    {
+      "titel": "Frieren: Nach dem Ende der Reise",
+      "zitat": "Im November 2026 wird die »Anime Night« mit Wiederholungen von »Solo Leveling« und »Frieren: Nach dem Ende der Reise« zumindest in reduziertem Umfang wieder aufgenommen.",
+      "art": "ankuendigung",
+      "sprache": "unklar",
+      "plattform": "tv",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": "ProSieben MAXX",
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "sender „ProSieben MAXX“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1065927",
+      "artikel": "»Anime Night« auf ProSieben MAXX kehrt mit Film und TV-Premiere zurück",
+      "quelle": "https://www.anime2you.de/news/1065927/prosieben-maxx-anime-night-rueckkehr/",
+      "veroeffentlicht": "2026-10-30",
+      "gelesenAm": "2026-10-31"
+    },
+    {
+      "titel": "Detektiv Conan: Das 1-Million-Dollar-Pentagram",
+      "zitat": "20:15 Uhr: »Detektiv Conan: Das 1-Million-Dollar-Pentagram« Laufzeit: 111 Minuten Sprache: Deutsch",
+      "art": "start",
+      "sprache": "deutsch",
+      "plattform": "tv",
+      "datum": null,
+      "uhrzeit": "20:15",
+      "anbieter": null,
+      "sender": "ProSieben MAXX",
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "sender „ProSieben MAXX“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1065927",
+      "artikel": "»Anime Night« auf ProSieben MAXX kehrt mit Film und TV-Premiere zurück",
+      "quelle": "https://www.anime2you.de/news/1065927/prosieben-maxx-anime-night-rueckkehr/",
+      "veroeffentlicht": "2026-10-30",
+      "gelesenAm": "2026-10-31"
+    },
+    {
+      "titel": "Elainas Reise",
+      "zitat": "22:25 Uhr: »Elainas Reise« Episoden: Folge 1 bis 3 Sprache: Deutsch",
+      "art": "start",
+      "sprache": "deutsch",
+      "plattform": "tv",
+      "datum": null,
+      "uhrzeit": "22:25",
+      "anbieter": null,
+      "sender": "ProSieben MAXX",
+      "wochentage": null,
+      "folgen": "1 bis 3",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "sender „ProSieben MAXX“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1065927",
+      "artikel": "»Anime Night« auf ProSieben MAXX kehrt mit Film und TV-Premiere zurück",
+      "quelle": "https://www.anime2you.de/news/1065927/prosieben-maxx-anime-night-rueckkehr/",
+      "veroeffentlicht": "2026-10-30",
+      "gelesenAm": "2026-10-31"
+    },
+    {
+      "titel": "Solo Leveling",
+      "zitat": "23:55 Uhr: »Solo Leveling« – Staffel 2 Episoden: Folge 12 Sprache: Deutsch",
+      "art": "folgen",
+      "sprache": "deutsch",
+      "plattform": "tv",
+      "datum": null,
+      "uhrzeit": "23:55",
+      "anbieter": null,
+      "sender": "ProSieben MAXX",
+      "wochentage": null,
+      "folgen": "12",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "sender „ProSieben MAXX“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "Uhrzeit widerspricht 23:25 (Artikel 1063716), 23:20 (Artikel 1063716) – gegenlesen"
+      ],
+      "artikelId": "1065927",
+      "artikel": "»Anime Night« auf ProSieben MAXX kehrt mit Film und TV-Premiere zurück",
+      "quelle": "https://www.anime2you.de/news/1065927/prosieben-maxx-anime-night-rueckkehr/",
+      "veroeffentlicht": "2026-10-30",
+      "gelesenAm": "2026-10-31"
+    },
+    {
+      "titel": "The Eminence in Shadow",
+      "zitat": "00:20 Uhr: »The Eminence in Shadow« – Staffel 2 Episoden: Folge 6 und 7 Sprache: Deutsch",
+      "art": "folgen",
+      "sprache": "deutsch",
+      "plattform": "tv",
+      "datum": null,
+      "uhrzeit": "00:20",
+      "anbieter": null,
+      "sender": "ProSieben MAXX",
+      "wochentage": null,
+      "folgen": "6 und 7",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "sender „ProSieben MAXX“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1065927",
+      "artikel": "»Anime Night« auf ProSieben MAXX kehrt mit Film und TV-Premiere zurück",
+      "quelle": "https://www.anime2you.de/news/1065927/prosieben-maxx-anime-night-rueckkehr/",
+      "veroeffentlicht": "2026-10-30",
+      "gelesenAm": "2026-10-31"
+    },
+    {
+      "titel": "Honey Lemon Soda",
+      "zitat": "Zu den bevorstehenden Anime-Neuzugängen gehört die zwölfteilige Romance-Serie »Honey Lemon Soda«, die ab dem 3. November 2026 sowohl mit deutscher Sprachausgabe als auch im Originalton mit Untertiteln zur Verfügung steht.",
+      "art": "start",
+      "sprache": "deutsch+omu",
+      "plattform": "disneyplus",
+      "datum": "2026-11-03",
+      "uhrzeit": null,
+      "anbieter": "Disney+",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "12",
+      "unsicher": null,
+      "wochentag": "Dienstag",
+      "warnungen": [
+        "anbieter „Disney+“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „disney+“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1065975",
+      "artikel": "Disney+ kündigt zwei Anime-Neuzugänge für November 2026 an",
+      "quelle": "https://www.anime2you.de/news/1065975/disney-plus-neu-im-november-2026/",
+      "veroeffentlicht": "2026-10-30",
+      "gelesenAm": "2026-10-31"
+    },
+    {
+      "titel": "One Punch Man",
+      "zitat": "Am 24. November 2026 werden die ersten beiden Staffeln der Action-Comedy-Serie »One Punch Man« in den Katalog des VoD-Anbieters aufgenommen. Welche Sprachfassungen dabei angeboten werden, ist bislang noch nicht bekannt.",
+      "art": "start",
+      "sprache": "unklar",
+      "plattform": "disneyplus",
+      "datum": "2026-11-24",
+      "uhrzeit": null,
+      "anbieter": "Disney+",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "24",
+      "unsicher": null,
+      "wochentag": "Dienstag",
+      "warnungen": [
+        "anbieter „Disney+“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „disney+“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1065975",
+      "artikel": "Disney+ kündigt zwei Anime-Neuzugänge für November 2026 an",
+      "quelle": "https://www.anime2you.de/news/1065975/disney-plus-neu-im-november-2026/",
+      "veroeffentlicht": "2026-10-30",
+      "gelesenAm": "2026-10-31"
+    },
+    {
+      "titel": "Avatar: Die sieben Häfen",
+      "zitat": "Die neueste Serie, »Avatar: Die sieben Häfen«, startete vor wenigen Wochen auf Paramount+ und dem Prime Video Channel des Anbieters. Die komplette erste von vier Staffeln steht seit dem 30. Oktober 2026 zur Verfügung.",
+      "art": "folgen",
+      "sprache": "unklar",
+      "plattform": "paramountplus",
+      "datum": "2026-10-30",
+      "uhrzeit": null,
+      "anbieter": "Paramount+",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "Staffel 1 von 4",
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [],
+      "artikelId": "1064958",
+      "artikel": "»Avatar«-Schöpfer spricht über mögliche Serie zu Onkel Iroh",
+      "quelle": "https://www.anime2you.de/news/1064958/avatar-moegliche-serie-zu-onkel-iroh/",
+      "veroeffentlicht": "2026-10-30",
+      "gelesenAm": "2026-10-31"
+    },
+    {
+      "titel": "Lazarus",
+      "zitat": "»Lazarus« wird am 16. November 2026 auf HBO Max veröffentlicht. Details zu den angebotenen Sprachfassungen stehen zum aktuellen Zeitpunkt noch aus.",
+      "art": "start",
+      "sprache": "unklar",
+      "plattform": null,
+      "datum": "2026-11-16",
+      "uhrzeit": null,
+      "anbieter": "HBO Max",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Montag",
+      "warnungen": [],
+      "artikelId": "1065659",
+      "artikel": "HBO Max nimmt Original-Serie »Lazarus« ins Programm",
+      "quelle": "https://www.anime2you.de/news/1065659/lazarus-bald-auf-hbo-max/",
+      "veroeffentlicht": "2026-10-30",
+      "gelesenAm": "2026-10-31"
+    },
+    {
+      "titel": "The Promised Neverland",
+      "zitat": "Zu den Neulistungen zählen neue Komplett-Bundles zu beiden Staffeln der Mystery-Serie »The Promised Neverland«, zur Serie samt Film von »Saekano« sowie zu »Magia Record« und »Fate/Grand Order«. Die Veröffentlichung aller vier Bundles ist für den 4. Dezember 2026 geplant.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2026-12-04",
+      "uhrzeit": null,
+      "anbieter": "peppermint anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „peppermint anime“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1065912",
+      "artikel": "Vier neue Blu-ray-Bundles von peppermint anime vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1065912/vier-peppermint-blu-ray-bundles-vorbestellbar/",
+      "veroeffentlicht": "2026-10-30",
+      "gelesenAm": "2026-10-31"
+    },
+    {
+      "titel": "Saekano",
+      "zitat": "Zu den Neulistungen zählen neue Komplett-Bundles zu beiden Staffeln der Mystery-Serie »The Promised Neverland«, zur Serie samt Film von »Saekano« sowie zu »Magia Record« und »Fate/Grand Order«. Die Veröffentlichung aller vier Bundles ist für den 4. Dezember 2026 geplant.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2026-12-04",
+      "uhrzeit": null,
+      "anbieter": "peppermint anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „peppermint anime“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1065912",
+      "artikel": "Vier neue Blu-ray-Bundles von peppermint anime vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1065912/vier-peppermint-blu-ray-bundles-vorbestellbar/",
+      "veroeffentlicht": "2026-10-30",
+      "gelesenAm": "2026-10-31"
+    },
+    {
+      "titel": "Magia Record",
+      "zitat": "Zu den Neulistungen zählen neue Komplett-Bundles zu beiden Staffeln der Mystery-Serie »The Promised Neverland«, zur Serie samt Film von »Saekano« sowie zu »Magia Record« und »Fate/Grand Order«. Die Veröffentlichung aller vier Bundles ist für den 4. Dezember 2026 geplant.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2026-12-04",
+      "uhrzeit": null,
+      "anbieter": "peppermint anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „peppermint anime“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1065912",
+      "artikel": "Vier neue Blu-ray-Bundles von peppermint anime vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1065912/vier-peppermint-blu-ray-bundles-vorbestellbar/",
+      "veroeffentlicht": "2026-10-30",
+      "gelesenAm": "2026-10-31"
+    },
+    {
+      "titel": "Fate/Grand Order",
+      "zitat": "Zu den Neulistungen zählen neue Komplett-Bundles zu beiden Staffeln der Mystery-Serie »The Promised Neverland«, zur Serie samt Film von »Saekano« sowie zu »Magia Record« und »Fate/Grand Order«. Die Veröffentlichung aller vier Bundles ist für den 4. Dezember 2026 geplant.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2026-12-04",
+      "uhrzeit": null,
+      "anbieter": "peppermint anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „peppermint anime“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1065912",
+      "artikel": "Vier neue Blu-ray-Bundles von peppermint anime vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1065912/vier-peppermint-blu-ray-bundles-vorbestellbar/",
+      "veroeffentlicht": "2026-10-30",
+      "gelesenAm": "2026-10-31"
     }
   ]
 }
