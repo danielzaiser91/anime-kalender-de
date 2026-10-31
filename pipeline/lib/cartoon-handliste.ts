@@ -17,8 +17,6 @@ export interface HandlisteEintrag {
   name: string
   /** Originalname bei ADN. */
   original?: string
-  /** Weitere Namen der Serie (z. B. deutscher Titel), nach denen gesucht und gegen die der Treffer geprüft wird. */
-  varianten?: string[]
   /** TMDB-Kennung, falls bekannt; sonst sucht der Abruf. */
   tmdb?: number
   /** Erstausstrahlungsjahr, trennt gleichnamige Serien. */
@@ -48,9 +46,9 @@ export function handlisteLaden(wurzel: string): HandlisteEintrag[] {
   return liste
 }
 
-/** Die Suchbegriffe eines Eintrags: Original zuerst, dann der deutsche Name, dann die Varianten. */
+/** Die Suchbegriffe eines Eintrags: Original zuerst, dann der deutsche Name. */
 export function suchbegriffe(e: HandlisteEintrag): string[] {
-  return [...new Set([e.original, e.name, ...(e.varianten ?? [])].filter((n): n is string => Boolean(n)))]
+  return [...new Set([e.original, e.name].filter((n): n is string => Boolean(n)))]
 }
 
 /** Ergänzt die Folgenzahl der Animations-Kandidaten (höchstens zehn Kennungen) aus einer Detailabfrage; ohne `folgen` bleibt alles, wie es ist. */

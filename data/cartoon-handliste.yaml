@@ -5,7 +5,6 @@
 #   tmdb    feste TMDB-Kennung (nur eintragen, wenn sie an der TMDB-Seite abgelesen ist, nie raten)
 #   ohne    der Abruf sucht per Namen und nimmt nur einen eindeutigen Treffer (Animation, gleicher Name); Treffer und
 #           Ablehnung stehen im Lauf-Log
-#   varianten weitere Namen (Liste), nach denen gesucht wird und gegen die ein Treffer geprüft wird
 #   jahr    Erstausstrahlungsjahr, trennt gleichnamige Serien
 #   pruefen Grenzfall mit Grund: der Abruf lässt den Eintrag aus, bis jemand entschieden hat
 # Kommt eine Serie später in aniSearch, wechselt sie über data/cartoon-umzug.json zum Anime; die Kennung bleibt (ak-umleitung.json).
@@ -16,7 +15,7 @@ eintraege:
   - { adn: 729, name: Spirou }
   - { adn: 731, name: Titeuf, original: Titeuf }
   - { adn: 732, name: Magic Roundabout, original: The Magic Roundabout }
-  # Tintin: gefunden über den Namen „Tintin“ (Lauf 31.10.2026): 1991, 39 Folgen = ADN (39 Videos).
+  # Tintin: TMDB 1570 (1991, 39 Folgen) = ADN (39 Videos).
   - { adn: 734, name: Tintin (Adventures), original: Les Aventures de Tintin, tmdb: 1570 }
   - adn: 748
     name: Die unglaublichen Abenteuer des Kapitän Cousteau
@@ -24,7 +23,7 @@ eintraege:
     tmdb: 103938
   - { adn: 778, name: Spirou und Fantasio, original: Spirou & Fantasio }
   - { adn: 817, name: Martin Morgen, original: Martin Matin }
-  # Billy & Buddy: ADN 104 Folgen in einer Staffel (Referenz bouleetbill_tv) = TMDB 69906 (2004, 104 Folgen); 44157 (1975) hat 26 Folgen.
+  # Billy & Buddy: ADN 104 Folgen in einer Staffel (Referenz bouleetbill_tv) = TMDB 69906 (2004, 104 Folgen); 44157 (1975) hat 26 Folgen. Von „3D“ (ebenfalls 104 Folgen) unterscheidet ihn die Staffelreferenz ohne 3D im Namen.
   - { adn: 1144, name: Billy & Buddy, original: Boule et Bill, tmdb: 69906 }
   - { adn: 1145, name: The Garfield Show, original: The Garfield Show }
   - { adn: 1146, name: Kleine Strubbel, original: Little Furry }
@@ -32,7 +31,7 @@ eintraege:
   - { adn: 1167, name: Mama Fuchs und Papa Dachs, original: La Famille Blaireau-Renard }
   - { adn: 1178, name: Babar, original: Babar }
   - { adn: 1263, name: SamSam, original: Samsam }
-  # Billy & Buddy 3D: ADN 104 Folgen in zwei Staffeln (bouleetbilltroisd_tv, _tv2), Figur Bobby = TMDB 72376 („Bobby und Bill“, 2016, 104 Folgen).
+  # Billy & Buddy 3D: ADN 104 Folgen in zwei Staffeln (bouleetbilltroisd_tv, _tv2; „3D“ im Staffelnamen, gleiche Folgenzahl wie 1144), Figur Bobby = TMDB 72376 („Bobby und Bill“, 2016, 104 Folgen).
   - { adn: 1265, name: Billy & Buddy 3D, original: Boule & Bill 3D, tmdb: 72376 }
   - { adn: 1277, name: Die Piratenfamilie, original: Famille pirate }
   # Yakari: ADN zeigt Staffel 4 und 5 (yakari_tv4, _tv5; 2 x 26 Folgen) der Serie von 2005 (TMDB 61071, 156 Folgen); 206117 (1983) hat 52 Folgen.

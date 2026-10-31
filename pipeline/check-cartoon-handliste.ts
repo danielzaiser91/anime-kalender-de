@@ -27,7 +27,7 @@ function pruefe(name: string, bedingung: boolean, gefunden?: unknown): void {
 const treffer = (id: number, name: string, original: string, jahr: string, genres = [16]) => ({ id, name, original_name: original, first_air_date: jahr, genre_ids: genres })
 
 try {
-  const { waehleTreffer, kandidatenZeile, loeseHandliste, ohneDoppelte, suchbegriffe, handlisteLaden, mitHandliste, adnKennungGeaendert, mitAdnKennung } = await import('./lib/cartoon-handliste.ts')
+  const { waehleTreffer, kandidatenZeile, mitFolgen, loeseHandliste, ohneDoppelte, suchbegriffe, handlisteLaden, mitHandliste, adnKennungGeaendert, mitAdnKennung } = await import('./lib/cartoon-handliste.ts')
   const tintin = { adn: 734, name: 'Tintin (Adventures)', original: 'Les Aventures de Tintin' }
 
   console.log('\nAuswahl des Treffers')
@@ -79,9 +79,9 @@ try {
   pruefe('Kandidaten-Zeile: Kennung, Name, Original, Jahr, Animation je Kandidat, ohne Doppelte', mk.length === 1 && mk[0].includes('Kandidaten: 44157 „Billy & Buddy“/„Boule et Bill“ Jahr/Folgen 2003/?, Animation; 69906 „Billy & Buddy“/„Boule et Bill“ Jahr/Folgen 2016/?, Animation; 70000 „Anderes“/„Anderes“ Jahr/Folgen 2016/?, keine Animation'), mk)
   const kz = kandidatenZeile(Array.from({ length: 12 }, (_, i) => treffer(i + 1, 'N', 'N', '2000-01-01')))
   pruefe('Kandidaten-Zeile: höchstens zehn, keine Treffer benannt', kz.split('; ').length === 10 && kandidatenZeile([]) === 'keine Treffer', kz)
-  const tv = { adn: 8, name: 'Tintin (Adventures)', original: 'Les Aventures de Tintin', varianten: ['Tim und Struppi'] }
-  pruefe('Variante: wird gesucht', suchbegriffe(tv).join() === 'Les Aventures de Tintin,Tintin (Adventures),Tim und Struppi')
-  pruefe('Variante: Treffer mit dem Variantennamen zählt', 'id' in waehleTreffer(tv, [treffer(9, 'Tim und Struppi', 'Tintin', '1991-01-01')]) && 'grund' in waehleTreffer({ ...tv, varianten: [] }, [treffer(9, 'Tim und Struppi', 'Tintin', '1991-01-01')]))
+  const gefragt: number[] = []
+  const ergaenzt = await mitFolgen(Array.from({ length: 12 }, (_, i) => treffer(i + 1, 'N', 'N', '2000-01-01')), async (id) => (gefragt.push(id), 5))
+  pruefe('A1: Detailabfragen auf zehn begrenzt (12 Animations-Kandidaten)', gefragt.length === 10 && ergaenzt.length === 10, [gefragt.length, ergaenzt.length])
   const mg: string[] = []
   const abgefragt: number[] = []
   const folgen = async (id: number) => {
