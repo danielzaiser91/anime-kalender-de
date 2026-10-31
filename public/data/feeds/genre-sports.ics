@@ -52,7 +52,7 @@ UID:auto-165159-tv-toggo-plus@2026-10-24@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261024T184500Z
 DTEND:20261024T191500Z
-SUMMARY:Beyblade X – Folge 121/121
+SUMMARY:Beyblade X – Folge 121/122
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/15075/
 CATEGORIES:TOGGO plus
@@ -128,6 +128,16 @@ SUMMARY:Eyeshield 21
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/6/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-165159-tv-toggo-plus@2026-10-31@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261031T194500Z
+DTEND:20261031T201500Z
+SUMMARY:Beyblade X – Folge 122/122
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/15075/
+CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
 UID:aoashi-staffel-2-crunchyroll-de-2026-10-25@2026-11-01@anime-kalender-de
