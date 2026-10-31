@@ -107,7 +107,8 @@ try {
   const echt = handlisteLaden(process.cwd())
   const dream = echt.find((e) => e.adn === 887)
   pruefe('Dreamland steht drin, ohne feste Kennung (der Abruf sucht)', dream?.name === 'Dreamland' && dream.tmdb === undefined, dream)
-  pruefe('Cousteau ist als Grenzfall markiert', Boolean(echt.find((e) => e.adn === 748)?.pruefen))
+  const cousteau = echt.find((e) => e.adn === 748)
+  pruefe('Cousteau ist Animation (TMDB 103938, 26 Folgen wie bei ADN), kein Grenzfall mehr', cousteau?.tmdb === 103938 && !cousteau.pruefen, cousteau)
   pruefe('keine ADN-Kennung doppelt', new Set(echt.map((e) => e.adn)).size === echt.length)
 
   console.log('\nBau: ADN-Serie ohne aniSearch-Eintrag als Cartoon')
