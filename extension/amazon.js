@@ -390,7 +390,6 @@ async function speicherSchreiben(werte) {
   }
 
 
-
   /** Kurz und eindeutig — der Knopf hat wenig Platz. */
   const ZUGANG_TEXT = {
     kauf: '💰 nur Kauf',
@@ -2404,6 +2403,8 @@ async function speicherSchreiben(werte) {
   const titelKern = (t) =>
     (t ?? '')
       .toLowerCase()
+      .replace(/ß/g, 'ss')
+      .normalize('NFKD')
       .replace(/\b(staffel|season|vol\.?|volume|teil|part)\s*\d+\b/g, '')
       .replace(/[^a-z0-9]/g, '')
 
@@ -2677,7 +2678,6 @@ async function speicherSchreiben(werte) {
 
     /*
       **Ein Doppeltitel ist derselbe Titel.**
-
       Wir führen „Beyond the Boundary: Kyoukai no Kanata" — englischer Titel,
       Doppelpunkt, japanischer Titel. Prime führt dieselbe Serie schlicht als
       „Beyond the Boundary". Der Vergleich auf Gleichheit fand sie nicht,
@@ -2752,6 +2752,7 @@ async function speicherSchreiben(werte) {
         ) ||
         /* Ein Reihenname mitten im Titel — „Arpeggio of Blue Steel - Ars Nova - Cadenza". */
         wortFolgePasst(auftrag.titel, t.titel) ||
+        globalThis.akPrimeKopfPasst(auftrag.titel, t.titel, titelKern) ||
         (begriff ? wortFolgePasst(begriff, t.titel) : false)
       )
     })
@@ -2779,7 +2780,7 @@ async function speicherSchreiben(werte) {
     }
     const aehnlich = gefunden.treffer.filter((t) => {
       const k = titelKern(t.titel)
-      return k.length >= 4 && (k.includes(kern) || kern.includes(k))
+      return k.length >= 4 && (k.includes(kern) || kern.startsWith(k))
     })
     if (aehnlich.length) return { art: 'aehnlich', treffer: aehnlich }
 
@@ -3157,7 +3158,7 @@ async function speicherSchreiben(werte) {
         einen Takt später steht die aniSearch-Kennung fest.
       */
       const ziel = auftrag?.asId
-        ? 'https://www.anisearch.de/anime/' + auftrag.asId + '/episodes'
+        ? 'https://www.anisearch.de/anime/' + auftrag.asId
         : auftrag?.titel
           ? /*
               Gesucht wird mit dem **Kern** des Titels: „Kizumonogatari III:
@@ -4647,7 +4648,6 @@ async function speicherSchreiben(werte) {
     }
     return false
   }
-
 
   // Veränderlich: Das Auswahlfeld wechselt die Staffel ohne Seitenneuladen,
   // und damit die Kennung — siehe `beiStaffelwechsel()`.
@@ -9724,7 +9724,7 @@ async function speicherSchreiben(werte) {
           const asId = e?.eintraege?.find((x) => x?.asId)?.asId
           if (asId) {
             rechtsPlatz.appendChild(
-              kastenVerweis('aniSearch', 'https://www.anisearch.de/anime/' + asId + '/episodes'),
+              kastenVerweis('aniSearch', 'https://www.anisearch.de/anime/' + asId),
             )
           } else if (e?.titel) {
             /* Ohne Kennung bleibt die Suche über den Kern des Namens — wie beim Suchauftrag. */

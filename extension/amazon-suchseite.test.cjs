@@ -15,7 +15,7 @@
 const { readFileSync } = require('node:fs')
 const vm = require('node:vm')
 
-const quelle = readFileSync(__dirname + '/box.js', 'utf8') + String.fromCharCode(10) + readFileSync(__dirname + '/melde-sperre.js', 'utf8') + String.fromCharCode(10) + readFileSync(__dirname + '/prime-stand-ziele.js', 'utf8') + String.fromCharCode(10) + readFileSync(__dirname + '/prime-region.js', 'utf8') + String.fromCharCode(10) + readFileSync(__dirname + '/prime-fassungen.js', 'utf8') + String.fromCharCode(10) + readFileSync(__dirname + '/amazon.js', 'utf8')
+const quelle = readFileSync(__dirname + '/box.js', 'utf8') + String.fromCharCode(10) + readFileSync(__dirname + '/melde-sperre.js', 'utf8') + String.fromCharCode(10) + readFileSync(__dirname + '/prime-stand-ziele.js', 'utf8') + String.fromCharCode(10) + readFileSync(__dirname + '/prime-region.js', 'utf8') + String.fromCharCode(10) + readFileSync(__dirname + '/prime-fassungen.js', 'utf8') + String.fromCharCode(10) + readFileSync(__dirname + '/prime-treffer-kopf.js', 'utf8') + String.fromCharCode(10) + readFileSync(__dirname + '/amazon.js', 'utf8')
 
 const SUCHLISTE = {
   'https://www.amazon.de/s?k=Cowboy%20Bebop&i=instant-video': {
@@ -375,6 +375,8 @@ function suchDom(gruppen) {
   wörtlich derselbe Quelltext; ändert er sich, ändert sich der Test mit.
 */
 const quelltext = require('node:fs').readFileSync(__dirname + '/amazon.js', 'utf8')
+/* `beurteileTreffer` ruft die Kopf-Regel aus der eigenen Datei — der Ausschnitt sieht nur den echten globalThis. */
+vm.runInThisContext(require('node:fs').readFileSync(__dirname + '/prime-treffer-kopf.js', 'utf8'))
 function schneide(name) {
   const start = quelltext.indexOf(`  function ${name}(`)
   if (start < 0) throw new Error(`${name} nicht gefunden`)
@@ -1120,6 +1122,55 @@ console.log('\nBestätigte Auswahl:')
     text.length > 0,
     text.slice(0, 160),
   )
+}
+
+/*
+  **Operation Nussknacker (Daniel, 31.10.2026) — die drei Karten der Reihe, wörtlich.**
+  Teil 2 steht bei Prime mit ß („Nußknacker"), unser Titel mit ss; Teil 1 heißt bei Prime nur
+  „Operation Nussknacker". „Voll auf die Nüsse" (Dodgeball, B00HFCZJWU) ist ein fremdes Werk.
+*/
+{
+  const NUSS_1 = 'Operation: Nussknacker - Auf die Nüsse, fertig, los!'
+  const NUSS_2 = 'Operation Nussknacker 2: Voll auf die Nüsse'
+  const dreiKarten = [
+    {
+      label: 'Ergebnisse',
+      karten: [
+        karte('Operation Nussknacker', 'Movie', 'Unentitled', 'B087Y8ZNF8'),
+        karte('Operation Nußknacker 2 - Voll auf die Nüsse', 'Movie', 'Unentitled', 'B0FNXJ6WD7'),
+        karte('Voll auf die Nüsse', 'Movie', 'Unentitled', 'B00HFCZJWU'),
+      ],
+    },
+  ]
+  const titelnVon = (r) => (r.befund.treffer ?? []).map((t) => t.titel)
+  const eins = werte(dreiKarten, { titel: NUSS_1, folgen: 1 })
+  pruefe('Nussknacker Teil 1: genau, nur Teil 1', eins.befund.art === 'genau' && titelnVon(eins).join('|') === 'Operation Nussknacker', eins.befund)
+  const zwei = werte(dreiKarten, { titel: NUSS_2, folgen: 1 })
+  pruefe(
+    'Nussknacker Teil 2 (ß auf der Karte): genau, nur Teil 2',
+    zwei.befund.art === 'genau' && titelnVon(zwei).join('|') === 'Operation Nußknacker 2 - Voll auf die Nüsse',
+    zwei.befund,
+  )
+  const ohneZwei = werte([{ label: 'Ergebnisse', karten: [dreiKarten[0].karten[0], dreiKarten[0].karten[2]] }], { titel: NUSS_2, folgen: 1 })
+  pruefe(
+    'ohne Teil-2-Karte: das Fremdwerk „Voll auf die Nüsse" wird nie vorgeschlagen',
+    ohneZwei.befund.art === 'aehnlich' && !titelnVon(ohneZwei).includes('Voll auf die Nüsse'),
+    ohneZwei.befund,
+  )
+  const nurFremd = werte([{ label: 'Ergebnisse', karten: [dreiKarten[0].karten[2]] }], { titel: NUSS_2, folgen: 1 })
+  pruefe('nur das Fremdwerk: kein Treffer', nurFremd.befund.art === 'keiner', nurFremd.befund)
+  const gundam = werte([{ label: 'E', karten: [karte('Gundam', 'TV Show', 'Unentitled', 'B0AAAAAAAA')] }], { titel: 'Gundam - Iron-Blooded Orphans', folgen: 25 })
+  pruefe('Kopf aus einem Wort trägt nicht: „Gundam" ist nicht „Gundam - Iron-Blooded Orphans"', gundam.befund.art !== 'genau', gundam.befund)
+  const kurz = werte([{ label: 'E', karten: [karte('Ab Cd', 'Movie', 'Unentitled', 'B0AAAAAAAA')] }], { titel: 'Ab Cd - Der lange Untertitel', folgen: 1 })
+  pruefe('Kopf unter zehn Zeichen trägt nicht', kurz.befund.art !== 'genau', kurz.befund)
+  /* Daniel, 31.10.2026: der aniSearch-Verweis der Suchaufträge führt zur Übersicht, nicht zur Folgenseite. */
+  pruefe('aniSearch-Verweise zeigen auf die Übersicht, nicht auf /episodes', !/anisearch\.de\/anime\/'[^\n]*\/episodes/.test(quelltext))
+  const einWort = werte([{ label: 'E', karten: [karte('Kizumonogatari', 'Movie', 'Unentitled', 'B0AAAAAAAA')] }], { titel: 'Kizumonogatari - Kaltes Blut', folgen: 1 })
+  pruefe('Kopf aus einem langen Wort trägt ebenfalls nicht', einWort.befund.art !== 'genau', einWort.befund)
+  const fuss = werte([{ label: 'E', karten: [karte('Fußball Straße', 'Movie', 'Unentitled', 'B0AAAAAAAA')] }], { titel: 'Fussball Strasse', folgen: 1 })
+  pruefe('ß in der Karte, ss im Titel: derselbe Kern', fuss.befund.art === 'genau', fuss.befund)
+  const umlaut = werte([{ label: 'E', karten: [karte('Über Mädchen', 'Movie', 'Unentitled', 'B0AAAAAAAA')] }], { titel: 'Uber Madchen', folgen: 1 })
+  pruefe('Umlaut auf der Karte, ohne im Titel: derselbe Kern', umlaut.befund.art === 'genau', umlaut.befund)
 }
 
 if (fehler.length) {
