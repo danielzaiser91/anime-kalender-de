@@ -1379,18 +1379,18 @@ button.ak-zu:hover { color: #e6edf3; }
   **Weggelegt: Was zu diesem Titel gehört, verschwindet — der Weg zum nächsten
   bleibt.**
 
-  Sichtbar bleiben genau zwei Dinge: der Prüflisten-Knopf, über den der nächste
-  Titel kommt, und die Debug-Zeile. Alles andere beantwortet eine Frage, die
-  gerade niemand mehr stellt.
+  Sichtbar bleiben der Prüflisten-Knopf, über den der nächste Titel kommt, die
+  Debug-Zeile und die Meldezeile (Knopf oder Marke „gemeldet ✓"): Der Zustand
+  hängt am Auftrag, aber „gemeldet" gehört der Seite. Mit der Meldezeile
+  versteckt war eine Seite nach dem X weder gemeldet noch meldbar (Daniel,
+  31.10.2026, Higurashi).
 
-  Der Zustand hängt am Auftrag, nicht an der Seite: Er fällt von selbst weg,
-  sobald in der Prüfliste der nächste Titel gewählt wird.
+  Der Zustand fällt von selbst weg, sobald in der Prüfliste der nächste Titel
+  gewählt wird.
 */
 .ak-weggelegt .ak-z-titel,
 .ak-weggelegt .ak-z-inhalt,
-.ak-weggelegt .ak-z-melden,
-.ak-weggelegt .ak-such-fuss-rechts,
-.ak-weggelegt .ak-amazon-knopf-innen {
+.ak-weggelegt .ak-such-fuss-rechts {
   display: none !important;
 }
 

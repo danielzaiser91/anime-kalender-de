@@ -135,15 +135,15 @@ pruefe(
 pruefe(
   'Die Checkliste liest ihn zusätzlich zum Briefkasten',
   quelle.includes(
-    "const fertig = (briefkastenSeiten?.has(String(k)) ?? false) || selbstGemeldeteSeiten.has(String(k))",
+    'const fertig = globalThis.akPrimeSeiteGemeldet(k, briefkastenSeiten, selbstGemeldeteSeiten)',
   ),
 )
 pruefe(
   'Der Merker steht oberhalb jeder Nutzung',
   merkerDekl > 0 &&
     merkerDekl < quelle.indexOf('selbstGemeldeteSeiten.add(') &&
-    merkerDekl < quelle.indexOf('selbstGemeldeteSeiten.has('),
-  { merkerDekl, add: quelle.indexOf('selbstGemeldeteSeiten.add('), has: quelle.indexOf('selbstGemeldeteSeiten.has(') },
+    merkerDekl < quelle.indexOf('akPrimeSeiteGemeldet(k, briefkastenSeiten, selbstGemeldeteSeiten)'),
+  { merkerDekl, add: quelle.indexOf('selbstGemeldeteSeiten.add(') },
 )
 
 /*

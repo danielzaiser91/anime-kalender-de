@@ -65,6 +65,9 @@ async function meldenAufSeite(speicher, uhr, staffel = 's1', { folgen = 12, star
     speicherLesen: speicher.lesen,
     speicherSchreiben: speicher.schreiben,
     briefkastenAdressen: ablage,
+    briefkastenSeiten: null,
+    selbstGemeldeteSeiten: new Set(),
+    asin: () => LISTEN_ID,
     frischGemeldet: ablage,
     uebersichtZeichnen: () => {},
     vorfallMelden: async () => {},
@@ -72,6 +75,8 @@ async function meldenAufSeite(speicher, uhr, staffel = 's1', { folgen = 12, star
   }
   const { klick } = handlerKompilieren(handler, echt, uhr.Date)
   await klick(null)
+  /* Das Sichern der Seite wird nicht abgewartet (wie in der Seite); die Mikrotasks laufen aus. */
+  await new Promise((fertig) => setImmediate(fertig))
   return knopf
 }
 
@@ -174,6 +179,8 @@ async function main() {
   pruefe('Meldung gelang (Knopf trägt keinen Fehler)', !/Fehler|Nicht erreichbar/.test(knopf.textContent), knopf.textContent)
   pruefe('Vermerk unter der Listenkennung gespeichert', Boolean(vermerk), Object.keys(speicher.inhalt.amazonErledigt ?? {}))
   pruefe('Vermerk trägt die ISO-Zeit der Meldung', vermerk?.zeit === '2026-10-21T01:10:00.000Z', vermerk?.zeit)
+  const seitenVermerk = speicher.inhalt.akPrimeSeitenGemeldet
+  pruefe('die gemeldete Seite ist gesichert (Kennung und Meldezeit), sonst fehlt sie nach dem Neuladen', seitenVermerk?.[LISTEN_ID] === FEST && Object.keys(seitenVermerk).length === 1, seitenVermerk)
 
   uhr.t = FEST + 5 * MIN
   pruefe('neue Seite 5 Minuten später: fertig() = erledigt', neueSeite(speicher, uhr)() === true)

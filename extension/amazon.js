@@ -763,6 +763,8 @@ async function speicherSchreiben(werte) {
    * ankommt, darf nicht als erledigt gelten.
    */
   const selbstGemeldeteSeiten = new Set()
+  /* Die eigene Meldung übersteht das Neuladen (Higurashi, 31.10.2026): gesicherte Kennungen kommen zurück. */
+  void globalThis.akPrimeSeitenLaden(selbstGemeldeteSeiten, speicherLesen, Date.now()).catch(() => {})
   /** Wie oft der 500-ms-Takt hintereinander geworfen hat — der Durchgang darf daran nicht sterben. */
   let primeFehler = 0
   /**
@@ -4464,7 +4466,7 @@ async function speicherSchreiben(werte) {
           gruppe.className = 'ak-such-gruppe'
           for (const k of erwartet) {
             /* Der Briefkasten weiß es später, diese Sitzung weiß es sofort. */
-            const fertig = (briefkastenSeiten?.has(String(k)) ?? false) || selbstGemeldeteSeiten.has(String(k))
+            const fertig = globalThis.akPrimeSeiteGemeldet(k, briefkastenSeiten, selbstGemeldeteSeiten)
             const dieseSeite = zurReihe(k, hier)
             const zeile = document.createElement('div')
             zeile.className = 'ak-such-auswahl' + (dieseSeite ? ' ak-such-hier' : '')
@@ -5345,12 +5347,10 @@ async function speicherSchreiben(werte) {
    */
   function seiteOffen() {
     try {
-      if (!briefkastenSeiten) return false
-      const kennung = asin()
-      if (!kennung) return false
-      return !briefkastenSeiten.has(String(kennung))
+      /* Allein der Briefkasten, für genau diese Kennung; ohne seine Antwort ist die Seite meldbar. */
+      return !globalThis.akPrimeSeiteGemeldet(asin(), briefkastenSeiten, null)
     } catch {
-      return false
+      return true
     }
   }
   let briefkastenGeholtAm = 0
@@ -10661,6 +10661,7 @@ async function speicherSchreiben(werte) {
             */
             if (briefkastenSeiten) briefkastenSeiten.add(String(hier))
             selbstGemeldeteSeiten.add(String(hier))
+            void globalThis.akPrimeSeiteSichern(hier, speicherLesen, speicherSchreiben, Date.now()).catch(() => {})
           }
         } catch {
           /* Ohne Kennung gibt es nichts nachzutragen — der Briefkasten holt es nach. */

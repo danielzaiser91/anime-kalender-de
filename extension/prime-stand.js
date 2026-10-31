@@ -139,3 +139,39 @@ globalThis.akPrimeFolgenStandFrisch = (gesehen, ort) => gesehen?.fuerAdresse ===
 
 /** Was am Folgenstand den Kasten neu bauen lässt: die Zahl und ob sie frisch ist. */
 globalThis.akPrimeFolgenStand = (gesehen, ort) => `${gesehen?.gesamt ?? 0}|${globalThis.akPrimeFolgenStandFrisch(gesehen, ort) ? 1 : 0}`
+
+/*
+  **Gemeldet ist eine Eigenschaft der Seite, nicht des Auftrags** (Higurashi, Fischen Impossible, 31.10.2026).
+
+  Zwei Seiten desselben Titels (Staffel 1 und 2 haben je eine Kennung) teilen den Auftrag und den
+  Abhak-Speicher des Titels. „Gemeldet" gilt deshalb nur mit einem Beleg für genau diese Kennung: Briefkasten
+  (`gemeldeteSeiten`) oder eine eigene Meldung. Ohne Beleg ist die Seite meldbar, auch solange der Briefkasten
+  noch schweigt. Die eigene Meldung überlebt das Neuladen, bis der Briefkasten sie führt (24 Stunden).
+*/
+globalThis.akPrimeSeiteGemeldet = (kennung, briefkastenSeiten, selbst) => {
+  if (!kennung) return false
+  const k = String(kennung)
+  return Boolean(briefkastenSeiten?.has(k) || selbst?.has(k))
+}
+
+const SEITEN_SCHLUESSEL = 'akPrimeSeitenGemeldet'
+const SEITEN_HALTE_MS = 24 * 3600 * 1000
+
+/** Trägt die gesicherten eigenen Meldungen (jünger als 24 h) in `selbst` ein. */
+globalThis.akPrimeSeitenLaden = async (selbst, lesen, jetzt) => {
+  const alt = (await lesen(SEITEN_SCHLUESSEL))?.[SEITEN_SCHLUESSEL] ?? {}
+  for (const [kennung, zeit] of Object.entries(alt)) {
+    if (jetzt - zeit < SEITEN_HALTE_MS) selbst.add(kennung)
+  }
+}
+
+/** Sichert eine eigene Meldung; liest vorher den Speicher, damit andere Tabs nicht überschrieben werden. */
+globalThis.akPrimeSeiteSichern = async (kennung, lesen, schreiben, jetzt) => {
+  const alt = (await lesen(SEITEN_SCHLUESSEL))?.[SEITEN_SCHLUESSEL] ?? {}
+  const neu = {}
+  for (const [k, zeit] of Object.entries(alt)) {
+    if (jetzt - zeit < SEITEN_HALTE_MS) neu[k] = zeit
+  }
+  neu[String(kennung)] = jetzt
+  return schreiben({ [SEITEN_SCHLUESSEL]: neu })
+}

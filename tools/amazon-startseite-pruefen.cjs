@@ -12,7 +12,7 @@ const { readFileSync } = require('node:fs')
 const vm = require('node:vm')
 
 /* `box.js` lädt im Browser vor `amazon.js` — hier genauso, sonst fehlt akBox(). */
-const quelle = readFileSync('extension/box.js', 'utf8') + String.fromCharCode(10) + readFileSync('extension/melde-sperre.js', 'utf8') + String.fromCharCode(10) + readFileSync('extension/pruefstand-zeit.js', 'utf8') + String.fromCharCode(10) + readFileSync('extension/prime-such-bruecke.js', 'utf8') + String.fromCharCode(10) + readFileSync('extension/prime-stand-ziele.js', 'utf8') + String.fromCharCode(10) + readFileSync('extension/prime-region.js', 'utf8') + String.fromCharCode(10) + readFileSync('extension/amazon.js', 'utf8')
+const quelle = readFileSync('extension/box.js', 'utf8') + String.fromCharCode(10) + readFileSync('extension/melde-sperre.js', 'utf8') + String.fromCharCode(10) + readFileSync('extension/pruefstand-zeit.js', 'utf8') + String.fromCharCode(10) + readFileSync('extension/prime-such-bruecke.js', 'utf8') + String.fromCharCode(10) + readFileSync('extension/prime-stand-ziele.js', 'utf8') + String.fromCharCode(10) + readFileSync('extension/prime-stand.js', 'utf8') + String.fromCharCode(10) + readFileSync('extension/prime-region.js', 'utf8') + String.fromCharCode(10) + readFileSync('extension/amazon.js', 'utf8')
 const liste = JSON.parse(
   readFileSync('extension/offene-amazon.js', 'utf8')
     .replace(/^globalThis\.AK_OFFENE_AMAZON\s*=\s*/, '')
