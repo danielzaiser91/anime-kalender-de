@@ -378,10 +378,10 @@ export function belegeUeberFolgenzahl(liste: BelegFolgen[], folgenJeTitel: Reado
   })
 }
 
-/** Vergleichsschlüssel eines Belegs: das Prüfdatum zählt nicht, sonst hängt jede Wiederholmeldung mit neuem Datum denselben Beleg erneut an. */
+/** Vergleichsschlüssel eines Belegs: Prüfdatum und das nur von Hand gesetzte `sonderfolgen` zählen nicht, sonst hängt jede Wiederholmeldung denselben Beleg erneut an. */
 export function belegSchluessel(eintrag: unknown): string {
   if (eintrag === null || typeof eintrag !== 'object') return JSON.stringify(eintrag)
-  const { checkedAt: _checkedAt, ...rest } = eintrag as Record<string, unknown>
+  const { checkedAt: _checkedAt, sonderfolgen: _sonderfolgen, ...rest } = eintrag as Record<string, unknown>
   return JSON.stringify(rest)
 }
 
