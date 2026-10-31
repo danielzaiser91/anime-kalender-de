@@ -2364,20 +2364,7 @@ console.log('\nStreaming Availability API:')
     germanizeUrl('disneyplus', 'https://www.disneyplus.com/de-de/en-gb/series/bleach')
       === 'https://www.disneyplus.com/de-de/series/bleach')
 
-  /*
-    **Eine tote Serie wird über ihre Kennung gefunden, nicht nur über die Adresse** (28.09.2026).
-    Perfect Blue stand im Dub-Bestand unter `…/de/fr/series/GZJH3D8V3/…` (fremder Sprachcode,
-    aus der Zeit vor dem `germanizeUrl`-Fix) und im Datensatz unter `…/de/series/…` — der
-    Adressvergleich lief leer, der tote Verweis blieb stehen. Zusicherung am Quelltext, weil
-    die Entfernung in einer Bau-Phase läuft.
-  */
-  {
-    const bauQuelle = bauQuelltext()
-    pruefe('die tote Serie wird über die Kennung gesucht',
-      /kennungAusZiel\(url\) !== serie\.seriesId/.test(bauQuelle))
-    pruefe('und der Verweis über die Kennung entfernt',
-      /kennungAusZiel\(stream\.url\) === serie\.seriesId/.test(bauQuelle))
-  }
+  /* Eine tote Serie wird über ihre Kennung gefunden (Perfect Blue, 28.09.2026): `check-09-4-1-serien-laufzeit.ts`. */
 }
 
 console.log('\nLücken im Sendeplan und die Uhrzeit')
@@ -3346,10 +3333,10 @@ console.log('\nStaffel und Teil zählen:')
 console.log('\nHandbelege: ein wörtlich vorhandener Beleg wird nicht erneut angehängt:')
 {
   const abholung = readFileSync('pipeline/fetch-pruefungen.ts', 'utf8')
-  const anhaengen = readFileSync('pipeline/lib/belege-anhaengen.ts', 'utf8')
   const { neu } = neueBelegBloecke('- a: 1\n', ['- a: 1', '- b: 2', '  c: x', '- b: 2', '  c: "x"', '- d: 3'])
   pruefe('neue Belege: vorhandene und doppelte fallen, der Rest bleibt', neu.length === 2, neu)
-  pruefe('fetch-pruefungen nutzt diesen Abgleich', /neueBelegBloecke\(alt, zeilen\)/.test(anhaengen) && /haengeBelegeAn\(/.test(abholung))
+  /* Der Abgleich selbst läuft in pipeline/check-belege-riegel-schreiben.ts; hier bleibt nur der Aufruf aus dem Abholer. */
+  pruefe('fetch-pruefungen schreibt über haengeBelegeAn', /haengeBelegeAn\(/.test(abholung))
   /* Haikyu!!-Summenseite, 20.10.2026: das Prüfdatum zählt beim Abgleich nicht, die Folgenspanne schon. */
   const bereich = (von: number, bis: number) => ({ von, bis, dub: true, belegt: Array.from({ length: bis - von + 1 }, (_, i) => von + i) })
   const gekappt = begrenzeAufFolgenzahl([bereich(1, 3), bereich(4, 15)], 12)
@@ -3404,8 +3391,7 @@ console.log('\nHandbelege: ein wörtlich vorhandener Beleg wird nicht erneut ang
       new Set((yaml.load(fertig) as unknown[]).map((b) => JSON.stringify(b))).size === 2)
   pruefe('Kommentare und Reihenfolge bleiben stehen',
     entdoppleBelege('# Kopf\n\n- a: 1\n') === '# Kopf\n\n- a: 1\n')
-  pruefe('fetch-pruefungen ruft den Riegel vor dem Schreiben',
-    /schreibeBelege\(p, neu, warn\)/.test(anhaengen) && /entdoppleBelege\(text, melde\)/.test(readFileSync('pipeline/lib/dub-confirmed.ts', 'utf8')))
+  /* Dass der Schreibweg diesen Riegel wirklich durchläuft, prüft pipeline/check-belege-riegel-schreiben.ts als Lauf. */
   /* 22.09.2026: Haikyu!! TO THE TOP — Netflix-Staffel 4 ohne Zahl in unseren Titeln blieb liegen. */
   pruefe(
     'eine Netflix-Staffel ohne Nummer in unserer Reihe wird über Netflix\' Aufteilung verteilt',
@@ -3511,17 +3497,7 @@ console.log('\nCrunchyroll: nur ein verstrichener Start wird mangels Kalenderein
   (21.09.2026, Golden Wind: B0CG7KDCTS kam als Ersatz einer Prime-Suche zurück, obwohl ein
   Handbeleg ihn mit `available: false` ausgetragen hatte).
 */
-console.log('\nPrime: ein ersetzter Suchlink respektiert das belegte Nein:')
-{
-  const bau = bauQuelltext()
-  const stelle = bau.indexOf('    prime.url = echt\n')
-  const davor = bau.slice(Math.max(0, stelle - 1500), stelle)
-  pruefe(
-    'vor der Zuweisung steht der Beleg zur neuen Adresse',
-    stelle > 0 && /belegFuer\(title\.id, 'primevideo', echt/.test(davor) && /available === false/.test(davor),
-    'der Riegel gegen ein belegtes „nicht verfügbar" fehlt vor `prime.url = echt`',
-  )
-}
+/* Als Lauf geprüft: pipeline/check-prime-phase-laufzeit.ts („Suchlink respektiert das belegte Nein"). */
 
 /* Gemessene Zugangsart je Seite schlägt JustWatch je Titel (21.09.2026, 111 falsche Pillen). */
 console.log('\nPrime: die Zugangsart der Seite kommt aus der Meldung:')
@@ -3542,11 +3518,7 @@ console.log('\nPrime: die Zugangsart der Seite kommt aus der Meldung:')
 console.log('\nLinkprüfung: ein Befund wird auch über die Kennung gefunden:')
 {
   const bau = bauQuelltext()
-  pruefe(
-    'linkBefunde fällt auf den Befund derselben Seite zurück',
-    /befundJeKern\.get\(adressKern\(k\)\) \?\? o\[k\]/.test(bau),
-    'der Rückfall über adressKern fehlt — /dp/ und /gp/video/detail/ finden ihre Befunde nicht gegenseitig',
-  )
+  /* `linkBefunde` findet den Befund derselben Seite unter der anderen Schreibweise: `check-09-2-linkpruefung-laufzeit.ts`. */
 
   /*
     **Bau und Prüfung benutzen dieselbe Regel** (29.09.2026): „The Dragon Dentist" hatte
@@ -3581,21 +3553,7 @@ console.log('\nPrime: der Zusatzkanal kommt aus der Notiz der Meldung:')
 console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
 {
   const bau = bauQuelltext()
-  pruefe(
-    'der Riegel sperrt nicht mehr pauschal je Anbieter',
-    !/if \(checks\.has\(dubKey\(eintrag\.titleId, 'primevideo'\)\)\) continue/.test(bau),
-    'der pauschale Riegel steht wieder da — Meldungen zur zweiten Ausgabe kommen nicht an',
-  )
-  pruefe(
-    '… sondern vergleicht die Adresse des Belegs',
-    /if \(beleg \? !beleg\.url \|\| adressGleich\(beleg\.url, seite \?\? undefined\) : kanalAdresseGemerkt\(/.test(bau),
-    'der Adressvergleich fehlt',
-  )
-  pruefe(
-    'der Verweis zeigt auf die gemeldete Seite, nicht auf die ASIN der ersten Folge',
-    /const gemeldeteAdresse = schluessel\.split\('#'\)\[0\]!/.test(bau) && /\? germanizeUrl\(plattform, gemeldeteAdresse\)/.test(bau),
-    'die Folgen-ASIN wird wieder als Titelseite verlinkt (B0GSSL7BMZ statt B0GPD4GNLL)',
-  )
+  /* Riegel je Adresse, gemeldete Seite statt Folgen-ASIN, Deckel und Plattform des Melders: pipeline/check-prime-phase-laufzeit.ts (Lauf). */
 
   /*
     Und die beiden Stellen in `fetch-rohfolgen.ts`, ohne die die Meldung gar
@@ -3624,11 +3582,6 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     holte, ausließ und liegen ließ. Die Entscheidung ist endgültig (Kanal-Titel,
     Adresse bekannt, kein Folgenbefund) — morgen käme dasselbe heraus.
   */
-  pruefe(
-    'ein dritter Prime-Verweis aus einer Meldung wird nicht angelegt',
-    /if \(vorhandene\.length >= 2\) \{/.test(bau),
-    'ohne den Deckel wächst ein Titel auf 52 Verweise bei einem Anbieter — je Folge einen, wie im Verlauf von prime-zugeordnet.json',
-  )
 
   /*
     **Und die Zuordnungen sammeln sich, statt sich zu ersetzen.**
@@ -3663,17 +3616,6 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     'die Zuordnung schreibt mit, wer gemeldet hat',
     /plattform: liste\[0\]!\.plattform \?\? 'primevideo'/.test(roh),
     'ohne die Plattform kann der Bau nur raten — und riet bisher immer Prime',
-  )
-  pruefe(
-    'der Bau legt den Verweis beim gemeldeten Anbieter an',
-    /const plattform = eintrag\.plattform as PlatformId/.test(bau) &&
-      /title\.streams\.push\(\{ platform: plattform, url: seite, dub: belegt \|\| undefined \}\)/.test(bau),
-    'die Plattform ist wieder fest verdrahtet',
-  )
-  pruefe(
-    'Amazon-Eigenes bleibt an Prime gebunden',
-    /plattform !== 'primevideo'\n\s+\? germanizeUrl\(plattform, gemeldeteAdresse\)/.test(bau),
-    'die Seite aus der ASIN gilt nur bei Amazon — bei Netflix ist die gemeldete Adresse die Seite',
   )
 
   /*
@@ -3928,30 +3870,10 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     )
   }
   /*
-    **Der Katalog legt einen Weg an, nicht nur ein Urteil.**
-
-    „Kill Blue" hatte am 24.08.2026 null deutsche Folgen bei Crunchyroll, der
-    Verweis flog zu Recht heraus. Am 06.09. erschienen die Folgen 1–8 auf
-    Deutsch — und kein einziger Lauf konnte das finden: Der Sendekalender führt
-    nachgereichte Katalog-Synchros nicht, und der Dub-Lauf prüft nur Serien mit
-    vorhandenem Verweis.
+    Der Katalog legt einen Weg an, nicht nur ein Urteil („Kill Blue", 06.09.2026): `check-09-4-4-1-katalog-wege-laufzeit.ts`.
+    Die Katalog-Runde greift nur bei einer Staffel und mit Folgen (Free! führt neun unter einer Kennung):
+    `check-09-4-3-katalog-laufzeit.ts`.
   */
-  pruefe(
-    'der deutsche Katalog legt fehlende Crunchyroll-Wege an',
-    bau.includes('Crunchyroll-Wege neu angelegt') && bau.includes('const asCr ='),
-    'sonst findet niemand eine Synchro, die nach dem Entfernen des Verweises erscheint',
-  )
-  pruefe(
-    'die Katalog-Runde greift nur bei genau einer Staffel',
-    bau.includes('if (!katalogSerieIstEinWerk(crDub, kennung, eintrag, title) || vorDemStart(title, katalog.geholtAm)'),
-    'eine Serienkennung ist ein Franchise — Free! führt neun Staffeln unter einer',
-  )
-  pruefe(
-    'die Serienkennung wird gegen den deutschen Katalog gehalten',
-    bau.includes('über die Serienkennung im deutschen Katalog belegt') &&
-      bau.includes('if (!eintrag || !eintrag.folgen) continue'),
-    'ohne die Folgenbedingung würde ein leerer Katalogeintrag ein Nein erzeugen',
-  )
   pruefe(
     'RTL+-Adressen werden von tvnow.de umgestellt',
     bau.includes('RTL+-Adressen von der abgeschalteten Domain tvnow.de umgestellt'),
@@ -4352,16 +4274,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     als tot entfernt, im selben Lauf neu ergänzt, Zusicherung rot
     (Lauf 34160329089, Issue #54).
   */
-  pruefe(
-    'die Befunde aus fetch-crunchyroll-offene.ts werden im Bau auch gelesen',
-    bau.includes("'data/crunchyroll-offene.json'") && bau.includes("if (b.herkunft === 'tot')"),
-    'eine Datei zu schreiben ist nicht dasselbe wie sie zu benutzen — fünf solcher Fälle in zwei Tagen (CLAUDE.md, 07.09.2026)',
-  )
-  pruefe(
-    'ein abgelaufener Verweis wird dort nicht zum Sprachurteil',
-    bau.includes('toteOffene++') && !/herkunft === 'tot'[\s\S]{0,120}stream\.dub = /.test(bau),
-    'ein fehlendes Angebot ist kein „ohne deutschen Ton" — die Unterscheidung von DubCheck.available',
-  )
+  /* Die Befunde aus fetch-crunchyroll-offene.ts werden im Bau gelesen, ein toter wird nie zum Sprachurteil: `check-09-4-3-katalog-laufzeit.ts`. */
   pruefe(
     'eine tote Crunchyroll-Adresse wird auch ohne Kennung nicht neu ergänzt',
     bau.includes('toteCrAdressen.has(adressKern(url))'),
@@ -4472,8 +4385,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     kennungMitAdressgedaechtnis(
       { 'http://www.crunchyroll.com/de/a-place-further-than-the-universe': { seriesId: 'GYK541EPR' } },
       kennungAusPfad,
-    )('http://www.crunchyroll.com/de/a-place-further-than-the-universe') === 'GYK541EPR' &&
-      /kennungMitAdressgedaechtnis\(/.test(bau),
+    )('http://www.crunchyroll.com/de/a-place-further-than-the-universe') === 'GYK541EPR',
     '43 der 44 offenen Verweise standen in der alten Slug-Form ohne Kennung in der Adresse',
   )
 
@@ -4619,19 +4531,9 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
  *
  * Gemessen am 10.09.2026: 28 Crunchyroll-Verweise ohne Sprachurteil, 17 beim
  * Lauf offen — und **11 als tot beurteilt**, ohne jede Wirkung.
+ *
+ * Die Zusicherung läuft als Lauf: `pipeline/check-09-4-3-katalog-laufzeit.ts`.
  */
-{
-  const bau = bauQuelltext()
-  const anfang = bau.indexOf("'data/crunchyroll-offene.json'")
-  const block = bau.slice(anfang, bau.indexOf('Neunte Runde', anfang))
-  pruefe(
-    'ein toter Crunchyroll-Befund entfernt den Verweis',
-    block.includes("b.herkunft === 'tot'") &&
-      block.includes('title.streams.filter((s) => s !== stream)') &&
-      block.includes('verweiseEntfernt.push'),
-    'sonst wird der Befund gezählt und nichts passiert — elf Verweise am 10.09.2026',
-  )
-}
 
 /**
  * **Wer über einen Index zugreift, braucht die Staffelliste.**
@@ -4757,11 +4659,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   const katalog = readFileSync('pipeline/lib/anilist.ts', 'utf8')
   const panel = panelQuelltext()
 
-  pruefe(
-    'ein deutscher Block ohne Titel geht an den Geschwistertitel',
-    bau.includes('geschwisterBloecke') && bau.includes('e.eltern ?? []'),
-    'ohne diese Runde bleibt ein Special unsichtbar, solange es keinen Verweis hat',
-  )
+  /* Ein deutscher Block ohne Titel geht an den Geschwistertitel: `check-09-4-2-bloecke-laufzeit.ts`. */
   pruefe(
     'der Katalogabruf holt das Startdatum',
     /startDate { year month day }/.test(katalog) && katalog.includes('status?: string | null'),
@@ -4879,16 +4777,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
       /seit !== historie\.angelegtAm && belegteSynchro\(t\)/.test(bau),
     '"neu im Bestand" ist nicht "neu auf Deutsch" - und der Newsletter verschickt es',
   )
-  pruefe(
-    'Crunchyrolls Folgenwissen landet als Bereich am Verweis',
-    bau.includes('stream.dubRanges = bereiche') && bau.includes('if (unsere.length !== 1) continue'),
-    'ohne Bereiche gewinnt die Zahl eines anderen Anbieters — „8 von 24" statt 19',
-  )
-  pruefe(
-    'ein Handbeleg wird dabei nie überschrieben',
-    /if \(!stream \|\| stream\.dub !== true \|\| stream\.dubRanges\?\.length\) continue/.test(bau),
-    'gemessen schlägt abgeleitet',
-  )
+  /* Crunchyrolls Folgenwissen landet als Bereich am Verweis, ein Handbeleg bleibt unberührt: `check-09-4-2-bloecke-laufzeit.ts`. */
 }
 
 /* Keine künstliche Ankündigung (Daniel, 05.10.2026): Start am selben Tag wie „Neu auf Deutsch" ist keine Ankündigung. */
@@ -5712,11 +5601,7 @@ pruefe(
 /* Captain Tsubasa 2018: jede Crunchyroll-Runde, die ein Ja setzt, fragt die laufende Nummer (17.09.2026). */
 {
   const bau = bauQuelltext()
-  pruefe(
-    'die Katalog-Runden sperren deutsche Folgen hinter dem Titelende',
-    (bau.match(/if \(hinterDemEnde\(kennung, title\)\) continue/g) ?? []).length === 2,
-    'eine der beiden Katalog-Runden (unbeurteilt / jüngerer Katalog) setzt das Ja ohne laufende Nummer',
-  )
+  /* Die Katalog-Runden sperren deutsche Folgen hinter dem Titelende: `check-09-4-3-katalog-laufzeit.ts`. */
   pruefe(
     '… ebenso beide Bereichsübertragungen',
     (bau.match(/if \(deutscheFolgenNachDemEnde\(/g) ?? []).length === 2,
