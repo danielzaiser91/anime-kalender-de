@@ -1,6 +1,8 @@
 import { type PlatformId, type Release, type StreamLink, type Title } from '../../shared/types.ts'
 import { zugangsart } from '../../shared/zugangsart.ts'
+import { anzeigeName } from '../../shared/titles.ts'
 import { log } from '../lib/util.ts'
+import { type Ausloeser, ausloeserZeilen } from '../lib/ausloeser-zeilen.ts'
 import { type EntfernterVerweis } from './grundlagen.ts'
 import { type DubCheck } from '../lib/dub-confirmed.ts'
 import { brichAbBeiWiderspruch } from '../lib/bau-widerspruch.ts'
@@ -71,6 +73,7 @@ export function ergaenzeWegeAusTerminen({ titles, releases, toteAdressen, verwei
   const entfernt = new Set(verweiseEntfernt.map((v) => `${v.titleId}|${v.plattform}`))
   const handNein = new Set<string>()
   const neu = new Map<string, { titel: Title; weg: StreamLink }>()
+  const termine = new Map<string, string | undefined>()
   for (const r of releases) {
     const titel = titles.get(r.titleId)
     const schluessel = `${r.titleId}|${r.platform}`
@@ -87,11 +90,27 @@ export function ergaenzeWegeAusTerminen({ titles, releases, toteAdressen, verwei
     const weg: StreamLink = { platform: r.platform, url, ...tonAusBeleg(beleg), zugang: wegZugang(r.platform, url) }
     if (r.kanal) weg.kanal = r.kanal
     neu.set(schluessel, { titel, weg })
+    termine.set(schluessel, r.platformUrl)
   }
   for (const { titel, weg } of neu.values()) titel.streams = [...(titel.streams ?? []), weg]
-  if (neu.size) log(`${neu.size} Wege aus sicheren Kalenderterminen ergänzt (Ton nur, wo ein Handbeleg ihn belegt)`)
+  if (neu.size) {
+    log(`${neu.size} Wege aus sicheren Kalenderterminen ergänzt (Ton nur, wo ein Handbeleg ihn belegt)`)
+    for (const z of ausloeserZeilen(wegAusloeser(neu, termine))) log(z)
+  }
   bestehe(termineOhneWeg(titles, releases, new Set([...entfernt, ...handNein])), tonOhneBeleg(titles))
   return neu.size
+}
+
+/** Auslöser-Angaben je ergänztem Weg; aufgerufen nach dem Anhängen, `wegVorher` ist daher der Bestand ohne den neuen Weg. */
+function wegAusloeser(neu: Map<string, { titel: Title; weg: StreamLink }>, termine: Map<string, string | undefined>): Ausloeser[] {
+  return [...neu].map(([schluessel, { titel, weg }]) => ({
+    titleId: titel.id,
+    name: anzeigeName(titel),
+    regel: `wegAusTermin:${weg.platform}`,
+    terminUrl: termine.get(schluessel),
+    wegVorher: (titel.streams ?? []).filter((s) => s !== weg).map((s) => s.url),
+    wegNachher: (titel.streams ?? []).map((s) => s.url),
+  }))
 }
 
 /** Schlüssel `Titel|Anbieter` aller sicheren Termine, zu denen der Titel keinen Weg hat und die nicht bewusst entfernt wurden. */
