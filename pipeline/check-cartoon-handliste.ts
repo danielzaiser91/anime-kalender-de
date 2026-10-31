@@ -119,9 +119,10 @@ try {
     ],
   }
   const eintrag = (adnId?: number): CartoonEintrag => ({ id: -900887, tmdbId: 900887, titleEn: 'Dreamland', titleDe: 'Dreamland', genres: ['Animation'], anbieterDe: [], land: ['FR'], adnId, stand: 3, geholtAm: '2026-10-31' })
-  const baue = (adnId?: number): { releases: Release[]; cartoons: Title[] } => {
-    writeFileSync(join(wurzel, 'data', 'adn.json'), JSON.stringify({ scrapedAt: '', window: { from: '', to: '' }, shows: [] }))
-    writeFileSync(join(wurzel, 'data', 'adn-catalog.json'), JSON.stringify({ scrapedAt: '2026-10-31', window: { from: '', to: '' }, shows: [dreamland] }))
+  const baue = (adnId?: number, im: 'katalog' | 'kalender' = 'katalog'): { releases: Release[]; cartoons: Title[] } => {
+    const datei = (shows: AdnShow[]) => JSON.stringify({ scrapedAt: '2026-10-31', window: { from: '', to: '' }, shows })
+    writeFileSync(join(wurzel, 'data', 'adn.json'), datei(im === 'kalender' ? [{ ...dreamland, fromCatalog: undefined }] : []))
+    writeFileSync(join(wurzel, 'data', 'adn-catalog.json'), datei(im === 'katalog' ? [dreamland] : []))
     writeFileSync(join(wurzel, 'data', 'cartoons.json'), JSON.stringify({ '-900887': eintrag(adnId) }))
     const releases: Release[] = []
     const ausgabe = join(wurzel, 'public', 'data', 'cartoons.json')
@@ -138,6 +139,9 @@ try {
   const adnWeg = cartoon?.streams.find((s) => s.platform === 'adn')
   pruefe('Cartoon steht im Bestand, ohne TMDB-Anbieter, nur durch die Handliste', Boolean(cartoon), mit.cartoons.map((t) => t.id))
   pruefe('Weg ADN: deutscher Ton, Adresse der Serienseite', adnWeg?.dub === true && adnWeg.url === 'https://animationdigitalnetwork.com/de/video/887', cartoon?.streams)
+
+  const ausKalender = baue(887, 'kalender')
+  pruefe('Serie nur im Kalender (adn.json): Termin und Weg ADN ebenso', ausKalender.releases.some((r) => r.titleId === -900887) && ausKalender.cartoons[0]?.streams.some((s) => s.platform === 'adn' && s.dub === true), [ausKalender.releases.length, ausKalender.cartoons[0]?.streams])
 
   const ohne = baue(undefined)
   pruefe('Gegenprobe ohne `adnId`: kein ADN-Termin', ohne.releases.length === 0, ohne.releases)

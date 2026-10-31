@@ -110,7 +110,7 @@ writeFileSync(join(kalenderOrdner, 'data', 'adn.json'), JSON.stringify({ shows: 
 const ausKalender = prozess('l.json', offenDreamland, kalenderOrdner, HEUTE)
 pruefe('Prozess: Folgen nur im Kalender (adn.json) zählen ebenso', ausKalender.status === 0 && ausKalender.out.includes(ZEILE), ausKalender)
 const kaputtMitLage = prozess('k.json', '{kaputt', kulisse, HEUTE)
-pruefe('Prozess: kaputte Offen-Datei bleibt rot, ohne Warnzeile', kaputtMitLage.status === 1 && !kaputtMitLage.out.includes(ZEILE), kaputtMitLage)
+pruefe('Prozess: kaputte Offen-Datei bleibt rot, ohne Warnzeile', kaputtMitLage.status === 1 && !kaputtMitLage.out.includes(ZEILE) && kaputtMitLage.err.includes('kein gültiges JSON') && !kaputtMitLage.err.includes('SyntaxError'), kaputtMitLage)
 rmSync(ordner, { recursive: true, force: true })
 console.log(verletzt ? `\n${verletzt} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(verletzt ? 1 : 0)
