@@ -55,6 +55,7 @@ pipeline/check-antwort-jetzt.ts
 pipeline/check-antwort-vorstart.ts
 pipeline/check-auf-deutsch-vorstart.ts
 pipeline/check-ausgeblieben-text.ts
+pipeline/check-ausloeser-zeilen.ts
 pipeline/check-auto-disc-handeintrag.ts
 pipeline/check-beleg-anbieter.ts
 pipeline/check-beleg-api-web.ts
