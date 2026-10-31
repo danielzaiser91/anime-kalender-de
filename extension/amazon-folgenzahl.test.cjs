@@ -700,13 +700,13 @@ pruefe(
   pruefe(
     'er wird in beiden Trefferzweigen gerufen',
     (quelle.match(/erwartungsAuswahl\(auftrag, /g) ?? []).length >= 2 &&
-      quelle.includes('nurAehnlich ? erwartungsAuswahl(auftrag, befund.treffer, false)'),
+      quelle.includes('nurAehnlich ? erwartungsAuswahl(auftrag, befund.treffer)'),
     'sonst lässt sich ein Eintrag mit zwei Prime-Ausgaben nicht vollständig melden',
   )
   pruefe(
-    'bei einem nur ähnlichen Treffer ist nichts vorgekreuzt',
-    quelle.includes('bereits.size ? bereits.has(k) : vorausgewaehlt'),
-    'eine Vorauswahl wäre dort eine Behauptung — „Sword Art Online" gegen „… Alicization"',
+    'bei einem nur ähnlichen Treffer ist alles vorgekreuzt (Ausschluss statt Auswahl, 31.10.2026)',
+    quelle.includes('bereits.size ? bereits.has(k) : true'),
+    'Daniel nimmt ab, was fremd ist — „Sword Art Online" gegen „… Alicization"',
   )
 }
 

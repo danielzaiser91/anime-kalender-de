@@ -21,11 +21,11 @@ function pruefe(name, bedingung, gefunden) {
 const quelle = ['box.js', 'melde-sperre.js', 'prime-stand-ziele.js', 'prime-region.js', 'prime-fassungen.js', 'amazon.js'].map(lies).join('\n')
 
 /** Lädt amazon.js für `pfad`; `seite` kommt als Leser-Nachricht, `erwartungen` vom Briefkasten. */
-async function lauf({ hydration, pfad = SELBST, seite = {}, erwartungen = {}, erwartet = undefined } = {}) {
+async function lauf({ hydration, pfad = SELBST, seite = {}, erwartungen = {}, erwartet = undefined, jahr = undefined } = {}) {
   const angehaengt = []
   const handler = []
   let geschickt = false
-  const auftrag = { titel: 'Fischen Impossible', id: 1, suchUrl: SUCHE, zeit: FEST, erwartet }
+  const auftrag = { titel: 'Fischen Impossible', id: 1, suchUrl: SUCHE, zeit: FEST, erwartet, jahr }
   const speicher = { 'ak-prime-suchauftrag': JSON.stringify(auftrag) }
   const fenster = {
     addEventListener(art, fn) { if (art === 'message') handler.push(fn) },
@@ -79,6 +79,7 @@ const zeilenText = (z) => (z.kinder ?? []).map((k) => k.textContent ?? '').join(
 /** Die Ankreuzzeilen der Fassungsauswahl (die Checkliste einer bestätigten Auswahl hat keine Ankreuzfelder). */
 const auswahl = (l) => l.angehaengt.flatMap((e) => zeilen(e)).filter((z) => z.kinder[0]?.type === 'checkbox')
 const texte = (l) => auswahl(l).map(zeilenText)
+const alleTexte = (liste) => liste.flatMap((e) => [e.textContent, ...alleTexte(e.kinder ?? [])]).filter(Boolean)
 const daten = (f) => JSON.parse(JSON.stringify(f))
 
 async function kanalOhneAbo() {
@@ -107,7 +108,7 @@ async function main() {
     t.some((x) => x.includes('Kanal-Abo · Kanal · Originalversion') && x.includes('(B0GVNJRZCM)')), t)
   pruefe('Kauf-Fassung mit Hinweis und Kennung', t.some((x) => x.includes('Kauf/Abo · Kauf · Alternative Audiosprache') && x.includes('(B01HRLV328)')), t)
   pruefe('Reihenfolge: eigene Seite, Kauf, Kanal', /B01MSMV5MA/.test(t[0] ?? '') && /B01HRLV328/.test(t[1] ?? '') && /B0GVNJRZCM/.test(t[2] ?? ''), t)
-  pruefe('nichts vorgekreuzt', auswahl(basis).every((z) => z.kinder[0].checked === false))
+  pruefe('alles vorgekreuzt: die Auswahl dient als Ausschluss', auswahl(basis).length === 3 && auswahl(basis).every((z) => z.kinder[0].checked === true))
   pruefe('ohne Seitenstand und Serientitel steht der Auftragstitel für die eigene Seite', /diese Seite · Fischen Impos/.test(t[0] ?? ''), t[0])
 
   const prime = await lauf({ hydration: knoten, seite: { zugaenge: ['Prime'], serie: 'Zeta' } })
@@ -123,8 +124,20 @@ async function main() {
   pruefe('zwei bestätigte Ausgaben: keine Fassungsauswahl', auswahl(zwei).length === 0, texte(zwei))
   const eine = await lauf({ hydration: knoten, erwartungen: { [SUCHE]: ['B0AAAAAAAA'] } })
   pruefe('eine bestätigte Ausgabe reicht nicht: Auswahl bleibt', auswahl(eine).length === 3, texte(eine))
+  pruefe('über den Kästen steht die Anleitung (Ausschluss statt Auswahl)', alleTexte(eine.angehaengt).some((x) => x === 'Alles angehakt – nimm ab, was nicht zum Titel gehört.'), alleTexte(eine.angehaengt))
   const drei = await lauf({ hydration: knoten, erwartungen: { [SUCHE]: ['B0AAAAAAAA', 'B0BBBBBBBB', 'B0CCCCCCCC'] } })
   pruefe('drei bestätigte Ausgaben: keine Fassungsauswahl', auswahl(drei).length === 0, texte(drei))
+
+  // Ribbit (31.10.2026): Jahr 2020 gegen 2014 warnt, außer die Seite steht in der bestätigten Auswahl.
+  const WARNUNG = /Diese Seite ist von 2020, unser Eintrag von 2014/
+  const jahrOhne = await lauf({ hydration: knoten, jahr: 2014, seite: { jahr: 2020 } })
+  pruefe('Jahr 6 Jahre daneben, nichts bestätigt: die Warnung steht da', alleTexte(jahrOhne.angehaengt).some((x) => WARNUNG.test(x)), alleTexte(jahrOhne.angehaengt))
+  const jahrBestaetigt = await lauf({ hydration: knoten, jahr: 2014, seite: { jahr: 2020 }, erwartungen: { [SUCHE]: ['B01MSMV5MA', 'B0BBBBBBBB'] } })
+  pruefe('… in der bestätigten Auswahl: keine Warnung', !alleTexte(jahrBestaetigt.angehaengt).some((x) => WARNUNG.test(x)), alleTexte(jahrBestaetigt.angehaengt))
+  const jahrAndere = await lauf({ hydration: knoten, jahr: 2014, seite: { jahr: 2020 }, erwartungen: { [SUCHE]: ['B0AAAAAAAA', 'B0BBBBBBBB'] } })
+  pruefe('… bestätigt ist eine andere Seite: Warnung bleibt', alleTexte(jahrAndere.angehaengt).some((x) => WARNUNG.test(x)))
+  const jahrNah = await lauf({ hydration: knoten, jahr: 2016, seite: { jahr: 2020 } })
+  pruefe('Abstand 4 Jahre: weiter keine Warnung', !alleTexte(jahrNah.angehaengt).some((x) => WARNUNG.test(x)))
 
   // A2: Block eines anderen Films nach SPA-Wechsel
   const fremd = await lauf({ hydration: knoten, pfad: '/gp/video/detail/B0ZZZZZZZZ' })
