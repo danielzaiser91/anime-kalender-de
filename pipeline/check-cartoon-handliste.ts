@@ -82,6 +82,17 @@ try {
   const tv = { adn: 8, name: 'Tintin (Adventures)', original: 'Les Aventures de Tintin', varianten: ['Tim und Struppi'] }
   pruefe('Variante: wird gesucht', suchbegriffe(tv).join() === 'Les Aventures de Tintin,Tintin (Adventures),Tim und Struppi')
   pruefe('Variante: Treffer mit dem Variantennamen zählt', 'id' in waehleTreffer(tv, [treffer(9, 'Tim und Struppi', 'Tintin', '1991-01-01')]) && 'grund' in waehleTreffer({ ...tv, varianten: [] }, [treffer(9, 'Tim und Struppi', 'Tintin', '1991-01-01')]))
+  const mg: string[] = []
+  const abgefragt: number[] = []
+  const folgen = async (id: number) => {
+    abgefragt.push(id)
+    return id === 44157 ? 104 : id === 69906 ? 78 : undefined
+  }
+  await loeseHandliste([{ adn: 7, name: 'Billy & Buddy', original: 'Boule et Bill' }], new Map(), async () => [treffer(44157, 'Billy & Buddy', 'Boule et Bill', '2003-09-01'), treffer(69906, 'Billy & Buddy', 'Boule et Bill', '2016-01-01'), treffer(70000, 'Anderes', 'Anderes', '2016-01-01', [35])], (z) => mg.push(z), folgen)
+  pruefe('Folgenzahl: Animations-Kandidaten bekommen sie aus der Detailabfrage, andere nicht', mg[0].includes('2003/104, Animation') && mg[0].includes('2016/78, Animation') && mg[0].includes('2016/?, keine Animation') && abgefragt.join() === '44157,69906', [mg, abgefragt])
+  const mgf: string[] = []
+  await loeseHandliste([{ adn: 9, name: 'Eins' }], new Map(), async () => [treffer(5, 'Eins', 'Eins', '2001-01-01')], (z) => mgf.push(z), async () => 52)
+  pruefe('Folgenzahl: auch die gefunden-Zeile nennt sie', mgf[0].includes('TMDB 5 gefunden') && mgf[0].includes('Jahr/Folgen 2001/52'), mgf)
   const dopp = ohneDoppelte(new Map([[1, 50], [2, 50], [3, 60]]))
   pruefe('zwei Einträge, eine TMDB-Serie: beide raus', dopp.ok.size === 1 && dopp.ok.get(3) === 60 && dopp.doppelt.join() === '1,2', dopp.doppelt)
   const ml: string[] = []

@@ -226,7 +226,12 @@ async function handlisteTmdb(schluessel: string, bestand: Record<string, Cartoon
     if (!j) log(`  Handliste: Suche fehlgeschlagen für „${begriff}“ (keine Antwort, kein echter Nicht-Treffer)`)
     return j?.results ?? []
   }
-  const aufgeloest = await loeseHandliste(handlisteLaden(ROOT), bestandsTmdb, suche, log)
+  const folgen = async (id: number) => {
+    await sleep(60)
+    const j = (await holeJson(`${TMDB}/tv/${id}?api_key=${schluessel}&language=de-DE`)) as { number_of_episodes?: number } | null
+    return j?.number_of_episodes
+  }
+  const aufgeloest = await loeseHandliste(handlisteLaden(ROOT), bestandsTmdb, suche, log, folgen)
   return new Map([...aufgeloest].map(([adn, tmdb]) => [tmdb, adn]))
 }
 
