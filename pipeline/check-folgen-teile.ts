@@ -248,6 +248,38 @@ const gleichNr = urteileJeTeil(
 pruefe('gleiche Amazon-Nummer: der Schlüssel in alphabetischer Reihenfolge belegt zuerst', gleichNr.get('p:a')?.art === 'titel' && gleichNr.get('p:b')?.art === 'offen', [...gleichNr])
 pruefe('Namensanfang genau sechs Zeichen gilt', namensAnfang('miracu', kerne, reihenTitel) !== undefined && namensAnfang('mirac', kerne, reihenTitel) === undefined, namensAnfang('miracu', kerne, reihenTitel))
 
+/* Nachtrag aus der ersten Mutationsrunde (14 Überlebende → Fälle). */
+pruefe('Jahr nur als ganzes Wort: „120199“ ist kein Jahr', folgenJahr('Staffel 120199') === null, folgenJahr('Staffel 120199'))
+const lang = T(3, 2015, 52)
+pruefe('Staffel im Fenster, aber weder im Startjahr noch ein Jahr daneben (2017 zu 2015): offen', urteil(teil([2017, 2017, 2017, 2017, 2017, 2017]), undefined, [lang]).art === 'offen', urteil(teil([2017, 2017, 2017, 2017, 2017, 2017]), undefined, [lang]))
+pruefe('Kontrolle: dieselbe Staffel mit Jahr 2016 (±1) wird gewählt', titelVon(urteil(teil([2016, 2016, 2016, 2016, 2016, 2016]), undefined, [lang])) === lang.id, 0)
+const ohneZahl = { id: 4, franchiseId: 10011124, jpYear: 2018, streams: [], watchLinks: [] } as unknown as Title
+pruefe('Staffel ohne Folgenzahl hat unbegrenzt Platz', titelVon(urteil(teil([2018, 2018, 2018, 2018, 2018, 2018]), undefined, [ohneZahl], new Map([[ohneZahl.id, 500]]))) === ohneZahl.id, 0)
+pruefe('Teil mit zwei Folgen und Nummer 101 ist kein Special: Auftrag passt, unberührt', urteil(teil([2015, 2015], 101), S1).art === 'unberuehrt', urteil(teil([2015, 2015], 101), S1))
+pruefe('Einzelfolge mit Nummer 100 ist ein Special', urteil(teil([2021], 100), S4).art === 'offen', urteil(teil([2021], 100), S4))
+pruefe('Einzelfolge mit Nummer 99 ist keins: Auftrag passt, unberührt', urteil(teil([2021], 99), S4).art === 'unberuehrt', urteil(teil([2021], 99), S4))
+pruefe('Special bei Auftrag ohne Folgenzahl: offen', urteil(teil([2021], 101), { ...S4, episodes: undefined } as unknown as Title).art === 'offen', 0)
+/* Gleichstand im Startjahr (3 × 2018, 3 × 2019) entscheidet kein Nachbarjahr. */
+pruefe('Gleichstand 3 × 2018 / 3 × 2019 zu S2 und S3: offen', urteil(teil([2018, 2018, 2018, 2019, 2019, 2019]), undefined, [S2, S3]).art === 'offen', urteil(teil([2018, 2018, 2018, 2019, 2019, 2019]), undefined, [S2, S3]))
+
+/* Die jüngste Beobachtung bestimmt Seite und Jahr einer Folge; nur ohne Jahr gilt das einer älteren. */
+const aeltere = (jahr: string, seite: string) => (b: Beobachtung): Beobachtung => ({ ...b, id: b.id + 7000, erschienen: jahr, seiten_kennung: seite, gemeldet_am: '2026-10-01T10:00:00Z' })
+const teil6 = beob(S1.id, ['B07YSXN8BT'])
+const andereSeite = ordneFolgenZu([...teil6, ...teil6.map(aeltere('3. Mai 2022', 'B0ALTERTEIL'))], kontext(), {})
+pruefe('jüngste Beobachtung entscheidet über Seite und Jahr (die ältere von 2022 zählt nicht): Teil 6 → S2', teilTitel(andereSeite, 'B07YSXN8BT') === S2.id, ergebnisTeil(andereSeite, 'B07YSXN8BT'))
+const nurJahrAelter = ordneFolgenZu([...teil6.map(aeltere('3. Mai 2022', 'B07YSXN8BT')), ...teil6], kontext(), {})
+pruefe('jüngste Beobachtung mit Jahr geht der älteren vor (Liste: ältere zuerst): Teil 6 → S2', teilTitel(nurJahrAelter, 'B07YSXN8BT') === S2.id, ergebnisTeil(nurJahrAelter, 'B07YSXN8BT'))
+const gesehenVon = (teilKennung: string) => MIRACULOUS_ZEILEN.filter(([t]) => t === teilKennung).map(([, , , , , , am]) => am)
+for (const t of ['B07YSXN8BT', 'B0CB1VTN1K']) {
+  const soll = gesehenVon(t)
+  pruefe(`Teil ${t}: „gesehen“ bleibt die Meldezeit der Folge (umgehängt bzw. offen)`, ergebnisTeil(ohneAuftrag, t).every((z, i) => z.gesehen === soll[i] && soll[i]!.length > 0), ergebnisTeil(ohneAuftrag, t))
+}
+pruefe(
+  'Namensanfang zählt nur am Anfang des Namens („das buch miraculous“ einer anderen Reihe stört nicht)',
+  namensAnfang('miraculous', [...kerne, ['das buch miraculous', 77]], new Map([...reihenTitel, [77, { id: 77, franchiseId: 5 } as unknown as Title]])) !== undefined,
+  0,
+)
+
 const offen = Object.values(SOLL).filter((s) => s === 'offen').length
 if (fehler.length) {
   console.error(`check-folgen-teile: ${fehler.join('; ')}`)

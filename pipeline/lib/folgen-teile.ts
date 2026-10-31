@@ -45,7 +45,7 @@ function eindeutigNach(abstand: 0 | 1, jahre: number[], staffeln: Title[]): Titl
 
 /** Titel, in die der Teil von `groesse` Folgen noch passt (`belegt`: Folgen, die frühere Teile schon füllen). */
 function mitPlatz(pool: Title[], groesse: number, belegt: Map<number, number>): Title[] {
-  return pool.filter((t) => t.jpYear != null && (t.episodes == null || (belegt.get(t.id) ?? 0) + groesse <= t.episodes))
+  return pool.filter((t) => t.episodes == null || (belegt.get(t.id) ?? 0) + groesse <= t.episodes)
 }
 
 /**
@@ -160,8 +160,7 @@ export function korrigiereNachTeiljahr(
     const ids = new Set(ms.map((r) => (aus[r.schluessel]?.grund === 'einziger-kandidat' ? aus[r.schluessel]!.titel : undefined)))
     return ids.size === 1 && ids.values().next().value != null ? titel.get(ids.values().next().value!) : undefined
   }
-  const betroffen = [...teile.values()].filter((t) => mitglieder.has(t.schluessel))
-  const urteile = urteileJeTeil(betroffen, (t) => alsTitel(poolIds(t)), auftragVon)
+  const urteile = urteileJeTeil([...teile.values()], (t) => alsTitel(poolIds(t)), auftragVon)
   for (const [teilKey, ms] of mitglieder) {
     const u = urteile.get(teilKey)
     if (!u || u.art === 'unberuehrt') continue
