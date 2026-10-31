@@ -234,6 +234,7 @@ pipeline/check-leerzeichen-gleich.ts
 pipeline/check-leinwand-escape.ts
 pipeline/check-link-leere-adresse.ts
 pipeline/check-links-laufzeit.ts
+pipeline/check-links-sperre-laufzeit.ts
 pipeline/check-logic.ts
 pipeline/check-luecken-staffel0.ts
 pipeline/check-mail-verschoben-datum.ts
