@@ -39,7 +39,7 @@ import { log, readJson, ROOT, writeJson } from './lib/util.ts'
 import { artikelNenntTitel, folgeAmVerpasstenTermin, rechercheFaellig, terminFrist, terminPruefen, terminZeitpunkt } from './lib/ausgeblieben.ts'
 import { meldeAbbruch } from './lib/abbruch.ts'
 import { beobachtetAusRelease } from './lib/verpasst-beobachtet.ts'
-import { katalogBeobachtungen, katalogOhneTag, katalogStaffel } from './lib/verpasst-katalog.ts'
+import { katalogBeobachtungen, katalogOhneTag, katalogStaffel, keinVerworfen } from './lib/verpasst-katalog.ts'
 import { toIsoDate } from '../shared/time.ts'
 import type { NeueFolge } from './lib/cr-neu-wache.ts'
 import type { Title } from '../shared/types.ts'
@@ -79,6 +79,8 @@ interface Ereignis {
 interface Beobachtung {
   date: string
   episode?: number
+  /** Tag aus dem ersten Katalogfund: belegt „war da“, nicht den Erscheinungstag. */
+  rueckfall?: true
 }
 interface Kalender {
   scrapedAt?: string
@@ -202,6 +204,7 @@ const ohneTag = katalogOhneTag(katalogFolgen)
 if (ohneTag.length) {
   console.log(`⚠ Katalogfolgen ohne Tag (zählen nicht als Beleg): ${ohneTag.length} — ${ohneTag.map((f) => `${f.serie} ${f.staffel} F${f.nummer}`).join('; ')}`)
 }
+const katalogVerworfen = keinVerworfen()
 const alleTitel = readJson<Title[]>('public/data/titles.json', [])
 const titelIdJeSlug = new Map(veroeffentlichungen.map((r) => [r.slug, r.titleId]))
 
@@ -210,7 +213,7 @@ function beobachtungen(slug: string): Beobachtung[] {
   const ausKalender = adresse ? (gesehen.get(adressKern(adresse)) ?? []) : []
   const titel = alleTitel.find((t) => t.id === titelIdJeSlug.get(slug))
   const serieId = /\/series\/([A-Z0-9]+)/i.exec(adresse ?? '')?.[1]
-  const ausKatalog = katalogBeobachtungen(katalogFolgen, serieId, katalogStaffel(titel, alleTitel), toIsoDate(JETZT))
+  const ausKatalog = katalogBeobachtungen(katalogFolgen, serieId, katalogStaffel(titel, alleTitel), toIsoDate(JETZT), katalogVerworfen)
   return [...ausKalender, ...ausKatalog, ...beobachtetAusRelease(folgentageJeSlug.get(slug), JETZT)]
 }
 
@@ -329,6 +332,7 @@ if (wocheBelegNeu) log(`${wocheBelegNeu} Vermerk(e) mit dem Bild der Wochenprogr
 */
 let nachgeholt = 0
 let ohneVerzug = 0
+let ohneErscheinungstag = 0
 for (const v of verpasst) {
   if (v.erschienenAm) continue
   if (v.episode == null) continue
@@ -343,6 +347,16 @@ for (const v of verpasst) {
     einzusetzen läge systematisch zu früh und machte den Verzug zu klein: bei
     Mushoku Tensei 151 Stunden statt der tatsächlichen 168, also einer Woche.
   */
+  /*
+    Ein Rückfall-Tag (`gesehenAm`) ist der Tag des ersten Katalogfundes, nicht des Erscheinens (bei den ersten fünf Fällen
+    10–34 Tage nach `ausstrahlung`): Er belegt, dass die Folge da war, aber keinen Verzug. Der Vermerk „nicht erschienen“
+    ist damit widerlegt und fällt weg; ein Verzug wird nicht ausgewiesen.
+  */
+  if (treffer.rueckfall) {
+    v.gestrichen = true
+    ohneErscheinungstag++
+    continue
+  }
   const uhrzeit = String(v.erwartetAm).slice(11, 19) || '00:00:00'
   const wirklich = new Date(`${treffer.date}T${uhrzeit}Z`)
   const verzug = Math.round((wirklich.getTime() - new Date(v.erwartetAm).getTime()) / 36e5)
@@ -416,10 +430,13 @@ for (const v of verpasst) {
 }
 if (hinweiseNeu) log(`${hinweiseNeu} Anime2You-Meldung(en) einem ausgebliebenen Termin zugeordnet`)
 
+if (ohneErscheinungstag) log(`${ohneErscheinungstag} Vermerk(e) gestrichen — der Katalog belegt die Folge, ihr Erscheinungstag ist unbekannt`)
+const kv = katalogVerworfen
+log(`Katalog verworfen: ${kv.ohneSerieOderStaffel} Titel ohne Serie/Staffel, ${kv.ohneNummer} Folgen ohne Nummer, ${kv.andereStaffel} andere Staffel, ${kv.ohneTag} ohne Tag, ${kv.angekuendigt} angekündigt`)
 if (ohneVerzug) log(`${ohneVerzug} Vermerk(e) gestrichen — die Folge kam am erwarteten Tag`)
 /* Vermerke vor dem geltenden Start fallen weg (widerlegte Schätzung). */
 const endgueltig = verpasst.filter((v) => !v.gestrichen && !vorDemStart(v))
-const veraltet = verpasst.length - endgueltig.length - ohneVerzug
+const veraltet = verpasst.length - endgueltig.length - ohneVerzug - ohneErscheinungstag
 if (veraltet > 0) log(`${veraltet} Vermerk(e) verworfen — ihr Tag liegt vor dem heutigen Start`)
 writeJson('data/termine-verpasst.json', endgueltig, true)
 

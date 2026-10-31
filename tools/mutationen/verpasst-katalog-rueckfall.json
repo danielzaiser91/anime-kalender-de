@@ -1,9 +1,19 @@
 [
   { "name": "Kontrolle unmutiert", "aenderungen": [] },
   { "name": "Rückfall gesehenAm abgeschaltet", "datei": "pipeline/lib/verpasst-katalog.ts", "suche": "return f.gesehenAm && /^", "ersetze": "return false && f.gesehenAm && /^" },
-  { "name": "unlesbares verfuegbarAb zählt als lesbar", "datei": "pipeline/lib/verpasst-katalog.ts", "suche": "if (!Number.isNaN(zeit.getTime())) return", "ersetze": "if (true) return" },
-  { "name": "Heute-Grenze strenger", "datei": "pipeline/lib/verpasst-katalog.ts", "suche": "date <= heute", "ersetze": "date < heute" },
+  { "name": "unlesbares verfuegbarAb zählt als lesbar", "datei": "pipeline/lib/verpasst-katalog.ts", "suche": "return Number.isNaN(zeit.getTime()) ? undefined", "ersetze": "return false ? undefined" },
+  { "name": "Heute-Grenze strenger", "datei": "pipeline/lib/verpasst-katalog.ts", "suche": "if (date > heute) {", "ersetze": "if (date >= heute) {" },
   { "name": "katalogOhneTag leer", "datei": "pipeline/lib/verpasst-katalog.ts", "suche": "return folgen.filter((f) => !katalogTag(f))", "ersetze": "return []" },
-  { "name": "gesehenAm schlägt verfuegbarAb", "datei": "pipeline/lib/verpasst-katalog.ts", "suche": "if (f.verfuegbarAb) {", "ersetze": "if (f.gesehenAm ? false : f.verfuegbarAb) {" },
+  { "name": "gesehenAm schlägt verfuegbarAb", "datei": "pipeline/lib/verpasst-katalog.ts", "suche": "if (!f.verfuegbarAb) return undefined", "ersetze": "if (!f.verfuegbarAb || f.gesehenAm) return undefined" },
   { "name": "gesehenAm-Format nur Jahr", "datei": "pipeline/lib/verpasst-katalog.ts", "suche": "/^\\d{4}-\\d{2}-\\d{2}$/.test(f.gesehenAm)", "ersetze": "/^\\d{4}/.test(f.gesehenAm)" },
-  { "name": "Serien-Prüfung entfällt", "datei": "pipeline/lib/verpasst-katalog.ts", "suche": "if (f.serieId !== serieId || ", "ersetze": "if (" }]
+  { "name": "Serien-Prüfung entfällt", "datei": "pipeline/lib/verpasst-katalog.ts", "suche": "if (f.serieId !== serieId) continue", "ersetze": "" },
+  { "name": "rueckfall-Kennzeichen entfällt", "datei": "pipeline/lib/verpasst-katalog.ts", "suche": "...(tagAusVerfuegbarAb(f) ? {} : { rueckfall: true as const })", "ersetze": "" },
+  { "name": "Zähler angekündigt entfällt", "datei": "pipeline/lib/verpasst-katalog.ts", "suche": "verworfen.angekuendigt++", "ersetze": "" },
+  { "name": "Zähler ohne Nummer entfällt", "datei": "pipeline/lib/verpasst-katalog.ts", "suche": "verworfen.ohneNummer++", "ersetze": "" },
+  { "name": "Zähler andere Staffel entfällt", "datei": "pipeline/lib/verpasst-katalog.ts", "suche": "verworfen.andereStaffel++", "ersetze": "" },
+  { "name": "Zähler ohne Tag entfällt", "datei": "pipeline/lib/verpasst-katalog.ts", "suche": "verworfen.ohneTag++", "ersetze": "" },
+  { "name": "Zähler ohne Serie oder Staffel entfällt", "datei": "pipeline/lib/verpasst-katalog.ts", "suche": "verworfen.ohneSerieOderStaffel++", "ersetze": "" },
+  { "name": "Rückfall-Tag wird Erscheinungstag (Streichung entfällt)", "datei": "pipeline/termine-pruefen.ts", "suche": "if (treffer.rueckfall) {", "ersetze": "if (false) {", "tests": ["npx tsx pipeline/check-termine-observed-lauf.ts"] },
+  { "name": "Aufruf katalogOhneTag entfernt", "datei": "pipeline/termine-pruefen.ts", "suche": "const ohneTag = katalogOhneTag(katalogFolgen)", "ersetze": "const ohneTag: NeueFolge[] = []", "tests": ["npx tsx pipeline/check-termine-observed-lauf.ts"] },
+  { "name": "Zähler nicht durchgereicht", "datei": "pipeline/termine-pruefen.ts", "suche": "toIsoDate(JETZT), katalogVerworfen)", "ersetze": "toIsoDate(JETZT))", "tests": ["npx tsx pipeline/check-termine-observed-lauf.ts"] }
+]

@@ -19,10 +19,20 @@ export function katalogStaffel(title: Title | undefined, titles: Title[]): numbe
  * (`gesehenAm`, steht dort immer). Ohne beides `undefined`.
  */
 export function katalogTag(f: NeueFolge): string | undefined {
-  if (f.verfuegbarAb) {
-    const zeit = new Date(f.verfuegbarAb)
-    if (!Number.isNaN(zeit.getTime())) return toIsoDate(zeit)
-  }
+  return tagAusVerfuegbarAb(f) ?? rueckfallTag(f)
+}
+
+function tagAusVerfuegbarAb(f: NeueFolge): string | undefined {
+  if (!f.verfuegbarAb) return undefined
+  const zeit = new Date(f.verfuegbarAb)
+  return Number.isNaN(zeit.getTime()) ? undefined : toIsoDate(zeit)
+}
+
+/**
+ * Rückfall: Der Tag des ersten Katalogfundes. „Früheste Beobachtung“ ist nicht „erschienen am“ (bei den ersten fünf Fällen
+ * lag er 10–34 Tage nach `ausstrahlung`): er belegt, dass die Folge da war, nicht seit wann.
+ */
+function rueckfallTag(f: NeueFolge): string | undefined {
   return f.gesehenAm && /^\d{4}-\d{2}-\d{2}$/.test(f.gesehenAm) ? f.gesehenAm : undefined
 }
 
@@ -31,28 +41,70 @@ export function katalogOhneTag(folgen: NeueFolge[]): NeueFolge[] {
   return folgen.filter((f) => !katalogTag(f))
 }
 
+/** Zähler der Verwerfungspfade von `katalogBeobachtungen` (Skill stille-ausfaelle-verhindern). */
+export interface KatalogVerworfen {
+  /** Aufruf ohne Serienkennung oder Staffel: der Titel hat nichts zum Suchen. */
+  ohneSerieOderStaffel: number
+  /** Folge der Serie ohne ganze Nummer ab 1. */
+  ohneNummer: number
+  /** Folge einer anderen Staffel derselben Serie. */
+  andereStaffel: number
+  /** Weder `verfuegbarAb` noch `gesehenAm` lesbar. */
+  ohneTag: number
+  /** Tag nach `heute`: angekündigt, keine Sichtung. */
+  angekuendigt: number
+}
+
+export const keinVerworfen = (): KatalogVerworfen => ({ ohneSerieOderStaffel: 0, ohneNummer: 0, andereStaffel: 0, ohneTag: 0, angekuendigt: 0 })
+
+/** Eine Katalog-Sichtung; `rueckfall`: Tag aus `gesehenAm`, also ein Beleg „war da“, kein Erscheinungstag. */
+export interface KatalogSichtung {
+  date: string
+  episode: number
+  rueckfall?: true
+}
+
 /**
  * Deutsche Folgen der Serie `serieId` und Staffel `staffel` aus `data/crunchyroll-neu.json` als Beobachtungen (Tag Berlin).
  *
  * Lehre (26.10.2026, Aristocrat S3 Folge 2): Der Katalog sah die Folge am 25.10., der Simulcast-Kalender zeigte sie nicht,
  * und „⚠ Folge 2 ist nicht erschienen“ blieb stehen. Folgennummern zählen je Staffel: Schwesterstaffeln einer Serienkennung zählen nicht.
+ * Jede Verwerfung (außer „andere Serie“, das ist die Auswahl) zählt in `verworfen`.
  */
 export function katalogBeobachtungen(
   folgen: NeueFolge[],
   serieId: string | undefined,
   staffel: number | undefined,
   heute: string,
-): { date: string; episode: number }[] {
-  if (!serieId || staffel === undefined) return []
-  const raus: { date: string; episode: number }[] = []
+  verworfen: KatalogVerworfen = keinVerworfen(),
+): KatalogSichtung[] {
+  if (!serieId || staffel === undefined) {
+    verworfen.ohneSerieOderStaffel++
+    return []
+  }
+  const raus: KatalogSichtung[] = []
   for (const f of folgen) {
-    if (f.serieId !== serieId || !Number.isInteger(f.nummer) || (f.nummer as number) < 1) continue
+    if (f.serieId !== serieId) continue
+    if (!Number.isInteger(f.nummer) || (f.nummer as number) < 1) {
+      verworfen.ohneNummer++
+      continue
+    }
     const ihre = f.staffel === f.serie ? 1 : Number(STAFFEL_IM_NAMEN.exec(f.staffel ?? '')?.[1])
-    if (ihre !== staffel) continue
+    if (ihre !== staffel) {
+      verworfen.andereStaffel++
+      continue
+    }
     const date = katalogTag(f)
-    if (!date) continue
+    if (!date) {
+      verworfen.ohneTag++
+      continue
+    }
     /* Eine angekündigte Folge (Tag nach `heute`, Berliner Tag wie bei beobachtetAusRelease) ist keine Sichtung. */
-    if (date <= heute) raus.push({ date, episode: f.nummer as number })
+    if (date > heute) {
+      verworfen.angekuendigt++
+      continue
+    }
+    raus.push({ date, episode: f.nummer as number, ...(tagAusVerfuegbarAb(f) ? {} : { rueckfall: true as const }) })
   }
   return raus
 }

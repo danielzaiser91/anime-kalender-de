@@ -3,7 +3,7 @@
  * Nummer, die bis heute (Berliner Tag) erschienen sind. Der Prozess-Fall steht in `check-termine-observed-lauf.ts`.
  * Aufruf: npm run check:logic (steckt darin) oder `tsx pipeline/check-verpasst-katalog.ts`
  */
-import { katalogBeobachtungen, katalogOhneTag } from './lib/verpasst-katalog.ts'
+import { katalogBeobachtungen, katalogOhneTag, keinVerworfen } from './lib/verpasst-katalog.ts'
 import type { NeueFolge } from './lib/cr-neu-wache.ts'
 
 let verletzt = 0
@@ -46,7 +46,30 @@ const kaputtAb = sieh([{ ...ohneAb('2026-09-12'), verfuegbarAb: 'kein Datum' }])
 pruefe('unlesbares verfuegbarAb fällt auf gesehenAm zurück', kaputtAb.length === 1 && kaputtAb[0]!.date === '2026-09-12', kaputtAb)
 const kaputtGesehen = sieh([ohneAb('gestern')])
 pruefe('weder Tag noch Rückfall: keine Sichtung', kaputtGesehen.length === 0, kaputtGesehen)
-const nurJahr = sieh([ohneAb('2026')])
+pruefe('Rückfall-Sichtung trägt rueckfall', rueckfall[0]!.rueckfall === true, rueckfall)
+pruefe('Sichtung aus verfuegbarAb trägt kein rueckfall', ok[0]!.rueckfall === undefined, ok)
+const zaehl = keinVerworfen()
+katalogBeobachtungen(
+  [
+    folge('GA', 2, '2026-10-26T15:00:00.000Z'),
+    folge('GA', 3, '2026-10-27T15:00:00.000Z'),
+    folge('GA', 0, '2026-10-24T15:00:00.000Z'),
+    folge('GA', undefined, '2026-10-24T15:00:00.000Z'),
+    { ...folge('GA', 4, '2026-10-24T15:00:00.000Z'), staffel: 'Staffel 2' },
+    { serieId: 'GA', serie: 'S', staffel: 'Staffel 3', nummer: 6 },
+    folge('GB', 7, '2026-10-24T15:00:00.000Z'),
+  ],
+  'GA',
+  3,
+  heute,
+  zaehl,
+)
+pruefe('Zähler je Verwerfungspfad', zaehl.angekuendigt === 1 && zaehl.ohneNummer === 2 && zaehl.andereStaffel === 1 && zaehl.ohneTag === 1 && zaehl.ohneSerieOderStaffel === 0, zaehl)
+const ohneSerie = keinVerworfen()
+katalogBeobachtungen([], undefined, 3, heute, ohneSerie)
+katalogBeobachtungen([], 'GA', undefined, heute, ohneSerie)
+pruefe('Zähler ohne Serie oder Staffel', ohneSerie.ohneSerieOderStaffel === 2, ohneSerie)
+const nurJahr =sieh([ohneAb('2026')])
 pruefe('gesehenAm nur als Jahr ist kein Tag', nurJahr.length === 0, nurJahr)
 const fremdOhneAb = sieh([{ ...ohneAb('2026-09-12'), serieId: 'GB' }])
 pruefe('Rückfall hebt die Serien-Prüfung nicht auf', fremdOhneAb.length === 0, fremdOhneAb)
