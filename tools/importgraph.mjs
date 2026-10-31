@@ -1,14 +1,14 @@
 /**
  * Importgraph der Werkzeug-Skripte in `tools/`: welche Nachbardateien ein Einstiegsskript transitiv braucht.
  * Gefolgt wird relativen `import … from './x'`, `import('./x')`, `require('./x')` in JS-Dateien sowie
- * `tools/<name>.(mjs|cjs|js|sh)`-Nennungen und `source "$(dirname "${BASH_SOURCE[0]}")/<name>.sh"` in Shell-Skripten (ohne Kommentare). Nur Dateien, die es gibt.
+ * `tools/<name>.(mjs|cjs|js|sh)`-Nennungen und `source|node "$(dirname "${BASH_SOURCE[0]}")/<name>"` in Shell-Skripten (ohne Kommentare). Nur Dateien, die es gibt.
  * Zweck: Kopierlisten der Wegwerf-Repo-Tests (`commit-data-test.sh`, `wache-verdrahtung.test.mjs`) prüfen.
  */
 import { existsSync, readFileSync } from 'node:fs'
 import { join, posix } from 'node:path'
 
 const JS_IMPORT = /(?:from\s*|import\s*\(?\s*|require\s*\(\s*)['"](\.\.?\/[^'"]+)['"]/g
-const SH_NENNUNG = /\btools\/([A-Za-z0-9_.-]+\.(?:mjs|cjs|js|sh))\b|BASH_SOURCE\[0\]\}"\)\/([A-Za-z0-9_.-]+\.sh)/g
+const SH_NENNUNG = /\btools\/([A-Za-z0-9_.-]+\.(?:mjs|cjs|js|sh))\b|BASH_SOURCE\[0\]\}"\)\/([A-Za-z0-9_.-]+\.(?:mjs|cjs|js|sh))/g
 
 const ohneJsKommentar = (t) => t.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:\w'"`\\])\/\/.*$/gm, '$1')
 const ohneShKommentar = (t) => t.replace(/^\s*#.*$/gm, '')

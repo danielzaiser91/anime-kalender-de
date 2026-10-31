@@ -18,6 +18,10 @@ export const fehlende = (erreicht, kopiert, ausnahmen = []) => erreicht.filter((
 
 const wacheKopien = () => [...lies('tools/wache-verdrahtung.test.mjs').match(/^const KOPIEN = \[(.*)\]$/m)[1].matchAll(/'([^']+)'/g)].map((m) => m[1])
 const commitKopien = () => lies('tools/commit-data-test.sh').match(/for datei in ([^;]+); do/)[1].trim().split(/\s+/)
+const quellenPrKopien = () => [...lies('tools/quellen-pr-pruefung.test.mjs').match(/^const KOPIEN = \[(.*)\]$/m)[1].matchAll(/'([^']+)'/g)].map((m) => m[1])
+
+// daten-pr-mergen.sh steht in quellen-pr.sh nur im Text des PR-Hinweises, nie als Aufruf.
+const QUELLEN_PR_AUSNAHMEN = ['daten-pr-mergen.sh']
 
 // `if node tools/<x>.mjs --festschreiben` in commit-data.sh ist ein Ratschen-Aufruf, der im Wegwerf-Repo bewusst ins Leere läuft;
 // kopiert, würde er dort Grenzdateien festschreiben. umfang-ketten.mjs kommt nur über umfang-pruefen.mjs.
@@ -48,4 +52,8 @@ assert.deepEqual(fehlende(wache, wacheKopien()), [], 'KOPIEN in tools/wache-verd
 const commit = abschluss(['commit-data.sh'], WURZEL)
 assert.ok(commit.length >= 10, `commit-data-test: Importgraph leer (${commit.length})`)
 assert.deepEqual(fehlende(commit, commitKopien(), COMMIT_AUSNAHMEN), [], 'Kopierliste in tools/commit-data-test.sh: erreichte Dateien fehlen')
-console.log(`kopierlisten-importgraph.test: ok (wache-verdrahtung ${wache.length} erreicht, commit-data-test ${commit.length} erreicht, ${COMMIT_AUSNAHMEN.length} ausgenommen)`)
+const quellenPr = abschluss(['quellen-pr.sh'], WURZEL)
+assert.ok(quellenPr.length >= 7, `quellen-pr-pruefung: Importgraph leer (${quellenPr.length})`)
+assert.ok(quellenPr.includes('rote-sammler-prs.mjs') && quellenPr.includes('kind-mit-limit.mjs'), 'quellen-pr-pruefung: der Graph findet den node-Aufruf über BASH_SOURCE nicht')
+assert.deepEqual(fehlende(quellenPr, quellenPrKopien(), QUELLEN_PR_AUSNAHMEN), [], 'KOPIEN in tools/quellen-pr-pruefung.test.mjs: erreichte Dateien fehlen')
+console.log(`kopierlisten-importgraph.test: ok (wache-verdrahtung ${wache.length} erreicht, commit-data-test ${commit.length} erreicht, ${COMMIT_AUSNAHMEN.length} ausgenommen, quellen-pr-pruefung ${quellenPr.length} erreicht)`)

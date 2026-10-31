@@ -256,7 +256,7 @@ const kennung = (el) => /detail\/([A-Z0-9]+)/.exec(el.src)?.[1]
   const huelle = {}
   vm.runInNewContext(roh, huelle)
   const eintraege = Object.values(huelle.AK_OFFENE_AMAZON ?? {})
-  const ohne = eintraege.filter((e) => !/\/detail(?:\/|\?gti=)/.test(e.url) && !/\/s\?k=/.test(e.url))
+  const ohne = eintraege.filter((e) => !/\/(?:detail|dp)(?:\/|\?gti=)/.test(e.url) && !/\/s\?k=/.test(e.url))
   pruefe('Prüfliste: jeder Eintrag hat eine Titelseite oder eine Suchadresse', eintraege.length > 0 && ohne.length === 0, ohne.slice(0, 3))
 }
 
