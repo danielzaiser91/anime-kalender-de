@@ -128,13 +128,10 @@ export function adressIndex(
   return jeAdresse
 }
 
-export function ordneFolgenZu(
-  beobachtungen: Beobachtung[],
-  k: Kontext,
-  bisher: Record<string, FolgenZuordnung> = {},
-): Record<string, FolgenZuordnung> {
+/** Der Anker eines Titels (aniSearch, sonst TMDB-Staffel), je Titel einmal gerechnet. */
+function ankerFinder(k: Kontext): (id: number) => TmdbFolge[] | null {
   const ankerCache = new Map<number, TmdbFolge[] | null>()
-  const anker = (id: number): TmdbFolge[] | null => {
+  return (id) => {
     if (ankerCache.has(id)) return ankerCache.get(id)!
     const t = k.titel.get(id)
     let a: TmdbFolge[] | null = null
@@ -148,13 +145,20 @@ export function ordneFolgenZu(
     ankerCache.set(id, a)
     return a
   }
+}
 
+/** Franchise-Kennung → Titel der Reihe. */
+function reihenVon(titel: Map<number, Title>): Map<number, number[]> {
   const reihen = new Map<number, number[]>()
-  for (const t of k.titel.values()) {
+  for (const t of titel.values()) {
     const f = t.franchiseId ?? t.id
     reihen.set(f, [...(reihen.get(f) ?? []), t.id])
   }
+  return reihen
+}
 
+/** Beobachtungen je Plattform-Folge (`plattform:kennung`); ohne Kennung fällt eine Beobachtung weg. */
+function jeFolgeGruppieren(beobachtungen: Beobachtung[]): Map<string, Beobachtung[]> {
   const jeFolge = new Map<string, Beobachtung[]>()
   for (const b of beobachtungen) {
     const kennung = b.asin ?? b.gti
@@ -162,6 +166,30 @@ export function ordneFolgenZu(
     const s = `${b.plattform}:${kennung}`
     jeFolge.set(s, [...(jeFolge.get(s) ?? []), b])
   }
+  return jeFolge
+}
+
+/** Das Urteil aus Ankertreffern und Kandidaten; geraten wird nicht. */
+function urteilAusTreffern(
+  treffer: { id: number; folge: number; grund: 'datum' | 'titel' }[],
+  kandidaten: Set<number>,
+  gesehen: string,
+): FolgenZuordnung {
+  if (treffer.length === 1) return { titel: treffer[0]!.id, folge: treffer[0]!.folge, grund: treffer[0]!.grund, gesehen }
+  if (treffer.length > 1) return { grund: 'strittig', kandidaten: treffer.map((t) => t.id), gesehen }
+  if (kandidaten.size === 1) return { titel: [...kandidaten][0]!, grund: 'einziger-kandidat', gesehen }
+  if (kandidaten.size) return { grund: 'offen', kandidaten: [...kandidaten], gesehen }
+  return { grund: 'ohne-kandidat', gesehen }
+}
+
+export function ordneFolgenZu(
+  beobachtungen: Beobachtung[],
+  k: Kontext,
+  bisher: Record<string, FolgenZuordnung> = {},
+): Record<string, FolgenZuordnung> {
+  const anker = ankerFinder(k)
+  const reihen = reihenVon(k.titel)
+  const jeFolge = jeFolgeGruppieren(beobachtungen)
 
   const aus: Record<string, FolgenZuordnung> = {}
   for (const [schluessel, liste] of jeFolge) {
@@ -199,12 +227,7 @@ export function ordneFolgenZu(
       treffer = ankerTreffer(reihe)
       if (!vorher.size) for (const id of reihe) kandidaten.add(id)
     }
-    let z: FolgenZuordnung
-    if (treffer.length === 1) z = { titel: treffer[0]!.id, folge: treffer[0]!.folge, grund: treffer[0]!.grund, gesehen: jung.gemeldet_am }
-    else if (treffer.length > 1) z = { grund: 'strittig', kandidaten: treffer.map((t) => t.id), gesehen: jung.gemeldet_am }
-    else if (kandidaten.size === 1) z = { titel: [...kandidaten][0]!, grund: 'einziger-kandidat', gesehen: jung.gemeldet_am }
-    else if (kandidaten.size) z = { grund: 'offen', kandidaten: [...kandidaten], gesehen: jung.gemeldet_am }
-    else z = { grund: 'ohne-kandidat', gesehen: jung.gemeldet_am }
+    let z = urteilAusTreffern(treffer, kandidaten, jung.gemeldet_am)
     /*
       **Eine Zuordnung wird festgehalten** (erster Schnitt, 22.09.2026): Wege ändern sich, und eine
       Beobachtung, deren Adresse nicht mehr im Bestand steht, verlöre sonst ihren Titel. Fällt der
