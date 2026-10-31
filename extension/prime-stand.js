@@ -139,3 +139,10 @@ globalThis.akPrimeFolgenStandFrisch = (gesehen, ort) => gesehen?.fuerAdresse ===
 
 /** Was am Folgenstand den Kasten neu bauen lässt: die Zahl und ob sie frisch ist. */
 globalThis.akPrimeFolgenStand = (gesehen, ort) => `${gesehen?.gesamt ?? 0}|${globalThis.akPrimeFolgenStandFrisch(gesehen, ort) ? 1 : 0}`
+
+/*
+  **Was den Knopf neu zeichnen lässt** (Miraculous Staffel 20, 31.10.2026): `zeichnen()` steigt aus, solange diese Zeichenkette gleich bleibt.
+  Jede Eingabe, die Sichtbarkeit oder Text bestimmt, gehört hinein — `standGeladen` fehlte, der Knopf blieb nach dem ersten
+  Zeichnen (Speicher noch leer, Serie „unbekannt“, Knopf versteckt) bis zum Ablauf der Achtsekundenfrist weg.
+*/
+globalThis.akPrimeZeichenStand = (...teile) => teile.join('|')
