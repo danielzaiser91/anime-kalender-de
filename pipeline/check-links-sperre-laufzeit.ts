@@ -3,6 +3,7 @@
  * (`AK_ROOT`, cwd) mit Abruf-Attrappe, die jede angefragte Adresse in eine Datei schreibt; der Bestand ist vorbelegt.
  * 1. „unklar“ überschreibt keinen echten Befund (404 bleibt samt Datum), ersetzt aber ein altes „unklar“ (neues Datum) und steht bei neuer Adresse.
  * 2. Sperr-Schwelle: Amazon fragt genau 20 Adressen in Folge, dann ist Schluss (`--sperren 0`); die übrigen Amazon-Adressen bleiben ungefragt.
+ * 2b. „in Folge“: 19 unklar, eine echte Amazon-Antwort, 19 unklar → keine Sperre (der Zähler wird zurückgesetzt).
  * 3. Die Sperre hält andere Anbieter nicht auf: Netflix-Adressen hinter den Amazon-Adressen werden trotzdem geprüft.
  */
 import { spawnSync } from 'node:child_process'
@@ -39,7 +40,8 @@ function lauf(vorher: Record<string, Befund>, extra: string[], wurzelOrdner?: st
       `import { appendFileSync } from 'node:fs'
 globalThis.fetch = async (url) => {
   appendFileSync(${JSON.stringify(anfragen)}, String(url) + '\\n')
-  return new Response(String(url).includes('amazon') ? '<html>nichts Brauchbares</html>' : '', { status: 200 })
+  const text = String(url).includes('ECHTE200') ? '<div id="productTitle">Produkt</div>' : String(url).includes('amazon') ? '<html>nichts Brauchbares</html>' : ''
+  return new Response(text, { status: 200 })
 }
 `,
     )
@@ -79,9 +81,24 @@ globalThis.fetch = async (url) => {
   pruefe('die fünf übrigen Amazon-Adressen bleiben ungefragt und im Bestand fällig', amazon.slice(20).every((u) => !gefragt.includes(u) && bestand[u]?.geprueftAm === ALT), amazon.slice(20))
   pruefe('Amazon-Sperre hält Netflix nicht auf: alle drei Adressen geprüft', andere.every((u) => gefragt.includes(u) && bestand[u]?.status === 200), { gefragt: gefragt.length })
 }
+{
+  /* 19 unklar, eine echte Antwort (200 mit Produktmerkmal), 19 unklar: der Zähler „in Folge“ setzt zurück, keine Sperre. */
+  const vor = Array.from({ length: 19 }, (_, i) => video(`B0VORHER${String(i).padStart(3, '0')}`))
+  const echt = video('B0ECHTE200')
+  const nach = Array.from({ length: 19 }, (_, i) => video(`B0NACHHER${String(i).padStart(3, '0')}`))
+  const vorher: Record<string, Befund> = {}
+  for (const u of vor) vorher[u] = { status: 'unklar', geprueftAm: '2000-01-01' }
+  vorher[echt] = { status: 'unklar', geprueftAm: '2000-01-02' }
+  for (const u of nach) vorher[u] = { status: 'unklar', geprueftAm: '2000-01-03' }
+  const { bestand, gefragt } = lauf(vorher, ['--sperren', '0', '--sperrpause', '1'], process.argv[2])
+  pruefe('Reihenfolge der Kulisse: 19 unklar vor der echten Antwort', gefragt.indexOf(echt) === 19, gefragt.indexOf(echt))
+  pruefe('echte Antwort setzt die Folge zurück: alle 39 Amazon-Adressen gefragt, keine Sperre', gefragt.length === 39, gefragt.length)
+  pruefe('die echte Adresse steht mit 200 im Bestand', bestand[echt]?.status === 200, bestand[echt])
+  pruefe('die letzten 19 sind geprüft, nicht liegen geblieben', nach.every((u) => bestand[u]?.geprueftAm !== '2000-01-03'), nach.length)
+}
 
 if (fehler.length) {
   console.error(`check-links-sperre-laufzeit: ${fehler.join('; ')}`)
   process.exit(1)
 }
-console.log('check-links-sperre-laufzeit: unklar überschreibt keinen Befund, Sperre nach genau 20 Amazon-unklar, Netflix danach weiter geprüft.')
+console.log('check-links-sperre-laufzeit: unklar überschreibt keinen Befund, Sperre nach genau 20 Amazon-unklar, Netflix danach weiter geprüft, echte Antwort setzt die Folge zurück (19+1+19 ohne Sperre).')
