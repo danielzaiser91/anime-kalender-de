@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-10-31T17:02:40.746Z",
+  "scrapedAt": "2026-10-31T18:02:31.810Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
@@ -94,6 +94,35 @@
         }
       ],
       "dub": "ja",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Drei weitere Anime-Serien ab sofort auf Deutsch bei Crunchyroll",
+      "articleUrl": "https://www.anime2you.de/news/1066100/crunchyroll-firefly-wedding-synchro-und-mehr/",
+      "publishedAt": "2026-10-31",
+      "category": "streaming",
+      "platforms": [
+        "crunchyroll"
+      ],
+      "dates": [],
+      "dub": "ja",
+      "zeiten": [
+        {
+          "tag": "Freitag",
+          "zeit": "18:00",
+          "satz": "»The Iceblade Sorcerer Shall Rule the World« – Staffel 2 »The Vermilion Mask« »Firefly Wedding« Episoden: 1 auf Deutsch verfügbar Sprache: Deutsch, Japanisch (UT) Simulcast: Jeden Freitag um 18:00 Uhr Stream: Crunchyroll , Prime Video Handl"
+        },
+        {
+          "tag": "Donnerstag",
+          "zeit": "19:00",
+          "satz": "sessenheit bringt sie in große Gefahr. »The Iceblade Sorcerer Shall Rule the World« – Staffel 2 Episoden: 1 auf Deutsch verfügbar Sprache: Deutsch, Japanisch (UT) Simulcast: Jeden Donnerstag um 19:00 Uhr Stream: Crunchyroll , Prime Video Handl"
+        },
+        {
+          "tag": "Samstag",
+          "zeit": "11:30",
+          "satz": "Iceblade Sorcerer verbirgt, der zu den mächtigsten Magiern der Welt zählt. »The Vermilion Mask« Episoden: 1 auf Deutsch verfügbar Sprache: Deutsch, Japanisch (UT) Simulcast: Jeden Samstag um 11:30 Uhr Stream: Crunchyroll , Prime Video Handl"
+        }
+      ],
       "alreadyCurated": false
     },
     {
