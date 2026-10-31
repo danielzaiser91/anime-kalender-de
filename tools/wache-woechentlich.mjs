@@ -12,7 +12,7 @@
  *
  * Aufruf (braucht `gh` und `GH_TOKEN`): node tools/wache-woechentlich.mjs [--trocken]
  */
-import { execFileSync } from 'node:child_process'
+import { LIMIT_STAPEL_MS, mitLimit } from './kind-mit-limit.mjs'
 import { appendFileSync, readFileSync } from 'node:fs'
 import { FRISTEN_STUNDEN, pruefeFristen } from './wache-fristen.mjs'
 
@@ -22,7 +22,7 @@ const H = 3600e3
 const STAND_MAX_STUNDEN = 36
 
 // WACHE_GH_SKRIPT: Node-Skript statt gh (nur der Prozess-Test setzt es).
-const gh = (...a) => (process.env.WACHE_GH_SKRIPT ? execFileSync(process.execPath, [process.env.WACHE_GH_SKRIPT, ...a], { encoding: 'utf8' }) : execFileSync('gh', a, { encoding: 'utf8', maxBuffer: 8 << 20 }))
+const gh = (...a) => (process.env.WACHE_GH_SKRIPT ? mitLimit(process.execPath, [process.env.WACHE_GH_SKRIPT, ...a], { encoding: 'utf8' }) : mitLimit('gh', a, { encoding: 'utf8', maxBuffer: 8 << 20 }))
 
 function letzterErfolg(workflow) {
   const t = gh('run', 'list', '--workflow', workflow, '--status', 'success', '--limit', '1', '--json', 'createdAt', '--jq', '.[0].createdAt // empty').trim()
@@ -62,7 +62,10 @@ try {
   Die harten Regeln laufen als Bau-Invarianten (`pipeline/lib/invarianten*.ts`) und brechen den Bau ab, nicht diese Wache.
 */
 try {
-  const ausgabe = execFileSync('npx', ['tsx', 'tools/daten-detektiv.ts', '--wache'], { encoding: 'utf8', maxBuffer: 32 << 20, shell: process.platform === 'win32' })
+  // Daten-Detektiv gemessen 30.10. und 31.10.2026 (je 3 Läufe): 2,7-3,1 s; Stapel-Limit 30 s (rund das Zehnfache).
+  // WACHE_DETEKTIV_SKRIPT: Node-Skript statt npx tsx (nur der Prozess-Test setzt es, für den Hänger-Fall).
+  const ersatz = process.env.WACHE_DETEKTIV_SKRIPT
+  const ausgabe = mitLimit(ersatz ? process.execPath : 'npx', ersatz ? [ersatz] : ['tsx', 'tools/daten-detektiv.ts', '--wache'], { encoding: 'utf8', maxBuffer: 32 << 20, shell: !ersatz && process.platform === 'win32' }, { limitMs: LIMIT_STAPEL_MS })
   const neu = JSON.parse(ausgabe.trim().split('\n').at(-1)).neu
   console.log(`Daten-Detektiv (weiche Regeln): ${neu.length} neue Schlüssel`)
   if (neu.length) befunde.push(`Daten-Detektiv: ${neu.length} neue Funde, z. B. ${neu.slice(0, 3).map((n) => `${n.id} ${n.text}`).join(' | ')} (npm run detektiv -- --nur ${[...new Set(neu.map((n) => n.id))].join(',')})`)

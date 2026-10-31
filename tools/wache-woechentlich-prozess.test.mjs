@@ -8,7 +8,7 @@ import { join, resolve } from 'node:path'
 const quelle = resolve(import.meta.dirname)
 const wurzel = mkdtempSync(join(tmpdir(), 'wache-prozess-'))
 mkdirSync(join(wurzel, 'tools'))
-for (const f of ['wache-woechentlich.mjs', 'wache-fristen.mjs', 'wache-woechentlich-gh-attrappe.mjs']) copyFileSync(join(quelle, f), join(wurzel, 'tools', f))
+for (const f of ['wache-woechentlich.mjs', 'wache-fristen.mjs', 'wache-woechentlich-gh-attrappe.mjs', 'kind-mit-limit.mjs']) copyFileSync(join(quelle, f), join(wurzel, 'tools', f))
 
 function lauf(stunden) {
   const r = spawnSync(process.execPath, ['tools/wache-woechentlich.mjs', '--trocken'], {
