@@ -22,7 +22,7 @@
  * | mehrere CSS-Dateien, oder eine CSS über 30 Zeilen                           | 1       |
  * | Skill-Text: .claude/skills/**\/*.md (andere Dateien dort bleiben 2)           | 1       |
  * | tools/claude-global/** (Regeln, Skills, Hooks, Mods; steuern Daniels Agenten) | 1       |
- * | Handwerkzeug tools/<name>.(mjs|cjs|js|ts) mit eigenem Test, dessen Name in .github, package.json, tools, pipeline, shared nirgends (außer in Tests) vorkommt (tools/pr-stufe-kette.mjs) | 1 |
+ * | Handwerkzeug tools/<name>.(mjs|cjs|js|ts) mit eigenem Test, dessen Name in .github, package.json, tools, pipeline, shared, web, worker, extension, .claude, Wurzeldateien nirgends (auch nicht in fremden Tests) vorkommt und kein Glob trifft (tools/pr-stufe-kette.mjs) | 1 |
  * | Doku: *.md, docs, daniel-zum-abarbeiten, mockups                            | 0       |
  * | Text: data/patchnotes/*.yaml, web/src/**\/i18n*.ts(x)                       | 0       |
  * | eine einzelne *.css unter web/src oder extension, höchstens 30 Zeilen       | 0       |

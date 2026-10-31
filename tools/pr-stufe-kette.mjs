@@ -10,7 +10,7 @@ import { join } from 'node:path'
 
 const WERKZEUG = /^tools\/([^/]+)\.(mjs|cjs|js|ts)$/
 const TOOLS_TEST = /^tools\/([^/]+)\.(test|spec)\.[cm]?[jt]sx?$/
-const TEST =/\.(test|spec)\./
+const TEST = /\.(test|spec)\./
 const QUELL_ENDUNG = /\.(mjs|cjs|js|ts|tsx|sh|yml|yaml|json|txt)$/
 // Die Ausnahmeliste nennt Werkzeuge ohne Aufrufer, ist also selbst keiner.
 const KEINE_AUFRUFE = new Set(['tools/skript-aufrufer-ausnahmen.txt'])
