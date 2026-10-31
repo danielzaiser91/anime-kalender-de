@@ -93,6 +93,14 @@ const fremderKopf = laufeBisEingang(wf, { 7: prDaten(7, 'f'.repeat(40)) })
 pruefe('Sperre: Liste endet nicht am Kopf -> zustand=unvollstaendig',
   fremderKopf.ausgaben?.diff?.['diff-zustand'] === 'ok' && fremderKopf.ausgaben?.eingang?.zustand === 'unvollstaendig', fremderKopf.ausgaben)
 
+// Leerer PR-Diff (2473: leerer Nachtrag-Commit, PR ohne Dateiänderung): in der Abnahme ok, in der vollen Prüfung nicht.
+const leerAbnahme = laufeBisEingang(wf, { 7: { ...mitCi, dateien: [] } })
+pruefe('Leerer PR-Diff in der Abnahme -> diff-zustand=leer, Sperre ok',
+  leerAbnahme.ausgaben?.diff?.['diff-zustand'] === 'leer' && leerAbnahme.ausgaben?.modus?.modus === 'abnahme' && leerAbnahme.ausgaben?.eingang?.zustand === 'ok', leerAbnahme.ausgaben ?? leerAbnahme.fehler)
+const leerVoll = laufeBisEingang(wf, { 7: { ...prDaten(7, KOPF), dateien: [] } })
+pruefe('Leerer PR-Diff in der vollen Prüfung -> Sperre unvollstaendig',
+  leerVoll.ausgaben?.diff?.['diff-zustand'] === 'leer' && leerVoll.ausgaben?.modus?.modus === 'voll' && leerVoll.ausgaben?.eingang?.zustand === 'unvollstaendig', leerVoll.ausgaben ?? leerVoll.fehler)
+
 // Sperre, Freigabe-env und -run deckt der Schnappschuss (pr-pruefer-freigabe.test.mjs) ab; hier bleibt der Prompt-Text.
 const schritte = wf.jobs.pruefen.steps
 const pruefer = schritte.filter((s) => String(s.uses ?? '').startsWith('anthropics/claude-code-action'))

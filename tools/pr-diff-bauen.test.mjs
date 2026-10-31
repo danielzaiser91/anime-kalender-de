@@ -51,7 +51,7 @@ pruefe('ohne Patch bei Code → unvollstaendig', bau([datei('pipeline/lib/a.ts',
 const handOhnePatch = bau([datei('data/synchro-von-hand.yaml', undefined)])
 pruefe('ohne Patch bei Handdatei (nicht auf der Liste) → unvollstaendig, nicht gestubbt', handOhnePatch.zustand === 'unvollstaendig' && handOhnePatch.gestubbt.length === 0 && handOhnePatch.diff.includes('Diff nicht lieferbar'))
 pruefe('ohne Patch bei Sammler-Datei → Stub, ok', bau([datei('data/sammler.json', undefined)]).zustand === 'ok')
-pruefe('leere Liste → unvollstaendig', bau([]).zustand === 'unvollstaendig')
+pruefe('leere Liste → leer (nicht ok, nicht unvollstaendig)', bau([]).zustand === 'leer')
 const umbenannt = (von, nach) => datei(nach, groß, { status: 'renamed', previous_filename: von })
 pruefe('Umbenennung web → public/data mit großem Patch nicht gestubbt', bau([umbenannt('web/x.ts', 'public/data/x.json')]).gestubbt.length === 0)
 pruefe('Umbenennung Handbeleg → data/stammdaten nicht gestubbt', bau([umbenannt('data/dub-confirmed.yaml', 'data/stammdaten/x.json')]).gestubbt.length === 0)

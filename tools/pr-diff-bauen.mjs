@@ -3,7 +3,7 @@
  *
  *   node tools/pr-diff-bauen.mjs <dateien.ndjson> <pr.diff> [<basis-sha> <kopf-sha>]     (je Zeile ein Objekt von `gh api …/pulls/N/files`)
  *
- * Ausgabe auf stdout: `ok` oder `unvollstaendig`. Warum je Datei: Eine große Datendatei (z. B. `data/anisearch-sprecher.json`,
+ * Ausgabe auf stdout: `ok`, `leer` (Liste erfolgreich abgerufen, aber ohne Datei) oder `unvollstaendig`. Warum je Datei: Eine große Datendatei (z. B. `data/anisearch-sprecher.json`,
  * 1,1 MB) füllte sonst das Limit, der Prüfer sah den Code nicht und musste zwingend „aendern" urteilen.
  *
  * Gestubbt wird nur, was die Positivliste trifft (siehe `stubbar`) und über GRENZE_STUB Byte Diff hat (oder dessen Diff
@@ -176,7 +176,9 @@ export function baueDiff(dateien, quellen, gitDiff = () => null, inhalt = () => 
   stubbeBisPasst(sicher, teile, quellen, inhalt)
   let diff = teile.map((t) => t.text).join('\n') + '\n'
   let zustand = 'ok'
-  if (dateien.length === 0 || dateien.length >= API_MAXIMUM || teile.some((t) => t.fehlt)) zustand = 'unvollstaendig'
+  if (dateien.length >= API_MAXIMUM || teile.some((t) => t.fehlt)) zustand = 'unvollstaendig'
+  // Erfolgreich abgerufene, aber leere Liste (PR ohne Dateiänderung): eigener Zustand, nur in der Abnahme zulässig (pr-eingang.mjs).
+  if (dateien.length === 0) zustand = 'leer'
   if (Buffer.byteLength(diff) > GRENZE_GESAMT) {
     zustand = 'unvollstaendig'
     diff = Buffer.from(diff).subarray(0, GRENZE_GESAMT).toString()

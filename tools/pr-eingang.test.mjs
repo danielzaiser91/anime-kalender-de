@@ -54,6 +54,14 @@ pruefe('Fremdzeile vor dem ersten Commit -> unvollstaendig',
 pruefe('Fremdzeile zwischen den Commits -> unvollstaendig',
   eingangZustand(VORN + COMMITS + zeile('a'.repeat(40), 'eins') + '\n-Fremd' + zeile(KOPF, 'zwei'), 'ok', KOPF) === 'unvollstaendig')
 
+// Leerer PR-Diff (z. B. leerer Nachtrag-Commit, 2473): nur in der Abnahme gilt er, nie in der vollen Prüfung.
+pruefe('Diff leer + Abnahme + Liste am Kopf -> ok', eingangZustand(gut, 'leer', KOPF, 'abnahme') === 'ok')
+pruefe('Diff leer + volle Prüfung -> unvollstaendig', eingangZustand(gut, 'leer', KOPF, 'voll') === 'unvollstaendig')
+pruefe('Diff leer ohne Modus -> unvollstaendig', eingangZustand(gut, 'leer', KOPF) === 'unvollstaendig')
+pruefe('Abnahme + Diff unvollstaendig (API-Fehler) -> unvollstaendig', eingangZustand(gut, 'unvollstaendig', KOPF, 'abnahme') === 'unvollstaendig')
+pruefe('Abnahme + Diff-Zustand fehlt -> unvollstaendig', eingangZustand(gut, '', KOPF, 'abnahme') === 'unvollstaendig')
+pruefe('Diff leer + Abnahme, aber Liste endet nicht am Kopf -> unvollstaendig', eingangZustand(VORN + liste(KOPF, 'a'.repeat(40)), 'leer', KOPF, 'abnahme') === 'unvollstaendig')
+
 // Als Prozess wie im Workflow: Ausgabe ist genau eine Zeile für $GITHUB_OUTPUT, auch wenn die Datei fehlt.
 const SKRIPT = fileURLToPath(new URL('./pr-eingang.mjs', import.meta.url))
 const ordner = fs.mkdtempSync(path.join(os.tmpdir(), 'pr-eingang-'))

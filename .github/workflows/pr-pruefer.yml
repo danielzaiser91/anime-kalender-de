@@ -53,7 +53,7 @@ jobs:
         run: |
           # Diff je Datei aus der Dateiliste der API (tools/pr-diff-bauen.mjs, Skript aus main): große Datendateien
           # werden durch eine Stub-Zeile ersetzt, Code, Workflows und Doku bleiben vollständig. Kein Pipe, der den
-          # Exit von gh maskiert: erst in eine Datei. Fehlt die Liste oder ist sie leer, ist der Zustand unvollstaendig.
+          # Exit von gh maskiert: erst in eine Datei. Fehlt die Liste (gh scheitert), ist der Zustand unvollstaendig; eine erfolgreich abgerufene leere Liste ist `leer` (gilt nur in der Abnahme, tools/pr-eingang.mjs).
           T="$RUNNER_TEMP/pruefer"; mkdir -p "$T"
           # Rückfall für Dateien ohne API-Patch (sehr große Änderung, z. B. data/dub-confirmed.yaml): nur Git-OBJEKTE holen
           # (Merge-Basis und Kopf, je Tiefe 1), kein Checkout, nichts aus dem PR ausführen. `git diff` liest sie nur;
@@ -71,7 +71,7 @@ jobs:
           if gh api --method GET --paginate "repos/$GITHUB_REPOSITORY/pulls/$PR/files" -f per_page=100 -q '.[]' > "$T/dateien.ndjson"; then
             zustand=$(node tools/pr-diff-bauen.mjs "$T/dateien.ndjson" "$T/pr.diff" "$basis" "$kopf") || zustand=unvollstaendig
           fi
-          [ "$zustand" = ok ] || zustand=unvollstaendig
+          [ "$zustand" = ok ] || [ "$zustand" = leer ] || zustand=unvollstaendig
           rm -f "$T/dateien.ndjson"
           gh pr view "$PR" --repo "$GITHUB_REPOSITORY" --json title,body,headRefName \
             -q '"Titel: " + .title + "\nZweig: " + .headRefName + "\n\n" + .body' > "$T/pr-beschreibung.txt"
@@ -144,7 +144,8 @@ jobs:
         env:
           DIFF_ZUSTAND: ${{ steps.diff.outputs.diff-zustand }}
           KOPF: ${{ github.event.pull_request.head.sha }}
-        run: node tools/pr-eingang.mjs "$RUNNER_TEMP/pruefer/pr-beschreibung.txt" "$DIFF_ZUSTAND" "$KOPF" >> "$GITHUB_OUTPUT"
+          MODUS: ${{ steps.modus.outputs.modus }}
+        run: node tools/pr-eingang.mjs "$RUNNER_TEMP/pruefer/pr-beschreibung.txt" "$DIFF_ZUSTAND" "$KOPF" "$MODUS" >> "$GITHUB_OUTPUT"
 
       # Stufe 0 (Daniel, 12.10.2026): schlanker Lauf statt Überspringen, damit grüne Kleinigkeiten eine echte Freigabe
       # bekommen (der Branch-Schutz verlangt sie). Gleiche Einstellungen, Dateien und Freigabe-Schritt wie unten; nur den
