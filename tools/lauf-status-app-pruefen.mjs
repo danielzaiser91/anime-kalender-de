@@ -48,6 +48,7 @@ import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { artenAusAnzeige } from './lauf-arten-lesen.mjs'
+import { fensterUrteil, schneidetBildschirm } from './lauf-status-fenster-urteil.mjs'
 
 const WURZEL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const APP = 'C:/code/ai/__assets/tools/lauf-status/app'
@@ -212,18 +213,12 @@ await seite.waitForTimeout(1500)
 
 console.log('Die Laufstatus-App:\n')
 
-const lage = await programm.evaluate(({ BrowserWindow, screen }) => {
+const rohLage = await programm.evaluate(({ BrowserWindow, screen }) => {
   const w = BrowserWindow.getAllWindows()[0]
-  const b = w.getBounds()
-  const schneidet = screen.getAllDisplays().some((d) => {
-    const a = d.bounds
-    return b.x < a.x + a.width && b.x + b.width > a.x && b.y < a.y + a.height && b.y + b.height > a.y
-  })
-  return { sichtbar: w.isVisible(), fokus: w.isFocused(), schneidet, bounds: b }
+  return { sichtbar: w.isVisible(), fokus: w.isFocused(), bounds: w.getBounds(), bildschirme: screen.getAllDisplays().map((d) => d.bounds) }
 })
-pruefe('Testfenster liegt außerhalb aller Bildschirme', lage.schneidet === false, JSON.stringify(lage.bounds))
-pruefe('ohne Fokus', lage.fokus === false)
-pruefe('und gilt trotzdem als sichtbar', lage.sichtbar === true)
+const lage = { ...rohLage, schneidet: schneidetBildschirm(rohLage.bounds, rohLage.bildschirme) }
+for (const [was, ok, zusatz] of fensterUrteil(lage)) pruefe(was, ok, zusatz)
 
 const fenster = await programm.evaluate(({ BrowserWindow }) => {
   const w = BrowserWindow.getAllWindows().find((x) => x.isVisible())
