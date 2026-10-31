@@ -142,6 +142,12 @@ function machElement(tag = 'div') {
   return el
 }
 
+/** `disney-durchgang.js` liest beim Laden beide Speicher. */
+function speicherAttrappen() {
+  const speicher = () => ({ getItem: () => null, setItem() {}, removeItem() {} })
+  return { localStorage: speicher(), sessionStorage: speicher() }
+}
+
 function baueSandkasten(host, pfad) {
   const body = machElement('body')
   const html = machElement('html')
@@ -277,7 +283,7 @@ for (const datei of SKRIPTE) {
   }
   const pfad = pfade[host] ?? '/title/82757009'
   try {
-    vm.runInContext(quelle, vm.createContext(baueSandkasten(host, pfad)), { filename: datei, timeout: 10_000 })
+    vm.runInContext(quelle, vm.createContext(Object.assign(baueSandkasten(host, pfad), speicherAttrappen())), { filename: datei, timeout: 10_000 })
     console.log(`  ✓ ${datei}`)
   } catch (e) {
     console.log(`  ✗ ${datei} — ${e.message}`)

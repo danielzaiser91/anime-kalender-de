@@ -10910,7 +10910,7 @@ async function speicherSchreiben(werte) {
     const lauf = primeLaufLesen()
     if (!lauf) return
     lauf.laufend = lauf.laufend.filter((k) => k !== f.kennung)
-    primeSpur(lauf, 'seite', { kennung: f.kennung, ok: Boolean(daten.ok), grund: daten.grund ?? null })
+    primeSpur(lauf, 'seite', { kennung: f.kennung, ok: Boolean(daten.ok), grund: daten.grund ?? null, abschnitte: daten.abschnitte ?? undefined })
     if (daten.ok) {
       lauf.seiten = (lauf.seiten ?? 0) + 1
       /*
@@ -10936,7 +10936,7 @@ async function speicherSchreiben(werte) {
     }
     if (!daten.ok && !globalThis.AK_TAGESLIMIT?.zurueckstellen(lauf.plan, f.kennung)) {
       const nr = lauf.staffelNr[f.kennung]
-      lauf.uebersprungen.push(`${liste[lauf.titel]?.titel ?? '?'} · ${nr ? `Staffel ${nr}` : f.kennung}`)
+      lauf.uebersprungen.push(globalThis.akPrimeUebersprungen(liste[lauf.titel]?.titel ?? '?', nr, daten.grund))
     }
     primeLaufSchreiben(lauf)
     primeKoordinieren()
@@ -10996,7 +10996,7 @@ async function speicherSchreiben(werte) {
       .filter((s) => s?.kennung)
       .map((s) => ({ kennung: String(s.kennung), nummer: s.nummer ?? null }))
     window.parent.postMessage(
-      { marke: 'ak-prime-frame', ok, grund, hier: String(asin() ?? ''), staffeln, limit: globalThis.AK_TAGESLIMIT?.rest() ?? null },
+      { marke: 'ak-prime-frame', ok, grund, hier: String(asin() ?? ''), staffeln, abschnitte: ok ? null : globalThis.akPrimeAbschnittSpur(gesehen?.abschnitte), limit: globalThis.AK_TAGESLIMIT?.rest() ?? null },
       location.origin,
     )
   }
@@ -11010,9 +11010,7 @@ async function speicherSchreiben(werte) {
       frameZustand.text = text
       frameZustand.textSeit = jetzt
     }
-    if (jetzt - frameZustand.start > PRIME_SEITE_HOECHSTENS_MS) {
-      return frameFertig(false, `Knopf blieb bei: ${text || '(leer)'}`)
-    }
+    if (jetzt - frameZustand.start > PRIME_SEITE_HOECHSTENS_MS) return frameFertig(...globalThis.akPrimeFrist(text, gesehen))
     const hier = String(asin() ?? '')
     if (!hier) return
     const ruhig = jetzt - frameZustand.textSeit >= PRIME_RUHE_MS
