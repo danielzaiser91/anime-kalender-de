@@ -32,6 +32,7 @@ export const ZWILLING_AUSNAHMEN: Record<number, string> = {
   [-35335]: 'The Jungle Book (2010, 156 Folgen) ist nicht die Serie von 1989 (AniList 2569)',
   [-13247]: 'Sylvanian Families (2018, 62 Folgen) ist nicht die Kurzreihe Calico Critters: Mini Episodes (2017, 12 Folgen, AniList 187052); die TMDB-Zuordnung in tmdb-titles.json trifft hier daneben',
   [-87247]: 'ungeklärt: TMDB „Bakugan“ (2018, 338 Folgen) könnte Bakugan: Battle Planet (2019, 50 Folgen, AniList 108852) enthalten; die Folgenzahlen belegen es nicht, deshalb nicht zusammengelegt',
+  [-204084]: 'ungeklärt: ADN-Handliste (Serie 887) und TMDB 204084 „Dreamland“ (2026, 10 Folgen, Start 2026-10-17); der AniList-Eintrag 114466 „Dreamland“ steht in data/ankuendigungen.yaml ohne Start, Jahr und Folgenzahl belegen die Gleichheit nicht, deshalb nicht zusammengelegt',
 }
 
 const jahrPasst = (a?: number, b?: number): boolean => a !== undefined && b !== undefined && Math.abs(a - b) <= 1
