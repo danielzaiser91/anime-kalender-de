@@ -22,16 +22,26 @@ export function adnShowsLesen(): AdnShow[] {
   return [...readJson<AdnData>('data/adn.json', leer).shows, ...readJson<AdnData>('data/adn-catalog.json', leer).shows]
 }
 
+/** Cartoon-Kennung → ADN-Serie, die der Handlisten-Eintrag nennt und die mit Folgen und Adresse im Katalog oder Kalender steht. */
+export function adnShowJeCartoon(roh: Record<string, CartoonEintrag>, shows: AdnShow[]): Map<number, AdnShow> {
+  const jeCartoon = new Map<number, AdnShow>()
+  for (const e of Object.values(roh)) {
+    const show = e.adnId ? shows.find((s) => s.showId === e.adnId) : undefined
+    if (show?.episodes.length && show.url) jeCartoon.set(e.id, show)
+  }
+  return jeCartoon
+}
+
 /**
  * Der Weg ADN mit deutschem Ton: nur für Cartoons der Handliste, deren Serie ADN mit Folgen führt (Katalog und Kalender führen nur Folgen
  * mit `vde`). Ein vorhandener ADN-Weg (TMDB-Anbieter) bekommt Ton und Adresse. Gibt die Zahl der gesetzten Wege zurück.
  */
 export function ergaenzeAdnWege(titel: Title[], roh: Record<string, CartoonEintrag>, shows: AdnShow[]): number {
-  const nachAdn = new Map(Object.values(roh).filter((e) => e.adnId).map((e) => [e.id, e.adnId!]))
+  const showJeCartoon = adnShowJeCartoon(roh, shows)
   let neu = 0
   for (const t of titel) {
-    const show = shows.find((s) => s.showId === nachAdn.get(t.id))
-    if (!show?.episodes.length || !show.url) continue
+    const show = showJeCartoon.get(t.id)
+    if (!show) continue
     const vorhanden = t.streams.find((s) => s.platform === 'adn')
     if (vorhanden) {
       vorhanden.dub = true

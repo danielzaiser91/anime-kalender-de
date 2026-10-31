@@ -19,7 +19,7 @@ eintraege:
   - adn: 748
     name: Die unglaublichen Abenteuer des Kapitän Cousteau
     original: Les Aventures Fantastiques du Commandant Cousteau
-    pruefen: Ob die Serie Animation oder Dokumentation ist, ist ungeklärt (vor dem Eintragen an der TMDB-Seite ansehen)
+    tmdb: 103938
   - { adn: 778, name: Spirou und Fantasio, original: Spirou & Fantasio }
   - { adn: 817, name: Martin Morgen, original: Martin Matin }
   - { adn: 1144, name: Billy & Buddy, original: Boule et Bill }
