@@ -8,7 +8,7 @@
  * Aufruf: `gh pr list --state open --limit 100 --json number,title,body,createdAt | node tools/rote-sammler-prs.mjs nummern "<Fund-Schlüssel>" "<neue Nummer>"`
  * gibt die Nummern der abzulösenden PRs aus, eine je Zeile.
  */
-import { execSync } from 'node:child_process'
+import { mitLimit } from './kind-mit-limit.mjs'
 
 export const MARKE = '[Prüfung rot]'
 const STUNDE = 3600_000
@@ -41,7 +41,7 @@ export function zeilen(liste, jetzt) {
   return [`${rote.length} Sammler-PR(s) mit roter Datenprüfung offen (nicht gemergt, ein Mensch löst sie):`, ...rote.map((pr) => `  #${pr.number}  seit ${alter(pr.createdAt, jetzt)}  ${pr.title}`)]
 }
 
-const ghListe = () => JSON.parse(execSync('gh pr list --state open --limit 100 --json number,title,body,createdAt', { encoding: 'utf8', maxBuffer: 8 << 20 }))
+const ghListe = () => JSON.parse(mitLimit('gh', ['pr', 'list', '--state', 'open', '--limit', '100', '--json', 'number,title,body,createdAt'], { encoding: 'utf8', maxBuffer: 8 << 20 }))
 
 /** Schreibt die offenen roten Sammler-PRs; ein Fehler beim Abruf wird gemeldet, nie geworfen (die Wachphase läuft weiter). */
 export function meldeRoteSammlerPrs(lies = ghListe, log = console.log, jetzt = Date.now()) {

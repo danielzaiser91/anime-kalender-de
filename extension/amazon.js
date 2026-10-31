@@ -10894,7 +10894,7 @@ async function speicherSchreiben(werte) {
     const lauf = primeLaufLesen()
     if (!lauf) return
     lauf.laufend = lauf.laufend.filter((k) => k !== f.kennung)
-    primeSpur(lauf, 'seite', { kennung: f.kennung, ok: Boolean(daten.ok), grund: daten.grund ?? null, tagebuch: daten.tagebuch ?? null })
+    primeSpur(lauf, 'seite', { kennung: f.kennung, ok: Boolean(daten.ok), grund: daten.grund ?? null, tagebuch: daten.tagebuch ?? null, abschnitte: daten.abschnitte ?? undefined })
     globalThis.akPrimeSucheErgebnis(lauf, daten, primeLaufName(lauf))
     if (daten.ok) {
       lauf.seiten = (lauf.seiten ?? 0) + 1
@@ -10919,7 +10919,7 @@ async function speicherSchreiben(werte) {
     }
     if (!daten.ok && !globalThis.AK_TAGESLIMIT?.zurueckstellen(lauf.plan, f.kennung)) {
       const nr = lauf.staffelNr[f.kennung]
-      lauf.uebersprungen.push(`${primeLaufName(lauf)} · ${nr ? `Staffel ${nr}` : f.kennung}`)
+      lauf.uebersprungen.push(globalThis.akPrimeUebersprungen(primeLaufName(lauf), nr, daten.grund))
     }
     primeLaufSchreiben(lauf)
     primeKoordinieren()
@@ -10981,7 +10981,7 @@ async function speicherSchreiben(werte) {
       .filter((s) => s?.kennung)
       .map((s) => ({ kennung: String(s.kennung), nummer: s.nummer ?? null, name: s.name ?? null, link: s.link ?? null, gewaehlt: Boolean(s.gewaehlt) }))
     window.parent.postMessage(
-      { marke: 'ak-prime-frame', ok, grund, hier: String(asin() ?? ''), staffeln, limit: globalThis.AK_TAGESLIMIT?.rest() ?? null, tagebuch: ok ? undefined : frameZustand.tagebuch },
+      { marke: 'ak-prime-frame', ok, grund, hier: String(asin() ?? ''), staffeln, abschnitte: ok ? null : globalThis.akPrimeAbschnittSpur(gesehen?.abschnitte), limit: globalThis.AK_TAGESLIMIT?.rest() ?? null, tagebuch: ok ? undefined : frameZustand.tagebuch },
       location.origin,
     )
   }
@@ -11009,9 +11009,7 @@ async function speicherSchreiben(werte) {
       frameZustand.textSeit = jetzt
       frameZustand.tagebuch = globalThis.akPrimeTagebuch(frameZustand.tagebuch, text, jetzt - frameZustand.start)
     }
-    if (jetzt - frameZustand.start > PRIME_SEITE_HOECHSTENS_MS) {
-      return frameFertig(false, `Knopf blieb bei: ${text || '(leer)'}`)
-    }
+    if (jetzt - frameZustand.start > PRIME_SEITE_HOECHSTENS_MS) return frameFertig(...globalThis.akPrimeFrist(text, gesehen))
     const hier = String(asin() ?? '')
     if (!hier) return
     const ruhig = jetzt - frameZustand.textSeit >= PRIME_RUHE_MS

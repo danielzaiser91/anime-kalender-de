@@ -175,7 +175,7 @@ const kennung = (el) => /detail\/([A-Z0-9]+)/.exec(el.src)?.[1]
   pruefe('der Plan hält die übrigen fünf', w.lauf().plan.length === 5, w.lauf().plan)
 
   w.ergebnis(w.offen()[1], { ok: false, grund: 'Knopf blieb bei: Staffel wechselt — einen Moment' })
-  pruefe('ein Fehlschlag wird mit Staffelnummer übersprungen', w.lauf().uebersprungen.join() === 'Naruto · Staffel 2', w.lauf().uebersprungen)
+  pruefe('ein Fehlschlag wird mit Staffelnummer übersprungen', w.lauf().uebersprungen.join() === 'Naruto · Staffel 2 – Knopf blieb bei: Staffel wechselt — einen Moment', w.lauf().uebersprungen)
   pruefe('… und sofort rückt die nächste Staffel nach', w.offen().length === 3 && w.offen().map(kennung).includes(NARUTO[3]))
 
   /* Ein Frame, der nie antwortet: nach 90 s entfernt. */
@@ -253,7 +253,7 @@ const kennung = (el) => /detail\/([A-Z0-9]+)/.exec(el.src)?.[1]
   const huelle = {}
   vm.runInNewContext(roh, huelle)
   const eintraege = Object.values(huelle.AK_OFFENE_AMAZON ?? {})
-  const ohne = eintraege.filter((e) => !/\/detail(?:\/|\?gti=)/.test(e.url) && !/\/s\?k=/.test(e.url))
+  const ohne = eintraege.filter((e) => !/\/(?:detail|dp)(?:\/|\?gti=)/.test(e.url) && !/\/s\?k=/.test(e.url))
   pruefe('Prüfliste: jeder Eintrag hat eine Titelseite oder eine Suchadresse', eintraege.length > 0 && ohne.length === 0, ohne.slice(0, 3))
 }
 
@@ -413,6 +413,58 @@ for (const [text, teil, ort] of [
   const w = welt({ imFrame: true })
   w.zeige('Staffel wechselt — einen Moment', 61_000)
   pruefe('Frame: hängt der Knopf eine Minute, geht „nicht gemeldet" zurück', w.gepostet[0]?.ok === false && /Knopf blieb bei/.test(w.gepostet[0].grund), w.gepostet[0])
+}
+
+/* Fushigi Yûgi Staffel 1 (31.10.2026): die Marke kam erst in der letzten Sekunde vor der Frist — das ist gemeldet, nicht gescheitert. */
+{
+  const w = welt({ imFrame: true })
+  w.zeige('Staffel wechselt — einen Moment', 59_500)
+  pruefe('Frame: vor der Frist noch keine Antwort', !w.gepostet.length, w.gepostet)
+  w.zeige('gemeldet ✓', 1500)
+  pruefe('Frame: Marke „gemeldet ✓" erst an der Frist → ok, nicht „Knopf blieb bei"', w.gepostet[0]?.ok === true && /schon gemeldet/.test(w.gepostet[0].grund), w.gepostet[0])
+}
+
+/* Frist genau am Rand: nach 60 000 ms noch nicht, erst der nächste Takt (60 500 ms) beendet. */
+{
+  const w = welt({ imFrame: true })
+  w.zeige('Staffel wechselt — einen Moment', 60_000)
+  pruefe('Frame: genau 60 000 ms → noch keine Antwort', !w.gepostet.length, w.gepostet)
+  w.zeige('Staffel wechselt — einen Moment', 500)
+  pruefe('Frame: 500 ms später → Frist erreicht, nicht gemeldet', w.gepostet[0]?.ok === false && /Knopf blieb bei/.test(w.gepostet[0].grund), w.gepostet[0])
+}
+
+/* „nicht gemeldet“ enthält das Wort „gemeldet“, ist aber kein Erfolg. */
+{
+  const w = welt({ imFrame: true })
+  const e = (text) => vm.runInContext(`globalThis.akPrimeFristErgebnis(${JSON.stringify(text)})`, w.kontext)
+  pruefe('Frist: „nicht gemeldet“ → nicht ok', e('nicht gemeldet').ok === false && /Knopf blieb bei: nicht gemeldet/.test(e('nicht gemeldet').grund), e('nicht gemeldet'))
+  pruefe('Frist: „gemeldet ✓“ → ok', e('gemeldet ✓').ok === true)
+  pruefe('Frist: „✓ Staffel 1 gemeldet“ → ok', e('✓ Staffel 1 gemeldet').ok === true)
+}
+
+/* Dragon Quest: The Adventure of Dai (31.10.2026): 75 von 100 gelesen — der Grund nennt die fehlenden Folgen, die Spur die Abschnitte. */
+{
+  const w = welt({ imFrame: true })
+  const nummern = new Set([...Array(72).keys()].map((i) => i + 1).concat([98, 99, 100]))
+  const log = [
+    { token: 'a', status: 200, roh: 24, gelesen: 24, von: 49, bis: 72 },
+    { token: 'd', status: 200, roh: 25, gelesen: 0, kollisionen: 25, von: 73, bis: 97 },
+  ]
+  w.kontext.gesehen = { seite: { staffeln: [] }, gesamt: 100, nummern, abschnitte: { gesamt: 5, offen: 0, log } }
+  w.zeige('75 Folgen gelesen — mehr zeigt die Seite nicht', 61_000)
+  const d = w.gepostet[0]
+  pruefe('Frame: Frist mit Lücke → nicht ok, Grund nennt Folge 73–97', d?.ok === false && /von 100 fehlen Folge 73–97/.test(d.grund), d)
+  pruefe('Frame: … und die Abschnitte stehen in der Meldung', d?.abschnitte?.[1] === '73–97: 0/25, HTTP 200, 25 Kollision', d?.abschnitte)
+}
+
+/* Die Steuerung nimmt Grund und Abschnitte in Spur und Endanzeige. */
+{
+  const w = welt()
+  vm.runInContext('primeLaufStarten()', w.kontext)
+  w.ergebnis(w.offen()[0], { ok: false, grund: 'Knopf blieb bei: 75 Folgen gelesen (von 100 fehlen Folge 73–97)', abschnitte: ['73–97: 0/25, HTTP 200'], staffeln: [] })
+  pruefe('Steuerung: der Eintrag nennt den Grund', /^Naruto – Knopf blieb bei: 75 Folgen gelesen \(von 100 fehlen Folge 73–97\)$/.test(w.lauf().uebersprungen[0]), w.lauf().uebersprungen)
+  pruefe('Steuerung: die Spur trägt die Abschnitte', w.lauf().spur.some((s) => s.was === 'seite' && s.abschnitte?.[0] === '73–97: 0/25, HTTP 200'), w.lauf().spur)
+  pruefe('Endanzeige: Titel und Grund stehen in der Liste', /offen \(Fehler beim Melden\): Naruto – Knopf blieb bei: 75 Folgen/.test(w.kontext.akPrimeEndeText({ grund: 'nichts mehr offen', uebersprungen: w.lauf().uebersprungen, suchen: 0 })))
 }
 
 {
