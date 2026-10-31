@@ -45,6 +45,7 @@
   "tools/heute-utc.test.mjs": 3,
   "tools/kapazitaet.test.mjs": 1,
   "tools/kette-urteil.test.mjs": 1,
+  "tools/kind-mit-limit.test.mjs": 1,
   "tools/laeufe-abruf.test.mjs": 3,
   "tools/leerzeichen-gleich-prozess.test.mjs": 2,
   "tools/liegegut.test.mjs": 2,

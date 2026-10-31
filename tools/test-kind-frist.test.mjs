@@ -31,6 +31,25 @@ assert.deepEqual(ohne(`${kopf}spawnSync('a', [], { timeout })`), [], 'Kurzschrei
 assert.deepEqual(ohne(`${kopf}efs('a', [], { limitMs: 5 })`), [])
 assert.deepEqual(ohne("import { spawnMitLimit, mitLimit } from './kind-mit-limit.mjs'\nspawnMitLimit('a', [])\nmitLimit('a', [])"), [])
 
+// 2b. Umgehungen zählen (Prüfer 2536 A1): jeder Verweis außer einem direkten Aufruf mit wirksamer Frist.
+const cpKopf = "import cp from 'node:child_process'\n"
+assert.deepEqual(ohne(`${cpKopf}const { spawnSync } = cp\nspawnSync('a')`), [3], 'Destrukturierung aus Default-Import')
+assert.deepEqual(ohne("const { spawnSync } = await import('node:child_process')\nspawnSync('a')"), [2], 'await import')
+assert.deepEqual(ohne("import { createRequire } from 'node:module'\nconst r = createRequire(import.meta.url)('node:child_process')\nr.spawnSync('a')"), [3], 'createRequire')
+assert.deepEqual(ohne(`${kopf}const s = spawnSync\ns('a')`), [2], 'Alias auf den Namen')
+assert.deepEqual(ohne(`${cpKopf}const e = cp.spawnSync\ne('a')`), [2], 'Alias auf die Eigenschaft')
+assert.deepEqual(ohne(`${kopf}spawnSync.call(null, 'a', [])`), [2], '.call')
+assert.deepEqual(ohne(`${cpKopf}cp['spawnSync']('a', [])`), [2], 'Eigenschaft in Klammern')
+assert.deepEqual(ohne(`${cpKopf}const c2 = cp\nc2.spawnSync('a')`), [3], 'Alias des Namensraums')
+assert.deepEqual(ohne(`${cpKopf}cp.spawnSync('a', [], { timeout: 5 })`), [], 'direkter Aufruf mit Frist bleibt frei')
+assert.deepEqual(ohne(`${cpKopf}cp.execSync = (z) => z\ncp.execSync('a')`), [3], 'Zuweisung einer Attrappe ist kein Aufruf, der Aufruf danach schon')
+// Eine aufgehobene Frist zählt als keine: 0, undefined, null; bei den Helfern limitMs 0.
+assert.deepEqual(ohne(`${kopf}spawnSync('a', [], { timeout: 0 })`), [2])
+assert.deepEqual(ohne(`${kopf}spawnSync('a', [], { timeout: undefined })`), [2])
+assert.deepEqual(ohne(`${kopf}spawnSync('a', [], { timeout: null })`), [2])
+assert.deepEqual(ohne("import { spawnMitLimit } from './kind-mit-limit.mjs'\nspawnMitLimit('a', [], {}, { limitMs: 0 })"), [2])
+assert.deepEqual(ohne("import { mitLimit } from './kind-mit-limit.mjs'\nmitLimit('a', [], {}, { limitMs: 5000 })"), [], 'Helfer mit Frist')
+
 // 3. Anderes zählt nicht: Regex-exec, eigene Funktionen gleichen Namens, nicht gebundene Namen.
 assert.deepEqual(ohne('const m = /a/.exec(text)\nconst n = re.exec(text)'), [])
 assert.deepEqual(ohne('function spawn() {}\nspawn()'), [])
@@ -53,6 +72,22 @@ try {
   for (const name of ['a.test.mjs', 'b.test.ts', 'x-kulisse.mjs', 'y-mock.mjs', 'werkzeug.mjs']) writeFileSync(join(wurzel, 'tools', name), code)
   writeFileSync(join(wurzel, 'tools', 'leer.test.mjs'), 'export {}\n')
   assert.deepEqual(zaehle(wurzel), { 'tools/a.test.mjs': 1, 'tools/b.test.ts': 1, 'tools/x-kulisse.mjs': 1, 'tools/y-mock.mjs': 1 })
+  // Der Prozess selbst (Prüfer 2536 A2): Verstoß -> Exit 1 mit ✖-Zeile; passender Stand -> Exit 0; zu hoher Stand -> Exit 1.
+  const skript = fileURLToPath(new URL('./test-kind-frist.mjs', import.meta.url))
+  const cli = (stand) => {
+    const datei = join(wurzel, 'stand.json')
+    writeFileSync(datei, JSON.stringify(stand))
+    return spawnSync(process.execPath, [skript, '--wurzel', wurzel, '--stand', datei], { encoding: 'utf8', windowsHide: true, timeout: 120_000 })
+  }
+  const voll = { 'tools/a.test.mjs': 1, 'tools/b.test.ts': 1, 'tools/x-kulisse.mjs': 1, 'tools/y-mock.mjs': 1 }
+  const gruen = cli(voll)
+  assert.equal(gruen.status, 0, `${gruen.stdout}${gruen.stderr}`)
+  assert.match(gruen.stdout, /^test-kind-frist: 4 Aufrufe ohne Frist in 4 Dateien, 0 Verstöße\.$/m)
+  const rot = cli({ ...voll, 'tools/a.test.mjs': 0 })
+  assert.equal(rot.status, 1)
+  assert.match(rot.stderr, /^✖ tools\/a\.test\.mjs: 1 Kindprozess-Aufrufe ohne Frist, erlaubt 0/m)
+  assert.match(rot.stdout, /1 Verstöße\./)
+  assert.equal(cli({ ...voll, 'tools/a.test.mjs': 2 }).status, 1, 'Stand zu hoch: senken verlangt')
 } finally {
   rmSync(wurzel, { recursive: true, force: true })
 }
