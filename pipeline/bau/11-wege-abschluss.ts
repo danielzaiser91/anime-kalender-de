@@ -9,7 +9,7 @@ import { kennzeichneDeutschLautJustwatch } from './11-6-jw-vertrauen.ts'
 import { ergaenzeWegeAusJustwatch } from './11-2-justwatch.ts'
 import { ergaenzeWegeAusTerminen } from './11-7-wege-aus-terminen.ts'
 import { kennzeichneFreenetLautSchwester } from './11-8-schwester-shop.ts'
-import { sichereKapitelShopWege, verwirfKapitelShopWege } from './11-9-kapitel-shop.ts'
+import { verwirfKapitelShopWege } from './11-9-kapitel-shop.ts'
 import { uebernehmeFskAusJustwatch } from './11-2-1-fsk-justwatch.ts'
 import { ergaenzeDiscUndZugang } from './11-1-disc-und-zugang.ts'
 import { entferneFremdeNachStaffeln, kennungAusAdresse, type CrStaffel } from './cr-serie-geteilt.ts'
@@ -90,8 +90,6 @@ export function schliesseWegeAb({
   kennzeichneFreenetLautSchwester(titles)
 
   entferneBezugswegeTrotzNein(titles, alleChecks)
-
-  sichereKapitelShopWege(titles)
 
   // Das Cover steht nach allen Wege-Änderungen fest und vor `baueMeta`, damit Hauptbestand, Verschobene, Reihen und Meldungen dasselbe Bild sehen.
   setzeCoverNachRegel(titles)

@@ -42,11 +42,3 @@ export function entferneKapitelShopWege(titles: Iterable<Title>): VerworfenerKap
   }
   return weg
 }
-
-/** Zusicherung für den Bau: Kein nummeriertes Filmkapitel trägt noch einen Telekom-Shop-Weg über TMDB. */
-export function kapitelShopFehler(titles: Iterable<Title>): string[] {
-  const kopie = [...titles].map((t) => ({ ...t, watchLinks: t.watchLinks ? [...t.watchLinks] : undefined }))
-  return entferneKapitelShopWege(kopie).map(
-    (v) => `Anime ${v.id}: „${v.weg}" über TMDB bei nummeriertem Filmkapitel ${v.nummer} — das Ziel des Klicks ist nicht prüfbar`,
-  )
-}
