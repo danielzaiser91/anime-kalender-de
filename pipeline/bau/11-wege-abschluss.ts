@@ -9,6 +9,7 @@ import { kennzeichneDeutschLautJustwatch } from './11-6-jw-vertrauen.ts'
 import { ergaenzeWegeAusJustwatch } from './11-2-justwatch.ts'
 import { ergaenzeWegeAusTerminen } from './11-7-wege-aus-terminen.ts'
 import { kennzeichneFreenetLautSchwester } from './11-8-schwester-shop.ts'
+import { verwirfKapitelShopWege } from './11-9-kapitel-shop.ts'
 import { uebernehmeFskAusJustwatch } from './11-2-1-fsk-justwatch.ts'
 import { ergaenzeDiscUndZugang } from './11-1-disc-und-zugang.ts'
 import { entferneFremdeNachStaffeln, kennungAusAdresse, type CrStaffel } from './cr-serie-geteilt.ts'
@@ -109,4 +110,5 @@ export function fuelleWegeAusJustwatch({ titles, tmdbMehrdeutig, toteAdressen, s
   const fremd = entferneFremdeNachStaffeln(titles, kennungAusAdresse(), staffeln)
   if (fremd) log(`${fremd} Crunchyroll-Wege vor der Ergänzung aus JustWatch entfernt: sie gehören keiner Staffel der Serie`)
   ergaenzeWegeAusJustwatch({ titles, tmdbMehrdeutig, toteAdressen })
+  verwirfKapitelShopWege(titles)
 }

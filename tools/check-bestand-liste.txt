@@ -59,6 +59,7 @@ pipeline/check-reihen-teilname-bestand.ts
 pipeline/check-remake-zaehlung-bestand.ts
 pipeline/check-saison-deutsch-bestand.ts
 pipeline/check-schwester-shop-bestand.ts
+pipeline/check-shop-wege-falsches-ziel-bestand.ts
 pipeline/check-staffel-von-hand-bestand.ts
 pipeline/check-telekom-annahme-bestand.ts
 pipeline/check-tmdb-ablauf-bestand.ts
