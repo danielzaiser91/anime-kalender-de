@@ -4,7 +4,10 @@
  *
  * Aufruf: npm run check:logic (steckt darin) oder `tsx pipeline/check-kapitel-shop-wege.ts`
  */
+import { spawnSync } from 'node:child_process'
+import { fileURLToPath } from 'node:url'
 import type { Title, WatchLink } from '../shared/types.ts'
+import { sichereKapitelShopWege } from './bau/11-9-kapitel-shop.ts'
 import { schliesseWegeAb } from './bau/11-wege-abschluss.ts'
 import { loadWatchLinks } from './lib/curated.ts'
 import { suchadressenInTemp } from './lib/suchadressen-temp.ts'
@@ -33,7 +36,14 @@ const fall = () => ({
   sam: titel(10011613, { titleDe: 'Sam: Ein fast perfekter Held' }, [tmdb('maxdome', '385722-bling')]),
   serie: titel(9000030, { titleEn: 'Beispielserie 2' }, beide('1234-beispielserie-2'), 'TV'),
   yt: titel(9000031, { titleEn: 'Film 3' }, [tmdb('YouTube', '555-film-3')]),
+  telekom: titel(9000032, { titleEn: 'Film 5' }, [tmdb('Videoload', '777-film-5'), tmdb('MagentaTV', '777-film-5')]),
 })
+
+/* Kindprozess: ruft nur die Zusicherung mit einem übrig gebliebenen Weg auf; sie muss den Prozess beenden. */
+if (process.argv.includes('--rest')) {
+  sichereKapitelShopWege(new Map([[137612, titel(137612, { titleDe: 'Princess Principal: Crown Handler 3' }, beide('893250-crown-handler-3'))]]))
+  process.exit(0)
+}
 
 console.log('\nNummern aus Namen und TMDB-Kürzel:')
 {
@@ -57,7 +67,8 @@ console.log('\nentferneKapitelShopWege:')
   pruefe('„Sam" (Kürzel ohne Nummer) behält maxdome', namen(f.sam) === 'maxdome', namen(f.sam))
   pruefe('Serie (TV) mit Nummer im Namen behält beide Wege', namen(f.serie) === 'maxdome,freenet meinVOD', namen(f.serie))
   pruefe('anderer Anbieter (YouTube) bei nummeriertem Film bleibt', namen(f.yt) === 'YouTube', namen(f.yt))
-  pruefe('Zählung: 5 verworfene Wege, mit Nummern 3, 4, 3, 4, 1', weg.map((v) => v.nummer).join() === '3,3,4,4,1', weg.map((v) => v.nummer))
+  pruefe('Videoload und MagentaTV bei Film 5 fallen weg', namen(f.telekom) === '', namen(f.telekom))
+  pruefe('Zählung: 7 verworfene Wege, Nummern 3, 3, 4, 4, 1, 5, 5', weg.map((v) => v.nummer).join() === '3,3,4,4,1,5,5', weg.map((v) => v.nummer))
 }
 
 console.log('\nkapitelShopFehler (Zusicherung für den Bau):')
@@ -99,6 +110,14 @@ console.log('\nschliesseWegeAb ruft die Regel auf:')
   pruefe('Chapter 3 ohne Telekom-Wege nach dem Abschluss', namen(f.ch3) === '', namen(f.ch3))
   pruefe('Chapter 1 behält den direkten Weg, verliert den TMDB-Weg', namen(f.ch1) === 'maxdome', namen(f.ch1))
   pruefe('Film ohne Nummer behält maxdome und freenet', namen(f.schwert).startsWith('maxdome,freenet meinVOD'), namen(f.schwert))
+}
+
+console.log('\nZusicherung am Ende des Abschlusses bricht den Bau ab (eigener Prozess):')
+{
+  const lauf = spawnSync(process.execPath, ['--import', 'tsx', fileURLToPath(import.meta.url), '--rest'], { encoding: 'utf8', windowsHide: true, timeout: 120000 })
+  pruefe('ein übrig gebliebener Weg: Exit 1', lauf.status === 1, lauf.status)
+  pruefe('Meldung nennt Titel und Weg', /Anime 137612: „maxdome" über TMDB/.test(lauf.stderr), lauf.stderr)
+  pruefe('Meldung nennt die Schlusszeile', lauf.stderr.includes('nichts geschrieben'), lauf.stderr)
 }
 
 console.log('\nHandpflege der Crown-Handler-Adressen (data/watch-links.yaml):')

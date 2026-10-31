@@ -22,7 +22,7 @@ export function kapitelNummer(t: Pick<Title, 'titleDe' | 'titleEn' | 'titleRomaj
   return m ? Number(m[1]) : null
 }
 
-const istTmdbWeg = (w: WatchLink): boolean => Boolean(w.ueberTmdb) && /themoviedb\.org/.test(w.url) && TELEKOM_SHOPS.test(w.name)
+const istTmdbWeg = (w: WatchLink): boolean => /themoviedb\.org/.test(w.url) && TELEKOM_SHOPS.test(w.name)
 
 /** Ein verworfener Weg: für Log und Zählung. */
 export type VerworfenerKapitelWeg = { id: number; name: string; weg: string; nummer: number }
