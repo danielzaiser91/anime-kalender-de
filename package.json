@@ -11,6 +11,7 @@
     "preview": "npm run build && wrangler dev --config wrangler.web.jsonc",
     "data:fetch": "tsx pipeline/fetch.ts",
     "data:build": "node tools/schwer.mjs tsx pipeline/build.ts",
+    "data:bauprobe": "npm run data:build && tsx pipeline/check-ja-hat-weg-bestand.ts && node tools/pr-bestand-vergleich.mjs HEAD^1",
     "db:bestand": "node tools/bestand-db.mjs",
     "data:og": "tsx pipeline/build-og.ts",
     "data:tmdb": "tsx pipeline/fetch-tmdb-titles.ts",

@@ -61,24 +61,27 @@ function pruefeAktion(aktion) {
 function pruefeSchalter(dokumente) {
   const fehler = []
   for (const [datei, doc] of Object.entries(dokumente)) {
-    if (zeichenketten(doc).some((s) => /QUELLEN_PRUEF(BEFEHL|FRIST)|APP_AUTOR/.test(s)))
-      fehler.push(`${datei}: setzt oder nennt einen Schalter der Sammler-Prüfung (QUELLEN_PRUEFBEFEHL, QUELLEN_PRUEFFRIST, APP_AUTOR)`)
+    if (zeichenketten(doc).some((s) => /QUELLEN_(PRUEF|BAU)(BEFEHL|FRIST)|APP_AUTOR/.test(s)))
+      fehler.push(`${datei}: setzt oder nennt einen Schalter der Sammler-Prüfung (QUELLEN_PRUEFBEFEHL, QUELLEN_PRUEFFRIST, QUELLEN_BAUBEFEHL, QUELLEN_BAUFRIST, APP_AUTOR)`)
   }
   return fehler
 }
 
 /** Weg 3: Reihenfolge in quellen-pr.sh und Befehl der Prüfung. */
-function pruefeSkripte({ prSh, pruefenSh }) {
+function pruefeSkripte({ prSh, pruefenSh, bauSh }) {
   const fehler = []
   const quelle = prSh.indexOf('source "$(dirname "${BASH_SOURCE[0]}")/quellen-pruefen.sh"')
   const aufruf = prSh.indexOf('quellen_pruefen)"')
+  const bauprobe = prSh.indexOf('quellen_bauprobe)" || PRUEF_ROT=1')
   const anlegen = prSh.indexOf('PR="$(gh pr create')
   const mergen = prSh.indexOf('if gh pr merge')
   const rotZweig = prSh.indexOf('if [ "$PRUEF_ROT" = 1 ]; then\n  # Das Label')
   /* Bei i = 0 ist der Vergleich mit undefined falsch: die erste Stelle hat keinen Vorgänger. */
-  const reihe = [quelle, aufruf, anlegen, rotZweig, mergen]
+  const reihe = [quelle, aufruf, bauprobe, anlegen, rotZweig, mergen]
   if (reihe.some((stelle, i) => stelle < 0 || stelle < reihe[i - 1]))
-    fehler.push('quellen-pr.sh: Reihenfolge muss sein: Prüfung laden, quellen_pruefen, gh pr create, Rot-Zweig, gh pr merge (jede Stelle vorhanden)')
+    fehler.push('quellen-pr.sh: Reihenfolge muss sein: Prüfung laden, quellen_pruefen, quellen_bauprobe (rot = PRUEF_ROT), gh pr create, Rot-Zweig, gh pr merge (jede Stelle vorhanden)')
+  if (!prSh.includes('[ "$PRUEF_ROT" = 0 ] && [ "${QUELLEN_BAUPROBE:-}" = 1 ]')) fehler.push('quellen-pr.sh: der Probebau läuft nur bei grüner Prüfung und mit QUELLEN_BAUPROBE=1')
+  if (!bauSh.includes('${QUELLEN_BAUBEFEHL:-npm run data:bauprobe}')) fehler.push('quellen-bauprobe.sh: Standardbefehl ist nicht `npm run data:bauprobe`')
   const code = ohneKommentare(prSh)
   const zahl = (muster) => (code.match(new RegExp(muster.source, 'g')) ?? []).length
   if (zahl(/\bgh\b[^\n]*?\bpr (create|new)\b/) !== 1) fehler.push('quellen-pr.sh: genau ein gh pr create erwartet (ein zweiter Weg zum PR umginge Prüfung und Marke)')
@@ -102,10 +105,13 @@ function pruefeMarke({ mergenSh, daten }) {
 }
 
 /** Weg 5: Prüffrist und Vergleichsfrist (quellen-pruefen.sh) plus REST_SEKUNDEN passen in den Timeout jedes Jobs, der einreicht. */
-export function pruefeFristen(workflows, pruefenSh) {
+export function pruefeFristen(workflows, pruefenSh, bauSh = '') {
   const frist = (name) => Number(pruefenSh.match(new RegExp(`^${name}=(\\d+)$`, 'm'))?.[1])
   const pruefung = frist('QUELLEN_PRUEFFRIST_STANDARD') + frist('QUELLEN_BASISFRIST_STANDARD')
+  const baufrist = Number(bauSh.match(/^QUELLEN_BAUFRIST_STANDARD=(\d+)$/m)?.[1])
   if (!Number.isFinite(pruefung)) return ['quellen-pruefen.sh: QUELLEN_PRUEFFRIST_STANDARD und QUELLEN_BASISFRIST_STANDARD als Zahl erwartet']
+  /* Ein Job mit `bauprobe: 'true'` an der Aktion braucht zusätzlich die Baufrist. */
+  const mitBau = (job) => (job.steps ?? []).some((s) => usesAlsPfad(s.uses) === EINREICHEN && String(s.with?.bauprobe) === 'true')
   const fehler = []
   let einreicher = 0
   for (const [datei, doc] of Object.entries(workflows)) {
@@ -114,8 +120,10 @@ export function pruefeFristen(workflows, pruefenSh) {
       if (!reicht) continue
       einreicher++
       const sekunden = Number(job['timeout-minutes'] ?? GITHUB_STANDARD_MINUTEN) * 60
-      if (!(sekunden - pruefung >= REST_SEKUNDEN))
-        fehler.push(`${datei}: Job ${id} (timeout ${sekunden} s) lässt nach Prüfung und Vergleich (${pruefung} s) weniger als ${REST_SEKUNDEN} s für den Rest — Frist in quellen-pruefen.sh senken oder Timeout heben`)
+      if (mitBau(job) && !Number.isFinite(baufrist)) return ['quellen-bauprobe.sh: QUELLEN_BAUFRIST_STANDARD als Zahl erwartet']
+      const noetig = pruefung + (mitBau(job) ? baufrist : 0)
+      if (!(sekunden - noetig >= REST_SEKUNDEN))
+        fehler.push(`${datei}: Job ${id} (timeout ${sekunden} s) lässt nach Prüfung und Vergleich${mitBau(job) ? ' samt Probebau' : ''} (${noetig} s) weniger als ${REST_SEKUNDEN} s für den Rest — Frist in quellen-pruefen.sh bzw. quellen-bauprobe.sh senken oder Timeout heben`)
     }
   }
   if (einreicher === 0) fehler.push('Wächter findet keinen Job, der einreicht — Erkennung kaputt?')
@@ -128,9 +136,9 @@ export function pruefeSammler({ workflows, aktionen, skripte }) {
     ...pruefeAppToken({ workflows, aktionen }),
     ...pruefeAktion(aktionen.einreichen),
     ...pruefeSchalter({ ...workflows, ...aktionen }),
-    ...pruefeSkripte({ prSh: skripte['quellen-pr.sh'], pruefenSh: skripte['quellen-pruefen.sh'] }),
+    ...pruefeSkripte({ prSh: skripte['quellen-pr.sh'], pruefenSh: skripte['quellen-pruefen.sh'], bauSh: skripte['quellen-bauprobe.sh'] }),
     ...pruefeMarke({ mergenSh: skripte['daten-pr-mergen.sh'], daten: workflows['claude-daten-merge.yml'] }),
-    ...pruefeFristen(workflows, skripte['quellen-pruefen.sh']),
+    ...pruefeFristen(workflows, skripte['quellen-pruefen.sh'], skripte['quellen-bauprobe.sh']),
   ]
 }
 

@@ -315,6 +315,7 @@ for (const datei of readdirSync(DIR).filter((f) => f.endsWith('.yml') || f.endsW
   damit niemand sie später für Vergessenes hält.
 */
 const NUR_VON_HAND = {
+  'data:bauprobe': 'läuft im Einreichen-Schritt (tools/quellen-bauprobe.sh, Eingabe bauprobe der Aktion einreichen), nicht als eigener Workflow-Schritt',
   'data:all': 'Sammelbefehl für einen kompletten Durchlauf von Hand',
   'data:icons': 'erzeugt Bilddateien, die im Repo liegen — läuft bei einer Designänderung',
   'data:adn:refresh': 'holt das ADN-Archiv komplett neu; Stunden Laufzeit, nur bei Parserbruch',

@@ -46,6 +46,15 @@ Seitdem gilt:
   öffnet einen Pull Request und mergt ihn **nur**, wenn GitHub `MERGEABLE`
   sagt. Jeder Abruf trägt `continue-on-error`; fällt eine Quelle aus, macht der
   Rest weiter.
+- **Probebau vor dem Merge (nur `daten-auf-abruf.yml`, 31.10.2026).** Daten-PRs
+  überspringen die PR-Kette, der App-Merge ist ein Bypass: PR 2524 (`data:cartoons`)
+  kam ohne Bau auf `main` und machte den Bestandsbau rot (adn-729, Cartoon-Häkchen
+  ohne Handbeleg). Die Aktion `einreichen` kennt die Eingabe `bauprobe`; mit ihr
+  fährt `tools/quellen-bauprobe.sh` nach `check:logic` und vor `gh pr create` den
+  Datensatz-Bau mit dem Fund (`npm run data:bauprobe` = dieselben Schritte wie der
+  Job PR-Datenbau). Rot = Marke `[Prüfung rot]`, Label, kein Merge, Grund in
+  der Zusammenfassung des Laufs. Kosten: rund 2,5–4 Minuten je Lauf mit Fund
+  (PR-Datenbau, gemessen 31.10.2026). Andere Sammler haben den Probebau nicht.
 - **Bleibt ein Pull Request wegen eines Konflikts offen, übernimmt
   `Claude — Daten-PR zusammenführen`** — der einzige Ort im Projekt, an dem ein
   Konflikt in Datendateien aufgelöst wird. Daniel dazu: „So ist es sicherer.

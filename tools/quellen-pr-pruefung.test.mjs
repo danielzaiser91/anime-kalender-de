@@ -18,7 +18,7 @@ function pruefe(name, bedingung, gefunden) {
 
 const wurzel = join(dirname(fileURLToPath(import.meta.url)), '..')
 // Kopierliste der Kulisse; tools/kopierlisten-importgraph.test.mjs prüft sie gegen den Importgraph von quellen-pr.sh.
-const KOPIEN = ['quellen-liste.sh', 'quellen-aufsetzen.sh', 'quellen-pr.sh', 'quellen-pruefen.sh', 'health-vereinen.mjs', 'dub-belege-vereinen.mjs', 'rote-sammler-prs.mjs', 'kind-mit-limit.mjs']
+const KOPIEN = ['quellen-liste.sh', 'quellen-aufsetzen.sh', 'quellen-pr.sh', 'quellen-pruefen.sh', 'quellen-bauprobe.sh', 'health-vereinen.mjs', 'dub-belege-vereinen.mjs', 'rote-sammler-prs.mjs', 'kind-mit-limit.mjs']
 const posix = (p) => p.replace(/\\/g, '/').replace(/^([A-Za-z]):/, (_, l) => `/${l.toLowerCase()}`)
 const git = 'git -c user.name=t -c user.email=t@t'
 const sh = (cwd, befehl, env = {}) => {
@@ -42,7 +42,7 @@ function schreibeGh(bin, dir) {
     `#!/bin/sh
 echo "$*" | head -n 1 >> "${d}/aufrufe.txt"
 case "$1 $2" in
-  "pr create") printf '%s\\0' "$@" > "${d}/create.bin"; if [ -f "${d}/pruefung-lief" ]; then : > "${d}/create-nach-pruefung"; fi; echo "https://github.com/x/y/pull/99" ;;
+  "pr create") printf '%s\\0' "$@" > "${d}/create.bin"; if [ -f "${d}/pruefung-lief" ]; then : > "${d}/create-nach-pruefung"; fi; if [ -f "${d}/bau-lief" ]; then : > "${d}/create-nach-bau"; fi; echo "https://github.com/x/y/pull/99" ;;
   "pr view") echo "MERGEABLE" ;;
   "pr list") if [ -f "${d}/liste-kaputt" ]; then cat "${d}/liste.json"; echo "HTTP 502" >&2; exit 1; fi; case "$*" in *"--state open"*"--json number,title,body"*) if [ -f "${d}/liste.json" ]; then cat "${d}/liste.json"; else echo "[]"; fi ;; *) echo "falsche Parameter: $*" >&2; exit 1 ;; esac ;;
   "pr merge") exit 0 ;;
@@ -58,10 +58,15 @@ echo "$1" >> "${d}/fristen.txt"
 exec "${echtes}" "$@"
 `)
   chmodSync(join(bin, 'timeout'), 0o755)
+  /* Der Standardbefehl des Probebaus ist `npm run data:bauprobe`; die Attrappe hält die Argumente fest, statt zu bauen. */
+  writeFileSync(join(bin, 'npm'), `#!/bin/sh
+echo "$*" >> "${d}/npm.txt"
+`)
+  chmodSync(join(bin, 'npm'), 0o755)
 }
 
 /** Ein Sammel-Lauf mit einer geänderten Quelle (oder keiner); `befehl` ist die Prüfung, `frist` ihre Zeitgrenze in Sekunden. */
-async function szenario({ befehl, frist = 60, aenderung = true, labelKaputt = false, nurFund = false, liste = null, module = false, listeKaputt = false }) {
+async function szenario({ befehl, frist = 60, aenderung = true, labelKaputt = false, nurFund = false, liste = null, module = false, listeKaputt = false, bau, bauAn = bau !== undefined, bauFrist = null }) {
   const dir = mkdtempSync(join(tmpdir(), 'quellen-pr-pruefung-'))
   try {
     const bin = join(dir, 'bin')
@@ -97,6 +102,9 @@ async function szenario({ befehl, frist = 60, aenderung = true, labelKaputt = fa
       /* nurFund: rot nur auf dem Stand des Funds (v2); auf main (v1) grün, sonst läge main selbst rot. */
       QUELLEN_PRUEFBEFEHL: (nurFund ? `if grep -q '"v":2' data/anisearch.json; then ${befehl}; fi` : befehl).replaceAll('$MARKE', `${posix(dir)}/pruefung-lief`),
       ...(frist === null ? {} : { QUELLEN_PRUEFFRIST: String(frist) }),
+      ...(bauAn ? { QUELLEN_BAUPROBE: '1' } : {}),
+      ...(bau === undefined ? {} : { QUELLEN_BAUBEFEHL: bau.replaceAll('$BAUMARKE', `${posix(dir)}/bau-lief`) }),
+      ...(bauFrist === null ? {} : { QUELLEN_BAUFRIST: String(bauFrist) }),
     }
     const r = await shAsync(lauf, 'bash tools/quellen-pr.sh "chore(data): Test"', env)
     const create = existsSync(join(dir, 'create.bin')) ? readFileSync(join(dir, 'create.bin'), 'utf8').split('\0') : []
@@ -110,6 +118,11 @@ async function szenario({ befehl, frist = 60, aenderung = true, labelKaputt = fa
       text: nach('--body'),
       nachPruefung: existsSync(join(dir, 'create-nach-pruefung')),
       markeDa: existsSync(join(dir, 'pruefung-lief')),
+      bauLief: existsSync(join(dir, 'bau-lief')),
+      nachBau: existsSync(join(dir, 'create-nach-bau')),
+      npmAufrufe: existsSync(join(dir, 'npm.txt')) ? readFileSync(join(dir, 'npm.txt'), 'utf8').trim() : '',
+      /* Nach dem Lauf: Der Probebau darf nichts Getracktes oder Neues unter public/ zurücklassen. */
+      stand: sh(lauf, 'git status --porcelain').out.trim(),
       fristArg: existsSync(join(dir, 'fristen.txt')) ? readFileSync(join(dir, 'fristen.txt'), 'utf8').trim() : '',
       arbeitsbaeume: sh(lauf, 'git worktree list').out.trim().split('\n').length,
       zweige: sh(join(dir, 'ursprung.git'), 'git branch --list "daten/*"').out.trim(),
@@ -206,6 +219,30 @@ pruefe('ohne Vorgabe gilt die Standardfrist, mindestens 5 Minuten', ohneFrist.fr
 const basisFrist = Number(sh(wurzel, 'source tools/quellen-pruefen.sh; echo $QUELLEN_BASISFRIST_STANDARD').out.trim())
 pruefe('rot ohne Vorgabe: erst die Standardfrist, dann die Vergleichsfrist (mindestens eine Minute)', ohneFristRot.fristArg === `${standard}\n${basisFrist}` && basisFrist >= 60, [ohneFristRot.fristArg, basisFrist])
 pruefe('Vergleich auf main hängt: bricht nach der Frist ab, der Fund bleibt rot, der Lauf endet', basisHaengt.status === 0 && basisHaengt.fristArg === '1\n1' && basisHaengt.titel.startsWith('[Prüfung rot]') && /- fund/.test(basisHaengt.text) && !/pr merge/.test(basisHaengt.aufrufe), [basisHaengt.status, basisHaengt.fristArg, basisHaengt.text])
+
+console.log('Probebau (QUELLEN_BAUPROBE): Datensatz mit dem Fund bauen, vor dem Anlegen des PR')
+/* Grün-Befehl: Umgebung wie die Prüfung (CI, kein Token), Stand = Fund-Commit auf main; der Bau hinterlässt eine geänderte Quelle und eine neue Datei unter public/. */
+const bauGruen = `test "$CI" = true && test -z "\${GH_TOKEN:-}\${GITHUB_TOKEN:-}" && test "$(git rev-parse HEAD^1)" = "$(git rev-parse origin/main)" && touch "$BAUMARKE" && mkdir -p public/data && echo x > public/data/neu.json && echo kaputt > data/anisearch.json`
+const [bauOk, bauRot, bauZuLang, bauNachLogikRot, bauAus, bauStandard] = await Promise.all([
+  szenario({ befehl: 'true', bau: bauGruen }),
+  szenario({ befehl: 'true', bau: 'touch "$BAUMARKE"; echo BAU-ERSTE-ZEILE; echo "Widerspruch adn-729"; exit 1' }),
+  szenario({ befehl: 'true', bau: 'touch "$BAUMARKE"; sleep 20', bauFrist: 1 }),
+  szenario({ befehl: rotBefehl, nurFund: true, bau: 'touch "$BAUMARKE"' }),
+  szenario({ befehl: 'true', bau: 'touch "$BAUMARKE"; exit 1', bauAn: false }),
+  szenario({ befehl: 'true', bauAn: true }),
+])
+pruefe('Probebau grün: läuft vor dem Anlegen, PR ohne Marke, gemergt', bauOk.nachBau && bauOk.titel === 'chore(data): Test' && /pr merge/.test(bauOk.aufrufe) && /gemerged=true/.test(bauOk.ausgabe), [bauOk.out.slice(-400), bauOk.aufrufe])
+pruefe('Probebau grün: der Bau hinterlässt nichts (Getracktes zurückgesetzt, neue Datei unter public/ entfernt)', bauOk.stand === '', bauOk.stand)
+pruefe('Probebau rot: Marke, kein Merge, Lauf grün, Label gesetzt', bauRot.status === 0 && bauRot.titel === '[Prüfung rot] chore(data): Test' && !/pr merge/.test(bauRot.aufrufe) && /gemerged=false/.test(bauRot.ausgabe) && /pr edit .* --add-label pruefung-rot/.test(bauRot.aufrufe), [bauRot.status, bauRot.titel, bauRot.aufrufe])
+pruefe('Probebau rot: der Text nennt Exit-Code und das Ende des Protokolls', /Probebau .* Exit 1/.test(bauRot.text) && /BAU-ERSTE-ZEILE/.test(bauRot.text) && /Widerspruch adn-729/.test(bauRot.text), bauRot.text)
+pruefe('Probebau rot: der PR entsteht erst nach dem Bau', bauRot.nachBau, bauRot.aufrufe)
+pruefe('Probebau über der Frist: rot, der Text nennt die Frist, kein Merge', bauZuLang.titel.startsWith('[Prüfung rot]') && /Probebau brauchte länger als 1 s/.test(bauZuLang.text) && !/pr merge/.test(bauZuLang.aufrufe), bauZuLang.text)
+pruefe('Prüfung (check:logic) rot: der Probebau läuft nicht mehr, der Text nennt die Prüfung', !bauNachLogikRot.bauLief && bauNachLogikRot.titel.startsWith('[Prüfung rot]') && /tools\/a\.ts/.test(bauNachLogikRot.text), [bauNachLogikRot.bauLief, bauNachLogikRot.text])
+pruefe('Probebau nicht verlangt: läuft nicht, gemergt wie bisher', !bauAus.bauLief && bauAus.titel === 'chore(data): Test' && /pr merge/.test(bauAus.aufrufe), [bauAus.bauLief, bauAus.aufrufe])
+pruefe('Probebau ohne Testbefehl fährt `npm run data:bauprobe`', bauStandard.npmAufrufe === 'run data:bauprobe', bauStandard.npmAufrufe)
+const skripte = JSON.parse(readFileSync(join(wurzel, 'package.json'), 'utf8')).scripts
+const bauSchritte = ['npm run data:build', 'tsx pipeline/check-ja-hat-weg-bestand.ts', 'node tools/pr-bestand-vergleich.mjs HEAD^1']
+pruefe('data:bauprobe fährt genau die Schritte des Jobs PR-Datenbau, in dieser Reihenfolge', skripte['data:bauprobe'] === bauSchritte.join(' && '), skripte['data:bauprobe'])
 
 if (fehler.length) {
   console.error(`\n${fehler.length} Zusicherung(en) verletzt.`)

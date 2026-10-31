@@ -42,6 +42,7 @@ NACHRICHT="${1:?Commit-Nachricht fehlt}"
 source "$(dirname "${BASH_SOURCE[0]}")/quellen-liste.sh"
 source "$(dirname "${BASH_SOURCE[0]}")/quellen-aufsetzen.sh"
 source "$(dirname "${BASH_SOURCE[0]}")/quellen-pruefen.sh"
+source "$(dirname "${BASH_SOURCE[0]}")/quellen-bauprobe.sh"
 
 # `tools/daten-pr-mergen.sh` und `claude-daten-merge.yml` überspringen Titel mit dieser Marke.
 MARKE_ROT="[Prüfung rot]"
@@ -166,6 +167,10 @@ if [ "$PRUEF_ROT" = 1 ]; then
     echo "::warning title=main ist schon rot::Die Datenprüfung ist auf main bereits aus denselben Gründen rot; der Fund bringt keine neuen Fehler und wird wie bisher eingereicht."
   fi
 fi
+# Probebau (nur wenn der Einreicher ihn verlangt): ein Fund, der erst beim Bau bricht, bleibt als roter PR liegen statt `main` rot zu machen.
+if [ "$PRUEF_ROT" = 0 ] && [ "${QUELLEN_BAUPROBE:-}" = 1 ]; then
+  PRUEF_GRUND="$(quellen_bauprobe)" || PRUEF_ROT=1
+fi
 TITEL="$NACHRICHT"
 # Fund-Schlüssel: Ein Workflow hat mehrere Einreicher (refresh-weekly: sieben Jobs), ein neuer roter PR löst nur denselben Fund ab (`tools/rote-sammler-prs.mjs`).
 SCHLUESSEL="${GITHUB_WORKFLOW:-lokal}/${GITHUB_JOB:-lokal}/$NACHRICHT"
@@ -175,7 +180,7 @@ if [ "$PRUEF_ROT" = 1 ]; then
   TITEL="$MARKE_ROT $NACHRICHT"
   BODY="$BODY
 
-**$MARKE_ROT** Die Datenprüfungen (\`npm run check:logic\`) sind auf diesem Stand rot. Der Sammler hat den Fund eingereicht, aber nicht gemergt:
+**$MARKE_ROT** Die Datenprüfungen (\`npm run check:logic\`, beim Probebau auch Datensatzbau und \`check:bestand\`) sind auf diesem Stand rot. Der Sammler hat den Fund eingereicht, aber nicht gemergt:
 
 \`\`\`
 $(printf '%s\n' "$PRUEF_GRUND" | head -20)
@@ -213,6 +218,9 @@ if [ "$PRUEF_ROT" = 1 ]; then
     gh pr close "$alt" --comment "Abgelöst durch #$NUMMER (neuerer roter Fund desselben Jobs). Der Zweig bleibt erhalten." >/dev/null 2>&1 || true
   done
   echo "::warning title=Datenprüfung rot::Pull Request $NUMMER ist eingereicht, aber nicht gemergt: $(printf '%s' "$PRUEF_GRUND" | tr '\n' ' ' | cut -c1-300)"
+  if [ -n "${GITHUB_STEP_SUMMARY:-}" ]; then
+    { echo "### Pull Request $NUMMER nicht gemergt (Prüfung rot)"; echo '```'; printf '%s\n' "$PRUEF_GRUND" | head -20; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+  fi
   melde "gemerged=false"
   exit 0
 fi
