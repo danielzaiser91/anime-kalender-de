@@ -401,3 +401,30 @@
       dubRanges: [{ from: 1, to: 1, dub: true }]
   sources:
     - https://shop.freenet-video.de/your-forma-s01-se45841187
+
+# Princess Principal: Crown Handler — direkte Shop-Adressen statt TMDB-Umweg (Daniel, 31.10.2026, von den Shop-Seiten gesehen).
+# maxdome führt nur Chapter 1 und 2; bei Chapter 3 (137612) fallen die TMDB-Wege weg (pipeline/lib/kapitel-shop-wege.ts).
+# Deutsch belegt hier nicht dieser Eintrag, sondern data/dub-confirmed.yaml.
+- anilistId: 101595
+  title: "Princess Principal: ~Crown Handler~ 1"
+  links:
+    - name: maxdome
+      url: https://store.maxdome.de/princess-principal-crown-handler-chapter-1-mo45184708
+      kind: stream
+      ersetzt: true
+  sources:
+    - https://store.maxdome.de/princess-principal-crown-handler-chapter-1-mo45184708
+- anilistId: 129759
+  title: "Princess Principal: ~Crown Handler~ 2"
+  links:
+    - name: maxdome
+      url: https://store.maxdome.de/mo45184724
+      kind: stream
+      ersetzt: true
+    - name: freenet meinVOD
+      url: https://shop.freenet-video.de/princess-principal-crown-handler-chapter-2-mo45184734
+      kind: stream
+      ersetzt: true
+  sources:
+    - https://store.maxdome.de/mo45184724
+    - https://shop.freenet-video.de/princess-principal-crown-handler-chapter-2-mo45184734

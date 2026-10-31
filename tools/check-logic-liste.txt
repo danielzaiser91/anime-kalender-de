@@ -222,6 +222,7 @@ pipeline/check-kanal-merkliste-gesperrt-lauf.ts
 pipeline/check-kanal-merkliste.ts
 pipeline/check-kanal-messung.ts
 pipeline/check-kanal-verlust.ts
+pipeline/check-kapitel-shop-wege.ts
 pipeline/check-katalog-eingefroren.ts
 pipeline/check-katalog-release.ts
 pipeline/check-kino-zuletzt.ts
