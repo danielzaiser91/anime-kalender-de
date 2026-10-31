@@ -274,6 +274,12 @@ try {
     assert.equal(e.status, 1, e.aus)
     assert.match(e.aus, new RegExp(`::error::${name.replace(/[.:/]/g, '\\$&')}: Zeile „VERSTÖSSE: <n>“ fehlt`))
     assert.doesNotMatch(e.aus, /::warning::/)
+    // Dieselbe Meldung der Basis-Gegenprobe trägt das Basis-Präfix (und ist damit keine Annotation); die des PR-Baus steht unpräfixiert.
+    const fehlt = new RegExp(`::error::${name.replace(/[.:/]/g, '\\$&')}: Zeile „VERSTÖSSE: <n>“ fehlt`)
+    const treffer = e.aus.split('\n').filter((z) => fehlt.test(z))
+    assert.equal(treffer.length, 2, e.aus)
+    assert.equal(treffer.filter((z) => z.startsWith('::error::')).length, 1, e.aus)
+    assert.equal(treffer.filter((z) => /^\[Basis \S+\] ::error::/.test(z)).length, 1, e.aus)
   }
 
   // A1 (PR 1386, R3): ein rotes Rest-Skript, das es nur im PR gibt, ist neu; die Basis fährt es nicht (sonst „Missing script“ = geerbt).
