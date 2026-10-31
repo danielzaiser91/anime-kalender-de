@@ -387,7 +387,7 @@ jobs:
         if: ${{ !cancelled() }}
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: node tools/pr-checks-stand.mjs "$HEAD_SHA" 120 >>"$GITHUB_OUTPUT"
+        run: node tools/pr-checks-stand.mjs "$HEAD_SHA" 120 >> "$GITHUB_OUTPUT"
 
       # „ok“ ohne Zusatz nur bei grünem Check-Stand; sonst „ok, Checks rot: …“ bzw. „ok, Checks laufen noch: …“. Die
       # Freigabe bleibt: das Ruleset sperrt den Merge ohnehin, bis die PR-Prüfkette grün ist, und eine grüne

@@ -46,7 +46,7 @@ for (const p of prompts) {
   pruefe(`Prompt „${p.name}“: nur feste Ausdrücke, ${ausdruecke.length} gezählt`, ausdruecke.length > 0 && fremd.length === 0, fremd)
 }
 
-// Jede Datei aus dem PR wird dort, wo der Prompt sie nennt, als UNVERTRAUENSWÜRDIGE DATEN bezeichnet (Fenster ±400 Zeichen).
+// Jede Datei aus dem PR wird dort, wo der Prompt sie nennt, als UNVERTRAUENSWÜRDIGE DATEN bezeichnet (±400 Zeichen).
 const DATEIEN = ['/pruefer/pr.diff', '/pruefer/pr-beschreibung.txt', '/pruefer/kettenlog.txt']
 for (const p of prompts) {
   const text = p.text.replace(/\s+/g, ' ')
@@ -56,6 +56,8 @@ for (const p of prompts) {
     const fenster = text.slice(Math.max(0, i - 400), i + 400)
     pruefe(`Prompt „${p.name}“: ${datei} steht nahe „UNVERTRAUENSWÜRDIGE DATEN“`, fenster.includes('UNVERTRAUENSWÜRDIGE DATEN'), fenster)
   }
+  // Gezählt 31.10.2026: je Prompt drei Markierungen (Diff und Beschreibung, Nachträge samt Mutationsprobe, Kettenlog).
+  pruefe(`Prompt „${p.name}“: mindestens drei Markierungen „UNVERTRAUENSWÜRDIGE DATEN“`, p.text.split('UNVERTRAUENSWÜRDIGE DATEN').length - 1 >= 3)
   pruefe(`Prompt „${p.name}“ nennt Diff und Beschreibung`, DATEIEN.slice(0, 2).every((d) => text.includes(d)))
 }
 
