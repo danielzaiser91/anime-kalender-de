@@ -39650,7 +39650,6 @@
   kanalMessung: ja
   checkedAt: '2026-10-31'
   note: "Tonspuren: Deutsch — Amazon-Seite B0DJ4FCM5H: alle 1 Folge geprüft, Abos: kixi, zugang=abo, gti=amzn1.dv.gti.173ef223-b562-4f1a-a361-f8a85f8ba18d — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-
 # --- Aus dem Browser gemeldet, abgeholt am 2026-10-31 ---
 
 - anilistId: 114099
@@ -39660,7 +39659,6 @@
   dub: true
   checkedAt: '2026-10-31'
   note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B0CKBMLDTL: alle 7 Folgen geprüft, Abos: keine Angabe, laut Adresse Staffel 21, zugang=kauf, gti=amzn1.dv.gti.d7350b18-083e-4abb-885d-58f581c15df7"
-
 - anilistId: 114099
   title: "Dragon Quest: The Adventure of Dai"
   platform: primevideo
@@ -39668,7 +39666,6 @@
   dub: true
   checkedAt: '2026-10-31'
   note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B0C94H534K: alle 6 Folgen geprüft, Abos: keine Angabe, laut Adresse Staffel 20, zugang=kauf, gti=amzn1.dv.gti.f40f9be2-41d4-41af-87e4-8b71a5f88e3f"
-
 - anilistId: 114099
   title: "Dragon Quest: The Adventure of Dai"
   platform: primevideo
@@ -39676,7 +39673,6 @@
   dub: true
   checkedAt: '2026-10-31'
   note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B09HL8QKXR: alle 1 Folge geprüft, Abos: keine Angabe, laut Adresse Staffel 101, zugang=kauf, gti=amzn1.dv.gti.f47f0fa3-51f8-4d72-9cf6-273365b76641"
-
 - anilistId: 114099
   title: "Dragon Quest: The Adventure of Dai"
   platform: primevideo
@@ -39684,3 +39680,19 @@
   dub: true
   checkedAt: '2026-10-31'
   note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B0D8YVX1WP: alle 1 Folge geprüft, Abos: keine Angabe, laut Adresse Staffel 102, zugang=kauf, gti=amzn1.dv.gti.faccc02a-6c2d-4353-a973-c4b9ae22b894"
+# --- Aus dem Browser gemeldet, abgeholt am 2026-10-31 ---
+
+- anilistId: 114099
+  title: "Dragon Quest: The Adventure of Dai"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0C94H534K
+  dub: true
+  checkedAt: '2026-10-31'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B0C94H534K: alle 6 Folgen geprüft, Abos: keine Angabe — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 20, zugang=kauf, gti=amzn1.dv.gti.f40f9be2-41d4-41af-87e4-8b71a5f88e3f"
+- anilistId: 114099
+  title: "Dragon Quest: The Adventure of Dai"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0D8YVX1WP
+  dub: true
+  checkedAt: '2026-10-31'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B0D8YVX1WP: alle 1 Folge geprüft, Abos: keine Angabe — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 102, zugang=kauf, gti=amzn1.dv.gti.faccc02a-6c2d-4353-a973-c4b9ae22b894"
