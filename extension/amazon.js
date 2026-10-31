@@ -2752,7 +2752,7 @@ async function speicherSchreiben(werte) {
         ) ||
         /* Ein Reihenname mitten im Titel — „Arpeggio of Blue Steel - Ars Nova - Cadenza". */
         wortFolgePasst(auftrag.titel, t.titel) ||
-        globalThis.akPrimeKopfPasst(auftrag.titel, t.titel, titelKern) ||
+        globalThis.akPrimeKopfPasst(auftrag.titel, t.titel, titelKern, gefunden.treffer.map((x) => x.titel)) ||
         (begriff ? wortFolgePasst(begriff, t.titel) : false)
       )
     })
