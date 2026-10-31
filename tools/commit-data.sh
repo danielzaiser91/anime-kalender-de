@@ -112,6 +112,10 @@ for versuch in $(seq 1 "$VERSUCHE"); do
   if [ "$(git rev-parse HEAD)" != "$FERN" ] && [ "$NEUVERSUCH_SCHNELL" = 1 ]; then
     echo "Fernstand hat sich bewegt, nur Bot-Dateien ohne Leser — Bau und Prüfungen gelten weiter, nur neu aufsetzen (Versuch $versuch)."
     erzeugnisse_behalten_aufsetzen
+  elif [ "$(git rev-parse HEAD)" != "$FERN" ] && ! neuversuch_zeit_reicht "$NEUVERSUCH_ART" "${BAU_FRIST_EPOCH:-}" "${NEUVERSUCH_JETZT:-$(date +%s)}"; then
+    # Ein Neuversuch, der die Jobfrist reißt, würde abgebrochen statt zu pushen; der nächste Bau (Gruppe `bau` wartet, jeder Merge startet einen) übernimmt.
+    echo "::error::Fernstand hat sich bewegt (Art code), aber die Restzeit des Jobs reicht für keinen vollen Neubau mehr. Nichts committet; der nächste Bau übernimmt."
+    exit 1
   elif [ "$(git rev-parse HEAD)" != "$FERN" ]; then
     echo "Fernstand hat sich bewegt — Quellen retten und neu aufsetzen (Versuch $versuch, Art $NEUVERSUCH_ART)."
 

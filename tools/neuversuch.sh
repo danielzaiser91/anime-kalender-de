@@ -36,3 +36,15 @@ erzeugnisse_behalten_aufsetzen() {
     if [ -d "$sicher/$ordner" ]; then cp -r "$sicher/$ordner" "$ordner"; fi
   done
 }
+
+# Reicht die Restzeit des Jobs für einen vollen Neuversuch der Art `code`? (Bestandsbau 31.10.2026: vier Läufe liefen in `timeout-minutes: 45`,
+# weil ein zweiter Neubau bei ~13 min Dauer — gemessen 783–862 s — erst nach der Frist hätte pushen können.)
+# Ohne BAU_FRIST_EPOCH (Handlauf, andere Workflows) gibt es keine Frist. Art `nichts` und `daten` sind kurz und bleiben unbegrenzt.
+NEUVERSUCH_CODE_SEK=900
+NEUVERSUCH_PUSH_SEK=180
+# Argumente: Art, Frist (Epoche, leer = keine), jetzt (Epoche).
+neuversuch_zeit_reicht() {
+  local art="$1" frist="${2:-}" jetzt="$3"
+  if [ "$art" != code ] || [ -z "$frist" ]; then return 0; fi
+  [ $((frist - jetzt)) -ge $((NEUVERSUCH_CODE_SEK + NEUVERSUCH_PUSH_SEK)) ]
+}

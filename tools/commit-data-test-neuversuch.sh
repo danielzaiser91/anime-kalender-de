@@ -32,7 +32,27 @@ pruefe "code: Bau zweimal" 2 "$(aufrufe nv-code data:build)"
 pruefe "code: check:bestand zweimal" 2 "$(aufrufe nv-code check:bestand)"
 pruefe "code: check:logic zweimal" 2 "$(aufrufe nv-code check:logic)"
 
-echo "Neuversuch nach einem nicht grünen Versuch 1 (Prüfliste scheitert, Bestand rot): auch bei Bot-Dateien volle Kette"
+echo "Jobfrist (31.10.2026): ein Neuversuch der Art code läuft nur, wenn die Restzeit für Neubau (900 s) und Push (180 s) reicht"
+FRIST_JETZT=1000000
+NEUVERSUCH_JETZT=$FRIST_JETZT BAU_FRIST_EPOCH=$((FRIST_JETZT + 1079)) VERSUCHE_N=2 szenario nv-frist-knapp
+pruefe "Frist 1 s zu knapp: Exit 1" 1 "$CODE"
+pruefe "Frist 1 s zu knapp: Log nennt die Restzeit" ja "$(grep -q 'Restzeit des Jobs reicht' "$ARBEIT/nv-frist-knapp/log.txt" && echo ja || echo nein)"
+# Ohne einen einzigen npm-Aufruf gibt es kein Protokoll, `aufrufe` druckt dann nichts.
+pruefe "Frist 1 s zu knapp: kein Bau" "" "$(aufrufe nv-frist-knapp data:build 2> /dev/null)"
+pruefe "Frist 1 s zu knapp: nichts gepusht" nein "$(quelle_gepusht)"
+NEUVERSUCH_JETZT=$FRIST_JETZT BAU_FRIST_EPOCH=$((FRIST_JETZT + 1080)) VERSUCHE_N=2 szenario nv-frist-genau
+pruefe "Frist genau passend: gepusht, Exit 0" "ja 0" "$(grep -q '^Gepusht (Versuch 1)' "$ARBEIT/nv-frist-genau/log.txt" && echo ja || echo nein) $CODE"
+pruefe "Frist genau passend: Bau einmal" 1 "$(aufrufe nv-frist-genau data:build)"
+# Reine Entscheidung: Art nichts/daten und fehlende Frist sind nie begrenzt, abgelaufene Frist stoppt code.
+zeit() { (source "$WURZEL/tools/neuversuch.sh" && neuversuch_zeit_reicht "$@" && echo ja || echo nein); }
+pruefe "Zeit: code, Frist abgelaufen" nein "$(zeit code 999 1000)"
+pruefe "Zeit: code, ohne Frist" ja "$(zeit code '' 1000)"
+pruefe "Zeit: daten, Frist abgelaufen" ja "$(zeit daten 999 1000)"
+pruefe "Zeit: nichts, Frist abgelaufen" ja "$(zeit nichts 999 1000)"
+pruefe "Zeit: code, genau 1080 s übrig" ja "$(zeit code 2080 1000)"
+pruefe "Zeit: code, 1079 s übrig" nein "$(zeit code 2079 1000)"
+
+echo "Neuversuch nach einem nicht grünen Versuch 1(Prüfliste scheitert, Bestand rot): auch bei Bot-Dateien volle Kette"
 ERSTEN_ABLEHNEN=ja VERSUCHE_N=2 PAUSE_DATEI=data/abruf-stempel.json szenario nv-liste FAKE_LISTE=einmal FAKE_ZAEHLER="$ARBEIT/nv-liste/zaehler"
 pruefe "Liste: Bau zweimal" 2 "$(aufrufe nv-liste data:build)"
 # Seit dem Logik-Beleg (26.10.2026) genügt der Abdruck: derselbe Inhalt außerhalb der Datenpfade braucht kein zweites check:logic, auch nach einem nicht grünen Versuch.
