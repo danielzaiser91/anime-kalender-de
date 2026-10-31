@@ -57,9 +57,8 @@ export function werteWeitereQuellenAus({ releases, titles, adnKatalog, adnVerwei
     const discFuerErstausgabe = readJson<Record<string, { datum: string }[]>>('data/disc-ausgaben.json', {})
     const sammeleintrag = sammeleintragTitel(anisearchBruecke(), titles.keys())
     for (const title of titles.values()) {
-      const termin = ohneSammelSynchro(mitDubKennzeichen(title.id, terminAusEintrag(
-        asRoh[String(title.id)]?.info as { languages?: never[] } | undefined,
-      )), sammeleintrag.has(title.id))
+      const info = asRoh[String(title.id)]?.info as { languages?: never[] } | undefined
+      const termin = ohneSammelSynchro(mitDubKennzeichen(title.id, terminAusEintrag(info)), sammeleintrag.has(title.id))
       if (!termin || eigenerTerminVerdraengt(eigenerStart.get(title.id), termin)) continue
       /*
         **Eine deutsche Fassung gibt es nicht vor dem Original.** Sechs Einträge
