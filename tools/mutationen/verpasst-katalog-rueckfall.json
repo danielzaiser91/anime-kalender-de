@@ -1,0 +1,9 @@
+[
+  { "name": "Kontrolle unmutiert", "aenderungen": [] },
+  { "name": "Rückfall gesehenAm abgeschaltet", "datei": "pipeline/lib/verpasst-katalog.ts", "suche": "return f.gesehenAm && /^", "ersetze": "return false && f.gesehenAm && /^" },
+  { "name": "unlesbares verfuegbarAb zählt als lesbar", "datei": "pipeline/lib/verpasst-katalog.ts", "suche": "if (!Number.isNaN(zeit.getTime())) return", "ersetze": "if (true) return" },
+  { "name": "Heute-Grenze strenger", "datei": "pipeline/lib/verpasst-katalog.ts", "suche": "date <= heute", "ersetze": "date < heute" },
+  { "name": "katalogOhneTag leer", "datei": "pipeline/lib/verpasst-katalog.ts", "suche": "return folgen.filter((f) => !katalogTag(f))", "ersetze": "return []" },
+  { "name": "gesehenAm schlägt verfuegbarAb", "datei": "pipeline/lib/verpasst-katalog.ts", "suche": "if (f.verfuegbarAb) {", "ersetze": "if (f.gesehenAm ? false : f.verfuegbarAb) {" },
+  { "name": "gesehenAm-Format nur Jahr", "datei": "pipeline/lib/verpasst-katalog.ts", "suche": "/^\\d{4}-\\d{2}-\\d{2}$/.test(f.gesehenAm)", "ersetze": "/^\\d{4}/.test(f.gesehenAm)" },
+  { "name": "Serien-Prüfung entfällt", "datei": "pipeline/lib/verpasst-katalog.ts", "suche": "if (f.serieId !== serieId || ", "ersetze": "if (" }]
