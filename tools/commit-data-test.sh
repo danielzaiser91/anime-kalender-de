@@ -135,7 +135,7 @@ szenario() {
   git init -q --bare -b main "$ORIGIN"
   git clone -q "$ORIGIN" "$d/start" 2>/dev/null
   mkdir -p "$d/start/tools" "$d/start/data"
-  for datei in commit-data.sh quellen-liste.sh quellen-aufsetzen.sh health-vereinen.mjs dub-belege-vereinen.mjs quarantaene.mjs bestand-warnung-melden.mjs neuversuch.sh neuversuch-art.mjs pr-nachrechnen.mjs pr-nachrechnen-bot-pfade.mjs pr-nachrechnen-leser.mjs pr-nachrechnen-leser-git.mjs pr-nachrechnen-vergleich-git.mjs logik-beleg.mjs; do
+  for datei in commit-data.sh quellen-liste.sh quellen-aufsetzen.sh health-vereinen.mjs dub-belege-vereinen.mjs quarantaene.mjs bestand-warnung-melden.mjs neuversuch.sh neuversuch-art.mjs pr-nachrechnen.mjs pr-nachrechnen-bot-pfade.mjs pr-nachrechnen-leser.mjs pr-nachrechnen-leser-git.mjs pr-nachrechnen-vergleich-git.mjs logik-beleg.mjs kind-mit-limit.mjs; do
     cp "$WURZEL/tools/$datei" "$d/start/tools/$datei"
   done
   # js-yaml für dub-belege-vereinen: ohne scheitert quellen_aufsetzen jetzt laut.

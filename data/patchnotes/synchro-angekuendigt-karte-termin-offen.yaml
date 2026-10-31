@@ -1,3 +1,5 @@
 kategorie: feature
-text: Angekündigte Synchro ohne Termin hat eine eigene Karte
-untertitel: Du siehst, wer wann angekündigt hat, und bekommst Bescheid.
+highlight: true
+text: Karte „Termin offen“ bei angekündigter Synchro
+untertitel: "Im Detail steht, wer angekündigt hat; dazu „Bescheid bei Termin“."
+link: '#/datenbank?t=195571'

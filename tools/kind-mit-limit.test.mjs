@@ -7,7 +7,7 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { legeGhAttrappe } from './gh-attrappe.mjs'
-import { LIMIT_EINZEL_MS, LIMIT_STAPEL_MS, abbruchText, ghStapel, mitLimit } from './kind-mit-limit.mjs'
+import { LIMIT_EINZEL_MS, LIMIT_SKRIPT_MS, LIMIT_STAPEL_MS, abbruchText, ghStapel, mitLimit } from './kind-mit-limit.mjs'
 
 // 1. Eingespeister Ausführer: Optionen kommen an (Limit, windowsHide), ETIMEDOUT wird zur FEHLER-Zeile.
 const gesehen = []
@@ -26,6 +26,7 @@ assert.throws(() => mitLimit(process.execPath, ['-e', 'setTimeout(()=>{},1e6)'],
 // 2b. Stapel: der Stapelaufruf nimmt das Stapel-Limit (nicht das Einzel-Limit), ein Hänger wird zur FEHLER-Zeile.
 assert.equal(LIMIT_EINZEL_MS, 15_000)
 assert.equal(LIMIT_STAPEL_MS, 30_000)
+assert.equal(LIMIT_SKRIPT_MS, 90_000)
 const stapelOpt = []
 const stapelAntwort = ghStapel([['a'], ['b']], { ausfuehren: (b, a, o) => (stapelOpt.push(o), '[{"ok":true,"aus":"x"}]') })
 assert.deepEqual(stapelAntwort, [{ ok: true, aus: 'x' }])

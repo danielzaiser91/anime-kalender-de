@@ -2,6 +2,9 @@
 import { chromium } from 'playwright'
 import assert from 'node:assert/strict'
 import { installiereLinuxSchrift, linuxSchriftCss, SCHNITTE } from './linux-schrift.mjs'
+import { browserDa } from './browser-weiche.mjs'
+
+if (!browserDa('linux-schrift', chromium)) process.exit()
 
 const SEITE = `<!doctype html><html><head><style>
 :root{--ak-schrift-text:'Arial',sans-serif;--ak-schrift-titel:'Georgia',serif}

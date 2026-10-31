@@ -1,0 +1,6 @@
+[
+  { "name": "pr-nachrechnen: Limit entfernt", "datei": "tools/pr-nachrechnen.mjs", "suche": "{ limitMs: LIMIT_STAPEL_MS })", "ersetze": "{ limitMs: 1e9 })" },
+  { "name": "dossier: gh ohne Limit", "datei": "tools/wache-urteil-dossier.mjs", "suche": "maxBuffer: 16 << 20 })", "ersetze": "maxBuffer: 16 << 20 }, { limitMs: 1e9 })" },
+  { "name": "wochenwache: gh ohne Limit", "datei": "tools/wache-woechentlich.mjs", "suche": "mitLimit('gh', a, { encoding: 'utf8', maxBuffer: 8 << 20 })", "ersetze": "mitLimit('gh', a, { encoding: 'utf8', maxBuffer: 8 << 20 }, { limitMs: 1e9 })" },
+  { "name": "Kontrolle (unmutiert)", "aenderungen": [] }
+]

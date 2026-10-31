@@ -6,6 +6,7 @@
  * Hat die Woche für eine Ansicht keine Ereignisse mit Cover, wird sie übersprungen; sonst muss es Zeilen geben.
  */
 import { readFileSync } from 'node:fs'
+import { verdeckung, zeileMittig } from './zeile-mittig.mjs'
 import { coverBild } from '../web/src/lib/cover.ts'
 import { VORSCHAU_BREITE, VORSCHAU_HOEHE } from '../web/src/lib/hover-cover.ts'
 
@@ -81,6 +82,8 @@ async function zeigeUndMesse(seite, zeile, ausRechts) {
   await seite.waitForTimeout(150)
   const box = await zeile.boundingBox()
   const x = ausRechts === undefined ? box.x + Math.min(box.width / 2, 60) : box.x + box.width - ausRechts
+  const verdeckt = await verdeckung(zeile, x, box.y + box.height / 2)
+  if (verdeckt) throw new Error(verdeckt)
   await seite.mouse.move(x, box.y + box.height / 2)
   const karte = seite.locator('[data-hover-cover]').first()
   try {
@@ -113,7 +116,7 @@ async function ersteMitKarte(seite, wahl) {
   const anzahl = Math.min(await zeilen.count(), REIHEN)
   for (let i = Math.min(1, anzahl - 1); i < anzahl; i++) {
     const zeile = zeilen.nth(i)
-    await zeile.scrollIntoViewIfNeeded()
+    await zeileMittig(zeile)
     const m = await zeigeUndMesse(seite, zeile)
     if (m) return { ort: zeile, ...m }
   }
@@ -126,7 +129,7 @@ async function messeRechterRand(seite, zeile) {
   const breite = Math.min(FENSTER.width, Math.ceil(zuvor.x + zuvor.width) + RAND_RECHTS)
   await seite.setViewportSize({ width: breite, height: FENSTER.height })
   await seite.waitForTimeout(200)
-  await zeile.scrollIntoViewIfNeeded()
+  await zeileMittig(zeile)
   const box = await zeile.boundingBox()
   /* Der reservierte Leistenplatz (`scrollbar-gutter`, auch bei versteckter Leiste) liegt rechts neben der Seite und zählt nicht zum Abstand. */
   const leiste = await seite.evaluate(() => innerWidth - document.documentElement.getBoundingClientRect().width)
@@ -205,7 +208,7 @@ async function messeAnsicht(seite, ansicht, woche) {
 
 /** Ein Klick öffnet das Panel; die Karte muss beim Drücken weg sein. Losgelassen wird abseits, damit kein Panel aufgeht. */
 async function klickSchliesst(seite, zeile) {
-  await zeile.scrollIntoViewIfNeeded()
+  await zeileMittig(zeile)
   if (!(await zeigeUndMesse(seite, zeile))) return ['Klick: keine Vorschau zum Schließen']
   await seite.mouse.down()
   await seite.waitForTimeout(150)
@@ -251,7 +254,7 @@ async function messeSonderfaelle(seite, woche) {
         befunde.push(`${a.name}: Zeile „${e.name}“ (${art}) nicht gefunden`)
         continue
       }
-      await zeile.scrollIntoViewIfNeeded()
+      await zeileMittig(zeile)
       if ((await zeile.getAttribute('data-hover-zeile')) !== null) befunde.push(`${a.name}: Zeile „${e.name}“ (${art}) trägt einen Zeiger`)
       const m = await zeigeUndMesse(seite, zeile).catch(() => null)
       if (m) befunde.push(`${a.name}: Zeile „${e.name}“ (${art}) bekommt eine Vorschau`)
