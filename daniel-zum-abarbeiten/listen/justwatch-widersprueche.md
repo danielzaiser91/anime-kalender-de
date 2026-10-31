@@ -7,7 +7,7 @@ Abschnitt „JustWatch-Ton je Seite“. Unsere Messung (Handbeleg, Meldung der E
 <!-- anime:start -->
 ## Anime
 
-Flagge „Deutsch“: 95 Wege, nur Hinweis: 0.
+Flagge „Deutsch“: 77 Wege, nur Hinweis: 0.
 
 JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine Flagge): mehrere Staffeln 14, Mehrteiler 9.
 
@@ -15,14 +15,15 @@ JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine
 |---|---|---|---|---|
 | crunchyroll | 8 | 0 | 0.0 % | Flagge |
 | disneyplus | 14 | 0 | 0.0 % | Flagge |
-| primevideo | 92 | 0 | 0.0 % | Flagge |
+| primevideo | 119 | 1 | 0.8 % | Flagge |
 
-### Widersprüche (0)
+### Widersprüche (1)
 
 | Titel | Anbieter | Adresse | JustWatch | Gemessen |
 |---|---|---|---|---|
+| Vampire Hunter D: Bloodlust (543) | primevideo | https://watch.amazon.de/detail?gti=amzn1.dv.gti.68239688-dba5-4abc-a3b5-5e554d51081f | de, Stand 2026-10-26 | Handbeleg 2026-10-31 |
 
-### Kandidaten für neue Wege (736)
+### Kandidaten für neue Wege (734)
 
 JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „Weg ohne Kennung“: ein Weg zum Anbieter steht, seine Adresse trägt aber keine Seitenkennung.
 
@@ -320,7 +321,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Keijo!!!!!!!! (21639) | Crunchyroll | crunchyroll:GVWU05PP7 | ja |
 | Keijo!!!!!!!! (21639) | Anime Digital Network Amazon Channel | amazon:amzn1.dv.gti.7ab31f73-36b6-c891-7ae5-a11f3492c445 | nein |
 | Kuroko’s Basketball - Winter Cup Highlights Movie 1 Shadow and Light (102093) | Amazon Prime Video | amazon:amzn1.dv.gti.9095f403-0aba-4d18-aea4-36284e16fb0c | nein |
-| Kuroko’s Basketball - Winter Cup Highlights Movie 3 Crossing the Door (102839) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.16237b7b-a9d0-4627-a66a-92056c885b38 | nein |
+| Kuroko’s Basketball - Winter Cup Highlights Movie 3 Crossing the Door (102839) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.16237b7b-a9d0-4627-a66a-92056c885b38 | ja |
 | Danmachi: Sword Oratoria (21676) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.a4b9065e-6871-85a9-7a1b-a856672444cd | ja |
 | Küss ihn, nicht mich! (21686) | Crunchyroll | crunchyroll:GD9UV2JZQ | ja |
 | Küss ihn, nicht mich! (21686) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.bf543b3f-dfe3-4ced-a7ba-4864dad140d6 | nein |
@@ -575,7 +576,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Shinobi no Ittoki (145604) | Crunchyroll | crunchyroll:G8WUNZQKJ | nein |
 | Shinobi no Ittoki (145604) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.c9d9bf3e-016b-41d4-bc40-187e8f06c68d | nein |
 | NieR:Automata Ver1.1a (145665) | Crunchyroll | crunchyroll:G50UZ5VDM | ja |
-| NieR:Automata Ver1.1a (145665) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.96f14089-6dde-4e53-9e32-bd6eddfa0e17 | nein |
+| NieR:Automata Ver1.1a (145665) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.96f14089-6dde-4e53-9e32-bd6eddfa0e17 | ja |
 | Spice and Wolf: Merchant Meets the Wise Wolf (145728) | Crunchyroll | crunchyroll:G7PU3P5GE | nein |
 | Spice and Wolf: Merchant Meets the Wise Wolf (145728) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.ace6b3ba-9d82-49c9-883d-da10bb274f0a | nein |
 | I’ve Somehow Gotten Stronger When I Improved My Farm-Related Skills (145815) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.b8512336-9f32-41be-a161-33c8e306f8af | ja |
@@ -680,7 +681,6 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Tamon’s B-Side (178005) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.bad3ebdd-db9c-4e1b-8b68-8937781accff | nein |
 | Gachiakuta (178025) | Crunchyroll | crunchyroll:GE00352502PLPL | nein |
 | Gachiakuta (178025) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.535620c2-c736-49ea-a6b5-e50571595798 | nein |
-| Demon Slayer: Kimetsu no Yaiba - Infinity Castle (178788) | Amazon Prime Video | amazon:amzn1.dv.gti.cf16c3ee-07f4-4987-87d6-8329d6116776 | ja |
 | Demon Slayer: Kimetsu no Yaiba - Infinity Castle (178788) | Crunchyroll | crunchyroll:GMEE00351144FRFR | nein |
 | Dealing with Mikadono Sisters Is a Breeze (178886) | Crunchyroll | crunchyroll:GMKUE3PMQ | nein |
 | Dealing with Mikadono Sisters Is a Breeze (178886) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.c2c6a127-1420-431c-9937-2429e95a3458 | nein |
@@ -760,7 +760,6 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Happy Fish 2: Hai-Alarm im Hochwasser (10013226) | Kixi Select Amazon Channel | amazon:amzn1.dv.gti.fbd6e108-715c-4c58-bcc2-0511ff8dae72 | nein |
 | Re:Zero - Starting Life in Another World: Bünde aus Eis (10013951) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.5d11c410-4b4b-4fef-8c75-b1c01805685e | nein |
 | Ab ins Meer: Auf der Suche nach der verlorenen Perle (10014011) | Netzkino Select Amazon Channel | amazon:amzn1.dv.gti.14b7353a-279b-6035-ea39-d3b79a1e0749 | nein |
-| Outback: Jetzt wird’s richtig wild! (10014017) | Amazon Video | amazon:amzn1.dv.gti.f88a6c84-7453-48b0-b34a-aa186d0dad25 | nein |
 | Die Boonies: Eine bärenstarke Zeitreise (10015405) | Kinderwelt Amazon Channel | amazon:amzn1.dv.gti.4323100f-0d5e-4bfe-ad18-84faf36f9689 | nein |
 | Super Wings: Maximum Speed (10019348) | Amazon Video | amazon:amzn1.dv.gti.d80e6132-6947-4ced-aa16-4c0571e4dfcb | nein |
 | Attack on Titan: The Last Attack (10019527) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.1af3f16e-7da6-4d78-aac7-1713988ecd89 | nein |
@@ -771,7 +770,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 
 Flagge „Deutsch“: 2 Wege, nur Hinweis: 0.
 
-JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine Flagge): Mehrteiler 3, mehrere Staffeln 143.
+JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine Flagge): Mehrteiler 3, mehrere Staffeln 142.
 
 | Anbieter | mit eigener Messung | Widersprüche | Anteil | Anzeige |
 |---|---|---|---|---|

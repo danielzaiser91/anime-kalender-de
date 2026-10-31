@@ -715,6 +715,18 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
+UID:the-vermilion-mask-crunchyroll-de-2026-10-31@2026-10-31@anime-kalender-
+ de
+DTSTAMP:20200101T000000Z
+DTSTART:20261031T093000Z
+DTEND:20261031T100000Z
+SUMMARY:The Vermilion Mask (neu bei Crunchyroll)
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Katalogtitel\nIm Angebot s
+ eit diesem Tag – nicht der Erscheinungstag der deutschen Fassung.\nDetai
+ ls: https://anime-kalender.de/t/16918/
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-158871-tv-super-rtl@2026-10-31@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261031T120000Z

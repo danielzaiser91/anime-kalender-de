@@ -10,12 +10,12 @@ X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
 UID:avatar-die-sieben-haefen-paramountplus@2026-10-30#10@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261030T100000Z
-DTEND:20261030T103000Z
+DTSTART;VALUE=DATE:20261030
+DTEND;VALUE=DATE:20261031
 SUMMARY:Avatar: Die sieben Häfen – Folge 10–13/13
 DESCRIPTION:Plattform: Paramount+\nRelease-Art: Wöchentlich (Simuldub)\nUh
- rzeit voraussichtlich\, nicht gemessen.\nDetails: https://anime-kalender.d
- e/t/-284833/
+ rzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/-284833
+ /
 CATEGORIES:Paramount+
 END:VEVENT
 END:VCALENDAR

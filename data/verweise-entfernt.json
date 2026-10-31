@@ -1,5 +1,5 @@
 {
-  "stand": "2026-10-30T23:02:56.159Z",
+  "stand": "2026-10-31T16:05:22.802Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -1649,7 +1649,7 @@
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
       "geprueftAm": "2026-10-19",
       "entferntAm": "2026-10-31",
-      "letzterWeg": false
+      "letzterWeg": true
     },
     {
       "titleId": 108623,
@@ -2056,7 +2056,7 @@
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
       "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-31",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 16916,
@@ -3002,7 +3002,7 @@
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
       "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-31",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 179813,
@@ -4322,7 +4322,7 @@
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
       "geprueftAm": "2026-10-19",
       "entferntAm": "2026-10-31",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 877,
@@ -4692,6 +4692,17 @@
       "titel": "Kino’s Journey",
       "plattform": "netflix",
       "url": "https://www.netflix.com/title/80193421",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-31",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 543,
+      "titel": "Vampire Hunter D: Bloodlust",
+      "plattform": "primevideo",
+      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.68239688-dba5-4abc-a3b5-5e554d51081f",
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
@@ -6195,17 +6206,6 @@
       "letzterWeg": true
     },
     {
-      "titleId": 101165,
-      "titel": "Goblin Slayer",
-      "plattform": "primevideo",
-      "url": "https://www.amazon.de/gp/video/detail/B0CFL5Y7XN",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-10-31",
-      "letzterWeg": true
-    },
-    {
       "titleId": 101348,
       "titel": "Vinland Saga",
       "plattform": "primevideo",
@@ -7625,6 +7625,17 @@
       "letzterWeg": false
     },
     {
+      "titleId": 185736,
+      "titel": "My Hero Academia: Vigilantes",
+      "plattform": "netflix",
+      "url": "https://www.netflix.com/title/82036361",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-31",
+      "letzterWeg": false
+    },
+    {
       "titleId": 186559,
       "titel": "Pokémon: Dragoran – Besondere Lieferung",
       "plattform": "youtube",
@@ -7906,6 +7917,17 @@
       "url": "https://www.netflix.com/title/81788312",
       "seriesId": null,
       "grund": "der Anbieter führt 12 + 13 Folgen, und die belegten Titel füllen sie exakt — für 1 weitere ist dort kein Platz",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-31",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 101165,
+      "titel": "Goblin Slayer",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/gp/video/detail/B0CFL5Y7XN",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-10-31",
       "letzterWeg": true

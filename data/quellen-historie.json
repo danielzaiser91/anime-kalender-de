@@ -7550,6 +7550,14 @@
   ],
   "adn-887": [
     {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/887",
+      "name": "ADN API",
+      "gesehenAm": "2026-10-31",
+      "stand": "aktuell",
+      "gelesenAm": "2026-10-26",
+      "bestaetigt": "2026-10-17"
+    },
+    {
       "url": "https://news.animationdigitalnetwork.com/de/2026/09/18/dreamland-enthuellt-in-neuem-trailer-die-titelsongs/",
       "name": "news.animationdigitalnetwork.com",
       "gesehenAm": "2026-10-16",
@@ -7559,7 +7567,7 @@
       "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
       "name": "ADN API",
       "gesehenAm": "2026-10-16",
-      "stand": "aktuell",
+      "stand": "vermutlich-ueberholt",
       "gelesenAm": "2026-10-28",
       "bestaetigt": "2026-10-17"
     }
@@ -7836,6 +7844,126 @@
       "gesehenAm": "2026-10-30",
       "sagt": "2026-11-01",
       "stand": "aktuell"
+    }
+  ],
+  "adn-663": [
+    {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/663",
+      "name": "ADN API",
+      "gesehenAm": "2026-10-31",
+      "stand": "aktuell",
+      "gelesenAm": "2026-10-26",
+      "bestaetigt": "2020-11-11"
+    }
+  ],
+  "adn-817": [
+    {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/817",
+      "name": "ADN API",
+      "gesehenAm": "2026-10-31",
+      "stand": "aktuell",
+      "gelesenAm": "2026-10-26",
+      "bestaetigt": "2025-05-05"
+    }
+  ],
+  "adn-732": [
+    {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/732",
+      "name": "ADN API",
+      "gesehenAm": "2026-10-31",
+      "stand": "aktuell",
+      "gelesenAm": "2026-10-26",
+      "bestaetigt": "2021-06-16"
+    }
+  ],
+  "adn-731": [
+    {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/731",
+      "name": "ADN API",
+      "gesehenAm": "2026-10-31",
+      "stand": "aktuell",
+      "gelesenAm": "2026-10-26",
+      "bestaetigt": "2025-05-05"
+    }
+  ],
+  "adn-727": [
+    {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/727",
+      "name": "ADN API",
+      "gesehenAm": "2026-10-31",
+      "stand": "aktuell",
+      "gelesenAm": "2026-10-26",
+      "bestaetigt": "2021-06-16"
+    }
+  ],
+  "adn-1178": [
+    {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1178",
+      "name": "ADN API",
+      "gesehenAm": "2026-10-31",
+      "stand": "aktuell",
+      "gelesenAm": "2026-10-26",
+      "bestaetigt": "2025-05-05"
+    }
+  ],
+  "adn-1146": [
+    {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1146",
+      "name": "ADN API",
+      "gesehenAm": "2026-10-31",
+      "stand": "aktuell",
+      "gelesenAm": "2026-10-26",
+      "bestaetigt": "2025-05-05"
+    }
+  ],
+  "adn-1147": [
+    {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1147",
+      "name": "ADN API",
+      "gesehenAm": "2026-10-31",
+      "stand": "aktuell",
+      "gelesenAm": "2026-10-26",
+      "bestaetigt": "2025-05-05"
+    }
+  ],
+  "adn-1145": [
+    {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1145",
+      "name": "ADN API",
+      "gesehenAm": "2026-10-31",
+      "stand": "aktuell",
+      "gelesenAm": "2026-10-26",
+      "bestaetigt": "2025-05-05"
+    }
+  ],
+  "adn-1263": [
+    {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1263",
+      "name": "ADN API",
+      "gesehenAm": "2026-10-31",
+      "stand": "aktuell",
+      "gelesenAm": "2026-10-26",
+      "bestaetigt": "2025-05-09"
+    }
+  ],
+  "adn-1167": [
+    {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1167",
+      "name": "ADN API",
+      "gesehenAm": "2026-10-31",
+      "stand": "aktuell",
+      "gelesenAm": "2026-10-26",
+      "bestaetigt": "2025-05-05"
+    }
+  ],
+  "adn-1277": [
+    {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1277",
+      "name": "ADN API",
+      "gesehenAm": "2026-10-31",
+      "stand": "aktuell",
+      "gelesenAm": "2026-10-26",
+      "bestaetigt": "2025-05-09"
     }
   ]
 }
