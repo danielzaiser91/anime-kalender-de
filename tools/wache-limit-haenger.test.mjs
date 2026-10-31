@@ -2,7 +2,7 @@
 // bekommen ein hängendes gh (Ersatz-gh ohne Antwort) und müssen mit der FEHLER-Zeile enden, nicht hängen.
 import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
-import { copyFileSync, mkdirSync, mkdtempSync, rmSync } from 'node:fs'
+import { copyFileSync, mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
@@ -32,8 +32,24 @@ try {
   const woche = lauf([join(wurzel, 'tools', 'wache-woechentlich.mjs'), '--trocken'], wurzel)
   assert.equal(woche.status, 0, `wache-woechentlich endet mit 0: ${woche.stderr}`)
   assert.match(`${woche.stdout}${woche.stderr}`, /FEHLER: gh run list nach 2 s abgebrochen/)
+
+  // 4. Daten-Detektiv hängt (Ersatzskript statt npx tsx): eigene Zeile mit dem Zeitlimit, Wache endet mit 0.
+  const haengt = join(dir, 'haengt.mjs')
+  writeFileSync(haengt, 'setInterval(() => {}, 1000)\n')
+  const schnell = join(dir, 'schnell.mjs')
+  writeFileSync(schnell, 'process.exit(1)\n')
+  const detektiv = spawnSync(process.execPath, [join(wurzel, 'tools', 'wache-woechentlich.mjs'), '--trocken'], { cwd: wurzel, encoding: 'utf8', windowsHide: true, timeout: 30_000, env: { ...env, WACHE_GH_SKRIPT: schnell, WACHE_DETEKTIV_SKRIPT: haengt } })
+  assert.equal(detektiv.status, 0, `Wochenwache mit hängendem Detektiv endet mit 0: ${detektiv.stderr}`)
+  assert.match(`${detektiv.stdout}${detektiv.stderr}`, /Daten-Detektiv: Lauf fehlgeschlagen \(FEHLER: .*haengt\.mjs nach 2 s abgebrochen\)/)
+
+  // 5. Dossier-Kindskript hängt: laufe() gibt die FEHLER-Zeile zurück, kein Exit-Code-Anhang, der Lauf endet.
+  const laufeCode = `const {laufe}=await import(${JSON.stringify(pathToFileURL(join(tools, 'wache-urteil-dossier.mjs')).href)});console.log('ERGEBNIS['+laufe(${JSON.stringify(haengt)})+']')`
+  const kind = lauf(['--input-type=module', '-e', laufeCode], wurzel)
+  assert.equal(kind.status, 0, kind.stderr)
+  assert.match(kind.stdout, /^ERGEBNIS\[FEHLER: .*haengt\.mjs nach 2 s abgebrochen\]$/m)
+  assert.doesNotMatch(kind.stdout, /Exit-Code/)
 } finally {
   rmSync(dir, { recursive: true, force: true })
   rmSync(wurzel, { recursive: true, force: true })
 }
-console.log('wache-limit-haenger: ok (pr-nachrechnen Exit 2, Dossier-Quelle, Wochenwache mit hängendem gh)')
+console.log('wache-limit-haenger: ok (pr-nachrechnen Exit 2, Dossier-Quelle, Wochenwache mit hängendem gh, hängender Daten-Detektiv, hängendes Dossier-Kindskript)')

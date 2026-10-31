@@ -18,6 +18,9 @@ import { fileURLToPath } from 'node:url'
 const ueberschrieben = Number(process.env.WACHE_LIMIT_MS) || 0
 export const LIMIT_EINZEL_MS = ueberschrieben || 15_000
 export const LIMIT_STAPEL_MS = ueberschrieben || 30_000
+// Kindskripte des Wachen-Dossiers (wache-urteil-dossier): gemessen 30.10.2026 wache-woechentlich --trocken 15,0 s, zugangs-waechter 17,1 s;
+// 90 s = gut das Fünffache des größten Werts (Job claude-wache-urteil hat 30 min, fünf Skripte hintereinander ≤ 450 s).
+export const LIMIT_SKRIPT_MS = ueberschrieben || 90_000
 
 /** `ausfuehren` ist einspeisbar (Test mit hängendem Ersatzbefehl); Rückgabe wie `execFileSync`. */
 export function mitLimit(befehl, args, optionen = {}, { limitMs = LIMIT_EINZEL_MS, ausfuehren = execFileSync } = {}) {

@@ -130,7 +130,13 @@ function oeffneMitWiederholung(gh, nummer) {
 
 /** `begonnen()` meldet, dass der PR geschlossen wurde: ab da ist etwas angestoßen, auch wenn später etwas scheitert. */
 function wiederoeffnen(gh, nummer, begonnen) {
-  gh(['pr', 'close', String(nummer)])
+  try {
+    gh(['pr', 'close', String(nummer)])
+  } catch (e) {
+    // Zeitlimit („FEHLER: …“): GitHub kann das Schließen trotzdem angenommen haben, der PR ist dann zu.
+    if (String(e.message).startsWith('FEHLER:')) begonnen()
+    throw e
+  }
   begonnen()
   oeffneMitWiederholung(gh, nummer)
 }

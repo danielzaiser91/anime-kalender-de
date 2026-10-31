@@ -62,8 +62,10 @@ try {
   Die harten Regeln laufen als Bau-Invarianten (`pipeline/lib/invarianten*.ts`) und brechen den Bau ab, nicht diese Wache.
 */
 try {
-  // Daten-Detektiv gemessen 30.10.2026 (3 Läufe): 3,0-3,1 s; Stapel-Limit 30 s.
-  const ausgabe = mitLimit('npx', ['tsx', 'tools/daten-detektiv.ts', '--wache'], { encoding: 'utf8', maxBuffer: 32 << 20, shell: process.platform === 'win32' }, { limitMs: LIMIT_STAPEL_MS })
+  // Daten-Detektiv gemessen 30.10. und 31.10.2026 (je 3 Läufe): 2,7-3,1 s; Stapel-Limit 30 s (rund das Zehnfache).
+  // WACHE_DETEKTIV_SKRIPT: Node-Skript statt npx tsx (nur der Prozess-Test setzt es, für den Hänger-Fall).
+  const ersatz = process.env.WACHE_DETEKTIV_SKRIPT
+  const ausgabe = mitLimit(ersatz ? process.execPath : 'npx', ersatz ? [ersatz] : ['tsx', 'tools/daten-detektiv.ts', '--wache'], { encoding: 'utf8', maxBuffer: 32 << 20, shell: !ersatz && process.platform === 'win32' }, { limitMs: LIMIT_STAPEL_MS })
   const neu = JSON.parse(ausgabe.trim().split('\n').at(-1)).neu
   console.log(`Daten-Detektiv (weiche Regeln): ${neu.length} neue Schlüssel`)
   if (neu.length) befunde.push(`Daten-Detektiv: ${neu.length} neue Funde, z. B. ${neu.slice(0, 3).map((n) => `${n.id} ${n.text}`).join(' | ')} (npm run detektiv -- --nur ${[...new Set(neu.map((n) => n.id))].join(',')})`)

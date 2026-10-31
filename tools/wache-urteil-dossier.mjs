@@ -2,7 +2,7 @@
  * Das Dossier für das Wachen-Urteil: je Datei eine Quelle der Befunde, als Text. Jede Quelle für sich in try/catch – fällt eine aus, steht ihr Fehler im Dossier
  * (das Urteil soll es wissen), die übrigen bleiben.
  */
-import { LIMIT_STAPEL_MS, mitLimit } from './kind-mit-limit.mjs'
+import { LIMIT_SKRIPT_MS, mitLimit } from './kind-mit-limit.mjs'
 import { existsSync, readFileSync } from 'node:fs'
 import { rotAlarmText } from './bestand-rot-alarm.mjs'
 
@@ -13,9 +13,9 @@ const lies = (pfad) => readFileSync(pfad, 'utf8')
 const gh = (...a) => mitLimit(process.env.GH_BIN || 'gh', a, { encoding: 'utf8', maxBuffer: 16 << 20 })
 
 /** Ein Werkzeug-Skript laufen lassen; sein Exit-Code 1 ist ein Befund, kein Fehler – die Ausgabe zählt. */
-function laufe(skript, ...args) {
+export function laufe(skript, ...args) {
   try {
-    return mitLimit(process.execPath, [skript, ...args], { encoding: 'utf8', maxBuffer: 8 << 20, stdio: ['ignore', 'pipe', 'pipe'] }, { limitMs: LIMIT_STAPEL_MS })
+    return mitLimit(process.execPath, [skript, ...args], { encoding: 'utf8', maxBuffer: 8 << 20, stdio: ['ignore', 'pipe', 'pipe'] }, { limitMs: LIMIT_SKRIPT_MS })
   } catch (fehler) {
     if (String(fehler.message).startsWith('FEHLER:')) return fehler.message
     const aus = `${fehler.stdout ?? ''}${fehler.stderr ?? ''}`.trim()
