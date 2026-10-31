@@ -57,19 +57,34 @@ console.log('liegt-wachphase: eigener Prozess laeufe-aufraeumen --trocken')
     [liste]: { aus: JSON.stringify([still]) },
     [graphqlSchluessel]: { aus: `${KOPF} ${vorStunden(100)}\n` },
     'pr list --state open --limit 100 --json number,title,body,createdAt': { aus: '[]' },
+    ...Object.fromEntries(['bestand-bauen.yml', 'deploy.yml'].map((w) => [`run list --repo danielzaiser91/anime-kalender-de --workflow ${w} --limit 200 --json status,conclusion,createdAt,databaseId`, { aus: '[]' }])),
   }
   const abruf = path.join(werk, 'abruf-abgelehnt.mjs')
   fs.writeFileSync(abruf, "globalThis.fetch = async () => { throw new Error('offline') }\n")
   const vorlader = pathToFileURL(fileURLToPath(new URL('./pr-nachrechnen-mock.mjs', import.meta.url))).href
   const skript = fileURLToPath(new URL('./laeufe-aufraeumen.mjs', import.meta.url))
+  // gh-Aufrufe aus dem Aufruflog, für die die Kulisse keine Antwort hat (ein echter gh-Aufruf liefe sonst ins Netz).
+  const unbekannteGh = (d) => {
+    const log = path.join(werk, 'log.txt')
+    if (!fs.existsSync(log)) return []
+    return fs.readFileSync(log, 'utf8').split('\n').filter(Boolean).map((z) => JSON.parse(z))
+      .filter(([befehl, args]) => befehl === 'gh' || (typeof befehl === 'string' && /^gh /.test(befehl) && args.length === 0))
+      .map(([befehl, args]) => (args.length > 0 ? args.join(' ') : befehl.replace(/^gh /, '')))
+      .filter((schluessel) => !(schluessel in d))
+  }
   const starte = (d) => {
+    fs.rmSync(path.join(werk, 'log.txt'), { force: true })
     fs.writeFileSync(path.join(werk, 'daten.json'), JSON.stringify(d))
     const env = { ...process.env, ATTRAPPE_LOG: path.join(werk, 'log.txt'), ATTRAPPE_DATEN: path.join(werk, 'daten.json') }
     return spawnSync(process.execPath, ['--import', vorlader, '--import', pathToFileURL(abruf).href, skript, '--trocken', '--wurzel', werk, '--gesundheit', path.join(werk, 'fehlt.json')], { encoding: 'utf8', env })
   }
   const ok = starte(daten)
-  pruefe('Prozess: Sammelzeile LIEGT: für den stillen PR (Wachphase lief durch)', /^LIEGT: 2377 \(Stillstand 6\d h\)$/m.test(ok.stdout) && /Status-Worker nicht erreichbar/.test(ok.stderr), { s: ok.status, o: ok.stdout, e: ok.stderr })
-  const kaputt = starte({ ...daten, [liste]: { fehler: 'HTTP 502' } })
+  pruefe('Kulisse kennt jeden gh-Aufruf der Wachphase', unbekannteGh(daten).length === 0 && !/nicht lesbar: Command failed/.test(ok.stdout), { unbekannt: unbekannteGh(daten), o: ok.stdout })
+  pruefe('Wächter: ein Aufruf ohne Antwort wird gemeldet', unbekannteGh({}).length > 0)
+  pruefe('Prozess: Sammelzeile LIEGT: für den stillen PR (Wachphase lief durch)', /^LIEGT: 2377 \(Stillstand \d+ h\)$/m.test(ok.stdout) && /Status-Worker nicht erreichbar/.test(ok.stderr), { s: ok.status, o: ok.stdout, e: ok.stderr })
+  const kaputtDaten = { ...daten, [liste]: { fehler: 'HTTP 502' } }
+  const kaputt = starte(kaputtDaten)
+  pruefe('Kulisse kennt jeden gh-Aufruf auch im Fehlerfall', unbekannteGh(kaputtDaten).length === 0, unbekannteGh(kaputtDaten))
   pruefe('Prozess: Abruffehler → Zeile LIEGT? und kein LIEGT:-Fund', /^LIEGT\? liegegut nicht lesbar: HTTP 502$/m.test(kaputt.stdout) && !/^LIEGT: /m.test(kaputt.stdout) && /Status-Worker nicht erreichbar/.test(kaputt.stderr), { s: kaputt.status, o: kaputt.stdout, e: kaputt.stderr })
   fs.rmSync(werk, { recursive: true, force: true })
 }
