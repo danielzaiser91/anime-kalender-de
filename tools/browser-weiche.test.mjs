@@ -16,10 +16,16 @@ assert.equal(entscheide(false, { GITHUB_WORKFLOW: 'PR-Prüfkette' }), 'fehler')
 const ohneBrowser = { executablePath: () => join(tools, 'gibt-es-nicht', 'chrome') }
 assert.equal(browserDa('probe', ohneBrowser, {}), false)
 assert.equal(process.exitCode, undefined, 'Überspringen setzt keinen Fehlercode')
+const mitBrowser = { executablePath: () => process.execPath }
+assert.equal(browserDa('probe', mitBrowser, {}), true, 'Browser da: Test läuft')
+assert.equal(browserDa('probe', ohneBrowser, { GITHUB_WORKFLOW: 'PR-Prüfkette' }), false)
+assert.equal(process.exitCode, 1, 'PR-Kette ohne Browser: Fehlercode')
+process.exitCode = undefined
 
 // Erkennung: ohne Weiche rot, mit Weiche grün, ohne Playwright egal.
 assert.equal(weicheFehlt("import { chromium } from 'playwright'\n"), true)
 assert.equal(weicheFehlt('const { chromium } = await import("playwright")'), true)
+assert.equal(weicheFehlt('import { chromium } from "playwright-core"'), true)
 assert.equal(weicheFehlt("import { chromium } from 'playwright'\nimport { browserDa } from './browser-weiche.mjs'"), false)
 assert.equal(weicheFehlt("import assert from 'node:assert'"), false)
 
