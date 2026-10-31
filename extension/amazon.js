@@ -3007,7 +3007,7 @@ async function speicherSchreiben(werte) {
       Daniel, 30.08.2026).
     */
     try {
-      kasten.dataset.beiFolgen = String(gesehen?.gesamt ?? 0)
+      kasten.dataset.beiFolgen = globalThis.akPrimeFolgenStand(gesehen, location)
     } catch {
       kasten.dataset.beiFolgen = '0'
     }
@@ -4190,7 +4190,7 @@ async function speicherSchreiben(werte) {
     */
     let hier = 0
     try {
-      hier = gesehen?.gesamt || geladeneFolgen()
+      hier = globalThis.akPrimeFolgenStandFrisch(gesehen, location) ? gesehen?.gesamt || geladeneFolgen() : 0
     } catch {
       hier = 0
     }
@@ -7681,7 +7681,7 @@ async function speicherSchreiben(werte) {
      * Er löst sich von selbst, sobald Amazon nachgezogen hat; ein Neuladen
      * verlangt er deshalb nicht.
      */
-    if (quelltextVonFruehererSeite()) {
+    if (quelltextVonFruehererSeite() || globalThis.akPrimeKennungAlt(document.querySelector('.ak-amazon-suchhinweis .ak-meldet')?.dataset?.kennung, asinAusAdresse())) {
       knopf.disabled = true
       knopf.textContent = 'Seite wechselt …'
       knopf.title = 'Die Angaben gehören noch zur vorigen Seite. Einen Augenblick.'
@@ -8337,10 +8337,7 @@ async function speicherSchreiben(werte) {
             if (serie && titelKern(e.serie ?? e.titel ?? '') !== serie && k !== listenId) continue
             for (const n of Object.keys(e.staffeln)) fertige[n] = true
           }
-          for (let n = 1; n <= zahl; n++) {
-            if (n !== jetzigeStaffel && !fertige[String(n)]) return n
-          }
-          return null
+          return globalThis.akPrimeNaechsteStaffel(gesehen?.seite?.staffeln, zahl, fertige, jetzigeStaffel)
         } catch {
           return null
         }
@@ -8992,7 +8989,7 @@ async function speicherSchreiben(werte) {
     let staffelText2 = null
     try {
       const n = staffelNummer()
-      staffelText2 = Number.isFinite(n) ? ` · Staffel ${n}` : null
+      staffelText2 = Number.isFinite(n) ? ` · ${globalThis.akPrimeStaffelBezeichnung(n, gesehen?.seite?.staffeln, quelltextVonFruehererSeite())}` : null
     } catch {
       staffelText2 = null
     }
@@ -9668,6 +9665,7 @@ async function speicherSchreiben(werte) {
           }
           /* Nur bei echter Änderung schreiben — sonst flackert der Kasten. */
           if (z.textContent !== wasGemeldetWird) z.textContent = wasGemeldetWird
+          z.dataset.kennung = kennungJetzt ?? ''
         } else if (z) {
           z.remove()
         }
@@ -9777,7 +9775,7 @@ async function speicherSchreiben(werte) {
       */
       let andereFolgen = false
       try {
-        andereFolgen = alterHinweis.dataset.beiFolgen !== String(gesehen?.gesamt ?? 0)
+        andereFolgen = alterHinweis.dataset.beiFolgen !== globalThis.akPrimeFolgenStand(gesehen, location)
       } catch {
         /* Kein Zählstand — dann bleibt es beim Adressvergleich. */
       }
@@ -10585,6 +10583,8 @@ async function speicherSchreiben(werte) {
         /* Wann abgehakt — der Briefkasten mistet danach aus, siehe briefkastenHolen. */
         bisher.zeit = globalThis.akPrimeVermerk(Date.now())
         erledigt = { ...zusammen, [listenId]: bisher }
+        /* Eine Teilmeldung schließt den Titel nicht ab (Regel in prime-stand.js). */
+        const teilOffen = globalThis.akPrimeTeilOffen(erledigt, bisher.serie, suchauftrag()?.folgen, titelKern)
         gemeldeteStaffel = nr
         // Abwarten: Der naechste Klick liest hier gleich wieder, und ohne das
         // liest er den Stand von vor dieser Meldung.
@@ -10669,13 +10669,13 @@ async function speicherSchreiben(werte) {
           **Erst wenn keine Ausgabe mehr aussteht.** Bei zwei bestätigten
           Ausgaben ist die Suche nach der ersten Meldung nicht erledigt.
         */
-        if (eintrag.ausSuche && suchAdresse && !erwartungNochOffen(suchAdresse)) await suchAbhaken(suchAdresse)
+        if (eintrag.ausSuche && suchAdresse && !teilOffen && !erwartungNochOffen(suchAdresse)) await suchAbhaken(suchAdresse)
         /*
           Und der Kasten verschwindet mit ihm. Er sagt „Meldung läuft unter
           diesem Titel" — nach der Meldung läuft nichts mehr, und er stand
           trotzdem weiter da.
         */
-        if (eintrag.ausSuche && !erwartungNochOffen(suchAdresse)) suchauftragVergessen()
+        if (eintrag.ausSuche && !teilOffen && !erwartungNochOffen(suchAdresse)) suchauftragVergessen()
         /* Erst hier, nicht nach dem catch: Ein Fehlschlag darf keine Marke setzen. */
         meldeSperre.vermerken(befundBeimKlick)
         uebersichtZeichnen()

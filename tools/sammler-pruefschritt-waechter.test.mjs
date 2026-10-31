@@ -5,7 +5,7 @@
  * Aufruf: node tools/sammler-pruefschritt-waechter.test.mjs
  */
 import assert from 'node:assert/strict'
-import { spawnSync } from 'node:child_process'
+import { spawnMitLimit } from './kind-mit-limit.mjs'
 import { cpSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
@@ -128,7 +128,7 @@ const ordner = mkdtempSync(join(tmpdir(), 'sammler-waechter-'))
 try {
   for (const teil of ['.github', 'tools/sammler-pruefschritt-waechter.mjs', 'tools/app-token-sperre.mjs', 'node_modules/yaml', 'package.json']) cpSync(join(WURZEL, teil), join(ordner, teil), { recursive: true })
   for (const sh of Object.keys(original.skripte)) cpSync(join(WURZEL, 'tools', sh), join(ordner, 'tools', sh))
-  const lauf = () => spawnSync(process.execPath, [join(ordner, 'tools/sammler-pruefschritt-waechter.mjs')], { cwd: ordner, encoding: 'utf8' })
+  const lauf = () => spawnMitLimit(process.execPath, [join(ordner, 'tools/sammler-pruefschritt-waechter.mjs')], { cwd: ordner, encoding: 'utf8' })
   const gruen = lauf()
   assert.equal(gruen.status, 0, gruen.stderr)
   assert.match(gruen.stdout, /^sammler-pruefschritt-waechter: ok \(\d+ Workflows/)

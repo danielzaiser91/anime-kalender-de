@@ -4,7 +4,7 @@
  * `gh` ist das Node-Programm unter dem Namen gh; `gh api …`/`gh pr …` laden so die Attrappe `api` bzw. `pr` im Arbeitsordner.
  * Die Attrappe antwortet nur auf die Aufrufe, die der Workflow heute macht (Pfad und Parameter genau), sonst HTTP 404.
  */
-import { spawnSync } from 'node:child_process'
+import { spawnMitLimit } from './kind-mit-limit.mjs'
 import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
@@ -121,7 +121,7 @@ function laufeSchritte(wf, ordner, prs) {
     const skript = path.join(ordner, `schritt-${i}.sh`)
     fs.writeFileSync(skript, auswerten(s.run, kontext))
     const env = { ...basis, GITHUB_OUTPUT: ausgabe, ...Object.fromEntries(Object.entries(s.env ?? {}).map(([n, w]) => [n, auswerten(w, kontext)])) }
-    const r = spawnSync(bash, ['-e', skript], { cwd: ws, env, encoding: 'utf8' })
+    const r = spawnMitLimit(bash, ['-e', skript], { cwd: ws, env, encoding: 'utf8' })
     if (r.status !== 0) return { fehler: `${s.name}: Exit ${r.status} ${r.stderr}` }
     if (s.id) kontext.ausgaben[s.id] = leseAusgaben(ausgabe)
   }

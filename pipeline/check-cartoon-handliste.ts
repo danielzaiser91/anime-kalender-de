@@ -107,7 +107,8 @@ try {
   const echt = handlisteLaden(process.cwd())
   const dream = echt.find((e) => e.adn === 887)
   pruefe('Dreamland steht drin, ohne feste Kennung (der Abruf sucht)', dream?.name === 'Dreamland' && dream.tmdb === undefined, dream)
-  pruefe('Cousteau ist als Grenzfall markiert', Boolean(echt.find((e) => e.adn === 748)?.pruefen))
+  const cousteau = echt.find((e) => e.adn === 748)
+  pruefe('Cousteau ist Animation (TMDB 103938, 26 Folgen wie bei ADN), kein Grenzfall mehr', cousteau?.tmdb === 103938 && !cousteau.pruefen, cousteau)
   pruefe('keine ADN-Kennung doppelt', new Set(echt.map((e) => e.adn)).size === echt.length)
 
   console.log('\nBau: ADN-Serie ohne aniSearch-Eintrag als Cartoon')
@@ -173,6 +174,9 @@ try {
   pruefe('andere Serienkennung: kein Weg', wege(titelMit(-5), [serie({ showId: 8 })]).neu === 0)
   pruefe('Cartoon ohne ADN-Kennung: kein Weg', wege(titelMit(-6), [serie()]).neu === 0)
   pruefe('Cartoon, der nicht in den Rohdaten steht: kein Weg', wege(titelMit(-9), [serie()]).neu === 0)
+  const { adnShowJeCartoon } = await import('./bau/cartoon-adn.ts')
+  pruefe('ADN-Serie je Cartoon: nur der Eintrag mit Kennung, Folgen und Adresse', [...adnShowJeCartoon(rohMit, [serie()]).keys()].join() === '-5')
+  pruefe('ADN-Serie je Cartoon: ohne Folgen oder Adresse leer', adnShowJeCartoon(rohMit, [serie({ episodes: [] })]).size === 0 && adnShowJeCartoon(rohMit, [serie({ url: '' })]).size === 0)
   pruefe('Titelkarte: nur Einträge mit ADN-Kennung', [...cartoonTitelJeAdn(rohMit).keys()].join() === '7')
 
   console.log('\nVorrang: ein Anime mit gleichem Namen gewinnt vor dem Cartoon')

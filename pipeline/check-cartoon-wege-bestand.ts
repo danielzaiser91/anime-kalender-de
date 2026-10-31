@@ -9,6 +9,8 @@ import { loadDubChecks } from './lib/dub-confirmed.ts'
 import { summe } from './lib/cartoon-staffeln.ts'
 import { PRUEFLISTE, type StaffelPruefung } from './bau/cartoon-staffeln.ts'
 import { jwKennzeichnungFehler } from './lib/jw-seite.ts'
+import { adnShowJeCartoon, adnShowsLesen } from './bau/cartoon-adn.ts'
+import type { CartoonEintrag } from './lib/cartoons.ts'
 import type { StreamLink, Title } from '../shared/types.ts'
 
 let fehler = 0
@@ -23,6 +25,8 @@ function pruefe(name: string, ok: boolean, info = ''): void {
 function pruefeBestand(titelListe: Title[]): void {
   const liste = new Set(readJson<StaffelPruefung[]>(PRUEFLISTE, []).map((p) => p.titleId))
   const belegt = new Set(loadDubChecks().filter((c) => c.anilistId < 0 && c.dub === true).map((c) => `${c.anilistId}|${c.platform}`))
+  // Handliste + ADN-Folgen mit deutschem Ton (vde) tragen den ADN-Weg ohne Handbeleg (bau/cartoon-adn.ts)
+  for (const id of adnShowJeCartoon(readJson<Record<string, CartoonEintrag>>('data/cartoons.json', {}), adnShowsLesen()).keys()) belegt.add(`${id}|adn`)
   const verteilt = titelListe.filter((t) => t.streams.some((s) => s.teilBereich))
   pruefe('Bestand: Titel auf der Prüfliste behalten ihren ganzen Weg', verteilt.every((t) => !liste.has(t.id)))
   for (const t of verteilt) {

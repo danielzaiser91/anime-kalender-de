@@ -4,7 +4,7 @@
  * fehlten Tage, niemand merkte es. Rot hier: Warnung statt Abbruch, der Bau liefert seine Daten trotzdem aus.
  */
 import assert from 'node:assert/strict'
-import { spawnSync } from 'node:child_process'
+import { spawnMitLimit } from './kind-mit-limit.mjs'
 import { chmodSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { delimiter, dirname, join } from 'node:path'
@@ -33,7 +33,7 @@ function lauf({ npmAusgabe, exit, vorher = '' }) {
   const env = { ...process.env, ...schritt.env, RUNNER_TEMP: arbeit, GITHUB_ENV: envDatei, PATH: `${join(arbeit, 'bin')}${delimiter}${process.env.PATH}` }
   if (vorher) env.DATEN_WARNUNG = vorher
   else delete env.DATEN_WARNUNG
-  const r = spawnSync('bash', ['-e', '-o', 'pipefail', '-c', schritt.run], { cwd: arbeit, encoding: 'utf8', env })
+  const r = spawnMitLimit('bash', ['-e', '-o', 'pipefail', '-c', schritt.run], { cwd: arbeit, encoding: 'utf8', env })
   return { status: r.status, ausgabe: r.stdout, env: readFileSync(envDatei, 'utf8').trim() }
 }
 
@@ -59,7 +59,7 @@ function pruefung(releaseSlug, { folgeTag = '2026-10-20', start = '2026-10-20', 
   writeFileSync(join(d, 'data/crunchyroll-neu.json'), JSON.stringify({ folgen: [folge] }))
   const tsx = join(wurzel, 'node_modules/tsx/dist/cli.mjs')
   const skript = join(tools, 'cr-termine-vorschau.ts')
-  const r = spawnSync(process.execPath, [tsx, skript, '--wie-gebaut', '--streng', '--stand', stand], { cwd: d, encoding: 'utf8' })
+  const r = spawnMitLimit(process.execPath, [tsx, skript, '--wie-gebaut', '--streng', '--stand', stand], { cwd: d, encoding: 'utf8' })
   return { status: r.status, ausgabe: r.stdout }
 }
 

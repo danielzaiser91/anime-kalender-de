@@ -111,6 +111,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-887@2026-10-24@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261024T170000Z
+DTEND:20261024T173000Z
+SUMMARY:Dreamland – Folge 2/2
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: 
+ https://anime-kalender.de/t/-204084/
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-165159-tv-toggo-plus@2026-10-24@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261024T184500Z
@@ -942,17 +952,6 @@ DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
 CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
-UID:avatar-die-sieben-haefen-paramountplus@2026-10-30#10@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261030T100000Z
-DTEND:20261030T103000Z
-SUMMARY:Avatar: Die sieben Häfen – Folge 10–13/13
-DESCRIPTION:Plattform: Paramount+\nRelease-Art: Wöchentlich (Simuldub)\nUh
- rzeit voraussichtlich\, nicht gemessen.\nDetails: https://anime-kalender.d
- e/t/-284833/
-CATEGORIES:Paramount+
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-10012621-tv-toggo-plus@2026-10-30#35@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261030T100000Z
@@ -1116,6 +1115,17 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
+UID:avatar-die-sieben-haefen-paramountplus@2026-10-30#10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261030
+DTEND;VALUE=DATE:20261031
+SUMMARY:Avatar: Die sieben Häfen – Folge 10–13/13
+DESCRIPTION:Plattform: Paramount+\nRelease-Art: Wöchentlich (Simuldub)\nUh
+ rzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/-284833
+ /
+CATEGORIES:Paramount+
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-15-tv-prosieben-maxx@2026-10-31#23@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261031T045500Z
@@ -1156,15 +1166,24 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
+UID:the-vermilion-mask-crunchyroll-de-2026-10-31@2026-10-31@anime-kalender-
+ de
+DTSTAMP:20200101T000000Z
+DTSTART:20261031T093000Z
+DTEND:20261031T100000Z
+SUMMARY:The Vermilion Mask – Folge 1/≈12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/t/16918/
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-G6793XKZY@2026-10-31@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261031T103000Z
 DTEND:20261031T110000Z
 SUMMARY:Ascendance of a Bookworm Staffel 4 – Folge 24/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/15570/
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/t/15570/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -1216,10 +1235,8 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261031T170000Z
 DTEND:20261031T173000Z
 SUMMARY:Jaadugar: A Witch in Mongolia Staffel 1 – Folge 12/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/16797/
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/t/16797/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -1948,6 +1965,19 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
+UID:the-vermilion-mask-crunchyroll-de-2026-10-31@2026-11-07@anime-kalender-
+ de
+DTSTAMP:20200101T000000Z
+DTSTART:20261107T093000Z
+DTEND:20261107T100000Z
+SUMMARY:The Vermilion Mask – Folge 2/≈12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
+ bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
+ et.\nDetails: https://anime-kalender.de/t/16918/
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:last-boss-s2-crunchyroll@2026-11-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261107T143000Z
@@ -2312,6 +2342,19 @@ SUMMARY:Sakamoto Days – Vol. 1 (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/t/15940/
 CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:the-vermilion-mask-crunchyroll-de-2026-10-31@2026-11-14@anime-kalender-
+ de
+DTSTAMP:20200101T000000Z
+DTSTART:20261114T093000Z
+DTEND:20261114T100000Z
+SUMMARY:The Vermilion Mask – Folge 3/≈12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
+ bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
+ et.\nDetails: https://anime-kalender.de/t/16918/
+CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:last-boss-s2-crunchyroll@2026-11-14@anime-kalender-de
@@ -3057,6 +3100,19 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
+UID:the-vermilion-mask-crunchyroll-de-2026-10-31@2026-11-21@anime-kalender-
+ de
+DTSTAMP:20200101T000000Z
+DTSTART:20261121T093000Z
+DTEND:20261121T100000Z
+SUMMARY:The Vermilion Mask – Folge 4/≈12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
+ bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
+ et.\nDetails: https://anime-kalender.de/t/16918/
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:last-boss-s2-crunchyroll@2026-11-21@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261121T143000Z
@@ -3463,6 +3519,19 @@ SUMMARY:Love of Kill (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/t/12321/
 CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:the-vermilion-mask-crunchyroll-de-2026-10-31@2026-11-28@anime-kalender-
+ de
+DTSTAMP:20200101T000000Z
+DTSTART:20261128T093000Z
+DTEND:20261128T100000Z
+SUMMARY:The Vermilion Mask – Folge 5/≈12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
+ bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
+ et.\nDetails: https://anime-kalender.de/t/16918/
+CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:last-boss-s2-crunchyroll@2026-11-28@anime-kalender-de
@@ -3953,6 +4022,19 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
+UID:the-vermilion-mask-crunchyroll-de-2026-10-31@2026-12-05@anime-kalender-
+ de
+DTSTAMP:20200101T000000Z
+DTSTART:20261205T093000Z
+DTEND:20261205T100000Z
+SUMMARY:The Vermilion Mask – Folge 6/≈12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
+ bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
+ et.\nDetails: https://anime-kalender.de/t/16918/
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:last-boss-s2-crunchyroll@2026-12-05@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261205T143000Z
@@ -4286,6 +4368,19 @@ SUMMARY:Venus Wars
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: Film\nUhrzeit noch nicht
   bestätigt.\nDetails: https://anime-kalender.de/t/499/
 CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:the-vermilion-mask-crunchyroll-de-2026-10-31@2026-12-12@anime-kalender-
+ de
+DTSTAMP:20200101T000000Z
+DTSTART:20261212T093000Z
+DTEND:20261212T100000Z
+SUMMARY:The Vermilion Mask – Folge 7/≈12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
+ bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
+ et.\nDetails: https://anime-kalender.de/t/16918/
+CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:last-boss-s2-crunchyroll@2026-12-12@anime-kalender-de
@@ -4631,6 +4726,19 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
+UID:the-vermilion-mask-crunchyroll-de-2026-10-31@2026-12-19@anime-kalender-
+ de
+DTSTAMP:20200101T000000Z
+DTSTART:20261219T093000Z
+DTEND:20261219T100000Z
+SUMMARY:The Vermilion Mask – Folge 8/≈12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
+ bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
+ et.\nDetails: https://anime-kalender.de/t/16918/
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:last-boss-s2-crunchyroll@2026-12-19@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261219T143000Z
@@ -4876,6 +4984,19 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
+UID:the-vermilion-mask-crunchyroll-de-2026-10-31@2026-12-26@anime-kalender-
+ de
+DTSTAMP:20200101T000000Z
+DTSTART:20261226T093000Z
+DTEND:20261226T100000Z
+SUMMARY:The Vermilion Mask – Folge 9/≈12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
+ bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
+ et.\nDetails: https://anime-kalender.de/t/16918/
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:last-boss-s2-crunchyroll@2026-12-26@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261226T143000Z
@@ -5075,6 +5196,19 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
+UID:the-vermilion-mask-crunchyroll-de-2026-10-31@2027-01-02@anime-kalender-
+ de
+DTSTAMP:20200101T000000Z
+DTSTART:20270102T093000Z
+DTEND:20270102T100000Z
+SUMMARY:The Vermilion Mask – Folge 10/≈12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
+ bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
+ et.\nDetails: https://anime-kalender.de/t/16918/
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:last-boss-s2-crunchyroll@2027-01-02@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270102T143000Z
@@ -5259,6 +5393,19 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
   Anbieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgel
  eitet.\nDetails: https://anime-kalender.de/t/12/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:the-vermilion-mask-crunchyroll-de-2026-10-31@2027-01-09@anime-kalender-
+ de
+DTSTAMP:20200101T000000Z
+DTSTART:20270109T093000Z
+DTEND:20270109T100000Z
+SUMMARY:The Vermilion Mask – Folge 11/≈12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
+ bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
+ et.\nDetails: https://anime-kalender.de/t/16918/
+CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2027-01-09@anime-kalender-d
@@ -5574,6 +5721,19 @@ SUMMARY:The Café Terrace and Its Goddesses (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/t/15195/
 CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:the-vermilion-mask-crunchyroll-de-2026-10-31@2027-01-16@anime-kalender-
+ de
+DTSTAMP:20200101T000000Z
+DTSTART:20270116T093000Z
+DTEND:20270116T100000Z
+SUMMARY:The Vermilion Mask – Folge 12/≈12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
+ bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
+ et.\nDetails: https://anime-kalender.de/t/16918/
+CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2027-01-16@anime-kalender-d

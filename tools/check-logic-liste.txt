@@ -18,6 +18,7 @@ pipeline/check-adn-lesetag.ts
 pipeline/check-adn-neuzugaenge.ts
 pipeline/check-adn-news-serien.ts
 pipeline/check-adn-offen-wache.ts
+pipeline/check-adn-spanne.ts
 pipeline/check-adn-sprache-offen.ts
 pipeline/check-adn-sprachriegel-lauf.ts
 pipeline/check-adn-sprachriegel.ts
@@ -54,6 +55,7 @@ pipeline/check-antwort-jetzt.ts
 pipeline/check-antwort-vorstart.ts
 pipeline/check-auf-deutsch-vorstart.ts
 pipeline/check-ausgeblieben-text.ts
+pipeline/check-ausloeser-zeilen.ts
 pipeline/check-auto-disc-handeintrag.ts
 pipeline/check-beleg-anbieter.ts
 pipeline/check-beleg-api-web.ts
@@ -76,6 +78,7 @@ pipeline/check-cartoon-aufnahme.ts
 pipeline/check-cartoon-belege-bau.ts
 pipeline/check-cartoon-handliste-lauf.ts
 pipeline/check-cartoon-handliste.ts
+pipeline/check-cartoon-pruefregeln.ts
 pipeline/check-cartoon-reihen.ts
 pipeline/check-cartoon-staffeln.ts
 pipeline/check-cartoon-ton.ts
@@ -155,6 +158,7 @@ pipeline/check-escape-hoerer-faelle.ts
 pipeline/check-escape-hoerer.ts
 pipeline/check-escape-stapel.ts
 pipeline/check-favoriten-feed-faelle.ts
+pipeline/check-fetch-pruefungen-laufzeit.ts
 pipeline/check-film-ohne-weg.ts
 pipeline/check-filter-genres.ts
 pipeline/check-finale-wache.ts
@@ -229,6 +233,7 @@ pipeline/check-leerer-kasten.ts
 pipeline/check-leerzeichen-gleich.ts
 pipeline/check-leinwand-escape.ts
 pipeline/check-link-leere-adresse.ts
+pipeline/check-links-laufzeit.ts
 pipeline/check-logic.ts
 pipeline/check-luecken-staffel0.ts
 pipeline/check-mail-verschoben-datum.ts
@@ -241,6 +246,7 @@ pipeline/check-messbelege-kalender.ts
 pipeline/check-minuten-takt.ts
 pipeline/check-motn-reihe.ts
 pipeline/check-motn-uebernahme.ts
+pipeline/check-nebendateien-laufzeit.ts
 pipeline/check-nein-datum.ts
 pipeline/check-nein-handbeleg-abschluss.ts
 pipeline/check-nein-handbeleg-aufrufer.ts
