@@ -36,6 +36,7 @@ function startInKulisse(): never {
   const kulisse = mkdtempSync(join(tmpdir(), 'handbeleg-weg-'))
   mkdirSync(join(kulisse, 'data', 'curated'), { recursive: true })
   writeFileSync(join(kulisse, 'data', 'kino-ankuendigungen.yaml'), '')
+  writeFileSync(join(kulisse, 'data', 'shop-wege-falsches-ziel.yaml'), '[]\n')
   writeFileSync(join(kulisse, 'data', 'dub-confirmed.yaml'), KULISSEN_BELEG)
   const r = spawnSync(process.execPath, ['--import', 'tsx', fileURLToPath(import.meta.url)], {
     env: { ...process.env, AK_ROOT: kulisse },
