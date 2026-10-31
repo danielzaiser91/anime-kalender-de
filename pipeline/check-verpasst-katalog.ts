@@ -3,7 +3,8 @@
  * Nummer, die bis heute (Berliner Tag) erschienen sind. Der Prozess-Fall steht in `check-termine-observed-lauf.ts`.
  * Aufruf: npm run check:logic (steckt darin) oder `tsx pipeline/check-verpasst-katalog.ts`
  */
-import { katalogBeobachtungen } from './lib/verpasst-katalog.ts'
+import { katalogBeobachtungen, katalogOhneTag } from './lib/verpasst-katalog.ts'
+import type { NeueFolge } from './lib/cr-neu-wache.ts'
 
 let verletzt = 0
 function pruefe(name: string, ok: boolean, gefunden: unknown): void {
@@ -14,7 +15,7 @@ function pruefe(name: string, ok: boolean, gefunden: unknown): void {
 
 const folge = (serieId: string, nummer: number | undefined, verfuegbarAb: string) => ({ serieId, serie: 'S', staffel: 'Staffel 3', nummer, verfuegbarAb })
 const heute = '2026-10-26'
-const sieh = (folgen: ReturnType<typeof folge>[]) => katalogBeobachtungen(folgen, 'GA', 3, heute)
+const sieh = (folgen: NeueFolge[]) => katalogBeobachtungen(folgen, 'GA', 3, heute)
 
 const ok = sieh([folge('GA', 2, '2026-10-25T15:00:00.000Z')])
 pruefe('Folge von heute oder früher zählt', ok.length === 1 && ok[0]!.date === '2026-10-25' && ok[0]!.episode === 2, ok)
@@ -32,6 +33,24 @@ const andereStaffel = katalogBeobachtungen([folge('GA', 2, '2026-10-25T15:00:00.
 pruefe('andere Staffel derselben Serie zählt nicht', andereStaffel.length === 0, andereStaffel)
 const berlin = katalogBeobachtungen([folge('GA', 2, '2026-10-25T23:30:00.000Z')], 'GA', 3, '2026-10-25')
 pruefe('23:30 UTC ist schon der nächste Berliner Tag, bei heute = Vortag keine Sichtung', berlin.length === 0, berlin)
+
+/* Echte Form der fünf Fälle aus der Katalogdatei (26.10.2026): ausstrahlung, aber kein verfuegbarAb. */
+const ohneAb = (gesehenAm: string, nummer = 9) => ({ serieId: 'GA', serie: 'S', staffel: 'Staffel 3', nummer, gesehenAm })
+const rueckfall = sieh([ohneAb('2026-09-12')])
+pruefe('ohne verfuegbarAb zählt gesehenAm als Tag', rueckfall.length === 1 && rueckfall[0]!.date === '2026-09-12' && rueckfall[0]!.episode === 9, rueckfall)
+const rueckMorgen = sieh([ohneAb('2026-10-27')])
+pruefe('Rückfall am morgigen Tag ist keine Sichtung', rueckMorgen.length === 0, rueckMorgen)
+const beideTage = sieh([{ ...ohneAb('2026-10-26'), verfuegbarAb: '2026-10-25T15:00:00.000Z' }])
+pruefe('verfuegbarAb schlägt gesehenAm', beideTage.length === 1 && beideTage[0]!.date === '2026-10-25', beideTage)
+const kaputtAb = sieh([{ ...ohneAb('2026-09-12'), verfuegbarAb: 'kein Datum' }])
+pruefe('unlesbares verfuegbarAb fällt auf gesehenAm zurück', kaputtAb.length === 1 && kaputtAb[0]!.date === '2026-09-12', kaputtAb)
+const kaputtGesehen = sieh([ohneAb('gestern')])
+pruefe('weder Tag noch Rückfall: keine Sichtung', kaputtGesehen.length === 0, kaputtGesehen)
+const fremdOhneAb = sieh([{ ...ohneAb('2026-09-12'), serieId: 'GB' }])
+pruefe('Rückfall hebt die Serien-Prüfung nicht auf', fremdOhneAb.length === 0, fremdOhneAb)
+const ohneTag = katalogOhneTag([ohneAb('2026-09-12'), ohneAb('x', 3), { serieId: 'GA', nummer: 4 }, folge('GA', 5, '2026-10-25T15:00:00.000Z')])
+pruefe('katalogOhneTag nennt genau die Folgen ohne jeden Tag', ohneTag.length === 2 && ohneTag[0]!.nummer === 3 && ohneTag[1]!.nummer === 4, ohneTag)
+pruefe('katalogOhneTag: leere Liste', katalogOhneTag([]).length === 0, katalogOhneTag([]))
 
 if (verletzt) {
   console.error(`\n${verletzt} Zusicherung(en) verletzt.`)

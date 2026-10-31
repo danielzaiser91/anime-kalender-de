@@ -39,7 +39,7 @@ import { log, readJson, ROOT, writeJson } from './lib/util.ts'
 import { artikelNenntTitel, folgeAmVerpasstenTermin, rechercheFaellig, terminFrist, terminPruefen, terminZeitpunkt } from './lib/ausgeblieben.ts'
 import { meldeAbbruch } from './lib/abbruch.ts'
 import { beobachtetAusRelease } from './lib/verpasst-beobachtet.ts'
-import { katalogBeobachtungen, katalogStaffel } from './lib/verpasst-katalog.ts'
+import { katalogBeobachtungen, katalogOhneTag, katalogStaffel } from './lib/verpasst-katalog.ts'
 import { toIsoDate } from '../shared/time.ts'
 import type { NeueFolge } from './lib/cr-neu-wache.ts'
 import type { Title } from '../shared/types.ts'
@@ -198,6 +198,10 @@ const vorDemStart = (v: { slug: string; erwartetAm: string }) => {
 
 /* Der Katalog (`crunchyroll-neu.json`) sieht deutsche Folgen, die der Simulcast-Kalender nicht zeigt (Aristocrat S3 F2, 26.10.2026). */
 const katalogFolgen = readJson<{ folgen?: NeueFolge[] }>('data/crunchyroll-neu.json', {}).folgen ?? []
+const ohneTag = katalogOhneTag(katalogFolgen)
+if (ohneTag.length) {
+  console.log(`⚠ Katalogfolgen ohne Tag (zählen nicht als Beleg): ${ohneTag.length} — ${ohneTag.map((f) => `${f.serie} ${f.staffel} F${f.nummer}`).join('; ')}`)
+}
 const alleTitel = readJson<Title[]>('public/data/titles.json', [])
 const titelIdJeSlug = new Map(veroeffentlichungen.map((r) => [r.slug, r.titleId]))
 

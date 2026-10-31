@@ -15,6 +15,23 @@ export function katalogStaffel(title: Title | undefined, titles: Title[]): numbe
 }
 
 /**
+ * Der Tag, an dem die Folge spätestens abrufbar war: `verfuegbarAb` (Berliner Tag), fehlt es, der Tag des ersten Katalogfundes
+ * (`gesehenAm`, steht dort immer). Ohne beides `undefined`.
+ */
+export function katalogTag(f: NeueFolge): string | undefined {
+  if (f.verfuegbarAb) {
+    const zeit = new Date(f.verfuegbarAb)
+    if (!Number.isNaN(zeit.getTime())) return toIsoDate(zeit)
+  }
+  return f.gesehenAm && /^\d{4}-\d{2}-\d{2}$/.test(f.gesehenAm) ? f.gesehenAm : undefined
+}
+
+/** Folgen, für die auch der Rückfall keinen Tag liefert: sie können keinen Vermerk „nicht erschienen“ aufheben. */
+export function katalogOhneTag(folgen: NeueFolge[]): NeueFolge[] {
+  return folgen.filter((f) => !katalogTag(f))
+}
+
+/**
  * Deutsche Folgen der Serie `serieId` und Staffel `staffel` aus `data/crunchyroll-neu.json` als Beobachtungen (Tag Berlin).
  *
  * Lehre (26.10.2026, Aristocrat S3 Folge 2): Der Katalog sah die Folge am 25.10., der Simulcast-Kalender zeigte sie nicht,
@@ -29,10 +46,11 @@ export function katalogBeobachtungen(
   if (!serieId || staffel === undefined) return []
   const raus: { date: string; episode: number }[] = []
   for (const f of folgen) {
-    if (f.serieId !== serieId || !f.verfuegbarAb || !Number.isInteger(f.nummer) || (f.nummer as number) < 1) continue
+    if (f.serieId !== serieId || !Number.isInteger(f.nummer) || (f.nummer as number) < 1) continue
     const ihre = f.staffel === f.serie ? 1 : Number(STAFFEL_IM_NAMEN.exec(f.staffel ?? '')?.[1])
     if (ihre !== staffel) continue
-    const date = toIsoDate(new Date(f.verfuegbarAb))
+    const date = katalogTag(f)
+    if (!date) continue
     /* Eine angekündigte Folge (Tag nach `heute`, Berliner Tag wie bei beobachtetAusRelease) ist keine Sichtung. */
     if (date <= heute) raus.push({ date, episode: f.nummer as number })
   }

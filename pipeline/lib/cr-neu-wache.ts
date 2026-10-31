@@ -17,6 +17,8 @@ export interface NeueFolge {
   staffel?: string
   nummer?: number
   verfuegbarAb?: string
+  /** Tag (Berlin) des ersten Fundes im Katalog. */
+  gesehenAm?: string
 }
 
 export interface FehlendeFolge {
