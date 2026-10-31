@@ -29,6 +29,7 @@
 import { readFileSync } from 'node:fs'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { handbelegBloecke } from './handbeleg-treffer.mjs'
 
 const WURZEL = join(dirname(fileURLToPath(import.meta.url)), '..')
 const BRIEFKASTEN = 'https://newsletter.animekalender.workers.dev/pruefung'
@@ -56,8 +57,7 @@ async function offene() {
 function handbelegZu(url) {
   try {
     const text = readFileSync(join(WURZEL, 'data/dub-confirmed.yaml'), 'utf8')
-    const kern = String(url).replace(/^https?:\/\/(www\.)?/, '').split('?')[0]
-    return text.split(/\n(?=- )/).filter((block) => block.includes(kern))
+    return handbelegBloecke(text, url)
   } catch {
     return []
   }
