@@ -1,5 +1,5 @@
 {
-  "stand": "2026-10-31T19:24:57.262Z",
+  "stand": "2026-10-31T21:03:12.223Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -6610,18 +6610,7 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-10-31",
-      "letzterWeg": true
-    },
-    {
-      "titleId": 114099,
-      "titel": "Dragon Quest: The Adventure of Dai",
-      "plattform": "primevideo",
-      "url": "https://www.amazon.de/dp/B0CGQ64WRN",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-10-31",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 114340,
@@ -7917,6 +7906,17 @@
       "url": "https://www.netflix.com/title/81788312",
       "seriesId": null,
       "grund": "der Anbieter führt 12 + 13 Folgen, und die belegten Titel füllen sie exakt — für 1 weitere ist dort kein Platz",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-31",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 114099,
+      "titel": "Dragon Quest: The Adventure of Dai",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/dp/B0CGQ64WRN",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-10-31",
       "letzterWeg": true
