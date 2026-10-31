@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-10-30T14:47:48.660Z",
+ "erzeugtAm": "2026-10-30T20:59:28.361Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -509,8 +509,8 @@
    "name": "Netflix",
    "plattform": "netflix",
    "gemeldet": 761,
-   "gesamt": 889,
-   "offen": 128,
+   "gesamt": 895,
+   "offen": 134,
    "ohneSeite": 16,
    "ziel": "https://www.netflix.com/title/81608820",
    "ziele": [
@@ -539,6 +539,10 @@
      "titel": "My Hero Academia"
     },
     {
+     "url": "https://www.netflix.com/title/81050090",
+     "titel": "The Grimm Variations"
+    },
+    {
      "url": "https://www.netflix.com/title/81050091",
      "titel": "The Grimm Variations"
     },
@@ -558,6 +562,14 @@
      ]
     },
     {
+     "url": "https://www.netflix.com/title/81019771",
+     "titel": "Ultramarine Magmell"
+    },
+    {
+     "url": "https://www.netflix.com/title/81054849",
+     "titel": "The Disastrous Life of Saiki K.: Reawakened"
+    },
+    {
      "url": "https://www.netflix.com/title/81054851",
      "titel": "The Disastrous Life of Saiki K.: Reawakened",
      "staffeln": [
@@ -570,6 +582,10 @@
     },
     {
      "url": "https://www.netflix.com/title/70216227",
+     "titel": "Arrietty: Die wundersame Welt der Borger"
+    },
+    {
+     "url": "https://www.netflix.com/title/81253522",
      "titel": "Arrietty: Die wundersame Welt der Borger"
     },
     {
@@ -591,6 +607,10 @@
      "titel": "Chihiros Reise ins Zauberland"
     },
     {
+     "url": "https://www.netflix.com/title/81253489",
+     "titel": "Chihiros Reise ins Zauberland"
+    },
+    {
      "url": "https://www.netflix.com/title/80243876",
      "titel": "Berserk",
      "staffeln": [
@@ -599,6 +619,10 @@
     },
     {
      "url": "https://www.netflix.com/title/70019062",
+     "titel": "Nausicaä aus dem Tal der Winde"
+    },
+    {
+     "url": "https://www.netflix.com/title/81234986",
      "titel": "Nausicaä aus dem Tal der Winde"
     },
     {

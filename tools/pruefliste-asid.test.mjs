@@ -65,6 +65,8 @@ function kulisse() {
   schreibe(wurzel, 'data/anbieter-vorschlaege.json', VORSCHLAEGE)
   schreibe(wurzel, 'data/kanal-widerspruch.json', WIDERSPRUCH)
   schreibe(wurzel, 'data/link-check.json', {})
+  schreibe(wurzel, 'data/anisearch.json', {})
+  schreibe(wurzel, 'data/justwatch-audio.json', {})
   schreibe(wurzel, 'data/pruefliste-regeln.json', { erweitert: true })
   mkdirSync(join(wurzel, 'extension'), { recursive: true })
   writeFileSync(join(wurzel, 'data/dub-confirmed.yaml'), '[]\n')
