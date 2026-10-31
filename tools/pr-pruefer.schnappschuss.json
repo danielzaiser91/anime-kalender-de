@@ -71,7 +71,7 @@
           "env": {
             "GH_TOKEN": "${{ secrets.GITHUB_TOKEN }}"
           },
-          "run": "node tools/pr-kettenlog.mjs \"$HEAD_SHA\" \"$RUNNER_TEMP/pruefer\" 780 || echo \"Kettenlog nicht bereitgelegt\""
+          "run": "node tools/pr-kettenlog.mjs \"$HEAD_SHA\" \"$RUNNER_TEMP/pruefer\" 780 \"$RUNNER_TEMP/pruefer/pr-beschreibung.txt\" || echo \"Kettenlog nicht bereitgelegt\""
         },
         {
           "name": "Prüfer-Eingang prüfen",
