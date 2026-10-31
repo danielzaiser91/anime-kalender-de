@@ -6,7 +6,8 @@
 import { baueNews } from './lib/news.ts'
 import { CARTOON_NEWS_ARTEN, cartoonsAusReleases } from './bau/cartoon-kern.ts'
 import { readJson } from './lib/util.ts'
-import { belegLink, istLink } from '../shared/quelle.ts'
+import { istLink } from '../shared/quelle.ts'
+import { belegeMitAdresse } from './lib/cartoon-news-regel.ts'
 import { melde } from './lib/quarantaene.ts'
 import type { NewsEintrag, Release } from '../shared/types.ts'
 
@@ -41,7 +42,7 @@ function verletzte(grund: string, verletzt: (x: (typeof vonCartoons)[number]) =>
 pruefe('Cartoons erzeugen Meldungen (sonst bliebe der Pfad unbelegt)', cartoons.length === 0 || vonCartoons.length > 0)
 const ohneQuelle = verletzte('Meldung ohne Quelle', (x) => !istLink(x.m.quelle))
 pruefe('jede Cartoon-Meldung hat eine Quelle (Link)', !ohneQuelle.length, ohneQuelle.map((x) => x.m.art))
-const ohneBelege = verletzte('Meldung ohne Belege mit Adresse', (x) => !((x.m.belege ?? []).length > 0 && (x.m.belege ?? []).every((b) => belegLink(b))))
+const ohneBelege = verletzte('Meldung ohne Belege mit Adresse', (x) => !belegeMitAdresse(x.m.belege))
 pruefe('jede Cartoon-Meldung hat Belege mit Adresse', !ohneBelege.length, ohneBelege.map((x) => x.titelId))
 pruefe(
   'nur Termin-Arten: kein „neu mit Synchro", keine Folgen- oder Messmeldung',
