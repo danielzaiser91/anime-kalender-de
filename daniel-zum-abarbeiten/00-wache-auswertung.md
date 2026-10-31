@@ -545,3 +545,16 @@ wer die Ursache dann noch kennt, hat Glück. Deshalb diese Datei.
 **Wo sind echte Risiken und Lücken?** Die Wache war faktisch blind: `tools/delta-pruefen.mjs` → `bestand-pendel.ts` → `bestand-delta.ts` → `belege-entfernt.ts` importiert `js-yaml`, der Workflow macht aber bewusst kein `npm ci` („kein Import aus node_modules"). Die Kette wuchs mit dem Belege-entfernt-Abgleich vom 29.10. (der Lauf vom 29.10. und 30.10. fehlte in diesem Schritt wohl ebenso — nur 30.10. ist als Stacktrace belegt). Ein Verlust im Bestand wäre in dieser Zeit nicht bemerkt worden. Da der Vortagsstand-Cache fehlte, entfällt auch der Vergleich der ausgelassenen Termine.
 
 **Was läuft komplett falsch?** `Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'js-yaml' imported from pipeline/lib/belege-entfernt.ts` im Schritt „Delta der letzten 24 Stunden". Behoben im Pull Request: `sperrKern` und `BelegEntfernt` liegen jetzt in `pipeline/lib/sperr-kern.ts` ohne `js-yaml` (ein Workflow-Fix scheiterte an fehlender `workflows`-Berechtigung der App).
+
+
+## 31.10.2026 — Bestandsbau rot: Bekannt-Liste veraltet (Lauf 41187294690, Issue #2497)
+
+Kein Wache-Befund, sondern ein roter Bestandsbau; der Bestand verlor nichts.
+
+**Was läuft korrekt.** `check:bestand` hat gebremst, wie vorgesehen: `pipeline/check-zuordnung-fremd-bestand.ts` brach den Commit ab, nichts Falsches ging auf `main`. Der Folgelauf 41188418397 zeigte denselben Fehler, er ist also stabil und kein Zufall.
+
+**Wo ist Verbesserungspotenzial?** Die Bekannt-Liste kann nur im roten Bau selbst als veraltet erkannt werden: Der Bau schreibt die Änderung (Meldungen einarbeiten, Staffel 3 von B0F5J5JTSL → 136804) erst in den Arbeitsbaum und scheitert dann vor dem Commit, die Liste im Repo bleibt stehen.
+
+**Wo sind echte Risiken und Lücken?** Lokal auf den committeten Daten ist die Prüfung grün, im Bau rot. Wer nur lokal prüft, sieht das nicht. Nicht belegt: ob die Zuordnung 136804 → B0F3TCT3TG im Bau durch die Meldungs-Einarbeitung verschwindet (Protokoll zeigt nur „Staffel 3 … gehört zu 136804 statt 21699"); das ist abgeleitet.
+
+**Was läuft komplett falsch?** `✖ Jede Zeile der Bekannt-Liste hat noch einen Treffer … gefunden: ["136804 https://www.amazon.de/gp/video/detail/B0F3TCT3TG"]`. Behoben im PR: Zeile gestrichen, wie der Prüfer es verlangt.
