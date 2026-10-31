@@ -66,7 +66,7 @@ echo "$*" >> "${d}/npm.txt"
 }
 
 /** Ein Sammel-Lauf mit einer geänderten Quelle (oder keiner); `befehl` ist die Prüfung, `frist` ihre Zeitgrenze in Sekunden. */
-async function szenario({ befehl, frist = 60, aenderung = true, labelKaputt = false, nurFund = false, liste = null, module = false, listeKaputt = false, bau, bauAn = bau !== undefined, bauFrist = null }) {
+async function szenario({ befehl, frist = 60, aenderung = true, labelKaputt = false, nurFund = false, liste = null, module = false, listeKaputt = false, bau, bauAn = bau !== undefined, bauFrist = null, basis, basisFrist = null }) {
   const dir = mkdtempSync(join(tmpdir(), 'quellen-pr-pruefung-'))
   try {
     const bin = join(dir, 'bin')
@@ -105,6 +105,8 @@ async function szenario({ befehl, frist = 60, aenderung = true, labelKaputt = fa
       ...(bauAn ? { QUELLEN_BAUPROBE: '1' } : {}),
       ...(bau === undefined ? {} : { QUELLEN_BAUBEFEHL: bau.replaceAll('$BAUMARKE', `${posix(dir)}/bau-lief`) }),
       ...(bauFrist === null ? {} : { QUELLEN_BAUFRIST: String(bauFrist) }),
+      ...(basis === undefined ? {} : { QUELLEN_BAUBASISBEFEHL: basis.replaceAll('$BASISMARKE', `${posix(dir)}/basis-lief`) }),
+      ...(basisFrist === null ? {} : { QUELLEN_BAUBASISFRIST: String(basisFrist) }),
     }
     const r = await shAsync(lauf, 'bash tools/quellen-pr.sh "chore(data): Test"', env)
     const create = existsSync(join(dir, 'create.bin')) ? readFileSync(join(dir, 'create.bin'), 'utf8').split('\0') : []
@@ -119,6 +121,7 @@ async function szenario({ befehl, frist = 60, aenderung = true, labelKaputt = fa
       nachPruefung: existsSync(join(dir, 'create-nach-pruefung')),
       markeDa: existsSync(join(dir, 'pruefung-lief')),
       bauLief: existsSync(join(dir, 'bau-lief')),
+      basisLief: existsSync(join(dir, 'basis-lief')),
       nachBau: existsSync(join(dir, 'create-nach-bau')),
       npmAufrufe: existsSync(join(dir, 'npm.txt')) ? readFileSync(join(dir, 'npm.txt'), 'utf8').trim() : '',
       /* Nach dem Lauf: Der Probebau darf nichts Getracktes oder Neues unter public/ zurücklassen. */
@@ -225,8 +228,8 @@ console.log('Probebau (QUELLEN_BAUPROBE): Datensatz mit dem Fund bauen, vor dem 
 const bauGruen = `test "$CI" = true && test -z "\${GH_TOKEN:-}\${GITHUB_TOKEN:-}" && test "$(git rev-parse HEAD^1)" = "$(git rev-parse origin/main)" && touch "$BAUMARKE" && mkdir -p public/data && echo x > public/data/neu.json && echo kaputt > data/anisearch.json`
 const [bauOk, bauRot, bauZuLang, bauNachLogikRot, bauAus, bauStandard] = await Promise.all([
   szenario({ befehl: 'true', bau: bauGruen }),
-  szenario({ befehl: 'true', bau: 'touch "$BAUMARKE"; echo BAU-ERSTE-ZEILE; echo "Widerspruch adn-729"; exit 1' }),
-  szenario({ befehl: 'true', bau: 'touch "$BAUMARKE"; sleep 20', bauFrist: 1 }),
+  szenario({ befehl: 'true', bau: 'touch "$BAUMARKE"; echo BAU-ERSTE-ZEILE; echo "Widerspruch adn-729"; exit 1', basis: 'touch "$BASISMARKE"' }),
+  szenario({ befehl: 'true', bau: 'touch "$BAUMARKE"; sleep 20', bauFrist: 1, basis: 'touch "$BASISMARKE"' }),
   szenario({ befehl: rotBefehl, nurFund: true, bau: 'touch "$BAUMARKE"' }),
   szenario({ befehl: 'true', bau: 'touch "$BAUMARKE"; exit 1', bauAn: false }),
   szenario({ befehl: 'true', bauAn: true }),
@@ -242,7 +245,32 @@ pruefe('Probebau nicht verlangt: läuft nicht, gemergt wie bisher', !bauAus.bauL
 pruefe('Probebau ohne Testbefehl fährt `npm run data:bauprobe`', bauStandard.npmAufrufe === 'run data:bauprobe', bauStandard.npmAufrufe)
 const skripte = JSON.parse(readFileSync(join(wurzel, 'package.json'), 'utf8')).scripts
 const bauSchritte = ['npm run data:build', 'tsx pipeline/check-ja-hat-weg-bestand.ts', 'node tools/pr-bestand-vergleich.mjs HEAD^1']
-pruefe('data:bauprobe fährt genau die Schritte des Jobs PR-Datenbau, in dieser Reihenfolge', skripte['data:bauprobe'] === bauSchritte.join(' && '), skripte['data:bauprobe'])
+pruefe('data:bauprobe fährt genau die Schritte des Jobs PR-Datenbau, in dieser Reihenfolge', `${skripte['data:bauprobe-basis']} && ${bauSchritte[2]}` === bauSchritte.join(' && ') && skripte['data:bauprobe'] === `npm run data:bauprobe-basis && ${bauSchritte[2]}`, [skripte['data:bauprobe'], skripte['data:bauprobe-basis']])
+
+console.log('Probebau gegen main (A2): neu rot, geerbt rot, repariert')
+/* Fund-Stand ist v2, main v1 (data/anisearch.json). Die Basis-Befehle erkennen den Stand am Inhalt, so beweist ein Exit, wo der Befehl lief. */
+const nurFundRot = 'if grep -q \'"v":2\' data/anisearch.json; then echo FUND-FEHLER; exit 1; fi'
+const nurMainRot = 'if grep -q \'"v":1\' data/anisearch.json; then echo MAIN-FEHLER; exit 1; fi'
+const mainRotBasis = 'test "$CI" = true || exit 7; test -z "${GH_TOKEN:-}${GITHUB_TOKEN:-}" || exit 6; touch "$BASISMARKE"; if grep -q \'"v":1\' data/anisearch.json; then echo MAIN-FEHLER; exit 1; fi; exit 5'
+const [neuRot, geerbtRot, repariert, basisFrist2, basisAbsturz, basisGruen, basisOhneBefehl] = await Promise.all([
+  szenario({ befehl: 'true', bau: nurFundRot, basis: `touch "$BASISMARKE"; ${nurFundRot}` }),
+  szenario({ befehl: 'true', bau: 'exit 1', basis: mainRotBasis }),
+  szenario({ befehl: 'true', bau: nurMainRot, basis: `touch "$BASISMARKE"; ${nurMainRot}` }),
+  szenario({ befehl: 'true', bau: 'exit 1', basis: 'touch "$BASISMARKE"; sleep 20; exit 1', basisFrist: 1 }),
+  szenario({ befehl: 'true', bau: 'exit 1', basis: 'touch "$BASISMARKE"; exit 3' }),
+  szenario({ befehl: 'true', bau: 'exit 1', basis: 'touch "$BASISMARKE"' }),
+  szenario({ befehl: 'true', bau: 'exit 1' }),
+])
+pruefe('Basis ohne Testbefehl fährt `npm run data:bauprobe-basis`', basisOhneBefehl.npmAufrufe.split('\n').includes('run data:bauprobe-basis'), basisOhneBefehl.npmAufrufe)
+pruefe('neu rot (Fund rot, main grün): Marke, kein Merge, Grund im Text, Basis lief', neuRot.basisLief && neuRot.titel.startsWith('[Prüfung rot]') && /FUND-FEHLER/.test(neuRot.text) && !/pr merge/.test(neuRot.aufrufe), [neuRot.titel, neuRot.text, neuRot.basisLief])
+pruefe('geerbt rot (Fund rot, main rot): gemergt wie bisher, Warnung „main ist schon rot“, Basis lief auf main (v1)', geerbtRot.basisLief && geerbtRot.titel === 'chore(data): Test' && /pr merge/.test(geerbtRot.aufrufe) && /gemerged=true/.test(geerbtRot.ausgabe) && /::warning title=main ist schon rot::Der Bau scheitert auch auf main/.test(geerbtRot.out) && !/--add-label/.test(geerbtRot.aufrufe), [geerbtRot.titel, geerbtRot.aufrufe, geerbtRot.out.slice(-400)])
+pruefe('repariert (Fund grün, main rot): gemergt, die Basis läuft gar nicht erst', !repariert.basisLief && repariert.titel === 'chore(data): Test' && /pr merge/.test(repariert.aufrufe), [repariert.titel, repariert.basisLief, repariert.aufrufe])
+pruefe('Basis lässt sich nicht bauen (Frist, Exit 3): der Fund bleibt rot, kein Merge', [basisFrist2, basisAbsturz].every((s) => s.basisLief && s.titel.startsWith('[Prüfung rot]') && !/pr merge/.test(s.aufrufe)), [basisFrist2.titel, basisAbsturz.titel])
+pruefe('Basis grün trotz rotem Fund: Marke, Text nennt den Exit-Code des Funds', basisGruen.titel.startsWith('[Prüfung rot]') && /Exit 1/.test(basisGruen.text), basisGruen.text)
+pruefe('Fund über der Bau-Frist: die Basis läuft nicht (Frist ist kein Befund)', !bauZuLang.basisLief, bauZuLang.basisLief)
+pruefe('Basis-Vergleich räumt auf: kein Arbeitsbaum bleibt, Arbeitsverzeichnis sauber', [neuRot, geerbtRot, basisFrist2, basisAbsturz, basisGruen].every((s) => s.arbeitsbaeume === 1 && s.stand === ''), [neuRot.arbeitsbaeume, geerbtRot.arbeitsbaeume, geerbtRot.stand])
+const basisStandard = Number(sh(wurzel, 'source tools/quellen-bauprobe.sh; echo $QUELLEN_BAUBASISFRIST_STANDARD').out.trim())
+pruefe('Basisfrist: mindestens fünf Minuten, kürzer als die Fundfrist', basisStandard >= 300 && basisStandard < Number(sh(wurzel, 'source tools/quellen-bauprobe.sh; echo $QUELLEN_BAUFRIST_STANDARD').out.trim()), basisStandard)
 
 if (fehler.length) {
   console.error(`\n${fehler.length} Zusicherung(en) verletzt.`)

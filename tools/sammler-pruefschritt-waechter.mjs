@@ -57,12 +57,35 @@ function pruefeAktion(aktion) {
   return fehler
 }
 
+const BAUPROBE_VORMERKEN = 'echo "QUELLEN_BAUPROBE=1" >> "$GITHUB_ENV"'
+const BAUPROBE_BEDINGUNG = "${{ inputs.bauprobe == 'true' }}"
+
+/** Weg 1b (A1, 31.10.2026): Die Aktion schaltet den Probebau über genau einen Schritt, der nur bei `bauprobe == 'true'` läuft, vor dem Aufruf von quellen-pr.sh
+ *  `QUELLEN_BAUPROBE=1` setzt; die Eingabe heißt `bauprobe` und ist standardmäßig aus; `daten-auf-abruf.yml` verlangt sie. */
+export function pruefeBauprobeAktion(aktion, abrufWorkflow) {
+  const schritte = schritteVon(aktion)
+  const nennt = (s) => zeichenketten(s).some((t) => t.includes('QUELLEN_BAUPROBE'))
+  const vormerken = schritte.filter(nennt)
+  const fehler = []
+  if (vormerken.length !== 1) return [`Aktion einreichen: ${vormerken.length} Schritte nennen QUELLEN_BAUPROBE, erwartet genau einer`]
+  const [schritt] = vormerken
+  if (schritt.run?.trim() !== BAUPROBE_VORMERKEN) fehler.push(`Aktion einreichen: der Schritt zum Probebau führt nicht genau \`${BAUPROBE_VORMERKEN}\` aus`)
+  if (schritt.if !== BAUPROBE_BEDINGUNG) fehler.push(`Aktion einreichen: der Schritt zum Probebau läuft nicht genau bei \`${BAUPROBE_BEDINGUNG}\``)
+  if (Object.keys(schritt).some((k) => !['name', 'if', 'shell', 'run'].includes(k)) || schritt.shell !== 'bash')
+    fehler.push('Aktion einreichen: der Schritt zum Probebau hat env, continue-on-error oder eine fremde Shell')
+  if (!(schritte.indexOf(schritt) < schritte.findIndex((s) => s.id === 'pr'))) fehler.push('Aktion einreichen: der Schritt zum Probebau steht nicht vor dem Aufruf von quellen-pr.sh')
+  if (String(aktion.inputs?.bauprobe?.default) !== 'false') fehler.push('Aktion einreichen: die Eingabe bauprobe fehlt oder ist nicht standardmäßig aus')
+  const einreichen = schritteVon(abrufWorkflow).filter((s) => usesAlsPfad(s.uses) === EINREICHEN)
+  if (einreichen.length !== 1 || String(einreichen[0].with?.bauprobe) !== 'true') fehler.push("daten-auf-abruf.yml: der Schritt einreichen verlangt nicht `bauprobe: 'true'`")
+  return fehler
+}
+
 /** Weg 2: Test-Schalter der Prüfung und der App-Autor des Nachholers tauchen in keinem Workflow und keiner Aktion auf. */
 function pruefeSchalter(dokumente) {
   const fehler = []
   for (const [datei, doc] of Object.entries(dokumente)) {
-    if (zeichenketten(doc).some((s) => /QUELLEN_(PRUEF|BAU)(BEFEHL|FRIST)|APP_AUTOR/.test(s)))
-      fehler.push(`${datei}: setzt oder nennt einen Schalter der Sammler-Prüfung (QUELLEN_PRUEFBEFEHL, QUELLEN_PRUEFFRIST, QUELLEN_BAUBEFEHL, QUELLEN_BAUFRIST, APP_AUTOR)`)
+    if (zeichenketten(doc).some((s) => /QUELLEN_(PRUEF|BAU)\w*(BEFEHL|FRIST)|APP_AUTOR/.test(s)))
+      fehler.push(`${datei}: setzt oder nennt einen Schalter der Sammler-Prüfung (QUELLEN_PRUEFBEFEHL, QUELLEN_PRUEFFRIST, QUELLEN_BAUBEFEHL, QUELLEN_BAUFRIST, QUELLEN_BAUBASISBEFEHL, QUELLEN_BAUBASISFRIST, APP_AUTOR)`)
   }
   return fehler
 }
@@ -82,6 +105,7 @@ function pruefeSkripte({ prSh, pruefenSh, bauSh }) {
     fehler.push('quellen-pr.sh: Reihenfolge muss sein: Prüfung laden, quellen_pruefen, quellen_bauprobe (rot = PRUEF_ROT), gh pr create, Rot-Zweig, gh pr merge (jede Stelle vorhanden)')
   if (!prSh.includes('[ "$PRUEF_ROT" = 0 ] && [ "${QUELLEN_BAUPROBE:-}" = 1 ]')) fehler.push('quellen-pr.sh: der Probebau läuft nur bei grüner Prüfung und mit QUELLEN_BAUPROBE=1')
   if (!bauSh.includes('${QUELLEN_BAUBEFEHL:-npm run data:bauprobe}')) fehler.push('quellen-bauprobe.sh: Standardbefehl ist nicht `npm run data:bauprobe`')
+  if (!bauSh.includes('${QUELLEN_BAUBASISBEFEHL:-npm run data:bauprobe-basis}')) fehler.push('quellen-bauprobe.sh: Basisbefehl ist nicht `npm run data:bauprobe-basis`')
   const code = ohneKommentare(prSh)
   const zahl = (muster) => (code.match(new RegExp(muster.source, 'g')) ?? []).length
   if (zahl(/\bgh\b[^\n]*?\bpr (create|new)\b/) !== 1) fehler.push('quellen-pr.sh: genau ein gh pr create erwartet (ein zweiter Weg zum PR umginge Prüfung und Marke)')
@@ -108,7 +132,8 @@ function pruefeMarke({ mergenSh, daten }) {
 export function pruefeFristen(workflows, pruefenSh, bauSh = '') {
   const frist = (name) => Number(pruefenSh.match(new RegExp(`^${name}=(\\d+)$`, 'm'))?.[1])
   const pruefung = frist('QUELLEN_PRUEFFRIST_STANDARD') + frist('QUELLEN_BASISFRIST_STANDARD')
-  const baufrist = Number(bauSh.match(/^QUELLEN_BAUFRIST_STANDARD=(\d+)$/m)?.[1])
+  /* Fund-Bau und Basis-Bau laufen im ungünstigen Fall nacheinander. */
+  const baufrist = Number(bauSh.match(/^QUELLEN_BAUFRIST_STANDARD=(\d+)$/m)?.[1]) + Number(bauSh.match(/^QUELLEN_BAUBASISFRIST_STANDARD=(\d+)$/m)?.[1])
   if (!Number.isFinite(pruefung)) return ['quellen-pruefen.sh: QUELLEN_PRUEFFRIST_STANDARD und QUELLEN_BASISFRIST_STANDARD als Zahl erwartet']
   /* Ein Job mit `bauprobe: 'true'` an der Aktion braucht zusätzlich die Baufrist. */
   const mitBau = (job) => (job.steps ?? []).some((s) => usesAlsPfad(s.uses) === EINREICHEN && String(s.with?.bauprobe) === 'true')
@@ -135,6 +160,7 @@ export function pruefeSammler({ workflows, aktionen, skripte }) {
   return [
     ...pruefeAppToken({ workflows, aktionen }),
     ...pruefeAktion(aktionen.einreichen),
+    ...pruefeBauprobeAktion(aktionen.einreichen, workflows['daten-auf-abruf.yml']),
     ...pruefeSchalter({ ...workflows, ...aktionen }),
     ...pruefeSkripte({ prSh: skripte['quellen-pr.sh'], pruefenSh: skripte['quellen-pruefen.sh'], bauSh: skripte['quellen-bauprobe.sh'] }),
     ...pruefeMarke({ mergenSh: skripte['daten-pr-mergen.sh'], daten: workflows['claude-daten-merge.yml'] }),

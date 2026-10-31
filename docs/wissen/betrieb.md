@@ -53,8 +53,12 @@ Seitdem gilt:
   fährt `tools/quellen-bauprobe.sh` nach `check:logic` und vor `gh pr create` den
   Datensatz-Bau mit dem Fund (`npm run data:bauprobe` = dieselben Schritte wie der
   Job PR-Datenbau). Rot = Marke `[Prüfung rot]`, Label, kein Merge, Grund in
-  der Zusammenfassung des Laufs. Kosten: rund 2,5–4 Minuten je Lauf mit Fund
-  (PR-Datenbau, gemessen 31.10.2026). Andere Sammler haben den Probebau nicht.
+  der Zusammenfassung des Laufs. Scheitert der Bau, läuft derselbe Bau
+  (`data:bauprobe-basis`) auf HEAD^1 = main: scheitert er dort auch, ist das Rot
+  geerbt und der Fund geht durch (Warnung „main ist schon rot“); ein Fund, der
+  main repariert, baut grün. Binär, nicht je Fehler. Kosten: rund 2,5–4 Minuten
+  je Lauf mit Fund (PR-Datenbau, gemessen 31.10.2026), bei rotem Bau etwa eine
+  Minute mehr für die Basis. Andere Sammler haben den Probebau nicht.
 - **Bleibt ein Pull Request wegen eines Konflikts offen, übernimmt
   `Claude — Daten-PR zusammenführen`** — der einzige Ort im Projekt, an dem ein
   Konflikt in Datendateien aufgelöst wird. Daniel dazu: „So ist es sicherer.
