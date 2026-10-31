@@ -27,7 +27,7 @@ function pruefe(name: string, bedingung: boolean, gefunden?: unknown): void {
 const treffer = (id: number, name: string, original: string, jahr: string, genres = [16]) => ({ id, name, original_name: original, first_air_date: jahr, genre_ids: genres })
 
 try {
-  const { waehleTreffer, loeseHandliste, ohneDoppelte, suchbegriffe, handlisteLaden, mitHandliste, adnKennungGeaendert, mitAdnKennung } = await import('./lib/cartoon-handliste.ts')
+  const { waehleTreffer, kandidatenZeile, loeseHandliste, ohneDoppelte, suchbegriffe, handlisteLaden, mitHandliste, adnKennungGeaendert, mitAdnKennung } = await import('./lib/cartoon-handliste.ts')
   const tintin = { adn: 734, name: 'Tintin (Adventures)', original: 'Les Aventures de Tintin' }
 
   console.log('\nAuswahl des Treffers')
@@ -74,6 +74,14 @@ try {
   const mz: string[] = []
   await loeseHandliste([{ adn: 6, name: 'Zwei' }], new Map(), async () => [{ ...treffer(78, 'Anders', 'Anders', '1999-01-01'), number_of_episodes: 10 }, { ...treffer(79, 'Zwei', 'Zwei', '2012-03-01'), number_of_episodes: 26 }], (z) => mz.push(z))
   pruefe('A1: Jahr/Folgen stammen vom gewählten Treffer, nicht vom ersten', mz.some((z) => z.includes('TMDB 79') && z.includes('Jahr/Folgen 2012/26')), mz)
+  const mk: string[] = []
+  await loeseHandliste([{ adn: 7, name: 'Billy & Buddy', original: 'Boule et Bill' }], new Map(), async () => [treffer(44157, 'Billy & Buddy', 'Boule et Bill', '2003-09-01'), treffer(69906, 'Billy & Buddy', 'Boule et Bill', '2016-01-01'), treffer(70000, 'Anderes', 'Anderes', '2016-01-01', [35])], (z) => mk.push(z))
+  pruefe('Kandidaten-Zeile: Kennung, Name, Original, Jahr, Animation je Kandidat, ohne Doppelte', mk.length === 1 && mk[0].includes('Kandidaten: 44157 „Billy & Buddy“/„Boule et Bill“ Jahr/Folgen 2003/?, Animation; 69906 „Billy & Buddy“/„Boule et Bill“ Jahr/Folgen 2016/?, Animation; 70000 „Anderes“/„Anderes“ Jahr/Folgen 2016/?, keine Animation'), mk)
+  const kz = kandidatenZeile(Array.from({ length: 12 }, (_, i) => treffer(i + 1, 'N', 'N', '2000-01-01')))
+  pruefe('Kandidaten-Zeile: höchstens zehn, keine Treffer benannt', kz.split('; ').length === 10 && kandidatenZeile([]) === 'keine Treffer', kz)
+  const tv = { adn: 8, name: 'Tintin (Adventures)', original: 'Les Aventures de Tintin', varianten: ['Tim und Struppi'] }
+  pruefe('Variante: wird gesucht', suchbegriffe(tv).join() === 'Les Aventures de Tintin,Tintin (Adventures),Tim und Struppi')
+  pruefe('Variante: Treffer mit dem Variantennamen zählt', 'id' in waehleTreffer(tv, [treffer(9, 'Tim und Struppi', 'Tintin', '1991-01-01')]) && 'grund' in waehleTreffer({ ...tv, varianten: [] }, [treffer(9, 'Tim und Struppi', 'Tintin', '1991-01-01')]))
   const dopp = ohneDoppelte(new Map([[1, 50], [2, 50], [3, 60]]))
   pruefe('zwei Einträge, eine TMDB-Serie: beide raus', dopp.ok.size === 1 && dopp.ok.get(3) === 60 && dopp.doppelt.join() === '1,2', dopp.doppelt)
   const ml: string[] = []

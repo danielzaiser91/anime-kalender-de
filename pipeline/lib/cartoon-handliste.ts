@@ -17,6 +17,8 @@ export interface HandlisteEintrag {
   name: string
   /** Originalname bei ADN. */
   original?: string
+  /** Weitere Namen der Serie (z. B. deutscher Titel), nach denen gesucht und gegen die der Treffer geprüft wird. */
+  varianten?: string[]
   /** TMDB-Kennung, falls bekannt; sonst sucht der Abruf. */
   tmdb?: number
   /** Erstausstrahlungsjahr, trennt gleichnamige Serien. */
@@ -46,9 +48,20 @@ export function handlisteLaden(wurzel: string): HandlisteEintrag[] {
   return liste
 }
 
-/** Die Suchbegriffe eines Eintrags: Original zuerst, dann der deutsche Name. */
+/** Die Suchbegriffe eines Eintrags: Original zuerst, dann der deutsche Name, dann die Varianten. */
 export function suchbegriffe(e: HandlisteEintrag): string[] {
-  return [...new Set([e.original, e.name].filter((n): n is string => Boolean(n)))]
+  return [...new Set([e.original, e.name, ...(e.varianten ?? [])].filter((n): n is string => Boolean(n)))]
+}
+
+/** Die Kandidaten einer Suche fürs Log: Kennung, Name, Originalname, Jahr, Folgenzahl, Animation; ohne Doppelte, höchstens zehn. */
+export function kandidatenZeile(treffer: TmdbSuchtreffer[]): string {
+  const einzeln = new Map<number, TmdbSuchtreffer>()
+  for (const t of treffer) if (t.id && !einzeln.has(t.id)) einzeln.set(t.id, t)
+  const zeilen = [...einzeln.values()].slice(0, 10).map((t) => {
+    const animation = (t.genre_ids ?? []).includes(ANIMATION) ? 'Animation' : 'keine Animation'
+    return `${t.id} „${t.name ?? '?'}“/„${t.original_name ?? '?'}“ ${jahrFolgen(t)}, ${animation}`
+  })
+  return zeilen.length ? zeilen.join('; ') : 'keine Treffer'
 }
 
 /** Der einzige Treffer, dessen Name stimmt (Animation, Name oder Originalname gleich einem Namen des Eintrags, bei `jahr` auch das Jahr). */
@@ -106,7 +119,7 @@ export async function loeseHandliste(
     if ('id' in wahl) {
       melde(`  Handliste ${e.adn} (${e.name}): TMDB ${wahl.id} gefunden (Name und Animation stimmen; ${jahrFolgen(treffer.find((t) => t.id === wahl.id))})`)
       aufgeloest.set(e.adn, wahl.id)
-    } else melde(`  Handliste ${e.adn} (${e.name}): nicht übernommen — ${wahl.grund}`)
+    } else melde(`  Handliste ${e.adn} (${e.name}): nicht übernommen — ${wahl.grund}. Kandidaten: ${kandidatenZeile(treffer)}`)
   }
   const { ok, doppelt } = ohneDoppelte(aufgeloest)
   for (const adn of doppelt) melde(`  Handliste ${adn}: nicht übernommen — dieselbe TMDB-Serie wie ein anderer Eintrag`)

@@ -5,6 +5,7 @@
 #   tmdb    feste TMDB-Kennung (nur eintragen, wenn sie an der TMDB-Seite abgelesen ist, nie raten)
 #   ohne    der Abruf sucht per Namen und nimmt nur einen eindeutigen Treffer (Animation, gleicher Name); Treffer und
 #           Ablehnung stehen im Lauf-Log
+#   varianten weitere Namen (Liste), nach denen gesucht wird und gegen die ein Treffer geprüft wird
 #   jahr    Erstausstrahlungsjahr, trennt gleichnamige Serien
 #   pruefen Grenzfall mit Grund: der Abruf lässt den Eintrag aus, bis jemand entschieden hat
 # Kommt eine Serie später in aniSearch, wechselt sie über data/cartoon-umzug.json zum Anime; die Kennung bleibt (ak-umleitung.json).
@@ -15,7 +16,7 @@ eintraege:
   - { adn: 729, name: Spirou }
   - { adn: 731, name: Titeuf, original: Titeuf }
   - { adn: 732, name: Magic Roundabout, original: The Magic Roundabout }
-  - { adn: 734, name: Tintin (Adventures), original: Les Aventures de Tintin }
+  - { adn: 734, name: Tintin (Adventures), original: Les Aventures de Tintin, varianten: [Tintin, Die Abenteuer von Tim und Struppi, Tim und Struppi, The Adventures of Tintin] }
   - adn: 748
     name: Die unglaublichen Abenteuer des Kapitän Cousteau
     original: Les Aventures Fantastiques du Commandant Cousteau
@@ -29,6 +30,6 @@ eintraege:
   - { adn: 1167, name: Mama Fuchs und Papa Dachs, original: La Famille Blaireau-Renard }
   - { adn: 1178, name: Babar, original: Babar }
   - { adn: 1263, name: SamSam, original: Samsam }
-  - { adn: 1265, name: Billy & Buddy 3D, original: Boule & Bill 3D }
+  - { adn: 1265, name: Billy & Buddy 3D, original: Boule & Bill 3D, varianten: [Boule & Bill, Billy & Buddy] }
   - { adn: 1277, name: Die Piratenfamilie, original: Famille pirate }
   - { adn: 1278, name: Yakari, original: Yakari }
