@@ -50,3 +50,18 @@ export function trenneGeerbtUndNeu(prRot, basisRot) {
   }
   return { geerbt, neu }
 }
+
+/** Setzt `praefix` vor jede nichtleere Zeile, damit Ausgabe der Basis-Gegenprobe nie wie Ausgabe des PR-Baus aussieht (auch `::error::` wird so zu Text). */
+export function mitPraefix(text, praefix) {
+  if (!praefix) return text
+  return text
+    .split('\n')
+    .map((zeile) => (zeile.trim() === '' ? zeile : `${praefix} ${zeile}`))
+    .join('\n')
+}
+
+/** Eine Schlusszeile mit allen roten Prüfungen des PR-Baus (Reihenfolge wie gelaufen), je mit „neu“ oder „geerbt“; `geerbt` leer = alle neu. */
+export function fasseRoteZusammen(prRot, geerbt = []) {
+  const teile = [...prRot].map(([k, z]) => `${k} (${z}) [${geerbt.includes(k) ? 'geerbt' : 'neu'}]`)
+  return `Rote Bestandsprüfungen insgesamt: ${teile.length} – ${teile.join(', ')}`
+}
