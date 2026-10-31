@@ -8,7 +8,7 @@
 import { MIRACULOUS_ZEILEN } from './fixtures/miraculous-teile.ts'
 import { namensAnfang } from './lib/folgen-namen.ts'
 import { adressIndex, ankerAdresse, ordneFolgenZu, type Beobachtung, type FolgenZuordnung } from './lib/folgen-je-folge.ts'
-import { folgenJahr, imFenster, urteileJeTeil, urteilFuerTeil, type Teil } from './lib/folgen-teile.ts'
+import { folgenJahr, imFenster, teileSammeln, urteileJeTeil, urteilFuerTeil, type Teil } from './lib/folgen-teile.ts'
 import type { Title } from '../shared/types.ts'
 
 const fehler: string[] = []
@@ -278,6 +278,19 @@ pruefe(
   'Namensanfang zählt nur am Anfang des Namens („das buch miraculous“ einer anderen Reihe stört nicht)',
   namensAnfang('miraculous', [...kerne, ['das buch miraculous', 77]], new Map([...reihenTitel, [77, { id: 77, franchiseId: 5 } as unknown as Title]])) !== undefined,
   0,
+)
+
+/* Dieselbe Seitenkennung auf zwei Plattformen sind zwei Teile (der Teilschlüssel trägt die Plattform). */
+const zweiPlattformen = teileSammeln(
+  new Map([
+    ['primevideo:1', [{ ...teil6[0]!, plattform: 'primevideo', seiten_kennung: 'GLEICH' }]],
+    ['netflix:1', [{ ...teil6[0]!, plattform: 'netflix', seiten_kennung: 'GLEICH' }]],
+  ]),
+)
+pruefe(
+  'gleiche Seitenkennung auf zwei Plattformen: zwei Teile',
+  zweiPlattformen.teile.size === 2 && zweiPlattformen.teilVon.get('primevideo:1') !== zweiPlattformen.teilVon.get('netflix:1'),
+  [...zweiPlattformen.teile.keys()],
 )
 
 const offen = Object.values(SOLL).filter((s) => s === 'offen').length
