@@ -65,7 +65,7 @@ export function ordneNeueSerienZu({ folgen, titles, nachUrl, handNein }: {
       offen('Funde aus mehreren Staffeln')
       continue
     }
-    const passend = alle.filter((t) => !t.streams.some((s) => s.platform === 'crunchyroll') && namen(t).has(norm(serie)))
+    const passend = alle.filter((t) => !t.streams.some((s) => s.platform === 'crunchyroll' && serienKennung(s.url)) && namen(t).has(norm(serie)))
     if (passend.length !== 1) {
       offen(passend.length ? `${passend.length} Titel gleichen Namens` : 'kein Titel gleichen Namens')
       continue

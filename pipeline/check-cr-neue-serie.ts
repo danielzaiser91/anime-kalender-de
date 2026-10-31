@@ -86,6 +86,9 @@ function direkt(): void {
   const fremderWeg = { ...rayearth(), streams: [{ platform: 'crunchyroll', url: 'https://www.crunchyroll.com/de/series/GANDERE/x' }] }
   const mitWeg = lauf([FOLGE], [fremderWeg])
   pruefe('Titel mit anderem Crunchyroll-Weg bekommt keinen zweiten', fremderWeg.streams.length === 1 && mitWeg.aus.offen[0]?.grund === 'kein Titel gleichen Namens', mitWeg.aus)
+  const nurWatch = { ...rayearth(), streams: [{ platform: 'crunchyroll', url: 'https://www.crunchyroll.com/de/watch/GE00384363JAJP' }] }
+  const wa = lauf([FOLGE], [nurWatch])
+  pruefe('Titel nur mit Watch-Adresse (Vermilion Mask): bekommt den Serienweg', wa.aus.zugeordnet.length === 1 && nurWatch.streams.length === 2 && nurWatch.streams[1]!.url === URL_RAY, nurWatch.streams)
   const nurRomaji = { ...rayearth(), titleEn: 'Anderer Name', titleDe: undefined }
   lauf([FOLGE], [nurRomaji])
   pruefe('Name nur im Romaji-Titel gleich: Treffer', nurRomaji.streams.length === 1, nurRomaji.streams)
