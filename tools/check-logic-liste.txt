@@ -155,6 +155,7 @@ pipeline/check-escape-hoerer-faelle.ts
 pipeline/check-escape-hoerer.ts
 pipeline/check-escape-stapel.ts
 pipeline/check-favoriten-feed-faelle.ts
+pipeline/check-fetch-pruefungen-laufzeit.ts
 pipeline/check-film-ohne-weg.ts
 pipeline/check-filter-genres.ts
 pipeline/check-finale-wache.ts
@@ -229,6 +230,7 @@ pipeline/check-leerer-kasten.ts
 pipeline/check-leerzeichen-gleich.ts
 pipeline/check-leinwand-escape.ts
 pipeline/check-link-leere-adresse.ts
+pipeline/check-links-laufzeit.ts
 pipeline/check-logic.ts
 pipeline/check-luecken-staffel0.ts
 pipeline/check-mail-verschoben-datum.ts
@@ -241,6 +243,7 @@ pipeline/check-messbelege-kalender.ts
 pipeline/check-minuten-takt.ts
 pipeline/check-motn-reihe.ts
 pipeline/check-motn-uebernahme.ts
+pipeline/check-nebendateien-laufzeit.ts
 pipeline/check-nein-datum.ts
 pipeline/check-nein-handbeleg-abschluss.ts
 pipeline/check-nein-handbeleg-aufrufer.ts

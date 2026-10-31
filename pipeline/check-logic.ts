@@ -3335,8 +3335,7 @@ console.log('\nHandbelege: ein wörtlich vorhandener Beleg wird nicht erneut ang
   const abholung = readFileSync('pipeline/fetch-pruefungen.ts', 'utf8')
   const { neu } = neueBelegBloecke('- a: 1\n', ['- a: 1', '- b: 2', '  c: x', '- b: 2', '  c: "x"', '- d: 3'])
   pruefe('neue Belege: vorhandene und doppelte fallen, der Rest bleibt', neu.length === 2, neu)
-  /* Der Abgleich selbst läuft in pipeline/check-belege-riegel-schreiben.ts; hier bleibt nur der Aufruf aus dem Abholer. */
-  pruefe('fetch-pruefungen schreibt über haengeBelegeAn', /haengeBelegeAn\(/.test(abholung))
+  /* Der Abgleich selbst läuft in pipeline/check-belege-riegel-schreiben.ts, der Aufruf aus dem Abholer in check-fetch-pruefungen-laufzeit.ts. */
   /* Haikyu!!-Summenseite, 20.10.2026: das Prüfdatum zählt beim Abgleich nicht, die Folgenspanne schon. */
   const bereich = (von: number, bis: number) => ({ von, bis, dub: true, belegt: Array.from({ length: bis - von + 1 }, (_, i) => von + i) })
   const gekappt = begrenzeAufFolgenzahl([bereich(1, 3), bereich(4, 15)], 12)
@@ -4010,14 +4009,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     bau.includes("const url = (quelle.url ?? '').split('?')[0]"),
     'tag=anisearch.de-21 gehört aniSearch, nicht uns',
   )
-
-  const pruef = readFileSync('pipeline/fetch-pruefungen.ts', 'utf8')
-  const auslass = /if \(ohneAussage\) \{[\s\S]{0,2000}?\n    \}/.exec(pruef)?.[0] ?? ''
-  pruefe(
-    'eine ausgelassene Kanal-Meldung wird abgehakt',
-    /for \(const x of gruppe\) erledigteIds\.add\(x\.id\)/.test(auslass),
-    'ohne das Abhaken holt jeder Lauf dieselbe Meldung erneut — der Briefkasten leert sich nie',
-  )
+  /* „Eine ausgelassene Kanal-Meldung wird abgehakt“ läuft als Prozess in check-kanal-abgehakt.ts. */
 }
 
 /**
@@ -4208,13 +4200,8 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     nächsten Lauf wieder drankommt. Fehlt der zweite, ist der erste nur eine
     andere Schreibweise für denselben Falschbefund.
   */
+  /* Beide Riegel (`unklar` statt 200, `unklar` wieder fällig) laufen in check-links-laufzeit.ts; der Text bleibt für die Zusicherungen weiter unten. */
   const linkPruefer = readFileSync('pipeline/check-links.ts', 'utf8')
-  pruefe(
-    'ein Amazon-200 ohne Produktseite gilt nicht als lebende Adresse',
-    linkPruefer.includes('if (!PRODUKTSEITE.test(text)) return { status: \'unklar\'') &&
-      readFileSync('pipeline/lib/link-befund.ts', 'utf8').includes("alt.status === 'unklar'"),
-    'sonst bucht ein misslungener Abruf eine tote ASIN für dreißig Tage als lebend',
-  )
   /*
     **Und der Lauf hält an, wenn die Abwehr zumacht.**
 
@@ -4550,22 +4537,10 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
  * Folgenzahl-Kontrolle merkte nichts — sie prüft, dass es aufgeht, nicht
  * welche Titel es sind.
  *
- * Diese Zusicherung hält die Kopplung fest, damit sie beim nächsten Umbau
- * auffällt statt lautlos zu kippen.
+ * Seit dem 17.09.2026 entscheidet die Staffelnummer über die Namen der Reihe
+ * (`staffelNummern`), nicht über eine Position; als Lauf mit OVA mitten in der
+ * Reihe belegt in `check-fetch-pruefungen-laufzeit.ts`.
  */
-{
-  const quelle = readFileSync('pipeline/fetch-pruefungen.ts', 'utf8')
-  // Seit dem 17.09.2026 entscheidet die Staffelnummer über die Namen der Reihe (staffelNummern), nicht über eine Position.
-  pruefe(
-    'die Staffel aus der Adresse wird über die Namen der Reihe bestimmt',
-    quelle.includes('staffelNummern(reihe)'),
-  )
-  pruefe(
-    'kein Zugriff über die Position in der Reihe mehr',
-    !quelle.includes('reihe.slice(staffelNr - 1)'),
-    'eine Nebenausgabe verschiebt den Index — vier falsche Belege am 10.09.2026',
-  )
-}
 
 /**
  * **Eine Suchadresse ist kein Weg — und der Katalog kennt die echte.**
@@ -5422,18 +5397,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     const n = staffelNummern(reihe)
     pruefe('Staffelnummern: römische Ziffern im Namen zählen', n.get(2) === 2 && n.get(3) === 3, JSON.stringify([...n]))
   }
-  /* Netflix führt alle Staffeln unter einer Adresse — Quintuplets S1 ging am 18.09.2026 in S2 auf. */
-  pruefe(
-    'Meldungen: Netflix-Gruppen trennen nach Staffel, der Staffelblock verlangt eine einzige',
-    /p\.plattform === 'netflix' && typeof p\.staffel === 'number'/.test(readFileSync('pipeline/fetch-pruefungen.ts', 'utf8')) &&
-      /staffelnDerGruppe\.size === 1/.test(readFileSync('pipeline/fetch-pruefungen.ts', 'utf8')),
-  )
-  pruefe(
-    'Linkprüfung: ein Amazon-404 unter /dp/ wird an der Video-Seite gegengeprüft',
-    /const video = erst\.status === 404 \? videoAdresse\(url\) : undefined/.test(
-      readFileSync('pipeline/check-links.ts', 'utf8'),
-    ),
-  )
+  /* Netflix-Staffeln unter einer Adresse (Quintuplets S1 ging am 18.09.2026 in S2 auf) und die Video-Gegenprobe nach einem /dp/-404 laufen in check-fetch-pruefungen-laufzeit.ts bzw. check-links-laufzeit.ts. */
   pruefe(
     'Handbeleg: eine als tot gemessene Adresse wird nicht wieder angelegt',
     /if \(check\.available === false\) continue[\s\S]{0,900}?if \(lautPruefungTot\(check\.url\)\) continue/.test(
@@ -5551,10 +5515,7 @@ pruefe(
     '… und belebt nicht wieder, was ein Handbeleg ohne Adresse für Prime verneint',
     /if \(handNein\) continue/.test(bau),
   )
-  pruefe(
-    'die Linkprüfung prüft die Amazon-Seite, nicht JustWatchs Adresse',
-    /adressen\.add\(s\.seite \?\? s\.url\)/.test(readFileSync('pipeline/check-links.ts', 'utf8')),
-  )
+  /* Dass die Linkprüfung die Amazon-Seite statt JustWatchs Adresse prüft, läuft in check-links-laufzeit.ts. */
 }
 /* Your Name – CineAnime: der letzte Spieltag kommt auch über die Veranstaltungsadresse (17.09.2026). */
 pruefe(
@@ -6341,19 +6302,12 @@ pruefe(
     MAL. Die Abfrage holt `idMal`, der Schreiber legt es als `malId` ab; ohne beides bleibt der
     Absprung leer, egal wie richtig der Verweis selbst ist.
   */
-  const anilistQuelle = readFileSync('pipeline/lib/anilist.ts', 'utf8')
-  const nebendateiQuelle = readFileSync('pipeline/bau/nebendateien.ts', 'utf8')
-  pruefe(
-    'der Katalog holt die MAL-Kennung',
-    /id idMal/.test(anilistQuelle) && /mal: m\.idMal/.test(anilistQuelle),
-  )
-  pruefe('und der Schreiber legt sie an den Titel', /malId: e\.mal/.test(nebendateiQuelle))
+  /* Abfrage, Schreiber und Warnung laufen in check-nebendateien-laufzeit.ts. */
   /*
     Sichtbarkeit statt Stille (29.09.2026): Zweimal stand `ohne-synchro.json` mit **null** MAL-Kennungen
     da, weil der Actions-Cache den alten Katalog weitergereicht hatte. Der Bau zählt sie jetzt mit und
     warnt bei null — die Warnung darf nicht wieder verschwinden.
   */
-  pruefe('der Bau warnt, wenn der Katalog ohne MAL-Kennungen ankommt', /Keine MAL-Kennung an/.test(nebendateiQuelle))
   /*
     **Die Rangfolge der Treffer**: „bau eine sinnvolle priorisierung für
     trefferart (ganzes wort, teilwort, fuzzy, etc) und die durchsuchten attribute ein. titel hat
@@ -6702,12 +6656,7 @@ pruefe(
   )
   pruefe('gleiche Aussage erneut gelesen: unverändert', gleich[0]!.sagt === '2026-10-01' && gleich[0]!.gesehenAm === '2026-09-01', gleich[0])
 
-  const nebendateiText = readFileSync('pipeline/bau/nebendateien.ts', 'utf8')
-  pruefe(
-    'kuratierte Quellen erfinden keine Aussage (kein `sagt: termin`)',
-    !/sagt:\s*termin\b/.test(nebendateiText),
-    'pipeline/bau/nebendateien.ts',
-  )
+  /* „Kuratierte Quellen erfinden keine Aussage (kein `sagt`)“ läuft in check-nebendateien-laufzeit.ts. */
 }
 {
   /* Ankündigung „nur Monat" (01.10.2026): Ein Monat ist kein Kalendertag. */
@@ -7044,7 +6993,8 @@ pruefe(
   pruefe('Erstausgabe früher: der automatische TV-Termin zählt nicht als deutscher Start', istKeinDeutscherStart(rtl12, superWings))
   pruefe('Erstausgabe früher: ein von Hand belegter TV-Termin bleibt ein Start', !istKeinDeutscherStart({ ...rtl12, automatisch: false }, superWings))
   pruefe('Ohne Erstausgabe: der automatische TV-Termin bleibt ein Start', !istKeinDeutscherStart(rtl12, { ...superWings, deErstausgabe: undefined } as Title))
-  pruefe('„Neu auf Deutsch" bezieht den ersten Termin ohne diese TV-Termine (nebendateien.ts)', readFileSync('pipeline/bau/nebendateien.ts', 'utf8').includes('ersterDeutscherTermin(zaehlende, titles)') && ersterDeutscherTermin([rtl12], [superWings]).size === 0 && ersterDeutscherTermin([{ ...rtl12, automatisch: false }], [superWings]).get(10012621) === '2026-10-07')
+  /* Dass der Bau (`ersterTerminMitGrund`) nur zählende Termine übergibt, läuft in check-nebendateien-laufzeit.ts. */
+  pruefe('„Neu auf Deutsch" rechnet den ersten Termin ohne diese TV-Termine', ersterDeutscherTermin([rtl12], [superWings]).size === 0 && ersterDeutscherTermin([{ ...rtl12, automatisch: false }], [superWings]).get(10012621) === '2026-10-07')
   /* Der Bau schreibt dieselben Werte wie die Oberfläche: Releases anderer Titel verändern die Auskunft nicht. */
   {
     const daimaTitel = { id: 170083, streams: [], deErstausgabe: { von: '2026-08-28', quelle: 'wikipedia' } } as unknown as Title
