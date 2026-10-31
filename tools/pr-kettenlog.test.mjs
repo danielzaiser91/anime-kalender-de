@@ -1,4 +1,5 @@
 /** Tests für tools/pr-kettenlog.mjs: Filter echter Logzeilen, Kopf (kein/unfertiger Lauf), Warteschleife, gh-Aufrufe, Dateien, Verdrahtung. */
+import { spawnSync } from 'node:child_process'
 import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
@@ -283,6 +284,21 @@ pruefe('nicht abrufbares Log: genau LOG_VERSUCHE Versuche mit Pause dazwischen',
   const zi = fs.readFileSync(path.join(ordner, 'kettenlog-zitate.txt'), 'utf8')
   const ue = fs.readFileSync(path.join(ordner, 'kettenlog.txt'), 'utf8')
   pruefe('Gesamtlauf: Zeile nur in kettenlog-zitate.txt, nicht in kettenlog.txt', zi.includes(`Treffer in "Kette – Logik": ${ZEILE}`) && !ue.includes(ZEILE), { zi, ue })
+  pruefe('Gesamtlauf: auch die Datei aus dem Lauf beginnt mit dem Hinweis auf Daten', zi.startsWith(HINWEIS))
+  const praefix = datei(['waechter0: okay-nicht-im-log'], [job('Kette – Logik', 'completed', 'success', 'waechter0: ok')])
+  pruefe('Zitat nur als Anfang einer Logzeile: kein Treffer (ganze Zitat muss enthalten sein)', praefix.includes('  kein Treffer') && !praefix.includes('Treffer in'), praefix)
+  {
+    // Prozess: main reicht das vierte Argument durch (gh ohne Anmeldung: kein Lauf, die Zitate stehen trotzdem als "kein Treffer" da).
+    const ordner2 = fs.mkdtempSync(path.join(os.tmpdir(), 'kettenlog-'))
+    const r = spawnSync(process.execPath, [fileURLToPath(new URL('./pr-kettenlog.mjs', import.meta.url)), SHA, ordner2, '0', beschr], {
+      encoding: 'utf8',
+      windowsHide: true,
+      env: { ...process.env, GITHUB_REPOSITORY: 'o/r', GH_TOKEN: '', GITHUB_TOKEN: '', GH_CONFIG_DIR: path.join(ordner2, 'keine-gh-config') },
+    })
+    const prozessZitate = fs.existsSync(path.join(ordner2, 'kettenlog-zitate.txt')) ? fs.readFileSync(path.join(ordner2, 'kettenlog-zitate.txt'), 'utf8') : ''
+    pruefe('Prozess: Exit 0, Statuszeile da, Zitat aus der Beschreibung steht mit "kein Treffer" in kettenlog-zitate.txt', r.status === 0 && r.stderr.includes('Kettenlog ') && prozessZitate.includes(`Zitat: ${ZEILE}`) && prozessZitate.includes('  kein Treffer'), { status: r.status, stderr: r.stderr, prozessZitate })
+    fs.rmSync(ordner2, { recursive: true, force: true })
+  }
   await schreibeKettenlog({ repo: 'o/r', sha: SHA, ordner, frist: 0, gh: ghGross, warte: u4.warte, jetzt: u4.jetzt, beschreibung: path.join(ordner, 'gibt-es-nicht.txt') })
   pruefe('Gesamtlauf: Beschreibung fehlt -> Datei da, keine Zitate (fail-soft)', fs.readFileSync(path.join(ordner, 'kettenlog-zitate.txt'), 'utf8').includes('Keine Zitate in den Nachträgen gefunden.'))
   await schreibeKettenlog({ repo: 'o/r', sha: SHA, ordner, frist: 0, gh: ghGross, warte: u4.warte, jetzt: u4.jetzt })
