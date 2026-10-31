@@ -3,7 +3,7 @@ import { log } from './util.ts'
 
 type Zeitpunkt = Pick<AdnEpisode, 'date' | 'time'>
 
-const schluessel = (e: Zeitpunkt) => `${e.date} ${e.time}`
+const schluessel = (e: Zeitpunkt) => [e.date, e.time].join(' ')
 
 /**
  * Früheste und späteste Folge nach Termin, nicht nach Nummer: Stellt ADN eine
