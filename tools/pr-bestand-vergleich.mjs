@@ -13,7 +13,7 @@ import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, 
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { pathToFileURL } from 'node:url'
-import { teileListenAusgabe, trenneGeerbtUndNeu, zaehleOderMelde } from './pr-bestand-zaehlen.mjs'
+import { fasseRoteZusammen, mitPraefix, teileListenAusgabe, trenneGeerbtUndNeu, zaehleOderMelde } from './pr-bestand-zaehlen.mjs'
 
 const LISTE = 'tools/check-bestand-liste.txt'
 /** Kennung für einen roten Listenlauf ohne einzelne Prüfung (Liste unsortiert, Prüfung ändert Dateien): zählt immer als neu. */
@@ -72,23 +72,27 @@ function lauf(befehl, args, cwd) {
   })
 }
 
-function melde(kennung, ergebnis) {
-  console.log(`=== ${kennung}: ${ergebnis.status === 0 ? 'grün' : 'rot'}`)
-  process.stdout.write(ergebnis.aus)
+/** `praefix` kennzeichnet die Gegenprobe auf der Basis (leer auf dem PR-Bau). */
+function melde(kennung, ergebnis, praefix) {
+  console.log(mitPraefix(`=== ${kennung}: ${ergebnis.status === 0 ? 'grün' : 'rot'}`, praefix))
+  process.stdout.write(mitPraefix(ergebnis.aus, praefix))
 }
 
+/** Zählung mit Fehlermeldung, die auf der Basis ebenfalls das Präfix trägt. */
+const zaehleMit = (praefix) => (name, aus) => zaehleOderMelde(name, aus, (m) => console.log(mitPraefix(m, praefix)))
+
 /** Die Liste läuft über eine Kopie mit genau den gewünschten Zeilen (Reihenfolge der Liste, also weiter sortiert). */
-async function roteDerListe(wurzel, dateien) {
+async function roteDerListe(wurzel, dateien, praefix) {
   if (dateien.length === 0) return new Map()
   const ordner = mkdtempSync(join(tmpdir(), 'bestand-liste-'))
   const datei = join(ordner, 'liste.txt')
   writeFileSync(datei, `${dateien.join('\n')}\n`)
   const r = await lauf(process.execPath, ['tools/check-logic-alle.mjs', datei, 'check:bestand', '--alle'], wurzel)
   rmSync(ordner, { recursive: true, force: true })
-  melde(GANZE_LISTE, r)
+  melde(GANZE_LISTE, r, praefix)
   if (r.status === 0) return new Map()
   const teile = teileListenAusgabe(r.aus)
-  const rote = new Map(roteAusListe(r.aus).map((d) => [d, zaehleOderMelde(d, teile.get(d) ?? '')]))
+  const rote = new Map(roteAusListe(r.aus).map((d) => [d, zaehleMit(praefix)(d, teile.get(d) ?? '')]))
   // Schreibt eine Prüfung ins Repo, meldet der Pool das neben roten Prüfungen nur im Text (tools/arbeiterpool.mjs); das ist nie geerbt.
   const schreibt = r.aus.includes('Der Lauf hat getrackte Dateien verändert')
   if (rote.size === 0 || schreibt) rote.set(GANZE_LISTE, 1)
@@ -96,13 +100,13 @@ async function roteDerListe(wurzel, dateien) {
 }
 
 /** Rote Prüfungen eines Stands mit der Zahl ihrer Verstöße: die Rest-Skripte nacheinander, die Liste daneben. */
-async function roteImStand(wurzel, { rest, liste }) {
-  const listenLauf = roteDerListe(wurzel, liste)
+async function roteImStand(wurzel, { rest, liste }, praefix = '') {
+  const listenLauf = roteDerListe(wurzel, liste, praefix)
   const rote = new Map()
   for (const skript of rest) {
     const r = await lauf('npm', ['run', skript], wurzel)
-    melde(skript, r)
-    if (r.status !== 0) rote.set(skript, zaehleOderMelde(skript, r.aus))
+    melde(skript, r, praefix)
+    if (r.status !== 0) rote.set(skript, zaehleMit(praefix)(skript, r.aus))
   }
   for (const [k, zahl] of await listenLauf) rote.set(k, zahl)
   return rote
@@ -126,7 +130,7 @@ async function roteDerBasis(wurzel, basisRef, prRot) {
     }
     const bau = await lauf('npm', ['run', 'data:build'], ort)
     if (bau.status !== 0) {
-      console.log(bau.aus)
+      console.log(mitPraefix(`data:build ist auf der Basis gescheitert (nicht im PR):\n${bau.aus}`, `[Basis ${basisRef}]`))
       return null
     }
     const basis = stand(ort)
@@ -134,7 +138,7 @@ async function roteDerBasis(wurzel, basisRef, prRot) {
       rest: basis.rest.filter((s) => prRot.has(s)),
       liste: basis.liste.filter((d) => prRot.has(d)),
     }
-    return await roteImStand(ort, auswahl)
+    return await roteImStand(ort, auswahl, `[Basis ${basisRef}]`)
   } finally {
     // Erst die Verweise lösen: sonst löscht das Entfernen des Worktrees den Inhalt von node_modules und Cache.
     for (const link of links) unlinkSync(link)
@@ -157,6 +161,7 @@ async function vergleiche(wurzel, basisRef) {
     return 1
   }
   const { geerbt, neu } = trenneGeerbtUndNeu(prRot, basisRot)
+  console.log(fasseRoteZusammen(prRot, geerbt))
   for (const k of geerbt) console.log(`::warning::${k} ist schon auf der Basis ${basisRef} rot (${prRot.get(k)} Verstöße, Basis ${basisRot.get(k)}; nicht diesem PR angelastet)`)
   if (neu.length === 0) return 0
   for (const k of neu) console.log(`${k}: ${prRot.get(k)} Verstöße auf dem PR, ${basisRot.get(k) ?? 'grün'} auf der Basis`)

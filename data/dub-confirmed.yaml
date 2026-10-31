@@ -39631,3 +39631,37 @@
   kanalMessung: ja
   checkedAt: '2026-10-31'
   note: "Tonspuren: Deutsch — Amazon-Seite B0HHFP3BDX: alle 1 Folge geprüft, Abos: kinderweltde, zugang=abo_und_kauf, gti=amzn1.dv.gti.d80e6132-6947-4ced-aa16-4c0571e4dfcb — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-10-31 ---
+
+- anilistId: 10011124
+  title: "Miraculous: Geschichten von Ladybug und Cat Noir"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0B6HHFR44
+  dub: true
+  checkedAt: '2026-10-31'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B0B6HHFR44: alle 8 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.f6b0fc53-337e-8650-a4d1-123b13d73dfc"
+
+- anilistId: 10013182
+  title: "Operation Nussknacker 2: Voll auf die Nüsse"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0FNXJ6WD7
+  dub: true
+  checkedAt: '2026-10-31'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B0FNXJ6WD7: alle 1 Folge geprüft, Abos: keine Angabe, zugang=kauf_oder_leihe, gti=amzn1.dv.gti.1b418309-0b81-400b-8679-f1246c4d17ad"
+
+- anilistId: 10009667
+  title: "Operation: Nussknacker - Auf die Nüsse, fertig, los!"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B087Y8ZNF8
+  dub: true
+  checkedAt: '2026-10-31'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B087Y8ZNF8: alle 1 Folge geprüft, Abos: Prime, zugang=abo, gti=amzn1.dv.gti.48b8e647-d786-3a45-f5fc-3142d0233dc5"
+
+- anilistId: 10009667
+  title: "Operation: Nussknacker - Auf die Nüsse, fertig, los!"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B00SCBTQJA
+  dub: true
+  checkedAt: '2026-10-31'
+  note: "Tonspuren: Deutsch, English — Amazon-Seite B00SCBTQJA: alle 1 Folge geprüft, Abos: keine Angabe, zugang=kauf_oder_leihe, gti=amzn1.dv.gti.46a9f6ca-b9f5-4ab1-602e-e1d0f52f985b"

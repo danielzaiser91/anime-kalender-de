@@ -7965,5 +7965,35 @@
       "gelesenAm": "2026-10-26",
       "bestaetigt": "2025-05-09"
     }
+  ],
+  "adn-734": [
+    {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/734",
+      "name": "ADN API",
+      "gesehenAm": "2026-10-31",
+      "stand": "aktuell",
+      "gelesenAm": "2026-10-26",
+      "bestaetigt": "2021-06-16"
+    }
+  ],
+  "adn-748": [
+    {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/748",
+      "name": "ADN API",
+      "gesehenAm": "2026-10-31",
+      "stand": "aktuell",
+      "gelesenAm": "2026-10-26",
+      "bestaetigt": "2021-06-16"
+    }
+  ],
+  "adn-729": [
+    {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/729",
+      "name": "ADN API",
+      "gesehenAm": "2026-10-31",
+      "stand": "aktuell",
+      "gelesenAm": "2026-10-26",
+      "bestaetigt": "2021-06-16"
+    }
   ]
 }

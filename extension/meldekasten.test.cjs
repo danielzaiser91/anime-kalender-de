@@ -29,6 +29,7 @@ const sperre = vm.createContext({ Date, String, Number, Boolean, Object, JSON, P
 sperre.globalThis = sperre
 vm.runInContext(lies('melde-sperre.js'), sperre)
 vm.runInContext(lies('prime-region.js'), sperre)
+vm.runInContext(lies('prime-stand.js'), sperre)
 
 function knopfNeu() {
   const attribute = new Map()
@@ -65,6 +66,8 @@ function grundwerte(z, knopf, speicher) {
     quelltextPasst: () => true,
     quelltextVeraltet: () => false,
     quelltextVonFruehererSeite: () => false,
+    document: { querySelector: () => null },
+    asinAusAdresse: () => null,
     gesehen: { gesamt: 12, nummern: new Set(folgen), jeFolge: new Map(folgen.map((n) => [n, ['Deutsch']])), get fuerAdresse() { return z.pfad } },
     notiere: () => {},
     setzData: () => {},

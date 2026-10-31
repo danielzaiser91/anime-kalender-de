@@ -1,11 +1,11 @@
 {
-  "scrapedAt": "2026-10-31T15:02:14.994Z",
+  "scrapedAt": "2026-10-31T18:02:31.810Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 11,
-    "schon in einem Rubrik-Feed gelesen": 10,
     "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 11,
+    "schon in einem Rubrik-Feed gelesen": 8,
     "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 2,
     "Sprachhinweis älter als 45 Tage": 4
   },
@@ -56,6 +56,73 @@
         }
       ],
       "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Start des zweiten Teils von »Romelia War Chronicle« steht fest",
+      "articleUrl": "https://www.anime2you.de/news/1066118/romelia-war-chronicle-part-2-start/",
+      "publishedAt": "2026-10-31",
+      "category": "allgemein",
+      "platforms": [],
+      "dates": [
+        {
+          "month": "2027-04",
+          "context": "ung des zweiten Teils der Serie verkündet. Wir fassen zusammen. Start im April 2027 Der zweite Part von »Romelia War Chronicle« startet demz"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "ProSieben MAXX wiederholt zweite »The Eminence in Shadow«-Staffel",
+      "articleUrl": "https://www.anime2you.de/news/1066006/prosieben-maxx-eminence-in-shadow-staffel-2-wiederholung/",
+      "publishedAt": "2026-10-31",
+      "category": "allgemein",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-11-27",
+          "context": "lung ab November 2026 Die Wiederholung der zweiten Staffel startet am 27. November 2026 um 23:20 Uhr mit den ersten fünf Episoden am Stück."
+        },
+        {
+          "iso": "2026-12-04",
+          "context": "ember 2026 um 23:20 Uhr mit den ersten fünf Episoden am Stück. Ab dem 4. Dezember 2026 […] Der Beitrag ProSieben MAXX wiederholt zweite »T"
+        },
+        {
+          "month": "2026-11",
+          "context": "erneut mit deutscher Sprachfassung. Wir fassen zusammen. Wiederholung ab November 2026 Die Wiederholung der zweiten Staffel startet am 27. N"
+        }
+      ],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Drei weitere Anime-Serien ab sofort auf Deutsch bei Crunchyroll",
+      "articleUrl": "https://www.anime2you.de/news/1066100/crunchyroll-firefly-wedding-synchro-und-mehr/",
+      "publishedAt": "2026-10-31",
+      "category": "streaming",
+      "platforms": [
+        "crunchyroll"
+      ],
+      "dates": [],
+      "dub": "ja",
+      "zeiten": [
+        {
+          "tag": "Freitag",
+          "zeit": "18:00",
+          "satz": "»The Iceblade Sorcerer Shall Rule the World« – Staffel 2 »The Vermilion Mask« »Firefly Wedding« Episoden: 1 auf Deutsch verfügbar Sprache: Deutsch, Japanisch (UT) Simulcast: Jeden Freitag um 18:00 Uhr Stream: Crunchyroll , Prime Video Handl"
+        },
+        {
+          "tag": "Donnerstag",
+          "zeit": "19:00",
+          "satz": "sessenheit bringt sie in große Gefahr. »The Iceblade Sorcerer Shall Rule the World« – Staffel 2 Episoden: 1 auf Deutsch verfügbar Sprache: Deutsch, Japanisch (UT) Simulcast: Jeden Donnerstag um 19:00 Uhr Stream: Crunchyroll , Prime Video Handl"
+        },
+        {
+          "tag": "Samstag",
+          "zeit": "11:30",
+          "satz": "Iceblade Sorcerer verbirgt, der zu den mächtigsten Magiern der Welt zählt. »The Vermilion Mask« Episoden: 1 auf Deutsch verfügbar Sprache: Deutsch, Japanisch (UT) Simulcast: Jeden Samstag um 11:30 Uhr Stream: Crunchyroll , Prime Video Handl"
+        }
+      ],
       "alreadyCurated": false
     },
     {
