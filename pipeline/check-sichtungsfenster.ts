@@ -51,22 +51,23 @@ pruefe('Fenster über die Stundengrenze, 30 min, ist erlaubt', sichtungsFehler(m
 pruefe('Fenster der Länge null ist erlaubt', sichtungsFehler(mitFenster({ notSeen: '16:30', seen: '16:30' })).length === 0)
 
 const plan = (extra: Partial<Schedule>): Schedule => ({ firstEpisodeDate: '2026-10-04', ...extra })
-const avatar = Object.keys(FESTGELEGTE_ZEITEN)[0]!
+const avatar = 'probe-slug'
+const AUSNAHMEN = { [avatar]: { beleg: 'Probe-Ausnahme für den Fristfall', bis: '2026-11-02' } }
 pruefe('zeitFehler: time ohne HH:MM', zeitFehler(plan({ time: '16:3' }), HEUTE, 'x').join() === 'time "16:3" ist nicht HH:MM')
 pruefe('zeitFehler: gemessene time (ohne timeEstimated) still', zeitFehler(plan({ time: '16:30' }), HEUTE, 'x').length === 0)
 pruefe('zeitFehler: festgelegte Zeit ohne Ausnahme', /ohne benannte Ausnahme/.test(zeitFehler(plan({ time: '11:00', timeEstimated: true }), HEUTE, 'x').join()))
-pruefe('zeitFehler: benannte Altausnahme still', zeitFehler(plan({ time: '11:00', timeEstimated: true }), HEUTE, avatar).length === 0)
-pruefe('zeitFehler: Ausnahme gilt nur für ihren Slug', zeitFehler(plan({ time: '11:00', timeEstimated: true }), HEUTE, `${avatar}-x`).length === 1)
+pruefe('zeitFehler: benannte Altausnahme still', zeitFehler(plan({ time: '11:00', timeEstimated: true }), HEUTE, avatar, true, AUSNAHMEN).length === 0)
+pruefe('zeitFehler: Ausnahme gilt nur für ihren Slug', zeitFehler(plan({ time: '11:00', timeEstimated: true }), HEUTE, `${avatar}-x`, true, AUSNAHMEN).length === 1)
 pruefe('zeitFehler: Zeit neben Sichtung meldet genau einen Fehler', zeitFehler(gut({ time: '16:30', timeEstimated: true }), HEUTE, 'x').length === 1)
 pruefe('zeitFehler: gültige Sichtung still', zeitFehler(gut(), HEUTE, 'x').length === 0)
-pruefe('zeitFehler: Ausnahme am letzten Tag still', zeitFehler(plan({ time: '11:00', timeEstimated: true }), FESTGELEGTE_ZEITEN[avatar]!.bis, avatar).length === 0)
+pruefe('zeitFehler: Ausnahme am letzten Tag still', zeitFehler(plan({ time: '11:00', timeEstimated: true }), AUSNAHMEN[avatar].bis, avatar, true, AUSNAHMEN).length === 0)
 const tagDanach = '2026-11-03'
-pruefe('zeitFehler: Ausnahme am Tag nach der Frist ein Fehler', /abgelaufen/.test(zeitFehler(plan({ time: '11:00', timeEstimated: true }), tagDanach, avatar).join()), zeitFehler(plan({ time: '11:00', timeEstimated: true }), tagDanach, avatar))
-pruefe('zeitFehler: abgelaufen, aber nicht streng (Deploy): still', zeitFehler(plan({ time: '11:00', timeEstimated: true }), tagDanach, avatar, false).length === 0)
+pruefe('zeitFehler: Ausnahme am Tag nach der Frist ein Fehler', /abgelaufen/.test(zeitFehler(plan({ time: '11:00', timeEstimated: true }), tagDanach, avatar, true, AUSNAHMEN).join()), zeitFehler(plan({ time: '11:00', timeEstimated: true }), tagDanach, avatar, true, AUSNAHMEN))
+pruefe('zeitFehler: abgelaufen, aber nicht streng (Deploy): still', zeitFehler(plan({ time: '11:00', timeEstimated: true }), tagDanach, avatar, false, AUSNAHMEN).length === 0)
 pruefe('Frist: lokal streng', fristStrengIn({}) === true)
 pruefe('Frist: PR-CI streng', fristStrengIn({ GITHUB_ACTIONS: 'true', GITHUB_EVENT_NAME: 'pull_request' }) === true)
 for (const ereignis of ['push', 'schedule', 'workflow_dispatch', undefined]) pruefe(`Frist: CI-Ereignis ${ereignis} warnt nur`, fristStrengIn({ GITHUB_ACTIONS: 'true', GITHUB_EVENT_NAME: ereignis }) === false)
-pruefe('Ausnahmen haben Beleg und ISO-Frist', Object.values(FESTGELEGTE_ZEITEN).every((a) => a.beleg.length > 10 && /^\d{4}-\d{2}-\d{2}$/.test(a.bis)))
+pruefe('Ausnahmen haben Beleg und ISO-Frist', Object.values({ ...FESTGELEGTE_ZEITEN, ...AUSNAHMEN }).every((a) => a.beleg.length > 10 && /^\d{4}-\d{2}-\d{2}$/.test(a.bis)))
 
 /* Verdrahtung: data:validate gegen eine Kulisse (AK_ROOT) mit drei Einträgen, der mittlere trägt die Zeitzeilen. */
 function validiere(zeilen: string[], slug = 'mitte'): { code: number | null; aus: string } {
@@ -95,8 +96,9 @@ const zeitFormat = validiere(['    time: "16:3"'])
 pruefe('validate: time ohne HH:MM bricht ab', zeitFormat.code === 1 && /"mitte": time "16:3" ist nicht HH:MM/.test(zeitFormat.aus), zeitFormat)
 const festgelegt = validiere(['    time: "11:00"', '    timeEstimated: true'])
 pruefe('validate: festgelegte Zeit ohne Ausnahme bricht ab', festgelegt.code === 1 && /"mitte": time \+ timeEstimated ohne benannte Ausnahme/.test(festgelegt.aus), festgelegt)
-const altfall = validiere(['    time: "11:00"', '    timeEstimated: true'], avatar)
-pruefe('validate: benannte Altausnahme läuft durch', altfall.code === 0, altfall)
+const altfall = validiere(['    time: "11:00"', '    timeEstimated: true'], 'avatar-die-sieben-haefen-paramountplus')
+pruefe('validate: Avatar-Altausnahme ist entfernt', altfall.code === 1 && /ohne benannte Ausnahme/.test(altfall.aus), altfall)
+pruefe('FESTGELEGTE_ZEITEN ist leer', Object.keys(FESTGELEGTE_ZEITEN).length === 0)
 
 if (fehler) process.exit(1)
 console.log('check-sichtungsfenster: alle Zusicherungen erfüllt')
