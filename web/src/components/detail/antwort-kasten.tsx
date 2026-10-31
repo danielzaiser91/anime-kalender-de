@@ -6,7 +6,7 @@ import { type ReactNode, useState } from 'react'
 import { useFolgenZaehlung } from './folgen-bereich.tsx'
 import { Countdown } from './hilfen.tsx'
 import { KINO_LAND, kinoDatum } from './kino.tsx'
-import { ankuendigungZeile, titelSynchroAngekuendigt } from '@shared/ankuendigung.ts'
+import { ankuendigungOhneTermin, ankuendigungZeile, titelSynchroAngekuendigt } from '@shared/ankuendigung.ts'
 import { VermerkAuskunft } from './vermerk.tsx'
 import { Umschalter } from './umschalter.tsx'
 import { gruppeVon as gruppeVonPille, sichtbareStreamPillen, type Gruppe } from './stream-pillen.ts'
@@ -567,7 +567,7 @@ export function AntwortKasten({
       infos auf einen blick"). Ist eine Synchro angekündigt, ist das die Antwort auf die Frage des
       Kastens; der OmU-Start und der offene Termin stehen darunter.
     */
-    const ankuendigung = title.westlich ? undefined : title.ankuendigung
+    const ankuendigung = title.westlich || ankuendigungOhneTermin(title, antwort.art) ? undefined : title.ankuendigung
     haupt = title.westlich
       ? T(title.dubHinweis ? 'antwort.westlichJw' : title.streams.length ? 'antwort.westlichVerfuegbar' : 'antwort.synchroOffen')
       : titelSynchroAngekuendigt(title)
@@ -647,7 +647,7 @@ export function AntwortKasten({
           9,75 auf 11rem zu erhöhen. Das trägt genau bis zum nächsten Zustand,
           den niemand vorhergesehen hat — und davon gab es seitdem zwei.
         */
-        `relative flex ${(antwort.art === 'fertig' || antwort.art === 'film') && !neben ? '' : 'min-h-[11rem]'} flex-col rounded-2xl border p-4`,
+        `relative flex ${((antwort.art === 'fertig' || antwort.art === 'film') && !neben) || ankuendigungOhneTermin(title, antwort.art) ? '' : 'min-h-[11rem]'} flex-col rounded-2xl border p-4`,
         gedaempft
           ? 'border-slate-200 bg-[#f8fafc] [--kasten:#f8fafc] dark:border-white/10 dark:bg-[#111623] dark:[--kasten:#111623]'
           : 'border-[#f6cfc3] bg-[#fff6f3] [--kasten:#fff6f3] dark:border-[#4a2a24] dark:bg-[#1a1416] dark:[--kasten:#1a1416]',

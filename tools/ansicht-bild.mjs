@@ -41,6 +41,7 @@ import { messeDuell } from './ansicht-duell.mjs'
 import { messeDetailsOverlay } from './ansicht-details-overlay.mjs'
 import { pruefeFortsetzen } from './ansicht-fortsetzen.mjs'
 import { meldeAbzeichen } from './ansicht-abzeichen.mjs'
+import { meldeTerminKarte } from './ansicht-termin-karte.mjs'
 
 const WURZEL = path.resolve(import.meta.dirname, '..')
 const DIST = path.join(WURZEL, 'dist')
@@ -508,6 +509,7 @@ async function meldeZusatzpruefungen(seite, ansichten, handy) {
     if (treffer.abweichungen.length) rot = true
     if (meldeTvReihe(await pruefeTvReihe(DIST))) rot = true
     if (await meldeAbzeichen({ chromium, antworte: antworteAusDist, dist: DIST, lesePixel: lesePixelPng })) rot = true
+    if (await meldeTerminKarte({ chromium, antworte: antworteAusDist, dist: DIST, lesePixel: lesePixelPng })) rot = true
     if (meldeSaisonChip(await pruefeSaisonChip(DIST))) rot = true
   }
   return rot

@@ -4,7 +4,10 @@
  * Eine Zeile `offen` bleibt ohne Meldung, sobald es ein Release des Anbieters gibt.
  * Aufruf: `npm run check:logic`.
  */
+import { readFileSync } from 'node:fs'
+import yaml from 'js-yaml'
 import { addDays, todayIso } from '../shared/time.ts'
+import { leereListe } from './lib/leere-liste.ts'
 import type { Release, Title } from '../shared/types.ts'
 import { ankuendigungenLaden, type Ankuendigung } from './lib/ankuendigungen.ts'
 import { baueNews } from './lib/news.ts'
@@ -25,7 +28,11 @@ const release = (titleId: number, platform: string, extra: Partial<Release> = {}
 console.log('\nAnkündigungs-Meldung:')
 const echte = ankuendigungenLaden(process.cwd())
 const angekuendigt = [...echte].filter(([, a]) => a.synchro === 'angekuendigt')
-pruefe('Die echte Datei führt Zeilen mit angekündigter Synchro (Wächter nicht blind)', angekuendigt.length > 0, angekuendigt.length)
+/* Leer ist grün (alle Ankündigungen erledigt); rot nur, wenn die Datei keine `eintraege`-Liste mehr trägt. */
+const roh = yaml.load(readFileSync('data/ankuendigungen.yaml', 'utf8')) as { eintraege?: unknown } | null
+const lage = leereListe('Die echte Datei: Zeilen mit angekündigter Synchro', angekuendigt.length, Array.isArray(roh?.eintraege) ? 1 + echte.size : 0)
+console.log(`  ${lage.zeile}`)
+pruefe(lage.zeile, lage.ok, angekuendigt.length)
 
 /* Schlimmster Fall: zu jeder Zeile gibt es schon ein Release desselben Anbieters. */
 const titles = angekuendigt.map(([id]) => titel(id))
