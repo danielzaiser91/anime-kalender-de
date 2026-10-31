@@ -11,7 +11,7 @@ import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { restSkripte } from './pr-bestand-vergleich.mjs'
-import { teileListenAusgabe, trenneGeerbtUndNeu, zaehleOderMelde, zaehleVerstoesse } from './pr-bestand-zaehlen.mjs'
+import { fasseRoteZusammen, mitPraefix, teileListenAusgabe, trenneGeerbtUndNeu, zaehleOderMelde, zaehleVerstoesse } from './pr-bestand-zaehlen.mjs'
 
 const tools = dirname(fileURLToPath(import.meta.url))
 const wurzel = join(tools, '..')
@@ -48,6 +48,12 @@ assert.equal(zaehleOderMelde('x.ts', 'VERSTÖSSE: 3', () => assert.fail('keine M
 const geteilt = teileListenAusgabe('Kopf\n[check:bestand 1/2] a.ts\nx\ny\n[check:bestand 2/2] b.ts\nz\ncheck:bestand: 1 von 2 Prüfungen rot:\n  - b.ts\n--- b.ts (Exit 1)\n')
 assert.deepEqual([...geteilt], [['a.ts', 'x\ny'], ['b.ts', 'z']])
 assert.deepEqual(trenneGeerbtUndNeu(new Map([['a', 2], ['b', 3], ['c', 1], ['d', 1]]), new Map([['a', 2], ['b', 2], ['d', 5]])), { geerbt: ['a', 'd'], neu: ['b', 'c'] })
+
+// Basis-Kennzeichnung: jede nichtleere Zeile bekommt das Präfix (auch ::error:: wird Text), Leerzeilen bleiben, ohne Präfix unverändert.
+assert.equal(mitPraefix('a\n\n::error::b\n', '[Basis x]'), '[Basis x] a\n\n[Basis x] ::error::b\n')
+assert.equal(mitPraefix('a\nb', ''), 'a\nb')
+assert.equal(fasseRoteZusammen(new Map([['x', 3], ['y', 1]]), ['y']), 'Rote Bestandsprüfungen insgesamt: 2 – x (3) [neu], y (1) [geerbt]')
+assert.equal(fasseRoteZusammen(new Map([['x', 3]])), 'Rote Bestandsprüfungen insgesamt: 1 – x (3) [neu]')
 
 const k = mkdtempSync(join(tmpdir(), 'pr-bestand-vergleich-'))
 const spur = join(k, '..', `${k.split(/[\\/]/).at(-1)}-spur.txt`)
@@ -187,6 +193,14 @@ try {
   assert.deepEqual(e.basis, ['check:r2', 'pruef/a.mjs', 'pruef/b.mjs', 'pruef/c.mjs'], 'auf der Basis laufen genau die auf dem PR roten')
   assert.match(e.aus, /::error::.*weniger verletzt sind: pruef\/b\.mjs\n/)
   for (const g of ['check:r2', 'pruef/a.mjs', 'pruef/c.mjs']) assert.ok(e.aus.includes(`::warning::${g} ist schon auf der Basis`), g)
+  // Eine Schlusszeile nennt alle vier roten Prüfungen auf einmal, je mit neu/geerbt (nicht nur die erste).
+  assert.match(e.aus, /^Rote Bestandsprüfungen insgesamt: 4 – check:r2 \(1\) \[geerbt\], pruef\/a\.mjs \(1\) \[geerbt\], pruef\/b\.mjs \(1\) \[neu\], pruef\/c\.mjs \(1\) \[geerbt\]$/m)
+  // Basis-Ausgabe ist erkennbar: dieselbe Prüfung steht einmal ohne (PR-Bau) und einmal mit Präfix (Gegenprobe); keine Basis-Zeile ohne Präfix.
+  assert.match(e.aus, /^=== check:r2: rot$/m)
+  assert.match(e.aus, /^\[Basis \S+\] === check:r2: rot$/m)
+  const nachGegenprobe = e.aus.slice(e.aus.indexOf('Gegenprobe auf der Basis'), e.aus.indexOf('Rote Bestandsprüfungen insgesamt')).split('\n')
+  assert.ok(nachGegenprobe.some((z) => z.startsWith('[Basis ')))
+  for (const z of nachGegenprobe.slice(1)) assert.ok(z === '' || z.startsWith('[Basis ') || z.startsWith('::'), `Zeile ohne Basis-Kennzeichen: ${z}`)
 
   // Nur Geerbtes, einmal über den Basisbau, einmal über den geteilten Cache: grün mit Warnungen.
   e = fall({
@@ -216,6 +230,8 @@ try {
   assert.equal(e.gebaut, true)
   assert.deepEqual(e.basis, [])
   assert.match(e.aus, /::error::Der Bau der Basis .* gescheitert/)
+  // Der Abbruch des Basis-Baus ist als Basis gekennzeichnet, nie als Zeile des PR-Baus.
+  assert.match(e.aus, /^\[Basis \S+\] data:build ist auf der Basis gescheitert/m)
 
   // Rot ohne einzelne Prüfung (Liste unsortiert): zählt als Ganzes und gilt nie als geerbt.
   e = fall({ prListe: ['pruef/b.mjs', 'pruef/a.mjs', 'pruef/c.mjs'] })
@@ -258,6 +274,12 @@ try {
     assert.equal(e.status, 1, e.aus)
     assert.match(e.aus, new RegExp(`::error::${name.replace(/[.:/]/g, '\\$&')}: Zeile „VERSTÖSSE: <n>“ fehlt`))
     assert.doesNotMatch(e.aus, /::warning::/)
+    // Dieselbe Meldung der Basis-Gegenprobe trägt das Basis-Präfix (und ist damit keine Annotation); die des PR-Baus steht unpräfixiert.
+    const fehlt = new RegExp(`::error::${name.replace(/[.:/]/g, '\\$&')}: Zeile „VERSTÖSSE: <n>“ fehlt`)
+    const treffer = e.aus.split('\n').filter((z) => fehlt.test(z))
+    assert.equal(treffer.length, 2, e.aus)
+    assert.equal(treffer.filter((z) => z.startsWith('::error::')).length, 1, e.aus)
+    assert.equal(treffer.filter((z) => /^\[Basis \S+\] ::error::/.test(z)).length, 1, e.aus)
   }
 
   // A1 (PR 1386, R3): ein rotes Rest-Skript, das es nur im PR gibt, ist neu; die Basis fährt es nicht (sonst „Missing script“ = geerbt).

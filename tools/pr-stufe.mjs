@@ -22,6 +22,7 @@
  * | mehrere CSS-Dateien, oder eine CSS über 30 Zeilen                           | 1       |
  * | Skill-Text: .claude/skills/**\/*.md (andere Dateien dort bleiben 2)           | 1       |
  * | tools/claude-global/** (Regeln, Skills, Hooks, Mods; steuern Daniels Agenten) | 1       |
+ * | Handwerkzeug tools/<name>.(mjs|cjs|js|ts) mit eigenem Test, dessen Name in .github, package.json, tools, pipeline, shared, web, worker, extension, .claude, Wurzeldateien nirgends (auch nicht in fremden Tests) vorkommt und kein Glob trifft (tools/pr-stufe-kette.mjs) | 1 |
  * | Doku: *.md, docs, daniel-zum-abarbeiten, mockups                            | 0       |
  * | Text: data/patchnotes/*.yaml, web/src/**\/i18n*.ts(x)                       | 0       |
  * | eine einzelne *.css unter web/src oder extension, höchstens 30 Zeilen       | 0       |
@@ -33,6 +34,7 @@
  */
 import { spawnSync } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
+import { istHandwerkzeug, leseKette } from './pr-stufe-kette.mjs'
 
 const GRENZE_CSS = 30
 const GRENZE_KOMMENTAR = 30
@@ -109,22 +111,22 @@ function nurKommentare(zeilen) {
 }
 
 /** Stufe einer Datei: höchste Stufe aus Ziel- und Quellpfad (Umbenennen darf nicht herabstufen). */
-function stufeDatei(d) {
+function stufeDatei(d, kette) {
   if (d.unlesbar) return [2, 'Diff-Kopf nicht lesbar (z. B. quotierter Pfad)']
   if (d.symlink) return [2, 'Symlink']
-  const ziel = stufeNachPfad(d)
+  const ziel = stufeNachPfad(d, kette)
   if (!d.quelle) return ziel
-  const quelle = stufeNachPfad({ ...d, pfad: d.quelle })
+  const quelle = stufeNachPfad({ ...d, pfad: d.quelle }, kette)
   return quelle[0] > ziel[0] ? [quelle[0], `${quelle[1]} (Quelle ${d.quelle})`] : ziel
 }
 
-function stufeNachPfad(d) {
+function stufeNachPfad(d, kette) {
   const n = d.hinzu.length + d.weg.length
-  if (d.modus) return [Math.max(1, stufeOhneModus(d, n)[0]), 'Moduswechsel']
-  return stufeOhneModus(d, n)
+  if (d.modus) return [Math.max(1, stufeOhneModus(d, n, kette)[0]), 'Moduswechsel']
+  return stufeOhneModus(d, n, kette)
 }
 
-function stufeOhneModus(d, n) {
+function stufeOhneModus(d, n, kette) {
   if (RECHTSTEXT.test(d.pfad)) return [1, 'Rechtstext']
   if (DOKU.test(d.pfad)) return [0, 'Doku']
   if (TEXT.test(d.pfad)) {
@@ -137,6 +139,7 @@ function stufeOhneModus(d, n) {
   if (DOKU_ANDERE_ENDUNG.test(d.pfad)) return [1, 'Datei in docs/mockups mit anderer Endung']
   if (CLAUDE_GLOBAL.test(d.pfad)) return [1, 'globale Claude-Konfiguration (Regel, Skill, Hook, Mod)']
   if (STUFE_1.test(d.pfad)) return [1, 'UI-Logik, Handbeleg oder Datenwert']
+  if (istHandwerkzeug(d.pfad, kette, kette?.diff)) return [1, 'Handwerkzeug unter tools/ (kein Workflow, npm-Skript, keine Liste oder Quelle ruft es auf, eigener Test)']
   return [2, 'Pfad ohne Herabstufungsregel (Pipeline, Logik, Workflow, Worker, Schema oder unbekannt)']
 }
 
@@ -153,11 +156,12 @@ function nurTest(d) {
 }
 
 /** Stufe des ganzen Diffs. Eingabe: Ergebnis von liesDiff. */
-export function bestimmeStufe(dateien) {
+export function bestimmeStufe(dateien, keineKette = null) {
+  const kette = keineKette && { ...keineKette, diff: dateien.map((d) => d.pfad) }
   const begruendung = []
   let stufe = 0
   for (const d of dateien) {
-    const [s, grund] = stufeDatei(d)
+    const [s, grund] = stufeDatei(d, kette)
     if (s > 0) begruendung.push(`${d.pfad}: Stufe ${s} (${grund})`)
     stufe = Math.max(stufe, s)
   }
@@ -198,7 +202,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     process.exit(2)
   }
   try {
-    console.log(JSON.stringify(bestimmeStufe(liesDiff(diffAusQuelle(args))), null, 2))
+    console.log(JSON.stringify(bestimmeStufe(liesDiff(diffAusQuelle(args)), leseKette(process.cwd())), null, 2))
   } catch (e) {
     // Fail closed: ohne Diff gilt die höchste Stufe.
     console.log(JSON.stringify({ stufe: 2, begruendung: [String(e.message)], dateien: [] }, null, 2))

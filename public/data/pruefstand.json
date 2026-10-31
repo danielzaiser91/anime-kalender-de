@@ -1,22 +1,16 @@
 {
- "erzeugtAm": "2026-10-31T16:20:45.292Z",
+ "erzeugtAm": "2026-10-31T19:30:02.363Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
-   "gemeldet": 908,
-   "gesamt": 955,
-   "offen": 47,
-   "ohneSeite": 8,
+   "gemeldet": 912,
+   "gesamt": 956,
+   "offen": 44,
+   "ohneSeite": 2,
    "suchAdressen": [
-    "https://www.amazon.de/s?k=Super%20Wings&i=instant-video",
     "https://www.amazon.de/s?k=Higurashi%20no%20Naku%20Koro%20ni&i=instant-video",
-    "https://www.amazon.de/s?k=Miraculous%3A%20Geschichten%20von%20Ladybug%20und%20Cat%20Noir&i=instant-video",
-    "https://www.amazon.de/s?k=Operation%3A%20Nussknacker%20-%20Auf%20die%20N%C3%BCsse%2C%20fertig%2C%20los!&i=instant-video",
-    "https://www.amazon.de/s?k=Princess%20Principal%3A%20Crown%20Handler%20-%20Chapter%205&i=instant-video",
-    "https://www.amazon.de/s?k=Princess%20Principal%3A%20Crown%20Handler%20-%20Chapter%206&i=instant-video",
-    "https://www.amazon.de/s?k=Fischen%20Impossible%3A%20Eine%20tierische%20Rettungsaktion&i=instant-video",
-    "https://www.amazon.de/s?k=Operation%20Nussknacker%202%3A%20Voll%20auf%20die%20N%C3%BCsse&i=instant-video"
+    "https://www.amazon.de/s?k=Fischen%20Impossible%3A%20Eine%20tierische%20Rettungsaktion&i=instant-video"
    ],
    "ziel": "https://www.amazon.de/gp/video/detail/B0D84DKFSH",
    "ziele": [
@@ -59,14 +53,6 @@
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CYQJ79R8",
      "titel": "Girls Band Cry"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0FSCGZ9SG",
-     "titel": "Dragon Ball Daima"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0D329XJWM",
-     "titel": "Rick and Morty: The Anime"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0BZWFR7H1",
@@ -195,10 +181,6 @@
     {
      "url": "https://www.amazon.de/gp/video/detail/B0DNNFT23G",
      "titel": "Shin-chan (Shin Chan)"
-    },
-    {
-     "url": "https://www.amazon.de/dp/B0DJ4FCM5H",
-     "titel": "Zweite Prime-Ausgabe (B0DJ4FCM5H)"
     }
    ],
    "naechster": "2.5 Dimensional Seduction (2.5-jigen no Ririsa 2nd Season)",
@@ -291,6 +273,7 @@
     "B0D4Z3Z5N1": 12,
     "B0CHPLJ3QX": 25,
     "B09WR1P8JS": 13,
+    "B0CJK3GVR1": 12,
     "B0DJB5NGNK": 28,
     "B0D2M355W6": 52,
     "B09DBZ7T89": 12,

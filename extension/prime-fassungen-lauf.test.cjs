@@ -18,7 +18,7 @@ function pruefe(name, bedingung, gefunden) {
   console.error(`  ✗ ${name}${gefunden === undefined ? '' : ` — gefunden: ${JSON.stringify(gefunden)}`}`)
 }
 
-const quelle = ['box.js', 'melde-sperre.js', 'prime-stand-ziele.js', 'prime-region.js', 'prime-fassungen.js', 'amazon.js'].map(lies).join('\n')
+const quelle = ['box.js', 'melde-sperre.js', 'prime-stand.js', 'prime-stand-ziele.js', 'prime-region.js', 'prime-fassungen.js', 'amazon.js'].map(lies).join('\n')
 
 /** Lädt amazon.js für `pfad`; `seite` kommt als Leser-Nachricht, `erwartungen` vom Briefkasten. */
 async function lauf({ hydration, pfad = SELBST, seite = {}, erwartungen = {}, erwartet = undefined, jahr = undefined } = {}) {

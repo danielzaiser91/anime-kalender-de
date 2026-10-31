@@ -3332,7 +3332,6 @@ console.log('\nStaffel und Teil zählen:')
 /* Solo Leveling, 15.09.2026: dieselbe Meldung zweimal ergab denselben Beleg zweimal. */
 console.log('\nHandbelege: ein wörtlich vorhandener Beleg wird nicht erneut angehängt:')
 {
-  const abholung = readFileSync('pipeline/fetch-pruefungen.ts', 'utf8')
   const { neu } = neueBelegBloecke('- a: 1\n', ['- a: 1', '- b: 2', '  c: x', '- b: 2', '  c: "x"', '- d: 3'])
   pruefe('neue Belege: vorhandene und doppelte fallen, der Rest bleibt', neu.length === 2, neu)
   /* Der Abgleich selbst läuft in pipeline/check-belege-riegel-schreiben.ts, der Aufruf aus dem Abholer in check-fetch-pruefungen-laufzeit.ts. */
@@ -3391,12 +3390,7 @@ console.log('\nHandbelege: ein wörtlich vorhandener Beleg wird nicht erneut ang
   pruefe('Kommentare und Reihenfolge bleiben stehen',
     entdoppleBelege('# Kopf\n\n- a: 1\n') === '# Kopf\n\n- a: 1\n')
   /* Dass der Schreibweg diesen Riegel wirklich durchläuft, prüft pipeline/check-belege-riegel-schreiben.ts als Lauf. */
-  /* 22.09.2026: Haikyu!! TO THE TOP — Netflix-Staffel 4 ohne Zahl in unseren Titeln blieb liegen. */
-  pruefe(
-    'eine Netflix-Staffel ohne Nummer in unserer Reihe wird über Netflix\' Aufteilung verteilt',
-    /bekannt\.some\(\(st\) => st\.seq === staffelNr\)/.test(abholung),
-    'sonst bleiben Meldungen wie Haikyu!! TO THE TOP im Briefkasten liegen',
-  )
+  /* Netflix-Staffel ohne Nummer in unserer Reihe (Haikyu!! TO THE TOP, 22.09.2026) und die Notiz je Staffel: check-fetch-pruefungen-laufzeit.ts. */
   {
     const bauQuelle = bauQuelltext()
     pruefe(
@@ -3405,11 +3399,6 @@ console.log('\nHandbelege: ein wörtlich vorhandener Beleg wird nicht erneut ang
       'sonst führt die Suchadressen-Pille auf Crunchyrolls Startseite (Overgeared, 22.09.2026)',
     )
   }
-  pruefe(
-    'die Notiz eines Belegs stammt aus den Meldungen seines Titels',
-    /notizJeStaffel\.get\(id\) \?\? p\.notiz/.test(abholung),
-    'sonst trägt jeder Titel einer Adresse die Randprobe der letzten Meldung',
-  )
 }
 
 console.log('\nJapanischer Start: so genau wie die Quelle, und angekündigte Titel frisch:')
@@ -4200,8 +4189,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     nächsten Lauf wieder drankommt. Fehlt der zweite, ist der erste nur eine
     andere Schreibweise für denselben Falschbefund.
   */
-  /* Beide Riegel (`unklar` statt 200, `unklar` wieder fällig) laufen in check-links-laufzeit.ts; der Text bleibt für die Zusicherungen weiter unten. */
-  const linkPruefer = readFileSync('pipeline/check-links.ts', 'utf8')
+  /* Beide Riegel (`unklar` statt 200, `unklar` wieder fällig) laufen in check-links-laufzeit.ts. */
   /*
     **Und der Lauf hält an, wenn die Abwehr zumacht.**
 
@@ -4267,16 +4255,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     bau.includes('toteCrAdressen.has(adressKern(url))'),
     'Adressen im alten Format tragen keine Serienkennung — der Kennungs-Riegel greift bei ihnen nicht',
   )
-  pruefe(
-    'ein „unklar" überschreibt keinen echten Befund',
-    linkPruefer.includes("neu.status === 'unklar' && altStatus !== undefined && altStatus !== 'unklar'"),
-    'sonst macht eine Abwehrseite aus einem gemessenen 404 wieder eine offene Frage',
-  )
-  pruefe(
-    'der Lauf hört bei Amazon auf, wenn Amazon in Serie Zwischenseiten schickt',
-    linkPruefer.includes('SPERR_SCHWELLE') && linkPruefer.includes('inFolgeUnklar'),
-    'gegen eine laufende Sperre zu klopfen bringt keinen Befund und verlängert sie',
-  )
+  /* „unklar“ überschreibt keinen Befund und die Sperr-Schwelle bei Amazon: check-links-sperre-laufzeit.ts. */
   {
     /* ICS-Zeilen: höchstens 75 Oktette, Entfalten ergibt den Text (17.09.2026). */
     const probe = 'DESCRIPTION:Plattform: TOGGO plus\\nRelease-Art: Wöchentlich (Simuldub)\\nDetails – Größe 😀 '.repeat(4)
@@ -4339,11 +4318,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     bau.includes('const verweise = [...verweiseEntfernt, ...uebernommen]'),
     'sonst ergänzt jeder zweite Bau die Verweise wieder, die der vorige als belegtes Nein entfernt hat (78 Adressen, 17.09.2026)',
   )
-  pruefe(
-    'die Amazon-Sperre hält die übrigen Anbieter nicht auf',
-    linkPruefer.includes('if (amazonGesperrt && istAmazon)') && !/inFolgeUnklar >= SPERR_SCHWELLE\)[\s\S]{0,200}break/.test(linkPruefer),
-    'vom GitHub-Runner sperrt Amazon nach wenigen Abrufen — ein Abbruch ließ seit dem 07.09.2026 alle anderen Verweise ungeprüft',
-  )
+  /* Die Amazon-Sperre hält die übrigen Anbieter nicht auf (seit 07.09.2026 sonst alle Verweise ungeprüft): check-links-sperre-laufzeit.ts. */
   pruefe(
     'ein Bezugsweg auf dieselbe Adresse wie ein Verweis fliegt raus',
     bau.includes('die auf dieselbe Adresse zeigen wie ein Verweis desselben Titels'),

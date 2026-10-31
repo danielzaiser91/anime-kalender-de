@@ -4,7 +4,7 @@
  * Anlass (Prüftisch 19.10.2026): check:extension und check:wiedervorlage liefen erst nach dem Commit der Listen auf main.
  */
 import assert from 'node:assert/strict'
-import { spawnSync } from 'node:child_process'
+import { spawnMitLimit } from './kind-mit-limit.mjs'
 import { chmodSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { delimiter, dirname, join } from 'node:path'
@@ -41,7 +41,7 @@ function lauf(scheitert) {
   writeFileSync(npm, `#!/usr/bin/env bash\necho "$2" >> "${spur}"\n[ "$2" = "${scheitert}" ] && { echo "Abbruch in $2"; exit 1; }\nexit 0\n`)
   chmodSync(npm, 0o755)
   const env = { ...process.env, ...schritt.env, PATH: `${join(arbeit, 'bin')}${delimiter}${process.env.PATH}` }
-  const r = spawnSync('bash', ['-e', '-o', 'pipefail', '-c', schritt.run], { cwd: arbeit, encoding: 'utf8', env })
+  const r = spawnMitLimit('bash', ['-e', '-o', 'pipefail', '-c', schritt.run], { cwd: arbeit, encoding: 'utf8', env })
   return { status: r.status, ausgabe: r.stdout, spur: readFileSync(spur, 'utf8').trim().split('\n') }
 }
 
