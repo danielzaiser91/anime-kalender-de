@@ -31,6 +31,8 @@ pruefe('Stream „deutsch", alle Termine gekennzeichnet: gemeldet', deutschNurAu
 pruefe('Stream ohne Urteil: ruhig', deutschNurAusSpracheTermin([termin({ sprache: 'omu' })], titel(undefined)).length === 0)
 pruefe('ein Termin ohne Kennzeichnung dabei: ruhig', deutschNurAusSpracheTermin([termin({ sprache: 'omu' }), termin({ slug: 'zwei' })], titel(true)).length === 0)
 pruefe('anderer Anbieter: ruhig', deutschNurAusSpracheTermin([termin({ sprache: 'omu', platform: 'crunchyroll' })], titel(true)).length === 0)
+pruefe('Handbeleg deutsch, Termin nur offen: ruhig', deutschNurAusSpracheTermin([termin({ sprache: 'offen' })], titel(true), new Set(['206814|netflix'])).length === 0)
+pruefe('Handbeleg deutsch, Termin omu: gemeldet', deutschNurAusSpracheTermin([termin({ sprache: 'omu' })], titel(true), new Set(['206814|netflix'])).length === 1)
 
 if (verletzt) {
   console.error(`\n${verletzt} Prüfung(en) verletzt`)
