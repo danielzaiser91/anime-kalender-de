@@ -189,6 +189,8 @@ const PROBENORDNER = path.join(os.tmpdir(), 'laufstatus-probe')
 const programm = await electron.launch({
   executablePath: EXE,
   args: [`--user-data-dir=${PROBENORDNER}`, APP],
+  /* Der Testlauf darf weder Bildschirm noch Taskleiste noch Fokus berühren (Daniel, 31.10.2026). */
+  env: { ...process.env, LAUFSTATUS_UNSICHTBAR: '1' },
 })
 
 /* Zuerst den Ausgang sperren — kein Test darf Daniels Browser öffnen. */
@@ -209,6 +211,19 @@ await seite.reload({ waitUntil: 'domcontentloaded' })
 await seite.waitForTimeout(1500)
 
 console.log('Die Laufstatus-App:\n')
+
+const lage = await programm.evaluate(({ BrowserWindow, screen }) => {
+  const w = BrowserWindow.getAllWindows()[0]
+  const b = w.getBounds()
+  const schneidet = screen.getAllDisplays().some((d) => {
+    const a = d.bounds
+    return b.x < a.x + a.width && b.x + b.width > a.x && b.y < a.y + a.height && b.y + b.height > a.y
+  })
+  return { sichtbar: w.isVisible(), fokus: w.isFocused(), schneidet, bounds: b }
+})
+pruefe('Testfenster liegt außerhalb aller Bildschirme', lage.schneidet === false, JSON.stringify(lage.bounds))
+pruefe('ohne Fokus', lage.fokus === false)
+pruefe('und gilt trotzdem als sichtbar', lage.sichtbar === true)
 
 const fenster = await programm.evaluate(({ BrowserWindow }) => {
   const w = BrowserWindow.getAllWindows().find((x) => x.isVisible())
