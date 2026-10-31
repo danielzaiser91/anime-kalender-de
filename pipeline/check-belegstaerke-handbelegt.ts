@@ -19,6 +19,7 @@ const kulisse = mkdtempSync(join(tmpdir(), 'belegstaerke-handbelegt-'))
 process.env.AK_ROOT = kulisse
 mkdirSync(join(kulisse, 'data/curated'), { recursive: true })
 writeFileSync(join(kulisse, 'data/synchron-forum-treffer.yaml'), '# leer\n')
+writeFileSync(join(kulisse, 'data/anisearch-ids-hand.yaml'), '900101: 900500\n900102: 900500\n900103: 900501\n')
 writeFileSync(
   join(kulisse, 'data/dub-confirmed.yaml'),
   [
@@ -53,6 +54,14 @@ try {
   const ohne = mitBelegstaerke([api], [], new Set())[0]?.dubConfidence
   pruefe('Tonspur nur aus der API: normal', mitApi === 'normal', mitApi)
   pruefe('dieselbe Tonspur ohne Vermerk der API: high', ohne === 'high', ohne)
+  console.log('\nBelegstärke: ein Teil im aniSearch-Sammeleintrag ohne Beleg zählt als Einzelquelle')
+  /* 900101 und 900102 teilen den aniSearch-Eintrag 900500; 900103 hängt allein an 900501. Alle drei kamen mit der Stufe normal an. */
+  const ohneBeleg = (id: number) => ({ id, dubConfidence: 'normal', streams: [] }) as unknown as Title
+  const mitTon = { ...ohneBeleg(900102), streams: [{ platform: 'netflix', url: 'y', dub: true }] } as unknown as Title
+  const [teil, mitTonSpur, allein] = mitBelegstaerke([ohneBeleg(900101), mitTon, ohneBeleg(900103)], [], new Set())
+  pruefe('Teil ohne Beleg: Stufe low und alte Stufe low (kein Feld nötig)', teil?.dubConfidence === 'low' && teil.einzelquelle === undefined, teil)
+  pruefe('Teil mit Tonspur: Stufe high, nicht Einzelquelle', mitTonSpur?.dubConfidence === 'high' && mitTonSpur.einzelquelle === undefined, mitTonSpur)
+  pruefe('Titel allein am Eintrag: Stufe low, aber alte Stufe nicht low (einzelquelle false)', allein?.dubConfidence === 'low' && allein.einzelquelle === false, allein)
 } finally {
   rmSync(kulisse, { recursive: true, force: true })
 }

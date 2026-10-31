@@ -29,5 +29,10 @@
   { "name": "Bau: alle Titel gelten als Sammeleintrag", "datei": "pipeline/bau/09-5-weitere-quellen.ts", "suche": "sammeleintrag.has(title.id)", "ersetze": "true" },
   { "name": "Ohne Synchro: Jahr unbekannt gilt als alt (alte Regel)", "datei": "pipeline/bau/synchro-belegt.ts", "suche": "(t.jpYear !== undefined && t.jpYear < 2023)", "ersetze": "((t.jpYear ?? 0) < 2023)" },
   { "name": "Ohne Synchro: Grenze 2024", "datei": "pipeline/bau/synchro-belegt.ts", "suche": "t.jpYear < 2023", "ersetze": "t.jpYear < 2024" },
-  { "name": "Ohne Synchro: Grenze 2022", "datei": "pipeline/bau/synchro-belegt.ts", "suche": "t.jpYear < 2023", "ersetze": "t.jpYear < 2022" }
+  { "name": "Ohne Synchro: Grenze 2022", "datei": "pipeline/bau/synchro-belegt.ts", "suche": "t.jpYear < 2023", "ersetze": "t.jpYear < 2022" },
+  { "name": "Einzelquelle: Sammeleintrag zaehlt nicht", "datei": "pipeline/lib/belegstaerke.ts", "suche": " || (dubConfidence === 'low' && sammeleintrag.has(t.id))", "ersetze": "", "tests": ["npx tsx pipeline/check-belegstaerke-handbelegt.ts"] },
+  { "name": "Einzelquelle: jeder Titel zaehlt als Sammeleintrag", "datei": "pipeline/lib/belegstaerke.ts", "suche": "sammeleintrag.has(t.id)", "ersetze": "true", "tests": ["npx tsx pipeline/check-belegstaerke-handbelegt.ts"] },
+  { "name": "Einzelquelle: Stufe wird nicht verlangt", "datei": "pipeline/lib/belegstaerke.ts", "suche": "(dubConfidence === 'low' && sammeleintrag.has(t.id))", "ersetze": "sammeleintrag.has(t.id)", "tests": ["npx tsx pipeline/check-belegstaerke-handbelegt.ts"] },
+  { "name": "Einzelquelle: Sammeleintrag aus leerer Bruecke", "datei": "pipeline/lib/belegstaerke.ts", "suche": "sammeleintragTitel(anisearchBruecke(), titel.map((t) => t.id))", "ersetze": "sammeleintragTitel(new Map(), titel.map((t) => t.id))", "tests": ["npx tsx pipeline/check-belegstaerke-handbelegt.ts"] },
+  { "name": "Einzelquelle: Gruppe nur aus der Eingabe, nicht aus allen Kennungen", "datei": "pipeline/lib/belegstaerke.ts", "suche": "sammeleintragTitel(anisearchBruecke(), titel.map((t) => t.id))", "ersetze": "sammeleintragTitel(anisearchBruecke(), [])", "tests": ["npx tsx pipeline/check-belegstaerke-handbelegt.ts"] }
 ]
