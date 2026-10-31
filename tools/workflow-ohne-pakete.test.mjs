@@ -3,7 +3,7 @@
  * (delta-wache.yml -> delta-pruefen.mjs -> .ts-Kette -> js-yaml) und je ein Gegenfall pro Umgehungsweg.
  */
 import assert from 'node:assert/strict'
-import { spawnSync } from 'node:child_process'
+import { spawnMitLimit } from './kind-mit-limit.mjs'
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
@@ -118,7 +118,7 @@ assert.match(fehlt.fehler[0], /braucht \?/)
 for (const [dateien, exit] of [[yamlB, 1], [{}, 0]]) {
   const wurzel = kulisse({ ...sauber, ...dateien, '.github/workflows/w.yml': nurNode })
   try {
-    const r = spawnSync(process.execPath, [werkzeug, wurzel], { encoding: 'utf8', windowsHide: true })
+    const r = spawnMitLimit(process.execPath, [werkzeug, wurzel], { encoding: 'utf8', windowsHide: true })
     assert.equal(r.status, exit, r.stderr)
     if (exit) assert.match(r.stderr, /^FEHL w\.yml/m)
     else assert.match(r.stdout, /^workflow-ohne-pakete: ok \(1 Workflows/m)
