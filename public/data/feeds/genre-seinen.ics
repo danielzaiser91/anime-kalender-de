@@ -62,6 +62,18 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:the-vermilion-mask-crunchyroll-de-2026-10-31@2026-10-31@anime-kalender-
+ de
+DTSTAMP:20200101T000000Z
+DTSTART:20261031T093000Z
+DTEND:20261031T100000Z
+SUMMARY:The Vermilion Mask (neu bei Crunchyroll)
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Katalogtitel\nIm Angebot s
+ eit diesem Tag – nicht der Erscheinungstag der deutschen Fassung.\nDetai
+ ls: https://anime-kalender.de/t/16918/
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:aoashi-staffel-2-crunchyroll-de-2026-10-25@2026-11-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261101T090000Z

@@ -1,8 +1,8 @@
 {
   "stand": "2026-10-31",
   "deckung": {
-    "titel": 20670,
-    "mitSeite": 16328,
+    "titel": 20669,
+    "mitSeite": 16327,
     "ohneSeite": 8,
     "ohneAnisearchKennung": 3063,
     "ohneReferenz": 1271,
@@ -10,15 +10,15 @@
     "kanten": 18603
   },
   "gesamt": {
-    "titel": 16328,
-    "gleich": 13987,
+    "titel": 16327,
+    "gleich": 13986,
     "fehlen": 902,
     "zusaetzlich": 1322,
     "gemischt": 117
   },
   "hauptbestand": {
-    "titel": 2878,
-    "gleich": 2290,
+    "titel": 2877,
+    "gleich": 2289,
     "fehlen": 328,
     "zusaetzlich": 244,
     "gemischt": 16
@@ -31,8 +31,8 @@
     "gemischt": 110
   },
   "haelfteB": {
-    "titel": 8872,
-    "gleich": 7662,
+    "titel": 8871,
+    "gleich": 7661,
     "fehlen": 588,
     "zusaetzlich": 615,
     "gemischt": 7
