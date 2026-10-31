@@ -223,6 +223,7 @@ async function handlisteTmdb(schluessel: string, bestand: Record<string, Cartoon
   const suche = async (begriff: string) => {
     await sleep(60)
     const j = (await holeJson(`${TMDB}/search/tv?api_key=${schluessel}&language=de-DE&query=${encodeURIComponent(begriff)}`)) as { results?: TmdbSuchtreffer[] } | null
+    if (!j) log(`  Handliste: Suche fehlgeschlagen für „${begriff}“ (keine Antwort, kein echter Nicht-Treffer)`)
     return j?.results ?? []
   }
   const aufgeloest = await loeseHandliste(handlisteLaden(ROOT), bestandsTmdb, suche, log)

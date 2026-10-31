@@ -1,6 +1,6 @@
 # Wache — Bestand und Briefkasten
 
-**⚠ Auffälligkeit** · letzter Befund vom 30.10.2026 um 15:10 Uhr
+**⚠ Auffälligkeit** · letzter Befund vom 31.10.2026 um 14:39 Uhr
 
 Diese Zeile nennt den letzten **Befund**, nicht den letzten Lauf: Seit dem 26.09.2026 wird nur noch
 ein Befund committet (Daniel: „Behalten, still bei Ruhe"). Ob die Wache täglich läuft, steht in
@@ -20,33 +20,41 @@ komisch vorkam. Das soll ihm keiner mehr abverlangen.
 ## Bestand — die letzten 24 Stunden
 
 ```
+33 Läufe in den letzten 1 Tagen (1721 insgesamt)
 
+30.10., 14:47  Bestand — zusammenführ   verweise +1, mitUrteil +1, titelMitSynchro +1, releases +1, termine +1
+30.10., 16:09  Bestand — zusammenführ   mitUrteil +1, ohneUrteil -1, titelMitSynchro +1, releases +1, termine +12
+30.10., 23:25  Bestand — zusammenführ   termine +5
+31.10., 06:12  Bestand — zusammenführ   termine +3
+
+Stand jetzt: 2924 Titel, 2021 Urteile, 289 offen
+Über den Zeitraum: Titel 0, Urteile +2, offen -1
 ```
 
 ## Briefkasten
 
 ```
-Briefkasten: 3985 Meldungen auf 184 Adressen (primevideo 489, disneyplus 2261, netflix 1235)
+Briefkasten: 4305 Meldungen auf 266 Adressen (primevideo 639, disneyplus 2334, netflix 1332)
 Liste daniel-zum-abarbeiten/listen/11-meldungen-ohne-zuordnung.md: 366 Adressen
 Zurückgestellt (data/meldungen-zurueckgestellt.json): 0 Adressen im Briefkasten
-Alle Adressen sind gelistet.
+82 Adresse(n) noch nicht gelistet — Nachzügler, jünger als 24 Stunden.
 Übernahme: zuletzt 2026-10-28T16:20:46.343Z (data/meldungen-uebernahme.json)
-✓ refresh-hourly.yml: letzter Erfolg vor 0 h (Frist 5 h)
+✓ refresh-hourly.yml: letzter Erfolg vor 1 h (Frist 5 h)
 ✓ refresh-data.yml: letzter Erfolg vor 10 h (Frist 36 h)
-✓ refresh-weekly.yml: letzter Erfolg vor 105 h (Frist 216 h)
+✓ refresh-weekly.yml: letzter Erfolg vor 129 h (Frist 216 h)
 ✓ daten-auf-abruf.yml: letzter Erfolg vor 6 h (Frist 36 h)
 ✓ anisearch-katalog.yml: letzter Erfolg vor 8 h (Frist 36 h)
-✓ tonspuren-monatlich.yml: letzter Erfolg vor 178 h (Frist 840 h)
-✓ bestand-bauen.yml: letzter Erfolg vor 0 h (Frist 24 h)
+✓ tonspuren-monatlich.yml: letzter Erfolg vor 202 h (Frist 840 h)
+✗ bestand-bauen.yml: kein erfolgreicher Lauf unter den letzten 20
 ✓ d1-verbrauch.yml: letzter Erfolg vor 23 h (Frist 48 h)
 ✓ claude-anime2you-extraktion.yml: letzter Erfolg vor 2 h (Frist 48 h)
 ✓ claude-wache-urteil.yml: letzter Erfolg vor 5 h (Frist 48 h)
 ✓ claude-verpasst-recherche.yml: letzter Erfolg vor 3 h (Frist 48 h)
-✓ claude-daten-merge.yml: letzter Erfolg vor 0 h (Frist 48 h)
-✓ GITHUB_WECKER_TOKEN: letzter Start durch den Wecker vor 0 h
+✓ claude-daten-merge.yml: letzter Erfolg vor 1 h (Frist 48 h)
+✓ GITHUB_WECKER_TOKEN: letzter Start durch den Wecker vor 1 h
 ℹ Ablaufdatum unbekannt (gueltigBis leer): CLAUDE_CODE_OAUTH_TOKEN, LAUF_TOKEN, CR_ZUGANG, ANISEARCH_TOKEN, ANILIST_TOKEN, TMDB_API_KEY, YOUTUBE_API_KEY, STREAMING_API_KEY, SERPER_API_KEY, DATEN_APP_KEY, DISCORD_WEBHOOK, CLOUDFLARE_API_TOKEN, CLOUDFLARE_ANALYTICS_TOKEN, GITHUB_WECKER_TOKEN, MAIL_API_KEY, WEICHE_TOKEN — Daniel liest es einmal im Konto ab und trägt es ins Register ein.
 
-Zugänge unauffällig.
+1 Befund(e) bei den Zugängen.
 ```
 
 ## Von den Ableitungen verworfen
@@ -67,6 +75,7 @@ Die letzten 60 Läufe. Älteres hat seinen Zweck erfüllt.
 
 | Zeitpunkt | Titel / Urteile / offen | Veränderung | Befund |
 |---|---|---|---|
+| 31.10.2026 14:39 | 2924 / 2021 / 289 | Titel 0, Urteile +2, offen -1 | Auffälligkeit |
 | 30.10.2026 15:10 | — | — | Auffälligkeit |
 | 29.10.2026 15:21 | 2924 / 2016 / 291 | Titel 0, Urteile +16, offen +3 | 1 Urteile verloren; disneyplus: 1 Synchro-Belege weniger; 1 Titel ohne Synchro-Beleg; crunchyroll: 1 Synchro-Belege weniger |
 | 27.10.2026 14:13 | 2924 / 1999 / 286 | Titel +2, Urteile +2, offen -1 | 3 Titel weniger |

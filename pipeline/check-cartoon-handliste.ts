@@ -67,6 +67,13 @@ try {
   pruefe('Kennung aus dem Bestand gilt ohne Suche', ok.get(101) === 888 && !gesucht.includes('Schon da'))
   pruefe('ohne Treffer: nicht übernommen, Grund im Log', !ok.has(102) && meldungen.some((z) => z.includes('102') && z.includes('kein Treffer')), meldungen)
   pruefe('gefundener Treffer steht mit Begründung im Log', meldungen.some((z) => z.includes('887') && z.includes('TMDB 900887') && z.includes('stimmen')), meldungen)
+  pruefe('A1: gefunden-Zeile nennt Jahr und (fehlende) Folgenzahl', meldungen.some((z) => z.includes('887') && z.includes('Jahr/Folgen 2026/?')), meldungen)
+  const mf: string[] = []
+  await loeseHandliste([{ adn: 5, name: 'Mit' }], new Map(), async () => [{ ...treffer(77, 'Mit', 'Mit', '2011-05-01'), number_of_episodes: 52 }], (z) => mf.push(z))
+  pruefe('A1: Folgenzahl, wenn der Treffer sie trägt', mf.some((z) => z.includes('Jahr/Folgen 2011/52')), mf)
+  const mz: string[] = []
+  await loeseHandliste([{ adn: 6, name: 'Zwei' }], new Map(), async () => [{ ...treffer(78, 'Anders', 'Anders', '1999-01-01'), number_of_episodes: 10 }, { ...treffer(79, 'Zwei', 'Zwei', '2012-03-01'), number_of_episodes: 26 }], (z) => mz.push(z))
+  pruefe('A1: Jahr/Folgen stammen vom gewählten Treffer, nicht vom ersten', mz.some((z) => z.includes('TMDB 79') && z.includes('Jahr/Folgen 2012/26')), mz)
   const dopp = ohneDoppelte(new Map([[1, 50], [2, 50], [3, 60]]))
   pruefe('zwei Einträge, eine TMDB-Serie: beide raus', dopp.ok.size === 1 && dopp.ok.get(3) === 60 && dopp.doppelt.join() === '1,2', dopp.doppelt)
   const ml: string[] = []
