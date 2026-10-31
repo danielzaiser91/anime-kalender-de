@@ -25,6 +25,7 @@
 import { execFileSync } from 'node:child_process'
 import { erledigtArgumente, findeRotenLauf, holeLaeufe, holeVerlauf, letzteDatenAenderung, roteArten, stillstand, STILLSTAND_GRENZE_STUNDEN } from './laeufe-abruf.mjs'
 import { rotAlarmText } from './bestand-rot-alarm.mjs'
+import { git, meldeLiegt } from './liegegut.mjs'
 import { meldeRoteSammlerPrs } from './rote-sammler-prs.mjs'
 import { eskalationsText } from './wache-eskalation.mjs'
 import { wacheZeilen } from './wache-bilanz.mjs'
@@ -129,6 +130,7 @@ async function main() {
   const erledigt = erledigtArgumente(args)
   if (erledigt.fehler) return fehlerAbbruch(erledigt.fehler)
   meldeRoteSammlerPrs()
+  meldeLiegt((a) => gh(...a), git, console.log, Date.now())
   await stillstandMelden()
   const rotZeilen = rotAlarmText(gh, REPO, Date.now()).split('\n')
   for (const zeile of rotZeilen) if (zeile.startsWith('ALARM')) console.log(zeile)

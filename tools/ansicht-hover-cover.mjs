@@ -14,6 +14,7 @@
  */
 import { messeAnsichten } from './ansicht-hover-cover-zeilen.mjs'
 import { messeWeitere } from './ansicht-hover-weitere.mjs'
+import { verdeckung, zeileMittig } from './zeile-mittig.mjs'
 
 const FRIST_MIN_MS = 100
 const FRIST_MAX_MS = 600
@@ -58,12 +59,14 @@ async function messeMaus(seite, urls) {
   const anzahl = Math.min(await zeilen.count(), 8)
   for (let i = 0; i < anzahl; i++) {
     const zeile = zeilen.nth(i)
-    await zeile.scrollIntoViewIfNeeded()
+    await zeileMittig(zeile)
     await seite.mouse.move(2, 2)
     const vorher = urls.length
     const davor = await zeile.evaluate(lage)
-    const messung = seite.evaluate(beobachteVorschau)
     const box = await zeile.boundingBox()
+    const verdeckt = await verdeckung(zeile, box.x + Math.min(box.width / 2, 60), box.y + box.height / 2)
+    if (verdeckt) throw new Error(verdeckt)
+    const messung = seite.evaluate(beobachteVorschau)
     await seite.mouse.move(box.x + Math.min(box.width / 2, 60), box.y + box.height / 2)
     const m = await messung
     if (!m) continue
@@ -140,7 +143,7 @@ function listenerJeArt() {
 /** Zeigen und Verlassen: danach hängt nichts mehr am Fenster. */
 async function messeAufraeumen(seite) {
   const zeile = seite.locator(ZEILEN).first()
-  await zeile.scrollIntoViewIfNeeded()
+  await zeileMittig(zeile)
   await seite.mouse.move(2, 2)
   await seite.waitForTimeout(200)
   const vorher = await seite.evaluate(listenerJeArt)
@@ -156,7 +159,7 @@ async function messeAufraeumen(seite) {
 /** Ansicht wechseln, während die Frist läuft: ihr Timer muss mit der Zeile verschwinden (sonst läuft er auf ein totes Bauteil). */
 async function messeAnsichtWechsel(seite) {
   const zeile = seite.locator(ZEILEN).first()
-  await zeile.scrollIntoViewIfNeeded()
+  await zeileMittig(zeile)
   await seite.mouse.move(2, 2)
   await seite.waitForTimeout(200)
   const box = await zeile.boundingBox()
@@ -175,7 +178,7 @@ async function messeAnsichtWechsel(seite) {
 /** Rollen oder Fensterwechsel während der Frist: weder Karte noch Bildabruf. Zählt Karten und neue Bilder je Auslöser. */
 async function messeAbbruch(seite, urls) {
   const zeile = seite.locator(ZEILEN).first()
-  await zeile.scrollIntoViewIfNeeded()
+  await zeileMittig(zeile)
   const ergebnis = {}
   const ausloeser = {
     Rollen: () => document.dispatchEvent(new Event('scroll')),
