@@ -1,7 +1,7 @@
 /**
  * Zusicherung: **Der Haltepunkt im Bau (`AK_PHASE_ZUSTAND`) zeigt den Zustand einer Phase und beendet den Bau.**
  * Prozesstests: ein Mini-Bau im Wegwerf-Ordner ruft `pruefeSchalter` und `haltePunkt` wie `build.ts`; dazu das echte
- * `build.ts` mit falschem Schalter (endet vor dem Bau); dazu die Namen der `haltePunkt(…)`-Aufrufe in `build.ts` und
+ * `build.ts` mit falschem Schalter (endet vor dem Bau); dazu die Namen der `haltePunkt(…)`-Aufrufe in `bau/phasenfolge.ts` und
  * `09-synchro.ts` gegen die Liste `PHASEN` (Namen hier fest eingetragen, nicht aus dem Modul geholt).
  */
 import { spawnSync } from 'node:child_process'
@@ -77,7 +77,7 @@ try {
   pruefe('eine nicht numerische Kennung in der Liste genügt', gemischt.status === 1, gemischt)
   const echt = fahre(join(import.meta.dirname, 'build.ts'), { AK_PHASE_ZUSTAND: 'x' })
   pruefe('echtes build.ts: falscher Name endet mit Exit 1 vor dem Bau', echt.status === 1 && echt.stderr.includes('unbekannte Phase') && !echt.stdout.includes('[pipeline]'), echt)
-  const gefunden = [...aufrufe(join(import.meta.dirname, 'build.ts')), ...aufrufe(join(BAU, '09-synchro.ts'))]
+  const gefunden = [...aufrufe(join(BAU, 'phasenfolge.ts')), ...aufrufe(join(BAU, '09-synchro.ts'))]
   pruefe('jeder Name der Liste hat genau einen Aufruf, kein Aufruf ohne Namen in der Liste', [...gefunden].sort().join() === [...SOLL].sort().join() && [...PHASEN].sort().join() === [...SOLL].sort().join(), { gefunden, SOLL, PHASEN })
 } finally {
   rmSync(wurzel, { recursive: true, force: true })

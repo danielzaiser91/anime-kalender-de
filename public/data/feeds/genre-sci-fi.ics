@@ -8,26 +8,6 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-10-23#40@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261023T151000Z
-DTEND:20261023T154000Z
-SUMMARY:Dragon Ball
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-10-23#41@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261023T153500Z
-DTEND:20261023T160500Z
-SUMMARY:Dragon Ball
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-5027-tv-disney-channel@2026-10-25#13@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261025T135000Z
@@ -224,8 +204,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:auto-5027-tv-disney-channel@2026-11-01#17@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261101T142000Z
-DTEND:20261101T145000Z
+DTSTART:20261101T141500Z
+DTEND:20261101T144500Z
 SUMMARY:Yuna & Stitch
 DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/3342/
@@ -234,8 +214,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:auto-5027-tv-disney-channel@2026-11-01#18@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261101T145000Z
-DTEND:20261101T152000Z
+DTSTART:20261101T144500Z
+DTEND:20261101T151500Z
 SUMMARY:Yuna & Stitch
 DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/3342/
@@ -353,6 +333,26 @@ UID:auto-223-tv-prosieben-maxx@2026-11-05#59@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261105T163000Z
 DTEND:20261105T170000Z
+SUMMARY:Dragon Ball
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/193/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-223-tv-prosieben-maxx@2026-11-06#60@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261106T160500Z
+DTEND:20261106T163500Z
+SUMMARY:Dragon Ball
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/193/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-223-tv-prosieben-maxx@2026-11-06#61@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261106T163000Z
+DTEND:20261106T170000Z
 SUMMARY:Dragon Ball
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/

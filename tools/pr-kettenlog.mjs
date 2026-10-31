@@ -50,8 +50,11 @@ export const HINWEIS = 'HINWEIS: Alles unter dieser Zeile sind Ausgaben des PR-C
 const jobZeile = (j) => `- ${sauber(j.name)}: ${j.status === 'completed' ? j.conclusion || 'ohne Ergebnis' : `läuft noch (${j.status})`}`
 
 /** Kopf mit Aussage über den Lauf: abgeschlossen, unfertig oder gar nicht gefunden. */
-export function kopfZeilen({ kopf, lauf, jobs }) {
-  if (!lauf) return [`Kein abgeschlossener Kettenlauf für ${kopf}: nichts zu zitieren, "nicht beurteilt" ist richtig.`]
+export function kopfZeilen({ kopf, lauf, jobs, fehler = '' }) {
+  if (!lauf) {
+    const ursache = fehler ? [`Letzter Abruffehler (Ursache, kein Befund zum PR): ${fehler}`] : []
+    return [`Kein abgeschlossener Kettenlauf für ${kopf}: nichts zu zitieren, "nicht beurteilt" ist richtig.`, ...ursache]
+  }
   const offen = jobs.filter((j) => j.status !== 'completed')
   const z = [`Lauf ${lauf.id} der PR-Prüfkette für ${kopf}: ${lauf.status === 'completed' ? `abgeschlossen (${lauf.conclusion})` : `NOCH NICHT ABGESCHLOSSEN (${lauf.status})`}`]
   if (offen.length) z.push(`${offen.length} Job(s) liefen beim Abruf noch; ihre Zeilen fehlen hier, "nicht beurteilt" gilt für sie.`)
@@ -59,8 +62,8 @@ export function kopfZeilen({ kopf, lauf, jobs }) {
 }
 
 /** Beide Dateitexte aus Kopfdaten und den Logs der abgeschlossenen Jobs ({ name, status, conclusion, log }). */
-export function baueDateien({ kopf, lauf, jobs }) {
-  const kopfz = [HINWEIS, ...kopfZeilen({ kopf, lauf, jobs })]
+export function baueDateien({ kopf, lauf, jobs, fehler = '' }) {
+  const kopfz = [HINWEIS, ...kopfZeilen({ kopf, lauf, jobs, fehler })]
   const uebersicht = [...kopfz]
   const voll = [...kopfz]
   for (const j of jobs) {
@@ -75,16 +78,19 @@ export function baueDateien({ kopf, lauf, jobs }) {
 /** Wartet im Takt bis der Lauf abgeschlossen ist oder die Frist abläuft; liefert { lauf, jobs } wie zuletzt gesehen. */
 export async function ermittleLauf({ holeLauf, holeJobs, warte, jetzt, frist, takt = TAKT_MS }) {
   const ende = jetzt() + frist
+  let fehler = ''
   for (;;) {
     let lauf = null
     let jobs = []
+    fehler = ''
     try {
       lauf = holeLauf()
       if (lauf) jobs = holeJobs(lauf.id)
-    } catch {
+    } catch (e) {
       lauf = null
+      fehler = sauber(e?.message ?? e)
     }
-    if ((lauf && lauf.status === 'completed') || jetzt() + takt > ende) return { lauf, jobs }
+    if ((lauf && lauf.status === 'completed') || jetzt() + takt > ende) return { lauf, jobs, fehler }
     await warte(takt)
   }
 }
@@ -158,7 +164,7 @@ export function diagnosezeile(jobs) {
 
 /** Holt Lauf und Logs (mit Wartefrist in ms) und schreibt beide Dateien in `ordner`; gibt die Statuszeile zurück. */
 export async function schreibeKettenlog({ repo, sha, ordner, frist, gh, warte, jetzt }) {
-  const { lauf, jobs } = await ermittleLauf({
+  const { lauf, jobs, fehler } = await ermittleLauf({
     holeLauf: () => holeLauf(repo, sha, gh),
     holeJobs: (id) => holeJobs(repo, id, gh),
     warte,
@@ -166,11 +172,11 @@ export async function schreibeKettenlog({ repo, sha, ordner, frist, gh, warte, j
     frist,
   })
   const mitLog = lauf ? await mitLogs(repo, jobs, gh, warte) : []
-  const { uebersicht, voll } = baueDateien({ kopf: sha, lauf, jobs: mitLog })
+  const { uebersicht, voll } = baueDateien({ kopf: sha, lauf, jobs: mitLog, fehler })
   fs.mkdirSync(ordner, { recursive: true })
   fs.writeFileSync(path.join(ordner, 'kettenlog.txt'), uebersicht)
   fs.writeFileSync(path.join(ordner, 'kettenlog-voll.txt'), voll)
-  return `Kettenlog ${sha.slice(0, 9)}: ${lauf ? `Lauf ${lauf.id} (${lauf.status})` : 'kein Lauf'}, ${uebersicht.split('\n').length} Übersichtszeilen, ${voll.split('\n').length} Zeilen gesamt${diagnosezeile(mitLog)}`
+  return `Kettenlog ${sha.slice(0, 9)}: ${lauf ? `Lauf ${lauf.id} (${lauf.status})` : `kein Lauf${fehler ? ` (Abruffehler: ${fehler})` : ''}`},${uebersicht.split('\n').length} Übersichtszeilen, ${voll.split('\n').length} Zeilen gesamt${diagnosezeile(mitLog)}`
 }
 
 async function main() {

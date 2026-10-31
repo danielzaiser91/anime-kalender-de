@@ -158,6 +158,9 @@ pipeline/check-folgen-datum.ts
 pipeline/check-folgen-erschienen-je-weg.ts
 pipeline/check-folgen-fremde-adressen-lauf.ts
 pipeline/check-folgen-fremde-adressen.ts
+pipeline/check-folgen-nummern-bau.ts
+pipeline/check-folgen-nummern-lauf.ts
+pipeline/check-folgen-nummern.ts
 pipeline/check-folgenblock.ts
 pipeline/check-folgenflaggen.ts
 pipeline/check-folgenzahl-belegt.ts
@@ -213,6 +216,7 @@ pipeline/check-kino-zuletzt.ts
 pipeline/check-kopf-menue.ts
 pipeline/check-kopfzeile-premiere.ts
 pipeline/check-laut-gleich.ts
+pipeline/check-leere-liste.ts
 pipeline/check-leerer-kasten.ts
 pipeline/check-leerzeichen-gleich.ts
 pipeline/check-leinwand-escape.ts
@@ -270,6 +274,7 @@ pipeline/check-patchnotes-titel-ablauf.ts
 pipeline/check-patchnotes-titel.ts
 pipeline/check-patchnotes.ts
 pipeline/check-phasen-zustand.ts
+pipeline/check-phasenfolge.ts
 pipeline/check-pille-nur-untertitel.ts
 pipeline/check-poster-karte-saal.ts
 pipeline/check-premiere.ts
@@ -342,6 +347,7 @@ pipeline/check-synchro-termin-offen.ts
 pipeline/check-takt.ts
 pipeline/check-telekom-annahme.ts
 pipeline/check-telekom-pille.ts
+pipeline/check-termin-offen-karte.ts
 pipeline/check-termin-pille.ts
 pipeline/check-termine-observed-lauf.ts
 pipeline/check-termine-uebersicht.ts

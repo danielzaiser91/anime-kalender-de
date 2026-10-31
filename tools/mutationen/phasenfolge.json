@@ -1,0 +1,87 @@
+[
+  { "name": "Kontrolle", "aenderungen": [] },
+  {
+    "name": "Phase 05: Bilanzaufruf aus",
+    "datei": "pipeline/bau/phasenfolge.ts",
+    "suche": "  meldeBilanz({ phase: '05-releases'",
+    "ersetze": "  0 && meldeBilanz({ phase: '05-releases'"
+  },
+  {
+    "name": "Phase 10: Bilanzaufruf aus",
+    "datei": "pipeline/bau/phasenfolge.ts",
+    "suche": "  meldeBilanz({ phase: '10-komplettabwurf'",
+    "ersetze": "  0 && meldeBilanz({ phase: '10-komplettabwurf'"
+  },
+  {
+    "name": "Phase 10 gibt keine Termine zurück (releases leer an die Terminphase)",
+    "datei": "pipeline/bau/phasenfolge.ts",
+    "suche": "rolleTermineAusMitKomplettabwurf({ releases, titles, jpStart })",
+    "ersetze": "rolleTermineAusMitKomplettabwurf({ releases: [], titles, jpStart })"
+  },
+  {
+    "name": "Phase 05 gibt keine Releases zurück (curated leer an baueReleases)",
+    "datei": "pipeline/bau/phasenfolge.ts",
+    "suche": "  const { usedCrKeys, seenSlugs, releases, unverified } = baueReleases({\n    curated,",
+    "ersetze": "  const { usedCrKeys, seenSlugs, releases, unverified } = baueReleases({\n    curated: [],"
+  },
+  {
+    "name": "Bilanz 05 zählt Titel falsch (0)",
+    "datei": "pipeline/bau/phasenfolge.ts",
+    "suche": "phase: '05-releases', titel: titles.size,",
+    "ersetze": "phase: '05-releases', titel: 0,"
+  },
+  {
+    "name": "Bilanz 10 zählt Termine als 0",
+    "datei": "pipeline/bau/phasenfolge.ts",
+    "suche": "events: events.length, kuratiert",
+    "ersetze": "events: 0, kuratiert"
+  },
+  {
+    "name": "Bilanz 05 kuratiert als 0",
+    "datei": "pipeline/bau/phasenfolge.ts",
+    "suche": "releases: releases.length, kuratiert: curated.length })\n  ergaenzeCrReleases",
+    "ersetze": "releases: releases.length, kuratiert: 0 })\n  ergaenzeCrReleases"
+  },
+  {
+    "name": "bilanzFehler: keine Titel ignoriert",
+    "datei": "pipeline/bau/phasen-bilanz.ts",
+    "suche": "if (b.titel === 0) return",
+    "ersetze": "if (false) return"
+  },
+  {
+    "name": "bilanzFehler: Schwelle kuratiert > 1",
+    "datei": "pipeline/bau/phasen-bilanz.ts",
+    "suche": "b.kuratiert > 0 &&",
+    "ersetze": "b.kuratiert > 1 &&"
+  },
+  {
+    "name": "bilanzFehler: Schwelle releases > 1",
+    "datei": "pipeline/bau/phasen-bilanz.ts",
+    "suche": "b.releases > 0 && b.events === 0",
+    "ersetze": "b.releases > 1 && b.events === 0"
+  },
+  {
+    "name": "bilanzFehler: undefined-Termine zählen als leer",
+    "datei": "pipeline/bau/phasen-bilanz.ts",
+    "suche": "b.events === 0) return `${b.releases} Releases",
+    "ersetze": "!b.events) return `${b.releases} Releases"
+  },
+  {
+    "name": "meldeBilanz wirft nicht",
+    "datei": "pipeline/bau/phasen-bilanz.ts",
+    "suche": "if (fehler) throw",
+    "ersetze": "if (false) throw"
+  },
+  {
+    "name": "meldeBilanz druckt nicht",
+    "datei": "pipeline/bau/phasen-bilanz.ts",
+    "suche": "  log(bilanzZeile(b))\n",
+    "ersetze": ""
+  },
+  {
+    "name": "bilanzZeile: Strich fehlt",
+    "datei": "pipeline/bau/phasen-bilanz.ts",
+    "suche": "b.events ?? '-'",
+    "ersetze": "b.events ?? 0"
+  }
+]

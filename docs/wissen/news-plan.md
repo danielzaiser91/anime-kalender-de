@@ -124,7 +124,7 @@ Der Kalender-Beleg (Schritt 5) zeigt den Nachher-Stand: „wir sahen nichts“. 
 
 Bericht: `daniel-zum-abarbeiten/berichte/rezero-doppelfolge-2026-10-16.md`. Behoben in `fix/rezero-news`:
 - **Folgen-Meldung an der falschen Staffel:** Teilen Staffeln eine Crunchyroll-Kennung, wählt `waehleStaffel()` (`pipeline/lib/news-cr-zuordnung.ts`) die Staffel mit einem Crunchyroll-Release dieser Kennung, das am Tag lief und die Folgennummern abdeckt (jüngste zuerst); sonst der erste Titel wie vorher.
-- **Ausfall-Vermerke bei Auto-Simuldubs:** `ergaenzeVerpasstAnReleases()` (nach Phase 06 in `build.ts`) hängt `schedule.verpasst` an jedes Release ohne Vermerke.
+- **Ausfall-Vermerke bei Auto-Simuldubs:** `ergaenzeVerpasstAnReleases()` (nach Phase 06 in `bau/phasenfolge.ts`) hängt `schedule.verpasst` an jedes Release ohne Vermerke.
 - **Obergrenze 400:** `bleibtTrotzObergrenze()` (`news-obergrenze.ts`) nimmt Folgen-/Verspätungs-/Nachreich-Einträge der letzten 56 Tage und offizielle Meldungen von der Kappung aus (Name seit der Umbenennung `behalteEintrag`; dazu frische Ankündigungen, siehe „Angekündigte Simulcasts ohne Starttag“).
 - Fortschreibung F16–F19 war schon `estimated`; der Hinweis „Takt unklar“ gehört zur geplanten Art `takt` (Phase 2, nicht gebaut).
 - **Runde 2 (16.10.2026):** `news.json` hat eine harte Gesamtgrenze von 440 Einträgen (`GESAMT_HOECHSTENS`, offizielle ausgenommen). Der Tag einer Crunchyroll-Folge ist der Berliner Tag von `verfuegbarAb` (nicht der UTC-Tag). Ein `neuErwartet`, hinter dem eine gleiche oder frühere Folge beobachtet wurde, zählt nicht mehr als Stützpunkt (`shared/logic.ts`); der Re:ZERO-Vermerk F16 (4p.de meinte Folge 14) ist berichtigt.

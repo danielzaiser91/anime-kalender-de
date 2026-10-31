@@ -17,6 +17,8 @@ export const NACHTRAG = /^\s*(\*\*|#+ *)?(Nachtrag|Nachbesserung)/i
 // Frühere Prüferrunden: Agent-Kommentare „Prüfer Runde N“ und das CI-Protokoll (Bot), damit der Prüfer seine Auflagen einlösen kann.
 export const PRUEFER_RUNDE = /^\s*(\*\*|#+ *)?Prüfer Runde/i
 const CI_PROTOKOLL = /\*\*Prüfer-Review\*\* für/
+// Ergebniskommentar von mutationsprobe.yml (Bot): der Prüfer verlangt es als Beleg und sah es nicht (PR 2460, 30.10.2026).
+export const MUTATIONSPROBE = /^## Mutationsprobe für /
 const CI_BOT = 'github-actions[bot]'
 const MAX_PRUEFER = 6000
 const AUTOR = /^[A-Za-z0-9][A-Za-z0-9-]*(\[bot\])?$/
@@ -31,7 +33,8 @@ const MAX_DATEIEN = 300
 /** Kommentare der GitHub-API -> Texte der Nachträge von Autor und Repo-Berechtigten, in Reihenfolge. */
 export function waehleNachtraege(kommentare, autor) {
   const zaehlt = (k) => k.user?.login === autor || VERTRAUT.has(k.author_association)
-  const runde = (k) => (zaehlt(k) && PRUEFER_RUNDE.test(k.body ?? '')) || (k.user?.login === CI_BOT && CI_PROTOKOLL.test(k.body ?? ''))
+  const botText = (k) => CI_PROTOKOLL.test(k.body ?? '') || MUTATIONSPROBE.test(k.body ?? '')
+  const runde = (k) => (zaehlt(k) && PRUEFER_RUNDE.test(k.body ?? '')) || (k.user?.login === CI_BOT && botText(k))
   const nachtrag = (k) => zaehlt(k) && NACHTRAG.test(k.body ?? '')
   const text = (k) => (nachtrag(k) ? k.body : k.body.slice(0, MAX_PRUEFER))
   return kommentare.filter((k) => nachtrag(k) || runde(k)).map(text)
