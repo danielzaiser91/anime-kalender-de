@@ -2812,6 +2812,15 @@ das Kanal-Angebot (`es, it, ja`) nie hatte. `kanal-gegenprobe.ts` wirft Klammerz
 jemand die Sprache geprüft hatte. Einen Weg belegt man in `verweise-von-hand.yaml` (`belegtAm`),
 ein Urteil in `dub-confirmed.yaml` — nie beides in einem urteilslosen Handbeleg.
 
+## „maxdome (über TMDB)" bei nummerierten Filmkapiteln führt zum falschen Kapitel (31.10.2026)
+
+- Anlass (Daniel): Crown Handler 3 zeigte maxdome und freenet meinVOD „über TMDB"; der Klick landete beim Shop-Eintrag von Chapter 2. maxdome führt nur Chapter 1 und 2.
+- Ursache: TMDB nennt für alle drei Kapitel dieselbe Anbieterliste (`data/tmdb-titles.json`, `offers`), JustWatch hängt das eine Shop-Angebot an jedes Kapitel. Unser Weg ist nur die TMDB-Übersichtsseite (`03-reihen.ts`); wohin ihr Klick läuft, sehen wir nicht (robots.txt), also lässt sich die Nummer nicht abgleichen. maxdome und freenet sind dieselbe Plattform (Kennungen `mo4518…`), ein Fehler trifft beide.
+- Klasse (Bestand 31.10.2026, `public/data/titles.json`): 94 „über TMDB"-Wege bei 73 Titeln, davon 11 Telekom-Shop-Wege (maxdome, freenet) bei 6 Titeln; nummerierte Filmkapitel: 8 Wege bei 4 Titeln (Code Geass Akito 4 und 5, Crown Handler 1 und 3). Direkte maxdome-/freenet-Adressen mit abweichender Nummer im Slug: 0; dieselbe Adresse an mehreren Titeln: 3 (Ghost in the Shell, Grisaia, Realist Hero, jeweils Serie und Ableger).
+- Regel: `pipeline/lib/kapitel-shop-wege.ts` verwirft Telekom-Shop-Wege (maxdome, freenet meinVOD, Videoload, MagentaTV) „über TMDB" bei Filmen, deren Name oder TMDB-Kürzel eine Kapitelnummer trägt, und zählt sie im Bau-Log. Direkte Adressen (JustWatch, `data/watch-links.yaml`) bleiben; Crown Handler 1 und 2 tragen sie von Hand.
+- Wächter: `pipeline/check-kapitel-shop-wege.ts` (check:logic) mit den echten Fällen; am Ende von `schliesseWegeAb` bricht `sichereKapitelShopWege` den Bau ab, falls ein späterer Schritt den Weg wieder anlegt.
+- Lehre: Eine Anbieterliste, die TMDB für eine Filmreihe einheitlich liefert, ist keine Aussage über das einzelne Kapitel. Ein Umweg, dessen Ziel wir nicht lesen dürfen, braucht einen Nummernabgleich im Namen oder entfällt.
+
 ## Joyn: nicht selbst auslesen — JustWatch liefert die Adressen (22.09.2026)
 
 Anlass: Daniel fand Dragon Ball Super kostenlos bei Joyn (ProSieben-MAXX-Folgen 108–127 seit
