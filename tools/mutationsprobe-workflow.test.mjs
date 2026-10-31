@@ -4,7 +4,7 @@
  * Kommentar mit gefälschtem `gh` (Aufruf und Fall ohne Ergebnis).
  */
 import assert from 'node:assert/strict'
-import { spawnSync } from 'node:child_process'
+import { spawnMitLimit } from './kind-mit-limit.mjs'
 import { chmodSync, copyFileSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
@@ -39,7 +39,7 @@ for (const job of [mutation, kommentar]) {
 // Laufzeit
 const dir = mkdtempSync(join(tmpdir(), 'mutprobe-'))
 const bash = (script, env, cwd) =>
-  spawnSync('bash', ['-c', script], { cwd, env: { ...process.env, ...env }, encoding: 'utf8', windowsHide: true })
+  spawnMitLimit('bash', ['-c', script], { cwd, env: { ...process.env, ...env }, encoding: 'utf8', windowsHide: true })
 try {
   const pruefen = schritt(mutation, 'Eingaben prüfen').run
   const gut = { PR: '12', TIMEOUT: '300', LISTE: 'tools/mutationen/x.json' }

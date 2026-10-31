@@ -2,7 +2,7 @@
  * Kindprozess mit Zeitlimit für die Wachphase: ein hängender `gh`/`git` (Netz, Auth-Abfrage) darf die Wache nicht
  * blockieren, bevor eine ALARM-Zeile kommt. Bei Überschreitung wirft der Aufruf eine Meldung „FEHLER: …“.
  */
-import { execFileSync } from 'node:child_process'
+import { execFileSync, spawnSync } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
 
 // Gemessen 30.10.2026 (je 3 Läufe): `gh run list --limit 200` 4,2–4,7 s, ganze Wachphase 14–16 s,
@@ -21,6 +21,9 @@ export const LIMIT_STAPEL_MS = ueberschrieben || 30_000
 // Kindskripte des Wachen-Dossiers (wache-urteil-dossier): gemessen 30.10.2026 wache-woechentlich --trocken 15,0 s, zugangs-waechter 17,1 s;
 // 90 s = gut das Fünffache des größten Werts (Job claude-wache-urteil hat 30 min, fünf Skripte hintereinander ≤ 450 s).
 export const LIMIT_SKRIPT_MS = ueberschrieben || 90_000
+// Tests (spawnMitLimit): gemessen 31.10.2026 pr-pruefer-ablauf (acht Bash-Schritte mit gh-Attrappe) 25 s gesamt, größter Einzelschritt unter 10 s;
+// 120 s = mehr als das Zehnfache. Ein Hänger (Attrappe kennt einen Aufruf nicht, Bash wartet auf Eingabe) endet damit nach 2 min statt der Kettenfrist.
+export const LIMIT_TEST_MS = 120_000
 
 /** `ausfuehren` ist einspeisbar (Test mit hängendem Ersatzbefehl); Rückgabe wie `execFileSync`. */
 export function mitLimit(befehl, args, optionen = {}, { limitMs = LIMIT_EINZEL_MS, ausfuehren = execFileSync } = {}) {
@@ -31,6 +34,30 @@ export function mitLimit(befehl, args, optionen = {}, { limitMs = LIMIT_EINZEL_M
     const was = [befehl, ...args.slice(0, 2)].join(' ')
     throw new Error(`FEHLER: ${was} nach ${Math.round(limitMs / 1000)} s abgebrochen`)
   }
+}
+
+/**
+ * `spawnSync` für Tests mit Frist (Standard `LIMIT_TEST_MS`, 0 = keine): ein Hänger wirft „FEHLER: … hing länger als N s“
+ * (sonst käme still `status: null` zurück). `ausfuehren` und `beendeGruppe` sind einspeisbar.
+ * Prozessbaum: Unter Linux (CI) läuft das Kind als eigener Gruppenführer (`detached`), bei Fristablauf wird die ganze Gruppe
+ * beendet. Unter Windows gibt es das nicht: gemessen 31.10.2026 kehrt der Aufruf pünktlich zurück (2,0 s bei 2 s Frist),
+ * aber Enkelprozesse (`bash -c "sleep 25 & sleep 25"`) laufen bis zu ihrem eigenen Ende weiter.
+ */
+export function spawnMitLimit(befehl, args, optionen = {}, { limitMs = LIMIT_TEST_MS, ausfuehren = spawnSync, beendeGruppe = (pid) => process.kill(-pid, 'SIGKILL') } = {}) {
+  const gruppe = process.platform !== 'win32' && limitMs > 0
+  const ergebnis = ausfuehren(befehl, args, { ...optionen, windowsHide: true, ...(limitMs ? { timeout: limitMs } : {}), ...(gruppe ? { detached: true } : {}) })
+  if (ergebnis.error?.code === 'ETIMEDOUT') {
+    if (gruppe && ergebnis.pid) {
+      try {
+        beendeGruppe(ergebnis.pid)
+      } catch (fehler) {
+        if (fehler.code !== 'ESRCH') throw fehler
+      }
+    }
+    const was = [befehl, ...args.slice(0, 2)].join(' ')
+    throw new Error(`FEHLER: ${was} hing länger als ${Math.round(limitMs / 1000)} s`)
+  }
+  return ergebnis
 }
 
 /** Alle gh-Aufrufe einer Liste parallel in einem Kindprozess (`tools/gh-stapel.mjs`); `ausfuehren` ist einspeisbar. */
