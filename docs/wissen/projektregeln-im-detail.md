@@ -49,9 +49,8 @@ Dieses Projekt lebt davon, dass die Termine stimmen. Deshalb gilt ausnahmslos:
   Fenster, vollständige Angaben, ein Datum nicht vor der ersten Folge und nicht in der Zukunft und das
   `timeEstimated`, das die Fensterbreite vorgibt; das Bau-Log hat die Zeile „N Regeltermin aus Sichtung: …".
   **Jede kuratierte `time` + `timeEstimated` braucht eine benannte Ausnahme:** `timeSighting` oder einen
-  Eintrag in `FESTGELEGTE_ZEITEN` (Altfall Avatar 11:00, Paramount+: Daniel sah F4–6 um 11:42 schon da,
-  Fenster fehlt, Befund offen, 23.10. ohne Sichtung; Frist `bis` 02.11.2026 (nach den Folgen vom 30.10.): danach Fehler in PR-CI und lokal,
-  im Deploy nur Warnung auf der Konsole, damit er nicht an der Frist stirbt).
+  Eintrag in `FESTGELEGTE_ZEITEN` (seit 31.10.2026 leer: Altfall Avatar 11:00 entfernt, alle Folgen erschienen; ein Eintrag hat
+  eine Frist `bis`, danach Fehler in PR-CI und lokal, im Deploy nur Warnung auf der Konsole, damit er nicht an der Frist stirbt).
 - **Abgeleitetes kennzeichnen.** Datum aus dem Simulcast-Start übernommen statt aus einer
   Dub-Ankündigung? Dann `estimated: true`. Folgenzahl geraten? Setzt die Pipeline selbst als
   `episodeCountAssumed`. Beides erscheint im UI als `≈`.

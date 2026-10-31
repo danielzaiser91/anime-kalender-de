@@ -9,12 +9,8 @@ import '../../shared/sichtung.ts'
 export const BELEGT_UNTER_MINUTEN = 60
 
 /** Benannte Altausnahmen: festgelegte Uhrzeit (`time` + `timeEstimated`) ohne Sichtung, Slug → Beleg und letzter Gültigkeitstag. */
-export const FESTGELEGTE_ZEITEN: Record<string, { beleg: string; bis: string }> = {
-  'avatar-die-sieben-haefen-paramountplus': {
-    beleg: 'Daniel sah F4–6 am 16.10.2026 um 11:42 schon da und legte 11:00 fest; Fenster fehlt; 23.10. ohne Sichtung, am 24.10.2026 bis nach den Folgen vom 30.10. verlängert',
-    bis: '2026-11-02',
-  },
-}
+export type Ausnahmen = Record<string, { beleg: string; bis: string }>
+export const FESTGELEGTE_ZEITEN: Ausnahmen = {}
 
 const HHMM = /^([01]\d|2[0-3]):[0-5]\d$/
 const ISO = /^\d{4}-\d{2}-\d{2}$/
@@ -22,8 +18,8 @@ const ISO = /^\d{4}-\d{2}-\d{2}$/
 const minuten = (z: string): number => Number(z.slice(0, 2)) * 60 + Number(z.slice(3))
 
 /** Ausnahme abgelaufen: `bis` liegt vor `heute` (ISO). */
-export const ausnahmeAbgelaufen = (slug: string, heute: string): boolean => {
-  const a = FESTGELEGTE_ZEITEN[slug]
+export const ausnahmeAbgelaufen = (slug: string, heute: string, ausnahmen: Ausnahmen = FESTGELEGTE_ZEITEN): boolean => {
+  const a = ausnahmen[slug]
   return a !== undefined && heute > a.bis
 }
 
@@ -32,12 +28,12 @@ export const fristStrengIn = (env: Record<string, string | undefined>): boolean 
   !env.GITHUB_ACTIONS || env.GITHUB_EVENT_NAME === 'pull_request'
 
 /** Alle Fehler rund um die Uhrzeit eines kuratierten Zeitplans (Format, festgelegte Zeit, Sichtung); `heute` ISO. */
-export function zeitFehler(s: Schedule, heute: string, slug: string, fristStreng = true): string[] {
+export function zeitFehler(s: Schedule, heute: string, slug: string, fristStreng = true, ausnahmen: Ausnahmen = FESTGELEGTE_ZEITEN): string[] {
   const format = s.time && !/^\d{2}:\d{2}$/.test(s.time) ? [`time "${s.time}" ist nicht HH:MM`] : []
-  const festgelegt = s.time && s.timeEstimated && !s.timeSighting && !FESTGELEGTE_ZEITEN[slug]
+  const festgelegt = s.time && s.timeEstimated && !s.timeSighting && !ausnahmen[slug]
   const ohneAusnahme = festgelegt ? ['time + timeEstimated ohne benannte Ausnahme (timeSighting oder FESTGELEGTE_ZEITEN)'] : []
-  const abgelaufen = fristStreng && s.time && s.timeEstimated && !s.timeSighting && ausnahmeAbgelaufen(slug, heute)
-  const frist = abgelaufen ? [`Ausnahme FESTGELEGTE_ZEITEN ist seit ${FESTGELEGTE_ZEITEN[slug]!.bis} abgelaufen: Zeit messen und als timeSighting eintragen`] : []
+  const abgelaufen = fristStreng && s.time && s.timeEstimated && !s.timeSighting && ausnahmeAbgelaufen(slug, heute, ausnahmen)
+  const frist = abgelaufen ? [`Ausnahme FESTGELEGTE_ZEITEN ist seit ${ausnahmen[slug]!.bis} abgelaufen: Zeit messen und als timeSighting eintragen`] : []
   return [...format, ...ohneAusnahme, ...frist, ...sichtungsFehler(s, heute)]
 }
 
