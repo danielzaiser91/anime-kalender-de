@@ -8,16 +8,12 @@
     "anzahl": 5
   },
   "https://www.disneyplus.com/browse/entity-cdb8e29b-7fb0-4142-9966-3b1125246df0": {
-    "am": "2026-10-23",
-    "anzahl": 4
+    "am": "2026-10-31",
+    "anzahl": 5
   },
   "https://www.disneyplus.com/browse/entity-1b84d641-1bb3-422d-be4c-8e24c7b547cc": {
     "am": "2026-10-29",
     "anzahl": 5
-  },
-  "https://www.disneyplus.com/de-de/browse/entity-71bcb11f-763c-4609-8965-540eaf7fa795": {
-    "am": "2026-10-23",
-    "anzahl": 4
   },
   "https://www.disneyplus.com/de-de/browse/entity-cfb90125-8678-4327-a1b8-e608f293eccd": {
     "am": "2026-10-24",
@@ -61,6 +57,10 @@
   },
   "https://www.crunchyroll.com/de/news/seasonal-lineup/2026/9/15/crunchyroll-anime-lineup-herbst-2026": {
     "am": "2026-10-27",
+    "anzahl": 1
+  },
+  "https://www.crunchyroll.com/de/news/seasonal-lineup/2026/9/15/crunchyroll-deutsche-synchros-herbst-2026": {
+    "am": "2026-10-31",
     "anzahl": 1
   }
 }
