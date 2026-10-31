@@ -1,12 +1,12 @@
 {
-  "scrapedAt": "2026-10-31T18:02:31.810Z",
+  "scrapedAt": "2026-10-31T20:02:20.335Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 11,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 11,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 10,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 3,
     "schon in einem Rubrik-Feed gelesen": 8,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 2,
     "Sprachhinweis älter als 45 Tage": 4
   },
   "proposals": [
@@ -74,7 +74,7 @@
       "alreadyCurated": false
     },
     {
-      "articleTitle": "ProSieben MAXX wiederholt zweite »The Eminence in Shadow«-Staffel",
+      "articleTitle": "ProSieben MAXX wiederholt zweite »Eminence in Shadow«-Staffel",
       "articleUrl": "https://www.anime2you.de/news/1066006/prosieben-maxx-eminence-in-shadow-staffel-2-wiederholung/",
       "publishedAt": "2026-10-31",
       "category": "allgemein",
@@ -86,7 +86,7 @@
         },
         {
           "iso": "2026-12-04",
-          "context": "ember 2026 um 23:20 Uhr mit den ersten fünf Episoden am Stück. Ab dem 4. Dezember 2026 […] Der Beitrag ProSieben MAXX wiederholt zweite »T"
+          "context": "ember 2026 um 23:20 Uhr mit den ersten fünf Episoden am Stück. Ab dem 4. Dezember 2026 […] Der Beitrag ProSieben MAXX wiederholt zweite »E"
         },
         {
           "month": "2026-11",
