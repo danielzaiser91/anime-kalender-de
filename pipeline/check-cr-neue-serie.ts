@@ -12,7 +12,8 @@ import { mkdirSync, mkdtempSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { neueSerienZeilen, ordneNeueSerienZu, type NeueSerienFolge } from './lib/cr-neue-serie.ts'
+import { alleTermine } from './lib/crunchyroll-termine.ts'
+import { neueSerienZeilen, ordneNeueSerienZu, seitenAusNeuenFolgen, type NeueSerienFolge } from './lib/cr-neue-serie.ts'
 
 const SERIE_RAY = { url: 'https://www.crunchyroll.com/de/series/GT00383994', seriesId: 'GT00383994', quelle: 'api', katalog: 'de', geprueftAm: '2026-10-28', deutschImAngebot: true, staffeln: [{ name: 'Staffel 1', folgen: 1, deutsch: 1, kacheln: 1, fremd: 0, deutscheFolgen: [{ nummer: 1, laufend: 1, guid: 'GE00385869DEDE', verfuegbarAb: '2026-10-28T15:15:00.000Z' }] }] }
 const URL_RAY = 'https://www.crunchyroll.com/de/series/GT00383994'
@@ -113,12 +114,24 @@ function direkt(): void {
   pruefe('Leere Eingabe: keine Zeilen', neueSerienZeilen(lauf([], [rayearth()]).aus).length === 0)
 }
 
+/** Seiten aus den Katalogfolgen: Termin der Folge 1 vor dem ersten Lauf des Dub-Sammlers (Vermilion Mask, 31.10.2026). */
+function seitenFaelle(): void {
+  const seiteZu = (gelesen: string[], folgen = [FOLGE]) => seitenAusNeuenFolgen({ folgen, zugeordnet: [{ serieId: 'GT00383994', titelId: 178868 }], gelesen: new Set(gelesen) })
+  const seiten = seiteZu([])
+  const titel = { ...rayearth(), episodes: 1, streams: [{ platform: 'crunchyroll', url: URL_RAY, dub: true }] }
+  const termine = alleTermine(seiten, new Map([[URL_RAY, [titel as never]]]), Date.parse('2026-10-29T12:00:00Z'))
+  pruefe('Seite aus den Katalogfolgen: Termin am Tag der Folge 1 (Berlin) mit Beobachtung', seiten[0]?.url === URL_RAY && termine.length === 1 && termine[0]!.firstEpisodeDate === '2026-10-28' && termine[0]!.beobachtet[1] === '2026-10-28', termine)
+  pruefe('Seite: vom Sammler schon gelesene Serie bekommt keine zweite', seiteZu([URL_RAY]).length === 0)
+  pruefe('Seite: Folge ohne Verfügbarkeit gibt keine Seite', seiteZu([], [{ ...FOLGE, verfuegbarAb: undefined }]).length === 0)
+  pruefe('Seite: nicht zugeordnete Serie gibt keine Seite', seitenAusNeuenFolgen({ folgen: [FOLGE], zugeordnet: [], gelesen: new Set() }).length === 0)
+}
+
 async function kind(): Promise<void> {
   const { werteCrunchyrollDubAus } = await import('./bau/09-4-crunchyroll-dub.ts')
   const titles = new Map([{ ...rayearth(), episodes: 1 }].map((t) => [t.id, t]))
   const releases: { titleId: number; platform: string }[] = []
   werteCrunchyrollDubAus({
-    crDub: { scrapedAt: '2026-10-28T00:00:00Z', serien: [{ url: 'https://www.crunchyroll.com/de/series/GFREMD1/x', seriesId: 'GFREMD1', quelle: 'api', katalog: 'de', geprueftAm: '2026-10-28', deutschImAngebot: false, staffeln: [] }, SERIE_RAY] } as never,
+    crDub: { scrapedAt: '2026-10-28T00:00:00Z', serien: [{ url: 'https://www.crunchyroll.com/de/series/GFREMD1/x', seriesId: 'GFREMD1', quelle: 'api', katalog: 'de', geprueftAm: '2026-10-28', deutschImAngebot: false, staffeln: [] }, ...(process.argv.includes('--ohne-seite') ? [] : [SERIE_RAY])] } as never,
     titles: titles as never,
     usNeinWiderlegt: () => false,
     verweiseEntfernt: [],
@@ -131,7 +144,7 @@ async function kind(): Promise<void> {
 }
 
 /** Bau-Lauf im Kindprozess; `nein` legt einen Handbeleg „dub: false“ für Rayearth an. */
-function prozess(nein: boolean): { wege: Record<string, unknown>[]; termine: number } {
+function prozess(nein: boolean, ohneSeite = false): { wege: Record<string, unknown>[]; termine: number } {
   const wurzel = mkdtempSync(join(tmpdir(), 'cr-neue-serie-'))
   mkdirSync(join(wurzel, 'data', 'curated'), { recursive: true })
   writeFileSync(join(wurzel, 'data', 'cr-katalog-de.json'), JSON.stringify({ geholtAm: '2026-09-09T17:26:33.450Z', eintraege: [] }))
@@ -140,9 +153,9 @@ function prozess(nein: boolean): { wege: Record<string, unknown>[]; termine: num
   writeFileSync(join(wurzel, 'data', 'ankuendigungen.yaml'), 'eintraege: []\n')
   writeFileSync(join(wurzel, 'data', 'crunchyroll-neu.json'), JSON.stringify({ geholtAm: '2026-10-28T19:00:00Z', folgen: [FOLGE] }))
   if (nein) writeFileSync(join(wurzel, 'data', 'dub-confirmed.yaml'), JSON.stringify([{ anilistId: 178868, platform: 'crunchyroll', dub: false, checkedAt: '2026-10-28', url: URL_RAY }]))
-  const r = spawnSync(process.execPath, ['--import', 'tsx', fileURLToPath(import.meta.url), '--kind'], { encoding: 'utf8', windowsHide: true, env: { ...process.env, AK_ROOT: wurzel } })
+  const r = spawnSync(process.execPath, ['--import', 'tsx', fileURLToPath(import.meta.url), '--kind', ...(ohneSeite ? ['--ohne-seite'] : [])], { encoding: 'utf8', windowsHide: true, env: { ...process.env, AK_ROOT: wurzel } })
   const zeile = r.stdout.split('\n').filter((z) => z.startsWith('ERGEBNIS ')).pop()?.slice(9)
-  pruefe(`Kindprozess lief bis zum Ende (Handbeleg nein: ${nein})`, r.status === 0 && Boolean(zeile), { status: r.status, err: r.stderr.slice(-400) })
+  pruefe(`Kindprozess lief bis zum Ende (Handbeleg nein: ${nein}, ohne Sammler-Seite: ${ohneSeite})`, r.status === 0 && Boolean(zeile), { status: r.status, err: r.stderr.slice(-400) })
   const termine = Number(r.stdout.split('\n').filter((z) => z.startsWith('TERMINE ')).pop()?.slice(8))
   return { wege: zeile ? (JSON.parse(zeile) as Record<string, unknown>[]) : [], termine }
 }
@@ -151,9 +164,12 @@ if (process.argv.includes('--kind')) {
   await kind()
 } else {
   direkt()
+  seitenFaelle()
   const { wege, termine } = prozess(false)
   pruefe('Bau (09-4): der neue Weg geht in die Termin-Ableitung (nachUrl): ein Crunchyroll-Termin für 178868', termine === 1, termine)
   pruefe('Bau (09-4): Rayearth bekommt Serienadresse, dub: true, Bereich 1–1', wege.length === 1 && wege[0]!.url === URL_RAY && wege[0]!.dub === true && JSON.stringify(wege[0]!.dubRanges) === '[{"from":1,"to":1,"dub":true}]', wege)
+  const ohneSeite = prozess(false, true)
+  pruefe('Bau (09-4): ohne Sammler-Seite kommt der Termin aus den Katalogfolgen', ohneSeite.termine === 1 && ohneSeite.wege.length === 1, ohneSeite)
   const mitNein = prozess(true)
   pruefe('Bau (09-4): Handbeleg „nein“ aus der Datei gelesen: kein Weg, kein Termin', mitNein.wege.length === 0 && mitNein.termine === 0, mitNein)
   if (fehler) {

@@ -52,12 +52,13 @@ export function werteCrunchyrollDubAus({
       titles: titles.values(),
       nachUrl,
       handNein: neinHandbelege(loadDubChecks()),
+      gelesen: new Set(crDub.serien.map((s) => s.url)),
     })
     for (const zeile of neueSerienZeilen(neueSerien)) log(zeile)
 
     ordneCrKatalogZu({ titles, crDub, verweiseEntfernt })
 
-    legeCrVerweiseUndTermineAn({ titles, anisearch, belegt, crDub, verschwunden, usNeinOffen, nachUrl, releases })
+    legeCrVerweiseUndTermineAn({ titles, anisearch, belegt, crDub: { ...crDub, serien: [...crDub.serien, ...neueSerien.seiten] }, verschwunden, usNeinOffen, nachUrl, releases })
 
     /* Geschrieben wird erst am Ende — nach der letzten Stelle, die entfernt. */
   }
