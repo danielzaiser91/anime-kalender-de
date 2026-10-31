@@ -2,7 +2,7 @@
  * Kindprozess mit Zeitlimit für die Wachphase: ein hängender `gh`/`git` (Netz, Auth-Abfrage) darf die Wache nicht
  * blockieren, bevor eine ALARM-Zeile kommt. Bei Überschreitung wirft der Aufruf eine Meldung „FEHLER: …“.
  */
-import { execFileSync } from 'node:child_process'
+import { execFileSync, spawnSync } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
 
 // Gemessen 30.10.2026 (je 3 Läufe): `gh run list --limit 200` 4,2–4,7 s, ganze Wachphase 14–16 s,
@@ -31,6 +31,19 @@ export function mitLimit(befehl, args, optionen = {}, { limitMs = LIMIT_EINZEL_M
     const was = [befehl, ...args.slice(0, 2)].join(' ')
     throw new Error(`FEHLER: ${was} nach ${Math.round(limitMs / 1000)} s abgebrochen`)
   }
+}
+
+/**
+ * `spawnSync` für Tests: ohne `limitMs` wie bisher ohne Frist; mit Frist wirft ein Hänger „FEHLER: … hing länger als N s“
+ * (sonst käme still `status: null` zurück). `ausfuehren` ist einspeisbar.
+ */
+export function spawnMitLimit(befehl, args, optionen = {}, { limitMs, ausfuehren = spawnSync } = {}) {
+  const ergebnis = ausfuehren(befehl, args, { ...optionen, windowsHide: true, ...(limitMs ? { timeout: limitMs } : {}) })
+  if (ergebnis.error?.code === 'ETIMEDOUT') {
+    const was = [befehl, ...args.slice(0, 2)].join(' ')
+    throw new Error(`FEHLER: ${was} hing länger als ${Math.round(limitMs / 1000)} s`)
+  }
+  return ergebnis
 }
 
 /** Alle gh-Aufrufe einer Liste parallel in einem Kindprozess (`tools/gh-stapel.mjs`); `ausfuehren` ist einspeisbar. */

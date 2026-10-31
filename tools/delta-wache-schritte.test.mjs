@@ -4,7 +4,7 @@
  * `node … | tee` ohne pipefail, und Lauf 39125734203 meldete „⚠ 1 von 884 Adressen …“ als Erfolg.
  */
 import assert from 'node:assert/strict'
-import { spawnSync } from 'node:child_process'
+import { spawnMitLimit } from './kind-mit-limit.mjs'
 import { chmodSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { delimiter, dirname, join } from 'node:path'
@@ -33,7 +33,7 @@ try {
   for (const schritt of schritte) {
     for (const exit of ['3', '0']) {
       const env = { ...process.env, NODE_EXIT: exit, PATH: `${bin}${delimiter}${process.env.PATH}` }
-      const r = spawnSync('bash', [...shellArgs(schritt), '-c', schritt.run], { cwd: ordner, encoding: 'utf8', env })
+      const r = spawnMitLimit('bash', [...shellArgs(schritt), '-c', schritt.run], { cwd: ordner, encoding: 'utf8', env })
       assert.equal(r.status === 0, exit === '0', `${schritt.id}: Prüfer endet mit ${exit}, Schritt mit ${r.status}`)
       assert.match(r.stdout, /^⚠ {2}Befund$/m, `${schritt.id}: die Ausgabe steht im Schrittlog`)
     }
