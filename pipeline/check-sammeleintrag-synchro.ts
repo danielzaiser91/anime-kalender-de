@@ -53,6 +53,8 @@ console.log('\nSammeleintrag: die Marke fällt, die Auskunft bleibt')
   pruefe('im Sammeleintrag: nur ein Zeitraum bleibt als Auskunft', ohneSammelSynchro({ zitat: 'x', synchro: true, zeitraum: '1997' }, true)?.zeitraum === '1997')
   pruefe('im Sammeleintrag: nur ein Verlag bleibt als Auskunft', ohneSammelSynchro({ zitat: 'x', synchro: true, publisher: 'KSM' }, true)?.publisher === 'KSM')
   pruefe('ohne Marke ändert sich nichts', ohneSammelSynchro({ zitat: 'x', start: '2021-01-10' }, true)?.start === '2021-01-10')
+  const nurZitat = { zitat: 'x' }
+  pruefe('ohne Marke bleibt auch ein Termin mit nur einem Zitat, wie er ist', ohneSammelSynchro(nurZitat, true) === nurZitat)
   pruefe('kein Termin bleibt kein Termin', ohneSammelSynchro(undefined, true) === undefined)
   pruefe('die Eingabe bleibt unverändert', mitDatum.synchro === true && mitDatum.teil === true)
 }
