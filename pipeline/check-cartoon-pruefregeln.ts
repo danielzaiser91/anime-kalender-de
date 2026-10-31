@@ -52,7 +52,7 @@ const mitSerie = lauf({ adnId: 7, episodes: [{ date: '2026-10-17' }], url: 'http
 pruefe('Serie mit Folgen und Adresse: nur der Cartoon ohne Handlisten-Eintrag (-6) ist rot', mitSerie.exit === 1 && /ohne Handbeleg -6\b/.test(mitSerie.text) && !/Handbeleg -5/.test(mitSerie.text) && !/-6,/.test(mitSerie.text), mitSerie)
 const gruen = lauf({ adnId: 7, episodes: [{ date: '2026-10-17' }], url: 'https://adn.example/7', nurErster: true })
 pruefe('Serie mit Folgen und Adresse, nur der belegte Cartoon im Bestand: grün', gruen.exit === 0 && /erfüllt/.test(gruen.text), gruen)
-const ohneFolgen =lauf({ adnId: 7, episodes: [], url: 'https://adn.example/7' })
+const ohneFolgen = lauf({ adnId: 7, episodes: [], url: 'https://adn.example/7' })
 pruefe('Serie ohne Folgen: beide rot (-5,-6)', ohneFolgen.exit === 1 && /ohne Handbeleg -5,-6/.test(ohneFolgen.text), ohneFolgen)
 const ohneAdresse = lauf({ adnId: 7, episodes: [{ date: '2026-10-17' }], url: '' })
 pruefe('Serie ohne Adresse: beide rot', ohneAdresse.exit === 1 && /ohne Handbeleg -5,-6/.test(ohneAdresse.text), ohneAdresse)
