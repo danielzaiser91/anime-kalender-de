@@ -1,7 +1,8 @@
 /** Tests für tools/pr-stufe-kette.mjs und die Handwerkzeug-Regel von tools/pr-stufe.mjs, gegen ein Wegwerf-Repo unter os.tmpdir(). */
-import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { bestimmeStufe } from './pr-stufe.mjs'
 import { istHandwerkzeug, leseKette } from './pr-stufe-kette.mjs'
 
@@ -50,6 +51,81 @@ pruefe('PR: Handwerkzeug + pipeline → 2', stufe('tools/hand.mjs', 'pipeline/li
 pruefe('PR: neues Werkzeug samt neuem Test (nicht im Repo) → 1', stufe('tools/neu.mjs', 'tools/neu.test.mjs'), 1)
 pruefe('PR: neues Werkzeug ohne Test → 2', stufe('tools/neu.mjs'), 2)
 pruefe('PR: Handwerkzeug ohne Kette → 2', bestimmeStufe([{ pfad: 'tools/hand.mjs', hinzu: ['x'], weg: [] }]).stufe, 2)
+
+// A1–A3: weitere Aufrufer-Arten, je Fall ein eigenes Werkzeug mit eigenem Test
+const weitere = {
+  vontest: ['tools/anderer.test.mjs', "import './vontest.mjs'\n"],
+  vonpipeline: ['pipeline/x.ts', "import '../tools/vonpipeline.mjs'\n"],
+  vonshared: ['shared/x.ts', 'tools/vonshared.mjs\n'],
+  vonweb: ['web/src/x.ts', 'tools/vonweb.mjs\n'],
+  vonworker: ['worker/src/x.ts', 'tools/vonworker.mjs\n'],
+  vonextension: ['extension/x.js', 'tools/vonextension.mjs\n'],
+  vonclaude: ['.claude/x.json', 'tools/vonclaude.mjs\n'],
+  vonvite: ['vite.config.ts', "import 'vonvite'\n"],
+  'pre-hand': ['tools/vorne.mjs', 'tools/pre-hand.mjs\n'],
+  globbig: ['.github/workflows/glob.yml', "paths: ['tools/*globb*']\n"],
+  globfern: ['.github/workflows/glob2.yml', "paths: ['tools/*.test.mjs']\n"],
+  selbst: ['tools/selbst.mjs', '// selbst nennt sich selbst\n'],
+  ausnahme: ['tools/skript-aufrufer-ausnahmen.txt', 'tools/ausnahme.mjs\n'],
+}
+for (const [n, [pfad, text]] of Object.entries(weitere)) {
+  schreibe(`tools/${n}.mjs`, '// werkzeug\n')
+  schreibe(`tools/${n}.test.mjs`, `import './${n}.mjs'\n`)
+  schreibe(pfad, text)
+}
+// nur ein .spec.-Test, kein .test.-Test
+schreibe('tools/nurspec.mjs', '// werkzeug\n')
+schreibe('tools/nurspec.spec.mjs', "import './nurspec.mjs'\n")
+const kette2 = leseKette(wurzel)
+const stufe2 = (...pfade) => bestimmeStufe(pfade.map((pfad) => ({ pfad, hinzu: ['x'], weg: [] })), kette2).stufe
+const ist = (name) => istHandwerkzeug(`tools/${name}.mjs`, kette2)
+pruefe('von fremdem Test importiert → false', ist('vontest'), false)
+pruefe('Aufruf aus pipeline → false', ist('vonpipeline'), false)
+pruefe('Nennung in shared → false', ist('vonshared'), false)
+pruefe('Nennung in web → false', ist('vonweb'), false)
+pruefe('Nennung in worker → false', ist('vonworker'), false)
+pruefe('Nennung in extension → false', ist('vonextension'), false)
+pruefe('Nennung in .claude → false', ist('vonclaude'), false)
+pruefe('Name nur in vite.config.ts → false', istHandwerkzeug('tools/vonvite.mjs', kette2), false)
+pruefe('Namensteil vorn (pre-hand) zählt nicht als hand', ist('hand'), true)
+pruefe('Glob in Workflow trifft → false', ist('globbig'), false)
+pruefe('Glob auf Tests trifft Werkzeug nicht → true', ist('globfern'), true)
+pruefe('Nennung in sich selbst → true', ist('selbst'), true)
+pruefe('Name nur in skript-aufrufer-ausnahmen.txt → true', ist('ausnahme'), true)
+pruefe('nur .spec.-Test zählt als eigener Test → true', ist('nurspec'), true)
+pruefe('Test eines von fremdem Test importierten Werkzeugs → false', istHandwerkzeug('tools/vontest.test.mjs', kette2), false)
+
+// Template-Pfad in Workflow: im Zweifel nichts ist Handwerkzeug
+const wurzel2 = mkdtempSync(join(tmpdir(), 'pr-stufe-kette2-'))
+mkdirSync(join(wurzel2, 'tools'))
+mkdirSync(join(wurzel2, '.github'))
+writeFileSync(join(wurzel2, 'tools/hand.mjs'), '// w\n')
+writeFileSync(join(wurzel2, 'tools/hand.test.mjs'), "import './hand.mjs'\n")
+writeFileSync(join(wurzel2, '.github/a.yml'), 'run: node tools/${{ matrix.skript }}.mjs\n')
+pruefe('Template-Pfad in Workflow → false', istHandwerkzeug('tools/hand.mjs', leseKette(wurzel2)), false)
+writeFileSync(join(wurzel2, '.github/a.yml'), 'run: node tools/${x}.mjs\n')
+pruefe('Template-Pfad ${x} in Workflow → false', istHandwerkzeug('tools/hand.mjs', leseKette(wurzel2)), false)
+writeFileSync(join(wurzel2, '.github/a.yml'), 'run: node tools/fest.mjs\n')
+pruefe('fester anderer Pfad in Workflow → true', istHandwerkzeug('tools/hand.mjs', leseKette(wurzel2)), true)
+pruefe('Stufe: Name nur in vite.config.ts → 2', stufe2('tools/vonvite.mjs', 'tools/vonvite.test.mjs'), 2)
+pruefe('Stufe: Workflow-Glob → 2', stufe2('tools/globbig.mjs', 'tools/globbig.test.mjs'), 2)
+pruefe('Stufe: von fremdem Test importiert → 2', stufe2('tools/vontest.mjs', 'tools/vontest.test.mjs'), 2)
+rmSync(wurzel2, { recursive: true, force: true })
+
+// Eigenschaft am Bestand: jedes tools/*.mjs, das ein fremder Test importiert, ist nie Handwerkzeug
+const repo = join(fileURLToPath(import.meta.url), '../..')
+const repoKette = leseKette(repo)
+const importiert = new Set()
+for (const t of readdirSync(join(repo, 'tools')).filter((n) => /\.(test|spec)\./.test(n))) {
+  for (const m of readFileSync(join(repo, 'tools', t), 'utf8').matchAll(/['"]\.\/([\w-]+\.mjs)['"]/g)) {
+    if (!t.startsWith(`${m[1].slice(0, -4)}.`) && existsSync(join(repo, 'tools', m[1]))) importiert.add(m[1])
+  }
+}
+pruefe(`Bestand: ${importiert.size} von fremden Tests importierte Werkzeuge gefunden`, importiert.size > 0, true)
+const zuUnrecht = [...importiert].filter((n) => istHandwerkzeug(`tools/${n}`, repoKette))
+pruefe(`Bestand: kein importiertes Werkzeug ist Handwerkzeug (${zuUnrecht.join(', ')})`, zuUnrecht.length, 0)
+pruefe('Bestand: pr-pruefer-schnappschuss ist kein Handwerkzeug', istHandwerkzeug('tools/pr-pruefer-schnappschuss.mjs', repoKette), false)
+pruefe('Bestand: browser-weiche ist kein Handwerkzeug', istHandwerkzeug('tools/browser-weiche.mjs', repoKette), false)
 
 rmSync(wurzel, { recursive: true, force: true })
 if (fehler.length) {
