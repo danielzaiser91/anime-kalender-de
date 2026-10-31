@@ -207,12 +207,12 @@
   }
   const tag = (ms) => new Date(ms).toLocaleDateString('de-DE', { day: 'numeric', month: 'numeric', timeZone: 'Europe/Berlin' })
   globalThis.akDisneyBisText = (ms) => `bis ${tag(ms)}`
-  /** Kopfzeile der Liste. */
+  /** Kopfzeile der Liste: nennt nur die offenen Titel; die Zurückgestellten stehen mit Datum in ihren Zeilen, die Pille nennt sie zusätzlich. */
   globalThis.akDisneyKopfText = (z) =>
     z.offen ? `${z.offen} Titel zu prüfen` : z.zurueck ? `${z.zurueck} zurückgestellt ${globalThis.akDisneyBisText(z.bis)}` : 'Alles gemeldet'
   /** Zeile eines offenen Titels: zurückgestellt mit Datum, sonst was der Bestand erwartet (mit „ca.“ — Disney+ teilt Staffeln anders ein). */
   globalThis.akDisneyZeilenText = (e, bis) => {
-    if (bis !== null) return `zurückgestellt ${globalThis.akDisneyBisText(bis)} (Disney+ zeigte „nicht verfügbar“)`
+    if (bis !== null) return `zurückgestellt ${globalThis.akDisneyBisText(bis)}`
     const folgen = e.staffeln.filter((st) => st.offen).reduce((n, st) => n + (st.folgen ?? 0), 0)
     return `${e.offen} Staffel${e.offen === 1 ? '' : 'n'}` + (folgen ? `, ca. ${folgen} Folgen` : '')
   }

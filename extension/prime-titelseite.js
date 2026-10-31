@@ -42,7 +42,7 @@ globalThis.akPrimeFrameAdresse = (kennung, gtiMerken) => {
   (langsame Seite): die Staffel ist gemeldet, nicht gescheitert (Fushigi Yûgi Staffel 1, 31.10.2026).
 */
 globalThis.akPrimeFristErgebnis = (text) =>
-  /gemeldet/.test(String(text ?? ''))
+  /(?<!nicht )gemeldet/.test(String(text ?? ''))
     ? { ok: true, grund: `schon gemeldet (${text})` }
     : { ok: false, grund: `Knopf blieb bei: ${text || '(leer)'}` }
 

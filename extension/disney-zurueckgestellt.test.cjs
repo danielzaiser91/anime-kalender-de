@@ -49,7 +49,7 @@ pruefe('Pille: 2 offen und 6 zurückgestellt', kontext.akDisneyPilleText(2, z) =
 pruefe('Pille: nur Zurückgestellte sagt nicht „alles gemeldet“', kontext.akDisneyPilleText(0, nurRuhend) === 'Anime-Kalender: 6 zurückgestellt bis 7.11.', kontext.akDisneyPilleText(0, nurRuhend))
 pruefe('Pille: ohne alles „alles gemeldet“', kontext.akDisneyPilleText(0, { offen: 0, zurueck: 0, bis: null }) === 'Anime-Kalender: alles gemeldet ✓')
 pruefe('Kopf der Liste: Zurückgestellte stehen mit Datum da', kontext.akDisneyKopfText(nurRuhend) === '6 zurückgestellt bis 7.11.' && kontext.akDisneyKopfText(z) === '2 Titel zu prüfen')
-pruefe('Zeile: zurückgestellt mit Datum', /^zurückgestellt bis 7\.11\./.test(kontext.akDisneyZeilenText(alle[0], z.bis)))
+pruefe('Zeile: zurückgestellt mit Datum, ohne Grundbehauptung (Gebiet und Startseite sind verschiedene Gründe)', kontext.akDisneyZeilenText(alle[0], z.bis) === 'zurückgestellt bis 7.11.', kontext.akDisneyZeilenText(alle[0], z.bis))
 pruefe('Zeile: sonst Staffeln und ca. Folgen', kontext.akDisneyZeilenText(alle[7], null) === '1 Staffel, ca. 12 Folgen', kontext.akDisneyZeilenText(alle[7], null))
 
 /* Die echte Funktion der Seite: sie ruft Zählung und Text mit den richtigen Eingaben. */
@@ -74,12 +74,39 @@ const seite = vm.createContext({
   document: { createElement: () => knopf },
   dialogOeffnen: () => {},
 })
-vm.runInContext(
-  `const zurueckBis = (url) => globalThis.akDisneyZurueckBis(localStorage, url, Date.now())\n${quelle.slice(von, bis + 5)}\nzeigeUebersicht()`,
-  seite,
-)
+/* Die echte Zeile aus disney.js wird mit ausgeführt, nicht in der Kulisse nachgebaut. */
+const zurueckBisZeile = quelle.split('\n').find((zeile) => zeile.startsWith('  const zurueckBis = '))
+pruefe('Seite: disney.js hat die Zeile zurueckBis', Boolean(zurueckBisZeile))
+vm.runInContext(`${zurueckBisZeile}\n${quelle.slice(von, bis + 5)}\nzeigeUebersicht()`, seite)
 pruefe('Seite: die Pille zeigt 2 offen und 6 zurückgestellt', knopf.textContent === 'Anime-Kalender: 2 offen · 6 zurückgestellt bis 7.11.', knopf.textContent)
-pruefe('Seite: die Rückstellung wird in disney.js aus dem Speicher gelesen (Zeile steht dort)', /const zurueckBis = \(url\) => globalThis\.akDisneyZurueckBis\(localStorage, url, Date\.now\(\)\)/.test(quelle))
+
+/* Die Kopfzeile von dialogOeffnen: der Anfang der echten Funktion bis zum Durchgangsknopf, Kulisse ohne Rest der Seite. */
+{
+  const dVon = quelle.indexOf('  function dialogOeffnen() {')
+  const ende = 'durchgangKnopf(kopf, zaehlung.offen)'
+  const dBis = quelle.indexOf(ende, dVon) + ende.length
+  const element = () => ({ style: {}, appendChild() {}, getBoundingClientRect: () => ({ top: 500 }) })
+  const gemacht = []
+  const dialogSeite = vm.createContext({
+    globalThis: kontext,
+    Date: seite.Date,
+    Math,
+    window: { innerHeight: 800 },
+    localStorage: dauer,
+    offeneEintraege: () => alle,
+    istErledigt: keinerErledigt,
+    disneyKasten: element,
+    document: { createElement: () => (gemacht.push(element()), gemacht.at(-1)) },
+    durchgangKnopf: (_, offen) => (dialogSeite.knopfOffen = offen),
+  })
+  vm.runInContext(
+    `let dialog = null\nlet zeigeErledigte = false\n${zurueckBisZeile}\n${quelle.slice(dVon, dBis)}\n return titelzeile.textContent }\n` +
+      'globalThis.kopfzeile = dialogOeffnen()',
+    dialogSeite,
+  )
+  pruefe('Dialog: Kopfzeile „2 Titel zu prüfen“', kontext.kopfzeile === '2 Titel zu prüfen', kontext.kopfzeile)
+  pruefe('Dialog: der Durchgangsknopf bekommt die offenen (2), nicht alle (8)', dialogSeite.knopfOffen === 2, dialogSeite.knopfOffen)
+}
 
 if (fehler.length) {
   console.error(`\n${fehler.length} Zusicherung(en) gerissen.`)

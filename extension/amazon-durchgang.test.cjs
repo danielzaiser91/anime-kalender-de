@@ -386,6 +386,24 @@ for (const [text, teil, ort] of [
   pruefe('Frame: Marke „gemeldet ✓" erst an der Frist → ok, nicht „Knopf blieb bei"', w.gepostet[0]?.ok === true && /schon gemeldet/.test(w.gepostet[0].grund), w.gepostet[0])
 }
 
+/* Frist genau am Rand: nach 60 000 ms noch nicht, erst der nächste Takt (60 500 ms) beendet. */
+{
+  const w = welt({ imFrame: true })
+  w.zeige('Staffel wechselt — einen Moment', 60_000)
+  pruefe('Frame: genau 60 000 ms → noch keine Antwort', !w.gepostet.length, w.gepostet)
+  w.zeige('Staffel wechselt — einen Moment', 500)
+  pruefe('Frame: 500 ms später → Frist erreicht, nicht gemeldet', w.gepostet[0]?.ok === false && /Knopf blieb bei/.test(w.gepostet[0].grund), w.gepostet[0])
+}
+
+/* „nicht gemeldet“ enthält das Wort „gemeldet“, ist aber kein Erfolg. */
+{
+  const w = welt({ imFrame: true })
+  const e = (text) => vm.runInContext(`globalThis.akPrimeFristErgebnis(${JSON.stringify(text)})`, w.kontext)
+  pruefe('Frist: „nicht gemeldet“ → nicht ok', e('nicht gemeldet').ok === false && /Knopf blieb bei: nicht gemeldet/.test(e('nicht gemeldet').grund), e('nicht gemeldet'))
+  pruefe('Frist: „gemeldet ✓“ → ok', e('gemeldet ✓').ok === true)
+  pruefe('Frist: „✓ Staffel 1 gemeldet“ → ok', e('✓ Staffel 1 gemeldet').ok === true)
+}
+
 /* Dragon Quest: The Adventure of Dai (31.10.2026): 75 von 100 gelesen — der Grund nennt die fehlenden Folgen, die Spur die Abschnitte. */
 {
   const w = welt({ imFrame: true })

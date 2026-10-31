@@ -154,8 +154,8 @@
         "disney-staffeln.js",
         "disney-beantwortet.js",
         "disney-weg.js",
-        "disney.js",
-        "disney-durchgang.js"
+        "disney-durchgang.js",
+        "disney.js"
       ],
       "css": [
         "melder.css"
