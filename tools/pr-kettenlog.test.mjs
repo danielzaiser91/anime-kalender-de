@@ -293,6 +293,7 @@ pruefe('nicht abrufbares Log: genau LOG_VERSUCHE Versuche mit Pause dazwischen',
     const r = spawnSync(process.execPath, [fileURLToPath(new URL('./pr-kettenlog.mjs', import.meta.url)), SHA, ordner2, '0', beschr], {
       encoding: 'utf8',
       windowsHide: true,
+      timeout: 60000,
       env: { ...process.env, GITHUB_REPOSITORY: 'o/r', GH_TOKEN: '', GITHUB_TOKEN: '', GH_CONFIG_DIR: path.join(ordner2, 'keine-gh-config') },
     })
     const prozessZitate = fs.existsSync(path.join(ordner2, 'kettenlog-zitate.txt')) ? fs.readFileSync(path.join(ordner2, 'kettenlog-zitate.txt'), 'utf8') : ''
