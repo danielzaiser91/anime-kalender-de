@@ -154,12 +154,22 @@ const VERLAUF_ANTWORT = {
 const PILLEN = {
   offen: 1,
   anbieter: [
-    { name: 'Amazon', plattform: 'primevideo', titel: 9, ohneSeite: 0, unterwegs: 0, ziel: 'https://example.com/pille', ziele: [] },
+    { name: 'Amazon', plattform: 'primevideo', titel: 0, ohneSeite: 5, unterwegs: 0, ziel: 'https://example.com/pille', ziele: [] },
     { name: 'Netflix', plattform: 'netflix', titel: 0, ohneSeite: 0, unterwegs: 0, ziel: null, ziele: [] },
-    /* Eine Zeile mit Arbeit, aber ohne Aufteilung in Titel/Suchen. */
-    { name: 'Disney+', plattform: 'disneyplus', titel: 1, ohneSeite: 0, unterwegs: 0, ziel: 'https://example.com/bleach', ziele: [] },
-    /* Der Worker liefert die Plattform weiter; die Leiste zeigt sie seit 31.10.2026 nicht mehr. */
-    { name: 'Suchadressen', plattform: 'suchadressen', titel: 2, ohneSeite: 2, unterwegs: 0, ziel: 'https://www.netflix.com/title/1', ziele: [] },
+    { name: 'Disney+', plattform: 'disneyplus', titel: 0, ohneSeite: 0, unterwegs: 0, ziel: null, ziele: [] },
+    /* Der Worker liefert die Plattform weiter (Stand vom 31.10.2026: Netflix nur Startseite, Prime Tank Chair); die Leiste zählt sie bei der Plattform mit. */
+    {
+      name: 'Suchadressen',
+      plattform: 'suchadressen',
+      titel: 0,
+      ohneSeite: 2,
+      unterwegs: 0,
+      ziel: 'https://netflix.com',
+      ziele: [
+        { url: 'https://netflix.com', titel: 'Meine ganz besondere Hochzeit: Special' },
+        { url: 'https://www.amazon.de/s?k=TANK%20CHAIR&i=instant-video', titel: 'Tank Chair' },
+      ],
+    },
   ],
 }
 
@@ -385,6 +395,7 @@ const pillenForm = await seite.evaluate(() =>
     text: p.textContent.replace(/\s+/g, ' ').trim(),
     klasse: p.className,
     href: p.getAttribute('href') || '',
+    tipp: p.title,
   })),
 )
 pruefe(
@@ -397,20 +408,22 @@ pruefe(
   !pillenForm.some((p) => /Suchadressen|Verweise ohne Titelseite|Adressen/.test(p.text) || p.klasse.includes('suchadressen')),
   pillenForm.map((p) => p.text).join(' | '),
 )
+/* A2: Amazon mit titel 0 und ohneSeite 5 zählt die Suchen (5) plus die offene Suchadresse Tank Chair (A1). */
 pruefe(
-  'die Zahl ist die offene Arbeit aus dem Stand (`titel` + `ohneSeite`)',
-  pillenForm.some((p) => /Amazon 9/.test(p.text)),
-  pillenForm.map((p) => p.text).join(' | '),
+  'Amazon mit titel 0 zählt seine Suchen, die Zahl steht nicht auf 0',
+  pillenForm.some((p) => /^Amazon 6(?!\d)/.test(p.text) && p.klasse.includes('offen') && /6 Suchadressen/.test(p.tipp)),
+  pillenForm.map((p) => p.text + ' [' + p.tipp + ']').join(' | '),
 )
-pruefe('ein Anbieter mit 0 zeigt die 0', pillenForm.some((p) => /Netflix 0/.test(p.text)), pillenForm.map((p) => p.text).join(' | '))
+/* A1: die offene Suchadresse ohne Titelseite landet bei der Pille ihres Anbieters, nicht in einer eigenen. */
 pruefe(
-  'eine Zeile ohne Aufteilung zeigt trotzdem ihre Zahl',
-  pillenForm.some((p) => /Disney\+ 1/.test(p.text)),
-  pillenForm.map((p) => p.text).join(' | '),
+  'Netflix zählt die offene Suchadresse (Startseite ohne Titelseite) mit',
+  pillenForm.some((p) => /^Netflix 1(?!\d)/.test(p.text) && p.klasse.includes('offen') && /netflix\.com/.test(p.href)),
+  pillenForm.map((p) => p.text + ' [' + p.klasse + ']').join(' | '),
 )
+pruefe('ein Anbieter mit 0 zeigt die 0', pillenForm.some((p) => /Disney\+ 0/.test(p.text)), pillenForm.map((p) => p.text).join(' | '))
 pruefe(
   'und führt auf die Anbieterseite',
-  pillenForm.some((p) => p.klasse.includes('fertig') && /netflix\.com\/browse/.test(p.href)),
+  pillenForm.some((p) => p.klasse.includes('fertig') && /disneyplus\.com/.test(p.href)),
   pillenForm.filter((p) => p.klasse.includes('fertig')).map((p) => p.href).join(' | '),
 )
 await seite.screenshot({ path: path.join(BILDORDNER, 'lauf-status-app-ausfall.png') })
