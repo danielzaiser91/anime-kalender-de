@@ -13,7 +13,7 @@ import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, 
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { pathToFileURL } from 'node:url'
-import { mitPraefix, teileListenAusgabe, trenneGeerbtUndNeu, zaehleOderMelde } from './pr-bestand-zaehlen.mjs'
+import { fasseRoteZusammen, mitPraefix, teileListenAusgabe, trenneGeerbtUndNeu, zaehleOderMelde } from './pr-bestand-zaehlen.mjs'
 
 const LISTE = 'tools/check-bestand-liste.txt'
 /** Kennung für einen roten Listenlauf ohne einzelne Prüfung (Liste unsortiert, Prüfung ändert Dateien): zählt immer als neu. */
@@ -161,6 +161,7 @@ async function vergleiche(wurzel, basisRef) {
     return 1
   }
   const { geerbt, neu } = trenneGeerbtUndNeu(prRot, basisRot)
+  console.log(fasseRoteZusammen(prRot, geerbt))
   for (const k of geerbt) console.log(`::warning::${k} ist schon auf der Basis ${basisRef} rot (${prRot.get(k)} Verstöße, Basis ${basisRot.get(k)}; nicht diesem PR angelastet)`)
   if (neu.length === 0) return 0
   for (const k of neu) console.log(`${k}: ${prRot.get(k)} Verstöße auf dem PR, ${basisRot.get(k) ?? 'grün'} auf der Basis`)

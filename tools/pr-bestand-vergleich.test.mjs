@@ -11,7 +11,7 @@ import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { restSkripte } from './pr-bestand-vergleich.mjs'
-import { mitPraefix, teileListenAusgabe, trenneGeerbtUndNeu, zaehleOderMelde, zaehleVerstoesse } from './pr-bestand-zaehlen.mjs'
+import { fasseRoteZusammen, mitPraefix, teileListenAusgabe, trenneGeerbtUndNeu, zaehleOderMelde, zaehleVerstoesse } from './pr-bestand-zaehlen.mjs'
 
 const tools = dirname(fileURLToPath(import.meta.url))
 const wurzel = join(tools, '..')
@@ -52,6 +52,8 @@ assert.deepEqual(trenneGeerbtUndNeu(new Map([['a', 2], ['b', 3], ['c', 1], ['d',
 // Basis-Kennzeichnung: jede nichtleere Zeile bekommt das Präfix (auch ::error:: wird Text), Leerzeilen bleiben, ohne Präfix unverändert.
 assert.equal(mitPraefix('a\n\n::error::b\n', '[Basis x]'), '[Basis x] a\n\n[Basis x] ::error::b\n')
 assert.equal(mitPraefix('a\nb', ''), 'a\nb')
+assert.equal(fasseRoteZusammen(new Map([['x', 3], ['y', 1]]), ['y']), 'Rote Bestandsprüfungen insgesamt: 2 – x (3) [neu], y (1) [geerbt]')
+assert.equal(fasseRoteZusammen(new Map([['x', 3]])), 'Rote Bestandsprüfungen insgesamt: 1 – x (3) [neu]')
 
 const k = mkdtempSync(join(tmpdir(), 'pr-bestand-vergleich-'))
 const spur = join(k, '..', `${k.split(/[\\/]/).at(-1)}-spur.txt`)
@@ -191,10 +193,12 @@ try {
   assert.deepEqual(e.basis, ['check:r2', 'pruef/a.mjs', 'pruef/b.mjs', 'pruef/c.mjs'], 'auf der Basis laufen genau die auf dem PR roten')
   assert.match(e.aus, /::error::.*weniger verletzt sind: pruef\/b\.mjs\n/)
   for (const g of ['check:r2', 'pruef/a.mjs', 'pruef/c.mjs']) assert.ok(e.aus.includes(`::warning::${g} ist schon auf der Basis`), g)
+  // Eine Schlusszeile nennt alle vier roten Prüfungen auf einmal, je mit neu/geerbt (nicht nur die erste).
+  assert.match(e.aus, /^Rote Bestandsprüfungen insgesamt: 4 – check:r2 \(1\) \[geerbt\], pruef\/a\.mjs \(1\) \[geerbt\], pruef\/b\.mjs \(1\) \[neu\], pruef\/c\.mjs \(1\) \[geerbt\]$/m)
   // Basis-Ausgabe ist erkennbar: dieselbe Prüfung steht einmal ohne (PR-Bau) und einmal mit Präfix (Gegenprobe); keine Basis-Zeile ohne Präfix.
   assert.match(e.aus, /^=== check:r2: rot$/m)
   assert.match(e.aus, /^\[Basis \S+\] === check:r2: rot$/m)
-  const nachGegenprobe = e.aus.slice(e.aus.indexOf('Gegenprobe auf der Basis'), e.aus.indexOf('::warning::')).split('\n')
+  const nachGegenprobe = e.aus.slice(e.aus.indexOf('Gegenprobe auf der Basis'), e.aus.indexOf('Rote Bestandsprüfungen insgesamt')).split('\n')
   assert.ok(nachGegenprobe.some((z) => z.startsWith('[Basis ')))
   for (const z of nachGegenprobe.slice(1)) assert.ok(z === '' || z.startsWith('[Basis ') || z.startsWith('::'), `Zeile ohne Basis-Kennzeichen: ${z}`)
 

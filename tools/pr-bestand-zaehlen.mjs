@@ -59,3 +59,9 @@ export function mitPraefix(text, praefix) {
     .map((zeile) => (zeile.trim() === '' ? zeile : `${praefix} ${zeile}`))
     .join('\n')
 }
+
+/** Eine Schlusszeile mit allen roten Prüfungen des PR-Baus (Reihenfolge wie gelaufen), je mit „neu“ oder „geerbt“; `geerbt` leer = alle neu. */
+export function fasseRoteZusammen(prRot, geerbt = []) {
+  const teile = [...prRot].map(([k, z]) => `${k} (${z}) [${geerbt.includes(k) ? 'geerbt' : 'neu'}]`)
+  return `Rote Bestandsprüfungen insgesamt: ${teile.length} – ${teile.join(', ')}`
+}
