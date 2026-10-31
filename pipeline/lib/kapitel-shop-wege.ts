@@ -1,42 +1,39 @@
-import type { Title, WatchLink } from '../../shared/types.ts'
+import { readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
+import yaml from 'js-yaml'
+import type { Title } from '../../shared/types.ts'
+import { ROOT } from './util.ts'
 
 /**
- * **Nummerierte Filmkapitel bei den Telekom-Shops: der „über TMDB"-Weg ist nicht überprüfbar und wird verworfen.**
+ * **Telekom-Shop-Wege „über TMDB", deren Ziel von Hand als falsch belegt ist** (`data/shop-wege-falsches-ziel.yaml`).
  *
- * Daniel am 31.10.2026 an „Princess Principal: Crown Handler 3": maxdome und freenet meinVOD („über TMDB")
- * führten über TMDB und JustWatch zur Seite von Chapter 2; maxdome führt nur Chapter 1 und 2. TMDB nennt für alle
- * drei Kapitel dieselbe Anbieterliste (`offers`: maxdome Store, Freenet meinVOD), JustWatch hängt das eine Shop-Angebot
- * an jedes Kapitel. Wir kennen das Ziel des Klicks nicht (die TMDB-Seite sperrt robots.txt), also lässt sich die Nummer
- * nicht abgleichen. Direkte Adressen (JustWatch, Handpflege) bleiben — nur der Umweg über TMDB entfällt.
+ * Daniel am 31.10.2026 an „Princess Principal: Crown Handler 3": maxdome und freenet meinVOD („über TMDB") führten über TMDB und
+ * JustWatch zur Seite von Chapter 2; maxdome führt nur Chapter 1 und 2. TMDB nennt für alle Kapitel dieselbe Anbieterliste.
+ * Verworfen wird nur, was die Liste mit Beleg nennt — nie über den Namen geraten (Dirigent, 31.10.2026: gestrichen wird nur, was eine
+ * Quelle widerlegt). Direkte Adressen (JustWatch, Handpflege) bleiben.
  */
-const TELEKOM_SHOPS = /^(maxdome|freenet meinvod|videoload|magentatv)$/i
+export type ShopWegFalsch = { anilistId: number; title: string; anbieter: string[]; beleg: string; belegtAm: string }
 
-/** Nummer aus dem Namen („… Crown Handler 3", „Chapter 2", „Teil 4") oder, wo der Name keine trägt, aus dem TMDB-Kürzel (`/movie/347187-4/`). */
-export function kapitelNummer(t: Pick<Title, 'titleDe' | 'titleEn' | 'titleRomaji'>, tmdbUrl: string): number | null {
-  for (const name of [t.titleDe, t.titleEn, t.titleRomaji]) {
-    const m = /(?:^|[\s~:-])(?:chapter|teil|part|kapitel|case)?\s*(\d{1,2})\s*$/i.exec((name ?? '').trim())
-    if (m) return Number(m[1])
-  }
-  const slug = /themoviedb\.org\/movie\/\d+-([a-z0-9-]*?)\/watch/i.exec(tmdbUrl)?.[1]
-  const m = slug ? /(?:^|-)(\d{1,2})$/.exec(slug) : null
-  return m ? Number(m[1]) : null
+/** Lädt die Handliste; ein Eintrag ohne Kennung, Anbieter, Beleg oder Datum zählt nicht. */
+export function ladeShopWegeFalsch(datei = resolve(ROOT, 'data/shop-wege-falsches-ziel.yaml')): ShopWegFalsch[] {
+  const roh = (yaml.load(readFileSync(datei, 'utf8')) as ShopWegFalsch[] | null) ?? []
+  return roh.filter((e) => e?.anilistId && e.anbieter?.length && e.beleg && e.belegtAm)
 }
 
-const istTmdbWeg = (w: WatchLink): boolean => /themoviedb\.org/.test(w.url) && TELEKOM_SHOPS.test(w.name)
-
 /** Ein verworfener Weg: für Log und Zählung. */
-export type VerworfenerKapitelWeg = { id: number; name: string; weg: string; nummer: number }
+export type VerworfenerKapitelWeg = { id: number; name: string; weg: string }
 
-/** Entfernt die „über TMDB"-Telekom-Wege nummerierter Filmkapitel und nennt sie. */
-export function entferneKapitelShopWege(titles: Iterable<Title>): VerworfenerKapitelWeg[] {
+const istTmdbWeg = (url: string): boolean => /themoviedb\.org/.test(url)
+
+/** Entfernt die „über TMDB"-Wege, die die Liste für den Titel und den Anbieter nennt, und nennt sie. */
+export function entferneKapitelShopWege(titles: Iterable<Title>, liste: ShopWegFalsch[]): VerworfenerKapitelWeg[] {
   const weg: VerworfenerKapitelWeg[] = []
   for (const t of titles) {
-    if (t.format !== 'MOVIE' || !t.watchLinks?.length) continue
+    const anbieter = liste.filter((e) => e.anilistId === t.id).flatMap((e) => e.anbieter.map((a) => a.toLowerCase()))
+    if (!anbieter.length || !t.watchLinks?.length) continue
     t.watchLinks = t.watchLinks.filter((w) => {
-      if (!istTmdbWeg(w)) return true
-      const nummer = kapitelNummer(t, w.url)
-      if (nummer === null) return true
-      weg.push({ id: t.id, name: t.titleDe ?? t.titleEn ?? t.titleRomaji ?? '?', weg: w.name, nummer })
+      if (!istTmdbWeg(w.url) || !anbieter.includes(w.name.toLowerCase())) return true
+      weg.push({ id: t.id, name: t.titleDe ?? t.titleEn ?? t.titleRomaji ?? '?', weg: w.name })
       return false
     })
   }
