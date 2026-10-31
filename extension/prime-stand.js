@@ -112,3 +112,30 @@ globalThis.akPrimeTeilOffen = (erledigt, serie, erwartet, kern) => {
     .reduce((s, e) => s + Object.values(e?.folgen ?? {}).reduce((a, n) => a + (Number(n) || 0), 0), 0)
   return summe < erwartet
 }
+
+/*
+  **Staffelwechsel ohne Neuladen** (Miraculous, 31.10.2026). Reine Funktionen für `amazon.js`.
+*/
+
+/** Die Staffel für den Knopf: Heißt der gewählte Reiter ohne Zahl („Tagebuch Besonders", `s101`), steht sein Name. */
+globalThis.akPrimeStaffelBezeichnung = (n, staffeln, vonFrueher) => {
+  const reihe = vonFrueher ? [] : (staffeln ?? [])
+  const reiter = reihe.find((s) => s?.nummer === n && s?.gewaehlt) ?? reihe.find((s) => s?.nummer === n)
+  return reiter?.name && !/\d/.test(reiter.name) ? reiter.name : `Staffel ${n}`
+}
+
+/** Die nächste Staffel ohne Meldung; bei geteilten Reihen (1–24, 101, 102) zählen die Reiternummern, nicht 1…Anzahl. */
+globalThis.akPrimeNaechsteStaffel = (reiter, zahl, fertige, jetzt) => {
+  const nummern = [...new Set((reiter ?? []).map((s) => s?.nummer).filter((n) => Number.isFinite(n)))].sort((a, b) => a - b)
+  const kandidaten = nummern.length >= 2 ? nummern : Array.from({ length: zahl }, (_, i) => i + 1)
+  return kandidaten.find((n) => n !== jetzt && !fertige[String(n)]) ?? null
+}
+
+/** Nennt die Zeile „meldet: … · KENNUNG" noch eine andere Kennung als die Adresse? Dann bleibt der Knopf zu. */
+globalThis.akPrimeKennungAlt = (angezeigt, ausAdresse) => Boolean(angezeigt && ausAdresse && angezeigt !== ausAdresse)
+
+/** Gehört der Folgenstand zur offenen Adresse? Sonst sagt der Kasten nichts über die Folgen. */
+globalThis.akPrimeFolgenStandFrisch = (gesehen, ort) => gesehen?.fuerAdresse === ort.pathname + ort.search
+
+/** Was am Folgenstand den Kasten neu bauen lässt: die Zahl und ob sie frisch ist. */
+globalThis.akPrimeFolgenStand = (gesehen, ort) => `${gesehen?.gesamt ?? 0}|${globalThis.akPrimeFolgenStandFrisch(gesehen, ort) ? 1 : 0}`

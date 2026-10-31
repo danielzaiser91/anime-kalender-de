@@ -306,12 +306,12 @@ console.log('Melde-Knopf: Sperre nach angekommener Meldung\n')
 
   /* Die zwei Stellen im Handler selbst: Registrierung und Vermerk nach Erfolg. */
   pruefe('der Klick-Handler ist mit der Sperre umhüllt', /knopf\.addEventListener\('click', meldeSperre\.mitSperre\(async \(befundBeimKlick\) => \{/.test(quelle))
-  const erfolg = quelle.indexOf('        if (eintrag.ausSuche && !erwartungNochOffen(suchAdresse)) suchauftragVergessen()')
+  const erfolg = quelle.indexOf('        if (eintrag.ausSuche && !teilOffen && !erwartungNochOffen(suchAdresse)) suchauftragVergessen()')
   const vermerk = quelle.indexOf('        meldeSperre.vermerken(befundBeimKlick)')
   const fehlerzweig = quelle.indexOf("knopf.textContent = `Nicht erreichbar: ${err.message}`")
   pruefe('der Vermerk steht im Erfolgszweig (nach dem Abhaken, vor dem Fehlerzweig)', erfolg > 0 && vermerk > erfolg && vermerk < fehlerzweig, { erfolg, vermerk, fehlerzweig })
   /* Zwischen dem Abhaken und dem Vermerk darf nur Kommentar stehen: keine Steuerzeile (`if (false)`, `return`), die ihn überspringt. */
-  const zwischen = quelle.slice(erfolg + '        if (eintrag.ausSuche && !erwartungNochOffen(suchAdresse)) suchauftragVergessen()'.length, vermerk)
+  const zwischen = quelle.slice(erfolg + '        if (eintrag.ausSuche && !teilOffen && !erwartungNochOffen(suchAdresse)) suchauftragVergessen()'.length, vermerk)
   pruefe('zwischen Abhaken und Vermerk steht nur Kommentar, nichts, was den Vermerk überspringt',
     erfolg > 0 && vermerk > erfolg && zwischen.replace(/\/\*[\s\S]*?\*\//g, '').trim() === '', zwischen)
   /* Die Marke „alles durch" (`gemeldetMarke(an, …)`) hängt an `durchFuerPfad`, nicht an einer Konstanten. */
