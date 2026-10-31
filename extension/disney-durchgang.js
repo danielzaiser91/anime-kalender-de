@@ -46,6 +46,8 @@
     const gilt = (url) => jetzt() - (lesen()[url] ?? -Infinity) < ZURUECK_MS
     return {
       gilt,
+      /** Bis wann (ms) die Rückstellung gilt; `null`, wenn der Titel nicht zurückgestellt ist. */
+      bis: (url) => (gilt(url) ? lesen()[url] + ZURUECK_MS : null),
       merke(url) {
         const frisch = Object.fromEntries(Object.entries(lesen()).filter(([u]) => gilt(u)))
         try {
@@ -193,6 +195,33 @@
    */
   const gebietGesperrt = (text) => /nicht in deinem Gebiet verfügbar/i.test(String(text ?? ''))
   globalThis.akDisneyDurchgang = durchgang
+  globalThis.akDisneyZurueckBis = (dauer, url, jetzt) => zurueckstellung({ dauer, jetzt: () => jetzt }).bis(url)
+  /**
+   * Zählung der Liste: zurückgestellte Titel sind nicht offen (Daniel, 31.10.2026: Anzeige „6 zurückgestellt“ neben „6 offen“).
+   * `bisFuer(url)` liefert das Ende der Rückstellung oder `null`; `bis` ist das früheste Ende.
+   */
+  globalThis.akDisneyZaehlung = (eintraege, istErledigt, bisFuer) => {
+    const ruhend = eintraege.filter((e) => !istErledigt(e) && bisFuer(e.url) !== null)
+    const bis = ruhend.length ? Math.min(...ruhend.map((e) => bisFuer(e.url))) : null
+    return { offen: eintraege.filter((e) => !istErledigt(e)).length - ruhend.length, zurueck: ruhend.length, bis }
+  }
+  const tag = (ms) => new Date(ms).toLocaleDateString('de-DE', { day: 'numeric', month: 'numeric', timeZone: 'Europe/Berlin' })
+  globalThis.akDisneyBisText = (ms) => `bis ${tag(ms)}`
+  /** Kopfzeile der Liste. */
+  globalThis.akDisneyKopfText = (z) =>
+    z.offen ? `${z.offen} Titel zu prüfen` : z.zurueck ? `${z.zurueck} zurückgestellt ${globalThis.akDisneyBisText(z.bis)}` : 'Alles gemeldet'
+  /** Zeile eines offenen Titels: zurückgestellt mit Datum, sonst was der Bestand erwartet (mit „ca.“ — Disney+ teilt Staffeln anders ein). */
+  globalThis.akDisneyZeilenText = (e, bis) => {
+    if (bis !== null) return `zurückgestellt ${globalThis.akDisneyBisText(bis)} (Disney+ zeigte „nicht verfügbar“)`
+    const folgen = e.staffeln.filter((st) => st.offen).reduce((n, st) => n + (st.folgen ?? 0), 0)
+    return `${e.offen} Staffel${e.offen === 1 ? '' : 'n'}` + (folgen ? `, ca. ${folgen} Folgen` : '')
+  }
+  /** Text der Pille am Kasten. */
+  globalThis.akDisneyPilleText = (offen, z) => {
+    const ruhend = z.zurueck ? `${z.zurueck} zurückgestellt ${globalThis.akDisneyBisText(z.bis)}` : ''
+    if (offen) return `Anime-Kalender: ${offen} offen${ruhend ? ` · ${ruhend}` : ''}`
+    return `Anime-Kalender: ${ruhend || 'alles gemeldet ✓'}`
+  }
   globalThis.akDisneyEndeText = endeText
   globalThis.akDisneyGebietGesperrt = gebietGesperrt
   if (typeof document === 'undefined' || typeof location === 'undefined') return

@@ -10671,7 +10671,7 @@ async function speicherSchreiben(werte) {
           Die Adresse gibt es trotzdem: Der Suchauftrag trägt sie als `suchUrl`
           über den Sprung von der Trefferliste auf die Titelseite hinweg.
         */
-        const suchAdresse = globalThis.akPrimeSuchAdresse(eintrag, suchauftrag(), asin())
+        const suchAdresse = eintrag.url ?? suchauftrag()?.suchUrl ?? null
         /*
           **Die eigene Seite gilt sofort als gemeldet — sonst zählt die
           Checkliste sie erst nach der nächsten Briefkasten-Antwort.**
@@ -10701,13 +10701,13 @@ async function speicherSchreiben(werte) {
           **Erst wenn keine Ausgabe mehr aussteht.** Bei zwei bestätigten
           Ausgaben ist die Suche nach der ersten Meldung nicht erledigt.
         */
-        if (suchAdresse && !erwartungNochOffen(suchAdresse)) await suchAbhaken(suchAdresse)
+        if (eintrag.ausSuche && suchAdresse && !erwartungNochOffen(suchAdresse)) await suchAbhaken(suchAdresse)
         /*
           Und der Kasten verschwindet mit ihm. Er sagt „Meldung läuft unter
           diesem Titel" — nach der Meldung läuft nichts mehr, und er stand
           trotzdem weiter da.
         */
-        if (suchAdresse && !erwartungNochOffen(suchAdresse)) suchauftragVergessen()
+        if (eintrag.ausSuche && !erwartungNochOffen(suchAdresse)) suchauftragVergessen()
         /* Erst hier, nicht nach dem catch: Ein Fehlschlag darf keine Marke setzen. */
         meldeSperre.vermerken(befundBeimKlick)
         uebersichtZeichnen()

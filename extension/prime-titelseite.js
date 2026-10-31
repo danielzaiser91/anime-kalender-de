@@ -38,17 +38,6 @@ globalThis.akPrimeFrameAdresse = (kennung, gtiMerken) => {
 }
 
 /*
-  Zu welcher Suche gehört die Meldung dieser Seite? Bei einem Listeneintrag aus der Suche (`ausSuche`) die Adresse des
-  Eintrags; sonst die des gemerkten Suchauftrags, wenn er diese Seite meint (Ziel oder angehakt). Wer auf „diese Seite“
-  bestätigt, landet unter dem Eintrag einer anderen Staffel (Higurashi, 31.10.2026) — die Suche blieb sonst offen.
-*/
-globalThis.akPrimeSuchAdresse = (eintrag, auftrag, hier) => {
-  if (eintrag?.ausSuche) return eintrag.url ?? auftrag?.suchUrl ?? null
-  const gemeint = auftrag?.zielAsin === hier || (Array.isArray(auftrag?.erwartet) && auftrag.erwartet.includes(hier))
-  return hier && auftrag?.suchUrl && gemeint ? auftrag.suchUrl : null
-}
-
-/*
   Der Frame hat die Frist erreicht. Zeigt der Knopf da „gemeldet“, kam die Marke erst in der letzten Sekunde
   (langsame Seite): die Staffel ist gemeldet, nicht gescheitert (Fushigi Yûgi Staffel 1, 31.10.2026).
 */
