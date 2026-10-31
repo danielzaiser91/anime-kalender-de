@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-10-31T16:19:47.836Z",
+  "generatedAt": "2026-10-31T17:32:52.540Z",
   "titleCount": 2923,
   "belegtCount": 2590,
-  "releaseCount": 828,
-  "eventCount": 4245,
+  "releaseCount": 831,
+  "eventCount": 4259,
   "genres": [
     "Action",
     "Adventure",
@@ -285,7 +285,7 @@
     {
       "titleId": 102839,
       "pruefung": "kalender-plausibilitaet",
-      "grund": "primeOhneTitelseite: Kuroko’s Basketball - Winter Cup Highlights Movie 3 Crossing the Door (kuroko-winter-cup-movie-3-primevideo): Prime-Termin verlinkt nur eine Suche",
+      "grund": "primeOhneTitelseite: Kuroko’s Basketball - Winter Cup Highlights Movie 3 Crossing the Door (kuroko-winter-cup-movie-3-primevideo): Prime-Termin verlinkt nur eine Suche — 102839 Kuroko’s Basketball - Winter Cup Highlights Movie 3 Crossing the Door [primeOhneTitelseite] Termin: https://www.amazon.de/s?k=Kuroko%E2%80%99s%20Basketball%20Movie%203%20%E2%80%93%20Winter%20Cup%3A%20Crossing%20the%20Door&i=instant-video | Wege vorher: https://watch.amazon.de/detail?gti=amzn1.dv.gti.63b9a08d-3318-4dd4-be6f-9f48926fd70b https://www.amazon.de/gp/video/detail/B0CWGVXPC3 | nachher: https://watch.amazon.de/detail?gti=amzn1.dv.gti.63b9a08d-3318-4dd4-be6f-9f48926fd70b https://www.amazon.de/gp/video/detail/B0CWGVXPC3 | Weg-Zahl 2→2",
       "releases": [
         "kuroko-winter-cup-movie-3-primevideo"
       ]
