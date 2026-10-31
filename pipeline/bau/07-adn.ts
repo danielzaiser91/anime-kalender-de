@@ -11,6 +11,7 @@ import { adnSlug, adnBlockName, fskFromAdnAge, adnHinweis, werkTitel } from './t
 import { ADN_CALENDAR_URL, adnKatalogUrl } from './grundlagen.ts'
 import { todayIso } from '../../shared/time.ts'
 import { artikelJeShow, type AdnNews } from '../lib/adn-news.ts'
+import { terminSpanne } from '../lib/adn-spanne.ts'
 import { ergaenzeTeilnamen } from './adn-teilnamen.ts'
 import { verschmelzeAdnMitKuratiertem } from './adn-kuratiert.ts'
 import { adnShowsAusKalenderUndKatalog, belegeTonKuratierterAdnTermine } from './adn-kuratiert-ton.ts'
@@ -248,8 +249,7 @@ function ergaenzeAdnTitelAusDaten({ titles, releases, titleByName, seenSlugs, ca
           (e) => !teile.length || ((e.episode ?? 0) >= abschnitt.adnVon && (e.episode ?? 0) <= abschnitt.adnBis),
         )
         if (!folgen.length) continue
-        const first = folgen[0]
-        const letzte = folgen.at(-1)!
+        const { fruehste: first, spaetste: letzte } = terminSpanne(folgen, `ADN ${show.showId} (${show.title})`)
         const anzahl = new Set(folgen.map((e) => e.episode ?? e.url)).size
         /* Lesbarer Artikel, falls ADN einen zur Serie veröffentlicht hat. */
         const artikel = artikelProShow.get(show.showId)
@@ -259,7 +259,7 @@ function ergaenzeAdnTitelAusDaten({ titles, releases, titleByName, seenSlugs, ca
           titleId: title?.id ?? -1,
           name: anzeigename,
           platform: 'adn',
-          platformUrl: first.url,
+          platformUrl: folgen[0].url,
           releaseType: block.rhythm === 'weekly' ? 'weekly' : 'batch',
           /**
            * Was das Datum bedeutet — und was es ausdrücklich nicht bedeutet.

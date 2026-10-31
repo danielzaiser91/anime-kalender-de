@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-10-31T08:08:22.699Z",
-  "titleCount": 2924,
-  "belegtCount": 2584,
-  "releaseCount": 815,
-  "eventCount": 4231,
+  "generatedAt": "2026-10-31T16:19:47.836Z",
+  "titleCount": 2923,
+  "belegtCount": 2590,
+  "releaseCount": 828,
+  "eventCount": 4245,
   "genres": [
     "Action",
     "Adventure",
@@ -280,5 +280,15 @@
     "Termine: aniSearch, Anime2You — siehe Quellenangabe je Eintrag",
     "Markenzeichen der Anbieter: simple-icons (https://simpleicons.org) — CC0, Wikimedia Commons (https://commons.wikimedia.org) — gemeinfrei, ADN-Wortmarke aus der französischen Wikipedia, maxdome-Zeichen nach „Maxdome Logo (2021)“ von videociety GmbH (CC BY-SA 4.0, zugeschnitten); die Marken gehören ihren Inhabern",
     "Welche Folgen auf Netflix eine deutsche Tonspur haben: Streaming Availability API (https://www.movieofthenight.com/about/api)"
+  ],
+  "quarantaene": [
+    {
+      "titleId": 102839,
+      "pruefung": "kalender-plausibilitaet",
+      "grund": "primeOhneTitelseite: Kuroko’s Basketball - Winter Cup Highlights Movie 3 Crossing the Door (kuroko-winter-cup-movie-3-primevideo): Prime-Termin verlinkt nur eine Suche",
+      "releases": [
+        "kuroko-winter-cup-movie-3-primevideo"
+      ]
+    }
   ]
 }
