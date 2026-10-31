@@ -175,3 +175,16 @@
   dateMeaning: available-from
   schedule: { firstEpisodeDate: "2026-09-14", firstEpisodeNumber: 87, episodeCount: 14 }
   sources: [https://www.anime2you.de/news/1049988/disney-plus-the-god-of-high-school-und-mehr/]
+
+# Rooster Fighter, Netflix (31.10.2026): Der Termin stand bisher als Automatik-Termin aus Anime2Yous Oktober-Liste (1052708: „10. Oktober … Episoden: 12 (komplett)“).
+# Der Sammler hat die Meldung aus `proposals/anime2you.json` entfernt (Vorschläge laufen nach rund fünf Wochen ab); übrig blieb 1055673 mit „Sprache unklar“,
+# und der Termin widersprach dem Handbeleg „deutsch“ (Daniel, 10.10.2026). Als kuratierter Termin bleibt er unabhängig vom Alter der Meldung.
+- slug: auto-179813-netflix
+  anilistId: 179813
+  platform: netflix
+  releaseType: batch
+  dateMeaning: available-from
+  schedule: { firstEpisodeDate: "2026-10-10", episodeCount: 12 }
+  sources:
+    - https://www.anime2you.de/news/1052708/netflix-anime-neu-im-oktober-2026/
+    - https://www.anime2you.de/news/1055673/rooster-fighter-bald-auf-netflix/

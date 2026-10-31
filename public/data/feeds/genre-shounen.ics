@@ -8,58 +8,6 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:auto-15-tv-prosieben-maxx@2026-10-24#19@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261024T040000Z
-DTEND:20261024T043000Z
-SUMMARY:Eyeshield 21
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/6/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-15-tv-prosieben-maxx@2026-10-24#20@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261024T042500Z
-DTEND:20261024T045500Z
-SUMMARY:Eyeshield 21
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/6/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-15-tv-prosieben-maxx@2026-10-24#21@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261024T045000Z
-DTEND:20261024T052000Z
-SUMMARY:Eyeshield 21
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/6/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-15-tv-prosieben-maxx@2026-10-24#22@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261024T051500Z
-DTEND:20261024T054500Z
-SUMMARY:Eyeshield 21
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/6/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:das-band-der-unterwelt-netflix@2026-10-24@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261024
-DTEND;VALUE=DATE:20261025
-SUMMARY:Das Band der Unterwelt – Folge 17/24
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
- it noch nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter genannte
- r Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetails: h
- ttps://anime-kalender.de/t/16919/
-CATEGORIES:Netflix
-END:VEVENT
-BEGIN:VEVENT
 UID:you-and-i-are-polar-opposites-s2@2026-10-25@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261025T093000Z
@@ -838,6 +786,46 @@ SUMMARY:Tougen Anki – Teil 2 (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/t/15906/
 CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-15-tv-prosieben-maxx@2026-11-07#27@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261107T042500Z
+DTEND:20261107T045500Z
+SUMMARY:Eyeshield 21
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/6/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-15-tv-prosieben-maxx@2026-11-07#28@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261107T045000Z
+DTEND:20261107T052000Z
+SUMMARY:Eyeshield 21
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/6/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-15-tv-prosieben-maxx@2026-11-07#29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261107T051000Z
+DTEND:20261107T054000Z
+SUMMARY:Eyeshield 21
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/6/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-15-tv-prosieben-maxx@2026-11-07#30@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261107T053500Z
+DTEND:20261107T060500Z
+SUMMARY:Eyeshield 21
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/6/
+CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:das-band-der-unterwelt-netflix@2026-11-07@anime-kalender-de

@@ -8,56 +8,6 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:auto-15-tv-prosieben-maxx@2026-10-24#19@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261024T040000Z
-DTEND:20261024T043000Z
-SUMMARY:Eyeshield 21
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/6/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-15-tv-prosieben-maxx@2026-10-24#20@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261024T042500Z
-DTEND:20261024T045500Z
-SUMMARY:Eyeshield 21
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/6/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-15-tv-prosieben-maxx@2026-10-24#21@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261024T045000Z
-DTEND:20261024T052000Z
-SUMMARY:Eyeshield 21
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/6/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-15-tv-prosieben-maxx@2026-10-24#22@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261024T051500Z
-DTEND:20261024T054500Z
-SUMMARY:Eyeshield 21
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/6/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-165159-tv-toggo-plus@2026-10-24@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261024T184500Z
-DTEND:20261024T191500Z
-SUMMARY:Beyblade X – Folge 121/122
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/t/15075/
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
 UID:aoashi-staffel-2-crunchyroll-de-2026-10-25@2026-10-25@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261025T090000Z
@@ -184,6 +134,46 @@ SUMMARY:Inazuma Eleven – The Movie: Team Oger Attacks! (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/t/4723/
 CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-15-tv-prosieben-maxx@2026-11-07#27@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261107T042500Z
+DTEND:20261107T045500Z
+SUMMARY:Eyeshield 21
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/6/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-15-tv-prosieben-maxx@2026-11-07#28@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261107T045000Z
+DTEND:20261107T052000Z
+SUMMARY:Eyeshield 21
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/6/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-15-tv-prosieben-maxx@2026-11-07#29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261107T051000Z
+DTEND:20261107T054000Z
+SUMMARY:Eyeshield 21
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/6/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-15-tv-prosieben-maxx@2026-11-07#30@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261107T053500Z
+DTEND:20261107T060500Z
+SUMMARY:Eyeshield 21
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/6/
+CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:aoashi-staffel-2-crunchyroll-de-2026-10-25@2026-11-08@anime-kalender-de
