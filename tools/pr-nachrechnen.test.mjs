@@ -415,6 +415,8 @@ for (const [name, daten, opt, angestossen] of [
   ['Öffnen scheitert 3×', antworten({ mainSha: MAIN, mergeShas: [M_NEU] }), { reopenFehler: 3 }, true],
   ['Merge-Commit nie neu', antworten({ mainSha: MAIN, mergeShas: Array(REF_PRUEFUNGEN + 3).fill(M_ALT) }), {}, true],
   ['Schließen scheitert', { ...antworten({ mainSha: MAIN }), 'pr close 7': { fehler: '403' } }, {}, false],
+  // Zeitlimit beim Schließen: der Server kann den PR trotzdem geschlossen haben, also gilt er als angestoßen.
+  ['Schließen hängt (Zeitlimit)', { ...antworten({ mainSha: MAIN }), 'pr close 7': { fehler: 'FEHLER: gh pr close 7 nach 30 s abgebrochen' } }, {}, true],
 ]) {
   const k = kulisse(daten, opt)
   const code = main(['7'], k.gh, k.melde, k.warte)

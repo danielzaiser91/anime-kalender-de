@@ -1,0 +1,15 @@
+[
+  { "name": "Abschluss-Catch schluckt (console.log)", "datei": "tools/laeufe-aufraeumen.mjs", "suche": "fehlerAbbruch(abbruchText(fehler))", "ersetze": "console.log(abbruchText(fehler))" },
+  { "name": "Abschluss-Catch wirft weiter", "datei": "tools/laeufe-aufraeumen.mjs", "suche": "fehlerAbbruch(abbruchText(fehler))", "ersetze": "throw fehler" },
+  { "name": "Abschluss-Catch druckt immer Stack", "datei": "tools/laeufe-aufraeumen.mjs", "suche": "fehlerAbbruch(abbruchText(fehler))", "ersetze": "fehlerAbbruch(fehler.stack)" },
+  { "name": "abbruchText: Text zu 'x'", "datei": "tools/kind-mit-limit.mjs", "suche": "? fehler.message :", "ersetze": "? 'x' :" },
+  { "name": "abbruchText: Kennung FEHLER: geändert", "datei": "tools/kind-mit-limit.mjs", "suche": "startsWith('FEHLER:') ? fehler.message", "ersetze": "startsWith('X:') ? fehler.message" },
+  { "name": "abbruchText: immer Meldung", "datei": "tools/kind-mit-limit.mjs", "suche": ": fehler.stack)", "ersetze": ": fehler.message)" },
+  { "name": "ghStapel: Stapel-Limit entfernt", "datei": "tools/kind-mit-limit.mjs", "suche": "{ limitMs: LIMIT_STAPEL_MS, ausfuehren }", "ersetze": "{ ausfuehren }" },
+  { "name": "ghStapel: Eingabe nicht übergeben", "datei": "tools/kind-mit-limit.mjs", "suche": "{ input: JSON.stringify(liste), encoding", "ersetze": "{ encoding" },
+  { "name": "Einzel-Limit 60 s", "datei": "tools/kind-mit-limit.mjs", "suche": "ueberschrieben || 15_000", "ersetze": "ueberschrieben || 60_000" },
+  { "name": "Stapel-Limit 120 s", "datei": "tools/kind-mit-limit.mjs", "suche": "ueberschrieben || 30_000", "ersetze": "ueberschrieben || 120_000" },
+  { "name": "mitLimit: kein timeout", "datei": "tools/kind-mit-limit.mjs", "suche": "windowsHide: true, timeout: limitMs", "ersetze": "windowsHide: true" },
+  { "name": "laeufe-aufraeumen: Wache nutzt kein ghStapel", "datei": "tools/laeufe-aufraeumen.mjs", "suche": "weichWache(ghStapel, REPO", "ersetze": "weichWache(() => [], REPO" },
+  { "name": "Kontrolle (unmutiert)", "aenderungen": [] }
+]

@@ -394,6 +394,7 @@
     return globalThis.AK_DISNEY_WEG.erledigt(e.url, null, briefkasten.has(e.url) || gemeldeteAdressen.has(e.url) || wartetAufUebernahme.has(e.url))
   }
 
+  const zurueckBis = (url) => globalThis.akDisneyZurueckBis(localStorage, url, Date.now())
   function offeneEintraege() {
     return Object.entries(liste)
       .map(([id, wert]) => ({ id, ...wert, offen: wert.staffeln.filter((st) => st.offen).length }))
@@ -493,10 +494,10 @@
     const kopf = document.createElement('div')
     kopf.style.cssText = 'display:flex;align-items:baseline;gap:10px;margin-bottom:10px;flex-wrap:wrap'
     const titelzeile = document.createElement('strong')
-    const nochOffen = alle.length - erledigte.length
-    titelzeile.textContent = nochOffen ? `${nochOffen} Titel zu prüfen` : 'Alles gemeldet'
+    const zaehlung = globalThis.akDisneyZaehlung(alle, istErledigt, zurueckBis)
+    titelzeile.textContent = globalThis.akDisneyKopfText(zaehlung)
     kopf.appendChild(titelzeile)
-    durchgangKnopf(kopf, nochOffen)
+    durchgangKnopf(kopf, zaehlung.offen)
 
     /* Wann das Gemeldete hier wieder verschwindet. */
     if ([...briefkasten.values()].some((n) => n.length >= 0) && briefkasten.size) {
@@ -560,12 +561,7 @@
         const grau = document.createElement('span')
         grau.style.cssText = 'margin-left:8px;opacity:.6'
         const wartet = istErledigt(e)
-        const folgenZahl = e.staffeln
-          .filter((st) => st.offen)
-          .reduce((n, st) => n + (st.folgen ?? 0), 0)
-        grau.textContent = wartet
-          ? 'gemeldet, wartet auf Übernahme'
-          : `${e.offen} Staffel${e.offen === 1 ? '' : 'n'}` + (folgenZahl ? `, ca. ${folgenZahl} Folgen` : '')
+        grau.textContent = wartet ? 'gemeldet, wartet auf Übernahme' : globalThis.akDisneyZeilenText(e, zurueckBis(e.url))
         zeile.appendChild(grau)
       }
 
@@ -611,10 +607,9 @@
     }
     disneyDebugZeile(kasten)
     /* Gezählt wird der Titel, nicht die Meldung — teilweise gemeldet ist noch offen (26.08.2026). */
-    const nochOffen = akZaehler(null, offen.filter((e) => !istErledigt(e)).length, !!globalThis.AK_DISNEY_DURCHGANG?.laeuft())
-    uebersichtKnopf.textContent = nochOffen
-      ? `Anime-Kalender: ${nochOffen} offen`
-      : 'Anime-Kalender: alles gemeldet ✓'
+    const zaehlung = globalThis.akDisneyZaehlung(offen, istErledigt, zurueckBis)
+    const nochOffen = akZaehler(null, zaehlung.offen, !!globalThis.AK_DISNEY_DURCHGANG?.laeuft())
+    uebersichtKnopf.textContent = globalThis.akDisneyPilleText(nochOffen, zaehlung)
   }
 
   document.addEventListener('keydown', (e) => {

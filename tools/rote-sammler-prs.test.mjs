@@ -2,10 +2,11 @@
 // Das Werkzeug läuft ganz (ohne Netz: untergeschobenes fetch), `gh` ist eine Attrappe im PATH und prüft Befehl und Parameter.
 import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
-import { chmodSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import { mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { legeGhAttrappe } from './gh-attrappe.mjs'
 import { abzuloesen, meldeRoteSammlerPrs, rotePrs, schluesselVon, zeilen } from './rote-sammler-prs.mjs'
 
 const JETZT = Date.parse('2026-10-17T12:00:00Z')
@@ -76,19 +77,16 @@ assert.deepEqual(kaputt, ['Rote Sammler-PRs nicht lesbar: gh kaputt'], 'ein Abru
 // Verdrahtung: Die Wachphase (laeufe-aufraeumen --trocken) nennt die roten PRs, obwohl alle Läufe grün sind.
 const dir = mkdtempSync(join(tmpdir(), 'rote-prs-'))
 try {
-  const d = dir.replace(/\\/g, '/')
   const befehl = 'pr list --state open --limit 100 --json number,title,body,createdAt'
   // Der Prüfling liest die echte Uhr: die Zeitstempel wandern mit, sonst kippt "seit 3 Tage" mit dem Kalender (18.10.2026, 12:00 UTC).
   const verschoben = liste.map((p) => ({ ...p, createdAt: new Date(Date.parse(p.createdAt) + Date.now() - JETZT).toISOString() }))
   writeFileSync(join(dir, 'liste.json'), JSON.stringify(verschoben))
-  writeFileSync(join(dir, 'gh'), `#!/bin/sh\ncase "$*" in "${befehl}") cat "${d}/liste.json" ;; *) echo "falsche Parameter: $*" >&2; exit 1 ;; esac\n`)
-  chmodSync(join(dir, 'gh'), 0o755)
-  writeFileSync(join(dir, 'gh.cmd'), `@echo off\r\nif "%*"=="${befehl}" (type "${join(dir, 'liste.json')}") else (echo falsche Parameter: %* 1>&2 & exit /b 1)\r\n`)
+  const ghEnv = legeGhAttrappe(dir, { befehl, antwortDatei: join(dir, 'liste.json') })
   const werkzeug = fileURLToPath(new URL('./laeufe-aufraeumen.mjs', import.meta.url))
   const wache = (antwort) =>
     spawnSync(process.execPath, ['--import', `data:text/javascript,globalThis.fetch=async()=>${antwort}`, werkzeug, '--trocken'], {
       encoding: 'utf8',
-      env: { ...process.env, PATH: `${dir}${process.platform === 'win32' ? ';' : ':'}${process.env.PATH}` },
+      env: { ...process.env, ...ghEnv },
     })
   const r = wache('new Response("[]",{status:200})')
   assert.equal(r.status, 0, r.stderr)

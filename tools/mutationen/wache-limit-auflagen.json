@@ -1,0 +1,9 @@
+[
+  { "name": "A2 dossier laufe: Limit ohne Wirkung (1e9)", "datei": "tools/wache-urteil-dossier.mjs", "suche": "{ limitMs: LIMIT_SKRIPT_MS })", "ersetze": "{ limitMs: 1e9 })" },
+  { "name": "A2 kind-mit-limit: Skript-Limit 30 s statt 90 s", "datei": "tools/kind-mit-limit.mjs", "suche": "ueberschrieben || 90_000", "ersetze": "ueberschrieben || 30_000" },
+  { "name": "A3 dossier laufe: FEHLER-Zweig entfernt", "datei": "tools/wache-urteil-dossier.mjs", "suche": "if (String(fehler.message).startsWith('FEHLER:')) return fehler.message", "ersetze": "if (false) return fehler.message" },
+  { "name": "A4 wochenwache: Daten-Detektiv ohne Limit", "datei": "tools/wache-woechentlich.mjs", "suche": "{ limitMs: LIMIT_STAPEL_MS })", "ersetze": "{ limitMs: 1e9 })" },
+  { "name": "A5 wiederoeffnen: Anstoß nach hängendem close nicht gemeldet", "datei": "tools/pr-nachrechnen.mjs", "suche": "if (String(e.message).startsWith('FEHLER:')) begonnen()", "ersetze": "if (false) begonnen()" },
+  { "name": "A5 wiederoeffnen: close-Fehler verschluckt", "datei": "tools/pr-nachrechnen.mjs", "suche": "    throw e\n  }\n  begonnen()", "ersetze": "  }\n  begonnen()" },
+  { "name": "Kontrolle (unmutiert)", "aenderungen": [] }
+]

@@ -17,6 +17,8 @@ function pruefe(name, bedingung, gefunden) {
 }
 
 const wurzel = join(dirname(fileURLToPath(import.meta.url)), '..')
+// Kopierliste der Kulisse; tools/kopierlisten-importgraph.test.mjs prüft sie gegen den Importgraph von quellen-pr.sh.
+const KOPIEN = ['quellen-liste.sh', 'quellen-aufsetzen.sh', 'quellen-pr.sh', 'quellen-pruefen.sh', 'health-vereinen.mjs', 'dub-belege-vereinen.mjs', 'rote-sammler-prs.mjs', 'kind-mit-limit.mjs']
 const posix = (p) => p.replace(/\\/g, '/').replace(/^([A-Za-z]):/, (_, l) => `/${l.toLowerCase()}`)
 const git = 'git -c user.name=t -c user.email=t@t'
 const sh = (cwd, befehl, env = {}) => {
@@ -72,7 +74,7 @@ async function szenario({ befehl, frist = 60, aenderung = true, labelKaputt = fa
     const lauf = join(dir, 'lauf')
     mkdirSync(join(lauf, 'data'), { recursive: true })
     mkdirSync(join(lauf, 'tools'), { recursive: true })
-    for (const datei of ['quellen-liste.sh', 'quellen-aufsetzen.sh', 'quellen-pr.sh', 'quellen-pruefen.sh', 'health-vereinen.mjs', 'dub-belege-vereinen.mjs', 'rote-sammler-prs.mjs'])
+    for (const datei of KOPIEN)
       copyFileSync(join(wurzel, 'tools', datei), join(lauf, 'tools', datei))
     writeFileSync(join(lauf, 'data/anisearch.json'), '{"v":1}')
     sh(lauf, `git add -A && ${git} commit -q -m start && git push -q origin HEAD:main`)
