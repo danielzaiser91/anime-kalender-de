@@ -80,6 +80,15 @@ async function sichernUndLaden() {
   await seiten.akPrimeSeiteSichern(S2, genau.lesen, genau.schreiben, FEST + 24 * STUNDE)
   pruefe('Sichern: genau 24 Stunden alt fällt heraus, eine Millisekunde jünger bleibt', genau.inhalt[SCHLUESSEL]?.[S1] === undefined && genau.inhalt[SCHLUESSEL]?.[S3] === FEST + 1, genau.inhalt[SCHLUESSEL])
 
+  const frist = 7800 * 1000
+  const mitFrist = speicherNeu({ [SCHLUESSEL]: { [S3]: FEST } })
+  const knapp = new Set()
+  await seiten.akPrimeSeitenLaden(knapp, mitFrist.lesen, FEST + frist - 1, frist)
+  pruefe('mit eigener Frist: eine Millisekunde davor noch gemeldet', knapp.has(S3), [...knapp])
+  const vorbei = new Set()
+  await seiten.akPrimeSeitenLaden(vorbei, mitFrist.lesen, FEST + frist, frist)
+  pruefe('mit eigener Frist: genau an der Frist nicht mehr', !vorbei.has(S3), [...vorbei])
+
   const leer = new Set()
   await seiten.akPrimeSeitenLaden(leer, async () => null, FEST)
   pruefe('Speicher nicht lesbar (null): leer, kein Absturz', leer.size === 0)
@@ -93,8 +102,8 @@ function seiteOffenLaufen() {
   const treffer = /\n {2}function seiteOffen\(\) \{[\s\S]*?\n {2}\}\n/.exec(quelle)
   pruefe('seiteOffen() im Quelltext gefunden', Boolean(treffer))
   if (!treffer) return
-  const offen = (adresse, brief, selbst = new Set()) => {
-    const k = vm.createContext({ Set, String, Boolean, briefkastenSeiten: brief, selbstGemeldeteSeiten: selbst, asin: () => adresse })
+  const offen = (adresse, brief, frisch = new Set(), selbst = new Set()) => {
+    const k = vm.createContext({ Set, String, Boolean, briefkastenSeiten: brief, frischGemeldeteSeiten: frisch, selbstGemeldeteSeiten: selbst, asin: () => adresse })
     k.globalThis = k
     vm.runInContext(lies('prime-stand.js'), k)
     return vm.runInContext(`${treffer[0]}\nseiteOffen()`, k)
@@ -104,11 +113,13 @@ function seiteOffenLaufen() {
   pruefe('Briefkasten noch ohne Antwort (null), Seite S2: offen, nicht „gemeldet"', offen(S2, null) === true)
   pruefe('Briefkasten mit leerer Menge: offen', offen(S2, new Set()) === true)
   pruefe('Seite ohne Kennung: offen', offen(null, new Set([S1])) === true)
-  const wirft = vm.createContext({ Set, String, Boolean, briefkastenSeiten: new Set([S1]), selbstGemeldeteSeiten: new Set(), asin: () => { throw new Error('keine Kennung') } })
+  const wirft = vm.createContext({ Set, String, Boolean, briefkastenSeiten: new Set([S1]), frischGemeldeteSeiten: new Set(), asin: () => { throw new Error('keine Kennung') } })
   wirft.globalThis = wirft
   vm.runInContext(lies('prime-stand.js'), wirft)
   pruefe('die Kennung lässt sich nicht lesen (wirft): offen, nicht „gemeldet"', vm.runInContext(`${treffer[0]}\nseiteOffen()`, wirft) === true)
-  pruefe('die eigene Meldung ersetzt den Briefkasten hier nicht (Anzeige, keine Behauptung)', offen(S3, new Set([S1]), new Set([S3])) === true)
+  pruefe('frische eigene Meldung S3, Briefkasten noch alt (führt nur S1): nicht offen', offen(S3, new Set([S1]), new Set([S3])) === false)
+  pruefe('frische eigene Meldung S3, Seite S2: offen (je Kennung)', offen(S2, new Set([S1]), new Set([S3])) === true)
+  pruefe('nur der 24-Stunden-Merker der Anzeige kennt S3: weiter offen (Anzeige, keine Behauptung)', offen(S3, new Set([S1]), new Set(), new Set([S3])) === true)
 }
 
 /* D: Weggelegt (X) blendet die Meldezeile nicht mehr aus */

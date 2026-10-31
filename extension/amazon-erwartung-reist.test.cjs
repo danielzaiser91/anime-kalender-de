@@ -150,16 +150,18 @@ pruefe(
   **Und er bleibt bei der Anzeige.**
 
   `seiteOffen()` entscheidet, ob ein Verweis wirklich abgehakt ist — dort gilt
-  der Briefkasten allein, denn eine Meldung, die nicht ankommt, darf nicht als
-  erledigt zählen. Wer den Merker dort einbaut, macht aus einer Anzeige eine
-  Behauptung.
+  der Briefkasten, denn eine Meldung, die nicht ankommt, darf nicht als
+  erledigt zählen. Wer den 24-Stunden-Merker (Anzeige) dort einbaut, macht aus
+  einer Anzeige eine Behauptung. Seit 31.10.2026 (Higurashi) liest `seiteOffen()`
+  zusätzlich die frische Meldung (`frischGemeldeteSeiten`, nur bis der Briefkasten
+  sie führen kann), sonst bot der Knopf nach dem Neuladen wieder „melden" an.
 */
 const seiteOffenBlock = quelle.match(/function seiteOffen\([\s\S]*?\n  \}/)
 pruefe('seiteOffen() ist auffindbar', Boolean(seiteOffenBlock))
 if (seiteOffenBlock) {
   pruefe(
-    'seiteOffen() entscheidet weiter allein über den Briefkasten',
-    !seiteOffenBlock[0].includes('selbstGemeldeteSeiten'),
+    'seiteOffen() liest den 24-Stunden-Merker der Anzeige nicht (nur die frische Meldung)',
+    !seiteOffenBlock[0].includes('selbstGemeldeteSeiten') && seiteOffenBlock[0].includes('frischGemeldeteSeiten'),
   )
 }
 

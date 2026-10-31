@@ -763,8 +763,11 @@ async function speicherSchreiben(werte) {
    * ankommt, darf nicht als erledigt gelten.
    */
   const selbstGemeldeteSeiten = new Set()
-  /* Die eigene Meldung übersteht das Neuladen (Higurashi, 31.10.2026): gesicherte Kennungen kommen zurück. */
-  void globalThis.akPrimeSeitenLaden(selbstGemeldeteSeiten, speicherLesen, Date.now()).catch(() => {})
+  /* Die eigene Meldung bis der Briefkasten sie führen kann, `seiteOffen()` liest sie (prime-stand.js). */
+  const frischGemeldeteSeiten = new Set()
+  globalThis.akPrimeSeitenStarten(selbstGemeldeteSeiten, frischGemeldeteSeiten, speicherLesen, () => {
+    letzterStand = ''
+  })
   /** Wie oft der 500-ms-Takt hintereinander geworfen hat — der Durchgang darf daran nicht sterben. */
   let primeFehler = 0
   /**
@@ -5347,8 +5350,8 @@ async function speicherSchreiben(werte) {
    */
   function seiteOffen() {
     try {
-      /* Allein der Briefkasten, für genau diese Kennung; ohne seine Antwort ist die Seite meldbar. */
-      return !globalThis.akPrimeSeiteGemeldet(asin(), briefkastenSeiten, null)
+      /* Briefkasten und frische eigene Meldung, für genau diese Kennung; ohne Beleg ist die Seite meldbar. */
+      return !globalThis.akPrimeSeiteGemeldet(asin(), briefkastenSeiten, frischGemeldeteSeiten)
     } catch {
       return true
     }
@@ -10661,6 +10664,7 @@ async function speicherSchreiben(werte) {
             */
             if (briefkastenSeiten) briefkastenSeiten.add(String(hier))
             selbstGemeldeteSeiten.add(String(hier))
+            frischGemeldeteSeiten.add(String(hier))
             void globalThis.akPrimeSeiteSichern(hier, speicherLesen, speicherSchreiben, Date.now()).catch(() => {})
           }
         } catch {

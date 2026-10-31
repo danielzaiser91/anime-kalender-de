@@ -157,12 +157,27 @@ globalThis.akPrimeSeiteGemeldet = (kennung, briefkastenSeiten, selbst) => {
 const SEITEN_SCHLUESSEL = 'akPrimeSeitenGemeldet'
 const SEITEN_HALTE_MS = 24 * 3600 * 1000
 
-/** Trägt die gesicherten eigenen Meldungen (jünger als 24 h) in `selbst` ein. */
-globalThis.akPrimeSeitenLaden = async (selbst, lesen, jetzt) => {
+/** Trägt die gesicherten eigenen Meldungen, die jünger als `halteMs` (Standard 24 h) sind, in `selbst` ein. */
+globalThis.akPrimeSeitenLaden = async (selbst, lesen, jetzt, halteMs = SEITEN_HALTE_MS) => {
   const alt = (await lesen(SEITEN_SCHLUESSEL))?.[SEITEN_SCHLUESSEL] ?? {}
   for (const [kennung, zeit] of Object.entries(alt)) {
-    if (jetzt - zeit < SEITEN_HALTE_MS) selbst.add(kennung)
+    if (jetzt - zeit < halteMs) selbst.add(kennung)
   }
+}
+
+/**
+ * Lädt beim Start beide Mengen: `selbst` (24 h, Haken der Checkliste) und `frisch` (Frist der Meldesperre, Edge-Cache
+ * des Briefkastens plus Reserve: bis dahin kann er die Meldung nicht führen; danach entscheidet er, kam sie nicht an,
+ * geht der Knopf erneut auf). `neuZeichnen` läuft nach dem Laden: `zeichnen()` steigt bei gleichem Stand aus, und
+ * `seiteOffen()` steht nicht in der Signatur.
+ */
+globalThis.akPrimeSeitenStarten = (selbst, frisch, lesen, neuZeichnen) => {
+  const jetzt = Date.now()
+  void globalThis.akPrimeSeitenLaden(selbst, lesen, jetzt).catch(() => {})
+  void globalThis
+    .akPrimeSeitenLaden(frisch, lesen, jetzt, globalThis.AK_MELDE_SPERRE.FRIST_MS)
+    .then(neuZeichnen)
+    .catch(() => {})
 }
 
 /** Sichert eine eigene Meldung; liest vorher den Speicher, damit andere Tabs nicht überschrieben werden. */

@@ -67,6 +67,7 @@ async function meldenAufSeite(speicher, uhr, staffel = 's1', { folgen = 12, star
     briefkastenAdressen: ablage,
     briefkastenSeiten: null,
     selbstGemeldeteSeiten: new Set(),
+    frischGemeldeteSeiten: (knopf.frisch = new Set()),
     asin: () => LISTEN_ID,
     frischGemeldet: ablage,
     uebersichtZeichnen: () => {},
@@ -179,6 +180,7 @@ async function main() {
   pruefe('Meldung gelang (Knopf trägt keinen Fehler)', !/Fehler|Nicht erreichbar/.test(knopf.textContent), knopf.textContent)
   pruefe('Vermerk unter der Listenkennung gespeichert', Boolean(vermerk), Object.keys(speicher.inhalt.amazonErledigt ?? {}))
   pruefe('Vermerk trägt die ISO-Zeit der Meldung', vermerk?.zeit === '2026-10-21T01:10:00.000Z', vermerk?.zeit)
+  pruefe('die gemeldete Seite gilt sofort als frisch gemeldet (seiteOffen)', knopf.frisch.has(LISTEN_ID) && knopf.frisch.size === 1, [...knopf.frisch])
   const seitenVermerk = speicher.inhalt.akPrimeSeitenGemeldet
   pruefe('die gemeldete Seite ist gesichert (Kennung und Meldezeit), sonst fehlt sie nach dem Neuladen', seitenVermerk?.[LISTEN_ID] === FEST && Object.keys(seitenVermerk).length === 1, seitenVermerk)
 
