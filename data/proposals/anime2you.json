@@ -1,11 +1,11 @@
 {
-  "scrapedAt": "2026-10-31T15:02:14.994Z",
+  "scrapedAt": "2026-10-31T17:02:40.746Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 11,
-    "schon in einem Rubrik-Feed gelesen": 10,
     "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 11,
+    "schon in einem Rubrik-Feed gelesen": 8,
     "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 2,
     "Sprachhinweis älter als 45 Tage": 4
   },
@@ -56,6 +56,44 @@
         }
       ],
       "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Start des zweiten Teils von »Romelia War Chronicle« steht fest",
+      "articleUrl": "https://www.anime2you.de/news/1066118/romelia-war-chronicle-part-2-start/",
+      "publishedAt": "2026-10-31",
+      "category": "allgemein",
+      "platforms": [],
+      "dates": [
+        {
+          "month": "2027-04",
+          "context": "ung des zweiten Teils der Serie verkündet. Wir fassen zusammen. Start im April 2027 Der zweite Part von »Romelia War Chronicle« startet demz"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "ProSieben MAXX wiederholt zweite »The Eminence in Shadow«-Staffel",
+      "articleUrl": "https://www.anime2you.de/news/1066006/prosieben-maxx-eminence-in-shadow-staffel-2-wiederholung/",
+      "publishedAt": "2026-10-31",
+      "category": "allgemein",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-11-27",
+          "context": "lung ab November 2026 Die Wiederholung der zweiten Staffel startet am 27. November 2026 um 23:20 Uhr mit den ersten fünf Episoden am Stück."
+        },
+        {
+          "iso": "2026-12-04",
+          "context": "ember 2026 um 23:20 Uhr mit den ersten fünf Episoden am Stück. Ab dem 4. Dezember 2026 […] Der Beitrag ProSieben MAXX wiederholt zweite »T"
+        },
+        {
+          "month": "2026-11",
+          "context": "erneut mit deutscher Sprachfassung. Wir fassen zusammen. Wiederholung ab November 2026 Die Wiederholung der zweiten Staffel startet am 27. N"
+        }
+      ],
+      "dub": "ja",
       "alreadyCurated": false
     },
     {
