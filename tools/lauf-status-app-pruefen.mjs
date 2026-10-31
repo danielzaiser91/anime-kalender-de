@@ -158,6 +158,8 @@ const PILLEN = {
     { name: 'Netflix', plattform: 'netflix', titel: 0, ohneSeite: 0, unterwegs: 0, ziel: null, ziele: [] },
     /* Eine Zeile mit Arbeit, aber ohne Aufteilung in Titel/Suchen. */
     { name: 'Disney+', plattform: 'disneyplus', titel: 1, ohneSeite: 0, unterwegs: 0, ziel: 'https://example.com/bleach', ziele: [] },
+    /* Der Worker liefert die Plattform weiter; die Leiste zeigt sie seit 31.10.2026 nicht mehr. */
+    { name: 'Suchadressen', plattform: 'suchadressen', titel: 2, ohneSeite: 2, unterwegs: 0, ziel: 'https://www.netflix.com/title/1', ziele: [] },
   ],
 }
 
@@ -373,10 +375,10 @@ pruefe('die Fußzeile sagt, dass der Dienst nicht antwortet',
   ausfall.stand.includes('der Dienst antwortet nicht'), ausfall.stand)
 /*
   **Die Pillen sind Daniels Arbeitsliste — sie kommen aus derselben Datenbank und müssen bleiben**
-  (29.09.2026: „mach in status app die pills immer sichtbar, also amazon, suchadressen, netflix,
+  (29.09.2026: „mach in status app die pills immer sichtbar, also amazon, suchadressen (seit 31.10.2026 entfernt), netflix,
   disney+ … wenn 0, dann zeig dort auch 0, aber 0 klick führt dann auf die homepage des anbieters").
 */
-pruefe('die Prüfliste bleibt stehen — jetzt alle Anbieter, auch mit 0', ausfall.pillen === 4, String(ausfall.pillen))
+pruefe('die Prüfliste bleibt stehen — jetzt alle Anbieter, auch mit 0', ausfall.pillen === 3, String(ausfall.pillen))
 pruefe('und ist als alter Stand gekennzeichnet', /Stand von vorhin/.test(ausfall.pillenTitel), ausfall.pillenTitel)
 const pillenForm = await seite.evaluate(() =>
   [...document.querySelectorAll('#pruefliste .pille')].map((p) => ({
@@ -386,8 +388,13 @@ const pillenForm = await seite.evaluate(() =>
   })),
 )
 pruefe(
-  'die vier sind Amazon, Verweise ohne Titelseite, Netflix, Disney+',
-  ['Amazon', 'Verweise ohne Titelseite', 'Netflix', 'Disney+'].every((n) => pillenForm.some((p) => p.text.startsWith(n))),
+  'die drei sind Amazon, Netflix, Disney+',
+  ['Amazon', 'Netflix', 'Disney+'].every((n) => pillenForm.some((p) => p.text.startsWith(n))),
+  pillenForm.map((p) => p.text).join(' | '),
+)
+pruefe(
+  'keine Suchadressen-Pille, auch wenn der Stand sie liefert',
+  !pillenForm.some((p) => /Suchadressen|Verweise ohne Titelseite|Adressen/.test(p.text) || p.klasse.includes('suchadressen')),
   pillenForm.map((p) => p.text).join(' | '),
 )
 pruefe(
