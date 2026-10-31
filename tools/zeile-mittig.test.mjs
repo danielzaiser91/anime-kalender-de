@@ -5,12 +5,15 @@
  */
 import assert from 'node:assert/strict'
 import { chromium } from 'playwright'
+import { browserDa } from './browser-weiche.mjs'
 import { verdeckung, zeileMittig } from './zeile-mittig.mjs'
 
 const HOEHE = 600
 const SEITE = `<body style="margin:0"><header style="position:sticky;top:0;height:60px;background:#ccc">Kopf</header>
 <div style="height:2000px"></div><ul style="margin:0;padding:0"><li id="z" style="height:40px">Zeile</li></ul>
 <div style="height:${HOEHE - 36 - 40}px"></div></body>`
+
+if (!browserDa('zeile-mittig', chromium)) process.exit()
 
 const browser = await chromium.launch()
 try {
