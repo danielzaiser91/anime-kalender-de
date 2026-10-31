@@ -54,6 +54,7 @@ Ziel (Daniel, 08.10.2026): Daten aktuell halten und Neuigkeiten einarbeiten, ohn
 
 | Aufgabe | SP | Notiz |
 |---|---|---|
+| **Bestandsbau rot 31.10.2026 (Lauf 41206653402, Issue #2527)** | 1 | `adn-729` (Spirou, Handliste): ADN-Folge 1 trägt Aufnahmedatum 2025-05-05, Folgen 2–26 2021-06-16; `07-adn.ts` nahm erste/letzte Folge nach Nummer, Ende lag vor Anfang. Fix: frühestes/spätestes Datum. **Zu prüfen:** nächster Bestandsbau grün, Spirou-Termin im Kalender. |
 | **Bestandsbau rot 31.10.2026 (Lauf 41191417779, Issue #2504)** | 1 | `amazon-durchgang.test.cjs` kannte `/dp/`-Adressen der „Zweiten Prime-Ausgabe" nicht als Titelseite (erste solche Zeile in `offene-amazon.js`). Fix: Muster im Test erweitert. **Zu prüfen:** nächster Bestandsbau grün. |
 | **Wache 30.10.2026 rot ohne Bestandsbefund (Lauf 41069357224, Issue #2432)** | 1 | Delta-Schritt stürzte ab: `js-yaml` fehlt, weil `delta-wache.yml` kein `npm ci` macht, die Importkette aber `belege-entfernt.ts` erreicht. Fix im PR: `sperrKern` in `sperr-kern.ts` ohne js-yaml. **Zu prüfen:** nächste Wache zeigt wieder Zahlen im Bestandsblock; ob 29.10. ebenfalls blind war. |
 | **Wache-Befund 29.10.2026 (Lauf 40890524142, Issue #2367): 1 Disney+-Urteil, 1 Crunchyroll-Beleg weniger** | 1 | Erklärt: Heidi (2225) ohne Disney+ ist gewollt (#2288, `belege-entfernt.yaml`); Magic Knight Rayearth (178868) verlor den Crunchyroll-Dub-Beleg nur im Bau 424c6978 (04:41 UTC) und ist seit 8f2c5b57 zurück. **Zu prüfen:** warum der Beleg im 04:41-Bau fehlte (Tagesquellen 00e36cee schrieb `beleg-lesungen.json` um). |

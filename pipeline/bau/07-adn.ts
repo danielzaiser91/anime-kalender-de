@@ -248,8 +248,9 @@ function ergaenzeAdnTitelAusDaten({ titles, releases, titleByName, seenSlugs, ca
           (e) => !teile.length || ((e.episode ?? 0) >= abschnitt.adnVon && (e.episode ?? 0) <= abschnitt.adnBis),
         )
         if (!folgen.length) continue
-        const first = folgen[0]
-        const letzte = folgen.at(-1)!
+        // Nach Datum, nicht nach Folgennummer: bei Spirou (729) trägt Folge 1 das Aufnahmedatum 2025, die übrigen 2021.
+        const first = folgen.reduce((a, e) => (e.date < a.date ? e : a))
+        const letzte = folgen.reduce((a, e) => (e.date >= a.date ? e : a))
         const anzahl = new Set(folgen.map((e) => e.episode ?? e.url)).size
         /* Lesbarer Artikel, falls ADN einen zur Serie veröffentlicht hat. */
         const artikel = artikelProShow.get(show.showId)
