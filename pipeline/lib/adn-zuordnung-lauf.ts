@@ -8,9 +8,12 @@ import { anisearchToken } from './anisearch-api.ts'
 import { ladeTitelliste, TITELLISTE, zeileZuTitel, type AbrufGrenzen, type Zwischenspeicher } from '../fetch-anisearch-katalog-abgleich.ts'
 import { wortIndex, type AsTitel } from './anisearch-katalog-abgleich.ts'
 import { ordneAdnZuAnisearch, titellisteFrisch, type AdnOffen } from './adn-anisearch.ts'
+import { aktualisiereOffenSeit, type OffenSeit } from './adn-offen-seit.ts'
+import { todayIso } from '../../shared/time.ts'
 import type { AdnShow } from './adn.ts'
 
 const OFFEN_DATEI = 'data/adn-anisearch-offen.json'
+const SEIT_DATEI = 'data/adn-offen-seit.json'
 /** Ein Versuch, kurze Frist: das Limit (1 Abruf je Stunde) teilen sich alle Jobs, ein Warten auf Retry-After ließe den 45-Minuten-Schritt hängen. */
 export const ABRUF_GRENZEN: AbrufGrenzen = { versuche: 1, frist: 120_000 }
 
@@ -28,10 +31,18 @@ export async function holeTitelliste(zwischen: Zwischenspeicher, token: string |
 }
 
 /** Die offene Liste nur schreiben, wenn sich ihr Inhalt ändert (kein Datum darin, sonst entsteht täglich ein Commit). */
-function schreibeOffen(offen: AdnOffen[], datei: string): void {
+function schreibeOffen(offen: AdnOffen[], datei: string, seitDatei: string, heute: string): void {
+  schreibeSeit(offen, seitDatei, heute)
   const alt = readJson<{ serien?: unknown }>(datei, {})
   if (JSON.stringify(alt.serien) === JSON.stringify(offen)) return
   writeJson(datei, { anzahl: offen.length, serien: offen }, true)
+}
+
+/** Das Datum der ersten Sichtung je offener Serie (`lib/adn-offen-seit.ts`); die Datei ändert sich nur, wenn eine Serie dazukommt oder geht. */
+function schreibeSeit(offen: AdnOffen[], datei: string, heute: string): void {
+  const alt = readJson<OffenSeit>(datei, {})
+  const neu = aktualisiereOffenSeit(alt, offen.map((o) => o.showId), heute)
+  if (JSON.stringify(alt) !== JSON.stringify(neu)) writeJson(datei, neu, true)
 }
 
 /**
@@ -54,18 +65,18 @@ export function uebernimmOhneTitelliste(shows: AdnShow[], bisher: AdnShow[], off
 export async function ordneKatalogZuAnisearch(
   shows: AdnShow[],
   bisher: AdnShow[],
-  { titelliste = () => holeTitelliste(readJson<Zwischenspeicher>(TITELLISTE, {}), anisearchToken()), offenDatei = OFFEN_DATEI } = {},
+  { titelliste = () => holeTitelliste(readJson<Zwischenspeicher>(TITELLISTE, {}), anisearchToken()), offenDatei = OFFEN_DATEI, seitDatei = SEIT_DATEI, heute = todayIso() } = {},
 ): Promise<void> {
   const titel = await titelliste()
   if (!titel) {
     warn('ADN-Zuordnung: keine aniSearch-Titelliste — die bisherigen Zuordnungen bleiben stehen, neue Serien stehen als offen (titelliste-fehlt).')
     const alt = readJson<{ serien?: AdnOffen[] }>(offenDatei, {}).serien ?? []
-    schreibeOffen(uebernimmOhneTitelliste(shows, bisher, alt), offenDatei)
+    schreibeOffen(uebernimmOhneTitelliste(shows, bisher, alt), offenDatei, seitDatei, heute)
     return
   }
   const { zuordnung, offen } = ordneAdnZuAnisearch(shows, titel, wortIndex([...titel.values()]))
   for (const s of shows) s.anisearchId = zuordnung.get(s.showId)
-  schreibeOffen(offen, offenDatei)
+  schreibeOffen(offen, offenDatei, seitDatei, heute)
   const grund = (g: string) => offen.filter((o) => o.grund === g).length
   log(`ADN-Katalog: ${zuordnung.size} von ${shows.length} einem aniSearch-Eintrag zugeordnet; offen: ${grund('kein-kandidat')} ohne Kandidat, ${grund('mehrdeutig')} mehrdeutig, ${grund('vergeben')} vergeben (${offenDatei})`)
 }
