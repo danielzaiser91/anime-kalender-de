@@ -1,13 +1,13 @@
 {
-  "scrapedAt": "2026-10-30T23:02:18.797Z",
+  "scrapedAt": "2026-10-31T04:13:21.511Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 40,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 11,
-    "schon in einem Rubrik-Feed gelesen": 10,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 3,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 11,
-    "Sprachhinweis älter als 45 Tage": 5
+    "schon in einem Rubrik-Feed gelesen": 32,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 8,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 52,
+    "Sprachhinweis älter als 45 Tage": 4
   },
   "proposals": [
     {
@@ -86,7 +86,27 @@
         }
       ],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "sammel": [
+        {
+          "titel": "Honey Lemon Soda",
+          "datum": "2026-11-03",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [],
+          "folgen": 12
+        },
+        {
+          "titel": "One Punch Man",
+          "zusatz": "Staffel 1 und 2",
+          "datum": "2026-11-24",
+          "deutsch": false,
+          "woechentlich": false,
+          "stream": [],
+          "folgen": 24
+        }
+      ],
+      "sammelGelesen": "2026-10-31"
     },
     {
       "articleTitle": "19,99 Euro pro Staffel: polyband startet große »Pokémon«-Rabattaktion",
@@ -577,7 +597,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-10-28"
+      "sammelGelesen": "2026-10-31"
     },
     {
       "articleTitle": "Crunchyroll ergänzt zwei weitere Anime-Neuzugänge auf Deutsch",
@@ -1148,7 +1168,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-10-28"
+      "sammelGelesen": "2026-10-31"
     },
     {
       "articleTitle": "ProSieben FUN zeigt »Akame ga KILL!« als Pay-TV-Premiere",
@@ -1379,7 +1399,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-10-28"
+      "sammelGelesen": "2026-10-31"
     },
     {
       "articleTitle": "Zwei Anime-Neuzugänge ab sofort auf Netflix verfügbar",
@@ -1918,7 +1938,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-10-28"
+      "sammelGelesen": "2026-10-31"
     },
     {
       "articleTitle": "Blu-ray-Design von »My Love Story with Yamada-kun at Lv999« + Extras",
@@ -2877,7 +2897,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-26"
+      "sammelGelesen": "2026-10-31"
     },
     {
       "articleTitle": "Nutzer verlieren gekaufte Inhalte: Tapas bestätigt Abschaltung für 2027",
