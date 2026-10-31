@@ -93,3 +93,22 @@ globalThis.akPrimeStandVereinigen = (lokal, ausWorker) => {
   }
   return zusammen
 }
+
+/*
+  **Eine Teilmeldung schließt den Titel nicht ab** (Miraculous, 31.10.2026).
+
+  Amazon teilt manche Reihen in viele „Staffeln". Nach der ersten Meldung (8 von 26 erwarteten Folgen)
+  stand „gemeldet ✓", und der Titel verschwand aus der Prüfliste. Offen bleibt der Auftrag, solange die
+  gemeldeten Folgen aller Amazon-Staffeln derselben Serie (gleicher Titelkern) unter der erwarteten Zahl
+  liegen. Je Staffel zählt die geladene Folgenzahl; vom Worker kommt nur die höchste Nummer, die bei
+  neu zählenden Amazon-Staffeln unterschätzt — dann bleibt der Auftrag eher offen als zu früh zu.
+  Ohne erwartete Folgenzahl (Film, unbekannt) gilt die Meldung wie bisher als vollständig.
+*/
+globalThis.akPrimeTeilOffen = (erledigt, serie, erwartet, kern) => {
+  if (!(erwartet > 0)) return false
+  const k = kern(serie ?? '')
+  const summe = Object.values(erledigt ?? {})
+    .filter((e) => kern(e?.serie ?? '') === k)
+    .reduce((s, e) => s + Object.values(e?.folgen ?? {}).reduce((a, n) => a + (Number(n) || 0), 0), 0)
+  return summe < erwartet
+}

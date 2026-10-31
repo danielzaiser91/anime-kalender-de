@@ -10585,6 +10585,8 @@ async function speicherSchreiben(werte) {
         /* Wann abgehakt — der Briefkasten mistet danach aus, siehe briefkastenHolen. */
         bisher.zeit = globalThis.akPrimeVermerk(Date.now())
         erledigt = { ...zusammen, [listenId]: bisher }
+        /* Eine Teilmeldung schließt den Titel nicht ab (Regel in prime-stand.js). */
+        const teilOffen = globalThis.akPrimeTeilOffen(erledigt, bisher.serie, suchauftrag()?.folgen, titelKern)
         gemeldeteStaffel = nr
         // Abwarten: Der naechste Klick liest hier gleich wieder, und ohne das
         // liest er den Stand von vor dieser Meldung.
@@ -10669,13 +10671,13 @@ async function speicherSchreiben(werte) {
           **Erst wenn keine Ausgabe mehr aussteht.** Bei zwei bestätigten
           Ausgaben ist die Suche nach der ersten Meldung nicht erledigt.
         */
-        if (eintrag.ausSuche && suchAdresse && !erwartungNochOffen(suchAdresse)) await suchAbhaken(suchAdresse)
+        if (eintrag.ausSuche && suchAdresse && !teilOffen && !erwartungNochOffen(suchAdresse)) await suchAbhaken(suchAdresse)
         /*
           Und der Kasten verschwindet mit ihm. Er sagt „Meldung läuft unter
           diesem Titel" — nach der Meldung läuft nichts mehr, und er stand
           trotzdem weiter da.
         */
-        if (eintrag.ausSuche && !erwartungNochOffen(suchAdresse)) suchauftragVergessen()
+        if (eintrag.ausSuche && !teilOffen && !erwartungNochOffen(suchAdresse)) suchauftragVergessen()
         /* Erst hier, nicht nach dem catch: Ein Fehlschlag darf keine Marke setzen. */
         meldeSperre.vermerken(befundBeimKlick)
         uebersichtZeichnen()
