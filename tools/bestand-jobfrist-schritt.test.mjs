@@ -22,12 +22,12 @@ const ordner = mkdtempSync(join(tmpdir(), 'jobfrist-'))
 try {
   const envDatei = join(ordner, 'github-env.txt')
   writeFileSync(envDatei, '')
-  const r = spawnSync('bash', ['-e', '-c', treffer[0].run], { encoding: 'utf8', env: { ...process.env, GITHUB_ENV: envDatei } })
+  const r = spawnSync('bash', ['-e', '-c', treffer[0].run], { encoding: 'utf8', timeout: 30000, env: { ...process.env, GITHUB_ENV: envDatei } })
   assert.equal(r.status, 0, r.stderr)
   const zeilen = readFileSync(envDatei, 'utf8').trim().split('\n')
   assert.equal(zeilen.length, 1, 'genau eine Zeile in GITHUB_ENV')
   assert.match(zeilen[0], /^BAU_FRIST_EPOCH=\d{10}$/)
-  const jetzt = Number(spawnSync('date', ['+%s'], { encoding: 'utf8' }).stdout)
+  const jetzt = Number(spawnSync('date', ['+%s'], { encoding: 'utf8', timeout: 10000 }).stdout)
   const rest = Number(zeilen[0].split('=')[1]) - jetzt
   const jobSekunden = job['timeout-minutes'] * 60
   assert.ok(rest > 0 && rest <= jobSekunden, `Restzeit ${rest} s liegt innerhalb der Jobfrist ${jobSekunden} s`)
