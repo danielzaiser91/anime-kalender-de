@@ -48,6 +48,7 @@ import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { artenAusAnzeige } from './lauf-arten-lesen.mjs'
+import { fensterUrteil, schneidetBildschirm } from './lauf-status-fenster-urteil.mjs'
 
 const WURZEL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const APP = 'C:/code/ai/__assets/tools/lauf-status/app'
@@ -154,10 +155,22 @@ const VERLAUF_ANTWORT = {
 const PILLEN = {
   offen: 1,
   anbieter: [
-    { name: 'Amazon', plattform: 'primevideo', titel: 9, ohneSeite: 0, unterwegs: 0, ziel: 'https://example.com/pille', ziele: [] },
+    { name: 'Amazon', plattform: 'primevideo', titel: 0, ohneSeite: 5, unterwegs: 0, ziel: 'https://example.com/pille', ziele: [] },
     { name: 'Netflix', plattform: 'netflix', titel: 0, ohneSeite: 0, unterwegs: 0, ziel: null, ziele: [] },
-    /* Eine Zeile mit Arbeit, aber ohne Aufteilung in Titel/Suchen. */
-    { name: 'Disney+', plattform: 'disneyplus', titel: 1, ohneSeite: 0, unterwegs: 0, ziel: 'https://example.com/bleach', ziele: [] },
+    { name: 'Disney+', plattform: 'disneyplus', titel: 0, ohneSeite: 0, unterwegs: 0, ziel: null, ziele: [] },
+    /* Der Worker liefert die Plattform weiter (Stand vom 31.10.2026: Netflix nur Startseite, Prime Tank Chair); die Leiste zählt sie bei der Plattform mit. */
+    {
+      name: 'Suchadressen',
+      plattform: 'suchadressen',
+      titel: 0,
+      ohneSeite: 2,
+      unterwegs: 0,
+      ziel: 'https://netflix.com',
+      ziele: [
+        { url: 'https://netflix.com', titel: 'Meine ganz besondere Hochzeit: Special' },
+        { url: 'https://www.amazon.de/s?k=TANK%20CHAIR&i=instant-video', titel: 'Tank Chair' },
+      ],
+    },
   ],
 }
 
@@ -177,6 +190,8 @@ const PROBENORDNER = path.join(os.tmpdir(), 'laufstatus-probe')
 const programm = await electron.launch({
   executablePath: EXE,
   args: [`--user-data-dir=${PROBENORDNER}`, APP],
+  /* Der Testlauf darf weder Bildschirm noch Taskleiste noch Fokus berühren (Daniel, 31.10.2026). */
+  env: { ...process.env, LAUFSTATUS_UNSICHTBAR: '1' },
 })
 
 /* Zuerst den Ausgang sperren — kein Test darf Daniels Browser öffnen. */
@@ -197,6 +212,13 @@ await seite.reload({ waitUntil: 'domcontentloaded' })
 await seite.waitForTimeout(1500)
 
 console.log('Die Laufstatus-App:\n')
+
+const rohLage = await programm.evaluate(({ BrowserWindow, screen }) => {
+  const w = BrowserWindow.getAllWindows()[0]
+  return { sichtbar: w.isVisible(), fokus: w.isFocused(), bounds: w.getBounds(), bildschirme: screen.getAllDisplays().map((d) => d.bounds) }
+})
+const lage = { ...rohLage, schneidet: schneidetBildschirm(rohLage.bounds, rohLage.bildschirme) }
+for (const [was, ok, zusatz] of fensterUrteil(lage)) pruefe(was, ok, zusatz)
 
 const fenster = await programm.evaluate(({ BrowserWindow }) => {
   const w = BrowserWindow.getAllWindows().find((x) => x.isVisible())
@@ -373,37 +395,45 @@ pruefe('die Fußzeile sagt, dass der Dienst nicht antwortet',
   ausfall.stand.includes('der Dienst antwortet nicht'), ausfall.stand)
 /*
   **Die Pillen sind Daniels Arbeitsliste — sie kommen aus derselben Datenbank und müssen bleiben**
-  (29.09.2026: „mach in status app die pills immer sichtbar, also amazon, suchadressen, netflix,
+  (29.09.2026: „mach in status app die pills immer sichtbar, also amazon, suchadressen (seit 31.10.2026 entfernt), netflix,
   disney+ … wenn 0, dann zeig dort auch 0, aber 0 klick führt dann auf die homepage des anbieters").
 */
-pruefe('die Prüfliste bleibt stehen — jetzt alle Anbieter, auch mit 0', ausfall.pillen === 4, String(ausfall.pillen))
+pruefe('die Prüfliste bleibt stehen — jetzt alle Anbieter, auch mit 0', ausfall.pillen === 3, String(ausfall.pillen))
 pruefe('und ist als alter Stand gekennzeichnet', /Stand von vorhin/.test(ausfall.pillenTitel), ausfall.pillenTitel)
 const pillenForm = await seite.evaluate(() =>
   [...document.querySelectorAll('#pruefliste .pille')].map((p) => ({
     text: p.textContent.replace(/\s+/g, ' ').trim(),
     klasse: p.className,
     href: p.getAttribute('href') || '',
+    tipp: p.title,
   })),
 )
 pruefe(
-  'die vier sind Amazon, Verweise ohne Titelseite, Netflix, Disney+',
-  ['Amazon', 'Verweise ohne Titelseite', 'Netflix', 'Disney+'].every((n) => pillenForm.some((p) => p.text.startsWith(n))),
+  'die drei sind Amazon, Netflix, Disney+',
+  ['Amazon', 'Netflix', 'Disney+'].every((n) => pillenForm.some((p) => p.text.startsWith(n))),
   pillenForm.map((p) => p.text).join(' | '),
 )
 pruefe(
-  'die Zahl ist die offene Arbeit aus dem Stand (`titel` + `ohneSeite`)',
-  pillenForm.some((p) => /Amazon 9/.test(p.text)),
+  'keine Suchadressen-Pille, auch wenn der Stand sie liefert',
+  !pillenForm.some((p) => /Suchadressen|Verweise ohne Titelseite|Adressen/.test(p.text) || p.klasse.includes('suchadressen')),
   pillenForm.map((p) => p.text).join(' | '),
 )
-pruefe('ein Anbieter mit 0 zeigt die 0', pillenForm.some((p) => /Netflix 0/.test(p.text)), pillenForm.map((p) => p.text).join(' | '))
+/* A2: Amazon mit titel 0 und ohneSeite 5 zählt die Suchen (5) plus die offene Suchadresse Tank Chair (A1). */
 pruefe(
-  'eine Zeile ohne Aufteilung zeigt trotzdem ihre Zahl',
-  pillenForm.some((p) => /Disney\+ 1/.test(p.text)),
-  pillenForm.map((p) => p.text).join(' | '),
+  'Amazon mit titel 0 zählt seine Suchen, die Zahl steht nicht auf 0',
+  pillenForm.some((p) => /^Amazon 6(?!\d)/.test(p.text) && p.klasse.includes('offen') && /6 Suchadressen/.test(p.tipp)),
+  pillenForm.map((p) => p.text + ' [' + p.tipp + ']').join(' | '),
 )
+/* A1: die offene Suchadresse ohne Titelseite landet bei der Pille ihres Anbieters, nicht in einer eigenen. */
+pruefe(
+  'Netflix zählt die offene Suchadresse (Startseite ohne Titelseite) mit',
+  pillenForm.some((p) => /^Netflix 1(?!\d)/.test(p.text) && p.klasse.includes('offen') && /netflix\.com/.test(p.href)),
+  pillenForm.map((p) => p.text + ' [' + p.klasse + ']').join(' | '),
+)
+pruefe('ein Anbieter mit 0 zeigt die 0', pillenForm.some((p) => /Disney\+ 0/.test(p.text)), pillenForm.map((p) => p.text).join(' | '))
 pruefe(
   'und führt auf die Anbieterseite',
-  pillenForm.some((p) => p.klasse.includes('fertig') && /netflix\.com\/browse/.test(p.href)),
+  pillenForm.some((p) => p.klasse.includes('fertig') && /disneyplus\.com/.test(p.href)),
   pillenForm.filter((p) => p.klasse.includes('fertig')).map((p) => p.href).join(' | '),
 )
 await seite.screenshot({ path: path.join(BILDORDNER, 'lauf-status-app-ausfall.png') })
