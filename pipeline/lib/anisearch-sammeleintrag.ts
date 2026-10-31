@@ -34,13 +34,18 @@ export interface EigeneBelege {
   tv: ReadonlySet<number>
 }
 
-/** Die Titel im Sammeleintrag, die „Deutsch synchronisiert“ tragen (`deErstausgabe.synchro`), ohne dass etwas anderes als aniSearch es belegt. */
-export function synchroNurAusSammeleintrag(titel: readonly Title[], sammel: ReadonlySet<number>, b: EigeneBelege): Title[] {
-  const eigen = (t: Title) =>
-    Boolean(t.streams?.some((s) => s.dub === true)) ||
+/** Hängt am Titel selbst ein Beleg für Deutsch: Stream mit Ton, Urteil von JustWatch, Sprecher, Handlink mit Tonbereich, Disc-Erstausgabe? */
+export function hatEigenenBeleg(t: Pick<Title, 'streams'> & Partial<Pick<Title, 'hasVoices' | 'watchLinks' | 'deErstausgabe'>>): boolean {
+  return (
+    Boolean(t.streams?.some((s) => s.dub === true || (s.dubQuelle === 'justwatch' && s.dubStand))) ||
     Boolean(t.hasVoices) ||
     Boolean(t.watchLinks?.some((w) => w.dubRanges?.some((r) => r.dub))) ||
-    t.deErstausgabe?.quelle === 'disc' ||
-    [b.handbelegt, b.kartei, b.handErstausgabe, b.tv].some((menge) => menge.has(t.id))
+    t.deErstausgabe?.quelle === 'disc'
+  )
+}
+
+/** Die Titel im Sammeleintrag, die „Deutsch synchronisiert“ tragen (`deErstausgabe.synchro`), ohne dass etwas anderes als aniSearch es belegt. */
+export function synchroNurAusSammeleintrag(titel: readonly Title[], sammel: ReadonlySet<number>, b: EigeneBelege): Title[] {
+  const eigen = (t: Title) => hatEigenenBeleg(t) || [b.handbelegt, b.kartei, b.handErstausgabe, b.tv].some((menge) => menge.has(t.id))
   return titel.filter((t) => sammel.has(t.id) && t.deErstausgabe?.synchro === true && !eigen(t))
 }

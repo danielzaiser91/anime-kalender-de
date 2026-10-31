@@ -19,7 +19,7 @@ const kulisse = mkdtempSync(join(tmpdir(), 'belegstaerke-handbelegt-'))
 process.env.AK_ROOT = kulisse
 mkdirSync(join(kulisse, 'data/curated'), { recursive: true })
 writeFileSync(join(kulisse, 'data/synchron-forum-treffer.yaml'), '# leer\n')
-writeFileSync(join(kulisse, 'data/anisearch-ids-hand.yaml'), '900101: 900500\n900102: 900500\n900103: 900501\n')
+writeFileSync(join(kulisse, 'data/anisearch-ids-hand.yaml'), '900101: 900500\n900102: 900500\n900103: 900501\n900104: 900502\n900105: 900502\n900106: 900502\n')
 writeFileSync(
   join(kulisse, 'data/dub-confirmed.yaml'),
   [
@@ -62,6 +62,13 @@ try {
   pruefe('Teil ohne Beleg: Stufe low und alte Stufe low (kein Feld nötig)', teil?.dubConfidence === 'low' && teil.einzelquelle === undefined, teil)
   pruefe('Teil mit Tonspur: Stufe high, nicht Einzelquelle', mitTonSpur?.dubConfidence === 'high' && mitTonSpur.einzelquelle === undefined, mitTonSpur)
   pruefe('Titel allein am Eintrag: Stufe low, aber alte Stufe nicht low (einzelquelle false)', allein?.dubConfidence === 'low' && allein.einzelquelle === false, allein)
+  /* Overlord: The Dark Hero und Girls und Panzer Finale 4 (Lauf 41235575193): JustWatch nennt Deutsch, also nie „Einzelquelle“ (sonst „Ohne bekannten Termin, aber Deutsch laut JustWatch“). */
+  const mitJw = { ...ohneBeleg(900105), streams: [{ platform: 'primevideo', url: 'z', dubQuelle: 'justwatch', dubStand: '2026-10-19' }] } as unknown as Title
+  const mitLink = { ...ohneBeleg(900106), watchLinks: [{ name: 'x', url: 'y', kind: 'buy', dubRanges: [{ from: 1, to: 1, dub: true }] }] } as unknown as Title
+  const [nackt, jw, link] = mitBelegstaerke([ohneBeleg(900104), mitJw, mitLink], [], new Set())
+  pruefe('Gruppe von drei: der Teil ohne alles zählt als Einzelquelle', nackt?.dubConfidence === 'low' && nackt.einzelquelle === undefined, nackt)
+  pruefe('Gruppe von drei: JustWatch-Urteil am Teil: nicht Einzelquelle', jw?.dubConfidence === 'low' && jw.einzelquelle === false, jw)
+  pruefe('Gruppe von drei: Handlink mit Tonbereich am Teil: nicht Einzelquelle', link?.dubConfidence === 'low' && link.einzelquelle === false, link)
 } finally {
   rmSync(kulisse, { recursive: true, force: true })
 }

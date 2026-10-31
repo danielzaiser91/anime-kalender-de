@@ -6,7 +6,7 @@ import { synchroBelegt } from '../../shared/titles.ts'
 import { loadDubChecks, type DubCheck } from './dub-confirmed.ts'
 import { loadSynchroVonHand } from './curated.ts'
 import { anisearchBruecke } from './anisearch-katalog-ids.ts'
-import { sammeleintragTitel } from './anisearch-sammeleintrag.ts'
+import { hatEigenenBeleg, sammeleintragTitel } from './anisearch-sammeleintrag.ts'
 import { ROOT, log } from './util.ts'
 
 /**
@@ -114,9 +114,9 @@ export function mitBelegstaerke<T extends Kette & Pick<Title, 'dubConfidence'>>(
     const dubConfidence = belegstaerke(t, signale)
     /*
       Die alte Stufe (`low` = eine MyDubList-Stimme) steuert weiter „erschienen“ und „ohne belegte Synchro“; das Feld steht nur, wo sie von der neuen abweicht.
-      Ein Teil im aniSearch-Sammeleintrag, dem ohne die Marke nichts bleibt (Stufe low), zählt ebenso als Einzelquelle (Crown Handler 3 bis 6, 31.10.2026).
+      Ein Teil im aniSearch-Sammeleintrag, dem ohne die Marke nichts bleibt (Stufe low, kein eigener Beleg), zählt ebenso als Einzelquelle (Crown Handler 3 bis 6, 31.10.2026).
     */
-    const einzelquelle = t.dubConfidence === 'low' || (dubConfidence === 'low' && sammeleintrag.has(t.id))
+    const einzelquelle = t.dubConfidence === 'low' || (dubConfidence === 'low' && sammeleintrag.has(t.id) && !hatEigenenBeleg(t))
     return { ...t, dubConfidence, ...(einzelquelle !== (dubConfidence === 'low') ? { einzelquelle } : {}) }
   })
 }

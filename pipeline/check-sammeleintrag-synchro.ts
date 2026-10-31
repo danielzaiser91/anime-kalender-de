@@ -72,6 +72,10 @@ console.log('\nSammeleintrag: der Bestandswächter findet Synchro nur aus der Ma
   pruefe('außerhalb des Sammeleintrags: nicht gefunden', synchroNurAusSammeleintrag([mitMarke(99)], sammel, leer).length === 0)
   pruefe('ohne Synchro-Marke: nicht gefunden', synchroNurAusSammeleintrag([{ ...titel(1), deErstausgabe: { von: '2021-01-10' } } as Title], sammel, leer).length === 0)
   pruefe('Stream mit deutschem Ton: nicht gefunden', synchroNurAusSammeleintrag([mitMarke(1, { streams: [{ platform: 'netflix', url: 'x', dub: true }] as Title['streams'] })], sammel, leer).length === 0)
+  const jwStream = (extra: object) => [{ platform: 'primevideo', url: 'x', ...extra }] as Title['streams']
+  pruefe('JustWatch-Urteil mit Stand am Stream: nicht gefunden', synchroNurAusSammeleintrag([mitMarke(1, { streams: jwStream({ dubQuelle: 'justwatch', dubStand: '2026-10-19' }) })], sammel, leer).length === 0)
+  pruefe('JustWatch ohne Stand: gefunden', synchroNurAusSammeleintrag([mitMarke(1, { streams: jwStream({ dubQuelle: 'justwatch' }) })], sammel, leer).length === 1)
+  pruefe('Stand ohne JustWatch als Quelle: gefunden', synchroNurAusSammeleintrag([mitMarke(1, { streams: jwStream({ dubStand: '2026-10-19' }) })], sammel, leer).length === 1)
   pruefe('Stream ohne Ton (dub false): gefunden', synchroNurAusSammeleintrag([mitMarke(1, { streams: [{ platform: 'netflix', url: 'x', dub: false }] as Title['streams'] })], sammel, leer).length === 1)
   pruefe('deutsche Sprecher: nicht gefunden', synchroNurAusSammeleintrag([mitMarke(1, { hasVoices: true })], sammel, leer).length === 0)
   pruefe('Handlink mit Tonbereich: nicht gefunden', synchroNurAusSammeleintrag([mitMarke(1, { watchLinks: [{ name: 'x', url: 'y', kind: 'buy', dubRanges: [{ from: 1, to: 1, dub: true }] }] as Title['watchLinks'] })], sammel, leer).length === 0)
