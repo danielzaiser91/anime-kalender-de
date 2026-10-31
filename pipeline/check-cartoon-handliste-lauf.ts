@@ -25,6 +25,7 @@ writeFileSync(join(wurzel, 'data', 'cartoon-handliste.yaml'), [
   '  - { adn: 1178, name: Babar, original: Babar }',
   '  - { adn: 748, name: Cousteau, pruefen: "Doku oder Animation?" }',
   '  - { adn: 1000, name: Nirgends }',
+  '  - { adn: 1001, name: Fehlantwort }',
   '',
 ].join('\n'))
 /* Vorlader: ersetzt `fetch`; jede Anfrage steht (ohne Schlüssel) in der Protokolldatei. */
@@ -39,6 +40,7 @@ globalThis.fetch = async (url) => {
   if (u.pathname.endsWith('/discover/tv')) return antwort({ results: [], total_pages: 0 })
   if (u.pathname.endsWith('/search/tv')) {
     const q = u.searchParams.get('query')
+    if (q === 'Fehlantwort') return { ok: false, json: async () => null }
     return antwort({ results: q === 'Dreamland' ? [treffer(900887, 'Dreamland')] : q === 'Babar' ? [treffer(900001, 'Babar'), treffer(900002, 'Babar')] : [] })
   }
   if (u.pathname.endsWith('/tv/900887')) {
@@ -69,6 +71,8 @@ try {
   pruefe('Dreamland (Altstand ohne Kennung) trägt jetzt die ADN-Kennung 887', bestand['-900887']?.adnId === 887 && bestand['-900887'].tmdbId === 900887, bestand)
   pruefe('mehrdeutiger Treffer (Babar) und Grenzfall (Cousteau) sind nicht im Bestand', Object.keys(bestand).join() === '-900887', Object.keys(bestand))
   pruefe('Log: mehrdeutig mit Begründung, Grenzfall ausgelassen, Treffer begründet', eins.out.includes('1178') && eins.out.includes('mehrdeutig') && eins.out.includes('Grenzfall: Doku') && eins.out.includes('TMDB 900887 gefunden'), eins.out)
+  pruefe('A1: Treffer-Zeile nennt Jahr/Folgen', eins.out.includes('TMDB 900887 gefunden') && eins.out.includes('Jahr/Folgen 2026/?'), eins.out)
+  pruefe('A2: Fehlantwort heißt „Suche fehlgeschlagen“, ein echter Nicht-Treffer (Nirgends) nicht', eins.out.includes('Suche fehlgeschlagen für „Fehlantwort“') && !eins.out.includes('Suche fehlgeschlagen für „Nirgends“'), eins.out)
   pruefe('Cousteau wird nie gesucht', !protokoll().some((z) => z.includes('Cousteau')), protokoll())
   const suchen1 = protokoll().filter((z) => z.startsWith('/3/search/tv')).length
   const einzel1 = protokoll().filter((z) => z.startsWith('/3/tv/')).length

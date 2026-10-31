@@ -25,7 +25,7 @@ export interface HandlisteEintrag {
   pruefen?: string
 }
 
-export type TmdbSuchtreffer = { id?: number; name?: string; original_name?: string; first_air_date?: string; genre_ids?: number[] }
+export type TmdbSuchtreffer = { id?: number; name?: string; original_name?: string; first_air_date?: string; genre_ids?: number[]; number_of_episodes?: number }
 
 export type Wahl = { id: number } | { grund: string }
 
@@ -66,6 +66,11 @@ export function waehleTreffer(e: HandlisteEintrag, treffer: TmdbSuchtreffer[]): 
   return { grund: `mehrdeutig (TMDB ${[...passend.keys()].join(', ')})` }
 }
 
+/** „Jahr/Folgen“ des Treffers fürs Log; die TMDB-Suche liefert keine Folgenzahl, dann „?“. */
+export function jahrFolgen(t: TmdbSuchtreffer | undefined): string {
+  return `Jahr/Folgen ${t?.first_air_date?.slice(0, 4) || '?'}/${t?.number_of_episodes ?? '?'}`
+}
+
 /** Zwei Einträge, die auf dieselbe TMDB-Serie zeigen, sind nicht entscheidbar: keiner wird übernommen. */
 export function ohneDoppelte(aufgeloest: Map<number, number>): { ok: Map<number, number>; doppelt: number[] } {
   const jeTmdb = new Map<number, number[]>()
@@ -99,7 +104,7 @@ export async function loeseHandliste(
     for (const begriff of suchbegriffe(e)) treffer.push(...(await suche(begriff)))
     const wahl = waehleTreffer(e, treffer)
     if ('id' in wahl) {
-      melde(`  Handliste ${e.adn} (${e.name}): TMDB ${wahl.id} gefunden (Name und Animation stimmen)`)
+      melde(`  Handliste ${e.adn} (${e.name}): TMDB ${wahl.id} gefunden (Name und Animation stimmen; ${jahrFolgen(treffer.find((t) => t.id === wahl.id))})`)
       aufgeloest.set(e.adn, wahl.id)
     } else melde(`  Handliste ${e.adn} (${e.name}): nicht übernommen — ${wahl.grund}`)
   }
