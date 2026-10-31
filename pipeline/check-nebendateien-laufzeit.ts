@@ -90,12 +90,17 @@ try {
     platform: 'tv',
     sender: 'Super RTL',
     releaseType: 'weekly',
+    kanal: 'Super RTL',
     automatisch: auto,
     schedule: { firstEpisodeDate: '2026-10-07', time: '09:50', episodeCount: 1, firstEpisodeNumber: 12 },
     sources: ['x'],
   })
   const titel = { id: 900002, streams: [], deErstausgabe: { von: '2017-01-25', synchro: true } }
   pruefe('automatischer TV-Termin ohne eigenes Ja gibt keinen ersten Termin', ersterTerminMitGrund([tv(true)] as never, [titel] as never).size === 0)
+  /* Ohne Erstausgabe zählt `ersterDeutscherTermin` allein ihn als Start; nur der Filter des Baus hält ihn (Kanal ohne eigenes Ja) heraus. */
+  const ohneErstausgabe = { id: 900002, streams: [] }
+  pruefe('automatischer TV-Termin eines Titels ohne eigenes Ja zählt auch ohne Erstausgabe nicht', ersterTerminMitGrund([tv(true)] as never, [ohneErstausgabe] as never).size === 0)
+  pruefe('von Hand belegter TV-Termin ohne Erstausgabe zählt', ersterTerminMitGrund([tv(false)] as never, [ohneErstausgabe] as never).get(900002) === '2026-10-07')
   pruefe('von Hand belegter TV-Termin gibt den ersten Termin', ersterTerminMitGrund([tv(false)] as never, [titel] as never).get(900002) === '2026-10-07')
 } finally {
   rmSync(tmp, { recursive: true, force: true })

@@ -5,8 +5,11 @@ import fs from 'node:fs'
 import { syncBuiltinESMExports } from 'node:module'
 import { baueFetchAttrappe, istMeldungsabruf, meldungsAntwort } from './fetch-attrappe.mjs'
 
-const NETFLIX = 'https://www.netflix.com/title/81152346'
-const stream = [{ platform: 'netflix', url: NETFLIX }]
+// `primegemischt` = je 12 Meldungen Staffel 1 und 2 an EINER Prime-Seite (eine Gruppe mit zwei Staffelnummern).
+const PRIME = process.env.AK_SZENARIO === 'primegemischt'
+const PLATTFORM = PRIME ? 'primevideo' : 'netflix'
+const NETFLIX = PRIME ? 'https://www.amazon.de/gp/video/detail/B0TESTSTAFF' : 'https://www.netflix.com/title/81152346'
+const stream = [{ platform: PLATTFORM, url: NETFLIX }]
 const titel = (id, titleDe, format, jpStart, episodes) => ({ id, titleDe, format, jpStart, episodes, franchiseId: 7, streams: stream })
 const titles = [
   titel(900001, 'Staffelreihe', 'TV', '2020-01-01', 12),
@@ -26,7 +29,7 @@ syncBuiltinESMExports()
 
 const zeile = (staffel, nr) => ({
   id: 930000 + staffel * 100 + nr,
-  plattform: 'netflix',
+  plattform: PLATTFORM,
   url: NETFLIX,
   sprachen: '["Deutsch"]',
   befund: 'dub',
@@ -40,7 +43,7 @@ const zeile = (staffel, nr) => ({
   teil_von: null,
   teil_bis: null,
   gemeldet_am: '2026-10-18T10:00:00.000Z',
-  seiten_kennung: null,
+  seiten_kennung: PRIME ? 'B0TESTSTAFF' : null,
   titel_id: 900001,
   folge: null,
 })
@@ -49,6 +52,6 @@ const folgen = (staffel) => Array.from({ length: 12 }, (_, i) => zeile(staffel, 
 globalThis.fetch = baueFetchAttrappe(
   (url, opt) => {
     if (!istMeldungsabruf(url, opt)) return undefined
-    return meldungsAntwort(process.env.AK_SZENARIO === 'gemischt' ? [...folgen(1), ...folgen(2)] : folgen(2))
+    return meldungsAntwort(process.env.AK_SZENARIO !== 'zwei' ? [...folgen(1), ...folgen(2)] : folgen(2))
   },
 )

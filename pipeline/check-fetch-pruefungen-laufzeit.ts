@@ -3,7 +3,8 @@
  * (`tools/meldung-staffel-mock.mjs`: Reihe aus Staffel 1, OVA und Staffel 2 unter einer Netflix-Adresse).
  * 1. Staffel 2 gemeldet (Auftrag nannte Staffel 1): der Beleg geht an „Staffelreihe 2“ — nicht an den Auftragstitel, nicht an die OVA
  *    an der Position 2 der Reihe (Staffelnummer über die Namen, nicht über `slice`; vier falsche Belege am 10.09.2026).
- * 2. Staffel 1 und 2 unter derselben Netflix-Adresse werden nicht in eine Staffel zusammengelegt (Quintuplets, 18.09.2026).
+ * 2. Staffel 1 und 2 unter derselben Netflix-Adresse werden nicht in eine Staffel zusammengelegt (Quintuplets, 18.09.2026); eine Prime-Seite
+ *    mit zwei Staffelnummern in einer Gruppe geht nicht in den Staffelblock.
  * 3. Ohne `--trocken` landet der Beleg über `haengeBelegeAn` in `data/dub-confirmed.yaml` der Wegwerf-Wurzel (`AK_ROOT`).
  */
 import { spawnSync } from 'node:child_process'
@@ -35,6 +36,10 @@ const zwei = belegTitel(lauf('zwei', ['--trocken']).stdout)
 if (zwei.join() !== '900003') fehler.push(`Staffel 2: Beleg für ${zwei.join(', ') || 'keinen'} statt nur 900003`)
 const gemischt = belegTitel(lauf('gemischt', ['--trocken']).stdout)
 if (gemischt.join() !== '900001,900003') fehler.push(`Staffel 1 und 2: Belege für ${gemischt.join(', ') || 'keinen'} statt 900001 und 900003`)
+
+/* Eine Prime-Seite mit Meldungen zweier Staffeln: der Staffelblock verlangt EINE Staffelnummer und fasst die Gruppe nicht an. */
+const primeGemischt = belegTitel(lauf('primegemischt', ['--trocken']).stdout)
+if (primeGemischt.join() !== '900001') fehler.push(`Prime-Seite mit Staffel 1 und 2: Belege für ${primeGemischt.join(', ') || 'keinen'} statt nur 900001`)
 
 const tmp = mkdtempSync(join(tmpdir(), 'fetch-pruefungen-laufzeit-'))
 try {
