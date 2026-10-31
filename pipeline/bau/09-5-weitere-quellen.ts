@@ -11,7 +11,7 @@ import { adnAdresseSchaerfen, adnFolgenAdresse, ladeAdnArchiv, beurteileAdnVerwe
 import { type Release, type Title } from '../../shared/types.ts'
 import { anisearchFelderAnwenden } from '../lib/anisearch-felder.ts'
 import { anisearchBruecke } from '../lib/anisearch-katalog-ids.ts'
-import { ohneSammelSynchro, sammeleintragTitel } from '../lib/anisearch-sammeleintrag.ts'
+import { ladeJustwatchDeutsch, ohneSammelSynchro, sammeleintragTitel } from '../lib/anisearch-sammeleintrag.ts'
 import { handErstausgabe, ladeErstausgabeVonHand } from '../lib/erstausgabe-von-hand.ts'
 import { type EntfernterVerweis } from './grundlagen.ts'
 import { istNahAmJapanStart } from '../lib/nah-am-japan-start.ts'
@@ -55,7 +55,7 @@ export function werteWeitereQuellenAus({ releases, titles, adnKatalog, adnVerwei
     let asSimulcast = 0
     let asDiscDatum = 0
     const discFuerErstausgabe = readJson<Record<string, { datum: string }[]>>('data/disc-ausgaben.json', {})
-    const sammeleintrag = sammeleintragTitel(anisearchBruecke(), titles.keys())
+    const sammeleintrag = sammeleintragTitel(anisearchBruecke(), titles.keys(), ladeJustwatchDeutsch())
     for (const title of titles.values()) {
       const info = asRoh[String(title.id)]?.info as { languages?: never[] } | undefined
       const termin = ohneSammelSynchro(mitDubKennzeichen(title.id, terminAusEintrag(info)), sammeleintrag.has(title.id))

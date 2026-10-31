@@ -9,7 +9,7 @@ import { anisearchBruecke } from './lib/anisearch-katalog-ids.ts'
 import { ladeBelegsignale } from './lib/belegstaerke.ts'
 import { ladeErstausgabeVonHand } from './lib/erstausgabe-von-hand.ts'
 import { meldeVerletzte } from './lib/quarantaene.ts'
-import { sammeleintragTitel, synchroNurAusSammeleintrag } from './lib/anisearch-sammeleintrag.ts'
+import { ladeJustwatchDeutsch, sammeleintragTitel, synchroNurAusSammeleintrag } from './lib/anisearch-sammeleintrag.ts'
 import type { Release, Title } from '../shared/types.ts'
 
 const OUT = 'public/data/titles.json'
@@ -20,7 +20,7 @@ if (!existsSync(OUT)) {
 }
 const titel = readJson<Title[]>(OUT, [])
 const signale = ladeBelegsignale(readJson<Release[]>('public/data/releases.json', []))
-const sammel = sammeleintragTitel(anisearchBruecke(), titel.map((t) => t.id))
+const sammel = sammeleintragTitel(anisearchBruecke(), titel.map((t) => t.id), ladeJustwatchDeutsch())
 const handErstausgabe = new Set(ladeErstausgabeVonHand().flatMap((e) => (e.anilistId ? [e.anilistId] : [])))
 const verletzt = new Set(synchroNurAusSammeleintrag(titel, sammel, { handbelegt: signale.handbelegt, kartei: signale.kartei, handErstausgabe, tv: signale.tv }).map((t) => t.id))
 const treffer = meldeVerletzte(titel, 'sammeleintrag-synchro-bestand', 'Synchro nur aus einem aniSearch-Sammeleintrag', (t) => verletzt.has(t.id))

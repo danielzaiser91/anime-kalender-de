@@ -39,5 +39,12 @@
   { "name": "Eigener Beleg: JustWatch-Urteil zaehlt nicht", "datei": "pipeline/lib/anisearch-sammeleintrag.ts", "suche": " || (s.dubQuelle === 'justwatch' && s.dubStand)", "ersetze": "", "tests": ["npx tsx pipeline/check-belegstaerke-handbelegt.ts", "npx tsx pipeline/check-sammeleintrag-synchro.ts"] },
   { "name": "Eigener Beleg: JustWatch ohne Stand zaehlt", "datei": "pipeline/lib/anisearch-sammeleintrag.ts", "suche": "s.dubQuelle === 'justwatch' && s.dubStand", "ersetze": "s.dubQuelle === 'justwatch'", "tests": ["npx tsx pipeline/check-sammeleintrag-synchro.ts"] },
   { "name": "Eigener Beleg: Stand ohne Quelle zaehlt", "datei": "pipeline/lib/anisearch-sammeleintrag.ts", "suche": "s.dubQuelle === 'justwatch' && s.dubStand", "ersetze": "s.dubStand", "tests": ["npx tsx pipeline/check-sammeleintrag-synchro.ts"] },
+  { "name": "JustWatch: Teil mit Deutsch bleibt im Sammeleintrag", "datei": "pipeline/lib/anisearch-sammeleintrag.ts", "suche": ".filter((id) => !eigenBelegt.has(id))", "ersetze": "" },
+  { "name": "JustWatch: Befund ohne Treffer zaehlt", "datei": "pipeline/lib/anisearch-sammeleintrag.ts", "suche": "!b.ohneTreffer && ", "ersetze": "" },
+  { "name": "JustWatch: geteilte Kennung zaehlt", "datei": "pipeline/lib/anisearch-sammeleintrag.ts", "suche": "jeKennung.get(b.jwId) === 1", "ersetze": "jeKennung.get(b.jwId)" },
+  { "name": "JustWatch: Befund ohne Kennung zaehlt", "datei": "pipeline/lib/anisearch-sammeleintrag.ts", "suche": "b.jwId && jeKennung", "ersetze": "true && jeKennung" },
+  { "name": "JustWatch: Japanisch statt Deutsch", "datei": "pipeline/lib/anisearch-sammeleintrag.ts", "suche": "a.audio?.includes('de')", "ersetze": "a.audio?.includes('ja')" },
+  { "name": "JustWatch: Bau liest die Befunde nicht", "datei": "pipeline/bau/09-5-weitere-quellen.ts", "suche": "titles.keys(), ladeJustwatchDeutsch())", "ersetze": "titles.keys())" },
+  { "name": "JustWatch: Einzelquelle liest die Befunde nicht", "datei": "pipeline/lib/belegstaerke.ts", "suche": "titel.map((t) => t.id), ladeJustwatchDeutsch())", "ersetze": "titel.map((t) => t.id))", "tests": ["npx tsx pipeline/check-belegstaerke-handbelegt.ts"] },
   { "name": "Eigener Beleg: Handlink mit Tonbereich zaehlt fuer die Stufe nicht", "datei": "pipeline/lib/anisearch-sammeleintrag.ts", "suche": "Boolean(t.watchLinks?.some((w) => w.dubRanges?.some((r) => r.dub))) ||", "ersetze": "", "tests": ["npx tsx pipeline/check-belegstaerke-handbelegt.ts"] }
 ]

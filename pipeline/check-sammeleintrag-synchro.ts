@@ -7,11 +7,13 @@ import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import type { Release, Title } from '../shared/types.ts'
-import { ohneBelegteSynchro } from './bau/synchro-belegt.ts'
-import { type EigeneBelege, ohneSammelSynchro, sammeleintragTitel, synchroNurAusSammeleintrag } from './lib/anisearch-sammeleintrag.ts'
+import type { EigeneBelege } from './lib/anisearch-sammeleintrag.ts'
 
 const kulisse = mkdtempSync(join(tmpdir(), 'sammeleintrag-synchro-'))
 process.env.AK_ROOT = kulisse
+/* Erst nach dem Setzen von `AK_ROOT`: `lib/util.ts` merkt sich die Wurzel beim Laden. */
+const { ohneBelegteSynchro } = await import('./bau/synchro-belegt.ts')
+const { justwatchDeutsch, ohneSammelSynchro, sammeleintragTitel, synchroNurAusSammeleintrag } = await import('./lib/anisearch-sammeleintrag.ts')
 const schreibe = (pfad: string, inhalt: string) => {
   mkdirSync(dirname(join(kulisse, pfad)), { recursive: true })
   writeFileSync(join(kulisse, pfad), inhalt)
@@ -39,6 +41,33 @@ console.log('\nSammeleintrag: wer teilt sich einen aniSearch-Eintrag')
   pruefe('ein Titel, der nicht im Bestand steht, zählt nicht mit (ein Rest von eins ist kein Sammeleintrag)', sammeleintragTitel(new Map([['1', 'A'], ['2', 'A']]), [1]).size === 0)
   pruefe('ein Titel ohne Brücke fällt nicht in einen Sammeleintrag', sammeleintragTitel(new Map([['1', 'A']]), [1, 2]).size === 0)
   pruefe('zwei getrennte Gruppen bleiben getrennt', sammeleintragTitel(new Map([['1', 'A'], ['2', 'B'], ['3', 'A'], ['4', 'B']]), [1, 2, 3, 4]).size === 4)
+}
+
+console.log('\nSammeleintrag: JustWatch nennt Deutsch für genau diesen Teil')
+{
+  const befund = (jwId: string | undefined, audio: string[][], extra: object = {}) => ({ geprueftAm: '2026-10-12', ...(jwId ? { jwId } : {}), angebote: audio.map((a) => ({ anbieter: 'x', audio: a })), ...extra })
+  /* 102093 wörtlich: Kuroko Winter Cup Highlights 1, Prime Video mit de und ja. */
+  const jw = justwatchDeutsch({
+    102093: befund('tm244645', [['de', 'ja']]),
+    1: befund('tmA', [['ja']]),
+    2: befund('tmB', [['ja'], ['de']]),
+    3: befund('tmC', [['de']], { ohneTreffer: true }),
+    4: befund('tmD', [['de']]),
+    5: befund('tmD', [['de']]),
+    6: befund(undefined, [['de']]),
+    7: { geprueftAm: '2026-10-12', angebote: [] },
+  })
+  pruefe('Prime-Angebot mit de und ja zählt', jw.has(102093))
+  pruefe('nur Japanisch zählt nicht', !jw.has(1))
+  pruefe('Deutsch an irgendeinem Angebot zählt', jw.has(2))
+  pruefe('Befund ohne Treffer zählt nicht', !jw.has(3))
+  pruefe('dieselbe JustWatch-Kennung bei zwei Titeln zählt für keinen', !jw.has(4) && !jw.has(5))
+  pruefe('Befund ohne JustWatch-Kennung zählt nicht', !jw.has(6))
+  pruefe('Befund ohne Angebote zählt nicht', !jw.has(7))
+  const bruecke = new Map([['102093', 'A'], ['102094', 'A'], ['102095', 'A']])
+  const ohneJw = sammeleintragTitel(bruecke, [102093, 102094, 102095], new Set([102093]))
+  pruefe('der Teil mit JustWatch-Deutsch fällt aus dem Sammeleintrag, die Geschwister bleiben', !ohneJw.has(102093) && ohneJw.has(102094) && ohneJw.has(102095), [...ohneJw])
+  pruefe('der Teil zählt für die Gruppengröße weiter mit', sammeleintragTitel(new Map([['1', 'A'], ['2', 'A']]), [1, 2], new Set([1])).has(2))
 }
 
 console.log('\nSammeleintrag: die Marke fällt, die Auskunft bleibt')
@@ -102,17 +131,19 @@ console.log('\nOhne belegte Synchro: Kapitel ohne Beleg gehören hinter den Scha
 console.log('\nSammeleintrag: der Bauschritt (werteWeitereQuellenAus) gegen die Kulisse')
 try {
   /* 900001 und 900002 teilen den aniSearch-Eintrag 900100 (beide „vertont“), 900003 hat 900101 für sich. */
-  schreibe('data/anisearch-ids-hand.yaml', '900001: 900100\n900002: 900100\n900003: 900101\n')
-  schreibe('data/anisearch-dubs.json', JSON.stringify({ 900001: 'd', 900002: 'd', 900003: 'd' }))
+  schreibe('data/anisearch-ids-hand.yaml', '900001: 900100\n900002: 900100\n900003: 900101\n900004: 900100\n')
+  schreibe('data/anisearch-dubs.json', JSON.stringify({ 900001: 'd', 900002: 'd', 900003: 'd', 900004: 'd' }))
+  schreibe('data/justwatch-audio.json', JSON.stringify({ 900004: { geprueftAm: '2026-10-12', jwId: 'tm900004', angebote: [{ anbieter: 'Amazon Prime Video', audio: ['de', 'ja'] }] } }))
   schreibe('data/anisearch.json', '{}')
   for (const leer of ['kino-ankuendigungen.yaml', 'ankuendigungen.yaml', 'offizielle-meldungen.yaml', 'folgen-hinweise.yaml']) schreibe(`data/${leer}`, '[]\n')
   const { werteWeitereQuellenAus } = await import('./bau/09-5-weitere-quellen.ts')
-  const titles = new Map([900001, 900002, 900003].map((id) => [id, titel(id)]))
+  const titles = new Map([900001, 900002, 900003, 900004].map((id) => [id, titel(id)]))
   const releases: Release[] = []
   const adnKatalog = { shows: [] } as never
   werteWeitereQuellenAus({ releases, titles, adnKatalog, adnVerweiseErgaenzt: 0, verweiseEntfernt: [], schreibWurzel: kulisse })
   pruefe('Teil eines Sammeleintrags (900001) bekommt keine Synchro aus der Marke', titles.get(900001)!.deErstausgabe?.synchro !== true, titles.get(900001)!.deErstausgabe)
   pruefe('Teil eines Sammeleintrags (900002) bekommt keine Synchro aus der Marke', titles.get(900002)!.deErstausgabe?.synchro !== true, titles.get(900002)!.deErstausgabe)
+  pruefe('Teil mit JustWatch-Deutsch (900004) im selben Sammeleintrag behält die Synchro', titles.get(900004)!.deErstausgabe?.synchro === true, titles.get(900004)!.deErstausgabe)
   pruefe('Kontrolle: ein Titel allein an seinem Eintrag (900003) behält die Synchro aus der Marke', titles.get(900003)!.deErstausgabe?.synchro === true, titles.get(900003)!.deErstausgabe)
 } catch (e) {
   fehler++

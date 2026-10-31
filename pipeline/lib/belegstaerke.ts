@@ -6,7 +6,7 @@ import { synchroBelegt } from '../../shared/titles.ts'
 import { loadDubChecks, type DubCheck } from './dub-confirmed.ts'
 import { loadSynchroVonHand } from './curated.ts'
 import { anisearchBruecke } from './anisearch-katalog-ids.ts'
-import { hatEigenenBeleg, sammeleintragTitel } from './anisearch-sammeleintrag.ts'
+import { hatEigenenBeleg, ladeJustwatchDeutsch, sammeleintragTitel } from './anisearch-sammeleintrag.ts'
 import { ROOT, log } from './util.ts'
 
 /**
@@ -109,7 +109,7 @@ export function zaehleBelegte(titel: Pick<Title, 'dubConfidence' | 'westlich' | 
 /** Alle Titel mit der Stufe aus ihren Quellen; die Eingabe bleibt unverändert. */
 export function mitBelegstaerke<T extends Kette & Pick<Title, 'dubConfidence'>>(titel: T[], releases: Release[], motnTon: ReadonlySet<string>): (T & Pick<Title, 'einzelquelle'>)[] {
   const signale = { ...ladeBelegsignale(releases), motnTon }
-  const sammeleintrag = sammeleintragTitel(anisearchBruecke(), titel.map((t) => t.id))
+  const sammeleintrag = sammeleintragTitel(anisearchBruecke(), titel.map((t) => t.id), ladeJustwatchDeutsch())
   return titel.map((t) => {
     const dubConfidence = belegstaerke(t, signale)
     /*

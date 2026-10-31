@@ -19,7 +19,8 @@ const kulisse = mkdtempSync(join(tmpdir(), 'belegstaerke-handbelegt-'))
 process.env.AK_ROOT = kulisse
 mkdirSync(join(kulisse, 'data/curated'), { recursive: true })
 writeFileSync(join(kulisse, 'data/synchron-forum-treffer.yaml'), '# leer\n')
-writeFileSync(join(kulisse, 'data/anisearch-ids-hand.yaml'), '900101: 900500\n900102: 900500\n900103: 900501\n900104: 900502\n900105: 900502\n900106: 900502\n900107: 900503\n900108: 900503\n')
+writeFileSync(join(kulisse, 'data/anisearch-ids-hand.yaml'), '900101: 900500\n900102: 900500\n900103: 900501\n900104: 900502\n900105: 900502\n900106: 900502\n900107: 900503\n900108: 900503\n900109: 900504\n900110: 900504\n')
+writeFileSync(join(kulisse, 'data/justwatch-audio.json'), JSON.stringify({ 900109: { geprueftAm: '2026-10-12', jwId: 'tm900109', angebote: [{ anbieter: 'Amazon Prime Video', audio: ['de', 'ja'] }] } }))
 writeFileSync(
   join(kulisse, 'data/dub-confirmed.yaml'),
   [
@@ -70,6 +71,10 @@ try {
   pruefe('Gruppe von drei: JustWatch-Urteil am Teil: nicht Einzelquelle', jw?.dubConfidence === 'low' && jw.einzelquelle === false, jw)
   /* Eine Stufe über low (hier: Erstausgabe mit Synchro von Hand) bleibt, wie sie ist — die Regel greift nur bei low. */
   const mitErstausgabe = { ...ohneBeleg(900107), deErstausgabe: { synchro: true, von: '2026-01-01' } } as unknown as Title
+  /* 102093 (Kuroko-Film): JustWatch nennt Deutsch, am Titel hängt aber kein Stream — der Teil ist keine Einzelquelle. */
+  const [jwTeil, jwGeschwister] = mitBelegstaerke([ohneBeleg(900109), ohneBeleg(900110)], [], new Set())
+  pruefe('Teil mit JustWatch-Deutsch im Sammeleintrag: nicht Einzelquelle', jwTeil?.einzelquelle === false, jwTeil)
+  pruefe('sein Geschwister ohne Beleg: Einzelquelle', jwGeschwister?.einzelquelle === undefined && jwGeschwister?.dubConfidence === 'low', jwGeschwister)
   const [stufeNormal] = mitBelegstaerke([mitErstausgabe, ohneBeleg(900108)], [], new Set())
   pruefe('Teil im Sammeleintrag mit Synchro-Erstausgabe: Stufe normal, nicht Einzelquelle', stufeNormal?.dubConfidence === 'normal' && stufeNormal.einzelquelle === undefined, stufeNormal)
   pruefe('Gruppe von drei: Handlink mit Tonbereich am Teil: nicht Einzelquelle', link?.dubConfidence === 'low' && link.einzelquelle === false, link)
