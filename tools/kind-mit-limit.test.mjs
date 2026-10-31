@@ -2,12 +2,12 @@
 // und die Verdrahtung: die Wachphase (laeufe-aufraeumen --trocken) endet mit einem hängenden gh und nennt es klar.
 import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
-import { mkdtempSync, rmSync } from 'node:fs'
+import { mkdtempSync, readFileSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { legeGhAttrappe } from './gh-attrappe.mjs'
-import { LIMIT_EINZEL_MS, LIMIT_SKRIPT_MS, LIMIT_STAPEL_MS, abbruchText, ghStapel, mitLimit } from './kind-mit-limit.mjs'
+import { LIMIT_EINZEL_MS, LIMIT_SKRIPT_MS, LIMIT_STAPEL_MS, LIMIT_TEST_MS, abbruchText, ghStapel, mitLimit, spawnMitLimit } from './kind-mit-limit.mjs'
 
 // 1. Eingespeister Ausführer: Optionen kommen an (Limit, windowsHide), ETIMEDOUT wird zur FEHLER-Zeile.
 const gesehen = []
@@ -68,3 +68,60 @@ try {
   rmSync(dir, { recursive: true, force: true })
 }
 console.log('kind-mit-limit: ok (Optionen, ETIMEDOUT, anderer Fehler, echter Hänger, Wachphase mit hängendem gh, Stapel-Limit, Abschluss-Catch)')
+
+// 4. Tests (spawnMitLimit): Standardfrist 120 s, Optionen kommen an, ETIMEDOUT wird zur FEHLER-Zeile, Exit ≠ 0 bleibt ein Ergebnis.
+assert.equal(LIMIT_TEST_MS, 120_000)
+const spawnGesehen = []
+const spawnAttrappe = (ergebnis) => (b, a, o) => (spawnGesehen.push(o), ergebnis)
+assert.deepEqual(spawnMitLimit('bash', ['-e'], { cwd: 'x' }, { ausfuehren: spawnAttrappe({ status: 0 }) }), { status: 0 })
+const linux = process.platform !== 'win32'
+assert.deepEqual(spawnGesehen[0], { cwd: 'x', windowsHide: true, timeout: 120_000, ...(linux ? { detached: true } : {}) })
+spawnMitLimit('bash', [], {}, { limitMs: 5000, ausfuehren: spawnAttrappe({ status: 0 }) })
+assert.equal(spawnGesehen[1].timeout, 5000)
+spawnMitLimit('bash', [], {}, { limitMs: 0, ausfuehren: spawnAttrappe({ status: 0 }) })
+assert.equal('timeout' in spawnGesehen[2], false)
+assert.equal('detached' in spawnGesehen[2], false, 'ohne Frist keine eigene Gruppe')
+const hing = { status: null, error: Object.assign(new Error('spawnSync bash ETIMEDOUT'), { code: 'ETIMEDOUT' }) }
+assert.throws(() => spawnMitLimit('bash', ['-e', 'schritt.sh', 'x'], {}, { limitMs: 7000, ausfuehren: spawnAttrappe(hing) }), { message: 'FEHLER: bash -e schritt.sh hing länger als 7 s' })
+const exit3 = { status: 3, stderr: 'kaputt', error: undefined }
+assert.equal(spawnMitLimit('bash', [], {}, { ausfuehren: spawnAttrappe(exit3) }).status, 3)
+// Echter Hänger, auch mit Enkelprozess, der den Ausgabekanal offen hält (Bash startet sleep): bricht nach der Frist ab.
+const echt = (args) => spawnMitLimit(process.execPath, args, { encoding: 'utf8' }, { limitMs: 700 })
+assert.throws(() => echt(['-e', 'setTimeout(()=>{},1e6)']), { message: /^FEHLER: .* hing länger als 1 s$/ })
+const enkel = "require('child_process').spawn(process.execPath,['-e','setTimeout(()=>{},20000)'],{stdio:'inherit'});setTimeout(()=>{},1e6)"
+assert.throws(() => echt(['-e', enkel]), { message: /^FEHLER: .* hing länger als 1 s$/ })
+
+// 5. Prozessbaum (Prüfer 2536 A3): Fristablauf beendet die Gruppe des Kindes (Linux/CI); eingespeist und mit echtem Enkel.
+const beendet = []
+const mitPid = { ...hing, pid: 4242 }
+if (linux) {
+  assert.throws(() => spawnMitLimit('bash', [], {}, { limitMs: 7000, ausfuehren: spawnAttrappe(mitPid), beendeGruppe: (pid) => beendet.push(pid) }), /hing länger/)
+  assert.deepEqual(beendet, [4242])
+  spawnMitLimit('bash', [], {}, { limitMs: 7000, ausfuehren: spawnAttrappe({ status: 0, pid: 4243 }), beendeGruppe: (pid) => beendet.push(pid) })
+  assert.deepEqual(beendet, [4242], 'ohne Fristablauf keine Gruppe beenden')
+  const keineGruppe = Object.assign(new Error('weg'), { code: 'ESRCH' })
+  assert.throws(() => spawnMitLimit('bash', [], {}, { limitMs: 7000, ausfuehren: spawnAttrappe(mitPid), beendeGruppe: () => { throw keineGruppe } }), /hing länger/, 'ESRCH (Gruppe schon weg) bleibt die FEHLER-Zeile')
+  const anderer = Object.assign(new Error('nein'), { code: 'EPERM' })
+  assert.throws(() => spawnMitLimit('bash', [], {}, { limitMs: 7000, ausfuehren: spawnAttrappe(mitPid), beendeGruppe: () => { throw anderer } }), (e) => e === anderer)
+}
+const pidDatei = join(mkdtempSync(join(tmpdir(), 'kind-baum-')), 'enkel.pid')
+const mitEnkel = `const g = require('child_process').spawn(process.execPath, ['-e', 'setInterval(()=>{},1000)'], { stdio: 'ignore' }); require('fs').writeFileSync(${JSON.stringify(pidDatei)}, String(g.pid)); setInterval(()=>{},1000)`
+assert.throws(() => spawnMitLimit(process.execPath, ['-e', mitEnkel], { encoding: 'utf8' }, { limitMs: 2000 }), /hing länger als 2 s/)
+const enkelPid = Number(readFileSync(pidDatei, 'utf8'))
+const lebt = (pid) => {
+  try {
+    process.kill(pid, 0)
+    return true
+  } catch {
+    return false
+  }
+}
+if (linux) {
+  for (let i = 0; i < 50 && lebt(enkelPid); i++) Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 100)
+  assert.equal(lebt(enkelPid), false, 'Enkelprozess läuft nach Fristablauf nicht mehr')
+} else {
+  console.log('kind-mit-limit: Prozessbaum-Ende übersprungen (win32: Enkel überlebt, siehe Kommentar an spawnMitLimit)')
+  if (lebt(enkelPid)) process.kill(enkelPid)
+}
+rmSync(join(pidDatei, '..'), { recursive: true, force: true })
+console.log('kind-mit-limit: spawnMitLimit ok (Standardfrist, Optionen, ETIMEDOUT, Exit ≠ 0, echter Hänger, Enkelprozess)')

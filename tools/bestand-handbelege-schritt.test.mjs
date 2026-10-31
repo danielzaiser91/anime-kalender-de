@@ -4,7 +4,7 @@
  * weil nur nach `✖` gesucht wurde. Der Grund muss aus echter `check:logic`-Ausgabe (Zeile aus check-logic-alle.mjs) kommen.
  */
 import assert from 'node:assert/strict'
-import { spawnSync } from 'node:child_process'
+import { spawnMitLimit } from './kind-mit-limit.mjs'
 import { chmodSync, copyFileSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { delimiter, dirname, join } from 'node:path'
@@ -49,7 +49,7 @@ function lauf({ diff, logic, bestand, vorher = '', eingrenzen = 'exit 1' }) {
   attrappe('node', `echo "node $*" >> "${spur}"\n${eingrenzen}`)
   const env = { ...process.env, ...schritt.env, GITHUB_ENV: envDatei, PATH: `${join(ordner, 'bin')}${delimiter}${process.env.PATH}` }
   if (vorher) env.DATEN_WARNUNG = vorher
-  const r = spawnSync('bash', ['--noprofile', '--norc', '-eo', 'pipefail', '-c', schritt.run], { cwd: arbeit, encoding: 'utf8', env })
+  const r = spawnMitLimit('bash', ['--noprofile', '--norc', '-eo', 'pipefail', '-c', schritt.run], { cwd: arbeit, encoding: 'utf8', env })
   assert.equal(r.status, 0, `Schritt endet grün: ${r.stderr}`)
   const abhaken = existsSync(join(arbeit, 'data/cache/quittung-offen/pruefungen-abhaken.json'))
   const zurueck = readFileSync(join(arbeit, 'data/meldungen-zurueckgestellt.json'), 'utf8')
