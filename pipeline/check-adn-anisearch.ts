@@ -104,6 +104,9 @@ pruefe('Aufrufer ohne Titelliste: die Datei nennt 12 und die neue 887 mit „tit
 const bytes = readFileSync(offenDatei, 'utf8')
 await lauf([serie(887), serie(12), serie(30)])
 pruefe('Aufrufer ohne Titelliste: ein zweiter Lauf lässt die Datei byteweise gleich', readFileSync(offenDatei, 'utf8') === bytes)
+rmSync(seitDatei)
+await lauf([serie(887), serie(12), serie(30)])
+pruefe('Aufrufer: fehlt nur die Seit-Datei (Offen-Datei gleich), entsteht sie neu', readFileSync(offenDatei, 'utf8') === bytes && JSON.stringify(liesSeit()) === '{"12":"2026-10-31","887":"2026-10-31"}', liesSeit())
 await lauf([serie(887, 1), serie(12, 2)], new Map())
 pruefe('Aufrufer mit Titelliste rechnet die Liste neu (ohne „titelliste-fehlt“)', !readFileSync(offenDatei, 'utf8').includes('titelliste-fehlt'), liesOffen())
 const seitNach = liesSeit()
@@ -117,6 +120,9 @@ await lauf([serie(887), serie(12), serie(30), serie(31)])
 pruefe('Aufrufer: bleibt die Menge gleich, ändert sich die Seit-Datei nicht (kein Commit je Tag)', readFileSync(seitDatei, 'utf8') === seitBytes)
 await lauf([serie(887, 1), serie(12, 2)], new Map())
 pruefe('Aufrufer: eine Serie, die nicht mehr offen ist (31 fehlt im Katalog), verschwindet; die anderen behalten ihr Datum', JSON.stringify(liesSeit()) === '{"12":"2026-10-31","887":"2026-10-31"}', liesSeit())
+heute = '2026-11-12'
+await lauf([serie(887, 1), serie(12, 2), serie(40, 3)], new Map())
+pruefe('Aufrufer mit Titelliste: eine neue offene Serie trägt den Tag dieses Laufs', liesSeit()['40'] === '2026-11-12' && liesSeit()['12'] === '2026-10-31', liesSeit())
 rmSync(wurzel, { recursive: true, force: true })
 
 // Der eingecheckte Katalog und die Liste der offenen passen zusammen: nichts fällt heraus, nichts ist doppelt, keine AniList-Kennung bleibt.

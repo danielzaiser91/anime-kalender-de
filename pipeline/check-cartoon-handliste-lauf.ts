@@ -60,11 +60,13 @@ function lauf(): { status: number; out: string; err: string } {
 const gespeichert = () => JSON.parse(readFileSync(join(wurzel, 'data', 'cartoons.json'), 'utf8')) as Record<string, { adnId?: number; tmdbId: number }>
 const protokoll = () => readFileSync(anfragen, 'utf8').split('\n').filter(Boolean)
 
+/* Dreamland steht schon im Bestand, aber ohne ADN-Kennung (Altstand, geholt in ferner Zukunft: nicht fällig): die Kennung allein löst den neuen Abruf aus. */
+writeFileSync(join(wurzel, 'data', 'cartoons.json'), JSON.stringify({ '-900887': { id: -900887, tmdbId: 900887, titleEn: 'Dreamland', genres: ['Animation'], anbieterDe: [], land: [], stand: 3, geholtAm: '2999-12-31' } }))
 try {
   const eins = lauf()
-  pruefe('erster Lauf endet mit Exit 0 und nennt die Bilanz', eins.status === 0 && /1 neu/.test(eins.out), eins)
+  pruefe('erster Lauf endet mit Exit 0 und nennt die Bilanz', eins.status === 0 && /0 neu/.test(eins.out), eins)
   const bestand = gespeichert()
-  pruefe('Dreamland ist gespeichert, mit ADN-Kennung 887', bestand['-900887']?.adnId === 887 && bestand['-900887'].tmdbId === 900887, bestand)
+  pruefe('Dreamland (Altstand ohne Kennung) trägt jetzt die ADN-Kennung 887', bestand['-900887']?.adnId === 887 && bestand['-900887'].tmdbId === 900887, bestand)
   pruefe('mehrdeutiger Treffer (Babar) und Grenzfall (Cousteau) sind nicht im Bestand', Object.keys(bestand).join() === '-900887', Object.keys(bestand))
   pruefe('Log: mehrdeutig mit Begründung, Grenzfall ausgelassen, Treffer begründet', eins.out.includes('1178') && eins.out.includes('mehrdeutig') && eins.out.includes('Grenzfall: Doku') && eins.out.includes('TMDB 900887 gefunden'), eins.out)
   pruefe('Cousteau wird nie gesucht', !protokoll().some((z) => z.includes('Cousteau')), protokoll())
