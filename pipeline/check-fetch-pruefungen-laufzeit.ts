@@ -8,7 +8,8 @@
  * 3. Ohne `--trocken` landet der Beleg über `haengeBelegeAn` in `data/dub-confirmed.yaml` der Wegwerf-Wurzel (`AK_ROOT`).
  * 4. Staffel 2 gemeldet, unser Titel trägt keine Zahl (Haikyu!! TO THE TOP, 22.09.2026): kennt `data/anbieter-staffeln.json` Netflix' Staffel 2,
  *    wird die Meldung über die Aufteilung verteilt und es gibt einen Beleg; ohne diese Auskunft bleibt sie liegen.
- * 5. Zwei Meldungsstaffeln mit je eigener Notiz: jeder Beleg trägt die Notiz seiner Staffel, nicht die der letzten Meldung.
+ * 5. 24 durchgezählte Meldungen mit Notiz je Folge: der Beleg der ersten Staffel (Folge 1–12) trägt die Notiz seiner letzten Meldung (Folge 12),
+ *    nicht die der Gruppe (Haikyu!!, 22.09.2026: „gemessen: Folge 14 und 25“ stand auch am Titel mit den Rändern 1 und 13).
  */
 import { spawnSync } from 'node:child_process'
 import { createRequire } from 'node:module'
@@ -66,7 +67,7 @@ if (belegTitel(ohneAuskunft).length || ohneAuskunft.includes(VERTEILT)) fehler.p
 const notizen = trockenIn('notizen', false)
   .split('\n')
   .filter((z) => z.startsWith('  note: '))
-if (notizen.length !== 2 || !notizen[0]!.includes('Randprobe Staffel 1') || !notizen[1]!.includes('Randprobe Staffel 2')) fehler.push(`Notiz je Staffel: ${notizen.join(' | ')}`)
+if (notizen.length !== 1 || !notizen[0]!.includes('Randprobe Folge 12"')) fehler.push(`Notiz je Staffel: ${notizen.join(' | ')}`)
 
 const tmp = mkdtempSync(join(tmpdir(), 'fetch-pruefungen-laufzeit-'))
 try {

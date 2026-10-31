@@ -12,8 +12,9 @@ const NETFLIX = PRIME ? 'https://www.amazon.de/gp/video/detail/B0TESTSTAFF' : 'h
 const stream = [{ platform: PLATTFORM, url: NETFLIX }]
 const titel = (id, titleDe, format, jpStart, episodes) => ({ id, titleDe, format, jpStart, episodes, franchiseId: 7, streams: stream })
 // `ohnezahl` = Staffel 2 gemeldet, aber unser zweiter Titel trägt keine Zahl im Namen (Haikyu!! TO THE TOP, 22.09.2026).
-// `notizen` = zwei Staffeln von uns an der Adresse, Netflix' Aufteilung in der Meldung, je Staffel eine eigene Notiz (22.09.2026).
-const OHNE_ZAHL = process.env.AK_SZENARIO === 'ohnezahl' || process.env.AK_SZENARIO === 'notizen'
+// `notizen` = 24 durchgezählte Meldungen EINER Gruppe (Folge 1–24, ohne Staffelnummer) mit Netflix' Aufteilung 1–12 / 13–24, Notiz je Folge:
+// der Beleg trägt die Notiz der letzten Meldung seiner Staffel (Folge 12), nicht die der Gruppe (22.09.2026).
+const OHNE_ZAHL = process.env.AK_SZENARIO === 'ohnezahl'
 const titles = [
   titel(900001, 'Staffelreihe', 'TV', '2020-01-01', 12),
   titel(900002, 'Staffelreihe Nebenausgabe', 'OVA', '2020-06-01', 1),
@@ -51,13 +52,13 @@ const zeile = (staffel, nr) => ({
   folge: null,
 })
 const folgen = (staffel) => Array.from({ length: 12 }, (_, i) => zeile(staffel, i + 1))
-const aufteilung = JSON.stringify([{ seq: 1, name: 'Staffel 1', folgen: 12, erste: 1 }, { seq: 2, name: 'Staffel 2', folgen: 12, erste: 1 }])
-const mitNotiz = (staffel) => folgen(staffel).map((z) => ({ ...z, staffeln: aufteilung, notiz: `Randprobe Staffel ${staffel}` }))
+const aufteilung = JSON.stringify([{ seq: 1, name: 'Staffel 1', folgen: 12, erste: 1 }, { seq: 2, name: 'Staffel 2', folgen: 12, erste: 13 }])
+const durchgezaehlt = Array.from({ length: 24 }, (_, i) => ({ ...zeile(0, i + 1), staffel: null, staffeln: aufteilung, notiz: `Randprobe Folge ${i + 1}` }))
 
 globalThis.fetch = baueFetchAttrappe(
   (url, opt) => {
     if (!istMeldungsabruf(url, opt)) return undefined
-    if (process.env.AK_SZENARIO === 'notizen') return meldungsAntwort([...mitNotiz(1), ...mitNotiz(2)])
+    if (process.env.AK_SZENARIO === 'notizen') return meldungsAntwort(durchgezaehlt)
     return meldungsAntwort(process.env.AK_SZENARIO !== 'zwei' && process.env.AK_SZENARIO !== 'ohnezahl' ? [...folgen(1), ...folgen(2)] : folgen(2))
   },
 )
