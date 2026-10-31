@@ -1,10 +1,12 @@
 /** Test der Wache `check-adn-offen-bestand.ts` mit Kulisse (kein Echtdatenzugriff). */
-import { mkdtempSync, writeFileSync } from 'node:fs'
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { spawnSync } from 'node:child_process'
 import { bewerteOffenDatei } from './lib/adn-offen-wache.ts'
+import { aktualisiereOffenSeit, laufendOhneZuordnung, type OffenLage } from './lib/adn-offen-seit.ts'
+import { laufendZeile } from './check-adn-offen-bestand.ts'
 
 let verletzt = 0
 function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
@@ -39,10 +41,10 @@ pruefe('4 plus 10 andere (Gesamt über 5): Warnung, einfacher Text', stufe(datei
 
 const ordner = mkdtempSync(join(tmpdir(), 'adn-offen-wache-'))
 const skript = fileURLToPath(new URL('./check-adn-offen-bestand.ts', import.meta.url))
-function prozess(name: string, inhalt: string | null): { status: number; out: string; err: string } {
+function prozess(name: string, inhalt: string | null, wurzel = ordner, heute?: string): { status: number; out: string; err: string } {
   const d = join(ordner, name)
   if (inhalt !== null) writeFileSync(d, inhalt)
-  const r = spawnSync(process.execPath, ['--import', 'tsx', skript, d], { encoding: 'utf8', windowsHide: true })
+  const r = spawnSync(process.execPath, ['--import', 'tsx', skript, d, wurzel, ...(heute ? [heute] : [])], { encoding: 'utf8', windowsHide: true })
   return { status: r.status ?? -1, out: r.stdout, err: r.stderr }
 }
 const warnung = prozess('a.json', datei(fehlt(2)))
@@ -58,5 +60,51 @@ pruefe('Prozess: falsche Anzahl endet mit Exit 1, Meldung auf stderr', falscheAn
 const gut = prozess('d.json', datei([]))
 pruefe('Prozess: ok endet mit Exit 0, Zeile mit ✓ auf stdout', gut.status === 0 && gut.out.includes('✓ ADN-Titelliste:') && gut.err === '', gut)
 
+
+// Laufende Serie ohne Zuordnung: Warnung nach 3 Tagen (lib/adn-offen-seit.ts)
+const HEUTE = '2026-11-05'
+const lage = (aenderung: Partial<OffenLage> = {}): OffenLage => ({ heute: HEUTE, seit: { '887': '2026-10-31' }, letzteFolge: new Map([[887, '2026-10-24']]), zugeordnet: new Set(), ...aenderung })
+const dream = [{ showId: 887, title: 'Dreamland' }]
+const tage = (a: Partial<OffenLage>, serien = dream) => laufendOhneZuordnung(serien, lage(a)).map((s) => s.tage)
+pruefe('laufend, 5 Tage offen: Warnung mit Tagen', tage({}).join() === '5', tage({}))
+pruefe('genau 3 Tage offen: noch keine Warnung', tage({ seit: { '887': '2026-11-02' } }).length === 0)
+pruefe('4 Tage offen: Warnung', tage({ seit: { '887': '2026-11-01' } }).join() === '4')
+pruefe('letzte Folge genau 14 Tage her: laufend', tage({ letzteFolge: new Map([[887, '2026-10-22']]) }).length === 1)
+pruefe('letzte Folge 15 Tage her: nicht laufend, keine Warnung', tage({ letzteFolge: new Map([[887, '2026-10-21']]) }).length === 0)
+pruefe('Folge liegt noch in der Zukunft: laufend', tage({ letzteFolge: new Map([[887, '2026-12-01']]) }).length === 1)
+pruefe('schon zugeordnet: keine Warnung', tage({ zugeordnet: new Set([887]) }).length === 0)
+pruefe('Zuordnung einer anderen Serie ändert nichts', tage({ zugeordnet: new Set([1]) }).length === 1)
+pruefe('ohne erste Sichtung: keine Warnung (Alter unbekannt)', tage({ seit: {} }).length === 0)
+pruefe('ohne Folgendatum: keine Warnung', tage({ letzteFolge: new Map() }).length === 0)
+const zweiSerien = laufendOhneZuordnung([...dream, { showId: 888, title: 'Neu' }], lage({ seit: { '887': '2026-10-31', '888': '2026-11-04' }, letzteFolge: new Map([[887, '2026-10-24'], [888, '2026-11-01']]) }))
+pruefe('mehrere offene Serien: nur die lange offene warnt', zweiSerien.map((s) => s.showId).join() === '887', zweiSerien)
+const zeile = laufendZeile(dream, lage())
+pruefe('Zeile nennt Name, Kennung und Tage', Boolean(zeile?.includes('⚠ WARNUNG') && zeile.includes('Dreamland') && zeile.includes('887') && zeile.includes('5 Tagen')), zeile)
+pruefe('keine Warnung: keine Zeile', laufendZeile(dream, lage({ zugeordnet: new Set([887]) })) === undefined)
+const seitAlt = { '887': '2026-10-31', '5': '2026-10-01' }
+const seitNeu = aktualisiereOffenSeit(seitAlt, [887, 900, 12], HEUTE)
+pruefe('Seit-Datei: altes Datum bleibt, neue Serien tragen heute, gelöste fallen heraus', JSON.stringify(seitNeu) === '{"12":"2026-11-05","887":"2026-10-31","900":"2026-11-05"}', seitNeu)
+pruefe('Seit-Datei: zweiter Lauf ändert nichts', JSON.stringify(aktualisiereOffenSeit(seitNeu, [12, 887, 900], '2027-01-01')) === JSON.stringify(seitNeu))
+pruefe('Seit-Datei: leere Liste ergibt leere Datei', JSON.stringify(aktualisiereOffenSeit(seitAlt, [], HEUTE)) === '{}')
+
+// Prozess: Kulisse mit Offen-Datei, Seit-Datei, Katalog und Cartoons
+const kulisse = join(ordner, 'kulisse')
+mkdirSync(join(kulisse, 'data'), { recursive: true })
+writeFileSync(join(kulisse, 'data', 'adn-offen-seit.json'), JSON.stringify({ '887': '2026-10-31' }))
+writeFileSync(join(kulisse, 'data', 'adn-catalog.json'), JSON.stringify({ shows: [{ showId: 887, episodes: [{ date: '2026-10-17' }, { date: '2026-10-24' }] }] }))
+const offenDreamland = JSON.stringify({ anzahl: 1, serien: [{ showId: 887, title: 'Dreamland', grund: 'titelliste-fehlt', kandidaten: [] }] })
+const ZEILE = '⚠ WARNUNG ADN laufend ohne Zuordnung'
+const langOffen = prozess('g.json', offenDreamland, kulisse, HEUTE)
+pruefe('Prozess: laufende Serie seit 5 Tagen offen: Warnzeile, Exit 0', langOffen.status === 0 && langOffen.out.includes(ZEILE) && langOffen.out.includes('Dreamland'), langOffen)
+const frisch = prozess('h.json', offenDreamland, kulisse, '2026-11-03')
+pruefe('Prozess: 3 Tage offen: keine Warnzeile', frisch.status === 0 && !frisch.out.includes(ZEILE), frisch)
+const vorbei = prozess('i.json', offenDreamland, kulisse, '2026-11-20')
+pruefe('Prozess: letzte Folge über 14 Tage her: keine Warnzeile', vorbei.status === 0 && !vorbei.out.includes(ZEILE), vorbei)
+writeFileSync(join(kulisse, 'data', 'cartoons.json'), JSON.stringify({ '-900887': { adnId: 887 }, '-5': {} }))
+const zugeordnet = prozess('j.json', offenDreamland, kulisse, HEUTE)
+pruefe('Prozess: Cartoon mit adnId 887 vorhanden: keine Warnzeile', zugeordnet.status === 0 && !zugeordnet.out.includes(ZEILE), zugeordnet)
+const kaputtMitLage = prozess('k.json', '{kaputt', kulisse, HEUTE)
+pruefe('Prozess: kaputte Offen-Datei bleibt rot, ohne Warnzeile', kaputtMitLage.status === 1 && !kaputtMitLage.out.includes(ZEILE), kaputtMitLage)
+rmSync(ordner, { recursive: true, force: true })
 console.log(verletzt ? `\n${verletzt} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(verletzt ? 1 : 0)

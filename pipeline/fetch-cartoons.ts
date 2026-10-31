@@ -29,9 +29,10 @@
  * Aufruf: `tsx pipeline/fetch-cartoons.ts [--limit N] [--ab JAHR]`
  * Ergebnis: `data/cartoons.json`
  */
-import { log, readJson, sleep, warn, writeJson } from './lib/util.ts'
+import { ROOT, log, readJson, sleep, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
 import { bestesBild, type Bild } from './lib/cartoons.ts'
+import { adnKennungGeaendert, handlisteLaden, loeseHandliste, mitAdnKennung, mitHandliste, type TmdbSuchtreffer } from './lib/cartoon-handliste.ts'
 import { tmdbStaffeln, type TmdbStaffelRoh } from './lib/cartoon-staffeln.ts'
 import type { CartoonStaffel } from '../shared/cartoon-staffeln-typ.ts'
 import { todayIso } from '../shared/time.ts'
@@ -79,6 +80,8 @@ export interface CartoonEintrag {
   keywords?: string[]
   /** Staffeln laut TMDB ohne Staffel 0 (Extras), seit Stand 3. */
   staffeln?: CartoonStaffel[]
+  /** ADN-Serienkennung, wenn der Titel aus der Handliste stammt (`data/cartoon-handliste.yaml`); der ADN-Bau ordnet darüber zu. */
+  adnId?: number
   /** Stand des Abrufs; ältere Einträge werden neu geholt (siehe `STAND`). */
   stand?: number
   geholtAm: string
@@ -214,6 +217,18 @@ async function einzelheiten(tmdbId: number, schluessel: string): Promise<Cartoon
   }
 }
 
+/** TMDB-Kennung → ADN-Kennung der Handliste (`lib/cartoon-handliste.ts`); gesucht wird nur für Einträge, die der Bestand noch nicht trägt. */
+async function handlisteTmdb(schluessel: string, bestand: Record<string, CartoonEintrag>): Promise<Map<number, number>> {
+  const bestandsTmdb = new Map(Object.values(bestand).filter((e) => e.adnId).map((e) => [e.adnId!, e.tmdbId]))
+  const suche = async (begriff: string) => {
+    await sleep(60)
+    const j = (await holeJson(`${TMDB}/search/tv?api_key=${schluessel}&language=de-DE&query=${encodeURIComponent(begriff)}`)) as { results?: TmdbSuchtreffer[] } | null
+    return j?.results ?? []
+  }
+  const aufgeloest = await loeseHandliste(handlisteLaden(ROOT), bestandsTmdb, suche, log)
+  return new Map([...aufgeloest].map(([adn, tmdb]) => [tmdb, adn]))
+}
+
 async function main(): Promise<void> {
   const schluessel = process.env.TMDB_API_KEY
   if (!schluessel) {
@@ -225,7 +240,8 @@ async function main(): Promise<void> {
   const bestand = readJson<Record<string, CartoonEintrag>>('data/cartoons.json', {})
   log(`Bestand: ${Object.keys(bestand).length} Titel · suche Kandidaten ab ${AB_JAHR}`)
 
-  const ids = await kandidaten(schluessel)
+  const adnJeTmdb = await handlisteTmdb(schluessel, bestand)
+  const ids = mitHandliste(await kandidaten(schluessel), adnJeTmdb)
   log(`${ids.length} Kandidaten`)
 
   /*
@@ -236,7 +252,7 @@ async function main(): Promise<void> {
   const grenze = new Date(Date.now() - 21 * 864e5).toISOString().slice(0, 10)
   const faellig = ids.filter((id) => {
     const e = bestand[String(-id)]
-    return !e || (e.stand ?? 1) < STAND || e.geholtAm < grenze
+    return !e || (e.stand ?? 1) < STAND || e.geholtAm < grenze || adnKennungGeaendert(e, adnJeTmdb.get(id))
   })
   const dran = GRENZE > 0 ? faellig.slice(0, GRENZE) : faellig
   log(`${dran.length} fällig (älter als 21 Tage oder neu)`)
@@ -251,7 +267,7 @@ async function main(): Promise<void> {
       continue
     }
     if (!bestand[String(e.id)]) neu++
-    bestand[String(e.id)] = e
+    bestand[String(e.id)] = mitAdnKennung(e, adnJeTmdb.get(tmdbId))
   }
 
   writeJson('data/cartoons.json', bestand)

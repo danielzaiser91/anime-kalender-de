@@ -43,6 +43,7 @@ export interface CartoonEintrag {
   banner?: string
   keywords?: string[]
   staffeln?: CartoonStaffel[]
+  adnId?: number
   stand?: number
   geholtAm: string
 }

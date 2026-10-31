@@ -74,6 +74,8 @@ pipeline/check-bookworm-dublette.ts
 pipeline/check-cartoon-aufnahme-bau.ts
 pipeline/check-cartoon-aufnahme.ts
 pipeline/check-cartoon-belege-bau.ts
+pipeline/check-cartoon-handliste-lauf.ts
+pipeline/check-cartoon-handliste.ts
 pipeline/check-cartoon-reihen.ts
 pipeline/check-cartoon-staffeln.ts
 pipeline/check-cartoon-ton.ts

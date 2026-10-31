@@ -33,13 +33,14 @@ export function filmZurShow(show: Pick<AdnShow, 'title' | 'originalTitle' | 'epi
   return treffer.size === 1 ? [...treffer][0] : undefined
 }
 
-/** Der Anime zu einer ADN-Show: Katalogkennung, dann Name, dann Originalname, zuletzt der Film unter anderer Schreibweise. */
-export function titelZurShow(show: AdnShow, titles: Map<number, Title>, titleByName: Map<string, Title>): Title | undefined {
+/** Der Anime zu einer ADN-Show: Katalogkennung, dann Name, dann Originalname, dann der Film unter anderer Schreibweise; zuletzt der Cartoon der Handliste (`cartoon-adn.ts`). */
+export function titelZurShow(show: AdnShow, titles: Map<number, Title>, titleByName: Map<string, Title>, cartoonJeAdn: Map<number, Title> = new Map()): Title | undefined {
   return (
     (show.titleId ? titles.get(show.titleId) : undefined) ??
     titleByName.get(normalizeTitle(show.title)) ??
     titleByName.get(normalizeTitle(show.originalTitle ?? '')) ??
-    filmZurShow(show, titles.values())
+    filmZurShow(show, titles.values()) ??
+    cartoonJeAdn.get(show.showId)
   )
 }
 
