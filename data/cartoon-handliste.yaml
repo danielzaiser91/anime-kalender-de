@@ -1,0 +1,34 @@
+# ADN-Serien mit deutschem Ton (vde), die keine Anime-Datenbank führt. Quelle der Liste: data/adn-anisearch-offen.json
+# (Grund kein-kandidat) und Dreamland 887, Stand 31.10.2026. Namen und Originalnamen stehen so, wie ADN sie schreibt (data/adn-catalog.json).
+#
+# Der Cartoon-Abruf (pipeline/fetch-cartoons.ts) nimmt diese Einträge unabhängig von der Originalsprache auf.
+#   tmdb    feste TMDB-Kennung (nur eintragen, wenn sie an der TMDB-Seite abgelesen ist, nie raten)
+#   ohne    der Abruf sucht per Namen und nimmt nur einen eindeutigen Treffer (Animation, gleicher Name); Treffer und
+#           Ablehnung stehen im Lauf-Log
+#   jahr    Erstausstrahlungsjahr, trennt gleichnamige Serien
+#   pruefen Grenzfall mit Grund: der Abruf lässt den Eintrag aus, bis jemand entschieden hat
+# Kommt eine Serie später in aniSearch, wechselt sie über data/cartoon-umzug.json zum Anime; die Kennung bleibt (ak-umleitung.json).
+eintraege:
+  - { adn: 887, name: Dreamland, original: Dreamland }
+  - { adn: 663, name: Bob Morane, original: Bob Morane }
+  - { adn: 727, name: Lucky Luke, original: Lucky Luke }
+  - { adn: 729, name: Spirou }
+  - { adn: 731, name: Titeuf, original: Titeuf }
+  - { adn: 732, name: Magic Roundabout, original: The Magic Roundabout }
+  - { adn: 734, name: Tintin (Adventures), original: Les Aventures de Tintin }
+  - adn: 748
+    name: Die unglaublichen Abenteuer des Kapitän Cousteau
+    original: Les Aventures Fantastiques du Commandant Cousteau
+    pruefen: Ob die Serie Animation oder Dokumentation ist, ist ungeklärt (vor dem Eintragen an der TMDB-Seite ansehen)
+  - { adn: 778, name: Spirou und Fantasio, original: Spirou & Fantasio }
+  - { adn: 817, name: Martin Morgen, original: Martin Matin }
+  - { adn: 1144, name: Billy & Buddy, original: Boule et Bill }
+  - { adn: 1145, name: The Garfield Show, original: The Garfield Show }
+  - { adn: 1146, name: Kleine Strubbel, original: Little Furry }
+  - { adn: 1147, name: Little Hippo, original: Petit Potam }
+  - { adn: 1167, name: Mama Fuchs und Papa Dachs, original: La Famille Blaireau-Renard }
+  - { adn: 1178, name: Babar, original: Babar }
+  - { adn: 1263, name: SamSam, original: Samsam }
+  - { adn: 1265, name: Billy & Buddy 3D, original: Boule & Bill 3D }
+  - { adn: 1277, name: Die Piratenfamilie, original: Famille pirate }
+  - { adn: 1278, name: Yakari, original: Yakari }

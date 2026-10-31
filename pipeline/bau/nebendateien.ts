@@ -25,6 +25,7 @@ import { mitArtikeldaten, type BelegGedaechtnis } from '../lib/beleg-lesung.ts'
 import { behalteLesetag, ladeAdnLesetage, mitLesetag, ohneFehlzuordnung } from './adn-lesetag.ts'
 import { keinAnimeFehler, keinAnimeVonHand } from './ohne-beleg.ts'
 import { ordneCartoonReihen } from './cartoon-reihen.ts'
+import { adnShowsLesen, ergaenzeAdnWege } from './cartoon-adn.ts'
 import { setzeStaffeln, staffelnAusBelegen } from './cartoon-staffeln.ts'
 import { verteileWege } from './cartoon-wege.ts'
 import { wendeCartoonBelegeAn } from './cartoon-belege.ts'
@@ -183,6 +184,8 @@ export function schreibeCartoons(): void {
     }
   }
   if (jwAdressen) log(`${jwAdressen} Cartoon-Verweise mit Adresse von JustWatch`)
+  const adnWege = ergaenzeAdnWege(titel, roh, adnShowsLesen())
+  if (adnWege) log(`${adnWege} Cartoon-Verweise zu ADN (Handliste, deutscher Ton)`)
   const belege = loadDubChecks().filter((b) => b.anilistId < 0)
   const belegt = wendeCartoonBelegeAn(titel, belege)
   if (belegt) log(`${belegt} Cartoon-Verweise mit Handbeleg`)

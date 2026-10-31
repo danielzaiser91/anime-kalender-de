@@ -84,6 +84,8 @@ QUELLEN=(
   data/adn-catalog.json
   # Serien des Katalogs ohne eindeutigen aniSearch-Eintrag (13.10.2026); der Katalog-Lauf schreibt sie mit.
   data/adn-anisearch-offen.json
+  # Erste Sichtung je offener Serie (Wache: laufende Serie länger als 3 Tage offen); der Katalog-Lauf schreibt sie mit.
+  data/adn-offen-seit.json
   # Die ADN-News-Artikel, über die sich angekündigte Termine lesbar belegen
   # lassen (`pipeline/lib/adn-news.ts`). Ohne diese Zeile fiele der Stand bei
   # bewegtem Fernstand weg und würde jeden Tag neu geholt.
