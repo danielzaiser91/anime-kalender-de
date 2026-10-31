@@ -89,6 +89,18 @@ pruefe(
   s?.staffeln?.filter((x) => x.gewaehlt),
 )
 
+/* Der Durchgang trennt Staffeln einer ASIN über den Link des Dropdown-Eintrags (31.10.2026). */
+pruefe(
+  'jede Staffel trägt den seasonLink des Dropdowns (so steht er in der Zexal-Fixture)',
+  s?.staffeln?.length === 6 && s.staffeln.every((x) => (x.link ?? '').startsWith('/gp/video/detail/') && (x.link ?? '').includes('?ref_=atv_dp_season_select_s')),
+  s?.staffeln?.map((x) => x.link),
+)
+pruefe(
+  'die gewählte Staffel 2 trägt ihren eigenen Link',
+  s?.staffeln?.find((x) => x.gewaehlt)?.link === '/gp/video/detail/B0GV8N71SL?ref_=atv_dp_season_select_s2',
+  s?.staffeln?.find((x) => x.gewaehlt)?.link,
+)
+
 /* --- Die Folgen ---------------------------------------------------------- */
 
 pruefe('vierundzwanzig Folgen sind gelesen', s?.folgen?.length === 24, s?.folgen?.length)

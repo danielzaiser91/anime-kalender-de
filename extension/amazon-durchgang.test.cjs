@@ -275,10 +275,10 @@ const kennung = (el) => /detail\/([A-Z0-9]+)/.exec(el.src)?.[1]
   const zeilen = quelle.split('\n')
   const zeileWarten = zeilen.findIndex((z) => z.includes('id = await new Promise')) + 1
   const zeileHoerer = zeilen.findIndex((z) => z.includes("window.addEventListener('message', primeHoerer)")) + 1
-  const zeileTakt = zeilen.findIndex((z) => z.trim() === 'if (!IM_FRAME) setTimeout(primeTakt, 500)') + 1
+  const zeileTakt = zeilen.findIndex((z) => z.trim() === 'if (!IM_FRAME || SUCHE_IM_FRAME) setTimeout(primeTakt, 500)') + 1
   pruefe('der Durchgangs-Hörer steht vor dem Warten auf die Kennung', zeileHoerer > 0 && zeileHoerer < zeileWarten, `${zeileHoerer} vor ${zeileWarten}`)
   /* Auf der Seite vor dem Warten; im Frame erst hinten, nach der Initialisierung — den Lauf prüft amazon-durchgang-takt.test.cjs. */
-  pruefe('der Takt startet auf der Seite vor dem Warten, im Frame erst am Ende des Skripts', zeileTakt > 0 && zeileTakt < zeileWarten && /\n {2}if \(IM_FRAME\) setTimeout\(primeTakt, 500\)\n\}\)\(\)/.test(quelle), `${zeileTakt} vor ${zeileWarten}`)
+  pruefe('der Takt startet auf der Seite vor dem Warten, im Frame (außer der Suchseite) erst am Ende des Skripts', zeileTakt > 0 && zeileTakt < zeileWarten && /\n {2}if \(IM_FRAME\) setTimeout\(primeTakt, 500\)\n\}\)\(\)/.test(quelle), `${zeileTakt} vor ${zeileWarten}`)
   pruefe('der Hauptlistener übergeht die Frame-Antwort', /if \(e\?\.data\?\.marke === 'ak-prime-frame'\) return/.test(quelle))
   pruefe('der Bericht nennt „noch nicht angelegt“ statt eines Fehlers, solange die Seite wartet', /before initialization\/\.test\(e\?\.message\)/.test(quelle))
 }
@@ -307,12 +307,15 @@ const kennung = (el) => /detail\/([A-Z0-9]+)/.exec(el.src)?.[1]
 
   /* Dropdown-Einträge reisen mit Link und Auswahl-Flag, sonst unterscheidet der Lauf Staffeln einer ASIN nicht. */
   const dd = welt({ imFrame: true })
-  dd.kontext.gesehen = { seite: { staffeln: [{ kennung: 'B0B6HHFR44', nummer: 5, gewaehlt: true, link: '/gp/video/detail/B0B6HHFR44?ref_=atv_dp_season_select_s5' }] } }
+  dd.kontext.gesehen = { seite: { staffeln: [{ kennung: 'B0B6HHFR44', nummer: 5, name: 'Besonders', gewaehlt: true, link: '/gp/video/detail/B0B6HHFR44?ref_=atv_dp_season_select_s5' }] } }
   dd.zeige('x melden', 1500)
   dd.kontext.letzteMeldung = { pfad: '/x', ok: true, am: dd.uhr }
   dd.zeige('trage ein …', 0, false)
   const st = dd.gepostet[0]?.staffeln?.[0]
-  pruefe('Frame: die Staffelliste trägt Link und Auswahl', st?.link?.endsWith('_s5') && st.gewaehlt === true, dd.gepostet[0])
+  pruefe('Frame: die Staffelliste trägt Name, Link und Auswahl', st?.link?.endsWith('_s5') && st.gewaehlt === true && st.name === 'Besonders', dd.gepostet[0])
+
+  const zehn = Array.from({ length: 10 }, (_, i) => `Text ${i}`).reduce((tb, t, i) => dd.kontext.akPrimeTagebuch(tb, t, i), [])
+  pruefe('Tagebuch: höchstens die letzten acht Texte', zehn.length === 8 && zehn[0].text === 'Text 2' && zehn[7].text === 'Text 9', zehn.map((x) => x.text))
 
   /* Scheitert der Frame, nennt er seine letzten Knopftexte mit Zeit. */
   const tb = welt({ imFrame: true })
@@ -325,17 +328,22 @@ const kennung = (el) => /detail\/([A-Z0-9]+)/.exec(el.src)?.[1]
 
   /* Such-Frame (Weg B): wartet auf die Karten, meldet dann die Treffer. */
   const sf = welt({ imFrame: true })
-  sf.kontext.location.pathname = '/s'
   sf.kontext.offeneSuche = () => ({ titel: 'Operation: Nussknacker - Auf die Nüsse, fertig, los!', suchUrl: 'S1' })
   sf.kontext.suchTreffer = () => ({ gesehen: 3, leerGemeldet: false, treffer: [] })
   sf.kontext.beurteileTreffer = () => ({ art: 'genau', treffer: [{ url: '/gp/video/detail/B087Y8ZNF8?sr=1-1' }] })
   sf.kontext.erwartungZu = () => ['B0GXHFZ68B']
   sf.kontext.kennungAus = (u) => /detail\/([A-Z0-9]+)/.exec(u)?.[1] ?? null
-  sf.takt(2000)
+  const sucheSchritt = (ms) => {
+    sf.uhr += ms
+    vm.runInContext('sucheFrameSchritt()', sf.kontext)
+  }
+  sucheSchritt(2000)
   pruefe('Such-Frame: unter 3 s keine Antwort', sf.gepostet.length === 0)
-  sf.takt(1500)
+  sucheSchritt(1500)
   const sa = sf.gepostet[0]
   pruefe('Such-Frame: Antwort mit genauem Treffer und bestätigter Auswahl', sa?.ok === true && sa.treffer.join() === 'B087Y8ZNF8,B0GXHFZ68B', sa)
+  sucheSchritt(500)
+  pruefe('Such-Frame: nur eine Antwort je Seite', sf.gepostet.length === 1, sf.gepostet.length)
   w.zeige('trage ein …', 3000, false)
   pruefe('Frame: nur eine Antwort je Seite', w.gepostet.length === 1)
 }
@@ -585,6 +593,62 @@ for (const [text, teil, ort] of [
   vm.runInContext('primeLaufStarten()', t.kontext)
   t.ergebnis(t.offen()[0], { ok: false, grund: 'Trefferliste nicht gelesen', treffer: [] })
   pruefe('Such-Frame ohne Ergebnis: der Auftrag steht genau einmal auf der Handliste', t.ende()?.uebersprungen.length === 1, t.ende())
+}
+
+/*
+  **Nichts fällt still heraus (Prüfer A2, 31.10.2026):** Einträge des Dropdowns, die der Plan nicht unterscheiden
+  kann, stehen mit Grund in der Plan-Spur und als Warnzeile auf der Handliste.
+*/
+{
+  const K = 'B0B6HHFR44'
+  const lauf = (staffeln) => {
+    const w = welt()
+    w.kontext.liste = { [K]: { titel: 'Miraculous', url: `https://www.amazon.de/gp/video/detail/${K}` } }
+    w.kontext.listenId = K
+    vm.runInContext('primeLaufStarten()', w.kontext)
+    w.ergebnis(w.offen()[0], { hier: K, staffeln })
+    return w
+  }
+  const eintrag = (n, link, extra = {}) => ({ kennung: K, nummer: n, name: `Staffel ${n}`, gewaehlt: n === 1, link, ...extra })
+  const link = (n) => `/gp/video/detail/${K}?ref_=atv_dp_season_select_s${n}`
+  const zahl = (w) => (w.lauf()?.plan.length ?? 0) + w.offen().length
+  const stand = (w) => w.lauf() ?? w.ende()
+
+  const zwei = lauf([...Array.from({ length: 24 }, (_, i) => eintrag(i + 1, link(i + 1))), eintrag(25, null, { name: 'Tagebuch Besonders' }), eintrag(26, null, { name: 'Besonders' })])
+  pruefe('Dropdown mit 2 Einträgen ohne Link: 23 weitere Seiten im Plan', zahl(zwei) === 23, zahl(zwei))
+  const warn = stand(zwei).uebersprungen[0] ?? ''
+  pruefe('… und die Handliste warnt: 2 von 26, mit Namen und Grund', /^Miraculous · Dropdown: 2 von 26 Einträgen nicht unterscheidbar/.test(warn) && warn.includes('Tagebuch Besonders: kein Link') && warn.includes('Besonders: kein Link'), warn)
+  const spur = stand(zwei).spur.find((s) => s.was === 'plan')
+  pruefe('… die Plan-Spur nennt dieselben Verluste', spur?.verloren?.length === 2 && spur.staffeln.length === 23, spur)
+
+  const ohne = lauf(Array.from({ length: 26 }, (_, i) => eintrag(i + 1, null)))
+  pruefe('ohne jeden Link: Plan leer, Warnung 25 von 26 (die offene Seite zählt nicht als Verlust)', zahl(ohne) === 0 && /Dropdown: 25 von 26/.test(stand(ohne).uebersprungen[0] ?? ''), [zahl(ohne), stand(ohne).uebersprungen])
+
+  const gleich = lauf([eintrag(1, link(1)), eintrag(2, link(2)), eintrag(3, link(2))])
+  pruefe('gleicher Link zweimal: ein Eintrag im Plan, der andere gemeldet', zahl(gleich) === 1 && /Dropdown: 1 von 3 .*gleicher Link/.test(stand(gleich).uebersprungen[0] ?? ''), [zahl(gleich), stand(gleich).uebersprungen])
+
+  const ohneKennung = lauf([eintrag(1, link(1)), eintrag(2, link(2)), { nummer: 3, name: 'Fremd' }])
+  pruefe('Eintrag ohne Kennung: gemeldet, nicht verschluckt', zahl(ohneKennung) === 1 && /Fremd: ohne Kennung/.test(stand(ohneKennung).uebersprungen[0] ?? ''), stand(ohneKennung).uebersprungen)
+
+  const voll = lauf([eintrag(1, link(1)), eintrag(2, link(2)), eintrag(3, link(3))])
+  pruefe('vollständiges Dropdown: keine Warnung', stand(voll).uebersprungen.length === 0 && zahl(voll) === 2, stand(voll).uebersprungen)
+}
+
+/* A4/A5 (Prüfer): Name der fehlgeschlagenen Suche, gti ohne Query. */
+{
+  const FISCH = 'https://www.amazon.de/s?k=Fischen%20Impossible&i=instant-video'
+  const w = welt({ suchen: { [FISCH]: { titel: 'Fischen Impossible', folgen: 1 } } })
+  w.kontext.liste = {}
+  w.kontext.listenId = 'x'
+  vm.runInContext('primeLaufStarten()', w.kontext)
+  w.ergebnis(w.offen()[0], { ok: false, grund: 'Trefferliste nicht gelesen', treffer: [] })
+  pruefe('fehlgeschlagene Suche: die Handliste nennt den Titel statt „?"', w.ende()?.uebersprungen[0]?.startsWith('Fischen Impossible · ') === true, w.ende()?.uebersprungen)
+
+  const gemerkt = []
+  const GTI = 'amzn1.dv.gti.0a1b2c3d-4e5f-6789-abcd-ef0123456789'
+  const adresse = w.kontext.akPrimeEintragAdresse(`${GTI}?ref_=atv_dp_season_select_s2`, (g) => gemerkt.push(g))
+  pruefe('gti mit Query: Adresse und Merker ohne Query', adresse === `https://watch.amazon.de/detail?gti=${GTI}` && gemerkt.join() === GTI, [adresse, gemerkt])
+  pruefe('ASIN mit Query behält die Query', w.kontext.akPrimeEintragAdresse('B0B6HHFR44?ref_=atv_dp_season_select_s5', () => {}) === 'https://www.amazon.de/gp/video/detail/B0B6HHFR44?ref_=atv_dp_season_select_s5')
 }
 
 console.log('')

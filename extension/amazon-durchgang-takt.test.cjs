@@ -11,7 +11,7 @@
 const { readFileSync } = require('node:fs')
 const vm = require('node:vm')
 
-const quelle = ['box.js', 'melde-sperre.js', 'prime-titelseite.js', 'prime-stand-ziele.js', 'prime-region.js', 'amazon.js'].map((n) => readFileSync(__dirname + '/' + n, 'utf8')).join('\n')
+const quelle = ['box.js', 'melde-sperre.js', 'prime-titelseite.js', 'prime-stand-ziele.js', 'prime-region.js', 'prime-durchgang-suche.js', 'prime-treffer-kopf.js', 'amazon.js'].map((n) => readFileSync(__dirname + '/' + n, 'utf8')).join('\n')
 
 const fehler = []
 function pruefe(name, bedingung, gefunden) {
@@ -47,18 +47,18 @@ function element() {
 }
 
 /** Lädt `amazon.js` einmal und liefert Zeitgeber, Warnungen und die gelesenen Speicherschlüssel. */
-function lade({ imFrame, pfad }) {
-  const w = { zeitgeber: [], warnungen: [], gelesen: [], absturz: null }
-  const fenster = { addEventListener() {}, location: { pathname: pfad, search: '' }, name: imFrame ? 'ak-durchgang' : '' }
+function lade({ imFrame, pfad, search = '', suche = {}, karten = [] }) {
+  const w = { zeitgeber: [], warnungen: [], gelesen: [], absturz: null, gepostet: [], uhr: 1_000_000 }
+  const fenster = { addEventListener() {}, location: { pathname: pfad, search }, name: imFrame ? 'ak-durchgang' : '' }
   fenster.top = imFrame ? {} : fenster
-  fenster.parent = { postMessage() {} }
+  fenster.parent = { postMessage: (d) => w.gepostet.push(d) }
   const sandkasten = {
     globalThis: null,
     AK_OFFENE_AMAZON: {},
-    AK_PRIME_SUCHE: {},
+    AK_PRIME_SUCHE: suche,
     URLSearchParams,
     URL,
-    location: { pathname: pfad, search: '', origin: 'https://www.amazon.de', href: 'https://www.amazon.de' + pfad },
+    location: { pathname: pfad, search, origin: 'https://www.amazon.de', href: 'https://www.amazon.de' + pfad },
     sessionStorage: {
       getItem: (k) => { w.gelesen.push(k); return null },
       setItem() {},
@@ -71,7 +71,7 @@ function lade({ imFrame, pfad }) {
       title: 'Amazon.de',
       createElement: () => element(),
       querySelector: () => null,
-      querySelectorAll: () => [],
+      querySelectorAll: (sel) => (sel === 'article[data-testid="card"]' ? karten : []),
       addEventListener() {},
     },
     chrome: { runtime: { id: 'test' }, storage: { local: { get: () => ({ amazonErledigt: {}, amazonSuche: {} }), set: () => Promise.resolve() } } },
@@ -86,7 +86,12 @@ function lade({ imFrame, pfad }) {
     performance: { now: () => Date.now() },
     navigator: { clipboard: { writeText: () => Promise.resolve() } },
   }
-  for (const name of ['Date', 'JSON', 'Math', 'Set', 'Map', 'Number', 'String', 'Object', 'Array', 'Boolean', 'RegExp', 'Promise', 'Error']) {
+  sandkasten.Date = class extends Date {
+    static now() {
+      return w.uhr
+    }
+  }
+  for (const name of ['JSON', 'Math', 'Set', 'Map', 'Number', 'String', 'Object', 'Array', 'Boolean', 'RegExp', 'Promise', 'Error']) {
     sandkasten[name] = globalThis[name]
   }
   sandkasten.encodeURIComponent = encodeURIComponent
@@ -145,6 +150,44 @@ async function haupt() {
     pruefe('Frame mit Kennung: der Takt ist angemeldet', w.zeitgeber.some((z) => z.fn.name === 'primeTakt'), w.zeitgeber.map((z) => z.fn.name))
     taktDrehen(w, 6)
     pruefe('Frame mit Kennung: der Takt wirft nicht', !w.warnungen.some((x) => /Takt wirft/.test(x)), w.warnungen)
+    w.uhr += 9000
+    taktDrehen(w, 3)
+    pruefe('Frame mit Kennung: er geht nicht den Such-Frame-Weg (keine Antwort Suchauftrag nicht erkannt)', !w.gepostet.some((d) => 'treffer' in d), w.gepostet)
+  }
+
+  /*
+    **Such-Frame (Prüfer A1, 31.10.2026):** Auf `/s` gibt es nie eine Kennung; das Skript wartet dort fünf Minuten, und der Takt
+    am Ende wurde nie erreicht. Der Durchgang lief in Wirklichkeit nie durch eine Suche. Hier läuft das ganze Skript.
+  */
+  {
+    const karte = (titel, asin) => ({
+      getAttribute: (n) => ({ 'data-card-title': titel, 'data-card-entity-type': 'Movie', 'data-card-entitlement': 'Unentitled' })[n] ?? null,
+      closest: () => ({ getAttribute: () => 'Ergebnisse' }),
+      querySelector: () => ({ getAttribute: () => `/gp/video/detail/${asin}?sr=1-1` }),
+    })
+    const karten = [karte('Operation Nussknacker', 'B087Y8ZNF8'), karte('Operation Nußknacker 2 - Voll auf die Nüsse', 'B0FNXJ6WD7'), karte('Voll auf die Nüsse', 'B00HFCZJWU')]
+    const suche = {
+      'https://www.amazon.de/s?k=Operation%20Nussknacker&i=instant-video': { titel: 'Operation: Nussknacker - Auf die Nüsse, fertig, los!', folgen: 1 },
+    }
+    const { w } = lade({ imFrame: true, pfad: '/s', search: '?k=Operation%20Nussknacker&i=instant-video', suche, karten })
+    await new Promise((r) => setImmediate(r))
+    pruefe('Such-Frame: das Skript läuft ohne Absturz', !w.absturz, w.absturz?.message)
+    pruefe('Such-Frame: der Takt ist angemeldet, ohne dass eine Kennung da ist', w.zeitgeber.some((z) => z.fn.name === 'primeTakt' && z.ms === 500), w.zeitgeber.map((z) => z.fn.name))
+    taktDrehen(w, 3)
+    pruefe('Such-Frame: vor Ablauf von 3 s keine Antwort', w.gepostet.length === 0, w.gepostet)
+    w.uhr += 3500
+    taktDrehen(w, 2)
+    pruefe('Such-Frame: der Takt arbeitet die Suche ab und meldet den genauen Treffer', w.gepostet.length === 1 && w.gepostet[0].ok === true && w.gepostet[0].treffer.join() === 'B087Y8ZNF8', w.gepostet)
+    pruefe('Such-Frame: der Takt wirft nicht', !w.warnungen.some((x) => /Takt wirft/.test(x)), w.warnungen)
+    taktDrehen(w, 2)
+    pruefe('Such-Frame: genau eine Antwort', w.gepostet.length === 1, w.gepostet.length)
+
+    /* Gegenprobe: dieselbe Seite als sichtbare Seite (kein Frame) startet keinen Such-Frame-Weg. */
+    const sichtbar = lade({ imFrame: false, pfad: '/s', search: '?k=Operation%20Nussknacker&i=instant-video', suche, karten }).w
+    await new Promise((r) => setImmediate(r))
+    sichtbar.uhr += 3500
+    taktDrehen(sichtbar, 3)
+    pruefe('Gegenprobe: eine sichtbare Suchseite postet keine Frame-Antwort', sichtbar.gepostet.length === 0, sichtbar.gepostet)
   }
 
   console.log('')

@@ -25,13 +25,22 @@
    * Die Planeinträge einer Staffelliste, ohne die gerade offene Seite und ohne Dubletten.
    * `besucht`: Kennungen, deren erste Staffel schon läuft oder gelaufen ist (die offene Seite zeigt die
    * gewählte Staffel; jede andere Staffel derselben ASIN kommt über ihre Query).
+   *
+   * **Nichts fällt still heraus:** Jeder Eintrag, der nicht in den Plan kommt, obwohl er eine eigene Staffel
+   * sein müsste (keine Kennung, keine Query, gleiche Query), steht mit Grund in `verloren`.
    */
   globalThis.akPrimePlanEintraege = (staffeln, besucht, imPlan) => {
     const gesehen = new Set()
     const eintraege = []
-    const sortiert = [...(staffeln ?? [])].filter((s) => s?.kennung).sort((a, b) => (a.nummer ?? 0) - (b.nummer ?? 0))
-    const gewaehlteKennungen = new Set(sortiert.filter((s) => s.gewaehlt).map((s) => text(s.kennung)))
+    const verloren = []
+    const name = (s) => text(s?.name || (s?.nummer ?? '?'))
+    const sortiert = [...(staffeln ?? [])].sort((a, b) => (a?.nummer ?? 0) - (b?.nummer ?? 0))
+    const gewaehlteKennungen = new Set(sortiert.filter((s) => s?.gewaehlt).map((s) => text(s.kennung)))
     for (const s of sortiert) {
+      if (!s?.kennung) {
+        verloren.push(`${name(s)}: ohne Kennung`)
+        continue
+      }
       const k = text(s.kennung)
       const offen = besucht.includes(k) && (s.gewaehlt || (!gewaehlteKennungen.has(k) && !gesehen.has(k)))
       gesehen.add(k)
@@ -39,15 +48,25 @@
       const erster = !besucht.includes(k) && !eintraege.some((e) => e.kennung === k)
       const query = queryVon(s.link)
       const eintrag = erster || !query ? k : k + query
-      if (besucht.includes(eintrag) || imPlan.includes(eintrag) || eintraege.some((e) => e.eintrag === eintrag)) continue
+      if (besucht.includes(eintrag) || imPlan.includes(eintrag) || eintraege.some((e) => e.eintrag === eintrag)) {
+        verloren.push(`${name(s)}: ${query ? 'gleicher Link wie ein anderer Eintrag' : 'kein Link, der sie von der offenen Seite trennt'}`)
+        continue
+      }
       eintraege.push({ kennung: k, eintrag, nummer: s.nummer ?? null })
     }
-    return eintraege
+    return { eintraege, verloren }
   }
+
+  /** Die Warnzeile für die Handliste, wenn Einträge des Dropdowns nicht in den Plan kamen; sonst `null`. */
+  globalThis.akPrimeStaffelWarnung = (verloren, gesamt, name) =>
+    verloren.length ? `${name} · Dropdown: ${verloren.length} von ${gesamt} Einträgen nicht unterscheidbar (${verloren.slice(0, 3).join('; ')})` : null
 
   /** Frame-Adresse: Suchseiten tragen ihre volle Adresse, alles andere läuft über die Titelseite. */
   globalThis.akPrimeEintragAdresse = (eintrag, gtiMerken) =>
-    /^https:\/\//.test(text(eintrag)) ? text(eintrag) : globalThis.akPrimeFrameAdresse(text(eintrag), gtiMerken)
+    /^https:\/\//.test(text(eintrag)) ? text(eintrag) : globalThis.akPrimeFrameAdresse(gtiOhneQuery(text(eintrag)), gtiMerken)
+
+  /** Eine gti trägt nie eine Query: Sie geht in `gtiMerken` und in die Adresse von watch.amazon.de. */
+  const gtiOhneQuery = (e) => (e.startsWith('amzn1.dv.gti.') ? e.split('?')[0] : e)
 
   /** Die Kennung hinter einem Planeintrag („B0B6HHFR44?ref_=…" → „B0B6HHFR44"). */
   globalThis.akPrimeEintragKennung = (eintrag) => text(eintrag).split('?')[0]

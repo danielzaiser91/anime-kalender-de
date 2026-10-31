@@ -746,6 +746,8 @@ async function speicherSchreiben(werte) {
   const PRIME_FRAMES = 3
   const PRIME_FRAME_NAME = 'ak-durchgang'
   const IM_FRAME = Boolean(window.top) && window !== window.top
+  const SUCHE_IM_FRAME = IM_FRAME && /^\/s(\/|$)/.test(location.pathname)
+  const sucheFrame = { start: Date.now(), fertig: false }
   const primeFrames = new Map() // offene Frames dieser Seite: Element → { kennung, start }
   /**
    * **Was diese Sitzung selbst gemeldet hat — neben dem Briefkasten, nicht in ihm.**
@@ -6259,7 +6261,7 @@ async function speicherSchreiben(werte) {
    */
   /* Startseite: nie eine Kennung, also Hörer und Takt vor dem Warten. Im Frame erst am Ende (`frameSchritt()` braucht `knopf`, `gesehen`). */
   window.addEventListener('message', primeHoerer)
-  if (!IM_FRAME) setTimeout(primeTakt, 500)
+  if (!IM_FRAME || SUCHE_IM_FRAME) setTimeout(primeTakt, 500)
 
   /**
    * Keine Titelseite? Dann wird gewartet, nicht ausgestiegen.
@@ -10846,6 +10848,8 @@ async function speicherSchreiben(werte) {
     primeSpur(lauf, 'titel', { schluessel, titel: liste[schluessel]?.titel ?? null })
   }
 
+  const primeLaufName = (lauf) => (liste[lauf.titel] ?? suchliste[lauf.titel] ?? suchliste[lauf.suche])?.titel ?? '?'
+
   /** Titel sind durch: erst die Treffer einer gelesenen Suche, dann die nächste offene Suche (Weg B). */
   function primeSucheBeginnen(lauf) {
     const schritt = globalThis.akPrimeSucheWeiter(lauf, suchOffen(), suchliste)
@@ -10891,7 +10895,7 @@ async function speicherSchreiben(werte) {
     if (!lauf) return
     lauf.laufend = lauf.laufend.filter((k) => k !== f.kennung)
     primeSpur(lauf, 'seite', { kennung: f.kennung, ok: Boolean(daten.ok), grund: daten.grund ?? null, tagebuch: daten.tagebuch ?? null })
-    globalThis.akPrimeSucheErgebnis(lauf, daten, suchliste[lauf.titel]?.titel ?? '?')
+    globalThis.akPrimeSucheErgebnis(lauf, daten, primeLaufName(lauf))
     if (daten.ok) {
       lauf.seiten = (lauf.seiten ?? 0) + 1
       /*
@@ -10905,15 +10909,17 @@ async function speicherSchreiben(werte) {
     }
     if (/kein Token/.test(String(daten.grund ?? ''))) return primeLaufBeenden(lauf, 'kein Token in den Optionen')
     if (!lauf.planBekannt) {
-      const staffeln = globalThis.akPrimePlanEintraege(daten.staffeln, [f.kennung, daten.hier], lauf.plan)
+      const { eintraege: staffeln, verloren } = globalThis.akPrimePlanEintraege(daten.staffeln, [f.kennung, daten.hier], lauf.plan)
       for (const s of staffeln) lauf.staffelNr[s.eintrag] = s.nummer
       lauf.plan.push(...staffeln.map((s) => s.eintrag))
       lauf.planBekannt = true
-      primeSpur(lauf, 'plan', { staffeln: staffeln.map((s) => `${s.nummer}:${s.eintrag}`) })
+      primeSpur(lauf, 'plan', { staffeln: staffeln.map((s) => `${s.nummer}:${s.eintrag}`), verloren })
+      const warnung = globalThis.akPrimeStaffelWarnung(verloren, (daten.staffeln ?? []).length, primeLaufName(lauf))
+      if (warnung) lauf.uebersprungen.push(warnung)
     }
     if (!daten.ok && !globalThis.AK_TAGESLIMIT?.zurueckstellen(lauf.plan, f.kennung)) {
       const nr = lauf.staffelNr[f.kennung]
-      lauf.uebersprungen.push(`${(liste[lauf.titel] ?? suchliste[lauf.suche])?.titel ?? '?'} · ${nr ? `Staffel ${nr}` : f.kennung}`)
+      lauf.uebersprungen.push(`${primeLaufName(lauf)} · ${nr ? `Staffel ${nr}` : f.kennung}`)
     }
     primeLaufSchreiben(lauf)
     primeKoordinieren()
@@ -10967,33 +10973,35 @@ async function speicherSchreiben(werte) {
   /** Zustand dieser einen Frame-Seite — lebt nur, solange sie lebt. */
   const frameZustand = { start: Date.now(), text: null, textSeit: Date.now(), geklickt: null, fertig: false, tagebuch: [] }
 
-  /** `extra`: weitere Felder der Antwort (die Treffer eines Such-Frames). Scheitert der Frame, nennt er seine letzten Knopftexte. */
-  function frameFertig(ok, grund, extra = {}) {
+  /** Scheitert der Frame, nennt die Antwort seine letzten Knopftexte mit Zeit. */
+  function frameFertig(ok, grund) {
     if (frameZustand.fertig) return
     frameZustand.fertig = true
     const staffeln = (gesehen?.seite?.staffeln ?? [])
       .filter((s) => s?.kennung)
-      .map((s) => ({ kennung: String(s.kennung), nummer: s.nummer ?? null, link: s.link ?? null, gewaehlt: Boolean(s.gewaehlt) }))
+      .map((s) => ({ kennung: String(s.kennung), nummer: s.nummer ?? null, name: s.name ?? null, link: s.link ?? null, gewaehlt: Boolean(s.gewaehlt) }))
     window.parent.postMessage(
-      { marke: 'ak-prime-frame', ok, grund, hier: String(asin() ?? ''), staffeln, limit: globalThis.AK_TAGESLIMIT?.rest() ?? null, tagebuch: ok ? undefined : frameZustand.tagebuch, ...extra },
+      { marke: 'ak-prime-frame', ok, grund, hier: String(asin() ?? ''), staffeln, limit: globalThis.AK_TAGESLIMIT?.rest() ?? null, tagebuch: ok ? undefined : frameZustand.tagebuch },
       location.origin,
     )
   }
 
-  /** Such-Frame (Weg B): wartet auf die Karten, liest die Treffer und meldet sie dem Lauf. */
+  /** Such-Frame (Weg B): wartet auf die Karten, liest die Treffer und meldet sie dem Lauf (läuft vor der Kennung, daher eigener Zustand). */
   function sucheFrameSchritt() {
+    if (sucheFrame.fertig) return
     const auftrag = offeneSuche()
     const gefunden = suchTreffer()
     const befund = auftrag ? beurteileTreffer(auftrag, gefunden) : null
-    const erwartet = erwartungZu(auftrag?.suchUrl)
-    const urteil = globalThis.akPrimeSucheUrteil({ auftrag, gefunden, befund, erwartet, vergangen: Date.now() - frameZustand.start, kennungAus })
-    if (urteil) frameFertig(urteil.ok, urteil.grund, { treffer: urteil.treffer })
+    const urteil = globalThis.akPrimeSucheUrteil({ auftrag, gefunden, befund, erwartet: erwartungZu(auftrag?.suchUrl), vergangen: Date.now() - sucheFrame.start, kennungAus })
+    if (!urteil) return
+    sucheFrame.fertig = true
+    const antwort = { marke: 'ak-prime-frame', ok: urteil.ok, grund: urteil.grund, hier: '', staffeln: [], treffer: urteil.treffer, limit: globalThis.AK_TAGESLIMIT?.rest() ?? null }
+    window.parent.postMessage(antwort, location.origin)
   }
 
   function frameSchritt() {
     if (frameZustand.fertig) return
     if (!verbindungLebt()) return frameFertig(false, 'Erweiterung neu geladen')
-    if (/^\/s(\/|$)/.test(location.pathname)) return sucheFrameSchritt()
     const jetzt = Date.now()
     const text = String(knopf.textContent ?? '').trim()
     if (text !== frameZustand.text) {
@@ -11058,7 +11066,8 @@ async function speicherSchreiben(werte) {
   */
   function primeTakt() {
     try {
-      if (IM_FRAME) frameSchritt()
+      if (SUCHE_IM_FRAME) sucheFrameSchritt()
+      else if (IM_FRAME) frameSchritt()
       else primeKoordinieren()
       primeFehler = 0
     } catch (fehler) {
