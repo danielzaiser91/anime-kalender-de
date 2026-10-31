@@ -83,6 +83,7 @@ try {
     release('ohne', 'GOHNE'),
     { ...release('aristocrat-s3', 'GG5H5XQMD'), titleId: 185756 },
     { ...release('aristocrat-s2', 'GG5H5XQMD'), titleId: 178434 },
+    { ...release('rueckfall', 'GRUECKFALL'), titleId: 190001 },
   ])
   /* Die drei Titel der echten Reihe (Staffelnummer kommt aus der Reihe) und die echte Katalogzeile von Folge 2 (crunchyroll-neu.json, 26.10.2026). */
   const reihe = (id: number, titleEn: string, titleRomaji: string, jpYear: number, episodes?: number) => ({
@@ -100,6 +101,7 @@ try {
     reihe(164702, kopf, 'Tensei Kizoku, Kantei Skill de Nariagaru', 2024, 12),
     reihe(178434, `${kopf} Season 2`, 'Tensei Kizoku, Kantei Skill de Nariagaru 2nd Season', 2024, 12),
     reihe(185756, `${kopf} Season 3`, 'Tensei Kizoku, Kantei Skill de Nariagaru 3rd Season', 2026),
+    { ...reihe(190001, 'Rueckfall Serie', 'Rueckfall Serie', 2026, 12), franchiseId: 190001 },
   ])
   schreibe('data/crunchyroll-neu.json', {
     geholtAm: '2026-10-26',
@@ -107,6 +109,10 @@ try {
       { guid: 'GE00384134DEDE', serieId: 'GG5H5XQMD', serie: kopf, staffelId: 'GS00384021DEDE', staffel: 'Staffel 3', nummer: 2, titel: 'Canarre in Gefahr', ausstrahlung: '2026-10-04T00:00:00.000Z', verfuegbarAb: '2026-10-25T15:00:00.000Z', gesehenAm: '2026-10-26' },
       /* Staffel 2 derselben Serie, erst am 06.11. angekündigt (jetzt = 04.11.): keine Sichtung. */
       { guid: 'GEZUKUNFT', serieId: 'GG5H5XQMD', serie: kopf, staffel: 'Staffel 2', nummer: 2, verfuegbarAb: '2026-11-06T15:00:00.000Z' },
+      /* Rückfall: kein verfuegbarAb, gesehenAm neun Tage nach dem erwarteten Tag (Form der fünf Fälle vom 26.10.2026, ausstrahlung davor). */
+      { guid: 'GERUECK', serieId: 'GRUECKFALL', serie: 'Rueckfall Serie', staffel: 'Staffel 1', nummer: 5, ausstrahlung: '2026-10-20T00:00:00.000Z', gesehenAm: '2026-11-03' },
+      /* Weder Tag noch Rückfall: zählt nicht und steht in der Logzeile. */
+      { guid: 'GEOHNE', serieId: 'GOHNETAG', serie: 'Ohne Tag', staffel: 'Staffel 1', nummer: 4 },
       /* Fremde Serie, gleiche Staffel und Nummer am erwarteten Tag: gehört nicht zu diesem Vermerk. */
       { guid: 'GEFREMD', serieId: 'GANDERE', serie: 'Andere Serie', staffel: 'Staffel 2', nummer: 2, verfuegbarAb: '2026-10-25T15:00:00.000Z' },
     ],
@@ -120,6 +126,7 @@ try {
     vermerk('ohne', 5, '2026-10-14T17:25:00.000Z'),
     { ...vermerk('aristocrat-s3', 2, '2026-10-25T16:00:00.000Z'), titleId: 185756 },
     { ...vermerk('aristocrat-s2', 2, '2026-10-25T16:00:00.000Z'), titleId: 178434 },
+    { ...vermerk('rueckfall', 5, '2026-10-25T16:00:00.000Z'), titleId: 190001 },
   ])
   schreibe('data/crunchyroll.json', { scrapedAt: '2026-11-04T12:00:00Z', window: { from: '2026-10-01', to: '2026-11-30' }, german: {}, slots: [] })
 
@@ -141,6 +148,10 @@ try {
   pruefe('Katalog sieht Folge 2 der Staffel 3 am erwarteten Tag: Vermerk entfällt (Aristocrat S3)', je('aristocrat-s3') === undefined, je('aristocrat-s3'))
   pruefe('Folge 2 der Schwesterstaffel unter derselben Serienkennung bleibt offen', je('aristocrat-s2') !== undefined && je('aristocrat-s2')?.erschienenAm === null, je('aristocrat-s2'))
   pruefe('Katalog kündigt Folge 2 erst für übermorgen an: keine Sichtung, Vermerk bleibt offen', je('aristocrat-s2')?.erschienenAm === null, je('aristocrat-s2'))
+  /* Der Tag des ersten Katalogfundes (03.11.) ist kein Erscheinungstag: kein erschienenAm, kein Verzug, der Vermerk ist widerlegt und fällt weg. */
+  pruefe('Rückfall gesehenAm: Vermerk entfällt, erschienenAm nie aus gesehenAm', je('rueckfall') === undefined, je('rueckfall'))
+  pruefe('Logzeile nennt die Katalogfolge ohne Tag', lauf.stdout.includes('Katalogfolgen ohne Tag (zählen nicht als Beleg): 1 — Ohne Tag Staffel 1 F4'), lauf.stdout.slice(-900))
+  pruefe('Logzeile zählt die Verwerfungspfade des Katalogs', lauf.stdout.includes('Katalog verworfen: 7 Titel ohne Serie/Staffel, 0 Folgen ohne Nummer, 2 andere Staffel, 0 ohne Tag, 1 angekündigt'), lauf.stdout.split('\n').filter((z) => z.includes('Katalog verworfen')).join())
 } finally {
   rmSync(arbeit, { recursive: true, force: true })
 }
