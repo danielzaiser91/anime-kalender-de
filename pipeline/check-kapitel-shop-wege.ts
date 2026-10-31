@@ -109,8 +109,10 @@ console.log('\nBestandswache (Wegwerf-Wurzel):')
     pruefe('Titel der Liste fehlt im Bestand: Warnung, Exit 0', bestandMain(wurzel) === 0)
     schreibe([f.ch3], '[]\n')
     pruefe('leere Liste: Exit 1', bestandMain(wurzel) === 1)
-    schreibe([f.ch3], gut.replace('belegtAm: "2026-10-31"', ''))
+    schreibe([f.akito4], gut.replace('belegtAm: "2026-10-31"', ''))
     pruefe('Eintrag ohne Datum zählt nicht, Liste leer: Exit 1', bestandMain(wurzel) === 1)
+    schreibe([f.akito4], gut.replace('beleg: Beleg', ''))
+    pruefe('Eintrag ohne Beleg zählt nicht, Liste leer: Exit 1', bestandMain(wurzel) === 1)
   } finally {
     rmSync(wurzel, { recursive: true, force: true })
   }
