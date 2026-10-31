@@ -4,6 +4,7 @@
  * 600 ms, und sie verschwindet beim Verlassen. Ohne den Zeiger am Button (`useHoverCover`) erscheint nie eine Karte.
  */
 import { readFileSync } from 'node:fs'
+import { verdeckung, zeileMittig } from './zeile-mittig.mjs'
 
 const FRIST_MIN_MS = 100
 const FRIST_MAX_MS = 600
@@ -12,10 +13,12 @@ const KANDIDATEN = 12
 
 /** Zeigt auf die Zeile und liefert, ob die Karte nach 40 ms schon stand, nach der Frist stand und nach dem Verlassen noch steht. */
 async function zeigeAuf(seite, zeile) {
-  await zeile.scrollIntoViewIfNeeded()
+  await zeileMittig(zeile)
   await seite.mouse.move(2, 2)
   await seite.waitForTimeout(200)
   const box = await zeile.boundingBox()
+  const verdeckt = await verdeckung(zeile, box.x + Math.min(box.width / 2, 40), box.y + box.height / 2)
+  if (verdeckt) throw new Error(verdeckt)
   await seite.mouse.move(box.x + Math.min(box.width / 2, 40), box.y + box.height / 2)
   await seite.waitForTimeout(40)
   const zuFrueh = await seite.locator(KARTE).count()
