@@ -10,7 +10,7 @@
  */
 import type { Title } from '../../shared/types.ts'
 
-/** Alle Haltepunkte in Bau-Reihenfolge; `check-phasen-zustand.ts` hält sie gegen die Aufrufe in `build.ts` und `09-synchro.ts`. */
+/** Alle Haltepunkte in Bau-Reihenfolge; `check-phasen-zustand.ts` hält sie gegen die Aufrufe in `phasenfolge.ts` und `09-synchro.ts`. */
 export const PHASEN = [
   '02-titel',
   '08-news-tv',

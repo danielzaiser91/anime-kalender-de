@@ -1,10 +1,10 @@
 # Angekündigt, aber noch nicht im Datensatz
 
-Stand: 2026-10-30. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
+Stand: 2026-10-31. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
 
 ## Kuratierung: was noch fehlt
 
-47 Meldungen mit künftigem Termin sind noch nicht eingearbeitet.
+50 Meldungen mit künftigem Termin sind noch nicht eingearbeitet.
 
 | Termin | Plattform | Synchro | Meldung |
 |---|---|---|---|
@@ -15,6 +15,9 @@ Stand: 2026-10-30. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | 2026-10 (Monat) | adn | ❌ nur Originalton | [ADN nimmt »86 EIGHTY-SIX« in sein Programm auf](https://www.anime2you.de/news/1052781/86-eighty-six-bald-auf-adn/) |
 | 2026-10-30, 2026-10 (Monat) | crunchyroll | – unklar | [Crunchyroll bald nicht mehr auf Nintendo Switch verfügbar](https://www.anime2you.de/news/1044861/crunchyroll-bald-nicht-mehr-auf-nintendo-switch/) |
 | 2026-10-31 | primevideo | ✅ zugesagt | [Drei Anime-Serien verlassen bald den Prime-Video-Katalog](https://www.anime2you.de/news/1056183/prime-video-entfernt-naruto-und-mehr/) |
+| 2026-11-16, 2026-11 (Monat) | ? | – unklar | [HBO Max nimmt Original-Serie »Lazarus« ins Programm](https://www.anime2you.de/news/1065659/lazarus-bald-auf-hbo-max/) |
+| 2026-12 (Monat), 2026-11 (Monat) | ? | – unklar | [»Anime Night« auf ProSieben MAXX kehrt mit Film und TV-Premiere zurück](https://www.anime2you.de/news/1065927/prosieben-maxx-anime-night-rueckkehr/) |
+| 2026-11-03, 2026-11-24, 2026-11 (Monat) | disneyplus | – unklar | [Disney+ kündigt zwei Anime-Neuzugänge für November 2026 an](https://www.anime2you.de/news/1065975/disney-plus-neu-im-november-2026/) |
 | 2026-11 (Monat) | primevideo, aniverse | – unklar | [Neue Anime-Katalogtitel im November 2026 bei aniverse](https://www.anime2you.de/news/1065078/aniverse-november-2026-neuzugaenge/) |
 | 2026-11 (Monat) | adn | – unklar | [ADN kündigt sechs Anime-Neuzugänge für November 2026 an](https://www.anime2you.de/news/1064806/adn-neuzugaenge-im-november-2026/) |
 | 2026-11-06, 2026-11 (Monat) | ? | – unklar | [»Anime Night« auf ProSieben MAXX kehrt verkürzt zurück](https://www.anime2you.de/news/1063716/prosieben-maxx-anime-night-kehrt-verkuerzt-zurueck/) |
@@ -45,63 +48,60 @@ Stand: 2026-10-30. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | 2027-03-31, 2027-03 (Monat) | ? | – unklar | [Nutzer verlieren gekaufte Inhalte: Tapas bestätigt Abschaltung für 2027](https://www.anime2you.de/news/1057381/tapas-bestaetigt-abschaltung-fuer-maerz-2027/) |
 | 2027-03-01 | netflix | – unklar | [Netflix startet große Werbeoffensive in 15 weiteren Ländern](https://www.anime2you.de/news/1055001/netflix-startet-grosse-werbeoffensive/) |
 | 2027-04 (Monat) | ? | – unklar | [Start von »ELECEED« nach Verschiebung steht fest + Teaser](https://www.anime2you.de/news/1062575/start-von-eleceed-nach-verschiebung/) |
-| 2027-04 (Monat) | ? | – unklar | [Neue »Apothecary Diaries«-Plüschfigur von Jinshi vorgestellt](https://www.anime2you.de/news/1056535/apothecary-diaries-plueschfigur-jinshi/) |
-| 2027-04 (Monat) | crunchyroll | – unklar | [Action-Anime »The Vermilion Mask« erhält einen zweiten Teil](https://www.anime2you.de/news/1058275/the-vermilion-mask-erhaelt-zweiten-teil/) |
-| 2027-04 (Monat) | ? | – unklar | [Start von »Walking Home with You« steht fest + Visual](https://www.anime2you.de/news/1058153/start-von-walking-home-with-you/) |
 
-… und 7 weitere.
+… und 10 weitere.
 
-Dazu 57 Disc-Meldungen mit künftigem Termin; sie laufen über die Disc-Übersicht.
+Dazu 58 Disc-Meldungen mit künftigem Termin; sie laufen über die Disc-Übersicht.
 
 ## Quellen
 
 | Quelle | zuletzt erfolgreich | Treffer |
 |---|---|---|
-| adn | 2.0 Tage her | 0 |
-| adn-catalog | 4.0 Tage her | 115 |
-| adn-news | 0.1 Tage her | 75 |
-| anilist-voices | 4.0 Tage her | 0 |
-| anime-offline-database | 4.0 Tage her | 8876 |
+| adn | 3.0 Tage her | 0 |
+| adn-catalog | 5.0 Tage her | 115 |
+| adn-news | 0.1 Tage her | 72 |
+| anilist-voices | 5.0 Tage her | 0 |
+| anime-offline-database | 5.0 Tage her | 8876 |
 | anime2you | 0.0 Tage her | 101 |
-| anisearch | 0.9 Tage her | 177 |
-| anisearch-cover-eigen | 18.5 Tage her | 1874 |
+| anisearch | 0.9 Tage her | 116 |
+| anisearch-cover-eigen | 19.5 Tage her | 1874 |
 | anisearch-dubs | 1.0 Tage her | 11938 |
-| anisearch-eintraege | 4.0 Tage her | 400 |
-| anisearch-folgen | 4.0 Tage her | 464 |
-| anisearch-slugs | 4.0 Tage her | 14899 |
-| anisearch-zuordnung | 1.0 Tage her | 18496 |
-| ann-voices | 4.0 Tage her | 8876 |
+| anisearch-eintraege | 5.0 Tage her | 400 |
+| anisearch-folgen | 5.0 Tage her | 464 |
+| anisearch-slugs | 5.0 Tage her | 14899 |
+| anisearch-zuordnung | 1.0 Tage her | 18497 |
+| ann-voices | 5.0 Tage her | 8876 |
 | beleg-lesungen | 0.0 Tage her | 58 |
-| cartoon-folgen | 4.0 Tage her | 357 |
+| cartoon-folgen | 5.0 Tage her | 357 |
 | cartoon-reihen | 1.0 Tage her | 0 |
-| cartoons | 1.0 Tage her | 1 |
-| cinestar | 4.0 Tage her | 2 |
-| cr-einzelwerke | 9.6 Tage her | 6 |
-| cr-filmbloecke | 9.6 Tage her | 2 |
-| crunchyroll-dub | 0.5 Tage her | 1144 |
-| crunchyroll-neu | 0.0 Tage her | 159 |
-| crunchyroll-offene | 3.9 Tage her | 9 |
-| crunchyroll-woche | 0.1 Tage her | 61 |
-| justwatch-audio | 1.0 Tage her | 31 |
-| kinoheld | 4.0 Tage her | 0 |
-| kitsu-folgen | 4.0 Tage her | 112 |
-| link-check | 4.0 Tage her | 150 |
+| cartoons | 1.0 Tage her | 0 |
+| cinestar | 5.0 Tage her | 2 |
+| cr-einzelwerke | 10.6 Tage her | 6 |
+| cr-filmbloecke | 10.6 Tage her | 2 |
+| crunchyroll-dub | 0.5 Tage her | 1145 |
+| crunchyroll-neu | 0.0 Tage her | 161 |
+| crunchyroll-offene | 4.9 Tage her | 9 |
+| crunchyroll-woche | 0.0 Tage her | 61 |
+| justwatch-audio | 1.0 Tage her | 1 |
+| kinoheld | 5.0 Tage her | 0 |
+| kitsu-folgen | 5.0 Tage her | 112 |
+| link-check | 5.0 Tage her | 150 |
 | messbelege | 0.0 Tage her | 0 |
-| motn | 7.0 Tage her | 2034 |
-| motn-changes | 0.0 Tage her | 1 |
-| rohfolgen | 0.6 Tage her | 0 |
-| rtlplus-folgen | 4.0 Tage her | 3 |
-| tmdb-banner | 2.4 Tage her | 2039 |
-| tmdb-folgen | 4.0 Tage her | 885 |
-| tmdb-kino | 4.0 Tage her | 3 |
-| tmdb-poster | 2.4 Tage her | 2400 |
-| tmdb-titles | 4.0 Tage her | 400 |
+| motn | 8.0 Tage her | 2034 |
+| motn-changes | 0.0 Tage her | 9 |
+| rohfolgen | 1.6 Tage her | 0 |
+| rtlplus-folgen | 5.0 Tage her | 3 |
+| tmdb-banner | 3.4 Tage her | 2039 |
+| tmdb-folgen | 5.0 Tage her | 885 |
+| tmdb-kino | 5.0 Tage her | 3 |
+| tmdb-poster | 3.4 Tage her | 2400 |
+| tmdb-titles | 5.0 Tage her | 400 |
 | toggo | 0.0 Tage her | 22 |
-| trailer | 1.0 Tage her | 366 |
-| tv-de | 0.2 Tage her | 66 |
-| tv-programm | 0.0 Tage her | 305 |
+| trailer | 1.0 Tage her | 153 |
+| tv-de | 0.2 Tage her | 71 |
+| tv-programm | 0.0 Tage her | 303 |
 | vorfaelle | 0.0 Tage her | 5 |
-| wikidata-imdb | 4.0 Tage her | 5313 |
-| wikidata-titel | 4.0 Tage her | 15 |
+| wikidata-imdb | 5.0 Tage her | 5313 |
+| wikidata-titel | 5.0 Tage her | 15 |
 | wikipedia-folgen | 0.0 Tage her | 9 |
-| youtube-check | 4.0 Tage her | 514 |
+| youtube-check | 5.0 Tage her | 514 |

@@ -5614,23 +5614,6 @@ async function speicherSchreiben(werte) {
         localstorage dafür … single source of truth."
       */
       /*
-        **Eine Erwartung schlägt jede Einzelmeldung.**
-
-        Hat Daniel auf der Trefferliste angekreuzt, welche Ausgaben zu diesem
-        Titel gehören, ist der Auftrag erst mit **allen** erledigt. Ohne das galt
-        er nach der ersten Meldung als fertig, und die zweite Seite ließ sich
-        nicht mehr melden (02.09.2026, „Is This a Zombie?": Kauftitel gemeldet,
-        aniverse gesperrt).
-
-        Was gemeldet ist, sagt der Briefkasten über `gemeldeteSeiten` — die
-        Kennungen der Seiten, auf denen wirklich nachgesehen wurde. Kein lokaler
-        Zähler: Wird eine Meldung verworfen, steht ihre Seite wieder offen.
-      */
-      const erwartet = erwartungZu(url)
-      if (erwartet && briefkastenSeiten) {
-        return erwartet.every((k) => briefkastenSeiten.has(String(k)))
-      }
-      /*
         **Hat der Briefkasten geantwortet, entscheidet er allein — auch gegen
         den lokalen Vermerk.**
 

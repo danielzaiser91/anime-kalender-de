@@ -1,17 +1,21 @@
-# Belege ohne Fundstelle (43)
+# Belege ohne Fundstelle (52)
 
 Die Aussage war auf der Seite nicht zu finden. Von Hand prüfen: nennt der Artikel den Titel und den Termin? Wenn nein, ist der Beleg hinfällig und der Termin braucht eine andere Quelle.
 
 - https://www.anime2you.de/news/1036663/disney-plus-sechs-anime-neuzugaenge-august-2026/ (gelesen 2026-10-28) — Black Clover – Staffel 1 (97940)
 - https://www.anime2you.de/news/1032820/netflix-beelzebub-und-mehr/ (gelesen 2026-10-28) — Beelzebub (9513)
 - https://www.anime2you.de/news/1033802/netflix-anime-neu-im-august-2026/ (gelesen 2026-10-28) — The Ribbon Hero (211308)
+- https://www.anisearch.de/article/216599,miss-kobayashis-dragon-maid-s-steelbook-blu-ray (gelesen 2026-10-31) — Kobayashi-san Chi no Maidragon S (107717)
+- https://www.anisearch.de/article/216599 (gelesen 2026-10-31) — Kobayashi-san Chi no Maidragon S (107717)
 - https://www.anisearch.de/article/211705,code-geass-lelouch-of-the-rebellion-staffel-1-2-komplettset-blu-ray (gelesen 2026-10-29) — Code Geass: Lelouch of the Rebellion (1575)
 - https://www.anisearch.de/article/211705 (gelesen 2026-10-28) — Code Geass: Lelouch of the Rebellion (1575)
 - https://www.anisearch.de/article/215273,from-bureaucrat-to-villainess-dads-been-reincarnated-complete-series-blu-ray (gelesen 2026-10-29) — kein Titel zugeordnet
 - https://www.anisearch.de/article/215273 (gelesen 2026-10-29) — kein Titel zugeordnet
+- https://www.anisearch.de/article/216797,miss-kobayashis-dragon-maid-gesamtausgabe-steelbook-blu-ray (gelesen 2026-10-31) — Miss Kobayashi's Dragon Maid: Valentines and Hot Springs! (Please Don't Get Your Hopes Up) (98580)
 - https://www.anime2you.de/news/1052708/netflix-anime-neu-im-oktober-2026/ (gelesen 2026-10-30) — Vigilante: Boku no Hero Academia ILLEGALS (185736), Vigilante: Boku no Hero Academia ILLEGALS 2nd Season (195322), Watashi no Shiawase na Kekkon Tokubetsu-hen (190054), Niwatori Fighter (179813)
 - https://www.anime2you.de/news/1022385/crunchyroll-sommer-2026-synchros/ (gelesen 2026-10-29) — Black Torch (187538)
 - https://news.animationdigitalnetwork.com/de/2026/09/10/undefeated-bahamut-chronicle-ecchi-mecha-anime-bei-adn/ (gelesen 2026-10-28) — Assassination Classroom (20755), Assassination Classroom Second Season (21170)
+- https://news.animationdigitalnetwork.com/de/2026/05/22/adn-animagic-live-synchro-mit-mayumi-tanaka/ (gelesen 2026-10-28) — Dragon Ball Super (21175)
 - https://news.animationdigitalnetwork.com/de/2026/06/29/maedchen-mit-toedlichen-waffen-gunslinger-girl-jetzt-bei-adn/ (gelesen 2026-10-29) — Gunslinger Girl -Il Teatrino- (3231)
 - https://news.animationdigitalnetwork.com/de/2026/08/17/love-lies-jetzt-im-stream-bei-adn-dystopisches-romance-drama/ (gelesen 2026-10-29) — Love and Lies (98320)
 - https://news.animationdigitalnetwork.com/de/2026/07/20/sci-fi-donghua-ringing-fate-kommt-zu-adn/ (gelesen 2026-10-29) — Boku no Hero Academia (21459), My Hero Academia Season 2 (21856)
@@ -19,6 +23,8 @@ Die Aussage war auf der Seite nicht zu finden. Von Hand prüfen: nennt der Artik
 - https://www.joyn.de/serien/higurashi-when-they-cry-gou (gelesen 2026-10-15) — kein Titel zugeordnet
 - https://www.joyn.de/filme/naruto-shippuden-the-movie-bonds (gelesen 2026-10-13) — kein Titel zugeordnet
 - https://www.joyn.de/filme/naruto-shippuden-the-movie-die-erben-des-willens-des-feuers (gelesen 2026-10-13) — kein Titel zugeordnet
+- https://www.anime2you.de/news/1052846/animoon-crunchyroll-ksm-25-verschiebungen/ (gelesen 2026-10-31) — Kobayashi-san Chi no Maidragon S (107717), Afro Samurai + Afro Samurai Resurrection (1292), Miss Kobayashi’s Dragon Maid – Staffel 1 (21776)
+- https://www.anime2you.de/news/1053610/disney-plus-spy-x-family-und-mehr/ (gelesen 2026-10-31) — Naruto Shippuden – Staffel 3 (1735), SPY x FAMILY (140960), Spy × Family (Cour 2) (142838), Spy × Family: Staffel 2 (158927)
 - https://www.anime2you.de/news/1054748/adn-neuzugaenge-im-oktober-2026/ (gelesen 2026-10-30) — BLEACH: The DiamondDust Rebellion - Mou Hitotsu no Hyourinmaru (2889), BLEACH: Fade to Black - Kimi no Na wo Yobu (4835), Bleach: The Movie - Hell Verse (8247), 86: Eighty Six (116589), 86: Eighty Six – Teil 2 (131586), Mahou Shoujo Madoka☆Magica (9756), Bleach: The Movie - Memories of Nobody (1686), Tensei Shitara Dragon no Tamago Datta: Saikyou Igai Mezasa Nee (187941)
 - https://www.anime2you.de/news/1054490/netflix-demon-slayer-infinity-castle-und-mehr/ (gelesen 2026-10-30) — Beelzebub (9513)
 - https://www.anime2you.de/news/1056789/akiba-pass-shop-sailor-moon-und-mehr/ (gelesen 2026-10-21) — Sailor Moon: Das Mädchen mit den Zauberkräften (1239), Sailor Moon: Das Mädchen mit den Zauberkräften (740), Sailor Moon: Das Mädchen mit den Zauberkräften (996), Hanarokushou ga Akeru Hi ni (177132)
@@ -42,6 +48,9 @@ Die Aussage war auf der Seite nicht zu finden. Von Hand prüfen: nennt der Artik
 - https://www.disneyplus.com/de-de/browse/entity-fc20b0bc-90b6-45b3-b56a-ad3a5cb2b855 (gelesen 2026-10-30) — kein Titel zugeordnet
 - https://www.anime2you.de/news/1061001/neun-animoon-crunchyroll-hardball-disc-verschiebungen/ (gelesen 2026-10-20) — Good Luck Girl! – Vol. 1 (13535), Kaiju No. 8 – Staffel 2 – Komplettbox (178754)
 - https://www.anime2you.de/news/1047034/disney-plus-classroom-of-the-elite-und-mehr/ (gelesen 2026-10-29) — Bleach (269)
+- https://www.joyn.de/filme/naruto-shippuden-the-movie-the-lost-tower (gelesen 2026-10-20) — kein Titel zugeordnet
+- https://www.joyn.de/filme/naruto-shippuden-the-movie-blood-prison (gelesen 2026-10-31) — kein Titel zugeordnet
 - https://www.anime2you.de/news/1064806/adn-neuzugaenge-im-november-2026/ (gelesen 2026-10-29) — Ore wa Subete wo [Parry] Suru: Gyaku Kanchigai no Sekai Saikyou wa Boukensha ni Naritai (170695)
 - https://www.anisearch.de/article/189533,nukitashi-welcome-to-love-island-vol-1-3-limited-mediabook-edition-blu-ray-sammelschuber (gelesen 2026-10-30) — Nukitashi: Welcome to Love Island! (174188)
 - https://www.anime2you.de/news/1065078/aniverse-november-2026-neuzugaenge/ (gelesen 2026-10-30) — Call of the Night: Staffel 2 (175914)
+- https://www.anime2you.de/news/1065256/prime-video-goblin-slayer-staffel-2-und-mehr/ (gelesen 2026-10-31) — GOBLIN SLAYER II (129188)

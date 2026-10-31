@@ -27,7 +27,7 @@ public/data/*.json  (titles-core, titles, releases, events, news, franchises, ca
         ▼  vite build + pipeline/build-share-pages.ts  ──► dist/  ──► GitHub Pages
 ```
 
-Reihenfolge im Bau (`pipeline/build.ts`): 01 Quellen laden → 02 Titel → 03 Reihen → 04 CR-Sendeplätze → 05 Releases →
+Reihenfolge im Bau (`pipeline/bau/phasenfolge.ts`, Bilanz je Phase in `phasen-bilanz.ts`: leere Phase bricht ab): 01 Quellen laden → 02 Titel → 03 Reihen → 04 CR-Sendeplätze → 05 Releases →
 06 CR-Simuldubs → 07 ADN → 08 News/TV → 09 Synchro je Plattform (`09-1…09-7`, die größte Phase) → 10 Termine ausrollen →
 11 Wege abschließen (`11-1…11-4`) → 12 Meta → 13 Schreiben (`13-1…13-5`) → 14 ICS. Am Ende prüft
 `pipeline/lib/pruefung.ts` den erzeugten Datensatz (siehe Befund B-07: lückenhaft).

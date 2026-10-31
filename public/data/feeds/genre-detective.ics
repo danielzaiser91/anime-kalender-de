@@ -8,33 +8,11 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:apothecary-diaries-s3-cour1@2026-10-23@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261023T150000Z
-DTEND:20261023T153000Z
-SUMMARY:Die Tagebücher der Apothekerin: Staffel 3 - Teil 1 – Folge 1/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/16914/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-235-tv-prosieben-maxx@2026-10-23@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261023T160000Z
-DTEND:20261023T163000Z
-SUMMARY:Detektiv Conan – Folge 161/169
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/204/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-235-tv-prosieben-maxx@2026-10-26@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261026T170000Z
 DTEND:20261026T173000Z
-SUMMARY:Detektiv Conan – Folge 162/169
+SUMMARY:Detektiv Conan – Folge 162/170
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -55,7 +33,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-28@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261028T170000Z
 DTEND:20261028T173000Z
-SUMMARY:Detektiv Conan – Folge 163/169
+SUMMARY:Detektiv Conan – Folge 163/170
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -65,7 +43,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261029T165500Z
 DTEND:20261029T172500Z
-SUMMARY:Detektiv Conan – Folge 164/169
+SUMMARY:Detektiv Conan – Folge 164/170
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -85,7 +63,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-30@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261030T165500Z
 DTEND:20261030T172500Z
-SUMMARY:Detektiv Conan – Folge 165/169
+SUMMARY:Detektiv Conan – Folge 165/170
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -95,7 +73,7 @@ UID:auto-235-tv-prosieben-maxx@2026-11-02@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261102T165500Z
 DTEND:20261102T172500Z
-SUMMARY:Detektiv Conan – Folge 166/169
+SUMMARY:Detektiv Conan – Folge 166/170
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -105,7 +83,7 @@ UID:auto-235-tv-prosieben-maxx@2026-11-03@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261103T165500Z
 DTEND:20261103T172500Z
-SUMMARY:Detektiv Conan – Folge 167/169
+SUMMARY:Detektiv Conan – Folge 167/170
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -128,7 +106,7 @@ UID:auto-235-tv-prosieben-maxx@2026-11-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261104T165500Z
 DTEND:20261104T172500Z
-SUMMARY:Detektiv Conan – Folge 168/169
+SUMMARY:Detektiv Conan – Folge 168/170
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -138,7 +116,7 @@ UID:auto-235-tv-prosieben-maxx@2026-11-05@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261105T165500Z
 DTEND:20261105T172500Z
-SUMMARY:Detektiv Conan – Folge 169/169
+SUMMARY:Detektiv Conan – Folge 169/170
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -154,6 +132,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
  et.\nDetails: https://anime-kalender.de/t/16914/
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-235-tv-prosieben-maxx@2026-11-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261106T165500Z
+DTEND:20261106T172500Z
+SUMMARY:Detektiv Conan – Folge 170/170
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/204/
+CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:the-detective-is-already-dead-staffel-2-crunchyroll-de-2026-10-28@2026-

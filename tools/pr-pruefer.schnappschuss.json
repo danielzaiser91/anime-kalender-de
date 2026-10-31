@@ -71,7 +71,7 @@
           "env": {
             "GH_TOKEN": "${{ secrets.GITHUB_TOKEN }}"
           },
-          "run": "node tools/pr-kettenlog.mjs \"$HEAD_SHA\" \"$RUNNER_TEMP/pruefer\" 540 || echo \"Kettenlog nicht bereitgelegt\""
+          "run": "node tools/pr-kettenlog.mjs \"$HEAD_SHA\" \"$RUNNER_TEMP/pruefer\" 780 || echo \"Kettenlog nicht bereitgelegt\""
         },
         {
           "name": "Prüfer-Eingang prüfen",
@@ -85,6 +85,7 @@
         {
           "name": "Prüfer (Stufe 0, schlank)",
           "if": "steps.stufe.outputs.stufe == '0' && steps.modus.outputs.modus != 'abnahme'",
+          "continue-on-error": true,
           "uses": "anthropics/claude-code-action@v1",
           "with": {
             "claude_code_oauth_token": "${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}",
@@ -105,6 +106,7 @@
         {
           "name": "Prüfer",
           "if": "steps.stufe.outputs.stufe != '0' && steps.modus.outputs.modus != 'abnahme'",
+          "continue-on-error": true,
           "uses": "anthropics/claude-code-action@v1",
           "with": {
             "claude_code_oauth_token": "${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}",
@@ -127,6 +129,7 @@
         {
           "name": "Prüfer (Abnahme)",
           "if": "steps.modus.outputs.modus == 'abnahme'",
+          "continue-on-error": true,
           "uses": "anthropics/claude-code-action@v1",
           "with": {
             "claude_code_oauth_token": "${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}",

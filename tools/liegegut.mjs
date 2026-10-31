@@ -14,6 +14,7 @@ export const RUHE_FREIGABE_H = 12 // Freigabe + grün + sauber, ohne Commit und 
 export const KONFLIKT_H = 24 // Konflikt ohne Aktivität; der Beginn des Konflikts ist nicht abrufbar, Näherung: letzte Aktivität.
 export const ROT_H = 12 // Rote Checks auf dem aktuellen Kopf: ein Wiederholungslauf dauert weniger.
 export const AENDERN_H = 24 // Ändern-Urteil ohne neuen Commit: der Bauer hatte einen Tag.
+export const STILLSTAND_H = 48 // Keine Aktivität (Commit, Kommentar, Review), egal warum: fängt PRs, die auf kein anderes Signal passen (z. B. wartet still auf den Prüfer). Stand 30.10.2026, Schwelle = zwei Tage.
 export const STICHWORT_MIN = 5 // Titelwörter ab dieser Länge zählen für die Überholt-Gegenprobe.
 export const STICHWORT_STAMM = 6 // Vergleich über die ersten Buchstaben („Termine“ = „Terminen“).
 export const STICHWORT_TREFFER = 2 // Gemeinsame Stämme zwischen Titel und main-Commit; eins allein ist Zufall (1386: 30 Commits an denselben Dateien).
@@ -95,6 +96,13 @@ export function signaleEinzel(pr, kopfZeit, jetzt) {
   return aus
 }
 
+/** Signal 8: letzte Aktivität (Kopf-Commit, Kommentar, Review) länger als STILLSTAND_H her. Rückgabe: Liste mit höchstens einem Signal. */
+export function stillstandSignal(pr, kopfZeit, jetzt) {
+  const zeiten = [kopfZeit, ...pr.comments.map((c) => Date.parse(c.createdAt)), ...(pr.reviews ?? []).map((r) => Date.parse(r.submittedAt))]
+  const letzte = Math.max(...zeiten.filter((z) => !Number.isNaN(z)))
+  return stunden(letzte, jetzt) > STILLSTAND_H ? [{ nr: 8, text: 'Stillstand', seit: letzte }] : []
+}
+
 /** Signal 6: F-Nummern (offene Entscheidungen), die mehr als ein PR nennt. Rückgabe: Map PR-Nummer → Liste der geteilten F-Nummern. */
 export function geteilteEntscheidungen(prs) {
   const je = new Map()
@@ -136,11 +144,12 @@ export function ueberholtTreffer(titel, dateien, commits) {
   })
 }
 
-const NAECHSTER = { UEBERHOLT: 'ÜBERHOLT?', DANIEL: 'DANIEL', MERGEN: 'MERGEN', NACHBESSERN: 'NACHBESSERN' }
+const NAECHSTER = { STILLSTAND: 'STILLSTAND', UEBERHOLT: 'ÜBERHOLT?', DANIEL: 'DANIEL', MERGEN: 'MERGEN', NACHBESSERN: 'NACHBESSERN' }
 
 /** Nächster Schritt aus Signalen und Gegenprobe; `daniel` = Signal 6 oder Signal 2 mit Bot-Urteil als letztem (nur Daniel löst das). */
 export function naechsterSchritt(nummern, treffer, botLetzt) {
   const hat = (n) => nummern.includes(n)
+  if (nummern.every((n) => n === 8)) return NAECHSTER.STILLSTAND
   if (treffer.length > 0 && (hat(1) || hat(3) || hat(5))) return NAECHSTER.UEBERHOLT
   if (hat(6) || (hat(2) && botLetzt)) return NAECHSTER.DANIEL
   if (hat(1)) return NAECHSTER.MERGEN
@@ -158,11 +167,35 @@ export function zeile(nr, schritt, texte, seit, treffer, geprueft) {
   return `PR ${nr}: ${schritt} – Signal ${texte.join('; ')} – seit ${zeitText(seit)}${probe}`
 }
 
-/** Bewertet einen PR; null, wenn nichts auffällt. */
-function bewertePr(ghFn, gitFn, pr, geteilt, jetzt) {
-  const kopfZeit = Date.parse(ghFn(['api', `repos/{owner}/{repo}/commits/${pr.headRefOid}`, '--jq', '.commit.committer.date']).trim())
+const KOEPFE_ABFRAGE = 'query($owner:String!,$name:String!){repository(owner:$owner,name:$name){pullRequests(states:OPEN,first:100){nodes{commits(last:1){nodes{commit{oid committedDate}}}}}}}'
+const KOEPFE_JQ = '.data.repository.pullRequests.nodes[].commits.nodes[].commit | "\\(.oid) \\(.committedDate)"'
+
+/** Commit-Zeiten aller offenen Köpfe in einem Aufruf (Kopf-Hash → ms); 30.10.2026: ein Aufruf je PR kostete 9 s in der Wachphase. Scheitert er, bleibt die Karte leer und jeder PR fragt einzeln. */
+export function kopfZeiten(ghFn) {
+  const karte = new Map()
+  try {
+    const args = ['api', 'graphql', '-F', 'owner={owner}', '-F', 'name={repo}', '-f', `query=${KOEPFE_ABFRAGE}`, '--jq', KOEPFE_JQ]
+    for (const zeile of ghFn(args).split('\n')) {
+      const [oid, datum] = zeile.trim().split(' ')
+      if (oid && !Number.isNaN(Date.parse(datum))) karte.set(oid, Date.parse(datum))
+    }
+  } catch {
+    // Karte bleibt leer: jeder PR fragt einzeln (gleiches Ergebnis, nur langsamer)
+  }
+  return karte
+}
+
+/** Commit-Zeit des Kopfs: aus der Karte, sonst über die Commit-Schnittstelle. */
+export function kopfZeitVon(ghFn, pr, karte) {
+  if (karte.has(pr.headRefOid)) return karte.get(pr.headRefOid)
+  return Date.parse(ghFn(['api', `repos/{owner}/{repo}/commits/${pr.headRefOid}`, '--jq', '.commit.committer.date']).trim())
+}
+
+/** Bewertet einen PR; null, wenn nichts auffällt, sonst { nr, signale: [{ nr, seit }], zeile }. */
+function bewertePr(ghFn, gitFn, pr, geteilt, jetzt, karte) {
+  const kopfZeit = kopfZeitVon(ghFn, pr, karte)
   if (Number.isNaN(kopfZeit)) throw new Error(`PR ${pr.number}: Kopf-Zeit nicht lesbar`)
-  const signale = signaleEinzel(pr, kopfZeit, jetzt)
+  const signale = [...signaleEinzel(pr, kopfZeit, jetzt), ...stillstandSignal(pr, kopfZeit, jetzt)]
   const texte = signale.map((s) => `${s.nr} ${s.text}`)
   const zeiten = signale.map((s) => s.seit)
   const nummern = signale.map((s) => s.nr)
@@ -175,15 +208,39 @@ function bewertePr(ghFn, gitFn, pr, geteilt, jetzt) {
   const geprueft = braucheGegenprobe(nummern)
   const treffer = geprueft ? probeFuer(ghFn, gitFn, pr) : []
   const botLetzt = urteileAufKopf(urteile(pr.comments), pr.headRefOid, kopfZeit).at(-1)?.quelle === 'bot'
-  return zeile(pr.number, naechsterSchritt(nummern, treffer, botLetzt), texte, Math.min(...zeiten), treffer, geprueft)
+  const text = zeile(pr.number, naechsterSchritt(nummern, treffer, botLetzt), texte, Math.min(...zeiten), treffer, geprueft)
+  return { nr: pr.number, signale: nummern.map((n, i) => ({ nr: n, seit: zeiten[i] })), zeile: text }
 }
 
-/** Holt die offenen PRs über gh/git (einspeisbar) und rechnet alle. Rückgabe: Zeilen. */
-export function liegegut(ghFn, gitFn, jetzt) {
-  const felder = 'number,title,headRefOid,createdAt,mergeable,mergeStateStatus,isDraft,body,comments,statusCheckRollup'
+/** Holt die offenen PRs über gh/git (einspeisbar) und rechnet alle. Rückgabe: Funde { nr, signale, zeile }. */
+export function liegegutFunde(ghFn, gitFn, jetzt) {
+  const felder = 'number,title,headRefOid,createdAt,mergeable,mergeStateStatus,isDraft,body,comments,reviews,statusCheckRollup'
   const offen = JSON.parse(ghFn(['pr', 'list', '--state', 'open', '--limit', '100', '--json', felder])).filter((p) => !p.isDraft)
   const geteilt = geteilteEntscheidungen(offen)
-  return offen.map((pr) => bewertePr(ghFn, gitFn, pr, geteilt.get(pr.number), jetzt)).filter((z) => z !== null)
+  const karte = kopfZeiten(ghFn)
+  return offen.map((pr) => bewertePr(ghFn, gitFn, pr, geteilt.get(pr.number), jetzt, karte)).filter((f) => f !== null)
+}
+
+/** Dieselben Funde als Textzeilen. */
+export const liegegut = (ghFn, gitFn, jetzt) => liegegutFunde(ghFn, gitFn, jetzt).map((f) => f.zeile)
+
+const KURZ = { 1: 'Freigabe ruht', 2: 'Urteile widersprechen', 3: 'Konflikt', 4: 'rot', 5: 'Ändern offen', 6: 'gleiche Entscheidung', 8: 'Stillstand' }
+
+/** Eine Sammelzeile für die Wachphase: `LIEGT: 2377 (Konflikt 30 h, Stillstand 52 h), …`; null ohne Funde. */
+export function liegtZeile(funde, jetzt) {
+  if (funde.length === 0) return null
+  const je = funde.map((f) => `${f.nr} (${f.signale.map((s) => `${KURZ[s.nr]} ${Math.floor(stunden(s.seit, jetzt))} h`).join(', ')})`)
+  return `LIEGT: ${je.join(', ')}`
+}
+
+/** Wachphase: Sammelzeile oder eigene Fehlerzeile, wirft nie (kein stilles „nichts“). */
+export function meldeLiegt(ghFn, gitFn, log, jetzt) {
+  try {
+    const zeile = liegtZeile(liegegutFunde(ghFn, gitFn, jetzt), jetzt)
+    if (zeile) log(zeile)
+  } catch (e) {
+    log(`LIEGT? liegegut nicht lesbar: ${String(e.message).split('\n')[0]}`)
+  }
 }
 
 function probeFuer(ghFn, gitFn, pr) {

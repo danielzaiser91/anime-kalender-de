@@ -117,6 +117,19 @@ const uhr = (start = 0) => {
   pruefe('ohne Lauf werden keine Jobs abgefragt', r2.jobs.length === 0)
 }
 {
+  // PR 2451: neun Minuten "kein Lauf", die Ursache blieb unsichtbar (catch ohne Meldung).
+  const u = uhr()
+  const r = await ermittleLauf({ holeLauf: () => { throw new Error('gh api Exit 1: HTTP 502') }, holeJobs: () => [], warte: u.warte, jetzt: u.jetzt, frist: 3000, takt: 1000 })
+  pruefe('Dauerfehler: Ursache wird mitgegeben', r.lauf === null && r.fehler === 'gh api Exit 1: HTTP 502', r)
+  const kopf = kopfZeilen({ kopf: SHA, lauf: null, jobs: [], fehler: r.fehler }).join('\n')
+  pruefe('Kopf nennt Ursache und bleibt "nicht beurteilt"', kopf.includes('Abruffehler') && kopf.includes('HTTP 502') && kopf.includes('"nicht beurteilt" ist richtig'), kopf)
+  const ohne = await ermittleLauf({ holeLauf: () => null, holeJobs: () => [], warte: u.warte, jetzt: u.jetzt, frist: 0, takt: 1000 })
+  pruefe('Kein Fehler, kein Lauf: keine Ursachenzeile', ohne.fehler === '' && !kopfZeilen({ kopf: SHA, lauf: null, jobs: [], fehler: ohne.fehler }).join('').includes('Abruffehler'))
+  let m = 0
+  const heil = await ermittleLauf({ holeLauf: () => { if (++m < 2) throw new Error('alt'); return null }, holeJobs: () => [], warte: u.warte, jetzt: u.jetzt, frist: 3000, takt: 1000 })
+  pruefe('Alter Fehler einer früheren Runde wird nicht mitgeschleppt', heil.lauf === null && heil.fehler === '', heil)
+}
+{
   const u = uhr()
   let n = 0
   const r = await ermittleLauf({ holeLauf: () => { if (++n < 2) throw new Error('API'); return { id: 1, status: 'completed' } }, holeJobs: () => [], warte: u.warte, jetzt: u.jetzt, frist: 60_000, takt: 1000 })
@@ -227,8 +240,14 @@ const iPruefer = schritte.findIndex((s) => String(s.uses ?? '').startsWith('anth
 pruefe('Kettenlog-Schritt steht vor dem ersten Prüfer', iLog > 0 && iLog < iPruefer, { iLog, iPruefer })
 const frist = Number(/pr-kettenlog\.mjs "\$HEAD_SHA" "\$RUNNER_TEMP\/pruefer" (\d+) \|\| echo/.exec(schritte[iLog]?.run ?? '')?.[1])
 pruefe('Schritt: Kopf, Ordner und Frist als Argumente, fail-soft, Token gesetzt', frist > 0 && schritte[iLog]?.env?.GH_TOKEN !== undefined, schritte[iLog])
-// Die Kette braucht 4-5 min (Aussehen-Jobs länger); der Prüfer-Job hat 30 min Zeit, danach wartet noch "Check-Stand" 12 min.
-pruefe('Frist: lang genug für die Kette, kurz genug für den Job', frist >= 300 && frist <= 600, frist)
+// Gemessen 30.10.2026 (316 Kettenläufe seit 28.10.): Median 9,6 min, p90 12,9 min; der längste volle Prüfer-Lauf (40 Züge) dauerte 13 min,
+// die Schritte vor dem Kettenlog 1,5 min. Nach dem Ende der Kette wartet "Check-Stand" nicht mehr. Daraus: Frist deckt p90 ab,
+// und Vorlauf + Frist + voller Prüfer bleibt unter dem Job-Timeout.
+const VORLAUF_MIN = 1.5
+const PRUEFER_MAX_MIN = 13
+const jobMinuten = wf.jobs.pruefen['timeout-minutes']
+pruefe('Frist: deckt p90 der Kette (12,9 min) ab', frist >= 780, frist)
+pruefe('Frist: Vorlauf + Frist + voller Prüfer bleibt unter dem Job-Timeout', VORLAUF_MIN + frist / 60 + PRUEFER_MAX_MIN <= jobMinuten, { frist, jobMinuten })
 pruefe('Berechtigung actions: read vorhanden, Bash im Prüfer weiter verboten', wf.permissions.actions === 'read' && schritte.filter((s) => s.with?.settings).every((s) => JSON.parse(s.with.settings).permissions.deny.includes('Bash')))
 const prompts = schritte.filter((s) => s.with?.prompt).map((s) => s.with.prompt)
 pruefe('alle drei Prüfer-Prompts nennen das Kettenlog', prompts.length === 3 && prompts.every((p) => p.includes('/pruefer/kettenlog.txt')), prompts.length)

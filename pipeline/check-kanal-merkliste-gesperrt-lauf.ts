@@ -1,7 +1,7 @@
 /**
  * Prozesstest zu `check-kanal-merkliste-gesperrt.ts` (30.10.2026): der Wächter läuft ganz durch gegen eine Wegwerf-Wurzel (`AK_ROOT`).
  * Fälle: sauber (Exit 0), gesperrte Zeile (Exit 1, Kennung@Adresse im Fehlertext), dieselbe Adresse unter anderer Kennung (Exit 0),
- * fehlende Merkliste (Exit 1), echter Bestand (Exit 0).
+ * fehlende Merkliste (Exit 1, Fehlertext), leere Liste (Exit 0), negative Kennungen (gesperrt / andere Kennung), echter Bestand (Exit 0).
  */
 import { spawnSync } from 'node:child_process'
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
@@ -14,7 +14,10 @@ const wurzel = join(dirname(fileURLToPath(import.meta.url)), '..')
 const tsx = createRequire(join(wurzel, 'package.json')).resolve('tsx/cli')
 const skript = join(wurzel, 'pipeline/check-kanal-merkliste-gesperrt.ts')
 const ADRESSE = 'https://www.amazon.de/gp/video/detail/B0TESTSPERR'
-const SPERRE = `- anilistId: 900001\n  url: ${ADRESSE}\n  grund: 'Test'\n  entferntAm: '2026-10-30'\n`
+const ADRESSE_NEG = 'https://www.amazon.de/gp/video/detail/B0TESTNEGAT'
+const SPERRE =
+  `- anilistId: 900001\n  url: ${ADRESSE}\n  grund: 'Test'\n  entferntAm: '2026-10-30'\n` +
+  `- anilistId: -900005\n  url: ${ADRESSE_NEG}\n  grund: 'Test'\n  entferntAm: '2026-10-30'\n`
 
 let fehler = 0
 function pruefe(name: string, bedingung: boolean, gefunden?: unknown) {
@@ -46,7 +49,22 @@ const andere = lauf([{ anilistId: 900003, url: ADRESSE }])
 pruefe('dieselbe Adresse unter anderer Kennung bleibt erlaubt', andere.code === 0, andere)
 
 const fehlt = lauf(null)
-pruefe('fehlende Merkliste: Exit 1', fehlt.code === 1, fehlt)
+pruefe('fehlende Merkliste: Exit 1 mit Fehlertext', fehlt.code === 1 && fehlt.aus.includes('kanal-seiten.json fehlt'), fehlt)
+
+const leer = lauf([])
+pruefe('leere Liste: Exit 0 und Schlusszeile', leer.code === 0 && leer.aus.includes('0 Zeilen, 0 gesperrt'), leer)
+
+const negGesperrt = lauf([{ anilistId: -900005, url: ADRESSE_NEG }, { anilistId: -900006, url: 'https://www.amazon.de/gp/video/detail/B0TESTNEGFREI' }])
+pruefe('negative Kennung gesperrt: Exit 1 mit Kennung@Adresse', negGesperrt.code === 1 && negGesperrt.aus.includes(`-900005@${ADRESSE_NEG}`), negGesperrt)
+
+const zwilling = lauf([{ anilistId: 900005, url: ADRESSE_NEG }])
+pruefe('positive Zwillingskennung zur gesperrten negativen bleibt erlaubt', zwilling.code === 0, zwilling)
+
+const andereAdresse = lauf([{ anilistId: 900001, url: 'https://www.amazon.de/gp/video/detail/B0TESTANDERE' }])
+pruefe('gesperrte Kennung auf anderer Adresse bleibt erlaubt', andereAdresse.code === 0, andereAdresse)
+
+const negAndere = lauf([{ anilistId: -900007, url: ADRESSE_NEG }])
+pruefe('negative Kennung: dieselbe Adresse unter anderer Kennung bleibt erlaubt', negAndere.code === 0, negAndere)
 
 const echt = spawnSync(process.execPath, [tsx, skript], { cwd: wurzel, encoding: 'utf8', windowsHide: true, timeout: 60000 })
 pruefe('echter Bestand: Exit 0', echt.status === 0 && echt.stdout.includes('0 gesperrt'), `${echt.stdout}${echt.stderr}`)
