@@ -5387,17 +5387,10 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
       (readFileSync('pipeline/fetch-crunchyroll-offene.ts', 'utf8').match(/jwFrisch\(jwEintrag2?, heuteIso\)/g) ?? []).length === 2,
   )
 }
-/* 22.09.2026: Fairy Tail — die Linkprüfung sah nur Staffel 1 („region"), Daniel zwei Tage später Staffel 2–9 zum Kauf. */
+/* Handprüfung gegen 404/region: check-09-2-linkpruefung-laufzeit.ts, check-hand-gesehen.ts, check-tote-adressen-lauf.ts; Klammerzusatz im Kanalnamen: check-kanal-namen.ts. */
 pruefe(
-  'eine jüngere Handprüfung derselben Adresse schlägt einen 404/region-Linkbefund',
-  bauQuelltext().includes("if ((befund === 404 || befund === 'region') && !handSticht)") &&
-    readFileSync('pipeline/check-tote-adressen.ts', 'utf8').includes('handGesehen') &&
-    bauQuelltext().includes("(vonHandBelegtAm.get(adressKern(stream.url)) ?? '') > linkAm"),
-)
-/* 22.09.2026: „Abos: crunchyrollde (Meldung 4738)" — der Klammerzusatz verdarb den Kanalnamen. */
-pruefe(
-  'die Kanal-Gegenprobe wirft Klammerzusätze aus dem Abo-Namen',
-  readFileSync('pipeline/kanal-gegenprobe.ts', 'utf8').includes(".map((a) => a.replace(/\\s*\\(.*?\\)\\s*/g, '').trim()"),
+  'die Kanal-Gegenprobe holt die Kanalnamen aus kanalNamen() (Verdrahtung; Skript ohne Prozess-Kulisse)',
+  readFileSync('pipeline/kanal-gegenprobe.ts', 'utf8').includes('kanalNamen(b.note)'),
 )
 /* JustWatch bei Titeln mit Wegen: nur digitale Angebote (17.09.2026). */
 pruefe(
