@@ -30,6 +30,30 @@ const VERTAGT_ZEILE = /^\s*Patch Notes:\s*vertagt\s*[–—-]\s*\S/im
 const VERTAGUNG_IM_GRUND =
   /sp[äa]ter|vertag|wirkt erst|(n[äa]chste[nm]?|folgenden) (\S+ )?\S*(lauf|bau|abruf|lesung|deploy)|(patch note|note) folgt/i
 
+// „keine“ gilt nur mit einer Klasse am Anfang des Grundes (Umbau, Test, Werkzeug, CI, Doku, Erweiterung, intern). „Daten“ steht absichtlich nicht
+// darin: Datenkorrekturen ändern, was Besucher sehen (Anlass: 31 von 100 „keine“-PRs seit 29.10.2026 waren Daten/Bau mit möglicher Wirkung).
+const GRUND_KLASSE = /^(rein\w*\s+)?(umbau|refactor\w*|test\w*|werkzeug\w*|ci|doku\w*|erweiterung\w*|intern\w*)\b/i
+// Titel `fix(prime)`, `feat(data)` …: die Zeile muss die gemessene Wirkung nennen („0 Titel“, „0 Termine“ …), nicht „kein sichtbarer Unterschied“.
+const DATEN_TITEL = /^\w+\((prime|data)\)/i
+const NULL_WIRKUNG = /\b0 (Titel|Termine|Meldungen|Wege|Zeilen)\b/i
+
+/** Meldung, wenn die „keine“-Zeile ihren Grund nicht aus der festen Liste nimmt (oder bei Daten-Titeln die Wirkung nicht misst); sonst `null`. */
+function grundFehler(beschreibung, titel) {
+  const grund = KEINE_ZEILE.exec(beschreibung)?.[1]
+  if (grund === undefined) return null
+  if (!GRUND_KLASSE.test(grund.trim())) {
+    return (
+      `Der Grund der Zeile „Patch Notes: keine“ beginnt mit keiner Klasse: „${grund.slice(0, 60)}“.\n` +
+      '  Erlaubt am Anfang: Umbau, Test, Werkzeug, CI, Doku, Erweiterung, intern. Ändert der PR Daten oder Anzeige, die Besucher sehen,\n' +
+      '  legt er einen Eintrag in data/patchnotes/ an (oder einen Entwurf unter vorrat/ mit „Patch Notes: vertagt – <Grund>“).'
+    )
+  }
+  if (DATEN_TITEL.test(titel) && !NULL_WIRKUNG.test(grund)) {
+    return `Titel „${titel.slice(0, 40)}“ ändert Daten: „keine“ nennt die gemessene Wirkung („0 Titel ändern sich“, Beleg bau-vergleich), sonst Eintrag oder Vorrat.`
+  }
+  return null
+}
+
 /** Eintrags-Dateien, die der PR neu anlegt, aus der Ausgabe von `git diff --name-status --no-renames` (Zeilen „A<Tab>Pfad“). */
 export function neueEintraege(nameStatus, muster = EINTRAG) {
   return nameStatus
@@ -56,10 +80,12 @@ function vertagungOhneVorrat(beschreibung, vorrat) {
 }
 
 /** Ergebnis der Regel für einen PR: `ok` und der Grund in einem Satz. */
-export function bewerte({ dateien, neu, beschreibung, zweig = '', vorrat = [] }) {
+export function bewerte({ dateien, neu, beschreibung, zweig = '', vorrat = [], titel = '' }) {
   if (AUSGENOMMENE_ZWEIGE.test(zweig)) return { ok: true, grund: `Zweig ${zweig} (Daten-/Sammlerlauf) ausgenommen` }
   const vertagung = vertagungOhneVorrat(beschreibung, vorrat)
   if (vertagung) return { ok: false, grund: vertagung }
+  const fehlerGrund = neu.length || vorrat.length ? null : grundFehler(beschreibung, titel)
+  if (fehlerGrund) return { ok: false, grund: fehlerGrund }
   const sichtbar = dateien.filter((f) => SICHTBAR.test(f))
   if (!sichtbar.length) return { ok: true, grund: vorrat.length ? `Vorrat: ${vorrat.join(' | ')}` : 'keine sichtbare Änderung' }
   if (neu.length) return { ok: true, grund: `neuer Eintrag: ${neu.join(' | ')}` }
@@ -97,7 +123,7 @@ function vertagungsFaelle(web) {
     ['Vorrat ohne Zeile bei sichtbarer Änderung ist rot', { dateien: web, neu: [], beschreibung: '', vorrat }, false],
     ['vertagt ohne Grund zählt nicht als Zeile', { dateien: web, neu: [], beschreibung: 'Patch Notes: vertagt –', vorrat }, false],
     ['gewöhnliche „keine“-Zeile bleibt grün', { dateien: web, neu: [], beschreibung: keine('reiner Umbau, Ausgabe gleich') }, true],
-    ['„keine“ mit „nächste“ im anderen Sinn bleibt grün', { dateien: web, neu: [], beschreibung: keine('nur Test für die nächste Frage') }, true],
+    ['„keine“ mit „nächste“ im anderen Sinn bleibt grün', { dateien: web, neu: [], beschreibung: keine('Test für die nächste Frage') }, true],
     ['„keine“ mit „später“ allein ohne Vorrat ist rot', { dateien: web, neu: [], beschreibung: keine('Anzeige kommt später') }, false],
     ['Zweig daten/ mit Vertagung ist ausgenommen', { dateien: web, neu: [], beschreibung: keine('später'), zweig: 'daten/x' }, true],
   ]
@@ -111,12 +137,12 @@ function gegenproben() {
     ['Daten sichtbar ohne Eintrag', { dateien: ['data/curated/x.yaml'], neu: [], beschreibung: '' }, false],
     ['Handbeleg ohne Eintrag', { dateien: ['data/dub-confirmed.yaml'], neu: [], beschreibung: '' }, false],
     ['Ausnahmezeile mit Gedankenstrich', { dateien: web, neu: [], beschreibung: 'a\nPatch Notes: keine – reiner Umbau\nb' }, true],
-    ['Ausnahmezeile mit Bindestrich', { dateien: web, neu: [], beschreibung: 'Patch Notes: keine - Technik' }, true],
+    ['Ausnahmezeile mit Bindestrich', { dateien: web, neu: [], beschreibung: 'Patch Notes: keine - Werkzeug' }, true],
     ['Ausnahmezeile ohne Grund', { dateien: web, neu: [], beschreibung: 'Patch Notes: keine –' }, false],
     ['Ausnahme mitten im Satz zählt nicht', { dateien: web, neu: [], beschreibung: 'Ich sage Patch Notes: keine – weil' }, false],
     ['nur Pipeline, Doku', { dateien: ['pipeline/x.ts', 'docs/a.md'], neu: [], beschreibung: '' }, true],
     ['shared/ zählt als sichtbar', { dateien: ['shared/logic.ts'], neu: [], beschreibung: '' }, false],
-    ['shared/ mit Ausnahmezeile', { dateien: ['shared/logic.ts'], neu: [], beschreibung: 'Patch Notes: keine – Technik' }, true],
+    ['shared/ mit Ausnahmezeile', { dateien: ['shared/logic.ts'], neu: [], beschreibung: 'Patch Notes: keine – Werkzeug' }, true],
     ['Zweig daten/ ausgenommen', { dateien: ['data/curated/x.yaml'], neu: [], beschreibung: '', zweig: 'daten/crunchyroll' }, true],
     ['Zweig claude/ ausgenommen', { dateien: ['shared/x.ts'], neu: [], beschreibung: '', zweig: 'claude/sammler' }, true],
     ['Zweig feat/ nicht ausgenommen', { dateien: ['shared/x.ts'], neu: [], beschreibung: '', zweig: 'feat/daten/x' }, false],
@@ -144,7 +170,7 @@ function ausEreignis() {
   const basis = ladeBasis(git)
   const nameStatus = git('diff', '--name-status', '--no-renames', basis, 'HEAD')
   const dateien = nameStatus.split('\n').filter(Boolean).map((z) => z.split('\t')[1])
-  return { dateien, neu: neueEintraege(nameStatus), vorrat: neueVorratEintraege(nameStatus), beschreibung: pr.body ?? '', zweig: pr.head.ref }
+  return { dateien, neu: neueEintraege(nameStatus), vorrat: neueVorratEintraege(nameStatus), beschreibung: pr.body ?? '', zweig: pr.head.ref, titel: pr.title ?? '' }
 }
 
 function main() {

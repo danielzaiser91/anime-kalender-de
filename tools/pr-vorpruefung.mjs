@@ -89,8 +89,8 @@ export function pruefeDateien({ dateien, text, zweig }) {
 }
 
 /** Gesamturteil über alle mechanischen Regeln (ohne Umfang, der läuft als eigener Prozess). */
-export function vorpruefe({ dateien, neu, vorrat = [], text, zweig, existiert }) {
-  const patch = bewerte({ dateien, neu, vorrat, beschreibung: text, zweig })
+export function vorpruefe({ dateien, neu, vorrat = [], text, zweig, existiert, titel = '' }) {
+  const patch = bewerte({ dateien, neu, vorrat, beschreibung: text, zweig, titel })
   const t = pruefeText({ dateien, text, existiert })
   const d = pruefeDateien({ dateien, text, zweig })
   const rot = [...(patch.ok ? [] : [`Patch-Notes-Pflicht: ${patch.grund}`]), ...t.rot, ...d.rot]
@@ -163,6 +163,7 @@ function main() {
     vorrat: neueVorratEintraege(nameStatus),
     text,
     zweig,
+    titel,
     existiert: existiertIn(bekannt, existsSync),
   })
   const lies = (name) => (existsSync(name) ? readFileSync(name, 'utf8') : null)
