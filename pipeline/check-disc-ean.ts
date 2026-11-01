@@ -141,7 +141,17 @@ console.log('\nBau (baueReleases gegen Wegwerf-Ordner):')
       news('n-kein-news', 900301, TAG, { automatisch: undefined }),
       news('n-stream', 900301, TAG, { releaseType: 'weekly' }),
     ]
-    ergaenzeDiscUndZugang({ titles: new Map(), anisearch: {}, releases: nr as never, zugangJeAdresse: new Map() })
+    nr.push(news('n-ohne-datum', 900301, TAG, { schedule: {} }))
+    const zeilen: string[] = []
+    const logAlt = console.log
+    console.log = (...a: unknown[]) => void zeilen.push(a.join(' '))
+    try {
+      ergaenzeDiscUndZugang({ titles: new Map(), anisearch: {}, releases: nr as never, zugangJeAdresse: new Map() })
+    } finally {
+      console.log = logAlt
+    }
+    const gezaehlt = zeilen.find((z) => z.includes('ohne Kaufweg bekamen'))
+    pruefe('Bau-Log zählt die gesetzten Kaufwege (EAN-Disc, Verknüpfte, anderer Tag, Titel ohne Ausgabe, ohne News-Herkunft = 5)', /\] 5 Disc-Termin\(e\) ohne Kaufweg bekamen/.test(gezaehlt ?? ''), gezaehlt)
     const nurl = (slug: string) => (nr.find((r) => r.slug === slug) as { buyUrl?: string }).buyUrl
     pruefe('News-Disc mit eindeutiger EAN → EAN-Suche (Bauschritt 11-1)', nurl('n-ean') === 'https://www.amazon.de/s?k=7630017545978', nurl('n-ean'))
     const verkn = nr.find((r) => r.slug === 'n-verkn') as { edition?: string; platformUrl?: string }
@@ -152,6 +162,10 @@ console.log('\nBau (baueReleases gegen Wegwerf-Ordner):')
     pruefe('News-Disc mit Handlink bleibt', nurl('n-hand') === dp, nurl('n-hand'))
     pruefe('Disc ohne News-Herkunft: gleicher Weg (EAN-Suche)', nurl('n-kein-news') === 'https://www.amazon.de/s?k=7630017545978', nurl('n-kein-news'))
     pruefe('kein Disc-Termin bleibt unberührt', nurl('n-stream') === undefined, nurl('n-stream'))
+    pruefe('News-Disc ohne Termin-Datum bleibt ohne Kaufweg', nurl('n-ohne-datum') === undefined, nurl('n-ohne-datum'))
+    const { kaufwegFuerDiscs } = await import('./lib/disc-ean.ts')
+    const direkt = [news('d-1', 900301, TAG), news('d-2', 900399, TAG), news('d-hand', 900301, TAG, { buyUrl: dp }), news('d-stream', 900301, TAG, { releaseType: 'weekly' }), news('d-ohne', 900301, TAG, { schedule: {} })]
+    pruefe('kaufwegFuerDiscs zählt nur gesetzte Kaufwege (2 von 5)', kaufwegFuerDiscs(direkt as never, conan) === 2)
   } finally {
     rmSync(wurzel, { recursive: true, force: true })
   }
