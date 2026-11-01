@@ -5,7 +5,7 @@
  */
 import { argumente, lauf } from './nacht-merger.mjs'
 import { bauCommittetGerade, bestandIstRot, echteWelt, ghLesend, stufeVon } from './nacht-merger-welt.mjs'
-import { freigabe, kandidat, ketteStand, reihenfolge, urteilIstOk, vorabGrund } from './nacht-merger-wahl.mjs'
+import { freigabe, kandidat, ketteStand, neuesteJeCheck, reihenfolge, urteilIstOk, vorabGrund } from './nacht-merger-wahl.mjs'
 
 let fehler = 0
 let anzahl = 0
@@ -20,7 +20,7 @@ function pruefe(name, ok, info = '') {
 const KOPF = 'a1b2c3d4e5f60718293a4b5c6d7e8f9012345678'
 const ALTER_KOPF = '0badc0de0badc0de0badc0de0badc0de0badc0de'
 const kurz = (k) => k.slice(0, 9)
-const urteil = (kopf, titel, at = '2026-11-01T10:00:00Z', login = 'github-actions') => ({ login, assoc: 'NONE', at, body: `**Prüfer-Review** für ${kurz(kopf)} - Urteil: **${titel}**\n\nProtokoll` })
+const urteil = (kopf, titel, at = '2026-11-01T10:00:00Z', login = 'github-actions[bot]') => ({ login, assoc: 'NONE', at, body: `**Prüfer-Review** für ${kurz(kopf)} - Urteil: **${titel}**\n\nProtokoll` })
 const nachtrag = (kopf, extra = {}) => ({ login: 'danielzaiser91', assoc: 'OWNER', at: '2026-11-01T11:00:00Z', body: `## Nachtrag (Abnahme Dirigent) — Kopf ${kurz(kopf)}\nAuflagen erfüllt`, ...extra })
 const gruen = [
   { __typename: 'CheckRun', name: 'PR-Prüfkette', status: 'COMPLETED', conclusion: 'SUCCESS' },
@@ -61,6 +61,12 @@ pruefe('ohne jedes Urteil nicht frei', !freigabe([], KOPF).frei)
 pruefe('jüngeres aendern nach älterem ok gilt', !freigabe([urteil(KOPF, 'ok', '2026-11-01T09:00:00Z'), urteil(KOPF, 'aendern', '2026-11-01T10:00:00Z')], KOPF).frei)
 pruefe('jüngeres ok nach älterem aendern gilt (Reihenfolge der Liste egal)', freigabe([urteil(KOPF, 'ok', '2026-11-01T10:00:00Z'), urteil(KOPF, 'aendern', '2026-11-01T09:00:00Z')], KOPF).frei)
 pruefe('gleich lautender Kommentar eines anderen Nutzers zählt nicht', !freigabe([urteil(KOPF, 'ok', '2026-11-01T10:00:00Z', 'jemand-anders')], KOPF).frei)
+pruefe('Name ohne [bot] ist nicht der CI-Prüfer (REST-Name ist github-actions[bot], gemessen an PR 2639)', !freigabe([urteil(KOPF, 'ok', '2026-11-01T10:00:00Z', 'github-actions')], KOPF).frei)
+{
+  // Form eines echten Kommentars aus `gh api repos/…/issues/2639/comments --jq` (Kopfzeile wörtlich aus PR 2639, Urteil hier ok).
+  const echt = { login: 'github-actions[bot]', assoc: 'CONTRIBUTOR', at: '2026-11-01T21:14:10Z', body: '**Prüfer-Review** für d556678aa - Urteil: **ok**\n\nAbnahme-Modus: nur die Auflagen\n\n<!-- pruefer-modus: abnahme -->' }
+  pruefe('echter Kommentar des CI-Prüfers mit Urteil ok gibt frei', freigabe([echt], 'd556678aab5d6a6d3c0e1f7a0c0f3c4b9e8d7a6f').weg === 'pruefer')
+}
 pruefe('Nachtrag des Inhabers mit Kopf gibt frei, auch nach aendern', freigabe([urteil(KOPF, 'aendern'), nachtrag(KOPF)], KOPF).weg === 'nachtrag')
 pruefe('Nachtrag mit altem Kopf gibt nicht frei', !freigabe([urteil(KOPF, 'aendern'), nachtrag(ALTER_KOPF)], KOPF).frei)
 pruefe('Nachtrag eines Fremden gibt nicht frei', !freigabe([nachtrag(KOPF, { login: 'jemand-anders', assoc: 'NONE' })], KOPF).frei)
@@ -72,6 +78,20 @@ pruefe('übersprungener Nebencheck stört nicht', ketteStand([...gruen, { name: 
 pruefe('Pflicht-Check fehlt', !ketteStand([gruen[1]]).gruen && ketteStand([gruen[1]]).grund.includes('fehlt'))
 pruefe('keine Checks', !ketteStand([]).gruen)
 pruefe('Pflicht-Check rot', !ketteStand([{ name: 'PR-Prüfkette', status: 'COMPLETED', conclusion: 'FAILURE' }]).gruen)
+{
+  // Form des echten Rollups (PR 2625, 01.11.2026): frühere Läufe desselben Kopfs stehen mit drin.
+  const lauf = (name, conclusion, startedAt, status = 'COMPLETED', workflowName = 'PR-Prüfkette') => ({ __typename: 'CheckRun', name, conclusion, startedAt, status, workflowName, completedAt: status === 'COMPLETED' ? startedAt : '0001-01-01T00:00:00Z' })
+  const kette = (logik) => [...logik, lauf('PR-Prüfkette', 'SUCCESS', '2026-11-01T21:13:00Z')]
+  const alt = lauf('Kette – Logik', 'CANCELLED', '2026-11-01T18:31:50Z')
+  const gut = lauf('Kette – Logik', 'SUCCESS', '2026-11-01T21:06:25Z')
+  pruefe('früherer abgebrochener Lauf stört nicht, wenn ein neuerer grün ist (Reihenfolge egal)', ketteStand(kette([alt, gut])).gruen && ketteStand(kette([gut, alt])).gruen)
+  pruefe('neuerer abgebrochener Lauf nach einem grünen ist rot', ketteStand(kette([gut, lauf('Kette – Logik', 'CANCELLED', '2026-11-01T21:20:00Z')])).grund === 'Check rot: Kette – Logik')
+  pruefe('früherer roter Lauf stört nicht, neuerer grüner gilt', ketteStand(kette([lauf('Kette – Logik', 'FAILURE', '2026-11-01T18:00:00Z'), gut])).gruen)
+  pruefe('laufender Lauf gilt als neuester, auch mit leerem Startzeitpunkt', ketteStand(kette([gut, lauf('Kette – Logik', '', '', 'IN_PROGRESS')])).grund === 'Check läuft noch: Kette – Logik')
+  pruefe('laufender Lauf gilt als neuester, auch wenn sein Start älter als ein grüner ist', ketteStand(kette([lauf('Kette – Logik', '', '2026-11-01T17:00:00Z', 'IN_PROGRESS'), gut])).gruen === false)
+  pruefe('gleicher Name in zwei Workflows zählt getrennt', ketteStand(kette([gut, lauf('Kette – Logik', 'FAILURE', '2026-11-01T19:00:00Z', 'COMPLETED', 'Anderer')])).grund === 'Check rot: Kette – Logik')
+  pruefe('neuesteJeCheck: ein Eintrag je Workflow und Name', neuesteJeCheck([alt, gut, lauf('PR-Prüfkette', 'SUCCESS', '2026-11-01T21:13:00Z')]).length === 2)
+}
 pruefe('neutraler Nebencheck stört nicht', ketteStand([...gruen, { name: 'x', status: 'COMPLETED', conclusion: 'NEUTRAL' }]).gruen)
 pruefe('Nebencheck rot', ketteStand([...gruen, { name: 'Aussehen', status: 'COMPLETED', conclusion: 'FAILURE' }]).grund === 'Check rot: Aussehen')
 pruefe('Nebencheck abgebrochen zählt als rot', !ketteStand([...gruen, { name: 'Aussehen', status: 'COMPLETED', conclusion: 'CANCELLED' }]).gruen)

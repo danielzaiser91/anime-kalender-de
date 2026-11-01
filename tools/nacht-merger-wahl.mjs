@@ -14,8 +14,8 @@
 import { entscheide } from './abnahme-freigabe.mjs'
 
 export const PFLICHT_CHECK = 'PR-Prüfkette'
-/** Das CI-Urteil schreibt `github-actions` (GITHUB_TOKEN); ein gleich lautender Kommentar anderer Nutzer zählt nie. */
-export const PRUEFER_LOGIN = 'github-actions'
+/** Das CI-Urteil schreibt `github-actions[bot]` (REST-Name, gemessen 01.11.2026 an PR 2639; `gh pr view` zeigt ihn ohne `[bot]`); ein gleich lautender Kommentar anderer Nutzer zählt nie. */
+export const PRUEFER_LOGIN = 'github-actions[bot]'
 const URTEIL = /^\*\*Prüfer-Review\*\* für ([0-9a-f]{9}) - Urteil: \*\*([^*\r\n]+)\*\*/
 /** Zeile in der PR-Beschreibung, die einen PR als Fix für einen roten Bestandsbau ausweist (Vorrang nur, wenn der Bau rot ist). */
 export const VORRANG_ZEILE = /^\s*Behebt (den )?roten Bestandsbau\b/im
@@ -42,20 +42,40 @@ export function freigabe(kommentare, kopf) {
   return { frei: true, weg: 'pruefer', grund: 'Prüfer-Urteil ok zum Kopf' }
 }
 
-/** Zustand der Checks (`statusCheckRollup` von gh) am Kopf: { gruen, grund }. Fehlt der Pflicht-Check, ist es nicht grün. */
-export function ketteStand(checks) {
-  const ERFOLG = new Set(['SUCCESS', 'SKIPPED', 'NEUTRAL'])
-  const stand = (c) => {
-    if (c.__typename === 'StatusContext') return c.state === 'SUCCESS' ? 'ok' : c.state === 'PENDING' ? 'laeuft' : 'rot'
-    if (c.status !== 'COMPLETED') return 'laeuft'
-    return ERFOLG.has(c.conclusion) ? 'ok' : 'rot'
+const ERFOLG = new Set(['SUCCESS', 'SKIPPED', 'NEUTRAL'])
+const checkName = (c) => c.name ?? c.context
+
+/** 'ok' | 'laeuft' | 'rot' eines einzelnen Checks. */
+function checkStand(c) {
+  if (c.__typename === 'StatusContext') return c.state === 'SUCCESS' ? 'ok' : c.state === 'PENDING' ? 'laeuft' : 'rot'
+  if (c.status !== 'COMPLETED') return 'laeuft'
+  return ERFOLG.has(c.conclusion) ? 'ok' : 'rot'
+}
+
+/**
+ * Das `statusCheckRollup` trägt alle Läufe des Kopfs, auch abgebrochene und frühere (gemessen 01.11.2026 an PR 2625: 221 Einträge, 17 davon `Kette – Logik`).
+ * Es zählt je Workflow und Name der neueste Eintrag; ein laufender ist immer der neueste (sein `completedAt` ist „0001-01-01“, `startedAt` kann leer sein).
+ */
+export function neuesteJeCheck(checks) {
+  const je = new Map()
+  const laeuft = (c) => checkStand(c) === 'laeuft'
+  const juenger = (a, b) => (laeuft(a) !== laeuft(b) ? laeuft(a) : Date.parse(a.startedAt ?? '') > Date.parse(b.startedAt ?? ''))
+  for (const c of checks) {
+    const schluessel = `${c.workflowName ?? ''}|${checkName(c)}`
+    const alt = je.get(schluessel)
+    if (alt === undefined || juenger(c, alt)) je.set(schluessel, c)
   }
-  const name = (c) => c.name ?? c.context
-  const pflicht = checks.find((c) => name(c) === PFLICHT_CHECK)
+  return [...je.values()]
+}
+
+/** Zustand der Checks (`statusCheckRollup` von gh) am Kopf: { gruen, grund }. Fehlt der Pflicht-Check, ist es nicht grün. */
+export function ketteStand(rollup) {
+  const checks = neuesteJeCheck(rollup)
+  const pflicht = checks.find((c) => checkName(c) === PFLICHT_CHECK)
   if (pflicht === undefined) return { gruen: false, grund: `Check „${PFLICHT_CHECK}“ fehlt am Kopf` }
-  const rot = checks.filter((c) => stand(c) === 'rot').map(name)
+  const rot = checks.filter((c) => checkStand(c) === 'rot').map(checkName)
   if (rot.length > 0) return { gruen: false, grund: `Check rot: ${rot.join(', ')}` }
-  const laeuft = checks.filter((c) => stand(c) === 'laeuft').map(name)
+  const laeuft = checks.filter((c) => checkStand(c) === 'laeuft').map(checkName)
   if (laeuft.length > 0) return { gruen: false, grund: `Check läuft noch: ${laeuft.join(', ')}` }
   return { gruen: true, grund: 'Kette grün' }
 }
