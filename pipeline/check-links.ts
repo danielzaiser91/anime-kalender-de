@@ -26,6 +26,7 @@ import { readFileSync } from 'node:fs'
 import type { PlatformId, Title } from '../shared/types.ts'
 import { log, readJson, sleep, warn, writeJson } from './lib/util.ts'
 import { readSourceHealth, recordSource } from './lib/health.ts'
+import { netflixTonspurSchritt } from './lib/netflix-tonspur-schritt.ts'
 import { fortschritt, drosselNachVorlauf, passtInsBudget, pauseMitStand, waehleArbeit, ZEITBUDGET_SEKUNDEN, linkCheckEnde, zaehleBefund } from './lib/link-check-gesundheit.ts'
 import { istFaellig, istTot } from './lib/link-befund.ts'
 import { pruefbare } from './lib/pruefbare-adresse.ts'
@@ -82,6 +83,9 @@ interface Befund {
    * nicht aus den Daten ableiten — nur an der Seite ablesen.
    */
   prime?: boolean
+  /** Netflix-Film: Deutsch in der Audio-Zeile der Titelseite (`netflix-tonspur-schritt.ts`). */
+  audio?: 'ja' | 'nein' | 'unbekannt'
+  audioAm?: string
 }
 
 type Bestand = Record<string, Befund>
@@ -469,7 +473,21 @@ async function main(): Promise<void> {
   recordSource('link-check', ...linkCheckEnde(geprueft, zaehler.auskuenfte, sperren > 0))
 }
 
-main().catch((err) => {
+/** Nach der Linkprüfung: Tonspur der offenen Netflix-Filme. Ein Fehler hier lässt die Linkprüfung nicht scheitern. */
+async function netflixFilmTonspuren(): Promise<void> {
+  try {
+    const roh = JSON.parse(readFileSync('public/data/titles.json', 'utf8')) as unknown
+    const titles = (Array.isArray(roh) ? roh : Object.values(roh as object).find(Array.isArray)) as Title[]
+    const bestand = readJson<Bestand>(DATEI, {})
+    const pause = () => sleep(Math.round(5000 * (0.7 + Math.random() * 0.6)))
+    await netflixTonspurSchritt({ titles, bestand, heute: heute(), pause, weiter: () => passtInsBudget(START, Date.now(), BUDGET), log, warn })
+    schreibeBestand(bestand)
+  } catch (err) {
+    warn(`Netflix-Filme (Tonspur) übersprungen: ${(err as Error).stack ?? err}`)
+  }
+}
+
+main().then(netflixFilmTonspuren).catch((err) => {
   console.error(err)
   process.exit(1)
 })
