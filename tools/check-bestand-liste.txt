@@ -6,6 +6,7 @@ pipeline/check-adn-offen-bestand.ts
 pipeline/check-angebot-bestand.ts
 pipeline/check-anisearch-dubletten-bestand.ts
 pipeline/check-anisearch-katalog-abgleich-bestand.ts
+pipeline/check-anisearch-paar-bestand.ts
 pipeline/check-ankuendigung-versteckt-bestand.ts
 pipeline/check-belegstaerke-bestand.ts
 pipeline/check-cartoon-aufnahme-bestand.ts

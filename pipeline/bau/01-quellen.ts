@@ -5,6 +5,7 @@ import { type TmdbInfo } from '../lib/tmdb.ts'
 import { mehrdeutigeFilmzuordnungen } from '../lib/tmdb-eindeutig.ts'
 import { meldeCacheStand } from './cache-stand.ts'
 import { loadCurated } from '../lib/curated.ts'
+import { ladeVerworfene, ohneVerworfeneSeiten } from '../lib/anisearch-verworfen.ts'
 import { sperreSerienTreffer } from '../lib/treffer-erben.ts'
 
 /** Je AniList-ID: deutsche Handlung, FSK und Anbieter aus TMDB (`data/tmdb-titles.json`). */
@@ -58,7 +59,7 @@ export function ladeQuellen() {
     log(`${tmdbMehrdeutig.size} TMDB-Zuordnungen verworfen: derselbe Film stand bei mehreren Titeln`)
   // Deutsche Inhaltsangaben und Anbieter von aniSearch. Fehlt die Datei, läuft
   // alles wie zuvor — nur eben mit den schwächeren Texten.
-  const anisearch = readJson<Record<string, AnisearchEintrag>>('data/anisearch.json', {})
+  const anisearch = ohneVerworfeneSeiten(readJson<Record<string, AnisearchEintrag>>('data/anisearch.json', {}), ladeVerworfene())
   const curated = loadCurated()
 
   /**

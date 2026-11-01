@@ -94,6 +94,7 @@ const HANDGEPFLEGT = new Set([
   'data/erstausgabe-von-hand.yaml',
   'data/folgen-hinweise.yaml',
   'data/anisearch-ids-hand.yaml',
+  'data/anisearch-mal-verworfen.json',
   'data/anisearch-katalog-kein-treffer.json',
   'data/adn-adressen.yaml',
   'data/rtlplus-adressen.yaml',

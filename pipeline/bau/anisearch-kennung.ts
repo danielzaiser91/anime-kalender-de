@@ -2,6 +2,7 @@ import { log, readJson, writeJson } from '../lib/util.ts'
 import { todayIso } from '../../shared/time.ts'
 import type { Title } from '../../shared/types.ts'
 import { anisearchKatalogPaare } from '../lib/anisearch-katalog-ids.ts'
+import { ladeVerworfene, ohneVerworfene, ohneVerworfeneSeiten } from '../lib/anisearch-verworfen.ts'
 import { anisearchHand } from './grundlagen.ts'
 import { ANISEARCH_ID_BASIS } from './anisearch-titel.ts'
 
@@ -17,7 +18,7 @@ function festeKennungen(): Map<number, number> {
   if (fest) return fest
   const m = new Map<number, number>()
   for (const quelle of ['data/anisearch-titel.json', 'data/anisearch.json']) {
-    for (const [id, e] of Object.entries(readJson<Kennungen>(quelle, {}))) if (e.anisearchId) m.set(Number(id), e.anisearchId)
+    for (const [id, e] of Object.entries(ohneVerworfeneSeiten(readJson<Kennungen>(quelle, {}), ladeVerworfene()))) if (e.anisearchId) m.set(Number(id), e.anisearchId)
   }
   for (const [id, asId] of anisearchKatalogPaare()) m.set(id, asId)
   for (const [id, asId] of Object.entries(anisearchHand)) m.set(Number(id), asId)
@@ -42,8 +43,13 @@ export function loeseKennungen(titel: { id: number; mal?: number }[], festeIds: 
   return raus
 }
 
-export const anisearchKennungen = (titel: { id: number; mal?: number }[]): Map<number, number> =>
-  loeseKennungen(titel, festeKennungen(), readJson<Record<string, number>>('data/anisearch-mal.json', {}))
+/** `lies` ist für die Brücke und die Streichliste austauschbar, damit ein Test den Bau ohne Dateien durchläuft. */
+export const anisearchKennungen = (titel: { id: number; mal?: number }[], lies: typeof readJson = readJson): Map<number, number> =>
+  loeseKennungen(
+    titel,
+    festeKennungen(),
+    ohneVerworfene(lies<Record<string, number>>('data/anisearch-mal.json', {}), ladeVerworfene(lies)),
+  )
 
 /**
  * **Die Liste aller Titel ohne aniSearch-Direktlink** (`data/anisearch-offen.json`). Sie schrumpft, sobald die Brücke eine Kennung liefert; geschrieben wird nur bei
