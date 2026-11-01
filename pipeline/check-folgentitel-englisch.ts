@@ -42,6 +42,9 @@ const enGleich = (n: number) => Array.from({ length: n }, (_, i) => `Gleich ${i}
 pruefe('Grenze Anzahl: zwei von zwei bleiben, drei von drei fallen', unuebersetzteNummern(zeilen(2, 2), new Set(), enGleich(2)).size === 0 && unuebersetzteNummern(zeilen(3, 3), new Set(), enGleich(3)).size === 3)
 pruefe('Grenze Anteil: 9 von 10 fallen, 8 von 10 bleiben', unuebersetzteNummern(zeilen(9, 10), new Set(), enGleich(9)).size === 9 && unuebersetzteNummern(zeilen(8, 10), new Set(), enGleich(8)).size === 0)
 
+const mitLeeren = [...zeilen(3, 3), [4, ''] as const, [5, ''] as const]
+pruefe('leere Titel zählen nicht im Nenner: 3 gleiche neben 2 leeren fallen weg', unuebersetzteNummern(mitLeeren, new Set(), enGleich(3)).size === 3)
+
 console.log('\nTitel aus aniSearch zählen nicht')
 const asFolgen = Array.from({ length: 12 }, (_, i) => ({ nr: i + 1, de: `Same ${i}`, en: `Same ${i}` }))
 const asListe = asFolgen.map((x) => [x.nr, x.de] as const)
@@ -69,4 +72,4 @@ if (verletzt) {
   console.error(`\n${verletzt} Zusicherung(en) verletzt`)
   process.exit(1)
 }
-console.log('\ncheck-folgentitel-englisch: ok (13 Zusicherungen)')
+console.log('\ncheck-folgentitel-englisch: ok (14 Zusicherungen)')
