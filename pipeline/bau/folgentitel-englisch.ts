@@ -11,9 +11,9 @@ export interface EnglischFolge {
 
 const MIN_ZEILEN = 3
 
-/** Titel zum Vergleich: Kleinschreibung, gerade Hochkommas, ohne Satzzeichen. */
+/** Titel zum Vergleich: Kleinschreibung, ohne Satzzeichen (gerade und typografische Hochkommas fallen gleich weg). */
 export function vergleichsform(s: string | undefined | null): string {
-  return (s ?? '').toLowerCase().replace(/[’‘`]/g, "'").replace(/[^\p{L}\p{N}]+/gu, '')
+  return (s ?? '').toLowerCase().replace(/[^\p{L}\p{N}]+/gu, '')
 }
 
 /**

@@ -50,6 +50,14 @@ pruefe('dieselben Zeilen ohne aniSearch-de fielen weg (Kontrolle)', unuebersetzt
 
 console.log('\nVerdrahtung im Bau')
 const t = { id: 116673 } as unknown as Title
+const nurKitsu = englischeTitel(kitsu116673, undefined, [])
+const nurTmdb = englischeTitel(undefined, tmdb116673, [])
+const nurAs = englischeTitel(undefined, undefined, crListe.map((x) => ({ en: x.de })))
+const gleichMit = (en: (string | null | undefined)[]) => unuebersetzteNummern(crListe.map((x) => [x.nr, x.de] as const), new Set(), en).size
+pruefe('jede Quelle allein genügt: nur Kitsu 3, nur TMDB 3 (beide Schreibweisen des Apostroph), nur aniSearch 3', gleichMit(nurKitsu) === 3 && gleichMit(nurTmdb) === 3 && gleichMit(nurAs) === 3)
+const quellenNurTmdb = { kitsu: {}, tmdbFolgen: { 116673: tmdb116673 } } as unknown as TitelQuellen
+const quellenNurKitsu = { kitsu: { 116673: { k: 43146, ...kitsu116673 } }, tmdbFolgen: {} } as unknown as TitelQuellen
+pruefe('Bau: TMDB allein und Kitsu allein reichen je (Eintrag wird mit der Titelkennung gesucht)', ohneUnuebersetzte(t, crListe, [], quellenNurTmdb)?.every((x) => x.de === undefined) === true && ohneUnuebersetzte(t, crListe, [], quellenNurKitsu)?.every((x) => x.de === undefined) === true)
 const quellen = { kitsu: { 116673: { k: 43146, ...kitsu116673 } }, tmdbFolgen: { 116673: tmdb116673 } } as unknown as TitelQuellen
 const bau = ohneUnuebersetzte(t, crListe, [{ nr: 1 }, { nr: 2 }, { nr: 3 }], quellen)
 pruefe('ohneUnuebersetzte entfernt die Titel von 116673 aus der Bauliste', bau?.length === 3 && bau.every((x) => x.de === undefined), bau)
@@ -61,4 +69,4 @@ if (verletzt) {
   console.error(`\n${verletzt} Zusicherung(en) verletzt`)
   process.exit(1)
 }
-console.log('\ncheck-folgentitel-englisch: ok (11 Zusicherungen)')
+console.log('\ncheck-folgentitel-englisch: ok (13 Zusicherungen)')
