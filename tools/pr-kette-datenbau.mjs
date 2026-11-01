@@ -25,6 +25,8 @@ const SOLL_SCHRITTE = [
     name: 'Kein Cache vorhanden',
     run: 'echo "::error::Kein anilist-cache gefunden"\nexit 1\n',
   },
+  // Neue Beleg-Adressen des PR werden abgerufen: 404/410 rot, sonst Nichtauskunft (PR 2628: UCI-Adresse 404, alle Checks grün).
+  { name: 'Neue Beleg-Adressen erreichbar', run: 'npx tsx pipeline/neue-quellen-pruefen.ts' },
   { name: 'Datensatz bauen (ohne Commit)', run: 'npm run data:build' },
   // Gemessenes Ja ⇒ mindestens ein Weg, am frisch gebauten Datensatz (18.10.2026: Hazbin Hotel und fünf weitere Cartoons).
   { name: 'Gemessenes Ja hat einen Weg', run: 'npx tsx pipeline/check-ja-hat-weg-bestand.ts' },
