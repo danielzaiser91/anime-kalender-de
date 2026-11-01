@@ -50,18 +50,21 @@ async function pruefe(): Promise<void> {
  * Handy-Tabs und die installierte App bleiben Stunden offen und werden nie „geladen". Kommt jemand nach einer langen Pause
  * zurück, gilt das wie ein Laden: einmal prüfen. Das Neuladen kommt kurz nach der Rückkehr, die Seite ist dann schon sichtbar — wer in dieser Sekunde tippt, kann es noch erleben (bewusst nicht abgefangen: selten, und die Marke verhindert Schleifen).
  */
-function pruefeNachPause(): void {
+export type Uhr = { jetzt: () => number; setze: (f: () => void, ms: number) => number; loesche: (id: number) => void }
+export const ECHTE_UHR: Uhr = { jetzt: () => Date.now(), setze: (f, ms) => window.setTimeout(f, ms), loesche: (id) => window.clearTimeout(id) }
+
+export function pruefeNachPause(doc: Pick<Document, 'hidden' | 'addEventListener'>, pruefeJetzt: () => void, uhr: Uhr = ECHTE_UHR): void {
   let verborgenSeit = 0
-  document.addEventListener('visibilitychange', () => {
-    if (document.hidden) verborgenSeit = Date.now()
-    else if (verborgenSeit && Date.now() - verborgenSeit >= PAUSE_MS) void pruefe()
+  doc.addEventListener('visibilitychange', () => {
+    if (doc.hidden) verborgenSeit = uhr.jetzt()
+    else if (verborgenSeit && uhr.jetzt() - verborgenSeit >= PAUSE_MS) pruefeJetzt()
   })
 }
 
 export function pruefeVersionBeimLaden(): void {
   if (import.meta.env?.DEV || MEINE_VERSION === 'dev') return
   void pruefe()
-  pruefeNachPause()
+  pruefeNachPause(document, () => void pruefe())
   // Alter Stand verweist auf Chunks, die der Deploy gelöscht hat: still einmal neu laden.
   window.addEventListener('vite:preloadError', (e) => {
     e.preventDefault()
