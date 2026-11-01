@@ -14,7 +14,11 @@ const REPO = join(import.meta.dirname, '..')
 const fehler: string[] = []
 let faelle = 0
 
-function lauf(name: string, abos: string, sollHand: number): void {
+/** Frische JustWatch-Antwort (erstAm in der Zukunft) oder ein Eintrag vor dem Umbau (nur `geprueftAm`, gilt als bewährt: `jwFrisch` verneint). */
+const FRISCH = { geprueftAm: '2999-01-01', erstAm: '2999-01-01' }
+const BEWAEHRT = { geprueftAm: '2026-09-09' }
+
+function lauf(name: string, abos: string, sollHand: number, stand: object = FRISCH): void {
   faelle++
   const wurzel = mkdtempSync(join(tmpdir(), 'kanal-gegenprobe-'))
   try {
@@ -30,7 +34,7 @@ function lauf(name: string, abos: string, sollHand: number): void {
       { anbieter: 'Crunchyroll Amazon Channel', art: 'FLATRATE', audio: ['ja', 'es'] },
       { anbieter: 'Amazon Prime Video', art: 'FLATRATE', audio: ['de'] },
     ]
-    writeFileSync(join(wurzel, 'data/justwatch-audio.json'), JSON.stringify({ 900001: { geprueftAm: '2999-01-01', erstAm: '2999-01-01', angebote } }))
+    writeFileSync(join(wurzel, 'data/justwatch-audio.json'), JSON.stringify({ 900001: { ...stand, angebote } }))
     const tsx = join(REPO, 'node_modules', 'tsx', 'dist', 'cli.mjs')
     const r = spawnSync(process.execPath, [tsx, join(REPO, 'pipeline', 'kanal-gegenprobe.ts')], {
       cwd: wurzel,
@@ -53,6 +57,7 @@ function lauf(name: string, abos: string, sollHand: number): void {
 lauf('Kanal ohne Zusatz', 'crunchyrollde', 1)
 lauf('Kanal mit Klammerzusatz', 'crunchyrollde (Meldung 4738)', 1)
 lauf('nur prime: Vergleich über alle Angebote', 'prime', 0)
+lauf('bewährter JustWatch-Eintrag: kein Fall für die Handprüfung', 'crunchyrollde', 0, BEWAEHRT)
 
 if (fehler.length) {
   console.error(`FEHL check-kanal-gegenprobe-lauf:\n  ${fehler.join('\n  ')}`)
