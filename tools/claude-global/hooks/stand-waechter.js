@@ -9,13 +9,18 @@ const MAX_ALTER = 24 * STUNDE
 const AKTUALISIERT = /^Aktualisiert: (\d{4})-(\d\d)-(\d\d) (\d\d):(\d\d)/
 const STAND = /Stand (\d\d)\.(\d\d)\.(\d{4}) (\d\d):(\d\d)/
 
-/** Berliner Wandzeit als Epoche (ms): UTC-Schätzung minus Berliner Versatz (ganze Stunden östlich von UTC). */
+/** Berliner Versatz zu UTC in ms (ganze Stunden östlich) zum Zeitpunkt `ms`. */
+function versatz(ms) {
+  const teil = new Intl.DateTimeFormat('en-US', { timeZone: 'Europe/Berlin', timeZoneName: 'longOffset' })
+    .formatToParts(new Date(ms))
+    .find((p) => p.type === 'timeZoneName').value
+  return Number(/GMT\+(\d\d)/.exec(teil)[1]) * STUNDE
+}
+
+/** Berliner Wandzeit als Epoche (ms). Versatz zweimal lesen: am Umstellungstag gilt der Versatz der Wandzeit, nicht der der UTC-Schätzung. */
 function berlinEpoche(j, m, t, h, min) {
   const schaetzung = Date.UTC(j, m - 1, t, h, min)
-  const teil = new Intl.DateTimeFormat('en-US', { timeZone: 'Europe/Berlin', timeZoneName: 'longOffset' })
-    .formatToParts(new Date(schaetzung))
-    .find((p) => p.type === 'timeZoneName').value
-  return schaetzung - Number(/GMT\+(\d\d)/.exec(teil)[1]) * STUNDE
+  return schaetzung - versatz(schaetzung - versatz(schaetzung))
 }
 
 /** Fett-Titel der Zeile, sonst ihre ersten 50 Zeichen. */

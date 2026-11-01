@@ -180,3 +180,12 @@ const aktualisiert = (hhmm) => stand(FRISCH).replace('# Stand', `# Stand\nAktual
 assert.equal(w.waechter(aktualisiert('12:05'), JETZT), '', 'Aktualisiert 5 min voraus')
 assert.equal(w.waechter(aktualisiert('11:59'), JETZT), '', 'Aktualisiert in der Vergangenheit')
 assert.equal(w.waechter(aktualisiert('12:06'), JETZT), 'Aktualisiert 12:06 liegt in der Zukunft — Uhrzeit mit date lesen', 'Aktualisiert 6 min voraus')
+// Winterzeit (UTC+1): 01.11. 17:00Z = 18:00 Berlin; Umstellungstag 29.03.: 01:35 ist noch MEZ (00:35Z)
+const winter = (hhmm, tag = '2026-11-01', kopf = ' (Stand 01.11.2026 17:00; x)') => stand(kopf).replace('# Stand', `# Stand\nAktualisiert: ${tag} ${hhmm} — x`)
+const WINTER_NOV = Date.parse('2026-11-01T17:00:00Z')
+assert.equal(w.waechter(winter('18:05'), WINTER_NOV), '', 'Aktualisiert Winterzeit 5 min voraus')
+assert.equal(w.waechter(winter('18:06'), WINTER_NOV), 'Aktualisiert 18:06 liegt in der Zukunft — Uhrzeit mit date lesen', 'Aktualisiert Winterzeit 6 min voraus')
+assert.equal(w.waechter(winter('01:35', '2026-03-29', ' (Stand 29.03.2026 01:00; x)'), Date.parse('2026-03-29T00:20:00Z')), 'Aktualisiert 01:35 liegt in der Zukunft — Uhrzeit mit date lesen', 'Umstellungstag vor 02:00 noch MEZ')
+// Nur die erste „Aktualisiert“-Zeile zählt (Kopf); eine spätere in einem Zitat nicht
+const zwei = aktualisiert('12:00').replace('— x', '— x\nAktualisiert: 2026-10-20 12:30 — y')
+assert.equal(w.waechter(zwei, JETZT), '', 'nur erste Aktualisiert-Zeile')
