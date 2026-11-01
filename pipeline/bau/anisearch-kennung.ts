@@ -2,7 +2,7 @@ import { log, readJson, writeJson } from '../lib/util.ts'
 import { todayIso } from '../../shared/time.ts'
 import type { Title } from '../../shared/types.ts'
 import { anisearchKatalogPaare } from '../lib/anisearch-katalog-ids.ts'
-import { ladeVerworfene, ohneVerworfene, ohneVerworfeneSeiten } from '../lib/anisearch-verworfen.ts'
+import { ladeAnisearchMal, ladeVerworfene, ohneVerworfeneSeiten } from '../lib/anisearch-verworfen.ts'
 import { anisearchHand } from './grundlagen.ts'
 import { ANISEARCH_ID_BASIS } from './anisearch-titel.ts'
 
@@ -49,7 +49,7 @@ export const anisearchKennungen = (titel: { id: number; mal?: number }[], lies: 
   loeseKennungen(
     titel,
     festeKennungen(),
-    ohneVerworfene(lies<Record<string, number>>('data/anisearch-mal.json', {}), ladeVerworfene(lies)),
+    ladeAnisearchMal(lies),
   )
 
 /**

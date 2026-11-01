@@ -12,7 +12,8 @@ type Seite = { t?: string; en?: string; n?: string; de?: string; y?: number; f?:
 const lies = <T>(pfad: string): T => JSON.parse(readFileSync(pfad, 'utf8')) as T
 
 const bruecke = lies<Record<string, number>>('data/anisearch-mal.json')
-const verworfen = lies<Record<string, { anisearch: number }>>('data/anisearch-mal-verworfen.json')
+const verworfen = lies<Record<string, { anisearch: number; anilist?: number }>>('data/anisearch-mal-verworfen.json')
+const katalog = lies<Record<string, number>>('data/anisearch-ids-katalog.json')
 const eintraege = lies<Record<string, Seite>>('data/anisearch-eintraege.json')
 const nachMal = new Map<number, Zeile>()
 for (const z of [...lies<Zeile[]>('public/data/titles.json'), ...lies<Zeile[]>('public/data/ohne-synchro.json')]) if (z.malId) nachMal.set(z.malId, z)
@@ -31,4 +32,7 @@ for (const [mal, anisearch] of Object.entries(bruecke)) {
 }
 console.log(`aniSearch-Brücke: ${geprueft} Paare mit Titel und Seiteneintrag geprüft, ${Object.keys(verworfen).length} verworfen, ${offen.length} offener Widerspruch`)
 for (const o of offen.slice(0, 10)) console.log(`  ⚠ WARNUNG aniSearch-Brücke, Widerspruch (in data/anisearch-mal-verworfen.json eintragen, wenn es zwei Werke sind): ${o}`)
+for (const [mal, v] of Object.entries(verworfen)) {
+  if (v.anilist !== undefined && katalog[v.anilist] === v.anisearch) console.log(`  ⚠ WARNUNG aniSearch-Katalog bindet die verworfene Seite ${v.anisearch} an AniList ${v.anilist} (MAL ${mal}): Zeile aus data/anisearch-ids-katalog.json streichen`)
+}
 console.log('VERSTÖSSE: 0')

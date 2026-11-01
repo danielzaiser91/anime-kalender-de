@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
-import { readJson, ROOT } from './util.ts'
-import { ladeAnisearchAbruf } from './anisearch-verworfen.ts'
+import { ROOT } from './util.ts'
+import { ladeAnisearchAbruf, ladeAnisearchKatalog } from './anisearch-verworfen.ts'
 
 /**
  * Die Katalogtitel, die der Abgleich einer aniSearch-Kennung zugeordnet hat (`data/anisearch-ids-katalog.json`, geschrieben von
@@ -9,7 +9,7 @@ import { ladeAnisearchAbruf } from './anisearch-verworfen.ts'
  * den Leseschleifen vor ihr.
  */
 export function anisearchKatalogPaare(): [number, number][] {
-  return Object.entries(readJson<Record<string, number>>('data/anisearch-ids-katalog.json', {})).map(([anilist, anisearch]) => [Number(anilist), anisearch])
+  return Object.entries(ladeAnisearchKatalog()).map(([anilist, anisearch]) => [Number(anilist), anisearch])
 }
 
 /** Unsere Titel-Kennung → aniSearch-Kennung: Abruf-Ergebnis (`data/anisearch.json`), Katalogabgleich, darüber die Handdatei (`data/anisearch-ids-hand.yaml`). */

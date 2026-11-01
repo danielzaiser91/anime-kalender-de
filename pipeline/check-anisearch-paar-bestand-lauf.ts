@@ -23,6 +23,7 @@ mkdirSync(join(wurzel, 'public/data'), { recursive: true })
 const schreibe = (pfad: string, inhalt: unknown): void => writeFileSync(join(wurzel, pfad), JSON.stringify(inhalt))
 /* MAL 700001 ↔ Seite 9000001: zwei Werke; MAL 700002 ↔ Seite 9000002: gleicher Name, nur Umschrift. */
 schreibe('data/anisearch-mal.json', { 700001: 9_000_001, 700002: 9_000_002 })
+schreibe('data/anisearch-ids-katalog.json', { 900001: 9_000_001 })
 schreibe('data/anisearch-eintraege.json', {
   9000001: { t: 'Ccc Ddd', y: 2020, f: 10 },
   9000002: { t: 'Honekami', y: 2023, f: 1 },
@@ -52,6 +53,10 @@ try {
   pruefe('mit Eintrag auf der Liste: Exit 0, keine Warnung', verworfen.status === 0 && !verworfen.ausgabe.includes('⚠ WARNUNG') && verworfen.ausgabe.includes('1 verworfen, 0 offener Widerspruch'), verworfen.ausgabe)
   const andereSeite = lauf({ 700001: { anisearch: 9_000_009, grund: 'Probe' } })
   pruefe('Eintrag mit anderer Seite deckt das Paar nicht: Warnung bleibt', andereSeite.status === 0 && andereSeite.ausgabe.includes('⚠ WARNUNG'), andereSeite.ausgabe)
+  const katalogBindet = lauf({ 700001: { anisearch: 9_000_001, anilist: 900001, grund: 'Probe' } })
+  pruefe('Katalog bindet die verworfene Seite: genau eine Katalog-Warnung', katalogBindet.status === 0 && (katalogBindet.ausgabe.match(/aniSearch-Katalog bindet/g) ?? []).length === 1, katalogBindet.ausgabe)
+  const katalogAnders = lauf({ 700001: { anisearch: 9_000_001, anilist: 900002, grund: 'Probe' } })
+  pruefe('Katalog führt den Titel nicht mit dieser Seite: keine Katalog-Warnung', katalogAnders.status === 0 && !katalogAnders.ausgabe.includes('aniSearch-Katalog bindet'), katalogAnders.ausgabe)
 } finally {
   rmSync(wurzel, { recursive: true, force: true })
 }
@@ -60,4 +65,4 @@ if (verletzt) {
   console.error(`\n${verletzt} Zusicherung(en) verletzt.`)
   process.exit(1)
 }
-console.log('\nOK — 4 Fälle')
+console.log('\nOK — 6 Fälle')
