@@ -6,7 +6,21 @@ import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 
-const LABEL = '(?:Veraltet|Gut|Schlecht|Unerwartet|Vorschlag)'
+const LABEL = '(?:Veraltet(?: gefunden| gemeldet)?|Gut|Schlecht|Unerwartet|Vorschlag|Prozesse|Schätzung vs\\. Ist|Pfade)'
+
+/** Ende der Fortsetzungszeilen eines Rückblick-Punkts: nächstes Stichwort am Zeilenanfang. */
+const FORTSETZUNG_ENDE = new RegExp(`^[\\s*\\-]*\\**${LABEL}\\**\\s*[:–—-]`, 'i')
+
+/** Folgezeilen bis Leerzeile oder Stichwort; Aufzählungspunkte nur, wenn die Stichwortzeile leer war. */
+function fortsetzung(rest, mitPunkten) {
+  const teile = []
+  for (const zeile of rest.split('\n')) {
+    if (!zeile.trim() || FORTSETZUNG_ENDE.test(zeile)) break
+    if (!mitPunkten && /^\s*(?:[-*]|\d+[.)])\s/.test(zeile)) break
+    teile.push(zeile.replace(/^[\s*-]+/, '').trim())
+  }
+  return teile.join(' ')
+}
 
 /** Schlussbericht: Handback-Text, sonst letzter Text der Assistenten-Nachricht. */
 export function berichtAusJsonl(text) {
@@ -30,12 +44,15 @@ export function berichtAusJsonl(text) {
 /** Inhalt einer Rückblick-Zeile („Vorschlag: …“); leer bei Fehlen oder „keine“. */
 export function zieheZeile(bericht, label) {
   const re = new RegExp(
-    `(?:^|\\n|[.;—-]\\s)[\\s*\\-]*\\**${label}\\**\\s*[:–—-]\\s*([^\\n]*?)(?=\\s*(?:[;.]\\s*)?\\**${LABEL}\\**\\s*[:–—-]|\\n|$)`,
-    'i',
+    `(?:^|\\n|[.;—-]\\s)[\\s*\\-]*\\**${label}\\**\\s*[:–—-][ \\t]*([^\\n]*?)(?=\\s*(?:[;.]\\s*)?\\**${LABEL}\\**\\s*[:–—-]|\\n|$)`,
+    'gi',
   )
-  const m = re.exec(bericht)
+  // Der Rückblick steht am Ende: der letzte Treffer, nicht ein „Vorschlag:“ mitten in einer Auflage.
+  const m = [...bericht.matchAll(re)].pop()
   if (!m) return ''
-  const v = m[1].trim()
+  const rest = bericht.slice(m.index + m[0].length)
+  const folge = rest.startsWith('\n') ? fortsetzung(rest.slice(1), !m[1].trim()) : ''
+  const v = `${m[1].trim()} ${folge}`.trim()
   return v.length < 12 || /^(—|-|keine?r?\b|nichts|kein weiterer)/i.test(v) ? '' : v
 }
 
@@ -78,15 +95,38 @@ export function istGedeckt(vorschlag, korpus, schwelle = 0.7) {
   })
 }
 
-/** Neue Listenzeilen: nur ungedeckte Vorschläge, nicht schon in `vorhanden` (nach Agent-ID). */
-export function ledgerZeilen(eintraege, korpus, vorhanden) {
-  const zeilen = []
+/** Gleicher Vorschlag, wenn einer den anderen nach der Gedeckt-Regel trägt (beide Richtungen). */
+export function aehnlich(a, b) {
+  return istGedeckt(a, korpusAus([b])) || istGedeckt(b, korpusAus([a]))
+}
+
+/** Bündelt ähnliche Vorschläge; der erste bleibt Kopf, die übrigen Kennungen hängen daran. */
+export function buendeln(eintraege) {
+  const gruppen = []
   for (const e of eintraege) {
-    if (!e.vorschlag || vorhanden.includes(e.id) || istGedeckt(e.vorschlag, korpus)) continue
-    const veraltet = e.veraltet ? ` Veraltet gemeldet: ${e.veraltet}` : ''
-    zeilen.push(`- [ ] ${e.datum} ${e.typ} \`${e.id}\`: ${e.vorschlag}${veraltet} → verankern / verwerfen: `)
+    const g = gruppen.find((x) => aehnlich(x.vorschlag, e.vorschlag))
+    if (g) g.mitglieder.push(e)
+    else gruppen.push({ vorschlag: e.vorschlag, mitglieder: [e] })
   }
-  return zeilen
+  return gruppen
+}
+
+/** Neue Listenzeilen: nur ungedeckte Vorschläge, nicht schon in `vorhanden` (Kennung) oder `vorhandeneTexte` (ähnlich). */
+export function ledgerZeilen(eintraege, korpus, vorhanden, vorhandeneTexte = []) {
+  const neu = eintraege.filter((e) => e.vorschlag && !vorhanden.includes(e.id) && !istGedeckt(e.vorschlag, korpus) && !vorhandeneTexte.some((t) => aehnlich(e.vorschlag, t)))
+  return buendeln(neu).map(({ vorschlag, mitglieder }) => {
+    const ids = mitglieder.map((m) => `\`${m.id}\``).join(', ')
+    const typen = [...new Set(mitglieder.map((m) => m.typ))].join('/')
+    const alt = [...new Set(mitglieder.map((m) => m.veraltet).filter(Boolean))]
+    const veraltet = alt.length ? ` Veraltet gemeldet: ${alt.join(' | ')}` : ''
+    return `- [ ] ${mitglieder[0].datum} ${typen} ${ids}: ${vorschlag}${veraltet} → verankern / verwerfen: `
+  })
+}
+
+/** Vorschlagstexte der Zeilen einer vorhandenen Liste (offen oder abgehakt). */
+export function texteAusListe(liste) {
+  const re = /^- \[.\] \S+ \S+ (?:`agent-[\w-]+`(?:, )?)+: (.*?)(?: Veraltet gemeldet:.*)?(?: → verankern \/ verwerfen:.*)?$/gm
+  return [...liste.matchAll(re)].map((m) => m[1])
 }
 
 function sammle(wurzel, endung, tiefe = 4) {
@@ -133,7 +173,7 @@ export function lauf({ projekte, wurzeln, ausgabe, seit }) {
   for (const w of wurzeln.filter((x) => !fs.existsSync(x))) console.log(`⚠ WARNUNG Vorschlags-Ledger: ${w} fehlt, Abgleich ohne diese Quelle`)
   const korpus = ladeKorpus(wurzeln.filter((w) => fs.existsSync(w)))
   const alt = fs.existsSync(ausgabe) ? fs.readFileSync(ausgabe, 'utf8') : '# Offene Agenten-Vorschläge\n\nVon `tools/vorschlags-ledger.mjs` angelegt; Zeile abhaken, wenn verankert oder verworfen.\n\n'
-  const zeilen = ledgerZeilen(eintraege, korpus, alt.match(/`agent-[\w-]+`/g)?.map((s) => s.slice(1, -1)) || [])
+  const zeilen = ledgerZeilen(eintraege, korpus, alt.match(/`agent-[\w-]+`/g)?.map((s) => s.slice(1, -1)) || [], texteAusListe(alt))
   if (zeilen.length) fs.writeFileSync(ausgabe, `${alt.endsWith('\n') ? alt : `${alt}\n`}${zeilen.join('\n')}\n`)
   const mitVorschlag = eintraege.filter((e) => e.vorschlag).length
   console.log(`Vorschlags-Ledger: ${eintraege.length} Berichte, ${mitVorschlag} mit Vorschlag, ${zeilen.length} neu ungedeckt`)
