@@ -7,11 +7,11 @@
  */
 import type { Title } from '../../shared/types.ts'
 import { discBonusAnwenden } from './disc-bonus.ts'
-import { readJson } from './util.ts'
+import { ladeAnisearchAbruf } from './anisearch-verworfen.ts'
 
 export function anisearchFelderAnwenden(titles: Map<number, Title>): string {
   const bonus = discBonusAnwenden(titles)
-  const roh = readJson<Record<string, { info?: { runtimeMinutes?: number } }>>('data/anisearch.json', {})
+  const roh = ladeAnisearchAbruf<{ info?: { runtimeMinutes?: number } }>()
   let laufzeit = 0
   for (const t of titles.values()) {
     const min = roh[String(t.id)]?.info?.runtimeMinutes
@@ -28,7 +28,7 @@ let laufzeiten: Map<number, number> | undefined
 /** Für Titel, die nicht durch die Titelkarte laufen (Katalog hinter dem Toggle): Laufzeit aus aniSearch, wo bekannt. */
 export function mitLaufzeit<T extends { id: number; runtimeMin?: number }>(t: T): T {
   laufzeiten ??= new Map(
-    Object.entries(readJson<Record<string, { info?: { runtimeMinutes?: number } }>>('data/anisearch.json', {}))
+    Object.entries(ladeAnisearchAbruf<{ info?: { runtimeMinutes?: number } }>())
       .filter(([, e]) => (e.info?.runtimeMinutes ?? 0) > 0)
       .map(([id, e]) => [Number(id), e.info!.runtimeMinutes!]),
   )

@@ -1,4 +1,5 @@
 import { readJson, log, ROOT, normSchluessel } from '../lib/util.ts'
+import { ladeAnisearchAbruf } from '../lib/anisearch-verworfen.ts'
 import { eigenerTerminVerdraengt, mitDubKennzeichen, terminAusEintrag, verlagAlsDienst } from '../lib/anisearch-termine.ts'
 import yaml from 'js-yaml'
 import { readFileSync } from 'node:fs'
@@ -44,10 +45,7 @@ export function werteWeitereQuellenAus({ releases, titles, adnKatalog, adnVerwei
    * in `shared/types.ts`.
    */
   {
-    const asRoh = readJson<Record<string, { info?: { languages?: unknown[] } }>>(
-      'data/anisearch.json',
-      {},
-    )
+    const asRoh = ladeAnisearchAbruf<{ info?: { languages?: unknown[] } }>()
     const eigenerStart = new Map<number, string>()
     for (const r of releases) if (r.schedule?.firstEpisodeDate && !(eigenerStart.get(r.titleId)! <= r.schedule.firstEpisodeDate)) eigenerStart.set(r.titleId, r.schedule.firstEpisodeDate)
     let asNeu = 0

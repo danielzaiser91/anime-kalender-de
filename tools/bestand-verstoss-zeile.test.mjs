@@ -16,6 +16,8 @@ const stumm = (text) => findeStummeAusgaenge(text).map((s) => s.zeile)
 
 /** Prüfungen ohne eigenen Fehlerausgang, mit Grund. Der Test verlangt, dass sie wirklich keinen haben. */
 const OHNE_AUSGANG = {
+  'pipeline/check-anisearch-paar-bestand.ts':
+    'nur Warnung (⚠ WARNUNG, Exit 0): der tägliche Abruf der aniSearch-Brücke kann jederzeit ein neues Fehlpaar liefern, Rot würde den Bestandsbau stoppen; 01.11.2026',
   'pipeline/check-ankuendigung-versteckt-bestand.ts':
     'nur Warnung (⚠ WARNUNG, Exit 0): ein Titel mit frischer Ankündigung hinter dem Toggle kann zu Recht dort liegen (aniSearch „Deutsch nicht genannt“, Handurteil), Rot würde den Bestandsbau stoppen; 26.10.2026',
   'pipeline/check-disc-suchlinks-bestand.ts':

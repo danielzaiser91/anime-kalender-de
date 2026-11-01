@@ -46,8 +46,13 @@ pipeline/check-anisearch-folgen-kennung.ts
 pipeline/check-anisearch-katalog-abgleich.ts
 pipeline/check-anisearch-kennung-mehrfach.ts
 pipeline/check-anisearch-marke-nachziehen.ts
+pipeline/check-anisearch-paar-bestand-lauf.ts
+pipeline/check-anisearch-paar-katalog.ts
+pipeline/check-anisearch-paar-quellen.ts
+pipeline/check-anisearch-paar-widerspruch.ts
 pipeline/check-anisearch-reihen-rein.ts
 pipeline/check-anisearch-reihen.ts
+pipeline/check-anisearch-rohleser.ts
 pipeline/check-anisearch-spalte.ts
 pipeline/check-anisearch-sprecher.ts
 pipeline/check-ankuendigung-news.ts
