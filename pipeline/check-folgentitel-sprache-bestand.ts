@@ -4,9 +4,12 @@
  * Liest den gebauten Bestand, deshalb `check:bestand`.
  */
 import { readFileSync, readdirSync } from 'node:fs'
+import { englischeTitel, unuebersetzteNummern } from './bau/folgentitel-englisch.ts'
 import { fremdtitelZahl, istPlatzhalter, type FolgeQuelle } from './bau/folgentitel-zeilen.ts'
 
 const roh = JSON.parse(readFileSync('data/anisearch-folgen.json', 'utf8')) as Record<string, { folgen?: FolgeQuelle[] }>
+const kitsu = JSON.parse(readFileSync('data/kitsu-folgen.json', 'utf8')) as Record<string, { f?: [number, string, number][] }>
+const tmdb = JSON.parse(readFileSync('data/tmdb-folgen.json', 'utf8')) as Record<string, { folgen?: { en?: string | null }[] }>
 const zuordnung = JSON.parse(readFileSync('data/anisearch.json', 'utf8')) as Record<string, { anisearchId?: number }>
 
 let listen = 0
@@ -20,6 +23,10 @@ for (const datei of readdirSync('public/data/folgen').filter((f) => /^\d+\.json$
   listen++
   titel += liste.f.filter(([, t]) => t).length
   fremd += zahl
+  const asFolgen = asId ? (roh[String(asId)]?.folgen ?? []) : []
+  const unuebersetzt = unuebersetzteNummern(liste.f, new Set(asFolgen.filter((x) => x.de).map((x) => x.nr)), englischeTitel(kitsu[id], tmdb[id], asFolgen)).size
+  fremd += unuebersetzt
+  if (unuebersetzt) console.error(`FEHLER: ${id}: ${unuebersetzt} Folgentitel nur der englische Titel aus Kitsu/TMDB (unübersetzte Serie)`)
   const platzhalter = liste.f.filter(([, t]) => t && istPlatzhalter(t)).length
   fremd += platzhalter
   if (platzhalter) console.error(`FEHLER: ${id}: ${platzhalter} Platzhalter („Ohne Titel", „Folge N") als Folgentitel`)
