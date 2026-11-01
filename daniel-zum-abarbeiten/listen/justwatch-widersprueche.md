@@ -23,7 +23,7 @@ JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine
 |---|---|---|---|---|
 | Vampire Hunter D: Bloodlust (543) | primevideo | https://watch.amazon.de/detail?gti=amzn1.dv.gti.68239688-dba5-4abc-a3b5-5e554d51081f | de, Stand 2026-10-26 | Handbeleg 2026-10-31 |
 
-### Kandidaten für neue Wege (733)
+### Kandidaten für neue Wege (730)
 
 JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „Weg ohne Kennung“: ein Weg zum Anbieter steht, seine Adresse trägt aber keine Seitenkennung.
 
@@ -116,7 +116,6 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Murder Princess (1696) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.aea27a53-184e-4b13-8955-3f9381a83396 | ja |
 | Die Chroniken von Erdsee (1829) | Amazon Video | amazon:amzn1.dv.gti.dd69d212-ca0b-486f-9ca0-1c3c423149d5 | ja |
 | Lucky Star (1887) | Amazon Prime Video | amazon:amzn1.dv.gti.39e288f3-b1bd-49a6-99e1-736e875c777c | ja |
-| Yu-Gi-Oh! Der Film (1894) | RTL+ Max Amazon Channel | amazon:amzn1.dv.gti.b8e14b04-689b-4dfd-98eb-248e23dcc529 | nein |
 | Paprika (1943) | Amazon Video | amazon:amzn1.dv.gti.b5f39934-980a-4267-beb1-25d1e43ed1d7 | ja |
 | Die Abenteuer des Sherlock Holmes (1972) | Amazon Prime Video | amazon:amzn1.dv.gti.eeb1d8c1-b876-7317-8e20-4f8539df04ee | ja |
 | Die Abenteuer des Sherlock Holmes (1972) | FlimmerkisteTV Amazon Channel | amazon:amzn1.dv.gti.767c1a89-16e0-474f-a335-d24009812c4d | ja |
@@ -349,7 +348,6 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Seven Mortal Sins (20705) | Crunchyroll | crunchyroll:G31UXD73N | ja |
 | Interviews mit Monster-Mädchen (97592) | Crunchyroll | crunchyroll:G4VUQEX35 | ja |
 | Seoul Station (101874) | ProSieben Fun Amazon Channel | amazon:amzn1.dv.gti.dafc2efa-b661-4ac2-833a-aed593ff789e | nein |
-| Overlord (Movies) (98873) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.d063559a-9393-44e3-a0d7-3657cf7c7a45 | nein |
 | Grimoire of Zero (97682) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.a5ead046-236f-4ede-8a32-1dfa90254a81 | ja |
 | Record of Grancrest War (97768) | Crunchyroll | crunchyroll:G14U4W09X | ja |
 | Record of Grancrest War (97768) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.d4692d73-a74e-45f6-889c-7267de6dfc95 | nein |
@@ -407,7 +405,6 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Penguin Highway (101249) | Amazon Video | amazon:amzn1.dv.gti.02b91611-b461-cebf-e7f2-a7b47fe4bb51 | ja |
 | Boogiepop and Others (101283) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.7aa5b3b8-12dd-4703-bef1-340fd628e659 | ja |
 | Die Welt in allen Farben: Iroduku (101316) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.e587021e-1402-459e-b3fe-415f901b7191 | ja |
-| Made in Abyss: Gefährten der Dämmerung (101344) | CineMix+ Amazon Channel | amazon:amzn1.dv.gti.18b83256-a558-424b-beb0-9f6bcffb0fe5 | ja |
 | Dororo (101347) | Amazon Prime Video | amazon:amzn1.dv.gti.89e7a785-27e3-495d-a485-532a8de222a4 | ja |
 | Babylon (101349) | Crunchyroll | crunchyroll:G9DUEGENQ | nein |
 | Gakuen Basara: Samurai Highschool (101470) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.cedd115d-36bf-421a-be76-c151f0afd42b | ja |
