@@ -27,6 +27,11 @@ pruefe('erfundene Datei im Text → rot', rot({ dateien: ['docs/a.md'], text: 'd
 pruefe('kurzer Pfad relativ zum Diff-Pfad zählt als vorhanden', !rot({ dateien: ['pipeline/lib/a.ts'], text: 'lib/a.ts' }))
 pruefe('lokal ausgeschlossener Ordner wird nicht auf Existenz geprüft', !rot({ dateien: ['docs/a.md'], text: 'docs/a.md, daniel-zum-abarbeiten/stand.md' }))
 pruefe('vorhandene, aber ungeänderte Datei → nur Hinweis', !rot({ dateien: ['docs/a.md'], text: 'docs/a.md wie tools/alt.mjs' }) && lauf({ dateien: ['docs/a.md'], text: 'docs/a.md wie tools/alt.mjs' }).gelb.length === 1)
+// Vertagung: die Vorprüfung reicht die Vorrats-Dateien an die Pflicht weiter (sonst bliebe sie lokal rot, in der Kette grün).
+const VORRAT = ['data/patchnotes/vorrat/x.yaml']
+const vertagt = { dateien: ['pipeline/a.ts', ...VORRAT], text: 'pipeline/a.ts, data/patchnotes/vorrat/x.yaml.\nPatch Notes: vertagt – wirkt nach dem Bau' }
+pruefe('vertagt mit Vorrats-Datei → grün', !rot({ ...vertagt, vorrat: VORRAT }))
+pruefe('vertagt ohne Vorrats-Datei → rot', rot({ ...vertagt, vorrat: [] }))
 const ex = existiertIn(new Set(['pipeline/lib/a.ts']), (p) => p === 'platte.md')
 pruefe('existiertIn: voll, Platte, Endstück; sonst nicht', ex('pipeline/lib/a.ts') && ex('platte.md') && ex('lib/a.ts') && !ex('lib/b.ts'))
 pruefe('Sichtbar ohne Patch Notes → rot', rot({ dateien: ['web/src/a.ts'], text: 'web/src/a.ts' }))

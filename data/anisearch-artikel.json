@@ -33050,6 +33050,38 @@
     "fetchedAt": "2026-10-11T05:53:40.926Z",
     "stand": 1
   },
+  "13876": {
+    "ean": "7630017547736",
+    "audio": [
+      "Japanisch",
+      "Deutsch"
+    ],
+    "untertitel": [
+      "Deutsch"
+    ],
+    "publisher": "Nipponart GmbH",
+    "umfang": "Bundle / Komplettset",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 6186,
+        "typ": "TV-Serie",
+        "folgen": 12
+      },
+      {
+        "anisearchId": 6505,
+        "typ": "OVA",
+        "folgen": 1
+      },
+      {
+        "anisearchId": 5429,
+        "typ": "TV-Serie",
+        "folgen": 13
+      }
+    ],
+    "fetchedAt": "2026-11-01T04:44:40.267Z",
+    "stand": 1
+  },
   "13883": {
     "ean": "7427040697992",
     "publisher": "peppermint anime GmbH",
@@ -33503,6 +33535,28 @@
       }
     ],
     "fetchedAt": "2026-10-13T06:31:08.734Z",
+    "stand": 1
+  },
+  "14270": {
+    "ean": "7630017547651",
+    "audio": [
+      "Japanisch",
+      "Deutsch"
+    ],
+    "untertitel": [
+      "Deutsch"
+    ],
+    "publisher": "Hardball Films",
+    "umfang": "Bundle / Komplettset",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 3678,
+        "typ": "TV-Serie",
+        "folgen": 103
+      }
+    ],
+    "fetchedAt": "2026-11-01T04:44:08.203Z",
     "stand": 1
   },
   "14289": {
@@ -196770,6 +196824,60 @@
     "fetchedAt": "2026-10-29T04:41:05.147Z",
     "stand": 1
   },
+  "221061": {
+    "ean": "7630017547644",
+    "audio": [
+      "Japanisch",
+      "Deutsch"
+    ],
+    "untertitel": [
+      "Deutsch"
+    ],
+    "publisher": "Hardball Films",
+    "umfang": "Bundle / Komplettset",
+    "medium": "Blu-ray",
+    "enthalten": [
+      {
+        "anisearchId": 3678,
+        "typ": "TV-Serie",
+        "folgen": 103
+      }
+    ],
+    "fetchedAt": "2026-11-01T04:44:01.794Z",
+    "stand": 1
+  },
+  "221086": {
+    "ean": "7630017547729",
+    "audio": [
+      "Japanisch",
+      "Deutsch"
+    ],
+    "untertitel": [
+      "Deutsch"
+    ],
+    "publisher": "Nipponart GmbH",
+    "umfang": "Bundle / Komplettset",
+    "medium": "Blu-ray",
+    "enthalten": [
+      {
+        "anisearchId": 6186,
+        "typ": "TV-Serie",
+        "folgen": 12
+      },
+      {
+        "anisearchId": 6505,
+        "typ": "OVA",
+        "folgen": 1
+      },
+      {
+        "anisearchId": 5429,
+        "typ": "TV-Serie",
+        "folgen": 13
+      }
+    ],
+    "fetchedAt": "2026-11-01T04:44:33.858Z",
+    "stand": 1
+  },
   "221087": {
     "ean": "7630017547705",
     "audio": [
@@ -196922,6 +197030,39 @@
     "fetchedAt": "2026-10-27T03:58:07.902Z",
     "stand": 1
   },
+  "221513": {
+    "ean": "7630017547620",
+    "audio": [
+      "Japanisch",
+      "Deutsch"
+    ],
+    "untertitel": [
+      "Deutsch",
+      "Französisch"
+    ],
+    "publisher": "FilmConfect GmbH & Co. KG",
+    "umfang": "Staffel / Gesamtausgabe",
+    "medium": "Blu-ray",
+    "enthalten": [
+      {
+        "anisearchId": 4227,
+        "typ": "TV-Serie",
+        "folgen": 24
+      },
+      {
+        "anisearchId": 3609,
+        "typ": "Film",
+        "folgen": 1
+      },
+      {
+        "anisearchId": 4000,
+        "typ": "OVA",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-01T04:44:14.615Z",
+    "stand": 1
+  },
   "221564": {
     "ean": "4006448774547",
     "audio": [
@@ -196939,6 +197080,44 @@
       }
     ],
     "fetchedAt": "2026-10-29T04:41:37.720Z",
+    "stand": 1
+  },
+  "221646": {
+    "ean": "4006448774554",
+    "audio": [
+      "Deutsch",
+      "Englisch"
+    ],
+    "publisher": "polyband Medien GmbH",
+    "umfang": "Staffel / Gesamtausgabe",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 2105,
+        "typ": "TV-Serie",
+        "folgen": 192
+      }
+    ],
+    "fetchedAt": "2026-11-01T04:44:21.035Z",
+    "stand": 1
+  },
+  "221647": {
+    "ean": "4006448774561",
+    "audio": [
+      "Deutsch",
+      "Englisch"
+    ],
+    "publisher": "polyband Medien GmbH",
+    "umfang": "Staffel / Gesamtausgabe",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 3721,
+        "typ": "TV-Serie",
+        "folgen": 191
+      }
+    ],
+    "fetchedAt": "2026-11-01T04:44:27.450Z",
     "stand": 1
   },
   "221649": {
