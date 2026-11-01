@@ -65,11 +65,15 @@ function ohneHeredoc(befehl) {
   return aus.join('\n')
 }
 
+/** Zeilenfortsetzung (`\` am Zeilenende, auch CRLF) verbindet die Zeilen wie in der Shell; der Zerleger sähe sonst zwei Befehle. */
+const ohneFortsetzung = (befehl) => befehl.replace(/\\\r?\n/g, '')
+
 /**
  * Zerlegt in Segmente { tokens, op }; `op` ist der Verknüpfer nach dem Segment (`&&`, `||`, `;`, `|`, '' am Ende).
  * Klammern, `$(` und Backticks liefern zusätzlich { auf } und { zu }, damit ein `cd` im Inneren nicht nach außen wirkt.
  */
-function zerlege(befehl) {
+function zerlege(roh) {
+  const befehl = ohneFortsetzung(roh)
   const segmente = []
   const gemerkt = []
   let tokens = []
