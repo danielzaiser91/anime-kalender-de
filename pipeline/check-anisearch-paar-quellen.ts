@@ -51,7 +51,8 @@ try {
   pruefe('Staffelnummer (staffel-quelle): der Titel mit verworfener Seite bekommt keine, der andere seine', JSON.stringify(staffeln) === '[[900002,3]]', staffeln)
 
   const { mitLaufzeit } = await import('./lib/anisearch-felder.ts')
-  const laufzeiten = [mitLaufzeit({ id: 900_001 }).runtimeMin, mitLaufzeit({ id: 900_002 }).runtimeMin]
+  const ohneLaufzeit = (id: number): { id: number; runtimeMin?: number } => ({ id })
+  const laufzeiten = [mitLaufzeit(ohneLaufzeit(900_001)).runtimeMin, mitLaufzeit(ohneLaufzeit(900_002)).runtimeMin]
   pruefe('Laufzeit (anisearch-felder): die verworfene Seite liefert keine, die andere ihre', JSON.stringify(laufzeiten) === '[null,25]', laufzeiten)
 
   writeFileSync(join(wurzel, 'data/anisearch-ids-hand.yaml'), '')
