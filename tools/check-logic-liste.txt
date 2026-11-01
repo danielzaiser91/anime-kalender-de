@@ -191,6 +191,7 @@ pipeline/check-folgenzahl-belegt.ts
 pipeline/check-folgenzahl-kennzeichnung.ts
 pipeline/check-gleiche-adresse.ts
 pipeline/check-hand-gesehen.ts
+pipeline/check-handbeleg-anbieter-zaehlung.ts
 pipeline/check-handbeleg-fremde-adresse.ts
 pipeline/check-handbeleg-serienton.ts
 pipeline/check-handbeleg-staffelzaehlung.ts

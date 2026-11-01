@@ -9183,12 +9183,12 @@
   platform: netflix
   dub: true
   dubRanges:
-    - from: 2
-      to: 48
+    - from: 53
+      to: 99
       dub: true
-      checked: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48]
+      checked: [53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99]
   checkedAt: '2026-08-26'
-  note: "Folgen 2–48 mit deutschem Ton — Tonspuren: de|Deutsch, nl|Niederländisch, it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — 8 Tonspuren, 0 Audiodeskriptionen"
+  note: "Folgen 53–99 mit deutschem Ton — Tonspuren: de|Deutsch, nl|Niederländisch, it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — 8 Tonspuren, 0 Audiodeskriptionen — Umrechnung: Netflix-Staffel 2 beginnt bei unserer Folge 52 (Daniel 01.11.2026, fernsehserien.de), Netflix-Folgen 2–48 sind unsere 53–99; Netflix-Folge 1 und 49 nicht geprüft"
 - anilistId: 158871
   title: "Pokémon Horizonte"
   platform: netflix
@@ -23784,12 +23784,12 @@
   url: https://www.netflix.com/title/70254353
   dub: true
   dubRanges:
-    - from: 1
-      to: 35
+    - from: 31
+      to: 65
       dub: true
-      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35]
+      checked: [31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65]
   checkedAt: '2026-10-11'
-  note: "Folgen 1–35 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], nl|Niederländisch, fr|Französisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 35, dazwischen nicht geprüft — Folge 35: Ich will den Schatz finden"
+  note: "Folgen 1–35 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], nl|Niederländisch, fr|Französisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 35, dazwischen nicht geprüft — Folge 35: Ich will den Schatz finden — Umrechnung: Netflix-Staffel 2 (35 Folgen) = JustWatch-Staffel 2 (35 Folgen), davor JustWatch-Staffel 1 mit 30 Folgen"
 - anilistId: 156067
   title: "Campfire Cooking in Another World with My Absurd Skill"
   platform: disneyplus
@@ -25949,13 +25949,8 @@
   platform: netflix
   url: https://www.netflix.com/title/80060413
   dub: true
-  dubRanges:
-    - from: 1
-      to: 26
-      dub: true
-      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
   checkedAt: '2026-10-12'
-  note: "Folgen 1–26 mit deutschem Ton — Tonspuren: de|Deutsch, fr|Französisch [Original], pl|Polnisch, it|Italienisch, es|Spanisch (Lateinamerika), en|Englisch, pt-BR|Portugiesisch (Brasilien), hu|Ungarisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 26, dazwischen nicht geprüft — Folge 26: Heidi muss sich entscheiden — Netflix: Staffel 3"
+  note: "Folgen 1–26 mit deutschem Ton — Tonspuren: de|Deutsch, fr|Französisch [Original], pl|Polnisch, it|Italienisch, es|Spanisch (Lateinamerika), en|Englisch, pt-BR|Portugiesisch (Brasilien), hu|Ungarisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 26, dazwischen nicht geprüft — Folge 26: Heidi muss sich entscheiden — Netflix: Staffel 3 — Bereich entfernt 01.11.2026: Netflix zählt ab einer späteren Staffel, die Verschiebung ist nicht belegt"
 - anilistId: -78839
   title: "Barbie: Dreamtopia"
   platform: primevideo
@@ -26653,13 +26648,8 @@
   platform: netflix
   url: https://www.netflix.com/title/80097036
   dub: true
-  dubRanges:
-    - from: 1
-      to: 26
-      dub: true
-      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
   checkedAt: '2026-10-12'
-  note: "Folgen 1–26 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], nl|Niederländisch, it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), ar|Arabisch, he|Hebräisch, hi|Hindi, pl|Polnisch, pt|Portugiesisch (Portugal) — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 26, dazwischen nicht geprüft — Folge 26: Das Abendessen / Die große Tour"
+  note: "Folgen 1–26 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], nl|Niederländisch, it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), ar|Arabisch, he|Hebräisch, hi|Hindi, pl|Polnisch, pt|Portugiesisch (Portugal) — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 26, dazwischen nicht geprüft — Folge 26: Das Abendessen / Die große Tour — Bereich entfernt 01.11.2026: Netflix zählt ab einer späteren Staffel, die Verschiebung ist nicht belegt"
 - anilistId: -86838
   title: "Costume Quest"
   platform: primevideo
@@ -26926,13 +26916,8 @@
   platform: netflix
   url: https://www.netflix.com/title/80108159
   dub: true
-  dubRanges:
-    - from: 1
-      to: 8
-      dub: true
-      checked: [1, 2, 3, 4, 5, 6, 7, 8]
   checkedAt: '2026-10-12'
-  note: "Folgen 1–8 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], tr|Türkisch, ru|Russisch, nl|Niederländisch, fr|Französisch, ar|Arabisch, da|Dänisch, fi|Finnisch, it|Italienisch, ja|Japanisch, ko|Koreanisch, zh|Mandarin, nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien) — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 8, dazwischen nicht geprüft — Folge 8: Wie sehen Augen?"
+  note: "Folgen 1–8 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], tr|Türkisch, ru|Russisch, nl|Niederländisch, fr|Französisch, ar|Arabisch, da|Dänisch, fi|Finnisch, it|Italienisch, ja|Japanisch, ko|Koreanisch, zh|Mandarin, nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien) — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 8, dazwischen nicht geprüft — Folge 8: Wie sehen Augen? — Bereich entfernt 01.11.2026: Netflix zählt ab einer späteren Staffel, die Verschiebung ist nicht belegt"
 - anilistId: -79371
   title: "Die Abenteuer von Rocky & Bullwinkle"
   platform: primevideo
@@ -26950,13 +26935,8 @@
   platform: netflix
   url: https://www.netflix.com/title/80108159
   dub: true
-  dubRanges:
-    - from: 1
-      to: 8
-      dub: true
-      checked: [1, 2, 3, 4, 5, 6, 7, 8]
   checkedAt: '2026-10-12'
-  note: "Folgen 1–8 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], tr|Türkisch, ru|Russisch, nl|Niederländisch, fr|Französisch, ar|Arabisch, da|Dänisch, fi|Finnisch, it|Italienisch, ja|Japanisch, ko|Koreanisch, zh|Mandarin, nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien) — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 8, dazwischen nicht geprüft — Folge 8: Wie erkälten sich Menschen?"
+  note: "Folgen 1–8 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], tr|Türkisch, ru|Russisch, nl|Niederländisch, fr|Französisch, ar|Arabisch, da|Dänisch, fi|Finnisch, it|Italienisch, ja|Japanisch, ko|Koreanisch, zh|Mandarin, nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien) — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 8, dazwischen nicht geprüft — Folge 8: Wie erkälten sich Menschen? — Bereich entfernt 01.11.2026: Netflix zählt ab einer späteren Staffel, die Verschiebung ist nicht belegt"
 - anilistId: -132559
   title: "Die Croods: Der Familienbaum"
   platform: primevideo
@@ -28366,13 +28346,8 @@
   platform: netflix
   url: https://www.netflix.com/title/80187223
   dub: true
-  dubRanges:
-    - from: 1
-      to: 26
-      dub: true
-      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
   checkedAt: '2026-10-12'
-  note: "Folgen 1–26 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], tr|Türkisch, ru|Russisch, nl-BE|Flämisch, fr|Französisch, ar|Arabisch, da|Dänisch, el|Griechisch, hi|Hindi, id|Indonesisch, it|Italienisch, ja|Japanisch, ko|Koreanisch, nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), ro|Rumänisch, sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch, cs|Tschechisch, hu|Ungarisch, vi|Vietnamesisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 26, dazwischen nicht geprüft — Folge 26: Oktobellas Rache: Teil 1 / Oktobellas Rache: Teil 2"
+  note: "Folgen 1–26 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], tr|Türkisch, ru|Russisch, nl-BE|Flämisch, fr|Französisch, ar|Arabisch, da|Dänisch, el|Griechisch, hi|Hindi, id|Indonesisch, it|Italienisch, ja|Japanisch, ko|Koreanisch, nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), ro|Rumänisch, sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch, cs|Tschechisch, hu|Ungarisch, vi|Vietnamesisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 26, dazwischen nicht geprüft — Folge 26: Oktobellas Rache: Teil 1 / Oktobellas Rache: Teil 2 — Bereich entfernt 01.11.2026: Netflix zählt ab einer späteren Staffel, die Verschiebung ist nicht belegt"
 - anilistId: -16673
   title: "Kleine Prinzessin"
   platform: primevideo
@@ -28385,13 +28360,8 @@
   platform: netflix
   url: https://www.netflix.com/title/80187223
   dub: true
-  dubRanges:
-    - from: 1
-      to: 26
-      dub: true
-      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
   checkedAt: '2026-10-12'
-  note: "Folgen 1–26 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], tr|Türkisch, ru|Russisch, nl-BE|Flämisch, fr|Französisch, ar|Arabisch, da|Dänisch, el|Griechisch, he|Hebräisch, hi|Hindi, id|Indonesisch, it|Italienisch, ja|Japanisch, ko|Koreanisch, zh-CN|Mandarin (Putonghua), nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), ro|Rumänisch, sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch, cs|Tschechisch, hu|Ungarisch, vi|Vietnamesisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 26, dazwischen nicht geprüft — Folge 26: Romeos Luftschloss / PJ Robo gegen Romeo"
+  note: "Folgen 1–26 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], tr|Türkisch, ru|Russisch, nl-BE|Flämisch, fr|Französisch, ar|Arabisch, da|Dänisch, el|Griechisch, he|Hebräisch, hi|Hindi, id|Indonesisch, it|Italienisch, ja|Japanisch, ko|Koreanisch, zh-CN|Mandarin (Putonghua), nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), ro|Rumänisch, sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch, cs|Tschechisch, hu|Ungarisch, vi|Vietnamesisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 26, dazwischen nicht geprüft — Folge 26: Romeos Luftschloss / PJ Robo gegen Romeo — Bereich entfernt 01.11.2026: Netflix zählt ab einer späteren Staffel, die Verschiebung ist nicht belegt"
 - anilistId: -16673
   title: "Kleine Prinzessin"
   platform: primevideo
@@ -28418,13 +28388,8 @@
   platform: netflix
   url: https://www.netflix.com/title/80187223
   dub: true
-  dubRanges:
-    - from: 1
-      to: 26
-      dub: true
-      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
   checkedAt: '2026-10-12'
-  note: "Folgen 1–26 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], tr|Türkisch, ru|Russisch, nl-BE|Flämisch, fr|Französisch, da|Dänisch, fi|Finnisch, el|Griechisch, hi|Hindi, id|Indonesisch, it|Italienisch, ja|Japanisch, ko|Koreanisch, zh|Mandarin, nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), ro|Rumänisch, sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch, cs|Tschechisch, hu|Ungarisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 26, dazwischen nicht geprüft — Folge 26: Halloween-Gauner – Teil 1 / Halloween-Gauner – Teil 2"
+  note: "Folgen 1–26 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], tr|Türkisch, ru|Russisch, nl-BE|Flämisch, fr|Französisch, da|Dänisch, fi|Finnisch, el|Griechisch, hi|Hindi, id|Indonesisch, it|Italienisch, ja|Japanisch, ko|Koreanisch, zh|Mandarin, nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), ro|Rumänisch, sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch, cs|Tschechisch, hu|Ungarisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 26, dazwischen nicht geprüft — Folge 26: Halloween-Gauner – Teil 1 / Halloween-Gauner – Teil 2 — Bereich entfernt 01.11.2026: Netflix zählt ab einer späteren Staffel, die Verschiebung ist nicht belegt"
 - anilistId: 102976
   title: "KonoSuba: God’s Blessing on This Wonderful World! The Movie - Legend of Crimson"
   platform: primevideo
@@ -31681,7 +31646,7 @@
       dub: true
       checked: [17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42]
   checkedAt: '2026-10-13'
-  note: "Folgen 17–42 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], tr|Türkisch, ru|Russisch, nl|Niederländisch, fr|Französisch, da|Dänisch, fi|Finnisch, it|Italienisch, ko|Koreanisch, zh|Mandarin, nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), ro|Rumänisch, sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), cs|Tschechisch, hu|Ungarisch — Gemessen in der Randprobe — gemessen: Folge 1 und 26, dazwischen nicht geprüft — Folge 26: Die Rettung der Bucht"
+  note: "Folgen 17–42 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], tr|Türkisch, ru|Russisch, nl|Niederländisch, fr|Französisch, da|Dänisch, fi|Finnisch, it|Italienisch, ko|Koreanisch, zh|Mandarin, nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), ro|Rumänisch, sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), cs|Tschechisch, hu|Ungarisch — Gemessen in der Randprobe — gemessen: Folge 1 und 26, dazwischen nicht geprüft — Folge 26: Die Rettung der Bucht — Umrechnung: Netflix-Staffel 2 (26 Folgen) beginnt bei unserer Folge 17, davor JustWatch-Staffel 1 mit 16 Folgen; Zählung ist schon unsere"
 - anilistId: 107961
   title: "Hensuki: Are You Willing to Fall in Love with a Pervert, as Long as She’s a Cutie?"
   platform: primevideo
@@ -34981,13 +34946,8 @@
   platform: netflix
   url: https://www.netflix.com/title/81397437
   dub: true
-  dubRanges:
-    - from: 1
-      to: 5
-      dub: true
-      checked: [1, 2, 3, 4, 5]
   checkedAt: '2026-10-15'
-  note: "Folgen 1–5 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], tr|Türkisch, nl|Niederländisch, it|Italienisch, fr|Französisch, el|Griechisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien) — Gemessen in der Randprobe — gemessen: Folge 1 und 5, dazwischen nicht geprüft — Folge 5: Teil 5"
+  note: "Folgen 1–5 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], tr|Türkisch, nl|Niederländisch, it|Italienisch, fr|Französisch, el|Griechisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien) — Gemessen in der Randprobe — gemessen: Folge 1 und 5, dazwischen nicht geprüft — Folge 5: Teil 5 — Bereich entfernt 01.11.2026: Netflix zählt ab einer späteren Staffel, die Verschiebung ist nicht belegt"
 - anilistId: -224263
   title: "Stranger Things: Tales from '85"
   platform: netflix
@@ -35777,36 +35737,31 @@
   url: https://www.netflix.com/title/81687083
   dub: true
   dubRanges:
-    - from: 1
-      to: 10
+    - from: 27
+      to: 36
       dub: true
-      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+      checked: [27, 28, 29, 30, 31, 32, 33, 34, 35, 36]
   checkedAt: '2026-10-15'
-  note: "Folgen 1–10 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], tr|Türkisch, it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), ar|Arabisch, da|Dänisch, id|Indonesisch, ms|Malaiisch, zh|Mandarin, nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — Gemessen in der Randprobe — gemessen: Folge 1 und 10, dazwischen nicht geprüft — Folge 10: Folge 10 — Netflix: Staffel 2"
+  note: "Folgen 1–10 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], tr|Türkisch, it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), ar|Arabisch, da|Dänisch, id|Indonesisch, ms|Malaiisch, zh|Mandarin, nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — Gemessen in der Randprobe — gemessen: Folge 1 und 10, dazwischen nicht geprüft — Folge 10: Folge 10 — Netflix: Staffel 2 — Umrechnung: Netflix-Staffel 2 (10 Folgen) = JustWatch-Staffel 2 (10 Folgen), davor JustWatch-Staffel 1 mit 26 Folgen"
 - anilistId: -157747
   title: "Transformers: EarthSpark"
   platform: netflix
   url: https://www.netflix.com/title/81687083
   dub: true
   dubRanges:
-    - from: 1
-      to: 8
+    - from: 37
+      to: 44
       dub: true
-      checked: [1, 2, 3, 4, 5, 6, 7, 8]
+      checked: [37, 38, 39, 40, 41, 42, 43, 44]
   checkedAt: '2026-10-15'
-  note: "Folgen 1–8 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], tr|Türkisch, it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), ar|Arabisch, da|Dänisch, id|Indonesisch, ms|Malaiisch, zh|Mandarin, zh-TW|Mandarin (Guoyu), nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — Gemessen in der Randprobe — gemessen: Folge 1 und 8, dazwischen nicht geprüft — Folge 8: Folge 8 — Netflix: Staffel 3"
+  note: "Folgen 1–8 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], tr|Türkisch, it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), ar|Arabisch, da|Dänisch, id|Indonesisch, ms|Malaiisch, zh|Mandarin, zh-TW|Mandarin (Guoyu), nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — Gemessen in der Randprobe — gemessen: Folge 1 und 8, dazwischen nicht geprüft — Folge 8: Folge 8 — Netflix: Staffel 3 — Umrechnung: Netflix-Staffel 3 (8 Folgen) = JustWatch-Staffel 3 (8 Folgen), davor JustWatch-Staffeln 1 und 2 mit 36 Folgen"
 - anilistId: -155780
   title: "Hier kommen die Batwheels"
   platform: netflix
   url: https://www.netflix.com/title/81687176
   dub: true
-  dubRanges:
-    - from: 1
-      to: 20
-      dub: true
-      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
   checkedAt: '2026-10-15'
-  note: "Folgen 1–20 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original] — Gemessen in der Randprobe — gemessen: Folge 1 und 20, dazwischen nicht geprüft — Folge 20: Ein kleiner Besucher / Bibi und die böse Saat"
+  note: "Folgen 1–20 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original] — Gemessen in der Randprobe — gemessen: Folge 1 und 20, dazwischen nicht geprüft — Folge 20: Ein kleiner Besucher / Bibi und die böse Saat — Bereich entfernt 01.11.2026: Netflix zählt ab einer späteren Staffel, die Verschiebung ist nicht belegt"
 - anilistId: -93588
   title: "Lukas, die Spinne"
   platform: netflix
