@@ -36,7 +36,7 @@ jobs:
         run: |
           # Mit ":ohne-abbruch" zählt ein abgebrochener Lauf nicht als Start (der Monatslauf wurde am 02.10.2026 nach 4 s abgebrochen und nie wiederholt).
           # Workflow : erlaubtes Alter des letzten Starts in Stunden (etwas mehr als der Takt, damit eine kleine Verspätung keinen Doppelstart auslöst)
-          PLAN="refresh-hourly.yml:3 refresh-data.yml:30 refresh-weekly.yml:192 adn-laufende.yml:9 claude-verpasst-recherche.yml:30 claude-anime2you-extraktion.yml:30 claude-wache-urteil.yml:30 anisearch-katalog.yml:30 ladezeiten.yml:30 offizielle-news.yml:30 meldungskopie.yml:30 tonspuren-monatlich.yml:744:ohne-abbruch"
+          PLAN="refresh-hourly.yml:3 refresh-data.yml:30 refresh-weekly.yml:192 adn-laufende.yml:9 claude-verpasst-recherche.yml:30 claude-anime2you-extraktion.yml:30 claude-wache-urteil.yml:30 anisearch-katalog.yml:30 ladezeiten.yml:30 offizielle-news.yml:30 meldungskopie.yml:30 nacht-merger.yml:3 tonspuren-monatlich.yml:744:ohne-abbruch"
           nachgeholt=0
           for eintrag in $PLAN; do
             wf="${eintrag%%:*}"; rest="${eintrag#*:}"; max="${rest%%:*}"; ohne=""; case "$rest" in *:ohne-abbruch) ohne=1;; esac

@@ -434,6 +434,7 @@
         "claude-wache-urteil.yml",
         "delta-wache.yml",
         "fund-nachliefern.yml",
+        "nacht-merger.yml",
         "pr-pruefer.yml",
         "wecker-wache.yml"
       ],
@@ -447,6 +448,24 @@
         "text": "GitHub stellt es je Lauf neu aus"
       },
       "folge": "Kein Ablauf; die Rechte regelt der permissions-Block je Workflow."
+    },
+    {
+      "id": "NACHT_MERGER_TOKEN",
+      "ort": "github-secret",
+      "wofuer": "Fine-grained PAT (nur dieses Repo: Contents, Pull requests, Actions je Read and write); der Nacht-Merger mergt damit freigegebene PRs und stößt veraltete Ketten neu an (das GITHUB_TOKEN löst keine Folgeläufe aus).",
+      "workflows": [
+        "nacht-merger.yml"
+      ],
+      "gueltig": {
+        "text": "Noch nicht angelegt (F99, 01.11.2026): Ohne das Secret läuft der Nacht-Merger als Trockenlauf mit dem GITHUB_TOKEN und merged nichts",
+        "beleg": "daniel-zum-abarbeiten/vorrat/laufend/a-3-bauer-f99-nacht-merger.md",
+        "gueltigBis": null
+      },
+      "erneuerung": {
+        "art": "handgriff",
+        "text": "Neuen PAT erzeugen (GitHub, Settings, Developer settings, Fine-grained tokens), unter Settings, Secrets and variables, Actions als NACHT_MERGER_TOKEN eintragen (Wert in my_secrets.md)"
+      },
+      "folge": "Der Nacht-Merger protokolliert nur „WÜRDE MERGEN“; PRs bleiben bis zum Merge von Hand liegen."
     },
     {
       "id": "GITHUB_WECKER_TOKEN",
