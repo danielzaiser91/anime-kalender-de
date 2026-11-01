@@ -27,6 +27,20 @@ function seitStandAbfrage(
 }
 
 /**
+ * **Offene Meldungen zählen als angekommen, auch vor dem Prüfstand** (31.10.2026, Meldungen 25028/25029).
+ *
+ * Die Zeitgrenze unten setzt voraus, was vor dem Datenlauf gemeldet wurde, stehe im Datensatz. Für Staffeln, die der Bau
+ * nicht zuordnen kann („Staffel nicht im Bestand"), gilt das nicht: Die Meldung bleibt unübernommen liegen, fiel aber nach
+ * dem nächsten Bestandsbau aus `gemeldeteSeiten`, und die Erweiterung bot „melden" erneut an. `offeneZeilen` liest
+ * `uebernommen = 0` ohnehin; `seiten_kennung` ist dort nur eine Spalte mehr, also keine zusätzliche gelesene Zeile.
+ */
+export function seitenMitOffenen(seiten: string[], offen: { seiten_kennung?: string | null }[]): string[] {
+  const alle = new Set(seiten)
+  for (const r of offen) if (r.seiten_kennung) alle.add(r.seiten_kennung)
+  return [...alle]
+}
+
+/**
  * **Der Stand für die Erweiterung — sparsam gelesen** (28.09.2026).
  *
  * Hier standen vier `SELECT DISTINCT` über die **ganze** `pruefung`-Tabelle: alle je
@@ -167,7 +181,7 @@ export async function zaehleOffenePruefungen({ request, env, antwort }: {
         Ohne Prüfstand bleibt es beim alten Verhalten.
       */
       const { results: seiten } = await abfrage('seiten_kennung').all<{ seiten_kennung: string }>()
-      const gemeldeteSeiten = (seiten ?? []).map((r) => r.seiten_kennung)
+      const gemeldeteSeiten = seitenMitOffenen((seiten ?? []).map((r) => r.seiten_kennung), results ?? [])
       /* Die bestätigten Erwartungen — siehe Migration 026. */
       const { results: erw } = await env.DB.prepare(
         'SELECT such_url, kennungen FROM such_erwartung',
