@@ -1,0 +1,21 @@
+# Einmaliger PoC (01.11.2026), nur auf dem Zweig poc/prime-ci-abruf, wird vor dem Merge entfernt.
+name: Prime-PoC
+
+on:
+  push:
+    branches: [poc/prime-ci-abruf]
+    paths: ['.github/workflows/prime-poc.yml', 'tools/prime-ci-poc.mjs']
+
+permissions:
+  contents: read
+
+jobs:
+  poc:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node tools/prime-ci-poc.mjs
