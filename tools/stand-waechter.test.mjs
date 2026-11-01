@@ -174,3 +174,9 @@ assert.equal(w.waechter(jetzt('- 🔵 **F7 X** (Kann nicht: y)'), JETZT), '', 'G
 assert.equal(w.waechter(jetzt('- 🔵 **F7 Form?** (kann nichts tun)'), JETZT), GRUND.replace('Form?', 'F7 Form?'), 'kann nichts ist kein Grund')
 assert.equal(w.waechter(jetzt('- 🔵 **Form?** (soll nicht: x) → [Datei](file:///C:/x/F74-x.md)'), JETZT), KENNUNG, 'Kennung nur im Link-Ziel zählt nicht')
 console.log('stand-waechter.test: ok (Jetzt-Zeilen Kennung/Grund, 20/21 Handzeilen, Als Nächstes 80/81 Zeilen und 400/401 Zeichen, Icon, Block zählt nicht, Alter 24 h Sommer/Winter, ohne Stand, Lauf meldet, Top-Prios 5/6, {live}, Stand 72 h)')
+
+// Zeitstempel „Aktualisiert:“ in der Zukunft: 12:05 Berlin genau erlaubt (5 min), 12:06 nicht; ohne Zeile nichts
+const aktualisiert = (hhmm) => stand(FRISCH).replace('# Stand', `# Stand\nAktualisiert: 2026-10-20 ${hhmm} — x`)
+assert.equal(w.waechter(aktualisiert('12:05'), JETZT), '', 'Aktualisiert 5 min voraus')
+assert.equal(w.waechter(aktualisiert('11:59'), JETZT), '', 'Aktualisiert in der Vergangenheit')
+assert.equal(w.waechter(aktualisiert('12:06'), JETZT), 'Aktualisiert 12:06 liegt in der Zukunft — Uhrzeit mit date lesen', 'Aktualisiert 6 min voraus')
