@@ -16,9 +16,19 @@ inputs:
   app-key:
     description: 'Privater Schlüssel der App (Secret DATEN_APP_KEY)'
     required: true
+  bauprobe:
+    description: "'true' = vor dem Merge den Datensatz mit dem Fund bauen und check:bestand fahren (tools/quellen-bauprobe.sh); rot = PR bleibt offen"
+    required: false
+    default: 'false'
 runs:
   using: composite
   steps:
+    # Über $GITHUB_ENV, nicht als env des Schritts `pr`: dessen env ist auf das App-Token und die Nachricht festgelegt (tools/app-token-sperre.mjs).
+    - name: Probebau vormerken
+      if: ${{ inputs.bauprobe == 'true' }}
+      shell: bash
+      run: echo "QUELLEN_BAUPROBE=1" >> "$GITHUB_ENV"
+
     # Die App darf `main` am Ruleset `main-pruefweg` vorbei mergen, `GITHUB_TOKEN` nicht (11.10.2026). Das Aufsetzen und der Zweig-Push laufen weiter mit der Checkout-Anmeldung;
     # nur Anlegen und Mergen des Pull Requests brauchen die App. Gelingt das Token nicht, wird der Lauf rot (kein Rückfall auf github.token: ein nie gemergter PR bliebe unbemerkt); der Einreichen-Schritt läuft trotzdem, damit der Fund gesichert wird.
     - name: App-Token holen

@@ -118,6 +118,48 @@ erwarte('Frist nur am Zeilenanfang (kein Präfix-Name davor)', (s) => { fristen(
 // Gemessen 17.10.2026 in fund-nachliefern: rund 370 s nach der Prüfung (Checkout, Einrichten, Download, Push, Merge); 420 s mit Rand. Wer den Wert ändert, misst neu.
 assert.equal(REST_SEKUNDEN, 420)
 
+// Probebau (31.10.2026): Schalter, Reihenfolge, Bedingung, Standardbefehl und Frist.
+const BAU = 'quellen-bauprobe.sh'
+erwarte('Workflow setzt QUELLEN_BAUBEFEHL', (s) => { s.workflows['neu.yml'] = neuerWorkflow([{ run: 'true', env: { QUELLEN_BAUBEFEHL: 'true' } }]) }, /neu\.yml: setzt oder nennt einen Schalter/)
+erwarte('Aktion setzt QUELLEN_BAUFRIST', (s) => { aufrufSchritt(s).env.QUELLEN_BAUFRIST = '1' }, /einreichen: setzt oder nennt einen Schalter/)
+erwarte('quellen-pr.sh ruft den Probebau nicht auf', (s) => { s.skripte[PR] = s.skripte[PR].replace('quellen_bauprobe)"', 'true)"') }, /Reihenfolge muss sein/)
+erwarte('quellen-pr.sh: Probebau erst nach dem Anlegen', (s) => {
+  const zeile = 'PRUEF_GRUND="$(quellen_bauprobe)" || PRUEF_ROT=1\n'
+  s.skripte[PR] = ohne(s.skripte[PR], zeile).replace('NUMMER="$(printf', () => `${zeile}NUMMER="$(printf`)
+}, /Reihenfolge muss sein/)
+erwarte('quellen-pr.sh: Probebau läuft auch bei roter Prüfung', (s) => { s.skripte[PR] = ohne(s.skripte[PR], '[ "$PRUEF_ROT" = 0 ] && ') }, /Probebau läuft nur bei grüner Prüfung/)
+erwarte('quellen-pr.sh: Probebau läuft immer', (s) => { s.skripte[PR] = ohne(s.skripte[PR], ' && [ "${QUELLEN_BAUPROBE:-}" = 1 ]') }, /Probebau läuft nur bei grüner Prüfung/)
+erwarte('Probebau fährt etwas anderes', (s) => { s.skripte[BAU] = s.skripte[BAU].replace('npm run data:bauprobe}', 'true}') }, /quellen-bauprobe\.sh: Standardbefehl/)
+erwarte('Probebau fährt als Basis etwas anderes', (s) => { s.skripte[BAU] = s.skripte[BAU].replace('npm run data:bauprobe-basis}', 'true}') }, /quellen-bauprobe\.sh: Basisbefehl/)
+erwarte('Workflow setzt QUELLEN_BAUBASISBEFEHL', (s) => { s.workflows['neu.yml'] = neuerWorkflow([{ run: 'true', env: { QUELLEN_BAUBASISBEFEHL: 'true' } }]) }, /neu\.yml: setzt oder nennt einen Schalter/)
+erwarte('Aktion setzt QUELLEN_BAUBASISFRIST', (s) => { aufrufSchritt(s).env.QUELLEN_BAUBASISFRIST = '1' }, /einreichen: setzt oder nennt einen Schalter/)
+// A1: der Schritt „Probebau vormerken“ in der Aktion (Mutanten des Prüfers: `if: ${{ false }}`, `QUELLEN_BAUPROBE=0`).
+const vormerken = (s) => schritteDerAktion(s).find((x) => x.name === 'Probebau vormerken')
+erwarte('Aktion: Vormerken nie (if false)', (s) => { vormerken(s).if = '${{ false }}' }, /läuft nicht genau bei/)
+erwarte('Aktion: Vormerken immer (if fehlt)', (s) => { delete vormerken(s).if }, /läuft nicht genau bei/)
+erwarte('Aktion: Vormerken mit QUELLEN_BAUPROBE=0', (s) => { vormerken(s).run = 'echo "QUELLEN_BAUPROBE=0" >> "$GITHUB_ENV"' }, /führt nicht genau/)
+erwarte('Aktion: Vormerken ohne GITHUB_ENV', (s) => { vormerken(s).run = 'echo "QUELLEN_BAUPROBE=1"' }, /führt nicht genau/)
+erwarte('Aktion: Vormerken mit env', (s) => { vormerken(s).env = { X: '1' } }, /env, continue-on-error oder eine fremde Shell/)
+erwarte('Aktion: Vormerken mit continue-on-error', (s) => { vormerken(s)['continue-on-error'] = true }, /env, continue-on-error oder eine fremde Shell/)
+erwarte('Aktion: Vormerken fehlt', (s) => { s.aktionen.einreichen.runs.steps = schritteDerAktion(s).filter((x) => x !== vormerken(s)) }, /0 Schritte nennen QUELLEN_BAUPROBE/)
+erwarte('Aktion: Vormerken doppelt', (s) => { schritteDerAktion(s).unshift({ ...vormerken(s), name: 'Zweites' }) }, /2 Schritte nennen QUELLEN_BAUPROBE/)
+erwarte('Aktion: Vormerken nach dem Aufruf', (s) => { const v = vormerken(s); s.aktionen.einreichen.runs.steps = [...schritteDerAktion(s).filter((x) => x !== v), v] }, /nicht vor dem Aufruf/)
+erwarte('Aktion: bauprobe standardmäßig an', (s) => { s.aktionen.einreichen.inputs.bauprobe.default = 'true' }, /nicht standardmäßig aus/)
+erwarte('Aktion: Eingabe bauprobe fehlt', (s) => { delete s.aktionen.einreichen.inputs.bauprobe }, /nicht standardmäßig aus/)
+erwarte('Aktion: Aufruf setzt QUELLEN_BAUPROBE im env des Schritts pr', (s) => { aufrufSchritt(s).env.QUELLEN_BAUPROBE = '1' }, /2 Schritte nennen QUELLEN_BAUPROBE/)
+erwarte('daten-auf-abruf.yml verlangt bauprobe nicht', (s) => { delete s.workflows['daten-auf-abruf.yml'].jobs.lauf.steps.find((x) => String(x.uses).includes('actions/einreichen')).with.bauprobe }, /verlangt nicht `bauprobe/)
+erwarte('daten-auf-abruf.yml: bauprobe false', (s) => { s.workflows['daten-auf-abruf.yml'].jobs.lauf.steps.find((x) => String(x.uses).includes('actions/einreichen')).with.bauprobe = 'false' }, /verlangt nicht `bauprobe/)
+// Ein Job mit Probebau braucht die Baufristen zusätzlich (660 s Prüfung + 900 s Fund-Bau + 600 s Basis-Bau + 420 s Rest = 43 min); ohne `bauprobe` genügen 30 min.
+const bauJob = (minuten, bauprobe) => ({ 'x.yml': { jobs: { a: { 'timeout-minutes': minuten, steps: [{ uses: './.github/actions/einreichen', with: bauprobe === undefined ? {} : { bauprobe } }] } } } })
+assert.deepEqual(pruefeFristen(bauJob(30), original.skripte[PRUEFEN], original.skripte[BAU]), [], '30 min ohne Probebau genügen')
+assert.match(pruefeFristen(bauJob(30, 'true'), original.skripte[PRUEFEN], original.skripte[BAU]).join(), /x\.yml: Job a \(timeout 1800 s\) lässt nach Prüfung und Vergleich samt Probebau \(2160 s\)/, '30 min mit Probebau sind zu knapp')
+assert.deepEqual(pruefeFristen(bauJob(43, 'true'), original.skripte[PRUEFEN], original.skripte[BAU]), [], '43 min mit Probebau: genau auf der Grenze')
+assert.match(pruefeFristen(bauJob(42, 'true'), original.skripte[PRUEFEN], original.skripte[BAU]).join(), /samt Probebau/, '42 min: eine Minute unter der Grenze')
+assert.match(pruefeFristen(bauJob(43, 'true'), original.skripte[PRUEFEN], original.skripte[BAU].replace(/^QUELLEN_BAUBASISFRIST_STANDARD=\d+$/m, 'QUELLEN_BAUBASISFRIST_STANDARD=601')).join(), /samt Probebau/, 'Basisfrist zählt mit: 601 s sprengen 43 min')
+assert.deepEqual(pruefeFristen(bauJob(30, 'false'), original.skripte[PRUEFEN], original.skripte[BAU]), [], 'bauprobe: false zählt nicht')
+assert.deepEqual(pruefeFristen(bauJob(30, 'true'), original.skripte[PRUEFEN], 'QUELLEN_BAUFRIST_STANDARD=x\n'), ['quellen-bauprobe.sh: QUELLEN_BAUFRIST_STANDARD als Zahl erwartet'], 'Baufrist nicht lesbar')
+assert.equal(original.workflows['daten-auf-abruf.yml'].jobs.lauf.steps.find((x) => String(x.uses).includes('actions/einreichen')).with.bauprobe, 'true', 'daten-auf-abruf.yml verlangt den Probebau')
+
 // Fund-Schlüssel (Auflage 1): daten-auf-abruf hat einen Job, aber wechselnde Läufe — die Nachricht trägt den Lauf, sonst löste ein roter TOGGO-Fund einen roten aniSearch-Fund ab.
 const abruf = original.workflows['daten-auf-abruf.yml'].jobs.lauf.steps
 assert.match(abruf.find((x) => x.id === 'lauf').run, /^ {0}echo "name=\$LAUF" >> "\$GITHUB_OUTPUT"$/m, 'der Lauf-Schritt gibt den Lauf aus')
