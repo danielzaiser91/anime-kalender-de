@@ -49,7 +49,7 @@ function ghEcht(args) {
   return execFileSync('gh', args, { encoding: 'utf8', timeout: 60_000, windowsHide: true })
 }
 
-/** Einstieg; Rückgabe ist der Exit-Code. Nie hart rot: ein ausgebliebener Neustart ist der Zustand von vorher. */
+/** Einstieg; Rückgabe ist der Exit-Code. 1 nur bei fehlenden Eingaben oder unlesbarem PR; scheitert der Neustart selbst (Lauf-Abfrage, cancel, rerun), steht die Meldung im Log und der Job bleibt grün: der Zustand ist der von vorher. */
 export function main(env = process.env, { gh = ghEcht, warte = (ms) => Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms) } = {}) {
   const repo = env.GITHUB_REPOSITORY
   const nr = env.PR_NUMMER
@@ -62,11 +62,15 @@ export function main(env = process.env, { gh = ghEcht, warte = (ms) => Atomics.w
   }
   const urteil = entscheide({ body: env.KOMMENTAR, kommentarLogin: env.KOMMENTAR_LOGIN, assoziation: env.KOMMENTAR_ASSOZIATION, pr })
   if (!urteil.los) return console.log(`Prüfer-Neustart: nein (${urteil.grund})`), 0
-  const liste = gh(['api', `repos/${repo}/actions/workflows/${PRUEFER_WORKFLOW}/runs?head_sha=${pr.head.sha}&per_page=10`, '-q', '.workflow_runs'])
-  const lauf = neuesterLauf(JSON.parse(liste))
-  if (!lauf) return console.log(`Prüfer-Neustart: kein Lauf für ${pr.head.sha.slice(0, 9)}, nichts zu tun`), 0
-  neustart(lauf, repo, { gh, warte })
-  console.log(`Prüfer-Neustart: ja, Lauf ${lauf.id} für ${pr.head.sha.slice(0, 9)} neu gestartet (${urteil.grund})`)
+  try {
+    const liste = gh(['api', `repos/${repo}/actions/workflows/${PRUEFER_WORKFLOW}/runs?head_sha=${pr.head.sha}&per_page=10`, '-q', '.workflow_runs'])
+    const lauf = neuesterLauf(JSON.parse(liste))
+    if (!lauf) return console.log(`Prüfer-Neustart: kein Lauf für ${pr.head.sha.slice(0, 9)}, nichts zu tun`), 0
+    neustart(lauf, repo, { gh, warte })
+    console.log(`Prüfer-Neustart: ja, Lauf ${lauf.id} für ${pr.head.sha.slice(0, 9)} neu gestartet (${urteil.grund})`)
+  } catch (e) {
+    console.log(`Prüfer-Neustart: nicht neu gestartet (${e.message.split('\n')[0]})`)
+  }
   return 0
 }
 
