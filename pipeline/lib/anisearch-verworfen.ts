@@ -12,7 +12,12 @@ export function ohneVerworfene(paare: Record<string, number>, verworfen: Verworf
 }
 
 /** Streicht aus einer Zuordnung AniList-Kennung → Eintrag mit `anisearchId` jede verworfene Seite dieses Titels; ein anderer Titel auf derselben Seite bleibt. */
-export function ohneVerworfeneSeiten<T extends { anisearchId?: number }>(zuordnung: Record<string, T>, verworfen: Verworfene): Record<string, T> {
+export function ohneVerworfeneSeiten<T extends object>(zuordnung: Record<string, T>, verworfen: Verworfene): Record<string, T> {
   const weg = new Set(Object.values(verworfen).filter((v) => v.anilist !== undefined).map((v) => `${v.anilist}:${v.anisearch}`))
-  return Object.fromEntries(Object.entries(zuordnung).filter(([anilist, e]) => !weg.has(`${anilist}:${e.anisearchId}`)))
+  return Object.fromEntries(Object.entries(zuordnung).filter(([anilist, e]) => !weg.has(`${anilist}:${(e as { anisearchId?: number }).anisearchId}`)))
+}
+
+/** `data/anisearch.json` ohne die verworfenen Seiten — der einzige Weg, die Datei im Bau zu lesen (jeder Leser sieht dieselbe Zuordnung). */
+export function ladeAnisearchAbruf<T extends object>(lies: typeof readJson = readJson): Record<string, T> {
+  return ohneVerworfeneSeiten(lies<Record<string, T>>('data/anisearch.json', {}), ladeVerworfene(lies))
 }

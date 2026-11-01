@@ -1,4 +1,5 @@
 import { readJson, log, warn } from '../lib/util.ts'
+import { ladeAnisearchAbruf } from '../lib/anisearch-verworfen.ts'
 import { type Vorschlag, releasesAus, nurOriginaltonMeldungen } from '../lib/meldungen.ts'
 import { verschiebungenAnwenden } from '../lib/disc-verschiebungen.ts'
 import { discIndexLaden } from '../lib/disc-ean.ts'
@@ -91,7 +92,7 @@ export function folgenListen(titles: Map<number, Title>, dep: Partial<FolgenQuel
       zum Beispiel, dessen vier Sendungen am 28./29.09.2026 unter One Piece liefen. Steht
       weiter unten eine bessere Liste (TMDB, RTL+, Wikipedia), gewinnt sie: Sie kommt später.
     */
-    ...anisearchFolgenListe(kennungenVereint(lies('data/anisearch.json', {}), kennungenDerTitel), anisearchFolgen),
+    ...anisearchFolgenListe(kennungenVereint(ladeAnisearchAbruf<{ anisearchId?: number }>(lies), kennungenDerTitel), anisearchFolgen),
       /*
         TMDB zuletzt: deutsche Folgentitel, über Staffeln durchgezählt (Staffel 0 = Specials
         zählt nicht). Bei Solo Leveling die einzige Liste; bei Eyeshield 21 passten 0 von 5

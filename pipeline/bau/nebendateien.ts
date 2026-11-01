@@ -1,4 +1,5 @@
 import { writeJson, readJson, log, warn } from '../lib/util.ts'
+import { ladeAnisearchAbruf } from '../lib/anisearch-verworfen.ts'
 import { namensIndex } from './ohne-synchro-namen.ts'
 import { STAND_ZEILE, writeTextStand } from '../lib/stand-halten.ts'
 import { plattformAusAdresse } from '../../shared/adresse-passt.ts'
@@ -89,10 +90,7 @@ export function schreibeSuchadressen(offen: { id: number; titel: string; plattfo
     writeJson(json, [])
     return
   }
-  const anisearch = readJson<Record<string, { streams?: { provider?: string; url?: string }[] }>>(
-    'data/anisearch.json',
-    {},
-  )
+  const anisearch = ladeAnisearchAbruf<{ streams?: { provider?: string; url?: string }[] }>()
   const t = ``
   const zeilen: string[] = [
     '# Suchadressen — welcher Titel steckt dahinter?',

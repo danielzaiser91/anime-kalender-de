@@ -1,4 +1,5 @@
 import { log, readJson, warn } from '../lib/util.ts'
+import { ladeAnisearchAbruf } from '../lib/anisearch-verworfen.ts'
 import { ladeKatalogEintraege } from '../lib/katalog-eingefroren.ts'
 import { todayIso } from '../../shared/time.ts'
 import { ohneSynchroVonHand } from './ohne-beleg.ts'
@@ -63,7 +64,7 @@ export function anisearchNurKatalog(): Set<number> {
 type Zuordnung = Record<string, { anisearchId?: number }>
 /** Die Zuordnung AniList → aniSearch: Abruf-Ergebnis (`data/anisearch.json`), der Katalogabgleich (`data/anisearch-ids-katalog.json`), darüber die Handdatei (`data/anisearch-ids-hand.yaml`). */
 const zuordnungen = (): Zuordnung => ({
-  ...readJson<Zuordnung>('data/anisearch.json', {}),
+  ...ladeAnisearchAbruf<Zuordnung[string]>(),
   ...Object.fromEntries(anisearchKatalogPaare().map(([anilist, anisearchId]) => [anilist, { anisearchId }])),
   ...Object.fromEntries(Object.entries(anisearchHand).map(([anilist, anisearchId]) => [anilist, { anisearchId }])),
 })
