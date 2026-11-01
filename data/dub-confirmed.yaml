@@ -28418,8 +28418,13 @@
   platform: netflix
   url: https://www.netflix.com/title/80187223
   dub: true
+  dubRanges:
+    - from: 89
+      to: 90
+      dub: true
+      checked: [89, 90]
   checkedAt: '2026-10-12'
-  note: "Folgen 1–26 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], tr|Türkisch, ru|Russisch, nl-BE|Flämisch, fr|Französisch, da|Dänisch, fi|Finnisch, el|Griechisch, hi|Hindi, id|Indonesisch, it|Italienisch, ja|Japanisch, ko|Koreanisch, zh|Mandarin, nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), ro|Rumänisch, sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch, cs|Tschechisch, hu|Ungarisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 26, dazwischen nicht geprüft — Folge 26: Halloween-Gauner – Teil 1 / Halloween-Gauner – Teil 2 — Bereich entfernt 01.11.2026: Folgentitel bestätigt die Verschiebung nicht, Zuordnung bleibt offen"
+  note: "Folgen 1–26 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], tr|Türkisch, ru|Russisch, nl-BE|Flämisch, fr|Französisch, da|Dänisch, fi|Finnisch, el|Griechisch, hi|Hindi, id|Indonesisch, it|Italienisch, ja|Japanisch, ko|Koreanisch, zh|Mandarin, nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), ro|Rumänisch, sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch, cs|Tschechisch, hu|Ungarisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 26, dazwischen nicht geprüft — Folge 26: Halloween-Gauner – Teil 1 / Halloween-Gauner – Teil 2 — Umrechnung: Netflix-Folge 26 „Halloween-Gauner – Teil 1 / Teil 2“ sind unsere Folgen 89 und 90 (Halloween Gauner 1 und 2, Staffel 2); nur diese beiden Folgen sind per Titel belegt"
 - anilistId: 102976
   title: "KonoSuba: God’s Blessing on This Wonderful World! The Movie - Legend of Crimson"
   platform: primevideo
@@ -35766,22 +35771,37 @@
   platform: netflix
   url: https://www.netflix.com/title/81687083
   dub: true
+  dubRanges:
+    - from: 23
+      to: 31
+      dub: true
+      checked: [23, 24, 25, 26, 27, 28, 29, 30, 31]
   checkedAt: '2026-10-15'
-  note: "Folgen 1–10 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], tr|Türkisch, it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), ar|Arabisch, da|Dänisch, id|Indonesisch, ms|Malaiisch, zh|Mandarin, nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — Gemessen in der Randprobe — gemessen: Folge 1 und 10, dazwischen nicht geprüft — Folge 10: Folge 10 — Netflix: Staffel 2 — Bereich entfernt 01.11.2026: Folgentitel bestätigt die Verschiebung nicht, Zuordnung bleibt offen"
+  note: "Folgen 1–10 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], tr|Türkisch, it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), ar|Arabisch, da|Dänisch, id|Indonesisch, ms|Malaiisch, zh|Mandarin, nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — Gemessen in der Randprobe — gemessen: Folge 1 und 10, dazwischen nicht geprüft — Folge 10: Folge 10 — Netflix: Staffel 2 — Umrechnung: Netflix-Staffel 2 (10 Folgen) = unsere Staffel 2 (9 Folgen, 23–31, davor Staffel 1 mit 22): JustWatch führt Netflix an Staffel 2 mit 10 Folgen, unsere Liste fasst „Die Geschichte von Witwicky (1) / (2)“ zu einer Folge zusammen"
 - anilistId: -157747
   title: "Transformers: EarthSpark"
   platform: netflix
   url: https://www.netflix.com/title/81687083
   dub: true
+  dubRanges:
+    - from: 32
+      to: 38
+      dub: true
+      checked: [32, 33, 34, 35, 36, 37, 38]
   checkedAt: '2026-10-15'
-  note: "Folgen 1–8 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], tr|Türkisch, it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), ar|Arabisch, da|Dänisch, id|Indonesisch, ms|Malaiisch, zh|Mandarin, zh-TW|Mandarin (Guoyu), nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — Gemessen in der Randprobe — gemessen: Folge 1 und 8, dazwischen nicht geprüft — Folge 8: Folge 8 — Netflix: Staffel 3 — Bereich entfernt 01.11.2026: Folgentitel bestätigt die Verschiebung nicht, Zuordnung bleibt offen"
+  note: "Folgen 1–8 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], tr|Türkisch, it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), ar|Arabisch, da|Dänisch, id|Indonesisch, ms|Malaiisch, zh|Mandarin, zh-TW|Mandarin (Guoyu), nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — Gemessen in der Randprobe — gemessen: Folge 1 und 8, dazwischen nicht geprüft — Folge 8: Folge 8 — Netflix: Staffel 3 — Umrechnung: Netflix-Staffel 3 (8 Folgen) = unsere Staffel 3 (7 Folgen, 32–38, davor 22 und 9): JustWatch führt Netflix an Staffel 3 mit 8 Folgen, unsere Liste fasst „Der Jüngste Tag“ (1) / (2) zu einer Folge zusammen"
 - anilistId: -155780
   title: "Hier kommen die Batwheels"
   platform: netflix
   url: https://www.netflix.com/title/81687176
   dub: true
+  dubRanges:
+    - from: 38
+      to: 74
+      dub: true
+      checked: [38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74]
   checkedAt: '2026-10-15'
-  note: "Folgen 1–20 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original] — Gemessen in der Randprobe — gemessen: Folge 1 und 20, dazwischen nicht geprüft — Folge 20: Ein kleiner Besucher / Bibi und die böse Saat — Bereich entfernt 01.11.2026: Folgentitel bestätigt die Verschiebung nicht, Zuordnung bleibt offen"
+  note: "Folgen 1–20 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original] — Gemessen in der Randprobe — gemessen: Folge 1 und 20, dazwischen nicht geprüft — Folge 20: Ein kleiner Besucher / Bibi und die böse Saat — Umrechnung: Netflix-Staffel 2 (20 Einträge mit je zwei Folgentiteln) = unsere Staffel 2 (37 Folgen, 38–74): Netflix-Folge 2 „Kittys Pyjamaparty / Mission: Stofftier“ = Kitty's Sleepover / Mission: Stuffed Animal (e3/e4), Folge 20 „Ein kleiner Besucher / Bibi und die böse Saat“ endet bei Bibi and the Bad Seed (e37)"
 - anilistId: -93588
   title: "Lukas, die Spinne"
   platform: netflix
