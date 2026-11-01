@@ -12,8 +12,8 @@ export type Urteil = 'ok' | 'tot' | 'nichtauskunft'
 
 const QUELL_SCHLUESSEL = new Set(['sources', 'source', 'quelle'])
 
-/** Hosts, die ohne Browser immer 403 liefern (Crunchyroll, ADN) oder nie abgerufen werden (aniSearch). */
-const AUSGELASSEN = [/(^|\.)crunchyroll\.com$/, /(^|\.)animationdigitalnetwork\.(com|de)$/, /(^|\.)anisearch\.[a-z]+$/]
+/** Hosts, die ohne Browser immer 403 liefern (Crunchyroll, ADN) oder nie aus der CI abgerufen werden (aniSearch; Netflix: robots Disallow, F97). */
+const AUSGELASSEN = [/(^|\.)crunchyroll\.com$/, /(^|\.)animationdigitalnetwork\.(com|de)$/, /(^|\.)anisearch\.[a-z]+$/, /(^|\.)netflix\.com$/]
 
 /** Ob eine Adresse nicht abgerufen wird: Ausnahme-Host oder keine http(s)-Adresse. */
 export function wirdAusgelassen(adresse: string): boolean {

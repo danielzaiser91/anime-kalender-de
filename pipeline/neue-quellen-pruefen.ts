@@ -29,11 +29,20 @@ function textAm(wurzel: string, ref: string, datei: string): string | null {
 }
 
 /** Neue Beleg-Adressen aller geänderten oder neuen YAML-Dateien gegenüber `basis`. */
-export function sammleNeue(wurzel: string, basis: string): NeueQuelle[] {
+export function sammleNeue(wurzel: string, basis: string): { neue: NeueQuelle[]; kaputt: string[] } {
   const dateien = git(wurzel, ['diff', '--name-only', '--no-renames', '--diff-filter=AM', basis, 'HEAD', '--', ...ORDNER])
     .split('\n')
     .filter((d) => d.endsWith('.yaml'))
-  return dateien.flatMap((d) => neueQuellen(d, textAm(wurzel, basis, d), textAm(wurzel, 'HEAD', d) ?? ''))
+  const neue: NeueQuelle[] = []
+  const kaputt: string[] = []
+  for (const d of dateien) {
+    try {
+      neue.push(...neueQuellen(d, textAm(wurzel, basis, d), textAm(wurzel, 'HEAD', d) ?? ''))
+    } catch (e) {
+      kaputt.push(`${d}: ${String((e as Error).message).split('\n')[0]}`)
+    }
+  }
+  return { neue, kaputt }
 }
 
 /** Statuscode der Adresse (eine GET-Anfrage, Weiterleitungen gefolgt); `null` bei Zeitüberschreitung oder Netzfehler. */
@@ -58,13 +67,16 @@ function zeile(b: Befund): string {
 
 /** Fährt die Prüfung; Rückgabe 1 bei mindestens einer toten Adresse. */
 export async function main(wurzel: string, basis: string, abruf = statusVon): Promise<number> {
-  const befunde = await pruefeQuellen(sammleNeue(wurzel, basis), abruf, MAX_ABRUFE)
+  const { neue, kaputt } = sammleNeue(wurzel, basis)
+  for (const k of kaputt) console.log(`✖ YAML nicht lesbar: ${k}`)
+  const befunde = await pruefeQuellen(neue, abruf, MAX_ABRUFE)
   for (const b of befunde) console.log(zeile(b))
   const zaehle = (u: Befund['urteil']) => befunde.filter((b) => b.urteil === u).length
+  if (zaehle('ungeprueft') > 0) console.log(`::warning::check-neue-quellen: ${zaehle('ungeprueft')} neue Adressen ungeprüft (Grenze ${MAX_ABRUFE} Abrufe), bitte von Hand abrufen`)
   console.log(
     `check-neue-quellen: ${befunde.length} neue Adressen, ok ${zaehle('ok')}, tot ${zaehle('tot')}, Nichtauskunft ${zaehle('nichtauskunft')}, ausgelassen ${zaehle('ausgelassen')}, ungeprüft ${zaehle('ungeprueft')}`,
   )
-  return zaehle('tot') > 0 ? 1 : 0
+  return zaehle('tot') > 0 || kaputt.length > 0 ? 1 : 0
 }
 
 if (import.meta.url === pathToFileURL(process.argv[1]).href) {

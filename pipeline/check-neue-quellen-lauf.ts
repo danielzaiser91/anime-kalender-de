@@ -100,7 +100,17 @@ try {
   const viele = Array.from({ length: 25 }, (_, i) => `https://x.test/n${i}`).join(', ')
   kopf(`- slug: a\n  sources: [https://x.test/alt, ${viele}]\n`, '- slug: d\n  quelle: https://x.test/dub-alt\n')
   r = lauf()
-  pruefe('Maximum 20 Abrufe', r.status === 0 && r.gefragt.length === 20 && r.ausgabe.includes('ungeprüft 5'), { s: r.status, n: r.gefragt.length })
+  pruefe('Maximum 20 Abrufe', r.status === 0 && r.gefragt.length === 20 && r.ausgabe.includes('ungeprüft 5') && r.ausgabe.includes('::warning::check-neue-quellen: 5 neue Adressen ungeprüft'), { s: r.status, n: r.gefragt.length })
+
+  // 7. Netflix-Adresse: nie angefragt (robots Disallow, F97)
+  kopf(`- slug: a\n  sources: [https://x.test/alt, ${viele}, https://www.netflix.com/title/82012956]\n`, '- slug: d\n  quelle: https://x.test/dub-alt\n')
+  r = lauf()
+  pruefe('Netflix: Exit 0, keine Anfrage', r.status === 0 && r.gefragt.length === 0 && r.ausgabe.includes('ausgelassen 1'), { s: r.status, g: r.gefragt })
+
+  // 8. Kaputtes YAML im Kopf: rot, mit Dateiname
+  kopf('- slug: a\n  sources: [https://x.test/alt\n  kaputt: : :\n', '- slug: d\n  quelle: https://x.test/dub-alt\n')
+  r = lauf()
+  pruefe('kaputtes YAML: Exit 1 mit Dateiname', r.status === 1 && r.ausgabe.includes(`YAML nicht lesbar: ${KINO}`), { s: r.status, a: r.ausgabe.slice(-300) })
 } finally {
   rmSync(tmp, { recursive: true, force: true })
 }

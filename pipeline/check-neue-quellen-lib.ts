@@ -45,9 +45,9 @@ const erwartet: [number | null, string][] = [[200, 'ok'], [301, 'ok'], [404, 'to
 for (const [status, soll] of erwartet) pruefe(`Status ${status} ergibt ${soll}`, urteilVon(status) === soll, urteilVon(status))
 
 // Ausgelassene Hosts
-for (const a of ['https://www.anisearch.de/anime/1', 'https://cdn.anisearch.com/x.jpg', 'https://www.crunchyroll.com/de/series/x', 'https://animationdigitalnetwork.com/de/video/1', 'ftp://x.test/y', 'kein url'])
+for (const a of ['https://www.anisearch.de/anime/1', 'https://www.netflix.com/title/82012956', 'https://netflix.com/title/1', 'https://cdn.anisearch.com/x.jpg', 'https://www.crunchyroll.com/de/series/x', 'https://animationdigitalnetwork.com/de/video/1', 'ftp://x.test/y', 'kein url'])
   pruefe(`ausgelassen: ${a}`, wirdAusgelassen(a))
-for (const a of ['https://www.anime2you.de/news/1', 'https://uci-kinowelt.de/x', 'https://notanisearch.de/x', 'https://crunchyroll.com.beispiel.test/x'])
+for (const a of ['https://www.anime2you.de/news/1', 'https://uci-kinowelt.de/x', 'https://notanisearch.de/x', 'https://www.whats-on-netflix.com/x', 'https://crunchyroll.com.beispiel.test/x'])
   pruefe(`nicht ausgelassen: ${a}`, !wirdAusgelassen(a))
 
 // Ablauf: aniSearch ohne Abruf, Maximum zählt nur Abrufe, Doppelte nur einmal
