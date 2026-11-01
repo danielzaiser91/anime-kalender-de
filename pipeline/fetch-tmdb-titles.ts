@@ -18,7 +18,7 @@ import { loadEnv, log, readJson, warn, writeJson } from './lib/util.ts'
 import type { TmdbOffer } from './lib/tmdb.ts'
 import { recordSource } from './lib/health.ts'
 import { findeGeteilteHauptserien, streicheZuordnungen } from './lib/tmdb-hauptserie.ts'
-import { inhaltsStand, streicheAbgelaufenes, STREICH_TAGE } from './lib/tmdb-ablauf.ts'
+import { nachAbruf, streicheAbgelaufenes, STREICH_TAGE } from './lib/tmdb-ablauf.ts'
 import { lookup } from './lib/tmdb-titel-lookup.ts'
 import { uebernimmVonHand } from './lib/tmdb-von-hand.ts'
 import { faelligeTitel } from './lib/tmdb-faellig.ts'
@@ -103,12 +103,6 @@ function speichereOhneGeteilteHauptserien(cache: Record<string, TmdbTitle>, titl
   streicheZuordnungen(cache, geteilt, new Date().toISOString())
   if (geteilt.length) log(`${geteilt.length} Special(s)/OVA(s)/ONA(s) ohne Hauptserien-Kennung: ${geteilt.join(', ')}`)
   writeJson(CACHE_PATH, cache)
-}
-
-/** Der Eintrag nach einem Abruf; ein Fehltreffer lässt den Inhalt stehen und trägt dessen echtes Alter (`inhaltAm`) mit. */
-function nachAbruf(vorher: TmdbTitle | undefined, neu: TmdbTitle, jetzt: string): TmdbTitle {
-  if (neu.miss && vorher?.tmdbId) return { ...vorher, inhaltAm: inhaltsStand(vorher), fetchedAt: jetzt }
-  return { ...neu, inhaltAm: jetzt, fetchedAt: jetzt }
 }
 
 /** TMDB-API-Bedingungen: Inhalte höchstens 6 Monate behalten (`lib/tmdb-ablauf.ts`). */

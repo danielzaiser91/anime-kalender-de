@@ -56,10 +56,16 @@ writeFileSync(
 )
 const skript = fileURLToPath(new URL('./fetch-crunchyroll-neu.ts', import.meta.url))
 let nummer = 0
-function lauf(name: string, seiten: unknown[][], vorhanden: string[], argumente: string[] = []) {
+function lauf(name: string, seiten: unknown[][], vorhanden: string[], argumente: string[] = [], ohneDatum: string[] = []) {
   const ordner = join(wurzel, `${++nummer}-${name}`)
   mkdirSync(join(ordner, 'data'), { recursive: true })
-  const folgen = vorhanden.map((guid) => ({ guid, serieId: 'GT00371866', serie: 'S', verfuegbarAb: '2026-10-26T14:30:00.000Z', gesehenAm: '2999-01-01' }))
+  const folgen = vorhanden.map((guid) => ({
+    guid,
+    serieId: 'GT00371866',
+    serie: 'S',
+    ...(ohneDatum.includes(guid) ? {} : { verfuegbarAb: '2026-10-26T14:30:00.000Z' }),
+    gesehenAm: '2999-01-01',
+  }))
   writeFileSync(join(ordner, 'data', 'crunchyroll-neu.json'), JSON.stringify({ geholtAm: '', folgen }))
   const log = join(ordner, 'abrufe.log')
   const seitenDatei = join(ordner, 'seiten.json')
@@ -72,8 +78,9 @@ function lauf(name: string, seiten: unknown[][], vorhanden: string[], argumente:
   })
   const abrufe = readFileSync(log, 'utf8').split('\n').filter(Boolean).length
   const datei = join(ordner, 'data', 'crunchyroll-neu.json')
-  const gespeichert = existsSync(datei) ? (JSON.parse(readFileSync(datei, 'utf8')).folgen as { guid: string }[]).map((f) => f.guid) : []
-  return { status: r.status, abrufe, gespeichert, ausgabe: r.stdout + r.stderr }
+  const eintraege = existsSync(datei) ? (JSON.parse(readFileSync(datei, 'utf8')).folgen as { guid: string; verfuegbarAb?: string; gesehenAm?: string }[]) : []
+  const gespeichert = eintraege.map((f) => f.guid)
+  return { status: r.status, abrufe, gespeichert, eintraege, ausgabe: r.stdout + r.stderr }
 }
 const sechs = (erste: unknown[]) => [erste, ...Array.from({ length: 5 }, (_, i) => [ja(`J${i}`)])]
 
@@ -93,6 +100,17 @@ const g = lauf('leere-seite', [[de(LAST_BOSS_1)], [], [de('NEU3')]], [PSYREN])
 pruefe('leere zweite Seite beendet das Lesen: zwei Abrufe', g.status === 0 && g.abrufe === 2 && !g.gespeichert.includes('NEU3'), g)
 const h = lauf('verschoben', [[de(LAST_BOSS_1)], [de(LAST_BOSS_1)], [de('SPAET1')], [], [], []], [PSYREN])
 pruefe('Katalog verschiebt sich beim Blättern (dieselbe Folge auf Seite 1 und 2): die in diesem Lauf gefundene zählt als bekannt', h.status === 0 && h.abrufe === 2 && !h.gespeichert.includes('SPAET1'), h)
+/* Das deutsche Verfügbarkeitsdatum (`premium_available_date`) steht an der Folge, neue wie bekannte. */
+const SPAETER = '2027-01-01T00:00:00.000Z'
+const mitDatum = (id: string, datum: string) => ({ ...de(id), episode_metadata: { ...de(id).episode_metadata, premium_available_date: datum } })
+const neuMitDatum = lauf('datum-neu', sechs([de(LAST_BOSS_1)]), [])
+pruefe('neue deutsche Folge: Crunchyrolls Datum steht als verfuegbarAb', neuMitDatum.eintraege.find((f) => f.guid === LAST_BOSS_1)?.verfuegbarAb === '2026-10-26T14:30:00.000Z', neuMitDatum.eintraege)
+const ergaenzt = lauf('datum-ergaenzt', [[de(PSYREN), mitDatum(AOASHI, SPAETER)], [], [], [], [], []], [PSYREN, AOASHI], [], [PSYREN])
+const psyren = ergaenzt.eintraege.find((f) => f.guid === PSYREN)
+const aoashi = ergaenzt.eintraege.find((f) => f.guid === AOASHI)
+pruefe('bekannter Fund ohne Datum: verfuegbarAb wird ergänzt, der Fundtag bleibt', psyren?.verfuegbarAb === '2026-10-26T14:30:00.000Z' && psyren?.gesehenAm === '2999-01-01', psyren)
+pruefe('bekannter Fund mit Datum: das vorhandene Datum bleibt', aoashi?.verfuegbarAb === '2026-10-26T14:30:00.000Z', aoashi)
+pruefe('die Ergänzung steht im Log (genau ein Fund)', /1 bekannte Funde um ihr deutsches Verfügbarkeitsdatum ergänzt/.test(ergaenzt.ausgabe), ergaenzt.ausgabe)
 pruefe('die Zusammenfassung nennt die gelesenen Seiten', /1 Seiten, 3 Folgen gelesen/.test(a.ausgabe), a.ausgabe)
 
 console.log(verletzt ? `\n${verletzt} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')

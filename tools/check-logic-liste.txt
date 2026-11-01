@@ -7,6 +7,7 @@ pipeline/check-09-4-2-bloecke-laufzeit.ts
 pipeline/check-09-4-3-katalog-laufzeit.ts
 pipeline/check-09-4-4-1-katalog-wege-laufzeit.ts
 pipeline/check-abruf-stempel.ts
+pipeline/check-abruf-stoerung-lauf.ts
 pipeline/check-abstand.ts
 pipeline/check-adn-anisearch.ts
 pipeline/check-adn-film.ts
