@@ -313,7 +313,7 @@ in Daniels angemeldeter Sitzung mit einem Klick.
 | Anbieter | Belege | automatisch lesbar? |
 |---|---|---|
 | Netflix | 2.018 | **Ja, technisch** — der Player-Weg vom 26.08.2026 liest je Folge 3,1 s, wenn man die Videosegmente abweist. Braucht eine angemeldete Sitzung, aber **keinen Klick je Folge**. |
-| Prime Video | 982 | **Nein** — 19 namentliche Bot-Blöcke in der robots.txt, `/gp/video/api` ausdrücklich gesperrt. |
+| Prime Video | 982 | **Nein, aus CI nicht** (Stand 01.11.2026): Die Titelseite `/dp/` ist für `*` erlaubt und trägt `audioTracks` je Folge, aber ein GitHub-Runner bekommt ein CAPTCHA (4 von 4 Seiten, `docs/wissen/quellen.md`, „Prime-Titelseite aus einem GitHub-Runner“); `/gp/video/api` bleibt gesperrt. |
 | YouTube | 95 | Ja, läuft (oEmbed plus Videotitel-Muster) |
 | Disney+ | 74 | **Ja** — der POST an `disney.playback.edge.bamgrid.com` liefert acht Tonspuren ohne Player, ohne DRM, ohne ein Videosegment |
 | Crunchyroll | 63 | Ja, läuft (deutscher Katalog je Folge) |
