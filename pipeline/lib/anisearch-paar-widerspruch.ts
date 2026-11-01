@@ -1,6 +1,6 @@
 /**
  * Widerspricht ein Paar der aniSearch-Brücke (MAL → aniSearch-Seite) den Merkmalen des Titels? Gemessen am Bestand vom 01.11.2026 (5.283 Paare mit Titel
- * und Seiteneintrag): bei 14 verband die Brücke zwei verschiedene Werke (Voidoll irregular ↔ #Compass, Ga no Iru Tokoro ↔ Thinking and Drawing …).
+ * und Seiteneintrag): bei 4 verband die Brücke zwei verschiedene Werke (Voidoll irregular ↔ #Compass, Ga no Iru Tokoro ↔ Thinking and Drawing …).
  * Als widersprüchlich gilt ein Paar nur, wenn die Namen nichts gemeinsam haben UND Jahr oder Folgenzahl auseinanderliegen; Umschriftunterschiede
  * allein (Hone Kami / Honekami, Pinyin getrennt / zusammen) genügen nie.
  */

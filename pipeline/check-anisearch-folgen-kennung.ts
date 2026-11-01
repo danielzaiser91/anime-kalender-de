@@ -32,7 +32,7 @@ const dateien: Record<string, unknown> = {
 /* Kulisse prüft den Pfad: ein unbekannter Pfad ist ein Fehler, keine leere Antwort wie bei `readJson`. */
 const lies = ((pfad: string, rueck: unknown) => {
   if (pfad in dateien) return dateien[pfad]
-  if (['data/tmdb-folgen.json', 'data/rtlplus-folgen.json', 'data/wikipedia-folgen.json'].includes(pfad)) return rueck
+  if (['data/tmdb-folgen.json', 'data/rtlplus-folgen.json', 'data/wikipedia-folgen.json', 'data/anisearch-mal-verworfen.json'].includes(pfad)) return rueck
   throw new Error(`unerwarteter Pfad ${pfad}`)
 }) as never
 
