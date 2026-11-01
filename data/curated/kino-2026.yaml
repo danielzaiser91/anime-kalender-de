@@ -16,7 +16,7 @@
   releaseType: movie
   publisher: "Film Verleih Gruppe / Tonkatsu Pictures"
   schedule: { firstEpisodeDate: "2026-07-28" }
-  sources: [https://www.anime2you.de/news/1034477/venus-wars-2k-remaster-im-kino/]
+  sources: [https://www.anime2you.de/news/1034477/venus-wars-2k-remaster-im-kino/, https://uci-kinowelt.de/aktion-und-news/venus-wars/7292]
 
 - slug: chihiro-jubilaeum-kino-2026
   anilistId: 199
