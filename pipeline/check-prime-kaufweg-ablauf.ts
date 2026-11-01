@@ -12,6 +12,7 @@ const wurzel = mkdtempSync(join(tmpdir(), 'prime-kaufweg-'))
 process.env.AK_ROOT = wurzel
 mkdirSync(join(wurzel, 'data', 'curated'), { recursive: true })
 writeFileSync(join(wurzel, 'data', 'kino-ankuendigungen.yaml'), '[]\n')
+writeFileSync(join(wurzel, 'data', 'shop-wege-falsches-ziel.yaml'), '[]\n')
 
 const angebote = (n: number) => [
   { anbieter: 'Amazon Video', art: 'BUY', audio: ['de', 'ja'], untertitel: [], url: `https://watch.amazon.de/detail?gti=amzn1.dv.gti.0000000${n}-0000-0000-0000-000000000000` },
