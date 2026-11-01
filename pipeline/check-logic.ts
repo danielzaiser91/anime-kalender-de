@@ -5377,7 +5377,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   /* Die Kanal-Gegenprobe fragt jwFrisch: frische Antwort → 1 zur Handprüfung, `check-kanal-gegenprobe-lauf.ts`. */
   pruefe(
     'Crunchyroll-Nachprüfung fragt jwFrisch',
-    (readFileSync('pipeline/fetch-crunchyroll-offene.ts', 'utf8').match(/jwFrisch\(jwEintrag2?, heuteIso\)/g) ?? []).length === 2,
+      (readFileSync('pipeline/fetch-crunchyroll-offene.ts', 'utf8').match(/jwFrisch\(jwEintrag2?, heuteIso\)/g) ?? []).length === 2,
   )
 }
 /* Handprüfung gegen 404/region: check-09-2-linkpruefung-laufzeit.ts, check-hand-gesehen.ts, check-tote-adressen-lauf.ts; Klammerzusatz im Kanalnamen: check-kanal-namen.ts, Verdrahtung check-kanal-gegenprobe-lauf.ts. */
