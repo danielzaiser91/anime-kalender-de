@@ -47,7 +47,8 @@ dort holt ein Pipeline-Schritt die Einträge und trägt sie in `data/dub-confirm
 - **Netflix** — liest über die Player-Schnittstelle (`getAudioTrackList`), ohne dass das
   Sprachmenü aufgeklappt werden muss. Die Erweiterung liest nur auf `/watch/`, sobald eine
   Folge läuft. Angemeldet zeigt die Titelseite keine Sprachen (21.08.2026); ohne Login steht dort
-  `Audio` mit bis zu 6 Sprachen je Serie, nicht je Staffel (01.11.2026, `docs/wissen/quellen.md`).
+  `Audio` mit bis zu 6 Sprachen für den ganzen Titel. Verwertbar nur für Filme; Serien erst mit Synchro
+  je Folge (01.11.2026, `docs/wissen/quellen.md`).
 - **Crunchyroll, Prime Video** — der Rahmen steht, die Leseroutine fehlt. Crunchyroll braucht
   sie ohnehin nicht: Dort liefert die eigene Content-API die Auskunft je Folge.
 
