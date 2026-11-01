@@ -15,6 +15,7 @@ import { bewerte, neueEintraege, neueVorratEintraege } from './check-patchnotes-
 import { anhebungRot } from './extension-version.mjs'
 import { listenEintraege, listenFehler } from './liste-pruefen.mjs'
 import { leerraumRot } from './lib/leerraum-diff.mjs'
+import { ankerRot } from './mutationsanker.mjs'
 
 const PRUEFLISTEN = ['tools/check-logic-liste.txt', 'tools/check-bestand-liste.txt']
 
@@ -89,11 +90,11 @@ export function pruefeDateien({ dateien, text, zweig }) {
 }
 
 /** Gesamturteil über alle mechanischen Regeln (ohne Umfang, der läuft als eigener Prozess). */
-export function vorpruefe({ dateien, neu, vorrat = [], text, zweig, existiert, titel = '' }) {
+export function vorpruefe({ dateien, neu, vorrat = [], text, zweig, existiert, titel = '', lies }) {
   const patch = bewerte({ dateien, neu, vorrat, beschreibung: text, zweig, titel })
   const t = pruefeText({ dateien, text, existiert })
   const d = pruefeDateien({ dateien, text, zweig })
-  const rot = [...(patch.ok ? [] : [`Patch-Notes-Pflicht: ${patch.grund}`]), ...t.rot, ...d.rot]
+  const rot = [...(patch.ok ? [] : [`Patch-Notes-Pflicht: ${patch.grund}`]), ...t.rot, ...d.rot, ...ankerRot(dateien ?? [], lies)]
   return { rot, gelb: t.gelb }
 }
 
