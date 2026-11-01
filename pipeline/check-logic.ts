@@ -3849,14 +3849,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     Eine Warnung, die zuverlässig zu Unrecht kommt, ist schlimmer als keine —
     man hört auf hinzusehen, und die echte Störung geht darin unter.
   */
-  {
-    const wache = readFileSync('pipeline/lib/bestand-delta.ts', 'utf8')
-    pruefe(
-      'die Wache rechnet begründet entfernte Verweise heraus',
-      wache.includes('entferntProtokolliert') && wache.includes('wegUnerklaert'),
-      'sonst meldet sie den Normalfall als Verlust',
-    )
-  }
+  /* Die Wache rechnet begründet entfernte Verweise heraus: `check-bestand-delta-entfernt.ts`. */
   /*
     Der Katalog legt einen Weg an, nicht nur ein Urteil („Kill Blue", 06.09.2026): `check-09-4-4-1-katalog-wege-laufzeit.ts`.
     Die Katalog-Runde greift nur bei einer Staffel und mit Folgen (Free! führt neun unter einer Kennung):
@@ -5480,12 +5473,7 @@ pruefe(
 }
 /* Mob Psycho 100 III auf Prime: Lücken aus einer Kanal-Meldung sind kein Beleg (17.09.2026). */
 {
-  const lesen = readFileSync('pipeline/lib/dub-confirmed.ts', 'utf8')
-  pruefe(
-    'Kanal-Belege verlieren beim Einlesen ihre Nein-Bereiche',
-    /const kanalMitLuecken =/.test(lesen) && /dubRanges: eintrag\.dubRanges!\.filter\(\(r\) => r\.dub\)/.test(lesen),
-    'Zickzack-Lücken aus Crunchyroll-Kanal-Seiten erscheinen wieder als „✕ DE" an der Prime-Pille',
-  )
+  /* Kanal-Belege verlieren beim Einlesen ihre Nein-Bereiche: `check-kanal-luecken-lader.ts`. */
 }
 /* Captain Tsubasa 2018: jede Crunchyroll-Runde, die ein Ja setzt, fragt die laufende Nummer (17.09.2026). */
 {
@@ -5496,13 +5484,7 @@ pruefe(
     (bau.match(/if \(deutscheFolgenNachDemEnde\(/g) ?? []).length === 2,
     'eine Bereichsübertragung schreibt wieder „Fg. 1–39" an Captain Tsubasa 2018',
   )
-  pruefe(
-    'ein Kapitel-Nein entsteht nur aus dem deutschen Katalog',
-    /return deutsch \|\| serie\.katalog === 'de' \? deutsch : undefined/.test(
-      readFileSync('pipeline/lib/crunchyroll-dub.ts', 'utf8'),
-    ),
-    'die Kapitel-Runde verneint auch aus dem US-Katalog',
-  )
+  /* Ein Kapitel-Nein entsteht nur aus dem deutschen Katalog: `check-kapitel-katalog.ts`. */
   pruefe(
     '… und läuft auch in der Nachrunde für frisch ergänzte Verweise',
     (bau.match(/kapitelImBlock\(serie, title\)/g) ?? []).length === 2,
@@ -5552,11 +5534,7 @@ pruefe(
     '… Platzhalter und mehrdeutige Folgentitel entscheiden nichts',
     anker('Folge 7: Folge 7') === null && anker('Folge 9: Doppelt') === null && anker('keine Folge') === null,
   )
-  const quelltext = readFileSync('pipeline/lib/meldungen-verteilen.ts', 'utf8')
-  pruefe(
-    '… und der Import fragt ihn vor der Zählung',
-    quelltext.indexOf('folgeUeberTitel(') > 0 && quelltext.indexOf('folgeUeberTitel(') < quelltext.indexOf('ordneMeldungZuPlattform('),
-  )
+  /* Der Import fragt ihn vor der Zählung: `check-verteile-folgentitel.ts`. */
 }
 {
   /* Erinnerung nur in der Einzeldatei, nie in den Sammelfeeds (18.09.2026). */
