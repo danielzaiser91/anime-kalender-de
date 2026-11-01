@@ -220,6 +220,7 @@ pipeline/check-kalender-plausibilitaet.ts
 pipeline/check-kanal-abgehakt.ts
 pipeline/check-kanal-aussortieren.ts
 pipeline/check-kanal-erbt.ts
+pipeline/check-kanal-gegenprobe-lauf.ts
 pipeline/check-kanal-ja-sprach-termin.ts
 pipeline/check-kanal-je-seite.ts
 pipeline/check-kanal-leser.ts

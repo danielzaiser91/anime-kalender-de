@@ -5387,11 +5387,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
       (readFileSync('pipeline/fetch-crunchyroll-offene.ts', 'utf8').match(/jwFrisch\(jwEintrag2?, heuteIso\)/g) ?? []).length === 2,
   )
 }
-/* Handprüfung gegen 404/region: check-09-2-linkpruefung-laufzeit.ts, check-hand-gesehen.ts, check-tote-adressen-lauf.ts; Klammerzusatz im Kanalnamen: check-kanal-namen.ts. */
-pruefe(
-  'die Kanal-Gegenprobe holt die Kanalnamen aus kanalNamen() (Verdrahtung; Skript ohne Prozess-Kulisse)',
-  readFileSync('pipeline/kanal-gegenprobe.ts', 'utf8').includes('kanalNamen(b.note)'),
-)
+/* Handprüfung gegen 404/region: check-09-2-linkpruefung-laufzeit.ts, check-hand-gesehen.ts, check-tote-adressen-lauf.ts; Klammerzusatz im Kanalnamen: check-kanal-namen.ts, Verdrahtung check-kanal-gegenprobe-lauf.ts. */
 /* JustWatch bei Titeln mit Wegen: nur digitale Angebote (17.09.2026). */
 pruefe(
   'JustWatch ergänzt bei Titeln mit Wegen keine Disc-Händler und keine Kinos',
