@@ -21,6 +21,8 @@ function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
 
 console.log('\nNamen:')
 pruefe('Honekami / Hone Kami: zusammengeschrieben ähnlich', namenAehneln('Honekami', 'Hone Kami'))
+pruefe('Fate / Fatezero: kurzer Name steckt zusammengeschrieben im langen', namenAehneln('Fate', 'Fatezero'))
+pruefe('ein gemeinsames Wort von drei Buchstaben genügt (Gan Aaa Zzz / Gan Bbb Yyy)', namenAehneln('Gan Aaa Zzz', 'Gan Bbb Yyy'))
 pruefe('Voidoll irregular / #Compass: nichts gemeinsam', !namenAehneln('Voidoll irregular', '#Compass'))
 pruefe('Partikel „no“ allein verbindet nicht (Ga no Iru Tokoro / Nihon no Shinseiki)', !namenAehneln('Ga no Iru Tokoro', 'Thinking and Drawing: Nihon no Shinseiki Art Animation'))
 pruefe('zu kurzer Rest („Ani“ in „Anime“) zählt nicht als zusammengeschrieben', !namenAehneln('Ani', 'Anime Gataris'))
@@ -37,6 +39,8 @@ pruefe('Namen verschieden, Jahr ±1 und Folgen gleich: kein Widerspruch', !paarW
 pruefe('Namen verschieden, nur Folgen verschieden: Widerspruch', paarWiderspricht(t(['Aaa Bbb'], 2020, 12), t(['Ccc Ddd'], 2020, 13)))
 pruefe('Namen verschieden, Jahr genau 2 auseinander, Folgen gleich: Widerspruch', paarWiderspricht(t(['Aaa Bbb'], 2020, 12), t(['Ccc Ddd'], 2022, 12)))
 pruefe('Namen verschieden, Merkmale fehlen: kein Widerspruch', !paarWiderspricht({ names: ['Aaa Bbb'] }, { names: ['Ccc Ddd'] }))
+pruefe('Gan to Gon (1971, 260) ↔ Gan to Gon (1974, 65): gleicher Name trotz Jahr und Folgen, kein Widerspruch', !paarWiderspricht(t(['Gan to Gon'], 1971, 260), t(['Gan to Gon'], 1974, 65)))
+pruefe('Jahr 0 der Seite („unbekannt“, SK8 (TV)) zählt nicht als Jahr', !paarWiderspricht(t(['Aaa Bbb'], 2020, 12), { names: ['Ccc Ddd'], jahr: 0, folgen: 12 }))
 pruefe('ein Name des Titels passt zu irgendeinem der Seite (Englisch): kein Widerspruch', !paarWiderspricht(t(['Xxx Yyy', 'Star Wars Visions'], 2020, 1), t(['Zzz Qqq', 'Star Wars Visions'], 2025, 9)))
 pruefe('ohne Namen auf einer Seite: kein Widerspruch', !paarWiderspricht({ names: [], jahr: 2000, folgen: 1 }, t(['Aaa Bbb'], 2020, 9)))
 
@@ -58,10 +62,10 @@ const lies = (<T>(pfad: string, fallback: T): T => (dateien[pfad.split('/').pop(
 const titel = [{ id: 900_001, mal: 38603 }, { id: 900_002, mal: 8409 }, { id: 900_003, mal: 40568 }]
 const k = anisearchKennungen(titel, lies)
 pruefe('Bau: verworfenes Paar gibt dem Titel keine Kennung, die übrigen Paare gelten', !k.has(900_001) && k.get(900_002) === 9_000_002 && k.get(900_003) === 9_000_003, [...k])
-const fest = { 'anisearch.json': { 900_011: { anisearchId: 9_000_011 }, 900_012: { anisearchId: 9_000_012 } }, 'anisearch-titel.json': { 900_013: { anisearchId: 9_000_013 } }, 'anisearch-mal-verworfen.json': { 5: { anisearch: 9_000_011, anilist: 900_011, grund: 'Probe' }, 6: { anisearch: 9_000_013, anilist: 900_013, grund: 'Probe' } } }
+const fest = { 'anisearch.json': { 900_011: { anisearchId: 9_000_011 }, 900_012: { anisearchId: 9_000_012 } }, 'anisearch-titel.json': { 900_013: { anisearchId: 9_000_013 }, 900_014: { anisearchId: 9_000_014 } }, 'anisearch-mal-verworfen.json': { 5: { anisearch: 9_000_011, anilist: 900_011, grund: 'Probe' }, 6: { anisearch: 9_000_013, anilist: 900_013, grund: 'Probe' } } }
 const festLies = (<T>(pfad: string, fallback: T): T => (fest[pfad.split('/').pop()! as keyof typeof fest] as T | undefined) ?? fallback) as typeof readJson
 const feste = baueFesteKennungen(festLies)
-pruefe('Feste Kennungen: verworfene Seite fällt in beiden Abrufdateien weg, die übrige bleibt', !feste.has(900_011) && !feste.has(900_013) && feste.get(900_012) === 9_000_012, [...feste].filter(([i]) => i > 900_000))
+pruefe('Feste Kennungen: verworfene Seite fällt in beiden Abrufdateien weg, die übrige bleibt', !feste.has(900_011) && !feste.has(900_013) && feste.get(900_012) === 9_000_012 && feste.get(900_014) === 9_000_014, [...feste].filter(([i]) => i > 900_000))
 dateien['anisearch-mal-verworfen.json'] = {}
 pruefe('Bau ohne Streichliste: dasselbe Paar gilt (die Streichung wirkt wirklich)', anisearchKennungen(titel, lies).get(900_001) === 9_000_001)
 
