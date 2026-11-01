@@ -434,6 +434,7 @@
         "claude-wache-urteil.yml",
         "delta-wache.yml",
         "fund-nachliefern.yml",
+        "pr-pruefer-nachtrag.yml",
         "pr-pruefer.yml",
         "wecker-wache.yml"
       ],

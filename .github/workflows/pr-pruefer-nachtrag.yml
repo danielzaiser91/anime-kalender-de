@@ -1,0 +1,44 @@
+name: PR-Prüfer — Neustart bei Nachtrag
+
+# Ein Kommentar „Nachtrag…“/„Nachbesserung…“ eines Berechtigten auf einem offenen PR startet den CI-Prüfer (pr-pruefer.yml)
+# für den aktuellen Kopf neu; ein laufender Prüfer-Lauf wird vorher abgebrochen. Vorher musste der Bauer
+# `gh run rerun` von Hand anstoßen (Fälle 1585 R2, 2284, 2289: Prüfer urteilte ohne Nachtrag).
+# pr-pruefer.yml selbst bleibt unverändert; die Entscheidung trifft tools/pr-pruefer-neustart.mjs (Skript aus main).
+# `issue_comment` läuft mit Repo-Rechten in der Fassung von main: der Kommentartext geht nur über `env`, nie in `run:`,
+# und es wird kein PR-Code ausgeführt oder ausgecheckt.
+
+on:
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: read
+  pull-requests: read
+  # actions: write nur für `gh run cancel` und `gh run rerun` des Prüfer-Laufs.
+  actions: write
+
+# Ein Neustart je PR zur Zeit; ein wartender wird vom neueren ersetzt (der neue liest ohnehin alle Kommentare).
+concurrency:
+  group: pr-pruefer-nachtrag-${{ github.event.issue.number }}
+  cancel-in-progress: false
+
+jobs:
+  neustart:
+    name: Prüfer neu starten
+    # Kommentare auf Issues und die des Prüfers selbst starten nichts (keine Schleife).
+    if: github.event.issue.pull_request != null && github.event.comment.user.login != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Prüfer neu starten
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMMER: ${{ github.event.issue.number }}
+          KOMMENTAR: ${{ github.event.comment.body }}
+          KOMMENTAR_LOGIN: ${{ github.event.comment.user.login }}
+          KOMMENTAR_ASSOZIATION: ${{ github.event.comment.author_association }}
+        run: node tools/pr-pruefer-neustart.mjs
