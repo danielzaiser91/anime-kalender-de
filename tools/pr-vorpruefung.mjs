@@ -11,7 +11,7 @@ import { execFileSync } from 'node:child_process'
 import { existsSync, readFileSync } from 'node:fs'
 import { basename } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { bewerte, neueEintraege } from './check-patchnotes-pflicht.mjs'
+import { bewerte, neueEintraege, neueVorratEintraege } from './check-patchnotes-pflicht.mjs'
 import { anhebungRot } from './extension-version.mjs'
 import { listenEintraege, listenFehler } from './liste-pruefen.mjs'
 import { leerraumRot } from './lib/leerraum-diff.mjs'
@@ -89,8 +89,8 @@ export function pruefeDateien({ dateien, text, zweig }) {
 }
 
 /** Gesamturteil über alle mechanischen Regeln (ohne Umfang, der läuft als eigener Prozess). */
-export function vorpruefe({ dateien, neu, text, zweig, existiert }) {
-  const patch = bewerte({ dateien, neu, beschreibung: text, zweig })
+export function vorpruefe({ dateien, neu, vorrat = [], text, zweig, existiert }) {
+  const patch = bewerte({ dateien, neu, vorrat, beschreibung: text, zweig })
   const t = pruefeText({ dateien, text, existiert })
   const d = pruefeDateien({ dateien, text, zweig })
   const rot = [...(patch.ok ? [] : [`Patch-Notes-Pflicht: ${patch.grund}`]), ...t.rot, ...d.rot]
@@ -160,6 +160,7 @@ function main() {
   const urteil = vorpruefe({
     dateien,
     neu: neueEintraege(nameStatus),
+    vorrat: neueVorratEintraege(nameStatus),
     text,
     zweig,
     existiert: existiertIn(bekannt, existsSync),
