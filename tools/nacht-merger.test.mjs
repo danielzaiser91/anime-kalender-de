@@ -76,7 +76,9 @@ pruefe('neutraler Nebencheck stört nicht', ketteStand([...gruen, { name: 'x', s
 pruefe('Nebencheck rot',ketteStand([...gruen, { name: 'Aussehen', status: 'COMPLETED', conclusion: 'FAILURE' }]).grund === 'Check rot: Aussehen')
 pruefe('Nebencheck abgebrochen zählt als rot', !ketteStand([...gruen, { name: 'Aussehen', status: 'COMPLETED', conclusion: 'CANCELLED' }]).gruen)
 pruefe('Pflicht-Check läuft', ketteStand([{ name: 'PR-Prüfkette', status: 'IN_PROGRESS', conclusion: '' }]).grund === 'Check läuft noch: PR-Prüfkette')
-pruefe('Status-Kontext pending', !ketteStand([...gruen, { __typename: 'StatusContext', context: 'extern', state: 'PENDING' }]).gruen)
+pruefe('Status-Kontext pending: läuft noch, nicht rot', ketteStand([...gruen, { __typename: 'StatusContext', context: 'extern', state: 'PENDING' }]).grund === 'Check läuft noch: extern')
+pruefe('Status-Kontext failure: rot mit Namen', ketteStand([...gruen, { __typename: 'StatusContext', context: 'extern', state: 'FAILURE' }]).grund === 'Check rot: extern')
+pruefe('Pflicht-Check als Status-Kontext zählt über seinen Namen', ketteStand([{ __typename: 'StatusContext', context: 'PR-Prüfkette', state: 'SUCCESS' }]).gruen)
 pruefe('Status-Kontext erfolgreich', ketteStand([...gruen, { __typename: 'StatusContext', context: 'extern', state: 'SUCCESS' }]).gruen)
 
 // --- kandidat ----------------------------------------------------------------------------------------------------
@@ -87,6 +89,8 @@ pruefe('Stufe 2 nie', !wahl({ stufe: 2 }).kandidat && wahl({ stufe: 2 }).grund.i
 pruefe('Stufe unbekannt nie', !wahl({ stufe: undefined }).kandidat && !wahl({ stufe: '1' }).kandidat)
 pruefe('Workflow-Pfad nie', wahl({ pfade: ['web/src/a.tsx', '.github/workflows/x.yml'] }).grund.includes('.github/workflows/x.yml'))
 pruefe('Workflow-Pfad als Umbenennungsursprung nie', !wahl({ pfade: ['docs/neu.md', '.github/workflows/alt.yml'] }).kandidat)
+pruefe('genau eine geänderte Datei genügt', wahl({ geaenderteDateien: 1 }).kandidat)
+pruefe('Ordner mit Workflows als Namensanfang ist erlaubt', wahl({ pfade: ['.github/workflows-alt/a.yml'] }).kandidat)
 pruefe('Ordner ähnlich wie Workflows ist erlaubt', wahl({ pfade: ['.github/actions/einreichen/action.yml'] }).kandidat)
 pruefe('rote Kette nie', !wahl({ checks: [{ name: 'PR-Prüfkette', status: 'COMPLETED', conclusion: 'FAILURE' }] }).kandidat)
 pruefe('wartende Kette nie', !wahl({ checks: [{ name: 'PR-Prüfkette', status: 'QUEUED', conclusion: '' }] }).kandidat)
@@ -247,11 +251,13 @@ pruefe('stufeVon: Müll, Fehler und Text gelten als 2', stufeVon(5, () => 'kaput
     return ''
   }
   const ausgaben = []
-  const w = echteWelt({ trocken: false, gh, stufeAus: () => '{"stufe":1}', repo: 'o/r', zeileAus: (t) => ausgaben.push(t) })
+  const w = echteWelt({ trocken: false, gh, stufeAus: () => '{"stufe":0}', repo: 'o/r', zeileAus: (t) => ausgaben.push(t) })
   const liste = w.offene()
   const voll = w.details(liste[0])
   pruefe('echteWelt: Liste wird abgebildet', liste.length === 1 && liste[0].nummer === 7 && liste[0].beschreibung === '' && liste[0].zweig === 'fix/a' && liste[0].geaenderteDateien === 2)
-  pruefe('echteWelt: Details aus Dateien, Kommentaren, Checks, Stufe', voll.stufe === 1 && voll.pfade.join(',') === 'web/src/a.tsx,docs/alt.md' && voll.kommentare.length === 2 && voll.checks.length === 2)
+  pruefe('echteWelt: Dateiliste fragt auch den Umbenennungsursprung', aufrufe.some((s) => s.includes('/pulls/7/files') && s.includes('previous_filename')))
+  pruefe('echteWelt: Kommentarliste fragt Nutzer, Verband, Zeit und Text', aufrufe.some((s) => s.includes('/issues/7/comments') && s.includes('login: .user.login, assoc: .author_association, at: .created_at, body: .body')))
+  pruefe('echteWelt: Details aus Dateien, Kommentaren, Checks, Stufe', voll.stufe === 0 && voll.pfade.join(',') === 'web/src/a.tsx,docs/alt.md' && voll.kommentare.length === 2 && voll.checks.length === 2)
   pruefe('echteWelt: Auswahlregel nimmt diese Details an', kandidat(voll).kandidat)
   pruefe('echteWelt: kopfVon', w.kopfVon(7) === KOPF)
   const n = w.nachrechnen(7)
