@@ -7602,7 +7602,7 @@ async function speicherSchreiben(werte) {
       in der Signatur.**
     */
     const ladeFristReif = Date.now() - letzterFortschritt > 8000
-    const stand = `${deutsch}|${geladen}|${gesehen.gesamt}|${wartet}|${zahlenStehen}|${freigabeReif}|${ladeFristReif}`
+    const stand = globalThis.akPrimeZeichenStand(deutsch, geladen, gesehen.gesamt, wartet, zahlenStehen, freigabeReif, ladeFristReif, standGeladen)
     if (stand === letzterStand) return
     letzterStand = stand
     try {
