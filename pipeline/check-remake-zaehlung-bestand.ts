@@ -14,6 +14,12 @@ import { melde } from './lib/quarantaene.ts'
 export const BEKANNT_DOPPELT_OHNE_REMAKE = 34
 /** Der Anlassfall: Yaiba (2025) ist die Neuverfilmung von Legendary Brave Swordsman Yaiba (1993) — laut Handliste. */
 const YAIBA = { remake: 177476, original: 2335 }
+/** Die am 01.11.2026 per Handliste nachgezogenen Neuverfilmungen (aniSearch führt sie nur als „Alternative Version"). */
+const NACHGEZOGEN = [
+  { remake: 11061, original: 136, name: 'Hunter × Hunter (2011)', originalName: 'Hunter x Hunter (1999)' },
+  { remake: 3312, original: 2222, name: 'Dr. Slump (1997)', originalName: 'Dr. Slump (1981)' },
+  { remake: 184639, original: 283, name: 'Anne Shirley (2025)', originalName: 'Anne mit den roten Haaren (1979)' },
+]
 
 let verletzt = 0
 function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
@@ -34,6 +40,9 @@ console.log('\nNeuverfilmungen und Zählgruppen im ausgelieferten Datensatz:')
   const neuverfilmungen = alle.filter((m) => m.remakeVon !== undefined)
 
   pruefe(`Anlassfall: Yaiba 2025 ist die Neuverfilmung von Yaiba 1993 (${neuverfilmungen.length} Neuverfilmungen insgesamt)`, alle.some((m) => m.id === YAIBA.remake && m.remakeVon === YAIBA.original))
+  for (const f of NACHGEZOGEN) {
+    pruefe(`Anlassfall: ${f.name} ist die Neuverfilmung von ${f.originalName}`, alle.some((m) => m.id === f.remake && m.remakeVon === f.original))
+  }
   const zusammen = remakeMitOriginalInGruppe(markiert, paare)
   for (const m of zusammen) melde(m.id, 'remake-zaehlung-bestand', 'Neuverfilmung steht mit ihrem Original in einer Zählgruppe')
   pruefe(`Keine Neuverfilmung steht mit ihrem Original in einer Zählgruppe (${paare.size} Paare geprüft)`, zusammen.length === 0, zusammen.slice(0, 5).map((m) => m.name))

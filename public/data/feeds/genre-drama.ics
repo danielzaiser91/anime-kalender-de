@@ -283,10 +283,8 @@ DTSTART:20261101T150000Z
 DTEND:20261101T153000Z
 SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
  hip! Staffel 1 – Folge 5/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/16547/
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/t/16547/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -1112,6 +1110,16 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
   Anbieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgel
  eitet.\nDetails: https://anime-kalender.de/t/12/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-4224-disc@2026-11-30@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261130
+DTEND;VALUE=DATE:20261201
+SUMMARY:Toradora! (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/3092/
+CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2026-12-01@anime-kalender-de

@@ -7,6 +7,7 @@ pipeline/check-09-4-2-bloecke-laufzeit.ts
 pipeline/check-09-4-3-katalog-laufzeit.ts
 pipeline/check-09-4-4-1-katalog-wege-laufzeit.ts
 pipeline/check-abruf-stempel.ts
+pipeline/check-abruf-stoerung-lauf.ts
 pipeline/check-abstand.ts
 pipeline/check-adn-anisearch.ts
 pipeline/check-adn-film.ts
@@ -45,8 +46,13 @@ pipeline/check-anisearch-folgen-kennung.ts
 pipeline/check-anisearch-katalog-abgleich.ts
 pipeline/check-anisearch-kennung-mehrfach.ts
 pipeline/check-anisearch-marke-nachziehen.ts
+pipeline/check-anisearch-paar-bestand-lauf.ts
+pipeline/check-anisearch-paar-katalog.ts
+pipeline/check-anisearch-paar-quellen.ts
+pipeline/check-anisearch-paar-widerspruch.ts
 pipeline/check-anisearch-reihen-rein.ts
 pipeline/check-anisearch-reihen.ts
+pipeline/check-anisearch-rohleser.ts
 pipeline/check-anisearch-spalte.ts
 pipeline/check-anisearch-sprecher.ts
 pipeline/check-ankuendigung-news.ts
@@ -92,6 +98,7 @@ pipeline/check-cr-auftakt-wache.ts
 pipeline/check-cr-batch-phase.ts
 pipeline/check-cr-batch-wache.ts
 pipeline/check-cr-block-standardname.ts
+pipeline/check-cr-doppelt-weg.ts
 pipeline/check-cr-einzelwerk-urteil.ts
 pipeline/check-cr-film-wege.ts
 pipeline/check-cr-folgestaffel.ts
@@ -125,6 +132,7 @@ pipeline/check-disc-anisearch-bau.ts
 pipeline/check-disc-anisearch-datum.ts
 pipeline/check-disc-bereich.ts
 pipeline/check-disc-ean.ts
+pipeline/check-disc-kaufweg-auto.ts
 pipeline/check-disc-suchlinks.ts
 pipeline/check-disc-teil-hinweis.ts
 pipeline/check-disc-teil-verdrahtung.ts
@@ -177,9 +185,12 @@ pipeline/check-folgen-nummern.ts
 pipeline/check-folgen-teile.ts
 pipeline/check-folgenblock.ts
 pipeline/check-folgenflaggen.ts
+pipeline/check-folgentitel-englisch-bau.ts
+pipeline/check-folgentitel-englisch.ts
 pipeline/check-folgenzahl-belegt.ts
 pipeline/check-folgenzahl-kennzeichnung.ts
 pipeline/check-gleiche-adresse.ts
+pipeline/check-hand-gesehen.ts
 pipeline/check-handbeleg-fremde-adresse.ts
 pipeline/check-handbeleg-serienton.ts
 pipeline/check-handbeleg-staffelzaehlung.ts
@@ -217,13 +228,16 @@ pipeline/check-kalender-plausibilitaet.ts
 pipeline/check-kanal-abgehakt.ts
 pipeline/check-kanal-aussortieren.ts
 pipeline/check-kanal-erbt.ts
+pipeline/check-kanal-gegenprobe-lauf.ts
 pipeline/check-kanal-ja-sprach-termin.ts
 pipeline/check-kanal-je-seite.ts
 pipeline/check-kanal-leser.ts
 pipeline/check-kanal-merkliste-gesperrt-lauf.ts
 pipeline/check-kanal-merkliste.ts
 pipeline/check-kanal-messung.ts
+pipeline/check-kanal-namen.ts
 pipeline/check-kanal-verlust.ts
+pipeline/check-kapitel-shop-wege.ts
 pipeline/check-katalog-eingefroren.ts
 pipeline/check-katalog-release.ts
 pipeline/check-kino-zuletzt.ts
@@ -233,6 +247,7 @@ pipeline/check-laut-gleich.ts
 pipeline/check-leere-liste.ts
 pipeline/check-leerer-kasten.ts
 pipeline/check-leerzeichen-gleich.ts
+pipeline/check-leerzeichen-workflow.ts
 pipeline/check-leinwand-escape.ts
 pipeline/check-link-leere-adresse.ts
 pipeline/check-links-laufzeit.ts
@@ -260,6 +275,8 @@ pipeline/check-nein-wiedervorlage.ts
 pipeline/check-netflix-quellen.ts
 pipeline/check-netflix-staffel-ablauf.ts
 pipeline/check-netflix-staffeln.ts
+pipeline/check-netflix-tonspur-lauf.ts
+pipeline/check-netflix-tonspur.ts
 pipeline/check-netflix-umleitung-ablauf.ts
 pipeline/check-netflix-umleitung.ts
 pipeline/check-netflix-zweite-kennung.ts
@@ -289,6 +306,7 @@ pipeline/check-patchnotes-stempel-regel.ts
 pipeline/check-patchnotes-stempel.ts
 pipeline/check-patchnotes-titel-ablauf.ts
 pipeline/check-patchnotes-titel.ts
+pipeline/check-patchnotes-vorrat.ts
 pipeline/check-patchnotes.ts
 pipeline/check-phasen-zustand.ts
 pipeline/check-phasenfolge.ts
@@ -333,6 +351,7 @@ pipeline/check-saison-termin.ts
 pipeline/check-sammel-erste-folgen.ts
 pipeline/check-sammel-unzugeordnet.ts
 pipeline/check-sammelartikel.ts
+pipeline/check-sammeleintrag-synchro.ts
 pipeline/check-sammler-lesezugriffe-faelle.ts
 pipeline/check-sammler-lesezugriffe.ts
 pipeline/check-schwester-shop.ts
@@ -384,6 +403,7 @@ pipeline/check-tmdb-hauptserie.ts
 pipeline/check-tmdb-katalog.ts
 pipeline/check-tmdb-staffel0.ts
 pipeline/check-tmdb-suche.ts
+pipeline/check-tote-adressen-lauf.ts
 pipeline/check-trailer-auswahl.ts
 pipeline/check-trailer-lauf.ts
 pipeline/check-tv-schaetzung.ts

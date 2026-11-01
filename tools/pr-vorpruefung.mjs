@@ -5,16 +5,18 @@
  *   node tools/pr-vorpruefung.mjs [--titel "<Titel>"] [--text "<PR-Text>"]
  *
  * Der PR-Text kommt aus `--text` bzw. der Umgebungsvariable PR_TEXT; fehlt er, gilt der Titel (wie in pr-einreichen.sh).
+ * Berührt der Diff eine Kettendatei, fährt sie auch den Bot-Pfade-Wächter (pr-vorpruefung-bot-pfade.mjs).
  * Der Diff ist `git diff origin/main...HEAD` (nur Committetes). Exit 1 bei jedem roten Befund, Hinweise (gelb) brechen nicht ab.
  */
 import { execFileSync } from 'node:child_process'
 import { existsSync, readFileSync } from 'node:fs'
 import { basename } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { bewerte, neueEintraege } from './check-patchnotes-pflicht.mjs'
+import { bewerte, neueEintraege, neueVorratEintraege } from './check-patchnotes-pflicht.mjs'
 import { anhebungRot } from './extension-version.mjs'
 import { listenEintraege, listenFehler } from './liste-pruefen.mjs'
 import { leerraumRot } from './lib/leerraum-diff.mjs'
+import { BOT_PFADE_TEST, botPfadeRot } from './pr-vorpruefung-bot-pfade.mjs'
 
 const PRUEFLISTEN = ['tools/check-logic-liste.txt', 'tools/check-bestand-liste.txt']
 
@@ -89,8 +91,8 @@ export function pruefeDateien({ dateien, text, zweig }) {
 }
 
 /** Gesamturteil über alle mechanischen Regeln (ohne Umfang, der läuft als eigener Prozess). */
-export function vorpruefe({ dateien, neu, text, zweig, existiert }) {
-  const patch = bewerte({ dateien, neu, beschreibung: text, zweig })
+export function vorpruefe({ dateien, neu, vorrat = [], text, zweig, existiert, titel = '' }) {
+  const patch = bewerte({ dateien, neu, vorrat, beschreibung: text, zweig, titel })
   const t = pruefeText({ dateien, text, existiert })
   const d = pruefeDateien({ dateien, text, zweig })
   const rot = [...(patch.ok ? [] : [`Patch-Notes-Pflicht: ${patch.grund}`]), ...t.rot, ...d.rot]
@@ -160,13 +162,16 @@ function main() {
   const urteil = vorpruefe({
     dateien,
     neu: neueEintraege(nameStatus),
+    vorrat: neueVorratEintraege(nameStatus),
     text,
     zweig,
+    titel,
     existiert: existiertIn(bekannt, existsSync),
   })
   const lies = (name) => (existsSync(name) ? readFileSync(name, 'utf8') : null)
   const leerraum = leerraumRot(git('diff', '-U0', '--no-renames', 'origin/main...HEAD'), text)
-  const rot = [...urteil.rot, ...listenRot(lies), ...umfangRot(), ...uhrRot(dateien), ...versionRot(), ...leerraum]
+  const botPfade = botPfadeRot(dateien, process.cwd(), () => waechterRot(BOT_PFADE_TEST, 'Bot-Pfade-Wächter (Dateinamen von Bot-Dateien in Tests der Kette)'))
+  const rot = [...urteil.rot, ...listenRot(lies), ...umfangRot(), ...uhrRot(dateien), ...botPfade, ...versionRot(), ...leerraum]
   for (const h of urteil.gelb) console.log(`  ! Hinweis: ${h}`)
   for (const r of rot) console.error(`  ✖ Vorprüfung: ${r}`)
   if (rot.length) {

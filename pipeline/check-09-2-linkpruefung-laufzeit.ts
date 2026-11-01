@@ -36,20 +36,74 @@ try {
       [dp('B0JUENGERD')]: { status: 404, geprueftAm: '2026-09-28' },
       [video('B0JUENGERD')]: { status: 200, geprueftAm: '2026-09-20' },
       'https://example.org/nur-eine-form': { status: 200, geprueftAm: '2026-09-20' },
+      /* Handprüfung gegen 404/region (Fairy Tail, 22.09.2026): je Adresse ein Fall. */
+      [dp('B0HANDNONE')]: { status: 404, geprueftAm: '2026-09-20' },
+      [dp('B0HANDNEWER')]: { status: 404, geprueftAm: '2026-09-20' },
+      [dp('B0HANDOLDER')]: { status: 404, geprueftAm: '2026-09-20' },
+      [dp('B0HANDGLEICH')]: { status: 404, geprueftAm: '2026-09-20' },
+      [dp('B0HANDREGION')]: { status: 'region', geprueftAm: '2026-09-20' },
+      [dp('B0HANDFREMD')]: { status: 404, geprueftAm: '2026-09-20' },
+      [dp('B0VERWEIS')]: { status: 404, geprueftAm: '2026-09-20' },
+      [dp('B0VERWEISALT')]: { status: 404, geprueftAm: '2026-09-20' },
+      [dp('B0LAHM')]: { status: 'timeout', geprueftAm: '2026-09-20' },
+      [dp('B0VERWEISGLEICH')]: { status: 404, geprueftAm: '2026-09-20' },
+      [dp('B0REGIONNONE')]: { status: 'region', geprueftAm: '2026-09-20' },
     }),
   )
   const { werteLinkpruefungAus } = await import('./bau/09-2-linkpruefung.ts')
+  const { adressKern } = await import('./lib/dub-confirmed.ts')
+  const handFaelle: [number, string][] = [
+    [1, 'B0HANDNONE'],
+    [2, 'B0HANDNEWER'],
+    [3, 'B0HANDOLDER'],
+    [4, 'B0HANDGLEICH'],
+    [5, 'B0HANDREGION'],
+    [6, 'B0HANDFREMD'],
+    [7, 'B0VERWEIS'],
+    [8, 'B0VERWEISALT'],
+    [9, 'B0LAHM'],
+    [10, 'B0REGIONNONE'],
+    [11, 'B0VERWEISGLEICH'],
+  ]
+  const hand = new Map<number, Title>(
+    handFaelle.map(([id, asin]) => [id, { id, streams: [{ platform: 'primevideo', url: dp(asin) }] } as unknown as Title]),
+  )
+  const beleg = (asin: string, checkedAt: string, url = dp(asin)) => ({ url, checkedAt, dub: true })
+  const belege: Record<number, ReturnType<typeof beleg>> = {
+    2: beleg('B0HANDNEWER', '2026-09-22'),
+    3: beleg('B0HANDOLDER', '2026-09-18'),
+    4: beleg('B0HANDGLEICH', '2026-09-20'),
+    5: beleg('B0HANDREGION', '2026-09-22'),
+    6: beleg('B0HANDFREMD', '2026-09-22', dp('B0ANDERE')),
+  }
   const { linkBefunde } = werteLinkpruefungAus({
     ytKanal: {},
     ytKauf: new Set(),
-    titles: new Map<number, Title>(),
+    titles: hand,
     netflixOhneKennung: 0,
     checksJePlattform: new Map(),
     youtubeBefunde: {},
-    belegFuer: () => undefined,
-    vonHandBelegtAm: new Map(),
+    belegFuer: (id) => belege[id] as never,
+    vonHandBelegtAm: new Map([
+      [adressKern(dp('B0VERWEIS')), '2026-09-22'],
+      [adressKern(dp('B0VERWEISALT')), '2026-09-18'],
+      [adressKern(dp('B0VERWEISGLEICH')), '2026-09-20'],
+    ]),
     checks: new Map(),
+    vorherTitles: [],
   })
+  const bleibt = (id: number) => (hand.get(id)?.streams.length ?? 0) === 1
+  erwarte('404 ohne Handprüfung: der Weg fällt weg', bleibt(1), false)
+  erwarte('404, Beleg derselben Adresse jünger: der Weg bleibt', bleibt(2), true)
+  erwarte('404, Beleg älter als der Befund: der Weg fällt weg', bleibt(3), false)
+  erwarte('404, Beleg am selben Tag wie der Befund: der Weg fällt weg', bleibt(4), false)
+  erwarte('region, Beleg jünger: der Weg bleibt', bleibt(5), true)
+  erwarte('404, jüngerer Beleg gilt einer anderen Adresse: der Weg fällt weg', bleibt(6), false)
+  erwarte('404, von Hand bestätigter Weg jünger: der Weg bleibt', bleibt(7), true)
+  erwarte('404, von Hand bestätigter Weg älter: der Weg fällt weg', bleibt(8), false)
+  erwarte('Zeitüberschreitung ist kein Grund zu entfernen', bleibt(9), true)
+  erwarte('region ohne Handprüfung: der Weg fällt weg', bleibt(10), false)
+  erwarte('404, von Hand bestätigter Weg am selben Tag: der Weg fällt weg', bleibt(11), false)
   erwarte('nur die Video-Adresse gemessen: die dp-Adresse findet den Befund', linkBefunde[dp('B0NURVIDEO')]?.status, 'region')
   erwarte('… und die Video-Adresse selbst ebenso', linkBefunde[video('B0NURVIDEO')]?.status, 'region')
   erwarte('beide gemessen, Video jünger: die dp-Adresse sieht den jüngeren Befund', linkBefunde[dp('B0JUENGERV')]?.status, 'region')

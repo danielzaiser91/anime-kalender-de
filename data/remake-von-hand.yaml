@@ -13,3 +13,18 @@
   original: 2335
   grund: 'Yaiba: Samurai Legend (2025) erzählt Kenyuu Densetsu Yaiba (1993) neu; die Fortsetzung 2027 baut auf der Neuverfilmung auf'
   quelle: https://www.anisearch.de/anime/19712
+
+# aniSearch führt die folgenden drei Neuverfilmungen nur als „Alternative Version" zum Original (Archivseiten 7223, 299 und
+# 19768, Stand 01.11.2026) — die Reihe zeigte sie deshalb als „Staffel 2 von 2" bzw. „Staffel 3 von 3".
+- remake: 11061
+  original: 136
+  grund: 'Hunter × Hunter (2011) erzählt Hunter x Hunter (1999) neu und beginnt wieder bei der Hunterprüfung; die Filme und OVAs davor bleiben beim Original'
+  quelle: https://www.anisearch.de/anime/7223
+- remake: 3312
+  original: 2222
+  grund: 'Dr. Slump (1997) erzählt Dr. Slump (1981) in neuer Serie neu'
+  quelle: https://www.anisearch.de/anime/299
+- remake: 184639
+  original: 283
+  grund: 'Anne Shirley (2025) adaptiert den Roman Anne auf Green Gables neu und führt die Serie Anne mit den roten Haaren (1979) nicht fort'
+  quelle: https://www.anisearch.de/anime/19768

@@ -7,7 +7,9 @@ Ausgelagert aus `CLAUDE.md` am 18.09.2026, wortgleich. **Wann lesen:** Vor jeder
 Ein Stream-Verweis sagt, **dass** ein Titel dort läuft, nicht **in welcher Sprache**. Belegen
 kann die Pipeline die deutsche Fassung nur bei ADN (Sprachcode `vde` je Folge) und Crunchyroll
 („(Deutsch)" im Kalender). Bei YouTube, Netflix, Prime Video, Disney+, RTL+, Joyn und Aniverse
-gibt es keine öffentliche Auskunft — dort steht „🇩🇪 ?", und das ist die ehrliche Antwort.
+gibt es keine Auskunft, die die Pipeline selbst abrufen darf — dort steht „🇩🇪 ?", und das ist die ehrliche Antwort.
+(Prime: Die Titelseite trägt die Tonspuren je Folge ohne Login, ein CI-Abruf scheitert aber am CAPTCHA, siehe
+„Prime-Titelseite aus einem GitHub-Runner“ unten; Stand 01.11.2026.)
 
 **Crunchyroll ist eine schlechte Quelle über Crunchyroll** (Daniel, 15.08.2026). Die
 Serienseite zeigt je nach Betrachter etwas anderes: nicht angemeldet, angemeldet ohne
@@ -216,6 +218,7 @@ Zwei Folgen daraus:
     Abruf nur Serien holt. Wer aus „nicht im Katalog" auf „gibt es nicht" schließt, streicht
     bei einem Film zuverlässig das Falsche. Für Filme antwortet allein
     `content/v2/discover/search` mit `type=movie_listing`.
+- **Korrigiert 01.11.2026: Ohne Login zeigt die Titelseite `/de/title/<id>` die Sprachen doch** (Abschnitt „Titelseite ohne Login“ unten). Die Messung vom 22.08. galt der angemeldeten Seite.
 - **Netflix gibt die Sprachen erst mit dem Player heraus — gemessen, nicht vermutet.** Am
   22.08.2026 auf einer offenen Titelseite mit zwei Konsolen-Skripten geprüft:
   `models.graphql.data` umfasst 6.797 Zeichen und enthält Profile und Benachrichtigungen, null
@@ -1782,9 +1785,13 @@ und zwar mit Last auf einem fremden Server, nicht mit eigenem Speicherplatz.
 - `npm run data:anisearch:check` prüft den Parser gegen das Archiv, ohne einen einzigen neuen
   Abruf. Bricht er ab, hat aniSearch die Seitenstruktur geändert.
 
+### Titelseite ohne Login zeigt die Audio-Sprachen (gemessen 01.11.2026)
+
+Nicht angemeldet liefert `GET https://www.netflix.com/de/title/<id>` (200, ohne JavaScript) im HTML `<h4>Audio</h4>` mit bis zu 6 Sprachen, auch im eingebetteten `netflix.reactContext` (`loggedOutDetailPage`, `mediaTracks.audioTracks`). Die Angabe gilt **je Serie, nicht je Staffel** (My Hero Academia zeigt Deutsch, obwohl nur Staffel 1 und 6 synchronisiert sind) und ist auf 6 Sprachen begrenzt. **Verwertbar sind nur Filme** (2 von 66 offenen Netflix-Titeln am 01.11.2026): Eine Angabe für den ganzen Titel belegt keine einzelne Folge, auch nicht bei einer Staffel, weil einzelne Folgen ohne deutschen Ton sein können. Serien gelten erst, wenn die Synchro je Folge ermittelt werden kann (Entscheidung Daniel, 01.11.2026); kein „Einstaffel-Titel“-Beleg und kein „nein“ auf Reihenebene. Alte Kennungen können per 301 umleiten (81253489 → 60023642, Chihiros Reise). `robots.txt` von netflix.com: `User-agent: *` / `Disallow: /` — ein Abruf aus CI oder Worker war Daniels Entscheidung (F97), er hat sich am 01.11.2026 für den Abruf in der Linkprüfung entschieden (Weg B). **Umgesetzt:** `pipeline/check-links.ts` liest nach ihrem Lauf die Titelseite der offenen Netflix-Filme (Format MOVIE, kein Sprachurteil oder Wiedervorlage in `erneut-melden.yaml` jünger als der Beleg; `pipeline/lib/netflix-tonspur-lauf.ts`), höchstens 10 je Lauf, 5 s Takt, mit dem Projekt-User-Agent, Wiederholung nach 7 Tagen. Deutsch in der Audio-Zeile wird über `haengeBelegeAn` als Handbeleg in `data/dub-confirmed.yaml` gemeldet; Nein und Nichtauskunft (403/429 beenden den Lauf, 404, Netzfehler, keine Audio-Zeile, volle Liste von 6 Sprachen ohne Deutsch) stehen nur als `audio` im Linkbefund und belegen nichts. Der erste Abruf aus der CI ist ungemessen (Daniels IP: 200 mit dem Projekt-User-Agent). Die Erweiterung liest weiterhin nur auf `/watch/`. Ein `curl -I` auf `/de/title/81253522` und `/de/title/81234986` antwortete am 01.11.2026 auch mit Browser-User-Agent 403 (Umleitung ungeprüft). Bericht: `daniel-zum-abarbeiten/berichte/netflix-ohne-login-2026-11-01.md`.
+
 ### Netflix gibt die Tonspuren nur mit dem Player heraus — dreifach gemessen
 
-Am 22.08.2026 stand fest, dass die **Titelseite** im Ruhezustand nichts hergibt. Offen blieb,
+Am 22.08.2026 stand fest, dass die **angemeldete Titelseite** im Ruhezustand nichts hergibt (ohne Login anders, siehe oben). Offen blieb,
 ob die **Folgenliste** mehr weiß — Daniel am 26.08.2026: „wir sollten da nochmal untersuchen ob
 wir bessere metadaten haben, und evtl die infos bereits in overview hab, sonst muss ich
 schlimmstenfalls alle ep einzeln durchklicken, bei über 1000 ist das zu viel."
@@ -2811,6 +2818,15 @@ das Kanal-Angebot (`es, it, ja`) nie hatte. `kanal-gegenprobe.ts` wirft Klammerz
 `dub-confirmed.yaml` als angesehen und lässt sie weg — Fairy Tail fiel so von der Liste, bevor
 jemand die Sprache geprüft hatte. Einen Weg belegt man in `verweise-von-hand.yaml` (`belegtAm`),
 ein Urteil in `dub-confirmed.yaml` — nie beides in einem urteilslosen Handbeleg.
+
+## „maxdome (über TMDB)" bei nummerierten Filmkapiteln führt zum falschen Kapitel (31.10.2026)
+
+- Anlass (Daniel): Crown Handler 3 zeigte maxdome und freenet meinVOD „über TMDB"; der Klick landete beim Shop-Eintrag von Chapter 2. maxdome führt nur Chapter 1 und 2.
+- Ursache: TMDB nennt für alle drei Kapitel dieselbe Anbieterliste (`data/tmdb-titles.json`, `offers`), JustWatch hängt das eine Shop-Angebot an jedes Kapitel. Unser Weg ist nur die TMDB-Übersichtsseite (`03-reihen.ts`); wohin ihr Klick läuft, sehen wir nicht (robots.txt), also lässt sich die Nummer nicht abgleichen. maxdome und freenet sind dieselbe Plattform (Kennungen `mo4518…`), ein Fehler trifft beide.
+- Klasse (Bestand 31.10.2026, `public/data/titles.json`): 94 „über TMDB"-Wege bei 73 Titeln, davon 11 Telekom-Shop-Wege (maxdome, freenet) bei 6 Titeln; nummerierte Filmkapitel: 8 Wege bei 4 Titeln (Code Geass Akito 4 und 5, Crown Handler 1 und 3). Direkte maxdome-/freenet-Adressen mit abweichender Nummer im Slug: 0; dieselbe Adresse an mehreren Titeln: 3 (Ghost in the Shell, Grisaia, Realist Hero, jeweils Serie und Ableger).
+- Regel (Dirigent, 31.10.2026: gestrichen wird nur, was eine Quelle widerlegt): `pipeline/lib/kapitel-shop-wege.ts` verwirft die „über TMDB"-Wege, die die Handliste `data/shop-wege-falsches-ziel.yaml` nennt (je Eintrag Titel, Anbieter, Beleg, Datum; Stand: Crown Handler 3 bis 6 × maxdome, freenet meinVOD), und zählt sie im Bau-Log. Eine erste Fassung riet über die Kapitelnummer im Namen und traf 30 Filme falsch („Golgo 13", „Jujutsu Kaisen 0"); Akito 4 und 5 und Crown Handler 1 freenet behalten ihren gekennzeichneten Weg. Direkte Adressen (JustWatch, `data/watch-links.yaml`) bleiben.
+- Wächter: `pipeline/check-kapitel-shop-wege.ts` (check:logic; lässt `schliesseWegeAb` laufen, prüft die Zählzeile und die Wegwerf-Wurzel-Fälle der Bestandswache) und `pipeline/check-shop-wege-falsches-ziel-bestand.ts` (check:bestand; Soll aus der Liste gegen `public/data/titles.json`).
+- Lehre: Eine Anbieterliste, die TMDB für eine Filmreihe einheitlich liefert, ist keine Aussage über das einzelne Kapitel. Ein Umweg, dessen Ziel wir nicht lesen dürfen, wird nur mit Beleg verworfen (Handliste), nie nach dem Namen geraten.
 
 ## Joyn: nicht selbst auslesen — JustWatch liefert die Adressen (22.09.2026)
 
@@ -4190,3 +4206,19 @@ Lauf `adn-laufende.yml` vom 28.10.2026 14:01 UTC (Commit 4b8f4c268) schrieb für
 ## Fremdzuordnung: Wächter für Seiten an Titeln verschiedener Reihen (29.10.2026)
 
 `check-zuordnung-fremd-bestand.ts` meldet zusätzlich jede Prime-/Plattform-Seite in `prime-zugeordnet.json`, an der Titel mit verschiedener `franchiseId` liegen (Meldung nennt beide Besitzer samt „laut Adresse Staffel k“ aus dem Handbeleg). Gemessen am Bestand 29.10.2026 (355418756): 37 Seiten mit mehreren Kennungen, alle gleiche Reihe (Staffelseiten, legitim) → 0 Funde. Verworfen: „mehrere Kennungen an einer Seite“ (37 falsch-positiv) und „Folgenzahl der Seite ≫ Folgen des Titels“ (Belegnotiz „alle N Folgen“ größer als `episodes`: 225 von 1.803 Belegen, ≥ doppelt 36, überwiegend ganze Reihenseiten wie Slime, JoJo, Space Dandy).
+
+## Prime-Titelseite aus einem GitHub-Runner: CAPTCHA statt Seite (01.11.2026)
+
+**PoC** (Lauf 41316611857, 01.11.2026 14:31 UTC, Zweig `poc/prime-ci-abruf`, Skript und Wegwerf-Workflow in Commit `9eca886d2`, vor dem Merge entfernt): `ubuntu-latest`, Node 22, fünf Abrufe von `www.amazon.de` mit 5 s Pause, Chrome-User-Agent, ohne Cookie und Anmeldung, je einmal. Gegenprobe war derselbe Abruf von Daniels Heim-IP am selben Tag (`daniel-zum-abarbeiten/berichte/prime-disney-adn-ohne-login-2026-11-01.md`): dort HTTP 200 mit 0,6–1 MB und `audioTracks` je Folge.
+
+| Seite | Runner |
+|---|---|
+| `/dp/B0CK5N448R` (Date a Live IV) | 200, 3.815 Byte, CAPTCHA, 0 × `audioTracks` |
+| `/dp/B09MDQX4CW` (Appare-Ranman!) | 200, 3.815 Byte, CAPTCHA, 0 × `audioTracks` |
+| `/dp/B0F9FWKDXT` (JoJo, Diamond Is Unbreakable) | 200, 3.815 Byte, CAPTCHA, 0 × `audioTracks` |
+| `/dp/B0C93YWD34` (Serie, 7 Folgen Deutsch laut Bestand) | 200, 3.815 Byte, CAPTCHA, 0 × `audioTracks` |
+| `/gp/video/detail/amzn1.dv.gti.8ca9f6c3-…` (Film) | 302 auf `/dp/B0HHYTYPJK`, nicht gefolgt, kein Text |
+
+Alle vier ausgelieferten Seiten sind byte-gleich groß (Robot-Check-Seite, `captcha`-Muster im Text). Gelesen wurde also **0 von 5**, kein Vergleich mit `prime-zugeordnet.json` möglich. Nicht getestet (laut Auftrag höchstens fünf Abrufe): andere Header, Cookie-Sitzung, andere Runner-Region; eine Cookie- oder Sitzungsumgehung ist ohnehin nicht vorgesehen (AGB: keine Robots).
+
+**Hochrechnung** für die offenen Prime-Titel (Prüfliste `extension/offene-amazon.js` 44 Titel plus 2 Suchadressen, Stand 01.11.2026): rund 46 Abrufe, mit 5 s Pause unter 5 Minuten, ein Lauf je Woche genügt. Der Engpass ist nicht die Dauer, sondern die Sperre: Aus CI ist der Weg nach dieser Messung zu, ein Sammler dafür lohnt nicht. **Ausweichweg:** die Erweiterung („Hintergrund lesen“, PoC 25.09.2026, `erweiterung.md`) bzw. ein Browser von Daniels Rechner, der die Seite ohne Navigation lädt; liest das HTML mit derselben Hydration (`ausHydration` in `extension/amazon-leser.js`), höchstens 24 Folgen je Seite. Ob die CI-Sperre an der Rechenzentrums-IP oder am Header liegt, ist offen; ein Wiederholungsversuch lohnt erst bei neuem Anlass (z. B. selbst gehosteter Runner).

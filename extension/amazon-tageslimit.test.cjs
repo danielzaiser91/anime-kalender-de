@@ -66,7 +66,7 @@ async function lade({ limit, ende }) {
   })
   /* Die Pause gilt schon beim ersten Zeichnen: `merken` läuft zwischen `tageslimit.js` und `amazon.js`. */
   const pause = limit ? `globalThis.AK_TAGESLIMIT.merken(${limit.map((x) => JSON.stringify(x)).join(',')})` : ''
-  const { absturz } = laufen([lies('tageslimit.js'), pause, ...['box.js', 'melde-sperre.js', 'prime-titelseite.js', 'prime-region.js', 'amazon.js'].map(lies)], k)
+  const { absturz } = laufen([lies('tageslimit.js'), pause, ...['box.js', 'melde-sperre.js', 'prime-titelseite.js', 'prime-stand.js', 'prime-region.js', 'amazon.js'].map(lies)], k)
   if (absturz) throw absturz
   await durchlaufen(1)
   return { alle, k, takt: k.takt }

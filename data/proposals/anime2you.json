@@ -1,15 +1,48 @@
 {
-  "scrapedAt": "2026-11-01T12:02:20.107Z",
+  "scrapedAt": "2026-11-01T15:02:33.561Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 10,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 3,
     "schon in einem Rubrik-Feed gelesen": 8,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 11,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 2,
     "Sprachhinweis älter als 45 Tage": 6
   },
   "proposals": [
+    {
+      "articleTitle": "Netflix nimmt zwei Anime-Neuzugänge ins Programm",
+      "articleUrl": "https://www.anime2you.de/news/1066144/netflix-held-ohne-klasse-und-mehr/",
+      "publishedAt": "2026-11-01",
+      "category": "streaming",
+      "platforms": [
+        "netflix"
+      ],
+      "dates": [],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "AniMoon-Angebot: RomCom-Serie »Toradora!« zum Sonderpreis",
+      "articleUrl": "https://www.anime2you.de/news/1066485/animoon-monatsangebot-toradora/",
+      "publishedAt": "2026-11-01",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2026-11-30",
+          "context": "erpreis auf Blu-ray. Wir fassen zusammen. Nur in diesem Monat Bis zum 30. November 2026 verkauft der Publisher die »Toradora! Gold Edition«"
+        },
+        {
+          "month": "2026-11",
+          "context": "Sonderpreis AniMoon Publishing hat ein neues Monatsangebot gestartet: Im November 2026 gibt es »Toradora!« zum Sonderpreis auf Blu-ray. Wir"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Pluto TV nimmt zwei Anime-Neuzugänge ins Programm",
       "articleUrl": "https://www.anime2you.de/news/1066055/pluto-tv-black-clover-und-mehr/",

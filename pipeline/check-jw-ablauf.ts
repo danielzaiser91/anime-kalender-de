@@ -16,6 +16,7 @@ const wurzel = mkdtempSync(join(tmpdir(), 'jw-ablauf-'))
 process.env.AK_ROOT = wurzel
 mkdirSync(join(wurzel, 'data', 'curated'), { recursive: true })
 writeFileSync(join(wurzel, 'data', 'kino-ankuendigungen.yaml'), '[]\n')
+writeFileSync(join(wurzel, 'data', 'shop-wege-falsches-ziel.yaml'), '[]\n')
 
 const { todayIso } = await import('../shared/time.ts')
 const HEUTE = todayIso()

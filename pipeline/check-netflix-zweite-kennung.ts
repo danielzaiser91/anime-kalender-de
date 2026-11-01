@@ -40,6 +40,10 @@ pruefe(
 )
 pruefe('Titel ohne eigenen Netflix-Verweis bekommt keinen Zusatz', Object.keys(zusatz([titel(6, null, 16)], dateien({ 16: ['900001'] }, { 6: ['900002'] }))).length === 0)
 pruefe('Umleitung (Ranma) ist keine zweite Kennung', Object.keys(zusatz([titel(7, '81171925', 17)], dateien({ 17: ['81301833'] }, {}))).length === 0)
+pruefe('Umleitung Arrietty (aniSearch) ist keine zweite Kennung', Object.keys(zusatz([titel(9, '70216227', 19)], dateien({ 19: ['81253522'] }, {}))).length === 0)
+pruefe('Umleitung Chihiro (JustWatch) ist keine zweite Kennung', Object.keys(zusatz([titel(10, '60023642', 20)], dateien({}, { 10: ['81253489'] }))).length === 0)
+pruefe('Umleitung Nausicaä im Datensatz, Ziel bei aniSearch: gleiche Kennung', Object.keys(zusatz([titel(11, '81234986', 21)], dateien({ 21: ['70019062'] }, {}))).length === 0)
+pruefe('Umleitung plus echte zweite Seite: nur die echte bleibt', JSON.stringify(zusatz([titel(12, '70216227', 22)], dateien({ 22: ['81253522', '81050090'] }, {}))) === '{"12":["81050090"]}')
 const zweiEigene: QuellenTitel = { id: 8, anisearchId: 18, streams: [{ platform: 'netflix', url: nf('900001') }, { platform: 'netflix', url: nf('900002') }] }
 pruefe('zwei Kennungen im Datensatz, keine fremde: kein Eintrag', zusatz([zweiEigene], dateien({ 18: ['900001'] }, {})).hasOwnProperty('8') === false, zusatz([zweiEigene], dateien({ 18: ['900001'] }, {})))
 

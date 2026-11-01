@@ -51,6 +51,29 @@ export function suchbegriffe(e: HandlisteEintrag): string[] {
   return [...new Set([e.original, e.name].filter((n): n is string => Boolean(n)))]
 }
 
+/** Ergänzt die Folgenzahl der Animations-Kandidaten (höchstens zehn Kennungen) aus einer Detailabfrage; ohne `folgen` bleibt alles, wie es ist. */
+export async function mitFolgen(treffer: TmdbSuchtreffer[], folgen?: (id: number) => Promise<number | undefined>): Promise<TmdbSuchtreffer[]> {
+  if (!folgen) return treffer
+  const ergaenzt = new Map<number, TmdbSuchtreffer>()
+  for (const t of treffer) {
+    if (!t.id || ergaenzt.has(t.id) || ergaenzt.size >= 10) continue
+    const animation = (t.genre_ids ?? []).includes(ANIMATION)
+    ergaenzt.set(t.id, animation ? { ...t, number_of_episodes: await folgen(t.id) } : t)
+  }
+  return [...ergaenzt.values()]
+}
+
+/** Die Kandidaten einer Suche fürs Log: Kennung, Name, Originalname, Jahr, Folgenzahl, Animation; ohne Doppelte, höchstens zehn. */
+export function kandidatenZeile(treffer: TmdbSuchtreffer[]): string {
+  const einzeln = new Map<number, TmdbSuchtreffer>()
+  for (const t of treffer) if (t.id && !einzeln.has(t.id)) einzeln.set(t.id, t)
+  const zeilen = [...einzeln.values()].slice(0, 10).map((t) => {
+    const animation = (t.genre_ids ?? []).includes(ANIMATION) ? 'Animation' : 'keine Animation'
+    return `${t.id} „${t.name ?? '?'}“/„${t.original_name ?? '?'}“ ${jahrFolgen(t)}, ${animation}`
+  })
+  return zeilen.length ? zeilen.join('; ') : 'keine Treffer'
+}
+
 /** Der einzige Treffer, dessen Name stimmt (Animation, Name oder Originalname gleich einem Namen des Eintrags, bei `jahr` auch das Jahr). */
 export function waehleTreffer(e: HandlisteEintrag, treffer: TmdbSuchtreffer[]): Wahl {
   const namen = new Set(suchbegriffe(e).map(normalisiere))
@@ -88,6 +111,7 @@ export async function loeseHandliste(
   bestandsTmdb: Map<number, number>,
   suche: (begriff: string) => Promise<TmdbSuchtreffer[]>,
   melde: (zeile: string) => void,
+  folgen?: (id: number) => Promise<number | undefined>,
 ): Promise<Map<number, number>> {
   const aufgeloest = new Map<number, number>()
   for (const e of liste) {
@@ -104,9 +128,9 @@ export async function loeseHandliste(
     for (const begriff of suchbegriffe(e)) treffer.push(...(await suche(begriff)))
     const wahl = waehleTreffer(e, treffer)
     if ('id' in wahl) {
-      melde(`  Handliste ${e.adn} (${e.name}): TMDB ${wahl.id} gefunden (Name und Animation stimmen; ${jahrFolgen(treffer.find((t) => t.id === wahl.id))})`)
+      melde(`  Handliste ${e.adn} (${e.name}): TMDB ${wahl.id} gefunden (Name und Animation stimmen; ${jahrFolgen((await mitFolgen(treffer.filter((t) => t.id === wahl.id), folgen))[0])})`)
       aufgeloest.set(e.adn, wahl.id)
-    } else melde(`  Handliste ${e.adn} (${e.name}): nicht übernommen — ${wahl.grund}`)
+    } else melde(`  Handliste ${e.adn} (${e.name}): nicht übernommen — ${wahl.grund}. Kandidaten: ${kandidatenZeile(await mitFolgen(treffer, folgen))}`)
   }
   const { ok, doppelt } = ohneDoppelte(aufgeloest)
   for (const adn of doppelt) melde(`  Handliste ${adn}: nicht übernommen — dieselbe TMDB-Serie wie ein anderer Eintrag`)

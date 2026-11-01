@@ -139,3 +139,78 @@ globalThis.akPrimeFolgenStandFrisch = (gesehen, ort) => gesehen?.fuerAdresse ===
 
 /** Was am Folgenstand den Kasten neu bauen lässt: die Zahl und ob sie frisch ist. */
 globalThis.akPrimeFolgenStand = (gesehen, ort) => `${gesehen?.gesamt ?? 0}|${globalThis.akPrimeFolgenStandFrisch(gesehen, ort) ? 1 : 0}`
+
+/*
+  **Gemeldet ist eine Eigenschaft der Seite, nicht des Auftrags** (Higurashi, Fischen Impossible, 31.10.2026).
+
+  Zwei Seiten desselben Titels (Staffel 1 und 2 haben je eine Kennung) teilen den Auftrag und den
+  Abhak-Speicher des Titels. „Gemeldet" gilt deshalb nur mit einem Beleg für genau diese Kennung: Briefkasten
+  (`gemeldeteSeiten`) oder eine eigene Meldung. Ohne Beleg ist die Seite meldbar, auch solange der Briefkasten
+  noch schweigt. Die eigene Meldung überlebt das Neuladen, bis der Briefkasten sie führt (24 Stunden).
+*/
+globalThis.akPrimeSeiteGemeldet = (kennung, briefkastenSeiten, selbst) => {
+  if (!kennung) return false
+  const k = String(kennung)
+  return Boolean(briefkastenSeiten?.has(k) || selbst?.has(k))
+}
+
+const SEITEN_SCHLUESSEL = 'akPrimeSeitenGemeldet'
+const SEITEN_HALTE_MS = 24 * 3600 * 1000
+
+/** Trägt die gesicherten eigenen Meldungen, die jünger als `halteMs` (Standard 24 h) sind, in `selbst` ein. */
+globalThis.akPrimeSeitenLaden = async (selbst, lesen, jetzt, halteMs = SEITEN_HALTE_MS) => {
+  const alt = (await lesen(SEITEN_SCHLUESSEL))?.[SEITEN_SCHLUESSEL] ?? {}
+  for (const [kennung, zeit] of Object.entries(alt)) {
+    if (jetzt - zeit < halteMs) selbst.add(kennung)
+  }
+}
+
+/**
+ * Lädt beim Start beide Mengen: `selbst` (24 h, Haken der Checkliste) und `frisch` (Frist der Meldesperre, Edge-Cache
+ * des Briefkastens plus Reserve: bis dahin kann er die Meldung nicht führen; danach entscheidet er, kam sie nicht an,
+ * geht der Knopf erneut auf). `neuZeichnen` läuft nach dem Laden: `zeichnen()` steigt bei gleichem Stand aus, und
+ * `seiteOffen()` steht nicht in der Signatur.
+ */
+globalThis.akPrimeSeitenStarten = (selbst, frisch, lesen, neuZeichnen) => {
+  const jetzt = Date.now()
+  void globalThis.akPrimeSeitenLaden(selbst, lesen, jetzt).catch(() => {})
+  void globalThis
+    .akPrimeSeitenLaden(frisch, lesen, jetzt, globalThis.AK_MELDE_SPERRE.FRIST_MS)
+    .then(neuZeichnen)
+    .catch(() => {})
+}
+
+/** Sichert eine eigene Meldung; liest vorher den Speicher, damit andere Tabs nicht überschrieben werden. */
+globalThis.akPrimeSeiteSichern = async (kennung, lesen, schreiben, jetzt) => {
+  const alt = (await lesen(SEITEN_SCHLUESSEL))?.[SEITEN_SCHLUESSEL] ?? {}
+  const neu = {}
+  for (const [k, zeit] of Object.entries(alt)) {
+    if (jetzt - zeit < SEITEN_HALTE_MS) neu[k] = zeit
+  }
+  neu[String(kennung)] = jetzt
+  return schreiben({ [SEITEN_SCHLUESSEL]: neu })
+}
+
+/*
+  **Was den Knopf neu zeichnen lässt** (Miraculous Staffel 20, 31.10.2026): `zeichnen()` steigt aus, solange diese Zeichenkette gleich bleibt.
+  Jede Eingabe, die Sichtbarkeit oder Text bestimmt, gehört hinein — `standGeladen` fehlte, der Knopf blieb nach dem ersten
+  Zeichnen (Speicher noch leer, Serie „unbekannt“, Knopf versteckt) bis zum Ablauf der Achtsekundenfrist weg.
+*/
+globalThis.akPrimeZeichenStand = (...teile) => teile.join('|')
+
+/**
+ * Widerspruch zwischen dem, was eine Meldung nennt, und der Seite, auf der wir stehen (Wechsel A→B).
+ * Liefert den Grund oder null. Der Quelltext einer verlassenen Seite oder eine Kopfzeile mit fremder Kennung
+ * bedeuten Name und ASIN stammen nicht von derselben Seite; ein Titel, der noch der der verlassenen Seite ist,
+ * gilt nur, wenn der Leser die neue Kennung bestätigt hat (Staffelwechsel derselben Serie hat denselben Titel).
+ */
+globalThis.akPrimeMeldungWiderspruch = (dokument, quelltextFrueher, adressKennung, seitenKennung, titel, verlassen) => {
+  const kopfKennung = dokument.querySelector('.ak-amazon-suchhinweis .ak-meldet')?.dataset?.kennung
+  if (quelltextFrueher) return 'Seite noch nicht umgestellt'
+  if (kopfKennung && adressKennung && kopfKennung !== adressKennung) return 'Kopfzeile nennt andere Kennung'
+  const alterTitel = verlassen?.titel
+  if (titel && alterTitel && titel === alterTitel && verlassen.kennung && seitenKennung !== adressKennung) {
+    return 'Titel gehört zur verlassenen Seite'
+  }
+  return null
+}

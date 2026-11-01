@@ -9,6 +9,17 @@
 # `kind`: stream (Abo oder Leihe im Browser) oder buy (Kauf, Disc).
 # `sources` ist Pflicht — dieselbe Regel wie bei Terminen.
 
+# Crown Handler Chapter 2: freenet meinVOD direkt statt über TMDB (Daniel, 31.10.2026, Seite gesehen). maxdome Chapter 1 und 2 steht in PR 2550.
+- anilistId: 129759
+  title: "Princess Principal: ~Crown Handler~ 2"
+  links:
+    - name: freenet meinVOD
+      url: https://shop.freenet-video.de/princess-principal-crown-handler-chapter-2-mo45184734
+      kind: stream
+      ersetzt: true
+  sources:
+    - https://shop.freenet-video.de/princess-principal-crown-handler-chapter-2-mo45184734
+
 - anilistId: 9332
   title: .hack//Quantum
   links:
@@ -401,3 +412,24 @@
       dubRanges: [{ from: 1, to: 1, dub: true }]
   sources:
     - https://shop.freenet-video.de/your-forma-s01-se45841187
+
+# Crown Handler Kapitel 1 und 2: maxdome nennt „Sprache: Deutsch, Japanisch“ (Daniel, 31.10.2026). Nur diese beiden Kapitel haben eine deutsche Fassung;
+# aniSearchs Marke gilt dem Sammeleintrag 13597 und belegt kein einzelnes Kapitel. Die maxdome-Seiten lesen wir nicht, der Beleg ist Daniels Sicht.
+- anilistId: 101595
+  title: "Princess Principal: ~Crown Handler~ 1"
+  links:
+    - name: maxdome
+      url: https://store.maxdome.de/princess-principal-crown-handler-chapter-1-mo45184708
+      kind: buy
+      dubRanges: [{ from: 1, to: 1, dub: true }]
+  sources:
+    - https://store.maxdome.de/princess-principal-crown-handler-chapter-1-mo45184708
+- anilistId: 129759
+  title: "Princess Principal: ~Crown Handler~ 2"
+  links:
+    - name: maxdome
+      url: https://store.maxdome.de/mo45184724
+      kind: buy
+      dubRanges: [{ from: 1, to: 1, dub: true }]
+  sources:
+    - https://store.maxdome.de/mo45184724

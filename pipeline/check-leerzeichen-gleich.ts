@@ -7,13 +7,16 @@ import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { findeVerschluckte } from './lib/leerzeichen-gleich.ts'
+import { findeUmleitung } from './lib/leerzeichen-workflow.ts'
 
 const WURZEL = resolve(process.argv[2] === '--wurzel' ? process.argv[3] : resolve(import.meta.dirname, '..'))
 const ORDNER = ['pipeline', 'shared', 'web/src', 'tools', 'extension', 'worker']
 const ENDUNGEN = ['ts', 'tsx', 'mjs', 'cjs', 'js']
+const WORKFLOWS = '.github/workflows'
 
 /** Quelldatei mit gepflegtem Text: erzeugte Daten (`extension/offene-*.js`, eine Zeile Komma-getrennte Daten) und das Archiv alter Messskripte bleiben außen vor. */
 export function wirdGeprueft(datei: string): boolean {
+  if (datei.endsWith('.yml')) return datei.startsWith(`${WORKFLOWS}/`)
   return /\.(ts|tsx|mjs|cjs|js)$/.test(datei) && !/^extension\/offene-|^tools\/archiv\//.test(datei)
 }
 
@@ -26,8 +29,16 @@ export function bewerte(dateien: string[], lies: (d: string) => string): { meldu
   for (const e of ENDUNGEN) {
     if (!dateien.some((d) => d.endsWith(`.${e}`))) meldungen.push(`Endung .${e}: keine Datei gescannt`)
   }
+  if (!dateien.some((d) => d.startsWith(`${WORKFLOWS}/`) && d.endsWith('.yml'))) meldungen.push('Workflows: keine Datei gescannt')
   let treffer = 0
   for (const datei of dateien) {
+    if (datei.endsWith('.yml')) {
+      for (const f of findeUmleitung(lies(datei))) {
+        treffer++
+        meldungen.push(`${datei}:${f.zeile} Leerzeichen an >> fehlt: ${f.text}`)
+      }
+      continue
+    }
     for (const f of findeVerschluckte(lies(datei), datei)) {
       treffer++
       meldungen.push(`${datei}:${f.zeile} Leerzeichen nach ${f.zeichen} fehlt: ${f.text}`)
@@ -84,7 +95,7 @@ function kommaPruefung(): number {
 function auswahlPruefung(): number {
   const faelle: [string, boolean][] = [
     ['pipeline/a.ts', true], ['extension/inhalt.js', true], ['tools/a.mjs', true], ['extension/offene-netflix.js', false],
-    ['extension/offene-amazon-suche.js', false], ['tools/archiv/x/a.cjs', false], ['tools/archiviert.mjs', true], ['tools/daten.json', false],
+    ['extension/offene-amazon-suche.js', false], ['tools/archiv/x/a.cjs', false], ['tools/archiviert.mjs', true], ['tools/daten.json', false], ['.github/workflows/a.yml', true], ['tools/a.yml', false],
   ]
   let fehler = 0
   for (const [datei, soll] of faelle) {
@@ -96,14 +107,17 @@ function auswahlPruefung(): number {
 /** Ein geplanter Treffer muss den Exit-Code von `lauf` auf 1 setzen, ein fehlender Ordner, eine fehlende Endung oder ein roter Selbstfall ebenso. */
 function torpruefung(): number {
   const stumm = { log: () => undefined, error: () => undefined }
-  const alle = [...ORDNER.map((o) => `${o}/a.ts`), 'x/b.tsx', 'x/c.mjs', 'x/d.cjs', 'x/e.js']
+  const alle = [...ORDNER.map((o) => `${o}/a.ts`), 'x/b.tsx', 'x/c.mjs', 'x/d.cjs', 'x/e.js', `${WORKFLOWS}/w.yml`]
   const sauber = () => 'const x = 1'
   const geplant = (d: string) => (d === 'tools/a.ts' ? 'const x =y' : 'const x = 1')
+  const umleitung = (d: string) => (d.endsWith('.yml') ? '- run: echo a>>$GITHUB_OUTPUT' : 'const x = 1')
   const faelle: [string, number, number][] = [
     ['saubere Liste', lauf(alle, sauber, 0, stumm), 0],
     ['geplanter Treffer', lauf(alle, geplant, 0, stumm), 1],
     ['fehlender Ordner', lauf(alle.filter((d) => !d.startsWith('worker/')), sauber, 0, stumm), 1],
     ['fehlende Endung', lauf(alle.filter((d) => !d.endsWith('.cjs')), sauber, 0, stumm), 1],
+    ['Umleitung im Workflow', lauf(alle, umleitung, 0, stumm), 1],
+    ['kein Workflow gescannt', lauf(alle.filter((d) => !d.endsWith('.yml')), sauber, 0, stumm), 1],
     ['roter Selbstfall', lauf(alle, sauber, 1, stumm), 1],
   ]
   let fehler = 0
@@ -125,13 +139,13 @@ function lauf(dateien: string[], lies: (d: string) => string, selbst: number, au
   const { meldungen, treffer } = bewerte(dateien, lies)
   for (const m of meldungen) aus.error(`FEHLER: ${m}`)
   const rot = selbst + meldungen.length
-  aus.log(`check-leerzeichen-gleich: ${rot ? 'FEHLER' : 'ok'} (${dateien.length} Dateien, ${treffer} Treffer, 6 Ordner, 5 Endungen)`)
+  aus.log(`check-leerzeichen-gleich: ${rot ? 'FEHLER' : 'ok'} (${dateien.length} Dateien, ${treffer} Treffer, 6 Ordner, 5 Endungen, Workflows)`)
   return rot ? 1 : 0
 }
 
 function main(): number {
   const selbst = selbstpruefung()
-  const dateien = execFileSync('git', ['ls-files', '-z', ...ORDNER], { cwd: WURZEL, encoding: 'utf8', windowsHide: true, maxBuffer: 1 << 26 })
+  const dateien = execFileSync('git', ['ls-files', '-z', ...ORDNER, WORKFLOWS], { cwd: WURZEL, encoding: 'utf8', windowsHide: true, maxBuffer: 1 << 26 })
     .split('\0')
     .filter(wirdGeprueft)
   return lauf(dateien, (d) => readFileSync(resolve(WURZEL, d), 'utf8'), selbst, console)

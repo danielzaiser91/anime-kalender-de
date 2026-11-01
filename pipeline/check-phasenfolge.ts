@@ -75,7 +75,7 @@ const KURATIERT =
 const OHNE_TERMIN = KURATIERT.replace('  schedule:', '  zeitplan:').replace('    firstEpisodeDate:', '    erster:')
 
 /** Handdateien, die der Bau voraussetzt (ohne sie bricht er mit ENOENT ab). */
-const HAND = ['kino-ankuendigungen.yaml', 'ohne-synchro-von-hand.yaml', 'ankuendigungen.yaml', 'anisearch-ids-hand.yaml', 'fanservice-urteil.yaml']
+const HAND = ['kino-ankuendigungen.yaml', 'ohne-synchro-von-hand.yaml', 'ankuendigungen.yaml', 'anisearch-ids-hand.yaml', 'fanservice-urteil.yaml', 'shop-wege-falsches-ziel.yaml']
 const wurzel = mkdtempSync(join(tmpdir(), 'phasenfolge-'))
 function fahre(name: string, kuratiertYaml: string) {
   const ordner = join(wurzel, name)
