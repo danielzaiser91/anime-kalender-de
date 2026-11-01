@@ -5374,9 +5374,9 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   pruefe('ein Eintrag vor dem Umbau gilt als bewährt', !jwFrisch({ geprueftAm: '2026-09-09' }, '2026-09-20'))
   pruefe('ein Eintrag des ersten breiten Laufs (ohne erstAm) gilt als frisch', jwFrisch({ geprueftAm: '2026-09-17' }, '2026-09-20'))
   /* Verfehlte Suche und unplausibles Ergebnis von fetch-justwatch-audio.ts: check-abruf-stoerung-lauf.ts. */
+  /* Die Kanal-Gegenprobe fragt jwFrisch: frische Antwort → 1 zur Handprüfung, `check-kanal-gegenprobe-lauf.ts`. */
   pruefe(
-    'Kanal-Gegenprobe und Crunchyroll-Nachprüfung fragen jwFrisch',
-    readFileSync('pipeline/kanal-gegenprobe.ts', 'utf8').includes('jwFrisch(eintrag, heute)') &&
+    'Crunchyroll-Nachprüfung fragt jwFrisch',
       (readFileSync('pipeline/fetch-crunchyroll-offene.ts', 'utf8').match(/jwFrisch\(jwEintrag2?, heuteIso\)/g) ?? []).length === 2,
   )
 }
@@ -5976,16 +5976,9 @@ pruefe(
   /*
     **Die Feldliste am Suchfeld muss die Felder der Suche nennen** (29.09.2026, Daniel: „welche
     felder durchsucht werden nicht ersichtlich ist und gemäß der projekt regel alles offen zu
-    kommunizieren, muss hier in der suche nahe dem such-input ein icon erscheinen"). Geprüft wird
-    am Quelltext: In `filters.ts` steht je `dazu('art', …)` eine Art, in `search.ts` je Art eine
-    Beschriftung — läuft das auseinander, verspricht das Symbol eine Suche, die es nicht gibt.
+    kommunizieren, muss hier in der suche nahe dem such-input ein icon erscheinen"). Die Feldliste
+    gegen die echte Suche: `check-suchfeld-arten.ts` (läuft `filterEvents` je Feld mit einem Erfindungswort).
   */
-  const filterQuelle = readFileSync('web/src/lib/filters.ts', 'utf8')
-  const suchQuelle = readFileSync('web/src/lib/search.ts', 'utf8')
-  const benutzt = [...new Set([...filterQuelle.matchAll(/dazu\('([a-z]+)'/g)].map((m) => m[1]))].sort()
-  const beschriftet = [...new Set([...suchQuelle.matchAll(/\{ art: '([a-z]+)', label:/g)].map((m) => m[1]))].sort()
-  pruefe('die Feldliste am Suchfeld nennt genau die durchsuchten Felder',
-    JSON.stringify(benutzt) === JSON.stringify(beschriftet), `${benutzt} / ${beschriftet}`)
   /*
     **Der Hinweis nennt das Feld und seinen Inhalt, nicht nur das Wort**. Gemessen wird die
     Textfassung (`fundstelleHinweis`); die Blase zeigt denselben
@@ -6774,12 +6767,8 @@ pruefe(
   pruefe('eine alte Serie und ein fehlender Titel sind kein Simulcast', !laufendeSerieImSlot({ format: 'TV', jpYear: 2014 } as never, 2026) && !laufendeSerieImSlot(undefined, 2026))
 }
 {
-  /* Witch on the Holy Night (19.09.2026): „Neu auf Deutsch" erst, wenn Deutsch an dem Tag zu sehen ist. */
-  const news = readFileSync('pipeline/lib/news.ts', 'utf8')
-  pruefe('„Neu auf Deutsch" verlangt einen deutschen Stream oder einen erreichten Termin', news.includes('!anbieter && !erreicht'))
-  /* **Und ein noch ausstehender Termin desselben Anbieters macht daraus eine Ankündigung**
-     (02.10.2026, Apothekerin S3) — die Prüfung hängt an derselben Zeile. */
-  pruefe('und der ausstehende Termin desselben Anbieters wird abgefragt', news.includes('nurAngekuendigt(releases, t.id, anbieter'))
+  /* „Neu auf Deutsch" erst, wenn Deutsch an dem Tag zu sehen ist (Witch on the Holy Night, 19.09.2026), und ein ausstehender Termin desselben
+     Anbieters macht daraus eine Ankündigung (Apothekerin S3, 02.10.2026): beides als Lauf über `baueNews` in `check-neu-auf-deutsch.ts`. */
 }
 {
   /* Beyblade X (19.09.2026): eine automatische TV-Sichtung verdrängt keinen belegten deutschen Stream. */

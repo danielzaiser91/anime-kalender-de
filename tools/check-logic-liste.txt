@@ -283,6 +283,7 @@ pipeline/check-netflix-tonspur.ts
 pipeline/check-netflix-umleitung-ablauf.ts
 pipeline/check-netflix-umleitung.ts
 pipeline/check-netflix-zweite-kennung.ts
+pipeline/check-neu-auf-deutsch.ts
 pipeline/check-neuigkeiten-panel.ts
 pipeline/check-news-altbestand.ts
 pipeline/check-news-einfrieren.ts
@@ -379,6 +380,7 @@ pipeline/check-stand-halten.ts
 pipeline/check-studio-archiv.ts
 pipeline/check-stuetzpunkt-ueberholt.ts
 pipeline/check-such-chip.ts
+pipeline/check-suchfeld-arten.ts
 pipeline/check-suchhinweis-bereich.ts
 pipeline/check-suchhinweis-lauf.ts
 pipeline/check-sw-cache-regeln.ts
