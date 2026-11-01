@@ -4,9 +4,10 @@
  */
 import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
-import { mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
+import { listenEintraege } from './liste-pruefen.mjs'
 import { lesungen } from './quelltext-lesungen.mjs'
 
 const werkzeug = join(import.meta.dirname, 'quelltext-lesungen.mjs')
@@ -55,6 +56,8 @@ try {
 
   const echt = spawnSync(process.execPath, [werkzeug], { encoding: 'utf8', timeout: 30_000 })
   assert.equal(echt.status, 0, `echter Stand liegt in der Grenze: ${echt.stderr}`)
+  const eintraege = listenEintraege(readFileSync(join(import.meta.dirname, 'check-logic-liste.txt'), 'utf8'))
+  assert.ok(eintraege.includes('tools/quelltext-lesungen.mjs'), 'die Sperrklinke steht in der Liste von check:logic')
   console.log(`quelltext-lesungen.test: ok — ${echt.stdout.trim()}`)
 } finally {
   rmSync(ordner, { recursive: true, force: true })

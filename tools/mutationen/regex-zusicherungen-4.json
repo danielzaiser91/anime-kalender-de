@@ -14,7 +14,6 @@
 
   { "name": "dub-confirmed: Kanal-Erkennung immer wahr", "aenderungen": [{ "datei": "pipeline/lib/dub-confirmed.ts", "suche": "/Kanal-Titel/.test(eintrag?.note ?? '') &&", "ersetze": "true &&" }], "tests": ["npx tsx pipeline/check-kanal-luecken-lader.ts"] },
   { "name": "dub-confirmed: Ja-Bereich-Bedingung immer wahr", "aenderungen": [{ "datei": "pipeline/lib/dub-confirmed.ts", "suche": "Boolean(eintrag?.dubRanges?.some((r) => r.dub)) &&", "ersetze": "true &&" }], "tests": ["npx tsx pipeline/check-kanal-luecken-lader.ts"] },
-  { "name": "dub-confirmed: Nein-Bereich-Bedingung immer wahr (gleichwertig: ohne Nein-Bereich ändert der Filter nichts)", "aenderungen": [{ "datei": "pipeline/lib/dub-confirmed.ts", "suche": "Boolean(eintrag?.dubRanges?.some((r) => !r.dub))\n", "ersetze": "true\n" }], "tests": ["npx tsx pipeline/check-kanal-luecken-lader.ts"] },
   { "name": "dub-confirmed: Filter behält die Nein-Bereiche", "aenderungen": [{ "datei": "pipeline/lib/dub-confirmed.ts", "suche": "dubRanges: eintrag.dubRanges!.filter((r) => r.dub)", "ersetze": "dubRanges: eintrag.dubRanges!.filter((r) => !r.dub)" }], "tests": ["npx tsx pipeline/check-kanal-luecken-lader.ts"] },
   { "name": "dub-confirmed: Lücken werden nie entfernt", "aenderungen": [{ "datei": "pipeline/lib/dub-confirmed.ts", "suche": "const item = kanalMitLuecken ? {", "ersetze": "const item = false ? {" }], "tests": ["npx tsx pipeline/check-kanal-luecken-lader.ts"] },
 
@@ -24,6 +23,7 @@
   { "name": "verteilen: Anker für keinen Anbieter", "aenderungen": [{ "datei": "pipeline/lib/meldungen-verteilen.ts", "suche": "m.plattform === 'netflix' ? folgeUeberTitel(", "ersetze": "m.plattform !== 'netflix' ? folgeUeberTitel(" }], "tests": ["npx tsx pipeline/check-verteile-folgentitel.ts"] },
   { "name": "verteilen: Anker wird nicht gezählt", "aenderungen": [{ "datei": "pipeline/lib/meldungen-verteilen.ts", "suche": "if (ueberBlock || ankerStaffel) verteilung.ueberFolgentitel++", "ersetze": "if (ueberBlock) verteilung.ueberFolgentitel++" }], "tests": ["npx tsx pipeline/check-verteile-folgentitel.ts"] },
 
+  { "name": "Sperrklinke: Eintrag aus der Liste von check:logic entfernt", "aenderungen": [{ "datei": "tools/check-logic-liste.txt", "suche": "tools/quelltext-lesungen.mjs\n", "ersetze": "" }], "tests": ["node tools/quelltext-lesungen.test.mjs"] },
   { "name": "Sperrklinke: Grenze >= statt >", "aenderungen": [{ "datei": "tools/quelltext-lesungen.mjs", "suche": "if (funde.length > grenze) {", "ersetze": "if (funde.length >= grenze) {" }], "tests": ["node tools/quelltext-lesungen.test.mjs"] },
   { "name": "Sperrklinke: .mjs-Dateien nicht gezählt", "aenderungen": [{ "datei": "tools/quelltext-lesungen.mjs", "suche": "\\.(ts|js|mjs)['\"]/", "ersetze": "\\.(ts|js)['\"]/" }], "tests": ["node tools/quelltext-lesungen.test.mjs"] },
   { "name": "Sperrklinke: .ts-Dateien nicht gezählt", "aenderungen": [{ "datei": "tools/quelltext-lesungen.mjs", "suche": "\\.(ts|js|mjs)['\"]/", "ersetze": "\\.(js|mjs)['\"]/" }], "tests": ["node tools/quelltext-lesungen.test.mjs"] },
