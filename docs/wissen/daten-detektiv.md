@@ -111,6 +111,8 @@ Disney+-Katalogaufnahmen als „Premiere" (DD-11); (5) acht News-Meldungen ohne 
 
 **Ursache der größten Klasse:** Der Bau setzt für jede Disc ohne `buyUrl` die Amazon-Suche ein (`05-releases.ts`); Anime2You verlinkt die Produktseiten aber in der Übersichtstabelle der Artikel, und die Handeinträge übernahmen sie nicht. `tools/amazon-tabelle.mjs` liest die Tabelle (Name und Termin müssen übereinstimmen, Sonderausgaben bleiben außen, der Partner-Tag fällt weg); `tools/amazon-tabelle.test.mjs` prüft auch, dass keine `buyUrl` der Handdateien eine Abfrage trägt.
 
+**DD-16 am 01.11.2026:** 194 Discs: 113 EAN-Suche, 35 Namenssuche, 25 Produktseite, 3 anderer Shop, 18 ohne Link. Ursache der 18: Disc-Termine aus den News (`automatisch`) liefen nicht durch `discKaufUrl`; `eanLinksFuerNewsDiscs` (Schritt 11-1) gibt 13 davon die EAN-Suche, 5 bleiben ohne Link. Rest mit Grund je Disc: `daniel-zum-abarbeiten/listen/disc-kaufwege-ohne-beleg.md`.
+
 ## Grenzen
 
 Keine Regel prüft gegen den Anbieter live; Zweitquellen sind die lokalen Abzüge aus `data/`, bis zu
