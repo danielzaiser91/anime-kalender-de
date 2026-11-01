@@ -218,6 +218,17 @@
     },
     "aussagenAm": "2026-10-08"
   },
+  "1232": {
+    "qid": "Q797587",
+    "geholtAm": "2026-11-01",
+    "label": "Babar der Elefantenkönig",
+    "rel": {
+      "P156": [
+        "Q797582"
+      ]
+    },
+    "aussagenAm": "2026-11-01"
+  },
   "1433": {
     "qid": "Q210311",
     "geholtAm": "2026-10-08",
@@ -238,6 +249,17 @@
     "label": "Fillmore!",
     "rel": {},
     "aussagenAm": "2026-10-08"
+  },
+  "1570": {
+    "qid": "Q1031002",
+    "geholtAm": "2026-11-01",
+    "label": "Tim und Struppi",
+    "rel": {
+      "P8345": [
+        "Q137845245"
+      ]
+    },
+    "aussagenAm": "2026-11-01"
   },
   "1618": {
     "qid": "Q250036",
@@ -867,6 +889,13 @@
     "rel": {},
     "aussagenAm": "2026-10-08"
   },
+  "14525": {
+    "qid": "Q2219414",
+    "geholtAm": "2026-11-01",
+    "label": "Martin Morgen",
+    "rel": {},
+    "aussagenAm": "2026-11-01"
+  },
   "14826": {
     "qid": "Q518874",
     "geholtAm": "2026-10-08",
@@ -1071,6 +1100,13 @@
     "label": "Sammy - Kleine Flossen, große Abenteuer",
     "rel": {},
     "aussagenAm": "2026-10-08"
+  },
+  "24682": {
+    "qid": "Q2907776",
+    "geholtAm": "2026-11-01",
+    "label": "Bob Morane",
+    "rel": {},
+    "aussagenAm": "2026-11-01"
   },
   "24917": {
     "qid": "Q3277286",
@@ -1999,6 +2035,13 @@
     "rel": {},
     "aussagenAm": "2026-10-08"
   },
+  "62206": {
+    "qid": "Q2630580",
+    "geholtAm": "2026-11-01",
+    "label": "SamSam",
+    "rel": {},
+    "aussagenAm": "2026-11-01"
+  },
   "62211": {
     "qid": "Q15711878",
     "geholtAm": "2026-10-08",
@@ -2270,6 +2313,23 @@
     "rel": {},
     "aussagenAm": "2026-10-08"
   },
+  "65392": {
+    "qid": "Q1571053",
+    "geholtAm": "2026-11-01",
+    "label": "Lucky Luke",
+    "rel": {
+      "P361": [
+        "Q137475"
+      ],
+      "P8345": [
+        "Q101200780"
+      ],
+      "P144": [
+        "Q137475"
+      ]
+    },
+    "aussagenAm": "2026-11-01"
+  },
   "65417": {
     "qid": "Q21539942",
     "geholtAm": "2026-10-08",
@@ -2348,6 +2408,13 @@
     "label": "Q Pootle 5",
     "rel": {},
     "aussagenAm": "2026-10-08"
+  },
+  "66610": {
+    "qid": "Q174874",
+    "geholtAm": "2026-11-01",
+    "label": "Titeuf",
+    "rel": {},
+    "aussagenAm": "2026-11-01"
   },
   "66642": {
     "qid": "Q26833707",
@@ -3055,6 +3122,13 @@
     "rel": {},
     "aussagenAm": "2026-10-08"
   },
+  "74540": {
+    "qid": "Q3065442",
+    "geholtAm": "2026-11-01",
+    "label": "Pirates",
+    "rel": {},
+    "aussagenAm": "2026-11-01"
+  },
   "74728": {
     "qid": "Q30607230",
     "geholtAm": "2026-10-08",
@@ -3464,6 +3538,13 @@
     "label": "Die unglaublichen Abenteuer von Blinky Bill",
     "rel": {},
     "aussagenAm": "2026-10-08"
+  },
+  "82083": {
+    "qid": "Q3377200",
+    "geholtAm": "2026-11-01",
+    "label": "Hippo Hurra",
+    "rel": {},
+    "aussagenAm": "2026-11-01"
   },
   "82279": {
     "qid": "Q23057962",
@@ -3886,6 +3967,13 @@
   "91089": {
     "qid": null,
     "geholtAm": "2026-10-08"
+  },
+  "91195": {
+    "qid": "Q116165371",
+    "geholtAm": "2026-11-01",
+    "label": "The Fox-Badger Family",
+    "rel": {},
+    "aussagenAm": "2026-11-01"
   },
   "91246": {
     "qid": "Q64355224",
@@ -4702,6 +4790,13 @@
       ]
     },
     "aussagenAm": "2026-10-08"
+  },
+  "107276": {
+    "qid": "Q3026672",
+    "geholtAm": "2026-11-01",
+    "label": "Spirou und Fantasio",
+    "rel": {},
+    "aussagenAm": "2026-11-01"
   },
   "107422": {
     "qid": "Q98689475",
@@ -5594,6 +5689,17 @@
     "qid": null,
     "geholtAm": "2026-10-08"
   },
+  "137886": {
+    "qid": "Q28381902",
+    "geholtAm": "2026-11-01",
+    "label": "The Magic Roundabout",
+    "rel": {
+      "P144": [
+        "Q594537"
+      ]
+    },
+    "aussagenAm": "2026-11-01"
+  },
   "138502": {
     "qid": "Q109558622",
     "geholtAm": "2026-10-08",
@@ -6065,6 +6171,10 @@
     "qid": null,
     "geholtAm": "2026-10-08"
   },
+  "197065": {
+    "qid": null,
+    "geholtAm": "2026-11-01"
+  },
   "197322": {
     "qid": "Q48790117",
     "geholtAm": "2026-10-08",
@@ -6231,6 +6341,10 @@
     "label": "Schere, Stein, Papier",
     "rel": {},
     "aussagenAm": "2026-10-08"
+  },
+  "204084": {
+    "qid": null,
+    "geholtAm": "2026-11-01"
   },
   "204087": {
     "qid": "Q133885514",
@@ -7765,5 +7879,9 @@
   "340445": {
     "qid": null,
     "geholtAm": "2026-10-31"
+  },
+  "340533": {
+    "qid": null,
+    "geholtAm": "2026-11-01"
   }
 }

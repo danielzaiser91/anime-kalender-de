@@ -1,6 +1,6 @@
 {
   "format": 2,
-  "stand": "2026-10-31",
+  "stand": "2026-11-01",
   "hinweis": "Vorschlagsmodus: nur gelesen, nie übernommen — docs/wissen/sammelartikel-poc.md (Abschnitt „Vorschlagslauf\"). Schreiber: pipeline/fetch-sammelartikel.ts",
   "aussagen": [
     {
@@ -12248,6 +12248,214 @@
           "hatSynchroBelege": true
         },
         "inhaltZeichen": 396
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1066100/crunchyroll-firefly-wedding-synchro-und-mehr/|Firefly Wedding||start|crunchyroll+primevideo",
+      "erstGesehen": "2026-11-01",
+      "fingerabdruck": "0a4c644a3684",
+      "offenOderUnklar": true,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1066100/crunchyroll-firefly-wedding-synchro-und-mehr/",
+          "veroeffentlicht": "2026-10-31",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Firefly Wedding",
+        "art": "start",
+        "plattformen": [
+          "crunchyroll",
+          "primevideo"
+        ],
+        "datum": "2026-10-31",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "ja",
+        "woechentlich": true,
+        "zeit": "18:00",
+        "konfidenz": 0.8,
+        "gruende": [
+          "Sprache: Deutsch, Japanisch (UT)",
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»Firefly Wedding«\nEpisoden: 1 auf Deutsch verfügbar\nSprache: Deutsch, Japanisch (UT)\nSimulcast: Jeden Freitag um 18:00 Uhr\nStream: Crunchyroll, Prime Video",
+        "offen": {
+          "grund": "Japan-Start passt nicht zum genannten Tag 2026-10-31 (Firefly Wedding: 2026-10-09)",
+          "kandidaten": [
+            {
+              "id": 205909,
+              "name": "Firefly Wedding",
+              "jpStart": "2026-10-09"
+            }
+          ]
+        },
+        "bestand": {
+          "status": "ohne-zuordnung"
+        },
+        "inhaltZeichen": 286
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1066100/crunchyroll-firefly-wedding-synchro-und-mehr/|The Iceblade Sorcerer Shall Rule the World|Staffel 2|start|crunchyroll+primevideo",
+      "erstGesehen": "2026-11-01",
+      "fingerabdruck": "58e44a898d4c",
+      "offenOderUnklar": true,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1066100/crunchyroll-firefly-wedding-synchro-und-mehr/",
+          "veroeffentlicht": "2026-10-31",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "The Iceblade Sorcerer Shall Rule the World",
+        "zusatz": "Staffel 2",
+        "art": "start",
+        "plattformen": [
+          "crunchyroll",
+          "primevideo"
+        ],
+        "datum": "2026-10-31",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "ja",
+        "woechentlich": true,
+        "zeit": "19:00",
+        "konfidenz": 0.8,
+        "gruende": [
+          "Sprache: Deutsch, Japanisch (UT)",
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»The Iceblade Sorcerer Shall Rule the World« – Staffel 2\nEpisoden: 1 auf Deutsch verfügbar\nSprache: Deutsch, Japanisch (UT)\nSimulcast: Jeden Donnerstag um 19:00 Uhr\nStream: Crunchyroll, Prime Video",
+        "offen": {
+          "grund": "Japan-Start passt nicht zum genannten Tag 2026-10-31 (The Iceblade Sorcerer Shall Rule the World Staffel 2: 2026-10-09)",
+          "kandidaten": [
+            {
+              "id": 212503,
+              "name": "The Iceblade Sorcerer Shall Rule the World Staffel 2",
+              "jpStart": "2026-10-09"
+            }
+          ]
+        },
+        "bestand": {
+          "status": "ohne-zuordnung"
+        },
+        "inhaltZeichen": 235
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1066100/crunchyroll-firefly-wedding-synchro-und-mehr/|The Vermilion Mask||start|crunchyroll+primevideo",
+      "erstGesehen": "2026-11-01",
+      "fingerabdruck": "cface443031c",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1066100/crunchyroll-firefly-wedding-synchro-und-mehr/",
+          "veroeffentlicht": "2026-10-31",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "The Vermilion Mask",
+        "art": "start",
+        "plattformen": [
+          "crunchyroll",
+          "primevideo"
+        ],
+        "datum": "2026-10-31",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "ja",
+        "woechentlich": true,
+        "zeit": "11:30",
+        "konfidenz": 0.8,
+        "gruende": [
+          "Sprache: Deutsch, Japanisch (UT)",
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»The Vermilion Mask«\nEpisoden: 1 auf Deutsch verfügbar\nSprache: Deutsch, Japanisch (UT)\nSimulcast: Jeden Samstag um 11:30 Uhr\nStream: Crunchyroll, Prime Video",
+        "zuordnung": {
+          "anilistId": 195571,
+          "name": "The Vermilion Mask",
+          "wie": "name-genau"
+        },
+        "bestand": {
+          "status": "bekannt",
+          "release": {
+            "slug": "the-vermilion-mask-crunchyroll-de-2026-10-31",
+            "firstEpisodeDate": "2026-10-31"
+          },
+          "ankuendigung": {
+            "omuAb": "2026-10-10",
+            "synchro": "angekuendigt"
+          },
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 370
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1066055/pluto-tv-black-clover-und-mehr/|Black Clover|Staffel 1|start|",
+      "erstGesehen": "2026-11-01",
+      "fingerabdruck": "69dbe2d2108c",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1066055/pluto-tv-black-clover-und-mehr/",
+          "veroeffentlicht": "2026-10-31",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Black Clover",
+        "zusatz": "Staffel 1",
+        "art": "start",
+        "plattformen": [],
+        "deutsch": "ja",
+        "konfidenz": 0.6,
+        "gruende": [
+          "Sprache: Deutsch",
+          "kein Tag genannt",
+          "kein Anbieter genannt"
+        ],
+        "zitat": "»Black Clover« – Staffel 1\nEpisoden: 35 von 51\nSprache: Deutsch\nStream: Pluto TV",
+        "zuordnung": {
+          "anilistId": 97940,
+          "name": "Black Clover",
+          "wie": "name-genau"
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 339
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1066055/pluto-tv-black-clover-und-mehr/|My Hero Academia|Staffel 1|start|",
+      "erstGesehen": "2026-11-01",
+      "fingerabdruck": "428438ac0f6c",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1066055/pluto-tv-black-clover-und-mehr/",
+          "veroeffentlicht": "2026-10-31",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "My Hero Academia",
+        "zusatz": "Staffel 1",
+        "art": "start",
+        "plattformen": [],
+        "deutsch": "ja",
+        "folgen": 13,
+        "konfidenz": 0.6,
+        "gruende": [
+          "Sprache: Deutsch",
+          "kein Tag genannt",
+          "kein Anbieter genannt"
+        ],
+        "zitat": "»My Hero Academia« – Staffel 1\nEpisoden: 13 (komplett)\nSprache: Deutsch\nStream: Pluto TV",
+        "zuordnung": {
+          "anilistId": 21459,
+          "name": "My Hero Academia",
+          "wie": "name-genau"
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 316
       }
     }
   ]
