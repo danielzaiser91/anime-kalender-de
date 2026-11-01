@@ -31,7 +31,7 @@
   { "name": "Sperrklinke: Grenztyp nicht geprüft", "aenderungen": [{ "datei": "tools/quelltext-lesungen.mjs", "suche": "if (!Number.isInteger(grenze) || grenze < 0) {", "ersetze": "if (false) {" }], "tests": ["node tools/quelltext-lesungen.test.mjs"] },
   { "name": "Sperrklinke: Hinweis bei Senkung fehlt", "aenderungen": [{ "datei": "tools/quelltext-lesungen.mjs", "suche": "${funde.length < grenze ? ' — gesunken", "ersetze": "${funde.length > grenze ? ' — gesunken" }], "tests": ["node tools/quelltext-lesungen.test.mjs"] },
   { "name": "Sperrklinke: falscher Standardpfad der Quelle", "aenderungen": [{ "datei": "tools/quelltext-lesungen.mjs", "suche": "'pipeline/check-logic.ts'", "ersetze": "'pipeline/check-logik.ts'" }], "tests": ["node tools/quelltext-lesungen.test.mjs"] },
-  { "name": "Sperrklinke: Zeilennummern um 1 verschoben", "aenderungen": [{ "datei": "tools/quelltext-lesungen.mjs", "suche": "? [i + 1] : []", "ersetze": "? [i] : []" }], "tests": ["node tools/quelltext-lesungen.test.mjs"] },
+  { "name": "Sperrklinke: Zeilennummern um 1 verschoben", "aenderungen": [{"datei": "tools/quelltext-lesungen.mjs", "suche": "split('\\n').length)", "ersetze": "split('\\n').length - 1)"}], "tests": ["node tools/quelltext-lesungen.test.mjs"] },
   { "name": "Sperrklinke: zeilenweise statt über den ganzen Text", "aenderungen": [{"datei": "tools/quelltext-lesungen.mjs", "suche": "readFileSync\\(\\s*[^)]*?\\.", "ersetze": "readFileSync\\(.*\\."}], "tests": ["node tools/quelltext-lesungen.test.mjs"] },
   { "name": "Sperrklinke: .tsx nicht gezählt", "aenderungen": [{"datei": "tools/quelltext-lesungen.mjs", "suche": "(?:tsx?|m?js)", "ersetze": "(?:ts|m?js)"}], "tests": ["node tools/quelltext-lesungen.test.mjs"] }
 ]
