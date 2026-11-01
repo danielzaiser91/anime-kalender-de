@@ -182,6 +182,7 @@ pipeline/check-folgenflaggen.ts
 pipeline/check-folgenzahl-belegt.ts
 pipeline/check-folgenzahl-kennzeichnung.ts
 pipeline/check-gleiche-adresse.ts
+pipeline/check-hand-gesehen.ts
 pipeline/check-handbeleg-fremde-adresse.ts
 pipeline/check-handbeleg-serienton.ts
 pipeline/check-handbeleg-staffelzaehlung.ts
@@ -219,12 +220,14 @@ pipeline/check-kalender-plausibilitaet.ts
 pipeline/check-kanal-abgehakt.ts
 pipeline/check-kanal-aussortieren.ts
 pipeline/check-kanal-erbt.ts
+pipeline/check-kanal-gegenprobe-lauf.ts
 pipeline/check-kanal-ja-sprach-termin.ts
 pipeline/check-kanal-je-seite.ts
 pipeline/check-kanal-leser.ts
 pipeline/check-kanal-merkliste-gesperrt-lauf.ts
 pipeline/check-kanal-merkliste.ts
 pipeline/check-kanal-messung.ts
+pipeline/check-kanal-namen.ts
 pipeline/check-kanal-verlust.ts
 pipeline/check-kapitel-shop-wege.ts
 pipeline/check-katalog-eingefroren.ts
@@ -392,6 +395,7 @@ pipeline/check-tmdb-hauptserie.ts
 pipeline/check-tmdb-katalog.ts
 pipeline/check-tmdb-staffel0.ts
 pipeline/check-tmdb-suche.ts
+pipeline/check-tote-adressen-lauf.ts
 pipeline/check-trailer-auswahl.ts
 pipeline/check-trailer-lauf.ts
 pipeline/check-tv-schaetzung.ts
