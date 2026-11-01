@@ -705,6 +705,8 @@ async function speicherSchreiben(werte) {
    * einer Sammelseite zu unterscheiden, deren `titleID` legitim abweicht.
    */
   let letzteAdressKennung = null
+  /** Kennung und Titel der soeben verlassenen Seite: ein gleicher Titel gehört nicht sicher zur neuen Kennung. */
+  let titelVerlassen = null
   const fruehereAdressKennungen = new Set()
   /**
    * **Was der Briefkasten weiß — hier oben, und zwar aus demselben Grund wie
@@ -1636,7 +1638,12 @@ async function speicherSchreiben(werte) {
    */
   function seitenTitel() {
     /* Aus dem JSON gemeldet schlägt aus dem Quelltext gesucht. */
-    if (gemeldeterSerientitel) return gemeldeterSerientitel
+    /*
+      Titel und Kennung des Lesers gehören zusammen: Nennt er noch die Kennung einer verlassenen Seite,
+      ist auch sein Titel der alte (Prime-Wechsel Goblin Slayer → Blade of the Immortal, 01.11.2026).
+    */
+    const vonVerlassener = quelltextVonFruehererSeite()
+    if (gemeldeterSerientitel && !vonVerlassener) return gemeldeterSerientitel
     /**
      * `document.title` taugt nicht — gemessen, nicht vermutet.
      *
@@ -1699,7 +1706,7 @@ async function speicherSchreiben(werte) {
      * und `<h1>` allesamt leer (gemessen 23.08.2026), und dort ist es die
      * einzige Quelle.
      */
-    const ausOg = document
+    const ausOg = vonVerlassener ? null : document
       .querySelector?.('meta[property="og:title"], meta[name="twitter:title"]')
       ?.getAttribute?.('content')
     if (ausOg) {
@@ -9267,6 +9274,8 @@ async function speicherSchreiben(werte) {
   function adressKennungFortschreiben() {
     const jetzt = asinAusAdresse()
     if (!jetzt || jetzt === letzteAdressKennung) return
+    /* Vor dem Vermerken lesen: danach gilt der Titel des Lesers als der einer verlassenen Seite. */
+    titelVerlassen = { kennung: letzteAdressKennung, titel: seitenTitel() }
     if (letzteAdressKennung) fruehereAdressKennungen.add(letzteAdressKennung)
     letzteAdressKennung = jetzt
   }
@@ -9587,28 +9596,14 @@ async function speicherSchreiben(werte) {
           **Dieselbe Quelle wie die Meldung — sonst zeigt die Zeile etwas anderes an,
           als der Knopf sendet.**
 
-          Hier stand `id`. Die Variable wird nur in `beiStaffelwechsel()`
-          nachgezogen, und der Wechsel gilt erst als erkannt, wenn der Quelltext
-          zur Adresse aufgeschlossen hat. Die Meldung nimmt ihre Kennung
-          dagegen direkt aus `asin()`, also aus der Adresse — die wandert
-          sofort mit.
-
-          Daniel am 09.09.2026, mit drei Bildern: „nach einem wechsel button
-          erst rot nicht klickbar, vorherige asin, dann grün klickbar, immer
-          noch vorherige asin, dann neue asin." Im mittleren Zustand war der
-          Knopf freigegeben und die Zeile nannte die Staffel davor.
+          Nicht `id`: das zieht nur `beiStaffelwechsel()` nach, die Meldung liest die
+          Adresse (Daniel, 09.09.2026: Zeile nannte nach dem Wechsel die Staffel davor).
         */
         const kennungJetzt = (() => {
           try {
             /*
-              **`asin()` fragt zuerst den Quelltext — und der hinkt nach.**
-
-              Nach einem Staffelwechsel steht dort Sekunden lang die Kennung der
-              verlassenen Seite; in der Aufnahme vom 10.09.2026 nannte die
-              Kopfzeile vier Sekunden lang `B0BZGQZCFT`, während die Adresse
-              schon `B0CHL21CT2` führte. Der Knopf ist in dieser Zeit gesperrt,
-              aber eine Kopfzeile, die eine andere Seite nennt als die Adresse,
-              ist trotzdem falsch — sie sagt, was gleich gemeldet würde.
+              `asin()` fragt zuerst den Quelltext, und der hinkt nach (10.09.2026: vier Sekunden
+              lang die Kennung der verlassenen Seite in der Kopfzeile).
             */
             return (quelltextVonFruehererSeite() ? asinAusAdresse() : asin()) ?? id
           } catch {
@@ -9629,22 +9624,16 @@ async function speicherSchreiben(werte) {
           } catch {
             /* Ohne Auskunft bleibt es bei der Kopfzeile. */
           }
-          const e = liste[kennungJetzt] ?? liste[id]
+          /* Nur die Kennung der Seite zählt: `id` hinkt beim Wechsel hinterher und nennt den alten Titel. */
+          const e = liste[kennungJetzt]
           /*
-            **Der Auftragstitel steht vor dem Seitentitel.**
-
-            `seitenTitel()` liest die Überschrift der Amazon-Seite und greift
-            daneben, wenn sie noch nicht steht: Auf einer Titelseite, die aus
-            einem **Such**auftrag heraus geöffnet wurde, stand dort „meldet:
-            Chatverlauf · B0FVDZ286F" (Daniel, 09.09.2026, mit Bild) — ein
-            Eintrag aus Amazons eigener Navigationsleiste.
-
-            Der Auftrag weiß es besser und ändert sich nicht: Er ist der Grund,
-            warum diese Seite überhaupt offen ist.
+            Der Auftragstitel steht vor dem Seitentitel (09.09.2026: „Chatverlauf" aus Amazons
+            Navigationsleiste) — aber nur, wenn der Auftrag zu dieser Kennung gehört.
           */
           const ausAuftrag = (() => {
             try {
-              return suchauftrag()?.titel ?? null
+              const a = suchauftrag()
+              return a && (!a.zielAsin || zurReihe(a.zielAsin, kennungJetzt)) ? (a.titel ?? null) : null
             } catch {
               return null
             }
@@ -9987,6 +9976,9 @@ async function speicherSchreiben(werte) {
       abweisen('Staffelwechsel läuft')
       return
     }
+    /* Alter Name mit neuer ASIN wäre Falschdaten: Name und Kennung müssen von derselben Seite stammen. */
+    const widerspruch = globalThis.akPrimeMeldungWiderspruch(document, quelltextVonFruehererSeite(), asinAusAdresse(), asinAusSeite(), eintrag.titel ?? seitenTitel(), titelVerlassen)
+    if (widerspruch) return abweisen(widerspruch)
     if (knopf.dataset.neuLaden === 'true') {
       knopf.textContent = '↻ lädt neu …'
       // Defensiv: Im Testsandkasten gibt es kein `reload`.
