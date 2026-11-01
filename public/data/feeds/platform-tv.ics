@@ -8,76 +8,6 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:auto-15-tv-prosieben-maxx@2026-10-24#19@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261024T040000Z
-DTEND:20261024T043000Z
-SUMMARY:Eyeshield 21
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/6/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-15-tv-prosieben-maxx@2026-10-24#20@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261024T042500Z
-DTEND:20261024T045500Z
-SUMMARY:Eyeshield 21
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/6/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-15-tv-prosieben-maxx@2026-10-24#21@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261024T045000Z
-DTEND:20261024T052000Z
-SUMMARY:Eyeshield 21
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/6/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-15-tv-prosieben-maxx@2026-10-24#22@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261024T051500Z
-DTEND:20261024T054500Z
-SUMMARY:Eyeshield 21
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/6/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-158871-tv-super-rtl@2026-10-24@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261024T110000Z
-DTEND:20261024T113000Z
-SUMMARY:Pokémon Horizonte – Folge 132/133
-DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
- ails: https://anime-kalender.de/t/14839/
-CATEGORIES:Super RTL
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-158871-tv-toggo-plus@2026-10-24@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261024T120000Z
-DTEND:20261024T123000Z
-SUMMARY:Pokémon Horizonte – Folge 132/133
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/t/14839/
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-165159-tv-toggo-plus@2026-10-24@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261024T184500Z
-DTEND:20261024T191500Z
-SUMMARY:Beyblade X – Folge 121/122
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/t/15075/
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-5027-tv-disney-channel@2026-10-25#13@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261025T135000Z
@@ -1240,6 +1170,46 @@ DTEND:20261106T225500Z
 SUMMARY:Solo Leveling: Arise from the Shadow – Folge 8/8
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/15790/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-15-tv-prosieben-maxx@2026-11-07#27@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261107T042500Z
+DTEND:20261107T045500Z
+SUMMARY:Eyeshield 21
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/6/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-15-tv-prosieben-maxx@2026-11-07#28@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261107T045000Z
+DTEND:20261107T052000Z
+SUMMARY:Eyeshield 21
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/6/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-15-tv-prosieben-maxx@2026-11-07#29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261107T051000Z
+DTEND:20261107T054000Z
+SUMMARY:Eyeshield 21
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/6/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-15-tv-prosieben-maxx@2026-11-07#30@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261107T053500Z
+DTEND:20261107T060500Z
+SUMMARY:Eyeshield 21
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/6/
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT

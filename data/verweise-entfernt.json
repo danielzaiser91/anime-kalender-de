@@ -1,5 +1,5 @@
 {
-  "stand": "2026-10-31T23:05:19.362Z",
+  "stand": "2026-11-01T11:49:30.040Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -781,17 +781,6 @@
       "geprueftAm": "2026-10-19",
       "entferntAm": "2026-11-01",
       "letzterWeg": false
-    },
-    {
-      "titleId": 15037,
-      "titel": "Corpse Party: Tortured Souls",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/corpse-party-tortured-souls",
-      "seriesId": "GZJH3DN8K",
-      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-10-19",
-      "entferntAm": "2026-11-01",
-      "letzterWeg": true
     },
     {
       "titleId": 98778,
@@ -7907,6 +7896,17 @@
       "seriesId": null,
       "grund": "der Anbieter führt 12 + 13 Folgen, und die belegten Titel füllen sie exakt — für 1 weitere ist dort kein Platz",
       "geprueftAm": null,
+      "entferntAm": "2026-11-01",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 15037,
+      "titel": "Corpse Party: Tortured Souls",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/corpse-party-tortured-souls",
+      "seriesId": "GZJH3DN8K",
+      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
+      "geprueftAm": "2026-10-19",
       "entferntAm": "2026-11-01",
       "letzterWeg": true
     },
