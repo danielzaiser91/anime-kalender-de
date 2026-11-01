@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-11-01T11:50:09.598Z",
+ "erzeugtAm": "2026-11-01T13:43:33.135Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -368,9 +368,9 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 772,
+   "gemeldet": 774,
    "gesamt": 894,
-   "offen": 122,
+   "offen": 120,
    "ohneSeite": 16,
    "ziel": "https://www.netflix.com/title/81608820",
    "ziele": [
@@ -422,14 +422,6 @@
      "staffeln": [
       1
      ]
-    },
-    {
-     "url": "https://www.netflix.com/title/60023642",
-     "titel": "Chihiros Reise ins Zauberland"
-    },
-    {
-     "url": "https://www.netflix.com/title/81253489",
-     "titel": "Chihiros Reise ins Zauberland"
     },
     {
      "url": "https://www.netflix.com/title/80243876",
