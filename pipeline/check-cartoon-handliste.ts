@@ -128,6 +128,8 @@ try {
   pruefe('Dreamland steht drin, ohne feste Kennung (der Abruf sucht)', dream?.name === 'Dreamland' && dream.tmdb === undefined, dream)
   const cousteau = echt.find((e) => e.adn === 748)
   pruefe('Cousteau ist Animation (TMDB 103938, 26 Folgen wie bei ADN), kein Grenzfall mehr', cousteau?.tmdb === 103938 && !cousteau.pruefen, cousteau)
+  const spirouFantasio = echt.find((e) => e.adn === 778)
+  pruefe('Spirou und Fantasio hat feste Kennung 37793 (2006, 39 Folgen wie bei ADN)', spirouFantasio?.tmdb === 37793 && !spirouFantasio.pruefen, spirouFantasio)
   pruefe('keine ADN-Kennung doppelt', new Set(echt.map((e) => e.adn)).size === echt.length)
 
   console.log('\nBau: ADN-Serie ohne aniSearch-Eintrag als Cartoon')
