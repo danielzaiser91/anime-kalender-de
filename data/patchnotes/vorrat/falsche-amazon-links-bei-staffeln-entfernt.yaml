@@ -1,5 +1,5 @@
 kategorie: bugfix
-text: Falsche Amazon-Links bei mehreren Staffeln entfernt
+text: Jede Staffel führt zu ihrer eigenen Prime-Seite
 untertitel: Etwa bei Golden Kamuy 2 und Date a Live
 wartetAuf: bereit zur Freigabe, Wirkung am 01.11.2026 in titles.json belegt (PR 2354)
 seit: '2026-11-01'
