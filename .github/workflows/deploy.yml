@@ -416,6 +416,23 @@ jobs:
       - id: deployment
         uses: actions/deploy-pages@v4
 
+  # Kachelränder an der ausgelieferten Seite (30.10.2026): dieselbe Pixelmessung wie in der PR-Kette, aber gegen die echte Adresse (Service Worker gesperrt, fremde Bilder ersetzt).
+  # Ein Befund macht nur diesen Job rot (`continue-on-error`), nie den Deploy und nie `abschluss` (steht nicht in dessen `needs`). Der Job hält die Gruppe `pages`,
+  # daher die kurze Frist: Messung lokal gegen live 3 x ca. 117 s (30.10.2026) plus Einrichten, 8 min als Obergrenze.
+  kachelrand_live:
+    needs: [deploy_hart, deploy_schlank]
+    if: ${{ !cancelled() && (needs.deploy_hart.result == 'success' || needs.deploy_schlank.result == 'success') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/kette-einrichten
+        with:
+          playwright: 'true'
+      - name: Kachelränder live messen
+        run: node tools/kachel-ecken-messen.mjs --live
+
   # Abmeldung und Aufräumen am Ende, nach allen Jobs: Sie brauchen das Meldeskript (Auscheckvorgang) und den Gesamtstand.
   abschluss:
     needs: [herkunft, build, pruefen, deploy_hart, deploy_schlank]
