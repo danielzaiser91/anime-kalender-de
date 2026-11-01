@@ -369,16 +369,22 @@ export function bereinigeWege({
  *
  * Gemessen am 02.10.2026: genau zwei Titel. **Der Weg mit Sprachurteil bleibt**, er trägt die
  * Auskunft; die Reihenfolge sonst unverändert. Rückgabe ist die Zahl der entfernten Wege.
+ *
+ * **Ein Folgen-Link (`/watch/…`) geht in der Serienseite auf** (01.11.2026, The Vermilion Mask: „Crunchyroll ✓ Deutsch“ und
+ * darunter „nur Untertitel“ mit dem JustWatch-Link `/watch/GE00384363JAJP`): Hat der Titel eine Serienadresse, entfällt jeder
+ * Crunchyroll-Weg ohne Serienkennung.
  */
 export function entdoppleCrWege(titles: Map<number, Title>): number {
   const kennung = (u: string): string | undefined => /\/series\/([A-Z0-9]+)/i.exec(u)?.[1]?.toLowerCase()
   let entfernt = 0
   for (const title of titles.values()) {
     if ((title.streams?.length ?? 0) < 2) continue
+    const hatSerie = title.streams.some((s) => s.platform === 'crunchyroll' && kennung(s.url))
     const gesehen = new Map<string, (typeof title.streams)[number]>()
     const behalten = new Set<(typeof title.streams)[number]>()
     for (const s of title.streams) {
       const k = s.platform === 'crunchyroll' ? kennung(s.url) : undefined
+      if (!k && s.platform === 'crunchyroll' && hatSerie) continue
       if (!k) {
         behalten.add(s)
         continue

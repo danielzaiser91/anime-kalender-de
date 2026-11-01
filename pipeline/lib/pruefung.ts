@@ -23,6 +23,7 @@ import { premiereFehler } from './premiere.ts'
 import { beobachtetOhneTermin } from './folge-ueber-anzahl.ts'
 import { discTerminFehler, type DiscPruefQuellen } from './disc-anisearch-datum.ts'
 import { sichtungsZeilen } from './sichtungsfenster.ts'
+import { crWegDoppelt } from './cr-doppelter-weg.ts'
 
 export interface Pruefergebnis {
   fehler: string[]
@@ -237,6 +238,7 @@ function schlussFehler(releases: Release[], events: ReleaseEvent[], titles: Map<
   return [
     ...discTerminFehler(releases, heute, discQuellen),
     ...landFehler(titles),
+    ...crWegDoppelt(titles),
     ...geteilteWegeTrotzWiderlegung(releases, titles),
     ...premiereFehler(releases),
     ...beobachtetOhneTermin(releases, events),
