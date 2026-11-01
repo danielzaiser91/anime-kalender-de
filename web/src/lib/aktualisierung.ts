@@ -30,7 +30,19 @@ async function cacheLeeren(): Promise<void> {
   }
 }
 
-async function neuLaden(version: string): Promise<void> {
+/**
+ * Kam der Besucher zurück, während das Neuladen im Verborgenen vorbereitet wurde, wird nicht mehr sichtbar neu geladen. Die Schleifensperre
+ * fällt, damit der Rückfall bei der Rückkehr (`pruefeNachPause`, Tab war ≥ `PAUSE_MS` verborgen) den Versuch sofort erneuert.
+ */
+function abgebrochen(): void {
+  try {
+    sessionStorage.removeItem(MARKE)
+  } catch {
+    /* ohne Speicher gab es keine Marke */
+  }
+}
+
+async function neuLaden(version: string, nurVerborgen = false): Promise<void> {
   try {
     const [v, zeit] = (sessionStorage.getItem(MARKE) ?? '').split('|')
     if (v === version && Date.now() - Number(zeit) < WIEDERHOLUNG_MS) return
@@ -40,13 +52,14 @@ async function neuLaden(version: string): Promise<void> {
     return
   }
   await cacheLeeren()
+  if (nurVerborgen && !document.hidden) return abgebrochen()
   merkeLesestelle(document, sessionStorage, ortJetzt(), Date.now())
   location.reload()
 }
 
-async function pruefe(): Promise<void> {
+async function pruefe(nurVerborgen = false): Promise<void> {
   const neu = await neuesteVersion()
-  if (neu && neu !== MEINE_VERSION) await neuLaden(neu)
+  if (neu && neu !== MEINE_VERSION) await neuLaden(neu, nurVerborgen)
 }
 
 export type Uhr = { jetzt: () => number; setze: (f: () => void, ms: number) => number; loesche: (id: number) => void }
@@ -58,7 +71,7 @@ export const ECHTE_UHR: Uhr = { jetzt: () => Date.now(), setze: (f, ms) => windo
  * Rückfall (Tab war eingefroren, kein Timer lief): Kommt jemand nach ≥ `PAUSE_MS` zurück, wird dann geprüft; die Lesestelle bleibt erhalten (`lesestelle.ts`).
  * Zusagen (Test `pipeline/check-aktualisierung-verborgen.ts`): Timer nur beim Verbergen, bei Rückkehr davor gelöscht, nur wenn noch verborgen; Rückkehr nach Pause prüft einmal.
  */
-export function pruefeNachPause(doc: Pick<Document, 'hidden' | 'addEventListener'>, pruefeJetzt: () => void, uhr: Uhr = ECHTE_UHR): void {
+export function pruefeNachPause(doc: Pick<Document, 'hidden' | 'addEventListener'>, pruefeJetzt: (imVerborgenen: boolean) => void, uhr: Uhr = ECHTE_UHR): void {
   let verborgenSeit = 0
   let timer: number | undefined
   const stoppe = () => {
@@ -71,16 +84,16 @@ export function pruefeNachPause(doc: Pick<Document, 'hidden' | 'addEventListener
       verborgenSeit = uhr.jetzt()
       timer = uhr.setze(() => {
         timer = undefined
-        if (doc.hidden) pruefeJetzt()
+        if (doc.hidden) pruefeJetzt(true)
       }, PAUSE_MS)
-    } else if (verborgenSeit && uhr.jetzt() - verborgenSeit >= PAUSE_MS) pruefeJetzt()
+    } else if (verborgenSeit && uhr.jetzt() - verborgenSeit >= PAUSE_MS) pruefeJetzt(false)
   })
 }
 
 export function pruefeVersionBeimLaden(): void {
   if (import.meta.env?.DEV || MEINE_VERSION === 'dev') return
   void pruefe()
-  pruefeNachPause(document, () => void pruefe())
+  pruefeNachPause(document, (imVerborgenen) => void pruefe(imVerborgenen))
   // Alter Stand verweist auf Chunks, die der Deploy gelöscht hat: still einmal neu laden.
   window.addEventListener('vite:preloadError', (e) => {
     e.preventDefault()

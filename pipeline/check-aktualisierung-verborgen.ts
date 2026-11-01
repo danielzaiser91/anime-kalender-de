@@ -89,30 +89,85 @@ function aufbau() {
   pruefe('sichtbar ohne vorheriges Verbergen: keine Prüfung', t.geprueft() === 0)
 }
 
-// Verdrahtung: Neuladen speichert die Lesestelle vor `location.reload`
+// Verdrahtung: Neuladen speichert die Lesestelle vor `location.reload`; im Verborgenen-Pfad wird vor dem Neuladen erneut auf „verborgen“ geprüft
 {
   const speicher = new Map<string, string>()
   let neuGeladen = 0
   let gespeichertBeimLaden: string | undefined
+  let beiNeuladenVerborgen: boolean | undefined
+  const dokument = {
+    hidden: false,
+    hoerer: [] as Array<() => void>,
+    addEventListener(_art: string, f: () => void) {
+      this.hoerer.push(f)
+    },
+    querySelector: () => ({ getBoundingClientRect: () => ({ height: 50 }) }),
+    querySelectorAll: () => [{ dataset: { datum: '2026-10-29' }, getBoundingClientRect: () => ({ top: 120, bottom: 700, height: 580 }) }],
+  }
+  const fenster = {
+    timer: [] as Array<{ f: () => void; ms: number }>,
+    addEventListener: () => undefined,
+    setTimeout(f: () => void, ms: number) {
+      this.timer.push({ f, ms })
+      return this.timer.length
+    },
+    clearTimeout: () => undefined,
+  }
+  /** Rückkehr des Besuchers, während der Cache aufgeräumt wird (zwischen Prüfung und Neuladen). */
+  let kehreWaehrendAufraeumenZurueck = false
+  Object.defineProperty(globalThis, 'navigator', {
+    configurable: true,
+    value: {
+      serviceWorker: {
+        getRegistration: () => {
+          if (kehreWaehrendAufraeumenZurueck) dokument.hidden = false
+          return Promise.resolve(undefined)
+        },
+      },
+    },
+  })
   g.sessionStorage = {
     getItem: (k: string) => speicher.get(k) ?? null,
     setItem: (k: string, v: string) => void speicher.set(k, v),
     removeItem: (k: string) => void speicher.delete(k),
   }
-  g.location = { pathname: '/', hash: '#/', reload: () => { neuGeladen++; gespeichertBeimLaden = speicher.get(SCHLUESSEL) } }
-  g.window = { addEventListener: () => undefined }
-  g.document = {
-    hidden: false,
-    addEventListener: () => undefined,
-    querySelector: () => ({ getBoundingClientRect: () => ({ height: 50 }) }),
-    querySelectorAll: () => [{ dataset: { datum: '2026-10-29' }, getBoundingClientRect: () => ({ top: 120, bottom: 700, height: 580 }) }],
+  g.location = {
+    pathname: '/',
+    hash: '#/',
+    reload: () => {
+      neuGeladen++
+      gespeichertBeimLaden = speicher.get(SCHLUESSEL)
+      beiNeuladenVerborgen = dokument.hidden
+    },
   }
+  g.window = fenster
+  g.document = dokument
   g.fetch = () => Promise.resolve({ ok: true, json: () => Promise.resolve({ v: 'neuer-stand' }) })
+  const warte = () => new Promise((fertig) => setTimeout(fertig, 20))
   pruefeVersionBeimLaden()
-  await new Promise((fertig) => setTimeout(fertig, 20))
+  await warte()
   const got = JSON.parse(gespeichertBeimLaden ?? 'null')
   pruefe('neue Fassung → genau ein Neuladen', neuGeladen === 1, neuGeladen)
   pruefe('die Lesestelle liegt schon im Speicher, wenn neu geladen wird', got?.datum === '2026-10-29' && got.abstand === 70 && got.ort === '/#/', got)
+
+  /** Verbergen, Timer feuern (wie nach PAUSE_MS), Ablauf abwarten. */
+  const verborgenesNeuladen = async (zurueckWaehrend: boolean) => {
+    speicher.clear()
+    neuGeladen = 0
+    fenster.timer.length = 0
+    dokument.hidden = true
+    kehreWaehrendAufraeumenZurueck = zurueckWaehrend
+    dokument.hoerer.forEach((h) => h())
+    fenster.timer.filter((t) => t.ms === PAUSE).forEach((t) => t.f())
+    await warte()
+  }
+  await verborgenesNeuladen(false)
+  pruefe('verborgen bis zum Schluss → Neuladen, und zwar im Verborgenen', neuGeladen === 1 && beiNeuladenVerborgen === true, { neuGeladen, beiNeuladenVerborgen })
+  await verborgenesNeuladen(true)
+  pruefe('Rückkehr kurz vor dem Neuladen → kein sichtbares Neuladen', neuGeladen === 0, neuGeladen)
+  pruefe('…und die Schleifensperre fällt, damit der nächste Versuch gilt', !speicher.has('ak-neu-geladen'), [...speicher.keys()])
+  await verborgenesNeuladen(false)
+  pruefe('der nächste Versuch im Verborgenen lädt neu (Versuch wird erneuert)', neuGeladen === 1, neuGeladen)
 }
 
 if (fehler > 0) {

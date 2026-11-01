@@ -107,8 +107,11 @@ export function starteWiederherstellung(u: Umgebung, ort: string, frist: (rueck:
   return ende
 }
 
-/** Echte Umgebung des Browsers. */
+/** Echte Umgebung des Browsers; je Fenster einmal (der Sprung-Hook ruft es bei jedem Zeichnen). Liest die Lesestelle, bevor der Sprung zu „heute“ entscheidet. */
 export function starteWiederherstellungImBrowser(): void {
+  const fenster = window as unknown as { akLesestelleGestartet?: boolean }
+  if (fenster.akLesestelleGestartet) return
+  fenster.akLesestelleGestartet = true
   starteWiederherstellung(
     {
       doc: document,

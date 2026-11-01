@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo, useRef } from 'react'
 import { nowHhMm } from '@shared/time.ts'
 import { type ReleaseEvent } from '@shared/types.ts'
 import { minutenTakt } from './minuten-takt.ts'
-import { lesestelleFuehrt } from './lesestelle.ts'
+import { lesestelleFuehrt, starteWiederherstellungImBrowser } from './lesestelle.ts'
 
 /**
  * Unterhalb dieser Breite steht ein Tag als einzelne senkrechte Spalte —
@@ -19,6 +19,12 @@ export const SINGLE_COLUMN = '(max-width: 639px)'
  */
 export const LEAD_PX = 30
 
+/** Erste Uhrzeit des Hooks; vorher liest `lesestelle.ts` die gemerkte Lesestelle, damit der Sprung unten sie kennt (Zusage: `check-sprung-lesestelle.ts`). */
+function ersteUhrzeit(): string {
+  starteWiederherstellungImBrowser()
+  return nowHhMm()
+}
+
 /**
  * Die Wochenansicht springt zum nächsten Termin von heute — einmal je Ankunft und auf Zuruf
  * („heute" in der Kopfleiste). Liefert die Uhrzeit, das Sprungziel und seinen Anker.
@@ -30,7 +36,7 @@ export function useSprungZuHeute({ days, today, monday }: {
 }) {
   // Die aktuelle Uhrzeit trennt im heutigen Tag Vergangenes von Kommendem.
   // Zu jeder vollen Minute nachziehen, damit die Grenze nicht stehen bleibt.
-  const [now, setNow] = useState(nowHhMm)
+  const [now, setNow] = useState(ersteUhrzeit)
   useEffect(() => minutenTakt(() => setNow(nowHhMm())), [])
 
   /**
