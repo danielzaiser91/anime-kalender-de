@@ -7,8 +7,9 @@ import { titelJeKennung, type CrArchiv, type CrSerie } from './folgentitel-cr.ts
  * You and I Are Polar Opposites, Aoashi Staffel 2 …). `crFolgentitel` lässt diese Titel aus, weil die Nummern je Staffel bei 1 beginnen. Hier zählt genau eine
  * Staffel: Nummern lückenlos aufeinander (bei 1 oder als Fortsetzung der Vorstaffel, z. B. 25…36), erster deutscher Tag im Beginnjahr des Titels, höchstens
  * so viele Folgen wie unser Titel (laufende Staffeln sind kürzer; ohne Folgenzahl gilt jede Länge) und dieselbe Staffelzahl im Namen von Titel und Crunchyroll-Staffel
- * (Aoashi: Staffel 1 und 2 starten beide 2026). Die Titel, die wir schon haben, dürfen der Staffel nicht widersprechen (`abgleich`; bei weniger als drei gemeinsamen
- * Nummern gibt es keinen Vergleich, dann tragen Jahr, Länge und Staffelzahl allein). Nur Serienformate (TV, ONA); Specials und Filme tragen ihre Folgen in Sonderstaffeln.
+ * (Aoashi: Staffel 1 und 2 starten beide 2026). Dazu müssen die Titel, die wir schon haben, der Staffel inhaltlich gleichen (`abgleich` = „passt": mindestens drei gemeinsame
+ * Nummern, vier Fünftel gleich); ohne Vergleich gibt es nichts, solche Titel ordnet `data/folgentitel-hand.yaml` einzeln zu, bis aniSearch drei Titel führt.
+ * Nur Serienformate (TV, ONA); Specials und Filme tragen ihre Folgen in Sonderstaffeln.
  */
 type Staffel = NonNullable<CrSerie['staffeln']>[number]
 
@@ -61,5 +62,5 @@ export function crFolgentitelGeteilt(titel: Title, serie: CrSerie | undefined, a
   )
   if (passend.length !== 1) return undefined
   const aus = titelDerStaffel(passend[0], archiv)
-  return aus.size && abgleich(vorhanden, aus) !== 'widerspricht' ? aus : undefined
+  return aus.size && abgleich(vorhanden, aus) === 'passt' ? aus : undefined
 }
