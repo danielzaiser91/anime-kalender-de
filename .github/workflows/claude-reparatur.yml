@@ -171,7 +171,8 @@ jobs:
         if: steps.noch_da.outputs.weiter == 'ja' && steps.dedupe.outputs.claude != 'nein'
         run: npm ci
 
-      # Der rote Bestandsbau sichert `data/cache/` (nicht im Repo) als Artefakt; ohne ihn lässt sich der Bau nicht nachstellen.
+      # Der rote Bestandsbau sichert `data/cache/` (nicht im Repo) und die von den Meldungen geschriebenen `data/`-Dateien als
+      # Artefakt (Wurzel `data/`, da mehrere Pfade); ohne ihn lässt sich der Bau nicht nachstellen.
       # Fehlt es (andere Wache, abgelaufen, kein Bau), arbeitet der Untersucher wie bisher nur mit Protokoll und Repo.
       - name: Eingaben des roten Baus laden
         id: eingaben
@@ -180,7 +181,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: bau-eingaben-${{ github.event.workflow_run.id }}
-          path: data/cache
+          path: data
           run-id: ${{ github.event.workflow_run.id }}
           github-token: ${{ github.token }}
 

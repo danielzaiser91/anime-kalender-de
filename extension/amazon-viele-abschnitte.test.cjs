@@ -20,7 +20,7 @@ function pruefe(name, bedingung, gefunden) {
   console.error(`  ✗ ${name}${gefunden === undefined ? '' : ` — gefunden: ${JSON.stringify(gefunden)}`}`)
 }
 
-const TOKENS = ['tokenAbschnitt1-aaaaaaaaaaaa', 'tokenAbschnitt2-bbbbbbbbbbbb', 'tokenAbschnitt3-cccccccccccc', 'tokenAbschnitt4-dddddddddddd', 'tokenAbschnitt5-eeeeeeeeeeee']
+const TOKENS = ['tokenAbschnitt1-aaaaaaaaaaaa', 'tokenAbschnitt2-bbbbbbbbbbbb', 'tokenAbschnitt3-cccccccccccc', 'tokenAbschnitt4+dd/dd=dddd==', 'tokenAbschnitt5-eeeeeeeeeeee']
 const BEREICHE = [
   [1, 24],
   [25, 48],
@@ -87,9 +87,11 @@ function starte(abschnitt4) {
     addEventListener() {},
     postMessage: (n) => nachrichten.push(n),
     fetch: async (adresse) => {
-      const token = TOKENS.find((t) => decodeURIComponent(String(adresse)).includes(t))
+      /* Wie Amazon: Der Token im widgets-JSON wird ein zweites Mal formularartig dekodiert ('+' wird zum Leerzeichen). */
+      const widgets = JSON.parse(new URL(String(adresse), 'https://www.amazon.de').searchParams.get('widgets'))
+      const token = decodeURIComponent(widgets[0].widgetToken.replaceAll('+', ' '))
       const index = TOKENS.indexOf(token)
-      let antwort = { status: 200, text: antwortMit(bereich(...BEREICHE[index])) }
+      let antwort = index < 0 ? { status: 200, text: '{"widgets":{}}' } : { status: 200, text: antwortMit(bereich(...BEREICHE[index])) }
       if (index === 3) antwort = abschnitt4(++versuche4)
       return { ok: antwort.status === 200, status: antwort.status, text: async () => antwort.text }
     },
@@ -121,6 +123,7 @@ console.log('Zusicherungen für lange Staffeln mit mehreren Abschnitten\n')
 
 const gut = starte(() => ({ status: 200, text: antwortMit(bereich(73, 96)) }))
 const einmalFehler = starte((v) => (v === 1 ? { status: 503, text: '' } : { status: 200, text: antwortMit(bereich(73, 96)) }))
+const leer = starte(() => ({ status: 200, text: '{"widgets":{}}' }))
 const immerFehler = starte(() => ({ status: 503, text: '' }))
 const kollision = starte(() => ({ status: 200, text: antwortMit(bereich(1, 24, (n) => `B0ANDERE${String(n).padStart(3, '0')}`)) }))
 const teilKollision = starte(() => ({
@@ -131,7 +134,7 @@ const ohneNummer = starte(() => ({ status: 200, text: antwortMit(bereich(73, 96)
 
 async function haupt() {
   /* 60 s virtuell: reicht für alle Pausen und Neuversuche, kostet keine echte Zeit. */
-  for (const l of [gut, einmalFehler, immerFehler, kollision, teilKollision, ohneNummer]) await laufe(l, 60_000)
+  for (const l of [gut, einmalFehler, leer, immerFehler, kollision, teilKollision, ohneNummer]) await laufe(l, 60_000)
   const g = gut.letzter()
   pruefe('alle fünf Abschnitte: 99 Folgen gelesen', g.funde?.length === 99, g.funde?.length)
   pruefe('alle Abschnitte geholt: offen 0', g.abschnitte?.offen === 0, g.abschnitte)
@@ -142,6 +145,12 @@ async function haupt() {
   pruefe('ein einmaliger Fehler im vierten Abschnitt wird nachgeholt: 99 Folgen', e.funde?.length === 99, e.funde?.length)
   pruefe('danach offen 0', e.abschnitte?.offen === 0, e.abschnitte)
   pruefe('der vierte Abschnitt wurde genau zweimal abgerufen', einmalFehler.versuche4() === 2, einmalFehler.versuche4())
+
+  pruefe('Token mit "+", "/" und "=": der vierte Abschnitt kommt an (kodiert übergeben, nicht roh)', g.funde?.some((f) => f.nummer === 73) && g.abschnitte?.log?.[3]?.gelesen === 24, g.abschnitte?.log?.[3])
+  pruefe('alle Abschnitte lesbar: unlesbar 0', g.abschnitte?.unlesbar === 0, g.abschnitte?.unlesbar)
+
+  const l = leer.letzter()
+  pruefe('leerer Abschnitt (200 ohne episodeList): 75 Folgen, offen 1, im Stand als unlesbar benannt', l.funde?.length === 75 && l.abschnitte?.offen === 1 && l.abschnitte?.unlesbar === 1, [l.funde?.length, l.abschnitte])
 
   const i = immerFehler.letzter()
   pruefe('dauerhafter Fehler: nur 75 Folgen', i.funde?.length === 75, i.funde?.length)

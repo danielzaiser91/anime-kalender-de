@@ -6,8 +6,14 @@
  * `if (antwort.ok)`, der Vermerk und der Fehlerzweig laufen so, wie sie im Code stehen.
  * Gezählt wird, ob die Seite danach gesperrt ist: ein zweiter Klick meldet nichts.
  */
-const { lies, knopfNeu, handlerKompilieren } = require('./melde-geruest.cjs')
+const { lies, knopfNeu, handlerKompilieren, stummNeu } = require('./melde-geruest.cjs')
 const vm = require('node:vm')
+
+/** Die echte Widerspruchsregel; der Rest von `globalThis` bleibt hier stumm wie bisher. */
+const regeln = { globalThis: null }
+regeln.globalThis = regeln
+vm.runInNewContext(lies('prime-stand.js'), regeln)
+const widerspruch = regeln.akPrimeMeldungWiderspruch
 
 const fehler = []
 function pruefe(name, ok, gefunden) {
@@ -55,6 +61,10 @@ function seiteNeu(antwort) {
     seitenLage: () => ({ folgenLautSeite: 12 }),
     gesehen: { gesamt: 12, jeFolge: null },
     eintrag: { url: 'https://www.amazon.de/dp/A', titel: 'Titel' },
+    quelltextVonFruehererSeite: () => false,
+    titelVerlassen: null,
+    document: { querySelector: () => null },
+    globalThis: new Proxy(stummNeu(), { get: (stumm, name) => (name === 'akPrimeMeldungWiderspruch' ? widerspruch : stumm[name]) }),
     WORKER: 'https://worker.test/pruefung',
     chrome: { storage: { sync: { get: async () => ({ token: 'tok' }) } } },
     setTimeout: () => 0,

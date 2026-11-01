@@ -9,7 +9,7 @@ Der Vorschlag stammt aus einem Namensvergleich und ist **kein Beleg**:
 gehört die gemeldete Adresse als zusätzlicher Verweis an den Titel; stimmt er
 nicht, gehört die Zeile gestrichen.
 
-Stand: 2026-10-31
+Stand: 2026-11-01
 
 ## Was hier zu tun ist
 

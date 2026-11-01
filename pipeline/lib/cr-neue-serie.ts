@@ -32,6 +32,16 @@ function namen(t: Title): Set<string> {
   return new Set([t.titleEn, t.titleRomaji, t.titleDe].filter((n): n is string => !!n).map(norm))
 }
 
+/**
+ * Der Serienweg ersetzt Crunchyroll-Adressen ohne Serienkennung (Folgen-Link `/watch/…`, z. B. aus JustWatch) an derselben Stelle:
+ * ein Folgen-Link neben der Serienseite wäre ein zweiter Anbieter ohne Tonangabe (The Vermilion Mask, 01.11.2026).
+ */
+function setzeSerienWeg(t: Title, weg: Title['streams'][number]): void {
+  const rest = t.streams.filter((s) => s.platform !== 'crunchyroll' || serienKennung(s.url))
+  const stelle = t.streams.findIndex((s) => s.platform === 'crunchyroll' && !serienKennung(s.url))
+  t.streams = stelle < 0 ? [...rest, weg] : [...rest.slice(0, stelle), weg, ...rest.slice(stelle)]
+}
+
 /** Deutsche Folgennummern als zusammenhängende Bereiche. */
 function bereiche(nummern: number[]): { from: number; to: number; dub: boolean }[] {
   const raus: { from: number; to: number; dub: boolean }[] = []
@@ -84,7 +94,7 @@ export function ordneNeueSerienZu({ folgen, titles, nachUrl, handNein, gelesen =
     const url = `https://www.crunchyroll.com/de/series/${serieId}`
     if (wegVerneint(handNein, t.id, 'crunchyroll', url)) continue
     const ranges = bereiche(liste.map((f) => Number(f.nummer)).filter((n) => Number.isFinite(n) && n >= 1))
-    t.streams.push({ platform: 'crunchyroll', url, dub: true, ...(ranges.length ? { dubRanges: ranges } : {}) })
+    setzeSerienWeg(t, { platform: 'crunchyroll', url, dub: true, ...(ranges.length ? { dubRanges: ranges } : {}) })
     nachUrl.set(url, [...(nachUrl.get(url) ?? []), t])
     aus.zugeordnet.push({ serieId, titelId: t.id })
   }
