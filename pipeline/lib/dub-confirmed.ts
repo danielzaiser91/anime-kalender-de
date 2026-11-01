@@ -150,6 +150,11 @@ export function loadDubChecks(): DubCheck[] {
   return [...hand, ...dubChecksAusTerminen(loadCurated(), hand)]
 }
 
+/** Die Schlüssel `anilistId|platform` aller Handbelege mit deutsch (ohne Kanal-Lücken ohne Beleg). */
+export function handJaSchluessel(checks: DubCheck[]): Set<string> {
+  return new Set(checks.filter((c) => c.dub === true && !c.kanalOhneBeleg).map((c) => `${c.anilistId}|${c.platform}`))
+}
+
 export function ladeHandbelege(): DubCheck[] {
   if (!existsSync(DATEI)) return []
   const raw = yaml.load(readFileSync(DATEI, 'utf8'))
