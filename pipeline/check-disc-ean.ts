@@ -128,6 +128,26 @@ console.log('\nBau (baueReleases gegen Wegwerf-Ordner):')
     pruefe('Bau: Titel ohne Ausgabe → Namenssuche', amazonLinkArt(url('ohne-titel-ausgabe')) === 'name', url('ohne-titel-ausgabe'))
     pruefe('Bau: anderer Tag → Namenssuche', amazonLinkArt(url('anderer-tag')) === 'name', url('anderer-tag'))
     pruefe('Bau: alle vier Releases entstanden', releases.length === 4, releases.length)
+
+    // Disc-Termine aus den News (`automatisch`) laufen nicht durch `discKaufUrl`; der echte Bauschritt 11-1 setzt die EAN-Suche.
+    const { ergaenzeDiscUndZugang } = await import('./bau/11-1-disc-und-zugang.ts')
+    const news = (slug: string, titleId: number, tag: string, extra: object = {}) => ({ slug, titleId, name: slug, platform: 'disc', releaseType: 'disc', automatisch: true, schedule: { firstEpisodeDate: tag }, year: 2026, sources: [], ...extra })
+    const nr = [
+      news('n-ean', 900301, TAG),
+      news('n-tag', 900301, '2026-12-19'),
+      news('n-titel', 900399, TAG),
+      news('n-hand', 900301, TAG, { buyUrl: dp }),
+      news('n-kein-news', 900301, TAG, { automatisch: undefined }),
+      news('n-stream', 900301, TAG, { releaseType: 'weekly' }),
+    ]
+    ergaenzeDiscUndZugang({ titles: new Map(), anisearch: {}, releases: nr as never, zugangJeAdresse: new Map() })
+    const nurl = (slug: string) => (nr.find((r) => r.slug === slug) as { buyUrl?: string }).buyUrl
+    pruefe('News-Disc mit eindeutiger EAN → EAN-Suche (Bauschritt 11-1)', nurl('n-ean') === 'https://www.amazon.de/s?k=7630017545978', nurl('n-ean'))
+    pruefe('News-Disc, andere Tag → ohne Link (keine neue Namenssuche)', nurl('n-tag') === undefined, nurl('n-tag'))
+    pruefe('News-Disc, Titel ohne Ausgabe → ohne Link', nurl('n-titel') === undefined, nurl('n-titel'))
+    pruefe('News-Disc mit Handlink bleibt', nurl('n-hand') === dp, nurl('n-hand'))
+    pruefe('Disc ohne News-Herkunft bleibt unberührt', nurl('n-kein-news') === undefined, nurl('n-kein-news'))
+    pruefe('kein Disc-Termin bleibt unberührt', nurl('n-stream') === undefined, nurl('n-stream'))
   } finally {
     rmSync(wurzel, { recursive: true, force: true })
   }

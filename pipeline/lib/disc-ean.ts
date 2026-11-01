@@ -61,3 +61,16 @@ export function buyUrlNachVerschiebung(buyUrl: string | undefined, titleId: numb
   const ean = discEan(index, titleId, nach)
   return ean ? amazonEanUrl(ean) : buyUrl
 }
+
+/** Ein Disc-Termin aus den News hat keinen Handlink und lief nicht durch `discKaufUrl`: bekommt die EAN-Suche, wenn die Ausgabe an seinem (endgültigen) Tag eindeutig ist; sonst bleibt es ohne Link. */
+export function eanLinksFuerNewsDiscs(releases: { releaseType: string; automatisch?: boolean; buyUrl?: string; titleId: number; schedule: { firstEpisodeDate?: string } }[], index: DiscIndex): number {
+  let n = 0
+  for (const r of releases) {
+    if (r.releaseType !== 'disc' || !r.automatisch || r.buyUrl || !r.schedule.firstEpisodeDate) continue
+    const ean = discEan(index, r.titleId, r.schedule.firstEpisodeDate)
+    if (!ean) continue
+    r.buyUrl = amazonEanUrl(ean)
+    n++
+  }
+  return n
+}
