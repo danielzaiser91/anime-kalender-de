@@ -1,3 +1,5 @@
+import { merkeLesestelle, ortJetzt } from './lesestelle.ts'
+
 declare const __APP_VERSION__: string | undefined
 const MEINE_VERSION = typeof __APP_VERSION__ === 'string' ? __APP_VERSION__ : 'dev'
 const MARKE = 'ak-neu-geladen'
@@ -28,7 +30,19 @@ async function cacheLeeren(): Promise<void> {
   }
 }
 
-async function neuLaden(version: string): Promise<void> {
+/**
+ * Kam der Besucher zurück, während das Neuladen im Verborgenen vorbereitet wurde, wird nicht mehr sichtbar neu geladen. Die Schleifensperre
+ * fällt, damit der Rückfall bei der Rückkehr (`pruefeNachPause`, Tab war ≥ `PAUSE_MS` verborgen) den Versuch sofort erneuert.
+ */
+function abgebrochen(): void {
+  try {
+    sessionStorage.removeItem(MARKE)
+  } catch {
+    /* ohne Speicher gab es keine Marke */
+  }
+}
+
+async function neuLaden(version: string, nurVerborgen = false): Promise<void> {
   try {
     const [v, zeit] = (sessionStorage.getItem(MARKE) ?? '').split('|')
     if (v === version && Date.now() - Number(zeit) < WIEDERHOLUNG_MS) return
@@ -38,30 +52,48 @@ async function neuLaden(version: string): Promise<void> {
     return
   }
   await cacheLeeren()
+  if (nurVerborgen && !document.hidden) return abgebrochen()
+  merkeLesestelle(document, sessionStorage, ortJetzt(), Date.now())
   location.reload()
 }
 
-async function pruefe(): Promise<void> {
+async function pruefe(nurVerborgen = false): Promise<void> {
   const neu = await neuesteVersion()
-  if (neu && neu !== MEINE_VERSION) await neuLaden(neu)
+  if (neu && neu !== MEINE_VERSION) await neuLaden(neu, nurVerborgen)
 }
 
+export type Uhr = { jetzt: () => number; setze: (f: () => void, ms: number) => number; loesche: (id: number) => void }
+export const ECHTE_UHR: Uhr = { jetzt: () => Date.now(), setze: (f, ms) => window.setTimeout(f, ms), loesche: (id) => window.clearTimeout(id) }
+
 /**
- * Handy-Tabs und die installierte App bleiben Stunden offen und werden nie „geladen". Kommt jemand nach einer langen Pause
- * zurück, gilt das wie ein Laden: einmal prüfen. Das Neuladen kommt kurz nach der Rückkehr, die Seite ist dann schon sichtbar — wer in dieser Sekunde tippt, kann es noch erleben (bewusst nicht abgefangen: selten, und die Marke verhindert Schleifen).
+ * Handy-Tabs und die installierte App bleiben Stunden offen und werden nie „geladen". **Die Prüfung läuft im Verborgenen** (Daniel, 01.11.2026):
+ * Ist der Tab `PAUSE_MS` verborgen, wird geprüft und bei neuer Fassung gleich dort neu geladen — der Besucher sieht beim Zurückkommen nur die fertige Seite.
+ * Rückfall (Tab war eingefroren, kein Timer lief): Kommt jemand nach ≥ `PAUSE_MS` zurück, wird dann geprüft; die Lesestelle bleibt erhalten (`lesestelle.ts`).
+ * Zusagen (Test `pipeline/check-aktualisierung-verborgen.ts`): Timer nur beim Verbergen, bei Rückkehr davor gelöscht, nur wenn noch verborgen; Rückkehr nach Pause prüft einmal.
  */
-function pruefeNachPause(): void {
+export function pruefeNachPause(doc: Pick<Document, 'hidden' | 'addEventListener'>, pruefeJetzt: (imVerborgenen: boolean) => void, uhr: Uhr = ECHTE_UHR): void {
   let verborgenSeit = 0
-  document.addEventListener('visibilitychange', () => {
-    if (document.hidden) verborgenSeit = Date.now()
-    else if (verborgenSeit && Date.now() - verborgenSeit >= PAUSE_MS) void pruefe()
+  let timer: number | undefined
+  const stoppe = () => {
+    if (timer !== undefined) uhr.loesche(timer)
+    timer = undefined
+  }
+  doc.addEventListener('visibilitychange', () => {
+    stoppe()
+    if (doc.hidden) {
+      verborgenSeit = uhr.jetzt()
+      timer = uhr.setze(() => {
+        timer = undefined
+        if (doc.hidden) pruefeJetzt(true)
+      }, PAUSE_MS)
+    } else if (verborgenSeit && uhr.jetzt() - verborgenSeit >= PAUSE_MS) pruefeJetzt(false)
   })
 }
 
 export function pruefeVersionBeimLaden(): void {
   if (import.meta.env?.DEV || MEINE_VERSION === 'dev') return
   void pruefe()
-  pruefeNachPause()
+  pruefeNachPause(document, (imVerborgenen) => void pruefe(imVerborgenen))
   // Alter Stand verweist auf Chunks, die der Deploy gelöscht hat: still einmal neu laden.
   window.addEventListener('vite:preloadError', (e) => {
     e.preventDefault()
