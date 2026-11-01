@@ -21,7 +21,7 @@
   },
   "3972": {
     "offen": 38,
-    "grund": "RTL+ führt für 5D’s keine Folgen (Wiederholungen ohne Titelseiten); TMDB hat ab Folge 117 nur „Folge N\""
+    "grund": "kein Eintrag in rtlplus-folgen.json; TMDB führt ab Folge 117 nur „Folge N\""
   },
   "6867": {
     "offen": 4,
