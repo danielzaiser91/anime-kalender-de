@@ -8447,7 +8447,8 @@ async function speicherSchreiben(werte) {
         fehlend === 0
           ? `${geladen} von ${gesehen.gesamt} gelesen — ein Abschnitt fehlt noch`
           : deutsch
-            ? `${geladen} von ${gesehen.gesamt} Folgen gelesen — ${fehlend} fehlen noch`
+            ? `${geladen} von ${gesehen.gesamt} Folgen gelesen — ${fehlend} fehlen noch` +
+              (gesehen.abschnitte?.unlesbar ? ` (${gesehen.abschnitte.unlesbar} Reiter nicht lesbar)` : '')
             : globalThis.akPrimeLeseStand({ sollFolgen: gesehen.gesamt, geladen, gesperrt: wegInRegion, fertig: false })
       knopf.title =
         'Solange nicht jede Folge gelesen ist, sagt die Meldung mehr, als geprueft wurde. ' +
