@@ -52,6 +52,7 @@ for (const c of [
   'git commit --message=--no-verify',
   'git push',
   'git push -n',
+  'git commit --message --no-verify',
   'git commit -m x -- a.txt --no-verify',
   'git push --dry-run origin main',
   'git status',
