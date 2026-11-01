@@ -11,7 +11,7 @@ const hook = join(import.meta.dirname, 'claude-global', 'hooks', 'no-verify-sper
 const { pruefe } = createRequire(import.meta.url)(hook)
 
 const lauf = (command, tool_name = 'Bash') => pruefe({ tool_name, tool_input: { command } })
-const gesperrt = (command) => assert.match(lauf(command), /^„git (commit|push) mit --no-verify“ gesperrt/, `${command} gesperrt`)
+const gesperrt = (command) => assert.match(lauf(command), /^„git (commit|push) mit (--no-verify|core\.hooksPath)“ gesperrt/, `${command} gesperrt`)
 const frei = (command) => assert.equal(lauf(command), null, `${command} frei`)
 
 for (const c of [
@@ -35,6 +35,18 @@ for (const c of [
   'git commit -m "$(git log -1 --format=%s)" --no-verify',
   'git commit -m "x" -- a.txt && git push --no-verify',
   'timeout 20 git push --no-verify',
+  // A1: Zeilenfortsetzung trennt den Befehl nicht
+  'git commit -m x \\\n  --no-verify',
+  'git commit \\\n-m x \\\n-n',
+  'git push \\\r\n--no-verify',
+  'git commit -m "a \\\nb" --no-verify',
+  // A2: Hook-Verzeichnis umbiegen
+  'git -c core.hooksPath=/dev/null commit -m x',
+  'git -c core.hookspath=/dev/null push',
+  'git -C /c/x -c core.hooksPath=/nix commit -m x',
+  'git --config-env=core.hooksPath=LEER commit -m x',
+  'git --config-env core.hooksPath=LEER push',
+  "bash -c 'git -c core.hooksPath=/dev/null commit -m x'",
 ]) {
   gesperrt(c)
 }
@@ -57,6 +69,12 @@ for (const c of [
   'git push --dry-run origin main',
   'git status',
   'git diff -n',
+  'git -c core.hooksPath=/dev/null status',
+  'git -c core.autocrlf=false commit -m x',
+  'git commit -m "core.hooksPath"',
+  'git -c user.name=hooksPath commit -m x',
+  'git config core.hooksPath',
+  'git commit -m x \\\n  -a',
   'echo git commit --no-verify',
   "printf 'git push --no-verify'",
   'git commit -m x\ncat > f <<EOF\ngit commit --no-verify\nEOF',
@@ -81,4 +99,4 @@ const kaputt = prozess('{')
 assert.equal(kaputt.status, 0)
 assert.match(kaputt.stderr, /^no-verify-sperre: /)
 
-console.log('no-verify-sperre.test: ok (commit/push, -n, Bündel, -C, bash -c, eval, Ketten, Abkürzung; frei: log -n, Nachrichtentext, Heredoc, echo, Prozess)')
+console.log('no-verify-sperre.test: ok (commit/push, -n, Bündel, -C, bash -c, eval, Ketten, Abkürzung, Zeilenfortsetzung, core.hooksPath; frei: log -n, Nachrichtentext, Heredoc, echo, Prozess)')
