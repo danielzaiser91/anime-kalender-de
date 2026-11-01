@@ -12,6 +12,15 @@ const gut = [
   "- run: echo 'a>>b' >> $F",
   '- run: echo a >> $F # b>>c',
   'name: kein Shell',
+  '- run: echo a>>>f',
+  '- run: echo a >>>f',
+  '  #echo a>>f',
+  '- run: |\n    #echo a>>f',
+  '- run: |\n    cat <<EOF\n    a>>b\n    EOF',
+  '- run: |\n    x=$((y>>2))',
+  '- run: echo $((y>>2))',
+  '- uses: a\n  with:\n    body: |\n      foo>>bar',
+  '- run: |\n    echo "a\n    foo>>bar"',
 ]
 const schlecht: [string, number][] = [
   ['- run: echo a>>$GITHUB_OUTPUT', 1],
@@ -22,6 +31,9 @@ const schlecht: [string, number][] = [
   ['- run: echo a>> $F', 1],
   ['- run: echo a >> $F\n- run: echo b>>$F', 1],
   ['- run: echo a>>$F\n- run: echo b>>$F', 2],
+  ['- run: |\n    cat <<EOF\n    a>>b\n    EOF\n    echo c>>$F', 1],
+  ['- run: |\n    x=$((y>>2))\n    echo c>>$F', 1],
+  ['- uses: a\n  with:\n    body: x\n- run: |\n    echo c>>$F', 1],
 ]
 
 let fehler = 0

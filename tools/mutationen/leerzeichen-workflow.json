@@ -1,0 +1,13 @@
+[
+  { "name": "M1 (?!>) entfernt", "datei": "pipeline/lib/leerzeichen-workflow.ts", "suche": "]>>(?!>)|", "ersetze": "]>>|" },
+  { "name": "M2 (?<!>) entfernt", "datei": "pipeline/lib/leerzeichen-workflow.ts", "suche": "|(?<!>)>>[^\\s>]", "ersetze": "|>>[^\\s>]" },
+  { "name": "M3 Heredoc-Marke nicht gemerkt", "datei": "pipeline/lib/leerzeichen-workflow.ts", "suche": "if (marke) z.heredoc = marke[2]", "ersetze": "if (false) z.heredoc = marke![2]" },
+  { "name": "M4 Heredoc-Ende nie erkannt", "datei": "pipeline/lib/leerzeichen-workflow.ts", "suche": "if (roh.trim() === z.heredoc) z.heredoc = null", "ersetze": "if (false) z.heredoc = null" },
+  { "name": "M5 Heredoc-Ende immer sofort", "datei": "pipeline/lib/leerzeichen-workflow.ts", "suche": "if (roh.trim() === z.heredoc) z.heredoc = null", "ersetze": "z.heredoc = null" },
+  { "name": "M6 $(( )) nicht entfernt", "datei": "pipeline/lib/leerzeichen-workflow.ts", "suche": ".replace(/\\$\\(\\([^)]*\\)\\)/g, '')", "ersetze": "" },
+  { "name": "M7 run-Block-Bedingung ohne blockSpalte>=0", "datei": "pipeline/lib/leerzeichen-workflow.ts", "suche": "if (blockSpalte >= 0 && einzug > blockSpalte) {", "ersetze": "if (einzug > blockSpalte) {" },
+  { "name": "M8 Zeichenkette nicht verfolgt", "datei": "pipeline/lib/leerzeichen-workflow.ts", "suche": "if (c === '\"' || c === \"'\") z.quote = c", "ersetze": "if (false) z.quote = c" },
+  { "name": "M9 Blockkopf nicht erkannt", "datei": "pipeline/lib/leerzeichen-workflow.ts", "suche": "if (BLOCK_KOPF.test(m[2])) {", "ersetze": "if (false) {" },
+  { "name": "M10 Kommentar nicht abgeschnitten", "datei": "pipeline/lib/leerzeichen-workflow.ts", "suche": "if (c === '#' && (i === 0 || /\\s/.test(zeile[i - 1]))) break", "ersetze": "" },
+  { "name": "Kontrolle unmutiert", "aenderungen": [] }
+]
