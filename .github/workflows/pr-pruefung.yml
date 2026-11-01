@@ -162,6 +162,9 @@ jobs:
         run: |
           echo "::error::Kein anilist-cache gefunden"
           exit 1
+      # Neue Beleg-Adressen des PR werden abgerufen: 404/410 rot, sonst Nichtauskunft (PR 2628: UCI-Adresse 404, alle Checks grün).
+      - name: Neue Beleg-Adressen erreichbar
+        run: npx tsx pipeline/neue-quellen-pruefen.ts
       - name: Datensatz bauen (ohne Commit)
         run: npm run data:build
       # Gemessenes Ja ⇒ mindestens ein Weg, am frisch gebauten Datensatz (18.10.2026: Hazbin Hotel und fünf weitere Cartoons).
