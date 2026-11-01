@@ -39,6 +39,7 @@ import { log, warn } from './lib/util.ts'
 import { adressKern } from './lib/dub-confirmed.ts'
 import { leseZugeordnet } from './lib/prime-meldung-riegel.ts'
 import { handpruefungSchreiben, jwFrisch, type Handpruefung } from './lib/jw-handpruefung.ts'
+import { kanalNamen } from './lib/kanal-namen.ts'
 import { todayIso } from '../shared/time.ts'
 
 const ROOT = resolve(import.meta.dirname, '..')
@@ -163,16 +164,7 @@ for (const b of kanalOffen) {
   const schluessel = beurteiltSchluessel(b)
   if (gesehen.has(schluessel)) continue
   const eintrag = jw[String(b.anilistId)]
-  const kanaele = (/Abos: ([^—]*?)(?:, zugang=|, Seitenadresse|\s—|$)/.exec(b.note ?? '')?.[1] ?? '')
-    .split(/,\s*/)
-    /*
-      Ein Zusatz in Klammern gehört nicht zum Kanal (22.09.2026): „Abos: crunchyrollde (Meldung 4738)"
-      ergab „crunchyrollde (meldung 4738)", das auf kein JustWatch-Angebot passte. Die Probe fiel auf
-      alle Angebote zurück (maxdome mit de) und meldete bei A Silent Voice einen Widerspruch, den es
-      im Kanal-Angebot nicht gibt (dort es, it, ja). Vier Belege trugen den Zusatz.
-    */
-    .map((a) => a.replace(/\s*\(.*?\)\s*/g, '').trim().toLowerCase().replace(/de$/, ''))
-    .filter((a) => a && a !== 'prime' && a !== 'keine angabe')
+  const kanaele = kanalNamen(b.note)
   /*
     **Die erste zweite Quelle ist der Kanal-Anbieter selbst.**
 
