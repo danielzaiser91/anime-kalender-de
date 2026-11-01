@@ -2089,6 +2089,12 @@ Pendelte der Bestandsbau zwischen zwei Ständen (18./19.10.2026, 16 Wechsel zwis
 
 **Wache:** `tools/delta-pruefen.mjs` (täglich in `delta-wache.yml`) wird rot und nennt Name und Wartegrund, wenn ein Eintrag länger als `VORRAT_MAX_TAGE` (7) Tage im Vorrat liegt. Der Skill `patchnotes-autor` (nicht im Repo, `~/.claude/skills/`) kennt den Vorrat noch nicht: im täglichen Lauf `pipeline/patchnotes-vorrat.ts liste` mitlesen.
 
+## Patch Notes: „keine“ nur mit Klasse am Anfang des Grundes (01.11.2026)
+
+**Anlass:** Daniel, 01.11.2026 12:48 („viele PRs haben keine Patch Notes, obwohl sie Änderungen haben“). Gezählt an den gemergten PRs seit 29.10.2026 (`gh pr list --state merged --search "merged:>=2026-10-29" --json number,title,body,files`, 265 PRs, 102 mit „Patch Notes: keine – …“): 10 davon änderten Dateien unter `web/src/`, `shared/`, `data/curated/` (2332 Ältere-News-Knopf, 2419 Entdecken, 2428/2354/2347 Fremdzuordnungen …); 12 trugen den Titel `fix|feat(prime|data)` oder `docs(prime)`. Der Nachhol-Bericht fand fast alle „keine“-Gründe richtig, übersehen wurden Datenkorrekturen.
+
+**Regel** (`grundFehler` in `tools/check-patchnotes-pflicht.mjs`): Berührt der PR sichtbare Dateien, beginnt der Grund der „keine“-Zeile mit einer Klasse: Umbau, Test, Werkzeug, CI, Doku, Erweiterung, intern. „Daten“ gehört ausdrücklich nicht dazu. Trägt der Titel `fix(prime)`, `fix(data)`, `feat(prime)` oder `feat(data)`, nennt der Grund die gemessene Wirkung („0 Titel/Termine/Meldungen/Wege/Zeilen“, Beleg `bau-vergleich`); sonst Eintrag oder Vorrat. Untergrenze wäre die bisherige Regex („irgendein Grund“); Alternative wäre eine Prüfer-Pflicht statt Regex, sie erwischt Einzelfälle, aber nicht mechanisch.
+
 ## Daten-Merge: grün ohne Wirkung (20.10.2026)
 
 Lauf 39397639406 (`claude-daten-merge.yml`) endete grün, PR 1556 blieb im Konflikt: `daten-pr-mergen.sh` meldete nur eine Notice. Seit dem Fix ist ein nicht MERGEABLE-er PR nach dem Claude-Schritt ein `::error` und macht den Lauf rot; der Schritt „Ablauf von Claude zeigen“ (`tools/claude-ablauf-zeigen.mjs`) druckt Aufrufe und Ergebnis aus `claude-execution-output.json` ins Protokoll (die Action druckt sonst nur Init und Ergebnis). Klasse: 5 Läufe seit 16.10. mit Claude-Schritt, 2 davon ließen PR 1556 offen. Tools: `gh run view <id> --log` zeigt jetzt die Ursache.

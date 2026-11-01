@@ -30,6 +30,30 @@ const VERTAGT_ZEILE = /^\s*Patch Notes:\s*vertagt\s*[–—-]\s*\S/im
 const VERTAGUNG_IM_GRUND =
   /sp[äa]ter|vertag|wirkt erst|(n[äa]chste[nm]?|folgenden) (\S+ )?\S*(lauf|bau|abruf|lesung|deploy)|(patch note|note) folgt/i
 
+// „keine“ gilt nur mit einer Klasse am Anfang des Grundes (Umbau, Test, Werkzeug, CI, Doku, Erweiterung, intern). „Daten“ steht absichtlich nicht
+// darin: Datenkorrekturen ändern, was Besucher sehen (Anlass: 10 sichtbare und 12 Daten-Titel-PRs unter 102 „keine“-PRs seit 29.10.2026, betrieb.md).
+const GRUND_KLASSE = /^(rein\w*\s+)?(umbau|refactor\w*|tests?|testfäll?e?|werkzeug\w*|ci|doku\w*|erweiterung\w*|intern\w*)\b/i
+// Titel `fix(prime)`, `feat(data)` …: die Zeile muss die gemessene Wirkung nennen („0 Titel“, „0 Termine“ …), nicht „kein sichtbarer Unterschied“.
+const DATEN_TITEL = /^(fix|feat)\((prime|data)\)/i
+const NULL_WIRKUNG = /\b0 (Titel|Termine|Meldungen|Wege|Zeilen)\b/i
+
+/** Meldung, wenn die „keine“-Zeile ihren Grund nicht aus der festen Liste nimmt (oder bei Daten-Titeln die Wirkung nicht misst); sonst `null`. */
+function grundFehler(beschreibung, titel, sichtbar) {
+  const grund = KEINE_ZEILE.exec(beschreibung)?.[1]
+  if (grund === undefined) return null
+  if (sichtbar && !GRUND_KLASSE.test(grund.trim())) {
+    return (
+      `Der Grund der Zeile „Patch Notes: keine“ beginnt mit keiner Klasse: „${grund.slice(0, 60)}“.\n` +
+      '  Erlaubt am Anfang: Umbau, Test, Werkzeug, CI, Doku, Erweiterung, intern. Ändert der PR Daten oder Anzeige, die Besucher sehen,\n' +
+      '  legt er einen Eintrag in data/patchnotes/ an (oder einen Entwurf unter vorrat/ mit „Patch Notes: vertagt – <Grund>“).'
+    )
+  }
+  if (DATEN_TITEL.test(titel) && !NULL_WIRKUNG.test(grund)) {
+    return `Titel „${titel.slice(0, 40)}“ ändert Daten: „keine“ nennt die gemessene Wirkung („0 Titel ändern sich“, Beleg bau-vergleich), sonst Eintrag oder Vorrat.`
+  }
+  return null
+}
+
 /** Eintrags-Dateien, die der PR neu anlegt, aus der Ausgabe von `git diff --name-status --no-renames` (Zeilen „A<Tab>Pfad“). */
 export function neueEintraege(nameStatus, muster = EINTRAG) {
   return nameStatus
@@ -56,11 +80,13 @@ function vertagungOhneVorrat(beschreibung, vorrat) {
 }
 
 /** Ergebnis der Regel für einen PR: `ok` und der Grund in einem Satz. */
-export function bewerte({ dateien, neu, beschreibung, zweig = '', vorrat = [] }) {
+export function bewerte({ dateien, neu, beschreibung, zweig = '', vorrat = [], titel = '' }) {
   if (AUSGENOMMENE_ZWEIGE.test(zweig)) return { ok: true, grund: `Zweig ${zweig} (Daten-/Sammlerlauf) ausgenommen` }
   const vertagung = vertagungOhneVorrat(beschreibung, vorrat)
   if (vertagung) return { ok: false, grund: vertagung }
   const sichtbar = dateien.filter((f) => SICHTBAR.test(f))
+  const fehlerGrund = neu.length || vorrat.length ? null : grundFehler(beschreibung, titel, sichtbar.length > 0)
+  if (fehlerGrund) return { ok: false, grund: fehlerGrund }
   if (!sichtbar.length) return { ok: true, grund: vorrat.length ? `Vorrat: ${vorrat.join(' | ')}` : 'keine sichtbare Änderung' }
   if (neu.length) return { ok: true, grund: `neuer Eintrag: ${neu.join(' | ')}` }
   if (vorrat.length && VERTAGT_ZEILE.test(beschreibung)) return { ok: true, grund: `vertagt, Entwurf im Vorrat: ${vorrat.join(' | ')}` }
@@ -97,9 +123,32 @@ function vertagungsFaelle(web) {
     ['Vorrat ohne Zeile bei sichtbarer Änderung ist rot', { dateien: web, neu: [], beschreibung: '', vorrat }, false],
     ['vertagt ohne Grund zählt nicht als Zeile', { dateien: web, neu: [], beschreibung: 'Patch Notes: vertagt –', vorrat }, false],
     ['gewöhnliche „keine“-Zeile bleibt grün', { dateien: web, neu: [], beschreibung: keine('reiner Umbau, Ausgabe gleich') }, true],
-    ['„keine“ mit „nächste“ im anderen Sinn bleibt grün', { dateien: web, neu: [], beschreibung: keine('nur Test für die nächste Frage') }, true],
+    ['„keine“ mit „nächste“ im anderen Sinn bleibt grün', { dateien: web, neu: [], beschreibung: keine('Test für die nächste Frage') }, true],
     ['„keine“ mit „später“ allein ohne Vorrat ist rot', { dateien: web, neu: [], beschreibung: keine('Anzeige kommt später') }, false],
     ['Zweig daten/ mit Vertagung ist ausgenommen', { dateien: web, neu: [], beschreibung: keine('später'), zweig: 'daten/x' }, true],
+  ]
+}
+
+// Echte Zeilen und Titel gemergter PRs (gh pr list, merged:>=2026-10-29, Stand 01.11.2026) gegen die Grundliste.
+function grundFaelle(web) {
+  const keine = (g) => `Patch Notes: keine – ${g}`
+  const daten = ['data/curated/x.yaml']
+  const pipeline = ['pipeline/x.ts']
+  return [
+    ['2332 sichtbar, Grund ohne Klasse ist rot', { dateien: web, neu: [], beschreibung: keine('Fehler bestand nur Stunden seit dem Ecchi-Merge (Dirigent, 29.10.).') }, false],
+    ['2419 sichtbar, Grund ohne Klasse ist rot', { dateien: web, neu: [], beschreibung: keine('seltener Randfall nach Rückkehr, kein neues Verhalten') }, false],
+    ['2428 Daten sichtbar, Grund ohne Klasse ist rot', { dateien: daten, neu: [], beschreibung: keine('reine Datenkorrektur (`data/…`), keine neue Anzeige.') }, false],
+    ['Klasse Umbau am Anfang ist grün', { dateien: web, neu: [], beschreibung: keine('Umbau, Ausgabe gleich (bau-vergleich)') }, true],
+    ['Klasse „reiner Umbau“ ist grün', { dateien: web, neu: [], beschreibung: keine('reiner Umbau ohne Wirkung') }, true],
+    ['Klasse CI ist grün', { dateien: web, neu: [], beschreibung: keine('CI-Wächter') }, true],
+    ['Klasse nicht am Anfang zählt nicht', { dateien: web, neu: [], beschreibung: keine('Datenkorrektur, nur ein Test dabei') }, false],
+    ['Klasse ist ein ganzes Wort', { dateien: web, neu: [], beschreibung: keine('Testament der Anzeige') }, false],
+    ['ohne sichtbare Dateien braucht der Grund keine Klasse', { dateien: pipeline, neu: [], beschreibung: keine('Pipeline-Korrektur') }, true],
+    ['fix(prime) mit „kein sichtbarer Unterschied“ ist rot', { dateien: pipeline, neu: [], beschreibung: keine('Test: kein sichtbarer Unterschied'), titel: 'fix(prime): fünf Fremdzuordnungen sperren' }, false],
+    ['fix(data) mit gemessener Null-Wirkung ist grün', { dateien: pipeline, neu: [], beschreibung: keine('Umbau, 0 Titel ändern sich (bau-vergleich)'), titel: 'fix(data): Liste zusammenlegen' }, true],
+    ['feat(prime) wird wie fix(prime) behandelt', { dateien: pipeline, neu: [], beschreibung: keine('Werkzeug ohne Wirkung'), titel: 'feat(prime): Wächter für Seiten' }, false],
+    ['docs(prime) ist kein Daten-Titel', { dateien: pipeline, neu: [], beschreibung: keine('Doku, nichts Sichtbares'), titel: 'docs(prime): CI-Abruf' }, true],
+    ['neuer Eintrag ersetzt die Grundprüfung', { dateien: web, neu: ['A'], beschreibung: keine('egal'), titel: 'fix(prime): x' }, true],
   ]
 }
 
@@ -111,12 +160,12 @@ function gegenproben() {
     ['Daten sichtbar ohne Eintrag', { dateien: ['data/curated/x.yaml'], neu: [], beschreibung: '' }, false],
     ['Handbeleg ohne Eintrag', { dateien: ['data/dub-confirmed.yaml'], neu: [], beschreibung: '' }, false],
     ['Ausnahmezeile mit Gedankenstrich', { dateien: web, neu: [], beschreibung: 'a\nPatch Notes: keine – reiner Umbau\nb' }, true],
-    ['Ausnahmezeile mit Bindestrich', { dateien: web, neu: [], beschreibung: 'Patch Notes: keine - Technik' }, true],
+    ['Ausnahmezeile mit Bindestrich', { dateien: web, neu: [], beschreibung: 'Patch Notes: keine - Werkzeug' }, true],
     ['Ausnahmezeile ohne Grund', { dateien: web, neu: [], beschreibung: 'Patch Notes: keine –' }, false],
     ['Ausnahme mitten im Satz zählt nicht', { dateien: web, neu: [], beschreibung: 'Ich sage Patch Notes: keine – weil' }, false],
     ['nur Pipeline, Doku', { dateien: ['pipeline/x.ts', 'docs/a.md'], neu: [], beschreibung: '' }, true],
     ['shared/ zählt als sichtbar', { dateien: ['shared/logic.ts'], neu: [], beschreibung: '' }, false],
-    ['shared/ mit Ausnahmezeile', { dateien: ['shared/logic.ts'], neu: [], beschreibung: 'Patch Notes: keine – Technik' }, true],
+    ['shared/ mit Ausnahmezeile', { dateien: ['shared/logic.ts'], neu: [], beschreibung: 'Patch Notes: keine – Werkzeug' }, true],
     ['Zweig daten/ ausgenommen', { dateien: ['data/curated/x.yaml'], neu: [], beschreibung: '', zweig: 'daten/crunchyroll' }, true],
     ['Zweig claude/ ausgenommen', { dateien: ['shared/x.ts'], neu: [], beschreibung: '', zweig: 'claude/sammler' }, true],
     ['Zweig feat/ nicht ausgenommen', { dateien: ['shared/x.ts'], neu: [], beschreibung: '', zweig: 'feat/daten/x' }, false],
@@ -128,6 +177,7 @@ function gegenproben() {
   const vorratStatus = `${status}A\tdata/patchnotes/vorrat/v.yaml\nM\tdata/patchnotes/vorrat/m.yaml\nA\tdata/patchnotes/vorrat/t/x.yaml\n`
   fall.push(['neueVorratEintraege: nur neu angelegte Dateien im Unterordner', null, neueVorratEintraege(vorratStatus).join() === 'data/patchnotes/vorrat/v.yaml'])
   fall.push(...vertagungsFaelle(web))
+  fall.push(...grundFaelle(web))
   // Ohne Eingabe steht in der dritten Spalte schon das Ergebnis der Probe (Wahrheitswert).
   const ergebnis = (eingabe, erwartet) => (eingabe ? bewerte(eingabe).ok === erwartet : erwartet)
   const fehler = fall.filter(([, eingabe, erwartet]) => !ergebnis(eingabe, erwartet))
@@ -144,7 +194,7 @@ function ausEreignis() {
   const basis = ladeBasis(git)
   const nameStatus = git('diff', '--name-status', '--no-renames', basis, 'HEAD')
   const dateien = nameStatus.split('\n').filter(Boolean).map((z) => z.split('\t')[1])
-  return { dateien, neu: neueEintraege(nameStatus), vorrat: neueVorratEintraege(nameStatus), beschreibung: pr.body ?? '', zweig: pr.head.ref }
+  return { dateien, neu: neueEintraege(nameStatus), vorrat: neueVorratEintraege(nameStatus), beschreibung: pr.body ?? '', zweig: pr.head.ref, titel: pr.title ?? '' }
 }
 
 function main() {
