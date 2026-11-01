@@ -64,7 +64,21 @@ const committen = (ok = true) => (text) => {
   const { cwd, basis, sammler } = szenario()
   assert.equal(bauAttrappe(cwd)(), false, 'Ausgangslage muss rot sein')
   aufrufe.length = 0
-  const e = zuruecknehmen({ cwd, basis, bauen: bauAttrappe(cwd), committen: committen() })
+  // Reste früherer Schritte des roten Laufs: geänderte und neue Dateien dürfen nicht im Commit landen.
+  schreibe(cwd, 'data/handbeleg.yaml', '- vom-lauf')
+  schreibe(cwd, 'data/reste-vom-lauf.json', '{}')
+  let beimCommit = ''
+  const e = zuruecknehmen({
+    cwd,
+    basis,
+    bauen: bauAttrappe(cwd),
+    committen: (text) => {
+      beimCommit = git(cwd, 'status', '--porcelain', '-uall')
+      return committen()(text)
+    },
+  })
+  assert.equal(beimCommit.split('\n').map((z) => z.slice(3)).sort().join(','), 'data/neu-vom-sammler.json,data/proposals/anime2you.json,data/zweite-datei.json')
+  assert.equal(lies(cwd, 'data/handbeleg.yaml'), '- alt')
   assert.equal(e.art, 'zurueckgenommen')
   assert.deepEqual(e.dateien, ['data/neu-vom-sammler.json', 'data/proposals/anime2you.json', 'data/zweite-datei.json'])
   assert.equal(lies(cwd, 'data/proposals/anime2you.json'), '["a","b","c","d","e"]')
@@ -160,11 +174,76 @@ assert.deepEqual(
   assert.equal(s.if, 'failure()')
   assert.equal(s['continue-on-error'], true)
   assert.match(s.run, /node tools\/sammler-zuruecknehmen\.mjs --basis "\$basis"/)
-  assert.match(s.run, /status=success&branch=main/)
+  assert.match(s.run, /basis="\$\(bash tools\/sammler-basis\.sh\)"/)
   assert.match(s.run, /git fetch --no-tags --depth=\d+ origin main/)
   assert.ok(idx > schritte.findIndex((x) => x.name?.startsWith('Eingaben des roten Baus')))
   assert.equal(schritte[idx + 1].name, 'Lauf abmelden')
 }
 
+// 9. Der ganze Schritt (Text aus der YAML) mit gh-Attrappe, die echte API-Formen durch jq schickt: Der neueste „success“-Lauf hat bauen=skipped
+//    (gemessen 01.11.2026, Lauf 41317501990) und darf nicht die Basis sein; die Basis ist der letzte Lauf mit gebautem Job.
+const jqDa = spawnSync('jq', ['--version'], { encoding: 'utf8', windowsHide: true, timeout: 10000 }).status === 0
+if (!jqDa) console.log('Schritt-Ablauf mit gh-Attrappe übersprungen: jq fehlt')
+else {
+  const { cwd, basis } = szenario()
+  const fix = path.join(wurzel, 'fix')
+  fs.mkdirSync(fix)
+  const kopf = git(cwd, 'rev-parse', 'HEAD')
+  const lauf = (id, sha, bauen) => ({ run: { id, head_sha: sha, conclusion: 'success', event: 'push' }, jobs: { total_count: 2, jobs: [{ name: 'vorab', conclusion: 'success' }, { name: 'bauen', conclusion: bauen }] } })
+  const laeufe = [lauf(41317501990, kopf, 'skipped'), lauf(41314588558, basis, 'success')]
+  fs.writeFileSync(path.join(fix, 'runs.json'), JSON.stringify({ total_count: 2, workflow_runs: laeufe.map((l) => l.run) }))
+  for (const l of laeufe) fs.writeFileSync(path.join(fix, `jobs-${l.run.id}.json`), JSON.stringify(l.jobs))
+  const ghDir = path.join(wurzel, 'bin')
+  fs.mkdirSync(ghDir)
+  fs.writeFileSync(path.join(ghDir, 'gh'), [
+    '#!/usr/bin/env bash',
+    'url="$2"',
+    'case "$url" in',
+    '  */runs\\?*) datei="$FIX/runs.json" ;;',
+    '  */runs/*/jobs) id="${url%/jobs}"; datei="$FIX/jobs-${id##*/}.json" ;;',
+    '  *) echo "unerwartete Adresse: $url" >&2; exit 1 ;;',
+    'esac',
+    'jq -r "$4" "$datei"',
+  ].join('\n'))
+  fs.chmodSync(path.join(ghDir, 'gh'), 0o755)
+  // Origin als lokales Bare-Repo, die beiden Werkzeugdateien als Mensch-Commit im Arbeitsrepo (reset/clean im Schritt löscht Unversioniertes).
+  const origin = path.join(wurzel, 'origin.git')
+  git(wurzel, 'init', '-q', '--bare', '-b', 'main', origin)
+  fs.mkdirSync(path.join(cwd, 'tools'))
+  for (const f of ['sammler-basis.sh', 'sammler-zuruecknehmen.mjs']) fs.copyFileSync(path.join(hier, f), path.join(cwd, 'tools', f))
+  git(cwd, 'add', 'tools')
+  git(cwd, '-c', 'user.name=Daniel', '-c', 'user.email=x@example.org', 'commit', '-q', '-m', 'werkzeug')
+  git(cwd, 'remote', 'add', 'origin', origin)
+  git(cwd, 'push', '-q', 'origin', 'main')
+  const fake = path.join(wurzel, 'fake2.mjs')
+  fs.writeFileSync(fake, [
+    "import fs from 'node:fs'",
+    "const n = JSON.parse(fs.readFileSync('data/proposals/anime2you.json', 'utf8')).length",
+    "if (process.argv[2] === 'bau') process.exit(n >= 3 ? 0 : 1)",
+    "fs.appendFileSync('commit-aufrufe.txt', process.env.SZN_NACHRICHT + '\\n')",
+  ].join('\n'))
+  const wf = yaml.load(fs.readFileSync(path.join(hier, '..', '.github', 'workflows', 'bestand-bauen.yml'), 'utf8'))
+  const text = wf.jobs.bauen.steps.find((x) => x.name?.startsWith('Sammler-Stand seit dem letzten grünen Bau')).run
+  const env = {
+    ...process.env,
+    PATH: ghDir + path.delimiter + process.env.PATH,
+    FIX: fix.replaceAll('\\', '/'),
+    GITHUB_REPOSITORY: 'x/y',
+    SZN_BAU: `node "${fake}" bau`,
+    SZN_COMMIT: `node "${fake}" commit`,
+  }
+  const r = spawnSync('bash', ['-c', text], { cwd, env, encoding: 'utf8', windowsHide: true, timeout: 120000 })
+  assert.equal(r.status, 0, r.stdout + r.stderr)
+  assert.match(r.stdout, /Sammler-Zurücknahme: zurueckgenommen \(3 Dateien/)
+  assert.match(lies(cwd, 'commit-aufrufe.txt'), /^chore\(data\): Sammler-Stand zurückgenommen \(/)
+  assert.equal(lies(cwd, 'data/proposals/anime2you.json'), '["a","b","c","d","e"]')
+  // Kein gebauter Lauf in der Liste: Warnung, keine Wirkung.
+  fs.writeFileSync(path.join(fix, 'jobs-41314588558.json'), JSON.stringify({ jobs: [{ name: 'bauen', conclusion: 'failure' }] }))
+  git(cwd, 'checkout', '-q', 'HEAD', '--', '.')
+  const leer = spawnSync('bash', ['-c', text], { cwd, env, encoding: 'utf8', windowsHide: true, timeout: 120000 })
+  assert.equal(leer.status, 0)
+  assert.match(leer.stdout, /::warning::Letzter grüner Bau/)
+}
+
 fs.rmSync(wurzel, { recursive: true, force: true })
-console.log('sammler-zuruecknehmen.test: ok (Anlass 31.10.2026 grün nach Zurücknahme, 3 Rückfälle, Auswahlregel, Prozess, Workflow-Verdrahtung)')
+console.log('sammler-zuruecknehmen.test: ok (Anlass 31.10.2026 grün nach Zurücknahme, 3 Rückfälle, Auswahlregel, Prozess, Workflow-Verdrahtung, Schritt-Ablauf mit gh-Attrappe)')

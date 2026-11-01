@@ -60,6 +60,9 @@ export function zuruecknehmen({ cwd, basis, bauen, committen }) {
   const commits = commitsSeit(cwd, basis)
   const dateien = sammlerDateien(commits)
   if (dateien.length === 0) return { art: 'nichts', dateien }
+  // Reste früherer Schritte des roten Laufs (Meldungen, Rohfolgen, halbe Erzeugnisse) kämen sonst mit in den Commit.
+  git(cwd, ['reset', '-q', '--hard', 'HEAD'])
+  git(cwd, ['clean', '-fdq'])
   for (const d of dateien) stelleHer(cwd, basis, d)
   if (bauen() && committen(nachricht(commits, dateien))) return { art: 'zurueckgenommen', dateien }
   // Die Ursache liegt woanders (oder der Bestand blieb rot): Sammler-Stand wieder herstellen, nichts verloren.
@@ -67,9 +70,10 @@ export function zuruecknehmen({ cwd, basis, bauen, committen }) {
   return { art: 'bleibt-rot', dateien }
 }
 
-const lauf = (befehl, env) => {
+// Der Job hat 45 min und ist schon gelaufen: Bau (gemessen 2–4 min) und Commit mit Prüfketten bekommen je eine Grenze darunter.
+const lauf = (befehl, env, minuten) => {
   try {
-    execFileSync('bash', ['-c', befehl], { stdio: 'inherit', windowsHide: true, timeout: 40 * 60 * 1000, env })
+    execFileSync('bash', ['-c', befehl], { stdio: 'inherit', windowsHide: true, timeout: minuten * 60 * 1000, env })
     return true
   } catch {
     return false
@@ -88,8 +92,8 @@ function main(argv, env) {
   const erg = zuruecknehmen({
     cwd: process.cwd(),
     basis,
-    bauen: () => lauf(bauBefehl, env),
-    committen: (text) => lauf(commitBefehl, { ...env, BAU_LAUF: '1', SZN_NACHRICHT: text }),
+    bauen: () => lauf(bauBefehl, env, 10),
+    committen: (text) => lauf(commitBefehl, { ...env, BAU_LAUF: '1', SZN_NACHRICHT: text }, 20),
   })
   console.log(`Sammler-Zurücknahme: ${erg.art} (${erg.dateien.length} Dateien: ${erg.dateien.join(', ') || '-'})`)
   return 0

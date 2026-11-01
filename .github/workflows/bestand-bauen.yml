@@ -428,7 +428,7 @@ jobs:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
           SITE_URL: ${{ vars.SITE_URL }}
         run: |
-          basis="$(gh api "repos/$GITHUB_REPOSITORY/actions/workflows/bestand-bauen.yml/runs?status=success&branch=main&per_page=1" --jq '.workflow_runs[0].head_sha')"
+          basis="$(bash tools/sammler-basis.sh)"
           git fetch --no-tags --depth=400 origin main
           if [ -z "$basis" ] || ! git cat-file -e "$basis^{commit}"; then
             echo "::warning::Letzter grüner Bau ($basis) nicht erreichbar, keine Sammler-Zurücknahme."
