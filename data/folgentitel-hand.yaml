@@ -1,0 +1,79 @@
+# Deutsche Folgentitel einzeln zugeordnet — nur, was keine Stufe in `pipeline/bau/folgentitel-stufen.ts` automatisch liefert.
+# Die Titel sind aus TMDB (de), ADN und Crunchyroll de-DE übernommen (Agentenlauf im Auftrag, 01.11.2026), nicht von einem Menschen gegengelesen; die Fundstelle steht je Eintrag.
+# Die Stufe füllt nur Lücken: ein Titel aus aniSearch, Crunchyroll, RTL+ oder TMDB bleibt. Pflichtfelder je Eintrag: anilistId, folge, titel, quelle
+# (`handFehler` in `pipeline/bau/folgentitel-hand.ts` lässt den Bau bei fehlendem Feld oder doppelter Folge scheitern, `check:logic` liest die Datei ebenfalls).
+# Erlaubte Quellen: RTL+, Crunchyroll, ADN, TMDB de; nicht fernsehserien.de, aniSearch-Seiten, Netflix-Serienseiten.
+# Rest ohne Quelle: `data/folgentitel-offen.json` und `docs/wissen/folgentitel-quellen.md`, Abschnitt „Lückenfolgen im deutschen Bereich schließen und halten".
+
+# Disney Twisted-Wonderland: Staffelbeginn 29.10.2025, acht wöchentliche Folgen = unsere acht Folgen; TMDB führt die Serie unter „Disney Twisted-Wonderland: Die Serie".
+- {anilistId: 140291, folge: 1, titel: "Erwache, Fremder", quelle: "TMDB-Serie 'Disney Twisted-Wonderland: Die Serie' (de) Staffel 1 Folge 1, 29.10.2025; 8 von 8 Folgen"}
+- {anilistId: 140291, folge: 2, titel: "Grausame Antwort", quelle: "TMDB Staffel 1 Folge 2, 05.11.2025"}
+- {anilistId: 140291, folge: 3, titel: "Auf zur verzauberten Mine", quelle: "TMDB Staffel 1 Folge 3, 12.11.2025"}
+- {anilistId: 140291, folge: 4, titel: "Ein verzweifeltes Herz", quelle: "TMDB Staffel 1 Folge 4, 19.11.2025"}
+- {anilistId: 140291, folge: 5, titel: "Schuldiges Mittagessen", quelle: "TMDB Staffel 1 Folge 5, 26.11.2025"}
+- {anilistId: 140291, folge: 6, titel: "Einsame Legion", quelle: "TMDB Staffel 1 Folge 6, 03.12.2025"}
+- {anilistId: 140291, folge: 7, titel: "Rücksichtsloses Duell", quelle: "TMDB Staffel 1 Folge 7, 10.12.2025"}
+- {anilistId: 140291, folge: 8, titel: "Finale von Heartslabyul", quelle: "TMDB Staffel 1 Folge 8, 17.12.2025"}
+
+# Thus Spoke Kishibe Rohan: TMDB führt die vier OVAs (2017–2020) als eine Staffel mit vier Folgen = unsere vier Folgen; Folge 1 trägt den Titel unseres Titels.
+- {anilistId: 21778, folge: 1, titel: "Das Millionärsdorf", quelle: "TMDB 'Thus Spoke Kishibe Rohan' (de) Staffel 1 Folge 1, 20.09.2017"}
+- {anilistId: 21778, folge: 2, titel: "Mutsu-kabe Hill", quelle: "TMDB Staffel 1 Folge 2, 19.07.2018"}
+- {anilistId: 21778, folge: 3, titel: "Bei der Beichte", quelle: "TMDB Staffel 1 Folge 3, 25.03.2020"}
+- {anilistId: 21778, folge: 4, titel: "Der Lauf", quelle: "TMDB Staffel 1 Folge 4, 25.03.2020"}
+
+# Urusei Yatsura Staffel 2: ADN zählt Staffel 2 ab 24 (Folge 24 = unsere 1); der Versatz 23 stimmt für unsere Folgen 1–3 und 5–9 gegen die vorhandenen aniSearch-Titel.
+- {anilistId: 155645, folge: 4, titel: "Die Liebhaber-Diebin - die Tochter der Familie Mizunokoji", quelle: "ADN Show 971 Staffel 2 Folge 27 (data/adn-raw/971.json.gz, Feld name)"}
+# The Detective Is Already Dead: Staffel 2: Crunchyroll-Staffel „Staffel 2“ (1 deutsche Folgen, ab 2026-10-28) — Jahr, Länge und Staffelzahl passen; zu wenig vorhandene Titel für den automatischen Abgleich.
+- {anilistId: 152677, folge: 1, titel: "Um dich noch einmal zu sehen", quelle: "Crunchyroll de-DE Serie G24H1N334, Staffel 2, Folge 1 (data/crunchyroll-raw)"}
+
+# As a Reincarnated Aristocrat, I’ll Use My Appraisal Skill to Rise in the World: Staffel 3: Crunchyroll-Staffel „Staffel 3“ (3 deutsche Folgen, ab 2026-10-18) — Jahr, Länge und Staffelzahl passen; zu wenig vorhandene Titel für den automatischen Abgleich.
+- {anilistId: 185756, folge: 1, titel: "Distriktoberhaupt", quelle: "Crunchyroll de-DE Serie GG5H5XQMD, Staffel 3, Folge 1 (data/crunchyroll-raw)"}
+- {anilistId: 185756, folge: 2, titel: "Canarre in Gefahr", quelle: "Crunchyroll de-DE Serie GG5H5XQMD, Staffel 3, Folge 2 (data/crunchyroll-raw)"}
+- {anilistId: 185756, folge: 3, titel: "Zatt und Braham", quelle: "Crunchyroll de-DE Serie GG5H5XQMD, Staffel 3, Folge 3 (data/crunchyroll-raw)"}
+
+# Aoashi Staffel 2: Crunchyroll-Staffel „Staffel 2“ (2 deutsche Folgen, ab 2026-10-25) — Jahr, Länge und Staffelzahl passen; zu wenig vorhandene Titel für den automatischen Abgleich.
+- {anilistId: 191788, folge: 1, titel: "Startlinie", quelle: "Crunchyroll de-DE Serie G4PH0WX5J, Staffel 2, Folge 1 (data/crunchyroll-raw)"}
+- {anilistId: 191788, folge: 2, titel: "Denkende Schilfe", quelle: "Crunchyroll de-DE Serie G4PH0WX5J, Staffel 2, Folge 2 (data/crunchyroll-raw)"}
+
+# Die Tagebücher der Apothekerin: Staffel 3 - Cour 1: Crunchyroll-Staffel „Die Tagebücher der Apothekerin Staffel 3“ (2 deutsche Folgen, ab 2026-10-23) — Jahr, Länge und Staffelzahl passen; zu wenig vorhandene Titel für den automatischen Abgleich.
+- {anilistId: 195516, folge: 1, titel: "Heuschrecken", quelle: "Crunchyroll de-DE Serie G3KHEVDJ7, Die Tagebücher der Apothekerin Staffel 3, Folge 1 (data/crunchyroll-raw)"}
+- {anilistId: 195516, folge: 2, titel: "Die Robe der Feuerratte", quelle: "Crunchyroll de-DE Serie G3KHEVDJ7, Die Tagebücher der Apothekerin Staffel 3, Folge 2 (data/crunchyroll-raw)"}
+
+# Lord of Mysteries: Crunchyroll-Staffel „Lord of Mysteries Specials“ (3 deutsche Folgen, ab 2026-09-10) — Jahr, Länge und Staffelzahl passen; zu wenig vorhandene Titel für den automatischen Abgleich.
+- {anilistId: 199448, folge: 1, titel: "Silberstadt", quelle: "Crunchyroll de-DE Serie GEXH3W2EZ, Lord of Mysteries Specials, Folge 1 (data/crunchyroll-raw)"}
+- {anilistId: 199448, folge: 2, titel: "Die Beute (Teil 1)", quelle: "Crunchyroll de-DE Serie GEXH3W2EZ, Lord of Mysteries Specials, Folge 2 (data/crunchyroll-raw)"}
+
+# The 100 Girlfriends Who Really, Really, Really, Really, REALLY Love You: Crunchyroll-Staffel „Season 3“ (12 deutsche Folgen, ab 2026-07-26) — Jahr, Länge und Staffelzahl passen; zu wenig vorhandene Titel für den automatischen Abgleich.
+- {anilistId: 200637, folge: 1, titel: "Die Cousine, die Freundin", quelle: "Crunchyroll de-DE Serie GNVHKN933, Season 3, Folge 1 (data/crunchyroll-raw)"}
+- {anilistId: 200637, folge: 2, titel: "Chiyo-chans Family-Einweisung", quelle: "Crunchyroll de-DE Serie GNVHKN933, Season 3, Folge 2 (data/crunchyroll-raw)"}
+- {anilistId: 200637, folge: 3, titel: "Japanischlehrerin mit blonde hair", quelle: "Crunchyroll de-DE Serie GNVHKN933, Season 3, Folge 3 (data/crunchyroll-raw)"}
+- {anilistId: 200637, folge: 4, titel: "Legendäre Idol-Gruppe Rentarō-Family", quelle: "Crunchyroll de-DE Serie GNVHKN933, Season 3, Folge 4 (data/crunchyroll-raw)"}
+- {anilistId: 200637, folge: 5, titel: "Yasashiki-sans Gartenbau-Club-Tour", quelle: "Crunchyroll de-DE Serie GNVHKN933, Season 3, Folge 5 (data/crunchyroll-raw)"}
+- {anilistId: 200637, folge: 6, titel: "Momiji-chans Massage-Festival", quelle: "Crunchyroll de-DE Serie GNVHKN933, Season 3, Folge 6 (data/crunchyroll-raw)"}
+- {anilistId: 200637, folge: 7, titel: "Däumling-Nano und eine kusurivanische Familie", quelle: "Crunchyroll de-DE Serie GNVHKN933, Season 3, Folge 7 (data/crunchyroll-raw)"}
+- {anilistId: 200637, folge: 8, titel: "Kusuri-senpais Omi", quelle: "Crunchyroll de-DE Serie GNVHKN933, Season 3, Folge 8 (data/crunchyroll-raw)"}
+- {anilistId: 200637, folge: 9, titel: "Von der Volle-Kanne-Onsen-Bikini-Höllentour in den Himmel", quelle: "Crunchyroll de-DE Serie GNVHKN933, Season 3, Folge 9 (data/crunchyroll-raw)"}
+- {anilistId: 200637, folge: 10, titel: "B-Beende-mein-Leben-Freundin", quelle: "Crunchyroll de-DE Serie GNVHKN933, Season 3, Folge 10 (data/crunchyroll-raw)"}
+- {anilistId: 200637, folge: 11, titel: "Ob Kind, Erwachsener, Schwester oder Mutter", quelle: "Crunchyroll de-DE Serie GNVHKN933, Season 3, Folge 11 (data/crunchyroll-raw)"}
+- {anilistId: 200637, folge: 12, titel: "Meine über alles alles alles alles alles geliebten 17 Freundinnen (fehlen noch 83)", quelle: "Crunchyroll de-DE Serie GNVHKN933, Season 3, Folge 12 (data/crunchyroll-raw)"}
+
+# A Wild Last Boss Appeared! Staffel 2: Crunchyroll-Staffel „Staffel 2“ (3 deutsche Folgen, ab 2026-10-24) — Jahr, Länge und Staffelzahl passen; zu wenig vorhandene Titel für den automatischen Abgleich.
+- {anilistId: 204389, folge: 1, titel: "Die mobile Königsstadt Blutgang ist erschienen!", quelle: "Crunchyroll de-DE Serie GT00361955, Staffel 2, Folge 1 (data/crunchyroll-raw)"}
+- {anilistId: 204389, folge: 2, titel: "Scorpius außer Kontrolle ist erschienen!", quelle: "Crunchyroll de-DE Serie GT00361955, Staffel 2, Folge 2 (data/crunchyroll-raw)"}
+- {anilistId: 204389, folge: 3, titel: "Ein fliegender Schönling ist erschienen!", quelle: "Crunchyroll de-DE Serie GT00361955, Staffel 2, Folge 3 (data/crunchyroll-raw)"}
+
+# You and I Are Polar Opposites: Staffel 2: Crunchyroll-Staffel „Staffel 2“ (13 deutsche Folgen, ab 2026-08-18) — Jahr, Länge und Staffelzahl passen; zu wenig vorhandene Titel für den automatischen Abgleich.
+- {anilistId: 210031, folge: 3, titel: "Ein Jahr vergeht, ein weiteres kommt", quelle: "Crunchyroll de-DE Serie GT00365624, Staffel 2, Folge 3 (data/crunchyroll-raw)"}
+- {anilistId: 210031, folge: 4, titel: "Das neue Trimester", quelle: "Crunchyroll de-DE Serie GT00365624, Staffel 2, Folge 4 (data/crunchyroll-raw)"}
+- {anilistId: 210031, folge: 5, titel: "Valentinstag", quelle: "Crunchyroll de-DE Serie GT00365624, Staffel 2, Folge 5 (data/crunchyroll-raw)"}
+- {anilistId: 210031, folge: 6, titel: "Kurz vor dem Frühling", quelle: "Crunchyroll de-DE Serie GT00365624, Staffel 2, Folge 6 (data/crunchyroll-raw)"}
+- {anilistId: 210031, folge: 7, titel: "Abstufung", quelle: "Crunchyroll de-DE Serie GT00365624, Staffel 2, Folge 7 (data/crunchyroll-raw)"}
+- {anilistId: 210031, folge: 8, titel: "Von hier an …", quelle: "Crunchyroll de-DE Serie GT00365624, Staffel 2, Folge 8 (data/crunchyroll-raw)"}
+- {anilistId: 210031, folge: 9, titel: "Die Vergangenheit und die Gegenwart", quelle: "Crunchyroll de-DE Serie GT00365624, Staffel 2, Folge 9 (data/crunchyroll-raw)"}
+- {anilistId: 210031, folge: 10, titel: "Gefühle und Entscheidungen", quelle: "Crunchyroll de-DE Serie GT00365624, Staffel 2, Folge 10 (data/crunchyroll-raw)"}
+- {anilistId: 210031, folge: 11, titel: "Ein Platz für mich", quelle: "Crunchyroll de-DE Serie GT00365624, Staffel 2, Folge 11 (data/crunchyroll-raw)"}
+- {anilistId: 210031, folge: 12, titel: "Startlinie", quelle: "Crunchyroll de-DE Serie GT00365624, Staffel 2, Folge 12 (data/crunchyroll-raw)"}
+- {anilistId: 210031, folge: 13, titel: "Du, mein genaues Gegenteil", quelle: "Crunchyroll de-DE Serie GT00365624, Staffel 2, Folge 13 (data/crunchyroll-raw)"}
+
+# The Iceblade Sorcerer Shall Rule the World Staffel 2: Crunchyroll-Staffel „Staffel 2“ (1 deutsche Folgen, ab 2026-10-29) — Jahr, Länge und Staffelzahl passen; zu wenig vorhandene Titel für den automatischen Abgleich.
+- {anilistId: 212503, folge: 1, titel: "Der junge stärkste Zauberer der Welt nimmt an einem Magiewettbewerb teil", quelle: "Crunchyroll de-DE Serie GDKHZEP21, Staffel 2, Folge 1 (data/crunchyroll-raw)"}
