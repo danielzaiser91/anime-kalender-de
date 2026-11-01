@@ -17,6 +17,7 @@ const gut = [
   '  #echo a>>f',
   '- run: |\n    #echo a>>f',
   '- run: |\n    cat <<EOF\n    a>>b\n    EOF',
+  '- run: |\n    cat <<EOF\n    erst\n    a>>b\n    EOF',
   '- run: |\n    x=$((y>>2))',
   '- run: echo $((y>>2))',
   '- uses: a\n  with:\n    body: |\n      foo>>bar',
