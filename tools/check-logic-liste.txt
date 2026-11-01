@@ -232,6 +232,7 @@ pipeline/check-laut-gleich.ts
 pipeline/check-leere-liste.ts
 pipeline/check-leerer-kasten.ts
 pipeline/check-leerzeichen-gleich.ts
+pipeline/check-leerzeichen-workflow.ts
 pipeline/check-leinwand-escape.ts
 pipeline/check-link-leere-adresse.ts
 pipeline/check-links-laufzeit.ts
