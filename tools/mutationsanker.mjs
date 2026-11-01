@@ -12,7 +12,7 @@
 import { execFileSync } from 'node:child_process'
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
-import { normalisiereListe, normalisierePfad, planeMutant } from './mutationslaeufer.mjs'
+import { normalisiereListe, normalisierePfad, parseListeText, planeMutant } from './mutationslaeufer.mjs'
 
 const LISTEN_ORDNER = 'tools/mutationen/'
 
@@ -22,7 +22,7 @@ export const istMutationsliste = (pfad) => pfad.startsWith(LISTEN_ORDNER) && pfa
 export function ankerFehler(listeName, listeText, lies, cwd = process.cwd()) {
   let liste
   try {
-    const roh = JSON.parse(listeText)
+    const roh = parseListeText(listeText)
     // Paare [suche, ersetze] ohne Datei gehören zu mutationsprobe.mjs, nicht zum Läufer: hier nichts zu prüfen.
     if (Array.isArray(roh) && roh.length > 0 && roh.every(Array.isArray)) return []
     liste = normalisiereListe(roh)
@@ -62,7 +62,7 @@ export function pruefeListen(listen, lies = leseDatei) {
     if (text === null) continue
     fehler.push(...ankerFehler(name, text, lies))
     try {
-      anzahl += JSON.parse(text).length
+      anzahl += parseListeText(text).length
     } catch {
       // schon als Fehler gemeldet
     }

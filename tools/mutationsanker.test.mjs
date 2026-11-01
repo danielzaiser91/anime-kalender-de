@@ -34,6 +34,9 @@ const kaputt = ankerFehler(LISTE, '{ kaputt', lies())
 pruefe('kaputtes JSON: ein Fehler mit Listenname', kaputt.length === 1 && kaputt[0].startsWith(LISTE))
 pruefe('Liste ist kein Array: Fehler', ankerFehler(LISTE, '{}', lies()).length === 1)
 pruefe('Paarformat der mutationsprobe: nichts zu prüfen', ankerFehler(LISTE, text([['a', 'b']]), lies()).length === 0)
+pruefe('Liste mit BOM und gültigem Anker: keine Fehler', ankerFehler(LISTE, '﻿' + text([mutant('a.ts', 'zwei')]), lies()).length === 0)
+const gemischt = ankerFehler(LISTE, text([['a', 'b'], mutant('a.ts', 'verschwunden', 'alt')]), lies())
+pruefe('gemischte Liste (Paar plus toter Objekt-Anker): Fehler statt Überspringen', gemischt.length === 1)
 
 pruefe('listenImDiff: nur Listen direkt in tools/mutationen', JSON.stringify(listenImDiff([LISTE, 'tools/mutationen/x/y.json', 'tools/mutationen/n.txt', 'tools/andere.json'])) === JSON.stringify([LISTE]))
 const kaputteListe = { [LISTE]: text([mutant('a.ts', 'verschwunden')]) }
@@ -68,6 +71,40 @@ try {
   pruefe('Prozess zwei Listen: eine rot genügt', n.status === 1)
 } finally {
   rmSync(wurzel, { recursive: true, force: true })
+}
+
+// Prozess ohne Argumente: Listen kommen aus dem Git-Diff gegen origin/main (Wegwerf-Repo, Basis per update-ref).
+const repo = mkdtempSync(join(tmpdir(), 'mutanker-git-'))
+try {
+  const skript = fileURLToPath(new URL('./mutationsanker.mjs', import.meta.url))
+  const git = (...a) => {
+    const r = spawnSync('git', ['-c', 'user.name=t', '-c', 'user.email=t@t', ...a], { cwd: repo, encoding: 'utf8', timeout: 60000, windowsHide: true })
+    if (r.status !== 0) throw new Error(`git ${a.join(' ')}: ${r.stderr}`)
+  }
+  const ohneArgs = () => spawnSync(process.execPath, [skript], { cwd: repo, encoding: 'utf8', timeout: 60000, windowsHide: true })
+  const liste = (n) => join(repo, 'tools', 'mutationen', n)
+  mkdirSync(join(repo, 'tools', 'mutationen'), { recursive: true })
+  writeFileSync(join(repo, 'a.ts'), 'eins zwei\n')
+  writeFileSync(liste('alt.json'), text([mutant('a.ts', 'zwei')]))
+  git('init', '-q')
+  git('add', '.')
+  git('commit', '-q', '-m', 'basis')
+  git('update-ref', 'refs/remotes/origin/main', 'HEAD')
+  const leer = ohneArgs()
+  pruefe('Prozess ohne Argumente, Diff leer: Exit 0, 0 Listen', leer.status === 0 && /Mutationsanker: 0 Listen/.test(leer.stdout))
+  writeFileSync(liste('neu.json'), text([mutant('a.ts', 'nirgends', 'tot')]))
+  git('add', '.')
+  git('commit', '-q', '-m', 'neue Liste')
+  const neu = ohneArgs()
+  pruefe('Prozess ohne Argumente, neue Liste mit totem Anker: Exit 1', neu.status === 1 && neu.stderr.includes('„tot“') && neu.stderr.includes('neu.json'))
+  git('rm', '-q', 'tools/mutationen/neu.json')
+  writeFileSync(liste('alt.json'), text([mutant('a.ts', 'weg', 'geaendert')]))
+  git('add', '.')
+  git('commit', '-q', '-m', 'Liste geändert, neue gelöscht')
+  const geaendert = ohneArgs()
+  pruefe('Prozess ohne Argumente, geänderte Liste mit totem Anker: Exit 1', geaendert.status === 1 && geaendert.stderr.includes('„geaendert“'))
+} finally {
+  rmSync(repo, { recursive: true, force: true })
 }
 
 if (fehler.length) {
