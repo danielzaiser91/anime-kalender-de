@@ -21,7 +21,8 @@ eintraege:
     name: Die unglaublichen Abenteuer des Kapitän Cousteau
     original: Les Aventures Fantastiques du Commandant Cousteau
     tmdb: 103938
-  - { adn: 778, name: Spirou und Fantasio, original: Spirou & Fantasio }
+  # Spirou und Fantasio: ADN 39 Folgen in einer Staffel (Referenz spiroufantasio_tv, Folgen 1 bis 39) = TMDB 37793 (2006, 39 Folgen); 107276 (1993, 52 Folgen) ist bei ADN schon Spirou (729).
+  - { adn: 778, name: Spirou und Fantasio, original: Spirou & Fantasio, tmdb: 37793 }
   - { adn: 817, name: Martin Morgen, original: Martin Matin }
   # Billy & Buddy: ADN 104 Folgen in einer Staffel (Referenz bouleetbill_tv) = TMDB 69906 (2004, 104 Folgen); 44157 (1975) hat 26 Folgen. Von „3D“ (ebenfalls 104 Folgen) unterscheidet ihn die Staffelreferenz ohne 3D im Namen.
   - { adn: 1144, name: Billy & Buddy, original: Boule et Bill, tmdb: 69906 }
