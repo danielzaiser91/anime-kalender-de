@@ -42,10 +42,17 @@ function laufe(antworten: Antworten, anzahl: number): Lauf {
     const titel = [
       { id: 900001, format: 'MOVIE', titleDe: 'Testfilm', streams: [{ platform: 'netflix', url: nf('900301') }] },
       { id: 900002, format: 'TV', titleDe: 'Testserie', streams: [{ platform: 'netflix', url: nf('900302') }] },
+      { id: 900003, format: 'MOVIE', titleDe: 'Wiedervorlagefilm', streams: [{ platform: 'netflix', url: nf('900303') }] },
+      { id: 900004, format: 'MOVIE', titleDe: 'Belegter Film', streams: [{ platform: 'netflix', url: nf('900304') }] },
     ]
     writeFileSync(join(tmp, 'public/data/titles.json'), JSON.stringify(titel))
-    writeFileSync(join(tmp, 'data/dub-confirmed.yaml'), '# Kulisse\n- anilistId: 900099\n  platform: primevideo\n  url: https://www.amazon.de/dp/B0KULISSE1\n  dub: true\n  checkedAt: \'2026-09-01\'\n')
-    writeFileSync(join(tmp, 'data/erneut-melden.yaml'), '[]\n')
+    const altBeleg = (id: number, k: string) => `- anilistId: ${id}\n  platform: netflix\n  url: ${nf(k)}\n  dub: true\n  checkedAt: '2026-09-01'\n`
+    writeFileSync(
+      join(tmp, 'data/dub-confirmed.yaml'),
+      `# Kulisse\n- anilistId: 900099\n  platform: primevideo\n  url: https://www.amazon.de/dp/B0KULISSE1\n  dub: true\n  checkedAt: '2026-09-01'\n${altBeleg(900003, '900303')}${altBeleg(900004, '900304')}`,
+    )
+    /* 900003 steht auf der Wiedervorlage (jünger als sein Beleg), 900004 nicht. */
+    writeFileSync(join(tmp, 'data/erneut-melden.yaml'), "- { anilistId: 900003, platform: netflix, seit: '2026-10-25', grund: 'Kulisse' }\n")
     const anfragen = join(tmp, 'anfragen.txt')
     appendFileSync(anfragen, '')
     const stub = join(tmp, 'fetch-stub.mjs')
@@ -82,9 +89,12 @@ globalThis.fetch = async (url) => {
   }
 }
 const zaehle = (text: string, teil: string) => text.split(teil).length - 1
-const statusSeiten: Antworten = { [nf('900301')]: [200, ''], [nf('900302')]: [200, ''] }
+const statusSeiten: Antworten = { [nf('900301')]: [200, ''], [nf('900302')]: [200, ''], [nf('900303')]: [200, ''], [nf('900304')]: [200, ''] }
+const seitenJa: Antworten = { ...statusSeiten, [de('900301')]: [200, JA], [de('900303')]: [200, JA] }
 
-const ja = laufe({ ...statusSeiten, [de('900301')]: [200, JA] }, 1)
+const ja = laufe(seitenJa, 1)
+pruefe('Wiedervorlage-Film (Beleg älter als `seit`) wird gelesen und neu belegt', ja.gefragt.includes(de('900303')) && zaehle(ja.dub, 'anilistId: 900003') === 2, ja.gefragt)
+pruefe('belegter Film ohne Wiedervorlage wird nicht gelesen', !ja.gefragt.includes(de('900304')) && zaehle(ja.dub, 'anilistId: 900004') === 1, ja.gefragt)
 pruefe('Lauf endet mit 0', ja.status === 0, ja.ausgabe)
 pruefe('offener Film wird unter /de/title/ gelesen', ja.gefragt.includes(de('900301')), ja.gefragt)
 pruefe('die Serie wird nie unter /de/title/ gelesen', !ja.gefragt.includes(de('900302')), ja.gefragt)
@@ -94,7 +104,7 @@ pruefe('der Handbeleg der Kulisse bleibt', ja.dub.includes('anilistId: 900099'))
 pruefe('Linkbefund trägt Urteil ja und Datum', ja.bestand[nf('900301')]?.audio === 'ja' && /^\d{4}-\d\d-\d\d$/.test(ja.bestand[nf('900301')]?.audioAm ?? ''), ja.bestand)
 pruefe('Linkbefund der Serie ohne Urteil', ja.bestand[nf('900302')]?.audio === undefined, ja.bestand)
 
-const zweimal = laufe({ ...statusSeiten, [de('900301')]: [200, JA] }, 2)
+const zweimal = laufe(seitenJa, 2)
 pruefe('zweiter Lauf: Film nur einmal unter /de/title/ gelesen', zweimal.status === 0 && zaehle(zweimal.gefragt.join('\n'), de('900301')) === 1, zweimal.gefragt)
 pruefe('zweiter Lauf: Beleg nicht doppelt', zaehle(zweimal.dub, 'anilistId: 900001') === 1, zweimal.dub.slice(-500))
 
@@ -103,9 +113,12 @@ pruefe('403: Lauf endet mit 0', gesperrt.status === 0, gesperrt.ausgabe)
 pruefe('403: kein Beleg, kein Urteil im Befund', !gesperrt.dub.includes('anilistId: 900001') && gesperrt.bestand[nf('900301')]?.audio === undefined, gesperrt.bestand)
 pruefe('403: Befund behält den Status 200 der Linkprüfung', gesperrt.bestand[nf('900301')]?.status === 200, gesperrt.bestand)
 pruefe('403: das Log nennt die Sperre', /sperrt \(403\/429\)/.test(gesperrt.ausgabe), gesperrt.ausgabe)
+pruefe('403 beendet den Lauf: der nächste Film wird nicht mehr gefragt', !gesperrt.gefragt.includes(de('900303')), gesperrt.gefragt)
 
-const leer = laufe({ ...statusSeiten, [de('900301')]: [200, '<html>Anmelden</html>'] }, 1)
+const leerSeite: Antworten = { ...statusSeiten, [de('900301')]: [200, '<html>Anmelden</html>'], [de('900303')]: [200, '<html>Anmelden</html>'] }
+const leer = laufe(leerSeite, 2)
 pruefe('Seite ohne Audio-Zeile: Befund unbekannt, kein Beleg', leer.status === 0 && leer.bestand[nf('900301')]?.audio === 'unbekannt' && !leer.dub.includes('anilistId: 900001'), leer)
+pruefe('unbekannt gilt eine Woche: der zweite Lauf am selben Tag liest nicht noch einmal', leer.gefragt.filter((a) => a === de('900301')).length === 1, leer.gefragt)
 
 if (fehler.length) {
   console.error(`check-netflix-tonspur-lauf: ${fehler.length} von ${faelle} Fällen falsch:\n- ${fehler.join('\n- ')}`)
