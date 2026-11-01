@@ -191,6 +191,13 @@ globalThis.akPrimeSeiteSichern = async (kennung, lesen, schreiben, jetzt) => {
   return schreiben({ [SEITEN_SCHLUESSEL]: neu })
 }
 
+/*
+  **Was den Knopf neu zeichnen lässt** (Miraculous Staffel 20, 31.10.2026): `zeichnen()` steigt aus, solange diese Zeichenkette gleich bleibt.
+  Jede Eingabe, die Sichtbarkeit oder Text bestimmt, gehört hinein — `standGeladen` fehlte, der Knopf blieb nach dem ersten
+  Zeichnen (Speicher noch leer, Serie „unbekannt“, Knopf versteckt) bis zum Ablauf der Achtsekundenfrist weg.
+*/
+globalThis.akPrimeZeichenStand = (...teile) => teile.join('|')
+
 /**
  * Widerspruch zwischen dem, was eine Meldung nennt, und der Seite, auf der wir stehen (Wechsel A→B).
  * Liefert den Grund oder null. Der Quelltext einer verlassenen Seite oder eine Kopfzeile mit fremder Kennung
