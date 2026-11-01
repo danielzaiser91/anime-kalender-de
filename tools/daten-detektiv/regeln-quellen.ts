@@ -42,6 +42,12 @@ export function toggleTrotzSynchroQuelle(b: Bestand): Regel {
   return regel('DD-06', 'Hinter dem Toggle, aber Quelle führt Synchro', 'Ein Titel mit deutscher Fassung fehlt im Hauptbestand', b.ohneSynchro.length, treffer)
 }
 
+/**
+ * Kino und TV behaupten keine Premiere der Fassung: der Kinostart trägt bei Wiederaufführung das Banner „Wiederaufführung"
+ * (`KinoBanner`), TV-Termine tragen Premiere/Wiederholung je Folge (`shared/tv-signale.ts`); `note` wird nicht ausgeliefert.
+ */
+export const OHNE_PREMIERE_BEHAUPTUNG = new Set(['kino', 'tv'])
+
 /** DD-11: Release sagt „Premiere" in Jahr X, aniSearch kennt die deutsche Erstausgabe Jahre früher (SAO-Fehlerklasse). */
 export function premiereGegenErstausgabe(b: Bestand): Regel {
   const titel = new Map(b.titles.map((t) => [t.id, t]))
@@ -50,7 +56,7 @@ export function premiereGegenErstausgabe(b: Bestand): Regel {
   for (const r of b.releases) {
     const t = titel.get(r.titleId)
     const von = t?.deErstausgabe?.von ?? t?.deErstausgabe?.zeitraum?.match(/\d{4}/)?.[0]
-    if (!von || r.dateMeaning === 'available-from' || r.releaseType === 'disc' || !t?.deErstausgabe?.synchro) continue
+    if (!von || r.dateMeaning === 'available-from' || r.releaseType === 'disc' || OHNE_PREMIERE_BEHAUPTUNG.has(r.platform) || !t?.deErstausgabe?.synchro) continue
     geprueft++
     const jahrRelease = Number(r.schedule.firstEpisodeDate.slice(0, 4)), jahrErst = Number(von.slice(0, 4))
     if (jahrRelease - jahrErst >= 2 && !r.herkunft && !r.note)
