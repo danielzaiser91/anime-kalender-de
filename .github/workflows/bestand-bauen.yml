@@ -111,6 +111,10 @@ jobs:
       LAUF_ZIEL: 'Datensatz gebaut, Zusicherungen gehalten, Erzeugnisse committet'
       LAUF_SCHRITTE: '5'
     steps:
+      # Frist für `commit-data.sh` (Neuversuch nur, wenn die Restzeit reicht): 45 min Jobfrist abzüglich 2 min für den Jobstart.
+      - name: Jobfrist merken
+        run: echo "BAU_FRIST_EPOCH=$(( $(date +%s) + 43 * 60 ))" >> "$GITHUB_ENV"
+
       - name: Sofort anmelden
         continue-on-error: true
         env:

@@ -94,6 +94,10 @@ LOGIK_BASIS=""
 LOGIK_ABDRUCK=""
 if [ -r "${LOGIK_GRUEN_DATEI:-}" ]; then LOGIK_ABDRUCK="$(cat "$LOGIK_GRUEN_DATEI")"; fi
 PRUEFUNG_GRUEN=0
+# Ohne Jobfrist (Schritt „Jobfrist merken“ in bestand-bauen.yml fehlt) wäre der Neuversuch der Art code wieder unbegrenzt: laut melden.
+if [ "${BAU_LAUF:-0}" = 1 ] && [ -z "${BAU_FRIST_EPOCH:-}" ]; then
+  echo "::warning::BAU_FRIST_EPOCH fehlt im Bau-Lauf — der Neuversuch der Art code ist ohne Zeitgrenze (Schritt „Jobfrist merken“ in bestand-bauen.yml prüfen)."
+fi
 for versuch in $(seq 1 "$VERSUCHE"); do
   # Die Quarantäne-Liste gilt nur für den Bau dieses Versuchs; nach dem Neuaufsetzen zählt allein der neue Prüfstand.
   rm -f "$TEMP_LAUF/quarantaene.json" "$TEMP_LAUF/quarantaene.txt"
@@ -112,6 +116,10 @@ for versuch in $(seq 1 "$VERSUCHE"); do
   if [ "$(git rev-parse HEAD)" != "$FERN" ] && [ "$NEUVERSUCH_SCHNELL" = 1 ]; then
     echo "Fernstand hat sich bewegt, nur Bot-Dateien ohne Leser — Bau und Prüfungen gelten weiter, nur neu aufsetzen (Versuch $versuch)."
     erzeugnisse_behalten_aufsetzen
+  elif [ "$(git rev-parse HEAD)" != "$FERN" ] && ! neuversuch_zeit_reicht "$NEUVERSUCH_ART" "${BAU_FRIST_EPOCH:-}" "${NEUVERSUCH_JETZT:-$(date +%s)}"; then
+    # Ein Neuversuch, der die Jobfrist reißt, würde abgebrochen statt zu pushen; der nächste Bau (Gruppe `bau` wartet, jeder Merge startet einen) übernimmt.
+    echo "::error::Fernstand hat sich bewegt (Art code), aber die Restzeit des Jobs reicht für keinen vollen Neubau mehr. Nichts committet; der nächste Bau übernimmt."
+    exit 1
   elif [ "$(git rev-parse HEAD)" != "$FERN" ]; then
     echo "Fernstand hat sich bewegt — Quellen retten und neu aufsetzen (Versuch $versuch, Art $NEUVERSUCH_ART)."
 
