@@ -17,11 +17,11 @@ const titel = ['Witches Blow a New Pipe', 'Ghillie Suit / She Makes Me Special',
 function lauf(mitEnglisch: boolean): { status: number | null; zeilen: [number, string][]; fehler: string } {
   const wurzel = mkdtempSync(join(tmpdir(), 'folgentitel-englisch-bau-'))
   try {
-    for (const d of ['data/crunchyroll-raw', 'public/data']) mkdirSync(join(wurzel, d), { recursive: true })
+    for (const d of [join('data', 'crunchyroll-raw'), 'public/data']) mkdirSync(join(wurzel, d), { recursive: true })
     const schreibe = (pfad: string, inhalt: unknown) => writeFileSync(join(wurzel, pfad), JSON.stringify(inhalt))
     const guids = titel.map((_, i) => `g${i + 1}`)
     schreibe('data/crunchyroll-dub.json', { serien: [{ url: 'https://www.crunchyroll.com/burn-the-witch', katalog: 'de', seriesId: 'S1', staffeln: [{ deutscheFolgen: guids.map((guid, i) => ({ nummer: i + 1, guid })) }] }] })
-    writeFileSync(join(wurzel, 'data/crunchyroll-raw/S1.de.json.gz'), gzipSync(JSON.stringify({ episodes: { s1: { items: titel.map((title, i) => ({ id: guids[i], title })) } } })))
+    writeFileSync(join(wurzel, 'data', 'crunchyroll-raw', 'S1.de.json.gz'), gzipSync(JSON.stringify({ episodes: { s1: { items: titel.map((title, i) => ({ id: guids[i], title })) } } })))
     schreibe('data/kitsu-folgen.json', mitEnglisch ? { 116673: { k: 43146, f: titel.map((t, i) => [i + 1, t.replace('’', "'"), 21]) } } : {})
     schreibe('data/tmdb-folgen.json', {})
     writeFileSync(join(wurzel, 'data/folgen-hinweise.yaml'), '[]\n')
