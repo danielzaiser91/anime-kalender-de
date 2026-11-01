@@ -54,6 +54,10 @@ try {
   const ohneLaufzeit = (id: number): { id: number; runtimeMin?: number } => ({ id })
   const laufzeiten = [mitLaufzeit(ohneLaufzeit(900_001)).runtimeMin, mitLaufzeit(ohneLaufzeit(900_002)).runtimeMin]
   pruefe('Laufzeit (anisearch-felder): die verworfene Seite liefert keine, die andere ihre', JSON.stringify(laufzeiten) === '[null,25]', laufzeiten)
+  const { anisearchFelderAnwenden } = await import('./lib/anisearch-felder.ts')
+  const titelKarten = new Map<number, { id: number; runtimeMin?: number }>([900_001, 900_002].map((id) => [id, { id }] as const))
+  const meldung = anisearchFelderAnwenden(titelKarten as never)
+  pruefe('Laufzeit in der Titelkarte (anisearch-felder): nur der Titel ohne Streichung bekommt sie', meldung.endsWith('1 mit Laufzeit aus aniSearch') && titelKarten.get(900_001)?.runtimeMin === undefined, meldung)
 
   writeFileSync(join(wurzel, 'data/anisearch-ids-hand.yaml'), '')
   const { anisearchBruecke } = await import('./lib/anisearch-katalog-ids.ts')
@@ -76,4 +80,4 @@ if (verletzt) {
   console.error(`\n${verletzt} Zusicherung(en) verletzt.`)
   process.exit(1)
 }
-console.log('\nOK — 7 Fälle')
+console.log('\nOK — 8 Fälle')
