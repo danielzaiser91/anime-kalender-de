@@ -63,6 +63,9 @@ export function findeStelle(text, a) {
   return { index, laenge: suche.length, ersetze }
 }
 
+// Listentext -> JSON; ein führendes BOM (Windows-Editoren) wird verworfen.
+export const parseListeText = (text) => JSON.parse(text.replace(/^﻿/, ""))
+
 export function normalisiereListe(liste) {
   if (!Array.isArray(liste)) throw new Error("Mutantenliste muss ein JSON-Array sein")
   return liste.map((m, i) => {
@@ -240,7 +243,7 @@ export async function main(argv) {
     console.error('Aufruf: mutationslaeufer.mjs <mutanten.json> --test "<befehl>" [--test …] [--cwd <ordner>] [--timeout <sek>] [--log <ordner>]')
     return 2
   }
-  const mutanten = normalisiereListe(JSON.parse(readFileSync(normalisierePfad(opt.liste, process.cwd(), process.platform), "utf8").replace(/^﻿/, "")))
+  const mutanten = normalisiereListe(parseListeText(readFileSync(normalisierePfad(opt.liste, process.cwd(), process.platform), "utf8")))
   if (mutanten.some((m) => (m.tests ?? opt.tests).length === 0)) {
     console.error("Kein Testbefehl: --test oder tests je Mutant angeben")
     return 2

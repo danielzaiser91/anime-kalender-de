@@ -78,6 +78,7 @@ pipeline/check-belege-riegel-schreiben.ts
 pipeline/check-belegstaerke-forum.ts
 pipeline/check-belegstaerke-handbelegt.ts
 pipeline/check-belegstaerke.ts
+pipeline/check-bestand-delta-entfernt.ts
 pipeline/check-bild-und-synchro.ts
 pipeline/check-bookworm-dublette.ts
 pipeline/check-cartoon-aufnahme-bau.ts
@@ -232,11 +233,13 @@ pipeline/check-kanal-gegenprobe-lauf.ts
 pipeline/check-kanal-ja-sprach-termin.ts
 pipeline/check-kanal-je-seite.ts
 pipeline/check-kanal-leser.ts
+pipeline/check-kanal-luecken-lader.ts
 pipeline/check-kanal-merkliste-gesperrt-lauf.ts
 pipeline/check-kanal-merkliste.ts
 pipeline/check-kanal-messung.ts
 pipeline/check-kanal-namen.ts
 pipeline/check-kanal-verlust.ts
+pipeline/check-kapitel-katalog.ts
 pipeline/check-kapitel-shop-wege.ts
 pipeline/check-katalog-eingefroren.ts
 pipeline/check-katalog-release.ts
@@ -417,6 +420,7 @@ pipeline/check-urteile-ablauf.ts
 pipeline/check-us-nein-adresse.ts
 pipeline/check-verpasst-katalog.ts
 pipeline/check-verpasst-verdrahtung.ts
+pipeline/check-verteile-folgentitel.ts
 pipeline/check-verweis-ziel.ts
 pipeline/check-verweise-gedaechtnis.ts
 pipeline/check-verweise-von-hand.ts
@@ -468,6 +472,7 @@ tools/link-check-zeitbudget.test.ts
 tools/link-faelligkeit.test.ts
 tools/quarantaene-pruefungen.test.ts
 tools/quellen-gesundheit.test.ts
+tools/quelltext-lesungen.mjs
 tools/quittung-nach-commit-waechter.mjs
 tools/sammler-pruefschritt-waechter.mjs
 tools/skript-aufrufer-wache.mjs
