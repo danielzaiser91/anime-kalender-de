@@ -44,9 +44,9 @@ function baue(ordner, { prDatei, linear = false }) {
   return { git, basis, mainKopf, prKopf }
 }
 
-function pflichtLauf(ordner, basisSha, arbeit = ordner) {
+function pflichtLauf(ordner, basisSha, arbeit = ordner, pr = { title: '', body: '' }) {
   const ereignis = join(ordner, '..', `${basisSha}.json`)
-  writeFileSync(ereignis, JSON.stringify({ pull_request: { base: { sha: basisSha }, head: { ref: 'fix/x' }, body: '' } }))
+  writeFileSync(ereignis, JSON.stringify({ pull_request: { base: { sha: basisSha }, head: { ref: 'fix/x' }, ...pr } }))
   const env = { ...process.env, GITHUB_EVENT_NAME: 'pull_request', GITHUB_EVENT_PATH: ereignis }
   const r = spawnSync(process.execPath, [PFLICHT], { cwd: arbeit, env, encoding: 'utf8', windowsHide: true })
   rmSync(ereignis)
@@ -76,6 +76,16 @@ mitRepo({ prDatei: 'docs/pr.md' }, (ordner, { basis }) => {
 mitRepo({ prDatei: 'web/src/eigen.ts' }, (ordner, { basis }) => {
   const r = pflichtLauf(ordner, basis)
   assert.equal(r.status, 1, `eigene sichtbare Änderung ohne Patch Note bleibt rot (${r.ausgabe})`)
+})
+
+// Titel aus dem Ereignis erreicht die Grundliste (Daten-Titel mit „keine“ ohne gemessene Wirkung).
+const KEINE = 'Patch Notes: keine – Werkzeug, kein sichtbarer Unterschied'
+mitRepo({ prDatei: 'docs/pr.md' }, (ordner, { basis }) => {
+  const rot = pflichtLauf(ordner, basis, ordner, { title: 'fix(prime): fünf Fremdzuordnungen sperren', body: KEINE })
+  assert.equal(rot.status, 1, `Daten-Titel im Ereignis ohne Null-Wirkung ist rot (${rot.ausgabe})`)
+  assert.match(rot.ausgabe, /gemessene Wirkung/, 'Meldung nennt die Titelregel')
+  const gruen = pflichtLauf(ordner, basis, ordner, { title: 'chore: Liste', body: KEINE })
+  assert.equal(gruen.status, 0, `gleiche Zeile ohne Daten-Titel bleibt grün (${gruen.ausgabe})`)
 })
 
 mitRepo({ prDatei: 'docs/pr.md', linear: true }, (ordner, { git }) => {

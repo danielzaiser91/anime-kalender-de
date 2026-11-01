@@ -401,3 +401,24 @@
       dubRanges: [{ from: 1, to: 1, dub: true }]
   sources:
     - https://shop.freenet-video.de/your-forma-s01-se45841187
+
+# Crown Handler Kapitel 1 und 2: maxdome nennt „Sprache: Deutsch, Japanisch“ (Daniel, 31.10.2026). Nur diese beiden Kapitel haben eine deutsche Fassung;
+# aniSearchs Marke gilt dem Sammeleintrag 13597 und belegt kein einzelnes Kapitel. Die maxdome-Seiten lesen wir nicht, der Beleg ist Daniels Sicht.
+- anilistId: 101595
+  title: "Princess Principal: ~Crown Handler~ 1"
+  links:
+    - name: maxdome
+      url: https://store.maxdome.de/princess-principal-crown-handler-chapter-1-mo45184708
+      kind: buy
+      dubRanges: [{ from: 1, to: 1, dub: true }]
+  sources:
+    - https://store.maxdome.de/princess-principal-crown-handler-chapter-1-mo45184708
+- anilistId: 129759
+  title: "Princess Principal: ~Crown Handler~ 2"
+  links:
+    - name: maxdome
+      url: https://store.maxdome.de/mo45184724
+      kind: buy
+      dubRanges: [{ from: 1, to: 1, dub: true }]
+  sources:
+    - https://store.maxdome.de/mo45184724

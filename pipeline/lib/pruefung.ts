@@ -23,6 +23,7 @@ import { premiereFehler } from './premiere.ts'
 import { beobachtetOhneTermin } from './folge-ueber-anzahl.ts'
 import { discTerminFehler, type DiscPruefQuellen } from './disc-anisearch-datum.ts'
 import { sichtungsZeilen } from './sichtungsfenster.ts'
+import { crWegDoppelt } from './cr-doppelter-weg.ts'
 
 export interface Pruefergebnis {
   fehler: string[]
@@ -237,6 +238,7 @@ function schlussFehler(releases: Release[], events: ReleaseEvent[], titles: Map<
   return [
     ...discTerminFehler(releases, heute, discQuellen),
     ...landFehler(titles),
+    ...crWegDoppelt(titles),
     ...geteilteWegeTrotzWiderlegung(releases, titles),
     ...premiereFehler(releases),
     ...beobachtetOhneTermin(releases, events),
@@ -282,11 +284,14 @@ export function alleTermineGekennzeichnet(releases: Release[]): Set<string> {
 /**
  * Ein Stream trägt kein „deutsch", wenn alle Termine seines Anbieters eine Sprachkennzeichnung (`sprache`: omu/offen) haben:
  * Ein solcher Termin belegt keine Synchro (Beerus und Fool Night, Netflix, 13.10.2026).
+ * Ausnahme `handJa` (Schlüssel `titleId|platform` eines Handbelegs deutsch): Ein Termin mit nur `offen` sagt unklar, widerlegt nichts,
+ * und der Handbeleg hat Vorrang (Rooster Fighter, Netflix, 31.10.2026). Ein `omu` widerlegt ihn weiter und wird gemeldet.
  */
-export function deutschNurAusSpracheTermin(releases: Release[], titles: Map<number, Title>): string[] {
+export function deutschNurAusSpracheTermin(releases: Release[], titles: Map<number, Title>, handJa: ReadonlySet<string> = new Set()): string[] {
   const fehler: string[] = []
   for (const k of alleTermineGekennzeichnet(releases)) {
     const [id, plattform] = k.split('|')
+    if (handJa.has(k) && !releases.some((r) => `${r.titleId}|${r.platform}` === k && r.sprache === 'omu')) continue
     const weg = titles.get(Number(id))?.streams.find((s) => s.platform === plattform && s.dub === true)
     if (weg) fehler.push(`Anime ${id}: alle Termine auf ${plattform} tragen eine Sprachkennzeichnung, der Weg trägt trotzdem „deutsch"`)
   }

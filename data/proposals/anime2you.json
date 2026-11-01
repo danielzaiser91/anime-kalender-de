@@ -1,15 +1,48 @@
 {
-  "scrapedAt": "2026-10-31T20:02:20.335Z",
+  "scrapedAt": "2026-11-01T15:02:33.561Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
-    "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 11,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 10,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 3,
+    "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
     "schon in einem Rubrik-Feed gelesen": 8,
-    "Sprachhinweis älter als 45 Tage": 4
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 11,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 2,
+    "Sprachhinweis älter als 45 Tage": 6
   },
   "proposals": [
+    {
+      "articleTitle": "Netflix nimmt zwei Anime-Neuzugänge ins Programm",
+      "articleUrl": "https://www.anime2you.de/news/1066144/netflix-held-ohne-klasse-und-mehr/",
+      "publishedAt": "2026-11-01",
+      "category": "streaming",
+      "platforms": [
+        "netflix"
+      ],
+      "dates": [],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "AniMoon-Angebot: RomCom-Serie »Toradora!« zum Sonderpreis",
+      "articleUrl": "https://www.anime2you.de/news/1066485/animoon-monatsangebot-toradora/",
+      "publishedAt": "2026-11-01",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2026-11-30",
+          "context": "erpreis auf Blu-ray. Wir fassen zusammen. Nur in diesem Monat Bis zum 30. November 2026 verkauft der Publisher die »Toradora! Gold Edition«"
+        },
+        {
+          "month": "2026-11",
+          "context": "Sonderpreis AniMoon Publishing hat ein neues Monatsangebot gestartet: Im November 2026 gibt es »Toradora!« zum Sonderpreis auf Blu-ray. Wir"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Pluto TV nimmt zwei Anime-Neuzugänge ins Programm",
       "articleUrl": "https://www.anime2you.de/news/1066055/pluto-tv-black-clover-und-mehr/",
@@ -18,7 +51,29 @@
       "platforms": [],
       "dates": [],
       "dub": "ja",
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "sammel": [
+        {
+          "titel": "Black Clover",
+          "zusatz": "Staffel 1",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Pluto TV"
+          ]
+        },
+        {
+          "titel": "My Hero Academia",
+          "zusatz": "Staffel 1",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Pluto TV"
+          ],
+          "folgen": 13
+        }
+      ],
+      "sammelGelesen": "2026-11-01"
     },
     {
       "articleTitle": "Sieben Disc-Neuheiten ab sofort im AKIBA PASS SHOP vorbestellbar",
@@ -31,11 +86,16 @@
       "dates": [
         {
           "iso": "2027-02-05",
-          "context": "pecial Edition des Anime-Klassikers »Neon Genesis Evangelion«, die am 5. Februar 2027 als Blu-ray erscheint und alle Episoden […] Der Beit"
+          "context": "ecial Edition des Anime-Klassikers »Neon Genesis Evangelion« , die am 5. Februar 2027 als Blu-ray erscheint und alle Episoden mit deutscher"
+        },
+        {
+          "iso": "2026-12-18",
+          "context": "-Staffelboxen zur »Pokémon«-Serie vorbestellt werden, die allesamt am 18. Dezember 2026 veröffentlicht werden sollen. Dabei handelt es sich"
         }
       ],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "volltextGelesen": "2026-11-01"
     },
     {
       "articleTitle": "IMAX-Fassung von »Godzilla Minus Zero« kommt nach Deutschland + Trailer",
@@ -401,7 +461,7 @@
           "folgen": 12
         }
       ],
-      "sammelGelesen": "2026-10-29"
+      "sammelGelesen": "2026-11-01"
     },
     {
       "articleTitle": "Disney+ nimmt zwei Anime-Neuzugänge ins Programm",
@@ -440,7 +500,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-29"
+      "sammelGelesen": "2026-11-01"
     },
     {
       "articleTitle": "Zwei Anime-Neuzugänge auf Deutsch bei Crunchyroll",
@@ -490,7 +550,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-29"
+      "sammelGelesen": "2026-11-01"
     },
     {
       "articleTitle": "Crunchyroll zeigt dritte »Mashle«-Staffel im Simulcast",
@@ -1704,7 +1764,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-29"
+      "sammelGelesen": "2026-11-01"
     },
     {
       "articleTitle": "»Lady Oscar« erscheint in einer neuen Blu-ray-Komplettbox",
@@ -2015,13 +2075,9 @@
       "platforms": [
         "netflix"
       ],
-      "dates": [
-        {
-          "month": "2026-10",
-          "context": "dgerunners«-Serie veröffentlicht. Das Video findet ihr unten. Release im Oktober 2026 »Cyberpunk: Edgerunners II« entsteht wie der Vorgänger"
-        }
-      ],
+      "dates": [],
       "dub": "ja",
+      "hinweis": "sprache",
       "alreadyCurated": false
     },
     {
@@ -2254,7 +2310,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-29"
+      "sammelGelesen": "2026-11-01"
     },
     {
       "articleTitle": "»Black Clover« stellt neuen Crunchyroll-Bestwert für 2026 auf",
@@ -3468,12 +3524,7 @@
         "primevideo",
         "aniverse"
       ],
-      "dates": [
-        {
-          "month": "2026-10",
-          "context": "Neue Anime-Katalogtitel im Oktober 2026 bei aniverse Der Prime Video Channel aniverse stockt s"
-        }
-      ],
+      "dates": [],
       "dub": "ja",
       "alreadyCurated": false,
       "sammel": [
@@ -3557,13 +3608,9 @@
       "platforms": [
         "primevideo"
       ],
-      "dates": [
-        {
-          "iso": "2026-10-31",
-          "context": "beiden Serien »Naruto« und »Naruto Shippuden«, die voraussichtlich am 31. Oktober 2026 aus dem Programm von Prime Video entfernt werden und"
-        }
-      ],
+      "dates": [],
       "dub": "ja",
+      "hinweis": "sprache",
       "alreadyCurated": false
     },
     {
@@ -3892,23 +3939,6 @@
       "sammelGelesen": "2026-10-25"
     },
     {
-      "articleTitle": "Action-Anime »Rooster Fighter« bald auf Netflix verfügbar",
-      "articleUrl": "https://www.anime2you.de/news/1055673/rooster-fighter-bald-auf-netflix/",
-      "publishedAt": "2026-09-29",
-      "category": "streaming",
-      "platforms": [
-        "netflix"
-      ],
-      "dates": [
-        {
-          "iso": "2026-10-10",
-          "context": "r«) in Kürze in sein Programm aufnehmen wird. Wir fassen zusammen. Ab 10. Oktober 2026 »Rooster Fighter« steht demzufolge ab dem 10. Oktober"
-        }
-      ],
-      "dub": "unklar",
-      "alreadyCurated": false
-    },
-    {
       "articleTitle": "Prime Video fügt drei Anime-Neuzugänge zu seinem Katalog hinzu",
       "articleUrl": "https://www.anime2you.de/news/1054791/prime-video-attack-on-titan-und-mehr/",
       "publishedAt": "2026-09-29",
@@ -3949,264 +3979,6 @@
             "Prime Video"
           ],
           "folgen": 12
-        }
-      ],
-      "sammelGelesen": "2026-10-26"
-    },
-    {
-      "articleTitle": "ADN kündigt 25 Simulcasts und Katalogtitel für Oktober 2026 an",
-      "articleUrl": "https://www.anime2you.de/news/1054748/adn-neuzugaenge-im-oktober-2026/",
-      "publishedAt": "2026-09-28",
-      "category": "streaming",
-      "platforms": [
-        "adn"
-      ],
-      "dates": [
-        {
-          "month": "2026-10",
-          "context": "für Oktober 2026 an Der Streaming-Dienst ADN erweitert sein Programm im Oktober 2026 mit zahlreichen neuen Simulcasts und Katalogtiteln. Wi"
-        }
-      ],
-      "dub": "unklar",
-      "alreadyCurated": true,
-      "sammel": [
-        {
-          "titel": "Reincarnated as a Sword",
-          "zusatz": "Staffel 2",
-          "datum": "2026-09-30",
-          "deutsch": false,
-          "woechentlich": true,
-          "stream": [
-            "ADN",
-            "Prime Video"
-          ]
-        },
-        {
-          "titel": "Tougen Anki",
-          "zusatz": "Staffel 2",
-          "datum": "2026-10-02",
-          "deutsch": false,
-          "woechentlich": true,
-          "stream": [
-            "ADN"
-          ]
-        },
-        {
-          "titel": "Suikoden",
-          "datum": "2026-10-03",
-          "deutsch": false,
-          "woechentlich": true,
-          "stream": [
-            "ADN"
-          ]
-        },
-        {
-          "titel": "Even the Student Council Has Its Holes!",
-          "datum": "2026-10-03",
-          "deutsch": false,
-          "woechentlich": true,
-          "stream": [
-            "ADN"
-          ]
-        },
-        {
-          "titel": "Now That I Can Control Reality With A Mouse Cursor, I’m Gonna Click Away On The Girls!",
-          "datum": "2026-10-04",
-          "deutsch": false,
-          "woechentlich": true,
-          "stream": [
-            "ADN"
-          ]
-        },
-        {
-          "titel": "My Girlfriend’s Friend",
-          "datum": "2026-10-04",
-          "deutsch": false,
-          "woechentlich": true,
-          "stream": [
-            "ADN"
-          ]
-        },
-        {
-          "titel": "Nia Liston: The Merciless Maiden",
-          "datum": "2026-10-06",
-          "deutsch": false,
-          "woechentlich": true,
-          "stream": [
-            "ADN"
-          ]
-        },
-        {
-          "titel": "Dreamland",
-          "datum": "2026-10-17",
-          "deutsch": false,
-          "woechentlich": true,
-          "stream": [
-            "ADN"
-          ]
-        },
-        {
-          "titel": "Monster Strike: Deadverse Reloaded",
-          "datum": "2026-10-01",
-          "deutsch": false,
-          "woechentlich": false,
-          "stream": [
-            "ADN"
-          ],
-          "folgen": 10
-        },
-        {
-          "titel": "School Babysitters",
-          "datum": "2026-10-05",
-          "deutsch": false,
-          "woechentlich": false,
-          "stream": [
-            "ADN"
-          ],
-          "folgen": 12
-        },
-        {
-          "titel": "86 EIGHTY-SIX",
-          "datum": "2026-10-08",
-          "deutsch": true,
-          "woechentlich": false,
-          "stream": [
-            "ADN"
-          ],
-          "folgen": 23
-        },
-        {
-          "titel": "BLEACH: Memories of Nobody",
-          "datum": "2026-10-12",
-          "deutsch": true,
-          "woechentlich": false,
-          "stream": [
-            "ADN"
-          ]
-        },
-        {
-          "titel": "BLEACH: The DiamondDust Rebellion",
-          "datum": "2026-10-12",
-          "deutsch": true,
-          "woechentlich": false,
-          "stream": [
-            "ADN"
-          ]
-        },
-        {
-          "titel": "BLEACH: Fade to Black",
-          "datum": "2026-10-12",
-          "deutsch": true,
-          "woechentlich": false,
-          "stream": [
-            "ADN"
-          ]
-        },
-        {
-          "titel": "BLEACH: The Hell Verse",
-          "datum": "2026-10-12",
-          "deutsch": true,
-          "woechentlich": false,
-          "stream": [
-            "ADN"
-          ]
-        },
-        {
-          "titel": "Revolutionary Girl Utena",
-          "datum": "2026-10-15",
-          "deutsch": false,
-          "woechentlich": false,
-          "stream": [
-            "ADN"
-          ],
-          "folgen": 39
-        },
-        {
-          "titel": "Revolutionary Girl Utena: The Movie",
-          "datum": "2026-10-15",
-          "deutsch": false,
-          "woechentlich": false,
-          "stream": [
-            "ADN"
-          ]
-        },
-        {
-          "titel": "Chiikawa",
-          "zusatz": "Episode 121 bis 240",
-          "datum": "2026-10-19",
-          "deutsch": false,
-          "woechentlich": false,
-          "stream": [
-            "ADN",
-            "Prime Video"
-          ]
-        },
-        {
-          "titel": "Reincarnated as a Dragon Hatchling",
-          "datum": "2026-10-22",
-          "deutsch": true,
-          "woechentlich": false,
-          "stream": [
-            "ADN",
-            "Prime Video"
-          ],
-          "folgen": 12
-        },
-        {
-          "titel": "THE LEGEND OF HEI II",
-          "datum": "2026-10-26",
-          "deutsch": false,
-          "woechentlich": false,
-          "stream": [
-            "ADN"
-          ]
-        },
-        {
-          "titel": "Reborn!",
-          "zusatz": "Episode 52 bis 101",
-          "datum": "2026-10-28",
-          "deutsch": false,
-          "woechentlich": false,
-          "stream": [
-            "ADN"
-          ]
-        },
-        {
-          "titel": "Puella Magi Madoka Magica",
-          "datum": "2026-10-29",
-          "deutsch": true,
-          "woechentlich": false,
-          "stream": [
-            "ADN"
-          ],
-          "folgen": 12
-        },
-        {
-          "titel": "Puella Magi Madoka Magica – Film 1: Beginnings",
-          "datum": "2026-10-29",
-          "deutsch": false,
-          "woechentlich": false,
-          "stream": [
-            "ADN"
-          ]
-        },
-        {
-          "titel": "Puella Magi Madoka Magica – Film 2: Eternal",
-          "datum": "2026-10-29",
-          "deutsch": false,
-          "woechentlich": false,
-          "stream": [
-            "ADN"
-          ]
-        },
-        {
-          "titel": "Puella Magi Madoka Magica – Film 3: Rebellion",
-          "datum": "2026-10-29",
-          "deutsch": true,
-          "woechentlich": false,
-          "stream": [
-            "ADN"
-          ]
         }
       ],
       "sammelGelesen": "2026-10-26"
@@ -4309,314 +4081,6 @@
       "alreadyCurated": false
     },
     {
-      "articleTitle": "Anime-Neuheiten im Oktober 2026 auf DVD und Blu-ray",
-      "articleUrl": "https://www.anime2you.de/news/1052887/disc-neuheiten-oktober-2026/",
-      "publishedAt": "2026-09-26",
-      "category": "disc",
-      "platforms": [
-        "disc"
-      ],
-      "dates": [
-        {
-          "month": "2026-10",
-          "context": "Anime-Neuheiten im Oktober 2026 auf DVD und Blu-ray Im Oktober 2026 kommen wieder zahl"
-        }
-      ],
-      "dub": "unklar",
-      "alreadyCurated": true,
-      "discZeilen": [
-        {
-          "datum": "2026-10-02",
-          "titel": "Black Butler: Emerald Witch Arc – Vol. 1",
-          "label": "crunchyroll",
-          "format": "serie",
-          "medium": "dvd blu-ray",
-          "edition": "limited-edition sammelschuber"
-        },
-        {
-          "datum": "2026-10-02",
-          "titel": "Blue Exorcist: The Blue Night Saga – Vol. 2",
-          "label": "crunchyroll",
-          "format": "serie",
-          "medium": "dvd blu-ray",
-          "edition": ""
-        },
-        {
-          "datum": "2026-10-02",
-          "titel": "Chainsaw Man – Staffel 1",
-          "label": "crunchyroll",
-          "format": "serie",
-          "medium": "dvd blu-ray",
-          "edition": "gesamtausgabe"
-        },
-        {
-          "datum": "2026-10-02",
-          "titel": "My Hero Academia – Staffel 6",
-          "label": "crunchyroll",
-          "format": "serie",
-          "medium": "dvd blu-ray",
-          "edition": "gesamtausgabe"
-        },
-        {
-          "datum": "2026-10-02",
-          "titel": "My Love Story with Yamada-kun at Lv999 – Vol. 1",
-          "label": "animoon-publishing",
-          "format": "serie",
-          "medium": "dvd blu-ray",
-          "edition": "limited-edition sammelschuber"
-        },
-        {
-          "datum": "2026-10-02",
-          "titel": "Spice and Wolf: Merchant Meets the Wise Wolf – Vol. 1",
-          "label": "animoon-publishing",
-          "format": "serie",
-          "medium": "blu-ray",
-          "edition": "limited-edition sammelschuber"
-        },
-        {
-          "datum": "2026-10-02",
-          "titel": "Wind Breaker (Staffel 2) – Vol. 2",
-          "label": "crunchyroll",
-          "format": "serie",
-          "medium": "blu-ray",
-          "edition": ""
-        },
-        {
-          "datum": "2026-10-02",
-          "titel": "Zombie Land Saga – Staffel 1 + 2",
-          "label": "crunchyroll",
-          "format": "serie",
-          "medium": "dvd blu-ray",
-          "edition": "gesamtausgabe"
-        },
-        {
-          "datum": "2026-10-16",
-          "titel": "Bitte zieh dich an, Takamine! – Vol. 1",
-          "label": "animoon-publishing",
-          "format": "serie",
-          "medium": "blu-ray",
-          "edition": "limited-edition sammelschuber"
-        },
-        {
-          "datum": "2026-10-16",
-          "titel": "Bocchi the Rock! – Vol. 1",
-          "label": "animoon-publishing",
-          "format": "serie",
-          "medium": "dvd blu-ray",
-          "edition": "limited-edition sammelschuber"
-        },
-        {
-          "datum": "2026-10-16",
-          "titel": "Bocchi the Rock! – Vol. 1 (Exklusiv)",
-          "label": "animoon-publishing",
-          "format": "serie",
-          "medium": "blu-ray",
-          "edition": ""
-        },
-        {
-          "datum": "2026-10-16",
-          "titel": "Dr. STONE: Science Future – Vol. 1",
-          "label": "crunchyroll",
-          "format": "serie",
-          "medium": "blu-ray",
-          "edition": "limited-edition sammelschuber"
-        },
-        {
-          "datum": "2026-10-16",
-          "titel": "Miss Kobayashi’s Dragon Maid: Ein einsamer Drache sehnt sich nach Liebe",
-          "label": "crunchyroll",
-          "format": "film",
-          "medium": "blu-ray",
-          "edition": ""
-        },
-        {
-          "datum": "2026-10-16",
-          "titel": "My Next Life as a Villainess – Staffel 2",
-          "label": "crunchyroll",
-          "format": "serie",
-          "medium": "dvd blu-ray",
-          "edition": "gesamtausgabe"
-        },
-        {
-          "datum": "2026-10-16",
-          "titel": "Rent-A-Girlfriend – Staffel 4",
-          "label": "crunchyroll",
-          "format": "serie",
-          "medium": "blu-ray",
-          "edition": "gesamtausgabe"
-        },
-        {
-          "datum": "2026-10-16",
-          "titel": "Sailor Moon – Staffel 1",
-          "label": "crunchyroll",
-          "format": "serie",
-          "medium": "dvd blu-ray",
-          "edition": "gesamtausgabe limited-edition steelbook"
-        },
-        {
-          "datum": "2026-10-16",
-          "titel": "Steins;Gate 0",
-          "label": "peppermint-anime",
-          "format": "serie",
-          "medium": "dvd blu-ray",
-          "edition": "gesamtausgabe"
-        },
-        {
-          "datum": "2026-10-16",
-          "titel": "Vinland Saga – Staffel 2",
-          "label": "crunchyroll",
-          "format": "serie",
-          "medium": "blu-ray",
-          "edition": "gesamtausgabe"
-        },
-        {
-          "datum": "2026-10-16",
-          "titel": "Yashahime – Staffel 2",
-          "label": "crunchyroll",
-          "format": "serie",
-          "medium": "dvd blu-ray",
-          "edition": "gesamtausgabe"
-        },
-        {
-          "datum": "2026-10-22",
-          "titel": "All You Need Is Kill",
-          "label": "ksm-anime",
-          "format": "film",
-          "medium": "blu-ray",
-          "edition": "limited-edition"
-        },
-        {
-          "datum": "2026-10-22",
-          "titel": "Ame & Yuki – Die Wolfskinder (Ultimate Edition)",
-          "label": "ksm-anime",
-          "format": "film",
-          "medium": "4k-blu-ray",
-          "edition": "limited-edition"
-        },
-        {
-          "datum": "2026-10-22",
-          "titel": "Das Mädchen, das durch die Zeit sprang (Ultimate Edition)",
-          "label": "ksm-anime",
-          "format": "film",
-          "medium": "4k-blu-ray",
-          "edition": "limited-edition"
-        },
-        {
-          "datum": "2026-10-22",
-          "titel": "Der Junge und das Biest (Ultimate Edition)",
-          "label": "ksm-anime",
-          "format": "film",
-          "medium": "4k-blu-ray",
-          "edition": "limited-edition"
-        },
-        {
-          "datum": "2026-10-22",
-          "titel": "Detektei Layton – Katrielles rätselhafte Fälle",
-          "label": "ksm-anime",
-          "format": "serie",
-          "medium": "dvd blu-ray",
-          "edition": "gesamtausgabe"
-        },
-        {
-          "datum": "2026-10-22",
-          "titel": "Summer Wars (Ultimate Edition)",
-          "label": "ksm-anime",
-          "format": "film",
-          "medium": "4k-blu-ray",
-          "edition": "limited-edition"
-        },
-        {
-          "datum": "2026-10-23",
-          "titel": "2.5 Dimensional Seduction – Vol. 4",
-          "label": "animoon-publishing",
-          "format": "serie",
-          "medium": "dvd blu-ray",
-          "edition": "limited-edition"
-        },
-        {
-          "datum": "2026-10-23",
-          "titel": "Inazuma Eleven – Staffel 1",
-          "label": "animoon-publishing",
-          "format": "serie",
-          "medium": "blu-ray",
-          "edition": "gesamtausgabe"
-        },
-        {
-          "datum": "2026-10-23",
-          "titel": "Infinite Dendrogram – Vol. 2",
-          "label": "animoon-publishing",
-          "format": "serie",
-          "medium": "dvd blu-ray",
-          "edition": "limited-edition"
-        },
-        {
-          "datum": "2026-10-23",
-          "titel": "Nukitashi – Vol. 1",
-          "label": "animoon-publishing",
-          "format": "serie",
-          "medium": "blu-ray",
-          "edition": "limited-edition sammelschuber"
-        },
-        {
-          "datum": "2026-10-23",
-          "titel": "Sakamoto Days – Vol. 1",
-          "label": "animoon-publishing",
-          "format": "serie",
-          "medium": "dvd blu-ray",
-          "edition": "limited-edition sammelschuber"
-        },
-        {
-          "datum": "2026-10-23",
-          "titel": "Strike Witches (Staffel 2) – Vol. 1",
-          "label": "animoon-publishing",
-          "format": "serie",
-          "medium": "dvd blu-ray",
-          "edition": "limited-edition sammelschuber"
-        },
-        {
-          "datum": "2026-10-23",
-          "titel": "Virgin Road – Vol. 1",
-          "label": "animoon-publishing",
-          "format": "serie",
-          "medium": "blu-ray",
-          "edition": "limited-edition sammelschuber"
-        },
-        {
-          "datum": "2026-10-30",
-          "titel": "DAN DA DAN (Staffel 2) – Vol. 2 (Exklusiv)",
-          "label": "animoon-publishing",
-          "format": "serie",
-          "medium": "blu-ray",
-          "edition": "limited-edition steelbook"
-        },
-        {
-          "datum": "2026-10-30",
-          "titel": "DAN DA DAN – Staffel 1",
-          "label": "polyband-anime",
-          "format": "serie",
-          "medium": "dvd blu-ray",
-          "edition": "gesamtausgabe limited-edition"
-        },
-        {
-          "datum": "2026-10-30",
-          "titel": "I Want You To Show Me Your Panties With a Disgusted Face Returns",
-          "label": "polyband-anime",
-          "format": "",
-          "medium": "blu-ray",
-          "edition": ""
-        },
-        {
-          "datum": "2026-10-30",
-          "titel": "Shin Chan – Vol. 15",
-          "label": "polyband-anime",
-          "format": "serie",
-          "medium": "dvd",
-          "edition": ""
-        }
-      ],
-      "discGelesen": "2026-10-30"
-    },
-    {
       "articleTitle": "Design der limitierten Steelbook-Edition von »My Dress-Up Darling«",
       "articleUrl": "https://www.anime2you.de/news/1052989/my-dress-up-darling-steelbook-design/",
       "publishedAt": "2026-09-26",
@@ -4668,23 +4132,6 @@
       "alreadyCurated": false
     },
     {
-      "articleTitle": "In diesen Kinos läuft der »Rascal Does Not Dream«-Finalfilm",
-      "articleUrl": "https://www.anime2you.de/news/1053560/rascal-does-not-dream-of-a-dear-friend-kinoliste/",
-      "publishedAt": "2026-09-24",
-      "category": "kino",
-      "platforms": [
-        "kino"
-      ],
-      "dates": [
-        {
-          "month": "2026-10",
-          "context": "s«) gezeigt wird. Nachfolgend findet ihr alle Einzelheiten. Kinostart im Oktober 2026 »Rascal Does Not Dream of a Dear Friend« startet am 27"
-        }
-      ],
-      "dub": "nein",
-      "alreadyCurated": true
-    },
-    {
       "articleTitle": "Design der Blu-ray-Komplettbox von »Failure Frame«",
       "articleUrl": "https://www.anime2you.de/news/1052976/failure-frame-blu-ray-design/",
       "publishedAt": "2026-09-24",
@@ -4722,158 +4169,6 @@
         }
       ],
       "dub": "nein",
-      "alreadyCurated": true
-    },
-    {
-      "articleTitle": "Netflix: Alle Anime-Neuzugänge im Oktober 2026",
-      "articleUrl": "https://www.anime2you.de/news/1052708/netflix-anime-neu-im-oktober-2026/",
-      "publishedAt": "2026-09-23",
-      "category": "streaming",
-      "platforms": [
-        "netflix"
-      ],
-      "dates": [
-        {
-          "month": "2026-10",
-          "context": "Netflix: Alle Anime-Neuzugänge im Oktober 2026 Der Streaming-Dienst Netflix baut sein Anime-Programm"
-        }
-      ],
-      "dub": "unklar",
-      "alreadyCurated": true,
-      "sammel": [
-        {
-          "titel": "The Ramparts of Ice",
-          "zusatz": "Staffel 2",
-          "datum": "2026-10-01",
-          "deutsch": true,
-          "woechentlich": true,
-          "stream": [
-            "Netflix"
-          ]
-        },
-        {
-          "titel": "Tougen Anki",
-          "zusatz": "Staffel 2",
-          "datum": "2026-10-02",
-          "deutsch": false,
-          "woechentlich": true,
-          "stream": [
-            "Netflix"
-          ]
-        },
-        {
-          "titel": "Ranma 1/2",
-          "zusatz": "Staffel 3",
-          "datum": "2026-10-03",
-          "deutsch": false,
-          "woechentlich": true,
-          "stream": [
-            "Netflix"
-          ]
-        },
-        {
-          "titel": "Blue Box",
-          "zusatz": "Staffel 2",
-          "datum": "2026-10-04",
-          "deutsch": true,
-          "woechentlich": true,
-          "stream": [
-            "Netflix"
-          ]
-        },
-        {
-          "titel": "My Hero Academia: Vigilantes",
-          "zusatz": "Staffel 1 und 2",
-          "datum": "2026-10-06",
-          "deutsch": true,
-          "woechentlich": false,
-          "stream": [
-            "Netflix"
-          ],
-          "folgen": 26
-        },
-        {
-          "titel": "Rooster Fighter",
-          "datum": "2026-10-10",
-          "deutsch": true,
-          "woechentlich": false,
-          "stream": [
-            "Netflix"
-          ],
-          "folgen": 12
-        },
-        {
-          "titel": "Dragon Ball Super: Beerus",
-          "datum": "2026-10-18",
-          "deutsch": false,
-          "woechentlich": true,
-          "stream": [
-            "Netflix"
-          ]
-        },
-        {
-          "titel": "Cyberpunk: Edgerunners II",
-          "datum": "2026-10-20",
-          "deutsch": true,
-          "woechentlich": false,
-          "stream": [
-            "Netflix"
-          ],
-          "folgen": 10
-        },
-        {
-          "titel": "My Happy Marriage",
-          "zusatz": "Sonderfolgen",
-          "datum": "2026-10-25",
-          "deutsch": true,
-          "woechentlich": false,
-          "stream": [
-            "Netflix"
-          ],
-          "folgen": 3
-        },
-        {
-          "titel": "STEEL BALL RUN: JoJo’s Bizarre Adventure",
-          "deutsch": true,
-          "woechentlich": true,
-          "stream": [
-            "Netflix"
-          ]
-        },
-        {
-          "titel": "Das Band der Unterwelt",
-          "deutsch": true,
-          "woechentlich": false,
-          "stream": [
-            "Netflix"
-          ]
-        },
-        {
-          "titel": "One Piece: Elbaph-Arc",
-          "deutsch": false,
-          "woechentlich": true,
-          "stream": [
-            "Netflix"
-          ]
-        }
-      ],
-      "sammelGelesen": "2026-10-26"
-    },
-    {
-      "articleTitle": "Netflix enthüllt neuen Teaser zu »Cyberpunk: Edgerunners II«",
-      "articleUrl": "https://www.anime2you.de/news/1053081/cyberpunk-edgerunners-ii-sneak-peek-teaser/",
-      "publishedAt": "2026-09-22",
-      "category": "streaming",
-      "platforms": [
-        "netflix"
-      ],
-      "dates": [
-        {
-          "month": "2026-10",
-          "context": "veröffentlicht. Das Video findet ihr weiter unten in diesem Artikel. Ab Oktober 2026 »Cyberpunk: Edgerunners II« erscheint am 20. Oktober 2"
-        }
-      ],
-      "dub": "unklar",
       "alreadyCurated": true
     },
     {
@@ -5462,38 +4757,6 @@
       "alreadyCurated": false
     },
     {
-      "articleTitle": "Deutscher Kinostart von »Rascal Does Not Dream of a Dear Friend«",
-      "articleUrl": "https://www.anime2you.de/news/1049457/rascal-does-not-dream-of-a-dear-friend-deutscher-kinostart/",
-      "publishedAt": "2026-09-12",
-      "category": "kino",
-      "platforms": [
-        "kino"
-      ],
-      "dates": [
-        {
-          "month": "2026-10",
-          "context": "»Rascal Does Not Dream«-Reihe bekannt. Wir fassen zusammen. Kinostart im Oktober 2026 »Rascal Does Not Dream of a Dear Friend« startet demzu"
-        }
-      ],
-      "dub": "ja",
-      "alreadyCurated": true
-    },
-    {
-      "articleTitle": "Deutscher Synchro-Trailer zu »Avatar: Die sieben Häfen« + Visual",
-      "articleUrl": "https://www.anime2you.de/news/1048545/avatar-die-sieben-haefen-deutscher-trailer/",
-      "publishedAt": "2026-09-10",
-      "category": "streaming",
-      "platforms": [],
-      "dates": [
-        {
-          "month": "2026-10",
-          "context": "Vertonung vorgestellt wird. Das Video findet ihr weiter unten. Start im Oktober 2026 Der Start von »Avatar: Die sieben Häfen« (Original: »A"
-        }
-      ],
-      "dub": "ja",
-      "alreadyCurated": true
-    },
-    {
       "articleTitle": "Anime Planet startet große »End of Summer«-Rabattaktion",
       "articleUrl": "https://www.anime2you.de/news/1048476/anime-planet-end-of-summer-rabattaktion/",
       "publishedAt": "2026-09-10",
@@ -5662,23 +4925,6 @@
       ],
       "dub": "unklar",
       "alreadyCurated": false
-    },
-    {
-      "articleTitle": "Prime Video zeigt »Seven Knights of Marronnier Kingdom« im Simulcast",
-      "articleUrl": "https://www.anime2you.de/news/1047200/seven-knights-of-marronnier-kingdom-prime-video-simulcast/",
-      "publishedAt": "2026-09-07",
-      "category": "streaming",
-      "platforms": [
-        "primevideo"
-      ],
-      "dates": [
-        {
-          "month": "2026-10",
-          "context": "of the Marronnier Kingdom) gesichert hat. Wir fassen zusammen. Start im Oktober 2026 »Die sieben Ritter des Königreichs der Marronniers« wi"
-        }
-      ],
-      "dub": "unklar",
-      "alreadyCurated": true
     },
     {
       "articleTitle": "Deutscher Trailer zu »My Love Story with Yamada-kun at Lv999« + Cast",
@@ -6377,27 +5623,6 @@
         }
       ],
       "sammelGelesen": "2026-10-09"
-    },
-    {
-      "articleTitle": "Netflix enthüllt Termin der neuen »My Happy Marriage«-Folgen + Trailer",
-      "articleUrl": "https://www.anime2you.de/news/1045378/my-happy-marriage-specials-netflix-termin/",
-      "publishedAt": "2026-08-31",
-      "category": "streaming",
-      "platforms": [
-        "netflix"
-      ],
-      "dates": [
-        {
-          "iso": "2026-10-25",
-          "context": "ber 2026 Die drei neuen Episoden zu »My Happy Marriage« erscheinen am 25. Oktober 2026 unter anderem mit deutscher Sprachfassung sowie […]"
-        },
-        {
-          "month": "2026-10",
-          "context": "sten Trailer, den ihr weiter unten in diesem Artikel findet. Premiere im Oktober 2026 Die drei neuen Episoden zu »My Happy Marriage« erschei"
-        }
-      ],
-      "dub": "ja",
-      "alreadyCurated": true
     },
     {
       "articleTitle": "»A Gatherer’s Adventure in Isekai« erscheint als Blu-ray-Komplettbox",
@@ -7112,28 +6337,6 @@
       "sammelGelesen": "2026-10-09"
     },
     {
-      "articleTitle": "Blu-ray-Sammelschuber der vierten »Dr. STONE«-Staffel",
-      "articleUrl": "https://www.anime2you.de/news/1043546/dr-stone-staffel-4-blu-ray-sammelschuber/",
-      "publishedAt": "2026-08-24",
-      "category": "disc",
-      "platforms": [
-        "crunchyroll",
-        "disc"
-      ],
-      "dates": [
-        {
-          "iso": "2026-10-16",
-          "context": "Part von »Dr. STONE: Science Future« kommt nach aktueller Planung am 16. Oktober 2026 in einer Blu-ray-Komplettbox in den […] Der Beitrag"
-        },
-        {
-          "month": "2026-10",
-          "context": "n des Sammelschubers. Ein neues Produktbild findet ihr unten. Release im Oktober 2026 Der erste Part von »Dr. STONE: Science Future« kommt n"
-        }
-      ],
-      "dub": "unklar",
-      "alreadyCurated": true
-    },
-    {
       "articleTitle": "Disc-Termin von »There’s No Freaking Way I’ll Be Your Lover! Unless…«",
       "articleUrl": "https://www.anime2you.de/news/1043903/theres-no-freaking-way-ill-be-your-lover-unless-disc-termin/",
       "publishedAt": "2026-08-24",
@@ -7174,27 +6377,6 @@
       ],
       "dub": "ja",
       "alreadyCurated": false
-    },
-    {
-      "articleTitle": "Netflix-Termin von »Cyberpunk: Edgerunners II« steht fest + Teaser",
-      "articleUrl": "https://www.anime2you.de/news/1043405/cyberpunk-edgerunners-2-netflix-termin/",
-      "publishedAt": "2026-08-21",
-      "category": "streaming",
-      "platforms": [
-        "netflix"
-      ],
-      "dates": [
-        {
-          "iso": "2026-10-20",
-          "context": "iere im Oktober 2026 »Cyberpunk: Edgerunners II« steht demnach ab dem 20. Oktober 2026 unter anderem mit japanischer und englischer Sprachfa"
-        },
-        {
-          "month": "2026-10",
-          "context": "runners«-Serie bekannt. Einen neuen Teaser findet ihr unten. Premiere im Oktober 2026 »Cyberpunk: Edgerunners II« steht demnach ab dem 20. O"
-        }
-      ],
-      "dub": "unklar",
-      "alreadyCurated": true
     },
     {
       "articleTitle": "Netflix enthüllt neues Visual zur ersten Staffel von »THE ONE PIECE«",
@@ -7721,24 +6903,6 @@
       "alreadyCurated": false
     },
     {
-      "articleTitle": "Blu-ray-Termin von »Black Butler: Emerald Witch Arc« + Design",
-      "articleUrl": "https://www.anime2you.de/news/1038181/black-butler-emerald-witch-arc-blu-ray-termin/",
-      "publishedAt": "2026-08-06",
-      "category": "disc",
-      "platforms": [
-        "crunchyroll",
-        "disc"
-      ],
-      "dates": [
-        {
-          "month": "2026-10",
-          "context": "uf DVD und Blu-ray veröffentlichen wird. Wir fassen zusammen. Release im Oktober 2026 Das erste Volume von »Black Butler: Emerald Witch Arc«"
-        }
-      ],
-      "dub": "ja",
-      "alreadyCurated": true
-    },
-    {
       "articleTitle": "Disney+ zeigt neuen Trailer zu »Star Wars: Visionen – Die neunte Jedi«",
       "articleUrl": "https://www.anime2you.de/news/1037504/star-wars-visionen-die-neunte-jedi-trailer/",
       "publishedAt": "2026-08-03",
@@ -7774,23 +6938,6 @@
         }
       ],
       "dub": "unklar",
-      "alreadyCurated": true
-    },
-    {
-      "articleTitle": "Deutscher Kinostart von »A New Dawn« + Synchro-Trailer",
-      "articleUrl": "https://www.anime2you.de/news/1036946/a-new-dawn-deutscher-kinostart/",
-      "publishedAt": "2026-08-02",
-      "category": "kino",
-      "platforms": [
-        "kino"
-      ],
-      "dates": [
-        {
-          "month": "2026-10",
-          "context": "ynchro-Trailer veröffentlicht, den ihr weiter unten findet. Kinostart im Oktober 2026 »A New Dawn« wird ab dem 15. Oktober 2026 sowohl mit d"
-        }
-      ],
-      "dub": "ja",
       "alreadyCurated": true
     },
     {
@@ -7920,68 +7067,6 @@
         }
       ],
       "sammelGelesen": "2026-10-19"
-    },
-    {
-      "articleTitle": "»Miss Kobayashi’s Dragon Maid«-Film erscheint auf Blu-ray + Design",
-      "articleUrl": "https://www.anime2you.de/news/1035817/miss-kobayashis-dragon-maid-film-blu-ray-release/",
-      "publishedAt": "2026-07-30",
-      "category": "disc",
-      "platforms": [
-        "crunchyroll",
-        "disc"
-      ],
-      "dates": [
-        {
-          "month": "2026-10",
-          "context": "n wird. Wir fassen die Details nachfolgend für euch zusammen. Release im Oktober 2026 Der Film mit dem Titel »Miss Kobayashi’s Dragon Maid:"
-        }
-      ],
-      "dub": "unklar",
-      "alreadyCurated": true
-    },
-    {
-      "articleTitle": "Blu-ray-Termin der vierten Staffel von »Dr. STONE«",
-      "articleUrl": "https://www.anime2you.de/news/1035810/dr-stone-staffel-4-blu-ray-termin/",
-      "publishedAt": "2026-07-30",
-      "category": "disc",
-      "platforms": [
-        "crunchyroll",
-        "disc"
-      ],
-      "dates": [
-        {
-          "iso": "2026-10-16",
-          "context": "von »Dr. STONE: Science Future« erscheint demnach voraussichtlich am 16. Oktober 2026 in einer Blu-ray-Komplettbox, die alle […] Der Beit"
-        },
-        {
-          "month": "2026-10",
-          "context": "onaten auf Blu-ray veröffentlichen wird. Wir fassen zusammen. Release im Oktober 2026 Der erste Part von »Dr. STONE: Science Future« erschei"
-        }
-      ],
-      "dub": "unklar",
-      "alreadyCurated": true
-    },
-    {
-      "articleTitle": "Vierte »Rent-A-Girlfriend«-Staffel erscheint als Blu-ray-Komplettbox",
-      "articleUrl": "https://www.anime2you.de/news/1035798/rent-a-girlfriend-staffel-4-blu-ray-komplettbox/",
-      "publishedAt": "2026-07-30",
-      "category": "disc",
-      "platforms": [
-        "crunchyroll",
-        "disc"
-      ],
-      "dates": [
-        {
-          "iso": "2026-10-16",
-          "context": "e vierte »Rent-A-Girlfriend«-Staffel kommt demnach voraussichtlich am 16. Oktober 2026 in einer Komplettbox, die alle Episoden mit deutscher"
-        },
-        {
-          "month": "2026-10",
-          "context": "hen wird. Wir fassen die ersten Details nachfolgend zusammen. Release im Oktober 2026 Die vierte »Rent-A-Girlfriend«-Staffel kommt demnach v"
-        }
-      ],
-      "dub": "unklar",
-      "alreadyCurated": true
     },
     {
       "articleTitle": "Neue Anime-Katalogtitel im August 2026 bei aniverse",

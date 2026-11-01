@@ -14,6 +14,7 @@
 import { existsSync, readFileSync } from 'node:fs'
 import { ereignisse } from '../pipeline/lib/bestand-pendel.ts'
 import { stempelWarnungAusDatei } from './patchnotes-stempel-alter.mjs'
+import { vorratWarnungenAusOrdner } from './patchnotes-vorrat-alter.mjs'
 
 const DATEI = 'data/bestand-historie.jsonl'
 const args = process.argv.slice(2)
@@ -24,10 +25,13 @@ const JETZT = args.includes('--jetzt') ? Date.parse(args[args.indexOf('--jetzt')
 
 const stempelWarnung = stempelWarnungAusDatei()
 if (stempelWarnung) console.log(`⚠  ${stempelWarnung}\n`)
+// Vertagte Patch Notes (Vorrat) haben hier ihren Besitzer: Liegt eine länger als VORRAT_MAX_TAGE, ist die Wache rot.
+const vorratWarnungen = vorratWarnungenAusOrdner()
+for (const w of vorratWarnungen) console.log(`⚠  ${w}\n`)
 
 if (!existsSync(DATEI)) {
   console.log('Noch keine Historie — der erste Lauf legt sie an.')
-  process.exit(stempelWarnung ? 1 : 0)
+  process.exit(stempelWarnung || vorratWarnungen.length ? 1 : 0)
 }
 
 const zeilen = readFileSync(DATEI, 'utf8')
@@ -101,4 +105,4 @@ if (auffaellige.length) {
   console.log('')
   console.log(`⚠  ${auffaellige.length} Lauf/Läufe mit Auffälligkeiten — siehe oben.`)
 }
-if (auffaellige.length || stempelWarnung) process.exit(1)
+if (auffaellige.length || stempelWarnung || vorratWarnungen.length) process.exit(1)

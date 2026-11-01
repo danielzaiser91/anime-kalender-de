@@ -190,3 +190,20 @@ globalThis.akPrimeSeiteSichern = async (kennung, lesen, schreiben, jetzt) => {
   neu[String(kennung)] = jetzt
   return schreiben({ [SEITEN_SCHLUESSEL]: neu })
 }
+
+/**
+ * Widerspruch zwischen dem, was eine Meldung nennt, und der Seite, auf der wir stehen (Wechsel A→B).
+ * Liefert den Grund oder null. Der Quelltext einer verlassenen Seite oder eine Kopfzeile mit fremder Kennung
+ * bedeuten Name und ASIN stammen nicht von derselben Seite; ein Titel, der noch der der verlassenen Seite ist,
+ * gilt nur, wenn der Leser die neue Kennung bestätigt hat (Staffelwechsel derselben Serie hat denselben Titel).
+ */
+globalThis.akPrimeMeldungWiderspruch = (dokument, quelltextFrueher, adressKennung, seitenKennung, titel, verlassen) => {
+  const kopfKennung = dokument.querySelector('.ak-amazon-suchhinweis .ak-meldet')?.dataset?.kennung
+  if (quelltextFrueher) return 'Seite noch nicht umgestellt'
+  if (kopfKennung && adressKennung && kopfKennung !== adressKennung) return 'Kopfzeile nennt andere Kennung'
+  const alterTitel = verlassen?.titel
+  if (titel && alterTitel && titel === alterTitel && verlassen.kennung && seitenKennung !== adressKennung) {
+    return 'Titel gehört zur verlassenen Seite'
+  }
+  return null
+}
