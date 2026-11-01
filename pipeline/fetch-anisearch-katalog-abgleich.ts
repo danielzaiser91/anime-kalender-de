@@ -15,6 +15,7 @@
  */
 import { readFileSync } from 'node:fs'
 import { log, readJson, sleep, warn, writeJson } from './lib/util.ts'
+import { ladeAnisearchMal } from './lib/anisearch-verworfen.ts'
 import { anisearchKopf, anisearchToken } from './lib/anisearch-api.ts'
 import { kompakt } from './fetch-anisearch-eintraege.ts'
 import { FORMAT } from './bau/anisearch-titel.ts'
@@ -107,12 +108,12 @@ export async function ladeTitelliste(token: string, grenzen?: AbrufGrenzen, zwis
 }
 
 /** MAL-Kennung → aniSearch-Kennungen: aus der Brücke `anisearch-mal.json` und aus allen schon geholten Einzelabrufen. */
-function malZuAnisearch(eintraege: Record<string, AsEintrag>): Map<number, number[]> {
+export function malZuAnisearch(eintraege: Record<string, AsEintrag>): Map<number, number[]> {
   const raus = new Map<number, Set<number>>()
   const dazu = (mal: number | undefined, asId: number): void => {
     if (mal) raus.set(mal, (raus.get(mal) ?? new Set<number>()).add(asId))
   }
-  for (const [mal, asId] of Object.entries(readJson<Record<string, number>>('data/anisearch-mal.json', {}))) dazu(Number(mal), asId)
+  for (const [mal, asId] of Object.entries(ladeAnisearchMal())) dazu(Number(mal), asId)
   for (const [asId, e] of Object.entries(eintraege)) dazu(e.mal, Number(asId))
   return new Map([...raus].map(([mal, ids]) => [mal, [...ids]]))
 }

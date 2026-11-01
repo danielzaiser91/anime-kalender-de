@@ -19,6 +19,7 @@
  * (übersetzte Titel weichen ab, TMDB/aniSearch führen „Folge N") bleibt es bei der
  * Zuordnung über die Zahl.
  */
+import { ladeAnisearchAbruf } from './anisearch-verworfen.ts'
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { ROOT } from './util.ts'
@@ -69,7 +70,7 @@ export function folgeUeberTitel(
   const ziel = folgentitelKern(folgentitel)
   if (!traegt(ziel)) return null
   const folgen = quelle?.folgen ?? (asFolgen ??= lade('data/anisearch-folgen.json'))!
-  const kennung = quelle?.kennung ?? (asKennung ??= lade('data/anisearch.json'))!
+  const kennung = quelle?.kennung ?? (asKennung ??= ladeAnisearchAbruf<{ anisearchId?: number }>())!
   const treffer: Array<{ id: number; nr: number }> = []
   for (const id of new Set(kandidaten)) {
     const asId = kennung[String(id)]?.anisearchId

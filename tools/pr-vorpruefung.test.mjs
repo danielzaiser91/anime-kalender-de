@@ -1,5 +1,7 @@
 /** Tests für tools/pr-vorpruefung.mjs: Gegenproben der mechanischen Prüfer-Regeln. */
 import { readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
+import { botPfadeNoetig, botPfadeRot } from './pr-vorpruefung-bot-pfade.mjs'
 import { existiertIn, genanntePfade, istErwaehnt, fundeImDiff, listenRot, vorpruefe } from './pr-vorpruefung.mjs'
 
 const fehler = []
@@ -14,7 +16,7 @@ const rot = (e) => lauf(e).rot.length > 0
 
 // Zusammengesetzt, damit check:cache-register den Beispielpfad nicht für einen echten Zugriff hält.
 const CACHE = ['data', 'cache', 'x.json'].join('/')
-const PN = 'Patch Notes: keine – Technik'
+const PN = 'Patch Notes: keine – Werkzeug'
 pruefe('Text nennt alle Dateien → grün', !rot({ dateien: ['tools/a.mjs'], text: `tools/a.mjs neu. ${PN}` }))
 pruefe('Datei nicht erwähnt → rot', rot({ dateien: ['tools/a.mjs', 'tools/b.mjs'], text: 'Nur a.mjs wird neu.' }))
 pruefe('Elternordner zählt als Bereich', !rot({ dateien: ['tools/a.mjs', 'tools/b.mjs'], text: 'Neu in tools/.' }))
@@ -27,6 +29,15 @@ pruefe('erfundene Datei im Text → rot', rot({ dateien: ['docs/a.md'], text: 'd
 pruefe('kurzer Pfad relativ zum Diff-Pfad zählt als vorhanden', !rot({ dateien: ['pipeline/lib/a.ts'], text: 'lib/a.ts' }))
 pruefe('lokal ausgeschlossener Ordner wird nicht auf Existenz geprüft', !rot({ dateien: ['docs/a.md'], text: 'docs/a.md, daniel-zum-abarbeiten/stand.md' }))
 pruefe('vorhandene, aber ungeänderte Datei → nur Hinweis', !rot({ dateien: ['docs/a.md'], text: 'docs/a.md wie tools/alt.mjs' }) && lauf({ dateien: ['docs/a.md'], text: 'docs/a.md wie tools/alt.mjs' }).gelb.length === 1)
+// Vertagung: die Vorprüfung reicht die Vorrats-Dateien an die Pflicht weiter (sonst bliebe sie lokal rot, in der Kette grün).
+const VORRAT = ['data/patchnotes/vorrat/x.yaml']
+const vertagt = { dateien: ['pipeline/a.ts', ...VORRAT], text: 'pipeline/a.ts, data/patchnotes/vorrat/x.yaml.\nPatch Notes: vertagt – wirkt nach dem Bau' }
+pruefe('vertagt mit Vorrats-Datei → grün', !rot({ ...vertagt, vorrat: VORRAT }))
+pruefe('vertagt ohne Vorrats-Datei → rot', rot({ ...vertagt, vorrat: [] }))
+// Daten-Titel: die Vorprüfung reicht den Titel an die Pflicht weiter (Anlass fix(prime) mit „keine“, 29.–31.10.2026).
+const datenPr = { dateien: ['pipeline/a.ts'], text: 'pipeline/a.ts.\nPatch Notes: keine – Werkzeug, kein sichtbarer Unterschied' }
+pruefe('fix(prime) mit „keine“ ohne Null-Wirkung → rot', rot({ ...datenPr, titel: 'fix(prime): fünf Fremdzuordnungen sperren' }))
+pruefe('gleicher Text ohne Daten-Titel → grün', !rot({ ...datenPr, titel: 'chore: Liste' }))
 const ex = existiertIn(new Set(['pipeline/lib/a.ts']), (p) => p === 'platte.md')
 pruefe('existiertIn: voll, Platte, Endstück; sonst nicht', ex('pipeline/lib/a.ts') && ex('platte.md') && ex('lib/a.ts') && !ex('lib/b.ts'))
 pruefe('Sichtbar ohne Patch Notes → rot', rot({ dateien: ['web/src/a.ts'], text: 'web/src/a.ts' }))
@@ -62,6 +73,21 @@ pruefe('Liste: echte Listen im Repo sind in Ordnung', listenRot((n) => readFileS
 const funde = 'tools/a.test.mjs:3\ntools/b.test.mjs:7\ntools/b.test.mjs.bak:2\n'
 pruefe('Uhr: nur Fundstellen der Diff-Dateien, ganze Pfade', fundeImDiff(funde, ['tools/b.test.mjs']).join() === 'tools/b.test.mjs:7')
 pruefe('Uhr: keine Diff-Datei mit Fund gibt nichts', fundeImDiff(funde, ['tools/c.test.mjs']).length === 0)
+
+const ketten = ['tools/a.test.mjs', 'pipeline/check-b.ts']
+pruefe('Bot-Pfade: Kettendatei im Diff -> nötig', botPfadeNoetig(['README.md', 'tools/a.test.mjs'], ketten))
+pruefe('Bot-Pfade: Prüfliste im Diff -> nötig', botPfadeNoetig(['tools/check-logic-liste.txt'], ketten))
+pruefe('Bot-Pfade: Wächter selbst im Diff -> nötig', botPfadeNoetig(['tools/pr-nachrechnen-bot-pfade-bekannt.mjs'], ketten))
+pruefe('Bot-Pfade: ähnlicher Pfad zählt nicht', !botPfadeNoetig(['x/tools/a.test.mjs', 'tools/a.test.mjs.bak', 'README.md'], ketten))
+pruefe('Bot-Pfade: leerer Diff -> nicht nötig', !botPfadeNoetig([], ketten))
+let gefahren = 0
+const fahre = () => {
+  gefahren += 1
+  return ['rot']
+}
+const REPO = resolve(import.meta.dirname, '..')
+pruefe('Bot-Pfade: ohne Kettendatei kein Aufruf', botPfadeRot(['README.md'], REPO, fahre).length === 0 && gefahren === 0)
+pruefe('Bot-Pfade: Kettendatei des echten Repos -> Wächter gefahren, Befund durchgereicht', botPfadeRot(['pipeline/check-sammelartikel.ts'], REPO, fahre).join() === 'rot' && gefahren === 1)
 
 if (fehler.length) {
   console.error(`pr-vorpruefung.test: ${fehler.length} Fehler`)

@@ -1,23 +1,87 @@
 {
-  "scrapedAt": "2026-11-01T11:02:21.266Z",
+  "scrapedAt": "2026-11-01T20:02:40.626Z",
   "verworfen": {
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
+    "schon in einem Rubrik-Feed gelesen": 7,
     "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 12,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 3,
-    "schon in einem Rubrik-Feed gelesen": 3,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 1,
     "Sprachhinweis älter als 45 Tage": 6
   },
   "proposals": [
     {
+      "articleTitle": "Netflix nimmt zwei Anime-Neuzugänge ins Programm",
+      "articleUrl": "https://www.anime2you.de/news/1066144/netflix-held-ohne-klasse-und-mehr/",
+      "publishedAt": "2026-11-01",
+      "category": "streaming",
+      "platforms": [
+        "netflix"
+      ],
+      "dates": [],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "AniMoon-Angebot: RomCom-Serie »Toradora!« zum Sonderpreis",
+      "articleUrl": "https://www.anime2you.de/news/1066485/animoon-monatsangebot-toradora/",
+      "publishedAt": "2026-11-01",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2026-11-30",
+          "context": "erpreis auf Blu-ray. Wir fassen zusammen. Nur in diesem Monat Bis zum 30. November 2026 verkauft der Publisher die »Toradora! Gold Edition«"
+        },
+        {
+          "month": "2026-11",
+          "context": "Sonderpreis AniMoon Publishing hat ein neues Monatsangebot gestartet: Im November 2026 gibt es »Toradora!« zum Sonderpreis auf Blu-ray. Wir"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Prime Video ergänzt Neuzugang und verlängert Serienlizenz",
+      "articleUrl": "https://www.anime2you.de/news/1066653/prime-video-goblin-slayer-ii-und-mehr/",
+      "publishedAt": "2026-11-01",
+      "category": "streaming",
+      "platforms": [
+        "primevideo"
+      ],
+      "dates": [],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "ProSieben MAXX zeigt »Wandering Witch: Elainas Reise« als TV-Premiere",
+      "articleUrl": "https://www.anime2you.de/news/1066039/prosieben-maxx-zeigt-wandering-witch-elainas-reise/",
+      "publishedAt": "2026-11-01",
+      "category": "allgemein",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-12-04",
+          "context": "emiere im Dezember 2026 »Wandering Witch: Elainas Reise« läuft ab dem 4. Dezember 2026 jeden Freitagabend ab circa 22:25 Uhr mit drei Episod"
+        },
+        {
+          "month": "2026-12",
+          "context": "ProSieben MAXX zeigt »Wandering Witch: Elainas Reise« als TV-Premiere Im Dezember 2026 kehrt die »Anime Night« zu ProSieben MAXX zurück. Pas"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
       "articleTitle": "Pluto TV nimmt zwei Anime-Neuzugänge ins Programm",
       "articleUrl": "https://www.anime2you.de/news/1066055/pluto-tv-black-clover-und-mehr/",
       "publishedAt": "2026-10-31",
-      "category": "allgemein",
+      "category": "streaming",
       "platforms": [],
       "dates": [],
       "dub": "ja",
-      "hinweis": "sprache",
       "alreadyCurated": false,
       "sammel": [
         {
@@ -127,7 +191,7 @@
       "articleTitle": "Drei weitere Anime-Serien ab sofort auf Deutsch bei Crunchyroll",
       "articleUrl": "https://www.anime2you.de/news/1066100/crunchyroll-firefly-wedding-synchro-und-mehr/",
       "publishedAt": "2026-10-31",
-      "category": "allgemein",
+      "category": "streaming",
       "platforms": [
         "crunchyroll"
       ],
@@ -209,7 +273,7 @@
       "articleTitle": "Disney+ kündigt zwei Anime-Neuzugänge für November 2026 an",
       "articleUrl": "https://www.anime2you.de/news/1065975/disney-plus-neu-im-november-2026/",
       "publishedAt": "2026-10-30",
-      "category": "allgemein",
+      "category": "streaming",
       "platforms": [
         "disneyplus"
       ],
@@ -3904,23 +3968,6 @@
         }
       ],
       "sammelGelesen": "2026-10-25"
-    },
-    {
-      "articleTitle": "Action-Anime »Rooster Fighter« bald auf Netflix verfügbar",
-      "articleUrl": "https://www.anime2you.de/news/1055673/rooster-fighter-bald-auf-netflix/",
-      "publishedAt": "2026-09-29",
-      "category": "streaming",
-      "platforms": [
-        "netflix"
-      ],
-      "dates": [
-        {
-          "iso": "2026-10-10",
-          "context": "r«) in Kürze in sein Programm aufnehmen wird. Wir fassen zusammen. Ab 10. Oktober 2026 »Rooster Fighter« steht demzufolge ab dem 10. Oktober"
-        }
-      ],
-      "dub": "unklar",
-      "alreadyCurated": false
     },
     {
       "articleTitle": "Prime Video fügt drei Anime-Neuzugänge zu seinem Katalog hinzu",

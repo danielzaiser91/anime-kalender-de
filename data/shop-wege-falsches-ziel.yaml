@@ -1,0 +1,25 @@
+# Telekom-Shop-Wege „über TMDB", deren Ziel von Hand als falsch belegt ist (Leser: pipeline/lib/kapitel-shop-wege.ts, Bau-Phase 11-9).
+# Je Eintrag: anilistId, title, anbieter (Namen wie in den Wegen), beleg (was gesehen wurde), belegtAm. Ohne Beleg und Datum zählt der Eintrag nicht.
+# Crown Handler: TMDB und JustWatch nennen für alle Kapitel dieselbe maxdome-/freenet-Angebotsliste; maxdome führt nur Chapter 1 und 2.
+# Der Weg von Chapter 3 öffnete bei maxdome und freenet Chapter 2 (Daniel, 31.10.2026). Kapitel 4 bis 6 kommen später: gleicher Shop, gleiche Lücke.
+
+- anilistId: 137612
+  title: "Princess Principal: Crown Handler 3"
+  anbieter: [maxdome, freenet meinVOD]
+  beleg: "Klick auf maxdome und freenet meinVOD (über TMDB) landet bei Chapter 2; maxdome führt nur Chapter 1 und 2 (Daniel)"
+  belegtAm: "2026-10-31"
+- anilistId: 186716
+  title: "Princess Principal: Crown Handler 4"
+  anbieter: [maxdome, freenet meinVOD]
+  beleg: "maxdome führt nur Chapter 1 und 2, Kapitel 4 hat dort keine Seite (Daniel)"
+  belegtAm: "2026-10-31"
+- anilistId: 204584
+  title: "Princess Principal: Crown Handler 5"
+  anbieter: [maxdome, freenet meinVOD]
+  beleg: "maxdome führt nur Chapter 1 und 2, Kapitel 5 hat dort keine Seite (Daniel)"
+  belegtAm: "2026-10-31"
+- anilistId: 204585
+  title: "Princess Principal: Crown Handler 6"
+  anbieter: [maxdome, freenet meinVOD]
+  beleg: "maxdome führt nur Chapter 1 und 2, Kapitel 6 hat dort keine Seite (Daniel)"
+  belegtAm: "2026-10-31"

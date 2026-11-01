@@ -129,7 +129,7 @@ console.log('\nBau (baueReleases gegen Wegwerf-Ordner):')
     pruefe('Bau: anderer Tag → Namenssuche', amazonLinkArt(url('anderer-tag')) === 'name', url('anderer-tag'))
     pruefe('Bau: alle vier Releases entstanden', releases.length === 4, releases.length)
 
-    // Disc-Termine aus den News (`automatisch`) laufen nicht durch `discKaufUrl`; der echte Bauschritt 11-1 setzt die EAN-Suche.
+    // Disc-Termine aus den News (`automatisch`) laufen nicht durch `discKaufUrl`; der echte Bauschritt 11-1 setzt EAN- oder Namenssuche (`kaufwegFuerDiscs`).
     const { ergaenzeDiscUndZugang } = await import('./bau/11-1-disc-und-zugang.ts')
     const news = (slug: string, titleId: number, tag: string, extra: object = {}) => ({ slug, titleId, name: slug, platform: 'disc', releaseType: 'disc', automatisch: true, schedule: { firstEpisodeDate: tag }, year: 2026, sources: [], ...extra })
     const nr = [
@@ -146,10 +146,11 @@ console.log('\nBau (baueReleases gegen Wegwerf-Ordner):')
     pruefe('News-Disc mit eindeutiger EAN → EAN-Suche (Bauschritt 11-1)', nurl('n-ean') === 'https://www.amazon.de/s?k=7630017545978', nurl('n-ean'))
     const verkn = nr.find((r) => r.slug === 'n-verkn') as { edition?: string; platformUrl?: string }
     pruefe('News-Disc mit Nummer im Hinweis: Verknüpfung (edition, platformUrl) UND EAN-Suche (Reihenfolge in 11-1)', !!verkn.edition && verkn.platformUrl === 'https://www.anisearch.de/article/216718,x' && nurl('n-verkn') === 'https://www.amazon.de/s?k=7630017545978', [verkn, nurl('n-verkn')])
-    pruefe('News-Disc, andere Tag → ohne Link (keine neue Namenssuche)', nurl('n-tag') === undefined, nurl('n-tag'))
-    pruefe('News-Disc, Titel ohne Ausgabe → ohne Link', nurl('n-titel') === undefined, nurl('n-titel'))
+    const namen = (n: string) => `https://www.amazon.de/s?k=${encodeURIComponent(`${n} Anime Blu-ray`)}`
+    pruefe('News-Disc, anderer Tag → Namenssuche', nurl('n-tag') === namen('n-tag'), nurl('n-tag'))
+    pruefe('News-Disc, Titel ohne Ausgabe → Namenssuche', nurl('n-titel') === namen('n-titel'), nurl('n-titel'))
     pruefe('News-Disc mit Handlink bleibt', nurl('n-hand') === dp, nurl('n-hand'))
-    pruefe('Disc ohne News-Herkunft bleibt unberührt', nurl('n-kein-news') === undefined, nurl('n-kein-news'))
+    pruefe('Disc ohne News-Herkunft: gleicher Weg (EAN-Suche)', nurl('n-kein-news') === 'https://www.amazon.de/s?k=7630017545978', nurl('n-kein-news'))
     pruefe('kein Disc-Termin bleibt unberührt', nurl('n-stream') === undefined, nurl('n-stream'))
   } finally {
     rmSync(wurzel, { recursive: true, force: true })

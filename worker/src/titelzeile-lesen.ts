@@ -92,11 +92,11 @@ export async function offenePruefungen(env: Env, plattform: string | null): Prom
   return [...(alt ?? []), ...(titel ?? [])].sort((a, b) => (a.gemeldet_am < b.gemeldet_am ? -1 : a.gemeldet_am > b.gemeldet_am ? 1 : 0)).slice(0, OFFEN_FENSTER)
 }
 
-type Folge = { plattform: string; url: string; folge_nr: number | null; staffel: number | null }
+type Folge = { plattform: string; url: string; folge_nr: number | null; staffel: number | null; seiten_kennung?: string | null }
 
 /** Die offenen Meldungen (Zähler, Wartende): nur die Spalten, die Zähler und Stand brauchen. */
 export async function offeneZeilen(env: Env): Promise<Folge[]> {
-  const { results } = await env.DB.prepare(`SELECT plattform, url, folge_nr, staffel FROM pruefung WHERE uebernommen = 0 AND ${NICHT_VERDRAENGT}`).all<Folge>()
+  const { results } = await env.DB.prepare(`SELECT plattform, url, folge_nr, staffel, seiten_kennung FROM pruefung WHERE uebernommen = 0 AND ${NICHT_VERDRAENGT}`).all<Folge>()
   const { results: titel } = await env.DB.prepare('SELECT plattform, url, folge_nr, staffel FROM pruefung_titel WHERE offen_meldung > 0 AND uebernommen = 0').all<Folge>()
   return [...(results ?? []), ...(titel ?? [])]
 }

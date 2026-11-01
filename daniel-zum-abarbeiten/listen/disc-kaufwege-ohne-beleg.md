@@ -1,6 +1,6 @@
 # Disc-Kaufwege ohne Produktlink (Stand 01.11.2026)
 
-Gezählt mit einem Wegwerfskript im Scratchpad gegen `public/data/releases.json` (Bau 31.10.), `data/disc-ausgaben.json`, `data/anisearch-artikel.json` (Lauf 01.11.). Zustand nach der Änderung `eanLinksFuerNewsDiscs`; 36 Discs behalten eine Namenssuche oder keinen Link, weil kein Beleg (EAN, ASIN, Händleradresse) im Bestand liegt. Abrufe bei Amazon oder Shops sind lokal ausgeschlossen; Abhilfe: Handlink in `data/curated/disc-*.yaml` (`buyUrl`) aus dem Anime2You-Artikel, sobald dieser die Produktseite verlinkt.
+Gezählt mit einem Wegwerfskript im Scratchpad gegen `public/data/releases.json` (Bau 31.10.), `data/disc-ausgaben.json`, `data/anisearch-artikel.json` (Lauf 01.11.). Zustand nach der Änderung `kaufwegFuerDiscs`; 36 Discs behalten eine Namenssuche oder keinen Link, weil kein Beleg (EAN, ASIN, Händleradresse) im Bestand liegt. Abrufe bei Amazon oder Shops sind lokal ausgeschlossen; Abhilfe: Handlink in `data/curated/disc-*.yaml` (`buyUrl`) aus dem Anime2You-Artikel, sobald dieser die Produktseite verlinkt.
 
 - `vampire-princess-miyu-2026-09-08` (Namenssuche, 2026-09-08): aniSearch führt 3 Ausgabe(n), keine am Termintag 2026-09-08
 - `gods-games-we-play-2026-12-01` (Namenssuche, 2026-12-01): aniSearch führt 1 Ausgabe(n), keine am Termintag 2026-12-01

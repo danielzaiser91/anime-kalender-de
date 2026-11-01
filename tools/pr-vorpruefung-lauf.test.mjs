@@ -26,6 +26,7 @@ function lauf(name, liste, testText = 'export const x = 1\n', erlaubt = 0, opt =
   writeFileSync(join(arbeit, 'tools/umfang-pruefen.mjs'), "console.log('Umfang in Ordnung.')\n")
   copyFileSync(UHR, join(arbeit, 'tools/uhr-in-tests.mjs'))
   writeFileSync(join(arbeit, 'tools/uhr-in-tests-grenzen.json'), JSON.stringify({ erlaubt }))
+  writeFileSync(join(arbeit, 'tools/pr-nachrechnen-bot-pfade.test.mjs'), opt.waechter ?? "console.log('Bot-Pfade grün')\n")
   writeFileSync(join(arbeit, 'README.md'), 'k\na b\n')
   writeFileSync(join(arbeit, '.gitignore'), 'node_modules\n')
   symlinkSync(MODULE, join(arbeit, 'node_modules'), 'junction')
@@ -35,13 +36,15 @@ function lauf(name, liste, testText = 'export const x = 1\n', erlaubt = 0, opt =
   git(arbeit, 'remote', 'add', 'origin', bare)
   git(arbeit, 'fetch', '-q', 'origin')
   git(arbeit, 'checkout', '-q', '-b', 'speed/x')
-  writeFileSync(join(arbeit, 'tools/check-logic-liste.txt'), liste)
-  writeFileSync(join(arbeit, 'tools/zeit.test.mjs'), testText)
+  if (!opt.nurReadme) writeFileSync(join(arbeit, 'tools/check-logic-liste.txt'), liste)
+  if (!opt.nurReadme) writeFileSync(join(arbeit, 'tools/zeit.test.mjs'), testText)
   if (opt.readme) writeFileSync(join(arbeit, 'README.md'), opt.readme)
   git(arbeit, 'add', '.')
   git(arbeit, 'commit', '-q', '-m', 'liste')
-  const text = `tools/check-logic-liste.txt und tools/zeit.test.mjs neu (Prüfung der Liste). Patch Notes: keine – Technik${opt.zusatz ?? ''}`
-  const r = spawnSync(process.execPath, [SKRIPT, '--titel', 't', '--text', text], { cwd: arbeit, encoding: 'utf8' })
+  const kopf = opt.nurReadme ? 'README.md geändert.' : 'tools/check-logic-liste.txt und tools/zeit.test.mjs neu (Prüfung der Liste).'
+  const text = `${kopf}
+Patch Notes: keine – Technik${opt.zusatz ?? ''}`
+  const r = spawnSync(process.execPath, [SKRIPT, '--titel', opt.titel ?? 't', '--text', text], { cwd: arbeit, encoding: 'utf8' })
   return { status: r.status, text: `${r.stdout}\n${r.stderr}` }
 }
 
@@ -64,7 +67,16 @@ try {
   assert.match(verschluckt.text, /Leerraum-Änderung README\.md:2 /, 'Meldung nennt Datei und Zeile')
   const absicht = lauf('absicht', SORTIERT, undefined, 0, { readme: 'k\nab\n', zusatz: ' README.md\nLeerraum: absichtlich – Probe' })
   assert.equal(absicht.status, 0, `Zeile „Leerraum: absichtlich“ lässt den Diff durch: ${absicht.text}`)
-  console.log('pr-vorpruefung-lauf.test: ok (unsortiert rot, sortiert grün, Uhr über Grenze rot, an Grenze grün, Leerraum rot, Ausweg grün)')
+  const datenTitel = lauf('daten', SORTIERT, undefined, 0, { titel: 'fix(prime): fünf Fremdzuordnungen sperren' })
+  assert.equal(datenTitel.status, 1, 'Daten-Titel mit „keine“ ohne gemessene Wirkung macht die Vorprüfung rot')
+  assert.match(datenTitel.text, /gemessene Wirkung/, 'Meldung nennt die Titelregel')
+  const ROT = "console.error('  ✗ Wächter: tools/x.test.mjs|beispiel.json')\nprocess.exit(1)\n"
+  const bot = lauf('bot', SORTIERT, undefined, 0, { waechter: ROT })
+  assert.equal(bot.status, 1, 'roter Bot-Pfade-Wächter bei berührter Kettendatei macht die Vorprüfung rot')
+  assert.match(bot.text, /Bot-Pfade-Wächter .*rot:[\s\S]*tools\/x\.test\.mjs\|beispiel\.json/, 'Meldung nennt Datei und Literal des Wächters')
+  const botAus = lauf('botaus', SORTIERT, undefined, 0, { waechter: ROT, nurReadme: true, readme: 'k\na b\nc\n' })
+  assert.equal(botAus.status, 0, `ohne Kettendatei im Diff läuft der Wächter nicht: ${botAus.text}`)
+  console.log('pr-vorpruefung-lauf.test: ok (unsortiert rot, sortiert grün, Uhr über Grenze rot, an Grenze grün, Leerraum rot, Ausweg grün, Daten-Titel rot, Bot-Pfade-Wächter bei Kettendatei rot, ohne Kettendatei nicht gefahren)')
 } finally {
   rmSync(wurzel, { recursive: true, force: true })
 }

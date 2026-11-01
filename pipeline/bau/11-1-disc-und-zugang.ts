@@ -1,7 +1,7 @@
 import { readJson, log } from '../lib/util.ts'
 import { adressKern } from '../lib/dub-confirmed.ts'
 import { ausgabeZumDiscTermin, type DiscAusgabe } from '../lib/disc-termin.ts'
-import { discIndexLaden, eanLinksFuerNewsDiscs } from '../lib/disc-ean.ts'
+import { discIndexLaden, kaufwegFuerDiscs } from '../lib/disc-ean.ts'
 import { zugangsart } from '../../shared/zugangsart.ts'
 import { type Title, type Release } from '../../shared/types.ts'
 import { type AnisearchEintrag } from './01-quellen.ts'
@@ -228,6 +228,7 @@ function ergaenzeDiscWege(titles: Map<number, Title>, releases: Release[]) {
     verknuepft++
   }
   log(`${verknuepft} Disc-Termin(e) aus den News mit ihrer aniSearch-Ausgabe verknüpft`)
-  /* Erst danach: ein gesetzter `buyUrl` würde die Verknüpfung oben überspringen. */
-  log(`${eanLinksFuerNewsDiscs(releases, discIndexLaden())} Disc-Termin(e) aus den News mit EAN-Suche als Kauflink`)
+
+  /* Erst jetzt: Die Verknüpfung oben überspringt Termine mit `buyUrl`. */
+  log(`${kaufwegFuerDiscs(releases, discIndexLaden())} Disc-Termin(e) ohne Kaufweg bekamen EAN- oder Namenssuche`)
 }

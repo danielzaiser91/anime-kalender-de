@@ -5943,18 +5943,24 @@
   ],
   "auto-179813-netflix": [
     {
+      "url": "https://www.anime2you.de/news/1059441/netflix-snowball-earth-und-mehr/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-01",
+      "stand": "aktuell"
+    },
+    {
       "url": "https://www.anime2you.de/news/1052708/netflix-anime-neu-im-oktober-2026/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-10",
-      "sagt": "2026-10-10",
-      "stand": "vermutlich-ueberholt"
+      "stand": "aktuell",
+      "sagt": "2026-10-10"
     },
     {
       "url": "https://www.anime2you.de/news/1055673/rooster-fighter-bald-auf-netflix/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-01",
-      "sagt": "2026-10-10",
-      "stand": "aktuell"
+      "stand": "aktuell",
+      "sagt": "2026-10-10"
     }
   ],
   "auto-173693-disc": [
@@ -7994,6 +8000,15 @@
       "stand": "aktuell",
       "gelesenAm": "2026-10-26",
       "bestaetigt": "2021-06-16"
+    }
+  ],
+  "auto-4224-disc": [
+    {
+      "url": "https://www.anime2you.de/news/1066485/animoon-monatsangebot-toradora/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-01",
+      "sagt": "2026-11-30",
+      "stand": "aktuell"
     }
   ]
 }

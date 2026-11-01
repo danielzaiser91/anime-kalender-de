@@ -4692,23 +4692,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     (bau.match(/e\.latein/g) ?? []).length >= 4,
     'geholt und nicht benutzt ist derselbe Fehler wie gar nicht geholt',
   )
-  pruefe(
-    'Crunchyrolls deutsches Datum steht an der deutschen Folge',
-    readFileSync('pipeline/fetch-crunchyroll-neu.ts', 'utf8').includes('verfuegbarAb: typeof m.premium_available_date'),
-    'sonst datiert eine Meldung auf unseren Fundtag statt auf den Erscheinungstag',
-  )
-  pruefe(
-    'ein bekannter Fund wird um fehlende Felder ergänzt',
-    readFileSync('pipeline/fetch-crunchyroll-neu.ts', 'utf8').includes('alterEintrag.verfuegbarAb'),
-    'sonst erreicht ein neues Feld genau die Einträge nie, die schon dastehen',
-  )
-  pruefe(
-    'ein Eintrag aus einem älteren Ausleser wird wieder fällig',
-    /if \(\(e\.stand \?\? 1\) < PARSER_STAND\) return true/.test(
-      readFileSync('pipeline/fetch-anisearch-titel.ts', 'utf8'),
-    ),
-    'sonst kommt eine Seite 180 Tage lang nicht dran, obwohl der Ausleser mehr liest als beim letzten Mal',
-  )
+  /* Crunchyrolls deutsches Datum an der Folge und die Ergänzung bekannter Funde: check-cr-neu-seiten.ts; Eintrag eines älteren aniSearch-Ausleser wird fällig: check-abruf-stoerung-lauf.ts. */
 }
 
 /*
@@ -5336,15 +5320,8 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
 }
 /* Eine Störung ist kein Befund — vier Abrufe, 17.09.2026. */
 {
-  pruefe(
-    'YouTube: eine Störung wird als „unklar" abgelegt und entfernt keinen Verweis',
-    readFileSync('pipeline/check-youtube.ts', 'utf8').includes('unklar: true') &&
-      bauQuelltext().includes("yt.inDE === 0 && !yt.unklar"),
-  )
-  pruefe(
-    'YouTube: ein unplausibler Lauf schreibt nicht',
-    readFileSync('pipeline/check-youtube.ts', 'utf8').includes('unplausibel, nichts geschrieben'),
-  )
+  /* Die Ablage als „unklar" und der Riegel „unplausibel, nichts geschrieben" laufen in check-abruf-stoerung-lauf.ts. */
+  pruefe('YouTube: der Bau entfernt keinen Verweis, dessen Befund „unklar" ist', bauQuelltext().includes('yt.inDE === 0 && !yt.unklar'))
   /*
     Fünf Verweise zeigten auf den Trailer statt auf den Film — bei Your Name auf die
     OmU-Fassung, und der Verweis trug „DE ✓".
@@ -5394,18 +5371,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     bauQuelltext().includes("b?.kategorie === 'Trailers'") &&
       bauQuelltext().includes('ytTrailer.has(stream.url)'),
   )
-  pruefe(
-    'Crunchyroll: ein Fehlersatz überschreibt keinen guten Eintrag',
-    readFileSync('pipeline/lib/cr-frisch.ts', 'utf8').includes('if (serie.fehler && vorherige && !vorherige.fehler)'),
-  )
-  pruefe(
-    'Sprechrollen: eine leere Antwort löscht keine belegten Rollen',
-    readFileSync('pipeline/fetch-voices.ts', 'utf8').includes('if (!rollen.length && existsSync(pfad))'),
-  )
-  pruefe(
-    'TMDB: ein Fehltreffer behält die gefundene Zuordnung',
-    readFileSync('pipeline/fetch-tmdb-titles.ts', 'utf8').includes('neu.miss && vorher?.tmdbId'),
-  )
+  /* Fehlersatz von Crunchyroll: check-cr-frisch.ts; leere Sprecher-Antwort und TMDB-Fehltreffer: check-abruf-stoerung-lauf.ts. */
 }
 /* Frische JustWatch-Daten entfernen nichts von selbst (17.09.2026). */
 {
@@ -5414,27 +5380,14 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   pruefe('… nach 28 Tagen nicht mehr', !jwFrisch({ erstAm: '2026-09-17' }, '2026-10-15'))
   pruefe('ein Eintrag vor dem Umbau gilt als bewährt', !jwFrisch({ geprueftAm: '2026-09-09' }, '2026-09-20'))
   pruefe('ein Eintrag des ersten breiten Laufs (ohne erstAm) gilt als frisch', jwFrisch({ geprueftAm: '2026-09-17' }, '2026-09-20'))
-  const abruf = readFileSync('pipeline/fetch-justwatch-audio.ts', 'utf8')
-  pruefe('eine verfehlte Suche behält die alte Antwort', abruf.includes('verfehltAm: todayIso()'))
-  pruefe('ein unplausibles Ergebnis wird nicht geschrieben', abruf.includes('Ergebnis unplausibel'))
+  /* Verfehlte Suche und unplausibles Ergebnis von fetch-justwatch-audio.ts: check-abruf-stoerung-lauf.ts. */
   pruefe(
     'Kanal-Gegenprobe und Crunchyroll-Nachprüfung fragen jwFrisch',
     readFileSync('pipeline/kanal-gegenprobe.ts', 'utf8').includes('jwFrisch(eintrag, heute)') &&
       (readFileSync('pipeline/fetch-crunchyroll-offene.ts', 'utf8').match(/jwFrisch\(jwEintrag2?, heuteIso\)/g) ?? []).length === 2,
   )
 }
-/* 22.09.2026: Fairy Tail — die Linkprüfung sah nur Staffel 1 („region"), Daniel zwei Tage später Staffel 2–9 zum Kauf. */
-pruefe(
-  'eine jüngere Handprüfung derselben Adresse schlägt einen 404/region-Linkbefund',
-  bauQuelltext().includes("if ((befund === 404 || befund === 'region') && !handSticht)") &&
-    readFileSync('pipeline/check-tote-adressen.ts', 'utf8').includes('handGesehen') &&
-    bauQuelltext().includes("(vonHandBelegtAm.get(adressKern(stream.url)) ?? '') > linkAm"),
-)
-/* 22.09.2026: „Abos: crunchyrollde (Meldung 4738)" — der Klammerzusatz verdarb den Kanalnamen. */
-pruefe(
-  'die Kanal-Gegenprobe wirft Klammerzusätze aus dem Abo-Namen',
-  readFileSync('pipeline/kanal-gegenprobe.ts', 'utf8').includes(".map((a) => a.replace(/\\s*\\(.*?\\)\\s*/g, '').trim()"),
-)
+/* Handprüfung gegen 404/region: check-09-2-linkpruefung-laufzeit.ts, check-hand-gesehen.ts, check-tote-adressen-lauf.ts; Klammerzusatz im Kanalnamen: check-kanal-namen.ts, Verdrahtung check-kanal-gegenprobe-lauf.ts. */
 /* JustWatch bei Titeln mit Wegen: nur digitale Angebote (17.09.2026). */
 pruefe(
   'JustWatch ergänzt bei Titeln mit Wegen keine Disc-Händler und keine Kinos',

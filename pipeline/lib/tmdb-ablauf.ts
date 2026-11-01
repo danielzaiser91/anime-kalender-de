@@ -29,6 +29,12 @@ export function tageSeit(stand: string | undefined, jetzt: Date): number | undef
 /** Das Datum, ab dem die Frist zählt. */
 export const inhaltsStand = (e: MitInhaltsstand): string | undefined => e.inhaltAm ?? e.fetchedAt
 
+/** Der Eintrag nach einem Abruf; ein Fehltreffer lässt den Inhalt stehen und trägt dessen echtes Alter (`inhaltAm`) mit. */
+export function nachAbruf<T extends MitInhaltsstand & { miss?: boolean; tmdbId?: number }>(vorher: T | undefined, neu: T, jetzt: string): T {
+  if (neu.miss && vorher?.tmdbId) return { ...vorher, inhaltAm: inhaltsStand(vorher), fetchedAt: jetzt }
+  return { ...neu, inhaltAm: jetzt, fetchedAt: jetzt }
+}
+
 /** Entfernt den TMDB-Inhalt jedes Eintrags, dessen Stand älter als `grenze` Tage ist (oder fehlt); gibt die Kennungen zurück. */
 export function streicheAbgelaufenes(cache: Record<string, MitInhaltsstand>, jetzt: Date, grenze = STREICH_TAGE): string[] {
   const gestrichen: string[] = []

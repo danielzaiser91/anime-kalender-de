@@ -1,6 +1,6 @@
 # Arbeitspakete: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-11-01 · **11 offene Verweise** in **10 Zeilen**,
+Stand 2026-11-01 · **10 offene Verweise** in **9 Zeilen**,
 aufgeteilt in **1 Pakete** zu je 20.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Derselbe Bestand wie in
@@ -31,7 +31,7 @@ Mehrere Einträge in einer Zeile werden mit Punkt getrennt in derselben Reihenfo
 beantwortet (`1.0` = erster ja, zweiter nein). Eine einzelne Angabe gilt für alle Einträge
 der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 
-## Paket 1 — Zeilen 1 bis 10
+## Paket 1 — Zeilen 1 bis 9
 
 | # | Anbieter | Reihe | Noch zu bestätigen |
 |---|---|---|---|
@@ -41,7 +41,6 @@ der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 | 4 | Disney+ | Welcome to Demon School! Iruma-kun | [Staffel 4](https://www.disneyplus.com/browse/entity-b042544d-cd7d-40c6-9be4-db79666a1b51) |
 | 5 | Prime Video | Demon Slayer: Kimetsu no Yaiba | [Mugen Train Arc]() · [Entertainment District Arc]() |
 | 6 | Netflix | My Hero Academia | [Vigilantes Staffel 2](https://www.netflix.com/title/82036361) |
-| 7 | ADN | Puella Magi Madoka Magica | [Hauptserie]() |
-| 8 | Prime Video | Sankarea: Undying Love | [Hauptserie]() |
-| 9 | Netflix | Devil May Cry | [Hauptserie](https://www.netflix.com/title/81506915) |
-| 10 | Netflix | Meine ganz besondere Hochzeit | [Special]() |
+| 7 | Prime Video | Sankarea: Undying Love | [Hauptserie]() |
+| 8 | Netflix | Devil May Cry | [Hauptserie](https://www.netflix.com/title/81506915) |
+| 9 | Netflix | Meine ganz besondere Hochzeit | [Special]() |

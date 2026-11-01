@@ -11,6 +11,7 @@ tools/pruefrunden-gh-attrappe.mjs # Attrappe für gh, vom Test tools/pruefrunden
 tools/archiv/analyse-2026-10-02/bruecke-pruefen-name-jahr.cjs # Archiv einer Einmal-Analyse vom 03.10.2026, nur in docs/wissen/poc-anisearch-felder.md genannt
 tools/claude-global/hooks/hauptordner-sperre.js # Claude-Hook, wird von tools/claude-global/einrichten.mjs nach ~/.claude kopiert
 tools/claude-global/hooks/ort-sperre.js # Claude-Hook-Baustein, von hauptordner-sperre.js eingebunden, wird von tools/claude-global/einrichten.mjs nach ~/.claude kopiert
+tools/claude-global/hooks/no-verify-sperre.js # Claude-Hook, wird von tools/claude-global/einrichten.mjs nach ~/.claude kopiert
 tools/claude-global/hooks/pruefrunden.js # Claude-Hook, wird von tools/claude-global/einrichten.mjs nach ~/.claude kopiert
 tools/claude-global/hooks/stand-waechter.js # Claude-Hook, wird von tools/claude-global/einrichten.mjs nach ~/.claude kopiert
 tools/cr-vorschlaege-pruefen.mjs # Handwerkzeug, muss von einer deutschen IP laufen (Runner stehen in den USA, Kopfkommentar); schreibt data/cr-vorschlaege.json, die pipeline/bau/09-3-prime.ts liest, letzter Lauf 28.08.2026

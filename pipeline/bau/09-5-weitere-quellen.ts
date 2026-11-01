@@ -1,4 +1,5 @@
 import { readJson, log, ROOT, normSchluessel } from '../lib/util.ts'
+import { ladeAnisearchAbruf } from '../lib/anisearch-verworfen.ts'
 import { eigenerTerminVerdraengt, mitDubKennzeichen, terminAusEintrag, verlagAlsDienst } from '../lib/anisearch-termine.ts'
 import yaml from 'js-yaml'
 import { readFileSync } from 'node:fs'
@@ -10,6 +11,8 @@ import type { AdnData } from '../lib/adn.ts'
 import { adnAdresseSchaerfen, adnFolgenAdresse, ladeAdnArchiv, beurteileAdnVerweis } from '../lib/adn-sprachen.ts'
 import { type Release, type Title } from '../../shared/types.ts'
 import { anisearchFelderAnwenden } from '../lib/anisearch-felder.ts'
+import { anisearchBruecke } from '../lib/anisearch-katalog-ids.ts'
+import { ladeJustwatchDeutsch, ohneSammelSynchro, sammeleintragTitel } from '../lib/anisearch-sammeleintrag.ts'
 import { handErstausgabe, ladeErstausgabeVonHand } from '../lib/erstausgabe-von-hand.ts'
 import { type EntfernterVerweis } from './grundlagen.ts'
 import { istNahAmJapanStart } from '../lib/nah-am-japan-start.ts'
@@ -42,10 +45,7 @@ export function werteWeitereQuellenAus({ releases, titles, adnKatalog, adnVerwei
    * in `shared/types.ts`.
    */
   {
-    const asRoh = readJson<Record<string, { info?: { languages?: unknown[] } }>>(
-      'data/anisearch.json',
-      {},
-    )
+    const asRoh = ladeAnisearchAbruf<{ info?: { languages?: unknown[] } }>()
     const eigenerStart = new Map<number, string>()
     for (const r of releases) if (r.schedule?.firstEpisodeDate && !(eigenerStart.get(r.titleId)! <= r.schedule.firstEpisodeDate)) eigenerStart.set(r.titleId, r.schedule.firstEpisodeDate)
     let asNeu = 0
@@ -53,10 +53,10 @@ export function werteWeitereQuellenAus({ releases, titles, adnKatalog, adnVerwei
     let asSimulcast = 0
     let asDiscDatum = 0
     const discFuerErstausgabe = readJson<Record<string, { datum: string }[]>>('data/disc-ausgaben.json', {})
+    const sammeleintrag = sammeleintragTitel(anisearchBruecke(), titles.keys(), ladeJustwatchDeutsch())
     for (const title of titles.values()) {
-      const termin = mitDubKennzeichen(title.id, terminAusEintrag(
-        asRoh[String(title.id)]?.info as { languages?: never[] } | undefined,
-      ))
+      const info = asRoh[String(title.id)]?.info as { languages?: never[] } | undefined
+      const termin = ohneSammelSynchro(mitDubKennzeichen(title.id, terminAusEintrag(info)), sammeleintrag.has(title.id))
       if (!termin || eigenerTerminVerdraengt(eigenerStart.get(title.id), termin)) continue
       /*
         **Eine deutsche Fassung gibt es nicht vor dem Original.** Sechs Einträge

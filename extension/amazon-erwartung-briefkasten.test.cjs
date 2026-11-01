@@ -17,7 +17,7 @@ function pruefe(name, bedingung, gefunden) {
 
 const SUCHE = 'https://www.amazon.de/s?k=Fischen+Impossible&i=instant-video'
 const PFAD = '/gp/video/detail/B01MSMV5MA'
-const QUELLEN = ['box.js', 'melde-sperre.js', 'prime-stand-ziele.js', 'prime-region.js', 'amazon.js'].map(lies)
+const QUELLEN = ['box.js', 'melde-sperre.js', 'prime-stand-ziele.js', 'prime-stand.js', 'prime-region.js', 'amazon.js'].map(lies)
 
 /** Lädt amazon.js; `antwort` ist, was der Briefkasten auf jeden Abruf zurückgibt. Liefert `lage()` vor/nach dem Durchlauf. */
 function lade(antwort, stand = {}) {

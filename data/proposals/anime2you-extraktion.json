@@ -904,6 +904,10 @@
       "am": "2026-10-28",
       "vorschlaege": 7
     },
+    "1064844": {
+      "am": "2026-11-01",
+      "vorschlaege": 0
+    },
     "1064887": {
       "am": "2026-10-30",
       "vorschlaege": 0,
@@ -996,6 +1000,10 @@
       "am": "2026-10-31",
       "vorschlaege": 2
     },
+    "1065631": {
+      "am": "2026-11-01",
+      "vorschlaege": 0
+    },
     "1065659": {
       "am": "2026-10-31",
       "vorschlaege": 1
@@ -1019,6 +1027,52 @@
     "1065975": {
       "am": "2026-10-31",
       "vorschlaege": 2
+    },
+    "1066001": {
+      "am": "2026-11-01",
+      "vorschlaege": 0
+    },
+    "1066006": {
+      "am": "2026-11-01",
+      "vorschlaege": 5
+    },
+    "1066021": {
+      "am": "2026-11-01",
+      "vorschlaege": 1
+    },
+    "1066048": {
+      "am": "2026-11-01",
+      "vorschlaege": 0
+    },
+    "1066055": {
+      "am": "2026-11-01",
+      "vorschlaege": 2
+    },
+    "1066064": {
+      "am": "2026-11-01",
+      "vorschlaege": 3
+    },
+    "1066085": {
+      "am": "2026-11-01",
+      "vorschlaege": 7
+    },
+    "1066100": {
+      "am": "2026-11-01",
+      "vorschlaege": 3
+    },
+    "1066118": {
+      "am": "2026-11-01",
+      "vorschlaege": 1
+    },
+    "1066156": {
+      "am": "2026-11-01",
+      "vorschlaege": 0,
+      "uebersprungen": "kein Deutschland-Bezug"
+    },
+    "1066187": {
+      "am": "2026-11-01",
+      "vorschlaege": 0,
+      "uebersprungen": "kein Deutschland-Bezug"
     }
   },
   "vorschlaege": [
@@ -8637,6 +8691,430 @@
       "quelle": "https://www.anime2you.de/news/1065912/vier-peppermint-blu-ray-bundles-vorbestellbar/",
       "veroeffentlicht": "2026-10-30",
       "gelesenAm": "2026-10-31"
+    },
+    {
+      "titel": "Firefly Wedding",
+      "zitat": "»Firefly Wedding« Episoden: 1 auf Deutsch verfügbar Sprache: Deutsch, Japanisch (UT) Simulcast: Jeden Freitag um 18:00 Uhr",
+      "art": "sprachfassung",
+      "sprache": "deutsch+omu",
+      "plattform": "crunchyroll",
+      "datum": null,
+      "uhrzeit": "18:00",
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": "Jeden Freitag",
+      "folgen": "1",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „Crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1066100",
+      "artikel": "Drei weitere Anime-Serien ab sofort auf Deutsch bei Crunchyroll",
+      "quelle": "https://www.anime2you.de/news/1066100/crunchyroll-firefly-wedding-synchro-und-mehr/",
+      "veroeffentlicht": "2026-10-31",
+      "gelesenAm": "2026-11-01"
+    },
+    {
+      "titel": "The Iceblade Sorcerer Shall Rule the World – Staffel 2",
+      "zitat": "»The Iceblade Sorcerer Shall Rule the World« – Staffel 2 Episoden: 1 auf Deutsch verfügbar Sprache: Deutsch, Japanisch (UT) Simulcast: Jeden Donnerstag um 19:00 Uhr",
+      "art": "sprachfassung",
+      "sprache": "deutsch+omu",
+      "plattform": "crunchyroll",
+      "datum": null,
+      "uhrzeit": "19:00",
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": "Jeden Donnerstag",
+      "folgen": "1",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „Crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1066100",
+      "artikel": "Drei weitere Anime-Serien ab sofort auf Deutsch bei Crunchyroll",
+      "quelle": "https://www.anime2you.de/news/1066100/crunchyroll-firefly-wedding-synchro-und-mehr/",
+      "veroeffentlicht": "2026-10-31",
+      "gelesenAm": "2026-11-01"
+    },
+    {
+      "titel": "The Vermilion Mask",
+      "zitat": "»The Vermilion Mask« Episoden: 1 auf Deutsch verfügbar Sprache: Deutsch, Japanisch (UT) Simulcast: Jeden Samstag um 11:30 Uhr",
+      "art": "sprachfassung",
+      "sprache": "deutsch+omu",
+      "plattform": "crunchyroll",
+      "datum": null,
+      "uhrzeit": "11:30",
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": "Jeden Samstag",
+      "folgen": "1",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „Crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1066100",
+      "artikel": "Drei weitere Anime-Serien ab sofort auf Deutsch bei Crunchyroll",
+      "quelle": "https://www.anime2you.de/news/1066100/crunchyroll-firefly-wedding-synchro-und-mehr/",
+      "veroeffentlicht": "2026-10-31",
+      "gelesenAm": "2026-11-01"
+    },
+    {
+      "titel": "Romelia War Chronicle",
+      "zitat": "Der erste Part wird bereits seit dem 3. Oktober 2026 wöchentlich bei Crunchyroll im Simulcast gezeigt.",
+      "art": "start",
+      "sprache": "unklar",
+      "plattform": "crunchyroll",
+      "datum": "2026-10-03",
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Samstag",
+      "warnungen": [],
+      "artikelId": "1066118",
+      "artikel": "Start des zweiten Teils von »Romelia War Chronicle« steht fest",
+      "quelle": "https://www.anime2you.de/news/1066118/romelia-war-chronicle-part-2-start/",
+      "veroeffentlicht": "2026-10-31",
+      "gelesenAm": "2026-11-01"
+    },
+    {
+      "titel": "The Eminence in Shadow – Staffel 2",
+      "zitat": "Der Free-TV-Sender ProSieben MAXX zeigt die zweite Staffel von »The Eminence in Shadow« (jap.: »Kage no Jitsuryokusha ni Naritakute!«) in wenigen Wochen erneut mit deutscher Sprachfassung.",
+      "art": "sprachfassung",
+      "sprache": "deutsch",
+      "plattform": "tv",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": "ProSieben MAXX",
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1066006",
+      "artikel": "ProSieben MAXX wiederholt zweite »Eminence in Shadow«-Staffel",
+      "quelle": "https://www.anime2you.de/news/1066006/prosieben-maxx-eminence-in-shadow-staffel-2-wiederholung/",
+      "veroeffentlicht": "2026-10-31",
+      "gelesenAm": "2026-11-01"
+    },
+    {
+      "titel": "The Eminence in Shadow: Lost Echoes",
+      "zitat": "Mit »The Eminence in Shadow: Lost Echoes« ist zudem ein Sequel-Film für 2027 angekündigt, der auch in die deutschen Kinos kommen soll.",
+      "art": "ankuendigung",
+      "sprache": "unklar",
+      "plattform": "kino",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1066006",
+      "artikel": "ProSieben MAXX wiederholt zweite »Eminence in Shadow«-Staffel",
+      "quelle": "https://www.anime2you.de/news/1066006/prosieben-maxx-eminence-in-shadow-staffel-2-wiederholung/",
+      "veroeffentlicht": "2026-10-31",
+      "gelesenAm": "2026-11-01"
+    },
+    {
+      "titel": "Neon Genesis Evangelion",
+      "zitat": "Zu den aktuellen Neuheiten gehört unter anderem eine neue Special Edition des Anime-Klassikers »Neon Genesis Evangelion«, die am 5. Februar 2027 als Blu-ray erscheint und alle Episoden mit deutscher sowie japanischer Sprachfassung enthält.",
+      "art": "disc",
+      "sprache": "deutsch+omu",
+      "plattform": "disc",
+      "datum": "2027-02-05",
+      "uhrzeit": null,
+      "anbieter": "LEONINE Anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „LEONINE Anime“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1066085",
+      "artikel": "Sieben Disc-Neuheiten ab sofort im AKIBA PASS SHOP vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1066085/akiba-pass-shop-evangelion-und-mehr/",
+      "veroeffentlicht": "2026-10-31",
+      "gelesenAm": "2026-11-01"
+    },
+    {
+      "titel": "Pokémon: Gold und Silber (Staffel 3 bis 5)",
+      "zitat": "Daneben können sechs weitere DVD-Staffelboxen zur »Pokémon«-Serie vorbestellt werden, die allesamt am 18. Dezember 2026 veröffentlicht werden sollen. Dabei handelt es sich um »Gold und Silber«, »Rubin und Saphir«, »Diamant und Perl«, »XY«, »Sonne und Mond« und »Reisen«.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2026-12-18",
+      "uhrzeit": null,
+      "anbieter": "polyband anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „polyband anime“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1066085",
+      "artikel": "Sieben Disc-Neuheiten ab sofort im AKIBA PASS SHOP vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1066085/akiba-pass-shop-evangelion-und-mehr/",
+      "veroeffentlicht": "2026-10-31",
+      "gelesenAm": "2026-11-01"
+    },
+    {
+      "titel": "Pokémon: Rubin und Saphir (Staffel 6 bis 9)",
+      "zitat": "Daneben können sechs weitere DVD-Staffelboxen zur »Pokémon«-Serie vorbestellt werden, die allesamt am 18. Dezember 2026 veröffentlicht werden sollen. Dabei handelt es sich um »Gold und Silber«, »Rubin und Saphir«, »Diamant und Perl«, »XY«, »Sonne und Mond« und »Reisen«.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2026-12-18",
+      "uhrzeit": null,
+      "anbieter": "polyband anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „polyband anime“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1066085",
+      "artikel": "Sieben Disc-Neuheiten ab sofort im AKIBA PASS SHOP vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1066085/akiba-pass-shop-evangelion-und-mehr/",
+      "veroeffentlicht": "2026-10-31",
+      "gelesenAm": "2026-11-01"
+    },
+    {
+      "titel": "Pokémon: Diamant und Perl (Staffel 10 bis 13)",
+      "zitat": "Daneben können sechs weitere DVD-Staffelboxen zur »Pokémon«-Serie vorbestellt werden, die allesamt am 18. Dezember 2026 veröffentlicht werden sollen. Dabei handelt es sich um »Gold und Silber«, »Rubin und Saphir«, »Diamant und Perl«, »XY«, »Sonne und Mond« und »Reisen«.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2026-12-18",
+      "uhrzeit": null,
+      "anbieter": "polyband anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „polyband anime“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1066085",
+      "artikel": "Sieben Disc-Neuheiten ab sofort im AKIBA PASS SHOP vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1066085/akiba-pass-shop-evangelion-und-mehr/",
+      "veroeffentlicht": "2026-10-31",
+      "gelesenAm": "2026-11-01"
+    },
+    {
+      "titel": "Pokémon: XY (Staffel 17 bis 19)",
+      "zitat": "Daneben können sechs weitere DVD-Staffelboxen zur »Pokémon«-Serie vorbestellt werden, die allesamt am 18. Dezember 2026 veröffentlicht werden sollen. Dabei handelt es sich um »Gold und Silber«, »Rubin und Saphir«, »Diamant und Perl«, »XY«, »Sonne und Mond« und »Reisen«.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2026-12-18",
+      "uhrzeit": null,
+      "anbieter": "polyband anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „polyband anime“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1066085",
+      "artikel": "Sieben Disc-Neuheiten ab sofort im AKIBA PASS SHOP vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1066085/akiba-pass-shop-evangelion-und-mehr/",
+      "veroeffentlicht": "2026-10-31",
+      "gelesenAm": "2026-11-01"
+    },
+    {
+      "titel": "Pokémon: Sonne und Mond (Staffel 20 bis 22)",
+      "zitat": "Daneben können sechs weitere DVD-Staffelboxen zur »Pokémon«-Serie vorbestellt werden, die allesamt am 18. Dezember 2026 veröffentlicht werden sollen. Dabei handelt es sich um »Gold und Silber«, »Rubin und Saphir«, »Diamant und Perl«, »XY«, »Sonne und Mond« und »Reisen«.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2026-12-18",
+      "uhrzeit": null,
+      "anbieter": "polyband anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „polyband anime“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1066085",
+      "artikel": "Sieben Disc-Neuheiten ab sofort im AKIBA PASS SHOP vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1066085/akiba-pass-shop-evangelion-und-mehr/",
+      "veroeffentlicht": "2026-10-31",
+      "gelesenAm": "2026-11-01"
+    },
+    {
+      "titel": "Pokémon: Reisen (Staffel 23 bis 25)",
+      "zitat": "Daneben können sechs weitere DVD-Staffelboxen zur »Pokémon«-Serie vorbestellt werden, die allesamt am 18. Dezember 2026 veröffentlicht werden sollen. Dabei handelt es sich um »Gold und Silber«, »Rubin und Saphir«, »Diamant und Perl«, »XY«, »Sonne und Mond« und »Reisen«.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2026-12-18",
+      "uhrzeit": null,
+      "anbieter": "polyband anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „polyband anime“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1066085",
+      "artikel": "Sieben Disc-Neuheiten ab sofort im AKIBA PASS SHOP vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1066085/akiba-pass-shop-evangelion-und-mehr/",
+      "veroeffentlicht": "2026-10-31",
+      "gelesenAm": "2026-11-01"
+    },
+    {
+      "titel": "Black Clover",
+      "zitat": "Zu den neuesten Anime-Ergänzungen gehören unter anderem die ersten 35 Episoden der Anime-Umsetzung von »Black Clover«, die ab sofort in der deutschen Sprachfassung auf Abruf zur Verfügung stehen.",
+      "art": "start",
+      "sprache": "deutsch",
+      "plattform": null,
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Pluto TV",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "1–35",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „Pluto TV“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1066055",
+      "artikel": "Pluto TV nimmt zwei Anime-Neuzugänge ins Programm",
+      "quelle": "https://www.anime2you.de/news/1066055/pluto-tv-black-clover-und-mehr/",
+      "veroeffentlicht": "2026-10-31",
+      "gelesenAm": "2026-11-01"
+    },
+    {
+      "titel": "My Hero Academia",
+      "zitat": "Darüber hinaus kann die 13-teilige erste Staffel der Actionserie »My Hero Academia« seit Kurzem ebenfalls mit deutscher Synchronisation auf Pluto TV angesehen werden.",
+      "art": "start",
+      "sprache": "deutsch",
+      "plattform": null,
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Pluto TV",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "1–13",
+      "unsicher": "Ob bei Pluto TV weitere Episoden folgen, ist laut Artikel noch offen.",
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1066055",
+      "artikel": "Pluto TV nimmt zwei Anime-Neuzugänge ins Programm",
+      "quelle": "https://www.anime2you.de/news/1066055/pluto-tv-black-clover-und-mehr/",
+      "veroeffentlicht": "2026-10-31",
+      "gelesenAm": "2026-11-01"
+    },
+    {
+      "titel": "Godzilla Minus Zero",
+      "zitat": "Bereits am 3. November 2026 finden in ausgewählten deutschen IMAX-Kinos exklusive Preview-Vorstellungen von »Godzilla Minus Zero« statt.",
+      "art": "kino",
+      "sprache": "unklar",
+      "plattform": "kino",
+      "datum": "2026-11-03",
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": "Nur Preview-Vorstellungen in ausgewählten IMAX-Kinos, nicht der reguläre Kinostart.",
+      "wochentag": "Dienstag",
+      "warnungen": [],
+      "artikelId": "1066064",
+      "artikel": "IMAX-Fassung von »Godzilla Minus Zero« kommt nach Deutschland + Trailer",
+      "quelle": "https://www.anime2you.de/news/1066064/godzilla-minus-zero-imax-fassung-in-deutschland/",
+      "veroeffentlicht": "2026-10-31",
+      "gelesenAm": "2026-11-01"
+    },
+    {
+      "titel": "Godzilla Minus Zero",
+      "zitat": "Der reguläre Kinostart folgt dann am 5. November 2026 in Deutschland und der deutschsprachigen Schweiz sowie einen Tag später, am 6. November 2026, in Österreich.",
+      "art": "kino",
+      "sprache": "unklar",
+      "plattform": "kino",
+      "datum": "2026-11-05",
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": "Datum gilt für Deutschland und die deutschsprachige Schweiz.",
+      "wochentag": "Donnerstag",
+      "warnungen": [],
+      "artikelId": "1066064",
+      "artikel": "IMAX-Fassung von »Godzilla Minus Zero« kommt nach Deutschland + Trailer",
+      "quelle": "https://www.anime2you.de/news/1066064/godzilla-minus-zero-imax-fassung-in-deutschland/",
+      "veroeffentlicht": "2026-10-31",
+      "gelesenAm": "2026-11-01"
+    },
+    {
+      "titel": "Godzilla Minus Zero",
+      "zitat": "Der reguläre Kinostart folgt dann am 5. November 2026 in Deutschland und der deutschsprachigen Schweiz sowie einen Tag später, am 6. November 2026, in Österreich.",
+      "art": "kino",
+      "sprache": "unklar",
+      "plattform": "kino",
+      "datum": "2026-11-06",
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": "Starttermin speziell für Österreich, einen Tag nach dem deutschen Kinostart.",
+      "wochentag": "Freitag",
+      "warnungen": [],
+      "artikelId": "1066064",
+      "artikel": "IMAX-Fassung von »Godzilla Minus Zero« kommt nach Deutschland + Trailer",
+      "quelle": "https://www.anime2you.de/news/1066064/godzilla-minus-zero-imax-fassung-in-deutschland/",
+      "veroeffentlicht": "2026-10-31",
+      "gelesenAm": "2026-11-01"
+    },
+    {
+      "titel": "I’m Looking for a Zombie",
+      "zitat": "Die sechste »I’m Looking for a Zombie«-Folge wird aufgrund eines Sonderprogramms nicht wie zuvor geplant am 7. November 2026, sondern erst am 14. November 2026 im japanischen Fernsehen ausgestrahlt und bei Crunchyroll im Simulcast gezeigt.",
+      "art": "pause",
+      "sprache": "unklar",
+      "plattform": "crunchyroll",
+      "datum": "2026-11-14",
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "6",
+      "unsicher": null,
+      "wochentag": "Samstag",
+      "warnungen": [],
+      "artikelId": "1066021",
+      "artikel": "Sechste »I’m Looking for a Zombie«-Episode erscheint später",
+      "quelle": "https://www.anime2you.de/news/1066021/im-looking-for-a-zombie-episode-6-verschoben/",
+      "veroeffentlicht": "2026-10-31",
+      "gelesenAm": "2026-11-01"
     }
   ]
 }

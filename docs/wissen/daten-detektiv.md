@@ -24,7 +24,7 @@ Quelle oder über einen Zeitraum auffällt, und sagt je Regel, ob sie hart, weic
 | DD-23 Widerlegt, aber Termine | 0 / 764 | — | 3,0 | hart |
 | DD-02 Release-Folgen > Titel-Folgen | 7 / 564 | 6/7: **86 bei ADN 23 Folgen auf dem 11-Folgen-Titel** (beide Staffeln auf S1), Wolf’s Rain 30/26, Clannad 25/23, Sankarea 13/12, zwei TV-Filme; Air Gear in `herkunft` erklärt | 2,6 | weich (hart ab Faktor 2 gibt es schon) |
 | DD-13 Film mit mehreren Folgen | 3 / 764 | 2/3: The Last und Boruto bei ProSieben MAXX „2 Folgen" = 2 Sendungen; Steel Ball Run ONA bekannte Ausnahme | 2,0 | **hart** (Film ⇒ `episodeCount ≤ 1`, außer `firstEpisodeNumber`/`herkunft`) |
-| DD-16 Disc ohne Produktseite (B-09) | 40 / 194 (Stand 01.11., vorher 157 / 160) | 35 Namenssuchen (31 nach dem nächsten Bau), 5 ohne Kaufweg; 126 EAN-Suchen zählen nicht | 2,0 | weich |
+| DD-16 Disc ohne Produktseite (B-09) | 157 / 160 | 138 Amazon-Suchen, 19 ohne Kaufweg | 2,0 | weich |
 | DD-17 News-Meldung auf verschwundenem Release | 8 / 480 | 8/8: `adn-1423-s1-…` → `auto-116589-adn`, vier Disc-Slugs abgeschnitten (`…-2026-10-1`, `…vorbestimm`) | 2,0 | weich |
 | DD-11 „Premiere" Jahre nach der aniSearch-Erstausgabe | 13 / 45 | 13/13: Disney+-Katalogaufnahmen aus `batch-2026.yaml` ohne `dateMeaning` (Yu-Gi-Oh! S4 — S2 und S3 tragen es schon —, Naruto S4, Naruto Shippuden S1, Black Clover S1 …), deutsche Fassung laut aniSearch seit 2003–2023 | 2,0 | weich (Hinweis an die Kuratierung: `dateMeaning: available-from`) |
 | DD-19 Termin ohne Weg zum Anbieter | 3 / 548 | 3/3: 86 bei ADN, Kamisama Kiss und Kotesashi-kun bei Prime — Termin, aber weder Stream noch `platformUrl` | 2,0 | weich |
@@ -106,12 +106,12 @@ Disney+-Katalogaufnahmen als „Premiere" (DD-11); (5) acht News-Meldungen ohne 
 | DD-16 Amazon-Suche statt Produktseite | 25 | echte Lücke: Handeinträge ohne `buyUrl` (Rückfall B-09) | 23 aus der Übersichtstabelle der Anime2You-Amazon-Artikel belegt (`tools/amazon-tabelle.mjs`, Name und Tag/Monat müssen passen; 2 davon neue Funde, 21 ältere); die übrigen 23 neuen brauchen einen Artikel, der die Ausgabe verlinkt (Prüfliste) |
 | DD-16 kein Kaufweg | 3 | Eureka Seven, Isekai Onsen Paradise: neue automatische Meldungen, Artikel ohne Amazon-Link (Quelle fehlt); Dr. Stone: Dublette zu `dr-stone-science-future-part2` | Dublette: Artikel 1058419 als Quelle am Handeintrag, der Sammler markiert ihn beim nächsten Lauf als `alreadyCurated` |
 | DD-02 Folgen über Titel | 2 | Fehlalarm: Concrete Revolutio (beide Staffeln, 24), Zexal S2+S3 (49 + 48 = 97 von 146 Folgen laut Anime2You) | in `detektiv-bekannt.json` |
-| DD-11 „Premiere“ | 2 | Yu-Gi-Oh! Staffel 4 (Disney+): echter Fehler, Katalogaufnahme ohne `dateMeaning` — behoben; Venus Wars (2K-Remaster, Kino): Wiederaufführung, Sprachfassung offen | Venus Wars bleibt gemeldet (Quelle zur Fassung fehlt) |
+| DD-11 „Premiere“ | 2 | Yu-Gi-Oh! Staffel 4 (Disney+): echter Fehler, Katalogaufnahme ohne `dateMeaning` — behoben; Venus Wars (2K-Remaster, Kino): Wiederaufführung, Sprachfassung belegt (Stand 01.11.2026: deutsche Synchronisation und OmU laut anime2you.de, Quelle am Eintrag) | Venus Wars in `detektiv-bekannt.json` (01.11.2026), Quellen in `kino-2026.yaml` |
 | DD-19 Termin ohne Weg | 2 | Snowball Earth (Prime-Kanal Crunchyroll), Trinity Seven (Aniverse-Kanal): ein Weg entsteht nur aus einer Messung | in `detektiv-bekannt.json`, wie Kamisama Kiss |
 
 **Ursache der größten Klasse:** Der Bau setzt für jede Disc ohne `buyUrl` die Amazon-Suche ein (`05-releases.ts`); Anime2You verlinkt die Produktseiten aber in der Übersichtstabelle der Artikel, und die Handeinträge übernahmen sie nicht. `tools/amazon-tabelle.mjs` liest die Tabelle (Name und Termin müssen übereinstimmen, Sonderausgaben bleiben außen, der Partner-Tag fällt weg); `tools/amazon-tabelle.test.mjs` prüft auch, dass keine `buyUrl` der Handdateien eine Abfrage trägt.
 
-**DD-16 am 01.11.2026:** 194 Discs: 113 EAN-Suche, 35 Namenssuche, 25 Produktseite, 3 anderer Shop, 18 ohne Link. Ursache der 18: Disc-Termine aus den News (`automatisch`) liefen nicht durch `discKaufUrl`; `eanLinksFuerNewsDiscs` (Schritt 11-1) gibt 13 davon die EAN-Suche, 5 bleiben ohne Link. Rest mit Grund je Disc: `daniel-zum-abarbeiten/listen/disc-kaufwege-ohne-beleg.md`.
+**DD-16 am 01.11.2026:** 194 Discs: 113 EAN-Suche, 35 Namenssuche, 25 Produktseite, 3 anderer Shop, 18 ohne Link. Ursache der 18: Disc-Termine aus den News (`automatisch`) liefen nicht durch `discKaufUrl`; `kaufwegFuerDiscs` (Schritt 11-1, #2627) gibt ihnen EAN- oder Namenssuche (13 davon hätten eine eindeutige EAN). Rest mit Grund je Disc: `daniel-zum-abarbeiten/listen/disc-kaufwege-ohne-beleg.md`.
 
 ## Grenzen
 

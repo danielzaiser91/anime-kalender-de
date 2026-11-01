@@ -1,5 +1,6 @@
 import { writeFileSync } from 'node:fs'
 import { log, readJson, warn, writeJson } from '../lib/util.ts'
+import { ladeAnisearchMal } from '../lib/anisearch-verworfen.ts'
 import { todayIso } from '../../shared/time.ts'
 import type { Title } from '../../shared/types.ts'
 import type { AniListMedia } from '../lib/anilist.ts'
@@ -96,7 +97,7 @@ const zaehlerZeile = (b: Bericht): string =>
 
 /** Vergleicht und schreibt die Liste — nur bei Änderung, damit der Stand nicht täglich committet wird. */
 function schreibeAnisearchAbweichungen(q: Quellen): void {
-  const { paare, titel } = sammlePaare(q, malJeAnisearch(readJson<Record<string, number>>('data/anisearch-mal.json', {})))
+  const { paare, titel } = sammlePaare(q, malJeAnisearch(ladeAnisearchMal()))
   const voll: Bericht = { stand: todayIso(), titel, ...vergleichePaare(paare) }
   // Volllisten nur auf Wunsch und nur lokal: `ANISEARCH_VOLLLISTE=<Pfad außerhalb des Repos>`.
   if (process.env.ANISEARCH_VOLLLISTE) writeFileSync(process.env.ANISEARCH_VOLLLISTE, JSON.stringify(voll))

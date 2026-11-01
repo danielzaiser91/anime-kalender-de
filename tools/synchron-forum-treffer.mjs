@@ -27,7 +27,7 @@ const HAND = {
   'Miss Kobayashi’s Dragon Maid S: Japanische Gastfreundschaft OVA|2022': 136436,
   'My Isekai Life: I Gained a Second Character Class and Became the Strongest Sage …|2022': 129192,
   'Free! The Final Stroke|2021': [107203, 133124],
-  'Princess Principal: Crown Handler|2021': [101595, 129759, 137612],
+  'Princess Principal: Crown Handler|2021': [101595, 129759],
   'That Time I Got Reincarnated as a Slime: Veldoras Tagebuch 2|2021': null,
   'Burn the Witch|2020': 116673,
   'Date a Bullet|2020': 111852,

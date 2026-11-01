@@ -274,7 +274,7 @@ function ladeSkripte(sandkasten) {
   for (const datei of ['melde-sperre.js', 'pruefstand-zeit.js', 'prime-stand.js', 'prime-stand-ziele.js', 'prime-such-bruecke.js', 'prime-region.js', 'amazon.js']) vm.runInContext(readFileSync(`${__dirname}/${datei}`, 'utf8'), sandkasten)
 }
 
-function starte(seitenAsin, gespeichert = {}, liste = TEST_LISTE, alsVideoSeite = true) {
+function starte(seitenAsin, gespeichert = {}, liste = TEST_LISTE, alsVideoSeite = true, weitere = {}) {
 
   const traeger = { hoerer: null, fenster: null, adresse: null }
   /** Intervalle unter einer halben Sekunde — der Adress-Wachposten, siehe unten. */
@@ -375,7 +375,7 @@ function starte(seitenAsin, gespeichert = {}, liste = TEST_LISTE, alsVideoSeite 
            * Der asynchrone Weg ist damit nicht ungeprueft: Ihn deckt die
            * Zusicherung ab, die den Klick vor dem geladenen Stand stellt.
            */
-          get: () => ({ amazonErledigt: gespeichert }),
+          get: () => ({ amazonErledigt: gespeichert, ...weitere }),
           set: async (x) => {
             gesetzt.push(x)
           },
@@ -485,6 +485,47 @@ function starte(seitenAsin, gespeichert = {}, liste = TEST_LISTE, alsVideoSeite 
 const LISTEN_ASIN = Object.keys(ECHTE_LISTE)[0]
 
 const ersteAsin = Object.keys(ECHTE_LISTE)[0]
+
+// --- 0. Nach der eigenen Meldung und dem Neuladen bleibt der Knopf zu -----------
+
+/**
+ * Higurashi (31.10.2026): Meldung, Neuladen, der Briefkasten (2 h im Edge-Cache) führt die Seite noch nicht.
+ * Die gesicherte eigene Meldung (`akPrimeSeitenGemeldet`) hält den Knopf zu; eine ältere als die Frist der
+ * Meldesperre nicht, dann entscheidet der Briefkasten. Eine andere Seite desselben Titels bleibt meldbar.
+ * Kulisse: Titel gemeldet (Abhak-Speicher), der Briefkasten hat noch nicht geantwortet.
+ */
+void (async () => {
+  const JETZT = 1_756_080_000_000
+  const STUNDE = 3600 * 1000
+  const vermerk = { staffeln: { B000TESTAA: '🇩🇪', B000TESTBB: '🇩🇪' }, folgen: { B000TESTAA: 12, B000TESTBB: 12 }, gesamt: 1, serie: 'Testserie', zeit: '2026-08-25T00:00:00.000Z' }
+  const folgenSeite = (asin) =>
+    `<link rel="canonical" href="https://www.amazon.de/gp/video/detail/${asin}"/>` +
+    Array.from({ length: 12 }, (_, i) => `"audioTracks":["Deutsch"],"duration":1355,"episodeNumber":${i + 1},`).join('') +
+    '"episodeCount":12,"benefitId":"Prime"'
+  const abwarten = () => new Promise((fertig) => setImmediate(fertig))
+  async function knopfNachNeuladen(seite, gesichertVor, gesichertFuer = seite) {
+    const weitere = gesichertVor === null ? {} : { akPrimeSeitenGemeldet: { [gesichertFuer]: JETZT - gesichertVor } }
+    const lauf = starte(seite, { [seite]: vermerk }, TEST_LISTE, true, weitere)
+    lauf.sandkasten.document.documentElement.innerHTML = folgenSeite(seite)
+    for (let i = 0; i < 2; i++) {
+      takten(lauf.takte, 5)
+      await abwarten()
+    }
+    const knopf = lauf.angehaengt.find((e) => e.className.includes('ak-amazon-knopf'))
+    return { zu: knopf?.style.display === 'none' && knopf?.disabled === true, text: knopf?.textContent, display: knopf?.style.display, gemeldet: lauf.gemeldet.length }
+  }
+  const eine = await knopfNachNeuladen('B000TESTAA', STUNDE)
+  pruefe('Neuladen eine Stunde nach der Meldung, Briefkasten stumm: der Knopf ist zu', eine.zu, eine)
+  const spaet = await knopfNachNeuladen('B000TESTAA', 3 * STUNDE)
+  pruefe('drei Stunden danach (Frist um): die gesicherte Meldung zählt nicht mehr, die Seite ist meldbar', !spaet.zu, spaet)
+  const ohne = await knopfNachNeuladen('B000TESTAA', null)
+  pruefe('Titel im Abhak-Speicher, aber diese Seite ohne eigenen Beleg (Higurashi, Staffel 2): meldbar', !ohne.zu, ohne)
+  const andere = await knopfNachNeuladen('B000TESTBB', STUNDE, 'B000TESTAA')
+  pruefe('gesichert ist nur eine Seite: die andere Seite desselben Titels bleibt meldbar', !andere.zu, andere)
+})().catch((fehlerObjekt) => {
+  fehler.push('Nach dem Neuladen bleibt der Knopf zu: Absturz')
+  console.error(fehlerObjekt)
+})
 
 // --- 1. Der Knopf erscheint und trägt die richtige Zahl --------------------
 

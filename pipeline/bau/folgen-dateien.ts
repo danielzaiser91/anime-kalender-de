@@ -22,9 +22,11 @@ import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import yaml from 'js-yaml'
 import { readJson, writeJson, log, clearDir, ROOT } from '../lib/util.ts'
+import { ladeAnisearchAbruf } from '../lib/anisearch-verworfen.ts'
 import { OUT } from './grundlagen.ts'
 import { hoechsteFolgeJeAnbieter } from './folgen-erschienen-je-weg.ts'
-import { ladeTitelQuellen, mitFremdTiteln } from './folgentitel-stufen.ts'
+import { ladeTitelQuellen, mitFremdTiteln, type TitelQuellen } from './folgentitel-stufen.ts'
+import { englischeTitel, ohneEnglischeTitel } from './folgentitel-englisch.ts'
 import { folgenZeilen } from './folgentitel-zeilen.ts'
 import { eineZeileJeNummer } from './folgen-nummern.ts'
 
@@ -85,9 +87,16 @@ export function deutscheFolgen(t: Title, wiki: { nr: number; ead?: string }[] | 
   return bereiche
 }
 
+/** Die Liste ohne Titel, die bei einer unübersetzten Serie nur der englische Titel aus Kitsu/TMDB sind (`folgentitel-englisch.ts`). */
+export function ohneUnuebersetzte(t: Title, f: Folge[] | undefined, asFolgen: Folge[], q: TitelQuellen): Folge[] | undefined {
+  if (!f) return f
+  const asDe = new Set(asFolgen.filter((x) => x.de).map((x) => x.nr))
+  return ohneEnglischeTitel(f, asDe, englischeTitel(q.kitsu[String(t.id)], q.tmdbFolgen[String(t.id)], asFolgen))
+}
+
 export function schreibeFolgenDateien(titel: Title[], releases: Release[]): void {
   const roh = readJson<Record<string, { folgen?: Folge[] }>>('data/anisearch-folgen.json', {})
-  const zuordnung = readJson<Record<string, { anisearchId?: number }>>('data/anisearch.json', {})
+  const zuordnung = ladeAnisearchAbruf<{ anisearchId?: number }>()
   const wiki = readJson<WikiListe>('data/wikipedia-folgen.json', {}).titel ?? {}
   const heute = todayIso()
   /* Quellen der Folgentitel, wo aniSearch keine hat (`folgentitel-stufen.ts`). */
@@ -112,7 +121,7 @@ export function schreibeFolgenDateien(titel: Title[], releases: Release[]): void
     const erschienen = asId && jeAsId.get(asId) === 1 ? erschieneneFolgen(roh[String(asId)]?.folgen ?? [], wikiFolgen?.length ? Math.max(...wikiFolgen.map((w) => w.nr)) : 0, heute) : undefined
     const ausAs = erschienen && eineZeileJeNummer(erschienen)
     verschmolzen += ausAs?.verschmolzen ?? 0
-    const f = mitFremdTiteln(t, ausAs?.folgen, quellen)
+    const f = ohneUnuebersetzte(t, mitFremdTiteln(t, ausAs?.folgen, quellen), roh[String(asId)]?.folgen ?? [], quellen)
     if (!f || f.length < 2) continue
     const minuten = new Set(f.map((x) => x.minuten).filter(Boolean))
     const einheitlich = minuten.size === 1 ? [...minuten][0] : minuten.size === 0 ? t.runtimeMin : undefined

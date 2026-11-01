@@ -62,15 +62,21 @@ export function buyUrlNachVerschiebung(buyUrl: string | undefined, titleId: numb
   return ean ? amazonEanUrl(ean) : buyUrl
 }
 
-/** Ein Disc-Termin aus den News hat keinen Handlink und lief nicht durch `discKaufUrl`: bekommt die EAN-Suche, wenn die Ausgabe an seinem (endgültigen) Tag eindeutig ist; sonst bleibt es ohne Link. */
-export function eanLinksFuerNewsDiscs(releases: { releaseType: string; automatisch?: boolean; buyUrl?: string; titleId: number; schedule: { firstEpisodeDate?: string } }[], index: DiscIndex): number {
-  let n = 0
+/**
+ * Automatische Disc-Termine (aus Meldungen, Phase 08) entstehen nach `05-releases` und bekamen nie einen Kaufweg.
+ * Derselbe Helfer wie bei Handeinträgen; läuft erst nach der Ausgabe-Verknüpfung in `11-1`, die Termine mit `buyUrl` überspringt.
+ */
+export function kaufwegFuerDiscs(
+  releases: { releaseType: string; buyUrl?: string; titleId: number; name: string; schedule?: { firstEpisodeDate?: string } }[],
+  index: DiscIndex,
+): number {
+  let gesetzt = 0
   for (const r of releases) {
-    if (r.releaseType !== 'disc' || !r.automatisch || r.buyUrl || !r.schedule.firstEpisodeDate) continue
-    const ean = discEan(index, r.titleId, r.schedule.firstEpisodeDate)
-    if (!ean) continue
-    r.buyUrl = amazonEanUrl(ean)
-    n++
+    if (r.releaseType !== 'disc' || r.buyUrl) continue
+    const datum = r.schedule?.firstEpisodeDate
+    if (!datum) continue
+    r.buyUrl = discKaufUrl(r, r.titleId, datum, r.name, index)
+    gesetzt++
   }
-  return n
+  return gesetzt
 }
