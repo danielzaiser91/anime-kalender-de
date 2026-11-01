@@ -8,12 +8,13 @@
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { gzipSync } from 'node:zlib'
 import { tmpdir } from 'node:os'
-import { join } from 'node:path'
+import { dirname, join } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import type { Title } from '../shared/types.ts'
 import { abgleich } from './bau/folgentitel-abgleich.ts'
 import { crFolgentitelGeteilt } from './bau/folgentitel-cr-geteilt.ts'
 import type { CrArchiv, CrSerie } from './bau/folgentitel-cr.ts'
-import { ladeHandTitel } from './bau/folgentitel-hand.ts'
+import { handFehler, ladeHandTitel } from './bau/folgentitel-hand.ts'
 import { rtlplusFolgentitel } from './bau/folgentitel-rtlplus.ts'
 import { mitFremdTiteln, type TitelQuellen } from './bau/folgentitel-stufen.ts'
 import { pruefeLuecken as mainBestand, rtlplusFehlt } from './lib/folgentitel-luecke-bestand.ts'
@@ -88,7 +89,9 @@ pruefe('Aoashi Staffel 2: Staffel 1 und 2 starten 2026, die Staffelzahl im Namen
 pruefe('derselbe Titel ohne Staffelzahl im Namen gilt als Staffel 1', crFolgentitelGeteilt({ ...aoashi, titleDe: 'Aoashi', titleEn: 'Aoashi' } as Title, aoashiStaffeln, aoashiArchiv, new Map())?.get(1) === 'Der erste Tag')
 pruefe('Beginnjahr anders: nichts', crFolgentitelGeteilt({ ...aoashi, jpYear: 2025 } as Title, aoashiStaffeln, aoashiArchiv, new Map()) === undefined)
 pruefe('Special statt Serie: nichts', crFolgentitelGeteilt({ ...aoashi, format: 'SPECIAL' } as Title, aoashiStaffeln, aoashiArchiv, new Map()) === undefined)
-pruefe('mehr Crunchyroll-Folgen als unsere Folgenzahl: die Staffel zählt nicht', crFolgentitelGeteilt({ ...aoashi, titleDe: 'Aoashi', titleEn: 'Aoashi', episodes: 2 } as Title, aoashiStaffeln, aoashiArchiv, new Map())?.get(1) === 'Startlinie')
+pruefe('mehr Crunchyroll-Folgen (24) als unsere Folgenzahl (2): die erste Staffel zählt nicht', crFolgentitelGeteilt({ ...aoashi, titleDe: 'Aoashi', titleEn: 'Aoashi', episodes: 2 } as Title, aoashiStaffeln, aoashiArchiv, new Map()) === undefined)
+pruefe('genau so viele Crunchyroll-Folgen (2) wie unsere Folgenzahl: die Staffel zählt', crFolgentitelGeteilt({ ...aoashi, episodes: 2 } as Title, aoashiStaffeln, aoashiArchiv, new Map())?.get(1) === 'Startlinie')
+pruefe('Staffelzahl des Titels (2) passt nicht zur einzigen Staffel im Jahr (Staffel 1 im Namen): nichts', crFolgentitelGeteilt({ ...aoashi, titleDe: 'Aoashi Staffel 3', titleEn: 'Aoashi Season 3' } as Title, serieMit([{ name: 'Staffel 1', ab: '2026-03-04', von: 1, bis: 24 }]), aoashiArchiv, new Map()) === undefined)
 pruefe('ohne Folgenzahl gilt jede Länge (laufende Staffel)', crFolgentitelGeteilt({ ...aoashi, episodes: undefined } as Title, aoashiStaffeln, aoashiArchiv, new Map())?.get(2) === 'Denkende Schilfe')
 pruefe('ohne Crunchyroll-Weg: nichts', crFolgentitelGeteilt({ ...aoashi, streams: [] } as Title, aoashiStaffeln, aoashiArchiv, new Map()) === undefined)
 const drei = serieMit([{ name: 'Staffel 1', ab: '2026-03-04', von: 1, bis: 24 }, { name: 'Staffel 2', ab: '2026-10-25', von: 1, bis: 3 }])
@@ -143,6 +146,34 @@ const hand = ladeHandTitel(pfad)
 rmSync(ordner, { recursive: true, force: true })
 pruefe('Einträge je Titel und Folge', hand['900001']?.get(2) === 'Zwei' && hand['900001'].get(3) === 'Drei' && hand['900002']?.get(1) === 'Eins' && hand['900001'].size === 2)
 pruefe('fehlende Datei: keine Einträge', Object.keys(ladeHandTitel(join(tmpdir(), 'gibt-es-nicht-folgentitel-hand.yaml'))).length === 0)
+const gut = { anilistId: 900001, folge: 2, titel: 'Zwei', quelle: 'Test' }
+pruefe('gültiger Eintrag: kein Fehler', handFehler([gut]).length === 0)
+pruefe('keine Liste: Fehler', handFehler({ anilistId: 1 }).length === 1)
+pruefe('Kennung fehlt: Fehler', handFehler([{ ...gut, anilistId: undefined }]).some((f) => f.includes('anilistId')))
+pruefe('Kennung 0: Fehler', handFehler([{ ...gut, anilistId: 0 }]).some((f) => f.includes('anilistId')))
+pruefe('Folge fehlt: Fehler', handFehler([{ ...gut, folge: undefined }]).some((f) => f.includes('folge')))
+pruefe('Folge 0: Fehler', handFehler([{ ...gut, folge: 0 }]).some((f) => f.includes('folge')))
+pruefe('Folge 1,5: Fehler', handFehler([{ ...gut, folge: 1.5 }]).some((f) => f.includes('folge')))
+pruefe('Titel fehlt: Fehler', handFehler([{ ...gut, titel: undefined }]).some((f) => f.includes('titel fehlt')))
+pruefe('Titel nur Leerraum: Fehler', handFehler([{ ...gut, titel: '  ' }]).some((f) => f.includes('titel fehlt')))
+pruefe('Titel „Folge 2" ist ein Platzhalter: Fehler', handFehler([{ ...gut, titel: 'Folge 2' }]).some((f) => f.includes('Platzhalter')))
+pruefe('Fundstelle fehlt: Fehler', handFehler([{ ...gut, quelle: undefined }]).some((f) => f.includes('quelle')))
+pruefe('Fundstelle nur Leerraum: Fehler', handFehler([{ ...gut, quelle: ' ' }]).some((f) => f.includes('quelle')))
+pruefe('dieselbe Folge zweimal: Fehler', handFehler([gut, { ...gut, titel: 'Anders' }]).some((f) => f.includes('zweimal')))
+pruefe('dieselbe Folge eines anderen Titels und dieselbe Nummer bei einem anderen Titel: erlaubt', handFehler([gut, { ...gut, folge: 3 }, { ...gut, anilistId: 900002 }]).length === 0)
+pruefe('Eintrag null: Fehler ohne Absturz', handFehler([null]).length === 1)
+const kaputt = mkdtempSync(join(tmpdir(), 'folgentitel-hand-kaputt-'))
+writeFileSync(join(kaputt, 'hand.yaml'), '- {anilistId: 900001, folge: 2, titel: "Zwei"}\n')
+let geworfen = ''
+try {
+  ladeHandTitel(join(kaputt, 'hand.yaml'))
+} catch (e) {
+  geworfen = (e as Error).message
+}
+rmSync(kaputt, { recursive: true, force: true })
+pruefe('die geladene Datei ohne Fundstelle wirft mit dem Fehler im Text', geworfen.includes('quelle'), geworfen)
+const echteHand = ladeHandTitel(join(dirname(fileURLToPath(import.meta.url)), '..', 'data', 'folgentitel-hand.yaml'))
+pruefe('die echte Handliste ist gültig; Disney Twisted-Wonderland Folge 1 trägt den Titel aus TMDB', echteHand['140291']?.get(1) === 'Erwache, Fremder', echteHand['140291']?.get(1))
 const probe = { id: 900001, streams: [], episodes: undefined } as unknown as Title
 const handZeilen = [{ nr: 1, de: 'Eins aus aniSearch' }, { nr: 2 }, { nr: 3, de: 'Drei aus aniSearch' }, { nr: 4 }]
 const mitHand = mitFremdTiteln(probe, handZeilen, { ...leer, hand })

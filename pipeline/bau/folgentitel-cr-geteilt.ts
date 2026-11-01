@@ -6,9 +6,9 @@ import { titelJeKennung, type CrArchiv, type CrSerie } from './folgentitel-cr.ts
  * **Deutsche Folgentitel aus Crunchyroll, wo ein Verweis mehrere Staffeln führt** (Stufe 1b aus `docs/wissen/folgentitel-quellen.md`: Tales of Wedding Rings,
  * You and I Are Polar Opposites, Aoashi Staffel 2 …). `crFolgentitel` lässt diese Titel aus, weil die Nummern je Staffel bei 1 beginnen. Hier zählt genau eine
  * Staffel: Nummern lückenlos aufeinander (bei 1 oder als Fortsetzung der Vorstaffel, z. B. 25…36), erster deutscher Tag im Beginnjahr des Titels, höchstens
- * so viele Folgen wie unser Titel (laufende Staffeln sind kürzer; ohne Folgenzahl gilt jede Länge). Bleiben mehrere übrig (Aoashi: Staffel 1 und 2 starten beide
- * 2026), entscheidet die Staffelzahl im Namen von Titel und Crunchyroll-Staffel; die Titel, die wir schon haben, dürfen der Staffel nicht widersprechen (`abgleich`).
- * Nur Serienformate (TV, ONA); Specials und Filme tragen ihre Folgen in Sonderstaffeln. Sonst gibt es nichts.
+ * so viele Folgen wie unser Titel (laufende Staffeln sind kürzer; ohne Folgenzahl gilt jede Länge) und dieselbe Staffelzahl im Namen von Titel und Crunchyroll-Staffel
+ * (Aoashi: Staffel 1 und 2 starten beide 2026). Die Titel, die wir schon haben, dürfen der Staffel nicht widersprechen (`abgleich`; bei weniger als drei gemeinsamen
+ * Nummern gibt es keinen Vergleich, dann tragen Jahr, Länge und Staffelzahl allein). Nur Serienformate (TV, ONA); Specials und Filme tragen ihre Folgen in Sonderstaffeln.
  */
 type Staffel = NonNullable<CrSerie['staffeln']>[number]
 
@@ -52,10 +52,13 @@ const FORMATE = new Set(['TV', 'TV_SHORT', 'ONA'])
 
 export function crFolgentitelGeteilt(titel: Title, serie: CrSerie | undefined, archiv: CrArchiv | undefined, vorhanden: ReadonlyMap<number, string>): Map<number, string> | undefined {
   if (!titel.streams.some((s) => s.platform === 'crunchyroll') || !serie || !archiv || !titel.jpYear || !FORMATE.has(titel.format ?? '')) return undefined
-  const imJahr = (serie.staffeln ?? []).filter(
-    (st) => nummernLueckenlos(st) && (st.deutscheFolgen?.length ?? 0) <= (titel.episodes ?? Infinity) && Number(ersterTag(st)?.slice(0, 4)) === titel.jpYear,
+  const passend = (serie.staffeln ?? []).filter(
+    (st) =>
+      nummernLueckenlos(st) &&
+      (st.deutscheFolgen?.length ?? 0) <= (titel.episodes ?? Infinity) &&
+      Number(ersterTag(st)?.slice(0, 4)) === titel.jpYear &&
+      staffelZahl(st.name) === titelStaffelZahl(titel),
   )
-  const passend = imJahr.length > 1 ? imJahr.filter((st) => staffelZahl(st.name) === titelStaffelZahl(titel)) : imJahr
   if (passend.length !== 1) return undefined
   const aus = titelDerStaffel(passend[0], archiv)
   return aus.size && abgleich(vorhanden, aus) !== 'widerspricht' ? aus : undefined

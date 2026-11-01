@@ -1,7 +1,9 @@
-# Deutsche Folgentitel von Hand zugeordnet (Daniel, 01.11.2026) — nur, was keine Stufe in `pipeline/bau/folgentitel-stufen.ts` automatisch liefert.
-# Die Stufe füllt nur Lücken: ein Titel aus aniSearch, Crunchyroll, RTL+ oder TMDB bleibt. Jeder Eintrag nennt `quelle` mit Fundstelle (erlaubte Quellen:
-# RTL+, Crunchyroll, ADN, TMDB de; nicht fernsehserien.de, aniSearch-Seiten, Netflix-Serienseiten). Was dort steht, hat ein Mensch gegen die Quelle gelesen.
-# Rest ohne Quelle: `docs/wissen/folgentitel-quellen.md`, Abschnitt „Lückenfolgen 01.11.2026".
+# Deutsche Folgentitel einzeln zugeordnet — nur, was keine Stufe in `pipeline/bau/folgentitel-stufen.ts` automatisch liefert.
+# Die Titel sind aus TMDB (de) und ADN übernommen (Agentenlauf im Auftrag, 01.11.2026), nicht von einem Menschen gegengelesen; die Fundstelle steht je Eintrag.
+# Die Stufe füllt nur Lücken: ein Titel aus aniSearch, Crunchyroll, RTL+ oder TMDB bleibt. Pflichtfelder je Eintrag: anilistId, folge, titel, quelle
+# (`handFehler` in `pipeline/bau/folgentitel-hand.ts` lässt den Bau bei fehlendem Feld oder doppelter Folge scheitern, `check:logic` liest die Datei ebenfalls).
+# Erlaubte Quellen: RTL+, Crunchyroll, ADN, TMDB de; nicht fernsehserien.de, aniSearch-Seiten, Netflix-Serienseiten.
+# Rest ohne Quelle: `data/folgentitel-offen.json` und `docs/wissen/folgentitel-quellen.md`, Abschnitt „Lückenfolgen im deutschen Bereich schließen und halten".
 
 # Disney Twisted-Wonderland: Staffelbeginn 29.10.2025, acht wöchentliche Folgen = unsere acht Folgen; TMDB führt die Serie unter „Disney Twisted-Wonderland: Die Serie".
 - {anilistId: 140291, folge: 1, titel: "Erwache, Fremder", quelle: "TMDB-Serie 'Disney Twisted-Wonderland: Die Serie' (de) Staffel 1 Folge 1, 29.10.2025; 8 von 8 Folgen"}
