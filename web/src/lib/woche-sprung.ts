@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo, useRef } from 'react'
 import { nowHhMm } from '@shared/time.ts'
 import { type ReleaseEvent } from '@shared/types.ts'
 import { minutenTakt } from './minuten-takt.ts'
+import { lesestelleFuehrt } from './lesestelle.ts'
 
 /**
  * Unterhalb dieser Breite steht ein Tag als einzelne senkrechte Spalte —
@@ -71,7 +72,7 @@ export function useSprungZuHeute({ days, today, monday }: {
     if (!showsToday) return
     // Einmal je Ankunft. Wer innerhalb der Woche filtert, blättert oder eine
     // Karte öffnet, soll nicht wieder nach unten gerissen werden.
-    if (jumpedFor.current === monday) return
+    if (jumpedFor.current === monday || lesestelleFuehrt(days, jumpedFor, monday)) return
     // Auf jeder Breite: Die Poster-Woche steht überall untereinander. Ohne anstehende Karte zählt der Tageskopf.
     const el = landingRef.current ?? document.querySelector<HTMLElement>('[data-heute="1"]')
     if (!el) return

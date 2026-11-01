@@ -1,3 +1,5 @@
+import { merkeLesestelle, ortJetzt } from './lesestelle.ts'
+
 declare const __APP_VERSION__: string | undefined
 const MEINE_VERSION = typeof __APP_VERSION__ === 'string' ? __APP_VERSION__ : 'dev'
 const MARKE = 'ak-neu-geladen'
@@ -38,6 +40,7 @@ async function neuLaden(version: string): Promise<void> {
     return
   }
   await cacheLeeren()
+  merkeLesestelle(document, sessionStorage, ortJetzt(), Date.now())
   location.reload()
 }
 
@@ -46,18 +49,31 @@ async function pruefe(): Promise<void> {
   if (neu && neu !== MEINE_VERSION) await neuLaden(neu)
 }
 
-/**
- * Handy-Tabs und die installierte App bleiben Stunden offen und werden nie „geladen". Kommt jemand nach einer langen Pause
- * zurück, gilt das wie ein Laden: einmal prüfen. Das Neuladen kommt kurz nach der Rückkehr, die Seite ist dann schon sichtbar — wer in dieser Sekunde tippt, kann es noch erleben (bewusst nicht abgefangen: selten, und die Marke verhindert Schleifen).
- */
 export type Uhr = { jetzt: () => number; setze: (f: () => void, ms: number) => number; loesche: (id: number) => void }
 export const ECHTE_UHR: Uhr = { jetzt: () => Date.now(), setze: (f, ms) => window.setTimeout(f, ms), loesche: (id) => window.clearTimeout(id) }
 
+/**
+ * Handy-Tabs und die installierte App bleiben Stunden offen und werden nie „geladen". **Die Prüfung läuft im Verborgenen** (Daniel, 01.11.2026):
+ * Ist der Tab `PAUSE_MS` verborgen, wird geprüft und bei neuer Fassung gleich dort neu geladen — der Besucher sieht beim Zurückkommen nur die fertige Seite.
+ * Rückfall (Tab war eingefroren, kein Timer lief): Kommt jemand nach ≥ `PAUSE_MS` zurück, wird dann geprüft; die Lesestelle bleibt erhalten (`lesestelle.ts`).
+ * Zusagen (Test `pipeline/check-aktualisierung-verborgen.ts`): Timer nur beim Verbergen, bei Rückkehr davor gelöscht, nur wenn noch verborgen; Rückkehr nach Pause prüft einmal.
+ */
 export function pruefeNachPause(doc: Pick<Document, 'hidden' | 'addEventListener'>, pruefeJetzt: () => void, uhr: Uhr = ECHTE_UHR): void {
   let verborgenSeit = 0
+  let timer: number | undefined
+  const stoppe = () => {
+    if (timer !== undefined) uhr.loesche(timer)
+    timer = undefined
+  }
   doc.addEventListener('visibilitychange', () => {
-    if (doc.hidden) verborgenSeit = uhr.jetzt()
-    else if (verborgenSeit && uhr.jetzt() - verborgenSeit >= PAUSE_MS) pruefeJetzt()
+    stoppe()
+    if (doc.hidden) {
+      verborgenSeit = uhr.jetzt()
+      timer = uhr.setze(() => {
+        timer = undefined
+        if (doc.hidden) pruefeJetzt()
+      }, PAUSE_MS)
+    } else if (verborgenSeit && uhr.jetzt() - verborgenSeit >= PAUSE_MS) pruefeJetzt()
   })
 }
 

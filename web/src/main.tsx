@@ -7,6 +7,7 @@ import { kennungUmzug } from './lib/kennung-umzug.ts'
 import { akUmleitung } from './lib/ak-umleitung.ts'
 import { TippzieleSchalter } from './components/tippziele.tsx'
 import { pruefeVersionBeimLaden } from './lib/aktualisierung.ts'
+import { starteWiederherstellungImBrowser } from './lib/lesestelle.ts'
 import './styles.css'
 
 // Theme-Wahl vor dem ersten Rendern anwenden, damit es nicht kurz aufblitzt.
@@ -32,6 +33,7 @@ void kennungUmzug().then(akUmleitung).then(() => {
       <TippzieleSchalter />
     </StrictMode>,
   )
+  starteWiederherstellungImBrowser()
   ladeschirmEntfernen()
 })
 
