@@ -378,13 +378,16 @@ jobs:
       # Check-Stand des Kopfes (18.10.2026, PR 1510: „ok“ bei roter Kette): Der Prüfer urteilt nach 1–2 min, die
       # PR-Prüfkette braucht 4–5. Darum wartet dieser Schritt nach dem Urteil (kein zweiter Prüfer-Lauf, kein
       # workflow_run, der bei jeder Wiederholung der Kette erneut Kontingent kostet), bis die Pflicht-Checks des
-      # Rulesets grün sind, einer rot ist oder 12 min um sind. `!cancelled()`: ein überholter Lauf wartet nicht.
+      # Rulesets grün sind, einer rot ist oder 2 min um sind. `!cancelled()`: ein überholter Lauf wartet nicht.
+      # 2 statt 12 min (31.10.2026): seit „Kettenlog bereitlegen“ (13 min) ist die Kette beim Urteil meist fertig; 1,5 + 13 +
+      # 13 (Prüfer) + 12 hätten das Job-Timeout (30 min) gerissen, ohne Timeout-Reserve entfällt die Freigabe ganz
+      # (Budget-Test: tools/pr-pruefer-eingabe.test.mjs).
       - name: Check-Stand des Kopfes
         id: checks
         if: ${{ !cancelled() }}
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: node tools/pr-checks-stand.mjs "$HEAD_SHA" 720 >> "$GITHUB_OUTPUT"
+        run: node tools/pr-checks-stand.mjs "$HEAD_SHA" 120 >> "$GITHUB_OUTPUT"
 
       # „ok“ ohne Zusatz nur bei grünem Check-Stand; sonst „ok, Checks rot: …“ bzw. „ok, Checks laufen noch: …“. Die
       # Freigabe bleibt: das Ruleset sperrt den Merge ohnehin, bis die PR-Prüfkette grün ist, und eine grüne
