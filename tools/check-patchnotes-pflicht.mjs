@@ -32,16 +32,16 @@ const VERTAGUNG_IM_GRUND =
 
 // „keine“ gilt nur mit einer Klasse am Anfang des Grundes (Umbau, Test, Werkzeug, CI, Doku, Erweiterung, intern). „Daten“ steht absichtlich nicht
 // darin: Datenkorrekturen ändern, was Besucher sehen (Anlass: 31 von 100 „keine“-PRs seit 29.10.2026 waren Daten/Bau mit möglicher Wirkung).
-const GRUND_KLASSE = /^(rein\w*\s+)?(umbau|refactor\w*|test\w*|werkzeug\w*|ci|doku\w*|erweiterung\w*|intern\w*)\b/i
+const GRUND_KLASSE = /^(rein\w*\s+)?(umbau|refactor\w*|tests?|testfäll?e?|werkzeug\w*|ci|doku\w*|erweiterung\w*|intern\w*)\b/i
 // Titel `fix(prime)`, `feat(data)` …: die Zeile muss die gemessene Wirkung nennen („0 Titel“, „0 Termine“ …), nicht „kein sichtbarer Unterschied“.
-const DATEN_TITEL = /^\w+\((prime|data)\)/i
+const DATEN_TITEL = /^(fix|feat)\((prime|data)\)/i
 const NULL_WIRKUNG = /\b0 (Titel|Termine|Meldungen|Wege|Zeilen)\b/i
 
 /** Meldung, wenn die „keine“-Zeile ihren Grund nicht aus der festen Liste nimmt (oder bei Daten-Titeln die Wirkung nicht misst); sonst `null`. */
-function grundFehler(beschreibung, titel) {
+function grundFehler(beschreibung, titel, sichtbar) {
   const grund = KEINE_ZEILE.exec(beschreibung)?.[1]
   if (grund === undefined) return null
-  if (!GRUND_KLASSE.test(grund.trim())) {
+  if (sichtbar && !GRUND_KLASSE.test(grund.trim())) {
     return (
       `Der Grund der Zeile „Patch Notes: keine“ beginnt mit keiner Klasse: „${grund.slice(0, 60)}“.\n` +
       '  Erlaubt am Anfang: Umbau, Test, Werkzeug, CI, Doku, Erweiterung, intern. Ändert der PR Daten oder Anzeige, die Besucher sehen,\n' +
@@ -84,9 +84,9 @@ export function bewerte({ dateien, neu, beschreibung, zweig = '', vorrat = [], t
   if (AUSGENOMMENE_ZWEIGE.test(zweig)) return { ok: true, grund: `Zweig ${zweig} (Daten-/Sammlerlauf) ausgenommen` }
   const vertagung = vertagungOhneVorrat(beschreibung, vorrat)
   if (vertagung) return { ok: false, grund: vertagung }
-  const fehlerGrund = neu.length || vorrat.length ? null : grundFehler(beschreibung, titel)
-  if (fehlerGrund) return { ok: false, grund: fehlerGrund }
   const sichtbar = dateien.filter((f) => SICHTBAR.test(f))
+  const fehlerGrund = neu.length || vorrat.length ? null : grundFehler(beschreibung, titel, sichtbar.length > 0)
+  if (fehlerGrund) return { ok: false, grund: fehlerGrund }
   if (!sichtbar.length) return { ok: true, grund: vorrat.length ? `Vorrat: ${vorrat.join(' | ')}` : 'keine sichtbare Änderung' }
   if (neu.length) return { ok: true, grund: `neuer Eintrag: ${neu.join(' | ')}` }
   if (vorrat.length && VERTAGT_ZEILE.test(beschreibung)) return { ok: true, grund: `vertagt, Entwurf im Vorrat: ${vorrat.join(' | ')}` }
@@ -129,6 +129,29 @@ function vertagungsFaelle(web) {
   ]
 }
 
+// Echte Zeilen und Titel gemergter PRs (gh pr list, merged:>=2026-10-29, Stand 01.11.2026) gegen die Grundliste.
+function grundFaelle(web) {
+  const keine = (g) => `Patch Notes: keine – ${g}`
+  const daten = ['data/curated/x.yaml']
+  const pipeline = ['pipeline/x.ts']
+  return [
+    ['2332 sichtbar, Grund ohne Klasse ist rot', { dateien: web, neu: [], beschreibung: keine('Fehler bestand nur Stunden seit dem Ecchi-Merge (Dirigent, 29.10.).') }, false],
+    ['2419 sichtbar, Grund ohne Klasse ist rot', { dateien: web, neu: [], beschreibung: keine('seltener Randfall nach Rückkehr, kein neues Verhalten') }, false],
+    ['2428 Daten sichtbar, Grund ohne Klasse ist rot', { dateien: daten, neu: [], beschreibung: keine('reine Datenkorrektur (`data/…`), keine neue Anzeige.') }, false],
+    ['Klasse Umbau am Anfang ist grün', { dateien: web, neu: [], beschreibung: keine('Umbau, Ausgabe gleich (bau-vergleich)') }, true],
+    ['Klasse „reiner Umbau“ ist grün', { dateien: web, neu: [], beschreibung: keine('reiner Umbau ohne Wirkung') }, true],
+    ['Klasse CI ist grün', { dateien: web, neu: [], beschreibung: keine('CI-Wächter') }, true],
+    ['Klasse nicht am Anfang zählt nicht', { dateien: web, neu: [], beschreibung: keine('Datenkorrektur, nur ein Test dabei') }, false],
+    ['Klasse ist ein ganzes Wort', { dateien: web, neu: [], beschreibung: keine('Testament der Anzeige') }, false],
+    ['ohne sichtbare Dateien braucht der Grund keine Klasse', { dateien: pipeline, neu: [], beschreibung: keine('Pipeline-Korrektur') }, true],
+    ['fix(prime) mit „kein sichtbarer Unterschied“ ist rot', { dateien: pipeline, neu: [], beschreibung: keine('Test: kein sichtbarer Unterschied'), titel: 'fix(prime): fünf Fremdzuordnungen sperren' }, false],
+    ['fix(data) mit gemessener Null-Wirkung ist grün', { dateien: pipeline, neu: [], beschreibung: keine('Umbau, 0 Titel ändern sich (bau-vergleich)'), titel: 'fix(data): Liste zusammenlegen' }, true],
+    ['feat(prime) wird wie fix(prime) behandelt', { dateien: pipeline, neu: [], beschreibung: keine('Werkzeug ohne Wirkung'), titel: 'feat(prime): Wächter für Seiten' }, false],
+    ['docs(prime) ist kein Daten-Titel', { dateien: pipeline, neu: [], beschreibung: keine('Doku, nichts Sichtbares'), titel: 'docs(prime): CI-Abruf' }, true],
+    ['neuer Eintrag ersetzt die Grundprüfung', { dateien: web, neu: ['A'], beschreibung: keine('egal'), titel: 'fix(prime): x' }, true],
+  ]
+}
+
 function gegenproben() {
   const web = ['web/src/App.tsx']
   const fall = [
@@ -154,6 +177,7 @@ function gegenproben() {
   const vorratStatus = `${status}A\tdata/patchnotes/vorrat/v.yaml\nM\tdata/patchnotes/vorrat/m.yaml\nA\tdata/patchnotes/vorrat/t/x.yaml\n`
   fall.push(['neueVorratEintraege: nur neu angelegte Dateien im Unterordner', null, neueVorratEintraege(vorratStatus).join() === 'data/patchnotes/vorrat/v.yaml'])
   fall.push(...vertagungsFaelle(web))
+  fall.push(...grundFaelle(web))
   // Ohne Eingabe steht in der dritten Spalte schon das Ergebnis der Probe (Wahrheitswert).
   const ergebnis = (eingabe, erwartet) => (eingabe ? bewerte(eingabe).ok === erwartet : erwartet)
   const fehler = fall.filter(([, eingabe, erwartet]) => !ergebnis(eingabe, erwartet))
