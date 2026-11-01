@@ -2,7 +2,8 @@
 /**
  * Sperrklinke: `pipeline/check-logic.ts` liest Quelltext (Zusicherungen per `includes`/Regex auf den Text einer .ts/.js/.mjs-Datei).
  * Jede solche Lesung ist ein Kandidat für einen Laufzeittest; ihre Zahl darf nur sinken.
- * Gezählt werden Zeilen mit `readFileSync(… .ts|.js|.mjs'`/`"` (dasselbe Maß wie `grep -cE`). Wer eine Lesung durch einen Laufzeittest ersetzt,
+ * Gezählt wird jeder Aufruf `readFileSync(… .ts|.tsx|.js|.mjs'`/`"`/`` ` `` über den ganzen Text, auch wenn der Pfad in der Folgezeile steht
+ * (Prettier bricht lange Aufrufe um). Pfade aus Variablen sieht sie nicht. Wer eine Lesung durch einen Laufzeittest ersetzt,
  * senkt `grenze` in `tools/quelltext-lesungen-grenze.json` von Hand auf den neuen Stand; erhöht wird sie nie.
  *
  * Aufruf: node tools/quelltext-lesungen.mjs [--datei <check-logic.ts>] [--grenzen <json>]   (Exit 1: über der Grenze oder Datei unlesbar)
@@ -12,11 +13,11 @@ import { join, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 
 const WURZEL = resolve(import.meta.dirname, '..')
-const LESUNG = /readFileSync\(.*\.(ts|js|mjs)['"]/
+const LESUNG = /readFileSync\(\s*[^)]*?\.(?:tsx?|m?js)['"`]/g
 
-/** Zeilennummern der Quelltext-Lesungen im Text. */
+/** Zeilennummern der Quelltext-Lesungen im Text (je Aufruf eine, Zeile des `readFileSync(`). */
 export function lesungen(text) {
-  return text.split('\n').flatMap((zeile, i) => (LESUNG.test(zeile) ? [i + 1] : []))
+  return [...text.matchAll(LESUNG)].map((m) => text.slice(0, m.index).split('\n').length)
 }
 
 function argument(name, vorgabe) {

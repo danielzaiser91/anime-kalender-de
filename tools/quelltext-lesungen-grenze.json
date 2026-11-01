@@ -1,4 +1,4 @@
 {
-  "_hinweis": "Höchstzahl der Quelltext-Lesungen in pipeline/check-logic.ts (tools/quelltext-lesungen.mjs). Nur senken, nie erhöhen. Stand 01.11.2026: 27 vor PR 2613, 25 danach, 21 mit diesem PR.",
-  "grenze": 21
+  "_hinweis": "Höchstzahl der Quelltext-Lesungen in pipeline/check-logic.ts (tools/quelltext-lesungen.mjs). Nur senken, nie erhöhen. Stand 01.11.2026: 27 vor PR 2613, 25 danach, 21 mit diesem PR (zeilenweise, nur .ts/.js/.mjs); seit Prüfer R1 über den ganzen Text samt .tsx und Vorlagen-Pfaden gezählt: 32 (+2 mehrzeilig, +9 .tsx) — neuer Ausgangsstand, keine neue Lesung.",
+  "grenze": 32
 }

@@ -28,6 +28,9 @@ const grenze = (n) => JSON.stringify({ grenze: n })
 
 try {
   assert.deepEqual(lesungen(eine + fremd + zweite), [1, 4], 'nur Quelltext-Endungen zählen, mit Zeilennummer')
+  assert.deepEqual(lesungen("x\nconst q = readFileSync(\n  'pipeline/lang.ts',\n  'utf8',\n)\n"), [2], 'mehrzeiliger Aufruf zählt (Pfad in der Folgezeile)')
+  assert.deepEqual(lesungen("const k = readFileSync('web/src/K.tsx', 'utf8')\nconst v = readFileSync(`web/${p}.ts`, 'utf8')\n"), [1, 2], '.tsx und Vorlagen-Pfad zählen')
+  assert.deepEqual(lesungen("readFileSync('a.ts'), readFileSync('b.ts')\n"), [1, 1], 'zwei Aufrufe in einer Zeile zählen doppelt')
 
   const gleich = lauf(eine + zweite + fremd, grenze(2))
   assert.equal(gleich.status, 0, 'genau die Grenze ist grün')
