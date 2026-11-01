@@ -69,6 +69,9 @@ pruefe('belegtes Nein (dub: false) ist auch ein Beleg', waehle([titel(900007, 'M
 pruefe('Adressbeleg ohne Urteil macht nicht belegt', waehle([titel(900008, 'MOVIE', [nf('900108')])], [{ anilistId: 900008, platform: 'netflix', checkedAt: '2026-09-01', url: url('900108') } as DubCheck]).join() === '900008')
 pruefe('Beleg einer anderen Plattform macht nicht belegt', waehle([titel(900009, 'MOVIE', [nf('900109')])], [beleg(900009, '2026-09-01', true, 'primevideo')]).join() === '900009')
 pruefe('Beleg eines anderen Titels macht nicht belegt', waehle([titel(900010, 'MOVIE', [nf('900110')])], [beleg(900011, '2026-09-01')]).join() === '900010')
+pruefe('Netflix-Adresse an einem Weg einer anderen Plattform zählt nicht', waehle([titel(900015, 'MOVIE', [{ platform: 'disneyplus', url: url('900115') }])]).length === 0)
+pruefe('mehrere Belege: der jüngste entscheidet (neuer als die Wiedervorlage)', waehle([titel(900016, 'MOVIE', [nf('900116')])], [beleg(900016, '2026-11-01'), beleg(900016, '2026-09-29')], [{ anilistId: 900016, platform: 'netflix', seit: '2026-10-25' }]).length === 0)
+pruefe('mehrere Belege: der jüngste entscheidet (älter als die Wiedervorlage)', waehle([titel(900016, 'MOVIE', [nf('900116')])], [beleg(900016, '2026-09-29'), beleg(900016, '2026-10-01')], [{ anilistId: 900016, platform: 'netflix', seit: '2026-10-25' }]).join() === '900016')
 const erneut = [{ anilistId: 900012, platform: 'netflix', seit: '2026-10-25' }]
 pruefe('Wiedervorlage nach dem Beleg: wieder offen', waehle([titel(900012, 'MOVIE', [nf('900112')])], [beleg(900012, '2026-09-29')], erneut).join() === '900012')
 pruefe('Beleg am Tag der Wiedervorlage erledigt sie', waehle([titel(900012, 'MOVIE', [nf('900112')])], [beleg(900012, '2026-10-25')], erneut).length === 0)
@@ -121,6 +124,8 @@ const a5 = await lauf(3, (_u, i) => (i === 0 ? { status: 429, text: '' } : { sta
 pruefe('429 beendet den Lauf, nichts wird gelesen', a5.erg.gesperrt && a5.erg.gelesen === 1 && a5.erg.zeilen.length === 0 && Object.keys(a5.bestand).length === 0, a5)
 const a6 = await lauf(1, () => ({ status: 404, text: '' }))
 pruefe('404: unbekannt, nie Nein, kein Beleg; Status 404 gemerkt', a6.erg.unbekannt === 1 && a6.erg.nein === 0 && a6.erg.zeilen.length === 0 && a6.bestand[url('900300')]?.status === 404, a6)
+const a6b = await lauf(1, () => ({ status: 404, text: JA }))
+pruefe('404 mit Seitentext wird nicht gelesen (nur 200 zählt)', a6b.erg.unbekannt === 1 && a6b.erg.ja === 0 && a6b.erg.zeilen.length === 0, a6b)
 const a7 = await lauf(2, (_u, i) => (i === 0 ? 'wirft' : { status: 200, text: JA }))
 pruefe('Netzfehler: unbekannt, Lauf geht weiter; Status „fehler“ statt 0', a7.erg.unbekannt === 1 && a7.erg.ja === 1 && a7.bestand[url('900300')]?.status === 'fehler' && a7.bestand[url('900300')]?.audio === 'unbekannt', a7)
 const a8 = await lauf(1, () => ({ status: 200, text: '<html>Anmeldung</html>' }))

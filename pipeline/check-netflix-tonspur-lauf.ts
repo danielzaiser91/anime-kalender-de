@@ -34,7 +34,7 @@ interface Lauf {
 }
 
 /** Ein oder mehrere Läufe in derselben Kulisse; liefert den Zustand nach dem letzten. */
-function laufe(antworten: Antworten, anzahl: number): Lauf {
+function laufe(antworten: Antworten, anzahl: number, erneutText = "- { anilistId: 900003, platform: netflix, seit: '2026-10-25', grund: 'Kulisse' }\n"): Lauf {
   const tmp = mkdtempSync(join(process.argv[2] ?? tmpdir(), 'check-netflix-tonspur-'))
   try {
     mkdirSync(join(tmp, 'public/data'), { recursive: true })
@@ -52,7 +52,7 @@ function laufe(antworten: Antworten, anzahl: number): Lauf {
       `# Kulisse\n- anilistId: 900099\n  platform: primevideo\n  url: https://www.amazon.de/dp/B0KULISSE1\n  dub: true\n  checkedAt: '2026-09-01'\n${altBeleg(900003, '900303')}${altBeleg(900004, '900304')}`,
     )
     /* 900003 steht auf der Wiedervorlage (jünger als sein Beleg), 900004 nicht. */
-    writeFileSync(join(tmp, 'data/erneut-melden.yaml'), "- { anilistId: 900003, platform: netflix, seit: '2026-10-25', grund: 'Kulisse' }\n")
+    writeFileSync(join(tmp, 'data/erneut-melden.yaml'), erneutText)
     const anfragen = join(tmp, 'anfragen.txt')
     appendFileSync(anfragen, '')
     const stub = join(tmp, 'fetch-stub.mjs')
@@ -79,7 +79,7 @@ globalThis.fetch = async (url) => {
     }
     return {
       status: r.status,
-      ausgabe: `${r.stdout}${r.stderr}`.slice(-600),
+      ausgabe: `${r.stdout}${r.stderr}`.slice(-4000),
       gefragt: readFileSync(anfragen, 'utf8').split('\n').filter(Boolean),
       dub: readFileSync(join(tmp, 'data/dub-confirmed.yaml'), 'utf8'),
       bestand: JSON.parse(readFileSync(join(tmp, 'data/link-check.json'), 'utf8')),
@@ -119,6 +119,12 @@ const leerSeite: Antworten = { ...statusSeiten, [de('900301')]: [200, '<html>Anm
 const leer = laufe(leerSeite, 2)
 pruefe('Seite ohne Audio-Zeile: Befund unbekannt, kein Beleg', leer.status === 0 && leer.bestand[nf('900301')]?.audio === 'unbekannt' && !leer.dub.includes('anilistId: 900001'), leer)
 pruefe('unbekannt gilt eine Woche: der zweite Lauf am selben Tag liest nicht noch einmal', leer.gefragt.filter((a) => a === de('900301')).length === 1, leer.gefragt)
+
+/* Ein Fehler im Nachlauf (hier: kaputte Prüfliste) darf die Linkprüfung nicht scheitern lassen: Exit 0, Befunde geschrieben, Grund im Log. */
+const kaputt = laufe(statusSeiten, 1, '- { anilistId: \n')
+pruefe('kaputte Prüfliste: Lauf endet trotzdem mit 0', kaputt.status === 0, kaputt.ausgabe)
+pruefe('kaputte Prüfliste: Linkbefund der Prüfung steht', kaputt.bestand[nf('900301')]?.status === 200, kaputt.bestand)
+pruefe('kaputte Prüfliste: das Log nennt den Grund', /Tonspur\) übersprungen/.test(kaputt.ausgabe), kaputt.ausgabe)
 
 if (fehler.length) {
   console.error(`check-netflix-tonspur-lauf: ${fehler.length} von ${faelle} Fällen falsch:\n- ${fehler.join('\n- ')}`)
