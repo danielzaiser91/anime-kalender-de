@@ -196,6 +196,7 @@ pipeline/check-handbeleg-fremde-adresse.ts
 pipeline/check-handbeleg-serienton.ts
 pipeline/check-handbeleg-staffelzaehlung.ts
 pipeline/check-handbeleg-weg.ts
+pipeline/check-handbelege-anbieter-zaehlung-lauf.ts
 pipeline/check-handlung-eigen-hinweis.ts
 pipeline/check-handlung-eigen.ts
 pipeline/check-herkunft-je-folge.ts
