@@ -40,8 +40,9 @@ function lauf(name, liste, testText = 'export const x = 1\n', erlaubt = 0, opt =
   if (opt.readme) writeFileSync(join(arbeit, 'README.md'), opt.readme)
   git(arbeit, 'add', '.')
   git(arbeit, 'commit', '-q', '-m', 'liste')
-  const text = `tools/check-logic-liste.txt und tools/zeit.test.mjs neu (Prüfung der Liste). Patch Notes: keine – Technik${opt.zusatz ?? ''}`
-  const r = spawnSync(process.execPath, [SKRIPT, '--titel', 't', '--text', text], { cwd: arbeit, encoding: 'utf8' })
+  const text = `tools/check-logic-liste.txt und tools/zeit.test.mjs neu (Prüfung der Liste).
+Patch Notes: keine – Technik${opt.zusatz ?? ''}`
+  const r = spawnSync(process.execPath, [SKRIPT, '--titel', opt.titel ?? 't', '--text', text], { cwd: arbeit, encoding: 'utf8' })
   return { status: r.status, text: `${r.stdout}\n${r.stderr}` }
 }
 
@@ -64,7 +65,10 @@ try {
   assert.match(verschluckt.text, /Leerraum-Änderung README\.md:2 /, 'Meldung nennt Datei und Zeile')
   const absicht = lauf('absicht', SORTIERT, undefined, 0, { readme: 'k\nab\n', zusatz: ' README.md\nLeerraum: absichtlich – Probe' })
   assert.equal(absicht.status, 0, `Zeile „Leerraum: absichtlich“ lässt den Diff durch: ${absicht.text}`)
-  console.log('pr-vorpruefung-lauf.test: ok (unsortiert rot, sortiert grün, Uhr über Grenze rot, an Grenze grün, Leerraum rot, Ausweg grün)')
+  const datenTitel = lauf('daten', SORTIERT, undefined, 0, { titel: 'fix(prime): fünf Fremdzuordnungen sperren' })
+  assert.equal(datenTitel.status, 1, 'Daten-Titel mit „keine“ ohne gemessene Wirkung macht die Vorprüfung rot')
+  assert.match(datenTitel.text, /gemessene Wirkung/, 'Meldung nennt die Titelregel')
+  console.log('pr-vorpruefung-lauf.test: ok (unsortiert rot, sortiert grün, Uhr über Grenze rot, an Grenze grün, Leerraum rot, Ausweg grün, Daten-Titel rot)')
 } finally {
   rmSync(wurzel, { recursive: true, force: true })
 }
