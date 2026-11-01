@@ -66,6 +66,7 @@ on:
   workflow_dispatch:
 
 permissions:
+  actions: read
   contents: write
   issues: write
 
@@ -415,6 +416,25 @@ jobs:
             !data/cache/quittung-frei
           retention-days: 7
           if-no-files-found: ignore
+
+      # Rot durch einen schon gepushten Sammler-Commit (31.10.2026: 12 h): `bau_lauf_zuruecknehmen` nimmt nur die Ausgabe dieses Laufs
+      # zurück, nie einen Commit auf main. Hier gehen die Dateien der Sammler-Commits seit dem letzten grünen Bau auf deren Stand
+      # zurück; wird der Bau damit grün, kommt das als eigener Commit nach main, sonst bleibt alles wie es war. Der Lauf bleibt rot.
+      - name: Sammler-Stand seit dem letzten grünen Bau zurücknehmen
+        if: failure()
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+          SITE_URL: ${{ vars.SITE_URL }}
+        run: |
+          basis="$(bash tools/sammler-basis.sh)"
+          git fetch --no-tags --depth=400 origin main
+          if [ -z "$basis" ] || ! git cat-file -e "$basis^{commit}"; then
+            echo "::warning::Letzter grüner Bau ($basis) nicht erreichbar, keine Sammler-Zurücknahme."
+            exit 0
+          fi
+          node tools/sammler-zuruecknehmen.mjs --basis "$basis"
 
       - name: Lauf abmelden
         continue-on-error: true
