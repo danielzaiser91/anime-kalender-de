@@ -860,6 +860,13 @@ Daniel, Fall YAIBA: „Quellen 2" mit zwei gleich beschrifteten anime2you.de-Rei
 - **Oberfläche:** teilen sich zwei Reiter den Namen, heißen sie „anime2you.de · Artikel 09.10." (`tabName` in `beleg-dialog.tsx`).
 - `NewsMeldung.quelle` (die erste Quelle; der Newsletter verlinkt sie) rückt, wenn ihr Beleg entfällt, auf den behaltenen Beleg desselben Anbieters und Typs (Stärke vor Herkunft: sonst bliebe zu oft der Nebensatz-Artikel; 32 Meldungen, gemessen am 10.10.2026 auf dem main-`news.json`). Sieben Meldungen führen schon vor der Entdoppelung eine Quelle, die nicht unter den Belegen steht (Katalogseite statt Artikel/Kalender); die bleiben unberührt. Belegstärke (`dubConfidence`) hängt nicht an den Belegen der Meldung und ändert sich nicht.
 
+## Netflix-Staffelzählung im Handbeleg (01.11.2026)
+
+Beyblade X zeigte bei Netflix "Fg. 2–48": der Handbeleg trug die Nummern der Netflix-Staffel 2 (49 Folgen) als unsere; richtig sind 53–99 (Netflix S2 F1 = unsere Folge 52, Daniel, fernsehserien.de). Ursache: `anbieter-staffeln.json` führt dort nur Staffel 2, und `ordneNachStaffelliste` legte die Liste Position gegen Position auf unseren einzigen Titel. Gemessen am 01.11.2026: zehn von 365 Listen beginnen nicht bei Staffel 1 (Beyblade X und neun Cartoons), 13 Handbeleg-Zeilen daran.
+- **Regel:** `ordneNachStaffelliste` ordnet nichts zu, wenn die Liste nicht bei Staffel 1 beginnt (die Vorstaffeln sind unbekannt). `check:handbelege` ist rot, wenn ein Netflix-Bereich an so einer Liste in der `note` nicht den Vermerk "Umrechnung:" trägt (`lib/handbeleg-anbieter-zaehlung.ts`).
+- **Umrechnen nur mit Beleg:** Netflix-Folgenzahl der Staffel = JustWatch-Staffel gleicher Nummer (`cartoons.json` `staffeln`), Versatz = Summe der Vorstaffeln dort. Sonst fällt der Bereich weg (`dub: true` bleibt als Aussage über die Adresse).
+- **Nicht umgerechnet** (Lücke): Meldungen mit Staffelnummer an Listen ab Staffel 2 landen nirgends; die Zuordnung über die Staffelsumme ist F100.
+
 ## Dasselbe Werk ohne MAL: Dubletten Stufe 1 (10.10.2026)
 
 Daniel: „Fokus auf keine doppelten Einträge mehr; Titel mit fehlenden Infos im Blick behalten und regelmäßig befüllen." Anlass: „Yomi no Tsugai Dai 2 Ki" (aniSearch 21973, keine MAL) neben „Yomi no Tsugai 2nd Season" (AniList 217013). `gleichesWerk` brauchte die MAL. Bericht: `daniel-zum-abarbeiten/berichte/dubletten-und-luecken.md`.
