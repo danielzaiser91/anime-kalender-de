@@ -46,6 +46,7 @@ try {
       [dp('B0VERWEIS')]: { status: 404, geprueftAm: '2026-09-20' },
       [dp('B0VERWEISALT')]: { status: 404, geprueftAm: '2026-09-20' },
       [dp('B0LAHM')]: { status: 'timeout', geprueftAm: '2026-09-20' },
+      [dp('B0VERWEISGLEICH')]: { status: 404, geprueftAm: '2026-09-20' },
       [dp('B0REGIONNONE')]: { status: 'region', geprueftAm: '2026-09-20' },
     }),
   )
@@ -62,6 +63,7 @@ try {
     [8, 'B0VERWEISALT'],
     [9, 'B0LAHM'],
     [10, 'B0REGIONNONE'],
+    [11, 'B0VERWEISGLEICH'],
   ]
   const hand = new Map<number, Title>(
     handFaelle.map(([id, asin]) => [id, { id, streams: [{ platform: 'primevideo', url: dp(asin) }] } as unknown as Title]),
@@ -85,6 +87,7 @@ try {
     vonHandBelegtAm: new Map([
       [adressKern(dp('B0VERWEIS')), '2026-09-22'],
       [adressKern(dp('B0VERWEISALT')), '2026-09-18'],
+      [adressKern(dp('B0VERWEISGLEICH')), '2026-09-20'],
     ]),
     checks: new Map(),
     vorherTitles: [],
@@ -100,6 +103,7 @@ try {
   erwarte('404, von Hand bestätigter Weg älter: der Weg fällt weg', bleibt(8), false)
   erwarte('Zeitüberschreitung ist kein Grund zu entfernen', bleibt(9), true)
   erwarte('region ohne Handprüfung: der Weg fällt weg', bleibt(10), false)
+  erwarte('404, von Hand bestätigter Weg am selben Tag: der Weg fällt weg', bleibt(11), false)
   erwarte('nur die Video-Adresse gemessen: die dp-Adresse findet den Befund', linkBefunde[dp('B0NURVIDEO')]?.status, 'region')
   erwarte('… und die Video-Adresse selbst ebenso', linkBefunde[video('B0NURVIDEO')]?.status, 'region')
   erwarte('beide gemessen, Video jünger: die dp-Adresse sieht den jüngeren Befund', linkBefunde[dp('B0JUENGERV')]?.status, 'region')
