@@ -7,6 +7,7 @@ import { brichAbBeiWiderspruch } from '../lib/bau-widerspruch.ts'
 import { cartoonsAusReleases } from './cartoon-kern.ts'
 import { auslieferungsInvarianten } from './auslieferung-pruefen.ts'
 import { deutschNurAusSpracheTermin, releasesAusNurOriginalton } from '../lib/pruefung.ts'
+import { handJaSchluessel, ladeHandbelege } from '../lib/dub-confirmed.ts'
 import { autoReleaseWidersprueche } from '../lib/auto-release-pruefung.ts'
 import { vorschlaegeAusAllenSammelartikeln } from '../lib/sammelartikel.ts'
 import { baueNews, type NewsHistorie } from '../lib/news.ts'
@@ -49,7 +50,7 @@ export function schreibeKernUndNews({ releases, events, titles, meta, bekannteSe
   */
   bruecheBeiWiderspruchAb(pruefeInvarianten(releases, events, titles))
   bruecheBeiWiderspruchAb({ fehler: [...auslieferungsInvarianten(releases), ...releasesAusNurOriginalton(releases, nurOriginaltonAdressen()), ...autoReleaseFehler(releases)], warnungen: [] })
-  bruecheBeiWiderspruchAb({ fehler: deutschNurAusSpracheTermin(releases, titles), warnungen: [] })
+  bruecheBeiWiderspruchAb({ fehler: deutschNurAusSpracheTermin(releases, titles, handJaSchluessel(ladeHandbelege())), warnungen: [] })
   schreibeReleasesJson(releases, `${OUT}/releases.json`, writeJson)
   writeJson(`${OUT}/events.json`, events)
 
