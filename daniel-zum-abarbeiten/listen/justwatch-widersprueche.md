@@ -645,7 +645,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | I May Be a Guild Receptionist, but I’ll Solo Any Boss to Clock Out on Time (167143) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.63237988-633d-4826-8cd0-fe6d93e3888f | nein |
 | Sentenced to Be a Hero (167152) | Crunchyroll | crunchyroll:GE00356811ITIT | nein |
 | Sentenced to Be a Hero (167152) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.3bfcc30d-163b-4afd-b185-86940d5cc139 | nein |
-| I’ll Become a Villainess Who Goes Down in History (168139) | Crunchyroll | crunchyroll:G0DUMGPNN | nein |
+| I’ll Become a Villainess Who Goes Down in History (168139) | Crunchyroll | crunchyroll:GG1UXW92V | nein |
 | I’ll Become a Villainess Who Goes Down in History (168139) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.702dd44b-54d8-45bd-9bed-c3381a87898a | nein |
 | Dungeon People (168345) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.4158d4ca-afed-48fa-a85e-a055a7d57409 | ja |
 | Fist of the North Star: Hokuto No Ken (169228) | Amazon Prime Video | amazon:amzn1.dv.gti.d1393f28-73de-40bb-a1e3-45f3212cee27 | ja |
@@ -697,7 +697,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | May I Ask for One Final Thing? (181447) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.26996afa-102d-46d0-8778-b4fcf61904bb | nein |
 | Dark Moon: The Blood Altar (181443) | Crunchyroll | crunchyroll:GE00366126DEDE | nein |
 | Dark Moon: The Blood Altar (181443) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.233082bf-86cf-4248-a368-093ace5947b0 | nein |
-| Miss Kobayashi’s Dragon Maid: Ein einsamer Drache sehnt sich nach Liebe (181839) | Crunchyroll | crunchyroll:GMEE00351664FRFR | nein |
+| Miss Kobayashi’s Dragon Maid: Ein einsamer Drache sehnt sich nach Liebe (181839) | Crunchyroll | crunchyroll:GMEE00351664ENUS | nein |
 | Miss Kobayashi’s Dragon Maid: Ein einsamer Drache sehnt sich nach Liebe (181839) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.1e61a3d8-44c3-4dc0-ae7c-5c655deceff5 | nein |
 | City The Animation (181841) | Amazon Prime Video | amazon:amzn1.dv.gti.8c1f778c-d940-4c50-895a-f498c55101f3 | ja |
 | The Gorilla God’s Go-To Girl (182060) | Crunchyroll | crunchyroll:GD9UEGZVN | nein |
@@ -769,7 +769,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 
 Flagge „Deutsch“: 2 Wege, nur Hinweis: 0.
 
-JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine Flagge): Mehrteiler 3, mehrere Staffeln 142.
+JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine Flagge): Mehrteiler 3, mehrere Staffeln 145.
 
 | Anbieter | mit eigener Messung | Widersprüche | Anteil | Anzeige |
 |---|---|---|---|---|
@@ -781,7 +781,7 @@ JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine
 | Titel | Anbieter | Adresse | JustWatch | Gemessen |
 |---|---|---|---|---|
 
-### Kandidaten für neue Wege (59)
+### Kandidaten für neue Wege (63)
 
 JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „Weg ohne Kennung“: ein Weg zum Anbieter steht, seine Adresse trägt aber keine Seitenkennung.
 
@@ -795,6 +795,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Golden Axe (-252105) | Paramount+ Amazon Channel | amazon:amzn1.dv.gti.6335fa18-3415-4d3f-8d82-6167f901fb06 | nein |
 | GET JIRO (-231801) | HBO Max Amazon Channel | amazon:amzn1.dv.gti.e2737ae1-60e4-4480-a874-80cd6d10a63b | nein |
 | Among Us (-229544) | Paramount+ Amazon Channel | amazon:amzn1.dv.gti.bed21e93-1731-4f36-bc9f-55d79b36bf69 | nein |
+| Dreamland (-204084) | Anime Digital Network Amazon Channel | amazon:amzn1.dv.gti.dc198008-fb60-4b85-ac73-31eda3265c40 | nein |
 | Das ist kein Karton! (-291416) | Apple TV Amazon Channel | amazon:amzn1.dv.gti.df81aa90-c9d1-493d-beeb-c35bd7438b3f | nein |
 | Riesenherz (-282727) | Apple TV Amazon Channel | amazon:amzn1.dv.gti.e5c61489-0a9b-4a19-b197-98567f928987 | nein |
 | Dino Ranch: Island Explorers (-277410) | HBO Max Amazon Channel | amazon:amzn1.dv.gti.5888d73e-4b53-47ee-8fab-32a55c74aeb9 | nein |
@@ -846,4 +847,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Gloria und Ihre Familie (-156587) | Fix And Foxi Amazon Channel | amazon:amzn1.dv.gti.ec741975-8cfc-4bb7-9e35-4bfa5dabeea6 | nein |
 | Kong: The Animated Series (-12620) | Kixi Select Amazon Channel | amazon:amzn1.dv.gti.60bbc577-3aab-6e10-f097-8500be9202bb | nein |
 | Kong: The Animated Series (-12620) | Amazon Video | amazon:amzn1.dv.gti.36b5a951-e9b9-ae0b-9a11-5530e9404a0d | nein |
+| Hippo Hurra Die Abenteuer von Klein-Hippo (-82083) | Kixi Select Amazon Channel | amazon:amzn1.dv.gti.febb424c-bbd8-84b3-f10e-aaf8fb59198c | nein |
+| Bob Morane (-24682) | Kixi Select Amazon Channel | amazon:amzn1.dv.gti.171e5657-d5ca-4db6-809d-6c6227d4399e | nein |
+| Bob Morane (-24682) | Anime Digital Network Amazon Channel | amazon:amzn1.dv.gti.8fb26eb5-ff31-473b-b40c-d46c2833ef2b | nein |
 <!-- cartoons:end -->

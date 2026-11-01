@@ -19,6 +19,7 @@ import { fremdeAdressen } from './lib/fremde-adressen.ts'
 import { entfallenZeile, ohneKennungZeile, ordneFolgenOhneFremde } from './lib/folgen-fremde-adressen.ts'
 import { abrufMitStempel } from './lib/abruf-stempel.ts'
 import { leseZugeordnet } from './lib/prime-meldung-riegel.ts'
+import { namensAnfang } from './lib/folgen-namen.ts'
 import { adressIndex, ankerAdresse, type Beobachtung, type FolgenZuordnung } from './lib/folgen-je-folge.ts'
 import { namenIndex, namensKern, titelZuordnen } from './fetch-tv-programm.ts'
 import type { AsFolgeRoh, TmdbFolge } from '../shared/folgen-zuordnung.ts'
@@ -78,18 +79,10 @@ async function main() {
     Beginnt ein Name genau einen Titel, zählt er; bei mehreren bleibt es beim Nein — die Reihe wird
     ohnehin über den Anker aufgelöst.
   */
-  const kerne = [...namen.entries()]
-  const nameZuTitel = (n: string): number | undefined => {
-    const genau = titelZuordnen(n, namen)
-    if (genau) return genau
-    const k = namensKern(n)
-    if (k.length < 6) return undefined
-    const anfang = kerne.filter(([kern]) => kern.startsWith(k))
-    const ids = new Set(anfang.map(([, id]) => id))
-    return ids.size === 1 ? [...ids][0] : undefined
-  }
   const roh = readJson<Title[] | { titles: Title[] }>('public/data/titles.json', [])
   const titel = new Map((Array.isArray(roh) ? roh : roh.titles).map((t) => [t.id, t]))
+  const kerne = [...namen.entries()]
+  const nameZuTitel = (n: string): number | undefined => titelZuordnen(n, namen) || namensAnfang(namensKern(n), kerne, titel)
   /* Frühere Zuordnungen: der heutige Einleser (je Adresse) und die Belege. */
   const frueher: [string, number][] = Object.entries(
     leseZugeordnet<{ titleId: number }>(),

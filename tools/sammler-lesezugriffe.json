@@ -1,4 +1,9 @@
 [
+  { "datei": "pipeline/check-abruf-stoerung-lauf.ts", "liest": "data/anime-ids.json", "grund": "Kulisse im Temp-Ordner (AK_ROOT): der Test legt die Datei selbst an, kein Lesen des echten Bestands" },
+  { "datei": "pipeline/check-abruf-stoerung-lauf.ts", "liest": "data/anisearch-titel.json", "grund": "Kulisse im Temp-Ordner (AK_ROOT): der Test legt die Datei selbst an, kein Lesen des echten Bestands" },
+  { "datei": "pipeline/check-abruf-stoerung-lauf.ts", "liest": "data/justwatch-audio.json", "grund": "Kulisse im Temp-Ordner (AK_ROOT): der Test legt die Datei selbst an, kein Lesen des echten Bestands" },
+  { "datei": "pipeline/check-abruf-stoerung-lauf.ts", "liest": "data/tmdb-titles.json", "grund": "Kulisse im Temp-Ordner (AK_ROOT): der Test legt die Datei selbst an, kein Lesen des echten Bestands" },
+  { "datei": "pipeline/check-abruf-stoerung-lauf.ts", "liest": "data/youtube-check.json", "grund": "Kulisse im Temp-Ordner (AK_ROOT): der Test legt die Datei selbst an, kein Lesen des echten Bestands" },
   { "datei": "pipeline/check-adn-anisearch.ts", "liest": "data/adn-catalog.json", "grund": "Invariante über die ganze Datei (Katalog gegen Liste der offenen), kein fester Schlüssel" },
   { "datei": "pipeline/check-adn-anisearch.ts", "liest": "data/adn-anisearch-offen.json", "grund": "Invariante über die ganze Datei (Katalog gegen Liste der offenen), kein fester Schlüssel" },
   { "datei": "pipeline/check-adn-anisearch.ts", "liest": "data/adn.json", "grund": "Invariante über die ganze Datei (Kalenderserien gegen Katalog und Liste der offenen), Warnung, kein fester Schlüssel" },

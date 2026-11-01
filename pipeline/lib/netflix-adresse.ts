@@ -41,9 +41,14 @@ export function netflixTitelAdresse(url: string): string {
  * Belegt ist nur, was ein Mensch auf Netflix gesehen hat:
  * - 81301833 → 81171925, Ranma ½ (2024), alle drei Staffeln (Daniel, 24.10.2026, F56). AniList führt noch die alte
  *   Kennung für Staffel 1 und 2, aniSearch für alle drei die neue.
+ * - Ghibli-Filme, Netflix antwortet mit 301 (Edge-Sichtung, eingeloggt, 01.11.2026): 81253522 → 70216227 (Arrietty),
+ *   81253489 → 60023642 (Chihiros Reise ins Zauberland), 81234986 → 70019062 (Nausicaä).
  */
 export const NETFLIX_UMGELEITET: Readonly<Record<string, string>> = {
   '81301833': '81171925',
+  '81253522': '70216227',
+  '81253489': '60023642',
+  '81234986': '70019062',
 }
 
 /**

@@ -8,58 +8,6 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:auto-15-tv-prosieben-maxx@2026-10-24#19@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261024T040000Z
-DTEND:20261024T043000Z
-SUMMARY:Eyeshield 21
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/6/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-15-tv-prosieben-maxx@2026-10-24#20@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261024T042500Z
-DTEND:20261024T045500Z
-SUMMARY:Eyeshield 21
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/6/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-15-tv-prosieben-maxx@2026-10-24#21@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261024T045000Z
-DTEND:20261024T052000Z
-SUMMARY:Eyeshield 21
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/6/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-15-tv-prosieben-maxx@2026-10-24#22@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261024T051500Z
-DTEND:20261024T054500Z
-SUMMARY:Eyeshield 21
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/6/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:das-band-der-unterwelt-netflix@2026-10-24@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261024
-DTEND;VALUE=DATE:20261025
-SUMMARY:Das Band der Unterwelt – Folge 17/24
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
- it noch nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter genannte
- r Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetails: h
- ttps://anime-kalender.de/t/16919/
-CATEGORIES:Netflix
-END:VEVENT
-BEGIN:VEVENT
 UID:you-and-i-are-polar-opposites-s2@2026-10-25@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261025T093000Z
@@ -78,16 +26,6 @@ SUMMARY:Overgeared Staffel 1 – Folge 5/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/t/17645/
 CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-189123-netflix@2026-10-25@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261025
-DTEND;VALUE=DATE:20261026
-SUMMARY:Blue Box: Staffel 2 – Folge 4/≈12
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
- it noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/16763/
-CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:psyren-crunchyroll-de-2026-10-26@2026-10-26@anime-kalender-de
@@ -489,18 +427,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-189123-netflix@2026-11-01@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261101
-DTEND;VALUE=DATE:20261102
-SUMMARY:Blue Box: Staffel 2 – Folge 5/≈12
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
- it noch nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter genannte
- r Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetails: h
- ttps://anime-kalender.de/t/16763/
-CATEGORIES:Netflix
-END:VEVENT
-BEGIN:VEVENT
 UID:psyren-crunchyroll-de-2026-10-26@2026-11-02@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261102T153000Z
@@ -840,6 +766,46 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-15-tv-prosieben-maxx@2026-11-07#27@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261107T042500Z
+DTEND:20261107T045500Z
+SUMMARY:Eyeshield 21
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/6/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-15-tv-prosieben-maxx@2026-11-07#28@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261107T045000Z
+DTEND:20261107T052000Z
+SUMMARY:Eyeshield 21
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/6/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-15-tv-prosieben-maxx@2026-11-07#29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261107T051000Z
+DTEND:20261107T054000Z
+SUMMARY:Eyeshield 21
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/6/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-15-tv-prosieben-maxx@2026-11-07#30@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261107T053500Z
+DTEND:20261107T060500Z
+SUMMARY:Eyeshield 21
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/6/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
 UID:das-band-der-unterwelt-netflix@2026-11-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261107
@@ -862,18 +828,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
  et.\nDetails: https://anime-kalender.de/t/17645/
 CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-189123-netflix@2026-11-08@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261108
-DTEND;VALUE=DATE:20261109
-SUMMARY:Blue Box: Staffel 2 – Folge 6/≈12
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
- it noch nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter genannte
- r Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetails: h
- ttps://anime-kalender.de/t/16763/
-CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:psyren-crunchyroll-de-2026-10-26@2026-11-09@anime-kalender-de
@@ -1067,18 +1021,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
  et.\nDetails: https://anime-kalender.de/t/17645/
 CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-189123-netflix@2026-11-15@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261115
-DTEND;VALUE=DATE:20261116
-SUMMARY:Blue Box: Staffel 2 – Folge 7/≈12
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
- it noch nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter genannte
- r Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetails: h
- ttps://anime-kalender.de/t/16763/
-CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:psyren-crunchyroll-de-2026-10-26@2026-11-16@anime-kalender-de
@@ -1488,18 +1430,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-189123-netflix@2026-11-22@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261122
-DTEND;VALUE=DATE:20261123
-SUMMARY:Blue Box: Staffel 2 – Folge 8/≈12
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
- it noch nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter genannte
- r Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetails: h
- ttps://anime-kalender.de/t/16763/
-CATEGORIES:Netflix
-END:VEVENT
-BEGIN:VEVENT
 UID:psyren-crunchyroll-de-2026-10-26@2026-11-23@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261123T153000Z
@@ -1671,18 +1601,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
  et.\nDetails: https://anime-kalender.de/t/17645/
 CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-189123-netflix@2026-11-29@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261129
-DTEND;VALUE=DATE:20261130
-SUMMARY:Blue Box: Staffel 2 – Folge 9/≈12
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
- it noch nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter genannte
- r Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetails: h
- ttps://anime-kalender.de/t/16763/
-CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:psyren-crunchyroll-de-2026-10-26@2026-11-30@anime-kalender-de
@@ -1890,18 +1808,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-189123-netflix@2026-12-06@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261206
-DTEND;VALUE=DATE:20261207
-SUMMARY:Blue Box: Staffel 2 – Folge 10/≈12
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
- it noch nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter genannte
- r Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetails: h
- ttps://anime-kalender.de/t/16763/
-CATEGORIES:Netflix
-END:VEVENT
-BEGIN:VEVENT
 UID:psyren-crunchyroll-de-2026-10-26@2026-12-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261207T153000Z
@@ -2036,18 +1942,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-189123-netflix@2026-12-13@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261213
-DTEND;VALUE=DATE:20261214
-SUMMARY:Blue Box: Staffel 2 – Folge 11/≈12
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
- it noch nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter genannte
- r Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetails: h
- ttps://anime-kalender.de/t/16763/
-CATEGORIES:Netflix
-END:VEVENT
-BEGIN:VEVENT
 UID:psyren-crunchyroll-de-2026-10-26@2026-12-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261214T153000Z
@@ -2150,18 +2044,6 @@ SUMMARY:Detektiv Conan – Box 1 (30th Anniversary Edition) (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-189123-netflix@2026-12-20@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261220
-DTEND;VALUE=DATE:20261221
-SUMMARY:Blue Box: Staffel 2 – Folge 12/≈12
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
- it noch nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter genannte
- r Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetails: h
- ttps://anime-kalender.de/t/16763/
-CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:psyren-crunchyroll-de-2026-10-26@2026-12-21@anime-kalender-de

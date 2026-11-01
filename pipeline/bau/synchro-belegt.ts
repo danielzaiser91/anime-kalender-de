@@ -13,7 +13,8 @@ const sichereTermine = new WeakMap<Release[], Set<number>>()
  * Ankündigung dort steht.
  */
 export function ohneBelegteSynchro(t: Title, releases: Release[]): boolean {
-  if (!(t.einzelquelle ?? t.dubConfidence === 'low') || (t.jpYear ?? 0) < 2023) return false
+  /* Ein unbekanntes Jahr ist kein altes Jahr: ein Film ohne Jahr (Crown Handler 5 und 6) ist neu genug (31.10.2026). */
+  if (!(t.einzelquelle ?? t.dubConfidence === 'low') || (t.jpYear !== undefined && t.jpYear < 2023)) return false
   if (t.streams?.some((s) => s.dub === true) || t.deErstausgabe?.synchro || t.hasVoices) return false
   let sicher = sichereTermine.get(releases)
   if (!sicher) {

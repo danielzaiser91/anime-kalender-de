@@ -400,6 +400,7 @@
           gesamt: z.tokens.size,
           offen: [...z.tokens].filter((t) => !z.geholt.has(t) || z.unlesbar.has(t)).length,
           log: z.abschnittLog,
+          unlesbar: z.unlesbar.size,
         },
         ...zusatz,
       },
@@ -444,7 +445,8 @@
 
   /** Ein Abschnitt, Antwort ausgewertet; `true`, wenn er vollständig gelesen ist. */
   async function abschnittHolen(z, token) {
-    const widgets = JSON.stringify([{ widgetType: 'EpisodeList', widgetToken: token }])
+    /* Der Token geht kodiert ins JSON wie von der Seite: Amazon dekodiert ihn ein zweites Mal, ein rohes `+` würde zum Leerzeichen. */
+    const widgets = JSON.stringify([{ widgetType: 'EpisodeList', widgetToken: encodeURIComponent(token) }])
     const adresse =
       '/gp/video/api/getDetailWidgets' +
       `?titleID=${encodeURIComponent(z.titleID)}&widgets=${encodeURIComponent(widgets)}`

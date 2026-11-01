@@ -7,6 +7,7 @@ pipeline/check-09-4-2-bloecke-laufzeit.ts
 pipeline/check-09-4-3-katalog-laufzeit.ts
 pipeline/check-09-4-4-1-katalog-wege-laufzeit.ts
 pipeline/check-abruf-stempel.ts
+pipeline/check-abruf-stoerung-lauf.ts
 pipeline/check-abstand.ts
 pipeline/check-adn-anisearch.ts
 pipeline/check-adn-film.ts
@@ -65,6 +66,7 @@ pipeline/check-beleg-fundstelle-hinweis.ts
 pipeline/check-beleg-href.ts
 pipeline/check-beleg-lauf.ts
 pipeline/check-beleg-marken.ts
+pipeline/check-beleg-sonderfolgen.ts
 pipeline/check-beleg-stoerung.ts
 pipeline/check-belege-entfernt.ts
 pipeline/check-belege-riegel-schreiben.ts
@@ -91,6 +93,7 @@ pipeline/check-cr-auftakt-wache.ts
 pipeline/check-cr-batch-phase.ts
 pipeline/check-cr-batch-wache.ts
 pipeline/check-cr-block-standardname.ts
+pipeline/check-cr-doppelt-weg.ts
 pipeline/check-cr-einzelwerk-urteil.ts
 pipeline/check-cr-film-wege.ts
 pipeline/check-cr-folgestaffel.ts
@@ -173,6 +176,7 @@ pipeline/check-folgen-fremde-adressen.ts
 pipeline/check-folgen-nummern-bau.ts
 pipeline/check-folgen-nummern-lauf.ts
 pipeline/check-folgen-nummern.ts
+pipeline/check-folgen-teile.ts
 pipeline/check-folgenblock.ts
 pipeline/check-folgenflaggen.ts
 pipeline/check-folgenzahl-belegt.ts
@@ -231,6 +235,7 @@ pipeline/check-laut-gleich.ts
 pipeline/check-leere-liste.ts
 pipeline/check-leerer-kasten.ts
 pipeline/check-leerzeichen-gleich.ts
+pipeline/check-leerzeichen-workflow.ts
 pipeline/check-leinwand-escape.ts
 pipeline/check-link-leere-adresse.ts
 pipeline/check-links-laufzeit.ts
@@ -258,6 +263,8 @@ pipeline/check-nein-wiedervorlage.ts
 pipeline/check-netflix-quellen.ts
 pipeline/check-netflix-staffel-ablauf.ts
 pipeline/check-netflix-staffeln.ts
+pipeline/check-netflix-tonspur-lauf.ts
+pipeline/check-netflix-tonspur.ts
 pipeline/check-netflix-umleitung-ablauf.ts
 pipeline/check-netflix-umleitung.ts
 pipeline/check-netflix-zweite-kennung.ts
@@ -287,6 +294,7 @@ pipeline/check-patchnotes-stempel-regel.ts
 pipeline/check-patchnotes-stempel.ts
 pipeline/check-patchnotes-titel-ablauf.ts
 pipeline/check-patchnotes-titel.ts
+pipeline/check-patchnotes-vorrat.ts
 pipeline/check-patchnotes.ts
 pipeline/check-phasen-zustand.ts
 pipeline/check-phasenfolge.ts
@@ -331,6 +339,7 @@ pipeline/check-saison-termin.ts
 pipeline/check-sammel-erste-folgen.ts
 pipeline/check-sammel-unzugeordnet.ts
 pipeline/check-sammelartikel.ts
+pipeline/check-sammeleintrag-synchro.ts
 pipeline/check-sammler-lesezugriffe-faelle.ts
 pipeline/check-sammler-lesezugriffe.ts
 pipeline/check-schwester-shop.ts

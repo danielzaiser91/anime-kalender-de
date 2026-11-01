@@ -39,6 +39,17 @@ const ZUSATZ = [
   { ...beobachtung(8, FREMD, ''), plattform: 'netflix', asin: null, titel: 'Fremdfolge Acht' },
 ]
 
+/*
+  Aufgeteilte Staffel (31.10.2026): Die Meldung kennt nur den Reihennamen („Kulissenreihe“, Suchadresse), keinen Auftragstitel; die zwei Staffeln
+  der Reihe heißen länger. Der Namensanfang führt zur Reihe, das Erscheinungsjahr 2018 der Folgen zur zweiten Staffel (900012).
+*/
+const REIHE_FOLGEN = [1, 2, 3].map((n) => ({
+  ...beobachtung(20 + n, 'https://www.amazon.de/s?k=Kulissenreihe&i=instant-video', `KREIHE00${n}`),
+  erschienen: '5. Mai 2018',
+  seiten_kennung: 'KTEIL01',
+  staffel_nr: 2,
+}))
+
 const kulisse = mkdtempSync(join(tmpdir(), 'ffa-lauf-'))
 const schreibe = (pfad: string, inhalt: unknown) => {
   mkdirSync(dirname(join(kulisse, pfad)), { recursive: true })
@@ -56,6 +67,8 @@ schreibe('public/data/titles.json', [
     watchLinks: [],
   },
   { id: 900002, titleDe: 'Kulissenserie Zwei', episodes: 13, streams: [], watchLinks: [] },
+  { id: 900011, titleDe: 'Kulissenreihe Alpha', franchiseId: 900011, jpYear: 2015, episodes: 12, streams: [], watchLinks: [] },
+  { id: 900012, titleDe: 'Kulissenreihe Beta', franchiseId: 900011, jpYear: 2018, episodes: 12, streams: [], watchLinks: [] },
 ])
 schreibe('public/data/cartoons.json', [
   {
@@ -74,7 +87,7 @@ schreibe('data/folgen-zuordnung.json', {
   'primevideo:NBELEG0001': { titel: 900002, folge: 1, grund: 'titel', gesehen: '2026-09-01' },
 })
 schreibe('beobachtungen.json', [
-  { results: [beobachtung(1, EIGEN, 'KULISSE001'), beobachtung(2, FREMD, 'KULISSE002'), beobachtung(3, FREMD, 'KULISSE003'), beobachtung(4, SAMMEL, 'KULISSE004'), { ...beobachtung(5, NICHTIMBESTAND, 'NBELEG0001'), titel: 'Kulissenserie Zwei I' }, ...ZUSATZ] },
+  { results: [beobachtung(1, EIGEN, 'KULISSE001'), beobachtung(2, FREMD, 'KULISSE002'), beobachtung(3, FREMD, 'KULISSE003'), beobachtung(4, SAMMEL, 'KULISSE004'), { ...beobachtung(5, NICHTIMBESTAND, 'NBELEG0001'), titel: 'Kulissenserie Zwei I' }, ...ZUSATZ, ...REIHE_FOLGEN] },
 ])
 
 const lauf = spawnSync(process.execPath, [tsx, join(wurzel, 'pipeline/fetch-folgen-zuordnung.ts'), '--aus', join(kulisse, 'beobachtungen.json')], {
@@ -108,6 +121,10 @@ pruefe(
   ergebnis['primevideo:NBELEG0001']?.titel === undefined && ergebnis['primevideo:NBELEG0001']?.grund === 'ohne-kandidat',
 )
 pruefe(
+  'Teil ohne Auftragstitel: Reihenname führt zur Reihe, das Jahr zur Staffel (900012, Grund jahr)',
+  [1, 2, 3].every((n) => ergebnis[`primevideo:KREIHE00${n}`]?.titel === 900012 && ergebnis[`primevideo:KREIHE00${n}`]?.grund === 'jahr'),
+)
+pruefe(
   'Lauf meldet die Zählung',
   ausgabe.includes('Fremde Adressen (Cartoon, ohne Synchro, fremder Beleg): 4 Beobachtungen und 3 Folgen ohne Zuordnung, 1 frühere Zuordnungen'),
 )
@@ -120,4 +137,4 @@ if (fehler.length) {
   console.error(`check-folgen-fremde-adressen-lauf: ${fehler.join('; ')}\n${ausgabe.slice(-1500)}`)
   process.exit(1)
 }
-console.log('check-folgen-fremde-adressen-lauf: 10 Zusicherungen grün, der Lauf sperrt Folgen an fremden Adressen und entfernt veraltete Zuordnungen.')
+console.log('check-folgen-fremde-adressen-lauf: 11 Zusicherungen grün, der Lauf sperrt Folgen an fremden Adressen und entfernt veraltete Zuordnungen.')
