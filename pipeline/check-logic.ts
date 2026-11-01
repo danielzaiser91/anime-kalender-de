@@ -145,6 +145,7 @@ import { todayIso, addDays } from '../shared/time.ts'
 import { schreibeKostenlosAuskunft } from './bau/10-termine.ts'
 import { badge } from '../worker/src/mail-abschnitte.ts'
 import { bestesSynonym } from './lib/anilist.ts'
+import { lateinAlsEnglisch } from './lib/katalog-latein-probe.ts'
 import { baueNews, type NewsHistorie } from './lib/news.ts'
 import { hostVon } from '../shared/quelle.ts'
 import { fundstelleHinweis, hervorhebungen } from '../web/src/components/Suchtreffer.tsx'
@@ -4682,7 +4683,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   )
   pruefe(
     'der Bau nimmt den lateinischen Namen als englischen',
-    (bau.match(/e\.latein/g) ?? []).length >= 4,
+    lateinAlsEnglisch(),
     'geholt und nicht benutzt ist derselbe Fehler wie gar nicht geholt',
   )
   /* Crunchyrolls deutsches Datum an der Folge und die Ergänzung bekannter Funde: check-cr-neu-seiten.ts; Eintrag eines älteren aniSearch-Ausleser wird fällig: check-abruf-stoerung-lauf.ts. */
