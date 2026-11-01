@@ -216,6 +216,7 @@ Zwei Folgen daraus:
     Abruf nur Serien holt. Wer aus „nicht im Katalog" auf „gibt es nicht" schließt, streicht
     bei einem Film zuverlässig das Falsche. Für Filme antwortet allein
     `content/v2/discover/search` mit `type=movie_listing`.
+- **Korrigiert 01.11.2026: Ohne Login zeigt die Titelseite `/de/title/<id>` die Sprachen doch** (Abschnitt „Titelseite ohne Login“ unten). Die Messung vom 22.08. galt der angemeldeten Seite.
 - **Netflix gibt die Sprachen erst mit dem Player heraus — gemessen, nicht vermutet.** Am
   22.08.2026 auf einer offenen Titelseite mit zwei Konsolen-Skripten geprüft:
   `models.graphql.data` umfasst 6.797 Zeichen und enthält Profile und Benachrichtigungen, null
@@ -1782,9 +1783,13 @@ und zwar mit Last auf einem fremden Server, nicht mit eigenem Speicherplatz.
 - `npm run data:anisearch:check` prüft den Parser gegen das Archiv, ohne einen einzigen neuen
   Abruf. Bricht er ab, hat aniSearch die Seitenstruktur geändert.
 
+### Titelseite ohne Login zeigt die Audio-Sprachen (gemessen 01.11.2026)
+
+Nicht angemeldet liefert `GET https://www.netflix.com/de/title/<id>` (200, ohne JavaScript) im HTML `<h4>Audio</h4>` mit bis zu 6 Sprachen, auch im eingebetteten `netflix.reactContext` (`loggedOutDetailPage`, `mediaTracks.audioTracks`). Die Angabe gilt **je Serie, nicht je Staffel** (My Hero Academia zeigt Deutsch, obwohl nur Staffel 1 und 6 synchronisiert sind) und ist auf 6 Sprachen begrenzt. **Verwertbar sind nur Filme** (2 von 66 offenen Netflix-Titeln am 01.11.2026): Eine Angabe für den ganzen Titel belegt keine einzelne Folge, auch nicht bei einer Staffel, weil einzelne Folgen ohne deutschen Ton sein können. Serien gelten erst, wenn die Synchro je Folge ermittelt werden kann (Entscheidung Daniel, 01.11.2026); kein „Einstaffel-Titel“-Beleg und kein „nein“ auf Reihenebene. Alte Kennungen können per 301 umleiten (81253489 → 60023642, Chihiros Reise). `robots.txt` von netflix.com: `User-agent: *` / `Disallow: /` — ein Abruf aus CI oder Worker ist Daniels Entscheidung (F97). Die Erweiterung liest weiterhin nur auf `/watch/`. Ein `curl -I` auf `/de/title/81253522` und `/de/title/81234986` antwortete am 01.11.2026 auch mit Browser-User-Agent 403 (Umleitung ungeprüft). Bericht: `daniel-zum-abarbeiten/berichte/netflix-ohne-login-2026-11-01.md`.
+
 ### Netflix gibt die Tonspuren nur mit dem Player heraus — dreifach gemessen
 
-Am 22.08.2026 stand fest, dass die **Titelseite** im Ruhezustand nichts hergibt. Offen blieb,
+Am 22.08.2026 stand fest, dass die **angemeldete Titelseite** im Ruhezustand nichts hergibt (ohne Login anders, siehe oben). Offen blieb,
 ob die **Folgenliste** mehr weiß — Daniel am 26.08.2026: „wir sollten da nochmal untersuchen ob
 wir bessere metadaten haben, und evtl die infos bereits in overview hab, sonst muss ich
 schlimmstenfalls alle ep einzeln durchklicken, bei über 1000 ist das zu viel."

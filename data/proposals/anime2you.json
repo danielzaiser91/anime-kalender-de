@@ -1,11 +1,12 @@
 {
-  "scrapedAt": "2026-11-01T11:02:21.266Z",
+  "scrapedAt": "2026-11-01T12:02:20.107Z",
   "verworfen": {
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 12,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 10,
     "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 3,
-    "schon in einem Rubrik-Feed gelesen": 3,
+    "schon in einem Rubrik-Feed gelesen": 8,
     "Sprachhinweis älter als 45 Tage": 6
   },
   "proposals": [
@@ -13,11 +14,10 @@
       "articleTitle": "Pluto TV nimmt zwei Anime-Neuzugänge ins Programm",
       "articleUrl": "https://www.anime2you.de/news/1066055/pluto-tv-black-clover-und-mehr/",
       "publishedAt": "2026-10-31",
-      "category": "allgemein",
+      "category": "streaming",
       "platforms": [],
       "dates": [],
       "dub": "ja",
-      "hinweis": "sprache",
       "alreadyCurated": false,
       "sammel": [
         {
@@ -127,7 +127,7 @@
       "articleTitle": "Drei weitere Anime-Serien ab sofort auf Deutsch bei Crunchyroll",
       "articleUrl": "https://www.anime2you.de/news/1066100/crunchyroll-firefly-wedding-synchro-und-mehr/",
       "publishedAt": "2026-10-31",
-      "category": "allgemein",
+      "category": "streaming",
       "platforms": [
         "crunchyroll"
       ],
@@ -209,7 +209,7 @@
       "articleTitle": "Disney+ kündigt zwei Anime-Neuzugänge für November 2026 an",
       "articleUrl": "https://www.anime2you.de/news/1065975/disney-plus-neu-im-november-2026/",
       "publishedAt": "2026-10-30",
-      "category": "allgemein",
+      "category": "streaming",
       "platforms": [
         "disneyplus"
       ],
@@ -3904,23 +3904,6 @@
         }
       ],
       "sammelGelesen": "2026-10-25"
-    },
-    {
-      "articleTitle": "Action-Anime »Rooster Fighter« bald auf Netflix verfügbar",
-      "articleUrl": "https://www.anime2you.de/news/1055673/rooster-fighter-bald-auf-netflix/",
-      "publishedAt": "2026-09-29",
-      "category": "streaming",
-      "platforms": [
-        "netflix"
-      ],
-      "dates": [
-        {
-          "iso": "2026-10-10",
-          "context": "r«) in Kürze in sein Programm aufnehmen wird. Wir fassen zusammen. Ab 10. Oktober 2026 »Rooster Fighter« steht demzufolge ab dem 10. Oktober"
-        }
-      ],
-      "dub": "unklar",
-      "alreadyCurated": false
     },
     {
       "articleTitle": "Prime Video fügt drei Anime-Neuzugänge zu seinem Katalog hinzu",

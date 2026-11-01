@@ -51,6 +51,9 @@
   releaseType: movie
   dateMeaning: available-from
   schedule: { firstEpisodeDate: "2026-09-13" }
+  # Titelseite aus dem Handbeleg vom 31.10.2026 (dub-confirmed.yaml, Amazon-Seite 0L25HFK7RGCXATV0VZBMEK4G7F, Tonspuren Deutsch, 日本語): der Weg
+  # trägt zwei Prime-Adressen (diese und /gp/video/detail/B0CWGVXPC3), der Termin übernahm daher keine und verlinkte nur eine Suche.
+  platformUrl: https://watch.amazon.de/detail?gti=amzn1.dv.gti.63b9a08d-3318-4dd4-be6f-9f48926fd70b
   sources: [https://www.anime2you.de/news/1049795/prime-video-trinity-seven-und-mehr/]
 
 # 1053585 (24.09.2026): Ghost Cat Anzu „ab sofort mit deutscher Sprachausgabe sowie im japanischen Originalton mit deutschen Untertiteln“; Miss Hokusai „auf Deutsch und Japanisch“;

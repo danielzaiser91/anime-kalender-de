@@ -65,6 +65,7 @@ pipeline/check-beleg-fundstelle-hinweis.ts
 pipeline/check-beleg-href.ts
 pipeline/check-beleg-lauf.ts
 pipeline/check-beleg-marken.ts
+pipeline/check-beleg-sonderfolgen.ts
 pipeline/check-beleg-stoerung.ts
 pipeline/check-belege-entfernt.ts
 pipeline/check-belege-riegel-schreiben.ts
@@ -91,6 +92,7 @@ pipeline/check-cr-auftakt-wache.ts
 pipeline/check-cr-batch-phase.ts
 pipeline/check-cr-batch-wache.ts
 pipeline/check-cr-block-standardname.ts
+pipeline/check-cr-doppelt-weg.ts
 pipeline/check-cr-einzelwerk-urteil.ts
 pipeline/check-cr-film-wege.ts
 pipeline/check-cr-folgestaffel.ts
@@ -232,6 +234,7 @@ pipeline/check-laut-gleich.ts
 pipeline/check-leere-liste.ts
 pipeline/check-leerer-kasten.ts
 pipeline/check-leerzeichen-gleich.ts
+pipeline/check-leerzeichen-workflow.ts
 pipeline/check-leinwand-escape.ts
 pipeline/check-link-leere-adresse.ts
 pipeline/check-links-laufzeit.ts
@@ -333,6 +336,7 @@ pipeline/check-saison-termin.ts
 pipeline/check-sammel-erste-folgen.ts
 pipeline/check-sammel-unzugeordnet.ts
 pipeline/check-sammelartikel.ts
+pipeline/check-sammeleintrag-synchro.ts
 pipeline/check-sammler-lesezugriffe-faelle.ts
 pipeline/check-sammler-lesezugriffe.ts
 pipeline/check-schwester-shop.ts

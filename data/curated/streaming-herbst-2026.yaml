@@ -100,6 +100,22 @@
     - https://www.anime2you.de/news/1045378/my-happy-marriage-specials-netflix-termin/
     - https://www.anime2you.de/news/1052708/netflix-anime-neu-im-oktober-2026/
 
+# **Rooster Fighter — Netflix, 10.10.2026, alle 12 Folgen, deutsch.** Der Netflix-Oktoberartikel 1052708 (inzwischen aus dem Abruf von
+# anime2you.json gefallen) nennt „Episoden: 12 (komplett) · Sprache: Deutsch, Japanisch (UT)“, Artikel 1059441 „seit heute alle zwölf Episoden
+# … mit deutscher und japanischer Sprachausgabe“. Ohne diesen Eintrag baute der Bau den Termin nur aus 1055673 („bald auf Netflix“, Sprache
+# unklar) als `offen`; der Handbeleg für Katalog-Release (`data/katalog-release-von-hand.yaml`) fand seine Quelle nicht mehr in den sources.
+- slug: auto-179813-netflix
+  anilistId: 179813
+  platform: netflix
+  releaseType: batch
+  schedule:
+    firstEpisodeDate: "2026-10-10"
+    episodeCount: 12
+  sources:
+    - https://www.anime2you.de/news/1052708/netflix-anime-neu-im-oktober-2026/
+    - https://www.anime2you.de/news/1059441/netflix-snowball-earth-und-mehr/
+    - https://www.anime2you.de/news/1055673/rooster-fighter-bald-auf-netflix/
+
 - slug: tokyo-revengers-s3-disneyplus
   anilistId: 178083
   search: "Tokyo Revengers Santen Sensou-hen"

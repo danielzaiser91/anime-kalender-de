@@ -12,7 +12,13 @@ DATEI="${1:?Protokolldatei fehlt}"
 # Formatzeilen von check-logic-alle.mjs: `<name>: <datei> ist rot (` bzw. `<name>: N von M Prüfungen rot:` mit `  - <datei>`.
 # Grüne Testzeilen enthalten oft auch „ist rot" (`✓ … ist rot`), deshalb nur am Zeilenanfang suchen.
 rote_liste() { sed -n '/^[^ ]*: [0-9]* von [0-9]* Prüfungen rot:$/,$p' "$DATEI" | grep -E '^[^ ]+: |^  - '; }
-gefunden="$({ grep -E '✖' "$DATEI"; grep -E '^[^ ]+: [^ ]+ ist rot \(' "$DATEI"; rote_liste; } | head -n 3 | tr -d '\"' | tr -s '[:space:]' ' ')"
+# Steht eine Formatzeile da, nennt der Grund nur sie: `✖` stammt dann oft aus einem grünen Selbsttest ("Kennung doppelt unter den Einstiegen", gefolgt von "✓ … Bau bricht ab").
+rot="$({ grep -E '^[^ ]+: [^ ]+ ist rot \(' "$DATEI"; rote_liste; } | head -n 3)"
+if [ -n "$rot" ]; then
+  gefunden="$(printf '%s\n' "$rot" | tr -d '\"' | tr -s '[:space:]' ' ')"
+else
+  gefunden="$(grep -E '✖' "$DATEI" | head -n 3 | tr -d '\"' | tr -s '[:space:]' ' ')"
+fi
 if [ -z "$gefunden" ]; then
   gefunden="$(grep -v '^[[:space:]]*$' "$DATEI" | tail -n 3 | tr -d '\"' | tr -s '[:space:]' ' ')"
 fi
