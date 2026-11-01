@@ -32,6 +32,7 @@ pruefe('Läufe stoßen sich nicht an', wf.concurrency.group === 'nacht-merger' &
 pruefe('Schritte: Checkout ohne gespeichertes Token, dann der Merge-Schritt', job.steps.length === 2 && job.steps[0].uses === 'actions/checkout@v4' && job.steps[0].with['persist-credentials'] === false && job.steps[0].with['fetch-depth'] === 0)
 pruefe('Token: Secret, sonst GITHUB_TOKEN', schritt.env.GH_TOKEN === '${{ secrets.NACHT_MERGER_TOKEN || secrets.GITHUB_TOKEN }}')
 pruefe('Merge-Token-Weiche liest das Secret', schritt.env.MERGER_TOKEN_DA === "${{ secrets.NACHT_MERGER_TOKEN != '' }}")
+pruefe('gh löst {owner}/{repo} über GH_REPO auf (Checkout-unabhängig)', schritt.env.GH_REPO === '${{ github.repository }}' && schritt.env.GITHUB_REPOSITORY === '${{ github.repository }}')
 pruefe('Eingaben kommen nur über env', schritt.env.TROCKEN === '${{ inputs.trocken }}' && schritt.env.HOECHSTENS === "${{ inputs.hoechstens || '3' }}" && !schritt.run.includes('${{'))
 
 const ordner = mkdtempSync(join(tmpdir(), 'nacht-merger-wf-'))

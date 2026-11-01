@@ -91,6 +91,7 @@
   { "name": "welt: Dateiliste ohne Umbenennungsursprung", "datei": "tools/nacht-merger-welt.mjs", "suche": ".[] | .filename, (.previous_filename // empty)", "ersetze": ".[] | .filename" },
   { "name": "welt: Stufe unlesbar nie angefragt", "datei": "tools/nacht-merger-welt.mjs", "suche": "stufe: stufeVon(pr.nummer, stufeSkript)", "ersetze": "stufe: 1" },
   { "name": "welt: Kommentare ohne Autorenverband", "datei": "tools/nacht-merger-welt.mjs", "suche": "assoc: .author_association, ", "ersetze": "" },
+  { "name": "workflow: GH_REPO fehlt", "datei": ".github/workflows/nacht-merger.yml", "suche": "          GH_REPO: ${{ github.repository }}\n", "ersetze": "" },
   { "name": "workflow: Aufruf des Werkzeugs entfernt", "datei": ".github/workflows/nacht-merger.yml", "suche": "          node tools/nacht-merger.mjs \"${args[@]}\"\n", "ersetze": "          true\n" },
   { "name": "workflow: Riegel nicht übergeben", "datei": ".github/workflows/nacht-merger.yml", "suche": "args=(--hoechstens \"$HOECHSTENS\")", "ersetze": "args=(--hoechstens 3)" },
   { "name": "workflow: Trockenlauf ohne Token nie", "datei": ".github/workflows/nacht-merger.yml", "suche": "|| [ \"$MERGER_TOKEN_DA\" != \"true\" ]", "ersetze": "" },

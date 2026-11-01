@@ -52,6 +52,8 @@ jobs:
           TROCKEN: ${{ inputs.trocken }}
           HOECHSTENS: ${{ inputs.hoechstens || '3' }}
           GITHUB_REPOSITORY: ${{ github.repository }}
+          # `pr-nachrechnen` ruft `gh api repos/{owner}/{repo}/…`: gh löst die Platzhalter über GH_REPO auf, ohne auf den Git-Remote des Checkouts angewiesen zu sein.
+          GH_REPO: ${{ github.repository }}
         run: |
           set -u
           args=(--hoechstens "$HOECHSTENS")
