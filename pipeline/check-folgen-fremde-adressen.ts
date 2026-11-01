@@ -91,6 +91,28 @@ const gemischt = ordneFolgenOhneFremde(
 )
 pruefe('gemischte Folge: fremder Titel fällt nicht als Kandidat an', gemischt.ergebnis['primevideo:GEMISCHT02']?.titel === 900002, gemischt.ergebnis)
 
+/*
+  Ohne Anker, mehrere Teile einer Staffel, falscher Auftrag (Miraculous, 31.10.2026): Alle drei Teile melden Staffel 1 (900002) als Auftrag;
+  der Teil von 2018 gehört zu 900004, der von 2022 zu 900005, der von 2015 bleibt. Die Seite (`seiten_kennung`) und das Erscheinungsjahr
+  gehen durch den Wrapper bis zum Zuordner.
+*/
+const reihe = (id: number, jahr: number) => [id, { id, franchiseId: 900002, jpYear: jahr, episodes: 12, streams: id === 900002 ? [{ url: EIGEN }] : [], watchLinks: [] } as unknown as Title] as const
+const staffeln = new Map([reihe(900002, 2015), reihe(900004, 2018), reihe(900005, 2022)])
+const teilFolge = (id: number, teil: string, jahr: number): Beobachtung => ({
+  ...beob(id, EIGEN, `${teil}X${id}`, '2026-10-01T10:00'),
+  erschienen: `5. Mai ${jahr}`,
+  seiten_kennung: teil,
+  staffel_nr: Number(teil.slice(-1)),
+})
+const teile = ordneFolgenOhneFremde(
+  [teilFolge(60, 'TEIL1', 2015), teilFolge(61, 'TEIL1', 2015), teilFolge(62, 'TEIL2', 2018), teilFolge(63, 'TEIL2', 2018), teilFolge(64, 'TEIL3', 2022), teilFolge(65, 'TEIL3', 2022)],
+  { ...kontext(fremdNurDisney), titel: staffeln, jeAdresse: adressIndex(staffeln, []) },
+  {},
+).ergebnis
+pruefe('mehrere Teile, falscher Auftrag: Teil von 2015 bleibt bei 900002', teile['primevideo:TEIL1X60']?.titel === 900002 && teile['primevideo:TEIL1X61']?.titel === 900002, teile)
+pruefe('mehrere Teile, falscher Auftrag: Teil von 2018 → 900004', teile['primevideo:TEIL2X62']?.titel === 900004 && teile['primevideo:TEIL2X63']?.titel === 900004, teile)
+pruefe('mehrere Teile, falscher Auftrag: Teil von 2022 → 900005, Grund Jahr', teile['primevideo:TEIL3X64']?.titel === 900005 && teile['primevideo:TEIL3X64']?.grund === 'jahr', teile)
+
 /* Eine Folge ohne Kennung zählt nicht als „nur fremd“. */
 const ohneKennung = ordneFolgenOhneFremde([{ ...beob(6, FREMD, 'X', '2026-10-01T10:00'), asin: null }], kontext(fremdNurDisney), {})
 pruefe('Beobachtung ohne Kennung: 1 verworfen, keine Folge', ohneKennung.verworfen.beobachtungen === 1 && ohneKennung.verworfen.folgen === 0, ohneKennung.verworfen)
@@ -130,4 +152,4 @@ if (fehler.length) {
   console.error(`check-folgen-fremde-adressen: ${fehler.join('; ')}`)
   process.exit(1)
 }
-console.log('check-folgen-fremde-adressen: 23 Zusicherungen grün, fremde Adressen und Titel außerhalb von titles.json ordnen keine Plattform-Folge zu.')
+console.log('check-folgen-fremde-adressen: 26 Zusicherungen grün, fremde Adressen und Titel außerhalb von titles.json ordnen keine Plattform-Folge zu.')

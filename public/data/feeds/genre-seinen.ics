@@ -8,16 +8,6 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:aoashi-staffel-2-crunchyroll-de-2026-10-25@2026-10-25@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261025T090000Z
-DTEND:20261025T093000Z
-SUMMARY:Aoashi Staffel 2 – Folge 1/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/16812/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GT00384006@2026-10-25@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261025T150000Z
@@ -26,6 +16,16 @@ SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
  hip! Staffel 1 – Folge 4/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/t/16547/
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:aoashi-staffel-2-crunchyroll-de-2026-10-25@2026-10-25@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261025
+DTEND;VALUE=DATE:20261026
+SUMMARY:Aoashi Staffel 2 – Folge 1/24
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/16812/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -73,28 +73,24 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:aoashi-staffel-2-crunchyroll-de-2026-10-25@2026-11-01@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261101T090000Z
-DTEND:20261101T093000Z
-SUMMARY:Aoashi Staffel 2 – Folge 2/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/16812/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GT00384006@2026-11-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261101T150000Z
 DTEND:20261101T153000Z
 SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
  hip! Staffel 1 – Folge 5/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/t/16547/
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:aoashi-staffel-2-crunchyroll-de-2026-10-25@2026-11-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261101
+DTEND;VALUE=DATE:20261102
+SUMMARY:Aoashi Staffel 2 – Folge 2/24
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/16547/
+ hrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/16812/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -147,18 +143,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:aoashi-staffel-2-crunchyroll-de-2026-10-25@2026-11-08@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261108T090000Z
-DTEND:20261108T093000Z
-SUMMARY:Aoashi Staffel 2 – Folge 3/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/16812/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GT00384006@2026-11-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261108T150000Z
@@ -169,6 +153,18 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
  et.\nDetails: https://anime-kalender.de/t/16547/
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:aoashi-staffel-2-crunchyroll-de-2026-10-25@2026-11-08@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261108
+DTEND;VALUE=DATE:20261109
+SUMMARY:Aoashi Staffel 2 – Folge 3/24
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter gena
+ nnter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetail
+ s: https://anime-kalender.de/t/16812/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -209,18 +205,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:aoashi-staffel-2-crunchyroll-de-2026-10-25@2026-11-15@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261115T090000Z
-DTEND:20261115T093000Z
-SUMMARY:Aoashi Staffel 2 – Folge 4/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/16812/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GT00384006@2026-11-15@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261115T150000Z
@@ -231,6 +215,18 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
  et.\nDetails: https://anime-kalender.de/t/16547/
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:aoashi-staffel-2-crunchyroll-de-2026-10-25@2026-11-15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261115
+DTEND;VALUE=DATE:20261116
+SUMMARY:Aoashi Staffel 2 – Folge 4/24
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter gena
+ nnter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetail
+ s: https://anime-kalender.de/t/16812/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -301,18 +297,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:aoashi-staffel-2-crunchyroll-de-2026-10-25@2026-11-22@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261122T090000Z
-DTEND:20261122T093000Z
-SUMMARY:Aoashi Staffel 2 – Folge 5/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/16812/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GT00384006@2026-11-22@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261122T150000Z
@@ -323,6 +307,18 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
  et.\nDetails: https://anime-kalender.de/t/16547/
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:aoashi-staffel-2-crunchyroll-de-2026-10-25@2026-11-22@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261122
+DTEND;VALUE=DATE:20261123
+SUMMARY:Aoashi Staffel 2 – Folge 5/24
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter gena
+ nnter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetail
+ s: https://anime-kalender.de/t/16812/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -374,18 +370,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:aoashi-staffel-2-crunchyroll-de-2026-10-25@2026-11-29@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261129T090000Z
-DTEND:20261129T093000Z
-SUMMARY:Aoashi Staffel 2 – Folge 6/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/16812/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GT00384006@2026-11-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261129T150000Z
@@ -396,6 +380,18 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
  et.\nDetails: https://anime-kalender.de/t/16547/
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:aoashi-staffel-2-crunchyroll-de-2026-10-25@2026-11-29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261129
+DTEND;VALUE=DATE:20261130
+SUMMARY:Aoashi Staffel 2 – Folge 6/24
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter gena
+ nnter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetail
+ s: https://anime-kalender.de/t/16812/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -496,18 +492,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:aoashi-staffel-2-crunchyroll-de-2026-10-25@2026-12-06@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261206T090000Z
-DTEND:20261206T093000Z
-SUMMARY:Aoashi Staffel 2 – Folge 7/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/16812/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GT00384006@2026-12-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261206T150000Z
@@ -518,6 +502,18 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
  et.\nDetails: https://anime-kalender.de/t/16547/
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:aoashi-staffel-2-crunchyroll-de-2026-10-25@2026-12-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261206
+DTEND;VALUE=DATE:20261207
+SUMMARY:Aoashi Staffel 2 – Folge 7/24
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter gena
+ nnter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetail
+ s: https://anime-kalender.de/t/16812/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -546,18 +542,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:aoashi-staffel-2-crunchyroll-de-2026-10-25@2026-12-13@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261213T090000Z
-DTEND:20261213T093000Z
-SUMMARY:Aoashi Staffel 2 – Folge 8/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/16812/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GT00384006@2026-12-13@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261213T150000Z
@@ -568,6 +552,18 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
  et.\nDetails: https://anime-kalender.de/t/16547/
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:aoashi-staffel-2-crunchyroll-de-2026-10-25@2026-12-13@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261213
+DTEND;VALUE=DATE:20261214
+SUMMARY:Aoashi Staffel 2 – Folge 8/24
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter gena
+ nnter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetail
+ s: https://anime-kalender.de/t/16812/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -596,18 +592,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:aoashi-staffel-2-crunchyroll-de-2026-10-25@2026-12-20@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261220T090000Z
-DTEND:20261220T093000Z
-SUMMARY:Aoashi Staffel 2 – Folge 9/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/16812/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GT00384006@2026-12-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261220T150000Z
@@ -618,6 +602,18 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
  et.\nDetails: https://anime-kalender.de/t/16547/
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:aoashi-staffel-2-crunchyroll-de-2026-10-25@2026-12-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261220
+DTEND;VALUE=DATE:20261221
+SUMMARY:Aoashi Staffel 2 – Folge 9/24
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter gena
+ nnter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetail
+ s: https://anime-kalender.de/t/16812/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -646,18 +642,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:aoashi-staffel-2-crunchyroll-de-2026-10-25@2026-12-27@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261227T090000Z
-DTEND:20261227T093000Z
-SUMMARY:Aoashi Staffel 2 – Folge 10/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/16812/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GT00384006@2026-12-27@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261227T150000Z
@@ -668,6 +652,18 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
  et.\nDetails: https://anime-kalender.de/t/16547/
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:aoashi-staffel-2-crunchyroll-de-2026-10-25@2026-12-27@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261227
+DTEND;VALUE=DATE:20261228
+SUMMARY:Aoashi Staffel 2 – Folge 10/24
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter gena
+ nnter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetail
+ s: https://anime-kalender.de/t/16812/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -698,13 +694,13 @@ END:VEVENT
 BEGIN:VEVENT
 UID:aoashi-staffel-2-crunchyroll-de-2026-10-25@2027-01-03@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20270103T090000Z
-DTEND:20270103T093000Z
+DTSTART;VALUE=DATE:20270103
+DTEND;VALUE=DATE:20270104
 SUMMARY:Aoashi Staffel 2 – Folge 11/24
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/16812/
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter gena
+ nnter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetail
+ s: https://anime-kalender.de/t/16812/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -735,13 +731,13 @@ END:VEVENT
 BEGIN:VEVENT
 UID:aoashi-staffel-2-crunchyroll-de-2026-10-25@2027-01-10@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20270110T090000Z
-DTEND:20270110T093000Z
+DTSTART;VALUE=DATE:20270110
+DTEND;VALUE=DATE:20270111
 SUMMARY:Aoashi Staffel 2 – Folge 12/24
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/16812/
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter gena
+ nnter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetail
+ s: https://anime-kalender.de/t/16812/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -794,145 +790,145 @@ END:VEVENT
 BEGIN:VEVENT
 UID:aoashi-staffel-2-crunchyroll-de-2026-10-25@2027-01-17@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20270117T090000Z
-DTEND:20270117T093000Z
+DTSTART;VALUE=DATE:20270117
+DTEND;VALUE=DATE:20270118
 SUMMARY:Aoashi Staffel 2 – Folge 13/24
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/16812/
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter gena
+ nnter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetail
+ s: https://anime-kalender.de/t/16812/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:aoashi-staffel-2-crunchyroll-de-2026-10-25@2027-01-24@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20270124T090000Z
-DTEND:20270124T093000Z
+DTSTART;VALUE=DATE:20270124
+DTEND;VALUE=DATE:20270125
 SUMMARY:Aoashi Staffel 2 – Folge 14/24
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/16812/
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter gena
+ nnter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetail
+ s: https://anime-kalender.de/t/16812/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:aoashi-staffel-2-crunchyroll-de-2026-10-25@2027-01-31@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20270131T090000Z
-DTEND:20270131T093000Z
+DTSTART;VALUE=DATE:20270131
+DTEND;VALUE=DATE:20270201
 SUMMARY:Aoashi Staffel 2 – Folge 15/24
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/16812/
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter gena
+ nnter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetail
+ s: https://anime-kalender.de/t/16812/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:aoashi-staffel-2-crunchyroll-de-2026-10-25@2027-02-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20270207T090000Z
-DTEND:20270207T093000Z
+DTSTART;VALUE=DATE:20270207
+DTEND;VALUE=DATE:20270208
 SUMMARY:Aoashi Staffel 2 – Folge 16/24
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/16812/
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter gena
+ nnter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetail
+ s: https://anime-kalender.de/t/16812/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:aoashi-staffel-2-crunchyroll-de-2026-10-25@2027-02-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20270214T090000Z
-DTEND:20270214T093000Z
+DTSTART;VALUE=DATE:20270214
+DTEND;VALUE=DATE:20270215
 SUMMARY:Aoashi Staffel 2 – Folge 17/24
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/16812/
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter gena
+ nnter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetail
+ s: https://anime-kalender.de/t/16812/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:aoashi-staffel-2-crunchyroll-de-2026-10-25@2027-02-21@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20270221T090000Z
-DTEND:20270221T093000Z
+DTSTART;VALUE=DATE:20270221
+DTEND;VALUE=DATE:20270222
 SUMMARY:Aoashi Staffel 2 – Folge 18/24
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/16812/
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter gena
+ nnter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetail
+ s: https://anime-kalender.de/t/16812/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:aoashi-staffel-2-crunchyroll-de-2026-10-25@2027-02-28@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20270228T090000Z
-DTEND:20270228T093000Z
+DTSTART;VALUE=DATE:20270228
+DTEND;VALUE=DATE:20270301
 SUMMARY:Aoashi Staffel 2 – Folge 19/24
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/16812/
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter gena
+ nnter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetail
+ s: https://anime-kalender.de/t/16812/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:aoashi-staffel-2-crunchyroll-de-2026-10-25@2027-03-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20270307T090000Z
-DTEND:20270307T093000Z
+DTSTART;VALUE=DATE:20270307
+DTEND;VALUE=DATE:20270308
 SUMMARY:Aoashi Staffel 2 – Folge 20/24
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/16812/
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter gena
+ nnter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetail
+ s: https://anime-kalender.de/t/16812/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:aoashi-staffel-2-crunchyroll-de-2026-10-25@2027-03-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20270314T090000Z
-DTEND:20270314T093000Z
+DTSTART;VALUE=DATE:20270314
+DTEND;VALUE=DATE:20270315
 SUMMARY:Aoashi Staffel 2 – Folge 21/24
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/16812/
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter gena
+ nnter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetail
+ s: https://anime-kalender.de/t/16812/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:aoashi-staffel-2-crunchyroll-de-2026-10-25@2027-03-21@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20270321T090000Z
-DTEND:20270321T093000Z
+DTSTART;VALUE=DATE:20270321
+DTEND;VALUE=DATE:20270322
 SUMMARY:Aoashi Staffel 2 – Folge 22/24
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/16812/
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter gena
+ nnter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetail
+ s: https://anime-kalender.de/t/16812/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:aoashi-staffel-2-crunchyroll-de-2026-10-25@2027-03-28@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20270328T080000Z
-DTEND:20270328T083000Z
+DTSTART;VALUE=DATE:20270328
+DTEND;VALUE=DATE:20270329
 SUMMARY:Aoashi Staffel 2 – Folge 23/24
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/16812/
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter gena
+ nnter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetail
+ s: https://anime-kalender.de/t/16812/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:aoashi-staffel-2-crunchyroll-de-2026-10-25@2027-04-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20270404T080000Z
-DTEND:20270404T083000Z
+DTSTART;VALUE=DATE:20270404
+DTEND;VALUE=DATE:20270405
 SUMMARY:Aoashi Staffel 2 – Folge 24/24
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/16812/
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter gena
+ nnter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetail
+ s: https://anime-kalender.de/t/16812/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT

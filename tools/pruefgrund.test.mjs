@@ -52,6 +52,13 @@ try {
   const mitKreuz = ['bla', '  ✖ Titel 5 fehlt', '  ✖ Titel 6 fehlt', '  ✖ Titel 7 fehlt', '  ✖ Titel 8 fehlt', 'check:logic: a ist rot'].join('\n')
   assert.equal(grund(mitKreuz), '✖ Titel 5 fehlt ✖ Titel 6 fehlt ✖ Titel 7 fehlt', 'höchstens drei ✖-Zeilen, ✖ zuerst')
 
+  // Bestandsbau 31.10.2026: ✖ aus einem grünen Selbsttest (Zeile dahinter ✓ „Bau bricht ab"), die echte Rot-Prüfung steht in der Formatzeile.
+  const selbsttest = ['[check:logic 40/195] pipeline/check-einstiege.ts', '  ✖ Kennung doppelt unter den Einstiegen', '  ✓ Widerspruch erkannt, Bau bricht ab', 'check:logic: pipeline/check-sonderfolgen.ts ist rot (50 von 195 Prüfungen grün gelaufen).', ''].join('\n')
+  assert.match(grund(selbsttest), /^check:logic: pipeline\/check-sonderfolgen\.ts ist rot \(/, 'grünes ✖ des Selbsttests wird nicht zum Grund')
+  assert.ok(!grund(selbsttest).includes('Kennung doppelt'), 'Selbsttest-Zeile fehlt im Grund')
+  const selbsttestAlle = ['  ✖ Kennung doppelt unter den Einstiegen', '  ✓ Bau bricht ab', 'check:logic: 1 von 195 Prüfungen rot:', '  - pipeline/check-sonderfolgen.ts', ''].join('\n')
+  assert.equal(grund(selbsttestAlle), 'check:logic: 1 von 195 Prüfungen rot: - pipeline/check-sonderfolgen.ts', '--alle: ebenfalls ohne Selbsttest-✖')
+
   const ohneMarke = ['a', 'b', 'c', '', 'd', 'e'].join('\n')
   assert.equal(grund(ohneMarke), 'c d e', 'ohne bekannte Marke die letzten drei nichtleeren Zeilen')
 
