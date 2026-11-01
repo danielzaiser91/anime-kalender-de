@@ -73,7 +73,7 @@ pruefe('Pflicht-Check fehlt', !ketteStand([gruen[1]]).gruen && ketteStand([gruen
 pruefe('keine Checks', !ketteStand([]).gruen)
 pruefe('Pflicht-Check rot', !ketteStand([{ name: 'PR-Prüfkette', status: 'COMPLETED', conclusion: 'FAILURE' }]).gruen)
 pruefe('neutraler Nebencheck stört nicht', ketteStand([...gruen, { name: 'x', status: 'COMPLETED', conclusion: 'NEUTRAL' }]).gruen)
-pruefe('Nebencheck rot',ketteStand([...gruen, { name: 'Aussehen', status: 'COMPLETED', conclusion: 'FAILURE' }]).grund === 'Check rot: Aussehen')
+pruefe('Nebencheck rot', ketteStand([...gruen, { name: 'Aussehen', status: 'COMPLETED', conclusion: 'FAILURE' }]).grund === 'Check rot: Aussehen')
 pruefe('Nebencheck abgebrochen zählt als rot', !ketteStand([...gruen, { name: 'Aussehen', status: 'COMPLETED', conclusion: 'CANCELLED' }]).gruen)
 pruefe('Pflicht-Check läuft', ketteStand([{ name: 'PR-Prüfkette', status: 'IN_PROGRESS', conclusion: '' }]).grund === 'Check läuft noch: PR-Prüfkette')
 pruefe('Status-Kontext pending: läuft noch, nicht rot', ketteStand([...gruen, { __typename: 'StatusContext', context: 'extern', state: 'PENDING' }]).grund === 'Check läuft noch: extern')
