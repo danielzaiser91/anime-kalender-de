@@ -6,6 +6,7 @@
  * bleiben beim Anker je Folge (`folgentitel-anker.ts`) und bei den Folgenzahlen.
  */
 import { readJson } from './util.ts'
+import { ladeAnisearchAbruf } from './anisearch-verworfen.ts'
 import { folgentitelAusNotiz } from './folgentitel-anker.ts'
 import { ordneBlockZu, unsereFolgen, type CartoonFolge, type Blockurteil, type UnsereFolge } from './episodentitel-block.ts'
 import type { AnbieterStaffel } from './folgenbereiche.ts'
@@ -29,7 +30,7 @@ export function folgenlisteVon(id: number): UnsereFolge[] | null {
     return roh?.length ? unsereFolgen(roh) : null
   }
   asDatei ??= readJson('data/anisearch-folgen.json', {})
-  asKennung ??= readJson('data/anisearch.json', {})
+  asKennung ??= ladeAnisearchAbruf()
   const asId = asKennung![String(id)]?.anisearchId
   const folgen = (asId ? asDatei![String(asId)]?.folgen : undefined) ?? []
   const liste = folgen.flatMap((f) => (typeof f.nr === 'number' ? [{ nr: f.nr, de: f.de ?? null, en: null }] : []))

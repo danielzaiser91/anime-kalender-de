@@ -16,7 +16,8 @@
 import { existsSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import yaml from 'js-yaml'
-import { ROOT, readJson } from '../lib/util.ts'
+import { ROOT } from '../lib/util.ts'
+import { ladeAnisearchAbruf } from '../lib/anisearch-verworfen.ts'
 
 /** Die Staffelnummer, die ein deutscher Quelltitel nennt — sonst nichts. */
 export function staffelNummerAusQuelle(deutscherTitel: string): number | undefined {
@@ -51,7 +52,7 @@ export function staffelNummerAusEintrag(e: AnisearchEintrag): number | undefined
 /** Titel-Kennung → Staffelnummer aus dem aniSearch-Sprachblock „Deutsch" und den Synonymen. */
 export function staffelQuellenAusAnisearch(): Map<number, number> {
   const map = new Map<number, number>()
-  const eintraege = readJson<Record<string, AnisearchEintrag>>('data/anisearch.json', {})
+  const eintraege = ladeAnisearchAbruf<AnisearchEintrag>()
   for (const [id, e] of Object.entries(eintraege)) {
     const nr = staffelNummerAusEintrag(e)
     if (nr) map.set(Number(id), nr)

@@ -22,6 +22,7 @@ import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import yaml from 'js-yaml'
 import { readJson, writeJson, log, clearDir, ROOT } from '../lib/util.ts'
+import { ladeAnisearchAbruf } from '../lib/anisearch-verworfen.ts'
 import { OUT } from './grundlagen.ts'
 import { hoechsteFolgeJeAnbieter } from './folgen-erschienen-je-weg.ts'
 import { ladeTitelQuellen, mitFremdTiteln } from './folgentitel-stufen.ts'
@@ -87,7 +88,7 @@ export function deutscheFolgen(t: Title, wiki: { nr: number; ead?: string }[] | 
 
 export function schreibeFolgenDateien(titel: Title[], releases: Release[]): void {
   const roh = readJson<Record<string, { folgen?: Folge[] }>>('data/anisearch-folgen.json', {})
-  const zuordnung = readJson<Record<string, { anisearchId?: number }>>('data/anisearch.json', {})
+  const zuordnung = ladeAnisearchAbruf<{ anisearchId?: number }>()
   const wiki = readJson<WikiListe>('data/wikipedia-folgen.json', {}).titel ?? {}
   const heute = todayIso()
   /* Quellen der Folgentitel, wo aniSearch keine hat (`folgentitel-stufen.ts`). */

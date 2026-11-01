@@ -13,6 +13,7 @@
   { "datei": "pipeline/check-anisearch-folgen-kennung.ts", "liest": "data/tmdb-folgen.json", "grund": "Pfadname der Kulisse (leere Antwort), kein Lesezugriff auf Daten" },
   { "datei": "pipeline/check-anisearch-folgen-kennung.ts", "liest": "data/rtlplus-folgen.json", "grund": "Pfadname der Kulisse (leere Antwort), kein Lesezugriff auf Daten" },
   { "datei": "pipeline/check-anisearch-folgen-kennung.ts", "liest": "data/wikipedia-folgen.json", "grund": "Pfadname der Kulisse (leere Antwort), kein Lesezugriff auf Daten" },
+  { "datei": "pipeline/check-anisearch-folgen-kennung.ts", "liest": "data/anisearch-mal-verworfen.json", "grund": "Pfadname der Kulisse (leere Antwort), kein Lesezugriff auf Daten" },
   { "datei": "pipeline/check-ankuendigung-sichtbar.ts", "liest": "data/anisearch-dubs.json", "grund": "setzt Testmarken über setzeMarkenFuerPruefung in einer Kulisse (AK_ROOT), liest die Datei nicht" },
   { "datei": "pipeline/check-bild-und-synchro.ts", "liest": "data/anisearch-eintraege.json", "grund": "Invarianten über die ganze Datei (Typnamen, Marke gegen Dub-Liste), kein fester Schlüssel" },
   { "datei": "pipeline/check-bild-und-synchro.ts", "liest": "data/anisearch-dubs.json", "grund": "sucht je Marke d/c/p/- irgendeinen Eintrag; 20.10.2026 gezählt: d 2634, - 9190, c 58, p 40 (Restrisiko p: Zugang laufend)" },
