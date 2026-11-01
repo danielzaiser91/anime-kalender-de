@@ -21,6 +21,8 @@ export interface Weckplan {
 
 export const WECKPLAN: Weckplan[] = [
   { workflow: 'refresh-hourly.yml', abstandMin: 40 },
+  // Nacht-Merger (ab 01.11.2026, F99): stündlich; mergt höchstens drei freigegebene PRs je Lauf und endet nach wenigen Minuten (timeout 20).
+  { workflow: 'nacht-merger.yml', abstandMin: 40 },
   // Vorher 04:17 / 05:41 / 06:00 nach GitHub-Cron; der Tageslauf endet nach höchstens 75 Minuten, bevor der aniSearch-Katalog um 06:00 beginnt.
   { workflow: 'refresh-data.yml', stunden: [4], abstandMin: 600 },
   { workflow: 'refresh-weekly.yml', stunden: [5], wochentag: 1, abstandMin: 4320 },
