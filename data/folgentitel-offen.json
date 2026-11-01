@@ -1,0 +1,282 @@
+{
+  "482": {
+    "offen": 25,
+    "grund": "kein TMDB-Eintrag (Abruf ausstehend oder TMDB kennt die Serie nicht), keine weitere erlaubte Quelle"
+  },
+  "527": {
+    "offen": 1,
+    "grund": "Folge 161: aniSearch führt „Revanche in Dukatia City\" schon unter Nummer 160, TMDB unter 161 — doppelt belegt, keine Nummer geraten"
+  },
+  "966": {
+    "offen": 962,
+    "grund": "TMDB ordnet die Teilgeschichten anders als aniSearch (Reihenfolge belegt nur bis Folge 130) und führt ab Folge 131 deutsch nur noch „Folge N\" (468 von 2.484 Einträgen mit Titel); fernsehserien.de verboten"
+  },
+  "1335": {
+    "offen": 26,
+    "grund": "TMDB hat für diese Folgen nur Platzhalter (52 von 105 Einträgen mit Titel)"
+  },
+  "2994": {
+    "offen": 2,
+    "grund": "kein TMDB-Eintrag (Abruf ausstehend oder TMDB kennt die Serie nicht), keine weitere erlaubte Quelle"
+  },
+  "3972": {
+    "offen": 38,
+    "grund": "RTL+ führt für 5D’s keine Folgen (Wiederholungen ohne Titelseiten); TMDB hat ab Folge 117 nur „Folge N\""
+  },
+  "6867": {
+    "offen": 4,
+    "grund": "Anthologie: TMDB und aniSearch ordnen die Filme verschieden; die Titel 5–8 sind den TMDB-Titeln nicht eindeutig zuzuordnen"
+  },
+  "20875": {
+    "offen": 12,
+    "grund": "TMDB führt nur Platzhalter („Folge N\", englisch gleich); keine weitere erlaubte Quelle"
+  },
+  "21201": {
+    "offen": 12,
+    "grund": "TMDB führt nur Platzhalter („Folge N\", englisch gleich); Crunchyroll-Archiv ohne deutschen Titel für diese Folgen"
+  },
+  "21665": {
+    "offen": 12,
+    "grund": "TMDB führt nur Platzhalter („Folge N\", englisch gleich); keine weitere erlaubte Quelle"
+  },
+  "21804": {
+    "offen": 1,
+    "grund": "TMDB führt nur Platzhalter („Folge N\", englisch gleich); keine weitere erlaubte Quelle"
+  },
+  "21827": {
+    "offen": 2,
+    "grund": "TMDB führt nur Platzhalter („Folge N\", englisch gleich); keine weitere erlaubte Quelle"
+  },
+  "98497": {
+    "offen": 4,
+    "grund": "kein TMDB-Eintrag (Abruf ausstehend oder TMDB kennt die Serie nicht), keine weitere erlaubte Quelle"
+  },
+  "99088": {
+    "offen": 8,
+    "grund": "TMDB führt nur Platzhalter („Folge N\", englisch gleich); keine weitere erlaubte Quelle"
+  },
+  "99470": {
+    "offen": 3,
+    "grund": "kein TMDB-Eintrag (Abruf ausstehend oder TMDB kennt die Serie nicht), keine weitere erlaubte Quelle"
+  },
+  "100665": {
+    "offen": 10,
+    "grund": "TMDB führt nur Platzhalter („Folge N\", englisch gleich); keine weitere erlaubte Quelle"
+  },
+  "101231": {
+    "offen": 3,
+    "grund": "kein TMDB-Eintrag (Abruf ausstehend oder TMDB kennt die Serie nicht), keine weitere erlaubte Quelle"
+  },
+  "101471": {
+    "offen": 1,
+    "grund": "kein TMDB-Eintrag (Abruf ausstehend oder TMDB kennt die Serie nicht), keine weitere erlaubte Quelle"
+  },
+  "102498": {
+    "offen": 6,
+    "grund": "kein TMDB-Eintrag (Abruf ausstehend oder TMDB kennt die Serie nicht), keine weitere erlaubte Quelle"
+  },
+  "103887": {
+    "offen": 3,
+    "grund": "kein TMDB-Eintrag (Abruf ausstehend oder TMDB kennt die Serie nicht), keine weitere erlaubte Quelle"
+  },
+  "105096": {
+    "offen": 15,
+    "grund": "TMDB führt nur Platzhalter („Folge N\", englisch gleich); keine weitere erlaubte Quelle"
+  },
+  "108357": {
+    "offen": 5,
+    "grund": "TMDB führt nur Platzhalter („Folge N\", englisch gleich); keine weitere erlaubte Quelle"
+  },
+  "108725": {
+    "offen": 11,
+    "grund": "kein TMDB-Eintrag (Abruf ausstehend oder TMDB kennt die Serie nicht), keine weitere erlaubte Quelle"
+  },
+  "108972": {
+    "offen": 3,
+    "grund": "kein TMDB-Eintrag; Crunchyroll-Archiv hat für diese Folgen keinen eindeutig zuzuordnenden deutschen Titel (Special oder Sonderstaffel)"
+  },
+  "109002": {
+    "offen": 4,
+    "grund": "kein TMDB-Eintrag; Crunchyroll-Archiv hat für diese Folgen keinen eindeutig zuzuordnenden deutschen Titel (Special oder Sonderstaffel)"
+  },
+  "109085": {
+    "offen": 5,
+    "grund": "kein TMDB-Eintrag; Crunchyroll-Archiv hat für diese Folgen keinen eindeutig zuzuordnenden deutschen Titel (Special oder Sonderstaffel)"
+  },
+  "109217": {
+    "offen": 4,
+    "grund": "TMDB führt nur Platzhalter („Folge N\", englisch gleich); keine weitere erlaubte Quelle"
+  },
+  "110364": {
+    "offen": 52,
+    "grund": "TMDB führt nur Platzhalter („Folge N\", englisch gleich); keine weitere erlaubte Quelle"
+  },
+  "110686": {
+    "offen": 9,
+    "grund": "kein TMDB-Eintrag (Abruf ausstehend oder TMDB kennt die Serie nicht), keine weitere erlaubte Quelle"
+  },
+  "112153": {
+    "offen": 46,
+    "grund": "kein TMDB-Eintrag (Abruf ausstehend oder TMDB kennt die Serie nicht), keine weitere erlaubte Quelle"
+  },
+  "113917": {
+    "offen": 3,
+    "grund": "kein TMDB-Eintrag; Crunchyroll-Archiv hat für diese Folgen keinen eindeutig zuzuordnenden deutschen Titel (Special oder Sonderstaffel)"
+  },
+  "116673": {
+    "offen": 3,
+    "grund": "TMDB hat für diese Folgen nur Platzhalter (1 von 3 Einträgen mit Titel)"
+  },
+  "119837": {
+    "offen": 10,
+    "grund": "TMDB führt nur Platzhalter („Folge N\", englisch gleich); keine weitere erlaubte Quelle"
+  },
+  "124494": {
+    "offen": 4,
+    "grund": "TMDB führt nur Platzhalter („Folge N\", englisch gleich); keine weitere erlaubte Quelle"
+  },
+  "125426": {
+    "offen": 5,
+    "grund": "TMDB führt nur Platzhalter („Folge N\", englisch gleich); keine weitere erlaubte Quelle"
+  },
+  "132193": {
+    "offen": 5,
+    "grund": "TMDB führt nur Platzhalter („Folge N\", englisch gleich); keine weitere erlaubte Quelle"
+  },
+  "132477": {
+    "offen": 13,
+    "grund": "kein TMDB-Eintrag (Abruf ausstehend oder TMDB kennt die Serie nicht), keine weitere erlaubte Quelle"
+  },
+  "135255": {
+    "offen": 3,
+    "grund": "kein TMDB-Eintrag; Crunchyroll-Archiv hat für diese Folgen keinen eindeutig zuzuordnenden deutschen Titel (Special oder Sonderstaffel)"
+  },
+  "135429": {
+    "offen": 8,
+    "grund": "TMDB führt nur Platzhalter („Folge N\", englisch gleich); keine weitere erlaubte Quelle"
+  },
+  "139589": {
+    "offen": 10,
+    "grund": "TMDB führt nur Platzhalter („Folge N\", englisch gleich); keine weitere erlaubte Quelle"
+  },
+  "140002": {
+    "offen": 6,
+    "grund": "TMDB führt nur Platzhalter („Folge N\", englisch gleich); keine weitere erlaubte Quelle"
+  },
+  "142794": {
+    "offen": 3,
+    "grund": "TMDB führt nur Platzhalter („Folge N\", englisch gleich); keine weitere erlaubte Quelle"
+  },
+  "148149": {
+    "offen": 2,
+    "grund": "kein TMDB-Eintrag (Abruf ausstehend oder TMDB kennt die Serie nicht), keine weitere erlaubte Quelle"
+  },
+  "153906": {
+    "offen": 6,
+    "grund": "TMDB führt nur Platzhalter („Folge N\", englisch gleich); keine weitere erlaubte Quelle"
+  },
+  "154982": {
+    "offen": 5,
+    "grund": "kein TMDB-Eintrag (Abruf ausstehend oder TMDB kennt die Serie nicht), keine weitere erlaubte Quelle"
+  },
+  "160389": {
+    "offen": 12,
+    "grund": "TMDB führt nur Platzhalter („Folge N\", englisch gleich); Crunchyroll-Archiv ohne deutschen Titel für diese Folgen"
+  },
+  "163137": {
+    "offen": 10,
+    "grund": "TMDB führt nur Platzhalter („Folge N\", englisch gleich); keine weitere erlaubte Quelle"
+  },
+  "163327": {
+    "offen": 2,
+    "grund": "kein TMDB-Eintrag; Crunchyroll-Archiv hat für diese Folgen keinen eindeutig zuzuordnenden deutschen Titel (Special oder Sonderstaffel)"
+  },
+  "165159": {
+    "offen": 1,
+    "grund": "Staffel 3 Folge 2 (Nummer 102) führt RTL+ nicht, TMDB nur „Folge 102\""
+  },
+  "166442": {
+    "offen": 12,
+    "grund": "TMDB führt nur Platzhalter („Folge N\", englisch gleich); keine weitere erlaubte Quelle"
+  },
+  "176298": {
+    "offen": 13,
+    "grund": "kein TMDB-Eintrag; Crunchyroll-Archiv hat für diese Folgen keinen eindeutig zuzuordnenden deutschen Titel (Special oder Sonderstaffel)"
+  },
+  "176317": {
+    "offen": 4,
+    "grund": "kein TMDB-Eintrag; Crunchyroll-Archiv hat für diese Folgen keinen eindeutig zuzuordnenden deutschen Titel (Special oder Sonderstaffel)"
+  },
+  "177106": {
+    "offen": 8,
+    "grund": "TMDB führt nur Platzhalter („Folge N\", englisch gleich); keine weitere erlaubte Quelle"
+  },
+  "177191": {
+    "offen": 2,
+    "grund": "kein TMDB-Eintrag; Crunchyroll-Archiv hat für diese Folgen keinen eindeutig zuzuordnenden deutschen Titel (Special oder Sonderstaffel)"
+  },
+  "178083": {
+    "offen": 2,
+    "grund": "kein TMDB-Eintrag (Abruf ausstehend oder TMDB kennt die Serie nicht), keine weitere erlaubte Quelle"
+  },
+  "180436": {
+    "offen": 2,
+    "grund": "TMDB hat für diese Folgen nur Platzhalter (10 von 12 Einträgen mit Titel)"
+  },
+  "181244": {
+    "offen": 2,
+    "grund": "kein TMDB-Eintrag; Crunchyroll-Archiv hat für diese Folgen keinen eindeutig zuzuordnenden deutschen Titel (Special oder Sonderstaffel)"
+  },
+  "184356": {
+    "offen": 1,
+    "grund": "TMDB hat für diese Folgen nur Platzhalter (11 von 12 Einträgen mit Titel)"
+  },
+  "184951": {
+    "offen": 2,
+    "grund": "TMDB hat für diese Folgen nur Platzhalter (25 von 25 Einträgen mit Titel)"
+  },
+  "185874": {
+    "offen": 8,
+    "grund": "kein TMDB-Eintrag (Abruf ausstehend oder TMDB kennt die Serie nicht), keine weitere erlaubte Quelle"
+  },
+  "187055": {
+    "offen": 12,
+    "grund": "kein TMDB-Eintrag (Abruf ausstehend oder TMDB kennt die Serie nicht), keine weitere erlaubte Quelle"
+  },
+  "188055": {
+    "offen": 1,
+    "grund": "kein TMDB-Eintrag (Abruf ausstehend oder TMDB kennt die Serie nicht), keine weitere erlaubte Quelle"
+  },
+  "189123": {
+    "offen": 5,
+    "grund": "kein TMDB-Eintrag (Abruf ausstehend oder TMDB kennt die Serie nicht), keine weitere erlaubte Quelle"
+  },
+  "195539": {
+    "offen": 10,
+    "grund": "TMDB führt nur Platzhalter („Folge N\", englisch gleich); keine weitere erlaubte Quelle"
+  },
+  "207254": {
+    "offen": 4,
+    "grund": "TMDB hat für diese Folgen nur Platzhalter (8 von 12 Einträgen mit Titel)"
+  },
+  "209499": {
+    "offen": 1,
+    "grund": "TMDB führt nur Platzhalter („Folge N\", englisch gleich); keine weitere erlaubte Quelle"
+  },
+  "209872": {
+    "offen": 4,
+    "grund": "kein TMDB-Eintrag (Abruf ausstehend oder TMDB kennt die Serie nicht), keine weitere erlaubte Quelle"
+  },
+  "210482": {
+    "offen": 11,
+    "grund": "kein TMDB-Eintrag (Abruf ausstehend oder TMDB kennt die Serie nicht), keine weitere erlaubte Quelle"
+  },
+  "212799": {
+    "offen": 2,
+    "grund": "TMDB hat für diese Folgen nur Platzhalter (3 von 20 Einträgen mit Titel)"
+  },
+  "213805": {
+    "offen": 5,
+    "grund": "kein TMDB-Eintrag (Abruf ausstehend oder TMDB kennt die Serie nicht), keine weitere erlaubte Quelle"
+  }
+}

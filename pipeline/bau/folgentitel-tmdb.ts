@@ -60,7 +60,7 @@ function woerter(s: string): Set<string> {
 }
 
 /** Zwei Titel meinen dieselbe Folge: Name gleich oder einer im anderen enthalten, oder mindestens die Hälfte der Wörter des kürzeren gemeinsam und dieselben Zahlen. */
-function aehnlich(a: string, b: string): boolean {
+export function aehnlich(a: string, b: string): boolean {
   const na = tmdbName(a)
   const nb = tmdbName(b)
   if (!na || !nb) return false
