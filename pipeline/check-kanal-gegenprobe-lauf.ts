@@ -6,7 +6,7 @@
  * Mit Kanalnamen trifft die Probe das Angebot ohne Deutsch (1 zur Handprüfung); ohne (Name leer oder mit Zusatz) fiele sie auf alle Angebote zurück (0).
  */
 import { spawnSync } from 'node:child_process'
-import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 
