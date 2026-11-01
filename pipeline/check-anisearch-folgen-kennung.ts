@@ -52,6 +52,10 @@ pruefe('Bei Streit gewinnt die Kennung des Titels (Hand vor Tabelle, Titel 3)', 
 pruefe('Kennung nur im Titel, hinten, gilt (Titel 4)', liste['4']?.folgen[0]?.dt === 'Vier', liste['4'])
 pruefe('Gegenprobe: Titel ohne Kennung bekommt keine Liste (Titel 5)', liste['5'] === undefined, liste['5'])
 pruefe('Tabellenzeile ohne Titel im Bau bleibt (7)', liste['7']?.folgen[0]?.dt === 'Sieben', liste['7'])
+dateien['data/anisearch-mal-verworfen.json'] = { 9: { anisearch: 107, anilist: 7, grund: 'Probe' } }
+const mitStreichung = folgenListen(titles, { lies, kennungen })
+pruefe('Verworfene Seite (Tabellenzeile 7) liefert keine Folgenliste, die übrigen bleiben', mitStreichung['7'] === undefined && mitStreichung['1']?.folgen[0]?.dt === 'Eins', mitStreichung)
+delete dateien['data/anisearch-mal-verworfen.json']
 pruefe('Die Adresse trägt die Kennung des Titels (102)', liste['2']?.url === 'https://www.anisearch.de/anime/102/episodes', liste['2']?.url)
 pruefe('Alle Titel des Baus (mit MAL) gehen an die Kennungssuche', gesehen.length === 5 && gesehen.map((t) => t.mal).join() === '11,22,33,44,55', gesehen)
 
