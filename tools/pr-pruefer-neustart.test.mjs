@@ -36,6 +36,7 @@ gleich('fremder Autor ohne Recht', los({ kommentarLogin: 'fremd', assoziation: '
 gleich('PR-Autor ohne Assoziation', los({ kommentarLogin: 'claude[bot]', assoziation: 'NONE' }), true)
 gleich('Mitglied', los({ kommentarLogin: 'anderer', assoziation: 'MEMBER' }), true)
 gleich('Bot des Prüfers', los({ kommentarLogin: 'github-actions[bot]', assoziation: 'NONE' }), false)
+gleich('Bot des Prüfers, auch mit Schreibrecht', los({ kommentarLogin: 'github-actions[bot]', assoziation: 'MEMBER' }), false)
 gleich('Issue ohne PR', los({ pr: null }), false)
 gleich('PR geschlossen', los({ pr: pr({ state: 'closed' }) }), false)
 gleich('Entwurf', los({ pr: pr({ draft: true }) }), false)
@@ -69,6 +70,7 @@ gleich('laufender Lauf: gewartet bis completed (einmal)', l.wartet, [5000])
 gleich('kein Lauf zum Kopf: nichts', laufe({}, []).aufrufe, [])
 gleich('Abnahme-Kommentar: nichts', laufe({ KOMMENTAR: '## Nachtrag (Abnahme Dirigent)' }, abgeschlossen).aufrufe, [])
 gleich('fremder Autor: nichts', laufe({ KOMMENTAR_LOGIN: 'x', KOMMENTAR_ASSOZIATION: 'NONE' }, abgeschlossen).aufrufe, [])
+gleich('PR-Autor ohne Recht (über main): Neustart', laufe({ KOMMENTAR_LOGIN: 'claude[bot]', KOMMENTAR_ASSOZIATION: 'NONE' }, abgeschlossen).aufrufe, ['run rerun 5'])
 gleich('PR-Nummer fehlt: Exit 1', laufe({ PR_NUMMER: '' }, abgeschlossen).code, 1)
 gleich('Absturz von gh: Exit 1, kein Neustart', (() => {
   const mute = console.log
