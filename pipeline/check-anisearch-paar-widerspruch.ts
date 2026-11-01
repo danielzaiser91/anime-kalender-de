@@ -5,7 +5,7 @@
  *
  * Aufruf: npm run check:logic (steckt darin) oder `tsx pipeline/check-anisearch-paar-widerspruch.ts`
  */
-import { anisearchKennungen } from './bau/anisearch-kennung.ts'
+import { anisearchKennungen, baueFesteKennungen } from './bau/anisearch-kennung.ts'
 import { ohneVerworfene, ohneVerworfeneSeiten } from './lib/anisearch-verworfen.ts'
 import { namenAehneln, paarWiderspricht } from './lib/anisearch-paar-widerspruch.ts'
 import type { readJson } from './lib/util.ts'
@@ -58,6 +58,10 @@ const lies = (<T>(pfad: string, fallback: T): T => (dateien[pfad.split('/').pop(
 const titel = [{ id: 900_001, mal: 38603 }, { id: 900_002, mal: 8409 }, { id: 900_003, mal: 40568 }]
 const k = anisearchKennungen(titel, lies)
 pruefe('Bau: verworfenes Paar gibt dem Titel keine Kennung, die übrigen Paare gelten', !k.has(900_001) && k.get(900_002) === 9_000_002 && k.get(900_003) === 9_000_003, [...k])
+const fest = { 'anisearch.json': { 900_011: { anisearchId: 9_000_011 }, 900_012: { anisearchId: 9_000_012 } }, 'anisearch-titel.json': { 900_013: { anisearchId: 9_000_013 } }, 'anisearch-mal-verworfen.json': { 5: { anisearch: 9_000_011, anilist: 900_011, grund: 'Probe' }, 6: { anisearch: 9_000_013, anilist: 900_013, grund: 'Probe' } } }
+const festLies = (<T>(pfad: string, fallback: T): T => (fest[pfad.split('/').pop()! as keyof typeof fest] as T | undefined) ?? fallback) as typeof readJson
+const feste = baueFesteKennungen(festLies)
+pruefe('Feste Kennungen: verworfene Seite fällt in beiden Abrufdateien weg, die übrige bleibt', !feste.has(900_011) && !feste.has(900_013) && feste.get(900_012) === 9_000_012, [...feste].filter(([i]) => i > 900_000))
 dateien['anisearch-mal-verworfen.json'] = {}
 pruefe('Bau ohne Streichliste: dasselbe Paar gilt (die Streichung wirkt wirklich)', anisearchKennungen(titel, lies).get(900_001) === 9_000_001)
 

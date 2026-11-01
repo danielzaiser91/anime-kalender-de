@@ -14,16 +14,17 @@ import { ANISEARCH_ID_BASIS } from './anisearch-titel.ts'
 type Kennungen = Record<string, { anisearchId?: number }>
 
 let fest: Map<number, number> | undefined
-function festeKennungen(): Map<number, number> {
-  if (fest) return fest
+/** Die festen Kennungen; `lies` ist austauschbar, damit ein Test die Abrufdateien ersetzt (Katalogabgleich und Handdatei lesen immer die echten). */
+export function baueFesteKennungen(lies: typeof readJson = readJson): Map<number, number> {
   const m = new Map<number, number>()
   for (const quelle of ['data/anisearch-titel.json', 'data/anisearch.json']) {
-    for (const [id, e] of Object.entries(ohneVerworfeneSeiten(readJson<Kennungen>(quelle, {}), ladeVerworfene()))) if (e.anisearchId) m.set(Number(id), e.anisearchId)
+    for (const [id, e] of Object.entries(ohneVerworfeneSeiten(lies<Kennungen>(quelle, {}), ladeVerworfene(lies)))) if (e.anisearchId) m.set(Number(id), e.anisearchId)
   }
   for (const [id, asId] of anisearchKatalogPaare()) m.set(id, asId)
   for (const [id, asId] of Object.entries(anisearchHand)) m.set(Number(id), asId)
-  return (fest = m)
+  return m
 }
+const festeKennungen = (): Map<number, number> => (fest ??= baueFesteKennungen())
 
 /** Ist die MAL-Kennung eindeutig, die aniSearch-Kennung noch frei und unter den Anwärtern einmalig, gilt sie; sonst bleibt der Titel auf der Liste. */
 export function loeseKennungen(titel: { id: number; mal?: number }[], festeIds: Map<number, number>, malZuAnisearch: Record<string, number>): Map<number, number> {
