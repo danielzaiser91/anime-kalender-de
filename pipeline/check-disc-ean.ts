@@ -134,6 +134,7 @@ console.log('\nBau (baueReleases gegen Wegwerf-Ordner):')
     const news = (slug: string, titleId: number, tag: string, extra: object = {}) => ({ slug, titleId, name: slug, platform: 'disc', releaseType: 'disc', automatisch: true, schedule: { firstEpisodeDate: tag }, year: 2026, sources: [], ...extra })
     const nr = [
       news('n-ean', 900301, TAG),
+      news('n-verkn', 900301, TAG, { sources: ['https://www.anime2you.de/x/detektiv-conan-box-1-termin/'] }),
       news('n-tag', 900301, '2026-12-19'),
       news('n-titel', 900399, TAG),
       news('n-hand', 900301, TAG, { buyUrl: dp }),
@@ -143,6 +144,8 @@ console.log('\nBau (baueReleases gegen Wegwerf-Ordner):')
     ergaenzeDiscUndZugang({ titles: new Map(), anisearch: {}, releases: nr as never, zugangJeAdresse: new Map() })
     const nurl = (slug: string) => (nr.find((r) => r.slug === slug) as { buyUrl?: string }).buyUrl
     pruefe('News-Disc mit eindeutiger EAN → EAN-Suche (Bauschritt 11-1)', nurl('n-ean') === 'https://www.amazon.de/s?k=7630017545978', nurl('n-ean'))
+    const verkn = nr.find((r) => r.slug === 'n-verkn') as { edition?: string; platformUrl?: string }
+    pruefe('News-Disc mit Nummer im Hinweis: Verknüpfung (edition, platformUrl) UND EAN-Suche (Reihenfolge in 11-1)', !!verkn.edition && verkn.platformUrl === 'https://www.anisearch.de/article/216718,x' && nurl('n-verkn') === 'https://www.amazon.de/s?k=7630017545978', [verkn, nurl('n-verkn')])
     pruefe('News-Disc, andere Tag → ohne Link (keine neue Namenssuche)', nurl('n-tag') === undefined, nurl('n-tag'))
     pruefe('News-Disc, Titel ohne Ausgabe → ohne Link', nurl('n-titel') === undefined, nurl('n-titel'))
     pruefe('News-Disc mit Handlink bleibt', nurl('n-hand') === dp, nurl('n-hand'))
