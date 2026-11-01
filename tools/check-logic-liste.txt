@@ -292,6 +292,7 @@ pipeline/check-patchnotes-stempel-regel.ts
 pipeline/check-patchnotes-stempel.ts
 pipeline/check-patchnotes-titel-ablauf.ts
 pipeline/check-patchnotes-titel.ts
+pipeline/check-patchnotes-vorrat.ts
 pipeline/check-patchnotes.ts
 pipeline/check-phasen-zustand.ts
 pipeline/check-phasenfolge.ts
