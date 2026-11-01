@@ -20,6 +20,7 @@ const quelle = readFileSync(resolve(__dirname, 'amazon.js'), 'utf8')
 const kasten = {}
 kasten.globalThis = kasten
 vm.runInNewContext(readFileSync(resolve(__dirname, 'prime-region.js'), 'utf8'), kasten)
+vm.runInNewContext(readFileSync(resolve(__dirname, 'prime-stand.js'), 'utf8'), kasten)
 const karte = (n) => new Map(Array.from({ length: n }, (_, i) => [i + 1, {}]))
 
 function schnitt(von, bis, ab = 0) {
@@ -58,7 +59,7 @@ async function klick(e, umgebung = {}) {
   const f = new Function(
     'knopf', 'verbindungLebt', 'standGeladen', 'standFertig', 'erledigt', 'listenId', 'staffelSchluessel', 'letzterStand', 'zeichnen',
     'location', 'htmlNeuLesen', 'sprachenAusFolgen', 'geladeneFolgen', 'deutschInFolgen', 'gesehen', 'seitenLage', 'ueberKanal',
-    'setTimeout', 'abweisen', 'chrome', 'globalThis',
+    'setTimeout', 'abweisen', 'chrome', 'globalThis', 'quelltextVonFruehererSeite', 'titelVerlassen', 'document', 'eintrag', 'asinAusAdresse', 'asinAusSeite', 'seitenTitel',
     `return (async () => {\n${klickCodeMitToken}\nreturn 'sendet'\n})()`,
   )
   const ergebnis = await f(
@@ -68,6 +69,7 @@ async function klick(e, umgebung = {}) {
     () => ({ folgenLautSeite: e.lautSeite ?? 0, regionFolgen: [] }), () => e.kanal ?? false, () => {},
     (grund, ok = false) => abgewiesen.push({ grund, ok }),
     { storage: { sync: { get: umgebung.tokenGet ?? (() => Promise.resolve({ token: 'T' })) } } }, kasten,
+    () => false, null, { querySelector: () => null }, { titel: 'T' }, () => 'A', () => 'A', () => 'T',
   )
   return { sendet: ergebnis === 'sendet', abgewiesen, knopf }
 }

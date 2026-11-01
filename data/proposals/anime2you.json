@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-10-31T23:03:04.332Z",
+  "scrapedAt": "2026-11-01T12:02:20.107Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
@@ -18,7 +18,29 @@
       "platforms": [],
       "dates": [],
       "dub": "ja",
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "sammel": [
+        {
+          "titel": "Black Clover",
+          "zusatz": "Staffel 1",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Pluto TV"
+          ]
+        },
+        {
+          "titel": "My Hero Academia",
+          "zusatz": "Staffel 1",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Pluto TV"
+          ],
+          "folgen": 13
+        }
+      ],
+      "sammelGelesen": "2026-11-01"
     },
     {
       "articleTitle": "Sieben Disc-Neuheiten ab sofort im AKIBA PASS SHOP vorbestellbar",
@@ -31,11 +53,16 @@
       "dates": [
         {
           "iso": "2027-02-05",
-          "context": "pecial Edition des Anime-Klassikers »Neon Genesis Evangelion«, die am 5. Februar 2027 als Blu-ray erscheint und alle Episoden […] Der Beit"
+          "context": "ecial Edition des Anime-Klassikers »Neon Genesis Evangelion« , die am 5. Februar 2027 als Blu-ray erscheint und alle Episoden mit deutscher"
+        },
+        {
+          "iso": "2026-12-18",
+          "context": "-Staffelboxen zur »Pokémon«-Serie vorbestellt werden, die allesamt am 18. Dezember 2026 veröffentlicht werden sollen. Dabei handelt es sich"
         }
       ],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "volltextGelesen": "2026-11-01"
     },
     {
       "articleTitle": "IMAX-Fassung von »Godzilla Minus Zero« kommt nach Deutschland + Trailer",
@@ -401,7 +428,7 @@
           "folgen": 12
         }
       ],
-      "sammelGelesen": "2026-10-29"
+      "sammelGelesen": "2026-11-01"
     },
     {
       "articleTitle": "Disney+ nimmt zwei Anime-Neuzugänge ins Programm",
@@ -440,7 +467,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-29"
+      "sammelGelesen": "2026-11-01"
     },
     {
       "articleTitle": "Zwei Anime-Neuzugänge auf Deutsch bei Crunchyroll",
@@ -490,7 +517,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-29"
+      "sammelGelesen": "2026-11-01"
     },
     {
       "articleTitle": "Crunchyroll zeigt dritte »Mashle«-Staffel im Simulcast",
@@ -1704,7 +1731,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-29"
+      "sammelGelesen": "2026-11-01"
     },
     {
       "articleTitle": "»Lady Oscar« erscheint in einer neuen Blu-ray-Komplettbox",
@@ -2015,13 +2042,9 @@
       "platforms": [
         "netflix"
       ],
-      "dates": [
-        {
-          "month": "2026-10",
-          "context": "dgerunners«-Serie veröffentlicht. Das Video findet ihr unten. Release im Oktober 2026 »Cyberpunk: Edgerunners II« entsteht wie der Vorgänger"
-        }
-      ],
+      "dates": [],
       "dub": "ja",
+      "hinweis": "sprache",
       "alreadyCurated": false
     },
     {
@@ -2254,7 +2277,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-29"
+      "sammelGelesen": "2026-11-01"
     },
     {
       "articleTitle": "»Black Clover« stellt neuen Crunchyroll-Bestwert für 2026 auf",
@@ -3468,12 +3491,7 @@
         "primevideo",
         "aniverse"
       ],
-      "dates": [
-        {
-          "month": "2026-10",
-          "context": "Neue Anime-Katalogtitel im Oktober 2026 bei aniverse Der Prime Video Channel aniverse stockt s"
-        }
-      ],
+      "dates": [],
       "dub": "ja",
       "alreadyCurated": false,
       "sammel": [
@@ -3557,13 +3575,9 @@
       "platforms": [
         "primevideo"
       ],
-      "dates": [
-        {
-          "iso": "2026-10-31",
-          "context": "beiden Serien »Naruto« und »Naruto Shippuden«, die voraussichtlich am 31. Oktober 2026 aus dem Programm von Prime Video entfernt werden und"
-        }
-      ],
+      "dates": [],
       "dub": "ja",
+      "hinweis": "sprache",
       "alreadyCurated": false
     },
     {
@@ -3890,23 +3904,6 @@
         }
       ],
       "sammelGelesen": "2026-10-25"
-    },
-    {
-      "articleTitle": "Action-Anime »Rooster Fighter« bald auf Netflix verfügbar",
-      "articleUrl": "https://www.anime2you.de/news/1055673/rooster-fighter-bald-auf-netflix/",
-      "publishedAt": "2026-09-29",
-      "category": "streaming",
-      "platforms": [
-        "netflix"
-      ],
-      "dates": [
-        {
-          "iso": "2026-10-10",
-          "context": "r«) in Kürze in sein Programm aufnehmen wird. Wir fassen zusammen. Ab 10. Oktober 2026 »Rooster Fighter« steht demzufolge ab dem 10. Oktober"
-        }
-      ],
-      "dub": "unklar",
-      "alreadyCurated": false
     },
     {
       "articleTitle": "Prime Video fügt drei Anime-Neuzugänge zu seinem Katalog hinzu",

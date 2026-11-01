@@ -65,11 +65,15 @@ function ohneHeredoc(befehl) {
   return aus.join('\n')
 }
 
+/** Zeilenfortsetzung (`\` am Zeilenende, auch CRLF) verbindet die Zeilen wie in der Shell; der Zerleger sähe sonst zwei Befehle. */
+const ohneFortsetzung = (befehl) => befehl.replace(/\\\r?\n/g, '')
+
 /**
  * Zerlegt in Segmente { tokens, op }; `op` ist der Verknüpfer nach dem Segment (`&&`, `||`, `;`, `|`, '' am Ende).
  * Klammern, `$(` und Backticks liefern zusätzlich { auf } und { zu }, damit ein `cd` im Inneren nicht nach außen wirkt.
  */
-function zerlege(befehl) {
+function zerlege(roh) {
+  const befehl = ohneFortsetzung(roh)
   const segmente = []
   const gemerkt = []
   let tokens = []
@@ -255,7 +259,7 @@ function pruefe(eingabe, existiert) {
   return `Hauptordner anime-kalender-de: „${grund}“ gesperrt (dort nur Lesen und git pull --ff-only). Arbeite in einem Worktree: git worktree add C:/code/_worktrees/anime-kalender-de/<thema> -b <zweig> origin/main, danach „cd C:/code/_worktrees/anime-kalender-de/<thema> && …“ mit && (nie mit ;, sonst läuft der Rest im Hauptordner, falls cd scheitert) oder git -C C:/code/_worktrees/anime-kalender-de/<thema> …`
 }
 
-module.exports = { pruefe, pruefeBefehl, loese }
+module.exports = { pruefe, pruefeBefehl, loese, zerlege, ohneHeredoc, eingebetteterBefehl, programmName }
 
 if (require.main === module) {
   let roh = ''
