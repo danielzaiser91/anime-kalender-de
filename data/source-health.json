@@ -6,8 +6,8 @@
     "lastError": "keine Folge mit vde gefunden"
   },
   "anime2you": {
-    "lastOk": "2026-11-01T22:02:31.813Z",
-    "lastRun": "2026-11-01T22:02:31.813Z",
+    "lastOk": "2026-11-01T23:02:34.304Z",
+    "lastRun": "2026-11-01T23:02:34.304Z",
     "lastCount": 56
   },
   "anisearch": {
@@ -117,8 +117,8 @@
     "lastCount": 0
   },
   "crunchyroll-neu": {
-    "lastOk": "2026-11-01T22:02:18.982Z",
-    "lastRun": "2026-11-01T22:02:18.982Z",
+    "lastOk": "2026-11-01T23:02:22.295Z",
+    "lastRun": "2026-11-01T23:02:22.295Z",
     "lastCount": 169
   },
   "cartoons": {
@@ -138,13 +138,14 @@
   },
   "tv-programm": {
     "lastOk": "2026-11-01T22:02:34.627Z",
-    "lastRun": "2026-11-01T22:02:34.627Z",
-    "lastCount": 274
+    "lastRun": "2026-11-01T23:02:37.043Z",
+    "lastCount": 0,
+    "lastError": "keine Sendung gelesen"
   },
   "tv-de": {
-    "lastOk": "2026-10-31T23:05:01.266Z",
-    "lastRun": "2026-10-31T23:05:01.266Z",
-    "lastCount": 70
+    "lastOk": "2026-11-01T23:04:30.757Z",
+    "lastRun": "2026-11-01T23:04:30.757Z",
+    "lastCount": 74
   },
   "toggo": {
     "lastOk": "2026-11-01T04:11:07.063Z",
@@ -172,8 +173,8 @@
     "lastCount": 3
   },
   "crunchyroll-woche": {
-    "lastOk": "2026-11-01T22:02:15.684Z",
-    "lastRun": "2026-11-01T22:02:15.684Z",
+    "lastOk": "2026-11-01T23:02:19.699Z",
+    "lastRun": "2026-11-01T23:02:19.699Z",
     "lastCount": 61
   },
   "adn-news": {
@@ -182,8 +183,8 @@
     "lastCount": 72
   },
   "messbelege": {
-    "lastOk": "2026-11-01T22:02:33.420Z",
-    "lastRun": "2026-11-01T22:02:33.420Z",
+    "lastOk": "2026-11-01T23:02:35.922Z",
+    "lastRun": "2026-11-01T23:02:35.922Z",
     "lastCount": 0
   },
   "beleg-lesungen": {
