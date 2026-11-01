@@ -36,7 +36,7 @@ pruefe('Liste ab Staffel 2 mit zwei Staffeln: Verstoß, nennt die erste', gefund
 pruefe('leere oder fehlende Liste kein Verstoß', gefunden({ ...beyblade, anilistId: 5, url: 'https://www.netflix.com/title/99999999' }).length === 0 && gefunden({ ...beyblade, anilistId: 5, url: 'https://www.netflix.com/title/1' }).length === 0)
 pruefe('Titel mit zwei Adressen: nur die ohne Staffel 1 trifft', gefunden({ ...beyblade, anilistId: 900003 }).length === 1)
 pruefe('Titel ohne Netflix-Adresse kein Verstoß', gefunden({ ...beyblade, anilistId: 777 }).length === 0)
-pruefe('netflixKennungen liest nur Netflix-Verweise', netflixKennungen([{ platform: 'netflix', url: 'https://www.netflix.com/title/81924739' }, { platform: 'disneyplus', url: 'https://x/title/5' }, { platform: 'netflix', url: 'https://www.netflix.com/search?q=a' }]).join() === '81924739')
+pruefe('netflixKennungen liest nur Netflix-Verweise', netflixKennungen([{ platform: 'netflix', url: 'https://www.netflix.com/title/81924739' }, { platform: 'disneyplus', url: 'https://x/title/5' }, { platform: 'disneyplus', url: 'https://www.netflix.com/title/7' }, { platform: 'netflix', url: 'https://www.netflix.com/search?q=a' }]).join() === '81924739')
 
 // Schreibweg: Liste ab Staffel 2 wird keinem Titel zugeordnet, auch nicht dem einzigen.
 const unsere = [{ id: 165159, titel: 'Beyblade X', folgen: 100 }]
@@ -47,7 +47,7 @@ pruefe('Meldung Staffel 2 Folge 2 landet nirgends', ordneMeldungZu({ folge: 2, s
 const ab1 = [{ seq: 1, name: '', folgen: 100, erste: 1 }]
 pruefe('Kontrolle: Liste ab Staffel 1 ordnet weiter zu', ordneMeldungZu({ folge: 2, staffel: 1 }, unsere, ab1)?.folgeInStaffel === 2)
 pruefe('Kontrolle: Liste 1 und 3 (Lücke) geht den bisherigen Weg, nicht die neue Sperre', !/beginnt bei Staffel/.test(ordneNachStaffelliste([{ seq: 3, name: '', folgen: 5, erste: 1 }, { seq: 1, name: '', folgen: 5, erste: 1 }], unsere).problem ?? ''))
-pruefe('leere Liste wirft nicht', ordneNachStaffelliste([], unsere).paare.length === 0)
+pruefe('leere Liste: keine Paare und keine Begründung der Sperre', ordneNachStaffelliste([], unsere).paare.length === 0 && ordneNachStaffelliste([], unsere).problem === undefined)
 
 if (fehler) {
   console.error(`FEHL check-handbeleg-anbieter-zaehlung: ${fehler}`)
