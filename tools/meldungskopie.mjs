@@ -2,9 +2,9 @@
  * Auswertungen und Einmal-SQL laufen an einer SQLite-Kopie der Meldungsdaten, nie an der echten D1 (docs/wissen/betrieb.md,
  * Abschnitt „Auswertungen an der Kopie“).
  *
- *   npm run meldungskopie -- holen                      jüngste Kopie vom Lauf meldungskopie.yml laden
- *   npm run meldungskopie -- abfrage "SELECT …"         eine Abfrage (Zeilen als JSON) oder Einmal-SQL (Wirkung als Differenz)
- *   npm run meldungskopie -- abfrage --datei x.sql      dasselbe aus einer Datei
+ *   node tools/meldungskopie.mjs holen                  jüngste Kopie vom Lauf meldungskopie.yml laden
+ *   node tools/meldungskopie.mjs abfrage "SELECT …"     eine Abfrage (Zeilen als JSON) oder Einmal-SQL (Wirkung als Differenz)
+ *   node tools/meldungskopie.mjs abfrage --datei x.sql  dasselbe aus einer Datei
  *   node tools/meldungskopie.mjs ziehen                 nur im Lauf meldungskopie.yml (liest die echte D1)
  *
  * `--kopie <datei>` oder `MELDUNGSKOPIE` ersetzt den Standardort data/cache/meldungskopie/meldungen.sqlite, `--max <n>` begrenzt die Ausgabe (200).
