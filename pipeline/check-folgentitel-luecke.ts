@@ -6,6 +6,7 @@
  * Aufruf: `npm run check:logic`.
  */
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import { gzipSync } from 'node:zlib'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import type { Title } from '../shared/types.ts'
@@ -60,6 +61,7 @@ pruefe('nur zwei vorhandene Titel auf RTL+-Nummern: nichts (kein Beleg)', rtlplu
 pruefe('ohne vorhandene Titel: nichts', rtlplusFolgentitel(new Map(), rtlBeyblade) === undefined)
 pruefe('ohne RTL+-Eintrag: nichts', rtlplusFolgentitel(vorhandenBeyblade, undefined) === undefined)
 pruefe('Platzhalter „Folge 7" bei RTL+ ist kein Titel', !rtlplusFolgentitel(vorhandenBeyblade, { folgen: [...rtlBeyblade.folgen, { nr: 7, dt: 'Folge 7' }] })?.has(7))
+pruefe('leerer RTL+-Titel für Nummer 8 ist kein Titel', rtlplusFolgentitel(vorhandenBeyblade, { folgen: [...rtlBeyblade.folgen, { nr: 8, dt: '' }] })?.has(8) === false)
 
 const beyblade = { id: 165159, streams: [], episodes: undefined } as unknown as Title
 const zeilen = [1, 2, 3, 65, 66, 67].map((nr) => ({ nr, ...(vorhandenBeyblade.has(nr) ? { de: vorhandenBeyblade.get(nr) } : {}) }))
@@ -102,6 +104,37 @@ pruefe('Lücke in den Nummern: nichts', crFolgentitelGeteilt(aoashi, luecke, arc
 const imBauCr = mitFremdTiteln(aoashi, [1, 2, 3].map((nr) => ({ nr })), { ...leer, crSerien: new Map([['x', { ...aoashiStaffeln, seriesId: undefined }]]) })
 pruefe('im Bau: ohne gepacktes Archiv bleibt die Liste leer (kein Absturz)', imBauCr?.every((x) => !x.de) === true)
 
+/* Erster Starttag der Staffel, nicht der letzte: Staffel beginnt Ende 2025 und läuft in 2026 weiter. */
+const jahreswechsel = serieMit([{ name: 'Staffel 2', ab: '2025-12-28', von: 1, bis: 3 }])
+jahreswechsel.staffeln![0].deutscheFolgen![2].verfuegbarAb = '2026-01-11T08:00:00Z'
+const jahrArchiv = archivMit({ 'G0-1': 'Anfang', 'G0-2': 'Mitte', 'G0-3': 'Ende' })
+pruefe('Staffel beginnt 2025 und endet 2026: für einen Titel von 2026 nichts', crFolgentitelGeteilt({ ...aoashi, episodes: 3 } as Title, jahreswechsel, jahrArchiv, new Map()) === undefined)
+pruefe('dieselbe Staffel für einen Titel von 2025: sie gilt', crFolgentitelGeteilt({ ...aoashi, jpYear: 2025, episodes: 3 } as Title, jahreswechsel, jahrArchiv, new Map())?.size === 3)
+/* Zwei Staffeln im selben Jahr mit derselben Staffelzahl im Namen: keine Wahl, nichts. */
+const zweimalZwei = serieMit([{ name: 'Staffel 2', ab: '2026-03-04', von: 1, bis: 3 }, { name: 'Season 2', ab: '2026-06-04', von: 1, bis: 3 }])
+pruefe('zwei Staffeln „2" im selben Jahr: nichts', crFolgentitelGeteilt({ ...aoashi, episodes: 3 } as Title, zweimalZwei, archivMit({ 'G0-1': 'A', 'G1-1': 'B' }), new Map()) === undefined)
+/* Eine Folge ohne Nummer: die Staffel ist nicht lückenlos belegt. */
+const ohneNummer = serieMit([{ name: 'Staffel 2', ab: '2026-03-04', von: 1, bis: 3 }])
+ohneNummer.staffeln![0].deutscheFolgen![2].nummer = undefined
+pruefe('eine Folge ohne Nummer: nichts', crFolgentitelGeteilt({ ...aoashi, episodes: 3 } as Title, ohneNummer, archivMit({ 'G0-1': 'A', 'G0-2': 'B', 'G0-3': 'C' }), new Map()) === undefined)
+/* Crunchyroll-Staffel ohne Zahl im Namen gilt als erste (Die Tagebücher der Apothekerin). */
+const ohneZahl = serieMit([{ name: 'Die Tagebücher der Apothekerin', ab: '2026-03-04', von: 1, bis: 3 }, { name: 'Staffel 2', ab: '2026-06-04', von: 1, bis: 3 }])
+pruefe('Staffel ohne Zahl im Namen gilt als erste, Titel ohne Zahl nimmt sie', crFolgentitelGeteilt({ ...aoashi, titleDe: 'Die Tagebücher', titleEn: 'Diaries', episodes: 3 } as Title, ohneZahl, archivMit({ 'G0-1': 'Erste', 'G1-1': 'Zweite' }), new Map())?.get(1) === 'Erste')
+
+/* Im Bau: das gepackte Archiv liegt im Arbeitsverzeichnis unter data/crunchyroll-raw/<Serienkennung>.de.json.gz. */
+const werk = mkdtempSync(join(tmpdir(), 'folgentitel-cr-'))
+const vorher = process.cwd()
+try {
+  mkdirSync(join(werk, 'data', 'crunchyroll-raw'), { recursive: true })
+  writeFileSync(join(werk, 'data', 'crunchyroll-raw', 'SER1.de.json.gz'), gzipSync(JSON.stringify(aoashiArchiv)))
+  process.chdir(werk)
+  const imBauMitArchiv = mitFremdTiteln(aoashi, [1, 2, 3].map((nr) => ({ nr })), { ...leer, crSerien: new Map([['x', { ...aoashiStaffeln, seriesId: 'SER1' }]]) })
+  pruefe('im Bau: eine Staffel aus dem gepackten Archiv füllt die Lücke (Folge 1 und 2, Folge 3 bleibt leer)', imBauMitArchiv?.[0].de === 'Startlinie' && imBauMitArchiv[1].de === 'Denkende Schilfe' && !imBauMitArchiv[2].de, imBauMitArchiv)
+} finally {
+  process.chdir(vorher)
+  rmSync(werk, { recursive: true, force: true })
+}
+
 console.log('\nHandzuordnung')
 const ordner = mkdtempSync(join(tmpdir(), 'folgentitel-hand-'))
 const pfad = join(ordner, 'hand.yaml')
@@ -138,16 +171,18 @@ pruefe('RTL+-Titel für Folge 4 fehlt in der Datei: gemeldet, Folge 5 ohne RTL+-
 pruefe('Datei mit allen RTL+-Titeln: nichts gemeldet', rtlplusFehlt({ f: [[1, 'X'], [2, 'Multi-Magischer Hinterhalt'], [3, 'Team Persona'], [4, 'Bey Sponsor']], de: [[1, 4]] }, { folgen: [{ nr: 1, dt: 'X' }, { nr: 2, dt: 'Multi-Magischer Hinterhalt' }, { nr: 3, dt: 'Team Persona' }, { nr: 4, dt: 'Bey Sponsor' }] }).length === 0)
 
 console.log('\nBestandswache als Ganzes (Wegwerf-Wurzel)')
-function wurzelMit(opts: { liste?: unknown; dateien: number; luecke?: number }): string {
+const rtlVier = { folgen: [{ nr: 1, dt: 'X' }, { nr: 2, dt: 'Multi-Magischer Hinterhalt' }, { nr: 3, dt: 'Team Persona' }, { nr: 4, dt: 'Bey Sponsor' }] }
+function wurzelMit(opts: { liste?: unknown; dateien: number; luecke?: number; rtl?: Record<string, unknown> }): string {
   const w = mkdtempSync(join(tmpdir(), 'folgentitel-bestand-'))
   mkdirSync(join(w, 'data'), { recursive: true })
   mkdirSync(join(w, 'public', 'data', 'folgen'), { recursive: true })
   if (opts.liste !== undefined) writeFileSync(join(w, 'data', 'folgentitel-offen.json'), JSON.stringify(opts.liste))
-  writeFileSync(join(w, 'data', 'rtlplus-folgen.json'), JSON.stringify({ titel: {} }))
+  writeFileSync(join(w, 'data', 'rtlplus-folgen.json'), JSON.stringify({ titel: opts.rtl ?? {} }))
   for (let i = 1; i <= opts.dateien; i++) {
     const leerNr = i === 1 ? (opts.luecke ?? 0) : 0
     const f = [[1, 'Eins'], ...Array.from({ length: leerNr }, (_, k) => [k + 2, ''])]
-    writeFileSync(join(w, 'public', 'data', 'folgen', `${i}.json`), JSON.stringify({ f, de: [[1, 1 + leerNr]] }))
+    const rtlDatei = i === 1 && opts.rtl ? { f: [[1, 'X'], [2, 'Multi-Magischer Hinterhalt'], [3, 'Team Persona'], [4, '']], de: [[1, 4]] } : undefined
+    writeFileSync(join(w, 'public', 'data', 'folgen', `${i}.json`), JSON.stringify(rtlDatei ?? { f, de: [[1, 1 + leerNr]] }))
   }
   return w
 }
@@ -171,6 +206,10 @@ const mehr = lauf(wurzelMit({ liste: { '1': { offen: 1, grund: 'Test' } }, datei
 pruefe('mehr Lücken als gelistet: Exit 0, aber eine Warnzeile mit der Kennung', mehr.code === 0 && mehr.zeilen.some((z) => z.includes('⚠ WARNUNG Folgentitel: 1 Titel mit mehr Lücken') && z.includes(': 1')), mehr.zeilen)
 const weniger = lauf(wurzelMit({ liste: { '1': { offen: 3, grund: 'Test' } }, dateien: 1000, luecke: 2 }))
 pruefe('weniger Lücken als gelistet: Exit 0 und Warnzeile „kürzen"', weniger.code === 0 && weniger.zeilen.some((z) => z.includes('weniger Lücken als gelistet')), weniger.zeilen)
+const rtlFehlt = lauf(wurzelMit({ liste: { '1': { offen: 1, grund: 'Test' } }, dateien: 1000, rtl: { '1': rtlVier } }))
+pruefe('RTL+-Titel fehlt in der Datei: Exit 0 und Warnzeile mit der Kennung 1', rtlFehlt.code === 0 && rtlFehlt.zeilen.some((z) => z.includes('⚠ WARNUNG Folgentitel: 1 Titel mit RTL+-Titeln') && z.endsWith(': 1')), rtlFehlt.zeilen)
+const rtlAnderer = lauf(wurzelMit({ liste: { '1': { offen: 1, grund: 'Test' } }, dateien: 1000, rtl: { '2': rtlVier } }))
+pruefe('RTL+-Eintrag eines anderen Titels: keine RTL+-Warnung für Titel 1', rtlAnderer.code === 0 && !rtlAnderer.zeilen.some((z) => z.includes('RTL+-Titeln')), rtlAnderer.zeilen)
 const ohneListe = lauf(wurzelMit({ dateien: 1000 }))
 pruefe('Liste fehlt: Exit 1 und „fehlt"', ohneListe.code === 1 && ohneListe.zeilen.some((z) => z.includes('fehlt')), ohneListe.zeilen)
 const wenige = lauf(wurzelMit({ liste: {}, dateien: 5 }))
