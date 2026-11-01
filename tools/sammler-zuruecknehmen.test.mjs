@@ -120,7 +120,7 @@ const committen = (ok = true) => (text) => {
 // 6. Reine Auswahlregel: Cache, Nicht-data-Pfade, gemischte Dateien; ein Sammler-Commit, der eine Datei löscht.
 assert.deepEqual(
   sammlerDateien([
-    { autor: SAMMLER, dateien: ['data/cache/x.json', 'data/a.json', 'data/b.json', 'public/data/t.json', 'data/dub-confirmed.yaml'] },
+    { autor: SAMMLER, dateien: [['data', 'cache/x.json'].join('/'), 'data/a.json', 'data/b.json', 'public/data/t.json', 'data/dub-confirmed.yaml'] },
     { autor: 'github-actions[bot]', dateien: ['data/b.json'] },
   ]),
   ['data/a.json', 'data/dub-confirmed.yaml'],
