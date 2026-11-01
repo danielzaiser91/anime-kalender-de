@@ -22,6 +22,7 @@ import { readFileSync } from 'node:fs'
 import yaml from 'js-yaml'
 import type { Title } from '../shared/types.ts'
 import { adressKern } from './lib/dub-confirmed.ts'
+import { handGesehenAm } from './lib/hand-gesehen.ts'
 import { istTot, juengsteJeKern } from './lib/link-befund.ts'
 
 const roh = JSON.parse(readFileSync('public/data/titles.json', 'utf8')) as Title[] | { titles: Title[] }
@@ -43,18 +44,11 @@ const belege = (yaml.load(readFileSync('data/dub-confirmed.yaml', 'utf8')) ?? []
 /** Dieselbe Regel wie im Bau: eine Seite, eine Kennung, der jüngste Befund (`lib/link-befund.ts`). */
 const befundJeKern = juengsteJeKern(befunde)
 const kern = adressKern
-const handGesehen = new Map<string, string>()
-for (const b of belege) {
-  if (!b.url || b.available === false) continue
-  const k = kern(b.url)
-  if (String(b.checkedAt ?? '') > (handGesehen.get(k) ?? '')) handGesehen.set(k, String(b.checkedAt ?? ''))
-}
 /* Von Hand bestätigte Wege (`verweise-von-hand.yaml`, `belegtAm`) zählen genauso (22.09.2026). */
-for (const v of ((yaml.load(readFileSync('data/verweise-von-hand.yaml', 'utf8')) ?? []) as { url?: string; belegtAm?: string }[])) {
-  if (!v?.url || !v.belegtAm) continue
-  const k = kern(v.url)
-  if (String(v.belegtAm) > (handGesehen.get(k) ?? '')) handGesehen.set(k, String(v.belegtAm))
-}
+const handGesehen = handGesehenAm(
+  belege,
+  (yaml.load(readFileSync('data/verweise-von-hand.yaml', 'utf8')) ?? []) as { url?: string; belegtAm?: string }[],
+)
 const tot = (url?: string): boolean => {
   if (!url) return false
   const b = befundJeKern.get(adressKern(url))

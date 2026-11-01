@@ -27,7 +27,7 @@ function pruefe(name: string, bedingung: boolean, gefunden?: unknown): void {
 const treffer = (id: number, name: string, original: string, jahr: string, genres = [16]) => ({ id, name, original_name: original, first_air_date: jahr, genre_ids: genres })
 
 try {
-  const { waehleTreffer, loeseHandliste, ohneDoppelte, suchbegriffe, handlisteLaden, mitHandliste, adnKennungGeaendert, mitAdnKennung } = await import('./lib/cartoon-handliste.ts')
+  const { waehleTreffer, kandidatenZeile, mitFolgen, loeseHandliste, ohneDoppelte, suchbegriffe, handlisteLaden, mitHandliste, adnKennungGeaendert, mitAdnKennung } = await import('./lib/cartoon-handliste.ts')
   const tintin = { adn: 734, name: 'Tintin (Adventures)', original: 'Les Aventures de Tintin' }
 
   console.log('\nAuswahl des Treffers')
@@ -74,6 +74,25 @@ try {
   const mz: string[] = []
   await loeseHandliste([{ adn: 6, name: 'Zwei' }], new Map(), async () => [{ ...treffer(78, 'Anders', 'Anders', '1999-01-01'), number_of_episodes: 10 }, { ...treffer(79, 'Zwei', 'Zwei', '2012-03-01'), number_of_episodes: 26 }], (z) => mz.push(z))
   pruefe('A1: Jahr/Folgen stammen vom gewählten Treffer, nicht vom ersten', mz.some((z) => z.includes('TMDB 79') && z.includes('Jahr/Folgen 2012/26')), mz)
+  const mk: string[] = []
+  await loeseHandliste([{ adn: 7, name: 'Billy & Buddy', original: 'Boule et Bill' }], new Map(), async () => [treffer(44157, 'Billy & Buddy', 'Boule et Bill', '2003-09-01'), treffer(69906, 'Billy & Buddy', 'Boule et Bill', '2016-01-01'), treffer(70000, 'Anderes', 'Anderes', '2016-01-01', [35])], (z) => mk.push(z))
+  pruefe('Kandidaten-Zeile: Kennung, Name, Original, Jahr, Animation je Kandidat, ohne Doppelte', mk.length === 1 && mk[0].includes('Kandidaten: 44157 „Billy & Buddy“/„Boule et Bill“ Jahr/Folgen 2003/?, Animation; 69906 „Billy & Buddy“/„Boule et Bill“ Jahr/Folgen 2016/?, Animation; 70000 „Anderes“/„Anderes“ Jahr/Folgen 2016/?, keine Animation'), mk)
+  const kz = kandidatenZeile(Array.from({ length: 12 }, (_, i) => treffer(i + 1, 'N', 'N', '2000-01-01')))
+  pruefe('Kandidaten-Zeile: höchstens zehn, keine Treffer benannt', kz.split('; ').length === 10 && kandidatenZeile([]) === 'keine Treffer', kz)
+  const gefragt: number[] = []
+  const ergaenzt = await mitFolgen(Array.from({ length: 12 }, (_, i) => treffer(i + 1, 'N', 'N', '2000-01-01')), async (id) => (gefragt.push(id), 5))
+  pruefe('A1: Detailabfragen auf zehn begrenzt (12 Animations-Kandidaten)', gefragt.length === 10 && ergaenzt.length === 10, [gefragt.length, ergaenzt.length])
+  const mg: string[] = []
+  const abgefragt: number[] = []
+  const folgen = async (id: number) => {
+    abgefragt.push(id)
+    return id === 44157 ? 104 : id === 69906 ? 78 : undefined
+  }
+  await loeseHandliste([{ adn: 7, name: 'Billy & Buddy', original: 'Boule et Bill' }], new Map(), async () => [treffer(44157, 'Billy & Buddy', 'Boule et Bill', '2003-09-01'), treffer(69906, 'Billy & Buddy', 'Boule et Bill', '2016-01-01'), treffer(70000, 'Anderes', 'Anderes', '2016-01-01', [35])], (z) => mg.push(z), folgen)
+  pruefe('Folgenzahl: Animations-Kandidaten bekommen sie aus der Detailabfrage, andere nicht', mg[0].includes('2003/104, Animation') && mg[0].includes('2016/78, Animation') && mg[0].includes('2016/?, keine Animation') && abgefragt.join() === '44157,69906', [mg, abgefragt])
+  const mgf: string[] = []
+  await loeseHandliste([{ adn: 9, name: 'Eins' }], new Map(), async () => [treffer(5, 'Eins', 'Eins', '2001-01-01')], (z) => mgf.push(z), async () => 52)
+  pruefe('Folgenzahl: auch die gefunden-Zeile nennt sie', mgf[0].includes('TMDB 5 gefunden') && mgf[0].includes('Jahr/Folgen 2001/52'), mgf)
   const dopp = ohneDoppelte(new Map([[1, 50], [2, 50], [3, 60]]))
   pruefe('zwei Einträge, eine TMDB-Serie: beide raus', dopp.ok.size === 1 && dopp.ok.get(3) === 60 && dopp.doppelt.join() === '1,2', dopp.doppelt)
   const ml: string[] = []

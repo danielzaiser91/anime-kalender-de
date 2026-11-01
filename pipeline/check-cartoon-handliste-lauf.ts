@@ -76,13 +76,13 @@ try {
   pruefe('Cousteau wird nie gesucht', !protokoll().some((z) => z.includes('Cousteau')), protokoll())
   const suchen1 = protokoll().filter((z) => z.startsWith('/3/search/tv')).length
   const einzel1 = protokoll().filter((z) => z.startsWith('/3/tv/')).length
-  pruefe('erster Lauf: gesucht wird, Dreamland einmal geholt', suchen1 > 0 && einzel1 === 1, protokoll())
+  pruefe('erster Lauf: gesucht wird, Dreamland zweimal abgefragt (Folgenzahl fürs Log, dann geholt), die zwei Babar-Kandidaten je einmal fürs Log', suchen1 > 0 && einzel1 === 4 && protokoll().filter((z) => z.startsWith('/3/tv/900887')).length === 2, protokoll())
   const vorher = protokoll().length
 
   const zwei = lauf()
   const neu = protokoll().slice(vorher)
   pruefe('zweiter Lauf endet mit Exit 0', zwei.status === 0, zwei)
-  pruefe('zweiter Lauf: Dreamland wird nicht neu gesucht und nicht neu geholt (Kennung steht im Bestand)', !neu.some((z) => z.includes('Dreamland')) && !neu.some((z) => z.startsWith('/3/tv/')), neu)
+  pruefe('zweiter Lauf: Dreamland wird nicht neu gesucht und nicht neu geholt (Kennung steht im Bestand)', !neu.some((z) => z.includes('Dreamland')) && !neu.some((z) => z.startsWith('/3/tv/900887')), neu)
   pruefe('zweiter Lauf: der Eintrag trägt seine ADN-Kennung weiter', gespeichert()['-900887']?.adnId === 887)
   pruefe('zweiter Lauf: Babar wird weiter gesucht (nicht entschieden), Nirgends ebenso', neu.some((z) => z.includes('Babar')) && neu.some((z) => z.includes('Nirgends')), neu)
 } finally {
