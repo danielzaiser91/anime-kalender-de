@@ -31,7 +31,7 @@ const VERTAGUNG_IM_GRUND =
   /sp[äa]ter|vertag|wirkt erst|(n[äa]chste[nm]?|folgenden) (\S+ )?\S*(lauf|bau|abruf|lesung|deploy)|(patch note|note) folgt/i
 
 // „keine“ gilt nur mit einer Klasse am Anfang des Grundes (Umbau, Test, Werkzeug, CI, Doku, Erweiterung, intern). „Daten“ steht absichtlich nicht
-// darin: Datenkorrekturen ändern, was Besucher sehen (Anlass: 31 von 100 „keine“-PRs seit 29.10.2026 waren Daten/Bau mit möglicher Wirkung).
+// darin: Datenkorrekturen ändern, was Besucher sehen (Anlass: 10 sichtbare und 12 Daten-Titel-PRs unter 102 „keine“-PRs seit 29.10.2026, betrieb.md).
 const GRUND_KLASSE = /^(rein\w*\s+)?(umbau|refactor\w*|tests?|testfäll?e?|werkzeug\w*|ci|doku\w*|erweiterung\w*|intern\w*)\b/i
 // Titel `fix(prime)`, `feat(data)` …: die Zeile muss die gemessene Wirkung nennen („0 Titel“, „0 Termine“ …), nicht „kein sichtbarer Unterschied“.
 const DATEN_TITEL = /^(fix|feat)\((prime|data)\)/i
