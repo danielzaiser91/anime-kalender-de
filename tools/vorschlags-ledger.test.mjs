@@ -61,6 +61,12 @@ const dupB = { id: 'agent-b2', typ: 'bauer', datum: '2999-12-30', vorschlag: 'Im
 const fremd = e('agent-b3', 'Dateiumzug Prozessregister Zeitüberschreitung prüfen')
 assert.equal(aehnlich(dupA.vorschlag, dupB.vorschlag), true)
 assert.equal(aehnlich(dupA.vorschlag, fremd.vorschlag), false)
+const kurz = 'Prozessregister Zeitüberschreitung Messläufe notieren'
+const lang = 'Dateiumzug, Prozessregister, Zeitüberschreitung prüfen und zusätzlich Messläufe notieren'
+assert.equal(aehnlich(kurz, lang), true)
+assert.equal(aehnlich(lang, kurz), true)
+const zweiVeraltet = ledgerZeilen([dupA, { ...dupB, veraltet: 'Zeile y' }], [], [])
+assert.match(zweiVeraltet[0], /Veraltet gemeldet: Zeile x \| Zeile y →/)
 const gebuendelt = ledgerZeilen([dupA, fremd, dupB], [], [])
 assert.equal(gebuendelt.length, 2)
 assert.match(gebuendelt[0], /^- \[ \] 2999-12-31 analyst\/bauer `agent-b1`, `agent-b2`: Fix-PRs .* Veraltet gemeldet: Zeile x → /)
@@ -96,6 +102,11 @@ const abgehakt = nach1.replace('- [ ] ', '- [x] ')
 fs.writeFileSync(aus, abgehakt)
 assert.equal(lauf(arg), 0)
 assert.equal(fs.readFileSync(aus, 'utf8'), abgehakt)
+// neuer Agent mit gleichem Vorschlag wie die abgehakte Zeile: nicht erneut gelistet
+fs.writeFileSync(path.join(sub, 'agent-zwilling.jsonl'), handback('Vorschlag: Dateiumzug Prozessregister Zeitüberschreitung prüfen\nVeraltet: keine'))
+assert.equal(lauf(arg), 0)
+assert.equal(fs.readFileSync(aus, 'utf8'), abgehakt)
+fs.rmSync(path.join(sub, 'agent-zwilling.jsonl'))
 // Ausgabedatei fehlt noch: Kopf wird angelegt
 fs.rmSync(aus)
 assert.equal(lauf(arg), 1)
