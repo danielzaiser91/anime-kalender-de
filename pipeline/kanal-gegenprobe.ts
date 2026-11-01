@@ -35,14 +35,13 @@
 import { readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import yaml from 'js-yaml'
-import { log, warn } from './lib/util.ts'
+import { log, ROOT, warn } from './lib/util.ts'
 import { adressKern } from './lib/dub-confirmed.ts'
 import { leseZugeordnet } from './lib/prime-meldung-riegel.ts'
 import { handpruefungSchreiben, jwFrisch, type Handpruefung } from './lib/jw-handpruefung.ts'
 import { kanalNamen } from './lib/kanal-namen.ts'
 import { todayIso } from '../shared/time.ts'
 
-const ROOT = resolve(import.meta.dirname, '..')
 const TROCKEN = process.argv.includes('--trocken')
 
 interface Beleg {
