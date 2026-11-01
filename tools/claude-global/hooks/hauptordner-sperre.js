@@ -255,7 +255,7 @@ function pruefe(eingabe, existiert) {
   return `Hauptordner anime-kalender-de: „${grund}“ gesperrt (dort nur Lesen und git pull --ff-only). Arbeite in einem Worktree: git worktree add C:/code/_worktrees/anime-kalender-de/<thema> -b <zweig> origin/main, danach „cd C:/code/_worktrees/anime-kalender-de/<thema> && …“ mit && (nie mit ;, sonst läuft der Rest im Hauptordner, falls cd scheitert) oder git -C C:/code/_worktrees/anime-kalender-de/<thema> …`
 }
 
-module.exports = { pruefe, pruefeBefehl, loese }
+module.exports = { pruefe, pruefeBefehl, loese, zerlege, ohneHeredoc, eingebetteterBefehl, programmName }
 
 if (require.main === module) {
   let roh = ''
