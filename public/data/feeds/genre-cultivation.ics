@@ -8,46 +8,6 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-10-26#42@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261026T161000Z
-DTEND:20261026T164000Z
-SUMMARY:Dragon Ball
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-10-26#43@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261026T163500Z
-DTEND:20261026T170500Z
-SUMMARY:Dragon Ball
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-128893-tv-prosieben-fun@2026-10-26#7@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261026T195500Z
-DTEND:20261026T202500Z
-SUMMARY:Hell’s Paradise – Folge 7
-DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
- nDetails: https://anime-kalender.de/t/12442/
-CATEGORIES:ProSieben FUN
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-128893-tv-prosieben-fun@2026-10-26#8@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261026T202000Z
-DTEND:20261026T205000Z
-SUMMARY:Hell’s Paradise – Folge 8
-DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
- nDetails: https://anime-kalender.de/t/12442/
-CATEGORIES:ProSieben FUN
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-10-27#44@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261027T160500Z
@@ -256,6 +216,46 @@ SUMMARY:Solo Leveling: Arise from the Shadow – Folge 8
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/15790/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-223-tv-prosieben-maxx@2026-11-09#62@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261109T161000Z
+DTEND:20261109T164000Z
+SUMMARY:Dragon Ball
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/193/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-223-tv-prosieben-maxx@2026-11-09#63@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261109T163500Z
+DTEND:20261109T170500Z
+SUMMARY:Dragon Ball
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/193/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-128893-tv-prosieben-fun@2026-11-09#11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261109T195500Z
+DTEND:20261109T202500Z
+SUMMARY:Hell’s Paradise – Folge 11
+DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
+ nDetails: https://anime-kalender.de/t/12442/
+CATEGORIES:ProSieben FUN
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-128893-tv-prosieben-fun@2026-11-09#12@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261109T202000Z
+DTEND:20261109T205000Z
+SUMMARY:Hell’s Paradise – Folge 12
+DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
+ nDetails: https://anime-kalender.de/t/12442/
+CATEGORIES:ProSieben FUN
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-813-disc@2026-11-20@anime-kalender-de

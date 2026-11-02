@@ -1,6 +1,6 @@
 # Arbeitspakete: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-11-02 · **55 offene Verweise** in **41 Zeilen**,
+Stand 2026-11-03 · **56 offene Verweise** in **42 Zeilen**,
 aufgeteilt in **3 Pakete** zu je 20.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Derselbe Bestand wie in
@@ -65,24 +65,25 @@ der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 | 23 | Netflix | The Devil Is a Part-Timer! | [Hauptserie](https://www.netflix.com/title/80006149) |
 | 24 | Netflix | Spice and Wolf | [Hauptserie](https://www.netflix.com/title/70205026) |
 | 25 | Netflix | Paranoia Agent | [Hauptserie](https://www.netflix.com/title/70014551) |
-| 26 | Prime Video | Sankarea: Undying Love | [Hauptserie]() |
-| 27 | Netflix | Shojo-Mangaka Nozaki-kun | [Hauptserie](https://www.netflix.com/title/80081848) |
-| 28 | Netflix | Devil May Cry | [Hauptserie](https://www.netflix.com/title/81506915) |
-| 29 | Netflix | One Piece | [Abenteuer in Alabasta - Die Wüstenprinzessin](https://www.netflix.com/title/70086565) · [Chopper und das Wunder der Winterkirschblüte](https://www.netflix.com/title/80998780) · [Z](https://www.netflix.com/title/80198443) · [3D2Y: Überwinde Ace’s Tod! Das Gelübde der Kameraden](https://www.netflix.com/title/81679587) |
-| 30 | Netflix | Meine ganz besondere Hochzeit | [Special]() |
-| 31 | Netflix | 5 Centimeters per Second | [Hauptserie](https://www.netflix.com/title/70093699) |
-| 32 | Netflix | Haikyu!! | [Movie 3 - Talent Und Gespür](https://www.netflix.com/title/81030151) · [Movie 4 - Ein Kampf der Konzepte](https://www.netflix.com/title/81030152) |
-| 33 | Netflix | Lu over the Wall | [Hauptserie](https://www.netflix.com/title/80238911) |
-| 34 | Netflix | Fireworks: Alles eine Frage der Zeit | [Hauptserie](https://www.netflix.com/title/81000505) |
-| 35 | Netflix | No Game No Life | [Zero](https://www.netflix.com/title/81068687) |
-| 36 | Netflix | Girls & Panzer | [Girls und Panzer: Der Film](https://www.netflix.com/title/80159876) |
-| 37 | Netflix | Dragon Nest: Die Chroniken von Altera | [Hauptserie](https://www.netflix.com/title/80084763) |
-| 38 | Netflix | TRAVA: FIST PLANET | [Redline](https://www.netflix.com/title/70153298) |
-| 39 | Netflix | Clannad | [OVA - Das Tomoyo Kapitel](https://www.netflix.com/title/70204963) |
-| 40 | Netflix | Appleseed: Kampf um die Freiheit | [Appleseed](https://www.netflix.com/title/70023531) |
+| 26 | Disney+ | Honey Lemon Soda | [Hauptserie]() |
+| 27 | Prime Video | Sankarea: Undying Love | [Hauptserie]() |
+| 28 | Netflix | Shojo-Mangaka Nozaki-kun | [Hauptserie](https://www.netflix.com/title/80081848) |
+| 29 | Netflix | Devil May Cry | [Hauptserie](https://www.netflix.com/title/81506915) |
+| 30 | Netflix | One Piece | [Abenteuer in Alabasta - Die Wüstenprinzessin](https://www.netflix.com/title/70086565) · [Chopper und das Wunder der Winterkirschblüte](https://www.netflix.com/title/80998780) · [Z](https://www.netflix.com/title/80198443) · [3D2Y: Überwinde Ace’s Tod! Das Gelübde der Kameraden](https://www.netflix.com/title/81679587) |
+| 31 | Netflix | Meine ganz besondere Hochzeit | [Special]() |
+| 32 | Netflix | 5 Centimeters per Second | [Hauptserie](https://www.netflix.com/title/70093699) |
+| 33 | Netflix | Haikyu!! | [Movie 3 - Talent Und Gespür](https://www.netflix.com/title/81030151) · [Movie 4 - Ein Kampf der Konzepte](https://www.netflix.com/title/81030152) |
+| 34 | Netflix | Lu over the Wall | [Hauptserie](https://www.netflix.com/title/80238911) |
+| 35 | Netflix | Fireworks: Alles eine Frage der Zeit | [Hauptserie](https://www.netflix.com/title/81000505) |
+| 36 | Netflix | No Game No Life | [Zero](https://www.netflix.com/title/81068687) |
+| 37 | Netflix | Girls & Panzer | [Girls und Panzer: Der Film](https://www.netflix.com/title/80159876) |
+| 38 | Netflix | Dragon Nest: Die Chroniken von Altera | [Hauptserie](https://www.netflix.com/title/80084763) |
+| 39 | Netflix | TRAVA: FIST PLANET | [Redline](https://www.netflix.com/title/70153298) |
+| 40 | Netflix | Clannad | [OVA - Das Tomoyo Kapitel](https://www.netflix.com/title/70204963) |
 
-## Paket 3 — Zeilen 41 bis 41
+## Paket 3 — Zeilen 41 bis 42
 
 | # | Anbieter | Reihe | Noch zu bestätigen |
 |---|---|---|---|
-| 41 | Netflix | Detektiv Conan | [Der Magier des letzten Jahrhunderts](https://www.netflix.com/title/70126871) |
+| 41 | Netflix | Appleseed: Kampf um die Freiheit | [Appleseed](https://www.netflix.com/title/70023531) |
+| 42 | Netflix | Detektiv Conan | [Der Magier des letzten Jahrhunderts](https://www.netflix.com/title/70126871) |

@@ -1,6 +1,6 @@
 # Prüfliste: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-11-02 · **55 offene Verweise** in **41 Zeilen**.
+Stand 2026-11-03 · **56 offene Verweise** in **42 Zeilen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Was geprüft ist, gehört
 nach `data/dub-confirmed.yaml`; beim nächsten Lauf verschwindet es hier.
@@ -35,53 +35,54 @@ Synchro und zweiter ohne, Zeile 4 tot.
 |---|---|
 | [Netflix](07-netflix.md) | 49 |
 | [Prime Video](07-primevideo.md) | 4 |
-| [Disney+](07-disneyplus.md) | 2 |
+| [Disney+](07-disneyplus.md) | 3 |
 
 ## Zu prüfen
 
 | # | Datum | Reihe | Noch zu bestätigen |
 |---|---|---|---|
-| 1 | 2026-10-25 | Meine ganz besondere Hochzeit | [Special]() |
-| 2 | 2026-10-15 | Sankarea: Undying Love | [Hauptserie]() |
-| 3 | 2026-10-10 | Demon Slayer: Kimetsu no Yaiba | [Mugen Train Arc]() · [Entertainment District Arc]() |
-| 4 | 2026-10-08 | Kamisama Kiss | [Hauptserie](https://www.netflix.com/title/80070071) |
-| 5 | 2026-10-06 | My Hero Academia | [Vigilantes Staffel 2](https://www.netflix.com/title/82036361) |
-| 6 | 2026-09-26 | Welcome to Demon School! Iruma-kun | [Staffel 4](https://www.disneyplus.com/browse/entity-b042544d-cd7d-40c6-9be4-db79666a1b51) |
-| 7 | 2026-08-29 | Yu-Gi-Oh! (1998) | [Yu-Gi-Oh! GX]() |
-| 8 | 2026-08-21 | Vampire Knight | [Guilty](https://www.netflix.com/title/70309457) |
-| 9 | 2026-07-24 | Parasyte: The Maxim | [Hauptserie](https://www.netflix.com/title/80191008) |
-| 10 | 2025-04-03 | Devil May Cry | [Hauptserie](https://www.netflix.com/title/81506915) |
-| 11 | 2022-08-10 | One Piece | [Abenteuer in Alabasta - Die Wüstenprinzessin](https://www.netflix.com/title/70086565) · [Chopper und das Wunder der Winterkirschblüte](https://www.netflix.com/title/80998780) · [Z](https://www.netflix.com/title/80198443) · [3D2Y: Überwinde Ace’s Tod! Das Gelübde der Kameraden](https://www.netflix.com/title/81679587) |
-| 12 | 2021-04-14 | Lu over the Wall | [Hauptserie](https://www.netflix.com/title/80238911) |
-| 13 | 2020-12-19 | Danmachi: Is It Wrong to Try to Pick Up Girls in a Dungeon? Familia Myth | [Hauptserie](https://www.netflix.com/title/80185873) · [II](https://www.netflix.com/title/80185873) · [III](https://www.netflix.com/title/80185873) |
-| 14 | 2020-06-26 | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.netflix.com/title/81099976) |
-| 15 | 2020-06-26 | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.amazon.de/gp/video/detail/B0FVF9T7ZP) |
-| 16 | 2018-03-26 | Beyblade Burst | [Evolution](https://www.netflix.com/title/81018295) |
-| 17 | 2017-09-29 | Haikyu!! | [Movie 3 - Talent Und Gespür](https://www.netflix.com/title/81030151) · [Movie 4 - Ein Kampf der Konzepte](https://www.netflix.com/title/81030152) |
-| 18 | 2017-08-18 | Fireworks: Alles eine Frage der Zeit | [Hauptserie](https://www.netflix.com/title/81000505) |
-| 19 | 2017-07-15 | No Game No Life | [Zero](https://www.netflix.com/title/81068687) |
-| 20 | 2016-06-27 | Sailor Moon: Das Mädchen mit den Zauberkräften | [Sailor Moon R Movie: Gefährliche Blumen](https://www.netflix.com/title/26588007) · [Pretty Guardian Sailor Moon Crystal](https://www.netflix.com/title/80145747) · [Pretty Guardian Sailor Moon Crystal Season III](https://www.netflix.com/title/80145747) |
-| 21 | 2015-11-21 | Girls & Panzer | [Girls und Panzer: Der Film](https://www.netflix.com/title/80159876) |
-| 22 | 2015-03-29 | Aldnoah.Zero | [Hauptserie](https://www.netflix.com/title/80040104) · [2](https://www.netflix.com/title/80040104) |
-| 23 | 2014-09-22 | Shojo-Mangaka Nozaki-kun | [Hauptserie](https://www.netflix.com/title/80081848) |
-| 24 | 2014-07-31 | Dragon Nest: Die Chroniken von Altera | [Hauptserie](https://www.netflix.com/title/80084763) |
-| 25 | 2014-04-03 | Nagi no Asukara | [Hauptserie](https://www.netflix.com/title/80132218) |
-| 26 | 2014-03-27 | Love, Chunibyo & Other Delusions! | [Hauptserie](https://www.netflix.com/title/80239860) · [Heart Throb](https://www.netflix.com/title/80239860) |
-| 27 | 2013-06-27 | The Devil Is a Part-Timer! | [Hauptserie](https://www.netflix.com/title/80006149) |
-| 28 | 2010-09-24 | Maid-sama | [Hauptserie](https://www.netflix.com/title/81104406) |
-| 29 | 2009-08-14 | TRAVA: FIST PLANET | [Redline](https://www.netflix.com/title/70153298) |
-| 30 | 2008-07-16 | Clannad | [OVA - Das Tomoyo Kapitel](https://www.netflix.com/title/70204963) |
-| 31 | 2008-05-30 | Spice and Wolf | [Hauptserie](https://www.netflix.com/title/70205026) |
-| 32 | 2007-03-03 | 5 Centimeters per Second | [Hauptserie](https://www.netflix.com/title/70093699) |
-| 33 | 2006-09-27 | Higurashi no Naku Koro ni | [Hauptserie](https://www.netflix.com/title/70308793) |
-| 34 | 2006-09-01 | Ghost in the Shell: Stand Alone Complex | [Ghost in the Shell](https://www.netflix.com/title/540533) · [Hauptserie](https://www.netflix.com/title/70213091) · [2nd GIG](https://www.netflix.com/title/70213091) · [Solid State Society](https://www.netflix.com/title/70071919) |
-| 35 | 2004-12-25 | Samurai 7 | [Hauptserie](https://www.netflix.com/title/70205019) |
-| 36 | 2004-05-18 | Paranoia Agent | [Hauptserie](https://www.netflix.com/title/70014551) |
-| 37 | 2004-04-17 | Appleseed: Kampf um die Freiheit | [Appleseed](https://www.netflix.com/title/70023531) |
-| 38 | 2004-03-28 | Sonic X | [Hauptserie](https://www.netflix.com/title/60036794) |
-| 39 | 2003-09-27 | Mobile Suit Gundam Seed | [Hauptserie](https://www.netflix.com/title/80146549) |
-| 40 | 2001-12-24 | Beyblade | [Hauptserie](https://www.netflix.com/title/70155614) |
-| 41 | 1999-04-17 | Detektiv Conan | [Der Magier des letzten Jahrhunderts](https://www.netflix.com/title/70126871) |
+| 1 | 2026-11-03 | Honey Lemon Soda | [Hauptserie]() |
+| 2 | 2026-10-25 | Meine ganz besondere Hochzeit | [Special]() |
+| 3 | 2026-10-15 | Sankarea: Undying Love | [Hauptserie]() |
+| 4 | 2026-10-10 | Demon Slayer: Kimetsu no Yaiba | [Mugen Train Arc]() · [Entertainment District Arc]() |
+| 5 | 2026-10-08 | Kamisama Kiss | [Hauptserie](https://www.netflix.com/title/80070071) |
+| 6 | 2026-10-06 | My Hero Academia | [Vigilantes Staffel 2](https://www.netflix.com/title/82036361) |
+| 7 | 2026-09-26 | Welcome to Demon School! Iruma-kun | [Staffel 4](https://www.disneyplus.com/browse/entity-b042544d-cd7d-40c6-9be4-db79666a1b51) |
+| 8 | 2026-08-29 | Yu-Gi-Oh! (1998) | [Yu-Gi-Oh! GX]() |
+| 9 | 2026-08-21 | Vampire Knight | [Guilty](https://www.netflix.com/title/70309457) |
+| 10 | 2026-07-24 | Parasyte: The Maxim | [Hauptserie](https://www.netflix.com/title/80191008) |
+| 11 | 2025-04-03 | Devil May Cry | [Hauptserie](https://www.netflix.com/title/81506915) |
+| 12 | 2022-08-10 | One Piece | [Abenteuer in Alabasta - Die Wüstenprinzessin](https://www.netflix.com/title/70086565) · [Chopper und das Wunder der Winterkirschblüte](https://www.netflix.com/title/80998780) · [Z](https://www.netflix.com/title/80198443) · [3D2Y: Überwinde Ace’s Tod! Das Gelübde der Kameraden](https://www.netflix.com/title/81679587) |
+| 13 | 2021-04-14 | Lu over the Wall | [Hauptserie](https://www.netflix.com/title/80238911) |
+| 14 | 2020-12-19 | Danmachi: Is It Wrong to Try to Pick Up Girls in a Dungeon? Familia Myth | [Hauptserie](https://www.netflix.com/title/80185873) · [II](https://www.netflix.com/title/80185873) · [III](https://www.netflix.com/title/80185873) |
+| 15 | 2020-06-26 | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.netflix.com/title/81099976) |
+| 16 | 2020-06-26 | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.amazon.de/gp/video/detail/B0FVF9T7ZP) |
+| 17 | 2018-03-26 | Beyblade Burst | [Evolution](https://www.netflix.com/title/81018295) |
+| 18 | 2017-09-29 | Haikyu!! | [Movie 3 - Talent Und Gespür](https://www.netflix.com/title/81030151) · [Movie 4 - Ein Kampf der Konzepte](https://www.netflix.com/title/81030152) |
+| 19 | 2017-08-18 | Fireworks: Alles eine Frage der Zeit | [Hauptserie](https://www.netflix.com/title/81000505) |
+| 20 | 2017-07-15 | No Game No Life | [Zero](https://www.netflix.com/title/81068687) |
+| 21 | 2016-06-27 | Sailor Moon: Das Mädchen mit den Zauberkräften | [Sailor Moon R Movie: Gefährliche Blumen](https://www.netflix.com/title/26588007) · [Pretty Guardian Sailor Moon Crystal](https://www.netflix.com/title/80145747) · [Pretty Guardian Sailor Moon Crystal Season III](https://www.netflix.com/title/80145747) |
+| 22 | 2015-11-21 | Girls & Panzer | [Girls und Panzer: Der Film](https://www.netflix.com/title/80159876) |
+| 23 | 2015-03-29 | Aldnoah.Zero | [Hauptserie](https://www.netflix.com/title/80040104) · [2](https://www.netflix.com/title/80040104) |
+| 24 | 2014-09-22 | Shojo-Mangaka Nozaki-kun | [Hauptserie](https://www.netflix.com/title/80081848) |
+| 25 | 2014-07-31 | Dragon Nest: Die Chroniken von Altera | [Hauptserie](https://www.netflix.com/title/80084763) |
+| 26 | 2014-04-03 | Nagi no Asukara | [Hauptserie](https://www.netflix.com/title/80132218) |
+| 27 | 2014-03-27 | Love, Chunibyo & Other Delusions! | [Hauptserie](https://www.netflix.com/title/80239860) · [Heart Throb](https://www.netflix.com/title/80239860) |
+| 28 | 2013-06-27 | The Devil Is a Part-Timer! | [Hauptserie](https://www.netflix.com/title/80006149) |
+| 29 | 2010-09-24 | Maid-sama | [Hauptserie](https://www.netflix.com/title/81104406) |
+| 30 | 2009-08-14 | TRAVA: FIST PLANET | [Redline](https://www.netflix.com/title/70153298) |
+| 31 | 2008-07-16 | Clannad | [OVA - Das Tomoyo Kapitel](https://www.netflix.com/title/70204963) |
+| 32 | 2008-05-30 | Spice and Wolf | [Hauptserie](https://www.netflix.com/title/70205026) |
+| 33 | 2007-03-03 | 5 Centimeters per Second | [Hauptserie](https://www.netflix.com/title/70093699) |
+| 34 | 2006-09-27 | Higurashi no Naku Koro ni | [Hauptserie](https://www.netflix.com/title/70308793) |
+| 35 | 2006-09-01 | Ghost in the Shell: Stand Alone Complex | [Ghost in the Shell](https://www.netflix.com/title/540533) · [Hauptserie](https://www.netflix.com/title/70213091) · [2nd GIG](https://www.netflix.com/title/70213091) · [Solid State Society](https://www.netflix.com/title/70071919) |
+| 36 | 2004-12-25 | Samurai 7 | [Hauptserie](https://www.netflix.com/title/70205019) |
+| 37 | 2004-05-18 | Paranoia Agent | [Hauptserie](https://www.netflix.com/title/70014551) |
+| 38 | 2004-04-17 | Appleseed: Kampf um die Freiheit | [Appleseed](https://www.netflix.com/title/70023531) |
+| 39 | 2004-03-28 | Sonic X | [Hauptserie](https://www.netflix.com/title/60036794) |
+| 40 | 2003-09-27 | Mobile Suit Gundam Seed | [Hauptserie](https://www.netflix.com/title/80146549) |
+| 41 | 2001-12-24 | Beyblade | [Hauptserie](https://www.netflix.com/title/70155614) |
+| 42 | 1999-04-17 | Detektiv Conan | [Der Magier des letzten Jahrhunderts](https://www.netflix.com/title/70126871) |
 
 ## Warum die einzelnen Anbieter unsicher sind
 

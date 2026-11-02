@@ -8,66 +8,6 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-26#43@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261026T172500Z
-DTEND:20261026T175500Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-26#44@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261026T175500Z
-DTEND:20261026T182500Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-128893-tv-prosieben-fun@2026-10-26#7@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261026T195500Z
-DTEND:20261026T202500Z
-SUMMARY:Hell’s Paradise – Folge 7
-DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
- nDetails: https://anime-kalender.de/t/12442/
-CATEGORIES:ProSieben FUN
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-128893-tv-prosieben-fun@2026-10-26#8@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261026T202000Z
-DTEND:20261026T205000Z
-SUMMARY:Hell’s Paradise – Folge 8
-DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
- nDetails: https://anime-kalender.de/t/12442/
-CATEGORIES:ProSieben FUN
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-101347-tv-prosieben-fun@2026-10-26#7@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261026T204500Z
-DTEND:20261026T211500Z
-SUMMARY:Dororo
-DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
- nDetails: https://anime-kalender.de/t/9059/
-CATEGORIES:ProSieben FUN
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-101347-tv-prosieben-fun@2026-10-26#8@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261026T211000Z
-DTEND:20261026T214000Z
-SUMMARY:Dororo
-DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
- nDetails: https://anime-kalender.de/t/9059/
-CATEGORIES:ProSieben FUN
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-21-tv-prosieben-maxx@2026-10-27#45@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261027T172500Z
@@ -316,6 +256,46 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
   Anbieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgel
  eitet.\nDetails: https://anime-kalender.de/t/12/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-128893-tv-prosieben-fun@2026-11-09#11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261109T195500Z
+DTEND:20261109T202500Z
+SUMMARY:Hell’s Paradise – Folge 11
+DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
+ nDetails: https://anime-kalender.de/t/12442/
+CATEGORIES:ProSieben FUN
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-128893-tv-prosieben-fun@2026-11-09#12@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261109T202000Z
+DTEND:20261109T205000Z
+SUMMARY:Hell’s Paradise – Folge 12
+DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
+ nDetails: https://anime-kalender.de/t/12442/
+CATEGORIES:ProSieben FUN
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-101347-tv-prosieben-fun@2026-11-09#11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261109T204500Z
+DTEND:20261109T211500Z
+SUMMARY:Dororo
+DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
+ nDetails: https://anime-kalender.de/t/9059/
+CATEGORIES:ProSieben FUN
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-101347-tv-prosieben-fun@2026-11-09#12@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261109T211000Z
+DTEND:20261109T214000Z
+SUMMARY:Dororo
+DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
+ nDetails: https://anime-kalender.de/t/9059/
+CATEGORIES:ProSieben FUN
 END:VEVENT
 BEGIN:VEVENT
 UID:yaiba-samurai-legend-prosieben-maxx@2026-11-10@anime-kalender-de

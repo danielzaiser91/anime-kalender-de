@@ -8,36 +8,6 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:auto-235-tv-prosieben-maxx@2026-10-26@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261026T170000Z
-DTEND:20261026T173000Z
-SUMMARY:Detektiv Conan – Folge 162
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/204/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-26#43@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261026T172500Z
-DTEND:20261026T175500Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-26#44@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261026T175500Z
-DTEND:20261026T182500Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-21-tv-prosieben-maxx@2026-10-27#45@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261027T172500Z
@@ -288,6 +258,16 @@ SUMMARY:Banana Fish – Vol. 2 (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/t/8868/
 CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-235-tv-prosieben-maxx@2026-11-09@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261109T170000Z
+DTEND:20261109T173000Z
+SUMMARY:Detektiv Conan – Folge 171
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/204/
+CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2026-11-09@anime-kalender-de

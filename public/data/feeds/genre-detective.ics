@@ -8,16 +8,6 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:auto-235-tv-prosieben-maxx@2026-10-26@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261026T170000Z
-DTEND:20261026T173000Z
-SUMMARY:Detektiv Conan – Folge 162
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/204/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-G24H1N334@2026-10-28@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261028T133000Z
@@ -137,6 +127,16 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261106T165500Z
 DTEND:20261106T172500Z
 SUMMARY:Detektiv Conan – Folge 170
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/204/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-235-tv-prosieben-maxx@2026-11-09@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261109T170000Z
+DTEND:20261109T173000Z
+SUMMARY:Detektiv Conan – Folge 171
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX

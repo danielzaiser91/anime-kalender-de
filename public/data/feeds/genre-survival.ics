@@ -8,26 +8,6 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:auto-128893-tv-prosieben-fun@2026-10-26#7@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261026T195500Z
-DTEND:20261026T202500Z
-SUMMARY:Hell’s Paradise – Folge 7
-DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
- nDetails: https://anime-kalender.de/t/12442/
-CATEGORIES:ProSieben FUN
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-128893-tv-prosieben-fun@2026-10-26#8@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261026T202000Z
-DTEND:20261026T205000Z
-SUMMARY:Hell’s Paradise – Folge 8
-DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
- nDetails: https://anime-kalender.de/t/12442/
-CATEGORIES:ProSieben FUN
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GT00383999@2026-10-30@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261030T160000Z
@@ -78,6 +58,26 @@ SUMMARY:Failure Frame – Komplettbox (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/t/15656/
 CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-128893-tv-prosieben-fun@2026-11-09#11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261109T195500Z
+DTEND:20261109T202500Z
+SUMMARY:Hell’s Paradise – Folge 11
+DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
+ nDetails: https://anime-kalender.de/t/12442/
+CATEGORIES:ProSieben FUN
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-128893-tv-prosieben-fun@2026-11-09#12@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261109T202000Z
+DTEND:20261109T205000Z
+SUMMARY:Hell’s Paradise – Folge 12
+DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
+ nDetails: https://anime-kalender.de/t/12442/
+CATEGORIES:ProSieben FUN
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00383999@2026-11-13@anime-kalender-de
