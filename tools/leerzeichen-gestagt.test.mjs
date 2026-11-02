@@ -63,6 +63,18 @@ try {
   assert.equal(lauf().status, 0, 'gelöschte Datei wird nicht geprüft')
   assert.deepEqual(gestagteQuellen((...a) => git(...a)).sort(), ['pipeline/neu.ts'], 'Auswahl: Quelle ja, Archiv und JSON nein')
 
+  // Quelle außerhalb der Ordner (scripts/): gestagt, aber nicht Sache dieser Prüfung.
+  schreibe('scripts/x.ts', 'export const x =await g()\n')
+  git('add', 'scripts/x.ts')
+  assert.equal(lauf().status, 0, 'Quelle außerhalb der Ordner bleibt außen')
+  assert.ok(!gestagteQuellen((...a) => git(...a)).includes('scripts/x.ts'), 'Ordnerfilter')
+
+  // Committete, dann gelöschte Datei: der Index kennt sie nicht mehr, `git show :datei` würde abstürzen.
+  git('rm', '-q', '-f', 'pipeline/weg.ts')
+  const geloescht = lauf()
+  assert.equal(geloescht.status, 0, `committete, dann gelöschte Datei: ${geloescht.stderr}`)
+  assert.ok(!gestagteQuellen((...a) => git(...a)).includes('pipeline/weg.ts'), 'Löschung nicht in der Auswahl')
+
   // --einrichten schreibt die Prüfung in den Hook.
   mkdirSync(path.join(wurzel, 'tools'), { recursive: true })
   copyFileSync(path.join(tools, 'quellen-commit-wache.sh'), path.join(wurzel, 'tools/quellen-commit-wache.sh'))
