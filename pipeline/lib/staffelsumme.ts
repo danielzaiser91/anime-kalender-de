@@ -5,11 +5,14 @@
  * Die Summe allein trägt nicht: bei Alvinnn!!! und EarthSpark weicht sie vom Titelversatz ab (Messung im Bericht f100-plan.md).
  */
 import { folgenZuTitel, type UnsereFolge } from './episodentitel-block.ts'
+import { netflixKennung, UMRECHNUNGS_VERMERK, type StaffelListen } from './handbeleg-anbieter-zaehlung.ts'
 
 export const SUMME_VERMERK = 'Staffelsumme'
 export const BESTAETIGT_VERMERK = 'bestätigt durch:'
+/** Der Vermerk nennt das Merkmal und seine Zählung ("bestätigt durch: Folgentitel (14 von 15, …"), nicht nur die Worte. */
+const BESTAETIGUNG = /bestätigt durch: [^(]*\(\d+ von \d+/
 
-/** Netflix-Adressen mit Liste ab Staffel > 1, deren Meldungen weder Summe noch Titel zuordnen (Stand 02.11.2026): Louds, Rainbow High. Darf nur sinken. */
+/** Netflix-Adressen mit Liste ab Staffel > 1, deren Meldungen weder Summe noch Titel zuordnen (Stand 02.11.2026): Louds, Rainbow High. Darf nur sinken. Louds steht noch nicht in `anbieter-staffeln.json` (Meldungen unverarbeitet), dort greift der Abgleich erst mit dem Eintrag. */
 export const OFFEN_OHNE_ZUORDNUNG: readonly string[] = ['81186971', '81397437']
 
 export interface JwStaffel {
@@ -81,6 +84,31 @@ export function urteileStaffelsumme(
 /** Belege, deren Umrechnung sich auf die Staffelsumme beruft, aber kein Merkmal der Bestätigung nennt. */
 export function findeUnbestaetigteSumme(belege: { title?: string; anilistId?: number; note?: string }[]): string[] {
   return belege
-    .filter((b) => b.note?.includes(SUMME_VERMERK) && !b.note.includes(BESTAETIGT_VERMERK))
+    .filter((b) => b.note?.includes(SUMME_VERMERK) && !BESTAETIGUNG.test(b.note))
     .map((b) => `${b.title ?? b.anilistId} (${b.anilistId}): Umrechnung über die Staffelsumme ohne "${BESTAETIGT_VERMERK}"`)
+}
+
+/** Die Netflix-Adressen mit Liste ab Staffel > 1, zu denen kein Handbeleg einen Umrechnungsvermerk trägt: Meldungen dort sind unzugeordnet. */
+export function offeneListen(
+  belege: { anilistId: number; platform?: string; url?: string; note?: string }[],
+  listen: StaffelListen,
+  adressenVon: (anilistId: number) => string[],
+): string[] {
+  const bearbeitet = new Set<string>()
+  for (const b of belege) {
+    if (b.platform !== 'netflix' || !b.note?.includes(UMRECHNUNGS_VERMERK)) continue
+    for (const k of [netflixKennung(b.url) ?? '', ...adressenVon(b.anilistId)]) bearbeitet.add(k)
+  }
+  return Object.entries(listen)
+    .filter(([kennung, l]) => l?.staffeln?.length && !l.staffeln.some((s) => s.seq === 1) && !bearbeitet.has(kennung))
+    .map(([kennung]) => kennung)
+    .sort()
+}
+
+/** Ratsche: die offenen Adressen müssen genau der Liste entsprechen — eine neue offene ist rot, eine inzwischen umgerechnete (und in der Staffelliste bekannte) muss aus der Liste. */
+export function verletzteRatsche(offen: string[], erlaubt: readonly string[], listen: StaffelListen): string[] {
+  return [
+    ...offen.filter((k) => !erlaubt.includes(k)).map((k) => `Netflix ${k}: Liste ab Staffel > 1 ohne Umrechnungsvermerk, steht nicht unter den offenen Fällen`),
+    ...erlaubt.filter((k) => listen[k] && !offen.includes(k)).map((k) => `Netflix ${k}: steht unter den offenen Fällen, ist aber umgerechnet – Eintrag in OFFEN_OHNE_ZUORDNUNG streichen`),
+  ]
 }

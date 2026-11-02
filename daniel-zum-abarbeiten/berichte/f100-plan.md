@@ -25,13 +25,13 @@ Beschreibungen: die Meldungskopie führt keine Netflix-Folgenbeschreibungen (Spa
 
 ## Gebaut
 
-- `pipeline/lib/staffelsumme.ts`: Summe, Bestätigung, Vermerktext, Wächter-Funktion. `pipeline/check-staffelsumme.ts` (19 Fälle, in `check-logic-liste.txt`).
+- `pipeline/lib/staffelsumme.ts`: Summe, Bestätigung, Vermerktext, Wächter-Funktion. `pipeline/check-staffelsumme.ts` (33 Fälle, in `check-logic-liste.txt`); `lib/staffelsumme-gruppe.ts` verdrahtet sie in `fetch-pruefungen.ts` (die Datei schrumpft dabei von 1302 auf 1297 Zeilen), Laufzeittest `check-fetch-pruefungen-laufzeit.ts` mit sieben Szenarien der Summe.
 - `check:handbelege`: jede Umrechnung mit "Staffelsumme" braucht "bestätigt durch:" (Prozesstest in `check-handbelege-anbieter-zaehlung-lauf.ts`).
 - Schnellweg `tools/staffelsumme-vorschau.ts`: Beyblade X Netflix Staffel 2 Folge 1..49 = unsere 52..100.
 - Daten: Beyblade X Netflix 53–99 wird 52–100 (alle 49 Meldungen belegt, Folge 1 und 49 waren "nicht geprüft", sind aber gemeldet). Shaun das Schaf Netflix: Staffel 4 und 5 = unsere 101–150 ohne deutschen Ton (Doppelfolgen, 19 von 25 Titeln exakt, Rest im selben Block).
 
 ## Stand / offen
 
-- Im Bau (Meldungen → Handbeleg über `fetch-pruefungen.ts`) ist die Summe noch nicht verdrahtet: die Datei hat 1302 Zeilen (Grenze), ein Anbau war ohne Auslagern nicht möglich. Folgeauftrag: Auslagern der Zuordnungsschleife, dann `urteileStaffelsumme` vor dem Abbruch "Liste beginnt bei Staffel N" aufrufen.
+- Im Bau (Meldung → Handbeleg über `fetch-pruefungen.ts`) verdrahtet: `summeFuerGruppe` vor dem Abbruch "Liste beginnt bei Staffel N", `verteileMeldungen` rechnet über `nummerUeberSumme` um, der Vermerk landet in der Notiz des Belegs. Titel zur Bestätigung: Netflix-Notiz, sonst RTL+ (Beyblade X).
 - Offen (Handzuordnung nicht möglich): Willkommen bei den Louds (39 Meldungen; die Netflix-Folgentitel unter der Adresse 81186971 lauten "Echte Freunde", "Hilfe, Vampire!", "Barbie, Brownies und Bären!" und stehen in keiner unserer Louds-Listen: Verdacht auf falsche Adresse), Rainbow High (10 Meldungen, Netflix nennt nur "Teil 1–5", keine Beschreibung in der Kopie).
-- Ratsche: offen = 2 Titel (Louds, Rainbow High).
+- Ratsche: `check:handbelege` zählt die Netflix-Listen ab Staffel > 1 ohne Umrechnungsvermerk und vergleicht mit `OFFEN_OHNE_ZUORDNUNG` (Louds, Rainbow High; Louds steht noch nicht in `anbieter-staffeln.json`).

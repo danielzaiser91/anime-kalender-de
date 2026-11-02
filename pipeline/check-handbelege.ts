@@ -55,7 +55,7 @@ import { nimmJa } from './lib/dub-bereiche.ts'
 import { findeKonflikte, findeVereinte } from './lib/dub-konflikt.ts'
 import { findeSchrumpf } from './lib/dub-schrumpf.ts'
 import { findeAnbieterZaehlung, netflixKennungen, UMRECHNUNGS_VERMERK, type StaffelListen } from './lib/handbeleg-anbieter-zaehlung.ts'
-import { findeUnbestaetigteSumme } from './lib/staffelsumme.ts'
+import { findeUnbestaetigteSumme, OFFEN_OHNE_ZUORDNUNG, offeneListen, verletzteRatsche } from './lib/staffelsumme.ts'
 import { findeVoraussichtlichImBestand } from './lib/voraussichtlich-pruefung.ts'
 import { pruefeVerwaiste } from './lib/handbeleg-verwaist.ts'
 import { bezugswegeTrotzNein } from './lib/handbeleg-bezugswege.ts'
@@ -330,6 +330,15 @@ log('✓ Jede eindeutige Handprüfung steht so im Datensatz, wie sie geprüft wu
     process.exit(1)
   }
   log('✓ Jede Umrechnung über die Staffelsumme nennt ihr bestätigendes Merkmal.')
+  const offen = offeneListen(rohBelege as DubCheck[], listen, (id) => netflixKennungen(nachId.get(id)?.streams))
+  const ratsche = verletzteRatsche(offen, OFFEN_OHNE_ZUORDNUNG, listen)
+  if (ratsche.length) {
+    warn(`Abbruch: ${ratsche.length} Abweichung(en) von der Liste der offenen Netflix-Staffellisten:`)
+    for (const f of ratsche) warn(`   ${f}`)
+    console.log(`VERSTÖSSE: ${ratsche.length}`)
+    process.exit(1)
+  }
+  log(`✓ ${offen.length} Netflix-Liste(n) ab Staffel > 1 ohne Umrechnung, genau die Liste der offenen Fälle (darf nur sinken).`)
 }
 
 /* Zwei Meldungen vom selben Tag, die für dieselbe Folge Ja und Nein sagen: `verschmelze` lässt das Nein gelten. Nur ein Hinweis. */

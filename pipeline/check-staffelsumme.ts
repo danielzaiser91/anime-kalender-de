@@ -2,7 +2,7 @@
  * Zusicherungen zur Staffelsumme (F100): Versatz aus JustWatch plus Bestätigung durch Folgentitel, Wächter für den Vermerk im Handbeleg.
  * Kopf der Regel: `lib/staffelsumme.ts`. Schnellweg am echten Fall: `tools/staffelsumme-vorschau.ts`.
  */
-import { findeUnbestaetigteSumme, OFFEN_OHNE_ZUORDNUNG, urteileStaffelsumme, versatzAusJustWatch, zaehleTitel, type TitelMeldung } from './lib/staffelsumme.ts'
+import { findeUnbestaetigteSumme, OFFEN_OHNE_ZUORDNUNG, offeneListen, verletzteRatsche, urteileStaffelsumme, versatzAusJustWatch, zaehleTitel, type TitelMeldung } from './lib/staffelsumme.ts'
 import type { UnsereFolge } from './lib/episodentitel-block.ts'
 
 let fehler = 0
@@ -67,10 +67,24 @@ pruefe('Bestätigung: Summe schlägt Titel nicht – falsche Summe wird abgewies
 /* Wächter am Handbeleg */
 pruefe('Wächter: Summe ohne Merkmal ist rot', findeUnbestaetigteSumme([{ title: 'X', anilistId: 1, note: 'Umrechnung: Staffelsumme – Staffel 2 beginnt bei 52' }]).length === 1)
 pruefe('Wächter: Summe mit Merkmal ist grün', findeUnbestaetigteSumme([{ title: 'X', anilistId: 1, note: 'Umrechnung: Staffelsumme – 52; bestätigt durch: Folgentitel (3 von 3, RTL+)' }]).length === 0)
+pruefe('Wächter: nur die Worte "bestätigt durch:" ohne Zählung sind rot', findeUnbestaetigteSumme([{ anilistId: 1, note: 'Umrechnung: Staffelsumme – 52; bestätigt durch: Folgentitel' }]).length === 1)
 pruefe('Wächter: andere Umrechnung (Folgentitel von Hand) bleibt unberührt', findeUnbestaetigteSumme([{ anilistId: 2, note: 'Umrechnung: Folgentitel' }, { anilistId: 3 }]).length === 0)
 
-/* Ratsche: offene Fälle nur weniger (Stand 02.11.2026: 2). */
-pruefe('Ratsche: höchstens 2 offene Adressen', OFFEN_OHNE_ZUORDNUNG.length <= 2, OFFEN_OHNE_ZUORDNUNG)
+/* Ratsche: die echten offenen Listen (Liste ab Staffel > 1 ohne Umrechnungsvermerk) werden gezählt, nicht eine Konstante gegen eine Zahl. */
+const liste2 = (...seqs: number[]) => ({ staffeln: seqs.map((seq) => ({ seq, folgen: 10 })) })
+const listen = { 1111: liste2(2, 3), 2222: liste2(1, 2), 3333: liste2(2), 4444: liste2(4) }
+const beleg = (anilistId: number, url: string, note: string) => ({ anilistId, platform: 'netflix', url, note })
+const keineAdresse = () => []
+pruefe('Offen: Listen ohne Staffel 1 ohne Vermerk sind offen, Listen mit Staffel 1 nicht', offeneListen([], listen, keineAdresse).join() === '1111,3333,4444')
+pruefe('Offen: Vermerk an der Adresse schließt den Fall', offeneListen([beleg(1, 'https://www.netflix.com/title/3333', 'Umrechnung: x')], listen, keineAdresse).join() === '1111,4444')
+pruefe('Offen: Vermerk über die Adresse des Titels schließt den Fall', offeneListen([beleg(7, 'https://www.netflix.com/browse', 'Umrechnung: x')], listen, (id) => (id === 7 ? ['4444'] : [])).join() === '1111,3333')
+pruefe('Offen: Beleg ohne Vermerk schließt nichts', offeneListen([beleg(1, 'https://www.netflix.com/title/3333', 'Folgen 1–3')], listen, keineAdresse).length === 3)
+pruefe('Offen: Vermerk bei einer anderen Plattform schließt nichts', offeneListen([{ anilistId: 1, platform: 'disneyplus', url: 'https://www.netflix.com/title/3333', note: 'Umrechnung: x' }], listen, keineAdresse).length === 3)
+pruefe('Ratsche: gleiche Menge ist grün', verletzteRatsche(['1111', '3333'], ['1111', '3333'], listen).length === 0)
+pruefe('Ratsche: neue offene Adresse ist rot', verletzteRatsche(['1111', '3333', '4444'], ['1111', '3333'], listen).length === 1)
+pruefe('Ratsche: umgerechnete Adresse muss aus der Liste', verletzteRatsche(['1111'], ['1111', '3333'], listen).length === 1)
+pruefe('Ratsche: Eintrag ohne Staffelliste in dieser Welt zählt nicht', verletzteRatsche(['1111'], ['1111', '9999'], listen).length === 0)
+pruefe('Ratsche: Liste der offenen Fälle bleibt bei zwei (Stand 02.11.2026)', OFFEN_OHNE_ZUORDNUNG.join() === '81186971,81397437')
 
 console.log(`Staffelsumme: ${faelle - fehler} von ${faelle} Fällen grün (Beyblade X echt, Summe, Bestätigung, Wächter)`)
 process.exit(fehler ? 1 : 0)
