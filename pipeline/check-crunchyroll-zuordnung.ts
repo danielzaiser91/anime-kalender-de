@@ -1050,6 +1050,7 @@ const von = (start: number, n: number) => Array.from({ length: n }, (_, i) => st
     tmdbZuTitel: { '10010005': zuTmdb, '99999': zuTmdb },
     motnTmdb: { 'tv/1': { imdbId: 'tt1' } } as never,
     motnLinks: { tt1: { netflix: 'https://www.netflix.com/title/80040330' } },
+    istTot: () => false,
   })
   pruefe('Gegenprobe: ein nur bei aniSearch geführter Titel bekommt keinen TMDB-Anbieter', slim[0]!.streams.length === 0, slim[0]!.streams)
   pruefe('Gegenprobe: ein AniList-Titel bekommt den TMDB-Anbieter', slim[1]!.streams.length === 1, slim[1]!.streams)

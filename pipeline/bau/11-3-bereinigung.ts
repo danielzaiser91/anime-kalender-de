@@ -1,3 +1,4 @@
+import { type IstTot } from '../lib/adresse-tot.ts'
 import { type WatchLink, type Title } from '../../shared/types.ts'
 import { providerName } from '../../shared/mappings.ts'
 import { log, readJson } from '../lib/util.ts'
@@ -8,7 +9,7 @@ import { type EntfernterVerweis } from './grundlagen.ts'
 export function bereinigeWege({
   titles,
   anisearch,
-  toteAdressen,
+  istTot,
   linkBefunde,
   verweiseEntfernt,
   crAdresseZu,
@@ -17,7 +18,7 @@ export function bereinigeWege({
 }: {
   titles: Map<number, Title>
   anisearch: Record<string, AnisearchEintrag>
-  toteAdressen: Set<string>
+  istTot: IstTot
   linkBefunde: Record<string, { status: number | string; prime?: boolean; geprueftAm?: string; }>
   verweiseEntfernt: EntfernterVerweis[]
   crAdresseZu: (name: string) => string | undefined
@@ -52,7 +53,7 @@ export function bereinigeWege({
       const url = (quelle.url ?? '').split('?')[0]
       const anbieter = String(quelle.provider ?? '')
       if (!url || /youtube/i.test(anbieter)) continue
-      if (toteAdressen.has(url)) continue
+      if (istTot(url)) continue
       /* Die aniSearch-Kennung trägt ein `-de` am Ende, das `providerName()` nicht kennt. */
       const name = providerName(anbieter.replace(/-de$/, ''))
       if (!name || /^Primevideo/i.test(name) || wege.some((w) => w.name === name)) continue

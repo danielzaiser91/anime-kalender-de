@@ -31,7 +31,7 @@ const neinIds = [...new Set([...nein].map((k) => Number(k.split('|')[0])))]
 /** Nein an `url`, Ja an einer zweiten Adresse derselben Plattform: Das Nein gilt dann nur `url` (`neinHandbelege`). */
 const neinNurDort = (id: number, platform: PlatformId, url: string) =>
   neinHandbelege([{ anilistId: id, platform, url, dub: false }, { anilistId: id, platform, url: 'https://example.org/ja', dub: true }])
-const ohneParameter = { tmdbMehrdeutig: new Set<string>(), toteAdressen: new Set<string>() }
+const ohneParameter = { tmdbMehrdeutig: new Set<string>(), istTot: () => false }
 
 console.log('\nAbo-Weg-Runde mit Nein-Handbeleg (Fixture):')
 {
