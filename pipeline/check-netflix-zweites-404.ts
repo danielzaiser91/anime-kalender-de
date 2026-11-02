@@ -140,7 +140,23 @@ try {
   })(), { status: 503, geprueftAm: '2026-11-02' })
   const wartend = zweitesNetflix404({ [NF]: erst, 'https://www.netflix.com/title/2': { status: 'unklar', geprueftAm: '2026-11-02' }, 'https://www.netflix.com/title/3': tot('2026-11-02'), 'https://www.joyn.de/x': erst, 'https://www.netflix.com/title/4': { status: 200, geprueftAm: '2026-11-02', erstes404: '2026-10-01' } })
   erwarte('Vorrang: nur Netflix mit erstem 404', wartend, [NF])
+  const haengt = (status: number | string): LinkBefund => ({ status, geprueftAm: '2026-10-25', erstes404: '2026-10-20' })
+  erwarte('Vorrang: auch 503 und timeout tragen den Vermerk', zweitesNetflix404({ 'https://www.netflix.com/title/5': haengt(503), 'https://www.netflix.com/title/6': haengt('timeout') }), ['https://www.netflix.com/title/5', 'https://www.netflix.com/title/6'])
   erwarte('hat404: bestätigt, erstes, Nichtauskunft, lebt, nichts', [hat404(tot('2026-11-02')), hat404(erst), hat404({ status: 'unklar' }), hat404({ status: 200 }), hat404(undefined)], [true, true, false, false, false])
+  erwarte('hat404: 503 und timeout mit Vermerk zählen, 200 mit Rest-Vermerk nicht', [hat404(haengt(503)), hat404(haengt('timeout')), hat404({ ...haengt(200) })], [true, true, false])
+  /* Kette 404 -> Nichtauskunft -> 404: die Frist läuft vom ersten Tag, auch über 503/timeout. */
+  erwarte('503 mit Vermerk, 404 nach 13 Tagen: bestätigt', netflixBefund(NF, haengt(503), tot('2026-11-02')), tot('2026-11-02'))
+  erwarte('timeout mit Vermerk, 404 nach 2 Tagen: bestätigt', netflixBefund(NF, haengt('timeout'), tot('2026-10-22')), tot('2026-10-22'))
+  erwarte('503 mit Vermerk, 404 nach 1 Tag: unklar mit altem Tag', netflixBefund(NF, haengt(503), tot('2026-10-21')), ersterTag('2026-10-21', '2026-10-20'))
+  erwarte('503 ohne Vermerk, 404: Frist beginnt neu', netflixBefund(NF, { status: 503, geprueftAm: '2026-10-25' }, tot('2026-11-02')), ersterTag('2026-11-02', '2026-11-02'))
+  const kette = (statuses: Array<number | string>, tag: string): LinkBefund | undefined => {
+    const b: Record<string, LinkBefund> = { [NF]: alt1 }
+    statuses.forEach((s, i) => nimmBefund(b, NF, { status: s, geprueftAm: `2026-10-${26 + i}` }, []))
+    nimmBefund(b, NF, tot(tag), [])
+    return b[NF]
+  }
+  erwarte('Kette 503, timeout, unklar, dann 404 nach der Frist: bestätigt', kette([503, 'timeout', 'unklar'], '2026-11-02'), tot('2026-11-02'))
+  erwarte('Kette 503, timeout, dann 404: Vermerk überlebt beide Nichtauskünfte', kette([503, 'timeout'], '2026-10-29')?.status, 404)
 
   /* 3. Wächter. */
   const lauf = (anzahl: number, wechsler: number, host = 'www.netflix.com', alt: unknown = 200, neu: unknown = 404) =>

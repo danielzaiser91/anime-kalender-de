@@ -18,6 +18,9 @@ const istNetflix = (url: string): boolean => {
 
 const tage = (von: string, bis: string): number => Math.round((Date.parse(`${bis}T12:00:00Z`) - Date.parse(`${von}T12:00:00Z`)) / 86_400_000)
 
+/** Das vermerkte erste 404, solange der Befund keine Auskunft ist (unklar, 5xx, timeout); an einem 200 oder bestätigten 404 zählt der Vermerk nicht. */
+const offenes404 = (b: LinkBefund | undefined): string | undefined => (b && !istAuskunft(b.status) ? b.erstes404 : undefined)
+
 /**
  * Was für ein frisch gemessenes Netflix-404 in den Bestand kommt: `unklar` mit `erstes404` (der Weg bleibt),
  * beim zweiten 404 nach mindestens `ABSTAND_TAGE` Tagen das 404 selbst. Ein schon bestätigtes 404 bleibt 404.
@@ -25,27 +28,28 @@ const tage = (von: string, bis: string): number => Math.round((Date.parse(`${bis
  */
 export function netflixBefund<B extends LinkBefund>(url: string, alt: LinkBefund | undefined, neu: B): B {
   if (neu.status !== 404 || !istNetflix(url) || alt?.status === 404) return neu
-  const erstes = alt?.status === 'unklar' ? alt.erstes404 : undefined
+  const erstes = offenes404(alt)
   const am = neu.geprueftAm ?? ''
   if (erstes && tage(erstes, am) >= ABSTAND_TAGE) return neu
   return { ...neu, status: 'unklar', erstes404: erstes ?? am }
 }
 
 /** Ein 404 liegt vor: bestätigt oder als erstes noch `unklar` (`erstes404`). Der Netflix-Riegel im Bau (09-2) fragt so, sonst wanderte ein Weg von der lebenden zur wackligen Form. */
-export const hat404 = (b: LinkBefund | undefined): boolean => b?.status === 404 || (b?.status === 'unklar' && b.erstes404 !== undefined)
+export const hat404 = (b: LinkBefund | undefined): boolean => b?.status === 404 || offenes404(b) !== undefined
 
 /**
  * Netflix-Adressen mit vermerktem ersten 404: sie kommen im Lauf zuerst dran. Nach ältestem `geprueftAm` stünde das zweite 404
  * bei `--limit 400` und mehreren Tausend älteren fälligen Einträgen bis zu 8 Wochen hinten.
  */
 export function zweitesNetflix404(bestand: Record<string, LinkBefund>): string[] {
-  return Object.keys(bestand).filter((u) => istNetflix(u) && bestand[u].status === 'unklar' && bestand[u].erstes404 !== undefined)
+  return Object.keys(bestand).filter((u) => istNetflix(u) && offenes404(bestand[u]) !== undefined)
 }
 
 /** Eine Nichtauskunft (unklar, 5xx, timeout) auf ein vermerktes erstes 404 lässt dessen Frist weiterlaufen, statt sie neu zu beginnen. */
 function behalteErstes404<B extends LinkBefund>(alt: LinkBefund | undefined, neu: B): B {
-  if (alt?.status !== 'unklar' || alt.erstes404 === undefined || neu.erstes404 !== undefined || istAuskunft(neu.status)) return neu
-  return { ...neu, erstes404: alt.erstes404 }
+  const vermerk = offenes404(alt)
+  if (vermerk === undefined || neu.erstes404 !== undefined || istAuskunft(neu.status)) return neu
+  return { ...neu, erstes404: vermerk }
 }
 
 export type WechselPaar = { url: string; alt: unknown; neu: unknown }
