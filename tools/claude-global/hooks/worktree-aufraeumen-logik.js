@@ -38,12 +38,12 @@ function bewertePr(w, prs, jetzt) {
   const mitZeit = passend.map((p) => ({ p, zeit: Date.parse(p.mergedAt ?? p.closedAt) }))
   if (mitZeit.some((x) => Number.isNaN(x.zeit))) return { stand: 'ohne' }
   const jung = mitZeit.reduce((a, b) => (b.zeit > a.zeit ? b : a))
-  return { stand: 'erledigt', grund: `pr-${jung.p.state.toLowerCase()}`, seitMs: jetzt - jung.zeit, abschlussMs: jung.zeit }
+  return { stand: 'erledigt', grund: `pr-${jung.p.state.toLowerCase()}`, seitMs: jetzt - jung.zeit }
 }
 
 /**
  * Entscheidung für einen Worktree: { aktion: 'weg' | 'prune' | 'behalten', grund }.
- * w: { pfad, zweig, kopf, existiert, juengsteAenderungMs, kopfZeitMs (letzte HEAD-Bewegung) }; ctx: { haupt, jetzt, prs, cacheLeer(pfad), sauber(pfad) }.
+ * w: { pfad, zweig, kopf, existiert, juengsteAenderungMs, kopfZeitMs (letzte HEAD-Bewegung) }; ctx: { haupt, jetzt, prs, cacheLeer(pfad), sauber(pfad), aufZweig(kopf) }.
  * Reihenfolge: billige Prüfungen zuerst, `sauber` (git status, berührt alle Dateien) nur für Kandidaten zum Entfernen.
  */
 function entscheide(w, ctx) {
@@ -53,13 +53,14 @@ function entscheide(w, ctx) {
   if (ctx.jetzt - w.juengsteAenderungMs < SCHONFRIST_MS) return { aktion: 'behalten', grund: 'jung' }
   const pr = bewertePr(w, ctx.prs, ctx.jetzt)
   if (pr.stand === 'offen') return { aktion: 'behalten', grund: 'pr-offen' }
-  if (pr.stand === 'ohne') return { aktion: 'behalten', grund: 'ohne-pr' }
-  if (pr.seitMs < SCHONFRIST_PR_MS) return { aktion: 'behalten', grund: 'pr-jung' }
-  // Erst nach dem Abschluss auf diesen Kopf gesetzt (Nachprüfung, neuer Zweig) gehört nicht zum erledigten PR; fehlende Zeit = behalten.
-  if (!(w.kopfZeitMs <= pr.abschlussMs)) return { aktion: 'behalten', grund: 'kopf-nach-abschluss' }
+  if (pr.stand === 'erledigt' && pr.seitMs < SCHONFRIST_PR_MS) return { aktion: 'behalten', grund: 'pr-jung' }
+  // Ohne erledigten PR: Frist seit der letzten Datei- oder HEAD-Bewegung; fehlende/unlesbare Zeit = behalten.
+  if (pr.stand === 'ohne' && !(ctx.jetzt - Math.max(w.juengsteAenderungMs, w.kopfZeitMs) >= SCHONFRIST_PR_MS)) return { aktion: 'behalten', grund: 'ohne-pr-frist' }
   if (ctx.cacheLeer(w.pfad) !== true) return { aktion: 'behalten', grund: 'cache-inhalt' }
+  // Arbeit bleibt nur erhalten, wenn der Kopf auf einem Zweig liegt (der Abbau löscht keine Zweige); losgelöst und ungesichert = behalten.
+  if (!w.kopf || ctx.aufZweig?.(w.kopf) !== true) return { aktion: 'behalten', grund: 'kopf-ungesichert' }
   if (ctx.sauber(w.pfad) !== true) return { aktion: 'behalten', grund: 'geaendert' }
-  return { aktion: 'weg', grund: pr.grund }
+  return { aktion: 'weg', grund: pr.stand === 'erledigt' ? pr.grund : 'ohne-pr-gesichert' }
 }
 
 /**

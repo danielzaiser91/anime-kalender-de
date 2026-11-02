@@ -18,7 +18,7 @@ const SCHON = L.SCHONFRIST_MS
 // ---- reine Entscheidungen -------------------------------------------------------------------------------------------------------------
 const JETZT = 1_000_000_000_000
 const PR_SCHON = L.SCHONFRIST_PR_MS
-const ctxBasis = { haupt: 'C:/x/haupt', jetzt: JETZT, prs: [], cacheLeer: () => true, sauber: () => true }
+const ctxBasis = { haupt: 'C:/x/haupt', jetzt: JETZT, prs: [], cacheLeer: () => true, sauber: () => true, aufZweig: () => true }
 const wt = (extra = {}) => ({ pfad: 'C:/x/_worktrees/haupt/a', zweig: 'z', kopf: 'k', existiert: true, juengsteAenderungMs: JETZT - SCHON - 1, kopfZeitMs: JETZT - PR_SCHON - 1, ...extra })
 const e = (w, c = {}) => L.entscheide(w, { ...ctxBasis, ...c })
 const iso = (ms) => new Date(ms).toISOString()
@@ -26,6 +26,7 @@ const iso = (ms) => new Date(ms).toISOString()
 const uhr = () => Date.now() // uhr-echt: Zeitstempel echter Dateien und Sperren, keine Tagesgrenze im Ergebnis
 const pr = (state, extra = {}) => ({ headRefName: 'z', headRefOid: 'k', state, mergedAt: iso(JETZT - PR_SCHON), closedAt: null, ...extra })
 const mit = (...prs) => ({ prs })
+const ALT = { juengsteAenderungMs: 0, kopfZeitMs: 0 }
 
 assert.deepEqual(H.PR_FELDER.split(','), ['headRefName', 'headRefOid', 'state', 'mergedAt', 'closedAt'])
 assert.equal(PR_SCHON, 24 * 60 * 60 * 1000, 'Schonfrist seit dem Merge ist 24 h')
@@ -36,13 +37,39 @@ assert.equal(e(wt(), mit(pr('OPEN'), pr('MERGED'))).grund, 'pr-offen', 'offener 
 assert.equal(e(wt(), mit(pr('MERGED'), pr('OPEN'))).grund, 'pr-offen', 'Reihenfolge 2')
 assert.equal(e(wt({ kopf: 'anders' }), mit(pr('OPEN'))).grund, 'pr-offen', 'offener PR über den Zweignamen, auch bei anderem Kopf')
 assert.equal(e(wt({ zweig: null }), mit(pr('OPEN', { headRefName: 'x' }))).grund, 'pr-offen', 'offener PR über den Kopf, auch losgelöst')
-assert.equal(e(wt({ zweig: 'q', kopf: 'k2' }), mit(pr('OPEN', { headRefName: 'x', headRefOid: 'k' }))).grund, 'ohne-pr', 'fremder offener PR zählt nicht')
-// A1: Lesen hinterlässt kein Lebenszeichen — ohne PR nie weg, auch nach Tagen; „Kopf in main“ ist kein Erledigt-Zeichen mehr.
-assert.equal(e(wt({ juengsteAenderungMs: 0 })).grund, 'ohne-pr')
-assert.equal(e(wt({ zweig: null, juengsteAenderungMs: 0 })).grund, 'ohne-pr')
-// A2: gleicher Zweigname, anderer Stand → behalten.
-assert.equal(e(wt({ kopf: 'neuer-commit' }), mit(pr('MERGED'))).grund, 'ohne-pr', 'Kopf weicht vom PR-Kopf ab')
-assert.equal(e(wt({ kopf: null }), mit(pr('MERGED', { headRefOid: null }))).grund, 'ohne-pr', 'ohne Kopf kein Erledigt-Zeichen')
+assert.equal(e(wt({ zweig: 'q', kopf: 'k2' }), mit(pr('OPEN', { headRefName: 'x', headRefOid: 'k' }))).grund, 'ohne-pr-frist', 'fremder offener PR zählt nicht')
+// A1 (neu 02.11.2026): ohne erledigten PR 24 h Frist seit max(Datei, HEAD), danach weg, wenn der Kopf auf einem Zweig liegt.
+assert.deepEqual(e(wt(ALT)), { aktion: 'weg', grund: 'ohne-pr-gesichert' })
+assert.deepEqual(e(wt({ ...ALT, zweig: null })), { aktion: 'weg', grund: 'ohne-pr-gesichert' })
+assert.equal(e(wt()).grund, 'ohne-pr-frist', '2 h + 1 ms ohne PR: behalten')
+const F = PR_SCHON
+assert.equal(e(wt({ juengsteAenderungMs: JETZT - F + 1, kopfZeitMs: 0 })).grund, 'ohne-pr-frist', 'Datei 1 ms unter 24 h')
+assert.equal(e(wt({ juengsteAenderungMs: 0, kopfZeitMs: JETZT - F + 1 })).grund, 'ohne-pr-frist', 'HEAD 1 ms unter 24 h (anderer Wert als die Datei)')
+assert.equal(e(wt({ juengsteAenderungMs: JETZT - F, kopfZeitMs: JETZT - F - 5 })).aktion, 'weg', 'genau 24 h')
+assert.equal(e(wt({ juengsteAenderungMs: JETZT - F - 5, kopfZeitMs: JETZT - F })).aktion, 'weg', 'genau 24 h, HEAD jünger')
+assert.equal(e(wt({ ...ALT, kopfZeitMs: Infinity })).grund, 'ohne-pr-frist', 'unlesbare HEAD-Zeit bleibt')
+assert.equal(e(wt({ ...ALT, kopfZeitMs: undefined })).grund, 'ohne-pr-frist', 'ohne HEAD-Zeit bleibt')
+// Kopf auf keinem Zweig (losgelöst, ungesichert) bleibt, mit und ohne erledigten PR; ohne aufZweig-Hook ebenso (fail-closed).
+assert.equal(e(wt(ALT), { aufZweig: () => false }).grund, 'kopf-ungesichert')
+assert.equal(e(wt(), { ...mit(pr('MERGED')), aufZweig: () => false }).grund, 'kopf-ungesichert')
+assert.equal(e(wt(ALT), { aufZweig: () => undefined }).grund, 'kopf-ungesichert', 'unbekannt zählt als ungesichert')
+assert.equal(e(wt(ALT), { aufZweig: undefined }).grund, 'kopf-ungesichert')
+assert.equal(e(wt({ ...ALT, kopf: null })).grund, 'kopf-ungesichert')
+const zweigFragen = []
+e(wt(ALT), { aufZweig: (k) => { zweigFragen.push(k); return true } })
+assert.deepEqual(zweigFragen, ['k'], 'gefragt wird nach dem Kopf des Worktrees')
+// Änderungen und echter Cache bleiben auch ohne PR.
+assert.equal(e(wt(ALT), { sauber: () => false }).grund, 'geaendert')
+assert.equal(e(wt(ALT), { cacheLeer: () => false }).grund, 'cache-inhalt')
+// Offener PR schlägt die Frist (Zweigname und Kopf einzeln).
+assert.equal(e(wt(ALT), mit(pr('OPEN'))).grund, 'pr-offen')
+assert.equal(e(wt({ ...ALT, kopf: 'anders' }), mit(pr('OPEN'))).grund, 'pr-offen', 'über den Zweignamen')
+assert.equal(e(wt({ ...ALT, zweig: 'andere' }), mit(pr('OPEN', { headRefName: 'x' }))).grund, 'pr-offen', 'über den Kopf')
+assert.equal(e(wt({ ...ALT, juengsteAenderungMs: JETZT - 1000 })).grund, 'jung', 'jung gilt auch ohne PR')
+// A2 (neu): gleicher Zweigname, anderer Kopf des gemergten PR → wie ohne PR (Frist, dann weg); vorher blieb er für immer.
+assert.equal(e(wt({ kopf: 'neuer-commit' }), mit(pr('MERGED'))).grund, 'ohne-pr-frist', 'Kopf weicht vom PR-Kopf ab, noch in der Frist')
+assert.deepEqual(e(wt({ kopf: 'neuer-commit', ...ALT }), mit(pr('MERGED'))), { aktion: 'weg', grund: 'ohne-pr-gesichert' })
+assert.equal(e(wt({ kopf: null }), mit(pr('MERGED', { headRefOid: null }))).grund, 'ohne-pr-frist', 'ohne Kopf kein Erledigt-Zeichen')
 // A5: losgelöster Kopf eines gemergten PR → weg, mit Schonfrist seit dem Merge.
 assert.deepEqual(e(wt({ zweig: null }), mit(pr('MERGED'))), { aktion: 'weg', grund: 'pr-merged' })
 // Schonfrist seit Merge/Schließen: eine Millisekunde darunter behalten, genau 24 h weg, nicht seit der letzten Dateiänderung.
@@ -50,17 +77,13 @@ assert.equal(e(wt(), mit(pr('MERGED', { mergedAt: iso(JETZT - PR_SCHON + 1) })))
 assert.equal(e(wt(), mit(pr('MERGED', { mergedAt: iso(JETZT - PR_SCHON) }))).aktion, 'weg')
 assert.equal(e(wt(), mit(pr('CLOSED', { mergedAt: null, closedAt: iso(JETZT - PR_SCHON + 1) }))).grund, 'pr-jung')
 assert.equal(e(wt({ juengsteAenderungMs: 0 }), mit(pr('MERGED', { mergedAt: iso(JETZT - 1000) }))).grund, 'pr-jung', 'alte Dateien, frischer Merge')
-assert.equal(e(wt(), mit(pr('MERGED', { mergedAt: null, closedAt: null }))).grund, 'ohne-pr', 'ohne Datum kein Erledigt-Zeichen')
-assert.equal(e(wt(), mit(pr('MERGED', { mergedAt: 'kein-datum' }))).grund, 'ohne-pr')
+assert.equal(e(wt(), mit(pr('MERGED', { mergedAt: null, closedAt: null }))).grund, 'ohne-pr-frist', 'ohne Datum kein Erledigt-Zeichen')
+assert.equal(e(wt(), mit(pr('MERGED', { mergedAt: 'kein-datum' }))).grund, 'ohne-pr-frist')
 assert.equal(e(wt(), mit(pr('MERGED', { mergedAt: iso(JETZT - 5 * PR_SCHON) }), pr('MERGED', { mergedAt: iso(JETZT - 1000) }))).grund, 'pr-jung', 'jüngster Abschluss zählt')
 assert.equal(e(wt(), mit(pr('MERGED', { mergedAt: iso(JETZT - 1000) }), pr('MERGED', { mergedAt: iso(JETZT - 5 * PR_SCHON) }))).grund, 'pr-jung')
-// A6: HEAD erst nach dem Abschluss bewegt (Nachprüfung, neuer Zweig auf altem Kopf) → behalten; genau zur Abschlusszeit noch weg.
-assert.equal(e(wt({ kopfZeitMs: JETZT - PR_SCHON }), mit(pr('MERGED'))).aktion, 'weg', 'HEAD genau zum Merge')
-assert.equal(e(wt({ kopfZeitMs: JETZT - PR_SCHON + 1 }), mit(pr('MERGED'))).grund, 'kopf-nach-abschluss')
-assert.equal(e(wt({ kopfZeitMs: JETZT - 1000 }), mit(pr('MERGED'))).grund, 'kopf-nach-abschluss', 'HEAD deutlich nach dem Merge')
-assert.equal(e(wt({ kopfZeitMs: JETZT - PR_SCHON + 1 }), mit(pr('CLOSED', { mergedAt: null, closedAt: iso(JETZT - PR_SCHON) }))).grund, 'kopf-nach-abschluss', 'auch bei geschlossenem PR')
-assert.equal(e(wt({ kopfZeitMs: undefined }), mit(pr('MERGED'))).grund, 'kopf-nach-abschluss', 'ohne HEAD-Zeit bleibt der Worktree')
-assert.equal(e(wt({ kopfZeitMs: Infinity }), mit(pr('MERGED'))).grund, 'kopf-nach-abschluss', 'unlesbare HEAD-Zeit bleibt')
+// A6 (aufgehoben 02.11.2026): HEAD nach dem Abschluss bewegt ist kein Grund mehr, der Kopf liegt ja auf einem Zweig.
+assert.equal(e(wt({ kopfZeitMs: JETZT - 1000 }), mit(pr('MERGED'))).grund, 'pr-merged', 'HEAD deutlich nach dem Merge')
+assert.equal(e(wt({ kopfZeitMs: undefined }), mit(pr('MERGED'))).grund, 'pr-merged')
 assert.equal(e(wt({ pfad: 'C:/x/haupt' }), mit(pr('MERGED'))).grund, 'haupt', 'Hauptordner nie')
 assert.equal(e(wt({ pfad: 'C:\\X\\Haupt\\' }), mit(pr('MERGED'))).grund, 'haupt', 'Schreibweise egal')
 for (const fremd of ['C:/x/haupt/anderer', 'C:/x/haupt/_wt-a', 'C:/x/_worktrees/haupt', 'C:/x/_worktrees/haupt/a/b', 'C:/x/_worktrees2/haupt/a', 'C:/x/mein_worktrees/haupt/a', 'C:/x/_worktrees//a', 'C:/x/haupt/_worktrees/a']) {
@@ -246,12 +269,12 @@ try {
     '_wt-geschlossen': ['weg', 'pr-closed'],
     '_wt-offen': ['behalten', 'pr-offen'],
     '_wt-offen-inmain': ['behalten', 'pr-offen'],
-    '_wt-inmain': ['behalten', 'ohne-pr'],
+    '_wt-inmain': ['behalten', 'ohne-pr-frist'],
     '_wt-pruefer': ['weg', 'pr-merged'],
-    '_wt-wieder': ['behalten', 'ohne-pr'],
+    '_wt-wieder': ['behalten', 'ohne-pr-frist'],
     '_wt-cache': ['behalten', 'cache-inhalt'],
     '_wt-worker': ['weg', 'pr-merged'],
-    '_wt-ohnepr': ['behalten', 'ohne-pr'],
+    '_wt-ohnepr': ['behalten', 'ohne-pr-frist'],
     '_wt-dirty': ['behalten', 'geaendert'],
     '_wt-untracked': ['behalten', 'geaendert'],
     '_wt-junction': ['weg', 'pr-merged'],
@@ -327,22 +350,40 @@ try {
   assert.equal(readFileSync(join(wtDir, '_wt-untracked', 'agent-notiz.txt'), 'utf8'), 'wichtig\n')
   assert.equal(readFileSync(join(wtDir, '_wt-dirty', 'data', 'a.txt'), 'utf8'), 'geändert\n')
 
-  // A6: erst nach dem Merge auf den PR-Kopf gesetzte Worktrees (neuer Zweig, losgelöste Nachprüfung, alter Zweig wieder ausgecheckt) bleiben.
+  // A6 (aufgehoben 02.11.2026): erst nach dem Merge auf den PR-Kopf gesetzte Worktrees (neuer Zweig, losgelöste Nachprüfung, alter Zweig wieder ausgecheckt)
+  // sind weg, auch mit frischer HEAD-Zeit: der Kopf liegt auf einem Zweig, und die Zweige bleiben.
   prs.push(erledigt('b-gemergt', '_wt-pruefer', 'MERGED', oidGemergt))
   g(haupt, 'worktree', 'add', '-b', 'neue-arbeit', join(wtDir, '_wt-a6-zweig'), oidGemergt)
   g(haupt, 'worktree', 'add', '--detach', join(wtDir, '_wt-a6-nachpruefung'), oidGemergt)
   g(haupt, 'worktree', 'add', join(wtDir, '_wt-a6-alt'), 'b-gemergt')
   const a6 = ['_wt-a6-zweig', '_wt-a6-nachpruefung', '_wt-a6-alt']
-  const a6Liste = H.abbau(haupt, welt, false)
-  for (const n of a6) assert.deepEqual([grund(a6Liste, n).aktion, grund(a6Liste, n).grund], ['behalten', 'kopf-nach-abschluss'], n)
-  // Gegenprobe: dieselben Worktrees mit HEAD-Zeit vor dem Merge wären weg.
-  for (const n of a6) setzeKopfZeit(n)
-  const a6Alt = H.abbau(haupt, welt, false)
-  for (const n of a6) assert.deepEqual([grund(a6Alt, n).aktion, grund(a6Alt, n).grund], ['weg', 'pr-merged'], `${n} mit altem HEAD`)
   for (const n of a6) setzeKopfZeit(n, 0)
-  const a6Los = H.abbau(haupt, welt, true)
-  for (const n of a6) assert.equal(existsSync(join(wtDir, n, '.git')), true, `${n} nach dem Abbau noch da`)
-  assert.equal(a6Los.fehler.filter((f) => a6.some((n) => f.includes(n))).length, 0)
+  const a6Liste = H.abbau(haupt, welt, false)
+  for (const n of a6) assert.deepEqual([grund(a6Liste, n).aktion, grund(a6Liste, n).grund], ['weg', 'pr-merged'], n)
+  for (const n of a6) g(haupt, 'worktree', 'remove', join(wtDir, n))
+
+  // Ohne erledigten PR (jetzt = +30 h): Kopf auf einem Zweig → weg; Kopf auf keinem Zweig, Änderungen, offener PR → bleiben, jeweils mit Grund.
+  g(haupt, 'worktree', 'add', '--detach', join(wtDir, '_wt-lose-kopf'), c1)
+  writeFileSync(join(wtDir, '_wt-lose-kopf', 'x.txt'), 'x')
+  g(join(wtDir, '_wt-lose-kopf'), 'add', 'x.txt')
+  g(join(wtDir, '_wt-lose-kopf'), 'commit', '-m', 'ohne Zweig')
+  setzeKopfZeit('_wt-lose-kopf')
+  const jetztMerk = jetzt
+  jetzt = uhr() + 30 * 3600_000
+  const ohnePr = H.abbau(haupt, welt, false)
+  jetzt = jetztMerk
+  const urteil = (n) => [grund(ohnePr, n).aktion, grund(ohnePr, n).grund]
+  assert.deepEqual(urteil('_wt-ohnepr'), ['weg', 'ohne-pr-gesichert'])
+  assert.deepEqual(urteil('_wt-inmain'), ['weg', 'ohne-pr-gesichert'])
+  assert.deepEqual(urteil('_wt-wieder'), ['weg', 'ohne-pr-gesichert'], 'Zweig mit Arbeit nach dem Merge: Kopf weicht vom PR ab, bleibt aber auf dem Zweig')
+  assert.deepEqual(urteil('_wt-lose-kopf'), ['behalten', 'kopf-ungesichert'], 'Kopf auf keinem Zweig-Ref')
+  assert.deepEqual(urteil('_wt-dirty'), ['behalten', 'geaendert'])
+  assert.deepEqual(urteil('_wt-cache'), ['behalten', 'cache-inhalt'])
+  assert.deepEqual(urteil('_wt-offen'), ['behalten', 'pr-offen'])
+  assert.equal(H.echteWelt(haupt).aufZweig(oid('_wt-lose-kopf')), false, 'echter Hook: Kopf ohne Zweig')
+  assert.equal(H.echteWelt(haupt).aufZweig(oid('_wt-ohnepr')), true, 'echter Hook: Kopf auf Zweig b-ohnepr')
+  assert.equal(H.echteWelt(haupt).aufZweig('0123456789abcdef0123456789abcdef01234567'), false, 'echter Hook: unbekannter Kopf')
+  g(haupt, 'worktree', 'remove', '--force', join(wtDir, '_wt-lose-kopf'))
 
   // A7: Ordner in Benutzung (EBUSY/EPERM beim Umbenennen) → nichts gelöst, nichts entfernt, nur gemeldet.
   const ebusy = () => { throw Object.assign(new Error('busy'), { code: 'EBUSY' }) }
@@ -558,6 +599,15 @@ try {
     assert.equal(existsSync(vSperre), false, 'auch nach Fehler frei')
     H.abbauImVordergrund(false, { haupt, sperre: vSperre, welt: { ...spaeh, prs: () => { waehrend = existsSync(vSperre); return prs } } })
     assert.equal(waehrend, false, 'Liste braucht keine Sperre')
+    // --liste nennt jeden behaltenen Worktree mit Grund (außer Haupt/fremd), sonst nur Entfernte.
+    const zeilen = []
+    console.log = (...a) => zeilen.push(a.join(' '))
+    H.abbauImVordergrund(false, { haupt, sperre: vSperre, welt: { ...spaeh, jetzt: () => uhr() + 30 * 3600_000 } })
+    console.log = () => {}
+    assert.ok(zeilen.some((z) => z.startsWith('behalten pr-offen ') && z.endsWith('_wt-offen')), '--liste: behalten mit Grund')
+    assert.ok(zeilen.some((z) => z.startsWith('behalten geaendert ') && z.endsWith('_wt-dirty')))
+    assert.ok(zeilen.some((z) => z.startsWith('weg ohne-pr-gesichert ') && z.endsWith('_wt-ohnepr')))
+    assert.equal(zeilen.some((z) => /^behalten (haupt|fremd) /.test(z)), false, 'Haupt und fremd bleiben still')
     // H1: die Sperre eines anderen Besitzers bleibt stehen; eine unlesbare Sperre wird nicht überschrieben.
     H.abbauImVordergrund(true, { haupt, sperre: vSperre, welt: { ...spaeh, prs: () => { writeFileSync(vSperre, JSON.stringify({ pid: process.pid + 1, zeit: uhr() })); return prs } } })
     assert.equal(existsSync(vSperre), true, 'fremde Sperre bleibt')

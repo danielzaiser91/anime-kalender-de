@@ -1,7 +1,9 @@
 // Worktrees räumen sich selbst ab (Anlass 18.10.2026: 274 Worktrees ≈ 3 GB Kernel-Dateicache; seit 25.10.2026 liegen sie unter C:/code/_worktrees/<repo>/<thema>). Entscheidungen: worktree-aufraeumen-logik.js.
 // Zwei Auslöser, beide kehren sofort zurück und starten den Abbau unsichtbar über das Prozess-Register (Frist, Sperre = höchstens ein Abbau):
 //   PostToolUse(Bash) nach erfolgreichem `gh pr merge`  und  SessionStart (dort zusätzlich die Wächterzeile bei > 20 Worktrees).
-// Entfernt wird nur: sauberer Worktree, HEAD seit vor dem Abschluss unbewegt, Ordner frei (Probe-Umbenennen), keine Änderung in den letzten 2 h, Kopf == headRefOid eines gemergten/geschlossenen PR seit mindestens 24 h (Lesen hinterlässt kein Lebenszeichen), kein offener PR, kein echter data/cache.
+// Entfernt wird nur: sauberer Worktree, Ordner frei (Probe-Umbenennen), keine Änderung in den letzten 2 h, kein offener PR (Zweigname oder Kopf), kein echter data/cache,
+// Kopf liegt auf mindestens einem Zweig (`git branch -a --contains`; Zweige bleiben), und eine Frist von 24 h: seit Merge/Schließen des PR mit Kopf == headRefOid, sonst seit der letzten Datei- oder HEAD-Bewegung.
+// `--liste` nennt jeden behaltenen Worktree mit Grund.
 // Zweige bleiben. Verknüpfungen (node_modules, data/cache) werden vor dem Entfernen einzeln gelöst, nie rekursiv. Lose Ordner unter _worktrees/<repo>/ ohne Registrierung:
 // nur Verknüpfungen und leere Ordner → weg (Verknüpfung per unlink, vorher/nachher Haupt-node_modules und data/cache da), sonst nur aufgelistet.
 // Von Hand:  node worktree-aufraeumen.js --liste   (zeigt Entscheidungen, ändert nichts)   |   --abbau (Abbau im Vordergrund)
@@ -131,6 +133,7 @@ function echteWelt(haupt) {
     prs: () => JSON.parse(execFileSync('gh', ['pr', 'list', '--state', 'all', '--limit', '3000', '--json', PR_FELDER], { cwd: haupt, encoding: 'utf8', windowsHide: true })),
     cacheLeer,
     sauber: (pfad) => { try { return git(pfad, 'status', '--porcelain') === '' } catch { return false } },
+    aufZweig: (kopf) => { try { return git(haupt, 'branch', '-a', '--contains', kopf) !== '' } catch { return false } },
     entferne: (pfad) => { git(haupt, 'worktree', 'remove', pfad) },
     loese: loeseVerknuepfungen,
     frei: ordnerFrei,
@@ -196,7 +199,7 @@ function raeumeLosen(pfad, haupt, unlink = fs.unlinkSync) {
 /** Planen und (mit `los`) ausführen. Rückgabe: { worktrees: [{pfad, zweig, aktion, grund}], lose: [...] , entfernt, fehler }. */
 function abbau(haupt, welt, los) {
   const bericht = { worktrees: [], lose: [], entfernt: 0, fehler: [] }
-  const ctx = { haupt, jetzt: welt.jetzt(), prs: welt.prs(), cacheLeer: welt.cacheLeer, sauber: welt.sauber }
+  const ctx = { haupt, jetzt: welt.jetzt(), prs: welt.prs(), cacheLeer: welt.cacheLeer, sauber: welt.sauber, aufZweig: welt.aufZweig }
   const alle = L.leseWorktrees(git(haupt, 'worktree', 'list', '--porcelain'))
   if (los) heileProbeOrdner(alle, bericht, welt.umbenennen)
   for (const w of alle) {
@@ -326,7 +329,7 @@ function abbauImVordergrund(los, o = {}) {
   if (los && !nimmSperre(sperre, Date.now())) { console.log('Abbau läuft schon (Sperre)'); return 0 }
   try {
     const b = abbau(haupt, o.welt ?? echteWelt(haupt), los)
-    for (const w of [...b.worktrees, ...b.lose]) if (w.aktion !== 'behalten') console.log(w.aktion, w.grund, w.pfad)
+    for (const w of [...b.worktrees, ...b.lose]) if (w.aktion !== 'behalten' || (!los && !['haupt', 'fremd'].includes(w.grund))) console.log(w.aktion, w.grund, w.pfad)
     const behalten = [...b.worktrees, ...b.lose].filter((w) => w.aktion === 'behalten' && !['haupt', 'fremd'].includes(w.grund)).length
     console.log(`Abbau ${los ? 'fertig' : '(Liste)'}: entfernt ${b.entfernt}, behalten ${behalten}, Fehler ${b.fehler.length}`)
     for (const f of b.fehler) console.log(f)
