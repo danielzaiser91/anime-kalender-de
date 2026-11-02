@@ -65,15 +65,17 @@ function repo() {
   ok(r.abdruck(og) !== r.abdruck(weg), 'public/og zählt (nur public/data ist Datenpfad)')
   const aehnlich = r.commit({ 'datax/y.txt': '1', 'public/database.json': '1' })
   ok(r.abdruck(aehnlich) !== r.abdruck(og), 'Namen mit gleichem Anfang (datax/, public/database.json) sind keine Datenpfade')
+  const tief = r.commit({ 'tools/data/x.txt': '1', 'tools/public/data/y.txt': '1', 'tools/daniel-zum-abarbeiten/z.txt': '1' })
+  ok(r.abdruck(tief) !== r.abdruck(aehnlich), 'Datenpfade gelten nur am Anfang des Pfads (tools/data/… zählt)')
   const ur = r.commit({ 'tools/x.mjs': '3', 'tools/y.mjs': '1' })
   const ur2 = r.commit({ 'tools/x.mjs': '2' })
   ok(r.abdruck(ur2) !== r.abdruck(ur), 'anderer Inhalt: anderer Abdruck')
 }
 {
-  const fehler = (roh, name) => assert.throws(() => abdruckAusBaum(roh), name)
-  fehler('', 'leerer Baum wirft')
-  fehler('Müll\0', 'unbekanntes Format wirft')
-  fehler(`100644 blob ${'a'.repeat(40)}\ta\nb\0`, 'Pfad mit Zeilenumbruch wirft')
+  const fehler = (roh, muster, name) => assert.throws(() => abdruckAusBaum(roh), muster, name)
+  fehler('', /leerer Baum/, 'leerer Baum wirft')
+  fehler('Müll\0', /unbekanntes Zeilenformat/, 'unbekanntes Format wirft')
+  fehler(`100644 blob ${'a'.repeat(40)}\ta\nb\0`, /Zeilenumbruch/, 'Pfad mit Zeilenumbruch wirft')
   faelle += 3
   const nur = `100644 blob ${'a'.repeat(40)}\t${DATEN}/titles.json\0`
   ok(/^[0-9a-f]{64}$/.test(abdruckAusBaum(nur)), 'Baum nur aus Datenpfaden: Abdruck berechenbar (leere Menge)')

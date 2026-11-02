@@ -46,7 +46,7 @@ export const pruefenGruen = (jobs) => jobs.some((j) => j.name === JOB && j.concl
  * `abdruckVon(sha)` wirft bei unlesbarem Stand (außerhalb der Checkout-Tiefe): der Lauf zählt dann nicht.
  */
 export function sucheBeleg({ laeufe, eigeneId, abdruck, abdruckVonSha, jobsVon }) {
-  const kandidaten = (laeufe ?? []).filter((l) => String(l.id) !== String(eigeneId) && l.head_sha).sort((a, b) => b.id - a.id)
+  const kandidaten = (laeufe ?? []).filter((l) => String(l.id) !== String(eigeneId)).sort((a, b) => b.id - a.id)
   const stand = new Map()
   let gefragt = 0
   for (const lauf of kandidaten) {
