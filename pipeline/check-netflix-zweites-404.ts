@@ -112,7 +112,7 @@ try {
   erwarte('Richtung 404 -> 200 zählt ebenso', warnt(lauf(20, 5, 'www.netflix.com', 404, 200)), 1)
   erwarte('304 -> 404 zählt als lebt -> tot', warnt(lauf(20, 5, 'www.netflix.com', 304, 404)), 1)
   erwarte('Region (Amazon) zählt als tot', warnt(lauf(20, 5, 'www.amazon.de', 200, 'region')), 1)
-  erwarte('503 ist keine Auskunft und kein Wechsel', warnt(lauf(20, 20, 'www.netflix.com', 200, 503)), 0)
+  erwarte('503 ist keine Auskunft und kein Wechsel (404 -> 503)', warnt(lauf(20, 20, 'www.netflix.com', 404, 503)), 0)
   erwarte('Nichtauskunft (timeout) zählt weder als Wechsel noch als geprüft', warnt([...lauf(20, 2), ...lauf(50, 50, 'www.netflix.com', 200, 'timeout')]), 0)
   erwarte('Vorbefund fehlt: nicht geprüft', warnt(lauf(40, 40, 'www.netflix.com', null, 404)), 0)
   erwarte('Nachbarhost mischt sich nicht', warnt([...lauf(20, 2), ...lauf(20, 2, 'www.joyn.de')]), 0)
