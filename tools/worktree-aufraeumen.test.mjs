@@ -103,6 +103,29 @@ e(wt(), { ...mit(pr('OPEN')), sauber: (p) => fragen.push(p), cacheLeer: (p) => f
 e(wt({ juengsteAenderungMs: JETZT }), { ...mit(pr('MERGED')), sauber: (p) => fragen.push(p), cacheLeer: (p) => fragen.push(p) })
 e(wt(), { ...mit(pr('MERGED', { mergedAt: iso(JETZT) })), sauber: (p) => fragen.push(p), cacheLeer: (p) => fragen.push(p) })
 assert.equal(fragen.length, 0, 'Dateisystem und git status nur für Kandidaten zum Entfernen')
+// git status --porcelain --ignored: nur die Junctions node_modules (auch tiefer, mit/ohne Schrägstrich) und data/cache sind ausgenommen.
+assert.equal(L.hatAenderungen(''), false)
+assert.equal(L.hatAenderungen('!! node_modules\n!! data/cache/\n!! worker/node_modules/\n'), false)
+assert.equal(L.hatAenderungen('!! node_modules/\r\n!! data/cache'), false)
+assert.equal(L.hatAenderungen('!! .env\n'), true, 'ignorierte Datei')
+assert.equal(L.hatAenderungen('!! node_modules\n!! dist/\n'), true, 'ignorierter Ordner dist')
+assert.equal(L.hatAenderungen('!! node_modules/paket/x.js\n'), true, 'Inhalt unter node_modules ist keine Junction')
+assert.equal(L.hatAenderungen('!! data/cache/roh.json\n'), true)
+assert.equal(L.hatAenderungen('!! data/cache2/\n'), true)
+assert.equal(L.hatAenderungen('M data/a.txt\n'), true, 'geänderte Datei (getrimmte erste Zeile)')
+assert.equal(L.hatAenderungen('?? neu.txt\n!! node_modules\n'), true, 'unversioniert')
+assert.equal(L.hatAenderungen('!! worker/\n'), true, 'zusammengefasster Ordner ohne Auskunft des Dateisystems')
+assert.equal(L.hatAenderungen('!! worker/\n', (rel) => rel === 'worker/'), false, 'Ordner nur mit Junctions')
+assert.equal(L.hatAenderungen('!! dist/\n!! worker/\n', (rel) => rel === 'worker/'), true, 'dist/ bleibt Änderung')
+assert.equal(L.hatAenderungen('!! worker\n', () => true), true, 'Datei ohne Schrägstrich fragt das Dateisystem nicht')
+assert.equal(L.hatAenderungen('!! worker/\n', () => 'ja'), true, 'nur ein echtes true gilt')
+// PR-Liste: erreicht sie das Limit, fehlen vermutlich PRs → Fehler (kein Abbau).
+const prListe = (n) => Array.from({ length: n }, () => ({}))
+assert.equal(L.pruefePrZahl(prListe(L.PR_LIMIT - 1)).length, L.PR_LIMIT - 1)
+assert.throws(() => L.pruefePrZahl(prListe(L.PR_LIMIT)), /Limit/)
+assert.throws(() => L.pruefePrZahl(prListe(L.PR_LIMIT + 1)), /Limit/)
+assert.throws(() => L.pruefePrZahl(prListe(5), 5), /5 von 5/)
+assert.ok(L.PR_LIMIT >= 5000, 'Luft über den rund 2700 PRs (02.11.2026)')
 
 const losEintrag = (eintraege, alter = SCHON) => L.bewerteLosen({ eintraege, jetzt: JETZT, juengsteAenderungMs: JETZT - alter })
 assert.deepEqual(losEintrag([]), { aktion: 'weg', grund: 'leer' })
@@ -166,7 +189,7 @@ try {
   mkdirSync(origin)
   g(origin, 'init', '--bare', '-b', 'main')
   g(wurzel, 'clone', origin, 'haupt')
-  writeFileSync(join(haupt, '.gitignore'), 'node_modules\ndata/cache\n')
+  writeFileSync(join(haupt, '.gitignore'), 'node_modules\ndata/cache\n*.lokal\n')
   mkdirSync(join(haupt, 'data'))
   writeFileSync(join(haupt, 'data', 'a.txt'), 'a\n')
   g(haupt, 'add', '.')
@@ -340,6 +363,12 @@ try {
   const spaeter = H.abbau(haupt, { ...welt, sauber: (p) => (p.includes('_wt-rest') ? ++status === 1 : welt.sauber(p)) }, true)
   assert.equal(spaeter.fehler.filter((f) => f.startsWith('Geändert nach der Prüfung') && f.includes('_wt-rest')).length, 1)
   assert.equal(existsSync(join(wtDir, '_wt-rest')), true)
+  // git scheitert beim zweiten Status (Pfad fehlt/Fehler): der echte Adapter meldet „nicht sauber“, nichts wird entfernt.
+  assert.equal(welt.sauber(join(wurzel, 'gibt-es-nicht')), false, 'werfendes git zählt als geändert')
+  let sauberAufruf = 0
+  const wirft = H.abbau(haupt, { ...welt, sauber: (p) => (p.includes('_wt-rest') ? (++sauberAufruf === 1 ? true : welt.sauber(join(wurzel, 'gibt-es-nicht'))) : welt.sauber(p)) }, true)
+  assert.equal(wirft.fehler.filter((f) => f.startsWith('Geändert nach der Prüfung') && f.includes('_wt-rest')).length, 1)
+  assert.equal(existsSync(join(wtDir, '_wt-rest')), true)
   // Nicht-leerer loser Ordner und zwischenzeitlich verändertes Worktree: nichts wird erzwungen.
   const nichtLeer = { worktrees: [], lose: [{ pfad: join(wtDir, '_wt-lose-inhalt'), aktion: 'weg' }], fehler: [], entfernt: 0 }
   H.vollziehe(haupt, welt, nichtLeer)
@@ -368,16 +397,26 @@ try {
   g(join(wtDir, '_wt-lose-kopf'), 'add', 'x.txt')
   g(join(wtDir, '_wt-lose-kopf'), 'commit', '-m', 'ohne Zweig')
   setzeKopfZeit('_wt-lose-kopf')
+  // Ignorierte Datei (z. B. .env): `worktree remove` löscht sie mit, also bleibt der Worktree.
+  neu('_wt-ignoriert', 'b-ignoriert', true)
+  writeFileSync(join(wtDir, '_wt-ignoriert', 'geheim.lokal'), 'nur hier\n')
   const jetztMerk = jetzt
   jetzt = uhr() + 30 * 3600_000
   const ohnePr = H.abbau(haupt, welt, false)
   jetzt = jetztMerk
   const urteil = (n) => [grund(ohnePr, n).aktion, grund(ohnePr, n).grund]
+  // PR-Abruf des echten Adapters: Limit im Aufruf, volle Liste bricht ab (Attrappe statt gh).
+  const ghAufrufe = []
+  const ghMit = (n) => (cmd, args) => { ghAufrufe.push(args); return JSON.stringify(prListe(n)) }
+  assert.equal(H.echteWelt(haupt, ghMit(3)).prs().length, 3)
+  assert.equal(ghAufrufe[0][ghAufrufe[0].indexOf('--limit') + 1], String(L.PR_LIMIT))
+  assert.throws(() => H.echteWelt(haupt, ghMit(L.PR_LIMIT)).prs(), /Limit/)
   assert.deepEqual(urteil('_wt-ohnepr'), ['weg', 'ohne-pr-gesichert'])
   assert.deepEqual(urteil('_wt-inmain'), ['weg', 'ohne-pr-gesichert'])
   assert.deepEqual(urteil('_wt-wieder'), ['weg', 'ohne-pr-gesichert'], 'Zweig mit Arbeit nach dem Merge: Kopf weicht vom PR ab, bleibt aber auf dem Zweig')
   assert.deepEqual(urteil('_wt-lose-kopf'), ['behalten', 'kopf-ungesichert'], 'Kopf auf keinem Zweig-Ref')
   assert.deepEqual(urteil('_wt-dirty'), ['behalten', 'geaendert'])
+  assert.deepEqual(urteil('_wt-ignoriert'), ['behalten', 'geaendert'], 'ignorierte Datei zählt als Änderung')
   assert.deepEqual(urteil('_wt-cache'), ['behalten', 'cache-inhalt'])
   assert.deepEqual(urteil('_wt-offen'), ['behalten', 'pr-offen'])
   assert.equal(H.echteWelt(haupt).aufZweig(oid('_wt-lose-kopf')), false, 'echter Hook: Kopf ohne Zweig')

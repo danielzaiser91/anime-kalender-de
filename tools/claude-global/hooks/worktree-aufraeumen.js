@@ -1,8 +1,8 @@
 // Worktrees räumen sich selbst ab (Anlass 18.10.2026: 274 Worktrees ≈ 3 GB Kernel-Dateicache; seit 25.10.2026 liegen sie unter C:/code/_worktrees/<repo>/<thema>). Entscheidungen: worktree-aufraeumen-logik.js.
 // Zwei Auslöser, beide kehren sofort zurück und starten den Abbau unsichtbar über das Prozess-Register (Frist, Sperre = höchstens ein Abbau):
 //   PostToolUse(Bash) nach erfolgreichem `gh pr merge`  und  SessionStart (dort zusätzlich die Wächterzeile bei > 20 Worktrees).
-// Entfernt wird nur: sauberer Worktree, Ordner frei (Probe-Umbenennen), keine Änderung in den letzten 2 h, kein offener PR (Zweigname oder Kopf), kein echter data/cache,
-// Kopf liegt auf mindestens einem Zweig (`git branch -a --contains`; Zweige bleiben), und eine Frist von 24 h: seit Merge/Schließen des PR mit Kopf == headRefOid, sonst seit der letzten Datei- oder HEAD-Bewegung.
+// Entfernt wird nur: sauberer Worktree (`git status --porcelain --ignored` leer, ausgenommen die Junctions node_modules und data/cache), Ordner frei (Probe-Umbenennen), keine Änderung in den letzten 2 h, kein offener PR (Zweigname oder Kopf), kein echter data/cache,
+// Kopf liegt auf mindestens einem Zweig-Ref (`git branch -a --contains` zählt den eigenen Zweig mit und schützt praktisch nur losgelöste HEADs; Zweige bleiben), und eine Frist von 24 h: seit Merge/Schließen des PR mit Kopf == headRefOid, sonst seit der letzten Datei- oder HEAD-Bewegung.
 // `--liste` nennt jeden behaltenen Worktree mit Grund.
 // Zweige bleiben. Verknüpfungen (node_modules, data/cache) werden vor dem Entfernen einzeln gelöst, nie rekursiv. Lose Ordner unter _worktrees/<repo>/ ohne Registrierung:
 // nur Verknüpfungen und leere Ordner → weg (Verknüpfung per unlink, vorher/nachher Haupt-node_modules und data/cache da), sonst nur aufgelistet.
@@ -83,6 +83,19 @@ function cacheLeer(pfad) {
   }
 }
 
+/** Liegen unter `rel` (Ordner im Worktree) nur die Verknüpfungen `node_modules` / `data/cache` (und Ordner darum)? Verknüpfungen werden nicht verfolgt. */
+function nurErlaubteVerknuepfungen(pfad, rel) {
+  try {
+    const namen = fs.readdirSync(path.join(pfad, rel))
+    return namen.length > 0 && namen.every((n) => {
+      const relN = `${rel}${n}`
+      const l = fs.lstatSync(path.join(pfad, relN))
+      if (l.isSymbolicLink()) return n === 'node_modules' || relN === 'data/cache'
+      return l.isDirectory() && nurErlaubteVerknuepfungen(pfad, `${relN}/`)
+    })
+  } catch { return false }
+}
+
 /** Löst Verknüpfungen einzeln (unlink, nie rekursiv); false, wenn eine bleibt — dann wird der Worktree nicht angefasst. */
 function loeseVerknuepfungen(pfad) {
   for (const p of verknuepfungen(pfad)) {
@@ -128,11 +141,11 @@ function heileProbeOrdner(worktrees, bericht, umbenennen = fs.renameSync) {
 }
 
 /** Gesammelte Eingaben der echten Welt; im Test ersetzt. */
-function echteWelt(haupt) {
+function echteWelt(haupt, gh = execFileSync) {
   return {
-    prs: () => JSON.parse(execFileSync('gh', ['pr', 'list', '--state', 'all', '--limit', '3000', '--json', PR_FELDER], { cwd: haupt, encoding: 'utf8', windowsHide: true })),
+    prs: () => L.pruefePrZahl(JSON.parse(gh('gh', ['pr', 'list', '--state', 'all', '--limit', String(L.PR_LIMIT), '--json', PR_FELDER], { cwd: haupt, encoding: 'utf8', windowsHide: true, maxBuffer: 256 * 1024 * 1024 }))),
     cacheLeer,
-    sauber: (pfad) => { try { return git(pfad, 'status', '--porcelain') === '' } catch { return false } },
+    sauber: (pfad) => { try { return !L.hatAenderungen(git(pfad, 'status', '--porcelain', '--ignored'), (rel) => nurErlaubteVerknuepfungen(pfad, rel)) } catch { return false } },
     aufZweig: (kopf) => { try { return git(haupt, 'branch', '-a', '--contains', kopf) !== '' } catch { return false } },
     entferne: (pfad) => { git(haupt, 'worktree', 'remove', pfad) },
     loese: loeseVerknuepfungen,

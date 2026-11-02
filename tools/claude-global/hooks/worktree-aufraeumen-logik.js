@@ -96,4 +96,27 @@ function warnzeile(anzahl) {
   return anzahl > WARN_AB ? `Worktree-Wächter: ${anzahl} Worktrees (Grenze ${WARN_AB}); Abbau läuft im Hintergrund, Rest: node ~/.claude/hooks/worktree-aufraeumen.js --liste` : null
 }
 
-module.exports = { SCHONFRIST_MS, SCHONFRIST_PR_MS, WARN_AB, SPERRE_MAX_MS, leseWorktrees, bewertePr, entscheide, bewerteLosen, nurVerknuepfung, istMerge, sperreFrei, warnzeile, istWtName, norm }
+/** Obergrenze der PR-Liste (Stand 02.11.2026 rund 2700 PRs); erreicht die Antwort sie, fehlen vermutlich PRs und es wird nichts abgebaut. */
+const PR_LIMIT = 6000
+
+/** Wirft, wenn die PR-Liste das Limit erreicht (abgeschnittene Liste = offene PRs unsichtbar). */
+function pruefePrZahl(liste, limit = PR_LIMIT) {
+  if (liste.length >= limit) throw new Error(`PR-Liste erreicht das Limit (${liste.length} von ${limit}): kein Abbau`)
+  return liste
+}
+
+/**
+ * Hat der Worktree Änderungen? text: Ausgabe von `git status --porcelain --ignored`. Ignorierte Dateien zählen (`worktree remove` löscht sie),
+ * ausgenommen die Verknüpfungen `node_modules` (auch tiefer) und `data/cache`, die der Abbau einzeln löst. Git fasst Ordner mit nur solchen
+ * Verknüpfungen zu `!! ordner/` zusammen (Windows-Junctions folgt `-uall`, daher nicht verwendbar): dafür fragt `nurVerknuepfungen(relPfad)` das Dateisystem.
+ */
+function hatAenderungen(text, nurVerknuepfungen = () => false) {
+  const frei = (z) => {
+    if (/^!! (?:.*\/)?node_modules\/?$|^!! data\/cache\/?$/.test(z)) return true
+    const ordner = /^!! (.+\/)$/.exec(z)
+    return ordner !== null && nurVerknuepfungen(ordner[1]) === true
+  }
+  return text.split(/\r?\n/).some((z) => z.trim() !== '' && !frei(z))
+}
+
+module.exports = { PR_LIMIT, pruefePrZahl, hatAenderungen, SCHONFRIST_MS, SCHONFRIST_PR_MS, WARN_AB, SPERRE_MAX_MS, leseWorktrees, bewertePr, entscheide, bewerteLosen, nurVerknuepfung, istMerge, sperreFrei, warnzeile, istWtName, norm }
