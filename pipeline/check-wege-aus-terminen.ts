@@ -54,7 +54,7 @@ const hand: Record<string, Partial<DubCheck>> = {
   '13|disneyplus': { dub: false },
 }
 const belegFuer = (id: number, plattform: string) => hand[`${id}|${plattform}`] as DubCheck | undefined
-ergaenzeWegeAusTerminen({ titles, releases, toteAdressen: tot, verweiseEntfernt: entfernt, belegFuer })
+ergaenzeWegeAusTerminen({ titles, releases, toteAdressen: tot, lautPruefungTot: () => false, verweiseEntfernt: entfernt, belegFuer })
 const weg = (id: number) => titles.get(id)!.streams
 
 pruefe('Titelseite des Termins wird die Adresse', weg(1)[0]?.url === DISNEY && weg(1)[0]?.platform === 'disneyplus')
