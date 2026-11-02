@@ -3961,5 +3961,29 @@
   },
   "auto-189123-netflix": {},
   "last-boss-s2-crunchyroll": {},
-  "appraisal-aristocrat-s3-crunchyroll": {}
+  "appraisal-aristocrat-s3-crunchyroll": {},
+  "auto-179813-netflix": {
+    "tmdbId": 259819,
+    "fsk": 16,
+    "justwatchUrl": "https://www.themoviedb.org/tv/259819-rooster-fighter/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Netflix",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Disney Plus",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Netflix Standard with Ads",
+        "kind": "flatrate"
+      }
+    ],
+    "providers": [
+      "netflix",
+      "disneyplus"
+    ],
+    "inhaltAm": "2026-11-02"
+  }
 }
