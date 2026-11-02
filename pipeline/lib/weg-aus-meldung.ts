@@ -22,14 +22,12 @@ import { amazonTitelAdresse } from './amazon-adresse.ts'
 export function wegAusMeldung(p: { url: string; seiten_kennung?: string | null; staffel?: number | null }): string {
   const kennung = String(p.seiten_kennung ?? '').trim()
   /*
-    **Eine Staffel ab 2 bekommt die Adresse ihrer eigenen Seite** (17.09.2026,
-    Golden Kamuy): Der Staffelwechsel läuft auf der Seite von Staffel 1, die
-    Meldung trägt deren Adresse. Stünde sie im Beleg, zeigte der Weg der
-    zweiten Staffel auf die erste.
+    **Die Adresse folgt der gelesenen Seite, egal welche Staffel** (Golden Kamuy
+    17.09.2026, Higurashi Kai 02.11.2026): Trägt die Meldung eine fremde Adresse,
+    stünde der Beleg sonst an der Seite einer anderen Staffel.
   */
   if (
     /amazon\.de/.test(p.url) &&
-    Number(p.staffel) >= 2 &&
     /^[A-Z0-9]{10,26}$/.test(kennung) &&
     !p.url.includes(kennung)
   ) {

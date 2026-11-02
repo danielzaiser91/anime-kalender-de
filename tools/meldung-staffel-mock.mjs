@@ -6,7 +6,9 @@ import { syncBuiltinESMExports } from 'node:module'
 import { baueFetchAttrappe, istMeldungsabruf, meldungsAntwort } from './fetch-attrappe.mjs'
 
 // `primegemischt` = je 12 Meldungen Staffel 1 und 2 an EINER Prime-Seite (eine Gruppe mit zwei Staffelnummern).
-const PRIME = process.env.AK_SZENARIO === 'primegemischt'
+// `fremdeseite` = 12 Meldungen Staffel 1 unter der Bestandsadresse, gelesen wurde aber die Seite B0TESTFREMD (Higurashi Kai, 02.11.2026).
+const FREMD = process.env.AK_SZENARIO === 'fremdeseite'
+const PRIME = process.env.AK_SZENARIO === 'primegemischt' || FREMD
 const PLATTFORM = PRIME ? 'primevideo' : 'netflix'
 const NETFLIX = PRIME ? 'https://www.amazon.de/gp/video/detail/B0TESTSTAFF' : 'https://www.netflix.com/title/81152346'
 const stream = [{ platform: PLATTFORM, url: NETFLIX }]
@@ -47,7 +49,7 @@ const zeile = (staffel, nr) => ({
   teil_von: null,
   teil_bis: null,
   gemeldet_am: '2026-10-18T10:00:00.000Z',
-  seiten_kennung: PRIME ? 'B0TESTSTAFF' : null,
+  seiten_kennung: FREMD ? 'B0TESTFREMD' : PRIME ? 'B0TESTSTAFF' : null,
   titel_id: 900001,
   folge: null,
 })
@@ -59,6 +61,7 @@ globalThis.fetch = baueFetchAttrappe(
   (url, opt) => {
     if (!istMeldungsabruf(url, opt)) return undefined
     if (process.env.AK_SZENARIO === 'notizen') return meldungsAntwort(durchgezaehlt)
+    if (FREMD) return meldungsAntwort(folgen(1))
     return meldungsAntwort(process.env.AK_SZENARIO !== 'zwei' && process.env.AK_SZENARIO !== 'ohnezahl' ? [...folgen(1), ...folgen(2)] : folgen(2))
   },
 )
