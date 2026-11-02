@@ -245,6 +245,16 @@ export function fertigZahlText(
   return abgeleitet ? T('antwort.fertigUngefaehr', { count: ungefaehr(gesamt, true) }) : T('antwort.fertigZahl', { count: gesamt })
 }
 
+/**
+ * „N von M Folgen auf Deutsch“ aus der Folgenliste (`[alle, deutsch]`). Steht ein Wochenplan nur auf der höchsten gesichteten Folge
+ * (laufende Staffel), ist die Listenlänge keine Gesamtzahl — dann „N Folgen auf Deutsch“ ohne „von“.
+ */
+export function deFolgenZahlText(z: [number, number], releases: Release[], T: (k: string, v?: Record<string, string | number>) => string): string {
+  return releases.some((r) => r.schedule?.episodeCountNurGesichtet)
+    ? T('detail.dubKopf', { n: z[1] })
+    : T('antwort.teilweiseZahl', { raus: z[1], gesamt: z[0] })
+}
+
 /** Die Nebenzeile eines „teilweise“-Kastens: die Quelle der deutschen Folgenzahl, sonst der Hinweis auf fehlende Angaben. */
 export function teilweiseNeben(
   antwort: Extract<Antwort, { art: 'teilweise' }>,
