@@ -29,6 +29,7 @@ import { readSourceHealth, recordSource } from './lib/health.ts'
 import { netflixTonspurSchritt } from './lib/netflix-tonspur-schritt.ts'
 import { fortschritt, drosselNachVorlauf, passtInsBudget, pauseMitStand, waehleArbeit, ZEITBUDGET_SEKUNDEN, linkCheckEnde, zaehleBefund } from './lib/link-check-gesundheit.ts'
 import { istFaellig, istTot } from './lib/link-befund.ts'
+import { nimmBefund, wechselWarnungen, zaehleWechsel, zweitesNetflix404, type WechselPaar } from './lib/link-rauschen.ts'
 import { pruefbare } from './lib/pruefbare-adresse.ts'
 import { todayIso } from '../shared/time.ts'
 
@@ -83,6 +84,8 @@ interface Befund {
    * nicht aus den Daten ableiten — nur an der Seite ablesen.
    */
   prime?: boolean
+  /** Netflix: Tag des ersten 404 einer Folge (`link-rauschen.ts`). */
+  erstes404?: string
   /** Netflix-Film: Deutsch in der Audio-Zeile der Titelseite (`netflix-tonspur-schritt.ts`). */
   audio?: 'ja' | 'nein' | 'unbekannt'
   audioAm?: string
@@ -313,6 +316,7 @@ async function main(): Promise<void> {
       vorrang.add(u)
     }
   }
+  for (const u of zweitesNetflix404(bestand)) vorrang.add(u)
   if (vorrang.size) log(`${vorrang.size} Adressen könnten eine Suche ablösen — sie kommen zuerst dran`)
 
   const grenze = new Date(Date.now() - ALTER * 86_400_000).toISOString().slice(0, 10)
@@ -393,6 +397,7 @@ async function main(): Promise<void> {
   let uebersprungen = 0
   const zaehler = { tot: 0, auskuenfte: 0 }
   let geprueft = 0
+  const wechsel: WechselPaar[] = []
   /* Messgröße für die Sperrschwelle: nur Amazon zählt, denn nur Amazon sperrt. */
   let amazonAbrufe = 0
   for (let i = 0; i < arbeit.length; i++) {
@@ -419,10 +424,7 @@ async function main(): Promise<void> {
       damit die Adresse fällig bleibt. Ein **echter** Befund — 200 mit
       Produktseite, 404, Regionssperre — überschreibt weiterhin alles.
     */
-    const altStatus = bestand[url]?.status
-    const behalten =
-      neu.status === 'unklar' && altStatus !== undefined && altStatus !== 'unklar'
-    if (!behalten) bestand[url] = neu
+    nimmBefund(bestand, url, neu, wechsel)
     if (neu.status === 'unklar') {
       if (istAmazon) unklarFolge.push(url)
       if (++inFolgeUnklar >= SPERR_SCHWELLE) {
@@ -464,6 +466,7 @@ async function main(): Promise<void> {
     Lauf hat neuere Auskünfte über die Adressen, die er selbst gefragt hat.
   */
   sichere()
+  wechselWarnungen(zaehleWechsel(wechsel)).forEach(warn)
   const gesamtTot = Object.values(bestand).filter((b) => istTot(b.status)).length
   log(`Verweise: ${geprueft} geprüft, ${zaehler.tot} davon unbrauchbar. Im Bestand insgesamt ${gesamtTot} unbrauchbar.`)
   if (uebersprungen) log(`${uebersprungen} Amazon-Adressen wegen der Sperre übersprungen — sie bleiben fällig.`)
