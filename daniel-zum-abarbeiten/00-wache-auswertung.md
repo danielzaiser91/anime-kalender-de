@@ -589,3 +589,14 @@ wer die Ursache dann noch kennt, hat Glück. Deshalb diese Datei.
 **Wo sind echte Risiken und Lücken?** Der Titel hing am selben Handbeleg-Eintrag in `data/dub-confirmed.yaml` (Prime, Adresse `watch.amazon.de/detail?gti=…`, ohne ASIN), den Issue #2560 als `primeOhneTitelseite` am Limit (5 von 4 erlaubt) nennt. **Nicht belegt:** welcher Riegel oder Vorfilter ihn im Bau aece038a aus dem Hauptbestand nahm und welcher Bau ihn zurückbrachte (ohne den Bau nachzustellen); Verdacht, nicht Beweis: die Amazon-Zuordnung (#2547, 31.10. 22:56 UTC, aber erst im Bau d58f0859 sichtbar) oder der Fix #2561. Ein Titel, der aus dem Bestand fällt und ohne Spur in `ohne-synchro.json` bleibt, würde ohne Wache unbemerkt bleiben.
 
 **Was läuft komplett falsch?** Nichts, was ich belegen kann: kein Fehlerschritt, der Lauf ist absichtlich rot, und der Bestand ist wieder vollständig. Kein Pull Request, da keine Codeursache belegt ist.
+
+
+## 02.11.2026 (Abend) — Wache meldet „12 Urteile verloren, netflix: 13 Synchro-Belege weniger" (Lauf 41487683397, Issue #2684)
+
+**Was läuft korrekt.** Die Wache hat den Sprung dem Bau 41475863013 (16:04 UTC, Commit d264b767) zugeordnet. Gemessen über Git-Stände von `public/data/titles.json` (9431f466 → d264b767): Titelzahl unverändert (2924), 22 Titel mit weniger Synchro-Belegen, bei den meisten fehlt der ganze Netflix-Stream (z. B. Eyeshield 21 / 81422700, Beelzebub 81253271, NARUTO Shippuuden 80000603). Der Bau selbst ist grün, nichts im Bau kaputt.
+
+**Wo ist Verbesserungspotenzial?** Die Wache nennt weder Titel noch Anlass. Ein Abgleich der verlorenen Adressen gegen `data/link-check.json` hätte die Ursache sofort gezeigt.
+
+**Wo sind echte Risiken und Lücken?** Zeitlich fällt der Verlust mit dem Lauf „Tiefendurchlauf gesammelt (RTL+ und Links)" (4a79b011, 05:21 UTC) zusammen: `data/link-check.json` hat dort für 73 Netflix-Titelseiten `404` (`geprueftAm 2026-11-02`), darunter alle drei oben genannten, die am 20.09. noch `200` hatten. Bau 9431f466 (05:04) lag davor und hatte die Streams noch. **Nicht belegt:** ob Netflix die Titel wirklich aus Deutschland genommen hat oder ob die Linkprüfung vom Runner aus ein falsches 404 bekam (am 20.09. waren es 99 von 321, jetzt 73 von 283 — ähnliche Quote, spricht eher für echte Abgänge, beweist es nicht). Eine Prüfung gegen eine zweite Quelle (JustWatch/Tonspuren) steht aus. Ein Netflix-404 lässt den Stream verschwinden, ohne dass jemand es als Synchro-Verlust meldet.
+
+**Was läuft komplett falsch?** Nichts, was ich belegen kann: kein Fehlerschritt, der Lauf ist absichtlich rot. Kein Pull Request, da keine Codeursache belegt ist; die Quelle (Netflix-Titelseiten) hat sich geändert.
