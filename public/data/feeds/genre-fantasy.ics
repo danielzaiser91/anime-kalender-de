@@ -554,6 +554,20 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-169969-netflix@2026-11-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261101
+DTEND;VALUE=DATE:20261102
+SUMMARY:Der Held ohne Klasse: Der Aufstieg eines Talentlosen (neu bei Netfl
+ ix)
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nIm Angebot seit 
+ diesem Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrzeit n
+ och nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter genannter Ta
+ g\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetails: https
+ ://anime-kalender.de/t/15494/
+CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-129188-primevideo@2026-11-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261101
@@ -561,7 +575,9 @@ DTEND;VALUE=DATE:20261102
 SUMMARY:Goblin Slayer 2 (neu bei Prime Video)
 DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nIm Angebot s
  eit diesem Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrze
- it noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/12462/
+ it noch nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter genannte
+ r Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetails: h
+ ttps://anime-kalender.de/t/12462/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
