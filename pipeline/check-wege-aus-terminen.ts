@@ -27,8 +27,9 @@ const termin = (titleId: number, platform: string, mehr: Partial<Release> = {}) 
   }) as unknown as Release
 
 const DISNEY = 'https://www.disneyplus.com/de-de/browse/entity-be391742'
+const NETFLIX_404 = 'https://www.netflix.com/title/81253271'
 const PRIME_SUCHE = 'https://www.amazon.de/s?k=TANK%20CHAIR&i=instant-video'
-const titles = new Map([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13].map((id) => [id, titel(id)]))
+const titles = new Map([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14].map((id) => [id, titel(id)]))
 titles.get(3)!.streams = [{ platform: 'disneyplus', url: DISNEY, dub: true }]
 const releases = [
   termin(1, 'disneyplus', { platformUrl: DISNEY }),
@@ -44,6 +45,7 @@ const releases = [
   termin(11, 'primevideo', { platformUrl: PRIME_SUCHE }),
   termin(12, 'primevideo', { platformUrl: PRIME_SUCHE }),
   termin(13, 'disneyplus', { platformUrl: DISNEY }),
+  termin(14, 'netflix', { platformUrl: NETFLIX_404 }),
 ]
 const entfernt = [{ titleId: 10, plattform: 'disneyplus' }] as Parameters<typeof ergaenzeWegeAusTerminen>[0]['verweiseEntfernt']
 const tot = new Set<string>([])
@@ -54,7 +56,7 @@ const hand: Record<string, Partial<DubCheck>> = {
   '13|disneyplus': { dub: false },
 }
 const belegFuer = (id: number, plattform: string) => hand[`${id}|${plattform}`] as DubCheck | undefined
-ergaenzeWegeAusTerminen({ titles, releases, toteAdressen: tot, verweiseEntfernt: entfernt, belegFuer })
+ergaenzeWegeAusTerminen({ titles, releases, toteAdressen: tot, lautPruefungTot: (u) => u === NETFLIX_404, verweiseEntfernt: entfernt, belegFuer })
 const weg = (id: number) => titles.get(id)!.streams
 
 pruefe('Titelseite des Termins wird die Adresse', weg(1)[0]?.url === DISNEY && weg(1)[0]?.platform === 'disneyplus')
@@ -69,6 +71,7 @@ pruefe('Prime-Kanal wandert mit', weg(8)[0]?.kanal === 'Crunchyroll')
 pruefe('Termin ohne Quelle ergibt keinen Weg', weg(9).length === 0)
 pruefe('bewusst entfernter Verweis kommt nicht zurück', weg(10).length === 0)
 
+pruefe('laut Linkprüfung tote Termin-Adresse (Beelzebub, 02.11.2026) wird nie die Adresse', weg(14).length === 1 && weg(14)[0]!.url === '')
 pruefe('Handbeleg „nicht verfügbar“: kein Weg aus dem Termin (Kamisama Hajimemashita)', weg(11).length === 0)
 pruefe('Handbeleg „ohne deutschen Ton“: kein Weg aus dem Termin', weg(13).length === 0)
 pruefe('Handbeleg „deutsch“: Weg mit Urteil und Folgenbereich, ohne Herkunft Termin (TANK CHAIR)', weg(12).length === 1 && weg(12)[0]!.dub === true && weg(12)[0]!.dubRanges?.[0]?.to === 1 && weg(12)[0]!.herkunft === undefined)
