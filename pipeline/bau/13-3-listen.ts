@@ -8,12 +8,14 @@ import { OUT, mitAnkuendigung } from './grundlagen.ts'
 import { fanservicesperre, mitSperre } from './sperre.ts'
 import { type TmdbTitelEintrag } from './01-quellen.ts'
 import { type SlimTitel } from './13-2-auslieferung.ts'
+import { type IstTot } from '../lib/adresse-tot.ts'
 
-export function schreibeListen({ slim, tmdbTitles, releases, titles }: {
+export function schreibeListen({ slim, tmdbTitles, releases, titles, istTot }: {
   slim: SlimTitel[]
   tmdbTitles: Record<string, TmdbTitelEintrag>
   releases: Release[]
   titles: Map<number, Title>
+  istTot: IstTot
 }) {
   /**
    * **Jetzt** die Such-Verweise ersetzen — auf dem, was gleich geschrieben wird.
@@ -77,7 +79,7 @@ export function schreibeListen({ slim, tmdbTitles, releases, titles }: {
     log(`${tiefeErsetzt} Such-Verweise durch die echte Titelseite ersetzt (MOTN-Archiv)`)
   }
 
-  ergaenzeWegeAusTmdbUndMotn({ slim, tmdbTitles, tmdbZuTitel, motnTmdb, motnLinks })
+  ergaenzeWegeAusTmdbUndMotn({ slim, tmdbTitles, tmdbZuTitel, motnTmdb, motnLinks, istTot })
   ergaenzeAngebotSeit({ slim, releases, titles })
 
   writeJson(`${OUT}/titles.json`, slim.map((t) => mitSperre(mitAnkuendigung(t), fanservicesperre())))

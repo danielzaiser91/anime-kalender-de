@@ -1,3 +1,4 @@
+import { type IstTot } from '../lib/adresse-tot.ts'
 import { log, readJson } from '../lib/util.ts'
 import { type StreamLink, type Title } from '../../shared/types.ts'
 import { stripAffiliate } from '../../shared/mappings.ts'
@@ -51,13 +52,13 @@ function wirdGekennzeichnet(befund: JwKauf, url: string, jeKennung: Map<string, 
  * Prime-Verweis (der Abgang bleibt, wie ihn `11-4-ausgaben.ts` führt), kein Nein-Handbeleg, kein belegtes Nein im Gedächtnis, keine gti, die
  * bei mehreren Titeln steht, und nur, wo die Kennzeichnung "Deutsch laut JustWatch" den Weg trägt (`wirdGekennzeichnet`). Der Weg trägt kein `dub`: JustWatch ist kein Beleg, `11-6-jw-vertrauen.ts` setzt den Umriss „Deutsch laut JustWatch".
  */
-export function ergaenzeKaufWege({ titles, jw, handNein, primeNein, tmdbMehrdeutig, toteAdressen, heute }: {
+export function ergaenzeKaufWege({ titles, jw, handNein, primeNein, tmdbMehrdeutig, istTot, heute }: {
   titles: Map<number, Title>
   jw: Record<string, JwKauf>
   handNein: ReadonlySet<string>
   primeNein: ReadonlySet<number>
   tmdbMehrdeutig: Set<string>
-  toteAdressen: Set<string>
+  istTot: IstTot
   heute: string
 }) {
   const geteilt = geteilteGti(jw)
@@ -76,7 +77,7 @@ export function ergaenzeKaufWege({ titles, jw, handNein, primeNein, tmdbMehrdeut
         (x.audio ?? []).includes('de') &&
         x.url &&
         !geteilt.has(gtiAus(x.url) ?? '') &&
-        !toteAdressen.has(x.url) &&
+        !istTot(x.url) &&
         wirdGekennzeichnet(b, x.url, jeKennung, heute) &&
         !wegVerneint(handNein, title.id, 'primevideo', x.url),
     )
