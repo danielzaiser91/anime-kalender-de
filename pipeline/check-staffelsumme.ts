@@ -86,5 +86,22 @@ pruefe('Ratsche: umgerechnete Adresse muss aus der Liste', verletzteRatsche(['11
 pruefe('Ratsche: Eintrag ohne Staffelliste in dieser Welt zählt nicht', verletzteRatsche(['1111'], ['1111', '9999'], listen).length === 0)
 pruefe('Ratsche: Liste der offenen Fälle bleibt bei zwei (Stand 02.11.2026)', OFFEN_OHNE_ZUORDNUNG.join() === '81186971,81397437')
 
+/* Doppelfolgen (Shaun das Schaf, Netflix Staffel 4, wörtlich aus Meldungen und TMDB-Liste vom 02.11.2026): jede Netflix-Folge sind zwei unserer Kurzfolgen, die Summe 100 bestätigt kein Titel. */
+const shaunListe: UnsereFolge[] = [
+  { nr: 101, de: 'Eiskalte Umleitung', en: 'Cones' },
+  { nr: 102, de: 'Außerirdische Tricks', en: 'Caught Short Alien' },
+  { nr: 103, de: 'Hoch hinaus', en: 'Happy Birthday Timmy!' },
+  { nr: 104, de: 'Die Wunderlampe', en: 'The Genie' },
+  { nr: 105, de: 'Sondersendung', en: '3DTV' },
+  { nr: 106, de: 'In der Waschstraße', en: 'The Smelly Farmer' },
+]
+const shaunMeldungen: TitelMeldung[] = [
+  { pos: 1, titel: 'Cones / Caught Short Alien' },
+  { pos: 2, titel: 'Happy Birthday Timmy / The Genie' },
+  { pos: 3, titel: '3DTV / The Smelly Farmer' },
+]
+const shaun = urteileStaffelsumme({ erste: 4, jw: [{ nr: 1, folgen: 40 }, { nr: 2, folgen: 40 }, { nr: 3, folgen: 20 }], blockFolgen: 25, meldungen: shaunMeldungen, liste: shaunListe, quelle: 'Test', laenge: 150 })
+pruefe('Doppelfolgen (Shaun): die Summe 100 allein ordnet nichts zu', !shaun.ok && /nur 0 Folgentitel/.test(shaun.grund), shaun)
+
 console.log(`Staffelsumme: ${faelle - fehler} von ${faelle} Fällen grün (Beyblade X echt, Summe, Bestätigung, Wächter)`)
 process.exit(fehler ? 1 : 0)

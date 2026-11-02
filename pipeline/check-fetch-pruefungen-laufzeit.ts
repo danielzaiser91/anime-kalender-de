@@ -81,7 +81,7 @@ function summeIn(szenario: string, mitJustWatch: boolean, mitRtl = false): strin
     const folgenListe = Array.from({ length: 40 }, (_, i) => ({ s: 1, e: i + 1, en: `Titel ${i + 1}` }))
     writeFileSync(join(wurzelTmp, 'data/cartoon-folgen.json'), JSON.stringify({ '-900001': { tmdbId: 1, geholtAm: '2026-11-02', folgen: folgenListe } }))
     if (mitJustWatch) writeFileSync(join(wurzelTmp, 'data/justwatch-audio.json'), JSON.stringify({ '-900001': { staffeln: [{ nr: 1, folgen: 28 }, { nr: 2, folgen: 12 }] } }))
-    const videos = Array.from({ length: 12 }, (_, i) => ({ staffel: 2, folge: i + 1, titel: `Titel ${29 + i}` }))
+    const videos = Array.from({ length: 12 }, (_, i) => [{ staffel: 2, folge: i + 1, titel: `Titel ${29 + i}` }, { staffel: 1, folge: i + 1, titel: `Titel ${i + 1}` }]).flat()
     if (mitRtl) writeFileSync(join(wurzelTmp, 'data/rtlplus-folgen.json'), JSON.stringify({ titel: { '-900001': { videos } } }))
     return lauf(szenario, ['--trocken'], wurzelTmp, { PRUEFLISTE_ERWEITERT: '1' }).stdout
   } finally {
@@ -99,6 +99,12 @@ const summeOhneRtl = summeIn('summerl', true, false)
 if (belegTitel(summeOhneRtl).length) fehler.push(`Staffelsumme ohne jede Titelbestätigung: kein Beleg erwartet: ${summeOhneRtl.slice(0, 300)}`)
 const summeZwei = summeIn('summerl2', true, true)
 if (belegTitel(summeZwei).join() !== '-900001,-900001' || !summeZwei.includes('from: 29') || !summeZwei.includes('to: 34') || !summeZwei.includes('from: 35') || !summeZwei.includes('to: 40')) fehler.push(`Staffelsumme mit Anbieter-Staffel 2 und 3: Belege 29–34 und 35–40 fehlen: ${summeZwei.slice(0, 400)}`)
+/* Staffel 3 trägt Titel in der Notiz: sie stellen nicht die Bestätigung von Staffel 2 (Meldungs-Staffelfilter); RTL+ Staffel 1 zählt nicht mit (RTL-Staffelfilter). */
+const summeDrei = summeIn('summerl3', true, true)
+if (belegTitel(summeDrei).join() !== '-900001,-900001' || !summeDrei.includes('from: 35') || !summeDrei.includes('to: 40')) fehler.push(`Staffelsumme, Staffel 3 mit eigenen Titeln: Belege 29–34 und 35–40 fehlen: ${summeDrei.slice(0, 400)}`)
+/* Zwei Titel an einer Adresse: die Summe gilt nur für genau einen Titel. */
+const summeZweiTitel = summeIn('summezwei', true, true)
+if (belegTitel(summeZweiTitel).length) fehler.push(`Staffelsumme bei zwei Titeln an der Adresse: kein Beleg erwartet: ${summeZweiTitel.slice(0, 300)}`)
 const summeOhneJw = summeIn('summe', false)
 if (belegTitel(summeOhneJw).length) fehler.push(`Staffelsumme ohne JustWatch: kein Beleg erwartet: ${summeOhneJw.slice(0, 300)}`)
 

@@ -23801,7 +23801,7 @@
       dub: false
       checked: [101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150]
   checkedAt: '2026-10-11'
-  note: "Staffel 4 und 5 ohne deutschen Ton, Tonspuren nur englisch — ANGENOMMEN aus Randprobe (gemessen: Netflix-Folge 1 und 15 bzw. 1 und 10) — Umrechnung: Staffelsumme – Netflix-Staffel 4 beginnt bei unserer Folge 101 (JustWatch: 100 Folgen davor; Netflix führt je Folge zwei Kurzfolgen, 15 + 10 Folgen sind unsere 101–150, Netflix-Folge n der Staffel 4 sind unsere 2n-1 und 2n); bestätigt durch: Folgentitel (19 von 25 eindeutig zugeordneten englischen Kurzfolgen-Titeln exakt am Soll, die übrigen 6 liegen im selben Block 101–130; Netflix-Titel gegen die englischen TMDB-Titel unserer Liste)"
+  note: "Staffel 4 und 5 ohne deutschen Ton, Tonspuren laut Netflix: zxx|Kein Dialog [Original], en|Englisch — ANGENOMMEN aus Randprobe (gemessen: Netflix-Folge 1 und 15 bzw. 1 und 10) — Umrechnung: Handzuordnung, die Summenregel lehnt Doppelfolgen ab: Netflix-Staffel 4 sind unsere 101–130 (JustWatch: 100 Folgen davor; Netflix führt je Folge zwei Kurzfolgen, Folge n sind unsere 2n-1 und 2n; von Hand gezählt: 19 von 25 eindeutig zugeordneten englischen Kurztiteln liegen exakt am Soll, die übrigen 6 im selben Block 101–130), Netflix-Staffel 5 liegt im Block 131–150 (ohne feste Reihenfolge der Kurzfolgen)"
 - anilistId: 156067
   title: "Campfire Cooking in Another World with My Absurd Skill"
   platform: disneyplus
