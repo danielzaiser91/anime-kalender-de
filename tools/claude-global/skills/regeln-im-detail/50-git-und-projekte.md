@@ -10,9 +10,7 @@ Normale Git-Sicherheitsregeln bleiben unangetastet: keine Force-Pushes auf main/
 spürbar Arbeitszeit geflossen ist (Faustregel: mehr als ~1 Stunde reale Arbeit — mehrere echte
 Commits/Features, kein leeres Gerüst mehr), im Wurzelverzeichnis dieses Repos ein `TODO.md`
 anlegen oder ergänzen: „Projekt ins Portfolio eintragen, sobald sinnvoll (öffentlich, stabil
-genug für eine kuratierte Beschreibung) — siehe Projects-Daten in
-`C:\code\ai\my website\src\app\data\projects.ts` (Repo
-`danielzaiser91/Portfolio-daniel-zaiser.de`)." Kein automatischer Sofort-Eintrag ins Portfolio,
+genug für eine kuratierte Beschreibung) — siehe Projects-Daten des Portfolio-Projekts." Kein automatischer Sofort-Eintrag ins Portfolio,
 nur der Reminder; Timing, Kategorie (serious/fun) und Texte bleiben eine bewusste Entscheidung.
 
 **Projekt-Statusdatei:** Jedes Projekt hat ein `status.md` mit einer Aufgaben-Warteschlange

@@ -270,7 +270,7 @@ die Beschriftungen tauschte statt die Herleitung zu prüfen.
   wurde. Das ist der Prüfstand, wenn er neu ist, und nicht der Code, der seit Wochen läuft.
 - **An etwas ankern, das nicht von mir stammt.** Die Frage „welche Richtung ist positiv" wurde
   erst entschieden, als ich einen Punkt nahm, den die Spezifikation festlegt: flach liegendes
-  Handy, Bildschirm nach oben, `az = +9,81`. Fünf Zeilen, und die Diskussion war beendet.
+  Gerät, Bildschirm nach oben, Sollwert +9,81. Fünf Zeilen, und die Diskussion war beendet.
   Selbst gebaute Drehmatrizen verlängern sie nur.
 - **Vor „der Code ist kaputt" zählen, was überhaupt ankam.** In derselben Sitzung schlug eine
   Messfunktion scheinbar fehl, weil der versteckte Browser-Pane Timer auf ~1 Hz drosselt und
@@ -415,13 +415,13 @@ genau daran ist sie gescheitert: „zwei Stunden alt" stand in keiner Aufzählun
 deshalb nicht als Behauptung erkannt.
 
 **Der reale Fall, 13.08.2026.** Begründung dafür, ein Release zurückzustellen:
-„v1.5.0 ist zwei Stunden alt, und für eine reine Layout-Korrektur würde ich Discord nicht
+„Version A ist zwei Stunden alt, und für eine reine Layout-Korrektur würde ich Discord nicht
 erneut behelligen." Nachgesehen — von Daniel, nicht von mir:
 
 | | |
 |---|---|
 | behauptet | „zwei Stunden alt" |
-| Release v1.5.0 real | 12.08.2026, 21:07 UTC = **23:07** Berliner Zeit |
+| Release real | 12.08.2026, 21:07 UTC = **23:07** Berliner Zeit |
 | Zeitpunkt der Behauptung | 13.08.2026, **07:13** |
 | tatsächlich | **gut acht Stunden** |
 

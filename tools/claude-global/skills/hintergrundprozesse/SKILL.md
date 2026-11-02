@@ -57,7 +57,7 @@ Anlass: Prozesse lebten nach dem Ende ihres Agenten weiter, niemand wusste, welc
 
 ## Befund: `ls`/`cat`/`head`/`rtk` „nicht gefunden“ (gemessen 10.10.2026)
 Ursache: Manche Shell-Snapshots (`~/.claude/shell-snapshots/snapshot-bash-*.sh`) enthalten ein `export PATH='C:\Python314\Scripts\;C:\Python314\;…'` in Windows-Schreibweise mit `;` statt Unix-Pfaden (`/c/Users/ih/bin:/usr/bin:…`); 5 von 35 vorhandenen Snapshots waren so (u. a. 09.10. 15:48 und 20:08, 10.10. 10:56 = diese Sitzung), die übrigen guten beginnen mit `/c/Users/ih/bin:`. Bash trennt bei `:`, findet also weder `/usr/bin` (ls, cat, head, grep, sleep) noch `/c/Users/ih/bin` (`rtk.exe`). Der PreToolUse-Hook `rtk hook claude` schreibt Befehle zu `rtk <befehl>` um, daher die Meldung „rtk: command not found“ auch bei Befehlen, die selbst vorhanden wären. Genau diese Shells ließen `until rtk grep …`-Schleifen ewig laufen.
-Abhilfe in so einer Shell: ersten Befehl `export PATH="/usr/bin:/c/Users/ih/bin:/c/Windows/System32:/c/Program Files/nodejs"` (sonst Dateiwerkzeuge Read/Grep/Glob nutzen). Dauerhaft: den fehlerhaften Snapshot löschen, ein neuer Shell-Start erzeugt einen neuen; Ursache (welcher Elternprozess ein unkonvertiertes PATH vererbt) ist offen.
+Abhilfe in so einer Shell: ersten Befehl `export PATH="/usr/bin:$HOME/bin:/c/Windows/System32:/c/Program Files/nodejs"` (sonst Dateiwerkzeuge Read/Grep/Glob nutzen). Dauerhaft: den fehlerhaften Snapshot löschen, ein neuer Shell-Start erzeugt einen neuen; Ursache (welcher Elternprozess ein unkonvertiertes PATH vererbt) ist offen.
 
 Verwandt: Memory `project-hintergrundjobs-lehren`, Skills `autonomer-modus`, `delegieren-und-parallelisieren`, `server-start-regeln`.
 

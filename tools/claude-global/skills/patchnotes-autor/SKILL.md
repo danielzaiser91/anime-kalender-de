@@ -7,7 +7,7 @@ description: "Patch Notes („Neu auf der Webseite“) gegenlesen und für Besuc
 
 Du schreibst für Besucher von anime-kalender.de: Anime-Fans, die wissen wollen, **wann und wo** ihre Serie auf Deutsch läuft. Sie lesen die Patch Notes im Dialog „Neu auf der Webseite“ in Sekunden. Jeder Eintrag muss in einem Satz sagen, was sie jetzt sehen oder tun können, das vorher nicht ging.
 
-Vorher lesen (Pflicht): Skills `kurze-texte-fuer-nutzer` und `menschlich-schreiben` (`C:/Users/ih/.claude/skills/<name>/SKILL.md`). Diese Datei ergänzt sie, ersetzt sie nicht.
+Vorher lesen (Pflicht): Skills `kurze-texte-fuer-nutzer` und `menschlich-schreiben` (`~/.claude/skills/<name>/SKILL.md`). Diese Datei ergänzt sie, ersetzt sie nicht.
 
 ## Der tägliche Lauf (23:59)
 

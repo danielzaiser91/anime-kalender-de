@@ -19,12 +19,14 @@
  *   node tools/claude-global/einrichten.mjs            einrichten bzw. aktualisieren
  *   node tools/claude-global/einrichten.mjs --pruefen  nur prüfen (Exit 1, wenn etwas fehlt/veraltet)
  *   node tools/claude-global/einrichten.mjs --einsammeln  Gegenrichtung: holt die Fassung aus ~/.claude ins Repo
- *     (nur Dateien, die das Repo schon verwaltet; nichts wird gelöscht oder neu angelegt), danach als PR einreichen
+ *     (nur Dateien, die das Repo schon verwaltet; nichts wird gelöscht oder neu angelegt), danach als PR einreichen.
+ *     Ist die Repo-Fassung neuer (letzter Commit oder ungesicherte Änderung jünger als die Zieldatei), bleibt sie: "UEBERSPRUNGEN".
  *   ... --einsammeln --neue-skills  nimmt zusätzlich Skills (samt Unterordnern) auf, die nur am Ziel liegen, außer den in
  *     `skills-ausschluss.json` (`{ name: Grund }`) geführten: Das Repo ist öffentlich, dort steht, was nicht hinein darf.
  * Ziel: $CLAUDE_CONFIG_DIR, sonst ~/.claude (unter Windows %USERPROFILE%\.claude).
  */
-import { copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync } from 'node:fs'
+import { execFileSync } from 'node:child_process'
+import { copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync, statSync } from 'node:fs'
 import { homedir } from 'node:os'
 import { dirname, join } from 'node:path'
 
@@ -37,12 +39,26 @@ const EINSAMMELN = process.argv.includes('--einsammeln')
 const NEUE_SKILLS = EINSAMMELN && process.argv.includes('--neue-skills')
 const lies = (p) => (existsSync(p) ? readFileSync(p, 'utf8').replace(/\r\n/g, '\n') : '')
 
-/** Holt `relativ` aus `~/.claude` ins Repo, nur wenn es dort existiert und abweicht. */
+/** Sekunden seit 1970, seit denen die Repo-Datei ihren Stand hat: Zeit des letzten Commits, bei ungesicherter Änderung ihre Änderungszeit. 0 ohne git. */
+function repoStandSekunden(nach) {
+  const git = (...args) => {
+    try {
+      return execFileSync('git', ['-C', QUELLE, ...args, '--', nach], { encoding: 'utf8', timeout: 20000, windowsHide: true, stdio: ['ignore', 'pipe', 'ignore'] }).trim()
+    } catch {
+      return ''
+    }
+  }
+  if (git('status', '--porcelain')) return statSync(nach).mtimeMs / 1000
+  return Number(git('log', '-1', '--format=%ct')) || 0
+}
+
+/** Holt `relativ` aus `~/.claude` ins Repo, nur wenn es dort existiert und abweicht; eine neuere Repo-Fassung bleibt stehen. */
 function sammle(relativ) {
   const von = join(ZIEL, relativ)
   const nach = join(QUELLE, relativ)
   if (!existsSync(von)) return `fehlt   ${von} (am Ziel nicht vorhanden, Repo bleibt)`
   if (lies(nach) === lies(von)) return `ok      ${nach}`
+  if (existsSync(nach) && repoStandSekunden(nach) > statSync(von).mtimeMs / 1000) return `UEBERSPRUNGEN ${nach} (Repo neuer als ${von})`
   mkdirSync(dirname(nach), { recursive: true })
   copyFileSync(von, nach)
   return `geholt  ${nach}`
@@ -75,7 +91,7 @@ const AUSSCHLUSS = JSON.parse(readFileSync(join(QUELLE, 'skills-ausschluss.json'
 /** Dateien unter `relativ` in `wurzel`, als Pfade relativ zu ihr. */
 function dateienIn(wurzel, relativ) {
   if (!existsSync(join(wurzel, relativ))) return []
-  return readdirSync(join(wurzel, relativ), { withFileTypes: true }).filter((eintrag) => !eintrag.name.includes('.bak')).flatMap((eintrag) => {
+  return readdirSync(join(wurzel, relativ), { withFileTypes: true }).filter((eintrag) => !eintrag.name.startsWith('.') && !eintrag.name.includes('.bak')).flatMap((eintrag) => {
     const pfad = join(relativ, eintrag.name)
     return eintrag.isDirectory() ? dateienIn(wurzel, pfad) : [pfad]
   })
@@ -90,7 +106,7 @@ function skillDateien(name) {
 /** Verwaltete Skills: die im Repo, mit `--neue-skills` auch alle am Ziel; nie die ausgeschlossenen. */
 function skillNamen() {
   const ordner = (wurzel) => (existsSync(join(wurzel, 'skills')) ? readdirSync(join(wurzel, 'skills'), { withFileTypes: true }).filter((e) => e.isDirectory() && !e.name.startsWith('.')).map((e) => e.name) : [])
-  return [...new Set([...ordner(QUELLE), ...(NEUE_SKILLS ? ordner(ZIEL) : [])])].filter((name) => !(name in AUSSCHLUSS)).sort()
+  return [...new Set([...ordner(QUELLE), ...(NEUE_SKILLS ? ordner(ZIEL) : [])])].filter((name) => !Object.hasOwn(AUSSCHLUSS, name)).sort()
 }
 
 const zeilen = [

@@ -198,7 +198,7 @@ als die Loesung selbst.
 1. **Fix fertig und belegt** — Gegentest grün, Messung da, Lauf durch. Vorher nicht: siehe § 0.
 2. **Einordnen:** Ist das eine Erkenntnis nach § 1? Bei Nein: fertig, weiter.
 3. **Ziel wählen** nach § 2. Existiert kein passender Skill, **anlegen** —
-   `C:\Users\ih\.claude\skills\<name>\SKILL.md` mit `name` und einer `description`, die beschreibt,
+   `~\.claude\skills\<name>\SKILL.md` mit `name` und einer `description`, die beschreibt,
    *wann* der Skill gebraucht wird, nicht was er enthält.
 4. **Schreiben** nach § 3. Bestehenden Eintrag zum selben Thema **ergänzen oder korrigieren**
    statt einen zweiten danebenzusetzen. Was sich als falsch herausgestellt hat, wird **berichtigt,

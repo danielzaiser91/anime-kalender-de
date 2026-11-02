@@ -38,8 +38,8 @@ Meinung, und sie wird beim nächsten Mal befolgt, ohne dass jemand sie noch hint
 | Erzeugnisse | **Build-Artefakte**, Artefakte | dasselbe Skript. Gegenstück zu „Quellen" |
 | Kennung (bei HTTP) | **User-Agent** | aniSearch-Thema, mehrfach. Der Header heißt so, auch im deutschen Sprachgebrauch |
 | Wörterbuch (bei i18n) | **Sprachdatei**, Übersetzungen | `i18n.tsx`. Wörterbuch ist Lexikografie, nicht Softwarelokalisierung. **Nicht** „Locale" — richtig, aber für Kommunikation zu technisch |
-| Rollbalken | **Scrollbalken** | Release-Notes zu v1.5.1 und v1.6.1, GeoGuessr. „Rollbalken" ist eine alte Eindeutschung, die niemand mehr benutzt — **nie** verwenden |
-| Tagesherausforderung | **Daily Challenge** (bei GeoGuessr), sonst „tägliche Herausforderung“ | Discord-Meldung zu v1.7.0 (27.08.2026). Der Spielmodus heißt bei GeoGuessr so — ein Eigenname wird nicht übersetzt, auch nicht in einem deutschen Text. Außerhalb von GeoGuessr ist „tägliche Herausforderung“ richtig, „Tagesherausforderung“ nie |
+| Rollbalken | **Scrollbalken** | Release-Notes eines Spiels. „Rollbalken" ist eine alte Eindeutschung, die niemand mehr benutzt — **nie** verwenden |
+| Tagesherausforderung | **Daily Challenge** (wo der Spielmodus so heißt), sonst „tägliche Herausforderung“ | Discord-Meldung eines Spiels (27.08.2026). Der Spielmodus heißt dort so — ein Eigenname wird nicht übersetzt, auch nicht in einem deutschen Text. Außerhalb dieses Spielmodus ist „tägliche Herausforderung“ richtig, „Tagesherausforderung“ nie |
 
 Die ersten fünf vom 10.08.2026, der Scrollbalken vom 22.08.2026, die Daily Challenge vom 27.08.2026.
 

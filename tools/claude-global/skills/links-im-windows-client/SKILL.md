@@ -8,7 +8,7 @@ description: "Beim Verlinken lokaler Dateien oder Ordner in einer Antwort: die e
 Es gibt genau **eine** verlässliche Form (geprüft 08.08.2026, Stand des Windows-Clients):
 
 ```
-[status.md](file:///C:/code/ai/my%20website/status.md)
+[status.md](file:///C:/code/ai/mein%20projekt/status.md)
 ```
 
 Also: `[Text](…)` + `file:///` + **absoluter** Pfad + Schrägstriche + `%20` für Leerzeichen.
@@ -83,13 +83,13 @@ kein Arbeitsverzeichnis braucht.
    spitze Klammern gekapselte Zieladresse `[Datei](<pfad mit leerzeichen>)` wird klickbar
    dargestellt; beides landet als reiner Text. Das gilt auch, wenn die Adresse für sich schon
    lesbar wäre.
-2. **Leerzeichen roh im Pfad.** Ein Ordner wie `my website` bricht den Link still ab —
+2. **Leerzeichen roh im Pfad.** Ein Ordner wie `mein projekt` bricht den Link still ab —
    prozentkodieren (`%20`).
 3. **Relative Pfade — niemals, in keinem Kontext.** Das ist seit dem 21.08.2026 keine
    Vorsichtsmaßnahme mehr, sondern zweimal belegt, und zwar mit **zwei verschiedenen**
    Fehlerbildern:
 
-   - **08.08.2026:** `[datei](my%20website/status.md)` wurde gar nicht erst klickbar
+   - **08.08.2026:** `[datei](mein%20projekt/status.md)` wurde gar nicht erst klickbar
      dargestellt. Eine frühere Fassung dieser Regel hatte die Form für „geprüft" erklärt — die
      Prüfung hatte die Darstellung bestätigt, nicht den Klick.
    - **21.08.2026:** `data/dub-batches.md` war klickbar, führte aber ins Leere: „Diese Datei

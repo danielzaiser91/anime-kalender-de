@@ -35,7 +35,7 @@ Noch vor jeder Recherche, jedem Werkzeugaufruf zur Sache, jeder Planung:
    diesem Ende gestartet. Ein autonomer Modus ohne Ende gibt es nie.
 2. **Prüfen, ob schon eine Schleife läuft** (`TaskList`). Zwei Schleifen auf denselben Auftrag
    wecken doppelt und arbeiten gegeneinander.
-3. **Marker schreiben:** Endzeit (ISO, mit Offset) in `C:/Users/ih/.claude/autonomer-modus/<Sitzungs-ID>.txt` (Sitzungs-ID = Name des Scratchpad-Ordners bzw. der Transkript-Datei; je Sitzung ein Marker, damit Routinen und andere Sitzungen nicht mitlaufen — Daniel, 14.10.2026)
+3. **Marker schreiben:** Endzeit (ISO, mit Offset) in `~/.claude/autonomer-modus/<Sitzungs-ID>.txt` (Sitzungs-ID = Name des Scratchpad-Ordners bzw. der Transkript-Datei; je Sitzung ein Marker, damit Routinen und andere Sitzungen nicht mitlaufen — Daniel, 14.10.2026)
    (Anzeige im Mod `arbeitsliste`: grün, solange die Zeit in der Zukunft liegt; jedes Beenden löscht die Datei).
 4. **Schleife starten** — über den `loop`-Skill, ohne Intervall, damit die Taktung von der
    Sache abhängt und nicht von einer Zahl:

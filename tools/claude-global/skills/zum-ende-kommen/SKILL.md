@@ -40,6 +40,6 @@ Jeder eintreffende Bericht wird wie oben abgeschlossen, die Übergabe danach im 
 
 Nennt Daniel eine Uhrzeit, gilt bis dahin der normale Betrieb; um die Uhrzeit startet der Schnitt von selbst, ohne dass er „ende“ schreiben muss.
 
-1. **Sofort:** Uhrzeit als ISO mit Offset in `C:/Users/ih/.claude/ende-um.txt` (z. B. `2026-10-18T23:00:00+02:00`), Zeile in `stand.md`, Daniel einen Satz bestätigen. Läuft ein autonomer Modus mit späterem Ende, gewinnt die frühere Zeit.
+1. **Sofort:** Uhrzeit als ISO mit Offset in `~/.claude/ende-um.txt` (z. B. `2026-10-18T23:00:00+02:00`), Zeile in `stand.md`, Daniel einen Satz bestätigen. Läuft ein autonomer Modus mit späterem Ende, gewinnt die frühere Zeit.
 2. **Bis dahin:** Das Hook-Modul `ende-termin.js` meldet an jeder Eingabe „[Ende geplant HH:MM (in N min) …]“ — kein `ScheduleWakeup` über diese Zeit hinaus, der letzte Wecker fällt genau auf sie. Neue Agenten nur, wenn ihr Bericht realistisch vorher kommt; sonst gleich in die Übergabe.
 3. **Ab der Uhrzeit** meldet das Modul „[Ende fällig …]“: Schnitt wie oben, dann `ende-um.txt` löschen. Ohne diesen Wecker endet der Turn und nichts passiert — der Wecker ist der Auslöser, nicht der Vorsatz.

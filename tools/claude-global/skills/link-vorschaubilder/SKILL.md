@@ -67,7 +67,7 @@ beim Kopieren zusätzlich den alten `<title>` entfernen, sonst stehen zwei drin.
 
 Referenz-Umsetzungen auf diesem Rechner:
 - `C:\code\ai\anime-kalender-de\pipeline\build-share-pages.ts` — eine Seite je Datensatz
-- `C:\code\ai\my website\tools\social-preview.js` — eine einzelne Sonderroute
+- `<anderes Projekt>\tools\social-preview.js` — eine einzelne Sonderroute
 
 ## Pflichtangaben, die wirklich zählen
 
