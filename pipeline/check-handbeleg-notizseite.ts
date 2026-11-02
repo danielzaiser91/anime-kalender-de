@@ -24,6 +24,8 @@ const titel = [
   { id: 900002, streams: [weg('https://www.amazon.de/gp/video/detail/B0SHARED01', { sharedWith: 2 })] },
   { id: 900003, streams: [weg('https://www.amazon.de/gp/video/detail/B0PENDEL01')] },
   { id: 900004, streams: [weg('https://www.amazon.de/gp/video/detail/B0PENDEL01')] },
+  { id: 900007, streams: [weg('https://www.amazon.de/gp/video/detail/B0SOLOSHA1', { sharedWith: 2 })] },
+  { id: 900008, streams: [weg('https://www.amazon.de/s?k=x', { seite: 'https://www.amazon.de/gp/video/detail/B0NURSEITE' })] },
   { id: 900005, streams: [{ platform: 'netflix', url: 'https://www.netflix.com/title/B0NETFLIX1' }] },
 ]
 const besitz = baueBesitz(titel, { 'https://www.amazon.de/dp/B0ZUGEORD1': { titleId: 900006 } })
@@ -34,6 +36,8 @@ pruefe('Haganai (10719) mit der Adresse von Haganai NEXT (14967) ist rot', finde
 pruefe('Yashahime (131264) mit InuYasha-Seite nur in der Notiz ist rot, wenn InuYasha sie besitzt', finde([block(131264, 'https://www.amazon.de/dp/B0D58K5WH5', 'Tonspuren — Amazon-Seite B0INUYASHA: alle 27 Folgen')]).join() === '131264@B0INUYASHA')
 pruefe('Eigene Adresse und eigene Notizseite: kein Treffer', finde([block(10719, 'https://www.amazon.de/dp/B0EIGEN001', 'Amazon-Seite B0EIGEN001: x')]).length === 0)
 pruefe('Seite mit sharedWith: kein Treffer', finde([block(900001, 'https://www.amazon.de/dp/B0SHARED01'), block(900002, 'https://www.amazon.de/dp/B0SHARED01'), block(10719, 'https://www.amazon.de/dp/B0SHARED01')]).length === 0)
+pruefe('sharedWith bei einem einzigen Besitzer: kein Treffer', finde([block(10719, 'https://www.amazon.de/dp/B0SOLOSHA1')]).length === 0)
+pruefe('Besitz über das Feld seite zählt', finde([block(10719, 'https://www.amazon.de/dp/B0NURSEITE')]).join() === '10719@B0NURSEITE')
 pruefe('Seite mit zwei Besitzern (pendelnd): kein Treffer', finde([block(10719, 'https://www.amazon.de/dp/B0PENDEL01')]).length === 0)
 pruefe('Besitz aus prime-zugeordnet.json zählt', finde([block(10719, 'https://www.amazon.de/dp/B0ZUGEORD1')]).join() === '10719@B0ZUGEORD1')
 pruefe('Netflix-Weg gilt nicht als Prime-Besitz', finde([block(10719, 'https://www.amazon.de/dp/B0NETFLIX1')]).length === 0)
