@@ -37,7 +37,10 @@ const echt = urteileStaffelsumme({ erste: 2, jw: jw(51, 49), blockFolgen: 49, me
 pruefe('Beyblade X: Netflix-Staffel 2 beginnt bei unserer Folge 52', echt.ok && echt.versatz === 51, echt)
 pruefe('Beyblade X: Vermerk nennt Summe, Merkmal und Zahl', echt.ok && /Staffelsumme/.test(echt.vermerk) && /bestätigt durch: Folgentitel \(3 von 3, RTL\+\)/.test(echt.vermerk), echt)
 
+pruefe('Beyblade X: Vermerk nennt die erste Folge 52', echt.ok && echt.vermerk.includes('beginnt bei unserer Folge 52 ('), echt)
+
 /* Summe */
+pruefe('Summe: Staffel davor mit 0 Folgen gibt keinen Versatz', !versatzAusJustWatch(2, jw(0), 8, 100).ok)
 pruefe('Summe: Versatz ist die Summe der Staffeln davor (zwei Staffeln davor)', JSON.stringify(versatzAusJustWatch(3, jw(10, 12), 8, 100)) === '{"ok":true,"versatz":22}')
 pruefe('Summe: Staffel nach der gemeldeten zählt nicht mit', JSON.stringify(versatzAusJustWatch(2, jw(10, 12, 99), 8, 100)) === '{"ok":true,"versatz":10}')
 pruefe('Summe: fehlende Folgenzahl einer früheren Staffel gibt keinen Versatz', !versatzAusJustWatch(3, jw(10, undefined), 8, 100).ok)
@@ -56,6 +59,8 @@ const mitGemisch = (gut: number, schlecht: number) => urteileStaffelsumme({ erst
 pruefe('Bestätigung: vier von fünf (80 %) gelten', mitGemisch(4, 1).ok)
 pruefe('Bestätigung: drei von vier (75 %) gelten nicht', !mitGemisch(3, 1).ok)
 pruefe('Bestätigung: Zählung nennt Treffer und Abweichung getrennt', JSON.stringify(zaehleTitel(20, gemischt(3, 2), liste(100))) === '{"treffer":3,"abweichend":2}')
+const doppelt: UnsereFolge[] = liste(100).map((f) => (f.nr === 40 ? { ...f, de: 'Titel 21' } : f.nr === 41 ? { ...f, de: 'Titel 22' } : f))
+pruefe('Bestätigung: Titel, die in unserer Liste zweimal vorkommen, bestätigen nicht', zaehleTitel(20, meldungen([1, 2], 20), doppelt).treffer === 0 && zaehleTitel(20, meldungen([1, 2], 20), doppelt).abweichend === 0)
 pruefe('Bestätigung: Platzhaltertitel ("Folge 3") zählen nicht', zaehleTitel(0, [{ pos: 3, titel: 'Folge 3' }, { pos: 4, titel: null }], liste(10)).treffer === 0)
 pruefe('Bestätigung: Summe schlägt Titel nicht – falsche Summe wird abgewiesen', !urteil([1, 2, 3], 20, 25).ok)
 
