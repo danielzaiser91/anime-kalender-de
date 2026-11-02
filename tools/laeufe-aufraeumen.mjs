@@ -25,6 +25,7 @@
 import { abbruchText, ghStapel, mitLimit } from './kind-mit-limit.mjs'
 import { erledigtArgumente, findeRotenLauf, holeLaeufe, holeVerlauf, letzteDatenAenderung, roteArten, stillstand, STILLSTAND_GRENZE_STUNDEN } from './laeufe-abruf.mjs'
 import { rotAlarmText } from './bestand-rot-alarm.mjs'
+import { alarmZeilenMitFixPrs } from './fix-pr-hinweis.mjs'
 import { git, meldeLiegt } from './liegegut.mjs'
 import { meldeRoteSammlerPrs } from './rote-sammler-prs.mjs'
 import { eskalationsText } from './wache-eskalation.mjs'
@@ -129,7 +130,7 @@ async function main() {
   meldeLiegt((a) => gh(...a), git, console.log, Date.now())
   await stillstandMelden()
   const rotZeilen = rotAlarmText(gh, REPO, Date.now()).split('\n')
-  for (const zeile of rotZeilen) if (zeile.startsWith('ALARM')) console.log(zeile)
+  for (const zeile of alarmZeilenMitFixPrs(rotZeilen, gh, REPO, Date.now())) console.log(zeile)
   const quellenZeilen = eskalationsText(gesundheitsDatei(), Date.now(), fixZusatz(wurzel()))
   for (const zeile of quellenZeilen) console.log(zeile)
   for (const zeile of weichWache(ghStapel, REPO, wurzel(), Date.now(), weichSpeicher())) console.log(zeile)

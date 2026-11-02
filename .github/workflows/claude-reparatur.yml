@@ -86,6 +86,17 @@ jobs:
           if [ "${nachfolger:-0}" -gt 0 ]; then
             echo "Ein erfolgreicher Lauf desselben Workflows kam danach — nichts zu untersuchen."
             echo "weiter=nein" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          # Wartet ein Fix des Fixers auf Prüfung, baut keiner einen zweiten (02.11.2026: 2662 lag 11 h, dann kam das Doppel 2668).
+          fix_pr=$(gh pr list \
+            --repo "${{ github.repository }}" \
+            --state open --author "app/claude" --limit 50 \
+            --json number,headRefName \
+            --jq '[.[] | select(.headRefName | startswith("fix/")) | .number] | join(",")')
+          if [ -n "$fix_pr" ]; then
+            echo "Offener Fix-PR (#${fix_pr}) wartet auf Prüfung — kein zweiter Fix."
+            echo "weiter=nein" >> "$GITHUB_OUTPUT"
           else
             echo "weiter=ja" >> "$GITHUB_OUTPUT"
           fi
