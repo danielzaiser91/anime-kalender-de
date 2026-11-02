@@ -138,7 +138,7 @@ try {
     nimmBefund(b, NF, { status: 503, geprueftAm: '2026-11-02' }, [])
     return b[NF]
   })(), { status: 503, geprueftAm: '2026-11-02' })
-  const wartend = zweitesNetflix404({ [NF]: erst, 'https://www.netflix.com/title/2': { status: 'unklar', geprueftAm: '2026-11-02' }, 'https://www.netflix.com/title/3': tot('2026-11-02'), 'https://www.joyn.de/x': erst })
+  const wartend = zweitesNetflix404({ [NF]: erst, 'https://www.netflix.com/title/2': { status: 'unklar', geprueftAm: '2026-11-02' }, 'https://www.netflix.com/title/3': tot('2026-11-02'), 'https://www.joyn.de/x': erst, 'https://www.netflix.com/title/4': { status: 200, geprueftAm: '2026-11-02', erstes404: '2026-10-01' } })
   erwarte('Vorrang: nur Netflix mit erstem 404', wartend, [NF])
   erwarte('hat404: bestätigt, erstes, Nichtauskunft, lebt, nichts', [hat404(tot('2026-11-02')), hat404(erst), hat404({ status: 'unklar' }), hat404({ status: 200 }), hat404(undefined)], [true, true, false, false, false])
 

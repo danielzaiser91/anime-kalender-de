@@ -215,3 +215,4 @@ Vor dem Anlegen eines Zweigs `git ls-remote origin <zweig>` und `gh pr list --he
 
 - **Erweiterungs-Tests laufen den Handler, nicht den Quelltext (31.10.2026, PR 2545):** Ein Test, der nur per Textmuster prüft, ob eine Zeile im Quelltext steht, ließ den Knopf-Riegel beim Amazon-Staffelwechsel durch. Neue Tests rufen den echten Klick-/Render-Pfad mit Fixture auf; Mutante muss rot werden.
 - **Lehre 31.10.2026 (2550):** Eine Nebenwirkung, die du im Bericht nennst, steht mit Zahl und Titelliste im PR-Text und in der Patchnote — dort fehlte, dass 7 Titel „erschienen“ verlieren.
+- **Lehre 02.11.2026 (2689):** Eine neue Fälligkeitsregel gilt erst als belegt, wenn ein Test zeigt, dass der Eintrag unter dem echten Limit des Laufs mit Rückstand auch drankommt (`--limit N` und M ältere fällige Einträge davor) — „fällig“ allein reicht nicht (gleiche Lücke wie 5xx in `quellen.md`, 25.10.).
