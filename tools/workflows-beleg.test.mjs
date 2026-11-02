@@ -9,7 +9,8 @@ import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import yaml from 'js-yaml'
-import { ECHT, JOBS_HOECHSTENS, LAEUFE_HOECHSTENS, abdruckAusBaum, gueltigkeit, main, pruefenGruen, sucheBeleg } from './workflows-beleg.mjs'
+import { ohneKommentare } from './pr-nachrechnen-leser.mjs'
+import { ECHT, JOBS_HOECHSTENS, LAEUFE_HOECHSTENS, ZAEHLT, abdruckAusBaum, gueltigkeit, main, pruefenGruen, sucheBeleg } from './workflows-beleg.mjs'
 
 const tools = dirname(fileURLToPath(import.meta.url))
 const wegwerf = mkdtempSync(join(tmpdir(), 'workflows-beleg-'))
@@ -28,6 +29,10 @@ const DATEN = ['public', 'data'].join('/')
 const HAND = ['data', 'dub-confirmed.yaml'].join('/')
 const CACHE = ['data', 'cache', 'x.json'].join('/')
 const LISTE = ['daniel-zum-abarbeiten', 'stand.md'].join('/')
+const BOT = ['data', 'source-health.json'].join('/')
+const CACHE_REG = ['data', 'cache-register.json'].join('/')
+const ZUGANG_REG = ['data', 'zugangs-register.json'].join('/')
+const STICHPROBE = ['data', 'cartoon-jw-stichprobe.json'].join('/')
 
 // 1. Echtes git: Datenpfade sind egal, alles andere zählt.
 let nummer = 0
@@ -51,9 +56,13 @@ function repo() {
 }
 {
   const r = repo()
-  const a = r.commit({ 'tools/x.mjs': '1', [`${DATEN}/titles.json`]: '[]', [HAND]: 'a', [LISTE]: 'a' })
-  const daten = r.commit({ [`${DATEN}/titles.json`]: '[1]', [HAND]: 'b', [CACHE]: 'c', [LISTE]: 'b' })
-  gleich(r.abdruck(daten), r.abdruck(a), 'nur Datenpfade bewegt (public/data, data, Listen): gleicher Abdruck')
+  const a = r.commit({ 'tools/x.mjs': '1', [`${DATEN}/titles.json`]: '[]', [BOT]: 'a', [HAND]: 'a', [CACHE_REG]: 'a', [ZUGANG_REG]: 'a', [STICHPROBE]: 'a', [LISTE]: 'a' })
+  const daten = r.commit({ [`${DATEN}/titles.json`]: '[1]', [BOT]: 'b', [CACHE]: 'c' })
+  gleich(r.abdruck(daten), r.abdruck(a), 'nur Datenpfade bewegt (public/data, Cache, Bot-Datei): gleicher Abdruck')
+  for (const datei of [HAND, CACHE_REG, ZUGANG_REG, STICHPROBE, LISTE]) {
+    const gelesen = r.commit({ [datei]: 'geaendert' })
+    ok(r.abdruck(gelesen) !== r.abdruck(daten), `nur ${datei} bewegt: anderer Abdruck (check:workflows liest sie)`)
+  }
   const code = r.commit({ 'tools/x.mjs': '2' })
   ok(r.abdruck(code) !== r.abdruck(a), 'Code bewegt: anderer Abdruck')
   const wf = r.commit({ '.github/workflows/deploy.yml': 'on: push' })
@@ -61,8 +70,8 @@ function repo() {
   const neu = r.commit({ 'tools/neu.mjs': 'n' })
   const weg = r.commit({ 'tools/neu.mjs': 'n', 'tools/x.mjs': '2' })
   gleich(r.abdruck(weg), r.abdruck(neu), 'Commit ohne Änderung: gleicher Abdruck')
-  const og = r.commit({ 'public/og/a.jpg': 'bild' })
-  ok(r.abdruck(og) !== r.abdruck(weg), 'public/og zählt (nur public/data ist Datenpfad)')
+  const og = r.commit({ 'public/og/default.jpg': 'bild' })
+  ok(r.abdruck(og) !== r.abdruck(weg), 'public/og/default.* zählt (andere Vorschaubilder sind Bot-Daten ohne Leser)')
   const aehnlich = r.commit({ 'datax/y.txt': '1', 'public/database.json': '1' })
   ok(r.abdruck(aehnlich) !== r.abdruck(og), 'Namen mit gleichem Anfang (datax/, public/database.json) sind keine Datenpfade')
   const tief = r.commit({ 'tools/data/x.txt': '1', 'tools/public/data/y.txt': '1', 'tools/daniel-zum-abarbeiten/z.txt': '1' })
@@ -96,6 +105,27 @@ function repo() {
     process.chdir(vorher)
   }
   gleich([LAEUFE_HOECHSTENS, JOBS_HOECHSTENS], [50, 6], 'Grenzen: 50 Läufe gelesen, höchstens 6 Jobabfragen')
+}
+
+// 1c. Prüfer 2687 A1: Was `check:workflows` liest, zählt im Abdruck. Die Tests aus tests-alle deckt der Leser-Wächter von pr-nachrechnen-bot-pfade ab;
+// hier die Skripte der Kette selbst: kein Datei-Literal der Daten darf in der Ausnahme (istDatenpfad) stehen.
+{
+  const kette = [...readFileSync(join(tools, '..', 'package.json'), 'utf8').matchAll(/check:workflows": "([^"]+)"/g)][0][1]
+  const skripte = [...kette.matchAll(/node (tools\/[\w.-]+\.mjs)/g)].map((m) => m[1]).filter((s) => !s.endsWith('tests-alle.mjs'))
+  ok(skripte.length === 4, `check:workflows: 4 Skripte neben tests-alle (${skripte.join(', ')})`)
+  // Meldungstext, keine Lesung (tools/check-workflows.mjs: Hinweis auf die Prüfliste).
+  const NUR_GENANNT = new Set([`tools/check-workflows.mjs|${['data', 'anbieter-vorschlaege.json'].join('/')}`])
+  const literal = new RegExp(`${['data', ''].join('/')}[\\w./-]+\\.(?:json|jsonl|yaml|md)`, 'g')
+  const treffer = skripte.flatMap((s) => [...ohneKommentare(readFileSync(join(tools, '..', s), 'utf8')).matchAll(literal)].map((m) => `${s}|${m[0]}`))
+  ok(treffer.length >= 10, `Wächter findet die Literale der Skripte (${treffer.length})`)
+  const ausgenommen = treffer.filter((t) => !ZAEHLT(t.split('|')[1]) && !NUR_GENANNT.has(t))
+  gleich(ausgenommen, [], 'kein Datei-Literal der check:workflows-Skripte liegt in der Ausnahme des Abdrucks')
+  for (const [name, datei] of [['Cache-Register', CACHE_REG], ['Zugangs-Register', ZUGANG_REG], ['Handbeleg', HAND], ['Stichprobe', STICHPROBE]]) {
+    ok(ZAEHLT(datei), `${name} (${datei}) zählt im Abdruck`)
+  }
+  gleich([CACHE_REG, ZUGANG_REG].map((d) => treffer.some((t) => t.endsWith(d))), [true, true], 'Wächter sieht beide Register als Literal der Skripte')
+  // Ausnahme bleibt für Bot-Dateien (sonst gäbe es nie einen Beleg nach einem Datenlauf).
+  for (const datei of [BOT, DATEN + '/titles.json', CACHE]) ok(!ZAEHLT(datei), `${datei} zählt nicht`)
 }
 
 // 2. Wahl des Belegs (eingespritzte Antworten).

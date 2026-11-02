@@ -2,7 +2,7 @@
  * Beleg „check:workflows war für genau diesen Inhalt grün“ (02.11.2026): Ein Datenfix-Deploy (workflow_run nach dem Bestandsbau) fuhr
  * `npm run check:workflows` (6–7 min, `tests-alle`) jedes Mal neu, obwohl der Quelltext seit dem letzten Deploy derselbe war.
  * Der Beleg ist ein früherer Deploy-Lauf auf main, dessen Job `pruefen` grün war und dessen Abdruck gleich dem des jetzigen Stands ist.
- * Abdruck = Pfad und Blob-Hash jeder Datei im Git-Baum außer den Datenpfaden (`DATENPFADE`); Bäume ohne Blobs reichen (Checkout mit
+ * Abdruck = Pfad und Blob-Hash jeder Datei im Git-Baum außer den Datenpfaden (`istDatenpfad`); Bäume ohne Blobs reichen (Checkout mit
  * `filter: blob:none`, `git ls-tree`). Bewegt sich irgendetwas außerhalb der Datenpfade (Code, Workflows, `extension/`, `public/og/`),
  * ist der Abdruck ein anderer und die Prüfung läuft wie bisher. Jeder Fehler (gh, Git, Frist) heißt „kein Beleg“, nie „grün“.
  * Voraussetzung ist, dass `head_sha` eines Laufs der ausgecheckte Stand ist (gemessen 02.11.2026 an 10 Läufen, 7 davon `workflow_run`: gleich);
@@ -15,10 +15,13 @@ import { execFileSync } from 'node:child_process'
 import { appendFileSync } from 'node:fs'
 import { pathToFileURL } from 'node:url'
 import { abdruckVon } from './logik-beleg.mjs'
+import { istDatenpfad } from './pr-nachrechnen.mjs'
 
-/** Pfade, deren Bewegung den Beleg nicht entwertet: Daten der Bots und Handdaten (Datensatz, Cache, Listen für Daniel). Alles andere zählt. */
-export const DATENPFADE = ['public/data/', ['data', ''].join('/'), 'daniel-zum-abarbeiten/']
-export const ZAEHLT = (pfad) => !DATENPFADE.some((p) => pfad.startsWith(p))
+/**
+ * Pfade, deren Bewegung den Beleg nicht entwertet: `istDatenpfad` (public/data, Cache, Bot-Dateien ohne Leser in der Kette). Alles andere zählt,
+ * auch Handdaten und Register: `check:workflows` liest sie (Prüfer 2687 A1).
+ */
+export const ZAEHLT = (pfad) => !istDatenpfad(pfad)
 export const WORKFLOW = 'deploy.yml'
 export const JOB = 'pruefen'
 /** Läufe, die der Abruf der Deploy-Historie höchstens liest (neueste zuerst); die Checkout-Tiefe (30 Commits) begrenzt ohnehin, was lokal lesbar ist. */
