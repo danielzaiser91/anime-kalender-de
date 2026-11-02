@@ -3,13 +3,16 @@
  * Elite 4, K: Return of Kings, Yashahime). Eine Seite des Blocks (Adresse oder „Amazon-Seite X“ in der Notiz) gilt als fremd,
  * wenn im Bestand genau ein anderer Titel sie besitzt. Besitz: nur die Adresse eines Prime-Wegs in `titles.json` (`url`, `seite`)
  * und die Adressen in `prime-zugeordnet.json` — nie ein aus der Meldung gelesener Kennungswert (`asin`), der von der Adresse
- * abweichen kann. Seiten mit `sharedWith` und Seiten mit mehr als einem Besitzer (pendelnde Zuordnung) zählen nicht.
+ * abweichen kann. Seiten mit `sharedWith` und Seiten mit mehr als einem Besitzer (pendelnde Zuordnung) zählen nicht. Blöcke mit `dub: false` zählen mit (eine fremde Seite ist auch als Nein-Beleg falsch).
+ * Hinweis: Das Urteil hängt am Besitz, nicht nur am Block — ein unveränderter Block wird neu rot, wenn eine Seite von zwei auf
+ * einen Besitzer fällt oder eine besitzerlose Seite einen bekommt; das ist gewollt (dann Beleg entfernen oder Besitz klären).
  */
 export interface BlockSeite {
   anilistId?: number
   platform?: string
   url?: string
   note?: string
+  dub?: boolean
 }
 export interface PrimeWeg {
   platform?: string
