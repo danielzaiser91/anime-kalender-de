@@ -56,8 +56,7 @@ export function schliesseWegeAb({
 }) {
   ergaenzeDiscUndZugang({ titles, anisearch, releases, zugangJeAdresse })
 
-  const istTot: IstTot = (url) => toteAdressen.has(url)
-  const istTotGesamt = baueIstTot(toteAdressen, lautPruefungTot)
+  const istTot = baueIstTot(toteAdressen, lautPruefungTot)
 
   fuelleWegeAusJustwatch({ titles, tmdbMehrdeutig, istTot })
   uebernehmeFskAusJustwatch({ titles, tmdbMehrdeutig })
@@ -89,7 +88,7 @@ export function schliesseWegeAb({
   kennzeichneDeutschLautJustwatch({ titles, tmdbMehrdeutig, alleChecks })
 
   /* Zuletzt: Wer einen sicheren Termin bei einem Anbieter hat, aber noch keinen Weg dorthin, bekommt einen. Ohne Tonurteil, außer ein Handbeleg gilt: dann dessen Urteil, bei „nicht verfügbar“ kein Weg. */
-  ergaenzeWegeAusTerminen({ titles, releases, istTot: istTotGesamt, verweiseEntfernt, belegFuer })
+  ergaenzeWegeAusTerminen({ titles, releases, istTot, verweiseEntfernt, belegFuer })
 
   kennzeichneFreenetLautSchwester(titles)
 
