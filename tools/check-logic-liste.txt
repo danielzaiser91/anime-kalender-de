@@ -285,6 +285,7 @@ pipeline/check-netflix-tonspur.ts
 pipeline/check-netflix-umleitung-ablauf.ts
 pipeline/check-netflix-umleitung.ts
 pipeline/check-netflix-zweite-kennung.ts
+pipeline/check-netflix-zweites-404.ts
 pipeline/check-neu-auf-deutsch.ts
 pipeline/check-neuigkeiten-panel.ts
 pipeline/check-news-altbestand.ts

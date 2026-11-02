@@ -23,6 +23,9 @@ const pruefe = (name: string, ok: boolean, info?: unknown) => {
 const video = (k: string) => `https://www.amazon.de/gp/video/detail/${k}`
 const dp = (k: string) => `https://www.amazon.de/dp/${k}`
 const NETFLIX = 'https://www.netflix.com/title/404404'
+/* Netflix: zweites 404 nach dem ersten (seit 2020 vermerkt) und viele Adressen, die vorher 200 waren und jetzt 404 melden. */
+const NETFLIX_ZWEITES = 'https://www.netflix.com/title/404405'
+const RAUSCHEN = Array.from({ length: 22 }, (_, i) => `https://www.netflix.com/title/${810000 + i}`)
 const JW = 'https://www.justwatch.com/de/serie/weg-ueber-justwatch'
 const SEITE = video('B0SEITE001')
 /* Antworten je Adresse: [Status, Text]. */
@@ -34,6 +37,8 @@ const antworten: Record<string, [number, string]> = {
   [video('B0LEER0001')]: [200, '<html>nichts Brauchbares</html>'],
   [SEITE]: [200, 'productTitle'],
   [NETFLIX]: [404, ''],
+  [NETFLIX_ZWEITES]: [404, ''],
+  ...Object.fromEntries(RAUSCHEN.map((u) => [u, [404, '']])),
 }
 
 const tmp = mkdtempSync(join(process.argv[2] ?? tmpdir(), 'check-links-laufzeit-'))
@@ -46,8 +51,15 @@ try {
     { platform: 'primevideo', url: video('B0LEER0001') },
     { platform: 'primevideo', url: JW, seite: SEITE },
     { platform: 'netflix', url: NETFLIX },
+    { platform: 'netflix', url: NETFLIX_ZWEITES },
+    ...RAUSCHEN.map((url) => ({ platform: 'netflix', url })),
   ]
   writeFileSync(join(tmp, 'public/data/titles.json'), JSON.stringify([{ id: 900001, streams: wege }]))
+  const vorbefund = {
+    [NETFLIX_ZWEITES]: { status: 'unklar', geprueftAm: '2020-01-01', erstes404: '2020-01-01' },
+    ...Object.fromEntries(RAUSCHEN.map((u) => [u, { status: 200, geprueftAm: '2020-01-01' }])),
+  }
+  writeFileSync(join(tmp, 'data/link-check.json'), JSON.stringify(vorbefund))
   const anfragen = join(tmp, 'anfragen.txt')
   const stub = join(tmp, 'fetch-stub.mjs')
   writeFileSync(
@@ -77,6 +89,11 @@ globalThis.fetch = async (url) => {
   pruefe('auch die Video-Seite 404: bleibt 404', bestand[dp('B0DPTOT001')]?.status === 404, bestand[dp('B0DPTOT001')])
   pruefe('Amazon-200 ohne Produktseite ist unklar', bestand[video('B0LEER0001')]?.status === 'unklar', bestand[video('B0LEER0001')])
   pruefe('Amazon-200 mit Produktseite ist 200', bestand[SEITE]?.status === 200, bestand[SEITE])
+  const nf = bestand as Record<string, { status: unknown; erstes404?: string }>
+  pruefe('erstes Netflix-404 ist unklar mit erstem Tag', nf[NETFLIX]?.status === 'unklar' && typeof nf[NETFLIX]?.erstes404 === 'string', nf[NETFLIX])
+  pruefe('zweites Netflix-404 nach Jahren ist 404', nf[NETFLIX_ZWEITES]?.status === 404, nf[NETFLIX_ZWEITES])
+  pruefe('Netflix 200 -> 404 im Lauf: unklar, nicht 404', RAUSCHEN.every((u) => nf[u]?.status === 'unklar' && nf[u]?.erstes404 !== undefined), nf[RAUSCHEN[0]])
+  pruefe('Wächter: viele Wechsel einer Plattform warnen im Lauf', /WARNUNG Linkprüfung verrauscht: netflix[.]com 22 von 22/.test(`${r.stdout}${r.stderr}`), `${r.stdout}${r.stderr}`.slice(-600))
   pruefe('Netflix-404 wird nur einmal gefragt', gefragt.filter((a) => a === NETFLIX).length === 1, gefragt)
   pruefe('geprüft wird `seite`, nicht JustWatchs `url`', gefragt.includes(SEITE) && !gefragt.includes(JW) && !(JW in bestand), gefragt)
 } finally {
