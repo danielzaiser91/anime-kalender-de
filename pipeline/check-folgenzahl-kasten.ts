@@ -83,7 +83,7 @@ pruefe('nur gesichtet, ohne Annahme-Vermerk: „3 Folgen auf Deutsch“ ohne „
 const anilist = await kastenText(900307, [release(900307, 'crunchyroll', { episodeCount: 12, episodeCountAssumed: true })], { ...mitBereich(900307), episodes: 12 } as Title)
 pruefe('AniList kennt 12 Folgen: „3 von 12 Folgen auf Deutsch“ bleibt', hat(anilist, '3 von 12 Folgen auf Deutsch'), anilist)
 
-const sichtung =await kastenText(900301, [release(900301, 'crunchyroll', gesichtetSchedule)], mitBereich(900301))
+const sichtung = await kastenText(900301, [release(900301, 'crunchyroll', gesichtetSchedule)], mitBereich(900301))
 pruefe('Beyblade-Art (nur gesichtet): „3 Folgen auf Deutsch“ ohne „von 20“', hat(sichtung, '3 Folgen auf Deutsch') && !hat(sichtung, 'von 20'), sichtung)
 
 const gemischt = await kastenText(900305, [release(900305, 'crunchyroll', gesichtetSchedule), release(900305, 'netflix', { episodeCount: 20 })], mitBereich(900305))
