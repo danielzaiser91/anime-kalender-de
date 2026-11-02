@@ -400,6 +400,12 @@ try {
   // Ignorierte Datei (z. B. .env): `worktree remove` löscht sie mit, also bleibt der Worktree.
   neu('_wt-ignoriert', 'b-ignoriert', true)
   writeFileSync(join(wtDir, '_wt-ignoriert', 'geheim.lokal'), 'nur hier\n')
+  neu('_wt-ign-ordner', 'b-ign-ordner', true)
+  mkdirSync(join(wtDir, '_wt-ign-ordner', 'build.lokal'))
+  writeFileSync(join(wtDir, '_wt-ign-ordner', 'build.lokal', 'x'), 'x')
+  neu('_wt-ign-link', 'b-ign-link', true)
+  mkdirSync(join(wtDir, '_wt-ign-link', 'werkzeug'))
+  symlinkSync(fremdNm, join(wtDir, '_wt-ign-link', 'werkzeug', 'fremd.lokal'), 'junction')
   const jetztMerk = jetzt
   jetzt = uhr() + 30 * 3600_000
   const ohnePr = H.abbau(haupt, welt, false)
@@ -417,12 +423,15 @@ try {
   assert.deepEqual(urteil('_wt-lose-kopf'), ['behalten', 'kopf-ungesichert'], 'Kopf auf keinem Zweig-Ref')
   assert.deepEqual(urteil('_wt-dirty'), ['behalten', 'geaendert'])
   assert.deepEqual(urteil('_wt-ignoriert'), ['behalten', 'geaendert'], 'ignorierte Datei zählt als Änderung')
+  for (const n of ['_wt-ign-ordner', '_wt-ign-link']) assert.deepEqual(urteil(n), ['behalten', 'geaendert'], `${n}: ignorierter Ordner/fremde Verknüpfung hält`)
   assert.deepEqual(urteil('_wt-cache'), ['behalten', 'cache-inhalt'])
   assert.deepEqual(urteil('_wt-offen'), ['behalten', 'pr-offen'])
   assert.equal(H.echteWelt(haupt).aufZweig(oid('_wt-lose-kopf')), false, 'echter Hook: Kopf ohne Zweig')
   assert.equal(H.echteWelt(haupt).aufZweig(oid('_wt-ohnepr')), true, 'echter Hook: Kopf auf Zweig b-ohnepr')
   assert.equal(H.echteWelt(haupt).aufZweig('0123456789abcdef0123456789abcdef01234567'), false, 'echter Hook: unbekannter Kopf')
   g(haupt, 'worktree', 'remove', '--force', join(wtDir, '_wt-lose-kopf'))
+  unlinkSync(join(wtDir, '_wt-ign-link', 'werkzeug', 'fremd.lokal'))
+  for (const n of ['_wt-ignoriert', '_wt-ign-ordner', '_wt-ign-link']) g(haupt, 'worktree', 'remove', '--force', join(wtDir, n))
 
   // A7: Ordner in Benutzung (EBUSY/EPERM beim Umbenennen) → nichts gelöst, nichts entfernt, nur gemeldet.
   const ebusy = () => { throw Object.assign(new Error('busy'), { code: 'EBUSY' }) }
