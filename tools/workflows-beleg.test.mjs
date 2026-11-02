@@ -9,7 +9,7 @@ import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import yaml from 'js-yaml'
-import { JOBS_HOECHSTENS, abdruckAusBaum, gueltigkeit, main, pruefenGruen, sucheBeleg } from './workflows-beleg.mjs'
+import { ECHT, JOBS_HOECHSTENS, LAEUFE_HOECHSTENS, abdruckAusBaum, gueltigkeit, main, pruefenGruen, sucheBeleg } from './workflows-beleg.mjs'
 
 const tools = dirname(fileURLToPath(import.meta.url))
 const wegwerf = mkdtempSync(join(tmpdir(), 'workflows-beleg-'))
@@ -79,6 +79,22 @@ function repo() {
   ok(/^[0-9a-f]{64}$/.test(abdruckAusBaum(nur)), 'Baum nur aus Datenpfaden: Abdruck berechenbar (leere Menge)')
 }
 
+// 1b. Die echten Aufrufe: ECHT.baum liest den ganzen Baum (-r) im Arbeitsordner; Grenzen sind festgenagelt.
+{
+  const r = repo()
+  r.commit({ 'tools/a/b.mjs': '1', [`${DATEN}/titles.json`]: '[]' })
+  const vorher = process.cwd()
+  process.chdir(join(wegwerf, `r${nummer}`))
+  try {
+    const roh = ECHT.baum('HEAD')
+    ok(roh.includes('tools/a/b.mjs\0'), 'ECHT.baum: Dateien in Unterordnern stehen im Baum (-r, -z)')
+    gleich(abdruckAusBaum(roh), r.abdruck('HEAD'), 'ECHT.baum: gleicher Abdruck wie ls-tree im Ordner')
+  } finally {
+    process.chdir(vorher)
+  }
+  gleich([LAEUFE_HOECHSTENS, JOBS_HOECHSTENS], [50, 6], 'Grenzen: 50 Läufe gelesen, höchstens 6 Jobabfragen')
+}
+
 // 2. Wahl des Belegs (eingespritzte Antworten).
 const lauf = (id, sha) => ({ id, head_sha: sha })
 const jobs = (name, conclusion) => [{ name: 'herkunft', conclusion: 'success' }, { name, conclusion }]
@@ -146,7 +162,8 @@ const ENV = { GITHUB_REPOSITORY: 'o/r', GITHUB_RUN_ID: '99' }
   ok(!gueltigkeit({ ...ENV, GITHUB_RUN_ID: '41' }, kulisse()).gueltig, 'Lauf 41 ist der eigene: nicht gültig')
   const abfragen = []
   gueltigkeit(ENV, { ...kulisse(), api: (p) => (abfragen.push(p), kulisse().api(p)) })
-  ok(abfragen[0].includes('actions/workflows/deploy.yml/runs?branch=main'), 'Läufe: nur Deploy-Läufe auf main')
+  gleich(abfragen[0], 'repos/o/r/actions/workflows/deploy.yml/runs?branch=main&per_page=50', 'Läufe: nur Deploy-Läufe auf main, 50 neueste')
+  gleich(abfragen[1], 'repos/o/r/actions/runs/41/jobs?per_page=100', 'Jobs: des Treffer-Laufs')
 }
 
 // 4. main: Ausgabe, Datei, Exit-Code.

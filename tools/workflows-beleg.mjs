@@ -68,7 +68,7 @@ export function sucheBeleg({ laeufe, eigeneId, abdruck, abdruckVonSha, jobsVon }
 const ausfuehren = (befehl, args) => execFileSync(befehl, args, { encoding: 'utf8', windowsHide: true, maxBuffer: 1 << 28, stdio: ['ignore', 'pipe', 'pipe'], timeout: FRIST_MS })
 
 /** Die echten Aufrufe; `laufe` bekommt im Test dieselben drei Funktionen als Kulisse. */
-const ECHT = {
+export const ECHT = {
   baum: (sha) => ausfuehren('git', ['ls-tree', '-r', '-z', sha]),
   api: (pfad) => JSON.parse(ausfuehren('gh', ['api', pfad])),
 }
