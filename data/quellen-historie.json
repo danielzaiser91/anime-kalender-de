@@ -7845,11 +7845,18 @@
   ],
   "auto-129188-primevideo": [
     {
+      "url": "https://www.anime2you.de/news/1066653/prime-video-goblin-slayer-ii-und-mehr/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-02",
+      "sagt": "2026-11-01",
+      "stand": "aktuell"
+    },
+    {
       "url": "https://www.anime2you.de/news/1065256/prime-video-goblin-slayer-staffel-2-und-mehr/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-30",
       "sagt": "2026-11-01",
-      "stand": "aktuell"
+      "stand": "vermutlich-ueberholt"
     }
   ],
   "adn-663": [
@@ -8008,6 +8015,45 @@
       "name": "anime2you.de",
       "gesehenAm": "2026-11-01",
       "sagt": "2026-11-30",
+      "stand": "aktuell"
+    }
+  ],
+  "adn-1265": [
+    {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1265",
+      "name": "ADN API",
+      "gesehenAm": "2026-11-02",
+      "stand": "aktuell",
+      "gelesenAm": "2026-10-26",
+      "bestaetigt": "2025-05-05"
+    }
+  ],
+  "adn-1144": [
+    {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1144",
+      "name": "ADN API",
+      "gesehenAm": "2026-11-02",
+      "stand": "aktuell",
+      "gelesenAm": "2026-10-26",
+      "bestaetigt": "2025-05-09"
+    }
+  ],
+  "adn-1278": [
+    {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1278",
+      "name": "ADN API",
+      "gesehenAm": "2026-11-02",
+      "stand": "aktuell",
+      "gelesenAm": "2026-10-26",
+      "bestaetigt": "2025-05-05"
+    }
+  ],
+  "auto-169969-netflix": [
+    {
+      "url": "https://www.anime2you.de/news/1066144/netflix-held-ohne-klasse-und-mehr/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-02",
+      "sagt": "2026-11-01",
       "stand": "aktuell"
     }
   ]

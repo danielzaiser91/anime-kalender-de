@@ -1,8 +1,12 @@
+import { resolve } from 'node:path'
 import type { Title } from '../../shared/types.ts'
-import { readJson } from '../lib/util.ts'
+import { ROOT, readJson } from '../lib/util.ts'
 import { crFolgentitel, ladeCrArchiv, mitCrTiteln, type CrSerie } from './folgentitel-cr.ts'
+import { crFolgentitelGeteilt } from './folgentitel-cr-geteilt.ts'
 import { tmdbFolgentitel, type TmdbEintrag } from './folgentitel-tmdb.ts'
 import { mitKitsuTiteln, type KitsuEintrag } from './folgentitel-kitsu.ts'
+import { rtlplusFolgentitel, type RtlplusEintrag } from './folgentitel-rtlplus.ts'
+import { ladeHandTitel } from './folgentitel-hand.ts'
 
 interface Folge {
   nr: number
@@ -13,12 +17,14 @@ interface Folge {
   datum?: string
 }
 
-/** Die Dateien, aus denen die Stufen nach aniSearch Titel holen: deutsche Crunchyroll-Serien nach Adresse und TMDB-Folgen je Titel. */
+/** Die Dateien, aus denen die Stufen nach aniSearch Titel holen: deutsche Crunchyroll-Serien nach Adresse, TMDB-Folgen und RTL+-Titel je Titel, Handzuordnung. */
 export interface TitelQuellen {
   crSerien: Map<string, CrSerie>
   tmdbFolgen: Record<string, TmdbEintrag>
   tmdbNamen: Record<string, { nameDe?: string }>
   kitsu: Record<string, KitsuEintrag>
+  rtlplus: Record<string, RtlplusEintrag>
+  hand: Record<string, Map<number, string>>
 }
 
 export function ladeTitelQuellen(): TitelQuellen {
@@ -28,6 +34,8 @@ export function ladeTitelQuellen(): TitelQuellen {
     tmdbFolgen: readJson('data/tmdb-folgen.json', {}),
     tmdbNamen: readJson('data/tmdb-titles.json', {}),
     kitsu: readJson('data/kitsu-folgen.json', {}),
+    rtlplus: readJson<{ titel?: Record<string, RtlplusEintrag> }>('data/rtlplus-folgen.json', {}).titel ?? {},
+    hand: ladeHandTitel(resolve(ROOT, 'data/folgentitel-hand.yaml')),
   }
 }
 
@@ -36,17 +44,25 @@ export function luecke(f: Folge[] | undefined): boolean {
   return !f || f.length < 2 || f.some((x) => !x.de)
 }
 
+/** Nummer → Titel der Folgen, die schon einen Titel (deutsch, sonst englisch oder japanisch) tragen. */
+function vorhandeneTitel(f: Folge[] | undefined): Map<number, string> {
+  return new Map((f ?? []).flatMap((x) => (x.de ?? x.en ?? x.ja ? [[x.nr, (x.de ?? x.en ?? x.ja) as string] as [number, string]] : [])))
+}
+
 /**
- * Die aniSearch-Liste, wo sie Titel schuldig bleibt, zuerst mit Crunchyroll, dann mit TMDB gefüllt. Ein vorhandener Titel bleibt;
+ * Die aniSearch-Liste, wo sie Titel schuldig bleibt, nacheinander gefüllt: Crunchyroll, RTL+, TMDB, zuletzt die Handzuordnung. Ein vorhandener Titel bleibt;
  * die Archive werden nur geöffnet, wo es eine Lücke gibt.
  */
 export function mitFremdTiteln(t: Title, ausAs: Folge[] | undefined, q: TitelQuellen): Folge[] | undefined {
-  if (!luecke(ausAs)) return mitKitsuTiteln(t, ausAs, q.kitsu[String(t.id)])
+  const kitsu = q.kitsu[String(t.id)]
+  if (!luecke(ausAs)) return mitKitsuTiteln(t, ausAs, kitsu)
   const crUrl = t.streams.find((s) => s.platform === 'crunchyroll')?.url
   const crSerie = crUrl ? q.crSerien.get(crUrl) : undefined
-  const mitCr = mitCrTiteln(ausAs, crFolgentitel(t, crSerie, ladeCrArchiv(crSerie?.seriesId)))
-  if (!luecke(mitCr)) return mitKitsuTiteln(t, mitCr, q.kitsu[String(t.id)])
-  const nummern = mitCr?.length ? mitCr.map((x) => x.nr) : Array.from({ length: t.episodes ?? 0 }, (_, i) => i + 1)
-  const vorhanden = new Map((mitCr ?? []).flatMap((x) => (x.de ?? x.en ?? x.ja ? [[x.nr, (x.de ?? x.en ?? x.ja) as string] as [number, string]] : [])))
-  return mitKitsuTiteln(t, mitCrTiteln(mitCr, tmdbFolgentitel(t, q.tmdbNamen[String(t.id)]?.nameDe, q.tmdbFolgen[String(t.id)], nummern, vorhanden)), q.kitsu[String(t.id)])
+  const archiv = ladeCrArchiv(crSerie?.seriesId)
+  const mitCr = mitCrTiteln(ausAs, crFolgentitel(t, crSerie, archiv) ?? crFolgentitelGeteilt(t, crSerie, archiv, vorhandeneTitel(ausAs)))
+  const mitRtl = mitCrTiteln(mitCr, rtlplusFolgentitel(vorhandeneTitel(mitCr), q.rtlplus[String(t.id)]))
+  if (!luecke(mitRtl)) return mitKitsuTiteln(t, mitRtl, kitsu)
+  const nummern = mitRtl?.length ? mitRtl.map((x) => x.nr) : Array.from({ length: t.episodes ?? 0 }, (_, i) => i + 1)
+  const mitTmdb = mitCrTiteln(mitRtl, tmdbFolgentitel(t, q.tmdbNamen[String(t.id)]?.nameDe, q.tmdbFolgen[String(t.id)], nummern, vorhandeneTitel(mitRtl)))
+  return mitKitsuTiteln(t, mitCrTiteln(mitTmdb, q.hand[String(t.id)]), kitsu)
 }

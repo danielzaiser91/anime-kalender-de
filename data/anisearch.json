@@ -879634,5 +879634,157 @@
       ]
     },
     "fetchedAt": "2026-10-31T06:14:59.905Z"
+  },
+  "219243": {
+    "anisearchId": 22085,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Romelia Senki Dai 2 Cour",
+          "titleNative": "ロメリア戦記 第2クールが",
+          "status": "Zukünftig",
+          "released": "04.2027 - ?"
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "season": "Frühling 2027",
+      "staff": [
+        {
+          "name": "Ryou ARIYAMA",
+          "role": "Original Work"
+        }
+      ],
+      "adaptedFrom": "Light Novel",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/romelia_senki"
+        },
+        {
+          "name": "Romelia Senki",
+          "url": "https://romelia-senki.com/"
+        }
+      ],
+      "synonyms": [
+        "Romelia War Chronicle (Cour 2)"
+      ]
+    },
+    "fetchedAt": "2026-11-02T06:04:26.181Z"
+  },
+  "219265": {
+    "anisearchId": 22086,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Shibatsuki Bukken",
+          "titleNative": "シバつき物件",
+          "status": "Zukünftig",
+          "released": "07.2027 - ?"
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "season": "Sommer 2027",
+      "studios": [
+        "TMS Entertainment Co., Ltd."
+      ],
+      "staff": [
+        {
+          "name": "Esu OOMORI",
+          "role": "Original Work"
+        },
+        {
+          "name": "Osamu YAMASAKI",
+          "role": "Direction"
+        },
+        {
+          "name": "Rio",
+          "role": "Character Design"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/shiba_inu_muu"
+        },
+        {
+          "name": "Instagram",
+          "url": "https://www.instagram.com/muuchan_shiba_inu"
+        },
+        {
+          "name": "Shibatsukibukken",
+          "url": "https://shibatsukibukken.com/"
+        },
+        {
+          "name": "Shibatsukibukken",
+          "url": "https://shibatsukibukken.com/en/"
+        }
+      ],
+      "synonyms": [
+        "Shiba Inu Rooms"
+      ]
+    },
+    "fetchedAt": "2026-11-02T06:04:33.120Z"
+  },
+  "219282": {
+    "anisearchId": 22087,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Eiga Bocchi the Rock! Hoshi no Ashiato",
+          "titleNative": "映画ぼっち・ざ・ろっく！星のあしあと",
+          "status": "Zukünftig",
+          "released": "2027"
+        }
+      ],
+      "format": "Film",
+      "episodes": 1,
+      "studios": [
+        "CloverWorks Inc."
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/BTR_anime"
+        },
+        {
+          "name": "Instagram",
+          "url": "https://www.instagram.com/BTR_isosta/"
+        },
+        {
+          "name": "Youtube",
+          "url": "https://www.youtube.com/@btr_anime_official"
+        },
+        {
+          "name": "Tiktok",
+          "url": "https://www.tiktok.com/@btr_chiktok"
+        },
+        {
+          "name": "Bocchi",
+          "url": "https://bocchi.rocks/"
+        }
+      ],
+      "synonyms": [
+        "Bocchi the Rock! Prequel Movie"
+      ]
+    },
+    "fetchedAt": "2026-11-02T06:04:40.082Z"
   }
 }

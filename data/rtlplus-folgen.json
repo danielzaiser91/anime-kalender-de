@@ -1,5 +1,5 @@
 {
-  "geholtAm": "2026-10-26T05:05:41.862Z",
+  "geholtAm": "2026-11-02T05:04:18.151Z",
   "titel": {
     "16870": {
       "programm": "the-last-naruto-the-movie-p_226250",
@@ -27,6 +27,13 @@
       "programm": "beyblade-x-p_9519",
       "videos": [
         {
+          "video": "die-zukunft-jenseits-davon-c_2164413",
+          "titel": "Die Zukunft jenseits davon",
+          "ab": "2026-10-23",
+          "staffel": 3,
+          "folge": 22
+        },
+        {
           "video": "das-ziel-des-drachen-c_2142003",
           "titel": "Das Ziel des Drachen",
           "ab": "2026-10-16",
@@ -34,18 +41,18 @@
           "folge": 21
         },
         {
+          "video": "ein-prozent-hoffnung-c_2166181",
+          "titel": "Ein Prozent Hoffnung",
+          "ab": "2026-10-30",
+          "staffel": 3,
+          "folge": 23
+        },
+        {
           "video": "konflikt-im-x-c_2133559",
           "titel": "Konflikt im X",
           "ab": "2026-10-09",
           "staffel": 3,
           "folge": 20
-        },
-        {
-          "video": "die-zukunft-jenseits-davon-c_2164413",
-          "titel": "Die Zukunft jenseits davon",
-          "ab": "2026-10-23",
-          "staffel": 3,
-          "folge": 22
         },
         {
           "video": "an-den-ort-c_2130576",
@@ -1707,6 +1714,13 @@
           "staffel": 3,
           "dt": "Die Zukunft jenseits davon",
           "ab": "2026-10-23"
+        },
+        {
+          "nr": 123,
+          "st": 23,
+          "staffel": 3,
+          "dt": "Ein Prozent Hoffnung",
+          "ab": "2026-10-30"
         }
       ]
     }
