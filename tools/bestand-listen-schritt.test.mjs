@@ -18,6 +18,11 @@ assert.equal(schritte.length, 1, 'genau ein Schritt „Arbeitslisten und Prüfst
 const schritt = schritte[0]
 const SKRIPTE = ['data:vorschlaege', 'data:dub-checks', 'data:extension-liste', 'data:start-liste']
 
+// Das gemeinsame Ziel, das auch der PR-Datenbau fährt, nennt genau dieselben Skripte in derselben Reihenfolge wie die Schleife des Bestandsbaus.
+const pkg = JSON.parse(readFileSync(join(tools, '../package.json'), 'utf8'))
+assert.equal(pkg.scripts['data:arbeitslisten'], SKRIPTE.map((s) => `npm run ${s}`).join(' && '), 'data:arbeitslisten = die vier Skripte der Schleife')
+for (const s of SKRIPTE) assert.ok(schritt.run.includes(s), `${s} steht in der Schleife des Bestandsbaus`)
+
 const ordner = mkdtempSync(join(tmpdir(), 'listen-schritt-'))
 
 /** `scheitert`: Name des npm-Skripts, das mit Exit 1 endet (oder ''); `vorher`: bereits gesetzte DATEN_WARNUNG. */

@@ -61,7 +61,7 @@ export function katalogBelegBestandFehler(eintraege: KatalogBelegEintrag[], rele
     const at = `Katalog-Release von Hand ${e.slug}`
     const r = nachKennung.get(e.slug)
     if (!r) fehler.push(`${at}: kein Release dieser Kennung in releases.json`)
-    else if (e.art !== 'beobachtet' && !r.sources.includes(e.url)) fehler.push(`${at}: Quelle fehlt in den sources des Releases (${e.url})`)
+    else if (e.art !== 'beobachtet' && !r.sources.includes(e.url)) fehler.push(`${at}: Quelle fehlt in den sources des Releases (${e.url}); der Artikel kann aus dem Abruf gefallen sein, dann ist ein kuratierter Termin (data/curated) der Weg`)
   }
   return fehler
 }

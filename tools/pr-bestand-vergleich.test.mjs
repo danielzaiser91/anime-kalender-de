@@ -113,11 +113,19 @@ mkdirSync('aus', { recursive: true })
 writeFileSync('aus/rot.txt', existsSync('bau-rot.txt') ? readFileSync('bau-rot.txt', 'utf8') : '')
 `,
 )
+// Arbeitslisten nach dem Bau: hinterlassen die Spur `listen`.
+schreibe(
+  'listen.mjs',
+  `import { appendFileSync } from 'node:fs'
+appendFileSync(${SPUR_JS}, 'listen\\n')
+`,
+)
 /** package.json der Kulisse mit den gegebenen Rest-Skripten (der PR-Commit kann eines mehr haben als die Basis). */
 function paket(rest) {
   const scripts = {
     'check:bestand': `${rest.map((r) => `npm run check:${r}`).join(' && ')} && npm run check:bestand-liste`,
     'data:build': 'node bau.mjs',
+    'data:arbeitslisten': 'node listen.mjs',
   }
   for (const r of rest) scripts[`check:${r}`] = `node rest.mjs check:${r}`
   return JSON.stringify({ name: 'k', private: true, type: 'module', scripts })
@@ -172,6 +180,7 @@ function fall({ bauRot = [], kaputt = false, cacheRot = [], prListe = LISTE, prR
       .map((z) => z.slice(6))
       .sort(),
     gebaut: zeilen.includes('bau'),
+    listen: zeilen.includes('listen'),
   }
 }
 
@@ -182,6 +191,7 @@ try {
   assert.equal(e.status, 0, e.aus)
   assert.deepEqual(e.pr, ALLE_PR)
   assert.equal(e.gebaut, false, 'ohne Rot kein Basisbau')
+  assert.equal(e.listen, false, 'ohne Rot auch keine Basis-Listen')
 
   // Geerbt (auf der Basis rot) und neu (auf der Basis grün) zugleich: rot, und nur die neue (mitten in der Liste) steht im Fehler.
   e = fall({
@@ -211,6 +221,7 @@ try {
   assert.equal(e.status, 0, e.aus)
   assert.deepEqual(e.pr, ALLE_PR)
   assert.deepEqual(e.basis, ['check:r2', 'pruef/b.mjs'])
+  assert.equal(e.listen, true, 'der Basisbau fährt die Arbeitslisten wie der PR-Bau')
   assert.match(e.aus, /::warning::pruef\/b\.mjs ist schon auf der Basis/)
   assert.doesNotMatch(e.aus, /::error::/)
 

@@ -164,6 +164,10 @@ jobs:
           exit 1
       - name: Datensatz bauen (ohne Commit)
         run: npm run data:build
+      # Wie bestand-bauen.yml („Arbeitslisten und Prüfstand neu erzeugen“): `check:bestand` liest die Listen der Erweiterung, die erst nach dem Bau entstehen
+      # (01.11.2026: ein neuer Prime-Eintrag „Sprache offen“ war ohne `data:extension-liste` „weder belegt noch auf der Prüfliste“).
+      - name: Arbeitslisten und Prüfstand neu erzeugen
+        run: npm run data:arbeitslisten
       # Gemessenes Ja ⇒ mindestens ein Weg, am frisch gebauten Datensatz (18.10.2026: Hazbin Hotel und fünf weitere Cartoons).
       - name: Gemessenes Ja hat einen Weg
         run: npx tsx pipeline/check-ja-hat-weg-bestand.ts
