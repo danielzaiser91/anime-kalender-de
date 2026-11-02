@@ -8,7 +8,8 @@ import { expandEvents } from '../shared/logic.ts'
 import { addDays } from '../shared/time.ts'
 import { deFolgenZahlText } from '../web/src/components/detail/antwort-regeln.ts'
 import { hebeAnnahmeAuf } from './lib/folgenzahl-belegt.ts'
-import { sichtungAlsGesamtzahl } from './lib/invarianten.ts'
+import { pruefeInvarianten, sichtungAlsGesamtzahl } from './lib/invarianten.ts'
+import { terminKopf } from './lib/og-termin.ts'
 import { rtlplusWochentermine } from './lib/rtlplus-folgen.ts'
 import { releasesAusTvProgramm } from './lib/tv-termine.ts'
 
@@ -56,6 +57,13 @@ const ohneFlagTv: Release = { ...tv, schedule: { ...tv.schedule, episodeCountNur
 pruefe('DD-24: TV-Sichtung mit Annahme, aber ohne Vermerk wird gemeldet', sichtungAlsGesamtzahl([ohneFlagTv], []).length === 1)
 pruefe('DD-24: ein Termin eines gesichteten Releases mit Gesamtzahl wird gemeldet', sichtungAlsGesamtzahl([rtl], [{ ...rtlEvents[0]!, episodeCount: 123 }]).length === 1)
 pruefe('DD-24: ein fremder Release (Crunchyroll) mit Annahme und Termin-Gesamtzahl bleibt unberührt', sichtungAlsGesamtzahl([{ ...rtl, slug: 'cr-x', schedule: { ...rtl.schedule, episodeCountNurGesichtet: undefined } }], [{ ...rtlEvents[0]!, releaseSlug: 'cr-x', episodeCount: 12 }]).length === 0)
+
+/* Verdrahtung: der Bau-Aufruf der Invarianten meldet den Fall, und das Vorschaubild nennt keinen Nenner. */
+const bauFehler = pruefeInvarianten([ohneFlagRtl], [], new Map([[165159, beyblade]])).fehler
+pruefe('DD-24 im Bau (pruefeInvarianten): der Fall ohne Vermerk steht unter den Fehlern', bauFehler.some((f) => f.includes('episodeCountNurGesichtet')), bauFehler)
+const kopf = terminKopf(rtl, rtlEvents, '2026-10-20')
+pruefe('Vorschaubild (terminKopf) nennt „Folge 122“ ohne „von“', kopf?.folge === 'Folge 122' && !kopf.folge.includes('von'), kopf)
+pruefe('Gegenprobe Vorschaubild: ohne den Vermerk steht „von ≈22“', terminKopf(belegt, expandEvents(belegt), '2026-10-20')?.folge === 'Folge 122 von ≈22', terminKopf(belegt, expandEvents(belegt), '2026-10-20'))
 
 /* Belegt ein anderer Release die Gesamtzahl, entfällt mit der Annahme auch der Vermerk. */
 const belegterRelease = { slug: 'belegt', titleId: 165159, platform: 'crunchyroll', releaseType: 'weekly', schedule: { firstEpisodeDate: '2026-01-01', episodeCount: 22, observed: Object.fromEntries(Array.from({ length: 22 }, (_, i) => [i + 1, addDays('2026-01-01', 7 * i)])) } } as unknown as Release
