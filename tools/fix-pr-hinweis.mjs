@@ -1,16 +1,11 @@
 /**
- * Unter einer ALARM-Zeile „Bestandsbau rot“ stehen die offenen Fix-PRs des Fixers, die nach dem ersten roten Lauf entstanden.
+ * Bei rotem Bestandsbau stehen die offenen Fix-PRs des Fixers (dieselbe Menge wie in der Sperre, `fix-pr-sperre.mjs`) unter der ALARM-Zeile, ohne Alarm unter einer Kopfzeile.
  * Anlass 02.11.2026: PR 2662 (Zweig `fix/…`, Autor `app/claude`, 05:38 UTC) lag 11 h ungesehen, die Wache zeigte nur die Alarmzeile.
  */
 import { BESTAND_WORKFLOW, holeLaeufeJson, roteSeitGruen } from './bestand-rot-alarm.mjs'
+import { SPERR_STUNDEN, sperrendeFixPrs } from './fix-pr-sperre.mjs'
 
-export const FIXER_AUTOR = 'app/claude'
-export const FIX_ZWEIG_PRAEFIX = 'fix/'
-
-/** Offene PRs des Fixers, die nach `ersterRotMs` angelegt wurden. */
-export function fixPrKandidaten(prs, ersterRotMs) {
-  return prs.filter((p) => p.author?.login === FIXER_AUTOR && p.headRefName.startsWith(FIX_ZWEIG_PRAEFIX) && Date.parse(p.createdAt) > ersterRotMs)
-}
+export const KEIN_FIX_PR = `  Kein sperrender Fix-PR (offen, jünger als ${SPERR_STUNDEN} h).`
 
 /** „3 grün, 1 rot, 2 offen“ aus `statusCheckRollup` (CheckRun: status/conclusion, StatusContext: state). */
 export function pruefZustand(rollup) {
@@ -39,17 +34,19 @@ export function fixPrZeilen(gh, repo, jetztMs) {
   try {
     const rote = roteSeitGruen(holeLaeufeJson(gh, repo, BESTAND_WORKFLOW))
     if (rote.length === 0) return []
-    const ersterRot = Date.parse(rote.at(-1).createdAt)
     const prs = JSON.parse(gh('pr', 'list', '--repo', repo, '--state', 'open', '--limit', '50', '--json', 'number,headRefName,createdAt,author,isDraft,statusCheckRollup'))
-    const treffer = fixPrKandidaten(prs, ersterRot)
-    if (treffer.length === 0) return ['  Kein offener Fix-PR seit dem ersten roten Lauf.']
+    const treffer = sperrendeFixPrs(prs, jetztMs)
+    if (treffer.length === 0) return [KEIN_FIX_PR]
     return treffer.map((p) => fixPrZeile(p, jetztMs))
   } catch (fehler) {
     return [`  ALARM? Fix-PRs nicht lesbar: ${String(fehler.message).split('\n')[0]}`]
   }
 }
 
-/** Die ALARM-Zeilen; direkt unter der Bestandsbau-Alarmzeile die Fix-PRs (einmal, auch bei zwei Bestandsbau-Zeilen). */
+/**
+ * Die ALARM-Zeilen; direkt unter der Bestandsbau-Alarmzeile die Fix-PRs (einmal, auch bei zwei Bestandsbau-Zeilen).
+ * Ohne Alarm, aber bei rotem Bestandsbau, stehen sie unter einer Kopfzeile (nur wenn es welche gibt).
+ */
 export function alarmZeilenMitFixPrs(rotZeilen, gh, repo, jetztMs) {
   const ausgabe = []
   let geholt = false
@@ -60,6 +57,10 @@ export function alarmZeilenMitFixPrs(rotZeilen, gh, repo, jetztMs) {
       geholt = true
       ausgabe.push(...fixPrZeilen(gh, repo, jetztMs))
     }
+  }
+  if (!geholt) {
+    const zeilen = fixPrZeilen(gh, repo, jetztMs).filter((z) => z !== KEIN_FIX_PR)
+    if (zeilen.length > 0) ausgabe.push('Bestandsbau rot, noch unter der Alarmschwelle:', ...zeilen)
   }
   return ausgabe
 }

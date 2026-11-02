@@ -58,6 +58,14 @@ jobs:
       LAUF_ZWECK: "Untersucht einen rot gelaufenen Datenlauf von anime-kalender.de"
       LAUF_ZIEL: "Ursache benennen und, wenn möglich, als Pull Request beheben"
     steps:
+      # Nur die Sperr-Auswahl für „Gibt es den Fehler noch?“ (dieselbe Funktion wie in der Wache-Zeile).
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          path: _sperre
+          sparse-checkout: tools/fix-pr-sperre.mjs
+          sparse-checkout-cone-mode: false
+
       # **Erst fragen, ob es den Fehler noch gibt.**
       #
       # Am 10.09.2026 lief diese Untersuchung zehn Minuten lang gegen einen
@@ -88,12 +96,12 @@ jobs:
             echo "weiter=nein" >> "$GITHUB_OUTPUT"
             exit 0
           fi
-          # Wartet ein Fix des Fixers auf Prüfung, baut keiner einen zweiten (02.11.2026: 2662 lag 11 h, dann kam das Doppel 2668).
+          # Wartet ein frischer Fix (fix/, wache/; jünger als 6 h) auf Prüfung, baut keiner einen zweiten (02.11.2026: 2662 lag 11 h, dann kam das Doppel 2668).
           fix_pr=$(gh pr list \
             --repo "${{ github.repository }}" \
             --state open --author "app/claude" --limit 50 \
-            --json number,headRefName \
-            --jq '[.[] | select(.headRefName | startswith("fix/")) | .number] | join(",")')
+            --json number,headRefName,createdAt,author \
+            | node _sperre/tools/fix-pr-sperre.mjs)
           if [ -n "$fix_pr" ]; then
             echo "Offener Fix-PR (#${fix_pr}) wartet auf Prüfung — kein zweiter Fix."
             echo "weiter=nein" >> "$GITHUB_OUTPUT"
