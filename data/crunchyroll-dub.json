@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-11-02T16:02:38.948Z",
+  "scrapedAt": "2026-11-02T17:02:34.756Z",
   "serien": [
     {
       "url": "http://www.crunchyroll.com/de/a-place-further-than-the-universe",
@@ -181260,6 +181260,269 @@
       "quelle": "api",
       "geprueftAm": "2026-11-02",
       "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/G24H1N334",
+      "seriesId": "G24H1N334",
+      "quelle": "api",
+      "katalog": "de",
+      "geprueftAm": "2026-11-02",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Staffel 1",
+          "staffelId": "GRMGC3508",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "G14U4MNN4",
+              "laufend": 1,
+              "verfuegbarAb": "2023-02-25T04:00:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "GMKUXVKKN",
+              "laufend": 2,
+              "verfuegbarAb": "2023-02-25T04:00:00Z"
+            },
+            {
+              "nummer": 3,
+              "guid": "GVWU09KKD",
+              "laufend": 3,
+              "verfuegbarAb": "2023-02-25T05:30:00Z"
+            },
+            {
+              "nummer": 4,
+              "guid": "G31UX9GGP",
+              "laufend": 4,
+              "verfuegbarAb": "2023-02-25T05:30:00Z"
+            },
+            {
+              "nummer": 5,
+              "guid": "GPWUKGPP0",
+              "laufend": 5,
+              "verfuegbarAb": "2023-02-25T05:30:00Z"
+            },
+            {
+              "nummer": 6,
+              "guid": "G2XU0QEE3",
+              "laufend": 6,
+              "verfuegbarAb": "2023-02-25T05:30:00Z"
+            },
+            {
+              "nummer": 7,
+              "guid": "G8WUNMZZE",
+              "laufend": 7,
+              "verfuegbarAb": "2023-02-25T05:30:00Z"
+            },
+            {
+              "nummer": 8,
+              "guid": "GD9UVX55J",
+              "laufend": 8,
+              "verfuegbarAb": "2023-02-25T05:30:00Z"
+            },
+            {
+              "nummer": 9,
+              "guid": "G50UZ5QQQ",
+              "laufend": 9,
+              "verfuegbarAb": "2023-02-25T05:30:00Z"
+            },
+            {
+              "nummer": 10,
+              "guid": "G0DUN877D",
+              "laufend": 10,
+              "verfuegbarAb": "2023-02-25T05:30:00Z"
+            },
+            {
+              "nummer": 11,
+              "guid": "G9DUE383Z",
+              "laufend": 11,
+              "verfuegbarAb": "2023-02-25T05:30:00Z"
+            },
+            {
+              "nummer": 12,
+              "guid": "G4VUQ2N27",
+              "laufend": 12,
+              "verfuegbarAb": "2023-02-25T05:30:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Staffel 2",
+          "staffelId": "GS00385708JAJP",
+          "folgen": 4,
+          "kacheln": 4,
+          "deutsch": 1,
+          "fremd": 1,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "GE00389819DEDE",
+              "laufend": 1,
+              "verfuegbarAb": "2026-10-28T13:30:00Z"
+            }
+          ]
+        }
+      ],
+      "neuFolgen": [
+        "GE00389819DEDE"
+      ]
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GDKHZEP21",
+      "seriesId": "GDKHZEP21",
+      "quelle": "api",
+      "katalog": "de",
+      "geprueftAm": "2026-11-02",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Season 1",
+          "staffelId": "GYP8CX121",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "G0DUN805P",
+              "laufend": 1,
+              "verfuegbarAb": "2023-01-06T07:59:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "G7PU4909Q",
+              "laufend": 2,
+              "verfuegbarAb": "2023-01-13T07:59:00Z"
+            },
+            {
+              "nummer": 3,
+              "guid": "GJWU2VG1X",
+              "laufend": 3,
+              "verfuegbarAb": "2023-01-20T07:59:00Z"
+            },
+            {
+              "nummer": 4,
+              "guid": "GMKUXV2DE",
+              "laufend": 4,
+              "verfuegbarAb": "2023-01-27T07:59:00Z"
+            },
+            {
+              "nummer": 5,
+              "guid": "GMKUXVKZK",
+              "laufend": 5,
+              "verfuegbarAb": "2023-02-03T07:59:00Z"
+            },
+            {
+              "nummer": 6,
+              "guid": "G7PU499ZG",
+              "laufend": 6,
+              "verfuegbarAb": "2023-02-10T07:59:00Z"
+            },
+            {
+              "nummer": 7,
+              "guid": "G0DUN8JQ5",
+              "laufend": 7,
+              "verfuegbarAb": "2023-02-17T07:59:00Z"
+            },
+            {
+              "nummer": 8,
+              "guid": "GJWU2V9X9",
+              "laufend": 8,
+              "verfuegbarAb": "2023-02-24T07:59:00Z"
+            },
+            {
+              "nummer": 9,
+              "guid": "GZ7UV4GMQ",
+              "laufend": 9,
+              "verfuegbarAb": "2023-03-03T07:59:00Z"
+            },
+            {
+              "nummer": 10,
+              "guid": "G8WUN039W",
+              "laufend": 10,
+              "verfuegbarAb": "2023-03-10T07:59:00Z"
+            },
+            {
+              "nummer": 11,
+              "guid": "GK9U3D2X7",
+              "laufend": 11,
+              "verfuegbarAb": "2023-03-17T06:59:00Z"
+            },
+            {
+              "nummer": 12,
+              "guid": "G14U4G458",
+              "laufend": 12,
+              "verfuegbarAb": "2023-03-24T06:59:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Staffel 2",
+          "staffelId": "GS00384045JAJP",
+          "folgen": 4,
+          "kacheln": 4,
+          "deutsch": 1,
+          "fremd": 1,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "GE00384351DEDE",
+              "laufend": 1,
+              "verfuegbarAb": "2026-10-29T17:00:00Z"
+            }
+          ]
+        }
+      ],
+      "neuFolgen": [
+        "GE00384351DEDE"
+      ]
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GT00371866",
+      "seriesId": "GT00371866",
+      "quelle": "api",
+      "katalog": "de",
+      "geprueftAm": "2026-11-02",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Staffel 1",
+          "staffelId": "GS00371867JAJP",
+          "folgen": 4,
+          "kacheln": 4,
+          "deutsch": 2,
+          "fremd": 1,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "GE00384252DEDE",
+              "laufend": 1,
+              "verfuegbarAb": "2026-10-26T14:30:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "GE00384253DEDE",
+              "laufend": 2,
+              "verfuegbarAb": "2026-11-02T15:30:00Z"
+            }
+          ]
+        }
+      ],
+      "neuFolgen": [
+        "GE00384253DEDE",
+        "GE00384252DEDE"
+      ]
     }
   ]
 }
