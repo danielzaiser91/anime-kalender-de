@@ -25,6 +25,7 @@ const alleDateien = (ordner) =>
 try {
   mkdirSync(repo, { recursive: true })
   for (const datei of ['einrichten.mjs', 'savvy-haken.mjs']) copyFileSync(join(echt, datei), join(repo, datei))
+  schreibe(join(repo, 'skills-ausschluss.json'), JSON.stringify({ privat: 'Test', fehltamziel: 'Test' }))
   schreibe(join(repo, 'agents', 'bauer.md'), 'bauer neu\n')
   schreibe(join(repo, 'agents', 'archiv', 'alt.md'), 'archiv\n')
   schreibe(join(repo, 'rules', '10-regel.md'), 'regel repo\n')
@@ -73,8 +74,27 @@ try {
   assert.equal(fahre('--einsammeln').status, 0)
   assert.equal(lies(join(repo, 'hooks', 'h.js')), 'hook ziel\n', 'fehlende Zieldatei löscht nichts im Repo')
   assert.equal(fahre('--einsammeln').stdout.includes('geholt'), false, 'zweiter Lauf: nichts mehr zu holen')
+  // --neue-skills: neue Skills samt Unterordner kommen ins Repo; ausgeschlossene, .bak und Punkt-Ordner nie.
+  schreibe(join(ziel, 'skills', 'fremd', 'refs', 'a.md'), 'unter\n')
+  schreibe(join(ziel, 'skills', 'fremd', 'SKILL.md.bak-x'), 'sicherung\n')
+  schreibe(join(ziel, 'skills', 'privat', 'SKILL.md'), 'privat\n')
+  schreibe(join(ziel, 'skills', '.trash', 'alt', 'SKILL.md'), 'papierkorb\n')
+  schreibe(join(ziel, 'skills', 'meins', 'extra.md'), 'extra\n')
+  assert.equal(fahre('--einsammeln').status, 0)
+  assert.equal(existsSync(join(repo, 'skills', 'fremd')), false, 'ohne --neue-skills kein neuer Skill')
+  assert.equal(existsSync(join(repo, 'skills', 'meins', 'extra.md')), false, 'ohne --neue-skills keine neue Datei')
+  const neu = fahre('--einsammeln', '--neue-skills')
+  assert.equal(neu.status, 0, neu.stderr)
+  assert.equal(lies(join(repo, 'skills', 'fremd', 'SKILL.md')), 'fremder Skill\n', 'neuer Skill eingesammelt')
+  assert.equal(lies(join(repo, 'skills', 'fremd', 'refs', 'a.md')), 'unter\n', 'Unterordner eingesammelt')
+  assert.equal(lies(join(repo, 'skills', 'meins', 'extra.md')), 'extra\n', 'neue Datei eines verwalteten Skills')
+  assert.equal(existsSync(join(repo, 'skills', 'fremd', 'SKILL.md.bak-x')), false, '.bak nie')
+  assert.equal(existsSync(join(repo, 'skills', 'privat')), false, 'ausgeschlossener Skill nie')
+  assert.equal(existsSync(join(repo, 'skills', '.trash')), false, 'Punkt-Ordner nie')
+  assert.equal(fahre('--pruefen').stdout.includes('privat'), false, '--pruefen nennt ausgeschlossene Skills nicht')
+  assert.equal(fahre('--einsammeln', '--neue-skills').stdout.includes('geholt'), false, 'zweiter Lauf: nichts mehr zu holen')
 } finally {
   rmSync(wurzel, { recursive: true, force: true })
 }
 
-console.log('claude-global-einsammeln.test: ok (agents/ ohne archiv, .bak, --pruefen, --einsammeln je Gruppe, keine neuen Dateien, nichts gelöscht)')
+console.log('claude-global-einsammeln.test: ok (agents/ ohne archiv, .bak, --pruefen, --einsammeln je Gruppe, keine neuen Dateien, nichts gelöscht, --neue-skills mit Ausschluss)')
