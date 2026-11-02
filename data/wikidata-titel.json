@@ -1,5 +1,5 @@
 {
-  "geholtAm": "2026-10-26T05:02:37.509Z",
+  "geholtAm": "2026-11-02T05:02:50.056Z",
   "titel": {
     "65": {
       "malId": 65,
@@ -68,6 +68,10 @@
       "malId": 37514,
       "label": "Made in Abyss: Tabidachi no Yoake",
       "verworfen": "gleich dem vorhandenen Namen"
+    },
+    "103713": {
+      "malId": 40024,
+      "label": "Pretty Guardian Sailor Moon Eternal: Der Film"
     },
     "111852": {
       "malId": 40416,

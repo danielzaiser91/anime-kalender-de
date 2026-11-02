@@ -128,6 +128,44 @@ console.log('\nBau (baueReleases gegen Wegwerf-Ordner):')
     pruefe('Bau: Titel ohne Ausgabe → Namenssuche', amazonLinkArt(url('ohne-titel-ausgabe')) === 'name', url('ohne-titel-ausgabe'))
     pruefe('Bau: anderer Tag → Namenssuche', amazonLinkArt(url('anderer-tag')) === 'name', url('anderer-tag'))
     pruefe('Bau: alle vier Releases entstanden', releases.length === 4, releases.length)
+
+    // Disc-Termine aus den News (`automatisch`) laufen nicht durch `discKaufUrl`; der echte Bauschritt 11-1 setzt EAN- oder Namenssuche (`kaufwegFuerDiscs`).
+    const { ergaenzeDiscUndZugang } = await import('./bau/11-1-disc-und-zugang.ts')
+    const news = (slug: string, titleId: number, tag: string, extra: object = {}) => ({ slug, titleId, name: slug, platform: 'disc', releaseType: 'disc', automatisch: true, schedule: { firstEpisodeDate: tag }, year: 2026, sources: [], ...extra })
+    const nr = [
+      news('n-ean', 900301, TAG),
+      news('n-verkn', 900301, TAG, { sources: ['https://www.anime2you.de/x/detektiv-conan-box-1-termin/'] }),
+      news('n-tag', 900301, '2026-12-19'),
+      news('n-titel', 900399, TAG),
+      news('n-hand', 900301, TAG, { buyUrl: dp }),
+      news('n-kein-news', 900301, TAG, { automatisch: undefined }),
+      news('n-stream', 900301, TAG, { releaseType: 'weekly' }),
+    ]
+    nr.push(news('n-ohne-datum', 900301, TAG, { schedule: {} }))
+    const zeilen: string[] = []
+    const logAlt = console.log
+    console.log = (...a: unknown[]) => void zeilen.push(a.join(' '))
+    try {
+      ergaenzeDiscUndZugang({ titles: new Map(), anisearch: {}, releases: nr as never, zugangJeAdresse: new Map() })
+    } finally {
+      console.log = logAlt
+    }
+    const gezaehlt = zeilen.find((z) => z.includes('ohne Kaufweg bekamen'))
+    pruefe('Bau-Log zählt die gesetzten Kaufwege (EAN-Disc, Verknüpfte, anderer Tag, Titel ohne Ausgabe, ohne News-Herkunft = 5)', /\] 5 Disc-Termin\(e\) ohne Kaufweg bekamen/.test(gezaehlt ?? ''), gezaehlt)
+    const nurl = (slug: string) => (nr.find((r) => r.slug === slug) as { buyUrl?: string }).buyUrl
+    pruefe('News-Disc mit eindeutiger EAN → EAN-Suche (Bauschritt 11-1)', nurl('n-ean') === 'https://www.amazon.de/s?k=7630017545978', nurl('n-ean'))
+    const verkn = nr.find((r) => r.slug === 'n-verkn') as { edition?: string; platformUrl?: string }
+    pruefe('News-Disc mit Nummer im Hinweis: Verknüpfung (edition, platformUrl) UND EAN-Suche (Reihenfolge in 11-1)', !!verkn.edition && verkn.platformUrl === 'https://www.anisearch.de/article/216718,x' && nurl('n-verkn') === 'https://www.amazon.de/s?k=7630017545978', [verkn, nurl('n-verkn')])
+    const namen = (n: string) => `https://www.amazon.de/s?k=${encodeURIComponent(`${n} Anime Blu-ray`)}`
+    pruefe('News-Disc, anderer Tag → Namenssuche', nurl('n-tag') === namen('n-tag'), nurl('n-tag'))
+    pruefe('News-Disc, Titel ohne Ausgabe → Namenssuche', nurl('n-titel') === namen('n-titel'), nurl('n-titel'))
+    pruefe('News-Disc mit Handlink bleibt', nurl('n-hand') === dp, nurl('n-hand'))
+    pruefe('Disc ohne News-Herkunft: gleicher Weg (EAN-Suche)', nurl('n-kein-news') === 'https://www.amazon.de/s?k=7630017545978', nurl('n-kein-news'))
+    pruefe('kein Disc-Termin bleibt unberührt', nurl('n-stream') === undefined, nurl('n-stream'))
+    pruefe('News-Disc ohne Termin-Datum bleibt ohne Kaufweg', nurl('n-ohne-datum') === undefined, nurl('n-ohne-datum'))
+    const { kaufwegFuerDiscs } = await import('./lib/disc-ean.ts')
+    const direkt = [news('d-1', 900301, TAG), news('d-2', 900399, TAG), news('d-hand', 900301, TAG, { buyUrl: dp }), news('d-stream', 900301, TAG, { releaseType: 'weekly' }), news('d-ohne', 900301, TAG, { schedule: {} })]
+    pruefe('kaufwegFuerDiscs zählt nur gesetzte Kaufwege (2 von 5)', kaufwegFuerDiscs(direkt as never, conan) === 2)
   } finally {
     rmSync(wurzel, { recursive: true, force: true })
   }

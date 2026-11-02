@@ -1,6 +1,6 @@
 # Netflix: was kein Automat beantworten kann
 
-Stand 2026-10-26 · **5 Titel**.
+Stand 2026-11-02 · **4 Titel**.
 
 Netflix gibt seine Tonspuren nur an einen laufenden Player heraus — fünfmal gemessen,
 fünfmal bestätigt. Es gibt keinen Abruf, der das hier abnehmen könnte.
@@ -24,7 +24,6 @@ Erzeugt von `npm run data:netflix-rest`, nicht von Hand pflegen.
 | # | Titel | Folgen | Jahr | Verweis |
 |---|---|---:|---:|---|
 | 1 | Titipo Titipo 2 | 26 | 2019 | [öffnen](https://www.netflix.com/title/81099976) |
-| 2 | My Hero Academia: Vigilantes | 13 | 2025 | [öffnen](https://www.netflix.com/title/82036361) |
-| 3 | My Hero Academia: Vigilantes Staffel 2 | 13 | 2026 | [öffnen](https://www.netflix.com/title/82036361) |
-| 4 | Devil May Cry | 8 | 2025 | [öffnen](https://www.netflix.com/title/81506915) |
-| 5 | Fool Night | — | 2026 | [öffnen](https://www.netflix.com/title/81991076) |
+| 2 | My Hero Academia: Vigilantes Staffel 2 | 13 | 2026 | [öffnen](https://www.netflix.com/title/82036361) |
+| 3 | Devil May Cry | 8 | 2025 | [öffnen](https://www.netflix.com/title/81506915) |
+| 4 | Fool Night | — | 2026 | [öffnen](https://www.netflix.com/title/81991076) |

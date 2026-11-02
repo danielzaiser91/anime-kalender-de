@@ -6,15 +6,21 @@ const MAX_ZEICHEN = 400
 const ICON = /^- (?:🔴|🟠|🔵|📅|⏳|🚫)/u
 const STUNDE = 3600000
 const MAX_ALTER = 24 * STUNDE
+const AKTUALISIERT = /^Aktualisiert: (\d{4})-(\d\d)-(\d\d) (\d\d):(\d\d)/
 const STAND = /Stand (\d\d)\.(\d\d)\.(\d{4}) (\d\d):(\d\d)/
 
-/** Berliner Wandzeit als Epoche (ms): UTC-Schätzung minus Berliner Versatz (ganze Stunden östlich von UTC). */
+/** Berliner Versatz zu UTC in ms (ganze Stunden östlich) zum Zeitpunkt `ms`. */
+function versatz(ms) {
+  const teil = new Intl.DateTimeFormat('en-US', { timeZone: 'Europe/Berlin', timeZoneName: 'longOffset' })
+    .formatToParts(new Date(ms))
+    .find((p) => p.type === 'timeZoneName').value
+  return Number(/GMT\+(\d\d)/.exec(teil)[1]) * STUNDE
+}
+
+/** Berliner Wandzeit als Epoche (ms). Versatz zweimal lesen: am Umstellungstag gilt der Versatz der Wandzeit, nicht der der UTC-Schätzung. */
 function berlinEpoche(j, m, t, h, min) {
   const schaetzung = Date.UTC(j, m - 1, t, h, min)
-  const teil = new Intl.DateTimeFormat('en-US', { timeZone: 'Europe/Berlin', timeZoneName: 'longOffset' })
-    .formatToParts(new Date(schaetzung))
-    .find((p) => p.type === 'timeZoneName').value
-  return schaetzung - Number(/GMT\+(\d\d)/.exec(teil)[1]) * STUNDE
+  return schaetzung - versatz(schaetzung - versatz(schaetzung))
 }
 
 /** Fett-Titel der Zeile, sonst ihre ersten 50 Zeichen. */
@@ -100,10 +106,17 @@ function jetztZeilen(zeilen) {
   return meldungen
 }
 
+/** Meldung, wenn „Aktualisiert: JJJJ-MM-TT HH:MM“ mehr als 5 min in der Zukunft liegt (geschätzte statt mit `date` gelesene Uhrzeit). */
+function zukunft(zeilen, jetzt) {
+  const a = zeilen.map((z) => AKTUALISIERT.exec(z)).find(Boolean)
+  if (!a || berlinEpoche(Number(a[1]), Number(a[2]), Number(a[3]), Number(a[4]), Number(a[5])) - jetzt <= 5 * 60000) return []
+  return [`Aktualisiert ${a[4]}:${a[5]} liegt in der Zukunft — Uhrzeit mit date lesen`]
+}
+
 /** Meldungstext oder '' (alles in Ordnung). */
 function waechter(text, jetzt) {
   const zeilen = text.split(/\r?\n/)
-  const meldungen = [...topPrios(zeilen, jetzt), ...jetztZeilen(zeilen), ...naechstes(zeilen)]
+  const meldungen = [...topPrios(zeilen, jetzt), ...jetztZeilen(zeilen), ...naechstes(zeilen), ...zukunft(zeilen, jetzt)]
   const kopf = zeilen.findIndex((z) => z.startsWith('## In Arbeit'))
   if (kopf < 0) return meldungen.join('; ')
   let ende = zeilen.findIndex((z, i) => i > kopf && z.startsWith('## '))

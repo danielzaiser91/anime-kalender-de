@@ -74,7 +74,7 @@ pruefe('mit Folgenzahl 5 gibt nichts, auch bei 5 Folgen', ohneZahl(staffel(1, 5,
 pruefe('mit Folgenzahl 10 gilt die eine passende Staffel', ohneZahl(drei, bis(10), serie({ episodes: 10 }))?.get(3) === 'S1E3')
 
 console.log('\nTMDB-Folgentitel ohne Folgenzahl: im Bau (mitFremdTiteln)')
-const quellen = (folgen: TmdbFolge[]): TitelQuellen => ({ crSerien: new Map(), tmdbFolgen: { 900001: { folgen } }, tmdbNamen: { 900001: { nameDe: 'Beispiel Langläufer' } }, kitsu: {} })
+const quellen = (folgen: TmdbFolge[]): TitelQuellen => ({ crSerien: new Map(), tmdbFolgen: { 900001: { folgen } }, tmdbNamen: { 900001: { nameDe: 'Beispiel Langläufer' } }, kitsu: {}, rtlplus: {}, hand: {} })
 const leereListe = bis(30).map((nr) => ({ nr }))
 const imBau = mitFremdTiteln(serie(), leereListe, quellen(drei))
 pruefe('aniSearch-Liste ohne Titel wird über die absolute Nummer gefüllt', imBau?.length === 30 && imBau[10].de === 'S2E1' && imBau[29].de === 'S3E12', imBau?.[10])

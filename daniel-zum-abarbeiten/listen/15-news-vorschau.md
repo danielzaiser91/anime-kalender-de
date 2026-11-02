@@ -1,10 +1,10 @@
 # Angekündigt, aber noch nicht im Datensatz
 
-Stand: 2026-11-01. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
+Stand: 2026-11-02. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
 
 ## Kuratierung: was noch fehlt
 
-46 Meldungen mit künftigem Termin sind noch nicht eingearbeitet.
+47 Meldungen mit künftigem Termin sind noch nicht eingearbeitet.
 
 | Termin | Plattform | Synchro | Meldung |
 |---|---|---|---|
@@ -23,11 +23,12 @@ Stand: 2026-11-01. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | 2026-11-26, 2026-11 (Monat) | netflix | ⚠️ offen | [Netflix-Termin des Thriller-Anime »Fool Night« + Teaser](https://www.anime2you.de/news/1043399/fool-night-netflix-termin/) |
 | 2026-11-03, 2026-11 (Monat) | netflix | – unklar | [Netflix kündigt neuen Original-Anime »Bass X Machina« an + Teaser](https://www.anime2you.de/news/1043257/netflix-bass-x-machina-angekuendigt/) |
 | 2026-11-03, 2026-11-05, 2026-11 (Monat) | kino | – unklar | [Deutscher Kinostart von »Godzilla Minus Zero« steht fest + Teaser](https://www.anime2you.de/news/1033172/godzilla-minus-zero-deutscher-kinostart/) |
-| 2026-11-01, 2026-11-08 | netflix | ✅ zugesagt | [Zweite »Blue Box«-Staffel legt Pause vor fünfter Episode ein](https://www.anime2you.de/news/1063658/blue-box-staffel-2-pause/) |
-| 2026-11-01 | ? | – unklar | [TV-Guide: Anime im deutschen Fernsehen in KW 44/2026](https://www.anime2you.de/news/1063795/anime-tv-programm-44-2026/) |
-| 2026-11-01 | netflix | – unklar | [Netflix nimmt Fantasy-Anime »Der Held ohne Klasse« ins Programm](https://www.anime2you.de/news/1062497/der-held-ohne-klasse-auf-netflix/) |
 | 2026-11-02, 2026-11-09 | crunchyroll | – unklar | [Nächste Episode von »PSYREN« erscheint später + Recap](https://www.anime2you.de/news/1064592/psyren-episode-5-verschoben/) |
 | 2026-11-03, 2026-11-05 | kino | – unklar | [IMAX-Fassung von »Godzilla Minus Zero« kommt nach Deutschland + Trailer](https://www.anime2you.de/news/1066064/godzilla-minus-zero-imax-fassung-in-deutschland/) |
+| 2026-11-08 | ? | – unklar | [TV-Guide: Anime im deutschen Fernsehen in KW 45/2026](https://www.anime2you.de/news/1066723/anime-tv-programm-45-2026/) |
+| 2026-11-08 | netflix | ✅ zugesagt | [Zweite »Blue Box«-Staffel legt Pause vor fünfter Episode ein](https://www.anime2you.de/news/1063658/blue-box-staffel-2-pause/) |
+| 2026-11-13 | netflix | – unklar | [Netflix entfernt zwei Anime-Titel aus seinem Programm](https://www.anime2you.de/news/1066661/netflix-entfernt-berserk-und-mehr/) |
+| 2026-12-04, 2026-12 (Monat) | ? | – unklar | [ProSieben MAXX zeigt »Wandering Witch: Elainas Reise« als TV-Premiere](https://www.anime2you.de/news/1066039/prosieben-maxx-zeigt-wandering-witch-elainas-reise/) |
 | 2026-12-23, 2026-12 (Monat) | disneyplus | – unklar | [Starttermin der zweiten »Disney Twisted-Wonderland«-Staffel + Visual](https://www.anime2you.de/news/1065177/disney-twisted-wonderland-staffel-2-starttermin/) |
 | 2026-12-13, 2026-12 (Monat) | kino | – unklar | [»Umamusume: Pretty Derby – Beginning of a New Era« kommt ins Kino](https://www.anime2you.de/news/1064556/umamusume-pretty-derby-film-im-kino/) |
 | 2027-01 (Monat) | crunchyroll | – unklar | [Crunchyroll zeigt dritte »Mashle«-Staffel im Simulcast](https://www.anime2you.de/news/1064990/crunchyroll-dritte-mashle-staffel/) |
@@ -47,61 +48,60 @@ Stand: 2026-11-01. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | 2027-04 (Monat) | ? | – unklar | [Neue »Apothecary Diaries«-Plüschfigur von Jinshi vorgestellt](https://www.anime2you.de/news/1056535/apothecary-diaries-plueschfigur-jinshi/) |
 | 2027-04 (Monat) | crunchyroll | – unklar | [Action-Anime »The Vermilion Mask« erhält einen zweiten Teil](https://www.anime2you.de/news/1058275/the-vermilion-mask-erhaelt-zweiten-teil/) |
 | 2027-04 (Monat) | ? | – unklar | [Start von »Walking Home with You« steht fest + Visual](https://www.anime2you.de/news/1058153/start-von-walking-home-with-you/) |
-| 2027-04 (Monat) | ? | – unklar | [Start von »The Case Files of Biblia Bookstore« + Teaser](https://www.anime2you.de/news/1057109/start-von-the-case-files-of-biblia-bookstor/) |
 
-… und 6 weitere.
+… und 7 weitere.
 
-Dazu 53 Disc-Meldungen mit künftigem Termin; sie laufen über die Disc-Übersicht.
+Dazu 54 Disc-Meldungen mit künftigem Termin; sie laufen über die Disc-Übersicht.
 
 ## Quellen
 
 | Quelle | zuletzt erfolgreich | Treffer |
 |---|---|---|
-| adn | 4.0 Tage her | 0 |
-| adn-catalog | 6.0 Tage her | 115 |
+| adn | 5.0 Tage her | 0 |
+| adn-catalog | 7.0 Tage her | 115 |
 | adn-news | 0.1 Tage her | 72 |
-| anilist-voices | 6.0 Tage her | 0 |
-| anime-offline-database | 6.0 Tage her | 8876 |
+| anilist-voices | 7.0 Tage her | 0 |
+| anime-offline-database | 7.0 Tage her | 8876 |
 | anime2you | 0.0 Tage her | 102 |
-| anisearch | 0.9 Tage her | 111 |
-| anisearch-cover-eigen | 20.5 Tage her | 1874 |
-| anisearch-dubs | 1.0 Tage her | 11939 |
-| anisearch-eintraege | 6.0 Tage her | 400 |
-| anisearch-folgen | 6.0 Tage her | 464 |
-| anisearch-slugs | 6.0 Tage her | 14899 |
-| anisearch-zuordnung | 1.0 Tage her | 18498 |
-| ann-voices | 6.0 Tage her | 8876 |
-| beleg-lesungen | 0.0 Tage her | 58 |
-| cartoon-folgen | 6.0 Tage her | 357 |
-| cartoon-reihen | 1.0 Tage her | 0 |
-| cartoons | 0.5 Tage her | 1 |
-| cinestar | 6.0 Tage her | 2 |
-| cr-einzelwerke | 11.6 Tage her | 6 |
-| cr-filmbloecke | 11.6 Tage her | 2 |
+| anisearch | 0.0 Tage her | 14869 |
+| anisearch-cover-eigen | 21.5 Tage her | 1874 |
+| anisearch-dubs | 0.0 Tage her | 11938 |
+| anisearch-eintraege | 7.0 Tage her | 400 |
+| anisearch-folgen | 7.0 Tage her | 464 |
+| anisearch-slugs | 7.0 Tage her | 14899 |
+| anisearch-zuordnung | 0.0 Tage her | 18501 |
+| ann-voices | 7.0 Tage her | 8876 |
+| beleg-lesungen | 0.0 Tage her | 56 |
+| cartoon-folgen | 7.0 Tage her | 357 |
+| cartoon-reihen | 0.0 Tage her | 3 |
+| cartoons | 0.0 Tage her | 3 |
+| cinestar | 0.0 Tage her | 1 |
+| cr-einzelwerke | 12.7 Tage her | 6 |
+| cr-filmbloecke | 12.7 Tage her | 2 |
 | crunchyroll-dub | 0.5 Tage her | 1146 |
-| crunchyroll-neu | 0.0 Tage her | 165 |
-| crunchyroll-offene | 5.9 Tage her | 9 |
+| crunchyroll-neu | 0.0 Tage her | 169 |
+| crunchyroll-offene | 7.0 Tage her | 9 |
 | crunchyroll-woche | 0.0 Tage her | 61 |
-| justwatch-audio | 2.0 Tage her | 0 |
-| kinoheld | 6.0 Tage her | 0 |
-| kitsu-folgen | 6.0 Tage her | 112 |
-| link-check | 6.0 Tage her | 150 |
+| justwatch-audio | 1.0 Tage her | 41 |
+| kinoheld | 0.0 Tage her | 0 |
+| kitsu-folgen | 7.0 Tage her | 112 |
+| link-check | 7.0 Tage her | 150 |
 | messbelege | 0.0 Tage her | 0 |
-| motn | 9.0 Tage her | 2034 |
-| motn-changes | 0.0 Tage her | 74 |
-| rohfolgen | 0.3 Tage her | 0 |
-| rtlplus-folgen | 6.0 Tage her | 3 |
-| tmdb-banner | 4.4 Tage her | 2039 |
-| tmdb-folgen | 6.0 Tage her | 885 |
-| tmdb-kino | 6.0 Tage her | 3 |
-| tmdb-poster | 4.4 Tage her | 2400 |
-| tmdb-titles | 6.0 Tage her | 400 |
+| motn | 10.0 Tage her | 2034 |
+| motn-changes | 0.0 Tage her | 2 |
+| rohfolgen | 1.3 Tage her | 0 |
+| rtlplus-folgen | 7.0 Tage her | 3 |
+| tmdb-banner | 5.4 Tage her | 2039 |
+| tmdb-folgen | 0.5 Tage her | 896 |
+| tmdb-kino | 7.0 Tage her | 3 |
+| tmdb-poster | 5.4 Tage her | 2400 |
+| tmdb-titles | 0.5 Tage her | 6 |
 | toggo | 0.0 Tage her | 22 |
-| trailer | 1.0 Tage her | 1 |
-| tv-de | 0.2 Tage her | 70 |
-| tv-programm | 0.0 Tage her | 270 |
-| vorfaelle | 0.2 Tage her | 3 |
-| wikidata-imdb | 6.0 Tage her | 5313 |
-| wikidata-titel | 6.0 Tage her | 15 |
+| trailer | 0.0 Tage her | 1 |
+| tv-de | 0.2 Tage her | 74 |
+| tv-programm | 0.0 Tage her | 274 |
+| vorfaelle | 0.0 Tage her | 0 |
+| wikidata-imdb | 0.0 Tage her | 5362 |
+| wikidata-titel | 0.0 Tage her | 16 |
 | wikipedia-folgen | 0.0 Tage her | 9 |
-| youtube-check | 6.0 Tage her | 514 |
+| youtube-check | 0.0 Tage her | 1 |
