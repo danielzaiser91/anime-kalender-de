@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-11-02T04:28:04.030Z",
+ "erzeugtAm": "2026-11-02T16:06:51.653Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -7,9 +7,8 @@
    "gemeldet": 910,
    "gesamt": 958,
    "offen": 48,
-   "ohneSeite": 2,
+   "ohneSeite": 1,
    "suchAdressen": [
-    "https://www.amazon.de/s?k=Higurashi%20no%20Naku%20Koro%20ni&i=instant-video",
     "https://www.amazon.de/s?k=Fischen%20Impossible%3A%20Eine%20tierische%20Rettungsaktion&i=instant-video"
    ],
    "ziel": "https://www.amazon.de/gp/video/detail/B0D84DKFSH",
@@ -368,10 +367,10 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 771,
-   "gesamt": 891,
-   "offen": 120,
-   "ohneSeite": 17,
+   "gemeldet": 757,
+   "gesamt": 926,
+   "offen": 169,
+   "ohneSeite": 18,
    "ziel": "https://www.netflix.com/title/81608820",
    "ziele": [
     {
@@ -403,11 +402,131 @@
      "titel": "Sword Art Online"
     },
     {
+     "url": "https://www.netflix.com/title/80185873",
+     "titel": "Danmachi: Is It Wrong to Try to Pick Up Girls in a Dungeon? Familia Myth"
+    },
+    {
      "url": "https://www.netflix.com/title/80175351",
      "titel": "Kakegurui: Das Leben ist ein Spiel",
      "staffeln": [
       2
      ]
+    },
+    {
+     "url": "https://www.netflix.com/title/80238911",
+     "titel": "Lu over the Wall"
+    },
+    {
+     "url": "https://www.netflix.com/title/81000505",
+     "titel": "Fireworks: Alles eine Frage der Zeit"
+    },
+    {
+     "url": "https://www.netflix.com/title/81018295",
+     "titel": "Beyblade Burst: Evolution"
+    },
+    {
+     "url": "https://www.netflix.com/title/81030151",
+     "titel": "Haikyu!! Movie 3 - Talent Und Gespür"
+    },
+    {
+     "url": "https://www.netflix.com/title/81030152",
+     "titel": "Haikyu!! Movie 4 - Ein Kampf der Konzepte"
+    },
+    {
+     "url": "https://www.netflix.com/title/81068687",
+     "titel": "No Game No Life Zero"
+    },
+    {
+     "url": "https://www.netflix.com/title/80145747",
+     "titel": "Pretty Guardian Sailor Moon Crystal"
+    },
+    {
+     "url": "https://www.netflix.com/title/80223226",
+     "titel": "A Silent Voice"
+    },
+    {
+     "url": "https://www.netflix.com/title/80040104",
+     "titel": "Aldnoah.Zero"
+    },
+    {
+     "url": "https://www.netflix.com/title/80070071",
+     "titel": "Kamisama Kiss"
+    },
+    {
+     "url": "https://www.netflix.com/title/80159876",
+     "titel": "Girls und Panzer: Der Film"
+    },
+    {
+     "url": "https://www.netflix.com/title/80081848",
+     "titel": "Shojo-Mangaka Nozaki-kun"
+    },
+    {
+     "url": "https://www.netflix.com/title/80084763",
+     "titel": "Dragon Nest: Die Chroniken von Altera"
+    },
+    {
+     "url": "https://www.netflix.com/title/80191008",
+     "titel": "Parasyte: The Maxim"
+    },
+    {
+     "url": "https://www.netflix.com/title/80239860",
+     "titel": "Love, Chunibyo & Other Delusions!"
+    },
+    {
+     "url": "https://www.netflix.com/title/81679587",
+     "titel": "One Piece 3D2Y: Überwinde Ace’s Tod! Das Gelübde der Kameraden"
+    },
+    {
+     "url": "https://www.netflix.com/title/80006149",
+     "titel": "The Devil Is a Part-Timer!"
+    },
+    {
+     "url": "https://www.netflix.com/title/80132218",
+     "titel": "Nagi no Asukara"
+    },
+    {
+     "url": "https://www.netflix.com/title/80198443",
+     "titel": "One Piece Z"
+    },
+    {
+     "url": "https://www.netflix.com/title/81104406",
+     "titel": "Maid-sama"
+    },
+    {
+     "url": "https://www.netflix.com/title/70153298",
+     "titel": "Redline"
+    },
+    {
+     "url": "https://www.netflix.com/title/70204963",
+     "titel": "Clannad: OVA - Das Tomoyo Kapitel"
+    },
+    {
+     "url": "https://www.netflix.com/title/70205026",
+     "titel": "Spice and Wolf"
+    },
+    {
+     "url": "https://www.netflix.com/title/70309457",
+     "titel": "Vampire Knight Guilty"
+    },
+    {
+     "url": "https://www.netflix.com/title/80998780",
+     "titel": "One Piece: Chopper und das Wunder der Winterkirschblüte"
+    },
+    {
+     "url": "https://www.netflix.com/title/70086565",
+     "titel": "One Piece: Abenteuer in Alabasta - Die Wüstenprinzessin"
+    },
+    {
+     "url": "https://www.netflix.com/title/70093699",
+     "titel": "5 Centimeters per Second"
+    },
+    {
+     "url": "https://www.netflix.com/title/70204947",
+     "titel": "Afro Samurai"
+    },
+    {
+     "url": "https://www.netflix.com/title/70071919",
+     "titel": "Ghost in the Shell: Stand Alone Complex - Solid State Society"
     },
     {
      "url": "https://www.netflix.com/title/70205010",
@@ -417,6 +536,30 @@
      ]
     },
     {
+     "url": "https://www.netflix.com/title/70308793",
+     "titel": "Higurashi no Naku Koro ni"
+    },
+    {
+     "url": "https://www.netflix.com/title/70014551",
+     "titel": "Paranoia Agent"
+    },
+    {
+     "url": "https://www.netflix.com/title/70023531",
+     "titel": "Appleseed"
+    },
+    {
+     "url": "https://www.netflix.com/title/70205019",
+     "titel": "Samurai 7"
+    },
+    {
+     "url": "https://www.netflix.com/title/70213091",
+     "titel": "Ghost in the Shell: Stand Alone Complex"
+    },
+    {
+     "url": "https://www.netflix.com/title/60036794",
+     "titel": "Sonic X"
+    },
+    {
      "url": "https://www.netflix.com/title/80193421",
      "titel": "Kino’s Journey",
      "staffeln": [
@@ -424,11 +567,35 @@
      ]
     },
     {
+     "url": "https://www.netflix.com/title/80146549",
+     "titel": "Mobile Suit Gundam Seed"
+    },
+    {
+     "url": "https://www.netflix.com/title/70155614",
+     "titel": "Beyblade"
+    },
+    {
+     "url": "https://www.netflix.com/title/70126871",
+     "titel": "Detektiv Conan: Der Magier des letzten Jahrhunderts"
+    },
+    {
      "url": "https://www.netflix.com/title/80243876",
      "titel": "Berserk",
      "staffeln": [
       1
      ]
+    },
+    {
+     "url": "https://www.netflix.com/title/540533",
+     "titel": "Ghost in the Shell"
+    },
+    {
+     "url": "https://www.netflix.com/title/70020763",
+     "titel": "Sailor Moon S"
+    },
+    {
+     "url": "https://www.netflix.com/title/26588007",
+     "titel": "Sailor Moon R Movie: Gefährliche Blumen"
     },
     {
      "url": "https://www.netflix.com/title/81306317",
@@ -681,13 +848,11 @@
    "bekannt": {
     "70205012": 26,
     "70297439": 52,
-    "80000603": 500,
     "80001305": 26,
     "80103318": 13,
     "80174918": 12,
     "80174974": 10,
     "80186926": 6,
-    "80206326": 26,
     "80212481": 13,
     "80221272": 13,
     "80992137": 24,
@@ -697,14 +862,12 @@
     "81033445": 26,
     "81050064": 6,
     "81054851": 6,
-    "81080523": 15,
     "81095103": 1,
     "81176966": 6,
     "81220429": 12,
     "81220435": 14,
     "81228009": 13,
     "81239555": 52,
-    "81253271": 48,
     "81276500": 6,
     "81280998": 4,
     "81281344": 8,
@@ -714,7 +877,6 @@
     "81313291": 12,
     "81341765": 8,
     "81409869": 1,
-    "81422700": 36,
     "81442091": 12,
     "81497635": 12,
     "81499847": 13,

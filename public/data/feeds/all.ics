@@ -48,6 +48,16 @@ DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
 CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
+UID:cr-GT00371866@2026-10-26@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261026T143000Z
+DTEND:20261026T150000Z
+SUMMARY:PSYREN – Folge 1/≈12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/t/17232/
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-158871-tv-super-rtl@2026-10-26@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261026T150500Z
@@ -56,16 +66,6 @@ SUMMARY:Pokémon Horizonte – Folge 17/133
 DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
  ails: https://anime-kalender.de/t/14839/
 CATEGORIES:Super RTL
-END:VEVENT
-BEGIN:VEVENT
-UID:psyren-crunchyroll-de-2026-10-26@2026-10-26@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261026T153000Z
-DTEND:20261026T160000Z
-SUMMARY:Psyren – Folge 1/≈12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/17232/
-CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-118399-tv-prosieben-maxx@2026-10-26@anime-kalender-de
@@ -348,14 +348,15 @@ DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
 CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
-UID:the-detective-is-already-dead-staffel-2-crunchyroll-de-2026-10-28@2026-
- 10-28@anime-kalender-de
+UID:cr-G24H1N334@2026-10-28@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261028T133000Z
 DTEND:20261028T140000Z
-SUMMARY:The Detective Is Already Dead: Staffel 2 – Folge 1/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/14415/
+SUMMARY:The Detective Is Already Dead Staffel 2 – Folge 1/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
+ bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
+ et.\nDetails: https://anime-kalender.de/t/14415/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -380,14 +381,15 @@ DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
 CATEGORIES:Super RTL
 END:VEVENT
 BEGIN:VEVENT
-UID:magic-knight-rayearth-crunchyroll-de-2026-10-28@2026-10-28@anime-kalend
- er-de
+UID:cr-GT00383994@2026-10-28@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261028T151500Z
 DTEND:20261028T154500Z
 SUMMARY:Magic Knight Rayearth – Folge 1/≈12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/16013/
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
+ bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
+ et.\nDetails: https://anime-kalender.de/t/16013/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -584,15 +586,15 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:the-iceblade-sorcerer-shall-rule-the-world-staffel-2-crunchyroll-de-202
- 6-10-29@2026-10-29@anime-kalender-de
+UID:cr-GDKHZEP21@2026-10-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261029T170000Z
 DTEND:20261029T173000Z
-SUMMARY:The Iceblade Sorcerer Shall Rule the World Staffel 2 – Folge 1/
- ≈12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/17631/
+SUMMARY:The Iceblade Sorcerer Shall Rule the World II – Folge 1/≈12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
+ bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
+ et.\nDetails: https://anime-kalender.de/t/17631/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -730,13 +732,15 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:firefly-wedding-crunchyroll-de-2026-10-30@2026-10-30@anime-kalender-de
+UID:cr-GT00383999@2026-10-30@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261030T160000Z
 DTEND:20261030T163000Z
 SUMMARY:Firefly Wedding – Folge 1/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/17358/
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
+ bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
+ et.\nDetails: https://anime-kalender.de/t/17358/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -864,6 +868,16 @@ DESCRIPTION:Plattform: Paramount+\nRelease-Art: Wöchentlich (Simuldub)\nUh
 CATEGORIES:Paramount+
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-165159-rtlplus-staffel-3@2026-10-30@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261030
+DTEND;VALUE=DATE:20261031
+SUMMARY:Beyblade X Staffel 3 – Folge 123/≈123
+DESCRIPTION:Plattform: RTL+\nRelease-Art: Wöchentlich (Simuldub)\nUhrzeit 
+ noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/15075/
+CATEGORIES:RTL+
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-15-tv-prosieben-maxx@2026-10-31#23@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261031T045500Z
@@ -904,14 +918,15 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:the-vermilion-mask-crunchyroll-de-2026-10-31@2026-10-31@anime-kalender-
- de
+UID:cr-GT00384015@2026-10-31@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261031T093000Z
 DTEND:20261031T100000Z
 SUMMARY:The Vermilion Mask – Folge 1/≈12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/16918/
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
+ bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
+ et.\nDetails: https://anime-kalender.de/t/16918/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -1125,16 +1140,64 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:psyren-crunchyroll-de-2026-10-26@2026-11-02@anime-kalender-de
+UID:auto-10012621-tv-super-rtl@2026-11-02#36@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261102T153000Z
-DTEND:20261102T160000Z
-SUMMARY:Psyren – Folge 2/≈12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/17232/
+DTSTART:20261102T085000Z
+DTEND:20261102T092000Z
+SUMMARY:Super Wings
+DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
+ ails: https://anime-kalender.de/t/18191/
+CATEGORIES:Super RTL
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-10012621-tv-super-rtl@2026-11-02#37@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261102T090000Z
+DTEND:20261102T093000Z
+SUMMARY:Super Wings
+DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
+ ails: https://anime-kalender.de/t/18191/
+CATEGORIES:Super RTL
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-10012621-tv-toggo-plus@2026-11-02#36@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261102T095000Z
+DTEND:20261102T102000Z
+SUMMARY:Super Wings
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/18191/
+CATEGORIES:TOGGO plus
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-10012621-tv-toggo-plus@2026-11-02#37@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261102T100000Z
+DTEND:20261102T103000Z
+SUMMARY:Super Wings
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/18191/
+CATEGORIES:TOGGO plus
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GT00371866@2026-11-02@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261102T143000Z
+DTEND:20261102T150000Z
+SUMMARY:PSYREN – Folge 2/≈12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/t/17232/
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-158871-tv-super-rtl@2026-11-02@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261102T151500Z
+DTEND:20261102T154500Z
+SUMMARY:Pokémon Horizonte – Folge 22/133
+DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
+ ails: https://anime-kalender.de/t/14839/
+CATEGORIES:Super RTL
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-118399-tv-prosieben-maxx@2026-11-02@anime-kalender-de
@@ -1155,6 +1218,16 @@ SUMMARY:Dragon Ball
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-158871-tv-toggo-plus@2026-11-02@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261102T161500Z
+DTEND:20261102T164500Z
+SUMMARY:Pokémon Horizonte – Folge 22/133
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/14839/
+CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-11-02#53@anime-kalender-de
@@ -1205,6 +1278,16 @@ SUMMARY:Hell’s Paradise – Folge 9/10
 DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
  nDetails: https://anime-kalender.de/t/12442/
 CATEGORIES:ProSieben FUN
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-112153-tv-toggo-plus@2026-11-02@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261102T201500Z
+DTEND:20261102T204500Z
+SUMMARY:Pokémon Reisen: Die Serie
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/10852/
+CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-128893-tv-prosieben-fun@2026-11-02#10@anime-kalender-de
@@ -1318,29 +1401,23 @@ DESCRIPTION:Plattform: Disney+\nRelease-Art: Katalogtitel\nUhrzeit noch nic
 CATEGORIES:Disney+
 END:VEVENT
 BEGIN:VEVENT
-UID:the-detective-is-already-dead-staffel-2-crunchyroll-de-2026-10-28@2026-
- 11-04@anime-kalender-de
+UID:cr-G24H1N334@2026-11-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261104T133000Z
 DTEND:20261104T140000Z
-SUMMARY:The Detective Is Already Dead: Staffel 2 – Folge 2/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/14415/
+SUMMARY:The Detective Is Already Dead Staffel 2 – Folge 2/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/t/14415/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:magic-knight-rayearth-crunchyroll-de-2026-10-28@2026-11-04@anime-kalend
- er-de
+UID:cr-GT00383994@2026-11-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261104T151500Z
 DTEND:20261104T154500Z
 SUMMARY:Magic Knight Rayearth – Folge 2/≈12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/16013/
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/t/16013/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -1444,17 +1521,13 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:the-iceblade-sorcerer-shall-rule-the-world-staffel-2-crunchyroll-de-202
- 6-10-29@2026-11-05@anime-kalender-de
+UID:cr-GDKHZEP21@2026-11-05@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261105T170000Z
 DTEND:20261105T173000Z
-SUMMARY:The Iceblade Sorcerer Shall Rule the World Staffel 2 – Folge 2/
- ≈12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/17631/
+SUMMARY:The Iceblade Sorcerer Shall Rule the World II – Folge 2/≈12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/t/17631/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -1522,15 +1595,13 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:firefly-wedding-crunchyroll-de-2026-10-30@2026-11-06@anime-kalender-de
+UID:cr-GT00383999@2026-11-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261106T160000Z
 DTEND:20261106T163000Z
 SUMMARY:Firefly Wedding – Folge 2/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/17358/
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/t/17358/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -1753,16 +1824,13 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:the-vermilion-mask-crunchyroll-de-2026-10-31@2026-11-07@anime-kalender-
- de
+UID:cr-GT00384015@2026-11-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261107T093000Z
 DTEND:20261107T100000Z
 SUMMARY:The Vermilion Mask – Folge 2/≈12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/16918/
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/t/16918/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -1771,10 +1839,8 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261107T143000Z
 DTEND:20261107T150000Z
 SUMMARY:A Wild Last Boss Appeared! – Staffel 2 – Folge 4/≈12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/17248/
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/t/17248/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -1907,11 +1973,11 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:psyren-crunchyroll-de-2026-10-26@2026-11-09@anime-kalender-de
+UID:cr-GT00371866@2026-11-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261109T153000Z
-DTEND:20261109T160000Z
-SUMMARY:Psyren – Folge 3/≈12
+DTSTART:20261109T143000Z
+DTEND:20261109T150000Z
+SUMMARY:PSYREN – Folge 3/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
@@ -1969,12 +2035,11 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:the-detective-is-already-dead-staffel-2-crunchyroll-de-2026-10-28@2026-
- 11-11@anime-kalender-de
+UID:cr-G24H1N334@2026-11-11@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261111T133000Z
 DTEND:20261111T140000Z
-SUMMARY:The Detective Is Already Dead: Staffel 2 – Folge 3/13
+SUMMARY:The Detective Is Already Dead Staffel 2 – Folge 3/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
@@ -1982,8 +2047,7 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:magic-knight-rayearth-crunchyroll-de-2026-10-28@2026-11-11@anime-kalend
- er-de
+UID:cr-GT00383994@2026-11-11@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261111T151500Z
 DTEND:20261111T154500Z
@@ -2020,13 +2084,11 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:the-iceblade-sorcerer-shall-rule-the-world-staffel-2-crunchyroll-de-202
- 6-10-29@2026-11-12@anime-kalender-de
+UID:cr-GDKHZEP21@2026-11-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261112T170000Z
 DTEND:20261112T173000Z
-SUMMARY:The Iceblade Sorcerer Shall Rule the World Staffel 2 – Folge 3/
- ≈12
+SUMMARY:The Iceblade Sorcerer Shall Rule the World II – Folge 3/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
@@ -2083,7 +2145,7 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:firefly-wedding-crunchyroll-de-2026-10-30@2026-11-13@anime-kalender-de
+UID:cr-GT00383999@2026-11-13@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261113T160000Z
 DTEND:20261113T163000Z
@@ -2162,8 +2224,7 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
-UID:the-vermilion-mask-crunchyroll-de-2026-10-31@2026-11-14@anime-kalender-
- de
+UID:cr-GT00384015@2026-11-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261114T093000Z
 DTEND:20261114T100000Z
@@ -2296,11 +2357,11 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:psyren-crunchyroll-de-2026-10-26@2026-11-16@anime-kalender-de
+UID:cr-GT00371866@2026-11-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261116T153000Z
-DTEND:20261116T160000Z
-SUMMARY:Psyren – Folge 4/≈12
+DTSTART:20261116T143000Z
+DTEND:20261116T150000Z
+SUMMARY:PSYREN – Folge 4/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
@@ -2358,12 +2419,11 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:the-detective-is-already-dead-staffel-2-crunchyroll-de-2026-10-28@2026-
- 11-18@anime-kalender-de
+UID:cr-G24H1N334@2026-11-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261118T133000Z
 DTEND:20261118T140000Z
-SUMMARY:The Detective Is Already Dead: Staffel 2 – Folge 4/13
+SUMMARY:The Detective Is Already Dead Staffel 2 – Folge 4/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
@@ -2371,8 +2431,7 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:magic-knight-rayearth-crunchyroll-de-2026-10-28@2026-11-18@anime-kalend
- er-de
+UID:cr-GT00383994@2026-11-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261118T151500Z
 DTEND:20261118T154500Z
@@ -2430,13 +2489,11 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nIm Angebot seit dies
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:the-iceblade-sorcerer-shall-rule-the-world-staffel-2-crunchyroll-de-202
- 6-10-29@2026-11-19@anime-kalender-de
+UID:cr-GDKHZEP21@2026-11-19@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261119T170000Z
 DTEND:20261119T173000Z
-SUMMARY:The Iceblade Sorcerer Shall Rule the World Staffel 2 – Folge 4/
- ≈12
+SUMMARY:The Iceblade Sorcerer Shall Rule the World II – Folge 4/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
@@ -2633,7 +2690,7 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:firefly-wedding-crunchyroll-de-2026-10-30@2026-11-20@anime-kalender-de
+UID:cr-GT00383999@2026-11-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261120T160000Z
 DTEND:20261120T163000Z
@@ -2918,8 +2975,7 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
-UID:the-vermilion-mask-crunchyroll-de-2026-10-31@2026-11-21@anime-kalender-
- de
+UID:cr-GT00384015@2026-11-21@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261121T093000Z
 DTEND:20261121T100000Z
@@ -3042,11 +3098,11 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:psyren-crunchyroll-de-2026-10-26@2026-11-23@anime-kalender-de
+UID:cr-GT00371866@2026-11-23@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261123T153000Z
-DTEND:20261123T160000Z
-SUMMARY:Psyren – Folge 5/≈12
+DTSTART:20261123T143000Z
+DTEND:20261123T150000Z
+SUMMARY:PSYREN – Folge 5/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
@@ -3104,12 +3160,11 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:the-detective-is-already-dead-staffel-2-crunchyroll-de-2026-10-28@2026-
- 11-25@anime-kalender-de
+UID:cr-G24H1N334@2026-11-25@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261125T133000Z
 DTEND:20261125T140000Z
-SUMMARY:The Detective Is Already Dead: Staffel 2 – Folge 5/13
+SUMMARY:The Detective Is Already Dead Staffel 2 – Folge 5/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
@@ -3117,8 +3172,7 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:magic-knight-rayearth-crunchyroll-de-2026-10-28@2026-11-25@anime-kalend
- er-de
+UID:cr-GT00383994@2026-11-25@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261125T151500Z
 DTEND:20261125T154500Z
@@ -3155,13 +3209,11 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:the-iceblade-sorcerer-shall-rule-the-world-staffel-2-crunchyroll-de-202
- 6-10-29@2026-11-26@anime-kalender-de
+UID:cr-GDKHZEP21@2026-11-26@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261126T170000Z
 DTEND:20261126T173000Z
-SUMMARY:The Iceblade Sorcerer Shall Rule the World Staffel 2 – Folge 5/
- ≈12
+SUMMARY:The Iceblade Sorcerer Shall Rule the World II – Folge 5/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
@@ -3229,7 +3281,7 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:firefly-wedding-crunchyroll-de-2026-10-30@2026-11-27@anime-kalender-de
+UID:cr-GT00383999@2026-11-27@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261127T160000Z
 DTEND:20261127T163000Z
@@ -3339,8 +3391,7 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
-UID:the-vermilion-mask-crunchyroll-de-2026-10-31@2026-11-28@anime-kalender-
- de
+UID:cr-GT00384015@2026-11-28@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261128T093000Z
 DTEND:20261128T100000Z
@@ -3463,11 +3514,11 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:psyren-crunchyroll-de-2026-10-26@2026-11-30@anime-kalender-de
+UID:cr-GT00371866@2026-11-30@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261130T153000Z
-DTEND:20261130T160000Z
-SUMMARY:Psyren – Folge 6/≈12
+DTSTART:20261130T143000Z
+DTEND:20261130T150000Z
+SUMMARY:PSYREN – Folge 6/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
@@ -3545,12 +3596,11 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
-UID:the-detective-is-already-dead-staffel-2-crunchyroll-de-2026-10-28@2026-
- 12-02@anime-kalender-de
+UID:cr-G24H1N334@2026-12-02@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261202T133000Z
 DTEND:20261202T140000Z
-SUMMARY:The Detective Is Already Dead: Staffel 2 – Folge 6/13
+SUMMARY:The Detective Is Already Dead Staffel 2 – Folge 6/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
@@ -3558,8 +3608,7 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:magic-knight-rayearth-crunchyroll-de-2026-10-28@2026-12-02@anime-kalend
- er-de
+UID:cr-GT00383994@2026-12-02@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261202T151500Z
 DTEND:20261202T154500Z
@@ -3596,13 +3645,11 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:the-iceblade-sorcerer-shall-rule-the-world-staffel-2-crunchyroll-de-202
- 6-10-29@2026-12-03@anime-kalender-de
+UID:cr-GDKHZEP21@2026-12-03@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261203T170000Z
 DTEND:20261203T173000Z
-SUMMARY:The Iceblade Sorcerer Shall Rule the World Staffel 2 – Folge 6/
- ≈12
+SUMMARY:The Iceblade Sorcerer Shall Rule the World II – Folge 6/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
@@ -3669,7 +3716,7 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:firefly-wedding-crunchyroll-de-2026-10-30@2026-12-04@anime-kalender-de
+UID:cr-GT00383999@2026-12-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261204T160000Z
 DTEND:20261204T163000Z
@@ -3850,8 +3897,7 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
-UID:the-vermilion-mask-crunchyroll-de-2026-10-31@2026-12-05@anime-kalender-
- de
+UID:cr-GT00384015@2026-12-05@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261205T093000Z
 DTEND:20261205T100000Z
@@ -3974,11 +4020,11 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:psyren-crunchyroll-de-2026-10-26@2026-12-07@anime-kalender-de
+UID:cr-GT00371866@2026-12-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261207T153000Z
-DTEND:20261207T160000Z
-SUMMARY:Psyren – Folge 7/≈12
+DTSTART:20261207T143000Z
+DTEND:20261207T150000Z
+SUMMARY:PSYREN – Folge 7/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
@@ -4036,12 +4082,11 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:the-detective-is-already-dead-staffel-2-crunchyroll-de-2026-10-28@2026-
- 12-09@anime-kalender-de
+UID:cr-G24H1N334@2026-12-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261209T133000Z
 DTEND:20261209T140000Z
-SUMMARY:The Detective Is Already Dead: Staffel 2 – Folge 7/13
+SUMMARY:The Detective Is Already Dead Staffel 2 – Folge 7/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
@@ -4049,8 +4094,7 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:magic-knight-rayearth-crunchyroll-de-2026-10-28@2026-12-09@anime-kalend
- er-de
+UID:cr-GT00383994@2026-12-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261209T151500Z
 DTEND:20261209T154500Z
@@ -4074,13 +4118,11 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:the-iceblade-sorcerer-shall-rule-the-world-staffel-2-crunchyroll-de-202
- 6-10-29@2026-12-10@anime-kalender-de
+UID:cr-GDKHZEP21@2026-12-10@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261210T170000Z
 DTEND:20261210T173000Z
-SUMMARY:The Iceblade Sorcerer Shall Rule the World Staffel 2 – Folge 7/
- ≈12
+SUMMARY:The Iceblade Sorcerer Shall Rule the World II – Folge 7/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
@@ -4142,7 +4184,7 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:firefly-wedding-crunchyroll-de-2026-10-30@2026-12-11@anime-kalender-de
+UID:cr-GT00383999@2026-12-11@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261211T160000Z
 DTEND:20261211T163000Z
@@ -4198,8 +4240,7 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: Film\nUhrzeit noch nicht
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
-UID:the-vermilion-mask-crunchyroll-de-2026-10-31@2026-12-12@anime-kalender-
- de
+UID:cr-GT00384015@2026-12-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261212T093000Z
 DTEND:20261212T100000Z
@@ -4322,11 +4363,11 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:psyren-crunchyroll-de-2026-10-26@2026-12-14@anime-kalender-de
+UID:cr-GT00371866@2026-12-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261214T153000Z
-DTEND:20261214T160000Z
-SUMMARY:Psyren – Folge 8/≈12
+DTSTART:20261214T143000Z
+DTEND:20261214T150000Z
+SUMMARY:PSYREN – Folge 8/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
@@ -4358,12 +4399,11 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:the-detective-is-already-dead-staffel-2-crunchyroll-de-2026-10-28@2026-
- 12-16@anime-kalender-de
+UID:cr-G24H1N334@2026-12-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261216T133000Z
 DTEND:20261216T140000Z
-SUMMARY:The Detective Is Already Dead: Staffel 2 – Folge 8/13
+SUMMARY:The Detective Is Already Dead Staffel 2 – Folge 8/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
@@ -4371,8 +4411,7 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:magic-knight-rayearth-crunchyroll-de-2026-10-28@2026-12-16@anime-kalend
- er-de
+UID:cr-GT00383994@2026-12-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261216T151500Z
 DTEND:20261216T154500Z
@@ -4396,13 +4435,11 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:the-iceblade-sorcerer-shall-rule-the-world-staffel-2-crunchyroll-de-202
- 6-10-29@2026-12-17@anime-kalender-de
+UID:cr-GDKHZEP21@2026-12-17@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261217T170000Z
 DTEND:20261217T173000Z
-SUMMARY:The Iceblade Sorcerer Shall Rule the World Staffel 2 – Folge 8/
- ≈12
+SUMMARY:The Iceblade Sorcerer Shall Rule the World II – Folge 8/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
@@ -4434,7 +4471,7 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:firefly-wedding-crunchyroll-de-2026-10-30@2026-12-18@anime-kalender-de
+UID:cr-GT00383999@2026-12-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261218T160000Z
 DTEND:20261218T163000Z
@@ -4554,8 +4591,7 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
-UID:the-vermilion-mask-crunchyroll-de-2026-10-31@2026-12-19@anime-kalender-
- de
+UID:cr-GT00384015@2026-12-19@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261219T093000Z
 DTEND:20261219T100000Z
@@ -4654,11 +4690,11 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:psyren-crunchyroll-de-2026-10-26@2026-12-21@anime-kalender-de
+UID:cr-GT00371866@2026-12-21@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261221T153000Z
-DTEND:20261221T160000Z
-SUMMARY:Psyren – Folge 9/≈12
+DTSTART:20261221T143000Z
+DTEND:20261221T150000Z
+SUMMARY:PSYREN – Folge 9/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
@@ -4690,12 +4726,11 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:the-detective-is-already-dead-staffel-2-crunchyroll-de-2026-10-28@2026-
- 12-23@anime-kalender-de
+UID:cr-G24H1N334@2026-12-23@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261223T133000Z
 DTEND:20261223T140000Z
-SUMMARY:The Detective Is Already Dead: Staffel 2 – Folge 9/13
+SUMMARY:The Detective Is Already Dead Staffel 2 – Folge 9/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
@@ -4703,8 +4738,7 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:magic-knight-rayearth-crunchyroll-de-2026-10-28@2026-12-23@anime-kalend
- er-de
+UID:cr-GT00383994@2026-12-23@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261223T151500Z
 DTEND:20261223T154500Z
@@ -4728,13 +4762,11 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:the-iceblade-sorcerer-shall-rule-the-world-staffel-2-crunchyroll-de-202
- 6-10-29@2026-12-24@anime-kalender-de
+UID:cr-GDKHZEP21@2026-12-24@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261224T170000Z
 DTEND:20261224T173000Z
-SUMMARY:The Iceblade Sorcerer Shall Rule the World Staffel 2 – Folge 9/
- ≈12
+SUMMARY:The Iceblade Sorcerer Shall Rule the World II – Folge 9/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
@@ -4766,7 +4798,7 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:firefly-wedding-crunchyroll-de-2026-10-30@2026-12-25@anime-kalender-de
+UID:cr-GT00383999@2026-12-25@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261225T160000Z
 DTEND:20261225T163000Z
@@ -4812,8 +4844,7 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
-UID:the-vermilion-mask-crunchyroll-de-2026-10-31@2026-12-26@anime-kalender-
- de
+UID:cr-GT00384015@2026-12-26@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261226T093000Z
 DTEND:20261226T100000Z
@@ -4888,11 +4919,11 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:psyren-crunchyroll-de-2026-10-26@2026-12-28@anime-kalender-de
+UID:cr-GT00371866@2026-12-28@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261228T153000Z
-DTEND:20261228T160000Z
-SUMMARY:Psyren – Folge 10/≈12
+DTSTART:20261228T143000Z
+DTEND:20261228T150000Z
+SUMMARY:PSYREN – Folge 10/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
@@ -4924,12 +4955,11 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:the-detective-is-already-dead-staffel-2-crunchyroll-de-2026-10-28@2026-
- 12-30@anime-kalender-de
+UID:cr-G24H1N334@2026-12-30@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261230T133000Z
 DTEND:20261230T140000Z
-SUMMARY:The Detective Is Already Dead: Staffel 2 – Folge 10/13
+SUMMARY:The Detective Is Already Dead Staffel 2 – Folge 10/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
@@ -4937,8 +4967,7 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:magic-knight-rayearth-crunchyroll-de-2026-10-28@2026-12-30@anime-kalend
- er-de
+UID:cr-GT00383994@2026-12-30@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261230T151500Z
 DTEND:20261230T154500Z
@@ -4962,13 +4991,11 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:the-iceblade-sorcerer-shall-rule-the-world-staffel-2-crunchyroll-de-202
- 6-10-29@2026-12-31@anime-kalender-de
+UID:cr-GDKHZEP21@2026-12-31@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261231T170000Z
 DTEND:20261231T173000Z
-SUMMARY:The Iceblade Sorcerer Shall Rule the World Staffel 2 – Folge 10/
- ≈12
+SUMMARY:The Iceblade Sorcerer Shall Rule the World II – Folge 10/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
@@ -5000,7 +5027,7 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:firefly-wedding-crunchyroll-de-2026-10-30@2027-01-01@anime-kalender-de
+UID:cr-GT00383999@2027-01-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270101T160000Z
 DTEND:20270101T163000Z
@@ -5024,8 +5051,7 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:the-vermilion-mask-crunchyroll-de-2026-10-31@2027-01-02@anime-kalender-
- de
+UID:cr-GT00384015@2027-01-02@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270102T093000Z
 DTEND:20270102T100000Z
@@ -5087,11 +5113,11 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:psyren-crunchyroll-de-2026-10-26@2027-01-04@anime-kalender-de
+UID:cr-GT00371866@2027-01-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20270104T153000Z
-DTEND:20270104T160000Z
-SUMMARY:Psyren – Folge 11/≈12
+DTSTART:20270104T143000Z
+DTEND:20270104T150000Z
+SUMMARY:PSYREN – Folge 11/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
@@ -5123,12 +5149,11 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:the-detective-is-already-dead-staffel-2-crunchyroll-de-2026-10-28@2027-
- 01-06@anime-kalender-de
+UID:cr-G24H1N334@2027-01-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270106T133000Z
 DTEND:20270106T140000Z
-SUMMARY:The Detective Is Already Dead: Staffel 2 – Folge 11/13
+SUMMARY:The Detective Is Already Dead Staffel 2 – Folge 11/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
@@ -5136,8 +5161,7 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:magic-knight-rayearth-crunchyroll-de-2026-10-28@2027-01-06@anime-kalend
- er-de
+UID:cr-GT00383994@2027-01-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270106T151500Z
 DTEND:20270106T154500Z
@@ -5161,13 +5185,11 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:the-iceblade-sorcerer-shall-rule-the-world-staffel-2-crunchyroll-de-202
- 6-10-29@2027-01-07@anime-kalender-de
+UID:cr-GDKHZEP21@2027-01-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270107T170000Z
 DTEND:20270107T173000Z
-SUMMARY:The Iceblade Sorcerer Shall Rule the World Staffel 2 – Folge 11/
- ≈12
+SUMMARY:The Iceblade Sorcerer Shall Rule the World II – Folge 11/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
@@ -5199,7 +5221,7 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:firefly-wedding-crunchyroll-de-2026-10-30@2027-01-08@anime-kalender-de
+UID:cr-GT00383999@2027-01-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270108T160000Z
 DTEND:20270108T163000Z
@@ -5223,8 +5245,7 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:the-vermilion-mask-crunchyroll-de-2026-10-31@2027-01-09@anime-kalender-
- de
+UID:cr-GT00384015@2027-01-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270109T093000Z
 DTEND:20270109T100000Z
@@ -5261,11 +5282,11 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:psyren-crunchyroll-de-2026-10-26@2027-01-11@anime-kalender-de
+UID:cr-GT00371866@2027-01-11@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20270111T153000Z
-DTEND:20270111T160000Z
-SUMMARY:Psyren – Folge 12/≈12
+DTSTART:20270111T143000Z
+DTEND:20270111T150000Z
+SUMMARY:PSYREN – Folge 12/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
@@ -5297,12 +5318,11 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:the-detective-is-already-dead-staffel-2-crunchyroll-de-2026-10-28@2027-
- 01-13@anime-kalender-de
+UID:cr-G24H1N334@2027-01-13@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270113T133000Z
 DTEND:20270113T140000Z
-SUMMARY:The Detective Is Already Dead: Staffel 2 – Folge 12/13
+SUMMARY:The Detective Is Already Dead Staffel 2 – Folge 12/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
@@ -5310,8 +5330,7 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:magic-knight-rayearth-crunchyroll-de-2026-10-28@2027-01-13@anime-kalend
- er-de
+UID:cr-GT00383994@2027-01-13@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270113T151500Z
 DTEND:20270113T154500Z
@@ -5335,13 +5354,11 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:the-iceblade-sorcerer-shall-rule-the-world-staffel-2-crunchyroll-de-202
- 6-10-29@2027-01-14@anime-kalender-de
+UID:cr-GDKHZEP21@2027-01-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270114T170000Z
 DTEND:20270114T173000Z
-SUMMARY:The Iceblade Sorcerer Shall Rule the World Staffel 2 – Folge 12/
- ≈12
+SUMMARY:The Iceblade Sorcerer Shall Rule the World II – Folge 12/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
@@ -5361,7 +5378,7 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:firefly-wedding-crunchyroll-de-2026-10-30@2027-01-15@anime-kalender-de
+UID:cr-GT00383999@2027-01-15@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270115T160000Z
 DTEND:20270115T163000Z
@@ -5551,8 +5568,7 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
-UID:the-vermilion-mask-crunchyroll-de-2026-10-31@2027-01-16@anime-kalender-
- de
+UID:cr-GT00384015@2027-01-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270116T093000Z
 DTEND:20270116T100000Z
@@ -5613,12 +5629,11 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:the-detective-is-already-dead-staffel-2-crunchyroll-de-2026-10-28@2027-
- 01-20@anime-kalender-de
+UID:cr-G24H1N334@2027-01-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270120T133000Z
 DTEND:20270120T140000Z
-SUMMARY:The Detective Is Already Dead: Staffel 2 – Folge 13/13
+SUMMARY:The Detective Is Already Dead Staffel 2 – Folge 13/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
