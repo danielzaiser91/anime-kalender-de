@@ -54,6 +54,7 @@ import yaml from 'js-yaml'
 import { nimmJa } from './lib/dub-bereiche.ts'
 import { findeKonflikte, findeVereinte } from './lib/dub-konflikt.ts'
 import { findeSchrumpf } from './lib/dub-schrumpf.ts'
+import { findeAnbieterZaehlung, netflixKennungen, UMRECHNUNGS_VERMERK, type StaffelListen } from './lib/handbeleg-anbieter-zaehlung.ts'
 import { findeVoraussichtlichImBestand } from './lib/voraussichtlich-pruefung.ts'
 import { pruefeVerwaiste } from './lib/handbeleg-verwaist.ts'
 import { bezugswegeTrotzNein } from './lib/handbeleg-bezugswege.ts'
@@ -303,6 +304,23 @@ log('✓ Jede eindeutige Handprüfung steht so im Datensatz, wie sie geprüft wu
   }
   const mehrfach = [...jeSchluessel.values()].filter((g) => g.length > 1).length
   log(`✓ ${mehrfach} Verweis(e) mit mehreren Belegen — überall gilt der jüngste.`)
+}
+
+/*
+  Netflix zählt je Staffel neu und führt teils nur spätere Staffeln: ein Bereich an einer Liste ohne Staffel 1 steht sonst in
+  Netflix-Nummern (Beyblade X "2–48" statt 53–99, 01.11.2026). Rot, außer die `note` trägt den Umrechnungsvermerk.
+*/
+{
+  const listen = readJson<StaffelListen>(resolve(ROOT, 'data/anbieter-staffeln.json'), {})
+  const falsch = findeAnbieterZaehlung(rohBelege as DubCheck[], listen, (id) => netflixKennungen(nachId.get(id)?.streams))
+  if (falsch.length) {
+    warn(`Abbruch: ${falsch.length} Handbeleg(e) mit Netflix-Staffelzählung statt unserer Zählung:`)
+    for (const f of falsch) warn(`   ${f}`)
+    console.log(`VERSTÖSSE: ${falsch.length}`)
+    process.exit(1)
+  }
+  const mitVermerk = (rohBelege as DubCheck[]).filter((b) => b.platform === 'netflix' && b.note?.includes(UMRECHNUNGS_VERMERK)).length
+  log(`✓ Kein Netflix-Bereich steht in Staffelzählung einer Liste ohne Staffel 1 (${mitVermerk} Beleg(e) mit Umrechnungsvermerk).`)
 }
 
 /* Zwei Meldungen vom selben Tag, die für dieselbe Folge Ja und Nein sagen: `verschmelze` lässt das Nein gelten. Nur ein Hinweis. */
