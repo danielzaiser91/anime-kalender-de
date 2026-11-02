@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-11-01T21:03:54.713Z",
+  "scrapedAt": "2026-11-02T00:02:14.810Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
@@ -10,6 +10,21 @@
     "Sprachhinweis älter als 45 Tage": 6
   },
   "proposals": [
+    {
+      "articleTitle": "TV-Guide: Anime im deutschen Fernsehen in KW 45/2026",
+      "articleUrl": "https://www.anime2you.de/news/1066723/anime-tv-programm-45-2026/",
+      "publishedAt": "2026-11-02",
+      "category": "allgemein",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-11-08",
+          "context": "damit ihr keine Sendung verpasst! Premieren und Highlights Vom 2. bis 8. November 2026 gibt es wieder zahlreiche Anime-Premieren und -Highli"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Netflix nimmt zwei Anime-Neuzugänge ins Programm",
       "articleUrl": "https://www.anime2you.de/news/1066144/netflix-held-ohne-klasse-und-mehr/",
