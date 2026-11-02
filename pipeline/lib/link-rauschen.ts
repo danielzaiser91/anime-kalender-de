@@ -1,4 +1,4 @@
-import { istTot, type LinkBefund } from './link-befund.ts'
+import { istAuskunft, istTot, type LinkBefund } from './link-befund.ts'
 
 /**
  * Netflix-Titelseiten antworten aus der CI mal 200, mal 404 (02.11.2026: 34 von 204 Adressen 200 -> 404,
@@ -31,6 +31,23 @@ export function netflixBefund<B extends LinkBefund>(url: string, alt: LinkBefund
   return { ...neu, status: 'unklar', erstes404: erstes ?? am }
 }
 
+/** Ein 404 liegt vor: bestätigt oder als erstes noch `unklar` (`erstes404`). Der Netflix-Riegel im Bau (09-2) fragt so, sonst wanderte ein Weg von der lebenden zur wackligen Form. */
+export const hat404 = (b: LinkBefund | undefined): boolean => b?.status === 404 || (b?.status === 'unklar' && b.erstes404 !== undefined)
+
+/**
+ * Netflix-Adressen mit vermerktem ersten 404: sie kommen im Lauf zuerst dran. Nach ältestem `geprueftAm` stünde das zweite 404
+ * bei `--limit 400` und mehreren Tausend älteren fälligen Einträgen bis zu 8 Wochen hinten.
+ */
+export function zweitesNetflix404(bestand: Record<string, LinkBefund>): string[] {
+  return Object.keys(bestand).filter((u) => istNetflix(u) && bestand[u].status === 'unklar' && bestand[u].erstes404 !== undefined)
+}
+
+/** Eine Nichtauskunft (unklar, 5xx, timeout) auf ein vermerktes erstes 404 lässt dessen Frist weiterlaufen, statt sie neu zu beginnen. */
+function behalteErstes404<B extends LinkBefund>(alt: LinkBefund | undefined, neu: B): B {
+  if (alt?.status !== 'unklar' || alt.erstes404 === undefined || neu.erstes404 !== undefined || istAuskunft(neu.status)) return neu
+  return { ...neu, erstes404: alt.erstes404 }
+}
+
 export type WechselPaar = { url: string; alt: unknown; neu: unknown }
 
 /**
@@ -40,7 +57,7 @@ export type WechselPaar = { url: string; alt: unknown; neu: unknown }
 export function nimmBefund<B extends LinkBefund>(bestand: Record<string, B>, url: string, neu: B, paare: WechselPaar[]): void {
   const alt = bestand[url]
   const behalten = neu.status === 'unklar' && alt?.status !== undefined && alt.status !== 'unklar'
-  if (!behalten) bestand[url] = netflixBefund(url, alt, neu)
+  if (!behalten) bestand[url] = behalteErstes404(alt, netflixBefund(url, alt, neu))
   paare.push({ url, alt: alt?.status, neu: neu.status })
 }
 

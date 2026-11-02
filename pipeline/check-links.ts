@@ -29,7 +29,7 @@ import { readSourceHealth, recordSource } from './lib/health.ts'
 import { netflixTonspurSchritt } from './lib/netflix-tonspur-schritt.ts'
 import { fortschritt, drosselNachVorlauf, passtInsBudget, pauseMitStand, waehleArbeit, ZEITBUDGET_SEKUNDEN, linkCheckEnde, zaehleBefund } from './lib/link-check-gesundheit.ts'
 import { istFaellig, istTot } from './lib/link-befund.ts'
-import { nimmBefund, wechselWarnungen, zaehleWechsel, type WechselPaar } from './lib/link-rauschen.ts'
+import { nimmBefund, wechselWarnungen, zaehleWechsel, zweitesNetflix404, type WechselPaar } from './lib/link-rauschen.ts'
 import { pruefbare } from './lib/pruefbare-adresse.ts'
 import { todayIso } from '../shared/time.ts'
 
@@ -316,6 +316,7 @@ async function main(): Promise<void> {
       vorrang.add(u)
     }
   }
+  for (const u of zweitesNetflix404(bestand)) vorrang.add(u)
   if (vorrang.size) log(`${vorrang.size} Adressen könnten eine Suche ablösen — sie kommen zuerst dran`)
 
   const grenze = new Date(Date.now() - ALTER * 86_400_000).toISOString().slice(0, 10)

@@ -28,7 +28,7 @@ try {
   mkdirSync(join(kulisse, 'data/curated'), { recursive: true })
   writeFileSync(join(kulisse, 'data/kino-ankuendigungen.yaml'), '[]\n')
   writeFileSync(join(kulisse, 'data/dub-confirmed.yaml'), '# leer\n')
-  const { netflixBefund, nimmBefund, zaehleWechsel, wechselWarnungen } = await import('./lib/link-rauschen.ts')
+  const { netflixBefund, nimmBefund, zaehleWechsel, wechselWarnungen, zweitesNetflix404, hat404 } = await import('./lib/link-rauschen.ts')
   const { werteLinkpruefungAus } = await import('./bau/09-2-linkpruefung.ts')
 
   /* 1. Tabelle. Werte fest eingetragen, nicht aus dem Modul gelesen. */
@@ -54,9 +54,10 @@ try {
   erwarte('Fremdhost mit Netflix im Pfad: kein Netflix', netflixBefund('https://example.org/netflix.com/title/1', undefined, tot('2026-11-02')), tot('2026-11-02'))
 
   /* 2. Kreislauf durch die echte Bauphase: Lauf, Bau, nächster Lauf, Bau. */
-  const baue = (befund: LinkBefund) => {
-    writeFileSync(join(kulisse, 'data/link-check.json'), JSON.stringify({ [NF]: befund }))
-    const titles = new Map<number, Title>([[1735, { id: 1735, streams: [{ platform: 'netflix', url: NF }], entfernteStreams: [] } as unknown as Title]])
+  /** Der Bau über einen Titel mit einem Netflix-Weg `weg`; `befunde` ist der Inhalt von `link-check.json`. */
+  const baueMit = (befunde: Record<string, LinkBefund>, weg: string) => {
+    writeFileSync(join(kulisse, 'data/link-check.json'), JSON.stringify(befunde))
+    const titles = new Map<number, Title>([[1735, { id: 1735, streams: [{ platform: 'netflix', url: weg }], entfernteStreams: [] } as unknown as Title]])
     werteLinkpruefungAus({
       ytKanal: {},
       ytKauf: new Set(),
@@ -69,9 +70,24 @@ try {
       checks: new Map(),
       vorherTitles: [DEUTSCH],
     })
-    const t = titles.get(1735)
+    return titles.get(1735)
+  }
+  const baue = (befund: LinkBefund) => {
+    const t = baueMit({ [NF]: befund }, NF)
     return { wege: t?.streams.length, abgang: t?.entfernteStreams?.length ?? 0 }
   }
+  /* Netflix-Riegel (Bau 09-2): zwei Formen derselben Kennung, die neue (`/title/`) mit erstem 404, die alte (`/watch/`) lebt. */
+  const ALT = 'https://www.netflix.com/watch/82850867'
+  const NEU = 'https://www.netflix.com/title/82850867'
+  const weg = (befunde: Record<string, LinkBefund>) => baueMit(befunde, ALT)?.streams.map((s) => s.url)
+  const erst = ersterTag('2026-11-02', '2026-11-02')
+  const lebt = { status: 200, geprueftAm: '2026-11-01' }
+  erwarte('Riegel: neue Form mit erstem 404, alte lebt: alte Form bleibt', weg({ [ALT]: lebt, [NEU]: erst }), [ALT])
+  erwarte('Riegel: neue Form bestätigt 404, alte lebt: alte Form bleibt', weg({ [ALT]: lebt, [NEU]: tot('2026-11-02') }), [ALT])
+  erwarte('Riegel: beide mit erstem 404: vereinheitlicht', weg({ [ALT]: erst, [NEU]: erst }), [NEU])
+  erwarte('Riegel: alte Form mit erstem 404, neue lebt: vereinheitlicht', weg({ [ALT]: erst, [NEU]: lebt }), [NEU])
+  erwarte('Riegel: Nichtauskunft ohne erstes404 in der neuen Form: vereinheitlicht', weg({ [ALT]: lebt, [NEU]: { status: 'unklar', geprueftAm: '2026-11-02' } }), [NEU])
+  erwarte('Riegel: ohne Messung der neuen Form: vereinheitlicht', weg({ [ALT]: lebt }), [NEU])
   const lauf1 = netflixBefund(NF, { status: 200, geprueftAm: '2026-09-20' }, tot('2026-11-02'))
   erwarte('Bau nach Lauf 1 (einzelnes 404): Weg bleibt', baue(lauf1), { wege: 1, abgang: 0 })
   const lauf2 = netflixBefund(NF, lauf1, tot('2026-11-03'))
@@ -99,6 +115,32 @@ try {
   erwarte('echtes unklar ohne Vorbefund wird gespeichert', frisch[andere], { status: 'unklar', geprueftAm: '2026-11-02' })
   nimmBefund(frisch, andere, { status: 'unklar', geprueftAm: '2026-11-09' }, [])
   erwarte('unklar über altem unklar erneuert das Datum', frisch[andere], { status: 'unklar', geprueftAm: '2026-11-09' })
+
+  /* 2c. Das vermerkte erste 404 übersteht Nichtauskünfte; die Frist beginnt nicht von vorn. */
+  const alt1 = ersterTag('2026-10-25', '2026-10-20')
+  const folge = (neu: LinkBefund): LinkBefund | undefined => {
+    const b: Record<string, LinkBefund> = { [NF]: alt1 }
+    nimmBefund(b, NF, neu, [])
+    return b[NF]
+  }
+  erwarte('unklar auf erstes404: Tag bleibt', folge({ status: 'unklar', geprueftAm: '2026-11-02' }), ersterTag('2026-11-02', '2026-10-20'))
+  erwarte('503 auf erstes404: Tag bleibt', folge({ status: 503, geprueftAm: '2026-11-02' }), { status: 503, geprueftAm: '2026-11-02', erstes404: '2026-10-20' })
+  erwarte('timeout auf erstes404: Tag bleibt', folge({ status: 'timeout', geprueftAm: '2026-11-02' }), { status: 'timeout', geprueftAm: '2026-11-02', erstes404: '2026-10-20' })
+  erwarte('zweites 404 nach Nichtauskunft zählt ab dem ersten Tag', folge(tot('2026-11-02')), tot('2026-11-02'))
+  erwarte('200 auf erstes404: Vermerk fällt weg', folge({ status: 200, geprueftAm: '2026-11-02' }), { status: 200, geprueftAm: '2026-11-02' })
+  erwarte('unklar auf unklar ohne erstes404: kein Vermerk erfunden', (() => {
+    const b: Record<string, LinkBefund> = { [NF]: { status: 'unklar', geprueftAm: '2026-10-25' } }
+    nimmBefund(b, NF, { status: 'unklar', geprueftAm: '2026-11-02' }, [])
+    return b[NF]
+  })(), { status: 'unklar', geprueftAm: '2026-11-02' })
+  erwarte('5xx auf 200 mit Rest-Vermerk: kein Vermerk übernommen', (() => {
+    const b: Record<string, LinkBefund> = { [NF]: { status: 200, geprueftAm: '2026-10-25', erstes404: '2026-10-20' } }
+    nimmBefund(b, NF, { status: 503, geprueftAm: '2026-11-02' }, [])
+    return b[NF]
+  })(), { status: 503, geprueftAm: '2026-11-02' })
+  const wartend = zweitesNetflix404({ [NF]: erst, 'https://www.netflix.com/title/2': { status: 'unklar', geprueftAm: '2026-11-02' }, 'https://www.netflix.com/title/3': tot('2026-11-02'), 'https://www.joyn.de/x': erst })
+  erwarte('Vorrang: nur Netflix mit erstem 404', wartend, [NF])
+  erwarte('hat404: bestätigt, erstes, Nichtauskunft, lebt, nichts', [hat404(tot('2026-11-02')), hat404(erst), hat404({ status: 'unklar' }), hat404({ status: 200 }), hat404(undefined)], [true, true, false, false, false])
 
   /* 3. Wächter. */
   const lauf = (anzahl: number, wechsler: number, host = 'www.netflix.com', alt: unknown = 200, neu: unknown = 404) =>
