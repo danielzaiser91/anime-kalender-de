@@ -9183,12 +9183,12 @@
   platform: netflix
   dub: true
   dubRanges:
-    - from: 53
-      to: 99
+    - from: 52
+      to: 100
       dub: true
-      checked: [53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99]
+      checked: [52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100]
   checkedAt: '2026-08-26'
-  note: "Folgen 53–99 mit deutschem Ton — Tonspuren: de|Deutsch, nl|Niederländisch, it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — 8 Tonspuren, 0 Audiodeskriptionen — Umrechnung: Netflix-Staffel 2 beginnt bei unserer Folge 52 (Daniel 01.11.2026, fernsehserien.de), Netflix-Folgen 2–48 sind unsere 53–99; Netflix-Folge 1 und 49 nicht geprüft"
+  note: "Folgen 52–100 mit deutschem Ton — Tonspuren: de|Deutsch, nl|Niederländisch, it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — 8 Tonspuren, 0 Audiodeskriptionen — Umrechnung: Staffelsumme – Netflix-Staffel 2 beginnt bei unserer Folge 52 (JustWatch: 51 Folgen davor, Block 49; Daniel 01.11.2026, fernsehserien.de: Netflix S2 F1 “Neustart” ist unsere Folge 52), Netflix-Folgen 1–49 sind unsere 52–100; bestätigt durch: Folgentitel (14 von 15, RTL+ Staffel 2 gegen aniSearch, `npx tsx tools/staffelsumme-vorschau.ts`)"
 - anilistId: 158871
   title: "Pokémon Horizonte"
   platform: netflix
@@ -23790,6 +23790,18 @@
       checked: [31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65]
   checkedAt: '2026-10-11'
   note: "Folgen 1–35 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], nl|Niederländisch, fr|Französisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 35, dazwischen nicht geprüft — Folge 35: Ich will den Schatz finden — Umrechnung: Netflix-Staffel 2 (35 Folgen) = unsere Staffel 2 (35 Folgen, Folgen 31–65); die Netflix-Reihenfolge weicht von unserer ab: Netflix-Folge 35 „Ich will den Schatz finden“ ist bei uns Folge 63 (nicht 65), der Bereich 31–65 gilt deshalb für die ganze Staffel und bleibt angenommen"
+- anilistId: -3902
+  title: "Shaun das Schaf"
+  platform: netflix
+  url: https://www.netflix.com/title/70155567
+  dub: false
+  dubRanges:
+    - from: 101
+      to: 150
+      dub: false
+      checked: [101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150]
+  checkedAt: '2026-10-11'
+  note: "Staffel 4 und 5 ohne deutschen Ton, Tonspuren nur englisch — ANGENOMMEN aus Randprobe (gemessen: Netflix-Folge 1 und 15 bzw. 1 und 10) — Umrechnung: Staffelsumme – Netflix-Staffel 4 beginnt bei unserer Folge 101 (JustWatch: 100 Folgen davor; Netflix führt je Folge zwei Kurzfolgen, 15 + 10 Folgen sind unsere 101–150, Netflix-Folge n der Staffel 4 sind unsere 2n-1 und 2n); bestätigt durch: Folgentitel (19 von 25 eindeutig zugeordneten englischen Kurzfolgen-Titeln exakt am Soll, die übrigen 6 liegen im selben Block 101–130; Netflix-Titel gegen die englischen TMDB-Titel unserer Liste)"
 - anilistId: 156067
   title: "Campfire Cooking in Another World with My Absurd Skill"
   platform: disneyplus
