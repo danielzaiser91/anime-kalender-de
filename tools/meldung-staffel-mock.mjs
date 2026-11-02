@@ -23,7 +23,8 @@ const titles = [
 const reihe = titles.map((t) => ({ id: t.id, name: t.titleDe, format: t.format, jpStart: t.jpStart }))
 // `summe` / `summefalsch` = F100: ein Cartoon (-900001, 40 Folgen) an der Netflix-Adresse, Netflix meldet nur Staffel 2 (12 Folgen) mit Folgentiteln
 // "Titel <28 + n>" (`summefalsch`: um 5 verschoben); die Wegwerf-Wurzel liefert unsere Folgenliste und JustWatch (28 Folgen davor).
-const SUMME = ['summe', 'summefalsch'].includes(process.env.AK_SZENARIO)
+// `summerl` = dasselbe ohne Titel in der Notiz (wie Beyblade X bei Netflix), die Titel kommen aus RTL+; `summerl2` = Anbieter-Staffeln 2 und 3 zu je 6 Folgen.
+const SUMME = ['summe', 'summefalsch', 'summerl', 'summerl2'].includes(process.env.AK_SZENARIO)
 const summeTitel = { id: -900001, titleDe: 'Summenreihe', format: 'TV', episodes: 40, streams: stream }
 const attrappe = SUMME ? { titles: [], franchises: {}, cartoons: [summeTitel] } : { titles, franchises: { 7: reihe }, cartoons: [] }
 const bestandDatei = /(?:^|[\\/])public[\\/]data[\\/](titles|franchises|cartoons)\.json$/
@@ -61,12 +62,16 @@ const durchgezaehlt = Array.from({ length: 24 }, (_, i) => ({ ...zeile(0, i + 1)
 
 const verschiebung = process.env.AK_SZENARIO === 'summefalsch' ? 5 : 0
 const nurStaffel2 = JSON.stringify([{ seq: 2, name: '', folgen: 12, erste: 1 }])
-const summeMeldungen = Array.from({ length: 12 }, (_, i) => ({ ...zeile(2, i + 1), titel_id: -900001, staffeln: nurStaffel2, notiz: `Folge ${i + 1}: Titel ${29 + i + verschiebung}` }))
+const ohneTitel = ['summerl', 'summerl2'].includes(process.env.AK_SZENARIO)
+const notizDerSumme = (i) => (ohneTitel ? '8 Tonspuren' : `Folge ${i + 1}: Titel ${29 + i + verschiebung}`)
+const summeMeldungen = Array.from({ length: 12 }, (_, i) => ({ ...zeile(2, i + 1), titel_id: -900001, staffeln: nurStaffel2, notiz: notizDerSumme(i) }))
+const zweiStaffeln = JSON.stringify([{ seq: 2, name: '', folgen: 6, erste: 1 }, { seq: 3, name: '', folgen: 6, erste: 1 }])
+const summeMeldungen2 = [2, 3].flatMap((s) => Array.from({ length: 6 }, (_, i) => ({ ...zeile(s, i + 1), titel_id: -900001, staffeln: zweiStaffeln, notiz: '8 Tonspuren' })))
 
 globalThis.fetch = baueFetchAttrappe(
   (url, opt) => {
     if (!istMeldungsabruf(url, opt)) return undefined
-    if (SUMME) return meldungsAntwort(summeMeldungen)
+    if (SUMME) return meldungsAntwort(process.env.AK_SZENARIO === 'summerl2' ? summeMeldungen2 : summeMeldungen)
     if (process.env.AK_SZENARIO === 'notizen') return meldungsAntwort(durchgezaehlt)
     return meldungsAntwort(process.env.AK_SZENARIO !== 'zwei' && process.env.AK_SZENARIO !== 'ohnezahl' ? [...folgen(1), ...folgen(2)] : folgen(2))
   },

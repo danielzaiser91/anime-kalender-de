@@ -74,13 +74,15 @@ if (notizen.length !== 1 || !notizen[0]!.includes('Randprobe Folge 12"')) fehler
   Meldungen zur umgerechneten Stelle, entsteht der Beleg 29–40 mit dem Bestätigungsvermerk; sind sie um 5 verschoben (oder fehlt JustWatch), bleibt die
   Meldung liegen. Die Folgenliste liefert die Wegwerf-Wurzel (Cartoon-Folgen "Titel n").
 */
-function summeIn(szenario: string, mitJustWatch: boolean): string {
+function summeIn(szenario: string, mitJustWatch: boolean, mitRtl = false): string {
   const wurzelTmp = mkdtempSync(join(tmpdir(), 'fetch-pruefungen-summe-'))
   try {
     for (const ordner of ['data/curated', 'public/data', 'extension', 'daniel-zum-abarbeiten']) mkdirSync(join(wurzelTmp, ordner), { recursive: true })
     const folgenListe = Array.from({ length: 40 }, (_, i) => ({ s: 1, e: i + 1, en: `Titel ${i + 1}` }))
     writeFileSync(join(wurzelTmp, 'data/cartoon-folgen.json'), JSON.stringify({ '-900001': { tmdbId: 1, geholtAm: '2026-11-02', folgen: folgenListe } }))
     if (mitJustWatch) writeFileSync(join(wurzelTmp, 'data/justwatch-audio.json'), JSON.stringify({ '-900001': { staffeln: [{ nr: 1, folgen: 28 }, { nr: 2, folgen: 12 }] } }))
+    const videos = Array.from({ length: 12 }, (_, i) => ({ staffel: 2, folge: i + 1, titel: `Titel ${29 + i}` }))
+    if (mitRtl) writeFileSync(join(wurzelTmp, 'data/rtlplus-folgen.json'), JSON.stringify({ titel: { '-900001': { videos } } }))
     return lauf(szenario, ['--trocken'], wurzelTmp, { PRUEFLISTE_ERWEITERT: '1' }).stdout
   } finally {
     rmSync(wurzelTmp, { recursive: true, force: true })
@@ -90,6 +92,13 @@ const summeGut = summeIn('summe', true)
 if (belegTitel(summeGut).join() !== '-900001' || !summeGut.includes('from: 29') || !summeGut.includes('to: 40') || !summeGut.includes('bestätigt durch: Folgentitel (12 von 12')) fehler.push(`Staffelsumme: Beleg 29–40 mit Vermerk fehlt: ${summeGut.slice(0, 400)}`)
 const summeVerschoben = summeIn('summefalsch', true)
 if (belegTitel(summeVerschoben).length) fehler.push(`Staffelsumme mit verschobenen Titeln: kein Beleg erwartet: ${summeVerschoben.slice(0, 300)}`)
+/* Netflix meldet keine Titel (Beyblade X): RTL+ bestätigt; ohne RTL+ bleibt die Meldung liegen; mit zwei Anbieter-Staffeln zählt die Summe davor mit. */
+const summeRtl = summeIn('summerl', true, true)
+if (belegTitel(summeRtl).join() !== '-900001' || !summeRtl.includes('from: 29') || !summeRtl.includes('to: 40') || !summeRtl.includes('RTL+ Staffel 2 gegen unsere Liste')) fehler.push(`Staffelsumme über RTL+: Beleg 29–40 fehlt: ${summeRtl.slice(0, 400)}`)
+const summeOhneRtl = summeIn('summerl', true, false)
+if (belegTitel(summeOhneRtl).length) fehler.push(`Staffelsumme ohne jede Titelbestätigung: kein Beleg erwartet: ${summeOhneRtl.slice(0, 300)}`)
+const summeZwei = summeIn('summerl2', true, true)
+if (belegTitel(summeZwei).join() !== '-900001,-900001' || !summeZwei.includes('from: 29') || !summeZwei.includes('to: 34') || !summeZwei.includes('from: 35') || !summeZwei.includes('to: 40')) fehler.push(`Staffelsumme mit Anbieter-Staffel 2 und 3: Belege 29–34 und 35–40 fehlen: ${summeZwei.slice(0, 400)}`)
 const summeOhneJw = summeIn('summe', false)
 if (belegTitel(summeOhneJw).length) fehler.push(`Staffelsumme ohne JustWatch: kein Beleg erwartet: ${summeOhneJw.slice(0, 300)}`)
 
