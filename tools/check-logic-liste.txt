@@ -192,7 +192,9 @@ pipeline/check-folgentitel-englisch.ts
 pipeline/check-folgentitel-luecke-lauf.ts
 pipeline/check-folgentitel-luecke.ts
 pipeline/check-folgenzahl-belegt.ts
+pipeline/check-folgenzahl-kasten.ts
 pipeline/check-folgenzahl-kennzeichnung.ts
+pipeline/check-folgenzahl-sichtung.ts
 pipeline/check-gleiche-adresse.ts
 pipeline/check-hand-gesehen.ts
 pipeline/check-handbeleg-anbieter-zaehlung.ts
