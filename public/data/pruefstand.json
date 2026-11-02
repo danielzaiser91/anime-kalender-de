@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-11-02T20:12:20.071Z",
+ "erzeugtAm": "2026-11-02T21:13:03.499Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -367,9 +367,9 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 771,
+   "gemeldet": 768,
    "gesamt": 940,
-   "offen": 169,
+   "offen": 172,
    "ohneSeite": 17,
    "ziel": "https://www.netflix.com/title/81608820",
    "ziele": [
@@ -720,6 +720,10 @@
      "titel": "LEGO Ninjago: Meister des Spinjitzu"
     },
     {
+     "url": "https://www.netflix.com/title/70254353",
+     "titel": "Kleine Prinzessin"
+    },
+    {
      "url": "https://www.netflix.com/title/80014749",
      "titel": "Rick and Morty"
     },
@@ -746,6 +750,10 @@
     {
      "url": "https://www.netflix.com/title/80063153",
      "titel": "Kuroko’s Basketball: 1st Season"
+    },
+    {
+     "url": "https://www.netflix.com/title/80108159",
+     "titel": "Fragestunde mit den StoryBots"
     },
     {
      "url": "https://www.netflix.com/title/80115338",
@@ -832,6 +840,10 @@
      "titel": "Emily Erdbeer"
     },
     {
+     "url": "https://www.netflix.com/title/81687176",
+     "titel": "Hier kommen die Batwheels"
+    },
+    {
      "url": "https://www.netflix.com/title/81700960",
      "titel": "LEGO Friends: Das nächste Kapitel"
     },
@@ -891,7 +903,7 @@
     "81696980": 44,
     "81698957": 1,
     "81726714": 1,
-    "81924739": 48,
+    "81924739": 99,
     "81969861": 24,
     "81991687": 25,
     "82647303": 12,
