@@ -21,7 +21,6 @@
   { "name": "sucheBeleg: Grenze >", "datei": "tools/workflows-beleg.mjs", "suche": "gefragt >= JOBS_HOECHSTENS", "ersetze": "gefragt > JOBS_HOECHSTENS" },
   { "name": "sucheBeleg: Grenze >= -1", "datei": "tools/workflows-beleg.mjs", "suche": "gefragt >= JOBS_HOECHSTENS", "ersetze": "gefragt >= JOBS_HOECHSTENS - 1" },
   { "name": "sucheBeleg: Zähler zählt nicht", "datei": "tools/workflows-beleg.mjs", "suche": "gefragt += 1", "ersetze": "gefragt += 0" },
-  { "name": "Kontrolle gleichwertig: break -> continue", "datei": "tools/workflows-beleg.mjs", "suche": "break\n", "ersetze": "continue\n" },
   { "name": "sucheBeleg: Treffer ignoriert", "datei": "tools/workflows-beleg.mjs", "suche": "if (pruefenGruen(jobsVon(lauf.id))) return lauf", "ersetze": "if (pruefenGruen(jobsVon(lauf.id))) return null" },
   { "name": "sucheBeleg: Jobs immer grün", "datei": "tools/workflows-beleg.mjs", "suche": "if (pruefenGruen(jobsVon(lauf.id))) return lauf", "ersetze": "jobsVon(lauf.id)\n    return lauf" },
   { "name": "gueltigkeit: Repo-Pflicht entfällt", "datei": "tools/workflows-beleg.mjs", "suche": "if (!repo) return", "ersetze": "if (false) return" },
