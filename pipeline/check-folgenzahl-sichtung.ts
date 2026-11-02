@@ -45,7 +45,11 @@ pruefe('TV: kein Termin trägt eine Gesamtzahl', expandEvents(tv).length > 0 && 
 /* Panel: dieselbe Aussage, ohne Nenner aus der Listenlänge. */
 const T = (k: string, v?: Record<string, string | number>) => `${k}:${JSON.stringify(v)}`
 pruefe('Panel mit gesichtetem Release: „123 Folgen auf Deutsch“ ohne „von“', deFolgenZahlText([128, 123], [rtl], T) === 'detail.dubKopf:{"n":123}', deFolgenZahlText([128, 123], [rtl], T))
-pruefe('Panel ohne diesen Release: „123 von 128“ bleibt', deFolgenZahlText([128, 123], [belegt], T) === 'antwort.teilweiseZahl:{"raus":123,"gesamt":128}')
+const echtBelegt: Release = { ...rtl, schedule: { ...rtl.schedule, episodeCountAssumed: undefined, episodeCountNurGesichtet: undefined } }
+pruefe('Panel mit belegter Zahl: „123 von 128“ bleibt', deFolgenZahlText([128, 123], [echtBelegt], T) === 'antwort.teilweiseZahl:{"raus":123,"gesamt":128}')
+pruefe('Panel mit nur angenommener Zahl: „123 Folgen auf Deutsch“ ohne „von“', deFolgenZahlText([128, 123], [belegt], T) === 'detail.dubKopf:{"n":123}')
+pruefe('Panel ohne jeden Release: „123 Folgen auf Deutsch“ ohne „von“', deFolgenZahlText([14, 3], [], T) === 'detail.dubKopf:{"n":3}')
+pruefe('Panel, ein Anbieter belegt, einer gesichtet: „von 128“ steht', deFolgenZahlText([128, 123], [rtl, echtBelegt], T) === 'antwort.teilweiseZahl:{"raus":123,"gesamt":128}')
 
 /* Wächter DD-24 über die gebauten Releases und Termine. */
 const mitTv = [rtl, tv]
