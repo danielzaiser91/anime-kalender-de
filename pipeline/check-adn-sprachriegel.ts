@@ -15,9 +15,11 @@ import {
   MAX_VERWORFEN,
   katalogBilanzZeile,
   mitUngepruftenAlten,
+  mitWiederholung,
   riegelBilanz,
   schreibeArchiv,
   verworfen,
+  WIEDERHOLUNG_WARTE_MS,
 } from './lib/adn-sprachriegel.ts'
 
 type Video = { id: number; shortNumber: string; languages: string[] }
@@ -114,6 +116,28 @@ pruefe(`${MAX_VERWORFEN + 1} verworfene Serien sind rot`, riegelBilanz(MAX_VERWO
 pruefe('24 verworfene Serien (28.10.2026) sind rot', riegelBilanz(24).rot)
 pruefe('Bilanzzeile nennt die Zahl', riegelBilanz(7).zeile.includes(' 7 Serien'), riegelBilanz(7).zeile)
 pruefe('Obergrenze ist eine Handvoll (5)', MAX_VERWORFEN === 5, MAX_VERWORFEN)
+
+// Wiederholung bei französischer Sicht: Antworten der Reihe nach, Wartezeit eingespritzt (zählt Aufrufe, wartet nicht).
+const FR = { videos: [{ languages: ['vostf'] }], abbruch: 'franzoesisch' }
+const DE = { videos: [{ languages: ['vostde', 'vde'] }] }
+async function wiederholt(antworten: { videos: { languages: string[] }[]; abbruch?: string }[]) {
+  verworfen.length = 0
+  let fragen = 0
+  let gewartet = 0
+  const antwort = await mitWiederholung(900001, async () => antworten[Math.min(fragen++, antworten.length - 1)]!, async () => { gewartet++ })
+  return { antwort, fragen, gewartet, gezaehlt: verworfen.length }
+}
+const fd = await wiederholt([FR, DE])
+pruefe('Wiederholung: Französisch, dann Deutsch -> zweite Antwort, zwei Fragen, eine Wartezeit, nichts gezählt', fd.antwort === DE && fd.fragen === 2 && fd.gewartet === 1 && fd.gezaehlt === 0, fd)
+const ff = await wiederholt([FR, FR])
+pruefe('Wiederholung: zweimal Französisch -> Abbruch ohne Videos, genau einmal gezählt', ff.antwort.abbruch === 'franzoesisch' && ff.antwort.videos.length === 0 && ff.gezaehlt === 1 && ff.fragen === 2, ff)
+const dd = await wiederholt([DE])
+pruefe('Wiederholung: gleich Deutsch -> eine Frage, keine Wartezeit', dd.fragen === 1 && dd.gewartet === 0 && dd.gezaehlt === 0, dd)
+const fehlerZuerst = await wiederholt([{ videos: [], abbruch: '500' }])
+pruefe('Wiederholung: 5xx wird nicht wiederholt', fehlerZuerst.fragen === 1 && fehlerZuerst.antwort.abbruch === '500', fehlerZuerst)
+const dann500 = await wiederholt([FR, { videos: [], abbruch: '500' }])
+pruefe('Wiederholung: Französisch, dann 5xx -> der Fehler bleibt, nichts als Verwurf gezählt', dann500.antwort.abbruch === '500' && dann500.gezaehlt === 0, dann500)
+pruefe('Wartezeit liegt zwischen 20 und 30 s', WIEDERHOLUNG_WARTE_MS >= 20_000 && WIEDERHOLUNG_WARTE_MS <= 30_000, WIEDERHOLUNG_WARTE_MS)
 
 console.log()
 if (fehler) {
