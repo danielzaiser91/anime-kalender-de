@@ -214,5 +214,7 @@ jobs:
         with:
           nachricht: "chore(data): Lauf auf Abruf (${{ steps.lauf.outputs.name || 'unbekannt' }})"
           fund: lauf
+          # Probebau vor dem Merge (31.10.2026, PR 2524 brach den Bestandsbau): rot = PR bleibt offen, Grund in der Zusammenfassung.
+          bauprobe: 'true'
           app-id: ${{ secrets.DATEN_APP_ID }}
           app-key: ${{ secrets.DATEN_APP_KEY }}
