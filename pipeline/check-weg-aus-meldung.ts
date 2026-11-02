@@ -17,6 +17,11 @@ const faelle: Array<[string, { url: string; seiten_kennung: string | null; staff
   ['Suchadresse ohne Kennung bleibt', { url: 'https://www.amazon.de/s?k=Higurashi', seiten_kennung: null, staffel: 1 }, 'https://www.amazon.de/s?k=Higurashi'],
   ['keine Kennung, Adresse bleibt', { url: S4, seiten_kennung: null, staffel: 1 }, S4],
   ['unlesbare Kennung, Adresse bleibt', { url: S4, seiten_kennung: 'b09jtsd79f', staffel: 1 }, S4],
+  ['Adresse in /dp/-Form mit gleicher Kennung bleibt', { url: 'https://www.amazon.de/dp/B09JTSD79F', seiten_kennung: 'B09JTSD79F', staffel: 1 }, 'https://www.amazon.de/dp/B09JTSD79F'],
+  ['Adresse mit langer Kennung, gleiche Kennung bleibt', { url: `${AMAZON}0Q6QUJIEW346VMM87OG648DPND`, seiten_kennung: '0Q6QUJIEW346VMM87OG648DPND', staffel: 1 }, `${AMAZON}0Q6QUJIEW346VMM87OG648DPND`],
+  ['26 Zeichen (GTI-Kennung) gelten', { url: S4, seiten_kennung: '0Q6QUJIEW346VMM87OG648DPND', staffel: 1 }, `${AMAZON}0Q6QUJIEW346VMM87OG648DPND`],
+  ['27 Zeichen gelten nicht', { url: S4, seiten_kennung: '0Q6QUJIEW346VMM87OG648DPNDX', staffel: 1 }, S4],
+  ['9 Zeichen gelten nicht', { url: S4, seiten_kennung: 'B09JTSD79', staffel: 1 }, S4],
   ['kein Amazon, Adresse bleibt', { url: 'https://www.netflix.com/title/81152346', seiten_kennung: 'B09JTSD79F', staffel: 1 }, 'https://www.netflix.com/title/81152346'],
 ]
 const fehler = faelle.flatMap(([name, p, soll]) => {
