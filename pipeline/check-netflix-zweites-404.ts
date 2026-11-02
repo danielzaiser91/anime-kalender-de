@@ -82,6 +82,9 @@ try {
   erwarte('Bau nach 200 statt zweitem 404: Weg bleibt, kein erstes404 mehr', [baue(erholt), (erholt as LinkBefund).erstes404], [{ wege: 1, abgang: 0 }, undefined])
   erwarte('Kontrolle: hartes 404 entfernt weiter', baue(tot('2026-11-02')), { wege: 0, abgang: 1 })
 
+  erwarte('Adresse nicht lesbar: kein Netflix', netflixBefund('keine adresse', undefined, tot('2026-11-02')), tot('2026-11-02'))
+  erwarte('erstes404 nur aus unklar: ein Rest an anderem Status zählt nicht', netflixBefund(NF, { status: 200, geprueftAm: '2026-10-01', erstes404: '2026-10-01' }, tot('2026-11-05')), ersterTag('2026-11-05', '2026-11-05'))
+
   /* 2b. `nimmBefund`: eine echte Nichtauskunft löscht keinen Befund, ein Netflix-404 geht über die Regel, das Paar wandert in die Zählung. */
   const paare: { url: string; alt: unknown; neu: unknown }[] = []
   const bestand: Record<string, LinkBefund> = { [NF]: { status: 200, geprueftAm: '2026-09-20' } }
@@ -90,6 +93,12 @@ try {
   nimmBefund(bestand, NF, tot('2026-11-02'), paare)
   erwarte('Netflix-404 im Bestand: unklar mit erstem Tag', bestand[NF], ersterTag('2026-11-02', '2026-11-02'))
   erwarte('Paare: alt/neu der Rohmessung', paare, [{ url: NF, alt: 200, neu: 'unklar' }, { url: NF, alt: 200, neu: 404 }])
+  const andere = 'https://www.joyn.de/serien/x'
+  const frisch: Record<string, LinkBefund> = {}
+  nimmBefund(frisch, andere, { status: 'unklar', geprueftAm: '2026-11-02' }, [])
+  erwarte('echtes unklar ohne Vorbefund wird gespeichert', frisch[andere], { status: 'unklar', geprueftAm: '2026-11-02' })
+  nimmBefund(frisch, andere, { status: 'unklar', geprueftAm: '2026-11-09' }, [])
+  erwarte('unklar über altem unklar erneuert das Datum', frisch[andere], { status: 'unklar', geprueftAm: '2026-11-09' })
 
   /* 3. Wächter. */
   const lauf = (anzahl: number, wechsler: number, host = 'www.netflix.com', alt: unknown = 200, neu: unknown = 404) =>
@@ -102,6 +111,8 @@ try {
   erwarte('19 Adressen, 19 Wechsel: unter der Mindestmenge keine Warnung', warnt(lauf(19, 19)), 0)
   erwarte('Richtung 404 -> 200 zählt ebenso', warnt(lauf(20, 5, 'www.netflix.com', 404, 200)), 1)
   erwarte('304 -> 404 zählt als lebt -> tot', warnt(lauf(20, 5, 'www.netflix.com', 304, 404)), 1)
+  erwarte('Region (Amazon) zählt als tot', warnt(lauf(20, 5, 'www.amazon.de', 200, 'region')), 1)
+  erwarte('503 ist keine Auskunft und kein Wechsel', warnt(lauf(20, 20, 'www.netflix.com', 200, 503)), 0)
   erwarte('Nichtauskunft (timeout) zählt weder als Wechsel noch als geprüft', warnt([...lauf(20, 2), ...lauf(50, 50, 'www.netflix.com', 200, 'timeout')]), 0)
   erwarte('Vorbefund fehlt: nicht geprüft', warnt(lauf(40, 40, 'www.netflix.com', null, 404)), 0)
   erwarte('Nachbarhost mischt sich nicht', warnt([...lauf(20, 2), ...lauf(20, 2, 'www.joyn.de')]), 0)
