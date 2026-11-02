@@ -322,3 +322,7 @@
   url: https://www.amazon.de/gp/video/detail/B0F3TCT3TG
   grund: 'Seite hat 13 Folgen (11 + 2 Bonus) und gehört Staffel 3 (136804), nicht Staffel 2 mit 10 Folgen (Meldungen 4742, 8832, 24007; Zuordnung pendelte zwischen den Bestandsläufen, #2497)'
   entferntAm: '2026-10-31'
+- anilistId: 10719
+  url: https://www.amazon.de/gp/video/detail/B09JV7CC61
+  grund: 'Seite B09JV7CC61 gehört Haganai NEXT (14967, Seite B0CZ4GBM2D, gleiche gti 7669196e, Staffel 2; prime-zugeordnet.json), nicht der ersten Staffel (Meldungen 8556, 24279, 02.11.2026)'
+  entferntAm: '2026-11-02'
