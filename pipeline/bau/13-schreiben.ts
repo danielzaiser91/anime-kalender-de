@@ -27,6 +27,7 @@ import { jwNeinAnSeite } from './kanal-erbt-anbieter.ts'
 import { tonDerKanalWege } from './deutsch-nicht-gegen-sprach-termin.ts'
 import { schliesseSpaeteLuecken } from './urteil-schliesst-luecken.ts'
 import { log } from '../lib/util.ts'
+import { type IstTot } from '../lib/adresse-tot.ts'
 
 export function schreibeDatensatz({
   allTitles,
@@ -41,6 +42,7 @@ export function schreibeDatensatz({
   titles,
   jpStartAnzeige,
   events,
+  istTot,
   meta,
 }: {
   allTitles: Title[]
@@ -56,6 +58,7 @@ export function schreibeDatensatz({
   titles: Map<number, Title>
   jpStartAnzeige: Map<number, string>
   events: ReleaseEvent[]
+  istTot: IstTot
   meta: DataMeta
 }) {
   /* Der vorige Bestand muss vor dem ersten Schreiben von titles.json gelesen werden (`13-3-listen`). */
@@ -89,7 +92,7 @@ export function schreibeDatensatz({
   ergaenzeDeutscheFolgenzahl(synopses, new Map([...titles.values()].map((t) => [t.id, t.episodes])))
   const releasesVorAngebot = releases.length
   ergaenzeErstausgabeAngebot({ titles: titles.values(), releases })
-  schreibeListen({ slim, tmdbTitles, releases, titles })
+  schreibeListen({ slim, tmdbTitles, releases, titles, istTot })
   ergaenzeAngebotTermine({ events, releases, ab: releasesVorAngebot, slim, titles })
   schreibeKinoZuletzt(titles, tmdbTitles)
 

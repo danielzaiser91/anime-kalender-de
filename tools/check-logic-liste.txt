@@ -418,6 +418,7 @@ pipeline/check-tmdb-hauptserie.ts
 pipeline/check-tmdb-katalog.ts
 pipeline/check-tmdb-staffel0.ts
 pipeline/check-tmdb-suche.ts
+pipeline/check-tote-adresse-runden.ts
 pipeline/check-tote-adressen-lauf.ts
 pipeline/check-trailer-auswahl.ts
 pipeline/check-trailer-lauf.ts
