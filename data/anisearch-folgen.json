@@ -267073,7 +267073,7 @@
         "nr": 13
       }
     ],
-    "geholtAm": "2026-10-26T05:08:16.319Z"
+    "geholtAm": "2026-11-02T05:05:27.369Z"
   },
   "13776": {
     "anisearchId": 13776,
@@ -303822,7 +303822,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-10-26T05:05:29.874Z"
+    "geholtAm": "2026-11-02T05:02:36.428Z"
   },
   "16884": {
     "anisearchId": 16884,
@@ -304747,7 +304747,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-10-26T05:10:35.104Z"
+    "geholtAm": "2026-11-02T05:07:49.533Z"
   },
   "16976": {
     "anisearchId": 16976,
@@ -312565,7 +312565,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-10-26T05:05:36.798Z"
+    "geholtAm": "2026-11-02T05:02:43.551Z"
   },
   "17552": {
     "anisearchId": 17552,
@@ -333437,7 +333437,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-10-26T05:10:42.072Z"
+    "geholtAm": "2026-11-02T05:07:56.654Z"
   },
   "19246": {
     "anisearchId": 19246,
@@ -334824,7 +334824,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-10-26T05:05:50.676Z"
+    "geholtAm": "2026-11-02T05:02:50.683Z"
   },
   "19373": {
     "anisearchId": 19373,
@@ -335356,7 +335356,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-10-26T05:10:49.025Z"
+    "geholtAm": "2026-11-02T05:08:03.842Z"
   },
   "19443": {
     "anisearchId": 19443,
@@ -335727,6 +335727,48 @@
       }
     ],
     "geholtAm": "2026-09-01T18:39:19.820Z"
+  },
+  "19448": {
+    "anisearchId": 19448,
+    "folgen": [
+      {
+        "nr": 1
+      },
+      {
+        "nr": 2
+      },
+      {
+        "nr": 3
+      },
+      {
+        "nr": 4
+      },
+      {
+        "nr": 5
+      },
+      {
+        "nr": 6
+      },
+      {
+        "nr": 7
+      },
+      {
+        "nr": 8
+      },
+      {
+        "nr": 9
+      },
+      {
+        "nr": 10
+      },
+      {
+        "nr": 11
+      },
+      {
+        "nr": 12
+      }
+    ],
+    "geholtAm": "2026-11-02T05:02:07.905Z"
   },
   "19451": {
     "anisearchId": 19451,
@@ -338952,7 +338994,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-10-26T05:05:57.626Z"
+    "geholtAm": "2026-11-02T05:02:57.806Z"
   },
   "19635": {
     "anisearchId": 19635,
@@ -339047,7 +339089,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-10-26T05:06:04.548Z"
+    "geholtAm": "2026-11-02T05:03:04.934Z"
   },
   "19638": {
     "anisearchId": 19638,
@@ -340802,7 +340844,7 @@
         "nr": 24
       }
     ],
-    "geholtAm": "2026-10-26T05:06:11.498Z"
+    "geholtAm": "2026-11-02T05:03:12.064Z"
   },
   "19779": {
     "anisearchId": 19779,
@@ -342148,7 +342190,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-10-26T05:06:18.421Z"
+    "geholtAm": "2026-11-02T05:03:19.192Z"
   },
   "20000": {
     "anisearchId": 20000,
@@ -342193,7 +342235,7 @@
         "nr": 10
       }
     ],
-    "geholtAm": "2026-10-26T05:06:25.369Z"
+    "geholtAm": "2026-11-02T05:03:26.315Z"
   },
   "20073": {
     "anisearchId": 20073,
@@ -342587,7 +342629,7 @@
         "nr": 13
       }
     ],
-    "geholtAm": "2026-10-26T05:06:32.333Z"
+    "geholtAm": "2026-11-02T05:03:33.444Z"
   },
   "20183": {
     "anisearchId": 20183,
@@ -342887,43 +342929,103 @@
     "anisearchId": 20259,
     "folgen": [
       {
-        "nr": 1
+        "nr": 1,
+        "datum": "2026-07-04",
+        "minuten": 24,
+        "de": "Die Zukunft liegt in unseren Händen",
+        "en": "The Future Is in Our Hands",
+        "ja": "未来は俺等の手の中"
       },
       {
-        "nr": 2
+        "nr": 2,
+        "datum": "2026-07-11",
+        "minuten": 24,
+        "de": "The Choice Is Yours",
+        "en": "The Choice Is Yours",
+        "ja": "The Choice Is Yours"
       },
       {
-        "nr": 3
+        "nr": 3,
+        "datum": "2026-07-18",
+        "minuten": 24,
+        "de": "What’s My Name?",
+        "en": "What’s My Name?",
+        "ja": "What’s My Name?"
       },
       {
-        "nr": 4
+        "nr": 4,
+        "datum": "2026-07-25",
+        "minuten": 24,
+        "de": "Zwei sind nicht genug",
+        "en": "Two Is Not Enough",
+        "ja": "たりないふたり"
       },
       {
-        "nr": 5
+        "nr": 5,
+        "datum": "2026-08-01",
+        "minuten": 24,
+        "de": "Young Gunz",
+        "en": "Young Gunz",
+        "ja": "Young Gunz"
       },
       {
-        "nr": 6
+        "nr": 6,
+        "datum": "2026-08-08",
+        "minuten": 24,
+        "de": "Turn Up",
+        "en": "Turn Up",
+        "ja": "Turn Up"
       },
       {
-        "nr": 7
+        "nr": 7,
+        "datum": "2026-08-15",
+        "minuten": 24,
+        "de": "3 On Three",
+        "en": "3 On Three",
+        "ja": "3 On Three"
       },
       {
-        "nr": 8
+        "nr": 8,
+        "datum": "2026-08-22",
+        "minuten": 24,
+        "de": "Underdog",
+        "en": "Underdog",
+        "ja": "Underdog"
       },
       {
-        "nr": 9
+        "nr": 9,
+        "datum": "2026-08-29",
+        "minuten": 24,
+        "de": "One",
+        "en": "One",
+        "ja": "One"
       },
       {
-        "nr": 10
+        "nr": 10,
+        "datum": "2026-09-05",
+        "minuten": 24,
+        "de": "Krazy krasse Kräfte",
+        "en": "Deadly Skillz",
+        "ja": "ヤバスギルスキル"
       },
       {
-        "nr": 11
+        "nr": 11,
+        "datum": "2026-09-12",
+        "minuten": 24,
+        "de": "Black or White",
+        "en": "Black or White",
+        "ja": "Black or White"
       },
       {
-        "nr": 12
+        "nr": 12,
+        "datum": "2026-09-19",
+        "minuten": 24,
+        "de": "Once Again",
+        "en": "Once Again",
+        "ja": "Once Again"
       }
     ],
-    "geholtAm": "2026-10-26T05:06:39.286Z"
+    "geholtAm": "2026-11-02T05:03:40.569Z"
   },
   "20264": {
     "anisearchId": 20264,
@@ -343022,7 +343124,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-10-26T05:10:55.992Z"
+    "geholtAm": "2026-11-02T05:03:47.696Z"
   },
   "20293": {
     "anisearchId": 20293,
@@ -343383,7 +343485,7 @@
         "nr": 19
       }
     ],
-    "geholtAm": "2026-10-26T05:06:53.159Z"
+    "geholtAm": "2026-11-02T05:04:01.955Z"
   },
   "20372": {
     "anisearchId": 20372,
@@ -343527,7 +343629,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-10-26T05:07:00.107Z"
+    "geholtAm": "2026-11-02T05:04:09.079Z"
   },
   "20379": {
     "anisearchId": 20379,
@@ -343731,7 +343833,7 @@
         "nr": 3
       }
     ],
-    "geholtAm": "2026-10-26T05:07:07.021Z"
+    "geholtAm": "2026-11-02T05:04:16.216Z"
   },
   "20466": {
     "anisearchId": 20466,
@@ -343740,7 +343842,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-10-26T05:10:14.463Z"
+    "geholtAm": "2026-11-02T05:07:35.589Z"
   },
   "20477": {
     "anisearchId": 20477,
@@ -343782,7 +343884,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-10-26T05:05:22.918Z"
+    "geholtAm": "2026-11-02T05:04:37.586Z"
   },
   "20494": {
     "anisearchId": 20494,
@@ -344309,7 +344411,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-10-26T05:11:02.953Z"
+    "geholtAm": "2026-11-02T05:08:10.965Z"
   },
   "20704": {
     "anisearchId": 20704,
@@ -344351,7 +344453,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-10-26T05:07:27.844Z"
+    "geholtAm": "2026-11-02T05:04:44.717Z"
   },
   "20705": {
     "anisearchId": 20705,
@@ -344387,7 +344489,7 @@
         "nr": 10
       }
     ],
-    "geholtAm": "2026-10-26T05:07:34.765Z"
+    "geholtAm": "2026-11-02T05:04:51.842Z"
   },
   "20716": {
     "anisearchId": 20716,
@@ -344408,10 +344510,14 @@
         "de": "Der schwarze Beschützer"
       },
       {
-        "nr": 4
+        "nr": 4,
+        "minuten": 23,
+        "de": "Der Tag der Sühne"
       },
       {
-        "nr": 5
+        "nr": 5,
+        "minuten": 23,
+        "de": "Der Höchste gegen den Niedrigsten"
       },
       {
         "nr": 6
@@ -344435,7 +344541,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-10-26T05:11:09.961Z"
+    "geholtAm": "2026-11-02T05:08:18.092Z"
   },
   "20717": {
     "anisearchId": 20717,
@@ -344857,7 +344963,7 @@
         "nr": 6
       }
     ],
-    "geholtAm": "2026-10-26T05:11:16.920Z"
+    "geholtAm": "2026-11-02T05:08:25.212Z"
   },
   "20836": {
     "anisearchId": 20836,
@@ -344866,7 +344972,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-10-26T05:07:55.459Z"
+    "geholtAm": "2026-11-02T05:05:06.001Z"
   },
   "20852": {
     "anisearchId": 20852,
@@ -345103,7 +345209,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-10-26T05:11:23.874Z"
+    "geholtAm": "2026-11-02T05:08:32.337Z"
   },
   "20865": {
     "anisearchId": 20865,
@@ -345284,7 +345390,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-10-26T05:11:30.832Z"
+    "geholtAm": "2026-11-02T05:08:39.458Z"
   },
   "20885": {
     "anisearchId": 20885,
@@ -345296,7 +345402,7 @@
         "nr": 2
       }
     ],
-    "geholtAm": "2026-10-26T05:07:48.515Z"
+    "geholtAm": "2026-11-02T05:04:58.811Z"
   },
   "20893": {
     "anisearchId": 20893,
@@ -345992,7 +346098,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-10-26T05:08:09.330Z"
+    "geholtAm": "2026-11-02T05:05:20.247Z"
   },
   "21004": {
     "anisearchId": 21004,
@@ -346001,7 +346107,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-10-26T05:08:23.269Z"
+    "geholtAm": "2026-11-02T05:05:34.492Z"
   },
   "21031": {
     "anisearchId": 21031,
@@ -346209,7 +346315,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-10-26T05:07:20.895Z"
+    "geholtAm": "2026-11-02T05:04:30.463Z"
   },
   "21070": {
     "anisearchId": 21070,
@@ -346218,7 +346324,49 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-10-26T05:06:46.237Z"
+    "geholtAm": "2026-11-02T05:03:54.821Z"
+  },
+  "21084": {
+    "anisearchId": 21084,
+    "folgen": [
+      {
+        "nr": 1
+      },
+      {
+        "nr": 2
+      },
+      {
+        "nr": 3
+      },
+      {
+        "nr": 4
+      },
+      {
+        "nr": 5
+      },
+      {
+        "nr": 6
+      },
+      {
+        "nr": 7
+      },
+      {
+        "nr": 8
+      },
+      {
+        "nr": 9
+      },
+      {
+        "nr": 10
+      },
+      {
+        "nr": 11
+      },
+      {
+        "nr": 12
+      }
+    ],
+    "geholtAm": "2026-11-02T05:02:22.171Z"
   },
   "21094": {
     "anisearchId": 21094,
@@ -346227,7 +346375,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-10-26T05:08:02.378Z"
+    "geholtAm": "2026-11-02T05:05:13.123Z"
   },
   "21117": {
     "anisearchId": 21117,
@@ -346269,7 +346417,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-10-26T05:08:37.154Z"
+    "geholtAm": "2026-11-02T05:05:48.737Z"
   },
   "21118": {
     "anisearchId": 21118,
@@ -346278,10 +346426,10 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-10-26T05:08:30.204Z"
+    "geholtAm": "2026-11-02T05:05:41.613Z"
   },
-  "21171": {
-    "anisearchId": 21171,
+  "21161": {
+    "anisearchId": 21161,
     "folgen": [
       {
         "nr": 1
@@ -346320,7 +346468,61 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-10-26T05:08:44.082Z"
+    "geholtAm": "2026-11-02T05:02:29.294Z"
+  },
+  "21171": {
+    "anisearchId": 21171,
+    "folgen": [
+      {
+        "nr": 1,
+        "de": "Die zweite Chance"
+      },
+      {
+        "nr": 2,
+        "de": "Der künftige Herr der Relikte"
+      },
+      {
+        "nr": 3,
+        "de": "Der rechtmäßige Herrscher"
+      },
+      {
+        "nr": 4,
+        "de": "Der Dieb der Zukunft"
+      },
+      {
+        "nr": 5,
+        "de": "Der Herr des Unsterblichkeitskrauts"
+      },
+      {
+        "nr": 6,
+        "de": "Die große Hügelgrab-Verwandlung"
+      },
+      {
+        "nr": 7,
+        "de": "Die Wiederherstellung des Relikts"
+      },
+      {
+        "nr": 8,
+        "de": "Das Geheimnis des Raben"
+      },
+      {
+        "nr": 9,
+        "de": "Der Herrscher der Relikte"
+      },
+      {
+        "nr": 10,
+        "de": "Der Fluch des Relikts"
+      },
+      {
+        "nr": 11,
+        "de": "Das Relikt des himmlischen Segens"
+      },
+      {
+        "nr": 12,
+        "de": "Tomb Raider King"
+      }
+    ],
+    "geholtAm": "2026-11-02T05:05:55.859Z"
   },
   "21198": {
     "anisearchId": 21198,
@@ -346424,6 +346626,48 @@
     ],
     "geholtAm": "2026-09-01T18:50:49.913Z"
   },
+  "21216": {
+    "anisearchId": 21216,
+    "folgen": [
+      {
+        "nr": 1
+      },
+      {
+        "nr": 2
+      },
+      {
+        "nr": 3
+      },
+      {
+        "nr": 4
+      },
+      {
+        "nr": 5
+      },
+      {
+        "nr": 6
+      },
+      {
+        "nr": 7
+      },
+      {
+        "nr": 8
+      },
+      {
+        "nr": 9
+      },
+      {
+        "nr": 10
+      },
+      {
+        "nr": 11
+      },
+      {
+        "nr": 12
+      }
+    ],
+    "geholtAm": "2026-11-02T05:02:15.036Z"
+  },
   "21218": {
     "anisearchId": 21218,
     "folgen": [
@@ -346464,7 +346708,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-10-26T05:08:51.038Z"
+    "geholtAm": "2026-11-02T05:06:02.982Z"
   },
   "21226": {
     "anisearchId": 21226,
@@ -346506,7 +346750,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-10-26T05:08:57.966Z"
+    "geholtAm": "2026-11-02T05:06:10.108Z"
   },
   "21293": {
     "anisearchId": 21293,
@@ -346610,7 +346854,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-10-26T05:09:04.913Z"
+    "geholtAm": "2026-11-02T05:06:17.227Z"
   },
   "21327": {
     "anisearchId": 21327,
@@ -346655,7 +346899,7 @@
         "nr": 13
       }
     ],
-    "geholtAm": "2026-10-26T05:09:11.864Z"
+    "geholtAm": "2026-11-02T05:06:24.355Z"
   },
   "21332": {
     "anisearchId": 21332,
@@ -346697,7 +346941,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-10-26T05:09:18.812Z"
+    "geholtAm": "2026-11-02T05:06:31.479Z"
   },
   "21357": {
     "anisearchId": 21357,
@@ -346715,40 +346959,62 @@
         "en": "Dilemma of a Winter’s Night"
       },
       {
-        "nr": 3
+        "nr": 3,
+        "minuten": 24,
+        "de": "Ein Jahr vergeht, ein weiteres kommt"
       },
       {
-        "nr": 4
+        "nr": 4,
+        "minuten": 24,
+        "de": "Das neue Trimester"
       },
       {
-        "nr": 5
+        "nr": 5,
+        "minuten": 24,
+        "de": "Valentinstag"
       },
       {
-        "nr": 6
+        "nr": 6,
+        "minuten": 24,
+        "de": "Kurz vor dem Frühling"
       },
       {
-        "nr": 7
+        "nr": 7,
+        "minuten": 24,
+        "de": "Abstufung"
       },
       {
-        "nr": 8
+        "nr": 8,
+        "minuten": 24,
+        "de": "Von hier an…"
       },
       {
-        "nr": 9
+        "nr": 9,
+        "minuten": 24,
+        "de": "Die Vergangenheit und die Gegenwart"
       },
       {
-        "nr": 10
+        "nr": 10,
+        "minuten": 24,
+        "de": "Gefühle und Entscheidungen"
       },
       {
-        "nr": 11
+        "nr": 11,
+        "minuten": 24,
+        "de": "Ein Platz für mich"
       },
       {
-        "nr": 12
+        "nr": 12,
+        "minuten": 24,
+        "de": "Startlinie"
       },
       {
-        "nr": 13
+        "nr": 13,
+        "minuten": 24,
+        "de": "Du, mein genaues Gegenteil"
       }
     ],
-    "geholtAm": "2026-10-26T05:09:32.723Z"
+    "geholtAm": "2026-11-02T05:06:45.724Z"
   },
   "21361": {
     "anisearchId": 21361,
@@ -346847,7 +347113,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-10-26T05:09:39.675Z"
+    "geholtAm": "2026-11-02T05:06:52.846Z"
   },
   "21505": {
     "anisearchId": 21505,
@@ -346865,7 +347131,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-10-26T05:09:46.621Z"
+    "geholtAm": "2026-11-02T05:06:59.968Z"
   },
   "21566": {
     "anisearchId": 21566,
@@ -346916,7 +347182,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-10-26T05:09:25.767Z"
+    "geholtAm": "2026-11-02T05:06:38.602Z"
   },
   "21575": {
     "anisearchId": 21575,
@@ -346958,7 +347224,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-10-26T05:11:37.783Z"
+    "geholtAm": "2026-11-02T05:07:07.091Z"
   },
   "21585": {
     "anisearchId": 21585,
@@ -347024,7 +347290,7 @@
         "nr": 20
       }
     ],
-    "geholtAm": "2026-10-26T05:09:53.572Z"
+    "geholtAm": "2026-11-02T05:07:14.211Z"
   },
   "21586": {
     "anisearchId": 21586,
@@ -347066,7 +347332,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-10-26T05:10:00.540Z"
+    "geholtAm": "2026-11-02T05:07:21.334Z"
   },
   "21717": {
     "anisearchId": 21717,
@@ -347162,7 +347428,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-10-26T05:10:28.272Z"
+    "geholtAm": "2026-11-02T05:07:42.560Z"
   },
   "21791": {
     "anisearchId": 21791,
@@ -347204,7 +347470,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-10-26T05:10:07.491Z"
+    "geholtAm": "2026-11-02T05:07:28.462Z"
   },
   "21925": {
     "anisearchId": 21925,
@@ -347269,6 +347535,6 @@
         "nr": 11
       }
     ],
-    "geholtAm": "2026-10-26T05:07:13.973Z"
+    "geholtAm": "2026-11-02T05:04:23.337Z"
   }
 }

@@ -1,4 +1,5 @@
-import { log, slugify } from '../lib/util.ts'
+import { log } from '../lib/util.ts'
+import { titelAusKatalogEintrag } from './katalog-titel.ts'
 import { type Title } from '../../shared/types.ts'
 import { type KatalogEintrag } from '../lib/anilist.ts'
 import { type CrDubData } from '../lib/crunchyroll-dub.ts'
@@ -67,23 +68,7 @@ export function ordneGeschwisterBloeckeZu({ nachSerienId, titles, katalogEintrae
       let ziel = titles.get(id)
       if (!ziel) {
         const e = katalogEintraege.find((x) => x.id === id)!
-        const anzeige = e.t[1] ?? e.latein ?? e.t[0] ?? String(e.id)
-        ziel = {
-          id: e.id,
-          slug: `${slugify(anzeige)}-${e.id}`,
-          keywords: [],
-          dubConfidence: 'low' as const,
-          titleRomaji: e.t[0] ?? undefined,
-          titleEn: e.t[1] ?? e.latein ?? undefined,
-          titleNative: e.t[2] ?? undefined,
-          format: e.format ?? undefined,
-          jpYear: e.jahr ?? undefined,
-          episodes: e.folgen ?? undefined,
-          genres: e.genres?.length ? [...e.genres] : [],
-          coverImage: e.cover ? `https://s4.anilist.co/file/anilistcdn/media/anime/cover/${e.cover}` : undefined,
-          streams: [],
-          franchiseId: reihe,
-        }
+        ziel = { ...titelAusKatalogEintrag(e), franchiseId: reihe }
         titles.set(e.id, ziel)
       }
       if (ziel.streams.some((x) => x.platform === 'crunchyroll')) continue

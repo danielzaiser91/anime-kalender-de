@@ -2021,6 +2021,138 @@
         "date": "2026-10-31",
         "episode": 3
       }
+    },
+    "psyren": {
+      "time": "15:30",
+      "weekday": 0,
+      "dates": [
+        "2026-11-02"
+      ],
+      "rawTitle": "PSYREN",
+      "seriesId": "GT00371866",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00371866",
+      "observations": [
+        {
+          "date": "2026-11-02",
+          "episode": 2,
+          "quelle": "woche"
+        }
+      ],
+      "weeklyConfirmed": false,
+      "earliest": {
+        "date": "2026-11-02",
+        "episode": 2
+      }
+    },
+    "the detective is already dead s2": {
+      "time": "14:30",
+      "weekday": 2,
+      "dates": [
+        "2026-11-04"
+      ],
+      "rawTitle": "The Detective Is Already Dead Staffel 2",
+      "seriesId": "G24H1N334",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G24H1N334",
+      "observations": [
+        {
+          "date": "2026-11-04",
+          "episode": 2,
+          "quelle": "woche"
+        }
+      ],
+      "weeklyConfirmed": false,
+      "earliest": {
+        "date": "2026-11-04",
+        "episode": 2
+      }
+    },
+    "magic knight rayearth": {
+      "time": "16:15",
+      "weekday": 2,
+      "dates": [
+        "2026-11-04"
+      ],
+      "rawTitle": "Magic Knight Rayearth",
+      "seriesId": "GT00383994",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00383994",
+      "observations": [
+        {
+          "date": "2026-11-04",
+          "episode": 2,
+          "quelle": "woche"
+        }
+      ],
+      "weeklyConfirmed": false,
+      "earliest": {
+        "date": "2026-11-04",
+        "episode": 2
+      }
+    },
+    "the iceblade sorcerer shall rule the world ii": {
+      "time": "18:00",
+      "weekday": 3,
+      "dates": [
+        "2026-11-05"
+      ],
+      "rawTitle": "The Iceblade Sorcerer Shall Rule the World II",
+      "seriesId": "GDKHZEP21",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GDKHZEP21",
+      "observations": [
+        {
+          "date": "2026-11-05",
+          "episode": 2,
+          "quelle": "woche"
+        }
+      ],
+      "weeklyConfirmed": false,
+      "earliest": {
+        "date": "2026-11-05",
+        "episode": 2
+      }
+    },
+    "firefly wedding": {
+      "time": "17:00",
+      "weekday": 4,
+      "dates": [
+        "2026-11-06"
+      ],
+      "rawTitle": "Firefly Wedding",
+      "seriesId": "GT00383999",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00383999",
+      "observations": [
+        {
+          "date": "2026-11-06",
+          "episode": 2,
+          "quelle": "woche"
+        }
+      ],
+      "weeklyConfirmed": false,
+      "earliest": {
+        "date": "2026-11-06",
+        "episode": 2
+      }
+    },
+    "the vermilion mask": {
+      "time": "10:30",
+      "weekday": 5,
+      "dates": [
+        "2026-11-07"
+      ],
+      "rawTitle": "The Vermilion Mask",
+      "seriesId": "GT00384015",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00384015",
+      "observations": [
+        {
+          "date": "2026-11-07",
+          "episode": 2,
+          "quelle": "woche"
+        }
+      ],
+      "weeklyConfirmed": false,
+      "earliest": {
+        "date": "2026-11-07",
+        "episode": 2
+      }
     }
   },
   "slots": [

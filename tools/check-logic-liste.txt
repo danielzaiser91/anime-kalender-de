@@ -78,6 +78,7 @@ pipeline/check-belege-riegel-schreiben.ts
 pipeline/check-belegstaerke-forum.ts
 pipeline/check-belegstaerke-handbelegt.ts
 pipeline/check-belegstaerke.ts
+pipeline/check-bestand-delta-entfernt.ts
 pipeline/check-bild-und-synchro.ts
 pipeline/check-bookworm-dublette.ts
 pipeline/check-cartoon-aufnahme-bau.ts
@@ -187,6 +188,8 @@ pipeline/check-folgenblock.ts
 pipeline/check-folgenflaggen.ts
 pipeline/check-folgentitel-englisch-bau.ts
 pipeline/check-folgentitel-englisch.ts
+pipeline/check-folgentitel-luecke-lauf.ts
+pipeline/check-folgentitel-luecke.ts
 pipeline/check-folgenzahl-belegt.ts
 pipeline/check-folgenzahl-kennzeichnung.ts
 pipeline/check-gleiche-adresse.ts
@@ -232,11 +235,13 @@ pipeline/check-kanal-gegenprobe-lauf.ts
 pipeline/check-kanal-ja-sprach-termin.ts
 pipeline/check-kanal-je-seite.ts
 pipeline/check-kanal-leser.ts
+pipeline/check-kanal-luecken-lader.ts
 pipeline/check-kanal-merkliste-gesperrt-lauf.ts
 pipeline/check-kanal-merkliste.ts
 pipeline/check-kanal-messung.ts
 pipeline/check-kanal-namen.ts
 pipeline/check-kanal-verlust.ts
+pipeline/check-kapitel-katalog.ts
 pipeline/check-kapitel-shop-wege.ts
 pipeline/check-katalog-eingefroren.ts
 pipeline/check-katalog-release.ts
@@ -282,6 +287,7 @@ pipeline/check-netflix-umleitung.ts
 pipeline/check-netflix-zweite-kennung.ts
 pipeline/check-neue-quellen-lauf.ts
 pipeline/check-neue-quellen-lib.ts
+pipeline/check-neu-auf-deutsch.ts
 pipeline/check-neuigkeiten-panel.ts
 pipeline/check-news-altbestand.ts
 pipeline/check-news-einfrieren.ts
@@ -378,6 +384,7 @@ pipeline/check-stand-halten.ts
 pipeline/check-studio-archiv.ts
 pipeline/check-stuetzpunkt-ueberholt.ts
 pipeline/check-such-chip.ts
+pipeline/check-suchfeld-arten.ts
 pipeline/check-suchhinweis-bereich.ts
 pipeline/check-suchhinweis-lauf.ts
 pipeline/check-sw-cache-regeln.ts
@@ -392,6 +399,7 @@ pipeline/check-termine-observed-lauf.ts
 pipeline/check-termine-uebersicht.ts
 pipeline/check-termine-woche-lauf.ts
 pipeline/check-titelwechsel.ts
+pipeline/check-tmdb-404-neusuche.ts
 pipeline/check-tmdb-ablauf.ts
 pipeline/check-tmdb-folgen-404-lauf.ts
 pipeline/check-tmdb-folgen-404.ts
@@ -419,6 +427,7 @@ pipeline/check-urteile-ablauf.ts
 pipeline/check-us-nein-adresse.ts
 pipeline/check-verpasst-katalog.ts
 pipeline/check-verpasst-verdrahtung.ts
+pipeline/check-verteile-folgentitel.ts
 pipeline/check-verweis-ziel.ts
 pipeline/check-verweise-gedaechtnis.ts
 pipeline/check-verweise-von-hand.ts
@@ -470,6 +479,7 @@ tools/link-check-zeitbudget.test.ts
 tools/link-faelligkeit.test.ts
 tools/quarantaene-pruefungen.test.ts
 tools/quellen-gesundheit.test.ts
+tools/quelltext-lesungen.mjs
 tools/quittung-nach-commit-waechter.mjs
 tools/sammler-pruefschritt-waechter.mjs
 tools/skript-aufrufer-wache.mjs

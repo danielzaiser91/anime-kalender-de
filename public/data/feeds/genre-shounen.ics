@@ -8,31 +8,11 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:you-and-i-are-polar-opposites-s2@2026-10-25@anime-kalender-de
+UID:cr-GT00371866@2026-10-26@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261025T093000Z
-DTEND:20261025T100000Z
-SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 13/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/17577/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GT00384004@2026-10-25@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261025T153000Z
-DTEND:20261025T160000Z
-SUMMARY:Overgeared Staffel 1 – Folge 5/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/17645/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:psyren-crunchyroll-de-2026-10-26@2026-10-26@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261026T153000Z
-DTEND:20261026T160000Z
-SUMMARY:Psyren – Folge 1/≈12
+DTSTART:20261026T143000Z
+DTEND:20261026T150000Z
+SUMMARY:PSYREN – Folge 1/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/t/17232/
 CATEGORIES:Crunchyroll
@@ -425,15 +405,27 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:psyren-crunchyroll-de-2026-10-26@2026-11-02@anime-kalender-de
+UID:auto-169969-netflix@2026-11-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261102T153000Z
-DTEND:20261102T160000Z
-SUMMARY:Psyren – Folge 2/≈12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/17232/
+DTSTART;VALUE=DATE:20261101
+DTEND;VALUE=DATE:20261102
+SUMMARY:Der Held ohne Klasse: Der Aufstieg eines Talentlosen (neu bei Netfl
+ ix)
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nIm Angebot seit 
+ diesem Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrzeit n
+ och nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter genannter Ta
+ g\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetails: https
+ ://anime-kalender.de/t/15494/
+CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GT00371866@2026-11-02@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261102T143000Z
+DTEND:20261102T150000Z
+SUMMARY:PSYREN – Folge 2/≈12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/t/17232/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -828,11 +820,11 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:psyren-crunchyroll-de-2026-10-26@2026-11-09@anime-kalender-de
+UID:cr-GT00371866@2026-11-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261109T153000Z
-DTEND:20261109T160000Z
-SUMMARY:Psyren – Folge 3/≈12
+DTSTART:20261109T143000Z
+DTEND:20261109T150000Z
+SUMMARY:PSYREN – Folge 3/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
@@ -1021,11 +1013,11 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:psyren-crunchyroll-de-2026-10-26@2026-11-16@anime-kalender-de
+UID:cr-GT00371866@2026-11-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261116T153000Z
-DTEND:20261116T160000Z
-SUMMARY:Psyren – Folge 4/≈12
+DTSTART:20261116T143000Z
+DTEND:20261116T150000Z
+SUMMARY:PSYREN – Folge 4/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
@@ -1428,11 +1420,11 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:psyren-crunchyroll-de-2026-10-26@2026-11-23@anime-kalender-de
+UID:cr-GT00371866@2026-11-23@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261123T153000Z
-DTEND:20261123T160000Z
-SUMMARY:Psyren – Folge 5/≈12
+DTSTART:20261123T143000Z
+DTEND:20261123T150000Z
+SUMMARY:PSYREN – Folge 5/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
@@ -1601,11 +1593,11 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:psyren-crunchyroll-de-2026-10-26@2026-11-30@anime-kalender-de
+UID:cr-GT00371866@2026-11-30@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261130T153000Z
-DTEND:20261130T160000Z
-SUMMARY:Psyren – Folge 6/≈12
+DTSTART:20261130T143000Z
+DTEND:20261130T150000Z
+SUMMARY:PSYREN – Folge 6/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
@@ -1806,11 +1798,11 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:psyren-crunchyroll-de-2026-10-26@2026-12-07@anime-kalender-de
+UID:cr-GT00371866@2026-12-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261207T153000Z
-DTEND:20261207T160000Z
-SUMMARY:Psyren – Folge 7/≈12
+DTSTART:20261207T143000Z
+DTEND:20261207T150000Z
+SUMMARY:PSYREN – Folge 7/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
@@ -1940,11 +1932,11 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:psyren-crunchyroll-de-2026-10-26@2026-12-14@anime-kalender-de
+UID:cr-GT00371866@2026-12-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261214T153000Z
-DTEND:20261214T160000Z
-SUMMARY:Psyren – Folge 8/≈12
+DTSTART:20261214T143000Z
+DTEND:20261214T150000Z
+SUMMARY:PSYREN – Folge 8/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
@@ -2044,11 +2036,11 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
-UID:psyren-crunchyroll-de-2026-10-26@2026-12-21@anime-kalender-de
+UID:cr-GT00371866@2026-12-21@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261221T153000Z
-DTEND:20261221T160000Z
-SUMMARY:Psyren – Folge 9/≈12
+DTSTART:20261221T143000Z
+DTEND:20261221T150000Z
+SUMMARY:PSYREN – Folge 9/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
@@ -2138,11 +2130,11 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
-UID:psyren-crunchyroll-de-2026-10-26@2026-12-28@anime-kalender-de
+UID:cr-GT00371866@2026-12-28@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261228T153000Z
-DTEND:20261228T160000Z
-SUMMARY:Psyren – Folge 10/≈12
+DTSTART:20261228T143000Z
+DTEND:20261228T150000Z
+SUMMARY:PSYREN – Folge 10/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
@@ -2210,11 +2202,11 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:psyren-crunchyroll-de-2026-10-26@2027-01-04@anime-kalender-de
+UID:cr-GT00371866@2027-01-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20270104T153000Z
-DTEND:20270104T160000Z
-SUMMARY:Psyren – Folge 11/≈12
+DTSTART:20270104T143000Z
+DTEND:20270104T150000Z
+SUMMARY:PSYREN – Folge 11/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
@@ -2282,11 +2274,11 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:psyren-crunchyroll-de-2026-10-26@2027-01-11@anime-kalender-de
+UID:cr-GT00371866@2027-01-11@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20270111T153000Z
-DTEND:20270111T160000Z
-SUMMARY:Psyren – Folge 12/≈12
+DTSTART:20270111T143000Z
+DTEND:20270111T150000Z
+SUMMARY:PSYREN – Folge 12/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit

@@ -197063,6 +197063,144 @@
     "fetchedAt": "2026-11-01T04:44:14.615Z",
     "stand": 1
   },
+  "221533": {
+    "ean": "0722034775111",
+    "audio": [
+      "Deutsch",
+      "Koreanisch"
+    ],
+    "untertitel": [
+      "Deutsch",
+      "Niderländisch"
+    ],
+    "publisher": "Nameless Media GmbH",
+    "umfang": "Film",
+    "medium": "Blu-ray + 4K UHD",
+    "enthalten": [
+      {
+        "anisearchId": 11606,
+        "typ": "Film",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-02T04:45:59.171Z",
+    "stand": 1
+  },
+  "221534": {
+    "ean": "0722034775128",
+    "audio": [
+      "Deutsch",
+      "Koreanisch"
+    ],
+    "untertitel": [
+      "Deutsch",
+      "Niederländisch"
+    ],
+    "publisher": "Nameless Media GmbH",
+    "umfang": "Film",
+    "medium": "Blu-ray + 4K UHD",
+    "enthalten": [
+      {
+        "anisearchId": 11606,
+        "typ": "Film",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-02T04:45:52.765Z",
+    "stand": 1
+  },
+  "221535": {
+    "ean": "0722034775135",
+    "audio": [
+      "Deutsch",
+      "Koreanisch"
+    ],
+    "untertitel": [
+      "Deutsch",
+      "Niderländisch"
+    ],
+    "publisher": "Nameless Media GmbH",
+    "umfang": "Film",
+    "medium": "Blu-ray + 4K UHD",
+    "enthalten": [
+      {
+        "anisearchId": 11606,
+        "typ": "Film",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-02T04:45:46.360Z",
+    "stand": 1
+  },
+  "221536": {
+    "ean": "0722034775142",
+    "audio": [
+      "Deutsch",
+      "Koreanisch"
+    ],
+    "untertitel": [
+      "Deutsch",
+      "Niederländisch"
+    ],
+    "publisher": "Nameless Media GmbH",
+    "umfang": "Film",
+    "medium": "Blu-ray + 4K UHD",
+    "enthalten": [
+      {
+        "anisearchId": 11606,
+        "typ": "Film",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-02T04:46:05.579Z",
+    "stand": 1
+  },
+  "221537": {
+    "ean": "0722034775159",
+    "audio": [
+      "Deutsch",
+      "Koreanisch"
+    ],
+    "untertitel": [
+      "Deutsch",
+      "Niederländisch"
+    ],
+    "publisher": "Nameless Media GmbH",
+    "umfang": "Film",
+    "medium": "Blu-ray + 4K UHD",
+    "enthalten": [
+      {
+        "anisearchId": 11606,
+        "typ": "Film",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-02T04:45:39.983Z",
+    "stand": 1
+  },
+  "221539": {
+    "ean": "0722034775173",
+    "audio": [
+      "Deutsch",
+      "Koreanisch"
+    ],
+    "untertitel": [
+      "Deutsch",
+      "Niederländisch"
+    ],
+    "publisher": "Nameless Media GmbH",
+    "umfang": "Film",
+    "medium": "Blu-ray + 4K UHD",
+    "enthalten": [
+      {
+        "anisearchId": 11606,
+        "typ": "Film",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-02T04:45:33.606Z",
+    "stand": 1
+  },
   "221564": {
     "ean": "4006448774547",
     "audio": [
@@ -197080,6 +197218,25 @@
       }
     ],
     "fetchedAt": "2026-10-29T04:41:37.720Z",
+    "stand": 1
+  },
+  "221645": {
+    "ean": "4006448774592",
+    "audio": [
+      "Deutsch",
+      "Englisch"
+    ],
+    "publisher": "polyband Medien GmbH",
+    "umfang": "Staffel / Gesamtausgabe",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 11757,
+        "typ": "TV-Serie",
+        "folgen": 146
+      }
+    ],
+    "fetchedAt": "2026-11-02T04:45:27.200Z",
     "stand": 1
   },
   "221646": {
@@ -197118,6 +197275,35 @@
       }
     ],
     "fetchedAt": "2026-11-01T04:44:27.450Z",
+    "stand": 1
+  },
+  "221648": {
+    "ean": "4006448774585",
+    "audio": [
+      "Deutsch",
+      "Englisch"
+    ],
+    "publisher": "polyband Medien GmbH",
+    "umfang": "Staffel / Gesamtausgabe",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 11938,
+        "typ": "TV-Spezial",
+        "folgen": 1
+      },
+      {
+        "anisearchId": 10759,
+        "typ": "TV-Serie",
+        "folgen": 47
+      },
+      {
+        "anisearchId": 8744,
+        "typ": "TV-Serie",
+        "folgen": 93
+      }
+    ],
+    "fetchedAt": "2026-11-02T04:45:20.783Z",
     "stand": 1
   },
   "221649": {

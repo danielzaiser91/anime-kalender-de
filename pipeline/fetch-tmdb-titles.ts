@@ -22,6 +22,7 @@ import { nachAbruf, streicheAbgelaufenes, STREICH_TAGE } from './lib/tmdb-ablauf
 import { lookup } from './lib/tmdb-titel-lookup.ts'
 import { uebernimmVonHand } from './lib/tmdb-von-hand.ts'
 import { faelligeTitel } from './lib/tmdb-faellig.ts'
+import type { Vermerk404 } from './lib/tmdb-folgen-404.ts'
 import { readFileSync } from 'node:fs'
 import yaml from 'js-yaml'
 
@@ -157,6 +158,7 @@ async function main(): Promise<void> {
     force: FORCE,
     grenze,
     grenzeFehlschlag: new Date(Date.now() - 7 * 86400_000).toISOString(),
+    tot: readJson<Record<string, Vermerk404>>('data/tmdb-folgen-404.json', {}),
   })
   const todo = faellig.slice(0, LIMIT)
   const nie = faellig.filter((t) => !cache[t.id]).length

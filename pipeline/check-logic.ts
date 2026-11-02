@@ -145,6 +145,7 @@ import { todayIso, addDays } from '../shared/time.ts'
 import { schreibeKostenlosAuskunft } from './bau/10-termine.ts'
 import { badge } from '../worker/src/mail-abschnitte.ts'
 import { bestesSynonym } from './lib/anilist.ts'
+import { lateinAlsEnglisch } from './lib/katalog-latein-probe.ts'
 import { baueNews, type NewsHistorie } from './lib/news.ts'
 import { hostVon } from '../shared/quelle.ts'
 import { fundstelleHinweis, hervorhebungen } from '../web/src/components/Suchtreffer.tsx'
@@ -3849,14 +3850,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     Eine Warnung, die zuverlässig zu Unrecht kommt, ist schlimmer als keine —
     man hört auf hinzusehen, und die echte Störung geht darin unter.
   */
-  {
-    const wache = readFileSync('pipeline/lib/bestand-delta.ts', 'utf8')
-    pruefe(
-      'die Wache rechnet begründet entfernte Verweise heraus',
-      wache.includes('entferntProtokolliert') && wache.includes('wegUnerklaert'),
-      'sonst meldet sie den Normalfall als Verlust',
-    )
-  }
+  /* Die Wache rechnet begründet entfernte Verweise heraus: `check-bestand-delta-entfernt.ts`. */
   /*
     Der Katalog legt einen Weg an, nicht nur ein Urteil („Kill Blue", 06.09.2026): `check-09-4-4-1-katalog-wege-laufzeit.ts`.
     Die Katalog-Runde greift nur bei einer Staffel und mit Folgen (Free! führt neun unter einer Kennung):
@@ -4689,7 +4683,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   )
   pruefe(
     'der Bau nimmt den lateinischen Namen als englischen',
-    (bau.match(/e\.latein/g) ?? []).length >= 4,
+    lateinAlsEnglisch(),
     'geholt und nicht benutzt ist derselbe Fehler wie gar nicht geholt',
   )
   /* Crunchyrolls deutsches Datum an der Folge und die Ergänzung bekannter Funde: check-cr-neu-seiten.ts; Eintrag eines älteren aniSearch-Ausleser wird fällig: check-abruf-stoerung-lauf.ts. */
@@ -5381,9 +5375,9 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   pruefe('ein Eintrag vor dem Umbau gilt als bewährt', !jwFrisch({ geprueftAm: '2026-09-09' }, '2026-09-20'))
   pruefe('ein Eintrag des ersten breiten Laufs (ohne erstAm) gilt als frisch', jwFrisch({ geprueftAm: '2026-09-17' }, '2026-09-20'))
   /* Verfehlte Suche und unplausibles Ergebnis von fetch-justwatch-audio.ts: check-abruf-stoerung-lauf.ts. */
+  /* Die Kanal-Gegenprobe fragt jwFrisch: frische Antwort → 1 zur Handprüfung, `check-kanal-gegenprobe-lauf.ts`. */
   pruefe(
-    'Kanal-Gegenprobe und Crunchyroll-Nachprüfung fragen jwFrisch',
-    readFileSync('pipeline/kanal-gegenprobe.ts', 'utf8').includes('jwFrisch(eintrag, heute)') &&
+    'Crunchyroll-Nachprüfung fragt jwFrisch',
       (readFileSync('pipeline/fetch-crunchyroll-offene.ts', 'utf8').match(/jwFrisch\(jwEintrag2?, heuteIso\)/g) ?? []).length === 2,
   )
 }
@@ -5480,12 +5474,7 @@ pruefe(
 }
 /* Mob Psycho 100 III auf Prime: Lücken aus einer Kanal-Meldung sind kein Beleg (17.09.2026). */
 {
-  const lesen = readFileSync('pipeline/lib/dub-confirmed.ts', 'utf8')
-  pruefe(
-    'Kanal-Belege verlieren beim Einlesen ihre Nein-Bereiche',
-    /const kanalMitLuecken =/.test(lesen) && /dubRanges: eintrag\.dubRanges!\.filter\(\(r\) => r\.dub\)/.test(lesen),
-    'Zickzack-Lücken aus Crunchyroll-Kanal-Seiten erscheinen wieder als „✕ DE" an der Prime-Pille',
-  )
+  /* Kanal-Belege verlieren beim Einlesen ihre Nein-Bereiche: `check-kanal-luecken-lader.ts`. */
 }
 /* Captain Tsubasa 2018: jede Crunchyroll-Runde, die ein Ja setzt, fragt die laufende Nummer (17.09.2026). */
 {
@@ -5496,13 +5485,7 @@ pruefe(
     (bau.match(/if \(deutscheFolgenNachDemEnde\(/g) ?? []).length === 2,
     'eine Bereichsübertragung schreibt wieder „Fg. 1–39" an Captain Tsubasa 2018',
   )
-  pruefe(
-    'ein Kapitel-Nein entsteht nur aus dem deutschen Katalog',
-    /return deutsch \|\| serie\.katalog === 'de' \? deutsch : undefined/.test(
-      readFileSync('pipeline/lib/crunchyroll-dub.ts', 'utf8'),
-    ),
-    'die Kapitel-Runde verneint auch aus dem US-Katalog',
-  )
+  /* Ein Kapitel-Nein entsteht nur aus dem deutschen Katalog: `check-kapitel-katalog.ts`. */
   pruefe(
     '… und läuft auch in der Nachrunde für frisch ergänzte Verweise',
     (bau.match(/kapitelImBlock\(serie, title\)/g) ?? []).length === 2,
@@ -5552,11 +5535,7 @@ pruefe(
     '… Platzhalter und mehrdeutige Folgentitel entscheiden nichts',
     anker('Folge 7: Folge 7') === null && anker('Folge 9: Doppelt') === null && anker('keine Folge') === null,
   )
-  const quelltext = readFileSync('pipeline/lib/meldungen-verteilen.ts', 'utf8')
-  pruefe(
-    '… und der Import fragt ihn vor der Zählung',
-    quelltext.indexOf('folgeUeberTitel(') > 0 && quelltext.indexOf('folgeUeberTitel(') < quelltext.indexOf('ordneMeldungZuPlattform('),
-  )
+  /* Der Import fragt ihn vor der Zählung: `check-verteile-folgentitel.ts`. */
 }
 {
   /* Erinnerung nur in der Einzeldatei, nie in den Sammelfeeds (18.09.2026). */
@@ -5998,16 +5977,9 @@ pruefe(
   /*
     **Die Feldliste am Suchfeld muss die Felder der Suche nennen** (29.09.2026, Daniel: „welche
     felder durchsucht werden nicht ersichtlich ist und gemäß der projekt regel alles offen zu
-    kommunizieren, muss hier in der suche nahe dem such-input ein icon erscheinen"). Geprüft wird
-    am Quelltext: In `filters.ts` steht je `dazu('art', …)` eine Art, in `search.ts` je Art eine
-    Beschriftung — läuft das auseinander, verspricht das Symbol eine Suche, die es nicht gibt.
+    kommunizieren, muss hier in der suche nahe dem such-input ein icon erscheinen"). Die Feldliste
+    gegen die echte Suche: `check-suchfeld-arten.ts` (läuft `filterEvents` je Feld mit einem Erfindungswort).
   */
-  const filterQuelle = readFileSync('web/src/lib/filters.ts', 'utf8')
-  const suchQuelle = readFileSync('web/src/lib/search.ts', 'utf8')
-  const benutzt = [...new Set([...filterQuelle.matchAll(/dazu\('([a-z]+)'/g)].map((m) => m[1]))].sort()
-  const beschriftet = [...new Set([...suchQuelle.matchAll(/\{ art: '([a-z]+)', label:/g)].map((m) => m[1]))].sort()
-  pruefe('die Feldliste am Suchfeld nennt genau die durchsuchten Felder',
-    JSON.stringify(benutzt) === JSON.stringify(beschriftet), `${benutzt} / ${beschriftet}`)
   /*
     **Der Hinweis nennt das Feld und seinen Inhalt, nicht nur das Wort**. Gemessen wird die
     Textfassung (`fundstelleHinweis`); die Blase zeigt denselben
@@ -6796,12 +6768,8 @@ pruefe(
   pruefe('eine alte Serie und ein fehlender Titel sind kein Simulcast', !laufendeSerieImSlot({ format: 'TV', jpYear: 2014 } as never, 2026) && !laufendeSerieImSlot(undefined, 2026))
 }
 {
-  /* Witch on the Holy Night (19.09.2026): „Neu auf Deutsch" erst, wenn Deutsch an dem Tag zu sehen ist. */
-  const news = readFileSync('pipeline/lib/news.ts', 'utf8')
-  pruefe('„Neu auf Deutsch" verlangt einen deutschen Stream oder einen erreichten Termin', news.includes('!anbieter && !erreicht'))
-  /* **Und ein noch ausstehender Termin desselben Anbieters macht daraus eine Ankündigung**
-     (02.10.2026, Apothekerin S3) — die Prüfung hängt an derselben Zeile. */
-  pruefe('und der ausstehende Termin desselben Anbieters wird abgefragt', news.includes('nurAngekuendigt(releases, t.id, anbieter'))
+  /* „Neu auf Deutsch" erst, wenn Deutsch an dem Tag zu sehen ist (Witch on the Holy Night, 19.09.2026), und ein ausstehender Termin desselben
+     Anbieters macht daraus eine Ankündigung (Apothekerin S3, 02.10.2026): beides als Lauf über `baueNews` in `check-neu-auf-deutsch.ts`. */
 }
 {
   /* Beyblade X (19.09.2026): eine automatische TV-Sichtung verdrängt keinen belegten deutschen Stream. */

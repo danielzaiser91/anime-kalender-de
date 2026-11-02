@@ -85,7 +85,7 @@ export function schliesseWegeAb({
   kennzeichneDeutschLautJustwatch({ titles, tmdbMehrdeutig, alleChecks })
 
   /* Zuletzt: Wer einen sicheren Termin bei einem Anbieter hat, aber noch keinen Weg dorthin, bekommt einen. Ohne Tonurteil, außer ein Handbeleg gilt: dann dessen Urteil, bei „nicht verfügbar“ kein Weg. */
-  ergaenzeWegeAusTerminen({ titles, releases, toteAdressen, verweiseEntfernt, belegFuer })
+  ergaenzeWegeAusTerminen({ titles, releases, toteAdressen, lautPruefungTot, verweiseEntfernt, belegFuer })
 
   kennzeichneFreenetLautSchwester(titles)
 

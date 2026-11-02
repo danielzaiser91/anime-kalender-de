@@ -54,7 +54,7 @@ esac
 
   mkdirSync(join(lauf, 'data'), { recursive: true })
   mkdirSync(join(lauf, 'tools'), { recursive: true })
-  for (const datei of ['quellen-liste.sh', 'quellen-aufsetzen.sh', 'quellen-pr.sh', 'quellen-pruefen.sh', 'health-vereinen.mjs', 'dub-belege-vereinen.mjs'])
+  for (const datei of ['quellen-liste.sh', 'quellen-aufsetzen.sh', 'quellen-pr.sh', 'quellen-pruefen.sh', 'quellen-bauprobe.sh', 'health-vereinen.mjs', 'dub-belege-vereinen.mjs'])
     copyFileSync(join(wurzel, 'tools', datei), join(lauf, 'tools', datei))
   writeFileSync(join(lauf, 'data/anisearch.json'), '{"v":1}')
   sh(lauf, `git add -A && ${git} commit -q -m start && git push -q origin HEAD:main`)
