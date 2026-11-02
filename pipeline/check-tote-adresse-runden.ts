@@ -19,6 +19,7 @@ const daten = join(wurzel, 'data')
 mkdirSync(join(daten, 'curated'), { recursive: true })
 writeFileSync(join(daten, 'kino-ankuendigungen.yaml'), '[]\n')
 writeFileSync(join(daten, 'shop-wege-falsches-ziel.yaml'), '[]\n')
+writeFileSync(join(daten, 'fanservice-urteil.yaml'), '')
 
 let verletzt = 0
 function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
@@ -30,7 +31,7 @@ function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
 const NF = (n: number) => `https://www.netflix.com/title/8125327${n}`
 const GTI = (n: number) => `https://watch.amazon.de/detail?gti=amzn1.dv.gti.0000000${n}-0000-0000-0000-000000000000`
 const TMDB = 'https://www.themoviedb.org/tv/1/watch'
-const IDS = { ohneWeg: 9000041, abo: 9000042, kauf: 9000043, tmdb: 9000044, extra: 9000045, anisearch: 9000046, termin: 9000047 }
+const IDS = { motnTot: 9000051, motnLebt: 9000052, ohneWeg: 9000041, abo: 9000042, kauf: 9000043, tmdb: 9000044, extra: 9000045, anisearch: 9000046, termin: 9000047 }
 /* Diese Adressen kennt die Linkprüfung als tot (alle mit Endung 0 bzw. tot0). */
 const tot = (u: string): boolean => u === NF(0) || u === GTI(0) || u.endsWith('tot0')
 
@@ -44,6 +45,18 @@ writeFileSync(
     [IDS.kauf]: befund(IDS.kauf, [angebot('Amazon Video', 'BUY', GTI(0))]),
     [IDS.tmdb]: befund(IDS.tmdb, [angebot('Videoload', 'BUY', 'https://www.videoload.de/film/tot0')]),
     [IDS.extra]: befund(IDS.extra, [angebot('Apple TV', 'BUY', 'https://tv.apple.com/de/movie/tot0')]),
+  }),
+)
+
+/* Kulisse für Phase 13-3 (MOTN-Adressen): imdb tt51 führt auf die tote, tt52 auf die lebende Netflix-Adresse. */
+mkdirSync(join(wurzel, 'public', 'data'), { recursive: true })
+writeFileSync(join(daten, 'motn-links.json'), JSON.stringify({ links: { tt51: { netflix: NF(0) }, tt52: { netflix: NF(1) } } }))
+writeFileSync(join(daten, 'motn.json'), JSON.stringify({ tmdb: { 'tv/51': { imdbId: 'tt51' }, 'tv/52': { imdbId: 'tt52' } } }))
+writeFileSync(
+  join(daten, 'tmdb-titles.json'),
+  JSON.stringify({
+    [IDS.motnTot]: { tmdbId: 51, kind: 'tv', providers: ['netflix'] },
+    [IDS.motnLebt]: { tmdbId: 52, kind: 'tv', providers: ['netflix'] },
   }),
 )
 
@@ -121,6 +134,23 @@ console.log('\nDie andere Quelle (Handbeleg „nicht verfügbar“) hält weiter
 }
 }
 
+/** Phase 13-3 (`schreibeListen`): Weg aus TMDB-Anbieter und MOTN-Adresse; die tote Adresse kennt nur die Linkprüfung. */
+async function motnFaelle(): Promise<void> {
+  const { schreibeListen } = await import('./bau/13-3-listen.ts')
+  const { baueIstTot } = await import('./lib/adresse-tot.ts')
+  const streams = (pruefung: (u: string) => boolean): Map<number, string[]> => {
+    const slim = [IDS.motnTot, IDS.motnLebt].map((id) => ({ id, streams: [], watchLinks: [] }))
+    schreibeListen({ slim: slim as never, tmdbTitles: {}, releases: [], titles: new Map(), istTot: baueIstTot(new Set(), pruefung) })
+    return new Map(slim.map((s) => [s.id, (s.streams as { url: string }[]).map((x) => x.url)]))
+  }
+  console.log('\n13-3 (MOTN-Adresse ohne jeden Weg):')
+  const mit = streams(tot)
+  pruefe('13-3: tote MOTN-Adresse legt keinen Weg an', mit.get(IDS.motnTot)?.length === 0, [...mit])
+  pruefe('13-3: lebende MOTN-Adresse legt den Weg an', mit.get(IDS.motnLebt)?.length === 1, [...mit])
+  const ohne = streams(() => false)
+  pruefe('Kontrolle 13-3: ohne Prüfbefund legt auch die tote Adresse den Weg an', ohne.get(IDS.motnTot)?.length === 1, [...ohne])
+}
+
 async function main(): Promise<void> {
   const { schliesseWegeAb } = await import('./bau/11-wege-abschluss.ts')
   const { ergaenzeWegeAusJustwatch } = await import('./bau/11-2-justwatch.ts')
@@ -158,6 +188,7 @@ async function main(): Promise<void> {
 
   linkpruefungFaelle(lauf, jwRunden)
   handbelegFaelle(lauf)
+  await motnFaelle()
 }
 
 try {
