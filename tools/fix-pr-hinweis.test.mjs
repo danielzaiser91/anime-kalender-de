@@ -22,6 +22,7 @@ const ROT_AB = '2026-11-02T01:00:00Z'
 assert.equal(pruefZustand([]), 'keine Prüfung gestartet')
 assert.equal(pruefZustand(undefined), 'keine Prüfung gestartet')
 assert.equal(pruefZustand([gut, gut, gut, schlecht, lauf, lauf]), '3 grün, 1 rot, 2 offen')
+assert.equal(pruefZustand([{ name: 'ohne Angaben' }, { state: 'EXPECTED' }]), '0 grün, 0 rot, 2 offen', 'ohne Ergebnis oder erwartet: offen')
 assert.equal(pruefZustand([uebersprungen]), '1 grün, 0 rot, 0 offen')
 assert.equal(pruefZustand([{ conclusion: 'CANCELLED', status: 'COMPLETED' }, { conclusion: 'TIMED_OUT', status: 'COMPLETED' }]), '0 grün, 2 rot, 0 offen')
 assert.equal(pruefZustand([{ state: 'SUCCESS' }, { state: 'FAILURE' }, { state: 'PENDING' }]), '1 grün, 1 rot, 1 offen', 'StatusContext trägt `state`')
@@ -107,7 +108,26 @@ try {
     const schritt = wf.jobs.untersuchen.steps.find((s) => s.name === 'Gibt es den Fehler noch?')
     assert.ok(schritt, 'Schritt vorhanden')
     const gh = join(ordner, 'gh.sh')
-    writeFileSync(gh, 'gh() {\n  local was="$1 $2" jqp=""\n  while [ $# -gt 0 ]; do [ "$1" = "--jq" ] && jqp="$2"; shift; done\n  echo "$was" >> "$GH_LOG"\n  if [ "$was" = "run list" ]; then cat "$ERFOLGE"; else cat "$PRLISTE"; fi | jq -r "$jqp"\n}\n')
+    const ghFunktion = [
+      'gh() {',
+      '  local was="$1 $2" jqp="" autor=""',
+      '  while [ $# -gt 0 ]',
+      '  do',
+      '    [ "$1" = "--jq" ] && jqp="$2"',
+      '    [ "$1" = "--author" ] && autor="$2"',
+      '    shift',
+      '  done',
+      '  echo "$was" >> "$GH_LOG"',
+      '  if [ "$was" = "run list" ]',
+      '  then',
+      '    jq -r "$jqp" "$ERFOLGE"',
+      '  else',
+      `    jq --arg a "$autor" 'if $a == "" then . else map(select(.author.login == $a)) end' "$PRLISTE" | jq -r "$jqp"`,
+      '  fi',
+      '}',
+      '',
+    ]
+    writeFileSync(gh, ghFunktion.join('\n'))
     const fahrt = (prs, erfolge = []) => {
       const out = join(ordner, 'out.txt')
       const log = join(ordner, 'log.txt')
@@ -126,6 +146,7 @@ try {
     assert.match(fahrt(fix).text, /#2662/)
     assert.equal(fahrt([{ number: 5, headRefName: 'feat/auftrag', author: { login: FIXER } }]).weiter, 'weiter=ja', 'Auftrags-PR des Claude-Bots sperrt nicht')
     assert.equal(fahrt([{ number: 6, headRefName: 'daten/fix/x', author: { login: FIXER } }]).weiter, 'weiter=ja', 'fix/ muss am Anfang stehen')
+    assert.equal(fahrt([{ number: 7, headRefName: 'fix/mensch', author: { login: 'danielzaiser91' } }]).weiter, 'weiter=ja', 'fix/-PR eines Menschen sperrt nicht (gh filtert über --author)')
     assert.equal(fahrt([]).weiter, 'weiter=ja', 'ohne Fix-PR läuft der Fixer')
     const nachfolger = fahrt(fix, [{ databaseId: 101 }])
     assert.equal(nachfolger.weiter, 'weiter=nein', 'grüner Nachfolger: nichts zu untersuchen')
