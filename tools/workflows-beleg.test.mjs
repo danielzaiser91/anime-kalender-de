@@ -4,7 +4,7 @@
  */
 import assert from 'node:assert/strict'
 import { execFileSync, spawnSync } from 'node:child_process'
-import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -114,7 +114,7 @@ function repo() {
   const skripte = [...kette.matchAll(/node (tools\/[\w.-]+\.mjs)/g)].map((m) => m[1]).filter((s) => !s.endsWith('tests-alle.mjs'))
   ok(skripte.length === 4, `check:workflows: 4 Skripte neben tests-alle (${skripte.join(', ')})`)
   // Meldungstext, keine Lesung (tools/check-workflows.mjs: Hinweis auf die Prüfliste).
-  const NUR_GENANNT = new Set([`tools/check-workflows.mjs|${['data', 'anbieter-vorschlaege.json'].join('/')}`])
+  const NUR_GENANNT = new Set(['anbieter-vorschlaege.json', 'crunchyroll-woche.json'].map((n) => `tools/check-workflows.mjs|${['data', n].join('/')}`))
   const literal = new RegExp(`${['data', ''].join('/')}[\\w./-]+\\.(?:json|jsonl|yaml|md)`, 'g')
   const treffer = skripte.flatMap((s) => [...ohneKommentare(readFileSync(join(tools, '..', s), 'utf8')).matchAll(literal)].map((m) => `${s}|${m[0]}`))
   ok(treffer.length >= 10, `Wächter findet die Literale der Skripte (${treffer.length})`)
@@ -126,6 +126,20 @@ function repo() {
   gleich([CACHE_REG, ZUGANG_REG].map((d) => treffer.some((t) => t.endsWith(d))), [true, true], 'Wächter sieht beide Register als Literal der Skripte')
   // Ausnahme bleibt für Bot-Dateien (sonst gäbe es nie einen Beleg nach einem Datenlauf).
   for (const datei of [BOT, DATEN + '/titles.json', CACHE]) ok(!ZAEHLT(datei), `${datei} zählt nicht`)
+
+  // Die Zusatz-Ausnahme (OHNE_LESER_WORKFLOWS): fest eingetragen, je Eintrag ein Fall; Ordner mit Unterdatei, ähnlicher Name zählt.
+  const ZUSATZ = ['anisearch-raw/1.json', 'crunchyroll-raw/a/b.json', 'crunchyroll-neu.json', 'crunchyroll-woche.json', 'tv-programm.json'].map((n) => ['data', n].join('/'))
+  for (const datei of ZUSATZ) ok(!ZAEHLT(datei), `${datei} zählt nicht (kein Leser in check:workflows)`)
+  for (const n of ['anisearch-raw.json', 'anisearch-rawx/1.json', 'crunchyroll-neu.jsonl', 'tv-programm.json.bak', 'crunchyroll-rawx']) ok(ZAEHLT(['data', n].join('/')), `data/${n}: ähnlicher Name zählt`)
+  ok(ZAEHLT(['tools', ZUSATZ[2]].join('/')), 'Ausnahme gilt nur am Pfadanfang')
+  // Kein Skript der Kette und kein Test nennt sie außerhalb einer Wegwerf-Kulisse oder eines Meldungstexts (Handdurchsicht 02.11.2026).
+  const KULISSEN = ['bestand-cr-termine-schritt.test.mjs', 'pr-nachrechnen.test.mjs', 'pr-nachrechnen-leser.test.mjs', 'pr-nachrechnen-leser-git.test.mjs', 'pr-nachrechnen-bot-pfade.test.mjs', 'workflows-beleg.test.mjs']
+  const stamm = new RegExp(`${['data', ''].join('/')}(?:anisearch-raw|crunchyroll-raw|crunchyroll-neu|crunchyroll-woche|tv-programm)\\b`)
+  const leser = [...skripte.map((s) => s.slice('tools/'.length)), ...readdirSync(tools).filter((f) => f.endsWith('.test.mjs'))]
+    .filter((f) => !KULISSEN.includes(f) && f !== 'check-workflows.mjs')
+    .filter((f) => stamm.test(ohneKommentare(readFileSync(join(tools, f), 'utf8'))))
+  gleich(leser, [], 'kein Skript und kein Test außerhalb der Kulissen nennt die Zusatz-Ausnahme')
+  ok(readdirSync(tools).filter((f) => f.endsWith('.test.mjs')).length > 100, 'Wächter liest die Tests (mehr als 100)')
 }
 
 // 2. Wahl des Belegs (eingespritzte Antworten).

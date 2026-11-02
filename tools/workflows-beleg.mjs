@@ -17,11 +17,17 @@ import { pathToFileURL } from 'node:url'
 import { abdruckVon } from './logik-beleg.mjs'
 import { istDatenpfad } from './pr-nachrechnen.mjs'
 
+const D = 'data'
 /**
- * Pfade, deren Bewegung den Beleg nicht entwertet: `istDatenpfad` (public/data, Cache, Bot-Dateien ohne Leser in der Kette). Alles andere zählt,
- * auch Handdaten und Register: `check:workflows` liest sie (Prüfer 2687 A1).
+ * Bot-Dateien, die die Kette sonst liest (Bau, Validierung), `check:workflows` aber nicht: kein Skript davon und kein `tools/*.test.mjs` nennt sie
+ * außerhalb einer Wegwerf-Kulisse (Wächter im Test, 02.11.2026). Ordner ohne Endstrich. Zusammen etwa zwei Drittel der Bot-Commits auf main.
  */
-export const ZAEHLT = (pfad) => !istDatenpfad(pfad)
+export const OHNE_LESER_WORKFLOWS = ['anisearch-raw', 'crunchyroll-raw', 'crunchyroll-neu.json', 'crunchyroll-woche.json', 'tv-programm.json'].map((n) => `${D}/${n}`)
+/**
+ * Pfade, deren Bewegung den Beleg nicht entwertet: `istDatenpfad` (public/data, Cache, Bot-Dateien ohne Leser in der Kette) und
+ * `OHNE_LESER_WORKFLOWS`. Alles andere zählt, auch Handdaten und Register: `check:workflows` liest sie (Prüfer 2687 A1).
+ */
+export const ZAEHLT = (pfad) => !istDatenpfad(pfad) && !OHNE_LESER_WORKFLOWS.some((p) => pfad === p || pfad.startsWith(`${p}/`))
 export const WORKFLOW = 'deploy.yml'
 export const JOB = 'pruefen'
 /** Läufe, die der Abruf der Deploy-Historie höchstens liest (neueste zuerst); die Checkout-Tiefe (30 Commits) begrenzt ohnehin, was lokal lesbar ist. */
