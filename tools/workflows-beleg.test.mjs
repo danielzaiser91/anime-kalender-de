@@ -84,10 +84,11 @@ function repo() {
 // 1b. Die echten Aufrufe: ECHT.baum liest den ganzen Baum (-r) im Arbeitsordner; Grenzen sind festgenagelt.
 {
   const r = repo()
-  r.commit({ 'tools/a/b.mjs': '1', [`${DATEN}/titles.json`]: '[]' })
+  const kopfSha = r.commit({ 'tools/a/b.mjs': '1', [`${DATEN}/titles.json`]: '[]' })
   const vorher = process.cwd()
   process.chdir(join(wegwerf, `r${nummer}`))
   try {
+    gleich(ECHT.kopf(), kopfSha, 'ECHT.kopf: voller Hash des Checkouts ohne Zeilenende')
     const roh = ECHT.baum('HEAD')
     ok(roh.includes('tools/a/b.mjs\0'), 'ECHT.baum: Dateien in Unterordnern stehen im Baum (-r, -z)')
     gleich(abdruckAusBaum(roh), r.abdruck('HEAD'), 'ECHT.baum: gleicher Abdruck wie ls-tree im Ordner')
@@ -144,9 +145,11 @@ const kulisse = (opt = {}) => ({
     if (opt.baumFehler) throw new Error('git kaputt\nzweite Zeile')
     return sha === 'HEAD' || sha === 'gleich' ? ROH('1') : ROH('2')
   },
+  kopf: () => opt.kopf ?? 'KOPF',
   api: (pfad) => {
     if (opt.apiFehler) throw new Error('HTTP 403: rate limit')
     if (pfad.includes('/jobs')) return { jobs: jobs('pruefen', opt.jobs ?? 'success') }
+    if (/\/runs\/\d+$/.test(pfad)) return { head_sha: opt.eigenSha ?? 'KOPF' }
     return { workflow_runs: opt.laeufe ?? [{ id: 41, head_sha: 'gleich' }, { id: 40, head_sha: 'fremd' }] }
   },
 })
@@ -155,6 +158,10 @@ const ENV = { GITHUB_REPOSITORY: 'o/r', GITHUB_RUN_ID: '99' }
   const g = gueltigkeit(ENV, kulisse())
   ok(g.gueltig && g.grund.startsWith('Beleg: Lauf 41 '), 'Kulisse Treffer: Beleg: Lauf 41')
   ok(!gueltigkeit(ENV, kulisse({ jobs: 'failure' })).gueltig, 'Kulisse pruefen rot: nicht gültig')
+  const fremd = gueltigkeit(ENV, kulisse({ eigenSha: 'ANDERER' }))
+  ok(!fremd.gueltig && fremd.grund.includes('ANDERER') && fremd.grund.includes('KOPF'), 'head_sha des eigenen Laufs weicht vom Checkout ab: voll prüfen, beide Werte im Grund')
+  ok(!gueltigkeit(ENV, kulisse({ kopf: 'X' })).gueltig, 'Checkout anders als head_sha des Laufs: nicht gültig')
+  ok(!gueltigkeit({ ...ENV, GITHUB_RUN_ID: undefined }, kulisse()).gueltig, 'ohne Lauf-Kennung: head_sha fehlt, nicht gültig')
   ok(!gueltigkeit(ENV, kulisse({ laeufe: [{ id: 40, head_sha: 'fremd' }] })).gueltig, 'Kulisse anderer Abdruck: nicht gültig')
   const gh = gueltigkeit(ENV, kulisse({ apiFehler: true }))
   ok(!gh.gueltig && gh.grund.includes('HTTP 403: rate limit'), 'gh-Fehler: voll prüfen, erste Fehlerursache im Grund')
@@ -164,8 +171,9 @@ const ENV = { GITHUB_REPOSITORY: 'o/r', GITHUB_RUN_ID: '99' }
   ok(!gueltigkeit({ ...ENV, GITHUB_RUN_ID: '41' }, kulisse()).gueltig, 'Lauf 41 ist der eigene: nicht gültig')
   const abfragen = []
   gueltigkeit(ENV, { ...kulisse(), api: (p) => (abfragen.push(p), kulisse().api(p)) })
-  gleich(abfragen[0], 'repos/o/r/actions/workflows/deploy.yml/runs?branch=main&per_page=50', 'Läufe: nur Deploy-Läufe auf main, 50 neueste')
-  gleich(abfragen[1], 'repos/o/r/actions/runs/41/jobs?per_page=100', 'Jobs: des Treffer-Laufs')
+  gleich(abfragen[0], 'repos/o/r/actions/runs/99', 'Eigener Lauf: head_sha gelesen')
+  gleich(abfragen[1], 'repos/o/r/actions/workflows/deploy.yml/runs?branch=main&per_page=50', 'Läufe: nur Deploy-Läufe auf main, 50 neueste')
+  gleich(abfragen[2], 'repos/o/r/actions/runs/41/jobs?per_page=100', 'Jobs: des Treffer-Laufs')
 }
 
 // 4. main: Ausgabe, Datei, Exit-Code.

@@ -5,6 +5,8 @@
  * Abdruck = Pfad und Blob-Hash jeder Datei im Git-Baum außer den Datenpfaden (`DATENPFADE`); Bäume ohne Blobs reichen (Checkout mit
  * `filter: blob:none`, `git ls-tree`). Bewegt sich irgendetwas außerhalb der Datenpfade (Code, Workflows, `extension/`, `public/og/`),
  * ist der Abdruck ein anderer und die Prüfung läuft wie bisher. Jeder Fehler (gh, Git, Frist) heißt „kein Beleg“, nie „grün“.
+ * Voraussetzung ist, dass `head_sha` eines Laufs der ausgecheckte Stand ist (gemessen 02.11.2026 an 10 Läufen, 7 davon `workflow_run`: gleich);
+ * der Aufruf prüft sie am eigenen Lauf (API-`head_sha` gegen `git rev-parse HEAD`) und prüft sonst voll.
  * Ein Lauf, der selbst per Beleg übersprang, belegt weiter (gleicher Abdruck, transitiv); ein übersprungener Job `pruefen` zählt nicht.
  *
  * Aufruf im Workflow `deploy.yml` (Job `pruefen`): `node tools/workflows-beleg.mjs gueltig` schreibt bei Beleg `gueltig=1` nach $GITHUB_OUTPUT.
@@ -70,6 +72,7 @@ const ausfuehren = (befehl, args) => execFileSync(befehl, args, { encoding: 'utf
 /** Die echten Aufrufe; `laufe` bekommt im Test dieselben drei Funktionen als Kulisse. */
 export const ECHT = {
   baum: (sha) => ausfuehren('git', ['ls-tree', '-r', '-z', sha]),
+  kopf: () => ausfuehren('git', ['rev-parse', 'HEAD']).trim(),
   api: (pfad) => JSON.parse(ausfuehren('gh', ['api', pfad])),
 }
 
@@ -78,6 +81,9 @@ export function gueltigkeit(env, w = ECHT) {
   try {
     const repo = env.GITHUB_REPOSITORY
     if (!repo) return { gueltig: false, grund: 'GITHUB_REPOSITORY fehlt' }
+    const kopf = w.kopf()
+    const eigenerStand = w.api(`repos/${repo}/actions/runs/${env.GITHUB_RUN_ID}`).head_sha
+    if (eigenerStand !== kopf) return { gueltig: false, grund: `head_sha dieses Laufs (${eigenerStand}) ist nicht der Checkout (${kopf}): head_sha belegt den geprüften Stand nicht` }
     const abdruck = abdruckAusBaum(w.baum('HEAD'))
     const laeufe = w.api(`repos/${repo}/actions/workflows/${WORKFLOW}/runs?branch=main&per_page=${LAEUFE_HOECHSTENS}`).workflow_runs
     const lauf = sucheBeleg({
