@@ -73,13 +73,12 @@ export function verteileMeldungen(
       m.plattform === 'netflix' ? folgeUeberTitel(folgentitelAusNotiz(m.notiz), staffeln.map((x) => x.id)) : null
     const ankerStaffel = anker ? staffeln.find((x) => x.id === anker.id) : undefined
     const ueberSumme = summenVersatz === undefined ? null : nummerUeberSumme(summenVersatz, anbieterStaffeln, m.staffel, m.folge_nr)
+    const nachSumme = ueberSumme ? { staffel: staffeln[0]!, folgeInStaffel: ueberSumme } : null
     const treffer = ueberBlock
       ? { staffel: staffeln[0]!, folgeInStaffel: ueberBlock }
       : ankerStaffel
         ? { staffel: ankerStaffel, folgeInStaffel: anker!.nr }
-        : ueberSumme
-          ? { staffel: staffeln[0]!, folgeInStaffel: ueberSumme }
-          : ordneMeldungZuPlattform(m.plattform, { folge: m.folge_nr, staffel: m.staffel }, staffeln, anbieterStaffeln)
+        : nachSumme ?? ordneMeldungZuPlattform(m.plattform, { folge: m.folge_nr, staffel: m.staffel }, staffeln, anbieterStaffeln)
     if (!treffer) continue
     if (ueberBlock || ankerStaffel) verteilung.ueberFolgentitel++
     const bisher = verteilung.jeStaffel.get(treffer.staffel.id) ?? []
