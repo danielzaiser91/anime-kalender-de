@@ -10,6 +10,7 @@ import { releasesAusTvProgramm } from './lib/tv-termine.ts'
 import { durchAnilistBekannt } from './fetch-anisearch-eintraege.ts'
 import type { Bestand } from '../tools/daten-detektiv/laden.ts'
 import { ohneJedenBeleg } from '../tools/daten-detektiv/regeln-titel.ts'
+import { premiereGegenErstausgabe } from '../tools/daten-detektiv/regeln-quellen.ts'
 
 let verletzt = 0
 function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
@@ -44,6 +45,15 @@ console.log('\nBehobene Funde des Daten-Detektivs:')
     'bleach-diamonddust-rebellion-adn', 'bleach-fade-to-black-adn', 'bleach-hell-verse-adn', 'spy-x-family-s1-teil1-disneyplus', 'spy-x-family-s1-teil2-disneyplus', 'dororo-joyn', 'demon-slayer-s1-primevideo']
   const ohneBedeutung = katalog.filter((s) => eintrag(s)?.dateMeaning !== 'available-from')
   pruefe('DD-11: 13 Katalogaufnahmen tragen dateMeaning available-from', ohneBedeutung.length === 0, ohneBedeutung)
+
+  // DD-11: Wiederaufführung im Kino und Wiederholung im TV sind keine Premiere-Behauptung; ein Streaming-Release ohne Hinweis bleibt Treffer
+  const alt = { titleId: 1, name: 'Alt', releaseType: 'movie', schedule: { firstEpisodeDate: '2026-08-18' }, sources: [] }
+  const bestand11 = {
+    titles: [{ id: 1, titleEn: 'Alt', slug: 'alt', deErstausgabe: { von: '2003-06-19', synchro: true } }],
+    releases: ['kino', 'tv', 'netflix', 'disneyplus'].map((platform) => ({ ...alt, platform, slug: `alt-${platform}` })),
+  } as unknown as Bestand
+  const premiere11 = premiereGegenErstausgabe(bestand11).treffer.map((t) => t.schluessel)
+  pruefe('DD-11: Kino und TV (Wiederaufführung/Wiederholung) bleiben still, Streaming wird gemeldet', premiere11.join() === 'alt-netflix,alt-disneyplus', premiere11)
 
   // DD-06: ein aniSearch-Eintrag, den ein Katalog-Titel „bekannt" machte, wird trotzdem geholt
   const zuordnung = { '170206': { anisearchId: 18828 }, '100': { anisearchId: 5 }, '200': { anisearchId: 6 } }

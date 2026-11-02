@@ -1,15 +1,30 @@
 {
-  "scrapedAt": "2026-11-01T20:02:40.626Z",
+  "scrapedAt": "2026-11-02T05:03:54.476Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 40,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "schon in einem Rubrik-Feed gelesen": 7,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 12,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 1,
+    "schon in einem Rubrik-Feed gelesen": 32,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 49,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 9,
     "Sprachhinweis älter als 45 Tage": 6
   },
   "proposals": [
+    {
+      "articleTitle": "TV-Guide: Anime im deutschen Fernsehen in KW 45/2026",
+      "articleUrl": "https://www.anime2you.de/news/1066723/anime-tv-programm-45-2026/",
+      "publishedAt": "2026-11-02",
+      "category": "allgemein",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-11-08",
+          "context": "damit ihr keine Sendung verpasst! Premieren und Highlights Vom 2. bis 8. November 2026 gibt es wieder zahlreiche Anime-Premieren und -Highli"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Netflix nimmt zwei Anime-Neuzugänge ins Programm",
       "articleUrl": "https://www.anime2you.de/news/1066144/netflix-held-ohne-klasse-und-mehr/",
@@ -20,7 +35,32 @@
       ],
       "dates": [],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "sammel": [
+        {
+          "titel": "Der Held ohne Klasse: Der Aufstieg eines Talentlosen",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Netflix"
+          ],
+          "folgen": 12,
+          "datum": "2026-11-01",
+          "datumGeschaetzt": true
+        },
+        {
+          "titel": "My Happy Marriage",
+          "zusatz": "Special-Episoden",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Netflix"
+          ],
+          "datum": "2026-11-01",
+          "datumGeschaetzt": true
+        }
+      ],
+      "sammelGelesen": "2026-11-02"
     },
     {
       "articleTitle": "AniMoon-Angebot: RomCom-Serie »Toradora!« zum Sonderpreis",
@@ -53,7 +93,30 @@
       ],
       "dates": [],
       "dub": "ja",
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "sammel": [
+        {
+          "titel": "Goblin Slayer II",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Prime Video"
+          ],
+          "folgen": 12,
+          "datum": "2026-11-01",
+          "datumGeschaetzt": true
+        },
+        {
+          "titel": "Shin-chan Spin-off: Alien vs. Shinnosuke",
+          "deutsch": false,
+          "woechentlich": false,
+          "stream": [
+            "Prime Video"
+          ],
+          "folgen": 13
+        }
+      ],
+      "sammelGelesen": "2026-11-02"
     },
     {
       "articleTitle": "ProSieben MAXX zeigt »Wandering Witch: Elainas Reise« als TV-Premiere",
@@ -69,6 +132,23 @@
         {
           "month": "2026-12",
           "context": "ProSieben MAXX zeigt »Wandering Witch: Elainas Reise« als TV-Premiere Im Dezember 2026 kehrt die »Anime Night« zu ProSieben MAXX zurück. Pas"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Netflix entfernt zwei Anime-Titel aus seinem Programm",
+      "articleUrl": "https://www.anime2you.de/news/1066661/netflix-entfernt-berserk-und-mehr/",
+      "publishedAt": "2026-11-01",
+      "category": "streaming",
+      "platforms": [
+        "netflix"
+      ],
+      "dates": [
+        {
+          "iso": "2026-11-13",
+          "context": "assen die Details nachfolgend zusammen. Zwei Anime-Abgänge Bereits am 13. November 2026 verlässt der Film »Iron Man: Rise of Technovore« den"
         }
       ],
       "dub": "unklar",
@@ -406,7 +486,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-10-30"
+      "sammelGelesen": "2026-11-02"
     },
     {
       "articleTitle": "Neue Anime-Katalogtitel im November 2026 bei aniverse",
@@ -837,7 +917,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-10-30"
+      "sammelGelesen": "2026-11-02"
     },
     {
       "articleTitle": "Crunchyroll bringt besonderes »Black Clover«-Erlebnis nach Deutschland",
@@ -878,10 +958,6 @@
         "netflix"
       ],
       "dates": [
-        {
-          "iso": "2026-11-01",
-          "context": "ie fünfte Episode der zweiten Staffel wird nicht wie zuvor geplant am 1. November 2026, sondern erst am 8. November 2026 in Japan ausgestrah"
-        },
         {
           "iso": "2026-11-08",
           "context": "fel wird nicht wie zuvor geplant am 1. November 2026, sondern erst am 8. November 2026 in Japan ausgestrahlt sowie bei Netflix mit deutscher"
@@ -1327,7 +1403,7 @@
           "edition": "limited-edition sammelschuber"
         }
       ],
-      "discGelesen": "2026-10-30"
+      "discGelesen": "2026-11-02"
     },
     {
       "articleTitle": "Zwei Synchro-Neuzugänge ab sofort auf Crunchyroll verfügbar",
@@ -1642,7 +1718,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-30"
+      "sammelGelesen": "2026-11-02"
     },
     {
       "articleTitle": "Netflix nimmt Fantasy-Anime »Der Held ohne Klasse« ins Programm",
@@ -1693,7 +1769,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-30"
+      "sammelGelesen": "2026-11-02"
     },
     {
       "articleTitle": "Zehn neue Minifiguren zu »Lord of Mysteries« vorgestellt",
@@ -1757,18 +1833,6 @@
       ],
       "dates": [],
       "dub": "unklar",
-      "zeiten": [
-        {
-          "tag": "Sonntag",
-          "zeit": "17:00",
-          "satz": "ffel 3 (Synchro) »Dreamland« – Episode 1 »Your Letter« »As a Reincarnated Aristocrat« – Staffel 3 (Synchro) Episoden: 1 verfügbar Sprache: Deutsch, Japanisch (UT) Simulcast: Jeden Sonntag um 17:00 Uhr Stream: Prime Video , Crunchyroll Handl"
-        },
-        {
-          "tag": "Samstag",
-          "zeit": "19:00",
-          "satz": "am mit seinen Verbündeten muss er alles daransetzen, seine Heimat zu verteidigen. »Dreamland« – Episode 1 Episode: 1 verfügbar Sprache: Englisch, Französisch (UT) Simulcast: Jeden Samstag um 19:00 Uhr Stream: Prime Video , Crunchyroll Handl"
-        }
-      ],
       "alreadyCurated": false,
       "sammel": [
         {
@@ -2222,7 +2286,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-30"
+      "sammelGelesen": "2026-11-02"
     },
     {
       "articleTitle": "Design der 30th Anniversary Edition von »Detektiv Conan«",
@@ -2488,7 +2552,7 @@
           "folgen": 54
         }
       ],
-      "sammelGelesen": "2026-10-30"
+      "sammelGelesen": "2026-11-02"
     },
     {
       "articleTitle": "Erste »Kaiju No. 8«-Staffel erscheint im limitierten Steelbook + Design",
@@ -2819,7 +2883,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-29"
+      "sammelGelesen": "2026-11-02"
     },
     {
       "articleTitle": "AniMoon startet Online-Rabattaktion zur Frankfurter Buchmesse 2026",
@@ -3232,7 +3296,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-26"
+      "sammelGelesen": "2026-11-02"
     },
     {
       "articleTitle": "Anime-Drama »A New Dawn« erscheint auf Blu-ray + Design",
@@ -3355,7 +3419,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-27"
+      "sammelGelesen": "2026-11-02"
     },
     {
       "articleTitle": "23 Blu-ray-Termine von AniMoon, Crunchyroll und peppermint verschoben",
@@ -3629,7 +3693,7 @@
           "folgen": 13
         }
       ],
-      "sammelGelesen": "2026-10-28"
+      "sammelGelesen": "2026-11-02"
     },
     {
       "articleTitle": "Drei Anime-Serien verlassen bald den Prime-Video-Katalog",

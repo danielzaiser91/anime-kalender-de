@@ -12,7 +12,7 @@ import { istPlatzhalter } from './folgentitel-zeilen.ts'
  */
 export interface CrSerie {
   seriesId?: string
-  staffeln?: { deutscheFolgen?: { nummer?: number; guid?: string }[] }[]
+  staffeln?: { name?: string; deutscheFolgen?: { nummer?: number; guid?: string; verfuegbarAb?: string }[] }[]
 }
 interface ArchivFolge {
   id?: string
