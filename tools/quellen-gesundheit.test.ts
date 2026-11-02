@@ -122,9 +122,9 @@ writeFileSync(join(tmp, 'public', 'data', 'titles.json'), JSON.stringify(titel))
 mkdirSync(join(tmp, 'data'), { recursive: true })
 const ALT = 'https://www.disneyplus.com/alt'
 writeFileSync(join(tmp, 'data', 'link-check.json'), JSON.stringify({ [ALT]: { status: 404, geprueftAm: '2999-12-31' } }))
-/* Netflix antwortet 404 (echte Auskunft), Amazon liefert 200 ohne Produktseite (unklar → Sperre nach 20). */
+/* Netflix antwortet 200 (echte Auskunft; ein erstes 404 stünde als unklar im Bestand), Amazon liefert 200 ohne Produktseite (unklar → Sperre nach 20). */
 const stub = join(tmp, 'fetch-stub.mjs')
-writeFileSync(stub, `globalThis.fetch = async (u) => String(u).includes('netflix') ? new Response('', { status: 404 }) : new Response('<html></html>', { status: 200 })\n`)
+writeFileSync(stub, `globalThis.fetch = async (u) => String(u).includes('netflix') ? new Response('', { status: 200 }) : new Response('<html></html>', { status: 200 })\n`)
 const child = spawn(
   process.execPath,
   ['--import', pathToFileURL(join(wurzel, 'node_modules/tsx/dist/esm/index.mjs')).href, '--import', pathToFileURL(stub).href, join(wurzel, 'pipeline/check-links.ts'), '--pause', '1', '--sperrpause', '3600', '--zeitbudget', '0'],
@@ -152,7 +152,7 @@ const adressen = Object.keys(zwischen).sort()
 const erwartet = [ALT, 'https://www.netflix.com/title/1', 'https://www.netflix.com/title/2', ...Array.from({ length: 20 }, (_, i) => `https://www.amazon.de/gp/video/detail/B${i}`)].sort()
 assert.deepEqual(adressen, erwartet, 'nach Abbruch stehen die 22 Befunde vor der Pause plus der alte Befund')
 assert.equal(zwischen[ALT].geprueftAm, '2999-12-31', 'alter Befund unverändert')
-assert.equal(zwischen['https://www.netflix.com/title/1'].status, 404, 'Netflix-Befund steht')
+assert.equal(zwischen['https://www.netflix.com/title/1'].status, 200, 'Netflix-Befund steht')
 assert.equal(zwischen['https://www.amazon.de/gp/video/detail/B0'].status, 'unklar', 'Amazon-Nichtauskunft steht')
 rmSync(tmp, { recursive: true, force: true })
 
