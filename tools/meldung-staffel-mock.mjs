@@ -21,7 +21,11 @@ const titles = [
   titel(900003, OHNE_ZAHL ? 'Staffelreihe Fortsetzung' : 'Staffelreihe 2', 'TV', '2021-01-01', 12),
 ]
 const reihe = titles.map((t) => ({ id: t.id, name: t.titleDe, format: t.format, jpStart: t.jpStart }))
-const attrappe = { titles, franchises: { 7: reihe }, cartoons: [] }
+// `summe` / `summefalsch` = F100: ein Cartoon (-900001, 40 Folgen) an der Netflix-Adresse, Netflix meldet nur Staffel 2 (12 Folgen) mit Folgentiteln
+// "Titel <28 + n>" (`summefalsch`: um 5 verschoben); die Wegwerf-Wurzel liefert unsere Folgenliste und JustWatch (28 Folgen davor).
+const SUMME = ['summe', 'summefalsch'].includes(process.env.AK_SZENARIO)
+const summeTitel = { id: -900001, titleDe: 'Summenreihe', format: 'TV', episodes: 40, streams: stream }
+const attrappe = SUMME ? { titles: [], franchises: {}, cartoons: [summeTitel] } : { titles, franchises: { 7: reihe }, cartoons: [] }
 const bestandDatei = /(?:^|[\\/])public[\\/]data[\\/](titles|franchises|cartoons)\.json$/
 
 const echteLesung = fs.readFileSync
@@ -55,9 +59,14 @@ const folgen = (staffel) => Array.from({ length: 12 }, (_, i) => zeile(staffel, 
 const aufteilung = JSON.stringify([{ seq: 1, name: 'Staffel 1', folgen: 12, erste: 1 }, { seq: 2, name: 'Staffel 2', folgen: 12, erste: 13 }])
 const durchgezaehlt = Array.from({ length: 24 }, (_, i) => ({ ...zeile(0, i + 1), staffel: null, staffeln: aufteilung, notiz: `Randprobe Folge ${i + 1}` }))
 
+const verschiebung = process.env.AK_SZENARIO === 'summefalsch' ? 5 : 0
+const nurStaffel2 = JSON.stringify([{ seq: 2, name: '', folgen: 12, erste: 1 }])
+const summeMeldungen = Array.from({ length: 12 }, (_, i) => ({ ...zeile(2, i + 1), titel_id: -900001, staffeln: nurStaffel2, notiz: `Folge ${i + 1}: Titel ${29 + i + verschiebung}` }))
+
 globalThis.fetch = baueFetchAttrappe(
   (url, opt) => {
     if (!istMeldungsabruf(url, opt)) return undefined
+    if (SUMME) return meldungsAntwort(summeMeldungen)
     if (process.env.AK_SZENARIO === 'notizen') return meldungsAntwort(durchgezaehlt)
     return meldungsAntwort(process.env.AK_SZENARIO !== 'zwei' && process.env.AK_SZENARIO !== 'ohnezahl' ? [...folgen(1), ...folgen(2)] : folgen(2))
   },
