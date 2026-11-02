@@ -61,7 +61,7 @@ const termin = (titleId: number, platform: string, mehr: Partial<Release> = {}) 
 // Riegel 1: Weg aus Termin (11-7)
 const t1 = new Map([[1, titel(1, [{ platform: 'netflix', url: 'https://www.netflix.com/title/1', dub: true }])]])
 const r1 = [termin(1, 'disneyplus', { platformUrl: 'https://www.disneyplus.com/de-de/browse/entity-x' })]
-const l1 = fange(() => ergaenzeWegeAusTerminen({ titles: t1, releases: r1, toteAdressen: new Set(), verweiseEntfernt: [], belegFuer: () => undefined }))
+const l1 = fange(() => ergaenzeWegeAusTerminen({ titles: t1, releases: r1, toteAdressen: new Set(), lautPruefungTot: () => false, verweiseEntfernt: [], belegFuer: () => undefined }))
 const z1 = l1.find((s) => s.includes('[wegAusTermin:disneyplus]')) ?? ''
 pruefe('Wege aus Terminen: Zeile mit Termin-URL, Weg vorher/nachher', z1.includes('1 Kuroko 1') && z1.includes('Termin: https://www.disneyplus.com/de-de/browse/entity-x') && z1.includes('vorher: https://www.netflix.com/title/1 |') && z1.includes('Weg-Zahl 1→2'), l1)
 
