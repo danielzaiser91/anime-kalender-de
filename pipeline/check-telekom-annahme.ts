@@ -119,7 +119,7 @@ console.log('\nAufrufer (`ergaenzeWegeAusJustwatch`, Videoload auf themoviedb, M
 {
   const t = titel([magenta(), videoload('https://www.themoviedb.org/movie/9000020/watch')], 'MOVIE')
   t.id = 9000020
-  ergaenzeWegeAusJustwatch({ titles: new Map([[t.id, t]]), tmdbMehrdeutig: new Set(), toteAdressen: new Set() })
+  ergaenzeWegeAusJustwatch({ titles: new Map([[t.id, t]]), tmdbMehrdeutig: new Set(), istTot: () => false })
   const v = t.watchLinks!.find((w) => w.name === 'Videoload')
   pruefe('Bau: Videoload bekommt Kennung und Messung, keine Annahme', v?.url.includes('GN_MV011028530000') === true && v.dubRanges?.[0]?.dub === true && !v.dubAbgeleitet, v)
 }

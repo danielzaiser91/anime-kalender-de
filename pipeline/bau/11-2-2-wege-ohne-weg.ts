@@ -1,3 +1,4 @@
+import { type IstTot } from '../lib/adresse-tot.ts'
 import { log } from '../lib/util.ts'
 import { type Title, type WatchLink } from '../../shared/types.ts'
 import { providerName, stripAffiliate } from '../../shared/mappings.ts'
@@ -36,13 +37,13 @@ export const PHYSISCHE_SHOPS =
  * | „JustWatch TV" fliegt raus | die Eigenwerbung des Dienstes, führt zurück auf justwatch.com |
  * | höchstens vier je Titel | eine Liste von zwölf Amazon-Varianten beantwortet keine Frage |
  */
-export function ergaenzeWegeOhneWeg({ titles, jw, handNein, tmdbMehrdeutig, toteAdressen }: {
+export function ergaenzeWegeOhneWeg({ titles, jw, handNein, tmdbMehrdeutig, istTot }: {
   titles: Map<number, Title>
   jw: Record<string, JwEintrag>
   /** Nein-Handbelege (`neinHandbelege`): Ein Weg zu einem Anbieter, den eine Handprüfung verneint hat, wird nicht angelegt. */
   handNein: Set<string>
   tmdbMehrdeutig: Set<string>
-  toteAdressen: Set<string>
+  istTot: IstTot
 }) {
   let jwWege = 0
   for (const title of titles.values()) {
@@ -54,7 +55,7 @@ export function ergaenzeWegeOhneWeg({ titles, jw, handNein, tmdbMehrdeutig, tote
     const wege: WatchLink[] = []
     for (const a of b.angebote) {
       if (!a.url || /^justwatch/i.test(a.anbieter)) continue
-      if (toteAdressen.has(a.url)) continue
+      if (istTot(a.url)) continue
       const name = providerName(a.anbieter)
       if (!name || wege.some((w) => w.name === name)) continue
       const plattform = plattformVon(a.anbieter)

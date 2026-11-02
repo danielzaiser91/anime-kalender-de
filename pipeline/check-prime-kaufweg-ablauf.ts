@@ -44,7 +44,7 @@ try {
   const blu = { name: 'aniSearch', url: 'https://www.anisearch.de/article/1,x', kind: 'buy', zugang: 'kauf' }
   const titel = (id: number) => ({ id, streams: [], watchLinks: [blu], keywords: [], genres: [] }) as unknown as Title
   const titles = new Map([900101, 900102, 900103, 900104].map((id) => [id, titel(id)] as [number, Title]))
-  ergaenzeWegeAusJustwatch({ titles, tmdbMehrdeutig: new Set(['900103']), toteAdressen: new Set() })
+  ergaenzeWegeAusJustwatch({ titles, tmdbMehrdeutig: new Set(['900103']), istTot: () => false })
   const prime = (id: number) => ((titles.get(id)?.streams ?? []) as StreamLink[]).filter((s) => s.platform === 'primevideo' && s.zugang === 'kauf')
   pruefe('Titel mit Blu-ray-Zeile bekommt den Prime-Kauf', prime(900101).length === 1, titles.get(900101))
   pruefe('Nein-Handbeleg für Prime hält ihn zurück', prime(900102).length === 0, titles.get(900102))

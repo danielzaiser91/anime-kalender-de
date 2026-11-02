@@ -1,3 +1,4 @@
+import { baueIstTot, type IstTot } from '../lib/adresse-tot.ts'
 import { type DubCheck } from '../lib/dub-confirmed.ts'
 import { type Title, type Release } from '../../shared/types.ts'
 import { type EntfernterVerweis } from './grundlagen.ts'
@@ -55,13 +56,16 @@ export function schliesseWegeAb({
 }) {
   ergaenzeDiscUndZugang({ titles, anisearch, releases, zugangJeAdresse })
 
-  fuelleWegeAusJustwatch({ titles, tmdbMehrdeutig, toteAdressen })
+  const istTot: IstTot = (url) => toteAdressen.has(url)
+  const istTotGesamt = baueIstTot(toteAdressen, lautPruefungTot)
+
+  fuelleWegeAusJustwatch({ titles, tmdbMehrdeutig, istTot })
   uebernehmeFskAusJustwatch({ titles, tmdbMehrdeutig })
 
   bereinigeWege({
     titles,
     anisearch,
-    toteAdressen,
+    istTot,
     linkBefunde,
     verweiseEntfernt,
     crAdresseZu,
@@ -85,7 +89,7 @@ export function schliesseWegeAb({
   kennzeichneDeutschLautJustwatch({ titles, tmdbMehrdeutig, alleChecks })
 
   /* Zuletzt: Wer einen sicheren Termin bei einem Anbieter hat, aber noch keinen Weg dorthin, bekommt einen. Ohne Tonurteil, außer ein Handbeleg gilt: dann dessen Urteil, bei „nicht verfügbar“ kein Weg. */
-  ergaenzeWegeAusTerminen({ titles, releases, toteAdressen, lautPruefungTot, verweiseEntfernt, belegFuer })
+  ergaenzeWegeAusTerminen({ titles, releases, istTot: istTotGesamt, verweiseEntfernt, belegFuer })
 
   kennzeichneFreenetLautSchwester(titles)
 
@@ -101,14 +105,14 @@ export function schliesseWegeAb({
  * Sonst besetzt der falsche Weg den Crunchyroll-Platz, den JustWatch mit der eigenen Film-Adresse füllen würde
  * (Kabaneri-Zusammenfassungsfilme zeigten auf die Serienseite und standen danach ganz ohne Weg da).
  */
-export function fuelleWegeAusJustwatch({ titles, tmdbMehrdeutig, toteAdressen, staffeln }: {
+export function fuelleWegeAusJustwatch({ titles, tmdbMehrdeutig, istTot, staffeln }: {
   titles: Map<number, Title>
   tmdbMehrdeutig: Set<string>
-  toteAdressen: Set<string>
+  istTot: IstTot
   staffeln?: Map<string, CrStaffel[]>
 }) {
   const fremd = entferneFremdeNachStaffeln(titles, kennungAusAdresse(), staffeln)
   if (fremd) log(`${fremd} Crunchyroll-Wege vor der Ergänzung aus JustWatch entfernt: sie gehören keiner Staffel der Serie`)
-  ergaenzeWegeAusJustwatch({ titles, tmdbMehrdeutig, toteAdressen })
+  ergaenzeWegeAusJustwatch({ titles, tmdbMehrdeutig, istTot })
   verwirfKapitelShopWege(titles)
 }
