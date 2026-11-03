@@ -377,6 +377,7 @@ pipeline/check-seiten-seo.ts
 pipeline/check-sichtung-folge.ts
 pipeline/check-sichtungsfenster.ts
 pipeline/check-sonderfolgen.ts
+pipeline/check-spinoff-zaehlung.ts
 pipeline/check-sprache-netz.ts
 pipeline/check-sprache-termin.ts
 pipeline/check-sprecher-anisearch.ts
