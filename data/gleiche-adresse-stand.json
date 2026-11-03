@@ -1,6 +1,6 @@
 {
   "stand": "2026-11-03",
-  "hoechstens": 10,
+  "hoechstens": 9,
   "adressen": [
     "amazon:b0b5jvjkcd",
     "amazon:b0cg7s59kl",
@@ -10,8 +10,7 @@
     "amazon:b0cw5wh6xz",
     "amazon:b0d7n68q5t",
     "amazon:b0dj4fcm5h",
-    "amazon:b0fx4q35v2",
-    "amazon:b0h9g1cnhc"
+    "amazon:b0fx4q35v2"
   ],
   "erlaubt": [
     {
@@ -29,6 +28,10 @@
     {
       "adresse": "amazon:b0cjc11grb",
       "grund": "Schleim Staffel 2: Seite mit 24 Folgen = beide Cours (108511 Winter, 116742 Sommer 2021)"
+    },
+    {
+      "adresse": "amazon:b0h9g1cnhc",
+      "grund": "Danganronpa 3: Seite mit 24 Folgen = Despair Arc 11 + Future Arc 12 + Hope Arc 1 (21825, 21509, 97672)"
     }
   ]
 }
