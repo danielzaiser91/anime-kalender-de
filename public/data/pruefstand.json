@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-11-03T04:35:04.857Z",
+ "erzeugtAm": "2026-11-03T07:26:54.750Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -377,8 +377,8 @@
    "name": "Netflix",
    "plattform": "netflix",
    "gemeldet": 767,
-   "gesamt": 940,
-   "offen": 173,
+   "gesamt": 939,
+   "offen": 172,
    "ohneSeite": 15,
    "ziel": "https://www.netflix.com/title/81608820",
    "ziele": [
@@ -716,11 +716,6 @@
      "hinweis": "Staffeln unklar: TMDB zählt 52 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
-     "url": "https://www.netflix.com/title/70155567",
-     "titel": "Shaun das Schaf",
-     "hinweis": "Staffeln unklar: TMDB zählt 170 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
      "url": "https://www.netflix.com/title/70234488",
      "titel": "Yakari",
      "hinweis": "Staffeln unklar: TMDB zählt 156 Folgen insgesamt, der Anbieter kann sie anders schneiden"
@@ -917,7 +912,7 @@
     "81696980": 44,
     "81698957": 1,
     "81726714": 1,
-    "81924739": 99,
+    "81924739": 100,
     "81969861": 24,
     "81991687": 25,
     "82647303": 12,
