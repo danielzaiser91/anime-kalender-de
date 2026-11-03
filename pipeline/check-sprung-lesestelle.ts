@@ -24,7 +24,7 @@ const TAG = '2026-10-28'
 const KOPF = 56
 
 /** Eine Seite: Tag liegt bei `top` 300, Kopfleiste 56 hoch; `gespeichert` ist die Lesestelle aus dem letzten Start (oder keine). */
-async function lauf(gespeichert: boolean, tagSchonDa: boolean) {
+async function lauf(gespeichert: boolean, tagSchonDa: boolean, navigation = 'reload') {
   const uhr = attrappeUhr()
   const scrolls: ScrollToOptions[] = []
   const fenster = {
@@ -54,6 +54,7 @@ async function lauf(gespeichert: boolean, tagSchonDa: boolean) {
   if (gespeichert) speicher.set(SCHLUESSEL, JSON.stringify({ datum: TAG, abstand: 44, ort: '/#/', zeit: performance.timeOrigin + performance.now() }))
   g.sessionStorage = { getItem: (k: string) => speicher.get(k) ?? null, setItem: () => undefined, removeItem: (k: string) => void speicher.delete(k) }
   g.location = { pathname: '/', hash: '#/' }
+  ;(performance as unknown as { getEntriesByType: () => unknown[] }).getEntriesByType = () => [{ type: navigation }]
   let beobachter: (() => void) | undefined
   g.MutationObserver = class {
     constructor(f: () => void) {
@@ -72,6 +73,7 @@ async function lauf(gespeichert: boolean, tagSchonDa: boolean) {
   })
   return {
     scrolls,
+    speicher,
     erscheint: async () => {
       tagDa = true
       await act(async () => beobachter?.())
@@ -101,6 +103,12 @@ async function lauf(gespeichert: boolean, tagSchonDa: boolean) {
   pruefe('mit Lesestelle, Tag noch nicht gezeichnet: bisher kein Scroll', k.scrolls.length === 0, k.scrolls)
   await k.erscheint()
   pruefe('…erscheint der Tag, genau ein sofortiger Scroll, kein weicher', k.scrolls.length === 1 && k.scrolls[0].behavior === 'auto', k.scrolls)
+  await k.nachlauf()
+  await k.ende()
+}
+{
+  const k = await lauf(true, true, 'navigate')
+  pruefe('frische Navigation trotz alter Lesestelle: weicher Sprung zu „heute“, Lesestelle weg', k.scrolls.length === 1 && k.scrolls[0].behavior === 'smooth' && !k.speicher.has(SCHLUESSEL), k.scrolls)
   await k.ende()
 }
 
