@@ -4,6 +4,8 @@ import { anzeigeName } from '@shared/titles.ts'
 import { seitenTitel } from '@shared/seiten-titel.ts'
 import { useTeilenAdresse } from './teilen-adresse.ts'
 import { PANEL_KENNUNG } from './reihen-spur-regeln.ts'
+import { titelMitTerminBereichen } from './stream-bereiche.ts'
+import type { Dataset } from '../../lib/data.ts'
 
 /** Tab-Titel der Ansicht ohne offenes Panel; gleicht `<title>` in `web/index.html` (Test in `pipeline/check-titelwechsel.ts`). */
 export const GRUNDTITEL = 'Deutscher Anime-Kalender: Anime mit deutscher Synchro'
@@ -11,6 +13,13 @@ export const GRUNDTITEL = 'Deutscher Anime-Kalender: Anime mit deutscher Synchro
 /** Tab-Titel eines offenen Titels, im Format der Teilseite; „Termine“ nur, wo der Titel welche hat. */
 export function tabTitel(title: Title, mitTermin: boolean): string {
   return seitenTitel(anzeigeName(title), title, mitTermin)
+}
+
+/** Tab-Titel zu einer Kennung, wie das Panel ihn setzt (Bereiche und Termine eingerechnet); ohne Titel in den Daten nichts. */
+export function tabTitelFuerId(data: Pick<Dataset, 'titleById' | 'releasesByTitle'>, id: number): string | undefined {
+  const releases = data.releasesByTitle.get(id) ?? []
+  const title = titelMitTerminBereichen(data.titleById.get(id), releases)
+  return title ? tabTitel(title, releases.length > 0) : undefined
 }
 
 /**
