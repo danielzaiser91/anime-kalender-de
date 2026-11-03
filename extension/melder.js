@@ -2788,8 +2788,9 @@ function selbstWeiter() {
       `(${selbstGezaehlt}/${selbstGrenze})`,
   )
   /* Wie ein Klick aus der Liste — damit die Zielseite den Auftrag erbt. */
-  void speicherSchreiben({ zuletztGeoeffnet: { id: String(naechster), zeit: Date.now() } })
-  zuletztGeoeffnet = { id: String(naechster), zeit: Date.now(), durchgang: true }
+  const sprung = { id: String(naechster), zeit: Date.now(), durchgang: true }
+  void speicherSchreiben({ zuletztGeoeffnet: sprung })
+  zuletztGeoeffnet = sprung
   gehe(`/title/${naechster}`)
 }
 
@@ -4198,7 +4199,7 @@ async function durchlaufStarten() {
       unter jedem Code und schickte bei E103 in die falsche Richtung.
     */
     console.warn(
-      `[Anime-Kalender] Abgebrochen — Netflix meldet ${DURCHLAUF.stoerung}. ` +
+      `[Anime-Kalender] ${DURCHLAUF.titelUebersprungen ? 'Übersprungen' : 'Abgebrochen'} — Netflix meldet ${DURCHLAUF.stoerung}. ` +
         (/^M7/.test(DURCHLAUF.stoerung)
           ? 'Andere Netflix-Tabs schließen, dann noch einmal starten.'
           : 'Der Titel ist dort nicht abrufbar — nicht im Angebot, nicht in dieser Region oder noch nicht erschienen.'),

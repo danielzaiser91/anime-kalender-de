@@ -65,6 +65,7 @@ const NETFLIX_UMLEITUNG_BIS_MS = 60 * 1000
 globalThis.akNetflixStoerung = (durchlauf, code, o) => {
   durchlauf.stoerung = code
   durchlauf.abbruch = true
+  durchlauf.titelUebersprungen = false
   durchlauf.titelSperre = durchlauf.selbst && !/^M7/.test(code) ? { code, reihe: String(o.ziel ?? o.reihe) } : null
   /* Der Vorfall geht nur raus, wo der Durchgang anhält: ein übersprungener Titel steht in der Endliste. */
   if (!durchlauf.titelSperre) {
@@ -77,6 +78,7 @@ globalThis.akNetflixTitelUeberspringen = (durchlauf, uebersprungen, weiter) => {
   const sperre = durchlauf.titelSperre
   if (!sperre) return false
   durchlauf.titelSperre = null
+  durchlauf.titelUebersprungen = true
   uebersprungen.set(sperre.reihe, `Netflix zeigt ihn nicht (${sperre.code})`)
   weiter()
   return true

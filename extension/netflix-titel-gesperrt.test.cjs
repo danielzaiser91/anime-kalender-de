@@ -143,18 +143,98 @@ const quelle = lies('melder.js')
   }
   pruefe('der Reset steht beim Start des Durchlaufs', /DURCHLAUF\.stoerung = null\n  DURCHLAUF\.titelSperre = null/.test(quelle))
 }
+/* Die echten Funktionen `selbstWeiter` und `vielleichtSelbstStarten` laufen mit Attrappen (kein Regex auf den Quelltext). */
+const funktionText = (kopf) => {
+  const von = quelle.indexOf(kopf)
+  return quelle.slice(von, quelle.indexOf('\n}\n', von) + 2)
+}
+const jetzt = (ms) => ({ now: () => ms })
+/** `selbstWeiter` als Attrappen-Welt; gibt den Speicher (JSON, wie chrome.storage) und den Merker zurück. */
+const weiterLaufen = () => {
+  const speicher = {}
+  const welt = { gegangen: [], speicher, merker: null }
+  const f = new Function(
+    'offeneTitel', 'akDurchgangSchutz', 'laufBeenden', 'naechsterAuftrag', 'speicherSchreiben', 'gehe', 'console', 'Date', 'LAUF_SCHLUESSEL', 'LAUF_HOECHSTENS_MS', 'ergebnis',
+    `let selbstGezaehlt = 0, selbstGrenze = null, zuletztGeoeffnet = null
+${funktionText('function selbstWeiter()')}
+selbstWeiter()
+ergebnis.merker = zuletztGeoeffnet`,
+  )
+  f(
+    { 77: { titel: 'Probe' } }, () => null, () => {}, () => 77,
+    async (werte) => { Object.assign(speicher, JSON.parse(JSON.stringify(werte))) },
+    (adresse) => welt.gegangen.push(adresse), { log() {} }, jetzt(1000), 'k', 1, welt,
+  )
+  return welt
+}
 {
-  const von = quelle.indexOf('async function vielleichtSelbstStarten()')
-  const funktion = quelle.slice(von, quelle.indexOf('\n}\n', von))
-  const a = funktion.indexOf('akNetflixUmgeleitet(')
-  const b = funktion.indexOf('await selbstStartenSchritt()')
-  pruefe('selbstWeiter markiert seinen Sprung als Sprung des Durchgangs', /zuletztGeoeffnet = \{ id: String\(naechster\), zeit: Date\.now\(\), durchgang: true \}/.test(quelle))
-  pruefe('der Takt fragt die Umleitung vor dem Schritt und kehrt dann zurück', a > 0 && b > a && /if \(akNetflixUmgeleitet\([^\n]*\)\) return/.test(funktion))
+  const w = weiterLaufen()
+  pruefe('selbstWeiter springt zum nächsten Titel', w.gegangen.join() === '/title/77', w.gegangen)
+  pruefe('selbstWeiter: der Merker im Speicher trägt durchgang (überlebt ein volles Neuladen)', w.speicher.zuletztGeoeffnet?.durchgang === true && w.speicher.zuletztGeoeffnet.id === '77' && w.speicher.zuletztGeoeffnet.zeit === 1000, w.speicher)
+  pruefe('selbstWeiter: Merker im Skript und im Speicher sind gleich', JSON.stringify(w.merker) === JSON.stringify(w.speicher.zuletztGeoeffnet), [w.merker, w.speicher])
 }
+/** `vielleichtSelbstStarten`; `o` überschreibt die Welt. Gibt Zähler für weiter und Schritt zurück. */
+const taktLaufen = (o = {}) => {
+  const z = { weiter: 0, schritt: 0, beendet: 0, uebersprungen: new Map() }
+  const welt = {
+    selbstAn: true,
+    DURCHLAUF: { laeuft: false },
+    location: { pathname: '/browse' },
+    zuletztGeoeffnet: { id: '540533', zeit: 1000, durchgang: true },
+    offeneTitel: { 540533: { titel: 'GitS' } },
+    ...o,
+  }
+  const f = new Function(
+    'selbstAn', 'DURCHLAUF', 'location', 'zuletztGeoeffnet', 'offeneTitel', 'akNetflixUmgeleitet', 'Date', 'spur', 'selbstUebersprungen', 'selbstWeiter', 'selbstStartenSchritt', 'laufBeenden',
+    `${funktionText('async function vielleichtSelbstStarten()')}\nreturn vielleichtSelbstStarten()`,
+  )
+  return f(
+    welt.selbstAn, welt.DURCHLAUF, welt.location, welt.zuletztGeoeffnet, welt.offeneTitel, akNetflixUmgeleitet, jetzt(6000), () => {}, z.uebersprungen,
+    () => z.weiter++, async () => { z.schritt++ }, () => z.beendet++,
+  ).then(() => z)
+}
+(async () => {
+  let z = await taktLaufen()
+  pruefe('Takt auf /browse nach dem Sprung: selbstWeiter einmal, kein Schritt, Titel übersprungen', z.weiter === 1 && z.schritt === 0 && z.uebersprungen.has('540533'), z)
+  z = await taktLaufen({ selbstAn: false })
+  pruefe('Takt: Durchgang aus -> kein Weiter, der Schritt läuft', z.weiter === 0 && z.schritt === 1, z)
+  z = await taktLaufen({ DURCHLAUF: { laeuft: true } })
+  pruefe('Takt: Durchlauf läuft -> kein Weiter', z.weiter === 0 && z.schritt === 1, z)
+  z = await taktLaufen({ location: { pathname: '/title/540533' } })
+  pruefe('Takt: auf der Titelseite -> kein Weiter', z.weiter === 0 && z.schritt === 1, z)
+  z = await taktLaufen({ offeneTitel: {} })
+  pruefe('Takt: Titel nicht auf der Liste -> kein Weiter', z.weiter === 0 && z.schritt === 1, z)
+  z = await taktLaufen({ zuletztGeoeffnet: { id: '540533', zeit: 1000 } })
+  pruefe('Takt: Ziel ohne durchgang -> kein Weiter', z.weiter === 0 && z.schritt === 1, z)
+  /* Speicher-Round-Trip: was selbstWeiter schreibt, liest der Takt nach einem vollen Neuladen. */
+  const w = weiterLaufen()
+  const ausSpeicher = JSON.parse(JSON.stringify(w.speicher.zuletztGeoeffnet))
+  z = await taktLaufen({ zuletztGeoeffnet: { ...ausSpeicher, zeit: 1000 }, offeneTitel: { 77: { titel: 'Probe' } } })
+  pruefe('Round-Trip: Ziel aus dem Speicher auf /browse -> weiter', z.weiter === 1 && z.schritt === 0, z)
 
-console.log('')
-if (fehler.length) {
-  console.error(`${fehler.length} Zusicherung(en) gerissen.`)
-  process.exit(1)
-}
-console.log('Alle Zusicherungen zum gesperrten Titel halten.')
+  /* Logzeile: übersprungener Titel heißt "Übersprungen", nur ein echter Abbruch "Abgebrochen". */
+  const warnBlock = (() => {
+    const von = quelle.indexOf('  if (DURCHLAUF.stoerung) {\n    /*\n      Dieselbe Trennung')
+    return quelle.slice(von, quelle.indexOf('\n  }\n', von) + 5)
+  })()
+  const zeile = (code) => {
+    const D = { selbst: true, stoerung: null, abbruch: false, titelSperre: undefined }
+    akNetflixStoerung(D, code, { reihe: 1, ziel: 5, folge: 1, vorfall() {} })
+    const logs = []
+    const ende = quelle.slice(quelle.indexOf('  if (DURCHLAUF.selbst && selbstAn && akNetflixTitelUeberspringen('), quelle.indexOf('\n  }\n', quelle.indexOf('laufBeenden(DURCHLAUF.abbruch')) + 5)
+    new Function('akNetflixTitelUeberspringen', 'DURCHLAUF', 'selbstAn', 'selbstUebersprungen', 'selbstWeiter', 'laufBeenden', 'globalThis', ende)(akNetflixTitelUeberspringen, D, true, new Map(), () => {}, () => {}, {})
+    new Function('DURCHLAUF', 'console', warnBlock)(D, { warn: (t) => logs.push(t) })
+    return logs.join(' ')
+  }
+  const e103 = zeile('E103')
+  pruefe('übersprungener Titel (E103): Logzeile sagt Übersprungen, nicht Abgebrochen', /Übersprungen — Netflix meldet E103/.test(e103) && !/Abgebrochen/.test(e103), e103)
+  const m7 = zeile('M7355')
+  pruefe('M7355: Logzeile sagt weiter Abgebrochen', /Abgebrochen — Netflix meldet M7355/.test(m7) && !/Übersprungen/.test(m7), m7)
+
+  console.log('')
+  if (fehler.length) {
+    console.error(`${fehler.length} Zusicherung(en) gerissen.`)
+    process.exit(1)
+  }
+  console.log('Alle Zusicherungen zum gesperrten Titel halten.')
+})()
