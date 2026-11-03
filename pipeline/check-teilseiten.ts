@@ -12,6 +12,7 @@ import { todayIso } from '../shared/time.ts'
 import { ROOT } from './lib/util.ts'
 import { erreichbar } from './lib/seiten-erreichbar.ts'
 import { SITE } from './lib/titel-seite.ts'
+import { vorschauMaengel } from './lib/titel-vorschau.ts'
 import { iconSeitenMaengel } from '../tools/icon-kennung.mjs'
 
 const MAX_KLICKS = 3
@@ -47,6 +48,8 @@ function mangel(slug: string): string | undefined {
   /* Rücklink zur Startseite und Brotkrumen auf jeder Titelseite (nicht auf den Weiterleitungen). */
   if (!html.includes('"@type":"BreadcrumbList"')) fehlend.push('BreadcrumbList')
   if (!html.includes(`<nav aria-label="Brotkrumen"`) || !html.includes(`<a href="${SITE}"`)) fehlend.push('Brotkrumen mit Link zur Startseite')
+  const vorschau = vorschauMaengel(html, SITE)
+  if (vorschau.length) return `${teilenPfad(slug)}: ${vorschau.join('; ')}`
   return fehlend.length ? `${teilenPfad(slug)} ohne ${fehlend.join(', ')}` : undefined
 }
 
