@@ -16,6 +16,7 @@ import {
   type TmdbFolge,
   type Zuordnung,
 } from './folgen-zuordnung.ts'
+import { ohneSerienVorsatz } from './folgen-praefix.ts'
 
 /** Eine Folgenliste, gegen die verglichen wird, samt Herkunft fürs Protokoll. */
 export interface AnkerListe {
@@ -139,6 +140,16 @@ export interface AnkerPaare {
  * Treffer genügte nicht: Dorohedoro Staffel 2 trifft in aniSearch 1 von 11, in TMDB 8 (16.10.2026).
  */
 export function ordneUeberAnker(anbieter: AnbieterFolge[], listen: AnkerListe[]): AnkerPaare {
+  const erst = besterAnker(anbieter, listen)
+  if (erst && erst.n > 0) return { paare: erst.paare, quelle: erst.quelle }
+  /* Nur wo nichts trifft: ein gemeinsamer Serienvorsatz der Titel wird abgeschnitten. Was schon zuordnet, ändert sich nie. */
+  const kurz = ohneSerienVorsatz(anbieter)
+  const zweit = kurz ? besterAnker(kurz, listen) : null
+  const gewinner = zweit && zweit.n > 0 ? zweit : erst
+  return gewinner ? { paare: gewinner.paare, quelle: gewinner.quelle } : { paare: ordneZu(anbieter, []), quelle: '' }
+}
+
+function besterAnker(anbieter: AnbieterFolge[], listen: AnkerListe[]): (AnkerPaare & { n: number }) | null {
   const eindeutig = ohneGeteiltesDatum(anbieter)
   let beste: (AnkerPaare & { n: number }) | null = null
   for (const l of listen) {
@@ -146,7 +157,7 @@ export function ordneUeberAnker(anbieter: AnbieterFolge[], listen: AnkerListe[])
     const n = verschiedeneZiele(paare)
     if (!beste || n > beste.n) beste = { paare, quelle: l.quelle, n }
   }
-  return beste ? { paare: beste.paare, quelle: beste.quelle } : { paare: ordneZu(anbieter, []), quelle: '' }
+  return beste
 }
 
 /**
