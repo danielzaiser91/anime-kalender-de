@@ -1,4 +1,4 @@
-# Dieselbe Amazon-Seite an zwei Titeln: 9 offene Fälle (Stand 03.11.2026)
+# Dieselbe Amazon-Seite an zwei Titeln: 8 offene Fälle (Stand 03.11.2026)
 
 Wächter: `pipeline/check-gleiche-adresse-bestand.ts`, Grenze `data/gleiche-adresse-stand.json` (hoechstens 9). Belegt aus der Meldungskopie (`prime_folge`, Rohzeilen je Seite), `public/data/titles.json` und `data/prime-zugeordnet.json`. Je Fall: was fehlt zur Entscheidung.
 
@@ -10,6 +10,5 @@ Wächter: `pipeline/check-gleiche-adresse-bestand.ts`, Grenze `data/gleiche-adre
 | B0CW5WH6XZ | Tokyo Ghoul:re 102351 (Eigentümer) und 100240 | Seite „Staffel 3“, 12 Folgen; beide :re-Cours (Frühling/Herbst 2018) gleich passend. √A (20850) ist entfernt | Welche Cour-Hälfte „Staffel 3“ ist (Folgentitel gegen AniList-Folgenliste) |
 | B0D7N68Q5T | wie oben | Seite „Staffel 4“, 12 Folgen | wie oben |
 | B0CVG5M4FP | Pokémon (527) und Sonne & Mond (97634, Eigentümer) | Kanalseite „Staffel 6 Band 1“, 13 Folgen; liegt weder bei der ersten Serie noch bei Sonne & Mond erkennbar | Zuordnung Amazon-Staffelnummer zu Pokémon-Serie (vermutlich Advanced Generation 1564) |
-| B0CVWZXGJT | wie oben | Kanalseite „Staffel 901“, 12 Folgen, Oktober 2006 (vermutlich Diamant & Perl 1565) | wie oben |
 | B0DJ4FCM5H | Prinz Ribbit (10011569) und Super Wings (10012621, Eigentümer) | Kanalseite ohne Staffel, 2 Folgen, November 2020; Super Wings hat 52 Folgen, Prinz Ribbit ist ein Film | Was die zwei Folgen sind (Abruf der Seite) |
 | B0FX4Q35V2 | The Birth of Kitaro (130622, Name fehlt im Bestand) und 10019697 | Vermutlich derselbe Film unter zwei Kennungen | Ob 130622 ein Dublettentitel ist (Titelbestand, nicht Beleg) |
