@@ -16,8 +16,8 @@
 #
 # `QUELLEN_PRUEFBEFEHL` und `QUELLEN_PRUEFFRIST` sind Schalter für den Test; kein Workflow setzt sie (`tools/sammler-pruefschritt-waechter.test.mjs`).
 
-# Fristen (03.11.2026): check:logic braucht in der CI rund 6,5 bis 7 Minuten (am 17.10.2026 unter einer; der Job „Kette – Logik“ lief am 03.11.2026 6 min insgesamt);
-# die Dauer je Prüfung steht seitdem im CI-Log als Zeilen „check:logic Dauer:“. 600 s lassen rund 3 Minuten Luft. Fund und Vergleich auf `main` zusammen samt dem
+# Fristen (03.11.2026): check:logic braucht in der CI rund 6,5 bis 7 Minuten (am 17.10.2026 unter einer; gemessen 6 min 43 s Wandzeit im Lauf 41595064044);
+# die Dauer je Prüfung steht seitdem im CI-Log (Job „Kette – Logik“) als Zeilen „check:logic Dauer:“. 600 s lassen rund 3 Minuten Luft; ab 9 Minuten Wandzeit neu rechnen. Fund und Vergleich auf `main` zusammen samt dem
 # übrigen Job passen in den kleinsten Job-Timeout eines Einreichers; das rechnet der Wächter aus den Workflows nach (`pruefeFristen` in `tools/sammler-pruefschritt-waechter.mjs`).
 QUELLEN_PRUEFFRIST_STANDARD=600
 QUELLEN_BASISFRIST_STANDARD=240

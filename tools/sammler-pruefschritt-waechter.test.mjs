@@ -102,6 +102,8 @@ erwarte('Fristen aus Runde 2 sprengen fund-nachliefern', fristen(1200, 240), /fu
 erwarte('Basisfrist allein zu lang', fristen(600, 600), /fund-nachliefern\.yml: Job nachliefern/)
 assert.deepEqual(mit(fristen(1500 - 240 - REST_SEKUNDEN, 240)), [], 'genau auf der Grenze ist erlaubt')
 erwarte('eine Sekunde über der Grenze', fristen(1500 - 240 - REST_SEKUNDEN + 1, 240), /fund-nachliefern\.yml: Job nachliefern/)
+// Untergrenze: check:logic brauchte am 03.11.2026 403 s Wandzeit (Lauf 41595064044); eine Frist darunter bricht jeden Sammler-PR ab.
+assert.ok(Number(original.skripte[PRUEFEN].match(/^QUELLEN_PRUEFFRIST_STANDARD=(\d+)$/m)?.[1]) >= 600, 'QUELLEN_PRUEFFRIST_STANDARD unter 600 s')
 erwarte('Frist nicht lesbar', (s) => { s.skripte[PRUEFEN] = ohne(s.skripte[PRUEFEN], 'QUELLEN_BASISFRIST_STANDARD=240\n') }, /als Zahl erwartet/)
 // Ein neuer Einreicher mit kurzem Timeout als mittlerer von drei Jobs: über die Aktion wie über den direkten Aufruf.
 const dreiJobs = (mitte) => ({ jobs: { a: { 'timeout-minutes': 300, steps: [{ uses: './.github/actions/einreichen' }] }, b: mitte, c: { steps: [{ run: 'bash tools/quellen-pr.sh "x"' }] } } })

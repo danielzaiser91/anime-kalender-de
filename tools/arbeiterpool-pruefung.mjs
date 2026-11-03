@@ -50,7 +50,11 @@ const acht = (rotNr = 5) =>
   assert.ok(e.sekunden.every((s) => typeof s === 'number' && s > 0), 'jeder gelaufene Auftrag hat eine Laufzeit')
   assert.ok(e.sekunden[1] > e.sekunden[0] && e.sekunden[0] > e.sekunden[2], 'Laufzeit gehört zum Auftrag (Index), nicht zur Fertigstellung')
   assert.deepEqual(dauerZeilen(['a', 'b', 'c', 'd'], [1.5, 30, undefined, 7], 2), ['   30.0 s  b', '    7.0 s  d', '   38.5 s  Summe aller 3 Prüfungen'], 'langsamste zuerst, Summe über alle Gelaufenen, ungelaufene fehlen')
-  assert.equal(dauerZeilen(['a'], [0.04]).length, 2, 'Standard zeigt höchstens 25, hier eine Prüfung plus Summe')
+  const dreissig = Array.from({ length: 30 }, (_, i) => `p${i}`)
+  const z = dauerZeilen(dreissig, dreissig.map((_, i) => i + 1))
+  assert.equal(z.length, 26, 'Standard zeigt 25 langsamste plus Summe')
+  assert.ok(z[0].endsWith('p29') && z[24].endsWith('p5'), 'die 25 langsamsten, längste zuerst')
+  assert.ok(z[25].includes('465.0 s') && z[25].includes('Summe aller 30'), 'Summe zählt alle 30, nicht nur die gezeigten')
   console.log('  ✓ Laufzeit je Auftrag und Dauer-Zeilen')
 }
 {
