@@ -870,6 +870,10 @@
       "am": "2026-10-29",
       "vorschlaege": 0
     },
+    "1064295": {
+      "am": "2026-11-03",
+      "vorschlaege": 2
+    },
     "1064338": {
       "am": "2026-10-29",
       "vorschlaege": 0,
@@ -898,6 +902,10 @@
     },
     "1064672": {
       "am": "2026-10-28",
+      "vorschlaege": 1
+    },
+    "1064703": {
+      "am": "2026-11-03",
       "vorschlaege": 1
     },
     "1064788": {
@@ -986,6 +994,18 @@
     "1065270": {
       "am": "2026-10-30",
       "vorschlaege": 13
+    },
+    "1065398": {
+      "am": "2026-11-03",
+      "vorschlaege": 1
+    },
+    "1065435": {
+      "am": "2026-11-03",
+      "vorschlaege": 2
+    },
+    "1065462": {
+      "am": "2026-11-03",
+      "vorschlaege": 1
     },
     "1065500": {
       "am": "2026-10-30",
@@ -1086,6 +1106,14 @@
       "vorschlaege": 0,
       "uebersprungen": "kein Deutschland-Bezug"
     },
+    "1066323": {
+      "am": "2026-11-03",
+      "vorschlaege": 0
+    },
+    "1066373": {
+      "am": "2026-11-03",
+      "vorschlaege": 0
+    },
     "1066415": {
       "am": "2026-11-02",
       "vorschlaege": 0,
@@ -1103,6 +1131,11 @@
     "1066511": {
       "am": "2026-11-02",
       "vorschlaege": 0
+    },
+    "1066566": {
+      "am": "2026-11-03",
+      "vorschlaege": 0,
+      "uebersprungen": "kein Deutschland-Bezug"
     },
     "1066600": {
       "am": "2026-11-02",
@@ -1127,6 +1160,14 @@
     "1066776": {
       "am": "2026-11-02",
       "vorschlaege": 0
+    },
+    "1066792": {
+      "am": "2026-11-03",
+      "vorschlaege": 0
+    },
+    "1067021": {
+      "am": "2026-11-03",
+      "vorschlaege": 4
     }
   },
   "vorschlaege": [
@@ -9468,6 +9509,237 @@
       "quelle": "https://www.anime2you.de/news/1066643/bocchi-the-rock-erhaelt-prequel-kinofilm/",
       "veroeffentlicht": "2026-11-01",
       "gelesenAm": "2026-11-02"
+    },
+    {
+      "titel": "Frieren: Beyond Journey’s End",
+      "zitat": "Eine dritte Staffel startet im Oktober 2027.",
+      "art": "ankuendigung",
+      "sprache": "unklar",
+      "plattform": null,
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1065462",
+      "artikel": "Neue »Frieren«-Figur zeigt die Protagonistin im Kleid",
+      "quelle": "https://www.anime2you.de/news/1065462/frieren-taito-figur-protagonistin-im-kleid/",
+      "veroeffentlicht": "2026-11-03",
+      "gelesenAm": "2026-11-03"
+    },
+    {
+      "titel": "Snowball Earth",
+      "zitat": "Die 13-teilige erste Staffel von »Snowball Earth« ist auf Deutsch und im Originalton mit deutschen Untertiteln bei Crunchyroll, Disney+ und Netflix auf Abruf verfügbar.",
+      "art": "sprachfassung",
+      "sprache": "deutsch+omu",
+      "plattform": "crunchyroll",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1067021",
+      "artikel": "Neue »Snowball Earth«-Figuren von Ao und Tetsuo angekündigt",
+      "quelle": "https://www.anime2you.de/news/1067021/snowball-earth-figuren-ao-tetsuo/",
+      "veroeffentlicht": "2026-11-03",
+      "gelesenAm": "2026-11-03"
+    },
+    {
+      "titel": "Snowball Earth",
+      "zitat": "Die 13-teilige erste Staffel von »Snowball Earth« ist auf Deutsch und im Originalton mit deutschen Untertiteln bei Crunchyroll, Disney+ und Netflix auf Abruf verfügbar.",
+      "art": "sprachfassung",
+      "sprache": "deutsch+omu",
+      "plattform": "disneyplus",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Disney+",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1067021",
+      "artikel": "Neue »Snowball Earth«-Figuren von Ao und Tetsuo angekündigt",
+      "quelle": "https://www.anime2you.de/news/1067021/snowball-earth-figuren-ao-tetsuo/",
+      "veroeffentlicht": "2026-11-03",
+      "gelesenAm": "2026-11-03"
+    },
+    {
+      "titel": "Snowball Earth",
+      "zitat": "Die 13-teilige erste Staffel von »Snowball Earth« ist auf Deutsch und im Originalton mit deutschen Untertiteln bei Crunchyroll, Disney+ und Netflix auf Abruf verfügbar.",
+      "art": "sprachfassung",
+      "sprache": "deutsch+omu",
+      "plattform": "netflix",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Netflix",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1067021",
+      "artikel": "Neue »Snowball Earth«-Figuren von Ao und Tetsuo angekündigt",
+      "quelle": "https://www.anime2you.de/news/1067021/snowball-earth-figuren-ao-tetsuo/",
+      "veroeffentlicht": "2026-11-03",
+      "gelesenAm": "2026-11-03"
+    },
+    {
+      "titel": "Snowball Earth",
+      "zitat": "Eine zweite Staffel wurde bereits angekündigt, hat jedoch noch keinen Starttermin.",
+      "art": "ankuendigung",
+      "sprache": "unklar",
+      "plattform": null,
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1067021",
+      "artikel": "Neue »Snowball Earth«-Figuren von Ao und Tetsuo angekündigt",
+      "quelle": "https://www.anime2you.de/news/1067021/snowball-earth-figuren-ao-tetsuo/",
+      "veroeffentlicht": "2026-11-03",
+      "gelesenAm": "2026-11-03"
+    },
+    {
+      "titel": "My Dress-Up Darling",
+      "zitat": "Die zwölfteilige erste Staffel ist ab Dezember 2026 in einer Steelbook-Komplettbox auf Blu-ray erhältlich.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1065398",
+      "artikel": "Zwei neue Figuren von Marin aus »My Dress-Up Darling« enthüllt",
+      "quelle": "https://www.anime2you.de/news/1065398/zwei-taito-my-dress-up-darling-marin-figuren/",
+      "veroeffentlicht": "2026-11-02",
+      "gelesenAm": "2026-11-03"
+    },
+    {
+      "titel": "The Apothecary Diaries",
+      "zitat": "Die dritte Staffel startete am 2. Oktober 2026 im Simulcast, während die zweite Staffel ab Dezember 2026 auf DVD und Blu-ray erscheint.",
+      "art": "start",
+      "sprache": "unklar",
+      "plattform": null,
+      "datum": "2026-10-02",
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [],
+      "artikelId": "1064295",
+      "artikel": "Zwei neue Minifiguren zu »The Apothecary Diaries« angekündigt",
+      "quelle": "https://www.anime2you.de/news/1064295/zwei-apothecary-diaries-to-smile-minifiguren/",
+      "veroeffentlicht": "2026-11-02",
+      "gelesenAm": "2026-11-03"
+    },
+    {
+      "titel": "The Apothecary Diaries",
+      "zitat": "Die dritte Staffel startete am 2. Oktober 2026 im Simulcast, während die zweite Staffel ab Dezember 2026 auf DVD und Blu-ray erscheint.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1064295",
+      "artikel": "Zwei neue Minifiguren zu »The Apothecary Diaries« angekündigt",
+      "quelle": "https://www.anime2you.de/news/1064295/zwei-apothecary-diaries-to-smile-minifiguren/",
+      "veroeffentlicht": "2026-11-02",
+      "gelesenAm": "2026-11-03"
+    },
+    {
+      "titel": "Mushoku Tensei: Jobless Reincarnation",
+      "zitat": "Der erste Teil der dritten Staffel lief im Sommer 2026 bei Crunchyroll im Simulcast, während der zweite Teil für 2027 geplant ist.",
+      "art": "start",
+      "sprache": "unklar",
+      "plattform": "crunchyroll",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1065435",
+      "artikel": "Neue »Mushoku Tensei«-Figur zeigt Eris im chinesischen Kleid",
+      "quelle": "https://www.anime2you.de/news/1065435/mushoku-tensei-figur-eris-chinesisches-kleid/",
+      "veroeffentlicht": "2026-11-02",
+      "gelesenAm": "2026-11-03"
+    },
+    {
+      "titel": "Mushoku Tensei: Jobless Reincarnation",
+      "zitat": "Der erste Teil der dritten Staffel lief im Sommer 2026 bei Crunchyroll im Simulcast, während der zweite Teil für 2027 geplant ist.",
+      "art": "ankuendigung",
+      "sprache": "unklar",
+      "plattform": null,
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1065435",
+      "artikel": "Neue »Mushoku Tensei«-Figur zeigt Eris im chinesischen Kleid",
+      "quelle": "https://www.anime2you.de/news/1065435/mushoku-tensei-figur-eris-chinesisches-kleid/",
+      "veroeffentlicht": "2026-11-02",
+      "gelesenAm": "2026-11-03"
+    },
+    {
+      "titel": "One Piece",
+      "zitat": "Die 38. DVD- und Blu-ray-Box kam am 15. Mai 2026 in den Handel.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2026-05-15",
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [],
+      "artikelId": "1064703",
+      "artikel": "Neue »One Piece«-Figuren von Zorro und Lysop angekündigt",
+      "quelle": "https://www.anime2you.de/news/1064703/one-piece-jimei-palace-figuren-zorro-lysop/",
+      "veroeffentlicht": "2026-11-02",
+      "gelesenAm": "2026-11-03"
     }
   ]
 }
