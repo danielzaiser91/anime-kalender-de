@@ -227,6 +227,21 @@ pruefe('hatDeutschenTon: Codes mit Region und Pipe, aber nicht „den“/„des�
   pruefe('nur mehrdeutige Hälften ordnen nichts zu', nurMehr.offen.length === 1 && !Object.keys(nurMehr.zugeordnet).length, nurMehr)
   const ohneAbstand = nummern(mit(['Alpha Tag/Beta Nacht', 'Beta Nacht']))
   pruefe('ohne Leerzeichen um den Schrägstrich wird nicht gespalten', JSON.stringify(ohneAbstand) === '[2]', ohneAbstand)
+  const doppeltEcht: CartoonFolgenDatei = {
+    '-400': {
+      folgen: [
+        { s: 1, e: 1, en: 'Alpha Tag' },
+        { s: 1, e: 2, en: 'Ping / Pong' },
+        { s: 1, e: 3, en: 'Ping / Pong' },
+        { s: 1, e: 4, en: 'Ping' },
+        { s: 1, e: 5, en: 'Pong' },
+      ],
+    },
+  }
+  const zweiDeutig = Object.values(
+    ordneCartoonsZu(gruppen([zeile(NF, 'Ping / Pong', '["Deutsch"]'), zeile(NF, 'Alpha Tag', '["Deutsch"]')]), [kurz], new Map(), doppeltEcht, animeZugehoerigkeit([anime])).zugeordnet,
+  )[0]?.folgen.map((f) => f.unsere)
+  pruefe('ein mehrdeutiger ganzer Titel „A / B“ wird nicht in Hälften zerlegt', JSON.stringify(zweiDeutig) === '[1]', zweiDeutig)
 }
 
 const quelle = readFileSync('pipeline/fetch-rohfolgen.ts', 'utf8')
