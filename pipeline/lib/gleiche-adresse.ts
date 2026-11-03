@@ -12,6 +12,16 @@ export interface GleicheAdresseStand {
   stand: string
   hoechstens: number
   adressen: string[]
+  /** Echte Sammelseiten (Serie plus Beiläufer, z. B. 13 Folgen plus 4 OVAs): kein Fehlbeleg, wenn genau diese Titel Belege dort haben und ihre Folgen die Seitenzahl ergeben. */
+  erlaubt?: ErlaubteSeite[]
+}
+export interface ErlaubteSeite {
+  adresse: string
+  /** Kennungen (Titel-id) der Titel, die sich die Seite teilen. */
+  titel: number[]
+  /** Folgenzahl der Seite; muss die Summe der `episodes` dieser Titel sein. */
+  folgen: number
+  grund: string
 }
 export interface BelegKurz {
   anilistId?: number
@@ -26,6 +36,8 @@ export interface GleicheAdresseBilanz {
   fehl: string[]
   neu: string[]
   erledigt: string[]
+  /** Erlaubte Seiten ohne Doppelung mehr (Belege weg oder Zuordnung geändert): Eintrag in `erlaubt` streichen. */
+  veraltet: string[]
   ueberGrenze: boolean
 }
 
@@ -64,14 +76,43 @@ export function fehlDoppelungen(belege: BelegKurz[], zuordnung: Record<string, Z
   return fehl.sort()
 }
 
-export function gleicheAdresseBilanz(belege: BelegKurz[], zuordnung: Record<string, ZuordnungKurz>, stand: GleicheAdresseStand): GleicheAdresseBilanz {
-  const fehl = fehlDoppelungen(belege, zuordnung)
+/** Kennungen mit Beleg je Adresskern. */
+function belegteTitel(belege: BelegKurz[]): Map<string, Set<number>> {
+  const je = new Map<string, Set<number>>()
+  for (const b of belege) {
+    if (!b.url || b.anilistId === undefined) continue
+    const kern = adressKern(b.url)
+    je.set(kern, (je.get(kern) ?? new Set<number>()).add(b.anilistId))
+  }
+  return je
+}
+
+/** Eine erlaubte Seite gilt nur, solange genau ihre Titel Belege dort haben und deren Folgen die Seitenzahl ergeben. */
+function erlaubtGilt(e: ErlaubteSeite, belegt: Set<number> | undefined, folgen: Record<number, number>): boolean {
+  if (!belegt || belegt.size !== e.titel.length || !e.titel.every((i) => belegt.has(i))) return false
+  if (e.titel.some((i) => folgen[i] === undefined)) return false
+  return e.titel.reduce((summe, i) => summe + folgen[i]!, 0) === e.folgen
+}
+
+export function gleicheAdresseBilanz(
+  belege: BelegKurz[],
+  zuordnung: Record<string, ZuordnungKurz>,
+  stand: GleicheAdresseStand,
+  folgen: Record<number, number>,
+): GleicheAdresseBilanz {
+  const alle = fehlDoppelungen(belege, zuordnung)
+  const belegt = belegteTitel(belege)
+  const eintraege = stand.erlaubt ?? []
+  const gilt = new Set(eintraege.filter((e) => erlaubtGilt(e, belegt.get(e.adresse), folgen)).map((e) => e.adresse))
+  const fehl = alle.filter((k) => !gilt.has(k))
+  const veraltet = eintraege.map((e) => e.adresse).filter((k) => !alle.includes(k)).sort()
   const bekannt = new Set(stand.adressen)
   const jetzt = new Set(fehl)
   return {
     fehl,
     neu: fehl.filter((k) => !bekannt.has(k)),
     erledigt: stand.adressen.filter((k) => !jetzt.has(k)),
+    veraltet,
     ueberGrenze: fehl.length > stand.hoechstens,
   }
 }

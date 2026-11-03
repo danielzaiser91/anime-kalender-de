@@ -1,5 +1,5 @@
 {
-  "stand": "2026-11-03T13:19:48.281Z",
+  "stand": "2026-11-03T20:40:36.212Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -6913,7 +6913,7 @@
       "titleId": 144932,
       "titel": "Edens Zero: Season 2",
       "plattform": "primevideo",
-      "url": "https://www.amazon.de/dp/B0D956JD5Y",
+      "url": "https://www.amazon.de/gp/video/detail/0KXOMCNFCKPTA6Z6HNIJ0ESQ9P",
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
@@ -7906,6 +7906,17 @@
       "url": "https://www.netflix.com/title/81788312",
       "seriesId": null,
       "grund": "der Anbieter führt 12 + 13 Folgen, und die belegten Titel füllen sie exakt — für 1 weitere ist dort kein Platz",
+      "geprueftAm": null,
+      "entferntAm": "2026-11-03",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 144932,
+      "titel": "Edens Zero: Season 2",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/dp/B0D956JD5Y",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-11-03",
       "letzterWeg": true
