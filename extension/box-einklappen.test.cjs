@@ -40,7 +40,7 @@ pruefe('Nur gespeichertes false klappt aus', akZuAusSpeicher(false) === false &&
   })
   const k = {
     location: { hostname: 'www.disneyplus.com', pathname: '/' },
-    document: { documentElement: { classList: { toggle() {}, contains: () => false } }, body: el(), createElement: el, querySelectorAll: () => [] },
+    document: { documentElement: { classList: { toggle() {}, contains: () => false }, appendChild() {} }, body: el(), createElement: el, querySelectorAll: () => [] },
     window: { addEventListener() {}, navigation: { addEventListener() {} } },
     chrome: { storage: { local: { get: () => ({ then() {} }), set: (o) => geschrieben.push(o) }, onChanged: { addListener() {} } } },
     MutationObserver: class { observe() {} },
