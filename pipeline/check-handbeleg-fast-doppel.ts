@@ -12,7 +12,7 @@ import { join, resolve } from 'node:path'
 import { entferneFastDoppel } from './lib/handbeleg-fast-doppel.ts'
 import { ROOT } from './lib/util.ts'
 
-/** Stand vom 03.11.2026 (Zweigbasis bee2c8ca1): 48 Belege in 40 Gruppen; der Datencommit setzt sie auf 0. */
+/** Stand vom 03.11.2026 (Zweigbasis bee2c8ca1): 48 Belege in 40 Gruppen; der Datencommit setzt die Grenze auf 0. */
 const NOCH_ZUSAMMENFUEHRBAR_HOECHSTENS = 48
 
 let verletzt = 0
@@ -47,7 +47,17 @@ const mitKopf = `# Kopf\n\n${beleg(1, '2026-08-01')}\n\n# --- Aus dem Browser ge
 const r = entferneFastDoppel(mitKopf)
 pruefe('Gruppe aus Hand und Browser bleibt unberührt, gemischt gezählt', r.entfernt === 0 && r.gemischt === 1 && r.text === mitKopf)
 const nurHand = `# Kopf\n\n${beleg(1, '2026-08-01')}\n\n${beleg(2, '2026-08-01')}\n\n${beleg(1, '2026-09-01')}\n`
-pruefe('Text bleibt bis auf den entfernten Beleg gleich', entferneFastDoppel(nurHand).text === `# Kopf\n\n${beleg(2, '2026-08-01')}\n\n${beleg(1, '2026-09-01')}\n`, entferneFastDoppel(nurHand).text)
+pruefe('Der erste bleibt an seinem Platz und bekommt das jüngste Datum', entferneFastDoppel(nurHand).text === `# Kopf\n\n${beleg(1, '2026-09-01')}\n\n${beleg(2, '2026-08-01')}\n`, entferneFastDoppel(nurHand).text)
+const kommentarAmErsten = `# Nur zur Info zu diesem Beleg\n${beleg(1, '2026-08-01')}\n\n${beleg(1, '2026-09-01')}\n`
+pruefe('Kommentar am bleibenden Beleg stört nicht', entferneFastDoppel(kommentarAmErsten).text === `# Nur zur Info zu diesem Beleg\n${beleg(1, '2026-09-01')}\n`, entferneFastDoppel(kommentarAmErsten).text)
+const ohneAnfuehrung = datei(beleg(1, '2026-08-01'), beleg(1, '2026-09-01').replace("'2026-09-01'", '2026-09-01'))
+const roh = entferneFastDoppel(ohneAnfuehrung)
+pruefe('Datum als YAML-Datum (ohne Anführungszeichen): nicht angefasst, gezählt', roh.entfernt === 0 && roh.mitKommentar === 1 && roh.text === ohneAnfuehrung, roh)
+const gleichesDatum = datei(beleg(1, '2026-09-01'), beleg(1, '2026-08-01'))
+pruefe('der Erste hat schon das jüngste Datum: Zeile bleibt', entferneFastDoppel(gleichesDatum).text === beleg(1, '2026-09-01') + '\n')
+const ersterOhneDatum = datei(beleg(1, '2026-08-01').replace("  checkedAt: '2026-08-01'\n", ''), beleg(1, '2026-09-01'))
+const ohneDatum = entferneFastDoppel(ersterOhneDatum)
+pruefe('der Erste ohne checkedAt-Zeile: nicht angefasst, gezählt', ohneDatum.entfernt === 0 && ohneDatum.mitKommentar === 1 && ohneDatum.text === ersterOhneDatum, ohneDatum)
 const nurBrowser = `# --- Aus dem Browser gemeldet, abgeholt am 2026-09-02 ---\n\n${beleg(1, '2026-08-01')}\n\n${beleg(1, '2026-09-01')}\n`
 pruefe('zwei Browser-Belege: einer bleibt, Abschnittskopf bleibt', entferneFastDoppel(nurBrowser).text === `# --- Aus dem Browser gemeldet, abgeholt am 2026-09-02 ---\n\n${beleg(1, '2026-09-01')}\n`, entferneFastDoppel(nurBrowser).text)
 const kommentiert = `${beleg(1, '2026-09-01')}\n\n# Nur zur Info zu diesem Beleg\n${beleg(1, '2026-08-01')}\n`
@@ -67,7 +77,7 @@ try {
   const trocken = lauf('--trocken')
   pruefe('Werkzeug --trocken: Exit 0, Datei unverändert', trocken.status === 0 && readFileSync(pfad, 'utf8') === nurHand && /entfernt 1/.test(trocken.stdout), trocken.stderr)
   const echt = lauf()
-  pruefe('Werkzeug: Exit 0, Datei ohne Fast-Doppel', echt.status === 0 && ids(readFileSync(pfad, 'utf8')).join() === '2@2026-08-01,1@2026-09-01', echt.stderr)
+  pruefe('Werkzeug: Exit 0, Datei ohne Fast-Doppel', echt.status === 0 && ids(readFileSync(pfad, 'utf8')).join() === '1@2026-09-01,2@2026-08-01', echt.stderr)
   writeFileSync(pfad, 'kein: [yaml')
   const kaputt = lauf()
   pruefe('Werkzeug: kaputte Datei gibt Exit ≠ 0 und bleibt, wie sie ist', kaputt.status !== 0 && /YAMLException/.test(kaputt.stderr) && readFileSync(pfad, 'utf8') === 'kein: [yaml')

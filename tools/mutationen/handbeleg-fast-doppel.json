@@ -20,4 +20,10 @@
   { "name": "tool: schreibt nie", "datei": "tools/handbelege-fast-doppel.ts", "suche": "if (!trocken) writeFileSync", "ersetze": "if (false) writeFileSync" },
   { "name": "check: Grenze 47 statt 48", "datei": "pipeline/check-handbeleg-fast-doppel.ts", "suche": "HOECHSTENS = 48", "ersetze": "HOECHSTENS = 47" },
   { "name": "check: nicht auflösbare Gruppen erlaubt", "datei": "pipeline/check-handbeleg-fast-doppel.ts", "suche": "bilanz.gemischt + bilanz.mitKommentar === 0", "ersetze": "true" }
+,
+  { "name": "lib: jüngstes Datum wird nicht übernommen", "datei": "pipeline/lib/handbeleg-fast-doppel.ts", "suche": "if (juengster !== bleibt.datum) neuesDatum.set", "ersetze": "if (false) neuesDatum.set" },
+  { "name": "lib: Datum wird in die falsche Zeile geschrieben", "datei": "pipeline/lib/handbeleg-fast-doppel.ts", "suche": "neuesDatum.set(bleibt.datumZeile, juengster)", "ersetze": "neuesDatum.set(bleibt.von, juengster)" },
+  { "name": "lib: Datumsform nicht geprüft", "datei": "pipeline/lib/handbeleg-fast-doppel.ts", "suche": "|| !g.every((b) => ISO_TAG.test(b.datum))", "ersetze": "" },
+  { "name": "lib: Zeile ohne checkedAt nicht geprüft", "datei": "pipeline/lib/handbeleg-fast-doppel.ts", "suche": "|| bleibt.datumZeile < 0", "ersetze": "" },
+  { "name": "lib: der Letzte bleibt statt des Ersten", "datei": "pipeline/lib/handbeleg-fast-doppel.ts", "suche": "const [bleibt, ...weg] = g as [Block, ...Block[]]", "ersetze": "const [bleibt, ...weg] = [...g].reverse() as [Block, ...Block[]]" }
 ]
