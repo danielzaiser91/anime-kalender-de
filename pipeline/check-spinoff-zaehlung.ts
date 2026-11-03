@@ -5,6 +5,9 @@
  * Konosuba, My Hero Academia (Spin-off samt Fortsetzung). Der Bestandsteil (Rest der doppelten Nummern) steht in
  * `check-remake-zaehlung-bestand.ts`. Läuft in `check:logic`.
  */
+import { mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
 import type { FranchiseMember } from '../shared/types.ts'
 import { hauptstaffeln, staffelStaende } from '../shared/titles.ts'
 import { reihenGruppen } from '../web/src/components/detail/reihen-gruppen.ts'
@@ -90,6 +93,28 @@ console.log('\nSpin-offs zählen nicht als Staffel:')
   pruefe('My Hero Academia: die acht Hauptstaffeln heißen unverändert 1 bis 8', [21459, 21856, 100166, 104276, 117193, 139630, 163139, 182896].every((id, i) => nm[id] === String(i + 1)), nm)
   const nv = nummer(mha, MHA_NAME)
   pruefe('My Hero Academia: die Nummern der Hauptstaffeln sind vor und nach der Markierung gleich', [21459, 21856, 100166, 104276, 117193, 139630, 163139, 182896].every((id) => nm[id] === nv[id]), [nv, nm])
+}
+
+console.log('\nDie Handliste verlangt Kennungen, Grund und eine https-Quelle:')
+{
+  const wurzel = mkdtempSync(join(tmpdir(), 'spinoff-liste-'))
+  const lade = (yamlText: string): { ok: boolean; eintraege?: number } => {
+    writeFileSync(join(wurzel, 'liste.yaml'), yamlText)
+    try {
+      return { ok: true, eintraege: ladeEigeneListe('liste.yaml', wurzel).length }
+    } catch {
+      return { ok: false }
+    }
+  }
+  const gut = "- ids: [1]\n  grund: 'g'\n  quelle: https://x\n"
+  pruefe('ein vollständiger Eintrag wird geladen', lade(gut).eintraege === 1)
+  pruefe('Quelle mit http:// bricht den Bau ab', !lade(gut.replace('https://', 'http://')).ok)
+  pruefe('Quelle fehlt: Abbruch', !lade("- ids: [1]\n  grund: 'g'\n").ok)
+  pruefe('Grund fehlt: Abbruch', !lade("- ids: [1]\n  quelle: https://x\n").ok)
+  pruefe('leere Kennungsliste: Abbruch', !lade("- ids: []\n  grund: 'g'\n  quelle: https://x\n").ok)
+  pruefe('ein zweiter, kaputter Eintrag bricht auch ab', !lade(gut + "- ids: [2]\n  grund: 'g'\n  quelle: ftp://x\n").ok)
+  rmSync(wurzel, { recursive: true, force: true })
+  pruefe('fehlt die Datei, gibt es keine Einträge', ladeEigeneListe('gibt-es-nicht.yaml', tmpdir()).length === 0)
 }
 
 console.log(`check-spinoff-zaehlung: ${faelle} Zusicherungen, ${verletzt} verletzt`)
