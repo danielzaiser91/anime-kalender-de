@@ -155,7 +155,7 @@
           "env": {
             "GH_TOKEN": "${{ secrets.GITHUB_TOKEN }}"
           },
-          "run": "node tools/pr-checks-stand.mjs \"$HEAD_SHA\" 720 >> \"$GITHUB_OUTPUT\""
+          "run": "node tools/pr-checks-stand.mjs \"$HEAD_SHA\" 120 >> \"$GITHUB_OUTPUT\""
         },
         {
           "name": "Protokoll und Freigabe",
