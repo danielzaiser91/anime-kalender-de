@@ -38506,3 +38506,13 @@
       folgen: 6
   checkedAt: '2026-11-03'
   note: "Daniel, 03.11.2026: alle 6 Folgen bei Netflix geöffnet, deutscher Ton („3D Audio“), Jahr 2026. Folgenzahl 6 auch nach TMDB (JustWatch nannte 1). Cartoon aus TMDB (negative Kennung)."
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-11-03 ---
+
+- anilistId: -314271
+  title: "Bass X Machina"
+  platform: netflix
+  url: https://www.netflix.com/title/81088875
+  dub: true
+  checkedAt: '2026-11-03'
+  note: "Folgen 1–6 mit deutschem Ton — Tonspuren: en|Englisch [Original], de|Deutsch, uk|Ukrainisch, tr|Türkisch, ru|Russisch, fr|Französisch, hi|Hindi, it|Italienisch, ja|Japanisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch, cs|Tschechisch, hu|Ungarisch — Gemessen in der Randprobe — gemessen: Folge 1 und 6, dazwischen nicht geprüft — Folge 6: Wenn du ein Land willst, musst du dafür töten"
