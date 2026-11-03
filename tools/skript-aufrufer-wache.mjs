@@ -27,6 +27,8 @@ const DATENLISTE = /ausnahmen/i
 const LESBAR = /\.(mjs|cjs|js|mts|ts|tsx|sh|json|ya?ml|txt)$/
 const LISTEN = ['tools/check-logic-liste.txt', 'tools/check-bestand-liste.txt']
 const AUSNAHMEN = 'tools/skript-aufrufer-ausnahmen.txt'
+// Ein Grund, der nur die offene Entscheidung nennt, ist keiner (z40, 03.11.2026).
+const KEIN_GRUND = /verwaist|besitzer\s+kl(?:ae|ä|a)ren|ungekl(?:ae|ä|a)rt|tbd/i
 
 const maskiere = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 const istTest = (pfad) => /\.test\./.test(pfad)
@@ -110,6 +112,7 @@ export function ohneAufrufer({ dateien, ausnahmenText }) {
   for (const z of zeilen(ausnahmenText)) {
     const pfad = z.replace(/#.*/, '').trim()
     if (!grund(z)) fehler.push(`Ausnahme ${pfad}: ohne Grund hinter „#“, jede Ausnahme braucht einen Halbsatz Grund.`)
+    else if (KEIN_GRUND.test(grund(z))) fehler.push(`Ausnahme ${pfad}: „verwaist“ oder „Besitzer klären“ ist kein Grund: einhängen oder löschen.`)
     ausnahmen.add(pfad)
   }
   for (const pfad of pruefskripte) {
