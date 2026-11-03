@@ -46,6 +46,7 @@ pruefe('erschienenZahl raus=1, gesamt=12', translate('antwort.erschienenZahl', {
 pruefe('n=1,5 bleibt Mehrzahl', translate('kal.folgen', { n: '1,5' }), '1,5 Folgen')
 pruefe('n=10 bleibt Mehrzahl', translate('kal.folgen', { n: '10' }), '10 Folgen')
 pruefe('n=100 bleibt Mehrzahl', translate('kal.folgen', { n: '100' }), '100 Folgen')
+pruefe('Folgenliste ohne Wortgrenze bleibt', einzahlFolge('{n} Folgenliste', { n: 1 }), '{n} Folgenliste')
 pruefe('Wort „Folgen“ ohne Zahl bleibt', einzahlFolge('Alle Folgen {n}', { n: 1 }), 'Alle Folgen {n}')
 
 /* Google-Link: „Die N Folge(n) danach“ über die echte Aufrufstelle. */
