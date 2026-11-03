@@ -231,6 +231,15 @@ const taktLaufen = (o = {}) => {
   const m7 = zeile('M7355')
   pruefe('M7355: Logzeile sagt weiter Abgebrochen', /Abgebrochen — Netflix meldet M7355/.test(m7) && !/Übersprungen/.test(m7), m7)
 
+  {
+    /* Derselbe Durchlauf-Zustand erst mit übersprungenem Titel, dann mit M7: kein alter Merker. */
+    const D = { selbst: true }
+    akNetflixStoerung(D, 'E103', { reihe: 1, ziel: 5, folge: 1, vorfall() {} })
+    akNetflixTitelUeberspringen(D, new Map(), () => {})
+    akNetflixStoerung(D, 'M7355', { reihe: 1, ziel: 6, folge: 1, vorfall() {} })
+    pruefe('M7 nach einem übersprungenen Titel: Merker zurückgesetzt', D.titelUebersprungen === false, D)
+  }
+
   console.log('')
   if (fehler.length) {
     console.error(`${fehler.length} Zusicherung(en) gerissen.`)

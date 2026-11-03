@@ -7,6 +7,10 @@
  * Eine Profilauswahl ist ein Modal: die Seite legt alles außer ihrem Dialog still (`inert`,
  * `pointer-events: none`), und zwar an `<body>` und dessen Kindern — dort hingen Kasten, Liste und Icon.
  *
+ * ANNAHME, nicht gemessen: Netflix sperrt `<body>` und dessen Kinder, nichts an `<html>`. Der Test
+ * baut die Sperre selbst und belegt nur, dass unsere Wurzeln außerhalb davon liegen; ob Netflix es
+ * so hält, zeigt erst der Versuch im echten Tab („Wer schaut gerade?" nach längerer Pause).
+ *
  * Gemessen werden konnte die Sperre selbst nicht (kein Netflix-Abruf); der Test stellt sie nach und
  * fragt wie ein Browser beim Anklicken: Ist irgendein Vorfahre `inert`, oder ist der erste ausdrückliche
  * `pointer-events`-Wert auf dem Weg nach oben `none`? Echtes `box.js` läuft im Sandkasten, `melder.js`

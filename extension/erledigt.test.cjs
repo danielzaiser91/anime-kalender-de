@@ -397,7 +397,7 @@ for (const name of ['durchlaufMelden', 'randMelden']) {
   }
   pruefe(
     'die Zielseite erbt den Auftrag, wie bei einem Klick',
-    /zuletztGeoeffnet: \{ id: String\(naechster\)/.test(weiter),
+    /const sprung = \{ id: String\(naechster\)/.test(weiter) && /zuletztGeoeffnet: sprung/.test(weiter),
   )
 
   /* Die Auswahl selbst: Was abgehakt ist, wird uebersprungen. */
