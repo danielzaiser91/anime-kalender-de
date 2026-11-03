@@ -376,6 +376,7 @@ pipeline/check-schwester-shop.ts
 pipeline/check-screenshot-wiederholen.ts
 pipeline/check-seiten-ansicht.ts
 pipeline/check-seiten-seo.ts
+pipeline/check-serien-vorsatz.ts
 pipeline/check-sichtung-folge.ts
 pipeline/check-sichtungsfenster.ts
 pipeline/check-sonderfolgen.ts
