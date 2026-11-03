@@ -45,6 +45,10 @@ if (gemischt.join() !== '900001,900003') fehler.push(`Staffel 1 und 2: Belege f�
 const primeGemischt = belegTitel(lauf('primegemischt', ['--trocken']).stdout)
 if (primeGemischt.join() !== '900001') fehler.push(`Prime-Seite mit Staffel 1 und 2: Belege für ${primeGemischt.join(', ') || 'keinen'} statt nur 900001`)
 
+/* Staffel 1 auf einer fremden Seite: der Beleg trägt die gelesene Seite, nicht die Bestandsadresse (Higurashi Kai, 02.11.2026). */
+const fremdeUrls = lauf('fremdeseite', ['--trocken']).stdout.split('\n').filter((z) => z.startsWith('  url: '))
+if (fremdeUrls.join() !== '  url: https://www.amazon.de/gp/video/detail/B0TESTFREMD') fehler.push(`Staffel 1 fremde Seite: ${fremdeUrls.join(' | ') || 'keine url-Zeile'}`)
+
 /* Wegwerf-Wurzel, optional mit Netflix' Aufteilung (zwei Staffeln) für die Adresse der Attrappe. */
 function trockenIn(szenario: string, mitAufteilung: boolean) {
   const wurzelTmp = mkdtempSync(join(tmpdir(), 'fetch-pruefungen-trocken-'))

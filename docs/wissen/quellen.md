@@ -529,7 +529,7 @@ Clannad genau umgekehrt (Seitenadresse = veraltete Startseite nach einem Staffel
 Eine Massenumstellung auf die Seitenadresse hätte Clannad und After Story von richtig auf
 falsch gedreht. Welche Kennung stimmt, entscheidet dort nur der Titel im Kopfblock der
 Seite (`tools/prime-geteilte-adressen.mjs`, misst und schreibt nichts). Bis zum 17.09.2026 schrieb der
-Import `url`; ab Staffel 2 nimmt er jetzt `seiten_kennung`, und die Staffel bestimmt
+Import `url`; weicht die Adresse von `seiten_kennung` ab, nimmt er jetzt diese, egal welche Staffel (ab 02.11.2026; zuvor nur ab Staffel 2, Higurashi Kai), und die Staffel bestimmt
 `staffelNummern()` über die Namen der Reihe (auch „Golden Kamuy 4", „Final Season").
 Die Erweiterung schickt `titelId` nach einem Staffelwechsel nicht mehr mit (4.20.24).
 **Dasselbe galt für die Rohfolgen** (17.09.2026): Sie lagen im Worker nur unter `url`. Vinland
