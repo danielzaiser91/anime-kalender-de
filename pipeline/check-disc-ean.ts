@@ -41,6 +41,14 @@ pruefe('nur DVD mit EAN: genau eine EAN genügt', discEan(mit({ '1': [aus(1, 'DV
 pruefe('zwei Ausgaben am selben Tag (andere Bezeichnung) → keine EAN', discEan(mit({ '1': [aus(1, 'Blu-ray', 'Box 01'), aus(2, 'Blu-ray', 'Box 02')] }, { '1': art('111111111111', 'Blu-ray'), '2': art('222222222222', 'Blu-ray') }), 1, TAG) === undefined)
 pruefe('zwei Blu-rays gleicher Bezeichnung mit verschiedener EAN → keine EAN', discEan(mit({ '1': [aus(1, 'Blu-ray'), aus(2, 'Blu-ray')] }, { '1': art('111111111111', 'Blu-ray'), '2': art('222222222222', 'Blu-ray') }), 1, TAG) === undefined)
 pruefe('gleiche Bezeichnung, anderer Verlag → keine EAN', discEan(mit({ '1': [aus(1, 'Blu-ray'), aus(2, 'DVD')] }, { '1': art('111111111111', 'Blu-ray', 'A'), '2': art('222222222222', 'DVD', 'B') }), 1, TAG) === undefined)
+// Princess Principal (98505, 2026-09-04): Blu-ray 211711 und DVD 14019, gleiche Bezeichnung, Verlage nur anders sortiert.
+const ppAusgaben = [aus(14019, 'DVD', 'Komplettset + OVA 1+2'), aus(211711, 'Blu-ray', 'Komplettset + OVA 1+2')]
+const ppArtikel = (verlagDvd: string): DiscIndex['artikel'] => ({
+  '211711': art('7630017546678', 'Blu-ray', 'Crunchyroll , Kazé Deutschland', 'Bundle / Komplettset'),
+  '14019': art('7630017546685', 'DVD', verlagDvd, 'Bundle / Komplettset'),
+})
+pruefe('Verlage anders sortiert: die Blu-ray-EAN (Princess Principal)', discEan(mit({ '98505': ppAusgaben }, ppArtikel('Kazé Deutschland , Crunchyroll')), 98505, TAG) === '7630017546678')
+pruefe('Verlage wirklich verschieden → keine EAN', discEan(mit({ '98505': ppAusgaben }, ppArtikel('Kazé Deutschland , Anderer')), 98505, TAG) === undefined)
 pruefe('gleiche Bezeichnung, anderer Umfang → keine EAN', discEan(mit({ '1': [aus(1, 'Blu-ray'), aus(2, 'DVD')] }, { '1': art('111111111111', 'Blu-ray', 'A', 'Box'), '2': art('222222222222', 'DVD', 'A', 'Einzelnes Vol.') }), 1, TAG) === undefined)
 pruefe('Artikel ohne EAN → keine EAN', discEan(mit({ '1': [aus(1, 'Blu-ray')] }, { '1': art(undefined, 'Blu-ray') }), 1, TAG) === undefined)
 pruefe('Artikel unbekannt → keine EAN', discEan(mit({ '1': [aus(1, 'Blu-ray')] }, {}), 1, TAG) === undefined)

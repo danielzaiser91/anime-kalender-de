@@ -5,7 +5,7 @@ anders. Kein Force-Push auf main, kein `--no-verify`, kleine Commits, vorher `gi
 Diff ansehen.
 
 **Neues Repo mit mehr als ~1 h echter Arbeit** → `TODO.md` mit dem Hinweis, es ins Portfolio
-einzutragen (`C:\code\ai\my website\src\app\data\projects.ts`); kein Sofort-Eintrag.
+einzutragen (Projects-Daten des Portfolio-Projekts); kein Sofort-Eintrag.
 
 **`status.md` je Projekt** mit Warteschlange („In Arbeit" > „Queue" > „Zu besprechen" > „Warten
 auf Feedback"), Erledigtes sofort ins Archiv; ohne Projekt `C:\code\ai\status-<session-id>.md`.

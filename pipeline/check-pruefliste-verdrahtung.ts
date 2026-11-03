@@ -13,6 +13,8 @@ import type { DataMeta, Title } from '../shared/types.ts'
 const URL_MIT = 'https://www.crunchyroll.com/de/series/GTESTMIT/mit'
 const URL_OHNE = 'https://www.crunchyroll.com/de/series/GTESTOHNE/ohne'
 const URL_API = 'https://www.netflix.com/title/900012'
+const URL_MOTN_TOT = 'https://www.netflix.com/title/900014'
+const URL_MOTN_LEBT = 'https://www.netflix.com/title/900015'
 const REPO = join(import.meta.dirname, '..')
 /** Leere Dateien in data/, die die Phasen beim Laden ohne Rückfall lesen. */
 const STUBS = ['offizielle-meldungen.yaml', 'ankuendigungen.yaml', 'ohne-synchro-von-hand.yaml', 'anisearch-ids-hand.yaml', 'folgen-hinweise.yaml', 'fanservice-urteil.yaml', 'synchron-forum-treffer.yaml', 'kino-ankuendigungen.yaml']
@@ -41,7 +43,12 @@ try {
   const ohneBereich = titel(900011, [{ platform: 'crunchyroll', url: URL_OHNE, dub: true }])
   const nurApi = titel(900012, [{ platform: 'netflix', url: URL_API, dub: true }])
   const ohneVermerk = titel(900013, [{ platform: 'netflix', url: URL_API, dub: true }])
-  const alle = [mitBereich, ohneBereich, nurApi, ohneVermerk]
+  const motnTot = titel(900014, [])
+  const motnLebt = titel(900015, [])
+  const alle = [mitBereich, ohneBereich, nurApi, ohneVermerk, motnTot, motnLebt]
+  writeFileSync(join(wurzel, 'data', 'motn-links.json'), JSON.stringify({ links: { tt14: { netflix: URL_MOTN_TOT }, tt15: { netflix: URL_MOTN_LEBT } } }))
+  writeFileSync(join(wurzel, 'data', 'motn.json'), JSON.stringify({ tmdb: { 'tv/14': { imdbId: 'tt14' }, 'tv/15': { imdbId: 'tt15' } } }))
+  writeFileSync(join(wurzel, 'data', 'tmdb-titles.json'), JSON.stringify({ 900014: { tmdbId: 14, kind: 'tv', providers: ['netflix'] }, 900015: { tmdbId: 15, kind: 'tv', providers: ['netflix'] } }))
   const { PRUEFLISTE } = await import('./bau/09-7-cr-teilseiten.ts')
   const liste = [zeile(900010, URL_MIT), zeile(900011, URL_OHNE), zeile(900999, URL_OHNE)]
   writeFileSync(join(wurzel, PRUEFLISTE), JSON.stringify(liste))
@@ -63,7 +70,8 @@ try {
     titles: new Map(alle.map((t) => [t.id, t])),
     jpStartAnzeige: new Map(),
     events: [],
-    meta: { generatedAt: '2026-10-20T00:00:00Z', titleCount: 4, belegtCount: 3, releaseCount: 0, eventCount: 0, genres: [], keywords: [], platforms: [], providers: [], years: [], attribution: [] } as unknown as DataMeta,
+    istTot: (u: string) => u === URL_MOTN_TOT,
+    meta: { generatedAt: '2026-10-20T00:00:00Z', titleCount: 6, belegtCount: 3, releaseCount: 0, eventCount: 0, genres: [], keywords: [], platforms: [], providers: [], years: [], attribution: [] } as unknown as DataMeta,
   })
 
   const danach = (JSON.parse(readFileSync(join(wurzel, PRUEFLISTE), 'utf8')) as { titleId: number; url: string }[]).map((p) => `${p.titleId}|${p.url}`)
@@ -72,6 +80,9 @@ try {
   const stufe = (id: number) => ausgeliefert.find((t) => t.id === id)?.dubConfidence
   pruefe('Phase 13 gibt motnTon an die Belegstärke: Tonspur nur aus der API ist normal', stufe(900012) === 'normal', stufe(900012))
   pruefe('dieselbe Tonspur ohne Vermerk bleibt high', stufe(900013) === 'high', stufe(900013))
+  const wege = (id: number) => (ausgeliefert as unknown as { id: number; streams?: unknown[] }[]).find((t) => t.id === id)?.streams?.length
+  pruefe('Phase 13 reicht istTot weiter: die tote MOTN-Adresse legt keinen Weg an', wege(900014) === 0, wege(900014))
+  pruefe('Gegenprobe: die lebende MOTN-Adresse legt den Weg an', wege(900015) === 1, wege(900015))
 } finally {
   process.chdir(start)
   rmSync(wurzel, { recursive: true, force: true })

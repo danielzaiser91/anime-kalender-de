@@ -26,6 +26,8 @@ const SOLL_SCHRITTE = [
     run: 'echo "::error::Kein anilist-cache gefunden"\nexit 1\n',
   },
   { name: 'Datensatz bauen (ohne Commit)', run: 'npm run data:build' },
+  // Dieselben vier Skripte wie der Bestandsbau (bestand-bauen.yml), sonst liest `check:bestand` Listen, die nicht zum Bau passen (01.11.2026).
+  { name: 'Arbeitslisten und Prüfstand neu erzeugen', run: 'npm run data:arbeitslisten' },
   // Gemessenes Ja ⇒ mindestens ein Weg, am frisch gebauten Datensatz (18.10.2026: Hazbin Hotel und fünf weitere Cartoons).
   { name: 'Gemessenes Ja hat einen Weg', run: 'npx tsx pipeline/check-ja-hat-weg-bestand.ts' },
   // Direkt nach dem Bau und als letzter Schritt: `check:bestand` liest die Bauausgabe (16.10.2026, vorher erst im Bestandsbau nach dem Merge).

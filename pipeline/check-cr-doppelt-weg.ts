@@ -73,7 +73,7 @@ pruefe('entdoppleCrWege: Watch ohne Serie bleibt', entdoppleCrWege(mapVon(nurW))
 const fremd = vermilion([{ platform: 'netflix', url: 'https://www.netflix.com/watch/81089326' }, { platform: 'crunchyroll', url: SERIE, dub: true }])
 pruefe('entdoppleCrWege: /watch/ bei anderem Anbieter bleibt', entdoppleCrWege(mapVon(fremd)) === 0 && fremd.streams.length === 2, fremd.streams)
 const imBau = vermilion([{ platform: 'crunchyroll', url: WATCH }, { platform: 'crunchyroll', url: SERIE, dub: true }])
-bereinigeWege({ titles: mapVon(imBau), anisearch: {}, toteAdressen: new Set(), linkBefunde: {}, verweiseEntfernt: [], crAdresseZu: () => undefined, beantworteteSuchen: new Set(), suchOffen: [] })
+bereinigeWege({ titles: mapVon(imBau), anisearch: {}, istTot: () => false, linkBefunde: {}, verweiseEntfernt: [], crAdresseZu: () => undefined, beantworteteSuchen: new Set(), suchOffen: [] })
 pruefe('bereinigeWege (Bau-Aufrufer) ruft die Zusammenführung: Vermilion danach mit einem Eintrag', JSON.stringify(crUrls(imBau)) === JSON.stringify([SERIE]), imBau.streams)
 
 if (fehler) {

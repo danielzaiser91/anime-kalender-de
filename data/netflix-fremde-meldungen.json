@@ -1,0 +1,118 @@
+[
+  {
+    "url": "https://www.netflix.com/title/70171947",
+    "richtig": "https://www.netflix.com/title/70171942",
+    "kennungen": [
+      "70124778",
+      "70180300",
+      "70247642",
+      "70285777",
+      "80027964",
+      "80097079",
+      "80171440",
+      "80990430",
+      "81126964",
+      "81267279",
+      "81497091",
+      "81636465",
+      "81726970"
+    ],
+    "beleg": "Mission Scooby-Doo statt Archer: Meldung des Vortitels, Sekunden nach dessen erster Meldung ein zweites Mal unter dieser Adresse (gleiche gti, gleiche Messung); Folgentitel „Archer Vice: A Debt of Honor“ gehört zu Archer (Titel 10283)"
+  },
+  {
+    "url": "https://www.netflix.com/title/81091393",
+    "richtig": "https://www.netflix.com/title/81239555",
+    "kennungen": [
+      "81239556"
+    ],
+    "beleg": "Demon Slayer statt Shaman King (2021): Meldung des Vortitels, Sekunden nach dessen erster Meldung ein zweites Mal unter dieser Adresse (gleiche gti, gleiche Messung); Staffelkennung 81239556 liegt neben der Adresse von Shaman King"
+  },
+  {
+    "url": "https://www.netflix.com/title/81183924",
+    "richtig": "https://www.netflix.com/title/81161575",
+    "kennungen": [
+      "81496234"
+    ],
+    "gti": [
+      "81515752",
+      "81515754",
+      "81515756",
+      "81515759"
+    ],
+    "beleg": "Dragon Age: Absolution statt Angry Birds: Verrückter Sommer: Meldung des Vortitels, Sekunden nach dessen erster Meldung ein zweites Mal unter dieser Adresse (gleiche gti, gleiche Messung); „Alle lieben Fischstäbchen“ hat 16 Folgen, Dragon Age 6"
+  },
+  {
+    "url": "https://www.netflix.com/title/81186971",
+    "richtig": "https://www.netflix.com/title/81184735",
+    "kennungen": [
+      "81184773"
+    ],
+    "beleg": "The Loud House statt Barbie: Dreamhouse Adventures: Meldung des Vortitels, Sekunden nach dessen erster Meldung ein zweites Mal unter dieser Adresse (gleiche gti, gleiche Messung); Staffelkennung 81184773 liegt neben der Adresse von Barbie"
+  },
+  {
+    "url": "https://www.netflix.com/title/81227574",
+    "richtig": "https://www.netflix.com/title/81223055",
+    "gti": [
+      "81382725"
+    ],
+    "beleg": "Kung Fu Panda: Der Drachenritter statt Dee und ihre Freunde in Oz: Film „Dee und ihre Freunde in Oz: Der Film“ (gti 81382725), 14 s nach der Meldung unter Dee noch einmal unter Kung Fu Panda"
+  },
+  {
+    "url": "https://www.netflix.com/title/81259476",
+    "richtig": "https://www.netflix.com/title/81246530",
+    "kennungen": [
+      "81246545"
+    ],
+    "beleg": "Farzar statt Barbie im Doppelpack: Meldung des Vortitels, Sekunden nach dessen erster Meldung ein zweites Mal unter dieser Adresse (gleiche gti, gleiche Messung); Staffelkennung 81246545 liegt neben der Adresse von Barbie im Doppelpack"
+  },
+  {
+    "url": "https://www.netflix.com/title/81279322",
+    "richtig": "https://www.netflix.com/title/81273085",
+    "kennungen": [
+      "81273086",
+      "81387215",
+      "81476225",
+      "81476227",
+      "81476228",
+      "81613362",
+      "81613363",
+      "81631469"
+    ],
+    "beleg": "Unicorn Academy statt Cocomelon: Meldung des Vortitels, Sekunden nach dessen erster Meldung ein zweites Mal unter dieser Adresse (gleiche gti, gleiche Messung); Titel „CoComelon …“ der acht Staffelkennungen"
+  },
+  {
+    "url": "https://www.netflix.com/title/81499847",
+    "richtig": "https://www.netflix.com/title/80193163",
+    "kennungen": [
+      "80193313"
+    ],
+    "beleg": "Uncle from Another World statt Made in Abyss: Meldung des Vortitels, Sekunden nach dessen erster Meldung ein zweites Mal unter dieser Adresse (gleiche gti, gleiche Messung); Staffelkennung 80193313 liegt neben der Adresse von Made in Abyss, Folge „Aufbruch“"
+  },
+  {
+    "url": "https://www.netflix.com/title/81788312",
+    "richtig": "https://www.netflix.com/title/81727242",
+    "kennungen": [
+      "81727243"
+    ],
+    "beleg": "The Dangers in My Heart statt Shangri-La Frontier: Meldung des Vortitels, Sekunden nach dessen erster Meldung ein zweites Mal unter dieser Adresse (gleiche gti, gleiche Messung); Staffelkennung 81727243 liegt neben der Adresse von Shangri-La Frontier"
+  },
+  {
+    "url": "https://www.netflix.com/title/81969861",
+    "richtig": "https://www.netflix.com/title/81788312",
+    "gti": [
+      "81788314",
+      "81788315",
+      "81788316",
+      "81788317",
+      "81788318",
+      "81788319",
+      "81788320",
+      "81788321",
+      "81788322",
+      "81788323",
+      "81788324",
+      "81788325"
+    ],
+    "beleg": "Tougen Anki statt The Dangers in My Heart: zwölf Folgen „Karte 1: Ich wurde bestohlen“ … („Staffel 1“) der Dangers-Seite, am 28.09.2026 unter Tougen Anki gemeldet, am 29.09. unter der richtigen Adresse"
+  }
+]

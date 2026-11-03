@@ -8,46 +8,6 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:auto-128893-tv-prosieben-fun@2026-10-26#7@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261026T195500Z
-DTEND:20261026T202500Z
-SUMMARY:Hell’s Paradise – Folge 7/10
-DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
- nDetails: https://anime-kalender.de/t/12442/
-CATEGORIES:ProSieben FUN
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-128893-tv-prosieben-fun@2026-10-26#8@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261026T202000Z
-DTEND:20261026T205000Z
-SUMMARY:Hell’s Paradise – Folge 8/10
-DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
- nDetails: https://anime-kalender.de/t/12442/
-CATEGORIES:ProSieben FUN
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-101347-tv-prosieben-fun@2026-10-26#7@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261026T204500Z
-DTEND:20261026T211500Z
-SUMMARY:Dororo
-DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
- nDetails: https://anime-kalender.de/t/9059/
-CATEGORIES:ProSieben FUN
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-101347-tv-prosieben-fun@2026-10-26#8@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261026T211000Z
-DTEND:20261026T214000Z
-SUMMARY:Dororo
-DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
- nDetails: https://anime-kalender.de/t/9059/
-CATEGORIES:ProSieben FUN
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GRGG9798R@2026-10-28#18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261028T150000Z
@@ -88,7 +48,7 @@ UID:auto-128893-tv-prosieben-fun@2026-11-02#9@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261102T195500Z
 DTEND:20261102T202500Z
-SUMMARY:Hell’s Paradise – Folge 9/10
+SUMMARY:Hell’s Paradise – Folge 9
 DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
  nDetails: https://anime-kalender.de/t/12442/
 CATEGORIES:ProSieben FUN
@@ -98,7 +58,7 @@ UID:auto-128893-tv-prosieben-fun@2026-11-02#10@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261102T202000Z
 DTEND:20261102T205000Z
-SUMMARY:Hell’s Paradise – Folge 10/10
+SUMMARY:Hell’s Paradise – Folge 10
 DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
  nDetails: https://anime-kalender.de/t/12442/
 CATEGORIES:ProSieben FUN
@@ -140,7 +100,7 @@ UID:auto-176496-tv-prosieben-maxx@2026-11-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261106T222500Z
 DTEND:20261106T225500Z
-SUMMARY:Solo Leveling: Arise from the Shadow – Folge 8/8
+SUMMARY:Solo Leveling: Arise from the Shadow – Folge 8
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/15790/
 CATEGORIES:ProSieben MAXX
@@ -164,6 +124,46 @@ SUMMARY:Clevatess (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/t/16014/
 CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-128893-tv-prosieben-fun@2026-11-09#11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261109T195500Z
+DTEND:20261109T202500Z
+SUMMARY:Hell’s Paradise – Folge 11
+DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
+ nDetails: https://anime-kalender.de/t/12442/
+CATEGORIES:ProSieben FUN
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-128893-tv-prosieben-fun@2026-11-09#12@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261109T202000Z
+DTEND:20261109T205000Z
+SUMMARY:Hell’s Paradise – Folge 12
+DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
+ nDetails: https://anime-kalender.de/t/12442/
+CATEGORIES:ProSieben FUN
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-101347-tv-prosieben-fun@2026-11-09#11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261109T204500Z
+DTEND:20261109T211500Z
+SUMMARY:Dororo
+DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
+ nDetails: https://anime-kalender.de/t/9059/
+CATEGORIES:ProSieben FUN
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-101347-tv-prosieben-fun@2026-11-09#12@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261109T211000Z
+DTEND:20261109T214000Z
+SUMMARY:Dororo
+DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
+ nDetails: https://anime-kalender.de/t/9059/
+CATEGORIES:ProSieben FUN
 END:VEVENT
 BEGIN:VEVENT
 UID:steel-ball-run-2nd-3rd-stage@2026-11-13@anime-kalender-de
