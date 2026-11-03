@@ -40,7 +40,7 @@ try {
   const ziel = tmp + '/jetzt/e.md'
   writeFileSync(ziel, `[s](file:///${tmp}/berichte/x.md#L3)\n`)
   writeFileSync(tmp + '/stand.md', `[s](file:///${tmp}/berichte/x.md)\n`)
-  const lauf = (ein) => spawnSync(process.execPath, [hook], { input: JSON.stringify(ein), env: { ...process.env, DANIEL_ORDNER: tmp }, encoding: 'utf8' })
+  const lauf = (ein) => spawnSync(process.execPath, [hook], { input: JSON.stringify(ein), env: { ...process.env, DANIEL_ORDNER: tmp }, encoding: 'utf8', timeout: 15000 })
   const r = lauf({ tool_name: 'Write', tool_input: { file_path: ziel } })
   assert.equal(r.status, 0)
   assert.equal(readFileSync(ziel, 'utf8'), '[s](../berichte/x.md#L3)\n')
