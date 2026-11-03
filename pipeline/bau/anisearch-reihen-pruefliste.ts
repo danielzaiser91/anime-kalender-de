@@ -1,11 +1,10 @@
-import { existsSync, readFileSync, readdirSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import yaml from 'js-yaml'
 import { ROOT, log, readJson, warn, writeJson } from '../lib/util.ts'
 import { todayIso } from '../../shared/time.ts'
 import type { Title } from '../../shared/types.ts'
-import { ARCHIV_SEITEN, leseSeite } from '../lib/anisearch-relationen.ts'
+import { ladeBeziehungen } from '../lib/anisearch-beziehungen.ts'
 import { anisearchKennungen } from './anisearch-kennung.ts'
-import type { Kante, Namen } from './anisearch-reihen.ts'
 import { type Pruefzeile, type Trennung, WANDERREGEL, uebernimmReihen } from './anisearch-reihen-uebernahme.ts'
 import { type Anker, erbeReihe, uebernimmKatalogReihen } from './anisearch-reihen-katalog.ts'
 import type { KatalogEintrag } from '../lib/anilist.ts'
@@ -25,30 +24,7 @@ type Zahlen = { angehaengt: number; neueReihen: number }
 export type KatalogZahlen = Zahlen & { bestandEinzeln: number }
 export type PruefDatei = { stand: string; angehaengt: number; neueReihen: number; katalog?: KatalogZahlen; pruefliste: (Pruefzeile & { quelle?: Quelle })[] }
 
-let beziehungen: { kanten: Kante[]; namen: Namen; mitSeite: Set<number> } | undefined
-
-/** Kanten (nur Anime) und Namen aller Archivseiten; `mitSeite` sind die Kennungen, deren Seite da ist. Einmal je Prozess gelesen (≈ 5 s). */
-export function ladeBeziehungen(dir = ARCHIV_SEITEN): { kanten: Kante[]; namen: Namen; mitSeite: Set<number> } {
-  if (beziehungen && dir === ARCHIV_SEITEN) return beziehungen
-  const [kanten, namen, mitSeite]: [Kante[], Namen, Set<number>] = [[], new Map(), new Set()]
-  const merke = (id: number, name: string): void => {
-    if (name && !(namen.get(id) ?? []).includes(name)) namen.set(id, [...(namen.get(id) ?? []), name])
-  }
-  for (const datei of existsSync(dir) ? readdirSync(dir) : []) {
-    const id = Number(datei.replace('.html.gz', ''))
-    const seite = Number.isInteger(id) ? leseSeite(id, dir) : undefined
-    if (!seite) continue
-    mitSeite.add(id)
-    seite.titel.forEach((t) => merke(id, t))
-    for (const r of seite.relationen.filter((x) => x.medium === 'anime')) {
-      merke(r.id, r.name)
-      kanten.push({ a: id, b: r.id, art: r.art })
-    }
-  }
-  const ergebnis = { kanten, namen, mitSeite }
-  if (dir === ARCHIV_SEITEN) beziehungen = ergebnis
-  return ergebnis
-}
+export { ladeBeziehungen }
 
 /** Die `getrennt:`-Einträge der Handdatei (Titel-Kennungen); fehlt die Datei, gibt es keine. */
 export function ladeTrennungen(datei = `${ROOT}/data/reihen-von-hand.yaml`): Trennung[] {
