@@ -19,7 +19,7 @@ export type FastDoppelBilanz = { text: string; entfernt: number; gruppen: number
 type Block = { von: number; bis: number; datumZeile: number; schluessel: string; datum: string; browser: boolean; kommentar: boolean }
 
 const ISO_TAG = /^\d{4}-\d{2}-\d{2}$/
-const ABSCHNITT =/^# ---/
+const ABSCHNITT = /^# ---/
 const BROWSER = /Aus dem Browser gemeldet|Kanal-Meldungen mit zweiter Quelle/
 
 /** Alle Belegblöcke mit Schlüssel (ohne `checkedAt`), Datum, Herkunft und der Angabe, ob ein eigener Kommentar direkt davorsteht. */
