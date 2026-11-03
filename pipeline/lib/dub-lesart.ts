@@ -30,14 +30,19 @@ const MARKE_ZEILE = /\/\/\s*dub-lesart:/
 const MARKE_MIT_GRUND = /\/\/\s*dub-lesart:\s*\S/
 const REINE_MARKE = /^\s*\/\/\s*dub-lesart:\s*\S/
 
+/** Entfernt umschließende Klammern. */
+function ohneKlammern(e: ts.Expression): ts.Expression {
+  return ts.isParenthesizedExpression(e) ? ohneKlammern(e.expression) : e
+}
+
 function istDubZugriff(e: ts.Expression): boolean {
-  const n = ts.skipParentheses(e)
+  const n = ohneKlammern(e)
   if (ts.isPropertyAccessExpression(n)) return n.name.text === 'dub'
   return ts.isElementAccessExpression(n) && ts.isStringLiteralLike(n.argumentExpression) && n.argumentExpression.text === 'dub'
 }
 
 function istLiteral(e: ts.Expression, art: ts.SyntaxKind): boolean {
-  return ts.skipParentheses(e).kind === art
+  return ohneKlammern(e).kind === art
 }
 
 /** Liest der Ausdruck `x.dub` als Ja? (`=== true`, `== true`, auch vertauscht) */
