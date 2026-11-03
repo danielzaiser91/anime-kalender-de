@@ -12,6 +12,7 @@ const vm = require('node:vm')
 
 const quelle = readFileSync(resolve(__dirname, 'melder.js'), 'utf8')
 const helfer = readFileSync(resolve(__dirname, 'netflix-seitentreue.js'), 'utf8')
+const schutz = readFileSync(resolve(__dirname, 'netflix-durchgang-schutz.js'), 'utf8')
 const fehler = []
 const pruefe = (name, bedingung, gefunden) => {
   if (bedingung) return console.log(`  ✓ ${name}`)
@@ -70,6 +71,7 @@ async function lauf({ durchlauf, hier, aufruf }) {
   kontext.globalThis = kontext
   vm.createContext(kontext)
   vm.runInContext(helfer, kontext)
+  vm.runInContext(schutz, kontext)
   vm.runInContext(['randMelden', 'durchlaufMelden'].map(schneide).join('\n\n'), kontext)
   kontext.befund = { echte: [{ code: 'de', name: 'Deutsch' }], folge: durchlauf.folgen[0], deutsch: true }
   kontext.folgenArg = aufruf.folgen
@@ -77,10 +79,10 @@ async function lauf({ durchlauf, hier, aufruf }) {
     aufruf.einzeln ? 'durchlaufMelden(folgenArg[0], befund.echte, true)' : 'randMelden(folgenArg, befund, 13, [1, 13])',
     kontext,
   )
-  return { gesendet, ergebnis }
+  return { gesendet, ergebnis, durchlauf, kontext }
 }
 
-const stand = (listeFuer, liste) => ({ listeFuer, alleFolgen: liste, folgen: liste, gemeldet: new Set(), staffelLabel: null })
+const stand = (listeFuer, alle, folgen = alle) => ({ listeFuer, alleFolgen: alle, folgen, gemeldet: new Set(), staffelLabel: null })
 
 async function main() {
   pruefe('Funktionen auffindbar', schneide('randMelden').length > 100 && schneide('durchlaufMelden').length > 100)
@@ -108,6 +110,29 @@ async function main() {
   pruefe('im Player (keine Titeladresse) gilt die Liste', imPlayer.ergebnis === 13, imPlayer)
   const ohneListe = await lauf({ durchlauf: stand(undefined, []), hier: LOUD, aufruf: { folgen: loudS3 } })
   pruefe('ohne gelesene Liste (Film) bleibt es beim bisherigen Weg', ohneListe.ergebnis === 3, ohneListe)
+
+  /* Welche Liste gilt: Staffelliste (`alleFolgen`) oder angezeigte Gruppe (`folgen`, bei Filmen die einzige) — je einer reicht. */
+  const nurFolgen = await lauf({ durchlauf: stand(LOUD, [], loudS3), hier: LOUD, aufruf: { folgen: loudS3 } })
+  pruefe('Folge nur in `folgen` (Film-Weg): geht raus', nurFolgen.ergebnis === 3, nurFolgen)
+  const nurAlle = await lauf({ durchlauf: stand(LOUD, loudS3, []), hier: LOUD, aufruf: { folgen: loudS3 } })
+  pruefe('Folge nur in `alleFolgen`: geht raus', nurAlle.ergebnis === 3, nurAlle)
+  const inKeiner = await lauf({ durchlauf: stand(LOUD, loudS3.slice(0, 1), loudS3.slice(1, 2)), hier: LOUD, aufruf: { folgen: loudS3 } })
+  pruefe('Folge in keiner der beiden Listen: verworfen', inKeiner.ergebnis === 0 && inKeiner.gesendet.length === 0, inKeiner)
+
+  /* Verworfenes ist sichtbar: Zähler mit Grund, und der Abbruchgrund eines Selbstlaufs nennt den Seitenwechsel. */
+  pruefe('Seitenwechsel: Zähler 1 mit Grund', wechsel.durchlauf.verworfenFremd.anzahl === 1 && wechsel.durchlauf.verworfenFremd.grund.includes(`${BARBIE}, Seite ist ${LOUD}`), wechsel.durchlauf.verworfenFremd)
+  const playerLeer = await lauf({ durchlauf: stand(BARBIE, [], []), hier: null, aufruf: { folgen: barbieS2 } })
+  pruefe('Player, Liste nach Titelwechsel leer: nichts geht raus, Grund steht da', playerLeer.ergebnis === 0 && playerLeer.gesendet.length === 0 && playerLeer.durchlauf.verworfenFremd.anzahl === 1 && playerLeer.durchlauf.verworfenFremd.grund.includes('13 Folge(n) nicht in der Liste'), playerLeer.durchlauf.verworfenFremd)
+  const zweimal = stand(BARBIE, barbieS2)
+  zweimal.verworfenFremd = { anzahl: 1, grund: 'x', offen: false }
+  const dritter = await lauf({ durchlauf: zweimal, hier: LOUD, aufruf: { folgen: barbieS2 } })
+  pruefe('Zähler zählt weiter (2 nach dem zweiten Verwerfen)', dritter.durchlauf.verworfenFremd.anzahl === 2, dritter.durchlauf.verworfenFremd)
+  const selbst = { ...wechsel.durchlauf, selbst: true }
+  wechsel.kontext.akRandAusfall(selbst, 0)
+  pruefe('Selbstlauf nach Verwerfen: Abbruchgrund „Seite gewechselt“', selbst.abbruch === true && selbst.abbruchGrund === 'Seite gewechselt, Meldung verworfen', selbst.abbruchGrund)
+  const selbst2 = { ...selbst, abbruch: false, abbruchGrund: null }
+  wechsel.kontext.akRandAusfall(selbst2, 0)
+  pruefe('echter Worker-Ausfall danach: eigener Grund', selbst2.abbruchGrund === 'Worker bestätigt keine Meldung', selbst2.abbruchGrund)
 
   /* Verdrahtung: beide Melder rufen die Prüfung, und das Manifest lädt sie vor melder.js. */
   pruefe('randMelden ruft die Prüfung', /akNetflixSeitentreu\(DURCHLAUF, titelDerAdresse\(\), folgen\)/.test(schneide('randMelden')))
