@@ -60,6 +60,7 @@ export function hebeAnnahmeAuf(releases: Release[]): FolgenzahlUrteil[] {
     const quelle = passend ?? quellen[0]!
     if (passend) {
       delete r.schedule.episodeCountAssumed
+      delete r.schedule.episodeCountNurGesichtet
       delete r.schedule.episodeCountSource
     }
     urteile.push({ slug: r.slug, belegtN: quelle.n, quelleSlug: quelle.slug, aufgehoben: Boolean(passend) })

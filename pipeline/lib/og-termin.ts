@@ -56,7 +56,7 @@ function folgenText(release: Release, events: ReturnType<typeof expandEvents>, k
   const bis = folgenblockBis(events, kommend)
   const von = bis ? `Folgen ${kommend.episode}–${bis}` : `Folge ${kommend.episode}`
   const gesamt = release.schedule.episodeCount
-  if (!gesamt) return von
+  if (!gesamt || release.schedule.episodeCountNurGesichtet) return von
   return `${von} von ${release.schedule.episodeCountAssumed ? '≈' : ''}${gesamt}`
 }
 

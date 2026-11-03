@@ -330,3 +330,7 @@
   url: https://www.amazon.de/gp/video/detail/B09JV7CC61
   grund: 'Doppel: B09JV7CC61 und B0CZ4GBM2D sind dieselbe Serienseite (gleiche gti 7669196e, prime-zugeordnet.json Seite B0CZ4GBM2D); der Weg B0CZ4GBM2D steht schon (Haganai NEXT, 02.11.2026)'
   entferntAm: '2026-11-02'
+- anilistId: 131264
+  url: https://www.amazon.de/gp/video/detail/B0D58K5WH5
+  grund: 'Seite gehört InuYasha (249): alle drei Meldungen (2723, 22754, 22794) lesen den Titel InuYasha, 27 Folgen, Staffel 2; Yashahime hat Crunchyroll und Joyn (Zuordnung 02.11.2026)'
+  entferntAm: '2026-11-02'

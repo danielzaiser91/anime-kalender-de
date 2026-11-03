@@ -49,6 +49,11 @@ function vorhandeneTitel(f: Folge[] | undefined): Map<number, string> {
   return new Map((f ?? []).flatMap((x) => (x.de ?? x.en ?? x.ja ? [[x.nr, (x.de ?? x.en ?? x.ja) as string] as [number, string]] : [])))
 }
 
+/** Nummer → deutscher Titel; englische/japanische Rückfälle würden den Abgleich gegen deutsche Quellen (RTL+) kippen. */
+export function deutscheTitel(f: Folge[] | undefined): Map<number, string> {
+  return new Map((f ?? []).flatMap((x) => (x.de ? [[x.nr, x.de] as [number, string]] : [])))
+}
+
 /**
  * Die aniSearch-Liste, wo sie Titel schuldig bleibt, nacheinander gefüllt: Crunchyroll, RTL+, TMDB, zuletzt die Handzuordnung. Ein vorhandener Titel bleibt;
  * die Archive werden nur geöffnet, wo es eine Lücke gibt.
@@ -60,7 +65,7 @@ export function mitFremdTiteln(t: Title, ausAs: Folge[] | undefined, q: TitelQue
   const crSerie = crUrl ? q.crSerien.get(crUrl) : undefined
   const archiv = ladeCrArchiv(crSerie?.seriesId)
   const mitCr = mitCrTiteln(ausAs, crFolgentitel(t, crSerie, archiv) ?? crFolgentitelGeteilt(t, crSerie, archiv, vorhandeneTitel(ausAs)))
-  const mitRtl = mitCrTiteln(mitCr, rtlplusFolgentitel(vorhandeneTitel(mitCr), q.rtlplus[String(t.id)]))
+  const mitRtl = mitCrTiteln(mitCr, rtlplusFolgentitel(deutscheTitel(mitCr), q.rtlplus[String(t.id)]))
   if (!luecke(mitRtl)) return mitKitsuTiteln(t, mitRtl, kitsu)
   const nummern = mitRtl?.length ? mitRtl.map((x) => x.nr) : Array.from({ length: t.episodes ?? 0 }, (_, i) => i + 1)
   const mitTmdb = mitCrTiteln(mitRtl, tmdbFolgentitel(t, q.tmdbNamen[String(t.id)]?.nameDe, q.tmdbFolgen[String(t.id)], nummern, vorhandeneTitel(mitRtl)))

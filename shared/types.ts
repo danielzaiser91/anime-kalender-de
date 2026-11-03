@@ -142,6 +142,8 @@ export interface Schedule {
   estimated?: boolean
   /** true, wenn die Folgenzahl nicht belegt ist und angenommen wurde. */
   episodeCountAssumed?: boolean
+  /** true, wenn `episodeCount` nur die höchste gesichtete Folge ist: Die Termine tragen keine Gesamtzahl. */
+  episodeCountNurGesichtet?: boolean
   /**
    * Woher eine vorläufige Folgenzahl stammt.
    *

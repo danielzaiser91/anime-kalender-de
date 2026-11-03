@@ -1,6 +1,14 @@
 {
-  "geholtAm": "2026-11-02T02:01:54.942Z",
+  "geholtAm": "2026-11-03T02:01:57.515Z",
   "artikel": [
+    {
+      "titel": "I Parry Everything jetzt auf Deutsch im Stream bei ADN!",
+      "url": "https://news.animationdigitalnetwork.com/de/2026/11/02/i-parry-everything-jetzt-auf-deutsch-im-stream-bei-adn/",
+      "datum": "2026-11-02",
+      "showIds": [
+        1207
+      ]
+    },
     {
       "titel": "THE LEGEND OF HEI II im Stream bei ADN verfügbar!",
       "url": "https://news.animationdigitalnetwork.com/de/2026/10/26/the-legend-of-hei-ii-im-stream-bei-adn-verfuegbar/",
@@ -180,7 +188,12 @@
         108,
         1319,
         1320,
-        1321
+        1321,
+        1207,
+        621,
+        1413,
+        1218,
+        1346
       ]
     },
     {
@@ -690,14 +703,6 @@
       "datum": "2026-05-11",
       "showIds": [
         1397
-      ]
-    },
-    {
-      "titel": "Girls Band Cry ab sofort im Stream bei ADN",
-      "url": "https://news.animationdigitalnetwork.com/de/2026/05/04/girls-band-cry-ab-sofort-im-stream-bei-adn/",
-      "datum": "2026-05-04",
-      "showIds": [
-        438
       ]
     }
   ]
