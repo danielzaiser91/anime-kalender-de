@@ -102,7 +102,7 @@ erwarte('Fristen aus Runde 2 sprengen fund-nachliefern', fristen(900, 240), /fun
 erwarte('Basisfrist allein zu lang', fristen(420, 400), /fund-nachliefern\.yml: Job nachliefern/)
 assert.deepEqual(mit(fristen(1200 - 240 - REST_SEKUNDEN, 240)), [], 'genau auf der Grenze ist erlaubt')
 erwarte('eine Sekunde über der Grenze', fristen(1200 - 240 - REST_SEKUNDEN + 1, 240), /fund-nachliefern\.yml: Job nachliefern/)
-erwarte('Frist nicht lesbar', (s) => { s.skripte[PRUEFEN] = ohne(s.skripte[PRUEFEN], 'QUELLEN_BASISFRIST_STANDARD=240\n') }, /als Zahl erwartet/)
+erwarte('Frist nicht lesbar', (s) => { s.skripte[PRUEFEN] = ohne(s.skripte[PRUEFEN], 'QUELLEN_BASISFRIST_STANDARD=300\n') }, /als Zahl erwartet/)
 // Ein neuer Einreicher mit kurzem Timeout als mittlerer von drei Jobs: über die Aktion wie über den direkten Aufruf.
 const dreiJobs = (mitte) => ({ jobs: { a: { 'timeout-minutes': 300, steps: [{ uses: './.github/actions/einreichen' }] }, b: mitte, c: { steps: [{ run: 'bash tools/quellen-pr.sh "x"' }] } } })
 erwarte('Einreicher über die Aktion mit 15 min', (s) => { s.workflows['neu.yml'] = dreiJobs({ 'timeout-minutes': 15, steps: [{ uses: '.github/actions/einreichen@main' }] }) }, /neu\.yml: Job b \(timeout 900 s\)/)

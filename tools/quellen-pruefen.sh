@@ -18,8 +18,11 @@
 
 # Fristen (17.10.2026): check:logic braucht in der CI unter einer Minute (lokal unter Windows knapp 3). Fund und Vergleich auf `main` zusammen samt dem
 # übrigen Job passen in den kleinsten Job-Timeout eines Einreichers; das rechnet der Wächter aus den Workflows nach (`pruefeFristen` in `tools/sammler-pruefschritt-waechter.mjs`).
-QUELLEN_PRUEFFRIST_STANDARD=420
-QUELLEN_BASISFRIST_STANDARD=240
+# Gemessen im Wochenlauf vom 03.11.2026 (497 Prüfungen, Einreicher mit 403 geänderten Dateien): TMDB brauchte 409 s, AniList riss die alte Frist von 420 s bei 488/497,
+# die Basis (alte Frist 240 s) kam in 4 min nur bis 269/497. Die Kette braucht für dieselbe Prüfung rund 270 s. Die Summe 780 s ist die Grenze des kleinsten Einreichers
+# (fund-nachliefern, 20 min minus 420 s Rest).
+QUELLEN_PRUEFFRIST_STANDARD=480
+QUELLEN_BASISFRIST_STANDARD=300
 
 quellen_pruefen() {
   local protokoll status=0
