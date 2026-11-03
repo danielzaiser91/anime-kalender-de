@@ -12,6 +12,7 @@ import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { entferneFastDoppel } from './lib/handbeleg-fast-doppel.ts'
+import { vereineDatei } from './lib/handbeleg-fast-doppel-datei.ts'
 import { ROOT } from './lib/util.ts'
 
 let verletzt = 0
@@ -74,6 +75,10 @@ pruefe('der Erste hat schon das jüngste Datum: Zeile bleibt', entferneFastDoppe
 const ersterOhneDatum = datei(beleg(1, '2026-08-01').replace("  checkedAt: '2026-08-01'\n", ''), beleg(1, '2026-09-01'))
 const ohneDatum = entferneFastDoppel(ersterOhneDatum)
 pruefe('der Erste ohne checkedAt-Zeile: nicht angefasst, gezählt', ohneDatum.entfernt === 0 && ohneDatum.blockiert === 1 && ohneDatum.text === ersterOhneDatum, ohneDatum)
+/* Abschnitt „Kanal-Meldungen mit zweiter Quelle“ zählt wie „Aus dem Browser gemeldet“ als andere Herkunft. */
+const mitKanal = `${beleg(1, '2026-08-01')}\n\n# --- Kanal-Meldungen mit zweiter Quelle belegt ---\n\n${beleg(1, '2026-09-01')}\n`
+const kanal = entferneFastDoppel(mitKanal)
+pruefe('Hand-Beleg plus Beleg unter „Kanal-Meldungen mit zweiter Quelle“: gemischt, nichts entfernt', kanal.gemischt === 1 && kanal.entfernt === 0 && kanal.text === mitKanal, kanal)
 const nurBrowser = `# --- Aus dem Browser gemeldet, abgeholt am 2026-09-02 ---\n\n${beleg(1, '2026-08-01')}\n\n${beleg(1, '2026-09-01')}\n`
 pruefe('zwei Browser-Belege: einer bleibt, Abschnittskopf bleibt', entferneFastDoppel(nurBrowser).text === `# --- Aus dem Browser gemeldet, abgeholt am 2026-09-02 ---\n\n${beleg(1, '2026-09-01')}\n`, entferneFastDoppel(nurBrowser).text)
 const kommentiert = `${beleg(1, '2026-09-01')}\n\n# Nur zur Info zu diesem Beleg\n${beleg(1, '2026-08-01')}\n`
@@ -81,6 +86,25 @@ const k = entferneFastDoppel(kommentiert)
 pruefe('eigener Kommentar am überzähligen Beleg: nichts entfernt, gezählt', k.entfernt === 0 && k.blockiert === 1 && k.text === kommentiert)
 pruefe('zweiter Lauf entfernt nichts mehr', entferneFastDoppel(entferneFastDoppel(nurHand).text).entfernt === 0)
 pruefe('leere Datei bleibt leer', entferneFastDoppel('').text === '' && entferneFastDoppel('# nur Kommentar\n').entfernt === 0)
+
+/* Gegenprobe vor dem Schreiben: eine verfälschende Fassung darf die Datei nicht ändern (je Probe eine eigene Verfälschung). */
+const probeVerzeichnis = mkdtempSync(join(tmpdir(), 'fast-doppel-probe-'))
+try {
+  const probe = join(probeVerzeichnis, 'belege.yaml')
+  const verfaelscht = (aendere: (b: ReturnType<typeof entferneFastDoppel>) => ReturnType<typeof entferneFastDoppel>) => {
+    writeFileSync(probe, nurHand)
+    const lauf = vereineDatei(probe, false, (t) => aendere(entferneFastDoppel(t)))
+    return { ...lauf, unveraendert: readFileSync(probe, 'utf8') === nurHand }
+  }
+  const zahlFalsch = verfaelscht((b) => ({ ...b, entfernt: b.entfernt + 1 }))
+  pruefe('Gegenprobe Zahl: gemeldete Zahl weicht ab, Datei bleibt, ok false', !zahlFalsch.ok && zahlFalsch.unveraendert && /Gegenprobe gescheitert/.test(zahlFalsch.zeilen.join('\n')), zahlFalsch)
+  const fremd = verfaelscht((b) => ({ ...b, text: b.text.replace('Tonspuren Deutsch', 'Tonspuren Französisch') }))
+  pruefe('Gegenprobe Teilmenge: Zahl stimmt, aber ein Beleg ist verändert, Datei bleibt, ok false', !fremd.ok && fremd.unveraendert && /Gegenprobe gescheitert/.test(fremd.zeilen.join('\n')), fremd)
+  writeFileSync(probe, nurHand)
+  pruefe('Gegenprobe besteht bei unverfälschter Fassung: ok, Datei geschrieben', vereineDatei(probe, false).ok && readFileSync(probe, 'utf8') !== nurHand)
+} finally {
+  rmSync(probeVerzeichnis, { recursive: true, force: true })
+}
 
 /* Werkzeug als Prozess gegen eine Wegwerf-Datei: schreibt, ändert sonst nichts, --trocken schreibt nicht. */
 const wurzel = mkdtempSync(join(tmpdir(), 'fast-doppel-'))
@@ -112,6 +136,10 @@ try {
   writeFileSync(bestandsDatei, datei(beleg(1, '2026-08-01'), beleg(2, '2026-09-01')))
   const sauber = bestandLauf()
   pruefe('Bestandswächter ohne Fast-Doppel: Exit 0, keine Warnung', sauber.status === 0 && !/WARNUNG/.test(sauber.stdout) && /: 0 zusammenführbar/.test(sauber.stdout), sauber.stdout + sauber.stderr)
+  /* Aufruf wie in der Warnzeile: ohne Dateiargument, die Handbelege im Arbeitsordner. */
+  writeFileSync(bestandsDatei, nurHand)
+  const ohneDatei = spawnSync(process.execPath, ['--import', tsx, werkzeug], { cwd: wurzel, encoding: 'utf8', timeout: 120_000 })
+  pruefe('Werkzeug ohne Dateiargument: liest und schreibt data/dub-confirmed.yaml im Arbeitsordner', ohneDatei.status === 0 && ids(readFileSync(bestandsDatei, 'utf8')).join() === '1@2026-09-01,2@2026-08-01', ohneDatei.stdout + ohneDatei.stderr)
 } finally {
   rmSync(wurzel, { recursive: true, force: true })
 }
