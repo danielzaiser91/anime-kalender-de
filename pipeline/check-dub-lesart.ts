@@ -1,15 +1,31 @@
 /**
- * Ratsche: `x.dub === true` als „deutsch bestätigt“ lesen, ohne `dubAbgeleitet` zu beachten.
- * Neue Stellen in shared/ und pipeline/bau/ fallen auf; der Bestand darf nur sinken
- * (Grenze: tools/dub-lesart-grenzen.json). Ausnahme mit Begründung: Kommentar `dub-lesart: <Grund>`.
- * Aufruf: npx tsx pipeline/check-dub-lesart.ts [--liste] [--wurzel <ordner>]
+ * Ratsche: `x.dub === true` (auch `== true`, `x['dub']`, geklammert) als „deutsch bestätigt“ lesen, ohne
+ * `dubAbgeleitet` zu beachten. Neue Stellen in shared/ und pipeline/bau/ fallen auf; Bestand und Markenzahl dürfen nur sinken
+ * (Grenzen: tools/dub-lesart-grenzen.json). Ausnahme mit Grund: Kommentar `dub-lesart: <Grund>` (Regeln: pipeline/lib/dub-lesart.ts).
+ * Nicht erfasst: web/src und pipeline/lib (Stand 03.11.2026 rund 176 Lesestellen, siehe docs/wissen/quellen.md).
+ * Beim Abbau die Grenzen von Hand senken; steht eine Grenze über dem Zählstand, ist der Lauf rot („auf N senken“).
+ * Eine Erhöhung gegen die Basis (erster Elternteil eines Merge-Commits, sonst origin/main; fehlt beides, entfällt der Vergleich) ist rot.
+ * Aufruf: npx tsx pipeline/check-dub-lesart.ts [--liste] [--wurzel <ordner>] [--basis <ref>]
  */
+import { execFileSync } from 'node:child_process'
 import { readdirSync, readFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
-import { offeneLesungen } from './lib/dub-lesart.ts'
+import { dubLesart, offeneLesungen } from './lib/dub-lesart.ts'
 
 const ORDNER = ['shared', 'pipeline/bau']
+const GRENZDATEI = 'tools/dub-lesart-grenzen.json'
+
+export interface Grenzen {
+  offen: number
+  marken: number
+}
+
+export interface Stand {
+  offen: string[]
+  marken: number
+  tote: string[]
+}
 
 function dateien(ordner: string): string[] {
   return readdirSync(ordner, { withFileTypes: true }).flatMap((e) => {
@@ -19,32 +35,72 @@ function dateien(ordner: string): string[] {
   })
 }
 
-/** Offene Lesestellen `pfad:zeile` unter der Wurzel. */
-export function offeneStellen(wurzel: string): string[] {
-  return ORDNER.flatMap((o) => dateien(join(wurzel, o))).flatMap((datei) =>
-    offeneLesungen(readFileSync(datei, 'utf8')).map((l) => `${datei.slice(wurzel.length + 1).replaceAll('\\', '/')}:${l.zeile}`),
-  )
+/** Offene Lesestellen, Markenzahl und tote Marken unter der Wurzel. */
+export function zaehle(wurzel: string): Stand {
+  const stand: Stand = { offen: [], marken: 0, tote: [] }
+  for (const datei of ORDNER.flatMap((o) => dateien(join(wurzel, o)))) {
+    const rel = datei.slice(wurzel.length + 1).replaceAll('\\', '/')
+    const text = readFileSync(datei, 'utf8')
+    stand.offen.push(...offeneLesungen(text).map((l) => `${rel}:${l.zeile}`))
+    const { marken, tote } = dubLesart(text)
+    stand.marken += marken
+    if (tote) stand.tote.push(`${rel} (${tote})`)
+  }
+  return stand
 }
 
-function argument(name: string, vorgabe: string): string {
+/** Meldungen zu Zählstand gegen Grenzen und Basis-Grenzen; leer = in Ordnung. */
+export function urteil(stand: Stand, grenzen: Grenzen, basis?: Grenzen): string[] {
+  const fehler: string[] = []
+  if (stand.offen.length > grenzen.offen) fehler.push(`Neue Stelle liest dub === true, ohne dubAbgeleitet zu beachten: ${stand.offen.length} statt höchstens ${grenzen.offen}\n  ${stand.offen.join('\n  ')}`)
+  if (stand.marken > grenzen.marken) fehler.push(`Mehr Marken „dub-lesart:“ als erlaubt: ${stand.marken} statt höchstens ${grenzen.marken}`)
+  if (stand.tote.length) fehler.push(`Marke ohne Lesung oder ohne Grund: ${stand.tote.join(', ')}`)
+  if (stand.offen.length < grenzen.offen) fehler.push(`Grenze offen zu hoch: ${stand.offen.length} Stellen, bitte in ${GRENZDATEI} auf ${stand.offen.length} senken`)
+  if (stand.marken < grenzen.marken) fehler.push(`Grenze marken zu hoch: ${stand.marken} Marken, bitte in ${GRENZDATEI} auf ${stand.marken} senken`)
+  if (basis && grenzen.offen > basis.offen) fehler.push(`Grenze offen gegen die Basis erhöht: ${grenzen.offen} statt ${basis.offen}`)
+  if (basis && grenzen.marken > basis.marken) fehler.push(`Grenze marken gegen die Basis erhöht: ${grenzen.marken} statt ${basis.marken}`)
+  return fehler
+}
+
+function gelesen(text: string): Grenzen {
+  const j = JSON.parse(text) as Partial<Grenzen>
+  if (typeof j.offen !== 'number' || typeof j.marken !== 'number') throw new Error(`${GRENZDATEI}: offen und marken fehlen`)
+  return { offen: j.offen, marken: j.marken }
+}
+
+function git(wurzel: string, args: string[]): string | undefined {
+  try {
+    return execFileSync('git', args, { cwd: wurzel, encoding: 'utf8', timeout: 30_000, stdio: ['ignore', 'pipe', 'ignore'], windowsHide: true }).trim()
+  } catch {
+    return undefined
+  }
+}
+
+/** Grenzen der Basis: `--basis <ref>`, sonst HEAD^1 eines Merge-Commits, sonst origin/main. `undefined`, wenn nicht lesbar. */
+export function basisGrenzen(wurzel: string, ref?: string): Grenzen | undefined {
+  const quelle = ref ?? (git(wurzel, ['rev-parse', '--verify', '-q', 'HEAD^2']) ? 'HEAD^1' : 'origin/main')
+  const text = git(wurzel, ['show', `${quelle}:${GRENZDATEI}`])
+  return text ? gelesen(text) : undefined
+}
+
+function argument(name: string): string | undefined {
   const i = process.argv.indexOf(name)
-  return i >= 0 ? resolve(process.argv[i + 1]!) : vorgabe
+  return i >= 0 ? process.argv[i + 1] : undefined
 }
 
 function main(): number {
-  const wurzel = argument('--wurzel', resolve(import.meta.dirname, '..'))
-  const stellen = offeneStellen(wurzel)
+  const wurzel = resolve(argument('--wurzel') ?? resolve(import.meta.dirname, '..'))
+  const stand = zaehle(wurzel)
   if (process.argv.includes('--liste')) {
-    console.log(stellen.join('\n'))
+    console.log(stand.offen.join('\n'))
     return 0
   }
-  const erlaubt = (JSON.parse(readFileSync(join(wurzel, 'tools/dub-lesart-grenzen.json'), 'utf8')) as { offen: number }).offen
-  console.log(`dub-lesart: ${stellen.length} offene Lese-Stellen (höchstens ${erlaubt})`)
-  if (stellen.length > erlaubt) {
-    console.error(
-      `✖ Neue Stelle liest dub === true, ohne dubAbgeleitet zu beachten (Joyn pauschal und Prime-Kanal sind nur abgeleitet). ` +
-        `Beachte dubAbgeleitet bzw. istLautAnbieter (shared/saison.ts) oder markiere mit „dub-lesart: <Grund>“. Die Grenze wird nicht angehoben.\n  ${stellen.join('\n  ')}`,
-    )
+  const grenzen = gelesen(readFileSync(join(wurzel, GRENZDATEI), 'utf8'))
+  const basis = basisGrenzen(wurzel, argument('--basis'))
+  console.log(`dub-lesart: ${stand.offen.length} offene Lese-Stellen (höchstens ${grenzen.offen}), ${stand.marken} Marken (höchstens ${grenzen.marken}), ${stand.tote.length} tote; Basisvergleich ${basis ? 'ja' : 'entfällt'}`)
+  const fehler = urteil(stand, grenzen, basis)
+  if (fehler.length) {
+    console.error(`✖ ${fehler.join('\n✖ ')}\nBeachte dubAbgeleitet bzw. istLautAnbieter (shared/saison.ts) oder markiere mit „dub-lesart: <Grund>“. Die Grenzen werden nicht angehoben.`)
     return 1
   }
   return 0
