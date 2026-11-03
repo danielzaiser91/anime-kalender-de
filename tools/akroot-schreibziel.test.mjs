@@ -7,11 +7,11 @@
  * Verglichen wird Größe und Änderungszeit jeder getrackten und ungetrackten Datei, nicht nur `git diff`: ein Schreiber, der
  * denselben Inhalt noch einmal schreibt, bliebe im Diff unsichtbar (Anlass: Bauer 1590, `justwatch-widersprueche.md`).
  */
-import { execFileSync, spawnSync } from 'node:child_process'
+import { execFileSync, spawn, spawnSync } from 'node:child_process'
 import assert from 'node:assert/strict'
 import { existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, statSync, utimesSync, writeFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
-import { tmpdir } from 'node:os'
+import { availableParallelism, tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -38,12 +38,25 @@ export function unterschiede(vorher, nachher) {
 }
 
 /** Ohne `kulisse` läuft der Prozess ohne `AK_ROOT` in der Umgebung, so wie `check:logic` die Prüfungen startet. */
-function laufe(skript, kulisse) {
+function umgebung(kulisse) {
   const env = { ...process.env }
   delete env.AK_ROOT
   if (kulisse) env.AK_ROOT = kulisse
-  const r = spawnSync(process.execPath, [TSX, skript], { cwd: WURZEL, env, encoding: 'utf8' })
+  return env
+}
+
+function laufe(skript, kulisse) {
+  const r = spawnSync(process.execPath, [TSX, skript], { cwd: WURZEL, env: umgebung(kulisse), encoding: 'utf8' })
   return { code: r.status ?? -1, aus: `${r.stdout}${r.stderr}` }
+}
+
+/** Wie `laufe`, aber ohne Warten und ohne Ausgabe (nur der Exit-Code zählt). */
+function laufeAsync(skript) {
+  return new Promise((fertig) => {
+    const kind = spawn(process.execPath, [TSX, skript], { cwd: WURZEL, env: umgebung(), stdio: 'ignore', windowsHide: true, timeout: 600000 })
+    kind.on('error', () => fertig({ code: -1 }))
+    kind.on('close', (code) => fertig({ code: code ?? -1 }))
+  })
 }
 
 /** Läuft jede Prüfung einmal; Verstoß ist nur ein veränderter Repo-Stand, ein Exit ≠ 0 macht die Prüfung „ungeprüft“. */
@@ -60,6 +73,29 @@ export function schreibzielLauf(wurzel, skripte, starte) {
   return { verstoesse, ungeprueft }
 }
 
+/**
+ * Wie `schreibzielLauf`, aber die Prüfungen laufen gleichzeitig (höchstens `breite`): nacheinander brauchten 119 Prozesse 277 s (CI, 03.11.2026) und waren
+ * der längste Test der Kette. Verglichen wird der Repo-Stand vor und nach dem ganzen Stapel; ändert sich etwas, benennt ein Einzellauf den Verursacher.
+ */
+export async function schreibzielStapel(wurzel, skripte, starteParallel, starteEinzeln, breite) {
+  const davor = repoStand(wurzel)
+  const codes = new Array(skripte.length)
+  let naechster = 0
+  const arbeiter = async () => {
+    while (naechster < skripte.length) {
+      const i = naechster++
+      codes[i] = (await starteParallel(skripte[i])).code
+    }
+  }
+  await Promise.all(Array.from({ length: Math.min(breite, skripte.length) }, arbeiter))
+  const ungeprueft = skripte.flatMap((f, i) => (codes[i] === 0 ? [] : [`${f}: ungeprüft (Exit ${codes[i]})`]))
+  const geaendert = unterschiede(davor, repoStand(wurzel))
+  if (geaendert.length === 0) return { verstoesse: [], ungeprueft }
+  const einzeln = schreibzielLauf(wurzel, skripte, starteEinzeln)
+  const unbekannt = [`Der Stapel hat das Repo verändert: ${geaendert.join(', ')} (im Einzellauf keine Prüfung als Verursacher gefunden)`]
+  return { verstoesse: einzeln.verstoesse.length > 0 ? einzeln.verstoesse : unbekannt, ungeprueft }
+}
+
 /** Gegenprobe: ein Schreiber ins Repo bleibt ein Verstoß, eine rote Prüfung ohne Schreiben wird keiner. */
 function pruefeGegenprobe() {
   const dir = mkdtempSync(join(tmpdir(), 'akroot-gegenprobe-'))
@@ -71,6 +107,34 @@ function pruefeGegenprobe() {
     const { verstoesse, ungeprueft } = schreibzielLauf(dir, ['schreibt.mjs', 'rot.mjs'], starte)
     assert.deepEqual(verstoesse, ['schreibt.mjs schreibt ins Repo: ins-repo.txt'], 'Gegenprobe: Schreiber ins Repo muss auffallen')
     assert.deepEqual(ungeprueft, ['rot.mjs: ungeprüft (Exit 1)'], 'Gegenprobe: rote Prüfung ohne Schreiben ist nur ungeprüft')
+  } finally {
+    rmSync(dir, { recursive: true, force: true })
+  }
+}
+
+/** Gegenprobe des Stapels: gleiches Urteil wie nacheinander (still, Schreiber, rote Prüfung), auch bei Breite 1 und breiter als die Liste. */
+async function pruefeStapel() {
+  const dir = mkdtempSync(join(tmpdir(), 'akroot-stapel-'))
+  try {
+    execFileSync('git', ['init', '-q'], { cwd: dir, timeout: 60000 })
+    const still = ['still1.mjs', 'still2.mjs', 'still3.mjs', 'still4.mjs', 'still5.mjs']
+    for (const f of still) writeFileSync(join(dir, f), "console.log('still')\n")
+    writeFileSync(join(dir, 'schreibt.mjs'), "import { writeFileSync } from 'node:fs'\nwriteFileSync('ins-repo.txt', 'x')\n")
+    writeFileSync(join(dir, 'rot.mjs'), 'process.exit(1)\n')
+    const einzeln = (f) => ({ code: spawnSync(process.execPath, [f], { cwd: dir, timeout: 60000 }).status ?? -1 })
+    const parallel = (f) => new Promise((fertig) => spawn(process.execPath, [f], { cwd: dir, stdio: 'ignore', timeout: 60000 }).on('close', (code) => fertig({ code: code ?? -1 })))
+    for (const breite of [1, 3, 50]) {
+      const ruhig = await schreibzielStapel(dir, [...still, 'rot.mjs'], parallel, einzeln, breite)
+      assert.deepEqual(ruhig, { verstoesse: [], ungeprueft: ['rot.mjs: ungeprüft (Exit 1)'] }, `Stapel (Breite ${breite}): nur eine rote Prüfung, nichts geschrieben`)
+      const mitSchreiber = await schreibzielStapel(dir, ['still1.mjs', 'schreibt.mjs', ...still.slice(1)], parallel, einzeln, breite)
+      assert.deepEqual(mitSchreiber.verstoesse, ['schreibt.mjs schreibt ins Repo: ins-repo.txt'], `Stapel (Breite ${breite}): der Schreiber wird mit Namen gefunden`)
+      rmSync(join(dir, 'ins-repo.txt'), { force: true })
+    }
+    // Verursacher nicht auffindbar (ein Zweitlauf schreibt nicht mehr): der Stapel meldet die Dateien trotzdem.
+    const einmal = einzeln
+    writeFileSync(join(dir, 'einmalig.mjs'), "import { existsSync, writeFileSync } from 'node:fs'\nif (!existsSync('einmal.txt')) writeFileSync('einmal.txt', 'x')\n")
+    const unbekannt = await schreibzielStapel(dir, ['einmalig.mjs'], parallel, einmal, 2)
+    assert.match(unbekannt.verstoesse.join('\n'), /Der Stapel hat das Repo verändert: einmal\.txt/, 'Stapel: Änderung ohne auffindbaren Verursacher bleibt ein Verstoß')
   } finally {
     rmSync(dir, { recursive: true, force: true })
   }
@@ -96,6 +160,7 @@ function pruefeVergleich() {
 
 pruefeVergleich()
 pruefeGegenprobe()
+await pruefeStapel()
 const kulisse = mkdtempSync(join(tmpdir(), 'akroot-schreibziel-'))
 mkdirSync(join(kulisse, 'data'))
 writeFileSync(join(kulisse, 'data', 'kino-ankuendigungen.yaml'), '[]')
@@ -119,7 +184,7 @@ try {
     .filter((f) => /^check-.*\.ts$/.test(f) && /AK_ROOT|schreibWurzel/.test(readFileSync(join(WURZEL, 'pipeline', f), 'utf8')))
     .sort()
   assert.ok(checks.length > 0, 'keine Prüfung mit Kulisse gefunden')
-  const { verstoesse, ungeprueft } = schreibzielLauf(WURZEL, checks, (f) => laufe(join(WURZEL, 'pipeline', f)))
+  const { verstoesse, ungeprueft } = await schreibzielStapel(WURZEL, checks, (f) => laufeAsync(join(WURZEL, 'pipeline', f)), (f) => laufe(join(WURZEL, 'pipeline', f)), availableParallelism())
   for (const zeile of ungeprueft) console.log(`akroot-schreibziel: ${zeile}`)
   assert.equal(verstoesse.length, 0, verstoesse.join('\n'))
   console.log(`akroot-schreibziel: ${checks.length} Prüfungen mit Kulisse, ${ungeprueft.length} ungeprüft, 0 schreiben ins Repo`)
