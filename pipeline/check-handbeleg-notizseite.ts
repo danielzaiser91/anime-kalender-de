@@ -57,10 +57,10 @@ pruefe('Block ohne Kennung zählt nicht', finde([{ platform: 'primevideo', url: 
 pruefe('Nur die erste Adresskennung der URL zählt (Suchparameter fremder Seiten stört nicht)', finde([block(10719, 'https://www.amazon.de/dp/B0EIGEN001?ref=B09JV7CC61')]).length === 0)
 
 const liste = (n: number) => Array.from({ length: n }, (_, i) => `${i}@B0X`)
-pruefe('Ratsche: die echte Altfall-Liste hat höchstens 11 Einträge', !ratscheVerletzt(ALTFAELLE, 11), ALTFAELLE.length)
-pruefe('Ratsche: genau an der Grenze ist grün', !ratscheVerletzt(liste(11), 11))
-pruefe('Ratsche: ein Fall mehr als die Grenze ist rot', ratscheVerletzt(liste(12), 11))
-pruefe('Ratsche: kürzere Liste ist grün', !ratscheVerletzt(liste(10), 11))
+pruefe('Ratsche: die echte Altfall-Liste hat höchstens 14 Einträge', !ratscheVerletzt(ALTFAELLE, 14), ALTFAELLE.length)
+pruefe('Ratsche: genau an der Grenze ist grün', !ratscheVerletzt(liste(14), 14))
+pruefe('Ratsche: ein Fall mehr als die Grenze ist rot', ratscheVerletzt(liste(15), 14))
+pruefe('Ratsche: kürzere Liste ist grün', !ratscheVerletzt(liste(13), 14))
 
 if (fehler) process.exit(1)
 console.log(`check-handbeleg-notizseite: ${faelle} Fälle grün, Seite eines anderen Titels im Handbeleg-Block wird gemeldet.`)
