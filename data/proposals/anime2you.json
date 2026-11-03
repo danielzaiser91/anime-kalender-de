@@ -1,11 +1,11 @@
 {
-  "scrapedAt": "2026-11-03T15:02:34.953Z",
+  "scrapedAt": "2026-11-03T19:06:45.451Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 5,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 16,
-    "schon in einem Rubrik-Feed gelesen": 6,
+    "schon in einem Rubrik-Feed gelesen": 7,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 15,
     "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 1,
     "Sprachhinweis älter als 45 Tage": 6
   },
@@ -29,6 +29,19 @@
         }
       ],
       "dub": "ja",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "25 Anime-Neuzugänge ab sofort auf Joyn verfügbar",
+      "articleUrl": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+      "publishedAt": "2026-11-03",
+      "category": "streaming",
+      "platforms": [
+        "aniverse",
+        "joyn"
+      ],
+      "dates": [],
+      "dub": "unklar",
       "alreadyCurated": false
     },
     {
