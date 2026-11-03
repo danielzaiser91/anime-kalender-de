@@ -317,6 +317,7 @@ pipeline/check-ohne-synchro-namen.ts
 pipeline/check-omu-ohne-termin.ts
 pipeline/check-panel-chips.ts
 pipeline/check-panel-disc-doppel.ts
+pipeline/check-panel-titel-nachgeladen.ts
 pipeline/check-paramount.ts
 pipeline/check-patchnotes-render.ts
 pipeline/check-patchnotes-stempel-flach.ts

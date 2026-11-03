@@ -12,7 +12,7 @@ import {
 import { useEscape } from '../lib/escape.ts'
 import { useLang } from '../lib/i18n.tsx'
 import { useSeiteGesperrt } from '../lib/use-seite-gesperrt.ts'
-import { panelTitel, useTitelwechsel } from './detail/titelwechsel.ts'
+import { usePanelTitel, useTitelwechsel } from './detail/titelwechsel.ts'
 import { useNewsletterVerbindung } from '../lib/newsletterSync.ts'
 import { Quellenuebersicht } from './Quellenuebersicht.tsx'
 import { useTvVorbei } from './detail/tv-vorbei.tsx'
@@ -68,7 +68,7 @@ export function DetailPanel({
   const { t, tGenre, tKeyword } = useLang()
   const verbindung = useNewsletterVerbindung()
   const today = todayIso()
-  const { title, mitTermin } = useMemo(() => panelTitel(data, titleId), [data, titleId])
+  const { title, mitTermin } = usePanelTitel(data, titleId)
   useTitelwechsel(titleId, title, mitTermin)
   /**
    * Der leere Rückfall braucht ein `useMemo`, sonst ist er bei jedem Durchlauf

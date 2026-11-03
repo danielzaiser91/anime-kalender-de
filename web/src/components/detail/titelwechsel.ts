@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import type { Title } from '@shared/types.ts'
 import { anzeigeName } from '@shared/titles.ts'
 import { seitenTitel } from '@shared/seiten-titel.ts'
@@ -19,6 +19,16 @@ export function tabTitel(title: Title, mitTermin: boolean): string {
 export function panelTitel(data: Pick<Dataset, 'titleById' | 'releasesByTitle'>, id: number): { title: Title | undefined; mitTermin: boolean } {
   const releases = data.releasesByTitle.get(id) ?? []
   return { title: titelMitTerminBereichen(data.titleById.get(id), releases), mitTermin: releases.length > 0 }
+}
+
+/**
+ * `panelTitel` als Hook. Der Rohtitel steht in den Abhängigkeiten: `ladeTitelBestand` trägt Titel nachträglich in dieselbe
+ * `titleById` ein (`data` bleibt dieselbe Instanz); ohne ihn bliebe das Panel eines nachgeladenen Titels leer (03.11.2026).
+ */
+export function usePanelTitel(data: Pick<Dataset, 'titleById' | 'releasesByTitle'>, id: number): { title: Title | undefined; mitTermin: boolean } {
+  const roh = data.titleById.get(id)
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- `roh` ist der Auslöser, kein Eingabewert
+  return useMemo(() => panelTitel(data, id), [roh, data, id])
 }
 
 /** Tab-Titel zu einer Kennung, wie das Panel ihn setzt; ohne Titel in den Daten nichts. */
