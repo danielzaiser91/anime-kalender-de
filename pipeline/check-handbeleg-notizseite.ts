@@ -4,6 +4,7 @@
  * eigene Seite) und die Notizseite allein. Läuft in `check:logic`; der Bestand wird in `check-handbeleg-notizseite-bestand.ts` geprüft.
  */
 import { baueBesitz, findeFremdeNotizseiten, type BlockSeite } from './lib/handbeleg-notizseite.ts'
+import { ALTFAELLE, ratscheVerletzt } from './lib/handbeleg-notizseite-altfaelle.ts'
 
 let fehler = 0
 let faelle = 0
@@ -54,6 +55,12 @@ pruefe('Adresse und Notizseite gleich: ein Treffer, nicht zwei', finde([block(10
 pruefe('Zwei fremde Seiten desselben Blocks: zwei Treffer', finde([block(10719, 'https://www.amazon.de/dp/B09JV7CC61', 'Amazon-Seite B0INUYASHA: x')]).length === 2)
 pruefe('Block ohne Kennung zählt nicht', finde([{ platform: 'primevideo', url: 'https://www.amazon.de/dp/B09JV7CC61' }]).length === 0)
 pruefe('Nur die erste Adresskennung der URL zählt (Suchparameter fremder Seiten stört nicht)', finde([block(10719, 'https://www.amazon.de/dp/B0EIGEN001?ref=B09JV7CC61')]).length === 0)
+
+const liste = (n: number) => Array.from({ length: n }, (_, i) => `${i}@B0X`)
+pruefe('Ratsche: die echte Altfall-Liste hat höchstens 61 Einträge', !ratscheVerletzt(ALTFAELLE, 61), ALTFAELLE.length)
+pruefe('Ratsche: genau an der Grenze ist grün', !ratscheVerletzt(liste(61), 61))
+pruefe('Ratsche: ein Fall mehr als die Grenze ist rot', ratscheVerletzt(liste(62), 61))
+pruefe('Ratsche: kürzere Liste ist grün', !ratscheVerletzt(liste(60), 61))
 
 if (fehler) process.exit(1)
 console.log(`check-handbeleg-notizseite: ${faelle} Fälle grün, Seite eines anderen Titels im Handbeleg-Block wird gemeldet.`)

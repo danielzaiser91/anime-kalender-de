@@ -67,3 +67,8 @@ export const ALTFAELLE: string[] = [
   '801@B0B8PKXRZ8',
   '8937@B0CVFNLP9D',
 ]
+
+/** Ratsche: die Liste darf nur kürzer werden; `grenze` ist der Stand, den die Zusicherung festschreibt. */
+export function ratscheVerletzt(altfaelle: readonly string[], grenze: number): boolean {
+  return altfaelle.length > grenze
+}
