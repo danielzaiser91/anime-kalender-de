@@ -766,7 +766,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 
 Flagge „Deutsch“: 2 Wege, nur Hinweis: 0.
 
-JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine Flagge): Mehrteiler 3, mehrere Staffeln 145.
+JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine Flagge): Mehrteiler 3, mehrere Staffeln 147.
 
 | Anbieter | mit eigener Messung | Widersprüche | Anteil | Anzeige |
 |---|---|---|---|---|
@@ -778,7 +778,7 @@ JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine
 | Titel | Anbieter | Adresse | JustWatch | Gemessen |
 |---|---|---|---|---|
 
-### Kandidaten für neue Wege (63)
+### Kandidaten für neue Wege (64)
 
 JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „Weg ohne Kennung“: ein Weg zum Anbieter steht, seine Adresse trägt aber keine Seitenkennung.
 
@@ -838,12 +838,13 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Sherm! (-211005) | Fix And Foxi Amazon Channel | amazon:amzn1.dv.gti.c0473bdf-3160-4d26-bc29-43f390bead9f | nein |
 | Altair im Sternenland (-157125) | Fix And Foxi Amazon Channel | amazon:amzn1.dv.gti.baace767-759b-e94b-e593-f407fcbd7976 | nein |
 | Mittelland - Die Legende der Elfen (-92880) | Fix And Foxi Amazon Channel | amazon:amzn1.dv.gti.60759f31-2bea-46db-b06c-165671e63310 | nein |
+| Boule & Bill (-69906) | Kixi Select Amazon Channel | amazon:amzn1.dv.gti.ae343997-f3b0-4c08-b721-b890c33e4bfb | nein |
 | Potatoes and Dragons (-5678) | Kixi Select Amazon Channel | amazon:amzn1.dv.gti.b260fe72-5575-4c93-941f-a334e9795af0 | nein |
 | Da Boom Crew (-4711) | Fix And Foxi Amazon Channel | amazon:amzn1.dv.gti.9125e715-f587-47ea-b576-6e14791bd103 | nein |
 | Talis und die tausend Aufgaben (-308817) | Kixi Select Amazon Channel | amazon:amzn1.dv.gti.76bb7db2-ecb8-e034-b9b0-56fb84e16a1a | nein |
-| Gloria und Ihre Familie (-156587) | Fix And Foxi Amazon Channel | amazon:amzn1.dv.gti.ec741975-8cfc-4bb7-9e35-4bfa5dabeea6 | nein |
 | Kong: The Animated Series (-12620) | Kixi Select Amazon Channel | amazon:amzn1.dv.gti.60bbc577-3aab-6e10-f097-8500be9202bb | nein |
 | Kong: The Animated Series (-12620) | Amazon Video | amazon:amzn1.dv.gti.36b5a951-e9b9-ae0b-9a11-5530e9404a0d | nein |
+| Gloria und Ihre Familie (-156587) | Fix And Foxi Amazon Channel | amazon:amzn1.dv.gti.ec741975-8cfc-4bb7-9e35-4bfa5dabeea6 | nein |
 | Hippo Hurra Die Abenteuer von Klein-Hippo (-82083) | Kixi Select Amazon Channel | amazon:amzn1.dv.gti.febb424c-bbd8-84b3-f10e-aaf8fb59198c | nein |
 | Bob Morane (-24682) | Kixi Select Amazon Channel | amazon:amzn1.dv.gti.171e5657-d5ca-4db6-809d-6c6227d4399e | nein |
 | Bob Morane (-24682) | Anime Digital Network Amazon Channel | amazon:amzn1.dv.gti.8fb26eb5-ff31-473b-b40c-d46c2833ef2b | nein |

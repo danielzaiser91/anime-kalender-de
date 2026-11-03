@@ -1,12 +1,12 @@
 {
- "erzeugtAm": "2026-11-02T22:48:18.207Z",
+ "erzeugtAm": "2026-11-03T04:35:04.857Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
-   "gemeldet": 909,
+   "gemeldet": 906,
    "gesamt": 957,
-   "offen": 48,
+   "offen": 51,
    "ohneSeite": 1,
    "suchAdressen": [
     "https://www.amazon.de/s?k=Fischen%20Impossible%3A%20Eine%20tierische%20Rettungsaktion&i=instant-video"
@@ -176,6 +176,16 @@
     {
      "url": "https://www.amazon.de/gp/video/detail/B0DNNFT23G",
      "titel": "Shin-chan (Shin Chan)"
+    },
+    {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.0cb8c40c-c316-369d-4c63-7adba44df4ab",
+     "titel": "Bobby und Bill (Boule & Bill)",
+     "hinweis": "Staffeln unklar: TMDB zählt 104 Folgen insgesamt, der Anbieter kann sie anders schneiden"
+    },
+    {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.52b549b8-8258-0ee7-5674-d76be73f5363",
+     "titel": "Yakari",
+     "hinweis": "Staffeln unklar: TMDB zählt 156 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.febb6760-5fcf-e6a0-1ae8-69b34a3ffe8f",
@@ -366,10 +376,10 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 768,
+   "gemeldet": 767,
    "gesamt": 940,
-   "offen": 172,
-   "ohneSeite": 17,
+   "offen": 173,
+   "ohneSeite": 15,
    "ziel": "https://www.netflix.com/title/81608820",
    "ziele": [
     {
@@ -387,6 +397,10 @@
     {
      "url": "https://www.netflix.com/title/82036361",
      "titel": "My Hero Academia: Vigilantes Staffel 2"
+    },
+    {
+     "url": "https://www.netflix.com/title/82643530",
+     "titel": "Meine ganz besondere Hochzeit: Special"
     },
     {
      "url": "https://www.netflix.com/title/80135674",
@@ -689,7 +703,7 @@
     {
      "url": "https://www.netflix.com/title/81186971",
      "titel": "Willkommen bei den Louds",
-     "hinweis": "Staffeln unklar: TMDB zählt 416 Folgen insgesamt, der Anbieter kann sie anders schneiden"
+     "hinweis": "Staffeln unklar: TMDB zählt 407 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://www.netflix.com/title/80026226",
@@ -705,6 +719,11 @@
      "url": "https://www.netflix.com/title/70155567",
      "titel": "Shaun das Schaf",
      "hinweis": "Staffeln unklar: TMDB zählt 170 Folgen insgesamt, der Anbieter kann sie anders schneiden"
+    },
+    {
+     "url": "https://www.netflix.com/title/70234488",
+     "titel": "Yakari",
+     "hinweis": "Staffeln unklar: TMDB zählt 156 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://www.netflix.com/title/70234440",
@@ -837,10 +856,6 @@
     {
      "url": "https://www.netflix.com/title/81580433",
      "titel": "Emily Erdbeer"
-    },
-    {
-     "url": "https://www.netflix.com/title/81687176",
-     "titel": "Hier kommen die Batwheels"
     },
     {
      "url": "https://www.netflix.com/title/81700960",
@@ -1169,6 +1184,7 @@
     "ef04e263-4751-486c-9001-616f2adf09ba": 59,
     "ceb1fd76-acbe-4269-a1f3-532614807772": 131,
     "1b84d641-1bb3-422d-be4c-8e24c7b547cc": 25,
+    "be391742-6617-42ad-b53a-be368ee73335": 24,
     "3AHbeFV7Lqvn": 25,
     "5AiiTRJ7OaKg": 9,
     "dea589b3-2f6d-4991-a875-c67d625a4e37": 8,
@@ -1177,6 +1193,7 @@
     "4XHzb6tQBRtd": 12,
     "7I31jGPKAwz5": 13,
     "14f5d468-38b2-4d4b-97ed-649e6c3ba4c8": 12,
+    "d45b72d4-3c8d-4961-960a-c0c182890189": 2,
     "eb5b776f-8162-491a-9aca-c1e9b56729e5": 12,
     "8019edc8-5f73-4c70-88eb-02ea35f724d4": 12,
     "0113d236-c3a2-4098-a663-bdb5979bfb74": 12,
