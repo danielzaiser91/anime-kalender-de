@@ -11,9 +11,9 @@
     "lastCount": 101
   },
   "anisearch": {
-    "lastOk": "2026-11-02T06:04:46.274Z",
-    "lastRun": "2026-11-02T06:04:46.274Z",
-    "lastCount": 3
+    "lastOk": "2026-11-03T04:25:06.524Z",
+    "lastRun": "2026-11-03T04:25:06.524Z",
+    "lastCount": 200
   },
   "adn-catalog": {
     "lastOk": "2026-10-26T05:18:50.806Z",
@@ -192,9 +192,9 @@
     "lastCount": 25
   },
   "anisearch-dubs": {
-    "lastOk": "2026-11-02T04:01:47.327Z",
-    "lastRun": "2026-11-02T04:01:47.327Z",
-    "lastCount": 11938
+    "lastOk": "2026-11-03T04:01:50.971Z",
+    "lastRun": "2026-11-03T04:01:50.971Z",
+    "lastCount": 11940
   },
   "anisearch-eintraege": {
     "lastOk": "2026-10-26T05:16:25.046Z",
@@ -202,8 +202,8 @@
     "lastCount": 400
   },
   "anisearch-zuordnung": {
-    "lastOk": "2026-11-02T04:01:49.580Z",
-    "lastRun": "2026-11-02T04:01:49.580Z",
+    "lastOk": "2026-11-03T04:25:08.033Z",
+    "lastRun": "2026-11-03T04:25:08.033Z",
     "lastCount": 18501
   },
   "cartoon-reihen": {
