@@ -11,7 +11,7 @@ export type StaffelListen = Record<string, { staffeln?: { seq: number; folgen: n
 
 type Beleg = Pick<DubCheck, 'anilistId' | 'title' | 'platform' | 'url' | 'dubRanges' | 'note'>
 
-function netflixKennung(url: string | undefined): string | undefined {
+export function netflixKennung(url: string | undefined): string | undefined {
   return /netflix\.com\/(?:[a-z-]+\/)?title\/(\d+)/i.exec(url ?? '')?.[1]
 }
 

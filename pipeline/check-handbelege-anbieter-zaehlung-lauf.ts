@@ -56,6 +56,11 @@ pruefe('ohne Vermerk: Exit 1 mit dem Befund der Staffelzählung', rot.status ===
 const gruen = lauf('Folgen 53–99 — Umrechnung: Staffel 2 beginnt bei unserer Folge 52')
 pruefe('mit Vermerk: dieser Block lässt den Lauf durch', gruen.status === 0 && gruen.text.includes('1 Beleg(e) mit Umrechnungsvermerk'), gruen)
 
+const ohneMerkmal = lauf('Folgen 52–100 — Umrechnung: Staffelsumme – Staffel 2 beginnt bei unserer Folge 52')
+pruefe('Staffelsumme ohne Bestätigung: Exit 1 mit dem Befund', ohneMerkmal.status === 1 && ohneMerkmal.text.includes('über die Staffelsumme ohne Bestätigung'), ohneMerkmal)
+const mitMerkmal = lauf('Folgen 52–100 — Umrechnung: Staffelsumme – Staffel 2 beginnt bei unserer Folge 52; bestätigt durch: Folgentitel (14 von 15, RTL+)')
+pruefe('Staffelsumme mit Bestätigung: Lauf geht durch', mitMerkmal.status === 0 && mitMerkmal.text.includes('nennt ihr bestätigendes Merkmal'), mitMerkmal)
+
 if (fehler) {
   console.error(`FEHL check-handbelege-anbieter-zaehlung-lauf: ${fehler}`)
   process.exit(1)
