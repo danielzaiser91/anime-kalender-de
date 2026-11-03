@@ -103,9 +103,9 @@ try {
   const tsx = pathToFileURL(createRequire(import.meta.url).resolve('tsx')).href
   const bestandLauf = () =>
     spawnSync(process.execPath, ['--import', tsx, resolve(ROOT, 'pipeline', 'check-handbeleg-fast-doppel-bestand.ts')], { cwd: wurzel, encoding: 'utf8', timeout: 120_000 })
-  writeFileSync(bestandsDatei, nurHand)
+  writeFileSync(bestandsDatei, datei(beleg(1, '2026-08-01'), beleg(1, '2026-09-01'), beleg(1, '2026-09-02')))
   const warnt = bestandLauf()
-  pruefe('Bestandswächter mit Fast-Doppel: Exit 0 und Zeile „⚠ WARNUNG Handbelege: 1 Fast-Doppel“', warnt.status === 0 && /^⚠ WARNUNG Handbelege: 1 Fast-Doppel/m.test(warnt.stdout) && /: 1 zusammenführbar/.test(warnt.stdout), warnt.stdout + warnt.stderr)
+  pruefe('Bestandswächter mit Fast-Doppel: Exit 0 und Zeile „⚠ WARNUNG Handbelege: 2 Fast-Doppel“ (eine Gruppe, zwei überzählig)', warnt.status === 0 && /^⚠ WARNUNG Handbelege: 2 Fast-Doppel/m.test(warnt.stdout) && /: 2 zusammenführbar, 0 blockiert, 0 gemischt, 1 Gruppen/.test(warnt.stdout), warnt.stdout + warnt.stderr)
   writeFileSync(bestandsDatei, mitKopf)
   const gemischtLauf = bestandLauf()
   pruefe('Bestandswächter mit gemischter Gruppe: Exit 0, Warnzeile zur Herkunft, keine zum Aufräumen', gemischtLauf.status === 0 && /^⚠ WARNUNG Handbelege: 1 Fast-Doppel-Gruppe\(n\) aus Browser/m.test(gemischtLauf.stdout) && !/zusammenführbar —/.test(gemischtLauf.stdout), gemischtLauf.stdout + gemischtLauf.stderr)
