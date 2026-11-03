@@ -39266,3 +39266,13 @@
   dub: true
   checkedAt: '2026-11-02'
   note: "Film, Titelseite ohne Anmeldung (Linkprüfung): Audio Deutsch, Englisch, Spanisch (Spanien), Spanisch (Lateinamerika) – Audiodeskription, Französisch, Italienisch, Japanisch – Audiodeskription, Japanisch — gilt für den Film, nicht je Folge"
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-11-03 ---
+
+- anilistId: 1292
+  title: "Afro Samurai"
+  platform: netflix
+  url: https://www.netflix.com/title/70204947
+  available: false
+  checkedAt: '2026-11-03'
+  note: "Aus der Übersicht als toter Verweis gemeldet — leitet auf die Startseite um"
