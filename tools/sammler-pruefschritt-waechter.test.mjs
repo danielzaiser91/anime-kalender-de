@@ -149,13 +149,13 @@ erwarte('Aktion: Eingabe bauprobe fehlt', (s) => { delete s.aktionen.einreichen.
 erwarte('Aktion: Aufruf setzt QUELLEN_BAUPROBE im env des Schritts pr', (s) => { aufrufSchritt(s).env.QUELLEN_BAUPROBE = '1' }, /2 Schritte nennen QUELLEN_BAUPROBE/)
 erwarte('daten-auf-abruf.yml verlangt bauprobe nicht', (s) => { delete s.workflows['daten-auf-abruf.yml'].jobs.lauf.steps.find((x) => String(x.uses).includes('actions/einreichen')).with.bauprobe }, /verlangt nicht `bauprobe/)
 erwarte('daten-auf-abruf.yml: bauprobe false', (s) => { s.workflows['daten-auf-abruf.yml'].jobs.lauf.steps.find((x) => String(x.uses).includes('actions/einreichen')).with.bauprobe = 'false' }, /verlangt nicht `bauprobe/)
-// Ein Job mit Probebau braucht die Baufristen zusätzlich (660 s Prüfung + 900 s Fund-Bau + 600 s Basis-Bau + 420 s Rest = 43 min); ohne `bauprobe` genügen 30 min.
+// Ein Job mit Probebau braucht die Baufristen zusätzlich (780 s Prüfung + 900 s Fund-Bau + 600 s Basis-Bau + 420 s Rest = 45 min); ohne `bauprobe` genügen 30 min.
 const bauJob = (minuten, bauprobe) => ({ 'x.yml': { jobs: { a: { 'timeout-minutes': minuten, steps: [{ uses: './.github/actions/einreichen', with: bauprobe === undefined ? {} : { bauprobe } }] } } } })
 assert.deepEqual(pruefeFristen(bauJob(30), original.skripte[PRUEFEN], original.skripte[BAU]), [], '30 min ohne Probebau genügen')
-assert.match(pruefeFristen(bauJob(30, 'true'), original.skripte[PRUEFEN], original.skripte[BAU]).join(), /x\.yml: Job a \(timeout 1800 s\) lässt nach Prüfung und Vergleich samt Probebau \(2160 s\)/, '30 min mit Probebau sind zu knapp')
-assert.deepEqual(pruefeFristen(bauJob(43, 'true'), original.skripte[PRUEFEN], original.skripte[BAU]), [], '43 min mit Probebau: genau auf der Grenze')
-assert.match(pruefeFristen(bauJob(42, 'true'), original.skripte[PRUEFEN], original.skripte[BAU]).join(), /samt Probebau/, '42 min: eine Minute unter der Grenze')
-assert.match(pruefeFristen(bauJob(43, 'true'), original.skripte[PRUEFEN], original.skripte[BAU].replace(/^QUELLEN_BAUBASISFRIST_STANDARD=\d+$/m, 'QUELLEN_BAUBASISFRIST_STANDARD=601')).join(), /samt Probebau/, 'Basisfrist zählt mit: 601 s sprengen 43 min')
+assert.match(pruefeFristen(bauJob(30, 'true'), original.skripte[PRUEFEN], original.skripte[BAU]).join(), /x\.yml: Job a \(timeout 1800 s\) lässt nach Prüfung und Vergleich samt Probebau \(\d+ s\)/, '30 min mit Probebau sind zu knapp')
+assert.deepEqual(pruefeFristen(bauJob(45, 'true'), original.skripte[PRUEFEN], original.skripte[BAU]), [], '45 min mit Probebau: genau auf der Grenze')
+assert.match(pruefeFristen(bauJob(44, 'true'), original.skripte[PRUEFEN], original.skripte[BAU]).join(), /samt Probebau/, '44 min: eine Minute unter der Grenze')
+assert.match(pruefeFristen(bauJob(45, 'true'), original.skripte[PRUEFEN], original.skripte[BAU].replace(/^QUELLEN_BAUBASISFRIST_STANDARD=\d+$/m, 'QUELLEN_BAUBASISFRIST_STANDARD=601')).join(), /samt Probebau/, 'Basisfrist zählt mit: 601 s sprengen 45 min')
 assert.deepEqual(pruefeFristen(bauJob(30, 'false'), original.skripte[PRUEFEN], original.skripte[BAU]), [], 'bauprobe: false zählt nicht')
 assert.deepEqual(pruefeFristen(bauJob(30, 'true'), original.skripte[PRUEFEN], 'QUELLEN_BAUFRIST_STANDARD=x\n'), ['quellen-bauprobe.sh: QUELLEN_BAUFRIST_STANDARD als Zahl erwartet'], 'Baufrist nicht lesbar')
 assert.equal(original.workflows['daten-auf-abruf.yml'].jobs.lauf.steps.find((x) => String(x.uses).includes('actions/einreichen')).with.bauprobe, 'true', 'daten-auf-abruf.yml verlangt den Probebau')
