@@ -42,7 +42,7 @@ const rot = lauf([900010, 900011], fremd)
 pruefe('Neuer Treffer: Exit 1', rot.status === 1, rot)
 pruefe('Neuer Treffer: Fehlerzeile mit Schlüssel', rot.aus.includes('✖ Neue Treffer') && rot.aus.includes('900010@B0SEITE011'), rot)
 pruefe('Neuer Treffer: Titelmarke für 900010, nicht für 900011', rot.aus.includes('"titleId":900010,"pruefung":"handbeleg-note-asin"') && !rot.aus.includes('"titleId":900011'), rot)
-pruefe('Neuer Treffer: Zählzeile nennt 1 neu', /1 Treffer, davon 0 Altfälle \(Ratsche 0, Ziel 0\), 1 neu/.test(rot.aus), rot)
+pruefe('Neuer Treffer: Zählzeile nennt 1 neu', /1 Treffer, davon 0 Altfälle \(Ratsche 1, Ziel 0\), 1 neu/.test(rot.aus), rot)
 
 const gruen = lauf([900010, 900011], block(900011, 'B0SEITE011', 'B0SEITE011') + block(900010, 'B0SEITE010', 'B0SEITE010'))
 pruefe('Eigene Seiten: Exit 0, keine Marke, 0 Treffer', gruen.status === 0 && !gruen.aus.includes('handbeleg-note-asin ') && /0 Treffer/.test(gruen.aus), gruen)
@@ -50,6 +50,10 @@ pruefe('Eigene Seiten: Exit 0, keine Marke, 0 Treffer', gruen.status === 0 && !g
 // Doppelführung mit dem Notizseiten-Wächter: dessen Altfall (20913 mit der Seite B0C8TKFF2J) filtert dieser Wächter aus.
 const altfall = lauf([20913, 900011], block(900011, 'B0C8TKFF2J', 'B0C8TKFF2J') + block(20913, 'B0C8THGKXC', 'B0C8TKFF2J'))
 pruefe('Altfall des Notizseiten-Wächters: Exit 0, 0 Treffer', altfall.status === 0 && /0 Treffer/.test(altfall.aus), altfall)
+
+// Eigener Altfall der Ratsche (Goblin Slayer 2): Exit 0, als Altfall gezählt, keine Marke.
+const eigenerAltfall = lauf([129188, 101165], block(101165, 'B0CFKZQ6FN', 'B0CFKZQ6FN') + block(129188, 'B0CFL5Y7XN', 'B0CFKZQ6FN'))
+pruefe('Altfall der eigenen Ratsche: Exit 0, 1 Treffer davon 1 Altfall, keine Marke', eigenerAltfall.status === 0 && /1 Treffer, davon 1 Altfälle/.test(eigenerAltfall.aus) && !eigenerAltfall.aus.includes('"titleId"'), eigenerAltfall)
 
 const leer = lauf([], '')
 pruefe('Leere Belege: Exit 0', leer.status === 0 && /0 Treffer/.test(leer.aus), leer)

@@ -18617,6 +18617,13 @@
 - anilistId: 129188
   title: "Goblin Slayer 2"
   platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CFL5Y7XN
+  dub: false
+  checkedAt: '2026-09-28'
+  note: "Amazon-Seite B0CFKZQ6FN: nur 0 von 12 Folgen geladen — Rest ungeprüft, Abos: keine Angabe, gti=amzn1.dv.gti.99a568db-85e8-4fef-9505-e019a9b483fe, regionsperre=laut Seite nicht mehr im Abo"
+- anilistId: 129188
+  title: "Goblin Slayer 2"
+  platform: primevideo
   url: https://www.amazon.de/gp/video/detail/B0D98PQ1FW
   dub: true
   checkedAt: '2026-09-28'

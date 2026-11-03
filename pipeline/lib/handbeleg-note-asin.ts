@@ -30,4 +30,7 @@ export function findeFremdeNoteAsins(belege: BlockSeite[]): string[] {
 }
 
 /** Ratsche (Stand 03.11.2026): Treffer des Bestands, die `check-handbeleg-notizseite-bestand.ts` nicht schon führt. Nur streichen, Ziel 0. */
-export const NOTE_ASIN_ALTFAELLE: string[] = []
+export const NOTE_ASIN_ALTFAELLE: string[] = [
+  // Goblin Slayer 2: die Zeile (Nein aus 0 geprüften Folgen) hält den zweiten Prime-Weg B0CFL5Y7XN zurück; Entfernen ändert Weg und Termin-Adresse.
+  '129188@B0CFKZQ6FN',
+]
