@@ -1,0 +1,12 @@
+{
+  "synced": "von Claude synchronisierte Fremd-Skills (docx, pdf, pptx, xlsx, skill-creator), nicht eigene; Ordnername trägt Konto-Kennungen",
+  "cloudflare": "Fremdinhalt (320 Dateien Cloudflare-Referenz, Lizenz ungeklärt), kein eigener Skill",
+  "wrangler": "Fremdinhalt (Cloudflare-Wrangler-Referenz, Lizenz ungeklärt)",
+  "workers-best-practices": "Fremdinhalt (Cloudflare-Workers-Referenz, Lizenz ungeklärt)",
+  "web-design-guidelines": "Fremdinhalt (Lizenz ungeklärt)",
+  "playwright-cli": "Fremdinhalt (Playwright-CLI-Anleitung, Lizenz ungeklärt)",
+  "menschlich-schreiben": "enthält Zitate aus einem echten Bewerbungsanschreiben (Bewerbungsdaten)",
+  "edge-browser": "enthält den Rechnernamen des Geräts (Gerätedaten)",
+  "flux-bildgenerierung": "enthält Prompts und Abrechnung aus einem privaten Spielprojekt",
+  "bildprompts-schreiben": "verweist auf Notizen und Prompts eines privaten Serienprojekts"
+}
