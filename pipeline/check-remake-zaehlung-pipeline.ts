@@ -6,6 +6,7 @@
  */
 import type { Title } from '../shared/types.ts'
 import { staffelDesTitels } from './bau/widerlegung-staffel.ts'
+import { remakeVonDerReihe } from './bau/remake-von.ts'
 import { reihenIndex, staffelNummer } from './lib/disc-verschiebungen-staffel.ts'
 
 let verletzt = 0
@@ -57,6 +58,23 @@ pruefe('mit Markierung: Anne Shirley 2025 ist Staffel 1 der eigenen Linie', JSON
 pruefe('mit Markierung: das Original bleibt Staffel 1', JSON.stringify(anneNr(283, anneQ)) === '[1,1]', anneNr(283, anneQ))
 const reiheOhne = [titel(500, 'Einzel', '2000-01-01', { franchiseId: 500 })]
 pruefe('Reihe ohne Neuverfilmung und mit einer Staffel bleibt ohne Nummer', staffelDesTitels(reiheOhne[0]!, reiheOhne, OHNE) === undefined)
+
+console.log('\nPaar wird verworfen (Film als Original, Original später):')
+const REIHE = [
+  titel(702, 'Alt Film', '1990-01-01', { franchiseId: 700, format: 'MOVIE', episodes: 1 }),
+  titel(700, 'Alt Serie', '2000-01-01', { franchiseId: 700 }),
+  titel(701, 'Neu Serie', '2010-01-01', { franchiseId: 700 }),
+]
+const paarQ = (remake: number, original: number) => ({ kanten: [], hand: [{ remake, original, grund: 'Test', quelle: 'https://example.org/' }] })
+const zaehlung = (q: typeof MIT) => REIHE.map((t) => [staffelDesTitels(t, REIHE, q), staffelNummer(t, reihenIndex(REIHE), q)])
+const ohneMarke = JSON.stringify(zaehlung(OHNE))
+const filmPaar = [...remakeVonDerReihe(REIHE, paarQ(701, 702))]
+const spaetPaar = [...remakeVonDerReihe(REIHE, paarQ(700, 701))]
+pruefe('Original ist ein Film: Paar verworfen, keine Neuverfilmung', filmPaar.length === 0, filmPaar)
+pruefe('Original ist ein Film: Zählung wie ohne Markierung', JSON.stringify(zaehlung(paarQ(701, 702))) === ohneMarke, zaehlung(paarQ(701, 702)))
+pruefe('Original startet später: Paar verworfen', spaetPaar.length === 0, spaetPaar)
+pruefe('Original startet später: Zählung wie ohne Markierung', JSON.stringify(zaehlung(paarQ(700, 701))) === ohneMarke, zaehlung(paarQ(700, 701)))
+pruefe('Gegenprobe: gültiges Paar (Serie 2010 von Serie 2000) bleibt', remakeVonDerReihe(REIHE, paarQ(701, 700)).get(701) === 700)
 
 console.log(`\nremake-zaehlung-pipeline: ${verletzt ? `${verletzt} verletzt` : 'alle Fälle ok'}`)
 process.exit(verletzt ? 1 : 0)
