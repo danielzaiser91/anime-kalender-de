@@ -7,10 +7,13 @@
  * - Eine Lesestelle gilt einmal und höchstens `GUELTIG_MS`; abgelaufen oder fremde Ansicht (Adresse) → keine.
  * - Wiederhergestellt wird sofort (`behavior: 'auto'`), sobald der Tag da ist; kommt er nicht innerhalb `FRIST_MS`, wird aufgegeben.
  * - Berührt der Besucher die Seite (Rad, Berührung, Taste) vor dem Tag, wird nichts mehr bewegt.
+ * - Gemerkt wird auch beim Verbergen des Tabs und bei `pagehide`; wiederhergestellt nur nach Neuladen, `back_forward` oder verworfenem Tab (`darfWiederherstellen`).
  * - Solange eine Lesestelle offen ist (bis `NACHLAUF_MS` nach dem Erfolg) und ihr Tag gezeigt wird, unterdrückt `lesestelleOffenFuer` den Sprung zu „heute“.
  */
 export const SCHLUESSEL = 'ak-lesestelle'
-export const GUELTIG_MS = 5 * 60_000
+/* 12 h: Ein Tab bleibt über Nacht offen, und der Browser verwirft ihn irgendwann (Chrome Memory Saver/Edge Schlafende Registerkarten, Zeitpunkt
+   nicht festgelegt; Chrome-Doku „Page Lifecycle API“: Zustand beim Wechsel zu hidden in sessionStorage sichern, bei Rückkehr `document.wasDiscarded`). */
+export const GUELTIG_MS = 12 * 3_600_000
 export const FRIST_MS = 8_000
 export const NACHLAUF_MS = 2_000
 
@@ -107,11 +110,35 @@ export function starteWiederherstellung(u: Umgebung, ort: string, frist: (rueck:
   return ende
 }
 
+/** Nur ein Neuladen derselben Seite (eigenes, F5, vom Browser verworfener Tab) stellt wieder her; eine frische Navigation beginnt wie immer. */
+export function darfWiederherstellen(navigationsart: string | undefined, verworfen: boolean): boolean {
+  return verworfen || navigationsart === 'reload' || navigationsart === 'back_forward'
+}
+
+/** Merkt die Lesestelle, sobald der Tab verborgen oder verlassen wird — der Browser kann ihn danach ohne weiteren Code verwerfen und neu laden. */
+export function merkeBeimVerbergen(doc: Document, win: Window, speicher: Speicher, jetzt: () => number): void {
+  const merke = () => merkeLesestelle(doc, speicher, ortJetzt(), jetzt())
+  doc.addEventListener('visibilitychange', () => {
+    if (doc.hidden) merke()
+  })
+  win.addEventListener('pagehide', merke)
+}
+
 /** Echte Umgebung des Browsers; je Fenster einmal (der Sprung-Hook ruft es bei jedem Zeichnen). Liest die Lesestelle, bevor der Sprung zu „heute“ entscheidet. */
 export function starteWiederherstellungImBrowser(): void {
   const fenster = window as unknown as { akLesestelleGestartet?: boolean }
   if (fenster.akLesestelleGestartet) return
   fenster.akLesestelleGestartet = true
+  merkeBeimVerbergen(document, window, sessionStorage, () => Date.now())
+  const nav = (performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming | undefined)?.type
+  if (!darfWiederherstellen(nav, (document as { wasDiscarded?: boolean }).wasDiscarded === true)) {
+    try {
+      sessionStorage.removeItem(SCHLUESSEL)
+    } catch {
+      /* ohne Speicher keine Lesestelle */
+    }
+    return
+  }
   starteWiederherstellung(
     {
       doc: document,
