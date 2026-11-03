@@ -20,6 +20,14 @@ Chronik zu `pipeline/build-share-pages.ts` und `pipeline/lib/{startseite,titel-s
 - **Terminüberschrift und `inLanguage`:** „Alle Termine mit deutscher Synchronisation“ und `inLanguage: de` im JSON-LD stehen nur bei `synchroBelegt` (`termineUeberschrift`, `sprachFeld` in `titel-seite.ts`), sonst „Alle Termine“ und kein Feld. `check-teilseiten.ts` prüft das an jeder gebauten Titelseite (13.10.2026: 1253 Seiten geändert, Zahl der Zählstelle `zaehleBelegte` gleich 2546).
 - **Sammelseite `/termine/`:** Überschrift „Alle Termine“, Title „Alle Anime-Termine: Synchro belegt oder angekündigt“, Stand „Deutsche Synchro belegt bei N, bei den übrigen angekündigt oder wahrscheinlich.“ (Texte in `lib/termine-uebersicht.ts`; N zählt mit `synchroBelegt` über `titles.json`, nicht über `titles-core.json`, dem 108 von 781 Termintiteln fehlen, Stand 13.10.2026: 617 statt 724). Sie verspricht nie „mit deutscher Synchro“, weil sie auch Termine unbelegter Titel (56) führt; `check-termine-uebersicht.ts` und `check-teilseiten.ts` prüfen das.
 
+## Vorschaubild der Titelseiten für WhatsApp (03.11.2026)
+
+- **Anlass:** `/t/13052/` (Bright Samurai Soul) zeigte in WhatsApp nur „anime-kalender.de“. `og:image` war der AniList-Banner (291.349 Byte, 1900×400) ohne `og:image:width/height`; WhatsApp zeigt nur Bilder unter ~300 KB mit Maßen.
+- **Klasse (Bestand 03.11.2026, `titles.json`, 2.924 Titel):** 2.221 TMDB-Banner in `w1280` (Stichprobe 100–1.141 KB, ein Titel über 1 MB), 626 AniList-Banner/Cover (beliebige Größe, Banner bis 4,75:1), 60 `cover.anime-kalender.de`, 17 ohne Bild. Titel mit Termin nutzten schon das Terminbild (1200×630, Maße); betroffen waren die 2.261 Titel ohne Termin.
+- **Entscheidung:** TMDB-Banner in `w780` (780×439, Stichprobe 16 Titel: höchstens 137 KB, Ø 80 KB), alles andere das Standardbild 1200×630 (43 KB); jede Titelseite trägt Maße und `summary_large_image`. Eigene 1200×630-Bilder je Titel (Messung: Ø 70 KB, ~160 MB im Repo, AniList-Banner würden 3× hochskaliert) bleiben verworfen.
+- **Wächter:** `vorschauMaengel` (`lib/titel-vorschau.ts`) in `check-teilseiten.ts` und `check-titel-vorschau.ts`: Maße, eigene Domain oder TMDB `w780`, kein „1 Folgen“. Lehre: `check-teilseiten` prüfte nur, dass `og:image` eine `https`-Adresse ist, nie Größe oder Maße.
+- Nach dem Deploy WhatsApp-Cache der Adresse im Facebook-Debugger mit „Scrape Again“ erneuern.
+
 ## Prüfungen
 
 - `check:logic` → `pipeline/check-seiten-seo.ts` (Ähnliche Titel, Startseite, Verzeichnis, Brotkrumen, Seitentitel, `lastmod`; Gegenproben).

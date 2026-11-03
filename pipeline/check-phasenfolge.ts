@@ -71,6 +71,9 @@ const KURATIERT =
   sources:
     - https://www.crunchyroll.com/de/news/seasonal-lineup/2026/9/15/crunchyroll-anime-lineup-herbst-2026
 `
+const TOT_PRUEFUNG = 'https://www.netflix.com/title/90000710'
+const TOT_HAND = 'https://www.netflix.com/title/90000711'
+const LEBT = 'https://www.netflix.com/title/90000712'
 /** Ohne `schedule` überspringt `baueReleases` den Eintrag: Eingabe nicht leer, Ausgabe leer. */
 const OHNE_TERMIN = KURATIERT.replace('  schedule:', '  zeitplan:').replace('    firstEpisodeDate:', '    erster:')
 
@@ -84,6 +87,9 @@ function fahre(name: string, kuratiertYaml: string) {
   for (const datei of HAND) copyFileSync(join(import.meta.dirname, '..', 'data', datei), join(ordner, 'data', datei))
   writeFileSync(join(ordner, 'data', 'cache', 'anilist-media.json'), JSON.stringify({ '900101': medium }))
   writeFileSync(join(ordner, 'data', 'curated', 'probe.yaml'), kuratiertYaml)
+  /* Zwei Quellen von „tot“: die Linkprüfung kennt TOT_PRUEFUNG, ein Handbeleg „nicht verfügbar“ kennt TOT_HAND. */
+  writeFileSync(join(ordner, 'data', 'link-check.json'), JSON.stringify({ [TOT_PRUEFUNG]: { status: 404, geprueftAm: '2026-11-01' } }))
+  writeFileSync(join(ordner, 'data', 'dub-confirmed.yaml'), `- anilistId: 900001\n  platform: netflix\n  url: ${TOT_HAND}\n  available: false\n  checkedAt: '2026-11-01'\n`)
   const bau = pathToFileURL(join(import.meta.dirname, 'bau')).href
   const skript = join(ordner, 'lauf.mts')
   writeFileSync(
@@ -91,7 +97,7 @@ function fahre(name: string, kuratiertYaml: string) {
     `import { ladeQuellen } from '${bau}/01-quellen.ts'
 import { bauePhasenfolge } from '${bau}/phasenfolge.ts'
 const e = bauePhasenfolge(ladeQuellen())
-console.log('ERGEBNIS ' + JSON.stringify({ titel: e.titles.size, releases: e.releases.length, events: e.events.length }))
+console.log('ERGEBNIS ' + JSON.stringify({ titel: e.titles.size, releases: e.releases.length, events: e.events.length, totPruefung: e.istTot('${TOT_PRUEFUNG}'), totHand: e.istTot('${TOT_HAND}'), lebt: e.istTot('${LEBT}') }))
 `,
   )
   return spawnSync(process.execPath, ['--import', 'tsx', skript], {
@@ -108,6 +114,9 @@ try {
   const ergebnis = zeile ? JSON.parse(zeile.slice(9)) : undefined
   pruefe('Folge mit Titel und Termin: Exit 0', gut.status === 0, { status: gut.status, stderr: gut.stderr.slice(-400) })
   pruefe('Folge liefert Titel, Releases und Termine', ergebnis?.titel === 1 && ergebnis.releases === 1 && ergebnis.events > 0, ergebnis)
+  pruefe('Ergebnis trägt das Prädikat: nur laut Linkprüfung tote Adresse', ergebnis?.totPruefung === true, ergebnis)
+  pruefe('Ergebnis trägt das Prädikat: nur laut Handbeleg tote Adresse', ergebnis?.totHand === true, ergebnis)
+  pruefe('Ergebnis trägt das Prädikat: lebende Adresse ist nicht tot', ergebnis?.lebt === false, ergebnis)
   pruefe('Bilanzzeile 05 gedruckt', gut.stdout.includes('Bilanz 05-releases: 1 Titel, 1 Releases, - Termine (1 kuratiert)'), gut.stdout.slice(-600))
   pruefe('Bilanzzeile 10 gedruckt', /Bilanz 10-komplettabwurf: 1 Titel, 1 Releases, [1-9]\d* Termine \(1 kuratiert\)/.test(gut.stdout), gut.stdout.slice(-600))
 

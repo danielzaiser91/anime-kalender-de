@@ -1,12 +1,12 @@
 {
- "erzeugtAm": "2026-11-02T16:06:51.653Z",
+ "erzeugtAm": "2026-11-03T13:20:05.860Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
-   "gemeldet": 910,
-   "gesamt": 958,
-   "offen": 48,
+   "gemeldet": 902,
+   "gesamt": 955,
+   "offen": 53,
    "ohneSeite": 1,
    "suchAdressen": [
     "https://www.amazon.de/s?k=Fischen%20Impossible%3A%20Eine%20tierische%20Rettungsaktion&i=instant-video"
@@ -52,6 +52,10 @@
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CYQJ79R8",
      "titel": "Girls Band Cry"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B0D956JD5Y",
+     "titel": "Edens Zero: Season 2 (EDENS ZERO Season 2)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0BZWFR7H1",
@@ -142,6 +146,10 @@
      "titel": "Wanna Be the Strongest in the World!"
     },
     {
+     "url": "https://www.amazon.de/gp/video/detail/B0CVFNLP9D",
+     "titel": "A Certain Scientific Railgun S"
+    },
+    {
      "url": "https://www.amazon.de/gp/video/detail/B09ZJW8HGH",
      "titel": "Kuroko’s Basketball: 2nd Season (Kuroko's Basketball 2)"
     },
@@ -176,6 +184,16 @@
     {
      "url": "https://www.amazon.de/gp/video/detail/B0DNNFT23G",
      "titel": "Shin-chan (Shin Chan)"
+    },
+    {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.0cb8c40c-c316-369d-4c63-7adba44df4ab",
+     "titel": "Bobby und Bill (Boule & Bill)",
+     "hinweis": "Staffeln unklar: TMDB zählt 104 Folgen insgesamt, der Anbieter kann sie anders schneiden"
+    },
+    {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.52b549b8-8258-0ee7-5674-d76be73f5363",
+     "titel": "Yakari",
+     "hinweis": "Staffeln unklar: TMDB zählt 156 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.febb6760-5fcf-e6a0-1ae8-69b34a3ffe8f",
@@ -318,7 +336,6 @@
     "0FJOQHOAFIXXM8S33J6VVL4AHQ": 12,
     "B0CWF24FSQ": 12,
     "B0B6GH3ZK4": 20,
-    "B0D58K5WH5": 24,
     "B0CJJKGFGW": 24,
     "B0B8Q3TSS9": 24,
     "B0BZWFR7H1": 24,
@@ -333,6 +350,7 @@
     "B0H4C7LCXK": 24,
     "B08KYJSFPC": 12,
     "B0DZ2ZDJNV": 28,
+    "B0CWKZ91KX": 21,
     "B0DHVD768H": 14,
     "B0CYFKT276": 13,
     "B0D516QSYS": 13,
@@ -354,6 +372,7 @@
     "B0F2GXP162": 13,
     "B0GDGLLYLS": 24,
     "B0FJ7GC6S6": 10,
+    "B0FDH3SLKB": 11,
     "B0DJWXLZ55": 12,
     "B0HKFFGQ7F": 5,
     "B0FN41VKQ5": 12,
@@ -367,10 +386,10 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 757,
-   "gesamt": 926,
-   "offen": 169,
-   "ohneSeite": 18,
+   "gemeldet": 767,
+   "gesamt": 938,
+   "offen": 171,
+   "ohneSeite": 15,
    "ziel": "https://www.netflix.com/title/81608820",
    "ziele": [
     {
@@ -388,6 +407,10 @@
     {
      "url": "https://www.netflix.com/title/82036361",
      "titel": "My Hero Academia: Vigilantes Staffel 2"
+    },
+    {
+     "url": "https://www.netflix.com/title/82643530",
+     "titel": "Meine ganz besondere Hochzeit: Special"
     },
     {
      "url": "https://www.netflix.com/title/80135674",
@@ -519,10 +542,6 @@
     {
      "url": "https://www.netflix.com/title/70093699",
      "titel": "5 Centimeters per Second"
-    },
-    {
-     "url": "https://www.netflix.com/title/70204947",
-     "titel": "Afro Samurai"
     },
     {
      "url": "https://www.netflix.com/title/70071919",
@@ -690,7 +709,7 @@
     {
      "url": "https://www.netflix.com/title/81186971",
      "titel": "Willkommen bei den Louds",
-     "hinweis": "Staffeln unklar: TMDB zählt 416 Folgen insgesamt, der Anbieter kann sie anders schneiden"
+     "hinweis": "Staffeln unklar: TMDB zählt 407 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://www.netflix.com/title/80026226",
@@ -703,9 +722,9 @@
      "hinweis": "Staffeln unklar: TMDB zählt 52 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
-     "url": "https://www.netflix.com/title/70155567",
-     "titel": "Shaun das Schaf",
-     "hinweis": "Staffeln unklar: TMDB zählt 170 Folgen insgesamt, der Anbieter kann sie anders schneiden"
+     "url": "https://www.netflix.com/title/70234488",
+     "titel": "Yakari",
+     "hinweis": "Staffeln unklar: TMDB zählt 156 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://www.netflix.com/title/70234440",
@@ -718,6 +737,10 @@
     {
      "url": "https://www.netflix.com/title/70252973",
      "titel": "LEGO Ninjago: Meister des Spinjitzu"
+    },
+    {
+     "url": "https://www.netflix.com/title/70254353",
+     "titel": "Kleine Prinzessin"
     },
     {
      "url": "https://www.netflix.com/title/80014749",
@@ -746,6 +769,10 @@
     {
      "url": "https://www.netflix.com/title/80063153",
      "titel": "Kuroko’s Basketball: 1st Season"
+    },
+    {
+     "url": "https://www.netflix.com/title/80108159",
+     "titel": "Fragestunde mit den StoryBots"
     },
     {
      "url": "https://www.netflix.com/title/80115338",
@@ -848,11 +875,13 @@
    "bekannt": {
     "70205012": 26,
     "70297439": 52,
+    "80000603": 500,
     "80001305": 26,
     "80103318": 13,
     "80174918": 12,
     "80174974": 10,
     "80186926": 6,
+    "80206326": 26,
     "80212481": 13,
     "80221272": 13,
     "80992137": 24,
@@ -862,12 +891,14 @@
     "81033445": 26,
     "81050064": 6,
     "81054851": 6,
+    "81080523": 15,
     "81095103": 1,
     "81176966": 6,
     "81220429": 12,
     "81220435": 14,
     "81228009": 13,
     "81239555": 52,
+    "81253271": 48,
     "81276500": 6,
     "81280998": 4,
     "81281344": 8,
@@ -877,6 +908,7 @@
     "81313291": 12,
     "81341765": 8,
     "81409869": 1,
+    "81422700": 36,
     "81442091": 12,
     "81497635": 12,
     "81499847": 13,
@@ -886,7 +918,7 @@
     "81696980": 44,
     "81698957": 1,
     "81726714": 1,
-    "81924739": 48,
+    "81924739": 100,
     "81969861": 24,
     "81991687": 25,
     "82647303": 12,
@@ -1153,6 +1185,7 @@
     "ef04e263-4751-486c-9001-616f2adf09ba": 59,
     "ceb1fd76-acbe-4269-a1f3-532614807772": 131,
     "1b84d641-1bb3-422d-be4c-8e24c7b547cc": 25,
+    "be391742-6617-42ad-b53a-be368ee73335": 24,
     "3AHbeFV7Lqvn": 25,
     "5AiiTRJ7OaKg": 9,
     "dea589b3-2f6d-4991-a875-c67d625a4e37": 8,
@@ -1161,6 +1194,7 @@
     "4XHzb6tQBRtd": 12,
     "7I31jGPKAwz5": 13,
     "14f5d468-38b2-4d4b-97ed-649e6c3ba4c8": 12,
+    "d45b72d4-3c8d-4961-960a-c0c182890189": 2,
     "eb5b776f-8162-491a-9aca-c1e9b56729e5": 12,
     "8019edc8-5f73-4c70-88eb-02ea35f724d4": 12,
     "0113d236-c3a2-4098-a663-bdb5979bfb74": 12,

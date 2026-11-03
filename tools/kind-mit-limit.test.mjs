@@ -2,7 +2,7 @@
 // und die Verdrahtung: die Wachphase (laeufe-aufraeumen --trocken) endet mit einem hängenden gh und nennt es klar.
 import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
-import { mkdtempSync, readFileSync, rmSync } from 'node:fs'
+import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -42,8 +42,11 @@ assert.equal(abbruchText(anderer), anderer.stack)
 const dir = mkdtempSync(join(tmpdir(), 'kind-limit-'))
 try {
   const ghEnv = legeGhAttrappe(dir)
+  // Quellenstand als Attrappe (weit in der Zukunft = nie überfällig): das Ergebnis hängt nicht am echten Stand in source-health.json.
+  const gesundheit = join(dir, 'gesundheit.json')
+  writeFileSync(gesundheit, JSON.stringify({ adn: { lastOk: '2999-12-31T00:00:00.000Z', lastRun: '2999-12-31T00:00:00.000Z', lastCount: 1 } }))
   const werkzeug = fileURLToPath(new URL('./laeufe-aufraeumen.mjs', import.meta.url))
-  const r = spawnSync(process.execPath, ['--import', 'data:text/javascript,globalThis.fetch=async()=>new Response("[]",{status:200})', werkzeug, '--trocken'], {
+  const r = spawnSync(process.execPath, ['--import', 'data:text/javascript,globalThis.fetch=async()=>new Response("[]",{status:200})', werkzeug, '--trocken', '--gesundheit', gesundheit], {
     encoding: 'utf8',
     timeout: 120_000,
     env: { ...process.env, ...ghEnv, WACHE_LIMIT_MS: '2000' },
@@ -61,7 +64,7 @@ try {
   // 4. Abschluss-Catch: kein gh-Aufruf der Wache wirft heute bis dorthin durch (alle fangen selbst); ein geworfenes
   // „FEHLER: …“ aus main() (hier über Date.now im Skript) endet als stderr-Zeile ohne Stack und mit Exit 1.
   const wirft = 'const j=Date.now;Date.now=()=>{if(!new Error().stack.includes("laeufe-aufraeumen.mjs"))return j();throw new Error("FEHLER: gh run list nach 2 s abgebrochen")};globalThis.fetch=async()=>new Response("[]",{status:200})'
-  const a = spawnSync(process.execPath, ['--import', `data:text/javascript,${wirft}`, werkzeug, '--trocken'], { encoding: 'utf8', timeout: 120_000, env: { ...process.env, ...ghEnv, WACHE_LIMIT_MS: '2000' } })
+  const a = spawnSync(process.execPath, ['--import', `data:text/javascript,${wirft}`, werkzeug, '--trocken', '--gesundheit', gesundheit], { encoding: 'utf8', timeout: 120_000, env: { ...process.env, ...ghEnv, WACHE_LIMIT_MS: '2000' } })
   assert.equal(a.status, 1, `Exit 1 beim Abschluss-Fehler: ${a.stdout}`)
   assert.equal(a.stderr.trim(), 'FEHLER: gh run list nach 2 s abgebrochen')
 } finally {

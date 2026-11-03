@@ -245,6 +245,31 @@ export function fertigZahlText(
   return abgeleitet ? T('antwort.fertigUngefaehr', { count: ungefaehr(gesamt, true) }) : T('antwort.fertigZahl', { count: gesamt })
 }
 
+/** Trägt der Release eine belegte Gesamtzahl (weder angenommen noch nur die höchste gesichtete Folge)? */
+const belegteZahl = (r: Release): boolean => Boolean(r.schedule?.episodeCount && !r.schedule.episodeCountAssumed && !r.schedule.episodeCountNurGesichtet)
+
+/** Ist `gesamt` belegt: AniList führt mindestens so viele Folgen, oder irgendein Release nennt eine belegte Zahl? */
+export const gesamtIstBelegt = (title: Title, releases: Release[], gesamt: number): boolean => (title.episodes ?? 0) >= gesamt || releases.some(belegteZahl)
+
+/**
+ * „N von M Folgen auf Deutsch“ aus der Folgenliste (`[alle, deutsch]`). Das „von M“ steht nur, wenn ein Release die Gesamtzahl belegt
+ * (Zahl da, weder angenommen noch nur gesichtet); sonst ist die Listenlänge keine Gesamtzahl — dann „N Folgen auf Deutsch“ ohne „von“.
+ */
+export function deFolgenZahlText(z: [number, number], releases: Release[], T: (k: string, v?: Record<string, string | number>) => string): string {
+  return !releases.some(belegteZahl)
+    ? T('detail.dubKopf', { n: z[1] })
+    : T('antwort.teilweiseZahl', { raus: z[1], gesamt: z[0] })
+}
+
+/** Die Überschrift des „teilweise“-Kastens; „von M“ nur, wenn M belegt ist (nicht angenommen, nicht die Listenlänge). */
+export function teilweiseHaupt(
+  antwort: Extract<Antwort, { art: 'teilweise' }>,
+  T: (k: string, v?: Record<string, string | number>) => string,
+): string {
+  if (antwort.raus === undefined) return T('antwort.teilweiseOhneZahl')
+  return antwort.gesamtBelegt ? T('antwort.teilweiseZahl', { raus: antwort.raus, gesamt: antwort.gesamt }) : T('detail.dubKopf', { n: antwort.raus })
+}
+
 /** Die Nebenzeile eines „teilweise“-Kastens: die Quelle der deutschen Folgenzahl, sonst der Hinweis auf fehlende Angaben. */
 export function teilweiseNeben(
   antwort: Extract<Antwort, { art: 'teilweise' }>,

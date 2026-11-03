@@ -156,6 +156,7 @@
   releaseType: disc
   publisher: "Crunchyroll"
   edition: "Blu-ray"
+  buyUrl: https://www.amazon.de/dp/B0H26MK78J
   schedule: { firstEpisodeDate: "2026-08-07" }
   sources: [https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/]
 
@@ -263,6 +264,7 @@
   releaseType: disc
   publisher: "KSM Anime"
   edition: "Blu-ray"
+  buyUrl: https://www.amazon.de/dp/B0H39C7YB5
   schedule: { firstEpisodeDate: "2026-08-20" }
   sources: [https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/]
 
@@ -470,5 +472,6 @@
   releaseType: disc
   publisher: "polyband anime"
   edition: "Gesamtausgabe, Blu-ray"
+  buyUrl: https://www.amazon.de/dp/B0H3CSXQPH
   schedule: { firstEpisodeDate: "2026-07-31" }
   sources: [https://www.akibapassshop.de/products/26pol033-manga-love-story-gesamtausgabe-bluray]

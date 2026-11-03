@@ -1,0 +1,6 @@
+kategorie: feature
+highlight: true
+text: Beyblade X zeigt deutsche Folgentitel ab Folge 66
+untertitel: Dazu Aoashi Staffel 2 und 13 weitere Serien
+wartetAuf: Bestandsbau mit Wirkung von PR 2637 — public/data/folgen/165159.json muss ab Folge 66 Titel tragen; die Bauten 857efd433 und 109fd6c06 (01.11. 23:44/02.11. 00:26) hatten sie nicht
+seit: '2026-11-02'

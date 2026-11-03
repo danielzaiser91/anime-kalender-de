@@ -1,15 +1,36 @@
 {
-  "scrapedAt": "2026-11-02T05:03:54.476Z",
+  "scrapedAt": "2026-11-03T15:02:34.953Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 40,
-    "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
+    "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "schon in einem Rubrik-Feed gelesen": 32,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 49,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 9,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 16,
+    "schon in einem Rubrik-Feed gelesen": 6,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 1,
     "Sprachhinweis älter als 45 Tage": 6
   },
   "proposals": [
+    {
+      "articleTitle": "Design der neuen »Neon Genesis Evangelion«-Komplettbox + Extras",
+      "articleUrl": "https://www.anime2you.de/news/1067138/neue-evangelion-komplettbox-design/",
+      "publishedAt": "2026-11-03",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2027-02-05",
+          "context": "Februar 2027 Die neue Komplettbox erscheint nach aktueller Planung am 5. Februar 2027 als Blu-ray. Diese beinhaltet alle 26 Episoden auf Deu"
+        },
+        {
+          "month": "2027-02",
+          "context": "sten Produktbilder findet ihr weiter unten in diesem Artikel. Release im Februar 2027 Die neue Komplettbox erscheint nach aktueller Planung"
+        }
+      ],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "TV-Guide: Anime im deutschen Fernsehen in KW 45/2026",
       "articleUrl": "https://www.anime2you.de/news/1066723/anime-tv-programm-45-2026/",
@@ -392,7 +413,7 @@
           "folgen": 24
         }
       ],
-      "sammelGelesen": "2026-10-31"
+      "sammelGelesen": "2026-11-03"
     },
     {
       "articleTitle": "19,99 Euro pro Staffel: polyband startet große »Pokémon«-Rabattaktion",
@@ -770,10 +791,6 @@
       ],
       "dates": [
         {
-          "iso": "2026-11-02",
-          "context": "pisode von »PSYREN« wird demzufolge nicht wie ursprünglich geplant am 2. November 2026, sondern erst am 9. November 2026 im japanischen Fern"
-        },
-        {
           "iso": "2026-11-09",
           "context": "e nicht wie ursprünglich geplant am 2. November 2026, sondern erst am 9. November 2026 im japanischen Fernsehen ausgestrahlt und bei Crunchy"
         }
@@ -883,7 +900,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-10-31"
+      "sammelGelesen": "2026-11-03"
     },
     {
       "articleTitle": "Crunchyroll ergänzt zwei weitere Anime-Neuzugänge auf Deutsch",
@@ -1450,7 +1467,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-10-31"
+      "sammelGelesen": "2026-11-03"
     },
     {
       "articleTitle": "ProSieben FUN zeigt »Akame ga KILL!« als Pay-TV-Premiere",
@@ -1681,7 +1698,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-10-31"
+      "sammelGelesen": "2026-11-03"
     },
     {
       "articleTitle": "Zwei Anime-Neuzugänge ab sofort auf Netflix verfügbar",
@@ -2204,7 +2221,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-10-31"
+      "sammelGelesen": "2026-11-03"
     },
     {
       "articleTitle": "Blu-ray-Design von »My Love Story with Yamada-kun at Lv999« + Extras",
@@ -3163,7 +3180,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-31"
+      "sammelGelesen": "2026-11-03"
     },
     {
       "articleTitle": "Nutzer verlieren gekaufte Inhalte: Tapas bestätigt Abschaltung für 2027",
@@ -3804,7 +3821,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-28"
+      "sammelGelesen": "2026-11-03"
     },
     {
       "articleTitle": "Netflix startet große Werbeoffensive in 15 weiteren Ländern",
@@ -3888,7 +3905,7 @@
           "datum": "2026-10-01"
         }
       ],
-      "sammelGelesen": "2026-10-25"
+      "sammelGelesen": "2026-11-03"
     },
     {
       "articleTitle": "Neue Mehrwertsteuer-Aktion bei MediaMarkt und SATURN",
@@ -4031,7 +4048,7 @@
           "datum": "2026-10-06"
         }
       ],
-      "sammelGelesen": "2026-10-25"
+      "sammelGelesen": "2026-11-03"
     },
     {
       "articleTitle": "Prime Video fügt drei Anime-Neuzugänge zu seinem Katalog hinzu",
@@ -4076,7 +4093,7 @@
           "folgen": 12
         }
       ],
-      "sammelGelesen": "2026-10-26"
+      "sammelGelesen": "2026-11-03"
     },
     {
       "articleTitle": "AKIBA PASS TV kündigt zwei neue Herbst-Simulcasts 2026 an",
@@ -4108,7 +4125,7 @@
           "datum": "2026-09-30"
         }
       ],
-      "sammelGelesen": "2026-10-26"
+      "sammelGelesen": "2026-11-03"
     },
     {
       "articleTitle": "Crunchyroll ergänzt drei Anime-Neuzugänge + Synchro",
@@ -4158,7 +4175,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-26"
+      "sammelGelesen": "2026-11-03"
     },
     {
       "articleTitle": "AniMoon-Angebot: »Higurashi GOU«-Komplettset zum Sonderpreis",

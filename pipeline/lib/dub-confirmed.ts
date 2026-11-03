@@ -160,6 +160,8 @@ export function ladeHandbelege(): DubCheck[] {
   const raw = yaml.load(readFileSync(DATEI, 'utf8'))
   if (!Array.isArray(raw)) return []
   const out: DubCheck[] = []
+  // Schlüssel (Titel, Plattform, Adresskern) → Platz in `out`; ein Suchlauf je Eintrag war quadratisch.
+  const stelle = new Map<string, number>()
   for (const eintrag of (raw as DubCheck[]).map(ohneKanalSprache)) {
     /**
      * **Eine Lücke aus einer Kanal-Meldung ist ein Nein aus einem Kanal — und das
@@ -236,11 +238,9 @@ export function ladeHandbelege(): DubCheck[] {
      * ist der Normalfall und die Mehrheit der 3.000 Belege.
      */
     const schluessel = `${dubKey(item.anilistId, item.platform)}|${adressKern(item.url)}`
-    const vorhanden = out.findIndex(
-      (x) => `${dubKey(x.anilistId, x.platform)}|${adressKern(x.url)}` === schluessel,
-    )
-    if (vorhanden >= 0) out[vorhanden] = verschmelze(out[vorhanden]!, item)
-    else out.push(item)
+    const vorhanden = stelle.get(schluessel)
+    if (vorhanden !== undefined) out[vorhanden] = verschmelze(out[vorhanden]!, item)
+    else stelle.set(schluessel, out.push(item) - 1)
   }
   return out
 }

@@ -60,6 +60,7 @@ const motnEintrag = (links: Record<string, string>) => {
     tmdbZuTitel: { '900001': { tmdbId: 7, kind: 'tv', providers: ['netflix', 'primevideo'] } } as never,
     motnTmdb: { 'tv/7': { imdbId: 'tt900001' } } as never,
     motnLinks: { tt900001: links },
+    istTot: () => false,
   })
   return slim[0]!.streams ?? []
 }
