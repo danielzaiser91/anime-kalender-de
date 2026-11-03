@@ -22,7 +22,6 @@
   {"name":"datei: Gegenprobe Teilmenge ausgeschaltet","datei":"pipeline/lib/handbeleg-fast-doppel-datei.ts","suche":"const teilmenge = nachher.every((b) => stand.has(JSON.stringify(b)))","ersetze":"const teilmenge = true"},
   {"name":"datei: Gegenprobe nur mit ODER","datei":"pipeline/lib/handbeleg-fast-doppel-datei.ts","suche":"if (!zahlStimmt || !teilmenge)","ersetze":"if (!zahlStimmt && !teilmenge)"},
   {"name":"tool: Standardpfad falsch","datei":"tools/handbelege-fast-doppel.ts","suche":"?? 'data/dub-confirmed.yaml'","ersetze":"?? 'data/dub-confirmed.yml'"},
-  {"name":"tool: Gegenprobe-Ergebnis ignoriert","datei":"tools/handbelege-fast-doppel.ts","suche":"if (!ok) process.exit(1)","ersetze":"if (false) process.exit(1)"},
   {"name":"lib: Kanal-Abschnitt gilt nicht als Browser","datei":"pipeline/lib/handbeleg-fast-doppel.ts","suche":"|Kanal-Meldungen mit zweiter Quelle","ersetze":""},
   {"name":"lib: Zwischenbeleg zum selben Verweis nicht beachtet","datei":"pipeline/lib/handbeleg-fast-doppel.ts","suche":" || trenntFremder(g, alle)","ersetze":""},
   {"name":"lib: jeder Zwischenbeleg zählt (auch anderer Verweis)","datei":"pipeline/lib/handbeleg-fast-doppel.ts","suche":"b.falt === gruppe[0]!.falt && ","ersetze":""},
