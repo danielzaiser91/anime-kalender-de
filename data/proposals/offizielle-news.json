@@ -1,6 +1,19 @@
 {
   "vorschlaege": [
     {
+      "id": "1561e7a4c1a0",
+      "host": "hyouken-anime.com",
+      "titelIds": [
+        212503
+      ],
+      "titel": "第2期キャラクター情報第4弾公開！",
+      "datum": "2026-11-03",
+      "url": "https://hyouken-anime.com/142/",
+      "sprache": "ja",
+      "kategorie": "staffel",
+      "gefundenAm": "2026-11-03"
+    },
+    {
       "id": "805db4e1e6e9",
       "host": "mahoyo-movie.com",
       "titelIds": [
@@ -12,6 +25,19 @@
       "sprache": "ja",
       "kategorie": "termin",
       "gefundenAm": "2026-10-28"
+    },
+    {
+      "id": "bf2d882085df",
+      "host": "bleach-anime.com",
+      "titelIds": [
+        185874
+      ],
+      "titel": "THE STORIES VISUAL MOVIE 公開！",
+      "datum": "2026-10-27",
+      "url": "https://bleach-anime.com/news/?id=71563",
+      "sprache": "ja",
+      "kategorie": "film",
+      "gefundenAm": "2026-11-03"
     },
     {
       "id": "35718dcc912d",

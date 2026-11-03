@@ -26,6 +26,7 @@ import { abbruchText, ghStapel, mitLimit } from './kind-mit-limit.mjs'
 import { erledigtArgumente, findeRotenLauf, holeLaeufe, holeVerlauf, letzteDatenAenderung, roteArten, stillstand, STILLSTAND_GRENZE_STUNDEN } from './laeufe-abruf.mjs'
 import { rotAlarmText } from './bestand-rot-alarm.mjs'
 import { git, meldeLiegt } from './liegegut.mjs'
+import { prueferZeilen } from './pruefer-unfertig-wache.mjs'
 import { meldeRoteSammlerPrs } from './rote-sammler-prs.mjs'
 import { eskalationsText } from './wache-eskalation.mjs'
 import { wacheZeilen } from './wache-bilanz.mjs'
@@ -133,6 +134,7 @@ async function main() {
   const quellenZeilen = eskalationsText(gesundheitsDatei(), Date.now(), fixZusatz(wurzel()))
   for (const zeile of quellenZeilen) console.log(zeile)
   for (const zeile of weichWache(ghStapel, REPO, wurzel(), Date.now(), weichSpeicher())) console.log(zeile)
+  for (const zeile of prueferZeilen(gh, REPO)) console.log(zeile)
   try {
     await laeufePruefen(erledigt)
   } finally {
