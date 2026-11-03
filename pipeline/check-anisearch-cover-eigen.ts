@@ -131,10 +131,12 @@ console.log('\nCover eigen: Rückfall auf die API-Adresse bei 404 auf _300')
 }
 {
   const spur = neueSpur()
-  const w = weltMit((a) => (a.includes('api.anisearch.com') ? apiAntwort({ 1: { large: url(1) } }) : (spur.abgerufen.push(a), new Response('', { status: 404 }))), spur)
+  const ablauf: string[] = []
+  const w = weltMit((a) => (a.includes('api.anisearch.com') ? apiAntwort({ 1: { large: url(1) } }) : (spur.abgerufen.push(a), ablauf.push(a), new Response('', { status: 404 }))), spur)
   const m: Manifest = {}
-  const z = await holeCover(['1'], m, OPT, w)
+  const z = await holeCover(['1'], m, OPT, { ...w, schlafe: async (ms: number) => void ablauf.push(`schlafe ${ms}`) })
   pruefe('beide 404: nicht-gefunden, genau zwei Abrufe, endgültig gezählt', m['1']?.grund === 'nicht-gefunden' && spur.abgerufen.length === 2 && z.endgueltig404 === 1 && z.gerettet === 0, [z, spur.abgerufen])
+  pruefe('Rückfall hält den Abstand: 2 s zwischen _300 und API-Adresse', ablauf.slice(ablauf.indexOf(url(1, 300)), ablauf.indexOf(url(1))).includes('schlafe 2000'), ablauf)
 }
 {
   const spur = neueSpur()
