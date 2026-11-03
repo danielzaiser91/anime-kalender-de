@@ -46,5 +46,9 @@ pruefe('Neuer Treffer: Exit 1 mit Schlüssel im Text', neu.status === 1 && neu.a
 const sauber = lauf([{ id: 900011, streams: [weg('B0NEU00001')] }], block(900011, 'B0NEU00001'))
 pruefe('Eigene Seite: Exit 0, kein Treffer, Altfall-Warnung', sauber.status === 0 && /0 Treffer/.test(sauber.aus) && sauber.aus.includes('⚠ WARNUNG'), sauber)
 
+pruefe('Schlusszeile VERSTÖSSE: Altfall 0', /^VERSTÖSSE: 0$/m.test(altfall.aus), altfall)
+pruefe('Schlusszeile VERSTÖSSE: ein neuer Treffer 1', /^VERSTÖSSE: 1$/m.test(neu.aus), neu)
+pruefe('Schlusszeile VERSTÖSSE: sauber 0', /^VERSTÖSSE: 0$/m.test(sauber.aus), sauber)
+
 if (fehler) process.exit(1)
 console.log(`check-handbeleg-notizseite-lauf: ${faelle} Fälle grün, Skript, Ratsche und Exit-Code laufen als Prozess.`)
