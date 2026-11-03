@@ -5737,6 +5737,13 @@
   dub: false
   checkedAt: '2026-09-19'
   note: "Prime „Fushigi Yugi OVA“ (Crunchyroll-Kanal) = Staffel 1 TV-Serie 52 Folgen, Staffel 2 beide OVAs 3+6 = 9 Folgen (Daniel, Durchgang 19.09.2026). Amazons Sprachangabe ist beim Kanal kein Beleg; Beleg ist die Crunchyroll-API (DE-Katalog, Serie GRWE2W42R, 0 von 9 Folgen deutsch, gemessen 06.09.2026). Deutsch gibt es nur auf DVD (2005)."
+- anilistId: 144932
+  title: "Edens Zero: Season 2"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/0KXOMCNFCKPTA6Z6HNIJ0ESQ9P
+  dub: false
+  checkedAt: '2026-09-19'
+  note: "Seite 0KXOMCNFCKPTA6Z6HNIJ0ESQ9P zeigt am 19.09.2026 „In Prime enthalten“ (kein Kanal mehr), Wiedergabesprachen nur Français und 日本語 (Daniel im Durchgang, Bild). Damit ist Amazons eigene Angabe ein Beleg. Der frühere Beleg stand an der Adresse eines anderen Titels und wurde dort entfernt (PR 2760); die Messung gilt dieser Seite."
 - anilistId: 5630
   title: "Eden of the East"
   platform: primevideo
