@@ -1,15 +1,36 @@
 {
-  "scrapedAt": "2026-11-03T04:18:19.681Z",
+  "scrapedAt": "2026-11-03T15:02:34.953Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 40,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 51,
-    "schon in einem Rubrik-Feed gelesen": 30,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 9,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 16,
+    "schon in einem Rubrik-Feed gelesen": 6,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 1,
     "Sprachhinweis älter als 45 Tage": 6
   },
   "proposals": [
+    {
+      "articleTitle": "Design der neuen »Neon Genesis Evangelion«-Komplettbox + Extras",
+      "articleUrl": "https://www.anime2you.de/news/1067138/neue-evangelion-komplettbox-design/",
+      "publishedAt": "2026-11-03",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2027-02-05",
+          "context": "Februar 2027 Die neue Komplettbox erscheint nach aktueller Planung am 5. Februar 2027 als Blu-ray. Diese beinhaltet alle 26 Episoden auf Deu"
+        },
+        {
+          "month": "2027-02",
+          "context": "sten Produktbilder findet ihr weiter unten in diesem Artikel. Release im Februar 2027 Die neue Komplettbox erscheint nach aktueller Planung"
+        }
+      ],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "TV-Guide: Anime im deutschen Fernsehen in KW 45/2026",
       "articleUrl": "https://www.anime2you.de/news/1066723/anime-tv-programm-45-2026/",
@@ -3800,7 +3821,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-28"
+      "sammelGelesen": "2026-11-03"
     },
     {
       "articleTitle": "Netflix startet große Werbeoffensive in 15 weiteren Ländern",
@@ -3884,7 +3905,7 @@
           "datum": "2026-10-01"
         }
       ],
-      "sammelGelesen": "2026-10-25"
+      "sammelGelesen": "2026-11-03"
     },
     {
       "articleTitle": "Neue Mehrwertsteuer-Aktion bei MediaMarkt und SATURN",
@@ -4027,7 +4048,7 @@
           "datum": "2026-10-06"
         }
       ],
-      "sammelGelesen": "2026-10-25"
+      "sammelGelesen": "2026-11-03"
     },
     {
       "articleTitle": "Prime Video fügt drei Anime-Neuzugänge zu seinem Katalog hinzu",
@@ -4072,7 +4093,7 @@
           "folgen": 12
         }
       ],
-      "sammelGelesen": "2026-10-26"
+      "sammelGelesen": "2026-11-03"
     },
     {
       "articleTitle": "AKIBA PASS TV kündigt zwei neue Herbst-Simulcasts 2026 an",
@@ -4104,7 +4125,7 @@
           "datum": "2026-09-30"
         }
       ],
-      "sammelGelesen": "2026-10-26"
+      "sammelGelesen": "2026-11-03"
     },
     {
       "articleTitle": "Crunchyroll ergänzt drei Anime-Neuzugänge + Synchro",
@@ -4154,7 +4175,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-26"
+      "sammelGelesen": "2026-11-03"
     },
     {
       "articleTitle": "AniMoon-Angebot: »Higurashi GOU«-Komplettset zum Sonderpreis",

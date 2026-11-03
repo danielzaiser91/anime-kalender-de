@@ -38,6 +38,7 @@ function nfpLage() {
     laeuft: Boolean(DURCHLAUF.laeuft),
     abbruch: Boolean(DURCHLAUF.abbruch),
     stoerung: DURCHLAUF.stoerung ?? null,
+    verworfenFremd: DURCHLAUF.verworfenFremd?.anzahl ?? 0,
     randOffen: Boolean(DURCHLAUF.randOffen),
   }
 }
@@ -59,6 +60,7 @@ function nfpUrteil(D, reihe, fertig) {
     fertig,
     abbruch: Boolean(D.abbruch),
     stoerung: D.stoerung ?? null,
+    verworfenFremd: D.verworfenFremd?.anzahl ?? 0,
     randOffen: Boolean(D.randOffen),
     folgen: D.folgen.length,
     ungemeldet: nfpBereiche(offen),

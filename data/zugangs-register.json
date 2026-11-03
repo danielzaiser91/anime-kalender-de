@@ -3,69 +3,54 @@
   "hinweis": "Nur Namen, nie Werte. Die Workflows je Zugang prüft tools/zugangs-waechter.mjs --register-pruefen gegen .github/workflows/. gueltigBis bleibt null, bis Daniel das Ablaufdatum aus dem Konto abliest (ISO-Datum); der Wächter warnt dann 14 Tage vorher.",
   "laeufe": {
     "refresh-hourly.yml": {
-      "fristStunden": 5,
       "name": "Stündlich — Sendezeiten"
     },
     "refresh-data.yml": {
-      "fristStunden": 36,
       "name": "Täglich — alle Quellen"
     },
     "refresh-weekly.yml": {
-      "fristStunden": 216,
       "name": "Wöchentlich — tiefer Durchlauf"
     },
     "daten-auf-abruf.yml": {
-      "fristStunden": 36,
       "name": "Datenlauf auf Abruf (Cron 21:05, 00:00, 02:00 UTC)"
     },
     "anisearch-katalog.yml": {
-      "fristStunden": 36,
       "name": "aniSearch-Katalog"
     },
     "tonspuren-monatlich.yml": {
-      "fristStunden": 840,
       "name": "Monatlich — Tonspuren (Cron am 2.; 35 Tage)"
     },
     "bestand-bauen.yml": {
-      "fristStunden": 24,
       "name": "Bestand — zusammenführen und bauen"
     },
     "d1-verbrauch.yml": {
-      "fristStunden": 48,
       "name": "Wache — Datenbankverbrauch"
     },
     "claude-anime2you-extraktion.yml": {
-      "fristStunden": 48,
       "name": "Claude — Anime2You-Artikel auswerten",
       "claude": true
     },
     "claude-wache-urteil.yml": {
-      "fristStunden": 48,
       "name": "Claude — Wache durchsehen",
       "claude": true
     },
     "claude-verpasst-recherche.yml": {
-      "fristStunden": 48,
       "name": "Claude — ausgebliebene Folgen recherchieren",
       "claude": true
     },
     "claude-daten-merge.yml": {
-      "fristStunden": 48,
       "name": "Claude — Daten-PR zusammenführen",
       "claude": true
     },
     "claude-reparatur.yml": {
-      "fristStunden": null,
       "name": "Claude — roten Datenlauf untersuchen (startet nur bei Rot)",
       "claude": true
     },
     "claude-auftrag.yml": {
-      "fristStunden": null,
       "name": "Claude — Auftrag abarbeiten (von Hand)",
       "claude": true
     },
     "pr-pruefer.yml": {
-      "fristStunden": null,
       "name": "Claude — Pull Request prüfen (startet je PR)",
       "claude": true
     }
@@ -434,6 +419,7 @@
         "claude-wache-urteil.yml",
         "delta-wache.yml",
         "fund-nachliefern.yml",
+        "pr-pruefer-nachtrag.yml",
         "pr-pruefer.yml",
         "wecker-wache.yml"
       ],

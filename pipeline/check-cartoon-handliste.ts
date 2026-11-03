@@ -128,7 +128,19 @@ try {
   pruefe('Dreamland steht drin, ohne feste Kennung (der Abruf sucht)', dream?.name === 'Dreamland' && dream.tmdb === undefined, dream)
   const cousteau = echt.find((e) => e.adn === 748)
   pruefe('Cousteau ist Animation (TMDB 103938, 26 Folgen wie bei ADN), kein Grenzfall mehr', cousteau?.tmdb === 103938 && !cousteau.pruefen, cousteau)
+  const spirouFantasio = echt.find((e) => e.adn === 778)
+  pruefe('Spirou und Fantasio hat feste Kennung 37793 (2006, 39 Folgen wie bei ADN)', spirouFantasio?.tmdb === 37793 && !spirouFantasio.pruefen, spirouFantasio)
   pruefe('keine ADN-Kennung doppelt', new Set(echt.map((e) => e.adn)).size === echt.length)
+
+  console.log('\nFeste TMDB-Kennungen der ADN-Serien ohne aniSearch-Eintrag')
+  const festeSoll: [number, string, number][] = [[734, 'Tintin', 1570], [1144, 'Billy & Buddy', 69906], [1265, 'Billy & Buddy 3D', 72376], [1278, 'Yakari', 61071], [778, 'Spirou und Fantasio', 37793]]
+  for (const [adn, name, tmdb] of festeSoll) pruefe(`${name}: Handliste trägt TMDB ${tmdb}`, echt.find((e) => e.adn === adn)?.tmdb === tmdb)
+  // Die Suche liefert zu jedem Namen einen Animations-Treffer mit gleichem Namen, aber fremder Kennung: die feste Kennung muss trotzdem gelten.
+  const gesuchtFest: string[] = []
+  const fremd = async (b: string) => (gesuchtFest.push(b), [treffer(999999, b, b, '2000-01-01')])
+  const festAufgeloest = await loeseHandliste(echt, new Map(), fremd, () => {})
+  for (const [adn, name, tmdb] of festeSoll) pruefe(`${name}: aufgelöst zu TMDB ${tmdb}, Namenstreffer überstimmt nicht`, festAufgeloest.get(adn) === tmdb, festAufgeloest.get(adn))
+  pruefe('feste Einträge werden nicht gesucht', !gesuchtFest.some((b) => ['Les Aventures de Tintin', 'Boule et Bill', 'Boule & Bill 3D', 'Yakari'].includes(b)), gesuchtFest)
 
   console.log('\nBau: ADN-Serie ohne aniSearch-Eintrag als Cartoon')
   const { ergaenzeAdnTitel } = await import('./bau/07-adn.ts')

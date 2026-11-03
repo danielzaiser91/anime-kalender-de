@@ -1,5 +1,5 @@
 {
-  "anzahl": 22,
+  "anzahl": 21,
   "serien": [
     {
       "showId": 444,
@@ -61,13 +61,6 @@
       "showId": 732,
       "title": "Magic Roundabout",
       "originalTitle": "The Magic Roundabout",
-      "grund": "kein-kandidat",
-      "kandidaten": []
-    },
-    {
-      "showId": 734,
-      "title": "Tintin (Adventures)",
-      "originalTitle": "Les Aventures de Tintin",
       "grund": "kein-kandidat",
       "kandidaten": []
     },

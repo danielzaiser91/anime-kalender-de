@@ -7,6 +7,7 @@ import { folgentitelAusNotiz, folgeUeberTitel } from './folgentitel-anker.ts'
 import type { AnbieterStaffel, Staffeleintrag } from './folgenbereiche.ts'
 import type { Blockurteil } from './episodentitel-block.ts'
 import { warn } from './util.ts'
+import { nummerUeberSumme } from './staffelsumme-gruppe.ts'
 import { blockUrteile, folgenlisteVon, nummerUeberBlock } from './titel-bloecke.ts'
 
 export interface VerteilMeldung {
@@ -46,6 +47,8 @@ export function verteileMeldungen(
   staffeln: Staffeleintrag[],
   /** Bekommt den Grund jedes widersprüchlichen Blocks (Prüfliste); die Prüfung braucht ihn nicht. */
   meldeZuPruefen: (grund: string) => void = () => {},
+  /** Versatz der Staffelsumme (`staffelsumme.ts`), wo die Liste des Anbieters nicht bei Staffel 1 beginnt und Folgentitel ihn bestätigen. */
+  summenVersatz?: number,
 ): Verteilung {
   const verteilung: Verteilung = { jeStaffel: new Map(), notizJeStaffel: new Map(), ueberFolgentitel: 0, zuPruefen: [] }
   if (!anbieterStaffeln || !staffeln.length) return verteilung
@@ -69,11 +72,13 @@ export function verteileMeldungen(
     const anker =
       m.plattform === 'netflix' ? folgeUeberTitel(folgentitelAusNotiz(m.notiz), staffeln.map((x) => x.id)) : null
     const ankerStaffel = anker ? staffeln.find((x) => x.id === anker.id) : undefined
+    const ueberSumme = summenVersatz === undefined ? null : nummerUeberSumme(summenVersatz, anbieterStaffeln, m.staffel, m.folge_nr)
+    const nachSumme = ueberSumme ? { staffel: staffeln[0]!, folgeInStaffel: ueberSumme } : null
     const treffer = ueberBlock
       ? { staffel: staffeln[0]!, folgeInStaffel: ueberBlock }
       : ankerStaffel
         ? { staffel: ankerStaffel, folgeInStaffel: anker!.nr }
-        : ordneMeldungZuPlattform(m.plattform, { folge: m.folge_nr, staffel: m.staffel }, staffeln, anbieterStaffeln)
+        : nachSumme ?? ordneMeldungZuPlattform(m.plattform, { folge: m.folge_nr, staffel: m.staffel }, staffeln, anbieterStaffeln)
     if (!treffer) continue
     if (ueberBlock || ankerStaffel) verteilung.ueberFolgentitel++
     const bisher = verteilung.jeStaffel.get(treffer.staffel.id) ?? []
