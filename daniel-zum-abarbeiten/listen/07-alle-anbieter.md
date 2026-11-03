@@ -42,7 +42,7 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | # | Datum | Reihe | Noch zu bestätigen |
 |---|---|---|---|
 | 1 | 2026-11-03 | Honey Lemon Soda | [Hauptserie]() |
-| 2 | 2026-10-25 | Meine ganz besondere Hochzeit | [Special]() |
+| 2 | 2026-10-25 | Meine ganz besondere Hochzeit | [Special](https://www.netflix.com/title/82643530) |
 | 3 | 2026-10-15 | Sankarea: Undying Love | [Hauptserie]() |
 | 4 | 2026-10-10 | Demon Slayer: Kimetsu no Yaiba | [Mugen Train Arc]() · [Entertainment District Arc]() |
 | 5 | 2026-10-08 | Kamisama Kiss | [Hauptserie](https://www.netflix.com/title/80070071) |

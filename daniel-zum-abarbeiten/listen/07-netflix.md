@@ -9,7 +9,7 @@ Antworten steht in [07-alle-anbieter.md](07-alle-anbieter.md).
 
 | # | Datum | Reihe | Noch zu bestätigen |
 |---|---|---|---|
-| 1 | 2026-10-25 | Meine ganz besondere Hochzeit | [Special]() |
+| 1 | 2026-10-25 | Meine ganz besondere Hochzeit | [Special](https://www.netflix.com/title/82643530) |
 | 2 | 2026-10-08 | Kamisama Kiss | [Hauptserie](https://www.netflix.com/title/80070071) |
 | 3 | 2026-10-06 | My Hero Academia | [Vigilantes Staffel 2](https://www.netflix.com/title/82036361) |
 | 4 | 2026-08-21 | Vampire Knight | [Guilty](https://www.netflix.com/title/70309457) |
