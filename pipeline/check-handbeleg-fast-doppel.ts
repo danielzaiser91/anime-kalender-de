@@ -12,8 +12,13 @@ import { join, resolve } from 'node:path'
 import { entferneFastDoppel } from './lib/handbeleg-fast-doppel.ts'
 import { ROOT } from './lib/util.ts'
 
-/** Stand vom 03.11.2026 (Zweigbasis bee2c8ca1): 48 Belege in 40 Gruppen; der Datencommit setzt die Grenze auf 0. */
-const NOCH_ZUSAMMENFUEHRBAR_HOECHSTENS = 48
+/**
+ * Stand vom 03.11.2026 (Zweigbasis bee2c8ca1): 48 überzählige Belege in 40 Gruppen; 44 davon fallen mit dem Datencommit (Grenze dann 0).
+ * Vier Gruppen bleiben stehen, weil zwei Fassungen desselben Verweises einander abwechseln (Kabukicho Sherlock, Alice in der
+ * Wunderland-Bäckerei, Detektiv Conan zweimal): Ein Zusammenführen kippte bei gleichem Datum den Gewinner der Verschmelzung.
+ */
+const NOCH_ZUSAMMENFUEHRBAR_HOECHSTENS = 44
+const VERSCHRAENKT_HOECHSTENS = 4
 
 let verletzt = 0
 function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
@@ -52,17 +57,27 @@ const kommentarAmErsten = `# Nur zur Info zu diesem Beleg\n${beleg(1, '2026-08-0
 pruefe('Kommentar am bleibenden Beleg stört nicht', entferneFastDoppel(kommentarAmErsten).text === `# Nur zur Info zu diesem Beleg\n${beleg(1, '2026-09-01')}\n`, entferneFastDoppel(kommentarAmErsten).text)
 const ohneAnfuehrung = datei(beleg(1, '2026-08-01'), beleg(1, '2026-09-01').replace("'2026-09-01'", '2026-09-01'))
 const roh = entferneFastDoppel(ohneAnfuehrung)
-pruefe('Datum als YAML-Datum (ohne Anführungszeichen): nicht angefasst, gezählt', roh.entfernt === 0 && roh.mitKommentar === 1 && roh.text === ohneAnfuehrung, roh)
+pruefe('Datum als YAML-Datum (ohne Anführungszeichen): nicht angefasst, gezählt', roh.entfernt === 0 && roh.blockiert === 1 && roh.text === ohneAnfuehrung, roh)
+/* Kabukicho Sherlock: ein anderer Beleg zum selben Verweis dazwischen entschiede bei gleichem Datum die Verschmelzung. */
+const dazwischen = entferneFastDoppel(datei(beleg(1, '2026-08-01'), beleg(1, '2026-09-01', 'B'), beleg(1, '2026-09-01')))
+pruefe('Beleg zum selben Verweis zwischen den Doppeln: nicht angefasst, gezählt', dazwischen.entfernt === 0 && dazwischen.blockiert === 1, dazwischen)
+const davorUndDanach = entferneFastDoppel(datei(beleg(1, '2026-09-01', 'B'), beleg(1, '2026-08-01'), beleg(1, '2026-09-01'), beleg(1, '2026-09-02', 'C')))
+pruefe('Belege zum selben Verweis vor und nach den Doppeln stören nicht', davorUndDanach.entfernt === 1 && davorUndDanach.blockiert === 0, davorUndDanach)
+const andereSeite = entferneFastDoppel(datei(beleg(1, '2026-08-01'), beleg(1, '2026-09-01', 'B', 'primevideo'), beleg(1, '2026-09-01')))
+pruefe('Beleg zu einem anderen Verweis dazwischen stört nicht', andereSeite.entfernt === 1 && andereSeite.blockiert === 0, andereSeite)
+const andereAdresse = beleg(1, '2026-09-01', 'B').replace('  dub: true', '  url: https://www.amazon.de/gp/video/detail/B0AAAAAAAA\n  dub: true')
+const mitAdresse = entferneFastDoppel(datei(beleg(1, '2026-08-01'), andereAdresse, beleg(1, '2026-09-01')))
+pruefe('Beleg zu einer anderen Adresse derselben Plattform dazwischen stört nicht', mitAdresse.entfernt === 1 && mitAdresse.blockiert === 0, mitAdresse)
 const gleichesDatum = datei(beleg(1, '2026-09-01'), beleg(1, '2026-08-01'))
 pruefe('der Erste hat schon das jüngste Datum: Zeile bleibt', entferneFastDoppel(gleichesDatum).text === beleg(1, '2026-09-01') + '\n')
 const ersterOhneDatum = datei(beleg(1, '2026-08-01').replace("  checkedAt: '2026-08-01'\n", ''), beleg(1, '2026-09-01'))
 const ohneDatum = entferneFastDoppel(ersterOhneDatum)
-pruefe('der Erste ohne checkedAt-Zeile: nicht angefasst, gezählt', ohneDatum.entfernt === 0 && ohneDatum.mitKommentar === 1 && ohneDatum.text === ersterOhneDatum, ohneDatum)
+pruefe('der Erste ohne checkedAt-Zeile: nicht angefasst, gezählt', ohneDatum.entfernt === 0 && ohneDatum.blockiert === 1 && ohneDatum.text === ersterOhneDatum, ohneDatum)
 const nurBrowser = `# --- Aus dem Browser gemeldet, abgeholt am 2026-09-02 ---\n\n${beleg(1, '2026-08-01')}\n\n${beleg(1, '2026-09-01')}\n`
 pruefe('zwei Browser-Belege: einer bleibt, Abschnittskopf bleibt', entferneFastDoppel(nurBrowser).text === `# --- Aus dem Browser gemeldet, abgeholt am 2026-09-02 ---\n\n${beleg(1, '2026-09-01')}\n`, entferneFastDoppel(nurBrowser).text)
 const kommentiert = `${beleg(1, '2026-09-01')}\n\n# Nur zur Info zu diesem Beleg\n${beleg(1, '2026-08-01')}\n`
 const k = entferneFastDoppel(kommentiert)
-pruefe('eigener Kommentar am überzähligen Beleg: nichts entfernt, gezählt', k.entfernt === 0 && k.mitKommentar === 1 && k.text === kommentiert)
+pruefe('eigener Kommentar am überzähligen Beleg: nichts entfernt, gezählt', k.entfernt === 0 && k.blockiert === 1 && k.text === kommentiert)
 pruefe('zweiter Lauf entfernt nichts mehr', entferneFastDoppel(entferneFastDoppel(nurHand).text).entfernt === 0)
 pruefe('leere Datei bleibt leer', entferneFastDoppel('').text === '' && entferneFastDoppel('# nur Kommentar\n').entfernt === 0)
 
@@ -88,7 +103,8 @@ try {
 /* Bestand */
 const bilanz = entferneFastDoppel(readFileSync(resolve(ROOT, 'data', 'dub-confirmed.yaml'), 'utf8'))
 pruefe(`Handbelege: höchstens ${NOCH_ZUSAMMENFUEHRBAR_HOECHSTENS} Fast-Doppel zusammenführbar (jetzt ${bilanz.entfernt})`, bilanz.entfernt <= NOCH_ZUSAMMENFUEHRBAR_HOECHSTENS)
-pruefe('Handbelege: keine Fast-Doppel-Gruppe mit gemischter Herkunft oder eigenem Kommentar', bilanz.gemischt + bilanz.mitKommentar === 0, bilanz)
+pruefe('Handbelege: keine Fast-Doppel-Gruppe mit gemischter Herkunft', bilanz.gemischt === 0, bilanz)
+pruefe(`Handbelege: höchstens ${VERSCHRAENKT_HOECHSTENS} verschränkte Fast-Doppel-Gruppen (jetzt ${bilanz.blockiert})`, bilanz.blockiert <= VERSCHRAENKT_HOECHSTENS, bilanz)
 
 if (verletzt) process.exit(1)
-console.log(`✓ Handbelege: ${bilanz.entfernt} zusammenführbare Fast-Doppel in ${bilanz.gruppen} Gruppen, ${bilanz.gemischt + bilanz.mitKommentar} nicht auflösbar.`)
+console.log(`✓ Handbelege: ${bilanz.entfernt} zusammenführbare Fast-Doppel in ${bilanz.gruppen} Gruppen, ${bilanz.gemischt} gemischt, ${bilanz.blockiert} blockiert.`)

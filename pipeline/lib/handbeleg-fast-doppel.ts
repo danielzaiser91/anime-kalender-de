@@ -1,4 +1,5 @@
 import yaml from 'js-yaml'
+import { adressKern, dubKey } from './dub-confirmed.ts'
 
 /**
  * Fast-Doppel in `data/dub-confirmed.yaml`: Belege, die sich nur im Prüfdatum (`checkedAt`) unterscheiden.
@@ -14,9 +15,9 @@ import yaml from 'js-yaml'
  *  - ein überzähliger Beleg einen eigenen Kommentar unmittelbar davor trägt (er würde am Nachbarn hängen bleiben), oder
  *  - der bleibende Beleg keine eigene `checkedAt`-Zeile hat, in die das jüngste Datum passt.
  */
-export type FastDoppelBilanz = { text: string; entfernt: number; gruppen: number; gemischt: number; mitKommentar: number }
+export type FastDoppelBilanz = { text: string; entfernt: number; gruppen: number; gemischt: number; blockiert: number }
 
-type Block = { von: number; bis: number; datumZeile: number; schluessel: string; datum: string; browser: boolean; kommentar: boolean }
+type Block = { von: number; bis: number; datumZeile: number; falt: string; schluessel: string; datum: string; browser: boolean; kommentar: boolean }
 
 const ISO_TAG = /^\d{4}-\d{2}-\d{2}$/
 const ABSCHNITT = /^# ---/
@@ -45,7 +46,7 @@ function lieseBloecke(zeilen: string[]): Block[] {
         const { checkedAt, ...rest } = beleg
         const sortiert = Object.fromEntries(Object.entries(rest).sort(([a], [b]) => a.localeCompare(b)))
         const datumZeile = zeilen.slice(i, ende).findIndex((x) => /^\s+checkedAt:/.test(x))
-        bloecke.push({ von: i, bis: ende, datumZeile: datumZeile < 0 ? -1 : i + datumZeile, schluessel: JSON.stringify(sortiert), datum: String(checkedAt ?? ''), browser, kommentar })
+        bloecke.push({ von: i, bis: ende, datumZeile: datumZeile < 0 ? -1 : i + datumZeile, falt: `${dubKey(Number(beleg.anilistId), String(beleg.platform))}|${adressKern(beleg.url as string | undefined)}`, schluessel: JSON.stringify(sortiert), datum: String(checkedAt ?? ''), browser, kommentar })
       }
     } catch {
       /* ein unlesbarer Block bleibt stehen */
@@ -55,23 +56,35 @@ function lieseBloecke(zeilen: string[]): Block[] {
   return bloecke
 }
 
+/**
+ * Steht zwischen dem ersten und letzten Beleg der Gruppe ein anderer zum selben Verweis (Titel, Plattform, Adresse)? `ladeHandbelege`
+ * verschmilzt sie der Reihe nach, und bei gleichem Datum gewinnt der spätere: Der Zwischenbeleg würde bei einem Zusammenführen
+ * sonst gewinnen statt des letzten Gruppenbelegs (Kabukicho Sherlock, Prime, 13.10.2026).
+ */
+function trenntFremder(gruppe: Block[], alle: Block[]): boolean {
+  const erster = gruppe[0]!.von
+  const letzter = gruppe[gruppe.length - 1]!.von
+  return alle.some((b) => b.falt === gruppe[0]!.falt && !gruppe.includes(b) && b.von > erster && b.von < letzter)
+}
+
 /** Entfernt die überzähligen Belege jeder Gruppe; der Rest des Textes (Kommentare, Reihenfolge, Anführungszeichen) bleibt unangetastet. */
 export function entferneFastDoppel(text: string): FastDoppelBilanz {
   const zeilen = text.split('\n')
   const gruppenMap = new Map<string, Block[]>()
-  for (const b of lieseBloecke(zeilen)) gruppenMap.set(b.schluessel, [...(gruppenMap.get(b.schluessel) ?? []), b])
+  const alle = lieseBloecke(zeilen)
+  for (const b of alle) gruppenMap.set(b.schluessel, [...(gruppenMap.get(b.schluessel) ?? []), b])
   const raus = new Set<Block>()
   const neuesDatum = new Map<number, string>()
   let gruppen = 0
   let gemischt = 0
-  let mitKommentar = 0
+  let blockiert = 0
   for (const g of gruppenMap.values()) {
     if (g.length < 2) continue
     gruppen++
     const [bleibt, ...weg] = g as [Block, ...Block[]]
     const juengster = g.reduce((a, b) => (b.datum > a.datum ? b : a)).datum
     if (g.some((b) => b.browser !== bleibt.browser)) gemischt++
-    else if (weg.some((b) => b.kommentar) || bleibt.datumZeile < 0 || !g.every((b) => ISO_TAG.test(b.datum))) mitKommentar++
+    else if (weg.some((b) => b.kommentar) || bleibt.datumZeile < 0 || !g.every((b) => ISO_TAG.test(b.datum)) || trenntFremder(g, alle)) blockiert++
     else {
       weg.forEach((b) => raus.add(b))
       if (juengster !== bleibt.datum) neuesDatum.set(bleibt.datumZeile, juengster)
@@ -91,5 +104,5 @@ export function entferneFastDoppel(text: string): FastDoppelBilanz {
     while (ausgabe.length && (ausgabe[ausgabe.length - 1] ?? '').trim() === '') ausgabe.pop()
     i = b.bis
   }
-  return { text: ausgabe.join('\n'), entfernt: raus.size, gruppen, gemischt, mitKommentar }
+  return { text: ausgabe.join('\n'), entfernt: raus.size, gruppen, gemischt, blockiert }
 }

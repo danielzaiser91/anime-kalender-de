@@ -17,7 +17,7 @@ const nachher = (yaml.load(bilanz.text) as unknown[]) ?? []
 const stand = new Set(vorher.map((b) => JSON.stringify(b)))
 const ok = vorher.length - nachher.length === bilanz.entfernt && nachher.every((b) => stand.has(JSON.stringify(b)))
 console.log(`Belege vorher ${vorher.length}, nachher ${nachher.length}, entfernt ${bilanz.entfernt}`)
-console.log(`Gruppen ${bilanz.gruppen}, davon nicht zusammengeführt: ${bilanz.gemischt} mit gemischter Herkunft, ${bilanz.mitKommentar} mit eigenem Kommentar`)
+console.log(`Gruppen ${bilanz.gruppen}, davon nicht zusammengeführt: ${bilanz.gemischt} mit gemischter Herkunft, ${bilanz.blockiert} aus anderem Grund blockiert (Kommentar, Datumsform, Reihenfolge)`)
 if (!ok) {
   console.error('Gegenprobe gescheitert — nichts geschrieben.')
   process.exit(1)
