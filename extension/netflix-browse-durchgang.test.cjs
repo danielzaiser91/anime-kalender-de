@@ -28,13 +28,15 @@ const offene = () => ({ 81659233: { titel: 'Afro Samurai', staffeln: [{ nr: 1, o
 
 /** Baut die Welt der Seite; `x` überschreibt Pfad, Durchgang, Sprung und Antwort der Meldung. */
 function welt(x = {}) {
-  const protokoll = { gemeldet: [], spur: [], weiter: 0 }
+  const protokoll = { gemeldet: [], spur: [], weiter: 0, gespeichert: [] }
   const kontext = {
     globalThis: null,
-    location: { pathname: x.pfad ?? '/browse' },
-    Date: { now: () => x.jetzt ?? JETZT + 10_000 },
+    location: { pathname: x.pfad ?? '/browse', search: x.suche ?? '' },
+    speicherSchreiben: async (werte) => protokoll.gespeichert.push(werte),
+    uhr: x.jetzt ?? JETZT + 10_000,
+    Date: { now: () => kontext.uhr },
     selbstAn: x.selbstAn ?? true,
-    DURCHLAUF: { laeuft: false },
+    DURCHLAUF: { laeuft: false, folgen: x.folgen ?? [], listeFuer: x.listeFuer ?? null },
     offeneTitel: offene(),
     zuletztGeoeffnet: 'zuletzt' in x ? x.zuletzt : { id: '81659233', zeit: JETZT },
     selbstUebersprungen: new Map(),
@@ -58,6 +60,54 @@ async function lauf(x) {
   const w = welt(x)
   await vm.runInContext('selbstStartenSchritt()', w.kontext)
   return w
+}
+
+async function ankunftFaelle() {
+  /* A1/A2 (Prüfer 2751): nur melden, wenn der Sprung nirgends angekommen ist. */
+  const takt = async (w, pfad, ms, suche = '') => {
+    w.kontext.location.pathname = pfad
+    w.kontext.location.search = suche
+    w.kontext.uhr = JETZT + ms
+    await vm.runInContext('selbstStartenSchritt()', w.kontext)
+  }
+  const stumm = (w) => w.protokoll.gemeldet.length === 0 && w.protokoll.weiter === 0
+
+  const a1 = welt({ pfad: '/title/81659233', listeFuer: '81659233' })
+  await takt(a1, '/title/81659233', 3000)
+  await takt(a1, '/browse', 10_000)
+  pruefe('A1 Titelseite mit Folgenliste gesehen, dann /browse: keine Meldung, kein Weitergehen', stumm(a1), a1.protokoll)
+  pruefe('… Markierung „gesehen“ auch im Speicher', a1.protokoll.gespeichert[0]?.zuletztGeoeffnet?.gesehen === true, a1.protokoll.gespeichert)
+
+  const film = welt({ folgen: [{ film: true, videoId: '81659233' }] })
+  await takt(film, '/title/81659233', 3000)
+  await takt(film, '/browse', 10_000)
+  pruefe('A1 Film-Titelseite gesehen, dann /browse: keine Meldung', stumm(film), film.protokoll)
+
+  const jbv = await lauf({ suche: '?jbv=81659233' })
+  pruefe('A1 /browse?jbv=<id>: keine Meldung', stumm(jbv), jbv.protokoll)
+  const andere = await lauf({ suche: '?foo=1&jbv=81659233' })
+  pruefe('A1 jbv als zweiter Parameter: keine Meldung', stumm(andere), andere.protokoll)
+
+  const umgeleitet = welt({ pfad: '/title/81659233' })
+  await takt(umgeleitet, '/title/81659233', 500)
+  await takt(umgeleitet, '/browse', 10_000)
+  pruefe('A1 nur der Pfad der Zieltitelseite (ohne Folgenliste), dann /browse: echte Umleitung, eine Meldung', umgeleitet.protokoll.gemeldet.length === 1 && umgeleitet.protokoll.weiter === 1, umgeleitet.protokoll)
+
+  const fremdeListe = welt({ listeFuer: '70000001' })
+  await takt(fremdeListe, '/title/81659233', 500)
+  await takt(fremdeListe, '/browse', 10_000)
+  pruefe('A1 Folgenliste eines anderen Titels zählt nicht als Ankunft: Meldung', fremdeListe.protokoll.gemeldet.length === 1, fremdeListe.protokoll)
+
+  for (const gate of ['/ProfilesGate', '/login', '/de-de/login']) {
+    const p = welt()
+    await takt(p, gate, 3000)
+    pruefe(`A2 ${gate}: keine Meldung, Durchgang wartet`, stumm(p), p.protokoll)
+    await takt(p, '/browse', 20_000)
+    pruefe(`A2 ${gate}, dann /browse nach der Profilwahl: keine Meldung`, stumm(p), p.protokoll)
+    const neuGeladen = welt({ zuletzt: p.protokoll.gespeichert[0]?.zuletztGeoeffnet })
+    await takt(neuGeladen, '/browse', 20_000)
+    pruefe(`A2 ${gate}: nach Neuladen aus dem Speicher weiter keine Meldung`, stumm(neuGeladen), neuGeladen.protokoll)
+  }
 }
 
 async function main() {
@@ -107,6 +157,8 @@ async function main() {
   pruefe('Titelseite (kein /browse): keine Selbstmeldung', titelSeite.protokoll.gemeldet.length === 0, titelSeite.protokoll)
   const sprache = await lauf({ pfad: '/de-de/browse' })
   pruefe('/de-de/browse zählt wie /browse', sprache.protokoll.gemeldet.length === 1, sprache.protokoll)
+
+  await ankunftFaelle()
 
   /* Endzählung: der Kasten nennt diese Titel einzeln. */
   const ende = vm.createContext({ globalThis: {} })

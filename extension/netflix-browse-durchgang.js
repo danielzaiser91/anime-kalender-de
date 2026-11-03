@@ -30,16 +30,39 @@ globalThis.akNetflixBrowseAuftrag = (zuletzt, offeneTitel, jetzt) => {
 }
 
 /**
- * Ein Schritt des Durchgangs auf /browse. `u`: selbstAn, pfad, zuletzt, offeneTitel, jetzt, uebersprungen (Map),
- * melden(id, titel) → `{ ok, text }`, verbrauchen(), spur(was, dazu), weiter(). Gibt `true`, wenn er gehandelt hat.
+ * **Gemeldet wird nur, wenn der Sprung nie irgendwo angekommen ist** (Prüfer 2751 A1/A2): Hat die Zieltitelseite
+ * ihre Folgenliste geliefert (`listeFuer`/`filmId`) oder war eine andere Seite zu sehen (Profilwahl, Login),
+ * wurde nicht umgeleitet, und ein späteres /browse ist Daniels eigener Weg. Die Markierung `gesehen` liegt auch
+ * im Speicher, denn Profilwahl und Login laden die Seite neu. Der Pfad der Zieltitelseite allein zählt nicht:
+ * `gehe()` setzt ihn sofort, Netflix leitet danach erst um.
+ */
+function browseGesehenMerken(u, auftrag) {
+  if (auftrag.gesehen) return
+  const titelSeite = /^\/(?:[a-z-]+\/)?title\//.test(u.pfad)
+  const id = String(auftrag.id)
+  if (titelSeite && ![u.listeFuer, u.filmId].some((k) => k != null && String(k) === id)) return
+  const neu = { ...auftrag, gesehen: true }
+  u.setzen(neu)
+  void u.speichern({ zuletztGeoeffnet: neu })
+}
+
+/**
+ * Ein Schritt des Durchgangs. `u`: selbstAn, pfad (mit Suchteil), zuletzt, offeneTitel, jetzt, listeFuer, filmId,
+ * uebersprungen (Map), melden(id, titel) → `{ ok, text }`, setzen(zuletzt), speichern(werte), spur(was, dazu),
+ * weiter(). Gibt `true`, wenn er gemeldet hat.
  */
 globalThis.akNetflixBrowseDurchgang = async (u) => {
-  if (!u.selbstAn || !/^\/(?:[a-z-]+\/)?browse\b/.test(u.pfad)) return false
+  if (!u.selbstAn) return false
   const auftrag = globalThis.akNetflixBrowseAuftrag(u.zuletzt, u.offeneTitel, u.jetzt)
-  if (!auftrag || u.jetzt - (auftrag.zeit ?? 0) < BROWSE_ANKOMMEN_MS) return false
+  if (!auftrag) return false
+  if (!/^\/(?:[a-z-]+\/)?browse\b/.test(u.pfad)) {
+    browseGesehenMerken(u, auftrag)
+    return false
+  }
+  if (auftrag.gesehen || /[?&]jbv=/.test(u.pfad) || u.jetzt - (auftrag.zeit ?? 0) < BROWSE_ANKOMMEN_MS) return false
   const id = String(auftrag.id)
   const titel = u.offeneTitel[id]?.titel ?? id
-  u.verbrauchen() /* vor dem Abruf: der nächste Takt darf nicht ein zweites Mal melden */
+  u.setzen({ ...auftrag, verbraucht: true }) /* vor dem Abruf: der nächste Takt darf nicht ein zweites Mal melden */
   const r = await u.melden(id, titel)
   if (r.ok) u.uebersprungen.set(id, globalThis.AK_NETFLIX_NICHT_DA)
   else u.uebersprungen.set(id, `Meldung nicht möglich: ${r.text}`)

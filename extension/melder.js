@@ -2778,13 +2778,16 @@ function selbstWeiter() {
 function browseUmgebung() {
   return {
     selbstAn,
-    pfad: location.pathname,
+    pfad: location.pathname + location.search,
     zuletzt: zuletztGeoeffnet,
     offeneTitel,
     jetzt: Date.now(),
     uebersprungen: selbstUebersprungen,
     melden: totMelden,
-    verbrauchen: () => (zuletztGeoeffnet = { ...zuletztGeoeffnet, verbraucht: true }),
+    listeFuer: DURCHLAUF.listeFuer,
+    filmId: DURCHLAUF.folgen[0]?.film ? DURCHLAUF.folgen[0].videoId : null,
+    setzen: (z) => (zuletztGeoeffnet = z),
+    speichern: speicherSchreiben,
     spur,
     weiter: selbstWeiter,
   }
