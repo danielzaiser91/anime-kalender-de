@@ -60,3 +60,11 @@ export function abweichungVomBekannten(doppelt: DoppelteNummer[], bekannt: reado
   const jetzt = new Set(doppelt.filter((d) => !d.mitRemake).map((d) => `${d.reihe}|${d.nummer}`))
   return { neu: [...jetzt].filter((k) => !bekannt.includes(k)), weg: bekannt.filter((k) => !jetzt.has(k)) }
 }
+
+/** Die `⚠ WARNUNG`-Zeilen zur Abweichung vom Bekannten (leer, wenn nichts abweicht). */
+export function warnzeilenZaehlung(abw: { neu: string[]; weg: string[] }): string[] {
+  const zeilen: string[] = []
+  if (abw.neu.length) zeilen.push(`  ⚠ WARNUNG Zählung: ${abw.neu.length} neue doppelte Staffelnummern in Reihen ohne Neuverfilmung: ${abw.neu.join('; ')} (Remake in aniSearch/AniList prüfen oder data/remake-von-hand.yaml, sonst in remake-zaehlung-bekannt.ts begründen)`)
+  if (abw.weg.length) zeilen.push(`  ⚠ WARNUNG Zählung: ${abw.weg.length} bekannte doppelte Staffelnummern sind weg, aus remake-zaehlung-bekannt.ts streichen: ${abw.weg.join('; ')}`)
+  return zeilen
+}
