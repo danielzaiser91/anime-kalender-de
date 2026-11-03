@@ -387,6 +387,7 @@ pipeline/check-sprecher-filter.ts
 pipeline/check-sprung-lesestelle.ts
 pipeline/check-staerkste-seite.ts
 pipeline/check-staffel-jahr0.ts
+pipeline/check-staffel-riegel.ts
 pipeline/check-staffel-synonyme.ts
 pipeline/check-staffel-teil.ts
 pipeline/check-staffel-verdrahtung.ts

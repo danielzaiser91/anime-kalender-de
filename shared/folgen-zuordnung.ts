@@ -73,7 +73,9 @@ export function folgenKern(t: string | null | undefined): string {
     .replace(/[ūúùû]/g, 'u')
     /* „E0 - Zeiten“ (Prime, Lupin III. Part 6): „E<n> - “ ist wie „Folge n:“ eine Zählung, kein Titel. */
     .replace(/^\s*(?:folge\s*|e)?\d+\s*[.:–-]\s*/, '')
-    .replace(/[^a-z0-9äöüß]/g, '')
+    /* aniSearch schreibt alt („Kuß", „Mißverständnis"), Prime neu (Z wie Zorro, 03.11.2026). */
+    .replace(/ß/g, 'ss')
+    .replace(/[^a-z0-9äöü]/g, '')
 }
 
 /**

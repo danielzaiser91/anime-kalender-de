@@ -22,6 +22,7 @@ import { recordSource } from './lib/health.ts'
 import { schliesseRohfolgenAb, type Offen } from './lib/rohfolgen-abschluss.ts'
 import { sortiereKanalGruppenAus, type ZugeordneteSeiten } from './lib/kanal-aussortieren.ts'
 import { anbieterFolgeAus } from './lib/folgen-datum.ts'
+import { staffelRiegel } from './lib/staffel-riegel.ts'
 import { leseZugeordnet } from './lib/prime-meldung-riegel.ts'
 import { ladeHandbelege } from './lib/dub-confirmed.ts'
 import { kanalWissen } from './lib/kanal-wissen.ts'
@@ -677,7 +678,9 @@ async function main(): Promise<void> {
      * der Kopf richtig.
      */
     const gemeldeteStaffel = liste[0]?.staffel_nr ?? null
-    if (gemeldeteStaffel !== null && gemeldeteStaffel > 1 && istReihenkopf(titel, titles)) {
+    const ak = listenFuer(titel)
+    const anbieter: AnbieterFolge[] = liste.map(anbieterFolgeAus)
+    if (staffelRiegel(url, gemeldeteStaffel, istReihenkopf(titel, titles), titel, anbieter, ak.listen)) {
       uebersprungenStaffel++
       continue
     }
@@ -692,9 +695,6 @@ async function main(): Promise<void> {
       erledigt.push(liste[0]!.id)
       continue
     }
-
-    const ak = listenFuer(titel)
-    const anbieter: AnbieterFolge[] = liste.map(anbieterFolgeAus)
 
     /*
       **Welche Folge gemeint ist, bleibt offen — welche Sprache, nicht.**
