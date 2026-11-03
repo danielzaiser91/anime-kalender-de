@@ -15,11 +15,16 @@ export function tabTitel(title: Title, mitTermin: boolean): string {
   return seitenTitel(anzeigeName(title), title, mitTermin)
 }
 
-/** Tab-Titel zu einer Kennung, wie das Panel ihn setzt (Bereiche und Termine eingerechnet); ohne Titel in den Daten nichts. */
-export function tabTitelFuerId(data: Pick<Dataset, 'titleById' | 'releasesByTitle'>, id: number): string | undefined {
+/** Der Titel, wie das Panel ihn zeigt (Bereiche eingerechnet), und ob er Termine hat — eine Rechnung für Panel und Tab-Titel. */
+export function panelTitel(data: Pick<Dataset, 'titleById' | 'releasesByTitle'>, id: number): { title: Title | undefined; mitTermin: boolean } {
   const releases = data.releasesByTitle.get(id) ?? []
-  const title = titelMitTerminBereichen(data.titleById.get(id), releases)
-  return title ? tabTitel(title, releases.length > 0) : undefined
+  return { title: titelMitTerminBereichen(data.titleById.get(id), releases), mitTermin: releases.length > 0 }
+}
+
+/** Tab-Titel zu einer Kennung, wie das Panel ihn setzt; ohne Titel in den Daten nichts. */
+export function tabTitelFuerId(data: Pick<Dataset, 'titleById' | 'releasesByTitle'>, id: number): string | undefined {
+  const { title, mitTermin } = panelTitel(data, id)
+  return title ? tabTitel(title, mitTermin) : undefined
 }
 
 /**
