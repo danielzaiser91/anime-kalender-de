@@ -5,6 +5,16 @@ verliert. Sie kann nicht wissen, **warum** — hier steht es. Neue Auswertungen
 kommen oben dazu, ältere bleiben stehen: An der Reihe zeigt sich, ob eine Lücke
 wiederkehrt.
 
+## 03.11.2026, 16:10 — Claude-Lauf, Befund (Lauf 41660748172, Issue #2766)
+
+**Was läuft korrekt.** Die Wache hat gemessen, nicht vermutet: Sie meldet weiter den Bau vom 02.11., 16:04 UTC (12 Urteile verloren, netflix −13 Synchro-Belege). Der Bau von 20:43 UTC hat mitUrteil +13 und titelMitSynchro +5 zurückgebracht, und im heutigen `titles.json` tragen Eyeshield 21, Beelzebub und NARUTO: Shippuuden ihren Netflix-Stream mit `dub: true` wieder.
+
+**Wo ist Verbesserungspotenzial?** Das 24-Stunden-Fenster der Wache wiederholt einen Befund, der schon behoben ist, und färbt den Lauf am Folgetag erneut rot. Sie könnte ihn als „inzwischen ausgeglichen" kennzeichnen, wenn ein späterer Lauf die Differenz zurückholt.
+
+**Wo sind echte Risiken und Lücken?** Die Ursache ist weiter offen: `data/link-check.json` hatte für 73 Netflix-Titelseiten 404 (siehe Issue #2684). Ob das echte Netflix-Abgänge waren oder falsche 404 vom Runner, ist nicht belegt. Ein Runner-Fehler ließe Belege bei jeder Linkprüfung kurz verschwinden, ohne dass etwas Bestimmtes rot wird.
+
+**Was läuft komplett falsch?** Nichts im Code; der Datensatz ist wieder vollständig. Kein Pull Request, weil keine Codeursache gefunden wurde.
+
 ## 03.11.2026, 10:05 — Claude-Lauf, Befund
 
 **Was läuft korrekt.** Bestandsbau und Deploy zeigen keinen Alarm, letzter grüner Bestandsbau-Lauf 03.11. um 08:44 Uhr (12). Zugänge und Wochenwache zeigen alle geprüften Workflows innerhalb ihrer Frist, etwa refresh-hourly (1 h/3 h), bestand-bauen (0,3 h/18 h), d1-verbrauch (16 h/48 h) (04, 05). Die Titelzahl ist über die letzten 24 Stunden stabil bei 2924 geblieben (02). Issue #2661 und die beiden Reparatur-PRs #2668/#2662, die im letzten Urteil (10) als offener Doppel-Versuch genannt waren, sind aus der Liste offener Issues/PRs verschwunden (08) — aufgelöst. Die Ausschlussgründe der Terminableitung bleiben bei 226/42/4, kein weiteres Wachstum seit 02.11. (07). Die Belege ohne Fundstelle sind von 94 (02.11.) auf 93 heute leicht zurückgegangen (09) — der mehrtägige Wachstumstrend ist vorerst gestoppt. Der am 02.11. um 16:04 Uhr gemeldete Rückgang (12 Urteile verloren, netflix 13 Synchro-Belege weniger, 02) wurde durch spätere Läufe desselben Tages weitgehend ausgeglichen (20:43 Uhr: mitUrteil +13, titelMitSynchro +5, 02); über die letzten 24 Stunden steht netto Urteile +12 (02).
