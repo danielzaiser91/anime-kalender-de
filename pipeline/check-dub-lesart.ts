@@ -2,7 +2,7 @@
  * Ratsche: `x.dub === true` (auch `== true`, `x['dub']`, geklammert) als „deutsch bestätigt“ lesen, ohne
  * `dubAbgeleitet` zu beachten. Neue Stellen in shared/ und pipeline/bau/ fallen auf; Bestand und Markenzahl dürfen nur sinken
  * (Grenzen: tools/dub-lesart-grenzen.json). Ausnahme mit Grund: Kommentar `dub-lesart: <Grund>` (Regeln: pipeline/lib/dub-lesart.ts).
- * Nicht erfasst: web/src und pipeline/lib (Stand 03.11.2026 rund 176 Lesestellen, siehe docs/wissen/quellen.md).
+ * Nicht erfasst: web/src und pipeline/lib (Stand 03.11.2026: 53 Lesungen nach dieser Regel, rund 176 mit breiterem Muster, siehe docs/wissen/quellen.md).
  * Beim Abbau die Grenzen von Hand senken; steht eine Grenze über dem Zählstand, ist der Lauf rot („auf N senken“).
  * Eine Erhöhung gegen die Basis (erster Elternteil eines Merge-Commits, sonst origin/main; fehlt beides, entfällt der Vergleich) ist rot.
  * Aufruf: npx tsx pipeline/check-dub-lesart.ts [--liste] [--wurzel <ordner>] [--basis <ref>]
