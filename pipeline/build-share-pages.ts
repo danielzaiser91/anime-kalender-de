@@ -185,8 +185,8 @@ function schreibeTitelSeiten(mitAk: { t: Title; ak: number; adresse: string }[],
   Termine.
   Und wer die Adresse aus der Leiste kopierte, bekam die Startseiten-Vorschau, weil ein
   geöffneter Titel keinen eigenen Pfad hatte. Jetzt: `/t/<slug>/` für jeden Titel.
-  Vorschaubild ist das Banner von AniList (breit, große Karte), ohne Banner das Cover
-  (kleine Karte) — eigene Bilder für 2.774 Titel wären rund 170 MB im Repo.
+  Vorschaubild: TMDB-Banner in w780, sonst das Standardbild (`lib/titel-vorschau.ts`) —
+  eigene Bilder für 2.774 Titel wären rund 170 MB im Repo.
 */
 /**
  * Die alte Adresse einer zusammengeführten Kennung (`/t/<alt>/`, in Mails und Verlinkungen verschickt) leitet auf die neue weiter —
