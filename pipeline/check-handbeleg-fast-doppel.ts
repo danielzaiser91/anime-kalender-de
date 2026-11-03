@@ -33,6 +33,8 @@ pruefe('der jüngere bleibt (älterer zuerst)', ids(entferneFastDoppel(alt).text
 const neuZuerst = datei(beleg(1, '2026-09-01'), beleg(1, '2026-08-01'))
 pruefe('der jüngere bleibt (jüngerer zuerst)', ids(entferneFastDoppel(neuZuerst).text).join() === '1@2026-09-01')
 pruefe('drei Belege: zwei fallen', entferneFastDoppel(datei(beleg(1, '2026-08-01'), beleg(1, '2026-10-01'), beleg(1, '2026-09-01'))).entfernt === 2)
+const mitEinzelnem = entferneFastDoppel(datei(beleg(1, '2026-08-01'), beleg(1, '2026-09-01'), beleg(2, '2026-09-01')))
+pruefe('ein Einzelbeleg ist keine Gruppe', mitEinzelnem.gruppen === 1 && mitEinzelnem.entfernt === 1)
 /* Was sich außer dem Datum unterscheidet, bleibt stehen. */
 pruefe('andere Notiz: beide bleiben', entferneFastDoppel(datei(beleg(1, '2026-08-01', 'A'), beleg(1, '2026-09-01', 'B'))).entfernt === 0)
 pruefe('andere Kennung: beide bleiben', entferneFastDoppel(datei(beleg(1, '2026-08-01'), beleg(2, '2026-09-01'))).entfernt === 0)
