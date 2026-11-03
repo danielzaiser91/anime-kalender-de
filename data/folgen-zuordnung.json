@@ -17843,9 +17843,9 @@
     "grund": "offen",
     "kandidaten": [
       21003,
-      14355,
       20711,
-      20485
+      20485,
+      14355
     ],
     "gesehen": "2026-10-13T16:06:06Z"
   },
@@ -17853,9 +17853,9 @@
     "grund": "offen",
     "kandidaten": [
       21003,
-      14355,
       20711,
-      20485
+      20485,
+      14355
     ],
     "gesehen": "2026-10-13T16:06:06Z"
   },
@@ -17863,9 +17863,9 @@
     "grund": "offen",
     "kandidaten": [
       21003,
-      14355,
       20711,
-      20485
+      20485,
+      14355
     ],
     "gesehen": "2026-10-13T16:06:06Z"
   },
@@ -17873,9 +17873,9 @@
     "grund": "offen",
     "kandidaten": [
       21003,
-      14355,
       20711,
-      20485
+      20485,
+      14355
     ],
     "gesehen": "2026-10-13T16:06:06Z"
   },
@@ -17889,9 +17889,9 @@
     "grund": "offen",
     "kandidaten": [
       21003,
-      14355,
       20711,
-      20485
+      20485,
+      14355
     ],
     "gesehen": "2026-10-13T16:06:06Z"
   },
@@ -17899,9 +17899,9 @@
     "grund": "offen",
     "kandidaten": [
       21003,
-      14355,
       20711,
-      20485
+      20485,
+      14355
     ],
     "gesehen": "2026-10-13T16:06:06Z"
   },
@@ -17909,9 +17909,9 @@
     "grund": "offen",
     "kandidaten": [
       21003,
-      14355,
       20711,
-      20485
+      20485,
+      14355
     ],
     "gesehen": "2026-10-13T16:06:06Z"
   },
@@ -17919,9 +17919,9 @@
     "grund": "offen",
     "kandidaten": [
       21003,
-      14355,
       20711,
-      20485
+      20485,
+      14355
     ],
     "gesehen": "2026-10-13T16:06:06Z"
   },
@@ -17929,9 +17929,9 @@
     "grund": "offen",
     "kandidaten": [
       21003,
-      14355,
       20711,
-      20485
+      20485,
+      14355
     ],
     "gesehen": "2026-10-13T16:06:06Z"
   },
@@ -17939,9 +17939,9 @@
     "grund": "offen",
     "kandidaten": [
       21003,
-      14355,
       20711,
-      20485
+      20485,
+      14355
     ],
     "gesehen": "2026-10-13T16:06:06Z"
   },
@@ -17949,9 +17949,9 @@
     "grund": "offen",
     "kandidaten": [
       21003,
-      14355,
       20711,
-      20485
+      20485,
+      14355
     ],
     "gesehen": "2026-10-13T16:06:06Z"
   },
@@ -17959,9 +17959,9 @@
     "grund": "offen",
     "kandidaten": [
       21003,
-      14355,
       20711,
-      20485
+      20485,
+      14355
     ],
     "gesehen": "2026-10-13T16:06:06Z"
   },
@@ -49896,8 +49896,7 @@
     "kandidaten": [
       20485,
       21003,
-      98866,
-      14355
+      98866
     ],
     "gesehen": "2026-10-13T15:43:22Z"
   },
@@ -49906,8 +49905,7 @@
     "kandidaten": [
       20485,
       21003,
-      98866,
-      14355
+      98866
     ],
     "gesehen": "2026-10-13T15:43:22Z"
   },
@@ -49916,8 +49914,7 @@
     "kandidaten": [
       20485,
       21003,
-      98866,
-      14355
+      98866
     ],
     "gesehen": "2026-10-13T15:43:22Z"
   },
@@ -49926,8 +49923,7 @@
     "kandidaten": [
       20485,
       21003,
-      98866,
-      14355
+      98866
     ],
     "gesehen": "2026-10-13T15:43:22Z"
   },
@@ -49936,8 +49932,7 @@
     "kandidaten": [
       20485,
       21003,
-      98866,
-      14355
+      98866
     ],
     "gesehen": "2026-10-13T15:43:22Z"
   },
@@ -49952,8 +49947,7 @@
     "kandidaten": [
       20485,
       21003,
-      98866,
-      14355
+      98866
     ],
     "gesehen": "2026-10-13T15:43:22Z"
   },
@@ -49968,8 +49962,7 @@
     "kandidaten": [
       20485,
       21003,
-      98866,
-      14355
+      98866
     ],
     "gesehen": "2026-10-13T15:43:22Z"
   },
@@ -49978,8 +49971,7 @@
     "kandidaten": [
       20485,
       21003,
-      98866,
-      14355
+      98866
     ],
     "gesehen": "2026-10-13T15:43:22Z"
   },
@@ -49988,8 +49980,7 @@
     "kandidaten": [
       20485,
       21003,
-      98866,
-      14355
+      98866
     ],
     "gesehen": "2026-10-13T15:43:22Z"
   },
@@ -50004,8 +49995,7 @@
     "kandidaten": [
       20485,
       21003,
-      98866,
-      14355
+      98866
     ],
     "gesehen": "2026-10-13T15:43:22Z"
   },
@@ -54161,11 +54151,8 @@
     "gesehen": "2026-10-12T11:21:49Z"
   },
   "primevideo:B0DB85CPN7": {
-    "grund": "offen",
-    "kandidaten": [
-      3092,
-      4814
-    ],
+    "titel": 3092,
+    "grund": "einziger-kandidat",
     "gesehen": "2026-09-28T10:16:44Z"
   },
   "primevideo:B0DBC1927K": {
@@ -54235,91 +54222,58 @@
     "gesehen": "2026-09-28T10:16:44Z"
   },
   "primevideo:B0D954JTG6": {
-    "grund": "offen",
-    "kandidaten": [
-      3092,
-      4814
-    ],
+    "titel": 3092,
+    "grund": "einziger-kandidat",
     "gesehen": "2026-09-28T10:16:51Z"
   },
   "primevideo:B0DCV39DV8": {
-    "grund": "offen",
-    "kandidaten": [
-      3092,
-      4814
-    ],
+    "titel": 3092,
+    "grund": "einziger-kandidat",
     "gesehen": "2026-09-28T10:16:51Z"
   },
   "primevideo:B0D67DY758": {
-    "grund": "offen",
-    "kandidaten": [
-      3092,
-      4814
-    ],
+    "titel": 3092,
+    "grund": "einziger-kandidat",
     "gesehen": "2026-09-28T10:16:51Z"
   },
   "primevideo:B0DFTXDBG1": {
-    "grund": "offen",
-    "kandidaten": [
-      3092,
-      4814
-    ],
+    "titel": 3092,
+    "grund": "einziger-kandidat",
     "gesehen": "2026-09-28T10:16:51Z"
   },
   "primevideo:B0CH49JG9M": {
-    "grund": "offen",
-    "kandidaten": [
-      3092,
-      4814
-    ],
+    "titel": 3092,
+    "grund": "einziger-kandidat",
     "gesehen": "2026-09-28T10:16:51Z"
   },
   "primevideo:B0D8VYX7VQ": {
-    "grund": "offen",
-    "kandidaten": [
-      3092,
-      4814
-    ],
+    "titel": 3092,
+    "grund": "einziger-kandidat",
     "gesehen": "2026-09-28T10:16:51Z"
   },
   "primevideo:B0CXCPNQYT": {
-    "grund": "offen",
-    "kandidaten": [
-      3092,
-      4814
-    ],
+    "titel": 3092,
+    "grund": "einziger-kandidat",
     "gesehen": "2026-09-28T10:16:51Z"
   },
   "primevideo:B0D82SN55V": {
-    "grund": "offen",
-    "kandidaten": [
-      3092,
-      4814
-    ],
+    "titel": 3092,
+    "grund": "einziger-kandidat",
     "gesehen": "2026-09-28T10:16:51Z"
   },
   "primevideo:B0D9721SVK": {
-    "grund": "offen",
-    "kandidaten": [
-      3092,
-      4814
-    ],
+    "titel": 3092,
+    "grund": "einziger-kandidat",
     "gesehen": "2026-09-28T10:16:51Z"
   },
   "primevideo:B0CVZQ6NLK": {
-    "grund": "offen",
-    "kandidaten": [
-      3092,
-      4814
-    ],
+    "titel": 3092,
+    "grund": "einziger-kandidat",
     "gesehen": "2026-09-28T10:16:51Z"
   },
   "primevideo:B0DBMD86JV": {
-    "grund": "offen",
-    "kandidaten": [
-      3092,
-      4814
-    ],
+    "titel": 3092,
+    "grund": "einziger-kandidat",
     "gesehen": "2026-09-28T10:16:51Z"
   },
   "primevideo:B0DCC92W1C": {
@@ -72880,11 +72834,8 @@
     "gesehen": "2026-10-13T15:38:30Z"
   },
   "primevideo:B0CH9XQLPW": {
-    "grund": "offen",
-    "kandidaten": [
-      8937,
-      4654
-    ],
+    "titel": 8937,
+    "grund": "einziger-kandidat",
     "gesehen": "2026-10-13T15:38:30Z"
   },
   "primevideo:B0CHLD6DLL": {
