@@ -1,5 +1,6 @@
-import type { Title } from '../../shared/types.ts'
+import type { StreamLink, Title } from '../../shared/types.ts'
 import { adressKern, loadDubChecks, type DubCheck } from './dub-confirmed.ts'
+import { kanalAdressenOhneBeleg, kanalSchluessel } from './kanal-titel.ts'
 
 const schluessel = (titleId: number, platform: string, url: string | undefined) => `${titleId}|${platform}|${adressKern(url)}`
 
@@ -13,7 +14,7 @@ export function handbelegteJaWege(checks: DubCheck[]): Set<string> {
 
 /**
  * Die Wege, die ein Handbeleg trägt: das Ja mit Adresse (`handbelegteJaWege`) und die Adresse eines Kanal-Titels. Der Lader nimmt Letzterem Amazons Sprachangabe
- * (`ohneKanalSprache`, `kanalOhneBeleg`), die Seite bleibt Adressbeleg; der Weg steht ohne Haken (🇩🇪 ?). Ein jüngeres Nein (`dub: false`,
+ * (`ohneKanalSprache`, `kanalOhneBeleg`), die Seite bleibt Adressbeleg; der Weg steht ohne Haken (🇩🇪 ?) und ohne Sprachangabe von JustWatch (`kanalHandbelegWege`). Ein jüngeres Nein (`dub: false`,
  * `available: false`) zur selben Adresse nimmt ihm den Weg.
  */
 export function handbelegteWege(checks: DubCheck[]): Set<string> {
@@ -37,4 +38,13 @@ export function behalteNurHandbelegteWege(titel: Title, checks: DubCheck[]): voi
   titel.streams = (titel.streams ?? [])
     .filter((s) => belegt.has(schluessel(titel.id, s.platform, s.url)))
     .map((s) => ({ ...s, herkunft: 'handbeleg' as const }))
+}
+
+/**
+ * Trägt nur der Adressbeleg eines Kanal-Titels diesen Weg (`herkunft: 'handbeleg'`, ohne eigenes Urteil)? Dann gibt auch JustWatch ihm keine
+ * Sprachangabe: wie Amazons eigene sagt sie bei einem Kanal-Abo nichts über die Folge (`docs/wissen/quellen.md`, Kanal-Titel).
+ */
+export function kanalHandbelegWege(checks: DubCheck[]): (titelId: number, s: StreamLink) => boolean {
+  const kanal = kanalAdressenOhneBeleg(checks)
+  return (titelId, s) => s.herkunft === 'handbeleg' && s.dub === undefined && kanal.has(kanalSchluessel(titelId, s.url))
 }

@@ -14,6 +14,7 @@ import type { StreamLink, Title } from '../shared/types.ts'
 import type { CrDubData } from './lib/crunchyroll-dub.ts'
 import { ordneCrSerienZu } from './bau/09-4-1-serien.ts'
 import { schliesseWegeAb } from './bau/11-wege-abschluss.ts'
+import { kennzeichneDeutschLautJustwatch } from './bau/11-6-jw-vertrauen.ts'
 import { suchadressenInTemp } from './lib/suchadressen-temp.ts'
 import { behalteNurHandbelegteWege } from './lib/handbeleg-weg.ts'
 import { verschmelze, type DubCheck } from './lib/dub-confirmed.ts'
@@ -33,9 +34,19 @@ const KULISSEN_BELEG = [
   "  checkedAt: '2026-10-13'",
   '',
 ].join('\n')
+const JW_KANAL_ADRESSE = 'https://watch.amazon.de/detail?gti=amzn1.dv.gti.00000001-0000-0000-0000-000000000000'
+const JW_FREIE_ADRESSE = 'https://watch.amazon.de/detail?gti=amzn1.dv.gti.00000002-0000-0000-0000-000000000000'
+/** JustWatch nennt an beiden Amazon-Seiten deutschen Ton (Film, eine Kennung je Titel: eindeutig); der Befund des Kanal-Titels liegt unter 10 Mio. + OVA, der des freien unter 5. */
+const jwBefund = (jwId: string, url: string) => ({
+  geprueftAm: '2999-12-31',
+  jwId,
+  jwPfad: '/de/Film/x',
+  angebote: [{ anbieter: 'Amazon Prime Video', art: 'FLATRATE', audio: ['de'], url }],
+})
 function startInKulisse(): never {
   const kulisse = mkdtempSync(join(tmpdir(), 'handbeleg-weg-'))
   mkdirSync(join(kulisse, 'data', 'curated'), { recursive: true })
+  writeFileSync(join(kulisse, 'data', 'justwatch-audio.json'), JSON.stringify({ '10006986': jwBefund('ts1', JW_KANAL_ADRESSE), '5': jwBefund('ts2', JW_FREIE_ADRESSE) }))
   writeFileSync(join(kulisse, 'data', 'kino-ankuendigungen.yaml'), '')
   writeFileSync(join(kulisse, 'data', 'shop-wege-falsches-ziel.yaml'), '[]\n')
   writeFileSync(join(kulisse, 'data', 'dub-confirmed.yaml'), KULISSEN_BELEG)
@@ -161,6 +172,25 @@ pruefe('ein Titel nur bei aniSearch behält den Weg seines Handbelegs', abschlie
 pruefe('Gegenprobe: ohne Handbeleg bleibt er ohne Weg', abschliessen([]).length === 0)
 const kanalAbschluss = abschliessen([kanalBeleg({ anilistId: 10_000_000 + OVA })])
 pruefe('ein Titel nur bei aniSearch behält die Adresse seines Kanal-Belegs', kanalAbschluss.length === 1 && kanalAbschluss[0]!.herkunft === 'handbeleg', kanalAbschluss)
+
+console.log('\nKanal-Weg ohne Sprachangabe von JustWatch (kennzeichneDeutschLautJustwatch, Befund in der Kulisse):')
+const primeWeg = (url: string, rest: Partial<StreamLink> = {}): StreamLink => weg(url, { platform: 'primevideo', ...rest })
+const jwTitel = (id: number, w: StreamLink, checks: DubCheck[], nurHandbeleg = true): StreamLink => {
+  const t = titel(id, [w])
+  if (nurHandbeleg) behalteNurHandbelegteWege(t, checks)
+  const titles = new Map([[id, t]])
+  kennzeichneDeutschLautJustwatch({ titles, tmdbMehrdeutig: new Set(), alleChecks: checks })
+  return t.streams[0] ?? ({} as StreamLink)
+}
+const kanalPrime = kanalBeleg({ platform: 'primevideo', url: JW_KANAL_ADRESSE })
+const kanalJw = jwTitel(OVA, primeWeg(JW_KANAL_ADRESSE), [kanalPrime])
+pruefe('Kulisse: der Kanal-Weg steht als Handbeleg-Weg im Titel', kanalJw.herkunft === 'handbeleg' && kanalJw.dub === undefined, kanalJw)
+pruefe('der Kanal-Weg trägt weder „Deutsch laut JustWatch“ noch ein Stand-Datum', kanalJw.dubQuelle === undefined && kanalJw.dubStand === undefined, kanalJw)
+/* Gegenprobe: derselbe JustWatch-Befund an einem Weg ohne Kanal-Beleg wird gekennzeichnet (sonst prüfte der Fall nichts). */
+const freierWeg = jwTitel(5, primeWeg(JW_FREIE_ADRESSE), [], false)
+pruefe('Gegenprobe: ein gewöhnlicher Prime-Weg bekommt „Deutsch laut JustWatch“', freierWeg.dubQuelle === 'justwatch' && freierWeg.dubStand === '2999-12-31', freierWeg)
+const kanalMitJa = jwTitel(OVA, primeWeg(JW_KANAL_ADRESSE), [kanalBeleg({ platform: 'primevideo', url: JW_KANAL_ADRESSE, zweiteQuelle: 'Daniel' })])
+pruefe('Gegenprobe: mit zweiter Quelle ist der Kanal-Beleg ein Ja, die Ausnahme gilt nicht', kanalMitJa.dubQuelle === 'justwatch', kanalMitJa)
 
 console.log('\nNews: ein Handbeleg-Weg belegt das Angebot, nicht seinen Beginn (keine rückdatierte Meldung „neu“):')
 const nachrichtTitel = (streams: StreamLink[]): Title[] =>
