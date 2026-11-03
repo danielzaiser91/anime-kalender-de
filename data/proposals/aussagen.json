@@ -1,6 +1,6 @@
 {
   "format": 2,
-  "stand": "2026-11-01",
+  "stand": "2026-11-03",
   "hinweis": "Vorschlagsmodus: nur gelesen, nie übernommen — docs/wissen/sammelartikel-poc.md (Abschnitt „Vorschlagslauf\"). Schreiber: pipeline/fetch-sammelartikel.ts",
   "aussagen": [
     {
@@ -12456,6 +12456,163 @@
           "hatSynchroBelege": true
         },
         "inhaltZeichen": 316
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1066653/prime-video-goblin-slayer-ii-und-mehr/|Goblin Slayer II||start|primevideo",
+      "erstGesehen": "2026-11-02",
+      "fingerabdruck": "febe76f9e1d9",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1066653/prime-video-goblin-slayer-ii-und-mehr/",
+          "veroeffentlicht": "2026-11-01",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Goblin Slayer II",
+        "art": "start",
+        "plattformen": [
+          "primevideo"
+        ],
+        "datum": "2026-11-01",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "ja",
+        "folgen": 12,
+        "konfidenz": 0.8,
+        "gruende": [
+          "Sprache: Deutsch, Japanisch (UT)",
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»Goblin Slayer II«\nEpisoden: 12 (komplett)\nSprache: Deutsch, Japanisch (UT)\nStream: Prime Video",
+        "zuordnung": {
+          "anilistId": 129188,
+          "name": "Goblin Slayer 2",
+          "wie": "name-genau",
+          "abstandTage": 1122
+        },
+        "bestand": {
+          "status": "bekannt",
+          "release": {
+            "slug": "auto-129188-primevideo",
+            "firstEpisodeDate": "2026-11-01"
+          },
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 343
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1066653/prime-video-goblin-slayer-ii-und-mehr/|Shin-chan Spin-off: Alien vs. Shinnosuke||start|primevideo",
+      "erstGesehen": "2026-11-02",
+      "fingerabdruck": "edde2ad73262",
+      "offenOderUnklar": true,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1066653/prime-video-goblin-slayer-ii-und-mehr/",
+          "veroeffentlicht": "2026-11-01",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Shin-chan Spin-off: Alien vs. Shinnosuke",
+        "art": "start",
+        "plattformen": [
+          "primevideo"
+        ],
+        "datum": "2026-11-01",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "nein",
+        "folgen": 13,
+        "konfidenz": 0.8,
+        "gruende": [
+          "Sprache: Japanisch (UT)",
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»Shin-chan Spin-off: Alien vs. Shinnosuke«\nEpisoden: 13 (komplett)\nSprache: Japanisch (UT)\nHinweis: Die Serie sollte ursprünglich am 31. Oktober 2026 entfernt werden\nStream: Prime Video",
+        "offen": {
+          "grund": "kein Titel mit diesem Namen",
+          "kandidaten": []
+        },
+        "bestand": {
+          "status": "ohne-zuordnung"
+        },
+        "inhaltZeichen": 225
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1066144/netflix-held-ohne-klasse-und-mehr/|Der Held ohne Klasse: Der Aufstieg eines Talentlosen||start|netflix",
+      "erstGesehen": "2026-11-02",
+      "fingerabdruck": "6941e19521b3",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1066144/netflix-held-ohne-klasse-und-mehr/",
+          "veroeffentlicht": "2026-11-01",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Der Held ohne Klasse: Der Aufstieg eines Talentlosen",
+        "art": "start",
+        "plattformen": [
+          "netflix"
+        ],
+        "datum": "2026-11-01",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "ja",
+        "folgen": 12,
+        "konfidenz": 0.8,
+        "gruende": [
+          "Sprache: Deutsch, Japanisch (UT)",
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»Der Held ohne Klasse: Der Aufstieg eines Talentlosen«\nEpisoden: 12 (komplett)\nSprache: Deutsch, Japanisch (UT)\nStream: Netflix",
+        "zuordnung": {
+          "anilistId": 169969,
+          "name": "Der Held ohne Klasse: Der Aufstieg eines Talentlosen",
+          "wie": "name-genau"
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 286
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1066144/netflix-held-ohne-klasse-und-mehr/|My Happy Marriage|Special-Episoden|start|netflix",
+      "erstGesehen": "2026-11-02",
+      "fingerabdruck": "e7303980a3b6",
+      "offenOderUnklar": true,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1066144/netflix-held-ohne-klasse-und-mehr/",
+          "veroeffentlicht": "2026-11-01",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "My Happy Marriage",
+        "zusatz": "Special-Episoden",
+        "art": "start",
+        "plattformen": [
+          "netflix"
+        ],
+        "datum": "2026-11-01",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "ja",
+        "konfidenz": 0.8,
+        "gruende": [
+          "Sprache: Deutsch, Japanisch (UT)",
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»My Happy Marriage« – Special-Episoden\nEpisoden: Staffel 2, Folge 14 bis 16\nSprache: Deutsch, Japanisch (UT)\nStream: Netflix",
+        "zuordnung": {
+          "anilistId": 147103,
+          "name": "Meine ganz besondere Hochzeit",
+          "wie": "name-genau",
+          "abstandTage": 1215,
+          "vorbehalt": "Zusatz „Special-Episoden\" nicht aufgelöst"
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 300
       }
     }
   ]

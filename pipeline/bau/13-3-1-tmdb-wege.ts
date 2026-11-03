@@ -2,6 +2,7 @@ import { loadDubChecks, dubKey } from '../lib/dub-confirmed.ts'
 import { log } from '../lib/util.ts'
 import { netflixTitelAdresse } from '../lib/netflix-adresse.ts'
 import { type MotnDaten } from '../lib/motn.ts'
+import { type IstTot } from '../lib/adresse-tot.ts'
 import { type PlatformId } from '../../shared/types.ts'
 import { zugangsart } from '../../shared/zugangsart.ts'
 import { providerToPlatform } from './titel-hilfen.ts'
@@ -63,12 +64,13 @@ import { ANISEARCH_ID_BASIS } from './anisearch-titel.ts'
  * Handprüfung vorliegt. Ein `dub: true` von Hand wäre ohnehin schon im
  * Datensatz; alles andere ist ein ausdrückliches Nein.
  */
-export function ergaenzeWegeAusTmdbUndMotn({ slim, tmdbTitles, tmdbZuTitel, motnTmdb, motnLinks }: {
+export function ergaenzeWegeAusTmdbUndMotn({ slim, tmdbTitles, tmdbZuTitel, motnTmdb, motnLinks, istTot }: {
   slim: SlimTitel[]
   tmdbTitles: Record<string, TmdbTitelEintrag>
   tmdbZuTitel: Record<string, { tmdbId?: number; kind?: string }>
   motnTmdb: NonNullable<MotnDaten['tmdb']>
   motnLinks: Record<string, Record<string, string>>
+  istTot: IstTot
 }) {
   const handgeprueft = new Set(
     loadDubChecks().map((c) => dubKey(c.anilistId, c.platform)),
@@ -93,6 +95,7 @@ export function ergaenzeWegeAusTmdbUndMotn({ slim, tmdbTitles, tmdbZuTitel, motn
       // Nur was TMDB **auch** nennt: Das Archiv kann einen Link führen, den es
       // heute nicht mehr gibt.
       if (!anbieter.includes(platform)) continue
+      if (istTot(url)) continue
       // Und nichts, worüber ein Mensch schon entschieden hat.
       if (handgeprueft.has(dubKey(eintrag.id, platform))) {
         wegenHandpruefung++

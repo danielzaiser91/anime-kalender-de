@@ -23,7 +23,7 @@ import { log, readJson, ROOT, sleep, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
 import { episodeAus, sortiereFolgen, toBerlin, type AdnListenEintrag, type AdnVideo } from './lib/adn-folgen.ts'
 import { holeAdnNews } from './lib/adn-news.ts'
-import { type KatalogAuskunft, katalogBilanzZeile, mitUngepruftenAlten, riegelBilanz, schreibeArchiv, verwirfFranzoesische, verworfen } from './lib/adn-sprachriegel.ts'
+import { istFranzoesischeSicht, type KatalogAuskunft, katalogBilanzZeile, mitUngepruftenAlten, mitWiederholung, riegelBilanz, schreibeArchiv, verworfen, WIEDERHOLUNG_WARTE_MS } from './lib/adn-sprachriegel.ts'
 import { baueWarteschlange, fragWarteschlange, warteschlangeZeile } from './lib/adn-katalog-warteschlange.ts'
 import { listeNenntNeuesVde } from './lib/adn-laufend-archiv.ts'
 import { fragNeuzugaenge, katalogMitNeuen } from './lib/adn-neuzugaenge.ts'
@@ -177,7 +177,7 @@ function archivKopf(showId: number): { id: number; title: string; originalTitle?
  * „0 Serien mit deutscher Synchro" für alle 580. Deshalb wird hier strikt
  * unterschieden: 404 ist eine Antwort, 400 ist ein Fehler im eigenen Aufruf.
  */
-async function ladeSerie(showId: number): Promise<{ videos: AdnVideo[]; abbruch?: string }> {
+async function frageSerie(showId: number): Promise<{ videos: AdnVideo[]; abbruch?: string }> {
   const videos: AdnVideo[] = []
   const SEITE = 100
   for (let offset = 0; offset < 2000; offset += SEITE) {
@@ -199,8 +199,16 @@ async function ladeSerie(showId: number): Promise<{ videos: AdnVideo[]; abbruch?
     await sleep(700)
   }
   // Französische Sicht ist keine Auskunft: wie ein Abbruch behandeln, damit Archiv, Katalog und Stand unberührt bleiben und die Serie wieder drankommt.
-  if (verwirfFranzoesische(showId, videos)) return { videos: [], abbruch: 'franzoesisch' }
+  // Gezählt wird erst in `ladeSerie` nach der zweiten Frage.
+  if (istFranzoesischeSicht(videos)) return { videos, abbruch: 'franzoesisch' }
   return { videos }
+}
+
+/** Wartezeit der zweiten Frage; der Test setzt `AK_ADN_WIEDERHOLUNG_MS` auf 0. */
+const WIEDERHOLUNG_MS = Number(process.env.AK_ADN_WIEDERHOLUNG_MS ?? WIEDERHOLUNG_WARTE_MS)
+
+function ladeSerie(showId: number): Promise<{ videos: AdnVideo[]; abbruch?: string }> {
+  return mitWiederholung(showId, () => frageSerie(showId), () => sleep(WIEDERHOLUNG_MS))
 }
 
 /**
@@ -319,8 +327,6 @@ async function fetchCatalog(): Promise<{ shows: AdnShow[]; auskunft: KatalogAusk
   })
   writeJson(KATALOG_STAND, stand)
 
-  // Zuordnung zu aniSearch aus der Titelliste im Cache (`lib/adn-anisearch.ts`): keine Abfrage je Serie, bei Mehrdeutigkeit bleibt die Serie offen.
-  await ordneKatalogZuAnisearch(out, readJson<AdnData>('data/adn-catalog.json', { scrapedAt: '', window: { from: '', to: '' }, shows: [] }).shows)
   return { shows: out, auskunft }
 }
 
@@ -531,6 +537,7 @@ async function main(): Promise<void> {
     const frisch = await fetchCatalog()
     const { shows, ...zaehler } = mitUngepruftenAlten(alterKatalog, frisch.shows, frisch.auskunft)
     log(katalogBilanzZeile(zaehler))
+    await ordneKatalogZuAnisearch(shows, alterKatalog)
     writeJson(
       'data/adn-catalog.json',
       { scrapedAt: new Date().toISOString(), window: { from: '', to: '' }, shows } satisfies AdnData,

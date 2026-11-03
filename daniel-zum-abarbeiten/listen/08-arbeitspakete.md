@@ -1,7 +1,7 @@
 # Arbeitspakete: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-11-01 · **10 offene Verweise** in **9 Zeilen**,
-aufgeteilt in **1 Pakete** zu je 20.
+Stand 2026-11-03 · **56 offene Verweise** in **42 Zeilen**,
+aufgeteilt in **3 Pakete** zu je 20.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Derselbe Bestand wie in
 `dub-pruefliste.md`, nur nach Nutzen sortiert statt nach Datum: Was viele Folgen oder einen
@@ -31,16 +31,59 @@ Mehrere Einträge in einer Zeile werden mit Punkt getrennt in derselben Reihenfo
 beantwortet (`1.0` = erster ja, zweiter nein). Eine einzelne Angabe gilt für alle Einträge
 der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 
-## Paket 1 — Zeilen 1 bis 9
+## Paket 1 — Zeilen 1 bis 20
 
 | # | Anbieter | Reihe | Noch zu bestätigen |
 |---|---|---|---|
 | 1 | Disney+ | Yu-Gi-Oh! (1998) | [Yu-Gi-Oh! GX]() |
-| 2 | Netflix | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.netflix.com/title/81099976) |
-| 3 | Prime Video | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.amazon.de/gp/video/detail/B0FVF9T7ZP) |
-| 4 | Disney+ | Welcome to Demon School! Iruma-kun | [Staffel 4](https://www.disneyplus.com/browse/entity-b042544d-cd7d-40c6-9be4-db79666a1b51) |
-| 5 | Prime Video | Demon Slayer: Kimetsu no Yaiba | [Mugen Train Arc]() · [Entertainment District Arc]() |
-| 6 | Netflix | My Hero Academia | [Vigilantes Staffel 2](https://www.netflix.com/title/82036361) |
-| 7 | Prime Video | Sankarea: Undying Love | [Hauptserie]() |
-| 8 | Netflix | Devil May Cry | [Hauptserie](https://www.netflix.com/title/81506915) |
-| 9 | Netflix | Meine ganz besondere Hochzeit | [Special]() |
+| 2 | Netflix | Ghost in the Shell: Stand Alone Complex | [Ghost in the Shell](https://www.netflix.com/title/540533) · [Hauptserie](https://www.netflix.com/title/70213091) · [2nd GIG](https://www.netflix.com/title/70213091) · [Solid State Society](https://www.netflix.com/title/70071919) |
+| 3 | Netflix | Sonic X | [Hauptserie](https://www.netflix.com/title/60036794) |
+| 4 | Netflix | Beyblade Burst | [Evolution](https://www.netflix.com/title/81018295) |
+| 5 | Netflix | Beyblade | [Hauptserie](https://www.netflix.com/title/70155614) |
+| 6 | Netflix | Mobile Suit Gundam Seed | [Hauptserie](https://www.netflix.com/title/80146549) |
+| 7 | Netflix | Sailor Moon: Das Mädchen mit den Zauberkräften | [Sailor Moon R Movie: Gefährliche Blumen](https://www.netflix.com/title/26588007) · [Pretty Guardian Sailor Moon Crystal](https://www.netflix.com/title/80145747) · [Pretty Guardian Sailor Moon Crystal Season III](https://www.netflix.com/title/80145747) |
+| 8 | Netflix | Danmachi: Is It Wrong to Try to Pick Up Girls in a Dungeon? Familia Myth | [Hauptserie](https://www.netflix.com/title/80185873) · [II](https://www.netflix.com/title/80185873) · [III](https://www.netflix.com/title/80185873) |
+| 9 | Netflix | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.netflix.com/title/81099976) |
+| 10 | Prime Video | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.amazon.de/gp/video/detail/B0FVF9T7ZP) |
+| 11 | Netflix | Nagi no Asukara | [Hauptserie](https://www.netflix.com/title/80132218) |
+| 12 | Netflix | Maid-sama | [Hauptserie](https://www.netflix.com/title/81104406) |
+| 13 | Netflix | Higurashi no Naku Koro ni | [Hauptserie](https://www.netflix.com/title/70308793) |
+| 14 | Netflix | Samurai 7 | [Hauptserie](https://www.netflix.com/title/70205019) |
+| 15 | Disney+ | Welcome to Demon School! Iruma-kun | [Staffel 4](https://www.disneyplus.com/browse/entity-b042544d-cd7d-40c6-9be4-db79666a1b51) |
+| 16 | Netflix | Parasyte: The Maxim | [Hauptserie](https://www.netflix.com/title/80191008) |
+| 17 | Netflix | Aldnoah.Zero | [Hauptserie](https://www.netflix.com/title/80040104) · [2](https://www.netflix.com/title/80040104) |
+| 18 | Netflix | Love, Chunibyo & Other Delusions! | [Hauptserie](https://www.netflix.com/title/80239860) · [Heart Throb](https://www.netflix.com/title/80239860) |
+| 19 | Prime Video | Demon Slayer: Kimetsu no Yaiba | [Mugen Train Arc]() · [Entertainment District Arc]() |
+| 20 | Netflix | Kamisama Kiss | [Hauptserie](https://www.netflix.com/title/80070071) |
+
+## Paket 2 — Zeilen 21 bis 40
+
+| # | Anbieter | Reihe | Noch zu bestätigen |
+|---|---|---|---|
+| 21 | Netflix | My Hero Academia | [Vigilantes Staffel 2](https://www.netflix.com/title/82036361) |
+| 22 | Netflix | Vampire Knight | [Guilty](https://www.netflix.com/title/70309457) |
+| 23 | Netflix | The Devil Is a Part-Timer! | [Hauptserie](https://www.netflix.com/title/80006149) |
+| 24 | Netflix | Spice and Wolf | [Hauptserie](https://www.netflix.com/title/70205026) |
+| 25 | Netflix | Paranoia Agent | [Hauptserie](https://www.netflix.com/title/70014551) |
+| 26 | Disney+ | Honey Lemon Soda | [Hauptserie]() |
+| 27 | Prime Video | Sankarea: Undying Love | [Hauptserie]() |
+| 28 | Netflix | Shojo-Mangaka Nozaki-kun | [Hauptserie](https://www.netflix.com/title/80081848) |
+| 29 | Netflix | Devil May Cry | [Hauptserie](https://www.netflix.com/title/81506915) |
+| 30 | Netflix | One Piece | [Abenteuer in Alabasta - Die Wüstenprinzessin](https://www.netflix.com/title/70086565) · [Chopper und das Wunder der Winterkirschblüte](https://www.netflix.com/title/80998780) · [Z](https://www.netflix.com/title/80198443) · [3D2Y: Überwinde Ace’s Tod! Das Gelübde der Kameraden](https://www.netflix.com/title/81679587) |
+| 31 | Netflix | Meine ganz besondere Hochzeit | [Special](https://www.netflix.com/title/82643530) |
+| 32 | Netflix | 5 Centimeters per Second | [Hauptserie](https://www.netflix.com/title/70093699) |
+| 33 | Netflix | Haikyu!! | [Movie 3 - Talent Und Gespür](https://www.netflix.com/title/81030151) · [Movie 4 - Ein Kampf der Konzepte](https://www.netflix.com/title/81030152) |
+| 34 | Netflix | Lu over the Wall | [Hauptserie](https://www.netflix.com/title/80238911) |
+| 35 | Netflix | Fireworks: Alles eine Frage der Zeit | [Hauptserie](https://www.netflix.com/title/81000505) |
+| 36 | Netflix | No Game No Life | [Zero](https://www.netflix.com/title/81068687) |
+| 37 | Netflix | Girls & Panzer | [Girls und Panzer: Der Film](https://www.netflix.com/title/80159876) |
+| 38 | Netflix | Dragon Nest: Die Chroniken von Altera | [Hauptserie](https://www.netflix.com/title/80084763) |
+| 39 | Netflix | TRAVA: FIST PLANET | [Redline](https://www.netflix.com/title/70153298) |
+| 40 | Netflix | Clannad | [OVA - Das Tomoyo Kapitel](https://www.netflix.com/title/70204963) |
+
+## Paket 3 — Zeilen 41 bis 42
+
+| # | Anbieter | Reihe | Noch zu bestätigen |
+|---|---|---|---|
+| 41 | Netflix | Appleseed: Kampf um die Freiheit | [Appleseed](https://www.netflix.com/title/70023531) |
+| 42 | Netflix | Detektiv Conan | [Der Magier des letzten Jahrhunderts](https://www.netflix.com/title/70126871) |

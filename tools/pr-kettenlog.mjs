@@ -2,9 +2,11 @@
  * Kettenlog für den CI-Prüfer (.github/workflows/pr-pruefer.yml): der Prüfer darf kein Bash und kann das Job-Log der
  * PR-Prüfkette nicht lesen, soll aber Ergebniszeilen daraus zitieren. Dieser Schritt (mit GITHUB_TOKEN) legt sie ab.
  *
- *   node tools/pr-kettenlog.mjs <kopf-sha> <ordner> <frist-sekunden>      (Exit immer 0)
+ *   node tools/pr-kettenlog.mjs <kopf-sha> <ordner> <frist-sekunden> [<pr-beschreibung.txt>]      (Exit immer 0)
  *
- * Schreibt `<ordner>/kettenlog.txt` (Übersicht: Jobtabelle plus Ergebniszeilen, klein genug für Read) und
+ * Schreibt `<ordner>/kettenlog.txt` (Übersicht: Jobtabelle plus Ergebniszeilen, klein genug für Read),
+ * `<ordner>/kettenlog-zitate.txt` (Zitate der Nachträge mit Treffern im vollen Log, auch jenseits der Kappung der
+ * Übersicht; für den Abnahme-Prüfer ohne Grep) und
  * `<ordner>/kettenlog-voll.txt` (alle Logzeilen der abgeschlossenen Jobs ohne Zeitstempel, für Grep). Die Kette startet
  * zeitgleich mit dem Prüfer: der Schritt wartet bis zur Frist auf das Ende des Laufs und sagt in der Datei ausdrücklich,
  * wenn er keinen oder nur einen unfertigen Lauf fand ("nicht beurteilt" ist dann richtig, sonst nie).
@@ -13,6 +15,7 @@ import { spawnSync } from 'node:child_process'
 import fs from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
+import { baueZitateDatei, zitateAusBeschreibung } from './pr-kettenlog-zitate.mjs'
 
 const TAKT_MS = 15_000
 export const LOG_VERSUCHE = 3
@@ -162,8 +165,19 @@ export function diagnosezeile(jobs) {
   return `; ${ohne.length} von ${jobs.length} Job-Logs nicht abrufbar, erste Ursache: ${ohne[0].log.slice(FEHL_LOG.length).trim().slice(0, 250)}`
 }
 
+/** `kettenlog-zitate.txt`: Zitate aus den Nachträgen der Beschreibungsdatei mit Treffern im vollen Log; fehlende Datei = keine Zitate. */
+export function zitateDatei(kopf, jobs, beschreibungPfad) {
+  let text = ''
+  try {
+    text = beschreibungPfad ? fs.readFileSync(beschreibungPfad, 'utf8') : ''
+  } catch {
+    text = ''
+  }
+  return baueZitateDatei({ kopf, zitate: zitateAusBeschreibung(text), jobs, hinweis: HINWEIS, bereinigt: bereinige, fehlMarke: FEHL_LOG })
+}
+
 /** Holt Lauf und Logs (mit Wartefrist in ms) und schreibt beide Dateien in `ordner`; gibt die Statuszeile zurück. */
-export async function schreibeKettenlog({ repo, sha, ordner, frist, gh, warte, jetzt }) {
+export async function schreibeKettenlog({ repo, sha, ordner, frist, gh, warte, jetzt, beschreibung = '' }) {
   const { lauf, jobs, fehler } = await ermittleLauf({
     holeLauf: () => holeLauf(repo, sha, gh),
     holeJobs: (id) => holeJobs(repo, id, gh),
@@ -176,11 +190,12 @@ export async function schreibeKettenlog({ repo, sha, ordner, frist, gh, warte, j
   fs.mkdirSync(ordner, { recursive: true })
   fs.writeFileSync(path.join(ordner, 'kettenlog.txt'), uebersicht)
   fs.writeFileSync(path.join(ordner, 'kettenlog-voll.txt'), voll)
+  fs.writeFileSync(path.join(ordner, 'kettenlog-zitate.txt'), zitateDatei(sha, mitLog, beschreibung))
   return `Kettenlog ${sha.slice(0, 9)}: ${lauf ? `Lauf ${lauf.id} (${lauf.status})` : `kein Lauf${fehler ? ` (Abruffehler: ${fehler})` : ''}`},${uebersicht.split('\n').length} Übersichtszeilen, ${voll.split('\n').length} Zeilen gesamt${diagnosezeile(mitLog)}`
 }
 
 async function main() {
-  const [sha, ordner, fristS] = process.argv.slice(2)
+  const [sha, ordner, fristS, beschreibung] = process.argv.slice(2)
   const repo = process.env.GITHUB_REPOSITORY
   if (!/^[0-9a-f]{40}$/.test(sha ?? '') || !repo || !ordner) {
     console.error('Aufruf: pr-kettenlog.mjs <kopf-sha> <ordner> <frist-sekunden> (GITHUB_REPOSITORY gesetzt)')
@@ -191,6 +206,7 @@ async function main() {
     sha,
     ordner,
     gh: ghAufruf,
+    beschreibung,
     jetzt: Date.now,
     frist: Number(fristS) * 1000 || 0,
     warte: (ms) => new Promise((fertig) => setTimeout(fertig, ms)),

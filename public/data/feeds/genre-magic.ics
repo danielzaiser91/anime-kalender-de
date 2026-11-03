@@ -8,26 +8,6 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:cr-GT00384004@2026-10-25@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261025T153000Z
-DTEND:20261025T160000Z
-SUMMARY:Overgeared Staffel 1 – Folge 5/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/17645/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-118399-tv-prosieben-maxx@2026-10-26@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261026T154500Z
-DTEND:20261026T161500Z
-SUMMARY:Yashahime: Princess Half-Demon
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/11570/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-118399-tv-prosieben-maxx@2026-10-27@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261027T154000Z
@@ -49,14 +29,15 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:magic-knight-rayearth-crunchyroll-de-2026-10-28@2026-10-28@anime-kalend
- er-de
+UID:cr-GT00383994@2026-10-28@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261028T151500Z
 DTEND:20261028T154500Z
 SUMMARY:Magic Knight Rayearth – Folge 1/≈12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/16013/
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
+ bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
+ et.\nDetails: https://anime-kalender.de/t/16013/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -80,15 +61,15 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:the-iceblade-sorcerer-shall-rule-the-world-staffel-2-crunchyroll-de-202
- 6-10-29@2026-10-29@anime-kalender-de
+UID:cr-GDKHZEP21@2026-10-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261029T170000Z
 DTEND:20261029T173000Z
-SUMMARY:The Iceblade Sorcerer Shall Rule the World Staffel 2 – Folge 1/
- ≈12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/17631/
+SUMMARY:The Iceblade Sorcerer Shall Rule the World II – Folge 1/≈12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
+ bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
+ et.\nDetails: https://anime-kalender.de/t/17631/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -143,6 +124,20 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-169969-netflix@2026-11-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261101
+DTEND;VALUE=DATE:20261102
+SUMMARY:Der Held ohne Klasse: Der Aufstieg eines Talentlosen (neu bei Netfl
+ ix)
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nIm Angebot seit 
+ diesem Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrzeit n
+ och nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter genannter Ta
+ g\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetails: https
+ ://anime-kalender.de/t/15494/
+CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-129188-primevideo@2026-11-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261101
@@ -150,7 +145,9 @@ DTEND;VALUE=DATE:20261102
 SUMMARY:Goblin Slayer 2 (neu bei Prime Video)
 DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nIm Angebot s
  eit diesem Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrze
- it noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/12462/
+ it noch nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter genannte
+ r Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetails: h
+ ttps://anime-kalender.de/t/12462/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
@@ -185,16 +182,13 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:magic-knight-rayearth-crunchyroll-de-2026-10-28@2026-11-04@anime-kalend
- er-de
+UID:cr-GT00383994@2026-11-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261104T151500Z
 DTEND:20261104T154500Z
 SUMMARY:Magic Knight Rayearth – Folge 2/≈12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/16013/
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/t/16013/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -218,17 +212,13 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:the-iceblade-sorcerer-shall-rule-the-world-staffel-2-crunchyroll-de-202
- 6-10-29@2026-11-05@anime-kalender-de
+UID:cr-GDKHZEP21@2026-11-05@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261105T170000Z
 DTEND:20261105T173000Z
-SUMMARY:The Iceblade Sorcerer Shall Rule the World Staffel 2 – Folge 2/
- ≈12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/17631/
+SUMMARY:The Iceblade Sorcerer Shall Rule the World II – Folge 2/≈12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/t/17631/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -246,7 +236,7 @@ UID:auto-176496-tv-prosieben-maxx@2026-11-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261106T222500Z
 DTEND:20261106T225500Z
-SUMMARY:Solo Leveling: Arise from the Shadow – Folge 8/8
+SUMMARY:Solo Leveling: Arise from the Shadow – Folge 8
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/15790/
 CATEGORIES:ProSieben MAXX
@@ -297,10 +287,8 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261107T143000Z
 DTEND:20261107T150000Z
 SUMMARY:A Wild Last Boss Appeared! – Staffel 2 – Folge 4/≈12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/17248/
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/t/17248/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -316,8 +304,17 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:magic-knight-rayearth-crunchyroll-de-2026-10-28@2026-11-11@anime-kalend
- er-de
+UID:auto-118399-tv-prosieben-maxx@2026-11-09@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261109T154500Z
+DTEND:20261109T161500Z
+SUMMARY:Yashahime: Princess Half-Demon
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/11570/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GT00383994@2026-11-11@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261111T151500Z
 DTEND:20261111T154500Z
@@ -329,13 +326,11 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:the-iceblade-sorcerer-shall-rule-the-world-staffel-2-crunchyroll-de-202
- 6-10-29@2026-11-12@anime-kalender-de
+UID:cr-GDKHZEP21@2026-11-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261112T170000Z
 DTEND:20261112T173000Z
-SUMMARY:The Iceblade Sorcerer Shall Rule the World Staffel 2 – Folge 3/
- ≈12
+SUMMARY:The Iceblade Sorcerer Shall Rule the World II – Folge 3/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
@@ -377,8 +372,7 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:magic-knight-rayearth-crunchyroll-de-2026-10-28@2026-11-18@anime-kalend
- er-de
+UID:cr-GT00383994@2026-11-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261118T151500Z
 DTEND:20261118T154500Z
@@ -390,13 +384,11 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:the-iceblade-sorcerer-shall-rule-the-world-staffel-2-crunchyroll-de-202
- 6-10-29@2026-11-19@anime-kalender-de
+UID:cr-GDKHZEP21@2026-11-19@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261119T170000Z
 DTEND:20261119T173000Z
-SUMMARY:The Iceblade Sorcerer Shall Rule the World Staffel 2 – Folge 4/
- ≈12
+SUMMARY:The Iceblade Sorcerer Shall Rule the World II – Folge 4/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
@@ -438,8 +430,7 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:magic-knight-rayearth-crunchyroll-de-2026-10-28@2026-11-25@anime-kalend
- er-de
+UID:cr-GT00383994@2026-11-25@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261125T151500Z
 DTEND:20261125T154500Z
@@ -451,13 +442,11 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:the-iceblade-sorcerer-shall-rule-the-world-staffel-2-crunchyroll-de-202
- 6-10-29@2026-11-26@anime-kalender-de
+UID:cr-GDKHZEP21@2026-11-26@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261126T170000Z
 DTEND:20261126T173000Z
-SUMMARY:The Iceblade Sorcerer Shall Rule the World Staffel 2 – Folge 5/
- ≈12
+SUMMARY:The Iceblade Sorcerer Shall Rule the World II – Folge 5/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
@@ -519,8 +508,7 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
-UID:magic-knight-rayearth-crunchyroll-de-2026-10-28@2026-12-02@anime-kalend
- er-de
+UID:cr-GT00383994@2026-12-02@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261202T151500Z
 DTEND:20261202T154500Z
@@ -532,13 +520,11 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:the-iceblade-sorcerer-shall-rule-the-world-staffel-2-crunchyroll-de-202
- 6-10-29@2026-12-03@anime-kalender-de
+UID:cr-GDKHZEP21@2026-12-03@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261203T170000Z
 DTEND:20261203T173000Z
-SUMMARY:The Iceblade Sorcerer Shall Rule the World Staffel 2 – Folge 6/
- ≈12
+SUMMARY:The Iceblade Sorcerer Shall Rule the World II – Folge 6/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
@@ -640,8 +626,7 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:magic-knight-rayearth-crunchyroll-de-2026-10-28@2026-12-09@anime-kalend
- er-de
+UID:cr-GT00383994@2026-12-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261209T151500Z
 DTEND:20261209T154500Z
@@ -653,13 +638,11 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:the-iceblade-sorcerer-shall-rule-the-world-staffel-2-crunchyroll-de-202
- 6-10-29@2026-12-10@anime-kalender-de
+UID:cr-GDKHZEP21@2026-12-10@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261210T170000Z
 DTEND:20261210T173000Z
-SUMMARY:The Iceblade Sorcerer Shall Rule the World Staffel 2 – Folge 7/
- ≈12
+SUMMARY:The Iceblade Sorcerer Shall Rule the World II – Folge 7/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
@@ -691,8 +674,7 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:magic-knight-rayearth-crunchyroll-de-2026-10-28@2026-12-16@anime-kalend
- er-de
+UID:cr-GT00383994@2026-12-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261216T151500Z
 DTEND:20261216T154500Z
@@ -704,13 +686,11 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:the-iceblade-sorcerer-shall-rule-the-world-staffel-2-crunchyroll-de-202
- 6-10-29@2026-12-17@anime-kalender-de
+UID:cr-GDKHZEP21@2026-12-17@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261217T170000Z
 DTEND:20261217T173000Z
-SUMMARY:The Iceblade Sorcerer Shall Rule the World Staffel 2 – Folge 8/
- ≈12
+SUMMARY:The Iceblade Sorcerer Shall Rule the World II – Folge 8/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
@@ -784,8 +764,7 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:magic-knight-rayearth-crunchyroll-de-2026-10-28@2026-12-23@anime-kalend
- er-de
+UID:cr-GT00383994@2026-12-23@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261223T151500Z
 DTEND:20261223T154500Z
@@ -797,13 +776,11 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:the-iceblade-sorcerer-shall-rule-the-world-staffel-2-crunchyroll-de-202
- 6-10-29@2026-12-24@anime-kalender-de
+UID:cr-GDKHZEP21@2026-12-24@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261224T170000Z
 DTEND:20261224T173000Z
-SUMMARY:The Iceblade Sorcerer Shall Rule the World Staffel 2 – Folge 9/
- ≈12
+SUMMARY:The Iceblade Sorcerer Shall Rule the World II – Folge 9/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
@@ -823,8 +800,7 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:magic-knight-rayearth-crunchyroll-de-2026-10-28@2026-12-30@anime-kalend
- er-de
+UID:cr-GT00383994@2026-12-30@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261230T151500Z
 DTEND:20261230T154500Z
@@ -836,13 +812,11 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:the-iceblade-sorcerer-shall-rule-the-world-staffel-2-crunchyroll-de-202
- 6-10-29@2026-12-31@anime-kalender-de
+UID:cr-GDKHZEP21@2026-12-31@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261231T170000Z
 DTEND:20261231T173000Z
-SUMMARY:The Iceblade Sorcerer Shall Rule the World Staffel 2 – Folge 10/
- ≈12
+SUMMARY:The Iceblade Sorcerer Shall Rule the World II – Folge 10/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
@@ -862,8 +836,7 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:magic-knight-rayearth-crunchyroll-de-2026-10-28@2027-01-06@anime-kalend
- er-de
+UID:cr-GT00383994@2027-01-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270106T151500Z
 DTEND:20270106T154500Z
@@ -875,13 +848,11 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:the-iceblade-sorcerer-shall-rule-the-world-staffel-2-crunchyroll-de-202
- 6-10-29@2027-01-07@anime-kalender-de
+UID:cr-GDKHZEP21@2027-01-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270107T170000Z
 DTEND:20270107T173000Z
-SUMMARY:The Iceblade Sorcerer Shall Rule the World Staffel 2 – Folge 11/
- ≈12
+SUMMARY:The Iceblade Sorcerer Shall Rule the World II – Folge 11/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
@@ -889,8 +860,7 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:magic-knight-rayearth-crunchyroll-de-2026-10-28@2027-01-13@anime-kalend
- er-de
+UID:cr-GT00383994@2027-01-13@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270113T151500Z
 DTEND:20270113T154500Z
@@ -902,13 +872,11 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:the-iceblade-sorcerer-shall-rule-the-world-staffel-2-crunchyroll-de-202
- 6-10-29@2027-01-14@anime-kalender-de
+UID:cr-GDKHZEP21@2027-01-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270114T170000Z
 DTEND:20270114T173000Z
-SUMMARY:The Iceblade Sorcerer Shall Rule the World Staffel 2 – Folge 12/
- ≈12
+SUMMARY:The Iceblade Sorcerer Shall Rule the World II – Folge 12/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit

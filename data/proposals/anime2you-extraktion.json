@@ -862,9 +862,17 @@
       "am": "2026-10-27",
       "vorschlaege": 1
     },
+    "1064231": {
+      "am": "2026-11-02",
+      "vorschlaege": 0
+    },
     "1064266": {
       "am": "2026-10-29",
       "vorschlaege": 0
+    },
+    "1064295": {
+      "am": "2026-11-03",
+      "vorschlaege": 2
     },
     "1064338": {
       "am": "2026-10-29",
@@ -894,6 +902,10 @@
     },
     "1064672": {
       "am": "2026-10-28",
+      "vorschlaege": 1
+    },
+    "1064703": {
+      "am": "2026-11-03",
       "vorschlaege": 1
     },
     "1064788": {
@@ -983,6 +995,18 @@
       "am": "2026-10-30",
       "vorschlaege": 13
     },
+    "1065398": {
+      "am": "2026-11-03",
+      "vorschlaege": 1
+    },
+    "1065435": {
+      "am": "2026-11-03",
+      "vorschlaege": 2
+    },
+    "1065462": {
+      "am": "2026-11-03",
+      "vorschlaege": 1
+    },
     "1065500": {
       "am": "2026-10-30",
       "vorschlaege": 1
@@ -1040,6 +1064,10 @@
       "am": "2026-11-01",
       "vorschlaege": 1
     },
+    "1066039": {
+      "am": "2026-11-02",
+      "vorschlaege": 2
+    },
     "1066048": {
       "am": "2026-11-01",
       "vorschlaege": 0
@@ -1064,6 +1092,10 @@
       "am": "2026-11-01",
       "vorschlaege": 1
     },
+    "1066144": {
+      "am": "2026-11-02",
+      "vorschlaege": 2
+    },
     "1066156": {
       "am": "2026-11-01",
       "vorschlaege": 0,
@@ -1073,6 +1105,69 @@
       "am": "2026-11-01",
       "vorschlaege": 0,
       "uebersprungen": "kein Deutschland-Bezug"
+    },
+    "1066323": {
+      "am": "2026-11-03",
+      "vorschlaege": 0
+    },
+    "1066373": {
+      "am": "2026-11-03",
+      "vorschlaege": 0
+    },
+    "1066415": {
+      "am": "2026-11-02",
+      "vorschlaege": 0,
+      "uebersprungen": "kein Deutschland-Bezug"
+    },
+    "1066446": {
+      "am": "2026-11-02",
+      "vorschlaege": 0,
+      "uebersprungen": "kein Deutschland-Bezug"
+    },
+    "1066485": {
+      "am": "2026-11-02",
+      "vorschlaege": 0
+    },
+    "1066511": {
+      "am": "2026-11-02",
+      "vorschlaege": 0
+    },
+    "1066566": {
+      "am": "2026-11-03",
+      "vorschlaege": 0,
+      "uebersprungen": "kein Deutschland-Bezug"
+    },
+    "1066600": {
+      "am": "2026-11-02",
+      "vorschlaege": 0
+    },
+    "1066643": {
+      "am": "2026-11-02",
+      "vorschlaege": 1
+    },
+    "1066653": {
+      "am": "2026-11-02",
+      "vorschlaege": 1
+    },
+    "1066661": {
+      "am": "2026-11-02",
+      "vorschlaege": 2
+    },
+    "1066723": {
+      "am": "2026-11-02",
+      "vorschlaege": 6
+    },
+    "1066776": {
+      "am": "2026-11-02",
+      "vorschlaege": 0
+    },
+    "1066792": {
+      "am": "2026-11-03",
+      "vorschlaege": 0
+    },
+    "1067021": {
+      "am": "2026-11-03",
+      "vorschlaege": 4
     }
   },
   "vorschlaege": [
@@ -1260,7 +1355,8 @@
       "wochentag": "Donnerstag",
       "warnungen": [
         "Uhrzeit widerspricht 18:55 (Artikel 1060030) – gegenlesen",
-        "Uhrzeit widerspricht 18:55 (Artikel 1060030), 18:30 (Artikel 1063795) – gegenlesen"
+        "Uhrzeit widerspricht 18:55 (Artikel 1060030), 18:30 (Artikel 1063795) – gegenlesen",
+        "Uhrzeit widerspricht 18:55 (Artikel 1060030), 18:30 (Artikel 1063795), 18:55 (Artikel 1066723) – gegenlesen"
       ],
       "artikelId": "1059541",
       "artikel": "ProSieben MAXX wiederholt »Whole Cake Island«-Arc von »One Piece«",
@@ -1611,7 +1707,9 @@
       "folgen": "42",
       "unsicher": null,
       "wochentag": null,
-      "warnungen": [],
+      "warnungen": [
+        "Uhrzeit widerspricht 12:55 (Artikel 1066723) – gegenlesen"
+      ],
       "artikelId": "1060030",
       "artikel": "TV-Guide: Anime im deutschen Fernsehen in KW 42/2026",
       "quelle": "https://www.anime2you.de/news/1060030/anime-tv-programm-42-2026/",
@@ -1632,7 +1730,9 @@
       "folgen": "120",
       "unsicher": null,
       "wochentag": null,
-      "warnungen": [],
+      "warnungen": [
+        "Uhrzeit widerspricht 20:40 (Artikel 1066723) – gegenlesen"
+      ],
       "artikelId": "1060030",
       "artikel": "TV-Guide: Anime im deutschen Fernsehen in KW 42/2026",
       "quelle": "https://www.anime2you.de/news/1060030/anime-tv-programm-42-2026/",
@@ -3124,7 +3224,8 @@
       "unsicher": null,
       "wochentag": "Donnerstag",
       "warnungen": [
-        "Uhrzeit widerspricht 18:30 (Artikel 1059541) – gegenlesen"
+        "Uhrzeit widerspricht 18:30 (Artikel 1059541) – gegenlesen",
+        "Uhrzeit widerspricht 18:30 (Artikel 1059541), 18:30 (Artikel 1066723) – gegenlesen"
       ],
       "artikelId": "1059480",
       "artikel": "Starttermin von »YAIBA: Samurai Legend« auf ProSieben MAXX",
@@ -5146,7 +5247,9 @@
       "folgen": "43",
       "unsicher": null,
       "wochentag": null,
-      "warnungen": [],
+      "warnungen": [
+        "Uhrzeit widerspricht 12:55 (Artikel 1066723) – gegenlesen"
+      ],
       "artikelId": "1062070",
       "artikel": "TV-Guide: Anime im deutschen Fernsehen in KW 43/2026",
       "quelle": "https://www.anime2you.de/news/1062070/anime-tv-programm-43-2026/",
@@ -5167,7 +5270,9 @@
       "folgen": "121",
       "unsicher": null,
       "wochentag": null,
-      "warnungen": [],
+      "warnungen": [
+        "Uhrzeit widerspricht 20:40 (Artikel 1066723) – gegenlesen"
+      ],
       "artikelId": "1062070",
       "artikel": "TV-Guide: Anime im deutschen Fernsehen in KW 43/2026",
       "quelle": "https://www.anime2you.de/news/1062070/anime-tv-programm-43-2026/",
@@ -6984,7 +7089,9 @@
       "folgen": "44",
       "unsicher": null,
       "wochentag": null,
-      "warnungen": [],
+      "warnungen": [
+        "Uhrzeit widerspricht 12:55 (Artikel 1066723) – gegenlesen"
+      ],
       "artikelId": "1063795",
       "artikel": "TV-Guide: Anime im deutschen Fernsehen in KW 44/2026",
       "quelle": "https://www.anime2you.de/news/1063795/anime-tv-programm-44-2026/",
@@ -7005,7 +7112,9 @@
       "folgen": "122",
       "unsicher": null,
       "wochentag": null,
-      "warnungen": [],
+      "warnungen": [
+        "Uhrzeit widerspricht 20:40 (Artikel 1066723) – gegenlesen"
+      ],
       "artikelId": "1063795",
       "artikel": "TV-Guide: Anime im deutschen Fernsehen in KW 44/2026",
       "quelle": "https://www.anime2you.de/news/1063795/anime-tv-programm-44-2026/",
@@ -7027,7 +7136,8 @@
       "unsicher": "Letzte Folge der laufenden Ausstrahlung bei diesem Sender, keine Aussage zur Fortsetzung.",
       "wochentag": null,
       "warnungen": [
-        "Uhrzeit widerspricht 18:50 (Artikel 1059541), 18:55 (Artikel 1060030) – gegenlesen"
+        "Uhrzeit widerspricht 18:50 (Artikel 1059541), 18:55 (Artikel 1060030) – gegenlesen",
+        "Uhrzeit widerspricht 18:50 (Artikel 1059541), 18:55 (Artikel 1060030), 18:55 (Artikel 1066723) – gegenlesen"
       ],
       "artikelId": "1063795",
       "artikel": "TV-Guide: Anime im deutschen Fernsehen in KW 44/2026",
@@ -9115,6 +9225,521 @@
       "quelle": "https://www.anime2you.de/news/1066021/im-looking-for-a-zombie-episode-6-verschoben/",
       "veroeffentlicht": "2026-10-31",
       "gelesenAm": "2026-11-01"
+    },
+    {
+      "titel": "YAIBA: Samurai Legend",
+      "zitat": "YAIBA: Samurai Legend ProSieben MAXX · Folge 1-2 · Donnerstag und Freitag um 18:30 Uhr",
+      "art": "start",
+      "sprache": "unklar",
+      "plattform": "tv",
+      "datum": null,
+      "uhrzeit": "18:30",
+      "anbieter": null,
+      "sender": "ProSieben MAXX",
+      "wochentage": "Donnerstag und Freitag",
+      "folgen": "1-2",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "Uhrzeit widerspricht 18:25 (Artikel 1059480) – gegenlesen"
+      ],
+      "artikelId": "1066723",
+      "artikel": "TV-Guide: Anime im deutschen Fernsehen in KW 45/2026",
+      "quelle": "https://www.anime2you.de/news/1066723/anime-tv-programm-45-2026/",
+      "veroeffentlicht": "2026-11-02",
+      "gelesenAm": "2026-11-02"
+    },
+    {
+      "titel": "Hell’s Paradise",
+      "zitat": "Hell’s Paradise ProSieben FUN · Folge 9-10 · Montag um 20:55 Uhr",
+      "art": "folgen",
+      "sprache": "unklar",
+      "plattform": "tv",
+      "datum": null,
+      "uhrzeit": "20:55",
+      "anbieter": null,
+      "sender": "ProSieben FUN",
+      "wochentage": "Montag",
+      "folgen": "9-10",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1066723",
+      "artikel": "TV-Guide: Anime im deutschen Fernsehen in KW 45/2026",
+      "quelle": "https://www.anime2you.de/news/1066723/anime-tv-programm-45-2026/",
+      "veroeffentlicht": "2026-11-02",
+      "gelesenAm": "2026-11-02"
+    },
+    {
+      "titel": "Dororo",
+      "zitat": "Dororo ProSieben FUN · Folge 9-10 · Montag um 21:45 Uhr",
+      "art": "folgen",
+      "sprache": "unklar",
+      "plattform": "tv",
+      "datum": null,
+      "uhrzeit": "21:45",
+      "anbieter": null,
+      "sender": "ProSieben FUN",
+      "wochentage": "Montag",
+      "folgen": "9-10",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1066723",
+      "artikel": "TV-Guide: Anime im deutschen Fernsehen in KW 45/2026",
+      "quelle": "https://www.anime2you.de/news/1066723/anime-tv-programm-45-2026/",
+      "veroeffentlicht": "2026-11-02",
+      "gelesenAm": "2026-11-02"
+    },
+    {
+      "titel": "Pokémon Horizonte: Gute Aussichten",
+      "zitat": "Pokémon Horizonte: Gute Aussichten TOGGO · Folge 45 · Samstag um 12:55 Uhr",
+      "art": "folgen",
+      "sprache": "unklar",
+      "plattform": "tv",
+      "datum": null,
+      "uhrzeit": "12:55",
+      "anbieter": null,
+      "sender": "TOGGO",
+      "wochentage": "Samstag",
+      "folgen": "45",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "Uhrzeit widerspricht 13:00 (Artikel 1060030), 13:00 (Artikel 1062070), 13:00 (Artikel 1063795) – gegenlesen"
+      ],
+      "artikelId": "1066723",
+      "artikel": "TV-Guide: Anime im deutschen Fernsehen in KW 45/2026",
+      "quelle": "https://www.anime2you.de/news/1066723/anime-tv-programm-45-2026/",
+      "veroeffentlicht": "2026-11-02",
+      "gelesenAm": "2026-11-02"
+    },
+    {
+      "titel": "Beyblade X",
+      "zitat": "Beyblade X TOGGO plus · Folge 123 · Samstag um 20:40 Uhr",
+      "art": "folgen",
+      "sprache": "unklar",
+      "plattform": "tv",
+      "datum": null,
+      "uhrzeit": "20:40",
+      "anbieter": null,
+      "sender": "TOGGO plus",
+      "wochentage": "Samstag",
+      "folgen": "123",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "Uhrzeit widerspricht 20:45 (Artikel 1060030), 20:45 (Artikel 1062070), 20:45 (Artikel 1063795) – gegenlesen"
+      ],
+      "artikelId": "1066723",
+      "artikel": "TV-Guide: Anime im deutschen Fernsehen in KW 45/2026",
+      "quelle": "https://www.anime2you.de/news/1066723/anime-tv-programm-45-2026/",
+      "veroeffentlicht": "2026-11-02",
+      "gelesenAm": "2026-11-02"
+    },
+    {
+      "titel": "One Piece",
+      "zitat": "One Piece (ab Episode 780) ProSieben MAXX · Ab Donnerstag um 18:55 Uhr",
+      "art": "start",
+      "sprache": "unklar",
+      "plattform": "tv",
+      "datum": null,
+      "uhrzeit": "18:55",
+      "anbieter": null,
+      "sender": "ProSieben MAXX",
+      "wochentage": "Donnerstag",
+      "folgen": "780",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "Uhrzeit widerspricht 18:50 (Artikel 1059541), 18:30 (Artikel 1063795) – gegenlesen"
+      ],
+      "artikelId": "1066723",
+      "artikel": "TV-Guide: Anime im deutschen Fernsehen in KW 45/2026",
+      "quelle": "https://www.anime2you.de/news/1066723/anime-tv-programm-45-2026/",
+      "veroeffentlicht": "2026-11-02",
+      "gelesenAm": "2026-11-02"
+    },
+    {
+      "titel": "Iron Man: Rise of Technovore",
+      "zitat": "»Iron Man: Rise of Technovore« Verfügbar bis: 13. November 2026 Laufzeit: 88 Minuten Sprache: Deutsch, Englisch (UT)",
+      "art": "abgang",
+      "sprache": "deutsch",
+      "plattform": "netflix",
+      "datum": "2026-11-13",
+      "uhrzeit": null,
+      "anbieter": "Netflix",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „Netflix“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „netflix“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1066661",
+      "artikel": "Netflix entfernt zwei Anime-Titel aus seinem Programm",
+      "quelle": "https://www.anime2you.de/news/1066661/netflix-entfernt-berserk-und-mehr/",
+      "veroeffentlicht": "2026-11-01",
+      "gelesenAm": "2026-11-02"
+    },
+    {
+      "titel": "Berserk",
+      "zitat": "Darüber hinaus kann die 25-teilige Anime-Serie »Berserk« aus dem Jahr 1997 nur noch bis zum 30. November 2026 im japanischen Originalton mit deutschen Untertiteln auf Netflix angesehen werden.",
+      "art": "abgang",
+      "sprache": "omu",
+      "plattform": "netflix",
+      "datum": "2026-11-30",
+      "uhrzeit": null,
+      "anbieter": "Netflix",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "25",
+      "unsicher": null,
+      "wochentag": "Montag",
+      "warnungen": [],
+      "artikelId": "1066661",
+      "artikel": "Netflix entfernt zwei Anime-Titel aus seinem Programm",
+      "quelle": "https://www.anime2you.de/news/1066661/netflix-entfernt-berserk-und-mehr/",
+      "veroeffentlicht": "2026-11-01",
+      "gelesenAm": "2026-11-02"
+    },
+    {
+      "titel": "Wandering Witch: Elainas Reise",
+      "zitat": "»Wandering Witch: Elainas Reise« läuft ab dem 4. Dezember 2026 jeden Freitagabend ab circa 22:25 Uhr mit drei Episoden am Stück auf ProSieben MAXX.",
+      "art": "start",
+      "sprache": "unklar",
+      "plattform": "tv",
+      "datum": "2026-12-04",
+      "uhrzeit": "22:25",
+      "anbieter": null,
+      "sender": "ProSieben MAXX",
+      "wochentage": "jeden Freitagabend",
+      "folgen": null,
+      "unsicher": "Die Uhrzeit nennt der Artikel nur als circa (ab circa 22:25 Uhr).",
+      "wochentag": "Freitag",
+      "warnungen": [],
+      "artikelId": "1066039",
+      "artikel": "ProSieben MAXX zeigt »Wandering Witch: Elainas Reise« als TV-Premiere",
+      "quelle": "https://www.anime2you.de/news/1066039/prosieben-maxx-zeigt-wandering-witch-elainas-reise/",
+      "veroeffentlicht": "2026-11-01",
+      "gelesenAm": "2026-11-02"
+    },
+    {
+      "titel": "Wandering Witch: Elainas Reise",
+      "zitat": "Im Anschluss stehen die einzelnen Episoden kostenlos bei Joyn zur Verfügung.",
+      "art": "start",
+      "sprache": "unklar",
+      "plattform": "joyn",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Joyn",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1066039",
+      "artikel": "ProSieben MAXX zeigt »Wandering Witch: Elainas Reise« als TV-Premiere",
+      "quelle": "https://www.anime2you.de/news/1066039/prosieben-maxx-zeigt-wandering-witch-elainas-reise/",
+      "veroeffentlicht": "2026-11-01",
+      "gelesenAm": "2026-11-02"
+    },
+    {
+      "titel": "Der Held ohne Klasse: Der Aufstieg eines Talentlosen",
+      "zitat": "Bei den Neuzugängen handelt es sich um die zwölfteilige Fantasy-Serie »Der Held ohne Klasse« sowie drei neue Episoden von »My Happy Marriage«, die seit Kurzem als Folge 14 bis 16 der zweiten Staffel verfügbar sind. Beide aktuellen Ergänzungen können sowohl mit deutscher Synchronisation als auch in der japanischen Originalvertonung mit deutschen Untertiteln auf Netflix angesehen werden.",
+      "art": "start",
+      "sprache": "deutsch+omu",
+      "plattform": "netflix",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Netflix",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "12",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1066144",
+      "artikel": "Netflix nimmt zwei Anime-Neuzugänge ins Programm",
+      "quelle": "https://www.anime2you.de/news/1066144/netflix-held-ohne-klasse-und-mehr/",
+      "veroeffentlicht": "2026-11-01",
+      "gelesenAm": "2026-11-02"
+    },
+    {
+      "titel": "My Happy Marriage",
+      "zitat": "Bei den Neuzugängen handelt es sich um die zwölfteilige Fantasy-Serie »Der Held ohne Klasse« sowie drei neue Episoden von »My Happy Marriage«, die seit Kurzem als Folge 14 bis 16 der zweiten Staffel verfügbar sind. Beide aktuellen Ergänzungen können sowohl mit deutscher Synchronisation als auch in der japanischen Originalvertonung mit deutschen Untertiteln auf Netflix angesehen werden.",
+      "art": "folgen",
+      "sprache": "deutsch+omu",
+      "plattform": "netflix",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Netflix",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "14-16",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1066144",
+      "artikel": "Netflix nimmt zwei Anime-Neuzugänge ins Programm",
+      "quelle": "https://www.anime2you.de/news/1066144/netflix-held-ohne-klasse-und-mehr/",
+      "veroeffentlicht": "2026-11-01",
+      "gelesenAm": "2026-11-02"
+    },
+    {
+      "titel": "Bocchi the Rock!",
+      "zitat": "Die zwölfteilige erste Staffel von »Bocchi the Rock!« wurde von Oktober bis Dezember 2022 im japanischen Fernsehen ausgestrahlt und ist hierzulande bei Crunchyroll verfügbar. AniMoon Publishing veröffentlicht diese ab November 2026 auf DVD und Blu-ray.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "AniMoon Publishing",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "12",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1066643",
+      "artikel": "»Bocchi the Rock!« erhält Anime-Film mit Vorgeschichte + Teaser",
+      "quelle": "https://www.anime2you.de/news/1066643/bocchi-the-rock-erhaelt-prequel-kinofilm/",
+      "veroeffentlicht": "2026-11-01",
+      "gelesenAm": "2026-11-02"
+    },
+    {
+      "titel": "Frieren: Beyond Journey’s End",
+      "zitat": "Eine dritte Staffel startet im Oktober 2027.",
+      "art": "ankuendigung",
+      "sprache": "unklar",
+      "plattform": null,
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1065462",
+      "artikel": "Neue »Frieren«-Figur zeigt die Protagonistin im Kleid",
+      "quelle": "https://www.anime2you.de/news/1065462/frieren-taito-figur-protagonistin-im-kleid/",
+      "veroeffentlicht": "2026-11-03",
+      "gelesenAm": "2026-11-03"
+    },
+    {
+      "titel": "Snowball Earth",
+      "zitat": "Die 13-teilige erste Staffel von »Snowball Earth« ist auf Deutsch und im Originalton mit deutschen Untertiteln bei Crunchyroll, Disney+ und Netflix auf Abruf verfügbar.",
+      "art": "sprachfassung",
+      "sprache": "deutsch+omu",
+      "plattform": "crunchyroll",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1067021",
+      "artikel": "Neue »Snowball Earth«-Figuren von Ao und Tetsuo angekündigt",
+      "quelle": "https://www.anime2you.de/news/1067021/snowball-earth-figuren-ao-tetsuo/",
+      "veroeffentlicht": "2026-11-03",
+      "gelesenAm": "2026-11-03"
+    },
+    {
+      "titel": "Snowball Earth",
+      "zitat": "Die 13-teilige erste Staffel von »Snowball Earth« ist auf Deutsch und im Originalton mit deutschen Untertiteln bei Crunchyroll, Disney+ und Netflix auf Abruf verfügbar.",
+      "art": "sprachfassung",
+      "sprache": "deutsch+omu",
+      "plattform": "disneyplus",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Disney+",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1067021",
+      "artikel": "Neue »Snowball Earth«-Figuren von Ao und Tetsuo angekündigt",
+      "quelle": "https://www.anime2you.de/news/1067021/snowball-earth-figuren-ao-tetsuo/",
+      "veroeffentlicht": "2026-11-03",
+      "gelesenAm": "2026-11-03"
+    },
+    {
+      "titel": "Snowball Earth",
+      "zitat": "Die 13-teilige erste Staffel von »Snowball Earth« ist auf Deutsch und im Originalton mit deutschen Untertiteln bei Crunchyroll, Disney+ und Netflix auf Abruf verfügbar.",
+      "art": "sprachfassung",
+      "sprache": "deutsch+omu",
+      "plattform": "netflix",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Netflix",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1067021",
+      "artikel": "Neue »Snowball Earth«-Figuren von Ao und Tetsuo angekündigt",
+      "quelle": "https://www.anime2you.de/news/1067021/snowball-earth-figuren-ao-tetsuo/",
+      "veroeffentlicht": "2026-11-03",
+      "gelesenAm": "2026-11-03"
+    },
+    {
+      "titel": "Snowball Earth",
+      "zitat": "Eine zweite Staffel wurde bereits angekündigt, hat jedoch noch keinen Starttermin.",
+      "art": "ankuendigung",
+      "sprache": "unklar",
+      "plattform": null,
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1067021",
+      "artikel": "Neue »Snowball Earth«-Figuren von Ao und Tetsuo angekündigt",
+      "quelle": "https://www.anime2you.de/news/1067021/snowball-earth-figuren-ao-tetsuo/",
+      "veroeffentlicht": "2026-11-03",
+      "gelesenAm": "2026-11-03"
+    },
+    {
+      "titel": "My Dress-Up Darling",
+      "zitat": "Die zwölfteilige erste Staffel ist ab Dezember 2026 in einer Steelbook-Komplettbox auf Blu-ray erhältlich.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1065398",
+      "artikel": "Zwei neue Figuren von Marin aus »My Dress-Up Darling« enthüllt",
+      "quelle": "https://www.anime2you.de/news/1065398/zwei-taito-my-dress-up-darling-marin-figuren/",
+      "veroeffentlicht": "2026-11-02",
+      "gelesenAm": "2026-11-03"
+    },
+    {
+      "titel": "The Apothecary Diaries",
+      "zitat": "Die dritte Staffel startete am 2. Oktober 2026 im Simulcast, während die zweite Staffel ab Dezember 2026 auf DVD und Blu-ray erscheint.",
+      "art": "start",
+      "sprache": "unklar",
+      "plattform": null,
+      "datum": "2026-10-02",
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [],
+      "artikelId": "1064295",
+      "artikel": "Zwei neue Minifiguren zu »The Apothecary Diaries« angekündigt",
+      "quelle": "https://www.anime2you.de/news/1064295/zwei-apothecary-diaries-to-smile-minifiguren/",
+      "veroeffentlicht": "2026-11-02",
+      "gelesenAm": "2026-11-03"
+    },
+    {
+      "titel": "The Apothecary Diaries",
+      "zitat": "Die dritte Staffel startete am 2. Oktober 2026 im Simulcast, während die zweite Staffel ab Dezember 2026 auf DVD und Blu-ray erscheint.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1064295",
+      "artikel": "Zwei neue Minifiguren zu »The Apothecary Diaries« angekündigt",
+      "quelle": "https://www.anime2you.de/news/1064295/zwei-apothecary-diaries-to-smile-minifiguren/",
+      "veroeffentlicht": "2026-11-02",
+      "gelesenAm": "2026-11-03"
+    },
+    {
+      "titel": "Mushoku Tensei: Jobless Reincarnation",
+      "zitat": "Der erste Teil der dritten Staffel lief im Sommer 2026 bei Crunchyroll im Simulcast, während der zweite Teil für 2027 geplant ist.",
+      "art": "start",
+      "sprache": "unklar",
+      "plattform": "crunchyroll",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1065435",
+      "artikel": "Neue »Mushoku Tensei«-Figur zeigt Eris im chinesischen Kleid",
+      "quelle": "https://www.anime2you.de/news/1065435/mushoku-tensei-figur-eris-chinesisches-kleid/",
+      "veroeffentlicht": "2026-11-02",
+      "gelesenAm": "2026-11-03"
+    },
+    {
+      "titel": "Mushoku Tensei: Jobless Reincarnation",
+      "zitat": "Der erste Teil der dritten Staffel lief im Sommer 2026 bei Crunchyroll im Simulcast, während der zweite Teil für 2027 geplant ist.",
+      "art": "ankuendigung",
+      "sprache": "unklar",
+      "plattform": null,
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1065435",
+      "artikel": "Neue »Mushoku Tensei«-Figur zeigt Eris im chinesischen Kleid",
+      "quelle": "https://www.anime2you.de/news/1065435/mushoku-tensei-figur-eris-chinesisches-kleid/",
+      "veroeffentlicht": "2026-11-02",
+      "gelesenAm": "2026-11-03"
+    },
+    {
+      "titel": "One Piece",
+      "zitat": "Die 38. DVD- und Blu-ray-Box kam am 15. Mai 2026 in den Handel.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2026-05-15",
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [],
+      "artikelId": "1064703",
+      "artikel": "Neue »One Piece«-Figuren von Zorro und Lysop angekündigt",
+      "quelle": "https://www.anime2you.de/news/1064703/one-piece-jimei-palace-figuren-zorro-lysop/",
+      "veroeffentlicht": "2026-11-02",
+      "gelesenAm": "2026-11-03"
     }
   ]
 }

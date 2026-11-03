@@ -1,0 +1,23 @@
+[
+  { "name": "Kontrolle (unmutiert)", "aenderungen": [] },
+  { "name": "blockSeiten: Notizseite ignoriert", "aenderungen": [{ "datei": "pipeline/lib/handbeleg-notizseite.ts", "suche": "...(aus ? [aus[1]!] : [])", "ersetze": "...([] as string[])" }] },
+  { "name": "blockSeiten: Adresse ignoriert", "aenderungen": [{ "datei": "pipeline/lib/handbeleg-notizseite.ts", "suche": "...asinsAus(b.url).slice(0, 1), ", "ersetze": "" }] },
+  { "name": "blockSeiten: alle Kennungen der URL", "aenderungen": [{ "datei": "pipeline/lib/handbeleg-notizseite.ts", "suche": "asinsAus(b.url).slice(0, 1)", "ersetze": "asinsAus(b.url)" }] },
+  { "name": "baueBesitz: Plattformfilter weg", "aenderungen": [{ "datei": "pipeline/lib/handbeleg-notizseite.ts", "suche": "if (s.platform !== 'primevideo') continue", "ersetze": "" }] },
+  { "name": "baueBesitz: seite ignoriert", "aenderungen": [{ "datei": "pipeline/lib/handbeleg-notizseite.ts", "suche": "[...asinsAus(s.url), ...asinsAus(s.seite)]", "ersetze": "[...asinsAus(s.url)]" }] },
+  { "name": "baueBesitz: sharedWith ignoriert", "aenderungen": [{ "datei": "pipeline/lib/handbeleg-notizseite.ts", "suche": "if (s.sharedWith) geteilt.add(a)", "ersetze": "" }] },
+  { "name": "baueBesitz: prime-zugeordnet ignoriert", "aenderungen": [{ "datei": "pipeline/lib/handbeleg-notizseite.ts", "suche": "for (const [adresse, z] of Object.entries(zugeordnet)) for (const a of asinsAus(adresse)) trage(a, z.titleId)", "ersetze": "" }] },
+  { "name": "find: Plattformfilter weg", "aenderungen": [{ "datei": "pipeline/lib/handbeleg-notizseite.ts", "suche": "b.platform !== 'primevideo' || ", "ersetze": "" }] },
+  { "name": "find: Block ohne Kennung nicht übersprungen", "aenderungen": [{ "datei": "pipeline/lib/handbeleg-notizseite.ts", "suche": " || b.anilistId === undefined", "ersetze": "" }] },
+  { "name": "find: geteilt ignoriert", "aenderungen": [{ "datei": "pipeline/lib/handbeleg-notizseite.ts", "suche": " || besitz.geteilt.has(a)", "ersetze": "" }] },
+  { "name": "find: mehrere Besitzer zählen", "aenderungen": [{ "datei": "pipeline/lib/handbeleg-notizseite.ts", "suche": " || o.size !== 1", "ersetze": "" }] },
+  { "name": "find: eigener Besitz zählt als fremd", "aenderungen": [{ "datei": "pipeline/lib/handbeleg-notizseite.ts", "suche": " || o.has(b.anilistId)", "ersetze": "" }] },
+  { "name": "find: Doppeltreffer nicht entdoppelt", "aenderungen": [{ "datei": "pipeline/lib/handbeleg-notizseite.ts", "suche": "return [...treffer].sort()", "ersetze": "return [...treffer].sort().concat([...treffer].slice(0, 1))" }] },
+  { "name": "Bestand: Aufruf entfernt", "aenderungen": [{ "datei": "pipeline/check-handbeleg-notizseite-bestand.ts", "suche": "const treffer = findeFremdeNotizseiten(belege, baueBesitz(titel, zugeordnet))", "ersetze": "const treffer: string[] = []" }], "tests": ["npx tsx pipeline/check-handbeleg-notizseite-lauf.ts"] },
+  { "name": "Bestand: Exit immer 0", "aenderungen": [{ "datei": "pipeline/check-handbeleg-notizseite-bestand.ts", "suche": "process.exit(neu.length ? 1 : 0)", "ersetze": "process.exit(0)" }], "tests": ["npx tsx pipeline/check-handbeleg-notizseite-lauf.ts"] },
+  { "name": "Bestand: Ratsche ignoriert", "aenderungen": [{ "datei": "pipeline/check-handbeleg-notizseite-bestand.ts", "suche": "!ALTFAELLE.includes(t)", "ersetze": "true" }], "tests": ["npx tsx pipeline/check-handbeleg-notizseite-lauf.ts"] },
+  { "name": "Bestand: Ratsche alles erlaubt", "aenderungen": [{ "datei": "pipeline/check-handbeleg-notizseite-bestand.ts", "suche": "!ALTFAELLE.includes(t)", "ersetze": "false" }], "tests": ["npx tsx pipeline/check-handbeleg-notizseite-lauf.ts"] },
+  { "name": "Bestand: Warnung weg", "aenderungen": [{ "datei": "pipeline/check-handbeleg-notizseite-bestand.ts", "suche": "if (erledigt.length) console.log(", "ersetze": "if (false) console.log(" }], "tests": ["npx tsx pipeline/check-handbeleg-notizseite-lauf.ts"] },
+  { "name": "Ratsche nur sinkend: Grenze >= statt >", "aenderungen": [{ "datei": "pipeline/lib/handbeleg-notizseite-altfaelle.ts", "suche": "altfaelle.length > grenze", "ersetze": "altfaelle.length >= grenze" }] },
+  { "name": "Ratsche nur sinkend: nie verletzt", "aenderungen": [{ "datei": "pipeline/lib/handbeleg-notizseite-altfaelle.ts", "suche": "altfaelle.length > grenze", "ersetze": "false" }] }
+]

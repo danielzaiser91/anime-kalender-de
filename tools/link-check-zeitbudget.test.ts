@@ -93,8 +93,8 @@ spawnSync(
   { cwd: tmp2, env: { ...process.env, AK_ROOT: tmp2 }, windowsHide: true, encoding: 'utf8', timeout: 60_000 },
 )
 const nach = JSON.parse(readFileSync(join(tmp2, 'data', 'link-check.json'), 'utf8')) as Record<string, { status: unknown; geprueftAm: string }>
-assert.equal(nach[dreiUrl]?.status, 404, 'Nie-Geprüftes kommt dran')
-assert.equal(nach[zwei].status, 404, 'ältester Befund kommt dran')
+assert.equal(nach[dreiUrl]?.status, 'unklar', 'Nie-Geprüftes kommt dran (ein erstes Netflix-404 steht als unklar)')
+assert.equal(nach[zwei].status, 'unklar', 'ältester Befund kommt dran (Netflix-404 zunächst unklar)')
 assert.equal(nach[eins].geprueftAm, '2000-06-01', 'der jüngere Befund bleibt für den nächsten Lauf')
 rmSync(tmp2, { recursive: true, force: true })
 
@@ -123,7 +123,7 @@ const lauf3 = (): string => {
 }
 const netflixGeprueft = (): number => {
   const stand = JSON.parse(readFileSync(join(tmp3, 'data', 'link-check.json'), 'utf8')) as Record<string, { status: unknown }>
-  return Object.keys(stand).filter((u) => u.includes('netflix') && stand[u].status === 404).length
+  return Object.keys(stand).filter((u) => u.includes('netflix') && stand[u].status !== 200).length
 }
 writeFileSync(join(tmp3, 'public', 'data', 'titles.json'), JSON.stringify([...Array(10).keys()].map((i) => ({ streams: [{ platform: 'netflix', url: netflixUrl(i) }] })).concat([...Array(70).keys()].map((i) => ({ streams: [{ platform: 'primevideo', url: amazonUrl(i) }] })))))
 lauf3()
@@ -131,6 +131,10 @@ assert.equal(netflixGeprueft(), 10, 'Lauf 1: alle 10 Netflix-Adressen kommen dra
 writeFileSync(join(tmp3, 'public', 'data', 'titles.json'), JSON.stringify([...Array(20).keys()].map((i) => ({ streams: [{ platform: 'netflix', url: netflixUrl(i) }] })).concat([...Array(70).keys()].map((i) => ({ streams: [{ platform: 'primevideo', url: amazonUrl(i) }] })))))
 lauf3()
 assert.equal(netflixGeprueft(), 20, 'Lauf 2: auch die zweiten 10 Netflix-Adressen kommen dran')
+/* Ein erstes Netflix-404 steht als unklar und bliebe fällig; hier gelten die 20 als bestätigt (404, frisch), damit nur noch Amazon fällig ist. */
+const standNachLauf2 = JSON.parse(readFileSync(join(tmp3, 'data', 'link-check.json'), 'utf8')) as Record<string, { status: unknown; geprueftAm: string }>
+for (let i = 0; i < 20; i++) standNachLauf2[netflixUrl(i)] = { status: 404, geprueftAm: '2999-12-31' }
+writeFileSync(join(tmp3, 'data', 'link-check.json'), JSON.stringify(standNachLauf2))
 /* Nur noch die 70 Amazon-Adressen sind fällig: der Zustand des Vorlaufs entscheidet über die Drossel. */
 const setzeVorlauf = (gesperrt: boolean): void =>
   writeFileSync(join(tmp3, 'data', 'source-health.json'), JSON.stringify({ 'link-check': { lastOk: '2000-01-01T00:00:00.000Z', lastRun: '2000-01-01T00:00:00.000Z', lastCount: 5, gesperrt } }))

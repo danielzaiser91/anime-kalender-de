@@ -255,6 +255,14 @@ jobs:
         id: beleg
         run: node tools/logik-beleg.mjs gueltig
 
+      # Hat ein früherer Deploy-Lauf für denselben Inhalt außerhalb der Datenpfade `pruefen` grün gefahren (tools/workflows-beleg.mjs),
+      # entfällt `check:workflows` (~7 min). Jeder Fehler hier heißt nur „nicht belegt“: dann läuft die Prüfung wie bisher.
+      - name: Workflows-Beleg früherer Deploy-Läufe suchen
+        id: wbeleg
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node tools/workflows-beleg.mjs gueltig
+
       # Meldet der Statusanzeige, dass hier etwas läuft. Ohne LAUF_TOKEN
       # passiert nichts — eine fehlende Meldung darf keinen Lauf rot machen.
       # Das Meldeskript an einen Ort legen, den kein Zweigwechsel wegnimmt.
@@ -296,6 +304,7 @@ jobs:
       # der Übersicht und läuft nie wieder. Diese Prüfung ist der einzige Ort,
       # der das bemerkt, bevor ein Nachtlauf ausbleibt.
       - name: Workflow-Dateien prüfen
+        if: steps.wbeleg.outputs.gueltig != '1'
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run check:workflows

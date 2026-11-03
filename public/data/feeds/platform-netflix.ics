@@ -8,26 +8,6 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:my-happy-marriage-special-netflix@2026-10-25@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261025
-DTEND;VALUE=DATE:20261026
-SUMMARY:Meine ganz besondere Hochzeit: Special
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nUhrzeit noch nic
- ht bestätigt.\nDetails: https://anime-kalender.de/t/16794/
-CATEGORIES:Netflix
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-189123-netflix@2026-10-25@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261025
-DTEND;VALUE=DATE:20261026
-SUMMARY:Blue Box: Staffel 2 – Folge 4/≈12
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
- it noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/16763/
-CATEGORIES:Netflix
-END:VEVENT
-BEGIN:VEVENT
 UID:steel-ball-run-2nd-3rd-stage@2026-10-30@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261030T080000Z
@@ -61,6 +41,20 @@ DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter genannte
  r Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetails: h
  ttps://anime-kalender.de/t/16763/
+CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-169969-netflix@2026-11-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261101
+DTEND;VALUE=DATE:20261102
+SUMMARY:Der Held ohne Klasse: Der Aufstieg eines Talentlosen (neu bei Netfl
+ ix)
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nIm Angebot seit 
+ diesem Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrzeit n
+ och nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter genannter Ta
+ g\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetails: https
+ ://anime-kalender.de/t/15494/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT

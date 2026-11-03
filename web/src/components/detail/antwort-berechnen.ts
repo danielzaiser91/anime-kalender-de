@@ -4,7 +4,7 @@ import { titelSynchroAngekuendigt, widerlegterTermin } from '@shared/ankuendigun
 import { dubAbdeckung } from '@shared/dub-grenze.ts'
 import { type Title, type Release } from '@shared/types.ts'
 import { ausgebliebenBis } from './antwort-kasten.tsx'
-import { belegteBereiche, zaehleErschienenJeAnbieter, ohneSchonErschienene, istBelegtAbgeschlossen, deutschBegonnen, gesamtGeschaetzt, angekuendigteLaenge, fertigAntwort, kopfReleases } from './antwort-regeln.ts'
+import { belegteBereiche, zaehleErschienenJeAnbieter, ohneSchonErschienene, istBelegtAbgeschlossen, deutschBegonnen, gesamtGeschaetzt, angekuendigteLaenge, fertigAntwort, gesamtIstBelegt, kopfReleases } from './antwort-regeln.ts'
 import { bandAngaben } from './antwort-vorstart.ts'
 import { filmTermine } from './film-termine.ts'
 import { restUndBlock } from './antwort-block.ts'
@@ -370,7 +370,7 @@ export function berechneAntwort({ title, releases, today, jetzt }: AntwortEingab
       Teilweise synchronisiert: Der Kasten nennt die belegte Zahl statt „alle".
       `laeuft` ist der Zustand, der genau das kann — er zeigt „x von y".
     */
-    return { art: 'teilweise' as const, raus: teilOhneZahl ? undefined : belegteFolgen, gesamt, restBelegt }
+    return { art: 'teilweise' as const, raus: teilOhneZahl ? undefined : belegteFolgen, gesamt, gesamtBelegt: gesamtIstBelegt(title, fuerKopf, gesamt), restBelegt }
   }
   if (hatSynchro || titleStatus(releases, today, title) === 'erschienen') {
     return fertigAntwort(raus || gesamt, gesamt, vereint.size, alleEvents)

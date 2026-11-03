@@ -1,3 +1,4 @@
+import { type IstTot } from '../lib/adresse-tot.ts'
 import { type PlatformId, type Release, type StreamLink, type Title } from '../../shared/types.ts'
 import { zugangsart } from '../../shared/zugangsart.ts'
 import { anzeigeName } from '../../shared/titles.ts'
@@ -63,10 +64,10 @@ function tonAusBeleg(beleg: DubCheck | undefined): Pick<StreamLink, 'dub' | 'dub
  * Bau lieferte nichts aus): „nicht verfügbar" oder „ohne deutschen Ton" heißt kein Weg, „deutsch" heißt ein Weg mit dem Urteil und den
  * Folgenbereichen des Belegs, dann ohne Herkunft Termin, denn der Ton ist belegt.
  */
-export function ergaenzeWegeAusTerminen({ titles, releases, toteAdressen, verweiseEntfernt, belegFuer }: {
+export function ergaenzeWegeAusTerminen({ titles, releases, istTot, verweiseEntfernt, belegFuer }: {
   titles: Map<number, Title>
   releases: Release[]
-  toteAdressen: Set<string>
+  istTot: IstTot
   verweiseEntfernt: EntfernterVerweis[]
   belegFuer: BelegFuer
 }): number {
@@ -79,7 +80,7 @@ export function ergaenzeWegeAusTerminen({ titles, releases, toteAdressen, verwei
     const schluessel = `${r.titleId}|${r.platform}`
     if (!titel || !istSichererTermin(r) || entfernt.has(schluessel)) continue
     if (titel.streams?.some((s) => s.platform === r.platform)) continue
-    const belegt = r.platformUrl && !istKeineTitelseite(r.platformUrl) && !toteAdressen.has(r.platformUrl)
+    const belegt = r.platformUrl && !istKeineTitelseite(r.platformUrl) && !istTot(r.platformUrl)
     const url = belegt ? r.platformUrl! : ''
     if (neu.get(schluessel)?.weg.url) continue
     const beleg = belegFuer(r.titleId, r.platform, url || undefined)

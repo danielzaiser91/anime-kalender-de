@@ -8,127 +8,6 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:you-and-i-are-polar-opposites-s2@2026-10-25@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261025T093000Z
-DTEND:20261025T100000Z
-SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 13/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/17577/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-5027-tv-disney-channel@2026-10-25#13@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261025T135000Z
-DTEND:20261025T142000Z
-SUMMARY:Yuna & Stitch
-DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/3342/
-CATEGORIES:Disney Channel
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-5027-tv-disney-channel@2026-10-25#14@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261025T142000Z
-DTEND:20261025T145000Z
-SUMMARY:Yuna & Stitch
-DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/3342/
-CATEGORIES:Disney Channel
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-5027-tv-disney-channel@2026-10-25#15@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261025T145000Z
-DTEND:20261025T152000Z
-SUMMARY:Yuna & Stitch
-DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/3342/
-CATEGORIES:Disney Channel
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GT00384006@2026-10-25@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261025T150000Z
-DTEND:20261025T153000Z
-SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
- hip! Staffel 1 – Folge 4/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/16547/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GT00384004@2026-10-25@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261025T153000Z
-DTEND:20261025T160000Z
-SUMMARY:Overgeared Staffel 1 – Folge 5/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/17645/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-10-26#42@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261026T161000Z
-DTEND:20261026T164000Z
-SUMMARY:Dragon Ball
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-10-26#43@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261026T163500Z
-DTEND:20261026T170500Z
-SUMMARY:Dragon Ball
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-235-tv-prosieben-maxx@2026-10-26@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261026T170000Z
-DTEND:20261026T173000Z
-SUMMARY:Detektiv Conan – Folge 162/170
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/204/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-26#43@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261026T172500Z
-DTEND:20261026T175500Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-26#44@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261026T175500Z
-DTEND:20261026T182500Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-112153-tv-toggo-plus@2026-10-26@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261026T201500Z
-DTEND:20261026T204500Z
-SUMMARY:Pokémon Reisen: Die Serie
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/t/10852/
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-10-27#44@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261027T160500Z
@@ -179,14 +58,15 @@ DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
 CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
-UID:the-detective-is-already-dead-staffel-2-crunchyroll-de-2026-10-28@2026-
- 10-28@anime-kalender-de
+UID:cr-G24H1N334@2026-10-28@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261028T133000Z
 DTEND:20261028T140000Z
-SUMMARY:The Detective Is Already Dead: Staffel 2 – Folge 1/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/14415/
+SUMMARY:The Detective Is Already Dead Staffel 2 – Folge 1/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
+ bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
+ et.\nDetails: https://anime-kalender.de/t/14415/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -214,7 +94,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-28@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261028T170000Z
 DTEND:20261028T173000Z
-SUMMARY:Detektiv Conan – Folge 163/170
+SUMMARY:Detektiv Conan – Folge 163
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -274,7 +154,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261029T165500Z
 DTEND:20261029T172500Z
-SUMMARY:Detektiv Conan – Folge 164/170
+SUMMARY:Detektiv Conan – Folge 164
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -356,7 +236,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-30@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261030T165500Z
 DTEND:20261030T172500Z
-SUMMARY:Detektiv Conan – Folge 165/170
+SUMMARY:Detektiv Conan – Folge 165
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -452,19 +332,6 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:seven-knights-marronnier-kingdom-primevideo@2026-10-31@anime-kalender-d
- e
-DTSTAMP:20200101T000000Z
-DTSTART:20261031T160000Z
-DTEND:20261031T163000Z
-SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 5/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/17642/
-CATEGORIES:Prime Video
-END:VEVENT
-BEGIN:VEVENT
 UID:das-band-der-unterwelt-netflix@2026-10-31@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261031
@@ -528,6 +395,20 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-169969-netflix@2026-11-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261101
+DTEND;VALUE=DATE:20261102
+SUMMARY:Der Held ohne Klasse: Der Aufstieg eines Talentlosen (neu bei Netfl
+ ix)
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nIm Angebot seit 
+ diesem Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrzeit n
+ och nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter genannter Ta
+ g\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetails: https
+ ://anime-kalender.de/t/15494/
+CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-11-02#52@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261102T160500Z
@@ -552,7 +433,7 @@ UID:auto-235-tv-prosieben-maxx@2026-11-02@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261102T165500Z
 DTEND:20261102T172500Z
-SUMMARY:Detektiv Conan – Folge 166/170
+SUMMARY:Detektiv Conan – Folge 166
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -576,6 +457,16 @@ SUMMARY:One Piece
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/12/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-112153-tv-toggo-plus@2026-11-02@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261102T201500Z
+DTEND:20261102T204500Z
+SUMMARY:Pokémon Reisen: Die Serie
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/10852/
+CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-11-03#54@anime-kalender-de
@@ -602,7 +493,7 @@ UID:auto-235-tv-prosieben-maxx@2026-11-03@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261103T165500Z
 DTEND:20261103T172500Z
-SUMMARY:Detektiv Conan – Folge 167/170
+SUMMARY:Detektiv Conan – Folge 167
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -628,16 +519,23 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:the-detective-is-already-dead-staffel-2-crunchyroll-de-2026-10-28@2026-
- 11-04@anime-kalender-de
+UID:auto-112153-tv-toggo-plus@2026-11-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261103T201500Z
+DTEND:20261103T204500Z
+SUMMARY:Pokémon Reisen: Die Serie
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/10852/
+CATEGORIES:TOGGO plus
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-G24H1N334@2026-11-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261104T133000Z
 DTEND:20261104T140000Z
-SUMMARY:The Detective Is Already Dead: Staffel 2 – Folge 2/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/14415/
+SUMMARY:The Detective Is Already Dead Staffel 2 – Folge 2/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/t/14415/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -665,7 +563,7 @@ UID:auto-235-tv-prosieben-maxx@2026-11-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261104T165500Z
 DTEND:20261104T172500Z
-SUMMARY:Detektiv Conan – Folge 168/170
+SUMMARY:Detektiv Conan – Folge 168
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -715,7 +613,7 @@ UID:auto-235-tv-prosieben-maxx@2026-11-05@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261105T165500Z
 DTEND:20261105T172500Z
-SUMMARY:Detektiv Conan – Folge 169/170
+SUMMARY:Detektiv Conan – Folge 169
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -765,7 +663,7 @@ UID:auto-235-tv-prosieben-maxx@2026-11-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261106T165500Z
 DTEND:20261106T172500Z
-SUMMARY:Detektiv Conan – Folge 170/170
+SUMMARY:Detektiv Conan – Folge 170
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -858,19 +756,6 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:seven-knights-marronnier-kingdom-primevideo@2026-11-07@anime-kalender-d
- e
-DTSTAMP:20200101T000000Z
-DTSTART:20261107T160000Z
-DTEND:20261107T163000Z
-SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 6/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/17642/
-CATEGORIES:Prime Video
-END:VEVENT
-BEGIN:VEVENT
 UID:das-band-der-unterwelt-netflix@2026-11-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261107
@@ -881,6 +766,36 @@ DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  r Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetails: h
  ttps://anime-kalender.de/t/16919/
 CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-5027-tv-disney-channel@2026-11-08#19@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261108T135000Z
+DTEND:20261108T142000Z
+SUMMARY:Yuna & Stitch
+DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/3342/
+CATEGORIES:Disney Channel
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-5027-tv-disney-channel@2026-11-08#20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261108T142000Z
+DTEND:20261108T145000Z
+SUMMARY:Yuna & Stitch
+DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/3342/
+CATEGORIES:Disney Channel
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-5027-tv-disney-channel@2026-11-08#21@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261108T145000Z
+DTEND:20261108T152000Z
+SUMMARY:Yuna & Stitch
+DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/3342/
+CATEGORIES:Disney Channel
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00384006@2026-11-08@anime-kalender-de
@@ -906,6 +821,36 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
  et.\nDetails: https://anime-kalender.de/t/17645/
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-223-tv-prosieben-maxx@2026-11-09#62@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261109T161000Z
+DTEND:20261109T164000Z
+SUMMARY:Dragon Ball
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/193/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-223-tv-prosieben-maxx@2026-11-09#63@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261109T163500Z
+DTEND:20261109T170500Z
+SUMMARY:Dragon Ball
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/193/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-235-tv-prosieben-maxx@2026-11-09@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261109T170000Z
+DTEND:20261109T173000Z
+SUMMARY:Detektiv Conan – Folge 171
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/204/
+CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:yaiba-samurai-legend-prosieben-maxx@2026-11-09@anime-kalender-de
@@ -958,12 +903,11 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:the-detective-is-already-dead-staffel-2-crunchyroll-de-2026-10-28@2026-
- 11-11@anime-kalender-de
+UID:cr-G24H1N334@2026-11-11@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261111T133000Z
 DTEND:20261111T140000Z
-SUMMARY:The Detective Is Already Dead: Staffel 2 – Folge 3/13
+SUMMARY:The Detective Is Already Dead Staffel 2 – Folge 3/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
@@ -1066,19 +1010,6 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
-UID:seven-knights-marronnier-kingdom-primevideo@2026-11-14@anime-kalender-d
- e
-DTSTAMP:20200101T000000Z
-DTSTART:20261114T160000Z
-DTEND:20261114T163000Z
-SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 7/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/17642/
-CATEGORIES:Prime Video
-END:VEVENT
-BEGIN:VEVENT
 UID:das-band-der-unterwelt-netflix@2026-11-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261114
@@ -1176,12 +1107,11 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:the-detective-is-already-dead-staffel-2-crunchyroll-de-2026-10-28@2026-
- 11-18@anime-kalender-de
+UID:cr-G24H1N334@2026-11-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261118T133000Z
 DTEND:20261118T140000Z
-SUMMARY:The Detective Is Already Dead: Staffel 2 – Folge 4/13
+SUMMARY:The Detective Is Already Dead Staffel 2 – Folge 4/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
@@ -1473,19 +1403,6 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
-UID:seven-knights-marronnier-kingdom-primevideo@2026-11-21@anime-kalender-d
- e
-DTSTAMP:20200101T000000Z
-DTSTART:20261121T160000Z
-DTEND:20261121T163000Z
-SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 8/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/17642/
-CATEGORIES:Prime Video
-END:VEVENT
-BEGIN:VEVENT
 UID:das-band-der-unterwelt-netflix@2026-11-21@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261121
@@ -1573,12 +1490,11 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:the-detective-is-already-dead-staffel-2-crunchyroll-de-2026-10-28@2026-
- 11-25@anime-kalender-de
+UID:cr-G24H1N334@2026-11-25@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261125T133000Z
 DTEND:20261125T140000Z
-SUMMARY:The Detective Is Already Dead: Staffel 2 – Folge 5/13
+SUMMARY:The Detective Is Already Dead Staffel 2 – Folge 5/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
@@ -1692,19 +1608,6 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
-UID:seven-knights-marronnier-kingdom-primevideo@2026-11-28@anime-kalender-d
- e
-DTSTAMP:20200101T000000Z
-DTSTART:20261128T160000Z
-DTEND:20261128T163000Z
-SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 9/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/17642/
-CATEGORIES:Prime Video
-END:VEVENT
-BEGIN:VEVENT
 UID:das-band-der-unterwelt-netflix@2026-11-28@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261128
@@ -1812,12 +1715,11 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
-UID:the-detective-is-already-dead-staffel-2-crunchyroll-de-2026-10-28@2026-
- 12-02@anime-kalender-de
+UID:cr-G24H1N334@2026-12-02@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261202T133000Z
 DTEND:20261202T140000Z
-SUMMARY:The Detective Is Already Dead: Staffel 2 – Folge 6/13
+SUMMARY:The Detective Is Already Dead Staffel 2 – Folge 6/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
@@ -1990,19 +1892,6 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
-UID:seven-knights-marronnier-kingdom-primevideo@2026-12-05@anime-kalender-d
- e
-DTSTAMP:20200101T000000Z
-DTSTART:20261205T160000Z
-DTEND:20261205T163000Z
-SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 10/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/17642/
-CATEGORIES:Prime Video
-END:VEVENT
-BEGIN:VEVENT
 UID:das-band-der-unterwelt-netflix@2026-12-05@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261205
@@ -2090,12 +1979,11 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:the-detective-is-already-dead-staffel-2-crunchyroll-de-2026-10-28@2026-
- 12-09@anime-kalender-de
+UID:cr-G24H1N334@2026-12-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261209T133000Z
 DTEND:20261209T140000Z
-SUMMARY:The Detective Is Already Dead: Staffel 2 – Folge 7/13
+SUMMARY:The Detective Is Already Dead Staffel 2 – Folge 7/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
@@ -2147,19 +2035,6 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
   Anbieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgel
  eitet.\nDetails: https://anime-kalender.de/t/12/
 CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:seven-knights-marronnier-kingdom-primevideo@2026-12-12@anime-kalender-d
- e
-DTSTAMP:20200101T000000Z
-DTSTART:20261212T160000Z
-DTEND:20261212T163000Z
-SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 11/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/17642/
-CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
 UID:das-band-der-unterwelt-netflix@2026-12-12@anime-kalender-de
@@ -2223,12 +2098,11 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:the-detective-is-already-dead-staffel-2-crunchyroll-de-2026-10-28@2026-
- 12-16@anime-kalender-de
+UID:cr-G24H1N334@2026-12-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261216T133000Z
 DTEND:20261216T140000Z
-SUMMARY:The Detective Is Already Dead: Staffel 2 – Folge 8/13
+SUMMARY:The Detective Is Already Dead Staffel 2 – Folge 8/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
@@ -2302,19 +2176,6 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
-UID:seven-knights-marronnier-kingdom-primevideo@2026-12-19@anime-kalender-d
- e
-DTSTAMP:20200101T000000Z
-DTSTART:20261219T160000Z
-DTEND:20261219T163000Z
-SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 12/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/17642/
-CATEGORIES:Prime Video
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GT00384006@2026-12-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261220T150000Z
@@ -2352,12 +2213,11 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:the-detective-is-already-dead-staffel-2-crunchyroll-de-2026-10-28@2026-
- 12-23@anime-kalender-de
+UID:cr-G24H1N334@2026-12-23@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261223T133000Z
 DTEND:20261223T140000Z
-SUMMARY:The Detective Is Already Dead: Staffel 2 – Folge 9/13
+SUMMARY:The Detective Is Already Dead Staffel 2 – Folge 9/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
@@ -2411,19 +2271,6 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
-UID:seven-knights-marronnier-kingdom-primevideo@2026-12-26@anime-kalender-d
- e
-DTSTAMP:20200101T000000Z
-DTSTART:20261226T160000Z
-DTEND:20261226T163000Z
-SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 13/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/17642/
-CATEGORIES:Prime Video
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GT00384006@2026-12-27@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261227T150000Z
@@ -2461,12 +2308,11 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:the-detective-is-already-dead-staffel-2-crunchyroll-de-2026-10-28@2026-
- 12-30@anime-kalender-de
+UID:cr-G24H1N334@2026-12-30@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261230T133000Z
 DTEND:20261230T140000Z
-SUMMARY:The Detective Is Already Dead: Staffel 2 – Folge 10/13
+SUMMARY:The Detective Is Already Dead Staffel 2 – Folge 10/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
@@ -2510,19 +2356,6 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:seven-knights-marronnier-kingdom-primevideo@2027-01-02@anime-kalender-d
- e
-DTSTAMP:20200101T000000Z
-DTSTART:20270102T160000Z
-DTEND:20270102T163000Z
-SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 14/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/17642/
-CATEGORIES:Prime Video
-END:VEVENT
-BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2027-01-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270104T175000Z
@@ -2547,12 +2380,11 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:the-detective-is-already-dead-staffel-2-crunchyroll-de-2026-10-28@2027-
- 01-06@anime-kalender-de
+UID:cr-G24H1N334@2027-01-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270106T133000Z
 DTEND:20270106T140000Z
-SUMMARY:The Detective Is Already Dead: Staffel 2 – Folge 11/13
+SUMMARY:The Detective Is Already Dead Staffel 2 – Folge 11/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
@@ -2596,19 +2428,6 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:seven-knights-marronnier-kingdom-primevideo@2027-01-09@anime-kalender-d
- e
-DTSTAMP:20200101T000000Z
-DTSTART:20270109T160000Z
-DTEND:20270109T163000Z
-SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 15/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/17642/
-CATEGORIES:Prime Video
-END:VEVENT
-BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2027-01-11@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270111T175000Z
@@ -2633,12 +2452,11 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:the-detective-is-already-dead-staffel-2-crunchyroll-de-2026-10-28@2027-
- 01-13@anime-kalender-de
+UID:cr-G24H1N334@2027-01-13@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270113T133000Z
 DTEND:20270113T140000Z
-SUMMARY:The Detective Is Already Dead: Staffel 2 – Folge 12/13
+SUMMARY:The Detective Is Already Dead Staffel 2 – Folge 12/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
@@ -2724,19 +2542,6 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
-UID:seven-knights-marronnier-kingdom-primevideo@2027-01-16@anime-kalender-d
- e
-DTSTAMP:20200101T000000Z
-DTSTART:20270116T160000Z
-DTEND:20270116T163000Z
-SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 16/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/17642/
-CATEGORIES:Prime Video
-END:VEVENT
-BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2027-01-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270118T175000Z
@@ -2761,12 +2566,11 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:the-detective-is-already-dead-staffel-2-crunchyroll-de-2026-10-28@2027-
- 01-20@anime-kalender-de
+UID:cr-G24H1N334@2027-01-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270120T133000Z
 DTEND:20270120T140000Z
-SUMMARY:The Detective Is Already Dead: Staffel 2 – Folge 13/13
+SUMMARY:The Detective Is Already Dead Staffel 2 – Folge 13/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
@@ -2808,19 +2612,6 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
   Anbieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgel
  eitet.\nDetails: https://anime-kalender.de/t/12/
 CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:seven-knights-marronnier-kingdom-primevideo@2027-01-23@anime-kalender-d
- e
-DTSTAMP:20200101T000000Z
-DTSTART:20270123T160000Z
-DTEND:20270123T163000Z
-SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 17/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/17642/
-CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2027-01-25@anime-kalender-de
@@ -2881,19 +2672,6 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
   Anbieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgel
  eitet.\nDetails: https://anime-kalender.de/t/12/
 CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:seven-knights-marronnier-kingdom-primevideo@2027-01-30@anime-kalender-d
- e
-DTSTAMP:20200101T000000Z
-DTSTART:20270130T160000Z
-DTEND:20270130T163000Z
-SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 18/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/17642/
-CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2027-02-01@anime-kalender-de
@@ -2966,19 +2744,6 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
-UID:seven-knights-marronnier-kingdom-primevideo@2027-02-06@anime-kalender-d
- e
-DTSTAMP:20200101T000000Z
-DTSTART:20270206T160000Z
-DTEND:20270206T163000Z
-SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 19/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/17642/
-CATEGORIES:Prime Video
-END:VEVENT
-BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2027-02-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270208T175000Z
@@ -3037,19 +2802,6 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
   Anbieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgel
  eitet.\nDetails: https://anime-kalender.de/t/12/
 CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:seven-knights-marronnier-kingdom-primevideo@2027-02-13@anime-kalender-d
- e
-DTSTAMP:20200101T000000Z
-DTSTART:20270213T160000Z
-DTEND:20270213T163000Z
-SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 20/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/17642/
-CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2027-02-15@anime-kalender-de

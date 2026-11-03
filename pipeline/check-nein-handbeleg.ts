@@ -81,7 +81,7 @@ console.log('\nJustWatch-Runde „Titel ohne jeden Weg":')
   const jw = { '185515': { angebote: [angebot('Crunchyroll', 'https://www.crunchyroll.com/de/watch/GG1U2JQM9'), angebot('Netflix', 'https://www.netflix.com/title/1')] } }
   const lauf = (nein: Set<string>) => {
     const titel = { id: 185515, streams: [] } as unknown as Title
-    ergaenzeWegeOhneWeg({ titles: new Map([[185515, titel]]), jw, handNein: nein, tmdbMehrdeutig: new Set(), toteAdressen: new Set() })
+    ergaenzeWegeOhneWeg({ titles: new Map([[185515, titel]]), jw, handNein: nein, tmdbMehrdeutig: new Set(), istTot: () => false })
     return (titel.watchLinks ?? []).map((w) => w.name)
   }
   pruefe('ohne Nein-Handbeleg legt die Runde Crunchyroll und Netflix an', lauf(new Set()).join() === 'Crunchyroll,Netflix', lauf(new Set()))

@@ -44,7 +44,7 @@ function lauf(angebote: JwKauf['angebote'], t: Title = titel(900001), extra: { z
     handNein: extra.handNein ?? new Set(),
     primeNein: new Set(extra.primeNein ?? []),
     tmdbMehrdeutig: new Set(extra.mehrdeutig ?? []),
-    toteAdressen: new Set(extra.tot ?? []),
+    istTot: (u: string) => (extra.tot ?? []).includes(u),
     heute: extra.heute ?? HEUTE_BAU,
   })
   return t.streams as StreamLink[]
@@ -93,7 +93,7 @@ pruefe('nur ein Weg je Titel, auch bei Kauf und Leihe', lauf([angebot('Amazon Vi
 {
   const fremd = titel(900009, { streams: [{ platform: 'netflix', url: 'https://x/n' }] })
   const vorher = JSON.stringify(fremd)
-  ergaenzeKaufWege({ titles: new Map([[900009, fremd]]), jw: {}, handNein: new Set(), primeNein: new Set(), tmdbMehrdeutig: new Set(), toteAdressen: new Set(), heute: HEUTE_BAU })
+  ergaenzeKaufWege({ titles: new Map([[900009, fremd]]), jw: {}, handNein: new Set(), primeNein: new Set(), tmdbMehrdeutig: new Set(), istTot: () => false, heute: HEUTE_BAU })
   pruefe('Titel ohne JustWatch-Befund bleibt byte-gleich', JSON.stringify(fremd) === vorher)
 }
 

@@ -3,7 +3,7 @@
     "2026-08": 55,
     "2026-09": 68,
     "2026-10": 99,
-    "2026-11": 4
+    "2026-11": 12
   },
   "gesehen": {
     "26341901:netflix": {
@@ -1481,7 +1481,7 @@
       "imdbId": "tt31589662",
       "tmdbId": "tv/243875",
       "dienst": "prime",
-      "am": "2026-10-14",
+      "am": "2026-11-01",
       "deutsch": true,
       "deutschBeiDienst": true
     },
@@ -1514,8 +1514,8 @@
       "imdbId": "tt12934800",
       "tmdbId": "tv/237108",
       "dienst": "prime",
-      "am": "2026-09-07",
-      "deutsch": false,
+      "am": "2026-11-01",
+      "deutsch": true,
       "deutschBeiDienst": false
     },
     "removed:24602162:prime": {
@@ -10260,7 +10260,7 @@
       "tmdbId": "tv/32368",
       "dienst": "prime",
       "am": "2026-10-31",
-      "deutsch": false,
+      "deutsch": true,
       "deutschBeiDienst": false
     },
     "removed:4399428:prime": {
@@ -10339,7 +10339,29 @@
       "am": "2026-10-31",
       "deutsch": true,
       "deutschBeiDienst": false
+    },
+    "new:489:prime": {
+      "art": "new",
+      "titel": "Black Sails",
+      "originalTitel": "Black Sails",
+      "imdbId": "tt2375692",
+      "tmdbId": "tv/47665",
+      "dienst": "prime",
+      "am": "2026-11-02",
+      "deutsch": true,
+      "deutschBeiDienst": true
+    },
+    "new:20621642:prime": {
+      "art": "new",
+      "titel": "The Institute",
+      "originalTitel": "The Institute",
+      "imdbId": "tt10946316",
+      "tmdbId": "tv/253372",
+      "dienst": "prime",
+      "am": "2026-11-01",
+      "deutsch": true,
+      "deutschBeiDienst": true
     }
   },
-  "fetchedAt": "2026-11-01T04:10:21.542Z"
+  "fetchedAt": "2026-11-03T04:14:51.157Z"
 }

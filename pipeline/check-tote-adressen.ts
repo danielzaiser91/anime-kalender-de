@@ -71,7 +71,7 @@ if (treffer.length) {
   console.error(`${treffer.length} ausgelieferte Adresse(n) sind als tot belegt:`)
   for (const z of treffer.slice(0, 20)) console.error(`  ${z}`)
   if (treffer.length > 20) console.error(`  … und ${treffer.length - 20} weitere`)
-  console.error('\nIrgendeine Runde in build.ts legt sie nach dem Entfernen wieder an — dort gehört `lautPruefungTot` davor.')
+  console.error('\nIrgendeine Runde in build.ts legt sie nach dem Entfernen wieder an — dort gehört `baueIstTot` (`pipeline/lib/adresse-tot.ts`: Handbeleg und Linkprüfung) davor, nie eine der beiden Quellen allein.')
   console.log(`VERSTÖSSE: ${treffer.length}`)
   process.exit(1)
 }

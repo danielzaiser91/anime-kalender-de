@@ -1,15 +1,51 @@
 {
-  "scrapedAt": "2026-11-01T21:03:54.713Z",
+  "scrapedAt": "2026-11-03T15:02:34.953Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
-    "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
+    "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "schon in einem Rubrik-Feed gelesen": 7,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 12,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 16,
+    "schon in einem Rubrik-Feed gelesen": 6,
     "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 1,
     "Sprachhinweis älter als 45 Tage": 6
   },
   "proposals": [
+    {
+      "articleTitle": "Design der neuen »Neon Genesis Evangelion«-Komplettbox + Extras",
+      "articleUrl": "https://www.anime2you.de/news/1067138/neue-evangelion-komplettbox-design/",
+      "publishedAt": "2026-11-03",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2027-02-05",
+          "context": "Februar 2027 Die neue Komplettbox erscheint nach aktueller Planung am 5. Februar 2027 als Blu-ray. Diese beinhaltet alle 26 Episoden auf Deu"
+        },
+        {
+          "month": "2027-02",
+          "context": "sten Produktbilder findet ihr weiter unten in diesem Artikel. Release im Februar 2027 Die neue Komplettbox erscheint nach aktueller Planung"
+        }
+      ],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "TV-Guide: Anime im deutschen Fernsehen in KW 45/2026",
+      "articleUrl": "https://www.anime2you.de/news/1066723/anime-tv-programm-45-2026/",
+      "publishedAt": "2026-11-02",
+      "category": "allgemein",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-11-08",
+          "context": "damit ihr keine Sendung verpasst! Premieren und Highlights Vom 2. bis 8. November 2026 gibt es wieder zahlreiche Anime-Premieren und -Highli"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Netflix nimmt zwei Anime-Neuzugänge ins Programm",
       "articleUrl": "https://www.anime2you.de/news/1066144/netflix-held-ohne-klasse-und-mehr/",
@@ -20,7 +56,32 @@
       ],
       "dates": [],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "sammel": [
+        {
+          "titel": "Der Held ohne Klasse: Der Aufstieg eines Talentlosen",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Netflix"
+          ],
+          "folgen": 12,
+          "datum": "2026-11-01",
+          "datumGeschaetzt": true
+        },
+        {
+          "titel": "My Happy Marriage",
+          "zusatz": "Special-Episoden",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Netflix"
+          ],
+          "datum": "2026-11-01",
+          "datumGeschaetzt": true
+        }
+      ],
+      "sammelGelesen": "2026-11-02"
     },
     {
       "articleTitle": "AniMoon-Angebot: RomCom-Serie »Toradora!« zum Sonderpreis",
@@ -53,7 +114,30 @@
       ],
       "dates": [],
       "dub": "ja",
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "sammel": [
+        {
+          "titel": "Goblin Slayer II",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Prime Video"
+          ],
+          "folgen": 12,
+          "datum": "2026-11-01",
+          "datumGeschaetzt": true
+        },
+        {
+          "titel": "Shin-chan Spin-off: Alien vs. Shinnosuke",
+          "deutsch": false,
+          "woechentlich": false,
+          "stream": [
+            "Prime Video"
+          ],
+          "folgen": 13
+        }
+      ],
+      "sammelGelesen": "2026-11-02"
     },
     {
       "articleTitle": "ProSieben MAXX zeigt »Wandering Witch: Elainas Reise« als TV-Premiere",
@@ -329,7 +413,7 @@
           "folgen": 24
         }
       ],
-      "sammelGelesen": "2026-10-31"
+      "sammelGelesen": "2026-11-03"
     },
     {
       "articleTitle": "19,99 Euro pro Staffel: polyband startet große »Pokémon«-Rabattaktion",
@@ -423,7 +507,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-10-30"
+      "sammelGelesen": "2026-11-02"
     },
     {
       "articleTitle": "Neue Anime-Katalogtitel im November 2026 bei aniverse",
@@ -707,10 +791,6 @@
       ],
       "dates": [
         {
-          "iso": "2026-11-02",
-          "context": "pisode von »PSYREN« wird demzufolge nicht wie ursprünglich geplant am 2. November 2026, sondern erst am 9. November 2026 im japanischen Fern"
-        },
-        {
           "iso": "2026-11-09",
           "context": "e nicht wie ursprünglich geplant am 2. November 2026, sondern erst am 9. November 2026 im japanischen Fernsehen ausgestrahlt und bei Crunchy"
         }
@@ -820,7 +900,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-10-31"
+      "sammelGelesen": "2026-11-03"
     },
     {
       "articleTitle": "Crunchyroll ergänzt zwei weitere Anime-Neuzugänge auf Deutsch",
@@ -854,7 +934,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-10-30"
+      "sammelGelesen": "2026-11-02"
     },
     {
       "articleTitle": "Crunchyroll bringt besonderes »Black Clover«-Erlebnis nach Deutschland",
@@ -895,10 +975,6 @@
         "netflix"
       ],
       "dates": [
-        {
-          "iso": "2026-11-01",
-          "context": "ie fünfte Episode der zweiten Staffel wird nicht wie zuvor geplant am 1. November 2026, sondern erst am 8. November 2026 in Japan ausgestrah"
-        },
         {
           "iso": "2026-11-08",
           "context": "fel wird nicht wie zuvor geplant am 1. November 2026, sondern erst am 8. November 2026 in Japan ausgestrahlt sowie bei Netflix mit deutscher"
@@ -1344,7 +1420,7 @@
           "edition": "limited-edition sammelschuber"
         }
       ],
-      "discGelesen": "2026-10-30"
+      "discGelesen": "2026-11-02"
     },
     {
       "articleTitle": "Zwei Synchro-Neuzugänge ab sofort auf Crunchyroll verfügbar",
@@ -1391,7 +1467,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-10-31"
+      "sammelGelesen": "2026-11-03"
     },
     {
       "articleTitle": "ProSieben FUN zeigt »Akame ga KILL!« als Pay-TV-Premiere",
@@ -1622,7 +1698,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-10-31"
+      "sammelGelesen": "2026-11-03"
     },
     {
       "articleTitle": "Zwei Anime-Neuzugänge ab sofort auf Netflix verfügbar",
@@ -1659,7 +1735,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-30"
+      "sammelGelesen": "2026-11-02"
     },
     {
       "articleTitle": "Netflix nimmt Fantasy-Anime »Der Held ohne Klasse« ins Programm",
@@ -1710,7 +1786,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-30"
+      "sammelGelesen": "2026-11-02"
     },
     {
       "articleTitle": "Zehn neue Minifiguren zu »Lord of Mysteries« vorgestellt",
@@ -1774,18 +1850,6 @@
       ],
       "dates": [],
       "dub": "unklar",
-      "zeiten": [
-        {
-          "tag": "Sonntag",
-          "zeit": "17:00",
-          "satz": "ffel 3 (Synchro) »Dreamland« – Episode 1 »Your Letter« »As a Reincarnated Aristocrat« – Staffel 3 (Synchro) Episoden: 1 verfügbar Sprache: Deutsch, Japanisch (UT) Simulcast: Jeden Sonntag um 17:00 Uhr Stream: Prime Video , Crunchyroll Handl"
-        },
-        {
-          "tag": "Samstag",
-          "zeit": "19:00",
-          "satz": "am mit seinen Verbündeten muss er alles daransetzen, seine Heimat zu verteidigen. »Dreamland« – Episode 1 Episode: 1 verfügbar Sprache: Englisch, Französisch (UT) Simulcast: Jeden Samstag um 19:00 Uhr Stream: Prime Video , Crunchyroll Handl"
-        }
-      ],
       "alreadyCurated": false,
       "sammel": [
         {
@@ -2157,7 +2221,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-10-31"
+      "sammelGelesen": "2026-11-03"
     },
     {
       "articleTitle": "Blu-ray-Design von »My Love Story with Yamada-kun at Lv999« + Extras",
@@ -2239,7 +2303,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-30"
+      "sammelGelesen": "2026-11-02"
     },
     {
       "articleTitle": "Design der 30th Anniversary Edition von »Detektiv Conan«",
@@ -2505,7 +2569,7 @@
           "folgen": 54
         }
       ],
-      "sammelGelesen": "2026-10-30"
+      "sammelGelesen": "2026-11-02"
     },
     {
       "articleTitle": "Erste »Kaiju No. 8«-Staffel erscheint im limitierten Steelbook + Design",
@@ -2836,7 +2900,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-29"
+      "sammelGelesen": "2026-11-02"
     },
     {
       "articleTitle": "AniMoon startet Online-Rabattaktion zur Frankfurter Buchmesse 2026",
@@ -3116,7 +3180,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-31"
+      "sammelGelesen": "2026-11-03"
     },
     {
       "articleTitle": "Nutzer verlieren gekaufte Inhalte: Tapas bestätigt Abschaltung für 2027",
@@ -3249,7 +3313,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-26"
+      "sammelGelesen": "2026-11-02"
     },
     {
       "articleTitle": "Anime-Drama »A New Dawn« erscheint auf Blu-ray + Design",
@@ -3372,7 +3436,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-27"
+      "sammelGelesen": "2026-11-02"
     },
     {
       "articleTitle": "23 Blu-ray-Termine von AniMoon, Crunchyroll und peppermint verschoben",
@@ -3646,7 +3710,7 @@
           "folgen": 13
         }
       ],
-      "sammelGelesen": "2026-10-28"
+      "sammelGelesen": "2026-11-02"
     },
     {
       "articleTitle": "Drei Anime-Serien verlassen bald den Prime-Video-Katalog",
@@ -3757,7 +3821,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-28"
+      "sammelGelesen": "2026-11-03"
     },
     {
       "articleTitle": "Netflix startet große Werbeoffensive in 15 weiteren Ländern",
@@ -3841,7 +3905,7 @@
           "datum": "2026-10-01"
         }
       ],
-      "sammelGelesen": "2026-10-25"
+      "sammelGelesen": "2026-11-03"
     },
     {
       "articleTitle": "Neue Mehrwertsteuer-Aktion bei MediaMarkt und SATURN",
@@ -3984,7 +4048,7 @@
           "datum": "2026-10-06"
         }
       ],
-      "sammelGelesen": "2026-10-25"
+      "sammelGelesen": "2026-11-03"
     },
     {
       "articleTitle": "Prime Video fügt drei Anime-Neuzugänge zu seinem Katalog hinzu",
@@ -4029,7 +4093,7 @@
           "folgen": 12
         }
       ],
-      "sammelGelesen": "2026-10-26"
+      "sammelGelesen": "2026-11-03"
     },
     {
       "articleTitle": "AKIBA PASS TV kündigt zwei neue Herbst-Simulcasts 2026 an",
@@ -4061,7 +4125,7 @@
           "datum": "2026-09-30"
         }
       ],
-      "sammelGelesen": "2026-10-26"
+      "sammelGelesen": "2026-11-03"
     },
     {
       "articleTitle": "Crunchyroll ergänzt drei Anime-Neuzugänge + Synchro",
@@ -4111,7 +4175,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-26"
+      "sammelGelesen": "2026-11-03"
     },
     {
       "articleTitle": "AniMoon-Angebot: »Higurashi GOU«-Komplettset zum Sonderpreis",

@@ -117,6 +117,13 @@ function git(args, cwd) {
   if (r.status !== 0) throw new Error(`git ${args.join(' ')}: ${r.stderr}`)
 }
 
+/** Bau samt Arbeitslisten, wie der PR-Bau ihn fährt (sonst läse die Basis die Listen von main statt ihre eigenen). */
+async function bauMitListen(ort) {
+  const bau = await lauf('npm', ['run', 'data:build'], ort)
+  if (bau.status !== 0) return bau
+  return await lauf('npm', ['run', 'data:arbeitslisten'], ort)
+}
+
 /** Baut die Basis und fährt dort die auf dem PR roten Prüfungen; Rückgabe: die auch dort roten, `null` wenn der Basisbau scheitert. */
 async function roteDerBasis(wurzel, basisRef, prRot) {
   const ort = mkdtempSync(join(tmpdir(), 'bestand-basis-'))
@@ -128,7 +135,7 @@ async function roteDerBasis(wurzel, basisRef, prRot) {
       symlinkSync(join(wurzel, p), join(ort, p), 'junction')
       links.push(join(ort, p))
     }
-    const bau = await lauf('npm', ['run', 'data:build'], ort)
+    const bau = await bauMitListen(ort)
     if (bau.status !== 0) {
       console.log(mitPraefix(`data:build ist auf der Basis gescheitert (nicht im PR):\n${bau.aus}`, `[Basis ${basisRef}]`))
       return null

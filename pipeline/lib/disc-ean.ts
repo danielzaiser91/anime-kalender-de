@@ -30,12 +30,16 @@ export const discIndexLaden = (): DiscIndex => ({
 
 const istEan = (e: string | undefined): e is string => /^\d{8,14}$/.test(e ?? '')
 
+/** Verlage unabhängig von der Reihenfolge („Crunchyroll , Kazé Deutschland“ = „Kazé Deutschland , Crunchyroll“, Princess Principal). */
+const verlage = (publisher: string | undefined): string =>
+  (publisher ?? '').split(',').map((v) => v.trim()).sort().join('|')
+
 /** Die EAN der Ausgabe von Titel und Tag — oder nichts, wenn mehrere verschiedene Ausgaben am selben Tag erscheinen. */
 export function discEan(index: DiscIndex, titleId: number | undefined, datum: string): string | undefined {
   const treffer = (index.ausgaben[String(titleId)] ?? []).filter((a) => a.datum === datum)
   if (!treffer.length) return undefined
   const mitArtikel = treffer.map((a) => ({ a, art: index.artikel[/article\/(\d+)/.exec(a.url ?? '')?.[1] ?? ''] }))
-  const schluessel = new Set(mitArtikel.map(({ a, art }) => `${a.kurz}|${art?.publisher}|${art?.umfang}`))
+  const schluessel = new Set(mitArtikel.map(({ a, art }) => `${a.kurz}|${verlage(art?.publisher)}|${art?.umfang}`))
   if (schluessel.size !== 1) return undefined
   const eans = mitArtikel.filter(({ art }) => istEan(art?.ean))
   if (eans.length === 1) return eans[0]!.art!.ean

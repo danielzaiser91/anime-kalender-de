@@ -30,9 +30,18 @@ export function tageSeit(stand: string | undefined, jetzt: Date): number | undef
 export const inhaltsStand = (e: MitInhaltsstand): string | undefined => e.inhaltAm ?? e.fetchedAt
 
 /** Der Eintrag nach einem Abruf; ein Fehltreffer lässt den Inhalt stehen und trägt dessen echtes Alter (`inhaltAm`) mit. */
-export function nachAbruf<T extends MitInhaltsstand & { miss?: boolean; tmdbId?: number }>(vorher: T | undefined, neu: T, jetzt: string): T {
+export function nachAbruf<T extends MitInhaltsstand & { miss?: boolean; tmdbId?: number; nameDe?: string; overviewDe?: string }>(vorher: T | undefined, neu: T, jetzt: string): T {
   if (neu.miss && vorher?.tmdbId) return { ...vorher, inhaltAm: inhaltsStand(vorher), fetchedAt: jetzt }
-  return { ...neu, inhaltAm: jetzt, fetchedAt: jetzt }
+  return { ...neu, ...handlungDerselbenSerie(vorher, neu, jetzt), inhaltAm: jetzt, fetchedAt: jetzt }
+}
+
+type MitHandlung = { tmdbId?: number; nameDe?: string; overviewDe?: string }
+
+/** Ersetzt eine neue Kennung dieselbe Serie (gleicher Name, Neusuche nach 404), bleibt die deutsche Handlung, die der neue Eintrag nicht hat; abgelaufene nie (Frist 150 Tage). */
+function handlungDerselbenSerie(vorher: (MitInhaltsstand & MitHandlung) | undefined, neu: MitHandlung, jetzt: string): { overviewDe?: string } {
+  if (!vorher?.overviewDe || neu.overviewDe || !neu.tmdbId || neu.tmdbId === vorher.tmdbId) return {}
+  if (!neu.nameDe || neu.nameDe !== vorher.nameDe || istAbgelaufen(inhaltsStand(vorher), new Date(jetzt))) return {}
+  return { overviewDe: vorher.overviewDe }
 }
 
 /** Entfernt den TMDB-Inhalt jedes Eintrags, dessen Stand älter als `grenze` Tage ist (oder fehlt); gibt die Kennungen zurück. */
