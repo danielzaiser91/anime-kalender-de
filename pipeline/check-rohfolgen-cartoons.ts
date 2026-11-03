@@ -193,6 +193,42 @@ for (const [name, plattform, mitDeutsch, ohneDeutsch] of formate) {
 
 pruefe('hatDeutschenTon: Codes mit Region und Pipe, aber nicht „den“/„des“', hatDeutschenTon(['de-DE']) && hatDeutschenTon(['de|x']) && !hatDeutschenTon(['den', 'des', 'fr']))
 
+{
+  // Netflix meldet zwei Kurzfolgen als „A / B“ (Willkommen bei den Louds): eine Hälfte zählt nur bei genau einem Treffer.
+  const NF = 'https://www.netflix.com/title/400'
+  const kurz = cartoon(-400, NF, 'Kurzfolgen')
+  const kurzListen: CartoonFolgenDatei = {
+    '-400': {
+      folgen: [
+        { s: 1, e: 1, en: 'Alpha Tag' },
+        { s: 1, e: 2, en: 'Beta Nacht' },
+        { s: 1, e: 3, en: 'Zwilling' },
+        { s: 1, e: 4, en: 'Zwilling' },
+        { s: 1, e: 5, en: 'Ping / Pong' },
+        { s: 1, e: 6, en: 'Ping' },
+        { s: 1, e: 7, en: 'Pong' },
+      ],
+    },
+  }
+  const mit = (titel: string[], sprachen: string[] = []) =>
+    ordneCartoonsZu(gruppen(titel.map((t, i) => zeile(NF, t, sprachen[i] ?? '["Deutsch"]'))), [kurz], new Map(), kurzListen, animeZugehoerigkeit([anime]))
+  const nummern = (r: ReturnType<typeof mit>) => Object.values(r.zugeordnet)[0]?.folgen.map((f) => f.unsere)
+  const eind = nummern(mit(['Alpha Tag / Beta Nacht', 'Alpha Tag']))
+  pruefe('Doppeltitel: beide Hälften treffen je genau eine Folge', JSON.stringify(eind) === '[1,2,1]', eind)
+  const mehrdeutig = nummern(mit(['Alpha Tag / Zwilling', 'Beta Nacht']))
+  pruefe('eine mehrdeutige Hälfte (zwei gleich heißende Folgen) zählt nicht, die eindeutige schon', JSON.stringify(mehrdeutig) === '[1,2]', mehrdeutig)
+  const echt = nummern(mit(['Ping / Pong', 'Alpha Tag']))
+  pruefe('„ / “ im echten Folgentitel: der ganze Titel gewinnt, er wird nicht aufgespalten', JSON.stringify(echt) === '[5,1]', echt)
+  const gleich = nummern(mit(['Alpha Tag / Alpha Tag', 'Beta Nacht']))
+  pruefe('zwei Hälften auf dieselbe Folge zählen einmal', JSON.stringify(gleich) === '[1,2]', gleich)
+  const keine = mit(['Unbekannt X / Unbekannt Y', 'Unbekannt Z / Unbekannt W'], ['["Deutsch"]', '["Englisch"]'])
+  pruefe('ohne Treffer in keiner Hälfte bleibt der Eintrag unzugeordnet (offen, nichts geraten)', keine.offen.length === 1 && !Object.keys(keine.zugeordnet).length, keine)
+  const nurMehr = mit(['Zwilling / Zwilling', 'Unbekannt Z / Unbekannt W'], ['["Deutsch"]', '["Englisch"]'])
+  pruefe('nur mehrdeutige Hälften ordnen nichts zu', nurMehr.offen.length === 1 && !Object.keys(nurMehr.zugeordnet).length, nurMehr)
+  const ohneAbstand = nummern(mit(['Alpha Tag/Beta Nacht', 'Beta Nacht']))
+  pruefe('ohne Leerzeichen um den Schrägstrich wird nicht gespalten', JSON.stringify(ohneAbstand) === '[2]', ohneAbstand)
+}
+
 const quelle = readFileSync('pipeline/fetch-rohfolgen.ts', 'utf8')
 pruefe('fetch-rohfolgen.ts liest die Cartoons (public/data/cartoons.json)', quelle.includes("readJson<Title[]>('public/data/cartoons.json', [])"))
 pruefe('und die Handbeleg-Adressen (data/dub-confirmed.yaml)', quelle.includes("handbelegAdressen(yaml.load(readFileSync(resolve(ROOT, 'data/dub-confirmed.yaml')"))
