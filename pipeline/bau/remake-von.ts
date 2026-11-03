@@ -1,7 +1,7 @@
 import { existsSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import yaml from 'js-yaml'
-import { ausstrahlungsZeit, istStaffel } from '../../shared/titles.ts'
+import { ausstrahlungsZeit, hauptstaffeln, istStaffel, zaehlgruppeVon } from '../../shared/titles.ts'
 import type { FranchiseMember, Title } from '../../shared/types.ts'
 import { ROOT, warn } from '../lib/util.ts'
 import { ladeBeziehungen } from '../lib/anisearch-beziehungen.ts'
@@ -73,6 +73,17 @@ export function remakeVonDerReihe(reihe: Title[], quellen: { kanten?: Kante[]; h
     if (original && zaehltAlsNeuverfilmung(m, original)) ergebnis.set(m.id, original.id)
   }
   return ergebnis
+}
+
+/**
+ * Ist `id` die einzige Hauptstaffel ihrer Zählgruppe, obwohl die Reihe eine Neuverfilmung hat? Dann trägt sie im Panel keine Nummer
+ * (`staffelStaende` braucht zwei), heißt im Katalog und bei Disc aber „Staffel 1“ — wie ein Titel allein in seiner Reihe.
+ */
+export function einzigeStaffelDerLinie(reihe: Title[], remakeVon: Map<number, number>, id: number): boolean {
+  if (!remakeVon.size) return false
+  const teile = reihe.map((x) => ({ id: x.id, format: x.format, episodes: x.episodes, jpYear: x.jpYear, jpStart: x.jpStart, remakeVon: remakeVon.get(x.id) }))
+  const haupt = hauptstaffeln(zaehlgruppeVon(teile, id))
+  return haupt.length === 1 && haupt[0]!.id === id
 }
 
 /** Setzt `remakeVon` an den Neuverfilmungen, deren Original in derselben Reihe steht; beide müssen Serien sein. */

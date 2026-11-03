@@ -5,7 +5,7 @@
  */
 import type { Title } from '../../shared/types.ts'
 import { anzeigeName, hauptstaffeln, staffelStaende, zaehlgruppeVon } from '../../shared/titles.ts'
-import { remakeVonDerReihe } from '../bau/remake-von.ts'
+import { einzigeStaffelDerLinie, remakeVonDerReihe } from '../bau/remake-von.ts'
 import { staffelnDesFranchise } from './adn.ts'
 
 /** „Reihenname staffel N" am Ende eines `discSchluessel()`; Zusätze wie „vol. 2" passen nicht. */
@@ -41,7 +41,8 @@ export function staffelNummer(t: Title, reihen: Map<number, Title[]>, remakeQuel
   const teile = lauf.map((x) => ({ remakeVon: remakeVon.get(x.id), id: x.id, name: anzeigeName(x), format: x.format, episodes: x.episodes, jpYear: x.jpYear, jpStart: x.jpStart }))
   const kopf = reihen.get(t.franchiseId)!.find((x) => x.id === t.franchiseId) ?? lauf[0]!
   const stand = staffelStaende(hauptstaffeln(teile), anzeigeName(kopf)).get(t.id)
-  return stand && stand.teil === undefined && stand.staffel === stelle ? stelle : undefined
+  if (!stand) return einzigeStaffelDerLinie(reihen.get(t.franchiseId) ?? [], remakeVon, t.id) ? 1 : undefined
+  return stand.teil === undefined && stand.staffel === stelle ? stelle : undefined
 }
 
 /**

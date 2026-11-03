@@ -1,6 +1,6 @@
 import type { Title } from '../../shared/types.ts'
 import { anzeigeName, hauptstaffeln, staffelStaende } from '../../shared/titles.ts'
-import { remakeVonDerReihe } from './remake-von.ts'
+import { einzigeStaffelDerLinie, remakeVonDerReihe } from './remake-von.ts'
 
 /**
  * Die Staffelnummer eines Titels in seiner Reihe, so wie das Panel sie zählt (`staffelStaende`) — auch für eine
@@ -22,7 +22,8 @@ export function staffelDesTitels(t: Title, titles: Iterable<Title>, remakeQuelle
   }))
   const kopf = reihe.find((x) => x.id === t.franchiseId) ?? reihe[0]!
   const stand = staffelStaende(hauptstaffeln(teile), anzeigeName(kopf)).get(t.id)
-  return stand && stand.teil === undefined ? stand.staffel : undefined
+  if (stand) return stand.teil === undefined ? stand.staffel : undefined
+  return einzigeStaffelDerLinie(reihe, remakeVon, t.id) ? 1 : undefined
 }
 
 /** „Staffel 3“ / „Season 3“ am Ende des Staffelnamens im Katalog. */

@@ -32,7 +32,7 @@ const nr = (id: number, q: typeof MIT) => staffelDesTitels(YAIBA.find((t) => t.i
 pruefe('ohne Neuverfilmung zählt 2025 als Staffel 2 (der alte Fehler)', nr(177476, OHNE) === 2, nr(177476, OHNE))
 pruefe('Neuverfilmung 2025 ist Staffel 1', nr(177476, MIT) === 1, nr(177476, MIT))
 pruefe('Fortsetzung 2027 ist Staffel 2', nr(199337, MIT) === 2, nr(199337, MIT))
-pruefe('das Original steht allein in seiner Gruppe: keine Nummer', nr(2335, MIT) === undefined, nr(2335, MIT))
+pruefe('das Original ist einzige Staffel seiner Linie: Staffel 1 (wie vorher)', nr(2335, MIT) === 1, nr(2335, MIT))
 
 console.log('\nstaffelNummer (Disc-Verschiebungen):')
 const reihen = reihenIndex(YAIBA)
@@ -40,13 +40,23 @@ const dn = (id: number, q: typeof MIT) => staffelNummer(YAIBA.find((t) => t.id =
 pruefe('ohne Neuverfilmung ist 2025 Staffel 2', dn(177476, OHNE) === 2, dn(177476, OHNE))
 pruefe('Neuverfilmung 2025 allein in ihrer Gruppe (Fortsetzung ohne Folgenzahl): keine Nummer, nicht Staffel 2', dn(177476, MIT) === undefined, dn(177476, MIT))
 pruefe('Fortsetzung 2027 (ohne Folgenzahl, nicht gezählt) bleibt ohne Nummer', dn(199337, MIT) === undefined, dn(199337, MIT))
-pruefe('Original bleibt ohne Nummer (allein in der Gruppe)', dn(2335, MIT) === undefined, dn(2335, MIT))
+pruefe('Original ist einzige Staffel seiner Linie: Staffel 1 (wie vorher)', dn(2335, MIT) === 1, dn(2335, MIT))
 
 const mitFolgen = YAIBA.map((t) => (t.id === 199337 ? { ...t, episodes: 24 } : t))
 const dn1 = staffelNummer(mitFolgen.find((t) => t.id === 177476)!, reihenIndex(mitFolgen), MIT)
 pruefe('Neuverfilmung 2025 ist mit gezählter Fortsetzung Staffel 1', dn1 === 1, dn1)
 const dn2 = staffelNummer(mitFolgen.find((t) => t.id === 199337)!, reihenIndex(mitFolgen), MIT)
 pruefe('Fortsetzung 2027 mit Folgenzahl ist Staffel 2', dn2 === 2, dn2)
+
+console.log('\nNeuverfilmung ohne Fortsetzung (Anne Shirley 2025, Reihe 283):')
+const ANNE = [titel(283, 'Anne mit den roten Haaren', '1979-01-07', { franchiseId: 283, episodes: 50 }), titel(184639, 'Anne Shirley', '2025-04-05', { franchiseId: 283 })]
+const anneQ = { kanten: [], hand: [{ remake: 184639, original: 283, grund: 'Test', quelle: 'https://example.org/' }] }
+const anneNr = (id: number, q: typeof MIT) => [staffelDesTitels(ANNE.find((t) => t.id === id)!, ANNE, q), staffelNummer(ANNE.find((t) => t.id === id)!, reihenIndex(ANNE), q)]
+pruefe('ohne Markierung: Anne Shirley 2025 gilt als Staffel 2', JSON.stringify(anneNr(184639, OHNE)) === '[2,2]', anneNr(184639, OHNE))
+pruefe('mit Markierung: Anne Shirley 2025 ist Staffel 1 der eigenen Linie', JSON.stringify(anneNr(184639, anneQ)) === '[1,1]', anneNr(184639, anneQ))
+pruefe('mit Markierung: das Original bleibt Staffel 1', JSON.stringify(anneNr(283, anneQ)) === '[1,1]', anneNr(283, anneQ))
+const reiheOhne = [titel(500, 'Einzel', '2000-01-01', { franchiseId: 500 })]
+pruefe('Reihe ohne Neuverfilmung und mit einer Staffel bleibt ohne Nummer', staffelDesTitels(reiheOhne[0]!, reiheOhne, OHNE) === undefined)
 
 console.log(`\nremake-zaehlung-pipeline: ${verletzt ? `${verletzt} verletzt` : 'alle Fälle ok'}`)
 process.exit(verletzt ? 1 : 0)
