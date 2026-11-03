@@ -175,7 +175,7 @@ function TagKopf({ tag, heute, tvAn }: { tag: Tag; heute: boolean; tvAn: boolean
   )
 }
 
-function PosterRaster({
+export function PosterRaster({
   tag,
   p,
   heute,

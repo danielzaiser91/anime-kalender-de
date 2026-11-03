@@ -11,6 +11,7 @@ import { newsSatz } from '../web/src/lib/news-text.ts'
 import { seitDatumFuerPille } from '../web/src/components/detail/chips-regeln.ts'
 import { kanalStartVon } from '../web/src/lib/anbieter-kachel.ts'
 import { Unterzeile } from '../web/src/components/kalender/PosterKarte.tsx'
+import { PosterRaster } from '../web/src/components/WeekView.tsx'
 import { newsSatz as mailSatz } from '../worker/src/mail-abschnitte.ts'
 import { renderToStaticMarkup } from 'react-dom/server'
 
@@ -103,6 +104,7 @@ const eintrag = (extra: Partial<NewsMeldung>, release = 'auto-885-primevideo', d
   [{ am: '2026-10-29', titelId: 885, titel: 'Angel’s Egg', slug: 'a', meldungen: [{ art: 'angekuendigt', platform: 'primevideo', release, datum, kanal: 'Aniverse', ...extra } as NewsMeldung] }]
 const vorstand = eintrag({ jahre: 41, discSeitText: '5 Monaten' })
 pruefe('Bestandswächter: die berichtigte Meldung darf Jahre/Disc-Dauer verlieren und schonKaufbar bekommen', felderAenderungen(vorstand, eintrag({ schonKaufbar: true })).length === 0)
+pruefe('Bestandswächter: auch die zweite berichtigte Meldung (Wolf Girl & Black Prince) ist frei', felderAenderungen(eintrag({ jahre: 12, discSeitText: '9 Jahren' }, 'auto-20701-primevideo', '2026-11-19'), eintrag({ schonKaufbar: true }, 'auto-20701-primevideo', '2026-11-19')).length === 0)
 pruefe('Bestandswächter: dieselbe Änderung an einer anderen Meldung bleibt ein Fehler (3 Felder)', felderAenderungen(eintrag({ jahre: 41, discSeitText: '5 Monaten' }, 'auto-1-primevideo'), eintrag({ schonKaufbar: true }, 'auto-1-primevideo')).length === 3)
 pruefe('Bestandswächter: bei der berichtigten Meldung bleibt ein anderes Feld (kanal) geschützt', felderAenderungen(vorstand, eintrag({ schonKaufbar: true, kanal: 'RTL+' })).length === 1)
 
@@ -131,6 +133,16 @@ const kachel = (kanalStart?: string): string => {
 }
 pruefe('Kachel-Zeile: „Prime Video · neu bei Aniverse“', kachel('Aniverse').includes('Prime Video · neu bei Aniverse'), kachel('Aniverse'))
 pruefe('Gegenprobe: ohne Kanal-Start steht nur „Prime Video“', kachel(undefined).includes('Prime Video') && !kachel(undefined).includes('neu bei'), kachel(undefined))
+
+const wochenEvent = { id: 'e', releaseSlug: ANIVERSE.slug, titleId: 885, name: 'Angel’s Egg', date: '2099-11-05', releaseType: 'batch', platform: 'primevideo' }
+const raster = (titel: Title): string => {
+  const data = { titleById: new Map([[885, titel]]), releaseBySlug: new Map([[ANIVERSE.slug, ANIVERSE]]) }
+  const props = { data, favorites: new Set<number>(), hidden: new Set<number>(), tvAn: false, gefiltert: false, onToggleFavorite: () => {}, onToggleHidden: () => {}, onOpen: () => {} }
+  const tag = { date: '2099-11-05', stream: [wochenEvent], disc: [], tv: [], zweit: [] }
+  return renderToStaticMarkup(PosterRaster({ tag: tag as never, p: props as never, heute: false, now: '12:00', landingRef: { current: null } }))
+}
+pruefe('Wochenraster (echte Kachel): „Prime Video · neu bei Aniverse“', raster(ANGELS_EGG).includes('Prime Video · neu bei Aniverse'), raster(ANGELS_EGG).slice(0, 300))
+pruefe('Wochenraster, Gegenprobe ohne Kauf-Weg: kein „neu bei“', !raster(mitStreams([])).includes('neu bei'))
 
 console.log('Der Satz (Mail):')
 const mail = mailSatz({ ...m!, platform: 'primevideo', datum: '2099-11-05' } as NewsMeldung)
