@@ -1,24 +1,18 @@
 /**
  * Zusicherung: Fast-Doppel in den Handbelegen (gleich bis auf `checkedAt`) werden zusammengeführt, ohne Notiz,
  * Herkunft oder Kommentar zu verlieren (`pipeline/lib/handbeleg-fast-doppel.ts`, Werkzeug `tools/handbelege-fast-doppel.ts`).
- * Am Bestand: die Zahl der noch zusammenführbaren Belege darf nur sinken (Ratsche), nicht auflösbare Gruppen gibt es nicht.
+ * Der Bestand wird in `check-handbeleg-fast-doppel-bestand.ts` nur gewarnt (check:bestand), nie rot: Bots schreiben die Datei laufend.
  *
  * Aufruf: npm run check:logic (steckt darin) oder `tsx pipeline/check-handbeleg-fast-doppel.ts`
  */
 import { spawnSync } from 'node:child_process'
-import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { createRequire } from 'node:module'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
+import { pathToFileURL } from 'node:url'
 import { entferneFastDoppel } from './lib/handbeleg-fast-doppel.ts'
 import { ROOT } from './lib/util.ts'
-
-/**
- * Stand vom 03.11.2026 (Zweigbasis bee2c8ca1): 48 überzählige Belege in 40 Gruppen; 44 davon fallen mit dem Datencommit (Grenze dann 0).
- * Vier Gruppen bleiben stehen, weil zwei Fassungen desselben Verweises einander abwechseln (Kabukicho Sherlock, Alice in der
- * Wunderland-Bäckerei, Detektiv Conan zweimal): Ein Zusammenführen kippte bei gleichem Datum den Gewinner der Verschmelzung.
- */
-const NOCH_ZUSAMMENFUEHRBAR_HOECHSTENS = 44
-const VERSCHRAENKT_HOECHSTENS = 4
 
 let verletzt = 0
 function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
@@ -103,15 +97,28 @@ try {
   writeFileSync(pfad, 'kein: [yaml')
   const kaputt = lauf()
   pruefe('Werkzeug: kaputte Datei gibt Exit ≠ 0 und bleibt, wie sie ist', kaputt.status !== 0 && /YAMLException/.test(kaputt.stderr) && readFileSync(pfad, 'utf8') === 'kein: [yaml')
+  /* Bestandswächter als Prozess: Warnzeile bei Fast-Doppeln und Exit 0, sonst keine Warnung. */
+  mkdirSync(join(wurzel, 'data'))
+  const bestandsDatei = join(wurzel, 'data', 'dub-confirmed.yaml')
+  const tsx = pathToFileURL(createRequire(import.meta.url).resolve('tsx')).href
+  const bestandLauf = () =>
+    spawnSync(process.execPath, ['--import', tsx, resolve(ROOT, 'pipeline', 'check-handbeleg-fast-doppel-bestand.ts')], { cwd: wurzel, encoding: 'utf8', timeout: 120_000 })
+  writeFileSync(bestandsDatei, nurHand)
+  const warnt = bestandLauf()
+  pruefe('Bestandswächter mit Fast-Doppel: Exit 0 und Zeile „⚠ WARNUNG Handbelege: 1 Fast-Doppel“', warnt.status === 0 && /^⚠ WARNUNG Handbelege: 1 Fast-Doppel/m.test(warnt.stdout) && /: 1 zusammenführbar/.test(warnt.stdout), warnt.stdout + warnt.stderr)
+  writeFileSync(bestandsDatei, mitKopf)
+  const gemischtLauf = bestandLauf()
+  pruefe('Bestandswächter mit gemischter Gruppe: Exit 0, Warnzeile zur Herkunft, keine zum Aufräumen', gemischtLauf.status === 0 && /^⚠ WARNUNG Handbelege: 1 Fast-Doppel-Gruppe\(n\) aus Browser/m.test(gemischtLauf.stdout) && !/zusammenführbar —/.test(gemischtLauf.stdout), gemischtLauf.stdout + gemischtLauf.stderr)
+  writeFileSync(bestandsDatei, datei(beleg(1, '2026-08-01'), beleg(2, '2026-09-01')))
+  const sauber = bestandLauf()
+  pruefe('Bestandswächter ohne Fast-Doppel: Exit 0, keine Warnung', sauber.status === 0 && !/WARNUNG/.test(sauber.stdout) && /: 0 zusammenführbar/.test(sauber.stdout), sauber.stdout + sauber.stderr)
 } finally {
   rmSync(wurzel, { recursive: true, force: true })
 }
 
-/* Bestand */
-const bilanz = entferneFastDoppel(readFileSync(resolve(ROOT, 'data', 'dub-confirmed.yaml'), 'utf8'))
-pruefe(`Handbelege: höchstens ${NOCH_ZUSAMMENFUEHRBAR_HOECHSTENS} Fast-Doppel zusammenführbar (jetzt ${bilanz.entfernt})`, bilanz.entfernt <= NOCH_ZUSAMMENFUEHRBAR_HOECHSTENS)
-pruefe('Handbelege: keine Fast-Doppel-Gruppe mit gemischter Herkunft', bilanz.gemischt === 0, bilanz)
-pruefe(`Handbelege: höchstens ${VERSCHRAENKT_HOECHSTENS} verschränkte Fast-Doppel-Gruppen (jetzt ${bilanz.blockiert})`, bilanz.blockiert <= VERSCHRAENKT_HOECHSTENS, bilanz)
+/* Tor: check:bestand führt den Wächter aus (Liste), sonst bliebe die Warnung unsichtbar. */
+const bestandListe = readFileSync(resolve(ROOT, 'tools', 'check-bestand-liste.txt'), 'utf8').split('\n')
+pruefe('check-bestand-liste.txt führt den Bestandswächter für Fast-Doppel', bestandListe.includes('pipeline/check-handbeleg-fast-doppel-bestand.ts'))
 
 if (verletzt) process.exit(1)
-console.log(`✓ Handbelege: ${bilanz.entfernt} zusammenführbare Fast-Doppel in ${bilanz.gruppen} Gruppen, ${bilanz.gemischt} gemischt, ${bilanz.blockiert} blockiert.`)
+console.log('✓ Handbelege: Fast-Doppel werden zusammengeführt, Notiz, Herkunft, Kommentar und Reihenfolge bleiben (Fälle, Werkzeug als Prozess).')
