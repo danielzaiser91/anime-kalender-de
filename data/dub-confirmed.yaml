@@ -38491,3 +38491,18 @@
   available: false
   checkedAt: '2026-11-03'
   note: "Aus der Übersicht als toter Verweis gemeldet — leitet auf die Startseite um"
+# --- Cartoons: Netflix-Sichtung von Daniel, 03.11.2026 ---
+- anilistId: -314271
+  title: "Bass X Machina"
+  platform: netflix
+  url: https://www.netflix.com/title/81088875
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 6
+      dub: true
+  staffeln:
+    - nr: 1
+      folgen: 6
+  checkedAt: '2026-11-03'
+  note: "Daniel, 03.11.2026: alle 6 Folgen bei Netflix geöffnet, deutscher Ton („3D Audio“), Jahr 2026. Folgenzahl 6 auch nach TMDB (JustWatch nannte 1). Cartoon aus TMDB (negative Kennung)."
