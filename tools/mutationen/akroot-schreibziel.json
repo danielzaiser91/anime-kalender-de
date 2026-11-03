@@ -1,0 +1,8 @@
+[
+  { "name": "Kontrolle", "aenderungen": [] },
+  { "name": "Grenze * 0", "datei": "tools/akroot-schreibziel.test.mjs", "suche": "anzahlUngeprueft * 2 < anzahlGesamt", "ersetze": "anzahlUngeprueft * 0 < anzahlGesamt" },
+  { "name": "Grenze <=", "datei": "tools/akroot-schreibziel.test.mjs", "suche": "anzahlUngeprueft * 2 < anzahlGesamt", "ersetze": "anzahlUngeprueft * 2 <= anzahlGesamt" },
+  { "name": "Breite 0 nicht abgewiesen", "datei": "tools/akroot-schreibziel.test.mjs", "suche": "if (!(breite >= 1)) throw", "ersetze": "if (false) throw" },
+  { "name": "Stapel ohne Einzellauf", "datei": "tools/akroot-schreibziel.test.mjs", "suche": "if (geaendert.length === 0) return", "ersetze": "if (true) return" },
+  { "name": "Verursacher-Rueckfall immer", "datei": "tools/akroot-schreibziel.test.mjs", "suche": "einzeln.verstoesse.length > 0 ? einzeln.verstoesse : unbekannt", "ersetze": "unbekannt" }
+]

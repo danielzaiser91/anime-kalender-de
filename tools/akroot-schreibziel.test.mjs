@@ -97,6 +97,21 @@ export async function schreibzielStapel(wurzel, skripte, starteParallel, starteE
   return { verstoesse: einzeln.verstoesse.length > 0 ? einzeln.verstoesse : unbekannt, ungeprueft }
 }
 
+/** Ein Leerlauf (Stapel fährt nichts) meldet lauter „ungeprüft“ und bliebe sonst grün: ab der Hälfte ungeprüft ist es zu viel. */
+export function zuvielUngeprueft(anzahlUngeprueft, anzahlGesamt) {
+  return !(anzahlUngeprueft * 2 < anzahlGesamt)
+}
+
+/** Grenze der Hälfte: genau die Hälfte und mehr reißt, knapp darunter nicht. */
+function pruefeGrenze() {
+  assert.equal(zuvielUngeprueft(0, 10), false, 'Grenze: nichts ungeprüft ist in Ordnung')
+  assert.equal(zuvielUngeprueft(4, 10), false, 'Grenze: knapp unter der Hälfte ist in Ordnung')
+  assert.equal(zuvielUngeprueft(5, 10), true, 'Grenze: genau die Hälfte reißt')
+  assert.equal(zuvielUngeprueft(6, 10), true, 'Grenze: eins über der Hälfte reißt')
+  assert.equal(zuvielUngeprueft(10, 10), true, 'Grenze: alles ungeprüft reißt')
+  assert.equal(zuvielUngeprueft(1, 1), true, 'Grenze: einzige Prüfung ungeprüft reißt')
+}
+
 /** Gegenprobe: ein Schreiber ins Repo bleibt ein Verstoß, eine rote Prüfung ohne Schreiben wird keiner. */
 function pruefeGegenprobe() {
   const dir = mkdtempSync(join(tmpdir(), 'akroot-gegenprobe-'))
@@ -160,6 +175,7 @@ function pruefeVergleich() {
   }
 }
 
+pruefeGrenze()
 pruefeVergleich()
 pruefeGegenprobe()
 await pruefeStapel()
@@ -188,8 +204,8 @@ try {
   assert.ok(checks.length > 0, 'keine Prüfung mit Kulisse gefunden')
   const { verstoesse, ungeprueft } = await schreibzielStapel(WURZEL, checks, (f) => laufeAsync(join(WURZEL, 'pipeline', f)), (f) => laufe(join(WURZEL, 'pipeline', f)), availableParallelism())
   for (const zeile of ungeprueft) console.log(`akroot-schreibziel: ${zeile}`)
-  // Ein Leerlauf (Stapel fährt nichts) meldet lauter „ungeprüft“ und bliebe sonst grün; gemessen 03.11.2026: 1 von 119.
-  assert.ok(ungeprueft.length * 2 < checks.length, `Stapel fuhr kaum Prüfungen: ${ungeprueft.length} von ${checks.length} ungeprüft`)
+  // gemessen 03.11.2026: 1 von 119 ungeprüft
+  assert.ok(!zuvielUngeprueft(ungeprueft.length, checks.length), `Stapel fuhr kaum Prüfungen: ${ungeprueft.length} von ${checks.length} ungeprüft`)
   assert.equal(verstoesse.length, 0, verstoesse.join('\n'))
   console.log(`akroot-schreibziel: ${checks.length} Prüfungen mit Kulisse, ${ungeprueft.length} ungeprüft, 0 schreiben ins Repo`)
 } finally {
