@@ -48,6 +48,13 @@ const b3 = gleicheAdresseBilanz(anlass, zuordnung, stand([MIA], 0))
 pruefe('bekannt, aber über der Grenze', !b3.neu.length && b3.ueberGrenze, b3)
 const b4 = gleicheAdresseBilanz([], zuordnung, stand(['amazon:a', 'amazon:b']))
 pruefe('erledigte Adressen werden genannt', b4.erledigt.join() === 'amazon:a,amazon:b' && !b4.ueberGrenze, b4)
+const FREI = 'amazon:b0fhw8dntg'
+const sammel = [beleg(97986, detail('B0FHW8DNTG')), beleg(114745, detail('B0FHW8DNTG'))]
+const mitErlaubt = (adresse: string): GleicheAdresseStand => ({ ...stand([]), erlaubt: [{ adresse, grund: 'Serie plus Beiläufer auf einer Seite' }] })
+pruefe('ohne Eintrag in erlaubt zählt die Sammelseite als Doppelung', gleicheAdresseBilanz(sammel, zuordnung, stand([])).fehl.join() === FREI)
+const sa = gleicheAdresseBilanz(sammel, zuordnung, mitErlaubt(FREI))
+pruefe('erlaubte Sammelseite zählt nicht und ist nicht neu', sa.fehl.length === 0 && sa.neu.length === 0, sa)
+pruefe('erlaubt gilt nur für die genannte Adresse', gleicheAdresseBilanz([...anlass, ...sammel], zuordnung, mitErlaubt(FREI)).fehl.join() === MIA)
 
 console.log('\nBestandswächter als Prozess:')
 const skript = fileURLToPath(new URL('./check-gleiche-adresse-bestand.ts', import.meta.url))
@@ -68,6 +75,8 @@ function lauf(belege: string | undefined, zu: unknown, standInhalt: unknown): { 
 const yml = yamlVon([beleg(97986, detail('B0CWLSM344')), beleg(114745, detail('B0CWLSM344'))])
 const ruhig = lauf(yml, zuordnung, stand([MIA]))
 pruefe('Stand eingehalten: Exit 0, Zählzeile, keine Warnung', ruhig.code === 0 && ruhig.ausgabe.includes('Gleiche Amazon-Seite an zwei Titeln: 1 (Stand 2026-10-28: höchstens 1)') && !ruhig.ausgabe.includes('WARNUNG'), ruhig)
+const frei = lauf(yml, zuordnung, mitErlaubt(MIA))
+pruefe('Prozess: erlaubte Seite im Stand wird nicht gezählt', frei.code === 0 && frei.ausgabe.includes('Gleiche Amazon-Seite an zwei Titeln: 0 (') && !frei.ausgabe.includes('WARNUNG'), frei)
 const neu = lauf(yml, zuordnung, stand([]))
 pruefe('neue Doppelung: Exit 0 und Zeile „⚠ WARNUNG“ mit der Seite', neu.code === 0 && /⚠ WARNUNG Gleiche Adresse: 1 neue Amazon-Seite\(n\).*amazon:b0cwlsm344/.test(neu.ausgabe) && neu.ausgabe.includes('mehr als die Grenze 0'), neu)
 const erledigt = lauf('[]\n', zuordnung, stand(Array.from({ length: 10 }, (_, i) => `amazon:s${i}`)))

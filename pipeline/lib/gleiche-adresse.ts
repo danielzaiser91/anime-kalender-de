@@ -12,6 +12,8 @@ export interface GleicheAdresseStand {
   stand: string
   hoechstens: number
   adressen: string[]
+  /** Echte Sammelseiten (eine Seite trägt Serie und Beiläufer, z. B. 13 Folgen plus 4 OVAs): kein Fehlbeleg, zählen nicht. */
+  erlaubt?: { adresse: string; grund: string }[]
 }
 export interface BelegKurz {
   anilistId?: number
@@ -65,7 +67,8 @@ export function fehlDoppelungen(belege: BelegKurz[], zuordnung: Record<string, Z
 }
 
 export function gleicheAdresseBilanz(belege: BelegKurz[], zuordnung: Record<string, ZuordnungKurz>, stand: GleicheAdresseStand): GleicheAdresseBilanz {
-  const fehl = fehlDoppelungen(belege, zuordnung)
+  const erlaubt = new Set((stand.erlaubt ?? []).map((e) => e.adresse))
+  const fehl = fehlDoppelungen(belege, zuordnung).filter((k) => !erlaubt.has(k))
   const bekannt = new Set(stand.adressen)
   const jetzt = new Set(fehl)
   return {
