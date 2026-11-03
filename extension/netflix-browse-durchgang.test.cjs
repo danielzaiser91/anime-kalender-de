@@ -74,9 +74,10 @@ async function ankunftFaelle() {
 
   const a1 = welt({ pfad: '/title/81659233', listeFuer: '81659233' })
   await takt(a1, '/title/81659233', 3000)
+  await takt(a1, '/title/81659233', 4000)
   await takt(a1, '/browse', 10_000)
   pruefe('A1 Titelseite mit Folgenliste gesehen, dann /browse: keine Meldung, kein Weitergehen', stumm(a1), a1.protokoll)
-  pruefe('… Markierung „gesehen“ auch im Speicher', a1.protokoll.gespeichert[0]?.zuletztGeoeffnet?.gesehen === true, a1.protokoll.gespeichert)
+  pruefe('… Markierung „gesehen“ genau einmal auch im Speicher', a1.protokoll.gespeichert.length === 1 && a1.protokoll.gespeichert[0].zuletztGeoeffnet.gesehen === true, a1.protokoll.gespeichert)
 
   const film = welt({ folgen: [{ film: true, videoId: '81659233' }] })
   await takt(film, '/title/81659233', 3000)
