@@ -2,7 +2,7 @@
  * Riegel „Meldung nennt Staffel ab 2, Treffer ist der Reihenkopf" (07.09.2026, Date a Live): die Seite wird verworfen.
  *
  * Ausnahme (03.11.2026, Z wie Zorro): Führt unser Titel mehr Folgen als die gemeldete Seite und liegen alle eindeutigen
- * Folgentreffer (Titel/Datum, nie Position) jenseits der ersten `seitenFolgen` Folgen, ist die Seite die zweite Hälfte
+ * Folgentreffer (Titel oder Datum; ordneZu rät nie nach Position) jenseits der ersten `seitenFolgen` Folgen, ist die Seite die zweite Hälfte
  * eines einzelnen Titels (52 Folgen, Prime teilt in zwei Staffeln) und wird behalten.
  */
 import { log } from './util.ts'
@@ -25,7 +25,7 @@ export function istZweiteHaelfte(e: RiegelEingabe): boolean {
   const treffer: number[] = []
   for (const liste of e.ankerListen) {
     for (const z of ordneZu(e.anbieter, liste.folgen)) {
-      if (z.unsere !== null && z.grund !== 'position') treffer.push(z.unsere)
+      if (z.unsere !== null) treffer.push(z.unsere)
     }
   }
   return treffer.length > 0 && treffer.every((n) => n > seitenFolgen)

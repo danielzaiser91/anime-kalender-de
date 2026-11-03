@@ -32,6 +32,8 @@ const basis = { gemeldeteStaffel: 2, istReihenkopf: true, titelFolgen: 8, anbiet
 pruefe('zweite Hälfte eines Einzeltitels bleibt', staffelSeiteVerwerfen(basis) === false)
 pruefe('Seite mit den ersten Folgen (Staffel 2 = Neuanfang) wird verworfen', staffelSeiteVerwerfen({ ...basis, anbieter: seite(alle.slice(0, 4)) }) === true)
 pruefe('ein Treffer diesseits der Seitengrenze genügt zum Verwerfen', staffelSeiteVerwerfen({ ...basis, anbieter: seite(['Delta Dachs', ...zweite]) }) === true)
+pruefe('Treffer genau auf der Seitengrenze (Folge 4 bei vier Seitenfolgen): verworfen', staffelSeiteVerwerfen({ ...basis, anbieter: seite(alle.slice(3, 7)) }) === true)
+pruefe('Treffer eine Folge hinter der Seitengrenze (5-8): bleibt', staffelSeiteVerwerfen({ ...basis, anbieter: seite(alle.slice(4, 8)) }) === false)
 pruefe('Titel nicht länger als die Seite: verworfen', staffelSeiteVerwerfen({ ...basis, titelFolgen: 4, anbieter: seite(alle.slice(4)) }) === true)
 pruefe('Titel genau so lang wie die Seite: verworfen', staffelSeiteVerwerfen({ ...basis, titelFolgen: 4 }) === true)
 pruefe('Titel eine Folge länger als die Seite, Treffer jenseits: bleibt', staffelSeiteVerwerfen({ ...basis, titelFolgen: 5, anbieter: seite(['Delta Dachs']) , ankerListen: [anker(alle.slice(0, 5))] }) === false)
