@@ -67,6 +67,7 @@
         "netflix-durchgang-schutz.js",
         "netflix-uebernahme.js",
         "netflix-randvoll.js",
+        "netflix-seitentreue.js",
         "netflix-staffel.js",
         "netflix-erinnern.js",
         "netflix-zurueckgestellt.js",

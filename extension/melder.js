@@ -4244,7 +4244,7 @@ async function randMelden(folgen, befund, bisNummer, gemessenNr = [befund.folge?
   /* Welche Folgen wirklich abgespielt wurden; nur die gehen als `gemessen` raus. */
   const gemessen = new Set(gemessenNr.map(Number))
   const { token } = await chrome.storage.sync.get('token')
-  if (!token) return 0
+  if (!token || !akNetflixSeitentreu(DURCHLAUF, titelDerAdresse(), folgen)) return 0
   const reihe = gemeinteReihe()
   let gemeldet = 0
   /*
@@ -4365,7 +4365,7 @@ async function randMelden(folgen, befund, bisNummer, gemessenNr = [befund.folge?
 
 async function durchlaufMelden(folge, echte, deutsch) {
   const { token } = await chrome.storage.sync.get('token')
-  if (!token) return false
+  if (!token || !akNetflixSeitentreu(DURCHLAUF, titelDerAdresse(), [folge])) return false
   /*
     **Die Staffel der Folge schlaegt die des Players — und sie gilt fuer beides.**
 
