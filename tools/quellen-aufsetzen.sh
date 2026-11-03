@@ -11,7 +11,7 @@
 # Zwei Dateien werden zusammengeführt statt ersetzt, weil mehrere Läufe daran schreiben: `data/dub-confirmed.yaml` (Belege) und
 # `data/source-health.json` (je Quelle der jüngere Eintrag).
 #
-# Ergebnis: Rückgabewert 0; auf `QUELLEN_GEAENDERT` steht die Zahl der zurückgelegten Dateien (für das Protokoll).
+# Ergebnis: Rückgabewert 0, bei gescheitertem Vereinen von `data/dub-confirmed.yaml` 1 (dann sind eigene Belege nicht zurückgelegt); auf `QUELLEN_GEAENDERT` steht die Zahl der zurückgelegten Dateien (für das Protokoll).
 
 quellen_aufsetzen() {
   local fernstand="${1:-origin/main}"
