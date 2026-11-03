@@ -80,6 +80,11 @@ async function main() {
   const ohne = await lauf({ selbstAn: false })
   pruefe('ohne Durchgang: keine Selbstmeldung, kein Weitergehen (Handknopf bleibt)', ohne.protokoll.gemeldet.length === 0 && ohne.protokoll.weiter === 0, ohne.protokoll)
 
+  /* Der Schritt selbst schützt sich (selbstStartenSchritt kehrt bei ausgeschaltetem Durchgang schon vorher zurück). */
+  const aus = welt({ selbstAn: false })
+  const ausErgebnis = await vm.runInContext('akNetflixBrowseDurchgang(browseUmgebung())', aus.kontext)
+  pruefe('Schritt bei ausgeschaltetem Durchgang: false, keine Meldung', ausErgebnis === false && aus.protokoll.gemeldet.length === 0, aus.protokoll)
+
   const fehl = await lauf({ antwort: { ok: false, text: 'Fehler 500' } })
   pruefe('Meldung schlägt fehl: zurückgestellt mit Grund, weiter', fehl.kontext.selbstUebersprungen.get('81659233') === 'Meldung nicht möglich: Fehler 500' && fehl.protokoll.weiter === 1, [...fehl.kontext.selbstUebersprungen])
   pruefe('… und nicht als „nicht bei Netflix gemeldet" geführt', fehl.kontext.selbstUebersprungen.get('81659233') !== 'nicht bei Netflix gemeldet')
