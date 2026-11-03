@@ -120,6 +120,48 @@ console.log('\nCover eigen: Sperre und Fehler')
   pruefe('404 beim Bild ist eine Antwort: vermerkt', m['1']?.grund === 'nicht-gefunden', m['1'])
 }
 
+console.log('\nCover eigen: Rückfall auf die API-Adresse bei 404 auf _300')
+{
+  const spur = neueSpur()
+  const w = weltMit((a) => (a.includes('api.anisearch.com') ? apiAntwort({ 1: { large: url(1) }, 2: { large: url(2) } }) : (spur.abgerufen.push(a), a.endsWith('_300.webp') ? new Response('', { status: 404 }) : bildAntwort())), spur)
+  const m: Manifest = {}
+  const z = await holeCover(['1', '2'], m, OPT, w)
+  pruefe('404 auf _300, 200 auf API-Adresse: Bild geladen, Quelle = API-Adresse', z.neu === 2 && m['1']?.datei === 'anisearch/1.webp' && m['1']?.quelle === url(1) && !m['1']?.grund, [z, m['1']])
+  pruefe('Zähler: 2 gerettet, 0 endgültig 404; Reihenfolge _300 dann Original', z.gerettet === 2 && z.endgueltig404 === 0 && spur.abgerufen.slice(0, 2).join() === `${url(1, 300)},${url(1)}`, [z, spur.abgerufen])
+}
+{
+  const spur = neueSpur()
+  const w = weltMit((a) => (a.includes('api.anisearch.com') ? apiAntwort({ 1: { large: url(1) } }) : (spur.abgerufen.push(a), new Response('', { status: 404 }))), spur)
+  const m: Manifest = {}
+  const z = await holeCover(['1'], m, OPT, w)
+  pruefe('beide 404: nicht-gefunden, genau zwei Abrufe, endgültig gezählt', m['1']?.grund === 'nicht-gefunden' && spur.abgerufen.length === 2 && z.endgueltig404 === 1 && z.gerettet === 0, [z, spur.abgerufen])
+}
+{
+  const spur = neueSpur()
+  const w = weltMit((a) => (a.includes('api.anisearch.com') ? apiAntwort({ 1: { large: url(1, 300) } }) : (spur.abgerufen.push(a), new Response('', { status: 404 }))), spur)
+  const z = await holeCover(['1'], {}, OPT, w)
+  pruefe('API-Adresse schon _300: kein zweiter Abruf derselben Datei', spur.abgerufen.length === 1 && z.endgueltig404 === 1, spur.abgerufen)
+}
+{
+  const spur = neueSpur()
+  const w = weltMit((a) => (a.includes('api.anisearch.com') ? apiAntwort({ 1: { large: url(1) } }) : (spur.abgerufen.push(a), a.endsWith('_300.webp') ? new Response('', { status: 404 }) : new Response('', { status: 429 }))), spur)
+  const m: Manifest = {}
+  await holeCover(['1'], m, { ...OPT, ende: Date.parse('2026-10-11T12:05:00Z') }, w)
+  pruefe('404 auf _300, aber 429 auf der API-Adresse: Nichtauskunft, nichts vermerkt', Object.keys(m).length === 0, m)
+}
+
+console.log('\nCover eigen: alte „nicht-gefunden“ werden einmal neu versucht')
+{
+  const m: Manifest = {
+    1: { grund: 'nicht-gefunden', stand: '2026-10-11' },
+    2: { grund: 'nicht-gefunden', stand: '2026-11-03' },
+    3: { grund: 'ohne-adresse', stand: '2026-10-11' },
+    4: { datei: 'anisearch/4.webp', stand: '2026-10-11' },
+  }
+  const t = [1, 2, 3, 4, 5].map((i) => ({ id: 10_000_000 + i }))
+  pruefe('alt (vor Stichtag) nicht-gefunden: offen; neu, andere Gründe, Bilder: nicht; nie gefragt: offen', offeneKennungen(t, m).join() === '1,5', offeneKennungen(t, m))
+}
+
 console.log('\nCover eigen: Umwandlung')
 {
   const quelle = await sharp({ create: { width: 600, height: 900, channels: 3, background: '#336699' } }).png().toBuffer()
