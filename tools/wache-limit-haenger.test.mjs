@@ -15,7 +15,7 @@ try {
   mkdirSync(join(wurzel, 'tools'))
   for (const f of ['wache-woechentlich.mjs', 'wache-fristen.mjs', 'kind-mit-limit.mjs']) copyFileSync(join(tools, f), join(wurzel, 'tools', f))
   const env = { ...process.env, ...legeGhAttrappe(dir), WACHE_LIMIT_MS: '2000', npm_config_offline: 'true' }
-  const lauf = (args, cwd) => spawnSync(process.execPath, args, { cwd, encoding: 'utf8', windowsHide: true, timeout: 30_000, env })
+  const lauf = (args, cwd) => spawnSync(process.execPath, args, { cwd, encoding: 'utf8', windowsHide: true, timeout: 60_000, env })
 
   // 1. pr-nachrechnen: erster gh-Aufruf hängt -> Exit 2 und FEHLER-Zeile.
   const nach = lauf([join(tools, 'pr-nachrechnen.mjs'), '1'], tools)
@@ -38,7 +38,7 @@ try {
   writeFileSync(haengt, 'setInterval(() => {}, 1000)\n')
   const schnell = join(dir, 'schnell.mjs')
   writeFileSync(schnell, 'process.exit(1)\n')
-  const detektiv = spawnSync(process.execPath, [join(wurzel, 'tools', 'wache-woechentlich.mjs'), '--trocken'], { cwd: wurzel, encoding: 'utf8', windowsHide: true, timeout: 30_000, env: { ...env, WACHE_GH_SKRIPT: schnell, WACHE_DETEKTIV_SKRIPT: haengt } })
+  const detektiv = spawnSync(process.execPath, [join(wurzel, 'tools', 'wache-woechentlich.mjs'), '--trocken'], { cwd: wurzel, encoding: 'utf8', windowsHide: true, timeout: 60_000, env: { ...env, WACHE_GH_SKRIPT: schnell, WACHE_DETEKTIV_SKRIPT: haengt } })
   assert.equal(detektiv.status, 0, `Wochenwache mit hängendem Detektiv endet mit 0: ${detektiv.stderr}`)
   assert.match(`${detektiv.stdout}${detektiv.stderr}`, /Daten-Detektiv: Lauf fehlgeschlagen \(FEHLER: .*haengt\.mjs nach 2 s abgebrochen\)/)
 

@@ -10,7 +10,7 @@
  */
 import { execFileSync } from 'node:child_process'
 import { readFileSync, readdirSync } from 'node:fs'
-import { FRISTEN_ZUGANG } from './wache-fristen.mjs'
+import { FRISTEN_STUNDEN } from './wache-fristen.mjs'
 
 const WURZEL = new URL('..', import.meta.url)
 const register = JSON.parse(readFileSync(new URL('data/zugangs-register.json', WURZEL), 'utf8'))
@@ -66,6 +66,9 @@ export function letzterErfolg(ghAufruf, workflow) {
 export function kontingentFunde(schritte) {
   return schritte.filter((s) => CLAUDE_SCHRITT.test(s.name) && s.conclusion === 'failure' && s.started_at && s.completed_at && (Date.parse(s.completed_at) - Date.parse(s.started_at)) / 1000 <= KONTINGENT_SEKUNDEN)
 }
+
+/** Frist aus der gemeinsamen Tabelle (`wache-fristen.mjs`); ohne Eintrag keine Fristprüfung. */
+export const spezMitFrist = (workflow, spez, fristen = FRISTEN_STUNDEN) => ({ ...spez, fristStunden: fristen[workflow] ?? null })
 
 /** `ghAufruf` und `jetzt` sind einspeisbar, damit ein Test ohne `gh` und ohne Uhr läuft. */
 export function pruefeLauf(workflow, spez, ghAufruf = gh, jetzt = Date.now()) {
@@ -187,7 +190,7 @@ function main() {
     return
   }
   const zeilen = []
-  for (const [workflow, spez] of Object.entries(register.laeufe)) zeilen.push(...pruefeLauf(workflow, { ...spez, fristStunden: FRISTEN_ZUGANG[workflow] ?? null }))
+  for (const [workflow, spez] of Object.entries(register.laeufe)) zeilen.push(...pruefeLauf(workflow, spezMitFrist(workflow, spez)))
   zeilen.push(weckerBefund())
   const { aus, ohne } = ablaufBefunde()
   zeilen.push(...aus)

@@ -9,44 +9,32 @@ export function fristAusTakt(taktStunden, bisherStunden) {
 }
 
 /**
- * Workflow: erlaubtes Alter des letzten erfolgreichen Laufs in Stunden.
+ * Workflow: erlaubtes Alter des letzten erfolgreichen Laufs in Stunden — die einzige Frist-Tabelle, die Wochen-Wache
+ * (`tools/wache-woechentlich.mjs`) und Zugangs-Wache (`tools/zugangs-waechter.mjs`) lesen.
  * Takt aus `shared/weckplan.ts` (Stand 27.10.2026): refresh-hourly stündlich, adn-laufende 4 Starts am Tag (alle 6 h).
- * Gemessen an 14 Tagen echter Läufe (`gh run list`): deploy.yml (Lücken bis 5,1 h)
- * hängt an Pushes und Vorläufen ohne festen Takt und bleibt bei der alten Frist; Tageswecker liegen mit 3 × 24 h über der alten Frist.
+ * Werte aus den größten Lücken zwischen zwei Erfolgen (`gh run list`, 7 Tage, bei Wochen- und Monatsläufen 14 Tage / alle Läufe,
+ * Messung 03.11.2026) plus Reserve: bestand-bauen 13,5 h, refresh-weekly 243,6 h, tonspuren-monatlich 867,7 h, meldungskopie 33,2 h;
+ * Tageslauf-Workflows 24 h → 36 h (1,5-fach). deploy.yml, adn-laufende.yml und claude-daten-merge.yml hängen an Pushes, Vorläufen
+ * oder Takten ohne feste Lücke und bleiben bei ihren Fristen.
  */
 export const FRISTEN_STUNDEN = {
   'refresh-hourly.yml': fristAusTakt(1, 12),
   'refresh-data.yml': 36,
-  // Ausnahme von 3 x Takt: gemessene Lücken bis 6,2 h (27.10.2026), 3 h gäbe Fehlalarme.
-  'bestand-bauen.yml': 8,
+  'daten-auf-abruf.yml': 36,
+  'bestand-bauen.yml': 18,
+  'd1-verbrauch.yml': 48,
   'deploy.yml': 48,
   'adn-laufende.yml': fristAusTakt(6, 24),
   'claude-verpasst-recherche.yml': 36,
   'claude-anime2you-extraktion.yml': 36,
   'claude-wache-urteil.yml': 36,
-  'anisearch-katalog.yml': 48,
+  'claude-daten-merge.yml': 48,
+  'anisearch-katalog.yml': 36,
   'ladezeiten.yml': 36,
   'offizielle-news.yml': 36,
-  'meldungskopie.yml': 36,
-  'refresh-weekly.yml': 216,
-  // Wie `motn` in check-sources.ts: ein Kontingentzyklus plus zwei Tage.
-  'tonspuren-monatlich.yml': 792,
-}
-
-/** Fristen der Zugangs-Wache (`tools/zugangs-waechter.mjs`), bis sie mit `FRISTEN_STUNDEN` zusammenfallen; vorher in `data/zugangs-register.json`. */
-export const FRISTEN_ZUGANG = {
-  'refresh-hourly.yml': 5,
-  'refresh-data.yml': 36,
-  'refresh-weekly.yml': 216,
-  'daten-auf-abruf.yml': 36,
-  'anisearch-katalog.yml': 36,
-  'tonspuren-monatlich.yml': 840,
-  'bestand-bauen.yml': 24,
-  'd1-verbrauch.yml': 48,
-  'claude-anime2you-extraktion.yml': 48,
-  'claude-wache-urteil.yml': 48,
-  'claude-verpasst-recherche.yml': 48,
-  'claude-daten-merge.yml': 48,
+  'meldungskopie.yml': 48,
+  'refresh-weekly.yml': 336,
+  'tonspuren-monatlich.yml': 1008,
 }
 
 /** Befunde aller Workflows; `letzterErfolg(workflow)` liefert Millisekunden oder null und darf werfen. */

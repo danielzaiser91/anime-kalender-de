@@ -4,6 +4,7 @@ import { spawnSync } from 'node:child_process'
 import { copyFileSync, mkdirSync, mkdtempSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
+import { FRISTEN_STUNDEN } from './wache-fristen.mjs'
 
 const quelle = resolve(import.meta.dirname)
 const wurzel = mkdtempSync(join(tmpdir(), 'wache-prozess-'))
@@ -29,9 +30,10 @@ try {
   const frisch = lauf('refresh-hourly.yml=2')
   assert.doesNotMatch(frisch, /refresh-hourly\.yml: letzter erfolgreicher Lauf/)
   assert.match(frisch, /refresh-hourly\.yml\s+letzter Erfolg vor 2\.0 h \(erlaubt 3 h\)/)
-  const bauen = lauf('bestand-bauen.yml=9')
-  assert.match(bauen, /bestand-bauen\.yml: letzter erfolgreicher Lauf vor 9 h, erlaubt 8 h/)
-  console.log('wache-woechentlich-prozess: Hauptskript mit gh-Attrappe, stündlich 4 h -> Meldung, 2 h -> keine, bestand-bauen 9 h -> Meldung: ok')
+  const frist = FRISTEN_STUNDEN['bestand-bauen.yml']
+  const bauen = lauf(`bestand-bauen.yml=${frist + 1}`)
+  assert.match(bauen, new RegExp(`bestand-bauen\\.yml: letzter erfolgreicher Lauf vor ${frist + 1} h, erlaubt ${frist} h`))
+  console.log('wache-woechentlich-prozess: Hauptskript mit gh-Attrappe, stündlich 4 h -> Meldung, 2 h -> keine, bestand-bauen über der Frist -> Meldung: ok')
 } finally {
   rmSync(wurzel, { recursive: true, force: true })
 }

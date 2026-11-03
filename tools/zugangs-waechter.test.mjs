@@ -1,7 +1,7 @@
 // Zusicherungen für tools/zugangs-waechter.mjs: Kontingent-Erkennung und Register gegen die Workflows.
 import assert from 'node:assert/strict'
 import { readFileSync, readdirSync } from 'node:fs'
-import { ausloeser, kontingentFunde, pruefeLauf, registerBefunde, vomWecker, wachePlanBefunde, weckplanLuecken } from './zugangs-waechter.mjs'
+import { ausloeser, kontingentFunde, pruefeLauf, registerBefunde, spezMitFrist, vomWecker, wachePlanBefunde, weckplanLuecken } from './zugangs-waechter.mjs'
 
 const schritt = (name, conclusion, von, bis) => ({ name, conclusion, started_at: von, completed_at: bis })
 
@@ -83,5 +83,10 @@ assert.match(pruefeLauf('x.yml', { fristStunden: 24 }, attrappe([]), JETZT)[0].t
 assert.equal(pruefeLauf('x.yml', { fristStunden: 24 }, attrappe([]), JETZT)[0].rot, true)
 // Ohne Frist keine Zeile aus der Fristprüfung
 assert.deepEqual(pruefeLauf('x.yml', { fristStunden: null }, attrappe([]), JETZT), [])
+
+// Eine Frist-Quelle: die Register-Datei trägt keine Fristen mehr, die Wache liest die Tabelle.
+assert.equal(readFileSync(new URL('data/zugangs-register.json', wurzel), 'utf8').includes('fristStunden'), false)
+assert.deepEqual(spezMitFrist('a.yml', { name: 'A', claude: true }, { 'a.yml': 7 }), { name: 'A', claude: true, fristStunden: 7 })
+assert.equal(spezMitFrist('b.yml', { name: 'B' }, { 'a.yml': 7 }).fristStunden, null)
 
 console.log('zugangs-waechter: Zusicherungen ok')
