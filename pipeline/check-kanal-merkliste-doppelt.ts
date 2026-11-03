@@ -9,7 +9,7 @@ import type { DubCheck } from './lib/dub-confirmed.ts'
 import { ergaenzeMerkliste, MERKLISTE } from './lib/kanal-merkliste.ts'
 
 const beleg = (anilistId: number, url: string): DubCheck =>
-  ({ anilistId, platform: 'prime', url, checkedAt: '2026-01-01', note: 'ACHTUNG: Kanal-Titel', kanalOhneBeleg: true }) as DubCheck
+  ({ anilistId, platform: 'prime', url, checkedAt: '2026-01-01', note: 'ACHTUNG: Kanal-Titel', kanalOhneBeleg: true }) as unknown as DubCheck
 
 const wurzel = mkdtempSync(join(tmpdir(), 'kanal-merkliste-doppelt-'))
 mkdirSync(join(wurzel, 'data'))
