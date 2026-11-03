@@ -55,6 +55,18 @@
  */
 const boxen = new Map()
 
+/**
+ * **Eigene Wurzeln hängen an `<html>`, nicht am `<body>`** (Daniel, 03.11.2026): Netflix legt hinter
+ * der Profilauswahl („Wer schaut gerade?") alles außer seinem Dialog still — Kasten, Prüfliste, Knöpfe
+ * und das Einklapp-Icon reagierten auf keinen Klick, bis ein Profil gewählt war. Solche Sperren
+ * (`inert`, `aria-hidden`, `pointer-events`) setzt eine Seite an `<body>` und dessen Kindern; `<html>`
+ * erreichen sie nicht, weil der Dialog selbst im `<body>` steht. Jede Wurzel der Erweiterung geht
+ * über diese Funktion (Test `netflix-wurzel.test.cjs`).
+ */
+function akWurzelAnhaengen(el) {
+  document.documentElement.appendChild(el)
+}
+
 function akBox(kennung, fuerAdresse) {
   let kasten = boxen.get(kennung)
   if (!kasten?.isConnected) kasten = document.querySelector('.' + kennung)
@@ -94,7 +106,7 @@ function akBox(kennung, fuerAdresse) {
   const debug = document.createElement('div')
   debug.className = 'ak-z-debug'
   kasten.appendChild(debug)
-  document.body.appendChild(kasten)
+  akWurzelAnhaengen(kasten)
   boxen.set(kennung, kasten)
   akIconStarten()
   return kasten
@@ -310,7 +322,7 @@ function akIconStarten() {
     }
     akIconZeichnen()
   })
-  document.body.appendChild(akIcon)
+  akWurzelAnhaengen(akIcon)
   akIconZeichnen()
   try {
     chrome.storage.local.get(AK_ZU_SCHLUESSEL).then((x) => {
@@ -335,7 +347,7 @@ function akIconStarten() {
     })
   }
   akPruefen = pruefen
-  new MutationObserver(pruefen).observe(document.body, { childList: true })
+  new MutationObserver(pruefen).observe(document.documentElement, { childList: true })
   new MutationObserver(pruefen).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] })
   pruefen()
 }

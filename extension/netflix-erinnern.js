@@ -46,3 +46,53 @@ globalThis.akNetflixGrundOffen = (versuche) => {
   const limit = globalThis.AK_TAGESLIMIT?.text()
   return `nach ${versuche} Versuchen noch offen${limit ? ` (${limit})` : ''}`
 }
+
+/*
+  **Netflix zeigt einen Titel nicht: der Durchgang überspringt ihn, er endet nicht daran** (03.11.2026).
+
+  Daniel, „Ghost in the Shell" (`/title/540533`, Film): Netflix zeigte die Startseite, der Player
+  meldete E103 — und der ganze Durchgang endete mit „abgebrochen · besucht 1, gemessen 0". Nur `M7…`
+  meint die Wiedergabe (zu viele Streams, Netzwerk) und hält zu Recht an; jeder andere Code meint
+  den Titel (`E1…`, `UI…`, `NSES-…`), und der nächste Titel hat dieses Problem nicht. Gemeldet wird
+  nichts (ein Nein hat mehrere Gründe, siehe oben); der Titel steht mit Grund in der Endliste und
+  bleibt einen Tag zurückgestellt.
+*/
+const NETFLIX_UMLEITUNG_NACH_MS = 4000
+
+/** Stellt eine Störung im Durchlauf fest; Titel-Codes im selbsttätigen Durchgang merken sich `titelSperre`. */
+globalThis.akNetflixStoerung = (durchlauf, code, o) => {
+  durchlauf.stoerung = code
+  durchlauf.abbruch = true
+  durchlauf.titelSperre = durchlauf.selbst && !/^M7/.test(code) ? { code, reihe: String(o.ziel ?? o.reihe) } : null
+  /* Der Vorfall geht nur raus, wo der Durchgang anhält: ein übersprungener Titel steht in der Endliste. */
+  if (!durchlauf.titelSperre) {
+    void o.vorfall('stoerung', { reihe: o.reihe, folge_nr: o.folge, text: `Netflix meldet ${code} — Durchlauf abgebrochen` })
+  }
+}
+
+/** Am Ende eines Durchlaufs: `true`, wenn der Titel übersprungen wurde und der Durchgang weitergeht. */
+globalThis.akNetflixTitelUeberspringen = (durchlauf, uebersprungen, weiter) => {
+  const sperre = durchlauf.titelSperre
+  if (!sperre) return false
+  durchlauf.titelSperre = null
+  uebersprungen.set(sperre.reihe, `Netflix zeigt ihn nicht (${sperre.code})`)
+  weiter()
+  return true
+}
+
+/**
+ * Ein Takt des Durchgangs: Hat Netflix den angesprungenen Titel auf die Startseite umgeleitet
+ * (`/browse`), geht es weiter. `o`: `{ selbstAn, laeuft, pfad, ziel ({ id, zeit }), jetzt, offen }`;
+ * `tun`: `{ spur, uebersprungen, weiter }`. Gibt `true` zurück, wenn er weiterging.
+ */
+globalThis.akNetflixUmgeleitet = (o, tun) => {
+  if (!o.selbstAn || o.laeuft || !o.ziel?.id || !o.offen) return false
+  if (!/^\/(?:[a-z-]+\/)?browse\b/.test(o.pfad)) return false
+  if (o.jetzt - (o.ziel.zeit ?? 0) < NETFLIX_UMLEITUNG_NACH_MS) return false
+  const kennung = String(o.ziel.id)
+  if (tun.uebersprungen.has(kennung)) return false
+  tun.spur('Netflix leitet auf die Startseite um', { reihe: kennung })
+  tun.uebersprungen.set(kennung, 'Netflix leitet auf die Startseite um')
+  tun.weiter()
+  return true
+}

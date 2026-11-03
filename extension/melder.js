@@ -2832,6 +2832,9 @@ function naechsterAuftrag() {
  */
 async function vielleichtSelbstStarten() {
   try {
+    const ziel = zuletztGeoeffnet
+    const o = { selbstAn, laeuft: DURCHLAUF.laeuft, pfad: location.pathname, ziel, jetzt: Date.now(), offen: offeneTitel[String(ziel?.id)] !== undefined }
+    if (akNetflixUmgeleitet(o, { spur, uebersprungen: selbstUebersprungen, weiter: selbstWeiter })) return
     await selbstStartenSchritt()
   } catch (e) {
     const text = String(e?.message ?? e)
@@ -3848,6 +3851,7 @@ async function durchlaufStarten() {
   DURCHLAUF.abbruch = false
   DURCHLAUF.abbruchGrund = null
   DURCHLAUF.stoerung = null
+  DURCHLAUF.titelSperre = null
   DURCHLAUF.angenommen = null
   /*
     **Hier gehört der Merker zurückgesetzt, nicht beim Rechtsklick.**
@@ -3897,17 +3901,8 @@ async function durchlaufStarten() {
       if (i > 10 && !spuren) {
         const code = stoerung()
         if (code) {
-          DURCHLAUF.stoerung = code
-          DURCHLAUF.abbruch = true
-          /*
-            Eine Stoerung bricht den Durchlauf ab — und ist damit genau das, wovon
-            ich erfahren muss, ohne dass jemand die Konsole oeffnet.
-          */
-          void vorfallMelden('stoerung', {
-            reihe: gemeinteReihe(),
-            folge_nr: f.nummer,
-            text: `Netflix meldet ${code} — Durchlauf abgebrochen`,
-          })
+          /* Bricht den Durchlauf ab; im Durchgang überspringt ein Titel-Code nur den Titel (netflix-erinnern.js). */
+          akNetflixStoerung(DURCHLAUF, code, { reihe: gemeinteReihe(), ziel: selbstVersucht, folge: f.nummer, vorfall: vorfallMelden })
           break
         }
       }
@@ -4180,7 +4175,9 @@ async function durchlaufStarten() {
     kein Grund weiterzumachen (bei `M7…` hilft ohnehin nur, andere Tabs zu
     schließen).
   */
-  if (DURCHLAUF.selbst && selbstAn && (DURCHLAUF.abbruch || DURCHLAUF.stoerung)) {
+  if (DURCHLAUF.selbst && selbstAn && akNetflixTitelUeberspringen(DURCHLAUF, selbstUebersprungen, selbstWeiter)) {
+    /* Netflix zeigt den Titel nicht: übersprungen, der Durchgang geht weiter. */
+  } else if (DURCHLAUF.selbst && selbstAn && (DURCHLAUF.abbruch || DURCHLAUF.stoerung)) {
     laufBeenden(DURCHLAUF.abbruch ? (globalThis.AK_TAGESLIMIT?.grund(DURCHLAUF.abbruchGrund ?? 'abgebrochen') ?? DURCHLAUF.abbruchGrund ?? 'abgebrochen') : `Störung ${DURCHLAUF.stoerung}`)
   }
   if (DURCHLAUF.selbst && selbstAn && !DURCHLAUF.abbruch && !DURCHLAUF.stoerung) {
@@ -5123,7 +5120,7 @@ function schutzflaecheZeigen(sichtbar) {
   for (const art of ["click", "mousedown", "pointerdown"]) {
     schutzflaeche.addEventListener(art, (e) => e.stopPropagation())
   }
-  document.body.appendChild(schutzflaeche)
+  akWurzelAnhaengen(schutzflaeche)
 }
 
 let uebersichtKnopf = null
@@ -5166,7 +5163,7 @@ function uebersichtZeigen() {
 
     Gefragt wird deshalb das Dokument, nicht die Variable.
   */
-  if (!uebersichtKnopf || !document.body.contains(uebersichtKnopf)) {
+  if (!uebersichtKnopf || !document.contains(uebersichtKnopf)) {
     uebersichtKnopf = document.createElement('button')
     /*
       `ak-uebersicht-innen` dazu: Die Grundklasse trägt die Lage für einen frei
@@ -5880,7 +5877,7 @@ async function dialogOeffnen() {
     if (e.target === dialog) dialogSchliessen()
   })
   document.addEventListener('keydown', beiEscape)
-  document.body.appendChild(dialog)
+  akWurzelAnhaengen(dialog)
   suche.focus()
 }
 
