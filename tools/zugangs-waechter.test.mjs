@@ -1,7 +1,7 @@
 // Zusicherungen für tools/zugangs-waechter.mjs: Kontingent-Erkennung und Register gegen die Workflows.
 import assert from 'node:assert/strict'
 import { readFileSync, readdirSync } from 'node:fs'
-import { ausloeser, kontingentFunde, registerBefunde, vomWecker, wachePlanBefunde, weckplanLuecken } from './zugangs-waechter.mjs'
+import { ausloeser, kontingentFunde, pruefeLauf, registerBefunde, vomWecker, wachePlanBefunde, weckplanLuecken } from './zugangs-waechter.mjs'
 
 const schritt = (name, conclusion, von, bis) => ({ name, conclusion, started_at: von, completed_at: bis })
 
@@ -63,5 +63,25 @@ assert.deepEqual(weckplanLuecken(planText, echt), [])
 const ohneNews = weckplanLuecken(planText.replace("workflow: 'offizielle-news.yml'", "workflow: 'x'"), echt)
 assert.equal(ohneNews.length, 1)
 assert.match(ohneNews[0], /offizielle-news\.yml/)
+
+// Fenster-Fall (Lauf 41468834098, 02.11.2026): 20 Läufe ohne Erfolg (10 skipped, 10 failure), der letzte Erfolg 10,7 h davor.
+const JETZT = Date.parse('2999-12-31T12:00:00Z')
+const vor = (h) => new Date(JETZT - h * 3600e3).toISOString()
+const fenster = Array.from({ length: 20 }, (_, i) => ({ databaseId: 100 + i, status: 'completed', conclusion: i % 2 ? 'skipped' : 'failure', createdAt: vor(1 + i * 0.3), event: 'workflow_run' }))
+const erfolgLauf = { databaseId: 99, status: 'completed', conclusion: 'success', createdAt: vor(10.7), event: 'workflow_run' }
+const attrappe = (erfolge) => (...a) => {
+  assert.equal(a[0], 'run')
+  if (a.includes('--status')) return a[a.indexOf('--status') + 1] === 'success' && a[a.indexOf('--limit') + 1] === '1' ? erfolge : []
+  return fenster
+}
+const imFenster = pruefeLauf('bestand-bauen.yml', { fristStunden: 24 }, attrappe([erfolgLauf]), JETZT)
+assert.deepEqual(imFenster.map((z) => [z.rot, z.text]), [[false, 'bestand-bauen.yml: letzter Erfolg vor 11 h (Frist 24 h)']])
+// Zu alt bleibt rot (Grenze: 24 h genau grün, 25 h rot), kein Erfolg überhaupt rot.
+assert.equal(pruefeLauf('x.yml', { fristStunden: 24 }, attrappe([{ ...erfolgLauf, createdAt: vor(24) }]), JETZT)[0].rot, false)
+assert.equal(pruefeLauf('x.yml', { fristStunden: 24 }, attrappe([{ ...erfolgLauf, createdAt: vor(25) }]), JETZT)[0].rot, true)
+assert.match(pruefeLauf('x.yml', { fristStunden: 24 }, attrappe([]), JETZT)[0].text, /kein erfolgreicher Lauf/)
+assert.equal(pruefeLauf('x.yml', { fristStunden: 24 }, attrappe([]), JETZT)[0].rot, true)
+// Ohne Frist keine Zeile aus der Fristprüfung
+assert.deepEqual(pruefeLauf('x.yml', { fristStunden: null }, attrappe([]), JETZT), [])
 
 console.log('zugangs-waechter: Zusicherungen ok')

@@ -56,6 +56,11 @@ function letzteLaeufe(ghAufruf, workflow, limit = 20) {
   return ghAufruf('run', 'list', '--repo', REPO, '--workflow', workflow, '--limit', String(limit), '--json', 'databaseId,conclusion,status,createdAt,event')
 }
 
+/** Der jüngste erfolgreiche Lauf, unabhängig davon, wie viele übersprungene oder gescheiterte danach kamen (sonst drängen sie ihn aus einem festen Fenster). */
+export function letzterErfolg(ghAufruf, workflow) {
+  return ghAufruf('run', 'list', '--repo', REPO, '--workflow', workflow, '--status', 'success', '--limit', '1', '--json', 'databaseId,createdAt')[0] ?? null
+}
+
 /** Ein leeres Kontingent: Claude-Schritt scheitert in Sekunden. Gibt die Fundstellen zurück. */
 export function kontingentFunde(schritte) {
   return schritte.filter((s) => CLAUDE_SCHRITT.test(s.name) && s.conclusion === 'failure' && s.started_at && s.completed_at && (Date.parse(s.completed_at) - Date.parse(s.started_at)) / 1000 <= KONTINGENT_SEKUNDEN)
@@ -67,9 +72,9 @@ export function pruefeLauf(workflow, spez, ghAufruf = gh, jetzt = Date.now()) {
   const zeilen = []
   const laeufe = letzteLaeufe(ghAufruf, workflow)
   const fertig = laeufe.filter((l) => l.status === 'completed' && l.conclusion !== 'cancelled' && l.conclusion !== 'skipped')
-  const erfolg = fertig.find((l) => l.conclusion === 'success')
+  const erfolg = letzterErfolg(ghAufruf, workflow)
   if (spez.fristStunden != null) {
-    if (!erfolg) zeilen.push({ rot: true, text: `${workflow}: kein erfolgreicher Lauf unter den letzten ${laeufe.length}` })
+    if (!erfolg) zeilen.push({ rot: true, text: `${workflow}: kein erfolgreicher Lauf gefunden` })
     else if (stunden(erfolg.createdAt) > spez.fristStunden) zeilen.push({ rot: true, text: `${workflow}: letzter Erfolg vor ${Math.round(stunden(erfolg.createdAt))} h (Frist ${spez.fristStunden} h)` })
     else zeilen.push({ rot: false, text: `${workflow}: letzter Erfolg vor ${Math.round(stunden(erfolg.createdAt))} h (Frist ${spez.fristStunden} h)` })
   }
