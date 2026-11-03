@@ -4,7 +4,7 @@ import yaml from 'js-yaml'
 import { ausstrahlungsZeit, istStaffel } from '../../shared/titles.ts'
 import type { FranchiseMember, Title } from '../../shared/types.ts'
 import { ROOT, warn } from '../lib/util.ts'
-import { ladeBeziehungen } from './anisearch-reihen-pruefliste.ts'
+import { ladeBeziehungen } from '../lib/anisearch-beziehungen.ts'
 import type { Kante } from './anisearch-reihen.ts'
 
 /**
@@ -59,6 +59,20 @@ export function alleRemakePaare(titel: (Zeit & { anisearchId?: number })[], quel
 /** Eine Neuverfilmung zählt als eigene Linie nur, wenn beide Serien (TV/ONA) sind und das Original früher startete. */
 export function zaehltAlsNeuverfilmung(neu: Pick<FranchiseMember, 'format' | 'jpYear' | 'jpStart' | 'id'>, original: Pick<FranchiseMember, 'format' | 'jpYear' | 'jpStart' | 'id'>): boolean {
   return istStaffel(neu.format) && istStaffel(original.format) && ausstrahlungsZeit(original).localeCompare(ausstrahlungsZeit(neu)) < 0
+}
+
+/**
+ * Die Neuverfilmungen einer Reihe (Titel → Kennung des Originals), nach denselben Regeln wie `markiereRemakes`: für die Zähler der
+ * Pipeline (`staffelDesTitels`, `staffelNummer`), die nur `Title`s sehen und `FranchiseMember.remakeVon` nicht kennen.
+ */
+export function remakeVonDerReihe(reihe: Title[], quellen: { kanten?: Kante[]; hand?: RemakeVonHand[] } = {}): Map<number, number> {
+  const paare = alleRemakePaare(reihe, quellen)
+  const ergebnis = new Map<number, number>()
+  for (const m of reihe) {
+    const original = reihe.find((x) => x.id === paare.get(m.id))
+    if (original && zaehltAlsNeuverfilmung(m, original)) ergebnis.set(m.id, original.id)
+  }
+  return ergebnis
 }
 
 /** Setzt `remakeVon` an den Neuverfilmungen, deren Original in derselben Reihe steht; beide müssen Serien sein. */

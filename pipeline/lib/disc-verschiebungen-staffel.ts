@@ -4,7 +4,8 @@
  * Nummer der Staffel in ihrer Reihe schon — aber nur, wo zwei unabhängige Zählweisen sie gleich nennen.
  */
 import type { Title } from '../../shared/types.ts'
-import { anzeigeName, hauptstaffeln, staffelStaende } from '../../shared/titles.ts'
+import { anzeigeName, hauptstaffeln, staffelStaende, zaehlgruppeVon } from '../../shared/titles.ts'
+import { remakeVonDerReihe } from '../bau/remake-von.ts'
 import { staffelnDesFranchise } from './adn.ts'
 
 /** „Reihenname staffel N" am Ende eines `discSchluessel()`; Zusätze wie „vol. 2" passen nicht. */
@@ -26,12 +27,18 @@ export function reihenIndex(titel: Iterable<Title>): Map<number, Title[]> {
  * (`staffelStaende`). Nennen beide nicht dieselbe Zahl, hat die Reihe Teile, Beiwerk oder gleichzeitige
  * Starts — dann ist die Nummer mehrdeutig und wird nicht verwendet.
  */
-export function staffelNummer(t: Title, reihen: Map<number, Title[]>): number | undefined {
+export function staffelNummer(t: Title, reihen: Map<number, Title[]>, remakeQuellen?: Parameters<typeof remakeVonDerReihe>[1]): number | undefined {
   if (t.franchiseId === undefined) return undefined
-  const lauf = staffelnDesFranchise(reihen.get(t.franchiseId) ?? [], t.franchiseId)
+  const remakeVon = remakeVonDerReihe(reihen.get(t.franchiseId) ?? [], remakeQuellen)
+  /* Eine Neuverfilmung zählt mit ihren Fortsetzungen für sich von 1 (wie das Panel, `zaehlgruppeVon`). */
+  const gruppe = zaehlgruppeVon(
+    (reihen.get(t.franchiseId) ?? []).map((x) => ({ ...x, remakeVon: remakeVon.get(x.id) })),
+    t.id,
+  )
+  const lauf = staffelnDesFranchise(gruppe, t.franchiseId)
   const stelle = lauf.findIndex((x) => x.id === t.id) + 1
   if (!stelle) return undefined
-  const teile = lauf.map((x) => ({ id: x.id, name: anzeigeName(x), format: x.format, episodes: x.episodes, jpYear: x.jpYear, jpStart: x.jpStart }))
+  const teile = lauf.map((x) => ({ remakeVon: remakeVon.get(x.id), id: x.id, name: anzeigeName(x), format: x.format, episodes: x.episodes, jpYear: x.jpYear, jpStart: x.jpStart }))
   const kopf = reihen.get(t.franchiseId)!.find((x) => x.id === t.franchiseId) ?? lauf[0]!
   const stand = staffelStaende(hauptstaffeln(teile), anzeigeName(kopf)).get(t.id)
   return stand && stand.teil === undefined && stand.staffel === stelle ? stelle : undefined
