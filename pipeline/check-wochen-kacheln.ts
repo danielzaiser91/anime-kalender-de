@@ -108,7 +108,7 @@ pruefe('Woche bleibt', kachel.von === '2026-10-05' && kachel.bis === '2026-10-11
 pruefe('Reihenfolge bleibt', kachel.titles.map((t) => t.id).join() === '1,2' && kachel.releases.map((r) => r.slug).join() === 'a,b')
 
 const streams = t1.streams as Record<string, unknown>[]
-pruefe('Weg ohne Gratis-Zugang: Adresse, Seite, Kanal weg, Urteil und Bereiche bleiben', schluessel(streams[0]!) === 'platform,dub,dubRanges,zugang', schluessel(streams[0]!))
+pruefe('Weg ohne Gratis-Zugang: Adresse, Seite weg, Kanal (Kanal-Start der Kachel), Urteil und Bereiche bleiben', schluessel(streams[0]!) === 'platform,dub,dubRanges,zugang,kanal', schluessel(streams[0]!))
 pruefe('kostenloser Stream bleibt ganz (Filter „kostenlos“ liest Adresse und Fenster)', JSON.stringify(streams[1]) === JSON.stringify(woche.titles[0]!.streams![1]))
 const links = t1.watchLinks as Record<string, unknown>[]
 pruefe('Link ohne Gratis-Zugang: nur Name, Art, Zugang', schluessel(links[0]!) === 'name,kind,zugang', schluessel(links[0]!))
@@ -146,7 +146,7 @@ const RELEASE_FEST = 'automatisch,buyUrl,cinemaUntil,disputedDates,edition,herku
 pruefe('Dateiname der Kachel-Datei', KACHEL_DATEI === 'woche-kacheln')
 pruefe('Abzugsliste Titel', TITEL_OHNE.join() === TITEL_FEST)
 pruefe('Abzugsliste Release', RELEASE_OHNE.join() === RELEASE_FEST)
-pruefe('Abzugsliste Stream', STREAM_OHNE.join() === 'url,seite,fenster,dubQuelle,dubStand,dubAbgeleitet,herkunft,kanal,sharedWith')
+pruefe('Abzugsliste Stream', STREAM_OHNE.join() === 'url,seite,fenster,dubQuelle,dubStand,dubAbgeleitet,herkunft,sharedWith')
 pruefe('Abzugsliste Link', WATCHLINK_OHNE.join() === 'url,toggo,dubAbgeleitet,ueberTmdb,ersetzt')
 
 const viele: WochenDatei = { ...woche, titles: Array.from({ length: 30 }, (_, i) => titel(i + 1)), releases: [], events: [] }
