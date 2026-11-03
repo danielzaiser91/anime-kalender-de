@@ -431,8 +431,9 @@
   sources: [https://www.anime2you.de/news/1059642/prime-video-weitere-demon-slayer-staffeln/]
 
 # Anime2You 1058843 (10.10.) und 1060009 (11.10.): „bei Netflix geht es erst am 18. Oktober 2026 los. Neue Folgen erscheinen wöchentlich." Crunchyroll
-# und ADN zeigen seit 11.10. nur Untertitel. „Japanisch (UT)“ für Netflix steht nicht in den Beerus-Artikeln, sondern im Sammelartikel 1052708
-# „Netflix: Anime neu im Oktober 2026“ (23.09.; dort Beerus-Zeile, Parser: deutsch=false); eine deutsche Fassung sagt keine Quelle zu.
+# und ADN zeigen seit 11.10. nur Untertitel. „Japanisch (UT)“ für Netflix stand nicht in den Beerus-Artikeln, sondern im Sammelartikel 1052708
+# „Netflix: Anime neu im Oktober 2026“ (23.09.; dort Beerus-Zeile, Parser: deutsch=false). Der Artikel ist inzwischen aus dem Abruf von
+# anime2you.json gefallen, der Eintrag hier trägt die Aussage; eine deutsche Fassung sagt keine Quelle zu.
 # Nach „nichts behaupten, was nicht belegt ist“ gilt deshalb `omu` (die Quelle nennt nur OmU), nicht `offen`.
 # Uhrzeit und Folgenzahl: nicht genannt; der Bau (`bau/05-releases.ts`) nimmt dann AniList-/aniSearch-Zahl, sonst 12 mit `episodeCountAssumed`.
 - slug: dragon-ball-super-beerus-netflix
