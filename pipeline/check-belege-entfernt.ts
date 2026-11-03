@@ -123,6 +123,12 @@ const belege = yaml.load(readFileSync(join(ROOT, 'data', 'dub-confirmed.yaml'), 
 const zurueck = belege.filter((b) => istEntfernt(liste, b.anilistId, b.url)).map((b) => `${b.anilistId} ${b.url}`)
 if (zurueck.length) fehler.push(`Entfernte Belege stehen wieder in data/dub-confirmed.yaml: ${zurueck.join('; ')}`)
 
+/* Yama no Susume (14355): B0GP83RCNX und B0GP5XXDNT sind Staffel 1, also die eigene Seite; gesperrt ist nur die Fremdmessung B0GNH738G2 (Staffel 3, Titel 21003). */
+n.faelle += 3
+erwarte('Climb 1 (14355): eigene Seite B0GP83RCNX ist nicht gesperrt', istEntfernt(liste, 14355, 'https://www.amazon.de/dp/B0GP83RCNX'), false)
+erwarte('Climb 1 (14355): eigene Seite B0GP5XXDNT ist nicht gesperrt', istEntfernt(liste, 14355, 'https://www.amazon.de/gp/video/detail/B0GP5XXDNT'), false)
+erwarte('Climb 1 (14355): Fremdmessung B0GNH738G2 ist gesperrt', istEntfernt(liste, 14355, 'https://www.amazon.de/gp/video/detail/B0GNH738G2'), true)
+
 rmSync(ordner, { recursive: true, force: true })
 if (fehler.length) {
   console.error(`check-belege-entfernt: ${fehler.join('; ')}`)
