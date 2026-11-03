@@ -61,7 +61,11 @@ export function uebernimmOhneTitelliste(shows: AdnShow[], bisher: AdnShow[], off
   return [...offenAlt.filter((o) => ohneIds.has(o.showId)), ...neue].sort((x, y) => x.showId - y.showId)
 }
 
-/** Setzt `anisearchId` an die Serien und schreibt die Liste der offenen. `titelliste` und `offenDatei` sind für den Test austauschbar. */
+/**
+ * Setzt `anisearchId` an die Serien und schreibt die Liste der offenen. `titelliste` und `offenDatei` sind für den Test austauschbar.
+ * `shows` ist der ganze neue Katalog samt behaltener Alter (02.11.2026: nur mit den frischen Treffern fehlten 21 Kennungen in der Liste);
+ * der Aufrufer schreibt den Katalog erst danach, damit beide Dateien zusammenpassen.
+ */
 export async function ordneKatalogZuAnisearch(
   shows: AdnShow[],
   bisher: AdnShow[],

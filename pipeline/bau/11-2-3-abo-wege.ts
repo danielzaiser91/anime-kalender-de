@@ -1,3 +1,4 @@
+import { type IstTot } from '../lib/adresse-tot.ts'
 import { log } from '../lib/util.ts'
 import { type StreamLink, type Title } from '../../shared/types.ts'
 import { stripAffiliate } from '../../shared/mappings.ts'
@@ -26,12 +27,12 @@ export type JwAbo = { ohneTreffer?: boolean; angebote?: { anbieter: string; art:
  * Der Weg trägt **kein** `dub` (11.10.2026): JustWatch ist kein Beleg. Bei Prime setzt `11-6-jw-vertrauen.ts`
  * danach den Umriss „Deutsch laut JustWatch", wo JustWatch an der Seite „de“ nennt (`lib/jw-seite.ts`).
  */
-export function ergaenzeAboWege({ titles, jw, handNein, tmdbMehrdeutig, toteAdressen }: {
+export function ergaenzeAboWege({ titles, jw, handNein, tmdbMehrdeutig, istTot }: {
   titles: Map<number, Title>
   jw: Record<string, JwAbo>
   handNein: ReadonlySet<string>
   tmdbMehrdeutig: Set<string>
-  toteAdressen: Set<string>
+  istTot: IstTot
 }) {
   /**
    * **Eine Handprüfung hat das letzte Wort** (Lauf 35900967510, 23.09.2026).
@@ -56,7 +57,7 @@ export function ergaenzeAboWege({ titles, jw, handNein, tmdbMehrdeutig, toteAdre
       if (neueHier >= 2) break
       if (a.art !== 'FLATRATE' && a.art !== 'ADS') continue
       if (!(a.audio ?? []).includes('de')) continue
-      if (!a.url || toteAdressen.has(a.url)) continue
+      if (!a.url || istTot(a.url)) continue
       /*
         **Ein Amazon-Kanal ist nicht der Anbieter selbst** (gemessen 23.09.2026, bevor das
         live ging): `plattformVon()` vergleicht mit `startsWith`, und „RTL+ Max Amazon

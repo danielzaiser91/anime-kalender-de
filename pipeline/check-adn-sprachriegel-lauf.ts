@@ -42,7 +42,7 @@ const KATALOGSHOW = {
 }
 
 /** Baut eine Kulisse (Archiv-Serien, Katalog) und lässt `fetch-adn.ts` mit `modus` laufen; liefert Ausgabe, Exit-Code und Dateistand davor/danach. */
-function lauf(modus: string, archivIds: number[], liste: number[], extra: { katalog?: unknown[]; args?: string[]; status?: string; stand?: Record<string, string> } = {}) {
+function lauf(modus: string, archivIds: number[], liste: number[], extra: { katalog?: unknown[]; args?: string[]; status?: string; stand?: Record<string, string>; offen?: unknown[]; zweite?: boolean } = {}) {
   const kulisse = mkdtempSync(join(tmpdir(), 'adn-franz-'))
   try {
     const archiv = join(kulisse, 'data', 'adn-raw')
@@ -56,18 +56,23 @@ function lauf(modus: string, archivIds: number[], liste: number[], extra: { kata
     if (extra.stand) writeFileSync(join(kulisse, 'data', 'adn-katalog-stand.json'), JSON.stringify(extra.stand))
     const antwort = join(kulisse, 'antwort.json')
     writeFileSync(antwort, JSON.stringify(FRANZ))
+    const deutsch = join(kulisse, 'deutsch.json')
+    writeFileSync(deutsch, JSON.stringify(DEUTSCH))
+    const offenPfad = join(kulisse, 'data', 'adn-anisearch-offen.json')
+    if (extra.offen) writeFileSync(offenPfad, JSON.stringify({ anzahl: extra.offen.length, serien: extra.offen }))
     const stand = (): Record<string, Buffer> =>
       Object.fromEntries(readdirSync(archiv).map((d) => [d, readFileSync(join(archiv, d))]))
     const vorher = { archiv: stand(), katalog: readFileSync(katalogPfad) }
     const l = spawnSync(process.execPath, [tsx, '--import', mock, join(wurzel, 'pipeline/fetch-adn.ts'), modus, ...(extra.args ?? [])], {
       cwd: wurzel,
       encoding: 'utf8',
-      env: { ...process.env, AK_ROOT: kulisse, AK_ADN_ANTWORT: antwort, AK_ADN_LISTE: liste.join(','), AK_ADN_STATUS: extra.status ?? '' },
+      env: { ...process.env, AK_ROOT: kulisse, AK_ADN_ANTWORT: antwort, AK_ADN_LISTE: liste.join(','), AK_ADN_STATUS: extra.status ?? '', AK_ADN_WIEDERHOLUNG_MS: '0', ...(extra.zweite ? { AK_ADN_ANTWORT_NACH: deutsch } : {}) },
     })
     const nachher = { archiv: stand(), katalog: readFileSync(katalogPfad) }
     const standDatei = join(kulisse, 'data', 'adn-katalog-stand.json')
     const abfrageStand = existsSync(standDatei) ? (JSON.parse(readFileSync(standDatei, 'utf8')) as Record<string, string>) : {}
-    return { l, ausgabe: `${l.stdout}${l.stderr}`, vorher, nachher, abfrageStand }
+    const offenNachher = existsSync(offenPfad) ? (JSON.parse(readFileSync(offenPfad, 'utf8')) as { serien: { showId: number }[] }).serien.map((o) => o.showId) : []
+    return { l, ausgabe: `${l.stdout}${l.stderr}`, vorher, nachher, abfrageStand, offenNachher }
   } finally {
     rmSync(kulisse, { recursive: true, force: true })
   }
@@ -138,6 +143,22 @@ pruefe('--catalog: 404 auf Seite 2 (Seite 1 voll) lässt die Serie im Katalog', 
 pruefe('--catalog: 500 auf Seite 2 (Seite 1 voll) lässt die Serie im Katalog', bleibt.includes(3009), bleibt)
 pruefe('--catalog: Nichtauskunft steht nicht im Abfrage-Stand, Verneinung schon', !('3004' in stand2) && !('3005' in stand2) && !('3008' in stand2) && !('3009' in stand2) && '3006' in stand2 && '3007' in stand2, stand2)
 pruefe('--catalog: Zähler Nichtauskunft', nichtauskunft.ausgabe.includes('ADN-Katalog behalten: 0 nicht gefragt, 4 Abbruch, 2 entfernt'), nichtauskunft.ausgabe.slice(-500))
+
+// Punkt 1: französische Sicht wird einmal nach Wartezeit erneut gefragt; erst die zweite zählt.
+const wieder = lauf('--laufend', [2001, 2002, 2003, 2004, 2005, 2006], [1433], { zweite: true })
+const erneut = (ausgabe: string) => (ausgabe.match(/einmal erneut gefragt/g) ?? []).length
+pruefe('Wiederholung: kommt beim zweiten Mal Deutsch, zählt keine Verwerfung', wieder.ausgabe.includes('ADN-Sprachriegel: 0 Serien'), wieder.ausgabe.slice(-300))
+pruefe('Wiederholung: der Lauf bleibt grün (sieben Serien einmal Französisch)', wieder.l.status === 0, wieder.l.status)
+pruefe('Wiederholung: jede der sieben Serien wurde genau einmal erneut gefragt', erneut(wieder.ausgabe) === 7, erneut(wieder.ausgabe))
+pruefe('Wiederholung: bleibt es beim zweiten Mal Französisch, zählt es einmal je Serie', eine.ausgabe.includes('ADN-Sprachriegel: 1 Serien') && erneut(eine.ausgabe) === 1, eine.ausgabe.slice(-300))
+
+// Punkt 2: Katalog und Offen-Liste passen zusammen, auch wenn Alteinträge nur behalten werden (5xx, nicht gefragt) und keine aniSearch-Titelliste da ist (429).
+const offenEintrag = (showId: number) => ({ showId, title: `Serie ${showId}`, grund: 'mehrdeutig', kandidaten: [] })
+const zusammen = lauf('--catalog', [], [], { katalog: [mitId(3101), mitId(3102)], args: ['--limit', '2'], status: '3101:500,3102:500', offen: [offenEintrag(3101), offenEintrag(3102)] })
+pruefe('Katalog/Offen: beide behaltenen Alten stehen weiter im Katalog', ids(zusammen).join() === '3101,3102', ids(zusammen))
+pruefe('Katalog/Offen: ihre Einträge in der Offen-Liste bleiben erhalten', zusammen.offenNachher.join() === '3101,3102', zusammen.offenNachher)
+const gemischt = lauf('--catalog', [], [], { katalog: [mitId(3103), mitId(3104)], args: ['--limit', '1'], status: '3103:500', offen: [offenEintrag(3103), offenEintrag(3104)] })
+pruefe('Katalog/Offen: nicht gefragte und abgebrochene Alte behalten ihren Offen-Eintrag', gemischt.offenNachher.join() === '3103,3104', gemischt.offenNachher)
 
 console.log()
 if (fehler) {

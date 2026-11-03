@@ -89,3 +89,24 @@ export function riegelBilanz(anzahl: number): { zeile: string; rot: boolean } {
     rot: anzahl > MAX_VERWORFEN,
   }
 }
+
+/** Wartezeit vor der zweiten Frage bei französischer Sicht (ADN wechselt zeitweise, danach meist wieder in Ordnung). */
+export const WIEDERHOLUNG_WARTE_MS = 25_000
+
+type Antwort<T extends MitSprachen> = { videos: T[]; abbruch?: string }
+
+/**
+ * Fragt eine Serie; liefert `frage` die französische Sicht (`abbruch: 'franzoesisch'`), wird nach `warte` einmal erneut gefragt. Erst ein
+ * zweites Mal Französisch zählt als Verwurf (Bilanz, Fünf-in-Folge-Riegel); die Antwort trägt dann keine Videos.
+ */
+export async function mitWiederholung<T extends MitSprachen>(showId: number, frage: () => Promise<Antwort<T>>, warte: () => Promise<void>): Promise<Antwort<T>> {
+  let antwort = await frage()
+  if (antwort.abbruch === 'franzoesisch') {
+    console.warn(`⚠  ADN ${showId}: französische Sicht — einmal erneut gefragt.`)
+    await warte()
+    antwort = await frage()
+  }
+  if (antwort.abbruch !== 'franzoesisch') return antwort
+  verwirfFranzoesische(showId, antwort.videos)
+  return { videos: [], abbruch: 'franzoesisch' }
+}

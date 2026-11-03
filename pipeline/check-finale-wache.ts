@@ -41,7 +41,7 @@ const b = lauf(121, '2026-10-19')
 pruefe('Beyblade X Staffel 3: eine Woche früher (Folge 121) ebenso keins — das Finale wandert nicht mit', b.events.at(-1)?.episode === 121 && b.finale.length === 0, b.finale)
 
 /* istStaffelfinale selbst, ohne den Erzeuger-Vermerk: eine Sichtung ohne Enddatum ist kein Ende. */
-const ohneVermerk: Release = { ...a.release, schedule: { ...a.release.schedule!, episodeCountAssumed: undefined } }
+const ohneVermerk: Release = { ...a.release, schedule: { ...a.release.schedule!, episodeCountAssumed: undefined, episodeCountNurGesichtet: undefined } }
 const datenOhne = { releaseBySlug: new Map([[ohneVermerk.slug, ohneVermerk]]) }
 const letzteOhne = expandEvents(ohneVermerk).at(-1)!
 pruefe('Sichtung ohne Enddatum und ohne Annahme-Vermerk: trotzdem kein Finale (Folge 122/122)', letzteOhne.episode === 122 && letzteOhne.episodeCount === 122 && !istStaffelfinale(letzteOhne, datenOhne), letzteOhne)

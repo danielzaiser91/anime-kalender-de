@@ -322,3 +322,7 @@
   url: https://www.amazon.de/gp/video/detail/B0F3TCT3TG
   grund: 'Seite hat 13 Folgen (11 + 2 Bonus) und gehört Staffel 3 (136804), nicht Staffel 2 mit 10 Folgen (Meldungen 4742, 8832, 24007; Zuordnung pendelte zwischen den Bestandsläufen, #2497)'
   entferntAm: '2026-10-31'
+- anilistId: 131264
+  url: https://www.amazon.de/gp/video/detail/B0D58K5WH5
+  grund: 'Seite gehört InuYasha (249): alle drei Meldungen (2723, 22754, 22794) lesen den Titel InuYasha, 27 Folgen, Staffel 2; Yashahime hat Crunchyroll und Joyn (Zuordnung 02.11.2026)'
+  entferntAm: '2026-11-02'

@@ -1,11 +1,11 @@
 {
-  "scrapedAt": "2026-11-02T05:03:54.476Z",
+  "scrapedAt": "2026-11-03T04:18:19.681Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 40,
-    "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
+    "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "schon in einem Rubrik-Feed gelesen": 32,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 49,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 51,
+    "schon in einem Rubrik-Feed gelesen": 30,
     "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 9,
     "Sprachhinweis älter als 45 Tage": 6
   },
@@ -392,7 +392,7 @@
           "folgen": 24
         }
       ],
-      "sammelGelesen": "2026-10-31"
+      "sammelGelesen": "2026-11-03"
     },
     {
       "articleTitle": "19,99 Euro pro Staffel: polyband startet große »Pokémon«-Rabattaktion",
@@ -770,10 +770,6 @@
       ],
       "dates": [
         {
-          "iso": "2026-11-02",
-          "context": "pisode von »PSYREN« wird demzufolge nicht wie ursprünglich geplant am 2. November 2026, sondern erst am 9. November 2026 im japanischen Fern"
-        },
-        {
           "iso": "2026-11-09",
           "context": "e nicht wie ursprünglich geplant am 2. November 2026, sondern erst am 9. November 2026 im japanischen Fernsehen ausgestrahlt und bei Crunchy"
         }
@@ -883,7 +879,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-10-31"
+      "sammelGelesen": "2026-11-03"
     },
     {
       "articleTitle": "Crunchyroll ergänzt zwei weitere Anime-Neuzugänge auf Deutsch",
@@ -1450,7 +1446,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-10-31"
+      "sammelGelesen": "2026-11-03"
     },
     {
       "articleTitle": "ProSieben FUN zeigt »Akame ga KILL!« als Pay-TV-Premiere",
@@ -1681,7 +1677,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-10-31"
+      "sammelGelesen": "2026-11-03"
     },
     {
       "articleTitle": "Zwei Anime-Neuzugänge ab sofort auf Netflix verfügbar",
@@ -2204,7 +2200,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-10-31"
+      "sammelGelesen": "2026-11-03"
     },
     {
       "articleTitle": "Blu-ray-Design von »My Love Story with Yamada-kun at Lv999« + Extras",
@@ -3163,7 +3159,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-31"
+      "sammelGelesen": "2026-11-03"
     },
     {
       "articleTitle": "Nutzer verlieren gekaufte Inhalte: Tapas bestätigt Abschaltung für 2027",

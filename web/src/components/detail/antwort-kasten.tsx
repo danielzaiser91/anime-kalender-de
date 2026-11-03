@@ -10,7 +10,7 @@ import { ankuendigungOhneTermin, ankuendigungZeile, titelSynchroAngekuendigt } f
 import { VermerkAuskunft } from './vermerk.tsx'
 import { Umschalter } from './umschalter.tsx'
 import { gruppeVon as gruppeVonPille, sichtbareStreamPillen, type Gruppe } from './stream-pillen.ts'
-import { deSeitQuelleSchluessel, kopfSchluesselOhneBeleg, erstausgabeAlsNeuigkeit, terminSatz, ungefaehr, fertigZahlText, teilweiseNeben } from './antwort-regeln.ts'
+import { deSeitQuelleSchluessel, kopfSchluesselOhneBeleg, erstausgabeAlsNeuigkeit, terminSatz, ungefaehr, fertigZahlText, deFolgenZahlText, teilweiseNeben, teilweiseHaupt } from './antwort-regeln.ts'
 import { abstandImSatz } from '../../lib/abstand.ts'
 import { type Antwort } from './antwort-typ.ts'
 import { deSeitZeigen } from './de-seit.ts'
@@ -373,9 +373,9 @@ export function AntwortKasten({
       die Serie aber nicht abdecken. Vorher fiel dieser Fall in „fertig" und
       wurde zu „Alle 12 Folgen auf Deutsch", obwohl vier belegt waren.
     */
-    haupt = antwort.raus === undefined ? T('antwort.teilweiseOhneZahl') : T('antwort.teilweiseZahl', { raus: antwort.raus, gesamt: antwort.gesamt })
+    haupt = teilweiseHaupt(antwort, T)
     neben = teilweiseNeben(antwort, T)
-    anteil = antwort.raus === undefined ? undefined : Math.round((antwort.raus / antwort.gesamt) * 100)
+    anteil = antwort.raus === undefined || !antwort.gesamtBelegt ? undefined : Math.round((antwort.raus / antwort.gesamt) * 100)
     zaehl = ''
   } else if (antwort.art === 'fertig') {
     /*
@@ -394,7 +394,7 @@ export function AntwortKasten({
     /* „Alle 1 Folgen" stand über OVAs mit einer Folge — dort sagt die Überschrift ohne Zahl dasselbe. */
     haupt = antwort.gesamt && antwort.gesamt > 1
       ? fertigZahlText(antwort.gesamt, antwort.gesamtAbgeleitet, T)
-      : folgenZahl && !antwort.gesamt && folgenZahl[1] > 1 ? T('antwort.teilweiseZahl', { raus: folgenZahl[1], gesamt: folgenZahl[0] }) : T('antwort.fertigTitel')
+      : folgenZahl && !antwort.gesamt && folgenZahl[1] > 1 ? deFolgenZahlText(folgenZahl, releases, T) : T('antwort.fertigTitel')
     /*
       **„Seit wann?" ist die einzige Frage, die hier noch offen war.**
 
