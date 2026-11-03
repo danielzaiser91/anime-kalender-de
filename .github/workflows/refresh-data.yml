@@ -110,7 +110,7 @@ jobs:
       # Liefert Datum, Uhrzeit UND Sprachfassung — die einzige Quelle neben Crunchyroll, die die Synchro selbst ausweist.
       - name: ADN-Kalender lesen
         env:
-          AK_ADN_PROXY: https://newsletter.animekalender.workers.dev/adn-gw
+          AK_ADN_PROXY: https://ak-adn-gw.animekalender.workers.dev/adn-gw
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: bash tools/schritt.sh --zeit 12m "ADN-Kalender" -- npm run data:adn
 

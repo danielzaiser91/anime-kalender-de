@@ -2,8 +2,9 @@
  * ADN-Durchreiche für die Datenläufe.
  *
  * Seit 28.10.2026 14:01 UTC liefert ADN dem GitHub-Runner nur noch den französischen Katalog (vostf/vf), obwohl die Anfrage
- * `X-Target-Distribution: de` trägt. Von einem Cloudflare Worker aus (Colo FRA, gemessen 03.11.2026) kommt derselbe Aufruf
- * mit vostde/vde zurück. Der Lauf fragt deshalb über diese Route; sie reicht nur lesende ADN-Pfade der Datenläufe durch.
+ * `X-Target-Distribution: de` trägt. Ein Worker im Colo des Runners (IAD) bekommt ihn ebenfalls französisch; mit Platzierung
+ * `aws:eu-central-1` (`adn-gw.wrangler.toml`) geht der Abruf von Frankfurt aus und kommt mit vostde/vde zurück (Messung aus dem
+ * Runner 03.11.2026). Der Lauf fragt deshalb über diese Route; sie reicht nur lesende ADN-Pfade der Datenläufe durch.
  */
 import { type Env } from './env.ts'
 import { tokenAusKopf, tokenGleich } from './lauf-token.ts'
@@ -23,7 +24,7 @@ export async function handleAdnGw(request: Request, env: Env): Promise<Response>
   if (request.method !== 'GET') return new Response('GET erwartet', { status: 405 })
   const url = new URL(request.url)
   const pfad = url.pathname.slice(ADN_PRAEFIX.length)
-  if (!ERLAUBT.some((m) => m.test(pfad))) return new Response('Pfad nicht erlaubt', { status: 404 })
+  if (!url.pathname.startsWith(`${ADN_PRAEFIX}/`) || !ERLAUBT.some((m) => m.test(pfad))) return new Response('Pfad nicht erlaubt', { status: 404 })
 
   const kopf = new Headers()
   for (const name of KOEPFE) {

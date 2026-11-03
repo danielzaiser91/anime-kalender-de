@@ -1,5 +1,4 @@
 import { DIENST_PAUSE } from '../../shared/dienst-pause.ts'
-import { ADN_PRAEFIX, handleAdnGw } from './adn-gw.ts'
 import { EXPORT_PAUSE_SEKUNDEN, EXPORT_PAUSE_TEXT, istD1Export, istD1Tageslimit, sekundenBisMitternachtUtc } from './d1-limit.ts'
 import { type Env } from './env.ts'
 import { zaehleWennFeed } from './feed-zaehler.ts'
@@ -56,8 +55,6 @@ export async function mitEingang(
   lauf: (env: Env) => Promise<Response>,
 ): Promise<Response> {
   const pfad = new URL(request.url).pathname
-  // Die ADN-Durchreiche braucht weder Lesedeckel noch D1.
-  if (pfad.startsWith(`${ADN_PRAEFIX}/`)) return await mitAuffangnetz(pfad, cors, () => handleAdnGw(request, env))
   return await mitAuffangnetz(pfad, cors, async () => {
     await zaehleWennFeed(request, env, new Date())
     return mitLesedeckel(request, env, kopfFuer(pfad, cors), lauf)

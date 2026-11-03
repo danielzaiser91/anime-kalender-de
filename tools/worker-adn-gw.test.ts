@@ -4,7 +4,8 @@
  * Aufruf: `npx tsx tools/worker-adn-gw.test.ts`
  */
 import { handleAdnGw } from '../worker/src/adn-gw.ts'
-import { mitEingang } from '../worker/src/auffangnetz.ts'
+import { readFileSync } from 'node:fs'
+import eingangWorker from '../worker/src/adn-gw-eingang.ts'
 import { adnWeg } from '../pipeline/lib/adn-weg.ts'
 import type { Env } from '../worker/src/env.ts'
 
@@ -52,17 +53,19 @@ for (const pfad of ['/user/me', '/video/show/abc', '/video/show/1/../../x', '/sh
   pruefe(r.status === 404 && gesehen.length === n, `Pfad ${pfad} nicht erlaubt`)
 }
 
-// Verdrahtung: der echte Eingang reicht die Route durch, ohne D1 (env hat keine DB).
+// Verdrahtung: der Eingang des eigenen Workers (`adn-gw-eingang.ts`) ruft die Durchreiche auf.
 const vorher = gesehen.length
-const eingang = await mitEingang(
-  new Request('https://w.example/adn-gw/video/show/1125?limit=100&offset=0', { headers: mitToken }),
-  env,
-  {},
-  async () => new Response('verteile erreicht', { status: 418 }),
-)
-pruefe(eingang.status === 200 && gesehen.length === vorher + 1, 'Eingang: /adn-gw wird durchgereicht, nicht an verteile gegeben')
-const eingang403 = await mitEingang(new Request('https://w.example/adn-gw/show'), env, {}, async () => new Response('x', { status: 418 }))
+const eingang = await eingangWorker.fetch(new Request('https://w.example/adn-gw/video/show/1125?limit=100&offset=0', { headers: mitToken }), env)
+pruefe(eingang.status === 200 && gesehen.length === vorher + 1, 'Eingang: /adn-gw wird durchgereicht')
+const eingang403 = await eingangWorker.fetch(new Request('https://w.example/adn-gw/show'), env)
 pruefe(eingang403.status === 403, 'Eingang: ohne Token 403')
+const fremd = await eingangWorker.fetch(new Request('https://w.example/show', { headers: mitToken }), env)
+pruefe(fremd.status === 404 && gesehen.length === vorher + 1, 'Eingang: Pfad ohne /adn-gw/ gar nicht erst abgerufen')
+
+// Ohne Platzierung läuft der Worker im Colo des Runners (IAD) und ADN antwortet französisch (Messung 03.11.2026).
+const toml = readFileSync(new URL('../worker/adn-gw.wrangler.toml', import.meta.url), 'utf8')
+pruefe(/^\[placement\]\s*\nregion = "aws:eu-central-1"/m.test(toml), 'Platzierung Frankfurt in adn-gw.wrangler.toml')
+pruefe(/^main = "src\/adn-gw-eingang\.ts"/m.test(toml), 'adn-gw.wrangler.toml startet den ADN-Eingang')
 
 const direkt = adnWeg({})
 pruefe(direkt.base === 'https://gw.api.animationdigitalnetwork.com' && Object.keys(direkt.auth).length === 0, 'ohne AK_ADN_PROXY: direkt, ohne Token')
