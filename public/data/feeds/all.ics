@@ -1291,6 +1291,16 @@ DESCRIPTION:Plattform: Disney+\nRelease-Art: Katalogtitel\nUhrzeit noch nic
 CATEGORIES:Disney+
 END:VEVENT
 BEGIN:VEVENT
+UID:bass-x-machina-netflix@2026-11-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261103
+DTEND;VALUE=DATE:20261104
+SUMMARY:Bass X Machina
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nUhrzeit noch nic
+ ht bestätigt.\nDetails: https://anime-kalender.de/t/-314271/
+CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-G24H1N334@2026-11-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261104T133000Z

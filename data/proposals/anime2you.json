@@ -1,11 +1,11 @@
 {
-  "scrapedAt": "2026-11-03T19:06:45.451Z",
+  "scrapedAt": "2026-11-03T22:03:23.933Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 5,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "schon in einem Rubrik-Feed gelesen": 7,
     "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 15,
+    "schon in einem Rubrik-Feed gelesen": 7,
     "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 1,
     "Sprachhinweis älter als 45 Tage": 6
   },
@@ -6560,7 +6560,7 @@
         }
       ],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": true
     },
     {
       "articleTitle": "Neuer Netflix-Teaser zur zweiten »Sakamoto Days«-Staffel + Visual",

@@ -8111,5 +8111,19 @@
       "gesehenAm": "2026-11-02",
       "stand": "aktuell"
     }
+  ],
+  "bass-x-machina-netflix": [
+    {
+      "url": "https://www.netflix.com/title/81088875",
+      "name": "netflix.com",
+      "gesehenAm": "2026-11-03",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://www.anime2you.de/news/1043257/netflix-bass-x-machina-angekuendigt/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-03",
+      "stand": "aktuell"
+    }
   ]
 }
