@@ -32,7 +32,7 @@ function starte(auftrag) {
 
 /**
  * Führt die Aufträge aus. `anfang` = Indizes, die zuerst starten (langsame); Ausgabe immer in Auftragsreihenfolge.
- * Ohne `alle` startet nach dem ersten roten Auftrag keiner mehr. `meldung(i)` kommt vor der Ausgabe von Auftrag i.
+ * Ohne `alle` startet nach dem ersten roten Auftrag keiner mehr. `meldung(i, sekunden)` kommt vor der Ausgabe von Auftrag i (mit seiner Laufzeit).
  * Mit `wurzel` (Git-Arbeitsbaum) wird nach dem Lauf geprüft, ob getrackte Dateien verändert wurden (`veraendert`).
  * Liefert `rote` (Indizes in Reihenfolge, mit Exit-Code in `status` und den letzten Ausgabezeilen in `ende`), die Zahl der gelaufenen Aufträge und `veraendert`.
  */
@@ -43,7 +43,7 @@ export async function laufePool(auftraege, { alle, anfang = [], n = POOLGROESSE,
   let abgebrochen = false
   let ausgegeben = 0
   const gib = (i) => {
-    meldung(i)
+    meldung(i, ergebnisse[i].sekunden)
     for (const [kanal, d] of ergebnisse[i].teile) (kanal === 1 ? process.stdout : process.stderr).write(d)
   }
   const ausgeben = () => {
@@ -54,7 +54,9 @@ export async function laufePool(auftraege, { alle, anfang = [], n = POOLGROESSE,
       const i = reihe[naechster++]
       const a = auftraege[i]
       a.vorher?.()
+      const start = performance.now()
       const e = await starte(a)
+      e.sekunden = (performance.now() - start) / 1000
       const fehler = e.status === 0 ? a.nachher?.(e) : null
       if (fehler) e.teile.push([2, `${fehler}\n`])
       e.rot = e.status !== 0 || Boolean(fehler)
