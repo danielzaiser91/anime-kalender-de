@@ -1,4 +1,5 @@
 import type { Release, Title } from '../../shared/types.ts'
+import { kanalStartBeiKaufweg } from '../../shared/kanal-start.ts'
 
 /**
  * **Die leise Zeile unter „Erstmals mit deutscher Synchro"** (Daniel, 06.10.2026, Vorschlag A): wann es losgeht, in welchem Takt und
@@ -44,4 +45,12 @@ export function neuJahre(t: Pick<Title, 'jpYear' | 'deErstausgabe'>, tag: string
   if (!von || tage < 90) return { jahre }
   const monate = Math.round(tage / 30.4)
   return { jahre, discSeitText: monate < 24 ? `${monate} Monaten` : `${Math.floor(monate / 12)} Jahren` }
+}
+
+/**
+ * Die Felder der Ankündigung zu „endlich …“: Startet ein Prime-Kanal bei einem Titel, den der Anbieter schon zum Kauf/zur Leihe führt, ist es
+ * kein „endlich im Stream“ (Angel's Egg, 03.11.2026), sondern ein neuer Weg: `schonKaufbar` statt Jahre und Disc-Dauer.
+ */
+export function ankuendigungJahre(t: Pick<Title, 'streams' | 'jpYear' | 'deErstausgabe'>, r: Pick<Release, 'platform' | 'kanal' | 'releaseType' | 'sprache'>, tag: string): { schonKaufbar: true } | ReturnType<typeof neuJahre> {
+  return kanalStartBeiKaufweg(t.streams, r) ? { schonKaufbar: true } : neuJahre(t, tag)
 }

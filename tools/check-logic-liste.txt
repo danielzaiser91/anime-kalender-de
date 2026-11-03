@@ -248,6 +248,7 @@ pipeline/check-kanal-merkliste-gesperrt-lauf.ts
 pipeline/check-kanal-merkliste.ts
 pipeline/check-kanal-messung.ts
 pipeline/check-kanal-namen.ts
+pipeline/check-kanal-start.ts
 pipeline/check-kanal-verlust.ts
 pipeline/check-kapitel-katalog.ts
 pipeline/check-kapitel-shop-wege.ts

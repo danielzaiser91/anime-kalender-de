@@ -11,7 +11,7 @@ import type { NewsArt, NewsEintrag, NewsMeldung } from '../../shared/news-typen.
 import type { NewsHistorie } from './news.ts'
 import type { DatiertNews } from './news-verlauf.ts'
 
-export const FESTE_FELDER = ['hinweis', 'anbieter', 'kanal', 'geschaetzt', 'jahre', 'discSeitText', 'omu'] as const
+export const FESTE_FELDER = ['hinweis', 'anbieter', 'kanal', 'geschaetzt', 'jahre', 'discSeitText', 'omu', 'schonKaufbar'] as const
 export type FesteFelder = Partial<Pick<NewsMeldung, (typeof FESTE_FELDER)[number]>>
 
 /** Nur diese Arten tragen die Felder aus der Ableitung; `nachgetragen` ist Handtext (`data/curated`), dessen Korrektur erlaubt bleibt. */
@@ -72,6 +72,16 @@ function ohneInterneNotiz<T extends NewsMeldung>(m: T): T {
   return rest as T
 }
 
+/**
+ * Berichtigte Meldungen (03.11.2026, Angel's Egg und Wolf Girl & Black Prince): „Nach 41 Jahren endlich im Stream“ war schon am Tag falsch, der Titel
+ * war bei Prime Video längst kaufbar; die Felder wurden einmalig in `data/news-historie.json` (`felder`) auf `schonKaufbar` umgestellt (`news-plan.md`).
+ * Nur diese Meldungen dürfen diese Felder ändern; Schlüssel `art:release:datum`.
+ */
+const BERICHTIGT: ReadonlyMap<string, readonly string[]> = new Map([
+  ['angekuendigt:auto-885-primevideo:2026-11-05', ['jahre', 'discSeitText', 'schonKaufbar']],
+  ['angekuendigt:auto-20701-primevideo:2026-11-19', ['jahre', 'discSeitText', 'schonKaufbar']],
+])
+
 /** Bestandswächter: Felder, die eine bestehende Meldung gegenüber dem Vorstand (`vorher`) ändert (mit `weiterer`); handgepflegte Arten zählen nicht. */
 export function felderAenderungen(vorher: NewsEintrag[], jetzt: NewsEintrag[]): string[] {
   const alt = new Map<string, NewsMeldung>()
@@ -83,6 +93,7 @@ export function felderAenderungen(vorher: NewsEintrag[], jetzt: NewsEintrag[]): 
       if (!a || !FESTE_ARTEN.has(m.art)) continue
       for (const f of [...FESTE_FELDER, 'weiterer' as const]) {
         if (f === 'hinweis' && m.art === 'angekuendigt') continue
+        if (BERICHTIGT.get(`${m.art}:${m.release}:${m.datum}`)?.includes(f)) continue
         if (JSON.stringify(a[f]) !== JSON.stringify(m[f])) zeilen.push(`${e.am} ${e.titel} [${m.art} ${m.release ?? m.platform ?? ''}] ${f}: ${JSON.stringify(a[f])} -> ${JSON.stringify(m[f])}`)
       }
     }

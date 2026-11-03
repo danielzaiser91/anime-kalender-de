@@ -28,6 +28,8 @@ export interface PosterKarteProps {
   buendel?: ReleaseEvent[]
   /** Derselbe Titel bei mehreren Anbietern am selben Tag (`vereineAnbieter`): geteilte Farbleiste, Angaben je Anbieter. */
   anbieter?: AnbieterKachel
+  /** Der Kachel-Anbieter startet in diesem Prime-Kanal, hat den Titel aber schon zum Kauf/zur Leihe (`kanalStartBeiKaufweg`): „neu bei Aniverse“. */
+  kanalStart?: string
   favorite: boolean
   hidden: boolean
   /** Schon vorbei (heute vor der aktuellen Uhrzeit) — tritt zurück. */
@@ -109,7 +111,7 @@ export function Unterzeile(p: PosterKarteProps & { saal: boolean }) {
           <AnbieterAngaben kachel={p.anbieter} t={t} />
         ) : (
           <>
-            <span>{anbieterZeile(p.event, t, p.buendel, p.art)}</span>
+            <span>{anbieterZeile(p.event, t, p.buendel, p.art)}{p.kanalStart ? ` · ${t('kal.kanalNeu', { kanal: p.kanalStart })}` : ''}</span>
             {!!weitereFolgen(p.buendel, t) && <span className="font-semibold text-ak-text">{weitereFolgen(p.buendel, t)}</span>}
           </>
         ))}

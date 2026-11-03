@@ -1,5 +1,6 @@
 import { zeitMitMarke } from '@shared/zeit-text.ts'
-import type { Release, ReleaseEvent } from '@shared/types.ts'
+import type { Release, ReleaseEvent, Title } from '@shared/types.ts'
+import { kanalStartBeiKaufweg } from '@shared/kanal-start.ts'
 import { anbieterDesKanals } from '@shared/kanal-anbieter.ts'
 
 /**
@@ -82,4 +83,11 @@ export function anbieterVerlauf(farben: string[]): string {
   const schritt = 100 / farben.length
   const teile = farben.map((f, i) => `${f} ${+(i * schritt).toFixed(2)}% ${+((i + 1) * schritt).toFixed(2)}%`)
   return `linear-gradient(to right, ${teile.join(', ')})`
+}
+
+/** Der Prime-Kanal, in dem ein Termin startet, obwohl der Anbieter den Titel schon zum Kauf/zur Leihe führt („neu bei Aniverse“), sonst `undefined`. */
+export const kanalStartVon = (titleById: Map<number, Title>, releaseBySlug: Map<string, Release>) => (ev: ReleaseEvent): string | undefined => {
+  const titel = titleById.get(ev.titleId)
+  const release = releaseBySlug.get(ev.releaseSlug)
+  return titel && release ? kanalStartBeiKaufweg(titel.streams ?? [], release) : undefined
 }

@@ -9,7 +9,7 @@ import { useSprungZuHeute } from '../lib/woche-sprung.ts'
 import { useZielTag } from '../lib/ziel-tag.ts'
 import { buendeleKacheln } from '../lib/buendel.ts'
 import { kartenArt } from '../lib/kachel-folgen.ts'
-import { eigenstaendigBeiAnbietern, kanalAnbieterVon, vereineAnbieter } from '../lib/anbieter-kachel.ts'
+import { eigenstaendigBeiAnbietern, kanalAnbieterVon, kanalStartVon, vereineAnbieter } from '../lib/anbieter-kachel.ts'
 import { gesehenLesen, neuesteErschienen, neuSeitGesehen } from '../lib/gesehen.ts'
 import { PosterKarte } from './kalender/PosterKarte.tsx'
 import { useHoverCover } from './kalender/HoverCover.tsx'
@@ -216,6 +216,7 @@ function PosterRaster({
             art={kachel.map((b) => kartenArt(b, p.data)).find(Boolean)}
             buendel={kachel[0]}
             anbieter={kachel.length > 1 ? kachel : undefined}
+            kanalStart={kachel.length === 1 ? kanalStartVon(p.data.titleById, p.data.releaseBySlug)(ev) : undefined}
             favorite={p.favorites.has(ev.titleId)}
             hidden={p.hidden.has(ev.titleId)}
             vorbei={heute && kachel.every((b) => !!b[0]!.time && b[0]!.time < now)}

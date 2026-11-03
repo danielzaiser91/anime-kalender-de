@@ -20,7 +20,7 @@ export function pilleUnten({ title, s, releases, folgenAngabe, today, t }: {
       folgenAngabe,
       streamStatus(title, s, releases) === 'justwatch' ? t('detail.stand', { datum: formatDate(s.dubStand!) }) : '',
       s.teilBereich ? teilAngaben(title, s.teilBereich, t, folgenAngabe).unten : '',
-      seitAbText(seitDatumFuerPille(title, s.platform, releases), today, t),
+      seitAbText(seitDatumFuerPille(title, s.platform, releases, s.kanal), today, t),
     ]
       .filter(Boolean)
       .join(' · ') || undefined

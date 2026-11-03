@@ -66,6 +66,7 @@ export function newsSatz(m: NewsMeldung, am?: string): string {
          eigene, leisere Zeile daneben — in der Übersicht kurz, im Aufgeklappten ausführlich. */
       if (m.omu) return t(m.omu === 'synchro-angekuendigt' ? 'news.omuAngekuendigt' : 'news.omuOffen', { wann: omuStartText(m.datum ?? ''), anbieter }) + lautQuelle(m, am)
       if (m.platform === 'tv' && m.datum) return t(m.premiere ? 'news.angekuendigtTvPremiere' : 'news.angekuendigtTv', { sender: m.anbieter ? ` bei ${m.anbieter}` : '', tag: weekdayName(m.datum), datum }) + lautQuelle(m, am)
+      if (m.schonKaufbar) return t('news.angekAbo', { datum, anbieter }) + lautQuelle(m, am)
       if (m.jahre && anbieter) return t(m.discSeitText ? 'news.angekNachJahrenStream' : 'news.angekNachJahren', { jahre: m.jahre, datum, anbieter, disc: m.discSeitText ?? '' }) + lautQuelle(m, am)
       return t('news.angekuendigt', { datum, anbieter }) + lautQuelle(m, am)
     case 'rhythmus':
