@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Wächter für die Zugänge, von denen die automatischen Läufe leben (`data/zugangs-register.json`).
+ * Wächter für die Zugänge, von denen die automatischen Läufe leben (`data/zugangs-register.json`; Fristen in `tools/wache-fristen.mjs`).
  * Er liest nie einen Secret-Wert — nur Namen und den Verlauf der Läufe (`gh run list`).
  *
  *   node tools/zugangs-waechter.mjs                    # Läufe in ihrer Frist? Kontingent leer? Ablauf nah?
@@ -10,6 +10,7 @@
  */
 import { execFileSync } from 'node:child_process'
 import { readFileSync, readdirSync } from 'node:fs'
+import { FRISTEN_ZUGANG } from './wache-fristen.mjs'
 
 const WURZEL = new URL('..', import.meta.url)
 const register = JSON.parse(readFileSync(new URL('data/zugangs-register.json', WURZEL), 'utf8'))
@@ -186,7 +187,7 @@ function main() {
     return
   }
   const zeilen = []
-  for (const [workflow, spez] of Object.entries(register.laeufe)) zeilen.push(...pruefeLauf(workflow, spez))
+  for (const [workflow, spez] of Object.entries(register.laeufe)) zeilen.push(...pruefeLauf(workflow, { ...spez, fristStunden: FRISTEN_ZUGANG[workflow] ?? null }))
   zeilen.push(weckerBefund())
   const { aus, ohne } = ablaufBefunde()
   zeilen.push(...aus)

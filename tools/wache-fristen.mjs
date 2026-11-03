@@ -33,6 +33,22 @@ export const FRISTEN_STUNDEN = {
   'tonspuren-monatlich.yml': 792,
 }
 
+/** Fristen der Zugangs-Wache (`tools/zugangs-waechter.mjs`), bis sie mit `FRISTEN_STUNDEN` zusammenfallen; vorher in `data/zugangs-register.json`. */
+export const FRISTEN_ZUGANG = {
+  'refresh-hourly.yml': 5,
+  'refresh-data.yml': 36,
+  'refresh-weekly.yml': 216,
+  'daten-auf-abruf.yml': 36,
+  'anisearch-katalog.yml': 36,
+  'tonspuren-monatlich.yml': 840,
+  'bestand-bauen.yml': 24,
+  'd1-verbrauch.yml': 48,
+  'claude-anime2you-extraktion.yml': 48,
+  'claude-wache-urteil.yml': 48,
+  'claude-verpasst-recherche.yml': 48,
+  'claude-daten-merge.yml': 48,
+}
+
 /** Befunde aller Workflows; `letzterErfolg(workflow)` liefert Millisekunden oder null und darf werfen. */
 export function pruefeFristen(letzterErfolg, jetzt, fristen, ausgabe = () => {}) {
   const befunde = []
