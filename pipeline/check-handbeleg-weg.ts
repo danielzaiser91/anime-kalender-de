@@ -108,6 +108,7 @@ pruefe('der belegte Weg bleibt, mit Herkunft „handbeleg“, der erratene fäll
 pruefe('Gegenprobe: ohne Beleg fällt alles', behalten([], [weg(URL_BELEG)]).length === 0)
 pruefe('Gegenprobe: ein Nein trägt keinen Weg', behalten([ja({ dub: false })], [weg(URL_BELEG)]).length === 0)
 pruefe('Gegenprobe: ein Beleg ohne Adresse trägt keinen Weg', behalten([ja({ url: undefined })], [weg(URL_BELEG)]).length === 0)
+pruefe('Gegenprobe: ein Beleg ohne Urteil und ohne Kanal-Kennzeichnung trägt keinen Weg', behalten([ja({ dub: undefined })], [weg(URL_BELEG)]).length === 0)
 /* Ohne die Adress-Bedingung träfe der leere Kern des Belegs den leeren Kern eines Wegs ohne Adresse. */
 pruefe('Gegenprobe: ein Beleg ohne Adresse trägt auch keinen Weg ohne Adresse', behalten([ja({ url: undefined })], [weg('')]).length === 0)
 const spaeterWeg = verschmelze(ja(), { anilistId: OVA, platform: 'crunchyroll', url: URL_BELEG, available: false, checkedAt: '2026-10-14' })
