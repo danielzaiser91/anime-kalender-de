@@ -28,8 +28,11 @@ export function dauerZeilen(namen, sekunden, n = 25) {
 // Ein Hänger endet so nach 10 min statt am Job-Timeout von 30 min.
 export const FRIST_S = 600
 
+/** Argumente für `taskkill`: `/T` nimmt die Kindprozesse mit. */
+export const taskkillArgs = (pid) => ['/T', '/F', '/PID', String(pid)]
+
 /** Beendet den Prozess samt Kindern: Linux Prozessgruppe (Auftrag läuft als Gruppenführer), Windows `taskkill /T`. */
-export function beendeBaum(pid, { plattform = process.platform, gruppe = (p) => process.kill(-p, 'SIGKILL'), taskkill = (p) => spawnSync('taskkill', ['/T', '/F', '/PID', String(p)], { windowsHide: true, stdio: 'ignore', timeout: 15_000 }) } = {}) {
+export function beendeBaum(pid, { plattform = process.platform, gruppe = (p) => process.kill(-p, 'SIGKILL'), taskkill = (p) => spawnSync('taskkill', taskkillArgs(p), { windowsHide: true, stdio: 'ignore', timeout: 15_000 }) } = {}) {
   try {
     if (plattform === 'win32') taskkill(pid)
     else gruppe(pid)

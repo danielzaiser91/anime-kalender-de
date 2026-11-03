@@ -8,7 +8,7 @@ import { execFileSync } from 'node:child_process'
 import { mkdtempSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { beendeBaum, dauerZeilen, laufePool, letzteZeilen } from './arbeiterpool.mjs'
+import { beendeBaum, dauerZeilen, FRIST_S, laufePool, letzteZeilen, taskkillArgs } from './arbeiterpool.mjs'
 import { gitStand, veraenderte } from './git-stand-wache.mjs'
 
 const knoten = (code) => ({ befehl: process.execPath, args: ['-e', code], env: process.env })
@@ -137,6 +137,8 @@ if (process.platform === 'win32') {
   beendeBaum(42, { plattform: 'win32', taskkill: ziel('taskkill'), gruppe: ziel('gruppe') })
   beendeBaum(43, { plattform: 'linux', taskkill: ziel('taskkill'), gruppe: ziel('gruppe') })
   assert.deepEqual(aufrufe, [['taskkill', 42], ['gruppe', 43]], 'Windows nimmt taskkill, sonst die Prozessgruppe')
+  assert.deepEqual(taskkillArgs(7), ['/T', '/F', '/PID', '7'], 'taskkill nimmt Kindprozesse (/T) mit')
+  assert.ok(FRIST_S >= 120 && FRIST_S <= 1500, 'Standardfrist liegt über dem langsamsten Test (147 s lokal) und unter dem Job-Timeout (1800 s)')
   beendeBaum(44, { plattform: 'linux', gruppe: () => { throw new Error('ESRCH') } })
   console.log('  ✓ beendeBaum: Weg je Plattform, bereits beendeter Prozess wirft nicht')
 }
