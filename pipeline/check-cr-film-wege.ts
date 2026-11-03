@@ -18,7 +18,7 @@ const FILM_1 = ['GR0XPDJ0Y', 'GD9UV5DDX']
 const FILM_2 = ['GR790PW36', 'GQJUGK77Q']
 const fuehrtZu = (urls: string[], ids: string[]): boolean => urls.some((u) => ids.some((id) => new RegExp(`/watch/${id}(?:[/?#]|$)`).test(u)))
 
-const SERIE ='https://www.crunchyroll.com/de/series/GR24GX896/kabaneri-of-the-iron-fortress'
+const SERIE = 'https://www.crunchyroll.com/de/series/GR24GX896/kabaneri-of-the-iron-fortress'
 const titel = (id: number, episodes: number, format: string, name: string): Title =>
   ({ id, episodes, format, titleEn: name, streams: [{ platform: 'crunchyroll', url: SERIE, dub: true, sharedWith: 3 }] }) as unknown as Title
 const staffeln = new Map([['GR24GX896', [{ name: 'Kabaneri of the Iron Fortress', folgen: 12 }]]])
