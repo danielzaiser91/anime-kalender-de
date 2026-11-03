@@ -4,7 +4,8 @@ import { deutschLautAnisearch, deutschGeplantLautAnisearch } from './ohne-beleg.
 /**
  * **Ein Termin, dessen Quelle nur den Originalton nennt, gehört nicht in den Kalender**, solange weder eine deutsche Fassung
  * belegt noch eine angekündigt ist (Daniel, 14.10.2026, Dragon Ball Super: Beerus auf Netflix: „keine Deutsch-Ankündigung = Erwartung OmU = kein Eintrag").
- * Der Titel bleibt im Bestand, auch die Releases (der Weg trägt weiter „nur Untertitel“); nur die Ereignisse entfallen.
+ * Die Releases bleiben (der Weg trägt weiter „nur Untertitel“); nur die Ereignisse entfallen. Hat der Titel gar keinen anderen
+ * Termin (`nurOmuTitel`), steht er seit dem 26.10.2026 nicht im Hauptbestand, sondern wandert mit `hinter-toggle.ts`.
  */
 export function omuOhneDeutschBeleg(t: Title | undefined): boolean {
   if (!t) return false
