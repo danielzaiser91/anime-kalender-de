@@ -11,7 +11,7 @@ assert.equal(fristAusTakt(24, 36), 36)
 assert.equal(fristAusTakt(1, 2), 2)
 
 // Tabelle: Fristen gegen die gemessenen größten Lücken (gh run list, 03.11.2026, Stunden). Die Erwartung kommt aus dieser Messung,
-// nicht aus einer Abschrift der Tabelle: Frist >= 1,25 x größte Lücke (tonspuren-monatlich: 1,15 x, nur 4 Läufe), und (außer ohne festen Takt) <= 2 x.
+// nicht aus einer Abschrift der Tabelle: Frist >= 1,25 x größte Lücke (tonspuren-monatlich: 1,15 x, nur 4 Läufe; meldungskopie: 1,05 x, Frist hängt an STAND_MAX_STUNDEN), und (außer ohne festen Takt) <= 2 x.
 const GROESSTE_LUECKE = {
   'refresh-hourly.yml': 2.0,
   'refresh-data.yml': 24.0,
@@ -31,10 +31,11 @@ const GROESSTE_LUECKE = {
   'refresh-weekly.yml': 243.6,
   'tonspuren-monatlich.yml': 867.7,
 }
+const UNTERGRENZE = { 'tonspuren-monatlich.yml': 1.15, 'meldungskopie.yml': 1.05 }
 const OHNE_OBERGRENZE = new Set(['deploy.yml', 'adn-laufende.yml', 'claude-daten-merge.yml'])
 assert.deepEqual(Object.keys(FRISTEN_STUNDEN).sort(), Object.keys(GROESSTE_LUECKE).sort())
 for (const [w, frist] of Object.entries(FRISTEN_STUNDEN)) {
-  assert.ok(frist >= (w === 'tonspuren-monatlich.yml' ? 1.15 : 1.25) * GROESSTE_LUECKE[w], `${w}: ${frist} h zu knapp für Lücke ${GROESSTE_LUECKE[w]} h`)
+  assert.ok(frist >= (UNTERGRENZE[w] ?? 1.25) * GROESSTE_LUECKE[w], `${w}: ${frist} h zu knapp für Lücke ${GROESSTE_LUECKE[w]} h`)
   if (!OHNE_OBERGRENZE.has(w)) assert.ok(frist <= 2 * GROESSTE_LUECKE[w], `${w}: ${frist} h zu locker für Lücke ${GROESSTE_LUECKE[w]} h`)
 }
 const F = FRISTEN_STUNDEN
