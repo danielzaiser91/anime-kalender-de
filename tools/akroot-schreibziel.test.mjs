@@ -78,6 +78,7 @@ export function schreibzielLauf(wurzel, skripte, starte) {
  * der längste Test der Kette. Verglichen wird der Repo-Stand vor und nach dem ganzen Stapel; ändert sich etwas, benennt ein Einzellauf den Verursacher.
  */
 export async function schreibzielStapel(wurzel, skripte, starteParallel, starteEinzeln, breite) {
+  if (!(breite >= 1)) throw new Error(`schreibzielStapel: Breite ${breite} lässt keine Prüfung laufen`)
   const davor = repoStand(wurzel)
   const codes = new Array(skripte.length)
   let naechster = 0
@@ -130,6 +131,7 @@ async function pruefeStapel() {
       assert.deepEqual(mitSchreiber.verstoesse, ['schreibt.mjs schreibt ins Repo: ins-repo.txt'], `Stapel (Breite ${breite}): der Schreiber wird mit Namen gefunden`)
       rmSync(join(dir, 'ins-repo.txt'), { force: true })
     }
+    await assert.rejects(schreibzielStapel(dir, still, parallel, einzeln, 0), /Breite 0 lässt keine Prüfung laufen/, 'Stapel: Breite 0 wird abgewiesen, kein stiller Leerlauf')
     // Verursacher nicht auffindbar (ein Zweitlauf schreibt nicht mehr): der Stapel meldet die Dateien trotzdem.
     const einmal = einzeln
     writeFileSync(join(dir, 'einmalig.mjs'), "import { existsSync, writeFileSync } from 'node:fs'\nif (!existsSync('einmal.txt')) writeFileSync('einmal.txt', 'x')\n")
@@ -186,6 +188,8 @@ try {
   assert.ok(checks.length > 0, 'keine Prüfung mit Kulisse gefunden')
   const { verstoesse, ungeprueft } = await schreibzielStapel(WURZEL, checks, (f) => laufeAsync(join(WURZEL, 'pipeline', f)), (f) => laufe(join(WURZEL, 'pipeline', f)), availableParallelism())
   for (const zeile of ungeprueft) console.log(`akroot-schreibziel: ${zeile}`)
+  // Ein Leerlauf (Stapel fährt nichts) meldet lauter „ungeprüft“ und bliebe sonst grün; gemessen 03.11.2026: 1 von 119.
+  assert.ok(ungeprueft.length * 2 < checks.length, `Stapel fuhr kaum Prüfungen: ${ungeprueft.length} von ${checks.length} ungeprüft`)
   assert.equal(verstoesse.length, 0, verstoesse.join('\n'))
   console.log(`akroot-schreibziel: ${checks.length} Prüfungen mit Kulisse, ${ungeprueft.length} ungeprüft, 0 schreiben ins Repo`)
 } finally {
