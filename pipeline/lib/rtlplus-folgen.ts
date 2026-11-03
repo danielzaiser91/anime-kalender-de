@@ -158,6 +158,7 @@ export function rtlplusWochentermine(
         episodeCount: reihe.at(-1)!.nr - erste.nr + 1,
         /* Die Zahl ist die letzte gesehene Folge, kein Ende: ohne den Vermerk stünde jede Woche „Staffelfinale“ (Beyblade X, 26.10.2026). */
         episodeCountAssumed: true,
+        episodeCountNurGesichtet: true,
         observed: Object.fromEntries(reihe.map((f) => [f.nr, f.ab!])),
       },
       tvLetzteSichtung: letzte,

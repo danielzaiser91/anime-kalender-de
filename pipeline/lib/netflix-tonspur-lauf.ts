@@ -7,6 +7,7 @@
  */
 import { leseNetflixTonspur, netflixKennung, type TonspurUrteil } from './netflix-tonspur.ts'
 import type { DubCheck } from './dub-confirmed.ts'
+import { netflixBefund } from './link-rauschen.ts'
 import type { Title } from '../../shared/types.ts'
 
 /** Mehr offene Filme als das holt ein Lauf nicht; der Rest kommt in der nächsten Woche. */
@@ -20,6 +21,7 @@ export interface TonspurBefund {
   geprueftAm: string
   audio?: TonspurUrteil
   audioAm?: string
+  erstes404?: string
 }
 
 export interface NetflixFilm {
@@ -120,7 +122,7 @@ export async function leseNetflixFilme(o: {
     const gelesen = antwort.status === 200 ? leseNetflixTonspur(antwort.text) : { urteil: 'unbekannt' as const, sprachen: [] }
     erg[gelesen.urteil]++
     /* Ohne bisherigen Befund zählt nur eine echte Antwort als Status; eine Zeitüberschreitung (0) ist keine Auskunft. */
-    const basis = o.bestand[film.url] ?? { status: antwort.status > 0 ? antwort.status : 'fehler', geprueftAm: o.heute }
+    const basis = o.bestand[film.url] ?? netflixBefund(film.url, undefined, { status: antwort.status > 0 ? antwort.status : 'fehler', geprueftAm: o.heute })
     o.bestand[film.url] = { ...basis, audio: gelesen.urteil, audioAm: o.heute }
     if (gelesen.urteil === 'ja') erg.zeilen.push(...tonspurBelegZeilen(film, gelesen.sprachen, o.heute))
   }

@@ -12,6 +12,8 @@ function festerStatus(id) {
   return eintraege.find(([k]) => k === id)?.[1]
 }
 
+const fragen = new Map()
+
 globalThis.fetch = async (url) => {
   const pfad = new URL(String(url)).pathname
   if (pfad.startsWith('/video/show/')) {
@@ -25,7 +27,11 @@ globalThis.fetch = async (url) => {
       return new Response(JSON.stringify({ videos: voll }), { status: 200 })
     }
     if (status) return new Response('{}', { status: Number(status) })
-    const videos = JSON.parse(readFileSync(process.env.AK_ADN_ANTWORT, 'utf8'))
+    // `$AK_ADN_ANTWORT_NACH`: Antwort ab der zweiten Frage nach derselben Serie (ADN wechselt zurück zur deutschen Sicht).
+    const nummer = (fragen.get(pfad) ?? 0) + (offset === 0 ? 1 : 0)
+    fragen.set(pfad, nummer)
+    const datei = nummer > 1 && process.env.AK_ADN_ANTWORT_NACH ? process.env.AK_ADN_ANTWORT_NACH : process.env.AK_ADN_ANTWORT
+    const videos = JSON.parse(readFileSync(datei, 'utf8'))
     return new Response(JSON.stringify({ videos }), { status: 200 })
   }
   if (pfad === '/show') {

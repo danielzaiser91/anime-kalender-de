@@ -306,6 +306,11 @@ function uhrzeitAusPlan(s: NonNullable<Release['schedule']>) {
   return s.time && s.timeEstimated ? { time: s.time, timeEstimated: true } : { time: s.time }
 }
 
+/** Die Folgenzahl am Termin; steht sie nur für die letzte gesichtete Folge, gibt es keinen Nenner. */
+function gesamtzahl(s: NonNullable<Release['schedule']>, letzte: number): { episodeCount?: number } {
+  return s.episodeCountNurGesichtet ? {} : { episodeCount: letzte }
+}
+
 function termineAusPlan(release: Release): ReleaseEvent[] {
   const s = release.schedule
   if (!s?.firstEpisodeDate || release.widerlegt) return []
@@ -492,7 +497,7 @@ function termineAusPlan(release: Release): ReleaseEvent[] {
       id: `${release.slug}@${date}`,
       date,
       episode,
-      episodeCount: last,
+      ...gesamtzahl(s, last),
       estimated: terminGeschaetzt(s, episode, date, lastAnchor, first),
       /*
         **Nur der Tag, an dem wirklich nichts kam, trägt den Vermerk.**
@@ -554,7 +559,7 @@ function termineAusPlan(release: Release): ReleaseEvent[] {
       id: `${release.slug}@${alterTag}`,
       date: alterTag,
       episode,
-      episodeCount: last,
+      ...gesamtzahl(s, last),
       estimated: undefined,
       verpasst: v,
     })

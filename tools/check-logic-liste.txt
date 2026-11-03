@@ -26,6 +26,7 @@ pipeline/check-adn-sprachriegel.ts
 pipeline/check-adn-titelliste-abruf.ts
 pipeline/check-adressen-schreiben.ts
 pipeline/check-adressen.ts
+pipeline/check-aktualisierung-verborgen.ts
 pipeline/check-anbieter-logo.ts
 pipeline/check-angebot-feed.ts
 pipeline/check-angebot-seit-disc.ts
@@ -191,13 +192,19 @@ pipeline/check-folgentitel-englisch.ts
 pipeline/check-folgentitel-luecke-lauf.ts
 pipeline/check-folgentitel-luecke.ts
 pipeline/check-folgenzahl-belegt.ts
+pipeline/check-folgenzahl-kasten.ts
 pipeline/check-folgenzahl-kennzeichnung.ts
+pipeline/check-folgenzahl-sichtung.ts
 pipeline/check-gleiche-adresse.ts
 pipeline/check-hand-gesehen.ts
+pipeline/check-handbeleg-anbieter-zaehlung.ts
 pipeline/check-handbeleg-fremde-adresse.ts
+pipeline/check-handbeleg-notizseite-lauf.ts
+pipeline/check-handbeleg-notizseite.ts
 pipeline/check-handbeleg-serienton.ts
 pipeline/check-handbeleg-staffelzaehlung.ts
 pipeline/check-handbeleg-weg.ts
+pipeline/check-handbelege-anbieter-zaehlung-lauf.ts
 pipeline/check-handlung-eigen-hinweis.ts
 pipeline/check-handlung-eigen.ts
 pipeline/check-herkunft-je-folge.ts
@@ -236,6 +243,7 @@ pipeline/check-kanal-ja-sprach-termin.ts
 pipeline/check-kanal-je-seite.ts
 pipeline/check-kanal-leser.ts
 pipeline/check-kanal-luecken-lader.ts
+pipeline/check-kanal-merkliste-doppelt.ts
 pipeline/check-kanal-merkliste-gesperrt-lauf.ts
 pipeline/check-kanal-merkliste.ts
 pipeline/check-kanal-messung.ts
@@ -254,6 +262,7 @@ pipeline/check-leerer-kasten.ts
 pipeline/check-leerzeichen-gleich.ts
 pipeline/check-leerzeichen-workflow.ts
 pipeline/check-leinwand-escape.ts
+pipeline/check-lesestelle.ts
 pipeline/check-link-leere-adresse.ts
 pipeline/check-links-laufzeit.ts
 pipeline/check-links-sperre-laufzeit.ts
@@ -285,6 +294,7 @@ pipeline/check-netflix-tonspur.ts
 pipeline/check-netflix-umleitung-ablauf.ts
 pipeline/check-netflix-umleitung.ts
 pipeline/check-netflix-zweite-kennung.ts
+pipeline/check-netflix-zweites-404.ts
 pipeline/check-neu-auf-deutsch.ts
 pipeline/check-neuigkeiten-panel.ts
 pipeline/check-news-altbestand.ts
@@ -371,6 +381,7 @@ pipeline/check-sprache-netz.ts
 pipeline/check-sprache-termin.ts
 pipeline/check-sprecher-anisearch.ts
 pipeline/check-sprecher-filter.ts
+pipeline/check-sprung-lesestelle.ts
 pipeline/check-staerkste-seite.ts
 pipeline/check-staffel-jahr0.ts
 pipeline/check-staffel-synonyme.ts
@@ -378,6 +389,7 @@ pipeline/check-staffel-teil.ts
 pipeline/check-staffel-verdrahtung.ts
 pipeline/check-staffel-von-hand-ablauf.ts
 pipeline/check-staffel-von-hand.ts
+pipeline/check-staffelsumme.ts
 pipeline/check-stand-halten.ts
 pipeline/check-studio-archiv.ts
 pipeline/check-stuetzpunkt-ueberholt.ts
@@ -411,6 +423,7 @@ pipeline/check-tmdb-hauptserie.ts
 pipeline/check-tmdb-katalog.ts
 pipeline/check-tmdb-staffel0.ts
 pipeline/check-tmdb-suche.ts
+pipeline/check-tote-adresse-runden.ts
 pipeline/check-tote-adressen-lauf.ts
 pipeline/check-trailer-auswahl.ts
 pipeline/check-trailer-lauf.ts

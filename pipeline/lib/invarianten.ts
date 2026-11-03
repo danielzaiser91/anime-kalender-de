@@ -112,6 +112,21 @@ export function widerlegteOhneTermine(releases: Release[], events: ReleaseEvent[
   return [...zahl].map(([slug, n]) => `"${slug}": widerlegt, aber ${n} Termin(e) im Kalender`)
 }
 
+const SICHTUNGS_RELEASE = /^auto-\d+-(tv-|rtlplus-staffel-)/
+
+/**
+ * DD-24: Eine Gesamtzahl, die nur die höchste gesichtete Folge ist (Beyblade X: „123/≈123“ bei RTL+, „122/122“ bei TOGGO, Japan bei 138),
+ * steht an keinem Termin. Die automatischen Sichtungs-Releases tragen `episodeCountNurGesichtet`, ihre Termine keine `episodeCount`.
+ */
+export function sichtungAlsGesamtzahl(releases: Release[], events: ReleaseEvent[]): string[] {
+  const nurGesichtet = new Set(releases.filter((r) => r.schedule.episodeCountNurGesichtet).map((r) => r.slug))
+  const ohneVermerk = releases.filter((r) => SICHTUNGS_RELEASE.test(r.slug) && r.schedule.episodeCountAssumed && !nurGesichtet.has(r.slug))
+  return [
+    ...ohneVermerk.map((r) => `"${r.slug}": Sichtungszahl ${r.schedule.episodeCount} ohne episodeCountNurGesichtet`),
+    ...events.filter((e) => nurGesichtet.has(e.releaseSlug) && e.episodeCount !== undefined).map((e) => `"${e.id}": Gesamtzahl ${e.episodeCount} aus gesichteten Folgen`),
+  ]
+}
+
 /** Alle Invarianten über Releases und Termine. */
 export function pruefeInvarianten(releases: Release[], events: ReleaseEvent[], titles: Map<number, Title>): Invarianten {
   const verweise = verweiseAufgeloest(releases, events, titles)
@@ -120,6 +135,7 @@ export function pruefeInvarianten(releases: Release[], events: ReleaseEvent[], t
       ...slugsEindeutig(releases), ...folgennummernEindeutig(releases, events), ...verweise.fehler,
       ...folgenDatumSteigt(releases, events), ...filmOhneMehrereFolgen(releases, titles), ...deutschNichtVorJapan(releases, titles),
       ...terminKennungenEindeutig(events), ...widerlegteOhneTermine(releases, events),
+      ...sichtungAlsGesamtzahl(releases, events),
     ],
     warnungen: verweise.warnungen,
   }
