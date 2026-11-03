@@ -28,7 +28,7 @@ const LESBAR = /\.(mjs|cjs|js|mts|ts|tsx|sh|json|ya?ml|txt)$/
 const LISTEN = ['tools/check-logic-liste.txt', 'tools/check-bestand-liste.txt']
 const AUSNAHMEN = 'tools/skript-aufrufer-ausnahmen.txt'
 // Ein Grund, der nur die offene Entscheidung nennt, ist keiner (z40, 03.11.2026).
-const KEIN_GRUND = /verwaist|besitzer\s+kl(?:ae|ä|a)ren|ungekl(?:ae|ä|a)rt|tbd/i
+const KEIN_GRUND = /verwaist|besitzer\s+kl(?:ae|ä|a)ren|ungekl(?:ae|ä|a)rt|\btbd\b/i
 
 const maskiere = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 const istTest = (pfad) => /\.test\./.test(pfad)

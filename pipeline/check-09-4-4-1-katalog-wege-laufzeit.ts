@@ -93,6 +93,20 @@ try {
   }
   const neu = titles.get(900501)!.streams[0]!
   erwarte('neuer Weg: ohne Anhang der aniSearch-Adresse, deutsch belegt', [neu.url.includes('?'), neu.dub], [false, true])
+  /* Verdrahtung: derselbe Null-Block-Fall durch den echten Aufrufer der Phase (reicht `crDub` durch?). */
+  const { legeCrVerweiseUndTermineAn } = await import('./bau/09-4-4-termine.ts')
+  const ueberAufrufer = { id: 900511, slug: 'wege-aufrufer-900511', streams: [] } as unknown as Title
+  legeCrVerweiseUndTermineAn({
+    titles: new Map([[ueberAufrufer.id, ueberAufrufer]]),
+    anisearch,
+    belegt: 0,
+    crDub,
+    verschwunden: 0,
+    usNeinOffen: 0,
+    nachUrl: new Map(),
+    releases: [],
+  })
+  erwarte('über legeCrVerweiseUndTermineAn: Null-Block-Serie bekommt keinen Katalog-Weg', ueberAufrufer.streams.length, 0)
   erwarte('Ein Titel ohne aniSearch-Eintrag bleibt ohne Weg', (() => {
     const t = { id: 900599, slug: 'wege-900599', streams: [] } as unknown as Title
     legeCrWegeAusKatalogAn({ titles: new Map([[t.id, t]]), anisearch: {}, crDub, handNein })
