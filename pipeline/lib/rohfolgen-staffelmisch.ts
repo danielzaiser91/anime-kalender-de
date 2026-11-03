@@ -1,4 +1,6 @@
 import { ohneDoppelte } from './rohfolgen-doppelte.ts'
+import { doppelteNetflixKennungen, ohneFremdeNetflixMeldungen, type FremdeMeldung } from './netflix-fremde-meldung.ts'
+import { warn } from './util.ts'
 
 /**
  * Ab diesem Zeitpunkt liest die Erweiterung nach einem Staffelwechsel ohne Neuladen die Folgen der neuen Seite
@@ -18,6 +20,8 @@ interface MitStaffel {
   plattform?: string | null
   staffel_nr?: number | null
   seiten_kennung?: string | null
+  gti?: string | null
+  staffel_text?: string | null
 }
 
 /**
@@ -38,9 +42,11 @@ export function ohneStaffelmischung<T extends MitStaffel>(folgen: T[]): { folgen
   return { folgen: folgen.filter((f) => !weg.has(f.id)), verworfen }
 }
 
-/** Entdoppeln und Mischverdacht in einem Zug: `veraltet` sind alle Kennungen, die abgehakt werden. */
-export function bereinigeAltbestand<T extends MitStaffel>(folgen: T[]): { folgen: T[]; veraltet: number[] } {
+/** Entdoppeln, Mischverdacht und fremde Netflix-Meldungen in einem Zug: `veraltet` sind alle Kennungen, die abgehakt werden. */
+export function bereinigeAltbestand<T extends MitStaffel>(folgen: T[], fremde: FremdeMeldung[] = []): { folgen: T[]; veraltet: number[] } {
   const entdoppelt = ohneDoppelte(folgen)
   const gemischt = ohneStaffelmischung(entdoppelt.folgen)
-  return { folgen: gemischt.folgen, veraltet: [...entdoppelt.veraltet, ...gemischt.verworfen] }
+  const fremd = ohneFremdeNetflixMeldungen(gemischt.folgen, fremde)
+  for (const befund of doppelteNetflixKennungen(fremd.folgen)) warn(`WARNUNG Netflix-Meldung unter zwei Adressen: ${befund} (data/netflix-fremde-meldungen.json)`)
+  return { folgen: fremd.folgen, veraltet: [...entdoppelt.veraltet, ...gemischt.verworfen, ...fremd.verworfen] }
 }

@@ -26,6 +26,7 @@ import { leseZugeordnet } from './lib/prime-meldung-riegel.ts'
 import { ladeHandbelege } from './lib/dub-confirmed.ts'
 import { kanalWissen } from './lib/kanal-wissen.ts'
 import { bereinigeAltbestand } from './lib/rohfolgen-staffelmisch.ts'
+import { ladeFremdeMeldungen } from './lib/netflix-fremde-meldung.ts'
 import { belegtDurchStaffel, teileNachNetflixStaffel } from './lib/netflix-staffeln.ts'
 import {
   animeZugehoerigkeit,
@@ -194,10 +195,10 @@ async function main(): Promise<void> {
     }
   }
 
-  const entdoppelt = bereinigeAltbestand(folgen)
+  const entdoppelt = bereinigeAltbestand(folgen, ladeFremdeMeldungen())
   const veraltet = entdoppelt.veraltet
   if (veraltet.length) {
-    log(`${veraltet.length} Rohfolgen aussortiert (Doppelte vor dem 28.08.2026, Staffelwechsel-Verdacht vor dem 16.09.2026)`)
+    log(`${veraltet.length} Rohfolgen aussortiert (Doppelte vor dem 28.08.2026, Staffelwechsel-Verdacht vor dem 16.09.2026, fremde Netflix-Meldungen)`)
     folgen = entdoppelt.folgen
   }
 
