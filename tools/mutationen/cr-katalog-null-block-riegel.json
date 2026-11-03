@@ -1,0 +1,9 @@
+[
+  { "name": "Riegel if (false)", "datei": "pipeline/bau/09-4-4-1-katalog-wege.ts", "suche": "if (!katalogSerieIstEinWerk(crDub, kennung, eintrag, title)) {", "ersetze": "if (false) {" },
+  { "name": "Riegel ohne !", "datei": "pipeline/bau/09-4-4-1-katalog-wege.ts", "suche": "if (!katalogSerieIstEinWerk(crDub, kennung, eintrag, title)) {", "ersetze": "if (katalogSerieIstEinWerk(crDub, kennung, eintrag, title)) {" },
+  { "name": "Termine-Aufruf: crDub leer", "datei": "pipeline/bau/09-4-4-termine.ts", "suche": "      anisearch,\n      crDub,\n      handNein", "ersetze": "      anisearch,\n      crDub: { scrapedAt: '', serien: [] },\n      handNein" },
+  { "name": "Wache: KEIN_GRUND.test -> false", "datei": "tools/skript-aufrufer-wache.mjs", "suche": "else if (KEIN_GRUND.test(grund(z)))", "ersetze": "else if (false)" },
+  { "name": "Wache: tbd ohne Wortgrenze", "datei": "tools/skript-aufrufer-wache.mjs", "suche": "|\\btbd\\b/i", "ersetze": "|tbd/i" },
+  { "name": "Wache: tbd entfernt", "datei": "tools/skript-aufrufer-wache.mjs", "suche": "|\\btbd\\b/i", "ersetze": "/i" },
+  { "name": "Kontrolle unmutiert", "aenderungen": [] }
+]
