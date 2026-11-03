@@ -38,6 +38,9 @@ for (const [w, frist] of Object.entries(FRISTEN_STUNDEN)) {
   if (!OHNE_OBERGRENZE.has(w)) assert.ok(frist <= 2 * GROESSTE_LUECKE[w], `${w}: ${frist} h zu locker für Lücke ${GROESSTE_LUECKE[w]} h`)
 }
 const F = FRISTEN_STUNDEN
+// Takt-Workflows: drei Takte (shared/weckplan.ts: stündlich; adn-laufende alle 6 h), nicht nur irgendein Wert im Band.
+assert.equal(F['refresh-hourly.yml'], 3 * 1)
+assert.equal(F['adn-laufende.yml'], 3 * 6)
 
 // Der Fall: stündlicher Workflow, letzter Erfolg vor 4 h -> Meldung (vorher Frist 12 h: stumm)
 assert.equal(befundZuAlt('refresh-hourly.yml', 4), 'refresh-hourly.yml: letzter erfolgreicher Lauf vor 4 h, erlaubt 3 h')
