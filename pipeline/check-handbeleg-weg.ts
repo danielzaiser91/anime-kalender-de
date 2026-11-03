@@ -189,6 +189,8 @@ pruefe('der Kanal-Weg trägt weder „Deutsch laut JustWatch“ noch ein Stand-D
 /* Gegenprobe: derselbe JustWatch-Befund an einem Weg ohne Kanal-Beleg wird gekennzeichnet (sonst prüfte der Fall nichts). */
 const freierWeg = jwTitel(5, primeWeg(JW_FREIE_ADRESSE), [], false)
 pruefe('Gegenprobe: ein gewöhnlicher Prime-Weg bekommt „Deutsch laut JustWatch“', freierWeg.dubQuelle === 'justwatch' && freierWeg.dubStand === '2999-12-31', freierWeg)
+const ohneHerkunft = jwTitel(OVA, primeWeg(JW_KANAL_ADRESSE), [kanalPrime], false)
+pruefe('Gegenprobe: dieselbe Adresse an einem Weg, den kein Handbeleg angelegt hat, bekommt JustWatch', ohneHerkunft.dubQuelle === 'justwatch', ohneHerkunft)
 const kanalMitJa = jwTitel(OVA, primeWeg(JW_KANAL_ADRESSE), [kanalBeleg({ platform: 'primevideo', url: JW_KANAL_ADRESSE, zweiteQuelle: 'Daniel' })])
 pruefe('Gegenprobe: mit zweiter Quelle ist der Kanal-Beleg ein Ja, die Ausnahme gilt nicht', kanalMitJa.dubQuelle === 'justwatch', kanalMitJa)
 

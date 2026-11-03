@@ -41,10 +41,10 @@ export function behalteNurHandbelegteWege(titel: Title, checks: DubCheck[]): voi
 }
 
 /**
- * Trägt nur der Adressbeleg eines Kanal-Titels diesen Weg (`herkunft: 'handbeleg'`, ohne eigenes Urteil)? Dann gibt auch JustWatch ihm keine
+ * Trägt nur der Adressbeleg eines Kanal-Titels diesen Weg (`herkunft: 'handbeleg'`)? Dann gibt auch JustWatch ihm keine
  * Sprachangabe: wie Amazons eigene sagt sie bei einem Kanal-Abo nichts über die Folge (`docs/wissen/quellen.md`, Kanal-Titel).
  */
 export function kanalHandbelegWege(checks: DubCheck[]): (titelId: number, s: StreamLink) => boolean {
   const kanal = kanalAdressenOhneBeleg(checks)
-  return (titelId, s) => s.herkunft === 'handbeleg' && s.dub === undefined && kanal.has(kanalSchluessel(titelId, s.url))
+  return (titelId, s) => s.herkunft === 'handbeleg' && kanal.has(kanalSchluessel(titelId, s.url))
 }
