@@ -200,6 +200,7 @@ const handWeg = primeWeg(JW_KANAL_ADRESSE, { herkunft: 'handbeleg' })
 pruefe('der Kanal-Beleg dieses Titels und dieser Plattform nimmt dem Handbeleg-Weg JustWatch', kanalHandbelegWege([kanalPrime])(OVA, handWeg) === true)
 pruefe('Gegenprobe: der Kanal-Beleg eines anderen Titels nicht', kanalHandbelegWege([kanalPrime])(OVA + 1, handWeg) === false)
 pruefe('Gegenprobe: der Kanal-Beleg einer anderen Plattform nicht', kanalHandbelegWege([{ ...kanalPrime, platform: 'netflix' }])(OVA, handWeg) === false)
+pruefe('Gegenprobe: ein Weg einer anderen Plattform als der des Kanal-Belegs nicht', kanalHandbelegWege([kanalPrime])(OVA, { ...handWeg, platform: 'netflix' }) === false)
 pruefe('Gegenprobe: ein Weg mit eigenem Urteil behält JustWatch', kanalHandbelegWege([kanalPrime])(OVA, { ...handWeg, dub: true }) === false)
 pruefe('Gegenprobe: mit zweiter Quelle ist der Kanal-Beleg ein Ja, die Ausnahme gilt nicht', kanalMitJa.dubQuelle === 'justwatch', kanalMitJa)
 
