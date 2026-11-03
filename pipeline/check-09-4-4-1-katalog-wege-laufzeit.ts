@@ -8,6 +8,7 @@ import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import type { Title } from '../shared/types.ts'
+import type { CrDubData } from './lib/crunchyroll-dub.ts'
 
 const kulisse = mkdtempSync(join(tmpdir(), 'cr-katalog-wege-laufzeit-'))
 process.env.AK_ROOT = kulisse
@@ -29,10 +30,14 @@ interface Fall {
   katalog?: { audio?: string[]; folgen?: number; staffeln?: number } | null
   vorhandenerWeg?: boolean
   handNein?: 'titel' | 'adresse'
+  /** Prüflauf-Blöcke der Serie: ein Block ohne deutsche Folge; 'passend' dazu ein vollständig deutscher Block mit der Folgenzahl des Titels. */
+  nullBlock?: 'ohne' | 'passend'
   /** Soll: Adressen der Crunchyroll-Wege danach. */
   soll: string[]
 }
 const faelle: Fall[] = [
+  { id: 900511, name: 'Prüflauf: Block ohne deutsche Folge: kein Weg', kennung: 'WNULLBLK1', nullBlock: 'ohne', soll: [] },
+  { id: 900512, name: 'Prüflauf: Null-Block, aber deutscher Block mit gleicher Folgenzahl: Weg', kennung: 'WNULLPAS1', nullBlock: 'passend', soll: [adresse('WNULLPAS1')] },
   { id: 900501, name: 'Kontrolle: Katalog führt de-DE, kein Weg vorhanden: Weg angelegt', kennung: 'WKONTR001', soll: [adresse('WKONTR001')] },
   { id: 900502, name: 'Katalog ohne de-DE: kein Weg', kennung: 'WOHNEDE01', katalog: { audio: ['ja-JP'] }, soll: [] },
   { id: 900503, name: 'Katalogeintrag ohne Folgen: kein Weg', kennung: 'WOHNEFOL1', katalog: { folgen: 0 }, soll: [] },
@@ -61,6 +66,7 @@ try {
       {
         id: f.id,
         slug: `wege-${f.id}`,
+        episodes: f.nullBlock === 'passend' ? 12 : undefined,
         streams: f.vorhandenerWeg ? [{ platform: 'crunchyroll', url: 'https://www.crunchyroll.com/de/series/WVORHAND1/alt' }] : [],
       } as unknown as Title,
     ]),
@@ -73,7 +79,14 @@ try {
       f.handNein === 'titel' ? [dubKey(f.id, 'crunchyroll')] : f.handNein === 'adresse' ? [`${dubKey(f.id, 'crunchyroll')}|${adressKern(adresse(f.kennung!))}`] : [],
     ),
   )
-  legeCrWegeAusKatalogAn({ titles, anisearch, handNein })
+  const crDub = {
+    scrapedAt: '2026-10-01',
+    serien: faelle.filter((f) => f.nullBlock).map((f) => ({
+      seriesId: f.kennung,
+      staffeln: [{ name: 'A', folgen: 12, deutsch: 0 }, ...(f.nullBlock === 'passend' ? [{ name: 'B', folgen: 12, deutsch: 12 }] : [])],
+    })),
+  } as unknown as CrDubData
+  legeCrWegeAusKatalogAn({ titles, anisearch, crDub, handNein })
   for (const f of faelle) {
     const wege = titles.get(f.id)!.streams.filter((s) => s.platform === 'crunchyroll')
     erwarte(f.name, wege.map((s) => s.url), f.soll)
@@ -81,8 +94,8 @@ try {
   const neu = titles.get(900501)!.streams[0]!
   erwarte('neuer Weg: ohne Anhang der aniSearch-Adresse, deutsch belegt', [neu.url.includes('?'), neu.dub], [false, true])
   erwarte('Ein Titel ohne aniSearch-Eintrag bleibt ohne Weg', (() => {
-    const t = { id: 900511, slug: 'wege-900511', streams: [] } as unknown as Title
-    legeCrWegeAusKatalogAn({ titles: new Map([[t.id, t]]), anisearch: {}, handNein })
+    const t = { id: 900599, slug: 'wege-900599', streams: [] } as unknown as Title
+    legeCrWegeAusKatalogAn({ titles: new Map([[t.id, t]]), anisearch: {}, crDub, handNein })
     return t.streams.length
   })(), 0)
 } finally {

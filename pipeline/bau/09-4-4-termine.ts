@@ -28,6 +28,7 @@ export function legeCrVerweiseUndTermineAn({ titles, anisearch, belegt, crDub, v
     legeCrWegeAusKatalogAn({
       titles,
       anisearch,
+      crDub,
       handNein: neinHandbelege(loadDubChecks()),
     })
     log(`${belegt} Synchro-Angaben aus den Crunchyroll-Serienseiten belegt (${crDub.serien.length} Seiten gelesen)`)
