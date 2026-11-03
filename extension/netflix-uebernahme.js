@@ -96,6 +96,10 @@ globalThis.akNetflixEnde = (grund, uebersprungen, fertigeTitel, besucht, offeneT
   globalThis.akProtokoll?.('durchgang-zaehlung', zaehlung)
   /* Meldeweg `/vorfall` (vorhanden, ohne neues Schema): die Zählung steht als Text; der Vorfall-Abruf listet sie. */
   void melden?.('durchgang-zaehlung', { text: JSON.stringify(zaehlung) })
-  const text = ` · besucht ${besucht}, gemessen ${zaehlung.gemessen}, wartet auf Übernahme ${wartend}`
+  /* Von /browse-Umleitung gemeldete Titel (`netflix-browse-durchgang.js`) stehen im Kasten einzeln, nicht nur unter „übersprungen". */
+  const nichtDa = nichtFertig.filter((r) => uebersprungen.get(r) === globalThis.AK_NETFLIX_NICHT_DA).length
+  const text =
+    ` · besucht ${besucht}, gemessen ${zaehlung.gemessen}, wartet auf Übernahme ${wartend}` +
+    (nichtDa ? `, ${nichtDa} als nicht bei Netflix gemeldet` : '')
   return { grund, uebersprungen: nichtFertig, zaehlung, text }
 }

@@ -71,6 +71,7 @@
         "netflix-staffel.js",
         "netflix-erinnern.js",
         "netflix-zurueckgestellt.js",
+        "netflix-browse-durchgang.js",
         "netflix-alle-staffeln.js",
         "melder.js",
         "netflix-bericht.js",

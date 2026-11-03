@@ -72,6 +72,8 @@ export default [
         akNetflixUebernahme: 'readonly',
         akNetflixWartet: 'readonly',
         akNetflixEnde: 'readonly',
+        akNetflixBrowseAuftrag: 'readonly',
+        akNetflixBrowseDurchgang: 'readonly',
         akNetflixRandUneinheitlich: 'readonly',
         akNetflixListeWarten: 'readonly',
         akNetflixGrundOffen: 'readonly',

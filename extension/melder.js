@@ -1618,28 +1618,9 @@ function knopfEntfernen() {
  * wenn der Knopf steht — dann hat `knopfZeigen()` nichts weiter zu tun.
  */
 function browseWegKnopf() {
-  /*
-    **Leitet ein Auftrag aus der Liste auf `/browse` um, gibt es den Titel dort nicht.**
-
-    Daniel am 19.09.2026 an „Bakugan“ (81659233): „der titel ist nicht bei
-    netflix, der link wird auf homepage weitergeleitet, aber extension hätte
-    … meldung nicht bei netflix möglich sein“ müssen. Der Kasten zeigte nur
-    „alles gemeldet“. Derselbe Befund wie „als tot melden“ in der Liste,
-    jetzt dort angeboten, wo er auffällt — solange der Klick keine Minute her ist.
-  */
+  /* Leitet ein Auftrag aus der Liste auf `/browse` um, gibt es den Titel dort nicht (Anlass: `netflix-browse-durchgang.js`). */
   if (/^\/(?:[a-z-]+\/)?browse\b/.test(location.pathname)) {
-    const auftrag = (() => {
-      try {
-        return zuletztGeoeffnet?.id &&
-          !zuletztGeoeffnet.verbraucht &&
-          offeneTitel[zuletztGeoeffnet.id] !== undefined &&
-          Date.now() - (zuletztGeoeffnet.zeit ?? 0) < 60 * 1000
-          ? zuletztGeoeffnet
-          : null
-      } catch {
-        return null
-      }
-    })()
+    const auftrag = akNetflixBrowseAuftrag(zuletztGeoeffnet, offeneTitel, Date.now())
     if (auftrag) {
       /* Ein Melde-Knopf der vorigen Titelseite trägt `melden` als Hörer — weg damit. */
       if (knopf && !knopf.dataset.weg) knopfEntfernen()
@@ -2793,6 +2774,22 @@ function selbstWeiter() {
   gehe(`/title/${naechster}`)
 }
 
+/** Eingaben für den Schritt „Netflix leitet auf /browse um" (`netflix-browse-durchgang.js`). */
+function browseUmgebung() {
+  return {
+    selbstAn,
+    pfad: location.pathname,
+    zuletzt: zuletztGeoeffnet,
+    offeneTitel,
+    jetzt: Date.now(),
+    uebersprungen: selbstUebersprungen,
+    melden: totMelden,
+    verbrauchen: () => (zuletztGeoeffnet = { ...zuletztGeoeffnet, verbraucht: true }),
+    spur,
+    weiter: selbstWeiter,
+  }
+}
+
 /** Wie viele Titel dieser Lauf angesprungen hat; `selbstGrenze` = bei Laufbeginn offene Titel (siehe `netflix-durchgang-schutz.js`). */
 let selbstGezaehlt = 0
 let selbstGrenze = null
@@ -2843,6 +2840,7 @@ async function vielleichtSelbstStarten() {
 
 async function selbstStartenSchritt() {
   if (!selbstAn || DURCHLAUF.laeuft) return
+  if (await akNetflixBrowseDurchgang(browseUmgebung())) return
   if (!/^\/(?:de-de\/)?title\//.test(location.pathname)) return
   const reihe = gemeinteReihe()
   if (!reihe || offeneTitel[String(reihe)] === undefined) return
@@ -2862,7 +2860,6 @@ async function selbstStartenSchritt() {
     return
   }
   selbstWartet = null
-  /* Läuft gerade ein Staffelwechsel, warten, bis Netflix die neue Staffel zeigt und der Leser sie hat. */
   /*
     **Erst alles laden, dann Staffel für Staffel prüfen** (24.09.2026): einmal „Alle Folgen
     anzeigen", scrollen, bis nichts mehr nachlädt, dann jede offene Staffel über `DURCHLAUF.folgen`
