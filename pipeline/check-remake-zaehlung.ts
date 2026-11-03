@@ -13,7 +13,7 @@ import { reihenNameVon } from '../web/src/components/detail/reihen-namen.ts'
 import { reihenGruppen } from '../web/src/components/detail/reihen-gruppen.ts'
 import type { Dataset } from '../web/src/lib/data.ts'
 import { ladeRemakeVonHand, markiereRemakes, remakePaareAusKanten, zaehltAlsNeuverfilmung } from './bau/remake-von.ts'
-import { doppelteNummern, remakeMitOriginalInGruppe } from './lib/remake-zaehlung-pruefung.ts'
+import { abweichungVomBekannten, doppelteNummern, remakeMitOriginalInGruppe } from './lib/remake-zaehlung-pruefung.ts'
 import { uebersetzeDatei } from './lib/ausgabe-kennung.ts'
 
 let verletzt = 0
@@ -255,6 +255,21 @@ function handDatei(): void {
   }
 }
 
+/** Die Ratsche des Bestandswächters: neue und verschwundene doppelte Nummern werden namentlich benannt, Remake-Reihen zählen nicht mit. */
+function bekanntenAbgleich(): void {
+  console.log('\nAbgleich mit der Liste bekannter doppelter Nummern:')
+  const d = (reihe: string, nummer: string, mitRemake = false) => ({ reihe, nummer, teile: [], ids: [], mitRemake })
+  const bekannt = ['Alpha|2/-', 'Beta|3/-']
+  const a = abweichungVomBekannten([d('Alpha', '2/-'), d('Gamma', '4/-'), d('Delta', '2/-', true)], bekannt)
+  pruefe('neu: nur der unbekannte Schlüssel, nicht die Remake-Reihe', JSON.stringify(a.neu) === JSON.stringify(['Gamma|4/-']), a.neu)
+  pruefe('weg: der bekannte Schlüssel, der nicht mehr vorkommt', JSON.stringify(a.weg) === JSON.stringify(['Beta|3/-']), a.weg)
+  const b = abweichungVomBekannten([d('Alpha', '2/-'), d('Beta', '3/-')], bekannt)
+  pruefe('gleicher Stand: weder neu noch weg', b.neu.length === 0 && b.weg.length === 0, b)
+  const c = abweichungVomBekannten([d('Alpha', '3/-')], ['Alpha|2/-'])
+  pruefe('gleiche Reihe, andere Nummer: neu und weg zugleich', c.neu[0] === 'Alpha|3/-' && c.weg[0] === 'Alpha|2/-', c)
+}
+
+bekanntenAbgleich()
 yaibaZaehlung()
 gruppenZuschnitt()
 gruppenNamen()

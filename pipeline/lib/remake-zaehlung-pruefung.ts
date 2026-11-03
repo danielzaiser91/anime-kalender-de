@@ -54,3 +54,9 @@ export function remakeMitOriginalInGruppe(reihen: Record<string, FranchiseMember
   }
   return aus
 }
+
+/** Gegenüber der bekannten Liste (`Reihe|Nummer`): neue doppelte Nummern ohne Neuverfilmung und bekannte, die verschwunden sind. */
+export function abweichungVomBekannten(doppelt: DoppelteNummer[], bekannt: readonly string[]): { neu: string[]; weg: string[] } {
+  const jetzt = new Set(doppelt.filter((d) => !d.mitRemake).map((d) => `${d.reihe}|${d.nummer}`))
+  return { neu: [...jetzt].filter((k) => !bekannt.includes(k)), weg: bekannt.filter((k) => !jetzt.has(k)) }
+}
