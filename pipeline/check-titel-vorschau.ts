@@ -6,6 +6,7 @@
  */
 import type { Title } from '../shared/types.ts'
 import { titelKopf } from './lib/titel-seite.ts'
+import { plakatVorschauMaengel } from './lib/plakat-vorschau-wache.ts'
 import { bildMeta, folgenText, plakatMasse, vorschauBild, vorschauMaengel } from './lib/titel-vorschau.ts'
 import type { Umfeld } from './lib/titel-umfeld.ts'
 
@@ -90,6 +91,13 @@ pruefe('Wächter: Höhe fehlt', vorschauMaengel(gut.replace(/.*image:height.*\n/
 pruefe('Wächter: „1 Folgen“ rot', vorschauMaengel(`${gut}<p>Auf Deutsch. 1 Folgen.</p>`, SITE).length === 1)
 pruefe('Wächter: „11 Folgen“ und „2,1 Folgen“ nicht rot', vorschauMaengel(`${gut}<p>11 Folgen. 21 Folgen.</p>`, SITE).length === 0)
 pruefe('Wächter: Seite ohne og:image (Weiterleitung) ohne Mangel', vorschauMaengel('<p>x</p>', SITE).length === 0)
+
+/* Plakat-Wächter (check-teilseiten): Standardbild bei einem Titel mit Plakat und Maßen ist rot, Plakat und Terminbild sind grün. */
+const TERMINBILD = `${SITE}og/the-slayers.jpg?v=1`
+const gemischt = [{ slug: '1', bild: ROZEN }, { slug: '2', bild: STANDARD }, { slug: '3', bild: TERMINBILD }, { slug: '4', bild: STANDARD }, { slug: '5', bild: undefined }]
+pruefe('Plakat-Wächter: genau die zwei Seiten mit Standardbild rot', plakatVorschauMaengel(gemischt, SITE).map((m) => m.split(':')[0]).join() === '2,4')
+pruefe('Plakat-Wächter: alle mit Plakat oder Terminbild grün', plakatVorschauMaengel(gemischt.filter((s) => s.slug === '1' || s.slug === '3'), SITE).length === 0)
+pruefe('Plakat-Wächter: eine einzelne Seite mit Standardbild rot', plakatVorschauMaengel([{ slug: '9', bild: STANDARD }], SITE).length === 1)
 
 if (fehler) {
   console.error(`[titel-vorschau] ${fehler} von ${faelle} Fällen rot`)

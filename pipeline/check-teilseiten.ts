@@ -9,10 +9,11 @@ import { cartoonMitSynchroBeleg, teilbarerSlug, teilenPfad } from '../shared/tei
 import type { Title } from '../shared/types.ts'
 import { synchroBelegt } from '../shared/titles.ts'
 import { todayIso } from '../shared/time.ts'
-import { ROOT } from './lib/util.ts'
+import { ROOT, readJson } from './lib/util.ts'
 import { erreichbar } from './lib/seiten-erreichbar.ts'
 import { SITE } from './lib/titel-seite.ts'
-import { vorschauMaengel } from './lib/titel-vorschau.ts'
+import { plakatMasse, vorschauMaengel } from './lib/titel-vorschau.ts'
+import { plakatVorschauMaengel } from './lib/plakat-vorschau-wache.ts'
 import { iconSeitenMaengel } from '../tools/icon-kennung.mjs'
 
 const MAX_KLICKS = 3
@@ -123,17 +124,24 @@ function iconAdressMaengel(): string[] {
   return mangel
 }
 
-/** Hat der Bestand TMDB-Plakate ohne Banner, muss mindestens eine Seite sie als Vorschau führen (sonst fehlt die Verdrahtung der Maße im Seitenbau). */
-function plakatVorschauMaengel(titel: Title[]): string[] {
-  const ohneBanner = titel.filter((t) => /\/t\/p\/w500\//.test(t.coverImage ?? '') && !/\/t\/p\/w1280\//.test(t.bannerImage ?? ''))
-  const seiten = ohneBanner.map(teilbarerSlug).filter((s): s is string => s !== undefined && existsSync(resolve(DIST, teilenPfad(s), 'index.html')))
-  const mitPlakat = seiten.filter((s) => /property="og:image" content="https:\/\/image\.tmdb\.org\/t\/p\/w500\//.test(readFileSync(resolve(DIST, teilenPfad(s), 'index.html'), 'utf8')))
-  console.log(`[teilseiten] Plakat-Vorschau: ${mitPlakat.length} von ${seiten.length} Seiten ohne TMDB-Banner zeigen ihr TMDB-Plakat`)
-  return ohneBanner.length > 0 && mitPlakat.length === 0 ? ['keine Titelseite führt ihr TMDB-Plakat (w500) als Vorschau, obwohl der Bestand Plakate ohne Banner hat'] : []
+/** Jeder Titel mit w500-Plakat samt Maßen und ohne TMDB-Banner führt sein Plakat als Vorschau (oder trägt ein Terminbild). */
+function plakatSeitenMaengel(titel: Title[]): string[] {
+  const masse = plakatMasse(readJson('data/tmdb-poster.json', {}))
+  const erwartet = titel.filter((t) => {
+    const pfad = /^https:\/\/image\.tmdb\.org\/t\/p\/w500(\/[\w.-]+\.jpg)$/.exec(t.coverImage ?? '')?.[1]
+    return pfad !== undefined && masse.has(pfad) && !/\/t\/p\/w1280\//.test(t.bannerImage ?? '')
+  })
+  const seiten = erwartet
+    .map((t) => teilbarerSlug(t))
+    .filter((s): s is string => s !== undefined && existsSync(resolve(DIST, teilenPfad(s), 'index.html')))
+    .map((slug) => ({ slug, bild: /property="og:image" content="([^"]+)"/.exec(readFileSync(resolve(DIST, teilenPfad(slug), 'index.html'), 'utf8'))?.[1] }))
+  const mangel = seiten.length ? plakatVorschauMaengel(seiten, SITE) : ['kein Titel mit Plakat und Maßen, der Wächter prüft nichts']
+  console.log(`[teilseiten] Plakat-Vorschau: ${seiten.length} Seiten mit Plakat ohne Banner, ${mangel.length} mit Standardbild`)
+  return mangel
 }
 
 function main(): void {
-  const fehler: string[] = [...startseitenMaengel(), ...erreichbarkeitsMaengel(), ...lastmodMaengel(), ...uebersichtMaengel(), ...iconAdressMaengel(), ...plakatVorschauMaengel(lies<Title[]>('titles.json'))]
+  const fehler: string[] = [...startseitenMaengel(), ...erreichbarkeitsMaengel(), ...lastmodMaengel(), ...uebersichtMaengel(), ...iconAdressMaengel(), ...plakatSeitenMaengel(lies<Title[]>('titles.json'))]
   for (const [art, titel] of quellen()) {
     const teilbar = new Map(titel.map((t) => [t.id, teilbarerSlug(t)]))
     const mitSlug = [...teilbar.values()].filter((s): s is string => s !== undefined)
