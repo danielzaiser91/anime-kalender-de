@@ -58,6 +58,8 @@ globalThis.akNetflixGrundOffen = (versuche) => {
   bleibt einen Tag zurückgestellt.
 */
 const NETFLIX_UMLEITUNG_NACH_MS = 4000
+/* Wie überall bei `zuletztGeoeffnet`: ein Sprung, der länger her ist, gehört nicht mehr dem Durchgang. */
+const NETFLIX_UMLEITUNG_BIS_MS = 60 * 1000
 
 /** Stellt eine Störung im Durchlauf fest; Titel-Codes im selbsttätigen Durchgang merken sich `titelSperre`. */
 globalThis.akNetflixStoerung = (durchlauf, code, o) => {
@@ -86,9 +88,11 @@ globalThis.akNetflixTitelUeberspringen = (durchlauf, uebersprungen, weiter) => {
  * `tun`: `{ spur, uebersprungen, weiter }`. Gibt `true` zurück, wenn er weiterging.
  */
 globalThis.akNetflixUmgeleitet = (o, tun) => {
-  if (!o.selbstAn || o.laeuft || !o.ziel?.id || !o.offen) return false
+  /* Nur ein Sprung, den `selbstWeiter` selbst gemacht hat: ein alter Klick aus der Liste oder vom Einzelknopf zählt nicht. */
+  if (!o.selbstAn || o.laeuft || !o.ziel?.id || !o.ziel.durchgang || !o.offen) return false
   if (!/^\/(?:[a-z-]+\/)?browse\b/.test(o.pfad)) return false
-  if (o.jetzt - (o.ziel.zeit ?? 0) < NETFLIX_UMLEITUNG_NACH_MS) return false
+  const seit = o.jetzt - (o.ziel.zeit ?? 0)
+  if (seit < NETFLIX_UMLEITUNG_NACH_MS || seit > NETFLIX_UMLEITUNG_BIS_MS) return false
   const kennung = String(o.ziel.id)
   if (tun.uebersprungen.has(kennung)) return false
   tun.spur('Netflix leitet auf die Startseite um', { reihe: kennung })

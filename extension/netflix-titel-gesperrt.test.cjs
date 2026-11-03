@@ -66,7 +66,7 @@ for (const code of ['E103', 'UI3003', 'NSES-404', 'E100']) {
 }
 
 /* --- Umleitung auf /browse --- */
-const basis = () => ({ selbstAn: true, laeuft: false, pfad: '/browse', ziel: { id: '540533', zeit: 1000 }, jetzt: 6000, offen: true })
+const basis = () => ({ selbstAn: true, laeuft: false, pfad: '/browse', ziel: { id: '540533', zeit: 1000, durchgang: true }, jetzt: 6000, offen: true })
 const lauf = (aenderung, vorher = []) => {
   const u = new Map(vorher)
   const w = { spur: [], weiter: 0 }
@@ -86,6 +86,10 @@ pruefe('Titel nicht (mehr) auf der Liste: nichts', lauf({ offen: false }).r === 
 pruefe('kein Ziel: nichts', lauf({ ziel: null }).r === false)
 pruefe('Sprung vor 3999 ms: noch warten', lauf({ jetzt: 1000 + 3999 }).r === false)
 pruefe('Sprung vor genau 4000 ms: weiter', lauf({ jetzt: 1000 + 4000 }).r === true)
+pruefe('Sprung genau 60000 ms her: noch dem Durchgang', lauf({ jetzt: 1000 + 60000 }).r === true)
+pruefe('Sprung 60001 ms her: gehört nicht mehr dem Durchgang', lauf({ jetzt: 1000 + 60001 }).r === false)
+pruefe('altes Ziel von Stunden her auf /browse: nichts, nichts übersprungen', (() => { const l = lauf({ jetzt: 1000 + 3 * 3600 * 1000 }); return l.r === false && l.u.size === 0 && l.w.weiter === 0 })())
+pruefe('Ziel vom Einzelknopf/aus der Liste (ohne durchgang): nichts, nichts übersprungen', (() => { const l = lauf({ ziel: { id: '540533', zeit: 1000 } }); return l.r === false && l.u.size === 0 && l.w.weiter === 0 })())
 pruefe('schon übersprungener Titel: nicht noch einmal', lauf({}, [['540533', 'x']]).r === false)
 
 /* --- Kreislauf: drei Titel, der erste gesperrt, der zweite umgeleitet, der dritte läuft --- */
@@ -106,7 +110,7 @@ pruefe('schon übersprungener Titel: nicht noch einmal', lauf({}, [['540533', 'x
   const d1 = { selbst: true }
   akNetflixStoerung(d1, 'E103', { reihe: 540533, ziel: ziel.id, folge: 1, vorfall() {} })
   akNetflixTitelUeberspringen(d1, u, weiter)
-  const r2 = akNetflixUmgeleitet({ ...basis(), ziel: { ...ziel, zeit: 0 }, jetzt: 5000 }, { spur() {}, uebersprungen: u, weiter })
+  const r2 = akNetflixUmgeleitet({ ...basis(), ziel: { ...ziel, zeit: 0, durchgang: true }, jetzt: 5000 }, { spur() {}, uebersprungen: u, weiter })
   pruefe('Kreislauf: Titel 1 gesperrt, Titel 2 umgeleitet, Titel 3 kommt dran', r2 === true && besucht.join() === titel.join() && u.size === 2, { besucht, u: [...u] })
 }
 
@@ -144,6 +148,7 @@ const quelle = lies('melder.js')
   const funktion = quelle.slice(von, quelle.indexOf('\n}\n', von))
   const a = funktion.indexOf('akNetflixUmgeleitet(')
   const b = funktion.indexOf('await selbstStartenSchritt()')
+  pruefe('selbstWeiter markiert seinen Sprung als Sprung des Durchgangs', /zuletztGeoeffnet = \{ id: String\(naechster\), zeit: Date\.now\(\), durchgang: true \}/.test(quelle))
   pruefe('der Takt fragt die Umleitung vor dem Schritt und kehrt dann zurück', a > 0 && b > a && /if \(akNetflixUmgeleitet\([^\n]*\)\) return/.test(funktion))
 }
 

@@ -2789,7 +2789,7 @@ function selbstWeiter() {
   )
   /* Wie ein Klick aus der Liste — damit die Zielseite den Auftrag erbt. */
   void speicherSchreiben({ zuletztGeoeffnet: { id: String(naechster), zeit: Date.now() } })
-  zuletztGeoeffnet = { id: String(naechster), zeit: Date.now() }
+  zuletztGeoeffnet = { id: String(naechster), zeit: Date.now(), durchgang: true }
   gehe(`/title/${naechster}`)
 }
 
