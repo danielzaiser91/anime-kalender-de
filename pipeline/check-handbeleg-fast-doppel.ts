@@ -68,6 +68,13 @@ pruefe('Beleg zu einem anderen Verweis dazwischen stört nicht', andereSeite.ent
 const andereAdresse = beleg(1, '2026-09-01', 'B').replace('  dub: true', '  url: https://www.amazon.de/gp/video/detail/B0AAAAAAAA\n  dub: true')
 const mitAdresse = entferneFastDoppel(datei(beleg(1, '2026-08-01'), andereAdresse, beleg(1, '2026-09-01')))
 pruefe('Beleg zu einer anderen Adresse derselben Plattform dazwischen stört nicht', mitAdresse.entfernt === 1 && mitAdresse.blockiert === 0, mitAdresse)
+const kopfDavor = `# --- Aus dem Browser gemeldet, abgeholt am 2026-09-02 ---\n\n${beleg(1, '2026-09-01')}\n\n# --- Aus dem Browser gemeldet, abgeholt am 2026-09-03 ---\n${beleg(1, '2026-08-01')}\n`
+pruefe('Abschnittskopf direkt vor dem überzähligen Beleg ist kein eigener Kommentar', entferneFastDoppel(kopfDavor).entfernt === 1, entferneFastDoppel(kopfDavor))
+const andererKopf = `# --- Aus dem Browser gemeldet, abgeholt am 2026-09-02 ---\n\n${beleg(1, '2026-09-01')}\n\n# --- Prüfung vom 10.09.2026 ---\n\n${beleg(1, '2026-08-01')}\n`
+pruefe('Abschnitt „Prüfung“ nach einem Browser-Abschnitt gilt als Hand: gemischt', entferneFastDoppel(andererKopf).gemischt === 1 && entferneFastDoppel(andererKopf).entfernt === 0)
+const flussStil = "- {anilistId: 1, platform: netflix, dub: true, checkedAt: '2026-08-01', note: Tonspuren Deutsch}"
+const mitFluss = entferneFastDoppel(datei(flussStil, beleg(1, '2026-09-01')))
+pruefe('erster Beleg im Fluss-Stil (keine eigene checkedAt-Zeile): nicht angefasst, gezählt', mitFluss.entfernt === 0 && mitFluss.blockiert === 1, mitFluss)
 const gleichesDatum = datei(beleg(1, '2026-09-01'), beleg(1, '2026-08-01'))
 pruefe('der Erste hat schon das jüngste Datum: Zeile bleibt', entferneFastDoppel(gleichesDatum).text === beleg(1, '2026-09-01') + '\n')
 const ersterOhneDatum = datei(beleg(1, '2026-08-01').replace("  checkedAt: '2026-08-01'\n", ''), beleg(1, '2026-09-01'))
