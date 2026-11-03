@@ -14,6 +14,7 @@ const WEGWERF_WURZEL = {
   'tools/quellen-aufsetzen.test.mjs': ['data/source-health.json'],
   'tools/quellen-gesundheit.test.ts': ['data/source-health.json'],
   'tools/wache-urteil.test.mjs': ['data/source-health.json'],
+  'tools/workflows-beleg.test.mjs': ['data/anbieter-vorschlaege.json', 'data/source-health.json'],
   'tools/worker-rohfolgen-rettung.test.ts': ['data/prime-kanal-aussortiert.json'],
   'pipeline/check-anisearch-marke-nachziehen.ts': ['data/source-health.json'],
   'pipeline/check-og-schaetz.ts': ['public/og/fassung.txt', 'public/og/schaetz.txt'],
