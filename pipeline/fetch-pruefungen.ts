@@ -25,9 +25,9 @@ import {
   bildeBereiche,
   ordneNachStaffelliste,
   verteileAufStaffeln,
-  type AnbieterStaffel,
   type Staffeleintrag,
 } from './lib/folgenbereiche.ts'
+import { leseAnbieterStaffeln, summeFuerGruppe } from './lib/staffelsumme-gruppe.ts'
 import { ergaenzeUmEntfernte, mitEntfernten, staffelnMitAdresse } from './lib/entfernte-verweise.ts'
 import { log, ROOT, warn } from './lib/util.ts'
 import { netflixTitelAdresse } from './lib/netflix-adresse.ts'
@@ -911,16 +911,10 @@ for (const gruppe of jeAdresse.values()) {
    * Online fängt jede Staffel wieder bei 1 an. Wer das umrechnet statt es zu
    * lesen, schreibt Befunde an die falsche Staffel.
    */
-  const anbieterStaffeln: AnbieterStaffel[] | undefined = (() => {
-    const roh = [...gruppe].reverse().find((x) => x.staffeln)?.staffeln
-    if (!roh) return undefined
-    try {
-      const liste = JSON.parse(roh) as AnbieterStaffel[]
-      return Array.isArray(liste) && liste.length ? liste : undefined
-    } catch {
-      return undefined
-    }
-  })(); staffeln = staffelnMitAdresse(anbieterStaffeln, staffeln, staffelnDerAdresse(nachUrl.get(schluesselAdresse(p.url)) ?? []))
+  const anbieterStaffeln = leseAnbieterStaffeln(gruppe)
+  staffeln = staffelnMitAdresse(anbieterStaffeln, staffeln, staffelnDerAdresse(nachUrl.get(schluesselAdresse(p.url)) ?? []))
+  /* Beginnt die Liste nicht bei Staffel 1, ordnet die Staffelsumme zu, wenn Folgentitel sie bestätigen (F100). */
+  const summe = summeFuerGruppe(gruppe, anbieterStaffeln, staffeln)
 
   /**
    * Die Meldungen den Staffeln zuschlagen, je eine Liste von Bereichen.
@@ -928,7 +922,7 @@ for (const gruppe of jeAdresse.values()) {
    * Ohne die Aufteilung des Anbieters bleibt es beim alten Weg: Bereiche über
    * die ganze Reihe, danach über die Folgenzahlen verteilt.
    */
-  const { jeStaffel, notizJeStaffel, ueberFolgentitel: ueberTitel } = verteileMeldungen(gruppe, anbieterStaffeln, staffeln, (grund) => liegenGeblieben(offenGeblieben, ohneZuordnung, p, `Folgentitel widersprechen sich — ${grund}`, ids, 'Meldung des Blocks prüfen'))
+  const { jeStaffel, notizJeStaffel, ueberFolgentitel: ueberTitel } = verteileMeldungen(gruppe, anbieterStaffeln, staffeln, (grund) => liegenGeblieben(offenGeblieben, ohneZuordnung, p, `Folgentitel widersprechen sich — ${grund}`, ids, 'Meldung des Blocks prüfen'), summe?.ok ? summe.versatz : undefined)
   ueberFolgentitel += ueberTitel
 
   /**
@@ -1024,7 +1018,7 @@ for (const gruppe of jeAdresse.values()) {
    */
   // Ein Problemtext neben gültigen Paaren ist nur eine Anmerkung — abgebrochen
   // wird erst, wenn gar keine Zuordnung zustande kam.
-  if (zuordnung?.problem && !zuordnung.paare.length && gruppe.some((x) => x.folge_nr != null)) {
+  if (zuordnung?.problem && !zuordnung.paare.length && !summe?.ok && gruppe.some((x) => x.folge_nr != null)) {
     const name = p.serientitel ?? p.titel ?? ''
     ohneZuordnung.push({
       url: p.url,
@@ -1231,6 +1225,7 @@ for (const gruppe of jeAdresse.values()) {
       sprachen.length ? `Tonspuren: ${sprachen.join(', ')}` : '',
       widersprueche.length ? `Widersprüchliche Meldungen zu Folge ${widersprueche.join(', ')}` : '',
       notizJeStaffel.get(id) ?? p.notiz ?? '',
+      summe?.ok ? summe.vermerk : '',
     ]
       .filter(Boolean)
       .join(' — ')
