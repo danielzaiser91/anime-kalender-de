@@ -48,6 +48,18 @@ try {
   assert.equal(kind.status, 0, kind.stderr)
   assert.match(kind.stdout, /^ERGEBNIS\[FEHLER: .*haengt\.mjs nach 2 s abgebrochen\]$/m)
   assert.doesNotMatch(kind.stdout, /Exit-Code/)
+
+  // 6. PR-Werkzeuge der Prüfkette: hängendes gh -> fail-soft mit FEHLER-Zeile statt Hänger bis zur Jobfrist.
+  const modus = lauf([join(tools, 'pr-pruefer-modus.mjs'), '1', '1', join(dir, 'auflagen.md')], tools)
+  assert.equal(modus.status, 0, `pr-pruefer-modus endet mit 0: ${modus.stderr}`)
+  assert.match(modus.stdout, /^modus=voll$/m)
+  assert.match(modus.stderr, /Prüfmodus nicht bestimmbar, voll geprüft: FEHLER: gh api --paginate nach 2 s abgebrochen/)
+  const beschreibung = join(dir, 'beschreibung.md')
+  writeFileSync(beschreibung, 'Text\n')
+  const nachtraege = spawnSync(process.execPath, [join(tools, 'pr-nachtraege.mjs'), '1', 'autor', beschreibung], { cwd: tools, encoding: 'utf8', windowsHide: true, timeout: 60_000, env: { ...env, GITHUB_REPOSITORY: 'a/b' } })
+  assert.equal(nachtraege.status, 0, `pr-nachtraege endet mit 0: ${nachtraege.stderr}`)
+  assert.match(nachtraege.stderr, /Nachträge nicht lesbar, Beschreibung ohne sie: FEHLER: gh api --paginate nach 2 s abgebrochen/)
+  assert.match(nachtraege.stderr, /Commits nicht lesbar, Beschreibung ohne sie: FEHLER: gh api --paginate nach 2 s abgebrochen/)
 } finally {
   rmSync(dir, { recursive: true, force: true })
   rmSync(wurzel, { recursive: true, force: true })

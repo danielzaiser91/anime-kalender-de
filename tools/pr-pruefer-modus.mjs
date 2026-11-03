@@ -15,9 +15,9 @@
  * Die Marke am Ende des CI-Kommentars (`<!-- pruefer-modus: voll|abnahme -->`) schreibt die Freigabe-Stufe; gelesen wird nur
  * die letzte Zeile, ein Zitat im Protokoll zählt nicht.
  */
-import { spawnSync } from 'node:child_process'
 import { writeFileSync } from 'node:fs'
 import { pathToFileURL } from 'node:url'
+import { ghApiJson } from './kind-mit-limit.mjs'
 
 const VERTRAUT = new Set(['OWNER', 'MEMBER', 'COLLABORATOR'])
 const CI_BOT = 'github-actions[bot]'
@@ -75,14 +75,8 @@ export function auflagenText(auflagen, vorher) {
   return kopf + auflagen.map((a) => `\n## ${a.quelle}\n\n${a.text}\n`).join('')
 }
 
-function gh(args) {
-  const r = spawnSync('gh', ['api', ...args], { encoding: 'utf8', maxBuffer: 1 << 28 })
-  if (r.status !== 0) throw new Error(r.stderr)
-  return JSON.parse(r.stdout)
-}
-
 /** Zeilen für $GITHUB_OUTPUT; schreibt <datei>. `api(args)` liefert das JSON von `gh api <args>`. */
-export function main(pr, stufe, datei, api = gh, repo = process.env.GITHUB_REPOSITORY) {
+export function main(pr, stufe, datei, api = ghApiJson, repo = process.env.GITHUB_REPOSITORY) {
   try {
     const kommentare = api(['--paginate', '--slurp', `repos/${repo}/issues/${pr}/comments`]).flat()
     const m = bestimmeModus(kommentare, stufe)
