@@ -82,6 +82,7 @@ export default [
         akNetflixStaffelNr: 'readonly',
         akNetflixStaffelEintraege: 'readonly',
         akNetflixRohStaffel: 'readonly',
+        akNetflixSeitentreu: 'readonly',
         akNetflixMenue: 'readonly',
         akNetflixMenueMerken: 'readonly',
         akRandAusfall: 'readonly',
