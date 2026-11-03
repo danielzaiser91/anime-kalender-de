@@ -98,7 +98,7 @@ export function bereinigeWege({
   for (const title of titles.values()) {
     if (title.jpStart || title.jpYear) continue
     const vorher = title.streams.length
-    title.streams = title.streams.filter((s) => s.dub === true)
+    title.streams = title.streams.filter((s) => s.dub === true) // dub-lesart: irgendwie – jeder Weg mit Ja zählt (Menge/Weiche), auch ein abgeleiteter
     ohneDatumWeg += vorher - title.streams.length
   }
   if (ohneDatumWeg) log(`${ohneDatumWeg} Verweise ohne Sprachbeleg bei Titeln ohne jedes Datum entfernt`)
