@@ -4,7 +4,7 @@
  * Läuft in `check:logic`; der Bestand wird in `check-handbeleg-note-asin-bestand.ts` geprüft.
  */
 import { findeFremdeNoteAsins, NOTE_ASIN_ALTFAELLE } from './lib/handbeleg-note-asin.ts'
-import type { BlockSeite } from './lib/handbeleg-notizseite.ts'
+import { notizSeiteVon, type BlockSeite } from './lib/handbeleg-notizseite.ts'
 
 let fehler = 0
 let faelle = 0
@@ -36,7 +36,8 @@ pruefe('Block ohne Kennung zählt nicht', finde([mensch, { platform: 'primevideo
 pruefe('Block ohne Adress-Kennung zählt nicht', finde([mensch, block(11307, 'https://www.amazon.de/s?k=x', 'Amazon-Seite B00ERN03GM: x')]).length === 0)
 pruefe('Zwei Blöcke desselben Titels mit derselben fremden Seite: ein Treffer', finde([mensch, block(11307, dp('B088K17QGJ'), 'Amazon-Seite B00ERN03GM: x'), block(11307, dp('B0ANDERE01'), 'Amazon-Seite B00ERN03GM: y')]) === '11307@B00ERN03GM')
 pruefe('Zwei Titel mit fremder Seite: beide, sortiert', finde([mensch, block(900009, dp('B0ZWEITE01'), 'Amazon-Seite B00ERN03GM: x'), block(11307, dp('B088K17QGJ'), 'Amazon-Seite B00ERN03GM: x')]) === '11307@B00ERN03GM,900009@B00ERN03GM')
-pruefe('Ratsche: höchstens fünf Altfälle', NOTE_ASIN_ALTFAELLE.length <= 5, NOTE_ASIN_ALTFAELLE.length)
+pruefe('Ratsche: keine Altfälle mehr (Ziel erreicht, 03.11.2026)', NOTE_ASIN_ALTFAELLE.length === 0, NOTE_ASIN_ALTFAELLE.length)
+pruefe('notizSeiteVon liest nur die Kennung hinter „Amazon-Seite“', notizSeiteVon('B0IRGENDWA, Amazon-Seite B00ERN03GM: x') === 'B00ERN03GM' && notizSeiteVon('B00ERN03GM') === undefined && notizSeiteVon(undefined) === undefined)
 
 console.log(fehler ? `\n${fehler} von ${faelle} Fällen verletzt.` : `check-handbeleg-note-asin: ${faelle} Fälle ok.`)
 process.exit(fehler ? 1 : 0)
