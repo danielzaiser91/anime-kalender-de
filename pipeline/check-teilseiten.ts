@@ -123,8 +123,17 @@ function iconAdressMaengel(): string[] {
   return mangel
 }
 
+/** Hat der Bestand TMDB-Plakate ohne Banner, muss mindestens eine Seite sie als Vorschau führen (sonst fehlt die Verdrahtung der Maße im Seitenbau). */
+function plakatVorschauMaengel(titel: Title[]): string[] {
+  const ohneBanner = titel.filter((t) => /\/t\/p\/w500\//.test(t.coverImage ?? '') && !/\/t\/p\/w1280\//.test(t.bannerImage ?? ''))
+  const seiten = ohneBanner.map(teilbarerSlug).filter((s): s is string => s !== undefined && existsSync(resolve(DIST, teilenPfad(s), 'index.html')))
+  const mitPlakat = seiten.filter((s) => /property="og:image" content="https:\/\/image\.tmdb\.org\/t\/p\/w500\//.test(readFileSync(resolve(DIST, teilenPfad(s), 'index.html'), 'utf8')))
+  console.log(`[teilseiten] Plakat-Vorschau: ${mitPlakat.length} von ${seiten.length} Seiten ohne TMDB-Banner zeigen ihr TMDB-Plakat`)
+  return ohneBanner.length > 0 && mitPlakat.length === 0 ? ['keine Titelseite führt ihr TMDB-Plakat (w500) als Vorschau, obwohl der Bestand Plakate ohne Banner hat'] : []
+}
+
 function main(): void {
-  const fehler: string[] = [...startseitenMaengel(), ...erreichbarkeitsMaengel(), ...lastmodMaengel(), ...uebersichtMaengel(), ...iconAdressMaengel()]
+  const fehler: string[] = [...startseitenMaengel(), ...erreichbarkeitsMaengel(), ...lastmodMaengel(), ...uebersichtMaengel(), ...iconAdressMaengel(), ...plakatVorschauMaengel(lies<Title[]>('titles.json'))]
   for (const [art, titel] of quellen()) {
     const teilbar = new Map(titel.map((t) => [t.id, teilbarerSlug(t)]))
     const mitSlug = [...teilbar.values()].filter((s): s is string => s !== undefined)
