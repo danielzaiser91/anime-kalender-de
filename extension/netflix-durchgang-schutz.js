@@ -32,7 +32,9 @@ globalThis.akDurchgangSchutz = (gezaehlt, grenze, schluessel, hoechstensMs) => {
   Durchgang nicht Titel für Titel leer weiter, sondern endet mit diesem Grund im Kasten.
 */
 globalThis.akRandAusfall = (durchlauf, angekommen) => {
+  const verworfen = Boolean(durchlauf.verworfenFremd?.offen)
+  if (durchlauf.verworfenFremd) durchlauf.verworfenFremd.offen = false
   if (angekommen || !durchlauf.selbst) return
   durchlauf.abbruch = true
-  durchlauf.abbruchGrund = 'Worker bestätigt keine Meldung'
+  durchlauf.abbruchGrund = verworfen ? 'Seite gewechselt, Meldung verworfen' : 'Worker bestätigt keine Meldung'
 }
