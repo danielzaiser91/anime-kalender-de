@@ -10,6 +10,9 @@ import { felderAenderungen, haltFelderFest } from './lib/news-felder-fest.ts'
 import { newsSatz } from '../web/src/lib/news-text.ts'
 import { seitDatumFuerPille } from '../web/src/components/detail/chips-regeln.ts'
 import { kanalStartVon } from '../web/src/lib/anbieter-kachel.ts'
+import { Unterzeile } from '../web/src/components/kalender/PosterKarte.tsx'
+import { newsSatz as mailSatz } from '../worker/src/mail-abschnitte.ts'
+import { renderToStaticMarkup } from 'react-dom/server'
 
 let fehler = 0
 let faelle = 0
@@ -112,6 +115,26 @@ const von = kanalStartVon(new Map([[885, ANGELS_EGG]]), new Map([[ANIVERSE.slug,
 const ev = { titleId: 885, releaseSlug: ANIVERSE.slug } as never
 pruefe('Kachel: der Termin nennt den Kanal („neu bei Aniverse“)', von(ev) === 'Aniverse')
 pruefe('Kachel: unbekannter Titel oder Termin: nichts', kanalStartVon(new Map(), new Map())(ev) === undefined)
+
+const kachel = (kanalStart?: string): string => {
+  const event = {
+    id: 'e',
+    releaseSlug: ANIVERSE.slug,
+    titleId: 885,
+    name: 'Angel’s Egg',
+    date: '2099-11-05',
+    releaseType: 'batch',
+    platform: 'primevideo',
+  }
+  const props = { event: event as never, buendel: [event as never], kanalStart, favorite: false, hidden: false, onOpen: () => {}, saal: false }
+  return renderToStaticMarkup(Unterzeile(props))
+}
+pruefe('Kachel-Zeile: „Prime Video · neu bei Aniverse“', kachel('Aniverse').includes('Prime Video · neu bei Aniverse'), kachel('Aniverse'))
+pruefe('Gegenprobe: ohne Kanal-Start steht nur „Prime Video“', kachel(undefined).includes('Prime Video') && !kachel(undefined).includes('neu bei'), kachel(undefined))
+
+console.log('Der Satz (Mail):')
+const mail = mailSatz({ ...m!, platform: 'primevideo', datum: '2099-11-05' } as NewsMeldung)
+pruefe('Mail-Satz lautet wie der der Seite (Kanal in Klammern)', mail === 'Ab 05.11.2099 im Abo bei Prime Video (Aniverse)!', mail)
 
 console.log(`check-kanal-start: ${faelle} Zusicherungen, ${fehler} Fehler`)
 process.exit(fehler ? 1 : 0)
