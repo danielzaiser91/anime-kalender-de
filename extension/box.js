@@ -160,7 +160,7 @@ function akDebugLeiste(kasten, schalter) {
         den Baum — für einen Wert, den wir beim Bauen schon in der Hand hatten.
       */
       zeichenVon.set(s, zeichen)
-      knopf.addEventListener('click', (e) => {
+      akKlick(knopf, (e) => {
         e.preventDefault()
         e.stopPropagation()
         s.schalten()
@@ -298,6 +298,22 @@ function akIconSichtbarkeit() {
   akIconZeichnen()
 }
 
+/**
+ * Klick auf einen Knopf der Erweiterung, vor allen Listenern der Seite.
+ * Netflix stoppt `click` auf der Profilauswahl per Capture-Listener, bevor er den Knopf
+ * erreicht (Messung 03.11.2026); ein Listener am Knopf selbst feuert dort nie. Darum hört
+ * das Fenster in der Capture-Phase zu, ohne weitere Registrierung am Knopf (ein Klick, eine Aktion).
+ */
+function akKlick(el, aktion) {
+  window.addEventListener(
+    'click',
+    (e) => {
+      if (e.target === el || (e.target && el.contains?.(e.target))) aktion(e)
+    },
+    true,
+  )
+}
+
 function akIconStarten() {
   if (akIcon || (window.top && window !== window.top)) return
   akIcon = document.createElement('button')
@@ -311,7 +327,7 @@ function akIconStarten() {
   akIcon.appendChild(akZeichen)
   akIcon.appendChild(akBadge)
   akIcon.hidden = true
-  akIcon.addEventListener('click', () => {
+  akKlick(akIcon, () => {
     /* Während eines Durchgangs bleibt der Kasten offen: kein Kippen, kein Schreiben. */
     if (akIcon.ariaDisabled === 'true') return
     akZu = !akZu

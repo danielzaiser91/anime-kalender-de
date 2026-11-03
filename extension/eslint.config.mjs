@@ -61,6 +61,7 @@ export default [
         akBox: 'readonly',
         akWurzelAnhaengen: 'readonly',
         akZaehler: 'readonly',
+        akKlick: 'readonly',
         akDebugLeiste: 'readonly',
         akBerichtSchalter: 'readonly',
         akPrimeHatTitelseite: 'readonly',
