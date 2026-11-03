@@ -4,14 +4,18 @@
  * Aufruf: `npx tsx tools/worker-adn-gw.test.ts`
  */
 import { handleAdnGw } from '../worker/src/adn-gw.ts'
+import { spawnSync } from 'node:child_process'
 import { readFileSync } from 'node:fs'
+import { createRequire } from 'node:module'
+import { join } from 'node:path'
+import { fileURLToPath, pathToFileURL } from 'node:url'
 import eingangWorker from '../worker/src/adn-gw-eingang.ts'
 import { adnWeg } from '../pipeline/lib/adn-weg.ts'
 import type { Env } from '../worker/src/env.ts'
 
 let fehler = 0
-const pruefe = (bedingung: boolean, text: string) => {
-  console.log(`  ${bedingung ? 'ok  ' : 'FEHL'} ${text}`)
+const pruefe = (bedingung: boolean, text: string, gefunden?: string) => {
+  console.log(`  ${bedingung ? 'ok  ' : 'FEHL'} ${text}${!bedingung && gefunden ? ` (gefunden: ${gefunden.slice(0, 300)})` : ''}`)
   if (!bedingung) fehler++
 }
 
@@ -75,6 +79,30 @@ pruefe(proxy.base === 'https://w.example/adn-gw' && proxy.auth.Authorization ===
 let wurf = ''
 try { adnWeg({ AK_ADN_PROXY: 'https://w.example/adn-gw' }) } catch (e) { wurf = (e as Error).message }
 pruefe(wurf.includes('LAUF_TOKEN fehlt'), 'Proxy ohne Token: harter Fehler statt stillem Direktabruf')
+
+// Verdrahtung in fetch-adn.ts: echter Start als Prozess, Attrappe meldet die erste Anfrage.
+const wurzel = join(fileURLToPath(new URL('.', import.meta.url)), '..')
+const tsx = createRequire(join(wurzel, 'package.json')).resolve('tsx/cli')
+const mock = pathToFileURL(join(wurzel, 'tools/adn-weg-mock.mjs')).href
+function ersteAnfrage(umgebung: Record<string, string>): { url: string; kopf: Record<string, string>; ausgabe: string } {
+  // Die Attrappe beendet den Lauf bei der ersten Anfrage, bevor etwas geschrieben wird; gelesen wird nur beim Start.
+  const l = spawnSync(process.execPath, [tsx, '--import', mock, join(wurzel, 'pipeline/fetch-adn.ts'), '--from', '0', '--to', '0'], {
+    cwd: wurzel,
+    encoding: 'utf8',
+    timeout: 60000,
+    env: { ...process.env, AK_ADN_PROXY: '', LAUF_TOKEN: '', ...umgebung },
+  })
+  const ausgabe = `${l.stdout}${l.stderr}`
+  const zeile = ausgabe.split('\n').find((z) => z.startsWith('ADNWEG '))
+  return { ...(zeile ? JSON.parse(zeile.slice(7)) : { url: '', kopf: {} }), ausgabe }
+}
+const ueberProxy = ersteAnfrage({ AK_ADN_PROXY: 'https://w.example/adn-gw', LAUF_TOKEN: 't9' })
+pruefe(ueberProxy.url.startsWith('https://w.example/adn-gw/video/calendar?date='), 'fetch-adn.ts: mit AK_ADN_PROXY geht die Anfrage an den Worker', ueberProxy.url || ueberProxy.ausgabe)
+pruefe(ueberProxy.kopf.Authorization === 'Bearer t9', 'fetch-adn.ts: mit AK_ADN_PROXY trägt die Anfrage den Bearer-Token')
+pruefe(ueberProxy.kopf['X-Target-Distribution'] === 'de' && ueberProxy.kopf['Accept-Language'] === 'de', 'fetch-adn.ts: Köpfe de/de bleiben')
+const direktLauf = ersteAnfrage({})
+pruefe(direktLauf.url.startsWith('https://gw.api.animationdigitalnetwork.com/video/calendar?date='), 'fetch-adn.ts: ohne AK_ADN_PROXY direkt zu ADN', direktLauf.url || direktLauf.ausgabe)
+pruefe(direktLauf.kopf.Authorization === undefined, 'fetch-adn.ts: direkt ohne Authorization')
 
 globalThis.fetch = ECHT_FETCH
 console.log(fehler ? `✖ ${fehler} Fall/Fälle rot` : '✔ ADN-Durchreiche: alle Fälle grün')

@@ -100,6 +100,7 @@
       "ort": "github-secret",
       "wofuer": "Gemeinsames Geheimnis zwischen Läufen, Statusanzeige und Worker (Routen /lauf, /pruefung, /beleg, /cr-zugang …); derselbe Wert liegt als Worker-Secret.",
       "workflows": [
+        "adn-laufende.yml",
         "anisearch-katalog.yml",
         "aussehen-pruefen.yml",
         "bestand-bauen.yml",
