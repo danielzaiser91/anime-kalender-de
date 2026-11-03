@@ -20,4 +20,8 @@ Besonderheiten: Goblin Slayer (101165): zwei Belege lagen an der Staffel-2-Adres
 Dazu die vier Paare aus PR 2701 (nicht angefasst).
 
 ## Sperren ohne Eintrag
-12 entfernte Belege tragen eine Adresse, die ein anderer Beleg desselben Titels oder dessen eigener Weg nutzt (`belege-entfernt.yaml` sperrt Kennung+Adresse, das träfe den guten Beleg): My Hero Academia B0CC5DX1T7 (6 Titel), Goblin Slayer, Railgun S, Solo Leveling 2, JoJo ×2. Kommen sie aus den Meldungen zurück, rötet der Wächter (`check-handbeleg-notizseite-bestand`) den Bestand. Dauerhaft: Sperre mit Notizseite als zweitem Schlüssel.
+Fünf Belege tragen bewusst keine Sperre, weil derselbe Titel an dieser Adresse im Kopf noch einen richtigen Beleg hat (Belege mit Adresse und Notizseite gleich, Probe am 03.11.2026): Railgun S (16049) B0CVFNLP9D 1, Solo Leveling 2 (176496) B0DQTBWY5K 2, JoJo Diamond (21450) B0GXK7RJFW 3, JoJo Golden Wind (102883) B0G1ZD14D3 2, My Hero Academia 4 (104276) B0CC5DX1T7 1. Kennung plus Adresse sperrt sonst den richtigen Beleg. Kommen die Fremdmessungen aus den Meldungen zurück, zeigt es check-handbeleg-notizseite-bestand. Dauerhaft: Sperre mit Notizseite als zweitem Schlüssel.
+
+Meldungskopie: die Auswertung lief auf dem Stand 02.11.2026 03:01 (über 24 h alt, für diese Seiten unkritisch, da Seitenlisten sich nicht ändern); die Climb-Probe in der Nachbesserung lief auf dem frischen Stand 03.11.2026 03:01 mit gleichem Ergebnis.
+
+Climb (14355): B0GP5XXDNT ist die eigene Seite (Staffel 1, Titel 14355); B0GP83RCNX hat in der Kopie keine Titelzuordnung. Gesperrt ist nur die Fremdmessung B0GNH738G2 (Staffel 3).
