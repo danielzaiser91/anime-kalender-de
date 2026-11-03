@@ -61,6 +61,9 @@ jobs:
           cache: restore
 
       - name: Laufende Serien holen
+        env:
+          AK_ADN_PROXY: https://newsletter.animekalender.workers.dev/adn-gw
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: bash tools/schritt.sh --zeit 15m "Laufende Serien holen" -- npm run data:adn:laufend
 
       - name: Zusicherungen prüfen
