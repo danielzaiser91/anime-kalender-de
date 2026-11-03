@@ -17,6 +17,7 @@ import { schliesseWegeAb } from './bau/11-wege-abschluss.ts'
 import { suchadressenInTemp } from './lib/suchadressen-temp.ts'
 import { behalteNurHandbelegteWege } from './lib/handbeleg-weg.ts'
 import { verschmelze, type DubCheck } from './lib/dub-confirmed.ts'
+import { ohneKanalSprache } from './lib/kanal-titel.ts'
 import { baueNews, type NewsHistorie } from './lib/news.ts'
 import { addDays, todayIso } from '../shared/time.ts'
 
@@ -115,6 +116,22 @@ pruefe('Gegenprobe: eine andere Adresse fällt', behalten([ja()], [weg('https://
 pruefe('Gegenprobe: der Beleg eines anderen Titels trägt nichts', behalten([ja({ anilistId: 1 })], [weg(URL_BELEG)]).length === 0)
 pruefe('Gegenprobe: eine andere Plattform fällt', behalten([ja({ platform: 'netflix' })], [weg(URL_BELEG)]).length === 0)
 
+console.log('\nKanal-Titel: die Adresse bleibt Weg, ohne Haken (Es war einmal … Amerika, 03.11.2026):')
+/** Wie der Lader es liefert: Amazons Ja mit der Warnung „Kanal-Titel“ verliert `dub` und trägt `kanalOhneBeleg`. */
+const kanalBeleg = (rest: Partial<DubCheck> = {}): DubCheck =>
+  ohneKanalSprache(ja({ note: 'Amazon-Seite B00IKSSO70 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg', ...rest }))
+const kanalWeg = behalten([kanalBeleg()], [weg(URL_BELEG), weg('https://www.netflix.com/title/1', { platform: 'netflix' })])
+pruefe('der Weg eines Kanal-Titels bleibt, ohne Haken, der erratene fällt', kanalWeg.length === 1 && kanalWeg[0]!.dub === undefined && kanalWeg[0]!.herkunft === 'handbeleg', kanalWeg)
+pruefe('Kulisse: der Lader hat Amazons Ja entfernt und die Zeile gekennzeichnet', kanalBeleg().kanalOhneBeleg === true && kanalBeleg().dub === undefined)
+pruefe('Gegenprobe: ein Kanal-Beleg ohne Adresse trägt keinen Weg', behalten([kanalBeleg({ url: undefined })], [weg(''), weg(URL_BELEG)]).length === 0)
+pruefe('Gegenprobe: eine andere Adresse fällt', behalten([kanalBeleg()], [weg('https://www.crunchyroll.com/series/GANDERE/x')]).length === 0)
+pruefe('Gegenprobe: der Kanal-Beleg eines anderen Titels trägt nichts', behalten([kanalBeleg({ anilistId: 1 })], [weg(URL_BELEG)]).length === 0)
+pruefe('Gegenprobe: eine andere Plattform fällt', behalten([kanalBeleg({ platform: 'netflix' })], [weg(URL_BELEG)]).length === 0)
+const kanalNein = verschmelze(kanalBeleg(), { anilistId: OVA, platform: 'crunchyroll', url: URL_BELEG, available: false, checkedAt: '2026-10-14' })
+pruefe('Gegenprobe: ein jüngeres „nicht verfügbar“ nimmt dem Kanal-Weg die Adresse', kanalNein.kanalOhneBeleg === true && behalten([kanalNein], [weg(URL_BELEG)]).length === 0, kanalNein)
+const kanalDeutschNein = verschmelze(kanalBeleg(), { anilistId: OVA, platform: 'crunchyroll', url: URL_BELEG, dub: false, checkedAt: '2026-10-14' })
+pruefe('Gegenprobe: ein jüngeres Nein (dub: false) nimmt dem Kanal-Weg die Adresse', kanalDeutschNein.kanalOhneBeleg === true && behalten([kanalDeutschNein], [weg(URL_BELEG)]).length === 0, kanalDeutschNein)
+
 console.log('\nAufrufer (schliesseWegeAb) reicht die Belege durch:')
 /** Der Abschluss schreibt nebenbei die Listen der offenen Suchadressen; die Prüfung lenkt sie in einen Temp-Ordner um. */
 suchadressenInTemp()
@@ -141,6 +158,8 @@ function abschliessen(checks: DubCheck[]): StreamLink[] {
 }
 pruefe('ein Titel nur bei aniSearch behält den Weg seines Handbelegs', abschliessen([ja({ anilistId: 10_000_000 + OVA })]).length === 1)
 pruefe('Gegenprobe: ohne Handbeleg bleibt er ohne Weg', abschliessen([]).length === 0)
+const kanalAbschluss = abschliessen([kanalBeleg({ anilistId: 10_000_000 + OVA })])
+pruefe('ein Titel nur bei aniSearch behält die Adresse seines Kanal-Belegs', kanalAbschluss.length === 1 && kanalAbschluss[0]!.herkunft === 'handbeleg', kanalAbschluss)
 
 console.log('\nNews: ein Handbeleg-Weg belegt das Angebot, nicht seinen Beginn (keine rückdatierte Meldung „neu“):')
 const nachrichtTitel = (streams: StreamLink[]): Title[] =>
