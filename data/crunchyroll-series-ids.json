@@ -1,5 +1,5 @@
 {
-  "aufgeloestAm": "2026-11-02T17:02:34.794Z",
+  "aufgeloestAm": "2026-11-03T06:58:17.590Z",
   "adressen": {
     "http://www.crunchyroll.com/de/a-place-further-than-the-universe": {
       "seriesId": "GYK541EPR",
@@ -3914,8 +3914,8 @@
       "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     "https://www.crunchyroll.com/watch/G4VUQEP24": {
-      "ziel": "https://www.crunchyroll.com/watch/G4VUQEP24?__cf_chl_rt_tk=a7ODH0HwfP3ftfZY_zSg29kNpjCHPtE01lSQkcxKDH4-1791782004-1.0.1.1-uaFnfKAHy3Q1byqR7jMzmWatFhycIj2cRRVLiVp0iVI",
-      "geprueftAm": "2026-10-12",
+      "ziel": "https://www.crunchyroll.com/watch/G4VUQEP24?__cf_chl_rt_tk=kUUTqyxGg12v44T.mcBqvraWJshw3.knIzZ7Kdxkujk-1793689065-1.0.1.1-9AOuP3NFjbNeRGbEUOoWoSrr9FJzMvPkopsLfJNnm48",
+      "geprueftAm": "2026-11-03",
       "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     "https://www.crunchyroll.com/watch/G50UZV2GM": {
@@ -3924,8 +3924,8 @@
       "geprueftAm": "2026-09-28"
     },
     "https://www.crunchyroll.com/watch/GEVUZE9V9": {
-      "ziel": "https://www.crunchyroll.com/watch/GEVUZE9V9?__cf_chl_rt_tk=7JeEoHajyeHxE04UfKffsWNVRjuUTe153NvCeQ7H4TA-1791782008-1.0.1.1-wnLRoiNnKX9ZL.8a31X4xjvJPWKr3G9OWI9UXpO4Q20",
-      "geprueftAm": "2026-10-12",
+      "ziel": "https://www.crunchyroll.com/watch/GEVUZE9V9?__cf_chl_rt_tk=kF9oy0Uqs08HzrYeQUiVRUbiBJXEp3N2fCy6Z1yHEGc-1793689080-1.0.1.1-LeXH_SeSG.mrHqZE5cZ_C6zig7KGu9zhmpWZembFF3s",
+      "geprueftAm": "2026-11-03",
       "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     "https://www.crunchyroll.com/watch/GG1U2M5E0": {
@@ -3974,13 +3974,13 @@
       "geprueftAm": "2026-10-26"
     },
     "https://www.crunchyroll.com/de/persona5-the-animation/persona5-the-animation-dark-sun-780776": {
-      "ziel": "https://www.crunchyroll.com/de/persona5-the-animation/persona5-the-animation-dark-sun-780776?__cf_chl_rt_tk=nM.XXuZq8.wDbrKUgfAJWJ1VjKWGzCaEH7g3uf6fZ7Y-1792991406-1.0.1.1-YbGqGW1dsGH6V3MFibCzvAcoslcU89ESR2XcUKWgkoI",
-      "geprueftAm": "2026-10-26",
-      "fehler": "keine Serienkennung hinter dieser Adresse"
+      "seriesId": "G6VDWKM76",
+      "ziel": "https://www.crunchyroll.com/de/watch/G69VZ0GJY/dark-sun",
+      "geprueftAm": "2026-11-03"
     },
     "https://www.crunchyroll.com/jujutsu-kaisen/jujutsu-kaisen-0-german-dub-unknown-868375": {
-      "ziel": "https://www.crunchyroll.com/jujutsu-kaisen/jujutsu-kaisen-0-german-dub-unknown-868375?__cf_chl_rt_tk=LEYNKs.unuh1lBLEPYovNQG82_wNCVKTv2Yjg9hFTAo-1791781984-1.0.1.1-Mk42TFpwR30xm_5butKY5yngKslz62fqJj.cRTFeXFE",
-      "geprueftAm": "2026-10-12",
+      "ziel": "https://www.crunchyroll.com/jujutsu-kaisen/jujutsu-kaisen-0-german-dub-unknown-868375?__cf_chl_rt_tk=EjgKQCDyx6dWH6EXfhsfYODTdg2zDRfBM0E_hPdijCo-1793688896-1.0.1.1-9EtYoZQqhVmGAJRyW4ipBmHfW4IvBUL7ShSVIjkGWB0",
+      "geprueftAm": "2026-11-03",
       "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     "https://www.crunchyroll.com/persona5-the-animation/de-persona5-the-animation-stars-and-ours-850110": {
@@ -4027,6 +4027,26 @@
       "ziel": "https://www.crunchyroll.com/de/worlds-end-harem?__cf_chl_rt_tk=EEXfLQpJer_Fxlud4up4oJqF5miKosNTGKzaMSPlv3I-1793597158-1.0.1.1-v1EH1UWepJYOqEKx8rXJhYXWY7bw_EymCvr7NLluLfo",
       "geprueftAm": "2026-11-02",
       "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/watch/GE00375247JAJP/devilish-anecdotes--disparity-of-the-masks--a-shop-for-you--the-spring-of-the-underling--the-tale-of-the-invisible-gyoza-fairy--the-devils-dance--ohba-memories-in-the-night-breeze": {
+      "seriesId": "GT00371893",
+      "ziel": "https://www.crunchyroll.com/watch/GE00375247JAJP/devilish-anecdotes--disparity-of-the-masks--a-shop-for-you--the-spring-of-the-underling--the-tale-of-the-invisible-gyoza-fairy--the-devils-dance--ohba-memories-in-the-night-breeze?__cf_chl_rt_tk=m7PmNOQb.e4Iim_bJgDWcktbV2IyFD81gJrPMCp9sn8-1793689073-1.0.1.1-n9OeQce7HfGGYBnQZauNIV5rSPltAmTrK_R0Yo9B_Nc",
+      "geprueftAm": "2026-11-03"
+    },
+    "https://www.crunchyroll.com/watch/GE00389313JAJP": {
+      "seriesId": "GT00389311",
+      "ziel": "https://www.crunchyroll.com/watch/GE00389313JAJP?__cf_chl_rt_tk=wTHGGMfnfkGwZIU7zg99FDxYI_5so7kguwwYqaVbw3g-1793689078-1.0.1.1-jfOLYe1lkQGXY0M9TKtyOHGcGm5BhkcxylQY20KP_Bk",
+      "geprueftAm": "2026-11-03"
+    },
+    "https://www.crunchyroll.com/watch/GR0XPDJ0Y": {
+      "seriesId": "GMTE00193059",
+      "ziel": "https://www.crunchyroll.com/watch/GR0XPDJ0Y?__cf_chl_rt_tk=iRRonLwg5uoOL1Dpqwtx5VBtt0lCWg3zCme01kIM8oM-1793689083-1.0.1.1-fYS9wkSgkWxx33znTx2kJWBfz0JyzAJmFlF1Dwa6KIw",
+      "geprueftAm": "2026-11-03"
+    },
+    "https://www.crunchyroll.com/watch/GR790PW36": {
+      "seriesId": "GMTE00193060",
+      "ziel": "https://www.crunchyroll.com/watch/GR790PW36?__cf_chl_rt_tk=t6cjl6kPhI2xOT8n3PNjOghZbci6_yslRqkwFwScHuM-1793689087-1.0.1.1-8UczSbYVOisIciMTcNooL7I.v5N1uYvMFWRb9KklqmI",
+      "geprueftAm": "2026-11-03"
     }
   }
 }
