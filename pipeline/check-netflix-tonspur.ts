@@ -123,7 +123,7 @@ pruefe('403 beendet den Lauf ohne Urteil für diesen und die Rest-Filme', a4.erg
 const a5 = await lauf(3, (_u, i) => (i === 0 ? { status: 429, text: '' } : { status: 200, text: JA }))
 pruefe('429 beendet den Lauf, nichts wird gelesen', a5.erg.gesperrt && a5.erg.gelesen === 1 && a5.erg.zeilen.length === 0 && Object.keys(a5.bestand).length === 0, a5)
 const a6 = await lauf(1, () => ({ status: 404, text: '' }))
-pruefe('404: unbekannt, nie Nein, kein Beleg; Status 404 gemerkt', a6.erg.unbekannt === 1 && a6.erg.nein === 0 && a6.erg.zeilen.length === 0 && a6.bestand[url('900300')]?.status === 404, a6)
+pruefe('404: unbekannt, nie Nein, kein Beleg; erstes 404 gemerkt (unklar, erstes404)', a6.erg.unbekannt === 1 && a6.erg.nein === 0 && a6.erg.zeilen.length === 0 && a6.bestand[url('900300')]?.status === 'unklar' && a6.bestand[url('900300')]?.erstes404 === '2026-11-01', a6)
 const a6b = await lauf(1, () => ({ status: 404, text: JA }))
 pruefe('404 mit Seitentext wird nicht gelesen (nur 200 zählt)', a6b.erg.unbekannt === 1 && a6b.erg.ja === 0 && a6b.erg.zeilen.length === 0, a6b)
 const a7 = await lauf(2, (_u, i) => (i === 0 ? 'wirft' : { status: 200, text: JA }))

@@ -6,6 +6,7 @@
  * 3. Ein 404 bei einer Nicht-Amazon-Adresse wird nicht zweimal gefragt.
  * 4. Geprüft wird die Amazon-Seite (`seite`) eines Wegs, nicht JustWatchs Adresse (`url`); ohne `seite` die `url`.
  * 5. `unklar` ist beim nächsten Lauf wieder fällig, auch bei frischem Datum (`istFaellig`).
+ * 6. Unter `--limit` kommt ein Netflix-Eintrag mit `erstes404` vor älteren fälligen Adressen dran (Vorrang).
  */
 import { spawnSync } from 'node:child_process'
 import { appendFileSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
@@ -23,6 +24,9 @@ const pruefe = (name: string, ok: boolean, info?: unknown) => {
 const video = (k: string) => `https://www.amazon.de/gp/video/detail/${k}`
 const dp = (k: string) => `https://www.amazon.de/dp/${k}`
 const NETFLIX = 'https://www.netflix.com/title/404404'
+/* Netflix: zweites 404 nach dem ersten (seit 2020 vermerkt) und viele Adressen, die vorher 200 waren und jetzt 404 melden. */
+const NETFLIX_ZWEITES = 'https://www.netflix.com/title/404405'
+const RAUSCHEN = Array.from({ length: 22 }, (_, i) => `https://www.netflix.com/title/${810000 + i}`)
 const JW = 'https://www.justwatch.com/de/serie/weg-ueber-justwatch'
 const SEITE = video('B0SEITE001')
 /* Antworten je Adresse: [Status, Text]. */
@@ -34,6 +38,8 @@ const antworten: Record<string, [number, string]> = {
   [video('B0LEER0001')]: [200, '<html>nichts Brauchbares</html>'],
   [SEITE]: [200, 'productTitle'],
   [NETFLIX]: [404, ''],
+  [NETFLIX_ZWEITES]: [404, ''],
+  ...Object.fromEntries(RAUSCHEN.map((u) => [u, [404, '']])),
 }
 
 const tmp = mkdtempSync(join(process.argv[2] ?? tmpdir(), 'check-links-laufzeit-'))
@@ -46,8 +52,15 @@ try {
     { platform: 'primevideo', url: video('B0LEER0001') },
     { platform: 'primevideo', url: JW, seite: SEITE },
     { platform: 'netflix', url: NETFLIX },
+    { platform: 'netflix', url: NETFLIX_ZWEITES },
+    ...RAUSCHEN.map((url) => ({ platform: 'netflix', url })),
   ]
   writeFileSync(join(tmp, 'public/data/titles.json'), JSON.stringify([{ id: 900001, streams: wege }]))
+  const vorbefund = {
+    [NETFLIX_ZWEITES]: { status: 'unklar', geprueftAm: '2020-01-01', erstes404: '2020-01-01' },
+    ...Object.fromEntries(RAUSCHEN.map((u) => [u, { status: 200, geprueftAm: '2020-01-01' }])),
+  }
+  writeFileSync(join(tmp, 'data/link-check.json'), JSON.stringify(vorbefund))
   const anfragen = join(tmp, 'anfragen.txt')
   const stub = join(tmp, 'fetch-stub.mjs')
   writeFileSync(
@@ -77,10 +90,57 @@ globalThis.fetch = async (url) => {
   pruefe('auch die Video-Seite 404: bleibt 404', bestand[dp('B0DPTOT001')]?.status === 404, bestand[dp('B0DPTOT001')])
   pruefe('Amazon-200 ohne Produktseite ist unklar', bestand[video('B0LEER0001')]?.status === 'unklar', bestand[video('B0LEER0001')])
   pruefe('Amazon-200 mit Produktseite ist 200', bestand[SEITE]?.status === 200, bestand[SEITE])
+  const nf = bestand as Record<string, { status: unknown; erstes404?: string }>
+  pruefe('erstes Netflix-404 ist unklar mit erstem Tag', nf[NETFLIX]?.status === 'unklar' && typeof nf[NETFLIX]?.erstes404 === 'string', nf[NETFLIX])
+  pruefe('zweites Netflix-404 nach Jahren ist 404', nf[NETFLIX_ZWEITES]?.status === 404, nf[NETFLIX_ZWEITES])
+  pruefe('Netflix 200 -> 404 im Lauf: unklar, nicht 404', RAUSCHEN.every((u) => nf[u]?.status === 'unklar' && nf[u]?.erstes404 !== undefined), nf[RAUSCHEN[0]])
+  pruefe('Wächter: viele Wechsel einer Plattform warnen im Lauf', /WARNUNG Linkprüfung verrauscht: netflix[.]com 22 von 22/.test(`${r.stdout}${r.stderr}`), `${r.stdout}${r.stderr}`.slice(-600))
   pruefe('Netflix-404 wird nur einmal gefragt', gefragt.filter((a) => a === NETFLIX).length === 1, gefragt)
   pruefe('geprüft wird `seite`, nicht JustWatchs `url`', gefragt.includes(SEITE) && !gefragt.includes(JW) && !(JW in bestand), gefragt)
 } finally {
   rmSync(tmp, { recursive: true, force: true })
+}
+
+/**
+ * 6. Das zweite Netflix-404 kommt unter dem Limit des Wochenlaufs dran: 8 ältere fällige Adressen liegen davor, `--limit 3`.
+ * Ohne Vorrang für `erstes404` fragte der Lauf nur die drei ältesten (Wochenlauf: 400 von ~3 600 fälligen).
+ */
+const tmp2 = mkdtempSync(join(process.argv[2] ?? tmpdir(), 'check-links-limit-'))
+try {
+  mkdirSync(join(tmp2, 'public/data'), { recursive: true })
+  mkdirSync(join(tmp2, 'data'), { recursive: true })
+  const zwei = 'https://www.netflix.com/title/404406'
+  const aelter = Array.from({ length: 8 }, (_, i) => `https://www.netflix.com/title/8200000${i}`)
+  const wege2 = [...aelter, zwei].map((url) => ({ platform: 'netflix', url }))
+  writeFileSync(join(tmp2, 'public/data/titles.json'), JSON.stringify([{ id: 900002, streams: wege2 }]))
+  const vorbefund2 = {
+    [zwei]: { status: 'unklar', geprueftAm: '2020-02-01', erstes404: '2020-02-01' },
+    ...Object.fromEntries(aelter.map((u, i) => [u, { status: 'unklar', geprueftAm: `2019-01-0${i + 1}` }])),
+  }
+  writeFileSync(join(tmp2, 'data/link-check.json'), JSON.stringify(vorbefund2))
+  const anfragen2 = join(tmp2, 'anfragen.txt')
+  const stub2 = join(tmp2, 'fetch-stub.mjs')
+  writeFileSync(
+    stub2,
+    `import { appendFileSync } from 'node:fs'
+globalThis.fetch = async (url) => {
+  appendFileSync(${JSON.stringify(anfragen2)}, String(url) + '\\n')
+  return new Response('', { status: 404 })
+}
+`,
+  )
+  appendFileSync(anfragen2, '')
+  const r2 = spawnSync(
+    process.execPath,
+    ['--import', pathToFileURL(join(wurzel, 'node_modules/tsx/dist/esm/index.mjs')).href, '--import', pathToFileURL(stub2).href, join(wurzel, 'pipeline/check-links.ts'), '--pause', '1', '--limit', '3'],
+    { cwd: tmp2, env: { ...process.env, AK_ROOT: tmp2 }, windowsHide: true, encoding: 'utf8', timeout: 60_000 },
+  )
+  pruefe('Limit-Lauf endet mit 0', r2.status === 0, `${r2.stdout}${r2.stderr}`.slice(-400))
+  const gefragt2 = readFileSync(anfragen2, 'utf8').split('\n').filter(Boolean)
+  pruefe('Limit 3: Netflix mit erstem 404 kommt vor 8 älteren fälligen dran', gefragt2.includes(zwei), gefragt2)
+  pruefe('Limit 3: genau 3 Adressen, die zwei übrigen sind die ältesten', gefragt2.length === 3 && gefragt2.includes(aelter[0]) && gefragt2.includes(aelter[1]), gefragt2)
+} finally {
+  rmSync(tmp2, { recursive: true, force: true })
 }
 
 pruefe('unklar ist bei frischem Datum wieder fällig', istFaellig({ status: 'unklar', geprueftAm: '2999-12-31' }, '2026-01-01') === true)

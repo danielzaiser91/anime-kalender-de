@@ -255,6 +255,11 @@ function handStart(vorhanden: Release[]): Map<string, string> {
   return je
 }
 
+/** n ist die höchste gesichtete Folge, kein Ende (tv.de kennt keine Gesamtzahl): keine Gesamtzahl an den Terminen. */
+function sichtungsZahl(n: number): { episodeCount: number; episodeCountAssumed: true; episodeCountNurGesichtet: true } {
+  return { episodeCount: n, episodeCountAssumed: true, episodeCountNurGesichtet: true }
+}
+
 export function releasesAusTvProgramm(
   sendungen: TvSendung[],
   titles: Map<number, Title>,
@@ -332,7 +337,7 @@ export function releasesAusTvProgramm(
         /* Eine Uhrzeit für alle, sonst je Folge. */
         ...(zeiten.size === 1 ? { time: [...zeiten][0] } : { zeiten: zeitJeFolge }),
         ...(ab > 1 ? { firstEpisodeNumber: ab } : {}),
-        episodeCount: n,
+        ...sichtungsZahl(n),
         observed,
       },
       tvLetzteSichtung: berlinTag(liste[liste.length - 1]!.start),

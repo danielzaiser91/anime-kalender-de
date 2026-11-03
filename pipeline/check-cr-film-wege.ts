@@ -23,7 +23,7 @@ const titles = new Map([
   [98662, titel(98662, 1, 'MOVIE', 'Kabaneri of the Iron Fortress: Light That Gathers')],
   [98663, titel(98663, 1, 'MOVIE', 'Kabaneri of the Iron Fortress: Life That Burns')],
 ])
-fuelleWegeAusJustwatch({ titles, tmdbMehrdeutig: new Set(), toteAdressen: new Set(), staffeln })
+fuelleWegeAusJustwatch({ titles, tmdbMehrdeutig: new Set(), istTot: () => false, staffeln })
 const crUrls = (id: number): string[] =>
   [...(titles.get(id)!.streams ?? []), ...(titles.get(id)!.watchLinks ?? [])].map((w) => w.url).filter((u) => u.includes('crunchyroll.com'))
 pruefe('die Serie behält ihren Serien-Weg', crUrls(21196).includes(SERIE), crUrls(21196))

@@ -1,3 +1,4 @@
+import { type IstTot } from '../lib/adresse-tot.ts'
 import { readJson, log } from '../lib/util.ts'
 import { type WatchLink, type Title } from '../../shared/types.ts'
 import { todayIso } from '../../shared/time.ts'
@@ -12,18 +13,18 @@ import { ergaenzeKaufWege, primeNeinTitel, type JwKauf } from './11-2-4-kauf-weg
 type Runde = {
   titles: Map<number, Title>
   tmdbMehrdeutig: Set<string>
-  toteAdressen: Set<string>
+  istTot: IstTot
 }
 
 /* Ein Nein-Handbeleg gilt für alle Runden, die Wege anlegen (Titel ohne Weg, Abo-Weg mit deutschem Ton, Prime-Kauf). */
-function legeWegeAn({ titles, tmdbMehrdeutig, toteAdressen }: Runde) {
+function legeWegeAn({ titles, tmdbMehrdeutig, istTot }: Runde) {
   const handNein = neinHandbelege(loadDubChecks())
   ergaenzeWegeOhneWeg({
     titles,
     jw: readJson<Record<string, JwEintrag>>('data/justwatch-audio.json', {}),
     handNein,
     tmdbMehrdeutig,
-    toteAdressen,
+    istTot,
   })
 
   ergaenzeAboWege({
@@ -31,7 +32,7 @@ function legeWegeAn({ titles, tmdbMehrdeutig, toteAdressen }: Runde) {
     jw: readJson<Record<string, JwAbo>>('data/justwatch-audio.json', {}),
     handNein,
     tmdbMehrdeutig,
-    toteAdressen,
+    istTot,
   })
 
   ergaenzeKaufWege({
@@ -40,13 +41,13 @@ function legeWegeAn({ titles, tmdbMehrdeutig, toteAdressen }: Runde) {
     handNein,
     primeNein: primeNeinTitel(),
     tmdbMehrdeutig,
-    toteAdressen,
+    istTot,
     heute: todayIso(),
   })
 }
 
-export function ergaenzeWegeAusJustwatch({ titles, tmdbMehrdeutig, toteAdressen }: Runde) {
-  legeWegeAn({ titles, tmdbMehrdeutig, toteAdressen })
+export function ergaenzeWegeAusJustwatch({ titles, tmdbMehrdeutig, istTot }: Runde) {
+  legeWegeAn({ titles, tmdbMehrdeutig, istTot })
 
   /*
     **Ein Bezugsweg führt zum Anbieter, nicht zu einer Datenbank.**
@@ -87,7 +88,7 @@ export function ergaenzeWegeAusJustwatch({ titles, tmdbMehrdeutig, toteAdressen 
         const treffer = angebote.find(
           (a) => a.url && (kern(a.anbieter).includes(kern(w.name)) || kern(w.name).includes(kern(a.anbieter))),
         )
-        if (!treffer?.url || toteAdressen.has(treffer.url)) continue
+        if (!treffer?.url || istTot(treffer.url)) continue
         w.url = stripAffiliate(treffer.url)
         delete w.ueberTmdb
         jwDirekt++
@@ -107,7 +108,7 @@ export function ergaenzeWegeAusJustwatch({ titles, tmdbMehrdeutig, toteAdressen 
       if (!angebote.length) continue
       const wege = title.watchLinks ?? []
       for (const a of angebote) {
-        if (!a.url || /^justwatch/i.test(a.anbieter) || toteAdressen.has(a.url)) continue
+        if (!a.url || /^justwatch/i.test(a.anbieter) || istTot(a.url)) continue
         if (providerToPlatform(a.anbieter)) continue
         const name = providerName(a.anbieter)
         if (!name || wege.some((w) => w.name === name)) continue

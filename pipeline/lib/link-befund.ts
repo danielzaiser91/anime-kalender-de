@@ -17,6 +17,8 @@ export interface LinkBefund {
   status: number | string
   prime?: boolean
   geprueftAm?: string
+  /** Netflix: Tag des ersten 404 einer Folge; solange nur dieses eine gemessen ist, steht der Befund auf `unklar`. */
+  erstes404?: string
 }
 
 /**

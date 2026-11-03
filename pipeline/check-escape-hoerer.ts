@@ -17,6 +17,7 @@ export const AUSNAHMEN: Record<string, string> = {
   'web/src/App.tsx': 'useTastenSpruenge: Pfeiltasten und T blättern die Woche, kein Escape',
   'web/src/lib/use-einrollen.ts': 'Bildlauf-Tasten (PageDown, Pfeile, Leertaste) zählen als Nutzerbedienung, kein Escape',
   'web/src/lib/start-daten.ts': 'Bedienung (Tippen, Scrollen, Taste) stößt das Nachladen an, kein Escape',
+  'web/src/lib/lesestelle.ts': 'Jede Berührung (auch Taste) beendet die Wiederherstellung der Lesestelle, kein Escape',
   'web/src/lib/idSet.ts': 'Ereignisname aus Schlüssel zusammengesetzt (`${key}:changed`), kein Tastenereignis',
 }
 

@@ -1,6 +1,7 @@
 import { readJson, log } from '../lib/util.ts'
 import { adressKern, dubKey, adressGleich, type DubCheck } from '../lib/dub-confirmed.ts'
-import { istTot, juengsteJeKern } from '../lib/link-befund.ts'
+import { istTot, juengsteJeKern, type LinkBefund } from '../lib/link-befund.ts'
+import { hat404 } from '../lib/link-rauschen.ts'
 import { type Title, type PlatformId } from '../../shared/types.ts'
 import { netflixTitelAdresse } from '../lib/netflix-adresse.ts'
 import { netflixAdresseTaugt } from '../../shared/netflix-adresse-pruefung.ts'
@@ -96,7 +97,7 @@ export function werteLinkpruefungAus({
   }
   /** Antwortstatus je Anbieter-Adresse aus `pipeline/check-links.ts`. */
   const linkBefundeRoh = readJson<
-    Record<string, { status: number | string; prime?: boolean; geprueftAm?: string }>
+    Record<string, LinkBefund>
   >('data/link-check.json', {})
   /*
     **Ein Befund gehört der Seite, nicht ihrer Schreibweise** (21.09.2026). Seit Prime-Verweise
@@ -169,8 +170,8 @@ export function werteLinkpruefungAus({
       if (s.platform !== 'netflix') continue
       const vereinheitlicht = netflixTitelAdresse(s.url)
       if (vereinheitlicht === s.url) continue
-      const neuTot = linkBefunde[vereinheitlicht]?.status === 404
-      const altTot = linkBefunde[s.url]?.status === 404
+      const neuTot = hat404(linkBefunde[vereinheitlicht])
+      const altTot = hat404(linkBefunde[s.url])
       if (neuTot && !altTot) continue
       s.url = vereinheitlicht
     }

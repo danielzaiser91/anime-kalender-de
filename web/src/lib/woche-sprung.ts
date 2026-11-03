@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo, useRef } from 'react'
 import { nowHhMm } from '@shared/time.ts'
 import { type ReleaseEvent } from '@shared/types.ts'
 import { minutenTakt } from './minuten-takt.ts'
+import { lesestelleFuehrt, starteWiederherstellungImBrowser } from './lesestelle.ts'
 
 /**
  * Unterhalb dieser Breite steht ein Tag als einzelne senkrechte Spalte —
@@ -18,6 +19,12 @@ export const SINGLE_COLUMN = '(max-width: 639px)'
  */
 export const LEAD_PX = 30
 
+/** Erste Uhrzeit des Hooks; vorher liest `lesestelle.ts` die gemerkte Lesestelle, damit der Sprung unten sie kennt (Zusage: `check-sprung-lesestelle.ts`). */
+function ersteUhrzeit(): string {
+  starteWiederherstellungImBrowser()
+  return nowHhMm()
+}
+
 /**
  * Die Wochenansicht springt zum nächsten Termin von heute — einmal je Ankunft und auf Zuruf
  * („heute" in der Kopfleiste). Liefert die Uhrzeit, das Sprungziel und seinen Anker.
@@ -29,7 +36,7 @@ export function useSprungZuHeute({ days, today, monday }: {
 }) {
   // Die aktuelle Uhrzeit trennt im heutigen Tag Vergangenes von Kommendem.
   // Zu jeder vollen Minute nachziehen, damit die Grenze nicht stehen bleibt.
-  const [now, setNow] = useState(nowHhMm)
+  const [now, setNow] = useState(ersteUhrzeit)
   useEffect(() => minutenTakt(() => setNow(nowHhMm())), [])
 
   /**
@@ -71,7 +78,7 @@ export function useSprungZuHeute({ days, today, monday }: {
     if (!showsToday) return
     // Einmal je Ankunft. Wer innerhalb der Woche filtert, blättert oder eine
     // Karte öffnet, soll nicht wieder nach unten gerissen werden.
-    if (jumpedFor.current === monday) return
+    if (jumpedFor.current === monday || lesestelleFuehrt(days, jumpedFor, monday)) return
     // Auf jeder Breite: Die Poster-Woche steht überall untereinander. Ohne anstehende Karte zählt der Tageskopf.
     const el = landingRef.current ?? document.querySelector<HTMLElement>('[data-heute="1"]')
     if (!el) return

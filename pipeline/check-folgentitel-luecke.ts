@@ -70,6 +70,12 @@ const imBau = mitFremdTiteln(beyblade, zeilen, { ...leer, rtlplus: { '165159': r
 pruefe('im Bau (mitFremdTiteln): Folge 66 gefüllt, Folge 67 ohne RTL+-Titel bleibt leer', imBau?.find((x) => x.nr === 66)?.de === 'Etwas Fesselndes' && !imBau.find((x) => x.nr === 67)?.de, imBau)
 pruefe('im Bau: ein vorhandener Titel bleibt', imBau?.find((x) => x.nr === 65)?.de === 'Erster Flug')
 pruefe('im Bau: ein anderer Titel bekommt die RTL+-Titel nicht', mitFremdTiteln({ ...beyblade, id: 1 } as Title, zeilen, { ...leer, rtlplus: { '165159': rtlBeyblade } })?.find((x) => x.nr === 66)?.de === undefined)
+/* Wie aniSearch sie liefert (data/anisearch-folgen.json, 02.11.2026): bis Folge 65 deutsche Titel, danach nur englische. */
+const zeilenEnglisch = [...zeilen.filter((z) => z.nr <= 65), { nr: 66, en: 'Something Captivating' }, { nr: 101, en: 'Annihilation' }, { nr: 103, en: 'To the Future' }]
+const imBauEnglisch = mitFremdTiteln(beyblade, zeilenEnglisch, { ...leer, rtlplus: { '165159': rtlBeyblade } })
+pruefe('im Bau, aniSearch mit englischen Titeln ab 66: Folge 66 bekommt den deutschen RTL+-Titel', imBauEnglisch?.find((x) => x.nr === 66)?.de === 'Etwas Fesselndes', imBauEnglisch)
+pruefe('im Bau, englische Titel ab 66: Folge 101 und 103 ebenso, der englische bleibt daneben', imBauEnglisch?.find((x) => x.nr === 101)?.de === 'Vernichtung' && imBauEnglisch.find((x) => x.nr === 103)?.de === 'Bey der Zukunft' && imBauEnglisch.find((x) => x.nr === 66)?.en === 'Something Captivating', imBauEnglisch)
+pruefe('im Bau, englische Titel: widersprechen die deutschen Titel der RTL+-Liste, bleibt sie draußen', mitFremdTiteln(beyblade, [{ nr: 66 }, ...[1, 2, 3, 65].map((nr) => ({ nr, de: `Anders ${nr}` }))], { ...leer, rtlplus: { '165159': rtlBeyblade } })?.find((x) => x.nr === 66)?.de === undefined)
 
 console.log('\nCrunchyroll: eine Staffel eines geteilten Verweises')
 const serieMit = (staffeln: { name: string; ab: string; von: number; bis: number }[]): CrSerie => ({

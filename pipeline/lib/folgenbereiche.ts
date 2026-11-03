@@ -230,7 +230,7 @@ function paareEinesTitels(
  * einem Paar nicht überein, ist die Reihenfolge falsch, und dann wird gar
  * nichts zugeordnet. Ein falsch zugeordneter Befund sieht aus wie ein geprüfter.
  */
-export function ordneNachStaffelliste(
+function ordneNachStaffellisteAbEins(
   anbieter: AnbieterStaffel[],
   unsere: Staffeleintrag[],
 ): {
@@ -477,6 +477,19 @@ export function ordneNachStaffelliste(
     ohneEntsprechung: unsere.slice(sortiert.length),
     problem: abweichungen[0],
   }
+}
+
+/**
+ * Die Staffelliste auf unsere Einträge legen (Beschreibung bei `ordneNachStaffellisteAbEins`), nur wenn sie bei Staffel 1 beginnt.
+ * Beginnt sie später (Beyblade X: nur Netflix-Staffel 2, 49 Folgen), fehlen uns die Vorstaffeln; die Paarung
+ * Position gegen Position hielte Staffel 2 für unsere erste und schriebe Netflix-Nummern als unsere.
+ */
+export function ordneNachStaffelliste(anbieter: AnbieterStaffel[], unsere: Staffeleintrag[]): ReturnType<typeof ordneNachStaffellisteAbEins> {
+  const erste = Math.min(...anbieter.map((a) => a.seq))
+  if (anbieter.length && erste !== 1) {
+    return { paare: [], ohneEntsprechung: [], problem: `Die Liste des Anbieters beginnt bei Staffel ${erste}: die Folgen davor sind unbekannt` }
+  }
+  return ordneNachStaffellisteAbEins(anbieter, unsere)
 }
 
 /**

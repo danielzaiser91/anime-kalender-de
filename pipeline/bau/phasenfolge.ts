@@ -13,6 +13,7 @@ import { ergaenzeTermineAusNewsUndTv } from './08-news-tv.ts'
 import { pruefeSynchroJePlattform } from './09-synchro.ts'
 import { rolleTermineAusMitKomplettabwurf } from './10-komplettabwurf.ts'
 import { schliesseWegeAb } from './11-wege-abschluss.ts'
+import { baueIstTot, type IstTot } from '../lib/adresse-tot.ts'
 import { stelleZurueck } from './11-9-quarantaene.ts'
 import { entferneVomKalender } from './sperre.ts'
 import { type EntfernterVerweis } from './grundlagen.ts'
@@ -37,6 +38,8 @@ export type Phasenergebnis = {
   jpStartAnzeige: ReturnType<typeof baueTitelGemessen>['jpStartAnzeige']
   releases: ReturnType<typeof baueReleases>['releases']
   events: ReturnType<typeof rolleTermineAusMitKomplettabwurf>['events']
+  /** Beide Quellen von „tot“ (Handbeleg und Linkprüfung) für Runden nach dem Abschluss. */
+  istTot: IstTot
 }
 
 export function bauePhasenfolge(quellen: ReturnType<typeof ladeQuellen>): Phasenergebnis {
@@ -115,5 +118,6 @@ export function bauePhasenfolge(quellen: ReturnType<typeof ladeQuellen>): Phasen
     jpStartAnzeige,
     releases,
     events,
+    istTot: baueIstTot(toteAdressen, synchro.lautPruefungTot),
   }
 }
