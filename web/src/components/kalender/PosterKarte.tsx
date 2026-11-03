@@ -111,7 +111,10 @@ export function Unterzeile(p: PosterKarteProps & { saal: boolean }) {
           <AnbieterAngaben kachel={p.anbieter} t={t} />
         ) : (
           <>
-            <span>{anbieterZeile(p.event, t, p.buendel, p.art)}{p.kanalStart ? ` · ${t('kal.kanalNeu', { kanal: p.kanalStart })}` : ''}</span>
+            <span>{anbieterZeile(p.event, t, p.buendel, p.art)}</span>
+            {!!p.kanalStart && (
+              <span className="rounded bg-ak-akzent/15 px-1 font-semibold whitespace-nowrap text-ak-akzent-text">{t('kal.kanalNeu', { kanal: p.kanalStart })}</span>
+            )}
             {!!weitereFolgen(p.buendel, t) && <span className="font-semibold text-ak-text">{weitereFolgen(p.buendel, t)}</span>}
           </>
         ))}

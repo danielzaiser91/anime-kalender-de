@@ -131,7 +131,7 @@ const kachel = (kanalStart?: string): string => {
   const props = { event: event as never, buendel: [event as never], kanalStart, favorite: false, hidden: false, onOpen: () => {}, saal: false }
   return renderToStaticMarkup(Unterzeile(props))
 }
-pruefe('Kachel-Zeile: „Prime Video · neu bei Aniverse“', kachel('Aniverse').includes('Prime Video · neu bei Aniverse'), kachel('Aniverse'))
+pruefe('Kachel-Zeile: „Prime Video“ und die Marke „neu bei Aniverse“', kachel('Aniverse').includes('Prime Video') && kachel('Aniverse').includes('>neu bei Aniverse<'), kachel('Aniverse'))
 pruefe('Gegenprobe: ohne Kanal-Start steht nur „Prime Video“', kachel(undefined).includes('Prime Video') && !kachel(undefined).includes('neu bei'), kachel(undefined))
 
 const wochenEvent = { id: 'e', releaseSlug: ANIVERSE.slug, titleId: 885, name: 'Angel’s Egg', date: '2099-11-05', releaseType: 'batch', platform: 'primevideo' }
@@ -141,7 +141,7 @@ const raster = (titel: Title): string => {
   const tag = { date: '2099-11-05', stream: [wochenEvent], disc: [], tv: [], zweit: [] }
   return renderToStaticMarkup(PosterRaster({ tag: tag as never, p: props as never, heute: false, now: '12:00', landingRef: { current: null } }))
 }
-pruefe('Wochenraster (echte Kachel): „Prime Video · neu bei Aniverse“', raster(ANGELS_EGG).includes('Prime Video · neu bei Aniverse'), raster(ANGELS_EGG).slice(0, 300))
+pruefe('Wochenraster (echte Kachel): Marke „neu bei Aniverse“', raster(ANGELS_EGG).includes('>neu bei Aniverse<'), raster(ANGELS_EGG).slice(0, 300))
 pruefe('Wochenraster, Gegenprobe ohne Kauf-Weg: kein „neu bei“', !raster(mitStreams([])).includes('neu bei'))
 
 console.log('Der Satz (Mail):')

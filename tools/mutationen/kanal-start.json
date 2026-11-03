@@ -25,6 +25,6 @@
   { "name": "chips-regeln: Kanal nicht durchgereicht", "aenderungen": [{ "datei": "web/src/components/detail/chips-regeln.ts", "suche": "seitDatumVon(platform, releases, kanal)", "ersetze": "seitDatumVon(platform, releases)" }] },
   { "name": "pille-unten: Kanal der Pille nicht übergeben", "aenderungen": [{ "datei": "web/src/components/detail/pille-unten.ts", "suche": "releases, s.kanal)", "ersetze": "releases)" }] },
   { "name": "anbieter-kachel: kanalStartVon liefert nichts", "aenderungen": [{ "datei": "web/src/lib/anbieter-kachel.ts", "suche": "titel && release ? kanalStartBeiKaufweg(titel.streams ?? [], release) : undefined", "ersetze": "undefined" }] },
-  { "name": "PosterKarte: Kanal-Start nicht angezeigt", "aenderungen": [{ "datei": "web/src/components/kalender/PosterKarte.tsx", "suche": "{p.kanalStart ? ` · ${t('kal.kanalNeu', { kanal: p.kanalStart })}` : ''}", "ersetze": "" }] },
+  { "name": "PosterKarte: Kanal-Start nicht angezeigt", "aenderungen": [{ "datei": "web/src/components/kalender/PosterKarte.tsx", "suche": "{!!p.kanalStart && (", "ersetze": "{false && (" }] },
   { "name": "WeekView: kanalStart nicht übergeben", "aenderungen": [{ "datei": "web/src/components/WeekView.tsx", "suche": "kanalStart={kachel.length === 1 ? kanalStartVon(p.data.titleById, p.data.releaseBySlug)(ev) : undefined}", "ersetze": "" }] }
 ]
