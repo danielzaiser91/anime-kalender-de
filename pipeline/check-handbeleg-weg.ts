@@ -16,7 +16,7 @@ import { ordneCrSerienZu } from './bau/09-4-1-serien.ts'
 import { schliesseWegeAb } from './bau/11-wege-abschluss.ts'
 import { kennzeichneDeutschLautJustwatch } from './bau/11-6-jw-vertrauen.ts'
 import { suchadressenInTemp } from './lib/suchadressen-temp.ts'
-import { behalteNurHandbelegteWege } from './lib/handbeleg-weg.ts'
+import { behalteNurHandbelegteWege, kanalHandbelegWege } from './lib/handbeleg-weg.ts'
 import { verschmelze, type DubCheck } from './lib/dub-confirmed.ts'
 import { ohneKanalSprache } from './lib/kanal-titel.ts'
 import { baueNews, type NewsHistorie } from './lib/news.ts'
@@ -175,23 +175,32 @@ pruefe('ein Titel nur bei aniSearch behält die Adresse seines Kanal-Belegs', ka
 
 console.log('\nKanal-Weg ohne Sprachangabe von JustWatch (kennzeichneDeutschLautJustwatch, Befund in der Kulisse):')
 const primeWeg = (url: string, rest: Partial<StreamLink> = {}): StreamLink => weg(url, { platform: 'primevideo', ...rest })
-const jwTitel = (id: number, w: StreamLink, checks: DubCheck[], nurHandbeleg = true): StreamLink => {
-  const t = titel(id, [w])
+/** Wie im Bau: Der Weg entsteht unter der Adresse des Belegs (ASIN) und trägt bei der JustWatch-Stelle die gti-Form; JustWatch kennt nur diese. */
+const ASIN_URL = 'https://www.amazon.de/gp/video/detail/B0KANALTST'
+const jwTitel = (id: number, checks: DubCheck[], gti: string, nurHandbeleg = true): StreamLink => {
+  const t = titel(id, [primeWeg(ASIN_URL)])
   if (nurHandbeleg) behalteNurHandbelegteWege(t, checks)
+  for (const s of t.streams) s.url = gti
   const titles = new Map([[id, t]])
   kennzeichneDeutschLautJustwatch({ titles, tmdbMehrdeutig: new Set(), alleChecks: checks })
   return t.streams[0] ?? ({} as StreamLink)
 }
-const kanalPrime = kanalBeleg({ platform: 'primevideo', url: JW_KANAL_ADRESSE })
-const kanalJw = jwTitel(OVA, primeWeg(JW_KANAL_ADRESSE), [kanalPrime])
+const kanalPrime = kanalBeleg({ platform: 'primevideo', url: ASIN_URL })
+const kanalJw = jwTitel(OVA, [kanalPrime], JW_KANAL_ADRESSE)
 pruefe('Kulisse: der Kanal-Weg steht als Handbeleg-Weg im Titel', kanalJw.herkunft === 'handbeleg' && kanalJw.dub === undefined, kanalJw)
 pruefe('der Kanal-Weg trägt weder „Deutsch laut JustWatch“ noch ein Stand-Datum', kanalJw.dubQuelle === undefined && kanalJw.dubStand === undefined, kanalJw)
 /* Gegenprobe: derselbe JustWatch-Befund an einem Weg ohne Kanal-Beleg wird gekennzeichnet (sonst prüfte der Fall nichts). */
-const freierWeg = jwTitel(5, primeWeg(JW_FREIE_ADRESSE), [], false)
+const freierWeg = jwTitel(5, [], JW_FREIE_ADRESSE, false)
 pruefe('Gegenprobe: ein gewöhnlicher Prime-Weg bekommt „Deutsch laut JustWatch“', freierWeg.dubQuelle === 'justwatch' && freierWeg.dubStand === '2999-12-31', freierWeg)
-const ohneHerkunft = jwTitel(OVA, primeWeg(JW_KANAL_ADRESSE), [kanalPrime], false)
+const ohneHerkunft = jwTitel(OVA, [kanalPrime], JW_KANAL_ADRESSE, false)
 pruefe('Gegenprobe: dieselbe Adresse an einem Weg, den kein Handbeleg angelegt hat, bekommt JustWatch', ohneHerkunft.dubQuelle === 'justwatch', ohneHerkunft)
-const kanalMitJa = jwTitel(OVA, primeWeg(JW_KANAL_ADRESSE), [kanalBeleg({ platform: 'primevideo', url: JW_KANAL_ADRESSE, zweiteQuelle: 'Daniel' })])
+const kanalMitJa = jwTitel(OVA, [kanalBeleg({ platform: 'primevideo', url: ASIN_URL, zweiteQuelle: 'Daniel' })], JW_KANAL_ADRESSE)
+/* Titel und Plattform entscheiden, nicht die Adresse: Der Beleg eines anderen Titels oder einer anderen Plattform nimmt diesem Weg nichts. */
+const handWeg = primeWeg(JW_KANAL_ADRESSE, { herkunft: 'handbeleg' })
+pruefe('der Kanal-Beleg dieses Titels und dieser Plattform nimmt dem Handbeleg-Weg JustWatch', kanalHandbelegWege([kanalPrime])(OVA, handWeg) === true)
+pruefe('Gegenprobe: der Kanal-Beleg eines anderen Titels nicht', kanalHandbelegWege([kanalPrime])(OVA + 1, handWeg) === false)
+pruefe('Gegenprobe: der Kanal-Beleg einer anderen Plattform nicht', kanalHandbelegWege([{ ...kanalPrime, platform: 'netflix' }])(OVA, handWeg) === false)
+pruefe('Gegenprobe: ein Weg mit eigenem Urteil behält JustWatch', kanalHandbelegWege([kanalPrime])(OVA, { ...handWeg, dub: true }) === false)
 pruefe('Gegenprobe: mit zweiter Quelle ist der Kanal-Beleg ein Ja, die Ausnahme gilt nicht', kanalMitJa.dubQuelle === 'justwatch', kanalMitJa)
 
 console.log('\nNews: ein Handbeleg-Weg belegt das Angebot, nicht seinen Beginn (keine rückdatierte Meldung „neu“):')

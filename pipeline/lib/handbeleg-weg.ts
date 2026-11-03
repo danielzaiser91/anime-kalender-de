@@ -1,6 +1,5 @@
 import type { StreamLink, Title } from '../../shared/types.ts'
 import { adressKern, loadDubChecks, type DubCheck } from './dub-confirmed.ts'
-import { kanalAdressenOhneBeleg, kanalSchluessel } from './kanal-titel.ts'
 
 const schluessel = (titleId: number, platform: string, url: string | undefined) => `${titleId}|${platform}|${adressKern(url)}`
 
@@ -41,10 +40,12 @@ export function behalteNurHandbelegteWege(titel: Title, checks: DubCheck[]): voi
 }
 
 /**
- * Trägt nur der Adressbeleg eines Kanal-Titels diesen Weg (`herkunft: 'handbeleg'`)? Dann gibt auch JustWatch ihm keine
+ * Trägt nur der Adressbeleg eines Kanal-Titels diesen Weg (`herkunft: 'handbeleg'`, ohne eigenes Urteil)? Dann gibt auch JustWatch ihm keine
  * Sprachangabe: wie Amazons eigene sagt sie bei einem Kanal-Abo nichts über die Folge (`docs/wissen/quellen.md`, Kanal-Titel).
+ * Der Schlüssel ist Titel und Plattform, nicht die Adresse: Der Bau schreibt die Amazon-Adresse des Belegs (`/gp/video/detail/B0…`) vor
+ * dieser Stelle auf die gti-Form um.
  */
 export function kanalHandbelegWege(checks: DubCheck[]): (titelId: number, s: StreamLink) => boolean {
-  const kanal = kanalAdressenOhneBeleg(checks)
-  return (titelId, s) => s.herkunft === 'handbeleg' && kanal.has(kanalSchluessel(titelId, s.url))
+  const kanal = new Set(checks.filter((c) => c.kanalOhneBeleg && c.dub !== true && c.url).map((c) => `${c.anilistId}|${c.platform}`))
+  return (titelId, s) => s.herkunft === 'handbeleg' && s.dub === undefined && kanal.has(`${titelId}|${s.platform}`)
 }
