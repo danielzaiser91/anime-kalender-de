@@ -52,7 +52,8 @@ function bauUmgebung(state: unknown = null, start = 'Liste'): { umg: Umgebung; e
 }
 const route = (titel?: number): AppRoute => ({ view: 'woche', date: '2026-11-03', title: titel, filters: { ...EMPTY_FILTERS } }) as AppRoute
 const namen: Record<number, string> = { 16013: 'Magic Knight Rayearth: Stand der deutschen Synchro', 5: 'Zweiter Titel' }
-const quelle = (id: number) => namen[id]
+/* Die Quelle gäbe auch für eine fehlende Kennung (undefined) einen Namen — nur 999 ist unbekannt. */
+const quelle = (id: number | undefined) => (id === 999 ? undefined : (namen[id as number] ?? 'Fremdname'))
 const navigate = (u: Umgebung, von: AppRoute) => schreiber(von, () => undefined, () => u).navigate
 
 console.log('\nNeuer Verlaufseintrag trägt den Titelnamen:')
