@@ -33,6 +33,7 @@ const MASSE = plakatMasse({
   '3': { p: null, w: 10, h: 10 },
   '4': { p: '/ohne-hoehe.jpg', w: 10, h: null },
   '5': null,
+  '6': { p: '/rundung.jpg', w: 1000, h: 1405 },
 })
 
 function titel(extra: Partial<Title>): Title {
@@ -59,8 +60,9 @@ pruefe('AniList-Banner + TMDB-Plakat: das Plakat', plakatUndAnilist.includes(`og
 const ohneMasse = titelKopf(titel({ coverImage: ROZEN }), UMFELD, 'abc12345')
 pruefe('Plakat ohne bekannte Maße: Standardbild', ohneMasse.includes(`og:image" content="${STANDARD}"`) && ohneMasse.includes('twitter:card" content="summary_large_image"'))
 pruefe('Plakat in anderer Größe: Standardbild', vorschauBild(undefined, ROZEN.replace('w500', 'w185'), STANDARD, MASSE).url === STANDARD)
+pruefe('Höhe wird gerundet (702,5 → 703)', vorschauBild(undefined, 'https://image.tmdb.org/t/p/w500/rundung.jpg', STANDARD, MASSE).hoehe === 703)
 pruefe('Banner geht dem Plakat vor', vorschauBild(TMDB, ROZEN, STANDARD, MASSE).breite === 780)
-pruefe('plakatMasse: nur vollständige Einträge', [...MASSE.keys()].join() === '/yZ0vpJi7H5piebWbHXCD4aKcvyL.jpg,/xoqpeAa3UH3LI7eYW45RDEhl2qC.jpg')
+pruefe('plakatMasse: nur vollständige Einträge', [...MASSE.keys()].join() === '/yZ0vpJi7H5piebWbHXCD4aKcvyL.jpg,/xoqpeAa3UH3LI7eYW45RDEhl2qC.jpg,/rundung.jpg')
 
 const tmdb = titelKopf(titel({ bannerImage: TMDB, episodes: 12 }), UMFELD, 'abc12345', false, MASSE)
 pruefe('TMDB: w780 mit 780×439', tmdb.includes('og:image" content="https://image.tmdb.org/t/p/w780/7SJ4Oz86UgKuKivmMXvOanTVCJa.jpg"') && tmdb.includes('width" content="780"') && tmdb.includes('height" content="439"'))
