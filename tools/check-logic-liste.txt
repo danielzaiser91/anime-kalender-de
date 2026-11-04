@@ -376,9 +376,11 @@ pipeline/check-schwester-shop.ts
 pipeline/check-screenshot-wiederholen.ts
 pipeline/check-seiten-ansicht.ts
 pipeline/check-seiten-seo.ts
+pipeline/check-serien-vorsatz.ts
 pipeline/check-sichtung-folge.ts
 pipeline/check-sichtungsfenster.ts
 pipeline/check-sonderfolgen.ts
+pipeline/check-spinoff-zaehlung.ts
 pipeline/check-sprache-netz.ts
 pipeline/check-sprache-termin.ts
 pipeline/check-sprecher-anisearch.ts
@@ -410,6 +412,7 @@ pipeline/check-termin-pille.ts
 pipeline/check-termine-observed-lauf.ts
 pipeline/check-termine-uebersicht.ts
 pipeline/check-termine-woche-lauf.ts
+pipeline/check-titel-vorschau.ts
 pipeline/check-titelwechsel.ts
 pipeline/check-tmdb-404-neusuche.ts
 pipeline/check-tmdb-ablauf.ts
@@ -446,7 +449,9 @@ pipeline/check-verweise-gedaechtnis.ts
 pipeline/check-verweise-von-hand.ts
 pipeline/check-vorfaelle-ablauf.ts
 pipeline/check-weg-adresse-bezugsweg.ts
+pipeline/check-weg-aus-meldung.ts
 pipeline/check-wege-aus-terminen.ts
+pipeline/check-werbetarif-weg.ts
 pipeline/check-werk-doppelt.ts
 pipeline/check-widerlegung-de-folgen-bau.ts
 pipeline/check-widerlegung-de-folgen.ts

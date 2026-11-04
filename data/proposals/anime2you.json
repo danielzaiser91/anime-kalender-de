@@ -1,12 +1,12 @@
 {
-  "scrapedAt": "2026-11-03T15:02:34.953Z",
+  "scrapedAt": "2026-11-04T04:11:18.941Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 40,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 16,
-    "schon in einem Rubrik-Feed gelesen": 6,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 1,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 53,
+    "schon in einem Rubrik-Feed gelesen": 31,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 8,
     "Sprachhinweis älter als 45 Tage": 6
   },
   "proposals": [
@@ -30,6 +30,306 @@
       ],
       "dub": "ja",
       "alreadyCurated": false
+    },
+    {
+      "articleTitle": "25 Anime-Neuzugänge ab sofort auf Joyn verfügbar",
+      "articleUrl": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+      "publishedAt": "2026-11-03",
+      "category": "streaming",
+      "platforms": [
+        "aniverse",
+        "joyn"
+      ],
+      "dates": [],
+      "dub": "unklar",
+      "alreadyCurated": false,
+      "sammel": [
+        {
+          "titel": "Akame ga KILL!",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Joyn",
+            "Prime Video"
+          ],
+          "folgen": 24,
+          "datum": "2026-11-03",
+          "datumGeschaetzt": true
+        },
+        {
+          "titel": "Clannad",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Joyn",
+            "Prime Video"
+          ],
+          "folgen": 49,
+          "datum": "2026-11-03",
+          "datumGeschaetzt": true
+        },
+        {
+          "titel": "Clannad: Der Film",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Joyn",
+            "Prime Video"
+          ],
+          "datum": "2026-11-03",
+          "datumGeschaetzt": true
+        },
+        {
+          "titel": "Colorful",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Joyn",
+            "Prime Video"
+          ],
+          "datum": "2026-11-03",
+          "datumGeschaetzt": true
+        },
+        {
+          "titel": "Girls und Panzer: Das Finale – Teil 1",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Joyn",
+            "Prime Video"
+          ],
+          "datum": "2026-11-03",
+          "datumGeschaetzt": true
+        },
+        {
+          "titel": "Girls und Panzer: Das Finale – Teil 2",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Joyn",
+            "Prime Video"
+          ],
+          "datum": "2026-11-03",
+          "datumGeschaetzt": true
+        },
+        {
+          "titel": "Girls und Panzer: Das Finale – Teil 3",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Joyn",
+            "Prime Video"
+          ],
+          "datum": "2026-11-03",
+          "datumGeschaetzt": true
+        },
+        {
+          "titel": "Girls und Panzer OVA – This is the Real Anzio Battle!",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Joyn",
+            "Prime Video"
+          ],
+          "datum": "2026-11-03",
+          "datumGeschaetzt": true
+        },
+        {
+          "titel": "Gosick",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Joyn",
+            "Prime Video"
+          ],
+          "folgen": 24,
+          "datum": "2026-11-03",
+          "datumGeschaetzt": true
+        },
+        {
+          "titel": "Hyouka",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Joyn",
+            "Prime Video"
+          ],
+          "folgen": 23,
+          "datum": "2026-11-03",
+          "datumGeschaetzt": true
+        },
+        {
+          "titel": "K: Seven Stories – Movie 1",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Joyn",
+            "Prime Video"
+          ],
+          "datum": "2026-11-03",
+          "datumGeschaetzt": true
+        },
+        {
+          "titel": "K: Seven Stories – Movie 2",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Joyn",
+            "Prime Video"
+          ],
+          "datum": "2026-11-03",
+          "datumGeschaetzt": true
+        },
+        {
+          "titel": "K: Seven Stories – Movie 3",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Joyn",
+            "Prime Video"
+          ],
+          "datum": "2026-11-03",
+          "datumGeschaetzt": true
+        },
+        {
+          "titel": "K: Seven Stories – Movie 4",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Joyn",
+            "Prime Video"
+          ],
+          "datum": "2026-11-03",
+          "datumGeschaetzt": true
+        },
+        {
+          "titel": "K: Seven Stories – Movie 5",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Joyn",
+            "Prime Video"
+          ],
+          "datum": "2026-11-03",
+          "datumGeschaetzt": true
+        },
+        {
+          "titel": "K: Seven Stories – Movie 6",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Joyn",
+            "Prime Video"
+          ],
+          "datum": "2026-11-03",
+          "datumGeschaetzt": true
+        },
+        {
+          "titel": "Kanon",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Joyn",
+            "Prime Video"
+          ],
+          "folgen": 24,
+          "datum": "2026-11-03",
+          "datumGeschaetzt": true
+        },
+        {
+          "titel": "No Game No Life Zero",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Joyn",
+            "Prime Video"
+          ],
+          "datum": "2026-11-03",
+          "datumGeschaetzt": true
+        },
+        {
+          "titel": "Star Blazers 2199 – Space Battleship Yamato – Odyssey of the Celestial Arc",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Joyn",
+            "Prime Video"
+          ],
+          "datum": "2026-11-03",
+          "datumGeschaetzt": true
+        },
+        {
+          "titel": "Tada Never Falls in Love",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Joyn",
+            "Prime Video"
+          ],
+          "folgen": 13,
+          "datum": "2026-11-03",
+          "datumGeschaetzt": true
+        },
+        {
+          "titel": "Tico: Ein toller Freund",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Joyn",
+            "Prime Video"
+          ],
+          "folgen": 39,
+          "datum": "2026-11-03",
+          "datumGeschaetzt": true
+        },
+        {
+          "titel": "To Love Ru: Darkness",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Joyn",
+            "Prime Video"
+          ],
+          "folgen": 26,
+          "datum": "2026-11-03",
+          "datumGeschaetzt": true
+        },
+        {
+          "titel": "Z wie Zorro – Der Film",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Joyn",
+            "Prime Video"
+          ],
+          "datum": "2026-11-03",
+          "datumGeschaetzt": true
+        },
+        {
+          "titel": "Z wie Zorro",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Joyn",
+            "Prime Video"
+          ],
+          "folgen": 52,
+          "datum": "2026-11-03",
+          "datumGeschaetzt": true
+        },
+        {
+          "titel": "Zorros Geheimnis",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Joyn",
+            "Prime Video"
+          ],
+          "datum": "2026-11-03",
+          "datumGeschaetzt": true
+        }
+      ],
+      "sammelGelesen": "2026-11-04"
     },
     {
       "articleTitle": "TV-Guide: Anime im deutschen Fernsehen in KW 45/2026",
@@ -205,7 +505,7 @@
           "folgen": 13
         }
       ],
-      "sammelGelesen": "2026-11-01"
+      "sammelGelesen": "2026-11-04"
     },
     {
       "articleTitle": "Sieben Disc-Neuheiten ab sofort im AKIBA PASS SHOP vorbestellbar",
@@ -238,10 +538,6 @@
         "kino"
       ],
       "dates": [
-        {
-          "iso": "2026-11-03",
-          "context": "gt wird. Wir fassen nachfolgend zusammen. Gefilmt für IMAX Bereits am 3. November 2026 finden in ausgewählten deutschen IMAX-Kinos exklusive"
-        },
         {
           "iso": "2026-11-05",
           "context": "von »Godzilla Minus Zero« statt. Der reguläre Kinostart folgt dann am 5. November 2026 […] Der Beitrag IMAX-Fassung von »Godzilla Minus Ze"
@@ -379,10 +675,6 @@
         "disneyplus"
       ],
       "dates": [
-        {
-          "iso": "2026-11-03",
-          "context": "gehört die zwölfteilige Romance-Serie »Honey Lemon Soda«, die ab dem 3. November 2026 sowohl mit deutscher Sprachausgabe als auch im Origin"
-        },
         {
           "iso": "2026-11-24",
           "context": "sgabe als auch im Originalton mit Untertiteln zur Verfügung steht. Am 24. November 2026 werden die […] Der Beitrag Disney+ kündigt zwei An"
@@ -593,7 +885,7 @@
           "folgen": 12
         }
       ],
-      "sammelGelesen": "2026-11-01"
+      "sammelGelesen": "2026-11-04"
     },
     {
       "articleTitle": "Disney+ nimmt zwei Anime-Neuzugänge ins Programm",
@@ -632,7 +924,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-01"
+      "sammelGelesen": "2026-11-04"
     },
     {
       "articleTitle": "Zwei Anime-Neuzugänge auf Deutsch bei Crunchyroll",
@@ -682,7 +974,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-01"
+      "sammelGelesen": "2026-11-04"
     },
     {
       "articleTitle": "Crunchyroll zeigt dritte »Mashle«-Staffel im Simulcast",
@@ -1876,7 +2168,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-01"
+      "sammelGelesen": "2026-11-04"
     },
     {
       "articleTitle": "»Lady Oscar« erscheint in einer neuen Blu-ray-Komplettbox",
@@ -6547,7 +6839,7 @@
         }
       ],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": true
     },
     {
       "articleTitle": "Neuer Netflix-Teaser zur zweiten »Sakamoto Days«-Staffel + Visual",
@@ -7224,10 +7516,6 @@
         "kino"
       ],
       "dates": [
-        {
-          "iso": "2026-11-03",
-          "context": "Kinostart im November 2026 Während »Godzilla Minus Zero« in Japan am 3. November 2026 in die Kinos kommt, startet der Film am 5. November 2"
-        },
         {
           "iso": "2026-11-05",
           "context": "in Japan am 3. November 2026 in die Kinos kommt, startet der Film am 5. November 2026 in Deutschland und der […] Der Beitrag Deutscher Ki"

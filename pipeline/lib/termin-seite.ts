@@ -148,7 +148,7 @@ function wegeAufDeutsch(release: Release, title: Title | undefined): string {
             const spanne = belegt.length
               ? belegt.map((r) => (r.from === r.to ? `Folge ${r.from}` : `Folgen ${r.from}–${r.to}`)).join(', ')
               : title?.episodes
-                ? `alle ${title.episodes} Folgen`
+                ? title.episodes === 1 ? 'die Folge' : `alle ${title.episodes} Folgen`
                 : 'auf Deutsch'
             return `<li><a href="${esc(s.url)}" rel="nofollow" style="color:#7dd3fc;">${esc(
               PLATFORMS[s.platform].name,

@@ -351,7 +351,7 @@ for (const name of ['durchlaufMelden', 'randMelden']) {
 {
   const quelle = readFileSync(__dirname + '/melder.js', 'utf8')
   const von = quelle.indexOf('  videoAbdrehen(false)\n  DURCHLAUF.laeuft = false')
-  const block = von < 0 ? '' : quelle.slice(von, von + 1800)
+  const block = von < 0 ? '' : quelle.slice(von, von + 2400)
 
   /* Seit 21.09.2026 springt `selbstWeiter()` — dieselbe Funktion nutzt das Überspringen bei „S?". */
   const weiter = quelle.slice(quelle.indexOf('function selbstWeiter()'), quelle.indexOf('function selbstWeiter()') + 1200)
@@ -397,7 +397,7 @@ for (const name of ['durchlaufMelden', 'randMelden']) {
   }
   pruefe(
     'die Zielseite erbt den Auftrag, wie bei einem Klick',
-    /zuletztGeoeffnet: \{ id: String\(naechster\)/.test(weiter),
+    /const sprung = \{ id: String\(naechster\)/.test(weiter) && /zuletztGeoeffnet: sprung/.test(weiter),
   )
 
   /* Die Auswahl selbst: Was abgehakt ist, wird uebersprungen. */

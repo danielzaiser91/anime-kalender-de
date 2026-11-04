@@ -501,3 +501,17 @@
     time: "17:00"
   sources:
     - https://www.crunchyroll.com/de/series/GG5H5XQMD/as-a-reincarnated-aristocrat-ill-use-my-appraisal-skill-to-rise-in-the-world
+
+# Bass X Machina — Netflix-Katalogstart, alle 6 Folgen am 03.11.2026 (Daniel, 03.11.2026 22:30: alle 6 Folgen geöffnet, deutscher Ton).
+# Westliche Produktion (TMDB 314271, Cartoon-Kennung -314271, Studio Mir); bei AniList nicht geführt. Uhrzeit nicht belegt, deshalb keine.
+- slug: bass-x-machina-netflix
+  anilistId: -314271
+  titleDe: "Bass X Machina"
+  platform: netflix
+  platformUrl: https://www.netflix.com/title/81088875
+  releaseType: batch
+  schedule: { firstEpisodeDate: "2026-11-03", episodeCount: 6 }
+  note: "Netflix-Eigenproduktion, alle 6 Folgen am 03.11.2026 (Daniel, 03.11.2026)."
+  sources:
+    - https://www.netflix.com/title/81088875
+    - https://www.anime2you.de/news/1043257/netflix-bass-x-machina-angekuendigt/

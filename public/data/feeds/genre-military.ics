@@ -8,6 +8,55 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
+UID:auto-99938-joyn@2026-11-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261103
+DTEND;VALUE=DATE:20261104
+SUMMARY:Girls und Panzer - Das Finale: Teil 1
+DESCRIPTION:Plattform: Joyn\nRelease-Art: Film\nUhrzeit noch nicht bestäti
+ gt.\nGeschätzter Termin: kein vom Anbieter genannter Tag\, sondern aus Rh
+ ythmus oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.
+ de/t/8795/
+CATEGORIES:Joyn
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-107208-joyn@2026-11-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261103
+DTEND;VALUE=DATE:20261104
+SUMMARY:Girls und Panzer - Das Finale: Teil 2
+DESCRIPTION:Plattform: Joyn\nRelease-Art: Film\nUhrzeit noch nicht bestäti
+ gt.\nGeschätzter Termin: kein vom Anbieter genannter Tag\, sondern aus Rh
+ ythmus oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.
+ de/t/10290/
+CATEGORIES:Joyn
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-124115-joyn@2026-11-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261103
+DTEND;VALUE=DATE:20261104
+SUMMARY:Girls und Panzer - Das Finale: Teil 3
+DESCRIPTION:Plattform: Joyn\nRelease-Art: Film\nUhrzeit noch nicht bestäti
+ gt.\nGeschätzter Termin: kein vom Anbieter genannter Tag\, sondern aus Rh
+ ythmus oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.
+ de/t/12088/
+CATEGORIES:Joyn
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-20690-joyn@2026-11-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261103
+DTEND;VALUE=DATE:20261104
+SUMMARY:Star Blazers 2199: Space Battleship Yamato - Odyssey of the Celesti
+ al Arc
+DESCRIPTION:Plattform: Joyn\nRelease-Art: Film\nUhrzeit noch nicht bestäti
+ gt.\nGeschätzter Termin: kein vom Anbieter genannter Tag\, sondern aus Rh
+ ythmus oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.
+ de/t/7241/
+CATEGORIES:Joyn
+END:VEVENT
+BEGIN:VEVENT
 UID:memories-2026-11-18@2026-11-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261118
