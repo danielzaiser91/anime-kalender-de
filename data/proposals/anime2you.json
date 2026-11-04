@@ -1,15 +1,36 @@
 {
-  "scrapedAt": "2026-11-04T04:11:18.941Z",
+  "scrapedAt": "2026-11-04T14:48:18.013Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 40,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 53,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 52,
     "schon in einem Rubrik-Feed gelesen": 31,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 8,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 9,
     "Sprachhinweis älter als 45 Tage": 6
   },
   "proposals": [
+    {
+      "articleTitle": "Design der »Fate/stay night: Heaven’s Feel«-Komplettbox + Extras",
+      "articleUrl": "https://www.anime2you.de/news/1067523/fate-stay-night-heavens-feel-komplettbox-design/",
+      "publishedAt": "2026-11-04",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2026-12-18",
+          "context": "ettbox der dreiteiligen Filmreihe erscheint nach aktueller Planung am 18. Dezember 2026 in zwei verschiedenen Varianten. Beide Editionen ent"
+        },
+        {
+          "month": "2026-12",
+          "context": "s Feel« vorgestellt. Ein erstes Produktbild findet ihr unten. Release im Dezember 2026 Die Blu-ray-Komplettbox der dreiteiligen Filmreihe er"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Design der neuen »Neon Genesis Evangelion«-Komplettbox + Extras",
       "articleUrl": "https://www.anime2you.de/news/1067138/neue-evangelion-komplettbox-design/",
@@ -2714,7 +2735,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-01"
+      "sammelGelesen": "2026-11-04"
     },
     {
       "articleTitle": "»Black Clover« stellt neuen Crunchyroll-Bestwert für 2026 auf",
@@ -4808,7 +4829,7 @@
       "dub": "unklar",
       "alreadyCurated": false,
       "sammel": [],
-      "sammelGelesen": "2026-10-26"
+      "sammelGelesen": "2026-11-04"
     },
     {
       "articleTitle": "Netflix kündigt fünf Anime-Simulcasts für Herbst 2026 an",
@@ -4873,7 +4894,7 @@
           "datum": "2026-10-02"
         }
       ],
-      "sammelGelesen": "2026-10-26"
+      "sammelGelesen": "2026-11-04"
     },
     {
       "articleTitle": "»Die Königin der 1000 Jahre« erscheint als Blu-ray-Komplettbox",
@@ -7488,7 +7509,98 @@
         }
       ],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "sammel": [
+        {
+          "titel": "The First Slam Dunk",
+          "datum": "2026-08-05",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "aniverse"
+          ]
+        },
+        {
+          "titel": "Grimoire of Zero",
+          "datum": "2026-08-06",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "aniverse"
+          ],
+          "folgen": 12
+        },
+        {
+          "titel": "Shaman King",
+          "zusatz": "Part 3",
+          "datum": "2026-08-06",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "aniverse"
+          ],
+          "folgen": 16
+        },
+        {
+          "titel": "Danganronpa 3 – Future & Despair",
+          "datum": "2026-08-13",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "aniverse"
+          ],
+          "folgen": 24
+        },
+        {
+          "titel": "Summer Wars",
+          "datum": "2026-08-13",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "aniverse"
+          ]
+        },
+        {
+          "titel": "Ame & Yuki – Die Wolfskinder",
+          "datum": "2026-08-20",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "aniverse"
+          ]
+        },
+        {
+          "titel": "Azumanga Daioh",
+          "zusatz": "Staffel 1",
+          "datum": "2026-08-20",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "aniverse"
+          ],
+          "folgen": 26
+        },
+        {
+          "titel": "Aesthetica of a Rogue Hero",
+          "datum": "2026-08-27",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "aniverse"
+          ],
+          "folgen": 12
+        },
+        {
+          "titel": "Der Junge und das Biest",
+          "datum": "2026-08-27",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "aniverse"
+          ]
+        }
+      ],
+      "sammelGelesen": "2026-11-04"
     },
     {
       "articleTitle": "Neuer »Gintama«-Film erscheint auf Netflix + Visual",

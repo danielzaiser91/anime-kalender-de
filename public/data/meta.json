@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-11-04T09:28:19.736Z",
-  "titleCount": 2924,
+  "generatedAt": "2026-11-04T16:28:51.632Z",
+  "titleCount": 2923,
   "belegtCount": 2589,
-  "releaseCount": 847,
-  "eventCount": 4328,
+  "releaseCount": 855,
+  "eventCount": 4336,
   "genres": [
     "Action",
     "Adventure",
@@ -200,9 +200,9 @@
     "Amazon (DVD / Blu-ray)",
     "Arthouse CNMA",
     "Sky Go",
+    "bücher.de",
     "filmfriend",
     "Chili",
-    "bücher.de",
     "Kixi",
     "Amazon Prime (ADN)",
     "Amazon Prime (Pokémon TV)",
@@ -212,13 +212,13 @@
     "Amazon Prime (ProSieben Fun)",
     "Kino On Demand",
     "Netflix",
-    "Netflix Standard With Ads",
+    "Thalia",
     "ADN",
     "Amazon (Blu-ray)",
     "Amazon (DVD)",
     "Amazon (Trilogie, 3 DVDs)",
     "Hbo Max",
-    "Thalia",
+    "Hugendubel",
     "Verleihshop (Leih-DVD)",
     "Videobuster (Leih-Disc)",
     "ZDF",
@@ -245,7 +245,6 @@
     "Ard Plus Apple Tv Channel",
     "Buy Zoxs",
     "Filmzie",
-    "Hugendubel",
     "Justwatch Tv Plus",
     "Kika",
     "KSM Anime — Complete Edition (AKIBA PASS Shop)",
@@ -279,5 +278,13 @@
     "Termine: aniSearch, Anime2You — siehe Quellenangabe je Eintrag",
     "Markenzeichen der Anbieter: simple-icons (https://simpleicons.org) — CC0, Wikimedia Commons (https://commons.wikimedia.org) — gemeinfrei, ADN-Wortmarke aus der französischen Wikipedia, maxdome-Zeichen nach „Maxdome Logo (2021)“ von videociety GmbH (CC BY-SA 4.0, zugeschnitten); die Marken gehören ihren Inhabern",
     "Welche Folgen auf Netflix eine deutsche Tonspur haben: Streaming Availability API (https://www.movieofthenight.com/about/api)"
+  ],
+  "quarantaene": [
+    {
+      "titleId": 106896,
+      "pruefung": "cr-ja-deckung",
+      "grund": "Crunchyroll-Ja ohne Deckung",
+      "releases": []
+    }
   ]
 }
