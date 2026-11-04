@@ -35,7 +35,7 @@ export interface ListenSeite {
 export type SeiteHolen = (liste: AnbieterListe, nach?: string) => Promise<ListenSeite>
 
 /** TMDB-Kennungen (Zeichenketten) der Liste, höchstens `LISTE_SEITEN_MAX` Seiten. Gibt `abrufe` zurück, damit der Lauf sie zählen kann. */
-export async function holeListe(liste: AnbieterListe, seite: SeiteHolen, pause: () => Promise<void>): Promise<{ tmdbIds: Set<string>; abrufe: number }> {
+export async function holeListe(liste: AnbieterListe, seite: SeiteHolen, pause: () => Promise<void>): Promise<{ tmdbIds: Set<string>; abrufe: number; abgeschnitten: boolean }> {
   const tmdbIds = new Set<string>()
   let nach: string | undefined
   let abrufe = 0
@@ -46,7 +46,7 @@ export async function holeListe(liste: AnbieterListe, seite: SeiteHolen, pause: 
     for (const id of s.tmdbIds) tmdbIds.add(String(id))
     nach = s.weiter
   } while (nach && abrufe < LISTE_SEITEN_MAX)
-  return { tmdbIds, abrufe }
+  return { tmdbIds, abrufe, abgeschnitten: !!nach }
 }
 
 interface BefundKurz {
@@ -132,6 +132,8 @@ export async function listenVorrangAbrufen(
       if (abrufe) await pause()
       const r = await holeListe(liste, seite, pause)
       abrufe += r.abrufe
+      if (r.tmdbIds.size === 0) warn(`JustWatch-Liste ${liste.anbieter}: leer (Antwortform geändert?) — kein Vorrang.`)
+      if (r.abgeschnitten) warn(`JustWatch-Liste ${liste.anbieter}: nach ${LISTE_SEITEN_MAX} Seiten noch nicht zu Ende — Rest fehlt.`)
       for (const id of listenVorrang(liste, r.tmdbIds, titles, bestand, tmdbVon, heute)) vorrang.add(id)
     } catch (e) {
       abrufe++

@@ -34,5 +34,10 @@
   { "name": "LISTE_ALTER_TAGE 7 auf 3", "aenderungen": [{ "datei": "pipeline/lib/jw-anbieterliste.ts", "suche": "LISTE_ALTER_TAGE = 7", "ersetze": "LISTE_ALTER_TAGE = 3" }] },
   { "name": "LISTE_ALTER_TAGE 7 auf 1", "aenderungen": [{ "datei": "pipeline/lib/jw-anbieterliste.ts", "suche": "LISTE_ALTER_TAGE = 7", "ersetze": "LISTE_ALTER_TAGE = 1" }] },
   { "name": "LISTE_SEITEN_MAX 5 auf 6", "aenderungen": [{ "datei": "pipeline/lib/jw-anbieterliste.ts", "suche": "LISTE_SEITEN_MAX = 5", "ersetze": "LISTE_SEITEN_MAX = 6" }] },
-  { "name": "LISTE_SEITEN_MAX 5 auf 4", "aenderungen": [{ "datei": "pipeline/lib/jw-anbieterliste.ts", "suche": "LISTE_SEITEN_MAX = 5", "ersetze": "LISTE_SEITEN_MAX = 4" }] }
+  { "name": "LISTE_SEITEN_MAX 5 auf 4", "aenderungen": [{ "datei": "pipeline/lib/jw-anbieterliste.ts", "suche": "LISTE_SEITEN_MAX = 5", "ersetze": "LISTE_SEITEN_MAX = 4" }] },
+  { "name": "listenVorrangAbrufen: Warnung bei leerer Liste entfernt", "aenderungen": [{ "datei": "pipeline/lib/jw-anbieterliste.ts", "suche": "if (r.tmdbIds.size === 0) warn(", "ersetze": "if (false) warn(" }] },
+  { "name": "listenVorrangAbrufen: leere Liste warnt erst ab < 0", "aenderungen": [{ "datei": "pipeline/lib/jw-anbieterliste.ts", "suche": "r.tmdbIds.size === 0", "ersetze": "r.tmdbIds.size < 0" }] },
+  { "name": "listenVorrangAbrufen: Warnung bei gerissenem Riegel entfernt", "aenderungen": [{ "datei": "pipeline/lib/jw-anbieterliste.ts", "suche": "if (r.abgeschnitten) warn(", "ersetze": "if (false) warn(" }] },
+  { "name": "holeListe: abgeschnitten immer falsch", "aenderungen": [{ "datei": "pipeline/lib/jw-anbieterliste.ts", "suche": "abgeschnitten: !!nach", "ersetze": "abgeschnitten: false" }] },
+  { "name": "holeListe: abgeschnitten immer wahr", "aenderungen": [{ "datei": "pipeline/lib/jw-anbieterliste.ts", "suche": "abgeschnitten: !!nach", "ersetze": "abgeschnitten: true" }] }
 ]

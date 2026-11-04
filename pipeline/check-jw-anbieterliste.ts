@@ -90,6 +90,20 @@ pruefe('Abrufe zählen auch den fehlgeschlagenen: 3', r.abrufe === 3, r.abrufe)
 const nurFehler = await listenVorrangAbrufen([joyn], async () => { throw new Error('Netz') }, keine, titles, bestand, tmdbVon, HEUTE)
 pruefe('Netzfehler: leerer Vorrang, kein Abbruch', nurFehler.vorrang.size === 0 && nurFehler.abrufe === 1)
 
+/* Stille Ausfälle: leere Liste und gerissener Seitenriegel warnen sichtbar. */
+const gewarnt: string[] = []
+const alteWarnung = console.warn
+console.warn = (...a: unknown[]) => { gewarnt.push(a.join(' ')) }
+const leer = await listenVorrangAbrufen([joyn], async () => ({ tmdbIds: [] }), keine, titles, bestand, tmdbVon, HEUTE)
+const nachLeer = gewarnt.length
+const riegel = await listenVorrangAbrufen([joyn], seiten(1000), keine, titles, bestand, tmdbVon, HEUTE)
+const nachRiegel = gewarnt.length
+const ende = await listenVorrangAbrufen([joyn], seiten(5), keine, titles, bestand, tmdbVon, HEUTE)
+console.warn = alteWarnung
+pruefe('Leere Liste: leerer Vorrang und genau eine Warnung "leer"', leer.vorrang.size === 0 && nachLeer === 1 && gewarnt[0].includes('leer'), gewarnt)
+pruefe('Seitenriegel gerissen: genau eine Warnung "5 Seiten", Vorrang bleibt', nachRiegel - nachLeer === 1 && gewarnt[1].includes('nach 5 Seiten') && riegel.abrufe === 5, gewarnt)
+pruefe('Genau 5 Seiten und dann Ende: keine Warnung', gewarnt.length === nachRiegel && ende.abrufe === 5, gewarnt)
+
 /* Abruf: Antwortform, Marke, Fehler. */
 const aufrufe: { body: { variables: { after: string | null; f: unknown } } }[] = []
 const kante = (content: unknown) => ({ node: { content } })
