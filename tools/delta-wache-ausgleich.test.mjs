@@ -71,7 +71,7 @@ const rot = (zeilen) => ereignisse(zeilen).filter((e) => e.art === 'zeile' && e.
 
 // --- Lage des Ausgleichs: gleich die nächste Zeile zählt, auch sechs Zeilen später (B1, B2) --------------------------------------
 {
-  assert.equal(rot(folge([100, 100, 60, 110, 110], 2)).length, 0, 'Ausgleich in der nächsten Zeile: grün')
+  assert.equal(rot(folge([100, 100, 60, 110, 70, 70], 2)).length, 0, 'Ausgleich in der nächsten Zeile: grün')
   assert.equal(rot(folge([100, 100, 60, 60, 60, 60, 60, 60, 100, 100], 2)).length, 0, 'Ausgleich sechs Zeilen später: grün')
 }
 
@@ -129,7 +129,7 @@ const jsonl = (zeilen) => zeilen.map((z) => JSON.stringify(z)).join('\n') + '\n'
   assert.match(w.text, /ℹ\s+erklärt, nicht rot: .*später ausgeglichen \(Stand 02\.11\., 20:43 .*/, 'Info-Zeile statt Warnung')
   assert.match(w.text, /^ℹ {2}1 Rückgang ausgeglichen$/m, 'Schlusszeile zählt den ausgeglichenen Rückgang')
 
-  const nah = wache(jsonl(folge([100, 100, 60, 110, 110], 2)), '2026-10-20T00:00:00Z')
+  const nah = wache(jsonl(folge([100, 100, 60, 110, 70, 70], 2)), '2026-10-20T00:00:00Z')
   assert.equal(nah.code, 0, `Ausgleich in der nächsten Zeile: grün\n${nah.text}`)
   const knapp = wache(jsonl(mitFeld('termine', [100, 100, 40, 40, 81, 81])), '2026-10-20T00:00:00Z')
   assert.equal(knapp.code, 1, 'Termine 81 von 100 bleibt rot')
