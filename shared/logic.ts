@@ -213,14 +213,15 @@ export function erscheintErst(t: Pick<Title, 'jpStart' | 'jpStatus' | 'jpYear'>,
  * allein zählt die heutige Folge ab Mitternacht mit — bei einer Serie, die um
  * 17:00 erscheint, siebzehn Stunden zu früh.
  *
- * Fehlt die Uhrzeit, gilt der Tag als abgeschlossen: Wir wissen dann nicht,
- * wann sie kam, aber dass sie kam. Ein „noch nicht" wäre die schlechtere
- * Auskunft — die Oberfläche schreibt bei fehlender Uhrzeit ohnehin „Zeit
- * offen".
+ * Fehlt die Uhrzeit, gilt der Tag als abgeschlossen (23:59): Wir wissen dann nicht,
+ * wann sie kam, aber dass sie kam. Ausnahme: ein Katalogstart (`batch`, nicht TV) gilt ab 00:00 als erschienen,
+ * sonst steht am Starttag "0 von 6"; der Kasten nennt dann "Uhrzeit offen" (`katalogHeuteOffen`).
+ * Der Push bleibt bei 23:59 (`katalogAmTagesbeginn = false`): Netflix schaltet erst gegen 9 Uhr frei.
  */
 export function istErschienen(
   ereignis: { date: string; time?: string; verpasst?: { erschienenAm?: string }; nachLuecke?: boolean; releaseType?: string; platform?: string },
   jetzt: Date = new Date(),
+  katalogAmTagesbeginn = true,
 ): boolean {
   /*
     **Ein verstrichener Termin ist keine erschienene Folge.**
@@ -232,15 +233,16 @@ export function istErschienen(
     dieselbe Frage. Seitdem beantwortet diese Funktion sie für alle.
   */
   if (istAusgeblieben(ereignis) || ereignis.nachLuecke) return false
-  return berlinToUtc(ereignis.date, ereignis.time ?? tagesGrenze(ereignis)).getTime() <= jetzt.getTime()
+  return berlinToUtc(ereignis.date, ereignis.time ?? tagesGrenze(ereignis, katalogAmTagesbeginn)).getTime() <= jetzt.getTime()
 }
 
-/**
- * Ohne Uhrzeit endet der Tag um 23:59 — außer bei einem Katalogstart (`batch`, nicht TV): Alle Folgen kommen auf einmal,
- * und „0 von 6 Folgen erschienen" an ihrem Starttag ist falsch (Bass X Machina, 03.11.2026). Dort gilt der Tagesbeginn.
- */
-function tagesGrenze(ereignis: { releaseType?: string; platform?: string }): string {
-  return ereignis.releaseType === 'batch' && ereignis.platform !== 'tv' ? '00:00' : '23:59'
+/** Ein Katalogstart (`batch`, nicht TV) ohne Uhrzeit: alle Folgen an einem Tag, Zeitpunkt unbekannt (Bass X Machina, 03.11.2026). */
+export function istKatalogstartOhneUhrzeit(e: { time?: string; releaseType?: string; platform?: string }): boolean {
+  return !e.time && e.releaseType === 'batch' && e.platform !== 'tv'
+}
+
+function tagesGrenze(e: { time?: string; releaseType?: string; platform?: string }, amTagesbeginn: boolean): string {
+  return amTagesbeginn && istKatalogstartOhneUhrzeit(e) ? '00:00' : '23:59'
 }
 
 /**

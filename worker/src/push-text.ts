@@ -9,6 +9,8 @@ export interface PushEreignis {
   time?: string
   episode?: number
   verpasst?: { erschienenAm?: string }
+  releaseType?: string
+  platform?: string
 }
 
 export interface WeitererAnbieter {

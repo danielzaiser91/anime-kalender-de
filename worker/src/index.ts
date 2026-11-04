@@ -33,9 +33,8 @@ import {
   type ReleaseLink,
 } from './templates.ts'
 import { Ereignisse, ereignisSenden } from './ereignisse.ts'
-import { pushVersand } from './push.ts'
+import { pushIstErschienen, pushVersand } from './push.ts'
 import { handlePushAbo, handlePushTest } from './push-abo.ts'
-import { istErschienen } from '../../shared/logic.ts'
 import { type Env } from './env.ts'
 import { digestFuer, type DigestKontext, type Reihen, type SubscriberRow } from './digest-inhalt.ts'
 import { DIGEST_CRON, versendeDigest } from './digest-versand.ts'
@@ -1454,7 +1453,7 @@ export default {
     )
     ctx.waitUntil(
       Promise.all([loadEvents(env), loadNews(env)])
-        .then(([ev, news]) => pushVersand(env, now, ev, (e, zeit) => istErschienen(e, zeit), weitereAusNews(news)))
+        .then(([ev, news]) => pushVersand(env, now, ev, pushIstErschienen, weitereAusNews(news)))
         .then((msg) => console.log(`[push] ${msg}`))
         .catch((err) => fehlerLog('[push] fehlgeschlagen', err)),
     )

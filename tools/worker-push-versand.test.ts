@@ -10,7 +10,7 @@
  * Aufruf: `npx tsx tools/worker-push-versand.test.ts`
  */
 import type { DatabaseSync } from 'node:sqlite'
-import { pushVersand, schreibeMarke } from '../worker/src/push.ts'
+import { pushIstErschienen, pushVersand, schreibeMarke } from '../worker/src/push.ts'
 import type { PushEreignis } from '../worker/src/push-text.ts'
 import { d1, fetchAttrappe, neueDatenbank, testEnv, unteraufrufe, zaehler, zaehlerZurueck } from './worker-unteraufrufe-attrappe.ts'
 
@@ -323,6 +323,27 @@ async function bedingterUpsert() {
   pruefe(geaendert() === 1, 'andere Zeit: eine Schreibzeile')
 }
 
+/** Katalogstart ohne Uhrzeit (Netflix, batch): kein Push um 00:30, erst nach 23:59 — mit dem echten `istErschienen` des Workers. */
+async function katalogOhneUhrzeit() {
+  console.log('Katalogstart ohne Uhrzeit:')
+  const db = neueDatenbank()
+  const env = await umgebung(db)
+  const ereignis: PushEreignis = { titleId: 1, name: 'Katalog', date: '2026-11-03', episode: 1, releaseType: 'batch', platform: 'netflix' }
+  const lauf = async (jetzt: string, vorher: string) => {
+    abos(db, 1, { zuletzt: vorher })
+    marke(db, vorher)
+    nullen()
+    await pushVersand(env, new Date(jetzt), [ereignis], pushIstErschienen)
+    return pushAbrufe.length
+  }
+  pruefe((await lauf('2026-11-02T23:30:00Z', '2026-11-02T22:00:00.000Z')) === 0, 'batch ohne Uhrzeit, 00:30 Berlin am Starttag: kein Push')
+  pruefe((await lauf('2026-11-03T08:00:00Z', '2026-11-03T07:00:00.000Z')) === 0, 'batch ohne Uhrzeit, 09:00 Berlin: kein Push')
+  pruefe((await lauf('2026-11-03T23:30:00Z', '2026-11-03T20:00:00.000Z')) === 1, 'batch ohne Uhrzeit, 00:30 am Folgetag: ein Push')
+  ereignis.releaseType = 'weekly'
+  pruefe((await lauf('2026-11-03T23:30:00Z', '2026-11-03T20:00:00.000Z')) === 1, 'weekly ohne Uhrzeit bleibt bei 23:59')
+}
+
+await katalogOhneUhrzeit()
 await vieleMitNeuigkeit()
 await netzfehler()
 await alteMarkeEinFehler()

@@ -253,6 +253,7 @@ pipeline/check-kapitel-katalog.ts
 pipeline/check-kapitel-shop-wege.ts
 pipeline/check-katalog-eingefroren.ts
 pipeline/check-katalog-release.ts
+pipeline/check-katalogstart-kasten.ts
 pipeline/check-katalogstart-tag.ts
 pipeline/check-kino-zuletzt.ts
 pipeline/check-kopf-menue.ts
