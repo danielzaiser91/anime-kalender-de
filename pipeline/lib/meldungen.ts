@@ -470,6 +470,13 @@ function sammelTagIstNurStart(v: Vorschlag, treffer: Title, heute: string, abged
   return true
 }
 
+/** Der Titel, den die Meldung genau meint: über die Kennung, sonst über einen genauen Namenstreffer (kein Präfix-Treffer). */
+function basisDerMeldung(v: Vorschlag, titel: Title[]): Title | undefined {
+  if (v.titleId) return titel.find((t) => t.id === v.titleId)
+  const treffer = findeTitel(v.articleTitle, titel)
+  return treffer?.genau ? treffer.titel : undefined
+}
+
 export function releasesAus(
   vorschlaege: Vorschlag[],
   titel: Title[],
@@ -500,11 +507,7 @@ export function releasesAus(
      * Überschrift sagt nicht, welche der vier Staffeln gemeint ist; als Meldung
      * ist das in Ordnung, als Kalendereintrag wäre es eine Falschangabe.
      */
-    const basis = v.titleId
-      ? titel.find((t) => t.id === v.titleId)
-      : findeTitel(v.articleTitle, titel)?.genau
-        ? findeTitel(v.articleTitle, titel)?.titel
-        : undefined
+    const basis = basisDerMeldung(v, titel)
     if (!basis) continue
 
     const treffer = reihenTeil(basis, titel, v.articleTitle) ?? vermerkeTeilHinweis(v.articleTitle, verworfen)
