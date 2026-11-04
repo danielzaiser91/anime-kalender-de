@@ -75,9 +75,18 @@ try {
   const titel = (id: number, streams: StreamLink[]) => ({ id, streams }) as unknown as Title
   const weg = (platform: string, url: string) => ({ platform, url }) as StreamLink
   const adressen = joynAdressenVonJw({
-    1: { angebote: [{ anbieter: 'Joyn', url: 'https://www.joyn.de/filme/a' }, { anbieter: 'Netflix', url: 'https://www.netflix.com/title/1' }, { anbieter: 'Joyn' }] },
+    10_000_001: { angebote: [{ anbieter: 'Joyn', url: 'https://www.joyn.de/filme/a' }, { anbieter: 'Netflix', url: 'https://www.netflix.com/title/1' }, { anbieter: 'Joyn' }] },
+    10_000_004: { angebote: [{ anbieter: 'Joyn', url: 'https://www.joyn.de/filme/fremd' }] },
+    10_000_005: { angebote: [{ anbieter: 'Netflix', url: 'https://www.netflix.com/title/5' }] },
   })
-  erwarte('Joyn-Adressen von JustWatch: nur Joyn, nur mit Adresse', adressen.size === 1 && adressen.has('https://www.joyn.de/filme/a'), [...adressen])
+  const eigene = adressen.get('10000001')
+  erwarte('Joyn-Adressen von JustWatch je Titel: nur Joyn, nur mit Adresse, keine Titel ohne Joyn', adressen.size === 2 && eigene?.size === 1 && eigene.has('https://www.joyn.de/filme/a'), [...adressen])
+  const fremd = titel(10_000_006, [weg('joyn', 'https://www.joyn.de/filme/fremd')])
+  behalteNurHandbelegteWege(fremd, [], adressen)
+  erwarte('Adresse nur bei fremdem Titel: Weg verloren', fremd.streams.length === 0, fremd.streams)
+  const eigenUndFremd = titel(10_000_004, [weg('joyn', 'https://www.joyn.de/filme/a'), weg('joyn', 'https://www.joyn.de/filme/fremd')])
+  behalteNurHandbelegteWege(eigenUndFremd, [], adressen)
+  erwarte('Nur die Adresse, die JustWatch bei diesem Titel nennt, bleibt; die eines anderen Titels fällt', eigenUndFremd.streams.length === 1 && eigenUndFremd.streams[0].url.endsWith('/fremd'), eigenUndFremd.streams)
   const nurAni = titel(10_000_001, [weg('joyn', 'https://www.joyn.de/filme/a'), weg('joyn', 'https://www.joyn.de/filme/erraten'), weg('netflix', 'https://www.netflix.com/title/1')])
   behalteNurHandbelegteWege(nurAni, [], adressen)
   erwarte('aniSearch-Titel behält den Joyn-Weg, den JustWatch nennt; erratene Joyn- und andere Wege fallen', nurAni.streams.length === 1 && nurAni.streams[0].url.endsWith('/a') && nurAni.streams[0].herkunft === 'justwatch', nurAni.streams)
@@ -95,7 +104,7 @@ try {
   const o = ordneAusnahmen([1, 2, 3], [{ id: 2, grund: 'x' }, { id: 9, grund: 'y' }])
   erwarte('Ausnahmen: offen sind Lücken ohne Eintrag, veraltet Einträge ohne Lücke', JSON.stringify(o) === '{"offen":[1,3],"veraltet":[9]}', o)
   const liste = JSON.parse(readFileSync(join(process.cwd(), 'data', 'joyn-luecke-ausnahmen.json'), 'utf8')) as { id: number; grund: string }[]
-  erwarte('Ratsche: höchstens 2 Ausnahmen (nur schrumpfen), jede mit Grund, keine Kennung doppelt', liste.length <= 2 && liste.every((a) => a.grund.length > 20) && new Set(liste.map((a) => a.id)).size === liste.length, liste)
+  erwarte('Ratsche: nur die Kennungen 8246 und 10589 (nur schrumpfen, nie tauschen), jede mit Grund, keine Kennung doppelt', liste.every((a) => [8246, 10589].includes(a.id)) && liste.every((a) => a.grund.length > 20) && new Set(liste.map((a) => a.id)).size === liste.length, liste)
 } finally {
   if (!process.argv[2]) rmSync(wurzel, { recursive: true, force: true })
 }

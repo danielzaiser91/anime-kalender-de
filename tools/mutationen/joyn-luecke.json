@@ -1,5 +1,8 @@
 [
   { "name": "Kontrolle (unmutiert)", "aenderungen": [] },
+  { "name": "handbeleg-weg: globale Menge statt je Titel", "datei": "pipeline/lib/handbeleg-weg.ts", "suche": "const eigene = jwJoyn.get(String(titel.id))", "ersetze": "const eigene = new Set([...jwJoyn.values()].flatMap((m) => [...m]))", "tests": ["npx tsx pipeline/check-joyn-luecke.ts"] },
+  { "name": "handbeleg-weg: falsche Titelkennung nachgeschlagen", "datei": "pipeline/lib/handbeleg-weg.ts", "suche": "const eigene = jwJoyn.get(String(titel.id))", "ersetze": "const eigene = jwJoyn.get(String(-titel.id))", "tests": ["npx tsx pipeline/check-joyn-luecke.ts"] },
+  { "name": "ausnahmen: fremde Kennung statt 8246", "datei": "data/joyn-luecke-ausnahmen.json", "suche": "\"id\": 8246,", "ersetze": "\"id\": 8247,", "tests": ["npx tsx pipeline/check-joyn-luecke.ts"] },
   { "name": "cartoon-joyn: Titel mit Joyn-Weg nicht überspringen", "datei": "pipeline/bau/cartoon-joyn.ts", "suche": "if (t.streams.some((s) => s.platform === 'joyn')) continue", "ersetze": "if (false) continue" },
   { "name": "cartoon-joyn: Anbieter ungleich Joyn", "datei": "pipeline/bau/cartoon-joyn.ts", "suche": "plattformVon(x.anbieter ?? '') === 'joyn'", "ersetze": "plattformVon(x.anbieter ?? '') !== 'joyn'" },
   { "name": "cartoon-joyn: ohne Adresse weiter", "datei": "pipeline/bau/cartoon-joyn.ts", "suche": "if (!a?.url) continue", "ersetze": "if (a?.url) continue" },
