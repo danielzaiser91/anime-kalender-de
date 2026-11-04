@@ -38305,7 +38305,6 @@
   dub: true
   checkedAt: '2026-10-31'
   note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B0D8YVX1WP: alle 1 Folge geprüft, Abos: keine Angabe — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 102, zugang=kauf, gti=amzn1.dv.gti.faccc02a-6c2d-4353-a973-c4b9ae22b894"
-
 # --- Aus dem Browser gemeldet, abgeholt am 2026-11-02 ---
 
 - anilistId: 113971
@@ -38315,7 +38314,6 @@
   dub: true
   checkedAt: '2026-11-02'
   note: "Film, Titelseite ohne Anmeldung (Linkprüfung): Audio Deutsch, Englisch, Spanisch (Spanien), Französisch, Italienisch, Japanisch — gilt für den Film, nicht je Folge"
-
 - anilistId: 179874
   title: "Mononoke the Movie: Chapter III - The Curse of the Serpent"
   platform: netflix
@@ -38323,7 +38321,6 @@
   dub: true
   checkedAt: '2026-11-02'
   note: "Film, Titelseite ohne Anmeldung (Linkprüfung): Audio Deutsch, Englisch, Französisch – Audiodeskription, Französisch, Italienisch, Japanisch – Audiodeskription, Japanisch, Türkisch — gilt für den Film, nicht je Folge"
-
 - anilistId: 211308
   title: "The Ribbon Hero"
   platform: netflix
@@ -38331,7 +38328,6 @@
   dub: true
   checkedAt: '2026-11-02'
   note: "Film, Titelseite ohne Anmeldung (Linkprüfung): Audio Deutsch, Englisch, Spanisch (Spanien), Spanisch (Lateinamerika) – Audiodeskription, Französisch, Italienisch, Japanisch – Audiodeskription, Japanisch — gilt für den Film, nicht je Folge"
-
 # --- Aus dem Browser gemeldet, abgeholt am 2026-11-03 ---
 
 - anilistId: 1292
@@ -38356,7 +38352,6 @@
       folgen: 6
   checkedAt: '2026-11-03'
   note: "Daniel, 03.11.2026: alle 6 Folgen bei Netflix geöffnet, deutscher Ton („3D Audio“), Jahr 2026. Folgenzahl 6 auch nach TMDB (JustWatch nannte 1). Cartoon aus TMDB (negative Kennung)."
-
 # --- Aus dem Browser gemeldet, abgeholt am 2026-11-03 ---
 
 - anilistId: -314271
@@ -38366,3 +38361,12 @@
   dub: true
   checkedAt: '2026-11-03'
   note: "Folgen 1–6 mit deutschem Ton — Tonspuren: en|Englisch [Original], de|Deutsch, uk|Ukrainisch, tr|Türkisch, ru|Russisch, fr|Französisch, hi|Hindi, it|Italienisch, ja|Japanisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch, cs|Tschechisch, hu|Ungarisch — Gemessen in der Randprobe — gemessen: Folge 1 und 6, dazwischen nicht geprüft — Folge 6: Wenn du ein Land willst, musst du dafür töten"
+# --- Aus dem Browser gemeldet, abgeholt am 2026-11-04 ---
+
+- anilistId: 102351
+  title: "Tokyo Ghoul:re"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0D7N68Q5T
+  dub: true
+  checkedAt: '2026-10-13'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0D7N68Q5T: alle 12 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.834ee1bc-c7bc-4b4c-839c-ee8826498aed"
