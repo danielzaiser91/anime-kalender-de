@@ -41,6 +41,7 @@ import { appendFileSync, existsSync, readFileSync, writeFileSync } from 'node:fs
 import { resolve } from 'node:path'
 import type { Title } from '../shared/types.ts'
 import { belegGruende, findeAuffaelliges, kanalTitelMenge, messen, type Kennzahlen } from './lib/bestand-delta.ts'
+import { bestandAusCommit, linkAbgaenge, type LinkAbgaenge, type LinkBefunde } from './lib/bestand-link-abgang.ts'
 import { ladeBelegeEntfernt } from './lib/belege-entfernt.ts'
 import { titelAusCommit, verschobeneTitel } from './lib/bestand-verschoben.ts'
 import { letzteGeltende, letzteVerwerfen } from './lib/historie-zeilen.ts'
@@ -91,6 +92,13 @@ function verschobenSeitCommit(schrumpft: boolean): string[] {
   return verschobeneTitel(titelAusCommit(ROOT), jetztTitel, lies<Title[]>('public/data/ohne-synchro.json', []))
 }
 
+/** Synchro-Belege, die seit dem letzten Commit fehlen, nach Linkprüfung begründet oder nicht; gelesen wird nur, wenn die Urteile sanken. */
+function linkAbgangSeitCommit(sinkt: boolean): LinkAbgaenge {
+  if (!sinkt) return { begruendet: [], unerklaert: [] }
+  const roh = lies<Title[] | Record<string, Title>>('public/data/titles.json', [])
+  return linkAbgaenge(bestandAusCommit(ROOT), Array.isArray(roh) ? roh : Object.values(roh), lies<LinkBefunde>('data/link-check.json', {}))
+}
+
 const dateiText = () => (existsSync(DATEI) ? readFileSync(DATEI, 'utf8') : '')
 
 /** Markiert die letzte Zeile des laufenden Laufs als verworfen; sonst bleibt die Datei, wie sie ist. */
@@ -106,7 +114,9 @@ if (args.includes('--verwerfen') || args.includes('--ersetzen')) verwirfLetzte()
 if (!args.includes('--verwerfen')) {
   const jetzt = messenAusDateien()
   const vorher = letzteGeltende(dateiText()) as (Kennzahlen & { zeitpunkt: string }) | null
-  const { auffaellig, erklaert } = findeAuffaelliges(jetzt, vorher, verschobenSeitCommit(!!vorher && jetzt.titel < vorher.titel), belegGruendeAusDateien())
+  const verschoben = verschobenSeitCommit(!!vorher && jetzt.titel < vorher.titel)
+  const link = linkAbgangSeitCommit(!!vorher && jetzt.mitUrteil < vorher.mitUrteil)
+  const { auffaellig, erklaert } = findeAuffaelliges(jetzt, vorher, verschoben, belegGruendeAusDateien(), link)
 
   const zeile = {
     zeitpunkt: new Date().toISOString(),
