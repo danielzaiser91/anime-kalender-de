@@ -347,6 +347,24 @@ function panelUnterlegen(route: AppRoute): void {
   history.pushState({ panel: true, tief: true }, '', url)
 }
 
+let tabTitelFuer: ((id: number) => string | undefined) | undefined
+
+/** Die App sagt, wie der Tab eines Titels heißt; `navigate` setzt ihn vor dem Verlaufseintrag (`titelNachEintrag`). */
+export function setzeTabTitelQuelle(quelle: ((id: number) => string | undefined) | undefined): void {
+  tabTitelFuer = quelle
+}
+
+/**
+ * Der Tab heißt gleich nach dem neuen Verlaufseintrag (`pushState`/Hash-Wechsel) wie der Titel, noch vor dem Neuzeichnen: Der
+ * Browser gibt den Titel dem aktuellen Eintrag, und das Panel setzt ihn erst nach dem Umschreiben auf `/t/<ak>/` — die
+ * Eintragszeile mit `t=` behielt den Grundtitel. Vor dem Eintrag gesetzt, bekäme ihn die Zeile der Liste darunter (03.11.2026).
+ */
+export function titelNachEintrag(alt: Pick<AppRoute, 'title'>, neu: Pick<AppRoute, 'title'>, dok: { title: string } | undefined, quelle = tabTitelFuer): void {
+  if (!neu.title || neu.title === alt.title || !dok) return
+  const name = quelle?.(neu.title)
+  if (name) dok.title = name
+}
+
 /** Ein Navigationsschritt auf der Adressleiste: Panel öffnen/schließen, Ansicht wechseln. */
 export function navigiere(route: AppRoute, next: Partial<AppRoute>, merged: AppRoute, umg: Umgebung, setRoute: (r: AppRoute) => void): void {
   const { ort, verlauf: hist, base } = umg
@@ -429,6 +447,7 @@ export function schreiber(route: AppRoute, setRoute: (r: AppRoute) => void, umge
     /* Ändert sich ein Schnellfilter, wird er zur Vorliebe — vor dem Adresswechsel, den `parseHash` danach liest. */
     vorliebenNachfuehren(route.filters, merged.filters)
     navigiere(route, next, merged, umgebung(), setRoute)
+    titelNachEintrag(route, merged, typeof document === 'undefined' ? undefined : document)
   }
   const ersetze = (next: Partial<AppRoute>) => ersetzeAdresse({ ...route, ...next }, umgebung(), setRoute)
   return { navigate, ersetze }
