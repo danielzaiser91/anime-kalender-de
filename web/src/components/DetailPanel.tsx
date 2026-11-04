@@ -152,16 +152,8 @@ export function DetailPanel({
    * nötig, weil der Kopf beim Umschalten auf ein Special um 112 Pixel sprang.
    * Mit dem Cover tritt der Fall nicht mehr ein.
    */
-  const buehnenBild: string | undefined = useMemo(() => {
-    if (!title) return undefined
-    if (title.coverImage) return title.coverImage
-    // Sollte nie greifen — steht als Netz für einen künftigen Titel ohne Cover.
-    for (const m of reihenTeile) {
-      const t = data.titleById.get(m.id)
-      if (t?.coverImage) return t.coverImage
-    }
-    return undefined
-  }, [title, reihenTeile, data])
+  /* Kein Rückfall auf das Cover eines anderen Reihenteils (04.11.2026): Kachel, Titelseite und Vorschaubild zeigen nur das eigene Cover; ein fremdes Plakat belegt nichts. */
+  const buehnenBild: string | undefined = title?.coverImage
 
   const reihenName = useMemo(() => reihenNameVon(title, reihe, data), [reihe, title, data])
 
