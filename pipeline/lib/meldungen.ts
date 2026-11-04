@@ -477,6 +477,38 @@ function basisDerMeldung(v: Vorschlag, titel: Title[]): Title | undefined {
   return treffer?.genau ? treffer.titel : undefined
 }
 
+/** Der Termin einer Meldung als Release (Slug ohne Datum, siehe Kommentar am Slug). */
+function releaseAusMeldung(v: Vorschlag, treffer: Title, platform: string, tag: string, sprache: Sprachbefund, vorhanden: Release[], heute: string): Release {
+  const art = artDerMeldung(v, platform, treffer)
+  const name = treffer.titleDe ?? treffer.titleEn ?? treffer.titleRomaji ?? `#${treffer.id}`
+  const quelle = aktuelleQuelle(v.articleUrl, heute, tag)
+  return {
+    /**
+     * **Kein Datum im Slug.**
+     *
+     * Aus dem Slug wird die Teilen-Adresse `/r/<slug>/`, eine echte Datei im
+     * Bauwerk. Stand das Datum darin, erzeugte jede Terminverschiebung eine
+     * neue Adresse und ließ die alte als 404 zurück — bei Terminen, die sich
+     * erfahrungsgemäß dauernd verschieben, ein eingebauter Fehlerlieferant.
+     * Google hat genau das am 16.08.2026 gemeldet.
+     *
+     * Titel und Anbieter identifizieren das Release ohnehin eindeutig; mehr
+     * als eines je Kombination lässt `releasesAus` nicht zu.
+     */
+    slug: freierSlug(`auto-${ALTE_AUTO_KENNUNG[treffer.id] ?? treffer.id}-${platform}`, vorhanden, tag),
+    titleId: treffer.id,
+    name,
+    platform: platform as Release['platform'],
+    ...(v.kanal && platform === 'primevideo' ? { kanal: v.kanal } : {}),
+    ...zeitplanGeschaetzt(zeitplanAusVorschlag(v, art, tag, treffer, platform), v.dates?.some((d) => d.iso === tag && d.geschaetzt)), ...sprachHinweis(sprache, platform),
+    year: Number(tag.slice(0, 4)),
+    herkunft: `Automatisch übernommen aus „${v.articleTitle}".`,
+    automatisch: true,
+    sources: [v.articleUrl],
+    quellen: [quelle],
+  }
+}
+
 export function releasesAus(
   vorschlaege: Vorschlag[],
   titel: Title[],
@@ -518,36 +550,7 @@ export function releasesAus(
     if (istBelegtVermerkt(belegt, treffer, platform, tag, v, abgedeckt)) continue
     belegeTermin(belegt, treffer.id, platform, tag)
 
-    const art = artDerMeldung(v, platform, treffer)
-
-    const name = treffer.titleDe ?? treffer.titleEn ?? treffer.titleRomaji ?? `#${treffer.id}`
-    const quelle = aktuelleQuelle(v.articleUrl, heute, tag)
-
-    out.push({
-      /**
-       * **Kein Datum im Slug.**
-       *
-       * Aus dem Slug wird die Teilen-Adresse `/r/<slug>/`, eine echte Datei im
-       * Bauwerk. Stand das Datum darin, erzeugte jede Terminverschiebung eine
-       * neue Adresse und ließ die alte als 404 zurück — bei Terminen, die sich
-       * erfahrungsgemäß dauernd verschieben, ein eingebauter Fehlerlieferant.
-       * Google hat genau das am 16.08.2026 gemeldet.
-       *
-       * Titel und Anbieter identifizieren das Release ohnehin eindeutig; mehr
-       * als eines je Kombination lässt `releasesAus` nicht zu.
-       */
-      slug: freierSlug(`auto-${ALTE_AUTO_KENNUNG[treffer.id] ?? treffer.id}-${platform}`, vorhanden, tag),
-      titleId: treffer.id,
-      name,
-      platform: platform as Release['platform'],
-      ...(v.kanal && platform === 'primevideo' ? { kanal: v.kanal } : {}),
-      ...zeitplanGeschaetzt(zeitplanAusVorschlag(v, art, tag, treffer, platform), v.dates?.some((d) => d.iso === tag && d.geschaetzt)), ...sprachHinweis(sprache, platform),
-      year: Number(tag.slice(0, 4)),
-      herkunft: `Automatisch übernommen aus „${v.articleTitle}".`,
-      automatisch: true,
-      sources: [v.articleUrl],
-      quellen: [quelle],
-    })
+    out.push(releaseAusMeldung(v, treffer, platform, tag, sprache, vorhanden, heute))
   }
   return out.map((r) => mitPlanDesKanalAnbieters(r, vorhanden))
 }
