@@ -471,12 +471,73 @@ function sammelTagIstNurStart(v: Vorschlag, treffer: Title, heute: string, abged
   return true
 }
 
-/** Der gemeinte Titel: die gesetzte Kennung, sonst ein genauer Name; eine Sammelzeile darf zusätzlich über Synonym oder eindeutigen Namensanfang. */
-function basisDerMeldung(v: Vorschlag, titel: Title[], synonyme: Map<number, string[]>): Title | undefined {
-  if (v.titleId) return titel.find((t) => t.id === v.titleId)
-  const gefunden = findeTitel(v.articleTitle, titel)
-  if (gefunden?.genau) return gefunden.titel
+/** Meldungen mit Termin, die kein Release wurden — die Gründe, die `releasesAus` nicht schon anderswo zählt (`verworfen`, `abgedeckt`). */
+export interface Verluste {
+  /** Kein Titel (Anime oder Cartoon) mit genau diesem Namen. */
+  ohneTitel: Vorschlag[]
+  /** Titel gefunden, aber Staffel/Teil der Überschrift nicht eindeutig. */
+  ohneTeil: Vorschlag[]
+  /** Titel und Tag da, aber kein Anbieter, den wir führen. */
+  ohneAnbieter: Vorschlag[]
+  /** Kein Verlust, aber gezählt: Sammelartikel-Eintrag am Starttag der Ankündigung (kein Termin deutscher Folgen). */
+  nurStart: Vorschlag[]
+  /** Kein Verlust, aber gezählt: Ein Termin des Titels beim Anbieter belegt die Meldung schon. */
+  schonBelegt: Vorschlag[]
+}
+
+export const leereVerluste = (): Verluste => ({ ohneTitel: [], ohneTeil: [], ohneAnbieter: [], nurStart: [], schonBelegt: [] })
+
+/** Slug-Teil eines automatischen Releases; Cartoons (negative Kennung) als `c<Zahl>`, kein doppelter Strich. */
+const autoKennung = (id: number): string => (id < 0 ? `c${-id}` : String(ALTE_AUTO_KENNUNG[id] ?? id))
+
+/**
+ * Ein Cartoon kommt für einen Namenstreffer nur in Frage, wenn sein Start-Jahr (TMDB) höchstens ein Jahr vor oder nach dem Jahr des Termins
+ * liegt: eine Meldung kündigt Start oder neue Folgen an, ein „Eden“ von 2020 ist nicht der Anime „Eden“ von 2026. Ein Jahr Spielraum, weil
+ * TMDB den Start im Vorjahr führen kann, wenn der deutsche Termin erst später liegt; ohne Start-Jahr kein Treffer (fail closed).
+ */
+export function cartoonPasstZumTermin(cartoon: Title, tag: string): boolean {
+  return cartoon.jpYear !== undefined && Math.abs(cartoon.jpYear - Number(tag.slice(0, 4))) <= 1
+}
+
+/** Der gemeinte Titel: die gesetzte Kennung, sonst ein genauer Name; eine Sammelzeile darf zusätzlich über Synonym oder eindeutigen Namensanfang (nur Anime). */
+function basisDerMeldung(v: Vorschlag, titel: Title[], cartoons: Title[], tag: string, synonyme: Map<number, string[]>): Title | undefined {
+  const kandidaten = [...titel, ...cartoons.filter((c) => cartoonPasstZumTermin(c, tag))]
+  if (v.titleId) return kandidaten.find((t) => t.id === v.titleId)
+  const treffer = findeTitel(v.articleTitle, kandidaten)
+  if (treffer?.genau) return treffer.titel
   return istSammelMeldung(v) ? sammelTitel(v.articleTitle, titel, synonyme) : undefined
+}
+
+/** Der Termin einer Meldung als Release (Slug ohne Datum, siehe Kommentar am Slug). */
+function releaseAusMeldung(v: Vorschlag, treffer: Title, platform: string, tag: string, sprache: Sprachbefund, vorhanden: Release[], heute: string): Release {
+  const art = artDerMeldung(v, platform, treffer)
+  const name = treffer.titleDe ?? treffer.titleEn ?? treffer.titleRomaji ?? `#${treffer.id}`
+  const quelle = aktuelleQuelle(v.articleUrl, heute, tag)
+  return {
+    /**
+     * **Kein Datum im Slug.**
+     *
+     * Aus dem Slug wird die Teilen-Adresse `/r/<slug>/`, eine echte Datei im
+     * Bauwerk. Stand das Datum darin, erzeugte jede Terminverschiebung eine
+     * neue Adresse und ließ die alte als 404 zurück — bei Terminen, die sich
+     * erfahrungsgemäß dauernd verschieben, ein eingebauter Fehlerlieferant.
+     * Google hat genau das am 16.08.2026 gemeldet.
+     *
+     * Titel und Anbieter identifizieren das Release ohnehin eindeutig; mehr
+     * als eines je Kombination lässt `releasesAus` nicht zu.
+     */
+    slug: freierSlug(`auto-${autoKennung(treffer.id)}-${platform}`, vorhanden, tag),
+    titleId: treffer.id,
+    name,
+    platform: platform as Release['platform'],
+    ...(v.kanal && platform === 'primevideo' ? { kanal: v.kanal } : {}),
+    ...zeitplanGeschaetzt(zeitplanAusVorschlag(v, art, tag, treffer, platform), v.dates?.some((d) => d.iso === tag && d.geschaetzt)), ...sprachHinweis(sprache, platform),
+    year: Number(tag.slice(0, 4)),
+    herkunft: `Automatisch übernommen aus „${v.articleTitle}".`,
+    automatisch: true,
+    sources: [v.articleUrl],
+    quellen: [quelle],
+  }
 }
 
 export function releasesAus(
@@ -487,9 +548,14 @@ export function releasesAus(
   verworfen?: string[],
   /** Meldungen, die schon ein Termin belegt: kein neuer Termin, aber nicht „nicht zugeordnet“. */
   abgedeckt?: Vorschlag[],
+  /** Cartoons (TMDB, negative Kennung): ein genauer Namenstreffer dort ist ein Titel wie jeder andere; ein Anime gleichen Namens gewinnt. */
+  cartoons: Title[] = [],
+  /** Meldungen mit Termin, die hier ohne Release bleiben, nach Grund getrennt — kein stilles `continue`. */
+  verluste?: Verluste,
   /** Weitere Namen je Titel (aniSearch-Synonyme): nur Sammelzeilen suchen auch dort (`lib/sammel-titel.ts`). */
   synonyme: Map<number, string[]> = new Map(),
 ): Release[] {
+  const kandidaten = [...titel, ...cartoons]
   const belegt = belegteTermine(vorhanden)
   const out: Release[] = []
 
@@ -511,48 +577,35 @@ export function releasesAus(
      * Überschrift sagt nicht, welche der vier Staffeln gemeint ist; als Meldung
      * ist das in Ordnung, als Kalendereintrag wäre es eine Falschangabe.
      */
-    const basis = basisDerMeldung(v, titel, synonyme)
-    if (!basis) continue
+    const basis = basisDerMeldung(v, titel, cartoons, tag, synonyme)
+    if (!basis) {
+      verluste?.ohneTitel.push(v)
+      continue
+    }
 
     const teilText = istSammelMeldung(v) ? ohneSammelName(v.articleTitle) : v.articleTitle
-    const treffer = reihenTeil(basis, titel, teilText) ?? vermerkeTeilHinweis(teilText, verworfen)
-    if (!treffer || sammelTagIstNurStart(v, treffer, heute, abgedeckt)) continue
+    const treffer = reihenTeil(basis, kandidaten, teilText) ?? vermerkeTeilHinweis(teilText, verworfen)
+    if (!treffer) {
+      verluste?.ohneTeil.push(v)
+      continue
+    }
+    if (sammelTagIstNurStart(v, treffer, heute, abgedeckt)) {
+      verluste?.nurStart.push(v)
+      continue
+    }
 
     const platform = anbieterDerMeldung(v)
-    if (!platform) continue
-    if (istBelegtVermerkt(belegt, treffer, platform, tag, v, abgedeckt)) continue
+    if (!platform) {
+      verluste?.ohneAnbieter.push(v)
+      continue
+    }
+    if (istBelegtVermerkt(belegt, treffer, platform, tag, v, abgedeckt)) {
+      verluste?.schonBelegt.push(v)
+      continue
+    }
     belegeTermin(belegt, treffer.id, platform, tag)
 
-    const art = artDerMeldung(v, platform, treffer)
-
-    const name = treffer.titleDe ?? treffer.titleEn ?? treffer.titleRomaji ?? `#${treffer.id}`
-    const quelle = aktuelleQuelle(v.articleUrl, heute, tag)
-
-    out.push({
-      /**
-       * **Kein Datum im Slug.**
-       *
-       * Aus dem Slug wird die Teilen-Adresse `/r/<slug>/`, eine echte Datei im
-       * Bauwerk. Stand das Datum darin, erzeugte jede Terminverschiebung eine
-       * neue Adresse und ließ die alte als 404 zurück — bei Terminen, die sich
-       * erfahrungsgemäß dauernd verschieben, ein eingebauter Fehlerlieferant.
-       * Google hat genau das am 16.08.2026 gemeldet.
-       *
-       * Titel und Anbieter identifizieren das Release ohnehin eindeutig; mehr
-       * als eines je Kombination lässt `releasesAus` nicht zu.
-       */
-      slug: freierSlug(`auto-${ALTE_AUTO_KENNUNG[treffer.id] ?? treffer.id}-${platform}`, vorhanden, tag),
-      titleId: treffer.id,
-      name,
-      platform: platform as Release['platform'],
-      ...(v.kanal && platform === 'primevideo' ? { kanal: v.kanal } : {}),
-      ...zeitplanGeschaetzt(zeitplanAusVorschlag(v, art, tag, treffer, platform), v.dates?.some((d) => d.iso === tag && d.geschaetzt)), ...sprachHinweis(sprache, platform),
-      year: Number(tag.slice(0, 4)),
-      herkunft: `Automatisch übernommen aus „${v.articleTitle}".`,
-      automatisch: true,
-      sources: [v.articleUrl],
-      quellen: [quelle],
-    })
+    out.push(releaseAusMeldung(v, treffer, platform, tag, sprache, vorhanden, heute))
   }
   return out.map((r) => mitPlanDesKanalAnbieters(r, vorhanden))
 }
@@ -603,7 +656,7 @@ export function zeitplanAusVorschlag(
   v: Pick<Vorschlag, 'folgen' | 'woechentlich'> & Partial<Pick<Vorschlag, 'articleTitle' | 'dates' | 'ersteFolgen'>>,
   art: ReleaseType,
   tag: string,
-  treffer: Pick<Title, 'episodes' | 'jpYear'> & Partial<Pick<Title, 'format'>>,
+  treffer: Pick<Title, 'episodes' | 'jpYear'> & Partial<Pick<Title, 'format' | 'id'>>,
   platform?: string,
 ): Pick<Release, 'releaseType' | 'schedule' | 'dateMeaning'> {
   /* Nur die ersten N Folgen: „im Angebot seit“ dem Meldetag, kein Wochentakt, keine Uhrzeit; die übrigen Folgen sind offen, nicht „alle“. */
@@ -619,11 +672,13 @@ export function zeitplanAusVorschlag(
       schedule: { firstEpisodeDate: tag, ...(treffer.episodes ? { episodeCount: treffer.episodes, episodeCountAssumed: true } : {}) },
     }
   const katalog = art === 'batch' && v.folgen && treffer.jpYear && treffer.jpYear < Number(tag.slice(0, 4))
+  /* Ein Cartoon ohne Taktangabe, nicht bei Netflix (dort kommt eine Miniserie am Stück): nur „im Angebot ab“ dem Tag, kein Wochentakt. */
+  const cartoonAbTag = art === 'batch' && (treffer.id ?? 0) < 0 && platform !== 'netflix'
   return {
     releaseType: art,
     /* Eine Zahl weit über dem Werk (86: 23 für Teil 1 mit 11) gehört dem ganzen Katalogeintrag, nicht diesem Titel — Keine Folgenzahl erfinden. */
     schedule: { firstEpisodeDate: tag, ...(v.folgen && art === 'batch' && !(treffer.episodes && folgenzahlUeberWerk(v.folgen, treffer.episodes)) ? { episodeCount: v.folgen } : {}) },
-    ...(katalog ? { dateMeaning: 'available-from' as const } : {}),
+    ...(katalog || cartoonAbTag ? { dateMeaning: 'available-from' as const } : {}),
   }
 }
 
@@ -636,11 +691,14 @@ export function taktDerMeldung(v: Partial<Pick<Vorschlag, 'articleTitle' | 'date
   return KOMPLETT.test(text) ? 'komplett' : WOCHENTAKT.test(text) ? 'woechentlich' : undefined
 }
 
-/** Ohne Folgenzahl: wöchentlich, außer die Meldung sagt „komplett", das Werk ist älter (Katalogzugang) oder eine Netflix-ONA. */
-function wochenstartOhneAngabe(v: Partial<Pick<Vorschlag, 'articleTitle' | 'dates'>>, tag: string, treffer: Partial<Pick<Title, 'jpYear' | 'format'>>, platform?: string): boolean {
+/**
+ * Ohne Folgenzahl: wöchentlich, außer die Meldung sagt „komplett", das Werk ist älter (Katalogzugang), eine Netflix-ONA oder ein Cartoon
+ * (negative Kennung: TMDB nennt Start und Folgenzahl, keinen Takt — Dreamland, Crunchyroll, hätte zehn geratene Wochenfolgen bekommen).
+ */
+function wochenstartOhneAngabe(v: Partial<Pick<Vorschlag, 'articleTitle' | 'dates'>>, tag: string, treffer: Partial<Pick<Title, 'jpYear' | 'format' | 'id'>>, platform?: string): boolean {
   const takt = taktDerMeldung(v)
   if (takt) return takt === 'woechentlich'
-  if (platform === 'netflix' && treffer.format === 'ONA') return false
+  if ((treffer.id ?? 0) < 0 || (platform === 'netflix' && treffer.format === 'ONA')) return false
   return !treffer.jpYear || treffer.jpYear >= Number(tag.slice(0, 4))
 }
 
