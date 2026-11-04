@@ -6,6 +6,7 @@ import { mkdirSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { spawnSync } from 'node:child_process'
+import ts from 'typescript'
 import { baueCoverLuecken } from './lib/cover-luecken.ts'
 
 let verletzt = 0
@@ -38,8 +39,8 @@ schreibe('data/cover-eigen.json', eigen)
 // Alte Liste mit veralteten Einträgen (Kennung 10000008 hat ein Cover, 77 existiert nicht): der Lauf ersetzt sie ganz.
 schreibe('data/cover-luecken.json', { '10000005': 'ohne-adresse', '10000008': 'nicht-gefunden', '77': 'x' })
 const skript = join(wurzel, 'lauf.ts')
-const modul = new URL('./bau/15-abgeleitete.ts', import.meta.url).href
-writeFileSync(skript, `import { schreibeAbgeleitete } from '${modul}'\nschreibeAbgeleitete()\n`)
+const modul = new URL('./bau/13-11-cover-luecken.ts', import.meta.url).href
+writeFileSync(skript, `import { schreibeCoverLuecken } from '${modul}'\nschreibeCoverLuecken()\n`)
 const lauf = () => spawnSync(process.execPath, ['--import', 'tsx', skript], { encoding: 'utf8', windowsHide: true, timeout: 60_000, env: { ...process.env, AK_ROOT: wurzel } })
 const eins = lauf()
 const dateiNach = (): string => readFileSync(join(wurzel, 'data/cover-luecken.json'), 'utf8')
@@ -49,8 +50,15 @@ pruefe('Prozess: nur noch die drei Kennungen ohne Cover (10000009 nur in der Rei
 const zwei = lauf()
 pruefe('Prozess: zweiter Lauf ergibt dieselbe Datei', zwei.status === 0 && dateiNach() === erste, zwei)
 
+/* Der Aufrufer: `liefereAus` in build.ts ruft schreibeCoverLuecken() unbedingt auf der obersten Ebene seines Rumpfs (Vorbild: check-empfehlung.ts). */
+const quelle = ts.createSourceFile('build.ts', readFileSync(new URL('./build.ts', import.meta.url), 'utf8'), ts.ScriptTarget.Latest, true)
+const aufrufer = quelle.statements.find((s): s is ts.FunctionDeclaration => ts.isFunctionDeclaration(s) && s.name?.text === 'liefereAus')
+const oberste = (aufrufer?.body?.statements ?? []).flatMap((s) => (ts.isExpressionStatement(s) ? [s.expression] : []))
+const ruft = oberste.some((e) => ts.isCallExpression(e) && ts.isIdentifier(e.expression) && e.expression.text === 'schreibeCoverLuecken' && e.arguments.length === 0)
+pruefe('build.ts: liefereAus ruft schreibeCoverLuecken() auf', ruft)
+
 if (verletzt) {
   console.error(`check-cover-luecken-bau: ${verletzt} Zusicherung(en) verletzt`)
   process.exit(1)
 }
-console.log('check-cover-luecken-bau: alle Zusicherungen halten (5 Logik-, 3 Prozessfälle)')
+console.log('check-cover-luecken-bau: alle Zusicherungen halten (5 Logik-, 3 Prozess-, 1 Aufrufer-Fall)')
