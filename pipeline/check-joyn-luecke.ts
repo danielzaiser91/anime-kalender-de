@@ -66,7 +66,7 @@ try {
   const { ergaenzeCartoonJoyn } = await import('./bau/cartoon-joyn.ts')
   const probe = [{ id: 1, streams: [] }, { id: 2, streams: [] }, { id: 3, streams: [{ platform: 'joyn', url: '' }] }, { id: 4, streams: [] }] as unknown as Title[]
   const jwProbe = { 1: jwBefund([joyn('https://www.joyn.de/x1', 'ADS')]), 2: jwBefund([joyn('https://www.joyn.de/x2', 'ADS')]), 3: jwBefund([joyn('https://www.joyn.de/x3', 'ADS')]), 4: jwBefund([joyn('https://www.joyn.de/x4', 'ADS')]) }
-  erwarte('Rückgabe zählt nur die ergänzten Wege (3 Kandidaten, einer mit Weg, einer tot)', ergaenzeCartoonJoyn(probe, jwProbe, new Set(['https://www.joyn.de/x4'])) === 2, probe)
+  erwarte('Rückgabe zählt nur die ergänzten Wege (4 Titel, einer mit Weg)', ergaenzeCartoonJoyn(probe, jwProbe) === 3, probe)
   erwarte('Handbeleg „nicht abrufbar“ zur Adresse: kein Joyn-Weg', wege(-900003).length === 0, wege(-900003))
   erwarte('JustWatch ohne Joyn: kein Joyn-Weg', wege(-900004).length === 0, wege(-900004))
   erwarte('Ohne JustWatch-Eintrag: kein Joyn-Weg', wege(-900005).length === 0, wege(-900005))
