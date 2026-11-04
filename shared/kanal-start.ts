@@ -9,6 +9,6 @@ import type { Release, StreamLink } from './types.ts'
  */
 export function kanalStartBeiKaufweg(streams: readonly StreamLink[], release: Pick<Release, 'platform' | 'kanal' | 'releaseType' | 'sprache'>): string | undefined {
   if (!release.kanal || release.releaseType === 'disc' || release.sprache === 'omu') return undefined
-  const kaufbar = streams.some((s) => s.platform === release.platform && !s.kanal && s.zugang === 'kauf' && s.dub === true && !s.entferntAm)
+  const kaufbar = streams.some((s) => s.platform === release.platform && !s.kanal && s.zugang === 'kauf' && s.dub === true && !s.dubAbgeleitet && !s.entferntAm)
   return kaufbar ? release.kanal : undefined
 }
