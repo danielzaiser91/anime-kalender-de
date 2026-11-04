@@ -77,6 +77,17 @@ async function fall(browser, seitenStopp) {
   await seite.waitForSelector('.ak-dialog', { timeout: 3000 }).catch(() => assert.fail(`${wo}: Prüfliste-Knopf öffnet keinen Dialog`))
   await klick(seite, 'button.ak-zu', `${wo}: Dialog schließen`)
   await seite.waitForSelector('.ak-dialog', { state: 'detached', timeout: 3000 }).catch(() => assert.fail(`${wo}: Schließen-Knopf wirkt nicht`))
+  /* Kein Leck: die Zeilen des Dialogs verlassen die Menge der Klickziele mit ihm, auch nach mehrfachem Öffnen. */
+  const zahl = () => seite.evaluate(() => window.akKlickZahl())
+  const vorher = await zahl()
+  for (let runde = 0; runde < 3; runde++) {
+    await klick(seite, '.ak-uebersicht-innen', `${wo}: Prüfliste-Knopf, Runde ${runde}`)
+    await seite.waitForSelector('.ak-dialog', { timeout: 3000 })
+    assert.ok((await zahl()) > vorher, `${wo}: der offene Dialog meldet keine Knöpfe an (Test ohne Aussage)`)
+    await klick(seite, 'button.ak-zu', `${wo}: Dialog schließen, Runde ${runde}`)
+    await seite.waitForSelector('.ak-dialog', { state: 'detached', timeout: 3000 })
+    assert.equal(await zahl(), vorher, `${wo}: nach dem Schließen (Runde ${runde}) bleiben Klickziele des Dialogs übrig`)
+  }
   assert.deepEqual(fehler, [], `${wo}: Seitenfehler`)
   /* Verschachtelt wie die Zeilen im Dialog: innen zuerst, `stopPropagation()` innen hält die Zeile auf. */
   await seite.evaluate(() => {

@@ -5311,7 +5311,7 @@ let dialog = null
 
 function dialogSchliessen() {
   if (dialog) {
-    dialog.remove()
+    akKlickEntfernen(dialog)
     dialog = null
   }
   document.removeEventListener('keydown', beiEscape)

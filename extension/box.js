@@ -339,6 +339,19 @@ function akKlick(el, aktion) {
   }
 }
 
+/** Entfernt `wurzel` und meldet alle Knöpfe darunter ab (Dialog zu): als Kinder blieben sie sonst samt abgehängtem Teilbaum in der Menge. */
+function akKlickEntfernen(wurzel) {
+  for (const ziel of [...akKlickZiele]) {
+    if (wurzel.contains?.(ziel.el)) akKlickZiele.delete(ziel)
+  }
+  wurzel.remove()
+}
+
+/** Anzahl angemeldeter Knöpfe (Test: bleibt nach Öffnen und Schließen des Dialogs gleich). */
+function akKlickZahl() {
+  return akKlickZiele.size
+}
+
 function akIconStarten() {
   if (akIcon || (window.top && window !== window.top)) return
   akIcon = document.createElement('button')
