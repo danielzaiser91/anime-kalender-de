@@ -49,7 +49,7 @@ function ghEcht(args) {
   return execFileSync('gh', args, { encoding: 'utf8', timeout: 60_000, windowsHide: true })
 }
 
-/** Einstieg; Rückgabe ist der Exit-Code. 1 nur bei fehlenden Eingaben oder unlesbarem PR; scheitert der Neustart selbst (Lauf-Abfrage, cancel, rerun), steht die Meldung im Log und der Job bleibt grün: der Zustand ist der von vorher. */
+/** Einstieg; Rückgabe ist der Exit-Code. 1 bei fehlenden Eingaben, unlesbarem PR oder gescheitertem Neustart (Lauf-Abfrage, cancel, rerun): eine Zeile „FEHLGESCHLAGEN PR n Kopf h: Grund“ im Log, der Job wird rot und `laeufe-aufraeumen` sieht ihn; der Prüfer-Zustand ist dann der von vorher. */
 export function main(env = process.env, { gh = ghEcht, warte = (ms) => Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms) } = {}) {
   const repo = env.GITHUB_REPOSITORY
   const nr = env.PR_NUMMER
@@ -69,7 +69,8 @@ export function main(env = process.env, { gh = ghEcht, warte = (ms) => Atomics.w
     neustart(lauf, repo, { gh, warte })
     console.log(`Prüfer-Neustart: ja, Lauf ${lauf.id} für ${pr.head.sha.slice(0, 9)} neu gestartet (${urteil.grund})`)
   } catch (e) {
-    console.log(`Prüfer-Neustart: nicht neu gestartet (${e.message.split('\n')[0]})`)
+    console.log(`Prüfer-Neustart: FEHLGESCHLAGEN PR ${nr} Kopf ${pr.head.sha.slice(0, 9)}: nicht neu gestartet (${e.message.split('\n')[0]})`)
+    return 1
   }
   return 0
 }

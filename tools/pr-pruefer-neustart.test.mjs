@@ -57,10 +57,11 @@ function laufe(env, laeufe, { pruefer = pr(), stand = ['in_progress', 'completed
     return ''
   }
   const mute = console.log
-  console.log = () => {}
+  const zeilen = []
+  console.log = (z) => zeilen.push(z)
   const code = main({ GITHUB_REPOSITORY: 'o/r', PR_NUMMER: '7', KOMMENTAR: '## Nachtrag', KOMMENTAR_LOGIN: 'inhaber', KOMMENTAR_ASSOZIATION: 'OWNER', ...env }, { gh, warte: (ms) => wartet.push(ms) })
   console.log = mute
-  return { code, aufrufe: aufrufe.filter((a) => a.startsWith('run ')), wartet }
+  return { code, aufrufe: aufrufe.filter((a) => a.startsWith('run ')), wartet, zeilen }
 }
 const ALT = 'a'.repeat(40)
 // Läufe alter Köpfe (neuere Id 9 und ältere 3) stehen dazwischen: nur der Lauf des aktuellen Kopfs darf neu starten.
@@ -76,13 +77,16 @@ gleich('kein Lauf zum Kopf: nichts', laufe({}, []).aufrufe, [])
 gleich('nur Läufe alter Köpfe: nichts', laufe({}, fremd).aufrufe, [])
 // Lauf wird nach cancel nie completed: vierzig Abfragen (200 s; gemessen 04.11.2026: cancel bis completed 75–85 s, 60 s reichten nicht) und Pausen, dann scheitert rerun; Meldung statt Rot.
 const haengt = laufe({}, laufend, { stand: Array(50).fill('in_progress'), rerunFehlt: true })
-gleich('Lauf bleibt nach cancel offen: Exit 0', haengt.code, 0)
+gleich('Lauf bleibt nach cancel offen: Exit 1', haengt.code, 1)
+gleich('Lauf bleibt nach cancel offen: Zeile mit PR, Kopf und Grund', haengt.zeilen.some((z) => z.includes('FEHLGESCHLAGEN PR 7 Kopf ' + KOPF.slice(0, 9) + ': nicht neu gestartet (Lauf läuft noch)')), true)
+gleich('Erfolg: Exit 0 ohne FEHLGESCHLAGEN', [laufe({}, laufend).code, laufe({}, laufend).zeilen.some((z) => z.includes('FEHLGESCHLAGEN'))], [0, false])
+gleich('kein Lauf zum Kopf: Exit 0', laufe({}, []).code, 0)
 gleich('Lauf bleibt nach cancel offen: vierzig Pausen', haengt.wartet.length, 40)
 // Anlass 04.11.2026: cancel brauchte 17 Abfragen (etwa 80 s) bis completed; nach zwölf lief rerun ins Leere, der Prüfer blieb cancelled.
 const spaet = laufe({}, laufend, { stand: [...Array(17).fill('in_progress'), 'completed'] })
 gleich('Lauf endet erst nach 17 Abfragen: rerun kommt trotzdem', spaet.aufrufe, ['run cancel 5', 'run rerun 5'])
 gleich('Lauf endet erst nach 17 Abfragen: 17 Pausen', spaet.wartet.length, 17)
-gleich('gh-Absturz bei der Lauf-Abfrage: Exit 0', (() => {
+gleich('gh-Absturz bei der Lauf-Abfrage: Exit 1', (() => {
   const mute = console.log
   console.log = () => {}
   const gh = (args) => {
@@ -92,7 +96,7 @@ gleich('gh-Absturz bei der Lauf-Abfrage: Exit 0', (() => {
   const code = main({ GITHUB_REPOSITORY: 'o/r', PR_NUMMER: '7', KOMMENTAR: '## Nachtrag', KOMMENTAR_LOGIN: 'inhaber', KOMMENTAR_ASSOZIATION: 'OWNER' }, { gh, warte: () => {} })
   console.log = mute
   return code
-})(), 0)
+})(), 1)
 gleich('Abnahme-Kommentar: nichts', laufe({ KOMMENTAR: '## Nachtrag (Abnahme Dirigent)' }, abgeschlossen).aufrufe, [])
 gleich('fremder Autor: nichts', laufe({ KOMMENTAR_LOGIN: 'x', KOMMENTAR_ASSOZIATION: 'NONE' }, abgeschlossen).aufrufe, [])
 gleich('PR-Autor ohne Recht (über main): Neustart', laufe({ KOMMENTAR_LOGIN: 'claude[bot]', KOMMENTAR_ASSOZIATION: 'NONE' }, abgeschlossen).aufrufe, ['run rerun 5'])
