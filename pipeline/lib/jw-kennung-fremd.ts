@@ -39,3 +39,8 @@ export function nimmTreffer<T extends { id: string }>(
   const halter = fremderHalter(bestand, schluessel, gefunden.id, Number(erwartet))
   return halter === undefined ? { treffer: gefunden } : { halter }
 }
+
+/** Die Logzeile für abgewiesene Treffer: sonst bliebe der richtige Titel still `ohneTreffer`, wenn zuerst der falsche Halter gespeichert wurde. */
+export function abweisungsZeile(namen: string[]): string {
+  return `⚠ WARNUNG JustWatch: ${namen.length} Treffer abgewiesen, die Kennung gehört schon einer anderen TMDB-Reihe: ${namen.join('; ')}`
+}

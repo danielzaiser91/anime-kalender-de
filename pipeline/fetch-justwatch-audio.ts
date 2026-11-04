@@ -43,7 +43,7 @@ import yaml from 'js-yaml'
 import { fetchJson, log, readJson, sleep, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
 import { istUnplausibel } from './lib/justwatch-plausibel.ts'
-import { nimmTreffer } from './lib/jw-kennung-fremd.ts'
+import { abweisungsZeile, nimmTreffer } from './lib/jw-kennung-fremd.ts'
 import { todayIso } from '../shared/time.ts'
 import type { Title } from '../shared/types.ts'
 import { STAFFELN_ABFRAGE, staffelnVon, type Staffel, type StaffelRoh } from './lib/jw-staffeln.ts'
@@ -247,6 +247,7 @@ async function main(): Promise<void> {
   let verfehlt = 0
   let ohneTrefferNeu = 0
   let sperrenInFolge = 0
+  const abgewiesen: string[] = []
 
   for (const t of offen.slice(0, limit)) {
     const erwartet = (t as Title & { tmdbId?: number }).tmdbId ?? tmdb[String(t.id)]?.tmdbId
@@ -268,7 +269,8 @@ async function main(): Promise<void> {
       */
       const gefunden = erwartet ? await sucheUeberNamen(t, erwartet) : undefined
       /* Eine Kennung, die schon eine andere TMDB-Reihe hält, ist ein Fehlgriff von JustWatch (Spin-off auf Hauptserie). */
-      const { treffer } = nimmTreffer(bestand, String(t.id), gefunden, erwartet)
+      const { treffer, halter } = nimmTreffer(bestand, String(t.id), gefunden, erwartet)
+      if (halter) abgewiesen.push(`${t.titleDe || t.titleRomaji || t.titleEn} (${t.id}, Halter ${halter})`)
       sperrenInFolge = 0
       const vorher = bestand[String(t.id)]
       if (!treffer) {
@@ -327,6 +329,7 @@ async function main(): Promise<void> {
     `JustWatch: ${getroffen} Titel zugeordnet (${leer} ohne Angebot), ${mitDeutsch} davon mit deutscher Tonspur, ` +
       `${ohneTrefferNeu} ohne Treffer, ${verfehlt} verfehlt (alte Antwort behalten), ${fehler} Fehler.`,
   )
+  if (abgewiesen.length) warn(abweisungsZeile(abgewiesen))
   if (istUnplausibel({ getroffen, leer, verfehlt })) {
     warn(`JustWatch: Ergebnis unplausibel (${leer} von ${getroffen} Treffern ohne Angebot, ${verfehlt} früher gefundene jetzt verfehlt) — nichts geschrieben.`)
     recordSource('justwatch-audio', 0)
