@@ -31,6 +31,7 @@
   { "datei": "pipeline/check-nur-omu-hauptbestand.ts", "liest": "data/anisearch-dubs.json", "grund": "dynamischer Import nur für setzeMarkenFuerPruefung: setzt Testmarken in einer Kulisse (AK_ROOT), liest die Datei nicht" },
   { "datei": "pipeline/check-invarianten.ts", "liest": "data/anisearch-dubs.json", "grund": "ganze Karte als Eingabe der Auslieferungs-Invarianten (Eigenschaft über alle Titel), kein fester Schlüssel" },
   { "datei": "pipeline/check-invarianten.ts", "liest": "data/anisearch-dub-ids.json", "grund": "ganze Liste als Eingabe der Auslieferungs-Invarianten (Eigenschaft über alle Titel), kein fester Schlüssel" },
+  { "datei": "pipeline/check-jw-kennung-fremd.ts", "liest": "data/justwatch-audio.json", "grund": "ganze Datei als Eingabe: Wächter über alle Einträge, kein fester Schlüssel (04.11.2026)" },
   { "datei": "pipeline/check-luecken-staffel0.ts", "liest": "data/tmdb-staffel0.json", "grund": "nur nicht leer und ladeStaffel0 reicht die Schlüssel durch, kein fester Schlüssel" },
   { "datei": "pipeline/check-nein-handbeleg-aufrufer.ts", "liest": "data/justwatch-audio.json", "grund": "ganze Datei als Eingabe der Aufrufer, Handbelege wählen die Ids; kein fester Schlüssel" },
   { "datei": "pipeline/check-nein-handbeleg-cr.ts", "liest": "data/cr-katalog-de.json", "grund": "sucht irgendeinen Eintrag mit einer Staffel und de-DE (Hunderte), keine feste Serie" },
