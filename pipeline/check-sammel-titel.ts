@@ -199,7 +199,7 @@ async function pruefeTermine(): Promise<void> {
   const { synonymeJeTitel } = await import('./lib/sammel-titel.ts')
   const { releasesAus } = await import('./lib/meldungen.ts')
   // Durch `releasesAus`: das Film-Wort im Namen darf die Teil-Erkennung nicht treffen (Clannad, Mononoke III).
-  const neu = (v: Vorschlag, syn = SYNONYME) => releasesAus([v], KATALOG, [], '2026-11-04', undefined, undefined, syn)
+  const neu = (v: Vorschlag, syn = SYNONYME) => releasesAus([v], KATALOG, [], '2026-11-04', undefined, undefined, [], undefined, syn)
   const clannad = neu(zeile('Clannad: Der Film'))
   pruefe('Termin: „Clannad: Der Film“ am Film', clannad.length === 1 && clannad[0]!.titleId === 900070, clannad.map((r) => r.titleId))
   const k1 = neu(zeile('K: Seven Stories – Movie 1'))
