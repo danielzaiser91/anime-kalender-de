@@ -1,13 +1,13 @@
 # Was zu tun ist
 
-Stand: 2026-11-03 — **erzeugt aus dem ausgelieferten Datensatz**,
+Stand: 2026-11-04 — **erzeugt aus dem ausgelieferten Datensatz**,
 nicht von Hand gepflegt. Wer hier eine Zahl ändert, ändert sie am
 falschen Ort; sie kommt beim nächsten Lauf zurück.
 
 | # | Aufgabe | Umfang | Zeit je Stück | wozu |
 |---|---|---|---|---|
 | 1 | Prime Video — Suchseiten | 1 Suchen | ~20 s je Titel | Titel ohne bekannte Produktseite |
-| 2 | [Prime Video — Titelseiten](listen/07-primevideo.md) | 48 Adressen, 237 Verweise | ~15 s je Titel | die Erweiterung liest die Tonspuren selbst |
+| 2 | [Prime Video — Titelseiten](listen/07-primevideo.md) | 48 Adressen, 239 Verweise | ~15 s je Titel | die Erweiterung liest die Tonspuren selbst |
 | 3 | [Netflix](listen/06-netflix-rest.md) | 108 Titel, 53 Verweise | ~1 min je Titel | die einzige Quelle für Netflix-Tonspuren |
 | 4 | [Suchadressen — welcher Titel steckt dahinter?](listen/18-suchadressen.md) | 2 Adressen | ~30 s je Titel | Verweise, die ins Leere zeigten, statt zum Titel |
 | 5 | [Crunchyroll](listen/07-crunchyroll.md) | 13 Verweise | ~15 s je Titel | Specials und Filme, die in keinem Block stehen |

@@ -1,6 +1,6 @@
 # Prüfliste: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-11-03 · **56 offene Verweise** in **42 Zeilen**.
+Stand 2026-11-04 · **56 offene Verweise** in **42 Zeilen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Was geprüft ist, gehört
 nach `data/dub-confirmed.yaml`; beim nächsten Lauf verschwindet es hier.
@@ -42,25 +42,25 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | # | Datum | Reihe | Noch zu bestätigen |
 |---|---|---|---|
 | 1 | 2026-11-03 | Honey Lemon Soda | [Hauptserie]() |
-| 2 | 2026-10-25 | Meine ganz besondere Hochzeit | [Special](https://www.netflix.com/title/82643530) |
-| 3 | 2026-10-15 | Sankarea: Undying Love | [Hauptserie]() |
-| 4 | 2026-10-10 | Demon Slayer: Kimetsu no Yaiba | [Mugen Train Arc]() · [Entertainment District Arc]() |
-| 5 | 2026-10-08 | Kamisama Kiss | [Hauptserie](https://www.netflix.com/title/80070071) |
-| 6 | 2026-10-06 | My Hero Academia | [Vigilantes Staffel 2](https://www.netflix.com/title/82036361) |
-| 7 | 2026-09-26 | Welcome to Demon School! Iruma-kun | [Staffel 4](https://www.disneyplus.com/browse/entity-b042544d-cd7d-40c6-9be4-db79666a1b51) |
-| 8 | 2026-08-29 | Yu-Gi-Oh! (1998) | [Yu-Gi-Oh! GX]() |
-| 9 | 2026-08-21 | Vampire Knight | [Guilty](https://www.netflix.com/title/70309457) |
-| 10 | 2026-07-24 | Parasyte: The Maxim | [Hauptserie](https://www.netflix.com/title/80191008) |
-| 11 | 2025-04-03 | Devil May Cry | [Hauptserie](https://www.netflix.com/title/81506915) |
-| 12 | 2022-08-10 | One Piece | [Abenteuer in Alabasta - Die Wüstenprinzessin](https://www.netflix.com/title/70086565) · [Chopper und das Wunder der Winterkirschblüte](https://www.netflix.com/title/80998780) · [Z](https://www.netflix.com/title/80198443) · [3D2Y: Überwinde Ace’s Tod! Das Gelübde der Kameraden](https://www.netflix.com/title/81679587) |
-| 13 | 2021-04-14 | Lu over the Wall | [Hauptserie](https://www.netflix.com/title/80238911) |
-| 14 | 2020-12-19 | Danmachi: Is It Wrong to Try to Pick Up Girls in a Dungeon? Familia Myth | [Hauptserie](https://www.netflix.com/title/80185873) · [II](https://www.netflix.com/title/80185873) · [III](https://www.netflix.com/title/80185873) |
-| 15 | 2020-06-26 | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.netflix.com/title/81099976) |
-| 16 | 2020-06-26 | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.amazon.de/gp/video/detail/B0FVF9T7ZP) |
-| 17 | 2018-03-26 | Beyblade Burst | [Evolution](https://www.netflix.com/title/81018295) |
-| 18 | 2017-09-29 | Haikyu!! | [Movie 3 - Talent Und Gespür](https://www.netflix.com/title/81030151) · [Movie 4 - Ein Kampf der Konzepte](https://www.netflix.com/title/81030152) |
-| 19 | 2017-08-18 | Fireworks: Alles eine Frage der Zeit | [Hauptserie](https://www.netflix.com/title/81000505) |
-| 20 | 2017-07-15 | No Game No Life | [Zero](https://www.netflix.com/title/81068687) |
+| 2 | 2026-11-03 | No Game No Life | [Zero](https://www.netflix.com/title/81068687) |
+| 3 | 2026-10-25 | Meine ganz besondere Hochzeit | [Special](https://www.netflix.com/title/82643530) |
+| 4 | 2026-10-15 | Sankarea: Undying Love | [Hauptserie]() |
+| 5 | 2026-10-10 | Demon Slayer: Kimetsu no Yaiba | [Mugen Train Arc]() · [Entertainment District Arc]() |
+| 6 | 2026-10-08 | Kamisama Kiss | [Hauptserie](https://www.netflix.com/title/80070071) |
+| 7 | 2026-10-06 | My Hero Academia | [Vigilantes Staffel 2](https://www.netflix.com/title/82036361) |
+| 8 | 2026-09-26 | Welcome to Demon School! Iruma-kun | [Staffel 4](https://www.disneyplus.com/browse/entity-b042544d-cd7d-40c6-9be4-db79666a1b51) |
+| 9 | 2026-08-29 | Yu-Gi-Oh! (1998) | [Yu-Gi-Oh! GX]() |
+| 10 | 2026-08-21 | Vampire Knight | [Guilty](https://www.netflix.com/title/70309457) |
+| 11 | 2026-07-24 | Parasyte: The Maxim | [Hauptserie](https://www.netflix.com/title/80191008) |
+| 12 | 2025-04-03 | Devil May Cry | [Hauptserie](https://www.netflix.com/title/81506915) |
+| 13 | 2022-08-10 | One Piece | [Abenteuer in Alabasta - Die Wüstenprinzessin](https://www.netflix.com/title/70086565) · [Chopper und das Wunder der Winterkirschblüte](https://www.netflix.com/title/80998780) · [Z](https://www.netflix.com/title/80198443) · [3D2Y: Überwinde Ace’s Tod! Das Gelübde der Kameraden](https://www.netflix.com/title/81679587) |
+| 14 | 2021-04-14 | Lu over the Wall | [Hauptserie](https://www.netflix.com/title/80238911) |
+| 15 | 2020-12-19 | Danmachi: Is It Wrong to Try to Pick Up Girls in a Dungeon? Familia Myth | [Hauptserie](https://www.netflix.com/title/80185873) · [II](https://www.netflix.com/title/80185873) · [III](https://www.netflix.com/title/80185873) |
+| 16 | 2020-06-26 | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.netflix.com/title/81099976) |
+| 17 | 2020-06-26 | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.amazon.de/gp/video/detail/B0FVF9T7ZP) |
+| 18 | 2018-03-26 | Beyblade Burst | [Evolution](https://www.netflix.com/title/81018295) |
+| 19 | 2017-09-29 | Haikyu!! | [Movie 3 - Talent Und Gespür](https://www.netflix.com/title/81030151) · [Movie 4 - Ein Kampf der Konzepte](https://www.netflix.com/title/81030152) |
+| 20 | 2017-08-18 | Fireworks: Alles eine Frage der Zeit | [Hauptserie](https://www.netflix.com/title/81000505) |
 | 21 | 2016-06-27 | Sailor Moon: Das Mädchen mit den Zauberkräften | [Sailor Moon R Movie: Gefährliche Blumen](https://www.netflix.com/title/26588007) · [Pretty Guardian Sailor Moon Crystal](https://www.netflix.com/title/80145747) · [Pretty Guardian Sailor Moon Crystal Season III](https://www.netflix.com/title/80145747) |
 | 22 | 2015-11-21 | Girls & Panzer | [Girls und Panzer: Der Film](https://www.netflix.com/title/80159876) |
 | 23 | 2015-03-29 | Aldnoah.Zero | [Hauptserie](https://www.netflix.com/title/80040104) · [2](https://www.netflix.com/title/80040104) |
