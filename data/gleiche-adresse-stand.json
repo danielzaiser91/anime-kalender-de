@@ -1,44 +1,66 @@
 {
-  "stand": "2026-11-03",
-  "hoechstens": 8,
+  "stand": "2026-11-04",
+  "hoechstens": 1,
   "adressen": [
-    "amazon:b0b5jvjkcd",
-    "amazon:b0cg7s59kl",
-    "amazon:b0cggzvnfs",
-    "amazon:b0cvg5m4fp",
-    "amazon:b0cw5wh6xz",
-    "amazon:b0d7n68q5t",
-    "amazon:b0dj4fcm5h",
     "amazon:b0fx4q35v2"
   ],
   "erlaubt": [
     {
+      "adresse": "amazon:b0b5jvjkcd",
+      "titel": [
+        12189,
+        13469
+      ],
+      "anteile": [
+        12,
+        1
+      ],
+      "folgen": 13,
+      "grund": "Hyouka: Seite „Staffel 1“ mit 13 Folgen = Serienfolgen 1–12 plus die OVA (Staffel 2 liegt unter B0DC75L8BJ)"
+    },
+    {
       "adresse": "amazon:b0d488v2py",
-      "titel": [11887, 16001],
+      "titel": [
+        11887,
+        16001
+      ],
       "folgen": 17,
       "grund": "Kokoro Connect: Seite „Staffel 1“ mit 17 Folgen = 13 Serienfolgen + 4 OVAs"
     },
     {
       "adresse": "amazon:b0h49fzzy8",
-      "titel": [20812, 20938],
+      "titel": [
+        20812,
+        20938
+      ],
       "folgen": 26,
       "grund": "Shirobako: Seite „Staffel 1“ mit 26 Folgen = 24 Serienfolgen + 2 Specials"
     },
     {
       "adresse": "amazon:b0df15b196",
-      "titel": [5034, 6344],
+      "titel": [
+        5034,
+        6344
+      ],
       "folgen": 13,
       "grund": "Corpse Princess Kuro: Seite „Staffel 2“ mit 13 Folgen = 12 Serienfolgen + 1 Special"
     },
     {
       "adresse": "amazon:b0cjc11grb",
-      "titel": [108511, 116742],
+      "titel": [
+        108511,
+        116742
+      ],
       "folgen": 24,
       "grund": "Schleim Staffel 2: Seite mit 24 Folgen = beide Cours (Winter, Sommer 2021)"
     },
     {
       "adresse": "amazon:b0h9g1cnhc",
-      "titel": [21825, 21509, 97672],
+      "titel": [
+        21825,
+        21509,
+        97672
+      ],
       "folgen": 24,
       "grund": "Danganronpa 3: Seite mit 24 Folgen = Despair Arc 11 + Future Arc 12 + Hope Arc 1"
     }
