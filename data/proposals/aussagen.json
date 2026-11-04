@@ -1,6 +1,6 @@
 {
   "format": 2,
-  "stand": "2026-11-03",
+  "stand": "2026-11-04",
   "hinweis": "Vorschlagsmodus: nur gelesen, nie übernommen — docs/wissen/sammelartikel-poc.md (Abschnitt „Vorschlagslauf\"). Schreiber: pipeline/fetch-sammelartikel.ts",
   "aussagen": [
     {
@@ -12613,6 +12613,1005 @@
           "hatSynchroBelege": true
         },
         "inhaltZeichen": 300
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/|Akame ga KILL!||start|joyn+primevideo",
+      "erstGesehen": "2026-11-04",
+      "fingerabdruck": "370fd2dba976",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+          "veroeffentlicht": "2026-11-03",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Akame ga KILL!",
+        "art": "start",
+        "plattformen": [
+          "joyn",
+          "primevideo"
+        ],
+        "datum": "2026-11-03",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "ja",
+        "folgen": 24,
+        "konfidenz": 0.8,
+        "gruende": [
+          "Sprache: Deutsch",
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»Akame ga KILL!«\nEpisoden: 24 (komplett)\nSprache: Deutsch\nStream: Joyn, Prime Video",
+        "zuordnung": {
+          "anilistId": 20613,
+          "name": "Akame ga Kill: Schwerter der Assassinen",
+          "wie": "name-genau",
+          "abstandTage": 4502
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 246
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/|Clannad||start|joyn+primevideo",
+      "erstGesehen": "2026-11-04",
+      "fingerabdruck": "c3bdca15d32b",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+          "veroeffentlicht": "2026-11-03",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Clannad",
+        "art": "start",
+        "plattformen": [
+          "joyn",
+          "primevideo"
+        ],
+        "datum": "2026-11-03",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "ja",
+        "folgen": 49,
+        "konfidenz": 0.8,
+        "gruende": [
+          "Sprache: Deutsch",
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»Clannad«\nEpisoden: 49 (komplett)\nSprache: Deutsch\nStream: Joyn, Prime Video",
+        "zuordnung": {
+          "anilistId": 2167,
+          "name": "Clannad",
+          "wie": "name-genau",
+          "abstandTage": 6969
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 261
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/|Clannad: Der Film||start|joyn+primevideo",
+      "erstGesehen": "2026-11-04",
+      "fingerabdruck": "784377eda67f",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+          "veroeffentlicht": "2026-11-03",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Clannad: Der Film",
+        "art": "start",
+        "plattformen": [
+          "joyn",
+          "primevideo"
+        ],
+        "datum": "2026-11-03",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "ja",
+        "konfidenz": 0.8,
+        "gruende": [
+          "Sprache: Deutsch",
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»Clannad: Der Film«\nLaufzeit: 93 Minuten\nSprache: Deutsch\nStream: Joyn, Prime Video",
+        "zuordnung": {
+          "anilistId": 1723,
+          "name": "Clannad: Der Film",
+          "wie": "name-genau",
+          "abstandTage": 6989
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 322
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/|Colorful||start|joyn+primevideo",
+      "erstGesehen": "2026-11-04",
+      "fingerabdruck": "e0c3efea845a",
+      "offenOderUnklar": true,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+          "veroeffentlicht": "2026-11-03",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Colorful",
+        "art": "start",
+        "plattformen": [
+          "joyn",
+          "primevideo"
+        ],
+        "datum": "2026-11-03",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "ja",
+        "konfidenz": 0.8,
+        "gruende": [
+          "Sprache: Deutsch",
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»Colorful«\nLaufzeit: 126 Minuten\nSprache: Deutsch\nStream: Joyn, Prime Video",
+        "offen": {
+          "grund": "2 Titel mit diesem Namen",
+          "kandidaten": [
+            {
+              "id": 8142,
+              "name": "Colorful"
+            },
+            {
+              "id": 841,
+              "name": "Colorful",
+              "jpStart": "1999-09-06"
+            }
+          ]
+        },
+        "bestand": {
+          "status": "ohne-zuordnung"
+        },
+        "inhaltZeichen": 246
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/|Girls und Panzer: Das Finale – Teil 1||start|joyn+primevideo",
+      "erstGesehen": "2026-11-04",
+      "fingerabdruck": "f223dff5553b",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+          "veroeffentlicht": "2026-11-03",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Girls und Panzer: Das Finale – Teil 1",
+        "art": "start",
+        "plattformen": [
+          "joyn",
+          "primevideo"
+        ],
+        "datum": "2026-11-03",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "ja",
+        "konfidenz": 0.8,
+        "gruende": [
+          "Sprache: Deutsch",
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»Girls und Panzer: Das Finale – Teil 1«\nLaufzeit: 48 Minuten\nSprache: Deutsch\nStream: Joyn, Prime Video",
+        "zuordnung": {
+          "anilistId": 99938,
+          "name": "Girls und Panzer - Das Finale: Teil 1",
+          "wie": "name-genau",
+          "abstandTage": 3251
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 331
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/|Girls und Panzer: Das Finale – Teil 2||start|joyn+primevideo",
+      "erstGesehen": "2026-11-04",
+      "fingerabdruck": "562a0b6a8bb3",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+          "veroeffentlicht": "2026-11-03",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Girls und Panzer: Das Finale – Teil 2",
+        "art": "start",
+        "plattformen": [
+          "joyn",
+          "primevideo"
+        ],
+        "datum": "2026-11-03",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "ja",
+        "konfidenz": 0.8,
+        "gruende": [
+          "Sprache: Deutsch",
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»Girls und Panzer: Das Finale – Teil 2«\nLaufzeit: 55 Minuten\nSprache: Deutsch\nStream: Joyn, Prime Video",
+        "zuordnung": {
+          "anilistId": 107208,
+          "name": "Girls und Panzer - Das Finale: Teil 2",
+          "wie": "name-genau",
+          "abstandTage": 2698
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 398
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/|Girls und Panzer: Das Finale – Teil 3||start|joyn+primevideo",
+      "erstGesehen": "2026-11-04",
+      "fingerabdruck": "cfde378b6262",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+          "veroeffentlicht": "2026-11-03",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Girls und Panzer: Das Finale – Teil 3",
+        "art": "start",
+        "plattformen": [
+          "joyn",
+          "primevideo"
+        ],
+        "datum": "2026-11-03",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "ja",
+        "konfidenz": 0.8,
+        "gruende": [
+          "Sprache: Deutsch",
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»Girls und Panzer: Das Finale – Teil 3«\nLaufzeit: 48 Minuten\nSprache: Deutsch\nStream: Joyn, Prime Video",
+        "zuordnung": {
+          "anilistId": 124115,
+          "name": "Girls und Panzer - Das Finale: Teil 3",
+          "wie": "name-genau",
+          "abstandTage": 2048
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 357
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/|Girls und Panzer OVA – This is the Real Anzio Battle!||start|joyn+primevideo",
+      "erstGesehen": "2026-11-04",
+      "fingerabdruck": "69baf2b38438",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+          "veroeffentlicht": "2026-11-03",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Girls und Panzer OVA – This is the Real Anzio Battle!",
+        "art": "start",
+        "plattformen": [
+          "joyn",
+          "primevideo"
+        ],
+        "datum": "2026-11-03",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "ja",
+        "konfidenz": 0.8,
+        "gruende": [
+          "Sprache: Deutsch",
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»Girls und Panzer OVA – This is the Real Anzio Battle!«\nLaufzeit: 38 Minuten\nSprache: Deutsch\nStream: Joyn, Prime Video",
+        "zuordnung": {
+          "anilistId": 18619,
+          "name": "Girls & Panzer: This Is the Real Anzio Battle!",
+          "wie": "name-genau",
+          "abstandTage": 4504
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 235
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/|Gosick||start|joyn+primevideo",
+      "erstGesehen": "2026-11-04",
+      "fingerabdruck": "1c1521e3b4d8",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+          "veroeffentlicht": "2026-11-03",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Gosick",
+        "art": "start",
+        "plattformen": [
+          "joyn",
+          "primevideo"
+        ],
+        "datum": "2026-11-03",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "ja",
+        "folgen": 24,
+        "konfidenz": 0.8,
+        "gruende": [
+          "Sprache: Deutsch",
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»Gosick«\nEpisoden: 24 (komplett)\nSprache: Deutsch\nStream: Joyn, Prime Video",
+        "zuordnung": {
+          "anilistId": 8425,
+          "name": "Gosick",
+          "wie": "name-genau",
+          "abstandTage": 5778
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 295
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/|Hyouka||start|joyn+primevideo",
+      "erstGesehen": "2026-11-04",
+      "fingerabdruck": "cd5acd7e1cc5",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+          "veroeffentlicht": "2026-11-03",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Hyouka",
+        "art": "start",
+        "plattformen": [
+          "joyn",
+          "primevideo"
+        ],
+        "datum": "2026-11-03",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "ja",
+        "folgen": 23,
+        "konfidenz": 0.8,
+        "gruende": [
+          "Sprache: Deutsch",
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»Hyouka«\nEpisoden: 23 (komplett)\nSprache: Deutsch\nStream: Joyn, Prime Video",
+        "zuordnung": {
+          "anilistId": 12189,
+          "name": "Hyouka",
+          "wie": "name-genau",
+          "abstandTage": 5307
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 278
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/|K: Seven Stories – Movie 1||start|joyn+primevideo",
+      "erstGesehen": "2026-11-04",
+      "fingerabdruck": "3015df206d7e",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+          "veroeffentlicht": "2026-11-03",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "K: Seven Stories – Movie 1",
+        "art": "start",
+        "plattformen": [
+          "joyn",
+          "primevideo"
+        ],
+        "datum": "2026-11-03",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "ja",
+        "konfidenz": 0.8,
+        "gruende": [
+          "Sprache: Deutsch",
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»K: Seven Stories – Movie 1«\nLaufzeit: 58 Minuten\nSprache: Deutsch\nStream: Joyn, Prime Video",
+        "zuordnung": {
+          "anilistId": 21798,
+          "name": "K: Seven Stories Movie 1 - R:B - Blaze",
+          "wie": "name-teil",
+          "abstandTage": 3041
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 287
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/|K: Seven Stories – Movie 2||start|joyn+primevideo",
+      "erstGesehen": "2026-11-04",
+      "fingerabdruck": "f0941c1c80d1",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+          "veroeffentlicht": "2026-11-03",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "K: Seven Stories – Movie 2",
+        "art": "start",
+        "plattformen": [
+          "joyn",
+          "primevideo"
+        ],
+        "datum": "2026-11-03",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "ja",
+        "konfidenz": 0.8,
+        "gruende": [
+          "Sprache: Deutsch",
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»K: Seven Stories – Movie 2«\nLaufzeit: 58 Minuten\nSprache: Deutsch\nStream: Joyn, Prime Video",
+        "zuordnung": {
+          "anilistId": 102346,
+          "name": "K: Seven Stories Movie 2 - Side:Blue - Like Sirius",
+          "wie": "name-teil",
+          "abstandTage": 3013
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 289
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/|K: Seven Stories – Movie 3||start|joyn+primevideo",
+      "erstGesehen": "2026-11-04",
+      "fingerabdruck": "bcaa13c46f75",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+          "veroeffentlicht": "2026-11-03",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "K: Seven Stories – Movie 3",
+        "art": "start",
+        "plattformen": [
+          "joyn",
+          "primevideo"
+        ],
+        "datum": "2026-11-03",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "ja",
+        "konfidenz": 0.8,
+        "gruende": [
+          "Sprache: Deutsch",
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»K: Seven Stories – Movie 3«\nLaufzeit: 55 Minuten\nSprache: Deutsch\nStream: Joyn, Prime Video",
+        "zuordnung": {
+          "anilistId": 102347,
+          "name": "K: Seven Stories Movie 3 - Side:Green - The Overwritten World",
+          "wie": "name-teil",
+          "abstandTage": 2985
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 284
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/|K: Seven Stories – Movie 4||start|joyn+primevideo",
+      "erstGesehen": "2026-11-04",
+      "fingerabdruck": "a30498cc0157",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+          "veroeffentlicht": "2026-11-03",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "K: Seven Stories – Movie 4",
+        "art": "start",
+        "plattformen": [
+          "joyn",
+          "primevideo"
+        ],
+        "datum": "2026-11-03",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "ja",
+        "konfidenz": 0.8,
+        "gruende": [
+          "Sprache: Deutsch",
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»K: Seven Stories – Movie 4«\nLaufzeit: 60 Minuten\nSprache: Deutsch\nStream: Joyn, Prime Video",
+        "zuordnung": {
+          "anilistId": 102348,
+          "name": "K: Seven Stories Movie 4 - Lost Small World - Outside the Cage",
+          "wie": "name-teil",
+          "abstandTage": 2950
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 309
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/|K: Seven Stories – Movie 5||start|joyn+primevideo",
+      "erstGesehen": "2026-11-04",
+      "fingerabdruck": "a814a19f1693",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+          "veroeffentlicht": "2026-11-03",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "K: Seven Stories – Movie 5",
+        "art": "start",
+        "plattformen": [
+          "joyn",
+          "primevideo"
+        ],
+        "datum": "2026-11-03",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "ja",
+        "konfidenz": 0.8,
+        "gruende": [
+          "Sprache: Deutsch",
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»K: Seven Stories – Movie 5«\nLaufzeit: 59 Minuten\nSprache: Deutsch\nStream: Joyn, Prime Video",
+        "zuordnung": {
+          "anilistId": 102349,
+          "name": "K: Seven Stories Movie 5 - Memory of Red - BURN",
+          "wie": "name-teil",
+          "abstandTage": 2922
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 248
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/|K: Seven Stories – Movie 6||start|joyn+primevideo",
+      "erstGesehen": "2026-11-04",
+      "fingerabdruck": "2f58167486e7",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+          "veroeffentlicht": "2026-11-03",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "K: Seven Stories – Movie 6",
+        "art": "start",
+        "plattformen": [
+          "joyn",
+          "primevideo"
+        ],
+        "datum": "2026-11-03",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "ja",
+        "konfidenz": 0.8,
+        "gruende": [
+          "Sprache: Deutsch, Japanisch (UT)",
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»K: Seven Stories – Movie 6«\nLaufzeit: 62 Minuten\nSprache: Deutsch, Japanisch (UT)\nStream: Joyn, Prime Video",
+        "zuordnung": {
+          "anilistId": 102350,
+          "name": "K: Seven Stories Movie 6 - Circle Vision - Nameless Song",
+          "wie": "name-teil",
+          "abstandTage": 2894
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 284
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/|Kanon||start|joyn+primevideo",
+      "erstGesehen": "2026-11-04",
+      "fingerabdruck": "72560a26089b",
+      "offenOderUnklar": true,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+          "veroeffentlicht": "2026-11-03",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Kanon",
+        "art": "start",
+        "plattformen": [
+          "joyn",
+          "primevideo"
+        ],
+        "datum": "2026-11-03",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "ja",
+        "folgen": 24,
+        "konfidenz": 0.8,
+        "gruende": [
+          "Sprache: Deutsch",
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»Kanon«\nEpisoden: 24 (komplett)\nSprache: Deutsch\nStream: Joyn, Prime Video",
+        "offen": {
+          "grund": "3 Titel mit diesem Namen",
+          "kandidaten": [
+            {
+              "id": 1530,
+              "name": "Kanon",
+              "jpStart": "2006-10-05"
+            },
+            {
+              "id": 144,
+              "name": "Kanon (2002)",
+              "jpStart": "2002-01-31"
+            },
+            {
+              "id": 10010237,
+              "name": "Kanón"
+            }
+          ]
+        },
+        "bestand": {
+          "status": "ohne-zuordnung"
+        },
+        "inhaltZeichen": 272
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/|No Game No Life Zero||start|joyn+primevideo",
+      "erstGesehen": "2026-11-04",
+      "fingerabdruck": "1c498b89210a",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+          "veroeffentlicht": "2026-11-03",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "No Game No Life Zero",
+        "art": "start",
+        "plattformen": [
+          "joyn",
+          "primevideo"
+        ],
+        "datum": "2026-11-03",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "ja",
+        "konfidenz": 0.8,
+        "gruende": [
+          "Sprache: Deutsch",
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»No Game No Life Zero«\nLaufzeit: 102 Minuten\nSprache: Deutsch\nStream: Joyn, Prime Video",
+        "zuordnung": {
+          "anilistId": 21875,
+          "name": "No Game No Life Zero",
+          "wie": "name-genau",
+          "abstandTage": 3398
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 289
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/|Star Blazers 2199 – Space Battleship Yamato – Odyssey of the Celestial Arc||start|joyn+primevideo",
+      "erstGesehen": "2026-11-04",
+      "fingerabdruck": "a7dd06986694",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+          "veroeffentlicht": "2026-11-03",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Star Blazers 2199 – Space Battleship Yamato – Odyssey of the Celestial Arc",
+        "art": "start",
+        "plattformen": [
+          "joyn",
+          "primevideo"
+        ],
+        "datum": "2026-11-03",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "ja",
+        "konfidenz": 0.8,
+        "gruende": [
+          "Sprache: Deutsch",
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»Star Blazers 2199 – Space Battleship Yamato – Odyssey of the Celestial Arc«\nLaufzeit: 112 Minuten\nSprache: Deutsch\nStream: Joyn, Prime Video",
+        "zuordnung": {
+          "anilistId": 20690,
+          "name": "Star Blazers 2199: Space Battleship Yamato - Odyssey of the Celestial Arc",
+          "wie": "name-genau",
+          "abstandTage": 4350
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 261
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/|Tada Never Falls in Love||start|joyn+primevideo",
+      "erstGesehen": "2026-11-04",
+      "fingerabdruck": "4db781e9abeb",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+          "veroeffentlicht": "2026-11-03",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Tada Never Falls in Love",
+        "art": "start",
+        "plattformen": [
+          "joyn",
+          "primevideo"
+        ],
+        "datum": "2026-11-03",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "ja",
+        "folgen": 13,
+        "konfidenz": 0.8,
+        "gruende": [
+          "Sprache: Deutsch",
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»Tada Never Falls in Love«\nEpisoden: 13 (komplett)\nSprache: Deutsch\nStream: Joyn, Prime Video",
+        "zuordnung": {
+          "anilistId": 100179,
+          "name": "Tada Never Falls in Love",
+          "wie": "name-genau"
+        },
+        "bestand": {
+          "status": "abweichend",
+          "release": {
+            "slug": "motn-100179-primevideo",
+            "firstEpisodeDate": "2026-10-19"
+          },
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 301
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/|Tico: Ein toller Freund||start|joyn+primevideo",
+      "erstGesehen": "2026-11-04",
+      "fingerabdruck": "ee601bc297f4",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+          "veroeffentlicht": "2026-11-03",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Tico: Ein toller Freund",
+        "art": "start",
+        "plattformen": [
+          "joyn",
+          "primevideo"
+        ],
+        "datum": "2026-11-03",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "ja",
+        "folgen": 39,
+        "konfidenz": 0.8,
+        "gruende": [
+          "Sprache: Deutsch",
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»Tico: Ein toller Freund«\nEpisoden: 39 (komplett)\nSprache: Deutsch\nStream: Joyn, Prime Video",
+        "zuordnung": {
+          "anilistId": 3199,
+          "name": "Tico: Ein toller Freund",
+          "wie": "name-genau",
+          "abstandTage": 11979
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 293
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/|To Love Ru: Darkness||start|joyn+primevideo",
+      "erstGesehen": "2026-11-04",
+      "fingerabdruck": "7030e00de0c0",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+          "veroeffentlicht": "2026-11-03",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "To Love Ru: Darkness",
+        "art": "start",
+        "plattformen": [
+          "joyn",
+          "primevideo"
+        ],
+        "datum": "2026-11-03",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "ja",
+        "folgen": 26,
+        "konfidenz": 0.8,
+        "gruende": [
+          "Sprache: Deutsch",
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»To Love Ru: Darkness«\nEpisoden: 26 (komplett)\nSprache: Deutsch\nStream: Joyn, Prime Video",
+        "zuordnung": {
+          "anilistId": 13663,
+          "name": "To Love Ru: Darkness",
+          "wie": "name-genau",
+          "abstandTage": 5141
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 271
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/|Z wie Zorro – Der Film||start|joyn+primevideo",
+      "erstGesehen": "2026-11-04",
+      "fingerabdruck": "070123f3e901",
+      "offenOderUnklar": true,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+          "veroeffentlicht": "2026-11-03",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Z wie Zorro – Der Film",
+        "art": "start",
+        "plattformen": [
+          "joyn",
+          "primevideo"
+        ],
+        "datum": "2026-11-03",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "ja",
+        "konfidenz": 0.8,
+        "gruende": [
+          "Sprache: Deutsch",
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»Z wie Zorro – Der Film«\nLaufzeit: 106 Minuten\nSprache: Deutsch\nStream: Joyn, Prime Video",
+        "offen": {
+          "grund": "kein Titel mit diesem Namen",
+          "kandidaten": []
+        },
+        "bestand": {
+          "status": "ohne-zuordnung"
+        },
+        "inhaltZeichen": 213
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/|Z wie Zorro||start|joyn+primevideo",
+      "erstGesehen": "2026-11-04",
+      "fingerabdruck": "4aa5e94f9a86",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+          "veroeffentlicht": "2026-11-03",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Z wie Zorro",
+        "art": "start",
+        "plattformen": [
+          "joyn",
+          "primevideo"
+        ],
+        "datum": "2026-11-03",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "ja",
+        "folgen": 52,
+        "konfidenz": 0.8,
+        "gruende": [
+          "Sprache: Deutsch",
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»Z wie Zorro«\nEpisoden: 52 (komplett)\nSprache: Deutsch\nStream: Joyn, Prime Video",
+        "zuordnung": {
+          "anilistId": 3010,
+          "name": "Z wie Zorro",
+          "wie": "name-genau"
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 295
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/|Zorros Geheimnis||start|joyn+primevideo",
+      "erstGesehen": "2026-11-04",
+      "fingerabdruck": "a3f457d86a33",
+      "offenOderUnklar": true,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+          "veroeffentlicht": "2026-11-03",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Zorros Geheimnis",
+        "art": "start",
+        "plattformen": [
+          "joyn",
+          "primevideo"
+        ],
+        "datum": "2026-11-03",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "ja",
+        "konfidenz": 0.8,
+        "gruende": [
+          "Sprache: Deutsch",
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»Zorros Geheimnis«\nLaufzeit: 88 Minuten\nSprache: Deutsch\nStream: Joyn, Prime Video",
+        "offen": {
+          "grund": "kein Titel mit diesem Namen",
+          "kandidaten": []
+        },
+        "bestand": {
+          "status": "ohne-zuordnung"
+        },
+        "inhaltZeichen": 351
       }
     }
   ]
