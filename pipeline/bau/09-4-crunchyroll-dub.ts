@@ -40,12 +40,9 @@ export function werteCrunchyrollDubAus({
       verweiseEntfernt,
     })
 
-    console.log('TRACE106896 a-serien ' + JSON.stringify(titles.get(106896)?.streams.filter((x) => x.platform === 'crunchyroll')))
     ordneCrBloeckeZu({ crDub, nachUrl, titles, katalogEintraege })
-    console.log('TRACE106896 b-bloecke ' + JSON.stringify(titles.get(106896)?.streams.filter((x) => x.platform === 'crunchyroll')))
 
     ordneStandardnamenBloeckeZu({ crDub, nachUrl })
-    console.log('TRACE106896 c-standard ' + JSON.stringify(titles.get(106896)?.streams.filter((x) => x.platform === 'crunchyroll')))
 
     const folgestaffeln = ordneFolgestaffelBloeckeZu({ crDub, nachUrl, titles, handNein: neinHandbelege(loadDubChecks()) })
     if (folgestaffeln.length) log(`${folgestaffeln.length} Folgestaffeln über ihren deutschen Block „Staffel N“ belegt`)
@@ -59,9 +56,7 @@ export function werteCrunchyrollDubAus({
     })
     for (const zeile of neueSerienZeilen(neueSerien)) log(zeile)
 
-    console.log('TRACE106896 d-neue ' + JSON.stringify(titles.get(106896)?.streams.filter((x) => x.platform === 'crunchyroll')))
     ordneCrKatalogZu({ titles, crDub, verweiseEntfernt })
-    console.log('TRACE106896 e-katalog ' + JSON.stringify(titles.get(106896)?.streams.filter((x) => x.platform === 'crunchyroll')))
 
     legeCrVerweiseUndTermineAn({ titles, anisearch, belegt, crDub: { ...crDub, serien: [...crDub.serien, ...neueSerien.seiten] }, verschwunden, usNeinOffen, nachUrl, releases })
 

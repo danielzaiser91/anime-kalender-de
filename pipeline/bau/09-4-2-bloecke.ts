@@ -113,7 +113,6 @@ export function ordneCrBloeckeZu({ crDub, nachUrl, titles, katalogEintraege }: {
         const title = titles.get(urteil.titleId)
         const stream = title?.streams.find((s) => s.platform === 'crunchyroll')
         if (!stream || stream.dub !== undefined) continue
-        if (urteil.titleId === 106896) console.log('TRACE106896 setzt ' + urteil.dub + ' serie=' + serie.url + ' gruppe=' + [...gruppe.keys()].join(',') + ' ' + new Error().stack?.split('\n')[1])
         stream.dub = urteil.dub
         ueberNummern++
       }
@@ -145,7 +144,6 @@ export function ordneCrBloeckeZu({ crDub, nachUrl, titles, katalogEintraege }: {
         const title = titles.get(urteil.titleId)
         const stream = title?.streams.find((s) => s.platform === 'crunchyroll')
         if (!stream || stream.dub !== undefined) continue
-        if (urteil.titleId === 106896) console.log('TRACE106896 setzt ' + urteil.dub + ' serie=' + serie.url + ' gruppe=' + [...gruppe.keys()].join(',') + ' ' + new Error().stack?.split('\n')[1])
         stream.dub = urteil.dub
         jeBlock++
       }
@@ -176,7 +174,6 @@ export function ordneCrBloeckeZu({ crDub, nachUrl, titles, katalogEintraege }: {
         const title = titles.get(urteil.titleId)
         const stream = title?.streams.find((s) => s.platform === 'crunchyroll')
         if (!stream || stream.dub !== undefined) continue
-        if (urteil.titleId === 106896) console.log('TRACE106896 setzt ' + urteil.dub + ' serie=' + serie.url + ' gruppe=' + [...gruppe.keys()].join(',') + ' ' + new Error().stack?.split('\n')[1])
         stream.dub = urteil.dub
         ketten++
       }
@@ -204,7 +201,6 @@ export function ordneCrBloeckeZu({ crDub, nachUrl, titles, katalogEintraege }: {
         const title = titles.get(urteil.titleId)
         const stream = title?.streams.find((s) => s.platform === 'crunchyroll')
         if (!stream || stream.dub !== undefined) continue
-        if (urteil.titleId === 106896) console.log('TRACE106896 setzt ' + urteil.dub + ' serie=' + serie.url + ' gruppe=' + [...gruppe.keys()].join(',') + ' ' + new Error().stack?.split('\n')[1])
         stream.dub = urteil.dub
         teilbloecke++
       }

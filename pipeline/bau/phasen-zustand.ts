@@ -53,7 +53,6 @@ export function zustandVon(titles: Map<number, Title>, kennungen: number[]): Rec
 }
 
 export function haltePunkt(phase: string, titles: Map<number, Title>, env: NodeJS.ProcessEnv = process.env): void {
-  console.log(`TRACE106896 ${phase} ${JSON.stringify(titles.get(106896)?.streams.filter((s) => s.platform === 'crunchyroll'))}`)
   if (env.AK_PHASE_ZUSTAND !== phase) return
   console.log(`AK_PHASE_ZUSTAND ${JSON.stringify(zustandVon(titles, titelKennungen(env.AK_PHASE_TITEL)))}`)
   console.error(`Hinweis: der Bau hat bis hierher Prüflisten unter data/ geschrieben. Aufräumen: ${AUFRAEUMEN}`)
