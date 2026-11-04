@@ -740,11 +740,18 @@ const TEXTE = {
 export type TranslationKey = keyof typeof TEXTE
 export type Translate = (key: TranslationKey, params?: Record<string, string | number>) => string
 
+/** „{n} Folgen“ wird bei n = 1 (auch „≈ 1“) zu „{n} Folge“. */
+export function einzahlFolge(text: string, params: Record<string, string | number>): string {
+  return text.replace(/\{(\w+)\} Folgen\b/g, (match, name: string) =>
+    /^(≈\s*)?1$/.test(String(params[name])) ? `{${name}} Folge` : match,
+  )
+}
+
 /** Ohne Hook-Namen: für Code außerhalb von Komponenten, etwa den RSS-Feed im Bau. */
 export function translate(key: TranslationKey, params?: Record<string, string | number>): string {
-  const raw: string = TEXTE[key] ?? key
-  if (!params) return raw
-  return raw.replace(/\{(\w+)\}/g, (match, name: string) =>
+  const roh: string = TEXTE[key] ?? key
+  if (!params) return roh
+  return einzahlFolge(roh, params).replace(/\{(\w+)\}/g, (match, name: string) =>
     params[name] !== undefined ? String(params[name]) : match,
   )
 }
