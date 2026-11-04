@@ -76,8 +76,17 @@ function pendelText(zeilen: HistorieZeile[], p: Pendel, laufend: boolean, gliede
   return kopf + kettenText(zeilen, glieder, p)
 }
 
-/** Streng: Termine, Verweise und Urteile erreichen oder übertreffen die Zahlen der Zeile vor dem Rückgang; die Toleranz von `findeAuffaelliges` gilt hier nicht. */
-const erreichtStand = (z: HistorieZeile, davor: HistorieZeile) => ['termine', 'verweise', 'mitUrteil'].every((f) => Number(z[f]) >= Number(davor[f]))
+const ZAHLENFELDER = ['termine', 'verweise', 'mitUrteil', 'titel', 'titelMitSynchro']
+const jeAnbieter = (z: HistorieZeile) => (z.jeAnbieter ?? {}) as Record<string, number>
+
+/**
+ * Streng: Jedes Feld, das `findeAuffaelliges` melden kann (Titel, Titel mit Synchro, Termine, Verweise, Urteile und die Synchro-Belege je Anbieter),
+ * erreicht oder übertrifft die Zahlen der Zeile vor dem Rückgang; die Toleranz von `findeAuffaelliges` gilt hier nicht. Ein Anbieter, den die spätere Zeile nicht mehr führt, zählt 0.
+ */
+function erreichtStand(z: HistorieZeile, davor: HistorieZeile): boolean {
+  if (!ZAHLENFELDER.every((f) => Number(z[f]) >= Number(davor[f]))) return false
+  return Object.entries(jeAnbieter(davor)).every(([anbieter, n]) => (jeAnbieter(z)[anbieter] ?? 0) >= n)
+}
 
 /**
  * Eine Zeile wie gespeichert. Hat eine spätere Zeile den Rückgang ausgeglichen (`erreichtStand` gegen die Zeile davor),

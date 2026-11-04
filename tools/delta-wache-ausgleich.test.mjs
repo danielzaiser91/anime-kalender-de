@@ -90,6 +90,33 @@ function mitFeld(feld, werte) {
   assert.equal(rot(folge([100, 100, 60, 60, 99, 99], 2)).length, 1, 'Urteile 99 von 100 bleibt rot (kein Spielraum)')
 }
 
+// --- Jedes meldbare Feld muss wieder auf Stand sein (Prüfer 2818 R3: Titel 2924 -> 2900, übrige Felder zurück, Titel weiter niedrig) ----
+/** Sechs Zeilen mit Rückgang in Zeile 2; Urteile, Termine, Verweise zurück auf Stand; `aender` setzt den Rest je Zeile. */
+function mitRest(aender) {
+  const zeilen = folge([100, 100, 60, 60, 100, 100], 2)
+  zeilen.forEach((z, i) => aender(z, i))
+  return zeilen
+}
+const titelFolge = (spaet, mit) => (z, i) => {
+  z.titel = i < 2 ? 2924 : i < 4 ? 2900 : spaet
+  z.titelMitSynchro = i < 2 ? 2000 : i < 4 ? 1990 : mit
+}
+const netflixFolge = (spaet) => (z, i) => {
+  z.jeAnbieter = { primevideo: 10, netflix: i < 2 ? 50 : i < 4 ? 37 : spaet }
+}
+{
+  assert.equal(rot(mitRest(titelFolge(2900, 2000))).length, 1, 'Titel 2924 -> 2900 bleibt, Rest auf Stand: rot')
+  assert.equal(rot(mitRest(titelFolge(2924, 1990))).length, 1, 'Titel mit Synchro 2000 -> 1990 bleibt: rot')
+  assert.equal(rot(mitRest(titelFolge(2924, 2000))).length, 0, 'beide Felder wieder auf Stand: ausgeglichen')
+
+  assert.equal(rot(mitRest(netflixFolge(40))).length, 1, 'Netflix 50 -> 37 -> 40: rot')
+  assert.equal(rot(mitRest(netflixFolge(50))).length, 0, 'Netflix wieder bei 50: ausgeglichen')
+  const weg = mitRest(netflixFolge(50))
+  delete weg[4].jeAnbieter.netflix
+  delete weg[5].jeAnbieter.netflix
+  assert.equal(rot(weg).length, 1, 'Anbieter in der späteren Zeile nicht mehr geführt: rot')
+}
+
 // --- Zwei Rückgänge: nur der ausgeglichene verschwindet --------------------------------------------------------------------------
 {
   const zeilen = folge([100, 100, 60, 60, 100, 100, 70, 70], 2)
@@ -135,6 +162,12 @@ const jsonl = (zeilen) => zeilen.map((z) => JSON.stringify(z)).join('\n') + '\n'
   assert.equal(knapp.code, 1, 'Termine 81 von 100 bleibt rot')
   assert.doesNotMatch(knapp.text, /Rückgang ausgeglichen/, 'nichts ausgeglichen, nichts gezählt')
 
+  const titelOffen = wache(jsonl(mitRest(titelFolge(2900, 2000))), '2026-10-20T00:00:00Z')
+  assert.equal(titelOffen.code, 1, 'Titel weiter niedrig: Wache rot')
+  assert.doesNotMatch(titelOffen.text, /Rückgang ausgeglichen/, 'nichts ausgeglichen, nichts gezählt')
+  assert.equal(wache(jsonl(mitRest(netflixFolge(40))), '2026-10-20T00:00:00Z').code, 1, 'Anbieter-Befund unausgeglichen: Wache rot')
+  assert.equal(wache(jsonl(mitRest(titelFolge(2924, 2000))), '2026-10-20T00:00:00Z').code, 0, 'alle Felder auf Stand: grün')
+
   const offen = wache(jsonl(folge([100, 100, 60, 60, 60, 60], 2)), '2026-10-20T00:00:00Z')
   assert.equal(offen.code, 1, 'bestehender Rückgang bleibt rot')
   assert.match(offen.text, /⚠\s+40 Urteile verloren/)
@@ -142,4 +175,4 @@ const jsonl = (zeilen) => zeilen.map((z) => JSON.stringify(z)).join('\n') + '\n'
   assert.equal(teil.code, 1, 'Teilausgleich bleibt rot')
   assert.equal(wache(jsonl(folge([100, 100, 100, 100])), '2026-10-20T00:00:00Z').code, 0, 'Kontrolle ohne Rückgang')
 }
-console.log('delta-wache-ausgleich: 4 Regelfälle, 3 Grenzen, 2 Lagen, 5 strenge Fälle, 2 Rückgänge, Anlassfall 02.11.2026, 6 Prozessfälle ok')
+console.log('delta-wache-ausgleich: 4 Regelfälle, 3 Grenzen, 2 Lagen, 5 strenge Fälle, 6 Feldfälle, 2 Rückgänge, Anlassfall 02.11.2026, 9 Prozessfälle ok')
