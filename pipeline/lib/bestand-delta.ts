@@ -6,7 +6,17 @@ import { plattformAusAdresse } from '../../shared/adresse-passt.ts'
 import type { Title } from '../../shared/types.ts'
 import { anzeigeName } from '../../shared/titles.ts'
 import { sperrKern, type BelegEntfernt } from './sperr-kern.ts'
-import type { LinkAbgaenge } from './bestand-link-abgang.ts'
+
+/** Ein fehlender Synchro-Beleg (Anbieter, „Titel (Kennung): Adresse", link-check-Eintrag). Hier statt in `bestand-link-abgang.ts`: dieses Modul läuft in `delta-wache.yml` ohne `npm ci` (kein js-yaml im Importgraph). */
+export interface LinkAbgang {
+  anbieter: string
+  text: string
+  befund?: string
+}
+export interface LinkAbgaenge {
+  begruendet: LinkAbgang[]
+  unerklaert: LinkAbgang[]
+}
 
 export interface Kennzahlen {
   titel: number

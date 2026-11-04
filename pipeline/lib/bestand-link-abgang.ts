@@ -7,22 +7,12 @@
 import { execFileSync } from 'node:child_process'
 import type { Title } from '../../shared/types.ts'
 import { anzeigeName } from '../../shared/titles.ts'
+import type { LinkAbgang, LinkAbgaenge } from './bestand-delta.ts'
 import { adressGleich, adressKern, dubKey, type DubCheck } from './dub-confirmed.ts'
 import { handStichtGegenLink, istTot, juengsteJeKern, type LinkBefund } from './link-befund.ts'
 
 type MitStreams = Pick<Title, 'id' | 'titleDe' | 'titleEn' | 'titleRomaji' | 'streams'>
 
-export interface LinkAbgang {
-  anbieter: string
-  /** „Titel (Kennung): Adresse" */
-  text: string
-  /** Eintrag aus link-check.json, falls vorhanden. */
-  befund?: string
-}
-export interface LinkAbgaenge {
-  begruendet: LinkAbgang[]
-  unerklaert: LinkAbgang[]
-}
 
 /** Handseite der Regel: Belege aus `dub-confirmed.yaml` und der Weg-Stempel aus `verweise-von-hand.yaml` (Adresskern → belegtAm). */
 export interface HandStand {
