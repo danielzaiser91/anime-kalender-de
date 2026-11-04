@@ -63,8 +63,9 @@ function ohneTeilAngabe(name: string, zusatz: string): boolean {
   return ZUSATZ_ERSTER_TEIL.test(zusatz) && !(TEIL_WORT.test(w.at(-1) ?? '') || TEIL_PHRASE_ENDE.test(w.join(' ')))
 }
 
-/** Fortsetzung: ein Titel einer Reihe, deren Basis (Staffel 1) auch im Bestand steht. */
-const istFortsetzung = (t: Title, titel: Title[]) => t.franchiseId !== t.id && titel.some((b) => b.id === t.franchiseId)
+/** Fortsetzung: ein Titel einer Reihe, deren Basis (Staffel 1) im Bestand steht und dasselbe Format hat — eine OVA neben der TV-Basis ist Beiwerk, keine Staffel („Girls und Panzer: This is the Real Anzio Battle!“). */
+const istFortsetzung = (t: Title, titel: Title[]) =>
+  t.franchiseId !== t.id && titel.some((b) => b.id === t.franchiseId && b.format === t.format)
 
 /**
  * Alle Titel, deren Name (auch Synonym) dem Namen gleicht; unter vier Zeichen gleicht keiner. Wie beim Namensanfang gilt

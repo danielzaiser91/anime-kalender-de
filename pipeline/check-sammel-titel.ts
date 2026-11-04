@@ -45,6 +45,7 @@ const FORTSETZUNGEN: Title[] = [
   titel(900118, 'Zwilling Werk', undefined, 'TV', 2021),
   titel(900119, 'Wo Liegt', undefined, 'TV', 2020),
   fortsetzung(900120, 900119, 'Wo Sono Ni Liegt', 'Wo Sono Ni Liegt'),
+  { ...fortsetzung(900121, 900119, 'Wo Beiwerk Spezial', 'Wo Beiwerk Spezial'), format: 'OVA' } as Title,
 ]
 
 const KATALOG: Title[] = [
@@ -190,6 +191,7 @@ async function pruefeFortsetzung(): Promise<void> {
   pruefe('Namensanfang: „Sono ni“ ist ein anderer Teil', id('Alpha Reihe') === undefined, id('Alpha Reihe'))
   pruefe('Namensanfang: „Ni no Shou“ ist ein anderer Teil', id('Beta Reihe') === undefined, id('Beta Reihe'))
   pruefe('Namensanfang: „San no Shou“ ist ein anderer Teil', id('Gamma Reihe') === undefined, id('Gamma Reihe'))
+  pruefe('OVA neben TV-Basis (anderes Format) ist keine Fortsetzung → erreichbar', id('Wo Beiwerk Spezial') === 900121, id('Wo Beiwerk Spezial'))
   pruefe('„Sono ni“ mitten im Namen ist keine Teil-Angabe am Ende → Sperre greift', id('Wo Sono Ni Liegt') === undefined, id('Wo Sono Ni Liegt'))
 }
 

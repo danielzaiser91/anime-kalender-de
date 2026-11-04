@@ -60,5 +60,6 @@
   { "name":"TEIL_PHRASE: Sono ni fehlt", "aenderungen": [{"datei":"pipeline/lib/sammel-titel.ts","suche":"(sono ni|ni no shou|san no shou)( |$)/","ersetze":"(ni no shou|san no shou)( |$)/"}] },
   { "name":"TEIL_PHRASE: Ni no Shou fehlt", "aenderungen": [{"datei":"pipeline/lib/sammel-titel.ts","suche":"(sono ni|ni no shou|san no shou)( |$)/","ersetze":"(sono ni|san no shou)( |$)/"}] },
   { "name":"TEIL_PHRASE: San no Shou fehlt", "aenderungen": [{"datei":"pipeline/lib/sammel-titel.ts","suche":"(sono ni|ni no shou|san no shou)( |$)/","ersetze":"(sono ni|ni no shou)( |$)/"}] },
-  { "name":"eindeutigerAnfang: Teil-Phrase erlaubt", "aenderungen": [{"datei":"pipeline/lib/sammel-titel.ts","suche":" && !TEIL_PHRASE.test(rest(n)!.join(' '))","ersetze":""}] }
+  { "name":"eindeutigerAnfang: Teil-Phrase erlaubt", "aenderungen": [{"datei":"pipeline/lib/sammel-titel.ts","suche":" && !TEIL_PHRASE.test(rest(n)!.join(' '))","ersetze":""}] },
+  { "name":"istFortsetzung: Format der Basis egal", "aenderungen": [{"datei":"pipeline/lib/sammel-titel.ts","suche":" && b.format === t.format","ersetze":""}] }
 ]
