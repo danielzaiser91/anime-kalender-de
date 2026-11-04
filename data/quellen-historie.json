@@ -6057,11 +6057,19 @@
   ],
   "auto-16498-primevideo": [
     {
+      "url": "https://www.anime2you.de/news/1045399/aniverse-september-2026-neuzugaenge/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-04",
+      "sagt": "2026-09-17",
+      "stand": "aktuell"
+    },
+    {
       "url": "https://www.anime2you.de/news/1054791/prime-video-attack-on-titan-und-mehr/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-03",
       "sagt": "2026-10-01",
-      "stand": "aktuell"
+      "stand": "ueberholt",
+      "grund": "Termin verschoben auf: 2026-09-17"
     }
   ],
   "auto-1686-adn": [
@@ -8331,6 +8339,112 @@
       "name": "anime2you.de",
       "gesehenAm": "2026-11-04",
       "sagt": "2026-08-27",
+      "stand": "aktuell"
+    }
+  ],
+  "demon-slayer-infinity-castle-1-primevideo": [
+    {
+      "url": "https://www.anime2you.de/news/1054791/prime-video-attack-on-titan-und-mehr/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-04",
+      "stand": "aktuell"
+    }
+  ],
+  "lego-one-piece-netflix": [
+    {
+      "url": "https://www.anime2you.de/news/1042851/netflix-anime-neu-im-september-2026/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-04",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-1723-joyn": [
+    {
+      "url": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-04",
+      "sagt": "2026-11-03",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-18619-joyn": [
+    {
+      "url": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-04",
+      "sagt": "2026-11-03",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-21798-joyn": [
+    {
+      "url": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-04",
+      "sagt": "2026-11-03",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-102346-joyn": [
+    {
+      "url": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-04",
+      "sagt": "2026-11-03",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-102347-joyn": [
+    {
+      "url": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-04",
+      "sagt": "2026-11-03",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-102348-joyn": [
+    {
+      "url": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-04",
+      "sagt": "2026-11-03",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-102349-joyn": [
+    {
+      "url": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-04",
+      "sagt": "2026-11-03",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-102350-joyn": [
+    {
+      "url": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-04",
+      "sagt": "2026-11-03",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-156040-primevideo": [
+    {
+      "url": "https://www.anime2you.de/news/1065078/aniverse-november-2026-neuzugaenge/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-04",
+      "sagt": "2026-11-26",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-180829-primevideo": [
+    {
+      "url": "https://www.anime2you.de/news/1045399/aniverse-september-2026-neuzugaenge/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-04",
+      "sagt": "2026-09-24",
       "stand": "aktuell"
     }
   ]

@@ -632,3 +632,14 @@ wer die Ursache dann noch kennt, hat Glück. Deshalb diese Datei.
 **Wo sind echte Risiken und Lücken?** Zeitlich fällt der Verlust mit dem Lauf „Tiefendurchlauf gesammelt (RTL+ und Links)" (4a79b011, 05:21 UTC) zusammen: `data/link-check.json` hat dort für 73 Netflix-Titelseiten `404` (`geprueftAm 2026-11-02`), darunter alle drei oben genannten, die am 20.09. noch `200` hatten. Bau 9431f466 (05:04) lag davor und hatte die Streams noch. **Nicht belegt:** ob Netflix die Titel wirklich aus Deutschland genommen hat oder ob die Linkprüfung vom Runner aus ein falsches 404 bekam (am 20.09. waren es 99 von 321, jetzt 73 von 283 — ähnliche Quote, spricht eher für echte Abgänge, beweist es nicht). Eine Prüfung gegen eine zweite Quelle (JustWatch/Tonspuren) steht aus. Ein Netflix-404 lässt den Stream verschwinden, ohne dass jemand es als Synchro-Verlust meldet.
 
 **Was läuft komplett falsch?** Nichts, was ich belegen kann: kein Fehlerschritt, der Lauf ist absichtlich rot. Kein Pull Request, da keine Codeursache belegt ist; die Quelle (Netflix-Titelseiten) hat sich geändert.
+
+
+## 04.11.2026 — Wache meldet „1 Urteile verloren; primevideo: 1 Synchro-Beleg weniger" (Lauf 41857755409, Issue #2847)
+
+**Was läuft korrekt.** Die Wache hat den Sprung dem Bestandsbau 41690771206 (03.11., 18:21 UTC) zugeordnet. Gemessen über Git-Stände von `public/data/titles.json` (`023381af^` → `edadb5b6`): Titelzahl unverändert (2924), genau ein Titel verändert: Naruto Shippuden (1735) verlor den Prime-Stream `amazon.de/gp/video/detail/B084DBMYFX`. Gebaut wurde das in `023381af` (Bau 41681374762, 17:19 UTC); `pruefstand.json` zeigt im selben Commit Amazon „gemeldet" 902 → 901.
+
+**Wo ist Verbesserungspotenzial?** Die Wache nennt weder Titel noch Adresse; der Weg lief wieder von Hand über zwei `titles.json`-Stände und `jq`. Die Differenz „Titel-ID + Stream-URL" gehört in `00-wache.md`.
+
+**Wo sind echte Risiken und Lücken?** Der Stream ist auch am 04.11. (`origin/main`) nicht zurück. `data/dub-confirmed.yaml` hat für 1735/B084DBMYFX zwei Einträge (Zeile 6759 `available: false`, 25.08.; Zeile 35716 `dub: true`, 16.10., mit gti), und `prime-zugeordnet.json` ordnet `…B084DBMYFX#1/#2` anderen ASINs/Seiten zu. **Nicht belegt:** welcher Riegel den Stream herausnahm; `data/cache/` war für den Bau 41681374762 nicht verfügbar, ein Nachstellen steht aus. Verdacht, nicht Beweis: Prime-Zuordnung des Laufs (zeitlich davor liegt #2762 „Serienvorsatz in Prime-Folgentiteln", Commit 78d05b34), die Handbeleg-Notizseite an fremder Adresse (Wächter #2785 ist erst am 04.11. dazugekommen).
+
+**Was läuft komplett falsch?** Nichts, was ich belegen kann: kein Fehlerschritt, der Lauf ist absichtlich rot. Kein Pull Request, da keine Codeursache belegt ist.
