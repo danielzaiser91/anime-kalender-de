@@ -7,7 +7,7 @@
  */
 import type { StreamLink, Title } from '../shared/types.ts'
 import { ordneCrBloeckeZu } from './bau/09-4-2-bloecke.ts'
-import { beurteileBlockkettenOhneLuecke } from './lib/cr-ja-deckung.ts'
+import { beurteileBlockkettenOhneLuecke, crJaOhneDeckung } from './lib/cr-ja-deckung.ts'
 import { beurteileBlockketten, type CrDubData, type CrSerie } from './lib/crunchyroll-dub.ts'
 
 let verletzt = 0
@@ -57,14 +57,21 @@ const hinten = eintrag(SERIE, [S1, OVAS, ohneDeutsch])
 pruefe('Null-Block hinter dem letzten deutschen Block: die Kette gilt (Dr. Stone, One Punch Man)', beurteileBlockkettenOhneLuecke(hinten, reihe()).length === 3)
 const leer = eintrag(SERIE, [S1, block('leer', 0, 0), OVAS])
 pruefe('ein leerer Block (0 von 0) davor stört die Kette nicht', beurteileBlockkettenOhneLuecke(leer, reihe()).length === 3)
+const vornDannLeer = eintrag(SERIE, [ohneDeutsch, block('leer', 0, 0), S1, OVAS])
+pruefe('ein leerer Block hebt den Null-Block davor nicht auf', beurteileBlockkettenOhneLuecke(vornDannLeer, reihe()).length === 0)
 const ohneNull = eintrag(SERIE, [S1, OVAS])
 pruefe('ohne Null-Block gilt die Kette', beurteileBlockkettenOhneLuecke(ohneNull, reihe()).length === 3)
 
 console.log('\nBauphase ordneCrBloeckeZu: Stars and Ours')
 /** Baut die Blockzuordnung für die drei Einträge der Reihe und liefert das Ergebnis je Titel. */
+const serienDerReihe = (erster: CrSerie): CrSerie[] => [
+  erster,
+  eintrag(STARS, [S1, ohneDeutsch]),
+  eintrag(SUN, [S1, block('PERSONA5 the Animation -THE DAY BREAKERS-', 1, 1)]),
+]
 function bauLauf(erster: CrSerie): Map<number, Title> {
   const titles = new Map(reihe().map((t) => [t.id, t]))
-  const serien = [erster, eintrag(STARS, [S1, ohneDeutsch]), eintrag(SUN, [S1, block('PERSONA5 the Animation -THE DAY BREAKERS-', 1, 1)])]
+  const serien = serienDerReihe(erster)
   const nachUrl = new Map<string, Title[]>()
   for (const t of titles.values()) nachUrl.set(t.streams[0]!.url, [t])
   ordneCrBloeckeZu({ crDub: { scrapedAt: '', serien } as unknown as CrDubData, nachUrl, titles, katalogEintraege: [] })
@@ -75,5 +82,14 @@ pruefe('Stars and Ours bekommt aus der Kette kein Ja', mitLuecke.get(106896)!.st
 const geschlossen = bauLauf(ohneNull)
 pruefe('Kontrolle: ohne die Lücke setzt dieselbe Bauphase das Ja', geschlossen.get(106896)!.streams[0]!.dub === true, geschlossen.get(106896)!.streams[0])
 
+console.log('\nBestandsprüfung crJaOhneDeckung: dieselbe Regel')
+/** Ein Ja ohne Bereiche an Stars and Ours: gemeldet, wenn nur die Kette es trüge. */
+function offeneMit(erster: CrSerie): string[] {
+  const titles = reihe().map((t) => (t.id === 106896 ? { ...t, streams: [{ ...t.streams[0]!, dub: true }] } : t))
+  return crJaOhneDeckung({ titles, mitTermin: new Set(), mitBeleg: new Set(), crDub: { scrapedAt: '', serien: serienDerReihe(erster) } as unknown as CrDubData })
+}
+pruefe('Ja aus der Kette über eine Lücke ist nicht gedeckt', offeneMit(luecke).some((z) => z.startsWith('106896 ')), offeneMit(luecke))
+pruefe('Kontrolle: ohne Lücke deckt die Kette das Ja', !offeneMit(ohneNull).some((z) => z.startsWith('106896 ')), offeneMit(ohneNull))
+
 if (verletzt) process.exit(1)
-console.log('✓ Blockketten: Null-Block vor einem deutschen Block trägt kein Ja (6 Weichenfälle, Bauphase mit und ohne Lücke).')
+console.log('✓ Blockketten: Null-Block vor einem deutschen Block trägt kein Ja (7 Weichenfälle, Bauphase und Bestandsprüfung mit und ohne Lücke).')
