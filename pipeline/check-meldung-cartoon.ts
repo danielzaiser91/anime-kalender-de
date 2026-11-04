@@ -123,7 +123,8 @@ function cartoonKatalogFaelle(): void {
   const crunchyroll = zeitplanAusVorschlag({ articleTitle: 'X' }, 'batch', '2026-11-03', { id: -5, jpYear: 2026 }, 'crunchyroll')
   const animeCr = zeitplanAusVorschlag({ articleTitle: 'X' }, 'batch', '2026-11-03', { id: 5, jpYear: 2026 }, 'crunchyroll')
   pruefe('Wochentakt: Cartoon (id < 0) batch bei Netflix und Crunchyroll, Anime weiter weekly', netflix.releaseType === 'batch' && crunchyroll.releaseType === 'batch' && anime.releaseType === 'weekly' && animeCr.releaseType === 'weekly', [netflix.releaseType, crunchyroll.releaseType, anime.releaseType, animeCr.releaseType])
-  pruefe('„im Angebot ab“ nur beim Cartoon außerhalb von Netflix, nie beim Anime', crunchyroll.dateMeaning === 'available-from' && netflix.dateMeaning === undefined && animeCr.dateMeaning === undefined, [crunchyroll.dateMeaning, netflix.dateMeaning, animeCr.dateMeaning])
+  const animeBatch = zeitplanAusVorschlag({ folgen: 12 }, 'batch', '2026-11-03', { id: 5, jpYear: 2026 }, 'crunchyroll')
+  pruefe('„im Angebot ab“ nur beim Cartoon außerhalb von Netflix, nie beim Anime (auch nicht als Batch mit Folgenzahl)', crunchyroll.dateMeaning === 'available-from' && netflix.dateMeaning === undefined && animeCr.dateMeaning === undefined && animeBatch.releaseType === 'batch' && animeBatch.dateMeaning === undefined, [crunchyroll.dateMeaning, netflix.dateMeaning, animeCr.dateMeaning, animeBatch])
 }
 
 async function katalogFall(): Promise<void> {
