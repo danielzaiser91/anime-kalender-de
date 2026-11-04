@@ -4633,8 +4633,8 @@ function durchlaufKnopfZeigen() {
     }
     DURCHLAUF.knopf = document.createElement('button')
     DURCHLAUF.knopf.className = 'ak-durchlauf'
-    DURCHLAUF.knopf.addEventListener(
-      'click',
+    akKlick(
+      DURCHLAUF.knopf,
       (e) => {
         /*
           Läuft schon etwas, tut ein Klick nichts mehr.
@@ -4720,7 +4720,7 @@ function durchlaufKnopfZeigen() {
     DURCHLAUF.nochmalKnopf.textContent = '↻ alle'
     DURCHLAUF.nochmalKnopf.title =
       'Prüft auch die Folgen noch einmal, die schon gemeldet sind.\nGilt für einen Lauf.'
-    DURCHLAUF.nochmalKnopf.addEventListener('click', () => {
+    akKlick(DURCHLAUF.nochmalKnopf, () => {
       console.log('[Anime-Kalender] Stand wird für einen Lauf übergangen')
       void durchlaufStandVergessen()
     })
@@ -4946,7 +4946,7 @@ function durchlaufKnopfZeigen() {
       DURCHLAUF.grenzeMeldenKnopf = document.createElement('button')
       DURCHLAUF.grenzeMeldenKnopf.className = 'ak-grenzknopf'
       DURCHLAUF.grenzeMeldenKnopf.textContent = '✓ melden'
-      DURCHLAUF.grenzeMeldenKnopf.addEventListener('click', () => void grenzeUebernehmen())
+      akKlick(DURCHLAUF.grenzeMeldenKnopf, () => void grenzeUebernehmen())
       DURCHLAUF.grenzFeld.after(DURCHLAUF.grenzeMeldenKnopf)
     }
     DURCHLAUF.grenzeMeldenKnopf.hidden = false
@@ -5172,7 +5172,7 @@ function uebersichtZeigen() {
       weiterhin am Bildschirmrand statt im Kasten.
     */
     uebersichtKnopf.className = 'ak-uebersicht ak-uebersicht-innen'
-    uebersichtKnopf.addEventListener('click', dialogOeffnen)
+    akKlick(uebersichtKnopf, dialogOeffnen)
     /*
       **In die Mitte des Fußes, wie bei Prime** (10.09.2026). Der linke Platz
       ist seit 4.11.0 ausgeblendet — er trug einmal die Marke „gemeldet ✓". Der
@@ -5422,7 +5422,7 @@ async function dialogOeffnen() {
       ? 'Beendet den laufenden Durchgang. Escape bricht die gerade laufende Prüfung ab.'
       : 'Geht alle offenen Titel nacheinander durch — jede geprüfte Folge wird kurz geöffnet und ' +
         'landet in „Weiter ansehen". Endet von selbst, wenn nichts mehr offen ist.'
-    selbst.addEventListener('click', () => {
+    akKlick(selbst, () => {
       if (selbstAn) {
         laufBeenden('von Hand')
         dialogSchliessen()
@@ -5456,7 +5456,7 @@ async function dialogOeffnen() {
     const umschalter = document.createElement('button')
     umschalter.className = 'ak-umschalter'
     umschalter.textContent = `${eintraege.length - nochOffen} gemeldet zeigen`
-    umschalter.addEventListener('click', () => {
+    akKlick(umschalter, () => {
       const zeigen = kasten.classList.toggle('ak-mit-erledigten')
       umschalter.textContent = zeigen
         ? `${eintraege.length - nochOffen} gemeldet ausblenden`
@@ -5494,7 +5494,7 @@ async function dialogOeffnen() {
   zu.className = 'ak-zu'
   zu.textContent = '×'
   zu.title = 'Schließen (Esc)'
-  zu.addEventListener('click', dialogSchliessen)
+  akKlick(zu, dialogSchliessen)
   kopf.appendChild(zu)
   kasten.appendChild(kopf)
 
@@ -5579,7 +5579,7 @@ async function dialogOeffnen() {
      * was von hier aus angeklickt wurde, und trägt seinen Befund an der
      * richtigen Zeile ein.
      */
-    link.addEventListener('click', () => {
+    akKlick(link, () => {
       /*
         **Der Klick merkt sich auch, wohin er wollte.**
 
@@ -5748,7 +5748,7 @@ async function dialogOeffnen() {
         weg.title = st.ausserhalb && st.name
           ? `„${st.name}" gibt es hier nicht — nur diese Ausgabe melden`
           : `Staffel ${st.nr} gibt es hier nicht — nur diese Staffel melden`
-        weg.addEventListener('click', async (ereignis) => {
+        akKlick(weg, async (ereignis) => {
           ereignis.stopPropagation()
           ereignis.preventDefault()
           /* Zweistufig wie „nichts da?": Ein Fehlklick streicht eine Staffel. */
@@ -5802,7 +5802,7 @@ async function dialogOeffnen() {
       Die Knöpfe rechts behalten ihr eigenes Verhalten: Ein Klick, der dort
       landet, ist keiner auf die Zeile.
     */
-    zeile.addEventListener('click', (ereignis) => {
+    akKlick(zeile, (ereignis) => {
       if (ereignis.target.closest('a, button')) return
       link.click()
     })
@@ -5829,7 +5829,7 @@ async function dialogOeffnen() {
      */
     tot.title =
       'Dort ist nichts abzuspielen — Adresse leitet um, keine Folgen, oder Netflix meldet einen Fehler'
-    tot.addEventListener('click', async () => {
+    akKlick(tot, async () => {
       if (tot.dataset.sicher !== 'ja') {
         tot.dataset.sicher = 'ja'
         tot.textContent = 'wirklich?'
@@ -5874,7 +5874,7 @@ async function dialogOeffnen() {
   })
 
   // Ein Klick neben den Kasten schließt — wie überall sonst auch.
-  dialog.addEventListener('click', (e) => {
+  akKlick(dialog, (e) => {
     if (e.target === dialog) dialogSchliessen()
   })
   document.addEventListener('keydown', beiEscape)
