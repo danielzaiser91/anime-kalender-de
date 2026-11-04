@@ -1,15 +1,36 @@
 {
-  "scrapedAt": "2026-11-04T04:11:18.941Z",
+  "scrapedAt": "2026-11-04T11:02:49.711Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 40,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 5,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 53,
-    "schon in einem Rubrik-Feed gelesen": 31,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 8,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 17,
+    "schon in einem Rubrik-Feed gelesen": 5,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 2,
     "Sprachhinweis älter als 45 Tage": 6
   },
   "proposals": [
+    {
+      "articleTitle": "Design der »Fate/stay night: Heaven’s Feel«-Komplettbox + Extras",
+      "articleUrl": "https://www.anime2you.de/news/1067523/fate-stay-night-heavens-feel-komplettbox-design/",
+      "publishedAt": "2026-11-04",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2026-12-18",
+          "context": "ettbox der dreiteiligen Filmreihe erscheint nach aktueller Planung am 18. Dezember 2026 in zwei verschiedenen Varianten. Beide Editionen ent"
+        },
+        {
+          "month": "2026-12",
+          "context": "s Feel« vorgestellt. Ein erstes Produktbild findet ihr unten. Release im Dezember 2026 Die Blu-ray-Komplettbox der dreiteiligen Filmreihe er"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Design der neuen »Neon Genesis Evangelion«-Komplettbox + Extras",
       "articleUrl": "https://www.anime2you.de/news/1067138/neue-evangelion-komplettbox-design/",
