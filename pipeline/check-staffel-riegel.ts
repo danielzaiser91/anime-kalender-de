@@ -36,7 +36,12 @@ pruefe('Treffer genau auf der Seitengrenze (Folge 4 bei vier Seitenfolgen): verw
 pruefe('Treffer eine Folge hinter der Seitengrenze (5-8): bleibt', staffelSeiteVerwerfen({ ...basis, anbieter: seite(alle.slice(4, 8)) }) === false)
 pruefe('Titel nicht länger als die Seite: verworfen', staffelSeiteVerwerfen({ ...basis, titelFolgen: 4, anbieter: seite(alle.slice(4)) }) === true)
 pruefe('Titel genau so lang wie die Seite: verworfen', staffelSeiteVerwerfen({ ...basis, titelFolgen: 4 }) === true)
-pruefe('Titel eine Folge länger als die Seite, Treffer jenseits: bleibt', staffelSeiteVerwerfen({ ...basis, titelFolgen: 5, anbieter: seite(['Delta Dachs']) , ankerListen: [anker(alle.slice(0, 5))] }) === false)
+pruefe('Titel länger als die Seite, zwei Treffer jenseits (genau die Mindestzahl): bleibt', staffelSeiteVerwerfen({ ...basis, titelFolgen: 5, anbieter: seite(['Delta Dachs', 'Epsilon Eule']), ankerListen: [anker(alle.slice(0, 5))] }) === false)
+// Einzeltreffer (Yuna & Stitch B01M0SP5H8: 1 Treffer bei 10 Folgen) ist gewollt verworfen: ein Titelzufall darf keine Fortsetzungsseite retten.
+pruefe('ein einziger Treffer jenseits der Seitenlänge: verworfen', staffelSeiteVerwerfen({ ...basis, anbieter: seite(['Zeta Zebra', 'Unbekannt Eins', 'Unbekannt Zwei', 'Unbekannt Drei']) }) === true)
+pruefe('Treffer jenseits, dazu nicht zuordenbare Folgen (Blast of Tempest: 3 bei 12): bleibt', staffelSeiteVerwerfen({ ...basis, anbieter: seite(['Epsilon Eule', 'Zeta Zebra', 'Eta Echse', 'Unbekannt Vier']) }) === false)
+pruefe('erster Anker trifft diesseits, zweiter jenseits: verworfen', staffelSeiteVerwerfen({ ...basis, anbieter: seite(zweite), ankerListen: [anker(zweite), anker(alle)] }) === true)
+pruefe('erster Anker trifft jenseits, zweiter gar nicht: bleibt', staffelSeiteVerwerfen({ ...basis, ankerListen: [anker(alle), anker(['Nichts Eins', 'Nichts Zwei', 'Nichts Drei'])] }) === false)
 pruefe('Folgenzahl unbekannt: verworfen', staffelSeiteVerwerfen({ ...basis, titelFolgen: undefined }) === true)
 pruefe('keine Treffer: verworfen', staffelSeiteVerwerfen({ ...basis, anbieter: seite(['Unbekannt Eins', 'Unbekannt Zwei']) }) === true)
 pruefe('keine Anker: verworfen', staffelSeiteVerwerfen({ ...basis, ankerListen: [] }) === true)
@@ -58,6 +63,8 @@ const tsx = createRequire(join(wurzel, 'package.json')).resolve('tsx/cli')
 const mock = pathToFileURL(join(wurzel, 'tools/rohfolgen-ablauf-mock.mjs')).href
 const A = 'https://www.amazon.de/gp/video/detail/B0RIEGEL01'
 const B = 'https://www.amazon.de/gp/video/detail/B0RIEGEL02'
+const C = 'https://www.amazon.de/gp/video/detail/B0RIEGEL03'
+const einzeln = ['Zeta Zebra', 'Unbekannt Eins', 'Unbekannt Zwei', 'Unbekannt Drei']
 const zeile = (id: number, url: string, nummer: number, titel: string, titelId: number) => ({
   id,
   url,
@@ -85,15 +92,16 @@ try {
   schreibe('rohfolgen.json', [
     ...zweite.map((t, i) => zeile(i + 1, A, i + 1, t, 900101)),
     ...alle.slice(0, 4).map((t, i) => zeile(i + 11, B, i + 1, t, 900102)),
+    ...einzeln.map((t, i) => zeile(i + 21, C, i + 1, t, 900103)),
   ])
   const titel = (id: number, n: number, url: string) => ({ id, titleDe: `Riegel ${id}`, episodes: n, streams: [{ platform: 'primevideo', url }] })
-  schreibe('public/data/titles.json', [titel(900101, 8, A), titel(900102, 4, B)])
+  schreibe('public/data/titles.json', [titel(900101, 8, A), titel(900102, 4, B), titel(900103, 8, C)])
   mkdirSync(join(kulisse, 'data'), { recursive: true })
   writeFileSync(join(kulisse, 'data/dub-confirmed.yaml'), '[]\n')
   schreibe('public/data/cartoons.json', [])
   schreibe('public/data/ohne-synchro.json', [])
-  schreibe('data/anisearch.json', { 900101: { anisearchId: 51 }, 900102: { anisearchId: 52 } })
-  schreibe('data/anisearch-folgen.json', { 51: asFolgen(alle), 52: asFolgen(alle.slice(0, 4)) })
+  schreibe('data/anisearch.json', { 900101: { anisearchId: 51 }, 900102: { anisearchId: 52 }, 900103: { anisearchId: 53 } })
+  schreibe('data/anisearch-folgen.json', { 51: asFolgen(alle), 52: asFolgen(alle.slice(0, 4)), 53: asFolgen(alle) })
   const lauf = spawnSync(process.execPath, [tsx, '--import', mock, join(wurzel, 'pipeline/fetch-rohfolgen.ts')], {
     cwd: wurzel,
     encoding: 'utf8',
@@ -105,7 +113,8 @@ try {
   const unsere = Object.values(z).find((x) => x.titleId === 900101)?.folgen.map((f) => f.unsere)
   pruefe('zweite Hälfte: Folgen 5-8 zugeordnet', JSON.stringify(unsere) === '[5,6,7,8]', unsere)
   pruefe('Neuanfang auf dem Reihenkopf bleibt verworfen', !Object.values(z).some((x) => x.titleId === 900102), Object.keys(z))
-  pruefe('Lauf-Log nennt die behaltene Seite', lauf.stdout.includes(`Staffel 2 behalten`) && lauf.stdout.includes('1 übersprungen'), lauf.stdout.slice(-400))
+  pruefe('Lauf-Log nennt die behaltene Seite', lauf.stdout.includes(`Staffel 2 behalten`) && lauf.stdout.includes('2 übersprungen'), lauf.stdout.slice(-400))
+  pruefe('Einzeltreffer: verworfen und im Log genannt', !Object.values(z).some((x) => x.titleId === 900103) && lauf.stdout.includes('ein Treffer jenseits') && lauf.stdout.includes(C), lauf.stdout.slice(-400))
 } catch (e) {
   fehler.push(`Ablauf nicht lesbar: ${(e as Error).message}`)
 } finally {

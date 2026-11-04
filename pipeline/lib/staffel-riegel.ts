@@ -18,17 +18,31 @@ export interface RiegelEingabe {
   ankerListen: { folgen: TmdbFolge[] }[]
 }
 
-/** Liegt die Seite jenseits der ersten Seite eines längeren Einzeltitels? */
-export function istZweiteHaelfte(e: RiegelEingabe): boolean {
-  const seitenFolgen = e.anbieter.length
-  if (!e.titelFolgen || e.titelFolgen <= seitenFolgen) return false
-  const treffer: number[] = []
+/** Mindestzahl eindeutiger Treffer jenseits der Seitenlänge: ein Titelzufall (ein Treffer) rettet keine Fortsetzungsseite. */
+const MIN_TREFFER = 2
+
+/** Eindeutige Folgentreffer der Seite in unserer Zählung, über alle Anker-Listen. */
+function treffer(e: RiegelEingabe): number[] {
+  const t: number[] = []
   for (const liste of e.ankerListen) {
     for (const z of ordneZu(e.anbieter, liste.folgen)) {
-      if (z.unsere !== null) treffer.push(z.unsere)
+      if (z.unsere !== null) t.push(z.unsere)
     }
   }
-  return treffer.length > 0 && treffer.every((n) => n > seitenFolgen)
+  return t
+}
+
+/** Trefferzahl, wenn alle jenseits der Seitenlänge liegen (längerer Titel vorausgesetzt), sonst 0. */
+function trefferJenseits(e: RiegelEingabe): number {
+  const seitenFolgen = e.anbieter.length
+  if (!e.titelFolgen || e.titelFolgen <= seitenFolgen) return 0
+  const t = treffer(e)
+  return t.every((n) => n > seitenFolgen) ? t.length : 0
+}
+
+/** Liegt die Seite jenseits der ersten Seite eines längeren Einzeltitels? */
+export function istZweiteHaelfte(e: RiegelEingabe): boolean {
+  return trefferJenseits(e) >= MIN_TREFFER
 }
 
 /** Wird die Seite vom Staffel-Riegel verworfen? */
@@ -47,7 +61,12 @@ export function staffelRiegel(
   ankerListen: { folgen: TmdbFolge[] }[],
 ): boolean {
   const eingabe = { gemeldeteStaffel, istReihenkopf, titelFolgen: titel.episodes, anbieter, ankerListen }
-  if (staffelSeiteVerwerfen(eingabe)) return true
+  if (staffelSeiteVerwerfen(eingabe)) {
+    if (gemeldeteStaffel !== null && gemeldeteStaffel > 1 && istReihenkopf && trefferJenseits(eingabe) === 1) {
+      log(`Staffel ${gemeldeteStaffel} verworfen (ein Treffer jenseits, Titelzufall möglich: ${titel.titleDe ?? titel.id}): ${url}`)
+    }
+    return true
+  }
   if (gemeldeteStaffel !== null && gemeldeteStaffel > 1 && istReihenkopf) {
     log(`Staffel ${gemeldeteStaffel} behalten (zweite Hälfte von ${titel.titleDe ?? titel.id}): ${url}`)
   }

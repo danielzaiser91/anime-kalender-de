@@ -671,7 +671,8 @@ async function main(): Promise<void> {
      * der Adresse (`?ref_=atv_dp_season_select_sN`) und schickt sie mit. Ab
      * Staffel 2 wird ein Reihenkopf-Treffer deshalb verworfen: Lieber keine
      * Zuordnung als eine falsche, denn eine falsche erzeugt eine Sprachaussage
-     * über den falschen Titel.
+     * über den falschen Titel. Ausnahme: die zweite Hälfte eines Einzeltitels
+     * (`staffelRiegel`, mindestens zwei Folgentreffer jenseits der Seitenlänge).
      *
      * **Nur ab Staffel 2**, und nur wenn unser Titel wirklich der Kopf ist:
      * Bei einer einteiligen Reihe ist „Staffel 1" die einzige, und dort ist
