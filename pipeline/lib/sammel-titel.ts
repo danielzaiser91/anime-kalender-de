@@ -52,12 +52,11 @@ function namenVon(t: Title, synonyme: Map<number, string[]>): string[] {
   return [t.titleDe, t.titleEn, t.titleRomaji, ...(synonyme.get(t.id) ?? [])].filter((n): n is string => Boolean(n))
 }
 
-/** Genau ein Titel, dessen Name (auch Synonym) dem Namen gleicht — sonst keiner. */
-function genauerTitel(name: string, titel: Title[], synonyme: Map<number, string[]>): Title | undefined {
+/** Alle Titel, deren Name (auch Synonym) dem Namen gleicht; unter vier Zeichen gleicht keiner. */
+function gleichnamige(name: string, titel: Title[], synonyme: Map<number, string[]>): Title[] {
   const frage = namensWoerter(name).join('')
-  if (frage.length < 4) return undefined
-  const treffer = titel.filter((t) => formatPasst(name, t) && namenVon(t, synonyme).some((n) => namensWoerter(n).join('') === frage))
-  return treffer.length === 1 ? treffer[0] : undefined
+  if (frage.length < 4) return []
+  return titel.filter((t) => namenVon(t, synonyme).some((n) => namensWoerter(n).join('') === frage))
 }
 
 /**
@@ -79,9 +78,14 @@ function eindeutigerAnfang(name: string, zusatz: string, titel: Title[], synonym
   return treffer.length === 1 && nurBeititel(treffer[0]!) ? treffer[0] : undefined
 }
 
-/** Der Titel der Sammelzeile: erst gleicher Name (mit Synonymen), dann eindeutiger Namensanfang; sonst `undefined`. */
+/**
+ * Der Titel der Sammelzeile: der einzige mit gleichem Namen (auch Synonym); gibt es mehrere gleichnamige, keiner — der
+ * Namensanfang springt dann nicht ein. Ohne gleichnamigen: der eindeutige Namensanfang; sonst `undefined`.
+ */
 export function sammelTitel(articleTitle: string, titel: Title[], synonyme: Map<number, string[]>): Title | undefined {
   const name = sammelName(articleTitle)
   if (!name) return undefined
-  return genauerTitel(name, titel, synonyme) ?? eindeutigerAnfang(name, ohneSammelName(articleTitle), titel, synonyme)
+  const gleich = gleichnamige(name, titel, synonyme)
+  if (gleich.length) return gleich.length === 1 ? gleich[0] : undefined
+  return eindeutigerAnfang(name, ohneSammelName(articleTitle), titel, synonyme)
 }

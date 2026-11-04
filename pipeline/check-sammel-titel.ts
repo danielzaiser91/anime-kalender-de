@@ -38,10 +38,22 @@ const KATALOG: Title[] = [
   titel(900060, undefined, 'Yandere Dark Elf: She Chased Me All the Way from Another World!', 'TV_SHORT', 2025),
   titel(900070, 'Clannad: Der Film', 'Clannad: The Motion Picture', 'MOVIE', 2007),
   titel(900071, 'Clannad', 'Clannad', 'TV', 2007),
-  titel(900080, 'Beispielserie: Season 2', undefined, 'TV', 2026),
+  titel(900080, 'Beispiel Serie: Season Zero', undefined, 'TV', 2026),
   titel(900081, 'Zwillingsserie: Der Anfang', undefined, 'TV', 2026),
   titel(900082, 'Zwillingsserie: Der Rest', undefined, 'TV', 2026),
-  titel(900083, 'Kinoserie: Der Film', undefined, 'MOVIE', 2026),
+  titel(900083, 'Kinoserie Special: Der Film', undefined, 'MOVIE', 2026),
+  titel(900084, 'Doppel Werk: Der Beginn', undefined, 'TV', 2026),
+  titel(900085, 'Doppel Werk: Part 2', undefined, 'TV', 2026),
+  titel(900086, 'Mondschein: Das Abenteuer', undefined, 'TV', 2026),
+  titel(900088, 'Hero’s Journey', undefined, 'TV', 2026),
+  titel(900089, 'Pokémon Horizons', undefined, 'TV', 2023),
+  titel(900090, 'Air', undefined, 'TV', 2005),
+  titel(900091, 'Gate', undefined, 'TV', 2015),
+  titel(900092, 'Gleicher Name', undefined, 'TV', 2020),
+  titel(900093, 'Gleicher Name', undefined, 'TV', 2024),
+  titel(900095, 'Gleicher Name: Sonderfolge', undefined, 'OVA', 2025),
+  titel(900096, 'Ox A', undefined, 'TV', 2012),
+  titel(900094, 'Dein Name', undefined, 'MOVIE', 2016),
 ]
 /** Wörtlich aus `public/data/synonyme.json`. */
 const SYNONYME = new Map<number, string[]>([
@@ -63,6 +75,7 @@ const zeile = (name: string, zusatz?: string, anbieter = 'joyn'): Vorschlag => (
 
 async function main(): Promise<void> {
   await pruefeNamen()
+  await pruefeGleicherName()
   await pruefeTermine()
   await pruefeBau()
 }
@@ -88,11 +101,30 @@ async function pruefeNamen(): Promise<void> {
   pruefe('Steel Ball Run „2nd-3rd STAGE“ nicht an Phase 1', id('STEEL BALL RUN: JoJo’s Bizarre Adventure', '2nd-3rd STAGE') === undefined)
   pruefe('Steel Ball Run ohne Zusatz: zwei Anfänge, keiner', id('STEEL BALL RUN: JoJo’s Bizarre Adventure') === undefined)
   pruefe('Zusatz „Staffel 2“ schließt den Namensanfang aus', id('Yandere Dark Elf', 'Staffel 2') === undefined)
-  pruefe('Teilwort dahinter („Season 2“) ist kein Beititel', id('Beispielserie') === undefined)
-  pruefe('Ein Wort allein genügt für den Anfang nicht', id('Zwillingsserie') === undefined)
+  pruefe('Teilwort dahinter („Season …“) ist kein Beititel', id('Beispiel Serie') === undefined)
+  pruefe('Ein Wort allein genügt für den Anfang nicht', id('Zwillingsserie') === undefined && id('Mondschein') === undefined)
   pruefe('zwei Anfänge → keiner', id('Zwillingsserie: Der') === undefined)
+  pruefe('ein Anfang mit „Part 2“ daneben ist nicht eindeutig', id('Doppel Werk') === undefined)
+  pruefe('Anfang gilt nur am Namensbeginn, nicht mitten im Namen', id('Dark Elf') === undefined)
   pruefe('Film-Wort verlangt einen Film (Eureka Seven/Trinity Seven nicht)', id('Seven Stories Movie 1') === undefined && id('K: Seven Stories Movie 1') === 900001)
-  pruefe('ohne Film-Wort kein Film', id('Kinoserie') === undefined)
+  pruefe('ohne Film-Wort kein Film im Namensanfang', id('Kinoserie Special') === undefined)
+}
+
+/** Gleicher Name: alle Schreibweisen, die der Bestand führt, und die Grenzen des genauen Wegs. */
+async function pruefeGleicherName(): Promise<void> {
+  const { sammelTitel, istSammelMeldung } = await import('./lib/sammel-titel.ts')
+  const id = (name: string) => sammelTitel(zeile(name).articleTitle, KATALOG, SYNONYME)?.id
+  pruefe('Apostroph: „Heros Journey“ → „Hero’s Journey“', id('Heros Journey') === 900088, id('Heros Journey'))
+  pruefe('Akzent: „Pokemon Horizons“ → „Pokémon Horizons“', id('Pokemon Horizons') === 900089, id('Pokemon Horizons'))
+  pruefe('vier Zeichen genügen für den gleichen Namen', id('Gate') === 900091, id('Gate'))
+  pruefe('drei Zeichen genügen nicht', id('Air') === undefined, id('Air'))
+  pruefe('zwei Titel gleichen Namens → keiner, auch nicht der mit Beititel', id('Gleicher Name') === undefined, id('Gleicher Name'))
+  pruefe('zu kurzer Name gleicht auch als Namensanfang nicht', id('Ox A') === undefined, id('Ox A'))
+  pruefe('ein Film ohne Film-Wort im Namen ist erreichbar', id('Dein Name') === 900094, id('Dein Name'))
+  const sammel = { context: 'Sammelartikel' }
+  pruefe('Sammelzeile: alle Daten aus dem Sammelartikel', istSammelMeldung({ dates: [sammel, sammel] }))
+  pruefe('keine Sammelzeile: ein Datum aus anderem Zusammenhang', !istSammelMeldung({ dates: [sammel, { context: 'Start' }] }))
+  pruefe('keine Sammelzeile: ohne Daten', !istSammelMeldung({ dates: [] }) && !istSammelMeldung({}))
 }
 
 async function pruefeTermine(): Promise<void> {
@@ -112,6 +144,8 @@ async function pruefeTermine(): Promise<void> {
   // Eine Meldung, die keine Sammelzeile ist, nutzt den neuen Weg nicht: „Love & Lies“ in einer Überschrift bleibt ohne Treffer.
   const ueberschrift: Vorschlag = { ...zeile('Love & Lies'), dates: [{ iso: '2026-11-03', context: 'Start am 3. November' }] }
   pruefe('Überschrift (kein Sammelartikel) nutzt den Namensabgleich nicht', neu(ueberschrift).length === 0)
+  const filmUeberschrift: Vorschlag = { ...zeile('Clannad: Der Film'), dates: [{ iso: '2026-11-03', context: 'Start am 3. November' }] }
+  pruefe('Überschrift mit Film-Wort im Namen bleibt wie bisher ohne Termin', neu(filmUeberschrift).length === 0)
   // Teil-Wörter außerhalb des Namens zählen weiter: „Staffel 4“ ohne Staffel 4 im Bestand bleibt ohne Termin.
   pruefe('Zusatz „Staffel 4“ ohne vierte Staffel: kein Termin', neu(zeile('Clannad', 'Staffel 4')).length === 0)
 
