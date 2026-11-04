@@ -100,6 +100,8 @@ pruefe('Block im neueren Eintrag voll deutsch, im älteren 0: der Eintrag ohne e
 pruefe('Block in beiden Einträgen voll deutsch: nichts zu melden', widerspruch([eintrag(URL_ALT, 1), eintrag(URL_NEU, 1)], neuerWeg).length === 0)
 const andereKennung = { ...eintrag(URL_NEU, 1), seriesId: 'GTEST0004' } as CrSerie
 pruefe('derselbe Block unter einer anderen Kennung ist kein Widerspruch', widerspruch([eintrag(URL_ALT, 0), andereKennung], neuerWeg).length === 0)
+const altLeer = { ...eintrag(URL_ALT, 0), staffeln: [{ name: 'Special', staffelId: 'SS', folgen: 0, deutsch: 0 }] } as unknown as CrSerie
+pruefe('ein leerer Block (0/0) im älteren Eintrag ist kein Widerspruch', widerspruch([altLeer, eintrag(URL_NEU, 1)], neuerWeg).length === 0)
 
 console.log('\nBeleg-Mengen des Bestandswächters (crBelegKennungen)')
 const gedeckt = (teil: Partial<BelegQuellen>): boolean => crBelegKennungen(quellen(teil)).has(7)
