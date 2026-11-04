@@ -1,6 +1,6 @@
 [
   { "name": "Kontrolle (unmutiert)", "aenderungen": [] },
-  { "name": "blockSeiten: Notizseite ignoriert", "aenderungen": [{ "datei": "pipeline/lib/handbeleg-notizseite.ts", "suche": "...(aus ? [aus[1]!] : [])", "ersetze": "...([] as string[])" }] },
+  { "name": "blockSeiten: Notizseite ignoriert", "aenderungen": [{ "datei": "pipeline/lib/handbeleg-notizseite.ts", "suche": "...(aus ? [aus] : [])", "ersetze": "...([] as string[])" }] },
   { "name": "blockSeiten: Adresse ignoriert", "aenderungen": [{ "datei": "pipeline/lib/handbeleg-notizseite.ts", "suche": "...asinsAus(b.url).slice(0, 1), ", "ersetze": "" }] },
   { "name": "blockSeiten: alle Kennungen der URL", "aenderungen": [{ "datei": "pipeline/lib/handbeleg-notizseite.ts", "suche": "asinsAus(b.url).slice(0, 1)", "ersetze": "asinsAus(b.url)" }] },
   { "name": "baueBesitz: Plattformfilter weg", "aenderungen": [{ "datei": "pipeline/lib/handbeleg-notizseite.ts", "suche": "if (s.platform !== 'primevideo') continue", "ersetze": "" }] },
