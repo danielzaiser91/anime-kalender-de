@@ -10,10 +10,11 @@
 # offene Tür — auch in einem privaten Repo. Wer einen neuen Lauf braucht, trägt
 # ihn hier ein; das ist eine Zeile und ein Commit.
 #
-# **`data:build` steht bewusst nicht zur Wahl.** Dieser Workflow holt keinen
-# Cache (`NUR_QUELLEN`), und der Bau bricht ohne AniList-Daten ab — am
-# 28.08.2026 einmal ausprobiert und prompt rot geworden. Wer den Datensatz neu
-# bauen will, nimmt den Tageslauf.
+# **`data:build` steht bewusst nicht zur Wahl.** Der Workflow stellt nur den
+# AniList-Cache früherer Läufe wieder her (Schritt „AniList-Cache
+# wiederverwenden“), holt aber keine frischen AniList-Daten; der Datensatz-Bau
+# gehört dem Bestandsbau (`bestand-bauen.yml`). Vor dem Merge eines Fundes
+# fährt nur der Probebau (`data:bauprobe`, Aktion `einreichen`).
 name: Datenlauf auf Abruf
 
 on:
