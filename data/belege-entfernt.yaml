@@ -878,3 +878,31 @@
   url: https://www.amazon.de/gp/video/detail/B0CVWZXGJT
   grund: 'Pokémon-Kanalseite „Staffel 901“ (12 Folgen, Oktober 2006) gehört nicht Sonne & Mond (2016–2019); Besitz liegt bei der ersten Serie (527), PR 2760 R2'
   entferntAm: '2026-11-03'
+- anilistId: 16049
+  url: https://www.amazon.de/gp/video/detail/B0CGGZVNFS
+  grund: 'Seite „Staffel 3“ mit 25 Folgen ist Railgun T (AniList 104462, 25 Folgen, 2020), nicht Railgun S (16049, 24 Folgen)'
+  entferntAm: '2026-11-04'
+- anilistId: 100185
+  url: https://www.amazon.de/gp/video/detail/B0CGGZVNFS
+  grund: 'Seite „Staffel 3“ mit 25 Folgen ist Railgun T (104462), nicht Magical Index III (100185, 26 Folgen)'
+  entferntAm: '2026-11-04'
+- anilistId: 102351
+  url: https://www.amazon.de/gp/video/detail/B0CW5WH6XZ
+  grund: 'Seite „Staffel 3“ trägt die Folgen von Tokyo Ghoul:re (100240, Start – Jäger …), nicht von :re 2 (102351)'
+  entferntAm: '2026-11-04'
+- anilistId: 100240
+  url: https://www.amazon.de/gp/video/detail/B0D7N68Q5T
+  grund: 'Seite „Staffel 4“ trägt die Folgen von Tokyo Ghoul:re 2 (102351, Und noch einmal – Place …), nicht von :re (100240)'
+  entferntAm: '2026-11-04'
+- anilistId: 527
+  url: https://www.amazon.de/gp/video/detail/B0CVG5M4FP
+  grund: 'Kanalseite „Staffel 6 Band 1“ trägt die 13 Folgen von Pokémon Advanced Generation (1564, Pikachu in Not! …), nicht der ersten Serie'
+  entferntAm: '2026-11-04'
+- anilistId: 97634
+  url: https://www.amazon.de/gp/video/detail/B0CVG5M4FP
+  grund: 'Kanalseite „Staffel 6 Band 1“ trägt die 13 Folgen von Pokémon Advanced Generation (1564, Pikachu in Not! …), nicht Sonne & Mond'
+  entferntAm: '2026-11-04'
+- anilistId: 10012621
+  url: https://www.amazon.de/gp/video/detail/B0DJ4FCM5H
+  grund: 'Seite hat eine Folge „Prinz Ribbit“ (89 min, Film) = Prinz Ribbit: Ein Frosch auf Umwegen! (10011569), nicht die Serie Super Wings'
+  entferntAm: '2026-11-04'
