@@ -88,14 +88,16 @@ function basisRef(wurzel: string): string {
   return git(wurzel, ['fetch', '--no-tags', '--depth=1', 'origin', 'main']) === undefined ? 'origin/main' : 'FETCH_HEAD'
 }
 
-/** Grenzen der Basis: `--basis <ref>`, sonst `basisRef`. `undefined`, wenn nicht lesbar. */
-export function basisGrenzen(wurzel: string, ref?: string): Grenzen | undefined {
-  const text = git(wurzel, ['show', `${ref ?? basisRef(wurzel)}:${GRENZDATEI}`])
-  return text ? gelesen(text) : undefined
+/** Grenzen der Basis: `--basis <ref>`, sonst `basisRef`. `'neu'`: Basis lesbar, Grenzdatei dort noch nicht da; `undefined`: Basis nicht lesbar. */
+export function basisGrenzen(wurzel: string, ref?: string): Grenzen | 'neu' | undefined {
+  const quelle = ref ?? basisRef(wurzel)
+  const text = git(wurzel, ['show', `${quelle}:${GRENZDATEI}`])
+  if (text) return gelesen(text)
+  return git(wurzel, ['cat-file', '-e', `${quelle}^{commit}`]) !== undefined ? 'neu' : undefined
 }
 
 /** Meldung, wenn in CI keine Basis lesbar war (sonst fiele eine angehobene Grenze nicht auf). */
-export function basisFehlt(basis: Grenzen | undefined, ci: boolean): string | undefined {
+export function basisFehlt(basis: Grenzen | 'neu' | undefined, ci: boolean): string | undefined {
   return !basis && ci ? 'Basisvergleich entfällt in CI: Grenzen der Basis (main) nicht lesbar' : undefined
 }
 
@@ -113,8 +115,8 @@ function main(): number {
   }
   const grenzen = gelesen(readFileSync(join(wurzel, GRENZDATEI), 'utf8'))
   const basis = basisGrenzen(wurzel, argument('--basis'))
-  console.log(`dub-lesart: ${stand.offen.length} offene Lese-Stellen (höchstens ${grenzen.offen}), ${stand.marken} Marken (höchstens ${grenzen.marken}), ${stand.tote.length} tote; Basisvergleich ${basis ? 'ja' : 'entfällt'}`)
-  const fehler = urteil(stand, grenzen, basis)
+  console.log(`dub-lesart: ${stand.offen.length} offene Lese-Stellen (höchstens ${grenzen.offen}), ${stand.marken} Marken (höchstens ${grenzen.marken}), ${stand.tote.length} tote; Basisvergleich ${basis === 'neu' ? 'ja (Grenzdatei neu in diesem PR)' : basis ? 'ja' : 'entfällt'}`)
+  const fehler = urteil(stand, grenzen, basis === 'neu' ? undefined : basis)
   const ohneBasis = basisFehlt(basis, Boolean(process.env.CI))
   if (ohneBasis) fehler.push(ohneBasis)
   if (fehler.length) {
