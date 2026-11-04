@@ -18,7 +18,7 @@ export function tmdbTitelNachDatum(folgen: Folge[] | undefined, eintrag: TmdbEin
   const aus = new Map<number, string>()
   for (const x of folgen) {
     if (x.de || !x.datum || !x.en) continue
-    const treffer = eintrag.folgen.filter((f) => f.s >= 1 && f.datum === x.datum && Boolean(f.en) && tmdbName(f.en as string) === tmdbName(x.en as string))
+    const treffer = eintrag.folgen.filter((f) => f.s >= 1 && f.datum === x.datum && tmdbName(f.en as string) === tmdbName(x.en as string))
     const titel = treffer.length === 1 ? echterTitel(treffer[0]) : undefined
     if (titel) aus.set(x.nr, titel)
   }

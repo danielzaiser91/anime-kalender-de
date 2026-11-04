@@ -63,6 +63,7 @@ pruefe('beide Daten: first_air_date zählt vor release_date', waehleBesten(undef
 pruefe('Kurzwort-Name (Yu-Gi-Oh! GX, echter Fall 482): gleicher Name gilt', waehleBesten(undefined, 'Yu-Gi-Oh! GX', [mit(21, 'Yu-Gi-Oh! GX', 1, 2004)], 2004)?.hit.id === 21)
 pruefe('Kurzwort-Name: anderer Kurzname (Yu-Gi-Oh! 5D’s) gilt nicht', waehleBesten(undefined, 'Yu-Gi-Oh! GX', [mit(22, 'Yu-Gi-Oh! 5Ds', 1, 2004)], 2004) === undefined)
 pruefe('Kurzwort-Name gegen Langnamen: gilt nicht', waehleBesten(undefined, 'Yu-Gi-Oh! GX', [mit(23, 'Yu-Gi-Oh! Duel Monsters', 1, 2004)], 2004) === undefined)
+pruefe('Namen nur aus Satzzeichen sind keine Übereinstimmung', waehleBesten(undefined, '?!', [mit(24, '!?', 1, 2004)], 2004) === undefined)
 pruefe('Beliebtheit zählt zur Stimmenzahl', waehleBesten(undefined, 'Mirai Nikki Redial', [{ ...mit(15, 'Mirai Nikki Redial', 0), popularity: 100 }, mit(16, 'Mirai Nikki Redial', 5)], 2017)?.hit.id === 15)
 pruefe('gleicher Name, gleiche Stimmen: der erste bleibt', waehleBesten(undefined, 'Kakegurui', [mit(17, 'Kakegurui', 7), mit(18, 'Kakegurui', 7)], 2017)?.hit.id === 17)
 pruefe('Ähnlichkeit genau 0,75 gilt', waehleBesten(undefined, 'Mirai Nikki Redial', [mit(19, 'Mirai Nikki Redial Extra', 1)], 2017)?.hit.id === 19)
