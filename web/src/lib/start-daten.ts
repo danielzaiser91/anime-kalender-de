@@ -1,7 +1,8 @@
 import { startTransition, useCallback, useEffect, useRef, useState } from 'react'
 import { wocheDeckt } from '@shared/wochen-datei.ts'
 import { loadDataset, loadWochenStart, type Dataset, type WochenStart } from './data.ts'
-import type { AppRoute } from './router.ts'
+import { setzeTabTitelQuelle, type AppRoute } from './router.ts'
+import { tabTitelFuerId } from '../components/detail/titelwechsel.ts'
 
 /** Nach dem Wochen-Start längstens so lange, bis das Nachladen der vollen Daten beginnt (Bilder der ersten Karten haben Vorrang). */
 const NACHLADEN_SPAETESTENS_MS = 6000
@@ -92,5 +93,12 @@ export function useStartdaten(route: AppRoute, heute: string): { data?: Dataset;
     return planeNachladen(starteVoll)
   }, [teil, voll, starteVoll])
 
-  return { data: voll ?? (teilGueltig ? teil.data : undefined), voll, error }
+  const data = voll ?? (teilGueltig ? teil.data : undefined)
+  /* Der Tab heißt schon wie der Titel, wenn der Verlaufseintrag entsteht (`titelNachEintrag`). */
+  useEffect(() => {
+    setzeTabTitelQuelle(data ? (id) => tabTitelFuerId(data, id) : undefined)
+    return () => setzeTabTitelQuelle(undefined)
+  }, [data])
+
+  return { data, voll, error }
 }
