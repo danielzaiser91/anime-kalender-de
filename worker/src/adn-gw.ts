@@ -34,6 +34,12 @@ export async function handleAdnGw(request: Request, env: Env): Promise<Response>
   const res = await fetch(`${ADN}${pfad}${url.search}`, { headers: kopf, signal: AbortSignal.timeout(20000) })
   return new Response(res.body, {
     status: res.status,
-    headers: { 'Content-Type': res.headers.get('Content-Type') ?? 'application/json', 'Cache-Control': 'no-store' },
+    headers: { ...herkunftKoepfe(request, res), 'Content-Type': res.headers.get('Content-Type') ?? 'application/json', 'Cache-Control': 'no-store' },
   })
+}
+
+/** Wo der Worker lief und welcher ADN-Rand den Abruf annahm; der Lauf loggt es bei französischer Sicht (Ursache der Platzierung messbar). */
+function herkunftKoepfe(request: Request, res: Response): Record<string, string> {
+  const colo = (request as { cf?: { colo?: string } }).cf?.colo
+  return { 'X-Gw-Colo': colo ?? '', 'X-Gw-Adn-Ray': res.headers.get('cf-ray') ?? '' }
 }

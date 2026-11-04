@@ -12,6 +12,13 @@ export interface AdnWeg {
   auth: Record<string, string>
 }
 
+/** Herkunft einer Worker-Antwort (Colo des Workers, cf-ray des ADN-Abrufs) für die Logzeile bei französischer Sicht; leer beim direkten Weg. */
+export function herkunftZeile(kopf: { get(name: string): string | null }): string {
+  const colo = kopf.get('X-Gw-Colo')
+  const ray = kopf.get('X-Gw-Adn-Ray')
+  return colo || ray ? `Worker-Colo ${colo ?? '?'}, ADN-cf-ray ${ray ?? '?'}` : ''
+}
+
 export function adnWeg(umgebung: Record<string, string | undefined>): AdnWeg {
   const proxy = umgebung.AK_ADN_PROXY?.replace(/\/+$/, '')
   if (!proxy) return { base: ADN_DIREKT, auth: {} }

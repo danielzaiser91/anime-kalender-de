@@ -83,3 +83,12 @@ jobs:
         id: auswerten
         if: always()
         run: bash tools/schritte-auswerten.sh
+
+      # Ein gescheiterter Schritt macht den Lauf rot, erst nach dem Einreichen (der Fund geht nicht verloren): am 04.11.2026 stand „0 von 24 aufgefrischt“ als grüner Lauf.
+      - name: Rot bei gescheitertem Schritt
+        if: always() && steps.auswerten.outputs.fehler != ''
+        env:
+          FEHLER: ${{ steps.auswerten.outputs.fehler }}
+        run: |
+          echo "::error::Gescheiterte Schritte: ${FEHLER}"
+          exit 1

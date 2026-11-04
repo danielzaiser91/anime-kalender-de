@@ -10,7 +10,7 @@ import { createRequire } from 'node:module'
 import { join } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import eingangWorker from '../worker/src/adn-gw-eingang.ts'
-import { adnWeg } from '../pipeline/lib/adn-weg.ts'
+import { adnWeg, herkunftZeile } from '../pipeline/lib/adn-weg.ts'
 import type { Env } from '../worker/src/env.ts'
 
 let fehler = 0
@@ -24,7 +24,7 @@ const ECHT_FETCH = globalThis.fetch
 const gesehen: { url: string; kopf: Headers }[] = []
 globalThis.fetch = (async (url: string, init?: RequestInit) => {
   gesehen.push({ url, kopf: new Headers(init?.headers) })
-  return new Response('{"videos":[{"languages":["vostde","vde"]}]}', { status: 200, headers: { 'Content-Type': 'application/json' } })
+  return new Response('{"videos":[{"languages":["vostde","vde"]}]}', { status: 200, headers: { 'Content-Type': 'application/json', 'cf-ray': '8abc-FRA' } })
 }) as typeof fetch
 
 const frage = (pfad: string, kopf: Record<string, string> = {}, methode = 'GET') =>
@@ -36,6 +36,12 @@ pruefe(ok.status === 200 && (await ok.text()).includes('vde'), 'Serie: 200 und A
 pruefe(gesehen[0]?.url === 'https://gw.api.animationdigitalnetwork.com/video/show/1125?limit=100&offset=0', 'Serie: Ziel und Query unverändert')
 pruefe(gesehen[0]?.kopf.get('X-Target-Distribution') === 'de' && gesehen[0]?.kopf.get('Accept-Language') === 'de', 'Köpfe des Laufs gehen mit')
 pruefe(!gesehen[0]?.kopf.has('Authorization') && !gesehen[0]?.kopf.has('Cookie'), 'Token und Cookie gehen nie zu ADN')
+
+pruefe(ok.headers.get('X-Gw-Adn-Ray') === '8abc-FRA' && ok.headers.get('X-Gw-Colo') === '', 'Herkunft: ADN-cf-ray durchgereicht, Colo leer ohne cf')
+const mitCf = Object.assign(new Request('https://w.example/adn-gw/show', { headers: mitToken }), { cf: { colo: 'SJC' } })
+pruefe((await handleAdnGw(mitCf, env)).headers.get('X-Gw-Colo') === 'SJC', 'Herkunft: Colo des Workers im Antwortkopf')
+pruefe(herkunftZeile(new Headers({ 'X-Gw-Colo': 'SJC', 'X-Gw-Adn-Ray': 'r-IAD' })) === 'Worker-Colo SJC, ADN-cf-ray r-IAD', 'Logzeile nennt Colo und ray')
+pruefe(herkunftZeile(new Headers()) === '', 'direkter Weg: keine Herkunftszeile')
 
 for (const pfad of ['/video/calendar?date=2026-11-03', '/show?limit=100&offset=0']) {
   const n = gesehen.length
@@ -103,6 +109,17 @@ pruefe(ueberProxy.kopf['X-Target-Distribution'] === 'de' && ueberProxy.kopf['Acc
 const direktLauf = ersteAnfrage({})
 pruefe(direktLauf.url.startsWith('https://gw.api.animationdigitalnetwork.com/video/calendar?date='), 'fetch-adn.ts: ohne AK_ADN_PROXY direkt zu ADN', direktLauf.url || direktLauf.ausgabe)
 pruefe(direktLauf.kopf.Authorization === undefined, 'fetch-adn.ts: direkt ohne Authorization')
+
+// adn-laufende.yml: der letzte Schritt macht den Lauf rot, wenn ein Schritt scheiterte (Ausgabe `fehler` aus dem Auswerten-Schritt).
+const { load } = await import('js-yaml')
+type Schritt = { name?: string; id?: string; if?: string; run?: string; env?: Record<string, string> }
+const wf = load(readFileSync(join(wurzel, '.github/workflows/adn-laufende.yml'), 'utf8')) as { jobs: { auffrischen: { steps: Schritt[] } } }
+const schritte = wf.jobs.auffrischen.steps
+const letzter = schritte.at(-1)
+const auswerten = schritte.findIndex((s) => s.id === 'auswerten')
+pruefe(auswerten >= 0 && schritte.length - 1 > auswerten, 'Rot-Schritt steht nach dem Auswerten (und damit nach dem Einreichen)')
+pruefe(letzter?.if === "always() && steps.auswerten.outputs.fehler != ''", 'Rot-Schritt läuft nur bei Fehlern, auch nach einem Fehlschlag', letzter?.if)
+pruefe(/^exit 1$/m.test(letzter?.run ?? ''), 'Rot-Schritt endet mit exit 1', letzter?.run)
 
 globalThis.fetch = ECHT_FETCH
 console.log(fehler ? `✖ ${fehler} Fall/Fälle rot` : '✔ ADN-Durchreiche: alle Fälle grün')
