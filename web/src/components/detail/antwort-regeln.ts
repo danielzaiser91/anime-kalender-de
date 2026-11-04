@@ -206,8 +206,9 @@ export function fertigAntwort(
 ): { art: 'fertig'; raus?: number; gesamt?: number; gesamtAbgeleitet: boolean; heuteOffen?: boolean } {
   const wochenplan = events.some((e) => e.releaseType === 'weekly' && e.platform !== 'tv' && e.platform !== 'disc')
   const belegt = Boolean(gesamt && belegteFolgen >= gesamt) || wochenplan
-  /* Katalogstart ohne Uhrzeit am Starttag: gilt als erschienen, der Zeitpunkt ist offen. */
-  const heuteOffen = events.some((e) => istKatalogstartOhneUhrzeit(e) && e.date === heute) || undefined
+  /* Nur wenn der ganze Katalogstart heute liegt; früherer Teil (z. B. 20.10.) heißt: "Alle N heute" wäre falsch. */
+  const katalog = events.filter(istKatalogstartOhneUhrzeit)
+  const heuteOffen = (katalog.length > 0 && katalog.every((e) => e.date === heute)) || undefined
   return { art: 'fertig', raus, gesamt, gesamtAbgeleitet: !belegt, heuteOffen }
 }
 

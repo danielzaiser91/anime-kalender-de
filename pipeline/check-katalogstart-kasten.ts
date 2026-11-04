@@ -40,14 +40,14 @@ const release = (time?: string): Release =>
   ({ slug: 'k900401-netflix', titleId: 900401, name: 'Katalogkasten', platform: 'netflix', releaseType: 'batch', year: 2026, sources: ['https://example.org/a'], schedule: { firstEpisodeDate: '2026-11-03', time, episodeCount: 6 } }) as unknown as Release
 
 /** Rendert Kasten und liefert Text und Teilbalken-Anzeige. */
-async function kasten(heute: string, jetzt: string, time?: string, art = 'batch'): Promise<{ text: string; balken: boolean }> {
+async function kasten(heute: string, jetzt: string, time?: string, art = 'batch', eigene?: Release[], t = titel): Promise<{ text: string; balken: boolean }> {
   const uhr = attrappeUhr()
   const dom = installiereMiniDom({ ...uhr, matchMedia: () => ({ matches: false, addEventListener() {}, removeEventListener() {} }) }, () => ({ src: '', srcset: '', sizes: '', decode: () => Promise.resolve() }))
-  const rs = [{ ...release(time), releaseType: art } as Release]
-  const antwort = berechneAntwort({ title: titel, releases: rs, today: heute, jetzt: new Date(jetzt) })!
+  const rs = eigene ?? [{ ...release(time), releaseType: art } as Release]
+  const antwort = berechneAntwort({ title: t, releases: rs, today: heute, jetzt: new Date(jetzt) })!
   const wurzel = createRoot(dom.wurzel as unknown as Element)
   await act(async () => {
-    wurzel.render(h(AntwortKasten, { antwort, title: titel, t: translate as never, today: heute, releases: rs, stream: [h('span', { key: 'n' }, 'PILLE-NETFLIX-DE')] }))
+    wurzel.render(h(AntwortKasten, { antwort, title: t, t: translate as never, today: heute, releases: rs, stream: [h('span', { key: 'n' }, 'PILLE-NETFLIX-DE')] }))
   })
   await act(async () => {
     await Promise.resolve()
@@ -77,6 +77,17 @@ pruefe('Mit Uhrzeit 09:00, 22:00: „Alle 6 Folgen auf Deutsch“, ohne „Uhrze
 /* Kontrolle: Beim Wochentakt ohne Uhrzeit (laeuft, 0) bleibt die Stream-Pille verborgen — die Pille oben ist also keine Selbstverständlichkeit. */
 const woche = await kasten('2026-11-03', '2026-11-02T23:30:00Z', undefined, 'weekly')
 pruefe('Wochentakt ohne Uhrzeit, 00:30: Pille verborgen, keine Zwischenform', !woche.text.includes('PILLE-NETFLIX-DE') && !woche.text.includes('Uhrzeit offen'), woche.text)
+
+/* B1: Teil 1 am 20.10. (3 Folgen) ist schon da, Teil 2 heute ohne Uhrzeit — „Alle 6 Folgen heute“ wäre falsch. */
+const teil = (datum: string, ab: number): Release => ({ ...release(), slug: `k900401-teil${ab}`, schedule: { firstEpisodeDate: datum, firstEpisodeNumber: ab, episodeCount: 3 } }) as Release
+const zweiTeile = await kasten('2026-11-03', '2026-11-03T07:00:00Z', undefined, 'batch', [teil('2026-10-20', 1), teil('2026-11-03', 4)])
+pruefe('Teil 1 am 20.10., Teil 2 heute: kein „heute“ / „Uhrzeit offen“', !zweiTeile.text.includes('heute') && !zweiTeile.text.includes('Uhrzeit offen'), zweiTeile.text)
+
+/* B2: abgeschlossenes Werk, Katalogstart heute, dazu ein künftiger Disc-Termin — die Zwischenform bleibt. */
+const mitDisc = { ...titel, jpEnd: '2026-06-01' } as unknown as Title
+const disc = { ...release(), slug: 'k900401-disc', platform: 'disc', releaseType: 'disc', schedule: { firstEpisodeDate: '2026-12-01', episodeCount: 6 } } as unknown as Release
+const mitDiscKasten = await kasten('2026-11-03', '2026-11-03T07:00:00Z', undefined, 'batch', [release(), disc], mitDisc)
+pruefe('Abgeschlossenes Werk, Katalogstart heute + künftiger Disc-Termin: Zwischenform bleibt', mitDiscKasten.text.includes('Uhrzeit offen'), mitDiscKasten.text)
 
 globalThis.fetch = echteAbfrage
 if (verletzt > 0) process.exit(1)

@@ -215,7 +215,7 @@ export function erscheintErst(t: Pick<Title, 'jpStart' | 'jpStatus' | 'jpYear'>,
  *
  * Fehlt die Uhrzeit, gilt der Tag als abgeschlossen (23:59): Wir wissen dann nicht,
  * wann sie kam, aber dass sie kam. Ausnahme: ein Katalogstart (`batch`, nicht TV) gilt ab 00:00 als erschienen,
- * sonst steht am Starttag "0 von 6"; der Kasten nennt dann "Uhrzeit offen" (`katalogHeuteOffen`).
+ * sonst steht am Starttag "0 von 6"; der Kasten nennt dann "Uhrzeit offen" (`heuteOffen` in `fertigAntwort`).
  * Der Push bleibt bei 23:59 (`katalogAmTagesbeginn = false`): Netflix schaltet erst gegen 9 Uhr frei.
  */
 export function istErschienen(
