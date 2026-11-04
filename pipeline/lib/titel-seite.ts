@@ -9,6 +9,7 @@ import { synchroBelegt } from '../../shared/titles.ts'
 import { seitenTitel } from '../../shared/seiten-titel.ts'
 import { andereNamen, titelJsonLd } from './titel-namen.ts'
 import { standardBildAdresse } from './og-standard.ts'
+import { bildMeta, folgenText, vorschauBild, type PlakatMasse } from './titel-vorschau.ts'
 import type { Umfeld } from './titel-umfeld.ts'
 
 export { seitenTitel }
@@ -64,7 +65,7 @@ export function sprachFeld(t: Title | undefined): { inLanguage?: 'de' } {
 function titelBeschreibung(t: Title): string {
   const teile = [
     ersteAussage(t),
-    t.episodes && t.format !== 'MOVIE' ? `${t.episodes} Folgen.` : null,
+    t.episodes && t.format !== 'MOVIE' ? `${folgenText(t.episodes)}.` : null,
     t.genres?.length ? t.genres.slice(0, 3).map((g) => GENRE_DE[g] ?? g).join(', ') + '.' : null,
   ]
   return teile.filter(Boolean).join(' ')
@@ -88,16 +89,15 @@ export function namenZeile(t: Title | undefined, gezeigt: string): string {
   return andere.length ? `<p style="margin:0 0 1rem;color:#9aa5bd;">Auch bekannt als: ${andere.map(esc).join(' · ')}</p>` : ''
 }
 
-export function titelKopf(t: Title, umfeld: Umfeld, standardKennung: string, mitTermin = false): string {
+export function titelKopf(t: Title, umfeld: Umfeld, standardKennung: string, mitTermin = false, masse: PlakatMasse = new Map()): string {
   const url = `${SITE}${teilenPfad(t.slug)}`
   const name = titelName(t)
   const headline = seitenTitel(name, t, mitTermin)
   const description = titelBeschreibung(t)
-  /* Ohne eigenes Bild das Standardbild der Seite (1200×630): Eine Karte ohne Bild wäre leer. */
+  /* TMDB-Banner verkleinert, TMDB-Plakat mit Maßen, sonst das Standardbild: WhatsApp zeigt nur Bilder mit Maßen und unter ~300 KB (titel-vorschau.ts). */
   const eigenesBild = t.bannerImage ?? t.coverImage
-  const bild = eigenesBild ?? standardBildAdresse(SITE, standardKennung)
-  const gross = Boolean(t.bannerImage) || !eigenesBild
-  const masse = eigenesBild ? '' : '    <meta property="og:image:width" content="1200" />\n    <meta property="og:image:height" content="630" />\n'
+  const vorschau = vorschauBild(t.bannerImage, t.coverImage, standardBildAdresse(SITE, standardKennung), masse)
+  const bild = vorschau.url
   return `    <title>${esc(headline)}</title>
     <meta name="description" content="${esc(description)}" />
     <meta property="og:type" content="article" />
@@ -106,9 +106,8 @@ export function titelKopf(t: Title, umfeld: Umfeld, standardKennung: string, mit
     <meta property="og:url" content="${url}" />
     <meta property="og:title" content="${esc(headline)}" />
     <meta property="og:description" content="${esc(description)}" />
-    <meta property="og:image" content="${esc(bild)}" />
-${masse}    <meta property="og:image:alt" content="${esc(name)}" />
-    <meta name="twitter:card" content="${gross ? 'summary_large_image' : 'summary'}" />
+${bildMeta(vorschau)}    <meta property="og:image:alt" content="${esc(name)}" />
+    <meta name="twitter:card" content="${vorschau.karte}" />
     <meta name="twitter:title" content="${esc(headline)}" />
     <meta name="twitter:description" content="${esc(description)}" />
     <meta name="twitter:image" content="${esc(bild)}" />

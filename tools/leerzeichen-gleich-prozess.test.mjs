@@ -48,7 +48,15 @@ try {
   assert.equal(b.status, 1)
   assert.match(b.stderr, /tools\/a\.mjs:1 Leerzeichen nach = fehlt/)
   assert.match(b.stdout, /FEHLER \(7 Dateien, 1 Treffer/)
-  console.log('leerzeichen-gleich-prozess: ok (sauber Exit 0, geplanter Treffer Exit 1)')
+  const mehrere = baueRepo((d) => (d === 'tools/a.mjs' ? 'export const x =1\nexport const y = [1,2]\n' : 'export const x = 1\n'))
+  try {
+    const m = fahre(mehrere)
+    assert.equal(m.status, 1)
+    assert.match(m.stdout, /FEHLER \(7 Dateien, 2 Treffer/, 'Trefferzahl wird summiert')
+  } finally {
+    rmSync(mehrere, { recursive: true, force: true })
+  }
+  console.log('leerzeichen-gleich-prozess: ok (sauber Exit 0, geplanter Treffer Exit 1, zwei Treffer gezählt)')
 } finally {
   rmSync(sauber, { recursive: true, force: true })
   rmSync(geplant, { recursive: true, force: true })

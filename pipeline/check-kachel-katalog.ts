@@ -38,7 +38,7 @@ function folgenSpannen(): void {
   const drei = buendeleKacheln([ev('m', 10), ev('m', 11), ev('m', 12)], () => false)
   pruefe('drei Folgen: „Folge 10–12/14“', text(zeile(drei[0]!)) === 'Crunchyroll · Folge 10–12/14', text(zeile(drei[0]!)))
   const luecke = buendeleKacheln([ev('m', 11), ev('m', 13)], () => false)
-  pruefe('Lücke (11 und 13): keine Spanne, „+1 Folgen“ bleibt', folgenSpanne(luecke[0]) === undefined && text(zeile(luecke[0]!)).includes('+1 Folgen'), text(zeile(luecke[0]!)))
+  pruefe('Lücke (11 und 13): keine Spanne, „+1 Folge“ bleibt', folgenSpanne(luecke[0]) === undefined && /\+1 Folge(?!n)/.test(text(zeile(luecke[0]!))), text(zeile(luecke[0]!)))
   const geraten = buendeleKacheln([ev('m', 5, { episodeCountAssumed: true }), ev('m', 6, { episodeCountAssumed: true })], () => false)
   pruefe('geratene Folgenzahl bleibt „≈“', text(zeile(geraten[0]!)) === 'Crunchyroll · Folge 5–6/≈14', text(zeile(geraten[0]!)))
   const einzeln = buendeleKacheln([ev('m', 5)], () => false)

@@ -31,6 +31,7 @@ import { titelAenderung } from './lib/sitemap-datum.ts'
 import { cartoonMitSynchroBeleg, teilenPfad } from '../shared/teilen.ts'
 import { synchroBelegt } from '../shared/titles.ts'
 import { OG_FASSUNG } from './lib/og-fassung.ts'
+import { plakatMasse, type PlakatMasse } from './lib/titel-vorschau.ts'
 import { standardKennungFuer } from './lib/og-standard.ts'
 import { seitenQuelle, type SynopsenFuerSeiten } from './lib/handlung-eigen.ts'
 import { ladeAkVon, umleitungen, type AkVon, type KennungsZeile } from './lib/ausgabe-kennung.ts'
@@ -113,7 +114,7 @@ function main(): void {
   const volleTitel = new Map(ladeAlleTitel().map((t) => [t.id, t]))
   schreibeUebersicht(releases, titleById, belegteTermine(releases, volleTitel), today, before, after, ROOT_TAG, adresseVon)
   /* Zuerst die Titelseiten samt Verzeichnis: Die Startseite verlinkt dessen Buchstaben. */
-  const buchstaben = schreibeAlleTitelSeiten(akVon, kennungsZeilen, { before, after, rootTag: ROOT_TAG, today, synopses, jeTitel, standardKennung })
+  const buchstaben = schreibeAlleTitelSeiten(akVon, kennungsZeilen, { before, after, rootTag: ROOT_TAG, today, synopses, jeTitel, standardKennung, masse: plakatMasse(readJson('data/tmdb-poster.json', {})) })
   schreibeStartseite(releases, titleById, today, template, ROOT_TAG, adresseVon, buchstaben, standardKennung)
 }
 
@@ -126,6 +127,8 @@ interface SeitenRahmen {
   synopses: SynopsenFuerSeiten
   jeTitel: Map<number, Release[]>
   standardKennung: string
+  /** Maße der TMDB-Plakate für die Vorschau (`data/tmdb-poster.json`). */
+  masse: PlakatMasse
 }
 
 /** Der volle Bestand (`titles.json`); `titles-core.json` kennt nicht jeden Titel, den ein Termin nennt. */
@@ -171,7 +174,7 @@ function schreibeTitelSeiten(mitAk: { t: Title; ak: number; adresse: string }[],
     const text = r.synopses[String(t.id)]?.de ?? (t.westlich ? t.synopsis : undefined)
     const synopsis = text ? { text, quelle: seitenQuelle(r.synopses[String(t.id)]) } : undefined
     const umfeld = umfeldFuer(t, `${SITE}${teilenPfad(adresse)}`, umfeldRahmen)
-    const kopf = haupt ? head(haupt, t, r.today, ak, adresse, umfeld) : titelKopf({ ...t, id: ak, slug: adresse }, umfeld, r.standardKennung)
+    const kopf = haupt ? head(haupt, t, r.today, ak, adresse, umfeld) : titelKopf({ ...t, id: ak, slug: adresse }, umfeld, r.standardKennung, false, r.masse)
     const inhalt = haupt
       ? body(haupt, t, synopsis, r.today, eigene.filter((g) => g.slug !== haupt.slug), ak, adresse, umfeld)
       : titelInhalt({ ...t, id: ak, slug: adresse }, synopsis, eigene, umfeld)
@@ -185,8 +188,8 @@ function schreibeTitelSeiten(mitAk: { t: Title; ak: number; adresse: string }[],
   Termine.
   Und wer die Adresse aus der Leiste kopierte, bekam die Startseiten-Vorschau, weil ein
   geöffneter Titel keinen eigenen Pfad hatte. Jetzt: `/t/<slug>/` für jeden Titel.
-  Vorschaubild ist das Banner von AniList (breit, große Karte), ohne Banner das Cover
-  (kleine Karte) — eigene Bilder für 2.774 Titel wären rund 170 MB im Repo.
+  Vorschaubild: TMDB-Banner in w780, sonst das Standardbild (`lib/titel-vorschau.ts`) —
+  eigene Bilder für 2.774 Titel wären rund 170 MB im Repo.
 */
 /**
  * Die alte Adresse einer zusammengeführten Kennung (`/t/<alt>/`, in Mails und Verlinkungen verschickt) leitet auf die neue weiter —

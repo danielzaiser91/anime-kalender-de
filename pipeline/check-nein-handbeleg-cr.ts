@@ -85,7 +85,7 @@ console.log('\nDeutscher Katalog (09-4-4):')
   const anisearch = (id: number) => ({ [id]: { streams: [{ provider: 'crunchyroll', url: `https://www.crunchyroll.com/series/${eintrag?.id}` }] } }) as unknown as Record<string, AnisearchEintrag>
   const lauf = (id: number, nein: Set<string>) => {
     const t = titel(id)
-    legeCrWegeAusKatalogAn({ titles: new Map([[id, t]]), anisearch: anisearch(id), handNein: nein })
+    legeCrWegeAusKatalogAn({ titles: new Map([[id, t]]), anisearch: anisearch(id), crDub: { scrapedAt: '2026-10-01', serien: [] }, handNein: nein })
     return hatCr(t)
   }
   pruefe('ohne Nein-Handbeleg legt der Katalog den Weg an', lauf(9000004, new Set()))

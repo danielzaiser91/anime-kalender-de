@@ -54,6 +54,7 @@
   { "datei": "pipeline/check-tmdb-staffel0.ts", "liest": "data/tmdb-poster.json", "grund": "Eigenschaft: gesetzte Plakate des Eintrags stehen im Bestand, kein fester Schlüssel" },
   { "datei": "pipeline/check-tmdb-staffel0.ts", "liest": "data/tmdb-banner.json", "grund": "Eigenschaft: gesetzte Hintergründe des Eintrags stehen im Bestand, kein fester Schlüssel" },
   { "datei": "pipeline/check-tmdb-staffel0.ts", "liest": "data/tmdb-titles.json", "grund": "Eigenschaft: kein Titel mit eigener Serienkennung steht in Staffel 0, kein fester Schlüssel" },
+  { "datei": "pipeline/check-werbetarif-weg.ts", "liest": "data/justwatch-audio.json", "grund": "fünf feste Titel mit Werbetarif-Doppelung (03.11.2026 gezählt: 5); die Vorbedingung verlangt nur mindestens einen davon, fällt der Werbetarif bei allen weg, wird der Wächter rot und bekommt eine Kulisse" },
   { "datei": "tools/lueckenlisten.test.mjs", "liest": "data/tmdb-staffel0.json", "grund": "nur nicht leer und Schlüssel gleich denen von ladeStaffel0, kein fester Schlüssel" },
   { "datei": "tools/pruef-bestand.test.mjs", "liest": "data/cartoon-jw-stichprobe.json", "grund": "nimmt den ersten Eintrag der festen Stichprobe (100 Einträge, per Seed erzeugt, nur von Hand neu gezogen)" }
 ]

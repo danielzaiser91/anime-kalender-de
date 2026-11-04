@@ -19,10 +19,10 @@ export const PRUEFER_RUNDE = /^\s*(\*\*|#+ *)?Prüfer Runde/i
 const CI_PROTOKOLL = /\*\*Prüfer-Review\*\* für/
 // Ergebniskommentar von mutationsprobe.yml (Bot): der Prüfer verlangt es als Beleg und sah es nicht (PR 2460, 30.10.2026).
 export const MUTATIONSPROBE = /^## Mutationsprobe für /
-const CI_BOT = 'github-actions[bot]'
+export const CI_BOT = 'github-actions[bot]'
 const MAX_PRUEFER = 6000
 const AUTOR = /^[A-Za-z0-9][A-Za-z0-9-]*(\[bot\])?$/
-const VERTRAUT = new Set(['OWNER', 'MEMBER', 'COLLABORATOR'])
+export const VERTRAUT = new Set(['OWNER', 'MEMBER', 'COLLABORATOR'])
 const KOPF = '\n\n## Nachträge (gelten als Teil der Beschreibung, spätere gehen vor)'
 export const COMMITS = '\n\n## Commits des PR (älteste zuerst, je Commit die geänderten Dateien)'
 export const HINWEIS_NACHTRAEGE = '\n- Hinweis: Nachträge nicht lesbar, Beschreibung unvollständig'

@@ -1114,6 +1114,11 @@
       "am": "2026-11-03",
       "vorschlaege": 0
     },
+    "1066397": {
+      "am": "2026-11-04",
+      "vorschlaege": 0,
+      "uebersprungen": "kein Deutschland-Bezug"
+    },
     "1066415": {
       "am": "2026-11-02",
       "vorschlaege": 0,
@@ -1165,9 +1170,54 @@
       "am": "2026-11-03",
       "vorschlaege": 0
     },
+    "1066831": {
+      "am": "2026-11-04",
+      "vorschlaege": 10
+    },
+    "1066880": {
+      "am": "2026-11-04",
+      "vorschlaege": 0
+    },
     "1067021": {
       "am": "2026-11-03",
       "vorschlaege": 4
+    },
+    "1067138": {
+      "am": "2026-11-04",
+      "vorschlaege": 3
+    },
+    "1067183": {
+      "am": "2026-11-04",
+      "vorschlaege": 0
+    },
+    "1067332": {
+      "am": "2026-11-04",
+      "vorschlaege": 1
+    },
+    "1067416": {
+      "am": "2026-11-04",
+      "vorschlaege": 2
+    },
+    "1067461": {
+      "am": "2026-11-04",
+      "vorschlaege": 0
+    },
+    "1067473": {
+      "am": "2026-11-04",
+      "vorschlaege": 0
+    },
+    "1067500": {
+      "am": "2026-11-04",
+      "vorschlaege": 0,
+      "uebersprungen": "kein Deutschland-Bezug"
+    },
+    "1067515": {
+      "am": "2026-11-04",
+      "vorschlaege": 1
+    },
+    "1067523": {
+      "am": "2026-11-04",
+      "vorschlaege": 1
     }
   },
   "vorschlaege": [
@@ -9740,6 +9790,401 @@
       "quelle": "https://www.anime2you.de/news/1064703/one-piece-jimei-palace-figuren-zorro-lysop/",
       "veroeffentlicht": "2026-11-02",
       "gelesenAm": "2026-11-03"
+    },
+    {
+      "titel": "Mashle: Magic and Muscles",
+      "zitat": "Die gleichnamige originale Manga-Reihe von Hajime Koumoto inspirierte bereits eine Anime-Serie, die aus zwei Staffeln besteht und bei Crunchyroll verfügbar ist. Eine dritte Staffel startet voraussichtlich im Januar 2027 im Simulcast.",
+      "art": "ankuendigung",
+      "sprache": "unklar",
+      "plattform": "crunchyroll",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": "Starttermin laut Artikel nur vorläufig (\"voraussichtlich\").",
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1067515",
+      "artikel": "»Mashle: Magic and Muscles« erhält Live-Action-Film + Visual",
+      "quelle": "https://www.anime2you.de/news/1067515/mashle-magic-and-muscles-erhaelt-live-action-film/",
+      "veroeffentlicht": "2026-11-04",
+      "gelesenAm": "2026-11-04"
+    },
+    {
+      "titel": "Fate/stay night: Heaven’s Feel",
+      "zitat": "Die Blu-ray-Komplettbox der dreiteiligen Filmreihe erscheint nach aktueller Planung am 18. Dezember 2026 in zwei verschiedenen Varianten. Beide Editionen enthalten sämtliche Filme mit deutscher und japanischer Sprachausgabe.",
+      "art": "disc",
+      "sprache": "deutsch+omu",
+      "plattform": "disc",
+      "datum": "2026-12-18",
+      "uhrzeit": null,
+      "anbieter": "peppermint anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": "Termin laut Artikel vorläufig (\"nach aktueller Planung\").",
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „peppermint anime“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1067523",
+      "artikel": "Design der »Fate/stay night: Heaven’s Feel«-Komplettbox + Extras",
+      "quelle": "https://www.anime2you.de/news/1067523/fate-stay-night-heavens-feel-komplettbox-design/",
+      "veroeffentlicht": "2026-11-04",
+      "gelesenAm": "2026-11-04"
+    },
+    {
+      "titel": "Akame ga KILL!",
+      "zitat": "»Akame ga KILL!« Episoden: 24 (komplett) Sprache: Deutsch",
+      "art": "start",
+      "sprache": "deutsch",
+      "plattform": "joyn",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Joyn",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "24 (komplett)",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „Joyn“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „joyn“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1066831",
+      "artikel": "25 Anime-Neuzugänge ab sofort auf Joyn verfügbar",
+      "quelle": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+      "veroeffentlicht": "2026-11-03",
+      "gelesenAm": "2026-11-04"
+    },
+    {
+      "titel": "Clannad",
+      "zitat": "»Clannad« Episoden: 49 (komplett) Sprache: Deutsch",
+      "art": "start",
+      "sprache": "deutsch",
+      "plattform": "joyn",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Joyn",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "49 (komplett)",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „Joyn“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „joyn“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1066831",
+      "artikel": "25 Anime-Neuzugänge ab sofort auf Joyn verfügbar",
+      "quelle": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+      "veroeffentlicht": "2026-11-03",
+      "gelesenAm": "2026-11-04"
+    },
+    {
+      "titel": "Clannad: Der Film",
+      "zitat": "»Clannad: Der Film« Laufzeit: 93 Minuten Sprache: Deutsch",
+      "art": "start",
+      "sprache": "deutsch",
+      "plattform": "joyn",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Joyn",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „Joyn“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „joyn“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1066831",
+      "artikel": "25 Anime-Neuzugänge ab sofort auf Joyn verfügbar",
+      "quelle": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+      "veroeffentlicht": "2026-11-03",
+      "gelesenAm": "2026-11-04"
+    },
+    {
+      "titel": "Colorful",
+      "zitat": "»Colorful« Laufzeit: 126 Minuten Sprache: Deutsch",
+      "art": "start",
+      "sprache": "deutsch",
+      "plattform": "joyn",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Joyn",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „Joyn“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „joyn“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1066831",
+      "artikel": "25 Anime-Neuzugänge ab sofort auf Joyn verfügbar",
+      "quelle": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+      "veroeffentlicht": "2026-11-03",
+      "gelesenAm": "2026-11-04"
+    },
+    {
+      "titel": "Girls und Panzer: Das Finale – Teil 1",
+      "zitat": "»Girls und Panzer: Das Finale – Teil 1« Laufzeit: 48 Minuten Sprache: Deutsch",
+      "art": "start",
+      "sprache": "deutsch",
+      "plattform": "joyn",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Joyn",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „Joyn“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „joyn“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1066831",
+      "artikel": "25 Anime-Neuzugänge ab sofort auf Joyn verfügbar",
+      "quelle": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+      "veroeffentlicht": "2026-11-03",
+      "gelesenAm": "2026-11-04"
+    },
+    {
+      "titel": "Girls und Panzer: Das Finale – Teil 2",
+      "zitat": "»Girls und Panzer: Das Finale – Teil 2« Laufzeit: 55 Minuten Sprache: Deutsch",
+      "art": "start",
+      "sprache": "deutsch",
+      "plattform": "joyn",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Joyn",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „Joyn“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „joyn“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1066831",
+      "artikel": "25 Anime-Neuzugänge ab sofort auf Joyn verfügbar",
+      "quelle": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+      "veroeffentlicht": "2026-11-03",
+      "gelesenAm": "2026-11-04"
+    },
+    {
+      "titel": "Girls und Panzer: Das Finale – Teil 3",
+      "zitat": "»Girls und Panzer: Das Finale – Teil 3« Laufzeit: 48 Minuten Sprache: Deutsch",
+      "art": "start",
+      "sprache": "deutsch",
+      "plattform": "joyn",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Joyn",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „Joyn“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „joyn“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1066831",
+      "artikel": "25 Anime-Neuzugänge ab sofort auf Joyn verfügbar",
+      "quelle": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+      "veroeffentlicht": "2026-11-03",
+      "gelesenAm": "2026-11-04"
+    },
+    {
+      "titel": "Girls und Panzer OVA – This is the Real Anzio Battle!",
+      "zitat": "»Girls und Panzer OVA – This is the Real Anzio Battle!« Laufzeit: 38 Minuten Sprache: Deutsch",
+      "art": "start",
+      "sprache": "deutsch",
+      "plattform": "joyn",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Joyn",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „Joyn“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „joyn“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1066831",
+      "artikel": "25 Anime-Neuzugänge ab sofort auf Joyn verfügbar",
+      "quelle": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+      "veroeffentlicht": "2026-11-03",
+      "gelesenAm": "2026-11-04"
+    },
+    {
+      "titel": "Gosick",
+      "zitat": "»Gosick« Episoden: 24 (komplett) Sprache: Deutsch",
+      "art": "start",
+      "sprache": "deutsch",
+      "plattform": "joyn",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Joyn",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "24 (komplett)",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „Joyn“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „joyn“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1066831",
+      "artikel": "25 Anime-Neuzugänge ab sofort auf Joyn verfügbar",
+      "quelle": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+      "veroeffentlicht": "2026-11-03",
+      "gelesenAm": "2026-11-04"
+    },
+    {
+      "titel": "Hyouka",
+      "zitat": "»Hyouka« Episoden: 23 (komplett) Sprache: Deutsch",
+      "art": "start",
+      "sprache": "deutsch",
+      "plattform": "joyn",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Joyn",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "23 (komplett)",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „Joyn“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „joyn“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1066831",
+      "artikel": "25 Anime-Neuzugänge ab sofort auf Joyn verfügbar",
+      "quelle": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+      "veroeffentlicht": "2026-11-03",
+      "gelesenAm": "2026-11-04"
+    },
+    {
+      "titel": "Girls Band Cry",
+      "zitat": "Der Publisher peppermint anime bringt die 13-teilige Musikserie seit August 2026 mit deutscher und japanischer Sprachfassung auf Blu-ray in den Handel, während Crunchyroll den Anime im Originalton mit Untertiteln auf Abruf anbietet.",
+      "art": "sprachfassung",
+      "sprache": "omu",
+      "plattform": "crunchyroll",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "13",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1067416",
+      "artikel": "Starttermin des »Girls Band Cry«-Films steht fest + Teaser",
+      "quelle": "https://www.anime2you.de/news/1067416/starttermin-des-girls-band-cry-films/",
+      "veroeffentlicht": "2026-11-03",
+      "gelesenAm": "2026-11-04"
+    },
+    {
+      "titel": "Neon Genesis Evangelion",
+      "zitat": "Die neue Komplettbox erscheint nach aktueller Planung am 5. Februar 2027 als Blu-ray. Diese beinhaltet alle 26 Episoden auf Deutsch und Japanisch sowie die beiden Filme »Death (True)²« und »The End of Evangelion« im Originalton mit Untertiteln.",
+      "art": "disc",
+      "sprache": "deutsch+omu",
+      "plattform": "disc",
+      "datum": "2027-02-05",
+      "uhrzeit": null,
+      "anbieter": "LEONINE Anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "26",
+      "unsicher": "Termin laut Artikel vorläufig (\"nach aktueller Planung\").",
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „LEONINE Anime“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1067138",
+      "artikel": "Design der neuen »Neon Genesis Evangelion«-Komplettbox + Extras",
+      "quelle": "https://www.anime2you.de/news/1067138/neue-evangelion-komplettbox-design/",
+      "veroeffentlicht": "2026-11-03",
+      "gelesenAm": "2026-11-04"
+    },
+    {
+      "titel": "Death (True)²",
+      "zitat": "Die neue Komplettbox erscheint nach aktueller Planung am 5. Februar 2027 als Blu-ray. Diese beinhaltet alle 26 Episoden auf Deutsch und Japanisch sowie die beiden Filme »Death (True)²« und »The End of Evangelion« im Originalton mit Untertiteln.",
+      "art": "disc",
+      "sprache": "omu",
+      "plattform": "disc",
+      "datum": "2027-02-05",
+      "uhrzeit": null,
+      "anbieter": "LEONINE Anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": "Termin laut Artikel vorläufig (\"nach aktueller Planung\").",
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „LEONINE Anime“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1067138",
+      "artikel": "Design der neuen »Neon Genesis Evangelion«-Komplettbox + Extras",
+      "quelle": "https://www.anime2you.de/news/1067138/neue-evangelion-komplettbox-design/",
+      "veroeffentlicht": "2026-11-03",
+      "gelesenAm": "2026-11-04"
+    },
+    {
+      "titel": "The End of Evangelion",
+      "zitat": "Die neue Komplettbox erscheint nach aktueller Planung am 5. Februar 2027 als Blu-ray. Diese beinhaltet alle 26 Episoden auf Deutsch und Japanisch sowie die beiden Filme »Death (True)²« und »The End of Evangelion« im Originalton mit Untertiteln.",
+      "art": "disc",
+      "sprache": "omu",
+      "plattform": "disc",
+      "datum": "2027-02-05",
+      "uhrzeit": null,
+      "anbieter": "LEONINE Anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": "Termin laut Artikel vorläufig (\"nach aktueller Planung\").",
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „LEONINE Anime“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1067138",
+      "artikel": "Design der neuen »Neon Genesis Evangelion«-Komplettbox + Extras",
+      "quelle": "https://www.anime2you.de/news/1067138/neue-evangelion-komplettbox-design/",
+      "veroeffentlicht": "2026-11-03",
+      "gelesenAm": "2026-11-04"
+    },
+    {
+      "titel": "Suikoden",
+      "zitat": "»Suikoden« umfasst demnach insgesamt 23 Episoden, die seit dem 3. Oktober 2026 im japanischen Fernsehen ausgestrahlt und jeden Samstag um 13:00 Uhr im Originalton mit deutschen Untertiteln bei ADN im Simulcast gezeigt werden.",
+      "art": "start",
+      "sprache": "omu",
+      "plattform": "adn",
+      "datum": "2026-10-03",
+      "uhrzeit": "13:00",
+      "anbieter": "ADN",
+      "sender": null,
+      "wochentage": "jeden Samstag",
+      "folgen": "23",
+      "unsicher": null,
+      "wochentag": "Samstag",
+      "warnungen": [],
+      "artikelId": "1067332",
+      "artikel": "Episodenanzahl des Fantasy-Anime »Suikoden« steht fest",
+      "quelle": "https://www.anime2you.de/news/1067332/suikoden-episodenanzahl-steht-fest/",
+      "veroeffentlicht": "2026-11-03",
+      "gelesenAm": "2026-11-04"
     }
   ]
 }

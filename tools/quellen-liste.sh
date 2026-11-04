@@ -151,7 +151,6 @@ QUELLEN=(
   # Kanal-Seiten, die der Bau auch kennt, wenn ihr Handbeleg zurückgestellt ist (19.10.2026, #1601); schreibt fetch-pruefungen.ts.
   data/kanal-seiten.json
   data/cr-vorschlaege.json
-  data/adn-vorschlaege.json
   data/anime-ids.json
   # Nur gelesen, nie geschrieben — steht hier, weil `check-workflows.mjs` jedes
   # `data/…` in einer schreibenden Datei zählt und lieber einmal zu viel meldet.

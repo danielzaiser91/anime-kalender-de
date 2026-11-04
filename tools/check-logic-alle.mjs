@@ -23,7 +23,7 @@ import { createRequire } from 'node:module'
 import { tmpdir } from 'node:os'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { laufePool } from './arbeiterpool.mjs'
+import { dauerZeilen, laufePool } from './arbeiterpool.mjs'
 import { ohneBauVariablen } from './bau-umgebung.mjs'
 import { historieErgebnis } from './check-logic-historie.mjs'
 import { pruefeVollstaendig } from './check-logic-vollstaendig.mjs'
@@ -119,12 +119,14 @@ const gitInWurzel = (...args) => execFileSync('git', args, { cwd: wurzel, encodi
 const geladeneBasis = vorladeBasis(gitInWurzel, process.env)
 if (geladeneBasis) console.log(`${name}: PR-Basis ${geladeneBasis.slice(0, 7)} vor den parallelen Prüfungen geladen.`)
 
-const { rote, gelaufen, veraendert } = await laufePool(auftraege, {
+const { rote, gelaufen, veraendert, sekunden } = await laufePool(auftraege, {
   wurzel,
   alle,
   meldung: (i) => console.log(`[${name} ${i + 1}/${dateien.length}] ${dateien[i]}`),
 })
 rmSync(spurOrdner, { recursive: true, force: true })
+// Nur in der CI: Spitzenreiter der Laufzeit (Sammler-PRs brechen bei zu langer Prüfung ab, tools/quellen-pruefen.sh).
+if (process.env.CI === 'true') for (const z of dauerZeilen(dateien, sekunden)) console.log(`${name} Dauer: ${z}`)
 /** Die roten Prüfungen mit ihren letzten Ausgabezeilen: Erwartete Fehler anderer Prüfungen drucken ✖ wie echte, die Liste am Ende ist die verlässliche Stelle. */
 function meldeRote() {
   for (const r of rote) {
