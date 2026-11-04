@@ -453,6 +453,7 @@ pipeline/check-vorfaelle-ablauf.ts
 pipeline/check-weg-adresse-bezugsweg.ts
 pipeline/check-weg-aus-meldung.ts
 pipeline/check-wege-aus-terminen.ts
+pipeline/check-werbetarif-weg.ts
 pipeline/check-werk-doppelt.ts
 pipeline/check-widerlegung-de-folgen-bau.ts
 pipeline/check-widerlegung-de-folgen.ts
