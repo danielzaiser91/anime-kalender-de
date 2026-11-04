@@ -879844,5 +879844,40 @@
       ]
     },
     "fetchedAt": "2026-11-02T06:04:40.082Z"
+  },
+  "219346": {
+    "anisearchId": 22088,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Chi ni Ueta Hanayome wa Ou o Kurau",
+          "titleNative": "Chi ni Ueta Hanayome wa Ō o Kurau",
+          "status": "Zukünftig",
+          "released": "2027 - ?"
+        }
+      ],
+      "format": "TV-Serie",
+      "studios": [
+        "Imagica Infos Co., Ltd."
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/honcomics"
+        },
+        {
+          "name": "Honto",
+          "url": "https://honto.jp/anime/chiniuetahanayome.html"
+        }
+      ],
+      "synonyms": [
+        "The Bloodthirsty Bride Devours the King",
+        "Chi ni Ueta Hanayome wa Ou wo Kurau"
+      ]
+    },
+    "fetchedAt": "2026-11-04T06:01:37.827Z"
   }
 }
