@@ -1,6 +1,6 @@
 /** Tests für tools/mutationsanker.mjs: Anker-Wächter für Mutationslisten. */
 import { spawnSync } from 'node:child_process'
-import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import { mkdirSync, mkdtempSync, readdirSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -46,8 +46,24 @@ pruefe('Liste im Diff gelöscht (Datei fehlt): kein Befund', ankerRot([LISTE], l
 const zaehl = pruefeListen([LISTE], lies({ [LISTE]: text([mutant('a.ts', 'zwei'), mutant('a.ts', 'drei')]) }))
 pruefe('pruefeListen zählt Mutanten', zaehl.anzahl === 2 && zaehl.fehler.length === 0)
 
+// Listen, deren Zieldatei der Diff ändert (Code gewandert), auch wenn die Liste selbst nicht im Diff steht.
+const ZIEL_LISTE = 'tools/mutationen/ziel.json'
+const FREMD_LISTE = 'tools/mutationen/fremd.json'
+const alle = () => [ZIEL_LISTE, FREMD_LISTE]
+const listen = (zielMutant) => ({ [ZIEL_LISTE]: text([zielMutant]), [FREMD_LISTE]: text([mutant('b.ts', 'verschwunden', 'fremd')]) })
+const rotZiel = ankerRot(['a.ts'], lies(listen(mutant('a.ts', 'verschwunden', 'wanderer'))), alle)
+pruefe('Zieldatei im Diff, Anker dort weg: genau ein Befund der Ziel-Liste', rotZiel.length === 1 && rotZiel[0].includes('„wanderer“') && rotZiel[0].includes(ZIEL_LISTE))
+pruefe('Zieldatei im Diff, Anker da: grün', ankerRot(['a.ts'], lies(listen(mutant('a.ts', 'zwei'))), alle).length === 0)
+pruefe('Datei, die keine Liste nennt: nichts', ankerRot(['c.ts'], lies(listen(mutant('a.ts', 'verschwunden'))), alle).length === 0)
+pruefe('Pfad mit ./ wird normalisiert', ankerRot(['./a.ts'], lies(listen(mutant('a.ts', 'verschwunden'))), alle).length === 1)
+pruefe('Liste im Diff und Ziel zugleich: nur einmal gemeldet', ankerRot([ZIEL_LISTE, 'a.ts'], lies(listen(mutant('a.ts', 'verschwunden'))), alle).length === 1)
+pruefe('kaputte fremde Liste ohne Diff-Bezug: kein Befund', ankerRot(['a.ts'], lies({ [ZIEL_LISTE]: '{ kaputt', [FREMD_LISTE]: '[["a","b"]]' }), alle).length === 0)
+
 // Verdrahtung: die Vorprüfung ruft den Wächter wirklich auf (Aufruf entfernt -> rot).
 const vor = (d, l) => vorpruefe({ dateien: d, neu: [], zweig: 'speed/x', existiert: () => true, text: '', lies: l })
+const echteListe = readdirSync('tools/mutationen').find((n) => n.endsWith('.json'))
+const echtName = `tools/mutationen/${echteListe}`
+pruefe('vorpruefe: Zieldatei im Diff, Anker in echter Liste weg: rot', vor(['a.ts'], lies({ [echtName]: text([mutant('a.ts', 'verschwunden')]) })).rot.some((r) => r.startsWith('Mutationsanker:')))
 pruefe('vorpruefe: kaputte Liste im Diff ist rot', vor([LISTE], lies(kaputteListe)).rot.some((r) => r.startsWith('Mutationsanker:')))
 pruefe('vorpruefe: kaputte Liste außerhalb des Diffs bleibt ohne Befund', !vor(['tools/anderes.mjs'], lies(kaputteListe)).rot.some((r) => r.startsWith('Mutationsanker:')))
 
