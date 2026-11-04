@@ -4616,8 +4616,8 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   )
   pruefe(
     'die Reihe trennt Beiwerk von Hauptstaffeln',
-    /* Die Hauptstaffel-Regel steht seit dem 13.09.2026 in shared/titles.ts — Kopf und Liste teilen sie. */
-    bau.includes('beiwerk:') && readFileSync('shared/titles.ts', 'utf8').includes('!m.beiwerk'),
+    /* Die Hauptstaffel-Regel steht in shared/titles.ts; ihr Beiwerk-Fall läuft als Laufzeitfall (`hauptstaffeln`, „Beiwerk-Reihe“, JoJo-Block). */
+    bau.includes('beiwerk:'),
     'ohne die PARENT-Kante ist bei einer ONA-Reihe alles Hauptserie',
   )
   pruefe(
@@ -4931,6 +4931,12 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   ]
   const ids = hauptstaffeln(jojo).map((m) => m.id).join(',')
   pruefe('ein ONA mit zehn und mehr Folgen ist Hauptserie, Kurzes und Beiwerk nicht', ids === '1,2', ids)
+  const ohneFernsehen = [
+    { id: 5, name: 'Stone Ocean', format: 'ONA', episodes: 12 },
+    { id: 6, name: 'Beiwerk-Reihe', format: 'ONA', episodes: 12, beiwerk: true },
+  ]
+  const idsOhneTv = hauptstaffeln(ohneFernsehen).map((m) => m.id).join(',')
+  pruefe('ohne Fernsehstaffel zählt Beiwerk ebenfalls nicht zur Hauptserie', idsOhneTv === '5', idsOhneTv)
   const sbr = [
     { id: 1, name: 'Golden Wind', format: 'TV', episodes: 39 },
     { id: 5, name: 'Steel Ball Run: JoJo’s Bizarre Adventure', format: 'ONA', episodes: 1 },
@@ -5942,15 +5948,11 @@ pruefe(
       readFileSync('worker/migrations/047-schreiblast-indizes.sql', 'utf8'),
     ),
   )
-  pruefe(
-    'die Ladeabfrage erzwingt den gti-Index',
-    readFileSync('worker/src/rohfolgen-abgleich.ts', 'utf8').includes('INDEXED BY prime_folge_gti'),
-  )
+  /* Die Ladeabfragen erzwingen gti- und Seiten-Index: `tools/worker-rohfolgen-index.test.ts` (Laufzeit, Attrappe der Datenbank). */
   /* Dieselbe Ursache, die andere Anweisung: `seiten_kennung` las 3430 Zeilen je Aufruf (26 %). */
   pruefe(
-    'und die Seiten-Ladeabfrage den Seiten-Index',
-    readFileSync('worker/src/rohfolgen-abgleich.ts', 'utf8').includes('INDEXED BY prime_folge_seite') &&
-      readFileSync('worker/migrations/042-prime-folge-seite-index.sql', 'utf8').includes('prime_folge_seite'),
+    'und der Seiten-Index existiert in der Migration',
+    readFileSync('worker/migrations/042-prime-folge-seite-index.sql', 'utf8').includes('prime_folge_seite'),
   )
   /* Die Abfragen stehen in `lauf-sql.ts` — dort prüft dieser Lauf sie auf Klammer-Gleichgewicht
      und Gestalt (29.09.2026: eine fehlende Klammer ließ `/lauf` stundenlang mit 500 antworten). */
