@@ -182,7 +182,7 @@ export function fuehreAusgabenZusammen({
       doppelt += vorher - title.streams.length
 
       const ausgaben: NonNullable<Title['ausgabenOhneDe']> = []
-      for (const plattform of new Set(title.streams.filter((s) => s.dub === true).map((s) => s.platform))) {
+      for (const plattform of new Set(title.streams.filter((s) => s.dub === true).map((s) => s.platform))) { // dub-lesart: irgendwie – jeder Weg mit Ja zählt (Menge/Weiche), auch ein abgeleiteter
         const beurteilt = new Set<string>()
         for (const c of checksJePlattform.get(dubKey(title.id, plattform)) ?? []) {
           if (!c.url || beurteilt.has(adressKern(c.url))) continue

@@ -1,0 +1,5 @@
+{
+  "_hinweis": "Offene Stellen, die dub === true lesen, ohne dubAbgeleitet zu beachten, und Zahl der Marken dub-lesart (pipeline/check-dub-lesart.ts). Nur von Hand senken, nie erhöhen (der Wächter vergleicht mit der Basis). Stand 03.11.2026: 18 offen, 18 Marken.",
+  "offen": 18,
+  "marken": 18
+}

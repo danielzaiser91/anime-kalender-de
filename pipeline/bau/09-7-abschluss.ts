@@ -69,7 +69,7 @@ export function schliesseSynchroAb({ titles, verweiseEntfernt, releases, crDub, 
       const offen = liste.filter((e) => e.stream.dub !== true && e.stream.dub !== false)
       if (!offen.length) continue
       const sortiert = [...liste].sort((a, b) => jahrRang(a.title) - jahrRang(b.title) || a.title.id - b.title.id)
-      const beurteilt = sortiert.filter((e) => e.stream.dub === true || e.stream.dub === false)
+      const beurteilt = sortiert.filter((e) => e.stream.dub === true || e.stream.dub === false) // dub-lesart: irgendwie – jeder Weg mit Ja zählt (Menge/Weiche), auch ein abgeleiteter
 
       let i = 0
       let fuellt = true

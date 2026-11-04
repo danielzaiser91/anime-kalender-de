@@ -22,10 +22,14 @@ export interface ErlaubteSeite {
   /** Folgenzahl der Seite; muss die Summe der `episodes` dieser Titel sein. */
   folgen: number
   grund: string
+  /** Nur bei einer Teilseite (z. B. Hyouka Folgen 1–12 plus OVA): Folgen je Titel auf der Seite, gleiche Reihenfolge wie `titel`; sonst zählen alle `episodes`. */
+  anteile?: number[]
 }
 export interface BelegKurz {
   anilistId?: number
   url?: string
+  /** `false` = der Beleg sagt „hier kein Weg“ (z. B. Kopf einer Sammelseite) und beansprucht die Seite nicht. */
+  available?: boolean
 }
 export interface ZuordnungKurz {
   titleId?: number
@@ -62,7 +66,7 @@ export function fehlDoppelungen(belege: BelegKurz[], zuordnung: Record<string, Z
   const besitzer = eigentuemer(zuordnung)
   const je = new Map<string, Set<number>>()
   for (const b of belege) {
-    if (!b.url || b.anilistId === undefined) continue
+    if (!b.url || b.anilistId === undefined || b.available === false) continue
     const kern = adressKern(b.url)
     const menge = je.get(kern) ?? new Set<number>()
     menge.add(b.anilistId)
@@ -80,7 +84,7 @@ export function fehlDoppelungen(belege: BelegKurz[], zuordnung: Record<string, Z
 function belegteTitel(belege: BelegKurz[]): Map<string, Set<number>> {
   const je = new Map<string, Set<number>>()
   for (const b of belege) {
-    if (!b.url || b.anilistId === undefined) continue
+    if (!b.url || b.anilistId === undefined || b.available === false) continue
     const kern = adressKern(b.url)
     je.set(kern, (je.get(kern) ?? new Set<number>()).add(b.anilistId))
   }
@@ -91,7 +95,9 @@ function belegteTitel(belege: BelegKurz[]): Map<string, Set<number>> {
 function erlaubtGilt(e: ErlaubteSeite, belegt: Set<number> | undefined, folgen: Record<number, number>): boolean {
   if (!belegt || belegt.size !== e.titel.length || !e.titel.every((i) => belegt.has(i))) return false
   if (e.titel.some((i) => folgen[i] === undefined)) return false
-  return e.titel.reduce((summe, i) => summe + folgen[i]!, 0) === e.folgen
+  if (!e.anteile) return e.titel.reduce((summe, i) => summe + folgen[i]!, 0) === e.folgen
+  if (e.anteile.length !== e.titel.length || e.titel.some((i, n) => e.anteile![n]! <= 0 || e.anteile![n]! > folgen[i]!)) return false
+  return e.anteile.reduce((summe, n) => summe + n, 0) === e.folgen
 }
 
 export function gleicheAdresseBilanz(
