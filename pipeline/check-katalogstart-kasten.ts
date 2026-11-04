@@ -83,11 +83,11 @@ const teil = (datum: string, ab: number): Release => ({ ...release(), slug: `k90
 const zweiTeile = await kasten('2026-11-03', '2026-11-03T07:00:00Z', undefined, 'batch', [teil('2026-10-20', 1), teil('2026-11-03', 4)])
 pruefe('Teil 1 am 20.10., Teil 2 heute: kein „heute“ / „Uhrzeit offen“', !zweiTeile.text.includes('heute') && !zweiTeile.text.includes('Uhrzeit offen'), zweiTeile.text)
 
-/* B2: abgeschlossenes Werk, Katalogstart heute, dazu ein künftiger Disc-Termin — die Zwischenform bleibt. */
+/* B2: abgeschlossenes Werk, Katalogstart heute, dazu ein künftiger Prime-Termin — die Zwischenform bleibt. */
 const mitDisc = { ...titel, jpEnd: '2026-06-01' } as unknown as Title
-const disc = { ...release(), slug: 'k900401-disc', platform: 'disc', releaseType: 'disc', schedule: { firstEpisodeDate: '2026-12-01', episodeCount: 6 } } as unknown as Release
+const disc = { ...release(), slug: 'k900401-disc', platform: 'prime', releaseType: 'batch', schedule: { firstEpisodeDate: '2026-12-01', time: '09:00', episodeCount: 6 } } as unknown as Release
 const mitDiscKasten = await kasten('2026-11-03', '2026-11-03T07:00:00Z', undefined, 'batch', [release(), disc], mitDisc)
-pruefe('Abgeschlossenes Werk, Katalogstart heute + künftiger Disc-Termin: Zwischenform bleibt', mitDiscKasten.text.includes('Uhrzeit offen'), mitDiscKasten.text)
+pruefe('Abgeschlossenes Werk, Katalogstart heute + künftiger Prime-Termin: Zwischenform bleibt', mitDiscKasten.text.includes('Uhrzeit offen'), mitDiscKasten.text)
 
 globalThis.fetch = echteAbfrage
 if (verletzt > 0) process.exit(1)
