@@ -26,12 +26,15 @@ async function anweisungen(plattform: string, seitenKennung: string | null, kenn
       },
     },
   }
-  await ladeRohfolgen(env as never, 'https://beispiel.test/serie', plattform, seitenKennung, kennungen)
+  await ladeRohfolgen(env as never, plattform, 'https://beispiel.test/serie', seitenKennung, kennungen)
   return sqls
 }
 
 const prime = await anweisungen('primevideo', 'S1', [])
 pruefe('Prime: genau eine Abfrage mit dem Seiten-Index', prime.length === 1 && prime[0].includes('INDEXED BY prime_folge_seite'), prime)
+
+const primeMitKennungen = await anweisungen('primevideo', 'S1', ['g1', 'g2'])
+pruefe('Prime trotz Kennungen: genau eine Abfrage mit dem Seiten-Index', primeMitKennungen.length === 1 && primeMitKennungen[0].includes('INDEXED BY prime_folge_seite'), primeMitKennungen)
 
 const netflix = await anweisungen('netflix', null, ['g1', 'g2'])
 pruefe('Netflix je Kennung: genau eine Abfrage mit dem gti-Index', netflix.length === 1 && netflix[0].includes('INDEXED BY prime_folge_gti'), netflix)
