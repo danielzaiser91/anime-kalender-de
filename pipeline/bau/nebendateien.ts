@@ -27,6 +27,7 @@ import { behalteLesetag, ladeAdnLesetage, mitLesetag, ohneFehlzuordnung } from '
 import { keinAnimeFehler, keinAnimeVonHand } from './ohne-beleg.ts'
 import { ordneCartoonReihen } from './cartoon-reihen.ts'
 import { adnShowsLesen, ergaenzeAdnWege } from './cartoon-adn.ts'
+import { ergaenzeCartoonJoyn } from './cartoon-joyn.ts'
 import { setzeStaffeln, staffelnAusBelegen } from './cartoon-staffeln.ts'
 import { verteileWege } from './cartoon-wege.ts'
 import { wendeCartoonBelegeAn } from './cartoon-belege.ts'
@@ -185,6 +186,8 @@ export function schreibeCartoons(): void {
   const adnWege = ergaenzeAdnWege(titel, roh, adnShowsLesen())
   if (adnWege) log(`${adnWege} Cartoon-Verweise zu ADN (Handliste, deutscher Ton)`)
   const belege = loadDubChecks().filter((b) => b.anilistId < 0)
+  const joynNeu = ergaenzeCartoonJoyn(titel, jw, new Set(belege.filter((b) => b.available === false && b.url).map((b) => b.url!)))
+  if (joynNeu) log(`${joynNeu} Cartoon-Joyn-Verweise aus JustWatch ergänzt`)
   const belegt = wendeCartoonBelegeAn(titel, belege)
   if (belegt) log(`${belegt} Cartoon-Verweise mit Handbeleg`)
   setzeTonHinweise(titel, jw, belege)

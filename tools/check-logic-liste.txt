@@ -217,6 +217,8 @@ pipeline/check-install-stellen.ts
 pipeline/check-interne-angaben.ts
 pipeline/check-invarianten.ts
 pipeline/check-ja-hat-weg.ts
+pipeline/check-joyn-luecke-lauf.ts
+pipeline/check-joyn-luecke.ts
 pipeline/check-juengeres-ja-weg.ts
 pipeline/check-jw-ablauf.ts
 pipeline/check-jw-auswahl.ts
