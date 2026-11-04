@@ -5660,7 +5660,7 @@ pruefe(
 {
   /*
     **Datenbank und Kalender zeigen dieselbe Filteransicht**.
-    Der Klick-Modus war im Kalender hinter „Weitere Filter" versteckt. Beide Seiten
+    Die Filter waren im Kalender hinter „Weitere Filter" versteckt. Beide Seiten
     rendern jetzt `FilterDetailsFeld` — nicht zwei getrennte Filterbäume.
   */
   const liesWeb = (p: string) => readFileSync(new URL(`../web/src/components/${p}`, import.meta.url), 'utf8')

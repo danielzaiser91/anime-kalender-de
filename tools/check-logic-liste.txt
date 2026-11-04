@@ -173,6 +173,7 @@ pipeline/check-favoriten-feed-faelle.ts
 pipeline/check-fetch-pruefungen-laufzeit.ts
 pipeline/check-film-ohne-weg.ts
 pipeline/check-filter-genres.ts
+pipeline/check-filter-zyklus.ts
 pipeline/check-finale-wache.ts
 pipeline/check-folge-ueber-anzahl-bau.ts
 pipeline/check-folge-ueber-anzahl.ts

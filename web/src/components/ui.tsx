@@ -6,7 +6,7 @@ import { useLang, type TranslationKey } from '../lib/i18n.tsx'
 import { plakettenStil } from '../lib/kontrast.ts'
 import { sichtbareBreite } from '../lib/sichtbare-breite.ts'
 import { TIPPFLAECHE, TREFFER_24, TREFFER_24_MIN } from './detail/tippziel.ts'
-import { PILLE_JA, PILLE_NEIN } from './filter/pille-zustand.ts'
+import { PILLE_JA, PILLE_NEIN, ZUSTAND_TEXT } from './filter/pille-zustand.ts'
 import { fokusZeigtBlase, useEinzigeBlase } from './tooltip-einzeln.ts'
 
 /** Gemeinsamer Fokus- und Zeigerstil aller anklickbaren Elemente. */
@@ -71,14 +71,17 @@ export function Chip({
   color?: string
   title?: string
 }) {
+  const { t } = useLang()
+  /* Gewählt und ausgeschlossen sind für Screenreader zwei Zustände: `mixed` plus das Wort (ein Titel als Name überschreibt den Inhalt). */
+  const zustandWort = excluded || active ? t(ZUSTAND_TEXT[excluded ? 'nein' : 'ja']) : ''
   return mitHinweis(
     title,
     'unten',
     <button
       type="button"
       onClick={onClick}
-      aria-label={title}
-      aria-pressed={active || excluded}
+      aria-label={title && zustandWort ? `${title} (${zustandWort})` : title}
+      aria-pressed={excluded ? 'mixed' : Boolean(active)}
       className={[
         gross ? 'inline-flex min-h-11 min-w-11 items-center justify-center gap-1.5 rounded-full border px-4 text-t3 transition' : 'inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-bold transition',
         CLICKABLE,
@@ -102,6 +105,7 @@ export function Chip({
         <span className="size-2 rounded-full" style={{ background: color }} aria-hidden="true" />
       )}
       {children}
+      {zustandWort && <span className="sr-only">{zustandWort}</span>}
     </button>,
   )
 }

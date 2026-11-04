@@ -124,8 +124,8 @@ oder Rand von `rand` auf `leise`), nie Fläche und Rand und Text zugleich; der �
 Fokus (umgesetzt 14.10.2026): **eine** Regel `:focus-visible { outline: 2px solid var(--ak-fokus); outline-offset: 2px }` in `web/src/styles.css` (Layer `base`),
 Bauteile setzen nichts und schalten den Umriss nie ab (`tools/design-fokus.test.mjs` in `check:logic`; verboten `outline-none`, `outline-hidden`, `outline-0`, `outline-transparent`, auch mit Präfix); Einträge in Scrollflächen: `focus-visible:-outline-offset-2`,
 Karten mit sr-only-Knopf: `has-[.ak-oeffnen:focus-visible]:outline-*`; Ausnahme `tabindex=-1` (nur Skript-Fokus). `ring-*` nicht für Fokus (box-shadow kollidiert mit Rändern und `ak-katalog-glanz`). Deaktiviert: `disabled:opacity-45 disabled:cursor-default`,
-immer dieselbe Stufe. Klick-Modus im Filterfenster (Auswählen grün / Ausschließen rot gefüllt) bleibt: die Farbe des Modus ist die Farbe der
-Pille, die er erzeugt, und ⊘ ist das zweite Merkmal.
+immer dieselbe Stufe. Der Klick-Modus entfiel am 04.11.2026 (ein Tipp wählt, zwei schließen aus, drei lösen): die Farbe des Zustands ist die Farbe der
+Pille, ⊘ ist das zweite Merkmal.
 
 ## 5. Statusfarben
 
@@ -150,13 +150,13 @@ Bilder: Scratchpad `design-regeln/bilder/vorher-*` (Woche, Panel, Filter, Suche,
 
 | Bedeutung | heute | Regel |
 |---|---|---|
-| Gewählt (eins von n) | fünf Formen: Akzent-Füllung (Woche/Monat), Text-Füllung schwarz/weiß (News-Chips, Patch-Notes-Pillen, Stream/Disc), grüne Füllung (Klick-Modus), Akzent-Unterstrich (Navigation), grüner Rand (Filter-Pillen) | Akzent-Füllung; Navigation Unterstrich; Filter-Pillen grüner Rand (Mehrfachauswahl); Klick-Modus bleibt. Umgesetzt 14.10.2026 (Woche/Monat, News-Chips, Patch-Notes-Pillen, Stream/Disc, Saison-Reiter, Navigation); ebenfalls 14.10.2026: Datumssprung (Monat, Tag) und UND/ODER-Schalter; offen: Panel-Reiter in `folgen-bereich.tsx` (sky/slate, gehört zum Slate/Sky-Abbau; die Reiter der Reihenliste entfielen am 20.10.2026) |
+| Gewählt (eins von n) | fünf Formen: Akzent-Füllung (Woche/Monat), Text-Füllung schwarz/weiß (News-Chips, Patch-Notes-Pillen, Stream/Disc), Akzent-Unterstrich (Navigation), grüner Rand (Filter-Pillen) | Akzent-Füllung; Navigation Unterstrich; Filter-Pillen grüner Rand (Mehrfachauswahl). Umgesetzt 14.10.2026 (Woche/Monat, News-Chips, Patch-Notes-Pillen, Stream/Disc, Saison-Reiter, Navigation); ebenfalls 14.10.2026: Datumssprung (Monat, Tag) und UND/ODER-Schalter; offen: Panel-Reiter in `folgen-bereich.tsx` (sky/slate, gehört zum Slate/Sky-Abbau; die Reiter der Reihenliste entfielen am 20.10.2026) |
 | Fokus | `ring-sky-400` in `ui.tsx` (= `#ff7a5c` in beiden Themen, hell 2,6:1 auf Weiß); Patch Notes eigener Outline; die meisten Knöpfe ohne eigene Regel (Browser-Standard) | ein Ring `ak-fokus`, überall |
 | Hover-Fläche | fünf Werte (`ak-flaeche-2`, `white/10`, `slate-100`, `slate-50`, `slate-900/60`) | `ak-flaeche-2`, auf Fläche 2 `ak-flaeche-3`. **Umgesetzt 14.10.2026** (`hover:bg-slate/white/sky`, `dark:hover:`, `hover:brightness` = 0; Pillen mit Anbieterfarbe nehmen `hover:bg-ak-flaeche-2`, Meldungs-Chips der News einen inneren Ring `ak-leise`) |
 | Hover-Rand | vier Werte (`ak-leise`, `slate-400`, `white/40`, `ak-akzent`) | `ak-leise`; Akzent nur bei Verweis-Chips im Panel. **Umgesetzt 14.10.2026**; Text bei Hover: `ak-text` (Links, Textknöpfe) |
 | Amber | vier Bedeutungen: Warnung/Hinweis, Favoriten-Stern, Bugfix, Sonne im Themaknopf | Warnung; Stern → `ak-favorit-text`; Bugfix → `ak-warnung`; Sonne → `ak-favorit`. **Umgesetzt 14.10.2026** (`amber-` in `web/src` = 0); „Sprache offen“, TBA und „ungeklärt“ sind `ak-leise`; Mond → `ak-info` |
 | Rot | `rose` (Ausschluss, Beleg-Dialog, Kino-Knopf) neben `red` (Fehler, Abo beenden) | `ak-fehler`; Kino-Knopf verliert das Rot. **Umgesetzt 14.10.2026** (`rose-`, `red-` = 0); Kino-Knopf ist Sekundärknopf, Kino-Punkt in den Neuigkeiten und Plakette auf dem Cover nehmen den Akzent |
-| Grün | Pille gewählt, ✓ Deutsch, Klick-Modus, Feature | `ak-gut` für alle (eine Bedeutung: „ja/belegt“). **Umgesetzt 14.10.2026** (`emerald-` = 0) |
+| Grün | Pille gewählt, ✓ Deutsch, Feature | `ak-gut` für alle (eine Bedeutung: „ja/belegt“). **Umgesetzt 14.10.2026** (`emerald-` = 0) |
 | Blau | Schnellfilter-Band, Nachtrag, Panel-Karte, Neuigkeiten-Marken | `ak-info`. **Umgesetzt 14.10.2026** (`blue-`, `indigo-`, `violet-`, `teal-` = 0): Violett (Nachtrag „Zusage“, „Geplant“, Stufe „angekündigt“, Karten Neuigkeiten/Reihe) ist Info, „angekündigt“ heißt überall Info; Violett bleibt allein `ak-katalog` |
 | Deaktiviert | `opacity-30/40/50/60` | `disabled:opacity-45 disabled:cursor-default`. **Umgesetzt 14.10.2026** (`opacity-30/40/50/60` = 0); Zahlen in Chips stehen auf `opacity-70` statt `ak-sehr-leise`, weil `ak-sehr-leise` auf der gewählten dunklen Pille nur 3,9:1 hat (gemessen); noch nicht erschienene Cover (Saison, Reihe) auf `opacity-45` |
 | Neutral | `slate` mit `dark:`-Paar an 550 Stellen | `ak-text`/`ak-leise`/`ak-flaeche-*` ohne `dark:` |

@@ -10,3 +10,10 @@ export const PILLE_JA =
 
 export const PILLE_NEIN =
   'border-ak-fehler bg-ak-fehler-grund inset-ring-1 inset-ring-ak-fehler text-ak-fehler-text line-through decoration-ak-fehler/70'
+
+/** Name des Zustands für Screenreader (Schnell-Chips als Beschriftung, Listen-Pillen als verstecktes Wort). */
+export const ZUSTAND_TEXT = {
+  nichts: 'filter.zustand.nichts',
+  ja: 'filter.zustand.ja',
+  nein: 'filter.zustand.nein',
+} as const
