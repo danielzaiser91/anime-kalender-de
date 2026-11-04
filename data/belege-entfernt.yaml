@@ -490,6 +490,9 @@
   url: https://www.amazon.de/gp/video/detail/B0CC5DX1T7
   grund: 'Notizseite gehört einem anderen Titel (Altfälle-Abarbeitung 03.11.2026)'
   entferntAm: '2026-11-03'
+- anilistId: 10012621
+  url: https://www.amazon.de/dp/B0DJ4FCM5H
+  grund: 'Amazon-Seite B0DJ4FCM5H (1 Folge, Kanal Kixi) gehört Prinz Ribbit (10011569, 1 Folge, Kixi-Seite prinz-ribbit), nicht Super Wings (52 Folgen, Toggo/RTL; Altfälle 03.11.2026)'
 - anilistId: 1889
   url: https://www.amazon.de/gp/video/detail/B09JTSD79F
   grund: 'Seite gehört Higurashi no Naku Koro ni (Staffel 1, 2006) (934), nicht dem angegebenen Titel (Prime-Restliste 03.11.2026)'
