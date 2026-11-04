@@ -28,14 +28,16 @@ function pruefe(name: string, bedingung: boolean, gefunden?: unknown): void {
 console.log('\nTMDB-Kennungen von Hand (gegen den Bestand)')
 {
   const vomBand = (datei: string) => readFileSync(new URL('../' + datei, import.meta.url), 'utf8')
-  const eintraege = (yaml.load(vomBand('data/tmdb-von-hand.yaml')) as { anilistId: number; tmdbId: number }[] | null) ?? []
+  const eintraege = (yaml.load(vomBand('data/tmdb-von-hand.yaml')) as { anilistId: number; tmdbId?: number }[] | null) ?? []
   /*
     Dieselbe TMDB-Kennung an zwei Titeln ist erlaubt und kommt vor: TMDB führt „Dragon Ball Z
     Kai" und dessen „Final Chapters" als eine Serie, unser Bestand trennt sie. Erlaubt ist das
     nur innerhalb derselben Reihe — sonst wandern Wege zu einem fremden Werk.
   */
   const jeTmdb = new Map<number, number[]>()
-  for (const e of eintraege) jeTmdb.set(e.tmdbId, [...(jeTmdb.get(e.tmdbId) ?? []), e.anilistId])
+  for (const e of eintraege) {
+    if (e.tmdbId) jeTmdb.set(e.tmdbId, [...(jeTmdb.get(e.tmdbId) ?? []), e.anilistId])
+  }
   /*
     **Beide Bestände zählen.** „Super Dragon Ball Heroes" hat keine deutsche Synchro und steht
     deshalb in `ohne-synchro.json` — eine TMDB-Kennung braucht es trotzdem, denn genau dort

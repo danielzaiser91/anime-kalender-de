@@ -2,8 +2,10 @@ import type { TmdbTitle } from '../fetch-tmdb-titles.ts'
 
 export interface VonHandEintrag {
   anilistId: number
-  tmdbId: number
+  tmdbId?: number
   kind?: 'tv' | 'movie'
+  /** Der Titel hat bei TMDB keinen eigenen Eintrag: gespeicherte Kennung entfällt, der Namensabgleich sucht ihn nicht mehr. */
+  ohne?: true
 }
 
 /**
@@ -13,7 +15,15 @@ export interface VonHandEintrag {
 export function uebernimmVonHand(cache: Record<string, TmdbTitle>, eintraege: VonHandEintrag[], jetzt: string): number {
   let gesetzt = 0
   for (const e of eintraege) {
-    if (!e?.anilistId || !e.tmdbId) continue
+    if (!e?.anilistId) continue
+    if (e.ohne) {
+      if (cache[e.anilistId]) {
+        delete cache[e.anilistId]
+        gesetzt++
+      }
+      continue
+    }
+    if (!e.tmdbId) continue
     const alt = cache[e.anilistId]
     if (alt?.tmdbId === e.tmdbId) continue
     cache[e.anilistId] = { ...alt, genreIds: undefined, tmdbId: e.tmdbId, kind: e.kind ?? alt?.kind ?? 'tv', fetchedAt: jetzt }
