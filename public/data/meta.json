@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-11-04T04:08:30.624Z",
+  "generatedAt": "2026-11-04T04:19:54.426Z",
   "titleCount": 2924,
-  "belegtCount": 2590,
-  "releaseCount": 833,
-  "eventCount": 4307,
+  "belegtCount": 2589,
+  "releaseCount": 847,
+  "eventCount": 4321,
   "genres": [
     "Action",
     "Adventure",
@@ -229,8 +229,6 @@
     "Paramount+",
     "Paramount+ über Apple TV",
     "Plex",
-    "Plex Channel",
-    "Plex Player",
     "Verleihshop",
     "Verleihshop (Leih-Blu-ray)",
     "Zavvi",
@@ -251,6 +249,8 @@
     "Justwatch Tv Plus",
     "Kika",
     "KSM Anime — Complete Edition (AKIBA PASS Shop)",
+    "Plex Channel",
+    "Plex Player",
     "Pokémon TV",
     "Vimeo"
   ],

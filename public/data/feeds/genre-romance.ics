@@ -132,6 +132,96 @@ DESCRIPTION:Plattform: Disney+\nRelease-Art: Katalogtitel\nUhrzeit noch nic
 CATEGORIES:Disney+
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-2167-joyn@2026-11-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261103
+DTEND;VALUE=DATE:20261104
+SUMMARY:Clannad (neu bei Joyn)
+DESCRIPTION:Plattform: Joyn\nRelease-Art: Katalogtitel\nIm Angebot seit die
+ sem Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrzeit noch
+  nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter genannter Tag\,
+  sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetails: https://
+ anime-kalender.de/t/1865/
+CATEGORIES:Joyn
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-8425-joyn@2026-11-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261103
+DTEND;VALUE=DATE:20261104
+SUMMARY:Gosick (neu bei Joyn)
+DESCRIPTION:Plattform: Joyn\nRelease-Art: Katalogtitel\nIm Angebot seit die
+ sem Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrzeit noch
+  nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter genannter Tag\,
+  sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetails: https://
+ anime-kalender.de/t/4535/
+CATEGORIES:Joyn
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-12189-joyn@2026-11-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261103
+DTEND;VALUE=DATE:20261104
+SUMMARY:Hyouka (neu bei Joyn)
+DESCRIPTION:Plattform: Joyn\nRelease-Art: Katalogtitel\nIm Angebot seit die
+ sem Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrzeit noch
+  nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter genannter Tag\,
+  sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetails: https://
+ anime-kalender.de/t/5648/
+CATEGORIES:Joyn
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-1530-joyn@2026-11-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261103
+DTEND;VALUE=DATE:20261104
+SUMMARY:Kanon (neu bei Joyn)
+DESCRIPTION:Plattform: Joyn\nRelease-Art: Katalogtitel\nIm Angebot seit die
+ sem Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrzeit noch
+  nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter genannter Tag\,
+  sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetails: https://
+ anime-kalender.de/t/1318/
+CATEGORIES:Joyn
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21875-joyn@2026-11-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261103
+DTEND;VALUE=DATE:20261104
+SUMMARY:No Game No Life Zero
+DESCRIPTION:Plattform: Joyn\nRelease-Art: Film\nUhrzeit noch nicht bestäti
+ gt.\nGeschätzter Termin: kein vom Anbieter genannter Tag\, sondern aus Rh
+ ythmus oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.
+ de/t/8202/
+CATEGORIES:Joyn
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-100179-joyn@2026-11-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261103
+DTEND;VALUE=DATE:20261104
+SUMMARY:Tada Never Falls in Love (neu bei Joyn)
+DESCRIPTION:Plattform: Joyn\nRelease-Art: Katalogtitel\nIm Angebot seit die
+ sem Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrzeit noch
+  nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter genannter Tag\,
+  sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetails: https://
+ anime-kalender.de/t/8821/
+CATEGORIES:Joyn
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-13663-joyn@2026-11-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261103
+DTEND;VALUE=DATE:20261104
+SUMMARY:To Love Ru: Darkness (neu bei Joyn)
+DESCRIPTION:Plattform: Joyn\nRelease-Art: Katalogtitel\nIm Angebot seit die
+ sem Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrzeit noch
+  nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter genannter Tag\,
+  sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetails: https://
+ anime-kalender.de/t/5916/
+CATEGORIES:Joyn
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-G24H1N334@2026-11-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261104T133000Z

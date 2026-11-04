@@ -73,9 +73,9 @@ der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 | 31 | Netflix | Meine ganz besondere Hochzeit | [Special](https://www.netflix.com/title/82643530) |
 | 32 | Netflix | 5 Centimeters per Second | [Hauptserie](https://www.netflix.com/title/70093699) |
 | 33 | Netflix | Haikyu!! | [Movie 3 - Talent Und Gespür](https://www.netflix.com/title/81030151) · [Movie 4 - Ein Kampf der Konzepte](https://www.netflix.com/title/81030152) |
-| 34 | Netflix | Lu over the Wall | [Hauptserie](https://www.netflix.com/title/80238911) |
-| 35 | Netflix | Fireworks: Alles eine Frage der Zeit | [Hauptserie](https://www.netflix.com/title/81000505) |
-| 36 | Netflix | No Game No Life | [Zero](https://www.netflix.com/title/81068687) |
+| 34 | Netflix | No Game No Life | [Zero](https://www.netflix.com/title/81068687) |
+| 35 | Netflix | Lu over the Wall | [Hauptserie](https://www.netflix.com/title/80238911) |
+| 36 | Netflix | Fireworks: Alles eine Frage der Zeit | [Hauptserie](https://www.netflix.com/title/81000505) |
 | 37 | Netflix | Girls & Panzer | [Girls und Panzer: Der Film](https://www.netflix.com/title/80159876) |
 | 38 | Netflix | Dragon Nest: Die Chroniken von Altera | [Hauptserie](https://www.netflix.com/title/80084763) |
 | 39 | Netflix | TRAVA: FIST PLANET | [Redline](https://www.netflix.com/title/70153298) |

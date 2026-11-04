@@ -198,6 +198,19 @@ DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
 CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-3199-joyn@2026-11-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261103
+DTEND;VALUE=DATE:20261104
+SUMMARY:Tico: Ein toller Freund (neu bei Joyn)
+DESCRIPTION:Plattform: Joyn\nRelease-Art: Katalogtitel\nIm Angebot seit die
+ sem Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrzeit noch
+  nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter genannter Tag\,
+  sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetails: https://
+ anime-kalender.de/t/2580/
+CATEGORIES:Joyn
+END:VEVENT
+BEGIN:VEVENT
 UID:inazuma-eleven-s1-box@2026-11-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261120

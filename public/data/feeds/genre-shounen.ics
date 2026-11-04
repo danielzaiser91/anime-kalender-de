@@ -429,6 +429,32 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-20613-joyn@2026-11-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261103
+DTEND;VALUE=DATE:20261104
+SUMMARY:Akame ga Kill: Schwerter der Assassinen (neu bei Joyn)
+DESCRIPTION:Plattform: Joyn\nRelease-Art: Katalogtitel\nIm Angebot seit die
+ sem Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrzeit noch
+  nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter genannter Tag\,
+  sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetails: https://
+ anime-kalender.de/t/7169/
+CATEGORIES:Joyn
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-13663-joyn@2026-11-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261103
+DTEND;VALUE=DATE:20261104
+SUMMARY:To Love Ru: Darkness (neu bei Joyn)
+DESCRIPTION:Plattform: Joyn\nRelease-Art: Katalogtitel\nIm Angebot seit die
+ sem Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrzeit noch
+  nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter genannter Tag\,
+  sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetails: https://
+ anime-kalender.de/t/5916/
+CATEGORIES:Joyn
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-11-04#56@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261104T160500Z

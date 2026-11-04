@@ -1,0 +1,43 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//anime-kalender-de//Anime-Kalender DE//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Anime-Kalender DE – Horror
+X-WR-TIMEZONE:Europe/Berlin
+REFRESH-INTERVAL;VALUE=DURATION:PT12H
+X-PUBLISHED-TTL:PT12H
+BEGIN:VEVENT
+UID:auto-20613-joyn@2026-11-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261103
+DTEND;VALUE=DATE:20261104
+SUMMARY:Akame ga Kill: Schwerter der Assassinen (neu bei Joyn)
+DESCRIPTION:Plattform: Joyn\nRelease-Art: Katalogtitel\nIm Angebot seit die
+ sem Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrzeit noch
+  nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter genannter Tag\,
+  sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetails: https://
+ anime-kalender.de/t/7169/
+CATEGORIES:Joyn
+END:VEVENT
+BEGIN:VEVENT
+UID:memories-2026-11-18@2026-11-18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261118
+DTEND;VALUE=DATE:20261119
+SUMMARY:Memories (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/1262/
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-384-disc@2026-11-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261120
+DTEND;VALUE=DATE:20261121
+SUMMARY:Gantz (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/348/
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+END:VCALENDAR
