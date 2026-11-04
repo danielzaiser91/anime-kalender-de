@@ -79,4 +79,5 @@ jobs:
       - name: Fehlschläge auswerten
         id: auswerten
         if: always()
+        continue-on-error: true
         run: bash tools/schritte-auswerten.sh
