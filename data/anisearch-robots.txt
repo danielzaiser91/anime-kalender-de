@@ -1,4 +1,4 @@
-### www.anisearch.de (HTTP 200) Stand 2026-11-04T13:32:17.498Z
+### www.anisearch.de (HTTP 200) Stand 2026-11-04T14:09:06.244Z
 Sitemap: https://www.anisearch.de/sitemap.xml
 
 User-agent: *
@@ -207,7 +207,7 @@ Disallow: /
 User-agent: ia_archiver
 Disallow: /
 
-### cdn.anisearch.de (HTTP 200) Stand 2026-11-04T13:32:17.498Z
+### cdn.anisearch.de (HTTP 200) Stand 2026-11-04T14:09:06.244Z
 Sitemap: https://www.anisearch.de/sitemap.xml
 
 User-agent: *
