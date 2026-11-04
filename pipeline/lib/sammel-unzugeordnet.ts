@@ -38,10 +38,11 @@ const eintrag = (v: Vorschlag): NichtZugeordnet => ({
 /**
  * Einzelartikel zu Streaming mit Tag und deutschem Ton, aus denen `releasesAus` kein Release machte (kein Titel, Teil unklar, kein Anbieter):
  * dieselbe Liste wie die der Sammelartikel. Fernsehwiederholungen, Disc und Kino zählen nicht (`category`), sie sind kein Streaming-Termin.
+ * Ein gelesener Sammelartikel (`sammel` gefüllt) zählt nicht als Einzelartikel: seine Zeilen stehen einzeln auf der Liste (Disney+ „Acht Anime-Neuzugänge“).
  */
 export function einzelOhneRelease(verluste: Verluste, sammelVorschlaege: Vorschlag[]): NichtZugeordnet[] {
   return [...verluste.ohneTitel, ...verluste.ohneTeil, ...verluste.ohneAnbieter]
-    .filter((v) => !sammelVorschlaege.includes(v) && v.category === 'streaming' && spracheDerMeldung(v) === 'ja')
+    .filter((v) => !sammelVorschlaege.includes(v) && !v.sammel?.length && v.category === 'streaming' && spracheDerMeldung(v) === 'ja')
     .map((v) => ({ titel: /»([^«]+)«/.exec(v.articleTitle)?.[1] ?? v.articleTitle, artikel: v.articleUrl, tag: terminDerMeldung(v)!, anbieter: v.platforms ?? [], quelle: 'Einzelartikel' }))
 }
 

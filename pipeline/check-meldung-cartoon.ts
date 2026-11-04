@@ -142,11 +142,12 @@ function listenFaelle(): void {
   const disc = { ...einzel, articleUrl: 'https://www.anime2you.de/news/3/', category: 'disc' }
   const omu = { ...einzel, articleUrl: 'https://www.anime2you.de/news/4/', dub: 'unklar', dates: [{ iso: '2026-09-29', context: 'nur im Original mit Untertiteln' }] }
   const sammel = { ...einzel, articleUrl: 'https://www.anime2you.de/news/5/' }
-  v.ohneTitel.push(einzel, tv, disc, omu, sammel)
+  const gelesen = { ...einzel, articleUrl: 'https://www.anime2you.de/news/8/', sammel: [{ titel: 'Yu-Gi-Oh!', datum: '2026-08-29', deutsch: true, woechentlich: false, stream: ['Disney+'] }] }
+  v.ohneTitel.push(einzel, tv, disc, omu, sammel, gelesen)
   v.ohneTeil.push({ ...einzel, articleUrl: 'https://www.anime2you.de/news/6/' })
   v.ohneAnbieter.push({ ...einzel, articleUrl: 'https://www.anime2you.de/news/7/' })
   const liste = einzelOhneRelease(v, [sammel]).map((e) => e.artikel.split('/').at(-2))
-  pruefe('Liste: Streaming mit deutschem Ton aus allen drei Verlustgründen, ohne TV, Disc, OmU und Sammelartikel', JSON.stringify(liste) === JSON.stringify(['1', '6', '7']), liste)
+  pruefe('Liste: Streaming mit deutschem Ton aus allen drei Verlustgründen, ohne TV, Disc, OmU, Sammelzeilen und gelesenen Sammelartikel (Disney+ „Acht Anime-Neuzugänge“)', JSON.stringify(liste) === JSON.stringify(['1', '6', '7']), liste)
 }
 
 function cartoonKatalogFaelle(): void {
