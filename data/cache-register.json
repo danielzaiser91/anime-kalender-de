@@ -36,6 +36,13 @@
       "bauBraucht": false,
       "fehlt": "Nur der Trailer-Lauf liest ihn (eigener Zwischenstand); fehlt er, holt der Lauf den Kanal neu"
     },
+    "tmdb-geteilte-filme.json": {
+      "schreiber": "pipeline/bau/01-quellen.ts (ladeQuellen, schreibeGeteilteFilme)",
+      "laeufe": ["bestand-bauen.yml (je Bauzyklus)", "pr-pruefung.yml, Job PR-Datenbau (je PR-Bau)"],
+      "intervall": "je Bau",
+      "bauBraucht": false,
+      "fehlt": "Nur die Bestandsprüfung check:anilist-bestand liest sie; fehlt sie, rechnet diese die reine Film-Regel auf data/tmdb-titles.json neu"
+    },
     "quittung-offen": {
       "schreiber": "pipeline/lib/spaeter-quittieren.ts (Merker von fetch-pruefungen, fetch-rohfolgen, fetch-vorfaelle)",
       "laeufe": ["bestand-bauen.yml (je Bauzyklus; tools/commit-data.sh verschiebt nach grünem Commit nach quittung-frei)"],
