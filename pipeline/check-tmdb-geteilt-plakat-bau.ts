@@ -34,15 +34,17 @@ try {
   const { coverFuer } = await import('./bau/cover-regel.ts')
   const { bannerNachRegel } = await import('./bau/produkt-regel.ts')
   const { ergaenzeCoverGross } = await import('./bau/cover-gross.ts')
+  const { ladeGeteilteFilme } = await import('./lib/tmdb-eindeutig.ts')
   console.log('\nTMDB-Plakat geteilter Filme im Bau')
   ladeQuellen()
   const syn: Record<number, SynopsisEintrag> = {}
   ergaenzeCoverGross(syn, [900001, 900002, 900003].map((id) => ({ id }) as Title))
   pruefe('Cover: geteilter Film ohne Plakat, anderer Titel mit', coverFuer(900001, undefined) === undefined && coverFuer(900002, 'bisher') === 'bisher' && coverFuer(900003, undefined)?.endsWith('/k.jpg') === true)
   pruefe('Banner: geteilter Film fällt auf AniList zurück, anderer Titel mit TMDB', bannerNachRegel(900001, 'anilist') === 'anilist' && bannerNachRegel(900003, 'anilist') !== 'anilist')
+  pruefe('Bestandsprüfung bekommt dieselbe Menge aus dem Bau (Datei, nicht neu gerechnet)', [...ladeGeteilteFilme({})].join() === '900001,900002')
   pruefe('Großplakat (cg): nur der Titel mit eigenem Film', !syn[900001]?.cg && !syn[900002]?.cg && Boolean(syn[900003]?.cg), syn)
 } finally {
   rmSync(wurzel, { recursive: true, force: true })
 }
 if (verletzt) process.exit(1)
-console.log('TMDB-Plakat geteilter Filme im Bau: 3 Zusicherungen ✓')
+console.log('TMDB-Plakat geteilter Filme im Bau: 4 Zusicherungen ✓')

@@ -1,4 +1,4 @@
-import { log } from './util.ts'
+import { log, readJson, writeJson } from './util.ts'
 
 /**
  * **Ein TMDB-Film gehört genau einem Titel.**
@@ -52,4 +52,13 @@ export function ohneGeteilteFilme<T>(daten: Record<string, T>, was: string): Rec
   for (const id of weg) delete rest[id]
   log(`${weg.length} TMDB-${was} verworfen: derselbe Film steht bei mehreren Titeln (${weg.join(', ')})`)
   return rest
+}
+
+/** Die Menge am Ende von `ladeQuellen()` (mit den gesperrten Serien-Treffern der Kurzformen), damit Bestandsprüfungen dieselbe Menge sehen. */
+export const GETEILTE_FILME_DATEI = 'data/cache/tmdb-geteilte-filme.json'
+export const schreibeGeteilteFilme = (ids: Set<string>): void => writeJson(GETEILTE_FILME_DATEI, [...ids].sort())
+/** Die vom Bau geschriebene Menge; fehlt die Datei (kein Bau in diesem Ordner), nur die reine Film-Regel auf `tmdbTitles`. */
+export function ladeGeteilteFilme(tmdbTitles: Parameters<typeof mehrdeutigeFilmzuordnungen>[0]): Set<string> {
+  const ids = readJson<string[] | null>(GETEILTE_FILME_DATEI, null)
+  return ids ? new Set(ids) : mehrdeutigeFilmzuordnungen(tmdbTitles)
 }

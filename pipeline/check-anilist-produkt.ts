@@ -11,7 +11,7 @@
 import { readJson } from './lib/util.ts'
 import { ladeBewertungen, parseKlarwert, parseSchlagworte, parseStimmen } from './lib/anisearch-bewertung.ts'
 import { MIN_STIMMEN_BEWERTUNG } from './bau/produkt-regel.ts'
-import { mehrdeutigeFilmzuordnungen, merkeGeteilteFilme, ohneGeteilteFilme } from './lib/tmdb-eindeutig.ts'
+import { ladeGeteilteFilme, merkeGeteilteFilme, ohneGeteilteFilme } from './lib/tmdb-eindeutig.ts'
 import { BANNER_DATEI, bannerAdresse, waehleBanner, type TmdbBanner } from './lib/tmdb-banner.ts'
 import { SCHLAGWORT_LISTE, SCHLAGWORT_MAX } from '../shared/schlagworte.ts'
 import type { Title } from '../shared/types.ts'
@@ -76,7 +76,7 @@ function pruefeTitel(datei: string, titel: Title[], banner: TmdbBanner): void {
 
 function bestand(): void {
   /* Geteilte TMDB-Filme haben im Bau kein TMDB-Banner (dieselbe Menge wie dort, lib/tmdb-eindeutig.ts). */
-  merkeGeteilteFilme(mehrdeutigeFilmzuordnungen(readJson('data/tmdb-titles.json', {})))
+  merkeGeteilteFilme(ladeGeteilteFilme(readJson('data/tmdb-titles.json', {})))
   const banner = ohneGeteilteFilme(readJson<TmdbBanner>(BANNER_DATEI, {}), 'Banner')
   for (const datei of ['titles', 'titles-core', 'ohne-synchro']) pruefeTitel(datei, readJson<Title[]>(`public/data/${datei}.json`, []), banner)
   pruefeTitel('woche', readJson<{ titles?: Title[] }>('public/data/woche.json', {}).titles ?? [], banner)

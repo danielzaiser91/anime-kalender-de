@@ -2,7 +2,7 @@ import { readJson, log } from '../lib/util.ts'
 import { type DubConfidence, type Fsk, type PlatformId } from '../../shared/types.ts'
 import { type AniListMedia } from '../lib/anilist.ts'
 import { type TmdbInfo } from '../lib/tmdb.ts'
-import { mehrdeutigeFilmzuordnungen, merkeGeteilteFilme } from '../lib/tmdb-eindeutig.ts'
+import { mehrdeutigeFilmzuordnungen, merkeGeteilteFilme, schreibeGeteilteFilme } from '../lib/tmdb-eindeutig.ts'
 import { meldeCacheStand } from './cache-stand.ts'
 import { loadCurated } from '../lib/curated.ts'
 import { ladeAnisearchAbruf } from '../lib/anisearch-verworfen.ts'
@@ -103,6 +103,7 @@ export function ladeQuellen() {
   }
   meldeCacheStand()
   sperreSerienTreffer([byAniId, byMal], tmdbTitles, tmdbMehrdeutig)
+  schreibeGeteilteFilme(tmdbMehrdeutig)
   return {
     byMal,
     confidenceRaw,
