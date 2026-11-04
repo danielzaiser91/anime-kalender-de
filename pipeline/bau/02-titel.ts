@@ -2,6 +2,7 @@ import { type Title, type DubConfidence } from '../../shared/types.ts'
 import { titleFromMedia, isoDate, isoDatumGenau } from './titel-hilfen.ts'
 import { type AniListMedia } from '../lib/anilist.ts'
 import { ANISEARCH_ID_BASIS, ergaenzeAnisearchTitel } from './anisearch-titel.ts'
+import { ergaenzeEigeneTitel } from './eigene-titel.ts'
 import { anisearchCoverAusCache } from '../lib/anisearch-cover.ts'
 import { entferneSammeltitel, freizugebendeSeiten } from './mal-teilung.ts'
 import { haengeAnkuendigungAn } from './ankuendigung-an-titel.ts'
@@ -47,6 +48,7 @@ export function baueTitel({ byMal, confidenceRaw, byAniId }: {
     if (genau) jpStartAnzeige.set(media.id, genau)
   }
   ergaenzeAnisearchTitel(titles, jpStart, jpStartAnzeige, freizugebendeSeiten(titles))
+  ergaenzeEigeneTitel(titles)
   entferneSammeltitel(titles, jpStart, jpStartAnzeige)
   /* Ein aniSearch-Titel ohne Plakat bekommt das AniList-Cover seiner MAL-Kennung (Kennung des Titels bleibt). */
   for (const [id, cover] of anisearchCoverAusCache(ANISEARCH_ID_BASIS)) {

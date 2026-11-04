@@ -12,6 +12,7 @@ import { istSerie, saisonVon, saisonZeitraum, type SaisonTag } from '../shared/s
 import { sortiereNachTitel } from '../web/src/lib/titel-sortierung.ts'
 import { anzeigeName } from '../shared/titles.ts'
 import type { Title } from '../shared/types.ts'
+import { kernOhneCover } from './lib/kern-ohne-cover.ts'
 
 let fehler = 0
 function pruefe(name: string, bedingung: boolean, gefunden?: unknown): void {
@@ -37,7 +38,7 @@ pruefe('die Reihenfolge ist die der deutschen Sortierung', gruppeOhne.every((g, 
 
 console.log('Cover für aniSearch-Titel (AniList über die MAL-Kennung)')
 const kern = JSON.parse(readFileSync('public/data/titles-core.json', 'utf8')) as { id: number; coverImage?: string }[]
-const ohneCover = kern.filter((t) => !t.coverImage).map((t) => t.id)
+const ohneCover = kernOhneCover(kern)
 pruefe('jeder Kern-Titel trägt ein Cover', ohneCover.length === 0, ohneCover)
 /* Alle ausgelieferten aniSearch-Titel: Steht die MAL-Kennung im Cover-Bestand, muss der Titel das Cover tragen (08.10.2026: der Bestand lag im Actions-Cache, der Bau sah ihn nicht). */
 const eintraege = JSON.parse(readFileSync('data/anisearch-eintraege.json', 'utf8')) as Record<string, { mal?: number }>

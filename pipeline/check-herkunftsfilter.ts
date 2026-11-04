@@ -27,6 +27,7 @@ pruefe('jedes andere Land ist „USA & Co."', ['US', 'CA', 'GB', 'DE'].every((l)
 pruefe('ohne Land bei aniSearch-Kennung oder Cartoon ist unbekannt, nicht Japan', herkunftVon(titel(17975, undefined, 10_000_007)) === 'XX' && herkunftVon(titel(-99)) === 'XX')
 pruefe('maßgeblich ist die AniList-Kennung, nicht unsere eigene', herkunftVon(titel(10_000_007, undefined, 1)) === 'JP')
 pruefe('ein Cartoon mit Land JP zählt als Japan', herkunftVon(titel(-3, 'JP')) === 'JP')
+pruefe('ein eigener Titel (5 bis unter 6 Mio.) ohne Land ist unbekannt, nicht Japan; mit Land gilt das Land', herkunftVon(titel(17975, undefined, 5_000_001)) === 'XX' && herkunftVon(titel(17975, undefined, 5_999_999)) === 'XX' && herkunftVon(titel(17975, undefined, 6_000_000)) === 'JP' && herkunftVon(titel(17975, undefined, 4_999_999)) === 'JP' && herkunftVon(titel(17975, 'KR', 5_000_001)) === 'KR')
 
 console.log('\nHerkunftsfilter: Zähler und Liste')
 const alle = [titel(1), titel(2), titel(3, 'KR'), titel(4, 'KR'), titel(5, 'CN'), titel(-6, 'US'), titel(7, undefined, 10_000_001)]
