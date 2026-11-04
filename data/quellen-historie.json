@@ -6057,11 +6057,19 @@
   ],
   "auto-16498-primevideo": [
     {
+      "url": "https://www.anime2you.de/news/1045399/aniverse-september-2026-neuzugaenge/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-04",
+      "sagt": "2026-09-17",
+      "stand": "aktuell"
+    },
+    {
       "url": "https://www.anime2you.de/news/1054791/prime-video-attack-on-titan-und-mehr/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-03",
       "sagt": "2026-10-01",
-      "stand": "aktuell"
+      "stand": "ueberholt",
+      "grund": "Termin verschoben auf: 2026-09-17"
     }
   ],
   "auto-1686-adn": [
