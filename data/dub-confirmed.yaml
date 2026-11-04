@@ -7565,12 +7565,6 @@
   dub: true
   checkedAt: '2026-08-25'
   note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0FH7CG463: Film geprüft, Abos: Prime, Seitenadresse: B0FH7JBQ5J, zugang=abo_und_kauf"
-- anilistId: 16049
-  title: "A Certain Scientific Railgun S"
-  platform: primevideo
-  url: https://www.amazon.de/dp/B0CGGZVNFS
-  checkedAt: '2026-08-25'
-  note: "Tonspuren: English, 日本語 — Amazon-Seite B0CGGZVNFS: alle 25 Folgen geprüft, Abos: crunchyrollde, laut Adresse Staffel 3, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
 - anilistId: 20631
   title: "Trinity Seven"
   platform: primevideo
@@ -11522,13 +11516,6 @@
 - anilistId: 102351
   title: "Tokyo Ghoul:re"
   platform: primevideo
-  url: https://www.amazon.de/dp/B0CW5WH6XZ
-  dub: true
-  checkedAt: '2026-08-31'
-  note: "Tonspuren: Deutsch — Amazon-Seite B0D7N68Q5T: alle 12 Folgen geprüft, Abos: keine Angabe — Staffel nicht im Bestand, Titel von der Seite gelesen, Seitenadresse: B0D7N68Q5T, laut Adresse Staffel 4, zugang=kauf_oder_leihe"
-- anilistId: 102351
-  title: "Tokyo Ghoul:re"
-  platform: primevideo
   url: https://www.amazon.de/gp/video/detail/B0D7N68Q5T
   dub: true
   checkedAt: '2026-08-31'
@@ -12052,13 +12039,6 @@
   dub: true
   checkedAt: '2026-08-30'
   note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0CV5Z8JPZ: Film geprüft, Abos: aniversede, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-- anilistId: 10719
-  title: "Haganai: I Don’t Have Many Friends"
-  platform: primevideo
-  url: https://www.amazon.de/dp/B09JV7CC61
-  dub: true
-  checkedAt: '2026-08-30'
-  note: "Tonspuren: Deutsch — Amazon-Seite B09JV7CC61: alle 12 Folgen geprüft, Abos: aniversede, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
 # Umgehängt 19.09.2026 von 120892 (Stargazer, 2020) auf 99470: Die Prime-Kachel heißt
 # „Grisaia Phantom Trigger The Animation", 2019, 1 Std. 31 Min. (Daniel im Durchgang). Deutsch
 # gibt es laut aniSearch nur für THE ANIMATION (KSM, Blu-ray 18.02.2021), Stargazer blieb aus.
@@ -12069,8 +12049,8 @@
   dub: true
   checkedAt: '2026-08-30'
   note: "Tonspuren: Deutsch — Amazon-Seite B0GX7DVSXM: alle 1 Folge geprüft, Abos: Prime, aniversede, zugang=abo_und_kauf"
-- anilistId: 1889
-  title: "Higurashi no Naku Koro ni Kai"
+- anilistId: 934
+  title: "Higurashi no Naku Koro ni"
   platform: primevideo
   url: https://www.amazon.de/dp/B09JTSD79F
   dub: true
@@ -16426,13 +16406,6 @@
 - anilistId: 527
   title: "Pokémon"
   platform: primevideo
-  url: https://www.amazon.de/gp/video/detail/B0CVG5M4FP
-  dub: true
-  checkedAt: '2026-09-25'
-  note: "Tonspuren: Deutsch — Amazon-Seite B0CVG5M4FP: alle 13 Folgen geprüft, Abos: pokemonde, zugang=abo, gti=amzn1.dv.gti.55d74e6c-ff43-4933-aeed-b4a3099e5964 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-- anilistId: 527
-  title: "Pokémon"
-  platform: primevideo
   url: https://www.amazon.de/gp/video/detail/B0CVWZXGJT
   dub: true
   checkedAt: '2026-09-25'
@@ -17510,13 +17483,6 @@
   dub: true
   checkedAt: '2026-09-28'
   note: "Tonspuren: Deutsch, Deutsch [Audiobeschreibung], English, English [Audio Description], Español (Latinoamérica), Español (Latinoamérica) [descripción de audio], Français, Français [Audiodescription], Português (Brasil), Português (Brasil) [Descrição do áudio], 日本語 — Amazon-Seite B0GYFVBMRM: alle 16 Folgen geprüft, Abos: crunchyrollde, zugang=abo, gti=amzn1.dv.gti.7f5745bb-cfc6-4a6b-83eb-3fc1703faa3d — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-- anilistId: 180745
-  title: "Classroom of the Elite 4th Season: Second Year, First Semester"
-  platform: primevideo
-  url: https://www.amazon.de/gp/video/detail/B0GYFVBMRM
-  dub: true
-  checkedAt: '2026-09-28'
-  note: "Tonspuren: Deutsch, English, Español (Latinoamérica), Français, Português (Brasil), Русский, 日本語 — Amazon-Seite B0GGJKGT5P: alle 12 Folgen geprüft, Abos: crunchyrollde, zugang=abo_und_kauf, gti=amzn1.dv.gti.fa347b8c-f8a3-4078-9123-7c247774616c — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
 - anilistId: 145545
   title: "Classroom of the Elite: Staffel 2"
   platform: primevideo
@@ -18424,13 +18390,6 @@
 - anilistId: 10719
   title: "Haganai: I Don’t Have Many Friends"
   platform: primevideo
-  url: https://www.amazon.de/gp/video/detail/B09JV7CC61
-  dub: true
-  checkedAt: '2026-09-28'
-  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B09JV7CC61: alle 12 Folgen geprüft, Abos: Prime, aniversede, zugang=abo_und_kauf, gti=amzn1.dv.gti.7669196e-2d2c-4c69-a617-4ec51b0d42fa"
-- anilistId: 10719
-  title: "Haganai: I Don’t Have Many Friends"
-  platform: primevideo
   url: https://www.amazon.de/gp/video/detail/B0F2958YWW
   available: false
   checkedAt: '2026-09-28'
@@ -18534,8 +18493,8 @@
   dub: true
   checkedAt: '2026-09-28'
   note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0H1HLPVF4: alle 13 Folgen geprüft, Abos: midnightfactoryde, aniversede, zugang=abo, gti=amzn1.dv.gti.4ffed921-4bc4-40bf-91b1-94213737c6ba — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-- anilistId: 1889
-  title: "Higurashi no Naku Koro ni Kai"
+- anilistId: 934
+  title: "Higurashi no Naku Koro ni"
   platform: primevideo
   url: https://www.amazon.de/gp/video/detail/B09JTSD79F
   dub: true
@@ -19947,13 +19906,6 @@
 - anilistId: 97634
   title: "Pokémon: Die TV-Serie - Sonne & Mond"
   platform: primevideo
-  url: https://www.amazon.de/gp/video/detail/B0CVG5M4FP
-  dub: true
-  checkedAt: '2026-09-28'
-  note: "Tonspuren: Deutsch — Amazon-Seite B0CVG5M4FP: alle 13 Folgen geprüft, Abos: pokemonde, zugang=abo, gti=amzn1.dv.gti.55d74e6c-ff43-4933-aeed-b4a3099e5964 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-- anilistId: 97634
-  title: "Pokémon: Die TV-Serie - Sonne & Mond"
-  platform: primevideo
   url: https://www.amazon.de/gp/video/detail/B0CH3DCVW6
   dub: true
   checkedAt: '2026-09-28'
@@ -20823,17 +20775,6 @@
       dub: true
   checkedAt: '2026-09-28'
   note: "Tonspuren: Deutsch — Amazon-Seite B0CW5WH6XZ: alle 12 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.a77f6e73-559f-48d2-a23f-ae7495f4af5f"
-- anilistId: 100240
-  title: "Tokyo Ghoul:re"
-  platform: primevideo
-  url: https://www.amazon.de/gp/video/detail/B0D7N68Q5T
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 12
-      dub: true
-  checkedAt: '2026-09-28'
-  note: "Tonspuren: Deutsch — Amazon-Seite B0D7N68Q5T: alle 12 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.834ee1bc-c7bc-4b4c-839c-ee8826498aed"
 - anilistId: 20631
   title: "Trinity Seven"
   platform: primevideo
@@ -29555,12 +29496,6 @@
   dub: false
   checkedAt: '2026-10-13'
   note: "Amazon-Seite B0D169XWP1: alle 1 Folge geprüft, Abos: keine Angabe, gti=amzn1.dv.gti.36ee7891-7395-4ec1-b06b-da66fc00840f, regionsperre=laut Seite nicht mehr im Abo"
-- anilistId: 100185
-  platform: primevideo
-  url: https://www.amazon.de/gp/video/detail/B0CGGZVNFS
-  kanalMessung: nein
-  checkedAt: '2026-10-13'
-  note: "Tonspuren: English, 日本語 — Amazon-Seite B0CGGZVNFS: alle 25 Folgen geprüft, Abos: crunchyrollde, zugang=abo, gti=amzn1.dv.gti.20e6169a-1399-4426-a75d-211d4257d52c — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
 - anilistId: -158139
   title: "Dead End: Paranormal Park"
   platform: netflix
@@ -32292,14 +32227,6 @@
   kanalMessung: ja
   checkedAt: '2026-10-13'
   note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0CC5L519V: alle 13 Folgen geprüft, Abos: aniversede, zugang=abo_und_kauf, gti=amzn1.dv.gti.a924131b-efcb-4ef4-89d9-233556c2a5dd — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-- anilistId: 5764
-  title: "The Familiar of Zero: Rondo of Princesses - Der verführerische Strand"
-  platform: primevideo
-  url: https://www.amazon.de/gp/video/detail/B0CC5L519V
-  dub: true
-  kanalMessung: ja
-  checkedAt: '2026-10-13'
-  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0B8RQ86ZZ: alle 13 Folgen geprüft, Abos: aniversede, zugang=abo_und_kauf, gti=amzn1.dv.gti.edf210ec-8bbc-435f-8137-5b9d738084b5 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
 - anilistId: 11319
   title: "The Familiar of Zero F"
   platform: primevideo
@@ -32706,13 +32633,6 @@
   kanalMessung: ja
   checkedAt: '2026-10-13'
   note: "Tonspuren: Deutsch, English, 日本語 — Amazon-Seite B0CJK3GVR1: alle 12 Folgen geprüft, Abos: crunchyrollde, zugang=abo, gti=amzn1.dv.gti.836c011c-f3b2-4330-bed4-378483c4e9eb — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-- anilistId: 101117
-  title: "Free! Dive to the Future"
-  platform: primevideo
-  url: https://www.amazon.de/gp/video/detail/B0CJK3GVR1
-  kanalMessung: nein
-  checkedAt: '2026-10-13'
-  note: "Tonspuren: English, Español (Latinoamérica), Français, Português (Brasil), 日本語 — Amazon-Seite B0CGVS29ZD: alle 12 Folgen geprüft, Abos: crunchyrollde, zugang=abo, gti=amzn1.dv.gti.b3fee5ac-cfad-4f5d-b48f-82c185047b34 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
 - anilistId: 111762
   title: "Fruits Basket Staffel 2"
   platform: primevideo
@@ -32793,8 +32713,8 @@
       checked: [1]
   checkedAt: '2026-10-13'
   note: "Folge 1 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], tr|Türkisch, nl|Niederländisch, it|Italienisch, fr|Französisch, ar|Arabisch, da|Dänisch, fi|Finnisch, el|Griechisch, he|Hebräisch, hi|Hindi, id|Indonesisch, ja|Japanisch, ko|Koreanisch, hr|Kroatisch, zh-CN|Mandarin (Putonghua), nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), ro|Rumänisch, sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), ta|Tamil, th|Thailändisch, cs|Tschechisch, hu|Ungarisch, vi|Vietnamesisch — Durchlauf: Folge 1: Lernen mit JJ"
-- anilistId: 1889
-  title: "Higurashi no Naku Koro ni Kai"
+- anilistId: 934
+  title: "Higurashi no Naku Koro ni"
   platform: primevideo
   url: https://www.amazon.de/gp/video/detail/B09JTSD79F
   dub: true
@@ -32832,8 +32752,8 @@
   available: false
   checkedAt: '2026-10-13'
   note: "Amazon-Seite B09M19FLBJ: nur 0 von 5 Folgen geladen — Rest ungeprüft, Abos: keine Angabe, gti=amzn1.dv.gti.cd1d5cbf-afea-4c0b-aa99-176cf2cb1f06, regionsperre=laut Seite nicht mehr im Abo"
-- anilistId: 1889
-  title: "Higurashi no Naku Koro ni Kai"
+- anilistId: 934
+  title: "Higurashi no Naku Koro ni"
   platform: primevideo
   url: https://www.amazon.de/gp/video/detail/B09JTSD79F
   dub: true
@@ -32871,8 +32791,8 @@
       checked: [1, 2, 3]
   checkedAt: '2026-10-13'
   note: "Folgen 1–3 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], fr|Französisch, es|Spanisch (Lateinamerika), pt-BR|Portugiesisch (Brasilien) — Gemessen in der Randprobe — gemessen: Folge 1 und 3, dazwischen nicht geprüft — Folge 3: Wir bewegen uns!"
-- anilistId: 1889
-  title: "Higurashi no Naku Koro ni Kai"
+- anilistId: 114446
+  title: "Higurashi: When They Cry Gou"
   platform: primevideo
   url: https://www.amazon.de/gp/video/detail/B0CBKJKYM4
   dub: true
@@ -33032,13 +32952,6 @@
       checked: [10, 11, 12]
   checkedAt: '2026-10-13'
   note: "Folgen 10–12 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], tr|Türkisch, nl|Niederländisch, it|Italienisch, fr|Französisch, da|Dänisch, fi|Finnisch, he|Hebräisch, hi|Hindi, id|Indonesisch, ko|Koreanisch, zh|Mandarin, nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), ta|Tamil, vi|Vietnamesisch — Gemessen in der Randprobe — gemessen: Folge 1 und 3, dazwischen nicht geprüft — Folge 3: Spielzone"
-- anilistId: 20913
-  title: "K: Return of Kings"
-  platform: primevideo
-  url: https://www.amazon.de/gp/video/detail/B0C8THGKXC
-  dub: true
-  checkedAt: '2026-10-13'
-  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B0C8TKFF2J: alle 13 Folgen geprüft, Abos: Prime, zugang=abo_und_kauf, gti=amzn1.dv.gti.8eb57c90-d231-e712-d91c-a5adfdee862f"
 - anilistId: 103638
   title: "Kabukicho Sherlock"
   platform: primevideo
@@ -33266,14 +33179,6 @@
   kanalMessung: ja
   checkedAt: '2026-10-13'
   note: "Tonspuren: Deutsch — Amazon-Seite B0B6TTP1TL: alle 13 Folgen geprüft, Abos: aniversede, crunchyrollde, zugang=abo, gti=amzn1.dv.gti.d423b351-e026-4fa2-9c1b-17073a02fedc — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-- anilistId: 20698
-  title: "My Teen Romantic Comedy SNAFU: TOO!"
-  platform: primevideo
-  url: https://www.amazon.de/gp/video/detail/B0B6TTP1TL
-  dub: true
-  kanalMessung: ja
-  checkedAt: '2026-10-13'
-  note: "Tonspuren: Deutsch — Amazon-Seite B0B5HR8NVX: alle 13 Folgen geprüft, Abos: aniversede, crunchyrollde, zugang=abo, gti=amzn1.dv.gti.a904e94f-dd0c-4af7-a0a5-73435ef4a4d9 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
 - anilistId: 12979
   title: "Naruto Spin off! Rock Lee & seine Ninja-Kumpels"
   platform: primevideo
@@ -34683,13 +34588,6 @@
       checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
   checkedAt: '2026-10-15'
   note: "Folgen 1–26 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original] — Gemessen in der Randprobe — gemessen: Folge 1 und 26, dazwischen nicht geprüft — Folge 26: Zickzacks Stinktierspray / Das Vida-der-Doc-Buch"
-- anilistId: 102351
-  title: "Tokyo Ghoul:re"
-  platform: primevideo
-  url: https://www.amazon.de/gp/video/detail/B0CW5WH6XZ
-  dub: true
-  checkedAt: '2026-10-15'
-  note: "Tonspuren: Deutsch — Amazon-Seite B0CW5WH6XZ: alle 12 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.a77f6e73-559f-48d2-a23f-ae7495f4af5f"
 - anilistId: 21518
   title: "Food Wars! The Second Plate"
   platform: primevideo
@@ -36834,26 +36732,10 @@
   dub: true
   checkedAt: '2026-10-16'
   note: "Tonspuren: Deutsch — Amazon-Seite B0FKFDLQDH: alle 26 Folgen geprüft, Abos: Prime, zugang=abo_und_kauf, gti=amzn1.dv.gti.bb2abd87-fa53-4268-9335-e3fc9cbf36db"
-- anilistId: 11307
-  title: "Es war einmal … der Weltraum"
+- anilistId: 10004749
+  title: "Es war einmal … der Mensch"
   platform: primevideo
-  url: https://www.amazon.de/gp/video/detail/B00IKSHXG8
-  dub: true
-  kanalMessung: ja
-  checkedAt: '2026-10-16'
-  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B00IKSHXG8: alle 26 Folgen geprüft, Abos: ardplusde, laut Adresse Staffel 5, zugang=abo_und_kauf, gti=amzn1.dv.gti.c2a9f6af-5937-52f1-6ed1-08648ae0af74 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-- anilistId: 11307
-  title: "Es war einmal … der Weltraum"
-  platform: primevideo
-  url: https://www.amazon.de/gp/video/detail/B00IKSJP6O
-  dub: true
-  kanalMessung: ja
-  checkedAt: '2026-10-16'
-  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B00IKSJP6O: alle 26 Folgen geprüft, Abos: ardplusde, laut Adresse Staffel 6, zugang=abo_und_kauf, gti=amzn1.dv.gti.54a9f6e0-b5a8-99e9-0830-8d8f65c68fc7 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-- anilistId: 11307
-  title: "Es war einmal … der Weltraum"
-  platform: primevideo
-  url: https://www.amazon.de/gp/video/detail/B088K17QGJ
+  url: https://www.amazon.de/gp/video/detail/B00ERN03GM
   dub: true
   checkedAt: '2026-10-16'
   note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B00ERN03GM: alle 26 Folgen geprüft, Abos: keine Angabe, laut Adresse Staffel 1, zugang=kauf, gti=amzn1.dv.gti.18a9f6b2-117e-64a2-db98-30ae08c86718"
@@ -36865,22 +36747,6 @@
   kanalMessung: ja
   checkedAt: '2026-10-16'
   note: "Tonspuren: Deutsch — Amazon-Seite B088K17QGJ: alle 26 Folgen geprüft, Abos: ardplusde, laut Adresse Staffel 2, zugang=abo_und_kauf, gti=amzn1.dv.gti.eea9f6cb-bb99-7a23-6942-697f1e25d979 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-- anilistId: 11307
-  title: "Es war einmal … der Weltraum"
-  platform: primevideo
-  url: https://www.amazon.de/gp/video/detail/B00RWFX9CW
-  dub: true
-  kanalMessung: ja
-  checkedAt: '2026-10-16'
-  note: "Tonspuren: Deutsch — Amazon-Seite B00RWFX9CW: alle 26 Folgen geprüft, Abos: ardplusde, laut Adresse Staffel 7, zugang=abo_und_kauf, gti=amzn1.dv.gti.0aa9f6e2-bb89-3767-aaaf-6abedbb3b0f1 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-- anilistId: 11307
-  title: "Es war einmal … der Weltraum"
-  platform: primevideo
-  url: https://www.amazon.de/gp/video/detail/B01L62OGCI
-  dub: true
-  kanalMessung: ja
-  checkedAt: '2026-10-16'
-  note: "Tonspuren: Deutsch — Amazon-Seite B01L62OGCI: alle 1 Folge geprüft, Abos: ardplusde, laut Adresse Staffel 8, zugang=abo_und_kauf, gti=amzn1.dv.gti.b8ab6978-0186-0572-bfd5-53a9a58123de — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
 - anilistId: 10021150
   title: "Der König der Könige"
   platform: primevideo
@@ -37057,14 +36923,6 @@
   kanalMessung: ja
   checkedAt: '2026-10-18'
   note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0B8PXXV17: alle 12 Folgen geprüft, Abos: aniversede, zugang=abo_und_kauf, gti=amzn1.dv.gti.ece21409-5c4b-46c2-83aa-199d75dbe098 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-- anilistId: 3712
-  title: "The Familiar of Zero 3: “Rondo” of Princesses"
-  platform: primevideo
-  url: https://www.amazon.de/gp/video/detail/B0CHDFY1LD
-  dub: true
-  kanalMessung: ja
-  checkedAt: '2026-10-18'
-  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0B8RQ86ZZ: alle 13 Folgen geprüft, Abos: aniversede, zugang=abo_und_kauf, gti=amzn1.dv.gti.edf210ec-8bbc-435f-8137-5b9d738084b5 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
 - anilistId: 1894
   title: "Yu-Gi-Oh! Der Film"
   platform: primevideo
@@ -37236,8 +37094,8 @@
   note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0H4LGN96W: alle 24 Folgen geprüft, Abos: animedigitalde, aniversede, zugang=abo, gti=amzn1.dv.gti.629ca9c8-3bfc-415f-888c-b5baa007b0aa — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
 # --- Aus dem Browser gemeldet, abgeholt am 2026-10-21 ---
 
-- anilistId: 1889
-  title: "Higurashi no Naku Koro ni Kai"
+- anilistId: 934
+  title: "Higurashi no Naku Koro ni"
   platform: primevideo
   url: https://www.amazon.de/gp/video/detail/B09JTSD79F
   dub: true
@@ -38401,14 +38259,6 @@
   kanalMessung: ja
   checkedAt: '2026-10-31'
   note: "Tonspuren: Deutsch, English, 日本語 — Amazon-Seite B0D329XJWM: alle 10 Folgen geprüft, Abos: maxde, zugang=abo_und_kauf, gti=amzn1.dv.gti.ecebe525-1e14-43e2-874a-ed61cc1a012d — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-- anilistId: 10012621
-  title: "Super Wings"
-  platform: primevideo
-  url: https://www.amazon.de/dp/B0DJ4FCM5H
-  dub: true
-  kanalMessung: ja
-  checkedAt: '2026-10-31'
-  note: "Tonspuren: Deutsch — Amazon-Seite B0DJ4FCM5H: alle 1 Folge geprüft, Abos: kixi, zugang=abo, gti=amzn1.dv.gti.173ef223-b562-4f1a-a361-f8a85f8ba18d — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
 # --- Aus dem Browser gemeldet, abgeholt am 2026-10-31 ---
 
 - anilistId: 114099
@@ -38455,7 +38305,6 @@
   dub: true
   checkedAt: '2026-10-31'
   note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B0D8YVX1WP: alle 1 Folge geprüft, Abos: keine Angabe — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 102, zugang=kauf, gti=amzn1.dv.gti.faccc02a-6c2d-4353-a973-c4b9ae22b894"
-
 # --- Aus dem Browser gemeldet, abgeholt am 2026-11-02 ---
 
 - anilistId: 113971
@@ -38465,7 +38314,6 @@
   dub: true
   checkedAt: '2026-11-02'
   note: "Film, Titelseite ohne Anmeldung (Linkprüfung): Audio Deutsch, Englisch, Spanisch (Spanien), Französisch, Italienisch, Japanisch — gilt für den Film, nicht je Folge"
-
 - anilistId: 179874
   title: "Mononoke the Movie: Chapter III - The Curse of the Serpent"
   platform: netflix
@@ -38473,7 +38321,6 @@
   dub: true
   checkedAt: '2026-11-02'
   note: "Film, Titelseite ohne Anmeldung (Linkprüfung): Audio Deutsch, Englisch, Französisch – Audiodeskription, Französisch, Italienisch, Japanisch – Audiodeskription, Japanisch, Türkisch — gilt für den Film, nicht je Folge"
-
 - anilistId: 211308
   title: "The Ribbon Hero"
   platform: netflix
@@ -38481,7 +38328,6 @@
   dub: true
   checkedAt: '2026-11-02'
   note: "Film, Titelseite ohne Anmeldung (Linkprüfung): Audio Deutsch, Englisch, Spanisch (Spanien), Spanisch (Lateinamerika) – Audiodeskription, Französisch, Italienisch, Japanisch – Audiodeskription, Japanisch — gilt für den Film, nicht je Folge"
-
 # --- Aus dem Browser gemeldet, abgeholt am 2026-11-03 ---
 
 - anilistId: 1292
@@ -38506,7 +38352,6 @@
       folgen: 6
   checkedAt: '2026-11-03'
   note: "Daniel, 03.11.2026: alle 6 Folgen bei Netflix geöffnet, deutscher Ton („3D Audio“), Jahr 2026. Folgenzahl 6 auch nach TMDB (JustWatch nannte 1). Cartoon aus TMDB (negative Kennung)."
-
 # --- Aus dem Browser gemeldet, abgeholt am 2026-11-03 ---
 
 - anilistId: -314271
@@ -38516,3 +38361,12 @@
   dub: true
   checkedAt: '2026-11-03'
   note: "Folgen 1–6 mit deutschem Ton — Tonspuren: en|Englisch [Original], de|Deutsch, uk|Ukrainisch, tr|Türkisch, ru|Russisch, fr|Französisch, hi|Hindi, it|Italienisch, ja|Japanisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch, cs|Tschechisch, hu|Ungarisch — Gemessen in der Randprobe — gemessen: Folge 1 und 6, dazwischen nicht geprüft — Folge 6: Wenn du ein Land willst, musst du dafür töten"
+# --- Aus dem Browser gemeldet, abgeholt am 2026-11-04 ---
+
+- anilistId: 102351
+  title: "Tokyo Ghoul:re"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0D7N68Q5T
+  dub: true
+  checkedAt: '2026-10-13'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0D7N68Q5T: alle 12 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.834ee1bc-c7bc-4b4c-839c-ee8826498aed"

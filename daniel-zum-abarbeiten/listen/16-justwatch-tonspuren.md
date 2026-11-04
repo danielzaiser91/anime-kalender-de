@@ -7,7 +7,7 @@ einzelnen Folge — bei „Kill Blue" meldet JustWatch `de` für alle zwölf, be
 sind acht. Und ein fehlendes `de` belegt nichts: Netflix meldet dort gar keine
 Tonspur. Was hier steht, sagt, **wo sich das Nachsehen lohnt**.
 
-31 offene Verweise, zu denen JustWatch eine Tonspur nennt.
+33 offene Verweise, zu denen JustWatch eine Tonspur nennt.
 
 | Titel | Anbieter | JustWatch sagt | Tonspuren | Quelle |
 |---|---|---|---|---|
@@ -18,6 +18,7 @@ Tonspur. Was hier steht, sagt, **wo sich das Nachsehen lohnt**.
 | [Arpeggio of Blue Steel: Ars Nova - Cadenza](https://anime-kalender.de/#/datenbank?t=20764) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Film/Arpeggio-of-Blue-Steel-Ars-Nova-Cadenza) |
 | [Steins;Gate 0](https://anime-kalender.de/#/datenbank?t=21127) | crunchyroll | 🇩🇪 **Deutsch dabei** | `de, en, es, ja, pt` | [JustWatch](https://www.justwatch.com/de/Serie/Steins-Gate-0) |
 | [Konosuba: God’s Blessing on This Wonderful World!](https://anime-kalender.de/#/datenbank?t=21202) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/KonoSuba-Gods-blessing-on-this-wonderful-world) |
+| [Black Butler: Book of the Atlantic](https://anime-kalender.de/#/datenbank?t=21425) | crunchyroll | kein Deutsch | `en, ja` | [JustWatch](https://www.justwatch.com/de/Film/Black-Butler-Book-of-the-Atlantic) |
 | [Grimgar, Ashes and Illusions](https://anime-kalender.de/#/datenbank?t=21428) | crunchyroll | 🇩🇪 **Deutsch dabei** | `de, en, ja` | [JustWatch](https://www.justwatch.com/de/Serie/Grimgar-Ashes-and-Illusions) |
 | [KonoSuba: God’s Blessing on This Wonderful World! 2](https://anime-kalender.de/#/datenbank?t=21699) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/KonoSuba-Gods-blessing-on-this-wonderful-world) |
 | [Sylvanian Families](https://anime-kalender.de/#/datenbank?t=187052) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/Sylvanian-Families) |
@@ -26,6 +27,7 @@ Tonspur. Was hier steht, sagt, **wo sich das Nachsehen lohnt**.
 | [Jujutsu Kaisen 0](https://anime-kalender.de/#/datenbank?t=131573) | crunchyroll | 🇩🇪 **Deutsch dabei** | `de, en, es, fr, it, ja, pl, pt, ru, th` | [JustWatch](https://www.justwatch.com/de/Film/jujutsu-kaisen-0) |
 | [undefined](https://anime-kalender.de/#/datenbank?t=-204084) | crunchyroll | kein Deutsch | `en, fr` | [JustWatch](https://www.justwatch.com/de/Serie/dreamland-2026) |
 | [undefined](https://anime-kalender.de/#/datenbank?t=-99777) | crunchyroll | 🇩🇪 **Deutsch dabei** | `de, en, es, fr, pt, ru` | [JustWatch](https://www.justwatch.com/de/Serie/Onyx-Equinox) |
+| [undefined](https://anime-kalender.de/#/datenbank?t=-89095) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/Polly-Pocket) |
 | [Bobby und Bill](https://anime-kalender.de/#/datenbank?t=-72376) | primevideo | 🇩🇪 **Deutsch dabei** | `de, en` | [JustWatch](https://www.justwatch.com/de/Serie/Bobby-und-Bill) |
 | [Bobby und Bill](https://anime-kalender.de/#/datenbank?t=-72376) | primevideo | 🇩🇪 **Deutsch dabei** | `de, en` | [JustWatch](https://www.justwatch.com/de/Serie/Bobby-und-Bill) |
 | [My Little Pony - Freundschaft ist Magie](https://anime-kalender.de/#/datenbank?t=-33765) | primevideo | 🇩🇪 **Deutsch dabei** | `de, en` | [JustWatch](https://www.justwatch.com/de/Serie/My-Little-Pony-Friendship-Is-Magic) |
@@ -45,13 +47,14 @@ Tonspur. Was hier steht, sagt, **wo sich das Nachsehen lohnt**.
 
 ## Titel ganz ohne Bezugsweg
 
-292 Titel im Hauptbestand haben keinen einzigen Weg — hier nennt JustWatch einen.
+294 Titel im Hauptbestand haben keinen einzigen Weg — hier nennt JustWatch einen.
 Ein Titel im Hauptbestand hat per Definition eine belegte deutsche Synchro; das 🇩🇪 sagt,
 dass JustWatch für dieses Angebot auch eine deutsche Tonspur kennt.
 
 | Titel | Angebote laut JustWatch |
 |---|---|
 | [Drei kleine Geister](https://anime-kalender.de/#/datenbank?t=310) | [Amazon Prime Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.4ab84d22-8eb7-4a0e-8cc1-9e2146a69910) 🇩🇪, [Amazon Prime Video with Ads](https://watch.amazon.de/detail?gti=amzn1.dv.gti.4ab84d22-8eb7-4a0e-8cc1-9e2146a69910) 🇩🇪, [Amazon Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.0b279223-d147-465f-9182-6d3ceb7537dd) |
+| [PERSONA 3 THE MOVIE: #4 Winter of Rebirth](https://anime-kalender.de/#/datenbank?t=21248) | [Amazon DVD / Blu-ray](https://www.amazon.de/dp/B01CJWM5SG?tag=movie0c6-21&linkCode=osi&th=1&psc=1) |
 | [Kuroko’s Basketball - Winter Cup Highlights Movie 1 Shadow and Light](https://anime-kalender.de/#/datenbank?t=102093) | [Amazon Prime Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.9095f403-0aba-4d18-aea4-36284e16fb0c) 🇩🇪, [Amazon Prime Video with Ads](https://watch.amazon.de/detail?gti=amzn1.dv.gti.9095f403-0aba-4d18-aea4-36284e16fb0c) 🇩🇪, [Aniverse Amazon Channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.9095f403-0aba-4d18-aea4-36284e16fb0c) 🇩🇪, [Amazon Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.9095f403-0aba-4d18-aea4-36284e16fb0c) 🇩🇪 |
 | [Petals of Reincarnation](https://anime-kalender.de/#/datenbank?t=179950) | [Aniverse Amazon Channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.b89b927e-502e-4990-97b3-5a0a40e4a24b) |
 | [Dusk Beyond the End of the World](https://anime-kalender.de/#/datenbank?t=195153) | [Aniverse Amazon Channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.13bde570-6de4-421c-8495-4979bd84ff87), [Animation Digital Network](https://animationdigitalnetwork.com/de/video/1334-dusk-beyond-the-end-of-the-world/30005-folge-1), [Anime Digital Network Amazon Channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.13bde570-6de4-421c-8495-4979bd84ff87), [Amazon Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.32466d79-d505-4816-9cfe-41adaff4075e) |
@@ -150,6 +153,7 @@ dass JustWatch für dieses Angebot auch eine deutsche Tonspur kennt.
 | [undefined](https://anime-kalender.de/#/datenbank?t=-126506) | [HBO Max](https://www.hbomax.com/de/en/show/b692705b-2f12-4a3d-ab4d-579124e0667c/s1/e1-desmonds-big-day-out/3de5eefb-8054-4906-8ed8-75cd940c48ca), [HBO Max Amazon Channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.3d3eeef5-cfd9-407e-8170-f3f3485ce897) 🇩🇪 |
 | [undefined](https://anime-kalender.de/#/datenbank?t=-120964) | [Amazon Prime Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.d6baec2d-d9eb-b71e-a5da-194cd8bf1e4f), [Amazon Prime Video with Ads](https://watch.amazon.de/detail?gti=amzn1.dv.gti.d6baec2d-d9eb-b71e-a5da-194cd8bf1e4f), [Amazon Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.d6baec2d-d9eb-b71e-a5da-194cd8bf1e4f) |
 | [undefined](https://anime-kalender.de/#/datenbank?t=-112148) | [Apple TV](https://tv.apple.com/de/episode/jede-menge-bots--bot-hilft-freiwillig/umc.cmc.hmcesm5hueb9tw5jwfhv3q7o?at=1000l3V2&ct=app_tvplus&itscg=30200&itsct=justwatch_tv&playableId=tvs.sbd.4000%3AVDOUG0560101&showId=umc.cmc.3oxevpgaoqomu820s0e70ri75) 🇩🇪, [Apple TV Amazon Channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.89ce4f06-9326-4b53-b5c2-07ae30cc890a) 🇩🇪 |
+| [Die Abenteuer des Captain Underpants im All](https://anime-kalender.de/#/datenbank?t=-105398) | [Amazon Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.2ab59971-1497-f7f4-d611-8b61e8a599d3) |
 | [undefined](https://anime-kalender.de/#/datenbank?t=-105313) | [Amazon Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.40bbe5d4-3b25-59c9-a65f-8c3c72016349) |
 | [undefined](https://anime-kalender.de/#/datenbank?t=-104127) | [Apple TV Store](https://tv.apple.com/de/show/crossing-swords/umc.cmc.28xc3d48exzn1bpiqswoq4240?at=1000l3V2&ct=app_tv&itscg=30200&itsct=justwatch_tv), [Amazon Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.97fbc98f-3b47-4726-a4ff-8c8ce300477d) 🇩🇪 |
 | [undefined](https://anime-kalender.de/#/datenbank?t=-102321) | [HBO Max](https://www.hbomax.com/de/en/show/e90f1b95-4825-4f3d-bbe2-4cbc82dc7229/s3/e1-sam-mericaput-the-cat-out-door-spinbbq-bandit/180ca823-e701-4ef8-8703-b0165cbd61ce), [HBO Max Amazon Channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.66c177a7-b398-48fe-9782-df27ba78e85c) 🇩🇪 |

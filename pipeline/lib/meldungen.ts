@@ -34,6 +34,7 @@ import type { SammelEintrag } from './sammelartikel.ts'
 import { folgenzahlUeberWerk } from './pruefung.ts'
 import { spracheDerMeldung, type Sprachbefund } from './sprachbefund.ts'
 import { frischAngekuendigt } from '../bau/ohne-beleg.ts'
+import { istSammelMeldung, ohneSammelName, sammelTitel } from './sammel-titel.ts'
 
 /** Ein Fund, wie ihn `scrape-anime2you.ts` ablegt. */
 export interface Vorschlag {
@@ -470,6 +471,14 @@ function sammelTagIstNurStart(v: Vorschlag, treffer: Title, heute: string, abged
   return true
 }
 
+/** Der gemeinte Titel: die gesetzte Kennung, sonst ein genauer Name; eine Sammelzeile darf zusätzlich über Synonym oder eindeutigen Namensanfang. */
+function basisDerMeldung(v: Vorschlag, titel: Title[], synonyme: Map<number, string[]>): Title | undefined {
+  if (v.titleId) return titel.find((t) => t.id === v.titleId)
+  const gefunden = findeTitel(v.articleTitle, titel)
+  if (gefunden?.genau) return gefunden.titel
+  return istSammelMeldung(v) ? sammelTitel(v.articleTitle, titel, synonyme) : undefined
+}
+
 export function releasesAus(
   vorschlaege: Vorschlag[],
   titel: Title[],
@@ -478,6 +487,8 @@ export function releasesAus(
   verworfen?: string[],
   /** Meldungen, die schon ein Termin belegt: kein neuer Termin, aber nicht „nicht zugeordnet“. */
   abgedeckt?: Vorschlag[],
+  /** Weitere Namen je Titel (aniSearch-Synonyme): nur Sammelzeilen suchen auch dort (`lib/sammel-titel.ts`). */
+  synonyme: Map<number, string[]> = new Map(),
 ): Release[] {
   const belegt = belegteTermine(vorhanden)
   const out: Release[] = []
@@ -500,14 +511,11 @@ export function releasesAus(
      * Überschrift sagt nicht, welche der vier Staffeln gemeint ist; als Meldung
      * ist das in Ordnung, als Kalendereintrag wäre es eine Falschangabe.
      */
-    const basis = v.titleId
-      ? titel.find((t) => t.id === v.titleId)
-      : findeTitel(v.articleTitle, titel)?.genau
-        ? findeTitel(v.articleTitle, titel)?.titel
-        : undefined
+    const basis = basisDerMeldung(v, titel, synonyme)
     if (!basis) continue
 
-    const treffer = reihenTeil(basis, titel, v.articleTitle) ?? vermerkeTeilHinweis(v.articleTitle, verworfen)
+    const teilText = istSammelMeldung(v) ? ohneSammelName(v.articleTitle) : v.articleTitle
+    const treffer = reihenTeil(basis, titel, teilText) ?? vermerkeTeilHinweis(teilText, verworfen)
     if (!treffer || sammelTagIstNurStart(v, treffer, heute, abgedeckt)) continue
 
     const platform = anbieterDerMeldung(v)

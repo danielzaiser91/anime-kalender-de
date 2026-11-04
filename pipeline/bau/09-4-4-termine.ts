@@ -28,6 +28,7 @@ export function legeCrVerweiseUndTermineAn({ titles, anisearch, belegt, crDub, v
     legeCrWegeAusKatalogAn({
       titles,
       anisearch,
+      crDub,
       handNein: neinHandbelege(loadDubChecks()),
     })
     log(`${belegt} Synchro-Angaben aus den Crunchyroll-Serienseiten belegt (${crDub.serien.length} Seiten gelesen)`)
@@ -141,43 +142,7 @@ export function legeCrVerweiseUndTermineAn({ titles, anisearch, belegt, crDub, v
       })
       termineNeu++
     }
-    /*
-      **Was die Ableitung verworfen hat, wird sichtbar**: Riegel, die
-      eine Serie stumm durchfallen lassen, kosten Termine, die niemand vermisst — „Das Band
-      der Unterwelt" fehlte ein halbes Jahr. Die Gründe stehen ab jetzt in einer Datei, die
-      Zahl im Lauf (Skill `stille-ausfaelle-verhindern`).
-    */
-    if (termineAusgelassen.length) {
-      const jeGrund = new Map<string, number>()
-      for (const a of termineAusgelassen) jeGrund.set(a.grund, (jeGrund.get(a.grund) ?? 0) + 1)
-      const vorher = readJson<{ jeGrund?: Record<string, number> }>('data/termine-ausgelassen.json', {})
-      writeJsonStand('data/termine-ausgelassen.json', {
-        erzeugtAm: new Date().toISOString(),
-        jeGrund: Object.fromEntries(jeGrund),
-        faelle: termineAusgelassen.slice(0, 400),
-      }, 'erzeugtAm')
-      /*
-        **Ein Zuwachs geht in den Posteingang**: eine Datei, die niemand
-        öffnet, ist keine Meldung. `~/.claude/hooks/posteingang.js` liest
-        `data/meldungen-an-claude.jsonl` und nennt neue Zeilen beim nächsten Prompt.
-      */
-      const gestiegen = [...jeGrund].filter(([g, n]) => n > (vorher.jeGrund?.[g] ?? 0))
-      if (gestiegen.length && Object.keys(vorher.jeGrund ?? {}).length) {
-        meldeAnClaude(
-          'bestand-bauen',
-          'warnung',
-          `Terminableitung verwirft mehr: ${gestiegen
-            .map(([g, n]) => `${g} ${vorher.jeGrund?.[g] ?? 0} → ${n}`)
-            .join(', ')}`,
-          'data/termine-ausgelassen.json',
-        )
-      }
-      log(
-        `Terminableitung übersprungen: ${termineAusgelassen.length} Serien — ` +
-          [...jeGrund].map(([g, n]) => `${n}× ${g}`).join(', ') +
-          ' (data/termine-ausgelassen.json)',
-      )
-    }
+    meldeAusgelasseneTermine()
     if (termineNeu || termineSchonDa)
       log(
         `${termineNeu} deutsche Streaming-Termine aus den Crunchyroll-Folgendaten abgeleitet` +
@@ -201,4 +166,45 @@ export function legeCrVerweiseUndTermineAn({ titles, anisearch, belegt, crDub, v
       folgenDatiert += neu.length
     }
     if (folgenDatiert) log(`${folgenDatiert} Crunchyroll-Folgen mit ihrem deutschen Tag nachgetragen (vorher geschätzt)`)
+}
+
+/** Schreibt die verworfenen Serien der Terminableitung in die Datei und meldet einen Zuwachs. */
+function meldeAusgelasseneTermine() {
+  /*
+    **Was die Ableitung verworfen hat, wird sichtbar**: Riegel, die
+    eine Serie stumm durchfallen lassen, kosten Termine, die niemand vermisst — „Das Band
+    der Unterwelt" fehlte ein halbes Jahr. Die Gründe stehen ab jetzt in einer Datei, die
+    Zahl im Lauf (Skill `stille-ausfaelle-verhindern`).
+  */
+  if (termineAusgelassen.length) {
+    const jeGrund = new Map<string, number>()
+    for (const a of termineAusgelassen) jeGrund.set(a.grund, (jeGrund.get(a.grund) ?? 0) + 1)
+    const vorher = readJson<{ jeGrund?: Record<string, number> }>('data/termine-ausgelassen.json', {})
+    writeJsonStand('data/termine-ausgelassen.json', {
+      erzeugtAm: new Date().toISOString(),
+      jeGrund: Object.fromEntries(jeGrund),
+      faelle: termineAusgelassen.slice(0, 400),
+    }, 'erzeugtAm')
+    /*
+      **Ein Zuwachs geht in den Posteingang**: eine Datei, die niemand
+      öffnet, ist keine Meldung. `~/.claude/hooks/posteingang.js` liest
+      `data/meldungen-an-claude.jsonl` und nennt neue Zeilen beim nächsten Prompt.
+    */
+    const gestiegen = [...jeGrund].filter(([g, n]) => n > (vorher.jeGrund?.[g] ?? 0))
+    if (gestiegen.length && Object.keys(vorher.jeGrund ?? {}).length) {
+      meldeAnClaude(
+        'bestand-bauen',
+        'warnung',
+        `Terminableitung verwirft mehr: ${gestiegen
+          .map(([g, n]) => `${g} ${vorher.jeGrund?.[g] ?? 0} → ${n}`)
+          .join(', ')}`,
+        'data/termine-ausgelassen.json',
+      )
+    }
+    log(
+      `Terminableitung übersprungen: ${termineAusgelassen.length} Serien — ` +
+        [...jeGrund].map(([g, n]) => `${n}× ${g}`).join(', ') +
+        ' (data/termine-ausgelassen.json)',
+    )
+  }
 }
