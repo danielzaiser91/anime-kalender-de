@@ -92,6 +92,11 @@ const kopfUndZwei = [...kopf, beleg(97986, detail('B0FHW8DNTG')), beleg(114745, 
 pruefe('zwei echte Belege bleiben Doppelung, auch mit „kein Weg“-Belegen daneben', bilanz(kopfUndZwei, zuordnung, stand([])).fehl.join() === FREI)
 const mitJa = [{ ...beleg(97986, detail('B0FHW8DNTG')), available: true }, beleg(114745, detail('B0FHW8DNTG'))]
 pruefe('available: true zählt wie ein Beleg ohne Angabe', bilanz(mitJa, zuordnung, stand([])).fehl.join() === FREI)
+pruefe('Teilseite: Anteil 0 ist ungültig, auch wenn die Summe passt', bilanz(sammel, zuordnung, mitAnteilen([0, 4], 4), FOLGEN).fehl.join() === FREI)
+pruefe('Teilseite: negativer Anteil ist ungültig, auch wenn die Summe passt', bilanz(sammel, zuordnung, mitAnteilen([5, -1], 4), FOLGEN).fehl.join() === FREI)
+const mitDrittem = [...sammel, { ...beleg(555, detail('B0FHW8DNTG')), available: false }]
+const tg = bilanz(mitDrittem, zuordnung, mitAnteilen([9, 4]), FOLGEN)
+pruefe('erlaubte Teilseite bleibt gültig, wenn ein dritter Titel nur einen „kein Weg“-Beleg hat', tg.fehl.length === 0 && tg.veraltet.length === 0, tg)
 
 console.log('\nBestandswächter als Prozess:')
 const skript = fileURLToPath(new URL('./check-gleiche-adresse-bestand.ts', import.meta.url))

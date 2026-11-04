@@ -1,7 +1,9 @@
 {
   "stand": "2026-11-04",
-  "hoechstens": 0,
-  "adressen": [],
+  "hoechstens": 1,
+  "adressen": [
+    "amazon:b0fx4q35v2"
+  ],
   "erlaubt": [
     {
       "adresse": "amazon:b0b5jvjkcd",

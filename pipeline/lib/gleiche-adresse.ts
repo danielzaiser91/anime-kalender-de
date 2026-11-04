@@ -96,7 +96,7 @@ function erlaubtGilt(e: ErlaubteSeite, belegt: Set<number> | undefined, folgen: 
   if (!belegt || belegt.size !== e.titel.length || !e.titel.every((i) => belegt.has(i))) return false
   if (e.titel.some((i) => folgen[i] === undefined)) return false
   if (!e.anteile) return e.titel.reduce((summe, i) => summe + folgen[i]!, 0) === e.folgen
-  if (e.anteile.length !== e.titel.length || e.titel.some((i, n) => e.anteile![n]! > folgen[i]!)) return false
+  if (e.anteile.length !== e.titel.length || e.titel.some((i, n) => e.anteile![n]! <= 0 || e.anteile![n]! > folgen[i]!)) return false
   return e.anteile.reduce((summe, n) => summe + n, 0) === e.folgen
 }
 

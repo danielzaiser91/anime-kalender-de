@@ -1,6 +1,6 @@
-# Dieselbe Amazon-Seite an zwei Titeln: 0 offene Fälle (Stand 04.11.2026)
+# Dieselbe Amazon-Seite an zwei Titeln: 1 offener Fall (Stand 04.11.2026)
 
-Wächter: `pipeline/check-gleiche-adresse-bestand.ts`, Grenze `data/gleiche-adresse-stand.json` (höchstens 0, vorher 9 in PR 2760, 8 vor diesem PR). Belegt aus der Meldungskopie (`prime_folge`, Rohzeilen je Seite vom 03.11.2026), `public/data/titles.json`, `public/data/folgen/` und AniList.
+Wächter: `pipeline/check-gleiche-adresse-bestand.ts`, Grenze `data/gleiche-adresse-stand.json` (höchstens 1, vorher 9 in PR 2760, 8 vor diesem PR). Belegt aus der Meldungskopie (`prime_folge`, Rohzeilen je Seite vom 03.11.2026), `public/data/titles.json`, `public/data/folgen/` und AniList.
 
 | Seite | Entscheidung | Beleg |
 |---|---|---|
@@ -11,8 +11,8 @@ Wächter: `pipeline/check-gleiche-adresse-bestand.ts`, Grenze `data/gleiche-adre
 | B0D7N68Q5T | Beleg bleibt bei :re 2 (102351), 100240 entfernt | `prime_folge` Seite B0D7N68Q5T „Staffel 4“: „Und noch einmal – Place“ = `folgen/102351.json` |
 | B0CVG5M4FP | Beide Belege (Pokémon 527, Sonne & Mond 97634) entfernt | Die 13 Folgentitel „Pikachu in Not!“ bis „Pokémon-Eleganz“ stehen in `folgen/1564.json` = Advanced Generation |
 | B0DJ4FCM5H | Beleg bleibt bei Prinz Ribbit (10011569), Super Wings (10012621) entfernt | Eine Folge „Prinz Ribbit“, 5325 s (89 min), 2020 = Film, keine Serienfolge; `youtube-kauf.json` kennt den Film unter diesem Namen |
-| B0FX4Q35V2 | Beleg bleibt bei Shinsei-ban (10019697), 130622 entfernt | Folge „The Birth of Kitaro: Das Geheimnis von GeGeGe“, erschienen 18.11.2025 = polyband-Ausgabe, die am Titel 10019697 steht (`deErstausgabe`); 130622 ist laut `datensatz.md` die zweite Fassung desselben Films |
+| B0FX4Q35V2 | **offen**, Belege an 130622 (Original 2023, 104 min) und 10019697 (Shinsei-ban 2024) bleiben | Seite: eine Folge „The Birth of Kitaro: Das Geheimnis von GeGeGe“, 18.11.2025, 6324 s (105 min), Deutsch+Japanisch; `folgen-zuordnung.json` hängt die Episode an 130622; `datensatz.md` führt beide Fassungen als „unsicher“. Welche Fassung polyband veröffentlicht hat, ist ohne aniSearch-Seite nicht belegt |
 
 ## Seitenabruf nötig
 
-Keiner. Zwei Annahmen, die ein Abruf bestätigen würde, aber nicht blockieren: B0DJ4FCM5H (ob Super Wings eine eigene Folge auf der Seite hat; die Rohzeilen nennen nur den Film) und B0FX4Q35V2 (ob die deutsche Ausgabe die Fassung 2023 oder die Shinsei-ban ist; die Dublette bleibt als Titel bestehen).
+B0FX4Q35V2: Welche Fassung die deutsche Ausgabe ist (Laufzeit der Shinsei-ban gegen 105 min der Seite; Seite oder Quelle zur polyband-Ausgabe). Nicht blockierend: B0DJ4FCM5H (ob zur Super-Wings-Seite weitere Folgen gehören; die Rohzeilen nennen nur den Film).
