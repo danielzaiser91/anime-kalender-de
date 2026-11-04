@@ -16,6 +16,20 @@ function hatNullBlock(serie: CrSerie): boolean {
   return (serie.staffeln ?? []).some((s) => s.folgen > 0 && s.deutsch === 0)
 }
 
+/**
+ * Blockketten legen nur die deutschen Blöcke der Reihe nach auf unsere Einträge; ein Block ohne deutsche Folge vor einem deutschen
+ * bleibt dabei unbesetzt, und die Summen können zufällig aufgehen (04.11.2026, Persona 5: „Day Breakers“ 1/0 vor den OVAs 2/2 gab
+ * Stars and Ours und Dark Sun das Ja der OVAs). Dann trägt die Kette kein Ja; ein Null-Block hinter dem letzten deutschen stört nicht.
+ */
+export function beurteileBlockkettenOhneLuecke(serie: CrSerie, unsere: Title[]): ReturnType<typeof beurteileBlockketten> {
+  let ohneDeutsch = false
+  for (const s of serie.staffeln ?? []) {
+    if (!s.deutscheFolgen?.length) ohneDeutsch ||= s.folgen > 0
+    else if (ohneDeutsch) return []
+  }
+  return beurteileBlockketten(serie, unsere)
+}
+
 /** Schlüssel eines Blocks über alle Einträge: dieselbe Staffel einer Kennung trägt in jedem Eintrag dieselbe `staffelId`. */
 export function blockSchluessel(seriesId: string | undefined, staffelId: string | undefined): string | undefined {
   return seriesId && staffelId ? `${seriesId}|${staffelId}` : undefined
@@ -73,7 +87,7 @@ function durchBlockUrteil(serien: CrSerie[], nachUrl: Map<string, Title[]>): Set
     const alle = [...titel.values()]
     merke(beurteileNachFolgennummern(serie, alle))
     merke(beurteileJeBlock(serie, alle.filter((t) => !beurteilt.has(t.id))))
-    merke(beurteileBlockketten(serie, alle))
+    merke(beurteileBlockkettenOhneLuecke(serie, alle))
     merke(beurteileTeilblock(serie, alle))
   }
   for (const serie of serien) {
