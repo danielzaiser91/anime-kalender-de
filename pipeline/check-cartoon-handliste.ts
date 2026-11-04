@@ -133,7 +133,7 @@ try {
   pruefe('keine ADN-Kennung doppelt', new Set(echt.map((e) => e.adn)).size === echt.length)
 
   console.log('\nFeste TMDB-Kennungen der ADN-Serien ohne aniSearch-Eintrag')
-  const festeSoll: [number, string, number][] = [[734, 'Tintin', 1570], [1144, 'Billy & Buddy', 69906], [1265, 'Billy & Buddy 3D', 72376], [1278, 'Yakari', 61071]]
+  const festeSoll: [number, string, number][] = [[734, 'Tintin', 1570], [1144, 'Billy & Buddy', 69906], [1265, 'Billy & Buddy 3D', 72376], [1278, 'Yakari', 61071], [778, 'Spirou und Fantasio', 37793]]
   for (const [adn, name, tmdb] of festeSoll) pruefe(`${name}: Handliste trägt TMDB ${tmdb}`, echt.find((e) => e.adn === adn)?.tmdb === tmdb)
   // Die Suche liefert zu jedem Namen einen Animations-Treffer mit gleichem Namen, aber fremder Kennung: die feste Kennung muss trotzdem gelten.
   const gesuchtFest: string[] = []

@@ -124,7 +124,10 @@ function baueUmgebung(pfad, suche = '') {
     },
     querySelectorAll() { return [] },
     getElementById() { return null },
+    contains: (k) => body.contains(k),
   }
+  /* Eigene Wurzeln hängen an <html> (akWurzelAnhaengen); die Sucher des Tests lesen den body. */
+  doc.documentElement.appendChild = (k) => body.appendChild(k)
   const speicher = {}
   const chrome = {
     storage: {
@@ -213,8 +216,10 @@ function lade(pfad, liste, suchteil = '') {
   vm.runInContext(readFileSync(__dirname + '/box.js', 'utf8'), kontext)
   vm.runInContext(readFileSync(__dirname + '/offene-netflix.js', 'utf8'), kontext)
   vm.runInContext(readFileSync(__dirname + '/netflix-zurueckgestellt.js', 'utf8'), kontext)
+  vm.runInContext(readFileSync(__dirname + '/netflix-erinnern.js', 'utf8'), kontext)
   vm.runInContext(readFileSync(__dirname + '/netflix-staffel.js', 'utf8'), kontext)
   vm.runInContext(readFileSync(__dirname + '/netflix-uebernahme.js', 'utf8'), kontext)
+  vm.runInContext(readFileSync(__dirname + '/netflix-seitentreue.js', 'utf8'), kontext)
   if (liste) umgebung.AK_OFFENE_TITEL = liste
   let fehler = null
   try {

@@ -16,13 +16,11 @@
 #
 # `QUELLEN_PRUEFBEFEHL` und `QUELLEN_PRUEFFRIST` sind Schalter für den Test; kein Workflow setzt sie (`tools/sammler-pruefschritt-waechter.test.mjs`).
 
-# Fristen (17.10.2026): check:logic braucht in der CI unter einer Minute (lokal unter Windows knapp 3). Fund und Vergleich auf `main` zusammen samt dem
+# Fristen (03.11.2026): check:logic braucht in der CI rund 6,5 bis 7 Minuten (am 17.10.2026 unter einer; gemessen 6 min 43 s Wandzeit im Lauf 41595064044);
+# die Dauer je Prüfung steht seitdem im CI-Log (Job „Kette – Logik“) als Zeilen „check:logic Dauer:“. 600 s lassen rund 3 Minuten Luft; ab 9 Minuten Wandzeit neu rechnen. Fund und Vergleich auf `main` zusammen samt dem
 # übrigen Job passen in den kleinsten Job-Timeout eines Einreichers; das rechnet der Wächter aus den Workflows nach (`pruefeFristen` in `tools/sammler-pruefschritt-waechter.mjs`).
-# Gemessen im Wochenlauf vom 03.11.2026 (497 Prüfungen, Einreicher mit 403 geänderten Dateien): TMDB brauchte 409 s, AniList riss die alte Frist von 420 s bei 488/497,
-# die Basis (alte Frist 240 s) kam in 4 min nur bis 269/497. Die Kette braucht für dieselbe Prüfung rund 270 s. Die Summe 780 s ist die Grenze des kleinsten Einreichers
-# (fund-nachliefern, 20 min minus 420 s Rest).
-QUELLEN_PRUEFFRIST_STANDARD=480
-QUELLEN_BASISFRIST_STANDARD=300
+QUELLEN_PRUEFFRIST_STANDARD=600
+QUELLEN_BASISFRIST_STANDARD=240
 
 quellen_pruefen() {
   local protokoll status=0

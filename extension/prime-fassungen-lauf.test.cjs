@@ -45,7 +45,7 @@ async function lauf({ hydration, pfad = SELBST, seite = {}, erwartungen = {}, er
     },
   })
   const dokument = {
-    documentElement: { innerHTML: '<html></html>', classList: { add() {}, remove() {}, toggle() {}, contains: () => false } },
+    documentElement: { innerHTML: '<html></html>', classList: { add() {}, remove() {}, toggle() {}, contains: () => false }, appendChild(e) { angehaengt.push(e); return e } },
     body: { ...element(), appendChild(e) { angehaengt.push(e); return e } },
     title: 'Amazon.de',
     createElement: () => element(),

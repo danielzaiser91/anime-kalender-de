@@ -7,7 +7,9 @@ import {
   GUELTIG_MS,
   NACHLAUF_MS,
   SCHLUESSEL,
+  darfWiederherstellen,
   lesestelleFuehrt,
+  merkeBeimVerbergen,
   lesestelleOffenFuer,
   merkeLesestelle,
   nimmLesestelle,
@@ -240,6 +242,43 @@ for (const art of ['wheel', 'touchstart', 'keydown', 'mousedown']) {
   starteWiederherstellung(k.u, ORT, k.frist)
   pruefe('kreislauf: gemerkt (Abstand 74) → nach dem Neuladen im selben Abstand', k.scrolls.length === 1 && k.scrolls[0].top === 900 + 0 - KOPF - 74, k.scrolls)
   k.laufe(NACHLAUF_MS)
+}
+
+{
+  // Browser lädt neu, ohne dass App-Code lief: die Lesestelle muss schon beim Verbergen im Speicher stehen
+  const s = speicher()
+  const ereignisse = new Map<string, () => void>()
+  const winE = { addEventListener: (a: string, f: () => void) => void ereignisse.set('win:' + a, f) } as unknown as Window
+  const d = dok([{ datum: '2026-10-28', top: 130, bottom: 700 }]) as unknown as { hidden: boolean; addEventListener: (a: string, f: () => void) => void }
+  d.addEventListener = (a, f) => void ereignisse.set('doc:' + a, f)
+  d.hidden = false
+  const g = globalThis as unknown as { location: { pathname: string; hash: string } }
+  g.location = { pathname: '/', hash: '#/' }
+  merkeBeimVerbergen(d as unknown as Document, winE, s, () => 7000)
+  ereignisse.get('doc:visibilitychange')?.()
+  pruefe('verbergen: sichtbar → nichts gemerkt', s.m.get(SCHLUESSEL) === undefined)
+  d.hidden = true
+  ereignisse.get('doc:visibilitychange')?.()
+  const l = JSON.parse(s.m.get(SCHLUESSEL) ?? 'null') as Lesestelle | null
+  pruefe('verbergen: hidden merkt Tag, Abstand, Ort und Zeit', l?.datum === '2026-10-28' && l.abstand === 74 && l.ort === ORT && l.zeit === 7000, l)
+  s.m.delete(SCHLUESSEL)
+  ereignisse.get('win:pagehide')?.()
+  pruefe('verbergen: pagehide merkt ebenfalls', s.m.has(SCHLUESSEL))
+  const k = umgebung([{ datum: '2026-10-28', top: 900, bottom: 1400 }], s)
+  k.u.jetzt = () => 7000 + 11 * 3_600_000
+  starteWiederherstellung(k.u, ORT, k.frist)
+  pruefe('verbergen: nach 11 h und Neuladen wird zurückgesetzt', k.scrolls.length === 1 && k.scrolls[0].top === 770, k.scrolls)
+}
+{
+  const s = speicher()
+  s.m.set(SCHLUESSEL, JSON.stringify(stelle({ zeit: 1000 })))
+  pruefe('gültig: 11 h alt gilt', nimmLesestelle(s, ORT, 1000 + 11 * 3_600_000) !== undefined)
+  s.m.set(SCHLUESSEL, JSON.stringify(stelle({ zeit: 1000 })))
+  pruefe('gültig: 13 h alt gilt nicht', nimmLesestelle(s, ORT, 1000 + 13 * 3_600_000) === undefined)
+  pruefe('art: reload darf', darfWiederherstellen('reload', false))
+  pruefe('art: back_forward darf', darfWiederherstellen('back_forward', false))
+  pruefe('art: verworfener Tab darf, auch bei navigate', darfWiederherstellen('navigate', true))
+  pruefe('art: frische Navigation darf nicht', !darfWiederherstellen('navigate', false) && !darfWiederherstellen(undefined, false))
 }
 
 if (fehler > 0) {

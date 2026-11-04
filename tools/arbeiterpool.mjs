@@ -15,8 +15,17 @@ export function letzteZeilen(teile, n = 8) {
   return zeilen.slice(-n)
 }
 
+/** Die `n` langsamsten Aufträge als Zeilen „<Sekunden> s  <Name>“ (längste zuerst) samt Summe aller Laufzeiten; `sekunden[i]` gehört zu `namen[i]`, ungelaufene fehlen. */
+export function dauerZeilen(namen, sekunden, n = 25) {
+  const gelaufen = namen.map((name, i) => ({ name, s: sekunden[i] })).filter((a) => typeof a.s === 'number')
+  const summe = gelaufen.reduce((s, a) => s + a.s, 0)
+  const spitze = gelaufen.sort((a, b) => b.s - a.s).slice(0, n)
+  return [...spitze.map((a) => `${a.s.toFixed(1).padStart(7)} s  ${a.name}`), `${summe.toFixed(1).padStart(7)} s  Summe aller ${gelaufen.length} Prüfungen`]
+}
+
 function starte(auftrag) {
   return new Promise((fertig) => {
+    const beginn = performance.now()
     const teile = []
     const lauf = spawn(auftrag.befehl, auftrag.args, { cwd: auftrag.cwd, env: auftrag.env, stdio: ['ignore', 'pipe', 'pipe'] })
     lauf.stdout.on('data', (d) => teile.push([1, d]))
@@ -25,7 +34,7 @@ function starte(auftrag) {
     // Ein Signal (OOM-Killer, Zeitlimit) hinterlässt sonst eine rote Prüfung ganz ohne Fehlerzeile.
     lauf.on('close', (status, signal) => {
       if (signal) teile.push([2, `Prozess durch Signal ${signal} beendet (kein Exit-Code).\n`])
-      fertig({ status: status ?? 1, teile })
+      fertig({ status: status ?? 1, teile, sekunden: (performance.now() - beginn) / 1000 })
     })
   })
 }
@@ -71,5 +80,5 @@ export async function laufePool(auftraege, { alle, anfang = [], n = POOLGROESSE,
   const rote = [...auftraege.keys()].filter((i) => ergebnisse[i]?.rot).map((i) => ({ index: i, status: ergebnisse[i].status, ende: letzteZeilen(ergebnisse[i].teile) }))
   const veraendert = wurzel ? veraenderte(standVorher, gitStand(wurzel)) : []
   if (veraendert.length) console.error(`Der Lauf hat getrackte Dateien verändert (eine Prüfung schreibt ins Repo): ${veraendert.join(', ')}`)
-  return { rote, gelaufen: ergebnisse.filter(Boolean).length, veraendert }
+  return { rote, gelaufen: ergebnisse.filter(Boolean).length, veraendert, sekunden: auftraege.map((_, i) => ergebnisse[i]?.sekunden) }
 }

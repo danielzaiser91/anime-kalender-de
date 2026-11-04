@@ -9,6 +9,7 @@ import { resolve } from 'node:path'
 import { teilenPfad } from '../../shared/teilen.ts'
 import { standardBildAdresse } from './og-standard.ts'
 import { ARTIKEL_STIL, SITE, esc } from './titel-seite.ts'
+import { bildMeta, vorschauBild } from './titel-vorschau.ts'
 import { LINK_STIL, START_KRUME, UEBERSCHRIFT_2, VERZEICHNIS_KRUME, brotkrumenHtml, brotkrumenJsonLd, type Krume } from './titel-umfeld.ts'
 import { buchstabenLabel, verzeichnisSchluessel } from './verzeichnis-buchstabe.ts'
 
@@ -76,7 +77,7 @@ function kopf(titel: string, beschreibung: string, url: string, krumen: Krume[],
     `    <meta property="og:url" content="${url}" />\n` +
     `    <meta property="og:title" content="${esc(titel)}" />\n` +
     `    <meta property="og:description" content="${esc(beschreibung)}" />\n` +
-    `    <meta property="og:image" content="${bild}" />\n` +
+    bildMeta(vorschauBild(undefined, bild)) +
     `    ${VERZEICHNIS_STIL}\n` +
     `${brotkrumenJsonLd(krumen)}\n`
   )

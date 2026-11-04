@@ -13,8 +13,12 @@ import { reihenNameVon } from '../web/src/components/detail/reihen-namen.ts'
 import { reihenGruppen } from '../web/src/components/detail/reihen-gruppen.ts'
 import type { Dataset } from '../web/src/lib/data.ts'
 import { ladeRemakeVonHand, markiereRemakes, remakePaareAusKanten, zaehltAlsNeuverfilmung } from './bau/remake-von.ts'
-import { doppelteNummern, remakeMitOriginalInGruppe } from './lib/remake-zaehlung-pruefung.ts'
+import { abweichungVomBekannten, doppelteNummern, remakeMitOriginalInGruppe, warnzeilenZaehlung } from './lib/remake-zaehlung-pruefung.ts'
+import { BEKANNT_DOPPELT_OHNE_REMAKE } from './lib/remake-zaehlung-bekannt.ts'
 import { uebersetzeDatei } from './lib/ausgabe-kennung.ts'
+
+/** Obergrenze der Schlüsselliste (Stand 03.11.2026): sie darf nur sinken; ein neuer Fall wird als Spin-off gekennzeichnet. */
+const BEKANNT_HOECHSTENS = 37
 
 let verletzt = 0
 let faelle = 0
@@ -255,6 +259,27 @@ function handDatei(): void {
   }
 }
 
+/** Die Ratsche des Bestandswächters: neue und verschwundene doppelte Nummern werden namentlich benannt, Remake-Reihen zählen nicht mit. */
+function bekanntenAbgleich(): void {
+  console.log('\nAbgleich mit der Liste bekannter doppelter Nummern:')
+  const d = (reihe: string, nummer: string, mitRemake = false) => ({ reihe, nummer, teile: [], ids: [], mitRemake })
+  const bekannt = ['Alpha|2/-', 'Beta|3/-']
+  const a = abweichungVomBekannten([d('Alpha', '2/-'), d('Gamma', '4/-'), d('Delta', '2/-', true)], bekannt)
+  pruefe('neu: nur der unbekannte Schlüssel, nicht die Remake-Reihe', JSON.stringify(a.neu) === JSON.stringify(['Gamma|4/-']), a.neu)
+  pruefe('weg: der bekannte Schlüssel, der nicht mehr vorkommt', JSON.stringify(a.weg) === JSON.stringify(['Beta|3/-']), a.weg)
+  const b = abweichungVomBekannten([d('Alpha', '2/-'), d('Beta', '3/-')], bekannt)
+  pruefe('gleicher Stand: weder neu noch weg', b.neu.length === 0 && b.weg.length === 0, b)
+  const c = abweichungVomBekannten([d('Alpha', '3/-')], ['Alpha|2/-'])
+  pruefe('gleiche Reihe, andere Nummer: neu und weg zugleich', c.neu[0] === 'Alpha|3/-' && c.weg[0] === 'Alpha|2/-', c)
+  const z = warnzeilenZaehlung(a)
+  pruefe('Warnzeilen: je eine für neu und weg, mit Schlüssel und Zahl', z.length === 2 && z[0].includes('⚠ WARNUNG Zählung: 1 neue doppelte') && z[0].includes('Gamma|4/-') && z[1].includes('1 bekannte doppelte') && z[1].includes('Beta|3/-'), z)
+  pruefe('Warnzeilen: nur neu', warnzeilenZaehlung({ neu: ['X|1/-', 'Y|2/-'], weg: [] }).length === 1 && warnzeilenZaehlung({ neu: ['X|1/-', 'Y|2/-'], weg: [] })[0].includes('2 neue doppelte'))
+  pruefe('Warnzeilen: nur weg', warnzeilenZaehlung({ neu: [], weg: ['X|1/-'] }).length === 1 && warnzeilenZaehlung({ neu: [], weg: ['X|1/-'] })[0].includes('aus remake-zaehlung-bekannt.ts streichen'))
+  pruefe('Warnzeilen: gleicher Stand ohne Zeile', warnzeilenZaehlung(b).length === 0)
+  pruefe(`Ratsche: höchstens ${BEKANNT_HOECHSTENS} bekannte doppelte Nummern (jetzt ${BEKANNT_DOPPELT_OHNE_REMAKE.length}) — einen neuen Fall als Spin-off kennzeichnen statt die Liste zu verlängern`, BEKANNT_DOPPELT_OHNE_REMAKE.length <= BEKANNT_HOECHSTENS)
+}
+
+bekanntenAbgleich()
 yaibaZaehlung()
 gruppenZuschnitt()
 gruppenNamen()
