@@ -45,24 +45,36 @@ export function cartoonsMitReihe(): Title[] {
 }
 
 export const EIGENE_DATEI = 'data/cartoon-eigene-serien.yaml'
+/** Spin-offs, Parodien und Nebenserien der Animes, die keine Staffel der Hauptzählung sind (`FranchiseMember.eigenesWerk`). */
+export const SPINOFF_DATEI = 'data/spinoff-von-hand.yaml'
 
-interface EigeneSerien {
+export interface EigeneSerien {
   ids: number[]
   grund: string
   quelle: string
 }
 
-/** Die Cartoons, die zur Reihe gehören, aber eine eigene Serie sind; ohne Beleg-Adresse bricht der Bau ab. */
-export function ladeEigeneSerien(): EigeneSerien[] {
-  const datei = resolve(ROOT, EIGENE_DATEI)
+/** Liest eine Handliste eigener Werke (ids, grund, https-Quelle); ohne Beleg-Adresse bricht der Bau ab. */
+export function ladeEigeneListe(dateiname: string, wurzel = ROOT): EigeneSerien[] {
+  const datei = resolve(wurzel, dateiname)
   const liste = existsSync(datei) ? ((yaml.load(readFileSync(datei, 'utf8')) as EigeneSerien[] | null) ?? []) : []
   const ohneBeleg = liste.filter((e) => !e.ids?.length || !e.grund || !/^https:\/\//.test(e.quelle ?? ''))
-  if (ohneBeleg.length) throw new Error(`${EIGENE_DATEI}: Eintrag ohne ids, grund oder https-Quelle (${JSON.stringify(ohneBeleg[0])})`)
+  if (ohneBeleg.length) throw new Error(`${dateiname}: Eintrag ohne ids, grund oder https-Quelle (${JSON.stringify(ohneBeleg[0])})`)
   return liste
 }
 
-/** Setzt `eigenesWerk` an den Reihenmitgliedern, die eine eigene Serie sind — sie zählen nicht als Staffel (Korra, Die sieben Häfen). */
-export function markiereEigeneWerke(reihen: Record<number, FranchiseMember[]>, eintraege = ladeEigeneSerien()): Record<number, FranchiseMember[]> {
+/** Die Cartoons, die zur Reihe gehören, aber eine eigene Serie sind. */
+export function ladeEigeneSerien(): EigeneSerien[] {
+  return ladeEigeneListe(EIGENE_DATEI)
+}
+
+/** Beide Handlisten: eigene Cartoon-Serien und Spin-offs der Animes. */
+export function ladeAlleEigenenWerke(wurzel = ROOT): EigeneSerien[] {
+  return [...ladeEigeneListe(EIGENE_DATEI, wurzel), ...ladeEigeneListe(SPINOFF_DATEI, wurzel)]
+}
+
+/** Setzt `eigenesWerk` an den Reihenmitgliedern, die eine eigene Serie sind — sie zählen nicht als Staffel (Korra, Die sieben Häfen, Spin-offs). */
+export function markiereEigeneWerke(reihen: Record<number, FranchiseMember[]>, eintraege = ladeAlleEigenenWerke()): Record<number, FranchiseMember[]> {
   const eigene = new Set(eintraege.flatMap((e) => e.ids))
   const gesehen = new Set<number>()
   for (const mitglieder of Object.values(reihen)) {
@@ -72,6 +84,6 @@ export function markiereEigeneWerke(reihen: Record<number, FranchiseMember[]>, e
       gesehen.add(m.id)
     }
   }
-  for (const id of eigene) if (!gesehen.has(id)) warn(`${EIGENE_DATEI}: ${id} steht in keiner Reihe`)
+  for (const id of eigene) if (!gesehen.has(id)) warn(`${EIGENE_DATEI} / ${SPINOFF_DATEI}: ${id} steht in keiner Reihe`)
   return reihen
 }
