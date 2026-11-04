@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-11-03T20:40:17.838Z",
+  "generatedAt": "2026-11-04T14:45:39.929Z",
   "titleCount": 2924,
-  "belegtCount": 2590,
-  "releaseCount": 832,
-  "eventCount": 4302,
+  "belegtCount": 2589,
+  "releaseCount": 847,
+  "eventCount": 4328,
   "genres": [
     "Action",
     "Adventure",
@@ -212,7 +212,6 @@
     "Amazon Prime (ProSieben Fun)",
     "Kino On Demand",
     "Netflix",
-    "Netflix Standard With Ads",
     "ADN",
     "Amazon (Blu-ray)",
     "Amazon (DVD)",
@@ -229,8 +228,6 @@
     "Paramount+",
     "Paramount+ über Apple TV",
     "Plex",
-    "Plex Channel",
-    "Plex Player",
     "Verleihshop",
     "Verleihshop (Leih-Blu-ray)",
     "Zavvi",
@@ -251,6 +248,8 @@
     "Justwatch Tv Plus",
     "Kika",
     "KSM Anime — Complete Edition (AKIBA PASS Shop)",
+    "Plex Channel",
+    "Plex Player",
     "Pokémon TV",
     "Vimeo"
   ],
@@ -269,7 +268,7 @@
     2016,
     2015
   ],
-  "patchnotesStand": "2026-11-03",
+  "patchnotesStand": "2026-11-04",
   "attribution": [
     "Dub-Daten: MyDubList (https://mydublist.com) — CC BY 4.0",
     "Metadaten: AniList (https://anilist.co)",

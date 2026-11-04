@@ -482,6 +482,34 @@
   url: https://www.amazon.de/gp/video/detail/B0CC5DX1T7
   grund: 'Notizseite gehört einem anderen Titel (Altfälle-Abarbeitung 03.11.2026)'
   entferntAm: '2026-11-03'
+- anilistId: 1889
+  url: https://www.amazon.de/gp/video/detail/B09JTSD79F
+  grund: 'Seite gehört Higurashi no Naku Koro ni (Staffel 1, 2006) (934), nicht dem angegebenen Titel (Prime-Restliste 03.11.2026)'
+  entferntAm: '2026-11-03'
+- anilistId: 1889
+  url: https://www.amazon.de/gp/video/detail/B0CBKJKYM4
+  grund: 'Seite gehört Higurashi: When They Cry Gou (114446), nicht dem angegebenen Titel (Prime-Restliste 03.11.2026)'
+  entferntAm: '2026-11-03'
+- anilistId: 11307
+  url: https://www.amazon.de/gp/video/detail/B00IKSHXG8
+  grund: 'Seite gehört Es war einmal … Entdecker und Erfinder (10005293), nicht dem angegebenen Titel (Prime-Restliste 03.11.2026)'
+  entferntAm: '2026-11-03'
+- anilistId: 11307
+  url: https://www.amazon.de/gp/video/detail/B00IKSSO70
+  grund: 'Seite gehört Es war einmal … Amerika (10004750), nicht dem angegebenen Titel (Prime-Restliste 03.11.2026)'
+  entferntAm: '2026-11-03'
+- anilistId: 11307
+  url: https://www.amazon.de/gp/video/detail/B00IKSJP6O
+  grund: 'Seite gehört Es war einmal … Die Entdeckung unserer Welt (10005217), nicht dem angegebenen Titel (Prime-Restliste 03.11.2026)'
+  entferntAm: '2026-11-03'
+- anilistId: 11307
+  url: https://www.amazon.de/gp/video/detail/B00RWFX9CW
+  grund: 'Seite gehört einer Reihe, die wir nicht führen (Staffel 7, Alternative Energien) (Prime-Restliste 03.11.2026)'
+  entferntAm: '2026-11-03'
+- anilistId: 11307
+  url: https://www.amazon.de/gp/video/detail/B01L62OGCI
+  grund: 'Seite gehört einer Reihe, die wir nicht führen (Staffel 8, Solar Impulse) (Prime-Restliste 03.11.2026)'
+  entferntAm: '2026-11-03'
 - anilistId: 97634
   url: https://www.amazon.de/gp/video/detail/B0CGMVVT8X
   grund: 'Pokémon-Kanalseite (Staffel „Staffel 2 Band 2“, Rohzeilen der Meldungskopie 03.11.2026) gehört der ersten Serie (527), nicht Sonne & Mond (97634)'

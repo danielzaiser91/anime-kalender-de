@@ -1,11 +1,11 @@
 {
- "erzeugtAm": "2026-11-03T20:40:53.864Z",
+ "erzeugtAm": "2026-11-04T12:33:39.968Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
-   "gemeldet": 902,
-   "gesamt": 955,
+   "gemeldet": 905,
+   "gesamt": 958,
    "offen": 53,
    "ohneSeite": 1,
    "suchAdressen": [
@@ -166,7 +166,7 @@
      "titel": "Bakemonogatari"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B0CBKJKYM4",
+     "url": "https://www.amazon.de/gp/video/detail/B09KX2VLPR",
      "titel": "Higurashi no Naku Koro ni Kai (When They Cry Kai)"
     },
     {
@@ -386,8 +386,8 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 767,
-   "gesamt": 938,
+   "gemeldet": 768,
+   "gesamt": 939,
    "offen": 171,
    "ohneSeite": 15,
    "ziel": "https://www.netflix.com/title/81608820",

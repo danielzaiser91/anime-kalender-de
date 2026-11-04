@@ -7,6 +7,7 @@
 import { readFileSync } from 'node:fs'
 import type { FranchiseMember, Title } from '../shared/types.ts'
 import { alleRemakePaare, markiereRemakes } from './bau/remake-von.ts'
+import { markiereEigeneWerke } from './bau/cartoon-reihen.ts'
 import { abweichungVomBekannten, doppelteNummern, remakeMitOriginalInGruppe, warnzeilenZaehlung } from './lib/remake-zaehlung-pruefung.ts'
 import { BEKANNT_DOPPELT_OHNE_REMAKE } from './lib/remake-zaehlung-bekannt.ts'
 import { melde } from './lib/quarantaene.ts'
@@ -34,7 +35,7 @@ console.log('\nNeuverfilmungen und Zählgruppen im ausgelieferten Datensatz:')
   const roh = lies<Record<string, FranchiseMember[]>>('public/data/franchises.json')
   const titel = [...lies<Title[]>('public/data/titles.json'), ...lies<Title[]>('public/data/ohne-synchro.json')]
   const paare = alleRemakePaare(titel)
-  const markiert = markiereRemakes(JSON.parse(JSON.stringify(roh)) as Record<string, FranchiseMember[]>, titel)
+  const markiert = markiereEigeneWerke(markiereRemakes(JSON.parse(JSON.stringify(roh)) as Record<string, FranchiseMember[]>, titel))
   const alle = Object.values(markiert).flat()
   const neuverfilmungen = alle.filter((m) => m.remakeVon !== undefined)
 

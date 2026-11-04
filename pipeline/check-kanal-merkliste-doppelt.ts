@@ -6,7 +6,12 @@ import { mkdirSync, mkdtempSync, readFileSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import type { DubCheck } from './lib/dub-confirmed.ts'
-import { ergaenzeMerkliste, MERKLISTE } from './lib/kanal-merkliste.ts'
+
+/* Fangwurzel vor dem Import: Eine Mutante, die den Parameter `wurzel` ignoriert und nach `ROOT` schreibt, landet hier statt in `data/kanal-seiten.json` (der Test wird dann rot). */
+const falle = mkdtempSync(join(tmpdir(), 'kanal-merkliste-falle-'))
+mkdirSync(join(falle, 'data'))
+process.env.AK_ROOT = falle
+const { ergaenzeMerkliste, MERKLISTE } = await import('./lib/kanal-merkliste.ts')
 
 const beleg = (anilistId: number, url: string): DubCheck =>
   ({ anilistId, platform: 'prime', url, checkedAt: '2026-01-01', note: 'ACHTUNG: Kanal-Titel', kanalOhneBeleg: true }) as unknown as DubCheck
@@ -31,6 +36,7 @@ try {
   pruefe('Datei sortiert, jede Seite einmal', zeilen(), [900_001, 900_002])
 } finally {
   rmSync(wurzel, { recursive: true, force: true })
+  rmSync(falle, { recursive: true, force: true })
 }
 if (verletzt) process.exit(1)
 console.log('\ncheck-kanal-merkliste-doppelt: 5 Fälle grün')
