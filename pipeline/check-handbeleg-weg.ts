@@ -144,7 +144,7 @@ pruefe('ein Titel nur bei aniSearch behält den Weg seines Handbelegs', abschlie
 pruefe('Gegenprobe: ohne Handbeleg bleibt er ohne Weg', abschliessen([]).length === 0)
 const joynWeg = (url: string): StreamLink => weg(url, { platform: 'joyn' })
 const mitJoyn = abschliessen([], [joynWeg('https://www.joyn.de/filme/ova-probe'), joynWeg('https://www.joyn.de/filme/erraten')])
-pruefe('ein Titel nur bei aniSearch behält den Joyn-Weg, den JustWatch nennt (Verdrahtung im Abschluss)', mitJoyn.length === 1 && mitJoyn[0]!.url.endsWith('ova-probe'), mitJoyn)
+pruefe('ein Titel nur bei aniSearch behält den Joyn-Weg, den JustWatch nennt (Verdrahtung im Abschluss)', mitJoyn.length === 1 && mitJoyn[0]!.url.endsWith('ova-probe') && mitJoyn[0]!.herkunft === 'justwatch', mitJoyn)
 
 console.log('\nNews: ein Handbeleg-Weg belegt das Angebot, nicht seinen Beginn (keine rückdatierte Meldung „neu“):')
 const nachrichtTitel = (streams: StreamLink[]): Title[] =>

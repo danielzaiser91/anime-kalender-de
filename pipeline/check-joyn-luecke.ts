@@ -80,7 +80,7 @@ try {
   erwarte('Joyn-Adressen von JustWatch: nur Joyn, nur mit Adresse', adressen.size === 1 && adressen.has('https://www.joyn.de/filme/a'), [...adressen])
   const nurAni = titel(10_000_001, [weg('joyn', 'https://www.joyn.de/filme/a'), weg('joyn', 'https://www.joyn.de/filme/erraten'), weg('netflix', 'https://www.netflix.com/title/1')])
   behalteNurHandbelegteWege(nurAni, [], adressen)
-  erwarte('aniSearch-Titel behält den Joyn-Weg, den JustWatch nennt; erratene Joyn- und andere Wege fallen', nurAni.streams.length === 1 && nurAni.streams[0].url.endsWith('/a'), nurAni.streams)
+  erwarte('aniSearch-Titel behält den Joyn-Weg, den JustWatch nennt; erratene Joyn- und andere Wege fallen', nurAni.streams.length === 1 && nurAni.streams[0].url.endsWith('/a') && nurAni.streams[0].herkunft === 'justwatch', nurAni.streams)
   const ohneJw = titel(10_000_002, [weg('joyn', 'https://www.joyn.de/filme/a')])
   behalteNurHandbelegteWege(ohneJw, [])
   erwarte('Ohne JustWatch-Adressen fällt der Joyn-Weg wie bisher', ohneJw.streams.length === 0, ohneJw.streams)

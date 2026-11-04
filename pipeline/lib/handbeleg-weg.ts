@@ -21,14 +21,14 @@ export function istHandbelegterJaWeg(titleId: number, platform: string, url: str
 /**
  * Titel nur bei aniSearch tragen keine Wege, die der Name erraten hat (`Title.herkunft`); ein Handbeleg „deutsch" mit Adresse ist das Gegenteil von
  * geraten (Daniel hat die Seite gesehen) und bleibt, mit `herkunft: 'handbeleg'`. Ebenso bleibt ein Joyn-Weg, dessen Adresse JustWatch nennt
- * (`jwJoyn`; JustWatch ordnet sie über die TMDB-Kennung zu, nie über den Namen): Happy Fish 2 und drei weitere Filme verloren ihn sonst. Alles
+ * (`jwJoyn`, dann `herkunft: 'justwatch'`: kein Beginn belegt, keine Meldung „neu“; JustWatch ordnet sie über die TMDB-Kennung zu, nie über den Namen): Happy Fish 2 und drei weitere Filme verloren ihn sonst. Alles
  * andere fällt weg. Verändert `streams`.
  */
 export function behalteNurHandbelegteWege(titel: Title, checks: DubCheck[], jwJoyn: Set<string> = new Set()): void {
   const belegt = handbelegteJaWege(checks)
   titel.streams = (titel.streams ?? []).flatMap((s) => {
     if (belegt.has(schluessel(titel.id, s.platform, s.url))) return [{ ...s, herkunft: 'handbeleg' as const }]
-    return s.platform === 'joyn' && jwJoyn.has(s.url) ? [s] : []
+    return s.platform === 'joyn' && jwJoyn.has(s.url) ? [{ ...s, herkunft: 'justwatch' as const }] : []
   })
 }
 
