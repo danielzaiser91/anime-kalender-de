@@ -478,17 +478,31 @@ export interface Verluste {
   ohneTeil: Vorschlag[]
   /** Titel und Tag da, aber kein Anbieter, den wir führen. */
   ohneAnbieter: Vorschlag[]
+  /** Kein Verlust, aber gezählt: Sammelartikel-Eintrag am Starttag der Ankündigung (kein Termin deutscher Folgen). */
+  nurStart: Vorschlag[]
+  /** Kein Verlust, aber gezählt: Ein Termin des Titels beim Anbieter belegt die Meldung schon. */
+  schonBelegt: Vorschlag[]
 }
 
-export const leereVerluste = (): Verluste => ({ ohneTitel: [], ohneTeil: [], ohneAnbieter: [] })
+export const leereVerluste = (): Verluste => ({ ohneTitel: [], ohneTeil: [], ohneAnbieter: [], nurStart: [], schonBelegt: [] })
 
 /** Slug-Teil eines automatischen Releases; Cartoons (negative Kennung) als `c<Zahl>`, kein doppelter Strich. */
 const autoKennung = (id: number): string => (id < 0 ? `c${-id}` : String(ALTE_AUTO_KENNUNG[id] ?? id))
 
+/**
+ * Ein Cartoon kommt für einen Namenstreffer nur in Frage, wenn sein Start-Jahr (TMDB) höchstens ein Jahr vor oder nach dem Jahr des Termins
+ * liegt: eine Meldung kündigt Start oder neue Folgen an, ein „Eden“ von 2020 ist nicht der Anime „Eden“ von 2026. Ein Jahr Spielraum, weil
+ * TMDB den Start im Vorjahr führen kann, wenn der deutsche Termin erst später liegt; ohne Start-Jahr kein Treffer (fail closed).
+ */
+export function cartoonPasstZumTermin(cartoon: Title, tag: string): boolean {
+  return cartoon.jpYear !== undefined && Math.abs(cartoon.jpYear - Number(tag.slice(0, 4))) <= 1
+}
+
 /** Der Titel, den die Meldung genau meint: über die Kennung, sonst über einen genauen Namenstreffer (kein Präfix-Treffer). */
-function basisDerMeldung(v: Vorschlag, titel: Title[]): Title | undefined {
-  if (v.titleId) return titel.find((t) => t.id === v.titleId)
-  const treffer = findeTitel(v.articleTitle, titel)
+function basisDerMeldung(v: Vorschlag, titel: Title[], cartoons: Title[], tag: string): Title | undefined {
+  const kandidaten = [...titel, ...cartoons.filter((c) => cartoonPasstZumTermin(c, tag))]
+  if (v.titleId) return kandidaten.find((t) => t.id === v.titleId)
+  const treffer = findeTitel(v.articleTitle, kandidaten)
   return treffer?.genau ? treffer.titel : undefined
 }
 
@@ -559,7 +573,7 @@ export function releasesAus(
      * Überschrift sagt nicht, welche der vier Staffeln gemeint ist; als Meldung
      * ist das in Ordnung, als Kalendereintrag wäre es eine Falschangabe.
      */
-    const basis = basisDerMeldung(v, kandidaten)
+    const basis = basisDerMeldung(v, titel, cartoons, tag)
     if (!basis) {
       verluste?.ohneTitel.push(v)
       continue
@@ -570,14 +584,20 @@ export function releasesAus(
       verluste?.ohneTeil.push(v)
       continue
     }
-    if (sammelTagIstNurStart(v, treffer, heute, abgedeckt)) continue
+    if (sammelTagIstNurStart(v, treffer, heute, abgedeckt)) {
+      verluste?.nurStart.push(v)
+      continue
+    }
 
     const platform = anbieterDerMeldung(v)
     if (!platform) {
       verluste?.ohneAnbieter.push(v)
       continue
     }
-    if (istBelegtVermerkt(belegt, treffer, platform, tag, v, abgedeckt)) continue
+    if (istBelegtVermerkt(belegt, treffer, platform, tag, v, abgedeckt)) {
+      verluste?.schonBelegt.push(v)
+      continue
+    }
     belegeTermin(belegt, treffer.id, platform, tag)
 
     out.push(releaseAusMeldung(v, treffer, platform, tag, sprache, vorhanden, heute))
