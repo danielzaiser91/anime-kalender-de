@@ -1,3 +1,5 @@
+import { log } from './util.ts'
+
 /**
  * **Ein TMDB-Film gehört genau einem Titel.**
  *
@@ -33,4 +35,21 @@ export function mehrdeutigeFilmzuordnungen(
   const raus = new Set<string>()
   for (const liste of jeFilm.values()) if (liste.length > 1) for (const id of liste) raus.add(id)
   return raus
+}
+
+/** Die Titel mit geteiltem Film, einmal je Bau in `ladeQuellen()` gesetzt; Plakat- und Banner-Leser filtern damit. */
+let geteilteFilme = new Set<string>()
+export const merkeGeteilteFilme = (ids: Set<string>): void => void (geteilteFilme = ids)
+
+/**
+ * **Plakat und Banner eines geteilten Films gehören keinem der Titel.** Gibt `daten` ohne deren Einträge zurück und meldet
+ * Zahl und Kennungen im Bau-Log (`was` = Name der Quelle); wer ein anderes Cover hat, behält es über den normalen Rückfall.
+ */
+export function ohneGeteilteFilme<T>(daten: Record<string, T>, was: string): Record<string, T> {
+  const weg = Object.keys(daten).filter((id) => geteilteFilme.has(id) && daten[id])
+  if (!weg.length) return daten
+  const rest = { ...daten }
+  for (const id of weg) delete rest[id]
+  log(`${weg.length} TMDB-${was} verworfen: derselbe Film steht bei mehreren Titeln (${weg.join(', ')})`)
+  return rest
 }

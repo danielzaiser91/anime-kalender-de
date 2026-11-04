@@ -1,3 +1,4 @@
+import { ohneGeteilteFilme } from '../lib/tmdb-eindeutig.ts'
 import { log, readJson, warn, writeJson } from '../lib/util.ts'
 import type { Title } from '../../shared/types.ts'
 import type { SynopsisEintrag } from './13-1-anreichern.ts'
@@ -18,7 +19,7 @@ export const MIN_BREITE = 690
  * `data/cover-klein.json` (kein Plakat bei TMDB / zu klein / keine TMDB-Zuordnung), damit gezielt nach besseren Quellen gesucht werden kann.
  */
 export function ergaenzeCoverGross(synopses: Record<number, SynopsisEintrag>, titel: Title[]): void {
-  const poster = readJson<Record<string, { p: string; w: number; h: number } | null>>('data/tmdb-poster.json', {})
+  const poster = ohneGeteilteFilme(readJson<Record<string, { p: string; w: number; h: number } | null>>('data/tmdb-poster.json', {}), 'Plakate (groß)')
   const klein: { id: number; name: string; anilist: number; tmdb: number | null; grund: string }[] = []
   let groß = 0
   for (const t of titel) {

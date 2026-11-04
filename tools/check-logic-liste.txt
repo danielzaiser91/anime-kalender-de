@@ -438,6 +438,8 @@ pipeline/check-tmdb-folgen-luecke.ts
 pipeline/check-tmdb-folgentitel-absolut.ts
 pipeline/check-tmdb-folgentitel-datum.ts
 pipeline/check-tmdb-genre.ts
+pipeline/check-tmdb-geteilt-plakat-bau.ts
+pipeline/check-tmdb-geteilt-plakat.ts
 pipeline/check-tmdb-hauptserie.ts
 pipeline/check-tmdb-katalog.ts
 pipeline/check-tmdb-staffel0.ts
