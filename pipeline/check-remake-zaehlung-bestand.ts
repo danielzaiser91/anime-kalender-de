@@ -7,11 +7,10 @@
 import { readFileSync } from 'node:fs'
 import type { FranchiseMember, Title } from '../shared/types.ts'
 import { alleRemakePaare, markiereRemakes } from './bau/remake-von.ts'
-import { doppelteNummern, remakeMitOriginalInGruppe } from './lib/remake-zaehlung-pruefung.ts'
+import { abweichungVomBekannten, doppelteNummern, remakeMitOriginalInGruppe, warnzeilenZaehlung } from './lib/remake-zaehlung-pruefung.ts'
+import { BEKANNT_DOPPELT_OHNE_REMAKE } from './lib/remake-zaehlung-bekannt.ts'
 import { melde } from './lib/quarantaene.ts'
 
-/** Doppelte Nummern in Reihen ohne Neuverfilmung (Spin-offs mit Staffelzahl im Namen); gemessen 26.10.2026, darf nur sinken. */
-export const BEKANNT_DOPPELT_OHNE_REMAKE = 34
 /** Der Anlassfall: Yaiba (2025) ist die Neuverfilmung von Legendary Brave Swordsman Yaiba (1993) — laut Handliste. */
 const YAIBA = { remake: 177476, original: 2335 }
 /** Die am 01.11.2026 per Handliste nachgezogenen Neuverfilmungen (aniSearch führt sie nur als „Alternative Version"). */
@@ -50,9 +49,7 @@ console.log('\nNeuverfilmungen und Zählgruppen im ausgelieferten Datensatz:')
   const mitRemake = doppelt.filter((d) => d.mitRemake)
   for (const d of mitRemake) for (const id of d.ids) melde(id, 'remake-zaehlung-bestand', `Staffelnummer ${d.nummer} doppelt in einer Reihe mit Neuverfilmung`)
   pruefe('In Reihen mit Neuverfilmung kommt keine Staffelnummer doppelt vor', mitRemake.length === 0, mitRemake.slice(0, 5))
-  const ohneRemake = doppelt.length - mitRemake.length
-  if (ohneRemake > BEKANNT_DOPPELT_OHNE_REMAKE) console.log(`  ⚠ WARNUNG Zählung: ${ohneRemake} doppelte Staffelnummern in Reihen ohne Neuverfilmung, bekannt waren ${BEKANNT_DOPPELT_OHNE_REMAKE} (neue Fälle: Remake in aniSearch prüfen oder data/remake-von-hand.yaml)`)
-  if (ohneRemake < BEKANNT_DOPPELT_OHNE_REMAKE) console.log(`  ⚠ WARNUNG Zählung: nur noch ${ohneRemake} doppelte Staffelnummern, BEKANNT_DOPPELT_OHNE_REMAKE in pipeline/check-remake-zaehlung-bestand.ts senken`)
+  for (const zeile of warnzeilenZaehlung(abweichungVomBekannten(doppelt, BEKANNT_DOPPELT_OHNE_REMAKE))) console.log(zeile)
 
   const imBestand = Object.values(roh).flat().filter((m) => m.remakeVon !== undefined).length
   if (imBestand !== neuverfilmungen.length) console.log(`  ⚠ WARNUNG Zählung: franchises.json trägt remakeVon an ${imBestand} statt ${neuverfilmungen.length} Teilen — der nächste Bestandsbau schreibt sie, sonst fehlt die Verdrahtung in 13-4-zusatzdateien.ts`)

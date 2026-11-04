@@ -53,7 +53,13 @@ export function ergaenzeMerkliste(neu: DubCheck[], wurzel = ROOT): number {
   const entfernt = ladeBelegeEntfernt(resolve(wurzel, 'data/belege-entfernt.yaml'))
   const erlaubt = neu.filter((c) => !istEntfernt(entfernt, c.anilistId, c.url))
   const alle = merkEintraege([...bisher, ...erlaubt])
-  const einmal = alle.filter((e, i) => alle.findIndex((x) => JSON.stringify(x) === JSON.stringify(e)) === i)
+  const gesehen = new Set<string>()
+  const einmal = alle.filter((e) => {
+    const text = JSON.stringify(e)
+    if (gesehen.has(text)) return false
+    gesehen.add(text)
+    return true
+  })
   if (einmal.length === bisher.length) return 0
   writeFileSync(resolve(wurzel, MERKLISTE), '[\n' + einmal.map((e) => JSON.stringify(e)).join(',\n') + '\n]\n')
   return einmal.length - bisher.length

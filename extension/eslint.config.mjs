@@ -59,6 +59,7 @@ export default [
           im Browser teilen sich beide denselben Scope.
         */
         akBox: 'readonly',
+        akWurzelAnhaengen: 'readonly',
         akZaehler: 'readonly',
         akDebugLeiste: 'readonly',
         akBerichtSchalter: 'readonly',
@@ -75,6 +76,9 @@ export default [
         akNetflixRandUneinheitlich: 'readonly',
         akNetflixListeWarten: 'readonly',
         akNetflixGrundOffen: 'readonly',
+        akNetflixStoerung: 'readonly',
+        akNetflixTitelUeberspringen: 'readonly',
+        akNetflixUmgeleitet: 'readonly',
         akNetflixZurueckNeu: 'readonly',
         akNetflixBericht: 'readonly',
         akNetflixVollMelden: 'readonly',
@@ -82,6 +86,7 @@ export default [
         akNetflixStaffelNr: 'readonly',
         akNetflixStaffelEintraege: 'readonly',
         akNetflixRohStaffel: 'readonly',
+        akNetflixSeitentreu: 'readonly',
         akNetflixMenue: 'readonly',
         akNetflixMenueMerken: 'readonly',
         akRandAusfall: 'readonly',

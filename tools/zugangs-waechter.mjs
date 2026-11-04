@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Wächter für die Zugänge, von denen die automatischen Läufe leben (`data/zugangs-register.json`).
+ * Wächter für die Zugänge, von denen die automatischen Läufe leben (`data/zugangs-register.json`; Fristen in `tools/wache-fristen.mjs`).
  * Er liest nie einen Secret-Wert — nur Namen und den Verlauf der Läufe (`gh run list`).
  *
  *   node tools/zugangs-waechter.mjs                    # Läufe in ihrer Frist? Kontingent leer? Ablauf nah?
@@ -10,6 +10,7 @@
  */
 import { execFileSync } from 'node:child_process'
 import { readFileSync, readdirSync } from 'node:fs'
+import { FRISTEN_STUNDEN } from './wache-fristen.mjs'
 
 const WURZEL = new URL('..', import.meta.url)
 const register = JSON.parse(readFileSync(new URL('data/zugangs-register.json', WURZEL), 'utf8'))
@@ -50,10 +51,15 @@ export function registerBefunde(reg = register, secrets = secretsJeWorkflow(), w
 }
 
 const gh = (...args) => JSON.parse(execFileSync(GH, args, { encoding: 'utf8', maxBuffer: 20e6 }))
-const stunden = (iso) => (Date.now() - Date.parse(iso)) / 3600e3
+const stundenSeit = (iso, jetzt) => (jetzt - Date.parse(iso)) / 3600e3
 
-function letzteLaeufe(workflow, limit = 20) {
-  return gh('run', 'list', '--repo', REPO, '--workflow', workflow, '--limit', String(limit), '--json', 'databaseId,conclusion,status,createdAt,event')
+function letzteLaeufe(ghAufruf, workflow, limit = 20) {
+  return ghAufruf('run', 'list', '--repo', REPO, '--workflow', workflow, '--limit', String(limit), '--json', 'databaseId,conclusion,status,createdAt,event')
+}
+
+/** Der jüngste erfolgreiche Lauf, unabhängig davon, wie viele übersprungene oder gescheiterte danach kamen (sonst drängen sie ihn aus einem festen Fenster). */
+export function letzterErfolg(ghAufruf, workflow) {
+  return ghAufruf('run', 'list', '--repo', REPO, '--workflow', workflow, '--status', 'success', '--limit', '1', '--json', 'databaseId,createdAt')[0] ?? null
 }
 
 /** Ein leeres Kontingent: Claude-Schritt scheitert in Sekunden. Gibt die Fundstellen zurück. */
@@ -61,20 +67,25 @@ export function kontingentFunde(schritte) {
   return schritte.filter((s) => CLAUDE_SCHRITT.test(s.name) && s.conclusion === 'failure' && s.started_at && s.completed_at && (Date.parse(s.completed_at) - Date.parse(s.started_at)) / 1000 <= KONTINGENT_SEKUNDEN)
 }
 
-function pruefeLauf(workflow, spez) {
+/** Frist aus der gemeinsamen Tabelle (`wache-fristen.mjs`); ohne Eintrag keine Fristprüfung. */
+export const spezMitFrist = (workflow, spez, fristen = FRISTEN_STUNDEN) => ({ ...spez, fristStunden: fristen[workflow] ?? null })
+
+/** `ghAufruf` und `jetzt` sind einspeisbar, damit ein Test ohne `gh` und ohne Uhr läuft. */
+export function pruefeLauf(workflow, spez, ghAufruf = gh, jetzt = Date.now()) {
+  const stunden = (iso) => stundenSeit(iso, jetzt)
   const zeilen = []
-  const laeufe = letzteLaeufe(workflow)
+  const laeufe = letzteLaeufe(ghAufruf, workflow)
   const fertig = laeufe.filter((l) => l.status === 'completed' && l.conclusion !== 'cancelled' && l.conclusion !== 'skipped')
-  const erfolg = fertig.find((l) => l.conclusion === 'success')
+  const erfolg = letzterErfolg(ghAufruf, workflow)
   if (spez.fristStunden != null) {
-    if (!erfolg) zeilen.push({ rot: true, text: `${workflow}: kein erfolgreicher Lauf unter den letzten ${laeufe.length}` })
+    if (!erfolg) zeilen.push({ rot: true, text: `${workflow}: kein erfolgreicher Lauf gefunden` })
     else if (stunden(erfolg.createdAt) > spez.fristStunden) zeilen.push({ rot: true, text: `${workflow}: letzter Erfolg vor ${Math.round(stunden(erfolg.createdAt))} h (Frist ${spez.fristStunden} h)` })
     else zeilen.push({ rot: false, text: `${workflow}: letzter Erfolg vor ${Math.round(stunden(erfolg.createdAt))} h (Frist ${spez.fristStunden} h)` })
   }
   if (spez.claude) {
     // Nur solange kein späterer Lauf gelungen ist — danach ist das Kontingent wieder da.
     for (const l of fertig.filter((x) => x.conclusion === 'failure' && stunden(x.createdAt) <= 24 * 7 && !(erfolg && erfolg.createdAt > x.createdAt)).slice(0, 5)) {
-      const jobs = gh('api', `repos/${REPO}/actions/runs/${l.databaseId}/jobs`).jobs ?? []
+      const jobs = ghAufruf('api', `repos/${REPO}/actions/runs/${l.databaseId}/jobs`).jobs ?? []
       const funde = kontingentFunde(jobs.flatMap((j) => j.steps ?? []))
       if (funde.length) zeilen.push({ rot: true, kontingent: true, text: `${workflow}: Claude-Schritt „${funde[0].name}“ endete nach wenigen Sekunden (Lauf ${l.databaseId}, ${l.createdAt.slice(0, 16)}Z) — Kontingent leer oder CLAUDE_CODE_OAUTH_TOKEN ungültig` })
     }
@@ -104,7 +115,7 @@ function weckerBefund() {
   const laeufe = gh('api', 'repos/' + REPO + '/actions/workflows/refresh-hourly.yml/runs?per_page=20&event=workflow_dispatch').workflow_runs
   const l = laeufe.find(vomWecker)
   if (!l) return { rot: true, text: 'GITHUB_WECKER_TOKEN: unter den letzten 20 Starts des Stundenlaufs keiner vom Cloudflare-Wecker (nur Wecker-Wache oder gar keiner)' }
-  const h = stunden(l.created_at)
+  const h = stundenSeit(l.created_at, Date.now())
   return { rot: h > 5, text: `GITHUB_WECKER_TOKEN: letzter Start durch den Wecker vor ${Math.round(h)} h` }
 }
 
@@ -179,7 +190,7 @@ function main() {
     return
   }
   const zeilen = []
-  for (const [workflow, spez] of Object.entries(register.laeufe)) zeilen.push(...pruefeLauf(workflow, spez))
+  for (const [workflow, spez] of Object.entries(register.laeufe)) zeilen.push(...pruefeLauf(workflow, spezMitFrist(workflow, spez)))
   zeilen.push(weckerBefund())
   const { aus, ohne } = ablaufBefunde()
   zeilen.push(...aus)

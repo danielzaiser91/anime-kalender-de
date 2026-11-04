@@ -529,7 +529,7 @@ Clannad genau umgekehrt (Seitenadresse = veraltete Startseite nach einem Staffel
 Eine Massenumstellung auf die Seitenadresse hätte Clannad und After Story von richtig auf
 falsch gedreht. Welche Kennung stimmt, entscheidet dort nur der Titel im Kopfblock der
 Seite (`tools/prime-geteilte-adressen.mjs`, misst und schreibt nichts). Bis zum 17.09.2026 schrieb der
-Import `url`; ab Staffel 2 nimmt er jetzt `seiten_kennung`, und die Staffel bestimmt
+Import `url`; weicht die Adresse von `seiten_kennung` ab, nimmt er jetzt diese, egal welche Staffel (ab 02.11.2026; zuvor nur ab Staffel 2, Higurashi Kai), und die Staffel bestimmt
 `staffelNummern()` über die Namen der Reihe (auch „Golden Kamuy 4", „Final Season").
 Die Erweiterung schickt `titelId` nach einem Staffelwechsel nicht mehr mit (4.20.24).
 **Dasselbe galt für die Rohfolgen** (17.09.2026): Sie lagen im Worker nur unter `url`. Vinland
@@ -4195,6 +4195,8 @@ Netflix führt Ranma ½ (2024) mit allen drei Staffeln unter 81171925; 81301833 
 **Quellen nennen verschiedene Kennungen (25.10.2026).** Bei sieben Titeln (Chihiro 199, Nausicaä 572, Arrietty 7711, Ultramarine Magmell 101597, Saiki K Reawakened 112625, Grimm Variations 135643, Kakegurui ×× 100876) nennen Datensatz (= AniList-Verweis), aniSearch und JustWatch nicht dieselbe Netflix-Kennung. Welche stimmt (Umleitung oder zweite Seite), kann nur ein Mensch auf Netflix sehen; die Titel stehen deshalb in `data/erneut-melden.yaml` (Prüfliste der Erweiterung). `pipeline/check-netflix-quellen-bestand.ts` (`check:bestand`, Warnung, Exit 0) zählt solche Titel mit `lib/netflix-quellen-abweichung.ts` und warnt für jeden, der nicht auf der offenen Netflix-Prüfliste (`public/data/pruefstand.json`) steht. Entscheidet ein Mensch „Umleitung“, kommt sie in `NETFLIX_UMGELEITET`; die Warnung verschwindet dann, weil Umleitungen vor dem Vergleich aufgelöst werden. Sonst bleibt der Titel auf der Prüfliste, bis eine Meldung angekommen ist, und fällt danach wieder als Warnung auf, bis jemand entschieden hat.
 
 **Zweite Kennung als zweites Prüfziel (30.10.2026).** Bis 25.10. war die Prüfliste nur nach der Datensatz-Kennung geschlüsselt; die zweite Kennung (aniSearch/JustWatch) blieb ohne Meldung, also gab es nichts abzuleiten. Seit PR 2470 legt `pipeline/lib/netflix-zweite-kennung.ts` (Aufruf über `tools/netflix-zweite-kennung.mjs` in `extension-offene-liste.mjs` und `pruefstand.mjs`) jede abweichende Kennung als zusätzliches Ziel auf die Netflix-Prüfliste; Cartoons bleiben außen vor, weil die Quelle nur `titles.json` kennt. Heute haben 6 der 7 Titel ein Zusatzziel (Kakegurui ×× nennt keine zweite Kennung mehr): Ziele 72 → 78, offen 128 → 134. Wächter: `pipeline/check-netflix-zweite-kennung.ts` (check:logic). Grenze: Irrt die Quelle bei der Kennung, wird die Meldung diesem Titel gutgeschrieben; ein Abgleich Seitentitel gegen Titel im Worker fehlt noch.
+
+**Netflix-Feld `contextualSynopsis.text` = Folgenbeschreibung (03.11.2026).** Im Netflix-Seitenobjekt trägt jede Folge ihre Beschreibung unter `contextualSynopsis.text`. Sie ist die Grundlage für eine spätere Zuordnung über den Inhalt, wenn Folgentitel allein nicht tragen (Rainbow High, 81397437). Noch nicht ausgewertet; Netflix-Serien werden nie direkt abgerufen, nur über die Erweiterungsmeldung.
 
 ## ADN: Kalenderserien ohne Katalog und Liste (24.10.2026)
 

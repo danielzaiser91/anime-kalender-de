@@ -112,12 +112,24 @@ function seiteDer(liste: CartoonRohfolge[]): string | null {
   return s.size === 1 ? [...s][0] || null : null
 }
 
-/** Je Folge die Zeile unserer durchgezählten Liste, wenn ihr Titel genau eine trifft. */
+/** Die Hälften eines Doppeltitels „A / B“ (zwei Kurzfolgen in einer Meldung), jede mit genau einem Treffer unserer Liste. */
+export function haelftenInListe(titel: string | null, unsere: UnsereFolge[]): number[] {
+  if (!titel?.includes(' / ')) return []
+  const nummern = new Set<number>()
+  for (const teil of titel.split(' / ')) {
+    const nr = folgenZuTitel(teil, unsere)
+    if (nr.length === 1) nummern.add(nr[0]!)
+  }
+  return [...nummern]
+}
+
+/** Je Folge die Zeile unserer durchgezählten Liste, wenn ihr Titel genau eine trifft; sonst die Hälften eines Doppeltitels. */
 function folgenInListe(liste: CartoonRohfolge[], unsere: UnsereFolge[]): { index: number; unsere: number }[] {
   const treffer: { index: number; unsere: number }[] = []
   liste.forEach((f, index) => {
     const nr = folgenZuTitel(f.titel, unsere)
     if (nr.length === 1) treffer.push({ index, unsere: nr[0]! })
+    else if (nr.length === 0) for (const h of haelftenInListe(f.titel, unsere)) treffer.push({ index, unsere: h })
   })
   return treffer
 }

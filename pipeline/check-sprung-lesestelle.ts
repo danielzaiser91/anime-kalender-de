@@ -24,7 +24,7 @@ const TAG = '2026-10-28'
 const KOPF = 56
 
 /** Eine Seite: Tag liegt bei `top` 300, Kopfleiste 56 hoch; `gespeichert` ist die Lesestelle aus dem letzten Start (oder keine). */
-async function lauf(gespeichert: boolean, tagSchonDa: boolean) {
+async function lauf(gespeichert: boolean, tagSchonDa: boolean, navigation = 'reload', verworfen = false) {
   const uhr = attrappeUhr()
   const scrolls: ScrollToOptions[] = []
   const fenster = {
@@ -34,6 +34,9 @@ async function lauf(gespeichert: boolean, tagSchonDa: boolean) {
     scrollY: 0,
   }
   const dom = installiereMiniDom(fenster as never, () => ({}))
+  const fensterHoerer = new Map<string, () => void>()
+  const fensterZiel = window as unknown as { addEventListener: (a: string, f: () => void) => void }
+  fensterZiel.addEventListener = (a, f) => void fensterHoerer.set(a, f)
   let tagDa = tagSchonDa
   const tagEl: Record<string, unknown> = {
     dataset: { datum: TAG },
@@ -44,6 +47,7 @@ async function lauf(gespeichert: boolean, tagSchonDa: boolean) {
   tagEl.closest = () => tagEl
   Object.assign(document, {
     hidden: false,
+    wasDiscarded: verworfen,
     querySelector: (sel: string) => {
       if (sel === 'header') return { getBoundingClientRect: () => ({ height: KOPF }) }
       return tagDa && (sel.startsWith('section[data-datum') || sel === '[data-heute="1"]') ? tagEl : null
@@ -52,8 +56,10 @@ async function lauf(gespeichert: boolean, tagSchonDa: boolean) {
   })
   const speicher = new Map<string, string>()
   if (gespeichert) speicher.set(SCHLUESSEL, JSON.stringify({ datum: TAG, abstand: 44, ort: '/#/', zeit: performance.timeOrigin + performance.now() }))
-  g.sessionStorage = { getItem: (k: string) => speicher.get(k) ?? null, setItem: () => undefined, removeItem: (k: string) => void speicher.delete(k) }
+  g.sessionStorage = { getItem: (k: string) => speicher.get(k) ?? null, setItem: (k: string, v: string) => void speicher.set(k, v), removeItem: (k: string) => void speicher.delete(k) }
   g.location = { pathname: '/', hash: '#/' }
+  const leistung = performance as unknown as { getEntriesByType: () => unknown[] }
+  leistung.getEntriesByType = () => [{ type: navigation }]
   let beobachter: (() => void) | undefined
   g.MutationObserver = class {
     constructor(f: () => void) {
@@ -72,6 +78,13 @@ async function lauf(gespeichert: boolean, tagSchonDa: boolean) {
   })
   return {
     scrolls,
+    speicher,
+    verberge: () => {
+      const dok = document as unknown as { hidden: boolean; hoerer: Map<string, Array<{ f: () => void }>> }
+      dok.hidden = true
+      dok.hoerer.get('visibilitychange')?.forEach((h) => h.f())
+    },
+    verlasse: () => fensterHoerer.get('pagehide')?.(),
     erscheint: async () => {
       tagDa = true
       await act(async () => beobachter?.())
@@ -101,6 +114,30 @@ async function lauf(gespeichert: boolean, tagSchonDa: boolean) {
   pruefe('mit Lesestelle, Tag noch nicht gezeichnet: bisher kein Scroll', k.scrolls.length === 0, k.scrolls)
   await k.erscheint()
   pruefe('…erscheint der Tag, genau ein sofortiger Scroll, kein weicher', k.scrolls.length === 1 && k.scrolls[0].behavior === 'auto', k.scrolls)
+  await k.nachlauf()
+  await k.ende()
+}
+{
+  const k = await lauf(true, true, 'navigate')
+  pruefe('frische Navigation trotz alter Lesestelle: weicher Sprung zu „heute“, Lesestelle weg', k.scrolls.length === 1 && k.scrolls[0].behavior === 'smooth' && !k.speicher.has(SCHLUESSEL), k.scrolls)
+  await k.ende()
+}
+{
+  // Verdrahtung im Aufrufer: Der Hook startet das Merken beim Verbergen und bei pagehide (Browser lädt danach ohne App-Code neu)
+  const k = await lauf(false, true)
+  k.verberge()
+  const gemerkt = JSON.parse(k.speicher.get(SCHLUESSEL) ?? 'null') as { datum?: string; abstand?: number } | null
+  pruefe('verbergen im Hook: Lesestelle (Tag, Abstand 244) im Speicher', gemerkt?.datum === TAG && gemerkt.abstand === 300 - KOPF, gemerkt)
+  k.speicher.delete(SCHLUESSEL)
+  k.verlasse()
+  pruefe('pagehide im Hook: Lesestelle im Speicher', k.speicher.has(SCHLUESSEL))
+  await k.nachlauf()
+  await k.ende()
+}
+{
+  const k = await lauf(true, true, 'navigate', true)
+  pruefe('verworfener Tab bei Navigationsart navigate: Lesestelle gilt (sofort, kein weicher Sprung)', k.scrolls.length === 1 && k.scrolls[0].behavior === 'auto', k.scrolls)
+  await k.nachlauf()
   await k.ende()
 }
 
@@ -108,5 +145,5 @@ if (verletzt > 0) {
   console.error(`✖ ${verletzt} Fehler`)
   process.exit(1)
 }
-console.log(`✔ sprung-lesestelle: Hook mit und ohne Lesestelle (Kontrolle weicher Sprung, Tag da, Tag später; ${faelle} Fälle)`)
+console.log(`✔ sprung-lesestelle: Hook mit und ohne Lesestelle (Kontrolle weicher Sprung, Tag da, Tag später, frische Navigation, Merken bei Verbergen/pagehide, verworfener Tab; ${faelle} Fälle)`)
 process.exit(0)
