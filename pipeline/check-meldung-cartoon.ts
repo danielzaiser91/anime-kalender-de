@@ -17,6 +17,7 @@ const { alsTitel } = await import('./lib/cartoons.ts')
 const { cartoonsOhneAnimeNamen } = await import('./lib/aussagen-abgleich.ts')
 const { einzelOhneRelease } = await import('./lib/sammel-unzugeordnet.ts')
 const { leereVerluste, releasesAus, zeitplanAusVorschlag } = await import('./lib/meldungen.ts')
+const { verlustZeile } = await import('./lib/meldungen-ohne-release-zeilen.ts')
 
 let fehler = 0
 function pruefe(name: string, bedingung: boolean, gefunden?: unknown): void {
@@ -107,6 +108,16 @@ function jahrFaelle(): void {
   }
   const frisch = ausMeldung({ ...BASS_MELDUNG, articleTitle: 'Netflix: »Eden« startet' }, [], mit(2026, 'Eden'))
   pruefe('Gegenfall: „Eden“ mit Start-Jahr 2026 passt', frisch.neu.length === 1 && frisch.neu[0]!.titleId === -314271, frisch.neu)
+  /* Das Jahr kommt vom Termin, nicht vom Tag der Meldung: Meldung 30.12.2025 für den 02.01.2026, Start-Jahr 2027 (Abstand 1 zum Termin, 2 zur Meldung). */
+  const jahreswechsel = ausMeldung({ ...BASS_MELDUNG, publishedAt: '2025-12-30', dates: [{ iso: '2026-01-02', context: 'Premiere am 2. Januar 2026' }] }, [], mit(2027))
+  pruefe('Jahr des Termins (nicht der Meldung) zählt: Start-Jahr 2027 passt zum Termin 02.01.2026', jahreswechsel.neu.length === 1, jahreswechsel.verluste)
+  const v = leereVerluste()
+  v.ohneTitel.push(BASS_MELDUNG)
+  v.ohneTeil.push(BASS_MELDUNG, BASS_MELDUNG)
+  v.ohneAnbieter.push(BASS_MELDUNG, BASS_MELDUNG, BASS_MELDUNG)
+  v.nurStart.push(BASS_MELDUNG, BASS_MELDUNG, BASS_MELDUNG, BASS_MELDUNG)
+  v.schonBelegt.push(...Array<Vorschlag>(5).fill(BASS_MELDUNG))
+  pruefe('Logzeile des Baus zählt jeden Grund einzeln (1, 2, 3, 4, 5)', verlustZeile(v).startsWith('Meldungen mit Termin ohne Release: 1 ohne Titel, 2 mit unklarem Teil, 3 ohne Anbieter; gezählt, kein Verlust: 4 nur Sammelartikel-Start, 5 schon belegt'), verlustZeile(v))
   const angekuendigt = { ...(anime(900020, 'Neuer Sammel') as object), ankuendigung: { synchro: 'angekuendigt', omuAb: '2026-11-03' } } as never
   const nurStart = ausMeldung({ ...BASS_MELDUNG, articleTitle: 'Netflix: »Neuer Sammel« startet', dates: [{ iso: '2026-11-04', context: 'Sammelartikel' }] }, [angekuendigt], [])
   pruefe('Sammelartikel-Start einer frischen Ankündigung: kein Release, als „nur Start“ gezählt', nurStart.neu.length === 0 && nurStart.verluste.nurStart.length === 1 && nurStart.verluste.ohneTitel.length === 0, nurStart.verluste)

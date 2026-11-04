@@ -1,6 +1,7 @@
 import { readJson, log, warn } from '../lib/util.ts'
 import { ladeAnisearchAbruf } from '../lib/anisearch-verworfen.ts'
 import { type Vorschlag, leereVerluste, releasesAus, nurOriginaltonMeldungen } from '../lib/meldungen.ts'
+import { verlustZeile } from '../lib/meldungen-ohne-release-zeilen.ts'
 import { alsTitel, type CartoonEintrag } from '../lib/cartoons.ts'
 import { verschiebungenAnwenden } from '../lib/disc-verschiebungen.ts'
 import { discIndexLaden } from '../lib/disc-ean.ts'
@@ -37,7 +38,7 @@ export function ergaenzeTermineAusNewsUndTv({ titles, releases }: {
     Object.values(readJson<Record<string, CartoonEintrag>>('data/cartoons.json', {})).map(alsTitel),
     verluste,
   )
-  log(`Meldungen mit Termin ohne Release: ${verluste.ohneTitel.length} ohne Titel, ${verluste.ohneTeil.length} mit unklarem Teil, ${verluste.ohneAnbieter.length} ohne Anbieter; gezählt, kein Verlust: ${verluste.nurStart.length} nur Sammelartikel-Start, ${verluste.schonBelegt.length} schon belegt (Streaming mit deutschem Ton: data/proposals/nicht-zugeordnet.json)`)
+  log(verlustZeile(verluste))
   log(`${teilVerworfen.length} Anime2You-Meldungen mit Part-/Cour-/Box-Hinweis keinem Teil sicher zuzuordnen — verworfen${teilVerworfen.length ? `: ${teilVerworfen.join(' | ')}` : ''}`)
   releases.push(...ausMeldungen)
   /* Kein Termin aus einer Meldung, die nur Originalton nennt — gezählt und gelistet (`listen/23-nur-originalton.md`, Posteingang); über zehn (10.10.2026: 1) greift das Muster vermutlich zu weit. */
