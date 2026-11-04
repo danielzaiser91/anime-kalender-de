@@ -29,10 +29,10 @@ const ANISEARCH_AB = 10_000_000
 
 /**
  * Die Lückenliste, wie sie aus dem fertigen Datensatz folgt: jede Kennung ohne Cover, mit dem Grund aus `data/cover-eigen.json` (aniSearch-Kennung = Titelkennung − 10 000 000).
- * Ohne Eintrag dort: aniSearch-only → `nicht-abgerufen`, sonst `ohne-quelle`. Nach Kennung sortiert, damit zwei Läufe dieselbe Datei ergeben.
+ * Ohne Eintrag dort: aniSearch-only → `nicht-abgerufen`, sonst `ohne-quelle`. Die Ganzzahl-Schlüssel ordnet JavaScript selbst aufsteigend, zwei Läufe ergeben dieselbe Datei.
  */
 export function baueCoverLuecken(reihen: Record<string, Eintrag[]>, datenbank: Eintrag[], eigen: Record<string, { grund?: string; datei?: string }>): Record<string, string> {
-  const ids = [...ohneCover(reihen, datenbank)].sort((a, b) => a - b)
+  const ids = [...ohneCover(reihen, datenbank)]
   const grund = (id: number): string => (id >= ANISEARCH_AB ? (eigen[String(id - ANISEARCH_AB)]?.grund ?? 'nicht-abgerufen') : 'ohne-quelle')
   return Object.fromEntries(ids.map((id) => [String(id), grund(id)]))
 }
