@@ -5,6 +5,7 @@
 import type { Title } from '../shared/types.ts'
 import { titleStatus } from '../shared/logic.ts'
 import { synchroBelegt } from '../shared/titles.ts'
+import { cartoonMitSynchroBeleg } from '../shared/teilen.ts'
 import { belegstaerke, hochOhneBeleg, motnTonSchluessel, zaehleBelegte, type Belegsignale } from './lib/belegstaerke.ts'
 
 let fehler = 0
@@ -91,6 +92,13 @@ console.log('\nBelegstärke: Cartoons (westlich) entscheiden wie synchroBelegt')
   const cartoonHoch = t(true, 'very-high', false)
   pruefe('Cartoon mit Stufe very-high, aber ohne dub-Weg, zählt nicht als belegt', zaehleBelegte([cartoonHoch]) === 0)
   pruefe('Cartoon mit dub-Weg zählt auch bei Stufe low als belegt', zaehleBelegte([t(true, 'low', true)]) === 1)
+  const wegAbgeleitet = { platform: 'joyn', url: 'x', dub: true, dubAbgeleitet: 'joyn-pauschal' }
+  const wegGemessen = { platform: 'disney', url: 'y', dub: true }
+  const abgeleitet = (nurAbgeleitet: boolean): Title =>
+    ({ id: 2, westlich: true, dubConfidence: 'low', streams: nurAbgeleitet ? [wegAbgeleitet] : [wegAbgeleitet, wegGemessen] }) as unknown as Title
+  pruefe('Cartoon, dessen einziger dub-Weg abgeleitet ist, ist nicht belegt', !synchroBelegt(abgeleitet(true)) && zaehleBelegte([abgeleitet(true)]) === 0)
+  pruefe('Cartoon mit abgeleitetem und gemessenem dub-Weg ist belegt', synchroBelegt(abgeleitet(false)))
+  pruefe('Sitemap: abgeleiteter Cartoon-Weg allein ist kein Synchro-Beleg, ein gemessener daneben schon', !cartoonMitSynchroBeleg(abgeleitet(true)) && cartoonMitSynchroBeleg(abgeleitet(false)))
   const gemeldet = hochOhneBeleg(faelle.filter((x) => x.westlich), { handbelegt: new Set(), kartei: new Set() })
   pruefe('hochOhneBeleg meldet keinen Cartoon (belegt heißt dort: ein dub-Weg, der selbst der Beleg ist)', gemeldet.length === 0, gemeldet)
 }
