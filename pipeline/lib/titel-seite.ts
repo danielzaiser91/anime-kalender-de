@@ -9,7 +9,7 @@ import { synchroBelegt } from '../../shared/titles.ts'
 import { seitenTitel } from '../../shared/seiten-titel.ts'
 import { andereNamen, titelJsonLd } from './titel-namen.ts'
 import { standardBildAdresse } from './og-standard.ts'
-import { bildMeta, folgenText, vorschauBild } from './titel-vorschau.ts'
+import { bildMeta, folgenText, vorschauBild, type PlakatMasse } from './titel-vorschau.ts'
 import type { Umfeld } from './titel-umfeld.ts'
 
 export { seitenTitel }
@@ -89,14 +89,14 @@ export function namenZeile(t: Title | undefined, gezeigt: string): string {
   return andere.length ? `<p style="margin:0 0 1rem;color:#9aa5bd;">Auch bekannt als: ${andere.map(esc).join(' · ')}</p>` : ''
 }
 
-export function titelKopf(t: Title, umfeld: Umfeld, standardKennung: string, mitTermin = false): string {
+export function titelKopf(t: Title, umfeld: Umfeld, standardKennung: string, mitTermin = false, masse: PlakatMasse = new Map()): string {
   const url = `${SITE}${teilenPfad(t.slug)}`
   const name = titelName(t)
   const headline = seitenTitel(name, t, mitTermin)
   const description = titelBeschreibung(t)
-  /* TMDB-Banner verkleinert, sonst das Standardbild: WhatsApp zeigt nur Bilder mit Maßen und unter ~300 KB (titel-vorschau.ts). */
+  /* TMDB-Banner verkleinert, TMDB-Plakat mit Maßen, sonst das Standardbild: WhatsApp zeigt nur Bilder mit Maßen und unter ~300 KB (titel-vorschau.ts). */
   const eigenesBild = t.bannerImage ?? t.coverImage
-  const vorschau = vorschauBild(t.bannerImage, standardBildAdresse(SITE, standardKennung))
+  const vorschau = vorschauBild(t.bannerImage, t.coverImage, standardBildAdresse(SITE, standardKennung), masse)
   const bild = vorschau.url
   return `    <title>${esc(headline)}</title>
     <meta name="description" content="${esc(description)}" />
@@ -107,7 +107,7 @@ export function titelKopf(t: Title, umfeld: Umfeld, standardKennung: string, mit
     <meta property="og:title" content="${esc(headline)}" />
     <meta property="og:description" content="${esc(description)}" />
 ${bildMeta(vorschau)}    <meta property="og:image:alt" content="${esc(name)}" />
-    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:card" content="${vorschau.karte}" />
     <meta name="twitter:title" content="${esc(headline)}" />
     <meta name="twitter:description" content="${esc(description)}" />
     <meta name="twitter:image" content="${esc(bild)}" />

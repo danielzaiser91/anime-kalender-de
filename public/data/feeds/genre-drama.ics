@@ -8,35 +8,13 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-27#45@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261027T172500Z
-DTEND:20261027T175500Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-27#46@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261027T175000Z
-DTEND:20261027T182000Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-G24H1N334@2026-10-28@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261028T133000Z
 DTEND:20261028T140000Z
 SUMMARY:The Detective Is Already Dead Staffel 2 – Folge 1/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/14415/
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/t/14415/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -292,6 +270,95 @@ SUMMARY:One Piece
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/12/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-20613-joyn@2026-11-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261103
+DTEND;VALUE=DATE:20261104
+SUMMARY:Akame ga Kill: Schwerter der Assassinen (neu bei Joyn)
+DESCRIPTION:Plattform: Joyn\nRelease-Art: Katalogtitel\nIm Angebot seit die
+ sem Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrzeit noch
+  nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter genannter Tag\,
+  sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetails: https://
+ anime-kalender.de/t/7169/
+CATEGORIES:Joyn
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-2167-joyn@2026-11-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261103
+DTEND;VALUE=DATE:20261104
+SUMMARY:Clannad (neu bei Joyn)
+DESCRIPTION:Plattform: Joyn\nRelease-Art: Katalogtitel\nIm Angebot seit die
+ sem Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrzeit noch
+  nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter genannter Tag\,
+  sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetails: https://
+ anime-kalender.de/t/1865/
+CATEGORIES:Joyn
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-8142-joyn@2026-11-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261103
+DTEND;VALUE=DATE:20261104
+SUMMARY:Colorful
+DESCRIPTION:Plattform: Joyn\nRelease-Art: Film\nUhrzeit noch nicht bestäti
+ gt.\nGeschätzter Termin: kein vom Anbieter genannter Tag\, sondern aus Rh
+ ythmus oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.
+ de/t/4421/
+CATEGORIES:Joyn
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-8425-joyn@2026-11-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261103
+DTEND;VALUE=DATE:20261104
+SUMMARY:Gosick (neu bei Joyn)
+DESCRIPTION:Plattform: Joyn\nRelease-Art: Katalogtitel\nIm Angebot seit die
+ sem Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrzeit noch
+  nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter genannter Tag\,
+  sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetails: https://
+ anime-kalender.de/t/4535/
+CATEGORIES:Joyn
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-1530-joyn@2026-11-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261103
+DTEND;VALUE=DATE:20261104
+SUMMARY:Kanon (neu bei Joyn)
+DESCRIPTION:Plattform: Joyn\nRelease-Art: Katalogtitel\nIm Angebot seit die
+ sem Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrzeit noch
+  nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter genannter Tag\,
+  sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetails: https://
+ anime-kalender.de/t/1318/
+CATEGORIES:Joyn
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21875-joyn@2026-11-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261103
+DTEND;VALUE=DATE:20261104
+SUMMARY:No Game No Life Zero
+DESCRIPTION:Plattform: Joyn\nRelease-Art: Film\nUhrzeit noch nicht bestäti
+ gt.\nGeschätzter Termin: kein vom Anbieter genannter Tag\, sondern aus Rh
+ ythmus oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.
+ de/t/8202/
+CATEGORIES:Joyn
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-20690-joyn@2026-11-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261103
+DTEND;VALUE=DATE:20261104
+SUMMARY:Star Blazers 2199: Space Battleship Yamato - Odyssey of the Celesti
+ al Arc
+DESCRIPTION:Plattform: Joyn\nRelease-Art: Film\nUhrzeit noch nicht bestäti
+ gt.\nGeschätzter Termin: kein vom Anbieter genannter Tag\, sondern aus Rh
+ ythmus oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.
+ de/t/7241/
+CATEGORIES:Joyn
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-G24H1N334@2026-11-04@anime-kalender-de

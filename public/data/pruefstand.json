@@ -1,12 +1,12 @@
 {
- "erzeugtAm": "2026-11-03T17:20:51.751Z",
+ "erzeugtAm": "2026-11-04T16:18:41.698Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
-   "gemeldet": 901,
-   "gesamt": 954,
-   "offen": 53,
+   "gemeldet": 892,
+   "gesamt": 960,
+   "offen": 68,
    "ohneSeite": 1,
    "suchAdressen": [
     "https://www.amazon.de/s?k=Fischen%20Impossible%3A%20Eine%20tierische%20Rettungsaktion&i=instant-video"
@@ -50,16 +50,36 @@
      "titel": "Nukitashi: Welcome to Love Island! (Nukitashi THE ANIMATION)"
     },
     {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.467b800e-3262-4857-82b7-ed7a8634cb5b",
+     "titel": "Haikyu!! Das Play-off der Müllhalde (HAIKYU!! The Dumpster Battle)"
+    },
+    {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.ae9245d5-07c5-41ce-ba90-d9f8779f046c",
+     "titel": "Blue Lock: The Movie - Episode Nagi (BLUE LOCK THE MOVIE -EPISODE NAGI-)"
+    },
+    {
      "url": "https://www.amazon.de/gp/video/detail/B0CYQJ79R8",
      "titel": "Girls Band Cry"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B0D956JD5Y",
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.c903bcab-b4d5-4bdb-b418-70ab5650132e",
+     "titel": "My Hero Academia: You’re Next"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/0KXOMCNFCKPTA6Z6HNIJ0ESQ9P",
      "titel": "Edens Zero: Season 2 (EDENS ZERO Season 2)"
+    },
+    {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.a3523598-4cd6-4004-8763-f4fbb45e0ac6",
+     "titel": "Spy × Family Code: White (SPY x FAMILY CODE: White)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0BZWFR7H1",
      "titel": "Bluelock (BLUE LOCK)"
+    },
+    {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.c38ba568-4a91-4796-ac66-2577e5c97b8a",
+     "titel": "Mobile Suit Gundam: Cucuruz Doan’s Island (Mobile Suit Gundam: Cucuruz Doan's Island)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CVLJNLWJ",
@@ -90,20 +110,24 @@
      "titel": "Babylon"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B0DCXV5GMB",
-     "titel": "Tokyo Ghoul √A"
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.077c1435-754d-407d-9d26-9ddb34a272d0",
+     "titel": "Lupin III.: Fujiko Mines Lüge (Lupin the IIIrd: Fujiko's Lie)"
+    },
+    {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.88bb7e12-4a26-732f-eb5b-37733d139471",
+     "titel": "Code Geass: Lelouch of the Rebellion - Verherrlichung (Code Geass: Lelouch of the Rebellion III - Glorification)"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B0CW5WH6XZ",
+     "titel": "Tokyo Ghoul:re"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/0O59G87GV5BELGUFJKLQQAGHP4",
      "titel": "Granblue Fantasy: The Animation"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B0F5J5JTSL",
-     "titel": "KonoSuba: God’s Blessing on This Wonderful World! 2 (KONOSUBA -God's blessing on this wonderful world! 2)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0FVFT9MQF",
-     "titel": "KonoSuba: God’s Blessing on This Wonderful World! 2 (KONOSUBA -God's blessing on this wonderful world! 2)"
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.b0bb7dff-f320-0490-8aec-76f307a1f81d",
+     "titel": "Code Geass: Lelouch of the Rebellion - Initiation (Code Geass: Lelouch of the Rebellion I - Initiation)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CHKG67BC",
@@ -142,6 +166,10 @@
      "titel": "Chaika, die Sargprinzessin (Chaika -The Coffin Princess-)"
     },
     {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.f783e7fb-3d94-40aa-88fb-2009fc9bfe2c",
+     "titel": "Lupin III.: Daisuke Jigens Grabstein (Lupin the IIIrd: Jigen's Gravestone)"
+    },
+    {
      "url": "https://www.amazon.de/gp/video/detail/B0GMY84XLR",
      "titel": "Wanna Be the Strongest in the World!"
     },
@@ -158,6 +186,10 @@
      "titel": "Free! Iwatobi Swim Club (Free! -Iwatobi Swim Club-)"
     },
     {
+     "url": "https://www.amazon.de/gp/video/detail/B0GVKRLHXX",
+     "titel": "Aesthetica of a Rogue Hero"
+    },
+    {
      "url": "https://www.amazon.de/gp/video/detail/B0DMWSJ7B9",
      "titel": "Maid-sama (Maid-Sama!)"
     },
@@ -166,8 +198,12 @@
      "titel": "Bakemonogatari"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B0CBKJKYM4",
+     "url": "https://www.amazon.de/gp/video/detail/B09KX2VLPR",
      "titel": "Higurashi no Naku Koro ni Kai (When They Cry Kai)"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B09JZHRQ18",
+     "titel": "Higurashi no Naku Koro ni (When They Cry)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0GYDLTDD8",
@@ -184,6 +220,11 @@
     {
      "url": "https://www.amazon.de/gp/video/detail/B0DNNFT23G",
      "titel": "Shin-chan (Shin Chan)"
+    },
+    {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.5ba2d356-b885-4716-adfa-3a95cec98fff",
+     "titel": "Polly Pocket",
+     "hinweis": "Staffeln unklar: TMDB zählt 168 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.0cb8c40c-c316-369d-4c63-7adba44df4ab",
@@ -293,7 +334,6 @@
     "0O7N0W14A4OMCE7NS7M57PFOI1": 12,
     "B0D19WGZ6Z": 12,
     "B08HSHY3QF": 13,
-    "0M8DANTSGA69M1PDY94H2WE49L": 1,
     "B0B8T48JNZ": 13,
     "B0FV2DT45Q": 12,
     "B0DFH48ZSP": 12,
@@ -305,7 +345,6 @@
     "B0DJB5NGNK": 28,
     "B0D2M355W6": 52,
     "B09DBZ7T89": 12,
-    "B0CGT4P3D9": 1,
     "B0CFXJPZ1Q": 13,
     "B0F2JH4Y5M": 13,
     "B0B5M7HJ1K": 24,
@@ -327,6 +366,7 @@
     "B0D8SX7TGW": 12,
     "B0CVG6BDYZ": 13,
     "B09C12DRYV": 12,
+    "B0GFGTTR3N": 25,
     "B0B8SM98JV": 12,
     "B0F1TJ8PSR": 11,
     "B0BYXM4XD2": 12,
@@ -386,10 +426,10 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 767,
-   "gesamt": 938,
-   "offen": 171,
-   "ohneSeite": 15,
+   "gemeldet": 754,
+   "gesamt": 950,
+   "offen": 196,
+   "ohneSeite": 12,
    "ziel": "https://www.netflix.com/title/81608820",
    "ziele": [
     {
@@ -417,8 +457,60 @@
      "titel": "My Hero Academia"
     },
     {
+     "url": "https://www.netflix.com/title/81685164",
+     "titel": "Mashle: Magic and Muscles"
+    },
+    {
+     "url": "https://www.netflix.com/title/81771389",
+     "titel": "Wind Breaker"
+    },
+    {
+     "url": "https://www.netflix.com/title/82040442",
+     "titel": "Overlord: The Sacred Kingdom"
+    },
+    {
+     "url": "https://www.netflix.com/title/81003894",
+     "titel": "Captain Tsubasa: Staffel 2 - Die Junioren"
+    },
+    {
+     "url": "https://www.netflix.com/title/81680101",
+     "titel": "Zom 100: Bucket List of the Dead"
+    },
+    {
+     "url": "https://www.netflix.com/title/81714596",
+     "titel": "Resident Evil: Death Island"
+    },
+    {
+     "url": "https://www.netflix.com/title/81763062",
+     "titel": "Blue Giant"
+    },
+    {
      "url": "https://www.netflix.com/title/81642888",
      "titel": "Urusei Yatsura"
+    },
+    {
+     "url": "https://www.netflix.com/title/81700393",
+     "titel": "The Deer King"
+    },
+    {
+     "url": "https://www.netflix.com/title/81765372",
+     "titel": "The First Slam Dunk"
+    },
+    {
+     "url": "https://www.netflix.com/title/81028791",
+     "titel": "Cells at Work!"
+    },
+    {
+     "url": "https://www.netflix.com/title/81392162",
+     "titel": "Cells at Work! Code Black"
+    },
+    {
+     "url": "https://www.netflix.com/title/81492822",
+     "titel": "Belle"
+    },
+    {
+     "url": "https://www.netflix.com/title/81602834",
+     "titel": "Jujutsu Kaisen 0"
     },
     {
      "url": "https://www.netflix.com/title/70302573",
@@ -429,11 +521,31 @@
      "titel": "Danmachi: Is It Wrong to Try to Pick Up Girls in a Dungeon? Familia Myth"
     },
     {
+     "url": "https://www.netflix.com/title/81410810",
+     "titel": "Demon Slayer: Kimetsu no Yaiba - The Movie: Mugen Train"
+    },
+    {
      "url": "https://www.netflix.com/title/80175351",
      "titel": "Kakegurui: Das Leben ist ein Spiel",
      "staffeln": [
       2
      ]
+    },
+    {
+     "url": "https://www.netflix.com/title/81208104",
+     "titel": "Children of the Sea"
+    },
+    {
+     "url": "https://www.netflix.com/title/81427481",
+     "titel": "The Legend of Hei: Die Kraft in dir"
+    },
+    {
+     "url": "https://www.netflix.com/title/81004268",
+     "titel": "Mirai: Das Mädchen aus der Zukunft"
+    },
+    {
+     "url": "https://www.netflix.com/title/81037597",
+     "titel": "Okko und ihre Geisterfreunde"
     },
     {
      "url": "https://www.netflix.com/title/80238911",
@@ -454,6 +566,10 @@
     {
      "url": "https://www.netflix.com/title/81030152",
      "titel": "Haikyu!! Movie 4 - Ein Kampf der Konzepte"
+    },
+    {
+     "url": "https://www.netflix.com/title/81037697",
+     "titel": "Mutafukaz"
     },
     {
      "url": "https://www.netflix.com/title/81068687",
@@ -628,6 +744,11 @@
      "titel": "Die Abenteuer der Teenage Mutant Ninja Turtles"
     },
     {
+     "url": "https://www.netflix.com/title/80026226",
+     "titel": "Paw Patrol: Helfer auf vier Pfoten",
+     "hinweis": "Staffeln unklar: TMDB zählt 578 Folgen insgesamt, der Anbieter kann sie anders schneiden"
+    },
+    {
      "url": "https://www.netflix.com/title/81936142",
      "titel": "Der unglaubliche digitale Zirkus",
      "staffeln": [
@@ -686,6 +807,10 @@
      "titel": "Die Oktonauten auf dem Festland"
     },
     {
+     "url": "https://www.netflix.com/title/81691739",
+     "titel": "Lukas, die Spinne"
+    },
+    {
      "url": "https://www.netflix.com/title/81035124",
      "titel": "True: Terrific Tales",
      "staffeln": [
@@ -707,14 +832,19 @@
      ]
     },
     {
+     "url": "https://www.netflix.com/title/81121910",
+     "titel": "LEGO City Abenteuer",
+     "hinweis": "Staffeln unklar: TMDB zählt 82 Folgen insgesamt, der Anbieter kann sie anders schneiden"
+    },
+    {
+     "url": "https://www.netflix.com/title/80178943",
+     "titel": "The Boss Baby: wieder im Geschäft",
+     "hinweis": "Staffeln unklar: TMDB zählt 49 Folgen insgesamt, der Anbieter kann sie anders schneiden"
+    },
+    {
      "url": "https://www.netflix.com/title/81186971",
      "titel": "Willkommen bei den Louds",
      "hinweis": "Staffeln unklar: TMDB zählt 407 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/80026226",
-     "titel": "Paw Patrol: Helfer auf vier Pfoten",
-     "hinweis": "Staffeln unklar: TMDB zählt 578 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://www.netflix.com/title/70171947",
@@ -875,13 +1005,11 @@
    "bekannt": {
     "70205012": 26,
     "70297439": 52,
-    "80000603": 500,
     "80001305": 26,
     "80103318": 13,
     "80174918": 12,
     "80174974": 10,
     "80186926": 6,
-    "80206326": 26,
     "80212481": 13,
     "80221272": 13,
     "80992137": 24,
@@ -891,14 +1019,12 @@
     "81033445": 26,
     "81050064": 6,
     "81054851": 6,
-    "81080523": 15,
     "81095103": 1,
     "81176966": 6,
     "81220429": 12,
     "81220435": 14,
     "81228009": 13,
     "81239555": 52,
-    "81253271": 48,
     "81276500": 6,
     "81280998": 4,
     "81281344": 8,
@@ -908,7 +1034,6 @@
     "81313291": 12,
     "81341765": 8,
     "81409869": 1,
-    "81422700": 36,
     "81442091": 12,
     "81497635": 12,
     "81499847": 13,
@@ -932,9 +1057,9 @@
    "name": "Disney+",
    "plattform": "disneyplus",
    "gemeldet": 179,
-   "gesamt": 342,
-   "offen": 163,
-   "ohneSeite": 17,
+   "gesamt": 346,
+   "offen": 167,
+   "ohneSeite": 15,
    "ziel": "https://www.disneyplus.com/browse/entity-faa35b37-3287-4a7c-9d42-a3a5f9ad9185",
    "ziele": [
     {
@@ -1072,6 +1197,11 @@
      "hinweis": "Staffeln unklar: TMDB zählt 156 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
+     "url": "https://www.disneyplus.com/browse/entity-b4164759-c6f0-4a75-a66b-ea37ab71ab6a",
+     "titel": "Welpen Freunde",
+     "hinweis": "Staffeln unklar: TMDB zählt 232 Folgen insgesamt, der Anbieter kann sie anders schneiden"
+    },
+    {
      "url": "https://www.disneyplus.com/browse/entity-3c3e5e4a-38dd-4125-a478-d16c406022bd",
      "titel": "Vampirina: Ghoul Girls Rock!",
      "hinweis": "Staffeln unklar: TMDB zählt 15 Folgen insgesamt, der Anbieter kann sie anders schneiden"
@@ -1080,6 +1210,11 @@
      "url": "https://www.disneyplus.com/browse/entity-76df5563-b3fe-488d-89f9-09808373a01b",
      "titel": "Fancy Nancy Clancy",
      "hinweis": "Staffeln unklar: TMDB zählt 123 Folgen insgesamt, der Anbieter kann sie anders schneiden"
+    },
+    {
+     "url": "https://www.disneyplus.com/browse/entity-37f02ccf-ad68-4ee1-b5a1-4dc153a39560",
+     "titel": "Muppet Babies",
+     "hinweis": "Staffeln unklar: TMDB zählt 141 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://www.disneyplus.com/browse/entity-a5caa1c4-9182-4a84-aaa6-b762c4c30122",

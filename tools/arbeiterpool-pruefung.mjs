@@ -8,7 +8,7 @@ import { execFileSync } from 'node:child_process'
 import { mkdtempSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { dauerZeilen, laufePool, letzteZeilen } from './arbeiterpool.mjs'
+import { beendeBaum, dauerZeilen, FRIST_S, laufePool, letzteZeilen, taskkillArgs } from './arbeiterpool.mjs'
 import { gitStand, veraenderte } from './git-stand-wache.mjs'
 
 const knoten = (code) => ({ befehl: process.execPath, args: ['-e', code], env: process.env })
@@ -115,6 +115,32 @@ if (process.platform === 'win32') {
   assert.equal(e.gelaufen, 1, 'der Pool wartet auf den letzten Auftrag')
   assert.match(text, /spaet/)
   console.log('  ✓ Pool kehrt erst nach dem letzten Auftrag zurück')
+}
+{
+  const haenger = knoten(
+    `const k = require('node:child_process').spawn(process.execPath, ['-e', 'setTimeout(() => {}, 60000)'], { stdio: 'ignore' }); ${schreibe('kind=')}; process.stdout.write(String(k.pid) + '\\n'); setTimeout(() => {}, 60000)`,
+  )
+  const schnell = knoten(schreibe('flott'))
+  const [e, text] = await fange([schnell, haenger, knoten(schreibe('auch'))], { alle: true, n: 3, fristS: 1.5 })
+  assert.deepEqual(e.rote.map((r) => [r.index, r.status]), [[1, 1]], 'nur der Hänger ist rot, mit Exit 1; die schnellen bleiben grün')
+  assert.equal(e.rote[0].ende.at(-1), 'Frist 1.5 s überschritten, Prozess samt Kindern beendet.', 'Meldung steht als letzte Zeile, davor die Ausgabe des Hängers')
+  assert.ok(e.sekunden[1] < 20, 'der Pool kehrt nach der Frist zurück, nicht nach dem Hänger')
+  assert.match(text, /^#0\|flott#1\|kind=\d+\nFrist 1\.5 s überschritten.*\n#2\|auch$/, 'Ausgabereihenfolge unverändert')
+  const kind = Number(text.match(/kind=(\d+)/)[1])
+  await new Promise((r) => setTimeout(r, 500))
+  assert.throws(() => process.kill(kind, 0), 'das Kind des Hängers ist mit beendet')
+  console.log('  ✓ Frist: Hänger rot mit Meldung samt Kind beendet, schnelle grün, Reihenfolge gleich')
+}
+{
+  const aufrufe = []
+  const ziel = (art) => (p) => aufrufe.push([art, p])
+  beendeBaum(42, { plattform: 'win32', taskkill: ziel('taskkill'), gruppe: ziel('gruppe') })
+  beendeBaum(43, { plattform: 'linux', taskkill: ziel('taskkill'), gruppe: ziel('gruppe') })
+  assert.deepEqual(aufrufe, [['taskkill', 42], ['gruppe', 43]], 'Windows nimmt taskkill, sonst die Prozessgruppe')
+  assert.deepEqual(taskkillArgs(7), ['/T', '/F', '/PID', '7'], 'taskkill nimmt Kindprozesse (/T) mit')
+  assert.ok(FRIST_S >= 120 && FRIST_S <= 1500, 'Standardfrist liegt über dem langsamsten Test (147 s lokal) und unter dem Job-Timeout (1800 s)')
+  beendeBaum(44, { plattform: 'linux', gruppe: () => { throw new Error('ESRCH') } })
+  console.log('  ✓ beendeBaum: Weg je Plattform, bereits beendeter Prozess wirft nicht')
 }
 
 /** Kleines Git-Repo mit einer getrackten Datei. */

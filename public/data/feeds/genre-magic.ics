@@ -8,16 +8,6 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:auto-118399-tv-prosieben-maxx@2026-10-27@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261027T154000Z
-DTEND:20261027T161000Z
-SUMMARY:Yashahime: Princess Half-Demon
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/11570/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GRGG9798R@2026-10-28#18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261028T150000Z
@@ -182,6 +172,18 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-21875-joyn@2026-11-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261103
+DTEND;VALUE=DATE:20261104
+SUMMARY:No Game No Life Zero
+DESCRIPTION:Plattform: Joyn\nRelease-Art: Film\nUhrzeit noch nicht bestäti
+ gt.\nGeschätzter Termin: kein vom Anbieter genannter Tag\, sondern aus Rh
+ ythmus oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.
+ de/t/8202/
+CATEGORIES:Joyn
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GT00383994@2026-11-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261104T151500Z
@@ -308,6 +310,16 @@ UID:auto-118399-tv-prosieben-maxx@2026-11-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261109T154500Z
 DTEND:20261109T161500Z
+SUMMARY:Yashahime: Princess Half-Demon
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/11570/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-118399-tv-prosieben-maxx@2026-11-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261110T154500Z
+DTEND:20261110T161500Z
 SUMMARY:Yashahime: Princess Half-Demon
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/11570/
