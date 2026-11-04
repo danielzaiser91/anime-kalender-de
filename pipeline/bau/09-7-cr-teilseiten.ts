@@ -31,7 +31,7 @@ export function setzeCrTeilseiten(titles: Map<number, Title>, crDub: CrDubData, 
   const pruefen: TeilseitenPruefung[] = []
   const je = { titel: 0, zahl: 0 }
   for (const [url, eintraege] of geteilteAdressen(titles, 'crunchyroll')) {
-    const offen = eintraege.filter((e) => e.stream.dub === true && !e.stream.dubRanges?.length)
+    const offen = eintraege.filter((e) => e.stream.dub === true && !e.stream.dubRanges?.length) // dub-lesart: irgendwie – jeder Weg mit Ja zählt (Menge/Weiche), auch ein abgeleiteter
     if (!offen.length) continue
     const archiv = ladeCrArchiv(serien.get(url)?.seriesId) as RohArchiv | undefined
     const liste = archiv ? crPositionen(archiv) : []
