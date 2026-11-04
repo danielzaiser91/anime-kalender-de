@@ -34,9 +34,15 @@ function providerToPlatform(name: string): PlatformId | undefined {
  * Ein einzelner Film von Netflix & Co. steht bei AniList als ONA, OVA oder Special mit einer Folge, bei TMDB aber als Film
  * (Bright: Samurai Soul, 04.11.2026: als Serie gesucht, nie gefunden). Die Serien-Suche bleibt zuerst; der Film kommt nur nach einem Fehlschlag.
  */
-export function koennteFilmSein(title: Pick<Title, 'format' | 'episodes'>): boolean {
-  return ['ONA', 'OVA', 'SPECIAL'].includes(title.format ?? '') && title.episodes === 1
+export function koennteFilmSein(title: Pick<Title, 'format' | 'episodes' | 'jpYear'>): boolean {
+  return ['ONA', 'OVA', 'SPECIAL'].includes(title.format ?? '') && title.episodes === 1 && title.jpYear !== undefined
 }
+
+/**
+ * Strenger als die Serien-Suche (0,75): Ohne Jahr prüft `waehleBesten` nichts, und ein Special mit Seriennamen (Tachikomatic Days, 0,86)
+ * traf den Film der Hauptserie. Von 134 Treffern der Probe (04.11.2026) fallen 8 unter 0,9, einer davon war falsch.
+ */
+const FILM_MIN_AEHNLICHKEIT = 0.9
 
 /** Bester Treffer über alle Schreibweisen für eine Art (`tv` oder `movie`). */
 async function sucheBesten(
@@ -97,6 +103,7 @@ export async function lookup(
   if (!best && kind === 'tv' && koennteFilmSein(title)) {
     kind = 'movie'
     best = await sucheBesten(apiKey, kind, candidates, title.jpYear, holen, pause)
+    if (best && best.score < FILM_MIN_AEHNLICHKEIT) best = undefined
   }
   const isMovie = kind === 'movie'
 

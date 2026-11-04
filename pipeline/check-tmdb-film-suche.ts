@@ -72,12 +72,26 @@ console.log('\nFilm-Nachsuche: wann nicht')
   pruefe('Film aus anderem Jahr: Fehlschlag trotz Nachsuche', falschesJahr.arten === 'tv,tv,movie,movie' && falschesJahr.r.miss === true, falschesJahr)
   const realfilm = await frage(f({}), [], [{ ...BRIGHT_FILM, genre_ids: [28, 14] }])
   pruefe('Realfilm gleichen Namens (ohne Animation): Fehlschlag', realfilm.r.miss === true, realfilm)
+  /* Gegenfall zur Falschzuordnung: ohne Jahr prüft waehleBesten kein Jahr, ein gleichnamiger Film von 1990 wäre sonst der Treffer. */
+  const film1990 = { ...BRIGHT_FILM, id: 1990, release_date: '1990-05-01' }
+  const ohneJahr = await frage(f({ jpYear: undefined }), [], [film1990])
+  pruefe('jpYear fehlt, Film gleichen Namens von 1990: keine Film-Suche, Fehlschlag', ohneJahr.arten === 'tv,tv' && ohneJahr.r.miss === true, ohneJahr)
+  /* Ähnlichkeit: 10 Wörter, 9 gemeinsame = 0,9 gilt; 8 gemeinsame = 0,8 nicht (Tachikomatic Days: Special mit Seriennamen, 0,86). */
+  const lang = 'alpha bravo charlie delta echo foxtrot golf hotel india juliet'
+  const mit = (name: string): object => ({ ...BRIGHT_FILM, title: name, original_title: name })
+  const genau = await frage(f({ titleEn: lang, titleRomaji: undefined }), [], [mit('alpha bravo charlie delta echo foxtrot golf hotel india')])
+  pruefe('Film-Ähnlichkeit genau 0,9: Treffer', genau.r.tmdbId === 839100, genau)
+  const knapp = await frage(f({ titleEn: lang, titleRomaji: undefined }), [], [mit('alpha bravo charlie delta echo foxtrot golf hotel')])
+  pruefe('Film-Ähnlichkeit 0,8: Fehlschlag, Serien-Suche hätte sie angenommen', knapp.r.miss === true, knapp)
+  const knappSerie = await frage(f({ titleEn: lang, titleRomaji: undefined, format: 'TV' }), [{ id: 8, name: 'alpha bravo charlie delta echo foxtrot golf hotel', first_air_date: '2021-01-01', genre_ids: [16], vote_count: 1 }])
+  pruefe('Kontrolle: dieselbe Ähnlichkeit 0,8 ist bei einer Serie ein Treffer', knappSerie.r.tmdbId === 8, knappSerie)
   const serienFehler = await frage(f({}), [], [BRIGHT_FILM], true)
   pruefe('Serien-Suche scheitert (503): der Film wird trotzdem gefunden', serienFehler.r.tmdbId === 839100 && serienFehler.r.kind === 'movie', serienFehler)
 }
 
 console.log('\nFilm-Nachsuche: koennteFilmSein')
-const fall = (format: string, episodes: number | undefined): boolean => koennteFilmSein({ format, episodes } as Pick<Title, 'format' | 'episodes'>)
+const fall = (format: string, episodes: number | undefined, jpYear: number | null = 2021): boolean => koennteFilmSein({ format, episodes, jpYear: jpYear ?? undefined } as Pick<Title, 'format' | 'episodes' | 'jpYear'>)
+pruefe('ohne Jahr keine Nachsuche', !fall('ONA', 1, null))
 pruefe('ONA, OVA, SPECIAL mit einer Folge', fall('ONA', 1) && fall('OVA', 1) && fall('SPECIAL', 1))
 pruefe('keine Folgenzahl, zwei, null Folgen', !fall('ONA', undefined) && !fall('ONA', 2) && !fall('OVA', 0))
 pruefe('TV, TV_SHORT, MUSIC, MOVIE', !fall('TV', 1) && !fall('TV_SHORT', 1) && !fall('MUSIC', 1) && !fall('MOVIE', 1))
