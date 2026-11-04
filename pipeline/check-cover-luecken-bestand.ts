@@ -2,7 +2,8 @@
  * Bestandswache: Jeder Eintrag in `franchises.json`, `titles.json` und `ohne-synchro.json` hat ein Cover oder steht auf der Lückenliste
  * `data/cover-luecken.json` (Kennung → Grund aus `data/cover-eigen.json`). Bewertung in `lib/cover-luecken.ts`.
  * Ein neuer Eintrag ohne Cover ist **nur eine Warnung** (Exit 0): Rot stoppt den ganzen Bestandsbau, und aniSearch-only-Titel kommen täglich ohne Bild hinzu.
- * Rot nur bei fehlender oder kaputter Lückenliste. Test: `check-cover-luecken-wache.ts`.
+ * Rot bei fehlender oder kaputter Lückenliste und bei **veralteten** Einträgen (Kennung steht drauf, hat aber ein Cover): Der Bau schreibt die Liste selbst
+ * (`bau/13-11-cover-luecken.ts`), ein veralteter Eintrag heißt also, dass dieser Schritt nicht lief oder falsch rechnet. Test: `check-cover-luecken-wache.ts`.
  */
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
@@ -26,8 +27,12 @@ export function main(wurzel: string): number {
   const daten = (name: string): never => lies(join(wurzel, 'public/data', name)) as never
   const r = pruefeCoverLuecken(daten('franchises.json'), [...(daten('titles.json') as []), ...(daten('ohne-synchro.json') as [])], luecken)
   if (r.fehlt.length) console.log(`  ⚠ WARNUNG Cover: ${r.fehlt.length} Eintrag/Einträge in Reihe oder Datenbank ohne Cover und nicht auf data/cover-luecken.json (Kennung samt Grund aus data/cover-eigen.json eintragen): ${kennungen(r.fehlt)}`)
-  if (r.veraltet.length) console.log(`  ⚠ WARNUNG Cover: ${r.veraltet.length} Kennung(en) auf data/cover-luecken.json haben inzwischen ein Cover (Eintrag entfernen): ${kennungen(r.veraltet)}`)
-  if (!r.fehlt.length && !r.veraltet.length) console.log(`  ✓ Cover: jeder Eintrag hat ein Cover oder steht auf der Lückenliste (${Object.keys(luecken).length} Lücken)`)
+  if (r.veraltet.length) {
+    console.error(`  ✖ Cover: ${r.veraltet.length} Kennung(en) auf data/cover-luecken.json haben ein Cover (der Bau schreibt die Liste neu, Schritt prüfen): ${kennungen(r.veraltet)}`)
+    console.error(`VERSTÖSSE: ${r.veraltet.length}`)
+    return 1
+  }
+  if (!r.fehlt.length) console.log(`  ✓ Cover: jeder Eintrag hat ein Cover oder steht auf der Lückenliste (${Object.keys(luecken).length} Lücken)`)
   console.log('VERSTÖSSE: 0')
   return 0
 }
