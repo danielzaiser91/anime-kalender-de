@@ -48,6 +48,7 @@ import type { Title } from '../shared/types.ts'
 import { STAFFELN_ABFRAGE, staffelnVon, type Staffel, type StaffelRoh } from './lib/jw-staffeln.ts'
 import { warteschlange } from './lib/jw-schlange.ts'
 import { ladeFrische } from './lib/jw-frische.ts'
+import { ANBIETERLISTEN, listenVorrangAbrufen, seiteVonJustWatch } from './lib/jw-anbieterliste.ts'
 
 const ENDPUNKT = 'https://apis.justwatch.com/graphql'
 const UA = 'Mozilla/5.0 (compatible; anime-kalender.de/1.0; +https://anime-kalender.de)'
@@ -229,7 +230,10 @@ async function main(): Promise<void> {
     Sprachurteil, Titel ganz ohne Weg (243 im Hauptbestand, 07.09.2026) und Wege, die nur auf die TMDB-Übersicht
     zeigen statt zum Anbieter (1.187 auf 364 Titeln, 16.09.2026).
   */
-  const offen = warteschlange({ titles, bestand, tmdb, grenze, heute: todayIso(), frisch: frischeAusTermine(), cartoonIds: new Set(cartoons.map((t) => t.id)) })
+  const tmdbVon = (t: Title) => (t as Title & { tmdbId?: number }).tmdbId ?? tmdb[String(t.id)]?.tmdbId
+  const listen = await listenVorrangAbrufen(ANBIETERLISTEN, seiteVonJustWatch(ENDPUNKT, UA, fetchJson), () => sleep(PAUSE_MS), titles, bestand, tmdbVon, todayIso())
+  log(`JustWatch: ${listen.vorrang.size} Titel aus Anbieter-Listen vorgezogen (${listen.abrufe} Listenabrufe).`)
+  const offen = warteschlange({ titles, bestand, tmdb, grenze, heute: todayIso(), frisch: frischeAusTermine(), listenVorrang: listen.vorrang, cartoonIds: new Set(cartoons.map((t) => t.id)) })
 
   if (!offen.length) {
     log('JustWatch: keine offenen Verweise zur Wiedervorlage.')

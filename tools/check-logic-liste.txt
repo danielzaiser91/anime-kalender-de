@@ -220,6 +220,7 @@ pipeline/check-invarianten.ts
 pipeline/check-ja-hat-weg.ts
 pipeline/check-juengeres-ja-weg.ts
 pipeline/check-jw-ablauf.ts
+pipeline/check-jw-anbieterliste.ts
 pipeline/check-jw-auswahl.ts
 pipeline/check-jw-frisch-lauf.ts
 pipeline/check-jw-schlange.ts
