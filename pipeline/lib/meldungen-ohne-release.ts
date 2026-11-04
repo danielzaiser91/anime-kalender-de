@@ -21,3 +21,12 @@ export function ueberfaelligOhneRelease(liste: NichtZugeordnet[], gemeldetAm: Ma
     .map((eintrag) => ({ eintrag, gemeldetAm: gemeldetAm.get(eintrag.artikel) }))
     .filter((b) => b.gemeldetAm === undefined || b.gemeldetAm < grenze)
 }
+
+/** Schlüssel eines Befunds auf der Liste der bekannten: ein Artikel kann mehrere Titel melden. */
+export const befundSchluessel = (b: OhneReleaseBefund): string => `${b.eintrag.artikel} | ${b.eintrag.titel}`
+
+/** Neu = überfällig und nicht auf der Liste; erledigt = auf der Liste, aber nicht mehr überfällig (von der Liste streichen). */
+export function gegenBekannte(befunde: OhneReleaseBefund[], bekannt: readonly string[]): { neu: string[]; erledigt: string[] } {
+  const aktuell = new Set(befunde.map(befundSchluessel))
+  return { neu: [...aktuell].filter((k) => !bekannt.includes(k)), erledigt: bekannt.filter((k) => !aktuell.has(k)) }
+}

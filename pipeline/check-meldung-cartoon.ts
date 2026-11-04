@@ -84,8 +84,32 @@ function vorrangFaelle(): void {
   pruefe('kein Präfix-Treffer auf einen Cartoon („Bass X“) — Verlust „ohne Titel“ gezählt', teil.neu.length === 0 && teil.verluste.ohneTitel.length === 1, teil.verluste)
   const schon = { slug: 'x', titleId: -314271, name: 'Bass X Machina', platform: 'netflix', releaseType: 'batch', schedule: { firstEpisodeDate: '2026-11-03' }, sources: [] } as never
   const abgedeckt: Vorschlag[] = []
-  const nochmal = releasesAus([BASS_MELDUNG], [], [schon], '2026-11-04', [], abgedeckt, cartoons)
+  const verluste = leereVerluste()
+  const nochmal = releasesAus([BASS_MELDUNG], [], [schon], '2026-11-04', [], abgedeckt, cartoons, verluste)
   pruefe('ein Handeintrag desselben Titels beim Anbieter verdrängt den Bot-Termin (abgedeckt)', nochmal.length === 0 && abgedeckt.length === 1, [nochmal.length, abgedeckt.length])
+  pruefe('… und wird als „schon belegt“ gezählt, nicht als Verlust und nicht als Start', verluste.schonBelegt.length === 1 && verluste.nurStart.length === 0 && verluste.ohneTitel.length === 0, verluste)
+}
+
+/** Start-Jahr-Fenster von einem Jahr um das Jahr des Termins (03.11.2026): 2025 bis 2027 passen, 2024 und 2028 nicht. */
+function jahrFaelle(): void {
+  const mit = (jahr: number | undefined, name = 'Bass X Machina') => [alsTitel({ ...BASS_CARTOON, titleEn: name, jahr: jahr as number })]
+  const gleich = (jahr: number | undefined) => ausMeldung(BASS_MELDUNG, [], mit(jahr))
+  pruefe('Jahr 2026 (gleich): Release', gleich(2026).neu.length === 1, gleich(2026).verluste)
+  pruefe('Jahr 2025 (ein Jahr davor): Release', gleich(2025).neu.length === 1)
+  pruefe('Jahr 2027 (ein Jahr danach): Release', gleich(2027).neu.length === 1)
+  const alt = gleich(2024)
+  pruefe('Jahr 2024 (zwei davor): kein Release, Verlust „ohne Titel“ gezählt', alt.neu.length === 0 && alt.verluste.ohneTitel.length === 1, alt.verluste)
+  pruefe('Jahr 2028 (zwei danach): kein Release', gleich(2028).neu.length === 0)
+  pruefe('ohne Start-Jahr: kein Release (fail closed)', gleich(undefined).neu.length === 0)
+  for (const [name, jahr] of [['Eden', 2020], ['Primal', 2019], ['Heidi', 2015]] as const) {
+    const g = ausMeldung({ ...BASS_MELDUNG, articleTitle: `Netflix: »${name}« startet` }, [], mit(jahr, name))
+    pruefe(`generischer Cartoon-Name „${name}“ (${jahr}) gegen eine Meldung von 2026: kein Release, gezählt`, g.neu.length === 0 && g.verluste.ohneTitel.length === 1, g)
+  }
+  const frisch = ausMeldung({ ...BASS_MELDUNG, articleTitle: 'Netflix: »Eden« startet' }, [], mit(2026, 'Eden'))
+  pruefe('Gegenfall: „Eden“ mit Start-Jahr 2026 passt', frisch.neu.length === 1 && frisch.neu[0]!.titleId === -314271, frisch.neu)
+  const angekuendigt = { ...(anime(900020, 'Neuer Sammel') as object), ankuendigung: { synchro: 'angekuendigt', omuAb: '2026-11-03' } } as never
+  const nurStart = ausMeldung({ ...BASS_MELDUNG, articleTitle: 'Netflix: »Neuer Sammel« startet', dates: [{ iso: '2026-11-04', context: 'Sammelartikel' }] }, [angekuendigt], [])
+  pruefe('Sammelartikel-Start einer frischen Ankündigung: kein Release, als „nur Start“ gezählt', nurStart.neu.length === 0 && nurStart.verluste.nurStart.length === 1 && nurStart.verluste.ohneTitel.length === 0, nurStart.verluste)
 }
 
 function verlustFaelle(): void {
@@ -170,6 +194,7 @@ try {
   releaseFaelle()
   vorrangFaelle()
   verlustFaelle()
+  jahrFaelle()
   listenFaelle()
   cartoonKatalogFaelle()
   await katalogFall()
