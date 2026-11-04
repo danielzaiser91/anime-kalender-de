@@ -27,3 +27,15 @@ export function geteilteJwKennungen(bestand: Record<string, JwKennungBefund>): M
   for (const [jw, m] of jeKennung) if (m.size > 1) aus.set(jw, [...m.values()].flat())
   return aus
 }
+
+/** Die Annahme-Entscheidung des Sammlers: `halter` gesetzt = abgewiesen, die Kennung gehört schon einer anderen TMDB-Reihe. */
+export function nimmTreffer<T extends { id: string }>(
+  bestand: Record<string, JwKennungBefund>,
+  schluessel: string,
+  gefunden: T | undefined,
+  erwartet: number | string | undefined,
+): { treffer?: T; halter?: string } {
+  if (!gefunden) return {}
+  const halter = fremderHalter(bestand, schluessel, gefunden.id, Number(erwartet))
+  return halter === undefined ? { treffer: gefunden } : { halter }
+}

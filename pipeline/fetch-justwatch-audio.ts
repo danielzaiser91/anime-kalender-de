@@ -43,7 +43,7 @@ import yaml from 'js-yaml'
 import { fetchJson, log, readJson, sleep, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
 import { istUnplausibel } from './lib/justwatch-plausibel.ts'
-import { fremderHalter } from './lib/jw-kennung-fremd.ts'
+import { nimmTreffer } from './lib/jw-kennung-fremd.ts'
 import { todayIso } from '../shared/time.ts'
 import type { Title } from '../shared/types.ts'
 import { STAFFELN_ABFRAGE, staffelnVon, type Staffel, type StaffelRoh } from './lib/jw-staffeln.ts'
@@ -268,7 +268,7 @@ async function main(): Promise<void> {
       */
       const gefunden = erwartet ? await sucheUeberNamen(t, erwartet) : undefined
       /* Eine Kennung, die schon eine andere TMDB-Reihe hält, ist ein Fehlgriff von JustWatch (Spin-off auf Hauptserie). */
-      const treffer = gefunden && fremderHalter(bestand, String(t.id), gefunden.id, Number(erwartet)) === undefined ? gefunden : undefined
+      const { treffer } = nimmTreffer(bestand, String(t.id), gefunden, erwartet)
       sperrenInFolge = 0
       const vorher = bestand[String(t.id)]
       if (!treffer) {
