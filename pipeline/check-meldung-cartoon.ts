@@ -66,11 +66,14 @@ function releaseFaelle(): void {
   pruefe('Bass: ein Release auf der Cartoon-Kennung, Netflix, 03.11.', bass.neu.length === 1 && r?.titleId === -314271 && r.platform === 'netflix' && r.schedule.firstEpisodeDate === '2026-11-03', bass.neu)
   pruefe('Bass: Slug ohne doppelten Strich', r?.slug === 'auto-c314271-netflix', r?.slug)
   pruefe('Bass: Sprache bleibt offen (Meldung sagt „unklar“)', r?.sprache === 'offen', r?.sprache)
-  pruefe('Bass: kein erfundener Wochentakt, keine erfundene Folgenzahl (Netflix-Cartoon)', r?.releaseType === 'batch' && r.schedule.episodeCount === undefined, r)
+  pruefe('Bass: kein erfundener Wochentakt, keine erfundene Folgenzahl, kein „im Angebot ab“ (Netflix-Miniserie am Stück)', r?.releaseType === 'batch' && r.schedule.episodeCount === undefined && r.dateMeaning === undefined, r)
   const lego = ausMeldung(LEGO_MELDUNG, [])
   pruefe('LEGO One Piece (Netflix, nie im Kalender): Release am 29.09.', lego.neu.length === 1 && lego.neu[0]!.titleId === -318918 && lego.neu[0]!.schedule.firstEpisodeDate === '2026-09-29', lego.neu)
   const traum = ausMeldung(DREAMLAND_MELDUNG, [])
-  pruefe('Dreamland (Crunchyroll): Wochentakt bleibt wie beim Anime', traum.neu[0]?.releaseType === 'weekly', traum.neu[0]?.releaseType)
+  const d = traum.neu[0]
+  pruefe('Dreamland (Crunchyroll): kein geratener Wochentakt, nur „im Angebot ab“ dem Tag, keine Folgenzahl (CI-Fall ereignisOhneNews: 2 geratene Folgen)', d?.releaseType === 'batch' && d.dateMeaning === 'available-from' && d.schedule.episodeCount === undefined, d)
+  const wochentakt = ausMeldung({ ...DREAMLAND_MELDUNG, articleTitle: 'Termin der Fantasy-Serie »Dreamland« auf Crunchyroll, neue Folgen erscheinen wöchentlich' }, [])
+  pruefe('Dreamland: sagt die Meldung „wöchentlich“, gilt der Wochentakt', wochentakt.neu[0]?.releaseType === 'weekly', wochentakt.neu[0]?.releaseType)
 }
 
 function vorrangFaelle(): void {
@@ -117,7 +120,10 @@ function cartoonKatalogFaelle(): void {
   pruefe('Katalog: Cartoon mit Anime-Namen bleibt draußen (Schreibweise egal), die übrigen kommen', aus.map((t) => t.id).join() === '-1,-3', aus)
   const netflix = zeitplanAusVorschlag({ articleTitle: 'X' }, 'batch', '2026-11-03', { id: -5, jpYear: 2026 }, 'netflix')
   const anime = zeitplanAusVorschlag({ articleTitle: 'X' }, 'batch', '2026-11-03', { id: 5, jpYear: 2026 }, 'netflix')
-  pruefe('Wochentakt: Netflix-Cartoon (id < 0) batch, Netflix-Anime weiter weekly', netflix.releaseType === 'batch' && anime.releaseType === 'weekly', [netflix.releaseType, anime.releaseType])
+  const crunchyroll = zeitplanAusVorschlag({ articleTitle: 'X' }, 'batch', '2026-11-03', { id: -5, jpYear: 2026 }, 'crunchyroll')
+  const animeCr = zeitplanAusVorschlag({ articleTitle: 'X' }, 'batch', '2026-11-03', { id: 5, jpYear: 2026 }, 'crunchyroll')
+  pruefe('Wochentakt: Cartoon (id < 0) batch bei Netflix und Crunchyroll, Anime weiter weekly', netflix.releaseType === 'batch' && crunchyroll.releaseType === 'batch' && anime.releaseType === 'weekly' && animeCr.releaseType === 'weekly', [netflix.releaseType, crunchyroll.releaseType, anime.releaseType, animeCr.releaseType])
+  pruefe('„im Angebot ab“ nur beim Cartoon außerhalb von Netflix, nie beim Anime', crunchyroll.dateMeaning === 'available-from' && netflix.dateMeaning === undefined && animeCr.dateMeaning === undefined, [crunchyroll.dateMeaning, netflix.dateMeaning, animeCr.dateMeaning])
 }
 
 async function katalogFall(): Promise<void> {

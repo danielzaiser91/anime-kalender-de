@@ -647,11 +647,13 @@ export function zeitplanAusVorschlag(
       schedule: { firstEpisodeDate: tag, ...(treffer.episodes ? { episodeCount: treffer.episodes, episodeCountAssumed: true } : {}) },
     }
   const katalog = art === 'batch' && v.folgen && treffer.jpYear && treffer.jpYear < Number(tag.slice(0, 4))
+  /* Ein Cartoon ohne Taktangabe, nicht bei Netflix (dort kommt eine Miniserie am Stück): nur „im Angebot ab“ dem Tag, kein Wochentakt. */
+  const cartoonAbTag = art === 'batch' && (treffer.id ?? 0) < 0 && platform !== 'netflix'
   return {
     releaseType: art,
     /* Eine Zahl weit über dem Werk (86: 23 für Teil 1 mit 11) gehört dem ganzen Katalogeintrag, nicht diesem Titel — Keine Folgenzahl erfinden. */
     schedule: { firstEpisodeDate: tag, ...(v.folgen && art === 'batch' && !(treffer.episodes && folgenzahlUeberWerk(v.folgen, treffer.episodes)) ? { episodeCount: v.folgen } : {}) },
-    ...(katalog ? { dateMeaning: 'available-from' as const } : {}),
+    ...(katalog || cartoonAbTag ? { dateMeaning: 'available-from' as const } : {}),
   }
 }
 
@@ -664,11 +666,14 @@ export function taktDerMeldung(v: Partial<Pick<Vorschlag, 'articleTitle' | 'date
   return KOMPLETT.test(text) ? 'komplett' : WOCHENTAKT.test(text) ? 'woechentlich' : undefined
 }
 
-/** Ohne Folgenzahl: wöchentlich, außer die Meldung sagt „komplett", das Werk ist älter (Katalogzugang) oder eine Netflix-ONA bzw. ein Netflix-Cartoon (negative Kennung). */
+/**
+ * Ohne Folgenzahl: wöchentlich, außer die Meldung sagt „komplett", das Werk ist älter (Katalogzugang), eine Netflix-ONA oder ein Cartoon
+ * (negative Kennung: TMDB nennt Start und Folgenzahl, keinen Takt — Dreamland, Crunchyroll, hätte zehn geratene Wochenfolgen bekommen).
+ */
 function wochenstartOhneAngabe(v: Partial<Pick<Vorschlag, 'articleTitle' | 'dates'>>, tag: string, treffer: Partial<Pick<Title, 'jpYear' | 'format' | 'id'>>, platform?: string): boolean {
   const takt = taktDerMeldung(v)
   if (takt) return takt === 'woechentlich'
-  if (platform === 'netflix' && (treffer.format === 'ONA' || (treffer.id ?? 0) < 0)) return false
+  if ((treffer.id ?? 0) < 0 || (platform === 'netflix' && treffer.format === 'ONA')) return false
   return !treffer.jpYear || treffer.jpYear >= Number(tag.slice(0, 4))
 }
 
