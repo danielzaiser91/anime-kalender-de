@@ -8,6 +8,19 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
+UID:auto-3010-joyn@2026-11-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261103
+DTEND;VALUE=DATE:20261104
+SUMMARY:Z wie Zorro (neu bei Joyn)
+DESCRIPTION:Plattform: Joyn\nRelease-Art: Katalogtitel\nIm Angebot seit die
+ sem Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrzeit noch
+  nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter genannter Tag\,
+  sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetails: https://
+ anime-kalender.de/t/2474/
+CATEGORIES:Joyn
+END:VEVENT
+BEGIN:VEVENT
 UID:sailor-moon-r-2026-11-06@2026-11-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261120

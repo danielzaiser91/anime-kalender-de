@@ -108,7 +108,7 @@ function lauf(pfad, suche, { auftrag = null, liste = {}, suchStand = {}, briefka
       clear: () => { for (const k of Object.keys(speicher)) delete speicher[k] },
     },
     document: {
-      documentElement: { innerHTML: '<html></html>', classList: { add() {}, remove() {}, toggle() {}, contains: () => false } },
+      documentElement: { innerHTML: '<html></html>', classList: { add() {}, remove() {}, toggle() {}, contains: () => false }, appendChild(k) { angehaengt.push(k); return k } },
       body: { ...element(), appendChild(k) { angehaengt.push(k); return k } },
       title: 'Amazon.de',
       createElement: () => element(),
