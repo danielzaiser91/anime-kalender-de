@@ -430,6 +430,7 @@ pipeline/check-tmdb-folgen-lauf.ts
 pipeline/check-tmdb-folgen-luecke-lauf.ts
 pipeline/check-tmdb-folgen-luecke.ts
 pipeline/check-tmdb-folgentitel-absolut.ts
+pipeline/check-tmdb-folgentitel-datum.ts
 pipeline/check-tmdb-genre.ts
 pipeline/check-tmdb-hauptserie.ts
 pipeline/check-tmdb-katalog.ts
