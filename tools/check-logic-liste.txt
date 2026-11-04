@@ -200,6 +200,8 @@ pipeline/check-gleiche-adresse.ts
 pipeline/check-hand-gesehen.ts
 pipeline/check-handbeleg-anbieter-zaehlung.ts
 pipeline/check-handbeleg-fremde-adresse.ts
+pipeline/check-handbeleg-note-asin-lauf.ts
+pipeline/check-handbeleg-note-asin.ts
 pipeline/check-handbeleg-notizseite-lauf.ts
 pipeline/check-handbeleg-notizseite.ts
 pipeline/check-handbeleg-serienton.ts
