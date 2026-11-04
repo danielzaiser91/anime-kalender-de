@@ -3,7 +3,7 @@ import { schnellSetzen, schnellZustand, type SchnellId, type SchnellZiel } from 
 
 /**
  * **Jeder Tipp auf eine Filter-Pille schaltet reihum** nichts → ausgewählt → ausgeschlossen → nichts
- * (Daniel, 04.11.2026; ersetzt den Klick-Modus). Kennt eine Pille einen Zustand nicht, überspringt der Zyklus ihn.
+ * (Daniel, 04.11.2026; ersetzt die frühere Moduswahl). Kennt eine Pille einen Zustand nicht, überspringt der Zyklus ihn.
  */
 export type FilterZustand = 'nichts' | 'ja' | 'nein'
 

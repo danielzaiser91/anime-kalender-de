@@ -81,7 +81,7 @@ export function Chip({
       type="button"
       onClick={onClick}
       aria-label={title && zustandWort ? `${title} (${zustandWort})` : title}
-      aria-pressed={excluded ? 'mixed' : Boolean(active)}
+      aria-pressed={excluded ? 'mixed' : active}
       className={[
         gross ? 'inline-flex min-h-11 min-w-11 items-center justify-center gap-1.5 rounded-full border px-4 text-t3 transition' : 'inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-bold transition',
         CLICKABLE,

@@ -12,7 +12,7 @@ import { TIPPFLAECHE_HOCH } from './detail/tippziel.ts'
 import { SchnellChips } from './schnellfilter.tsx'
 import { FilterSuche } from './filter/filter-suchfeld.tsx'
 import { FilterSuchHinweis } from './filter/such-hinweis.tsx'
-import { filterMode, modusVon, type ModusFeld, type FilterState, type ListKey } from '../lib/filters.ts'
+import { filterMode, modusVon, toggleFilter, type ModusFeld, type FilterState, type ListKey } from '../lib/filters.ts'
 import { nachZahlGeordnet } from '../lib/filter-liste.ts'
 import { zyklusFilter } from '../lib/filter-zyklus.ts'
 import { useGenreSicht } from './filter/genre-sicht.tsx'
@@ -719,13 +719,15 @@ function useFilterWerkzeug(
   const istTvChip = (key: ListKey, value: unknown) => key === 'platforms' && value === 'tv' && Boolean(setTvAn)
   const pick = <K extends ListKey>(key: K, value: FilterState[K][number]) => {
     if (istTvChip(key, value)) {
-      setTvAn?.(tvAn === false)
+      /* Schnell-Chip „TV" ausgewählt (Plattform TV eingeschlossen): der Tipp hebt die Wahl auf, der Schalter bleibt. */
+      if (filterMode(filters, key, value) === 'include') onChange(toggleFilter(filters, key, value, 'include'))
+      else setTvAn?.(tvAn === false)
       return
     }
     onChange(zyklusFilter(filters, key, value))
   }
   const chipState = <K extends ListKey>(key: K, value: FilterState[K][number]) => {
-    if (istTvChip(key, value)) return { active: false, excluded: tvAn === false }
+    if (istTvChip(key, value)) return { active: tvAn !== false && filterMode(filters, key, value) === 'include', excluded: tvAn === false }
     const state = filterMode(filters, key, value)
     return { active: state === 'include', excluded: state === 'exclude' }
   }

@@ -43,14 +43,14 @@ const meta = {
 const stand: { f: FilterState; tvAn: boolean } = { f: EMPTY_FILTERS, tvAn: true }
 
 /** Die echte Filteransicht mit Zustand wie in der App; `mitTv` gibt ihr den Fernseh-Schalter des Kalenders. */
-async function rendere(mitTv: boolean) {
-  stand.f = EMPTY_FILTERS
-  stand.tvAn = true
+async function rendere(mitTv: boolean, start: FilterState = EMPTY_FILTERS, tvStart = true) {
+  stand.f = start
+  stand.tvAn = tvStart
   const uhr = attrappeUhr()
   const dom = installiereMiniDom({ ...uhr, matchMedia: () => ({ matches: false, addEventListener() {}, removeEventListener() {} }) }, () => ({}))
   function Halter() {
-    const [f, setF] = useState(EMPTY_FILTERS)
-    const [tvAn, setTvAn] = useState(true)
+    const [f, setF] = useState(start)
+    const [tvAn, setTvAn] = useState(tvStart)
     stand.f = f
     stand.tvAn = tvAn
     return h(FilterDetailsFeld, { meta, filters: f, onChange: setF, showConfidence: false, ...(mitTv ? { tvAn, setTvAn } : {}) })
@@ -144,6 +144,61 @@ console.log('\nPlattform-Pille „TV“ im Kalender (Fernseh-Schalter): nichts �
   folge.push(stand.tvAn ? 'nichts' : 'nein')
   pruefe('kein „ausgewählt“: nichts → ausgeschlossen → nichts → ausgeschlossen', folge.join() === 'nichts,nein,nichts,nein' && stand.f.platforms.length === 0, folge)
   a.dom.entferne()
+}
+
+console.log('\nSchnell-Chip „TV“ und Plattform-Pille „TV“ schließen den Zyklus')
+{
+  const a = await rendere(true)
+  await a.klick(a.schnell('TV'))
+  const ausgewaehlt = [a.nameVon(a.schnell('TV')), String(gedrueckt(a.pille('TV')))]
+  pruefe('Schnell-Chip „ausgewählt“: auch die Pille zeigt „gedrückt“', ausgewaehlt.join() === 'TV: ausgewählt,true', ausgewaehlt)
+  await a.klick(a.pille('TV'))
+  const danach = [a.nameVon(a.schnell('TV')), stand.f.platforms.length, stand.tvAn]
+  pruefe('dann Pille: Wahl aufgehoben, Schnell-Chip „nicht gewählt“, Schalter bleibt an', danach.join() === 'TV: nicht gewählt,0,true', danach)
+  await a.klick(a.pille('TV'))
+  pruefe('weiter Pille: ausgeschlossen, Schnell-Chip „ausgeschlossen“', a.nameVon(a.schnell('TV')) === 'TV: ausgeschlossen' && !stand.tvAn && stand.f.platforms.length === 0, [a.nameVon(a.schnell('TV')), stand.tvAn])
+  await a.klick(a.pille('TV'))
+  pruefe('weiter Pille: wieder „nicht gewählt“ (nie „ausgewählt“ aus dem Ausschluss)', a.nameVon(a.schnell('TV')) === 'TV: nicht gewählt' && stand.tvAn, a.nameVon(a.schnell('TV')))
+  a.dom.entferne()
+}
+
+console.log('\nStart mit vorbelegtem Ausschluss (gespeicherter Zustand)')
+{
+  const ex = EMPTY_FILTERS.excluded
+  const genre = await rendere(false, { ...EMPTY_FILTERS, excluded: { ...ex, genres: ['Comedy'] } })
+  const vor = [gedrueckt(genre.pille('Comedy')), genre.pille('Comedy').textContent.includes('ausgeschlossen')]
+  await genre.klick(genre.pille('Comedy'))
+  pruefe('Genre ausgeschlossen: Anzeige „mixed“, ein Tipp löst', vor.join() === 'mixed,true' && stand.f.excluded.genres.length === 0 && gedrueckt(genre.pille('Comedy')) === 'false', vor)
+  genre.dom.entferne()
+  const fav = await rendere(false, { ...EMPTY_FILTERS, favoritesExcluded: true })
+  const favVor = fav.nameVon(fav.schnell('Favoriten'))
+  await fav.klick(fav.schnell('Favoriten'))
+  pruefe('Favoriten ausgeschlossen: ein Tipp → nichts', favVor === 'Favoriten: ausgeschlossen' && !stand.f.favoritesExcluded && !stand.f.favoritesOnly, favVor)
+  fav.dom.entferne()
+  const zweit = await rendere(true, { ...EMPTY_FILTERS, zweitanbieterExcluded: true })
+  const zVor = zweit.nameVon(zweit.schnell('Zweitanbieter'))
+  await zweit.klick(zweit.schnell('Zweitanbieter'))
+  pruefe('Zweitanbieter ausgeschlossen: ein Tipp → nichts', zVor === 'Zweitanbieter: ausgeschlossen' && !stand.f.zweitanbieterExcluded, zVor)
+  zweit.dom.entferne()
+  const tv = await rendere(true, EMPTY_FILTERS, false)
+  const tvVor = [tv.nameVon(tv.schnell('TV')), String(gedrueckt(tv.pille('TV')))]
+  await tv.klick(tv.schnell('TV'))
+  pruefe('TV ausgeblendet (Schalter aus): Schnell-Chip „ausgeschlossen“, Pille „mixed“, ein Tipp → nichts', tvVor.join() === 'TV: ausgeschlossen,mixed' && stand.tvAn && stand.f.platforms.length === 0, tvVor)
+  tv.dom.entferne()
+}
+
+console.log('\nChips ohne Zustand tragen kein aria-pressed (Detail-Panel)')
+{
+  const a = await rendere(false)
+  const alle = a.dom.wurzel.finde((k) => k.tagName === 'BUTTON' && k.getAttribute('aria-pressed') === 'false')
+  pruefe('Filter-Pillen im Fenster tragen aria-pressed="false"', alle.length > 0)
+  a.dom.entferne()
+  const { Chip } = await import('../web/src/components/ui.tsx')
+  const dom = installiereMiniDom({ ...attrappeUhr(), matchMedia: () => ({ matches: false, addEventListener() {}, removeEventListener() {} }) }, () => ({}))
+  await act(async () => createRoot(dom.wurzel as unknown as Element).render(h(Chip, { gross: true, onClick: () => undefined, children: 'Schlagwort' })))
+  const ohne = dom.wurzel.finde((k) => k.tagName === 'BUTTON')[0]
+  pruefe('Chip ohne active/excluded: kein aria-pressed', !!ohne && ohne.getAttribute('aria-pressed') === null, ohne?.getAttribute('aria-pressed'))
+  dom.entferne()
 }
 
 console.log('\nGleiche Pille an zwei Stellen bleibt synchron')
