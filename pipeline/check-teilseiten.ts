@@ -140,8 +140,8 @@ function plakatSeitenMaengel(titel: Title[]): string[] {
   return mangel
 }
 
-/** Ratsche: Titel mit Cover, deren Link-Vorschau das Standardbild ist (04.11.2026, 449 gemessen am Stand b1853ceea plus 10 Luft für neue Titel; nach dem TMDB- und Plakat-Lauf auf den neuen Messwert plus Luft senken). */
-const STANDARD_TROTZ_COVER_HOECHSTENS = 459
+/** Ratsche: Titel mit Cover, deren Link-Vorschau das Standardbild ist (04.11.2026, 449 gemessen am Stand f41fc446b, ohne Luft; nach dem TMDB- und Plakat-Lauf auf den neuen Messwert senken). */
+const STANDARD_TROTZ_COVER_HOECHSTENS = 449
 
 function coverVorschauMaengel(titel: Title[]): string[] {
   const seiten = titel
