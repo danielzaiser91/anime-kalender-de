@@ -1,7 +1,7 @@
 {
   "adn": {
     "lastOk": "2026-10-28T04:10:31.928Z",
-    "lastRun": "2026-11-04T04:07:59.750Z",
+    "lastRun": "2026-11-04T15:09:23.302Z",
     "lastCount": 0,
     "lastError": "keine Folge mit vde gefunden"
   },
@@ -16,14 +16,14 @@
     "lastCount": 1
   },
   "adn-catalog": {
-    "lastOk": "2026-11-03T07:14:41.547Z",
-    "lastRun": "2026-11-03T07:14:41.547Z",
+    "lastOk": "2026-11-04T15:11:45.270Z",
+    "lastRun": "2026-11-04T15:11:45.270Z",
     "lastCount": 112
   },
   "crunchyroll-dub": {
-    "lastOk": "2026-11-04T15:02:35.359Z",
-    "lastRun": "2026-11-04T15:02:35.359Z",
-    "lastCount": 1150
+    "lastOk": "2026-11-04T15:03:08.597Z",
+    "lastRun": "2026-11-04T15:03:08.597Z",
+    "lastCount": 1156
   },
   "anime-offline-database": {
     "lastOk": "2026-11-04T14:53:26.295Z",

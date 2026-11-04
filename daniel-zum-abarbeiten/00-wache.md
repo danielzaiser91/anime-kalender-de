@@ -1,6 +1,6 @@
 # Wache — Bestand und Briefkasten
 
-**⚠ Auffälligkeit** · letzter Befund vom 03.11.2026 um 16:09 Uhr
+**⚠ Auffälligkeit** · letzter Befund vom 04.11.2026 um 16:27 Uhr
 
 Diese Zeile nennt den letzten **Befund**, nicht den letzten Lauf: Seit dem 26.09.2026 wird nur noch
 ein Befund committet (Daniel: „Behalten, still bei Ruhe"). Ob die Wache täglich läuft, steht in
@@ -19,27 +19,24 @@ komisch vorkam. Das soll ihm keiner mehr abverlangen.
 
 ## Was aufgefallen ist
 
-- 12 Urteile verloren (1 weitere sind begründet entfernt); 3 Titel ohne Synchro-Beleg (1 weitere durch Kanal-Titel herabgestuft); netflix: 13 Synchro-Belege weniger
+- 1 Urteile verloren; primevideo: 1 Synchro-Belege weniger
 
 ## Bestand — die letzten 24 Stunden
 
 ```
-39 Läufe in den letzten 1 Tagen (1796 insgesamt)
+44 Läufe in den letzten 1 Tagen (1841 insgesamt)
 
-02.11., 16:04  Bestand — zusammenführ   verweise +35, mitUrteil -13, ohneUrteil +48, titelMitSynchro -4, releases -1, termine +19
-            ℹ  erklärt, nicht rot: 1 Titel ohne Synchro-Beleg, weil ihr Ja nur Amazons Sprachangabe auf einem Kanal-Titel war
-            ⚠  12 Urteile verloren (1 weitere sind begründet entfernt); 3 Titel ohne Synchro-Beleg (1 weitere durch Kanal-Titel herabgestuft); netflix: 13 Synchro-Belege weniger
-02.11., 20:43  Bestand — zusammenführ   verweise +13, mitUrteil +13, titelMitSynchro +5
-02.11., 23:22  Bestand — zusammenführ   verweise -1, mitUrteil -1
-            ℹ  erklärt, nicht rot: primevideo: Beleg gewollt entfernt – Yashahime: Princess Half-Demon (131264): Seite gehört InuYasha (249): alle drei Meldungen (2723, 22754, 22794) lesen den Titel InuYasha, 27 Folgen, Staffel 2; Yashahime hat Crunchyroll und Joyn (Zuordnung 02.11.2026)
-02.11., 23:51  Bestand — zusammenführ   termine +8
-03.11., 05:17  Bestand — zusammenführ   termine +7
-03.11., 07:46  Bestand — zusammenführ   releases -3, termine -3
-03.11., 11:54  Bestand — zusammenführ   verweise -3, mitUrteil +4, ohneUrteil -7
-03.11., 13:20  Bestand — zusammenführ   verweise -1, ohneUrteil -1
+03.11., 18:21  Bestand — zusammenführ   verweise -1, mitUrteil -1
+            ⚠  1 Urteile verloren; primevideo: 1 Synchro-Belege weniger
+03.11., 20:40  Bestand — zusammenführ   verweise +1, mitUrteil -1, ohneUrteil +2
+03.11., 22:06  Bestand — zusammenführ   releases +1, termine +1
+03.11., 23:11  Bestand — zusammenführ   termine +4
+04.11., 04:20  Bestand — zusammenführ   releases +14, termine +14
+04.11., 05:06  Bestand — zusammenführ   termine +7
+04.11., 12:33  Bestand — zusammenführ   verweise +3, ohneUrteil +3
 
-Stand jetzt: 2924 Titel, 2078 Urteile, 309 offen
-Über den Zeitraum: Titel 0, Urteile +16, offen -8
+Stand jetzt: 2924 Titel, 2076 Urteile, 314 offen
+Über den Zeitraum: Titel 0, Urteile -2, offen +5
 
 ⚠  1 Lauf/Läufe mit Auffälligkeiten — siehe oben.
 ```
@@ -47,20 +44,19 @@ Stand jetzt: 2924 Titel, 2078 Urteile, 309 offen
 ## Briefkasten
 
 ```
-Briefkasten: 4058 Meldungen auf 215 Adressen (primevideo 548, disneyplus 2261, netflix 1249)
+Briefkasten: 4016 Meldungen auf 214 Adressen (primevideo 519, disneyplus 2261, netflix 1236)
 Liste daniel-zum-abarbeiten/listen/11-meldungen-ohne-zuordnung.md: 404 Adressen
-Zurückgestellt (data/meldungen-zurueckgestellt.json): 1 Adressen im Briefkasten
-   zurückgestellt seit 2026-10-31T16:03:32.754Z: https://www.amazon.de/gp/video/detail/B0CBKJKYM4 — pipeline/check-sonderfolgen.ts
+Zurückgestellt (data/meldungen-zurueckgestellt.json): 0 Adressen im Briefkasten
 Alle Adressen sind gelistet.
-Übernahme: zuletzt 2026-11-03T13:16:55.536Z (data/meldungen-uebernahme.json)
+Übernahme: zuletzt 2026-11-03T22:01:29.328Z (data/meldungen-uebernahme.json)
 ✓ refresh-hourly.yml: letzter Erfolg vor 0 h (Frist 3 h)
 ✓ refresh-data.yml: letzter Erfolg vor 11 h (Frist 36 h)
-✓ refresh-weekly.yml: letzter Erfolg vor 202 h (Frist 336 h)
-✓ daten-auf-abruf.yml: letzter Erfolg vor 6 h (Frist 36 h)
+✓ refresh-weekly.yml: letzter Erfolg vor 226 h (Frist 336 h)
+✓ daten-auf-abruf.yml: letzter Erfolg vor 1 h (Frist 36 h)
 ✓ anisearch-katalog.yml: letzter Erfolg vor 9 h (Frist 36 h)
-✓ tonspuren-monatlich.yml: letzter Erfolg vor 275 h (Frist 1008 h)
+✓ tonspuren-monatlich.yml: letzter Erfolg vor 299 h (Frist 1008 h)
 ✓ bestand-bauen.yml: letzter Erfolg vor 1 h (Frist 18 h)
-✓ d1-verbrauch.yml: letzter Erfolg vor 22 h (Frist 48 h)
+✓ d1-verbrauch.yml: letzter Erfolg vor 24 h (Frist 48 h)
 ✓ claude-anime2you-extraktion.yml: letzter Erfolg vor 3 h (Frist 36 h)
 ✓ claude-wache-urteil.yml: letzter Erfolg vor 6 h (Frist 36 h)
 ✓ claude-verpasst-recherche.yml: letzter Erfolg vor 4 h (Frist 36 h)
@@ -89,6 +85,7 @@ Die letzten 60 Läufe. Älteres hat seinen Zweck erfüllt.
 
 | Zeitpunkt | Titel / Urteile / offen | Veränderung | Befund |
 |---|---|---|---|
+| 04.11.2026 16:27 | 2924 / 2076 / 314 | Titel 0, Urteile -2, offen +5 | 1 Urteile verloren; primevideo: 1 Synchro-Belege weniger |
 | 03.11.2026 16:09 | 2924 / 2078 / 309 | Titel 0, Urteile +16, offen -8 | 12 Urteile verloren (1 weitere sind begründet entfernt); 3 Titel ohne Synchro-Beleg (1 weitere durch Kanal-Titel herabgestuft); netflix: 13 Synchro-Belege weniger |
 | 02.11.2026 18:05 | 2924 / 2062 / 317 | Titel 0, Urteile -13, offen +48 | 12 Urteile verloren (1 weitere sind begründet entfernt); 3 Titel ohne Synchro-Beleg (1 weitere durch Kanal-Titel herabgestuft); netflix: 13 Synchro-Belege weniger |
 | 01.11.2026 15:16 | 2924 / 2075 / 269 | Titel +1, Urteile +7, offen -3 | 1 Titel weniger |
