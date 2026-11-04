@@ -16,6 +16,16 @@ wiederkehrt.
 **Was läuft komplett falsch?** Kein Beleg im Dossier zeigt einen aktuell falsch oder still ausgelieferten Datensatz: Bestandsbau und Deploy ohne Alarm (12), der ausgelieferte Datensatz ist 0,9 h alt und damit innerhalb der 36-h-Frist (05).
 
 
+## 03.11.2026, 16:10 — Claude-Lauf, Befund (Lauf 41660748172, Issue #2766)
+
+**Was läuft korrekt.** Die Wache hat gemessen, nicht vermutet: Sie meldet weiter den Bau vom 02.11., 16:04 UTC (12 Urteile verloren, netflix −13 Synchro-Belege). Der Bau von 20:43 UTC hat mitUrteil +13 und titelMitSynchro +5 zurückgebracht, und im heutigen `titles.json` tragen Eyeshield 21, Beelzebub und NARUTO: Shippuuden ihren Netflix-Stream mit `dub: true` wieder.
+
+**Wo ist Verbesserungspotenzial?** Das 24-Stunden-Fenster der Wache wiederholt einen Befund, der schon behoben ist, und färbt den Lauf am Folgetag erneut rot. Sie könnte ihn als „inzwischen ausgeglichen" kennzeichnen, wenn ein späterer Lauf die Differenz zurückholt.
+
+**Wo sind echte Risiken und Lücken?** Die Ursache ist weiter offen: `data/link-check.json` hatte für 73 Netflix-Titelseiten 404 (siehe Issue #2684). Ob das echte Netflix-Abgänge waren oder falsche 404 vom Runner, ist nicht belegt. Ein Runner-Fehler ließe Belege bei jeder Linkprüfung kurz verschwinden, ohne dass etwas Bestimmtes rot wird.
+
+**Was läuft komplett falsch?** Nichts im Code; der Datensatz ist wieder vollständig. Kein Pull Request, weil keine Codeursache gefunden wurde.
+
 ## 03.11.2026, 10:05 — Claude-Lauf, Befund
 
 **Was läuft korrekt.** Bestandsbau und Deploy zeigen keinen Alarm, letzter grüner Bestandsbau-Lauf 03.11. um 08:44 Uhr (12). Zugänge und Wochenwache zeigen alle geprüften Workflows innerhalb ihrer Frist, etwa refresh-hourly (1 h/3 h), bestand-bauen (0,3 h/18 h), d1-verbrauch (16 h/48 h) (04, 05). Die Titelzahl ist über die letzten 24 Stunden stabil bei 2924 geblieben (02). Issue #2661 und die beiden Reparatur-PRs #2668/#2662, die im letzten Urteil (10) als offener Doppel-Versuch genannt waren, sind aus der Liste offener Issues/PRs verschwunden (08) — aufgelöst. Die Ausschlussgründe der Terminableitung bleiben bei 226/42/4, kein weiteres Wachstum seit 02.11. (07). Die Belege ohne Fundstelle sind von 94 (02.11.) auf 93 heute leicht zurückgegangen (09) — der mehrtägige Wachstumstrend ist vorerst gestoppt. Der am 02.11. um 16:04 Uhr gemeldete Rückgang (12 Urteile verloren, netflix 13 Synchro-Belege weniger, 02) wurde durch spätere Läufe desselben Tages weitgehend ausgeglichen (20:43 Uhr: mitUrteil +13, titelMitSynchro +5, 02); über die letzten 24 Stunden steht netto Urteile +12 (02).
@@ -622,3 +632,14 @@ wer die Ursache dann noch kennt, hat Glück. Deshalb diese Datei.
 **Wo sind echte Risiken und Lücken?** Zeitlich fällt der Verlust mit dem Lauf „Tiefendurchlauf gesammelt (RTL+ und Links)" (4a79b011, 05:21 UTC) zusammen: `data/link-check.json` hat dort für 73 Netflix-Titelseiten `404` (`geprueftAm 2026-11-02`), darunter alle drei oben genannten, die am 20.09. noch `200` hatten. Bau 9431f466 (05:04) lag davor und hatte die Streams noch. **Nicht belegt:** ob Netflix die Titel wirklich aus Deutschland genommen hat oder ob die Linkprüfung vom Runner aus ein falsches 404 bekam (am 20.09. waren es 99 von 321, jetzt 73 von 283 — ähnliche Quote, spricht eher für echte Abgänge, beweist es nicht). Eine Prüfung gegen eine zweite Quelle (JustWatch/Tonspuren) steht aus. Ein Netflix-404 lässt den Stream verschwinden, ohne dass jemand es als Synchro-Verlust meldet.
 
 **Was läuft komplett falsch?** Nichts, was ich belegen kann: kein Fehlerschritt, der Lauf ist absichtlich rot. Kein Pull Request, da keine Codeursache belegt ist; die Quelle (Netflix-Titelseiten) hat sich geändert.
+
+
+## 04.11.2026 — Wache meldet „1 Urteile verloren; primevideo: 1 Synchro-Beleg weniger" (Lauf 41857755409, Issue #2847)
+
+**Was läuft korrekt.** Die Wache hat den Sprung dem Bestandsbau 41690771206 (03.11., 18:21 UTC) zugeordnet. Gemessen über Git-Stände von `public/data/titles.json` (`023381af^` → `edadb5b6`): Titelzahl unverändert (2924), genau ein Titel verändert: Naruto Shippuden (1735) verlor den Prime-Stream `amazon.de/gp/video/detail/B084DBMYFX`. Gebaut wurde das in `023381af` (Bau 41681374762, 17:19 UTC); `pruefstand.json` zeigt im selben Commit Amazon „gemeldet" 902 → 901.
+
+**Wo ist Verbesserungspotenzial?** Die Wache nennt weder Titel noch Adresse; der Weg lief wieder von Hand über zwei `titles.json`-Stände und `jq`. Die Differenz „Titel-ID + Stream-URL" gehört in `00-wache.md`.
+
+**Wo sind echte Risiken und Lücken?** Der Stream ist auch am 04.11. (`origin/main`) nicht zurück. `data/dub-confirmed.yaml` hat für 1735/B084DBMYFX zwei Einträge (Zeile 6759 `available: false`, 25.08.; Zeile 35716 `dub: true`, 16.10., mit gti), und `prime-zugeordnet.json` ordnet `…B084DBMYFX#1/#2` anderen ASINs/Seiten zu. **Nicht belegt:** welcher Riegel den Stream herausnahm; `data/cache/` war für den Bau 41681374762 nicht verfügbar, ein Nachstellen steht aus. Verdacht, nicht Beweis: Prime-Zuordnung des Laufs (zeitlich davor liegt #2762 „Serienvorsatz in Prime-Folgentiteln", Commit 78d05b34), die Handbeleg-Notizseite an fremder Adresse (Wächter #2785 ist erst am 04.11. dazugekommen).
+
+**Was läuft komplett falsch?** Nichts, was ich belegen kann: kein Fehlerschritt, der Lauf ist absichtlich rot. Kein Pull Request, da keine Codeursache belegt ist.

@@ -22,7 +22,7 @@ import { addDays, diffDays, todayIso } from '../shared/time.ts'
 import { log, readJson, ROOT, sleep, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
 import { episodeAus, sortiereFolgen, toBerlin, type AdnListenEintrag, type AdnVideo } from './lib/adn-folgen.ts'
-import { adnWeg, herkunftZeile } from './lib/adn-weg.ts'
+import { adnWeg, herkunftZeile, wegZeile } from './lib/adn-weg.ts'
 import { holeAdnNews } from './lib/adn-news.ts'
 import { istFranzoesischeSicht, type KatalogAuskunft, katalogBilanzZeile, mitUngepruftenAlten, mitWiederholung, riegelBilanz, schreibeArchiv, verworfen, WIEDERHOLUNG_WARTE_MS } from './lib/adn-sprachriegel.ts'
 import { baueWarteschlange, fragWarteschlange, warteschlangeZeile } from './lib/adn-katalog-warteschlange.ts'
@@ -527,6 +527,7 @@ async function laufendLauf(): Promise<void> {
 }
 
 async function main(): Promise<void> {
+  log(wegZeile(WEG))
   await holeAdnNews()
   if (args.includes('--laufend')) return laufendLauf()
   if (args.includes('--refresh')) {

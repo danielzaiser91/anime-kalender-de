@@ -51,57 +51,57 @@ Stand: 2026-11-04. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 
 … und 6 weitere.
 
-Dazu 54 Disc-Meldungen mit künftigem Termin; sie laufen über die Disc-Übersicht.
+Dazu 55 Disc-Meldungen mit künftigem Termin; sie laufen über die Disc-Übersicht.
 
 ## Quellen
 
 | Quelle | zuletzt erfolgreich | Treffer |
 |---|---|---|
-| adn | 7.0 Tage her | 0 |
-| adn-catalog | 0.9 Tage her | 112 |
-| adn-news | 0.1 Tage her | 71 |
-| anilist-voices | 0.9 Tage her | 3008 |
-| anime-offline-database | 0.9 Tage her | 8876 |
+| adn | 7.4 Tage her | 0 |
+| adn-catalog | 1.3 Tage her | 112 |
+| adn-news | 0.5 Tage her | 71 |
+| anilist-voices | 1.3 Tage her | 3008 |
+| anime-offline-database | 1.3 Tage her | 8876 |
 | anime2you | 0.0 Tage her | 99 |
-| anisearch | 0.9 Tage her | 14872 |
-| anisearch-cover-eigen | 23.5 Tage her | 1874 |
-| anisearch-dubs | 1.0 Tage her | 11940 |
-| anisearch-eintraege | 9.0 Tage her | 400 |
-| anisearch-folgen | 0.9 Tage her | 2719 |
-| anisearch-slugs | 0.9 Tage her | 14908 |
-| anisearch-zuordnung | 1.0 Tage her | 18501 |
-| ann-voices | 0.9 Tage her | 8876 |
-| beleg-lesungen | 0.0 Tage her | 8 |
-| cartoon-folgen | 9.0 Tage her | 357 |
-| cartoon-reihen | 1.0 Tage her | 0 |
-| cartoons | 1.0 Tage her | 904 |
-| cinestar | 0.9 Tage her | 1 |
-| cr-einzelwerke | 14.6 Tage her | 6 |
-| cr-filmbloecke | 14.6 Tage her | 2 |
-| crunchyroll-dub | 1.5 Tage her | 1150 |
+| anisearch | 0.4 Tage her | 1 |
+| anisearch-cover-eigen | 0.0 Tage her | 138 |
+| anisearch-dubs | 0.4 Tage her | 11940 |
+| anisearch-eintraege | 9.4 Tage her | 400 |
+| anisearch-folgen | 1.3 Tage her | 2719 |
+| anisearch-slugs | 1.3 Tage her | 14908 |
+| anisearch-zuordnung | 0.4 Tage her | 18502 |
+| ann-voices | 1.3 Tage her | 8876 |
+| beleg-lesungen | 0.4 Tage her | 8 |
+| cartoon-folgen | 9.4 Tage her | 357 |
+| cartoon-reihen | 0.4 Tage her | 1 |
+| cartoons | 0.4 Tage her | 1 |
+| cinestar | 0.0 Tage her | 1 |
+| cr-einzelwerke | 15.1 Tage her | 6 |
+| cr-filmbloecke | 15.1 Tage her | 2 |
+| crunchyroll-dub | 1.9 Tage her | 1150 |
 | crunchyroll-neu | 0.0 Tage her | 170 |
-| crunchyroll-offene | 8.9 Tage her | 9 |
+| crunchyroll-offene | 9.4 Tage her | 9 |
 | crunchyroll-woche | 0.0 Tage her | 63 |
-| justwatch-audio | 1.0 Tage her | 13 |
-| kinoheld | 0.9 Tage her | 0 |
-| kitsu-folgen | 9.0 Tage her | 112 |
-| link-check | 0.9 Tage her | 66 |
+| justwatch-audio | 0.4 Tage her | 29 |
+| kinoheld | 0.0 Tage her | 0 |
+| kitsu-folgen | 9.4 Tage her | 112 |
+| link-check | 1.3 Tage her | 66 |
 | messbelege | 0.0 Tage her | 0 |
-| motn | 12.0 Tage her | 2034 |
-| motn-changes | 0.0 Tage her | 0 |
-| rohfolgen | 0.3 Tage her | 0 |
-| rtlplus-folgen | 0.9 Tage her | 3 |
-| tmdb-banner | 7.4 Tage her | 2039 |
-| tmdb-folgen | 2.4 Tage her | 896 |
-| tmdb-kino | 9.0 Tage her | 3 |
-| tmdb-poster | 7.4 Tage her | 2400 |
-| tmdb-titles | 2.4 Tage her | 6 |
-| toggo | 0.0 Tage her | 22 |
-| trailer | 1.0 Tage her | 1 |
-| tv-de | 0.2 Tage her | 70 |
-| tv-programm | 0.0 Tage her | 287 |
+| motn | 12.4 Tage her | 2034 |
+| motn-changes | 0.4 Tage her | 0 |
+| rohfolgen | 0.7 Tage her | 0 |
+| rtlplus-folgen | 1.3 Tage her | 3 |
+| tmdb-banner | 7.8 Tage her | 2039 |
+| tmdb-folgen | 2.9 Tage her | 896 |
+| tmdb-kino | 9.4 Tage her | 3 |
+| tmdb-poster | 7.8 Tage her | 2400 |
+| tmdb-titles | 2.9 Tage her | 6 |
+| toggo | 0.4 Tage her | 22 |
+| trailer | 0.4 Tage her | 1 |
+| tv-de | 0.7 Tage her | 70 |
+| tv-programm | 0.0 Tage her | 288 |
 | vorfaelle | 0.0 Tage her | 4 |
-| wikidata-imdb | 0.9 Tage her | 5363 |
-| wikidata-titel | 0.9 Tage her | 16 |
-| wikipedia-folgen | 0.0 Tage her | 9 |
-| youtube-check | 0.9 Tage her | 0 |
+| wikidata-imdb | 0.0 Tage her | 5366 |
+| wikidata-titel | 0.0 Tage her | 16 |
+| wikipedia-folgen | 0.4 Tage her | 9 |
+| youtube-check | 0.0 Tage her | 0 |

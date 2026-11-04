@@ -35,6 +35,7 @@ pipeline/check-folgentitel-sprache-bestand.ts
 pipeline/check-folgenzahl-kennzeichnung-bestand.ts
 pipeline/check-gleiche-adresse-bestand.ts
 pipeline/check-handbeleg-fremde-adresse-bestand.ts
+pipeline/check-handbeleg-note-asin-bestand.ts
 pipeline/check-handbeleg-notizseite-bestand.ts
 pipeline/check-handbeleg-staffelzaehlung-bestand.ts
 pipeline/check-handlung-eigen-bestand.ts
@@ -48,6 +49,7 @@ pipeline/check-katalog-eingefroren-bestand.ts
 pipeline/check-katalog-release-bestand.ts
 pipeline/check-logic-bestand.ts
 pipeline/check-mal-dubletten-bestand.ts
+pipeline/check-meldungen-ohne-release-bestand.ts
 pipeline/check-nein-liste-bestand.ts
 pipeline/check-netflix-quellen-bestand.ts
 pipeline/check-netflix-umleitung-bestand.ts

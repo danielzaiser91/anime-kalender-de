@@ -109,6 +109,8 @@ pruefe(ueberProxy.kopf['X-Target-Distribution'] === 'de' && ueberProxy.kopf['Acc
 const direktLauf = ersteAnfrage({})
 pruefe(direktLauf.url.startsWith('https://gw.api.animationdigitalnetwork.com/video/calendar?date='), 'fetch-adn.ts: ohne AK_ADN_PROXY direkt zu ADN', direktLauf.url || direktLauf.ausgabe)
 pruefe(direktLauf.kopf.Authorization === undefined, 'fetch-adn.ts: direkt ohne Authorization')
+pruefe(ueberProxy.ausgabe.includes('ADN über Worker: w.example'), 'fetch-adn.ts: Startzeile nennt den Worker-Host', ueberProxy.ausgabe)
+pruefe(direktLauf.ausgabe.includes('ADN direkt (kein AK_ADN_PROXY)') && !direktLauf.ausgabe.includes('ADN über Worker'), 'fetch-adn.ts: Startzeile nennt den direkten Weg', direktLauf.ausgabe)
 
 // adn-laufende.yml: der letzte Schritt macht den Lauf rot, wenn ein Schritt scheiterte (Ausgabe `fehler` aus dem Auswerten-Schritt).
 const { load } = await import('js-yaml')

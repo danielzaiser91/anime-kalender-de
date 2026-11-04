@@ -19,6 +19,11 @@ export function herkunftZeile(kopf: { get(name: string): string | null }): strin
   return colo || ray ? `Worker-Colo ${colo ?? '?'}, ADN-cf-ray ${ray ?? '?'}` : ''
 }
 
+/** Eine Logzeile zu Beginn jedes Laufs: zeigt, welcher Weg galt (ein Workflow mit `ref: main` kann eine Variable setzen, die main nicht liest). */
+export function wegZeile(weg: AdnWeg): string {
+  return weg.base === ADN_DIREKT ? 'ADN direkt (kein AK_ADN_PROXY)' : `ADN über Worker: ${new URL(weg.base).host}`
+}
+
 export function adnWeg(umgebung: Record<string, string | undefined>): AdnWeg {
   const proxy = umgebung.AK_ADN_PROXY?.replace(/\/+$/, '')
   if (!proxy) return { base: ADN_DIREKT, auth: {} }

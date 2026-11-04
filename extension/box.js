@@ -160,7 +160,7 @@ function akDebugLeiste(kasten, schalter) {
         den Baum — für einen Wert, den wir beim Bauen schon in der Hand hatten.
       */
       zeichenVon.set(s, zeichen)
-      knopf.addEventListener('click', (e) => {
+      akKlick(knopf, (e) => {
         e.preventDefault()
         e.stopPropagation()
         s.schalten()
@@ -298,6 +298,42 @@ function akIconSichtbarkeit() {
   akIconZeichnen()
 }
 
+/**
+ * Klick auf einen Knopf der Erweiterung, vor allen Listenern der Seite.
+ * Netflix stoppt `click` auf der Profilauswahl per Capture-Listener, bevor er den Knopf
+ * erreicht (Messung 03.11.2026); ein Listener am Knopf selbst feuert dort nie. Darum hört
+ * das Fenster in der Capture-Phase zu, ohne weitere Registrierung am Knopf (ein Klick, eine Aktion).
+ * Gesperrte Knöpfe (disabled, aria-disabled) lösen nichts aus, auch nach dem Neuzeichnen.
+ */
+const akKlickZiele = new Set()
+let akKlickHoerer = false
+
+function akKlickVerteilen(e) {
+  for (const ziel of [...akKlickZiele]) {
+    const el = ziel.el
+    const getroffen = e.target === el || (e.target && el.contains?.(e.target))
+    if (!getroffen || el.disabled === true || el.ariaDisabled === 'true') continue
+    ziel.aktion(e)
+  }
+}
+
+/** Ein Fenster-Listener für alle Knöpfe; `el.remove()` meldet den Knopf ab (kein Leck bei Neuzeichnen). */
+function akKlick(el, aktion) {
+  if (!akKlickHoerer) {
+    akKlickHoerer = true
+    window.addEventListener('click', akKlickVerteilen, true)
+  }
+  const ziel = { el, aktion }
+  akKlickZiele.add(ziel)
+  const entfernen = el.remove?.bind(el)
+  if (entfernen) {
+    el.remove = () => {
+      akKlickZiele.delete(ziel)
+      entfernen()
+    }
+  }
+}
+
 function akIconStarten() {
   if (akIcon || (window.top && window !== window.top)) return
   akIcon = document.createElement('button')
@@ -311,7 +347,7 @@ function akIconStarten() {
   akIcon.appendChild(akZeichen)
   akIcon.appendChild(akBadge)
   akIcon.hidden = true
-  akIcon.addEventListener('click', () => {
+  akKlick(akIcon, () => {
     /* Während eines Durchgangs bleibt der Kasten offen: kein Kippen, kein Schreiben. */
     if (akIcon.ariaDisabled === 'true') return
     akZu = !akZu

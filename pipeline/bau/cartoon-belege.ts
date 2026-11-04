@@ -23,8 +23,8 @@ export function wendeCartoonBelegeAn(titel: Title[], belege: CartoonBeleg[]): nu
       s = { platform: b.platform as PlatformId, url: '' }
       t.streams.push(s)
     }
-    if (b.url && (b.dub === true || !jaAdresse.has(s))) s.url = b.url
-    if (b.dub === true) {
+    if (b.url && (b.dub === true || !jaAdresse.has(s))) s.url = b.url // dub-lesart: handbeleg – gemessenes Ja des Belegs, nicht abgeleitet
+    if (b.dub === true) { // dub-lesart: handbeleg – gemessenes Ja des Belegs, nicht abgeleitet
       jaAdresse.add(s)
       s.dub = true
       if (b.dubRanges?.length) s.dubRanges = b.dubRanges

@@ -205,3 +205,7 @@ Eine Datei, die erst ein offener PR anlegt, gibt es im Hauptordner nicht — der
 Worktree verlinken (`git worktree list`, z. B. `file:///C:/code/ai/_wtcover/…`); vor dem Senden
 mit `ls` prüfen, dass der Pfad existiert. Eine Einstellung „Links immer in VS Code öffnen“
 bietet der Client nicht (geprüft über die Einstellungs-Werkzeuge, 11.10.2026).
+
+## In .md-Dateien für VS Code: relativ (03.11.2026)
+
+Die Markdown-Vorschau von VS Code (markdown-it) verwirft das Schema `file:` als unsicher und zeigt `[x](file:///…)` als rohen Text. In Dateien unter `daniel-zum-abarbeiten/` (außer `stand.md`, die liest die Mod) daher relativ, mit `#L<zeile>` für die Stelle. Der Hook `md-links-relativ.js` (PostToolUse Write|Edit|Bash) schreibt vergessene `file:///`-Links automatisch um; im Chat bleibt `file:///`.

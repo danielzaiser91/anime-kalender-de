@@ -17,8 +17,8 @@ import { abweichungVomBekannten, doppelteNummern, remakeMitOriginalInGruppe, war
 import { BEKANNT_DOPPELT_OHNE_REMAKE } from './lib/remake-zaehlung-bekannt.ts'
 import { uebersetzeDatei } from './lib/ausgabe-kennung.ts'
 
-/** Obergrenze der Schlüsselliste (Stand 03.11.2026): sie darf nur sinken; ein neuer Fall wird als Spin-off gekennzeichnet. */
-const BEKANNT_HOECHSTENS = 37
+/** Obergrenze der Schlüsselliste (Stand 03.11.2026, nach den Spin-offs; vorher 37): sie darf nur sinken; ein neuer Fall wird als Spin-off gekennzeichnet (data/spinoff-von-hand.yaml). */
+const BEKANNT_HOECHSTENS = 19
 
 let verletzt = 0
 let faelle = 0
