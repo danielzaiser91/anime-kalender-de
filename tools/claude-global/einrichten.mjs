@@ -23,6 +23,7 @@
  *     Ist die Repo-Fassung neuer (letzter Commit oder ungesicherte Änderung jünger als die Zieldatei), bleibt sie: "UEBERSPRUNGEN".
  *   ... --einsammeln --neue-skills  nimmt zusätzlich Skills (samt Unterordnern) auf, die nur am Ziel liegen, außer den in
  *     `skills-ausschluss.json` (`{ name: Grund }`) geführten: Das Repo ist öffentlich, dort steht, was nicht hinein darf.
+ *   --help / -h  Kurzhilfe, schreibt nichts (Exit 0). Unbekannte Schalter: Exit 2, nichts geschrieben.
  * Ziel: $CLAUDE_CONFIG_DIR, sonst ~/.claude (unter Windows %USERPROFILE%\.claude).
  */
 import { execFileSync } from 'node:child_process'
@@ -31,6 +32,29 @@ import { homedir } from 'node:os'
 import { dirname, join } from 'node:path'
 
 import { pruefeSavvyHaken } from './savvy-haken.mjs'
+
+const SCHALTER = ['--pruefen', '--einsammeln', '--neue-skills', '--help', '-h']
+const HILFE = `Aufruf: node tools/claude-global/einrichten.mjs [Schalter]
+  (ohne)          einrichten bzw. aktualisieren
+  --pruefen       nur prüfen (Exit 1, wenn etwas fehlt/veraltet)
+  --einsammeln    Gegenrichtung: holt Dateien aus dem Ziel ins Repo
+  --neue-skills   nur mit --einsammeln: nimmt zusätzlich neue Skills auf
+  --help, -h      diese Hilfe`
+
+/** Prüft die Schalter, bevor etwas angefasst wird: Hilfe → Exit 0, Unbekanntes oder `--neue-skills` allein → Exit 2. */
+function pruefeSchalter(args) {
+  if (args.some((a) => a === '--help' || a === '-h')) {
+    console.log(HILFE)
+    process.exit(0)
+  }
+  const unbekannt = args.filter((a) => !SCHALTER.includes(a))
+  const lose = args.includes('--neue-skills') && !args.includes('--einsammeln')
+  if (unbekannt.length === 0 && !lose) return
+  console.error(unbekannt.length ? `Unbekannter Schalter: ${unbekannt.join(' ')}` : '--neue-skills gilt nur zusammen mit --einsammeln')
+  console.error(`Nichts geschrieben.\n${HILFE}`)
+  process.exit(2)
+}
+pruefeSchalter(process.argv.slice(2))
 
 const QUELLE = import.meta.dirname
 const ZIEL = process.env.CLAUDE_CONFIG_DIR ?? join(homedir(), '.claude')
