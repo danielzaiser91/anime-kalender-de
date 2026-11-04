@@ -22,6 +22,29 @@ function pruefe(name: string, bedingung: boolean, gefunden?: unknown): void {
 const titel = (id: number, titleDe: string | undefined, titleEn: string | undefined, format: string, jpYear: number): Title =>
   ({ id, franchiseId: id, titleDe, titleEn, titleRomaji: titleEn, format, jpYear }) as unknown as Title
 
+/** Namen wörtlich aus `public/data/titles.json`, Kennungen erfunden; eine Fortsetzung zeigt mit `franchiseId` auf ihre Basis. */
+const fortsetzung = (id: number, basis: number, titleDe: string, titleRomaji: string): Title =>
+  ({ ...titel(id, titleDe, titleDe, 'TV', 2023), franchiseId: basis, titleRomaji }) as Title
+const FORTSETZUNGEN: Title[] = [
+  titel(900101, 'Bofuri: I Don’t Want to Get Hurt, So I’ll Max Out My Defense.', undefined, 'TV', 2020),
+  fortsetzung(900102, 900101, 'Bofuri: I Don’t Want to Get Hurt, So I’ll Max Out My Defense. Staffel 2', 'Itai no wa Iya nano de Bougyoryoku ni Kyokufuri Shitai to Omoimasu. 2'),
+  titel(900103, 'Don’t Toy with Me, Miss Nagatoro', undefined, 'TV', 2021),
+  fortsetzung(900104, 900103, 'Don’t Toy with Me, Miss Nagatoro 2nd Attack', 'Ijiranaide, Nagatoro-san 2nd Attack'),
+  titel(900105, 'I’ve Been Killing Slimes for 300 Years and Maxed Out My Level', undefined, 'TV', 2021),
+  fortsetzung(900106, 900105, 'I’ve Been Killing Slimes for 300 Years and Maxed Out My Level: Staffel 2', 'Slime Taoshite 300-nen, Shiranai Uchi ni Level MAX ni Nattemashita: Sono ni'),
+  titel(900107, 'Rent-a-Girlfriend', undefined, 'TV', 2020),
+  fortsetzung(900108, 900107, 'Rent-a-Girlfriend Staffel 2', 'Kanojo, Okarishimasu 2nd Season'),
+  titel(900109, 'Orient', undefined, 'TV', 2022),
+  fortsetzung(900110, 900109, 'Orient Cour 2', 'ORIENT: Awajishima Gekitou-hen'),
+  titel(900111, 'Fist of the North Star', undefined, 'MOVIE', 1986),
+  titel(900113, 'Reihe ohne Basis: Sono ni', undefined, 'TV', 2024),
+  titel(900114, 'Alpha Reihe Sono ni', undefined, 'TV', 2024),
+  titel(900115, 'Beta Reihe Ni no Shou', undefined, 'TV', 2024),
+  titel(900116, 'Gamma Reihe San no Shou', undefined, 'TV', 2024),
+  titel(900117, 'Zwilling Werk', undefined, 'MOVIE', 2020),
+  titel(900118, 'Zwilling Werk', undefined, 'TV', 2021),
+]
+
 const KATALOG: Title[] = [
   titel(900001, undefined, 'K: Seven Stories Movie 1 - R:B - Blaze', 'MOVIE', 2018),
   titel(900002, undefined, 'K: Seven Stories Movie 2 - Side:Blue - Like Sirius', 'MOVIE', 2018),
@@ -56,12 +79,18 @@ const KATALOG: Title[] = [
   titel(900097, 'Wizard’s Tale: Der Beginn', undefined, 'TV', 2026),
   { ...titel(900098, undefined, undefined, 'TV', 2026), titleRomaji: 'Kimi no Namae' },
   titel(900094, 'Dein Name', undefined, 'MOVIE', 2016),
+  ...FORTSETZUNGEN,
 ]
 /** Wörtlich aus `public/data/synonyme.json`. */
 const SYNONYME = new Map<number, string[]>([
   [900010, ['Girls und Panzer OVA', 'Girls und Panzer OVA: This Is the Real Anzio Battle!']],
   [900012, ['Cyberpunk: Edgerunners II']],
   [900040, ['The Magnificent Zorro', 'Zorro']],
+  [900102, ['Itai no wa Iya nano de Bougyoryoku ni Kyokufuri Shitai to Omoimasu. II', 'Bofuri: I Don’t Want to Get Hurt', 'So I’ll Max Out My Defense. Staffel 2']],
+  [900104, ['Don’t Toy with Me', 'Nagatoro-san 2', 'Miss Nagatoro: Staffel 2']],
+  [900106, ['Slime Taoshite 300-nen', 'Shiranai Uchi ni Level Max ni Nattemashita 2']],
+  [900108, ['Kanojo', 'Okarishimasu 2', 'KanoKari 2']],
+  [900110, ['Orient Part 2', 'Orient: Awaji Shima Gekitou Hen']],
 ])
 
 const zeile = (name: string, zusatz?: string, anbieter = 'joyn'): Vorschlag => ({
@@ -78,6 +107,7 @@ const zeile = (name: string, zusatz?: string, anbieter = 'joyn'): Vorschlag => (
 async function main(): Promise<void> {
   await pruefeNamen()
   await pruefeGleicherName()
+  await pruefeFortsetzung()
   await pruefeTermine()
   await pruefeBau()
 }
@@ -124,11 +154,40 @@ async function pruefeGleicherName(): Promise<void> {
   pruefe('drei Zeichen genügen nicht', id('Air') === undefined, id('Air'))
   pruefe('zwei Titel gleichen Namens → keiner, auch nicht der mit Beititel', id('Gleicher Name') === undefined, id('Gleicher Name'))
   pruefe('zu kurzer Name gleicht auch als Namensanfang nicht', id('Ox A') === undefined, id('Ox A'))
-  pruefe('ein Film ohne Film-Wort im Namen ist erreichbar', id('Dein Name') === 900094, id('Dein Name'))
+  pruefe('ein Film ohne Film-Wort im Namen bleibt ohne Treffer (Format-Sperre)', id('Dein Name') === undefined, id('Dein Name'))
   const sammel = { context: 'Sammelartikel' }
   pruefe('Sammelzeile: alle Daten aus dem Sammelartikel', istSammelMeldung({ dates: [sammel, sammel] }))
   pruefe('keine Sammelzeile: ein Datum aus anderem Zusammenhang', !istSammelMeldung({ dates: [sammel, { context: 'Start' }] }))
   pruefe('keine Sammelzeile: ohne Daten', !istSammelMeldung({ dates: [] }) && !istSammelMeldung({}))
+}
+
+/** Fortsetzungs- und Format-Sperre im Synonym-Weg; die fünf Fälle sind die echten des Prüfers (R1, 04.11.2026). */
+async function pruefeFortsetzung(): Promise<void> {
+  const { sammelTitel } = await import('./lib/sammel-titel.ts')
+  const id = (name: string, zusatz?: string) => sammelTitel(zeile(name, zusatz).articleTitle, KATALOG, SYNONYME)?.id
+  pruefe('Bofuri (Synonym an Staffel 2) → nicht Staffel 2', id('Bofuri: I Don’t Want to Get Hurt') !== 900102, id('Bofuri: I Don’t Want to Get Hurt'))
+  pruefe('Don’t Toy with Me → nicht 2nd Attack', id('Don’t Toy with Me') !== 900104, id('Don’t Toy with Me'))
+  pruefe('Slime Taoshite 300-nen → nicht Staffel 2', id('Slime Taoshite 300-nen') !== 900106, id('Slime Taoshite 300-nen'))
+  pruefe('Kanojo → nicht Staffel 2', id('Kanojo') !== 900108, id('Kanojo'))
+  pruefe('Orient: Awaji Shima Gekitou Hen ohne Teil-Zusatz → nicht Cour 2', id('Orient: Awaji Shima Gekitou Hen') !== 900110, id('Orient: Awaji Shima Gekitou Hen'))
+  pruefe('Staffel 1 als Zusatz ist ebenfalls ohne Teil-Angabe', id('Kanojo', 'Staffel 1') !== 900108)
+  // Gegenfälle: Name oder Zusatz nennt den Teil, dann ist die Fortsetzung gemeint.
+  pruefe('Name „Okarishimasu 2“ endet auf Zahl → Staffel 2', id('Okarishimasu 2') === 900108, id('Okarishimasu 2'))
+  pruefe('Name „Nagatoro-san 2“ → 2nd Attack', id('Nagatoro-san 2') === 900104, id('Nagatoro-san 2'))
+  pruefe('Name mit „II“ am Ende → Fortsetzung', id('Itai no wa Iya nano de Bougyoryoku ni Kyokufuri Shitai to Omoimasu. II') === 900102)
+  pruefe('Zusatz „Staffel 2“ erlaubt die Fortsetzung', id('Kanojo', 'Staffel 2') === 900108, id('Kanojo', 'Staffel 2'))
+  pruefe('Name endet auf „Sono ni“ → Fortsetzung', id('Slime Taoshite 300-nen, Shiranai Uchi ni Level MAX ni Nattemashita: Sono ni') === 900106)
+  pruefe('Ohne Basis im Bestand bleibt die Fortsetzung erreichbar', id('Reihe ohne Basis: Sono ni') === 900113)
+  const ohneBasis = KATALOG.filter((t) => t.id !== 900107)
+  pruefe('Kanojo ohne Basis im Bestand → die Fortsetzung', sammelTitel(zeile('Kanojo').articleTitle, ohneBasis, SYNONYME)?.id === 900108)
+  // Format: Film und Serie gleichen Namens.
+  pruefe('Film „Fist of the North Star“ ohne Film-Wort nicht erreichbar', id('Fist of the North Star') === undefined, id('Fist of the North Star'))
+  pruefe('Film und Serie gleichen Namens: ohne Film-Wort die Serie', id('Zwilling Werk') === 900118, id('Zwilling Werk'))
+  pruefe('Film-Wort im Namen verlangt den Film', id('Eureka Seven: The Movie') === 900003, id('Eureka Seven: The Movie'))
+  // A3: Teil-Phrasen hinter dem Namensanfang.
+  pruefe('Namensanfang: „Sono ni“ ist ein anderer Teil', id('Alpha Reihe') === undefined, id('Alpha Reihe'))
+  pruefe('Namensanfang: „Ni no Shou“ ist ein anderer Teil', id('Beta Reihe') === undefined, id('Beta Reihe'))
+  pruefe('Namensanfang: „San no Shou“ ist ein anderer Teil', id('Gamma Reihe') === undefined, id('Gamma Reihe'))
 }
 
 async function pruefeTermine(): Promise<void> {

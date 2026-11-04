@@ -23,6 +23,11 @@ export function synonymeJeTitel(ids: number[], lies: typeof readJson = readJson)
 
 /** Wörter, an denen ein Namensrest keinen Beititel, sondern eine andere Staffel/einen anderen Teil meint. */
 const TEIL_WORT = /^(season|staffel|part|teil|cour|final|chapter|\d+|ii|iii|iv|v|vi|vii|viii|ix|x|[2-9](nd|rd|th)|second|third|fourth)$/
+/** Mehrwortige japanische Teil-Angaben („Sono ni“ = Teil 2, „Ni no Shou“ = Kapitel 2); `TEIL_PHRASE_ENDE` nur am Namensende. */
+const TEIL_PHRASE = /(^| )(sono ni|ni no shou|san no shou)( |$)/
+const TEIL_PHRASE_ENDE = /(^| )(sono ni|ni no shou|san no shou)$/
+/** Zusatz hinter dem Namen, der den ersten Teil meint: nichts oder „Staffel/Season/Part 1“. */
+const ZUSATZ_ERSTER_TEIL = /^[\s–-]*$|^[\s–-]*(staffel|season|part)\s*0*1\s*$/i
 
 export const istSammelMeldung = (v: Pick<Vorschlag, 'dates'>): boolean => Boolean(v.dates?.length) && v.dates!.every((d) => d.context === 'Sammelartikel')
 
@@ -52,11 +57,30 @@ function namenVon(t: Title, synonyme: Map<number, string[]>): string[] {
   return [t.titleDe, t.titleEn, t.titleRomaji, ...(synonyme.get(t.id) ?? [])].filter((n): n is string => Boolean(n))
 }
 
-/** Alle Titel, deren Name (auch Synonym) dem Namen gleicht; unter vier Zeichen gleicht keiner. */
-function gleichnamige(name: string, titel: Title[], synonyme: Map<number, string[]>): Title[] {
+/** Eine Zeile ohne Teil-Angabe: leerer Zusatz oder „Staffel 1“, und der Name selbst endet nicht auf eine Teil-Angabe. */
+function ohneTeilAngabe(name: string, zusatz: string): boolean {
+  const w = namensWoerter(name)
+  return ZUSATZ_ERSTER_TEIL.test(zusatz) && !(TEIL_WORT.test(w.at(-1) ?? '') || TEIL_PHRASE_ENDE.test(w.join(' ')))
+}
+
+/** Fortsetzung: ein Titel einer Reihe, deren Basis (Staffel 1) auch im Bestand steht. */
+const istFortsetzung = (t: Title, titel: Title[]) => t.franchiseId !== t.id && titel.some((b) => b.id === t.franchiseId)
+
+/**
+ * Alle Titel, deren Name (auch Synonym) dem Namen gleicht; unter vier Zeichen gleicht keiner. Wie beim Namensanfang gilt
+ * das Format (Film-Wort ⇔ Film), und eine Zeile ohne Teil-Angabe geht nie an eine Fortsetzung, deren Basis im Bestand steht
+ * („Bofuri: I Don’t Want to Get Hurt“ steht als Synonym an Staffel 2).
+ */
+function gleichnamige(name: string, zusatz: string, titel: Title[], synonyme: Map<number, string[]>): Title[] {
   const frage = namensWoerter(name).join('')
   if (frage.length < 4) return []
-  return titel.filter((t) => namenVon(t, synonyme).some((n) => namensWoerter(n).join('') === frage))
+  const erste = ohneTeilAngabe(name, zusatz)
+  return titel.filter(
+    (t) =>
+      formatPasst(name, t) &&
+      !(erste && istFortsetzung(t, titel)) &&
+      namenVon(t, synonyme).some((n) => namensWoerter(n).join('') === frage),
+  )
 }
 
 /**
@@ -68,13 +92,13 @@ function gleichnamige(name: string, titel: Title[], synonyme: Map<number, string
  */
 function eindeutigerAnfang(name: string, zusatz: string, titel: Title[], synonyme: Map<number, string[]>): Title | undefined {
   const frage = namensWoerter(name)
-  if (frage.length < 2 || !/^[\s–-]*$|^[\s–-]*(staffel|season|part)\s*0*1\s*$/i.test(zusatz)) return undefined
+  if (frage.length < 2 || !ZUSATZ_ERSTER_TEIL.test(zusatz)) return undefined
   const rest = (n: string) => {
     const w = namensWoerter(n)
     return w.length > frage.length && frage.every((x, i) => w[i] === x) ? w.slice(frage.length) : undefined
   }
   const treffer = titel.filter((t) => formatPasst(name, t) && namenVon(t, synonyme).some((n) => rest(n)))
-  const nurBeititel = (t: Title) => namenVon(t, synonyme).some((n) => rest(n) && !rest(n)!.some((x) => TEIL_WORT.test(x)))
+  const nurBeititel = (t: Title) => namenVon(t, synonyme).some((n) => rest(n) && !rest(n)!.some((x) => TEIL_WORT.test(x)) && !TEIL_PHRASE.test(rest(n)!.join(' ')))
   return treffer.length === 1 && nurBeititel(treffer[0]!) ? treffer[0] : undefined
 }
 
@@ -85,7 +109,8 @@ function eindeutigerAnfang(name: string, zusatz: string, titel: Title[], synonym
 export function sammelTitel(articleTitle: string, titel: Title[], synonyme: Map<number, string[]>): Title | undefined {
   const name = sammelName(articleTitle)
   if (!name) return undefined
-  const gleich = gleichnamige(name, titel, synonyme)
+  const zusatz = ohneSammelName(articleTitle)
+  const gleich = gleichnamige(name, zusatz, titel, synonyme)
   if (gleich.length) return gleich.length === 1 ? gleich[0] : undefined
-  return eindeutigerAnfang(name, ohneSammelName(articleTitle), titel, synonyme)
+  return eindeutigerAnfang(name, zusatz, titel, synonyme)
 }
