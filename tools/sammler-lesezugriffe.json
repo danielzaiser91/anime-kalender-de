@@ -32,7 +32,7 @@
   { "datei": "pipeline/check-invarianten.ts", "liest": "data/anisearch-dubs.json", "grund": "ganze Karte als Eingabe der Auslieferungs-Invarianten (Eigenschaft über alle Titel), kein fester Schlüssel" },
   { "datei": "pipeline/check-invarianten.ts", "liest": "data/anisearch-dub-ids.json", "grund": "ganze Liste als Eingabe der Auslieferungs-Invarianten (Eigenschaft über alle Titel), kein fester Schlüssel" },
   { "datei": "pipeline/check-joyn-luecke.ts", "liest": "data/joyn-luecke-ausnahmen.json", "grund": "Handliste (kein Sammler beschreibt sie); die Ratsche zählt nur ihre Einträge, kein Titelbestand" },
-  { "datei": "pipeline/check-luecken-staffel0.ts","liest": "data/tmdb-staffel0.json", "grund": "nur nicht leer und ladeStaffel0 reicht die Schlüssel durch, kein fester Schlüssel" },
+  { "datei": "pipeline/check-luecken-staffel0.ts", "liest": "data/tmdb-staffel0.json", "grund": "nur nicht leer und ladeStaffel0 reicht die Schlüssel durch, kein fester Schlüssel" },
   { "datei": "pipeline/check-nein-handbeleg-aufrufer.ts", "liest": "data/justwatch-audio.json", "grund": "ganze Datei als Eingabe der Aufrufer, Handbelege wählen die Ids; kein fester Schlüssel" },
   { "datei": "pipeline/check-nein-handbeleg-cr.ts", "liest": "data/cr-katalog-de.json", "grund": "sucht irgendeinen Eintrag mit einer Staffel und de-DE (Hunderte), keine feste Serie" },
   { "datei": "pipeline/check-netflix-fremde-meldung.ts", "liest": "data/netflix-fremde-meldungen.json", "grund": "handgepflegte Sperrliste, keine Sammlerquelle; der Test prüft ihre Form" },
