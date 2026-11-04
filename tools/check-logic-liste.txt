@@ -371,6 +371,7 @@ pipeline/check-saison-deutsch.ts
 pipeline/check-saison-karte-chip.ts
 pipeline/check-saison-termin.ts
 pipeline/check-sammel-erste-folgen.ts
+pipeline/check-sammel-titel.ts
 pipeline/check-sammel-unzugeordnet.ts
 pipeline/check-sammelartikel.ts
 pipeline/check-sammeleintrag-synchro.ts
@@ -429,6 +430,7 @@ pipeline/check-tmdb-folgen-lauf.ts
 pipeline/check-tmdb-folgen-luecke-lauf.ts
 pipeline/check-tmdb-folgen-luecke.ts
 pipeline/check-tmdb-folgentitel-absolut.ts
+pipeline/check-tmdb-folgentitel-datum.ts
 pipeline/check-tmdb-genre.ts
 pipeline/check-tmdb-hauptserie.ts
 pipeline/check-tmdb-katalog.ts
