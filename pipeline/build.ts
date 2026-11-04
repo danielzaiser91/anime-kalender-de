@@ -12,8 +12,7 @@ import { bauePhasenfolge, type Phasenergebnis } from './bau/phasenfolge.ts'
 import { vermerkeQuarantaene } from './bau/11-9-quarantaene.ts'
 import { baueMeta } from './bau/12-meta.ts'
 import { schreibeDatensatzGemessen } from './bau/anisearch-reihen-abweichungen.ts'
-import { schreibeEmpfehlung } from './bau/13-10-empfehlung.ts'
-import { schreibeCoverLuecken } from './bau/13-11-cover-luecken.ts'
+import { schreibeAbgeleitete } from './bau/15-abgeleitete.ts'
 import { schreibeAboFeeds } from './bau/14-ics.ts'
 import { pruefeSchalter } from './bau/phasen-zustand.ts'
 import { merkeBestandVorher } from './lib/bestand-vorher.ts'
@@ -40,8 +39,7 @@ function liefereAus({ synchro, quarantaene, ...rest }: Phasenergebnis): void {
     meta,
   })
   schreibeAboFeeds({ newsFuerRss, events, platforms, allTitles, genres, meta, keywords })
-  schreibeEmpfehlung()
-  schreibeCoverLuecken()
+  schreibeAbgeleitete()
 }
 
 pruefeSchalter()

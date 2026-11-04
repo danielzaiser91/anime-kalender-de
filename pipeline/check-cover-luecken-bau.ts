@@ -32,14 +32,14 @@ mkdirSync(join(wurzel, 'public/data'), { recursive: true })
 mkdirSync(join(wurzel, 'data'), { recursive: true })
 const schreibe = (pfad: string, inhalt: unknown): void => writeFileSync(join(wurzel, pfad), JSON.stringify(inhalt))
 schreibe('public/data/franchises.json', { '1': [{ id: 10_000_005 }, { id: 10_000_008, cover: bild }, { id: 10_000_009 }] })
-schreibe('public/data/titles.json', [{ id: 10_000_005 }, { id: 10_000_008, coverImage: bild }])
+schreibe('public/data/titles.json', [{ id: 10_000_005, streams: [] }, { id: 10_000_008, coverImage: bild, streams: [] }])
 schreibe('public/data/ohne-synchro.json', [{ id: 10_000_007 }])
 schreibe('data/cover-eigen.json', eigen)
 // Alte Liste mit veralteten Einträgen (Kennung 10000008 hat ein Cover, 77 existiert nicht): der Lauf ersetzt sie ganz.
 schreibe('data/cover-luecken.json', { '10000005': 'ohne-adresse', '10000008': 'nicht-gefunden', '77': 'x' })
 const skript = join(wurzel, 'lauf.ts')
-const modul = new URL('./bau/13-11-cover-luecken.ts', import.meta.url).href
-writeFileSync(skript, `import { schreibeCoverLuecken } from '${modul}'\nschreibeCoverLuecken()\n`)
+const modul = new URL('./bau/15-abgeleitete.ts', import.meta.url).href
+writeFileSync(skript, `import { schreibeAbgeleitete } from '${modul}'\nschreibeAbgeleitete()\n`)
 const lauf = () => spawnSync(process.execPath, ['--import', 'tsx', skript], { encoding: 'utf8', windowsHide: true, timeout: 60_000, env: { ...process.env, AK_ROOT: wurzel } })
 const eins = lauf()
 const dateiNach = (): string => readFileSync(join(wurzel, 'data/cover-luecken.json'), 'utf8')
