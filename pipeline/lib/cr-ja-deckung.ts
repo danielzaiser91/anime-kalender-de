@@ -19,12 +19,16 @@ function hatNullBlock(serie: CrSerie): boolean {
 /**
  * Blockketten legen nur die deutschen Blöcke der Reihe nach auf unsere Einträge; ein Block ohne deutsche Folge vor einem deutschen
  * bleibt dabei unbesetzt, und die Summen können zufällig aufgehen (04.11.2026, Persona 5: „Day Breakers“ 1/0 vor den OVAs 2/2 gab
- * Stars and Ours und Dark Sun das Ja der OVAs). Dann trägt die Kette kein Ja; ein Null-Block hinter dem letzten deutschen stört nicht.
+ * Stars and Ours und Dark Sun das Ja der OVAs). Dann trägt die Kette kein Ja; ein Null-Block hinter dem letzten deutschen stört nicht,
+ * ebenso wenig der Untertitel-Zwilling eines deutschen Blocks („Season 2“ neben „Season 2 (German Dub)“, How Not to Summon a Demon Lord).
  */
 export function beurteileBlockkettenOhneLuecke(serie: CrSerie, unsere: Title[]): ReturnType<typeof beurteileBlockketten> {
+  const bloecke = serie.staffeln ?? []
+  const istZwilling = (name: string | undefined) =>
+    Boolean(name) && bloecke.some((d) => d.deutscheFolgen?.length && d.name?.startsWith(`${name} (`) && d.name.endsWith(')'))
   let ohneDeutsch = false
-  for (const s of serie.staffeln ?? []) {
-    if (!s.deutscheFolgen?.length) ohneDeutsch ||= s.folgen > 0
+  for (const s of bloecke) {
+    if (!s.deutscheFolgen?.length) ohneDeutsch ||= s.folgen > 0 && !istZwilling(s.name)
     else if (ohneDeutsch) return []
   }
   return beurteileBlockketten(serie, unsere)
