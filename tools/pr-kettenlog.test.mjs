@@ -349,7 +349,8 @@ pruefe('Schritt: Kopf, Ordner, Frist und Beschreibungsdatei als Argumente, fail-
 const VORLAUF_MIN = 1.5
 const PRUEFER_MAX_MIN = 13
 const jobMinuten = wf.jobs.pruefen['timeout-minutes']
-pruefe('Frist: deckt p90 der Kette (12,9 min) ab', frist >= 780, frist)
+// PR 2852, Kopf bea96992d (04.11.2026): Kette 15:46:39 bis 16:18:02 = 31,4 min; bei 13 min urteilte der Prüfer auf unfertiger Kette „aendern“.
+pruefe('Frist: deckt die längste gemessene Kette (31,4 min) ab', frist >= 31.4 * 60, frist)
 pruefe('Frist: Vorlauf + Frist + voller Prüfer bleibt unter dem Job-Timeout', VORLAUF_MIN + frist / 60 + PRUEFER_MAX_MIN <= jobMinuten, { frist, jobMinuten })
 pruefe('Berechtigung actions: read vorhanden, Bash im Prüfer weiter verboten', wf.permissions.actions === 'read' && schritte.filter((s) => s.with?.settings).every((s) => JSON.parse(s.with.settings).permissions.deny.includes('Bash')))
 const prompts = schritte.filter((s) => s.with?.prompt).map((s) => s.with.prompt)

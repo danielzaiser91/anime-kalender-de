@@ -27,7 +27,7 @@
       "name": "Prüfer-Review",
       "if": "github.event.pull_request.head.repo.full_name == github.repository && !startsWith(github.head_ref, 'daten/') && !github.event.pull_request.draft",
       "runs-on": "ubuntu-latest",
-      "timeout-minutes": 30,
+      "timeout-minutes": 60,
       "env": {
         "PR": "${{ github.event.pull_request.number }}",
         "HEAD_SHA": "${{ github.event.pull_request.head.sha }}",
@@ -71,7 +71,7 @@
           "env": {
             "GH_TOKEN": "${{ secrets.GITHUB_TOKEN }}"
           },
-          "run": "node tools/pr-kettenlog.mjs \"$HEAD_SHA\" \"$RUNNER_TEMP/pruefer\" 780 \"$RUNNER_TEMP/pruefer/pr-beschreibung.txt\" || echo \"Kettenlog nicht bereitgelegt\""
+          "run": "node tools/pr-kettenlog.mjs \"$HEAD_SHA\" \"$RUNNER_TEMP/pruefer\" 2160 \"$RUNNER_TEMP/pruefer/pr-beschreibung.txt\" || echo \"Kettenlog nicht bereitgelegt\""
         },
         {
           "name": "Prüfer-Eingang prüfen",
