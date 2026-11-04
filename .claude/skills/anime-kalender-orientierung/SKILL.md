@@ -37,3 +37,7 @@ description: Einstieg in dieses Repo (anime-kalender-de) für Agenten — wo was
 
 `npm run check:vor-commit` (Kette steht in `CLAUDE.md`); bei Änderungen an `web/src` zusätzlich `check:ansichten`, `check:panel`; bei Datenänderungen
 `check:handbelege`. Neue Erkenntnisse als `##`-Abschnitt mit Datum in die passende `docs/wissen/`-Datei, Kennzahlen mit Datum.
+
+## Live messen (04.11.2026)
+
+Live-Titelseiten heißen `https://anime-kalender.de/t/<ak>/`; `<ak>` steht in der live-`titles.json` (`id`/`slug`), `public/data` auf `main` trägt AniList-IDs. Ein Messauftrag nennt die ak-Kennung und die fertige `/t/<ak>/`-Adresse, sonst misst der Agent erst die Zuordnung.
