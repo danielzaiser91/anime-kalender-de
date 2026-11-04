@@ -6,7 +6,7 @@
  */
 import type { Title } from '../shared/types.ts'
 import { titelKopf } from './lib/titel-seite.ts'
-import { plakatVorschauMaengel } from './lib/plakat-vorschau-wache.ts'
+import { plakatVorschauMaengel, standardTrotzCover, standardTrotzCoverMaengel } from './lib/plakat-vorschau-wache.ts'
 import { bildMeta, folgenText, plakatMasse, vorschauBild, vorschauMaengel } from './lib/titel-vorschau.ts'
 import type { Umfeld } from './lib/titel-umfeld.ts'
 
@@ -98,6 +98,15 @@ const gemischt = [{ slug: '1', bild: ROZEN }, { slug: '2', bild: STANDARD }, { s
 pruefe('Plakat-Wächter: genau die zwei Seiten mit Standardbild rot', plakatVorschauMaengel(gemischt, SITE).map((m) => m.split(':')[0]).join() === '2,4')
 pruefe('Plakat-Wächter: alle mit Plakat oder Terminbild grün', plakatVorschauMaengel(gemischt.filter((s) => s.slug === '1' || s.slug === '3'), SITE).length === 0)
 pruefe('Plakat-Wächter: eine einzelne Seite mit Standardbild rot', plakatVorschauMaengel([{ slug: '9', bild: STANDARD }], SITE).length === 1)
+
+/* Ratsche „Cover, aber Standardbild“: gezählt wird nur mit Cover und Standardbild; Terminbild, Plakat und fehlendes Cover zählen nicht, ein Titel über der Grenze ist rot. */
+const mitCover = (slug: string, bild: string | undefined, coverImage: string | undefined): { slug: string; bild: string | undefined; coverImage: string | undefined } => ({ slug, bild, coverImage })
+const coverSeiten = [mitCover('a', STANDARD, ANILIST_COVER), mitCover('b', STANDARD, ANILIST_COVER), mitCover('c', STANDARD, undefined), mitCover('d', ROZEN, ROZEN), mitCover('e', TERMINBILD, ANILIST_COVER), mitCover('f', undefined, ANILIST_COVER)]
+pruefe('Cover-Ratsche: nur a und b zählen', standardTrotzCover(coverSeiten, SITE).join() === 'a,b')
+pruefe('Cover-Ratsche: genau an der Grenze (2) grün', standardTrotzCoverMaengel(coverSeiten, SITE, 2).length === 0)
+pruefe('Cover-Ratsche: eins über der Grenze (1) rot, mit beiden Zahlen', standardTrotzCoverMaengel(coverSeiten, SITE, 1).join() === '2 Titel mit Cover zeigen das Standardbild als Link-Vorschau, erlaubt höchstens 1')
+pruefe('Cover-Ratsche: Grenze 0 bei einem Treffer rot', standardTrotzCoverMaengel([coverSeiten[0]!], SITE, 0).length === 1)
+pruefe('Cover-Ratsche: ohne Treffer grün', standardTrotzCoverMaengel(coverSeiten.slice(2), SITE, 0).length === 0)
 
 if (fehler) {
   console.error(`[titel-vorschau] ${fehler} von ${faelle} Fällen rot`)

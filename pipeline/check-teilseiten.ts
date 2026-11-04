@@ -13,7 +13,7 @@ import { ROOT, readJson } from './lib/util.ts'
 import { erreichbar } from './lib/seiten-erreichbar.ts'
 import { SITE } from './lib/titel-seite.ts'
 import { plakatMasse, vorschauMaengel } from './lib/titel-vorschau.ts'
-import { plakatVorschauMaengel } from './lib/plakat-vorschau-wache.ts'
+import { plakatVorschauMaengel, standardTrotzCover, standardTrotzCoverMaengel } from './lib/plakat-vorschau-wache.ts'
 import { iconSeitenMaengel } from '../tools/icon-kennung.mjs'
 
 const MAX_KLICKS = 3
@@ -140,8 +140,21 @@ function plakatSeitenMaengel(titel: Title[]): string[] {
   return mangel
 }
 
+/** Ratsche: Titel mit Cover, deren Link-Vorschau das Standardbild ist (04.11.2026, gemessen am Datenstand; darf nur sinken). */
+const STANDARD_TROTZ_COVER_HOECHSTENS = 448
+
+function coverVorschauMaengel(titel: Title[]): string[] {
+  const seiten = titel
+    .map((t) => ({ slug: teilbarerSlug(t), coverImage: t.coverImage }))
+    .filter((s): s is { slug: string; coverImage: string | undefined } => s.slug !== undefined && existsSync(resolve(DIST, teilenPfad(s.slug), 'index.html')))
+    .map((s) => ({ ...s, bild: /property="og:image" content="([^"]+)"/.exec(readFileSync(resolve(DIST, teilenPfad(s.slug), 'index.html'), 'utf8'))?.[1] }))
+  console.log(`[teilseiten] Cover-Vorschau: ${seiten.filter((s) => s.coverImage).length} Titel mit Cover, ${standardTrotzCover(seiten, SITE).length} mit Standardbild (höchstens ${STANDARD_TROTZ_COVER_HOECHSTENS})`)
+  return standardTrotzCoverMaengel(seiten, SITE, STANDARD_TROTZ_COVER_HOECHSTENS)
+}
+
 function main(): void {
-  const fehler: string[] = [...startseitenMaengel(), ...erreichbarkeitsMaengel(), ...lastmodMaengel(), ...uebersichtMaengel(), ...iconAdressMaengel(), ...plakatSeitenMaengel(lies<Title[]>('titles.json'))]
+  const alle = lies<Title[]>('titles.json')
+  const fehler: string[] = [...startseitenMaengel(), ...erreichbarkeitsMaengel(), ...lastmodMaengel(), ...uebersichtMaengel(), ...iconAdressMaengel(), ...plakatSeitenMaengel(alle), ...coverVorschauMaengel(alle)]
   for (const [art, titel] of quellen()) {
     const teilbar = new Map(titel.map((t) => [t.id, teilbarerSlug(t)]))
     const mitSlug = [...teilbar.values()].filter((s): s is string => s !== undefined)

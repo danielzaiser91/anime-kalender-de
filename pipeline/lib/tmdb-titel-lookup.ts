@@ -30,14 +30,48 @@ function providerToPlatform(name: string): PlatformId | undefined {
   return undefined
 }
 
+/**
+ * Ein einzelner Film von Netflix & Co. steht bei AniList als ONA, OVA oder Special mit einer Folge, bei TMDB aber als Film
+ * (Bright: Samurai Soul, 04.11.2026: als Serie gesucht, nie gefunden). Die Serien-Suche bleibt zuerst; der Film kommt nur nach einem Fehlschlag.
+ */
+export function koennteFilmSein(title: Pick<Title, 'format' | 'episodes'>): boolean {
+  return ['ONA', 'OVA', 'SPECIAL'].includes(title.format ?? '') && title.episodes === 1
+}
+
+/** Bester Treffer über alle Schreibweisen für eine Art (`tv` oder `movie`). */
+async function sucheBesten(
+  apiKey: string,
+  kind: 'tv' | 'movie',
+  candidates: string[],
+  jpYear: number | undefined,
+  holen: typeof fetchJson,
+  pause: (ms: number) => Promise<void>,
+): Promise<Bester | undefined> {
+  let best: Bester | undefined
+  for (const query of candidates) {
+    const url =
+      `${BASE}/search/${kind}?api_key=${apiKey}&language=de-DE&include_adult=false` +
+      `&query=${encodeURIComponent(query)}`
+    let results: SearchHit[]
+    try {
+      results = (await holen<{ results: SearchHit[] }>(url)).results ?? []
+    } catch (err) {
+      warn(`Suche fehlgeschlagen für "${query}": ${(err as Error).message}`)
+      continue
+    }
+    await pause(40)
+
+    best = waehleBesten(best, query, results, jpYear)
+  }
+  return best
+}
+
 export async function lookup(
   apiKey: string,
   title: Title,
   holen: typeof fetchJson = fetchJson,
   pause: (ms: number) => Promise<void> = sleep,
 ): Promise<TmdbTitle> {
-  const isMovie = title.format === 'MOVIE'
-  const kind = isMovie ? 'movie' : 'tv'
   /*
     **Vier Schreibweisen statt zwei.**
 
@@ -58,23 +92,13 @@ export async function lookup(
   ) as string[]
   if (!candidates.length) return { miss: true }
 
-  let best: Bester | undefined
-
-  for (const query of candidates) {
-    const url =
-      `${BASE}/search/${kind}?api_key=${apiKey}&language=de-DE&include_adult=false` +
-      `&query=${encodeURIComponent(query)}`
-    let results: SearchHit[]
-    try {
-      results = (await holen<{ results: SearchHit[] }>(url)).results ?? []
-    } catch (err) {
-      warn(`Suche fehlgeschlagen für "${query}": ${(err as Error).message}`)
-      continue
-    }
-    await pause(40)
-
-    best = waehleBesten(best, query, results, title.jpYear)
+  let kind: 'tv' | 'movie' = title.format === 'MOVIE' ? 'movie' : 'tv'
+  let best = await sucheBesten(apiKey, kind, candidates, title.jpYear, holen, pause)
+  if (!best && kind === 'tv' && koennteFilmSein(title)) {
+    kind = 'movie'
+    best = await sucheBesten(apiKey, kind, candidates, title.jpYear, holen, pause)
   }
+  const isMovie = kind === 'movie'
 
   if (!best) return { miss: true }
 
