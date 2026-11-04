@@ -146,6 +146,8 @@ pipeline/check-dub-anbieter-pille.ts
 pipeline/check-dub-aus-terminen.ts
 pipeline/check-dub-bereiche.ts
 pipeline/check-dub-durchgehende-zaehlung.ts
+pipeline/check-dub-lesart-faelle.ts
+pipeline/check-dub-lesart.ts
 pipeline/check-ecchi-ausblenden.ts
 pipeline/check-effekt-abhaengigkeiten.ts
 pipeline/check-einzahl-folge.ts
@@ -301,6 +303,8 @@ pipeline/check-netflix-umleitung.ts
 pipeline/check-netflix-zweite-kennung.ts
 pipeline/check-netflix-zweites-404.ts
 pipeline/check-neu-auf-deutsch.ts
+pipeline/check-neue-quellen-lauf.ts
+pipeline/check-neue-quellen-lib.ts
 pipeline/check-neuigkeiten-panel.ts
 pipeline/check-news-altbestand.ts
 pipeline/check-news-einfrieren.ts
@@ -371,6 +375,7 @@ pipeline/check-saison-deutsch.ts
 pipeline/check-saison-karte-chip.ts
 pipeline/check-saison-termin.ts
 pipeline/check-sammel-erste-folgen.ts
+pipeline/check-sammel-titel.ts
 pipeline/check-sammel-unzugeordnet.ts
 pipeline/check-sammelartikel.ts
 pipeline/check-sammeleintrag-synchro.ts
@@ -429,6 +434,7 @@ pipeline/check-tmdb-folgen-lauf.ts
 pipeline/check-tmdb-folgen-luecke-lauf.ts
 pipeline/check-tmdb-folgen-luecke.ts
 pipeline/check-tmdb-folgentitel-absolut.ts
+pipeline/check-tmdb-folgentitel-datum.ts
 pipeline/check-tmdb-genre.ts
 pipeline/check-tmdb-hauptserie.ts
 pipeline/check-tmdb-katalog.ts

@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-11-04T16:18:15.954Z",
+  "generatedAt": "2026-11-04T21:07:45.930Z",
   "titleCount": 2923,
-  "belegtCount": 2589,
-  "releaseCount": 855,
-  "eventCount": 4336,
+  "belegtCount": 2587,
+  "releaseCount": 866,
+  "eventCount": 4347,
   "genres": [
     "Action",
     "Adventure",
@@ -251,6 +251,7 @@
     "Plex Channel",
     "Plex Player",
     "Pokémon TV",
+    "Rtl+",
     "Vimeo"
   ],
   "years": [
