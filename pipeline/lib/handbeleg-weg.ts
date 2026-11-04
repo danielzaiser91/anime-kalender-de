@@ -1,4 +1,4 @@
-import type { Title } from '../../shared/types.ts'
+import type { StreamLink, Title } from '../../shared/types.ts'
 import { adressKern, loadDubChecks, type DubCheck } from './dub-confirmed.ts'
 
 const schluessel = (titleId: number, platform: string, url: string | undefined) => `${titleId}|${platform}|${adressKern(url)}`
@@ -26,7 +26,7 @@ export function istHandbelegterJaWeg(titleId: number, platform: string, url: str
  */
 export function behalteNurHandbelegteWege(titel: Title, checks: DubCheck[], jwJoyn: Set<string> = new Set()): void {
   const belegt = handbelegteJaWege(checks)
-  titel.streams = (titel.streams ?? []).flatMap((s) => {
+  titel.streams = (titel.streams ?? []).flatMap<StreamLink>((s) => {
     if (belegt.has(schluessel(titel.id, s.platform, s.url))) return [{ ...s, herkunft: 'handbeleg' as const }]
     return s.platform === 'joyn' && jwJoyn.has(s.url) ? [{ ...s, herkunft: 'justwatch' as const }] : []
   })
