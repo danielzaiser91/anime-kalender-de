@@ -8,7 +8,6 @@ export const BEKANNT_OHNE_RELEASE: readonly string[] = [
   'https://www.anime2you.de/news/1065256/prime-video-goblin-slayer-staffel-2-und-mehr/ | Devils‘ Crest',
   'https://www.anime2you.de/news/1065078/aniverse-november-2026-neuzugaenge/ | M.A.S.K.',
   'https://www.anime2you.de/news/1065078/aniverse-november-2026-neuzugaenge/ | Shaman King',
-  'https://www.anime2you.de/news/1054791/prime-video-attack-on-titan-und-mehr/ | Demon Slayer: Kimetsu no Yaiba – Infinity Castle I',
   'https://www.anime2you.de/news/1052324/netflix-fuenf-herbst-2026-simulcasts/ | STEEL BALL RUN: JoJo’s Bizarre Adventure',
   'https://www.anime2you.de/news/1035676/aniverse-august-2026-neuzugaenge/ | Danganronpa 3 – Future & Despair',
 ]
