@@ -271,8 +271,10 @@ pipeline/check-luecken-staffel0.ts
 pipeline/check-mail-verschoben-datum.ts
 pipeline/check-mal-dubletten.ts
 pipeline/check-mal-teilung.ts
+pipeline/check-meldung-cartoon.ts
 pipeline/check-meldung-gti.ts
 pipeline/check-meldung-summenseite.ts
+pipeline/check-meldungen-ohne-release.ts
 pipeline/check-meldungs-auffaelligkeiten.ts
 pipeline/check-messbelege-kalender.ts
 pipeline/check-minuten-takt.ts

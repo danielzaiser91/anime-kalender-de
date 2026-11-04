@@ -470,6 +470,21 @@ function sammelTagIstNurStart(v: Vorschlag, treffer: Title, heute: string, abged
   return true
 }
 
+/** Meldungen mit Termin, die kein Release wurden — die Gründe, die `releasesAus` nicht schon anderswo zählt (`verworfen`, `abgedeckt`). */
+export interface Verluste {
+  /** Kein Titel (Anime oder Cartoon) mit genau diesem Namen. */
+  ohneTitel: Vorschlag[]
+  /** Titel gefunden, aber Staffel/Teil der Überschrift nicht eindeutig. */
+  ohneTeil: Vorschlag[]
+  /** Titel und Tag da, aber kein Anbieter, den wir führen. */
+  ohneAnbieter: Vorschlag[]
+}
+
+export const leereVerluste = (): Verluste => ({ ohneTitel: [], ohneTeil: [], ohneAnbieter: [] })
+
+/** Slug-Teil eines automatischen Releases; Cartoons (negative Kennung) als `c<Zahl>`, kein doppelter Strich. */
+const autoKennung = (id: number): string => (id < 0 ? `c${-id}` : String(ALTE_AUTO_KENNUNG[id] ?? id))
+
 /** Der Titel, den die Meldung genau meint: über die Kennung, sonst über einen genauen Namenstreffer (kein Präfix-Treffer). */
 function basisDerMeldung(v: Vorschlag, titel: Title[]): Title | undefined {
   if (v.titleId) return titel.find((t) => t.id === v.titleId)
@@ -495,7 +510,7 @@ function releaseAusMeldung(v: Vorschlag, treffer: Title, platform: string, tag: 
      * Titel und Anbieter identifizieren das Release ohnehin eindeutig; mehr
      * als eines je Kombination lässt `releasesAus` nicht zu.
      */
-    slug: freierSlug(`auto-${ALTE_AUTO_KENNUNG[treffer.id] ?? treffer.id}-${platform}`, vorhanden, tag),
+    slug: freierSlug(`auto-${autoKennung(treffer.id)}-${platform}`, vorhanden, tag),
     titleId: treffer.id,
     name,
     platform: platform as Release['platform'],
@@ -517,7 +532,12 @@ export function releasesAus(
   verworfen?: string[],
   /** Meldungen, die schon ein Termin belegt: kein neuer Termin, aber nicht „nicht zugeordnet“. */
   abgedeckt?: Vorschlag[],
+  /** Cartoons (TMDB, negative Kennung): ein genauer Namenstreffer dort ist ein Titel wie jeder andere; ein Anime gleichen Namens gewinnt. */
+  cartoons: Title[] = [],
+  /** Meldungen mit Termin, die hier ohne Release bleiben, nach Grund getrennt — kein stilles `continue`. */
+  verluste?: Verluste,
 ): Release[] {
+  const kandidaten = [...titel, ...cartoons]
   const belegt = belegteTermine(vorhanden)
   const out: Release[] = []
 
@@ -539,14 +559,24 @@ export function releasesAus(
      * Überschrift sagt nicht, welche der vier Staffeln gemeint ist; als Meldung
      * ist das in Ordnung, als Kalendereintrag wäre es eine Falschangabe.
      */
-    const basis = basisDerMeldung(v, titel)
-    if (!basis) continue
+    const basis = basisDerMeldung(v, kandidaten)
+    if (!basis) {
+      verluste?.ohneTitel.push(v)
+      continue
+    }
 
-    const treffer = reihenTeil(basis, titel, v.articleTitle) ?? vermerkeTeilHinweis(v.articleTitle, verworfen)
-    if (!treffer || sammelTagIstNurStart(v, treffer, heute, abgedeckt)) continue
+    const treffer = reihenTeil(basis, kandidaten, v.articleTitle) ?? vermerkeTeilHinweis(v.articleTitle, verworfen)
+    if (!treffer) {
+      verluste?.ohneTeil.push(v)
+      continue
+    }
+    if (sammelTagIstNurStart(v, treffer, heute, abgedeckt)) continue
 
     const platform = anbieterDerMeldung(v)
-    if (!platform) continue
+    if (!platform) {
+      verluste?.ohneAnbieter.push(v)
+      continue
+    }
     if (istBelegtVermerkt(belegt, treffer, platform, tag, v, abgedeckt)) continue
     belegeTermin(belegt, treffer.id, platform, tag)
 
@@ -601,7 +631,7 @@ export function zeitplanAusVorschlag(
   v: Pick<Vorschlag, 'folgen' | 'woechentlich'> & Partial<Pick<Vorschlag, 'articleTitle' | 'dates' | 'ersteFolgen'>>,
   art: ReleaseType,
   tag: string,
-  treffer: Pick<Title, 'episodes' | 'jpYear'> & Partial<Pick<Title, 'format'>>,
+  treffer: Pick<Title, 'episodes' | 'jpYear'> & Partial<Pick<Title, 'format' | 'id'>>,
   platform?: string,
 ): Pick<Release, 'releaseType' | 'schedule' | 'dateMeaning'> {
   /* Nur die ersten N Folgen: „im Angebot seit“ dem Meldetag, kein Wochentakt, keine Uhrzeit; die übrigen Folgen sind offen, nicht „alle“. */
@@ -634,11 +664,11 @@ export function taktDerMeldung(v: Partial<Pick<Vorschlag, 'articleTitle' | 'date
   return KOMPLETT.test(text) ? 'komplett' : WOCHENTAKT.test(text) ? 'woechentlich' : undefined
 }
 
-/** Ohne Folgenzahl: wöchentlich, außer die Meldung sagt „komplett", das Werk ist älter (Katalogzugang) oder eine Netflix-ONA. */
-function wochenstartOhneAngabe(v: Partial<Pick<Vorschlag, 'articleTitle' | 'dates'>>, tag: string, treffer: Partial<Pick<Title, 'jpYear' | 'format'>>, platform?: string): boolean {
+/** Ohne Folgenzahl: wöchentlich, außer die Meldung sagt „komplett", das Werk ist älter (Katalogzugang) oder eine Netflix-ONA bzw. ein Netflix-Cartoon (negative Kennung). */
+function wochenstartOhneAngabe(v: Partial<Pick<Vorschlag, 'articleTitle' | 'dates'>>, tag: string, treffer: Partial<Pick<Title, 'jpYear' | 'format' | 'id'>>, platform?: string): boolean {
   const takt = taktDerMeldung(v)
   if (takt) return takt === 'woechentlich'
-  if (platform === 'netflix' && treffer.format === 'ONA') return false
+  if (platform === 'netflix' && (treffer.format === 'ONA' || (treffer.id ?? 0) < 0)) return false
   return !treffer.jpYear || treffer.jpYear >= Number(tag.slice(0, 4))
 }
 

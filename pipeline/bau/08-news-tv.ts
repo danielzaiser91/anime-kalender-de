@@ -1,6 +1,7 @@
 import { readJson, log, warn } from '../lib/util.ts'
 import { ladeAnisearchAbruf } from '../lib/anisearch-verworfen.ts'
-import { type Vorschlag, releasesAus, nurOriginaltonMeldungen } from '../lib/meldungen.ts'
+import { type Vorschlag, leereVerluste, releasesAus, nurOriginaltonMeldungen } from '../lib/meldungen.ts'
+import { alsTitel, type CartoonEintrag } from '../lib/cartoons.ts'
 import { verschiebungenAnwenden } from '../lib/disc-verschiebungen.ts'
 import { discIndexLaden } from '../lib/disc-ean.ts'
 import { aniSearchDatumAnwenden, veroeffentlichungstage } from '../lib/disc-anisearch-datum.ts'
@@ -25,6 +26,7 @@ export function ergaenzeTermineAusNewsUndTv({ titles, releases }: {
   const sammelV = vorschlaegeAusAllenSammelartikeln(rohVorschlaege.proposals ?? [])
   const teilVerworfen: string[] = []
   const abgedeckt: Vorschlag[] = []
+  const verluste = leereVerluste()
   const ausMeldungen = releasesAus(
     [...(rohVorschlaege.proposals ?? []), ...sammelV],
     [...titles.values()],
@@ -32,7 +34,10 @@ export function ergaenzeTermineAusNewsUndTv({ titles, releases }: {
     todayIso(),
     teilVerworfen,
     abgedeckt,
+    Object.values(readJson<Record<string, CartoonEintrag>>('data/cartoons.json', {})).map(alsTitel),
+    verluste,
   )
+  log(`Meldungen mit Termin ohne Release: ${verluste.ohneTitel.length} ohne Titel, ${verluste.ohneTeil.length} mit unklarem Teil, ${verluste.ohneAnbieter.length} ohne Anbieter (Streaming mit deutschem Ton: data/proposals/nicht-zugeordnet.json)`)
   log(`${teilVerworfen.length} Anime2You-Meldungen mit Part-/Cour-/Box-Hinweis keinem Teil sicher zuzuordnen — verworfen${teilVerworfen.length ? `: ${teilVerworfen.join(' | ')}` : ''}`)
   releases.push(...ausMeldungen)
   /* Kein Termin aus einer Meldung, die nur Originalton nennt — gezählt und gelistet (`listen/23-nur-originalton.md`, Posteingang); über zehn (10.10.2026: 1) greift das Muster vermutlich zu weit. */
@@ -40,7 +45,7 @@ export function ergaenzeTermineAusNewsUndTv({ titles, releases }: {
   const melde = nurOmu.length > 10 ? warn : log
   melde(`${nurOmu.length} Anime2You-Meldungen nennen nur Originalton mit Untertiteln — kein deutscher Termin daraus${nurOmu.length ? `: ${nurOmu.map((v) => v.articleTitle).join(' | ')}` : ''}`)
   schreibeNurOriginalton(nurOmu)
-  schreibeUnzugeordnet(sammelV, ausMeldungen, abgedeckt)
+  schreibeUnzugeordnet(sammelV, ausMeldungen, abgedeckt, verluste)
   const verschoben = verschiebungenAnwenden(releases, rohVorschlaege.proposals ?? [], todayIso(), titles, discIndexLaden())
   if (verschoben.length) log(`${verschoben.length} Disc-Termine laut Anime2You verschoben: ${verschoben.map((v) => `${v.name} (${v.von} → ${v.nach})`).join(', ')}`)
   const neuerBeiAniSearch = aniSearchDatumAnwenden(releases, discIndexLaden(), veroeffentlichungstage(rohVorschlaege.proposals ?? []), todayIso())

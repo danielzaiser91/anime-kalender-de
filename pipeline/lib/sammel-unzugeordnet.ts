@@ -1,5 +1,6 @@
 import type { Release } from '../../shared/types.ts'
-import type { Vorschlag } from './meldungen.ts'
+import { terminDerMeldung, type Verluste, type Vorschlag } from './meldungen.ts'
+import { spracheDerMeldung } from './sprachbefund.ts'
 import { log } from './util.ts'
 import { writeJsonStand } from './stand-halten.ts'
 import { todayIso } from '../../shared/time.ts'
@@ -34,6 +35,16 @@ const eintrag = (v: Vorschlag): NichtZugeordnet => ({
   quelle: 'Sammelartikel',
 })
 
+/**
+ * Einzelartikel zu Streaming mit Tag und deutschem Ton, aus denen `releasesAus` kein Release machte (kein Titel, Teil unklar, kein Anbieter):
+ * dieselbe Liste wie die der Sammelartikel. Fernsehwiederholungen, Disc und Kino zählen nicht (`category`), sie sind kein Streaming-Termin.
+ */
+export function einzelOhneRelease(verluste: Verluste, sammelVorschlaege: Vorschlag[]): NichtZugeordnet[] {
+  return [...verluste.ohneTitel, ...verluste.ohneTeil, ...verluste.ohneAnbieter]
+    .filter((v) => !sammelVorschlaege.includes(v) && v.category === 'streaming' && spracheDerMeldung(v) === 'ja')
+    .map((v) => ({ titel: v.articleTitle.replace(/^»|«.*$/g, ''), artikel: v.articleUrl, tag: terminDerMeldung(v)!, anbieter: v.platforms ?? [], quelle: 'Einzelartikel' }))
+}
+
 /** `abgedeckt`: Meldungen, deren Titel beim Anbieter schon ein Termin belegt (`releasesAus`) — sie sind zugeordnet, nur nicht neu. */
 export function unzugeordnet(sammelVorschlaege: Vorschlag[], neueReleases: Release[], abgedeckt: Vorschlag[] = []): NichtZugeordnet[] {
   return ohneNeuenTermin(sammelVorschlaege, neueReleases)
@@ -42,8 +53,8 @@ export function unzugeordnet(sammelVorschlaege: Vorschlag[], neueReleases: Relea
 }
 
 /** Schreibt die Liste neben die übrigen Vorschläge und nennt sie im Log. */
-export function schreibeUnzugeordnet(sammelVorschlaege: Vorschlag[], neueReleases: Release[], abgedeckt: Vorschlag[]): void {
-  const liste = unzugeordnet(sammelVorschlaege, neueReleases, abgedeckt)
+export function schreibeUnzugeordnet(sammelVorschlaege: Vorschlag[], neueReleases: Release[], abgedeckt: Vorschlag[], verluste?: Verluste): void {
+  const liste = [...unzugeordnet(sammelVorschlaege, neueReleases, abgedeckt), ...(verluste ? einzelOhneRelease(verluste, sammelVorschlaege) : [])]
   const ausgenommen = ohneNeuenTermin(sammelVorschlaege, neueReleases).filter((v) => abgedeckt.includes(v)).map(eintrag)
   if (ausgenommen.length) log(`${ausgenommen.length} Sammelartikel-Meldungen belegt schon ein Termin des Titels beim Anbieter — nicht in der Liste: ${ausgenommen.map((e) => `${e.titel} (${e.anbieter.join('/')})`).join(' | ')}`)
   writeJsonStand('data/proposals/nicht-zugeordnet.json', { stand: todayIso(), eintraege: liste }, 'stand', true)
