@@ -86,8 +86,9 @@ function vorrangFaelle(): void {
 }
 
 function verlustFaelle(): void {
-  const erste = ausMeldung({ ...BASS_MELDUNG, articleTitle: 'Netflix: »Bass X Machina« – Staffel 1' }, [])
-  pruefe('Staffel 1 eines Cartoons wird über die Cartoon-Liste gefunden', erste.neu.length === 1 && erste.neu[0]!.titleId === -314271, erste)
+  const reihe = [{ ...cartoons[0]!, franchiseId: -314271 }, { ...cartoons[0]!, id: -900001, titleEn: 'Bass X Machina Season 2', franchiseId: -314271 }]
+  const zweite = ausMeldung({ ...BASS_MELDUNG, articleTitle: 'Netflix: »Bass X Machina« – Staffel 2' }, [], reihe)
+  pruefe('Staffel 2 einer Cartoon-Reihe wird über die Cartoon-Liste gefunden', zweite.neu.length === 1 && zweite.neu[0]!.titleId === -900001, zweite)
   const staffel = ausMeldung({ ...BASS_MELDUNG, articleTitle: 'Netflix: »Bass X Machina« – Staffel 2' }, [])
   pruefe('Verlust „Teil unklar“: Staffel 2 eines Cartoons mit einer Staffel', staffel.neu.length === 0 && staffel.verluste.ohneTeil.length === 1, staffel.verluste)
   const keiner = ausMeldung({ ...BASS_MELDUNG, platforms: [], category: 'streaming' }, [])
