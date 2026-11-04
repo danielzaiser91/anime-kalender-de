@@ -111,6 +111,12 @@ const netflixFolge = (spaet) => (z, i) => {
 
   assert.equal(rot(mitRest(netflixFolge(40))).length, 1, 'Netflix 50 -> 37 -> 40: rot')
   assert.equal(rot(mitRest(netflixFolge(50))).length, 0, 'Netflix wieder bei 50: ausgeglichen')
+  assert.equal(rot(mitRest(netflixFolge(49))).length, 1, 'Netflix 49 von 50: rot (keine Toleranz)')
+  const urteilNurHier = (u) => mitRest((z, i) => { z.jeAnbieter = { primevideo: 10 }; z.mitUrteil = i < 2 ? 100 : i < 4 ? 60 : u })
+  assert.equal(rot(urteilNurHier(99)).length, 1, 'Urteile 99 von 100, Anbieter gleich: rot')
+  assert.equal(rot(urteilNurHier(100)).length, 0, 'Urteile 100 von 100, Anbieter gleich: ausgeglichen')
+  assert.equal(rot(mitFeld('termine', [100, 100, 40, 40, 99, 99])).length, 1, 'Termine 99 von 100: rot (keine Toleranz)')
+  assert.equal(rot(mitFeld('verweise', [300, 300, 200, 200, 299, 299])).length, 1, 'Verweise 299 von 300: rot (keine Toleranz)')
   const weg = mitRest(netflixFolge(50))
   delete weg[4].jeAnbieter.netflix
   delete weg[5].jeAnbieter.netflix
@@ -175,4 +181,4 @@ const jsonl = (zeilen) => zeilen.map((z) => JSON.stringify(z)).join('\n') + '\n'
   assert.equal(teil.code, 1, 'Teilausgleich bleibt rot')
   assert.equal(wache(jsonl(folge([100, 100, 100, 100])), '2026-10-20T00:00:00Z').code, 0, 'Kontrolle ohne Rückgang')
 }
-console.log('delta-wache-ausgleich: 4 Regelfälle, 3 Grenzen, 2 Lagen, 5 strenge Fälle, 6 Feldfälle, 2 Rückgänge, Anlassfall 02.11.2026, 9 Prozessfälle ok')
+console.log('delta-wache-ausgleich: 4 Regelfälle, 3 Grenzen, 2 Lagen, 5 strenge Fälle, 11 Feldfälle, 2 Rückgänge, Anlassfall 02.11.2026, 9 Prozessfälle ok')
