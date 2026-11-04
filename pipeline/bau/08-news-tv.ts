@@ -8,6 +8,7 @@ import { discIndexLaden } from '../lib/disc-ean.ts'
 import { aniSearchDatumAnwenden, veroeffentlichungstage } from '../lib/disc-anisearch-datum.ts'
 import { vorschlaegeAusAllenSammelartikeln } from '../lib/sammelartikel.ts'
 import { schreibeUnzugeordnet } from '../lib/sammel-unzugeordnet.ts'
+import { synonymeJeTitel } from '../lib/sammel-titel.ts'
 import { schreibeNurOriginalton } from '../lib/nur-originalton-liste.ts'
 import { todayIso, addDays } from '../../shared/time.ts'
 import { type TvSendung } from '../fetch-tv-programm.ts'
@@ -37,6 +38,7 @@ export function ergaenzeTermineAusNewsUndTv({ titles, releases }: {
     abgedeckt,
     Object.values(readJson<Record<string, CartoonEintrag>>('data/cartoons.json', {})).map(alsTitel),
     verluste,
+    synonymeJeTitel([...titles.keys()]),
   )
   log(verlustZeile(verluste))
   log(`${teilVerworfen.length} Anime2You-Meldungen mit Part-/Cour-/Box-Hinweis keinem Teil sicher zuzuordnen — verworfen${teilVerworfen.length ? `: ${teilVerworfen.join(' | ')}` : ''}`)

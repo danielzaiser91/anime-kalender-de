@@ -1,6 +1,6 @@
 # YouTube: was die Prüfung gefunden hat
 
-Stand: 2026-11-03 · geprüft über YouTubes oEmbed-Schnittstelle
+Stand: 2026-11-04 · geprüft über YouTubes oEmbed-Schnittstelle
 (Titel und Kanal je Video, ohne Schlüssel und ohne Kontingent).
 
 Eingetragen wurde nur, wo der **Videotitel die Sprache benennt**. Was hier steht,

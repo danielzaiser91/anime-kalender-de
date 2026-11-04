@@ -2,6 +2,8 @@ import { readJson, log } from '../lib/util.ts'
 import { type Title } from '../../shared/types.ts'
 import { wegVerneint } from '../lib/dub-confirmed.ts'
 import { type AnisearchEintrag } from './01-quellen.ts'
+import { type CrDubData } from '../lib/crunchyroll-dub.ts'
+import { katalogSerieIstEinWerk } from '../lib/cr-katalog-ein-werk.ts'
 
 /**
  * **Neunte Runde: der Katalog legt den Verweis an, nicht nur das Urteil.**
@@ -38,12 +40,14 @@ import { type AnisearchEintrag } from './01-quellen.ts'
  * **Und nur bei genau einer Staffel** — aus demselben Grund wie eine Runde
  * darüber: Eine Serienkennung ist ein Franchise.
  */
-export function legeCrWegeAusKatalogAn({ titles, anisearch, handNein }: {
+export function legeCrWegeAusKatalogAn({ titles, anisearch, crDub, handNein }: {
   titles: Map<number, Title>
   anisearch: Record<string, AnisearchEintrag>
+  crDub: CrDubData
   handNein: ReadonlySet<string>
 }) {
   let ausKatalogNeu = 0
+  let nullBlockVerworfen = 0
   const katalog = readJson<{
     eintraege?: { id: string; audio?: string[]; folgen?: number; staffeln?: number }[]
   }>('data/cr-katalog-de.json', {})
@@ -57,12 +61,18 @@ export function legeCrWegeAusKatalogAn({ titles, anisearch, handNein }: {
       const eintrag = nachKennung.get(kennung)
       if (!eintrag?.folgen || (eintrag.staffeln ?? 0) !== 1) continue
       if (!(eintrag.audio ?? []).includes('de-DE')) continue
+      if (!katalogSerieIstEinWerk(crDub, kennung, eintrag, title)) {
+        nullBlockVerworfen++
+        continue
+      }
       const url = (asCr?.url ?? '').split('?')[0]!
       if (wegVerneint(handNein, title.id, 'crunchyroll', url)) continue
       title.streams.push({ platform: 'crunchyroll', url, dub: true })
       ausKatalogNeu++
     }
   }
+  if (nullBlockVerworfen)
+    log(`${nullBlockVerworfen} Katalog-Wege nicht angelegt: die Serie führt im Prüflauf einen Block ohne deutsche Folge`)
   if (ausKatalogNeu)
     log(`${ausKatalogNeu} Crunchyroll-Wege neu angelegt: der deutsche Katalog führt sie mit deutscher Tonspur`)
 }

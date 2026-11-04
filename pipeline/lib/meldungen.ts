@@ -34,6 +34,7 @@ import type { SammelEintrag } from './sammelartikel.ts'
 import { folgenzahlUeberWerk } from './pruefung.ts'
 import { spracheDerMeldung, type Sprachbefund } from './sprachbefund.ts'
 import { frischAngekuendigt } from '../bau/ohne-beleg.ts'
+import { istSammelMeldung, ohneSammelName, sammelTitel } from './sammel-titel.ts'
 
 /** Ein Fund, wie ihn `scrape-anime2you.ts` ablegt. */
 export interface Vorschlag {
@@ -498,12 +499,13 @@ export function cartoonPasstZumTermin(cartoon: Title, tag: string): boolean {
   return cartoon.jpYear !== undefined && Math.abs(cartoon.jpYear - Number(tag.slice(0, 4))) <= 1
 }
 
-/** Der Titel, den die Meldung genau meint: über die Kennung, sonst über einen genauen Namenstreffer (kein Präfix-Treffer). */
-function basisDerMeldung(v: Vorschlag, titel: Title[], cartoons: Title[], tag: string): Title | undefined {
+/** Der gemeinte Titel: die gesetzte Kennung, sonst ein genauer Name; eine Sammelzeile darf zusätzlich über Synonym oder eindeutigen Namensanfang (nur Anime). */
+function basisDerMeldung(v: Vorschlag, titel: Title[], cartoons: Title[], tag: string, synonyme: Map<number, string[]>): Title | undefined {
   const kandidaten = [...titel, ...cartoons.filter((c) => cartoonPasstZumTermin(c, tag))]
   if (v.titleId) return kandidaten.find((t) => t.id === v.titleId)
   const treffer = findeTitel(v.articleTitle, kandidaten)
-  return treffer?.genau ? treffer.titel : undefined
+  if (treffer?.genau) return treffer.titel
+  return istSammelMeldung(v) ? sammelTitel(v.articleTitle, titel, synonyme) : undefined
 }
 
 /** Der Termin einer Meldung als Release (Slug ohne Datum, siehe Kommentar am Slug). */
@@ -550,6 +552,8 @@ export function releasesAus(
   cartoons: Title[] = [],
   /** Meldungen mit Termin, die hier ohne Release bleiben, nach Grund getrennt — kein stilles `continue`. */
   verluste?: Verluste,
+  /** Weitere Namen je Titel (aniSearch-Synonyme): nur Sammelzeilen suchen auch dort (`lib/sammel-titel.ts`). */
+  synonyme: Map<number, string[]> = new Map(),
 ): Release[] {
   const kandidaten = [...titel, ...cartoons]
   const belegt = belegteTermine(vorhanden)
@@ -573,13 +577,14 @@ export function releasesAus(
      * Überschrift sagt nicht, welche der vier Staffeln gemeint ist; als Meldung
      * ist das in Ordnung, als Kalendereintrag wäre es eine Falschangabe.
      */
-    const basis = basisDerMeldung(v, titel, cartoons, tag)
+    const basis = basisDerMeldung(v, titel, cartoons, tag, synonyme)
     if (!basis) {
       verluste?.ohneTitel.push(v)
       continue
     }
 
-    const treffer = reihenTeil(basis, kandidaten, v.articleTitle) ?? vermerkeTeilHinweis(v.articleTitle, verworfen)
+    const teilText = istSammelMeldung(v) ? ohneSammelName(v.articleTitle) : v.articleTitle
+    const treffer = reihenTeil(basis, kandidaten, teilText) ?? vermerkeTeilHinweis(teilText, verworfen)
     if (!treffer) {
       verluste?.ohneTeil.push(v)
       continue

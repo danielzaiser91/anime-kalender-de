@@ -77,7 +77,7 @@ function kopf(titel: string, beschreibung: string, url: string, krumen: Krume[],
     `    <meta property="og:url" content="${url}" />\n` +
     `    <meta property="og:title" content="${esc(titel)}" />\n` +
     `    <meta property="og:description" content="${esc(beschreibung)}" />\n` +
-    bildMeta(vorschauBild(undefined, bild)) +
+    bildMeta(vorschauBild(undefined, undefined, bild, new Map())) +
     `    ${VERZEICHNIS_STIL}\n` +
     `${brotkrumenJsonLd(krumen)}\n`
   )
