@@ -53,6 +53,8 @@ const KATALOG: Title[] = [
   titel(900093, 'Gleicher Name', undefined, 'TV', 2024),
   titel(900095, 'Gleicher Name: Sonderfolge', undefined, 'OVA', 2025),
   titel(900096, 'Ox A', undefined, 'TV', 2012),
+  titel(900097, 'Wizard’s Tale: Der Beginn', undefined, 'TV', 2026),
+  { ...titel(900098, undefined, undefined, 'TV', 2026), titleRomaji: 'Kimi no Namae' },
   titel(900094, 'Dein Name', undefined, 'MOVIE', 2016),
 ]
 /** Wörtlich aus `public/data/synonyme.json`. */
@@ -115,7 +117,9 @@ async function pruefeGleicherName(): Promise<void> {
   const { sammelTitel, istSammelMeldung } = await import('./lib/sammel-titel.ts')
   const id = (name: string) => sammelTitel(zeile(name).articleTitle, KATALOG, SYNONYME)?.id
   pruefe('Apostroph: „Heros Journey“ → „Hero’s Journey“', id('Heros Journey') === 900088, id('Heros Journey'))
-  pruefe('Akzent: „Pokemon Horizons“ → „Pokémon Horizons“', id('Pokemon Horizons') === 900089, id('Pokemon Horizons'))
+  pruefe('Apostroph im Namensanfang: „Wizards Tale“ → „Wizard’s Tale: Der Beginn“', id('Wizards Tale') === 900097, id('Wizards Tale'))
+  pruefe('Romaji-Name genügt', id('Kimi no Namae') === 900098, id('Kimi no Namae'))
+  pruefe('Akzent:„Pokemon Horizons“ → „Pokémon Horizons“', id('Pokemon Horizons') === 900089, id('Pokemon Horizons'))
   pruefe('vier Zeichen genügen für den gleichen Namen', id('Gate') === 900091, id('Gate'))
   pruefe('drei Zeichen genügen nicht', id('Air') === undefined, id('Air'))
   pruefe('zwei Titel gleichen Namens → keiner, auch nicht der mit Beititel', id('Gleicher Name') === undefined, id('Gleicher Name'))

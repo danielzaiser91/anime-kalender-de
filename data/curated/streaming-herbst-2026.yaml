@@ -536,12 +536,3 @@
   schedule: { firstEpisodeDate: "2026-09-29", episodeCount: 2 }
   sources:
     - https://www.anime2you.de/news/1042851/netflix-anime-neu-im-september-2026/
-
-# Devils’ Crest — Prime Video, Simulcast jeden Freitag ab 06.11.2026 „auf Deutsch und Japanisch“ (Anime2You „Prime Video kündigt vier Anime-Neuzugänge an“, 29.10.2026); Folgenzahl: „unbekannt“, deshalb keine.
-- slug: devils-crest-primevideo
-  anilistId: 203275
-  platform: primevideo
-  releaseType: weekly
-  schedule: { firstEpisodeDate: "2026-11-06" }
-  sources:
-    - https://www.anime2you.de/news/1065256/prime-video-goblin-slayer-staffel-2-und-mehr/
