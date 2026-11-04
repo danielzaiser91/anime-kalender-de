@@ -67,6 +67,10 @@ const ohneKlammer = eintrag(SERIE, [S1, block('OVAs', 2, 0), block('OVAs Extra',
 pruefe('ein Name ohne Sprachzusatz in Klammern ist kein Zwilling', beurteileBlockkettenOhneLuecke(ohneKlammer, reihe()).length === 0)
 const zwillingNull = eintrag(SERIE, [S1, block('OVAs', 2, 0), block('OVAs (German Dub)', 2, 0), OVAS])
 pruefe('zwei Null-Blöcke: der ohne deutschen Zwilling sperrt', beurteileBlockkettenOhneLuecke(zwillingNull, reihe()).length === 0)
+const zwillingOhneFolgen = eintrag(SERIE, [S1, block('OVAs', 2, 0), block('OVAs (German Dub)', 0, 0), OVAS.name ? { ...OVAS, name: 'Anderes' } : OVAS])
+pruefe('ein Zwilling ohne deutsche Folge zählt nicht', beurteileBlockkettenOhneLuecke(zwillingOhneFolgen, reihe()).length === 0)
+const offeneKlammer = eintrag(SERIE, [S1, block('OVAs', 2, 0), block('OVAs (Extra', 2, 2)])
+pruefe('ein Name ohne schließende Klammer ist kein Zwilling', beurteileBlockkettenOhneLuecke(offeneKlammer, reihe()).length === 0)
 const ohneNull = eintrag(SERIE, [S1, OVAS])
 pruefe('ohne Null-Block gilt die Kette', beurteileBlockkettenOhneLuecke(ohneNull, reihe()).length === 3)
 
@@ -100,4 +104,4 @@ pruefe('Ja aus der Kette über eine Lücke ist nicht gedeckt', offeneMit(luecke)
 pruefe('Kontrolle: ohne Lücke deckt die Kette das Ja', !offeneMit(ohneNull).some((z) => z.startsWith('106896 ')), offeneMit(ohneNull))
 
 if (verletzt) process.exit(1)
-console.log('✓ Blockketten: Null-Block vor einem deutschen Block trägt kein Ja (11 Weichenfälle, Bauphase und Bestandsprüfung mit und ohne Lücke).')
+console.log('✓ Blockketten: Null-Block vor einem deutschen Block trägt kein Ja (13 Weichenfälle, Bauphase und Bestandsprüfung mit und ohne Lücke).')
