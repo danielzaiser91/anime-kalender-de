@@ -79,6 +79,28 @@ pruefe('ein Block-Urteil deckt das Ja (11 Folgen = der vollständig deutsche Blo
 // Keine einzige deutsche Folge in der Serie: Das Block-Urteil lautet „nein“ und darf das Ja nicht decken
 pruefe('ein Block-Urteil „nein“ deckt das Ja nicht', lauf([[0, 13], [0, 11]], ungedeckt).length === 1)
 
+console.log('\nWiderspruch zwischen Einträgen derselben Kennung (Persona 5, 04.11.2026)')
+const URL_ALT = 'https://www.crunchyroll.com/de/series/GTEST0003/stars-and-ours'
+const URL_NEU = 'https://www.crunchyroll.com/de/series/GTEST0003/dark-sun'
+const eintrag = (url: string, sonderDeutsch: number): CrSerie =>
+  ({
+    url,
+    seriesId: 'GTEST0003',
+    katalog: 'de',
+    deutschImAngebot: true,
+    staffeln: [
+      { name: 'Haupt', staffelId: 'SM', folgen: 26, deutsch: 20 },
+      { name: 'Special', staffelId: 'SS', folgen: 1, deutsch: sonderDeutsch },
+    ],
+  }) as unknown as CrSerie
+const widerspruch = (serien: CrSerie[], t: Title): string[] =>
+  crJaOhneDeckung({ titles: [t], mitTermin: leer, mitBeleg: leer, crDub: { scrapedAt: '', serien } as unknown as CrDubData })
+const neuerWeg = titel(9, [{ platform: 'crunchyroll', url: URL_NEU, dub: true } as StreamLink], 5)
+pruefe('Block im neueren Eintrag voll deutsch, im älteren 0: der Eintrag ohne eigenen Null-Block wird gemeldet', widerspruch([eintrag(URL_ALT, 0), eintrag(URL_NEU, 1)], neuerWeg).length === 1)
+pruefe('Block in beiden Einträgen voll deutsch: nichts zu melden', widerspruch([eintrag(URL_ALT, 1), eintrag(URL_NEU, 1)], neuerWeg).length === 0)
+const andereKennung = { ...eintrag(URL_NEU, 1), seriesId: 'GTEST0004' } as CrSerie
+pruefe('derselbe Block unter einer anderen Kennung ist kein Widerspruch', widerspruch([eintrag(URL_ALT, 0), andereKennung], neuerWeg).length === 0)
+
 console.log('\nBeleg-Mengen des Bestandswächters (crBelegKennungen)')
 const gedeckt = (teil: Partial<BelegQuellen>): boolean => crBelegKennungen(quellen(teil)).has(7)
 pruefe('Handbeleg dub false deckt nicht', !gedeckt({ handbelege: [{ platform: 'crunchyroll', dub: false, anilistId: 7 }] }))

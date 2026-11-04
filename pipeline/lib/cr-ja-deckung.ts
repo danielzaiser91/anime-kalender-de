@@ -16,6 +16,32 @@ function hatNullBlock(serie: CrSerie): boolean {
   return (serie.staffeln ?? []).some((s) => s.folgen > 0 && s.deutsch === 0)
 }
 
+/** Schlüssel eines Blocks über alle Einträge: dieselbe Staffel einer Kennung trägt in jedem Eintrag dieselbe `staffelId`. */
+export function blockSchluessel(seriesId: string | undefined, staffelId: string | undefined): string | undefined {
+  return seriesId && staffelId ? `${seriesId}|${staffelId}` : undefined
+}
+
+/**
+ * Blöcke (Kennung und `staffelId`), die irgendein Eintrag der Kennung ohne deutsche Folge führt. Die Einträge einer Kennung sind zu
+ * verschiedenen Zeiten geprüft (04.11.2026, Persona 5: derselbe Block 1/0 in drei Einträgen, 1/1 im vierten); widersprechen sie sich,
+ * gilt der Block nirgends als deutsch.
+ */
+export function blockSchluesselMitNull(crDub: CrDubData): Set<string> {
+  const ids = new Set<string>()
+  for (const serie of crDub.serien) {
+    for (const b of serie.staffeln ?? []) {
+      const k = blockSchluessel(serie.seriesId, b.staffelId)
+      if (k && b.folgen > 0 && b.deutsch === 0) ids.add(k)
+    }
+  }
+  return ids
+}
+
+/** Führt der Eintrag einen Block, den ein anderer Eintrag derselben Kennung ohne deutsche Folge führt? */
+function hatWiderspruchsBlock(serie: CrSerie, mitNull: Set<string>): boolean {
+  return (serie.staffeln ?? []).some((b) => mitNull.has(blockSchluessel(serie.seriesId, b.staffelId) ?? ''))
+}
+
 function deutschFolgen(serie: CrSerie): number {
   return (serie.staffeln ?? []).reduce((n, s) => n + (s.deutscheFolgen?.length ?? 0), 0)
 }
@@ -81,8 +107,9 @@ export function crJaOhneDeckung({ titles, mitTermin, mitBeleg, crDub }: Deckungs
   }
   const gedeckt = durchBlockUrteil(crDub.serien, nachUrl)
   const offen: string[] = []
+  const mitNull = blockSchluesselMitNull(crDub)
   for (const serie of crDub.serien) {
-    if (!hatNullBlock(serie)) continue
+    if (!hatNullBlock(serie) && !hatWiderspruchsBlock(serie, mitNull)) continue
     for (const t of nachUrl.get(serie.url) ?? []) {
       const weg = t.streams.find((s) => s.platform === 'crunchyroll' && s.url === serie.url)
       if (!weg?.dub || weg.dubRanges?.length) continue
