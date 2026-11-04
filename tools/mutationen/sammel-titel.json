@@ -48,7 +48,7 @@
   { "name":"gleichnamige: Sperre immer", "aenderungen": [{"datei":"pipeline/lib/sammel-titel.ts","suche":"!(erste && istFortsetzung(t, titel))","ersetze":"!istFortsetzung(t, titel)"}] },
   { "name":"gleichnamige: Sperre nie", "aenderungen": [{"datei":"pipeline/lib/sammel-titel.ts","suche":"!(erste && istFortsetzung(t, titel))","ersetze":"true"}] },
   { "name":"gleichnamige: Zusatz nicht übergeben (leer)", "aenderungen": [{"datei":"pipeline/lib/sammel-titel.ts","suche":"gleichnamige(name, zusatz, titel, synonyme)","ersetze":"gleichnamige(name, '', titel, synonyme)"}] },
-  { "name":"istFortsetzung: Basis nicht verlangt", "aenderungen": [{"datei":"pipeline/lib/sammel-titel.ts","suche":" && titel.some((b) => b.id === t.franchiseId)","ersetze":""}] },
+  { "name":"istFortsetzung: Basis nicht verlangt", "aenderungen": [{"datei":"pipeline/lib/sammel-titel.ts","suche":" && titel.some((b) => b.id === t.franchiseId && b.format === t.format)","ersetze":""}] },
   { "name":"istFortsetzung: jeder Titel gilt als Fortsetzung", "aenderungen": [{"datei":"pipeline/lib/sammel-titel.ts","suche":"t.franchiseId !== t.id && ","ersetze":""}] },
   { "name":"istFortsetzung: Basis ist die Kennung des Titels", "aenderungen": [{"datei":"pipeline/lib/sammel-titel.ts","suche":"b.id === t.franchiseId","ersetze":"b.id === t.id"}] },
   { "name":"ohneTeilAngabe: Zusatz egal", "aenderungen": [{"datei":"pipeline/lib/sammel-titel.ts","suche":"return ZUSATZ_ERSTER_TEIL.test(zusatz) && !(","ersetze":"return !("}] },
