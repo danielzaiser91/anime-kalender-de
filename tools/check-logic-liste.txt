@@ -148,6 +148,7 @@ pipeline/check-dub-bereiche.ts
 pipeline/check-dub-durchgehende-zaehlung.ts
 pipeline/check-ecchi-ausblenden.ts
 pipeline/check-effekt-abhaengigkeiten.ts
+pipeline/check-einzahl-folge.ts
 pipeline/check-empfehlung-ablage.ts
 pipeline/check-empfehlung-ablauf.ts
 pipeline/check-empfehlung-aktionen.ts

@@ -37,7 +37,7 @@ const einzeln = buendeleKacheln([termin('a', 'kino', '17:00')], art)
 pruefe('einzelner Kino-Termin: keine Unterzeile im Saal', unterzeile(einzeln[0]!) === '', unterzeile(einzeln[0]!))
 
 const stream = buendeleKacheln([termin('a', 'netflix', '08:00'), termin('b', 'netflix', '09:00')], art)
-pruefe('gewöhnliche Kachel zeigt unverändert „+1 Folgen“', unterzeile(stream[0]!).includes('+1 Folgen'), unterzeile(stream[0]!))
+pruefe('gewöhnliche Kachel zeigt „+1 Folge“ (Einzahl)', /\+1 Folge(?!n)/.test(unterzeile(stream[0]!)), unterzeile(stream[0]!))
 
 if (fehler > 0) {
   console.error(`check-poster-karte-saal: ${fehler} Fehler`)
