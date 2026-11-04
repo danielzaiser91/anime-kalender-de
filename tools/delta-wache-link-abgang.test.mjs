@@ -12,6 +12,7 @@ import { fileURLToPath } from 'node:url'
 import { findeAuffaelliges } from '../pipeline/lib/bestand-delta.ts'
 import { bestandAusCommit, linkAbgaenge } from '../pipeline/lib/bestand-link-abgang.ts'
 import { adressKern } from '../pipeline/lib/dub-confirmed.ts'
+import { handStichtGegenLink } from '../pipeline/lib/link-befund.ts'
 
 const wurzel = join(dirname(fileURLToPath(import.meta.url)), '..')
 const NARUTO = 'https://www.amazon.de/gp/video/detail/B084DBMYFX'
@@ -88,6 +89,12 @@ assert.equal(linkAbgaenge(vorher, jetzt, { [NARUTO]: REGION }, hand([], new Map(
 for (const belege of [[beleg('2026-11-04'), beleg('2026-11-01')], [beleg('2026-11-01'), beleg('2026-11-04')]]) {
   assert.equal(linkAbgaenge(vorher, jetzt, { [NARUTO]: REGION }, hand(belege)).begruendet.length, 0, 'jüngster Beleg sticht, egal wo er steht')
 }
+// Ein noch jüngerer Beleg einer anderen Adresse verdrängt den passenden nicht.
+const fremdJunger = hand([beleg('2026-11-05', { url: ANDERE }), beleg('2026-11-04')])
+assert.equal(linkAbgaenge(vorher, jetzt, { [NARUTO]: REGION }, fremdJunger).begruendet.length, 0, 'Beleg der eigenen Adresse zählt, nicht der jüngste fremde')
+// Die gemeinsame Regel prüft die Adresse selbst: ein Beleg einer anderen Adresse sticht nie.
+assert.equal(handStichtGegenLink(beleg('2026-11-04', { url: ANDERE }), '2026-11-03', NARUTO, new Map()), false)
+assert.equal(handStichtGegenLink(beleg('2026-11-04'), '2026-11-03', NARUTO, new Map()), true)
 assert.equal(linkAbgaenge(vorher, jetzt, { [NARUTO]: REGION }, hand([], stempel('2026-11-04'))).begruendet.length, 1, 'Stempel einer anderen Seite sticht nicht')
 
 // A3: gleicher Anbieter, ein 404-Weg und ein Weg ohne link-check-Eintrag: genau der erste erklärt, genau der zweite genannt.
