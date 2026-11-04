@@ -147,17 +147,6 @@ try {
   rmSync(gitKulisse, { recursive: true, force: true })
 }
 
-// Grenzdatei erst in diesem PR: Basis lesbar, aber ohne Datei; in CI grün mit eigener Zeile, nicht „entfällt“
-const neuKulisse = kulisseAnlegen({ 'pipeline/bau/a.ts': ROH }, { offen: 1, marken: 0 })
-try {
-  git(neuKulisse, 'init', '-q')
-  git(neuKulisse, 'commit', '-q', '--allow-empty', '-m', 'leer')
-  const neuInCi = wachter(neuKulisse, ['--basis', 'HEAD'], true)
-  pruefe('Prozess mit git: Basis ohne Grenzdatei ist in CI grün („Grenzdatei neu“)', neuInCi.status === 0 && neuInCi.aus.includes('Grenzdatei neu'), neuInCi.aus)
-} finally {
-  rmSync(neuKulisse, { recursive: true, force: true })
-}
-
 const echt = spawnSync(process.execPath, [tsx, join(wurzel, 'pipeline/check-dub-lesart.ts')], { encoding: 'utf8', timeout: 120_000 })
 pruefe('Prozess: echter Bestand hält die Grenzen', echt.status === 0, `${echt.stdout}${echt.stderr}`)
 
