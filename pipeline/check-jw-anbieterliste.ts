@@ -7,8 +7,6 @@ import type { Title } from '../shared/types.ts'
 import { warteschlange } from './lib/jw-schlange.ts'
 import {
   ANBIETERLISTEN,
-  LISTE_ALTER_TAGE,
-  LISTE_SEITEN_MAX,
   holeListe,
   listenVorrang,
   listenVorrangAbrufen,
@@ -49,12 +47,12 @@ const liste = new Set(['101', '102', '104'])
 pruefe('in Liste ohne Joyn: Vorrang; mit Joyn / Joyn Plus oder nicht in Liste: kein Vorrang', ids(listenVorrang(joyn, liste, titles, bestand, tmdbVon, HEUTE)) === '1', ids(listenVorrang(joyn, liste, titles, bestand, tmdbVon, HEUTE)))
 pruefe('Kennung als Zahl und Zeichenkette gleich: Liste mit "101" trifft tmdbId 101', listenVorrang(joyn, new Set(['101']), titles, bestand, tmdbVon, HEUTE).has(1))
 
-/* Alter: genau LISTE_ALTER_TAGE Tage ist fällig, einen Tag weniger nicht. */
+/* Alter: genau 7 Tage ist fällig, 6 nicht (feste Werte, nicht aus dem Modul). */
 const grenzTitel = [titel(5, 105)]
 const heuteMinus = (tage: number) => new Date(Date.parse(HEUTE) - tage * 86_400_000).toISOString().slice(0, 10)
 const mitAlter = (tage: number) => listenVorrang(joyn, new Set(['105']), grenzTitel, { '5': befund(heuteMinus(tage), ['Netflix']) }, tmdbVon, HEUTE).size
-pruefe(`Befund genau ${LISTE_ALTER_TAGE} Tage alt: fällig`, mitAlter(LISTE_ALTER_TAGE) === 1)
-pruefe(`Befund ${LISTE_ALTER_TAGE - 1} Tage alt: noch nicht`, mitAlter(LISTE_ALTER_TAGE - 1) === 0)
+pruefe('Befund genau 7 Tage alt: fällig', mitAlter(7) === 1)
+pruefe('Befund 6 Tage alt: noch nicht', mitAlter(6) === 0)
 pruefe('Befund über der Grenze (30 Tage): fällig', mitAlter(30) === 1)
 pruefe('Ohne Befund: kein Vorrang (die übliche Schlange fragt ihn ohnehin)', listenVorrang(joyn, new Set(['105']), grenzTitel, {}, tmdbVon, HEUTE).size === 0)
 pruefe('Titel ohne TMDB-Kennung: kein Vorrang', listenVorrang(joyn, new Set(['105']), [titel(5)], { '5': befund('2026-09-01', []) }, tmdbVon, HEUTE).size === 0)
@@ -70,7 +68,7 @@ const seiten = (n: number): SeiteHolen => async (_l, nach) => {
 const zwei = await holeListe(joyn, seiten(2), keine)
 pruefe('zwei Seiten: 2 Abrufe, 4 Kennungen (Fortsetzungsmarke wird weitergereicht)', zwei.abrufe === 2 && [...zwei.tmdbIds].sort().join() === '1,11,12,2', [...zwei.tmdbIds])
 const endlos = await holeListe(joyn, seiten(1000), keine)
-pruefe(`Riegel: nie mehr als ${LISTE_SEITEN_MAX} Seiten`, endlos.abrufe === LISTE_SEITEN_MAX, endlos.abrufe)
+pruefe('Riegel: nie mehr als 5 Seiten', endlos.abrufe === 5, endlos.abrufe)
 let pausen = 0
 await holeListe(joyn, seiten(3), async () => { pausen++ })
 pruefe('Pause zwischen den Seiten, nicht davor: 3 Seiten, 2 Pausen', pausen === 2, pausen)

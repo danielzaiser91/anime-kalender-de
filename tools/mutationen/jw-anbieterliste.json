@@ -29,5 +29,10 @@
   { "name": "Schlange: Vorrang nur sortiert, nicht hereingeholt (Filter)", "aenderungen": [{ "datei": "pipeline/lib/jw-schlange.ts", "suche": "|| vor(t))", "ersetze": "|| (vor(t) && !listenVorrang.has(t.id)))" }] },
   { "name": "Abruf: Vorrang nicht an die Schlange übergeben", "aenderungen": [{ "datei": "pipeline/fetch-justwatch-audio.ts", "suche": "listenVorrang: listen.vorrang, ", "ersetze": "" }], "tests": ["npx tsx pipeline/check-jw-frisch-lauf.ts"] },
   { "name": "Abruf: Listenaufruf entfällt", "aenderungen": [{ "datei": "pipeline/fetch-justwatch-audio.ts", "suche": "await listenVorrangAbrufen(ANBIETERLISTEN,", "ersetze": "await listenVorrangAbrufen([],"}], "tests": ["npx tsx pipeline/check-jw-frisch-lauf.ts"] },
-  { "name": "Abruf: Liste aus Konfiguration ersetzt durch leere Liste (Argument)", "aenderungen": [{ "datei": "pipeline/fetch-justwatch-audio.ts", "suche": "titles, bestand, tmdbVon, todayIso())", "ersetze": "titles, {}, tmdbVon, todayIso())" }], "tests": ["npx tsx pipeline/check-jw-frisch-lauf.ts"] }
+  { "name": "Abruf: Liste aus Konfiguration ersetzt durch leere Liste (Argument)", "aenderungen": [{ "datei": "pipeline/fetch-justwatch-audio.ts", "suche": "titles, bestand, tmdbVon, todayIso())", "ersetze": "titles, {}, tmdbVon, todayIso())" }], "tests": ["npx tsx pipeline/check-jw-frisch-lauf.ts"] },
+  { "name": "LISTE_ALTER_TAGE 7 auf 8", "aenderungen": [{ "datei": "pipeline/lib/jw-anbieterliste.ts", "suche": "LISTE_ALTER_TAGE = 7", "ersetze": "LISTE_ALTER_TAGE = 8" }] },
+  { "name": "LISTE_ALTER_TAGE 7 auf 3", "aenderungen": [{ "datei": "pipeline/lib/jw-anbieterliste.ts", "suche": "LISTE_ALTER_TAGE = 7", "ersetze": "LISTE_ALTER_TAGE = 3" }] },
+  { "name": "LISTE_ALTER_TAGE 7 auf 1", "aenderungen": [{ "datei": "pipeline/lib/jw-anbieterliste.ts", "suche": "LISTE_ALTER_TAGE = 7", "ersetze": "LISTE_ALTER_TAGE = 1" }] },
+  { "name": "LISTE_SEITEN_MAX 5 auf 6", "aenderungen": [{ "datei": "pipeline/lib/jw-anbieterliste.ts", "suche": "LISTE_SEITEN_MAX = 5", "ersetze": "LISTE_SEITEN_MAX = 6" }] },
+  { "name": "LISTE_SEITEN_MAX 5 auf 4", "aenderungen": [{ "datei": "pipeline/lib/jw-anbieterliste.ts", "suche": "LISTE_SEITEN_MAX = 5", "ersetze": "LISTE_SEITEN_MAX = 4" }] }
 ]
