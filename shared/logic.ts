@@ -219,7 +219,7 @@ export function erscheintErst(t: Pick<Title, 'jpStart' | 'jpStatus' | 'jpYear'>,
  * offen".
  */
 export function istErschienen(
-  ereignis: { date: string; time?: string; verpasst?: { erschienenAm?: string }; nachLuecke?: boolean },
+  ereignis: { date: string; time?: string; verpasst?: { erschienenAm?: string }; nachLuecke?: boolean; releaseType?: string; platform?: string },
   jetzt: Date = new Date(),
 ): boolean {
   /*
@@ -232,7 +232,15 @@ export function istErschienen(
     dieselbe Frage. Seitdem beantwortet diese Funktion sie für alle.
   */
   if (istAusgeblieben(ereignis) || ereignis.nachLuecke) return false
-  return berlinToUtc(ereignis.date, ereignis.time ?? '23:59').getTime() <= jetzt.getTime()
+  return berlinToUtc(ereignis.date, ereignis.time ?? tagesGrenze(ereignis)).getTime() <= jetzt.getTime()
+}
+
+/**
+ * Ohne Uhrzeit endet der Tag um 23:59 — außer bei einem Katalogstart (`batch`, nicht TV): Alle Folgen kommen auf einmal,
+ * und „0 von 6 Folgen erschienen" an ihrem Starttag ist falsch (Bass X Machina, 03.11.2026). Dort gilt der Tagesbeginn.
+ */
+function tagesGrenze(ereignis: { releaseType?: string; platform?: string }): string {
+  return ereignis.releaseType === 'batch' && ereignis.platform !== 'tv' ? '00:00' : '23:59'
 }
 
 /**
