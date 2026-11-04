@@ -1,0 +1,127 @@
+# Spin-offs, Parodien, Nebenserien und Nachfolgeserien mit eigenem Titel, die in einer Reihe stehen, aber keine Staffel der Hauptzählung sind.
+#
+# Das Panel nummeriert alle Fernsehserien einer Reihe als „Staffel 1, 2, 3". Ein Spin-off bekam dabei die Nummer einer Hauptstaffel
+# (zwei Kacheln „Staffel 3" in einer Reihe). Wer hier steht, trägt `FranchiseMember.eigenesWerk`: `hauptstaffeln()` zählt ihn nicht,
+# das Panel zeigt ihn unter „Eigene Serien" ohne Staffelnummer. Gleiche Wirkung wie `cartoon-eigene-serien.yaml` (dort Cartoons).
+#
+# Gemessen am 03.11.2026 (public/data/franchises.json plus AniList-Cache): Aufnahme, wenn AniList den Titel als SPIN_OFF eines früheren
+# Reihenteils führt (oder PARENT auf einen früheren Reihenteil) und der Titel als Hauptstaffel (TV/ONA) gezählt wurde; dazu von Hand
+# Fortsetzungen eines Spin-offs und Titel, die eine doppelte Staffelnummer auslösten. Kennungen über 10000000 sind aniSearch-Kennungen
+# (10000000 + aniSearch-Nummer) und werden mit der aniSearch-Seite belegt. Ein neuer Fall: Eintrag ergänzen, `pipeline/lib/remake-zaehlung-bekannt.ts` kürzen.
+#
+# Jeder Eintrag: ids, grund und quelle (https-Adresse, die es belegt).
+
+- ids: [21281]
+  grund: 'Attack on Titan: Junior High ist die Parodie zu Attack on Titan (AniList: SPIN_OFF von 16498), keine Staffel'
+  quelle: https://anilist.co/anime/21281
+- ids: [127688]
+  grund: 'The Honor at Magic High School ist ein Spin-off zu The Irregular at Magic High School (AniList: SPIN_OFF von 20458), keine Staffel'
+  quelle: https://anilist.co/anime/127688
+- ids: [150075]
+  grund: 'Konosuba: An Explosion on This Wonderful World! ist ein Spin-off um Megumin (AniList: SPIN_OFF von 21202), keine Staffel 3'
+  quelle: https://anilist.co/anime/150075
+- ids: [185736, 195322]
+  grund: 'My Hero Academia: Vigilantes ist ein Spin-off (AniList: SPIN_OFF von 21459); Staffel 2 setzt das Spin-off fort, nicht die Hauptserie'
+  quelle: https://anilist.co/anime/185736
+- ids: [116741]
+  grund: 'Die Schleim-Tagebücher (Tensura Nikki) ist ein Spin-off (AniList: SPIN_OFF von 101280), keine Staffel 3'
+  quelle: https://anilist.co/anime/116741
+- ids: [118399, 131264]
+  grund: 'Yashahime: Princess Half-Demon ist die Nachfolgeserie von InuYasha mit eigenem Titel und neuen Hauptfiguren, nicht Staffel 3 und 4'
+  quelle: https://anilist.co/anime/118399
+- ids: [21742]
+  grund: 'Katsugeki Touken Ranbu ist eine eigene Serie (anderes Studio und Schauplatz als Touken Ranbu: Hanamaru; AniList OTHER, aniSearch „Alternative Umgebung"), keine Staffel 2'
+  quelle: https://anilist.co/anime/21742
+- ids: [10020211]
+  grund: 'Hot Minute: Aggretsuko ist ein einzelnes Kurzvideo (ONA, 1 Folge), keine Staffel'
+  quelle: https://www.anisearch.de/anime/20211
+- ids: [21726]
+  grund: 'Die Kurzfilm-Serie Aggressive Retsuko (100 Kurzfolgen, TV_SHORT) ist ein eigenes Werk; die Netflix-Serie Aggretsuko zählt ab Staffel 1 (AniList: ALTERNATIVE zu 101571)'
+  quelle: https://anilist.co/anime/21726
+- ids: [10017980]
+  grund: 'Crimecatch Policure OP ist ein Vorspann-Video (ONA, 1 Folge) in der Reihe Yakuza Goes Hausmann, keine Staffel'
+  quelle: https://www.anisearch.de/anime/17980
+- ids: [10019484]
+  grund: 'Mash Burnedead-tachi to School Life ist eine Nebenserie zu Mashle (ONA, 13 Folgen), keine Staffel 2'
+  quelle: https://www.anisearch.de/anime/19484
+- ids: [128535]
+  grund: 'Gekidan Nanatsu no Taizai (Seven Deadly Sins Theater) ist eine Parodie-Kurzserie (ONA), keine Staffel'
+  quelle: https://anilist.co/anime/128535
+- ids: [148862, 176292]
+  grund: 'The Seven Deadly Sins: Four Knights of the Apocalypse ist die Nachfolgeserie mit eigenem Titel und neuer Hauptfigur; Season 2 zählt dort, nicht in der Hauptserie'
+  quelle: https://anilist.co/anime/148862
+- ids: [10009399]
+  grund: 'Koukaku Kidoutai Nyuumon Arise ist eine Parodie-Kurzserie zu Ghost in the Shell: Arise, keine Staffel'
+  quelle: https://www.anisearch.de/anime/9399
+- ids: [10087, 11741]
+  grund: 'Fate/Zero ist die eigene Vorgeschichte-Serie (nach Light Novel von Gen Urobuchi), keine Staffel 2 von Fate/stay night'
+  quelle: https://anilist.co/anime/10087
+- ids: [1502]
+  grund: 'Magical Project S (Mahou Shoujo Pretty Sammy, 1996) ist ein eigener Ableger (Pretty Sammy) der Tenchi-Muyo!-Reihe, keine Staffel 2'
+  quelle: https://anilist.co/anime/1502
+- ids: [1881, 1882]
+  grund: 'Sasami: Magical Girls Club ist ein Ableger zu Tenchi Muyo! mit eigener Handlung, keine Staffel der Hauptserie'
+  quelle: https://anilist.co/anime/1881
+- ids: [98872, 101697]
+  grund: 'Marvel Future Avengers ist eine neue Serie mit eigener Besetzung, keine Staffel 2 und 3 von Marvel Disk Wars: The Avengers'
+  quelle: https://anilist.co/anime/98872
+- ids: [97635]
+  grund: 'Pokémon Generations ist eine Kurz-Anthologie (ONA, AniList ALTERNATIVE zu 527 und weiteren Staffeln), keine Hauptstaffel'
+  quelle: https://anilist.co/anime/97635
+- ids: [6213, 16049, 104462, 186743]
+  grund: 'A Certain Scientific Railgun (und S, T, 4. Staffel) ist das Spin-off um Mikoto Misaka (AniList: SPIN_OFF von A Certain Magical Index, 4654), eigene Zählung'
+  quelle: https://anilist.co/anime/6213
+- ids: [104463]
+  grund: 'A Certain Scientific Accelerator ist ein Spin-off von A Certain Magical Index (AniList: SPIN_OFF von 4654)'
+  quelle: https://anilist.co/anime/104463
+- ids: [186742]
+  grund: 'A Certain Dark Item ist ein Spin-off von A Certain Magical Index (AniList: SPIN_OFF von 4654)'
+  quelle: https://anilist.co/anime/186742
+- ids: [188388]
+  grund: 'Digimon Beatbreak ist ein Spin-off der Digimon-Reihe (AniList: SPIN_OFF von 552)'
+  quelle: https://anilist.co/anime/188388
+- ids: [162890]
+  grund: 'Gintama: Mr. Ginpachi’s Zany Class ist ein Spin-off (AniList: SPIN_OFF von 918)'
+  quelle: https://anilist.co/anime/162890
+- ids: [187860]
+  grund: 'Shin-chan Spin-off: The Style of Hiroshi Nohara’s Lunch ist ein Spin-off (AniList: SPIN_OFF von 966)'
+  quelle: https://anilist.co/anime/187860
+- ids: [20547]
+  grund: 'Soul Eater Not! ist ein Spin-off von Soul Eater (AniList: SPIN_OFF von 3588)'
+  quelle: https://anilist.co/anime/20547
+- ids: [21879]
+  grund: 'Inazuma Eleven: Balance of Ares ist ein Spin-off (AniList: SPIN_OFF von 5231)'
+  quelle: https://anilist.co/anime/21879
+- ids: [106918]
+  grund: 'Lord El-Melloi II’s Case Files: Rail Zeppelin Grace Note ist ein Spin-off der Fate-Reihe (AniList: SPIN_OFF von 11741)'
+  quelle: https://anilist.co/anime/106918
+- ids: [104051, 117002, 136080]
+  grund: 'Magia Record: Puella Magi Madoka Magica Side Story ist ein Spin-off (AniList: SPIN_OFF von 9756); Staffel 2 und Final Season setzen das Spin-off fort'
+  quelle: https://anilist.co/anime/104051
+- ids: [100183, 167141]
+  grund: 'Sword Art Online Alternative: Gun Gale Online ist ein Spin-off (AniList: SPIN_OFF von 20594); Staffel II setzt es fort'
+  quelle: https://anilist.co/anime/100183
+- ids: [188034]
+  grund: 'Girls und Panzer: Manöver – Mehr Love-Love! ist ein Spin-off (AniList: SPIN_OFF von 14131)'
+  quelle: https://anilist.co/anime/188034
+- ids: [151513]
+  grund: 'Yohane the Parhelion: Sunshine in the Mirror ist ein Spin-off von Love Live! Sunshine!! (AniList: SPIN_OFF von 21584)'
+  quelle: https://anilist.co/anime/151513
+- ids: [117533]
+  grund: 'Cells at Work! Code Black ist ein Spin-off (AniList: SPIN_OFF von 100977)'
+  quelle: https://anilist.co/anime/117533
+- ids: [207251]
+  grund: 'Welcome to Demon School! Iruma-kun: IruMafia Edition ist ein Spin-off (AniList: SPIN_OFF von 107693)'
+  quelle: https://anilist.co/anime/207251
+- ids: [12979]
+  grund: 'Naruto Spin-off: Rock Lee & seine Ninja-Kumpels ist ein Spin-off zu Naruto (AniList: PARENT/SPIN_OFF zu 1735)'
+  quelle: https://anilist.co/anime/12979
+- ids: [21676]
+  grund: 'Danmachi: Sword Oratoria ist ein Spin-off (Gaiden) zu Is It Wrong to Try to Pick Up Girls in a Dungeon? (AniList: PARENT 20920)'
+  quelle: https://anilist.co/anime/21676
+- ids: [216117]
+  grund: 'Baki Gaiden: Kaioh Retsu ist ein Spin-off (Gaiden) zu Baki, keine Staffel'
+  quelle: https://anilist.co/anime/216117
+- ids: [185122]
+  grund: 'Die Kurzfilm-Serie Kyouryuu Shoujo Gauko (TV_SHORT) ist ein eigenes Werk; die ONA-Serie Dino Girl Gauko zählt ab Staffel 1 (AniList: ALTERNATIVE zu 109639)'
+  quelle: https://anilist.co/anime/109639
