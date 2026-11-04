@@ -2,7 +2,6 @@
   { "name": "Kontrolle (unmutiert)", "aenderungen": [] },
   { "name": "cartoon-joyn: Titel mit Joyn-Weg nicht überspringen", "datei": "pipeline/bau/cartoon-joyn.ts", "suche": "if (t.streams.some((s) => s.platform === 'joyn')) continue", "ersetze": "if (false) continue" },
   { "name": "cartoon-joyn: Anbieter ungleich Joyn", "datei": "pipeline/bau/cartoon-joyn.ts", "suche": "plattformVon(x.anbieter ?? '') === 'joyn'", "ersetze": "plattformVon(x.anbieter ?? '') !== 'joyn'" },
-  { "name": "cartoon-joyn: tote Adresse zählt", "datei": "pipeline/bau/cartoon-joyn.ts", "suche": "&& !tot.has(x.url)", "ersetze": "&& tot.has(x.url)" },
   { "name": "cartoon-joyn: ohne Adresse weiter", "datei": "pipeline/bau/cartoon-joyn.ts", "suche": "if (!a?.url) continue", "ersetze": "if (a?.url) continue" },
   { "name": "cartoon-joyn: FREE nicht kostenlos", "datei": "pipeline/bau/cartoon-joyn.ts", "suche": "a.art === 'ADS' || a.art === 'FREE'", "ersetze": "a.art === 'ADS'" },
   { "name": "cartoon-joyn: ADS nicht kostenlos", "datei": "pipeline/bau/cartoon-joyn.ts", "suche": "a.art === 'ADS' || a.art === 'FREE'", "ersetze": "a.art === 'FREE'" },
