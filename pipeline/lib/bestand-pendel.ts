@@ -76,14 +76,19 @@ function pendelText(zeilen: HistorieZeile[], p: Pendel, laufend: boolean, gliede
   return kopf + kettenText(zeilen, glieder, p)
 }
 
+/** Streng: Termine, Verweise und Urteile erreichen oder übertreffen die Zahlen der Zeile vor dem Rückgang; die Toleranz von `findeAuffaelliges` gilt hier nicht. */
+const erreichtStand = (z: HistorieZeile, davor: HistorieZeile) => ['termine', 'verweise', 'mitUrteil'].every((f) => Number(z[f]) >= Number(davor[f]))
+
 /**
- * Eine Zeile wie gespeichert. Hat eine spätere Zeile den Rückgang ausgeglichen (ihr Stand ist gegen den Stand vor dieser Zeile ohne Auffälligkeit),
+ * Eine Zeile wie gespeichert. Hat eine spätere Zeile den Rückgang ausgeglichen (`erreichtStand` gegen die Zeile davor),
  * ist er kein Befund mehr und steht unter `erklaert`; besteht er (auch teilweise), bleibt der gespeicherte Text. Spätere Rückgänge hat jeweils ihre eigene Zeile.
+ * Die Wache vergleicht nur Zahlen: Andere Titel bei gleicher Anzahl erkennt sie absichtlich nicht. Der Ausgleich wird ohne `verschoben` und `gruende`
+ * gerechnet (der Bau kennt sie nur im Moment der Zeile); das ist konservativ, denn begründete Abgänge zählen nicht als Ausgleich und verlangen den vollen Stand.
  */
 function gespeicherteZeile(zeilen: HistorieZeile[], i: number): Ereignis {
   const auffaellig = strs(zeilen[i].auffaellig)
   const erklaert = strs(zeilen[i].erklaert)
-  const ausgleich = auffaellig.length && i > 0 ? zeilen.slice(i + 1).find((z) => !findeAuffaelliges(kz(z), kz(zeilen[i - 1])).auffaellig.length) : undefined
+  const ausgleich = auffaellig.length && i > 0 ? zeilen.slice(i + 1).find((z) => erreichtStand(z, zeilen[i - 1])) : undefined
   if (!ausgleich) return { art: 'zeile', zeile: zeilen[i], auffaellig, erklaert, netto: false }
   const spaeter = auffaellig.map((a) => `später ausgeglichen (Stand ${uhr(ausgleich.zeitpunkt)} gegen Stand davor ohne Verlust): ${a}`)
   return { art: 'zeile', zeile: zeilen[i], auffaellig: [], erklaert: [...erklaert, ...spaeter], netto: false }

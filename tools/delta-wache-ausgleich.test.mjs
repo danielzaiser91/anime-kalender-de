@@ -69,6 +69,27 @@ const rot = (zeilen) => ereignisse(zeilen).filter((e) => e.art === 'zeile' && e.
   assert.equal(ereignisse(mitErklaerung)[2].erklaert[0], 'Kanal-Titel')
 }
 
+// --- Lage des Ausgleichs: gleich die nächste Zeile zählt, auch sechs Zeilen später (B1, B2) --------------------------------------
+{
+  assert.equal(rot(folge([100, 100, 60, 110, 110], 2)).length, 0, 'Ausgleich in der nächsten Zeile: grün')
+  assert.equal(rot(folge([100, 100, 60, 60, 60, 60, 60, 60, 100, 100], 2)).length, 0, 'Ausgleich sechs Zeilen später: grün')
+}
+
+// --- Streng (B3): Termine, Verweise und Urteile müssen den Stand vor dem Rückgang erreichen, keine Toleranz ----------------------
+/** Sechs Zeilen, Rückgang in Zeile 2; `feld` läuft über `werte`, die Urteile bleiben gleich. */
+function mitFeld(feld, werte) {
+  const zeilen = folge([100, 100, 100, 100, 100, 100], 2)
+  werte.forEach((w, i) => (zeilen[i][feld] = w))
+  return zeilen
+}
+{
+  assert.equal(rot(mitFeld('termine', [100, 100, 40, 40, 81, 81])).length, 1, 'Termine 100 -> 40 -> 81 bleibt rot')
+  assert.equal(rot(mitFeld('termine', [100, 100, 40, 40, 100, 100])).length, 0, 'Termine wieder bei 100: grün')
+  assert.equal(rot(mitFeld('verweise', [300, 300, 200, 200, 251, 251])).length, 1, 'Verweise 300 -> 200 -> 251 bleibt rot')
+  assert.equal(rot(mitFeld('verweise', [300, 300, 200, 200, 300, 300])).length, 0, 'Verweise wieder bei 300: grün')
+  assert.equal(rot(folge([100, 100, 60, 60, 99, 99], 2)).length, 1, 'Urteile 99 von 100 bleibt rot (kein Spielraum)')
+}
+
 // --- Zwei Rückgänge: nur der ausgeglichene verschwindet --------------------------------------------------------------------------
 {
   const zeilen = folge([100, 100, 60, 60, 100, 100, 70, 70], 2)
@@ -106,6 +127,13 @@ const jsonl = (zeilen) => zeilen.map((z) => JSON.stringify(z)).join('\n') + '\n'
   const w = wache(echt, '2026-11-03T15:09:00Z')
   assert.equal(w.code, 0, `Anlassfall: Wache grün\n${w.text}`)
   assert.match(w.text, /ℹ\s+erklärt, nicht rot: .*später ausgeglichen \(Stand 02\.11\., 20:43 .*/, 'Info-Zeile statt Warnung')
+  assert.match(w.text, /^ℹ {2}1 Rückgang ausgeglichen$/m, 'Schlusszeile zählt den ausgeglichenen Rückgang')
+
+  const nah = wache(jsonl(folge([100, 100, 60, 110, 110], 2)), '2026-10-20T00:00:00Z')
+  assert.equal(nah.code, 0, `Ausgleich in der nächsten Zeile: grün\n${nah.text}`)
+  const knapp = wache(jsonl(mitFeld('termine', [100, 100, 40, 40, 81, 81])), '2026-10-20T00:00:00Z')
+  assert.equal(knapp.code, 1, 'Termine 81 von 100 bleibt rot')
+  assert.doesNotMatch(knapp.text, /Rückgang ausgeglichen/, 'nichts ausgeglichen, nichts gezählt')
 
   const offen = wache(jsonl(folge([100, 100, 60, 60, 60, 60], 2)), '2026-10-20T00:00:00Z')
   assert.equal(offen.code, 1, 'bestehender Rückgang bleibt rot')
@@ -114,4 +142,4 @@ const jsonl = (zeilen) => zeilen.map((z) => JSON.stringify(z)).join('\n') + '\n'
   assert.equal(teil.code, 1, 'Teilausgleich bleibt rot')
   assert.equal(wache(jsonl(folge([100, 100, 100, 100])), '2026-10-20T00:00:00Z').code, 0, 'Kontrolle ohne Rückgang')
 }
-console.log('delta-wache-ausgleich: 4 Regelfälle, 3 Grenzen, 2 Rückgänge, Anlassfall 02.11.2026, 4 Prozessfälle ok')
+console.log('delta-wache-ausgleich: 4 Regelfälle, 3 Grenzen, 2 Lagen, 5 strenge Fälle, 2 Rückgänge, Anlassfall 02.11.2026, 6 Prozessfälle ok')
