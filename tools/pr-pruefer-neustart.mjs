@@ -9,7 +9,7 @@ import { CI_BOT, NACHTRAG, VERTRAUT } from './pr-nachtraege.mjs'
 
 const PRUEFER_WORKFLOW = 'pr-pruefer.yml'
 const ABNAHME = /Abnahme Dirigent/i
-const WARTE_RUNDEN = 12
+const WARTE_RUNDEN = 40
 const WARTE_MS = 5000
 
 /** Ja/Nein samt Grund: zählt der Kommentar als Prüfauftrag? `pr` = Antwort der API für den PR. */

@@ -74,10 +74,14 @@ gleich('laufender Lauf: erst cancel, warten, dann rerun', l.aufrufe, ['run cance
 gleich('laufender Lauf: gewartet bis completed (einmal)', l.wartet, [5000])
 gleich('kein Lauf zum Kopf: nichts', laufe({}, []).aufrufe, [])
 gleich('nur Läufe alter Köpfe: nichts', laufe({}, fremd).aufrufe, [])
-// Lauf wird nach cancel nie completed: zwölf Abfragen und Pausen, dann scheitert rerun; Meldung statt Rot.
+// Lauf wird nach cancel nie completed: vierzig Abfragen (200 s; gemessen 04.11.2026: cancel bis completed 75–85 s, 60 s reichten nicht) und Pausen, dann scheitert rerun; Meldung statt Rot.
 const haengt = laufe({}, laufend, { stand: Array(50).fill('in_progress'), rerunFehlt: true })
 gleich('Lauf bleibt nach cancel offen: Exit 0', haengt.code, 0)
-gleich('Lauf bleibt nach cancel offen: zwölf Pausen', haengt.wartet.length, 12)
+gleich('Lauf bleibt nach cancel offen: vierzig Pausen', haengt.wartet.length, 40)
+// Anlass 04.11.2026: cancel brauchte 17 Abfragen (etwa 80 s) bis completed; nach zwölf lief rerun ins Leere, der Prüfer blieb cancelled.
+const spaet = laufe({}, laufend, { stand: [...Array(17).fill('in_progress'), 'completed'] })
+gleich('Lauf endet erst nach 17 Abfragen: rerun kommt trotzdem', spaet.aufrufe, ['run cancel 5', 'run rerun 5'])
+gleich('Lauf endet erst nach 17 Abfragen: 17 Pausen', spaet.wartet.length, 17)
 gleich('gh-Absturz bei der Lauf-Abfrage: Exit 0', (() => {
   const mute = console.log
   console.log = () => {}
@@ -111,6 +115,9 @@ gleich('Bedingung: nur PR-Kommentare, nicht vom Prüfer', job.if, "github.event.
 gleich('Schritt ruft das Skript ohne Argumente', schritt.run, 'node tools/pr-pruefer-neustart.mjs')
 gleich('Kommentartext nur über env', Object.entries(schritt.env).filter(([, w]) => w.includes('comment.body')).map(([s]) => s), ['KOMMENTAR'])
 gleich('run enthält keinen Ausdruck', schritt.run.includes('${{'), false)
+// Zeitbudget: Pausen plus 60 s für Checkout und Abfragen müssen unter der Jobfrist bleiben.
+const pausenMs = haengt.wartet.reduce((s, ms) => s + ms, 0)
+gleich('Zeitbudget: Pausen + 60 s unter timeout-minutes', pausenMs + 60_000 < job['timeout-minutes'] * 60_000, true)
 const ausYaml = Object.fromEntries(Object.keys(schritt.env).map((s) => [s, { PR_NUMMER: '7', KOMMENTAR: '## Nachtrag', KOMMENTAR_LOGIN: 'inhaber', KOMMENTAR_ASSOZIATION: 'OWNER' }[s] ?? 'x']))
 gleich('env-Namen der YAML lösen den Neustart aus', laufe({ ...ausYaml, KOMMENTAR: '## Nachtrag', GITHUB_REPOSITORY: 'o/r' }, abgeschlossen).aufrufe, ['run rerun 5'])
 
