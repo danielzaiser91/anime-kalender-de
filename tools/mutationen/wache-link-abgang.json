@@ -10,7 +10,7 @@
   { "name": "linkAbgaenge: immer begründet", "datei": "pipeline/lib/bestand-link-abgang.ts", "suche": "if (entferntDurchLink(b?.status)) aus", "ersetze": "if (true) aus" },
   { "name": "linkAbgaenge: Befund nicht genannt", "datei": "pipeline/lib/bestand-link-abgang.ts", "suche": "befund: b ? `link-check: ${JSON.stringify(b)}` : undefined,", "ersetze": "befund: undefined," },
   { "name": "linkAbgaenge: Adresse nicht genannt", "datei": "pipeline/lib/bestand-link-abgang.ts", "suche": "(${t.id}): ${s.url}`", "ersetze": "(${t.id})`" },
-  { "name": "bestandAusCommit: Stand HEAD -> Arbeitskopie", "datei": "pipeline/lib/bestand-link-abgang.ts", "suche": "`${stand}:public/data/titles.json`", "ersetze": "`:public/data/titles.json`" },
+  { "name": "bestandAusCommit: Stand HEAD -> Arbeitskopie", "datei": "pipeline/lib/bestand-link-abgang.ts", "suche": "`${stand}:public/data/titles.json`", "ersetze": "`HEAD^:public/data/titles.json`" },
   { "name": "bestandAusCommit: Catch wirft", "datei": "pipeline/lib/bestand-link-abgang.ts", "suche": "  } catch {\n    return []\n  }", "ersetze": "  } catch (e) {\n    throw e\n  }" },
   { "name": "urteilRest: Link nicht abgezogen", "datei": "pipeline/lib/bestand-delta.ts", "suche": " - anbieter.beleg - anbieter.link", "ersetze": " - anbieter.beleg" },
   { "name": "urteilRest: Link doppelt", "datei": "pipeline/lib/bestand-delta.ts", "suche": " - anbieter.beleg - anbieter.link", "ersetze": " - anbieter.beleg - 2 * anbieter.link" },

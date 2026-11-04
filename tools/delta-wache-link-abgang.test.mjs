@@ -43,6 +43,8 @@ assert.equal(linkAbgaenge(vorher, jetzt, { [ANDERE]: REGION }).begruendet.length
 // Gleiche Adresse an einem anderen Titel zählt nicht als Verbleib; ein Weg ohne Ja zählt nicht als Verlust.
 assert.equal(linkAbgaenge([naruto(s('primevideo', NARUTO))], [fremd(s('primevideo', NARUTO)), naruto()], { [NARUTO]: REGION }).begruendet.length, 1)
 assert.deepEqual(linkAbgaenge([naruto(s('primevideo', NARUTO, false))], [naruto()], {}), { begruendet: [], unerklaert: [] })
+// Bleibt die Adresse stehen, hat aber das Ja verloren, fehlt der Beleg trotzdem (der Zähler zählt Ja, nicht Adressen).
+assert.equal(linkAbgaenge([naruto(s('primevideo', NARUTO))], [naruto(s('primevideo', NARUTO, false))], { [NARUTO]: REGION }).begruendet.length, 1)
 assert.deepEqual(linkAbgaenge(vorher, vorher, { [NARUTO]: REGION }), { begruendet: [], unerklaert: [] }, 'nichts fehlt')
 
 // --- Urteil der Wache --------------------------------------------------------------------------------------------------
@@ -84,6 +86,10 @@ assert.equal(mitTimeout.auffaellig[2], `primevideo: fehlt Naruto Shippuden (1735
 const netflixWeg = findeAuffaelliges(kz({ mitUrteil: 89, jeAnbieter: { primevideo: 5, netflix: 2 } }), kz(), [], {}, mit)
 assert.deepEqual(netflixWeg.auffaellig, ['1 Urteile verloren', 'netflix: 1 Synchro-Belege weniger'])
 assert.deepEqual(netflixWeg.erklaert, [])
+
+// Die fehlt-Zeile gehört dem Anbieter des Rückgangs: ein unerklärter Prime-Weg erscheint nicht unter Netflix.
+const fremdeZeile = findeAuffaelliges(kz({ mitUrteil: 89, jeAnbieter: { primevideo: 5, netflix: 2 } }), kz(), [], {}, ohneBefund)
+assert.deepEqual(fremdeZeile.auffaellig, ['1 Urteile verloren', 'netflix: 1 Synchro-Belege weniger'])
 
 // Obergrenze: zwei Wege weg, ein Befund: einer bleibt rot, der Text nennt den begründeten.
 const zweiWeg = findeAuffaelliges(kz({ mitUrteil: 88, jeAnbieter: { primevideo: 3, netflix: 3 } }), kz(), [], {}, mit)
