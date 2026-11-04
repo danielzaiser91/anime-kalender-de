@@ -17,6 +17,21 @@ interface VerweisVonHand {
   kanal?: string
 }
 
+function leseVerweiseVonHand(): VerweisVonHand[] {
+  const datei = resolve(ROOT, 'data/verweise-von-hand.yaml')
+  const roh = existsSync(datei) ? yaml.load(readFileSync(datei, 'utf8')) : []
+  return Array.isArray(roh) ? (roh as VerweisVonHand[]) : []
+}
+
+/** Adresskern → `belegtAm` der von Hand bestätigten Wege, ohne den Bestand anzufassen (für die Wache). */
+export function ladeVonHandBelegtAm(): Map<string, string> {
+  const belegtAm = new Map<string, string>()
+  for (const e of leseVerweiseVonHand()) {
+    if (e.anilistId && e.platform && e.url && e.belegtAm) belegtAm.set(adressKern(e.url), String(e.belegtAm))
+  }
+  return belegtAm
+}
+
 /**
  * **Verweise, die kein Sammellauf findet — von Hand belegt** (`data/verweise-von-hand.yaml`).
  *
@@ -32,9 +47,7 @@ interface VerweisVonHand {
  */
 export function ergaenzeVerweiseVonHand(titles: Map<number, Title>): Map<string, string> {
   const belegtAm = new Map<string, string>()
-  const datei = resolve(ROOT, 'data/verweise-von-hand.yaml')
-  const roh = existsSync(datei) ? yaml.load(readFileSync(datei, 'utf8')) : []
-  const eintraege = Array.isArray(roh) ? (roh as VerweisVonHand[]) : []
+  const eintraege = leseVerweiseVonHand()
   let ergaenzt = 0
   for (const e of eintraege) {
     if (!e.anilistId || !e.platform || !e.url) continue
