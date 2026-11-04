@@ -4,7 +4,7 @@
  * (Grenzen: tools/dub-lesart-grenzen.json). Ausnahme mit Grund: Kommentar `dub-lesart: <Grund>` (Regeln: pipeline/lib/dub-lesart.ts).
  * Nicht erfasst: web/src und pipeline/lib (Stand 03.11.2026: 53 Lesungen nach dieser Regel, rund 176 mit breiterem Muster, siehe docs/wissen/quellen.md).
  * Beim Abbau die Grenzen von Hand senken; steht eine Grenze über dem Zählstand, ist der Lauf rot („auf N senken“).
- * Eine Erhöhung gegen die Basis (erster Elternteil eines Merge-Commits, sonst origin/main; fehlt beides, entfällt der Vergleich) ist rot.
+ * Eine Erhöhung gegen die Basis (erster Elternteil eines Merge-Commits, sonst origin/main, nötigenfalls per Abruf) ist rot; ohne lesbare Basis entfällt der Vergleich, in CI (`CI` gesetzt) ist das rot.
  * Aufruf: npx tsx pipeline/check-dub-lesart.ts [--liste] [--wurzel <ordner>] [--basis <ref>]
  */
 import { execFileSync } from 'node:child_process'
@@ -76,11 +76,27 @@ function git(wurzel: string, args: string[]): string | undefined {
   }
 }
 
-/** Grenzen der Basis: `--basis <ref>`, sonst HEAD^1 eines Merge-Commits, sonst origin/main. `undefined`, wenn nicht lesbar. */
+/** Ref der Basis: erster Elternteil eines Merge-Commits (im flachen Klon per `cat-file` gelesen und nachgeladen), sonst main. */
+function basisRef(wurzel: string): string {
+  const eltern = (git(wurzel, ['cat-file', '-p', 'HEAD']) ?? '').split('\n').filter((z) => z.startsWith('parent '))
+  if (eltern.length >= 2) {
+    const sha = eltern[0]!.slice('parent '.length).trim()
+    if (git(wurzel, ['cat-file', '-e', `${sha}^{commit}`]) === undefined) git(wurzel, ['fetch', '--no-tags', '--depth=1', 'origin', sha])
+    return sha
+  }
+  if (git(wurzel, ['rev-parse', '--verify', '-q', 'origin/main']) !== undefined) return 'origin/main'
+  return git(wurzel, ['fetch', '--no-tags', '--depth=1', 'origin', 'main']) === undefined ? 'origin/main' : 'FETCH_HEAD'
+}
+
+/** Grenzen der Basis: `--basis <ref>`, sonst `basisRef`. `undefined`, wenn nicht lesbar. */
 export function basisGrenzen(wurzel: string, ref?: string): Grenzen | undefined {
-  const quelle = ref ?? (git(wurzel, ['rev-parse', '--verify', '-q', 'HEAD^2']) ? 'HEAD^1' : 'origin/main')
-  const text = git(wurzel, ['show', `${quelle}:${GRENZDATEI}`])
+  const text = git(wurzel, ['show', `${ref ?? basisRef(wurzel)}:${GRENZDATEI}`])
   return text ? gelesen(text) : undefined
+}
+
+/** Meldung, wenn in CI keine Basis lesbar war (sonst fiele eine angehobene Grenze nicht auf). */
+export function basisFehlt(basis: Grenzen | undefined, ci: boolean): string | undefined {
+  return !basis && ci ? 'Basisvergleich entfällt in CI: Grenzen der Basis (main) nicht lesbar' : undefined
 }
 
 function argument(name: string): string | undefined {
@@ -99,6 +115,8 @@ function main(): number {
   const basis = basisGrenzen(wurzel, argument('--basis'))
   console.log(`dub-lesart: ${stand.offen.length} offene Lese-Stellen (höchstens ${grenzen.offen}), ${stand.marken} Marken (höchstens ${grenzen.marken}), ${stand.tote.length} tote; Basisvergleich ${basis ? 'ja' : 'entfällt'}`)
   const fehler = urteil(stand, grenzen, basis)
+  const ohneBasis = basisFehlt(basis, Boolean(process.env.CI))
+  if (ohneBasis) fehler.push(ohneBasis)
   if (fehler.length) {
     console.error(`✖ ${fehler.join('\n✖ ')}\nBeachte dubAbgeleitet bzw. istLautAnbieter (shared/saison.ts) oder markiere mit „dub-lesart: <Grund>“. Die Grenzen werden nicht angehoben.`)
     return 1

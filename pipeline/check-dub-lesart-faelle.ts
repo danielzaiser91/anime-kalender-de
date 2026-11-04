@@ -7,7 +7,7 @@ import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
-import { urteil } from './check-dub-lesart.ts'
+import { basisFehlt, urteil } from './check-dub-lesart.ts'
 import { dubLesart, dubLesungen, offeneLesungen } from './lib/dub-lesart.ts'
 
 const wurzel = resolve(import.meta.dirname, '..')
@@ -69,6 +69,9 @@ pruefe('Urteil: Grenze offen zu hoch meldet „auf 1 senken“ (A8)', urteil(ST(
 pruefe('Urteil: Grenze marken zu hoch meldet „auf 2 senken“ (A8)', urteil(ST(2, 2), { offen: 2, marken: 3 }).some((f) => f.includes('auf 2 senken')))
 pruefe('Urteil: Basis niedriger bei offen ist rot (A8)', urteil(ST(2, 3), { offen: 2, marken: 3 }, { offen: 1, marken: 3 }).some((f) => f.includes('Basis erhöht')))
 pruefe('Urteil: Basis niedriger bei marken ist rot (A8)', urteil(ST(2, 3), { offen: 2, marken: 3 }, { offen: 2, marken: 2 }).some((f) => f.includes('Basis erhöht')))
+pruefe('Basis fehlt: in CI Meldung', basisFehlt(undefined, true) !== undefined)
+pruefe('Basis fehlt: ohne CI keine Meldung', basisFehlt(undefined, false) === undefined)
+pruefe('Basis da: in CI keine Meldung', basisFehlt({ offen: 1, marken: 1 }, true) === undefined)
 pruefe('Urteil: Basis gleich ist in Ordnung', urteil(ST(2, 3), { offen: 2, marken: 3 }, { offen: 2, marken: 3 }).length === 0)
 
 // Prozess gegen Wegwerf-Wurzel
@@ -82,8 +85,11 @@ function kulisseAnlegen(dateien: Record<string, string>, grenzen: { offen: numbe
   return kulisse
 }
 
-function wachter(kulisse: string, extra: string[] = []): { status: number | null; aus: string } {
-  const l = spawnSync(process.execPath, [tsx, join(wurzel, 'pipeline/check-dub-lesart.ts'), '--wurzel', kulisse, ...extra], { encoding: 'utf8', timeout: 120_000, cwd: kulisse })
+function wachter(kulisse: string, extra: string[] = [], ci = false): { status: number | null; aus: string } {
+  const env = { ...process.env }
+  if (ci) env.CI = 'true'
+  else delete env.CI
+  const l = spawnSync(process.execPath, [tsx, join(wurzel, 'pipeline/check-dub-lesart.ts'), '--wurzel', kulisse, ...extra], { encoding: 'utf8', timeout: 120_000, cwd: kulisse, env })
   return { status: l.status, aus: `${l.stdout}${l.stderr}` }
 }
 
@@ -131,6 +137,12 @@ try {
   pruefe('Prozess mit git: neue Lesung samt angehobener Grenze ist rot (A8)', angehoben.status === 1 && angehoben.aus.includes('Basis erhöht'), angehoben.aus)
   const ohneBasis = wachter(gitKulisse, ['--basis', 'gibt-es-nicht'])
   pruefe('Prozess mit git: unlesbare Basis entfällt, Zählstand zählt weiter', ohneBasis.status === 0 && ohneBasis.aus.includes('Basisvergleich entfällt'), ohneBasis.aus)
+  const ciOhneBasis = wachter(gitKulisse, ['--basis', 'gibt-es-nicht'], true)
+  pruefe('Prozess mit git: in CI ohne Basis ist rot (A8)', ciOhneBasis.status === 1 && ciOhneBasis.aus.includes('entfällt in CI'), ciOhneBasis.aus)
+  git(gitKulisse, 'add', '-A')
+  git(gitKulisse, 'commit', '-q', '-m', 'angehoben')
+  const ciMitBasis = wachter(gitKulisse, ['--basis', 'HEAD~1'], true)
+  pruefe('Prozess mit git: in CI mit Basis ist die Zeile „Basisvergleich ja“ und der Vergleich greift', ciMitBasis.status === 1 && ciMitBasis.aus.includes('Basisvergleich ja') && ciMitBasis.aus.includes('Basis erhöht'), ciMitBasis.aus)
 } finally {
   rmSync(gitKulisse, { recursive: true, force: true })
 }
