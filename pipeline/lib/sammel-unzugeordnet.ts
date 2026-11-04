@@ -42,7 +42,7 @@ const eintrag = (v: Vorschlag): NichtZugeordnet => ({
 export function einzelOhneRelease(verluste: Verluste, sammelVorschlaege: Vorschlag[]): NichtZugeordnet[] {
   return [...verluste.ohneTitel, ...verluste.ohneTeil, ...verluste.ohneAnbieter]
     .filter((v) => !sammelVorschlaege.includes(v) && v.category === 'streaming' && spracheDerMeldung(v) === 'ja')
-    .map((v) => ({ titel: v.articleTitle.replace(/^»|«.*$/g, ''), artikel: v.articleUrl, tag: terminDerMeldung(v)!, anbieter: v.platforms ?? [], quelle: 'Einzelartikel' }))
+    .map((v) => ({ titel: /»([^«]+)«/.exec(v.articleTitle)?.[1] ?? v.articleTitle, artikel: v.articleUrl, tag: terminDerMeldung(v)!, anbieter: v.platforms ?? [], quelle: 'Einzelartikel' }))
 }
 
 /** `abgedeckt`: Meldungen, deren Titel beim Anbieter schon ein Termin belegt (`releasesAus`) — sie sind zugeordnet, nur nicht neu. */

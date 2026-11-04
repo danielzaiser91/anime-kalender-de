@@ -86,6 +86,8 @@ function vorrangFaelle(): void {
 }
 
 function verlustFaelle(): void {
+  const erste = ausMeldung({ ...BASS_MELDUNG, articleTitle: 'Netflix: »Bass X Machina« – Staffel 1' }, [])
+  pruefe('Staffel 1 eines Cartoons wird über die Cartoon-Liste gefunden', erste.neu.length === 1 && erste.neu[0]!.titleId === -314271, erste)
   const staffel = ausMeldung({ ...BASS_MELDUNG, articleTitle: 'Netflix: »Bass X Machina« – Staffel 2' }, [])
   pruefe('Verlust „Teil unklar“: Staffel 2 eines Cartoons mit einer Staffel', staffel.neu.length === 0 && staffel.verluste.ohneTeil.length === 1, staffel.verluste)
   const keiner = ausMeldung({ ...BASS_MELDUNG, platforms: [], category: 'streaming' }, [])
@@ -133,7 +135,10 @@ async function bauFall(): Promise<void> {
   // Verdrahtung im Bau: der Fall von 22.08.2026 durch `ergaenzeTermineAusNewsUndTv`, nicht nur durch `releasesAus`.
   mkdirSync(join(wurzel, 'data', 'proposals'), { recursive: true })
   writeFileSync(join(wurzel, 'data', 'kino-ankuendigungen.yaml'), '[]')
-  writeFileSync(join(wurzel, 'data', 'proposals', 'anime2you.json'), JSON.stringify({ proposals: [BASS_MELDUNG, LEGO_MELDUNG, { ...LEGO_MELDUNG, articleTitle: '»Unbekannt« startet bei Netflix', articleUrl: 'https://www.anime2you.de/news/9/' }] }))
+  const unbekannt = { ...LEGO_MELDUNG, articleTitle: '»Unbekannt« startet bei Netflix', articleUrl: 'https://www.anime2you.de/news/9/' }
+  const teilUnklar = { ...LEGO_MELDUNG, articleTitle: '»Bass X Machina« – Staffel 2 auf Netflix', articleUrl: 'https://www.anime2you.de/news/10/' }
+  const ohneAnbieter = { ...LEGO_MELDUNG, articleUrl: 'https://www.anime2you.de/news/11/', platforms: [] }
+  writeFileSync(join(wurzel, 'data', 'proposals', 'anime2you.json'), JSON.stringify({ proposals: [BASS_MELDUNG, LEGO_MELDUNG, unbekannt, teilUnklar, ohneAnbieter] }))
   writeFileSync(join(wurzel, 'data', 'cartoons.json'), JSON.stringify({ '-314271': BASS_CARTOON, '-318918': LEGO_CARTOON }))
   const { ergaenzeTermineAusNewsUndTv } = await import('./bau/08-news-tv.ts')
   const releases: Release[] = []
@@ -148,8 +153,9 @@ async function bauFall(): Promise<void> {
   const ids = releases.map((r) => r.titleId).sort((a, b) => a - b)
   pruefe('Bau: Bass und LEGO One Piece bekommen einen Release', ids.join() === '-318918,-314271', ids)
   const datei = JSON.parse(readFileSync(join(wurzel, 'data', 'proposals', 'nicht-zugeordnet.json'), 'utf8')) as { eintraege: { titel: string; quelle: string }[] }
-  pruefe('Bau: die Meldung ohne Titel steht auf der Liste (Einzelartikel), die beiden Cartoons nicht', datei.eintraege.length === 1 && datei.eintraege[0]!.titel === 'Unbekannt' && datei.eintraege[0]!.quelle === 'Einzelartikel', datei.eintraege)
-  pruefe('Bau: Verluste stehen im Log, nach Grund gezählt', zeilen.some((z) => z.includes('Meldungen mit Termin ohne Release: 1 ohne Titel, 0 mit unklarem Teil, 0 ohne Anbieter')), zeilen.filter((z) => z.includes('ohne Release')))
+  const titel = datei.eintraege.map((e) => `${e.titel}/${e.quelle}`).sort()
+  pruefe('Bau: die drei Verluste stehen als Einzelartikel auf der Liste, die beiden Cartoon-Termine nicht', JSON.stringify(titel) === JSON.stringify(['Bass X Machina/Einzelartikel', 'LEGO One Piece/Einzelartikel', 'Unbekannt/Einzelartikel']), titel)
+  pruefe('Bau: Verluste stehen im Log, nach Grund gezählt', zeilen.some((z) => z.includes('Meldungen mit Termin ohne Release: 1 ohne Titel, 1 mit unklarem Teil, 1 ohne Anbieter')), zeilen.filter((z) => z.includes('ohne Release')))
 }
 
 try {
