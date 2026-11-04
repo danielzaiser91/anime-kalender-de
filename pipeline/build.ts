@@ -30,6 +30,7 @@ function liefereAus({ synchro, quarantaene, ...rest }: Phasenergebnis): void {
     events,
     motnBelege: synchro.motnBelege,
   })
+  console.log('TRACE106896 nach-meta ' + JSON.stringify(titles.get(106896)?.streams.filter((s) => s.platform === 'crunchyroll')))
   vermerkeQuarantaene(meta, quarantaene)
   const { newsFuerRss } = schreibeDatensatzGemessen({
     ...rest,
