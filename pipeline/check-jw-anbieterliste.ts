@@ -96,7 +96,7 @@ pruefe('Netzfehler: leerer Vorrang, kein Abbruch', nurFehler.vorrang.size === 0 
 const aufrufe: { body: { variables: { after: string | null; f: unknown } } }[] = []
 const kante = (content: unknown) => ({ node: { content } })
 const antwort = (weiter: boolean) => {
-  const pageInfo = { hasNextPage: weiter, endCursor: weiter ? 'M1' : null }
+  const pageInfo = { hasNextPage: weiter, endCursor: weiter ? 'M1' : 'M2' }
   const edges = [kante({ externalIds: { tmdbId: '101' } }), kante({ externalIds: { tmdbId: 202 } }), kante({ externalIds: { tmdbId: null } }), kante(null)]
   return { data: { popularTitles: { pageInfo, edges } } }
 }
@@ -105,11 +105,12 @@ const holer = seiteVonJustWatch('https://example.org/graphql', 'ua', (async (_u:
   aufrufe.push({ body })
   return antwort(body.variables.after === null) as never
 }) as never)
-const s1 = await holer(joyn)
-const s2 = await holer(joyn, s1.weiter)
+const fremd: AnbieterListe = { anbieter: 'Fremd', paket: 'pq', genre: 'gx', aktiv: true }
+const s1 = await holer(fremd)
+const s2 = await holer(fremd, s1.weiter)
 pruefe('Seite 1: Kennungen als Zeichenketten, leere ausgelassen, Marke M1', s1.tmdbIds.join() === '101,202' && s1.weiter === 'M1', s1)
 pruefe('Seite 2 trägt die Marke als `after`, letzte Seite ohne Marke', aufrufe[1].body.variables.after === 'M1' && s2.weiter === undefined, aufrufe[1])
-pruefe('Filter trägt Paket und Gattung der Liste', JSON.stringify(aufrufe[0].body.variables.f) === '{"packages":["jyn"],"genres":["ani"]}', aufrufe[0].body.variables.f)
+pruefe('Filter trägt Paket und Gattung der Liste', JSON.stringify(aufrufe[0].body.variables.f) === '{"packages":["pq"],"genres":["gx"]}', aufrufe[0].body.variables.f)
 let wirft = false
 await seiteVonJustWatch('x', 'ua', (async () => ({ errors: [{ message: 'kaputt' }] })) as never)(joyn).catch(() => { wirft = true })
 pruefe('GraphQL-Fehler wird zur Ausnahme', wirft)
