@@ -3643,11 +3643,19 @@
   ],
   "auto-184591-disc": [
     {
+      "url": "https://www.anime2you.de/news/1068225/theres-no-freaking-way-ill-be-your-lover-unless-synchro-trailer/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-05",
+      "sagt": "2026-11-19",
+      "stand": "aktuell"
+    },
+    {
       "url": "https://www.anime2you.de/news/1043903/theres-no-freaking-way-ill-be-your-lover-unless-disc-termin/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-01",
       "sagt": "2026-10-22",
-      "stand": "aktuell"
+      "stand": "ueberholt",
+      "grund": "Termin verschoben auf: 2026-11-19"
     }
   ],
   "auto-1550-disc": [
