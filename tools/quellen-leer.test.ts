@@ -68,7 +68,17 @@ try {
   assert.match(ausgabe, /leer-quelle: grün, aber leer/, 'Meldung im Lauf')
   assert.doesNotMatch(ausgabe, /youtube-check: grün, aber leer/, 'Ausnahme schweigt')
   assert.doesNotMatch(ausgabe, /gesund: grün, aber leer/, 'Quelle mit Treffern schweigt')
-  assert.ok(readFileSync(join(wurzel, 'data', GESUNDHEIT), 'utf8').includes('leer-quelle'))
+  /* Wochenwache: dieselbe Leere geht als Meldung an Claude (Datei in Teilen benannt, s. o.). */
+  const wache = spawnSync(process.execPath, ['--import', 'tsx', resolve('pipeline/check-sources.ts'), '--nur-melden'], {
+    env: { ...process.env, AK_ROOT: wurzel },
+    encoding: 'utf8',
+    timeout: 60_000,
+    windowsHide: true,
+  })
+  assert.equal(wache.status, 0, `Wochenwache lief durch: ${wache.stdout}${wache.stderr}`)
+  const meldungen = readFileSync(join(wurzel, 'data', ['meldungen', 'an', 'claude.jsonl'].join('-')), 'utf8')
+  assert.match(meldungen, /Quellen grün, aber leer: leer-quelle: grün, aber leer/, 'Meldung in der Wochenwache')
+  assert.doesNotMatch(meldungen, /youtube-check/, 'Ausnahme auch dort stumm')
 } finally {
   rmSync(wurzel, { recursive: true, force: true })
 }
