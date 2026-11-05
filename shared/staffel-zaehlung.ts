@@ -27,16 +27,16 @@ export type Hauptzaehlung<T extends Zaehlteil> = {
 /**
  * **Die eine Staffelzählung einer Reihe**: Panel, Kachel-Marke, Widerlegung, Katalog und Disc-Verschiebung rechnen
  * hier `hauptstaffeln()` und `staffelStaende()` zusammen. Der Reihenname ist der des Panels (Anfang der Namen des
- * Vertreters), außer ein Aufrufer gibt ihn vor.
+ * Vertreters).
  */
-export function zaehleHauptstaffeln<T extends Zaehlteil>(reihe: T[], reihenName?: string): Hauptzaehlung<T> {
+export function zaehleHauptstaffeln<T extends Zaehlteil>(reihe: T[]): Hauptzaehlung<T> {
   const teile = hauptstaffeln(reihe)
-  if (!teile.length) return { teile, reihenName: reihenName ?? '', staende: new Map() }
-  const name = reihenName ?? reihenAnfang(reihenVertreter(teile).name, teile.map((m) => m.name))
+  if (!teile.length) return { teile, reihenName: '', staende: new Map() }
+  const name = reihenAnfang(reihenVertreter(teile).name, teile.map((m) => m.name))
   return { teile, reihenName: name, staende: staffelStaende(teile, name) }
 }
 
 /** Die Staffelnummer von `id` in der Zählung der Reihe; `undefined`, wenn der Teil keine Hauptstaffel ist oder die Reihe nur eine hat. */
-export function staffelStandVon<T extends Zaehlteil>(reihe: T[], id: number, reihenName?: string): StaffelNummer | undefined {
-  return zaehleHauptstaffeln(reihe, reihenName).staende.get(id)
+export function staffelStandVon<T extends Zaehlteil>(reihe: T[], id: number): StaffelNummer | undefined {
+  return zaehleHauptstaffeln(reihe).staende.get(id)
 }

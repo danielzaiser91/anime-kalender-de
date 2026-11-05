@@ -26,6 +26,12 @@ export function markiereReihenteile(titles: Map<number, Title>, eltern: Map<numb
   return zaehler
 }
 
+/** Die Handlisten eigener Werke an den Cartoons — nach `ordneCartoonReihen`, denn die Markierung liest `franchiseId`; Cartoons haben keine AniList-Eltern. */
+export function markiereCartoonReihenteile(cartoons: Title[], eigene: Set<number> = new Set(ladeAlleEigenenWerke().flatMap((e) => e.ids))): void {
+  const z = markiereReihenteile(new Map(cartoons.map((t) => [t.id, t])), new Map(), eigene)
+  log(`${z.eigenesWerk} eigene Cartoon-Werke markiert (zählen nicht als Staffel)`)
+}
+
 /** Markiert mit den Quellen des Baus (Katalog-Elternkanten, Handlisten eigener Werke); nach der Reihenbildung, denn sie liest `franchiseId`. */
 export function markiereReihenteileAusQuellen(titles: Map<number, Title>, katalog: () => KatalogEintrag[] = ladeKatalogEintraege): void {
   /* Ein unlesbarer Katalog stoppt den Bau nie: dann gibt es nur die eigenen Werke, ohne Beiwerk. */

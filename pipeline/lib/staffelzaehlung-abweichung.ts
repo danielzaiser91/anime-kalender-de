@@ -22,3 +22,8 @@ export function bewerteAbweichung(
   const { staende } = zaehleHauptstaffeln(reihe.map((x) => ({ ...x, name: anzeigeName(x) })))
   return staende.get(t.id)?.teil !== undefined ? 'teil' : 'unerklaert'
 }
+
+/** Die Titel einer Reihe, die in der Handliste eigener Werke stehen, aber nicht als `eigenesWerk` markiert sind (die Markierung fehlt im Bau). */
+export function handlisteOhneMarkierung(titel: Pick<Title, 'id' | 'franchiseId' | 'eigenesWerk'>[], handliste: Set<number>): number[] {
+  return titel.filter((t) => t.franchiseId !== undefined && handliste.has(t.id) && !t.eigenesWerk).map((t) => t.id)
+}

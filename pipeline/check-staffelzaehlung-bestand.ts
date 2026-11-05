@@ -10,7 +10,8 @@ import type { Title } from '../shared/types.ts'
 import { staffelMarken } from '../web/src/lib/db-staffel-marke.ts'
 import { staffelDesTitels } from './bau/widerlegung-staffel.ts'
 import { reihenIndex } from './lib/disc-verschiebungen-staffel.ts'
-import { bewerteAbweichung, type Abweichung } from './lib/staffelzaehlung-abweichung.ts'
+import { bewerteAbweichung, handlisteOhneMarkierung, type Abweichung } from './lib/staffelzaehlung-abweichung.ts'
+import { ladeAlleEigenenWerke } from './bau/cartoon-reihen.ts'
 import { spinoffVerdacht, spinoffVerdachtZeile } from './lib/spinoff-verdacht.ts'
 import { melde } from './lib/quarantaene.ts'
 
@@ -28,6 +29,11 @@ console.log('\nStaffelzählung: Pipeline gegen Kachel-Marke über den ganzen Bes
 {
   const markiert = titel.filter((t) => t.beiwerk || t.eigenesWerk).length
   pruefe(`titles.json trägt die Markierung für Beiwerk und eigene Werke (${markiert} Titel)`, markiert > 0)
+  const handliste = new Set(ladeAlleEigenenWerke().flatMap((e) => e.ids))
+  const cartoons = JSON.parse(readFileSync('public/data/cartoons.json', 'utf8')) as Title[]
+  const ohneAnime = handlisteOhneMarkierung(titel, handliste)
+  const ohneCartoon = handlisteOhneMarkierung(cartoons, handliste)
+  pruefe(`Jede Kennung der Handlisten eigener Werke trägt in ihrer Reihe eigenesWerk (titles.json: ${ohneAnime.length} ohne, cartoons.json: ${ohneCartoon.length} ohne)`, !ohneAnime.length && !ohneCartoon.length, [...ohneAnime, ...ohneCartoon].slice(0, 5))
   const marken = new Map<number, string>()
   for (const mitglieder of reihen.values()) if (mitglieder.length > 1) for (const [id, marke] of staffelMarken(mitglieder)) marken.set(id, marke)
   const zaehler: Record<Abweichung, Title[]> = { gleich: [], neuverfilmung: [], teil: [], unerklaert: [] }

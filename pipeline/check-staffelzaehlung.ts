@@ -5,12 +5,14 @@
  * Spin-off-Verdacht. Der Bestandsteil (alle Titel, Pipeline gegen Marke) steht in `check-staffelzaehlung-bestand.ts`. Läuft in `check:logic`.
  */
 import type { Title } from '../shared/types.ts'
+import { anzeigeName } from '../shared/titles.ts'
+import { staffelStandVon, zaehleHauptstaffeln } from '../shared/staffel-zaehlung.ts'
 import { staffelMarken } from '../web/src/lib/db-staffel-marke.ts'
 import type { KatalogEintrag } from './lib/anilist.ts'
-import { markiereReihenteile, markiereReihenteileAusQuellen } from './bau/reihenteil-markierung.ts'
+import { markiereCartoonReihenteile, markiereReihenteile, markiereReihenteileAusQuellen } from './bau/reihenteil-markierung.ts'
 import { staffelDesTitels } from './bau/widerlegung-staffel.ts'
 import { reihenIndex, staffelNummer } from './lib/disc-verschiebungen-staffel.ts'
-import { bewerteAbweichung } from './lib/staffelzaehlung-abweichung.ts'
+import { bewerteAbweichung, handlisteOhneMarkierung } from './lib/staffelzaehlung-abweichung.ts'
 import { spinoffVerdacht, spinoffVerdachtZeile } from './lib/spinoff-verdacht.ts'
 
 let verletzt = 0
@@ -153,6 +155,51 @@ console.log('\nAbweichung bewerten (Pipeline gegen Marke):')
   markiereReihenteile(new Map(ff.map((t) => [t.id, t])), new Map([[128390, [114236]]]), new Set())
   pruefe('Fire Force mit Beiwerk-Markierung: die Miniepisoden haben keine Nummer, Staffel 2 bleibt 2 in Pipeline und Marke', vorher === 2 && nummern(ff)[128390] === null && nummern(ff)[114236] === 2 && markenNummern(ff)[114236] === 2, [nummern(ff), markenNummern(ff)])
   pruefe('Fire Force mit Beiwerk-Markierung: Staffel 3 ist Teil 1 von 2, keine Nummer in Pipeline und Marke', nummern(ff)[149118] === null && markenNummern(ff)[149118] === null, [nummern(ff), markenNummern(ff)])
+  pruefe('Disc: Fire Force Staffel 3 ist Teil 1 von 2, keine Nummer; Staffel 2 bleibt 2', discNummern(ff)[149118] === null && discNummern(ff)[114236] === 2, discNummern(ff))
+}
+
+console.log('\nCartoons (Avatar-Reihe wörtlich aus cartoons.json, markiereCartoonReihenteile mit den echten Handlisten):')
+{
+  const avatar = (): Title[] => [
+    titel(-284833, 'Avatar: Seven Havens', '2026-10-09', { titleDe: 'Avatar - Die sieben Häfen', episodes: 13, franchiseId: -284833 }),
+    titel(-33880, 'The Legend of Korra', '2012-04-14', { titleDe: 'Die Legende von Korra', episodes: 52, franchiseId: -284833 }),
+    titel(-246, 'Avatar: The Last Airbender', '2005-02-21', { titleDe: 'Avatar - Der Herr der Elemente', episodes: 61, franchiseId: -284833 }),
+  ]
+  const vorher = staffelMarken(avatar())
+  pruefe('Kontrolle: ohne Markierung nennt die Marke Korra „Staffel 2“ und die sieben Häfen „Staffel 3“', vorher.get(-33880) === 'Staffel 2' && vorher.get(-284833) === 'Staffel 3', [...vorher])
+  const reihe = avatar()
+  markiereCartoonReihenteile(reihe)
+  const marken = staffelMarken(reihe)
+  pruefe('Nach dem Bau: Korra und die sieben Häfen sind eigene Werke, keine Marke', reihe[0]!.eigenesWerk === true && reihe[1]!.eigenesWerk === true && reihe[2]!.eigenesWerk === undefined && !marken.has(-33880) && !marken.has(-284833), [...marken])
+  const fremd = [titel(-9, 'Andere Serie', '2000-01-01', { franchiseId: undefined }), titel(-10, 'Andere Serie 2', '2001-01-01', { franchiseId: -9 })]
+  markiereCartoonReihenteile(fremd, new Set([-9, -10]))
+  pruefe('Cartoon ohne Reihe bleibt unmarkiert, einer mit Reihe aus der Liste wird markiert', fremd[0]!.eigenesWerk === undefined && fremd[1]!.eigenesWerk === true)
+}
+
+console.log('\nHandliste ⇒ eigenesWerk (handlisteOhneMarkierung, Bestandswächter):')
+{
+  const reihe = [titel(1, 'Markiert', '2010-01-01', { eigenesWerk: true }), titel(2, 'Unmarkiert', '2011-01-01'), titel(3, 'Ohne Reihe', '2012-01-01', { franchiseId: undefined }), titel(4, 'Nicht in der Liste', '2013-01-01')]
+  pruefe('Nur der Titel in der Liste, mit Reihe und ohne Markierung steht im Befund', JSON.stringify(handlisteOhneMarkierung(reihe, new Set([1, 2, 3]))) === '[2]', handlisteOhneMarkierung(reihe, new Set([1, 2, 3])))
+  pruefe('Leere Liste: kein Befund', handlisteOhneMarkierung(reihe, new Set()).length === 0)
+}
+
+console.log('\nGrenzfälle der einen Zählung (Disc-Nummer, Reihe ohne Hauptstaffel, Kürzung der Warnzeile):')
+{
+  const luecke = [titel(1, 'Serie', '2010-01-01', { franchiseId: 1 }), titel(2, 'Serie Season 3', '2012-01-01', { franchiseId: 1 })]
+  pruefe('Disc: Position 2, das Panel zählt „Staffel 3“ — die Nummern widersprechen sich, keine Nummer', discNummern(luecke)[2] === null && discNummern(luecke)[1] === 1, discNummern(luecke))
+  pruefe('Kontrolle: die Marke nennt für dieselbe Lücke „Staffel 3“', markenNummern(luecke)[2] === 3, markenNummern(luecke))
+  const filme = [titel(940071, 'Allein: Der Film', '2020-01-01', { format: 'MOVIE', franchiseId: 940071 }), titel(940072, 'Allein: Der zweite Film', '2021-01-01', { format: 'MOVIE', franchiseId: 940071 })]
+  const alsTeile = filme.map((t) => ({ ...t, name: anzeigeName(t) }))
+  const leer = zaehleHauptstaffeln(alsTeile)
+  pruefe('Reihe nur aus Filmen: keine Hauptstaffel, kein Reihenname, keine Nummer (und kein Absturz)', leer.teile.length === 0 && leer.reihenName === '' && leer.staende.size === 0, leer)
+  pruefe('Reihe nur aus Filmen: staffelStandVon ist leer', staffelStandVon(alsTeile, 940071) === undefined)
+  pruefe('Reihe nur aus Filmen: Widerlegung, Disc und Marke nennen keine Nummer', nummern(filme)[940071] === null && discNummern(filme)[940071] === null && staffelMarken(filme).size === 0)
+  const viele = Array.from({ length: 6 }, (_, i) => titel(940080 + i, `Neben ${i}`, `201${i}-01-01`, { franchiseId: 940080 }))
+  const sechs = spinoffVerdachtZeile(viele)[0]!
+  pruefe('Sechs Verdachtsfälle: die ersten fünf stehen in der Zeile, danach „ …“', sechs.includes('Neben 4 (940084)') && !sechs.includes('Neben 5') && sechs.endsWith('(940084) …'), sechs)
+  const fuenf = spinoffVerdachtZeile(viele.slice(0, 5))[0]!
+  pruefe('Genau fünf Verdachtsfälle: alle stehen da, keine Kürzung', fuenf.includes('Neben 4') && !fuenf.endsWith('…'), fuenf)
+  pruefe('zeigeBis 2 bei drei Fällen: zwei Namen und „ …“', spinoffVerdachtZeile(viele.slice(0, 3), 2)[0]!.endsWith('(940081) …'))
 }
 
 if (verletzt) {
