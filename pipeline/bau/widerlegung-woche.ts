@@ -79,7 +79,7 @@ function kennungDesReleases(release: Release, title: Title | undefined): string 
  */
 function warBehauptet(release: Release, title: Title | undefined): boolean {
   if (!release.schedule.estimated) return true
-  return Boolean(title?.streams.some((s) => s.platform === release.platform && s.dub === true))
+  return Boolean(title?.streams.some((s) => s.platform === release.platform && s.dub === true)) // dub-lesart: irgendwie – jeder Weg mit Ja zählt (Menge/Weiche), auch ein abgeleiteter
 }
 
 /** Serienkennung + Tag → geführte Sprachen. Fehlt die Kennung, ist keine Aussage möglich. */

@@ -1,11 +1,11 @@
 {
-  "scrapedAt": "2026-11-04T11:02:49.711Z",
+  "scrapedAt": "2026-11-04T17:02:59.453Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 5,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 4,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 17,
     "schon in einem Rubrik-Feed gelesen": 5,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 18,
     "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 2,
     "Sprachhinweis älter als 45 Tage": 6
   },
@@ -29,6 +29,18 @@
         }
       ],
       "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Zwei Anime-Neuzugänge ab sofort auf Deutsch bei Disney+",
+      "articleUrl": "https://www.anime2you.de/news/1067193/disney-plus-honey-lemon-soda-und-mehr-verfuegbar/",
+      "publishedAt": "2026-11-04",
+      "category": "streaming",
+      "platforms": [
+        "disneyplus"
+      ],
+      "dates": [],
+      "dub": "ja",
       "alreadyCurated": false
     },
     {
@@ -2735,7 +2747,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-01"
+      "sammelGelesen": "2026-11-04"
     },
     {
       "articleTitle": "»Black Clover« stellt neuen Crunchyroll-Bestwert für 2026 auf",
@@ -4364,51 +4376,6 @@
       "sammelGelesen": "2026-11-03"
     },
     {
-      "articleTitle": "Prime Video fügt drei Anime-Neuzugänge zu seinem Katalog hinzu",
-      "articleUrl": "https://www.anime2you.de/news/1054791/prime-video-attack-on-titan-und-mehr/",
-      "publishedAt": "2026-09-29",
-      "category": "streaming",
-      "platforms": [
-        "primevideo"
-      ],
-      "dates": [],
-      "dub": "unklar",
-      "alreadyCurated": false,
-      "sammel": [
-        {
-          "titel": "Demon Slayer: Kimetsu no Yaiba – Infinity Castle I",
-          "datum": "2026-09-29",
-          "deutsch": true,
-          "woechentlich": false,
-          "stream": [
-            "Prime Video"
-          ]
-        },
-        {
-          "titel": "Attack on Titan",
-          "zusatz": "Staffel 1",
-          "datum": "2026-10-01",
-          "deutsch": true,
-          "woechentlich": false,
-          "stream": [
-            "Prime Video"
-          ],
-          "folgen": 25
-        },
-        {
-          "titel": "Kubo Won’t Let Me Be Invisible",
-          "datum": "2026-10-01",
-          "deutsch": false,
-          "woechentlich": false,
-          "stream": [
-            "Prime Video"
-          ],
-          "folgen": 12
-        }
-      ],
-      "sammelGelesen": "2026-11-03"
-    },
-    {
       "articleTitle": "AKIBA PASS TV kündigt zwei neue Herbst-Simulcasts 2026 an",
       "articleUrl": "https://www.anime2you.de/news/1054668/akiba-pass-tv-zwei-herbst-2026-simulcasts/",
       "publishedAt": "2026-09-28",
@@ -4829,7 +4796,7 @@
       "dub": "unklar",
       "alreadyCurated": false,
       "sammel": [],
-      "sammelGelesen": "2026-10-26"
+      "sammelGelesen": "2026-11-04"
     },
     {
       "articleTitle": "Netflix kündigt fünf Anime-Simulcasts für Herbst 2026 an",
@@ -4894,7 +4861,7 @@
           "datum": "2026-10-02"
         }
       ],
-      "sammelGelesen": "2026-10-26"
+      "sammelGelesen": "2026-11-04"
     },
     {
       "articleTitle": "»Die Königin der 1000 Jahre« erscheint als Blu-ray-Komplettbox",
@@ -6950,88 +6917,6 @@
       "sammelGelesen": "2026-10-09"
     },
     {
-      "articleTitle": "Netflix: Alle Anime-Neuzugänge im September 2026",
-      "articleUrl": "https://www.anime2you.de/news/1042851/netflix-anime-neu-im-september-2026/",
-      "publishedAt": "2026-08-19",
-      "category": "streaming",
-      "platforms": [
-        "netflix"
-      ],
-      "dates": [],
-      "dub": "unklar",
-      "alreadyCurated": false,
-      "sammel": [
-        {
-          "titel": "STEEL BALL RUN JoJo’s Bizarre Adventure: PHASE 2–3",
-          "datum": "2026-09-25",
-          "deutsch": true,
-          "woechentlich": false,
-          "stream": [
-            "Netflix"
-          ]
-        },
-        {
-          "titel": "LEGO One Piece",
-          "datum": "2026-09-29",
-          "deutsch": true,
-          "woechentlich": false,
-          "stream": [
-            "Netflix"
-          ]
-        },
-        {
-          "titel": "Mononoke The Movie: Chapter III – The Curse of the Serpent",
-          "datum": "2026-09-29",
-          "deutsch": true,
-          "woechentlich": false,
-          "stream": [
-            "Netflix"
-          ]
-        },
-        {
-          "titel": "Thunder 3",
-          "deutsch": true,
-          "woechentlich": true,
-          "stream": [
-            "Netflix"
-          ]
-        },
-        {
-          "titel": "Chainsmoker Cat",
-          "deutsch": true,
-          "woechentlich": true,
-          "stream": [
-            "Netflix"
-          ]
-        },
-        {
-          "titel": "Das Band der Unterwelt",
-          "deutsch": true,
-          "woechentlich": false,
-          "stream": [
-            "Netflix"
-          ]
-        },
-        {
-          "titel": "One Piece: Elbaph-Arc",
-          "deutsch": false,
-          "woechentlich": true,
-          "stream": [
-            "Netflix"
-          ]
-        },
-        {
-          "titel": "Sparks of Tomorrow",
-          "deutsch": true,
-          "woechentlich": true,
-          "stream": [
-            "Netflix"
-          ]
-        }
-      ],
-      "sammelGelesen": "2026-10-09"
-    },
-    {
       "articleTitle": "Netflix-Termin des dritten »Mononoke«-Films + Trailer",
       "articleUrl": "https://www.anime2you.de/news/1042775/dritter-mononoke-film-netflix-termin/",
       "publishedAt": "2026-08-19",
@@ -7509,7 +7394,98 @@
         }
       ],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "sammel": [
+        {
+          "titel": "The First Slam Dunk",
+          "datum": "2026-08-05",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "aniverse"
+          ]
+        },
+        {
+          "titel": "Grimoire of Zero",
+          "datum": "2026-08-06",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "aniverse"
+          ],
+          "folgen": 12
+        },
+        {
+          "titel": "Shaman King",
+          "zusatz": "Part 3",
+          "datum": "2026-08-06",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "aniverse"
+          ],
+          "folgen": 16
+        },
+        {
+          "titel": "Danganronpa 3 – Future & Despair",
+          "datum": "2026-08-13",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "aniverse"
+          ],
+          "folgen": 24
+        },
+        {
+          "titel": "Summer Wars",
+          "datum": "2026-08-13",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "aniverse"
+          ]
+        },
+        {
+          "titel": "Ame & Yuki – Die Wolfskinder",
+          "datum": "2026-08-20",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "aniverse"
+          ]
+        },
+        {
+          "titel": "Azumanga Daioh",
+          "zusatz": "Staffel 1",
+          "datum": "2026-08-20",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "aniverse"
+          ],
+          "folgen": 26
+        },
+        {
+          "titel": "Aesthetica of a Rogue Hero",
+          "datum": "2026-08-27",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "aniverse"
+          ],
+          "folgen": 12
+        },
+        {
+          "titel": "Der Junge und das Biest",
+          "datum": "2026-08-27",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "aniverse"
+          ]
+        }
+      ],
+      "sammelGelesen": "2026-11-04"
     },
     {
       "articleTitle": "Neuer »Gintama«-Film erscheint auf Netflix + Visual",

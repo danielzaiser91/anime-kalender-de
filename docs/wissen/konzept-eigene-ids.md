@@ -85,7 +85,7 @@ Kennung (Stand 05.10.2026: 17.966 Zeilen); fehlt eine, bricht der Seitenbau mit 
 
 **Adressen:** `/t/<ak>/` (Teilen-Seiten je Titel, `build-share-pages.ts`), `#/…?t=<ak>`. Termin-Seiten `/r/<slug>/` und `r=<slug>` bestehen noch (**Schritt 1d offen:** `/r/` entfällt, die Karten öffnen den Titel).
 
-**Favoriten (Karenz bis 05.11.2026):** Browser: `web/src/lib/kennung-umzug.ts` schreibt `favorites`, `hidden`, `favorites:seit`, `gesehenBis` einmal um (Marke `kennung:ak1`), vor dem ersten Rendern.
+**Favoriten (Karenz am 05.11.2026 beendet, Umschreibung entfernt; `anilist-ak.json` wird noch erzeugt, hat aber keinen Leser mehr in Seite und Worker):** Browser: `web/src/lib/kennung-umzug.ts` schreibt `favorites`, `hidden`, `favorites:seit`, `gesehenBis` einmal um (Marke `kennung:ak1`), vor dem ersten Rendern.
 Worker: neue Listen tragen den Vorsatz `ak:` (der Browser schickt `ak: 1`), Listen ohne Vorsatz werden beim Lesen über `anilist-ak.json` der Seite umgerechnet
 (`worker/src/favoriten-kennung.ts`); kein Schemawechsel in D1. **Am 05.11.2026 entfernen:** `kennung-umzug.ts` (samt Aufruf in `main.tsx`), den Zweig ohne Vorsatz und `ladeAbbild`
 im Worker, `anilist-ak.json` aus `ausgabe-kennung.ts`. `check:logic` wird an dem Tag rot (Zusicherung „Favoriten-Umschreibung … ausgelaufen").

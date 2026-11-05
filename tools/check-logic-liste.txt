@@ -146,6 +146,8 @@ pipeline/check-dub-anbieter-pille.ts
 pipeline/check-dub-aus-terminen.ts
 pipeline/check-dub-bereiche.ts
 pipeline/check-dub-durchgehende-zaehlung.ts
+pipeline/check-dub-lesart-faelle.ts
+pipeline/check-dub-lesart.ts
 pipeline/check-ecchi-ausblenden.ts
 pipeline/check-effekt-abhaengigkeiten.ts
 pipeline/check-einzahl-folge.ts
@@ -200,6 +202,8 @@ pipeline/check-gleiche-adresse.ts
 pipeline/check-hand-gesehen.ts
 pipeline/check-handbeleg-anbieter-zaehlung.ts
 pipeline/check-handbeleg-fremde-adresse.ts
+pipeline/check-handbeleg-note-asin-lauf.ts
+pipeline/check-handbeleg-note-asin.ts
 pipeline/check-handbeleg-notizseite-lauf.ts
 pipeline/check-handbeleg-notizseite.ts
 pipeline/check-handbeleg-serienton.ts
@@ -224,6 +228,8 @@ pipeline/check-juengeres-ja-weg.ts
 pipeline/check-jw-ablauf.ts
 pipeline/check-jw-auswahl.ts
 pipeline/check-jw-frisch-lauf.ts
+pipeline/check-jw-kennung-fremd-lauf.ts
+pipeline/check-jw-kennung-fremd.ts
 pipeline/check-jw-schlange.ts
 pipeline/check-jw-seite.ts
 pipeline/check-jw-staffeln.ts
@@ -274,8 +280,10 @@ pipeline/check-luecken-staffel0.ts
 pipeline/check-mail-verschoben-datum.ts
 pipeline/check-mal-dubletten.ts
 pipeline/check-mal-teilung.ts
+pipeline/check-meldung-cartoon.ts
 pipeline/check-meldung-gti.ts
 pipeline/check-meldung-summenseite.ts
+pipeline/check-meldungen-ohne-release.ts
 pipeline/check-meldungs-auffaelligkeiten.ts
 pipeline/check-messbelege-kalender.ts
 pipeline/check-minuten-takt.ts
@@ -301,6 +309,8 @@ pipeline/check-netflix-umleitung.ts
 pipeline/check-netflix-zweite-kennung.ts
 pipeline/check-netflix-zweites-404.ts
 pipeline/check-neu-auf-deutsch.ts
+pipeline/check-neue-quellen-lauf.ts
+pipeline/check-neue-quellen-lib.ts
 pipeline/check-neuigkeiten-panel.ts
 pipeline/check-news-altbestand.ts
 pipeline/check-news-einfrieren.ts
@@ -371,6 +381,7 @@ pipeline/check-saison-deutsch.ts
 pipeline/check-saison-karte-chip.ts
 pipeline/check-saison-termin.ts
 pipeline/check-sammel-erste-folgen.ts
+pipeline/check-sammel-titel.ts
 pipeline/check-sammel-unzugeordnet.ts
 pipeline/check-sammelartikel.ts
 pipeline/check-sammeleintrag-synchro.ts
@@ -429,6 +440,7 @@ pipeline/check-tmdb-folgen-lauf.ts
 pipeline/check-tmdb-folgen-luecke-lauf.ts
 pipeline/check-tmdb-folgen-luecke.ts
 pipeline/check-tmdb-folgentitel-absolut.ts
+pipeline/check-tmdb-folgentitel-datum.ts
 pipeline/check-tmdb-genre.ts
 pipeline/check-tmdb-hauptserie.ts
 pipeline/check-tmdb-katalog.ts

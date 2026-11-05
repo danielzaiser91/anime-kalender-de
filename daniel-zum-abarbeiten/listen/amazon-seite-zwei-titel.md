@@ -1,14 +1,18 @@
-# Dieselbe Amazon-Seite an zwei Titeln: 8 offene Fälle (Stand 03.11.2026)
+# Dieselbe Amazon-Seite an zwei Titeln: 1 offener Fall (Stand 04.11.2026)
 
-Wächter: `pipeline/check-gleiche-adresse-bestand.ts`, Grenze `data/gleiche-adresse-stand.json` (hoechstens 9). Belegt aus der Meldungskopie (`prime_folge`, Rohzeilen je Seite), `public/data/titles.json` und `data/prime-zugeordnet.json`. Je Fall: was fehlt zur Entscheidung.
+Wächter: `pipeline/check-gleiche-adresse-bestand.ts`, Grenze `data/gleiche-adresse-stand.json` (höchstens 1, vorher 9 in PR 2760, 8 vor diesem PR). Belegt aus der Meldungskopie (`prime_folge`, Rohzeilen je Seite vom 03.11.2026), `public/data/titles.json`, `public/data/folgen/` und AniList.
 
-| Seite | Titel am Beleg | Befund | Was zur Entscheidung fehlt |
-|---|---|---|---|
-| B0B5JVJKCD | Hyouka (12189, Eigentümer) und Hyouka OVA (13469) | Seite „Staffel 1“ hat 13 Folgen, Hyouka 22 + 1 OVA; weder Serie noch Sammelseite | Welche Folgen die Seite zeigt (Teil 1 der Serie?), dann OVA-Beleg entfernen |
-| B0CG7S59KL | JoJo Stardust Crusaders (20474) und Battle in Egypt (20799) | Keine Rohzeilen in der Meldungskopie; Zuordnung nennt 14719 und 102883 als Eigentümer, beide falsch | Folgenzahl der Seite (24 oder 48); ohne Abruf nicht entscheidbar |
-| B0CGGZVNFS | Railgun S (16049, Eigentümer) und 100185 (nicht im Bestand) | Seite „Staffel 3“, 25 Folgen, 2020 = Railgun T; Beleg an Railgun S falsch, 100185 existiert nicht im Bestand | Titel für Railgun T anlegen oder bestätigen, dass er bewusst fehlt; beide Belege haben kein dub-Urteil |
-| B0CW5WH6XZ | Tokyo Ghoul:re 102351 (Eigentümer) und 100240 | Seite „Staffel 3“, 12 Folgen; beide :re-Cours (Frühling/Herbst 2018) gleich passend. √A (20850) ist entfernt | Welche Cour-Hälfte „Staffel 3“ ist (Folgentitel gegen AniList-Folgenliste) |
-| B0D7N68Q5T | wie oben | Seite „Staffel 4“, 12 Folgen | wie oben |
-| B0CVG5M4FP | Pokémon (527) und Sonne & Mond (97634, Eigentümer) | Kanalseite „Staffel 6 Band 1“, 13 Folgen; liegt weder bei der ersten Serie noch bei Sonne & Mond erkennbar | Zuordnung Amazon-Staffelnummer zu Pokémon-Serie (vermutlich Advanced Generation 1564) |
-| B0DJ4FCM5H | Prinz Ribbit (10011569) und Super Wings (10012621, Eigentümer) | Kanalseite ohne Staffel, 2 Folgen, November 2020; Super Wings hat 52 Folgen, Prinz Ribbit ist ein Film | Was die zwei Folgen sind (Abruf der Seite) |
-| B0FX4Q35V2 | The Birth of Kitaro (130622, Name fehlt im Bestand) und 10019697 | Vermutlich derselbe Film unter zwei Kennungen | Ob 130622 ein Dublettentitel ist (Titelbestand, nicht Beleg) |
+| Seite | Entscheidung | Beleg |
+|---|---|---|
+| B0B5JVJKCD | Hyouka (12189) und Hyouka OVA (13469) bleiben, als Teilseite erlaubt (`anteile` 12 + 1) | Seite „Staffel 1“ = Folgen 1–12 mit den Titeln aus `folgen/12189.json` plus Folge 13 „OVA“; Staffel 2 liegt unter B0DC75L8BJ |
+| B0CG7S59KL | JoJo: Belege mit `available: false` zählen nicht als Beanspruchung | Kopf der Sammelseite ohne Folgen (Notiz 21.09.2026 in `dub-confirmed.yaml`); die Folgen liegen unter B0GX7VDJK3, B0CH1GVRKK, B0G1ZD14D3 |
+| B0CGGZVNFS | Beide Belege (Railgun S 16049, Index III 100185) entfernt | Seite „Staffel 3“, 25 Folgen, 2020 = Railgun T (AniList 104462, 25 Folgen); 104462 steht bei „Anime ohne Synchro“, ohne Beleg |
+| B0CW5WH6XZ | Beleg bleibt bei Tokyo Ghoul:re (100240), 102351 entfernt | `prime_folge` Seite B0CW5WH6XZ „Staffel 3“: „Start – Jäger“ = `folgen/100240.json` |
+| B0D7N68Q5T | Beleg bleibt bei :re 2 (102351), 100240 entfernt | `prime_folge` Seite B0D7N68Q5T „Staffel 4“: „Und noch einmal – Place“ = `folgen/102351.json` |
+| B0CVG5M4FP | Beide Belege (Pokémon 527, Sonne & Mond 97634) entfernt | Die 13 Folgentitel „Pikachu in Not!“ bis „Pokémon-Eleganz“ stehen in `folgen/1564.json` = Advanced Generation |
+| B0DJ4FCM5H | Beleg bleibt bei Prinz Ribbit (10011569), Super Wings (10012621) entfernt | Eine Folge „Prinz Ribbit“, 5325 s (89 min), 2020 = Film, keine Serienfolge; `youtube-kauf.json` kennt den Film unter diesem Namen |
+| B0FX4Q35V2 | **offen**, Belege an 130622 (Original 2023, 104 min) und 10019697 (Shinsei-ban 2024) bleiben | Seite: eine Folge „The Birth of Kitaro: Das Geheimnis von GeGeGe“, 18.11.2025, 6324 s (105 min), Deutsch+Japanisch; `folgen-zuordnung.json` hängt die Episode an 130622; `datensatz.md` führt beide Fassungen als „unsicher“. Welche Fassung polyband veröffentlicht hat, ist ohne aniSearch-Seite nicht belegt |
+
+## Seitenabruf nötig
+
+B0FX4Q35V2: Welche Fassung die deutsche Ausgabe ist (Laufzeit der Shinsei-ban gegen 105 min der Seite; Seite oder Quelle zur polyband-Ausgabe). Nicht blockierend: B0DJ4FCM5H (ob zur Super-Wings-Seite weitere Folgen gehören; die Rohzeilen nennen nur den Film).

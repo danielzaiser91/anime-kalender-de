@@ -551,7 +551,7 @@ export function ergaenzeAnisearchWege({
         Antwort darauf.
       */
       const raus = title.streams.filter((s) => s.dub === false)
-      nachJa += title.streams.filter((s) => s.dub === true).length
+      nachJa += title.streams.filter((s) => s.dub === true).length // dub-lesart: irgendwie – jeder Weg mit Ja zählt (Menge/Weiche), auch ein abgeleiteter
       if (!raus.length) continue
       title.streams = title.streams.filter((s) => s.dub !== false)
       nachNein += raus.length
