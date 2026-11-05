@@ -65,14 +65,15 @@ console.log('\n--laufend im ganzen Ablauf:')
 const ALT = [{ id: 1, shortNumber: '1', type: 'EPS', releaseDate: '2020-01-01T00:00:00Z', languages: ['vostde'] }]
 const NEU = [{ id: 1, shortNumber: '1', type: 'EPS', releaseDate: '2020-01-01T00:00:00Z', languages: ['vostde', 'vde'] }]
 /** Archivdateien vor und nach einem Lauf; `liste` = alle Kennungen der ADN-Liste, `mitVdeListe` = die davon mit `vde`. */
-function laufend(archiv: Record<number, unknown[]>, liste: number[], mitVdeListe: number[]) {
+function laufend(archiv: Record<number, unknown[]>, liste: number[], mitVdeListe: number[], start: { shows: unknown[]; offen: unknown[] } = { shows: [], offen: [] }) {
   const ordner = mkdtempSync(join(tmpdir(), 'adn-laufend-'))
   try {
     const dir = join(ordner, 'data', 'adn-raw')
     mkdirSync(dir, { recursive: true })
     mkdirSync(join(ordner, 'data', 'curated'), { recursive: true })
     writeFileSync(join(ordner, 'data', 'kino-ankuendigungen.yaml'), '[]\n')
-    writeFileSync(join(ordner, 'data', 'adn-catalog.json'), JSON.stringify({ scrapedAt: '', window: { from: '', to: '' }, shows: [] }))
+    writeFileSync(join(ordner, 'data', 'adn-catalog.json'), JSON.stringify({ scrapedAt: '', window: { from: '', to: '' }, shows: start.shows }))
+    if (start.offen.length) writeFileSync(join(ordner, 'data', 'adn-anisearch-offen.json'), JSON.stringify({ anzahl: start.offen.length, serien: start.offen }))
     for (const [id, videos] of Object.entries(archiv)) writeFileSync(join(dir, `${id}.json.gz`), gzipSync(JSON.stringify({ showId: Number(id), videos })))
     const antwort = join(ordner, 'antwort.json')
     writeFileSync(antwort, JSON.stringify(NEU))
@@ -85,7 +86,8 @@ function laufend(archiv: Record<number, unknown[]>, liste: number[], mitVdeListe
     const videos = Object.fromEntries(readdirSync(dir).map((d) => [Number(d.split('.')[0]), gelesen(d)]))
     const offenDatei = join(ordner, 'data', 'adn-anisearch-offen.json')
     const offen = existsSync(offenDatei) ? (JSON.parse(readFileSync(offenDatei, 'utf8')) as { serien: { showId: number; grund: string }[] }).serien : undefined
-    return { l, ausgabe: `${l.stdout}${l.stderr}`, videos, offen }
+    const katalog = (JSON.parse(readFileSync(join(ordner, 'data', 'adn-catalog.json'), 'utf8')) as { shows: { showId: number; anisearchId?: number }[] }).shows
+    return { l, ausgabe: `${l.stdout}${l.stderr}`, videos, offen, katalog }
   } finally {
     rmSync(ordner, { recursive: true, force: true })
   }
@@ -103,6 +105,20 @@ const neu = laufend({ 3001: ALT }, [3001, 3004], [3001, 3004])
 pruefe('Neue Serie: Lauf endet mit Exit 0', neu.l.status === 0, neu.ausgabe.slice(-400))
 pruefe('Neue Serie: Katalog nahm sie auf', neu.ausgabe.includes('1 neue Serien mit deutscher Fassung im Katalog'), neu.ausgabe.slice(-400))
 pruefe('Neue Serie: steht in der Liste der offenen', JSON.stringify(neu.offen?.map((o) => o.showId)) === '[3004]', neu.offen)
+
+// Bestand: 3001 mit Kennung, 3005 ohne Kennung und schon in der Liste der offenen. Beide bleiben unverändert, 3004 kommt zu beiden Dateien dazu.
+const bestand = {
+  shows: [
+    { showId: 3001, title: 'Alt mit Kennung', episodes: [], anisearchId: 777 },
+    { showId: 3005, title: 'Alt ohne Kennung', episodes: [] },
+  ],
+  offen: [{ showId: 3005, title: 'Alt ohne Kennung', grund: 'kein-kandidat', kandidaten: [] }],
+}
+const mitBestand = laufend({ 3001: ALT }, [3001, 3004, 3005], [3001, 3004], bestand)
+pruefe('Bestand: Lauf endet mit Exit 0', mitBestand.l.status === 0, mitBestand.ausgabe.slice(-400))
+pruefe('Bestand: Katalog hat 3001, 3005 und 3004', JSON.stringify(mitBestand.katalog.map((s) => s.showId)) === '[3001,3005,3004]', mitBestand.katalog)
+pruefe('Bestand: 3001 behält seine Kennung, 3005 und 3004 haben keine', JSON.stringify(mitBestand.katalog.map((s) => s.anisearchId ?? null)) === '[777,null,null]', mitBestand.katalog)
+pruefe('Bestand: Liste der offenen führt alte 3005 (Grund bleibt) und neue 3004', JSON.stringify(mitBestand.offen?.map((o) => [o.showId, o.grund])) === '[[3004,"titelliste-fehlt"],[3005,"kein-kandidat"]]', mitBestand.offen)
 
 if (fehler) process.exit(1)
 console.log('\ncheck-adn-laufend-archiv: ok')
