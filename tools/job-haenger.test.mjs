@@ -28,15 +28,50 @@ jobs:
     timeout-minutes: 20
   matrix-ohne-name:
     timeout-minutes: 80
+  vorn:
+    permissions:
+      contents: read
+    timeout-minutes: 15
+  zitiert:
+    name: 'Zitiert – Name'
+    timeout-minutes: 25
+  mit-klammer:
+    name: Tests (unit)
+    timeout-minutes: 90
+  ab:
+    timeout-minutes: 70
+  betriebssystem:
+    name: Os (\${{ matrix.os }})
+    timeout-minutes: 33
+  mitte:
+    name: A \${{ matrix.x }} Ende
+    timeout-minutes: 44
 `
 const t = jobTimeouts(YAML)
-assert.deepEqual(t, { kette: 30, 'Kette – Workflows': 30, lauf: 330, aussehen: 20, 'PR-Aussehen – ${{ matrix.teil }}': 20, 'matrix-ohne-name': 80 })
+assert.equal(t.kette, 30)
+assert.equal(t['Kette – Workflows'], 30)
+assert.equal(t.lauf, 330)
+assert.equal(t['PR-Aussehen – ${{ matrix.teil }}'], 20)
+assert.equal(t['matrix-ohne-name'], 80)
+assert.equal(Object.hasOwn(t, 'dynamisch') || Object.hasOwn(t, 'ohne'), false)
 // Matrix-Namen: aufgelöster Name trifft das Muster, „kennung (x)“ die Kennung; ohne Frist bleibt undefined.
 assert.equal(fristMinuten(t, 'PR-Aussehen – bilder'), 20)
 assert.equal(fristMinuten(t, 'PR-Aussehen – '), undefined, 'Platzhalter braucht mindestens ein Zeichen')
 assert.equal(fristMinuten(t, 'Anderes – bilder'), undefined)
 assert.equal(fristMinuten(t, 'matrix-ohne-name (a, b)'), 80)
 assert.equal(fristMinuten(t, 'ohne'), undefined)
+// Parser: Blockschlüssel (permissions:) vor timeout-minutes beginnt keinen neuen Job; Anführungszeichen fallen weg.
+assert.equal(t.vorn, 15)
+assert.equal(t['Zitiert – Name'], 25)
+// Name mit Klammern trifft direkt (nicht über das Streifen des Suffixes); Suffix-Streifen nur am Ende.
+assert.equal(fristMinuten(t, 'Tests (unit)'), 90)
+assert.equal(fristMinuten(t, 'a (m)b'), undefined, 'Klammer mitten im Namen wird nicht gestrichen')
+// Muster: Sonderzeichen wörtlich, an beiden Enden verankert.
+assert.equal(fristMinuten(t, 'Os (linux)'), 33)
+assert.equal(fristMinuten(t, 'Os linux'), undefined, 'Klammern im Namen sind wörtlich, keine Gruppe')
+assert.equal(fristMinuten(t, 'A b Ende'), 44)
+assert.equal(fristMinuten(t, 'A b Ende zusatz'), undefined, 'Ende verankert')
+assert.equal(fristMinuten(t, 'Vor A b Ende'), undefined, 'Anfang verankert')
 assert.equal(grenzeMinuten(t, 'matrix-ohne-name (a)'), 80)
 assert.equal(grenzeMinuten(t, 'Kette – Workflows'), 45, 'unter 45 min: 45')
 assert.equal(grenzeMinuten(t, 'lauf'), 330, 'Sammler: eigene Grenze')
@@ -186,6 +221,52 @@ try {
   writeFileSync(join(wurzel, '.github', 'workflows', 'pr-pruefung.yml'), wf(120))
   const z120 = haengerWache(ghAnders('pull_request', 'pr-pruefung.yml', 100), 'o/r', wurzel, JETZT, merk, { trocken: true })
   assert.deepEqual(z120, ['Hänger: keine Jobs über der Grenze (1 laufende Läufe)'])
+  // Grenzen und Rückfälle des echten Wegs, je Fall eine Kulisse mit genau einem Lauf 31 (PR-Ereignis, Job 200 min alt).
+  const fall = ({ datei = 'pr-pruefung.yml', versuch, status, infoWirft = false, rerunWirft = false, jobsFehlen = false } = {}) => (a) => {
+    aufrufe.push(a.join(' '))
+    if (a[1].includes('/runs?status=in_progress')) return JSON.stringify(jobsFehlen ? {} : { workflow_runs: [{ ...lauf(31, undefined, { path: `.github/workflows/${datei}@refs/pull/9/merge`, run_attempt: versuch }), jobs: undefined }] })
+    if (a[1].endsWith('/runs/31/jobs?per_page=100')) return JSON.stringify({ jobs: [job('Kette – Workflows', 200)] })
+    if (a[1].endsWith('/runs/31')) {
+      if (infoWirft) throw new Error('HTTP 502')
+      return JSON.stringify(status)
+    }
+    if (rerunWirft && a[1] === 'rerun') throw new Error('HTTP 500: kaputt\nmehr')
+    return ''
+  }
+  const cancels = () => aufrufe.filter((x) => x.startsWith('run cancel 31')).length
+  const fuehre = (f, merkInhalt = '{}') => {
+    writeFileSync(merk, merkInhalt)
+    const vorC = cancels()
+    return { zeilen: haengerWache(f, 'o/r', wurzel, JETZT, merk), neuC: cancels() - vorC }
+  }
+  writeFileSync(join(wurzel, '.github', 'workflows', 'pr-pruefung.yml'), wf(30))
+  // Versuch 2 wird noch abgebrochen, Versuch 3 nicht mehr; ohne run_attempt gilt Versuch 1.
+  assert.equal(fuehre(fall({ versuch: 2 })).neuC, 1, 'Versuch 2: Abbruch')
+  assert.equal(fuehre(fall({ versuch: 3 })).neuC, 0, 'Versuch 3: nur Zeile')
+  assert.equal(fuehre(fall({ versuch: undefined })).neuC, 1, 'ohne run_attempt: Versuch 1')
+  // Fehlende Workflow-Datei: Grenze 45, aber keine Frist bekannt → gemeldet, nicht abgebrochen, Wache läuft ganz durch.
+  const ohneDatei = fuehre(fall({ datei: 'gibts-nicht.yml', versuch: 1 }))
+  assert.equal(ohneDatei.neuC, 0)
+  assert.ok(ohneDatei.zeilen.some((z) => z.includes('Grenze 45 min')) && ohneDatei.zeilen.some((z) => z.includes('nur gemeldet')), ohneDatei.zeilen.join('|'))
+  // Mit Hängern steht nie die Entwarnungszeile; ohne laufende Läufe (Antwort ohne workflow_runs) steht sie, mit 0 Läufen.
+  assert.ok(!ohneDatei.zeilen.some((z) => z.startsWith('Hänger: keine')))
+  assert.deepEqual(fuehre(fall({ jobsFehlen: true })).zeilen, ['Hänger: keine Jobs über der Grenze (0 laufende Läufe)'])
+  // Kaputte Merkdatei zählt als leer: Abbruch läuft, keine Fehlerzeile.
+  const kaputt = fuehre(fall({ versuch: 1 }), '{kaputt')
+  assert.equal(kaputt.neuC, 1)
+  assert.ok(!kaputt.zeilen.some((z) => z.startsWith('HÄNGER?')), kaputt.zeilen.join('|'))
+  // Status eines gemerkten Laufs nicht lesbar: nichts neu starten, Merkeintrag bleibt, keine Fehlerzeile.
+  const info502 = fuehre(fall({ versuch: 1, infoWirft: true }), '{"31":{"versuch":1}}')
+  assert.ok(!info502.zeilen.some((z) => z.startsWith('HÄNGER?') || z.includes('neu gestartet')), info502.zeilen.join('|'))
+  assert.deepEqual(JSON.parse(readFileSync(merk, 'utf8')), { 31: { versuch: 1 } })
+  // Neustart scheitert: Zeile mit erster Fehlerzeile, Merkeintrag bleibt für den nächsten Aufruf.
+  const rerunFehl = fuehre(fall({ versuch: 1, status: { status: 'completed', conclusion: 'cancelled', run_attempt: 1 }, rerunWirft: true }), '{"31":{"versuch":1}}')
+  assert.ok(rerunFehl.zeilen.includes('  Lauf 31: Neustart gescheitert: HTTP 500: kaputt'), rerunFehl.zeilen.join('|'))
+  assert.deepEqual(JSON.parse(readFileSync(merk, 'utf8')), { 31: { versuch: 1 } })
+  assert.ok(aufrufe.some((x) => x === 'run rerun 31 --failed --repo o/r'))
+  // Lauf ohne jobs-Feld und Antwort ohne workflow_runs sind leer, kein Absturz.
+  assert.deepEqual(haengendeJobs([{ id: 1, path: 'x.yml' }], () => ({}), JETZT), [])
+  assert.deepEqual(holeLaeufeMitJobs(() => '{}', 'o/r'), [])
   // Lesefehler ist eine Zeile.
   const fehl = haengerWache(() => { throw new Error('netz\nweiter') }, 'o/r', wurzel, JETZT, merk)
   assert.deepEqual(fehl, ['HÄNGER? Jobs nicht lesbar: netz'])
@@ -234,4 +315,4 @@ globalThis.fetch = async () => new Response('{}', { status: 500 })
 } finally {
   rmSync(wegwerf, { recursive: true, force: true })
 }
-console.log('job-haenger: ok (Grenze 45/46 min, timeout-minutes, Zeile, Abbruch, Neustart beim nächsten Aufruf, Versuch 3, Lesefehler, laeufe-aufraeumen als Prozess)')
+console.log('job-haenger: ok (Grenze 45/46 min, timeout-minutes, Zeile, Abbruch, Neustart beim nächsten Aufruf, Versuch 2/3, Lesefehler, PR-Ereignis + Frist, Matrix-Namen, 403, grün/neu gestartet, Merkdatei, laeufe-aufraeumen als Prozess)')
