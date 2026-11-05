@@ -11,7 +11,6 @@
   { "name": "filmbloecke: folgenTreffer >= 7", "datei": "pipeline/lib/cr-filmbloecke-lauf.ts", "suche": "k.length >= 6", "ersetze": "k.length >= 7" },
   { "name": "filmbloecke: zweite Richtung serieOk weg", "datei": "pipeline/lib/cr-filmbloecke-lauf.ts", "suche": " || normSchluessel(reihe).includes(normSchluessel(md.series_title ?? ''))", "ersetze": "" },
   { "name": "filmbloecke: erste Richtung serieOk weg", "datei": "pipeline/lib/cr-filmbloecke-lauf.ts", "suche": "normSchluessel(md.series_title ?? '').includes(normSchluessel(reihe)) || ", "ersetze": "" },
-  { "name": "katalog: Folgen 0||1 nur 0", "datei": "pipeline/lib/cr-katalog-lauf.ts", "suche": "(k.folgen === 0 || k.folgen === 1)", "ersetze": "(k.folgen === 0)" },
   { "name": "katalog: Folgen 0||1 nur 1", "datei": "pipeline/lib/cr-katalog-lauf.ts", "suche": "(k.folgen === 0 || k.folgen === 1)", "ersetze": "(k.folgen === 1)" },
   { "name": "katalog: MOVIE ohne o.folgen===1", "datei": "pipeline/lib/cr-katalog-lauf.ts", "suche": "o.format === 'MOVIE' && o.folgen === 1 &&", "ersetze": "o.format === 'MOVIE' &&" },
   { "name": "katalog: Format-Pruefung weg", "datei": "pipeline/lib/cr-katalog-lauf.ts", "suche": "o.format === 'MOVIE' && o.folgen === 1 &&", "ersetze": "o.folgen === 1 &&" },
