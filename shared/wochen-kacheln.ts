@@ -21,7 +21,7 @@ export const TITEL_OHNE = [
 ] as const
 
 export const RELEASE_OHNE = [
-  'automatisch', 'buyUrl', 'cinemaUntil', 'disputedDates', 'edition', 'herkunft', 'netflixOriginal', 'nachtrag', 'note', 'platformUrl',
+  'automatisch', 'buyUrl', 'cinemaUntil', 'disputedDates', 'edition', 'herkunft', 'hinweis', 'netflixOriginal', 'nachtrag', 'note', 'platformUrl',
   'publisher', 'quellen', 'rhythmus', 'schnitt', 'sources',
 ] as const
 

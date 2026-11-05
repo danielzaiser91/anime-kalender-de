@@ -1139,6 +1139,10 @@ Das löst die Regeln „`note` bleibt für Besucher“ (13.09.2026) und „Eine 
 
 Folge: Notizen mit Besucherwert (z. B. „Erhielt in Deutschland keine FSK-Freigabe“, „Eine deutsche Synchronfassung ist nicht geplant“) erscheinen nicht mehr; sie brauchen ein eigenes, bewusst veröffentlichtes Feld.
 
+### Besucherhinweis `hinweis` am Termin (05.11.2026)
+
+`hinweis` (Pflege-YAML und `Release.hinweis`) ist das bewusst veröffentlichte Feld: ein kurzer Satz, den das Panel im Kasten (bei Kinostarts im Banner) und die Teilen-Seite zeigen. `note` bleibt intern. Auch der Bau setzt `hinweis` (Termin aus einer Meldung ohne Sprachangabe, `meldungen.ts`). Wächter: `check-folge-zwoelf-hinweis-bestand.ts` (`check:bestand`) verlangt Text und keine Person der Pflege im kuratierten `hinweis`, `check-interne-angaben-bestand.ts` prüft das Ausgelieferte. `hinweis` steht nicht in `woche-kacheln.json` (Abzugsliste), nur in `releases.json`.
+
 ## `empfehlung.json`: Pool für „Was gucke ich als Nächstes?“ (20.10.2026)
 
 **Bau.** `bau/13-10-empfehlung.ts` (Aufruf in `liefereAus`, `build.ts`) leitet die Datei nach der Auslieferung aus `titles.json` und `franchises.json` ab (Logik in `shared/empfehlung-pool.ts`). Pool: Stream mit `dub === true`, nicht gesperrt, Bewertung ≥ 60 oder keine (20.10.2026: 1.357 Titel). Pro Reihe (`franchiseId`) bleibt der früheste Pool-Teil (`jpYear`, dann `id`) als Einstieg (711), mit Genres/Schlagwörtern als Indizes, FSK, Bewertung, Anbietern mit Synchro und Trailer-Marke; `reihe` führt jede andere Pool-Kennung auf ihren Einstieg. **Kein Cover, kein Banner** in der Datei (66 von 78 KB waren Bild-Adressen): der Client leitet sie aus `titles.json` ab oder lädt sie nur für gezeigte Titel.

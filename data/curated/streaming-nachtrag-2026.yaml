@@ -12,7 +12,7 @@
   releaseType: batch
   dateMeaning: available-from
   schedule: { firstEpisodeDate: "2026-08-27", episodeCount: 24 }
-  note: "Beide Staffeln (Concrete Revolutio und The Last Song), 24 Episoden laut Anime2You; AniList führt die zweite Staffel getrennt."
+  hinweis: "Beide Staffeln (Concrete Revolutio und The Last Song), 24 Episoden laut Anime2You; AniList führt die zweite Staffel getrennt."
   sources: [https://www.anime2you.de/news/1044599/prime-video-yu-gi-oh-5ds-und-mehr/]
 
 # 1044599: „mit allen 116 auf Deutsch vorhandenen Episoden“ (von 154), „Der japanische Originalton wird dabei nicht angeboten“.
@@ -22,7 +22,7 @@
   releaseType: batch
   dateMeaning: available-from
   schedule: { firstEpisodeDate: "2026-08-27", episodeCount: 116 }
-  note: "116 von 154 Episoden auf Deutsch."
+  hinweis: "116 von 154 Episoden auf Deutsch."
   sources: [https://www.anime2you.de/news/1044599/prime-video-yu-gi-oh-5ds-und-mehr/]
 
 # 1048315 (09.09.2026): „alle zwölf Episoden von »Special 7: Special Crime Investigation Unit«, wobei letztere Serie sowohl auf Deutsch als auch auf Japanisch angesehen werden kann“.
@@ -142,7 +142,7 @@
   releaseType: movie
   dateMeaning: available-from
   schedule: { firstEpisodeDate: "2026-09-27" }
-  note: "Wieder im Angebot; war zwischenzeitlich entfernt."
+  hinweis: "Wieder im Angebot; war zwischenzeitlich entfernt."
   sources: [https://www.anime2you.de/news/1054460/rtl-plus-zwei-pokemon-filme/]
 
 - slug: pokemon-du-bist-dran-rtlplus
@@ -151,7 +151,7 @@
   releaseType: movie
   dateMeaning: available-from
   schedule: { firstEpisodeDate: "2026-09-27" }
-  note: "Wieder im Angebot; war zwischenzeitlich entfernt."
+  hinweis: "Wieder im Angebot; war zwischenzeitlich entfernt."
   sources: [https://www.anime2you.de/news/1054460/rtl-plus-zwei-pokemon-filme/]
 
 # ---------------------------------------------------------------- Dritte Runde (13.10.2026): Rest der zweiten Runde
@@ -165,7 +165,7 @@
   releaseType: batch
   dateMeaning: available-from
   schedule: { firstEpisodeDate: "2026-09-09", episodeCount: 97 }
-  note: "Staffel 2 (49 Folgen) und Staffel 3 (48 Folgen) laut Anime2You; die erste Staffel war schon zuvor im Angebot."
+  hinweis: "Staffel 2 (49 Folgen) und Staffel 3 (48 Folgen) laut Anime2You; die erste Staffel war schon zuvor im Angebot."
   sources: [https://www.anime2you.de/news/1048315/prime-video-date-a-live-staffel-2-und-mehr/]
 
 # 1049988 (14.09.2026): „14 weitere Episoden von »Beyblade X« mit deutscher Synchronisation … Damit ist die zweite Staffel mit insgesamt 49 Folgen nun vollständig auf Disney+ verfügbar.“

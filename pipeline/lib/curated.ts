@@ -22,6 +22,8 @@ export interface CuratedEntry {
   publisher?: string
   edition?: string
   note?: string
+  /** Kurzer Hinweis für Besucher, wird ausgeliefert (kein Personenname); `note` bleibt intern. */
+  hinweis?: string
   /** Siehe `Release.netflixOriginal`. */
   netflixOriginal?: boolean
   /** Siehe `Release.sprache` — ein Termin ohne belegte deutsche Synchro (Kinostart nur OmU). */

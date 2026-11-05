@@ -220,6 +220,7 @@ export function baueReleases({
       publisher: entry.publisher,
       edition: entry.edition,
       note: entry.note,
+      hinweis: entry.hinweis,
       ...kuratierteZusaetze(entry),
       herkunft: entry.herkunft ?? durchzaehlungHinweis,
       disputedDates: entry.disputedDates,
