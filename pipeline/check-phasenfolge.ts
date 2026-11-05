@@ -80,7 +80,7 @@ const OHNE_TERMIN = KURATIERT.replace('  schedule:', '  zeitplan:').replace('   
 /** Handdateien, die der Bau voraussetzt (ohne sie bricht er mit ENOENT ab). */
 const HAND = ['kino-ankuendigungen.yaml', 'ohne-synchro-von-hand.yaml', 'ankuendigungen.yaml', 'anisearch-ids-hand.yaml', 'fanservice-urteil.yaml', 'shop-wege-falsches-ziel.yaml']
 const wurzel = mkdtempSync(join(tmpdir(), 'phasenfolge-'))
-function fahre(name: string, kuratiertYaml: string) {
+function fahre(name: string, kuratiertYaml: string, umgebung: Record<string, string> = {}) {
   const ordner = join(wurzel, name)
   mkdirSync(join(ordner, 'data', 'cache'), { recursive: true })
   mkdirSync(join(ordner, 'data', 'curated'), { recursive: true })
@@ -103,7 +103,7 @@ console.log('ERGEBNIS ' + JSON.stringify({ titel: e.titles.size, releases: e.rel
 `,
   )
   return spawnSync(process.execPath, ['--import', 'tsx', skript], {
-    env: { ...process.env, AK_ROOT: ordner, AK_PHASE_ZUSTAND: '', AK_PHASE_TITEL: '' },
+    env: { ...process.env, AK_ROOT: ordner, AK_PHASE_ZUSTAND: '', AK_PHASE_TITEL: '', ...umgebung },
     encoding: 'utf8',
     windowsHide: true,
     timeout: 120000,
@@ -122,6 +122,9 @@ try {
   pruefe('Die Folge markiert eigene Werke aus der Handliste (Staffelzählung) und meldet es im Log', ergebnis?.eigenesWerk === true && gut.stdout.includes('1 eigene Werke markiert'), { ergebnis, log: gut.stdout.slice(-300) })
   pruefe('Bilanzzeile 05 gedruckt', gut.stdout.includes('Bilanz 05-releases: 1 Titel, 1 Releases, - Termine (1 kuratiert)'), gut.stdout.slice(-600))
   pruefe('Bilanzzeile 10 gedruckt', /Bilanz 10-komplettabwurf: 1 Titel, 1 Releases, [1-9]\d* Termine \(1 kuratiert\)/.test(gut.stdout), gut.stdout.slice(-600))
+  const rueckweg = fahre('rueckweg', KURATIERT, { REIHEN_QUELLE: 'anilist' })
+  const rueckZeile = rueckweg.stdout.split('\n').find((z) => z.startsWith('ERGEBNIS '))
+  pruefe('Rückweg REIHEN_QUELLE=anilist markiert eigene Werke ebenfalls', rueckweg.status === 0 && !!rueckZeile && JSON.parse(rueckZeile.slice(9)).eigenesWerk === true, { status: rueckweg.status, log: rueckweg.stdout.slice(-300) })
 
   const leer = fahre('leer', OHNE_TERMIN)
   pruefe('Kuratierter Eintrag ohne Titel: Prozess endet mit Fehler', leer.status !== 0 && !leer.stdout.includes('ERGEBNIS'), { status: leer.status })
