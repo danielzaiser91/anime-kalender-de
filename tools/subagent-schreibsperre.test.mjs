@@ -35,8 +35,8 @@ for (const typ of ['general-purpose', 'claude', 'claude-code-guide', '', undefin
   assert.equal(pruefe({ ...sub('Write', `${HAUPT}/x.md`), agent_type: typ }), null, `Typ ${typ} frei`)
 }
 assert.equal(pruefe({ tool_name: 'Write', agent_id: 'a1', agent_type: 'bauer', tool_input: {} }), null, 'Subagent ohne Pfad und ohne cwd')
-assert.equal(pruefe(sub('Write', `${HAUPT}/mockups/a.html`)), null, 'mockups/ frei')
-assert.match(pruefe(sub('Write', `${HAUPT}/mockups-x/a.html`)) ?? '', /gesperrt/, 'mockups-x gesperrt')
+assert.equal(pruefe(sub('Write', `${HAUPT}/daniel-zum-abarbeiten/mockups/a.html`)), null, 'daniel-zum-abarbeiten/mockups/ frei')
+assert.match(pruefe(sub('Write', `${HAUPT}/daniel-zum-abarbeiten/mockups-x/a.html`)) ?? '', /gesperrt/, 'mockups-x gesperrt')
 assert.equal(pruefe(sub('Write', `${HAUPT}/daniel-zum-abarbeiten/listen/a.md`)), null, 'listen/ frei')
 assert.match(pruefe(sub('Write', `${HAUPT}/daniel-zum-abarbeiten/listen-x/a.md`)) ?? '', /gesperrt/, 'listen-x gesperrt')
 assert.equal(pruefe(sub('Write', `${WT}/pipeline/x.ts`)), null, 'Worktree frei')
