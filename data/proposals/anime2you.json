@@ -1,15 +1,32 @@
 {
-  "scrapedAt": "2026-11-05T04:13:07.749Z",
+  "scrapedAt": "2026-11-05T14:02:24.779Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 40,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 3,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 53,
-    "schon in einem Rubrik-Feed gelesen": 32,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
+    "schon in einem Rubrik-Feed gelesen": 5,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 3,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 17,
     "Sprachhinweis älter als 45 Tage": 6
   },
   "proposals": [
+    {
+      "articleTitle": "Erster Trailer zum Netflix-Anime »Fool Night« + Visual",
+      "articleUrl": "https://www.anime2you.de/news/1067870/fool-night-netflix-erster-trailer/",
+      "publishedAt": "2026-11-05",
+      "category": "streaming",
+      "platforms": [
+        "netflix"
+      ],
+      "dates": [
+        {
+          "month": "2026-11",
+          "context": "n von »Fool Night« veröffentlicht. Das Video findet ihr weiter unten. Ab November 2026 »Fool Night« entsteht unter der Leitung von Regisseur"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Design der »Fate/stay night: Heaven’s Feel«-Komplettbox + Extras",
       "articleUrl": "https://www.anime2you.de/news/1067523/fate-stay-night-heavens-feel-komplettbox-design/",
