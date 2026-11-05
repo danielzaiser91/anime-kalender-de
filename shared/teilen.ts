@@ -11,9 +11,9 @@ export function teilbarerSlug(titel: { slug?: string; ohneSynchro?: boolean } | 
   return titel?.slug && !titel.ohneSynchro ? titel.slug : undefined
 }
 
-/** Cartoon mit belegter deutscher Synchro: ein Weg mit `dub: true`. „Laut JustWatch“ (`dubHinweis`) reicht für die Sitemap nicht. */
-export function cartoonMitSynchroBeleg(titel: { streams?: Array<{ dub?: boolean }> }): boolean {
-  return (titel.streams ?? []).some((s) => s.dub === true)
+/** Cartoon mit belegter deutscher Synchro: ein Weg mit `dub: true`, nicht nur abgeleitet. „Laut JustWatch“ (`dubHinweis`) reicht für die Sitemap nicht. */
+export function cartoonMitSynchroBeleg(titel: { streams?: Array<{ dub?: boolean; dubAbgeleitet?: string }> }): boolean {
+  return (titel.streams ?? []).some((s) => s.dub === true && !s.dubAbgeleitet)
 }
 
 /**
