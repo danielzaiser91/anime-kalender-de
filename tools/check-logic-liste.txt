@@ -226,6 +226,7 @@ pipeline/check-juengeres-ja-weg.ts
 pipeline/check-jw-ablauf.ts
 pipeline/check-jw-auswahl.ts
 pipeline/check-jw-frisch-lauf.ts
+pipeline/check-jw-kennung-fremd-lauf.ts
 pipeline/check-jw-kennung-fremd.ts
 pipeline/check-jw-schlange.ts
 pipeline/check-jw-seite.ts
