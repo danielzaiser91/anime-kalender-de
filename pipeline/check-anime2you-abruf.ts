@@ -40,7 +40,7 @@ function lauf(modus: string): { status: number | null; fehlertext?: string } {
       timeout: 120_000,
       windowsHide: true,
     })
-    const health = JSON.parse(readFileSync(join(ak, 'data/source-health.json'), 'utf8')) as Record<string, { lastError?: string }>
+    const health = JSON.parse(readFileSync(join(ak, 'data', 'source-health.json'), 'utf8')) as Record<string, { lastError?: string }>
     return { status: r.status, fehlertext: health.anime2you?.lastError }
   } finally {
     rmSync(ak, { recursive: true, force: true })
@@ -61,4 +61,4 @@ if (fehler) {
   console.error(`\n${fehler} Zusicherung(en) verletzt`)
   process.exit(1)
 }
-console.log('\nAnime2You-Abrufgrund: alle Zusicherungen erfüllt (3 Funktionsfälle, 3 Läufe)')
+console.log('\nAnime2You-Abrufgrund: alle Zusicherungen erfüllt (3 Funktionsfälle, 4 Läufe)')

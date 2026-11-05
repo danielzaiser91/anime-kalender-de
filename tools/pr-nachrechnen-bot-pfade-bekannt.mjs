@@ -16,6 +16,7 @@ const WEGWERF_WURZEL = {
   'tools/wache-urteil.test.mjs': ['data/source-health.json'],
   'tools/workflows-beleg.test.mjs': ['data/anbieter-vorschlaege.json', 'data/source-health.json'],
   'tools/worker-rohfolgen-rettung.test.ts': ['data/prime-kanal-aussortiert.json'],
+  'pipeline/check-anime2you-abruf.ts': ['data/source-health.json'],
   'pipeline/check-anisearch-marke-nachziehen.ts': ['data/source-health.json'],
   'pipeline/check-og-schaetz.ts': ['public/og/fassung.txt', 'public/og/schaetz.txt'],
   'pipeline/check-kanal-aussortieren.ts': ['data/prime-kanal-aussortiert.json'],
