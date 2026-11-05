@@ -25,6 +25,8 @@ const SOLL_SCHRITTE = [
     name: 'Kein Cache vorhanden',
     run: 'echo "::error::Kein anilist-cache gefunden"\nexit 1\n',
   },
+  // Neue Beleg-Adressen des PR werden abgerufen: 404/410 rot, sonst Nichtauskunft (PR 2628: UCI-Adresse 404, alle Checks grün).
+  { name: 'Neue Beleg-Adressen erreichbar', run: 'npx tsx pipeline/neue-quellen-pruefen.ts' },
   { name: 'Datensatz bauen (ohne Commit)', run: 'npm run data:build' },
   // Dieselben vier Skripte wie der Bestandsbau (bestand-bauen.yml), sonst liest `check:bestand` Listen, die nicht zum Bau passen (01.11.2026).
   { name: 'Arbeitslisten und Prüfstand neu erzeugen', run: 'npm run data:arbeitslisten' },
