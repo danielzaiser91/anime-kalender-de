@@ -1,28 +1,8 @@
 import { type Env } from './env.ts'
 
-/**
- * **Favoriten in unserer eigenen Kennung `ak`** (Stufe 1, 05.10.2026).
- *
- * Neue Listen werden mit dem Vorsatz `ak:` gespeichert, wenn der Browser `ak: 1` mitschickt. Eine Liste ohne Vorsatz stammt aus der Zeit
- * davor (AniList-Kennungen) und wird beim Lesen über `data/anilist-ak.json` der Seite umgerechnet — bis zum **05.11.2026**
- * (ein Monat Karenz, Daniel: danach nur noch `ak`). Dann entfallen `ladeAbbild`, der Zweig ohne Vorsatz und `data/anilist-ak.json`;
- * die Prüfung in `pipeline/check-logic.ts` wird an dem Tag rot.
- */
+/** **Favoriten in unserer eigenen Kennung `ak`** (Stufe 1, 05.10.2026); die Umrechnung aus AniList-Kennungen ist seit 05.11.2026 entfernt. */
 import { leseFavoriten, VORSATZ, type Kennungen } from './favoriten-lesen.ts'
 export { leseFavoriten, type Kennungen }
-
-let abbildGeladen: { bis: number; karte: Map<number, number> } | undefined
-
-/** AniList-Kennung → ak, von der Seite (höchstens stündlich neu). */
-export async function ladeAbbild(env: Pick<Env, 'SITE_URL'>): Promise<Map<number, number> | undefined> {
-  if (abbildGeladen && abbildGeladen.bis > Date.now()) return abbildGeladen.karte
-  const res = await fetch(`${env.SITE_URL.replace(/\/$/, '')}/data/anilist-ak.json`, { cf: { cacheTtl: 3600 } } as RequestInit)
-  /* Ohne Datei (Seite noch nicht ausgeliefert) wird nichts gemerkt und nichts umgerechnet. */
-  if (!res.ok) return undefined
-  const paare = (await res.json()) as [number, number][]
-  abbildGeladen = { bis: Date.now() + 3600_000, karte: new Map(paare.map(([ak, anilist]) => [anilist, ak])) }
-  return abbildGeladen.karte
-}
 
 let umleitungGeladen: { bis: number; karte: Map<number, number> } | undefined
 
@@ -36,8 +16,7 @@ async function ladeUmleitung(env: Pick<Env, 'SITE_URL'>): Promise<Map<number, nu
 }
 
 export async function ladeKennungen(env: Pick<Env, 'SITE_URL'>): Promise<Kennungen> {
-  const [abbild, umleitung] = await Promise.all([ladeAbbild(env).catch(() => undefined), ladeUmleitung(env).catch(() => undefined)])
-  return { abbild, umleitung }
+  return { umleitung: await ladeUmleitung(env).catch(() => undefined) }
 }
 
 /** Nur ganze Zahlen übernehmen — die Liste kommt aus dem Browser; `ak: 1` kennzeichnet sie als unsere Kennung. */

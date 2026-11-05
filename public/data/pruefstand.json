@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-11-04T19:22:03.875Z",
+ "erzeugtAm": "2026-11-05T08:38:07.769Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -432,10 +432,10 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 753,
-   "gesamt": 950,
-   "offen": 197,
-   "ohneSeite": 12,
+   "gemeldet": 757,
+   "gesamt": 952,
+   "offen": 195,
+   "ohneSeite": 14,
    "ziel": "https://www.netflix.com/title/81608820",
    "ziele": [
     {
@@ -750,11 +750,6 @@
      "titel": "Die Abenteuer der Teenage Mutant Ninja Turtles"
     },
     {
-     "url": "https://www.netflix.com/title/80026226",
-     "titel": "Paw Patrol: Helfer auf vier Pfoten",
-     "hinweis": "Staffeln unklar: TMDB zählt 578 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
      "url": "https://www.netflix.com/title/81936142",
      "titel": "Der unglaubliche digitale Zirkus",
      "staffeln": [
@@ -813,10 +808,6 @@
      "titel": "Die Oktonauten auf dem Festland"
     },
     {
-     "url": "https://www.netflix.com/title/81691739",
-     "titel": "Lukas, die Spinne"
-    },
-    {
      "url": "https://www.netflix.com/title/81035124",
      "titel": "True: Terrific Tales",
      "staffeln": [
@@ -851,6 +842,11 @@
      "url": "https://www.netflix.com/title/81186971",
      "titel": "Willkommen bei den Louds",
      "hinweis": "Staffeln unklar: TMDB zählt 407 Folgen insgesamt, der Anbieter kann sie anders schneiden"
+    },
+    {
+     "url": "https://www.netflix.com/title/80026226",
+     "titel": "Paw Patrol: Helfer auf vier Pfoten",
+     "hinweis": "Staffeln unklar: TMDB zählt 578 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://www.netflix.com/title/70171947",
