@@ -654,3 +654,14 @@ wer die Ursache dann noch kennt, hat Glück. Deshalb diese Datei.
 **Wo sind echte Risiken und Lücken?** Der Stream ist auch am 04.11. (`origin/main`) nicht zurück. `data/dub-confirmed.yaml` hat für 1735/B084DBMYFX zwei Einträge (Zeile 6759 `available: false`, 25.08.; Zeile 35716 `dub: true`, 16.10., mit gti), und `prime-zugeordnet.json` ordnet `…B084DBMYFX#1/#2` anderen ASINs/Seiten zu. **Nicht belegt:** welcher Riegel den Stream herausnahm; `data/cache/` war für den Bau 41681374762 nicht verfügbar, ein Nachstellen steht aus. Verdacht, nicht Beweis: Prime-Zuordnung des Laufs (zeitlich davor liegt #2762 „Serienvorsatz in Prime-Folgentiteln", Commit 78d05b34), die Handbeleg-Notizseite an fremder Adresse (Wächter #2785 ist erst am 04.11. dazugekommen).
 
 **Was läuft komplett falsch?** Nichts, was ich belegen kann: kein Fehlerschritt, der Lauf ist absichtlich rot. Kein Pull Request, da keine Codeursache belegt ist.
+
+
+## 05.11.2026 — Bestandsbau rot: `check:tote-adressen` (Lauf 42021853266, Issue #2912)
+
+**Was läuft korrekt.** Die Zusicherung `check:tote-adressen` hat getan, was sie soll: Sie hat `6702 Fairy Tail — primevideo: …/B0CHBX8CM2` als tot belegt gemeldet (`VERSTÖSSE: 1`), und der Bau hat nichts committet. Der ausgelieferte Bestand blieb unverändert (`git show HEAD:public/data/titles.json` enthält die Adresse nicht).
+
+**Wo ist Verbesserungspotenzial?** Derselbe Fehler stand in vier Läufen hintereinander (42012747113, 42015576150, 42016364469, 42018647894, jetzt 42021853266), jedes Mal mit einem Kommentar am Issue #2912. Ein Bau, der dieselbe Zusicherung zum zweiten Mal in Folge verletzt, könnte automatisch einen Treffer am offenen Issue erkennen und gar nicht erst neu anfangen.
+
+**Wo sind echte Risiken und Lücken?** Der Reparatur-PR #2913 hängt offen und ist nicht im headSha; bis zum Merge bleibt jeder Bestandsbau rot. Der Nachbau lokal erzeugt den Weg nicht, weil die Rohfolgen/Meldungen aus D1 nicht in den gesicherten Eingaben liegen — ob #2913 die einzige Ursache ist, lässt sich erst am nächsten Bau messen. Zweite Möglichkeit: `handSticht` (`pipeline/bau/09-2-linkpruefung.ts`) lässt eine frische Meldung den Linkbefund schlagen, `check:tote-adressen` kennt diese Meldung nicht.
+
+**Was läuft komplett falsch?** Nichts über den Bau selbst; die Zeile, an der es bricht: `pipeline/check-tote-adressen.ts` (Ausgabe „1 ausgelieferte Adresse(n) sind als tot belegt"). Kein neuer Pull Request, #2913 ist die Reparatur.
