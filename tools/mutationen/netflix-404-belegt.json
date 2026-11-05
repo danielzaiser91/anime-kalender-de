@@ -1,0 +1,11 @@
+[
+  { "name": "Kontrolle (unmutiert)", "aenderungen": [] },
+  { "name": "netflix404EntferntNicht: Plattform-Prüfung weg (jeder Anbieter)", "aenderungen": [{ "datei": "pipeline/lib/link-rauschen.ts", "suche": "plattform === 'netflix' && befund === 404 && warDeutsch", "ersetze": "befund === 404 && warDeutsch" }] },
+  { "name": "netflix404EntferntNicht: Status-Prüfung weg (auch region)", "aenderungen": [{ "datei": "pipeline/lib/link-rauschen.ts", "suche": "plattform === 'netflix' && befund === 404 && warDeutsch", "ersetze": "plattform === 'netflix' && warDeutsch" }] },
+  { "name": "netflix404EntferntNicht: Deutsch umgekehrt", "aenderungen": [{ "datei": "pipeline/lib/link-rauschen.ts", "suche": "befund === 404 && warDeutsch", "ersetze": "befund === 404 && !warDeutsch" }] },
+  { "name": "netflix404EntferntNicht: Deutsch egal (jedes Netflix-404 bleibt)", "aenderungen": [{ "datei": "pipeline/lib/link-rauschen.ts", "suche": "plattform === 'netflix' && befund === 404 && warDeutsch", "ersetze": "plattform === 'netflix' && befund === 404" }] },
+  { "name": "netflix404EntferntNicht: nie (alter Stand)", "aenderungen": [{ "datei": "pipeline/lib/link-rauschen.ts", "suche": "plattform === 'netflix' && befund === 404 && warDeutsch", "ersetze": "false" }] },
+  { "name": "09-2: Riegel nicht verdrahtet", "aenderungen": [{ "datei": "pipeline/bau/09-2-linkpruefung.ts", "suche": "&& !netflix404EntferntNicht(stream.platform, befund, warDeutsch(stream))", "ersetze": "" }] },
+  { "name": "09-2: falsche Plattform übergeben", "aenderungen": [{ "datei": "pipeline/bau/09-2-linkpruefung.ts", "suche": "netflix404EntferntNicht(stream.platform,", "ersetze": "netflix404EntferntNicht('netflix',"}] },
+  { "name": "09-2: warDeutsch immer ja", "aenderungen": [{ "datei": "pipeline/bau/09-2-linkpruefung.ts", "suche": "netflix404EntferntNicht(stream.platform, befund, warDeutsch(stream))", "ersetze": "netflix404EntferntNicht(stream.platform, befund, true)" }] }
+]

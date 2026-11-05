@@ -1,7 +1,7 @@
 import { readJson, log } from '../lib/util.ts'
 import { adressKern, dubKey, adressGleich, type DubCheck } from '../lib/dub-confirmed.ts'
 import { istTot, juengsteJeKern, type LinkBefund } from '../lib/link-befund.ts'
-import { hat404 } from '../lib/link-rauschen.ts'
+import { hat404, netflix404EntferntNicht } from '../lib/link-rauschen.ts'
 import { type Title, type PlatformId } from '../../shared/types.ts'
 import { netflixTitelAdresse } from '../lib/netflix-adresse.ts'
 import { netflixAdresseTaugt } from '../../shared/netflix-adresse-pruefung.ts'
@@ -286,7 +286,7 @@ export function werteLinkpruefungAus({
         ((Boolean(check?.url && adressGleich(check.url, stream.url)) && String(check?.checkedAt ?? '') > linkAm) ||
           /* Ein von Hand bestätigter Weg (`verweise-von-hand.yaml`) — der Lader kennt Belege ohne Urteil nicht. */
           (vonHandBelegtAm.get(adressKern(stream.url)) ?? '') > linkAm)
-      if ((befund === 404 || befund === 'region') && !handSticht) {
+      if ((befund === 404 || befund === 'region') && !handSticht && !netflix404EntferntNicht(stream.platform, befund, warDeutsch(stream))) {
         totEntfernt++
         abgaenge.push({ ...stream, entferntAm: linkBefunde[stream.url]?.geprueftAm ?? todayIso() })
         return false

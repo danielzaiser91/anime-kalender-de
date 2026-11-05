@@ -34,6 +34,13 @@ export function netflixBefund<B extends LinkBefund>(url: string, alt: LinkBefund
   return { ...neu, status: 'unklar', erstes404: erstes ?? am }
 }
 
+/**
+ * Ein Netflix-404 der Linkprüfung entfernt keinen Weg, der belegt deutschen Ton trägt. Die CI sieht je Adresse tagelang
+ * dasselbe 404 (34 Adressen: 404 am 02., 03. und 04.11.2026, davor seit 18.09. durchgehend 200; 14 Titel mit `dub: true`
+ * verloren so ihren Weg trotz der Zwei-Tage-Regel), ein zweites 404 belegt also nichts über Deutschland.
+ */
+export const netflix404EntferntNicht = (plattform: string, befund: unknown, warDeutsch: boolean): boolean => plattform === 'netflix' && befund === 404 && warDeutsch
+
 /** Ein 404 liegt vor: bestätigt oder als erstes noch `unklar` (`erstes404`). Der Netflix-Riegel im Bau (09-2) fragt so, sonst wanderte ein Weg von der lebenden zur wackligen Form. */
 export const hat404 = (b: LinkBefund | undefined): boolean => b?.status === 404 || offenes404(b) !== undefined
 
