@@ -24,6 +24,7 @@ import type { Title } from '../shared/types.ts'
 import { adressKern } from './lib/dub-confirmed.ts'
 import { handGesehenAm } from './lib/hand-gesehen.ts'
 import { istTot, juengsteJeKern } from './lib/link-befund.ts'
+import { netflix404EntferntNicht } from './lib/link-rauschen.ts'
 
 const roh = JSON.parse(readFileSync('public/data/titles.json', 'utf8')) as Title[] | { titles: Title[] }
 const titles: Title[] = Array.isArray(roh) ? roh : roh.titles
@@ -60,7 +61,8 @@ const tot = (url?: string): boolean => {
 const treffer: string[] = []
 for (const t of titles) {
   for (const s of t.streams ?? []) {
-    if (tot(s.url)) treffer.push(`${t.id} ${t.titleDe ?? t.titleEn ?? ''} — ${s.platform}: ${s.url}`)
+    const netflixBleibt = netflix404EntferntNicht(s.platform, befundJeKern.get(kern(s.url))?.status, s.dub === true) // dub-lesart: irgendwie – jeder Weg mit Ja zählt, auch ein abgeleiteter (Bau 09-2 hält ihn aus demselben Grund)
+    if (tot(s.url) && !netflixBleibt) treffer.push(`${t.id} ${t.titleDe ?? t.titleEn ?? ''} — ${s.platform}: ${s.url}`)
   }
   for (const w of t.watchLinks ?? []) {
     if (tot(w.url)) treffer.push(`${t.id} ${t.titleDe ?? t.titleEn ?? ''} — ${w.name}: ${w.url}`)
