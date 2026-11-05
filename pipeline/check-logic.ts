@@ -1911,13 +1911,13 @@ console.log('\nStreaming Availability API:')
   const vomBand = (datei: string) =>
     readFileSync(new URL('../' + datei, import.meta.url), 'utf8')
   const roh = yaml.load(vomBand('data/tmdb-von-hand.yaml')) as
-    | { anilistId: number; tmdbId: number; kind?: string; grund?: string; geprueftAm?: string }[]
+    | { anilistId: number; tmdbId?: number; ohne?: boolean; kind?: string; grund?: string; geprueftAm?: string }[]
     | null
   const eintraege = roh ?? []
   pruefe('die Datei enthält Einträge', eintraege.length > 0, eintraege.length)
   pruefe(
-    'jeder Eintrag nennt AniList-Kennung, TMDB-Kennung, Grund und Prüfdatum',
-    eintraege.every((e) => e.anilistId > 0 && e.tmdbId > 0 && Boolean(e.grund) && /^\d{4}-\d{2}-\d{2}$/.test(e.geprueftAm ?? '')),
+    'jeder Eintrag nennt AniList-Kennung, TMDB-Kennung (oder `ohne`), Grund und Prüfdatum',
+    eintraege.every((e) => e.anilistId > 0 && (e.ohne ? e.tmdbId === undefined : Number(e.tmdbId) > 0) && Boolean(e.grund) && /^\d{4}-\d{2}-\d{2}$/.test(e.geprueftAm ?? '')),
     eintraege.filter((e) => !e.grund || !e.geprueftAm),
   )
   pruefe(
