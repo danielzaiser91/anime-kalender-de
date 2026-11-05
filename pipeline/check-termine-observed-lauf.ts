@@ -47,6 +47,7 @@ try {
   cpSync(join(wurzel, 'shared'), join(arbeit, 'shared'), { recursive: true })
   mkdirSync(join(arbeit, 'pipeline', 'bau'), { recursive: true })
   cpSync(join(wurzel, 'pipeline', 'bau', 'widerlegung-staffel.ts'), join(arbeit, 'pipeline', 'bau', 'widerlegung-staffel.ts'))
+  cpSync(join(wurzel, 'pipeline', 'bau', 'remake-von.ts'), join(arbeit, 'pipeline', 'bau', 'remake-von.ts'))
   cpSync(join(wurzel, 'package.json'), join(arbeit, 'package.json'))
   mkdirSync(join(arbeit, 'daniel-zum-abarbeiten', 'listen'), { recursive: true })
   symlinkSync(join(wurzel, 'node_modules'), join(arbeit, 'node_modules'), 'junction')
