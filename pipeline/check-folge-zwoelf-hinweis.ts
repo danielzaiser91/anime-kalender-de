@@ -10,6 +10,8 @@ import ts from 'typescript'
 import type { Release } from '../shared/types.ts'
 import { kastenNotizVon } from '../web/src/components/detail/kasten-hinweise.ts'
 import { laufeInKulisse } from './lib/kulisse-lauf.ts'
+import { body } from './lib/termin-seite.ts'
+import type { Umfeld } from './lib/titel-umfeld.ts'
 
 let fehler = 0
 function pruefe(name: string, ok: boolean, info = ''): void {
@@ -58,6 +60,14 @@ const release = (slug: string, tag: string, hinweis?: string) =>
 const mitte = [release('a', '2026-08-02'), release('b', '2026-08-09', 'Hinweis'), release('c', '2026-08-16')]
 pruefe('Der Kasten zeigt die Notiz des Releases mit Notiz', kastenNotizVon(mitte, '2026-10-18')?.hinweis === 'Hinweis')
 pruefe('Ohne Notiz zeigt der Kasten nichts', kastenNotizVon(mitte.map((r) => ({ ...r, hinweis: undefined })), '2026-10-18') === undefined)
+
+/* Die Teilen-Seite zeigt den Hinweis, und nur diesen: die interne Notiz bleibt draußen, ohne Hinweis kein Absatz. */
+const umfeld = { aehnlichHtml: '', krumenHtml: '', krumenJsonLd: '' } as unknown as Umfeld
+const seite = (r: Release) => body(r, undefined, undefined, '2026-10-18', [], 1, 'x', umfeld)
+const mitBeidem = { ...release('d', '2026-08-09', 'Erhielt in Deutschland keine FSK-Freigabe.'), name: 'Z', note: 'Interne Notiz.' } as Release
+pruefe('Teilen-Seite: zeigt den Hinweis', seite(mitBeidem).includes('Erhielt in Deutschland keine FSK-Freigabe.'))
+pruefe('Teilen-Seite: zeigt die interne Notiz nicht', !seite(mitBeidem).includes('Interne Notiz.'))
+pruefe('Teilen-Seite: ohne Hinweis kein Absatz mit der Notiz', !seite({ ...mitBeidem, hinweis: undefined }).includes('Interne Notiz.'))
 
 if (fehler) {
   console.error(`${fehler} Prüfung(en) fehlgeschlagen`)
