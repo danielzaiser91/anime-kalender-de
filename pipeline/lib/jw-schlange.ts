@@ -15,6 +15,8 @@ export interface SchlangenEingabe {
   heute: string
   /** Titel mit frischem Kino- oder Disc-Termin (`frischeTitel`): sie kommen vor der Frist wieder dran, solange kein Prime-Kauf bekannt ist. */
   frisch?: ReadonlySet<number>
+  /** Titel, die eine Anbieter-Liste führt, deren Befund den Anbieter aber nicht kennt (`listenVorrang`): sie kommen vor der Frist dran. */
+  listenVorrang?: ReadonlySet<number>
   /** Kennungen der Cartoons unter `titles` (ihre Serien-Wege bekommen im Bau keine Flagge). */
   cartoonIds: Set<number>
 }
@@ -32,7 +34,7 @@ export function dringend(t: Title): boolean {
  * Titel mit TMDB-Kennung, die fällig sind: Alter, berichtigte Kennung, Fehlschlag ohne gespeicherte Kennung oder Wiedervorlage.
  * Reihenfolge: berichtigte Kennung, vorgezogen, dringend (`dringend`), dann der älteste Befund zuerst.
  */
-export function warteschlange({ titles, bestand, tmdb, grenze, heute, frisch = new Set(), cartoonIds }: SchlangenEingabe): Title[] {
+export function warteschlange({ titles, bestand, tmdb, grenze, heute, frisch = new Set(), listenVorrang = new Set(), cartoonIds }: SchlangenEingabe): Title[] {
   const mitFlagge = titelMitJwFlagge(titles, bestand, cartoonIds)
   const tmdbVon = (t: Title) => (t as Title & { tmdbId?: number }).tmdbId ?? tmdb[String(t.id)]?.tmdbId
   /*
@@ -63,7 +65,8 @@ export function warteschlange({ titles, bestand, tmdb, grenze, heute, frisch = n
     const e = bestand[String(t.id)]
     return Boolean(e?.ohneTreffer && !e.tmdbId && tmdbVon(t))
   }
-  const vor = (t: Title) => vorgezogen(t, bestand, heute, mitFlagge) || frischFaellig(t.id, bestand[String(t.id)], frisch, heute)
+  const vor = (t: Title) =>
+    vorgezogen(t, bestand, heute, mitFlagge) || frischFaellig(t.id, bestand[String(t.id)], frisch, heute) || listenVorrang.has(t.id)
   return titles
     .filter((t) => tmdbVon(t))
     .filter((t) => (bestand[String(t.id)]?.geprueftAm ?? '') < grenze || kennungGewechselt(t) || fehlschlagOhneKennung(t) || vor(t))
