@@ -68,6 +68,7 @@ Datei es erlaubt. Tatsachenzahlen (IDs, Termine, Uhrzeiten, Folgenzahlen, Synchr
   Urteil-Kommentar des Agent-Prüfers am PR** („Prüfer Runde N: freigeben“) — ein Urteil nur im
   Bericht an mich zählt der Rundenzähler-Hook nicht; fehlt er, poste ich das Urteil mit
   Rundennummer vor dem Merge (18.10.2026: u. a. die geprüften PRs 1520 und 1522 ohne Kommentar, Zähler sah 0 Runden).
+  **Urteilsdatei trägt die PR-Nummer** (`urteil-<PR>.md`) und wird im selben Zug geschrieben, in dem sie gepostet wird. Eine allgemeine `urteil.md` von einem früheren PR landete am falschen PR, und Löschen sperrt der Klassifizierer (04.11.2026, 2837 → 2849).
   **Seit 21.10.2026 eine Runde, bei Prüfstufe 2 höchstens zwei (Daniel):** Bei „ändern“ prüft (außer Stufe 2) kein zweiter Prüfer; ich nehme die Nachbesserung
   gegen die Auflagenliste ab und poste „Abnahme Dirigent: A1…An erfüllt“ mit den Probe-Ausgaben, dann Merge.
   Der Kommentar **beginnt mit `## Nachtrag (Abnahme Dirigent …)`**, sonst liest ihn der CI-Prüfer nicht, und der PR bleibt
