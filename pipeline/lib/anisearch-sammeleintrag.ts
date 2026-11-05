@@ -38,9 +38,12 @@ export const ladeJustwatchDeutsch = (): Set<number> => justwatchDeutsch(readJson
 /** Ein Amazon-Angebot (Prime, Video, jeder Amazon-Kanal): seine Sprachangabe ist Amazons eigene (Kanal-Regel, `kanal-titel.ts`), keine zweite Quelle. */
 export const istAmazonAngebot = (a: Pick<JwAngebot, 'anbieter' | 'url'>): boolean => /amazon/i.test(a.anbieter) || /\/\/(watch|www)\.amazon\./i.test(a.url ?? '')
 
-/** Titel, deren JustWatch-Befund Deutsch an einem Nicht-Amazon-Angebot nennt (Apple, MagentaTV, maxdome, Rakuten, JPC, Crunchyroll …); ohne Verfallsfrist: die Existenz einer deutschen Fassung ändert sich nicht. */
+/** Ein Streaming-Angebot (Abo, werbefinanziert, frei); Kauf und Leihe sind Händler (JPC, Zavvi, Apple Store, maxdome …) und zählen nicht als Quelle. */
+export const istStreamingAngebot = (a: Pick<JwAngebot, 'art'>): boolean => a.art === 'FLATRATE' || a.art === 'ADS' || a.art === 'FREE'
+
+/** Titel, deren JustWatch-Befund Deutsch an einem Nicht-Amazon-Streaming-Angebot nennt (Disney+, MagentaTV+, Crunchyroll …); ohne Verfallsfrist: die Existenz einer deutschen Fassung ändert sich nicht. */
 export const ladeJustwatchDeutschOhneAmazon = (): Set<number> =>
-  justwatchDeutsch(readJson<Record<string, JwBefund>>('data/justwatch-audio.json', {}), (a) => !istAmazonAngebot(a))
+  justwatchDeutsch(readJson<Record<string, JwBefund>>('data/justwatch-audio.json', {}), (a) => !istAmazonAngebot(a) && istStreamingAngebot(a))
 
 /** Der Termin ohne Synchro-Marke (und ohne Teilmarke), wo der Titel im Sammeleintrag steht; ohne Datum, Zeitraum und Verlag bleibt nichts übrig. */
 export function ohneSammelSynchro(termin: AnisearchTermin | undefined, imSammeleintrag: boolean): AnisearchTermin | undefined {

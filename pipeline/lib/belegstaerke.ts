@@ -12,7 +12,7 @@ import { ROOT, log } from './util.ts'
 /**
  * **Belegstärke statt Quellenzahl** (Daniel, 09.10.2026): `dubConfidence` war die Zahl der MyDubList-Stimmen. Jetzt zählt die beste Quelle.
  * Stark: Synchronkartei-Eintrag, Anbieter-Tonspur (darin der Handbeleg aus `dub-confirmed.yaml`). Mittel: TV-Programmdaten, aniSearch-Marke
- * „Synchronisiert", Synchron-Forum-Liste (Stand 24.12.2023, 09.10.2026), JustWatch-Deutsch an einem Nicht-Amazon-Angebot (titelweit, 05.11.2026; Amazons
+ * „Synchronisiert", Synchron-Forum-Liste (Stand 24.12.2023, 09.10.2026), JustWatch-Deutsch an einem Nicht-Amazon-Streaming-Angebot (titelweit, 05.11.2026; Amazons
  * eigene Sprachangabe zählt nie, und es wird daraus nie ein Weg-`dub: true`). Schwach (MyDubList, AniList-Sprecher, Händler) hebt nie über `low`.
  */
 export type Belegsignale = {
@@ -20,7 +20,7 @@ export type Belegsignale = {
   kartei: ReadonlySet<number>
   tv: ReadonlySet<number>
   forum: ReadonlySet<number>
-  /** Titel mit Deutsch an einem Nicht-Amazon-Angebot laut JustWatch (`ladeJustwatchDeutschOhneAmazon`); fehlt = keine. */
+  /** Titel mit Deutsch an einem Nicht-Amazon-Streaming-Angebot laut JustWatch (`ladeJustwatchDeutschOhneAmazon`); fehlt = keine. */
   justwatch?: ReadonlySet<number>
   /** Streams, deren `dub: true` nur aus der Streaming-Availability-API stammt (`motnTonSchluessel`); fehlt = keine. */
   motnTon?: ReadonlySet<string>

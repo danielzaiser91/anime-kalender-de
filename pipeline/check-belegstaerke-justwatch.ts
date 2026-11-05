@@ -8,7 +8,7 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import type { Release, Title } from '../shared/types.ts'
 
-const angebote = (anbieter: string, audio: string[], url?: string) => ({ anbieter, art: 'FLATRATE', audio, ...(url ? { url } : {}) })
+const angebote = (anbieter: string, audio: string[], url?: string, art = 'FLATRATE') => ({ anbieter, art, audio, ...(url ? { url } : {}) })
 const befund = (jwId: string, angebote: object[]) => ({ geprueftAm: '2026-10-12', jwId, angebote })
 
 const APPLE = 900201
@@ -24,6 +24,11 @@ const ARD_APPLE = 900210
 const KEIN_DE = 900211
 const OHNE_TREFFER = 900212
 const AMAZON_WWW = 900213
+const NUR_KAUF = 900214
+const NUR_LEIHE = 900215
+const KAUF_UND_ABO = 900216
+const FREI = 900217
+const WERBEFINANZIERT = 900218
 
 const kulisse = mkdtempSync(join(tmpdir(), 'belegstaerke-justwatch-'))
 process.env.AK_ROOT = kulisse
@@ -46,7 +51,12 @@ writeFileSync(
     [ARD_APPLE]: befund('tm10', [angebote('ARD Plus Apple TV channel', ['de'])]),
     [KEIN_DE]: befund('tm11', [angebote('Apple TV Store', ['ja'])]),
     [AMAZON_WWW]: befund('tm13', [angebote('Irgendein Shop', ['de'], 'https://www.amazon.de/dp/B000TEST')]),
-    [OHNE_TREFFER]: { geprueftAm: '2026-10-12', ohneTreffer: true, angebote: [angebote('Apple TV Store', ['de'])] },
+    [OHNE_TREFFER]: { geprueftAm: '2026-10-12', jwId: 'tm12', ohneTreffer: true, angebote: [angebote('Apple TV Store', ['de'])] },
+    [NUR_KAUF]: befund('tm14', [angebote('Crunchyroll', ['ja']), angebote('JPC', ['de'], undefined, 'BUY')]),
+    [NUR_LEIHE]: befund('tm15', [angebote('maxdome Store', ['de'], undefined, 'RENT')]),
+    [KAUF_UND_ABO]: befund('tm16', [angebote('JPC', ['de'], undefined, 'BUY'), angebote('Disney Plus', ['de'])]),
+    [FREI]: befund('tm17', [angebote('ZDF', ['de'], undefined, 'FREE')]),
+    [WERBEFINANZIERT]: befund('tm18', [angebote('YouTube Free', ['de'], undefined, 'ADS')]),
   }),
 )
 
@@ -78,7 +88,12 @@ try {
   pruefe('Apple ohne Deutsch: zählt nicht', jw?.has(KEIN_DE) === false, gefunden)
   pruefe('Befund ohne Treffer: zählt nicht', jw?.has(OHNE_TREFFER) === false, gefunden)
   pruefe('Befund, den sich zwei Titel teilen: zählt für keinen', jw?.has(GETEILT_A) === false && jw?.has(GETEILT_B) === false, gefunden)
-  pruefe('genau vier Titel zählen (Apple, MagentaTV, ARD Plus Apple, Mit-Ton)', jw?.size === 4, gefunden)
+  pruefe('Deutsch nur bei einem Kauf-Händler (JPC, Vorbild 118465): zählt nicht', jw?.has(NUR_KAUF) === false, gefunden)
+  pruefe('Deutsch nur bei einem Leih-Händler: zählt nicht', jw?.has(NUR_LEIHE) === false, gefunden)
+  pruefe('Händler plus Streaming-Abo mit Deutsch: zählt über das Abo', jw?.has(KAUF_UND_ABO) === true, gefunden)
+  pruefe('Deutsch bei einem freien Angebot: zählt', jw?.has(FREI) === true, gefunden)
+  pruefe('Deutsch bei einem werbefinanzierten Angebot: zählt', jw?.has(WERBEFINANZIERT) === true, gefunden)
+  pruefe('genau sieben Titel zählen (Apple, MagentaTV, ARD Plus Apple, Mit-Ton, Händler+Abo, frei, Werbung)', jw?.size === 7, gefunden)
   pruefe('istAmazonAngebot: Prime Video with Ads', istAmazonAngebot({ anbieter: 'Amazon Prime Video with Ads' }))
   pruefe('istAmazonAngebot: MX Player', istAmazonAngebot({ anbieter: 'Amazon MX Player' }))
   pruefe('istAmazonAngebot: Apple TV Store ist es nicht', !istAmazonAngebot({ anbieter: 'Apple TV Store' }))
@@ -96,8 +111,10 @@ try {
   const kartei = { ...ladeBelegsignale([]), kartei: new Set([APPLE_MIT_TON]) }
   pruefe('Synchronkartei plus JustWatch (ohne Tonspur): very-high', belegstaerke(titel(APPLE_MIT_TON), kartei) === 'very-high')
   pruefe('JustWatch zählt in belegstaerke() nur über das Signal', belegstaerke(titel(APPLE, marke), { ...kartei, kartei: new Set(), justwatch: undefined }) === 'normal')
-  const weg = mitBelegstaerke([titel(APPLE, marke)], [], new Set())[0]
-  pruefe('kein Weg bekommt dub: true daraus', (weg?.streams ?? []).length === 0, weg?.streams)
+  const nein = [{ platform: 'netflix', url: 'x', dub: false }]
+  const weg = mitBelegstaerke([titel(APPLE, { ...marke, streams: structuredClone(nein) as never })], [], new Set())[0]
+  pruefe('kein Weg bekommt dub: true daraus, ein Weg mit dub: false bleibt', JSON.stringify(weg?.streams) === JSON.stringify(nein), weg?.streams)
+  pruefe('derselbe Titel wird dabei high (JustWatch plus Marke)', weg?.dubConfidence === 'high', weg?.dubConfidence)
 } finally {
   rmSync(kulisse, { recursive: true, force: true })
 }
