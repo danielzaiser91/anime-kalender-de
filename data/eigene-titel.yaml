@@ -1,0 +1,43 @@
+# Eigene Titel: belegte Ankündigungen für Titel, die kein AniList-Eintrag trägt (Daniel, 04.11.2026:
+# „ein fehlender AniList-Eintrag ist nie ein Grund, etwas nicht anzuzeigen“).
+#
+# Der Titel erscheint im Kalender, sobald hier eine Zeile steht. Der Termin kommt nicht von hier, sondern wie bei jedem Titel aus der
+# Meldung (`releasesAus`): Der Titel muss dafür unter genau dem Namen stehen, den die Meldung nennt. Anbieter und Tag sagen, was die
+# Quelle belegt; fehlt der Termin im Bau, steht das im Bestandsprüfer (`check-eigene-titel-bestand.ts`).
+#
+# Felder je Zeile:
+#   nr         laufende Nummer, nie wiederverwendet (Kennung = 5.000.000 + nr)
+#   name       Name so, wie die Meldung ihn nennt (deutsch)
+#   format     TV | MOVIE | OVA | ONA | SPECIAL
+#   anbieter   Plattformkennungen (`PLATFORMS`), die die Quelle für Deutsch nennt
+#   tag        Starttag laut Quelle (JJJJ-MM-TT)
+#   sources    Adressen der Quelle (https)
+#   zitat      der belegende Satz, wörtlich
+#   zuId       (optional) Kennung des Katalogtitels, in dem dieser Titel aufgeht: Termine ziehen um, die alte Adresse leitet weiter
+#   widerrufen (optional) Quelle und Datum, wenn die Ankündigung zurückgenommen wurde: Titel und Termin entfallen, die Nummer bleibt vergeben
+#
+# Führt ein Katalog den Titel später selbst, meldet der Bestandsprüfer „Katalog führt jetzt …“: dann `zuId` setzen, nicht löschen.
+
+- nr: 1
+  name: Z wie Zorro – Der Film
+  format: MOVIE
+  anbieter: [joyn, primevideo]
+  tag: 2026-11-03
+  sources: [https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/]
+  zitat: "»Z wie Zorro – Der Film« Laufzeit: 106 Minuten Sprache: Deutsch Stream: Joyn , Prime Video (Überschrift: 25 Anime-Neuzugänge ab sofort auf Joyn verfügbar, 3. November 2026)"
+
+- nr: 2
+  name: Zorros Geheimnis
+  format: MOVIE
+  anbieter: [joyn, primevideo]
+  tag: 2026-11-03
+  sources: [https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/]
+  zitat: "»Zorros Geheimnis« Laufzeit: 88 Minuten Sprache: Deutsch Stream: Joyn , Prime Video (Überschrift: 25 Anime-Neuzugänge ab sofort auf Joyn verfügbar, 3. November 2026)"
+
+- nr: 3
+  name: M.A.S.K.
+  format: TV
+  anbieter: [primevideo]
+  tag: 2026-11-01
+  sources: [https://www.anime2you.de/news/1065078/aniverse-november-2026-neuzugaenge/]
+  zitat: "Der Prime Video Channel aniverse stockt sein Programm auch im November 2026 mit mehreren neuen Anime-Titeln auf. … 1. November: »M.A.S.K.« Episoden: 73 (komplett) Sprache: Deutsch Stream: Noch nicht verfügbar"
