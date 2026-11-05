@@ -207,6 +207,8 @@ export function uebernehmePrimeUndCrVorschlaege({
        * steht der Kauftitel unter „Kaufen oder leihen" und der Kanal-Titel unter
        * „Im Abo".
        */
+      /* Keine Adresse, die die Linkprüfung als tot kennt (17.09.2026) — weder als neuer Weg noch als Ersatz einer Suchadresse (Fairy Tail, 05.11.2026). */
+      if (seite && lautPruefungTot(seite)) continue
       const da =
         (seite ? title.streams.find((x) => x.platform === plattform && germanizeUrl(plattform, x.url) === seite) : null) ??
         (plattform === 'primevideo'
@@ -260,7 +262,6 @@ export function uebernehmePrimeUndCrVorschlaege({
           und diese Runde legte den 404 nach jedem Bau erneut an — dieselbe Stelle wie
           bei den Handbelegen eine Runde später.
         */
-        if (lautPruefungTot(seite)) continue
         title.streams.push({ platform: plattform, url: seite, dub: belegt || undefined })
         ausRoh++
       }
