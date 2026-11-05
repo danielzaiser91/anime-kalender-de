@@ -19,3 +19,9 @@ export const ALTFAELLE: string[] = [
 export function ratscheVerletzt(altfaelle: readonly string[], grenze: number): boolean {
   return altfaelle.length > grenze
 }
+
+/** Altfall-Liste der Wächter; Prozesstests setzen `AK_NOTIZSEITE_ALTFAELLE` (JSON-Liste) auf eigene Fixture-Fälle. */
+export function leseAltfaelle(env: Record<string, string | undefined> = process.env): string[] {
+  const roh = env.AK_NOTIZSEITE_ALTFAELLE
+  return roh ? (JSON.parse(roh) as string[]) : ALTFAELLE
+}
