@@ -318,6 +318,47 @@ console.log('liegegut: offene PRs in Blöcken (GraphQL-Limit 05.11.2026)')
   pruefe('Limit bei comments → je PR ein pr view, andere Felder unverändert', limit.slice(3).join('|') === 'pr view 7 --json comments|pr view 9 --json comments' && zeilen[1].comments[0] === 'einzeln-9' && zeilen[0].comments[0] === 'einzeln-7' && zeilen[0].reviews[0] === 'r7', limit)
 }
 
+console.log('liegegut: Fehlerwege der Blöcke (Prüfer A1–A3)')
+{
+  const p1 = { number: 7, title: 'a', isDraft: false, body: 'b1' }
+  const p2 = { number: 9, title: 'z', isDraft: false, body: 'b2' }
+  const LIMIT = new Error('Command failed\nGraphQL: Resource limits for this query exceeded.')
+  const bau = (verhalten) => (args) => {
+    const f = args[args.indexOf('--json') + 1]
+    if (args[1] === 'list' && f.startsWith('number,title')) return JSON.stringify([p1, p2])
+    return verhalten(args, f)
+  }
+  const gruppe = (nr, f) => (f.includes('comments') ? { number: nr, comments: [] } : { number: nr, reviews: [], statusCheckRollup: [] })
+  const liste = (f) => JSON.stringify([gruppe(7, f), gruppe(9, f)])
+  const wirft = (text) => { try { text(); return null } catch (e) { return String(e.message) } }
+  const http = wirft(() => offenePrs(bau((a, f) => { if (f === 'number,comments') throw new Error('HTTP 502'); return liste(f) })))
+  pruefe('A1: HTTP 502 in einer Gruppe schlägt durch (kein pr view)', http === 'HTTP 502', http)
+  const aus = []
+  pruefe('A1: Exit 2 mit FEHLER bei HTTP 502', main(bau((a, f) => { if (f === 'number,comments') throw new Error('HTTP 502'); return liste(f) }), attrappeGit(), (t) => aus.push(t), JETZT) === 2 && /FEHLER HTTP 502/.test(aus.join()), aus)
+  const aufrufe = []
+  const rr = offenePrs(bau((a, f) => {
+    aufrufe.push(a.join(' '))
+    if (a[1] === 'list' && f === 'number,reviews,statusCheckRollup') throw LIMIT
+    if (a[1] === 'view') return JSON.stringify({ reviews: ['v' + a[2]], statusCheckRollup: [] })
+    return liste(f)
+  }))
+  pruefe('A2: Limit bei reviews,statusCheckRollup → pr view je PR mit genau diesen Feldern', aufrufe.filter((x) => x.startsWith('pr view')).join('|') === 'pr view 7 --json reviews,statusCheckRollup|pr view 9 --json reviews,statusCheckRollup' && rr[1].reviews[0] === 'v9' && rr[0].comments.length === 0, aufrufe)
+  const view = wirft(() => offenePrs(bau((a, f) => {
+    if (a[1] === 'list' && f === 'number,comments') throw LIMIT
+    if (a[1] === 'view') throw new Error('HTTP 404: pr view')
+    return liste(f)
+  })))
+  pruefe('A2: Fehler im pr view des Rückfalls schlägt durch', view === 'HTTP 404: pr view', view)
+  const hinweise = []
+  const fehlt = offenePrs(bau((a, f) => (f === 'number,comments' ? JSON.stringify([gruppe(9, f)]) : liste(f))), (h) => hinweise.push(h))
+  pruefe('A3: PR 7 fehlt in einer Gruppe → übersprungen, Hinweiszeile mit Nummer, PR 9 bleibt', fehlt.length === 1 && fehlt[0].number === 9 && hinweise.length === 1 && /PR 7 übersprungen/.test(hinweise[0]), { fehlt, hinweise })
+  const gesamt = []
+  const ghGanz = bau((a, f) => (f === 'number,comments' ? JSON.stringify([gruppe(9, f)]) : liste(f)))
+  const rest = attrappeGh([pr(9)])
+  const code = main((a) => (a[1] === 'list' ? ghGanz(a) : rest(a)), attrappeGit(), (t) => gesamt.push(t), JETZT)
+  pruefe('A3: main meldet die Hinweiszeile und läuft mit Exit 0 durch', code === 0 && gesamt.some((z) => /PR 7 übersprungen/.test(z)) && /liegegut: \d+ auffällige PRs/.test(gesamt.at(-1)), gesamt)
+}
+
 console.log('liegegut: eigener Prozess (Vorlader tools/pr-nachrechnen-mock.mjs)')
 {
   const werk = fs.mkdtempSync(path.join(os.tmpdir(), 'liegegut-'))

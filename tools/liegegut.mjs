@@ -214,33 +214,40 @@ function bewertePr(ghFn, gitFn, pr, geteilt, jetzt, karte) {
 const FELDER_LEICHT = 'number,title,headRefOid,createdAt,mergeable,mergeStateStatus,isDraft,body'
 const FELDER_GRUPPEN = ['reviews,statusCheckRollup', 'comments']
 
-/** Eine Feldgruppe aller offenen PRs; scheitert die Sammelabfrage am GraphQL-Limit, je PR einzeln (`pr view`). */
+/** Eine Feldgruppe aller offenen PRs; scheitert die Sammelabfrage am GraphQL-Limit (nur dann), je PR einzeln (`pr view`); jeder andere Fehler schlägt durch. */
 function feldGruppe(ghFn, felder, nummern) {
   try {
     return JSON.parse(ghFn(['pr', 'list', '--state', 'open', '--limit', '100', '--json', `number,${felder}`]))
-  } catch {
+  } catch (e) {
+    if (!/Resource limits/.test(String(e.message))) throw e
     return nummern.map((n) => ({ number: n, ...JSON.parse(ghFn(['pr', 'view', String(n), '--json', felder])) }))
   }
 }
 
 /** Offene PRs mit allen Feldern: leichte Abfrage plus Feldgruppen getrennt, weil comments+reviews+statusCheckRollup zusammen das GraphQL-Limit sprengen (05.11.2026, 48 PRs). */
-export function offenePrs(ghFn) {
+export function offenePrs(ghFn, hinweis = () => {}) {
   const leicht = JSON.parse(ghFn(['pr', 'list', '--state', 'open', '--limit', '100', '--json', FELDER_LEICHT]))
   const nummern = leicht.map((p) => p.number)
   const gruppen = FELDER_GRUPPEN.flatMap((g) => feldGruppe(ghFn, g, nummern))
-  return leicht.map((p) => Object.assign({}, p, ...gruppen.filter((g) => g.number === p.number)))
+  const vollstaendig = []
+  for (const p of leicht) {
+    const teile = gruppen.filter((g) => g.number === p.number)
+    if (teile.length === FELDER_GRUPPEN.length) vollstaendig.push(Object.assign({}, p, ...teile))
+    else hinweis(`liegegut: PR ${p.number} übersprungen (in einer Feldgruppe nicht mehr offen)`)
+  }
+  return vollstaendig
 }
 
 /** Holt die offenen PRs über gh/git (einspeisbar) und rechnet alle. Rückgabe: Funde { nr, signale, zeile }. */
-export function liegegutFunde(ghFn, gitFn, jetzt) {
-  const offen = offenePrs(ghFn).filter((p) => !p.isDraft)
+export function liegegutFunde(ghFn, gitFn, jetzt, hinweis) {
+  const offen = offenePrs(ghFn, hinweis).filter((p) => !p.isDraft)
   const geteilt = geteilteEntscheidungen(offen)
   const karte = kopfZeiten(ghFn)
   return offen.map((pr) => bewertePr(ghFn, gitFn, pr, geteilt.get(pr.number), jetzt, karte)).filter((f) => f !== null)
 }
 
 /** Dieselben Funde als Textzeilen. */
-export const liegegut = (ghFn, gitFn, jetzt) => liegegutFunde(ghFn, gitFn, jetzt).map((f) => f.zeile)
+export const liegegut = (ghFn, gitFn, jetzt, hinweis) => liegegutFunde(ghFn, gitFn, jetzt, hinweis).map((f) => f.zeile)
 
 const KURZ = { 1: 'Freigabe ruht', 2: 'Urteile widersprechen', 3: 'Konflikt', 4: 'rot', 5: 'Ändern offen', 6: 'gleiche Entscheidung', 8: 'Stillstand' }
 
@@ -278,7 +285,7 @@ export function git(args) {
 /** Startlogik: Fehler als Exit 2, Funde als Exit 0. */
 export function main(ghFn, gitFn, melde, jetzt) {
   try {
-    const zeilen = liegegut(ghFn, gitFn, jetzt)
+    const zeilen = liegegut(ghFn, gitFn, jetzt, melde)
     for (const z of zeilen) melde(z)
     melde(`liegegut: ${zeilen.length} auffällige PRs`)
     return 0
