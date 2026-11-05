@@ -18,6 +18,7 @@ import yaml from 'js-yaml'
 import { log, warn, writeJson } from './lib/util.ts'
 import { meldeAnClaude } from './lib/meldung.ts'
 import { FRISTEN } from '../tools/quellen-fristen.mjs'
+import { leerZeilen } from '../tools/quellen-leer.mjs'
 
 const args = process.argv.slice(2)
 const index = args.indexOf('--max-age')
@@ -54,8 +55,12 @@ function main(): void {
     }
   }
 
+  const leer = leerZeilen(health, Date.now())
+  for (const zeile of leer) warn(zeile)
+
   /* Wochenwache (`delta-wache.yml`): stumme Quellen als Meldung an Claude, ohne `blocker.json` zu überschreiben (die Datei gehört dem Bau). */
   if (args.includes('--nur-melden')) {
+    if (leer.length) meldeAnClaude('wache-woechentlich', 'warnung', `Quellen grün, aber leer: ${leer.join('; ')}`, 'data/source-health.json')
     if (stale.length) {
       meldeAnClaude('wache-woechentlich', 'warnung', `Stumme Quellen (Frist überschritten): ${stale.map((n) => `${n} ${Number.isFinite(daysSince(health[n]?.lastOk)) ? `seit ${daysSince(health[n]?.lastOk).toFixed(0)} Tagen` : 'noch nie'}`).join(', ')}`, 'data/source-health.json')
     }

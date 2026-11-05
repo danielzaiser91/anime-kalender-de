@@ -513,6 +513,7 @@ tools/link-check-zeitbudget.test.ts
 tools/link-faelligkeit.test.ts
 tools/quarantaene-pruefungen.test.ts
 tools/quellen-gesundheit.test.ts
+tools/quellen-leer.test.ts
 tools/quelltext-lesungen.mjs
 tools/quittung-nach-commit-waechter.mjs
 tools/sammler-pruefschritt-waechter.mjs

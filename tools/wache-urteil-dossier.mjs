@@ -76,7 +76,7 @@ function quellen() {
   const zeilen = Object.entries(gesund)
     .map(([name, s]) => ({ name, tage: (Date.now() - Date.parse(s.lastOk)) / (24 * STUNDEN), s }))
     .sort((a, b) => (Number.isFinite(b.tage) ? b.tage : 1e9) - (Number.isFinite(a.tage) ? a.tage : 1e9))
-    .map(({ name, tage, s }) => `${name.padEnd(28)} letzter Erfolg ${Number.isFinite(tage) ? `vor ${tage.toFixed(1)} Tagen` : 'nie'}, ${s.lastCount ?? '?'} Treffer${s.lastError ? `, Fehler: ${s.lastError}` : ''}`)
+    .map(({ name, tage, s }) => `${name.padEnd(28)} letzter Erfolg ${Number.isFinite(tage) ? `vor ${tage.toFixed(1)} Tagen` : 'nie'}, ${s.lastCount ?? '?'} Treffer${s.lastError ? `, Fehler: ${s.lastError}` : ''}${s.leerSeit ? `, grün aber leer seit ${s.leerSeit.slice(0, 10)}` : ''}`)
   const blocker = existsSync('public/data/blocker.json') ? lies('public/data/blocker.json').slice(0, 2000) : '(Datei fehlt)'
   return `source-health.json, ältester Erfolg zuerst:\n${zeilen.join('\n')}\n\npublic/data/blocker.json:\n${blocker}\n`
 }

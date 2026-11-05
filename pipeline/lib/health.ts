@@ -23,6 +23,13 @@ export interface SourceState {
   lastError?: string
   /** Nur `link-check`: Amazon hat im letzten Lauf gesperrt (steuert die Drossel des Folgelaufs). */
   gesperrt?: boolean
+  /** Seit wann jeder Lauf grün endet, aber 0 Treffer meldet („grün, aber leer“); fehlt, sobald etwas geliefert wird oder ein Lauf Fehler meldet. */
+  leerSeit?: string
+}
+
+/** Setzt `leerSeit` fort, setzt es neu oder löscht es (undefined). */
+export function leerSeitNeu(vorher: string | undefined, now: string, count: number, erfolgreich: boolean): string | undefined {
+  return erfolgreich && count === 0 ? (vorher ?? now) : undefined
 }
 
 export type SourceHealth = Record<string, SourceState>
@@ -87,6 +94,7 @@ export function recordSource(
     lastCount: count,
     lastError: erfolgreich ? undefined : (error ?? previous?.lastError),
     gesperrt: gesperrt ?? previous?.gesperrt,
+    leerSeit: leerSeitNeu(previous?.leerSeit, now, count, erfolgreich),
   }
   writeJson(FILE, health, true)
 }
