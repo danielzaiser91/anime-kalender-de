@@ -45,11 +45,11 @@ pruefe('Kulisse: Notiz als Objekt ist rot', kuratiert('  note:\n    text: x\n').
 pruefe('Kulisse: Notiz als Liste ist rot', kuratiert('  note:\n    - eins\n').code === 1)
 
 /* Der Kasten wählt die Notiz des Releases, dessen Termin gilt: Treffer in der Mitte, andere ohne Notiz oder mit anderem Termin. */
-const release = (slug: string, tag: string, note?: string) =>
-  ({ slug, platform: 'crunchyroll', releaseType: 'weekly', schedule: { firstEpisodeDate: tag }, note }) as unknown as Release
+const release = (slug: string, tag: string, hinweis?: string) =>
+  ({ slug, platform: 'crunchyroll', releaseType: 'weekly', schedule: { firstEpisodeDate: tag }, hinweis }) as unknown as Release
 const mitte = [release('a', '2026-08-02'), release('b', '2026-08-09', 'Hinweis'), release('c', '2026-08-16')]
-pruefe('Der Kasten zeigt die Notiz des Releases mit Notiz', kastenNotizVon(mitte, '2026-10-18')?.note === 'Hinweis')
-pruefe('Ohne Notiz zeigt der Kasten nichts', kastenNotizVon(mitte.map((r) => ({ ...r, note: undefined })), '2026-10-18') === undefined)
+pruefe('Der Kasten zeigt die Notiz des Releases mit Notiz', kastenNotizVon(mitte, '2026-10-18')?.hinweis === 'Hinweis')
+pruefe('Ohne Notiz zeigt der Kasten nichts', kastenNotizVon(mitte.map((r) => ({ ...r, hinweis: undefined })), '2026-10-18') === undefined)
 
 if (fehler) {
   console.error(`${fehler} Prüfung(en) fehlgeschlagen`)
