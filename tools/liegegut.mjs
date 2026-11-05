@@ -214,24 +214,10 @@ function bewertePr(ghFn, gitFn, pr, geteilt, jetzt, karte) {
   return { nr: pr.number, signale: nummern.map((n, i) => ({ nr: n, seit: zeiten[i] })), zeile: text }
 }
 
-export const FELDER_KERN = 'number,title,headRefOid,createdAt,mergeable,mergeStateStatus,isDraft,body'
-// Je Block ein eigener Listenaufruf: alle Felder in einer Abfrage überschritten ab ~50 PRs das GraphQL-Knotenlimit („Resource limits exceeded“, 05.11.2026).
-export const FELDER_BLOECKE = ['comments', 'reviews', 'statusCheckRollup']
-
-/** Offene PRs: leichte Liste einmal, schwere Felder blockweise nachgeladen und über die Nummer angefügt. */
-export function ladeOffene(ghFn) {
-  const liste = (felder) => JSON.parse(ghFn(['pr', 'list', '--state', 'open', '--limit', '100', '--json', felder]))
-  const offen = liste(FELDER_KERN)
-  for (const feld of FELDER_BLOECKE) {
-    const werte = new Map(liste(`number,${feld}`).map((p) => [p.number, p[feld]]))
-    for (const pr of offen) pr[feld] = werte.get(pr.number) ?? []
-  }
-  return offen
-}
-
 /** Holt die offenen PRs über gh/git (einspeisbar) und rechnet alle. Rückgabe: Funde { nr, signale, zeile }. */
 export function liegegutFunde(ghFn, gitFn, jetzt) {
-  const offen = ladeOffene(ghFn).filter((p) => !p.isDraft)
+  const felder = 'number,title,headRefOid,createdAt,mergeable,mergeStateStatus,isDraft,body,comments,reviews,statusCheckRollup'
+  const offen = JSON.parse(ghFn(['pr', 'list', '--state', 'open', '--limit', '100', '--json', felder])).filter((p) => !p.isDraft)
   const geteilt = geteilteEntscheidungen(offen)
   const karte = kopfZeiten(ghFn)
   return offen.map((pr) => bewertePr(ghFn, gitFn, pr, geteilt.get(pr.number), jetzt, karte)).filter((f) => f !== null)

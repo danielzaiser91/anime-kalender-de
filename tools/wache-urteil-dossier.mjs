@@ -38,9 +38,9 @@ export function briefkastenMitHilfe(aus) {
 }
 
 /** Läufe der letzten 48 Stunden je Workflow: Zählung nach Ausgang; je Workflow mit Fehlschlägen die drei jüngsten mit Zweig und Adresse. */
-function laeufe() {
+export function laeufe(ghFn = ghMitFrist) {
   // Gemessen 05.11.2026: 100 Läufe 3 s, 300 9 s, 1000 25 s (über der Einzelfrist von 15 s: dauerhaft "abgebrochen"); 700 (~17 s) mit Stapelfrist (30 s).
-  const roh = ghMitFrist(LIMIT_STAPEL_MS, 'run', 'list', '--repo', REPO, '--limit', '700', '--json', 'workflowName,conclusion,status,createdAt,url,headBranch')
+  const roh = ghFn(LIMIT_STAPEL_MS, 'run', 'list', '--repo', REPO, '--limit', '700', '--json', 'workflowName,conclusion,status,createdAt,url,headBranch')
   const alle = JSON.parse(roh)
   const grenze = Date.now() - 48 * STUNDEN
   const jung = alle.filter((l) => Date.parse(l.createdAt) >= grenze)

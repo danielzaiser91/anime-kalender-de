@@ -15,7 +15,7 @@ const pruefe = (name, ok, info) => {
 
 const JETZT = Date.parse('2026-10-30T12:00:00Z')
 const vorStunden = (h) => new Date(JETZT - h * 3600 * 1000).toISOString()
-const KERN = 'number,title,headRefOid,createdAt,mergeable,mergeStateStatus,isDraft,body'
+const FELDER = 'number,title,headRefOid,createdAt,mergeable,mergeStateStatus,isDraft,body,comments,reviews,statusCheckRollup'
 const KOPF = 'a1b2c3d4e5f60718293a4b5c6d7e8f9012345678'
 
 console.log('liegt-wachphase: Sammelzeile (rein)')
@@ -52,13 +52,9 @@ console.log('liegt-wachphase: eigener Prozess laeufe-aufraeumen --trocken')
     graphqlSchluessel = args.join(' ')
     return ''
   })
-  const liste = `pr list --state open --limit 100 --json ${KERN}`
-  const block = (feld) => ({ [`pr list --state open --limit 100 --json number,${feld}`]: { aus: JSON.stringify([{ number: 2377, [feld]: still[feld] }]) } })
+  const liste = `pr list --state open --limit 100 --json ${FELDER}`
   const daten = {
-    [liste]: { aus: JSON.stringify([{ ...still, comments: undefined, reviews: undefined, statusCheckRollup: undefined }]) },
-    ...block("comments"),
-    ...block("reviews"),
-    ...block("statusCheckRollup"),
+    [liste]: { aus: JSON.stringify([still]) },
     [graphqlSchluessel]: { aus: `${KOPF} ${vorStunden(100)}\n` },
     'pr list --state open --limit 100 --json number,title,body,createdAt': { aus: '[]' },
     'api repos/danielzaiser91/anime-kalender-de/issues/comments?sort=created&direction=desc&per_page=100': { aus: '[]' },

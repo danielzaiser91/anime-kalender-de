@@ -9,7 +9,7 @@ import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
-import { checkStand, geteilteEntscheidungen, kopfZeitVon, kopfZeiten, ladeOffene, liegegut, main, mainCommits, naechsterSchritt, signaleEinzel, stillstandSignal, ueberholtTreffer, urteile } from './liegegut.mjs'
+import { checkStand, geteilteEntscheidungen, kopfZeitVon, kopfZeiten, liegegut, main, mainCommits, naechsterSchritt, signaleEinzel, stillstandSignal, ueberholtTreffer, urteile } from './liegegut.mjs'
 
 const fehler = []
 const pruefe = (name, ok, info) => {
@@ -222,7 +222,7 @@ const LISTE = [
 ]
 const attrappeGh = (liste, aufrufe = []) => (args) => {
   aufrufe.push(args.join(' '))
-  if (args[0] === 'pr') return JSON.stringify(liste.map((p) => Object.fromEntries(args[args.indexOf('--json') + 1].split(',').map((k) => [k, p[k]]))))
+  if (args[0] === 'pr') return JSON.stringify(liste)
   if (args[1].includes('/commits/')) return h(100)
   if (args[1].endsWith('/files')) return args[1].includes('/1437/') ? 'pipeline/bau/urteil-schliesst-luecken.ts\n' : args[1].includes('/1390/') ? 'extension/melder.js\n' :'andere.ts\n'
   throw new Error(`unerwartet: ${args.join(' ')}`)
@@ -289,19 +289,6 @@ console.log('liegegut: Gesamtlauf mit Anlassfällen')
   pruefe('git log mit origin/main, Beginn am PR-Datum und Dateinamen', git.length > 0 && git.every((a) => a === `log origin/main --since=${h(200)} --name-only --format=%x01%h%x09%s`), git)
 }
 
-console.log('liegegut: Blockbildung (GraphQL-Knotenlimit)')
-{
-  const aufrufe = []
-  const liste = [pr(11, { comments: [daniel(2, 'a')], reviews: [{ id: 'r11' }] }), pr(22, { comments: [daniel(3, 'b')], reviews: [] })]
-  const offen = ladeOffene(attrappeGh(liste, aufrufe))
-  const json = aufrufe.map((a) => a.split(' ').at(-1))
-  pruefe('vier Listenaufrufe: leichter Kern, dann je ein Block', json.length === 4 && json[0] === 'number,title,headRefOid,createdAt,mergeable,mergeStateStatus,isDraft,body' && json.slice(1).join('|') === 'number,comments|number,reviews|number,statusCheckRollup', json)
-  pruefe('kein Aufruf holt schwere Felder zusammen mit dem Kern', json.every((j) => (j.match(/comments|reviews|statusCheckRollup/g) ?? []).length <= 1), json)
-  pruefe('Blöcke werden über die Nummer angefügt: comments, reviews, Checks je PR richtig', offen[0].comments.length === 1 && offen[0].reviews[0].id === 'r11' && offen[1].reviews.length === 0 && offen[1].comments[0].body.trim() === 'b' && JSON.stringify(offen[1].statusCheckRollup) === JSON.stringify(liste[1].statusCheckRollup), offen)
-  const luecke = (args) => JSON.stringify(JSON.parse(attrappeGh(liste)(args)).filter((p) => p.number !== 22 || !args.at(-1).startsWith('number,comments')))
-  pruefe('PR fehlt im Block → leere Liste statt undefined', ladeOffene(luecke)[1].comments.length === 0)
-}
-
 console.log('liegegut: Nichtauskunft und Startlogik')
 {
   const meldungen = []
@@ -320,13 +307,10 @@ console.log('liegegut: Nichtauskunft und Startlogik')
 console.log('liegegut: eigener Prozess (Vorlader tools/pr-nachrechnen-mock.mjs)')
 {
   const werk = fs.mkdtempSync(path.join(os.tmpdir(), 'liegegut-'))
-  const kern = 'number,title,headRefOid,createdAt,mergeable,mergeStateStatus,isDraft,body'
+  const felder = 'number,title,headRefOid,createdAt,mergeable,mergeStateStatus,isDraft,body,comments,reviews,statusCheckRollup'
   const frei = pr(1676, { comments: [{ author: { login: 'github-actions' }, createdAt: '2026-10-20T10:44:00Z', body: `**Prüfer-Review** für ${KOPF.slice(0, 9)} - Urteil: **ok**` }] })
   const daten = {
-    [`pr list --state open --limit 100 --json ${kern}`]: { aus: JSON.stringify([{ ...frei, comments: undefined, statusCheckRollup: undefined }]) },
-    'pr list --state open --limit 100 --json number,comments': { aus: JSON.stringify([{ number: 1676, comments: frei.comments }]) },
-    'pr list --state open --limit 100 --json number,reviews': { aus: JSON.stringify([{ number: 1676, reviews: [] }]) },
-    'pr list --state open --limit 100 --json number,statusCheckRollup': { aus: JSON.stringify([{ number: 1676, statusCheckRollup: frei.statusCheckRollup }]) },
+    [`pr list --state open --limit 100 --json ${felder}`]: { aus: JSON.stringify([frei]) },
     [`api repos/{owner}/{repo}/commits/${KOPF} --jq .commit.committer.date`]: { aus: '2026-10-20T10:40:00Z\n' },
     'api repos/{owner}/{repo}/pulls/1676/files --paginate --jq .[].filename': { aus: 'tools/x.mjs\n' },
     [`log origin/main --since=${frei.createdAt} --name-only --format=%x01%h%x09%s`]: { aus: '' },
@@ -336,7 +320,7 @@ console.log('liegegut: eigener Prozess (Vorlader tools/pr-nachrechnen-mock.mjs)'
   const skript = fileURLToPath(new URL('./liegegut.mjs', import.meta.url))
   const lauf = spawnSync(process.execPath, ['--import', vorlader, skript], { encoding: 'utf8', env: { ...process.env, ATTRAPPE_LOG: path.join(werk, 'log.txt'), ATTRAPPE_DATEN: path.join(werk, 'daten.json') } })
   pruefe('Prozess: Exit 0, Zeile für 1676 und Schlusszeile', lauf.status === 0 && /PR 1676: MERGEN – Signal 1/.test(lauf.stdout) && /liegegut: 1 auffällige PRs/.test(lauf.stdout), { s: lauf.status, o: lauf.stdout, e: lauf.stderr })
-  const leerDaten = { ...daten, [`pr list --state open --limit 100 --json ${kern}`]: { fehler: 'HTTP 502' } }
+  const leerDaten = { ...daten, [`pr list --state open --limit 100 --json ${felder}`]: { fehler: 'HTTP 502' } }
   fs.writeFileSync(path.join(werk, 'daten.json'), JSON.stringify(leerDaten))
   const kaputt = spawnSync(process.execPath, ['--import', vorlader, skript], { encoding: 'utf8', env: { ...process.env, ATTRAPPE_LOG: path.join(werk, 'log.txt'), ATTRAPPE_DATEN: path.join(werk, 'daten.json') } })
   pruefe('Prozess: Abruffehler → Exit 2 mit FEHLER', kaputt.status === 2 && /liegegut: FEHLER/.test(kaputt.stdout), { s: kaputt.status, o: kaputt.stdout })
