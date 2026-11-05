@@ -197,7 +197,7 @@ async function tageswechselUndCpu() {
     best = Math.min(best, performance.now() - start)
   }
   pruefe(pushFaellig(viele, t), 'Yaiba zwischen 4.369 anderen Terminen wird gefunden')
-  pruefe(best < 25, `4.370 Termine: ${best.toFixed(1)} ms je Aufruf (Grenze 25 ms; ohne Vorfilter ~90 ms)`)
+  pruefe(best < 10, `4.370 Termine: ${best.toFixed(1)} ms je Aufruf (Grenze 10 ms wie das Free-Limit; ohne Vorfilter ~90 ms)`)
   /* Der Stundenlauf rechnet über denselben Vorfilter. */
   const db = neueDatenbank()
   const env = await umgebung(db, viele, 'ak:1')
@@ -207,7 +207,7 @@ async function tageswechselUndCpu() {
     await pushVersand(env, new Date('2026-11-05T16:05:00.000Z'), viele, (e, z) => istErschienen(e, z))
     stunde = Math.min(stunde, performance.now() - start)
   }
-  pruefe(stunde < 25, `Stundenlauf (pushVersand ohne Neues) mit 4.370 Terminen: ${stunde.toFixed(1)} ms (Grenze 25 ms)`)
+  pruefe(stunde < 10, `Stundenlauf (pushVersand ohne Neues) mit 4.370 Terminen: ${stunde.toFixed(1)} ms (Grenze 10 ms)`)
 }
 
 function wrangler() {
