@@ -110,7 +110,7 @@ function pruefeJackZeilen(): void {
   const titel = cartoons.find((x) => x.id === JACK)
   const netflix = pillen(JACK).filter((s) => s.platform === 'netflix')
   if (!titel || !netflix.some((s) => s.teilBereich)) {
-    console.log('Cartoon-Wege falten (Bestand): Jack ohne Netflix-Teilwege im Bestand, Anker übersprungen')
+    console.log('⚠ WARNUNG Cartoon-Wege falten (Bestand): Jack ohne Netflix-Teilwege im Bestand, Anker übersprungen')
     return
   }
   const zeilen = zeilenTexte(titel).filter((z) => z.name === 'Netflix')
@@ -127,7 +127,7 @@ function pruefeJackZeilen(): void {
 function pruefeOmNom(): void {
   const om = pillen(OM_NOM)
   if (om.length === 0) {
-    console.log('Cartoon-Wege falten (Bestand): Om Nom Stories nicht im Bestand, Anker übersprungen')
+    console.log('⚠ WARNUNG Cartoon-Wege falten (Bestand): Om Nom Stories nicht im Bestand, Anker übersprungen')
     return
   }
   pruefe(om.length <= MAX_PILLEN_OM_NOM, `Om Nom Stories zeigt ${om.length} Pillen (höchstens ${MAX_PILLEN_OM_NOM})`)
