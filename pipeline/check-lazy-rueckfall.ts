@@ -7,7 +7,7 @@ import { readdirSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { act, createElement as h, Suspense } from 'react'
 import { createRoot } from 'react-dom/client'
-import { attrappeUhr, ignoriereCss, installiereMiniDom } from '../tools/mini-dom.ts'
+import { attrappeUhr, ignoriereCss, installiereMiniDom, klicke } from '../tools/mini-dom.ts'
 ignoriereCss()
 const { lazyMitRueckfall } = await import('../web/src/components/lazy-mit-rueckfall.tsx')
 
@@ -21,8 +21,9 @@ function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
 }
 
 /** Rendert einen Wrapper um das Paket und liefert Text und Zahl der Knöpfe; ein Wurf kommt als Text „WURF“ zurück. */
-async function zeige(laden: () => Promise<unknown>): Promise<{ text: string; knoepfe: number }> {
-  const dom = installiereMiniDom({ ...attrappeUhr(), matchMedia: () => ({ matches: false, addEventListener() {}, removeEventListener() {} }) }, () => ({}))
+async function zeige(laden: () => Promise<unknown>): Promise<{ text: string; knoepfe: number; neuGeladen: number }> {
+  let neuGeladen = 0
+  const dom = installiereMiniDom({ ...attrappeUhr(), matchMedia: () => ({ matches: false, addEventListener() {}, removeEventListener() {} }), location: { reload: () => neuGeladen++ } } as never, () => ({}))
   const Teil = lazyMitRueckfall<{ wort: string }>(laden, (m) => m.Gut)
   const wurzel = createRoot(dom.wurzel as unknown as Element)
   const fehler = console.error
@@ -40,10 +41,12 @@ async function zeige(laden: () => Promise<unknown>): Promise<{ text: string; kno
   }
   console.error = fehler
   const text = geworfen ? 'WURF' : (dom.wurzel.textContent ?? '').replace(/\s+/g, ' ')
-  const knoepfe = geworfen ? 0 : dom.wurzel.finde((k) => k.tagName?.toLowerCase() === 'button').length
+  const knopf = geworfen ? [] : dom.wurzel.finde((k) => k.tagName === 'BUTTON')
+  const knoepfe = knopf.length
+  if (knopf[0]) klicke(dom.wurzel, knopf[0])
   await act(async () => wurzel.unmount())
   dom.entferne()
-  return { text, knoepfe }
+  return { text, knoepfe, neuGeladen }
 }
 
 const Gut = ({ wort }: { wort: string }) => h('p', null, wort)
@@ -51,10 +54,10 @@ const gut = await zeige(() => Promise.resolve({ Gut }))
 pruefe('Paket da: der Inhalt erscheint, kein Rückfall', gut.text.includes('Probe-Inhalt') && gut.knoepfe === 0, gut)
 
 const leer = await zeige(() => Promise.resolve(undefined))
-pruefe('import() löst mit undefined auf: kein Wurf, Rückfall mit Neuladen-Knopf', leer.text.includes('nicht geladen werden') && leer.knoepfe === 1, leer)
+pruefe('import() löst mit undefined auf: kein Wurf, Rückfall, der Knopf lädt die Seite neu', leer.text.includes('nicht geladen werden') && leer.knoepfe === 1 && leer.neuGeladen === 1, leer)
 
 const abgelehnt = await zeige(() => Promise.reject(new Error('Chunk fehlt')))
-pruefe('import() lehnt ab: kein Wurf, Rückfall mit Neuladen-Knopf', abgelehnt.text.includes('nicht geladen werden') && abgelehnt.knoepfe === 1, abgelehnt)
+pruefe('import() lehnt ab: kein Wurf, Rückfall, der Knopf lädt die Seite neu', abgelehnt.text.includes('nicht geladen werden') && abgelehnt.knoepfe === 1 && abgelehnt.neuGeladen === 1, abgelehnt)
 
 /* Verdrahtung: alle Wrapper nehmen den Helfer, keiner `lazy` aus React. */
 const ordner = join(import.meta.dirname, '../web/src/components')
