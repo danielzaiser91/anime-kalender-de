@@ -1,11 +1,11 @@
 {
-  "scrapedAt": "2026-11-05T16:03:09.390Z",
+  "scrapedAt": "2026-11-05T19:02:26.716Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 4,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 5,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "schon in einem Rubrik-Feed gelesen": 5,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 17,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 16,
+    "schon in einem Rubrik-Feed gelesen": 6,
     "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 2,
     "Sprachhinweis älter als 45 Tage": 6
   },
@@ -44,6 +44,27 @@
         }
       ],
       "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Deutscher Trailer zu »There’s No Freaking Way I’ll Be Your Lover! Unless…«",
+      "articleUrl": "https://www.anime2you.de/news/1068225/theres-no-freaking-way-ill-be-your-lover-unless-synchro-trailer/",
+      "publishedAt": "2026-11-05",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2026-11-19",
+          "context": "26 »There’s No Freaking Way I’ll Be Your Lover! Unless…« erscheint am 19. November 2026 in einer […] Der Beitrag Deutscher Trailer zu »The"
+        },
+        {
+          "month": "2026-11",
+          "context": "utschen Synchro-Trailer veröffentlicht, den ihr unten findet. Release im November 2026 »There’s No Freaking Way I’ll Be Your Lover! Unless…«"
+        }
+      ],
+      "dub": "ja",
       "alreadyCurated": false
     },
     {
