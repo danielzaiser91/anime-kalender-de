@@ -8195,15 +8195,19 @@ console.log('\nBeleg: Fundstelle, Banner, Handlung:')
   }
   /* „Im Angebot seit" aus der aniSearch-Erstausgabe (Magilumière Staffel 2, 05.10.2026). */
   {
-    const titel = (id: number, extra: Record<string, unknown>) => ({ id, titleEn: `T${id}`, format: 'TV', episodes: 12, anisearchId: id + 100, streams: [{ platform: 'primevideo', url: 'https://www.amazon.de/gp/video/detail/X', dub: true }], ...extra }) as unknown as Title
+    const titel = (id: number, extra: Record<string, unknown>) => ({ id, titleEn: `T${id}`, format: 'TV', episodes: 12, streams: [{ platform: 'primevideo', url: 'https://www.amazon.de/gp/video/detail/X', dub: true }], ...extra }) as unknown as Title
     const erst = (von: string, publisher: string) => ({ deErstausgabe: { von, publisher, synchro: true } })
     const releases: Release[] = [{ titleId: 4 } as Release]
+    /* Der Bau-Titel trägt keine `anisearchId` (wie im echten Bau); die Kennung kommt aus der Zuordnung. Titel 6 hat keine. */
+    const kennungen = new Map([[1, 101], [2, 102], [3, 103], [4, 104], [5, 105]])
     const neu = ergaenzeErstausgabeAngebot({
-      titles: [titel(1, erst('2026-07-04', 'Amazon.com, Inc.')), titel(2, erst('2025-07-04', 'Amazon.com, Inc.')), titel(3, erst('2026-07-04', 'KSM Anime')), titel(4, erst('2026-07-04', 'Amazon.com, Inc.')), titel(5, { ...erst('2026-07-04', 'Netflix, Inc.') })],
+      titles: [titel(1, erst('2026-07-04', 'Amazon.com, Inc.')), titel(2, erst('2025-07-04', 'Amazon.com, Inc.')), titel(3, erst('2026-07-04', 'KSM Anime')), titel(4, erst('2026-07-04', 'Amazon.com, Inc.')), titel(5, { ...erst('2026-07-04', 'Netflix, Inc.') }), titel(6, erst('2026-07-04', 'Amazon.com, Inc.'))],
       releases,
+      kennungen,
     })
-    pruefe('Erstausgabe ab 2026 bei Amazon: ein Eintrag „Im Angebot seit" mit aniSearch als Quelle', neu === 1 && releases.some((r) => r.titleId === 1 && r.dateMeaning === 'available-from' && r.platform === 'primevideo' && r.sources[0] === 'https://www.anisearch.de/anime/101'), JSON.stringify(releases.map((r) => [r.titleId, r.platform])))
+    pruefe('Erstausgabe ab 2026 bei Amazon: ein Eintrag „Im Angebot seit" mit aniSearch als Quelle', neu === 1 && releases.some((r) => r.titleId === 1 && r.dateMeaning === 'available-from' && r.platform === 'primevideo' && r.sources[0] === 'https://www.anisearch.de/anime/101' && r.quellen?.[0]?.url === r.sources[0]), JSON.stringify(releases.map((r) => [r.titleId, r.platform])))
     pruefe('nicht für 2025, nicht für Disc-Verlage, nicht bei vorhandenem Termin, nicht ohne Weg zum Anbieter', !releases.some((r) => [2, 3, 5].includes(r.titleId)) && releases.filter((r) => r.titleId === 4).length === 1)
+    pruefe('ohne aniSearch-Kennung entsteht kein Termin (kein Termin ohne Quelle)', !releases.some((r) => r.titleId === 6) && releases.every((r) => r.titleId === 4 || r.sources.length > 0))
   }
   /* Magenta führt Joyn/Disney+ durch (Daniel, 04.10.2026): die Folgenseite fällt weg, Staffelübersicht und Kaufseite bleiben. */
   {
