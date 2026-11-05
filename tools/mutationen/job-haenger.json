@@ -51,8 +51,8 @@
   { "name": "neustartPlan: fehlende Info neustarten", "datei": "tools/job-haenger.mjs", "suche": "    if (!i) continue\n", "ersetze": "    if (!i) { neustart.push(id); continue }\n" },
   { "name": "neustartPlan: fehlende Info verwerfen", "datei": "tools/job-haenger.mjs", "suche": "    if (!i) continue\n", "ersetze": "    if (!i) { verwerfen.push(id); continue }\n" },
   { "name": "neustartPlan: Rueckgabe vertauscht", "datei": "tools/job-haenger.mjs", "suche": "return { neustart, verwerfen }", "ersetze": "return { neustart: verwerfen, verwerfen: neustart }" },
-  { "name": "holeLaeufeMitJobs: catch -> undefined", "datei": "tools/job-haenger.mjs", "suche": "return { ...l, jobs: [] }", "ersetze": "return { ...l, jobs: undefined }" },
-  { "name": "holeLaeufeMitJobs: catch wirft", "datei": "tools/job-haenger.mjs", "suche": "return { ...l, jobs: [] }", "ersetze": "throw new Error('x')" },
+  { "name": "holeLaeufeMitJobs: catch -> undefined", "datei": "tools/job-haenger.mjs", "suche": "} catch {\n      return { ...l, jobs: [] }", "ersetze": "} catch {\n      return { ...l, jobs: undefined }" },
+  { "name": "holeLaeufeMitJobs: catch wirft", "datei": "tools/job-haenger.mjs", "suche": "} catch {\n      return { ...l, jobs: [] }", "ersetze": "} catch {\n      throw new Error('x')" },
   { "name": "holeLaeufeMitJobs: Liste ?? [] entfaellt", "datei": "tools/job-haenger.mjs", "suche": ".workflow_runs ?? []", "ersetze": ".workflow_runs" },
   { "name": "holeLaeufeMitJobs: Jobs fremder Lauf", "datei": "tools/job-haenger.mjs", "suche": "runs/${l.id}/jobs?per_page=100", "ersetze": "runs/1/jobs?per_page=100" },
   { "name": "holeLaeufeMitJobs: Statusfilter", "datei": "tools/job-haenger.mjs", "suche": "actions/runs?status=in_progress&per_page=100", "ersetze": "actions/runs?status=queued&per_page=100" },
@@ -100,5 +100,5 @@
   { "name": "holeLaeufe: Filter entfaellt", "datei": "tools/job-haenger.mjs", "suche": "    if (jetztMs - Date.parse(l.run_started_at) < HAENGER_MINUTEN * 60_000) return { ...l, jobs: [] }\n", "ersetze": "" },
   { "name": "holeLaeufe: Filter immer", "datei": "tools/job-haenger.mjs", "suche": "if (jetztMs - Date.parse(l.run_started_at) < HAENGER_MINUTEN * 60_000) return", "ersetze": "if (true) return" },
   { "name": "holeLaeufe: Vorzeichen", "datei": "tools/job-haenger.mjs", "suche": "if (jetztMs - Date.parse(l.run_started_at) <", "ersetze": "if (Date.parse(l.run_started_at) - jetztMs <" },
-  { "name": "haengerWache: jetztMs nicht durchgereicht", "datei": "tools/job-haenger.mjs", "suche": "holeLaeufeMitJobs(gh, repo, jetztMs)", "ersetze": "holeLaeufeMitJobs(gh, repo)" }
+  { "name": "haengerWache: jetztMs nicht durchgereicht", "datei": "tools/job-haenger.mjs", "suche": "const laeufe = holeLaeufeMitJobs(gh, repo, jetztMs)", "ersetze": "const laeufe = holeLaeufeMitJobs(gh, repo)" }
 ]
