@@ -28,6 +28,16 @@ export function suchenOhneTitelseite(offen: OffeneSuche[], slim: SlimTitel[]): O
   })
 }
 
+/** Logzeile über die Einträge, die der Endzustand beantwortet hat (Anzahl und bis zu drei Beispiele). */
+export function logzeileBeantwortete(offen: OffeneSuche[], uebrig: OffeneSuche[]): string {
+  const bleibt = new Set(uebrig)
+  const weg = offen.filter((e) => !bleibt.has(e))
+  const beispiele = weg.slice(0, 3).map((e) => `${e.id} ${e.titel} (${e.plattform})`).join(', ')
+  return `Suchadressen-Liste: ${weg.length} von ${offen.length} Einträgen im Endzustand beantwortet${weg.length ? ` — z. B. ${beispiele}` : ''}`
+}
+
 export function schreibeSuchadressenImEndzustand(offen: OffeneSuche[], slim: SlimTitel[]): void {
-  schreibeSuchadressen(suchenOhneTitelseite(offen, slim))
+  const uebrig = suchenOhneTitelseite(offen, slim)
+  console.log(logzeileBeantwortete(offen, uebrig))
+  schreibeSuchadressen(uebrig)
 }
