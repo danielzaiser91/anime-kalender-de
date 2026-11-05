@@ -183,6 +183,8 @@ export function uebernehmePrimeUndCrVorschlaege({
       /* Kein Schreibzweig für eine Adresse, die irgendein Handbeleg verneint — `checks` kennt je Titel nur den letzten (Date A Live, 19.10.2026). */
       if (adresseVerneint(alleChecks, eintrag.titleId, plattform, seite)) continue
 
+      /* Keine Adresse, die die Linkprüfung als tot kennt (17.09.2026) — weder als neuer Weg noch als Ersatz einer Suchadresse (Fairy Tail, 05.11.2026). */
+      if (seite && lautPruefungTot(seite)) continue
       /**
        * **Zwei Ausgaben desselben Titels sind zwei Wege, keine Dublette.**
        *
@@ -207,8 +209,6 @@ export function uebernehmePrimeUndCrVorschlaege({
        * steht der Kauftitel unter „Kaufen oder leihen" und der Kanal-Titel unter
        * „Im Abo".
        */
-      /* Keine Adresse, die die Linkprüfung als tot kennt (17.09.2026) — weder als neuer Weg noch als Ersatz einer Suchadresse (Fairy Tail, 05.11.2026). */
-      if (seite && lautPruefungTot(seite)) continue
       const da =
         (seite ? title.streams.find((x) => x.platform === plattform && germanizeUrl(plattform, x.url) === seite) : null) ??
         (plattform === 'primevideo'
