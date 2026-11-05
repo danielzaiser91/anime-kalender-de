@@ -1,5 +1,5 @@
 /** Die Nachlade-Pakete (Detailpanel, Filterfeld, Monat, Einstellungen) liegen im Leerlauf bereit, damit das erste Tippen nicht wartet. */
-const PAKETE: Array<() => Promise<unknown>> = [
+export const PAKETE: Array<() => Promise<unknown>> = [
   () => import('../components/DetailPanel.tsx'),
   () => import('../components/kalender/FilterFeld.tsx'),
   () => import('../components/MonthView.tsx'),
@@ -24,6 +24,7 @@ export function nachladeVorwaermen(
   if (leitungKnapp(leitung)) return () => {}
   let abgebrochen = false
   let marke: number | undefined
+  let mitLeerlauf = false
   const weiter = (i: number) => {
     if (abgebrochen || i >= pakete.length) return
     const los = () => {
@@ -31,11 +32,14 @@ export function nachladeVorwaermen(
       pakete[i]().catch(() => {}).finally(() => weiter(i + 1))
     }
     /* Safari kennt requestIdleCallback nicht. */
-    marke = typeof window.requestIdleCallback === 'function' ? window.requestIdleCallback(los, { timeout: 4000 }) : window.setTimeout(los, 1500)
+    mitLeerlauf = typeof window.requestIdleCallback === 'function'
+    marke = mitLeerlauf ? window.requestIdleCallback(los, { timeout: 4000 }) : window.setTimeout(los, 1500)
   }
   weiter(0)
   return () => {
     abgebrochen = true
-    if (marke !== undefined && 'cancelIdleCallback' in window) window.cancelIdleCallback(marke)
+    if (marke === undefined) return
+    if (mitLeerlauf) window.cancelIdleCallback(marke)
+    else window.clearTimeout(marke)
   }
 }
