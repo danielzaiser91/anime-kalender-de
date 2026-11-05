@@ -94,5 +94,11 @@
   { "name": "laeufe-aufraeumen: trocken nicht durchgereicht", "datei": "tools/laeufe-aufraeumen.mjs", "suche": "{ trocken: TROCKEN })) console.log", "ersetze": "{ trocken: false })) console.log" },
   { "name": "laeufe-aufraeumen: trocken immer", "datei": "tools/laeufe-aufraeumen.mjs", "suche": "{ trocken: TROCKEN })) console.log", "ersetze": "{ trocken: true })) console.log" },
   { "name": "laeufe-aufraeumen: Speicher ignoriert", "datei": "tools/laeufe-aufraeumen.mjs", "suche": "return i >= 0 ? args[i + 1] : join(tmpdir(), 'ak-wache-haenger.json')", "ersetze": "return join(tmpdir(), 'ak-wache-haenger.json')" },
-  { "name": "laeufe-aufraeumen: Repo falsch", "datei": "tools/laeufe-aufraeumen.mjs", "suche": "haengerWache((a) => gh(...a), REPO,", "ersetze": "haengerWache((a) => gh(...a), 'x/y'," }
+  { "name": "laeufe-aufraeumen: Repo falsch", "datei": "tools/laeufe-aufraeumen.mjs", "suche": "haengerWache((a) => gh(...a), REPO,", "ersetze": "haengerWache((a) => gh(...a), 'x/y'," },
+  { "name": "holeLaeufe: junger Lauf <= statt <", "datei": "tools/job-haenger.mjs", "suche": "< HAENGER_MINUTEN * 60_000) return", "ersetze": "<= HAENGER_MINUTEN * 60_000) return" },
+  { "name": "holeLaeufe: Mindestgrenze Sekunden statt Minuten", "datei": "tools/job-haenger.mjs", "suche": "HAENGER_MINUTEN * 60_000) return", "ersetze": "HAENGER_MINUTEN * 1_000) return" },
+  { "name": "holeLaeufe: Filter entfaellt", "datei": "tools/job-haenger.mjs", "suche": "    if (jetztMs - Date.parse(l.run_started_at) < HAENGER_MINUTEN * 60_000) return { ...l, jobs: [] }\n", "ersetze": "" },
+  { "name": "holeLaeufe: Filter immer", "datei": "tools/job-haenger.mjs", "suche": "if (jetztMs - Date.parse(l.run_started_at) < HAENGER_MINUTEN * 60_000) return", "ersetze": "if (true) return" },
+  { "name": "holeLaeufe: Vorzeichen", "datei": "tools/job-haenger.mjs", "suche": "if (jetztMs - Date.parse(l.run_started_at) <", "ersetze": "if (Date.parse(l.run_started_at) - jetztMs <" },
+  { "name": "haengerWache: jetztMs nicht durchgereicht", "datei": "tools/job-haenger.mjs", "suche": "holeLaeufeMitJobs(gh, repo, jetztMs)", "ersetze": "holeLaeufeMitJobs(gh, repo)" }
 ]

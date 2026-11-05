@@ -264,6 +264,20 @@ try {
   assert.ok(rerunFehl.zeilen.includes('  Lauf 31: Neustart gescheitert: HTTP 500: kaputt'), rerunFehl.zeilen.join('|'))
   assert.deepEqual(JSON.parse(readFileSync(merk, 'utf8')), { 31: { versuch: 1 } })
   assert.ok(aufrufe.some((x) => x === 'run rerun 31 --failed --repo o/r'))
+  // Junger Lauf (< 45 min) bekommt keinen Jobs-Abruf (Laufzeit der Wachphase), ab genau 45 min und ohne Startzeit schon; die Wache reicht die Zeit durch.
+  const startVor = (min) => new Date(JETZT - min * 60_000).toISOString()
+  const abrufe = []
+  const ghJung = (a) => {
+    abrufe.push(a[1])
+    if (a[1].includes('/runs?status')) return JSON.stringify({ workflow_runs: [{ id: 41, run_started_at: startVor(44.9) }, { id: 42, run_started_at: startVor(45) }, { id: 43, run_started_at: startVor(300) }, { id: 44 }] })
+    return JSON.stringify({ jobs: [{ name: 'x' }] })
+  }
+  const jung = holeLaeufeMitJobs(ghJung, 'o/r', JETZT)
+  assert.deepEqual(jung.map((l) => l.jobs.length), [0, 1, 1, 1])
+  assert.ok(!abrufe.some((x) => x.includes('/runs/41/')) && abrufe.some((x) => x.includes('/runs/42/')), abrufe.join('|'))
+  abrufe.length = 0
+  assert.equal(haengerWache(ghJung, 'o/r', wurzel, JETZT, merk, { trocken: true })[0].startsWith('Hänger: keine'), true)
+  assert.ok(!abrufe.some((x) => x.includes('/runs/41/')), 'Wache übergibt jetztMs')
   // Lauf ohne jobs-Feld und Antwort ohne workflow_runs sind leer, kein Absturz.
   assert.deepEqual(haengendeJobs([{ id: 1, path: 'x.yml' }], () => ({}), JETZT), [])
   assert.deepEqual(holeLaeufeMitJobs(() => '{}', 'o/r'), [])
