@@ -24,6 +24,7 @@
  */
 import { abbruchText, ghStapel, mitLimit } from './kind-mit-limit.mjs'
 import { erledigtArgumente, findeRotenLauf, holeLaeufe, holeVerlauf, letzteDatenAenderung, roteArten, stillstand, STILLSTAND_GRENZE_STUNDEN } from './laeufe-abruf.mjs'
+import { haengerWache } from './job-haenger.mjs'
 import { rotAlarmText } from './bestand-rot-alarm.mjs'
 import { git, meldeLiegt } from './liegegut.mjs'
 import { prueferZeilen } from './pruefer-unfertig-wache.mjs'
@@ -122,6 +123,12 @@ function weichSpeicher() {
   return i >= 0 ? args[i + 1] : join(tmpdir(), 'ak-wache-weicher-schritt.json')
 }
 
+/** `--haenger-speicher <datei>` (Test) oder eine Datei im Temp-Ordner: abgebrochene Läufe mit ausstehendem Neustart. */
+function haengerSpeicher() {
+  const i = args.indexOf('--haenger-speicher')
+  return i >= 0 ? args[i + 1] : join(tmpdir(), 'ak-wache-haenger.json')
+}
+
 async function main() {
   // Ein roter Sammler-Fund lässt den Lauf grün; er bleibt als PR liegen und muss hier auffallen (tools/rote-sammler-prs.mjs).
   const erledigt = erledigtArgumente(args)
@@ -135,6 +142,7 @@ async function main() {
   for (const zeile of quellenZeilen) console.log(zeile)
   for (const zeile of weichWache(ghStapel, REPO, wurzel(), Date.now(), weichSpeicher())) console.log(zeile)
   for (const zeile of prueferZeilen(gh, REPO)) console.log(zeile)
+  for (const zeile of haengerWache((a) => gh(...a), REPO, wurzel(), Date.now(), haengerSpeicher(), { trocken: TROCKEN })) console.log(zeile)
   try {
     await laeufePruefen(erledigt)
   } finally {
