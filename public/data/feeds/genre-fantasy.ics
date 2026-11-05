@@ -604,6 +604,16 @@ DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
 CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-158871-tv-super-rtl@2026-11-05@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261105T151500Z
+DTEND:20261105T154500Z
+SUMMARY:Pokémon Horizonte – Folge 25
+DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
+ ails: https://anime-kalender.de/t/14839/
+CATEGORIES:Super RTL
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-118399-tv-prosieben-maxx@2026-11-05@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261105T154000Z
@@ -622,6 +632,16 @@ SUMMARY:Dragon Ball
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-158871-tv-toggo-plus@2026-11-05@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261105T161500Z
+DTEND:20261105T164500Z
+SUMMARY:Pokémon Horizonte – Folge 25
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/14839/
+CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-11-05#59@anime-kalender-de
@@ -662,6 +682,16 @@ SUMMARY:ONE PIECE – Folge 780/877
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/12/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-112153-tv-toggo-plus@2026-11-05@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261105T201500Z
+DTEND:20261105T204500Z
+SUMMARY:Pokémon Reisen: Die Serie
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/10852/
+CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-885-primevideo@2026-11-05@anime-kalender-de
