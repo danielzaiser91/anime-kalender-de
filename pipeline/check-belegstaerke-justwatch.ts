@@ -23,6 +23,7 @@ const APPLE_KANAL = 900209
 const ARD_APPLE = 900210
 const KEIN_DE = 900211
 const OHNE_TREFFER = 900212
+const AMAZON_WWW = 900213
 
 const kulisse = mkdtempSync(join(tmpdir(), 'belegstaerke-justwatch-'))
 process.env.AK_ROOT = kulisse
@@ -44,6 +45,7 @@ writeFileSync(
     [APPLE_KANAL]: befund('tm9', [angebote('Apple TV Amazon Channel', ['de'])]),
     [ARD_APPLE]: befund('tm10', [angebote('ARD Plus Apple TV channel', ['de'])]),
     [KEIN_DE]: befund('tm11', [angebote('Apple TV Store', ['ja'])]),
+    [AMAZON_WWW]: befund('tm13', [angebote('Irgendein Shop', ['de'], 'https://www.amazon.de/dp/B000TEST')]),
     [OHNE_TREFFER]: { geprueftAm: '2026-10-12', ohneTreffer: true, angebote: [angebote('Apple TV Store', ['de'])] },
   }),
 )
@@ -71,12 +73,14 @@ try {
   pruefe('nur Aniverse Amazon Channel (Japanisch) und Amazon Prime Video: zählt nicht', jw?.has(NUR_KANAL) === false, gefunden)
   pruefe('Amazon Video und Kixi Amazon Channel: zählt nicht', jw?.has(AMAZON_UND_MARKE) === false, gefunden)
   pruefe('Amazon-Adresse bei fremdem Anbietername: zählt nicht', jw?.has(AMAZON_ADRESSE) === false, gefunden)
+  pruefe('Amazon-Adresse (www) bei fremdem Anbietername: zählt nicht', jw?.has(AMAZON_WWW) === false, gefunden)
   pruefe('Apple TV Amazon Channel: zählt nicht', jw?.has(APPLE_KANAL) === false, gefunden)
   pruefe('Apple ohne Deutsch: zählt nicht', jw?.has(KEIN_DE) === false, gefunden)
   pruefe('Befund ohne Treffer: zählt nicht', jw?.has(OHNE_TREFFER) === false, gefunden)
   pruefe('Befund, den sich zwei Titel teilen: zählt für keinen', jw?.has(GETEILT_A) === false && jw?.has(GETEILT_B) === false, gefunden)
   pruefe('genau vier Titel zählen (Apple, MagentaTV, ARD Plus Apple, Mit-Ton)', jw?.size === 4, gefunden)
   pruefe('istAmazonAngebot: Prime Video with Ads', istAmazonAngebot({ anbieter: 'Amazon Prime Video with Ads' }))
+  pruefe('istAmazonAngebot: MX Player', istAmazonAngebot({ anbieter: 'Amazon MX Player' }))
   pruefe('istAmazonAngebot: Apple TV Store ist es nicht', !istAmazonAngebot({ anbieter: 'Apple TV Store' }))
 
   console.log('\nBelegstärke: JustWatch als eine mittlere Quelle über den Bau (mitBelegstaerke)')

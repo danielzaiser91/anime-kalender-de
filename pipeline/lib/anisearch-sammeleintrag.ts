@@ -36,7 +36,7 @@ export function justwatchDeutsch(bestand: Record<string, JwBefund>, angebotZaehl
 export const ladeJustwatchDeutsch = (): Set<number> => justwatchDeutsch(readJson<Record<string, JwBefund>>('data/justwatch-audio.json', {}))
 
 /** Ein Amazon-Angebot (Prime, Video, jeder Amazon-Kanal): seine Sprachangabe ist Amazons eigene (Kanal-Regel, `kanal-titel.ts`), keine zweite Quelle. */
-export const istAmazonAngebot = (a: Pick<JwAngebot, 'anbieter' | 'url'>): boolean => /amazon|prime video|mx player/i.test(a.anbieter) || /\/\/(watch|www)\.amazon\./i.test(a.url ?? '')
+export const istAmazonAngebot = (a: Pick<JwAngebot, 'anbieter' | 'url'>): boolean => /amazon/i.test(a.anbieter) || /\/\/(watch|www)\.amazon\./i.test(a.url ?? '')
 
 /** Titel, deren JustWatch-Befund Deutsch an einem Nicht-Amazon-Angebot nennt (Apple, MagentaTV, maxdome, Rakuten, JPC, Crunchyroll …); ohne Verfallsfrist: die Existenz einer deutschen Fassung ändert sich nicht. */
 export const ladeJustwatchDeutschOhneAmazon = (): Set<number> =>
