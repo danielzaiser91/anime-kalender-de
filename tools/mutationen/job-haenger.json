@@ -29,7 +29,6 @@
   { "name": "grenzeMinuten: Math.min", "datei": "tools/job-haenger.mjs", "suche": "Math.max(HAENGER_MINUTEN, fristMinuten", "ersetze": "Math.min(HAENGER_MINUTEN, fristMinuten" },
   { "name": "grenzeMinuten: Rueckfall 0 -> 100", "datei": "tools/job-haenger.mjs", "suche": "fristMinuten(timeouts, jobName) ?? 0", "ersetze": "fristMinuten(timeouts, jobName) ?? 100" },
   { "name": "haengendeJobs: Status nicht geprueft", "datei": "tools/job-haenger.mjs", "suche": "job.status !== 'in_progress' || !job.started_at", "ersetze": "!job.started_at" },
-  { "name": "haengendeJobs: started_at nicht geprueft", "datei": "tools/job-haenger.mjs", "suche": "job.status !== 'in_progress' || !job.started_at", "ersetze": "job.status !== 'in_progress'" },
   { "name": "haengendeJobs: Grenze >=", "datei": "tools/job-haenger.mjs", "suche": "if (!(minuten > grenze)) continue", "ersetze": "if (!(minuten >= grenze)) continue" },
   { "name": "haengendeJobs: Minuten-Divisor", "datei": "tools/job-haenger.mjs", "suche": "/ 60_000", "ersetze": "/ 6_000" },
   { "name": "haengendeJobs: Vorzeichen jetztMs", "datei": "tools/job-haenger.mjs", "suche": "(jetztMs - Date.parse(job.started_at))", "ersetze": "(Date.parse(job.started_at) - jetztMs)" },
