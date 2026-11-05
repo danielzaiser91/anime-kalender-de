@@ -1,6 +1,6 @@
 # Arbeitspakete: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-11-04 · **87 offene Verweise** in **69 Zeilen**,
+Stand 2026-11-05 · **88 offene Verweise** in **70 Zeilen**,
 aufgeteilt in **4 Pakete** zu je 20.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Derselbe Bestand wie in
@@ -74,48 +74,49 @@ der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 | 32 | Prime Video | Aesthetica of a Rogue Hero | [Hauptserie](https://www.amazon.de/gp/video/detail/B0GVKRLHXX) |
 | 33 | Netflix | Zom 100: Bucket List of the Dead | [Hauptserie](https://www.netflix.com/title/81680101) |
 | 34 | Netflix | Shojo-Mangaka Nozaki-kun | [Hauptserie](https://www.netflix.com/title/80081848) |
-| 35 | Netflix | Devil May Cry | [Hauptserie](https://www.netflix.com/title/81506915) |
-| 36 | Netflix | One Piece | [Abenteuer in Alabasta - Die Wüstenprinzessin](https://www.netflix.com/title/70086565) · [Chopper und das Wunder der Winterkirschblüte](https://www.netflix.com/title/80998780) · [Z](https://www.netflix.com/title/80198443) · [3D2Y: Überwinde Ace’s Tod! Das Gelübde der Kameraden](https://www.netflix.com/title/81679587) |
-| 37 | Netflix | Meine ganz besondere Hochzeit | [Special](https://www.netflix.com/title/82643530) |
-| 38 | Netflix | 5 Centimeters per Second | [Hauptserie](https://www.netflix.com/title/70093699) |
-| 39 | Prime Video | Code Geass: Lelouch of the Rebellion | [Initiation](https://watch.amazon.de/detail?gti=amzn1.dv.gti.b0bb7dff-f320-0490-8aec-76f307a1f81d) · [Verherrlichung](https://watch.amazon.de/detail?gti=amzn1.dv.gti.88bb7e12-4a26-732f-eb5b-37733d139471) |
-| 40 | Netflix | Haikyu!! | [Movie 3 - Talent Und Gespür](https://www.netflix.com/title/81030151) · [Movie 4 - Ein Kampf der Konzepte](https://www.netflix.com/title/81030152) |
+| 35 | Netflix | JoJo’s Bizarre Adventure | [Steel Ball Run: Jojo’s Bizarre Adventure - Phase 2-3](https://www.netflix.com/title/82116553) |
+| 36 | Netflix | Devil May Cry | [Hauptserie](https://www.netflix.com/title/81506915) |
+| 37 | Netflix | One Piece | [Abenteuer in Alabasta - Die Wüstenprinzessin](https://www.netflix.com/title/70086565) · [Chopper und das Wunder der Winterkirschblüte](https://www.netflix.com/title/80998780) · [Z](https://www.netflix.com/title/80198443) · [3D2Y: Überwinde Ace’s Tod! Das Gelübde der Kameraden](https://www.netflix.com/title/81679587) |
+| 38 | Netflix | Meine ganz besondere Hochzeit | [Special](https://www.netflix.com/title/82643530) |
+| 39 | Netflix | 5 Centimeters per Second | [Hauptserie](https://www.netflix.com/title/70093699) |
+| 40 | Prime Video | Code Geass: Lelouch of the Rebellion | [Initiation](https://watch.amazon.de/detail?gti=amzn1.dv.gti.b0bb7dff-f320-0490-8aec-76f307a1f81d) · [Verherrlichung](https://watch.amazon.de/detail?gti=amzn1.dv.gti.88bb7e12-4a26-732f-eb5b-37733d139471) |
 
 ## Paket 3 — Zeilen 41 bis 60
 
 | # | Anbieter | Reihe | Noch zu bestätigen |
 |---|---|---|---|
-| 41 | Netflix | No Game No Life | [Zero](https://www.netflix.com/title/81068687) |
-| 42 | Netflix | Jujutsu Kaisen | [0](https://www.netflix.com/title/81602834) |
-| 43 | Netflix | Slam Dunk | [The First Slam Dunk](https://www.netflix.com/title/81765372) |
-| 44 | Netflix | Overlord | [The Sacred Kingdom](https://www.netflix.com/title/82040442) |
-| 45 | Prime Video | Spy × Family | [Code: White](https://watch.amazon.de/detail?gti=amzn1.dv.gti.a3523598-4cd6-4004-8763-f4fbb45e0ac6) |
-| 46 | Prime Video | My Hero Academia | [You’re Next](https://watch.amazon.de/detail?gti=amzn1.dv.gti.c903bcab-b4d5-4bdb-b418-70ab5650132e) |
-| 47 | Prime Video | Bluelock | [Blue Lock: The Movie - Episode Nagi](https://watch.amazon.de/detail?gti=amzn1.dv.gti.ae9245d5-07c5-41ce-ba90-d9f8779f046c) |
-| 48 | Prime Video | Haikyu!! | [Das Play-off der Müllhalde](https://watch.amazon.de/detail?gti=amzn1.dv.gti.467b800e-3262-4857-82b7-ed7a8634cb5b) |
-| 49 | Netflix | Resident Evil: Infinite Darkness | [Resident Evil: Death Island](https://www.netflix.com/title/81714596) |
-| 50 | Netflix | GREEN DA KA RA × Mirai no Mirai | [Mirai: Das Mädchen aus der Zukunft](https://www.netflix.com/title/81004268) |
-| 51 | Prime Video | Mobile Suit Gundam | [Cucuruz Doan’s Island](https://watch.amazon.de/detail?gti=amzn1.dv.gti.c38ba568-4a91-4796-ac66-2577e5c97b8a) |
-| 52 | Netflix | Blue Giant | [Hauptserie](https://www.netflix.com/title/81763062) |
-| 53 | Netflix | The Deer King | [Hauptserie](https://www.netflix.com/title/81700393) |
-| 54 | Netflix | Belle | [Hauptserie](https://www.netflix.com/title/81492822) |
-| 55 | Netflix | Lu over the Wall | [Hauptserie](https://www.netflix.com/title/80238911) |
-| 56 | Netflix | Demon Slayer: Kimetsu no Yaiba | [The Movie: Mugen Train](https://www.netflix.com/title/81410810) |
-| 57 | Netflix | The Legend of Luoxiaohei | [The Legend of Hei: Die Kraft in dir](https://www.netflix.com/title/81427481) |
-| 58 | Netflix | Children of the Sea | [Hauptserie](https://www.netflix.com/title/81208104) |
-| 59 | Prime Video | LUPIN THE IIIRD: Zenigata and the Two Lupins | [Lupin III.: Fujiko Mines Lüge](https://watch.amazon.de/detail?gti=amzn1.dv.gti.077c1435-754d-407d-9d26-9ddb34a272d0) |
-| 60 | Netflix | Okko’s Inn | [Okko und ihre Geisterfreunde](https://www.netflix.com/title/81037597) |
+| 41 | Netflix | Haikyu!! | [Movie 3 - Talent Und Gespür](https://www.netflix.com/title/81030151) · [Movie 4 - Ein Kampf der Konzepte](https://www.netflix.com/title/81030152) |
+| 42 | Netflix | No Game No Life | [Zero](https://www.netflix.com/title/81068687) |
+| 43 | Netflix | Jujutsu Kaisen | [0](https://www.netflix.com/title/81602834) |
+| 44 | Netflix | Slam Dunk | [The First Slam Dunk](https://www.netflix.com/title/81765372) |
+| 45 | Netflix | Overlord | [The Sacred Kingdom](https://www.netflix.com/title/82040442) |
+| 46 | Prime Video | Spy × Family | [Code: White](https://watch.amazon.de/detail?gti=amzn1.dv.gti.a3523598-4cd6-4004-8763-f4fbb45e0ac6) |
+| 47 | Prime Video | My Hero Academia | [You’re Next](https://watch.amazon.de/detail?gti=amzn1.dv.gti.c903bcab-b4d5-4bdb-b418-70ab5650132e) |
+| 48 | Prime Video | Bluelock | [Blue Lock: The Movie - Episode Nagi](https://watch.amazon.de/detail?gti=amzn1.dv.gti.ae9245d5-07c5-41ce-ba90-d9f8779f046c) |
+| 49 | Prime Video | Haikyu!! | [Das Play-off der Müllhalde](https://watch.amazon.de/detail?gti=amzn1.dv.gti.467b800e-3262-4857-82b7-ed7a8634cb5b) |
+| 50 | Netflix | Resident Evil: Infinite Darkness | [Resident Evil: Death Island](https://www.netflix.com/title/81714596) |
+| 51 | Netflix | GREEN DA KA RA × Mirai no Mirai | [Mirai: Das Mädchen aus der Zukunft](https://www.netflix.com/title/81004268) |
+| 52 | Prime Video | Mobile Suit Gundam | [Cucuruz Doan’s Island](https://watch.amazon.de/detail?gti=amzn1.dv.gti.c38ba568-4a91-4796-ac66-2577e5c97b8a) |
+| 53 | Netflix | Blue Giant | [Hauptserie](https://www.netflix.com/title/81763062) |
+| 54 | Netflix | The Deer King | [Hauptserie](https://www.netflix.com/title/81700393) |
+| 55 | Netflix | Belle | [Hauptserie](https://www.netflix.com/title/81492822) |
+| 56 | Netflix | Lu over the Wall | [Hauptserie](https://www.netflix.com/title/80238911) |
+| 57 | Netflix | Demon Slayer: Kimetsu no Yaiba | [The Movie: Mugen Train](https://www.netflix.com/title/81410810) |
+| 58 | Netflix | The Legend of Luoxiaohei | [The Legend of Hei: Die Kraft in dir](https://www.netflix.com/title/81427481) |
+| 59 | Netflix | Children of the Sea | [Hauptserie](https://www.netflix.com/title/81208104) |
+| 60 | Prime Video | LUPIN THE IIIRD: Zenigata and the Two Lupins | [Lupin III.: Fujiko Mines Lüge](https://watch.amazon.de/detail?gti=amzn1.dv.gti.077c1435-754d-407d-9d26-9ddb34a272d0) |
 
-## Paket 4 — Zeilen 61 bis 69
+## Paket 4 — Zeilen 61 bis 70
 
 | # | Anbieter | Reihe | Noch zu bestätigen |
 |---|---|---|---|
-| 61 | Netflix | Fireworks: Alles eine Frage der Zeit | [Hauptserie](https://www.netflix.com/title/81000505) |
-| 62 | Netflix | Mutafukaz | [Hauptserie](https://www.netflix.com/title/81037697) |
-| 63 | Netflix | Girls & Panzer | [Girls und Panzer: Der Film](https://www.netflix.com/title/80159876) |
-| 64 | Netflix | Dragon Nest: Die Chroniken von Altera | [Hauptserie](https://www.netflix.com/title/80084763) |
-| 65 | Prime Video | Lupin III.: Teil 1 | [Lupin III.: Daisuke Jigens Grabstein](https://watch.amazon.de/detail?gti=amzn1.dv.gti.f783e7fb-3d94-40aa-88fb-2009fc9bfe2c) |
-| 66 | Netflix | TRAVA: FIST PLANET | [Redline](https://www.netflix.com/title/70153298) |
-| 67 | Netflix | Clannad | [OVA - Das Tomoyo Kapitel](https://www.netflix.com/title/70204963) |
-| 68 | Netflix | Appleseed: Kampf um die Freiheit | [Appleseed](https://www.netflix.com/title/70023531) |
-| 69 | Netflix | Detektiv Conan | [Der Magier des letzten Jahrhunderts](https://www.netflix.com/title/70126871) |
+| 61 | Netflix | Okko’s Inn | [Okko und ihre Geisterfreunde](https://www.netflix.com/title/81037597) |
+| 62 | Netflix | Fireworks: Alles eine Frage der Zeit | [Hauptserie](https://www.netflix.com/title/81000505) |
+| 63 | Netflix | Mutafukaz | [Hauptserie](https://www.netflix.com/title/81037697) |
+| 64 | Netflix | Girls & Panzer | [Girls und Panzer: Der Film](https://www.netflix.com/title/80159876) |
+| 65 | Netflix | Dragon Nest: Die Chroniken von Altera | [Hauptserie](https://www.netflix.com/title/80084763) |
+| 66 | Prime Video | Lupin III.: Teil 1 | [Lupin III.: Daisuke Jigens Grabstein](https://watch.amazon.de/detail?gti=amzn1.dv.gti.f783e7fb-3d94-40aa-88fb-2009fc9bfe2c) |
+| 67 | Netflix | TRAVA: FIST PLANET | [Redline](https://www.netflix.com/title/70153298) |
+| 68 | Netflix | Clannad | [OVA - Das Tomoyo Kapitel](https://www.netflix.com/title/70204963) |
+| 69 | Netflix | Appleseed: Kampf um die Freiheit | [Appleseed](https://www.netflix.com/title/70023531) |
+| 70 | Netflix | Detektiv Conan | [Der Magier des letzten Jahrhunderts](https://www.netflix.com/title/70126871) |
