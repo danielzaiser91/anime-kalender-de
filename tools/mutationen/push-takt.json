@@ -88,7 +88,7 @@
     "aenderungen": [
       {
         "datei": "worker/src/push-takt.ts",
-        "suche": "return ereignisse.some((e) => erschienen(e, jetzt) && !erschienen(e, seit))",
+        "suche": "return imTagesfenster(ereignisse, seit, jetzt).some((e) => erschienen(e, jetzt) && !erschienen(e, seit))",
         "ersetze": "return true"
       }
     ]
@@ -98,7 +98,7 @@
     "aenderungen": [
       {
         "datei": "worker/src/push-takt.ts",
-        "suche": "return ereignisse.some((e) => erschienen(e, jetzt) && !erschienen(e, seit))",
+        "suche": "return imTagesfenster(ereignisse, seit, jetzt).some((e) => erschienen(e, jetzt) && !erschienen(e, seit))",
         "ersetze": "return false"
       }
     ]
@@ -234,7 +234,7 @@
     ]
   },
   {
-    "name": "A1 Vorfilter zu schmal (kein Vortag)",
+    "name": "A1 Vorfilter zu schmal (kein Vortag; gleichwertig: ein Termin vom Vortag von von ist zu von schon erschienen)",
     "aenderungen": [
       {
         "datei": "worker/src/push-fenster.ts",
