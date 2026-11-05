@@ -287,18 +287,19 @@ async function discUebersichtNachholen(alle: Proposal[], heute: string): Promise
   return aus
 }
 
-async function fetchText(url: string): Promise<string | undefined> {
+/** `fehler`: nur die Feed-Abrufe geben ihn mit; Artikel- und Nachhol-Abrufe sagen nichts über den Feed. */
+async function fetchText(url: string, fehler?: string[]): Promise<string | undefined> {
   try {
     const res = await fetch(url, { headers: { 'User-Agent': UA, Accept: 'application/rss+xml, text/xml' } })
     if (!res.ok) {
       warn(`${url}: HTTP ${res.status}`)
-      abrufFehler.push(`${url}: HTTP ${res.status}`)
+      fehler?.push(`${url}: HTTP ${res.status}`)
       return undefined
     }
     return await res.text()
   } catch (err) {
     warn(`${url}: ${(err as Error).message}`)
-    abrufFehler.push(`${url}: ${(err as Error).message}`)
+    fehler?.push(`${url}: ${(err as Error).message}`)
     return undefined
   }
 }
@@ -372,7 +373,7 @@ async function main(): Promise<void> {
   const bekannt = new Map(readJson<{ proposals: Proposal[] }>(VORSCHLAEGE, { proposals: [] }).proposals.map((p) => [p.articleUrl, p] as const))
 
   for (const feed of FEEDS) {
-    const xml = await fetchText(feed.url)
+    const xml = await fetchText(feed.url, abrufFehler)
     if (!xml) continue
     const items = parseFeed(xml)
     log(`Anime2You ${feed.category}: ${items.length} Meldungen`)
