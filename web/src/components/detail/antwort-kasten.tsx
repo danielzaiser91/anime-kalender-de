@@ -165,7 +165,7 @@ export function AntwortKasten({
    * ist abgeleitet". Was nur unsere Zuordnung erklärt („Zum Start standen die
    * Folgen 1 bis 3 bereit", „Automatisch übernommen aus …"), steht seit dem
    * 13.09.2026 in `Release.herkunft` und nicht hier.
-   * **271 Releases haben eine**, und sie standen bis zum 04.09.2026 als
+   * **45 Releases haben eine** (Stand 05.11.2026, `data/curated/*.yaml`), und sie standen bis zum 04.09.2026 als
    * orangefarbener Kasten im Terminbereich.
    *
    * Mit dem Bereich sind sie verschwunden — unbeabsichtigt, denn die Pille

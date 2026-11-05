@@ -3600,8 +3600,8 @@ zeigen die Serie „im Originalton mit Untertiteln", Netflix ab 18.10. — keine
   „deutsch vertont", „Synchro", „Simuldub" …) — ein falsches Nein verwirft einen echten Termin; diese Formen werden bewusst
   nicht zur Zusage („die deutsche Tonspur fehlt noch" wäre sonst `ja`). Jede verworfene Meldung steht mit Fundstelle in
   `daniel-zum-abarbeiten/listen/23-nur-originalton.md`, eine geänderte Liste geht als Hinweis in den Posteingang (Prüfer-Befund PR 649).
-- `unklar`/`offen` (Tag belegt, Sprache nicht): das Release bleibt — nicht widerlegt —, aber `note` sagt es („Termin laut Quelle –
-  ob mit deutscher Synchro, sagt sie nicht." bzw. „… ist dort noch offen."); die Notiz steht im Antwortkasten und als Hinweis an der
+- `unklar`/`offen` (Tag belegt, Sprache nicht): das Release bleibt — nicht widerlegt —, aber `hinweis` sagt es („Termin laut Quelle –
+  ob mit deutscher Synchro, sagt sie nicht." bzw. „… ist dort noch offen."); der Text steht im Antwortkasten und als Hinweis an der
   News. Discs ausgenommen: deutsche Ausgaben tragen fast immer deutschen Ton, eine reine OmU-Ausgabe nennt der Artikel (`nein`).
 - Melden mehrere Artikel denselben Titel und Anbieter, gewinnt der mit Sprachzusage (vorher: der erste in der Datei).
 - Ältere Vorschläge werden an ihren gespeicherten Fundstellen nachgewertet (`spracheDerMeldung`, `lib/sprachbefund.ts`).

@@ -54,6 +54,17 @@ for (const [text, feld, code] of [['Laut Daniel', 'hinweis', 1], ['Daniels Sicht
   pruefe(`Kulisse: ${feld} „${text}“ ist ${code ? 'rot' : 'grün'}`, kuratiert(`  ${feld}: "${text}"\n`).code === code)
 }
 
+/* Der Wächter liest alle Dateien: eine Person im Hinweis einer zweiten YAML-Datei, die erste sauber. */
+const zweiDateien = (zeilen: string) =>
+  laufeInKulisse('check-folge-zwoelf-hinweis-bestand.ts', {
+    'data/curated/kulisse.yaml': '- slug: kulisse-a\n  hinweis: "Ein Satz."\n',
+    'data/curated/kulisse-zwei.yaml': `- slug: kulisse-c\n${zeilen}`,
+  })
+const zweiRot = zweiDateien('  hinweis: "Laut Daniels Sichtung"\n')
+pruefe('Zwei Dateien: Person im Hinweis der zweiten ist rot, Meldung nennt den Eintrag', zweiRot.code === 1 && zweiRot.aus.includes('kulisse-c'), zweiRot.aus)
+pruefe('Zwei Dateien: Person in der internen Notiz der zweiten ist grün', zweiDateien('  note: "Laut Daniel"\n').code === 0)
+pruefe('Zwei Dateien: sauberer Hinweis in beiden ist grün', zweiDateien('  hinweis: "Zweiter Satz."\n').code === 0)
+
 /* Der Kasten wählt die Notiz des Releases, dessen Termin gilt: Treffer in der Mitte, andere ohne Notiz oder mit anderem Termin. */
 const release = (slug: string, tag: string, hinweis?: string) =>
   ({ slug, platform: 'crunchyroll', releaseType: 'weekly', schedule: { firstEpisodeDate: tag }, hinweis }) as unknown as Release
