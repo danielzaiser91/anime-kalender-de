@@ -15,15 +15,19 @@ let faelle = 0
 
 const NETFLIX = 'https://www.netflix.com/title/81422700'
 
-function lauf(name: string, belegYaml: string, verweiseYaml: string, soll: 0 | 1, weg: { platform: string; dub?: boolean; status?: number | string } = { platform: 'primevideo' }): void {
+function lauf(name: string, belegYaml: string, verweiseYaml: string, soll: 0 | 1, weg: { platform: string; dub?: boolean; status?: number | string; zweiterWeg?: boolean } = { platform: 'primevideo' }): void {
   const adresse = weg.platform === 'netflix' ? NETFLIX : URL
+  /* Zweiter Netflix-Weg desselben Titels (andere Staffel): 404, nie deutsch. */
+  const staffel3 = 'https://www.netflix.com/title/81000333'
+  const weitere = weg.zweiterWeg ? [{ platform: 'netflix', url: staffel3 }] : []
   faelle++
   const wurzel = mkdtempSync(join(tmpdir(), 'tote-adressen-'))
   try {
     mkdirSync(join(wurzel, 'public/data'), { recursive: true })
     mkdirSync(join(wurzel, 'data'), { recursive: true })
-    writeFileSync(join(wurzel, 'public/data/titles.json'), JSON.stringify([{ id: 900001, titleDe: 'Probe', streams: [{ platform: weg.platform, url: adresse, dub: weg.dub }] }]))
-    writeFileSync(join(wurzel, 'data/link-check.json'), JSON.stringify({ [adresse]: { status: weg.status ?? 404, geprueftAm: '2026-09-20' } }))
+    writeFileSync(join(wurzel, 'public/data/titles.json'), JSON.stringify([{ id: 900001, titleDe: 'Probe', streams: [{ platform: weg.platform, url: adresse, dub: weg.dub }, ...weitere] }]))
+    const tot404 = { status: 404, geprueftAm: '2026-09-20' }
+    writeFileSync(join(wurzel, 'data/link-check.json'), JSON.stringify({ [adresse]: { status: weg.status ?? 404, geprueftAm: '2026-09-20' }, ...(weg.zweiterWeg ? { [staffel3]: tot404 } : {}) }))
     writeFileSync(join(wurzel, 'data/dub-confirmed.yaml'), belegYaml)
     writeFileSync(join(wurzel, 'data/verweise-von-hand.yaml'), verweiseYaml)
     const tsx = join(REPO, 'node_modules', 'tsx', 'dist', 'cli.mjs')
@@ -55,6 +59,7 @@ lauf('Netflix 404 mit dub true: nicht tot', '[]\n', '[]\n', 0, { platform: 'netf
 lauf('Netflix 404 mit dub false: tot', '[]\n', '[]\n', 1, { platform: 'netflix', dub: false })
 lauf('Netflix 404 ohne Urteil: tot', '[]\n', '[]\n', 1, { platform: 'netflix' })
 lauf('Netflix region mit dub true: tot', '[]\n', '[]\n', 1, { platform: 'netflix', dub: true, status: 'region' })
+lauf('Netflix: Staffel 1 deutsch (404), Staffel 3 ohne Deutsch (404): Staffel 3 ist tot', '[]\n', '[]\n', 1, { platform: 'netflix', dub: true, zweiterWeg: true })
 lauf('Prime 404 mit dub true: tot', '[]\n', '[]\n', 1, { platform: 'primevideo', dub: true })
 
 if (fehler.length) {

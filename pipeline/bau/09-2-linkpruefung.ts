@@ -1,7 +1,7 @@
 import { readJson, log } from '../lib/util.ts'
 import { adressKern, dubKey, adressGleich, type DubCheck } from '../lib/dub-confirmed.ts'
 import { istTot, juengsteJeKern, type LinkBefund } from '../lib/link-befund.ts'
-import { hat404, netflix404EntferntNicht } from '../lib/link-rauschen.ts'
+import { deutscheWegeJeTitel, hat404, netflix404EntferntNicht, wegBelegtDeutsch } from '../lib/link-rauschen.ts'
 import { type Title, type PlatformId } from '../../shared/types.ts'
 import { netflixTitelAdresse } from '../lib/netflix-adresse.ts'
 import { netflixAdresseTaugt } from '../../shared/netflix-adresse-pruefung.ts'
@@ -136,7 +136,11 @@ export function werteLinkpruefungAus({
   /** Wie oft der Kanal-Verweis mit dem Crunchyroll-Befund entfallen ist. */
   let kanalMitEntfernt = 0
   /** Welche Anbieter der zuletzt ausgelieferte Stand je Titel mit „DE ✓" führte — für die Abgänge. */
-  const vorherDeutsch = deutschJeTitel(vorherTitles ?? readJson<Title[] | Record<string, Title>>('public/data/titles.json', []))
+  const vorherStand = vorherTitles ?? readJson<Title[] | Record<string, Title>>('public/data/titles.json', [])
+  const vorherDeutsch = deutschJeTitel(vorherStand)
+  const vorherWege = deutscheWegeJeTitel(Array.isArray(vorherStand) ? vorherStand : Object.values(vorherStand))
+  /** Die Netflix-Wege mit 404, die wegen belegten Deutschs im Datensatz bleiben (Titel und Adresse, für das Log). */
+  const netflix404Gehalten: string[] = []
 
   for (const title of titles.values()) {
     /**
@@ -286,7 +290,10 @@ export function werteLinkpruefungAus({
         ((Boolean(check?.url && adressGleich(check.url, stream.url)) && String(check?.checkedAt ?? '') > linkAm) ||
           /* Ein von Hand bestätigter Weg (`verweise-von-hand.yaml`) — der Lader kennt Belege ohne Urteil nicht. */
           (vonHandBelegtAm.get(adressKern(stream.url)) ?? '') > linkAm)
-      if ((befund === 404 || befund === 'region') && !handSticht && !netflix404EntferntNicht(stream.platform, befund, warDeutsch(stream))) {
+      const wegeMitJa = [...(vorherWege.get(title.id) ?? []), ...(checksJePlattform.get(dubKey(title.id, stream.platform)) ?? [])]
+      const netflixHaelt = !handSticht && netflix404EntferntNicht(stream.platform, befund, wegBelegtDeutsch(stream.url, wegeMitJa))
+      if (netflixHaelt) netflix404Gehalten.push(`${title.id} ${stream.url}`)
+      if ((befund === 404 || befund === 'region') && !handSticht && !netflixHaelt) {
         totEntfernt++
         abgaenge.push({ ...stream, entferntAm: linkBefunde[stream.url]?.geprueftAm ?? todayIso() })
         return false
@@ -433,5 +440,6 @@ export function werteLinkpruefungAus({
     }
   }
   if (ergaenzt) log(`${ergaenzt} Verweise aus geprüften Adressen ergänzt`)
-  return { lautPruefungTot, linkBefunde, geprueft, ytAusTonspur, entfernt, ytEntfernt, totEntfernt, adressen }
+  if (netflix404Gehalten.length) log(`${netflix404Gehalten.length} Netflix-Wege mit 404 bleiben (deutscher Ton belegt; Entfernen nur per available: false): ${netflix404Gehalten.join(', ')}`)
+  return { lautPruefungTot, linkBefunde, geprueft, ytAusTonspur, entfernt, ytEntfernt, totEntfernt, adressen, netflix404Gehalten: netflix404Gehalten.length }
 }

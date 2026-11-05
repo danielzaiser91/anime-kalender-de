@@ -1,3 +1,4 @@
+import { adressKern } from '../../shared/adresse-kern.ts'
 import { istAuskunft, istTot, type LinkBefund } from './link-befund.ts'
 
 /**
@@ -40,6 +41,27 @@ export function netflixBefund<B extends LinkBefund>(url: string, alt: LinkBefund
  * verloren so ihren Weg trotz der Zwei-Tage-Regel), ein zweites 404 belegt also nichts über Deutschland.
  */
 export const netflix404EntferntNicht = (plattform: string, befund: unknown, warDeutsch: boolean): boolean => plattform === 'netflix' && befund === 404 && warDeutsch
+
+export interface DeutschWeg {
+  url?: string
+  dub?: boolean
+}
+
+/**
+ * Ob genau dieser Weg (seine Adresse, nicht der Anbieter) mit deutschem Ton belegt ist. Bau 09-2 (Vorstand und Handbelege)
+ * und `check:tote-adressen` (ausgelieferter Weg) fragen beide hier: ein deutscher Staffel-1-Weg deckt keine Staffel-3-Adresse.
+ */
+export function wegBelegtDeutsch(url: string, wege: DeutschWeg[]): boolean {
+  const kern = adressKern(url)
+  return wege.some((w) => w.dub === true && w.url !== undefined && adressKern(w.url) === kern) // dub-lesart: irgendwie – jeder Weg mit Ja zählt, auch ein abgeleiteter
+}
+
+/** Die Wege mit „DE ✓" je Titel im vorigen Bestand, auch die geführten Abgänge (Eingabe für `wegBelegtDeutsch`). */
+export function deutscheWegeJeTitel(alt: Array<{ id: number; streams?: DeutschWeg[]; entfernteStreams?: DeutschWeg[] }>): Map<number, DeutschWeg[]> {
+  const jeTitel = new Map<number, DeutschWeg[]>()
+  for (const t of alt) jeTitel.set(t.id, [...(t.streams ?? []), ...(t.entfernteStreams ?? [])].filter((w) => w.dub === true)) // dub-lesart: irgendwie – jeder Weg mit Ja zählt
+  return jeTitel
+}
 
 /** Ein 404 liegt vor: bestätigt oder als erstes noch `unklar` (`erstes404`). Der Netflix-Riegel im Bau (09-2) fragt so, sonst wanderte ein Weg von der lebenden zur wackligen Form. */
 export const hat404 = (b: LinkBefund | undefined): boolean => b?.status === 404 || offenes404(b) !== undefined

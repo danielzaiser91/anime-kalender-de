@@ -31,7 +31,7 @@ try {
   mkdirSync(join(kulisse, 'data/curated'), { recursive: true })
   writeFileSync(join(kulisse, 'data/kino-ankuendigungen.yaml'), '[]\n')
   writeFileSync(join(kulisse, 'data/dub-confirmed.yaml'), '# leer\n')
-  const { netflixBefund, nimmBefund, zaehleWechsel, wechselWarnungen, zweitesNetflix404, hat404 } = await import('./lib/link-rauschen.ts')
+  const { wegBelegtDeutsch, netflixBefund, nimmBefund, zaehleWechsel, wechselWarnungen, zweitesNetflix404, hat404 } = await import('./lib/link-rauschen.ts')
   const { werteLinkpruefungAus } = await import('./bau/09-2-linkpruefung.ts')
   const { dubKey } = await import('./lib/dub-confirmed.ts')
 
@@ -59,10 +59,12 @@ try {
 
   /* 2. Kreislauf durch die echte Bauphase: Lauf, Bau, nächster Lauf, Bau. */
   /** Der Bau über einen Titel mit einem Netflix-Weg `weg`; `befunde` ist der Inhalt von `link-check.json`. */
-  const baueMit = (befunde: Record<string, LinkBefund>, weg: string, vorher: Title[] = [DEUTSCH], plattform = 'netflix', belege = new Map<string, DubCheck[]>()) => {
+  let gehalten = -1
+  const baueMit = (befunde: Record<string, LinkBefund>, weg: string | string[], vorher: Title[] = [DEUTSCH], plattform = 'netflix', belege = new Map<string, DubCheck[]>()) => {
     writeFileSync(join(kulisse, 'data/link-check.json'), JSON.stringify(befunde))
-    const titles = new Map<number, Title>([[1735, { id: 1735, streams: [{ platform: plattform, url: weg }], entfernteStreams: [] } as unknown as Title]])
-    werteLinkpruefungAus({
+    const wege = [weg].flat().map((url) => ({ platform: plattform, url }))
+    const titles = new Map<number, Title>([[1735, { id: 1735, streams: wege, entfernteStreams: [] } as unknown as Title]])
+    gehalten = werteLinkpruefungAus({
       ytKanal: {},
       ytKauf: new Set(),
       titles,
@@ -73,7 +75,7 @@ try {
       vonHandBelegtAm: new Map(),
       checks: new Map(),
       vorherTitles: vorher,
-    })
+    }).netflix404Gehalten
     return titles.get(1735)
   }
   const baue = (befund: LinkBefund, vorher?: Title[], plattform?: string, url = NF, belege?: Map<string, DubCheck[]>) => {
@@ -103,8 +105,19 @@ try {
   /* Der Vorstand zählt auch den schon geführten Abgang: nach dem Bau vom 04.11. kommt der Weg so zurück. */
   const alsAbgang = [{ id: 1735, streams: [], entfernteStreams: [{ platform: 'netflix', url: NF, dub: true }] } as unknown as Title]
   erwarte('Bau nach Lauf 3, Deutsch nur als geführter Abgang: Weg bleibt', baue(lauf3, alsAbgang), { wege: 1, abgang: 0 })
-  const handBeleg = new Map([[dubKey(1735, 'netflix'), [{ dub: true } as unknown as DubCheck]]])
+  const handBeleg = new Map([[dubKey(1735, 'netflix'), [{ dub: true, url: NF } as unknown as DubCheck]]])
   erwarte('Bau nach Lauf 3, Deutsch nur per Handbeleg: Weg bleibt', baue(lauf3, [], 'netflix', NF, handBeleg), { wege: 1, abgang: 0 })
+  erwarte('Zähler: gehaltene Netflix-Wege mit 404', gehalten, 1)
+  const fremdBeleg = new Map([[dubKey(1735, 'netflix'), [{ dub: true, url: 'https://www.netflix.com/title/999' } as unknown as DubCheck]]])
+  erwarte('Bau nach Lauf 3, Handbeleg einer anderen Adresse: Weg geht', baue(lauf3, [], 'netflix', NF, fremdBeleg), { wege: 0, abgang: 1 })
+  baue(lauf3, [])
+  erwarte('Zähler: nichts gehalten ohne Deutsch', gehalten, 0)
+  /* A1: zwei Netflix-Wege am Titel, X deutsch, Y (Staffel 3) mit bestätigtem 404 und nie deutsch: Y geht, X bleibt. */
+  const Y = 'https://www.netflix.com/title/81000333'
+  const zwei = baueMit({ [NF]: { status: 200, geprueftAm: '2026-11-09' }, [Y]: tot('2026-11-09') }, [NF, Y])
+  erwarte('Zwei Wege, Y mit 404 ohne eigenes Deutsch: Y geht, X bleibt', [zwei?.streams.map((s) => s.url), gehalten], [[NF], 0])
+  const beide = baueMit({ [NF]: tot('2026-11-09'), [Y]: tot('2026-11-09') }, [NF, Y])
+  erwarte('Zwei Wege mit 404, nur X deutsch: X bleibt, Y geht', [beide?.streams.map((s) => s.url), gehalten], [[NF], 1])
   const joyn = 'https://www.joyn.de/serien/x'
   const joynVorher = [{ id: 1735, streams: [{ platform: 'joyn', url: joyn, dub: true }] } as unknown as Title]
   erwarte('Anderer Anbieter mit belegtem Deutsch: bestätigtes 404 entfernt weiter', baue(tot('2026-11-09'), joynVorher, 'joyn', joyn), { wege: 0, abgang: 1 })
@@ -172,6 +185,13 @@ try {
   }
   erwarte('Kette 503, timeout, unklar, dann 404 nach der Frist: bestätigt', kette([503, 'timeout', 'unklar'], '2026-11-02'), tot('2026-11-02'))
   erwarte('Kette 503, timeout, dann 404: Vermerk überlebt beide Nichtauskünfte', kette([503, 'timeout'], '2026-10-29')?.status, 404)
+
+  /* 2d. `wegBelegtDeutsch`: je Adresse, nur mit Ja. */
+  erwarte('Weg: gleiche Adresse mit Ja', wegBelegtDeutsch(NF, [{ url: NF, dub: true }]), true)
+  erwarte('Weg: andere Adresse mit Ja', wegBelegtDeutsch(NF, [{ url: 'https://www.netflix.com/title/999', dub: true }]), false)
+  erwarte('Weg: gleiche Adresse mit Nein oder ohne Urteil', [wegBelegtDeutsch(NF, [{ url: NF, dub: false }]), wegBelegtDeutsch(NF, [{ url: NF }])], [false, false])
+  erwarte('Weg: Beleg ohne Adresse zählt nicht', wegBelegtDeutsch(NF, [{ dub: true }]), false)
+  erwarte('Weg: keine Wege', wegBelegtDeutsch(NF, []), false)
 
   /* 3. Wächter. */
   const lauf = (anzahl: number, wechsler: number, host = 'www.netflix.com', alt: unknown = 200, neu: unknown = 404) =>
