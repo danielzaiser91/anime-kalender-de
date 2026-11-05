@@ -24,6 +24,21 @@ assert.match(pruefe(sub('Write', `${HAUPT}/daniel-zum-abarbeiten/vorrat/x.md`)) 
 assert.match(pruefe(sub('Write', `${HAUPT}/daniel-zum-abarbeiten/berichte/../stand.md`)) ?? '', /gesperrt/, '.. aus berichte/ heraus')
 assert.match(pruefe(sub('Write', `${HAUPT}/daniel-zum-abarbeiten/berichte-x/a.md`)) ?? '', /gesperrt/, 'Nachbarordner mit gleichem Präfix')
 
+assert.match(pruefe(sub('Write', HAUPT)) ?? '', /gesperrt/, 'genau der Hauptordnerpfad')
+assert.match(pruefe(sub('Write', '/c/code/ai/anime-kalender-de/x.md', WT)) ?? '', /gesperrt/, 'Git-Bash-Pfad, cwd im Worktree')
+assert.match(pruefe(sub('Write', '//?/C:/code/ai/anime-kalender-de/x.md', WT)) ?? '', /gesperrt/, 'UNC-Langform')
+assert.match(pruefe(sub('Write', '/cygdrive/c/code/ai/anime-kalender-de/x.md', WT)) ?? '', /gesperrt/, 'cygdrive')
+for (const typ of ['bauer', 'pruefer', 'analyst']) {
+  assert.match(pruefe({ ...sub('Write', `${HAUPT}/x.md`), agent_type: typ }) ?? '', /gesperrt/, `Typ ${typ}`)
+}
+for (const typ of ['general-purpose', 'claude', 'claude-code-guide', '', undefined]) {
+  assert.equal(pruefe({ ...sub('Write', `${HAUPT}/x.md`), agent_type: typ }), null, `Typ ${typ} frei`)
+}
+assert.equal(pruefe({ tool_name: 'Write', agent_id: 'a1', agent_type: 'bauer', tool_input: {} }), null, 'Subagent ohne Pfad und ohne cwd')
+assert.equal(pruefe(sub('Write', `${HAUPT}/mockups/a.html`)), null, 'mockups/ frei')
+assert.match(pruefe(sub('Write', `${HAUPT}/mockups-x/a.html`)) ?? '', /gesperrt/, 'mockups-x gesperrt')
+assert.equal(pruefe(sub('Write', `${HAUPT}/daniel-zum-abarbeiten/listen/a.md`)), null, 'listen/ frei')
+assert.match(pruefe(sub('Write', `${HAUPT}/daniel-zum-abarbeiten/listen-x/a.md`)) ?? '', /gesperrt/, 'listen-x gesperrt')
 assert.equal(pruefe(sub('Write', `${WT}/pipeline/x.ts`)), null, 'Worktree frei')
 assert.equal(pruefe(sub('Edit', `${WT}/x.ts`, WT)), null, 'Worktree, cwd im Worktree')
 assert.equal(pruefe(sub('Write', 'pipeline/x.ts', WT)), null, 'relativ im Worktree')
@@ -35,4 +50,4 @@ assert.equal(pruefe(haupt('Write', `${HAUPT}/daniel-zum-abarbeiten/stand.md`)), 
 assert.equal(pruefe(haupt('Edit', `${HAUPT}/tools/x.mjs`)), null, 'Hauptsitzung Edit frei')
 assert.equal(pruefe({ tool_name: 'Write', tool_input: {} }), null, 'ohne Pfad')
 
-console.log('subagent-schreibsperre: 20 Fälle grün')
+console.log('subagent-schreibsperre: Fälle grün')
