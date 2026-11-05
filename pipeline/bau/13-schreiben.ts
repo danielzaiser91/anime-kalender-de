@@ -18,6 +18,7 @@ import { ordneCartoonsZuAnime } from './cartoon-zu-anime.ts'
 import { schreibeSprecherIndex } from './sprecher-index.ts'
 import { schreibeListen } from './13-3-listen.ts'
 import { schreibeKinoZuletzt } from './kino-zuletzt.ts'
+import { schreibeSuchadressenImEndzustand, type OffeneSuche } from './13-3-suchadressen-endzustand.ts'
 import { baueAuslieferung } from './13-2-auslieferung.ts'
 import { schreibeSynopsenUndReichereAn } from './13-1-anreichern.ts'
 import { mitBelegstaerke } from '../lib/belegstaerke.ts'
@@ -43,6 +44,7 @@ export function schreibeDatensatz({
   jpStartAnzeige,
   events,
   istTot,
+  suchOffen,
   meta,
 }: {
   allTitles: Title[]
@@ -59,6 +61,8 @@ export function schreibeDatensatz({
   jpStartAnzeige: Map<number, string>
   events: ReleaseEvent[]
   istTot: IstTot
+  /** Suchadressen, die der Bau entfernt hat; die Liste entsteht erst hier, im Endzustand. */
+  suchOffen: OffeneSuche[]
   meta: DataMeta
 }) {
   /* Der vorige Bestand muss vor dem ersten Schreiben von titles.json gelesen werden (`13-3-listen`). */
@@ -93,6 +97,7 @@ export function schreibeDatensatz({
   const releasesVorAngebot = releases.length
   ergaenzeErstausgabeAngebot({ titles: titles.values(), releases })
   schreibeListen({ slim, tmdbTitles, releases, titles, istTot })
+  schreibeSuchadressenImEndzustand(suchOffen, slim)
   ergaenzeAngebotTermine({ events, releases, ab: releasesVorAngebot, slim, titles })
   schreibeKinoZuletzt(titles, tmdbTitles)
 
