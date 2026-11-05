@@ -8487,5 +8487,32 @@
       "sagt": "2026-11-04",
       "stand": "aktuell"
     }
+  ],
+  "auto-5000001-joyn": [
+    {
+      "url": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-05",
+      "sagt": "2026-11-03",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-5000002-joyn": [
+    {
+      "url": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-05",
+      "sagt": "2026-11-03",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-5000003-primevideo": [
+    {
+      "url": "https://www.anime2you.de/news/1065078/aniverse-november-2026-neuzugaenge/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-05",
+      "sagt": "2026-11-01",
+      "stand": "aktuell"
+    }
   ]
 }
