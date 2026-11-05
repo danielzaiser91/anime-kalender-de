@@ -1,6 +1,6 @@
 // Prüft, dass ein Urteil nur in der vereinbarten Form durchkommt und der Eintrag oben in der Auswertung landet.
 import assert from 'node:assert/strict'
-import { briefkastenMitHilfe, ohneEigenenLauf } from './wache-urteil-dossier.mjs'
+import { briefkastenMitHilfe, ohneEigenenLauf, quellenZeile } from './wache-urteil-dossier.mjs'
 import { berlinZeit, pruefeUrteil, setzeEin } from './wache-urteil-eintrag.mjs'
 
 const FUELLTEXT = 'Beleg aus Dossier 01: 12 Läufe grün, nichts auffällig.'
@@ -62,5 +62,8 @@ assert.ok(briefkastenMitHilfe('Briefkasten: 189 Meldungen auf 36 Adressen (x 1)'
 assert.ok(!briefkastenMitHilfe('Briefkasten: 189 Meldungen auf 36 Adressen (x 1)').includes('Hinweis'))
 assert.ok(briefkastenMitHilfe('Briefkasten: 189 Meldungen auf 189 Adressen (x 1)').includes('Hinweis'))
 assert.ok(!briefkastenMitHilfe('Nichts im Briefkasten').includes('Hinweis'))
+
+assert.ok(quellenZeile('kinoheld', 0.5, { lastCount: 0, leerSeit: '2026-11-01T04:00:00Z' }).includes('grün aber leer seit 2026-11-01'))
+assert.ok(!quellenZeile('kinoheld', 0.5, { lastCount: 3 }).includes('leer'))
 
 console.log('wache-urteil: ok')

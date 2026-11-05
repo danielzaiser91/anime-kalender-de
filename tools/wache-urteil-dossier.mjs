@@ -70,13 +70,18 @@ function offenes() {
   return `Offene Issues:\n${issues.map(zeile).join('\n') || '(keine)'}\n\nOffene Pull Requests:\n${prs.map(zeile).join('\n') || '(keine)'}\n`
 }
 
+/** Eine Dossierzeile je Quelle; „grün aber leer“ macht einen stillen Ausfall sichtbar. */
+export function quellenZeile(name, tage, s) {
+  return `${name.padEnd(28)} letzter Erfolg ${Number.isFinite(tage) ? `vor ${tage.toFixed(1)} Tagen` : 'nie'}, ${s.lastCount ?? '?'} Treffer${s.lastError ? `, Fehler: ${s.lastError}` : ''}${s.leerSeit ? `, grün aber leer seit ${s.leerSeit.slice(0, 10)}` : ''}`
+}
+
 /** Quellenzustand: Alter des letzten Erfolgs und letzter Fehler je Quelle, das Älteste zuerst; dazu die Blocker der Seite. */
 function quellen() {
   const gesund = JSON.parse(lies('data/source-health.json'))
   const zeilen = Object.entries(gesund)
     .map(([name, s]) => ({ name, tage: (Date.now() - Date.parse(s.lastOk)) / (24 * STUNDEN), s }))
     .sort((a, b) => (Number.isFinite(b.tage) ? b.tage : 1e9) - (Number.isFinite(a.tage) ? a.tage : 1e9))
-    .map(({ name, tage, s }) => `${name.padEnd(28)} letzter Erfolg ${Number.isFinite(tage) ? `vor ${tage.toFixed(1)} Tagen` : 'nie'}, ${s.lastCount ?? '?'} Treffer${s.lastError ? `, Fehler: ${s.lastError}` : ''}${s.leerSeit ? `, grün aber leer seit ${s.leerSeit.slice(0, 10)}` : ''}`)
+    .map(({ name, tage, s }) => quellenZeile(name, tage, s))
   const blocker = existsSync('public/data/blocker.json') ? lies('public/data/blocker.json').slice(0, 2000) : '(Datei fehlt)'
   return `source-health.json, ältester Erfolg zuerst:\n${zeilen.join('\n')}\n\npublic/data/blocker.json:\n${blocker}\n`
 }
