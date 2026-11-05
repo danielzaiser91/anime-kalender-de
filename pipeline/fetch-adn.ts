@@ -22,6 +22,7 @@ import { addDays, diffDays, todayIso } from '../shared/time.ts'
 import { log, readJson, ROOT, sleep, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
 import { episodeAus, sortiereFolgen, toBerlin, type AdnListenEintrag, type AdnVideo } from './lib/adn-folgen.ts'
+import { adnWeg, herkunftZeile, wegZeile } from './lib/adn-weg.ts'
 import { holeAdnNews } from './lib/adn-news.ts'
 import { istFranzoesischeSicht, type KatalogAuskunft, katalogBilanzZeile, mitUngepruftenAlten, mitWiederholung, riegelBilanz, schreibeArchiv, verworfen, WIEDERHOLUNG_WARTE_MS } from './lib/adn-sprachriegel.ts'
 import { baueWarteschlange, fragWarteschlange, warteschlangeZeile } from './lib/adn-katalog-warteschlange.ts'
@@ -39,7 +40,8 @@ import {
 // weil `build.ts` sie braucht, diese Datei aber beim Laden ihr `main()` startet.
 export type { AdnData, AdnEpisode, AdnShow } from './lib/adn.ts'
 
-const BASE = 'https://gw.api.animationdigitalnetwork.com'
+const WEG = adnWeg(process.env)
+const BASE = WEG.base
 const API = `${BASE}/video/calendar`
 /** Der Katalog aller Serien — anders als der Kalender zeitunabhängig. */
 const SHOWS_API = `${BASE}/show`
@@ -74,6 +76,7 @@ const HEADERS = {
   'X-Target-Distribution': 'de',
   'Accept-Language': 'de',
   Accept: 'application/json',
+  ...WEG.auth,
 }
 
 const args = process.argv.slice(2)
@@ -180,10 +183,12 @@ function archivKopf(showId: number): { id: number; title: string; originalTitle?
 async function frageSerie(showId: number): Promise<{ videos: AdnVideo[]; abbruch?: string }> {
   const videos: AdnVideo[] = []
   const SEITE = 100
+  let herkunft = ''
   for (let offset = 0; offset < 2000; offset += SEITE) {
     const res = await fetch(`${BASE}/video/show/${showId}?limit=${SEITE}&offset=${offset}`, {
       headers: HEADERS,
     })
+    herkunft = herkunftZeile(res.headers)
     if (res.status === 400) {
       warn(`ADN: Anfrage abgelehnt (400) bei Serie ${showId}, offset ${offset} — Aufruf prüfen.`)
       return { videos, abbruch: '400' }
@@ -200,7 +205,10 @@ async function frageSerie(showId: number): Promise<{ videos: AdnVideo[]; abbruch
   }
   // Französische Sicht ist keine Auskunft: wie ein Abbruch behandeln, damit Archiv, Katalog und Stand unberührt bleiben und die Serie wieder drankommt.
   // Gezählt wird erst in `ladeSerie` nach der zweiten Frage.
-  if (istFranzoesischeSicht(videos)) return { videos, abbruch: 'franzoesisch' }
+  if (istFranzoesischeSicht(videos)) {
+    if (herkunft) warn(`ADN ${showId}: französische Sicht über den Worker (${herkunft}).`)
+    return { videos, abbruch: 'franzoesisch' }
+  }
   return { videos }
 }
 
@@ -519,6 +527,7 @@ async function laufendLauf(): Promise<void> {
 }
 
 async function main(): Promise<void> {
+  log(wegZeile(WEG))
   await holeAdnNews()
   if (args.includes('--laufend')) return laufendLauf()
   if (args.includes('--refresh')) {

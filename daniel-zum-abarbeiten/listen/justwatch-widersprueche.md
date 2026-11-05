@@ -23,7 +23,7 @@ JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine
 |---|---|---|---|---|
 | Vampire Hunter D: Bloodlust (543) | primevideo | https://watch.amazon.de/detail?gti=amzn1.dv.gti.68239688-dba5-4abc-a3b5-5e554d51081f | de, Stand 2026-10-26 | Handbeleg 2026-10-31 |
 
-### Kandidaten für neue Wege (776)
+### Kandidaten für neue Wege (771)
 
 JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „Weg ohne Kennung“: ein Weg zum Anbieter steht, seine Adresse trägt aber keine Seitenkennung.
 
@@ -794,16 +794,11 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Reporter Blues (10003873) | Amazon Prime Video | amazon:amzn1.dv.gti.c4f1ebf2-aff4-40b9-b00f-f90501583590 | ja |
 | Operation: Nussknacker - Auf die Nüsse, fertig, los! (10009667) | Amazon Prime Video | amazon:amzn1.dv.gti.48b8e647-d786-3a45-f5fc-3142d0233dc5 | ja |
 | Operation: Nussknacker - Auf die Nüsse, fertig, los! (10009667) | Amazon Video | amazon:amzn1.dv.gti.46a9f6ca-b9f5-4ab1-602e-e1d0f52f985b | ja |
-| Ab durch den Dschungel (10010552) | Kixi Select Amazon Channel | amazon:amzn1.dv.gti.1e5c3051-509f-4e3a-a47a-28956838910d | nein |
 | Fischen Impossible: Eine tierische Rettungsaktion (10011556) | Amazon Prime Video | amazon:amzn1.dv.gti.32ac38e0-8be2-b94b-399a-af7fa671fd1e | nein |
 | Fischen Impossible: Eine tierische Rettungsaktion (10011556) | Kixi Select Amazon Channel | amazon:amzn1.dv.gti.a511744f-6f1c-4fef-8b94-bae2f9b794a8 | nein |
-| Prinz Ribbit: Ein Frosch auf Umwegen! (10011569) | Kixi Select Amazon Channel | amazon:amzn1.dv.gti.173ef223-b562-4f1a-a361-f8a85f8ba18d | nein |
-| Prinz Ribbit: Ein Frosch auf Umwegen! (10011569) | Amazon Video | amazon:amzn1.dv.gti.244e6fdd-f4a4-44c7-95d0-8829720b24c1 | nein |
-| Happy Fish 2: Hai-Alarm im Hochwasser (10013226) | Kixi Select Amazon Channel | amazon:amzn1.dv.gti.fbd6e108-715c-4c58-bcc2-0511ff8dae72 | nein |
+| Prinz Ribbit: Ein Frosch auf Umwegen! (10011569) | Kixi Select Amazon Channel | amazon:amzn1.dv.gti.173ef223-b562-4f1a-a361-f8a85f8ba18d | ja |
+| Prinz Ribbit: Ein Frosch auf Umwegen! (10011569) | Amazon Video | amazon:amzn1.dv.gti.244e6fdd-f4a4-44c7-95d0-8829720b24c1 | ja |
 | Re:Zero - Starting Life in Another World: Bünde aus Eis (10013951) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.5d11c410-4b4b-4fef-8c75-b1c01805685e | nein |
-| Ab ins Meer: Auf der Suche nach der verlorenen Perle (10014011) | Netzkino Select Amazon Channel | amazon:amzn1.dv.gti.14b7353a-279b-6035-ea39-d3b79a1e0749 | nein |
-| Die Boonies: Eine bärenstarke Zeitreise (10015405) | Kinderwelt Amazon Channel | amazon:amzn1.dv.gti.4323100f-0d5e-4bfe-ad18-84faf36f9689 | nein |
-| Super Wings: Maximum Speed (10019348) | Amazon Video | amazon:amzn1.dv.gti.d80e6132-6947-4ced-aa16-4c0571e4dfcb | nein |
 | Attack on Titan: The Last Attack (10019527) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.1af3f16e-7da6-4d78-aac7-1713988ecd89 | nein |
 <!-- anime:end -->
 

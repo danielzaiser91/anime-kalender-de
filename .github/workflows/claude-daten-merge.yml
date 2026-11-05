@@ -194,6 +194,13 @@ jobs:
             - Kommentare und Nachrichten auf Deutsch.
             - **Die Prüfung läuft einmal je Pull Request**, nach dem Auflösen.
               Nicht zwischendurch — sie kostet Züge, die du zum Mergen brauchst.
+            - **Jede Prüfung läuft im Vordergrund:** ein einziger Bash-Aufruf mit
+              ausreichendem `timeout` (600000 ms), nie `run_in_background`, nie
+              `sleep`, `tail` zum Warten oder Monitor — der Lauf blockiert das und
+              endet sonst ohne Push.
+            - **Vor Zugende ist jeder aufgelöste Zweig gepusht.** Ein Commit, der
+              nur lokal liegt, ist verloren: pushe nach jedem Pull Request sofort,
+              bevor du den nächsten anfasst.
             - Ändere **nichts** außer den Konfliktstellen. Dies ist ein
               Zusammenführ-Lauf, kein Aufräum-Lauf.
             - Bleibt ein Pull Request offen, sag am Ende ausdrücklich welcher

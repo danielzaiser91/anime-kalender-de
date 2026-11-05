@@ -8,6 +8,28 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
+UID:adn-1318@2026-10-29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261029T080000Z
+DTEND:20261029T083000Z
+SUMMARY:Puella Magi Madoka Magica (neu bei ADN)
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nIm Angebot seit dies
+ em Tag – nicht der Erscheinungstag der deutschen Fassung.\nDetails: http
+ s://anime-kalender.de/t/4943/
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1321@2026-10-29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261029T080000Z
+DTEND:20261029T083000Z
+SUMMARY:Puella Magi Madoka Magica: Der Film - Rebellion (neu bei ADN)
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nIm Angebot seit dies
+ em Tag – nicht der Erscheinungstag der deutschen Fassung.\nDetails: http
+ s://anime-kalender.de/t/5609/
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-158871-tv-super-rtl@2026-10-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261029T150500Z
@@ -602,6 +624,18 @@ SUMMARY:Pokémon Reisen: Die Serie
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/10852/
 CATEGORIES:TOGGO plus
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-97938-disneyplus@2026-11-04@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261104
+DTEND;VALUE=DATE:20261105
+SUMMARY:Boruto: Naruto Next Generations
+DESCRIPTION:Plattform: Disney+\nRelease-Art: Katalogtitel\nUhrzeit noch nic
+ ht bestätigt.\nGeschätzter Termin: kein vom Anbieter genannter Tag\, son
+ dern aus Rhythmus oder Originalterminen abgeleitet.\nDetails: https://anim
+ e-kalender.de/t/8366/
+CATEGORIES:Disney+
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-158871-tv-super-rtl@2026-11-05@anime-kalender-de

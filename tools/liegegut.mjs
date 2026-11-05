@@ -132,9 +132,12 @@ export function mainCommits(log) {
   })
 }
 
-/** Signal 7 (Hinweis, kein Schluss): main-Commits seit PR-Datum mit gemeinsamer Datei und mindestens STICHWORT_TREFFER gemeinsamen Titelstämmen. */
+// Sammeldateien, die fast jeder PR ergänzt: eine Überschneidung allein hier sagt nichts (04.11.2026: 3 von 3 Fehlalarmen, 2785/2701/2633).
+export const SAMMELDATEIEN = new Set(['tools/check-logic-liste.txt', 'tools/check-bestand-liste.txt', 'data/dub-confirmed.yaml'])
+
+/** Signal 7 (Hinweis, kein Schluss): main-Commits seit PR-Datum mit gemeinsamer Datei (ohne Sammeldateien) und mindestens STICHWORT_TREFFER gemeinsamen Titelstämmen. */
 export function ueberholtTreffer(titel, dateien, commits) {
-  const eigene = new Set(dateien)
+  const eigene = new Set(dateien.filter((d) => !SAMMELDATEIEN.has(d)))
   const woerter = stichwoerter(titel)
   return commits.filter((c) => {
     if (!c.dateien.some((d) => eigene.has(d))) return false

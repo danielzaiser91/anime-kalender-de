@@ -7634,6 +7634,14 @@
   ],
   "adn-1321": [
     {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1321",
+      "name": "ADN API",
+      "gesehenAm": "2026-11-05",
+      "stand": "aktuell",
+      "gelesenAm": "2026-11-05",
+      "bestaetigt": "2026-10-29"
+    },
+    {
       "url": "https://news.animationdigitalnetwork.com/de/2026/09/28/line-up-zur-herbst-season-2026-neue-anime-bei-adn/",
       "name": "news.animationdigitalnetwork.com",
       "gesehenAm": "2026-10-17",
@@ -7643,13 +7651,21 @@
       "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
       "name": "ADN API",
       "gesehenAm": "2026-10-17",
-      "stand": "aktuell",
+      "stand": "vermutlich-ueberholt",
       "gelesenAm": "2026-10-27",
       "bestaetigt": "2026-10-29"
     }
   ],
   "adn-1318": [
     {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1318",
+      "name": "ADN API",
+      "gesehenAm": "2026-11-05",
+      "stand": "aktuell",
+      "gelesenAm": "2026-11-05",
+      "bestaetigt": "2026-10-29"
+    },
+    {
       "url": "https://news.animationdigitalnetwork.com/de/2026/09/28/line-up-zur-herbst-season-2026-neue-anime-bei-adn/",
       "name": "news.animationdigitalnetwork.com",
       "gesehenAm": "2026-10-17",
@@ -7659,7 +7675,7 @@
       "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
       "name": "ADN API",
       "gesehenAm": "2026-10-17",
-      "stand": "aktuell",
+      "stand": "vermutlich-ueberholt",
       "gelesenAm": "2026-10-27",
       "bestaetigt": "2026-10-29"
     }
@@ -8460,6 +8476,42 @@
       "name": "anime2you.de",
       "gesehenAm": "2026-11-04",
       "sagt": "2026-10-17",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-97938-disneyplus": [
+    {
+      "url": "https://www.anime2you.de/news/1067193/disney-plus-honey-lemon-soda-und-mehr-verfuegbar/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-05",
+      "sagt": "2026-11-04",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-5000001-joyn": [
+    {
+      "url": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-05",
+      "sagt": "2026-11-03",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-5000002-joyn": [
+    {
+      "url": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-05",
+      "sagt": "2026-11-03",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-5000003-primevideo": [
+    {
+      "url": "https://www.anime2you.de/news/1065078/aniverse-november-2026-neuzugaenge/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-05",
+      "sagt": "2026-11-01",
       "stand": "aktuell"
     }
   ]

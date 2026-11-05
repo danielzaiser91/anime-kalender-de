@@ -10,6 +10,7 @@ import { baueReleases } from './05-releases.ts'
 import { ergaenzeCrReleases } from './06-cr-release-vermerke.ts'
 import { ergaenzeAdnTitel } from './07-adn.ts'
 import { ergaenzeTermineAusNewsUndTv } from './08-news-tv.ts'
+import { haengeEigeneUm } from './eigene-titel-umhaengen.ts'
 import { pruefeSynchroJePlattform } from './09-synchro.ts'
 import { rolleTermineAusMitKomplettabwurf } from './10-komplettabwurf.ts'
 import { schliesseWegeAb } from './11-wege-abschluss.ts'
@@ -77,6 +78,7 @@ export function bauePhasenfolge(quellen: ReturnType<typeof ladeQuellen>): Phasen
     seenSlugs,
   })
   ergaenzeTermineAusNewsUndTv({ titles, releases })
+  haengeEigeneUm(titles, releases)
   haltePunkt('08-news-tv', titles)
 
   const synchro = pruefeSynchroJePlattform({

@@ -22,6 +22,7 @@ import { recordSource } from './lib/health.ts'
 import { schliesseRohfolgenAb, type Offen } from './lib/rohfolgen-abschluss.ts'
 import { sortiereKanalGruppenAus, type ZugeordneteSeiten } from './lib/kanal-aussortieren.ts'
 import { anbieterFolgeAus } from './lib/folgen-datum.ts'
+import { staffelRiegel } from './lib/staffel-riegel.ts'
 import { leseZugeordnet } from './lib/prime-meldung-riegel.ts'
 import { ladeHandbelege } from './lib/dub-confirmed.ts'
 import { kanalWissen } from './lib/kanal-wissen.ts'
@@ -670,14 +671,17 @@ async function main(): Promise<void> {
      * der Adresse (`?ref_=atv_dp_season_select_sN`) und schickt sie mit. Ab
      * Staffel 2 wird ein Reihenkopf-Treffer deshalb verworfen: Lieber keine
      * Zuordnung als eine falsche, denn eine falsche erzeugt eine Sprachaussage
-     * über den falschen Titel.
+     * über den falschen Titel. Ausnahme: die zweite Hälfte eines Einzeltitels
+     * (`staffelRiegel`, mindestens zwei Folgentreffer jenseits der Seitenlänge).
      *
      * **Nur ab Staffel 2**, und nur wenn unser Titel wirklich der Kopf ist:
      * Bei einer einteiligen Reihe ist „Staffel 1" die einzige, und dort ist
      * der Kopf richtig.
      */
     const gemeldeteStaffel = liste[0]?.staffel_nr ?? null
-    if (gemeldeteStaffel !== null && gemeldeteStaffel > 1 && istReihenkopf(titel, titles)) {
+    const ak = listenFuer(titel)
+    const anbieter: AnbieterFolge[] = liste.map(anbieterFolgeAus)
+    if (staffelRiegel(url, gemeldeteStaffel, istReihenkopf(titel, titles), titel, anbieter, ak.listen)) {
       uebersprungenStaffel++
       continue
     }
@@ -692,9 +696,6 @@ async function main(): Promise<void> {
       erledigt.push(liste[0]!.id)
       continue
     }
-
-    const ak = listenFuer(titel)
-    const anbieter: AnbieterFolge[] = liste.map(anbieterFolgeAus)
 
     /*
       **Welche Folge gemeint ist, bleibt offen — welche Sprache, nicht.**
