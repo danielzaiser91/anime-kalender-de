@@ -73,7 +73,8 @@ export function pruefeListen(listen, lies = leseDatei) {
 /** Die Mutationslisten, die der Diff (Pfade) neu anlegt oder ändert; gelöschte Dateien fehlen auf der Platte und fallen weg. */
 export const listenImDiff = (dateien) => dateien.filter(istMutationsliste)
 
-const listenAufPlatte = () => readdirSync(LISTEN_ORDNER).filter((n) => n.endsWith('.json')).map((n) => LISTEN_ORDNER + n)
+// Ohne Listenordner (Kulisse, Wegwerf-Repo) gibt es nichts zu prüfen.
+const listenAufPlatte = () => !existsSync(LISTEN_ORDNER) ? [] : readdirSync(LISTEN_ORDNER).filter((n) => n.endsWith('.json')).map((n) => LISTEN_ORDNER + n)
 
 /** Listen, deren Mutanten eine Datei des Diffs ändern: wandert der Code dorthin, stirbt sonst der Anker unbemerkt. */
 export function listenMitZiel(dateien, lies = leseDatei, alle = listenAufPlatte, cwd = process.cwd()) {

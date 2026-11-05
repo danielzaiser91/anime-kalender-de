@@ -67,6 +67,24 @@ pruefe('vorpruefe: Zieldatei im Diff, Anker in echter Liste weg: rot', vor(['a.t
 pruefe('vorpruefe: kaputte Liste im Diff ist rot', vor([LISTE], lies(kaputteListe)).rot.some((r) => r.startsWith('Mutationsanker:')))
 pruefe('vorpruefe: kaputte Liste außerhalb des Diffs bleibt ohne Befund', !vor(['tools/anderes.mjs'], lies(kaputteListe)).rot.some((r) => r.startsWith('Mutationsanker:')))
 
+// Arbeitsverzeichnis ohne tools/mutationen/ (Kulisse von extension-version.test): kein Wurf, kein Befund.
+const leer = mkdtempSync(join(tmpdir(), 'mutanker-leer-'))
+const vorher = process.cwd()
+try {
+  process.chdir(leer)
+  let wurf = null
+  let rot = null
+  try {
+    rot = ankerRot(['a.ts'], lies())
+  } catch (e) {
+    wurf = e
+  }
+  pruefe('ohne Listenordner: kein Wurf, leeres Ergebnis', wurf === null && Array.isArray(rot) && rot.length === 0)
+} finally {
+  process.chdir(vorher)
+  rmSync(leer, { recursive: true, force: true })
+}
+
 // Prozess: CLI liest die Listen von der Platte (cwd = Wegwerf-Ordner), Exit 0/1 samt Zeile.
 const wurzel = mkdtempSync(join(tmpdir(), 'mutanker-'))
 try {
