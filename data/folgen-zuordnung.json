@@ -7075,11 +7075,8 @@
     "gesehen": "2026-08-30T09:40:27Z"
   },
   "primevideo:B0CKZK9DPB": {
-    "grund": "offen",
-    "kandidaten": [
-      2167,
-      144932
-    ],
+    "titel": 2167,
+    "grund": "einziger-kandidat",
     "gesehen": "2026-08-30T09:40:27Z"
   },
   "primevideo:B0CMVN7JF8": {
@@ -72240,8 +72237,7 @@
     "grund": "offen",
     "kandidaten": [
       2167,
-      4059,
-      144932
+      4059
     ],
     "gesehen": "2026-10-21T00:49:15Z"
   },
@@ -72249,8 +72245,7 @@
     "grund": "offen",
     "kandidaten": [
       2167,
-      4059,
-      144932
+      4059
     ],
     "gesehen": "2026-10-21T00:49:15Z"
   },
@@ -184937,55 +184932,55 @@
   },
   "netflix:81184787": {
     "grund": "ohne-kandidat",
-    "gesehen": "2026-10-13T15:54:12Z"
+    "gesehen": "2026-10-13T15:53:32Z"
   },
   "netflix:81184789": {
     "grund": "ohne-kandidat",
-    "gesehen": "2026-10-13T15:54:12Z"
+    "gesehen": "2026-10-13T15:53:32Z"
   },
   "netflix:81184792": {
     "grund": "ohne-kandidat",
-    "gesehen": "2026-10-13T15:54:12Z"
+    "gesehen": "2026-10-13T15:53:32Z"
   },
   "netflix:81184790": {
     "grund": "ohne-kandidat",
-    "gesehen": "2026-10-13T15:54:12Z"
+    "gesehen": "2026-10-13T15:53:32Z"
   },
   "netflix:81184793": {
     "grund": "ohne-kandidat",
-    "gesehen": "2026-10-13T15:54:12Z"
+    "gesehen": "2026-10-13T15:53:32Z"
   },
   "netflix:81184791": {
     "grund": "ohne-kandidat",
-    "gesehen": "2026-10-13T15:54:12Z"
+    "gesehen": "2026-10-13T15:53:32Z"
   },
   "netflix:81184795": {
     "grund": "ohne-kandidat",
-    "gesehen": "2026-10-13T15:54:12Z"
+    "gesehen": "2026-10-13T15:53:32Z"
   },
   "netflix:81184794": {
     "grund": "ohne-kandidat",
-    "gesehen": "2026-10-13T15:54:12Z"
+    "gesehen": "2026-10-13T15:53:32Z"
   },
   "netflix:81184796": {
     "grund": "ohne-kandidat",
-    "gesehen": "2026-10-13T15:54:12Z"
+    "gesehen": "2026-10-13T15:53:32Z"
   },
   "netflix:81184799": {
     "grund": "ohne-kandidat",
-    "gesehen": "2026-10-13T15:54:12Z"
+    "gesehen": "2026-10-13T15:53:32Z"
   },
   "netflix:81184788": {
     "grund": "ohne-kandidat",
-    "gesehen": "2026-10-13T15:54:13Z"
+    "gesehen": "2026-10-13T15:53:32Z"
   },
   "netflix:81184797": {
     "grund": "ohne-kandidat",
-    "gesehen": "2026-10-13T15:54:13Z"
+    "gesehen": "2026-10-13T15:53:32Z"
   },
   "netflix:81184798": {
     "grund": "ohne-kandidat",
-    "gesehen": "2026-10-13T15:54:13Z"
+    "gesehen": "2026-10-13T15:53:32Z"
   },
   "netflix:81947013": {
     "grund": "ohne-kandidat",
@@ -191698,5 +191693,29 @@
   "netflix:81686023": {
     "grund": "ohne-kandidat",
     "gesehen": "2026-10-31T08:49:19Z"
+  },
+  "netflix:81218439": {
+    "grund": "ohne-kandidat",
+    "gesehen": "2026-11-03T21:40:18Z"
+  },
+  "netflix:81218440": {
+    "grund": "ohne-kandidat",
+    "gesehen": "2026-11-03T21:40:18Z"
+  },
+  "netflix:81218441": {
+    "grund": "ohne-kandidat",
+    "gesehen": "2026-11-03T21:40:18Z"
+  },
+  "netflix:81218442": {
+    "grund": "ohne-kandidat",
+    "gesehen": "2026-11-03T21:40:18Z"
+  },
+  "netflix:81218443": {
+    "grund": "ohne-kandidat",
+    "gesehen": "2026-11-03T21:40:18Z"
+  },
+  "netflix:81218444": {
+    "grund": "ohne-kandidat",
+    "gesehen": "2026-11-03T21:40:18Z"
   }
 }

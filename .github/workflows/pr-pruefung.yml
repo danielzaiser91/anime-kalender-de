@@ -162,6 +162,9 @@ jobs:
         run: |
           echo "::error::Kein anilist-cache gefunden"
           exit 1
+      # Neue Beleg-Adressen des PR werden abgerufen: 404/410 rot, sonst Nichtauskunft (PR 2628: UCI-Adresse 404, alle Checks grün).
+      - name: Neue Beleg-Adressen erreichbar
+        run: npx tsx pipeline/neue-quellen-pruefen.ts
       - name: Datensatz bauen (ohne Commit)
         run: npm run data:build
       # Wie bestand-bauen.yml („Arbeitslisten und Prüfstand neu erzeugen“): `check:bestand` liest die Listen der Erweiterung, die erst nach dem Bau entstehen
@@ -244,6 +247,7 @@ jobs:
           PFADE="$PFADE|^tools/einstellungen-bild\.mjs$"
           PFADE="$PFADE|^tools/einzel-sperre\.mjs$"
           PFADE="$PFADE|^tools/einzel-sperre-schlange\.mjs$"
+          PFADE="$PFADE|^tools/kachel-ecken-live\.mjs$"
           PFADE="$PFADE|^tools/kachel-ecken-messen\.mjs$"
           PFADE="$PFADE|^tools/linux-schrift\.mjs$"
           PFADE="$PFADE|^tools/panel-bild\.mjs$"

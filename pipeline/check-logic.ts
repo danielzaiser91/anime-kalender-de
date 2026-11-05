@@ -8074,8 +8074,6 @@ console.log('\nBeleg: Fundstelle, Banner, Handlung:')
   const sprecher = uebersetzeDatei('sprecher/k.json', { 'Konrad Bösherz': [{ id: 5, rollen: ['Robin'], ann: true }] }, ak) as Record<string, { id: number; rollen: string[]; ann?: true }[]>
   pruefe('Sprecher-Gruppe: Titelkennung auf ak, Name und Rollen unverändert', sprecher['Konrad Bösherz']?.[0]?.id === 1005 && sprecher['Konrad Bösherz']?.[0]?.rollen[0] === 'Robin' && sprecher['Konrad Bösherz']?.[0]?.ann === true, JSON.stringify(sprecher))
   pruefe('unbekannte Dateien bleiben unberührt', uebersetzeDatei('meta.json', { titleCount: 3 }, ak) !== undefined)
-  /* Karenz der Favoriten-Umschreibung: ab dem 05.11.2026 entfallen web/src/lib/kennung-umzug.ts, worker/src/favoriten-kennung.ts (Zweig ohne Vorsatz) und data/anilist-ak.json. */
-  pruefe('Favoriten-Umschreibung (AniList → ak) ist ausgelaufen und gehört entfernt', todayIso() < '2026-11-05', 'siehe kennung-umzug.ts / favoriten-kennung.ts')
 }
 
 /* Jede Meldung führt ihre Quellen als Belege (Daniel, 05.10.2026): Quellen-Knopf mit Reitern, Bild wo gesichert. */
@@ -8419,6 +8417,7 @@ pruefe('TV-Beleg springt zur Stunde der Sendung (Boruto, ProSieben MAXX)', tvdeS
   const [altAk, neuAk] = paare[0]!
   pruefe('Umleitung (Browser): Liste und Karten ziehen auf den Nachfolger um, ohne Doppel; Zahlen und Tage ordnen sich sinnvoll', umleiteListe([altAk, neuAk, 5], abbild).join() === `${neuAk},5` && umleiteKarte({ [altAk]: 3, [neuAk]: 5 }, abbild)[neuAk] === 5 && umleiteKarte({ [altAk]: '2026-10-01', [neuAk]: '2026-10-08' }, abbild)[neuAk] === '2026-10-01')
   pruefe('Umleitung (Worker): gespeicherte Liste mit ak: wird auf den Nachfolger umgeschrieben, eine fremde Zahl bleibt', [...leseFavoriten(`ak:${altAk},7`, { umleitung: abbild })].join() === `${neuAk},7` && [...leseFavoriten(`ak:${altAk},7`)].join() === `${altAk},7`)
+  pruefe('Umleitung (Worker): eine Liste ohne Vorsatz gilt als ak-Kennungen und wird ebenfalls umgeleitet', [...leseFavoriten(`${altAk},7`, { umleitung: abbild })].join() === `${neuAk},7` && [...leseFavoriten(`${altAk},7`)].join() === `${altAk},7`)
   /* AniList-Katalog: der Frischlauf holt nie mehr als die frischen Jahre, auch bei geändertem Fingerabdruck (Tageslauf 09.10.2026: zehn Minuten ab 1907). */
   const katalogArgs = { relFassung: 'neu', jahr: 2026, abJahr: 1907, frischSeiten: 10 }
   const altStand = { relFassung: 'alt', fertigeJahre: [1907, 1908] }

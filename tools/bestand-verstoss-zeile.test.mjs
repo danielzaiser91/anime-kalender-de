@@ -26,6 +26,8 @@ const OHNE_AUSGANG = {
     'nur Warnung (⚠ WARNUNG, Exit 0): die Erweiterung kann jederzeit einen Beleg an eine fremde Amazon-Seite melden, Rot würde den Bestandsbau stoppen; 28.10.2026',
   'pipeline/check-handbeleg-fast-doppel-bestand.ts':
     'nur Warnung (⚠ WARNUNG, Exit 0): Bestandsbau und Meldungen können jederzeit ein Beleg-Paar gleich bis auf das Prüfdatum schreiben, Rot würde den Bestandsbau stoppen; 03.11.2026',
+  'pipeline/check-meldungen-ohne-release-bestand.ts':
+    'nur Warnung (⚠ WARNUNG, Exit 0): Anime2You kann jederzeit eine Meldung bringen, die der Bau keinem Release zuordnet, Rot würde den Bestandsbau stoppen; 04.11.2026',
   'pipeline/check-handlung-eigen-bestand.ts':
     'verwaist ist seit 26.10.2026 eine Warnung (herabgestufteWarnzeile, Exit 0): ein Eintrag ohne Titel bringt nichts live, der Bau bindet nur Einträge zu Titeln im Bestand ein',
 }

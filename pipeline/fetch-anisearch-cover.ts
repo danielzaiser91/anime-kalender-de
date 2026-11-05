@@ -67,9 +67,9 @@ async function main(): Promise<void> {
   const manifest = readJson<Manifest>(MANIFEST, {})
   const titel = [...readJson<TitelZeile[]>('public/data/titles.json', []), ...readJson<TitelZeile[]>('public/data/ohne-synchro.json', [])]
   const offen = offeneKennungen(titel, manifest)
-  log(`aniSearch-Cover: ${offen.length} Titel ohne Cover und ohne Eintrag, ${Math.min(offen.length, LIMIT)} in diesem Lauf`)
+  log(`aniSearch-Cover: ${offen.length} Titel ohne Cover und ohne Eintrag (oder mit altem „nicht-gefunden“), ${Math.min(offen.length, LIMIT)} in diesem Lauf`)
   const z = await holeCover(offen, manifest, { limit: LIMIT, token, ende: Date.now() + LAUFZEIT_MS }, echteAbhaengigkeiten())
-  log(`${z.neu} Bilder neu, ${z.ohneBild} ohne Bild vermerkt, ${z.fehler} Fehlschläge, ${Object.keys(manifest).length} Einträge im Manifest`)
+  log(`${z.neu} Bilder neu (davon ${z.gerettet} per Rückfall auf die API-Adresse gerettet), ${z.ohneBild} ohne Bild vermerkt (${z.endgueltig404} endgültig 404), ${z.fehler} Fehlschläge, ${Object.keys(manifest).length} Einträge im Manifest`)
   if (z.abgebrochen) warn(`Lauf abgebrochen: ${z.abgebrochen}`)
   recordSource('anisearch-cover-eigen', z.neu, z.abgebrochen, undefined, offen.length === 0)
 }

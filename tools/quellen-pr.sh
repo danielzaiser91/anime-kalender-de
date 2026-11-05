@@ -57,11 +57,12 @@ melde() {
   echo "→ $1"
 }
 
-# Ein Zweigname je Lauf. Der Lauf-Bezeichner steckt drin, damit ein offen
-# gebliebener Pull Request später zuzuordnen ist.
+# Ein Zweigname je Job. Der Lauf-Bezeichner steckt drin, damit ein offen gebliebener Pull Request später zuzuordnen ist; der Job-Name, weil die
+# Einreicher eines Wochenlaufs in derselben Minute aufsetzen: Mit gleichem Namen überschrieb `--force` den Zweig des Nachbarn, und dessen Merge
+# (`--delete-branch`) löschte ihn unter dem zweiten weg (Wochenlauf 03.11.2026: AniList und TMDB rot, `gh pr create` ohne Zweig).
 # Nur Läufe der App heißen `daten/…` (Kette und CI-Prüfer überspringen den Präfix, der Daten-Merge nimmt nur ihren Autor); ein lokaler Aufruf nimmt `fix/`.
 if [ -n "${GITHUB_RUN_ID:-}" ]; then
-  ZWEIG="daten/${GITHUB_RUN_ID}-$(date -u +%Y%m%d-%H%M)"
+  ZWEIG="daten/${GITHUB_RUN_ID}-${GITHUB_JOB:-job}-$(date -u +%Y%m%d-%H%M)"
 else
   ZWEIG="fix/lokal-$(date -u +%Y%m%d-%H%M)"
 fi

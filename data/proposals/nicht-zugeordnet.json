@@ -1,6 +1,26 @@
 {
-  "stand": "2026-11-01",
+  "stand": "2026-11-04",
   "eintraege": [
+    {
+      "titel": "Z wie Zorro – Der Film",
+      "artikel": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+      "tag": "2026-11-03",
+      "anbieter": [
+        "joyn",
+        "primevideo"
+      ],
+      "quelle": "Sammelartikel"
+    },
+    {
+      "titel": "Zorros Geheimnis",
+      "artikel": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+      "tag": "2026-11-03",
+      "anbieter": [
+        "joyn",
+        "primevideo"
+      ],
+      "quelle": "Sammelartikel"
+    },
     {
       "titel": "Devils‘ Crest",
       "artikel": "https://www.anime2you.de/news/1065256/prime-video-goblin-slayer-staffel-2-und-mehr/",
@@ -29,42 +49,6 @@
       "quelle": "Sammelartikel"
     },
     {
-      "titel": "The Most Heretical Last Boss Queen",
-      "artikel": "https://www.anime2you.de/news/1065078/aniverse-november-2026-neuzugaenge/",
-      "tag": "2026-11-26",
-      "anbieter": [
-        "primevideo"
-      ],
-      "quelle": "Sammelartikel"
-    },
-    {
-      "titel": "Bass X Machina",
-      "artikel": "https://www.anime2you.de/news/1062641/netflix-anime-neu-im-november-2026/",
-      "tag": "2026-11-03",
-      "anbieter": [
-        "netflix"
-      ],
-      "quelle": "Sammelartikel"
-    },
-    {
-      "titel": "Cyberpunk: Edgerunners II",
-      "artikel": "https://www.anime2you.de/news/1062229/netflix-dragon-ball-super-beerus-und-mehr/",
-      "tag": "2026-10-20",
-      "anbieter": [
-        "netflix"
-      ],
-      "quelle": "Sammelartikel"
-    },
-    {
-      "titel": "Demon Slayer: Kimetsu no Yaiba – Infinity Castle I",
-      "artikel": "https://www.anime2you.de/news/1054791/prime-video-attack-on-titan-und-mehr/",
-      "tag": "2026-09-29",
-      "anbieter": [
-        "primevideo"
-      ],
-      "quelle": "Sammelartikel"
-    },
-    {
       "titel": "STEEL BALL RUN: JoJo’s Bizarre Adventure",
       "artikel": "https://www.anime2you.de/news/1052324/netflix-fuenf-herbst-2026-simulcasts/",
       "tag": "2026-09-25",
@@ -74,47 +58,11 @@
       "quelle": "Sammelartikel"
     },
     {
-      "titel": "Yandere Dark Elf",
-      "artikel": "https://www.anime2you.de/news/1045399/aniverse-september-2026-neuzugaenge/",
-      "tag": "2026-09-24",
+      "titel": "Danganronpa 3 – Future & Despair",
+      "artikel": "https://www.anime2you.de/news/1035676/aniverse-august-2026-neuzugaenge/",
+      "tag": "2026-08-13",
       "anbieter": [
         "primevideo"
-      ],
-      "quelle": "Sammelartikel"
-    },
-    {
-      "titel": "LEGO One Piece",
-      "artikel": "https://www.anime2you.de/news/1042851/netflix-anime-neu-im-september-2026/",
-      "tag": "2026-09-29",
-      "anbieter": [
-        "netflix"
-      ],
-      "quelle": "Sammelartikel"
-    },
-    {
-      "titel": "Mononoke The Movie: Chapter III – The Curse of the Serpent",
-      "artikel": "https://www.anime2you.de/news/1042851/netflix-anime-neu-im-september-2026/",
-      "tag": "2026-09-29",
-      "anbieter": [
-        "netflix"
-      ],
-      "quelle": "Sammelartikel"
-    },
-    {
-      "titel": "Love & Lies",
-      "artikel": "https://www.anime2you.de/news/1035882/adn-neuzugaenge-im-august-2026/",
-      "tag": "2026-08-17",
-      "anbieter": [
-        "adn"
-      ],
-      "quelle": "Sammelartikel"
-    },
-    {
-      "titel": "Der Held ohne Klasse",
-      "artikel": "https://www.anime2you.de/news/1035882/adn-neuzugaenge-im-august-2026/",
-      "tag": "2026-08-21",
-      "anbieter": [
-        "adn"
       ],
       "quelle": "Sammelartikel"
     }
