@@ -41,6 +41,10 @@ pruefe('Kanal trennt', falteTeilwege([weg(1, 5, { kanal: 'Crunchyroll' }), weg(6
 pruefe('Entfernt-am trennt', falteTeilwege([weg(1, 5, { entferntAm: '2026-09-01' }), weg(6, 9)]).length === 2)
 pruefe('Geteilte Adresse trennt', falteTeilwege([weg(1, 5, { sharedWith: 2 }), weg(6, 9)]).length === 2)
 pruefe('Deutsch-Haken allein trennt', falteTeilwege([weg(1, 5, { dub: true }), weg(6, 9)]).length === 2)
+pruefe('Nur-Hinweis-Marke allein trennt', falteTeilwege([weg(1, 5, { dubHintOnly: true }), weg(6, 9)]).length === 2)
+// Zwei Adressen desselben Anbieters, abwechselnd: der Vorgänger wird je Adresse gesucht, nicht je Anbieter.
+const zweiAdressen = falteTeilwege([weg(1, 5), { ...weg(1, 5), url: `${url}2` }, weg(6, 9)])
+pruefe('Vorgänger wird je Adresse gesucht', zweiAdressen.length === 2 && bereiche(zweiAdressen) === '1-9,1-5', bereiche(zweiAdressen))
 const alleFelder = { kanal: 'K', entferntAm: '2026-09-01', sharedWith: 2, dub: true }
 pruefe('Gleiche Felder: eine Pille', falteTeilwege([weg(1, 5, alleFelder), weg(6, 9, alleFelder)]).length === 1)
 const ganz: StreamLink = { platform: 'primevideo', url }

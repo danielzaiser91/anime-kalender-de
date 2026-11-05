@@ -17,7 +17,8 @@ const OM_NOM = -57480
 const JACK = -92684
 const MAX_PILLEN_OM_NOM = 12
 
-const cartoons = readJson<Title[]>('public/data/cartoons.json', [])
+const cartoonsRoh = readJson<Title[] | null>('public/data/cartoons.json', null)
+const cartoons = cartoonsRoh ?? []
 const pillen = (id: number) =>
   sortiereNachZugang({ title: cartoons.find((t) => t.id === id) }).flatMap((g) => g.plattformen)
 let fehler = 0
@@ -26,6 +27,7 @@ function pruefe(ok: boolean, text: string): void {
   fehler++
   console.error(`FEHLER: ${text}`)
 }
+pruefe(cartoonsRoh !== null && cartoons.length > 0, 'public/data/cartoons.json fehlt oder ist leer: nichts zu prüfen')
 
 /** Unterzeile und Tooltip jeder Stream-Pille, wie sie das Panel zusammensetzt (echte Daten, echte Texte, ohne Termine). */
 function zeilenTexte(title: Title): { name: string; unten: string; titel: string }[] {
@@ -107,7 +109,10 @@ const vorkommen = (text: string, muster: RegExp) => text.match(muster)?.length ?
 function pruefeJackZeilen(): void {
   const titel = cartoons.find((x) => x.id === JACK)
   const netflix = pillen(JACK).filter((s) => s.platform === 'netflix')
-  if (!titel || !netflix.some((s) => s.teilBereich)) return
+  if (!titel || !netflix.some((s) => s.teilBereich)) {
+    console.log('Cartoon-Wege falten (Bestand): Jack ohne Netflix-Teilwege im Bestand, Anker übersprungen')
+    return
+  }
   const zeilen = zeilenTexte(titel).filter((z) => z.name === 'Netflix')
   pruefe(zeilen.length === netflix.length, `Jack: ${zeilen.length} Netflix-Zeilen für ${netflix.length} Netflix-Pillen`)
   zeilen.forEach((z, i) => {
