@@ -109,7 +109,7 @@ function speichere(datei, inhalt) {
 const FELDER = 'databaseId,conclusion,createdAt,url'
 const listenAbruf = (repo, datei) => ['run', 'list', '--repo', repo, '--workflow', datei, '--branch', 'main', '--status', 'completed', '--limit', '1', '--json', FELDER]
 const jobsAbruf = (repo, id) => ['api', `repos/${repo}/actions/runs/${id}/jobs?per_page=100`]
-const logAbruf = (repo, jobId) => ['api', `repos/${repo}/actions/jobs/${jobId}/logs`]
+const logAbruf = (repo, jobId) => ['api', '--allow-escape-sequences', `repos/${repo}/actions/jobs/${jobId}/logs`]
 
 /** Jüngster fertiger Lauf je Datei, der grün und höchstens 14 Tage alt ist; `ausfall` sammelt die Dateien ohne Auskunft. */
 function frischeLaeufe(stapel, repo, dateien, jetztMs, ausfall) {
