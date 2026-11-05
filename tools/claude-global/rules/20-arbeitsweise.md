@@ -84,7 +84,7 @@ Auftrag über einen Zeitraum braucht als Erstes einen Wecker (Skill `autonomer-m
 
 **Keine vorgeschlagenen Aufgaben als Chip** — Nebenfunde in Footer und `status.md`.
 
-**Fragen blockieren nie (Daniel, 10.10.2026): kein `AskUserQuestion`.** Jede Frage trägt ein Kürzel `F<n>` (13.10.2026), jeder Handgriff ohne Frage `E<n>` (20.10.2026), nennt kurz mit Verb den Grund, warum Daniel es tut und nicht ich — „kann nicht“ (Claude-Sicherheitsfilter sperrt), „darf nicht“ (Projektregel: Geld), „soll nicht“ (deine Entscheidung) (Daniel, 20.10.2026) — und sagt, ob ein „ja“ im Chat genügt, damit ich es selbst tue (auch gegen eine Filtersperre), oder ob es nur Daniel selbst kann, und kommt als Zeile
+**Fragen blockieren nie (Daniel, 10.10.2026): kein `AskUserQuestion`, keine Klick-Abfrage — nach einer Filtersperre keine Variante versuchen, sofort E-Zeile (04.11.2026).** Jede Frage trägt ein Kürzel `F<n>` (13.10.2026), jeder Handgriff ohne Frage `E<n>` (20.10.2026), nennt kurz mit Verb den Grund, warum Daniel es tut und nicht ich — „kann nicht“ (Claude-Sicherheitsfilter sperrt), „darf nicht“ (Projektregel: Geld), „soll nicht“ (deine Entscheidung) (Daniel, 20.10.2026) — und sagt, ob ein „ja“ im Chat genügt, damit ich es selbst tue (auch gegen eine Filtersperre), oder ob es nur Daniel selbst kann, und kommt als Zeile
 unter `### Jetzt` in `stand.md`, verlinkt auf eine eigene kleine Datei mit genau dem, was er für
 diesen einen Punkt braucht (Optionen und Empfehlung bzw. Klickanleitung, nie ein langer Bericht), Daniel
 beantwortet sie asynchron; ist er gerade da, frage ich zusätzlich direkt im Chat (14.10.2026); bis dahin arbeite ich mit der Empfehlung weiter, wo das umkehrbar ist,
