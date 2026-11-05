@@ -204,6 +204,10 @@ jobs:
             befehl: npm run check:suchhinweis
           - teil: Bühne-Fenster
             befehl: npm run check:buehne-fenster
+          - teil: Bühne-Messen
+            befehl: npm run check:buehne-messen
+          - teil: Bühne-Panel
+            befehl: npm run check:buehne-panel
     steps:
       - uses: actions/checkout@v4
         with:
@@ -240,7 +244,11 @@ jobs:
           PFADE="$PFADE|^tools/bau-vergleich-log\.mjs$"
           PFADE="$PFADE|^tools/bilder-ordner\.mjs$"
           PFADE="$PFADE|^tools/buehne-fenster-pruefen\.mjs$"
+          PFADE="$PFADE|^tools/buehne-messen\.mjs$"
+          PFADE="$PFADE|^tools/buehne-messung\.mjs$"
+          PFADE="$PFADE|^tools/buehne-panel-pruefen\.mjs$"
           PFADE="$PFADE|^tools/buehne-seite\.mjs$"
+          PFADE="$PFADE|^tools/buehne-zustand-pruefen\.mjs$"
           PFADE="$PFADE|^tools/dist-frisch\.mjs$"
           PFADE="$PFADE|^tools/duell-urteil\.mjs$"
           PFADE="$PFADE|^tools/ecken-urteil\.mjs$"
