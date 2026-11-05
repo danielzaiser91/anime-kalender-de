@@ -354,6 +354,7 @@ pipeline/check-prime-phase-laufzeit.ts
 pipeline/check-prime-pille.ts
 pipeline/check-prime-seite-richten.ts
 pipeline/check-prime-seiten-sperre.ts
+pipeline/check-prime-suchadresse-tot.ts
 pipeline/check-prime-teilseiten-kanal.ts
 pipeline/check-prime-teilseiten.ts
 pipeline/check-prime-zugeordnet-jw.ts
