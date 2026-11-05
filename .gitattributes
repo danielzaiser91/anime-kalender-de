@@ -29,6 +29,12 @@
 tools/check-logic-liste.txt merge=union
 # Dasselbe für die Liste der Bestandsprüfungen: jeder PR mit einem neuen Bestandscheck fügt eine Zeile ein.
 tools/check-bestand-liste.txt merge=union
+# Weitere Anhänge-Listen (Lehre 05.11.2026, jeder zweite Main-Merge kollidierte): Handbelege (Block je Eintrag, nur ganze Blöcke
+# anhängen; wer einen vorhandenen Eintrag ändert, bekommt weiter einen Konflikt oder eine Parse-Meldung von check:handbelege),
+# Lesezugriffe (eine JSON-Zeile je Eintrag) und Ausnahmen ohne Fehlerausgang (eine Zeile je Prüfung). Belegt von tools/union-listen.test.mjs.
+data/dub-confirmed.yaml merge=union
+tools/sammler-lesezugriffe.jsonl merge=union
+tools/bestand-ohne-ausgang.txt merge=union
 
 # Binärdateien bleiben unangetastet.
 *.png binary
