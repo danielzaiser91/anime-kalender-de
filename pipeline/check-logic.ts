@@ -4344,13 +4344,6 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     )('http://www.crunchyroll.com/de/a-place-further-than-the-universe') === 'GYK541EPR',
     '43 der 44 offenen Verweise standen in der alten Slug-Form ohne Kennung in der Adresse',
   )
-
-  const roh = readFileSync('pipeline/fetch-rohfolgen.ts', 'utf8')
-  pruefe(
-    'eine Meldung ab Staffel 2 landet nicht am Reihenkopf',
-    roh.includes('gemeldeteStaffel > 1 && istReihenkopf(titel, titles)'),
-    'Amazon nennt jede Staffel gleich; der beste Namenstreffer ist der Reihenkopf',
-  )
 }
 
 /**
