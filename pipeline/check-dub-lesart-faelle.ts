@@ -96,7 +96,7 @@ function wachterProzess(kulisse: string, extra: string[] = [], ci = false): { st
   const env = { ...process.env }
   if (ci) env.CI = 'true'
   else delete env.CI
-  const l = spawnSync(process.execPath, [tsx, join(wurzel, 'pipeline/check-dub-lesart.ts'), '--wurzel', kulisse, ...extra], { encoding: 'utf8', timeout: 120_000, cwd: kulisse, env })
+  const l = spawnSync(process.execPath, [tsx, join(wurzel, 'pipeline/check-dub-lesart.ts'), '--wurzel', kulisse, ...extra], { encoding: 'utf8', timeout: 120_000, cwd: tmpdir(), env })
   return { status: l.status, aus: `${l.stdout}${l.stderr}` }
 }
 
@@ -112,6 +112,10 @@ function lauf(dateien: Record<string, string>, grenzen: { offen: number; marken:
 const MARKIERT = fn(['return t.streams.some((s) => s.dub === true) // dub-lesart: handbeleg'])
 const neu = lauf({ 'pipeline/bau/neu.ts': ROH }, { offen: 0, marken: 0 }, true)
 pruefe('Prozess: neue Lesung in pipeline/bau bei Grenze 0 ist rot, nennt Datei:Zeile', neu.status === 1 && neu.aus.includes('pipeline/bau/neu.ts:2'), neu.aus)
+const kulisseListe = kulisseAnlegen({ 'pipeline/bau/neu.ts': ROH }, { offen: 0, marken: 0 })
+const liste = wachter(kulisseListe, ['--liste'])
+rmSync(kulisseListe, { recursive: true, force: true })
+pruefe('Lauf: --liste nennt die offenen Stellen und bleibt trotz Überschreitung der Grenze bei Exit 0', liste.status === 0 && liste.aus.includes('pipeline/bau/neu.ts:2') && !liste.aus.includes('dub-lesart:'), liste.aus)
 const ausShared = lauf({ 'shared/neu.ts': ROH }, { offen: 0, marken: 0 })
 pruefe('Lauf: neue Lesung in shared ist rot', ausShared.status === 1 && ausShared.aus.includes('shared/neu.ts:2'), ausShared.aus)
 const gedeckt = lauf({ 'pipeline/bau/neu.ts': fn(['return s.dub === true && !s.dubAbgeleitet']), 'shared/neu.ts': MARKIERT }, { offen: 0, marken: 1 })
