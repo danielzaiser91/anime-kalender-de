@@ -13,9 +13,8 @@ export function spinoffVerdacht(titel: Title[]): Title[] {
   for (const t of titel) if (t.franchiseId !== undefined) reihen.set(t.franchiseId, [...(reihen.get(t.franchiseId) ?? []), t])
   const verdacht: Title[] = []
   for (const reihe of reihen.values()) {
-    if (reihe.length < 2 || !reihe.some((t) => t.beiwerk)) continue
     const { staende } = zaehleHauptstaffeln(reihe.map((t) => ({ ...t, name: anzeigeName(t) })))
-    for (const t of reihe) if (t.beiwerk && !t.eigenesWerk && staende.get(t.id)?.eigenerName === true) verdacht.push(t)
+    for (const t of reihe) if (t.beiwerk && staende.get(t.id)?.eigenerName === true) verdacht.push(t)
   }
   return verdacht
 }
