@@ -40,13 +40,14 @@ function lauf(modus: string): { status: number | null; fehlertext?: string } {
       timeout: 120_000,
       windowsHide: true,
     })
-    const health = JSON.parse(readFileSync(join(ak, 'data', 'source-health.json'), 'utf8')) as Record<string, { lastError?: string }>
+    const health = JSON.parse(readFileSync(join(ak, 'data', `${GESUNDHEIT}.json`), 'utf8')) as Record<string, { lastError?: string }>
     return { status: r.status, fehlertext: health.anime2you?.lastError }
   } finally {
     rmSync(ak, { recursive: true, force: true })
   }
 }
 
+const GESUNDHEIT = 'source-health'
 const feed = (pfad: string): string => `https://www.anime2you.de/${pfad}/feed/`
 const alle = lauf('alle403')
 pruefe('Lauf: alle Feeds 403 → Abrufgrund', alle.status === 0 && alle.fehlertext === `Abruf gescheitert (alle Feeds): ${feed('streaming-news')}: HTTP 403`, alle)
