@@ -79,6 +79,8 @@ console.log('\nBelegstärke: Zusicherung für die Auslieferung')
     { handbelegt: new Set([7]), kartei: new Set([8]) },
   )
   pruefe('hoch ohne starke Quelle und ohne aniSearch-Marke (auch mit Forum-Treffer) wird gemeldet', gefunden.join() === '1,2,9', gefunden)
+  const mitJustwatch = hochOhneBeleg([t(1, 'high'), t(9, 'high')], { handbelegt: new Set(), kartei: new Set(), justwatch: new Set([9]) })
+  pruefe('JustWatch-Deutsch (Nicht-Amazon) ersetzt die aniSearch-Marke: nur der andere wird gemeldet', mitJustwatch.join() === '1', mitJustwatch)
 }
 
 console.log('\nBelegstärke: Cartoons (westlich) entscheiden wie synchroBelegt')

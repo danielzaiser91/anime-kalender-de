@@ -1,5 +1,6 @@
 import type { Title } from '../../shared/types.ts'
 import type { AnisearchTermin } from './anisearch-termine.ts'
+import type { JwAngebot } from './amazon-gti.ts'
 import { titelJeJustwatchKennung, type JwBefund } from './jw-vertrauen.ts'
 import { readJson } from './util.ts'
 
@@ -26,13 +27,20 @@ export function sammeleintragTitel(bruecke: ReadonlyMap<string, string>, ids: It
  * Die Titel, deren eigener JustWatch-Befund Deutsch als Tonspur nennt. Ein Befund, der einer JustWatch-Kennung mehrerer Titel gehört, zählt nicht
  * (bei Mehrteilern fasst das Angebot alle Teile zusammen, `jw-vertrauen.ts`); ein Befund ohne Treffer auch nicht.
  */
-export function justwatchDeutsch(bestand: Record<string, JwBefund>): Set<number> {
+export function justwatchDeutsch(bestand: Record<string, JwBefund>, angebotZaehlt: (a: JwAngebot) => boolean = () => true): Set<number> {
   const jeKennung = titelJeJustwatchKennung(bestand)
-  const treffer = Object.entries(bestand).filter(([, b]) => !b.ohneTreffer && b.jwId && jeKennung.get(b.jwId) === 1 && b.angebote.some((a) => a.audio?.includes('de')))
+  const treffer = Object.entries(bestand).filter(([, b]) => !b.ohneTreffer && b.jwId && jeKennung.get(b.jwId) === 1 && b.angebote.some((a) => a.audio?.includes('de') && angebotZaehlt(a)))
   return new Set(treffer.map(([id]) => Number(id)))
 }
 
 export const ladeJustwatchDeutsch = (): Set<number> => justwatchDeutsch(readJson<Record<string, JwBefund>>('data/justwatch-audio.json', {}))
+
+/** Ein Amazon-Angebot (Prime, Video, jeder Amazon-Kanal): seine Sprachangabe ist Amazons eigene (Kanal-Regel, `kanal-titel.ts`), keine zweite Quelle. */
+export const istAmazonAngebot = (a: Pick<JwAngebot, 'anbieter' | 'url'>): boolean => /amazon|prime video|mx player/i.test(a.anbieter) || /\/\/(watch|www)\.amazon\./i.test(a.url ?? '')
+
+/** Titel, deren JustWatch-Befund Deutsch an einem Nicht-Amazon-Angebot nennt (Apple, MagentaTV, maxdome, Rakuten, JPC, Crunchyroll …); ohne Verfallsfrist: die Existenz einer deutschen Fassung ändert sich nicht. */
+export const ladeJustwatchDeutschOhneAmazon = (): Set<number> =>
+  justwatchDeutsch(readJson<Record<string, JwBefund>>('data/justwatch-audio.json', {}), (a) => !istAmazonAngebot(a))
 
 /** Der Termin ohne Synchro-Marke (und ohne Teilmarke), wo der Titel im Sammeleintrag steht; ohne Datum, Zeitraum und Verlag bleibt nichts übrig. */
 export function ohneSammelSynchro(termin: AnisearchTermin | undefined, imSammeleintrag: boolean): AnisearchTermin | undefined {
