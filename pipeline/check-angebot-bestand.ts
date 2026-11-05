@@ -7,6 +7,7 @@
 import { readFileSync } from 'node:fs'
 import type { Release, ReleaseEvent, Title } from '../shared/types.ts'
 import { STICHTAG_AB } from './bau/angebot-stichtag.ts'
+import { releasesOhneQuelle } from './lib/release-ohne-quelle.ts'
 
 let verletzt = 0
 function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
@@ -46,7 +47,7 @@ console.log('\n„Im Angebot seit“ im Bestand:')
   const wellen = [...jeTag].filter(([, n]) => n >= STICHTAG_AB)
   pruefe('kein Erfassungsstichtag als Termin (Anbieter, Tag, Zahl)', !wellen.length, wellen)
   /* Kein Termin ohne Quelle, am fertigen Bestand: `pruefeErgebnis` läuft in Phase 10 und sieht die später angehängten Releases (Phase 13) nie (05.11.2026: 15 ohne `sources`). */
-  const ohneQuelle = lies<Release[]>('releases.json').filter((r) => !Array.isArray(r.sources) || !r.sources.length).map((r) => r.slug)
+  const ohneQuelle = releasesOhneQuelle(lies<Release[]>('releases.json'))
   console.log(`  Releases ohne Quelle: ${ohneQuelle.length}`)
   pruefe('jedes Release trägt mindestens eine Quelle (sources)', !ohneQuelle.length, ohneQuelle.slice(0, 5))
   const frueh = releases.filter((r) => /^(motn|anisearch)-/.test(r.slug) && r.schedule.firstEpisodeDate < '2026-01-01').map((r) => r.slug)
