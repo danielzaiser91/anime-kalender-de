@@ -4,7 +4,7 @@
 { "name": "markiere eigene aus", "aenderungen": [ { "datei": "pipeline/bau/reihenteil-markierung.ts", "suche": "if (eigene.has(t.id)) {", "ersetze": "if (false) {" } ] },
 { "name": "markiere ohne Reihe Guard weg", "aenderungen": [ { "datei": "pipeline/bau/reihenteil-markierung.ts", "suche": "if (t.franchiseId === undefined) continue", "ersetze": "" } ] },
 { "name": "markiere Eltern leer", "aenderungen": [ { "datei": "pipeline/bau/reihenteil-markierung.ts", "suche": "(eltern.get(t.id) ?? [])", "ersetze": "[]" } ] },
-{ "name": "quellen Handliste leer", "aenderungen": [ { "datei": "pipeline/bau/reihenteil-markierung.ts", "suche": "new Set(ladeAlleEigenenWerke().flatMap((e) => e.ids))", "ersetze": "new Set()" } ] },
+{ "name": "quellen Handliste leer", "aenderungen": [ { "datei": "pipeline/bau/reihenteil-markierung.ts", "suche": "new Set(ladeAlleEigenenWerke().flatMap((e) => e.ids))", "ersetze": "new Set()", "nr": 2 } ] },
 { "name": "quellen Eltern ohne Filter", "aenderungen": [ { "datei": "pipeline/bau/reihenteil-markierung.ts", "suche": "eintraege.filter((x) => x.eltern?.length)", "ersetze": "[]" } ] },
 { "name": "wid ohne beiwerk", "aenderungen": [ { "datei": "pipeline/bau/widerlegung-staffel.ts", "suche": "beiwerk: x.beiwerk,", "ersetze": "" } ] },
 { "name": "wid ohne eigenesWerk", "aenderungen": [ { "datei": "pipeline/bau/widerlegung-staffel.ts", "suche": "eigenesWerk: x.eigenesWerk,", "ersetze": "" } ] },
