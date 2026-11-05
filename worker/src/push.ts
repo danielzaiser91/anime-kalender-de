@@ -228,8 +228,11 @@ export async function pushVersand(
   ereignisse: PushEreignis[],
   istErschienen: (e: PushEreignis, zeit: Date) => boolean,
   weitere: WeitererAnbieter[] = [],
+  /** Der Fünf-Minuten-Lauf kennt die „Jetzt auch bei“-Meldungen nicht und setzt deshalb nie die erste Marke. */
+  ohneErstlauf = false,
 ): Promise<string> {
   const marke = await leseMarke(env.DB)
+  if (!marke && ohneErstlauf) return 'keine Marke: der Stundenlauf setzt sie'
   if (!marke) {
     await schreibeMarke(env.DB, jetzt, weitere.map(weiterSchluessel))
     return 'Erstlauf: Marke gesetzt, 0 Abos gelesen'
