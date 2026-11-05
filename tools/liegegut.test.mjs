@@ -9,7 +9,7 @@ import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
-import { checkStand, geteilteEntscheidungen, kopfZeitVon, kopfZeiten, liegegut, main, mainCommits, naechsterSchritt, signaleEinzel, stillstandSignal, ueberholtTreffer, urteile } from './liegegut.mjs'
+import { offenePrs, checkStand, geteilteEntscheidungen, kopfZeitVon, kopfZeiten, liegegut, main, mainCommits, naechsterSchritt, signaleEinzel, stillstandSignal, ueberholtTreffer, urteile } from './liegegut.mjs'
 
 const fehler = []
 const pruefe = (name, ok, info) => {
@@ -298,13 +298,35 @@ console.log('liegegut: Nichtauskunft und Startlogik')
   pruefe('ohne Funde → Exit 0, „0 auffällige PRs“', main(attrappeGh([pr(1, { comments: [daniel(2, 'frisch')] })]), attrappeGit(), (t) => leer.push(t), JETZT) === 0 && leer.at(-1) === 'liegegut: 0 auffällige PRs')
 }
 
+console.log('liegegut: offene PRs in Blöcken (GraphQL-Limit 05.11.2026)')
+{
+  const p1 = { number: 7, title: 'a', isDraft: false, body: 'b1' }
+  const p2 = { number: 9, title: 'z', isDraft: false, body: 'b2' }
+  const sammel = (aufrufe, comments) => (args) => {
+    aufrufe.push(args.join(' '))
+    const f = args[args.indexOf('--json') + 1]
+    if (args[1] === 'list' && f === 'number,title,headRefOid,createdAt,mergeable,mergeStateStatus,isDraft,body') return JSON.stringify([p1, p2])
+    if (args[1] === 'list' && f === 'number,reviews,statusCheckRollup') return JSON.stringify([{ number: 9, reviews: ['r9'], statusCheckRollup: ['s9'] }, { number: 7, reviews: ['r7'], statusCheckRollup: ['s7'] }])
+    if (args[1] === 'list') return comments(args)
+    return JSON.stringify({ comments: ['einzeln-' + args[2]] })
+  }
+  const ganz = []
+  const ok = offenePrs(sammel(ganz, () => JSON.stringify([{ number: 9, comments: ['c9'] }, { number: 7, comments: ['c7'] }])))
+  pruefe('Blöcke: drei Listenaufrufe, Felder je Nummer zusammengeführt', ganz.length === 3 && ok[0].number === 7 && ok[0].comments[0] === 'c7' && ok[0].reviews[0] === 'r7' && ok[1].statusCheckRollup[0] === 's9' && ok[1].body === 'b2', { ganz, ok })
+  const limit = []
+  const zeilen = offenePrs(sammel(limit, () => { throw new Error('GraphQL: Resource limits for this query exceeded.') }))
+  pruefe('Limit bei comments → je PR ein pr view, andere Felder unverändert', limit.slice(3).join('|') === 'pr view 7 --json comments|pr view 9 --json comments' && zeilen[1].comments[0] === 'einzeln-9' && zeilen[0].comments[0] === 'einzeln-7' && zeilen[0].reviews[0] === 'r7', limit)
+}
+
 console.log('liegegut: eigener Prozess (Vorlader tools/pr-nachrechnen-mock.mjs)')
 {
   const werk = fs.mkdtempSync(path.join(os.tmpdir(), 'liegegut-'))
-  const felder = 'number,title,headRefOid,createdAt,mergeable,mergeStateStatus,isDraft,body,comments,reviews,statusCheckRollup'
+  const leicht = 'number,title,headRefOid,createdAt,mergeable,mergeStateStatus,isDraft,body'
   const frei = pr(1676, { comments: [{ author: { login: 'github-actions' }, createdAt: '2026-10-20T10:44:00Z', body: `**Prüfer-Review** für ${KOPF.slice(0, 9)} - Urteil: **ok**` }] })
   const daten = {
-    [`pr list --state open --limit 100 --json ${felder}`]: { aus: JSON.stringify([frei]) },
+    [`pr list --state open --limit 100 --json ${leicht}`]: { aus: JSON.stringify([frei]) },
+    'pr list --state open --limit 100 --json number,reviews,statusCheckRollup': { aus: JSON.stringify([frei]) },
+    'pr list --state open --limit 100 --json number,comments': { aus: JSON.stringify([frei]) },
     [`api repos/{owner}/{repo}/commits/${KOPF} --jq .commit.committer.date`]: { aus: '2026-10-20T10:40:00Z\n' },
     'api repos/{owner}/{repo}/pulls/1676/files --paginate --jq .[].filename': { aus: 'tools/x.mjs\n' },
     [`log origin/main --since=${frei.createdAt} --name-only --format=%x01%h%x09%s`]: { aus: '' },
@@ -314,7 +336,7 @@ console.log('liegegut: eigener Prozess (Vorlader tools/pr-nachrechnen-mock.mjs)'
   const skript = fileURLToPath(new URL('./liegegut.mjs', import.meta.url))
   const lauf = spawnSync(process.execPath, ['--import', vorlader, skript], { encoding: 'utf8', env: { ...process.env, ATTRAPPE_LOG: path.join(werk, 'log.txt'), ATTRAPPE_DATEN: path.join(werk, 'daten.json') } })
   pruefe('Prozess: Exit 0, Zeile für 1676 und Schlusszeile', lauf.status === 0 && /PR 1676: MERGEN – Signal 1/.test(lauf.stdout) && /liegegut: 1 auffällige PRs/.test(lauf.stdout), { s: lauf.status, o: lauf.stdout, e: lauf.stderr })
-  const leerDaten = { ...daten, [`pr list --state open --limit 100 --json ${felder}`]: { fehler: 'HTTP 502' } }
+  const leerDaten = { ...daten, [`pr list --state open --limit 100 --json ${leicht}`]: { fehler: 'HTTP 502' } }
   fs.writeFileSync(path.join(werk, 'daten.json'), JSON.stringify(leerDaten))
   const kaputt = spawnSync(process.execPath, ['--import', vorlader, skript], { encoding: 'utf8', env: { ...process.env, ATTRAPPE_LOG: path.join(werk, 'log.txt'), ATTRAPPE_DATEN: path.join(werk, 'daten.json') } })
   pruefe('Prozess: Abruffehler → Exit 2 mit FEHLER', kaputt.status === 2 && /liegegut: FEHLER/.test(kaputt.stdout), { s: kaputt.status, o: kaputt.stdout })

@@ -211,10 +211,29 @@ function bewertePr(ghFn, gitFn, pr, geteilt, jetzt, karte) {
   return { nr: pr.number, signale: nummern.map((n, i) => ({ nr: n, seit: zeiten[i] })), zeile: text }
 }
 
+const FELDER_LEICHT = 'number,title,headRefOid,createdAt,mergeable,mergeStateStatus,isDraft,body'
+const FELDER_GRUPPEN = ['reviews,statusCheckRollup', 'comments']
+
+/** Eine Feldgruppe aller offenen PRs; scheitert die Sammelabfrage am GraphQL-Limit, je PR einzeln (`pr view`). */
+function feldGruppe(ghFn, felder, nummern) {
+  try {
+    return JSON.parse(ghFn(['pr', 'list', '--state', 'open', '--limit', '100', '--json', `number,${felder}`]))
+  } catch {
+    return nummern.map((n) => ({ number: n, ...JSON.parse(ghFn(['pr', 'view', String(n), '--json', felder])) }))
+  }
+}
+
+/** Offene PRs mit allen Feldern: leichte Abfrage plus Feldgruppen getrennt, weil comments+reviews+statusCheckRollup zusammen das GraphQL-Limit sprengen (05.11.2026, 48 PRs). */
+export function offenePrs(ghFn) {
+  const leicht = JSON.parse(ghFn(['pr', 'list', '--state', 'open', '--limit', '100', '--json', FELDER_LEICHT]))
+  const nummern = leicht.map((p) => p.number)
+  const gruppen = FELDER_GRUPPEN.flatMap((g) => feldGruppe(ghFn, g, nummern))
+  return leicht.map((p) => Object.assign({}, p, ...gruppen.filter((g) => g.number === p.number)))
+}
+
 /** Holt die offenen PRs über gh/git (einspeisbar) und rechnet alle. Rückgabe: Funde { nr, signale, zeile }. */
 export function liegegutFunde(ghFn, gitFn, jetzt) {
-  const felder = 'number,title,headRefOid,createdAt,mergeable,mergeStateStatus,isDraft,body,comments,reviews,statusCheckRollup'
-  const offen = JSON.parse(ghFn(['pr', 'list', '--state', 'open', '--limit', '100', '--json', felder])).filter((p) => !p.isDraft)
+  const offen = offenePrs(ghFn).filter((p) => !p.isDraft)
   const geteilt = geteilteEntscheidungen(offen)
   const karte = kopfZeiten(ghFn)
   return offen.map((pr) => bewertePr(ghFn, gitFn, pr, geteilt.get(pr.number), jetzt, karte)).filter((f) => f !== null)
