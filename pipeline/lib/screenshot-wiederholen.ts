@@ -39,3 +39,17 @@ export async function faelleDurchlaufen<F>(faelle: F[], pruefe: (f: F) => Promis
   }
   return fehler
 }
+
+/** Jeder Versuch beginnt mit `zuruecksetzen` (z. B. Fehlerzähler auf 0) und lässt weder die ersetzte Abruffunktion noch das Token für den nächsten Versuch zurück, auch nicht nach einem Fehler. */
+export function mitRuecksetzung<S>(lauf: (s: S) => Promise<void>, zuruecksetzen: () => void): (s: S) => Promise<void> {
+  return async (s) => {
+    zuruecksetzen()
+    const echtFetch = globalThis.fetch
+    try {
+      await lauf(s)
+    } finally {
+      globalThis.fetch = echtFetch
+      delete process.env.LAUF_TOKEN
+    }
+  }
+}

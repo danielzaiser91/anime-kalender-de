@@ -6,7 +6,7 @@
  */
 import { readFileSync } from 'node:fs'
 import { chromium, type Page } from 'playwright'
-import { mitNeuerSeite } from './lib/screenshot-wiederholen.ts'
+import { mitNeuerSeite, mitRuecksetzung } from './lib/screenshot-wiederholen.ts'
 import { belegeFuehren, bilderAnlegen, zeileFotografieren } from './lib/woche-bild.ts'
 import { zeilenSchluessel, type WocheBelege } from './lib/woche-beleg.ts'
 import { eintraegeAus, rohLesen, type WochenEintrag } from './scrape-crunchyroll-woche.ts'
@@ -51,9 +51,8 @@ const masse = (s: Page, bild: Buffer) =>
     return { breite: bmp.width, hoehe: bmp.height }
   }, bild.toString('base64'))
 
-/** Alle Prüfungen auf einer Seite; bei einem Screenshot-Fehler läuft sie auf frischer Seite von vorn, darum zählt `fehler` hier neu. */
+/** Alle Prüfungen auf einer Seite; bei einem Screenshot-Fehler läuft sie auf frischer Seite von vorn, darum setzt `mitRuecksetzung` den Zähler `fehler` je Versuch zurück. */
 async function pruefeAlles(s: Page): Promise<void> {
-  fehler = 0
   await s.addInitScript('window.__name = (f) => f')
   await s.setContent(kurz)
   const a = await zeileFotografieren(s, '0-0')
@@ -156,20 +155,9 @@ async function pruefeAlles(s: Page): Promise<void> {
   globalThis.fetch = echt
 }
 
-/** Ein abgebrochener Versuch lässt weder die ersetzte Abruffunktion noch das Token für den nächsten Versuch zurück. */
-const wiederherstellend = (lauf: (s: Page) => Promise<void>) => async (s: Page) => {
-  const echtFetch = globalThis.fetch
-  try {
-    await lauf(s)
-  } finally {
-    globalThis.fetch = echtFetch
-    delete process.env.LAUF_TOKEN
-  }
-}
-
 const browser = await chromium.launch()
 try {
-  await mitNeuerSeite(browser, { viewport: { width: 900, height: 900 } }, wiederherstellend(pruefeAlles), console.log)
+  await mitNeuerSeite(browser, { viewport: { width: 900, height: 900 } }, mitRuecksetzung(pruefeAlles, () => { fehler = 0 }), console.log)
 } finally {
   await browser.close()
 }

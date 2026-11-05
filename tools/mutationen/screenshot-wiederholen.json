@@ -12,5 +12,11 @@
   { "name": "Seitenoptionen nicht durchgereicht", "datei": "pipeline/lib/screenshot-wiederholen.ts", "suche": "browser.newPage(optionen)", "ersetze": "browser.newPage({})" },
   { "name": "alte Seite wiederverwendet", "datei": "pipeline/lib/screenshot-wiederholen.ts", "suche": "  return mitWiederholung(async () => {\n    const seite = await browser.newPage(optionen)\n    try {", "ersetze": "  let alt: Page | undefined\n  return mitWiederholung(async () => {\n    const seite = alt ?? (alt = await browser.newPage(optionen))\n    try {" },
   { "name": "Durchlauf ohne Wiederholung", "datei": "pipeline/lib/screenshot-wiederholen.ts", "suche": "await mitWiederholung(() => pruefe(f), melde)", "ersetze": "await pruefe(f)" },
-  { "name": "Durchlauf zählt Fehler nicht", "datei": "pipeline/lib/screenshot-wiederholen.ts", "suche": "fehler++", "ersetze": "fehler += 0" }
+  { "name": "Durchlauf zählt Fehler nicht", "datei": "pipeline/lib/screenshot-wiederholen.ts", "suche": "fehler++", "ersetze": "fehler += 0" },
+  { "name": "Rücksetzung: Zähler wird nicht zurückgesetzt", "datei": "pipeline/lib/screenshot-wiederholen.ts", "suche": "    zuruecksetzen()\n", "ersetze": "" },
+  { "name": "Rücksetzung: fetch wird nicht wiederhergestellt", "datei": "pipeline/lib/screenshot-wiederholen.ts", "suche": "      globalThis.fetch = echtFetch\n", "ersetze": "" },
+  { "name": "Rücksetzung: Token bleibt stehen", "datei": "pipeline/lib/screenshot-wiederholen.ts", "suche": "      delete process.env.LAUF_TOKEN\n    }\n  }\n}", "ersetze": "    }\n  }\n}" },
+  { "name": "Rücksetzung: Aufräumen nur bei Erfolg", "datei": "pipeline/lib/screenshot-wiederholen.ts", "suche": "    try {\n      await lauf(s)\n    } finally {\n      globalThis.fetch = echtFetch\n      delete process.env.LAUF_TOKEN\n    }", "ersetze": "    await lauf(s)\n    globalThis.fetch = echtFetch\n    delete process.env.LAUF_TOKEN" },
+  { "name": "Rücksetzung: Zähler erst nach dem Lauf zurückgesetzt", "datei": "pipeline/lib/screenshot-wiederholen.ts", "suche": "    zuruecksetzen()\n    const echtFetch = globalThis.fetch\n    try {\n      await lauf(s)\n    } finally {", "ersetze": "    const echtFetch = globalThis.fetch\n    try {\n      await lauf(s)\n    } finally {\n      zuruecksetzen()" },
+  { "name": "Rücksetzung: Argument nicht durchgereicht", "datei": "pipeline/lib/screenshot-wiederholen.ts", "suche": "      await lauf(s)\n    } finally {", "ersetze": "      await lauf(undefined as S)\n    } finally {" }
 ]

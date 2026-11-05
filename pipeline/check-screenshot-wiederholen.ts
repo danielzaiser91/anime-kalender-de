@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import type { Browser, Page } from 'playwright'
-import { mitNeuerSeite, mitWiederholung, faelleDurchlaufen } from './lib/screenshot-wiederholen.ts'
+import { mitNeuerSeite, mitWiederholung, faelleDurchlaufen, mitRuecksetzung } from './lib/screenshot-wiederholen.ts'
 
 const FEHLER = 'Page.captureScreenshot: Unable to capture screenshot'
 
@@ -123,4 +123,43 @@ function browserMit(fehlschlaege: string[]) {
   }
   await assert.rejects(faelleDurchlaufen(['a', 'b', 'c'], pruefe, () => {}), /Unable to capture screenshot/)
 }
-console.log('screenshot-wiederholen: 12 Fälle in Ordnung (bis 3 Versuche, 3. Fehler rot mit Meldung, anderer Fehler sofort rot, neue Seite je Versuch, Durchlauf)')
+
+/* Rücksetzung je Versuch: Fehler nach dem Ersetzen von fetch und Setzen des Tokens (Kulisse wie in check-woche-bild), zwei Fehlversuche, dann Erfolg. */
+{
+  delete process.env.LAUF_TOKEN
+  const echt = globalThis.fetch
+  let zaehler = 0
+  const anfang: number[] = []
+  const fetchBeiStart: unknown[] = []
+  const tokenBeiStart: (string | undefined)[] = []
+  let n = 0
+  const versuch = mitRuecksetzung(async (s: string) => {
+    n++
+    anfang.push(zaehler)
+    fetchBeiStart.push(globalThis.fetch)
+    tokenBeiStart.push(process.env.LAUF_TOKEN)
+    zaehler += 5
+    globalThis.fetch = (async () => new Response('{}')) as typeof fetch
+    process.env.LAUF_TOKEN = `t${n}`
+    if (n <= 2) throw new Error(FEHLER)
+    assert.equal(s, 'seite')
+  }, () => { zaehler = 0 })
+  await mitWiederholung(() => versuch('seite'), () => {})
+  assert.equal(n, 3)
+  assert.deepEqual(anfang, [0, 0, 0], 'der Zähler beginnt je Versuch bei 0')
+  assert.ok(fetchBeiStart.every((f) => f === echt), 'fetch ist je Versuch wieder die echte Funktion')
+  assert.deepEqual(tokenBeiStart, [undefined, undefined, undefined], 'kein Token aus dem Vorversuch')
+  assert.equal(globalThis.fetch, echt)
+  assert.equal(process.env.LAUF_TOKEN, undefined)
+  assert.equal(zaehler, 5, 'nach dem letzten Versuch zählt nur dieser')
+  // Fehler, der nicht wiederholt wird, räumt trotzdem auf.
+  const hart = mitRuecksetzung(async () => {
+    globalThis.fetch = (async () => new Response('{}')) as typeof fetch
+    process.env.LAUF_TOKEN = 'x'
+    throw new Error('Timeout')
+  }, () => {})
+  await assert.rejects(hart(1), /Timeout/)
+  assert.equal(globalThis.fetch, echt)
+  assert.equal(process.env.LAUF_TOKEN, undefined)
+}
+console.log('screenshot-wiederholen: 14 Fälle in Ordnung (bis 3 Versuche, 3. Fehler rot mit Meldung, anderer Fehler sofort rot, neue Seite je Versuch, Durchlauf, Rücksetzung je Versuch)')
