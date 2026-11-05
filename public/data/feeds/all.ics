@@ -674,6 +674,16 @@ DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nIm Angebot s
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-5000003-primevideo@2026-11-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261101
+DTEND;VALUE=DATE:20261102
+SUMMARY:M.A.S.K.
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nUhrzeit noch
+  nicht bestätigt.\nDetails: https://anime-kalender.de/t/26432/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
 UID:aoashi-staffel-2-crunchyroll-de-2026-10-25@2026-11-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261101
@@ -1298,6 +1308,18 @@ DESCRIPTION:Plattform: Joyn\nRelease-Art: Katalogtitel\nIm Angebot seit die
 CATEGORIES:Joyn
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-5000001-joyn@2026-11-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261103
+DTEND;VALUE=DATE:20261104
+SUMMARY:Z wie Zorro – Der Film
+DESCRIPTION:Plattform: Joyn\nRelease-Art: Film\nUhrzeit noch nicht bestäti
+ gt.\nGeschätzter Termin: kein vom Anbieter genannter Tag\, sondern aus Rh
+ ythmus oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.
+ de/t/26430/
+CATEGORIES:Joyn
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-3010-joyn@2026-11-03@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261103
@@ -1308,6 +1330,18 @@ DESCRIPTION:Plattform: Joyn\nRelease-Art: Katalogtitel\nIm Angebot seit die
   nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter genannter Tag\,
   sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetails: https://
  anime-kalender.de/t/2474/
+CATEGORIES:Joyn
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-5000002-joyn@2026-11-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261103
+DTEND;VALUE=DATE:20261104
+SUMMARY:Zorros Geheimnis
+DESCRIPTION:Plattform: Joyn\nRelease-Art: Film\nUhrzeit noch nicht bestäti
+ gt.\nGeschätzter Termin: kein vom Anbieter genannter Tag\, sondern aus Rh
+ ythmus oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.
+ de/t/26431/
 CATEGORIES:Joyn
 END:VEVENT
 BEGIN:VEVENT
