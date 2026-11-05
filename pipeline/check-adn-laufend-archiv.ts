@@ -6,7 +6,7 @@
  * 2. Die Warnzeile „Kalenderserien ohne Katalog und Liste“ erscheint im echten Skript, wenn eine Kalenderserie fehlt, und fehlt, wenn keine fehlt.
  */
 import { spawnSync } from 'node:child_process'
-import { copyFileSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs'
+import { copyFileSync, existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
@@ -83,7 +83,9 @@ function laufend(archiv: Record<number, unknown[]>, liste: number[], mitVdeListe
     })
     const gelesen = (d: string) => (JSON.parse(gunzipSync(readFileSync(join(dir, d))).toString()) as { videos: unknown[] }).videos
     const videos = Object.fromEntries(readdirSync(dir).map((d) => [Number(d.split('.')[0]), gelesen(d)]))
-    return { l, ausgabe: `${l.stdout}${l.stderr}`, videos }
+    const offenDatei = join(ordner, 'data', 'adn-anisearch-offen.json')
+    const offen = existsSync(offenDatei) ? (JSON.parse(readFileSync(offenDatei, 'utf8')) as { serien: { showId: number; grund: string }[] }).serien : undefined
+    return { l, ausgabe: `${l.stdout}${l.stderr}`, videos, offen }
   } finally {
     rmSync(ordner, { recursive: true, force: true })
   }
@@ -95,6 +97,12 @@ pruefe('Archivserie mit vde in der Liste und ohne deutsche Folge im Archiv wird 
 pruefe('Archivserie, deren Liste kein vde nennt, bleibt unberührt', JSON.stringify(r.videos[3002]) === JSON.stringify(ALT), r.videos[3002])
 pruefe('Archivserie mit bekanntem vde bleibt unberührt', JSON.stringify(r.videos[3003]) === JSON.stringify(NEU))
 pruefe('Die Logzeile zählt genau eine laufende Serie', r.ausgabe.includes('ADN: 1 laufende Serien werden aufgefrischt'), r.ausgabe.slice(-400))
+
+// 3004 steht in der Liste, aber weder im Katalog noch im Archiv: kommt in den Katalog und muss sofort in der Liste der offenen stehen (ohne Titelliste: „titelliste-fehlt“).
+const neu = laufend({ 3001: ALT }, [3001, 3004], [3001, 3004])
+pruefe('Neue Serie: Lauf endet mit Exit 0', neu.l.status === 0, neu.ausgabe.slice(-400))
+pruefe('Neue Serie: Katalog nahm sie auf', neu.ausgabe.includes('1 neue Serien mit deutscher Fassung im Katalog'), neu.ausgabe.slice(-400))
+pruefe('Neue Serie: steht in der Liste der offenen', JSON.stringify(neu.offen?.map((o) => o.showId)) === '[3004]', neu.offen)
 
 if (fehler) process.exit(1)
 console.log('\ncheck-adn-laufend-archiv: ok')
