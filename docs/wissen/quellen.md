@@ -2858,6 +2858,16 @@ Stichprobe 7 Seiten: 6 leben, Lizenz wie bei JustWatch; der Film „Ame & Yuki" 
 (räumt die Linkprüfung ab). Joyn zeigt oft nur ein rollendes Fenster (Frieren: 5 Folgen).
 Was JustWatch nicht kennt (Dragon Ball Super), kommt über `verweise-von-hand.yaml`.
 
+**Anbieter-Liste statt 28-Tage-Umlauf (04.11.2026, `pipeline/lib/jw-anbieterliste.ts`):** Neue Joyn-Angebote
+kamen erst mit dem Umlauf von rund 3.100 Titeln (28-Tage-Frist, 2.170 Befunde älter als 14 Tage); die Liste
+„Joyn + Animation“ (`packages:["jyn"]`, `genres:["ani"]`, 198 Titel) zeigte am 04.11. 21 Bestandstitel
+(One Piece, Clannad, Hyouka …) ohne Joyn-Angebot im Befund. Jeder Lauf von `fetch-justwatch-audio.ts` (täglich
+`data:justwatch-frisch`, montags der Wochenlauf) holt die Liste (2 Abrufe, höchstens 5) und zieht Titel, die sie
+führt, deren Befund den Anbieter nicht kennt und mindestens 7 Tage alt ist, vor die Frist (`listenVorrang`).
+Die Angebote selbst holt der übliche Titel-Abruf (Abruf über TMDB-Kennung, Pausen, Riegel `--limit 60`); bei
+Joyn wird nichts abgerufen. Eine weitere Liste ist eine Zeile in `ANBIETERLISTEN` (`aktiv: false` bis zur
+Messung). Fällt der Listenabruf aus, läuft der Abruf wie bisher nach Alter.
+
 ## Kein Weg auf eine Datenbank — Videoload über die MagentaTV-Kennung (22.09.2026)
 
 Daniel an „Ame & Yuki": „videoload linkt auf tmdb, das ist falsch, es muss direkt zum anbieter
