@@ -23,22 +23,13 @@
  */
 import { readFileSync, writeFileSync } from 'node:fs'
 import { recordSource } from './lib/health.ts'
-import { katalogTrefferPasst } from './lib/cr-einzelwerk-urteil.ts'
+import { formeFund, offeneOhneSerienkennung, suchNamen, treffferInAntwort, zeichenVon, zusammenfassung } from './lib/cr-einzelwerke-lauf.ts'
 
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0 Safari/537.36'
 const titles = JSON.parse(readFileSync('public/data/titles.json', 'utf8'))
 const cr = JSON.parse(readFileSync('data/crunchyroll-dub.json', 'utf8'))
-const nachUrl = new Map(cr.serien.map((s) => [s.url, s]))
 
-const offen = []
-for (const x of titles) {
-  for (const s of x.streams ?? []) {
-    if (s.platform !== 'crunchyroll' || s.dub !== undefined) continue
-    const serie = nachUrl.get(s.url)
-    if (serie?.seriesId) continue
-    offen.push({ id: x.id, titel: x.titleDe ?? x.titleEn, en: x.titleEn, romaji: x.titleRomaji, format: x.format, folgen: x.episodes, url: s.url })
-  }
-}
+const offen = offeneOhneSerienkennung(titles, cr)
 console.log(`${offen.length} Verweise ohne Serienkennung`)
 
 const tok = await fetch('https://beta-api.crunchyroll.com/auth/v1/token', {
@@ -55,7 +46,7 @@ console.log('Token für', tok.country)
 
 const funde = []
 for (const o of offen) {
-  const namen = [...new Set([o.titel, o.en, o.romaji].filter(Boolean))]
+  const namen = suchNamen(o)
   let treffer = null
   for (const n of namen) {
     const r = await fetch(
@@ -63,45 +54,15 @@ for (const o of offen) {
       { headers: { Authorization: `Bearer ${tok.access_token}`, 'User-Agent': UA } },
     ).then((x) => x.json()).catch(() => null)
     await new Promise((r2) => setTimeout(r2, 700))
-    for (const gruppe of r?.data ?? []) {
-      for (const it of gruppe.items ?? []) {
-        /*
-          **Der Katalogtitel darf ein Teil unseres Titels sein.**
-
-          Daniel am 29.08.2026, mit Link: „den titel gibt es auf crunchy, wieso
-          nicht gefunden?" — „Fruits Basket: Prelude" heißt bei uns englisch
-          „Fruits Basket -prelude-", und Crunchyroll führt den Film schlicht als
-          **„-prelude-"**. Der exakte Vergleich scheitert an
-          „fruitsbasketprelude" gegen „prelude", obwohl beides dasselbe ist.
-
-          Erlaubt ist deshalb auch: Der Katalogtitel steckt **vollständig** in
-          unserem, und er ist mindestens sechs Zeichen lang. Die Richtung ist
-          wichtig — umgekehrt („unser Titel steckt im Katalogtitel") träfe
-          „Fruits Basket" auf jede Staffel der Reihe.
-
-          Zwei Sperren bleiben: Die Suchanfrage nennt bereits den vollen Titel,
-          die Trefferliste ist also eingegrenzt; und sechs Zeichen schließen
-          Allerweltswörter aus.
-        */
-        const { passt, exakt } = katalogTrefferPasst(it, namen)
-        if (!passt) continue
-        treffer = { id: it.id, typ: gruppe.type ?? it.type, art: it.type, exakt, titel: it.title, meta: it.movie_listing_metadata ?? it.series_metadata ?? it.movie_metadata ?? {} }
-        break
-      }
-      if (treffer) break
-    }
+    treffer = treffferInAntwort(r, namen)
     if (treffer) break
   }
-  const audio = treffer ? (treffer.meta.audio_locales ?? (treffer.meta.audio_locale ? [treffer.meta.audio_locale] : [])) : []
-  funde.push({ ...o, treffer: treffer ? { id: treffer.id, typ: treffer.typ, art: treffer.art, exakt: treffer.exakt, titel: treffer.titel, audio } : null })
-  const zeichen = !treffer ? '—' : audio.includes('de-DE') ? 'DE' : audio.length ? audio.join(',').slice(0, 24) : '?'
-  console.log(`  ${(o.format ?? '?').padEnd(7)} ${(o.titel ?? '').slice(0, 44).padEnd(46)} ${zeichen}`)
+  funde.push(formeFund(o, treffer))
+  console.log(`  ${(o.format ?? '?').padEnd(7)} ${(o.titel ?? '').slice(0, 44).padEnd(46)} ${zeichenVon(treffer)}`)
 }
 writeFileSync('data/cr-einzelwerke.json', JSON.stringify(funde, null, 2) + '\n')
-const mitTreffer = funde.filter((f) => f.treffer)
-console.log(`\n${mitTreffer.length} von ${funde.length} im deutschen Katalog gefunden`)
-console.log(`  mit de-DE: ${mitTreffer.filter((f) => f.treffer.audio.includes('de-DE')).length}`)
-console.log(`  ohne de-DE: ${mitTreffer.filter((f) => f.treffer.audio.length && !f.treffer.audio.includes('de-DE')).length}`)
+const { mitTreffer, zeilen } = zusammenfassung(funde)
+for (const z of zeilen) console.log(z)
 
 /*
   **Der Lauf meldet sich — sonst merkt niemand, dass er ausfällt.**
@@ -121,4 +82,4 @@ console.log(`  ohne de-DE: ${mitTreffer.filter((f) => f.treffer.audio.length && 
   `leerIstOk` ist gesetzt, weil null Treffer hier ein gültiges Ergebnis sind —
   irgendwann ist jeder Verweis aufgelöst.
 */
-recordSource('cr-einzelwerke', mitTreffer.length, undefined, undefined, true)
+recordSource('cr-einzelwerke', mitTreffer, undefined, undefined, true)

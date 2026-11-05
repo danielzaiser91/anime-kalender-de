@@ -35,7 +35,7 @@
  * Aufruf: npm run data:cr-katalog
  */
 import { readFileSync, writeFileSync } from 'node:fs'
-import { normSchluessel } from './lib/util.ts'
+import { katalogEintrag, offeneVerweise, ordneZu } from './lib/cr-katalog-lauf.ts'
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0 Safari/537.36'
 const tok = await fetch('https://beta-api.crunchyroll.com/auth/v1/token', {
   method: 'POST',
@@ -63,42 +63,7 @@ for (let start = 0; start < 3000; start += 100) {
   const r = await hol(`https://beta-api.crunchyroll.com/content/v2/discover/browse?n=100&start=${start}&locale=de-DE${typ ? '&type=' + typ : ''}`)
   const seite = r?.data ?? []
   if (!seite.length) break
-  for (const it of seite) {
-    const md = it.movie_listing_metadata ?? it.series_metadata ?? {}
-    alle.push({
-      id: it.id,
-      /*
-        **Nicht `it.type` — das sagt bei jedem Eintrag `series`.**
-
-        Gemessen am 09.09.2026 an allen 1.656 Einträgen: Auch die 69 Filme
-        tragen dort `series`. Genau daraus war in CLAUDE.md der Schluss
-        entstanden, der deutsche Katalog kenne keine Filme. Verlässlich ist
-        allein, aus welchem Durchlauf der Eintrag stammt.
-      */
-      typ: typ === 'movie_listing' ? 'film' : 'serie',
-      titel: it.title,
-      /**
-       * **Der Slug ist der Schlüssel, den unsere Adressen mitbringen.**
-       *
-       * Crunchyroll führt Filme unter Kurznamen („-prelude-" für „Fruits Basket
-       * -prelude-"), und über den Titel ist von 23 Film-Verweisen genau einer
-       * zuzuordnen (gemessen 09.09.2026). Unsere Adressen tragen aber denselben
-       * Slug, den der Katalog hier führt — er löst die Zuordnung ohne jeden
-       * Namensvergleich.
-       *
-       * **Und er belegt nichts über eine Nebenausgabe:** Fünf „Free!"-Filme
-       * zeigen auf den Slug ihrer Reihe. Der Slug sagt, welche **Serie** gemeint
-       * ist; ob das Werk selbst dazugehört, entscheidet die Staffelliste.
-       */
-      slug: it.slug_title ?? null,
-      beschreibung: (it.description ?? '').slice(0, 300),
-      audio: md.audio_locales ?? (md.audio_locale ? [md.audio_locale] : []),
-      untertitel: md.subtitle_locales ?? [],
-      folgen: md.episode_count ?? null,
-      staffeln: md.season_count ?? null,
-      jahr: md.series_launch_year ?? md.movie_release_year ?? null,
-    })
-  }
+  for (const it of seite) alle.push(katalogEintrag(it, typ))
   process.stdout.write(`\r  ${alle.length} / ${r?.total ?? '?'}`)
   await new Promise((x) => setTimeout(x, 700))
 }
@@ -114,35 +79,8 @@ writeFileSync('data/cr-katalog-de.json', JSON.stringify({ geholtAm: new Date().t
   erster Versuch ordnete so 16 von 30 zu, die Mehrzahl falsch.
 */
 const titles = JSON.parse(readFileSync('public/data/titles.json', 'utf8'))
-const offen = []
-for (const x of titles) {
-  for (const s of x.streams ?? []) {
-    if (s.platform !== 'crunchyroll' || s.dub !== undefined) continue
-    offen.push({ id: x.id, titel: x.titleDe, en: x.titleEn, romaji: x.titleRomaji, format: x.format, folgen: x.episodes })
-  }
-}
-
-const zuordnung = []
-for (const o of offen) {
-  const namen = [o.titel, o.en, o.romaji].filter(Boolean).map(normSchluessel)
-  const kandidaten = alle
-    .map((k) => {
-      const kn = normSchluessel(k.titel)
-      const exakt = namen.includes(kn)
-      const teil = kn.length >= 6 && !exakt && namen.some((n) => n.includes(kn))
-      if (!exakt && !teil) return null
-      const folgenPasst =
-        (o.folgen && k.folgen === o.folgen) ||
-        (o.format === 'MOVIE' && o.folgen === 1 && (k.folgen === 0 || k.folgen === 1))
-      if (!folgenPasst) return null
-      return { ...k, punkte: exakt ? 5 : 3, art: exakt ? 'Name exakt' : 'Katalogtitel steckt in unserem' }
-    })
-    .filter(Boolean)
-    .sort((a, b) => b.punkte - a.punkte)
-  const [a, b] = kandidaten
-  if (!a || (b && b.punkte === a.punkte)) continue
-  zuordnung.push({ id: o.id, unser: o.titel ?? o.en, katalogId: a.id, katalogTitel: a.titel, audio: a.audio, art: a.art, folgen: a.folgen })
-}
+const offen = offeneVerweise(titles)
+const zuordnung = ordneZu(offen, alle)
 writeFileSync('data/cr-katalog-zuordnung.json', JSON.stringify(zuordnung, null, 2) + '\n')
 console.log(`${zuordnung.length} von ${offen.length} offenen Verweisen sicher zugeordnet, ${zuordnung.filter((z) => z.audio.includes('de-DE')).length} mit de-DE`)
 for (const z of zuordnung) console.log(`  ${z.audio.includes('de-DE') ? 'DE' : '--'} ${z.unser.slice(0, 40)} -> ${z.katalogTitel}`)

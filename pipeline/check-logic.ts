@@ -3282,17 +3282,18 @@ console.log('\nStaffel und Teil zählen:')
     zusammenführt statt zu ersetzen, gilt immer.
   */
   const abruf = readFileSync(new URL('./fetch-cr-filmbloecke.mjs', import.meta.url), 'utf8')
+  const zusammenfuehrung = readFileSync(new URL('./lib/cr-filmbloecke-lauf.ts', import.meta.url), 'utf8')
   pruefe(
     'der Filmblock-Abruf liest den alten Stand, bevor er schreibt',
     /readFileSync\('data\/cr-filmbloecke\.json'/.test(abruf),
   )
   pruefe(
     '… führt beide Stände zusammen',
-    /const zusammen = new Map\(\)/.test(abruf) && /zusammen\.set\(f\.id, f\)/.test(abruf),
+    /fuehreZusammen\(vorher, funde\)/.test(abruf) && /const zusammen = new Map/.test(zusammenfuehrung) && /zusammen\.set\(f\.id, f\)/.test(zusammenfuehrung),
   )
   pruefe(
     '… und ein Schweigen überschreibt keinen alten Treffer',
-    /if \(alt\?\.treffer && !f\.treffer\)/.test(abruf),
+    /if \(alt\?\.treffer && !f\.treffer\)/.test(zusammenfuehrung),
   )
   pruefe(
     'geschrieben wird der zusammengeführte Stand, nicht die Fundliste',
