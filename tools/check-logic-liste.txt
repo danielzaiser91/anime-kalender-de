@@ -79,6 +79,7 @@ pipeline/check-belege-riegel-schreiben.ts
 pipeline/check-belegstaerke-forum.ts
 pipeline/check-belegstaerke-handbelegt.ts
 pipeline/check-belegstaerke.ts
+pipeline/check-bereich-auge.ts
 pipeline/check-bestand-delta-entfernt.ts
 pipeline/check-bild-und-synchro.ts
 pipeline/check-bookworm-dublette.ts

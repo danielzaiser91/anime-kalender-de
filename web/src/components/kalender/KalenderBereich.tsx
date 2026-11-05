@@ -11,6 +11,7 @@ import { MonthView } from '../MonthView.tsx'
 import { KalenderKopf, wochenSpanne } from './KalenderKopf.tsx'
 import { KalenderFilter } from './KalenderFilter.tsx'
 import { zaehlung } from './Marken.tsx'
+import { schnellSetzen, schnellZustand } from '../../lib/schnellfilter.ts'
 
 export interface KalenderBereichProps {
   data: Dataset
@@ -53,6 +54,12 @@ export function KalenderBereich(p: KalenderBereichProps) {
     ? zaehlung(stream, p.tvAn ? tv : 0, handel, t)
     : wochenSpanne(route.date)
   const setFilters = (filters: FilterState) => navigate({ filters })
+  /* Das Auge am Bereichskopf schaltet denselben Filter wie der Chip: ausblenden an/aus (`schnellSetzen` mit „nein"). */
+  const augeUmschalten = (bereich: 'tv' | 'disc') => {
+    const r = schnellSetzen(route.filters, bereich, 'nein', p.tvAn)
+    navigate({ filters: r.filters })
+    if (r.tvAn !== undefined && r.tvAn !== p.tvAn) p.setTvAn(r.tvAn)
+  }
   const oeffnen = (slug: string) => {
     const r = p.data.releaseBySlug.get(slug)
     navigate({ title: r?.titleId, disc: r?.releaseType === 'disc' ? true : undefined })
@@ -93,6 +100,8 @@ export function KalenderBereich(p: KalenderBereichProps) {
           favorites={p.favorites}
           hidden={p.hidden}
           tvAn={p.tvAn}
+          discAn={schnellZustand(route.filters, 'disc') !== 'nein'}
+          augeUmschalten={augeUmschalten}
           gefiltert={activeFilterCount(route.filters) > 0}
           onToggleFavorite={p.onToggleFavorite}
           onToggleHidden={p.onToggleHidden}
