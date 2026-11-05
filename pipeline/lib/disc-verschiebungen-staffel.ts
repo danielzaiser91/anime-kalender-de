@@ -39,7 +39,7 @@ export function staffelNummer(t: Title, reihen: Map<number, Title[]>, remakeQuel
   const lauf = staffelnDesFranchise(gruppe, t.franchiseId).filter((x) => !x.eigenesWerk)
   const stelle = lauf.findIndex((x) => x.id === t.id) + 1
   if (!stelle) return undefined
-  const teile = lauf.map((x) => ({ id: x.id, name: anzeigeName(x), format: x.format, episodes: x.episodes, jpYear: x.jpYear, jpStart: x.jpStart, beiwerk: x.beiwerk, eigenesWerk: x.eigenesWerk }))
+  const teile = lauf.map((x) => ({ id: x.id, name: anzeigeName(x), format: x.format, episodes: x.episodes, jpYear: x.jpYear, jpStart: x.jpStart, beiwerk: x.beiwerk }))
   const stand = staffelStandVon(teile, t.id)
   if (!stand) return einzigeStaffelDerLinie(reihen.get(t.franchiseId) ?? [], remakeVon, t.id) ? 1 : undefined
   return stand.teil === undefined && stand.staffel === stelle ? stelle : undefined

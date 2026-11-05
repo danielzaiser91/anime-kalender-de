@@ -77,6 +77,9 @@ console.log('\nBeiwerk-ONA zählt nicht mit (hauptstaffeln):')
   const reihe = [titel(1, 'Serie', '2020-01-01'), titel(2, 'Serie 2', '2021-01-01'), titel(3, 'Serie Gaiden', '2021-06-01', { format: 'ONA', episodes: 12 }), titel(4, 'Serie 3', '2022-01-01')]
   markiereReihenteile(new Map(reihe.map((t) => [t.id, t])), new Map([[3, [1]]]), new Set())
   pruefe('Das Beiwerk-ONA hat keine Nummer, Staffel 3 bleibt 3', nummern(reihe)[3] === null && nummern(reihe)[4] === 3, nummern(reihe))
+  const letztes = [titel(1, 'Serie', '2020-01-01'), titel(2, 'Serie 2', '2021-01-01'), titel(3, 'Serie Gaiden', '2022-01-01', { format: 'ONA', episodes: 12 })]
+  markiereReihenteile(new Map(letztes.map((t) => [t.id, t])), new Map([[3, [1]]]), new Set())
+  pruefe('Disc: das letzte Beiwerk-ONA bekommt keine Nummer, Staffel 2 bleibt 2', discNummern(letztes)[3] === null && discNummern(letztes)[2] === 2, discNummern(letztes))
 }
 
 console.log('\nSpin-off-Verdacht:')
