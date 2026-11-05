@@ -1,6 +1,6 @@
 {
   "format": 2,
-  "stand": "2026-11-04",
+  "stand": "2026-11-05",
   "hinweis": "Vorschlagsmodus: nur gelesen, nie übernommen — docs/wissen/sammelartikel-poc.md (Abschnitt „Vorschlagslauf\"). Schreiber: pipeline/fetch-sammelartikel.ts",
   "aussagen": [
     {
@@ -13612,6 +13612,87 @@
           "status": "ohne-zuordnung"
         },
         "inhaltZeichen": 351
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1067193/disney-plus-honey-lemon-soda-und-mehr-verfuegbar/|Honey Lemon Soda||start|disneyplus",
+      "erstGesehen": "2026-11-05",
+      "fingerabdruck": "1882182cd917",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1067193/disney-plus-honey-lemon-soda-und-mehr-verfuegbar/",
+          "veroeffentlicht": "2026-11-04",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Honey Lemon Soda",
+        "art": "start",
+        "plattformen": [
+          "disneyplus"
+        ],
+        "datum": "2026-11-04",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "ja",
+        "folgen": 12,
+        "konfidenz": 0.8,
+        "gruende": [
+          "Sprache: Deutsch, Japanisch (UT)",
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»Honey Lemon Soda«\nEpisoden: 12 (komplett)\nSprache: Deutsch, Japanisch (UT)\nStream: Disney+",
+        "zuordnung": {
+          "anilistId": 175443,
+          "name": "Honey Lemon Soda",
+          "wie": "name-genau"
+        },
+        "bestand": {
+          "status": "abweichend",
+          "release": {
+            "slug": "honey-lemon-soda-disneyplus",
+            "firstEpisodeDate": "2026-11-03"
+          },
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 232
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1067193/disney-plus-honey-lemon-soda-und-mehr-verfuegbar/|Naruto Shippuden|Staffel 4|start|disneyplus",
+      "erstGesehen": "2026-11-05",
+      "fingerabdruck": "c1b60fdc6b25",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1067193/disney-plus-honey-lemon-soda-und-mehr-verfuegbar/",
+          "veroeffentlicht": "2026-11-04",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Naruto Shippuden",
+        "zusatz": "Staffel 4",
+        "art": "start",
+        "plattformen": [
+          "disneyplus"
+        ],
+        "datum": "2026-11-04",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "ja",
+        "konfidenz": 0.8,
+        "gruende": [
+          "Sprache: Deutsch, Japanisch (UT)",
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»Naruto Shippuden« – Staffel 4\nEpisoden: 52\nSprache: Deutsch, Japanisch (UT)\nStream: Disney+",
+        "zuordnung": {
+          "anilistId": 10659,
+          "name": "Naruto Shippuden: The OVA - Naruto, ein Genie und drei Wünsche",
+          "wie": "name-teil",
+          "abstandTage": 5940
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 339
       }
     }
   ]

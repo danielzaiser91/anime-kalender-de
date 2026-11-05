@@ -1,7 +1,7 @@
 {
   "adn": {
     "lastOk": "2026-10-28T04:10:31.928Z",
-    "lastRun": "2026-11-04T15:09:23.302Z",
+    "lastRun": "2026-11-05T04:09:29.919Z",
     "lastCount": 0,
     "lastError": "keine Folge mit vde gefunden"
   },
@@ -58,8 +58,8 @@
     "lastCount": 400
   },
   "motn-changes": {
-    "lastOk": "2026-11-04T04:08:00.973Z",
-    "lastRun": "2026-11-04T04:08:00.973Z",
+    "lastOk": "2026-11-05T04:09:31.678Z",
+    "lastRun": "2026-11-05T04:09:31.678Z",
     "lastCount": 0
   },
   "motn": {
@@ -104,8 +104,8 @@
   },
   "justwatch-audio": {
     "lastOk": "2026-11-04T15:00:53.395Z",
-    "lastRun": "2026-11-04T15:00:53.395Z",
-    "lastCount": 97
+    "lastRun": "2026-11-05T04:15:11.318Z",
+    "lastCount": 0
   },
   "crunchyroll-offene": {
     "lastOk": "2026-11-04T15:01:14.995Z",
@@ -123,14 +123,14 @@
     "lastCount": 172
   },
   "cartoons": {
-    "lastOk": "2026-11-04T04:11:27.474Z",
-    "lastRun": "2026-11-04T04:11:27.474Z",
+    "lastOk": "2026-11-05T04:13:19.407Z",
+    "lastRun": "2026-11-05T04:13:19.407Z",
     "lastCount": 1
   },
   "trailer": {
-    "lastOk": "2026-11-04T04:12:51.264Z",
-    "lastRun": "2026-11-04T04:12:51.264Z",
-    "lastCount": 1
+    "lastOk": "2026-11-05T04:14:51.030Z",
+    "lastRun": "2026-11-05T04:14:51.030Z",
+    "lastCount": 2
   },
   "wikidata-titel": {
     "lastOk": "2026-11-04T14:47:22.445Z",
@@ -148,13 +148,13 @@
     "lastCount": 69
   },
   "toggo": {
-    "lastOk": "2026-11-05T01:25:54.538Z",
-    "lastRun": "2026-11-05T01:25:54.538Z",
+    "lastOk": "2026-11-05T04:10:22.268Z",
+    "lastRun": "2026-11-05T04:10:22.268Z",
     "lastCount": 22
   },
   "wikipedia-folgen": {
-    "lastOk": "2026-11-04T04:10:30.747Z",
-    "lastRun": "2026-11-04T04:10:30.747Z",
+    "lastOk": "2026-11-05T04:12:11.602Z",
+    "lastRun": "2026-11-05T04:12:11.602Z",
     "lastCount": 9
   },
   "kinoheld": {
@@ -188,9 +188,9 @@
     "lastCount": 0
   },
   "beleg-lesungen": {
-    "lastOk": "2026-11-04T04:06:57.498Z",
-    "lastRun": "2026-11-04T04:06:57.498Z",
-    "lastCount": 8
+    "lastOk": "2026-11-05T04:08:19.910Z",
+    "lastRun": "2026-11-05T04:08:19.910Z",
+    "lastCount": 19
   },
   "anisearch-dubs": {
     "lastOk": "2026-11-04T04:01:44.633Z",
@@ -208,9 +208,9 @@
     "lastCount": 18502
   },
   "cartoon-reihen": {
-    "lastOk": "2026-11-04T04:11:29.903Z",
-    "lastRun": "2026-11-04T04:11:29.903Z",
-    "lastCount": 1
+    "lastOk": "2026-11-05T04:13:20.460Z",
+    "lastRun": "2026-11-05T04:13:20.460Z",
+    "lastCount": 0
   },
   "tmdb-poster": {
     "lastOk": "2026-11-04T14:51:34.997Z",
