@@ -19,7 +19,14 @@ export async function einmalWiederholen<T>(
     if (!SCREENSHOT_FEHLER.test(text)) throw e
     melde(`Screenshot-Fehler, einmal wiederholt: ${text.split('\n')[0]}`)
     await warte(PAUSE_MS)
-    return await lauf(2)
+    try {
+      const ergebnis = await lauf(2)
+      melde('Screenshot-Wiederholung ok')
+      return ergebnis
+    } catch (e2) {
+      melde('Screenshot-Wiederholung gescheitert')
+      throw e2
+    }
   }
 }
 
@@ -35,4 +42,19 @@ export async function faelleDurchlaufen<F>(
     if (!(await einmalWiederholen((v) => pruefe(f, v), melde, warte))) fehler++
   }
   return fehler
+}
+
+/** Browser je Versuch: Versuch 1 nutzt den laufenden, Versuch 2 schließt ihn und startet einen frischen. */
+export function mitFrischemBrowser<B>(erster: B, starte: () => Promise<B>, schliesse: (b: B) => Promise<void>) {
+  let aktuell = erster
+  return {
+    browser: () => aktuell,
+    async fuer(versuch: 1 | 2): Promise<B> {
+      if (versuch === 2) {
+        await schliesse(aktuell).catch(() => {})
+        aktuell = await starte()
+      }
+      return aktuell
+    },
+  }
 }
