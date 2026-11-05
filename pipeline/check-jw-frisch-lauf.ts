@@ -28,7 +28,7 @@ const befund = (geprueftAm: string, angebote: object[]) => ({ geprueftAm, jwId: 
 const termin = (datum: string) => [{ slug: 'film-disc', titleId: 900001, platform: 'disc', schedule: { firstEpisodeDate: datum } }]
 
 /** Ein Lauf auf einer eigenen Kulisse; Rückgabe: Ausgabe und Exit-Code. */
-function lauf(termine: object[], befunde: Record<string, object>): { text: string; status: number | null } {
+function lauf(termine: object[], befunde: Record<string, object>, liste: string[] = []): { text: string; status: number | null } {
   const wurzel = mkdtempSync(join(tmpdir(), 'jw-frisch-'))
   try {
     mkdirSync(join(wurzel, 'public', 'data'), { recursive: true })
@@ -41,7 +41,10 @@ function lauf(termine: object[], befunde: Record<string, object>): { text: strin
     const huelle = join(wurzel, 'huelle.mts')
     const ziel = pathToFileURL(join(REPO, 'pipeline', 'fetch-justwatch-audio.ts')).href
     const uhr = pathToFileURL(join(REPO, 'tools', 'feste-uhr.ts')).href
-    writeFileSync(huelle, `import { festeUhr } from '${uhr}'\nfesteUhr('${JETZT}')\nawait import('${ziel}')\n`)
+    const edges = JSON.stringify(liste.map((id) => ({ node: { content: { externalIds: { tmdbId: id } } } })))
+    const stub = `async () => ({ ok: true, status: 200, headers: new Headers(), json: async () => ({ data: { popularTitles: { pageInfo: { hasNextPage: false }, edges: ${edges} } } }) })`
+    const zeilen = [`import { festeUhr } from '${uhr}'`, `festeUhr('${JETZT}')`, `globalThis.fetch = ${stub}`, `await import('${ziel}')`]
+    writeFileSync(huelle, `${zeilen.join('\n')}\n`)
     const tsx = join(REPO, 'node_modules', 'tsx', 'dist', 'cli.mjs')
     const r = spawnSync(process.execPath, [tsx, huelle, '--limit', '0'], { cwd: wurzel, env: { ...process.env, AK_ROOT: wurzel }, encoding: 'utf8', windowsHide: true })
     return { text: `${r.stdout}${r.stderr}`, status: r.status }
@@ -62,8 +65,19 @@ pruefe('Prime-Kauf schon im Befund: leer', LEER.test(lauf(gestern, { '900001': b
 pruefe('Befund von vorgestern: leer', LEER.test(lauf(gestern, { '900001': befund('2026-10-21', [kino]) }).text))
 pruefe('Befund von vor 3 Tagen: offen', OFFEN.test(lauf(gestern, { '900001': befund('2026-10-20', [kino]) }).text))
 
+/* Anbieter-Liste (`lib/jw-anbieterliste.ts`): Film steht in der Joyn-Liste, der Befund ist 10 Tage alt (28-Tage-Frist nicht erreicht), keine Termine. */
+const ohneJoyn = { '900001': befund('2026-10-13', [kino]) }
+const mitJoyn = { '900001': befund('2026-10-13', [kino, { ...kino, anbieter: 'Joyn' }]) }
+const inListe = lauf([], ohneJoyn, ['1'])
+pruefe('Joyn-Liste führt den Film, Befund 10 Tage alt ohne Joyn: offen', OFFEN.test(inListe.text), inListe.text.slice(-400))
+pruefe('Logzeile nennt Vorrang und Listenabrufe', /1 Titel aus Anbieter-Listen vorgezogen \(1 Listenabrufe\)/.test(inListe.text), inListe.text.slice(-400))
+pruefe('Film nicht in der Liste (andere Kennung): leer', LEER.test(lauf([], ohneJoyn, ['2']).text))
+pruefe('Liste leer: leer', LEER.test(lauf([], ohneJoyn, []).text))
+pruefe('Befund kennt Joyn schon: leer', LEER.test(lauf([], mitJoyn, ['1']).text))
+pruefe('Befund 6 Tage alt (vor der Liste-Frist von 7): leer', LEER.test(lauf([], { '900001': befund('2026-10-17', [kino]) }, ['1']).text))
+
 if (fehler) {
   console.error(`${fehler} Fehler`)
   process.exit(1)
 }
-console.log('check-jw-frisch-lauf: ok (8 Fälle, Prozess auf Kulisse mit fester Uhr)')
+console.log('check-jw-frisch-lauf: ok (14 Fälle, Prozess auf Kulisse mit fester Uhr)')
