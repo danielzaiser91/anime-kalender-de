@@ -29,6 +29,7 @@ import { DetailPanelLazy } from './components/DetailPanelLazy.tsx'
 import { Footer } from './components/Footer.tsx'
 import { StartGeruest, WochenSkelett } from './components/StartGeruest.tsx'
 import { useErstesErgebnis } from './lib/erstes-ergebnis.ts'
+import { nachladeVorwaermen } from './lib/nachlade-vorwaermen.ts'
 
 /** Die Titelansicht, bevor etwas gerechnet ist. */
 const LEERE_ANSICHT = { liste: [] as Title[], fundstellen: new Map<string, Fundstelle[]>() }
@@ -103,6 +104,9 @@ export default function App() {
       .filter((url): url is string => Boolean(url))
     cacheCoversForOffline(urls)
   }, [data, today])
+
+  /* Erst wenn der volle Datensatz da ist, liegen die Nachlade-Pakete im Leerlauf bereit. */
+  useEffect(() => (voll ? nachladeVorwaermen() : undefined), [voll])
 
   useTastenSpruenge(route, navigate)
 
