@@ -1,4 +1,5 @@
 import type { Title } from '@shared/types.ts'
+import { istEigenerTitel } from '@shared/eigene-titel.ts'
 
 /**
  * **Die Herkunft eines Titels für den Filter** (Mockup „Herkunftsfilter" B, 09.10.2026).
@@ -19,7 +20,7 @@ export function herkunftVon(t: Title): Herkunft {
   if (t.land === 'JP' || t.land === 'KR' || t.land === 'CN' || t.land === 'TW') return t.land
   if (t.land) return 'US'
   const anilist = t.al ?? t.id
-  return anilist >= ANISEARCH_ID_BASIS || anilist < 0 ? 'XX' : 'JP'
+  return anilist >= ANISEARCH_ID_BASIS || anilist < 0 || istEigenerTitel(anilist) ? 'XX' : 'JP'
 }
 
 /** Titel je Herkunft; nur Herkünfte mit mindestens einem Titel stehen in der Map. */
