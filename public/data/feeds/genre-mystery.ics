@@ -8,6 +8,17 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
+UID:adn-1321@2026-10-29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261029T080000Z
+DTEND:20261029T083000Z
+SUMMARY:Puella Magi Madoka Magica: Der Film - Rebellion (neu bei ADN)
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nIm Angebot seit dies
+ em Tag – nicht der Erscheinungstag der deutschen Fassung.\nDetails: http
+ s://anime-kalender.de/t/5609/
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-235-tv-prosieben-maxx@2026-10-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261029T165500Z
