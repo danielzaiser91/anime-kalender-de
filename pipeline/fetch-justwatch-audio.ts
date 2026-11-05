@@ -176,6 +176,33 @@ function frischeAusTermine(): Set<number> {
   return ladeFrische('public/data/releases.json', todayIso())
 }
 
+/**
+ * Verbucht einen Titel ohne Treffer; `true` = alte Antwort behalten (verfehlt), `false` = neu als `ohneTreffer` geschrieben.
+ *
+ * **Eine verfehlte Suche löscht keine gute Antwort** (17.09.2026). Die Suche geht über den Namen, und ihre Trefferliste
+ * schwankt; ohne diesen Zweig verlor ein Titel bei einem Fehlgriff alle Angebote — und mit ihnen seine Wege im Kalender.
+ */
+function verbucheFehlschlag(bestand: Record<string, Befund>, schluessel: string, erwartet: number | undefined): boolean {
+  const vorher = bestand[schluessel]
+  if (vorher && !vorher.ohneTreffer && vorher.jwId) {
+    bestand[schluessel] = { ...vorher, geprueftAm: todayIso(), verfehltAm: todayIso() }
+    return true
+  }
+  /*
+    Die Kennung gehört auch an den Fehlschlag: Wird die TMDB-Zuordnung später
+    berichtigt, ist dieser Befund hinfällig und die Warteschlange erkennt es
+    daran (Your Name, 17.09.2026 — gesucht wurde gegen „Call Me by Your Name").
+  */
+  bestand[schluessel] = {
+    geprueftAm: todayIso(),
+    angebote: [],
+    ohneTreffer: true,
+    tmdbId: erwartet,
+    erstAm: vorher?.erstAm ?? todayIso(),
+  }
+  return false
+}
+
 async function main(): Promise<void> {
   const args = process.argv.slice(2)
   const zahl = (name: string, vorgabe: number): number => {
@@ -274,29 +301,8 @@ async function main(): Promise<void> {
       sperrenInFolge = 0
       const vorher = bestand[String(t.id)]
       if (!treffer) {
-        /*
-          **Eine verfehlte Suche löscht keine gute Antwort** (17.09.2026). Die Suche geht über
-          den Namen, und ihre Trefferliste schwankt; ohne diesen Zweig verlor ein Titel bei
-          einem Fehlgriff alle Angebote — und mit ihnen seine Wege im Kalender.
-        */
-        if (vorher && !vorher.ohneTreffer && vorher.jwId) {
-          bestand[String(t.id)] = { ...vorher, geprueftAm: todayIso(), verfehltAm: todayIso() }
-          verfehlt++
-        } else {
-          /*
-            Die Kennung gehört auch an den Fehlschlag: Wird die TMDB-Zuordnung später
-            berichtigt, ist dieser Befund hinfällig und die Warteschlange erkennt es
-            daran (Your Name, 17.09.2026 — gesucht wurde gegen „Call Me by Your Name").
-          */
-          bestand[String(t.id)] = {
-            geprueftAm: todayIso(),
-            angebote: [],
-            ohneTreffer: true,
-            tmdbId: erwartet,
-            erstAm: vorher?.erstAm ?? todayIso(),
-          }
-          ohneTrefferNeu++
-        }
+        if (verbucheFehlschlag(bestand, String(t.id), erwartet)) verfehlt++
+        else ohneTrefferNeu++
         continue
       }
       const angebote = angeboteVon(treffer.offers)
