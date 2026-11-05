@@ -189,7 +189,7 @@ function basisDesLaufs(gh, pr) {
   const job = jobs.find((j) => j.name === JOB)
   if (job === undefined) return { grund: `PR ${pr.number}: Lauf ${lauf.databaseId} hat keinen Job „${JOB}“` }
   if (job.status !== 'completed') return { grund: `PR ${pr.number}: Job „${JOB}“ läuft noch (Lauf ${lauf.databaseId}), sein Log gibt es erst nach Abschluss; später erneut aufrufen` }
-  const basis = basisAusLog(gh(['api', `repos/{owner}/{repo}/actions/jobs/${job.databaseId}/logs`]), pr.headRefOid)
+  const basis = basisAusLog(gh(['api', '--allow-escape-sequences', `repos/{owner}/{repo}/actions/jobs/${job.databaseId}/logs`]), pr.headRefOid)
   if (basis === null) return { grund: `PR ${pr.number}: Basis nicht im Log von „${JOB}“ (Lauf ${lauf.databaseId}; läuft er noch, übersprungen?)` }
   return { basis }
 }

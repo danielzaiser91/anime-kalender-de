@@ -1,6 +1,6 @@
 # Netflix: was noch zu prüfen ist
 
-Stand 2026-11-04 · **71 offene Verweise** in **55 Zeilen**.
+Stand 2026-11-05 · **71 offene Verweise** in **55 Zeilen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Die Kurzschrift zum
 Antworten steht in [07-alle-anbieter.md](07-alle-anbieter.md).

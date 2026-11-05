@@ -6,13 +6,14 @@
     "lastError": "keine Folge mit vde gefunden"
   },
   "anime2you": {
-    "lastOk": "2026-11-05T03:05:29.577Z",
-    "lastRun": "2026-11-05T03:05:29.577Z",
-    "lastCount": 52
+    "lastOk": "2026-11-05T04:02:17.263Z",
+    "lastRun": "2026-11-05T09:02:32.763Z",
+    "lastCount": 0,
+    "lastError": "kein Feed-Eintrag mit Termin"
   },
   "anisearch": {
-    "lastOk": "2026-11-05T04:02:09.355Z",
-    "lastRun": "2026-11-05T04:02:09.355Z",
+    "lastOk": "2026-11-05T06:01:49.097Z",
+    "lastRun": "2026-11-05T06:01:49.097Z",
     "lastCount": 14873
   },
   "adn-catalog": {
@@ -83,7 +84,7 @@
   },
   "rohfolgen": {
     "lastOk": "2026-11-04T16:15:19.112Z",
-    "lastRun": "2026-11-04T22:14:02.609Z",
+    "lastRun": "2026-11-05T08:34:08.230Z",
     "lastCount": 0
   },
   "anisearch-folgen": {
@@ -112,13 +113,13 @@
     "lastCount": 13
   },
   "vorfaelle": {
-    "lastOk": "2026-11-04T22:13:58.222Z",
-    "lastRun": "2026-11-04T22:13:58.222Z",
-    "lastCount": 4
+    "lastOk": "2026-11-05T08:34:04.293Z",
+    "lastRun": "2026-11-05T08:34:04.293Z",
+    "lastCount": 0
   },
   "crunchyroll-neu": {
-    "lastOk": "2026-11-05T03:05:20.053Z",
-    "lastRun": "2026-11-05T03:05:20.053Z",
+    "lastOk": "2026-11-05T09:02:28.925Z",
+    "lastRun": "2026-11-05T09:02:28.925Z",
     "lastCount": 172
   },
   "cartoons": {
@@ -137,9 +138,9 @@
     "lastCount": 16
   },
   "tv-programm": {
-    "lastOk": "2026-11-05T03:05:32.296Z",
-    "lastRun": "2026-11-05T03:05:32.296Z",
-    "lastCount": 291
+    "lastOk": "2026-11-05T09:02:35.452Z",
+    "lastRun": "2026-11-05T09:02:35.452Z",
+    "lastCount": 292
   },
   "tv-de": {
     "lastOk": "2026-11-05T01:04:10.972Z",
@@ -172,18 +173,18 @@
     "lastCount": 3
   },
   "crunchyroll-woche": {
-    "lastOk": "2026-11-05T03:05:16.931Z",
-    "lastRun": "2026-11-05T03:05:16.931Z",
+    "lastOk": "2026-11-05T09:02:25.043Z",
+    "lastRun": "2026-11-05T09:02:25.043Z",
     "lastCount": 63
   },
   "adn-news": {
-    "lastOk": "2026-11-04T02:01:45.697Z",
-    "lastRun": "2026-11-04T02:01:45.697Z",
-    "lastCount": 71
+    "lastOk": "2026-11-05T08:01:45.471Z",
+    "lastRun": "2026-11-05T08:01:45.471Z",
+    "lastCount": 72
   },
   "messbelege": {
-    "lastOk": "2026-11-05T03:05:30.916Z",
-    "lastRun": "2026-11-05T03:05:30.916Z",
+    "lastOk": "2026-11-05T09:02:34.282Z",
+    "lastRun": "2026-11-05T09:02:34.282Z",
     "lastCount": 0
   },
   "beleg-lesungen": {
