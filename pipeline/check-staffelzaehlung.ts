@@ -6,9 +6,11 @@
  */
 import type { Title } from '../shared/types.ts'
 import { staffelMarken } from '../web/src/lib/db-staffel-marke.ts'
-import { markiereReihenteile } from './bau/reihenteil-markierung.ts'
+import type { KatalogEintrag } from './lib/anilist.ts'
+import { markiereReihenteile, markiereReihenteileAusQuellen } from './bau/reihenteil-markierung.ts'
 import { staffelDesTitels } from './bau/widerlegung-staffel.ts'
 import { reihenIndex, staffelNummer } from './lib/disc-verschiebungen-staffel.ts'
+import { bewerteAbweichung } from './lib/staffelzaehlung-abweichung.ts'
 import { spinoffVerdacht, spinoffVerdachtZeile } from './lib/spinoff-verdacht.ts'
 
 let verletzt = 0
@@ -103,6 +105,54 @@ console.log('\nSpin-off-Verdacht:')
   const nurBeiwerk = KONOSUBA()
   markiereReihenteile(new Map(nurBeiwerk.map((t) => [t.id, t])), ELTERN, new Set())
   pruefe('Konosuba ohne Handliste: „An Explosion“ steht im Verdacht', spinoffVerdacht(nurBeiwerk).map((t) => t.id).join() === String(EXPLOSION))
+}
+
+console.log('\nMarkierung aus den Quellen des Baus (markiereReihenteileAusQuellen):')
+{
+  const reihe = [titel(900101, 'Quelle', '2020-01-01', { franchiseId: 900101 }), titel(900102, 'Quelle Extra', '2021-01-01', { franchiseId: 900101 })]
+  const katalog = (): KatalogEintrag[] => [{ id: 900102, eltern: [900101] }, { id: 900101 }] as unknown as KatalogEintrag[]
+  markiereReihenteileAusQuellen(new Map(reihe.map((t) => [t.id, t])), katalog)
+  pruefe('Die Elternkante aus dem übergebenen Katalog markiert das Beiwerk, der Elternteil bleibt unmarkiert', reihe[1]!.beiwerk === true && reihe[0]!.beiwerk === undefined, reihe.map((t) => t.beiwerk))
+}
+
+{
+  const reihe = [titel(900201, 'Kaputt', '2020-01-01', { franchiseId: 900201 }), titel(900202, 'Kaputt Extra', '2021-01-01', { franchiseId: 900201 })]
+  const kaputt = (): KatalogEintrag[] => {
+    throw new Error('Katalog kaputt')
+  }
+  let geworfen = false
+  try {
+    markiereReihenteileAusQuellen(new Map(reihe.map((t) => [t.id, t])), kaputt)
+  } catch {
+    geworfen = true
+  }
+  pruefe('Ein unlesbarer Katalog stoppt die Markierung nicht (nur ohne Beiwerk)', !geworfen && reihe[1]!.beiwerk === undefined)
+}
+
+console.log('\nAbweichung bewerten (Pipeline gegen Marke):')
+{
+  const FIRE_FORCE = (): Title[] => [
+    titel(105310, 'Fire Force', '2019-07-06', { titleDe: 'Fire Force', franchiseId: 105310, episodes: 24 }),
+    titel(114236, 'Fire Force Staffel 2', '2020-07-03', { titleDe: 'Fire Force Staffel 2', franchiseId: 105310, episodes: 24 }),
+    titel(128390, 'Fire Force Staffel 2 Miniepisoden', '2021', { titleDe: 'Fire Force Staffel 2 Miniepisoden', format: 'ONA', franchiseId: 105310, episodes: 30 }),
+    titel(149118, 'Fire Force: Staffel 3', '2025-07-04', { titleDe: 'Fire Force: Staffel 3', franchiseId: 105310, episodes: 12 }),
+    titel(179062, 'Fire Force: Staffel 3 (Cour 2)', '2026-01-01', { titleDe: 'Fire Force: Staffel 3 (Cour 2)', franchiseId: 105310, episodes: 13 }),
+  ]
+  const ff = FIRE_FORCE()
+  const mini = ff[2]!
+  pruefe('Gleiche Nummern: gleich', bewerteAbweichung(ff[0]!, ff, 1, 1, OHNE_REMAKE) === 'gleich')
+  pruefe('Beide ohne Nummer: gleich', bewerteAbweichung(ff[0]!, ff, undefined, undefined, OHNE_REMAKE) === 'gleich')
+  pruefe('Fire Force ohne Beiwerk-Markierung: die Miniepisoden sind Teil 1 von Staffel 3, die Pipeline nennt keine Nummer, die Marke „Staffel 3“', bewerteAbweichung(mini, ff, undefined, 3, OHNE_REMAKE) === 'teil')
+  pruefe('Gegenfall: Staffel 2 mit abweichender Nummer ist unerklärt', bewerteAbweichung(ff[1]!, ff, 2, 3, OHNE_REMAKE) === 'unerklaert')
+  const mitRemake = { kanten: [], hand: [{ remake: 149118, original: 105310, grund: 'Test', quelle: 'https://example.org/' }] }
+  pruefe('Reihe mit Neuverfilmung: abweichende Nummer ist erklärt', bewerteAbweichung(ff[1]!, ff, 2, 3, mitRemake) === 'neuverfilmung')
+  pruefe('Gleiche Nummer in einer Reihe mit Neuverfilmung: gleich', bewerteAbweichung(ff[1]!, ff, 2, 2, mitRemake) === 'gleich')
+  const konosuba = markiert()
+  pruefe('Konosuba (kein Teil, keine Neuverfilmung): abweichende Nummer ist unerklärt', bewerteAbweichung(konosuba[3]!, konosuba, 3, 4, OHNE_REMAKE) === 'unerklaert')
+  const vorher = nummern(ff)[114236]
+  markiereReihenteile(new Map(ff.map((t) => [t.id, t])), new Map([[128390, [114236]]]), new Set())
+  pruefe('Fire Force mit Beiwerk-Markierung: die Miniepisoden haben keine Nummer, Staffel 2 bleibt 2 in Pipeline und Marke', vorher === 2 && nummern(ff)[128390] === null && nummern(ff)[114236] === 2 && markenNummern(ff)[114236] === 2, [nummern(ff), markenNummern(ff)])
+  pruefe('Fire Force mit Beiwerk-Markierung: Staffel 3 ist Teil 1 von 2, keine Nummer in Pipeline und Marke', nummern(ff)[149118] === null && markenNummern(ff)[149118] === null, [nummern(ff), markenNummern(ff)])
 }
 
 if (verletzt) {

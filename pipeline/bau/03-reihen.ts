@@ -22,9 +22,6 @@ import { type AniListMedia } from '../lib/anilist.ts'
 import { type AnisearchEintrag, type TmdbTitelEintrag } from './01-quellen.ts'
 import { anisearchReihenKanten, anisearchNamensKanten } from './anisearch-titel.ts'
 import { anisearchRelationenKanten } from './anisearch-reihen-pruefliste.ts'
-import { ladeKatalogEintraege } from '../lib/katalog-eingefroren.ts'
-import { ladeAlleEigenenWerke } from './cartoon-reihen.ts'
-import { markiereReihenteile } from './reihenteil-markierung.ts'
 
 /** Vereint die Titel jeder Kante mit dem ersten ihrer Liste (nur bekannte Titel); gibt die Zahl der Verbindungen zurück. */
 function verbindeKanten(kanten: Array<{ ids?: number[] }>, titles: Map<number, Title>, parent: Map<number, number>, union: (a: number, b: number) => void): number {
@@ -225,10 +222,6 @@ export function fuehreReihenZusammen({ byAniId, byMal, titles, tmdbTitles, anise
   if (echteCrossover.size) {
     log(`${echteCrossover.size} Crossover trennen keine Reihen mehr (${crossoverEltern.size} geprüft)`)
   }
-
-  const eltern = new Map(ladeKatalogEintraege().filter((e) => e.eltern?.length).map((e) => [e.id, e.eltern!]))
-  const reihenteile = markiereReihenteile(titles, eltern, new Set(ladeAlleEigenenWerke().flatMap((e) => e.ids)))
-  log(`${reihenteile.beiwerk} Beiwerk-Titel, ${reihenteile.eigenesWerk} eigene Werke markiert (zählen nicht als Staffel)`)
 
   // FSK aus TMDB für alle Titel übernehmen, nicht nur für kuratierte.
   /*
