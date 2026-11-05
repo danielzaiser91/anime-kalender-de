@@ -14,9 +14,11 @@ import type { StreamLink, Title } from '../shared/types.ts'
 import type { CrDubData } from './lib/crunchyroll-dub.ts'
 import { ordneCrSerienZu } from './bau/09-4-1-serien.ts'
 import { schliesseWegeAb } from './bau/11-wege-abschluss.ts'
+import { kennzeichneDeutschLautJustwatch } from './bau/11-6-jw-vertrauen.ts'
 import { suchadressenInTemp } from './lib/suchadressen-temp.ts'
-import { behalteNurHandbelegteWege } from './lib/handbeleg-weg.ts'
+import { behalteNurHandbelegteWege, kanalHandbelegWege } from './lib/handbeleg-weg.ts'
 import { verschmelze, type DubCheck } from './lib/dub-confirmed.ts'
+import { ohneKanalSprache } from './lib/kanal-titel.ts'
 import { baueNews, type NewsHistorie } from './lib/news.ts'
 import { addDays, todayIso } from '../shared/time.ts'
 
@@ -32,9 +34,19 @@ const KULISSEN_BELEG = [
   "  checkedAt: '2026-10-13'",
   '',
 ].join('\n')
+const JW_KANAL_ADRESSE = 'https://watch.amazon.de/detail?gti=amzn1.dv.gti.00000001-0000-0000-0000-000000000000'
+const JW_FREIE_ADRESSE = 'https://watch.amazon.de/detail?gti=amzn1.dv.gti.00000002-0000-0000-0000-000000000000'
+/** JustWatch nennt an beiden Amazon-Seiten deutschen Ton (Film, eine Kennung je Titel: eindeutig); der Befund des Kanal-Titels liegt unter 10 Mio. + OVA, der des freien unter 5. */
+const jwBefund = (jwId: string, url: string) => ({
+  geprueftAm: '2999-12-31',
+  jwId,
+  jwPfad: '/de/Film/x',
+  angebote: [{ anbieter: 'Amazon Prime Video', art: 'FLATRATE', audio: ['de'], url }],
+})
 function startInKulisse(): never {
   const kulisse = mkdtempSync(join(tmpdir(), 'handbeleg-weg-'))
   mkdirSync(join(kulisse, 'data', 'curated'), { recursive: true })
+  writeFileSync(join(kulisse, 'data', 'justwatch-audio.json'), JSON.stringify({ '10006986': jwBefund('ts1', JW_KANAL_ADRESSE), '5': jwBefund('ts2', JW_FREIE_ADRESSE) }))
   writeFileSync(join(kulisse, 'data', 'kino-ankuendigungen.yaml'), '')
   writeFileSync(join(kulisse, 'data', 'shop-wege-falsches-ziel.yaml'), '[]\n')
   writeFileSync(join(kulisse, 'data', 'dub-confirmed.yaml'), KULISSEN_BELEG)
@@ -107,6 +119,7 @@ pruefe('der belegte Weg bleibt, mit Herkunft „handbeleg“, der erratene fäll
 pruefe('Gegenprobe: ohne Beleg fällt alles', behalten([], [weg(URL_BELEG)]).length === 0)
 pruefe('Gegenprobe: ein Nein trägt keinen Weg', behalten([ja({ dub: false })], [weg(URL_BELEG)]).length === 0)
 pruefe('Gegenprobe: ein Beleg ohne Adresse trägt keinen Weg', behalten([ja({ url: undefined })], [weg(URL_BELEG)]).length === 0)
+pruefe('Gegenprobe: ein Beleg ohne Urteil und ohne Kanal-Kennzeichnung trägt keinen Weg', behalten([ja({ dub: undefined })], [weg(URL_BELEG)]).length === 0)
 /* Ohne die Adress-Bedingung träfe der leere Kern des Belegs den leeren Kern eines Wegs ohne Adresse. */
 pruefe('Gegenprobe: ein Beleg ohne Adresse trägt auch keinen Weg ohne Adresse', behalten([ja({ url: undefined })], [weg('')]).length === 0)
 const spaeterWeg = verschmelze(ja(), { anilistId: OVA, platform: 'crunchyroll', url: URL_BELEG, available: false, checkedAt: '2026-10-14' })
@@ -114,6 +127,22 @@ pruefe('Gegenprobe: ein jüngeres „nicht verfügbar“ zur selben Adresse nimm
 pruefe('Gegenprobe: eine andere Adresse fällt', behalten([ja()], [weg('https://www.crunchyroll.com/series/GANDERE/x')]).length === 0)
 pruefe('Gegenprobe: der Beleg eines anderen Titels trägt nichts', behalten([ja({ anilistId: 1 })], [weg(URL_BELEG)]).length === 0)
 pruefe('Gegenprobe: eine andere Plattform fällt', behalten([ja({ platform: 'netflix' })], [weg(URL_BELEG)]).length === 0)
+
+console.log('\nKanal-Titel: die Adresse bleibt Weg, ohne Haken (Es war einmal … Amerika, 03.11.2026):')
+/** Wie der Lader es liefert: Amazons Ja mit der Warnung „Kanal-Titel“ verliert `dub` und trägt `kanalOhneBeleg`. */
+const kanalBeleg = (rest: Partial<DubCheck> = {}): DubCheck =>
+  ohneKanalSprache(ja({ note: 'Amazon-Seite B00IKSSO70 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg', ...rest }))
+const kanalWeg = behalten([kanalBeleg()], [weg(URL_BELEG), weg('https://www.netflix.com/title/1', { platform: 'netflix' })])
+pruefe('der Weg eines Kanal-Titels bleibt, ohne Haken, der erratene fällt', kanalWeg.length === 1 && kanalWeg[0]!.dub === undefined && kanalWeg[0]!.herkunft === 'handbeleg', kanalWeg)
+pruefe('Kulisse: der Lader hat Amazons Ja entfernt und die Zeile gekennzeichnet', kanalBeleg().kanalOhneBeleg === true && kanalBeleg().dub === undefined)
+pruefe('Gegenprobe: ein Kanal-Beleg ohne Adresse trägt keinen Weg', behalten([kanalBeleg({ url: undefined })], [weg(''), weg(URL_BELEG)]).length === 0)
+pruefe('Gegenprobe: eine andere Adresse fällt', behalten([kanalBeleg()], [weg('https://www.crunchyroll.com/series/GANDERE/x')]).length === 0)
+pruefe('Gegenprobe: der Kanal-Beleg eines anderen Titels trägt nichts', behalten([kanalBeleg({ anilistId: 1 })], [weg(URL_BELEG)]).length === 0)
+pruefe('Gegenprobe: eine andere Plattform fällt', behalten([kanalBeleg({ platform: 'netflix' })], [weg(URL_BELEG)]).length === 0)
+const kanalNein = verschmelze(kanalBeleg(), { anilistId: OVA, platform: 'crunchyroll', url: URL_BELEG, available: false, checkedAt: '2026-10-14' })
+pruefe('Gegenprobe: ein jüngeres „nicht verfügbar“ nimmt dem Kanal-Weg die Adresse', kanalNein.kanalOhneBeleg === true && behalten([kanalNein], [weg(URL_BELEG)]).length === 0, kanalNein)
+const kanalDeutschNein = verschmelze(kanalBeleg(), { anilistId: OVA, platform: 'crunchyroll', url: URL_BELEG, dub: false, checkedAt: '2026-10-14' })
+pruefe('Gegenprobe: ein jüngeres Nein (dub: false) nimmt dem Kanal-Weg die Adresse', kanalDeutschNein.kanalOhneBeleg === true && behalten([kanalDeutschNein], [weg(URL_BELEG)]).length === 0, kanalDeutschNein)
 
 console.log('\nAufrufer (schliesseWegeAb) reicht die Belege durch:')
 /** Der Abschluss schreibt nebenbei die Listen der offenen Suchadressen; die Prüfung lenkt sie in einen Temp-Ordner um. */
@@ -141,6 +170,39 @@ function abschliessen(checks: DubCheck[]): StreamLink[] {
 }
 pruefe('ein Titel nur bei aniSearch behält den Weg seines Handbelegs', abschliessen([ja({ anilistId: 10_000_000 + OVA })]).length === 1)
 pruefe('Gegenprobe: ohne Handbeleg bleibt er ohne Weg', abschliessen([]).length === 0)
+const kanalAbschluss = abschliessen([kanalBeleg({ anilistId: 10_000_000 + OVA })])
+pruefe('ein Titel nur bei aniSearch behält die Adresse seines Kanal-Belegs', kanalAbschluss.length === 1 && kanalAbschluss[0]!.herkunft === 'handbeleg', kanalAbschluss)
+
+console.log('\nKanal-Weg ohne Sprachangabe von JustWatch (kennzeichneDeutschLautJustwatch, Befund in der Kulisse):')
+const primeWeg = (url: string, rest: Partial<StreamLink> = {}): StreamLink => weg(url, { platform: 'primevideo', ...rest })
+/** Wie im Bau: Der Weg entsteht unter der Adresse des Belegs (ASIN) und trägt bei der JustWatch-Stelle die gti-Form; JustWatch kennt nur diese. */
+const ASIN_URL = 'https://www.amazon.de/gp/video/detail/B0KANALTST'
+const jwTitel = (id: number, checks: DubCheck[], gti: string, nurHandbeleg = true): StreamLink => {
+  const t = titel(id, [primeWeg(ASIN_URL)])
+  if (nurHandbeleg) behalteNurHandbelegteWege(t, checks)
+  for (const s of t.streams) s.url = gti
+  const titles = new Map([[id, t]])
+  kennzeichneDeutschLautJustwatch({ titles, tmdbMehrdeutig: new Set(), alleChecks: checks })
+  return t.streams[0] ?? ({} as StreamLink)
+}
+const kanalPrime = kanalBeleg({ platform: 'primevideo', url: ASIN_URL })
+const kanalJw = jwTitel(OVA, [kanalPrime], JW_KANAL_ADRESSE)
+pruefe('Kulisse: der Kanal-Weg steht als Handbeleg-Weg im Titel', kanalJw.herkunft === 'handbeleg' && kanalJw.dub === undefined, kanalJw)
+pruefe('der Kanal-Weg trägt weder „Deutsch laut JustWatch“ noch ein Stand-Datum', kanalJw.dubQuelle === undefined && kanalJw.dubStand === undefined, kanalJw)
+/* Gegenprobe: derselbe JustWatch-Befund an einem Weg ohne Kanal-Beleg wird gekennzeichnet (sonst prüfte der Fall nichts). */
+const freierWeg = jwTitel(5, [], JW_FREIE_ADRESSE, false)
+pruefe('Gegenprobe: ein gewöhnlicher Prime-Weg bekommt „Deutsch laut JustWatch“', freierWeg.dubQuelle === 'justwatch' && freierWeg.dubStand === '2999-12-31', freierWeg)
+const ohneHerkunft = jwTitel(OVA, [kanalPrime], JW_KANAL_ADRESSE, false)
+pruefe('Gegenprobe: dieselbe Adresse an einem Weg, den kein Handbeleg angelegt hat, bekommt JustWatch', ohneHerkunft.dubQuelle === 'justwatch', ohneHerkunft)
+const kanalMitJa = jwTitel(OVA, [kanalBeleg({ platform: 'primevideo', url: ASIN_URL, zweiteQuelle: 'Daniel' })], JW_KANAL_ADRESSE)
+/* Titel und Plattform entscheiden, nicht die Adresse: Der Beleg eines anderen Titels oder einer anderen Plattform nimmt diesem Weg nichts. */
+const handWeg = primeWeg(JW_KANAL_ADRESSE, { herkunft: 'handbeleg' })
+pruefe('der Kanal-Beleg dieses Titels und dieser Plattform nimmt dem Handbeleg-Weg JustWatch', kanalHandbelegWege([kanalPrime])(OVA, handWeg) === true)
+pruefe('Gegenprobe: der Kanal-Beleg eines anderen Titels nicht', kanalHandbelegWege([kanalPrime])(OVA + 1, handWeg) === false)
+pruefe('Gegenprobe: der Kanal-Beleg einer anderen Plattform nicht', kanalHandbelegWege([{ ...kanalPrime, platform: 'netflix' }])(OVA, handWeg) === false)
+pruefe('Gegenprobe: ein Weg einer anderen Plattform als der des Kanal-Belegs nicht', kanalHandbelegWege([kanalPrime])(OVA, { ...handWeg, platform: 'netflix' }) === false)
+pruefe('Gegenprobe: ein Weg mit eigenem Urteil behält JustWatch', kanalHandbelegWege([kanalPrime])(OVA, { ...handWeg, dub: true }) === false)
+pruefe('Gegenprobe: mit zweiter Quelle ist der Kanal-Beleg ein Ja, die Ausnahme gilt nicht', kanalMitJa.dubQuelle === 'justwatch', kanalMitJa)
 
 console.log('\nNews: ein Handbeleg-Weg belegt das Angebot, nicht seinen Beginn (keine rückdatierte Meldung „neu“):')
 const nachrichtTitel = (streams: StreamLink[]): Title[] =>
