@@ -38363,3 +38363,17 @@
   dub: true
   checkedAt: '2026-10-13'
   note: "Tonspuren: Deutsch — Amazon-Seite B0D7N68Q5T: alle 12 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.834ee1bc-c7bc-4b4c-839c-ee8826498aed"
+
+# --- Joyn, von Daniel gesehen am 2026-11-05 ---
+
+- anilistId: 177476
+  title: "YAIBA: Samurai Legend"
+  platform: joyn
+  url: https://www.joyn.de/serien/yaiba-samurai-legend
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 24
+      dub: true
+  checkedAt: '2026-11-05'
+  note: "Joyn-Serienseite (Daniel, 05.11.2026): Staffel 1, Folge 1 „Auftritt Yaiba“ vom 05.11.2026, Senderlogo ProSieben MAXX; die Folgen sind die deutsche TV-Ausstrahlung (Anime2You 1059480: deutsche TV-Premiere der ersten Staffel)."
