@@ -8,39 +8,6 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:cr-G24H1N334@2026-10-28@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261028T133000Z
-DTEND:20261028T140000Z
-SUMMARY:The Detective Is Already Dead Staffel 2 – Folge 1/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/14415/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GRGG9798R@2026-10-28#18@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261028T150000Z
-DTEND:20261028T153000Z
-SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 18–1
- 9/19
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/16757/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GT00383994@2026-10-28@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261028T151500Z
-DTEND:20261028T154500Z
-SUMMARY:Magic Knight Rayearth – Folge 1/≈12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/16013/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GDKHZEP21@2026-10-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261029T170000Z

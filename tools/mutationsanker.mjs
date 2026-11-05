@@ -6,8 +6,8 @@
  *
  * Aufruf: node tools/mutationsanker.mjs <liste.json>…   prüft genau diese Listen
  *         node tools/mutationsanker.mjs --alle          misst alle Listen (Messung, Exit 0)
- * Im PR prüft tools/pr-vorpruefung.mjs nur die Listen, die der Diff neu anlegt oder ändert: alte Listen
- * gemergter PRs veralten zwangsläufig und wären sonst rot (Messung siehe PR-Text).
+ * Im PR prüft tools/pr-vorpruefung.mjs die Listen, die der Diff neu anlegt oder ändert, und jede Liste, deren
+ * Mutanten eine Datei des Diffs nennen (der Code kann dorthin gewandert sein); übrige Listen bleiben unberührt.
  */
 import { execFileSync } from 'node:child_process'
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
@@ -73,8 +73,28 @@ export function pruefeListen(listen, lies = leseDatei) {
 /** Die Mutationslisten, die der Diff (Pfade) neu anlegt oder ändert; gelöschte Dateien fehlen auf der Platte und fallen weg. */
 export const listenImDiff = (dateien) => dateien.filter(istMutationsliste)
 
-/** Rote Befunde für die Listen des Diffs (für tools/pr-vorpruefung.mjs). */
-export const ankerRot = (dateien, lies = leseDatei) => pruefeListen(listenImDiff(dateien), lies).fehler.map((f) => `Mutationsanker: ${f}`)
+// Ohne Listenordner (Kulisse, Wegwerf-Repo) gibt es nichts zu prüfen.
+const listenAufPlatte = () => !existsSync(LISTEN_ORDNER) ? [] : readdirSync(LISTEN_ORDNER).filter((n) => n.endsWith('.json')).map((n) => LISTEN_ORDNER + n)
+
+/** Listen, deren Mutanten eine Datei des Diffs ändern: wandert der Code dorthin, stirbt sonst der Anker unbemerkt. */
+export function listenMitZiel(dateien, lies = leseDatei, alle = listenAufPlatte, cwd = process.cwd()) {
+  const ziele = new Set(dateien.map((d) => normalisierePfad(d, cwd)))
+  return alle().filter((name) => {
+    const text = lies(name)
+    if (text === null) return false
+    try {
+      return normalisiereListe(parseListeText(text)).some((m) => m.aenderungen.some((a) => ziele.has(normalisierePfad(a.datei, cwd))))
+    } catch {
+      return false // kaputte oder Paar-Listen meldet ankerFehler, sobald sie im Diff stehen
+    }
+  })
+}
+
+/** Rote Befunde für die Listen des Diffs und die Listen, die eine Datei des Diffs zum Ziel haben (für tools/pr-vorpruefung.mjs). */
+export function ankerRot(dateien, lies = leseDatei, alle = listenAufPlatte) {
+  const listen = [...new Set([...listenImDiff(dateien), ...listenMitZiel(dateien, lies, alle)])]
+  return pruefeListen(listen, lies).fehler.map((f) => `Mutationsanker: ${f}`)
+}
 
 function main() {
   const args = process.argv.slice(2)
