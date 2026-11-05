@@ -4,9 +4,10 @@
  */
 import { readJson } from './lib/util.ts'
 import { joynLueckeZeile, joynLuecken } from './lib/joyn-sender-luecke.ts'
+import { todayIso } from '../shared/time.ts'
 
 type Eingabe = Parameters<typeof joynLuecken>
-const heute = new Date().toISOString().slice(0, 10)
+const heute = todayIso()
 const luecken = joynLuecken(readJson<Eingabe[0]>('public/data/releases.json', []), readJson<Eingabe[1]>('public/data/titles.json', []), heute)
 
 console.log(`Joyn-Lücke (TV-Termin ohne Joyn-Weg): ${luecken.length}`)
