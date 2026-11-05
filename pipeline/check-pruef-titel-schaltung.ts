@@ -11,7 +11,7 @@ function wurzel(regeln: object | null): string {
   mkdirSync(join(w, 'data'), { recursive: true })
   writeFileSync(join(w, 'public/data/titles.json'), JSON.stringify([{ id: 1 }]))
   writeFileSync(join(w, 'public/data/cartoons.json'), JSON.stringify([{ id: -1 }]))
-  if (regeln) writeFileSync(join(w, 'data/pruefliste-regeln.json'), JSON.stringify(regeln))
+  if (regeln) writeFileSync(join(w, 'data', 'pruefliste-regeln.json'), JSON.stringify(regeln))
   return w
 }
 function ids(w: string, env: string | undefined): number[] {
