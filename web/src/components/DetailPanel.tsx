@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import type { DiscAusgabe, Release, Title } from '@shared/types.ts'
+import type { DiscAusgabe, Release } from '@shared/types.ts'
 import { addDays, todayIso } from '@shared/time.ts'
 import type { Dataset } from '../lib/data.ts'
 import type { FranchiseMember } from '@shared/types.ts'
@@ -12,14 +12,13 @@ import {
 import { useEscape } from '../lib/escape.ts'
 import { useLang } from '../lib/i18n.tsx'
 import { useSeiteGesperrt } from '../lib/use-seite-gesperrt.ts'
-import { useTitelwechsel } from './detail/titelwechsel.ts'
+import { usePanelTitel, useTitelwechsel } from './detail/titelwechsel.ts'
 import { useNewsletterVerbindung } from '../lib/newsletterSync.ts'
 import { Quellenuebersicht } from './Quellenuebersicht.tsx'
 import { useTvVorbei } from './detail/tv-vorbei.tsx'
 import { useTerminReleases } from './detail/termin-releases.ts'
 import { KEYWORD_PREVIEW } from './detail/hilfen.tsx'
 import { folgenAuskunft } from './detail/folgen-angabe.ts'
-import { titelMitTerminBereichen } from './detail/stream-bereiche.ts'
 import { lueckeOhneAnbieter } from './detail/folgen-ohne-anbieter.ts'
 import { dubZeilenVon } from './detail/dub-zeilen.ts'
 import { KinoBanner } from './detail/kino.tsx'
@@ -69,12 +68,8 @@ export function DetailPanel({
   const { t, tGenre, tKeyword } = useLang()
   const verbindung = useNewsletterVerbindung()
   const today = todayIso()
-  const titelRoh: Title | undefined = data.titleById.get(titleId)
-  const title = useMemo(
-    () => titelMitTerminBereichen(titelRoh, data.releasesByTitle.get(titleId) ?? []),
-    [titelRoh, data, titleId],
-  )
-  useTitelwechsel(titleId, title, (data.releasesByTitle.get(titleId)?.length ?? 0) > 0)
+  const { title, mitTermin } = usePanelTitel(data, titleId)
+  useTitelwechsel(titleId, title, mitTermin)
   /**
    * Der leere Rückfall braucht ein `useMemo`, sonst ist er bei jedem Durchlauf
    * ein neues Array — und jeder Hook, der `releases` als Abhängigkeit führt,

@@ -32,6 +32,8 @@ ode_modules`), dann `git worktree remove` — sonst bleibt der Link stehen (Prü
 
 **Lange Befehle immer mit `timeout` (12.10.2026, Ursache gemessen 13.10.):** Ein Bash-Befehl, der sein Zeitlimit überschreitet, wird nicht beendet. Er wird „moved to the background“ und läuft ohne Besitzer weiter; so liefen am 12.10. vier Prozesse 5–7 h. Stdin ist dagegen immer `/dev/null`, die Vermutung „`cat >` wartet auf Eingabe“ ist widerlegt (PoC `C:/code/ai/__assets/notes/befehlsregister-poc-2026-10-13.md`). `timeout N` beendet in Git Bash den ganzen Prozessbaum. Der Auftrag sagt: Dateien mit Write schreiben, Mess- und Browser-Befehle mit `timeout`; der Dirigent prüft vor Sitzungsende `ps -W | grep -E "/usr/bin/cat|chrome-headless"`.
 
+**Browser-Messung nie an `bauer`, `analyst` oder `pruefer` (03.11.2026):** Diese Rollen haben keine `mcp__claude-in-chrome__*`-Werkzeuge und kein ToolSearch. Ein Bauer für den Netflix-Knopf startete Edge und konnte nichts messen. Eine Messung in Edge geht an `general-purpose` (Sonnet), der Fix danach mit dem Messwert an `bauer`.
+
 **Übernehme ich einen Auftrag von einem abgebrochenen Agenten, stoppe ich zuerst dessen noch laufende Bauer** (`ListAgents`, `TaskStop`) — am 08.10.2026 liefen so zwei Bauer doppelt an denselben Schaltern. Regeln: **Ein Schreiber je Arbeitsbaum** — keine zwei Agenten ändern dieselben Dateien. Subagenten können Daniel nichts fragen; Rückfragen laufen über mich. **Jeder Auftrag enthält (seit 10.10.2026, Skill `hintergrundprozesse`):** „Asynchrone Skripte nur über `node C:/code/ai/__assets/tools/prozess-register.mjs start … --frist-min N`; kein `python -`/Heredoc/Schleife ohne Frist; vor dem Bericht `list` + `aufraeumen`; nach dem Bericht läuft nichts weiter.“
 
 ## Zerlegungsregel für den Leitagenten

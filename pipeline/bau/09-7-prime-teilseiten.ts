@@ -31,7 +31,7 @@ export function setzePrimeTeilseiten(titles: Map<number, Title>, schreibWurzel =
   const pruefen: TeilseitenPruefung[] = []
   let gesetzt = 0
   for (const [url, eintraege] of geteilteAdressen(titles, 'primevideo')) {
-    const offen = eintraege.filter((e) => e.stream.dub === true && !e.stream.dubRanges?.length)
+    const offen = eintraege.filter((e) => e.stream.dub === true && !e.stream.dubRanges?.length) // dub-lesart: irgendwie – jeder Weg mit Ja zählt (Menge/Weiche), auch ein abgeleiteter
     if (!offen.length) continue
     const seite = adressKern(url)
     const urteile = ordnePrimeSeiteZu(

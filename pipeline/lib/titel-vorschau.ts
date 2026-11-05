@@ -11,17 +11,41 @@ export interface Vorschau {
   url: string
   breite: number
   hoehe: number
-  /** Große Karte (`summary_large_image`): beide Bildarten sind breit. */
+  /** Große Karte für breite Bilder, kleine (`summary`) für das hochformatige Plakat. */
+  karte: 'summary_large_image' | 'summary'
   typ: 'image/jpeg'
 }
 
-const TMDB_BANNER = /^(https:\/\/image\.tmdb\.org\/t\/p\/)w1280(\/[\w.-]+\.jpg)$/
+/** Maße der Original-Plakate aus `data/tmdb-poster.json`, Schlüssel = Pfad (`/abc.jpg`). */
+export type PlakatMasse = ReadonlyMap<string, readonly [number, number]>
 
-/** TMDB-Banner in verkleinerter Größe mit seinen wahren Maßen, sonst das Standardbild. */
-export function vorschauBild(eigenesBild: string | undefined, standardUrl: string): Vorschau {
-  const m = eigenesBild ? TMDB_BANNER.exec(eigenesBild) : null
-  if (m) return { url: `${m[1]}w780${m[2]}`, breite: 780, hoehe: 439, typ: 'image/jpeg' }
-  return { url: standardUrl, breite: 1200, hoehe: 630, typ: 'image/jpeg' }
+const TMDB_BANNER = /^(https:\/\/image\.tmdb\.org\/t\/p\/)w1280(\/[\w.-]+\.jpg)$/
+const TMDB_PLAKAT = /^(https:\/\/image\.tmdb\.org\/t\/p\/)w500(\/[\w.-]+\.jpg)$/
+const PLAKAT_BREITE = 500
+
+/** Pfad → Originalmaße; Einträge ohne Pfad oder ohne beide Maße zählen nicht. */
+export function plakatMasse(poster: Record<string, { p?: string | null; w?: number | null; h?: number | null } | null>): PlakatMasse {
+  const masse = new Map<string, readonly [number, number]>()
+  for (const e of Object.values(poster)) {
+    if (e?.p && e.w && e.h) masse.set(e.p, [e.w, e.h])
+  }
+  return masse
+}
+
+/**
+ * Eigenes Bild mit wahren Maßen, sonst das Standardbild: erst das TMDB-Banner in w780 (780×439), dann das
+ * TMDB-Plakat in w500 (Höhe aus den Originalmaßen, nur wenn sie vorliegen), sonst Standard 1200×630.
+ */
+export function vorschauBild(banner: string | undefined, cover: string | undefined, standardUrl: string, masse: PlakatMasse): Vorschau {
+  const b = banner ? TMDB_BANNER.exec(banner) : null
+  if (b) return { url: `${b[1]}w780${b[2]}`, breite: 780, hoehe: 439, karte: 'summary_large_image', typ: 'image/jpeg' }
+  const p = cover ? TMDB_PLAKAT.exec(cover) : null
+  const original = p ? masse.get(p[2]) : undefined
+  if (cover && original) {
+    const hoehe = Math.round((PLAKAT_BREITE * original[1]) / original[0])
+    return { url: cover, breite: PLAKAT_BREITE, hoehe, karte: 'summary', typ: 'image/jpeg' }
+  }
+  return { url: standardUrl, breite: 1200, hoehe: 630, karte: 'summary_large_image', typ: 'image/jpeg' }
 }
 
 /** „1 Folge“, „12 Folgen“. */
@@ -39,13 +63,18 @@ export function bildMeta(v: Vorschau): string {
   )
 }
 
-const ERLAUBT_TMDB = /^https:\/\/image\.tmdb\.org\/t\/p\/w780\/[\w.-]+\.jpg$/
+const ERLAUBT_TMDB = /^https:\/\/image\.tmdb\.org\/t\/p\/(w780|w500)\/[\w.-]+\.jpg$/
+/** Breite, die zur TMDB-Größe im Pfad gehört. */
+const BREITE_JE_GROESSE: Record<string, number> = { w780: 780, w500: 500 }
 
-/** Mängel der Vorschau einer erzeugten Seite: Maße fehlen, Bild fremd und zu groß, „1 Folgen“. */
+/** Mängel der Vorschau einer erzeugten Seite: Maße fehlen oder passen nicht zum Pfad, Bild fremd und zu groß, „1 Folgen“. */
 export function vorschauMaengel(html: string, site: string): string[] {
   const mangel: string[] = []
   const bild = /property="og:image" content="([^"]+)"/.exec(html)?.[1]
-  if (bild && !bild.startsWith(site) && !ERLAUBT_TMDB.test(bild)) mangel.push(`og:image weder eigene Domain noch TMDB w780: ${bild}`)
+  const tmdb = bild ? ERLAUBT_TMDB.exec(bild) : null
+  if (bild && !bild.startsWith(site) && !tmdb) mangel.push(`og:image weder eigene Domain noch TMDB w780/w500: ${bild}`)
+  const breite = /property="og:image:width" content="(\d+)"/.exec(html)?.[1]
+  if (tmdb && breite && Number(breite) !== BREITE_JE_GROESSE[tmdb[1]]) mangel.push(`og:image:width ${breite} passt nicht zu ${tmdb[1]}: ${bild}`)
   if (bild && !/property="og:image:width" content="\d+"/.test(html)) mangel.push('og:image:width fehlt')
   if (bild && !/property="og:image:height" content="\d+"/.test(html)) mangel.push('og:image:height fehlt')
   if (/(^|[^\d.,])1 Folgen/.test(html)) mangel.push('„1 Folgen“ statt „1 Folge“')

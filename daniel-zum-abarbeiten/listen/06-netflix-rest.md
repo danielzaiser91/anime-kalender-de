@@ -1,6 +1,6 @@
 # Netflix: was kein Automat beantworten kann
 
-Stand 2026-11-03 · **54 Titel**.
+Stand 2026-11-04 · **53 Titel**.
 
 Netflix gibt seine Tonspuren nur an einen laufenden Player heraus — fünfmal gemessen,
 fünfmal bestätigt. Es gibt keinen Abruf, der das hier abnehmen könnte.
@@ -54,26 +54,25 @@ Erzeugt von `npm run data:netflix-rest`, nicht von Hand pflegen.
 | 29 | Danmachi: Is It Wrong to Try to Pick Up Girls in a Dungeon? Familia Myth II | 12 | 2019 | [öffnen](https://www.netflix.com/title/80185873) |
 | 30 | Danmachi: Is It Wrong to Try to Pick Up Girls in a Dungeon? Familia Myth III | 12 | 2020 | [öffnen](https://www.netflix.com/title/80185873) |
 | 31 | Devil May Cry | 8 | 2025 | [öffnen](https://www.netflix.com/title/81506915) |
-| 32 | Afro Samurai | 5 | 2007 | [öffnen](https://www.netflix.com/title/70204947) |
-| 33 | 5 Centimeters per Second | 3 | 2007 | [öffnen](https://www.netflix.com/title/70093699) |
-| 34 | Meine ganz besondere Hochzeit: Special | 3 | 2026 | [öffnen](https://www.netflix.com/title/82643530) |
-| 35 | Ghost in the Shell | 1 | 1995 | [öffnen](https://www.netflix.com/title/540533) |
-| 36 | Appleseed | 1 | 2004 | [öffnen](https://www.netflix.com/title/70023531) |
-| 37 | Sailor Moon R Movie: Gefährliche Blumen | 1 | 1993 | [öffnen](https://www.netflix.com/title/26588007) |
-| 38 | Detektiv Conan: Der Magier des letzten Jahrhunderts | 1 | 1999 | [öffnen](https://www.netflix.com/title/70126871) |
-| 39 | Ghost in the Shell: Stand Alone Complex - Solid State Society | 1 | 2006 | [öffnen](https://www.netflix.com/title/70071919) |
-| 40 | One Piece: Abenteuer in Alabasta - Die Wüstenprinzessin | 1 | 2007 | [öffnen](https://www.netflix.com/title/70086565) |
-| 41 | One Piece: Chopper und das Wunder der Winterkirschblüte | 1 | 2008 | [öffnen](https://www.netflix.com/title/80998780) |
-| 42 | Clannad: OVA - Das Tomoyo Kapitel | 1 | 2008 | [öffnen](https://www.netflix.com/title/70204963) |
-| 43 | Redline | 1 | 2009 | [öffnen](https://www.netflix.com/title/70153298) |
-| 44 | One Piece Z | 1 | 2012 | [öffnen](https://www.netflix.com/title/80198443) |
-| 45 | Girls und Panzer: Der Film | 1 | 2015 | [öffnen](https://www.netflix.com/title/80159876) |
-| 46 | One Piece 3D2Y: Überwinde Ace’s Tod! Das Gelübde der Kameraden | 1 | 2014 | [öffnen](https://www.netflix.com/title/81679587) |
-| 47 | Dragon Nest: Die Chroniken von Altera | 1 | 2014 | [öffnen](https://www.netflix.com/title/80084763) |
-| 48 | A Silent Voice | 1 | 2016 | [öffnen](https://www.netflix.com/title/80223226) |
-| 49 | No Game No Life Zero | 1 | 2017 | [öffnen](https://www.netflix.com/title/81068687) |
-| 50 | Fireworks: Alles eine Frage der Zeit | 1 | 2017 | [öffnen](https://www.netflix.com/title/81000505) |
-| 51 | Lu over the Wall | 1 | 2017 | [öffnen](https://www.netflix.com/title/80238911) |
-| 52 | Haikyu!! Movie 3 - Talent Und Gespür | 1 | 2017 | [öffnen](https://www.netflix.com/title/81030151) |
-| 53 | Haikyu!! Movie 4 - Ein Kampf der Konzepte | 1 | 2017 | [öffnen](https://www.netflix.com/title/81030152) |
-| 54 | Fool Night | — | 2026 | [öffnen](https://www.netflix.com/title/81991076) |
+| 32 | 5 Centimeters per Second | 3 | 2007 | [öffnen](https://www.netflix.com/title/70093699) |
+| 33 | Meine ganz besondere Hochzeit: Special | 3 | 2026 | [öffnen](https://www.netflix.com/title/82643530) |
+| 34 | Ghost in the Shell | 1 | 1995 | [öffnen](https://www.netflix.com/title/540533) |
+| 35 | Appleseed | 1 | 2004 | [öffnen](https://www.netflix.com/title/70023531) |
+| 36 | Sailor Moon R Movie: Gefährliche Blumen | 1 | 1993 | [öffnen](https://www.netflix.com/title/26588007) |
+| 37 | Detektiv Conan: Der Magier des letzten Jahrhunderts | 1 | 1999 | [öffnen](https://www.netflix.com/title/70126871) |
+| 38 | Ghost in the Shell: Stand Alone Complex - Solid State Society | 1 | 2006 | [öffnen](https://www.netflix.com/title/70071919) |
+| 39 | One Piece: Abenteuer in Alabasta - Die Wüstenprinzessin | 1 | 2007 | [öffnen](https://www.netflix.com/title/70086565) |
+| 40 | One Piece: Chopper und das Wunder der Winterkirschblüte | 1 | 2008 | [öffnen](https://www.netflix.com/title/80998780) |
+| 41 | Clannad: OVA - Das Tomoyo Kapitel | 1 | 2008 | [öffnen](https://www.netflix.com/title/70204963) |
+| 42 | Redline | 1 | 2009 | [öffnen](https://www.netflix.com/title/70153298) |
+| 43 | One Piece Z | 1 | 2012 | [öffnen](https://www.netflix.com/title/80198443) |
+| 44 | Girls und Panzer: Der Film | 1 | 2015 | [öffnen](https://www.netflix.com/title/80159876) |
+| 45 | One Piece 3D2Y: Überwinde Ace’s Tod! Das Gelübde der Kameraden | 1 | 2014 | [öffnen](https://www.netflix.com/title/81679587) |
+| 46 | Dragon Nest: Die Chroniken von Altera | 1 | 2014 | [öffnen](https://www.netflix.com/title/80084763) |
+| 47 | A Silent Voice | 1 | 2016 | [öffnen](https://www.netflix.com/title/80223226) |
+| 48 | No Game No Life Zero | 1 | 2017 | [öffnen](https://www.netflix.com/title/81068687) |
+| 49 | Fireworks: Alles eine Frage der Zeit | 1 | 2017 | [öffnen](https://www.netflix.com/title/81000505) |
+| 50 | Lu over the Wall | 1 | 2017 | [öffnen](https://www.netflix.com/title/80238911) |
+| 51 | Haikyu!! Movie 3 - Talent Und Gespür | 1 | 2017 | [öffnen](https://www.netflix.com/title/81030151) |
+| 52 | Haikyu!! Movie 4 - Ein Kampf der Konzepte | 1 | 2017 | [öffnen](https://www.netflix.com/title/81030152) |
+| 53 | Fool Night | — | 2026 | [öffnen](https://www.netflix.com/title/81991076) |

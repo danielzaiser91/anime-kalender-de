@@ -131,3 +131,12 @@
   titel: Kakegurui xx
   geprueftAm: '2026-10-21'
   grund: Zweite Staffel der TMDB-Serie 72305 (Anime, Genre Animation laut Titelsuche); die Kennung teilt es mit 98314, das die Suche selbst gefunden hat.
+
+# Pokémon Reisen (AniList 112153, Pocket Monsters 2019) ist bei TMDB keine eigene Serie: die Folgen 1–136 stehen als Staffeln 23–25 der Serie „Pokémon“ (60572),
+# die der Titel 527 schon trägt. Ohne Kennung blieben 46 Folgen (91–136) ohne deutschen Titel, obwohl TMDB sie führt (Sendetag und englischer Titel wie bei aniSearch).
+- anilistId: 112153
+  tmdbId: 60572
+  kind: tv
+  titel: 'Pokémon Reisen: Die Serie'
+  geprueftAm: '2026-11-04'
+  grund: TMDB 60572 „Pokémon", ja/JP, 1997; Staffel 25 Folge 1 „The Spectral Express!" (2021-12-17) = aniSearch 14596 Folge 91, Sendetag und englischer Titel gleich.

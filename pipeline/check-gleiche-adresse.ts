@@ -73,6 +73,31 @@ pruefe('gleich viele Titel, aber ein anderer als belegt: Fehl', bilanz(sammel, z
 const veraltet = bilanz(anlass.slice(1), zuordnung, mitErlaubt(FREI), FOLGEN)
 pruefe('erlaubte Seite ohne Doppelung wird als veraltet gemeldet', veraltet.veraltet.join() === FREI && veraltet.fehl.length === 0, veraltet)
 
+/** Teilseite: 9 der 13 Folgen von 97986 plus die 4 OVAs von 114745 = 13 Folgen auf der Seite (Hyouka B0B5JVJKCD: Folgen 1–12 plus OVA). */
+const mitAnteilen = (anteile: number[], folgenSumme = 13): GleicheAdresseStand => ({
+  ...stand([]),
+  erlaubt: [{ adresse: FREI, titel: [97986, 114745], folgen: folgenSumme, anteile, grund: 'Teil der Serie plus Beiläufer auf einer Seite' }],
+})
+const teil = bilanz(sammel, zuordnung, mitAnteilen([9, 4]), FOLGEN)
+pruefe('Teilseite mit Anteilen, die die Seitenzahl ergeben: kein Fehl', teil.fehl.length === 0 && teil.veraltet.length === 0, teil)
+pruefe('Teilseite: Summe der Anteile weicht von der Seitenzahl ab: Fehl', bilanz(sammel, zuordnung, mitAnteilen([9, 3]), FOLGEN).fehl.join() === FREI)
+pruefe('Teilseite: Anteil größer als die Folgen des Titels: Fehl', bilanz(sammel, zuordnung, mitAnteilen([14, 4], 18), FOLGEN).fehl.join() === FREI)
+pruefe('Teilseite: Anteil genau so groß wie die Folgen des Titels gilt', bilanz(sammel, zuordnung, mitAnteilen([13, 4], 17), FOLGEN).fehl.length === 0)
+pruefe('Teilseite: weniger Anteile als Titel: Fehl', bilanz(sammel, zuordnung, mitAnteilen([13]), FOLGEN).fehl.join() === FREI)
+const kopf = [{ ...beleg(97986, detail('B0FHW8DNTG')), available: false }, { ...beleg(114745, detail('B0FHW8DNTG')), available: false }]
+pruefe('Beleg „kein Weg“ (available: false) an beiden Titeln beansprucht die Seite nicht', bilanz(kopf, zuordnung, stand([])).fehl.length === 0)
+const einKopf = [{ ...beleg(97986, detail('B0FHW8DNTG')), available: false }, beleg(114745, detail('B0FHW8DNTG'))]
+pruefe('ein Beleg „kein Weg“ neben einem echten Beleg ist keine Doppelung', bilanz(einKopf, zuordnung, stand([])).fehl.length === 0)
+const kopfUndZwei = [...kopf, beleg(97986, detail('B0FHW8DNTG')), beleg(114745, detail('B0FHW8DNTG'))]
+pruefe('zwei echte Belege bleiben Doppelung, auch mit „kein Weg“-Belegen daneben', bilanz(kopfUndZwei, zuordnung, stand([])).fehl.join() === FREI)
+const mitJa = [{ ...beleg(97986, detail('B0FHW8DNTG')), available: true }, beleg(114745, detail('B0FHW8DNTG'))]
+pruefe('available: true zählt wie ein Beleg ohne Angabe', bilanz(mitJa, zuordnung, stand([])).fehl.join() === FREI)
+pruefe('Teilseite: Anteil 0 ist ungültig, auch wenn die Summe passt', bilanz(sammel, zuordnung, mitAnteilen([0, 4], 4), FOLGEN).fehl.join() === FREI)
+pruefe('Teilseite: negativer Anteil ist ungültig, auch wenn die Summe passt', bilanz(sammel, zuordnung, mitAnteilen([5, -1], 4), FOLGEN).fehl.join() === FREI)
+const mitDrittem = [...sammel, { ...beleg(555, detail('B0FHW8DNTG')), available: false }]
+const tg = bilanz(mitDrittem, zuordnung, mitAnteilen([9, 4]), FOLGEN)
+pruefe('erlaubte Teilseite bleibt gültig, wenn ein dritter Titel nur einen „kein Weg“-Beleg hat', tg.fehl.length === 0 && tg.veraltet.length === 0, tg)
+
 console.log('\nBestandswächter als Prozess:')
 const skript = fileURLToPath(new URL('./check-gleiche-adresse-bestand.ts', import.meta.url))
 const yamlVon = (liste: { anilistId: number; url: string }[]) => liste.map((e) => `- anilistId: ${e.anilistId}\n  url: ${e.url}\n`).join('')

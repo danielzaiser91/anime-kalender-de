@@ -11,7 +11,7 @@
   { "name": "liveAktion: jede data-Datei Kulisse", "datei": "tools/kachel-ecken-live.mjs", "suche": "url.pathname.endsWith('/data/events.json')", "ersetze": "url.pathname.includes('/data/')" },
   { "name": "liveDatenstand: HTTP-Fehler ignoriert", "datei": "tools/kachel-ecken-live.mjs", "suche": "if (!antwort.ok) return", "ersetze": "if (false) return" },
   { "name": "liveDatenstand: Typ nicht geprueft", "datei": "tools/kachel-ecken-live.mjs", "suche": "typeof generatedAt === 'string' ?", "ersetze": "generatedAt !== undefined ?" },
-  { "name": "liveDatenstand: falsche Adresse", "datei": "tools/kachel-ecken-live.mjs", "suche": "holen(`${basis}/data/meta.json`)", "ersetze": "holen(`${basis}/meta.json`)" },
+  { "name": "liveDatenstand: falsche Adresse", "datei": "tools/kachel-ecken-live.mjs", "suche": "holen(`${basis}/data/meta.json`,", "ersetze": "holen(`${basis}/meta.json`," },
   { "name": "antworteLive: Ersatz gestrichen", "datei": "tools/kachel-ecken-live.mjs", "suche": "if (aktion === 'ersatz') return route.fulfill", "ersetze": "if (false) return route.fulfill" },
   { "name": "antworteLive: Kulisse gestrichen", "datei": "tools/kachel-ecken-live.mjs", "suche": "if (aktion !== 'kulisse') return route.continue()", "ersetze": "if (true) return route.continue()" },
   { "name": "antworteLive: Kopfzeilen der Antwort weg", "datei": "tools/kachel-ecken-live.mjs", "suche": "route.fulfill({ response: antwort, body: kulisse(await antwort.body()) })", "ersetze": "route.fulfill({ status: 200, body: kulisse(await antwort.body()) })" },
