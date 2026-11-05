@@ -1,6 +1,7 @@
 import { istErschienen } from '../../shared/logic.ts'
 import type { NewsEintrag, ReleaseEvent } from '../../shared/types.ts'
 import type { PushEreignis } from './push-text.ts'
+import { imTagesfenster } from './push-fenster.ts'
 import { pushVersand, type PushEnv } from './push.ts'
 import { weitereAusNews } from './news-quelle.ts'
 import { fehlerLog } from './werte.ts'
@@ -23,7 +24,7 @@ export function pushFaellig(
   erschienen: (e: PushEreignis, zeit: Date) => boolean = istErschienen,
 ): boolean {
   const seit = new Date(jetzt.getTime() - PUSH_FENSTER_MS)
-  return ereignisse.some((e) => erschienen(e, jetzt) && !erschienen(e, seit))
+  return imTagesfenster(ereignisse, seit, jetzt).some((e) => erschienen(e, jetzt) && !erschienen(e, seit))
 }
 
 /** Der Fünf-Minuten-Lauf. Zur vollen Stunde läuft zugleich der stündliche Trigger: dort aussteigen, sonst gäbe es doppelte Pushes. */

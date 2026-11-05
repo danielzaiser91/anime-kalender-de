@@ -11,6 +11,8 @@ import { readFileSync } from 'node:fs'
 import type { DatabaseSync } from 'node:sqlite'
 import worker from '../worker/src/index.ts'
 import { pushFaellig } from '../worker/src/push-takt.ts'
+import { pushVersand } from '../worker/src/push.ts'
+import { istErschienen } from '../shared/logic.ts'
 import type { ReleaseEvent } from '../shared/types.ts'
 import { fetchAttrappe, neueDatenbank, testEnv, zaehler, zaehlerZurueck } from './worker-unteraufrufe-attrappe.ts'
 
@@ -44,6 +46,8 @@ const utc = (hhmm: string) => new Date(`2026-11-05T${hhmm}:00.000Z`)
 
 const pushZeiten: Date[] = []
 let aktuell = utc('00:00')
+/** Inhalt der Meldungsdatei (`data/news.json`) für die „Jetzt auch bei“-Zeile. */
+let meldungen: unknown[] = []
 
 async function umgebung(db: DatabaseSync, ereignisse: ReleaseEvent[], favoriten: string) {
   fetchAttrappe('2026-11-05')
@@ -55,6 +59,7 @@ async function umgebung(db: DatabaseSync, ereignisse: ReleaseEvent[], favoriten:
       pushZeiten.push(aktuell)
       return new Response('', { status: 201 })
     }
+    if (url.endsWith('data/news.json')) return new Response(JSON.stringify(meldungen), { status: 200 })
     if (url.endsWith('data/events.json')) {
       zaehler.fetch++
       return new Response(JSON.stringify(ereignisse), { status: 200 })
@@ -144,6 +149,20 @@ async function ohneTermin() {
   pruefe(pushZeiten.length === 0 && (ohneMarke.prepare('SELECT COUNT(*) n FROM push_marke').get() as { n: number }).n === 0, 'ohne Marke setzt der Fünf-Minuten-Takt keine und pusht nichts')
 }
 
+async function jetztAuchBei() {
+  zeige('„Jetzt auch bei“ gehört dem Stundenlauf:')
+  pushZeiten.length = 0
+  meldungen = [{ titelId: 177476, titel: 'YAIBA', am: '2026-11-05T10:00:00Z', meldungen: [{ art: 'neu', weiterer: true, platform: 'netflix' }] }]
+  const db = neueDatenbank()
+  const env = await umgebung(db, [YAIBA], 'ak:177476')
+  const text = () => (db.prepare('SELECT offen FROM push_abo').get() as { offen: string | null }).offen ?? ''
+  await takt(env, FUENF, utc('17:25'))
+  pruefe(text().startsWith('Jetzt auf Deutsch: YAIBA') && !text().includes('Netflix'), `Fünf-Minuten-Takt meldet nur die Folge (${text()})`)
+  await takt(env, STUNDE, utc('18:00'))
+  pruefe(text().includes('Netflix') && pushZeiten.length === 2, `Stundenlauf meldet danach „jetzt auch bei Netflix“ (${text()})`)
+  meldungen = []
+}
+
 function fenster() {
   zeige('Fenster von zehn Minuten:')
   const bei = (zeit: string, extra: Record<string, unknown> = {}) => ({ ...YAIBA, date: '2026-11-05', time: zeit, ...extra }) as ReleaseEvent
@@ -159,6 +178,38 @@ function fenster() {
   pruefe(!pushFaellig([], t), 'keine Termine: nicht fällig')
 }
 
+async function tageswechselUndCpu() {
+  zeige('Vorfilter über das Datum:')
+  const bei = (date: string, time: string) => ({ ...YAIBA, date, time }) as ReleaseEvent
+  /* Berlin 00:10 ist UTC 23:10 (Winter) bzw. 22:10 (Sommer) des Vortags: Tag und UTC-Tag fallen auseinander. */
+  pruefe(pushFaellig([bei('2026-11-06', '00:10')], new Date('2026-11-05T23:15:00.000Z')), 'Tageswechsel Winterzeit: 00:10 Berlin um 00:15 Berlin fällig')
+  pruefe(pushFaellig([bei('2026-10-25', '00:10')], new Date('2026-10-24T22:15:00.000Z')), 'Tageswechsel Sommerzeit: 00:10 Berlin um 00:15 Berlin fällig')
+  pruefe(!pushFaellig([bei('2026-11-05', '23:59')], new Date('2026-11-05T22:55:00.000Z')), '23:59-Termin um 23:55 Berlin noch nicht fällig')
+  pruefe(pushFaellig([bei('2026-11-05', '23:59')], new Date('2026-11-05T23:05:00.000Z')), '23:59-Termin von gestern ist um 00:05 Berlin fällig')
+  /* 4.369 Termine wie in events.json: ohne Vorfilter ~90 ms (Intl je Termin), mit ~1 ms. Das Free-Limit liegt bei 10 ms je Aufruf. */
+  const viele = Array.from({ length: 4369 }, (_, i) => bei(new Date(Date.UTC(2021, 5, 1) + (i % 4000) * 86_400_000).toISOString().slice(0, 10), `${String(i % 24).padStart(2, '0')}:${String((i * 5) % 60).padStart(2, '0')}`))
+  const t = new Date('2026-11-05T17:30:00.000Z')
+  viele.push(YAIBA)
+  let best = Infinity
+  for (let i = 0; i < 5; i++) {
+    const start = performance.now()
+    pushFaellig(viele, t)
+    best = Math.min(best, performance.now() - start)
+  }
+  pruefe(pushFaellig(viele, t), 'Yaiba zwischen 4.369 anderen Terminen wird gefunden')
+  pruefe(best < 25, `4.370 Termine: ${best.toFixed(1)} ms je Aufruf (Grenze 25 ms; ohne Vorfilter ~90 ms)`)
+  /* Der Stundenlauf rechnet über denselben Vorfilter. */
+  const db = neueDatenbank()
+  const env = await umgebung(db, viele, 'ak:1')
+  let stunde = Infinity
+  for (let i = 0; i < 5; i++) {
+    const start = performance.now()
+    await pushVersand(env, new Date('2026-11-05T16:05:00.000Z'), viele, (e, z) => istErschienen(e, z))
+    stunde = Math.min(stunde, performance.now() - start)
+  }
+  pruefe(stunde < 25, `Stundenlauf (pushVersand ohne Neues) mit 4.370 Terminen: ${stunde.toFixed(1)} ms (Grenze 25 ms)`)
+}
+
 function wrangler() {
   zeige('wrangler.toml:')
   const toml = readFileSync('worker/wrangler.toml', 'utf8')
@@ -170,7 +221,9 @@ function wrangler() {
 await yaiba()
 await volleStunde()
 await ohneTermin()
+await jetztAuchBei()
 fenster()
+await tageswechselUndCpu()
 wrangler()
 zeige(fehler ? `${fehler} Prüfung(en) FEHL` : 'Push-Takt: alle Prüfungen ok (Yaiba 17:25 UTC, volle Stunde, Fenster, Trigger)')
 process.exit(fehler ? 1 : 0)

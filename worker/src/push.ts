@@ -1,5 +1,6 @@
 import { pushText, pushZiel, type PushEreignis, type WeitererAnbieter } from './push-text.ts'
 import { fehlerLog } from './werte.ts'
+import { imTagesfenster } from './push-fenster.ts'
 import { istPushDienst } from './push-dienst.ts'
 import { ladeKennungen, leseFavoriten, type Kennungen } from './favoriten-kennung.ts'
 
@@ -238,7 +239,7 @@ export async function pushVersand(
     return 'Erstlauf: Marke gesetzt, 0 Abos gelesen'
   }
   const seit = new Date(marke.zuletzt)
-  const neueEreignisse = ereignisse.filter((e) => istErschienen(e, jetzt) && !istErschienen(e, seit))
+  const neueEreignisse = imTagesfenster(ereignisse, seit, jetzt).filter((e) => istErschienen(e, jetzt) && !istErschienen(e, seit))
   const neueWeitere = weitere.filter((w) => !marke.gemeldet.includes(weiterSchluessel(w)))
   if (!neueEreignisse.length && !neueWeitere.length) return '0 Abos gelesen, nichts Neues'
   const { results } = await env.DB.prepare('SELECT endpoint, favoriten, erstellt, zuletzt, gemeldet, offen, offen_ziel FROM push_abo ORDER BY zuletzt ASC').all<AboZeile>()
