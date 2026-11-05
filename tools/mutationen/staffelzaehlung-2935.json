@@ -17,7 +17,6 @@
 { "name": "spinoff eigenerName umgekehrt", "aenderungen": [ { "datei": "pipeline/lib/spinoff-verdacht.ts", "suche": "eigenerName === true) verdacht", "ersetze": "eigenerName !== true) verdacht" } ] },
 { "name": "spinoff zeigeBis", "aenderungen": [ { "datei": "pipeline/lib/spinoff-verdacht.ts", "suche": "verdacht.length > zeigeBis", "ersetze": "false" } ] },
 { "name": "spinoff Zeile leer", "aenderungen": [ { "datei": "pipeline/lib/spinoff-verdacht.ts", "suche": "if (!verdacht.length) return []", "ersetze": "if (false) return []" } ] },
-{ "name": "marke Hauptstaffeln leer", "aenderungen": [ { "datei": "web/src/lib/db-staffel-marke.ts", "suche": "if (!teile.length) return new Map()", "ersetze": "" } ] },
 { "name": "marke Name statt zaehlung", "aenderungen": [ { "datei": "web/src/lib/db-staffel-marke.ts", "suche": "members.map((m) => ({ ...m, name: anzeigeName(m) }))", "ersetze": "members.map((m) => ({ id: m.id, format: m.format, episodes: m.episodes, jpYear: m.jpYear, jpStart: m.jpStart, name: anzeigeName(m) }))" } ] },
 { "name": "abw gleich", "aenderungen": [ { "datei": "pipeline/lib/staffelzaehlung-abweichung.ts", "suche": "if (pipeline === marke) return 'gleich'", "ersetze": "if (false) return 'gleich'" } ] },
 { "name": "abw teil", "aenderungen": [ { "datei": "pipeline/lib/staffelzaehlung-abweichung.ts", "suche": "?.teil !== undefined ? 'teil'", "ersetze": "?.teil === undefined ? 'teil'" } ] },

@@ -194,6 +194,12 @@ console.log('\nGrenzfälle der einen Zählung (Disc-Nummer, Reihe ohne Hauptstaf
   pruefe('Reihe nur aus Filmen: keine Hauptstaffel, kein Reihenname, keine Nummer (und kein Absturz)', leer.teile.length === 0 && leer.reihenName === '' && leer.staende.size === 0, leer)
   pruefe('Reihe nur aus Filmen: staffelStandVon ist leer', staffelStandVon(alsTeile, 940071) === undefined)
   pruefe('Reihe nur aus Filmen: Widerlegung, Disc und Marke nennen keine Nummer', nummern(filme)[940071] === null && discNummern(filme)[940071] === null && staffelMarken(filme).size === 0)
+  const teilweise = [
+    titel(1, 'Serie', '2010-01-01', { franchiseId: 1 }),
+    titel(2, 'Serie Staffel 2 - Teil 1', '2011-01-01', { franchiseId: 1, titleDe: 'Serie Staffel 2 - Teil 1' }),
+    titel(3, 'Serie Staffel 2 - Teil 2', '2011-07-01', { franchiseId: 1, titleDe: 'Serie Staffel 2 - Teil 2' }),
+  ]
+  pruefe('Disc: Staffel 2 in zwei Teilen — der erste Teil steht an Position 2 = Staffel 2, trägt aber „Teil 1“, also keine Nummer', discNummern(teilweise)[2] === null && discNummern(teilweise)[3] === null && discNummern(teilweise)[1] === 1, discNummern(teilweise))
   const viele = Array.from({ length: 6 }, (_, i) => titel(940080 + i, `Neben ${i}`, `201${i}-01-01`, { franchiseId: 940080 }))
   const sechs = spinoffVerdachtZeile(viele)[0]!
   pruefe('Sechs Verdachtsfälle: die ersten fünf stehen in der Zeile, danach „ …“', sechs.includes('Neben 4 (940084)') && !sechs.includes('Neben 5') && sechs.endsWith('(940084) …'), sechs)

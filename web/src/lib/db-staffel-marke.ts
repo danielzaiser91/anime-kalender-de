@@ -9,7 +9,6 @@ import { zaehleHauptstaffeln } from '@shared/staffel-zaehlung.ts'
  */
 export function staffelMarken(members: Title[]): Map<number, string> {
   const { teile, reihenName, staende } = zaehleHauptstaffeln(members.map((m) => ({ ...m, name: anzeigeName(m) })))
-  if (!teile.length) return new Map()
   const beschriftung = staffelBeschriftungen(teile, reihenName)
   const marken = new Map<number, string>()
   for (const m of teile) {
