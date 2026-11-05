@@ -1,5 +1,6 @@
 import type { Title } from '../../shared/types.ts'
-import { anzeigeName, hauptstaffeln, staffelStaende } from '../../shared/titles.ts'
+import { anzeigeName } from '../../shared/titles.ts'
+import { staffelStandVon } from '../../shared/staffel-zaehlung.ts'
 import { einzigeStaffelDerLinie, remakeVonDerReihe } from './remake-von.ts'
 
 /**
@@ -21,7 +22,7 @@ export function staffelDesTitels(t: Title, titles: Iterable<Title>, remakeQuelle
     jpStart: x.jpStart,
   }))
   const kopf = reihe.find((x) => x.id === t.franchiseId) ?? reihe[0]!
-  const stand = staffelStaende(hauptstaffeln(teile), anzeigeName(kopf)).get(t.id)
+  const stand = staffelStandVon(teile, t.id, anzeigeName(kopf))
   if (stand) return stand.teil === undefined ? stand.staffel : undefined
   return einzigeStaffelDerLinie(reihe, remakeVon, t.id) ? 1 : undefined
 }
