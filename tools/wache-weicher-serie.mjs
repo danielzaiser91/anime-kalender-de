@@ -5,7 +5,7 @@
  * kommt eine `ALARM`-Zeile. Ein roter oder fehlender Lauf in der Reihe bricht sie ab (Rot gehört dem Rot-Alarm).
  * Zeilen eines fertigen Laufs ändern sich nie: Schlüssel je Lauf-ID im Zwischenspeicher, nur neue Läufe rufen Jobs ab.
  */
-import { abrufe, ladeSpeicher, speichere, weicheSchritte, workflowMitWeichemSchritt } from './wache-weicher-schritt.mjs'
+import { abrufe, ersteFehlerZeile, ladeSpeicher, speichere, weicheSchritte, workflowMitWeichemSchritt } from './wache-weicher-schritt.mjs'
 
 export const SERIE_LAEUFE = 3
 const TAG_MS = 86_400_000
@@ -14,8 +14,17 @@ const ALTER_TAGE = 14
 const listenAbruf = (repo, datei) => ['run', 'list', '--repo', repo, '--workflow', datei, '--branch', 'main', '--status', 'completed', '--limit', String(SERIE_LAEUFE), '--json', 'databaseId,conclusion,createdAt,url']
 const jobsAbruf = (repo, id) => ['api', `repos/${repo}/actions/runs/${id}/jobs?per_page=100`]
 
-/** Schlüssel `Job / Schritt` der weichen Fehlschläge einer Jobs-Antwort. */
-export const schluesselVon = (antwort) => weicheSchritte(antwort).map((w) => `${w.job} / ${w.schritt}`)
+const logAbruf = (repo, jobId) => ['api', '--allow-escape-sequences', `repos/${repo}/actions/jobs/${jobId}/logs`]
+const PRAEFIX = /^FEHLER: Schritte fehlgeschlagen: (.+)$/
+
+/**
+ * Schlüssel `Job / Schritt` eines weichen Fehlschlags. Der rote Schritt heißt immer „Fehlschläge auswerten“ (`schritte-auswerten.sh`);
+ * der ausgefallene Schritt steht in dessen FEHLER-Zeile (`A · B`). Ohne diese Zeile gilt der Name des roten Schritts.
+ */
+export function schluesselAus(job, schritt, fehlerZeile) {
+  const treffer = PRAEFIX.exec(fehlerZeile ?? '')
+  return (treffer ? treffer[1].split(' · ') : [schritt]).map((name) => `${job} / ${name}`)
+}
 
 /** Schlüssel, die in jeder Liste vorkommen (leer bei weniger als einer Liste). */
 export function gemeinsame(listen) {
@@ -43,16 +52,30 @@ function reihen(stapel, repo, dateien, jetztMs, ausfall) {
   return ergebnis
 }
 
-/** Schlüssel je Lauf-ID (aus dem Speicher oder per Jobs-Abruf); `undefined` bei Abruffehler. */
-function schluesselJeLauf(stapel, repo, ids, speicher, ausfall) {
-  const fehlend = ids.filter((id) => !Array.isArray(speicher[id]))
-  const jobs = abrufe(stapel, fehlend.map((id) => jobsAbruf(repo, id)), (aus) => schluesselVon(JSON.parse(aus)))
+/** Schlüssel neuer Läufe: Jobs-Abruf, dann das Log jedes weichen Schritts; ein Lauf mit Abruffehler fehlt im Ergebnis. */
+function neueLaeufe(stapel, repo, fehlend, ausfall) {
+  const jobs = abrufe(stapel, fehlend.map((id) => jobsAbruf(repo, id)), (aus) => weicheSchritte(JSON.parse(aus)))
+  const faelle = fehlend.flatMap((id, k) => (jobs[k].wert ?? []).map((w) => ({ id, w })))
+  const logs = abrufe(stapel, faelle.map(({ w }) => logAbruf(repo, w.jobId)), ersteFehlerZeile)
   const neu = {}
   fehlend.forEach((id, k) => {
-    if (jobs[k].fehler !== undefined) ausfall.push(jobs[k].fehler)
-    else neu[id] = jobs[k].wert
+    if (jobs[k].fehler === undefined) neu[id] = []
+    else ausfall.push(jobs[k].fehler)
   })
-  return { ...Object.fromEntries(ids.filter((id) => Array.isArray(speicher[id])).map((id) => [id, speicher[id]])), ...neu }
+  faelle.forEach(({ id, w }, i) => {
+    if (logs[i].fehler === undefined) neu[id]?.push(...schluesselAus(w.job, w.schritt, logs[i].wert))
+    else if (neu[id]) {
+      delete neu[id]
+      ausfall.push(logs[i].fehler)
+    }
+  })
+  return neu
+}
+
+/** Schlüssel je Lauf-ID (aus dem Speicher oder neu abgerufen). */
+function schluesselJeLauf(stapel, repo, ids, speicher, ausfall) {
+  const bekannt = Object.fromEntries(ids.filter((id) => Array.isArray(speicher[id])).map((id) => [id, speicher[id]]))
+  return { ...bekannt, ...neueLaeufe(stapel, repo, ids.filter((id) => !(id in bekannt)), ausfall) }
 }
 
 /** ALARM-Zeilen: derselbe weiche Schritt in jedem der letzten `SERIE_LAEUFE` Läufe; Abruffehler als eine `WEICH?`-Zeile. */
