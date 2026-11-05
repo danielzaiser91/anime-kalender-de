@@ -45,6 +45,9 @@ pruefe('Nur-Hinweis-Marke allein trennt', falteTeilwege([weg(1, 5, { dubHintOnly
 // Zwei Adressen desselben Anbieters, abwechselnd: der Vorgänger wird je Adresse gesucht, nicht je Anbieter.
 const zweiAdressen = falteTeilwege([weg(1, 5), { ...weg(1, 5), url: `${url}2` }, weg(6, 9)])
 pruefe('Vorgänger wird je Adresse gesucht', zweiAdressen.length === 2 && bereiche(zweiAdressen) === '1-9,1-5', bereiche(zweiAdressen))
+// Nach einer Lücke zählt die jüngste Pille derselben Adresse als Vorgänger, nicht die erste.
+const nachLuecke = falteTeilwege([weg(1, 5), weg(7, 9), weg(10, 12)])
+pruefe('Vorgänger ist die jüngste Pille der Adresse', bereiche(nachLuecke) === '1-5,7-12', bereiche(nachLuecke))
 const alleFelder = { kanal: 'K', entferntAm: '2026-09-01', sharedWith: 2, dub: true }
 pruefe('Gleiche Felder: eine Pille', falteTeilwege([weg(1, 5, alleFelder), weg(6, 9, alleFelder)]).length === 1)
 const ganz: StreamLink = { platform: 'primevideo', url }
