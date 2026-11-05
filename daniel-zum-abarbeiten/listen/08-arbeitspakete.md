@@ -1,6 +1,6 @@
 # Arbeitspakete: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-11-05 · **89 offene Verweise** in **71 Zeilen**,
+Stand 2026-11-05 · **90 offene Verweise** in **72 Zeilen**,
 aufgeteilt in **4 Pakete** zu je 20.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Derselbe Bestand wie in
@@ -95,29 +95,30 @@ der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 | 48 | Prime Video | My Hero Academia | [You’re Next](https://watch.amazon.de/detail?gti=amzn1.dv.gti.c903bcab-b4d5-4bdb-b418-70ab5650132e) |
 | 49 | Prime Video | Bluelock | [Blue Lock: The Movie - Episode Nagi](https://watch.amazon.de/detail?gti=amzn1.dv.gti.ae9245d5-07c5-41ce-ba90-d9f8779f046c) |
 | 50 | Prime Video | Haikyu!! | [Das Play-off der Müllhalde](https://watch.amazon.de/detail?gti=amzn1.dv.gti.467b800e-3262-4857-82b7-ed7a8634cb5b) |
-| 51 | Netflix | Resident Evil: Infinite Darkness | [Resident Evil: Death Island](https://www.netflix.com/title/81714596) |
-| 52 | Netflix | GREEN DA KA RA × Mirai no Mirai | [Mirai: Das Mädchen aus der Zukunft](https://www.netflix.com/title/81004268) |
-| 53 | Prime Video | Mobile Suit Gundam | [Cucuruz Doan’s Island](https://watch.amazon.de/detail?gti=amzn1.dv.gti.c38ba568-4a91-4796-ac66-2577e5c97b8a) |
-| 54 | Netflix | Blue Giant | [Hauptserie](https://www.netflix.com/title/81763062) |
-| 55 | Netflix | The Deer King | [Hauptserie](https://www.netflix.com/title/81700393) |
-| 56 | Netflix | Belle | [Hauptserie](https://www.netflix.com/title/81492822) |
-| 57 | Netflix | Lu over the Wall | [Hauptserie](https://www.netflix.com/title/80238911) |
-| 58 | Netflix | Demon Slayer: Kimetsu no Yaiba | [The Movie: Mugen Train](https://www.netflix.com/title/81410810) |
-| 59 | Netflix | The Legend of Luoxiaohei | [The Legend of Hei: Die Kraft in dir](https://www.netflix.com/title/81427481) |
-| 60 | Netflix | Children of the Sea | [Hauptserie](https://www.netflix.com/title/81208104) |
+| 51 | Prime Video | GeGeGe no Kitaro | [The Birth of Kitaro: The Mystery of GeGeGe](https://www.amazon.de/gp/video/detail/0U2F1VC6MV5CHFW4ZP7GSM1RX0) |
+| 52 | Netflix | Resident Evil: Infinite Darkness | [Resident Evil: Death Island](https://www.netflix.com/title/81714596) |
+| 53 | Netflix | GREEN DA KA RA × Mirai no Mirai | [Mirai: Das Mädchen aus der Zukunft](https://www.netflix.com/title/81004268) |
+| 54 | Prime Video | Mobile Suit Gundam | [Cucuruz Doan’s Island](https://watch.amazon.de/detail?gti=amzn1.dv.gti.c38ba568-4a91-4796-ac66-2577e5c97b8a) |
+| 55 | Netflix | Blue Giant | [Hauptserie](https://www.netflix.com/title/81763062) |
+| 56 | Netflix | The Deer King | [Hauptserie](https://www.netflix.com/title/81700393) |
+| 57 | Netflix | Belle | [Hauptserie](https://www.netflix.com/title/81492822) |
+| 58 | Netflix | Lu over the Wall | [Hauptserie](https://www.netflix.com/title/80238911) |
+| 59 | Netflix | Demon Slayer: Kimetsu no Yaiba | [The Movie: Mugen Train](https://www.netflix.com/title/81410810) |
+| 60 | Netflix | The Legend of Luoxiaohei | [The Legend of Hei: Die Kraft in dir](https://www.netflix.com/title/81427481) |
 
-## Paket 4 — Zeilen 61 bis 71
+## Paket 4 — Zeilen 61 bis 72
 
 | # | Anbieter | Reihe | Noch zu bestätigen |
 |---|---|---|---|
-| 61 | Prime Video | LUPIN THE IIIRD: Zenigata and the Two Lupins | [Lupin III.: Fujiko Mines Lüge](https://watch.amazon.de/detail?gti=amzn1.dv.gti.077c1435-754d-407d-9d26-9ddb34a272d0) |
-| 62 | Netflix | Okko’s Inn | [Okko und ihre Geisterfreunde](https://www.netflix.com/title/81037597) |
-| 63 | Netflix | Fireworks: Alles eine Frage der Zeit | [Hauptserie](https://www.netflix.com/title/81000505) |
-| 64 | Netflix | Mutafukaz | [Hauptserie](https://www.netflix.com/title/81037697) |
-| 65 | Netflix | Girls & Panzer | [Girls und Panzer: Der Film](https://www.netflix.com/title/80159876) |
-| 66 | Netflix | Dragon Nest: Die Chroniken von Altera | [Hauptserie](https://www.netflix.com/title/80084763) |
-| 67 | Prime Video | Lupin III.: Teil 1 | [Lupin III.: Daisuke Jigens Grabstein](https://watch.amazon.de/detail?gti=amzn1.dv.gti.f783e7fb-3d94-40aa-88fb-2009fc9bfe2c) |
-| 68 | Netflix | TRAVA: FIST PLANET | [Redline](https://www.netflix.com/title/70153298) |
-| 69 | Netflix | Clannad | [OVA - Das Tomoyo Kapitel](https://www.netflix.com/title/70204963) |
-| 70 | Netflix | Appleseed: Kampf um die Freiheit | [Appleseed](https://www.netflix.com/title/70023531) |
-| 71 | Netflix | Detektiv Conan | [Der Magier des letzten Jahrhunderts](https://www.netflix.com/title/70126871) |
+| 61 | Netflix | Children of the Sea | [Hauptserie](https://www.netflix.com/title/81208104) |
+| 62 | Prime Video | LUPIN THE IIIRD: Zenigata and the Two Lupins | [Lupin III.: Fujiko Mines Lüge](https://watch.amazon.de/detail?gti=amzn1.dv.gti.077c1435-754d-407d-9d26-9ddb34a272d0) |
+| 63 | Netflix | Okko’s Inn | [Okko und ihre Geisterfreunde](https://www.netflix.com/title/81037597) |
+| 64 | Netflix | Fireworks: Alles eine Frage der Zeit | [Hauptserie](https://www.netflix.com/title/81000505) |
+| 65 | Netflix | Mutafukaz | [Hauptserie](https://www.netflix.com/title/81037697) |
+| 66 | Netflix | Girls & Panzer | [Girls und Panzer: Der Film](https://www.netflix.com/title/80159876) |
+| 67 | Netflix | Dragon Nest: Die Chroniken von Altera | [Hauptserie](https://www.netflix.com/title/80084763) |
+| 68 | Prime Video | Lupin III.: Teil 1 | [Lupin III.: Daisuke Jigens Grabstein](https://watch.amazon.de/detail?gti=amzn1.dv.gti.f783e7fb-3d94-40aa-88fb-2009fc9bfe2c) |
+| 69 | Netflix | TRAVA: FIST PLANET | [Redline](https://www.netflix.com/title/70153298) |
+| 70 | Netflix | Clannad | [OVA - Das Tomoyo Kapitel](https://www.netflix.com/title/70204963) |
+| 71 | Netflix | Appleseed: Kampf um die Freiheit | [Appleseed](https://www.netflix.com/title/70023531) |
+| 72 | Netflix | Detektiv Conan | [Der Magier des letzten Jahrhunderts](https://www.netflix.com/title/70126871) |
