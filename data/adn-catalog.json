@@ -51914,7 +51914,8 @@
         }
       ],
       "batch": false,
-      "fromCatalog": true
+      "fromCatalog": true,
+      "anisearchId": 20293
     },
     {
       "showId": 1355,
@@ -53506,7 +53507,8 @@
         }
       ],
       "batch": true,
-      "fromCatalog": true
+      "fromCatalog": true,
+      "anisearchId": 6601
     },
     {
       "showId": 1320,
@@ -53529,7 +53531,8 @@
         }
       ],
       "batch": false,
-      "fromCatalog": true
+      "fromCatalog": true,
+      "anisearchId": 7882
     },
     {
       "showId": 1321,
@@ -53552,7 +53555,8 @@
         }
       ],
       "batch": false,
-      "fromCatalog": true
+      "fromCatalog": true,
+      "anisearchId": 7883
     },
     {
       "showId": 1319,
@@ -53575,7 +53579,8 @@
         }
       ],
       "batch": false,
-      "fromCatalog": true
+      "fromCatalog": true,
+      "anisearchId": 7409
     }
   ]
 }
