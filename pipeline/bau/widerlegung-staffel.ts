@@ -20,9 +20,10 @@ export function staffelDesTitels(t: Title, titles: Iterable<Title>, remakeQuelle
     episodes: x.episodes,
     jpYear: x.jpYear,
     jpStart: x.jpStart,
+    beiwerk: x.beiwerk,
+    eigenesWerk: x.eigenesWerk,
   }))
-  const kopf = reihe.find((x) => x.id === t.franchiseId) ?? reihe[0]!
-  const stand = staffelStandVon(teile, t.id, anzeigeName(kopf))
+  const stand = staffelStandVon(teile, t.id)
   if (stand) return stand.teil === undefined ? stand.staffel : undefined
   return einzigeStaffelDerLinie(reihe, remakeVon, t.id) ? 1 : undefined
 }
