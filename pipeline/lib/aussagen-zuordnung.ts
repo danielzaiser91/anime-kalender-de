@@ -91,7 +91,7 @@ export function anzeige(t: KatalogTitel): string {
   return t.titleDe ?? t.titleEn ?? t.titleRomaji ?? String(t.id)
 }
 
-function namenVon(t: KatalogTitel): string[] {
+export function namenVon(t: KatalogTitel): string[] {
   return [t.titleDe, t.titleEn, t.titleRomaji, ...(t.synonyme ?? [])].filter((n): n is string => Boolean(n))
 }
 

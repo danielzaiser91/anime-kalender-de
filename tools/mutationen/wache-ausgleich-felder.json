@@ -1,0 +1,14 @@
+[
+  { "name": "Kontrolle", "aenderungen": [] },
+  { "name": "erreichtStand: titel nicht geprüft", "datei": "pipeline/lib/bestand-pendel.ts", "suche": "'mitUrteil', 'titel', 'titelMitSynchro']", "ersetze": "'mitUrteil', 'titelMitSynchro']" },
+  { "name": "erreichtStand: titelMitSynchro nicht geprüft", "datei": "pipeline/lib/bestand-pendel.ts", "suche": "'titel', 'titelMitSynchro']", "ersetze": "'titel']" },
+  { "name": "erreichtStand: termine nicht geprüft", "datei": "pipeline/lib/bestand-pendel.ts", "suche": "['termine', 'verweise'", "ersetze": "['verweise'" },
+  { "name": "erreichtStand: verweise nicht geprüft", "datei": "pipeline/lib/bestand-pendel.ts", "suche": "'termine', 'verweise', 'mitUrteil'", "ersetze": "'termine', 'mitUrteil'" },
+  { "name": "erreichtStand: mitUrteil nicht geprüft", "datei": "pipeline/lib/bestand-pendel.ts", "suche": "'verweise', 'mitUrteil', 'titel'", "ersetze": "'verweise', 'titel'" },
+  { "name": "erreichtStand: Anbieter nicht geprüft", "datei": "pipeline/lib/bestand-pendel.ts", "suche": "return Object.entries(jeAnbieter(davor)).every(([anbieter, n]) => (jeAnbieter(z)[anbieter] ?? 0) >= n)", "ersetze": "return true" },
+  { "name": "erreichtStand: fehlender Anbieter zählt als erfüllt", "datei": "pipeline/lib/bestand-pendel.ts", "suche": "(jeAnbieter(z)[anbieter] ?? 0) >= n", "ersetze": "(jeAnbieter(z)[anbieter] ?? n) >= n" },
+  { "name": "erreichtStand: Anbieter nur wenn gleich", "datei": "pipeline/lib/bestand-pendel.ts", "suche": "(jeAnbieter(z)[anbieter] ?? 0) >= n", "ersetze": "(jeAnbieter(z)[anbieter] ?? 0) === n" },
+  { "name": "erreichtStand: Anbieter Toleranz 5", "datei": "pipeline/lib/bestand-pendel.ts", "suche": "(jeAnbieter(z)[anbieter] ?? 0) >= n", "ersetze": "(jeAnbieter(z)[anbieter] ?? 0) >= n - 5" },
+  { "name": "erreichtStand: Zahlenfelder Toleranz 1", "datei": "pipeline/lib/bestand-pendel.ts", "suche": "Number(z[f]) >= Number(davor[f])", "ersetze": "Number(z[f]) >= Number(davor[f]) - 1" },
+  { "name": "erreichtStand: nur ein Zahlenfeld nötig", "datei": "pipeline/lib/bestand-pendel.ts", "suche": "ZAHLENFELDER.every(", "ersetze": "ZAHLENFELDER.some(" }
+]
