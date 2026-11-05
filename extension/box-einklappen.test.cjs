@@ -35,13 +35,19 @@ pruefe('Nur gespeichertes false klappt aus', akZuAusSpeicher(false) === false &&
 /* Klick im Pflichtfall (Durchgang): kein Kippen, kein Schreiben. */
 {
   const geschrieben = []
+  const fenster = []
+  /* Netflix-Profilauswahl: die Seite stoppt click vor dem Knopf (Messung 03.11.2026) — nur der
+     Capture-Listener am Fenster, der vor allen Seiten-Listenern läuft, erreicht den Klick. */
+  const klicke = (ziel) => {
+    for (const f of fenster) f({ target: ziel })
+  }
   const el = () => ({
-    appendChild() {}, addEventListener(a, f) { this.hoerer = f }, classList: { toggle() {}, contains: () => false }, querySelectorAll: () => [],
+    appendChild() {}, contains(x) { return x === this }, classList: { toggle() {}, contains: () => false }, querySelectorAll: () => [],
   })
   const k = {
     location: { hostname: 'www.disneyplus.com', pathname: '/' },
     document: { documentElement: { classList: { toggle() {}, contains: () => false }, appendChild() {} }, body: el(), createElement: el, querySelectorAll: () => [] },
-    window: { addEventListener() {}, navigation: { addEventListener() {} } },
+    window: { addEventListener(a, f, capture) { if (a === 'click' && capture) fenster.push(f) }, navigation: { addEventListener() {} } },
     chrome: { storage: { local: { get: () => ({ then() {} }), set: (o) => geschrieben.push(o) }, onChanged: { addListener() {} } } },
     MutationObserver: class { observe() {} },
     requestAnimationFrame: () => 0,
@@ -49,12 +55,15 @@ pruefe('Nur gespeichertes false klappt aus', akZuAusSpeicher(false) === false &&
   vm.createContext(k)
   vm.runInContext(lies('box.js') + '\nakIconStarten(); this.t = { akZaehler, icon: akIcon, zu: () => akZu }', k)
   k.t.akZaehler(null, 3, true)
-  k.t.icon.hoerer()
+  klicke(k.t.icon)
   pruefe('Pflichtfall: Klick kippt nichts und schreibt nichts', k.t.zu() === true && geschrieben.length === 0, geschrieben)
   pruefe('Pflichtfall: Icon ist aria-disabled', k.t.icon.ariaDisabled === 'true')
   k.t.akZaehler(null, 3, false)
-  k.t.icon.hoerer()
+  klicke(k.t.icon)
   pruefe('ohne Pflicht kippt der Klick und schreibt', k.t.zu() === false && geschrieben.length === 1, geschrieben)
+  klicke({})
+  pruefe('Klick woanders kippt nichts', geschrieben.length === 1, geschrieben)
+  pruefe('Ein Klick, eine Aktion: genau ein Fenster-Listener', fenster.length === 1, fenster.length)
 }
 
 const melder = lies('melder.js')

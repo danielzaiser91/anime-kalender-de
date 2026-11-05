@@ -78,7 +78,7 @@ function antworten({ nr = 7, pr = PR, mainSha = BASIS, laeufe, jobs, log = ECHTE
       aus: JSON.stringify(laeufe ?? [lauf(KOPF, '2026-10-19T10:00:00Z', 11), lauf(KOPF, '2026-10-19T12:00:00Z', 12), lauf(KOPF, '2026-10-19T11:00:00Z', 13)]),
     },
     'run view 12 --json jobs': { aus: JSON.stringify({ jobs: jobs ?? [{ name: 'Kette – Logik', databaseId: 91 }, { name: JOB, databaseId: 92, status: 'completed' }, { name: 'PR-Prüfkette', databaseId: 93 }] }) },
-    'api repos/{owner}/{repo}/actions/jobs/92/logs': logFehler ? { fehler: 'HTTP 404: Not Found' } : { aus: log },
+    'api --allow-escape-sequences repos/{owner}/{repo}/actions/jobs/92/logs': logFehler ? { fehler: 'HTTP 404: Not Found' } : { aus: log },
     'api repos/{owner}/{repo}/git/ref/heads/main --jq .object.sha': { aus: `${mainSha}\n` },
     [`pr close ${nr}`]: { aus: '' },
     [`pr reopen ${nr}`]: { aus: '' },
@@ -107,7 +107,7 @@ const schreibend = (aufrufe) => aufrufe.filter((a) => a.startsWith('pr close') |
   const code = nachrechnen(7, k.gh, k.melde, k.warte)
   pruefe('aktuell (Basis = main) -> 0, nichts geschlossen', code === 0 && schreibend(k.aufrufe).length === 0, k.aufrufe)
   pruefe('aktuell: Meldung nennt main', k.meldungen.join() === 'PR 7: aktuell, die Kette rechnete gegen main 7a466acc8', k.meldungen)
-  pruefe('liest Log des Jobs aus dem neuesten Lauf (12, Job 92)', k.aufrufe.includes('run view 12 --json jobs') && k.aufrufe.includes('api repos/{owner}/{repo}/actions/jobs/92/logs'), k.aufrufe)
+  pruefe('liest Log des Jobs aus dem neuesten Lauf (12, Job 92)', k.aufrufe.includes('run view 12 --json jobs') && k.aufrufe.includes('api --allow-escape-sequences repos/{owner}/{repo}/actions/jobs/92/logs'), k.aufrufe)
 }
 {
   const k = kulisse(antworten({ mainSha: MAIN }))

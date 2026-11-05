@@ -28,7 +28,7 @@ export function tmdbName(s: string | undefined): string {
   return (s ?? '').toLowerCase().replace(/\b(staffel|season|part|cour)\s*\d+\b/g, '').replace(/[^\p{L}\p{N}]+/gu, '')
 }
 
-function echterTitel(f: TmdbFolge): string | undefined {
+export function echterTitel(f: TmdbFolge): string | undefined {
   const t = f.titel?.trim()
   if (!t || PLATZHALTER.test(t) || !f.en || t.toLowerCase() === f.en.trim().toLowerCase()) return undefined
   return t

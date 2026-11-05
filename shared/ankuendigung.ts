@@ -46,7 +46,7 @@ export function ankuendigungFrisch(omuAb: string, heute: string): boolean {
  * dort läuft vorerst nur Originalton mit Untertiteln (PSYREN, Daniel 10.10.2026) — die Pille sagt es.
  */
 export function streamNurOmu(t: { ankuendigung?: Ankuendigung }, s: StreamLink, releases: Release[] = []): boolean {
-  if (s.dub === true || s.dubRanges?.some((r) => r.dub)) return false
+  if (s.dub === true || s.dubRanges?.some((r) => r.dub)) return false // dub-lesart: irgendwie – jeder Weg mit Ja zählt (Menge/Weiche), auch ein abgeleiteter
   if (t.ankuendigung?.platform === s.platform) return true
   // Auch ein Termin, dessen Quelle nur den Originalton nennt (`Release.sprache`), macht den Weg dort zu „nur Untertitel“.
   const termine = releases.filter((r) => r.platform === s.platform)

@@ -104,6 +104,21 @@ esac
   pruefe('lokaler Aufruf legt einen Zweig fix/lokal-… an', /fix\/lokal-\d{8}-\d{4}/.test(lokal), lokal)
   const daten = sh(ursprung, 'git branch --list "daten/*"').out
   pruefe('lokaler Aufruf legt keinen daten/-Zweig an', !/daten\/lokal/.test(daten), daten)
+
+  // Zwei Jobs desselben Laufs in derselben Minute (Wochenlauf 03.11.2026): eigener Zweig je Job, der zweite überschreibt den ersten nicht.
+  const uhr = join(dir, 'uhr')
+  mkdirSync(uhr)
+  writeFileSync(join(uhr, 'date'), '#!/bin/sh\necho 20261103-0658\n')
+  chmodSync(join(uhr, 'date'), 0o755)
+  for (const [job, inhaltJob] of [['anilist', '{"job":"a"}'], ['tmdb', '{"job":"t"}']]) {
+    writeFileSync(join(lauf, 'data/cinestar.json'), inhaltJob)
+    const rj = sh(lauf, `PATH="${posix(uhr)}:${posix(bin)}:$PATH" GITHUB_RUN_ID=79 GITHUB_JOB=${job} QUELLEN_PRUEFBEFEHL=true bash tools/quellen-pr.sh "chore(data): ${job}"`, {})
+    pruefe(`Job ${job} endet mit Erfolg`, rj.status === 0, rj.out.slice(-400))
+  }
+  const jobZweige = sh(ursprung, 'git branch --list "daten/79-*"').out.split('\n').map((z) => z.trim()).filter(Boolean)
+  pruefe('zwei Jobs in derselben Minute: zwei Zweige', jobZweige.join(',') === 'daten/79-anilist-20261103-0658,daten/79-tmdb-20261103-0658', jobZweige)
+  const ersterInhalt = sh(ursprung, 'git show daten/79-anilist-20261103-0658:data/cinestar.json').out.trim()
+  pruefe('der Zweig des ersten Jobs trägt weiter dessen Fund', ersterInhalt === '{"job":"a"}', ersterInhalt)
 } finally {
   rmSync(dir, { recursive: true, force: true })
 }

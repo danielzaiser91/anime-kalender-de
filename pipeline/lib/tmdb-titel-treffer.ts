@@ -17,6 +17,8 @@ function normalize(value: string): string {
 export function similarity(a: string, b: string): number {
   const wordsA = new Set(normalize(a).split(' ').filter((w) => w.length > 2))
   const wordsB = new Set(normalize(b).split(' ').filter((w) => w.length > 2))
+  /* Namen nur aus Wörtern bis zwei Buchstaben („Yu-Gi-Oh! GX“) haben keine zählbaren Wörter: dort gilt die Gleichheit ohne Leerzeichen. */
+  if (!wordsA.size && !wordsB.size) return normalize(a) !== '' && normalize(a).replace(/ /g, '') === normalize(b).replace(/ /g, '') ? 1 : 0
   if (!wordsA.size || !wordsB.size) return 0
   let shared = 0
   for (const word of wordsA) if (wordsB.has(word)) shared++

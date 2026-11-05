@@ -13,8 +13,8 @@ function deutschJeTitel(alt: Title[] | Record<string, Title>): Map<number, Set<s
   const jeTitel = new Map<number, Set<string>>()
   for (const t of Array.isArray(alt) ? alt : Object.values(alt)) {
     const deutsch = [
-      ...(t.streams ?? []).filter((s) => s.dub === true).map((s) => s.platform),
-      ...(t.entfernteStreams ?? []).filter((s) => s.dub === true).map((s) => s.platform),
+      ...(t.streams ?? []).filter((s) => s.dub === true).map((s) => s.platform), // dub-lesart: irgendwie – jeder Weg mit Ja zählt (Menge/Weiche), auch ein abgeleiteter
+      ...(t.entfernteStreams ?? []).filter((s) => s.dub === true).map((s) => s.platform), // dub-lesart: irgendwie – jeder Weg mit Ja zählt (Menge/Weiche), auch ein abgeleiteter
     ]
     if (deutsch.length) jeTitel.set(t.id, new Set(deutsch))
   }
@@ -203,7 +203,7 @@ export function werteLinkpruefungAus({
       deutschen Ton führte.
     */
     const warDeutsch = (s: { platform: PlatformId; url: string }) =>
-      (checksJePlattform.get(dubKey(title.id, s.platform)) ?? []).some((c) => c.dub === true) ||
+      (checksJePlattform.get(dubKey(title.id, s.platform)) ?? []).some((c) => c.dub === true) || // dub-lesart: handbeleg – gemessenes Ja des Belegs, nicht abgeleitet
       (vorherDeutsch.get(title.id)?.has(s.platform) ?? false)
     title.streams = title.streams.filter((stream) => {
       /**

@@ -1745,7 +1745,7 @@ function knopfZeigen() {
     if (!knopf) {
       knopf = document.createElement('button')
       knopf.className = 'ak-melder'
-      knopf.addEventListener('click', melden)
+      akKlick(knopf, melden)
       /* Der Melde-Knopf sitzt im Kasten, wie bei Prime — siehe netflixKasten(). */
       netflixKasten().querySelector('.ak-z-melden')?.appendChild(knopf)
     }
@@ -1796,7 +1796,7 @@ function knopfZeigen() {
   if (!knopf) {
     knopf = document.createElement('button')
     knopf.className = 'ak-melder'
-    knopf.addEventListener('click', melden)
+    akKlick(knopf, melden)
     netflixKasten().querySelector('.ak-z-melden')?.appendChild(knopf)
   }
   const { text, klasse, aktiv } = beschriftung(spuren)

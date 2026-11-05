@@ -36,7 +36,7 @@ export function auslieferungsInvarianten(releases: Release[]): string[] {
     franchises: lies<Record<string, { id: number; name: string }[]>>('franchises.json', {}),
   }
   /* `nichtImBestand` ist ein bewusst nicht geführter Titel (Amazon-Kanal-Angabe ohne Beleg): kein Handbeleg für den Bestand. */
-  const handbelegteIds = new Set(loadDubChecks().filter((c) => c.dub === true && !c.nichtImBestand).map((c) => c.anilistId))
+  const handbelegteIds = new Set(loadDubChecks().filter((c) => c.dub === true && !c.nichtImBestand).map((c) => c.anilistId)) // dub-lesart: handbeleg – gemessenes Ja des Belegs, nicht abgeleitet
   return [
     ...synchroNichtHinterToggle(auslieferung, {
       dubsAnilist: dubsNachTitel(),

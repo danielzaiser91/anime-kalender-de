@@ -834659,7 +834659,13 @@
   },
   "189123": {
     "anisearchId": 20376,
-    "streams": [],
+    "descriptionDe": "Für den Badmintonspieler Taiki könnte das Leben eigentlich kaum besser laufen. Er wohnt nicht nur unter einem Dach mit seinem Schwarm Chinatsu, sondern fasst nach einer Absage an Hina endlich den Mut für ein erstes Date. Das erhoffte Treffen verläuft jedoch alles andere als romantisch. Ein aufdringlicher Mitschüler drängt sich dazwischen und lässt Taiki an seinen eigenen Qualitäten zweifeln. Gleichzeitig sorgen ungeklärte Gefühle und kleine Missverständnisse dafür, dass sich beide zögerlich voneinander entfernen.\n\nNeben den Verwirrungen in der Liebe verlangt auch der Sport den beiden Jugendlichen alles ab. Chinatsu muss sich vor einer alten Teamkollegin rechtfertigen, die ihren vollen Einsatz für das Basketballteam anzweifelt. Auch Taiki lernt Schritt für Schritt, seine Selbstzweifel auf dem Spielfeld abzulegen und im Alltag viel entschlossener aufzutreten. So verknüpfen sich die wichtigen Wettkämpfe immer feiner mit ihren echten Gefühlen, während sie gemeinsam als Sportler und Paar erwachsen werden. \n\nQuelle: www.anisearch.de/anime/20376",
+    "streams": [
+      {
+        "provider": "netflix",
+        "url": "https://www.netflix.com/title/81663323"
+      }
+    ],
     "info": {
       "languages": [
         {
@@ -834764,7 +834770,7 @@
         "Blue Box 2"
       ]
     },
-    "fetchedAt": "2026-10-05T11:32:31.637Z"
+    "fetchedAt": "2026-11-04T14:46:41.806Z"
   },
   "189137": {
     "anisearchId": 20373,

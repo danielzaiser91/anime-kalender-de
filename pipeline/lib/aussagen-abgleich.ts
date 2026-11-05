@@ -2,7 +2,7 @@
  * **Aussagen dem Bestand zuordnen und abgleichen** — geteilt von PoC (`sammelartikel-poc.ts`) und Vorschlagslauf
  * (`fetch-sammelartikel.ts`). Liest nur `public/data/*`, schreibt nichts.
  */
-import { Katalog, ordneZu, type KatalogTitel, type Offen, type Zuordnung } from './aussagen-zuordnung.ts'
+import { Katalog, namenVon, normName, ordneZu, type KatalogTitel, type Offen, type Zuordnung } from './aussagen-zuordnung.ts'
 import type { Aussage } from './aussagen.ts'
 import { readJson } from './util.ts'
 
@@ -23,6 +23,16 @@ export interface Ergebnis extends Aussage {
 export interface AusgabeTitel extends KatalogTitel { ankuendigung?: { omuAb: string; synchro: string }; ohneSynchro?: boolean }
 
 /**
+ * Cartoons (TMDB, negative Kennung) als Katalogtitel: „nicht bei AniList“ ist kein Grund, einen Titel nicht zu kennen (Bass X Machina,
+ * 22.10.2026: `offen: kein Titel mit diesem Namen`, obwohl `cartoons.json` ihn seit 12.09. führte). Ein Cartoon, dessen Name auch ein
+ * Anime trägt, bleibt draußen — der Anime gewinnt, sonst würde aus einem Treffer „2 Titel mit diesem Namen“.
+ */
+export function cartoonsOhneAnimeNamen(cartoons: AusgabeTitel[], anime: AusgabeTitel[]): AusgabeTitel[] {
+  const belegt = new Set(anime.flatMap((t) => namenVon(t).map(normName)))
+  return cartoons.filter((c) => !namenVon(c).some((n) => belegt.has(normName(n))))
+}
+
+/**
  * Katalog aus den veröffentlichten Dateien: Titel mit Synchro plus Katalog ohne. `jpStart` trägt nur der
  * Katalog; für Titel mit Synchro steht er in `franchises.json` (Reihen-Sortierung). Im Bau selbst läge
  * beides in der `jpStart`-Karte aus `bau/02-titel.ts`.
@@ -30,12 +40,13 @@ export interface AusgabeTitel extends KatalogTitel { ankuendigung?: { omuAb: str
 export function katalogLaden(): { katalog: Katalog; titel: Map<number, AusgabeTitel> } {
   const mit = Object.values(readJson<Record<string, AusgabeTitel>>('public/data/titles.json', {}))
   const ohne = readJson<AusgabeTitel[]>('public/data/ohne-synchro.json', [])
+  const cartoons = cartoonsOhneAnimeNamen(readJson<AusgabeTitel[]>('public/data/cartoons.json', []), [...mit, ...ohne])
   const synonyme = readJson<Record<string, string[]>>('public/data/synonyme.json', {})
   const reihen = readJson<Record<string, { id: number; jpStart?: string }[]>>('public/data/franchises.json', {})
   const startAusReihe = new Map<number, string>()
   for (const glieder of Object.values(reihen)) for (const g of glieder) if (g.jpStart && g.jpStart.length === 10) startAusReihe.set(g.id, g.jpStart)
   const titel = new Map<number, AusgabeTitel>()
-  for (const t of [...mit, ...ohne]) {
+  for (const t of [...mit, ...ohne, ...cartoons]) {
     const alt = titel.get(t.id)
     const jpStart = t.jpStart ?? alt?.jpStart ?? startAusReihe.get(t.id)
     titel.set(t.id, { ...alt, ...t, ...(jpStart ? { jpStart } : {}), ohneSynchro: alt ? alt.ohneSynchro && t.ohneSynchro : t.ohneSynchro, synonyme: synonyme[String(t.id)] ?? [] })

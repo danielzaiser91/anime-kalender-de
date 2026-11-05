@@ -76,6 +76,33 @@ function pendelText(zeilen: HistorieZeile[], p: Pendel, laufend: boolean, gliede
   return kopf + kettenText(zeilen, glieder, p)
 }
 
+const ZAHLENFELDER = ['termine', 'verweise', 'mitUrteil', 'titel', 'titelMitSynchro']
+const jeAnbieter = (z: HistorieZeile) => (z.jeAnbieter ?? {}) as Record<string, number>
+
+/**
+ * Streng: Jedes Feld, das `findeAuffaelliges` melden kann (Titel, Titel mit Synchro, Termine, Verweise, Urteile und die Synchro-Belege je Anbieter),
+ * erreicht oder übertrifft die Zahlen der Zeile vor dem Rückgang; die Toleranz von `findeAuffaelliges` gilt hier nicht. Ein Anbieter, den die spätere Zeile nicht mehr führt, zählt 0.
+ */
+function erreichtStand(z: HistorieZeile, davor: HistorieZeile): boolean {
+  if (!ZAHLENFELDER.every((f) => Number(z[f]) >= Number(davor[f]))) return false
+  return Object.entries(jeAnbieter(davor)).every(([anbieter, n]) => (jeAnbieter(z)[anbieter] ?? 0) >= n)
+}
+
+/**
+ * Eine Zeile wie gespeichert. Hat eine spätere Zeile den Rückgang ausgeglichen (`erreichtStand` gegen die Zeile davor),
+ * ist er kein Befund mehr und steht unter `erklaert`; besteht er (auch teilweise), bleibt der gespeicherte Text. Spätere Rückgänge hat jeweils ihre eigene Zeile.
+ * Die Wache vergleicht nur Zahlen: Andere Titel bei gleicher Anzahl erkennt sie absichtlich nicht. Der Ausgleich wird ohne `verschoben` und `gruende`
+ * gerechnet (der Bau kennt sie nur im Moment der Zeile); das ist konservativ, denn begründete Abgänge zählen nicht als Ausgleich und verlangen den vollen Stand.
+ */
+function gespeicherteZeile(zeilen: HistorieZeile[], i: number): Ereignis {
+  const auffaellig = strs(zeilen[i].auffaellig)
+  const erklaert = strs(zeilen[i].erklaert)
+  const ausgleich = auffaellig.length && i > 0 ? zeilen.slice(i + 1).find((z) => erreichtStand(z, zeilen[i - 1])) : undefined
+  if (!ausgleich) return { art: 'zeile', zeile: zeilen[i], auffaellig, erklaert, netto: false }
+  const spaeter = auffaellig.map((a) => `später ausgeglichen (Stand ${uhr(ausgleich.zeitpunkt)} gegen Stand davor ohne Verlust): ${a}`)
+  return { art: 'zeile', zeile: zeilen[i], auffaellig: [], erklaert: [...erklaert, ...spaeter], netto: false }
+}
+
 /** Die Zeilen der Historie als Ereignisse: Pendeln als eines, die Zeile nach dem Pendeln netto gegen den Stand davor, alle anderen wie gespeichert. */
 export function ereignisse(zeilen: HistorieZeile[]): Ereignis[] {
   const pendel = findePendel(zeilen)
@@ -95,7 +122,7 @@ export function ereignisse(zeilen: HistorieZeile[]): Ereignis[] {
       const b = findeAuffaelliges(kz(zeilen[i]), kz(zeilen[bezug]))
       aus.push({ art: 'zeile', zeile: zeilen[i], auffaellig: b.auffaellig, erklaert: b.erklaert, netto: true })
     } else {
-      aus.push({ art: 'zeile', zeile: zeilen[i], auffaellig: strs(zeilen[i].auffaellig), erklaert: strs(zeilen[i].erklaert), netto: false })
+      aus.push(gespeicherteZeile(zeilen, i))
     }
     i++
   }

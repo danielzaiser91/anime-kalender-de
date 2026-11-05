@@ -40,6 +40,10 @@ export interface Zaehler {
   neu: number
   ohneBild: number
   fehler: number
+  /** Per Rückfall auf die API-Adresse gerettet (404 auf `_300`, Original da). */
+  gerettet: number
+  /** Endgültig 404: auch die Original-Adresse (soweit abweichend) liefert 404/410. */
+  endgueltig404: number
   abgebrochen?: string
 }
 
@@ -50,10 +54,17 @@ const API_BLOCK = 10
 const MAX_FEHLER = 3
 const BILD_ORDNER = 'anisearch'
 
-/** aniSearch-Kennungen der Titel ohne Cover, die noch nicht im Manifest stehen, aufsteigend. Titelkennung = 10.000.000 + aniSearch-Kennung. */
+/**
+ * Alte „nicht-gefunden“ mit Stand vor diesem Tag wurden nur auf `_300` gefragt (03.11.2026: Verdacht, dass die API-Adresse auf eine andere Datei zeigt);
+ * sie gelten als nicht abgefragt und werden einmal mit Rückfall neu versucht. Entfernen, sobald kein Eintrag mehr älter ist (alle 624 stammen vom 11.10.2026).
+ */
+export const NEU_VERSUCHEN_VOR = '2026-11-03'
+const neuVersuchen = (e: CoverEintrag): boolean => e.grund === 'nicht-gefunden' && e.stand < NEU_VERSUCHEN_VOR
+
+/** aniSearch-Kennungen der Titel ohne Cover, die noch nicht im Manifest stehen (oder als alt „nicht-gefunden“ neu zu versuchen sind), aufsteigend. Titelkennung = 10.000.000 + aniSearch-Kennung. */
 export function offeneKennungen(titel: { id: number; coverImage?: string }[], manifest: Manifest): string[] {
   const ids = titel.filter((t) => t.id >= ANISEARCH_ID_BASIS && !t.coverImage).map((t) => String(t.id - ANISEARCH_ID_BASIS))
-  return [...new Set(ids)].filter((id) => !manifest[id]).sort((a, b) => Number(a) - Number(b))
+  return [...new Set(ids)].filter((id) => !manifest[id] || neuVersuchen(manifest[id]!)).sort((a, b) => Number(a) - Number(b))
 }
 
 /**
@@ -137,10 +148,21 @@ async function reagiere(s: Sperre, opt: Optionen, dep: Abhaengigkeiten): Promise
 
 const stand = (dep: Abhaengigkeiten): string => new Date(dep.jetzt()).toISOString().slice(0, 10)
 
+/** `_300`; bei 404/410 einmal die Original-Adresse der API, falls sie davon abweicht. `url` ist die tatsächlich geladene Adresse. */
+async function ladeMitRueckfall(url: string, original: string, z: Zaehler, dep: Abhaengigkeiten): Promise<Bild & { url: string }> {
+  const erst = await ladeBild(url, dep)
+  if (erst.art !== 'weg' || original === url) return { ...erst, url }
+  await dep.schlafe(BILD_ABSTAND_MS)
+  const zweit = await ladeBild(original, dep)
+  if (zweit.art === 'ok') z.gerettet++
+  return { ...zweit, url: original }
+}
+
 /** Lädt, wandelt und legt ein Bild ab; gibt zurück, ob der Lauf weitermachen soll. */
-async function einBild(id: string, url: string, manifest: Manifest, s: Sperre, opt: Optionen, z: Zaehler, dep: Abhaengigkeiten): Promise<boolean> {
+async function einBild(id: string, original: string, manifest: Manifest, s: Sperre, opt: Optionen, z: Zaehler, dep: Abhaengigkeiten): Promise<boolean> {
   for (;;) {
-    const bild = await ladeBild(url, dep)
+    const geladen = await ladeMitRueckfall(quelle300(original), original, z, dep)
+    const { url, ...bild } = geladen
     if (bild.art === 'ok') {
       const datei = `${BILD_ORDNER}/${id}.webp`
       const webp = await dep.wandle(bild.bild)
@@ -151,6 +173,7 @@ async function einBild(id: string, url: string, manifest: Manifest, s: Sperre, o
       return true
     }
     if (bild.art === 'weg') {
+      z.endgueltig404++
       manifest[id] = { grund: 'nicht-gefunden', quelle: url, stand: stand(dep) }
       s.fehlerInFolge = 0
       z.ohneBild++
@@ -172,7 +195,7 @@ async function einTitel(id: string, info: Info, manifest: Manifest, s: Sperre, o
     z.ohneBild++
     return true
   }
-  const weiter = await einBild(id, quelle300(adresse!), manifest, s, opt, z, dep)
+  const weiter = await einBild(id, adresse!, manifest, s, opt, z, dep)
   await dep.schlafe(BILD_ABSTAND_MS)
   return weiter
 }
@@ -182,7 +205,7 @@ async function einTitel(id: string, info: Info, manifest: Manifest, s: Sperre, o
  * Liefert die API für einen ganzen Block (mindestens drei Titel) keine einzige Bildadresse, stimmt die Annahme über das `cover`-Objekt nicht: Der Lauf endet, ohne etwas zu vermerken.
  */
 export async function holeCover(offen: string[], manifest: Manifest, opt: Optionen, dep: Abhaengigkeiten): Promise<Zaehler> {
-  const z: Zaehler = { neu: 0, ohneBild: 0, fehler: 0 }
+  const z: Zaehler = { neu: 0, ohneBild: 0, fehler: 0, gerettet: 0, endgueltig404: 0 }
   const s: Sperre = { fehlerInFolge: 0, pausen: 0 }
   const ziel = offen.slice(0, opt.limit)
   for (let k = 0; k < ziel.length; k += API_BLOCK) {

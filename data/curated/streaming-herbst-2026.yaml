@@ -515,3 +515,24 @@
   sources:
     - https://www.netflix.com/title/81088875
     - https://www.anime2you.de/news/1043257/netflix-bass-x-machina-angekuendigt/
+
+# Aus `data/proposals/nicht-zugeordnet.json` (04.11.2026): Zeilen, deren Titel der Namensabgleich nicht fand und die ein Mensch zuordnet.
+# Demon Slayer: Infinity Castle I bei Prime Video — „Ab sofort … Sprache: Deutsch, Japanisch (UT)“, Anime2You-Artikel vom 29.09.2026 (Meldetag, daher available-from).
+- slug: demon-slayer-infinity-castle-1-primevideo
+  anilistId: 178788
+  platform: primevideo
+  releaseType: movie
+  dateMeaning: available-from
+  schedule: { firstEpisodeDate: "2026-09-29" }
+  sources:
+    - https://www.anime2you.de/news/1054791/prime-video-attack-on-titan-und-mehr/
+
+# LEGO One Piece — Netflix, 2 Folgen am 29.09.2026, „Sprache: Deutsch, Englisch (UT)“ (Netflix-Sammelartikel September 2026, Stand 19.08.2026, Cartoon-Kennung -318918).
+- slug: lego-one-piece-netflix
+  anilistId: -318918
+  titleDe: "LEGO One Piece"
+  platform: netflix
+  releaseType: batch
+  schedule: { firstEpisodeDate: "2026-09-29", episodeCount: 2 }
+  sources:
+    - https://www.anime2you.de/news/1042851/netflix-anime-neu-im-september-2026/

@@ -23,6 +23,7 @@ pipeline/check-cr-neu-bestand.ts
 pipeline/check-cr-teilseiten-bestand.ts
 pipeline/check-deutsche-folgenzahl-bestand.ts
 pipeline/check-disc-suchlinks-bestand.ts
+pipeline/check-eigene-titel-bestand.ts
 pipeline/check-empfehlung-bestand.ts
 pipeline/check-empfehlung-kern-bestand.ts
 pipeline/check-favoriten-feed-bestand.ts
@@ -49,6 +50,7 @@ pipeline/check-katalog-eingefroren-bestand.ts
 pipeline/check-katalog-release-bestand.ts
 pipeline/check-logic-bestand.ts
 pipeline/check-mal-dubletten-bestand.ts
+pipeline/check-meldungen-ohne-release-bestand.ts
 pipeline/check-nein-liste-bestand.ts
 pipeline/check-netflix-quellen-bestand.ts
 pipeline/check-netflix-umleitung-bestand.ts

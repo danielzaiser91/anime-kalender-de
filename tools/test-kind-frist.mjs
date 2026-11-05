@@ -54,7 +54,7 @@ function bindungen(sf) {
 const wertLos = (w) => w.kind === ts.SyntaxKind.NullKeyword || (ts.isNumericLiteral(w) && Number(w.text) === 0) || (ts.isIdentifier(w) && w.text === 'undefined')
 
 /** Optionenobjekt mit wirksamer Frist: `timeout`/`limitMs` gesetzt und nicht 0/undefined/null. */
-const fristWirksam = (a) => ts.isObjectLiteralExpression(a) && a.properties.some((p) => p.name && ['timeout', 'limitMs'].includes(p.name.getText()) && !(ts.isPropertyAssignment(p) && wertLos(p.initializer)))
+export const fristWirksam = (a) => ts.isObjectLiteralExpression(a) && a.properties.some((p) => p.name && ['timeout', 'limitMs'].includes(p.name.getText()) && !(ts.isPropertyAssignment(p) && wertLos(p.initializer)))
 /** `limitMs: 0`/`undefined` bei den Helfern hebt deren Frist auf. */
 const fristAufgehoben = (a) => ts.isObjectLiteralExpression(a) && a.properties.some((p) => ts.isPropertyAssignment(p) && p.name.getText() === 'limitMs' && wertLos(p.initializer))
 

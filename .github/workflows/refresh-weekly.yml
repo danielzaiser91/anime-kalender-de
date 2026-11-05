@@ -130,6 +130,9 @@ jobs:
           cache: restore
 
       - name: ADN — ein halbes Jahr voraus
+        env:
+          AK_ADN_PROXY: https://ak-adn-gw.animekalender.workers.dev/adn-gw
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: bash tools/schritt.sh --zeit 15m "ADN — ein halbes Jahr voraus" -- npx tsx pipeline/fetch-adn.ts --from -90 --to 180
 
       # Der Kalender zeigt nur, was neu erscheint; eine Serie, die komplett im Angebot liegt, taucht dort nie auf. 600 je Woche decken den Bestand in gut vier
@@ -137,6 +140,8 @@ jobs:
       - name: ADN — vollständiger Katalog
         env:
           ANISEARCH_TOKEN: ${{ secrets.ANISEARCH_TOKEN }}
+          AK_ADN_PROXY: https://ak-adn-gw.animekalender.workers.dev/adn-gw
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: bash tools/schritt.sh --zeit 45m "ADN — vollständiger Katalog" -- npm run data:adn:catalog -- --limit 600
 
       - name: Quellen als Pull Request einreichen

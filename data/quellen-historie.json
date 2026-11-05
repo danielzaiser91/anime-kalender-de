@@ -2018,7 +2018,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2026-07-24"
     },
     {
@@ -2043,7 +2043,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2026-08-10"
     },
     {
@@ -2068,7 +2068,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2026-08-17"
     },
     {
@@ -2085,7 +2085,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2024-09-05"
     }
   ],
@@ -2095,7 +2095,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2024-07-11"
     }
   ],
@@ -2105,7 +2105,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2024-10-03"
     },
     {
@@ -2122,7 +2122,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2025-07-03"
     },
     {
@@ -2139,7 +2139,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2026-06-29"
     },
     {
@@ -2156,7 +2156,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2026-06-29"
     },
     {
@@ -2173,7 +2173,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2025-01-10"
     }
   ],
@@ -2183,7 +2183,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2026-04-24"
     },
     {
@@ -2200,7 +2200,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2025-08-21"
     }
   ],
@@ -2210,23 +2210,29 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2025-01-24"
     }
   ],
   "adn-662": [
     {
+      "url": "https://news.animationdigitalnetwork.com/de/2026/11/03/adn-bringt-tv-app-heraus-streame-anime-auf-fernseher-und-konsole/",
+      "name": "news.animationdigitalnetwork.com",
+      "gesehenAm": "2026-11-05",
+      "stand": "aktuell"
+    },
+    {
       "url": "https://news.animationdigitalnetwork.com/de/2026/10/26/die-1-euro-aktion-ist-zurueck-streame-anime-fuer-1e-bei-adn/",
       "name": "news.animationdigitalnetwork.com",
       "gesehenAm": "2026-10-27",
-      "stand": "aktuell"
+      "stand": "vermutlich-ueberholt"
     },
     {
       "url": "https://gw.api.animationdigitalnetwork.com/video/show/662",
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2025-07-15"
     }
   ],
@@ -2236,7 +2242,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2022-10-13"
     },
     {
@@ -2253,7 +2259,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2024-01-11"
     },
     {
@@ -2270,7 +2276,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2025-08-14"
     }
   ],
@@ -2280,7 +2286,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2025-10-29"
     },
     {
@@ -2297,7 +2303,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2025-11-26"
     },
     {
@@ -2314,7 +2320,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2025-12-23"
     },
     {
@@ -2331,7 +2337,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2026-04-01"
     },
     {
@@ -2348,7 +2354,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2026-06-01"
     },
     {
@@ -2365,7 +2371,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2025-11-26"
     }
   ],
@@ -2375,7 +2381,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2024-06-06"
     }
   ],
@@ -2385,7 +2391,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2025-03-31"
     }
   ],
@@ -2395,7 +2401,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2024-09-26"
     }
   ],
@@ -2414,7 +2420,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2024-07-25"
     }
   ],
@@ -2424,7 +2430,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2024-07-25"
     }
   ],
@@ -2434,7 +2440,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2024-02-08"
     }
   ],
@@ -2444,7 +2450,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2023-10-01"
     }
   ],
@@ -2454,7 +2460,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2023-10-01"
     }
   ],
@@ -2464,7 +2470,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2023-10-01"
     }
   ],
@@ -2474,7 +2480,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2023-10-01"
     }
   ],
@@ -2484,7 +2490,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2023-10-01"
     }
   ],
@@ -2494,7 +2500,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2025-06-11"
     },
     {
@@ -2511,7 +2517,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2025-06-11"
     },
     {
@@ -2528,7 +2534,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2025-07-17"
     },
     {
@@ -2545,7 +2551,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2025-07-17"
     },
     {
@@ -2562,7 +2568,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2025-07-17"
     },
     {
@@ -2585,7 +2591,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2023-01-04"
     },
     {
@@ -2602,7 +2608,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2025-07-11"
     },
     {
@@ -2619,7 +2625,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2025-04-06"
     }
   ],
@@ -2629,7 +2635,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2025-09-04"
     }
   ],
@@ -2639,7 +2645,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2026-02-13"
     }
   ],
@@ -2649,7 +2655,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2026-02-13"
     }
   ],
@@ -2703,7 +2709,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2023-10-01"
     }
   ],
@@ -2713,7 +2719,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2024-12-06"
     },
     {
@@ -2730,7 +2736,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2025-08-06"
     },
     {
@@ -2747,7 +2753,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2024-06-13"
     }
   ],
@@ -2757,7 +2763,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2024-06-13"
     }
   ],
@@ -2767,7 +2773,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2025-07-29"
     }
   ],
@@ -2777,7 +2783,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2025-10-15"
     }
   ],
@@ -2787,7 +2793,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2024-06-13"
     }
   ],
@@ -2797,7 +2803,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2026-06-05"
     },
     {
@@ -2814,7 +2820,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2026-06-05"
     },
     {
@@ -2831,7 +2837,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2023-10-01"
     }
   ],
@@ -2841,7 +2847,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2023-10-01"
     }
   ],
@@ -2851,7 +2857,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2023-10-01"
     }
   ],
@@ -2898,7 +2904,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2025-10-03"
     },
     {
@@ -2915,7 +2921,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2024-08-16"
     }
   ],
@@ -2925,7 +2931,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2024-07-29"
     }
   ],
@@ -2935,7 +2941,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2024-07-18"
     }
   ],
@@ -2945,7 +2951,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2025-09-11"
     }
   ],
@@ -2955,7 +2961,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2024-05-10"
     }
   ],
@@ -2965,7 +2971,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2024-05-10"
     }
   ],
@@ -2984,7 +2990,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2026-06-01"
     },
     {
@@ -3010,7 +3016,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2025-02-06"
     }
   ],
@@ -3020,7 +3026,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2025-01-15"
     },
     {
@@ -3037,7 +3043,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2025-01-15"
     },
     {
@@ -3054,7 +3060,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2025-10-24"
     }
   ],
@@ -3091,7 +3097,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2023-10-01"
     }
   ],
@@ -3101,7 +3107,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2023-10-01"
     }
   ],
@@ -3111,7 +3117,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2023-10-01"
     }
   ],
@@ -3130,7 +3136,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2023-10-01"
     }
   ],
@@ -3156,7 +3162,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2024-09-05"
     }
   ],
@@ -3166,7 +3172,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2015-01-12"
     },
     {
@@ -3189,7 +3195,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2016-01-07"
     },
     {
@@ -3212,7 +3218,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2024-08-08"
     }
   ],
@@ -3222,7 +3228,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2026-03-11"
     }
   ],
@@ -3242,7 +3248,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2024-07-03"
     }
   ],
@@ -3252,7 +3258,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2023-01-17"
     }
   ],
@@ -3262,7 +3268,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2025-06-11"
     }
   ],
@@ -3272,7 +3278,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2026-04-01"
     },
     {
@@ -3307,7 +3313,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2023-10-01"
     },
     {
@@ -3324,7 +3330,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2025-06-11"
     }
   ],
@@ -3334,7 +3340,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2025-09-23"
     }
   ],
@@ -3344,7 +3350,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2022-07-06"
     }
   ],
@@ -3363,7 +3369,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2022-07-06"
     }
   ],
@@ -3373,7 +3379,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2024-01-21"
     }
   ],
@@ -3383,7 +3389,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2022-08-10"
     }
   ],
@@ -3393,7 +3399,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2022-08-10"
     }
   ],
@@ -3403,7 +3409,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2022-07-06"
     }
   ],
@@ -3413,7 +3419,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2022-08-10"
     }
   ],
@@ -3423,7 +3429,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2022-09-14"
     }
   ],
@@ -3433,7 +3439,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2019-05-20"
     },
     {
@@ -3455,7 +3461,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2025-05-16"
     },
     {
@@ -3526,7 +3532,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2026-08-24"
     },
     {
@@ -3552,7 +3558,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2023-04-10"
     }
   ],
@@ -3562,7 +3568,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2025-09-24"
     },
     {
@@ -3605,7 +3611,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2026-04-11"
     },
     {
@@ -3622,7 +3628,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2023-04-05"
     }
   ],
@@ -3685,7 +3691,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2026-09-01"
     },
     {
@@ -3702,7 +3708,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-26",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2026-09-10"
     },
     {
@@ -3728,7 +3734,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-29",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2026-09-17"
     },
     {
@@ -3763,7 +3769,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2022-07-06"
     }
   ],
@@ -6057,11 +6063,19 @@
   ],
   "auto-16498-primevideo": [
     {
+      "url": "https://www.anime2you.de/news/1045399/aniverse-september-2026-neuzugaenge/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-04",
+      "sagt": "2026-09-17",
+      "stand": "aktuell"
+    },
+    {
       "url": "https://www.anime2you.de/news/1054791/prime-video-attack-on-titan-und-mehr/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-03",
       "sagt": "2026-10-01",
-      "stand": "aktuell"
+      "stand": "ueberholt",
+      "grund": "Termin verschoben auf: 2026-09-17"
     }
   ],
   "auto-1686-adn": [
@@ -6156,7 +6170,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-29",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2026-10-12"
     },
     {
@@ -6186,7 +6200,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-29",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2026-10-12"
     },
     {
@@ -6216,7 +6230,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-29",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2026-10-12"
     },
     {
@@ -6594,7 +6608,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-29",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2026-10-12"
     },
     {
@@ -7126,7 +7140,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2022-07-06"
     }
   ],
@@ -7136,7 +7150,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2022-08-10"
     }
   ],
@@ -7560,7 +7574,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-31",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2026-10-17"
     },
     {
@@ -7620,6 +7634,14 @@
   ],
   "adn-1321": [
     {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1321",
+      "name": "ADN API",
+      "gesehenAm": "2026-11-05",
+      "stand": "aktuell",
+      "gelesenAm": "2026-11-05",
+      "bestaetigt": "2026-10-29"
+    },
+    {
       "url": "https://news.animationdigitalnetwork.com/de/2026/09/28/line-up-zur-herbst-season-2026-neue-anime-bei-adn/",
       "name": "news.animationdigitalnetwork.com",
       "gesehenAm": "2026-10-17",
@@ -7629,13 +7651,21 @@
       "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
       "name": "ADN API",
       "gesehenAm": "2026-10-17",
-      "stand": "aktuell",
+      "stand": "vermutlich-ueberholt",
       "gelesenAm": "2026-10-27",
       "bestaetigt": "2026-10-29"
     }
   ],
   "adn-1318": [
     {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1318",
+      "name": "ADN API",
+      "gesehenAm": "2026-11-05",
+      "stand": "aktuell",
+      "gelesenAm": "2026-11-05",
+      "bestaetigt": "2026-10-29"
+    },
+    {
       "url": "https://news.animationdigitalnetwork.com/de/2026/09/28/line-up-zur-herbst-season-2026-neue-anime-bei-adn/",
       "name": "news.animationdigitalnetwork.com",
       "gesehenAm": "2026-10-17",
@@ -7645,7 +7675,7 @@
       "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
       "name": "ADN API",
       "gesehenAm": "2026-10-17",
-      "stand": "aktuell",
+      "stand": "vermutlich-ueberholt",
       "gelesenAm": "2026-10-27",
       "bestaetigt": "2026-10-29"
     }
@@ -7749,7 +7779,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-26",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2026-01-10"
     }
   ],
@@ -7872,7 +7902,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-31",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2020-11-11"
     }
   ],
@@ -7882,7 +7912,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-31",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2025-05-05"
     }
   ],
@@ -7892,7 +7922,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-31",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2021-06-16"
     }
   ],
@@ -7902,7 +7932,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-31",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2025-05-05"
     }
   ],
@@ -7912,7 +7942,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-31",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2021-06-16"
     }
   ],
@@ -7922,7 +7952,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-31",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2025-05-05"
     }
   ],
@@ -7932,7 +7962,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-31",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2025-05-05"
     }
   ],
@@ -7942,7 +7972,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-31",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2025-05-05"
     }
   ],
@@ -7952,7 +7982,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-31",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2025-05-05"
     }
   ],
@@ -7962,7 +7992,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-31",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2025-05-09"
     }
   ],
@@ -7972,7 +8002,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-31",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2025-05-05"
     }
   ],
@@ -7982,7 +8012,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-31",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2025-05-09"
     }
   ],
@@ -8002,7 +8032,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-31",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2021-06-16"
     }
   ],
@@ -8012,7 +8042,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-31",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2021-06-16"
     }
   ],
@@ -8031,7 +8061,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-11-02",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2025-05-05"
     }
   ],
@@ -8041,7 +8071,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-11-02",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2025-05-09"
     }
   ],
@@ -8051,7 +8081,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-11-02",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2025-05-05"
     }
   ],
@@ -8132,7 +8162,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-11-04",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-03",
+      "gelesenAm": "2026-11-04",
       "bestaetigt": "2021-09-01"
     }
   ],
@@ -8268,6 +8298,193 @@
       "name": "anime2you.de",
       "gesehenAm": "2026-11-04",
       "sagt": "2026-11-03",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-128207-primevideo": [
+    {
+      "url": "https://www.anime2you.de/news/1035676/aniverse-august-2026-neuzugaenge/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-04",
+      "sagt": "2026-08-05",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-97682-primevideo": [
+    {
+      "url": "https://www.anime2you.de/news/1035676/aniverse-august-2026-neuzugaenge/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-04",
+      "sagt": "2026-08-06",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-5681-primevideo": [
+    {
+      "url": "https://www.anime2you.de/news/1035676/aniverse-august-2026-neuzugaenge/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-04",
+      "sagt": "2026-08-13",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-12355-primevideo": [
+    {
+      "url": "https://www.anime2you.de/news/1035676/aniverse-august-2026-neuzugaenge/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-04",
+      "sagt": "2026-08-20",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-66-primevideo": [
+    {
+      "url": "https://www.anime2you.de/news/1035676/aniverse-august-2026-neuzugaenge/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-04",
+      "sagt": "2026-08-20",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-13161-primevideo": [
+    {
+      "url": "https://www.anime2you.de/news/1035676/aniverse-august-2026-neuzugaenge/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-04",
+      "sagt": "2026-08-27",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-20981-primevideo": [
+    {
+      "url": "https://www.anime2you.de/news/1035676/aniverse-august-2026-neuzugaenge/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-04",
+      "sagt": "2026-08-27",
+      "stand": "aktuell"
+    }
+  ],
+  "demon-slayer-infinity-castle-1-primevideo": [
+    {
+      "url": "https://www.anime2you.de/news/1054791/prime-video-attack-on-titan-und-mehr/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-04",
+      "stand": "aktuell"
+    }
+  ],
+  "lego-one-piece-netflix": [
+    {
+      "url": "https://www.anime2you.de/news/1042851/netflix-anime-neu-im-september-2026/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-04",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-1723-joyn": [
+    {
+      "url": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-04",
+      "sagt": "2026-11-03",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-18619-joyn": [
+    {
+      "url": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-04",
+      "sagt": "2026-11-03",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-21798-joyn": [
+    {
+      "url": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-04",
+      "sagt": "2026-11-03",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-102346-joyn": [
+    {
+      "url": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-04",
+      "sagt": "2026-11-03",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-102347-joyn": [
+    {
+      "url": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-04",
+      "sagt": "2026-11-03",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-102348-joyn": [
+    {
+      "url": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-04",
+      "sagt": "2026-11-03",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-102349-joyn": [
+    {
+      "url": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-04",
+      "sagt": "2026-11-03",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-102350-joyn": [
+    {
+      "url": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-04",
+      "sagt": "2026-11-03",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-156040-primevideo": [
+    {
+      "url": "https://www.anime2you.de/news/1065078/aniverse-november-2026-neuzugaenge/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-04",
+      "sagt": "2026-11-26",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-180829-primevideo": [
+    {
+      "url": "https://www.anime2you.de/news/1045399/aniverse-september-2026-neuzugaenge/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-04",
+      "sagt": "2026-09-24",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-c204084-crunchyroll": [
+    {
+      "url": "https://www.anime2you.de/news/1044897/termin-von-dreamland-trailer/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-04",
+      "sagt": "2026-10-17",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-97938-disneyplus": [
+    {
+      "url": "https://www.anime2you.de/news/1067193/disney-plus-honey-lemon-soda-und-mehr-verfuegbar/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-05",
+      "sagt": "2026-11-04",
       "stand": "aktuell"
     }
   ]

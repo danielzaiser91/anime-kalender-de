@@ -43,11 +43,13 @@ import yaml from 'js-yaml'
 import { fetchJson, log, readJson, sleep, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
 import { istUnplausibel } from './lib/justwatch-plausibel.ts'
+import { abweisungsZeile, nimmTreffer } from './lib/jw-kennung-fremd.ts'
 import { todayIso } from '../shared/time.ts'
 import type { Title } from '../shared/types.ts'
 import { STAFFELN_ABFRAGE, staffelnVon, type Staffel, type StaffelRoh } from './lib/jw-staffeln.ts'
 import { warteschlange } from './lib/jw-schlange.ts'
 import { ladeFrische } from './lib/jw-frische.ts'
+import { ANBIETERLISTEN, listenVorrangAbrufen, seiteVonJustWatch } from './lib/jw-anbieterliste.ts'
 
 const ENDPUNKT = 'https://apis.justwatch.com/graphql'
 const UA = 'Mozilla/5.0 (compatible; anime-kalender.de/1.0; +https://anime-kalender.de)'
@@ -175,6 +177,33 @@ function frischeAusTermine(): Set<number> {
   return ladeFrische('public/data/releases.json', todayIso())
 }
 
+/**
+ * Verbucht einen Titel ohne Treffer; `true` = alte Antwort behalten (verfehlt), `false` = neu als `ohneTreffer` geschrieben.
+ *
+ * **Eine verfehlte Suche löscht keine gute Antwort** (17.09.2026). Die Suche geht über den Namen, und ihre Trefferliste
+ * schwankt; ohne diesen Zweig verlor ein Titel bei einem Fehlgriff alle Angebote — und mit ihnen seine Wege im Kalender.
+ */
+function verbucheFehlschlag(bestand: Record<string, Befund>, schluessel: string, erwartet: number | undefined): boolean {
+  const vorher = bestand[schluessel]
+  if (vorher && !vorher.ohneTreffer && vorher.jwId) {
+    bestand[schluessel] = { ...vorher, geprueftAm: todayIso(), verfehltAm: todayIso() }
+    return true
+  }
+  /*
+    Die Kennung gehört auch an den Fehlschlag: Wird die TMDB-Zuordnung später
+    berichtigt, ist dieser Befund hinfällig und die Warteschlange erkennt es
+    daran (Your Name, 17.09.2026 — gesucht wurde gegen „Call Me by Your Name").
+  */
+  bestand[schluessel] = {
+    geprueftAm: todayIso(),
+    angebote: [],
+    ohneTreffer: true,
+    tmdbId: erwartet,
+    erstAm: vorher?.erstAm ?? todayIso(),
+  }
+  return false
+}
+
 async function main(): Promise<void> {
   const args = process.argv.slice(2)
   const zahl = (name: string, vorgabe: number): number => {
@@ -229,7 +258,10 @@ async function main(): Promise<void> {
     Sprachurteil, Titel ganz ohne Weg (243 im Hauptbestand, 07.09.2026) und Wege, die nur auf die TMDB-Übersicht
     zeigen statt zum Anbieter (1.187 auf 364 Titeln, 16.09.2026).
   */
-  const offen = warteschlange({ titles, bestand, tmdb, grenze, heute: todayIso(), frisch: frischeAusTermine(), cartoonIds: new Set(cartoons.map((t) => t.id)) })
+  const tmdbVon = (t: Title) => (t as Title & { tmdbId?: number }).tmdbId ?? tmdb[String(t.id)]?.tmdbId
+  const listen = await listenVorrangAbrufen(ANBIETERLISTEN, seiteVonJustWatch(ENDPUNKT, UA, fetchJson), () => sleep(PAUSE_MS), titles, bestand, tmdbVon, todayIso())
+  log(`JustWatch: ${listen.vorrang.size} Titel aus Anbieter-Listen vorgezogen (${listen.abrufe} Listenabrufe).`)
+  const offen = warteschlange({ titles, bestand, tmdb, grenze, heute: todayIso(), frisch: frischeAusTermine(), listenVorrang: listen.vorrang, cartoonIds: new Set(cartoons.map((t) => t.id)) })
 
   if (!offen.length) {
     log('JustWatch: keine offenen Verweise zur Wiedervorlage.')
@@ -246,6 +278,7 @@ async function main(): Promise<void> {
   let verfehlt = 0
   let ohneTrefferNeu = 0
   let sperrenInFolge = 0
+  const abgewiesen: string[] = []
 
   for (const t of offen.slice(0, limit)) {
     const erwartet = (t as Title & { tmdbId?: number }).tmdbId ?? tmdb[String(t.id)]?.tmdbId
@@ -265,33 +298,15 @@ async function main(): Promise<void> {
         sauber „0 zugeordnet, 0 Fehler" — der erste Probelauf am 07.09.2026 tat
         genau das, an fünf Titeln, deren Treffer JustWatch alle kannte.
       */
-      const treffer = erwartet ? await sucheUeberNamen(t, erwartet) : undefined
+      const gefunden = erwartet ? await sucheUeberNamen(t, erwartet) : undefined
+      /* Eine Kennung, die schon eine andere TMDB-Reihe hält, ist ein Fehlgriff von JustWatch (Spin-off auf Hauptserie). */
+      const { treffer, halter } = nimmTreffer(bestand, String(t.id), gefunden, erwartet)
+      if (halter) abgewiesen.push(`${t.titleDe || t.titleRomaji || t.titleEn} (${t.id}, Halter ${halter})`)
       sperrenInFolge = 0
       const vorher = bestand[String(t.id)]
       if (!treffer) {
-        /*
-          **Eine verfehlte Suche löscht keine gute Antwort** (17.09.2026). Die Suche geht über
-          den Namen, und ihre Trefferliste schwankt; ohne diesen Zweig verlor ein Titel bei
-          einem Fehlgriff alle Angebote — und mit ihnen seine Wege im Kalender.
-        */
-        if (vorher && !vorher.ohneTreffer && vorher.jwId) {
-          bestand[String(t.id)] = { ...vorher, geprueftAm: todayIso(), verfehltAm: todayIso() }
-          verfehlt++
-        } else {
-          /*
-            Die Kennung gehört auch an den Fehlschlag: Wird die TMDB-Zuordnung später
-            berichtigt, ist dieser Befund hinfällig und die Warteschlange erkennt es
-            daran (Your Name, 17.09.2026 — gesucht wurde gegen „Call Me by Your Name").
-          */
-          bestand[String(t.id)] = {
-            geprueftAm: todayIso(),
-            angebote: [],
-            ohneTreffer: true,
-            tmdbId: erwartet,
-            erstAm: vorher?.erstAm ?? todayIso(),
-          }
-          ohneTrefferNeu++
-        }
+        if (verbucheFehlschlag(bestand, String(t.id), erwartet)) verfehlt++
+        else ohneTrefferNeu++
         continue
       }
       const angebote = angeboteVon(treffer.offers)
@@ -324,6 +339,7 @@ async function main(): Promise<void> {
     `JustWatch: ${getroffen} Titel zugeordnet (${leer} ohne Angebot), ${mitDeutsch} davon mit deutscher Tonspur, ` +
       `${ohneTrefferNeu} ohne Treffer, ${verfehlt} verfehlt (alte Antwort behalten), ${fehler} Fehler.`,
   )
+  if (abgewiesen.length) warn(abweisungsZeile(abgewiesen))
   if (istUnplausibel({ getroffen, leer, verfehlt })) {
     warn(`JustWatch: Ergebnis unplausibel (${leer} von ${getroffen} Treffern ohne Angebot, ${verfehlt} früher gefundene jetzt verfehlt) — nichts geschrieben.`)
     recordSource('justwatch-audio', 0)

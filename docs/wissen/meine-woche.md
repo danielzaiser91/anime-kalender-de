@@ -115,9 +115,7 @@ Newsletter) — eine Zeile, kein neues Schema.
   (so im Prototyp: Link nur, wenn er zum Anbieter führt).
 - **Zwei Geräte.** Alles liegt im Browser; Handy und Rechner laufen auseinander. Der Abgleich-Token des
   Newsletters löst das heute für Favoriten; Plattformen müssten mit.
-- **Kennungs-Umzug** (`kennung:ak1`, entfällt 05.11.2026): Favoriten tragen ak-Kennungen; Messskripte, die
-  Favoriten vorab setzen, müssen die Marke setzen, sonst werden AniList-Kennungen „umgezogen" (so geschehen
-  beim ersten Screenshot-Lauf dieses Prototyps).
+- **Kennungs-Umzug** (AniList → ak) ist seit 05.11.2026 entfernt: Favoriten sind ak-Kennungen, ohne Umrechnung beim Start.
 
 ## Was NICHT gebaut wird
 
