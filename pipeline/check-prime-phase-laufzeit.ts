@@ -33,6 +33,7 @@ const meldungen = [
   meldung(900105, dp('B0GLEICHSEI'), 'B0GLEICHSEI'),
   meldung(900106, dp('B0OHNEURL01'), 'B0OHNEURL01'),
   meldung(900107, dp('B0KANALGEM1'), 'B0KANALGEM1'),
+  meldung(900108, dp('B0TOTMELDUN'), 'B0TOTMELDUN'),
 ]
 const prime = (url: string) => ({ platform: 'primevideo', url })
 
@@ -80,10 +81,12 @@ try {
     mk(900105, []),
     mk(900106, []),
     mk(900107, []),
+    mk(900108, [prime(suche('tot'))]),
     ...suchFaelle.map((f) => mk(f.id, [prime(suche(`s${f.id}`))], { watchLinks: [{ name: 'Amazon', url: ECHT(f.id), kind: 'stream' }] })),
   ])
   const linkBefunde = Object.fromEntries(suchFaelle.map((f) => [ECHT(f.id), { prime: true, status: 200, ...f.befund }]))
-  const tot = new Set(suchFaelle.filter((f) => f.tot).map((f) => ECHT(f.id)))
+  const totGemeldet = 'https://www.amazon.de/gp/video/detail/B0TOTMELDUN'
+  const tot = new Set([...suchFaelle.filter((f) => f.tot).map((f) => ECHT(f.id)), totGemeldet])
   uebernehmePrimeUndCrVorschlaege({
     titles,
     checks: new Map([ersterBeleg, gleicheSeite, ohneUrl].map((b) => [dubKey(b.anilistId, 'primevideo'), b] as const)),
@@ -121,6 +124,8 @@ try {
   erwarte('Meldung zur selben Adresse wie der Beleg: kein Weg', urls(900105, 'primevideo'), [])
   erwarte('Beleg ohne Adresse sperrt den Anbieter: kein Weg', urls(900106, 'primevideo'), [])
   erwarte('Adresse im Kanal-Wissen gemerkt: kein Weg', urls(900107, 'primevideo'), [])
+  /* Die gemeldete Seite ist laut Linkprüfung tot: die Suchadresse wird nicht durch sie ersetzt (Fairy Tail, 05.11.2026). */
+  erwarte('tote gemeldete Seite ersetzt die Suchadresse nicht', urls(900108, 'primevideo'), [suche('tot')])
   /* Der Verweis gehört dem Anbieter, der gemeldet hat. */
   erwarte('Netflix-Meldung: Weg bei Netflix auf die gemeldete Adresse', urls(900103, 'netflix'), [NETFLIX])
   erwarte('Netflix-Meldung: kein Prime-Weg', urls(900103, 'primevideo'), [])
@@ -135,4 +140,4 @@ if (fehler.length) {
   console.error(`FEHL check-prime-phase-laufzeit:\n  ${fehler.join('\n  ')}`)
   process.exit(1)
 }
-console.log(`check-prime-phase-laufzeit: ${suchFaelle.length + 11} Fälle ok.`)
+console.log(`check-prime-phase-laufzeit: ${suchFaelle.length + 12} Fälle ok.`)

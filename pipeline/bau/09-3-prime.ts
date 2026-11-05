@@ -218,7 +218,8 @@ export function uebernehmePrimeUndCrVorschlaege({
           ausRoh++
         }
         /* Eine Titelseite schlägt eine Suchadresse — nie umgekehrt. */
-        if (seite && /amazon\.[a-z.]+\/s\?/i.test(da.url)) {
+        /* Aber nie durch eine Adresse, die die Linkprüfung als tot kennt (Fairy Tail, 05.11.2026: die Seite ist laut Prüfung gesperrt). */
+        if (seite && /amazon\.[a-z.]+\/s\?/i.test(da.url) && !lautPruefungTot(seite)) {
           da.url = seite
           adressen++
         }
