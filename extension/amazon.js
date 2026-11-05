@@ -149,7 +149,7 @@ async function speicherSchreiben(werte) {
    * Region gar nicht verfügbar. „fix das es direkt ohne neuladen klappt."
    *
    * Der Mitleser holt die neue Adresse einmal im Hintergrund ab
-   * (`seiteNachholen()` in `amazon-leser.js`) und schickt den Quelltext mit.
+   * (`ausNachgeholterSeite()` in `amazon-leser.js`) und schickt den Quelltext mit.
    * Solange er zur Adresse gehört, ist er der Quelltext.
    */
   let ersatzQuelltext = null
