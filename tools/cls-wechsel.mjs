@@ -6,6 +6,7 @@
  * Liefert je Wechsel die Summe und die verschobenen Elemente (Selektor, Verschiebung), damit die Ursache sichtbar wird.
  */
 import path from 'node:path'
+import { pathToFileURL } from 'node:url'
 import { chromium, devices } from 'playwright'
 import { BASIS, ausDistLiefern } from './tempo-kern.mjs'
 import { distPruefen } from './dist-frisch.mjs'
@@ -101,7 +102,7 @@ async function main() {
   }
 }
 
-if (import.meta.url === new URL(`file:///${process.argv[1].replaceAll('\\', '/')}`).href) {
+if (import.meta.url === pathToFileURL(process.argv[1]).href) {
   main().catch((e) => {
     console.error(e)
     process.exitCode = 1
