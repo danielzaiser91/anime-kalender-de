@@ -72,7 +72,7 @@ console.log('weg ohne Folgennummer')
   const keine = await offeneZiele(VOR, [])
   pruefe(keine.titel === 2, 'ohne Meldung: beide offen')
   const abgehakt = await offeneZiele(VOR, [WEG], async (env) => {
-    const offen = (await (await handlePruefung(new Request('https://w.test/pruefung?token=t'), env)).json()) as { pruefungen: { id: number }[] }
+    const offen = (await (await handlePruefung(new Request('https://w.test/pruefung', { headers: { Authorization: 'Bearer t' } }), env)).json()) as { pruefungen: { id: number }[] }
     await handlePruefung(post({ uebernommen: offen.pruefungen.map((p) => p.id) }), env)
   })
   pruefe(!abgehakt.urls.includes(WEG), 'nach dem Prüfstand gemeldet und schon übernommen: bleibt erledigt')
