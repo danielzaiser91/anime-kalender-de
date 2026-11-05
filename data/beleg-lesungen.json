@@ -6768,7 +6768,7 @@
     ]
   },
   "https://www.crunchyroll.com/de/news/seasonal-lineup/2026/9/15/crunchyroll-anime-lineup-herbst-2026": {
-    "zuletzt": "2026-10-26",
+    "zuletzt": "2026-11-05",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -6815,11 +6815,54 @@
         "text": "www.crunchyroll.com/717e6c808bc62a57/2026-10-05-ceb63ca006b57854.txt.gz"
       },
       {
-        "am": "2026-10-26",
+        "am": "2026-11-05",
         "hash": "bdc0357ca4971e5b",
         "hf": 2,
         "veroeffentlicht": "2026-09-15",
-        "aktualisiert": "2026-10-09"
+        "aktualisiert": "2026-10-09",
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.04807692307692308,
+          0.9672557172557172,
+          0.9038461538461539,
+          0.009009009009009009
+        ],
+        "markierungen": {
+          "185756": [
+            0.04807692307692308,
+            0.9672557172557172,
+            0.9038461538461539,
+            0.009009009009009009
+          ],
+          "195516": [
+            0.04807692307692308,
+            0.28101178101178104,
+            0.9038461538461539,
+            0.0045045045045045045
+          ],
+          "195604": [
+            0.04807692307692308,
+            0.21448371448371448,
+            0.9038461538461539,
+            0.0045045045045045045
+          ],
+          "204389": [
+            0.04807692307692308,
+            0.7881150381150381,
+            0.9038461538461539,
+            0.0045045045045045045
+          ],
+          "206814": [
+            0.04807692307692308,
+            0.522002772002772,
+            0.9038461538461539,
+            0.0045045045045045045
+          ]
+        },
+        "ohneMarke": {},
+        "bild": "www.crunchyroll.com/717e6c808bc62a57/2026-11-05-bdc0357ca4971e5b.webp",
+        "text": "www.crunchyroll.com/717e6c808bc62a57/2026-11-05-bdc0357ca4971e5b.txt.gz"
       }
     ]
   },
@@ -10870,7 +10913,7 @@
     ]
   },
   "https://www.anime2you.de/news/1054791/prime-video-attack-on-titan-und-mehr/": {
-    "zuletzt": "2026-11-02",
+    "zuletzt": "2026-11-05",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -10926,7 +10969,24 @@
         "qs": "ok",
         "bildfassung": 3,
         "bild": "www.anime2you.de/3d9d8307aaa55410/2026-11-02-13cddeb6a6e845ac.webp",
-        "text": "www.anime2you.de/3d9d8307aaa55410/2026-11-02-13cddeb6a6e845ac.txt.gz"
+        "text": "www.anime2you.de/3d9d8307aaa55410/2026-11-02-13cddeb6a6e845ac.txt.gz",
+        "markierung": [
+          0.038461538461538464,
+          0.7415522805926041,
+          0.8942307692307693,
+          0.2186297001983124
+        ],
+        "markierungen": {
+          "178788": [
+            0.038461538461538464,
+            0.7415522805926041,
+            0.8942307692307693,
+            0.2186297001983124
+          ]
+        },
+        "ohneMarke": {
+          "16498": "nicht-gefunden"
+        }
       }
     ]
   },
@@ -15100,7 +15160,7 @@
     ]
   },
   "https://www.anime2you.de/news/1058349/": {
-    "zuletzt": "2026-10-29",
+    "zuletzt": "2026-11-05",
     "lesungen": [
       {
         "am": "2026-10-14",
@@ -15136,6 +15196,24 @@
         ],
         "bild": "www.anime2you.de/17cb2c5dfda63dfe/2026-10-21-a35ff730158b3515.webp",
         "text": "www.anime2you.de/17cb2c5dfda63dfe/2026-10-21-a35ff730158b3515.txt.gz"
+      },
+      {
+        "am": "2026-11-05",
+        "hash": "91cc686974e24867",
+        "hf": 2,
+        "veroeffentlicht": "2026-10-10",
+        "aktualisiert": "2026-10-12",
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.4333232333434333,
+          0.8942307692307693,
+          0.22714877285122714
+        ],
+        "bild": "www.anime2you.de/17cb2c5dfda63dfe/2026-11-05-91cc686974e24867.webp",
+        "text": "www.anime2you.de/17cb2c5dfda63dfe/2026-11-05-91cc686974e24867.txt.gz"
       }
     ]
   },
@@ -15265,7 +15343,7 @@
     ]
   },
   "https://www.anime2you.de/news/1058332/kaiju-no-8-staffel-1-steelbook-edition/": {
-    "zuletzt": "2026-10-29",
+    "zuletzt": "2026-11-05",
     "lesungen": [
       {
         "am": "2026-10-14",
@@ -15329,11 +15407,44 @@
         },
         "bild": "www.anime2you.de/ca72f33bc6193412/2026-10-21-1038ddf05ff01a6a.webp",
         "text": "www.anime2you.de/ca72f33bc6193412/2026-10-21-1038ddf05ff01a6a.txt.gz"
+      },
+      {
+        "am": "2026-11-05",
+        "hash": "be55cb6453c28dec",
+        "hf": 2,
+        "veroeffentlicht": "2026-10-11",
+        "aktualisiert": "2026-10-13",
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.4503735325506937,
+          0.8942307692307693,
+          0.19673880714523156
+        ],
+        "markierungen": {
+          "153288": [
+            0.038461538461538464,
+            0.4503735325506937,
+            0.8942307692307693,
+            0.19673880714523156
+          ],
+          "178754": [
+            0.038461538461538464,
+            0.4503735325506937,
+            0.8942307692307693,
+            0.19673880714523156
+          ]
+        },
+        "ohneMarke": {},
+        "bild": "www.anime2you.de/ca72f33bc6193412/2026-11-05-be55cb6453c28dec.webp",
+        "text": "www.anime2you.de/ca72f33bc6193412/2026-11-05-be55cb6453c28dec.txt.gz"
       }
     ]
   },
   "https://www.anime2you.de/news/1046924/as-a-reincarnated-aristocrat-staffel-2-disc-termin/": {
-    "zuletzt": "2026-10-29",
+    "zuletzt": "2026-11-05",
     "lesungen": [
       {
         "am": "2026-10-14",
@@ -15369,6 +15480,24 @@
         ],
         "bild": "www.anime2you.de/2c4b8be2de0b3165/2026-10-21-1d66846238907e86.webp",
         "text": "www.anime2you.de/2c4b8be2de0b3165/2026-10-21-1d66846238907e86.txt.gz"
+      },
+      {
+        "am": "2026-11-05",
+        "hash": "5c3024de2ae5676c",
+        "hf": 2,
+        "veroeffentlicht": "2026-09-06",
+        "aktualisiert": "2026-09-09",
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.4175168275079069,
+          0.8942307692307693,
+          0.25534019949720216
+        ],
+        "bild": "www.anime2you.de/2c4b8be2de0b3165/2026-11-05-5c3024de2ae5676c.webp",
+        "text": "www.anime2you.de/2c4b8be2de0b3165/2026-11-05-5c3024de2ae5676c.txt.gz"
       }
     ]
   },
@@ -15538,7 +15667,7 @@
     ]
   },
   "https://www.anime2you.de/news/1044146/apothecary-diaries-staffel-2-disc-release/": {
-    "zuletzt": "2026-10-29",
+    "zuletzt": "2026-11-05",
     "lesungen": [
       {
         "am": "2026-10-14",
@@ -15574,6 +15703,24 @@
         ],
         "bild": "www.anime2you.de/15fde70529330423/2026-10-21-3b4051699176ccd7.webp",
         "text": "www.anime2you.de/15fde70529330423/2026-10-21-3b4051699176ccd7.txt.gz"
+      },
+      {
+        "am": "2026-11-05",
+        "hash": "384430f8bc3d2f17",
+        "hf": 2,
+        "veroeffentlicht": "2026-09-06",
+        "aktualisiert": "2026-09-11",
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.705593248386563,
+          0.8942307692307693,
+          0.26051629985106733
+        ],
+        "bild": "www.anime2you.de/15fde70529330423/2026-11-05-384430f8bc3d2f17.webp",
+        "text": "www.anime2you.de/15fde70529330423/2026-11-05-384430f8bc3d2f17.txt.gz"
       }
     ]
   },
@@ -17192,7 +17339,7 @@
     ]
   },
   "https://www.anime2you.de/news/1045399/aniverse-september-2026-neuzugaenge/": {
-    "zuletzt": "2026-10-30",
+    "zuletzt": "2026-11-05",
     "lesungen": [
       {
         "am": "2026-10-14",
@@ -17283,6 +17430,12 @@
             0.8942307692307693,
             0.2186297001983124
           ],
+          "16498": [
+            0.038461538461538464,
+            0.7415522805926041,
+            0.8942307692307693,
+            0.2186297001983124
+          ],
           "16592": [
             0.038461538461538464,
             0.7415522805926041,
@@ -17290,14 +17443,16 @@
             0.2186297001983124
           ]
         },
-        "ohneMarke": {},
+        "ohneMarke": {
+          "180829": "nicht-gefunden"
+        },
         "bild": "www.anime2you.de/4b2a51aacf587e70/2026-10-30-f7eb55352ff324e5.webp",
         "text": "www.anime2you.de/4b2a51aacf587e70/2026-10-30-f7eb55352ff324e5.txt.gz"
       }
     ]
   },
   "https://www.anime2you.de/news/1042851/netflix-anime-neu-im-september-2026/": {
-    "zuletzt": "2026-10-30",
+    "zuletzt": "2026-11-05",
     "lesungen": [
       {
         "am": "2026-10-14",
@@ -17351,6 +17506,39 @@
         ],
         "bild": "www.anime2you.de/ee24e79aa3365a4a/2026-10-30-39285f8ea4e28e48.webp",
         "text": "www.anime2you.de/ee24e79aa3365a4a/2026-10-30-39285f8ea4e28e48.txt.gz"
+      },
+      {
+        "am": "2026-11-05",
+        "hash": "734a2d5491651d00",
+        "hf": 2,
+        "veroeffentlicht": "2026-08-19",
+        "aktualisiert": "2026-09-29",
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.7328681184579158,
+          0.8942307692307693,
+          0.23193138653512316
+        ],
+        "markierungen": {
+          "210482": [
+            0.038461538461538464,
+            0.7328681184579158,
+            0.8942307692307693,
+            0.23193138653512316
+          ],
+          "-318918": [
+            0.038461538461538464,
+            0.7328681184579158,
+            0.8942307692307693,
+            0.23193138653512316
+          ]
+        },
+        "ohneMarke": {},
+        "bild": "www.anime2you.de/ee24e79aa3365a4a/2026-11-05-734a2d5491651d00.webp",
+        "text": "www.anime2you.de/ee24e79aa3365a4a/2026-11-05-734a2d5491651d00.txt.gz"
       }
     ]
   },
@@ -19234,7 +19422,7 @@
     ]
   },
   "https://www.anime2you.de/news/1065042/neon-genesis-evangelion-neue-blu-ray-komplettbox/": {
-    "zuletzt": "2026-10-29",
+    "zuletzt": "2026-11-05",
     "lesungen": [
       {
         "am": "2026-10-29",
@@ -19252,6 +19440,23 @@
         ],
         "bild": "www.anime2you.de/d5d2af56783075e1/2026-10-29-5c814cdda2353647.webp",
         "text": "www.anime2you.de/d5d2af56783075e1/2026-10-29-5c814cdda2353647.txt.gz"
+      },
+      {
+        "am": "2026-11-05",
+        "hash": "51c3b024a9781b77",
+        "hf": 2,
+        "veroeffentlicht": "2026-10-28",
+        "aktualisiert": "2026-10-31",
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.4688205725941575,
+          0.8942307692307693,
+          0.20479711517447366
+        ],
+        "bild": "www.anime2you.de/d5d2af56783075e1/2026-11-05-51c3b024a9781b77.webp",
+        "text": "www.anime2you.de/d5d2af56783075e1/2026-11-05-51c3b024a9781b77.txt.gz"
       }
     ]
   },
@@ -19460,7 +19665,7 @@
     ]
   },
   "https://www.anime2you.de/news/1065078/aniverse-november-2026-neuzugaenge/": {
-    "zuletzt": "2026-10-30",
+    "zuletzt": "2026-11-05",
     "lesungen": [
       {
         "am": "2026-10-30",
@@ -19495,6 +19700,41 @@
         },
         "bild": "www.anime2you.de/a4dc113c6acd9b9f/2026-10-30-92d95e3a4d5ea69c.webp",
         "text": "www.anime2you.de/a4dc113c6acd9b9f/2026-10-30-92d95e3a4d5ea69c.txt.gz"
+      },
+      {
+        "am": "2026-11-05",
+        "hash": "f9bfb4fb903bf225",
+        "hf": 2,
+        "veroeffentlicht": "2026-10-28",
+        "aktualisiert": "2026-10-31",
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.6819173281842237,
+          0.8942307692307693,
+          0.28146678109132517
+        ],
+        "markierungen": {
+          "885": [
+            0.038461538461538464,
+            0.6819173281842237,
+            0.8942307692307693,
+            0.28146678109132517
+          ],
+          "20701": [
+            0.038461538461538464,
+            0.6819173281842237,
+            0.8942307692307693,
+            0.28146678109132517
+          ]
+        },
+        "ohneMarke": {
+          "156040": "nicht-gefunden",
+          "175914": "nicht-gefunden"
+        },
+        "bild": "www.anime2you.de/a4dc113c6acd9b9f/2026-11-05-f9bfb4fb903bf225.webp",
+        "text": "www.anime2you.de/a4dc113c6acd9b9f/2026-11-05-f9bfb4fb903bf225.txt.gz"
       }
     ]
   },
@@ -19616,7 +19856,7 @@
     ]
   },
   "https://www.anime2you.de/news/1066485/animoon-monatsangebot-toradora/": {
-    "zuletzt": "2026-11-04",
+    "zuletzt": "2026-11-05",
     "lesungen": [
       {
         "am": "2026-11-02",
@@ -19668,11 +19908,28 @@
         ],
         "bild": "www.anime2you.de/36d562d9f8ee1bca/2026-11-04-e0e1b25f87104f0f.webp",
         "text": "www.anime2you.de/36d562d9f8ee1bca/2026-11-04-e0e1b25f87104f0f.txt.gz"
+      },
+      {
+        "am": "2026-11-05",
+        "hash": "a5ecbc08ca86b454",
+        "hf": 2,
+        "veroeffentlicht": "2026-11-01",
+        "aktualisiert": "2026-11-04",
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.47951865581282715,
+          0.8942307692307693,
+          0.167576327701507
+        ],
+        "bild": "www.anime2you.de/36d562d9f8ee1bca/2026-11-05-a5ecbc08ca86b454.webp",
+        "text": "www.anime2you.de/36d562d9f8ee1bca/2026-11-05-a5ecbc08ca86b454.txt.gz"
       }
     ]
   },
   "https://www.anime2you.de/news/1066144/netflix-held-ohne-klasse-und-mehr/": {
-    "zuletzt": "2026-11-04",
+    "zuletzt": "2026-11-05",
     "lesungen": [
       {
         "am": "2026-11-03",
@@ -19708,11 +19965,28 @@
         ],
         "bild": "www.anime2you.de/452007c1b604e9b1/2026-11-04-63e2d6f2f3592e57.webp",
         "text": "www.anime2you.de/452007c1b604e9b1/2026-11-04-63e2d6f2f3592e57.txt.gz"
+      },
+      {
+        "am": "2026-11-05",
+        "hash": "8def52eda7630b16",
+        "hf": 2,
+        "veroeffentlicht": "2026-11-01",
+        "aktualisiert": "2026-11-04",
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.7523797105228843,
+          0.8942307692307693,
+          0.20947040962688374
+        ],
+        "bild": "www.anime2you.de/452007c1b604e9b1/2026-11-05-8def52eda7630b16.webp",
+        "text": "www.anime2you.de/452007c1b604e9b1/2026-11-05-8def52eda7630b16.txt.gz"
       }
     ]
   },
   "https://www.anime2you.de/news/1066653/prime-video-goblin-slayer-ii-und-mehr/": {
-    "zuletzt": "2026-11-04",
+    "zuletzt": "2026-11-05",
     "lesungen": [
       {
         "am": "2026-11-03",
@@ -19730,11 +20004,28 @@
         ],
         "text": "www.anime2you.de/d28da9527ee4e391/2026-11-03-e463766fe8f477aa.txt.gz",
         "bild": "www.anime2you.de/d28da9527ee4e391/2026-11-03-e463766fe8f477aa.webp"
+      },
+      {
+        "am": "2026-11-05",
+        "hash": "fe48af3ef876aed1",
+        "hf": 2,
+        "veroeffentlicht": "2026-11-01",
+        "aktualisiert": "2026-11-04",
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.7523797105228843,
+          0.8942307692307693,
+          0.20947040962688374
+        ],
+        "bild": "www.anime2you.de/d28da9527ee4e391/2026-11-05-fe48af3ef876aed1.webp",
+        "text": "www.anime2you.de/d28da9527ee4e391/2026-11-05-fe48af3ef876aed1.txt.gz"
       }
     ]
   },
   "https://www.anime2you.de/news/1043257/netflix-bass-x-machina-angekuendigt/": {
-    "zuletzt": "2026-11-04",
+    "zuletzt": "2026-11-05",
     "lesungen": [
       {
         "am": "2026-11-04",
@@ -19752,11 +20043,29 @@
         ],
         "bild": "www.anime2you.de/2ccb1c3f87a0e2b2/2026-11-04-216acb0c9ad744cd.webp",
         "text": "www.anime2you.de/2ccb1c3f87a0e2b2/2026-11-04-216acb0c9ad744cd.txt.gz"
+      },
+      {
+        "am": "2026-11-05",
+        "hash": "fe478a9f5d750d1c",
+        "hf": 2,
+        "veroeffentlicht": "2026-08-21",
+        "aktualisiert": "2026-08-24",
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.7623364084960309,
+          0.8942307692307693,
+          0.20104770077951797
+        ],
+        "bild": "www.anime2you.de/2ccb1c3f87a0e2b2/2026-11-05-fe478a9f5d750d1c.webp",
+        "text": "www.anime2you.de/2ccb1c3f87a0e2b2/2026-11-05-fe478a9f5d750d1c.txt.gz"
       }
     ]
   },
   "https://www.anime2you.de/news/1067138/neue-evangelion-komplettbox-design/": {
-    "zuletzt": "2026-11-04",
+    "zuletzt": "2026-11-05",
     "lesungen": [
       {
         "am": "2026-11-04",
@@ -19774,6 +20083,228 @@
         ],
         "bild": "www.anime2you.de/6ba382386727b1fc/2026-11-04-aa8014f82b6b8e8d.webp",
         "text": "www.anime2you.de/6ba382386727b1fc/2026-11-04-aa8014f82b6b8e8d.txt.gz"
+      },
+      {
+        "am": "2026-11-05",
+        "hash": "83bb5c8ede5d9497",
+        "hf": 2,
+        "veroeffentlicht": "2026-11-03",
+        "aktualisiert": "2026-11-03",
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.4503735325506937,
+          0.8942307692307693,
+          0.19673880714523156
+        ],
+        "bild": "www.anime2you.de/6ba382386727b1fc/2026-11-05-83bb5c8ede5d9497.webp",
+        "text": "www.anime2you.de/6ba382386727b1fc/2026-11-05-83bb5c8ede5d9497.txt.gz"
+      }
+    ]
+  },
+  "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/": {
+    "zuletzt": "2026-11-05",
+    "lesungen": [
+      {
+        "am": "2026-11-05",
+        "hash": "2b21448726554d49",
+        "hf": 2,
+        "veroeffentlicht": "2026-11-03",
+        "aktualisiert": "2026-11-03",
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.7415522805926041,
+          0.8942307692307693,
+          0.2186297001983124
+        ],
+        "markierungen": {
+          "1723": [
+            0.038461538461538464,
+            0.7415522805926041,
+            0.8942307692307693,
+            0.2186297001983124
+          ],
+          "2167": [
+            0.038461538461538464,
+            0.7415522805926041,
+            0.8942307692307693,
+            0.2186297001983124
+          ],
+          "3199": [
+            0.038461538461538464,
+            0.7415522805926041,
+            0.8942307692307693,
+            0.2186297001983124
+          ],
+          "8425": [
+            0.038461538461538464,
+            0.7415522805926041,
+            0.8942307692307693,
+            0.2186297001983124
+          ],
+          "12189": [
+            0.038461538461538464,
+            0.7415522805926041,
+            0.8942307692307693,
+            0.2186297001983124
+          ],
+          "21798": [
+            0.038461538461538464,
+            0.5004860598047984,
+            0.8942307692307693,
+            0.13117782011898743
+          ],
+          "100179": [
+            0.038461538461538464,
+            0.7415522805926041,
+            0.8942307692307693,
+            0.2186297001983124
+          ],
+          "102346": [
+            0.038461538461538464,
+            0.5004860598047984,
+            0.8942307692307693,
+            0.13117782011898743
+          ],
+          "102347": [
+            0.038461538461538464,
+            0.5004860598047984,
+            0.8942307692307693,
+            0.13117782011898743
+          ],
+          "102348": [
+            0.038461538461538464,
+            0.5004860598047984,
+            0.8942307692307693,
+            0.13117782011898743
+          ],
+          "102349": [
+            0.038461538461538464,
+            0.5004860598047984,
+            0.8942307692307693,
+            0.13117782011898743
+          ],
+          "102350": [
+            0.038461538461538464,
+            0.5004860598047984,
+            0.8942307692307693,
+            0.13117782011898743
+          ]
+        },
+        "ohneMarke": {
+          "1530": "nicht-gefunden",
+          "3010": "nicht-gefunden",
+          "8142": "nicht-gefunden",
+          "13663": "nicht-gefunden",
+          "18619": "nicht-gefunden",
+          "20613": "nicht-gefunden",
+          "20690": "nicht-gefunden",
+          "21875": "nicht-gefunden",
+          "99938": "nicht-gefunden",
+          "107208": "nicht-gefunden",
+          "124115": "nicht-gefunden"
+        },
+        "bild": "www.anime2you.de/359546b1a38db518/2026-11-05-2b21448726554d49.webp",
+        "text": "www.anime2you.de/359546b1a38db518/2026-11-05-2b21448726554d49.txt.gz"
+      }
+    ]
+  },
+  "https://www.anime2you.de/news/1035676/aniverse-august-2026-neuzugaenge/": {
+    "zuletzt": "2026-11-05",
+    "lesungen": [
+      {
+        "am": "2026-11-05",
+        "hash": "005c2a8fb593bae4",
+        "hf": 2,
+        "veroeffentlicht": "2026-07-29",
+        "aktualisiert": "2026-09-02",
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.7415522805926041,
+          0.8942307692307693,
+          0.2186297001983124
+        ],
+        "markierungen": {
+          "5681": [
+            0.038461538461538464,
+            0.7415522805926041,
+            0.8942307692307693,
+            0.2186297001983124
+          ],
+          "12355": [
+            0.038461538461538464,
+            0.7415522805926041,
+            0.8942307692307693,
+            0.2186297001983124
+          ],
+          "20981": [
+            0.038461538461538464,
+            0.7415522805926041,
+            0.8942307692307693,
+            0.2186297001983124
+          ],
+          "128207": [
+            0.038461538461538464,
+            0.7415522805926041,
+            0.8942307692307693,
+            0.2186297001983124
+          ]
+        },
+        "ohneMarke": {
+          "66": "nicht-gefunden",
+          "13161": "nicht-gefunden",
+          "97682": "nicht-gefunden"
+        },
+        "bild": "www.anime2you.de/543b03b26d47ae5a/2026-11-05-005c2a8fb593bae4.webp",
+        "text": "www.anime2you.de/543b03b26d47ae5a/2026-11-05-005c2a8fb593bae4.txt.gz"
+      }
+    ]
+  },
+  "https://www.anime2you.de/news/1044897/termin-von-dreamland-trailer/": {
+    "zuletzt": "2026-11-05",
+    "lesungen": [
+      {
+        "am": "2026-11-05",
+        "hash": "4890524774fb3df8",
+        "hf": 2,
+        "veroeffentlicht": "2026-08-28",
+        "aktualisiert": "2026-08-29",
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.7606848377921003,
+          0.8942307692307693,
+          0.20244482050912757
+        ],
+        "bild": "www.anime2you.de/ccada905b934fdfa/2026-11-05-4890524774fb3df8.webp",
+        "text": "www.anime2you.de/ccada905b934fdfa/2026-11-05-4890524774fb3df8.txt.gz"
+      }
+    ]
+  },
+  "https://www.joyn.de/filme/star-blazers-2199-space-battleship-yamato-odyssey-of-the-celestial-arc": {
+    "zuletzt": "2026-11-05",
+    "lesungen": [
+      {
+        "am": "2026-11-05",
+        "hash": "f6c538185eb8446f",
+        "hf": 2,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.7521912201685698,
+          0.9230769230769231,
+          0.05165486179894971
+        ],
+        "bild": "www.joyn.de/f837e82b9dba099b/2026-11-05-f6c538185eb8446f.webp",
+        "text": "www.joyn.de/f837e82b9dba099b/2026-11-05-f6c538185eb8446f.txt.gz"
       }
     ]
   }
