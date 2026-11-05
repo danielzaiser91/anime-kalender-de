@@ -103,6 +103,7 @@ pipeline/check-cr-batch-wache.ts
 pipeline/check-cr-block-standardname.ts
 pipeline/check-cr-doppelt-weg.ts
 pipeline/check-cr-einzelwerk-urteil.ts
+pipeline/check-cr-fetch-lauf-grenzen.ts
 pipeline/check-cr-fetch-lauf.ts
 pipeline/check-cr-film-wege.ts
 pipeline/check-cr-folgestaffel.ts
@@ -112,6 +113,7 @@ pipeline/check-cr-katalog-ein-werk.ts
 pipeline/check-cr-kennung-gedaechtnis.ts
 pipeline/check-cr-kennwort.ts
 pipeline/check-cr-komplettabwurf.ts
+pipeline/check-cr-mjs-importe.ts
 pipeline/check-cr-nein-ueberholt.ts
 pipeline/check-cr-nein-verdrahtung.ts
 pipeline/check-cr-neu-seiten.ts

@@ -4,7 +4,7 @@ import assert from 'node:assert/strict'
 import { katalogTrefferPasst } from './lib/cr-einzelwerk-urteil.ts'
 import { kennwort } from './lib/cr-kennwort.ts'
 import { normSchluessel } from './lib/util.ts'
-import { audioVon, formeFund, offeneOhneSerienkennung, suchNamen, treffferInAntwort, zeichenVon, zusammenfassung } from './lib/cr-einzelwerke-lauf.ts'
+import { audioVon, formeFund, offeneOhneSerienkennung, suchNamen, trefferInAntwort, zeichenVon, zusammenfassung } from './lib/cr-einzelwerke-lauf.ts'
 import { blockTreffer, bloeckeAusAntwort, folgenTreffer, fuehreZusammen, offeneFilme, reiheVon, sammleSerienIds, zaehlzeilen } from './lib/cr-filmbloecke-lauf.ts'
 import { katalogEintrag, offeneVerweise, ordneZu } from './lib/cr-katalog-lauf.ts'
 import { zeichenVon as zeichenFilm } from './lib/cr-filmbloecke-lauf.ts'
@@ -66,12 +66,12 @@ function altTreffer(r: L | null, namen: string[]): L | null {
   return treffer
 }
 for (const namen of [['Fruits Basket -prelude-'], ['Ride Your Wave'], ['Fruits Basket'], ['Unbekannt'], []]) {
-  for (const r of [antwortE, null, { data: [] }, { data: [{ items: undefined }] }]) gleich(treffferInAntwort(r, namen), altTreffer(r, namen), `treffer ${namen}`)
+  for (const r of [antwortE, null, { data: [] }, { data: [{ items: undefined }] }]) gleich(trefferInAntwort(r, namen), altTreffer(r, namen), `treffer ${namen}`)
 }
-const t1 = treffferInAntwort(antwortE, ['Fruits Basket -prelude-'])!
+const t1 = trefferInAntwort(antwortE, ['Fruits Basket -prelude-'])!
 assert.equal(t1.id, 'M1', 'Teiltreffer gegen Film, nie gegen die Serie')
 assert.equal(t1.exakt, false)
-const t2 = treffferInAntwort(antwortE, ['Ride Your Wave'])!
+const t2 = trefferInAntwort(antwortE, ['Ride Your Wave'])!
 assert.equal(t2.exakt, true)
 assert.deepStrictEqual(audioVon(t2), ['de-DE'], 'audio_locale als Einzelwert')
 assert.deepStrictEqual(audioVon(t1), ['ja-JP', 'de-DE'])

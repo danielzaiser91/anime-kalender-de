@@ -29,7 +29,7 @@ export function suchNamen(o: Lose): string[] {
  * Der Katalogtitel darf ein Teil unseres Titels sein (29.08.2026: „Fruits Basket -prelude-" heißt bei Crunchyroll „-prelude-"),
  * mindestens sechs Zeichen lang; umgekehrt träfe „Fruits Basket" jede Staffel der Reihe.
  */
-export function treffferInAntwort(antwort: Lose | null, namen: string[]): Lose | null {
+export function trefferInAntwort(antwort: Lose | null, namen: string[]): Lose | null {
   for (const gruppe of antwort?.data ?? []) {
     for (const it of gruppe.items ?? []) {
       const { passt, exakt } = katalogTrefferPasst(it, namen)

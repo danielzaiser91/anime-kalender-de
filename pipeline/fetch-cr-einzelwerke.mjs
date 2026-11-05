@@ -23,7 +23,7 @@
  */
 import { readFileSync, writeFileSync } from 'node:fs'
 import { recordSource } from './lib/health.ts'
-import { formeFund, offeneOhneSerienkennung, suchNamen, treffferInAntwort, zeichenVon, zusammenfassung } from './lib/cr-einzelwerke-lauf.ts'
+import { formeFund, offeneOhneSerienkennung, suchNamen, trefferInAntwort, zeichenVon, zusammenfassung } from './lib/cr-einzelwerke-lauf.ts'
 
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0 Safari/537.36'
 const titles = JSON.parse(readFileSync('public/data/titles.json', 'utf8'))
@@ -54,7 +54,7 @@ for (const o of offen) {
       { headers: { Authorization: `Bearer ${tok.access_token}`, 'User-Agent': UA } },
     ).then((x) => x.json()).catch(() => null)
     await new Promise((r2) => setTimeout(r2, 700))
-    treffer = treffferInAntwort(r, namen)
+    treffer = trefferInAntwort(r, namen)
     if (treffer) break
   }
   funde.push(formeFund(o, treffer))

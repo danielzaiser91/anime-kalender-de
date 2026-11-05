@@ -34,6 +34,9 @@ const UMBAU_DATEIEN = [
   'fetch-toggo.ts',
   'fetch-wikipedia-folgen.ts',
   'lib/cr-einzelwerk-urteil.ts',
+  'lib/cr-einzelwerke-lauf.ts',
+  'lib/cr-filmbloecke-lauf.ts',
+  'lib/cr-katalog-lauf.ts',
 ]
 const ALTER_NAME = /(?<![\w.$])(?:norm|warte)\s*\(|[(,]\s*norm\s*[,)]/
 
