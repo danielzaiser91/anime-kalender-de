@@ -909,3 +909,11 @@
   url: https://www.amazon.de/gp/video/detail/B0DJ4FCM5H
   grund: 'Seite hat eine Folge „Prinz Ribbit“ (89 min, Film) = Prinz Ribbit: Ein Frosch auf Umwegen! (10011569), nicht die Serie Super Wings'
   entferntAm: '2026-11-04'
+- anilistId: -13247
+  url: https://www.amazon.de/gp/video/detail/B07XYDCVFK
+  grund: 'Seite mit 12 Mini-Folgen (gti 76b69f3a) gehört Sylvanian Families Mini Story Ivy (187053, TMDB-Staffel Ivy, 12 Folgen, 3 min); der Cartoon hat 62 Folgen in 4 Staffeln (26/12/12/12), RTL+ „Freyas fröhliches Tagebuch“ führt ihn'
+  entferntAm: '2026-11-05'
+- anilistId: -13247
+  url: https://www.amazon.de/gp/video/detail/0J822CL4BXX0ZX75E9JA1XCMND
+  grund: 'Gleiche Amazon-Serienkennung (gti 76b69f3a, 12 Folgen) wie B07XYDCVFK = Mini Story Ivy (187053), nicht der Cartoon mit 62 Folgen'
+  entferntAm: '2026-11-05'
