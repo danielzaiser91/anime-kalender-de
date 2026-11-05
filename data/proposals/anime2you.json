@@ -1,15 +1,32 @@
 {
-  "scrapedAt": "2026-11-04T17:02:59.453Z",
+  "scrapedAt": "2026-11-05T14:02:24.779Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 4,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 3,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
     "schon in einem Rubrik-Feed gelesen": 5,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 18,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 2,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 3,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 17,
     "Sprachhinweis älter als 45 Tage": 6
   },
   "proposals": [
+    {
+      "articleTitle": "Erster Trailer zum Netflix-Anime »Fool Night« + Visual",
+      "articleUrl": "https://www.anime2you.de/news/1067870/fool-night-netflix-erster-trailer/",
+      "publishedAt": "2026-11-05",
+      "category": "streaming",
+      "platforms": [
+        "netflix"
+      ],
+      "dates": [
+        {
+          "month": "2026-11",
+          "context": "n von »Fool Night« veröffentlicht. Das Video findet ihr weiter unten. Ab November 2026 »Fool Night« entsteht unter der Leitung von Regisseur"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Design der »Fate/stay night: Heaven’s Feel«-Komplettbox + Extras",
       "articleUrl": "https://www.anime2you.de/news/1067523/fate-stay-night-heavens-feel-komplettbox-design/",
@@ -41,7 +58,32 @@
       ],
       "dates": [],
       "dub": "ja",
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "sammel": [
+        {
+          "titel": "Honey Lemon Soda",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Disney+"
+          ],
+          "folgen": 12,
+          "datum": "2026-11-04",
+          "datumGeschaetzt": true
+        },
+        {
+          "titel": "Naruto Shippuden",
+          "zusatz": "Staffel 4",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Disney+"
+          ],
+          "datum": "2026-11-04",
+          "datumGeschaetzt": true
+        }
+      ],
+      "sammelGelesen": "2026-11-05"
     },
     {
       "articleTitle": "Design der neuen »Neon Genesis Evangelion«-Komplettbox + Extras",
@@ -414,7 +456,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-02"
+      "sammelGelesen": "2026-11-05"
     },
     {
       "articleTitle": "AniMoon-Angebot: RomCom-Serie »Toradora!« zum Sonderpreis",
@@ -470,7 +512,7 @@
           "folgen": 13
         }
       ],
-      "sammelGelesen": "2026-11-02"
+      "sammelGelesen": "2026-11-05"
     },
     {
       "articleTitle": "ProSieben MAXX zeigt »Wandering Witch: Elainas Reise« als TV-Premiere",
@@ -832,7 +874,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-11-02"
+      "sammelGelesen": "2026-11-05"
     },
     {
       "articleTitle": "Neue Anime-Katalogtitel im November 2026 bei aniverse",
@@ -1259,7 +1301,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-11-02"
+      "sammelGelesen": "2026-11-05"
     },
     {
       "articleTitle": "Crunchyroll bringt besonderes »Black Clover«-Erlebnis nach Deutschland",
@@ -1745,7 +1787,7 @@
           "edition": "limited-edition sammelschuber"
         }
       ],
-      "discGelesen": "2026-11-02"
+      "discGelesen": "2026-11-05"
     },
     {
       "articleTitle": "Zwei Synchro-Neuzugänge ab sofort auf Crunchyroll verfügbar",
@@ -2060,7 +2102,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-02"
+      "sammelGelesen": "2026-11-05"
     },
     {
       "articleTitle": "Netflix nimmt Fantasy-Anime »Der Held ohne Klasse« ins Programm",

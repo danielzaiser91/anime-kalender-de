@@ -1,13 +1,13 @@
 # Was JustWatch zu offenen Verweisen sagt
 
-Stand: 2026-11-04. Erzeugt von `npm run data:justwatch`.
+Stand: 2026-11-05. Erzeugt von `npm run data:justwatch`.
 
 **Das sind Kandidaten, keine Belege.** Die Angabe gilt der **Serie**, nicht der
 einzelnen Folge — bei „Kill Blue" meldet JustWatch `de` für alle zwölf, belegt
 sind acht. Und ein fehlendes `de` belegt nichts: Netflix meldet dort gar keine
 Tonspur. Was hier steht, sagt, **wo sich das Nachsehen lohnt**.
 
-33 offene Verweise, zu denen JustWatch eine Tonspur nennt.
+38 offene Verweise, zu denen JustWatch eine Tonspur nennt.
 
 | Titel | Anbieter | JustWatch sagt | Tonspuren | Quelle |
 |---|---|---|---|---|
@@ -28,6 +28,11 @@ Tonspur. Was hier steht, sagt, **wo sich das Nachsehen lohnt**.
 | [undefined](https://anime-kalender.de/#/datenbank?t=-204084) | crunchyroll | kein Deutsch | `en, fr` | [JustWatch](https://www.justwatch.com/de/Serie/dreamland-2026) |
 | [undefined](https://anime-kalender.de/#/datenbank?t=-99777) | crunchyroll | 🇩🇪 **Deutsch dabei** | `de, en, es, fr, pt, ru` | [JustWatch](https://www.justwatch.com/de/Serie/Onyx-Equinox) |
 | [undefined](https://anime-kalender.de/#/datenbank?t=-89095) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/Polly-Pocket) |
+| [undefined](https://anime-kalender.de/#/datenbank?t=-89095) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/Polly-Pocket) |
+| [undefined](https://anime-kalender.de/#/datenbank?t=-89095) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/Polly-Pocket) |
+| [undefined](https://anime-kalender.de/#/datenbank?t=-89095) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/Polly-Pocket) |
+| [undefined](https://anime-kalender.de/#/datenbank?t=-89095) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/Polly-Pocket) |
+| [undefined](https://anime-kalender.de/#/datenbank?t=-89095) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/Polly-Pocket) |
 | [Bobby und Bill](https://anime-kalender.de/#/datenbank?t=-72376) | primevideo | 🇩🇪 **Deutsch dabei** | `de, en` | [JustWatch](https://www.justwatch.com/de/Serie/Bobby-und-Bill) |
 | [Bobby und Bill](https://anime-kalender.de/#/datenbank?t=-72376) | primevideo | 🇩🇪 **Deutsch dabei** | `de, en` | [JustWatch](https://www.justwatch.com/de/Serie/Bobby-und-Bill) |
 | [My Little Pony - Freundschaft ist Magie](https://anime-kalender.de/#/datenbank?t=-33765) | primevideo | 🇩🇪 **Deutsch dabei** | `de, en` | [JustWatch](https://www.justwatch.com/de/Serie/My-Little-Pony-Friendship-Is-Magic) |
@@ -47,14 +52,13 @@ Tonspur. Was hier steht, sagt, **wo sich das Nachsehen lohnt**.
 
 ## Titel ganz ohne Bezugsweg
 
-294 Titel im Hauptbestand haben keinen einzigen Weg — hier nennt JustWatch einen.
+293 Titel im Hauptbestand haben keinen einzigen Weg — hier nennt JustWatch einen.
 Ein Titel im Hauptbestand hat per Definition eine belegte deutsche Synchro; das 🇩🇪 sagt,
 dass JustWatch für dieses Angebot auch eine deutsche Tonspur kennt.
 
 | Titel | Angebote laut JustWatch |
 |---|---|
 | [Drei kleine Geister](https://anime-kalender.de/#/datenbank?t=310) | [Amazon Prime Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.4ab84d22-8eb7-4a0e-8cc1-9e2146a69910) 🇩🇪, [Amazon Prime Video with Ads](https://watch.amazon.de/detail?gti=amzn1.dv.gti.4ab84d22-8eb7-4a0e-8cc1-9e2146a69910) 🇩🇪, [Amazon Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.0b279223-d147-465f-9182-6d3ceb7537dd) |
-| [PERSONA 3 THE MOVIE: #4 Winter of Rebirth](https://anime-kalender.de/#/datenbank?t=21248) | [Amazon DVD / Blu-ray](https://www.amazon.de/dp/B01CJWM5SG?tag=movie0c6-21&linkCode=osi&th=1&psc=1) |
 | [Kuroko’s Basketball - Winter Cup Highlights Movie 1 Shadow and Light](https://anime-kalender.de/#/datenbank?t=102093) | [Amazon Prime Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.9095f403-0aba-4d18-aea4-36284e16fb0c) 🇩🇪, [Amazon Prime Video with Ads](https://watch.amazon.de/detail?gti=amzn1.dv.gti.9095f403-0aba-4d18-aea4-36284e16fb0c) 🇩🇪, [Aniverse Amazon Channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.9095f403-0aba-4d18-aea4-36284e16fb0c) 🇩🇪, [Amazon Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.9095f403-0aba-4d18-aea4-36284e16fb0c) 🇩🇪 |
 | [Petals of Reincarnation](https://anime-kalender.de/#/datenbank?t=179950) | [Aniverse Amazon Channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.b89b927e-502e-4990-97b3-5a0a40e4a24b) |
 | [Dusk Beyond the End of the World](https://anime-kalender.de/#/datenbank?t=195153) | [Aniverse Amazon Channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.13bde570-6de4-421c-8495-4979bd84ff87), [Animation Digital Network](https://animationdigitalnetwork.com/de/video/1334-dusk-beyond-the-end-of-the-world/30005-folge-1), [Anime Digital Network Amazon Channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.13bde570-6de4-421c-8495-4979bd84ff87), [Amazon Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.32466d79-d505-4816-9cfe-41adaff4075e) |

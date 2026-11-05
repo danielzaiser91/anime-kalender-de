@@ -134,6 +134,12 @@ console.log('liegegut: Signal 7 Überholt-Gegenprobe (Fälle 1437, 1371, 1386)')
   pruefe('zwei Stichwörter, aber keine gemeinsame Datei → kein Treffer', ueberholtTreffer(titel1437, ['andere.ts'], commits.slice(0, 1)).length === 0)
   pruefe('Füllwort „statt“ zählt nicht als Stichwort', ueberholtTreffer('Stift hängt statt Stempel', ['d.ts'], [{ hash: 'x', betreff: 'Rand hängt statt Stempel', dateien: ['d.ts'] }]).length === 1 && ueberholtTreffer('Stift statt Marke', ['d.ts'], [{ hash: 'x', betreff: 'Rand statt Flagge', dateien: ['d.ts'] }]).length === 0)
   pruefe('Stamm: „Termine“ trifft „Terminen“', ueberholtTreffer('Kanal Termine', ['d.ts'], [{ hash: 'x', betreff: 'Kanal Terminen', dateien: ['d.ts'] }]).length === 1)
+  const sammel = ['tools/check-logic-liste.txt', 'tools/check-bestand-liste.txt', 'data/dub-confirmed.yaml']
+  const gleichTitel = 'Kanal Termine Deutsch'
+  for (const datei of sammel) {
+    pruefe(`nur Sammeldatei ${datei} gemeinsam → kein Treffer`, ueberholtTreffer(gleichTitel, [datei], [{ hash: 'x', betreff: gleichTitel, dateien: [datei, 'fremd.ts'] }]).length === 0)
+  }
+  pruefe('Sammeldatei + echte gemeinsame Datei → Treffer', ueberholtTreffer(gleichTitel, [sammel[0], 'echt.ts'], [{ hash: 'x', betreff: gleichTitel, dateien: [sammel[0], 'echt.ts'] }]).length === 1)
 }
 
 console.log('liegegut: Grenzen und Randfälle (Mutationsprobe 21.10.2026)')

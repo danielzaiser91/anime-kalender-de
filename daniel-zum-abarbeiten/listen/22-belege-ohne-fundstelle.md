@@ -1,4 +1,4 @@
-# Belege ohne Fundstelle (93)
+# Belege ohne Fundstelle (95)
 
 Die Aussage war auf der Seite nicht zu finden. Von Hand prüfen: nennt der Artikel den Titel und den Termin? Wenn nein, ist der Beleg hinfällig und der Termin braucht eine andere Quelle.
 
@@ -45,9 +45,8 @@ Die Aussage war auf der Seite nicht zu finden. Von Hand prüfen: nennt der Artik
 - https://www.joyn.de/serien/naruto-shippuden-dp9lg5cqfaaj (gelesen 2026-10-27) — NARUTO: Shippuuden (1735)
 - https://www.joyn.de/filme/naruto-shippuden-the-movie-bonds (gelesen 2026-10-13) — kein Titel zugeordnet
 - https://www.joyn.de/filme/naruto-shippuden-the-movie-die-erben-des-willens-des-feuers (gelesen 2026-10-13) — kein Titel zugeordnet
-- https://www.joyn.de/serien/boruto-dp7adnkxkcfc (gelesen 2026-10-27) — Boruto: Naruto Next Generations (97938)
+- https://www.joyn.de/serien/boruto-dp7adnkxkcfc (gelesen 2026-10-27) — kein Titel zugeordnet
 - https://www.joyn.de/serien/solo-leveling (gelesen 2026-11-02) — Ore dake Level Up na Ken (151807), Ore dake Level Up na Ken: Season 2 - Arise from the Shadow (176496)
-- https://www.joyn.de/serien/welcome-to-demon-school-iruma-kun (gelesen 2026-10-13) — Welcome to Demon School! Iruma-kun: Staffel 4 (184492), Welcome to Demon School! Iruma-kun (107693)
 - https://www.anime2you.de/news/1052846/animoon-crunchyroll-ksm-25-verschiebungen/ (gelesen 2026-10-31) — Kobayashi-san Chi no Maidragon S (107717), Afro Samurai + Afro Samurai Resurrection (1292), Miss Kobayashi’s Dragon Maid – Staffel 1 (21776)
 - https://www.anime2you.de/news/1056385/22-verschiebungen-animoon-crunchyroll-peppermint/ (gelesen 2026-11-01) — Strike Witches (Staffel 2) – Vol. 1 (6381), The Café Terrace and Its Goddesses – Staffel 1 (154412), Inazuma Eleven – Staffel 1 (5231), Infinite Dendrogram – Vol. 2 (107420), Bitte zieh dich an, Takamine! – Vol. 1 (179965), My Love Story with Yamada-kun at Lv999 – Vol. 1 (154965), Sailor Moon: Das Mädchen mit den Zauberkräften (530), Girls Band Cry – Vol. 2 (164212), The Café Terrace and Its Goddesses Season 2 (166477)
 - https://www.anime2you.de/news/1053610/disney-plus-spy-x-family-und-mehr/ (gelesen 2026-10-31) — Naruto Shippuden – Staffel 3 (1735), SPY x FAMILY (140960), Spy × Family (Cour 2) (142838), Spy × Family: Staffel 2 (158927)
@@ -79,6 +78,7 @@ Die Aussage war auf der Seite nicht zu finden. Von Hand prüfen: nennt der Artik
 - https://www.anime2you.de/news/1051128/disney-plus-campfire-cooking-und-mehr/ (gelesen 2026-10-30) — One Piece – Staffel 4 bis 8 (21)
 - https://www.anime2you.de/news/1059541/ (gelesen 2026-10-30) — Shin Samurai-den YAIBA (177476)
 - https://www.anime2you.de/news/1057488/crunchyroll-reborn-as-a-space-mercenary-und-mehr/ (gelesen 2026-10-30) — Mezametara Saikyou Soubi to Uchuusen-mochi datta node, Ikkodate Mezashite Youhei to shite Jiyuu ni Ikitai (186541)
+- https://www.anime2you.de/news/1045399/aniverse-september-2026-neuzugaenge/ (gelesen 2026-10-30) — Yandere Dark Elf: She Chased Me All the Way from Another World! (180829)
 - https://www.anime2you.de/news/1041622/disney-plus-one-piece-und-mehr/ (gelesen 2026-10-30) — Youkoso Jitsuryoku Shijou Shugi no Kyoushitsu e (98659), Yu☆Gi☆Oh! Duel Monsters GX (482), The God of High School (116006), The Rising of the Shield Hero (99263)
 - https://de.wikipedia.org/wiki/Super_Wings (gelesen 2026-10-30) — Chuldong! Super Wings (10012621)
 - https://www.anime2you.de/news/1049988/disney-plus-the-god-of-high-school-und-mehr/ (gelesen 2026-11-02) — Beyblade X – Staffel 2 - Teil 2 (165159)
@@ -93,5 +93,7 @@ Die Aussage war auf der Seite nicht zu finden. Von Hand prüfen: nennt der Artik
 - https://news.animationdigitalnetwork.com/de/2026/10/15/reincarnated-as-a-dragon-hatchling-cast-alle-infos-zur-deutschen-synchro/ (gelesen 2026-11-02) — Tensei Shitara Dragon no Tamago Datta: Saikyou Igai Mezasa Nee (187941)
 - https://www.anime2you.de/news/1064806/adn-neuzugaenge-im-november-2026/ (gelesen 2026-11-03) — Ore wa Subete wo [Parry] Suru: Gyaku Kanchigai no Sekai Saikyou wa Boukensha ni Naritai (170695)
 - https://www.anisearch.de/article/189533,nukitashi-welcome-to-love-island-vol-1-3-limited-mediabook-edition-blu-ray-sammelschuber (gelesen 2026-10-30) — Nukitashi: Welcome to Love Island! (174188)
-- https://www.anime2you.de/news/1065078/aniverse-november-2026-neuzugaenge/ (gelesen 2026-10-30) — Call of the Night: Staffel 2 (175914)
+- https://www.anime2you.de/news/1065078/aniverse-november-2026-neuzugaenge/ (gelesen 2026-11-05) — Call of the Night: Staffel 2 (175914), Higeki no Genkyou to Naru Saikyou Gedou Last Boss Joou wa Tami no Tame ni Tsukushimasu. (156040)
 - https://www.anime2you.de/news/1065256/prime-video-goblin-slayer-staffel-2-und-mehr/ (gelesen 2026-11-03) — GOBLIN SLAYER II (129188)
+- https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/ (gelesen 2026-11-05) — Akame ga Kill: Schwerter der Assassinen (20613), Colorful ~ The Motion Picture (8142), Girls und Panzer - Das Finale: Teil 1 (99938), Girls und Panzer - Das Finale: Teil 2 (107208), Girls und Panzer - Das Finale: Teil 3 (124115), Girls und Panzer: Kore ga Hontou no Anzio-sen Desu! (18619), Kanon (2006) (1530), No Game, No Life Zero (21875), Star Blazers 2199: Space Battleship Yamato - Odyssey of the Celestial Arc (20690), To Love Ru: Darkness (13663), The Legend of Zorro (3010)
+- https://www.anime2you.de/news/1035676/aniverse-august-2026-neuzugaenge/ (gelesen 2026-11-05) — Zero kara Hajimeru Mahou no Sho (97682), Azumanga Daiou THE ANIMATION (66), Aesthetica of a Rogue Hero (13161)

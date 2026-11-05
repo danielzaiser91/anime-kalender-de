@@ -14,12 +14,12 @@ import { verwirfKapitelShopWege } from './11-9-kapitel-shop.ts'
 import { uebernehmeFskAusJustwatch } from './11-2-1-fsk-justwatch.ts'
 import { ergaenzeDiscUndZugang } from './11-1-disc-und-zugang.ts'
 import { entferneFremdeNachStaffeln, kennungAusAdresse, type CrStaffel } from './cr-serie-geteilt.ts'
-import { ANISEARCH_ID_BASIS } from './anisearch-titel.ts'
+import { begrenzeWegeAufBelege } from './wege-begrenzen.ts'
 import { setzeCoverNachRegel } from './cover-regel.ts'
 import { setzeProduktFelder } from './produkt-regel.ts'
 import { log, readJson } from '../lib/util.ts'
 import { entferneBezugswegeTrotzNein } from '../lib/handbeleg-bezugswege.ts'
-import { behalteNurHandbelegteWege, joynAdressenVonJw } from '../lib/handbeleg-weg.ts'
+import { joynAdressenVonJw } from '../lib/handbeleg-weg.ts'
 
 export function schliesseWegeAb({
   titles,
@@ -79,7 +79,7 @@ export function schliesseWegeAb({
     ihrer Hauptfassung — samt „Neu auf Deutsch bei Crunchyroll" in den News). Eine Kennung bei aniSearch belegt, dass es den Titel gibt, nicht, wo er läuft.
   */
   const jwJoyn = joynAdressenVonJw(readJson('data/justwatch-audio.json', {}))
-  for (const t of titles.values()) if (t.id >= ANISEARCH_ID_BASIS) behalteNurHandbelegteWege(t, alleChecks, jwJoyn)
+  begrenzeWegeAufBelege(titles.values(), alleChecks, jwJoyn)
 
   /* Die Wege aus JustWatch und aniSearch kommen nach der Katalog-Runde noch einmal dazu: Was keiner Staffel der Serie entspricht, fliegt hier endgültig (07.10.2026). */
   const fremd = entferneFremdeNachStaffeln(titles, kennungAusAdresse())

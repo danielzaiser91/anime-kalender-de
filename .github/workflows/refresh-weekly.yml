@@ -109,6 +109,7 @@ jobs:
       - name: Fehlschläge auswerten
         id: auswerten
         if: always()
+        continue-on-error: true
         run: bash tools/schritte-auswerten.sh
 
   # --- ADN: teilt AniList (Suche je Treffer), deshalb erst nach dem AniList-Job ---------------------------------------
@@ -130,6 +131,9 @@ jobs:
           cache: restore
 
       - name: ADN — ein halbes Jahr voraus
+        env:
+          AK_ADN_PROXY: https://ak-adn-gw.animekalender.workers.dev/adn-gw
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: bash tools/schritt.sh --zeit 15m "ADN — ein halbes Jahr voraus" -- npx tsx pipeline/fetch-adn.ts --from -90 --to 180
 
       # Der Kalender zeigt nur, was neu erscheint; eine Serie, die komplett im Angebot liegt, taucht dort nie auf. 600 je Woche decken den Bestand in gut vier
@@ -137,6 +141,8 @@ jobs:
       - name: ADN — vollständiger Katalog
         env:
           ANISEARCH_TOKEN: ${{ secrets.ANISEARCH_TOKEN }}
+          AK_ADN_PROXY: https://ak-adn-gw.animekalender.workers.dev/adn-gw
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: bash tools/schritt.sh --zeit 45m "ADN — vollständiger Katalog" -- npm run data:adn:catalog -- --limit 600
 
       - name: Quellen als Pull Request einreichen
@@ -151,6 +157,7 @@ jobs:
       - name: Fehlschläge auswerten
         id: auswerten
         if: always()
+        continue-on-error: true
         run: bash tools/schritte-auswerten.sh
 
   # --- Crunchyroll ----------------------------------------------------------------------------------------------------
@@ -199,6 +206,7 @@ jobs:
       - name: Fehlschläge auswerten
         id: auswerten
         if: always()
+        continue-on-error: true
         run: bash tools/schritte-auswerten.sh
 
   # --- aniSearch: ein Server, sechs Sekunden je Seite — nie zwei Läufe zugleich (Sperre `anisearch`) ----------------------
@@ -252,6 +260,7 @@ jobs:
       - name: Fehlschläge auswerten
         id: auswerten
         if: always()
+        continue-on-error: true
         run: bash tools/schritte-auswerten.sh
 
   # --- TMDB → JustWatch → Gegenprobe (jeder Schritt braucht die `tmdbId` aus dem davor) ------------------------------------
@@ -345,6 +354,7 @@ jobs:
       - name: Fehlschläge auswerten
         id: auswerten
         if: always()
+        continue-on-error: true
         run: bash tools/schritte-auswerten.sh
 
   # --- RTL+: Katalog liefert die Adressen für die Folgen; die Link-Prüfung teilt sich den Server ----------------------------
@@ -390,6 +400,7 @@ jobs:
       - name: Fehlschläge auswerten
         id: auswerten
         if: always()
+        continue-on-error: true
         run: bash tools/schritte-auswerten.sh
 
   # --- Übrige kleine Quellen (je ein Server, wenige Abfragen) ----------------------------------------------------------
@@ -459,6 +470,7 @@ jobs:
       - name: Fehlschläge auswerten
         id: auswerten
         if: always()
+        continue-on-error: true
         run: bash tools/schritte-auswerten.sh
 
   # --- Abschluss: Statusanzeige und Discord -----------------------------------------------------------------------------

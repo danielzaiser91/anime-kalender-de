@@ -108,6 +108,7 @@ const HANDGEPFLEGT = new Set([
   'data/synchron-forum-treffer.yaml',
   'data/netflix-fremde-meldungen.json',
   'data/joyn-luecke-ausnahmen.json',
+  'data/eigene-titel.yaml',
 ])
 for (const datei of readdirSync(pipelineDir, { recursive: true })) {
   if (typeof datei !== 'string' || !/\.(ts|mjs|js)$/.test(datei)) continue
