@@ -12,6 +12,9 @@ export const HAENGER_MINUTEN = 45
 /** Ab dieser Versuchsnummer startet die Wache nicht mehr neu, sie meldet nur (Schutz vor Endlosschleife). */
 export const MAX_VERSUCH = 3
 
+/** Nur Läufe dieser Ereignisse bricht die Wache ab; Sammler, Bestandsbau, Deploy, Claude-Jobs und Jobs ohne Frist nur melden (betrieb.md). */
+export const PR_EREIGNISSE = ['pull_request', 'pull_request_target']
+
 /** `{ 'Job-Kennung oder -Name': timeout-minutes }` aus dem Text einer Workflow-Datei (Einrückung 2/4 Leerzeichen, wie im Repo). */
 export function jobTimeouts(yamlText) {
   const aus = {}
@@ -41,8 +44,22 @@ export function jobTimeouts(yamlText) {
   return aus
 }
 
+/**
+ * `timeout-minutes` des Jobs: Treffer über Kennung/Name; Matrix-Name („PR-Aussehen – x“ zu `${{ matrix.teil }}`) über das Muster
+ * des Namens in der Datei, `kennung (x)` über die Kennung. Kein Wert → undefined.
+ */
+export function fristMinuten(timeouts, jobName) {
+  if (timeouts[jobName] !== undefined) return timeouts[jobName]
+  for (const [schluessel, minuten] of Object.entries(timeouts)) {
+    if (!schluessel.includes('${{')) continue
+    const teile = schluessel.split(/\$\{\{.*?\}\}/).map((s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+    if (new RegExp(`^${teile.join('.+')}$`).test(jobName)) return minuten
+  }
+  return timeouts[jobName.replace(/ \(.*\)$/, '')]
+}
+
 export function grenzeMinuten(timeouts, jobName) {
-  return Math.max(HAENGER_MINUTEN, timeouts[jobName] ?? 0)
+  return Math.max(HAENGER_MINUTEN, fristMinuten(timeouts, jobName) ?? 0)
 }
 
 /**
@@ -57,6 +74,7 @@ export function haengendeJobs(laeufe, timeoutsJe, jetztMs) {
       if (job.status !== 'in_progress' || !job.started_at) continue
       const minuten = (jetztMs - Date.parse(job.started_at)) / 60_000
       const grenze = grenzeMinuten(timeouts, job.name)
+      const hatFrist = fristMinuten(timeouts, job.name) !== undefined
       if (!(minuten > grenze)) continue
       const schritt = (job.steps ?? []).find((s) => s.status === 'in_progress')
       aus.push({
@@ -67,6 +85,7 @@ export function haengendeJobs(laeufe, timeoutsJe, jetztMs) {
         minuten: Math.round(minuten),
         grenze,
         versuch: lauf.run_attempt ?? 1,
+        abbrechbar: hatFrist && PR_EREIGNISSE.includes(lauf.event),
         bezug: lauf.pull_requests?.[0]?.number ? `PR ${lauf.pull_requests[0].number}` : lauf.head_branch,
       })
     }
@@ -79,11 +98,20 @@ export function haengerZeile(h) {
 }
 
 /**
- * Wer ist nach Abbruch dran? `merk`: `{ [runId]: { versuch } }` (abgebrochen, Neustart steht aus); `status`: `{ [runId]: 'completed' | … }`.
- * Ergebnis: die Läufe, die jetzt `--failed` bekommen; alle anderen bleiben in der Merkdatei.
+ * Wer ist nach Abbruch dran? `merk`: `{ [runId]: { versuch } }` (abgebrochen, Neustart steht aus); `info`: `{ [runId]: { status, conclusion, run_attempt } }`.
+ * `neustart`: abgeschlossen und nicht grün, jetzt `--failed`; `verwerfen`: grün geworden oder von Hand neu gestartet (höherer run_attempt),
+ * kein Neustart; alle anderen bleiben in der Merkdatei.
  */
-export function neustartPlan(merk, status) {
-  return Object.keys(merk).filter((id) => status[id] === 'completed')
+export function neustartPlan(merk, info) {
+  const neustart = []
+  const verwerfen = []
+  for (const id of Object.keys(merk)) {
+    const i = info[id]
+    if (!i) continue
+    if ((i.run_attempt ?? 1) > merk[id].versuch || i.conclusion === 'success') verwerfen.push(id)
+    else if (i.status === 'completed') neustart.push(id)
+  }
+  return { neustart, verwerfen }
 }
 
 function lies(datei) {
@@ -131,14 +159,19 @@ export function haengerWache(gh, repo, wurzel, jetztMs, merkDatei, { trocken = f
   return zeilen
 }
 
-function laufStatus(gh, repo, id) {
-  return JSON.parse(gh(['api', `repos/${repo}/actions/runs/${id}`])).status
+function laufInfo(gh, repo, id) {
+  const lauf = JSON.parse(gh(['api', `repos/${repo}/actions/runs/${id}`]))
+  return { status: lauf.status, conclusion: lauf.conclusion, run_attempt: lauf.run_attempt }
 }
 
 /** Ändert `merk` an Ort und Stelle (Abbruch merken, Neustart austragen). */
 function abbrechenUndNeustarten(gh, repo, haenger, merk) {
   const zeilen = []
   for (const h of haenger) {
+    if (!h.abbrechbar) {
+      zeilen.push(`  Lauf ${h.runId}: kein PR-Lauf oder Job ohne timeout-minutes, nur gemeldet`)
+      continue
+    }
     if (merk[h.runId] || h.versuch >= MAX_VERSUCH) {
       if (h.versuch >= MAX_VERSUCH) zeilen.push(`  Lauf ${h.runId}: Versuch ${h.versuch}, kein Neustart mehr — von Hand ansehen`)
       continue
@@ -151,13 +184,15 @@ function abbrechenUndNeustarten(gh, repo, haenger, merk) {
       zeilen.push(`  Lauf ${h.runId}: Abbruch gescheitert: ${String(fehler.message).split('\n')[0]}`)
     }
   }
-  const status = {}
+  const info = {}
   for (const id of Object.keys(merk)) {
     try {
-      status[id] = laufStatus(gh, repo, id)
+      info[id] = laufInfo(gh, repo, id)
     } catch {}
   }
-  for (const id of neustartPlan(merk, status)) {
+  const plan = neustartPlan(merk, info)
+  for (const id of plan.verwerfen) delete merk[id]
+  for (const id of plan.neustart) {
     try {
       gh(['run', 'rerun', id, '--failed', '--repo', repo])
       zeilen.push(`  Lauf ${id}: mit --failed neu gestartet`)
