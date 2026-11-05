@@ -94,6 +94,7 @@ pipeline/check-cartoon-ton.ts
 pipeline/check-cartoon-wege-falten.ts
 pipeline/check-cartoon-wege.ts
 pipeline/check-cartoon-zwilling.ts
+pipeline/check-cover-luecken-bau.ts
 pipeline/check-cover-luecken-wache.ts
 pipeline/check-cover-quelle.ts
 pipeline/check-cr-auftakt-wache.ts
@@ -330,6 +331,7 @@ pipeline/check-og-termin.ts
 pipeline/check-ohne-synchro-namen.ts
 pipeline/check-omu-ohne-termin.ts
 pipeline/check-panel-chips.ts
+pipeline/check-panel-cover.ts
 pipeline/check-panel-disc-doppel.ts
 pipeline/check-panel-titel-nachgeladen.ts
 pipeline/check-paramount.ts
