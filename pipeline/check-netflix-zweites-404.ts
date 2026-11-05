@@ -33,7 +33,7 @@ try {
   writeFileSync(join(kulisse, 'data/dub-confirmed.yaml'), '# leer\n')
   const { wegBelegtDeutsch, netflixBefund, nimmBefund, zaehleWechsel, wechselWarnungen, zweitesNetflix404, hat404 } = await import('./lib/link-rauschen.ts')
   const { werteLinkpruefungAus } = await import('./bau/09-2-linkpruefung.ts')
-  const { dubKey } = await import('./lib/dub-confirmed.ts')
+  const { dubKey, adressKern } = await import('./lib/dub-confirmed.ts')
 
   /* 1. Tabelle. Werte fest eingetragen, nicht aus dem Modul gelesen. */
   const tot = (am: string): LinkBefund => ({ status: 404, geprueftAm: am })
@@ -60,7 +60,7 @@ try {
   /* 2. Kreislauf durch die echte Bauphase: Lauf, Bau, nächster Lauf, Bau. */
   /** Der Bau über einen Titel mit einem Netflix-Weg `weg`; `befunde` ist der Inhalt von `link-check.json`. */
   let gehalten = -1
-  const baueMit = (befunde: Record<string, LinkBefund>, weg: string | string[], vorher: Title[] = [DEUTSCH], plattform = 'netflix', belege = new Map<string, DubCheck[]>()) => {
+  const baueMit = (befunde: Record<string, LinkBefund>, weg: string | string[], vorher: Title[] = [DEUTSCH], plattform = 'netflix', belege = new Map<string, DubCheck[]>(), hand = new Map<string, string>()) => {
     writeFileSync(join(kulisse, 'data/link-check.json'), JSON.stringify(befunde))
     const wege = [weg].flat().map((url) => ({ platform: plattform, url }))
     const titles = new Map<number, Title>([[1735, { id: 1735, streams: wege, entfernteStreams: [] } as unknown as Title]])
@@ -72,7 +72,7 @@ try {
       checksJePlattform: belege,
       youtubeBefunde: {},
       belegFuer: () => undefined,
-      vonHandBelegtAm: new Map(),
+      vonHandBelegtAm: hand,
       checks: new Map(),
       vorherTitles: vorher,
     }).netflix404Gehalten
@@ -112,6 +112,9 @@ try {
   erwarte('Bau nach Lauf 3, Handbeleg einer anderen Adresse: Weg geht', baue(lauf3, [], 'netflix', NF, fremdBeleg), { wege: 0, abgang: 1 })
   baue(lauf3, [])
   erwarte('Zähler: nichts gehalten ohne Deutsch', gehalten, 0)
+  /* Eine jüngere Handbestätigung hält den Weg ohnehin (handSticht); er zählt dann nicht als vom Deutsch-Riegel gehalten. */
+  const handJung = baueMit({ [NF]: tot('2026-11-09') }, NF, [DEUTSCH], 'netflix', undefined, new Map([[adressKern(NF), '2026-11-10']]))
+  erwarte('Handbestätigung jünger als der Befund: Weg bleibt, Zähler 0', [handJung?.streams.length, gehalten], [1, 0])
   /* A1: zwei Netflix-Wege am Titel, X deutsch, Y (Staffel 3) mit bestätigtem 404 und nie deutsch: Y geht, X bleibt. */
   const Y = 'https://www.netflix.com/title/81000333'
   const zwei = baueMit({ [NF]: { status: 200, geprueftAm: '2026-11-09' }, [Y]: tot('2026-11-09') }, [NF, Y])
