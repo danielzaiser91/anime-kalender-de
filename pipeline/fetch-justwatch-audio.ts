@@ -204,22 +204,14 @@ function verbucheFehlschlag(bestand: Record<string, Befund>, schluessel: string,
   return false
 }
 
-async function main(): Promise<void> {
-  const args = process.argv.slice(2)
-  const zahl = (name: string, vorgabe: number): number => {
-    const i = args.indexOf(name)
-    return i >= 0 && args[i + 1] ? Number(args[i + 1]) : vorgabe
-  }
-  const limit = zahl('--limit', 40)
-  const alterTage = zahl('--alter', 28)
-
+/** Die Eingaben des Laufs: Titel (Hauptbestand, Cartoons, Titel mit Hand-Kennung), TMDB-Zuordnung und der bisherige JustWatch-Bestand. */
+function ladeEingaben(nurCartoons: boolean): { titles: Title[]; cartoons: Title[]; tmdb: Record<string, { tmdbId?: number }>; bestand: Record<string, Befund> } {
   /*
     **Cartoons fragen mit** (16.09.2026): TMDB nennt dort nur den Dienst, keine
     Adresse — die Prime-Pille von „The Mighty Nein" führte deshalb ins Leere.
     JustWatch kennt die Seite beim Anbieter; zugeordnet wird wie immer über die
     TMDB-Kennung, die Cartoons selbst tragen. `--nur-cartoons` holt nur sie.
   */
-  const nurCartoons = args.includes('--nur-cartoons')
   const cartoons = readJson<Title[]>('public/data/cartoons.json', [])
   /*
     **Wer von Hand eine TMDB-Kennung bekommen hat, wird auch gefragt** (23.09.2026).
@@ -242,6 +234,20 @@ async function main(): Promise<void> {
     : [...readJson<Title[]>('public/data/titles.json', []), ...cartoons, ...ausDemToggle]
   const tmdb = readJson<Record<string, { tmdbId?: number }>>('data/tmdb-titles.json', {})
   const bestand = readJson<Record<string, Befund>>(DATEI, {})
+  return { titles, cartoons, tmdb, bestand }
+}
+
+async function main(): Promise<void> {
+  const args = process.argv.slice(2)
+  const zahl = (name: string, vorgabe: number): number => {
+    const i = args.indexOf(name)
+    return i >= 0 && args[i + 1] ? Number(args[i + 1]) : vorgabe
+  }
+  const limit = zahl('--limit', 40)
+  const alterTage = zahl('--alter', 28)
+
+  const nurCartoons = args.includes('--nur-cartoons')
+  const { titles, cartoons, tmdb, bestand } = ladeEingaben(nurCartoons)
 
   const grenze = new Date(Date.now() - alterTage * 86_400_000).toISOString().slice(0, 10)
 
