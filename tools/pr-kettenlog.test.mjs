@@ -170,6 +170,8 @@ const gh = (args) => {
 const l = holeLauf('o/r', SHA, gh)
 pruefe('neuester Lauf = höchste Kennung, nicht der erste', l.id === 9 && l.conclusion === 'failure', l)
 pruefe('Abruf filtert auf Kopf und pull_request', aufrufe[0].some((a) => a.includes(`head_sha=${SHA}`) && a.includes('event=pull_request')), aufrufe[0])
+pruefe('neuerer abgebrochener Lauf verliert gegen älteren fertigen', holeLauf('o/r', SHA, () => '12\tcompleted\tcancelled\n8\tcompleted\tsuccess\n').id === 8)
+pruefe('nur abgebrochene Läufe: der neueste', holeLauf('o/r', SHA, () => '3\tcompleted\tcancelled\n12\tcompleted\tcancelled\n').id === 12)
 gleich('kein Lauf: null', holeLauf('o/r', SHA, () => ''), null)
 const js = holeJobs('o/r', 9, gh)
 pruefe('Jobs gelesen', js.length === 3 && js[1].status === 'in_progress' && js[1].conclusion === '')
