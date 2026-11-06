@@ -1288,6 +1288,19 @@ bei `dub: undefined` gegen `dub: false`).
 **Wieder aufgegriffen wird es, sobald je Titel eine EAN vorliegt.** Dann trägt
 ein Shop-Abgleich, weil er nicht mehr über Namen laufen muss. Vorher nicht.
 
+**Nachmessung 06.11.2026 (Stand `882589705`, `tools/bau-vergleich.mjs --katalog`, Basis gegen Disc-Fix):** Ohne jeden Weg
+sind **322** von 2.927 Titeln, nicht 85 (die Tabelle oben ist der Stand vom 12.09.). Davon 123 von 166 reinen
+aniSearch-Titeln (Kennung ab 10 Mio.): `extract-disc-ausgaben.ts` ordnete die archivierte Seite nur über
+`anisearch.json` zu, und dort stehen reine Titel nie (0 von 166). Seit `seiteZuTitel` ordnet der Auszug sie über die
+Kennung zu: 95 reine Titel bekommen ihre deutsche Disc (aniSearch-Artikel), ohne Weg bleiben 54 reine und 253 insgesamt.
+Die 54 haben keine deutsche Disc-Ausgabe auf der Seite. Wächter: `check-disc-anisearch-bestand.ts` (Warnung, wenn eine
+Seite eine deutsche Ausgabe nennt und `disc-ausgaben.json` den Titel nicht führt).
+**Websites reiner Titel bewusst nicht eingespeist:** Die Abschnitte „Streams“ der Seiten (94 von 166 mit Adressen,
+Netflix 29, Crunchyroll 25, Prime-Kanäle 14, YouTube 14 …) in `anisearch.json`-Form eingemischt, ergab im Bauvergleich
+6 entfernte Netflix-Verweise anderer Titel (Regel „Folgen füllen den Anbieter“, `verweise-entfernt.json`) und 22
+geänderte `sharedWith` bei AniList-Titeln, netto weniger Titel mit Weg (109 statt 112). Vor einem zweiten Anlauf die
+Netflix-Zuteilung je Franchise klären (aniSearch nennt die Reihenadresse, nicht die Staffel).
+
 ## Ein Pinyin-Titel ist kein Name — und das Synonym daneben ist einer
 
 AniLists `romaji` ist bei japanischen Werken die etablierte Umschrift; „Shingeki

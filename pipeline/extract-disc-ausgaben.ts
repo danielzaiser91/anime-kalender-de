@@ -38,6 +38,7 @@ import { gunzipSync } from 'node:zlib'
 import { readFileSync, readdirSync } from 'node:fs'
 import { log, readJson, writeJson } from './lib/util.ts'
 import type { Title } from '../shared/types.ts'
+import { seiteZuTitel } from './lib/anisearch-seite-zu-titel.ts'
 
 const ARCHIV = 'data/anisearch-raw'
 const ZIEL = 'data/disc-ausgaben.json'
@@ -172,11 +173,8 @@ export function ausgabenAusSeite(html: string): { ausgaben: Ausgabe[]; geprueft:
 function main(): void {
   const anisearch = readJson<Record<string, { anisearchId?: number }>>('data/anisearch.json', {})
   const titles = readJson<Title[]>('public/data/titles.json', [])
-  const nachAsId = new Map<number, number>()
-  for (const [id, e] of Object.entries(anisearch)) {
-    if (e.anisearchId) nachAsId.set(e.anisearchId, Number(id))
-  }
   const bekannt = new Set(titles.map((t) => t.id))
+  const nachAsId = seiteZuTitel(anisearch, bekannt)
 
   const raus: Record<string, Ausgabe[]> = {}
   let geprueft = 0
