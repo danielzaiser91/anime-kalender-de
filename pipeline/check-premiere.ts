@@ -87,6 +87,12 @@ pruefe('Fernsehen: ohne vorher kein Zusatzfeld, eine belegte Wiederholung meldet
 const titel = { id: 1, streams: [] } as unknown as Title
 pruefe('istPremiere: ohne Beleg keine Aussage, mit Handbeleg Premiere', istPremiere(1, '2026-11-05', titel, []) === undefined && istPremiere(1, '2026-11-05', titel, [], undefined, undefined, true) === true)
 pruefe('istPremiere: früheres Datum der Folge schlägt den Handbeleg', istPremiere(1, '2026-11-05', titel, [], { 1: '2026-01-01' }, undefined, true) === false)
+// Joyn zeigt die Folgen erst nach der Sendung: mit Handbeleg bleibt der TV-Start Premiere, ohne Beleg und bei anderen Anbietern gilt der Weg als früher
+const joynTitel = { id: 1, streams: [{ platform: 'joyn', url: 'https://www.joyn.de/serien/x', dub: true, dubRanges: [{ from: 1, to: 24, dub: true }] }] } as unknown as Title
+const netflixTitel = { id: 1, streams: [{ platform: 'netflix', url: 'https://www.netflix.com/title/1', dub: true, dubRanges: [{ from: 1, to: 24, dub: true }] }] } as unknown as Title
+pruefe('istPremiere: Joyn-Weg mit Handbeleg bleibt Premiere', istPremiere(1, '2026-11-05', joynTitel, [], undefined, undefined, true) === true)
+pruefe('istPremiere: Joyn-Weg ohne Handbeleg ist früher (Wiederholung)', istPremiere(1, '2026-11-05', joynTitel, [], undefined, undefined, false) === false)
+pruefe('istPremiere: Netflix-Weg bleibt auch mit Handbeleg früher (Ausnahme nur für Joyn)', istPremiere(1, '2026-11-05', netflixTitel, [], undefined, undefined, true) === false)
 
 // Texte
 pruefe('Tooltip und Beschriftung', premiereHinweis('netflix', 'disc') === 'Erstmals im Streaming auf Deutsch. Vorher nur auf Disc.' && premiereHinweis('tv', 'kino') === 'Erstmals im TV auf Deutsch. Vorher nur im Kino.' && premiereLabel('disc') === 'Premiere*' && premiereLabel() === 'Premiere')

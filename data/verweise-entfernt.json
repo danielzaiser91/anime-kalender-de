@@ -1,5 +1,5 @@
 {
-  "stand": "2026-11-05T23:09:07.698Z",
+  "stand": "2026-11-06T10:53:15.722Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -32,7 +32,7 @@
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
       "geprueftAm": "2026-11-02",
       "entferntAm": "2026-11-06",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 20704,
@@ -186,7 +186,7 @@
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
       "geprueftAm": "2026-11-02",
       "entferntAm": "2026-11-06",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 97815,
@@ -901,7 +901,7 @@
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
       "geprueftAm": "2026-11-02",
       "entferntAm": "2026-11-06",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 67,
@@ -2254,7 +2254,7 @@
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
       "geprueftAm": "2026-11-04",
       "entferntAm": "2026-11-06",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 98874,
@@ -3002,7 +3002,7 @@
       "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
       "geprueftAm": "2026-11-04",
       "entferntAm": "2026-11-06",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 170916,
@@ -3057,7 +3057,7 @@
       "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
       "geprueftAm": "2026-11-04",
       "entferntAm": "2026-11-06",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 147864,
@@ -3255,7 +3255,7 @@
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
       "geprueftAm": "2026-11-02",
       "entferntAm": "2026-11-06",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 101610,
@@ -4600,6 +4600,17 @@
       "letzterWeg": false
     },
     {
+      "titleId": 486,
+      "titel": "Kino’s Journey",
+      "plattform": "netflix",
+      "url": "https://www.netflix.com/title/80193421",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-11-06",
+      "letzterWeg": true
+    },
+    {
       "titleId": 543,
       "titel": "Vampire Hunter D: Bloodlust",
       "plattform": "primevideo",
@@ -4949,7 +4960,7 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-11-06",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 4654,
@@ -5004,7 +5015,7 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-11-06",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 6213,
@@ -5257,7 +5268,7 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-11-06",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 18411,
@@ -5719,7 +5730,7 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-11-06",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 21361,
@@ -5818,7 +5829,7 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-11-06",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 21742,
@@ -6005,7 +6016,7 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-11-06",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 98448,
@@ -6049,7 +6060,7 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-11-06",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 99749,
@@ -6115,7 +6126,7 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-11-06",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 100112,
@@ -6797,7 +6808,7 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-11-06",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 129192,
@@ -6808,7 +6819,7 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-11-06",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 129196,
@@ -6830,7 +6841,7 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-11-06",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 130298,
@@ -7083,7 +7094,7 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-11-06",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 156001,
@@ -7116,7 +7127,7 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-11-06",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 158559,
@@ -7127,7 +7138,7 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-11-06",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 158559,
@@ -7138,7 +7149,7 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-11-06",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 161476,
@@ -7215,7 +7226,7 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-11-06",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 164212,
@@ -7226,7 +7237,7 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-11-06",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 164212,
@@ -7237,7 +7248,7 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-11-06",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 166531,
@@ -7424,7 +7435,7 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-11-06",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 177476,
@@ -7435,7 +7446,7 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-11-06",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 177509,
@@ -7831,7 +7842,7 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-11-06",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 144932,
@@ -7898,17 +7909,6 @@
       "geprueftAm": null,
       "entferntAm": "2026-11-06",
       "letzterWeg": false
-    },
-    {
-      "titleId": 486,
-      "titel": "Kino’s Journey",
-      "plattform": "netflix",
-      "url": "https://www.netflix.com/title/80193421",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-11-04",
-      "letzterWeg": true
     },
     {
       "titleId": 170221,

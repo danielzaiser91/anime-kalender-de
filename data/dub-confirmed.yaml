@@ -38349,3 +38349,19 @@
   dub: true
   checkedAt: '2026-10-13'
   note: "Tonspuren: Deutsch — Amazon-Seite B0D7N68Q5T: alle 12 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.834ee1bc-c7bc-4b4c-839c-ee8826498aed"
+
+# --- Joyn, von Daniel gesehen am 2026-11-05 ---
+# One Piece (21) und Fish-Man Island (183423) haben keinen Handbeleg: niemand hat Joyn dort gesehen, der Weg wird über die
+# JustWatch-Joyn-Liste erwartet; bis dahin nennt die Warnzeile von pipeline/check-joyn-sender-bestand.ts beide.
+
+- anilistId: 177476
+  title: "YAIBA: Samurai Legend"
+  platform: joyn
+  url: https://www.joyn.de/serien/yaiba-samurai-legend
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 24
+      dub: true
+  checkedAt: '2026-11-05'
+  note: "Joyn-Serienseite (Daniel, 05.11.2026): Staffel 1, Folge 1 „Auftritt Yaiba“ vom 05.11.2026, Senderlogo ProSieben MAXX; die Folgen sind die deutsche TV-Ausstrahlung (Anime2You 1059480: deutsche TV-Premiere der ersten Staffel). Gesehen ist nur Folge 1; Folgen 2–24 sind die TV-Planung laut Anime2You."
