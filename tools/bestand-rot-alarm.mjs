@@ -89,7 +89,7 @@ export function schritteAlarmZeile(rote, schritte, jetztMs) {
   return `ALARM Bestandsbau seit ${stunden.toFixed(1)} h rot mit ${schritte.length} verschiedenen Fehlerschritten (${schritte.join('; ')}; Grenze ${SCHRITTE_GRENZE_STUNDEN} h)`
 }
 
-const holeLaeufeJson = (gh, repo, workflow) =>
+export const holeLaeufeJson = (gh, repo, workflow) =>
   JSON.parse(gh('run', 'list', '--repo', repo, '--workflow', workflow, '--limit', '200', '--json', 'status,conclusion,createdAt,databaseId'))
 
 /** Alle Alarmzeilen (Bestandsbau 6 h, Fehlerschritte, Deploy) in einem Text; jede Teilprüfung meldet ihren Lesefehler selbst. */

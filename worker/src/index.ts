@@ -33,7 +33,7 @@ import {
   type ReleaseLink,
 } from './templates.ts'
 import { Ereignisse, ereignisSenden } from './ereignisse.ts'
-import { pushIstErschienen, pushVersand } from './push.ts'
+import { PUSH_CRON, pushSchnellMitLog, pushStuendlich } from './push-takt.ts'
 import { handlePushAbo, handlePushTest } from './push-abo.ts'
 import { type Env } from './env.ts'
 import { digestFuer, type DigestKontext, type Reihen, type SubscriberRow } from './digest-inhalt.ts'
@@ -1437,6 +1437,7 @@ export default {
       ctx.waitUntil(digestMitLog(env, now))
       return
     }
+    if (event.cron === PUSH_CRON) return ctx.waitUntil(pushSchnellMitLog(env, now, () => loadEvents(env)))
     ctx.waitUntil(sichereSchnellmessung(env.SCHNELLMESSER).catch((e) => fehlerLog('[schnell]', e))); ctx.waitUntil(loescheAbgelaufenes(env, now)) // Löschfristen der Datenschutzerklärung
     ctx.waitUntil(starteFaelligeLaeufe(env, now).catch((e) => fehlerLog('[wecker]', e))) // Newsletter und Überwachung laufen getrennt, fällt eines aus, laufen die anderen weiter
     // Welches Land bekommt ein Cron-Lauf? Entscheidet, ob sich die Erneuerung des Crunchyroll-Zugangs ohne Daniels Rechner automatisieren lässt.
@@ -1452,8 +1453,7 @@ export default {
         .catch((err) => fehlerLog('[land] fehlgeschlagen', err)),
     )
     ctx.waitUntil(
-      Promise.all([loadEvents(env), loadNews(env)])
-        .then(([ev, news]) => pushVersand(env, now, ev, pushIstErschienen, weitereAusNews(news)))
+      pushStuendlich(env, now, () => loadEvents(env), () => loadNews(env))
         .then((msg) => console.log(`[push] ${msg}`))
         .catch((err) => fehlerLog('[push] fehlgeschlagen', err)),
     )

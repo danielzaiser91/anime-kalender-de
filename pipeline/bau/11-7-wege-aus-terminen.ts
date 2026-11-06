@@ -102,16 +102,20 @@ export function ergaenzeWegeAusTerminen({ titles, releases, istTot, verweiseEntf
   return neu.size
 }
 
-/** Auslöser-Angaben je ergänztem Weg; aufgerufen nach dem Anhängen, `wegVorher` ist daher der Bestand ohne den neuen Weg. */
+/** Auslöser-Angaben je ergänztem Weg; aufgerufen nach dem Anhängen. `wegVorher` ist der Bestand vor der ganzen Runde (ohne alle neuen Wege), `wegNachher` er plus dieser eine Weg. */
 function wegAusloeser(neu: Map<string, { titel: Title; weg: StreamLink }>, termine: Map<string, string | undefined>): Ausloeser[] {
-  return [...neu].map(([schluessel, { titel, weg }]) => ({
-    titleId: titel.id,
-    name: anzeigeName(titel),
-    regel: `wegAusTermin:${weg.platform}`,
-    terminUrl: termine.get(schluessel),
-    wegVorher: (titel.streams ?? []).filter((s) => s !== weg).map((s) => s.url),
-    wegNachher: (titel.streams ?? []).map((s) => s.url),
-  }))
+  const neueWege = new Set([...neu.values()].map((n) => n.weg))
+  return [...neu].map(([schluessel, { titel, weg }]) => {
+    const vorher = (titel.streams ?? []).filter((s) => !neueWege.has(s)).map((s) => s.url)
+    return {
+      titleId: titel.id,
+      name: anzeigeName(titel),
+      regel: `wegAusTermin:${weg.platform}`,
+      terminUrl: termine.get(schluessel),
+      wegVorher: vorher,
+      wegNachher: [...vorher, weg.url],
+    }
+  })
 }
 
 /** Schlüssel `Titel|Anbieter` aller sicheren Termine, zu denen der Titel keinen Weg hat und die nicht bewusst entfernt wurden. */

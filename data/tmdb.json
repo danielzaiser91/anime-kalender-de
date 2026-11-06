@@ -3990,5 +3990,66 @@
     "tmdbId": 314271,
     "fsk": 16,
     "inhaltAm": "2026-11-04"
+  },
+  "demon-slayer-infinity-castle-1-primevideo": {
+    "tmdbId": 1311031,
+    "fsk": 16,
+    "justwatchUrl": "https://www.themoviedb.org/movie/1311031/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Netflix",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Prime Video",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Disney Plus",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Prime Video with Ads",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Netflix Standard with Ads",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll Amazon Channel",
+        "kind": "flatrate"
+      }
+    ],
+    "providers": [
+      "netflix",
+      "primevideo",
+      "disneyplus",
+      "crunchyroll"
+    ],
+    "inhaltAm": "2026-11-05"
+  },
+  "lego-one-piece-netflix": {
+    "tmdbId": 318918,
+    "fsk": 6,
+    "justwatchUrl": "https://www.themoviedb.org/tv/318918-lego-one-piece/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Netflix",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Netflix Standard with Ads",
+        "kind": "flatrate"
+      }
+    ],
+    "providers": [
+      "netflix"
+    ],
+    "inhaltAm": "2026-11-05"
   }
 }

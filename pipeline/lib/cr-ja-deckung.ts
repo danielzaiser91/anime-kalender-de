@@ -16,6 +16,50 @@ function hatNullBlock(serie: CrSerie): boolean {
   return (serie.staffeln ?? []).some((s) => s.folgen > 0 && s.deutsch === 0)
 }
 
+/**
+ * Blockketten legen nur die deutschen Blöcke der Reihe nach auf unsere Einträge; ein Block ohne deutsche Folge vor einem deutschen
+ * bleibt dabei unbesetzt, und die Summen können zufällig aufgehen (04.11.2026, Persona 5: „Day Breakers“ 1/0 vor den OVAs 2/2 gab
+ * Stars and Ours und Dark Sun das Ja der OVAs). Dann trägt die Kette kein Ja; ein Null-Block hinter dem letzten deutschen stört nicht,
+ * ebenso wenig der Untertitel-Zwilling eines deutschen Blocks („Season 2“ neben „Season 2 (German Dub)“, How Not to Summon a Demon Lord).
+ */
+export function beurteileBlockkettenOhneLuecke(serie: CrSerie, unsere: Title[]): ReturnType<typeof beurteileBlockketten> {
+  const bloecke = serie.staffeln ?? []
+  const istZwilling = (name: string | undefined) =>
+    Boolean(name) && bloecke.some((d) => d.deutscheFolgen?.length && d.name?.startsWith(`${name} (`) && d.name.endsWith(')'))
+  let ohneDeutsch = false
+  for (const s of bloecke) {
+    if (!s.deutscheFolgen?.length) ohneDeutsch ||= s.folgen > 0 && !istZwilling(s.name)
+    else if (ohneDeutsch) return []
+  }
+  return beurteileBlockketten(serie, unsere)
+}
+
+/** Schlüssel eines Blocks über alle Einträge: dieselbe Staffel einer Kennung trägt in jedem Eintrag dieselbe `staffelId`. */
+export function blockSchluessel(seriesId: string | undefined, staffelId: string | undefined): string | undefined {
+  return seriesId && staffelId ? `${seriesId}|${staffelId}` : undefined
+}
+
+/**
+ * Blöcke (Kennung und `staffelId`), die irgendein Eintrag der Kennung ohne deutsche Folge führt. Die Einträge einer Kennung sind zu
+ * verschiedenen Zeiten geprüft (04.11.2026, Persona 5: derselbe Block 1/0 in drei Einträgen, 1/1 im vierten); widersprechen sie sich,
+ * gilt der Block nirgends als deutsch.
+ */
+export function blockSchluesselMitNull(crDub: CrDubData): Set<string> {
+  const ids = new Set<string>()
+  for (const serie of crDub.serien) {
+    for (const b of serie.staffeln ?? []) {
+      const k = blockSchluessel(serie.seriesId, b.staffelId)
+      if (k && b.folgen > 0 && b.deutsch === 0) ids.add(k)
+    }
+  }
+  return ids
+}
+
+/** Führt der Eintrag einen Block, den ein anderer Eintrag derselben Kennung ohne deutsche Folge führt? */
+function hatWiderspruchsBlock(serie: CrSerie, mitNull: Set<string>): boolean {
+  return (serie.staffeln ?? []).some((b) => mitNull.has(blockSchluessel(serie.seriesId, b.staffelId) ?? ''))
+}
+
 function deutschFolgen(serie: CrSerie): number {
   return (serie.staffeln ?? []).reduce((n, s) => n + (s.deutscheFolgen?.length ?? 0), 0)
 }
@@ -47,7 +91,7 @@ function durchBlockUrteil(serien: CrSerie[], nachUrl: Map<string, Title[]>): Set
     const alle = [...titel.values()]
     merke(beurteileNachFolgennummern(serie, alle))
     merke(beurteileJeBlock(serie, alle.filter((t) => !beurteilt.has(t.id))))
-    merke(beurteileBlockketten(serie, alle))
+    merke(beurteileBlockkettenOhneLuecke(serie, alle))
     merke(beurteileTeilblock(serie, alle))
   }
   for (const serie of serien) {
@@ -81,8 +125,9 @@ export function crJaOhneDeckung({ titles, mitTermin, mitBeleg, crDub }: Deckungs
   }
   const gedeckt = durchBlockUrteil(crDub.serien, nachUrl)
   const offen: string[] = []
+  const mitNull = blockSchluesselMitNull(crDub)
   for (const serie of crDub.serien) {
-    if (!hatNullBlock(serie)) continue
+    if (!hatNullBlock(serie) && !hatWiderspruchsBlock(serie, mitNull)) continue
     for (const t of nachUrl.get(serie.url) ?? []) {
       const weg = t.streams.find((s) => s.platform === 'crunchyroll' && s.url === serie.url)
       if (!weg?.dub || weg.dubRanges?.length) continue

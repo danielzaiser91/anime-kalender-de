@@ -27,9 +27,9 @@ export interface FilterFeldProps {
  * Das Filterfeld des Kalenders.
  *
  * **Dieselbe Ansicht wie die Datenbank**: die Schnell-Schalter,
- * der Klick-Modus in eigener Zeile und der Kasten mit den betroffenen Filtern. Was
+ * das Suchfeld und der Kasten mit den betroffenen Filtern. Was
  * hier hinzukommt, sind nur die **Zahlen des Zeitraums** an Anbieter und Genre und
- * der Fernsehen-Schalter. Vorher versteckte „Weitere Filter" den Klick-Modus
+ * der Fernsehen-Schalter. Vorher versteckte „Weitere Filter" die Schnell-Schalter
  * mit — er greift jetzt sichtbar.
  */
 export function FilterFeld(p: FilterFeldProps) {
@@ -56,7 +56,7 @@ export function FilterFeld(p: FilterFeldProps) {
       className="flex min-h-0 flex-1 flex-col animate-fade-in border-ak-rand bg-ak-flaeche md:overflow-hidden md:rounded-3xl md:border"
     >
       {/* **Die gewählten Filter stehen im Filterfeld** — dieselbe Stelle wie im Datenbank-Reiter
-          (`FilterBar`), unter dem festen Klick-Modus (`zwischen`). */}
+          (`FilterBar`), unter dem Suchfeld (`zwischen`). */}
       <HerkunftZaehlungContext.Provider value={herkunftZaehlung}>
         <FilterDetailsFeld
           meta={p.data.meta}
@@ -80,41 +80,6 @@ export function FilterFeld(p: FilterFeldProps) {
       </HerkunftZaehlungContext.Provider>
       <FilterFuss {...p} />
     </section>
-  )
-}
-
-export function Schalter({
-  an,
-  setzen,
-  label,
-  hinweis,
-  ariaLabel,
-}: {
-  an: boolean
-  setzen: (an: boolean) => void
-  label: string
-  hinweis?: string
-  ariaLabel?: string
-}) {
-  return (
-    <button
-      type="button"
-      role="switch"
-      aria-checked={an}
-      aria-label={ariaLabel}
-      onClick={() => setzen(!an)}
-      className="flex min-h-11 cursor-pointer items-center gap-3 text-left text-sm text-ak-text"
-    >
-      <span className={`relative h-[22px] w-[38px] shrink-0 rounded-full transition ${an ? 'bg-ak-akzent' : 'bg-ak-rand'}`}>
-        <span className={`absolute top-[3px] size-4 rounded-full transition-all ${an ? 'left-[19px] bg-[#0d0f14]' : 'left-[3px] bg-white shadow'}`} />
-      </span>
-      {label && (
-        <span className="flex flex-col">
-          <span className="font-bold">{label}</span>
-          {hinweis && <span className="text-xs text-ak-leise">{hinweis}</span>}
-        </span>
-      )}
-    </button>
   )
 }
 

@@ -10,10 +10,11 @@ import {
 import { Chip, Tooltip } from './ui.tsx'
 import { TIPPFLAECHE_HOCH } from './detail/tippziel.ts'
 import { SchnellChips } from './schnellfilter.tsx'
-import { FilterSuche, KlickModusLeiste } from './filter/klick-modus.tsx'
+import { FilterSuche } from './filter/filter-suchfeld.tsx'
 import { FilterSuchHinweis } from './filter/such-hinweis.tsx'
 import { filterMode, modusVon, toggleFilter, type ModusFeld, type FilterState, type ListKey } from '../lib/filters.ts'
 import { nachZahlGeordnet } from '../lib/filter-liste.ts'
+import { zyklusFilter } from '../lib/filter-zyklus.ts'
 import { useGenreSicht } from './filter/genre-sicht.tsx'
 import { bereichsSuche, titelWoerter, type BereichsSuche } from '../lib/filter-suche.ts'
 import type { Translate } from '../lib/i18n.tsx'
@@ -24,20 +25,13 @@ import { SprecherFilter } from './SprecherFilter.tsx'
 import { TitelNamenContext } from '../lib/sprecher.ts'
 import { HerkunftZaehlungContext } from '../lib/herkunft-zaehlung.ts'
 import { herkunftListe, herkunftName, HerkunftChip, InfoZeichen } from './filter/herkunft-gruppe.tsx'
+import { STATUS_LABEL_KEY } from './filter/status-etiketten.ts'
 
 export const FSK_OPTIONS: Fsk[] = [0, 6, 12, 16, 18]
 
 export const STATUS_OPTIONS: ReleaseStatus[] = ['airing', 'tba', 'abgeschlossen', 'erschienen', 'unbekannt']
 
 export const KEYWORD_PREVIEW = 24
-
-export const STATUS_LABEL_KEY = {
-  airing: 'status.airing',
-  abgeschlossen: 'status.abgeschlossen',
-  tba: 'status.tba',
-  erschienen: 'status.erschienen',
-  unbekannt: 'status.unbekannt',
-} as const
 
 /**
  * **Der UND/ODER-Schalter einer Kategorie.**
@@ -224,13 +218,12 @@ export function MeineAnbieter({
 /**
  * **Die Schnell-Schalter** — ein Chip je Filter, Logik in `lib/schnellfilter.ts`, Darstellung in `schnellfilter.tsx`.
  * Sie sind Kurzformen echter Filter: Disc, TV und Cartoon zeigen denselben Stand wie ihre Pillen in den Gruppen darunter,
- * und ein Klick an einer Stelle wirkt an der anderen. Das Ziel eines Tipps gibt der Klick-Modus vor.
+ * und ein Klick an einer Stelle wirkt an der anderen. Jeder Tipp schaltet reihum nichts → ausgewählt → ausgeschlossen → nichts.
  */
 function SchnellSchalter({
   t,
   filters,
   set,
-  mode,
   favoriteCount,
   showConfidence,
   tvAn,
@@ -240,7 +233,6 @@ function SchnellSchalter({
   t: Translate
   filters: FilterState
   set: (patch: Partial<FilterState>) => void
-  mode: 'include' | 'exclude'
   favoriteCount?: number
   showConfidence: boolean
   tvAn?: boolean
@@ -256,7 +248,7 @@ function SchnellSchalter({
   return (
     <div className="border-y border-ak-info bg-ak-info-grund px-3 py-3">
       <Bereich label={label} suche={suche} texte={texte} klasse="[&>div]:gap-y-3">
-        <SchnellChips t={t} filters={filters} onChange={(next) => set(next)} mode={mode} favoriteCount={favoriteCount} showConfidence={showConfidence} tvAn={tvAn} setTvAn={setTvAn} zeige={(text) => zeigePille(suche, label, text)} />
+        <SchnellChips t={t} filters={filters} onChange={(next) => set(next)} favoriteCount={favoriteCount} showConfidence={showConfidence} tvAn={tvAn} setTvAn={setTvAn} zeige={(text) => zeigePille(suche, label, text)} />
       </Bereich>
     </div>
   )
@@ -268,8 +260,6 @@ function SchnellSchalter({
  */
 export function FilterDetails({
   t,
-  setMode,
-  mode,
   modusVon2,
   filters,
   meta,
@@ -299,8 +289,6 @@ export function FilterDetails({
   zwischen,
 }: {
   t: Translate
-  setMode: Dispatch<SetStateAction<'include' | 'exclude'>>
-  mode: 'include' | 'exclude'
   modusVon2: (feld: ModusFeld, anzahl: number) => { anzahl: number; wert: 'und' | 'oder'; setzen: (w: 'und' | 'oder') => void }
   filters: FilterState
   meta: DataMeta
@@ -324,13 +312,13 @@ export function FilterDetails({
   /** Im Kalender: Schalter fürs Fernsehen und die Zahlen des Zeitraums. */
   tvAn?: boolean
   setTvAn?: (an: boolean) => void
-  /** Das Suchfeld unter dem Klick-Modus — durchsucht alle Pillen (01.10.2026). */
+  /** Das Suchfeld oben — durchsucht alle Pillen (01.10.2026). */
   filterQuery: string
   setFilterQuery: Dispatch<SetStateAction<string>>
   platformZaehlung?: Map<PlatformId, number>
   genreListe?: string[]
   genreZaehlung?: Map<string, number>
-  /** Abschnitte zwischen Schnell und Gruppen (aktive Filter, Schalter) — sie stehen unter dem festen Klick-Modus. */
+  /** Abschnitte zwischen Schnell und Gruppen (aktive Filter, Schalter) — sie stehen im Scrollbereich unter dem Suchfeld. */
   zwischen?: ReactNode
 }) {
   const [mehr, setMehr] = useState(false)
@@ -343,14 +331,12 @@ export function FilterDetails({
   const sichtbarPlattformen = plattformen.filter((p) => zeigePille(suche, plattformLabel, PLATFORMS[p].name))
   return (
     <>
-      <KlickModusLeiste t={t} mode={mode} setMode={setMode} />
       <div data-filter-scroll tabIndex={-1} className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
       <FilterSuche t={t} filterQuery={filterQuery} setFilterQuery={setFilterQuery} />
       <SchnellSchalter
         t={t}
         filters={filters}
         set={set}
-        mode={mode}
         favoriteCount={favoriteCount}
         showConfidence={showConfidence}
         tvAn={tvAn}
@@ -396,7 +382,7 @@ export function FilterDetails({
             ))}
             {genreSicht.mehrChip}
           </Bereich>
-          <Grundgruppen t={t} meta={meta} filters={filters} modusVon2={modusVon2} chipState={chipState} pick={pick} tRelease={tRelease} suche={suche} set={set} mode={mode} />
+          <Grundgruppen t={t} meta={meta} filters={filters} modusVon2={modusVon2} chipState={chipState} pick={pick} tRelease={tRelease} suche={suche} set={set} />
         </div>
 
         {!suche && <MehrKnopf t={t} mehr={mehr} setMehr={setMehr} />}
@@ -447,8 +433,8 @@ function MehrKnopf({ t, mehr, setMehr }: { t: Translate; mehr: boolean; setMehr:
 }
 
 /**
- * **Die weiteren Filter** — erst hinter „mehr Filter". Sie gehören zum selben
- * Klick-Modus wie Anbieter und Genre darüber.
+ * **Die weiteren Filter** — erst hinter „mehr Filter". Sie schalten wie Anbieter und Genre darüber
+ * reihum nichts → ausgewählt → ausgeschlossen.
  */
 type FilterMehrProps = {
   t: Translate
@@ -484,15 +470,14 @@ function SprecherBereich({
   t,
   filters,
   set,
-  mode,
   suche,
-}: Pick<FilterMehrProps, 't' | 'filters' | 'set' | 'suche'> & { mode: 'include' | 'exclude' }) {
+}: Pick<FilterMehrProps, 't' | 'filters' | 'set' | 'suche'>) {
   const anzahl = filters.sprecher.length + filters.excluded.sprecher.length
   const label = t('filter.sprecher')
   if (!useContext(TitelNamenContext)) return null
   return (
     <Bereich label={anzahl ? `${label} (${anzahl})` : label} suche={suche} texte={[]}>
-      <SprecherFilter filters={filters} onChange={set} mode={mode} />
+      <SprecherFilter filters={filters} onChange={set} />
     </Bereich>
   )
 }
@@ -523,15 +508,14 @@ function Grundgruppen({
   tRelease,
   suche,
   set,
-  mode,
-}: Pick<FilterMehrProps, 't' | 'meta' | 'filters' | 'modusVon2' | 'chipState' | 'pick' | 'tRelease' | 'suche' | 'set'> & { mode: 'include' | 'exclude' }) {
+}: Pick<FilterMehrProps, 't' | 'meta' | 'filters' | 'modusVon2' | 'chipState' | 'pick' | 'tRelease' | 'suche' | 'set'>) {
   const artenLabel = t('filter.releaseType')
   const arten = Object.keys(RELEASE_TYPES) as ReleaseType[]
   const fskLabel = t('filter.fsk')
   const jahrLabel = t('filter.year')
   return (
     <>
-      <SprecherBereich t={t} filters={filters} set={set} mode={mode} suche={suche} />
+      <SprecherBereich t={t} filters={filters} set={set} suche={suche} />
       <HerkunftBereich t={t} filters={filters} chipState={chipState} pick={pick} suche={suche} />
       <Bereich label={artenLabel} suche={suche} texte={arten.map((a) => tRelease(a))} modus={modusVon2('releaseTypes', filters.releaseTypes.length)}>
         {arten.filter((a) => zeigePille(suche, artenLabel, tRelease(a))).map((type) => (
@@ -715,8 +699,6 @@ function useFilterWerkzeug(
   const [filterQuery, setFilterQuery] = useState('')
   const [allKeywords, setAllKeywords] = useState(false)
   const [showAllProviders, setShowAllProviders] = useState(false)
-  // Auswahlmodus: Ein Klick auf ein Tag wählt es — oder verbietet es.
-  const [mode, setMode] = useState<'include' | 'exclude'>('include')
   const set = (patch: Partial<FilterState>) => onChange({ ...filters, ...patch })
   const modusVon2 = (feld: ModusFeld, anzahl: number) => ({
     anzahl,
@@ -730,13 +712,15 @@ function useFilterWerkzeug(
   const istTvChip = (key: ListKey, value: unknown) => key === 'platforms' && value === 'tv' && Boolean(setTvAn)
   const pick = <K extends ListKey>(key: K, value: FilterState[K][number]) => {
     if (istTvChip(key, value)) {
-      setTvAn?.(tvAn === false)
+      /* Schnell-Chip „TV" ausgewählt (Plattform TV eingeschlossen): der Tipp hebt die Wahl auf, der Schalter bleibt. */
+      if (filterMode(filters, key, value) === 'include') onChange(toggleFilter(filters, key, value, 'include'))
+      else setTvAn?.(tvAn === false)
       return
     }
-    onChange(toggleFilter(filters, key, value, mode))
+    onChange(zyklusFilter(filters, key, value))
   }
   const chipState = <K extends ListKey>(key: K, value: FilterState[K][number]) => {
-    if (istTvChip(key, value)) return { active: false, excluded: tvAn === false }
+    if (istTvChip(key, value)) return { active: tvAn !== false && filterMode(filters, key, value) === 'include', excluded: tvAn === false }
     const state = filterMode(filters, key, value)
     return { active: state === 'include', excluded: state === 'exclude' }
   }
@@ -753,7 +737,7 @@ function useFilterWerkzeug(
   const shownKeywords = allKeywords || suche ? matchingKeywords : previewKeywords
   const hiddenKeywordCount = matchingKeywords.length - previewKeywords.length
   return {
-    t, tGenre, tKeyword, tRelease, mode, setMode, modusVon2, set, pick, chipState, showAllProviders, setShowAllProviders,
+    t, tGenre, tKeyword, tRelease, modusVon2, set, pick, chipState, showAllProviders, setShowAllProviders,
     visibleGenres, shownKeywords, hiddenKeywordCount, allKeywords, setAllKeywords, matchingKeywords,
     filterQuery, setFilterQuery,
   }

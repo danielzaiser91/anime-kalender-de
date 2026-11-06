@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-11-04T17:02:48.204Z",
+  "scrapedAt": "2026-11-06T16:01:31.401Z",
   "serien": [
     {
       "url": "http://www.crunchyroll.com/de/a-place-further-than-the-universe",
@@ -53219,7 +53219,7 @@
       "seriesId": "G3KHEVDJ7",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-10-30",
+      "geprueftAm": "2026-11-06",
       "deutschImAngebot": true,
       "staffeln": [
         {
@@ -53535,9 +53535,9 @@
         {
           "name": "Die Tagebücher der Apothekerin Staffel 3",
           "staffelId": "GS00384044JAJP",
-          "folgen": 4,
-          "kacheln": 4,
-          "deutsch": 2,
+          "folgen": 6,
+          "kacheln": 6,
+          "deutsch": 3,
           "fremd": 1,
           "deutscheFassung": true,
           "deutscheFolgen": [
@@ -53552,11 +53552,18 @@
               "guid": "GE00384328DEDE",
               "laufend": 2,
               "verfuegbarAb": "2026-10-30T15:00:00Z"
+            },
+            {
+              "nummer": 51,
+              "guid": "GE00384329DEDE",
+              "laufend": 3,
+              "verfuegbarAb": "2026-11-06T16:00:00Z"
             }
           ]
         }
       ],
       "neuFolgen": [
+        "GE00384329DEDE",
         "GE00384328DEDE",
         "GE00384327DEDE"
       ]
@@ -61748,7 +61755,7 @@
       "seriesId": "GDKHZEP21",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-10-29",
+      "geprueftAm": "2026-11-05",
       "deutschImAngebot": true,
       "staffeln": [
         {
@@ -61837,10 +61844,10 @@
         {
           "name": "Staffel 2",
           "staffelId": "GS00384045JAJP",
-          "folgen": 4,
-          "kacheln": 4,
-          "deutsch": 1,
-          "fremd": 1,
+          "folgen": 5,
+          "kacheln": 5,
+          "deutsch": 2,
+          "fremd": 0,
           "deutscheFassung": true,
           "deutscheFolgen": [
             {
@@ -61848,11 +61855,18 @@
               "guid": "GE00384351DEDE",
               "laufend": 1,
               "verfuegbarAb": "2026-10-29T17:00:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "GE00384352DEDE",
+              "laufend": 2,
+              "verfuegbarAb": "2026-11-05T18:00:00Z"
             }
           ]
         }
       ],
       "neuFolgen": [
+        "GE00384352DEDE",
         "GE00384351DEDE"
       ]
     },
@@ -177679,7 +177693,7 @@
       "seriesId": "GDKHZEP21",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-11-02",
+      "geprueftAm": "2026-11-05",
       "deutschImAngebot": true,
       "staffeln": [
         {
@@ -177768,10 +177782,10 @@
         {
           "name": "Staffel 2",
           "staffelId": "GS00384045JAJP",
-          "folgen": 4,
-          "kacheln": 4,
-          "deutsch": 1,
-          "fremd": 1,
+          "folgen": 5,
+          "kacheln": 5,
+          "deutsch": 2,
+          "fremd": 0,
           "deutscheFassung": true,
           "deutscheFolgen": [
             {
@@ -177779,11 +177793,18 @@
               "guid": "GE00384351DEDE",
               "laufend": 1,
               "verfuegbarAb": "2026-10-29T17:00:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "GE00384352DEDE",
+              "laufend": 2,
+              "verfuegbarAb": "2026-11-05T18:00:00Z"
             }
           ]
         }
       ],
       "neuFolgen": [
+        "GE00384352DEDE",
         "GE00384351DEDE"
       ]
     },

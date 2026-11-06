@@ -18,4 +18,10 @@ echo "Schritte: ${GESAMT}, davon fehlgeschlagen: ${FEHLER:-keiner}"
 if [ -n "${GITHUB_OUTPUT:-}" ]; then
   printf 'fehler=%s\n' "$FEHLER" >> "$GITHUB_OUTPUT"
 fi
+# Mit Fehlschlag endet der Schritt rot (im Workflow `continue-on-error: true`, der Job bleibt grün): Nur so sieht ihn
+# `laeufe-aufraeumen.mjs` (`wache-weicher-schritt.mjs` liest die „FEHLER:“-Zeile des roten Schritts aus dem Log).
+if [ -n "$FEHLER" ]; then
+  echo "FEHLER: Schritte fehlgeschlagen: ${FEHLER}"
+  exit 1
+fi
 exit 0

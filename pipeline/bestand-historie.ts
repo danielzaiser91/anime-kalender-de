@@ -40,7 +40,11 @@
 import { appendFileSync, existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import type { Title } from '../shared/types.ts'
-import { belegGruende, findeAuffaelliges, kanalTitelMenge, messen, type Kennzahlen } from './lib/bestand-delta.ts'
+import { belegGruende, findeAuffaelliges, kanalTitelMenge, messen, type Kennzahlen, type LinkAbgaenge } from './lib/bestand-delta.ts'
+import { bestandAusCommit, linkAbgaenge } from './lib/bestand-link-abgang.ts'
+import { ladeGewerteteBefunde } from './lib/netflix-404-gate.ts'
+import { todayIso } from '../shared/time.ts'
+import { ladeVonHandBelegtAm } from './lib/verweise-von-hand.ts'
 import { ladeBelegeEntfernt } from './lib/belege-entfernt.ts'
 import { titelAusCommit, verschobeneTitel } from './lib/bestand-verschoben.ts'
 import { letzteGeltende, letzteVerwerfen } from './lib/historie-zeilen.ts'
@@ -65,10 +69,20 @@ function lies<T>(pfad: string, vorgabe: T): T {
   }
 }
 
+let titelGelesen: Title[] | undefined
+
+/** Der ausgelieferte Hauptbestand, einmal je Lauf gelesen. */
+function titelJetzt(): Title[] {
+  if (!titelGelesen) {
+    const roh = lies<Title[] | Record<string, Title>>('public/data/titles.json', [])
+    titelGelesen = Array.isArray(roh) ? roh : Object.values(roh)
+  }
+  return titelGelesen
+}
+
 function messenAusDateien(): Kennzahlen {
-  const roh = lies<Title[] | Record<string, Title>>('public/data/titles.json', [])
   return messen({
-    titel: Array.isArray(roh) ? roh : Object.values(roh),
+    titel: titelJetzt(),
     releases: lies<unknown[]>('public/data/releases.json', []),
     termine: lies<unknown[]>('public/data/events.json', []),
     entfernt: lies<{ verweise?: unknown[] }>('data/verweise-entfernt.json', {}),
@@ -79,16 +93,20 @@ function messenAusDateien(): Kennzahlen {
 
 /** Titel und Grund der gewollt entfernten Belege, für die ℹ-Zeilen der Wache. */
 function belegGruendeAusDateien(): Record<string, string> {
-  const roh = lies<Title[] | Record<string, Title>>('public/data/titles.json', [])
-  return belegGruende(ladeBelegeEntfernt(DATEI_BELEGE_ENTFERNT), Array.isArray(roh) ? roh : Object.values(roh))
+  return belegGruende(ladeBelegeEntfernt(DATEI_BELEGE_ENTFERNT), titelJetzt())
 }
 
 /** Namen der Titel, die seit dem letzten Commit in `ohne-synchro.json` gewandert sind; gelesen wird nur, wenn der Hauptbestand schrumpfte. */
 function verschobenSeitCommit(schrumpft: boolean): string[] {
   if (!schrumpft) return []
-  const roh = lies<Title[] | Record<string, Title>>('public/data/titles.json', [])
-  const jetztTitel = Array.isArray(roh) ? roh : Object.values(roh)
-  return verschobeneTitel(titelAusCommit(ROOT), jetztTitel, lies<Title[]>('public/data/ohne-synchro.json', []))
+  return verschobeneTitel(titelAusCommit(ROOT), titelJetzt(), lies<Title[]>('public/data/ohne-synchro.json', []))
+}
+
+/** Synchro-Belege, die seit dem letzten Commit fehlen, nach Linkprüfung begründet oder nicht; gelesen wird nur, wenn die Urteile sanken. */
+function linkAbgangSeitCommit(sinkt: boolean): LinkAbgaenge {
+  if (!sinkt) return { begruendet: [], unerklaert: [] }
+  const hand = { belege: ladeHandbelege(), vonHandBelegtAm: ladeVonHandBelegtAm() }
+  return linkAbgaenge(bestandAusCommit(ROOT), titelJetzt(), ladeGewerteteBefunde(todayIso()).befunde, hand)
 }
 
 const dateiText = () => (existsSync(DATEI) ? readFileSync(DATEI, 'utf8') : '')
@@ -106,7 +124,9 @@ if (args.includes('--verwerfen') || args.includes('--ersetzen')) verwirfLetzte()
 if (!args.includes('--verwerfen')) {
   const jetzt = messenAusDateien()
   const vorher = letzteGeltende(dateiText()) as (Kennzahlen & { zeitpunkt: string }) | null
-  const { auffaellig, erklaert } = findeAuffaelliges(jetzt, vorher, verschobenSeitCommit(!!vorher && jetzt.titel < vorher.titel), belegGruendeAusDateien())
+  const verschoben = verschobenSeitCommit(!!vorher && jetzt.titel < vorher.titel)
+  const link = linkAbgangSeitCommit(!!vorher && jetzt.mitUrteil < vorher.mitUrteil)
+  const { auffaellig, erklaert } = findeAuffaelliges(jetzt, vorher, verschoben, belegGruendeAusDateien(), link)
 
   const zeile = {
     zeitpunkt: new Date().toISOString(),

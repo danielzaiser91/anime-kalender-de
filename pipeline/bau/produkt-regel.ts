@@ -1,3 +1,4 @@
+import { ohneGeteilteFilme } from '../lib/tmdb-eindeutig.ts'
 import { log, readJson } from '../lib/util.ts'
 import { ladeBewertungen } from '../lib/anisearch-bewertung.ts'
 import { BANNER_DATEI, bannerAdresse, type TmdbBanner } from '../lib/tmdb-banner.ts'
@@ -11,7 +12,7 @@ import { anisearchKennungen } from './anisearch-kennung.ts'
 type Bewertung = Pick<Title, 'score' | 'scoreQuelle'>
 
 let tmdbBanner: TmdbBanner | undefined
-const banner = (): TmdbBanner => (tmdbBanner ??= readJson<TmdbBanner>(BANNER_DATEI, {}))
+const banner = (): TmdbBanner => (tmdbBanner ??= ohneGeteilteFilme(readJson<TmdbBanner>(BANNER_DATEI, {}), 'Banner'))
 
 /** Unter dieser Stimmenzahl zeigt der Titel keine Bewertung: ein Durchschnitt aus 1–4 Stimmen ist kein Beleg (Dirigent, 11.10.2026). */
 export const MIN_STIMMEN_BEWERTUNG = 5

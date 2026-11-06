@@ -14,7 +14,7 @@ import { genreNachtragen } from './lib/tmdb-genre-lauf.ts'
 import { faelligeTitel } from './lib/tmdb-faellig.ts'
 import { waehleBesten, type SearchHit } from './lib/tmdb-titel-treffer.ts'
 import { lookup } from './lib/tmdb-titel-lookup.ts'
-import { uebernimmVonHand } from './lib/tmdb-von-hand.ts'
+import { uebernimmVonHand, type VonHandEintrag } from './lib/tmdb-von-hand.ts'
 import type { Title } from '../shared/types.ts'
 import type { TmdbTitle } from './fetch-tmdb-titles.ts'
 
@@ -170,6 +170,28 @@ pruefe('geändert werden 1, 3, 5 und der neue 4, nicht der gleiche 2', hZahl ===
 pruefe('Kennungswechsel: Genres der alten Kennung entfallen', hCache['1'].tmdbId === 72305 && hCache['1'].genreIds === undefined, hCache['1'])
 pruefe('gleiche Kennung: Genres bleiben', hCache['2'].genreIds?.join() === '16')
 pruefe('Art aus dem Eintrag, sonst die alte, sonst Serie', hCache['3'].kind === 'tv' && hCache['4']?.kind === 'tv' && hCache['5']?.kind === 'movie' && hCache['1']?.kind === 'tv')
+
+console.log('\nTMDB von Hand: Kitaro-Film (130622 Original, 10019697 Shinsei-ban ohne eigene Kennung), Einträge aus data/tmdb-von-hand.yaml')
+{
+  const alle = (yaml.load(readFileSync('data/tmdb-von-hand.yaml', 'utf8')) as (VonHandEintrag & { grund?: string })[] | null) ?? []
+  const kitaro = alle.filter((e) => e.anilistId === 130622 || e.anilistId === 10019697)
+  const kCache = (): Record<string, TmdbTitle> => ({
+    '130622': { tmdbId: 904759, kind: 'movie', genreIds: [16], fetchedAt: 'alt' },
+    '10019697': { tmdbId: 904759, kind: 'movie', genreIds: [16], fetchedAt: 'alt' },
+    '7': { tmdbId: 5, kind: 'tv', fetchedAt: 'alt' },
+  })
+  const k = kCache()
+  const n1 = uebernimmVonHand(k, kitaro, '2999-12-31T00:00:00Z')
+  pruefe('Kitaro: beide Einträge stehen in der Handdatei, mit Grund', kitaro.length === 2 && kitaro.every((e) => Boolean(e.grund)), kitaro)
+  pruefe('Kitaro: nur der Shinsei-ban verliert die Kennung (1 Änderung)', n1 === 1 && !('10019697' in k), [n1, k])
+  pruefe('Kitaro: das Original behält 904759 samt Genres und Fremdes bleibt', k['130622']?.tmdbId === 904759 && k['130622']?.genreIds?.join() === '16' && k['7']?.tmdbId === 5, k)
+  pruefe('Kitaro: zweiter Lauf ändert nichts', uebernimmVonHand(k, kitaro, '2999-12-31T00:00:00Z') === 0)
+  const nurOhne = uebernimmVonHand(kCache(), kitaro.filter((e) => e.ohne), '2999-12-31T00:00:00Z')
+  pruefe('Kitaro: ohne tmdbId im Eintrag wird nichts gesetzt, nur gestrichen', nurOhne === 1)
+  const hIds = new Set(alle.map((e) => e.anilistId))
+  const faellig = faelligeTitel([{ id: 130622 }, { id: 10019697 }, { id: 8 }], {}, { handIds: hIds, nurOhneEintrag: false, force: true, grenze: '2500', grenzeFehlschlag: '2500' })
+  pruefe('Kitaro: der Namensabgleich fragt den Shinsei-ban nicht mehr ab', faellig.map((t) => t.id).join() === '8', faellig)
+}
 
 console.log('\nTMDB-Genre: Prozess fetch-tmdb-genre.ts (Wegwerf-Wurzel, TMDB-Antwort aus Kulisse)')
 function prozessFall(): void {

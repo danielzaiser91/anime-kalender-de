@@ -8,39 +8,6 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:auto-118399-tv-prosieben-maxx@2026-10-29@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261029T154500Z
-DTEND:20261029T161500Z
-SUMMARY:Yashahime: Princess Half-Demon
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/11570/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GDKHZEP21@2026-10-29@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261029T170000Z
-DTEND:20261029T173000Z
-SUMMARY:The Iceblade Sorcerer Shall Rule the World II – Folge 1/≈12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/17631/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-20462-primevideo@2026-10-29@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261029
-DTEND;VALUE=DATE:20261030
-SUMMARY:Chaika\, die Sargprinzessin (neu bei Prime Video)
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nIm Angebot s
- eit diesem Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrze
- it noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/7029/
-CATEGORIES:Prime Video
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-118399-tv-prosieben-maxx@2026-10-30@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261030T154000Z
@@ -203,8 +170,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:auto-176496-tv-prosieben-maxx@2026-11-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261106T222500Z
-DTEND:20261106T225500Z
+DTSTART:20261106T222000Z
+DTEND:20261106T225000Z
 SUMMARY:Solo Leveling: Arise from the Shadow – Folge 8
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/15790/

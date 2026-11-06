@@ -5,6 +5,7 @@ import { todayIso } from '../../shared/time.ts'
 import type { Title } from '../../shared/types.ts'
 import type { KatalogEintrag } from '../lib/anilist.ts'
 import { fuehreReihenZusammen } from './03-reihen.ts'
+import { markiereReihenteileAusQuellen } from './reihenteil-markierung.ts'
 import { alle, anisearchNamensKanten } from './anisearch-titel.ts'
 import { ladeKatalogEintraege } from '../lib/katalog-eingefroren.ts'
 import { anisearchKennungen } from './anisearch-kennung.ts'
@@ -108,13 +109,18 @@ type ReihenArgs = Parameters<typeof fuehreReihenZusammen>[0]
  * Ein Fehler stoppt den Bau nie: dann bleibt es bei den Reihen ohne AniList-Kanten, und die Warnung nennt den Grund.
  */
 export function fuehreReihenZusammenQuelle(args: ReihenArgs, quellen: ReinQuellen = STANDARD_QUELLEN): ReturnType<typeof fuehreReihenZusammen> {
-  if (!bestandReihenAusAnisearch()) return fuehreReihenZusammen(args)
+  if (!bestandReihenAusAnisearch()) {
+    const rueckweg = fuehreReihenZusammen(args)
+    markiereReihenteileAusQuellen(args.titles)
+    return rueckweg
+  }
   const ergebnis = fuehreReihenZusammen({ ...args, byAniId: {}, byMal: {} })
   try {
     reinBestandReihen(args.titles, quellen)
   } catch (e) {
     warn(`aniSearch-Reihen (rein) übersprungen (Fehler): ${(e as Error).message}`)
   }
+  markiereReihenteileAusQuellen(args.titles, quellen.katalog)
   return ergebnis
 }
 
