@@ -2,6 +2,7 @@
 // Normalfall, Titel 3: 40 von 12 = Befund, Titel 4: Staffel-Widerspruch), alte Datei mit unlesbarem Eintrag und einem noch offenen Altbefund (Titel 2). Lauf 2: nur eine harmlose
 // Meldung, die Datei hält zwei noch zutreffende Befunde (älteres Datum). Lauf 3: harmlose Meldung, die Datei hält einen erledigten Befund.
 // Lauf 4: genau ein neuer Befund (Titel 3) neben zwei offenen Altbefunden.
+// Lauf 5: 16 Netflix-Folgen mit gesperrter Folgenkennung (Sperrliste), Lauf 6: 16 mit unbekannten Kennungen (Gegenfall).
 // Schreibzugriffe gehen nicht auf die Platte, sondern als JSON-Zeilen an die Datei in AUFFAELLIGKEITEN_LOG (Pfad, Inhalt).
 import fs from 'node:fs'
 import { syncBuiltinESMExports } from 'node:module'
@@ -12,7 +13,9 @@ const reihe = [
   { id: 4, name: 'Reihe', format: 'TV', jpYear: 2020 },
   { id: 5, name: 'Reihe 2', format: 'TV', jpYear: 2021 },
 ]
-const attrappe = { titles: [titel(1, 24), titel(2, 12), titel(3, 12), titel(4, 12), titel(5, 12)], franchises: { 40: reihe }, cartoons: [] }
+const NETFLIX = 'https://www.netflix.com/title/81183924'
+const netflixTitel = { id: 6, titleDe: 'Gti-Titel 6', episodes: 6, streams: [{ platform: 'netflix', url: NETFLIX }] }
+const attrappe = { titles: [titel(1, 24), titel(2, 12), titel(3, 12), titel(4, 12), titel(5, 12), netflixTitel], franchises: { 40: reihe }, cartoons: [] }
 const bestandDatei = /(?:^|[\\/])public[\\/]data[\\/](titles|franchises|cartoons)\.json$/
 const befundDatei = /(?:^|[\\/])data[\\/]meldungs-auffaelligkeiten\.json$/
 const am = '2026-10-01'
@@ -26,6 +29,8 @@ const alteDateien = {
     { am, text: 'Meldung 900003: Titel 4 (Gti-Titel 4) ist Staffel 1, die Seite 0TESTGTI4 Staffel 2' },
   ],
   3: [{ am, text: 'Meldung 5: 30 Folgen gemeldet, Titel 1 (Gti-Titel 1) hat 12 (X)' }],
+  5: [],
+  6: [],
   4: [
     { am, text: 'Meldung 6: 40 Folgen gemeldet, Titel 2 (Gti-Titel 2) hat 12 (X)' },
     { am, text: 'Meldung 900003: Titel 4 (Gti-Titel 4) ist Staffel 1, die Seite 0TESTGTI4 Staffel 2' },
@@ -70,9 +75,29 @@ const zeile = (id, titelNr, folgen, staffel = 1, titelId = null) => ({
   folge: null,
 })
 
+/* Staffel 2 von Dragon Age unter der Adresse von Angry Birds (Sperrliste): 16 Folgen, Folgenkennungen 81508284 bis 81508299 (Meldungskopie 06.11.2026) oder unbekannte. */
+const netflixZeilen = (ersteId, ersteKennung) =>
+  Array.from({ length: 16 }, (_x, i) => ({
+    ...zeile(ersteId + i, 6, 16),
+    plattform: 'netflix',
+    url: NETFLIX,
+    seiten_kennung: null,
+    folge_nr: i + 1,
+    staffel: 2,
+    folge: String(ersteKennung + i),
+    notiz: null,
+  }))
+
+const LIEFERUNG = {
+  1: () => [zeile(900001, 1, 6), zeile(900002, 3, 40), zeile(900003, 4, 12, 2, 4)],
+  4: () => [zeile(900002, 3, 40)],
+  5: () => netflixZeilen(900101, 81508284),
+  6: () => netflixZeilen(900201, 99000001),
+}
+
 globalThis.fetch = async (url, opt) => {
   if (String(url).includes('/pruefung') && !(opt && opt.method === 'POST')) {
-    const pruefungen = lauf === 1 ? [zeile(900001, 1, 6), zeile(900002, 3, 40), zeile(900003, 4, 12, 2, 4)] : lauf === 4 ? [zeile(900002, 3, 40)] : [zeile(900004, 1, 6)]
+    const pruefungen = (LIEFERUNG[lauf] ?? (() => [zeile(900004, 1, 6)]))()
     return new Response(JSON.stringify({ pruefungen }), { status: 200, headers: { 'content-type': 'application/json' } })
   }
   /* Jeder andere Abruf bleibt im Prozess (kein Netz) und steht im Log. */
