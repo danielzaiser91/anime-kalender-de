@@ -37,10 +37,11 @@ pruefe('mehrere Joyn-Wege: der erste, nicht geraten', mehrere.includes(`href="${
 pruefe('anderer Sender (RTLZWEI): kein Link', !html(termin({ sender: 'RTLZWEI' }), mitJoyn).includes('Danach auf Joyn'))
 pruefe('Titel ohne Joyn-Weg: kein Link', !html(termin({}), titel([stream('netflix', 'https://www.netflix.com/title/1')])).includes('Danach auf Joyn'))
 pruefe('Joyn-Weg ohne Adresse: kein Link', !html(termin({}), titel([stream('joyn', '')])).includes('Danach auf Joyn'))
-pruefe('Termin auf einem Stream-Anbieter: kein Link', !html(termin({ platform: 'netflix', sender: undefined }), mitJoyn).includes('Danach auf Joyn'))
+pruefe('Joyn-Weg ohne Adresse davor: der Weg mit Adresse gilt', html(termin({}), titel([stream('joyn', ''), stream('joyn', JOYN)])).includes(`href="${JOYN}"`))
+pruefe('Termin auf einem Stream-Anbieter mit MAXX-Sendername: kein Link', !html(termin({ platform: 'netflix' }), mitJoyn).includes('Danach auf Joyn'))
 
 if (verletzt) {
   console.error(`\n✖ check-joyn-danach: ${verletzt} verletzt`)
   process.exit(1)
 }
-console.log('✓ check-joyn-danach: 7 Fälle ok')
+console.log('✓ check-joyn-danach: 8 Fälle ok')
