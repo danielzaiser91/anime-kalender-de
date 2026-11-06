@@ -667,3 +667,14 @@ wer die Ursache dann noch kennt, hat Glück. Deshalb diese Datei.
 **Was läuft komplett falsch?** Nichts, was ich belegen kann: kein Fehlerschritt, der Lauf ist absichtlich rot. Kein Pull Request, da keine Codeursache belegt ist.
 
 **Nachtrag 04.11.2026 21:35, Ursache geklärt:** Die Prime-Seite `B084DBMYFX` fiel weg, weil der Tiefendurchlauf 69227f208 (03.11.) sie in `data/link-check.json` mit `status: region` markiert hat („In deiner Region nicht mehr auf Prime Video verfügbar“). `09-2-linkpruefung.ts` hat den Weg darauf wie vorgesehen entfernt, da der Handbeleg vom 16.10. älter ist. Prime-Zuordnung, Handbeleg und Doppelseiten-Bereinigung waren nicht beteiligt. Naruto Shippuden zeigt weiter Prime über `B07Q6VL4QC`; im selben Bau verlor kein weiterer Titel einen Prime-Weg. Folgepunkt: Bei einem Weg-Verlust gibt die Wache zuerst den Diff von `link-check.json` zwischen beiden Bauständen aus.
+
+
+## 06.11.2026 — Wache meldet „1 Titel weniger; adn und crunchyroll: je 1 Synchro-Beleg weniger" (Lauf 42239544132, Issue #3020)
+
+**Was läuft korrekt.** Die Wache hat den Sprung dem Lauf „--ersetzen" von 04:29 Uhr (Berlin, Commit 87585063, Bau 04:24 UTC) zugeordnet. Gemessen über Git-Stände von `public/data/titles.json` (`78916c4b` → `87585063`): genau ein Titel fehlt, BLACK TORCH (187538) mit je einem ADN- und Crunchyroll-Weg. Der Titel steht im Stand `4e5584b2` (08:20 UTC) wieder drin; der Verlust dauerte etwa vier Stunden. Der Bau ist grün.
+
+**Wo ist Verbesserungspotenzial?** Die Wache nennt wieder keinen Titel. Außerdem steht der Befund noch rot, obwohl der Titel seit 08:20 UTC zurück ist.
+
+**Wo sind echte Risiken und Lücken?** Ursache belegt: `public/data/meta.json` in 87585063 trägt `quarantaene: [{titleId 187538, pruefung "kalender-plausibilitaet", grund "ereignisOhneNews: Black Torch (crunchyroll, 2026-07-04): Start ohne Meldung"}]`. Die Plausibilitätsprüfung hat den Titel samt `folgen/187538.json` aus dem Bestand genommen. Der Titel kam in einem späteren Bau ohne Handeingriff zurück. **Nicht belegt:** warum die Meldung zum Start vom 04.07. um 04:24 UTC fehlte und um 08:20 UTC nicht mehr, ob also eine News-Quelle schwankte. Die Quarantäne löscht den Titel aus der Live-Liste, obwohl der Grundsatz „Ein Vorfilter verschiebt, er löscht" gilt. Ein Titel mit belegtem Synchro-Weg verschwindet für Stunden aus der Seite.
+
+**Was läuft komplett falsch?** Nichts, was ich belegen kann: kein Fehlerschritt, der Lauf ist absichtlich rot. Kein Pull Request, da keine Codeursache belegt ist und die Prüfung wie vorgesehen arbeitete.
