@@ -40,6 +40,7 @@ import { reihenNameVon, teilNameVon } from './detail/reihen-namen.ts'
 import { kastenNotizVon, wegeHinweisVon } from './detail/kasten-hinweise.ts'
 import { useErsatzHandlung } from './detail/ersatz-handlung.ts'
 import { PanelLeer, PanelVersteckt } from './detail/panel-huellen.tsx'
+import { PANEL_SCHLEIER } from './detail/schleier.ts'
 
 export function DetailPanel({
   data,
@@ -429,7 +430,7 @@ export function DetailPanel({
 
   return (
     <>
-      <div className="fixed inset-0 z-30 cursor-pointer bg-black/40 backdrop-blur-[2px]" onClick={onClose} aria-hidden="true" />
+      <div className={PANEL_SCHLEIER} onClick={onClose} aria-hidden="true" />
       <div
         /*
           Von `max-w-md` (28 rem) auf `max-w-lg` (32 rem) — vier Rem mehr.

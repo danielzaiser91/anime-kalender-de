@@ -1,6 +1,6 @@
 # Wache — Bestand und Briefkasten
 
-**⚠ Auffälligkeit** · letzter Befund vom 05.11.2026 um 16:28 Uhr
+**⚠ Auffälligkeit** · letzter Befund vom 06.11.2026 um 16:04 Uhr
 
 Diese Zeile nennt den letzten **Befund**, nicht den letzten Lauf: Seit dem 26.09.2026 wird nur noch
 ein Befund committet (Daniel: „Behalten, still bei Ruhe"). Ob die Wache täglich läuft, steht in
@@ -19,33 +19,26 @@ komisch vorkam. Das soll ihm keiner mehr abverlangen.
 
 ## Was aufgefallen ist
 
-- 1 Titel weniger; 7 Urteile verloren (1 weitere sind begründet entfernt); netflix: 13 Synchro-Belege weniger
-- 1 Urteile verloren; 1 Titel ohne Synchro-Beleg; netflix: 1 Synchro-Belege weniger
-- Terminableitung: 2 Serien mehr wegen „Blöcke und Titel verschieden viele" (jetzt 228)
-- Terminableitung: 1 Serien mehr wegen „Folgenzahl geht nicht auf" (jetzt 43)
+- 1 Titel ohne Synchro-Beleg
+- 1 Titel weniger; adn: 1 Synchro-Belege weniger; crunchyroll: 1 Synchro-Belege weniger
 
 ## Bestand — die letzten 24 Stunden
 
 ```
-32 Läufe in den letzten 1 Tagen (1873 insgesamt)
+43 Läufe in den letzten 1 Tagen (1915 insgesamt)
 
-04.11., 16:23  --ersetzen               titel -1, verweise +19, mitUrteil -8, ohneUrteil +27, titelMitSynchro +1, releases +8, termine +8
-            ⚠  1 Titel weniger; 7 Urteile verloren (1 weitere sind begründet entfernt); netflix: 13 Synchro-Belege weniger
-04.11., 16:53  --ersetzen               releases +12, termine +12
-04.11., 17:16  --ersetzen               mitUrteil -1, ohneUrteil +1, titelMitSynchro -1, releases -1, termine -1
-            ⚠  1 Urteile verloren; 1 Titel ohne Synchro-Beleg; netflix: 1 Synchro-Belege weniger
-04.11., 18:42  --ersetzen               mitUrteil -1, ohneUrteil +1, titelMitSynchro -1
-            ℹ  erklärt, nicht rot: 1 Titel ohne Synchro-Beleg, weil ihr Ja nur Amazons Sprachangabe auf einem Kanal-Titel war; primevideo: Beleg gewollt entfernt – Haganai: I Don’t Have Many Friends (10719): Seite B09JV7CC61 gehört Haganai NEXT (14967, Seite B0CZ4GBM2D, gleiche gti 7669196e, Staffel 2; prime-zugeordnet.json), nicht der ersten Staffel (Meldungen 8556, 24279, 02.11.2026)
-04.11., 21:46  --ersetzen               releases +1, termine +1
-05.11., 07:36  --ersetzen               termine +8
-05.11., 08:13  --ersetzen               termine +7
-05.11., 10:04  --ersetzen               verweise +2, mitUrteil +2, releases +3, termine +3
-05.11., 10:29  --ersetzen               verweise +9, ohneUrteil +9
-05.11., 12:41  --ersetzen               titel +3, verweise +1, ohneUrteil +1, releases +3, termine +3
-05.11., 13:55  Bestand — zusammenführ   titel +1, verweise +1, ohneUrteil +1
+05.11., 16:59  Bestand — zusammenführ   mitUrteil -1, ohneUrteil +1, titelMitSynchro -1
+            ℹ  erklärt, nicht rot: primevideo: Beleg gewollt entfernt – The Birth of Kitaro: The Mystery of GeGeGe (130622): Seite hat eine Folge „The Birth of Kitaro: Das Geheimnis von GeGeGe“ (erschienen 18.11.2025, 105 min, polyband) = Shinsei-ban 2024 (10019697), nicht das Original von 2023
+            ⚠  1 Titel ohne Synchro-Beleg
+06.11., 04:29  --ersetzen               titel -1, verweise +15, mitUrteil +15, titelMitSynchro +3, releases -2, termine -12
+            ⚠  1 Titel weniger; adn: 1 Synchro-Belege weniger; crunchyroll: 1 Synchro-Belege weniger
+06.11., 06:15  --ersetzen               termine +7
+06.11., 06:52  --ersetzen               verweise +1, mitUrteil +1, titelMitSynchro +1
+06.11., 08:01  Bestand — zusammenführ   titel +1, verweise +1, mitUrteil +1, titelMitSynchro +1, releases +1, termine +12
+06.11., 10:53  Bestand — zusammenführ   verweise +127, mitUrteil +14, ohneUrteil +113, titelMitSynchro +6
 
-Stand jetzt: 2927 Titel, 2068 Urteile, 354 offen
-Über den Zeitraum: Titel +4, Urteile 0, offen +13
+Stand jetzt: 2927 Titel, 2098 Urteile, 468 offen
+Über den Zeitraum: Titel 0, Urteile +30, offen +114
 
 ⚠  2 Lauf/Läufe mit Auffälligkeiten — siehe oben.
 ```
@@ -53,23 +46,23 @@ Stand jetzt: 2927 Titel, 2068 Urteile, 354 offen
 ## Briefkasten
 
 ```
-Briefkasten: 4012 Meldungen auf 213 Adressen (primevideo 515, disneyplus 2261, netflix 1236)
-Liste daniel-zum-abarbeiten/listen/11-meldungen-ohne-zuordnung.md: 401 Adressen
+Briefkasten: 4011 Meldungen auf 212 Adressen (primevideo 514, disneyplus 2261, netflix 1236)
+Liste daniel-zum-abarbeiten/listen/11-meldungen-ohne-zuordnung.md: 399 Adressen
 Zurückgestellt (data/meldungen-zurueckgestellt.json): 0 Adressen im Briefkasten
 Alle Adressen sind gelistet.
 Übernahme: zuletzt 2026-11-04T19:14:58.279Z (data/meldungen-uebernahme.json)
-✓ refresh-hourly.yml: letzter Erfolg vor 0 h (Frist 3 h)
+✓ refresh-hourly.yml: letzter Erfolg vor 1 h (Frist 3 h)
 ✓ refresh-data.yml: letzter Erfolg vor 11 h (Frist 36 h)
-✓ refresh-weekly.yml: letzter Erfolg vor 25 h (Frist 336 h)
-✓ daten-auf-abruf.yml: letzter Erfolg vor 7 h (Frist 36 h)
+✓ refresh-weekly.yml: letzter Erfolg vor 48 h (Frist 336 h)
+✓ daten-auf-abruf.yml: letzter Erfolg vor 6 h (Frist 36 h)
 ✓ anisearch-katalog.yml: letzter Erfolg vor 9 h (Frist 36 h)
-✓ tonspuren-monatlich.yml: letzter Erfolg vor 323 h (Frist 1008 h)
+✓ tonspuren-monatlich.yml: letzter Erfolg vor 347 h (Frist 1008 h)
 ✓ bestand-bauen.yml: letzter Erfolg vor 0 h (Frist 18 h)
-✓ d1-verbrauch.yml: letzter Erfolg vor 24 h (Frist 48 h)
-✓ claude-anime2you-extraktion.yml: letzter Erfolg vor 27 h (Frist 36 h)
+✓ d1-verbrauch.yml: letzter Erfolg vor 23 h (Frist 48 h)
+✓ claude-anime2you-extraktion.yml: letzter Erfolg vor 3 h (Frist 36 h)
 ✓ claude-wache-urteil.yml: letzter Erfolg vor 6 h (Frist 36 h)
 ✓ claude-verpasst-recherche.yml: letzter Erfolg vor 4 h (Frist 36 h)
-✓ claude-daten-merge.yml: letzter Erfolg vor 0 h (Frist 48 h)
+✓ claude-daten-merge.yml: letzter Erfolg vor 1 h (Frist 48 h)
 ✓ GITHUB_WECKER_TOKEN: letzter Start durch den Wecker vor 0 h
 ℹ Ablaufdatum unbekannt (gueltigBis leer): CLAUDE_CODE_OAUTH_TOKEN, LAUF_TOKEN, CR_ZUGANG, ANISEARCH_TOKEN, ANILIST_TOKEN, TMDB_API_KEY, YOUTUBE_API_KEY, STREAMING_API_KEY, SERPER_API_KEY, DATEN_APP_KEY, DISCORD_WEBHOOK, CLOUDFLARE_API_TOKEN, CLOUDFLARE_ANALYTICS_TOKEN, GITHUB_WECKER_TOKEN, MAIL_API_KEY, WEICHE_TOKEN — Daniel liest es einmal im Konto ab und trägt es ins Register ein.
 
@@ -82,10 +75,10 @@ Serien, für die keine Termine entstanden — je Grund, mit der Veränderung sei
 (`data/termine-ausgelassen.json`, Skill `stille-ausfaelle-verhindern`).
 
 ```
- 228  Blöcke und Titel verschieden viele (+2)
-  43  Folgenzahl geht nicht auf (+1)
+ 228  Blöcke und Titel verschieden viele (±0)
+  43  Folgenzahl geht nicht auf (±0)
    4  deutscher Termin vor der japanischen Ausstrahlung (±0)
-(Vergleich mit dem Stand vom 2026-11-04)
+(Vergleich mit dem Stand vom 2026-11-05)
 ```
 
 ## Tagebuch
@@ -94,6 +87,7 @@ Die letzten 60 Läufe. Älteres hat seinen Zweck erfüllt.
 
 | Zeitpunkt | Titel / Urteile / offen | Veränderung | Befund |
 |---|---|---|---|
+| 06.11.2026 16:04 | 2927 / 2098 / 468 | Titel 0, Urteile +30, offen +114 | 1 Titel ohne Synchro-Beleg; 1 Titel weniger; adn: 1 Synchro-Belege weniger; crunchyroll: 1 Synchro-Belege weniger |
 | 05.11.2026 16:28 | 2927 / 2068 / 354 | Titel +4, Urteile 0, offen +13 | 1 Titel weniger; 7 Urteile verloren (1 weitere sind begründet entfernt); netflix: 13 Synchro-Belege weniger; 1 Urteile verloren; 1 Titel ohne Synchro-Beleg; netflix: 1 Synchro-Belege weniger |
 | 04.11.2026 16:27 | 2924 / 2076 / 314 | Titel 0, Urteile -2, offen +5 | 1 Urteile verloren; primevideo: 1 Synchro-Belege weniger |
 | 03.11.2026 16:09 | 2924 / 2078 / 309 | Titel 0, Urteile +16, offen -8 | 12 Urteile verloren (1 weitere sind begründet entfernt); 3 Titel ohne Synchro-Beleg (1 weitere durch Kanal-Titel herabgestuft); netflix: 13 Synchro-Belege weniger |
