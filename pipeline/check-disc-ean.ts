@@ -60,9 +60,12 @@ pruefe('Blu-ray ohne EAN, DVD mit EAN: die DVD-EAN', discEan(mit({ '1': [aus(1, 
 
 console.log('\nKauflink (reihenfolge Handlink > EAN > Name):')
 const dp = 'https://www.amazon.de/dp/B0HGB36K4K'
-const link = (e: { buyUrl?: string; releaseType: string }) => discKaufUrl(e, 900301, TAG, 'Detektiv Conan – Box 1', conan)
+const link = (e: { buyUrl?: string; ean?: string; releaseType: string }) => discKaufUrl(e, 900301, TAG, 'Detektiv Conan – Box 1', conan)
 pruefe('Handlink gewinnt vor der EAN', link({ buyUrl: dp, releaseType: 'disc' }) === dp)
 pruefe('Disc mit EAN: EAN-Suche', link({ releaseType: 'disc' }) === 'https://www.amazon.de/s?k=7630017545978', link({ releaseType: 'disc' }))
+pruefe('Hand-EAN gewinnt vor der Index-EAN', link({ ean: '4059251663324', releaseType: 'disc' }) === 'https://www.amazon.de/s?k=4059251663324')
+pruefe('Handlink gewinnt vor der Hand-EAN', link({ buyUrl: dp, ean: '4059251663324', releaseType: 'disc' }) === dp)
+pruefe('ungültige Hand-EAN fällt auf Index-EAN zurück', link({ ean: 'abc', releaseType: 'disc' }) === 'https://www.amazon.de/s?k=7630017545978')
 const ohneEan = discKaufUrl({ releaseType: 'disc' }, 900399, TAG, 'Nur Name', conan)
 pruefe('Disc ohne EAN: Namenssuche', ohneEan === `https://www.amazon.de/s?k=${encodeURIComponent('Nur Name Anime Blu-ray')}`, ohneEan)
 pruefe('kein Disc-Termin: nichts erfunden', link({ releaseType: 'weekly' }) === undefined)

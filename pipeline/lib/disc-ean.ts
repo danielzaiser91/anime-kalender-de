@@ -48,14 +48,14 @@ export function discEan(index: DiscIndex, titleId: number | undefined, datum: st
 }
 
 export function discKaufUrl(
-  entry: { buyUrl?: string; releaseType: string },
+  entry: { buyUrl?: string; ean?: string; releaseType: string },
   titleId: number | undefined,
   datum: string,
   name: string,
   index: DiscIndex,
 ): string | undefined {
   if (entry.buyUrl || entry.releaseType !== 'disc') return entry.buyUrl
-  const ean = discEan(index, titleId, datum)
+  const ean = istEan(entry.ean) ? entry.ean : discEan(index, titleId, datum)
   return ean ? amazonEanUrl(ean) : amazonSearchUrl(name)
 }
 

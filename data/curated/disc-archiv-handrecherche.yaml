@@ -20,7 +20,7 @@
   releaseType: disc
   publisher: "Anime Cult"
   edition: "DVD"
-  buyUrl: https://www.amazon.de/s?k=4059251663324
+  ean: "4059251663324"
   note: "Deutsche Tonspur (Dolby Digital 2.0 Mono), dazu Englisch."
   schedule: { firstEpisodeDate: "2024-11-08" }
   sources: [https://www.mediamarkt.de/de/product/_die-wilden-schwane-1977-dvd-2955729.html]
