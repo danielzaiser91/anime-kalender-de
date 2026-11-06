@@ -1,8 +1,7 @@
-import { istErschienen } from '../../shared/logic.ts'
 import type { NewsEintrag, ReleaseEvent } from '../../shared/types.ts'
 import type { PushEreignis } from './push-text.ts'
 import { imTagesfenster } from './push-fenster.ts'
-import { pushVersand, type PushEnv } from './push.ts'
+import { pushIstErschienen, pushVersand, type PushEnv } from './push.ts'
 import { weitereAusNews } from './news-quelle.ts'
 import { fehlerLog } from './werte.ts'
 
@@ -21,7 +20,7 @@ export const PUSH_FENSTER_MS = 10 * 60_000
 export function pushFaellig(
   ereignisse: PushEreignis[],
   jetzt: Date,
-  erschienen: (e: PushEreignis, zeit: Date) => boolean = istErschienen,
+  erschienen: (e: PushEreignis, zeit: Date) => boolean = pushIstErschienen,
 ): boolean {
   const seit = new Date(jetzt.getTime() - PUSH_FENSTER_MS)
   return imTagesfenster(ereignisse, seit, jetzt).some((e) => erschienen(e, jetzt) && !erschienen(e, seit))
@@ -32,7 +31,7 @@ export async function pushSchnell(
   env: PushEnv & { DB: D1Database },
   jetzt: Date,
   ladeEreignisse: () => Promise<ReleaseEvent[]>,
-  erschienen: (e: PushEreignis, zeit: Date) => boolean = istErschienen,
+  erschienen: (e: PushEreignis, zeit: Date) => boolean = pushIstErschienen,
 ): Promise<string> {
   if (jetzt.getUTCMinutes() === 0) return 'volle Stunde: der Stundenlauf übernimmt'
   const ereignisse = await ladeEreignisse()
@@ -54,5 +53,5 @@ export async function pushStuendlich(
   ladeNews: () => Promise<NewsEintrag[]>,
 ): Promise<string> {
   const [ereignisse, news] = await Promise.all([ladeEreignisse(), ladeNews()])
-  return pushVersand(env, jetzt, ereignisse, (e, zeit) => istErschienen(e, zeit), weitereAusNews(news))
+  return pushVersand(env, jetzt, ereignisse, pushIstErschienen, weitereAusNews(news))
 }
