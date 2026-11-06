@@ -69,6 +69,7 @@ export const TEXTE_SEITEN = {
   'detail.primeSuchen': 'Öffnet die Suche bei Prime Video – eine Direktadresse fehlt noch',
   'news.neuNachJahren': 'Nach {jahre} Jahren endlich auf Deutsch: jetzt mit Synchro bei {anbieter}!',
   'news.neuNachJahrenStream': 'Nach {jahre} Jahren endlich im Stream auf Deutsch bei {anbieter}! (Auf Disc gibt es die Synchro seit {disc})',
+  'news.angekAbo': 'Ab {datum} im Abo bei {anbieter}!',
   'news.angekNachJahren': 'Nach {jahre} Jahren endlich auf Deutsch: ab {datum} mit Synchro bei {anbieter}!',
   'news.angekNachJahrenStream': 'Nach {jahre} Jahren endlich im Stream auf Deutsch: ab {datum} bei {anbieter}! (Auf Disc gibt es die Synchro seit {disc})',
   'news.nachtrag.quelle': 'Uhrzeit und Quelle',
