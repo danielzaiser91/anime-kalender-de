@@ -277,6 +277,7 @@ pipeline/check-kino-zuletzt.ts
 pipeline/check-kopf-menue.ts
 pipeline/check-kopfzeile-premiere.ts
 pipeline/check-laut-gleich.ts
+pipeline/check-lazy-rueckfall.ts
 pipeline/check-leere-liste.ts
 pipeline/check-leerer-kasten.ts
 pipeline/check-leerzeichen-gleich.ts
@@ -300,6 +301,7 @@ pipeline/check-messbelege-kalender.ts
 pipeline/check-minuten-takt.ts
 pipeline/check-motn-reihe.ts
 pipeline/check-motn-uebernahme.ts
+pipeline/check-nachlade-vorwaermen.ts
 pipeline/check-nebendateien-laufzeit.ts
 pipeline/check-nein-datum.ts
 pipeline/check-nein-handbeleg-abschluss.ts
