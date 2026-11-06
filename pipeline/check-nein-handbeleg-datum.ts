@@ -72,6 +72,17 @@ try {
   pruefe('anderer Titel mit derselben Adresse und Ja: kein Nein', !sperrt(zwei, 13, FREMD))
   pruefe('Nein an Adresse X, jüngeres Ja an Adresse Y: Nein gilt nur X', sperrt([beleg(14, prime('B0ADRESSEX1'), '2026-09-01', '  dub: false\n'), beleg(14, prime('B0ADRESSEY1'), '2026-09-10', '  dub: true\n')], 14, prime('B0ADRESSEX1')) && !sperrt([beleg(14, prime('B0ADRESSEX1'), '2026-09-01', '  dub: false\n'), beleg(14, prime('B0ADRESSEY1'), '2026-09-10', '  dub: true\n')], 14, FREMD))
 
+  console.log('\nJüngeres Kanal-Ja ist kein Urteil (Promare 99425, Vermeil in Gold 146210; Kanal-Regel `kanal-titel.ts`):')
+  const PROMARE = 'https://www.amazon.de/gp/video/detail/B0FZ7WGYCB'
+  const KANAL = 'Tonspuren: Deutsch — Amazon-Seite B0FZ7WGYCB: alle 1 Folge geprüft, Abos: aniversede — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg'
+  const wegP = (id: number, d: string) => beleg(id, PROMARE, d, '  available: false\n')
+  const kanalJa = (id: number, d: string, extra = '', note = KANAL) =>
+    beleg(id, PROMARE, d, `  dub: true\n  kanalMessung: ja\n${extra}  note: "${note}"\n`)
+  pruefe('Promare: älteres available: false, jüngeres Kanal-Ja: das Nein bleibt', sperrt([wegP(30, '2026-08-25'), kanalJa(30, '2026-10-16')], 30, PROMARE))
+  pruefe('Vermeil in Gold: dasselbe, Datei in umgekehrter Reihenfolge', sperrt([kanalJa(31, '2026-10-16'), wegP(31, '2026-08-25')], 31, PROMARE))
+  pruefe('Kontrolle: dasselbe Ja ohne Kanal-Warnung hebt das Nein auf', !sperrt([wegP(32, '2026-08-25'), kanalJa(32, '2026-10-16', '', 'Tonspuren: Deutsch')], 32, PROMARE))
+  pruefe('Kontrolle: Kanal-Ja mit zweiteQuelle hebt das Nein auf', !sperrt([wegP(33, '2026-08-25'), kanalJa(33, '2026-10-16', '  zweiteQuelle: "Netflix, 16.10.2026"\n')], 33, PROMARE))
+
   console.log('\nSuch-, Start- und Länderseiten sind keine Ausgabe:')
   const SUCHE = 'https://www.amazon.de/s?k=Jormungand%3A%20Perfect%20Order&i=instant-video'
   const ASIN = prime('B0DNCGXVNT')
