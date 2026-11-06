@@ -333,6 +333,12 @@ frei('"$X" pull --ff-only', HAUPT, 'unbekannte Variable, pull --ff-only')
 frei('"$X" merge a', WT, 'unbekannte Variable im Worktree')
 frei('ls "$X" merge', HAUPT, 'Variable als Argument, nicht Programm')
 frei('G=$(command -v git); "$G" merge x', WT, 'A3 im Worktree')
+// Gegenfälle: bekannte harmlose Werte bleiben auch über Flags, eval/sh -c und Weitergabe frei (unterscheidet bekannt von fail-closed).
+frei('declare -x G=ls; "$G" merge x', HAUPT, 'A1 declare -x mit harmlosem Wert')
+frei('G=ls; eval "$G merge x"', HAUPT, 'A2 eval, harmlose Variable')
+frei('G=ls; sh -c "$G merge x"', HAUPT, 'A2 sh -c, harmlose Variable')
+frei('G=ls; H=$G; "$H" merge x', HAUPT, 'A4 Weitergabe, harmlos')
+gesperrt('"${UNBEKANNT}" merge a', HAUPT, 'unbekannte Variable mit geschweiften Klammern')
 
 // Kaputtes JSON auf stdin: Prozess endet 0 ohne Ausgabe (fail-open).
 const kaputt = spawnSync(process.execPath, [hook], { input: '{kaputt', encoding: 'utf8' })
