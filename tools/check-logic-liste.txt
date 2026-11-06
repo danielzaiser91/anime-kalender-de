@@ -144,6 +144,7 @@ pipeline/check-disc-suchlinks.ts
 pipeline/check-disc-teil-hinweis.ts
 pipeline/check-disc-teil-verdrahtung.ts
 pipeline/check-disc-verschiebung-staffel.ts
+pipeline/check-disc-zuordnung.ts
 pipeline/check-disney-gesamtnummer.ts
 pipeline/check-dub-abgeleitet-lauf.ts
 pipeline/check-dub-abgeleitet.ts

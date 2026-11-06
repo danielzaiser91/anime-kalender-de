@@ -36,10 +36,12 @@
  */
 import { gunzipSync } from 'node:zlib'
 import { readFileSync, readdirSync } from 'node:fs'
-import { log, readJson, writeJson } from './lib/util.ts'
+import { resolve } from 'node:path'
+import { ROOT, log, readJson, writeJson } from './lib/util.ts'
 import type { Title } from '../shared/types.ts'
+import { ordneZu, type DiscKandidat } from './lib/disc-zuordnung.ts'
 
-const ARCHIV = 'data/anisearch-raw'
+const ARCHIV = resolve(ROOT, 'data/anisearch-raw')
 const ZIEL = 'data/disc-ausgaben.json'
 
 /** Eine Ausgabe, wie aniSearch sie führt. */
@@ -169,35 +171,50 @@ export function ausgabenAusHtml(html: string): { eigene: Ausgabe[]; geprueft: nu
   return { eigene, geprueft: bloecke.length, auslaendisch, verworfen }
 }
 
+/** Die Titel je aniSearch-Kennung: alle mit `anisearchId` in titles.json, dazu der Besitzer aus anisearch.json. */
+export function kandidatenJeKennung(titles: Title[], besitzer: Map<number, number>): Map<number, DiscKandidat[]> {
+  const nachId = new Map(titles.map((t) => [t.id, t]))
+  const alsKandidat = (t: Title): DiscKandidat => ({
+    id: t.id,
+    namen: [t.titleDe, t.titleEn, t.titleRomaji].filter((n): n is string => !!n),
+    ...(t.format ? { format: t.format } : {}),
+    ...(t.jpYear ? { jpYear: t.jpYear } : {}),
+  })
+  const raus = new Map<number, DiscKandidat[]>()
+  const fuege = (asId: number, t: Title) => {
+    const liste = raus.get(asId) ?? []
+    if (!liste.some((k) => k.id === t.id)) raus.set(asId, [...liste, alsKandidat(t)])
+  }
+  for (const t of titles) if (t.anisearchId) fuege(t.anisearchId, t)
+  for (const [asId, id] of besitzer) fuege(asId, nachId.get(id)!)
+  return raus
+}
+
 function main(): void {
   const anisearch = readJson<Record<string, { anisearchId?: number }>>('data/anisearch.json', {})
   const titles = readJson<Title[]>('public/data/titles.json', [])
-  const nachAsId = new Map<number, number>()
-  for (const [id, e] of Object.entries(anisearch)) {
-    if (e.anisearchId) nachAsId.set(e.anisearchId, Number(id))
-  }
   const bekannt = new Set(titles.map((t) => t.id))
-
-  const raus: Record<string, Ausgabe[]> = {}
-  let geprueft = 0
-  let auslaendisch = 0
-  let verworfen = 0
-
-  for (const datei of readdirSync(ARCHIV)) {
-    if (!datei.endsWith('.html.gz')) continue
-    const asId = Number(datei.replace('.html.gz', ''))
-    const titleId = nachAsId.get(asId)
-    if (!titleId || !bekannt.has(titleId)) continue
-
-    const html = gunzipSync(readFileSync(`${ARCHIV}/${datei}`)).toString('utf8')
-    const r = ausgabenAusHtml(html)
-    if (!r) continue
-    geprueft += r.geprueft
-    auslaendisch += r.auslaendisch
-    verworfen += r.verworfen
-    if (!r.eigene.length) continue
-    raus[String(titleId)] = r.eigene
+  const besitzer = new Map<number, number>()
+  for (const [id, e] of Object.entries(anisearch)) {
+    if (e.anisearchId && bekannt.has(Number(id))) besitzer.set(e.anisearchId, Number(id))
   }
+  const kandidaten = kandidatenJeKennung(titles, besitzer)
+  const zaehler = { geprueft: 0, auslaendisch: 0, verworfen: 0 }
+
+  function* seiten(): Generator<[number, Ausgabe[]]> {
+    for (const datei of readdirSync(ARCHIV)) {
+      if (!datei.endsWith('.html.gz')) continue
+      const asId = Number(datei.replace('.html.gz', ''))
+      if (!kandidaten.has(asId)) continue
+      const r = ausgabenAusHtml(gunzipSync(readFileSync(`${ARCHIV}/${datei}`)).toString('utf8'))
+      if (!r) continue
+      zaehler.geprueft += r.geprueft
+      zaehler.auslaendisch += r.auslaendisch
+      zaehler.verworfen += r.verworfen
+      yield [asId, r.eigene]
+    }
+  }
+  const { raus, bilanz } = ordneZu(seiten(), kandidaten, besitzer)
 
   writeJson(ZIEL, raus)
   const ohneWeg = titles.filter(
@@ -205,9 +222,11 @@ function main(): void {
   ).length
   log(
     `Disc-Ausgaben: ${Object.keys(raus).length} Titel mit deutscher Ausgabe ` +
-      `(${geprueft} Blöcke geprüft, ${auslaendisch} ausländisch, ${verworfen} kein Bildträger)`,
+      `(${zaehler.geprueft} Blöcke geprüft, ${zaehler.auslaendisch} ausländisch, ${zaehler.verworfen} kein Bildträger)`,
   )
   log(`  davon ${ohneWeg} Titel, die sonst keinen einzigen Weg zeigen`)
+  log(`  ${bilanz.neuUeberKennung} Titel über ihre anisearchId zugeordnet, ${bilanz.geteilteSeiten} Seiten mit geteilter Kennung`)
+  log(`  nicht zugeordnet (nicht eindeutig): ${bilanz.unklar} Ausgaben, ${bilanz.leereKandidaten.length} Titel bleiben ohne: ${bilanz.leereKandidaten.join(', ')}`)
 }
 
 /* Nur als Hauptlauf — die Zusicherungen importieren die Funktionen oben, und ein Import darf
