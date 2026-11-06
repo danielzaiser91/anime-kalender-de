@@ -67,6 +67,8 @@ try {
   /* 2. Lauf-Riegel (Mindestmenge 20, mehr als 10 %). */
   const rausch = (b: Record<string, LinkBefund>) => [...rauschTage(b)]
   erwarte('2 von 20 (genau 10 %): kein Rauschen', rausch(lauf('2026-11-04', 20, 2)), [])
+  erwarte('10 von 100 (10 %): kein Rauschen', rausch(lauf('2026-11-04', 100, 10)), [])
+  erwarte('11 von 100 (11 %): Rauschen', rausch(lauf('2026-11-04', 100, 11)), ['2026-11-04'])
   erwarte('3 von 20 (15 %): Rauschen', rausch(lauf('2026-11-04', 20, 3)), ['2026-11-04'])
   erwarte('19 Adressen, alle tot: zu klein, kein Rauschen', rausch(lauf('2026-11-04', 19, 19)), [])
   erwarte('20 Adressen, 1 tot: kein Rauschen', rausch(lauf('2026-11-04', 20, 1)), [])
