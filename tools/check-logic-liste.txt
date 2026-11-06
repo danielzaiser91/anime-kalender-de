@@ -34,6 +34,7 @@ pipeline/check-angebot-seit.ts
 pipeline/check-angebot-stichtag.ts
 pipeline/check-angebot-termine.ts
 pipeline/check-anilist-produkt.ts
+pipeline/check-anime2you-abruf.ts
 pipeline/check-anime2you-entwurf.ts
 pipeline/check-anime2you-leicht.ts
 pipeline/check-anime2you-rhythmus.ts
@@ -89,6 +90,7 @@ pipeline/check-cartoon-handliste-lauf.ts
 pipeline/check-cartoon-handliste.ts
 pipeline/check-cartoon-pruefregeln.ts
 pipeline/check-cartoon-reihen.ts
+pipeline/check-cartoon-reihenteil-bau.ts
 pipeline/check-cartoon-staffeln.ts
 pipeline/check-cartoon-ton.ts
 pipeline/check-cartoon-wege-falten-leer-lauf.ts
@@ -273,6 +275,8 @@ pipeline/check-kapitel-katalog.ts
 pipeline/check-kapitel-shop-wege.ts
 pipeline/check-katalog-eingefroren.ts
 pipeline/check-katalog-release.ts
+pipeline/check-katalogstart-kasten.ts
+pipeline/check-katalogstart-tag.ts
 pipeline/check-kino-zuletzt.ts
 pipeline/check-kopf-menue.ts
 pipeline/check-kopfzeile-premiere.ts
@@ -388,6 +392,7 @@ pipeline/check-reihen-teilname.ts
 pipeline/check-reihen-traeger-aufrufer.ts
 pipeline/check-reihen-traeger.ts
 pipeline/check-reinids-grund.ts
+pipeline/check-release-ohne-quelle.ts
 pipeline/check-remake-verdrahtung.ts
 pipeline/check-remake-zaehlung-pipeline.ts
 pipeline/check-remake-zaehlung.ts
@@ -427,6 +432,7 @@ pipeline/check-staffel-verdrahtung.ts
 pipeline/check-staffel-von-hand-ablauf.ts
 pipeline/check-staffel-von-hand.ts
 pipeline/check-staffelsumme.ts
+pipeline/check-staffelzaehlung.ts
 pipeline/check-stand-halten.ts
 pipeline/check-streaming-luecke.ts
 pipeline/check-studio-archiv.ts
@@ -539,6 +545,7 @@ tools/link-check-zeitbudget.test.ts
 tools/link-faelligkeit.test.ts
 tools/quarantaene-pruefungen.test.ts
 tools/quellen-gesundheit.test.ts
+tools/quellen-leer.test.ts
 tools/quelltext-lesungen.mjs
 tools/quittung-nach-commit-waechter.mjs
 tools/sammler-pruefschritt-waechter.mjs

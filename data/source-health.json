@@ -5,9 +5,9 @@
     "lastCount": 10
   },
   "anime2you": {
-    "lastOk": "2026-11-06T14:02:15.173Z",
-    "lastRun": "2026-11-06T14:02:15.173Z",
-    "lastCount": 52
+    "lastOk": "2026-11-06T18:01:32.233Z",
+    "lastRun": "2026-11-06T18:01:32.233Z",
+    "lastCount": 55
   },
   "anisearch": {
     "lastOk": "2026-11-06T06:02:04.872Z",
@@ -20,8 +20,8 @@
     "lastCount": 112
   },
   "crunchyroll-dub": {
-    "lastOk": "2026-11-05T18:02:32.055Z",
-    "lastRun": "2026-11-05T18:02:32.055Z",
+    "lastOk": "2026-11-06T17:01:43.507Z",
+    "lastRun": "2026-11-06T17:01:43.507Z",
     "lastCount": 1156
   },
   "anime-offline-database": {
@@ -82,7 +82,7 @@
   },
   "rohfolgen": {
     "lastOk": "2026-11-05T12:32:29.078Z",
-    "lastRun": "2026-11-06T14:25:35.877Z",
+    "lastRun": "2026-11-06T18:25:35.741Z",
     "lastCount": 0
   },
   "anisearch-folgen": {
@@ -111,14 +111,15 @@
     "lastCount": 13
   },
   "vorfaelle": {
-    "lastOk": "2026-11-06T14:25:31.507Z",
-    "lastRun": "2026-11-06T14:25:31.507Z",
-    "lastCount": 0
+    "lastOk": "2026-11-06T18:25:29.937Z",
+    "lastRun": "2026-11-06T18:25:29.937Z",
+    "lastCount": 0,
+    "leerSeit": "2026-11-06T18:25:29.937Z"
   },
   "crunchyroll-neu": {
-    "lastOk": "2026-11-06T14:02:04.736Z",
-    "lastRun": "2026-11-06T14:02:04.736Z",
-    "lastCount": 173
+    "lastOk": "2026-11-06T18:01:21.260Z",
+    "lastRun": "2026-11-06T18:01:21.260Z",
+    "lastCount": 175
   },
   "cartoons": {
     "lastOk": "2026-11-06T04:14:01.039Z",
@@ -136,8 +137,8 @@
     "lastCount": 16
   },
   "tv-programm": {
-    "lastOk": "2026-11-06T14:02:17.216Z",
-    "lastRun": "2026-11-06T14:02:17.216Z",
+    "lastOk": "2026-11-06T18:01:34.639Z",
+    "lastRun": "2026-11-06T18:01:34.639Z",
     "lastCount": 294
   },
   "tv-de": {
@@ -171,8 +172,8 @@
     "lastCount": 3
   },
   "crunchyroll-woche": {
-    "lastOk": "2026-11-06T14:02:01.634Z",
-    "lastRun": "2026-11-06T14:02:01.634Z",
+    "lastOk": "2026-11-06T18:01:18.078Z",
+    "lastRun": "2026-11-06T18:01:18.078Z",
     "lastCount": 63
   },
   "adn-news": {
@@ -181,9 +182,10 @@
     "lastCount": 71
   },
   "messbelege": {
-    "lastOk": "2026-11-06T14:02:16.320Z",
-    "lastRun": "2026-11-06T14:02:16.320Z",
-    "lastCount": 0
+    "lastOk": "2026-11-06T18:01:33.610Z",
+    "lastRun": "2026-11-06T18:01:33.610Z",
+    "lastCount": 0,
+    "leerSeit": "2026-11-06T18:01:33.610Z"
   },
   "beleg-lesungen": {
     "lastOk": "2026-11-06T04:09:28.276Z",

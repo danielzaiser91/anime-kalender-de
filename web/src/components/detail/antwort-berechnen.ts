@@ -240,7 +240,7 @@ export function berechneAntwort({ title, releases, today, jetzt }: AntwortEingab
     const n = kuenftig[0]!
     /* Ein abgeschlossenes, vollständig deutsches Werk bleibt „fertig" (`antwort-regeln.ts`). */
     if (istBelegtAbgeschlossen(hatSynchro && deutschBegonnen(title, raus, today, releases), vollstaendig, abgeschlossenFuerKasten, alleEvents, jetzt)) {
-      return fertigAntwort(raus || gesamt, gesamt, vereint.size, alleEvents)
+      return fertigAntwort(raus || gesamt, gesamt, vereint.size, alleEvents, today)
     }
     /*
       **Fällt der Kopf auf die Disc zurück, wird er zur Disc-Auskunft.**
@@ -373,7 +373,7 @@ export function berechneAntwort({ title, releases, today, jetzt }: AntwortEingab
     return { art: 'teilweise' as const, raus: teilOhneZahl ? undefined : belegteFolgen, gesamt, gesamtBelegt: gesamtIstBelegt(title, fuerKopf, gesamt), restBelegt }
   }
   if (hatSynchro || titleStatus(releases, today, title) === 'erschienen') {
-    return fertigAntwort(raus || gesamt, gesamt, vereint.size, alleEvents)
+    return fertigAntwort(raus || gesamt, gesamt, vereint.size, alleEvents, today)
   }
   return { art: 'ohne' as const, gesamt }
 }
