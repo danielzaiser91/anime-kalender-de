@@ -112,14 +112,26 @@ function ohneHtml(s: string): string {
 
 /** Deutsche Beiträge mit Serienverweis als Artikel; die Schnittstelle liefert auch `/fr/`. */
 export function artikelAusBeitraegen(beitraege: WpPost[]): AdnNewsArtikel[] {
+  return auswahlAusBeitraegen(beitraege).artikel
+}
+
+/** Wie `artikelAusBeitraegen`, dazu die Zahl der verlinkten Serien, die die Auswahlregeln in deutschen Beiträgen verwerfen. */
+export function auswahlAusBeitraegen(beitraege: WpPost[]): { artikel: AdnNewsArtikel[]; verworfen: number } {
   const artikel: AdnNewsArtikel[] = []
+  let verworfen = 0
   for (const p of beitraege) {
     if (!p.link?.includes('/de/')) continue
-    const showIds = serienDesArtikels(p.content?.rendered ?? '')
-    if (!showIds.length) continue
-    artikel.push({ titel: ohneHtml(p.title?.rendered ?? ''), url: p.link, datum: (p.date ?? '').slice(0, 10), showIds })
+    const gewaehlt = waehleSerien(p.content?.rendered ?? '')
+    verworfen += gewaehlt.verworfen
+    if (!gewaehlt.ids.length) continue
+    artikel.push({ titel: ohneHtml(p.title?.rendered ?? ''), url: p.link, datum: (p.date ?? '').slice(0, 10), showIds: gewaehlt.ids })
   }
-  return artikel
+  return { artikel, verworfen }
+}
+
+/** Logzeile des Laufs: so viele Serienverweise haben die Regeln (Klammer, Vergleich im Fließtext) verworfen. */
+export function verworfenZeile(verworfen: number, artikel: number): string {
+  return `ADN-News: ${verworfen} Serienverweise verworfen (Klammer/Vergleich im Fließtext) in ${artikel} Artikeln`
 }
 
 /**
@@ -133,6 +145,7 @@ export async function holeAdnNews(force = false): Promise<void> {
 
   const artikel: AdnNewsArtikel[] = []
   let posts = 0
+  let verworfen = 0
   for (let page = 1; page <= SEITEN; page++) {
     let seite: WpPost[]
     try {
@@ -151,7 +164,9 @@ export async function holeAdnNews(force = false): Promise<void> {
     }
     if (!seite.length) break
     posts += seite.length
-    artikel.push(...artikelAusBeitraegen(seite))
+    const auswahl = auswahlAusBeitraegen(seite)
+    artikel.push(...auswahl.artikel)
+    verworfen += auswahl.verworfen
   }
 
   if (!posts) {
@@ -162,6 +177,7 @@ export async function holeAdnNews(force = false): Promise<void> {
   recordSource('adn-news', artikel.length, artikel.length ? undefined : 'kein Artikel mit Serienverweis')
   writeJson('data/adn-news.json', { geholtAm: new Date().toISOString(), artikel } satisfies AdnNews, true)
   log(`ADN-News: ${artikel.length} Artikel mit Serienverweis aus ${posts} Beiträgen`)
+  log(verworfenZeile(verworfen, artikel.length))
 }
 
 /**
