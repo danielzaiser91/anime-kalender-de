@@ -42,6 +42,7 @@ pipeline/check-anime2you-sammelartikel.ts
 pipeline/check-anime2you-vorschlag.ts
 pipeline/check-anisearch-archiv-text.ts
 pipeline/check-anisearch-archiv.ts
+pipeline/check-anisearch-aufgenommen.ts
 pipeline/check-anisearch-cover-eigen.ts
 pipeline/check-anisearch-dubletten.ts
 pipeline/check-anisearch-folgen-kennung.ts
@@ -143,6 +144,7 @@ pipeline/check-disc-bereich.ts
 pipeline/check-disc-ean.ts
 pipeline/check-disc-folgewirkung.ts
 pipeline/check-disc-kaufweg-auto.ts
+pipeline/check-disc-reine-titel.ts
 pipeline/check-disc-suchlinks.ts
 pipeline/check-disc-teil-hinweis.ts
 pipeline/check-disc-teil-verdrahtung.ts
@@ -245,6 +247,8 @@ pipeline/check-jw-auswahl.ts
 pipeline/check-jw-frisch-lauf.ts
 pipeline/check-jw-kennung-fremd-lauf.ts
 pipeline/check-jw-kennung-fremd.ts
+pipeline/check-jw-namenssuche-lauf.ts
+pipeline/check-jw-namenssuche.ts
 pipeline/check-jw-schlange.ts
 pipeline/check-jw-seite.ts
 pipeline/check-jw-staffeln.ts
@@ -278,6 +282,8 @@ pipeline/check-kapitel-katalog.ts
 pipeline/check-kapitel-shop-wege.ts
 pipeline/check-katalog-eingefroren.ts
 pipeline/check-katalog-release.ts
+pipeline/check-katalogstart-kasten.ts
+pipeline/check-katalogstart-tag.ts
 pipeline/check-kino-zuletzt.ts
 pipeline/check-kopf-menue.ts
 pipeline/check-kopfzeile-premiere.ts
@@ -292,6 +298,7 @@ pipeline/check-lesestelle.ts
 pipeline/check-link-leere-adresse.ts
 pipeline/check-links-laufzeit.ts
 pipeline/check-links-sperre-laufzeit.ts
+pipeline/check-live-adresse.ts
 pipeline/check-logic.ts
 pipeline/check-luecken-staffel0.ts
 pipeline/check-mail-verschoben-datum.ts
@@ -393,6 +400,7 @@ pipeline/check-reihen-teilname.ts
 pipeline/check-reihen-traeger-aufrufer.ts
 pipeline/check-reihen-traeger.ts
 pipeline/check-reinids-grund.ts
+pipeline/check-release-ohne-quelle.ts
 pipeline/check-remake-verdrahtung.ts
 pipeline/check-remake-zaehlung-pipeline.ts
 pipeline/check-remake-zaehlung.ts

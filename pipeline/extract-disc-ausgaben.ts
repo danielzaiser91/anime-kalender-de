@@ -40,12 +40,13 @@ import { resolve } from 'node:path'
 import { ROOT, log, readJson, writeJson } from './lib/util.ts'
 import type { Title } from '../shared/types.ts'
 import { ordneZu, type DiscKandidat } from './lib/disc-zuordnung.ts'
+import { seiteZuTitel } from './lib/anisearch-seite-zu-titel.ts'
 
 const ARCHIV = resolve(ROOT, 'data/anisearch-raw')
 const ZIEL = 'data/disc-ausgaben.json'
 
 /** Eine Ausgabe, wie aniSearch sie führt. */
-interface Ausgabe {
+export interface Ausgabe {
   /** Bezeichnung im Klartext — sie nennt oft schon den Träger und die Fassung. */
   edition: string
   /** Erscheinungsdatum, ISO. Auch Vergangenes zählt: Es ist der Bezugsweg. */
@@ -207,12 +208,12 @@ export function kandidatenJeKennung(titles: Title[], besitzer: Map<number, numbe
   return raus
 }
 
-/** Die bisherige 1:1-Zuordnung aus `anisearch.json` (aniSearch-Kennung → Titel), nur für Titel im Bestand. */
+/** Die 1:1-Zuordnung aus `anisearch.json` (aniSearch-Kennung → Titel) samt reinen aniSearch-Titeln, nur für Titel im Bestand. */
 export function besitzerVon(anisearch: Record<string, { anisearchId?: number }>, titles: Title[]): Map<number, number> {
   const bekannt = new Set(titles.map((t) => t.id))
   const besitzer = new Map<number, number>()
-  for (const [id, e] of Object.entries(anisearch)) {
-    if (e.anisearchId && bekannt.has(Number(id))) besitzer.set(e.anisearchId, Number(id))
+  for (const [asId, id] of seiteZuTitel(anisearch, bekannt)) {
+    if (bekannt.has(id)) besitzer.set(asId, id)
   }
   return besitzer
 }

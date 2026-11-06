@@ -1288,6 +1288,19 @@ bei `dub: undefined` gegen `dub: false`).
 **Wieder aufgegriffen wird es, sobald je Titel eine EAN vorliegt.** Dann trägt
 ein Shop-Abgleich, weil er nicht mehr über Namen laufen muss. Vorher nicht.
 
+**Nachmessung 06.11.2026 (Stand `882589705`, `tools/bau-vergleich.mjs --katalog`, Basis gegen Disc-Fix):** Ohne jeden Weg
+sind **322** von 2.927 Titeln, nicht 85 (die Tabelle oben ist der Stand vom 12.09.). Davon 123 von 166 reinen
+aniSearch-Titeln (Kennung ab 10 Mio.): `extract-disc-ausgaben.ts` ordnete die archivierte Seite nur über
+`anisearch.json` zu, und dort stehen reine Titel nie (0 von 166). Seit `seiteZuTitel` ordnet der Auszug sie über die
+Kennung zu: 95 reine Titel bekommen ihre deutsche Disc (aniSearch-Artikel), ohne Weg bleiben 54 reine und 253 insgesamt.
+Die 54 haben keine deutsche Disc-Ausgabe auf der Seite. Wächter: `check-disc-anisearch-bestand.ts` (Warnung, wenn eine
+Seite eine deutsche Ausgabe nennt und `disc-ausgaben.json` den Titel nicht führt).
+**Websites reiner Titel bewusst nicht eingespeist:** Die Abschnitte „Streams“ der Seiten (94 von 166 mit Adressen,
+Netflix 29, Crunchyroll 25, Prime-Kanäle 14, YouTube 14 …) in `anisearch.json`-Form eingemischt, ergab im Bauvergleich
+6 entfernte Netflix-Verweise anderer Titel (Regel „Folgen füllen den Anbieter“, `verweise-entfernt.json`) und 22
+geänderte `sharedWith` bei AniList-Titeln, netto weniger Titel mit Weg (109 statt 112). Vor einem zweiten Anlauf die
+Netflix-Zuteilung je Franchise klären (aniSearch nennt die Reihenadresse, nicht die Staffel).
+
 ## Ein Pinyin-Titel ist kein Name — und das Synonym daneben ist einer
 
 AniLists `romaji` ist bei japanischen Werken die etablierte Umschrift; „Shingeki
@@ -4183,6 +4196,18 @@ Madoka Magica: Der Reiter „ADN API“ trug nur „Quelle: ADN API.“, „Orig
 Messung am Stand 17.10. (Spiegelabgleich Auswahl gegen Marke `dubQuelle === 'justwatch'`, Titel): Auswahl 80 (Anime 12, Cartoon 68); Marke 162 (Anime 2, Cartoon 160); beides 70 (2 / 68); Auswahl ohne Marke 10 (alle Anime); Marke ohne Auswahl 92 (alle Cartoon, davon 91 „mehrere Staffeln", 1 Mehrteiler). Diese 92 tragen die Marke aus dem Cartoon-Staffel-Hinweis (`bau/cartoon-wege.ts`, `dubHinweis` in `bau/nebendateien.ts`), der das Befundalter nicht prüft — sie verlieren die Wiedervorlage ohne Schaden; wären sie drin, kostete es Abrufe (Erneuern alle 21 statt 28 Tage) und verdrängte dringende Anime. Abgelaufene Wege (Weg ohne Urteil, de-Seite, Befund ab 28 Tagen): 25 Wege auf 20 Titeln (13 Anime, 7 Cartoon); davon 22 ohne die 3 Mehrteiler-Wege (der Prüfer zählt 22 / 17 Titel, ohne Mehrteiler), und genau 10 Titel (alle Anime, Your Name einer) kommen durch die neue Auswahl zurück, die 7 Cartoons mit Serien-Grund bleiben ohne Flagge, wie im Bau vorgesehen.
 
 Wochenlauf 12.10.: 2.433 offen, 800 geholt in 16,5 min (1,24 s je Titel, kein 429); Bestand 3.048 Befunde, 1.006 gültig, 2.042 fällig. Simulation (Lauf je Montag, `--limit 800`, Reihenfolge Wiedervorlage, dringend, ältester zuerst), gültige Befunde der 80 Flaggen-Titel vor dem Lauf: alt (Marke) 70 bis 80, neu immer 80 ab dem 26.10. Der Abstand ist klein, weil die Auswahl klein ist: Der Gewinn sind die 10 Anime ab 19.10. und dass keine Flagge mehr unbemerkt ausläuft. Ein höheres `--limit` (1200) ändert daran nichts: die Gesamtzahl schwingt zwischen 1.848 und 2.858 (Wellen der ältesten Kohorte).
+
+## JustWatch für Titel ohne TMDB-Kennung: Namenssuche (06.11.2026)
+
+Anlass: „Miraculous World: New York, United Heroez“ (10017058) zeigte keinen Weg, JustWatch nennt Netflix, Disney+, Apple TV und Amazon. Der Abruf `fetch-justwatch-audio.ts` fragte nur Titel mit TMDB-Kennung; am 06.11.2026 hatten 859 von 3.852 Titeln (Hauptbestand und Cartoons) keine (Fehlschlag in `tmdb-titles.json` oder reiner aniSearch-Titel), 172 davon auch keinen Weg. `data:justwatch-cartoons` fragt nicht über Namen, es nimmt die Kennung der Cartoons.
+
+**Regel (`lib/jw-namenssuche.ts`):** gesucht wird mit jedem verschiedenen Namen (deutsch, romaji, englisch); übernommen wird nur ein Treffer, der (1) die gleiche Wortfolge trägt wie einer unserer Namen (Ziffern zählen, Teilnamen nicht), (2) im Erscheinungsjahr höchstens um eins von Japan- oder deutschem Jahr abweicht und (3) zur Art passt (Film gegen Serie; OVA, Special, Musik lassen beides zu). Zwei Treffer = mehrdeutig, Kennung gehört schon einem anderen unserer Titel = fremd, JustWatch-Seite hält schon ein anderer Eintrag = abgewiesen: nichts übernommen, alles im Log gezählt. `bewerteTreffer` (ADN) bleibt außen vor: es lässt Teilwörter zu, was hier zu locker wäre.
+
+**Befund:** `data/justwatch-audio.json` trägt `ueberName: true` und die TMDB-Kennung von JustWatch. Der Bau liest die Befunde unverändert je Titelschlüssel (`11-2-2`, `kanal-erbt-anbieter` …), also kommen die Wege ohne weitere Änderung an.
+
+**Lauf:** `data:justwatch-frisch` fragt täglich (außer montags) bis zu 60 Titel (`--namen 60`), die ältesten Befunde zuerst; jeder Titel kommt nach 21 Tagen wieder, weil der Bau Befunde nur bis 28 Tage liest. 18 Tagesläufe in 21 Tagen × 60 = 1.080 ≥ 859. Messung am 06.11.2026 (lokale Kopie, echte Schnittstelle): 2,5 bis 2,9 s je Titel, 10 + 40 Titel ohne 429; 5 von 50 zugeordnet, 0 falsche (To Love Ru: Darkness, Blue Exorcist: Kyoto Saga, Fate/Kaleid Liner Prisma Illya: Prisma Phantasm, Testament of Sister New Devil: Departures, Miraculous World: New York), der Rest führt JustWatch nicht.
+
+**Wächter:** `check-jw-ohne-tmdb-bestand.ts` (check:bestand, nur Warnung) zählt Titel ohne Kennung, nie gefragte, verfallene und die Kapazität; `check-jw-namenssuche.ts` prüft zusätzlich, dass `data:justwatch-frisch` mindestens 48 je Lauf fragt.
 
 ## Prime-Kauf/Leihe als Stream-Pille: zwei Lücken geschlossen (23.10.2026)
 

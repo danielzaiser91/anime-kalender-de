@@ -22,6 +22,8 @@ const OHNE_AUSGANG = {
     'nur Warnung (⚠ WARNUNG, Exit 0): ein Titel mit frischer Ankündigung hinter dem Toggle kann zu Recht dort liegen (aniSearch „Deutsch nicht genannt“, Handurteil), Rot würde den Bestandsbau stoppen; 26.10.2026',
   'pipeline/check-disc-archiv-bestand.ts':
     'nur Warnung (⚠ WARNUNG, Exit 0): eine neue Archivseite kann jederzeit eine Disc führen, die der Bau nicht eindeutig zuordnet, Rot würde den Bestandsbau stoppen; 06.11.2026',
+  'pipeline/check-disc-anisearch-bestand.ts':
+    'nur Warnung (⚠ WARNUNG, Exit 0): der Auszug läuft vor dem Bau, ein heute neuer Titel hat bis zum nächsten Lauf keine Zeile, Rot würde den Bestandsbau stoppen; 06.11.2026',
   'pipeline/check-disc-suchlinks-bestand.ts':
     'nur Warnung (⚠ WARNUNG, Exit 0): ein Sammler kann jederzeit eine Disc ohne EAN melden, Rot würde den Bestandsbau stoppen; 27.10.2026',
   'pipeline/check-gleiche-adresse-bestand.ts':
@@ -30,6 +32,8 @@ const OHNE_AUSGANG = {
     'nur Warnung (⚠ WARNUNG, Exit 0): Bestandsbau und Meldungen können jederzeit ein Beleg-Paar gleich bis auf das Prüfdatum schreiben, Rot würde den Bestandsbau stoppen; 03.11.2026',
   'pipeline/check-joyn-sender-bestand.ts':
     'nur Warnung (⚠ WARNUNG, Exit 0): ein Joyn-Weg kommt aus JustWatch oder von Hand, ein neuer TV-Termin darf den Bestandsbau nicht stoppen; 05.11.2026',
+  'pipeline/check-jw-ohne-tmdb-bestand.ts':
+    'nur Warnung (⚠ WARNUNG, Exit 0): neue aniSearch-Titel kommen täglich ohne TMDB-Kennung hinzu, Rot würde den Bestandsbau stoppen; 06.11.2026',
   'pipeline/check-meldungen-ohne-release-bestand.ts':
     'nur Warnung (⚠ WARNUNG, Exit 0): Anime2You kann jederzeit eine Meldung bringen, die der Bau keinem Release zuordnet, Rot würde den Bestandsbau stoppen; 04.11.2026',
   'pipeline/check-handlung-eigen-bestand.ts':
