@@ -60,6 +60,8 @@ export interface NewsMeldung {
   weiterer?: boolean
   /** Bei `neu` und `angekuendigt` (Streaming): Jahre seit dem japanischen Start (ab fünf) — „Nach 14 Jahren endlich …"; `discSeitText`: so lange gibt es die deutsche Fassung schon auf Disc („4 Monaten"). */
   jahre?: number; discSeitText?: string
+  /** Bei `angekuendigt` mit `kanal`: der Anbieter führt den Titel schon zum Kauf/zur Leihe, der Kanal-Start ist ein neuer Weg (Abo), kein Erststart (`shared/kanal-start.ts`, 03.11.2026). */
+  schonKaufbar?: boolean
   /** Bei `angekuendigt` im TV: Handbeleg „erste deutsche Ausstrahlung“ (`premiereBelegtTv`) — der Satz sagt „Deutsche TV-Premiere“ (Daniel, 21.10.2026). */
   premiere?: boolean
   /** Bei `angekuendigt`: Start nur mit Untertiteln (OmU) — ob eine deutsche Synchro angekündigt ist (Daniel, 06.10.2026: beide Auskünfte sind interessant). */
