@@ -18,7 +18,7 @@ export function LiveLink({ url, hinweis }: { url: string; hinweis: string }) {
         target="_blank"
         rel="noopener"
         aria-label={hinweis}
-        className="grid size-11 place-items-center rounded-full text-slate-500 transition hover:text-ak-text dark:text-slate-300"
+        className="grid size-11 place-items-center rounded-full text-ak-leise transition hover:text-ak-text"
       >
         <SpielZeichen />
       </a>

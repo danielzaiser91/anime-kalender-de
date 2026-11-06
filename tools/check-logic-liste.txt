@@ -289,6 +289,7 @@ pipeline/check-lesestelle.ts
 pipeline/check-link-leere-adresse.ts
 pipeline/check-links-laufzeit.ts
 pipeline/check-links-sperre-laufzeit.ts
+pipeline/check-live-adresse.ts
 pipeline/check-logic.ts
 pipeline/check-luecken-staffel0.ts
 pipeline/check-mail-verschoben-datum.ts
