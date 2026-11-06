@@ -201,7 +201,7 @@ try {
   const quelle = path.dirname(fileURLToPath(import.meta.url))
   mkdirSync(path.join(wurzel, 'tools'))
   mkdirSync(path.join(wurzel, 'web', 'src'), { recursive: true })
-  for (const datei of ['kachel-ecken-messen.mjs', 'dist-frisch.mjs']) copyFileSync(path.join(quelle, datei), path.join(wurzel, 'tools', datei))
+  for (const datei of ['kachel-ecken-messen.mjs', 'kachel-ecken-live.mjs', 'dist-frisch.mjs']) copyFileSync(path.join(quelle, datei), path.join(wurzel, 'tools', datei))
   symlinkSync(path.join(quelle, '..', 'node_modules'), path.join(wurzel, 'node_modules'), 'junction')
   const lauf = spawnSync(process.execPath, [path.join(wurzel, 'tools', 'kachel-ecken-messen.mjs')], { encoding: 'utf8', timeout: 60000 })
   assert.equal(lauf.status, 1, `ohne dist/ Exit 1 (stderr: ${lauf.stderr})`)

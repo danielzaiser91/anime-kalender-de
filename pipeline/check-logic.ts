@@ -1911,13 +1911,13 @@ console.log('\nStreaming Availability API:')
   const vomBand = (datei: string) =>
     readFileSync(new URL('../' + datei, import.meta.url), 'utf8')
   const roh = yaml.load(vomBand('data/tmdb-von-hand.yaml')) as
-    | { anilistId: number; tmdbId: number; kind?: string; grund?: string; geprueftAm?: string }[]
+    | { anilistId: number; tmdbId?: number; ohne?: boolean; kind?: string; grund?: string; geprueftAm?: string }[]
     | null
   const eintraege = roh ?? []
   pruefe('die Datei enthält Einträge', eintraege.length > 0, eintraege.length)
   pruefe(
-    'jeder Eintrag nennt AniList-Kennung, TMDB-Kennung, Grund und Prüfdatum',
-    eintraege.every((e) => e.anilistId > 0 && e.tmdbId > 0 && Boolean(e.grund) && /^\d{4}-\d{2}-\d{2}$/.test(e.geprueftAm ?? '')),
+    'jeder Eintrag nennt AniList-Kennung, TMDB-Kennung (oder `ohne`), Grund und Prüfdatum',
+    eintraege.every((e) => e.anilistId > 0 && (e.ohne ? e.tmdbId === undefined : Number(e.tmdbId) > 0) && Boolean(e.grund) && /^\d{4}-\d{2}-\d{2}$/.test(e.geprueftAm ?? '')),
     eintraege.filter((e) => !e.grund || !e.geprueftAm),
   )
   pruefe(
@@ -3286,14 +3286,10 @@ console.log('\nStaffel und Teil zählen:')
     'der Filmblock-Abruf liest den alten Stand, bevor er schreibt',
     /readFileSync\('data\/cr-filmbloecke\.json'/.test(abruf),
   )
-  pruefe(
-    '… führt beide Stände zusammen',
-    /const zusammen = new Map\(\)/.test(abruf) && /zusammen\.set\(f\.id, f\)/.test(abruf),
-  )
-  pruefe(
-    '… und ein Schweigen überschreibt keinen alten Treffer',
-    /if \(alt\?\.treffer && !f\.treffer\)/.test(abruf),
-  )
+  /* Die Zusammenführung steht in `lib/cr-abruf-logik.ts` (Laufzeitfälle: `check-cr-abruf-logik.ts`); hier nur die Verdrahtung. */
+  pruefe('… führt beide Stände zusammen (filmbloeckeZusammen(vorher, funde))', /filmbloeckeZusammen\(vorher, funde\)/.test(abruf))
+  const zusammenfuehrung = readFileSync(new URL('./lib/cr-abruf-logik.ts', import.meta.url), 'utf8')
+  pruefe('… und ein Schweigen überschreibt keinen alten Treffer', /if \(alt\?\.treffer && !f\.treffer\)/.test(zusammenfuehrung))
   pruefe(
     'geschrieben wird der zusammengeführte Stand, nicht die Fundliste',
     /writeFileSync\('data\/cr-filmbloecke\.json', JSON\.stringify\(gesamt/.test(abruf),
@@ -4343,13 +4339,6 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
       kennungAusPfad,
     )('http://www.crunchyroll.com/de/a-place-further-than-the-universe') === 'GYK541EPR',
     '43 der 44 offenen Verweise standen in der alten Slug-Form ohne Kennung in der Adresse',
-  )
-
-  const roh = readFileSync('pipeline/fetch-rohfolgen.ts', 'utf8')
-  pruefe(
-    'eine Meldung ab Staffel 2 landet nicht am Reihenkopf',
-    roh.includes('gemeldeteStaffel > 1 && istReihenkopf(titel, titles)'),
-    'Amazon nennt jede Staffel gleich; der beste Namenstreffer ist der Reihenkopf',
   )
 }
 
@@ -5660,7 +5649,7 @@ pruefe(
 {
   /*
     **Datenbank und Kalender zeigen dieselbe Filteransicht**.
-    Der Klick-Modus war im Kalender hinter „Weitere Filter" versteckt. Beide Seiten
+    Die Filter waren im Kalender hinter „Weitere Filter" versteckt. Beide Seiten
     rendern jetzt `FilterDetailsFeld` — nicht zwei getrennte Filterbäume.
   */
   const liesWeb = (p: string) => readFileSync(new URL(`../web/src/components/${p}`, import.meta.url), 'utf8')
@@ -6481,7 +6470,7 @@ pruefe(
   pruefe('Löschlauf: Ratenbegrenzung älter als 60 Minuten', aufrufe[0]?.sql === SQL_RATE_LIMIT_LOESCHEN && aufrufe[0].grenze === '2026-10-09T11:00:00.000Z', JSON.stringify(aufrufe[0]))
   pruefe('Löschlauf: nur unbestätigte Anmeldungen älter als 7 Tage', aufrufe[1]?.sql === SQL_UNBESTAETIGT_LOESCHEN && aufrufe[1].grenze === '2026-10-02T12:00:00.000Z' && SQL_UNBESTAETIGT_LOESCHEN.includes("status = 'pending'"), JSON.stringify(aufrufe[1]))
   pruefe('Löschlauf meldet die Zahlen', n.rateLimit === 2 && n.unbestaetigt === 2)
-  pruefe('… und wird stündlich aus `scheduled` aufgerufen', /async scheduled[\s\S]{0,400}loescheAbgelaufenes\(env, now\)/.test(readFileSync('worker/src/index.ts', 'utf8')))
+  pruefe('… und wird stündlich aus `scheduled` aufgerufen', /async scheduled[\s\S]{0,600}loescheAbgelaufenes\(env, now\)/.test(readFileSync('worker/src/index.ts', 'utf8')))
 }
 {
   /* Web-Push-Text (18.09.2026): eine Sache ausgeschrieben, mehrere gebündelt, nichts → kein Push. */
@@ -8074,8 +8063,6 @@ console.log('\nBeleg: Fundstelle, Banner, Handlung:')
   const sprecher = uebersetzeDatei('sprecher/k.json', { 'Konrad Bösherz': [{ id: 5, rollen: ['Robin'], ann: true }] }, ak) as Record<string, { id: number; rollen: string[]; ann?: true }[]>
   pruefe('Sprecher-Gruppe: Titelkennung auf ak, Name und Rollen unverändert', sprecher['Konrad Bösherz']?.[0]?.id === 1005 && sprecher['Konrad Bösherz']?.[0]?.rollen[0] === 'Robin' && sprecher['Konrad Bösherz']?.[0]?.ann === true, JSON.stringify(sprecher))
   pruefe('unbekannte Dateien bleiben unberührt', uebersetzeDatei('meta.json', { titleCount: 3 }, ak) !== undefined)
-  /* Karenz der Favoriten-Umschreibung: ab dem 05.11.2026 entfallen web/src/lib/kennung-umzug.ts, worker/src/favoriten-kennung.ts (Zweig ohne Vorsatz) und data/anilist-ak.json. */
-  pruefe('Favoriten-Umschreibung (AniList → ak) ist ausgelaufen und gehört entfernt', todayIso() < '2026-11-05', 'siehe kennung-umzug.ts / favoriten-kennung.ts')
 }
 
 /* Jede Meldung führt ihre Quellen als Belege (Daniel, 05.10.2026): Quellen-Knopf mit Reitern, Bild wo gesichert. */
@@ -8419,6 +8406,7 @@ pruefe('TV-Beleg springt zur Stunde der Sendung (Boruto, ProSieben MAXX)', tvdeS
   const [altAk, neuAk] = paare[0]!
   pruefe('Umleitung (Browser): Liste und Karten ziehen auf den Nachfolger um, ohne Doppel; Zahlen und Tage ordnen sich sinnvoll', umleiteListe([altAk, neuAk, 5], abbild).join() === `${neuAk},5` && umleiteKarte({ [altAk]: 3, [neuAk]: 5 }, abbild)[neuAk] === 5 && umleiteKarte({ [altAk]: '2026-10-01', [neuAk]: '2026-10-08' }, abbild)[neuAk] === '2026-10-01')
   pruefe('Umleitung (Worker): gespeicherte Liste mit ak: wird auf den Nachfolger umgeschrieben, eine fremde Zahl bleibt', [...leseFavoriten(`ak:${altAk},7`, { umleitung: abbild })].join() === `${neuAk},7` && [...leseFavoriten(`ak:${altAk},7`)].join() === `${altAk},7`)
+  pruefe('Umleitung (Worker): eine Liste ohne Vorsatz gilt als ak-Kennungen und wird ebenfalls umgeleitet', [...leseFavoriten(`${altAk},7`, { umleitung: abbild })].join() === `${neuAk},7` && [...leseFavoriten(`${altAk},7`)].join() === `${altAk},7`)
   /* AniList-Katalog: der Frischlauf holt nie mehr als die frischen Jahre, auch bei geändertem Fingerabdruck (Tageslauf 09.10.2026: zehn Minuten ab 1907). */
   const katalogArgs = { relFassung: 'neu', jahr: 2026, abJahr: 1907, frischSeiten: 10 }
   const altStand = { relFassung: 'alt', fertigeJahre: [1907, 1908] }

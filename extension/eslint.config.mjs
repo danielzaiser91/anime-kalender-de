@@ -59,7 +59,11 @@ export default [
           im Browser teilen sich beide denselben Scope.
         */
         akBox: 'readonly',
+        akWurzelAnhaengen: 'readonly',
         akZaehler: 'readonly',
+        akKlick: 'readonly',
+        akKlickEntfernen: 'readonly',
+        akKlickZahl: 'readonly',
         akDebugLeiste: 'readonly',
         akBerichtSchalter: 'readonly',
         akPrimeHatTitelseite: 'readonly',
@@ -75,6 +79,9 @@ export default [
         akNetflixRandUneinheitlich: 'readonly',
         akNetflixListeWarten: 'readonly',
         akNetflixGrundOffen: 'readonly',
+        akNetflixStoerung: 'readonly',
+        akNetflixTitelUeberspringen: 'readonly',
+        akNetflixUmgeleitet: 'readonly',
         akNetflixZurueckNeu: 'readonly',
         akNetflixBericht: 'readonly',
         akNetflixVollMelden: 'readonly',

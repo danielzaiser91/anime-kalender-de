@@ -72,6 +72,8 @@ interface Eingabe {
   messung: (t: Title, s: StreamLink) => Messung
   neinAdressen?: NeinAdresse[]
   ausgenommen?: Set<string>
+  /** Wege, denen JustWatch keine Sprachangabe gibt (Kanal-Abo, `kanalHandbelegWege` in `lib/handbeleg-weg.ts`). */
+  ohneJustwatch?: (titelId: number, s: StreamLink) => boolean
   /** Anime: Wege mit bloßer Serienangabe (kein Mehrteiler) bekommen den Hinweis. Cartoons tragen ihn schon am Titel. */
   hinweisNurSerie: boolean
 }
@@ -93,7 +95,7 @@ export function kennzeichneJwSeiten(e: Eingabe): JwSeitenErgebnis {
     const befund = e.befunde[String(t.id)]
     if (!befund || e.ausgenommen?.has(String(t.id))) continue
     const grund = nurSerie(befund, jeKennung.get(befund.jwId ?? '') ?? 0, t.staffeln?.length ?? 0)
-    for (const s of (t.streams ?? []).filter(geschaltet)) {
+    for (const s of (t.streams ?? []).filter((w) => geschaltet(w) && !e.ohneJustwatch?.(t.id, w))) {
       const ton = jwTonAnSeite(befund, s.url, e.heute)
       if (!ton?.deutsch) continue
       const m = urteilVon(s, e.messung(t, s))

@@ -177,6 +177,12 @@ export function wochenserie(termine: ReleaseEvent[]): { anzahl: number; rest: nu
   return { anzahl: n, rest: termine.length - n }
 }
 
+/** Hinweis auf Folgen, die nicht mehr in die Google-Serie passen; „Folge“ bei 1. */
+function restHinweis(rest: number): string {
+  const wer = rest === 1 ? 'Die 1 Folge danach kommt' : `Die ${rest} Folgen danach kommen`
+  return `${wer} zu einer anderen Uhrzeit; alle Termine stehen in der Kalenderdatei (.ics).`
+}
+
 /**
  * Ein-Klick-Link „zu Google Calendar hinzufügen" — braucht weder API noch Login-Flow.
  * Mit `serie` (mehr als ein Termin) wird ein wöchentlich wiederholter Eintrag daraus (`recur`), ohne Folgennummer im Titel.
@@ -195,7 +201,7 @@ export function googleCalendarUrl(ev: ReleaseEvent, opts: IcsOptions = {}, serie
     params.set('dates', `${compact(ev.date)}/${compact(addDays(ev.date, 1))}`)
   }
 
-  const zusatz = serie && wiederholt ? [`Wöchentlich, ${serie.anzahl} Termine ab Folge ${ev.episode ?? '?'}.`, ...(serie.rest ? [`Die ${serie.rest} Folgen danach kommen zu einer anderen Uhrzeit; alle Termine stehen in der Kalenderdatei (.ics).`] : [])] : []
+  const zusatz = serie && wiederholt ? [`Wöchentlich, ${serie.anzahl} Termine ab Folge ${ev.episode ?? '?'}.`, ...(serie.rest ? [restHinweis(serie.rest)] : [])] : []
   params.set('details', [eventDescription(ev, opts), ...zusatz].join('\n'))
   params.set('location', anbieterName(ev.platform, ev.sender))
   params.set('ctz', 'Europe/Berlin')

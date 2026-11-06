@@ -9,7 +9,7 @@ type BelegFuer = (titleId: number, plattform: PlatformId, url?: string) => DubCh
 function hatSprachzusage(release: Release, titel: Title | undefined, belegFuer: BelegFuer): boolean {
   if (release.sources?.some((u) => u === ADN_CALENDAR_URL || adnKatalogShow(u) !== undefined)) return true // aus ADNs Kalender oder Katalog-Folgenliste, beide nur Folgen mit `vde`
   if (titel?.streams.some((s) => s.platform === 'adn' && s.dub === true)) return true // vde im Archiv (`adn-sprachen.ts`) oder am Starttag (`adn-kuratiert-ton.ts`)
-  return belegFuer(release.titleId, 'adn')?.dub === true
+  return belegFuer(release.titleId, 'adn')?.dub === true // dub-lesart: handbeleg – gemessenes Ja des Belegs, nicht abgeleitet
 }
 
 /**

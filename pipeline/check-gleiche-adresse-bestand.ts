@@ -16,12 +16,16 @@ const geladen = existsSync(datei) ? yaml.load(readFileSync(datei, 'utf8')) : []
 const belege = Array.isArray(geladen) ? (geladen as BelegKurz[]) : []
 const zuordnung = readJson<Record<string, ZuordnungKurz>>('data/prime-zugeordnet.json', {})
 const stand = readJson<GleicheAdresseStand>('data/gleiche-adresse-stand.json', { stand: '', hoechstens: 0, adressen: [] })
-const b = gleicheAdresseBilanz(belege, zuordnung, stand)
+const folgen: Record<number, number> = {}
+for (const t of readJson<{ id: number; episodes?: number }[]>('public/data/titles.json', [])) folgen[t.id] = t.episodes ?? 0
+const b = gleicheAdresseBilanz(belege, zuordnung, stand, folgen)
 
 console.log(`Gleiche Amazon-Seite an zwei Titeln: ${b.fehl.length} (Stand ${stand.stand}: höchstens ${stand.hoechstens})`)
 if (b.neu.length)
   console.log(`  ⚠ WARNUNG Gleiche Adresse: ${b.neu.length} neue Amazon-Seite(n) mit Beleg an einem Titel, dem sie laut data/prime-zugeordnet.json nicht gehört — Fehlbeleg in data/dub-confirmed.yaml entfernen: ${b.neu.join(', ')}`)
 if (b.ueberGrenze) console.log(`  ⚠ WARNUNG Gleiche Adresse: ${b.fehl.length} Seiten, mehr als die Grenze ${stand.hoechstens}`)
+if (b.veraltet.length)
+  console.log(`  ⚠ WARNUNG Gleiche Adresse: ${b.veraltet.length} erlaubte Seite(n) ohne Doppelung mehr — Eintrag in data/gleiche-adresse-stand.json streichen: ${b.veraltet.join(', ')}`)
 if (b.erledigt.length >= 10)
   console.log(`  ⚠ WARNUNG Gleiche Adresse: ${b.erledigt.length} Adressen in data/gleiche-adresse-stand.json sind keine Doppelung mehr — Liste und Grenze kürzen (Ratsche)`)
 console.log('VERSTÖSSE: 0')

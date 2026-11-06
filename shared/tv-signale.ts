@@ -102,7 +102,7 @@ export function istPremiere(
     .filter((e) => e.episode && !e.sichtung && (e.date < datum || (e.date === datum && zeit !== undefined && (e.time ?? '') < zeit)))
   if (frueheresTv.some((e) => e.episode === folge)) return false
   const plattformen = new Set([
-    ...(title.streams ?? []).filter((s) => s.dub === true).map((s) => s.platform as string),
+    ...(title.streams ?? []).filter((s) => s.dub === true).map((s) => s.platform as string), // dub-lesart: irgendwie – jeder Weg mit Ja zählt (Menge/Weiche), auch ein abgeleiteter
     ...releases.filter((r) => r.platform !== 'tv' && r.releaseType !== 'disc').map((r) => r.platform as string),
   ])
   /* Bestand: die höchste Folge, die vor dem Termin belegt im Streaming (oder laut Wikipedia) deutsch erschien. */
@@ -110,6 +110,8 @@ export function istPremiere(
   let spaeter = false
   for (const p of plattformen) {
     if (p === 'tv') continue
+    /* Joyn führt die Folgen erst nach der Sendung; ein belegter TV-Start (Yaiba, 05.11.2026) bleibt Premiere. */
+    if (p === 'joyn' && handbeleg) continue
     const eigene = releases.filter((r) => r.platform === p && r.releaseType !== 'disc')
     if (eigene.length) {
       const termine = eigene.flatMap((r) => expandEvents(r))
@@ -120,7 +122,7 @@ export function istPremiere(
       }
       continue
     }
-    const s = (title.streams ?? []).find((x) => x.platform === p && x.dub === true)
+    const s = (title.streams ?? []).find((x) => x.platform === p && x.dub === true) // dub-lesart: irgendwie – jeder Weg mit Ja zählt (Menge/Weiche), auch ein abgeleiteter
     if (!s) continue
     const bereiche = s.dubRanges ?? []
     if (!bereiche.length) return false

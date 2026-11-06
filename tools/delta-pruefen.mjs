@@ -100,6 +100,9 @@ if (erste !== letzte) {
   )
 }
 
+const ausgeglichen = sichtbar.filter((e) => e.art === 'zeile' && e.erklaert.some((t) => t.startsWith('später ausgeglichen'))).length
+if (ausgeglichen) console.log(`ℹ  ${ausgeglichen} ${ausgeglichen === 1 ? 'Rückgang' : 'Rückgänge'} ausgeglichen`)
+
 const auffaellige = sichtbar.filter((e) => (e.art === 'pendel' ? e.laufend : e.auffaellig.length))
 if (auffaellige.length) {
   console.log('')

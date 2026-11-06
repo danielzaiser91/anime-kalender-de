@@ -1,12 +1,12 @@
 /**
- * Die am 03.11.2026 gemessenen doppelten Staffelnummern in Reihen ohne Neuverfilmung (Schlüssel `Reihe|Nummer`, `doppelteNummern`), alle Spin-offs, Parodien
- * und Fortsetzungen mit Staffelzahl im Namen — keine Neuverfilmung. Neue Schlüssel meldet `check-remake-zaehlung-bestand.ts` namentlich; die Liste darf nur schrumpfen.
+ * Die am 03.11.2026 noch gemessenen doppelten Staffelnummern in Reihen ohne Neuverfilmung (Schlüssel `Reihe|Nummer`, `doppelteNummern`),
+ * nachdem die Spin-offs aus `data/spinoff-von-hand.yaml` aus der Zählung genommen sind (18 der ursprünglich 37 Fälle gelöst). Die übrigen
+ * 19 sind keine Spin-offs: ein Teil nennt „Staffel 2" im eigenen Namen, während die Position diese Nummer schon vergeben hat (Baki, Pokémon,
+ * Tokyo Ghoul, Spy × Family), eine Unterreihe zählt neu (Ghost in the Shell: SAC_2045, The King’s Avatar), eine Neuverfilmung fehlt in den
+ * Remake-Daten (Urusei Yatsura 2022) oder die deutsche Staffelangabe kollidiert mit der Position (Seven Deadly Sins, Bleach). Neue Schlüssel
+ * meldet `check-remake-zaehlung-bestand.ts` namentlich; die Liste darf nur schrumpfen.
  */
 export const BEKANNT_DOPPELT_OHNE_REMAKE: readonly string[] = [
-  'A Certain Magical Index|4/-',
-  'Aggressive Retsuko|2/-',
-  'Aggressive Retsuko|3/-',
-  'Attack on Titan|2/-',
   'Bakemonogatari|2/-',
   'Bakemonogatari|3/-',
   'Baki — the Grappler|2/-',
@@ -18,26 +18,12 @@ export const BEKANNT_DOPPELT_OHNE_REMAKE: readonly string[] = [
   'Fate/Stay Night|2/-',
   'Ghost in the Shell: Stand Alone Complex|2/-',
   'Ghost in the Shell: Stand Alone Complex|3/-',
-  'InuYasha|2/-',
-  'Konosuba: God’s Blessing on This Wonderful World!|3/-',
-  'Kyouryuu Shoujo Gauko|2/-',
-  'Marvel Disk Wars: The Avengers|2/-',
-  'Mashle: Magic and Muscles|2/-',
-  'Meine Wiedergeburt als Schleim in einer anderen Welt|3/-',
-  'My Hero Academia|2/-',
-  'My Hero Academia|8/-',
   'Pokémon|2/-',
   'Pokémon|3/-',
   'Pokémon|4/-',
   'Spy × Family|2/-',
-  'Tenchi Muyo! Tenchi Universe|2/-',
-  'The Irregular at Magic High School|3/-',
   'The King’s Avatar|3/-',
-  'The Seven Deadly Sins|2/-',
   'The Seven Deadly Sins|4/-',
-  'The Seven Deadly Sins|5/-',
   'Tokyo Ghoul|2/-',
-  'Touken Ranbu: Hanamaru|2/-',
   'Urusei Yatsura|2/-',
-  'Yakuza Goes Hausmann|2/-',
 ]

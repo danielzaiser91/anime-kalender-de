@@ -23,6 +23,7 @@ const WEGWERF_WURZEL = {
   'pipeline/check-sammelartikel.ts': ['data/proposals/aussagen.json', 'data/sammelartikel-stand.json'],
   'pipeline/check-vorfaelle-ablauf.ts': ['daniel-zum-abarbeiten/listen/17-vorfaelle.md'],
   'tools/bau-eingaben.test.mjs': ['data/bestand-historie.jsonl'],
+  'tools/delta-wache-ausgleich.test.mjs': ['data/bestand-historie.jsonl'],
   'tools/delta-wache-historie.test.mjs': ['data/bestand-historie.jsonl'],
   'tools/delta-wache-pendel.test.mjs': ['data/bestand-historie.jsonl'],
   'pipeline/check-patchnotes-stempel-regel.ts': ['data/bestand-historie.jsonl'],

@@ -1,6 +1,6 @@
 # TMDB-Staffel 0: unsichere Treffer
 
-Erzeugt von `pipeline/lib/tmdb-staffel0-abruf.ts` (im Plakat-Lauf). 151 Titel sind zugeordnet (`data/tmdb-staffel0.json`), 114 unsicher (diese Liste), 0 ohne Zuordnung, weil zwei Titel dieselbe Folge träfen.
+Erzeugt von `pipeline/lib/tmdb-staffel0-abruf.ts` (im Plakat-Lauf). 152 Titel sind zugeordnet (`data/tmdb-staffel0.json`), 113 unsicher (diese Liste), 0 ohne Zuordnung, weil zwei Titel dieselbe Folge träfen.
 Sicher heißt: Datum höchstens ±1 Tag, Name der Folge gleich (englisch oder japanisch), Länge gleich, einziger Treffer. Die Spalte „Tage“ ist TMDB minus unser japanischer Start.
 
 | Titel | Start | TMDB | Werte | Grund |
@@ -31,7 +31,6 @@ Sicher heißt: Datum höchstens ±1 Tag, Name der Folge gleich (englisch oder ja
 | [Ikkitousen: XTREME XECUTOR - Yume Rokkei](https://anime-kalender.de/#/woche?t=8507) | 2010-06-25 | [tv/37584/season/0](https://www.themoviedb.org/tv/37584/season/0) Folge 13 | +0 Tage, Länge ±0 min, Name anders | Datum nah, aber Name oder Länge tragen nicht |
 | [Hyakka Ryouran: Samurai Girls - Otome♥Ureshi Hazukashi Shoushi no Chigiri](https://anime-kalender.de/#/woche?t=9362) | 2010-11-25 | [tv/46440/season/0](https://www.themoviedb.org/tv/46440/season/0) Folge 1 | +0 Tage, Länge ±1 min, Name anders | Datum nah, aber Name oder Länge tragen nicht |
 | [K-ON! Season 2: Plan!](https://anime-kalender.de/#/woche?t=9734) | 2011-03-16 | [tv/42253/season/0](https://www.themoviedb.org/tv/42253/season/0) Folge 21 | +0 Tage, Länge ±0 min, Name anders | Datum nah, aber Name oder Länge tragen nicht |
-| [Deadman Wonderland: The Red Knife Wielder](https://anime-kalender.de/#/woche?t=10418) | 2011-10-08 | [tv/42503/season/0](https://www.themoviedb.org/tv/42503/season/0) Folge 1 | +0 Tage, Länge ±1 min, Name anders | Datum nah, aber Name oder Länge tragen nicht |
 | [Sengoku BASARA Two: Ryuko, Itadaki no Chikai! Atsuki Mirai e Kakeru Tamashii!!](https://anime-kalender.de/#/woche?t=10483) | 2011-04-06 | [tv/25492/season/0](https://www.themoviedb.org/tv/25492/season/0) Folge 15 | +0 Tage, Länge ±2 min, Name anders | Datum nah, aber Name oder Länge tragen nicht |
 | [Bunny Drop Specials](https://anime-kalender.de/#/woche?t=11113) | 2011-10-28 | [tv/45213/season/0](https://www.themoviedb.org/tv/45213/season/0) Folge 1 | +0 Tage, Länge ±0 min, Name anders | Datum nah, aber Name oder Länge tragen nicht |
 | [Maken-Ki! OVA](https://anime-kalender.de/#/woche?t=11209) | 2012-03-01 | [tv/60732/season/0](https://www.themoviedb.org/tv/60732/season/0) Folge 7 | +0 Tage, Länge ±0 min, Name anders | Datum nah, aber Name oder Länge tragen nicht |
@@ -96,7 +95,7 @@ Sicher heißt: Datum höchstens ±1 Tag, Name der Folge gleich (englisch oder ja
 | [Made in Abyss: Retsujitsu no Ougonkyou - Papa to Issho](https://anime-kalender.de/#/woche?t=153791) | 2022-10-26 | [tv/72636/season/0](https://www.themoviedb.org/tv/72636/season/0) Folge 5 | +0 Tage, Länge ±0 min, Name anders | Datum nah, aber Name oder Länge tragen nicht |
 | [That Time I Got Reincarnated as a Slime: Visions of Coleus](https://anime-kalender.de/#/woche?t=161802) | 2023-11-01 | [tv/82684/season/0](https://www.themoviedb.org/tv/82684/season/0) Folge 11 | +0 Tage, Länge ±0 min, Name anders | Datum nah, aber Name oder Länge tragen nicht |
 | [Plus-Sized Elf Specials](https://anime-kalender.de/#/woche?t=179126) | 2024-10-06 | [tv/243743/season/0](https://www.themoviedb.org/tv/243743/season/0) Folge 13 | -1 Tage, Länge ±0 min, Name anders | Datum nah, aber Name oder Länge tragen nicht |
-| [My Happy Marriage Special Episodes](https://anime-kalender.de/#/woche?t=190054) | 2026-10-25 | [tv/196944/season/0](https://www.themoviedb.org/tv/196944/season/0) Folge 2 | +0 Tage, Länge –, Name anders | Datum nah, aber Name oder Länge tragen nicht |
+| [My Happy Marriage Special Episodes](https://anime-kalender.de/#/woche?t=190054) | 2026-10-25 | [tv/196944/season/0](https://www.themoviedb.org/tv/196944/season/0) Folge 2 | +0 Tage, Länge ±1 min, Name anders | Datum nah, aber Name oder Länge tragen nicht |
 | [My Hero Academia More](https://anime-kalender.de/#/woche?t=204356) | 2026-05-02 | [tv/65930/season/0](https://www.themoviedb.org/tv/65930/season/0) Folge 18 | +0 Tage, Länge ±1 min, Name anders | Datum nah, aber Name oder Länge tragen nicht |
 | [Angels of Death (ONA)](https://anime-kalender.de/#/woche?t=104243) | 2018-10-05 | [tv/80477/season/0](https://www.themoviedb.org/tv/80477/season/0) Folge 1 | +0 Tage, Länge ±0 min, Name anders | Datum nah, aber Name oder Länge tragen nicht |
 | [Beyblade Burst QuadStrike](https://anime-kalender.de/#/woche?t=166062) | 2023-04-04 | [tv/67667/season/0](https://www.themoviedb.org/tv/67667/season/0) Folge 2 | +0 Tage, Länge ±1 min, Name anders | Datum nah, aber Name oder Länge tragen nicht |

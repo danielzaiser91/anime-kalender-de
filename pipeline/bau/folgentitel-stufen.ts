@@ -4,6 +4,7 @@ import { ROOT, readJson } from '../lib/util.ts'
 import { crFolgentitel, ladeCrArchiv, mitCrTiteln, type CrSerie } from './folgentitel-cr.ts'
 import { crFolgentitelGeteilt } from './folgentitel-cr-geteilt.ts'
 import { tmdbFolgentitel, type TmdbEintrag } from './folgentitel-tmdb.ts'
+import { tmdbTitelNachDatum } from './folgentitel-tmdb-datum.ts'
 import { mitKitsuTiteln, type KitsuEintrag } from './folgentitel-kitsu.ts'
 import { rtlplusFolgentitel, type RtlplusEintrag } from './folgentitel-rtlplus.ts'
 import { ladeHandTitel } from './folgentitel-hand.ts'
@@ -68,6 +69,7 @@ export function mitFremdTiteln(t: Title, ausAs: Folge[] | undefined, q: TitelQue
   const mitRtl = mitCrTiteln(mitCr, rtlplusFolgentitel(deutscheTitel(mitCr), q.rtlplus[String(t.id)]))
   if (!luecke(mitRtl)) return mitKitsuTiteln(t, mitRtl, kitsu)
   const nummern = mitRtl?.length ? mitRtl.map((x) => x.nr) : Array.from({ length: t.episodes ?? 0 }, (_, i) => i + 1)
-  const mitTmdb = mitCrTiteln(mitRtl, tmdbFolgentitel(t, q.tmdbNamen[String(t.id)]?.nameDe, q.tmdbFolgen[String(t.id)], nummern, vorhandeneTitel(mitRtl)))
+  const mitTmdbStaffel = mitCrTiteln(mitRtl, tmdbFolgentitel(t, q.tmdbNamen[String(t.id)]?.nameDe, q.tmdbFolgen[String(t.id)], nummern, vorhandeneTitel(mitRtl)))
+  const mitTmdb = mitCrTiteln(mitTmdbStaffel, tmdbTitelNachDatum(mitTmdbStaffel, q.tmdbFolgen[String(t.id)]))
   return mitKitsuTiteln(t, mitCrTiteln(mitTmdb, q.hand[String(t.id)]), kitsu)
 }

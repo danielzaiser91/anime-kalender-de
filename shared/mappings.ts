@@ -870,10 +870,10 @@ export function anisearchPlatform(provider: string): PlatformId | undefined {
  * Zwei Einträge aus TMDB sind für einen deutschen Kalender wertlos: „Default"
  * ist schlicht ein Datenfehler, „Amazon UK" führt in den britischen Shop. Sie
  * stehen mit leerem Wert in der Tabelle; wer diese Funktion benutzt, muss das
- * Ergebnis auf Leere prüfen.
+ * Ergebnis auf Leere prüfen. Werbetarife („… with Ads“) tragen den Namen ihres Anbieters (03.11.2026).
  */
 export function providerName(provider: string): string {
-  const key = canonicalProvider(provider)
+  const key = canonicalProvider(provider.replace(/[\s-]+(standard[\s-]+)?(free[\s-]+)?with[\s-]+ads$/i, ''))
   const treffer = PROVIDER_NAMES[key] ?? PROVIDER_NAMES[provider]
   if (treffer !== undefined) return treffer
   return key.replace(/[-_]/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())

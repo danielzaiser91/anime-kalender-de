@@ -10,9 +10,9 @@ import { findeVerschluckte } from './lib/leerzeichen-gleich.ts'
 import { findeUmleitung } from './lib/leerzeichen-workflow.ts'
 
 const WURZEL = resolve(process.argv[2] === '--wurzel' ? process.argv[3] : resolve(import.meta.dirname, '..'))
-const ORDNER = ['pipeline', 'shared', 'web/src', 'tools', 'extension', 'worker']
+export const ORDNER = ['pipeline', 'shared', 'web/src', 'tools', 'extension', 'worker']
 const ENDUNGEN = ['ts', 'tsx', 'mjs', 'cjs', 'js']
-const WORKFLOWS = '.github/workflows'
+export const WORKFLOWS = '.github/workflows'
 
 /** Quelldatei mit gepflegtem Text: erzeugte Daten (`extension/offene-*.js`, eine Zeile Komma-getrennte Daten) und das Archiv alter Messskripte bleiben außen vor. */
 export function wirdGeprueft(datei: string): boolean {
@@ -32,19 +32,17 @@ export function bewerte(dateien: string[], lies: (d: string) => string): { meldu
   if (!dateien.some((d) => d.startsWith(`${WORKFLOWS}/`) && d.endsWith('.yml'))) meldungen.push('Workflows: keine Datei gescannt')
   let treffer = 0
   for (const datei of dateien) {
-    if (datei.endsWith('.yml')) {
-      for (const f of findeUmleitung(lies(datei))) {
-        treffer++
-        meldungen.push(`${datei}:${f.zeile} Leerzeichen an >> fehlt: ${f.text}`)
-      }
-      continue
-    }
-    for (const f of findeVerschluckte(lies(datei), datei)) {
-      treffer++
-      meldungen.push(`${datei}:${f.zeile} Leerzeichen nach ${f.zeichen} fehlt: ${f.text}`)
-    }
+    const funde = meldungenFuer(datei, lies(datei))
+    treffer += funde.length
+    meldungen.push(...funde)
   }
   return { meldungen, treffer }
+}
+
+/** Treffer einer Datei als Meldungszeilen `Datei:Zeile …`; auch der Pre-commit-Hook (`tools/leerzeichen-gestagt-pruefen.mjs`) nutzt sie. */
+export function meldungenFuer(datei: string, text: string): string[] {
+  if (datei.endsWith('.yml')) return findeUmleitung(text).map((f) => `${datei}:${f.zeile} Leerzeichen an >> fehlt: ${f.text}`)
+  return findeVerschluckte(text, datei).map((f) => `${datei}:${f.zeile} Leerzeichen nach ${f.zeichen} fehlt: ${f.text}`)
 }
 
 function selbstpruefung(): number {

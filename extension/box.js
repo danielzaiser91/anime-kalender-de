@@ -55,6 +55,18 @@
  */
 const boxen = new Map()
 
+/**
+ * **Eigene Wurzeln hängen an `<html>`, nicht am `<body>`** (Daniel, 03.11.2026): Netflix legt hinter
+ * der Profilauswahl („Wer schaut gerade?") alles außer seinem Dialog still — Kasten, Prüfliste, Knöpfe
+ * und das Einklapp-Icon reagierten auf keinen Klick, bis ein Profil gewählt war. Solche Sperren
+ * (`inert`, `aria-hidden`, `pointer-events`) setzt eine Seite an `<body>` und dessen Kindern; `<html>`
+ * erreichen sie nicht, weil der Dialog selbst im `<body>` steht. Jede Wurzel der Erweiterung geht
+ * über diese Funktion (Test `netflix-wurzel.test.cjs`).
+ */
+function akWurzelAnhaengen(el) {
+  document.documentElement.appendChild(el)
+}
+
 function akBox(kennung, fuerAdresse) {
   let kasten = boxen.get(kennung)
   if (!kasten?.isConnected) kasten = document.querySelector('.' + kennung)
@@ -94,7 +106,7 @@ function akBox(kennung, fuerAdresse) {
   const debug = document.createElement('div')
   debug.className = 'ak-z-debug'
   kasten.appendChild(debug)
-  document.body.appendChild(kasten)
+  akWurzelAnhaengen(kasten)
   boxen.set(kennung, kasten)
   akIconStarten()
   return kasten
@@ -148,7 +160,7 @@ function akDebugLeiste(kasten, schalter) {
         den Baum — für einen Wert, den wir beim Bauen schon in der Hand hatten.
       */
       zeichenVon.set(s, zeichen)
-      knopf.addEventListener('click', (e) => {
+      akKlick(knopf, (e) => {
         e.preventDefault()
         e.stopPropagation()
         s.schalten()
@@ -286,6 +298,60 @@ function akIconSichtbarkeit() {
   akIconZeichnen()
 }
 
+/**
+ * Klick auf einen Knopf der Erweiterung, vor allen Listenern der Seite.
+ * Netflix stoppt `click` auf der Profilauswahl per Capture-Listener, bevor er den Knopf
+ * erreicht (Messung 03.11.2026); ein Listener am Knopf selbst feuert dort nie. Darum hört
+ * das Fenster in der Capture-Phase zu, ohne weitere Registrierung am Knopf (ein Klick, eine Aktion).
+ * Gesperrte Knöpfe (disabled, aria-disabled) lösen nichts aus, auch nach dem Neuzeichnen.
+ */
+const akKlickZiele = new Set()
+let akKlickHoerer = false
+
+function akKlickVerteilen(e) {
+  const treffer = [...akKlickZiele].filter(({ el }) => {
+    const getroffen = e.target === el || (e.target && el.contains?.(e.target))
+    return getroffen && el.disabled !== true && el.ariaDisabled !== 'true'
+  })
+  /* Wie beim Aufsteigen: das tiefste Element zuerst, und ein `stopPropagation()` hält die äußeren auf. */
+  treffer.sort((a, b) => (a.el.contains?.(b.el) && a.el !== b.el ? 1 : b.el.contains?.(a.el) && a.el !== b.el ? -1 : 0))
+  const schonGestoppt = e.cancelBubble
+  for (const ziel of treffer) {
+    ziel.aktion(e)
+    if (!schonGestoppt && e.cancelBubble) break
+  }
+}
+
+/** Ein Fenster-Listener für alle Knöpfe; `el.remove()` meldet den Knopf ab (kein Leck bei Neuzeichnen). */
+function akKlick(el, aktion) {
+  if (!akKlickHoerer) {
+    akKlickHoerer = true
+    window.addEventListener('click', akKlickVerteilen, true)
+  }
+  const ziel = { el, aktion }
+  akKlickZiele.add(ziel)
+  const entfernen = el.remove?.bind(el)
+  if (entfernen) {
+    el.remove = () => {
+      akKlickZiele.delete(ziel)
+      entfernen()
+    }
+  }
+}
+
+/** Entfernt `wurzel` und meldet alle Knöpfe darunter ab (Dialog zu): als Kinder blieben sie sonst samt abgehängtem Teilbaum in der Menge. */
+function akKlickEntfernen(wurzel) {
+  for (const ziel of [...akKlickZiele]) {
+    if (wurzel.contains?.(ziel.el)) akKlickZiele.delete(ziel)
+  }
+  wurzel.remove()
+}
+
+/** Anzahl angemeldeter Knöpfe (Test: bleibt nach Öffnen und Schließen des Dialogs gleich). */
+function akKlickZahl() {
+  return akKlickZiele.size
+}
+
 function akIconStarten() {
   if (akIcon || (window.top && window !== window.top)) return
   akIcon = document.createElement('button')
@@ -299,7 +365,7 @@ function akIconStarten() {
   akIcon.appendChild(akZeichen)
   akIcon.appendChild(akBadge)
   akIcon.hidden = true
-  akIcon.addEventListener('click', () => {
+  akKlick(akIcon, () => {
     /* Während eines Durchgangs bleibt der Kasten offen: kein Kippen, kein Schreiben. */
     if (akIcon.ariaDisabled === 'true') return
     akZu = !akZu
@@ -310,7 +376,7 @@ function akIconStarten() {
     }
     akIconZeichnen()
   })
-  document.body.appendChild(akIcon)
+  akWurzelAnhaengen(akIcon)
   akIconZeichnen()
   try {
     chrome.storage.local.get(AK_ZU_SCHLUESSEL).then((x) => {
@@ -335,7 +401,7 @@ function akIconStarten() {
     })
   }
   akPruefen = pruefen
-  new MutationObserver(pruefen).observe(document.body, { childList: true })
+  new MutationObserver(pruefen).observe(document.documentElement, { childList: true })
   new MutationObserver(pruefen).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] })
   pruefen()
 }

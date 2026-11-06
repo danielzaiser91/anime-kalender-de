@@ -235,6 +235,8 @@ gelesen wird der Index). Anlass: ein Doppelpunkt im Untertitel fiel erst in `che
 das Werkzeug nach einem `git diff` (≈ 0,1 s), mit ihnen ≈ 0,2 s (gemessen 12.10.2026); Test `tools/patchnotes-gestagt.test.mjs`.
 Zweige ohne das Werkzeug überspringen es, der Hook liegt für alle Worktrees im gemeinsamen `.git/hooks/`. Nach dem Merge einmal
 `bash tools/quellen-commit-wache.sh --einrichten` im Hauptordner ausführen, sonst bleibt der alte Hook ohne die Prüfung.
+**Auch verschluckte Leerzeichen (02.11.2026):** derselbe Hook ruft `tools/leerzeichen-gestagt-pruefen.mjs` (Regel und Meldung von
+`pipeline/check-leerzeichen-gleich.ts`, nur gestagte Quelldateien aus dem Index, ≈ 0,6 s); Test `tools/leerzeichen-gestagt.test.mjs`. Anlass: PR 2690.
 
 **Vierter Fall, 21.09.2026 — ausgelöst von einem Commit, der gar keine Quelle anfasste.** Während
 `bestand-bauen` lief, ging eine Doku-Änderung auf `main`. Der Fernstand hatte sich bewegt, der Lauf

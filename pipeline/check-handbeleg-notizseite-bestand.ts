@@ -24,4 +24,5 @@ if (neu.length) console.error(`  ✖ Neue Treffer (Beleg entfernen oder Besitz k
 else console.log('  ✓ Kein neuer Treffer')
 if (erledigt.length) console.log(`⚠ WARNUNG Altfälle behoben, aus ALTFAELLE streichen: ${erledigt.join(', ')}`)
 console.log(`check-handbeleg-notizseite-bestand: ${treffer.length} Treffer, davon ${treffer.length - neu.length} Altfälle (Ratsche ${ALTFAELLE.length}, Ziel 0), ${neu.length} neu.`)
+console.log(`VERSTÖSSE: ${neu.length}`)
 process.exit(neu.length ? 1 : 0)

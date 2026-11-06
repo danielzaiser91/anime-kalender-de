@@ -383,10 +383,14 @@ export function belegeUeberFolgenzahl(liste: BelegFolgen[], folgenJeTitel: Reado
   })
 }
 
-/** Vergleichsschlüssel eines Belegs: Prüfdatum und das nur von Hand gesetzte `sonderfolgen` zählen nicht, sonst hängt jede Wiederholmeldung denselben Beleg erneut an. */
+/** Der Hinweis „laut Adresse Staffel N“ steht erst in Notizen jüngerer Erweiterungsversionen; er ändert nichts an der Messung. */
+const ADRESSHINWEIS = /, laut Adresse Staffel \d+/g
+
+/** Vergleichsschlüssel eines Belegs: Prüfdatum, das nur von Hand gesetzte `sonderfolgen` und der Adresshinweis der Notiz zählen nicht, sonst hängt jede Wiederholmeldung denselben Beleg erneut an. */
 export function belegSchluessel(eintrag: unknown): string {
   if (eintrag === null || typeof eintrag !== 'object') return JSON.stringify(eintrag)
   const { checkedAt: _checkedAt, sonderfolgen: _sonderfolgen, ...rest } = eintrag as Record<string, unknown>
+  if (typeof rest.note === 'string') rest.note = rest.note.replace(ADRESSHINWEIS, '')
   return JSON.stringify(rest)
 }
 

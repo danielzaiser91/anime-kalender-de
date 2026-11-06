@@ -1,3 +1,4 @@
+import { ohneGeteilteFilme } from '../lib/tmdb-eindeutig.ts'
 import { log, readJson, warn } from '../lib/util.ts'
 import { ladeAnisearchAbruf } from '../lib/anisearch-verworfen.ts'
 import { ladeKatalogEintraege } from '../lib/katalog-eingefroren.ts'
@@ -163,7 +164,7 @@ export function traegerJeSeite(): Map<number, number[]> {
  */
 export function ergaenzeAnisearchTitel(titles: Map<number, Title>, jpStart: Map<number, string>, jpStartAnzeige: Map<number, string>, frei: Set<number> = new Set()): number {
   /* Cover: die aniSearch-Bilder dürfen wir nicht weitergeben; wo TMDB ein Plakat zu Name und Jahr kennt (`fetch-tmdb-poster.ts`), steht es als Cover. */
-  const poster = readJson<Record<string, { p: string } | null>>('data/tmdb-poster.json', {})
+  const poster = ohneGeteilteFilme(readJson<Record<string, { p: string } | null>>('data/tmdb-poster.json', {}), 'Plakate (aniSearch-Titel)')
   const vergeben = vergebeneSeiten(titles)
   for (const asId of frei) vergeben.delete(asId)
   let neu = 0

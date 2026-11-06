@@ -128,7 +128,7 @@ const aufrufe = ruft(quelle, 'useTitelwechsel')
 gleich(
   'DetailPanel ruft useTitelwechsel genau einmal mit titleId, title und „hat Termine“',
   [aufrufe.length, aufrufe[0]],
-  [1, ['titleId', 'title', '(data.releasesByTitle.get(titleId)?.length ?? 0) > 0']],
+  [1, ['titleId', 'title', 'mitTermin']],
 )
 const hookQuelle = readFileSync(new URL('../web/src/components/detail/titelwechsel.ts', import.meta.url), 'utf8')
 gleich('der Hook behält die Teilen-Adresse des Titels (zog aus DetailPanel um)', ruft(hookQuelle, 'useTeilenAdresse'), [['title']])

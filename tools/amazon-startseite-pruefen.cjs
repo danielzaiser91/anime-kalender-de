@@ -281,6 +281,8 @@ for (const { pfad, suche, stand, leer } of PFADE) {
       documentElement: {
         innerHTML: '<html></html>',
         classList: { add() {}, remove() {}, toggle() {}, contains: () => false },
+        /* Eigene Wurzeln hängen seit 03.11.2026 an <html> (akWurzelAnhaengen). */
+        appendChild(k) { angehaengt.push(k); return k },
       },
       body: { ...body, appendChild(k) { angehaengt.push(k); return k } },
       title: 'Amazon.de',

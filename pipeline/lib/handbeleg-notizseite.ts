@@ -33,9 +33,14 @@ export function asinsAus(text: string | undefined): string[] {
   return (text ?? '').match(/\bB[0-9A-Z]{9}\b/g) ?? []
 }
 
+/** Die Kennung hinter „Amazon-Seite“ in der Notiz (die gemessene Seite), sonst nichts. */
+export function notizSeiteVon(note: string | undefined): string | undefined {
+  return (note ?? '').match(/Amazon-Seite (B[0-9A-Z]{9})\b/)?.[1]
+}
+
 export function blockSeiten(b: BlockSeite): string[] {
-  const aus = (b.note ?? '').match(/Amazon-Seite (B[0-9A-Z]{9})\b/)
-  return [...new Set([...asinsAus(b.url).slice(0, 1), ...(aus ? [aus[1]!] : [])])]
+  const aus = notizSeiteVon(b.note)
+  return [...new Set([...asinsAus(b.url).slice(0, 1), ...(aus ? [aus] : [])])]
 }
 
 export function baueBesitz(titel: BesitzTitel[], zugeordnet: Record<string, { titleId: number }>): Besitz {

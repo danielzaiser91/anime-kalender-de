@@ -24,7 +24,7 @@ function trifft(roh: string | undefined, s: StreamLink): boolean {
 
 function ausHandbelegen(checks: DubCheck[], s: StreamLink): Messung {
   const passend = checks.filter((c) => trifft(c.url, s))
-  const ja = passend.find((c) => c.dub === true || (c.dubRanges ?? []).some((r) => r.dub))
+  const ja = passend.find((c) => c.dub === true || (c.dubRanges ?? []).some((r) => r.dub)) // dub-lesart: handbeleg – gemessenes Ja des Belegs, nicht abgeleitet
   if (ja) return { urteil: 'ja', quelle: `Handbeleg ${ja.checkedAt}` }
   const nein = passend.find((c) => c.dub === false)
   return nein ? { urteil: 'nein', quelle: `Handbeleg ${nein.checkedAt}` } : undefined

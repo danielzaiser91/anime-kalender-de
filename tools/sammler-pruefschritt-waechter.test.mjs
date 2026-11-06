@@ -91,17 +91,19 @@ for (const nr of [0, 1]) {
 }
 erwarte('claude-daten-merge.yml: gar keine gh pr list (Erkennung)', (s) => { listen(s).run = 'echo nichts' }, /keine `gh pr list` gefunden/)
 
-// Weg 5: Fristen (Auflage 3, Runde 3). fund-nachliefern hat 20 min; mit den Fristen aus Runde 2 (900 + 240 s) blieben 60 s für Download und Merge.
+// Weg 5: Fristen (Auflage 3, Runde 3). fund-nachliefern hat 25 min (seit 03.11.2026, Prüffrist 600 s; vorher 20 min); mit 1200 + 240 s blieben 60 s für Download und Merge.
 const PRUEFEN = 'quellen-pruefen.sh'
 const fristen = (pruef, basis) => (s) => {
   s.skripte[PRUEFEN] = s.skripte[PRUEFEN]
     .replace(/^QUELLEN_PRUEFFRIST_STANDARD=\d+$/m, `QUELLEN_PRUEFFRIST_STANDARD=${pruef}`)
     .replace(/^QUELLEN_BASISFRIST_STANDARD=\d+$/m, `QUELLEN_BASISFRIST_STANDARD=${basis}`)
 }
-erwarte('Fristen aus Runde 2 sprengen fund-nachliefern', fristen(900, 240), /fund-nachliefern\.yml: Job nachliefern \(timeout 1200 s\) lässt nach Prüfung und Vergleich \(1140 s\)/)
-erwarte('Basisfrist allein zu lang', fristen(420, 400), /fund-nachliefern\.yml: Job nachliefern/)
-assert.deepEqual(mit(fristen(1200 - 240 - REST_SEKUNDEN, 240)), [], 'genau auf der Grenze ist erlaubt')
-erwarte('eine Sekunde über der Grenze', fristen(1200 - 240 - REST_SEKUNDEN + 1, 240), /fund-nachliefern\.yml: Job nachliefern/)
+erwarte('Fristen aus Runde 2 sprengen fund-nachliefern', fristen(1200, 240), /fund-nachliefern\.yml: Job nachliefern \(timeout 1500 s\) lässt nach Prüfung und Vergleich \(1440 s\)/)
+erwarte('Basisfrist allein zu lang', fristen(600, 600), /fund-nachliefern\.yml: Job nachliefern/)
+assert.deepEqual(mit(fristen(1500 - 240 - REST_SEKUNDEN, 240)), [], 'genau auf der Grenze ist erlaubt')
+erwarte('eine Sekunde über der Grenze', fristen(1500 - 240 - REST_SEKUNDEN + 1, 240), /fund-nachliefern\.yml: Job nachliefern/)
+// Untergrenze: check:logic brauchte am 03.11.2026 403 s Wandzeit (Lauf 41595064044); eine Frist darunter bricht jeden Sammler-PR ab.
+assert.ok(Number(original.skripte[PRUEFEN].match(/^QUELLEN_PRUEFFRIST_STANDARD=(\d+)$/m)?.[1]) >= 600, 'QUELLEN_PRUEFFRIST_STANDARD unter 600 s')
 erwarte('Frist nicht lesbar', (s) => { s.skripte[PRUEFEN] = ohne(s.skripte[PRUEFEN], 'QUELLEN_BASISFRIST_STANDARD=240\n') }, /als Zahl erwartet/)
 // Ein neuer Einreicher mit kurzem Timeout als mittlerer von drei Jobs: über die Aktion wie über den direkten Aufruf.
 const dreiJobs = (mitte) => ({ jobs: { a: { 'timeout-minutes': 300, steps: [{ uses: './.github/actions/einreichen' }] }, b: mitte, c: { steps: [{ run: 'bash tools/quellen-pr.sh "x"' }] } } })
@@ -149,13 +151,13 @@ erwarte('Aktion: Eingabe bauprobe fehlt', (s) => { delete s.aktionen.einreichen.
 erwarte('Aktion: Aufruf setzt QUELLEN_BAUPROBE im env des Schritts pr', (s) => { aufrufSchritt(s).env.QUELLEN_BAUPROBE = '1' }, /2 Schritte nennen QUELLEN_BAUPROBE/)
 erwarte('daten-auf-abruf.yml verlangt bauprobe nicht', (s) => { delete s.workflows['daten-auf-abruf.yml'].jobs.lauf.steps.find((x) => String(x.uses).includes('actions/einreichen')).with.bauprobe }, /verlangt nicht `bauprobe/)
 erwarte('daten-auf-abruf.yml: bauprobe false', (s) => { s.workflows['daten-auf-abruf.yml'].jobs.lauf.steps.find((x) => String(x.uses).includes('actions/einreichen')).with.bauprobe = 'false' }, /verlangt nicht `bauprobe/)
-// Ein Job mit Probebau braucht die Baufristen zusätzlich (660 s Prüfung + 900 s Fund-Bau + 600 s Basis-Bau + 420 s Rest = 43 min); ohne `bauprobe` genügen 30 min.
+// Ein Job mit Probebau braucht die Baufristen zusätzlich (840 s Prüfung + 900 s Fund-Bau + 600 s Basis-Bau + 420 s Rest = 46 min); ohne `bauprobe` genügen 30 min.
 const bauJob = (minuten, bauprobe) => ({ 'x.yml': { jobs: { a: { 'timeout-minutes': minuten, steps: [{ uses: './.github/actions/einreichen', with: bauprobe === undefined ? {} : { bauprobe } }] } } } })
 assert.deepEqual(pruefeFristen(bauJob(30), original.skripte[PRUEFEN], original.skripte[BAU]), [], '30 min ohne Probebau genügen')
-assert.match(pruefeFristen(bauJob(30, 'true'), original.skripte[PRUEFEN], original.skripte[BAU]).join(), /x\.yml: Job a \(timeout 1800 s\) lässt nach Prüfung und Vergleich samt Probebau \(2160 s\)/, '30 min mit Probebau sind zu knapp')
-assert.deepEqual(pruefeFristen(bauJob(43, 'true'), original.skripte[PRUEFEN], original.skripte[BAU]), [], '43 min mit Probebau: genau auf der Grenze')
-assert.match(pruefeFristen(bauJob(42, 'true'), original.skripte[PRUEFEN], original.skripte[BAU]).join(), /samt Probebau/, '42 min: eine Minute unter der Grenze')
-assert.match(pruefeFristen(bauJob(43, 'true'), original.skripte[PRUEFEN], original.skripte[BAU].replace(/^QUELLEN_BAUBASISFRIST_STANDARD=\d+$/m, 'QUELLEN_BAUBASISFRIST_STANDARD=601')).join(), /samt Probebau/, 'Basisfrist zählt mit: 601 s sprengen 43 min')
+assert.match(pruefeFristen(bauJob(30, 'true'), original.skripte[PRUEFEN], original.skripte[BAU]).join(), /x\.yml: Job a \(timeout 1800 s\) lässt nach Prüfung und Vergleich samt Probebau \((2340 s)\)/, '30 min mit Probebau sind zu knapp')
+assert.deepEqual(pruefeFristen(bauJob(46, 'true'), original.skripte[PRUEFEN], original.skripte[BAU]), [], '46 min mit Probebau: genau auf der Grenze')
+assert.match(pruefeFristen(bauJob(45, 'true'), original.skripte[PRUEFEN], original.skripte[BAU]).join(), /samt Probebau/, '45 min: eine Minute unter der Grenze')
+assert.match(pruefeFristen(bauJob(46, 'true'), original.skripte[PRUEFEN], original.skripte[BAU].replace(/^QUELLEN_BAUBASISFRIST_STANDARD=\d+$/m, 'QUELLEN_BAUBASISFRIST_STANDARD=601')).join(), /samt Probebau/, 'Basisfrist zählt mit: 601 s sprengen 46 min')
 assert.deepEqual(pruefeFristen(bauJob(30, 'false'), original.skripte[PRUEFEN], original.skripte[BAU]), [], 'bauprobe: false zählt nicht')
 assert.deepEqual(pruefeFristen(bauJob(30, 'true'), original.skripte[PRUEFEN], 'QUELLEN_BAUFRIST_STANDARD=x\n'), ['quellen-bauprobe.sh: QUELLEN_BAUFRIST_STANDARD als Zahl erwartet'], 'Baufrist nicht lesbar')
 assert.equal(original.workflows['daten-auf-abruf.yml'].jobs.lauf.steps.find((x) => String(x.uses).includes('actions/einreichen')).with.bauprobe, 'true', 'daten-auf-abruf.yml verlangt den Probebau')

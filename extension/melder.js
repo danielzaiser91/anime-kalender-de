@@ -1745,7 +1745,7 @@ function knopfZeigen() {
     if (!knopf) {
       knopf = document.createElement('button')
       knopf.className = 'ak-melder'
-      knopf.addEventListener('click', melden)
+      akKlick(knopf, melden)
       /* Der Melde-Knopf sitzt im Kasten, wie bei Prime — siehe netflixKasten(). */
       netflixKasten().querySelector('.ak-z-melden')?.appendChild(knopf)
     }
@@ -1796,7 +1796,7 @@ function knopfZeigen() {
   if (!knopf) {
     knopf = document.createElement('button')
     knopf.className = 'ak-melder'
-    knopf.addEventListener('click', melden)
+    akKlick(knopf, melden)
     netflixKasten().querySelector('.ak-z-melden')?.appendChild(knopf)
   }
   const { text, klasse, aktiv } = beschriftung(spuren)
@@ -2788,8 +2788,9 @@ function selbstWeiter() {
       `(${selbstGezaehlt}/${selbstGrenze})`,
   )
   /* Wie ein Klick aus der Liste — damit die Zielseite den Auftrag erbt. */
-  void speicherSchreiben({ zuletztGeoeffnet: { id: String(naechster), zeit: Date.now() } })
-  zuletztGeoeffnet = { id: String(naechster), zeit: Date.now() }
+  const sprung = { id: String(naechster), zeit: Date.now(), durchgang: true }
+  void speicherSchreiben({ zuletztGeoeffnet: sprung })
+  zuletztGeoeffnet = sprung
   gehe(`/title/${naechster}`)
 }
 
@@ -2832,6 +2833,9 @@ function naechsterAuftrag() {
  */
 async function vielleichtSelbstStarten() {
   try {
+    const ziel = zuletztGeoeffnet
+    const o = { selbstAn, laeuft: DURCHLAUF.laeuft, pfad: location.pathname, ziel, jetzt: Date.now(), offen: offeneTitel[String(ziel?.id)] !== undefined }
+    if (akNetflixUmgeleitet(o, { spur, uebersprungen: selbstUebersprungen, weiter: selbstWeiter })) return
     await selbstStartenSchritt()
   } catch (e) {
     const text = String(e?.message ?? e)
@@ -3848,6 +3852,7 @@ async function durchlaufStarten() {
   DURCHLAUF.abbruch = false
   DURCHLAUF.abbruchGrund = null
   DURCHLAUF.stoerung = null
+  DURCHLAUF.titelSperre = null
   DURCHLAUF.angenommen = null
   /*
     **Hier gehört der Merker zurückgesetzt, nicht beim Rechtsklick.**
@@ -3897,17 +3902,8 @@ async function durchlaufStarten() {
       if (i > 10 && !spuren) {
         const code = stoerung()
         if (code) {
-          DURCHLAUF.stoerung = code
-          DURCHLAUF.abbruch = true
-          /*
-            Eine Stoerung bricht den Durchlauf ab — und ist damit genau das, wovon
-            ich erfahren muss, ohne dass jemand die Konsole oeffnet.
-          */
-          void vorfallMelden('stoerung', {
-            reihe: gemeinteReihe(),
-            folge_nr: f.nummer,
-            text: `Netflix meldet ${code} — Durchlauf abgebrochen`,
-          })
+          /* Bricht den Durchlauf ab; im Durchgang überspringt ein Titel-Code nur den Titel (netflix-erinnern.js). */
+          akNetflixStoerung(DURCHLAUF, code, { reihe: gemeinteReihe(), ziel: selbstVersucht, folge: f.nummer, vorfall: vorfallMelden })
           break
         }
       }
@@ -4180,7 +4176,9 @@ async function durchlaufStarten() {
     kein Grund weiterzumachen (bei `M7…` hilft ohnehin nur, andere Tabs zu
     schließen).
   */
-  if (DURCHLAUF.selbst && selbstAn && (DURCHLAUF.abbruch || DURCHLAUF.stoerung)) {
+  if (DURCHLAUF.selbst && selbstAn && akNetflixTitelUeberspringen(DURCHLAUF, selbstUebersprungen, selbstWeiter)) {
+    /* Netflix zeigt den Titel nicht: übersprungen, der Durchgang geht weiter. */
+  } else if (DURCHLAUF.selbst && selbstAn && (DURCHLAUF.abbruch || DURCHLAUF.stoerung)) {
     laufBeenden(DURCHLAUF.abbruch ? (globalThis.AK_TAGESLIMIT?.grund(DURCHLAUF.abbruchGrund ?? 'abgebrochen') ?? DURCHLAUF.abbruchGrund ?? 'abgebrochen') : `Störung ${DURCHLAUF.stoerung}`)
   }
   if (DURCHLAUF.selbst && selbstAn && !DURCHLAUF.abbruch && !DURCHLAUF.stoerung) {
@@ -4201,7 +4199,7 @@ async function durchlaufStarten() {
       unter jedem Code und schickte bei E103 in die falsche Richtung.
     */
     console.warn(
-      `[Anime-Kalender] Abgebrochen — Netflix meldet ${DURCHLAUF.stoerung}. ` +
+      `[Anime-Kalender] ${DURCHLAUF.titelUebersprungen ? 'Übersprungen' : 'Abgebrochen'} — Netflix meldet ${DURCHLAUF.stoerung}. ` +
         (/^M7/.test(DURCHLAUF.stoerung)
           ? 'Andere Netflix-Tabs schließen, dann noch einmal starten.'
           : 'Der Titel ist dort nicht abrufbar — nicht im Angebot, nicht in dieser Region oder noch nicht erschienen.'),
@@ -4635,8 +4633,8 @@ function durchlaufKnopfZeigen() {
     }
     DURCHLAUF.knopf = document.createElement('button')
     DURCHLAUF.knopf.className = 'ak-durchlauf'
-    DURCHLAUF.knopf.addEventListener(
-      'click',
+    akKlick(
+      DURCHLAUF.knopf,
       (e) => {
         /*
           Läuft schon etwas, tut ein Klick nichts mehr.
@@ -4722,7 +4720,7 @@ function durchlaufKnopfZeigen() {
     DURCHLAUF.nochmalKnopf.textContent = '↻ alle'
     DURCHLAUF.nochmalKnopf.title =
       'Prüft auch die Folgen noch einmal, die schon gemeldet sind.\nGilt für einen Lauf.'
-    DURCHLAUF.nochmalKnopf.addEventListener('click', () => {
+    akKlick(DURCHLAUF.nochmalKnopf, () => {
       console.log('[Anime-Kalender] Stand wird für einen Lauf übergangen')
       void durchlaufStandVergessen()
     })
@@ -4948,7 +4946,7 @@ function durchlaufKnopfZeigen() {
       DURCHLAUF.grenzeMeldenKnopf = document.createElement('button')
       DURCHLAUF.grenzeMeldenKnopf.className = 'ak-grenzknopf'
       DURCHLAUF.grenzeMeldenKnopf.textContent = '✓ melden'
-      DURCHLAUF.grenzeMeldenKnopf.addEventListener('click', () => void grenzeUebernehmen())
+      akKlick(DURCHLAUF.grenzeMeldenKnopf, () => void grenzeUebernehmen())
       DURCHLAUF.grenzFeld.after(DURCHLAUF.grenzeMeldenKnopf)
     }
     DURCHLAUF.grenzeMeldenKnopf.hidden = false
@@ -5123,7 +5121,7 @@ function schutzflaecheZeigen(sichtbar) {
   for (const art of ["click", "mousedown", "pointerdown"]) {
     schutzflaeche.addEventListener(art, (e) => e.stopPropagation())
   }
-  document.body.appendChild(schutzflaeche)
+  akWurzelAnhaengen(schutzflaeche)
 }
 
 let uebersichtKnopf = null
@@ -5166,7 +5164,7 @@ function uebersichtZeigen() {
 
     Gefragt wird deshalb das Dokument, nicht die Variable.
   */
-  if (!uebersichtKnopf || !document.body.contains(uebersichtKnopf)) {
+  if (!uebersichtKnopf || !document.contains(uebersichtKnopf)) {
     uebersichtKnopf = document.createElement('button')
     /*
       `ak-uebersicht-innen` dazu: Die Grundklasse trägt die Lage für einen frei
@@ -5174,7 +5172,7 @@ function uebersichtZeigen() {
       weiterhin am Bildschirmrand statt im Kasten.
     */
     uebersichtKnopf.className = 'ak-uebersicht ak-uebersicht-innen'
-    uebersichtKnopf.addEventListener('click', dialogOeffnen)
+    akKlick(uebersichtKnopf, dialogOeffnen)
     /*
       **In die Mitte des Fußes, wie bei Prime** (10.09.2026). Der linke Platz
       ist seit 4.11.0 ausgeblendet — er trug einmal die Marke „gemeldet ✓". Der
@@ -5313,7 +5311,7 @@ let dialog = null
 
 function dialogSchliessen() {
   if (dialog) {
-    dialog.remove()
+    akKlickEntfernen(dialog)
     dialog = null
   }
   document.removeEventListener('keydown', beiEscape)
@@ -5424,7 +5422,7 @@ async function dialogOeffnen() {
       ? 'Beendet den laufenden Durchgang. Escape bricht die gerade laufende Prüfung ab.'
       : 'Geht alle offenen Titel nacheinander durch — jede geprüfte Folge wird kurz geöffnet und ' +
         'landet in „Weiter ansehen". Endet von selbst, wenn nichts mehr offen ist.'
-    selbst.addEventListener('click', () => {
+    akKlick(selbst, () => {
       if (selbstAn) {
         laufBeenden('von Hand')
         dialogSchliessen()
@@ -5458,7 +5456,7 @@ async function dialogOeffnen() {
     const umschalter = document.createElement('button')
     umschalter.className = 'ak-umschalter'
     umschalter.textContent = `${eintraege.length - nochOffen} gemeldet zeigen`
-    umschalter.addEventListener('click', () => {
+    akKlick(umschalter, () => {
       const zeigen = kasten.classList.toggle('ak-mit-erledigten')
       umschalter.textContent = zeigen
         ? `${eintraege.length - nochOffen} gemeldet ausblenden`
@@ -5496,7 +5494,7 @@ async function dialogOeffnen() {
   zu.className = 'ak-zu'
   zu.textContent = '×'
   zu.title = 'Schließen (Esc)'
-  zu.addEventListener('click', dialogSchliessen)
+  akKlick(zu, dialogSchliessen)
   kopf.appendChild(zu)
   kasten.appendChild(kopf)
 
@@ -5581,7 +5579,7 @@ async function dialogOeffnen() {
      * was von hier aus angeklickt wurde, und trägt seinen Befund an der
      * richtigen Zeile ein.
      */
-    link.addEventListener('click', () => {
+    akKlick(link, () => {
       /*
         **Der Klick merkt sich auch, wohin er wollte.**
 
@@ -5750,7 +5748,7 @@ async function dialogOeffnen() {
         weg.title = st.ausserhalb && st.name
           ? `„${st.name}" gibt es hier nicht — nur diese Ausgabe melden`
           : `Staffel ${st.nr} gibt es hier nicht — nur diese Staffel melden`
-        weg.addEventListener('click', async (ereignis) => {
+        akKlick(weg, async (ereignis) => {
           ereignis.stopPropagation()
           ereignis.preventDefault()
           /* Zweistufig wie „nichts da?": Ein Fehlklick streicht eine Staffel. */
@@ -5804,7 +5802,7 @@ async function dialogOeffnen() {
       Die Knöpfe rechts behalten ihr eigenes Verhalten: Ein Klick, der dort
       landet, ist keiner auf die Zeile.
     */
-    zeile.addEventListener('click', (ereignis) => {
+    akKlick(zeile, (ereignis) => {
       if (ereignis.target.closest('a, button')) return
       link.click()
     })
@@ -5831,7 +5829,7 @@ async function dialogOeffnen() {
      */
     tot.title =
       'Dort ist nichts abzuspielen — Adresse leitet um, keine Folgen, oder Netflix meldet einen Fehler'
-    tot.addEventListener('click', async () => {
+    akKlick(tot, async () => {
       if (tot.dataset.sicher !== 'ja') {
         tot.dataset.sicher = 'ja'
         tot.textContent = 'wirklich?'
@@ -5876,11 +5874,11 @@ async function dialogOeffnen() {
   })
 
   // Ein Klick neben den Kasten schließt — wie überall sonst auch.
-  dialog.addEventListener('click', (e) => {
+  akKlick(dialog, (e) => {
     if (e.target === dialog) dialogSchliessen()
   })
   document.addEventListener('keydown', beiEscape)
-  document.body.appendChild(dialog)
+  akWurzelAnhaengen(dialog)
   suche.focus()
 }
 

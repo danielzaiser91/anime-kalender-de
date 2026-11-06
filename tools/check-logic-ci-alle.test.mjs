@@ -64,6 +64,10 @@ try {
   assert.equal(mitSchalter.status, 1, 'mit --alle ist der Lauf rot')
   assert.ok(existsSync(marke), '--alle läuft ebenfalls durch')
 
+  assert.match(ci.text, /wegwerf Dauer: +\d+\.\d s  \S*b-gruen-0\d\.mjs/, 'mit CI=true steht die Dauer je Prüfung im Log')
+  assert.match(ci.text, /wegwerf Dauer: +\d+\.\d s  Summe aller \d+ Prüfungen/, 'mit CI=true steht die Summe über alle gelaufenen Prüfungen im Log')
+  assert.ok(!lokal.text.includes('Dauer:'), 'ohne CI keine Dauer-Zeilen')
+
   const nichtWahr = lauf(liste, 'false')
   assert.ok(!nichtWahr.letzteLief, 'CI=false schaltet nichts um')
   console.log('check-logic-ci-alle: alle Zusicherungen gehalten.')

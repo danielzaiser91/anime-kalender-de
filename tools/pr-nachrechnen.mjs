@@ -179,17 +179,24 @@ function anstossenAb(gh, nummer, main, warte, vorher, begonnen) {
   wiederoeffnen(gh, nummer, begonnen)
 }
 
+/** Grund, wenn JOB in der Jobliste fehlt: ein laufender Lauf legt Jobs nach, ein abgeschlossener zeigt Status und vorhandene Jobs. */
+export function jobFehlt(nummer, lauf, jobs) {
+  if (lauf.status !== 'completed') return `PR ${nummer}: Lauf ${lauf.databaseId} (${lauf.status}) hat den Job „${JOB}“ noch nicht angelegt; später erneut aufrufen`
+  const namen = jobs.map((j) => j.name).join(', ')
+  return `PR ${nummer}: Lauf ${lauf.databaseId} (abgeschlossen, ${lauf.conclusion || 'ohne Ergebnis'}) hat keinen Job „${JOB}“; vorhanden: ${namen}`
+}
+
 /** Liest Basis des neuesten Kettenlaufs; Rückgabe { basis } oder { grund } (dann ist nichts zu entscheiden). */
 function basisDesLaufs(gh, pr) {
-  const laeufe = JSON.parse(gh(['run', 'list', '--workflow', KETTE, '--event', 'pull_request', '--branch', pr.headRefName, '--limit', '20', '--json', 'databaseId,headSha,createdAt,conclusion']))
+  const laeufe = JSON.parse(gh(['run', 'list', '--workflow', KETTE, '--event', 'pull_request', '--branch', pr.headRefName, '--limit', '20', '--json', 'databaseId,headSha,createdAt,conclusion,status']))
   const lauf = neuesterLauf(laeufe, pr.headRefOid)
   if (lauf === null) return { grund: `PR ${pr.number}: kein Kettenlauf zum Kopf ${kurz(pr.headRefOid)}` }
   const jobs = JSON.parse(gh(['run', 'view', String(lauf.databaseId), '--json', 'jobs'])).jobs
   if (jobs.length === 0) return { grund: `PR ${pr.number}: Lauf ${lauf.databaseId} hat noch keine Jobs angelegt; später erneut aufrufen` }
   const job = jobs.find((j) => j.name === JOB)
-  if (job === undefined) return { grund: `PR ${pr.number}: Lauf ${lauf.databaseId} hat keinen Job „${JOB}“` }
+  if (job === undefined) return { grund: jobFehlt(pr.number, lauf, jobs) }
   if (job.status !== 'completed') return { grund: `PR ${pr.number}: Job „${JOB}“ läuft noch (Lauf ${lauf.databaseId}), sein Log gibt es erst nach Abschluss; später erneut aufrufen` }
-  const basis = basisAusLog(gh(['api', `repos/{owner}/{repo}/actions/jobs/${job.databaseId}/logs`]), pr.headRefOid)
+  const basis = basisAusLog(gh(['api', '--allow-escape-sequences', `repos/{owner}/{repo}/actions/jobs/${job.databaseId}/logs`]), pr.headRefOid)
   if (basis === null) return { grund: `PR ${pr.number}: Basis nicht im Log von „${JOB}“ (Lauf ${lauf.databaseId}; läuft er noch, übersprungen?)` }
   return { basis }
 }

@@ -65,7 +65,7 @@ function lade({ imFrame, pfad, search = '', suche = {}, karten = [] }) {
       removeItem() {},
     },
     document: {
-      documentElement: { innerHTML: '<html></html>', classList: element().classList },
+      documentElement: { innerHTML: '<html></html>', classList: element().classList, appendChild() {} },
       body: element(),
       head: element(),
       title: 'Amazon.de',

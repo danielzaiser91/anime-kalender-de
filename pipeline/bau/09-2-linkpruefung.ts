@@ -1,7 +1,8 @@
 import { readJson, log } from '../lib/util.ts'
-import { adressKern, dubKey, adressGleich, type DubCheck } from '../lib/dub-confirmed.ts'
-import { istTot, juengsteJeKern, type LinkBefund } from '../lib/link-befund.ts'
+import { adressKern, dubKey, type DubCheck } from '../lib/dub-confirmed.ts'
+import { handStichtGegenLink, istTot, juengsteJeKern } from '../lib/link-befund.ts'
 import { hat404 } from '../lib/link-rauschen.ts'
+import { ladeGewerteteBefunde, ungewertetZeile } from '../lib/netflix-404-gate.ts'
 import { type Title, type PlatformId } from '../../shared/types.ts'
 import { netflixTitelAdresse } from '../lib/netflix-adresse.ts'
 import { netflixAdresseTaugt } from '../../shared/netflix-adresse-pruefung.ts'
@@ -13,8 +14,8 @@ function deutschJeTitel(alt: Title[] | Record<string, Title>): Map<number, Set<s
   const jeTitel = new Map<number, Set<string>>()
   for (const t of Array.isArray(alt) ? alt : Object.values(alt)) {
     const deutsch = [
-      ...(t.streams ?? []).filter((s) => s.dub === true).map((s) => s.platform),
-      ...(t.entfernteStreams ?? []).filter((s) => s.dub === true).map((s) => s.platform),
+      ...(t.streams ?? []).filter((s) => s.dub === true).map((s) => s.platform), // dub-lesart: irgendwie – jeder Weg mit Ja zählt (Menge/Weiche), auch ein abgeleiteter
+      ...(t.entfernteStreams ?? []).filter((s) => s.dub === true).map((s) => s.platform), // dub-lesart: irgendwie – jeder Weg mit Ja zählt (Menge/Weiche), auch ein abgeleiteter
     ]
     if (deutsch.length) jeTitel.set(t.id, new Set(deutsch))
   }
@@ -96,9 +97,9 @@ export function werteLinkpruefungAus({
     if (b?.kategorie === 'Trailers') ytTrailer.add(url)
   }
   /** Antwortstatus je Anbieter-Adresse aus `pipeline/check-links.ts`. */
-  const linkBefundeRoh = readJson<
-    Record<string, LinkBefund>
-  >('data/link-check.json', {})
+  const { befunde: linkBefundeRoh, ungewertet: netflix404Ungewertet } = ladeGewerteteBefunde(todayIso())
+  const zeile404 = ungewertetZeile(netflix404Ungewertet)
+  if (zeile404) log(zeile404)
   /*
     **Ein Befund gehört der Seite, nicht ihrer Schreibweise** (21.09.2026). Seit Prime-Verweise
     unter `/gp/video/detail/` ausgeliefert werden, misst die Linkprüfung auch diese Form; der Bau
@@ -203,7 +204,7 @@ export function werteLinkpruefungAus({
       deutschen Ton führte.
     */
     const warDeutsch = (s: { platform: PlatformId; url: string }) =>
-      (checksJePlattform.get(dubKey(title.id, s.platform)) ?? []).some((c) => c.dub === true) ||
+      (checksJePlattform.get(dubKey(title.id, s.platform)) ?? []).some((c) => c.dub === true) || // dub-lesart: handbeleg – gemessenes Ja des Belegs, nicht abgeleitet
       (vorherDeutsch.get(title.id)?.has(s.platform) ?? false)
     title.streams = title.streams.filter((stream) => {
       /**
@@ -281,11 +282,7 @@ export function werteLinkpruefungAus({
         diese Adresse nennt, jünger ist und die Seite nicht selbst als weg meldet.
       */
       const linkAm = String(linkBefunde[stream.url]?.geprueftAm ?? '')
-      const handSticht =
-        check?.available !== false &&
-        ((Boolean(check?.url && adressGleich(check.url, stream.url)) && String(check?.checkedAt ?? '') > linkAm) ||
-          /* Ein von Hand bestätigter Weg (`verweise-von-hand.yaml`) — der Lader kennt Belege ohne Urteil nicht. */
-          (vonHandBelegtAm.get(adressKern(stream.url)) ?? '') > linkAm)
+      const handSticht = handStichtGegenLink(check, linkAm, stream.url, vonHandBelegtAm)
       if ((befund === 404 || befund === 'region') && !handSticht) {
         totEntfernt++
         abgaenge.push({ ...stream, entferntAm: linkBefunde[stream.url]?.geprueftAm ?? todayIso() })

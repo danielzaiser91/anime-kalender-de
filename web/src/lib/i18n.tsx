@@ -159,11 +159,6 @@ const TEXTE = {
   'card.missedCheck': 'wir sehen mehrmals täglich nach',
   'card.missedLateBadge': 'kam {d}',
 
-  'filter.mode': 'Klick-Modus',
-  'filter.modeInclude': 'Auswählen',
-  'filter.modeExclude': 'Ausschließen',
-  'filter.modeIncludeHint': 'Ein Klick behält nur, was dieses Tag trägt.',
-  'filter.modeExcludeHint': 'Ein Klick entfernt alles, was dieses Tag trägt.',
   'filter.button': 'Filter',
   'filter.reset': 'zurücksetzen',
   'filter.platform': 'Plattform',
@@ -690,8 +685,9 @@ const TEXTE = {
   'filter.schnell.disc': 'Disc',
   'filter.schnell.verfuegbar': 'verfügbar',
   'filter.schnell.cartoon': 'Cartoon',
-  'filter.schnell.ja': 'Nur anzeigen',
-  'filter.schnell.nein': 'Ausblenden',
+  'filter.zustand.nichts': 'nicht gewählt',
+  'filter.zustand.ja': 'ausgewählt',
+  'filter.zustand.nein': 'ausgeschlossen',
   'filter.kostenlosHint': 'Nur Titel mit kostenlosen Folgen, etwa bei TOGGO oder YouTube.',
   'filter.availableHint':
     'Filtert Ergebnisse auf bestätigte Streaming-Verfügbarkeit.',
@@ -740,11 +736,18 @@ const TEXTE = {
 export type TranslationKey = keyof typeof TEXTE
 export type Translate = (key: TranslationKey, params?: Record<string, string | number>) => string
 
+/** „{n} Folgen“ wird bei n = 1 (auch „≈ 1“) zu „{n} Folge“. */
+export function einzahlFolge(text: string, params: Record<string, string | number>): string {
+  return text.replace(/\{(\w+)\} Folgen\b/g, (match, name: string) =>
+    /^(≈\s*)?1$/.test(String(params[name])) ? `{${name}} Folge` : match,
+  )
+}
+
 /** Ohne Hook-Namen: für Code außerhalb von Komponenten, etwa den RSS-Feed im Bau. */
 export function translate(key: TranslationKey, params?: Record<string, string | number>): string {
-  const raw: string = TEXTE[key] ?? key
-  if (!params) return raw
-  return raw.replace(/\{(\w+)\}/g, (match, name: string) =>
+  const roh: string = TEXTE[key] ?? key
+  if (!params) return roh
+  return einzahlFolge(roh, params).replace(/\{(\w+)\}/g, (match, name: string) =>
     params[name] !== undefined ? String(params[name]) : match,
   )
 }

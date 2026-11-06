@@ -47,9 +47,6 @@ const pille = lies('components/filter/pille-zustand.ts')
 assert.match(pille, /PILLE_JA =\s*'border-ak-gut bg-ak-gut-grund inset-ring-1 inset-ring-ak-gut /)
 assert.match(pille, /PILLE_NEIN =\s*'border-ak-fehler bg-ak-fehler-grund inset-ring-1 inset-ring-ak-fehler text-ak-fehler-text line-through /)
 
-const klick = lies('components/filter/klick-modus.tsx')
-assert.match(klick, /'bg-ak-fehler text-ak-auf-fehler' : 'bg-ak-gut text-ak-auf-gut'/, 'Klick-Modus: Ausschließen rot, Auswählen grün')
-
 const patch = lies('patchnotes.css')
 assert.match(patch, /--pn-feature: var\(--ak-gut-text\);/)
 assert.match(patch, /--pn-bugfix: var\(--ak-warnung-text\);/)
@@ -72,14 +69,12 @@ assert.match(lies('components/beleg-dialog.tsx'), /className="ak-immer-dunkel /,
 // Die Ansichtsprüfung: jede Messgröße kippt für sich, und der Aufrufer ruft sie am Rechner (Datenbank und News) auf.
 const soll = { gut: 'g', fehler: 'f', 'gut-text': 'gt', 'warnung-text': 'wt' }
 const ist = {
-  f: { include: { modusGrund: 'g', pilleRand: 'g', pilleDurch: 'none' }, exclude: { modusGrund: 'f', pilleRand: 'f', pilleDurch: 'line-through' } },
+  f: { include: { pilleRand: 'g', pilleDurch: 'none' }, exclude: { pilleRand: 'f', pilleDurch: 'line-through' } },
   p: { feature: 'gt', bugfix: 'wt' },
 }
 assert.deepEqual(abweichungen('hell', soll, ist.f, ist.p), [])
 for (const [was, f, p] of [
-  ['Auswählen', { ...ist.f, include: { ...ist.f.include, modusGrund: 'x' } }, ist.p],
   ['gewählte Pille', { ...ist.f, include: { ...ist.f.include, pilleRand: 'x' } }, ist.p],
-  ['Ausschließen', { ...ist.f, exclude: { ...ist.f.exclude, modusGrund: 'x' } }, ist.p],
   ['ausgeschlossene Pille', { ...ist.f, exclude: { ...ist.f.exclude, pilleRand: 'x' } }, ist.p],
   ['durchgestrichen', { ...ist.f, exclude: { ...ist.f.exclude, pilleDurch: 'none' } }, ist.p],
   ['Feature', ist.f, { ...ist.p, feature: 'x' }],
