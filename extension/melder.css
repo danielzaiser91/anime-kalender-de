@@ -1787,6 +1787,14 @@ html.ak-im-player:not(.ak-durchgang) .ak-box {
   display: none !important;
 }
 
+/* Netflix-Profilauswahl („Wer schaut gerade?"): alles der Erweiterung weg (netflix-profilwahl.js). */
+html.ak-profilwahl .ak-box,
+html.ak-profilwahl .ak-icon,
+html.ak-profilwahl .ak-dialog,
+html.ak-profilwahl .ak-schutzflaeche {
+  display: none !important;
+}
+
 /*
   **Einklappbarer Kasten** (box.js, 09.10.2026). Das Icon sitzt unten rechts; ist es da, rückt
   alles Schwebende der Erweiterung eine Icon-Höhe nach oben (Rand statt `bottom`, damit die

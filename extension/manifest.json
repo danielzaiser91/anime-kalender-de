@@ -65,6 +65,7 @@
         "disney-netz.js",
         "netflix-gemeldet.js",
         "netflix-durchgang-schutz.js",
+        "netflix-profilwahl.js",
         "netflix-uebernahme.js",
         "netflix-randvoll.js",
         "netflix-seitentreue.js",
