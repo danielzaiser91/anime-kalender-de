@@ -112,6 +112,8 @@ export function istPremiere(
   let spaeter = false
   for (const p of plattformen) {
     if (p === 'tv') continue
+    /* Joyn führt die Folgen erst nach der Sendung; ein belegter TV-Start (Yaiba, 05.11.2026) bleibt Premiere. */
+    if (p === 'joyn' && handbeleg) continue
     const eigene = releases.filter((r) => r.platform === p && r.releaseType !== 'disc')
     if (eigene.length) {
       const termine = eigene.flatMap((r) => entfalte(r))
