@@ -70,9 +70,9 @@ nachladeVorwaermen(undefined, { effectiveType: '4g' })
 pruefe('Standardliste: ein Leerlauf wartet, geladen wird erst darin', warteschlange.length === vorher + 1)
 warteschlange.length = 0
 
-/* Verdrahtung: App.tsx startet das Vorwärmen mit der Standardliste, sobald der Bestand da ist (voll). */
-const app = readFileSync(new URL('../web/src/App.tsx', import.meta.url), 'utf8')
-pruefe('App.tsx ruft nachladeVorwaermen() ohne Argumente unter der Bedingung voll', /voll \? nachladeVorwaermen\(\) : undefined/.test(app))
+/* Verdrahtung: useStartdaten startet das Vorwärmen mit der Standardliste, sobald der Bestand da ist (voll). */
+const app = readFileSync(new URL('../web/src/lib/start-daten.ts', import.meta.url), 'utf8')
+pruefe('start-daten.ts ruft nachladeVorwaermen() ohne Argumente unter der Bedingung voll', /voll \? nachladeVorwaermen\(\) : undefined/.test(app))
 
 /* Safari: ohne requestIdleCallback läuft der Rückfall über setTimeout, nie im selben Tick, Abbruch per clearTimeout. */
 const zeitgeber: Array<{ f: () => void; weg: boolean }> = []
