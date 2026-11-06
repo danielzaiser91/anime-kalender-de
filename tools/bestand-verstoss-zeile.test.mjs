@@ -32,6 +32,8 @@ const OHNE_AUSGANG = {
     'nur Warnung (⚠ WARNUNG, Exit 0): Anime2You kann jederzeit eine Meldung bringen, die der Bau keinem Release zuordnet, Rot würde den Bestandsbau stoppen; 04.11.2026',
   'pipeline/check-handlung-eigen-bestand.ts':
     'verwaist ist seit 26.10.2026 eine Warnung (herabgestufteWarnzeile, Exit 0): ein Eintrag ohne Titel bringt nichts live, der Bau bindet nur Einträge zu Titeln im Bestand ein',
+  'pipeline/check-streaming-luecke-bestand.ts':
+    'nur Warnung (⚠ WARNUNG, Exit 0): neue aniSearch-Titel kommen täglich ohne Weg hinzu, Rot würde den Bestandsbau stoppen; 06.11.2026',
 }
 
 // Fälle der Regel (Zeilennummern: erste Zeile = 1).

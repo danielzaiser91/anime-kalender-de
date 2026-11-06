@@ -19,7 +19,7 @@ import type { TmdbOffer } from './lib/tmdb.ts'
 import { recordSource } from './lib/health.ts'
 import { findeGeteilteHauptserien, streicheZuordnungen } from './lib/tmdb-hauptserie.ts'
 import { nachAbruf, streicheAbgelaufenes, STREICH_TAGE } from './lib/tmdb-ablauf.ts'
-import { lookup } from './lib/tmdb-titel-lookup.ts'
+import { FILMSUCHE_SEIT, koennteFilmSein, lookup } from './lib/tmdb-titel-lookup.ts'
 import { uebernimmVonHand } from './lib/tmdb-von-hand.ts'
 import { faelligeTitel } from './lib/tmdb-faellig.ts'
 import type { Vermerk404 } from './lib/tmdb-folgen-404.ts'
@@ -128,6 +128,7 @@ function faelligFuerLauf(titles: Title[], cache: Record<string, TmdbTitle>, hand
     grenze,
     grenzeFehlschlag: new Date(Date.now() - 7 * 86400_000).toISOString(),
     tot: readJson<Record<string, Vermerk404>>('data/tmdb-folgen-404.json', {}),
+    filmNeusuche: { ids: new Set(titles.filter(koennteFilmSein).map((t) => t.id)), vor: FILMSUCHE_SEIT },
   })
 }
 
