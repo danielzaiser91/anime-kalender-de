@@ -1,7 +1,8 @@
 import { readJson, log } from '../lib/util.ts'
 import { adressKern, dubKey, type DubCheck } from '../lib/dub-confirmed.ts'
-import { handStichtGegenLink, istTot, juengsteJeKern, type LinkBefund } from '../lib/link-befund.ts'
+import { handStichtGegenLink, istTot, juengsteJeKern } from '../lib/link-befund.ts'
 import { hat404 } from '../lib/link-rauschen.ts'
+import { ladeGewerteteBefunde, ungewertetZeile } from '../lib/netflix-404-gate.ts'
 import { type Title, type PlatformId } from '../../shared/types.ts'
 import { netflixTitelAdresse } from '../lib/netflix-adresse.ts'
 import { netflixAdresseTaugt } from '../../shared/netflix-adresse-pruefung.ts'
@@ -96,9 +97,9 @@ export function werteLinkpruefungAus({
     if (b?.kategorie === 'Trailers') ytTrailer.add(url)
   }
   /** Antwortstatus je Anbieter-Adresse aus `pipeline/check-links.ts`. */
-  const linkBefundeRoh = readJson<
-    Record<string, LinkBefund>
-  >('data/link-check.json', {})
+  const { befunde: linkBefundeRoh, ungewertet: netflix404Ungewertet } = ladeGewerteteBefunde(todayIso())
+  const zeile404 = ungewertetZeile(netflix404Ungewertet)
+  if (zeile404) log(zeile404)
   /*
     **Ein Befund gehört der Seite, nicht ihrer Schreibweise** (21.09.2026). Seit Prime-Verweise
     unter `/gp/video/detail/` ausgeliefert werden, misst die Linkprüfung auch diese Form; der Bau
