@@ -10,6 +10,7 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import type { Title } from '../shared/types.ts'
 import type { LinkBefund } from './lib/link-befund.ts'
+import type { WechselPaar } from './lib/link-rauschen.ts'
 
 const kulisse = mkdtempSync(join(tmpdir(), 'netflix-404-gate-'))
 process.env.AK_ROOT = kulisse
@@ -37,6 +38,7 @@ try {
   writeFileSync(join(kulisse, 'data/kino-ankuendigungen.yaml'), '[]\n')
   writeFileSync(join(kulisse, 'data/dub-confirmed.yaml'), '# leer\n')
   const { gewerteteBefunde, jwNetflixStand, rauschTage, netflixId } = await import('./lib/netflix-404-gate.ts')
+  const { meldeWechsel, nimmBefund } = await import('./lib/link-rauschen.ts')
   const { werteLinkpruefungAus } = await import('./bau/09-2-linkpruefung.ts')
 
   /* 1. JustWatch-Riegel. */
@@ -82,6 +84,63 @@ try {
   erwarte('Massenlauf: Kennzeichen lauf ja, jw nein', g.ungewertet[0], { url: nf(1000), lauf: true, jw: false })
   erwarte('Eingabe bleibt unverändert', massen[nf(1000)], tot('2026-11-04'))
   erwarte('anderer Anbieter im Massenlauf bleibt 404', gewerteteBefunde({ ...lauf('2026-11-04', 20, 10), [fremd]: tot('2026-11-04') }, new Map(), HEUTE).befunde[fremd], tot('2026-11-04'))
+
+  /* 2b. Teilneumessung: der Rauschtag darf nicht freigegeben werden, wenn Teile seiner 404 neu gemessen sind (Prüfer 2996). */
+  erwarte('20 tote bei 300 lebenden am selben Tag (6,7 %): Rauschtag, weil die Menge allein genügt', rausch(lauf('2026-11-04', 320, 20)), ['2026-11-04'])
+  erwarte('19 tote bei 300 lebenden (5,9 %): kein Rauschtag', rausch(lauf('2026-11-04', 319, 19)), [])
+  const vermerkt: Record<string, LinkBefund> = { [nf(8001)]: { ...tot('2026-12-01'), rausch: true }, [nf(8002)]: tot('2026-12-01') }
+  const gv = gewerteteBefunde(vermerkt, new Map(), HEUTE).befunde
+  erwarte('Vermerk rausch: zurückgehalten, ohne Vermerk bei kleinem Tag: gilt', [gv[nf(8001)].status, gv[nf(8002)].status], ['unklar', 404])
+  const kreislauf = (): Record<string, LinkBefund> => {
+    const bestand: Record<string, LinkBefund> = {}
+    const paare: WechselPaar[] = []
+    for (let i = 0; i < 25; i++) {
+      bestand[nf(9000 + i)] = lebt('2026-10-01')
+      nimmBefund(bestand, nf(9000 + i), { status: 404, geprueftAm: '2026-12-05' }, paare)
+    }
+    /* Zweite Messung nach erstem 404 vom 01.12.: bestätigt ein 404, wenn der Lauf nicht selbst verrauscht ist. */
+    for (let j = 0; j < 15; j++) {
+      bestand[nf(9100 + j)] = unklarErst('2026-12-01')
+      nimmBefund(bestand, nf(9100 + j), { status: 404, geprueftAm: '2026-12-05' }, paare)
+    }
+    bestand[nf(9199)] = lebt('2026-10-01')
+    nimmBefund(bestand, nf(9199), lebt('2026-12-05'), paare)
+    const fremdUrl = 'https://www.joyn.de/serien/zz'
+    bestand[fremdUrl] = lebt('2026-10-01')
+    nimmBefund(bestand, fremdUrl, tot('2026-12-05'), paare)
+    const warnungen: string[] = []
+    meldeWechsel(bestand, paare, (z) => warnungen.push(z))
+    erwarte('meldeWechsel: eine Warnzeile für Netflix', warnungen.length, 1)
+    erwarte('meldeWechsel: Netflix vermerkt (bestätigtes 404), Joyn nicht', [bestand[nf(9100)].status, bestand[nf(9100)].rausch, bestand[fremdUrl].rausch], [404, true, undefined])
+    erwarte('meldeWechsel: Netflix-200 im verrauschten Lauf ohne Vermerk', bestand[nf(9199)].rausch, undefined)
+    return bestand
+  }
+  const nachLauf = kreislauf()
+  for (let j = 0; j < 12; j++) nachLauf[nf(9100 + j)] = lebt('2026-12-06')
+  for (let i = 0; i < 25; i++) delete nachLauf[nf(9000 + i)]
+  const nachTeil = gewerteteBefunde(nachLauf, new Map(), '2026-12-07')
+  erwarte('Kreislauf: Rauschlauf, 12 von 15 neu gemessen (200), die 3 übrigen bleiben zurückgehalten', nachTeil.ungewertet.length, 3)
+  const ruhig: Record<string, LinkBefund> = {}
+  const ruhigePaare: WechselPaar[] = []
+  for (let i = 0; i < 25; i++) {
+    ruhig[nf(9500 + i)] = lebt('2026-10-01')
+    nimmBefund(ruhig, nf(9500 + i), i === 0 ? { status: 404, geprueftAm: '2026-12-05' } : lebt('2026-12-05'), ruhigePaare)
+  }
+  meldeWechsel(ruhig, ruhigePaare, () => undefined)
+  erwarte('ruhiger Lauf (1 von 25): kein Vermerk', ruhig[nf(9500)].rausch, undefined)
+  /* Verrauscht ist nur der Host, der es war: Joyn mit 25 Wechseln vermerkt kein ruhiges Netflix-404. */
+  const gemischt: Record<string, LinkBefund> = {}
+  const gemischtePaare: WechselPaar[] = []
+  for (let i = 0; i < 25; i++) {
+    gemischt[`https://www.joyn.de/serien/${i}`] = lebt('2026-10-01')
+    nimmBefund(gemischt, `https://www.joyn.de/serien/${i}`, tot('2026-12-05'), gemischtePaare)
+  }
+  for (let i = 0; i < 25; i++) {
+    gemischt[nf(9700 + i)] = lebt('2026-10-01')
+    nimmBefund(gemischt, nf(9700 + i), i === 0 ? { status: 404, geprueftAm: '2026-12-05' } : lebt('2026-12-05'), gemischtePaare)
+  }
+  meldeWechsel(gemischt, gemischtePaare, () => undefined)
+  erwarte('Joyn verrauscht, Netflix ruhig (1 von 25): Netflix-404 ohne Vermerk', gemischt[nf(9700)].rausch, undefined)
 
   /* 3. Durch die echte Bauphase 09-2. JustWatch-Stände mit Fernzukunft bzw. Altdatum, damit der Test keine Uhr liest. */
   const DEUTSCH = { id: 1735, streams: [{ platform: 'netflix', url: nf(80000603), dub: true }] } as unknown as Title

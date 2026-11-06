@@ -52,7 +52,11 @@ const tageZwischen = (von: string, bis: string): number => Math.round((Date.pars
 /** Ein 404 der ersten Messung steht noch als `unklar` mit `erstes404` am selben Tag. */
 const rohes404 = (b: LinkBefund): boolean => b.status === 404 || (b.status === 'unklar' && b.erstes404 !== undefined && b.erstes404 === b.geprueftAm)
 
-/** Lauftage (`geprueftAm`), an denen mehr als die Grenze der gemessenen Netflix-Adressen 404 meldeten. */
+/**
+ * Lauftage (`geprueftAm`), an denen mehr als die Grenze der gemessenen Netflix-Adressen 404 meldeten, oder mindestens
+ * `LAUF_MINDESTMENGE` Adressen allein (die Quote aus dem Reststand eines Tages schrumpft mit jeder Teilneumessung, die 404 desselben
+ * Tages blieben sonst bei den letzten wenigen ohne Schutz). Läufe ab dem Vermerk `rausch` brauchen das nicht: er steht im Befund.
+ */
 export function rauschTage(befunde: Record<string, LinkBefund>): Set<string> {
   const je = new Map<string, { n: number; tot: number }>()
   for (const [url, b] of Object.entries(befunde)) {
@@ -64,7 +68,7 @@ export function rauschTage(befunde: Record<string, LinkBefund>): Set<string> {
     if (tot) z.tot++
     je.set(b.geprueftAm, z)
   }
-  return new Set([...je].filter(([, z]) => z.n >= LAUF_MINDESTMENGE && z.tot * 100 > z.n * LAUF_GRENZE_PROZENT).map(([tag]) => tag))
+  return new Set([...je].filter(([, z]) => z.tot >= LAUF_MINDESTMENGE || (z.n >= LAUF_MINDESTMENGE && z.tot * 100 > z.n * LAUF_GRENZE_PROZENT)).map(([tag]) => tag))
 }
 
 export interface Ungewertet {
@@ -90,7 +94,7 @@ export function gewerteteBefunde(
   for (const [url, b] of Object.entries(roh)) {
     const id = netflixId(url)
     if (id === undefined || b.status !== 404) continue
-    const lauf = laut.has(String(b.geprueftAm))
+    const lauf = b.rausch === true || laut.has(String(b.geprueftAm))
     const stand = jwStand.get(id)
     const jw = stand !== undefined && tageZwischen(stand, heute) <= JW_MAX_ALTER_TAGE
     if (!lauf && !jw) continue
