@@ -5,9 +5,9 @@
     "lastCount": 10
   },
   "anime2you": {
-    "lastOk": "2026-11-06T17:01:54.191Z",
-    "lastRun": "2026-11-06T17:01:54.191Z",
-    "lastCount": 53
+    "lastOk": "2026-11-06T18:01:32.233Z",
+    "lastRun": "2026-11-06T18:01:32.233Z",
+    "lastCount": 55
   },
   "anisearch": {
     "lastOk": "2026-11-06T06:02:04.872Z",
@@ -82,7 +82,7 @@
   },
   "rohfolgen": {
     "lastOk": "2026-11-05T12:32:29.078Z",
-    "lastRun": "2026-11-06T17:35:16.603Z",
+    "lastRun": "2026-11-06T17:51:00.291Z",
     "lastCount": 0
   },
   "anisearch-folgen": {
@@ -111,14 +111,14 @@
     "lastCount": 13
   },
   "vorfaelle": {
-    "lastOk": "2026-11-06T17:35:11.766Z",
-    "lastRun": "2026-11-06T17:35:11.766Z",
+    "lastOk": "2026-11-06T17:50:56.163Z",
+    "lastRun": "2026-11-06T17:50:56.163Z",
     "lastCount": 0,
     "leerSeit": "2026-11-06T17:35:11.766Z"
   },
   "crunchyroll-neu": {
-    "lastOk": "2026-11-06T17:01:35.637Z",
-    "lastRun": "2026-11-06T17:01:35.637Z",
+    "lastOk": "2026-11-06T18:01:21.260Z",
+    "lastRun": "2026-11-06T18:01:21.260Z",
     "lastCount": 175
   },
   "cartoons": {
@@ -137,9 +137,9 @@
     "lastCount": 16
   },
   "tv-programm": {
-    "lastOk": "2026-11-06T17:01:58.046Z",
-    "lastRun": "2026-11-06T17:01:58.046Z",
-    "lastCount": 292
+    "lastOk": "2026-11-06T18:01:34.639Z",
+    "lastRun": "2026-11-06T18:01:34.639Z",
+    "lastCount": 294
   },
   "tv-de": {
     "lastOk": "2026-11-05T23:04:13.126Z",
@@ -172,8 +172,8 @@
     "lastCount": 3
   },
   "crunchyroll-woche": {
-    "lastOk": "2026-11-06T17:01:30.454Z",
-    "lastRun": "2026-11-06T17:01:30.454Z",
+    "lastOk": "2026-11-06T18:01:18.078Z",
+    "lastRun": "2026-11-06T18:01:18.078Z",
     "lastCount": 63
   },
   "adn-news": {
@@ -182,9 +182,10 @@
     "lastCount": 71
   },
   "messbelege": {
-    "lastOk": "2026-11-06T17:01:55.756Z",
-    "lastRun": "2026-11-06T17:01:55.756Z",
-    "lastCount": 0
+    "lastOk": "2026-11-06T18:01:33.610Z",
+    "lastRun": "2026-11-06T18:01:33.610Z",
+    "lastCount": 0,
+    "leerSeit": "2026-11-06T18:01:33.610Z"
   },
   "beleg-lesungen": {
     "lastOk": "2026-11-06T04:09:28.276Z",
