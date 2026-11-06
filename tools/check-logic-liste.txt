@@ -94,12 +94,14 @@ pipeline/check-cartoon-ton.ts
 pipeline/check-cartoon-wege-falten.ts
 pipeline/check-cartoon-wege.ts
 pipeline/check-cartoon-zwilling.ts
+pipeline/check-cover-luecken-bau.ts
 pipeline/check-cover-luecken-wache.ts
 pipeline/check-cover-quelle.ts
 pipeline/check-cr-auftakt-wache.ts
 pipeline/check-cr-batch-phase.ts
 pipeline/check-cr-batch-wache.ts
 pipeline/check-cr-block-standardname.ts
+pipeline/check-cr-blockkette-luecke.ts
 pipeline/check-cr-doppelt-weg.ts
 pipeline/check-cr-einzelwerk-urteil.ts
 pipeline/check-cr-film-wege.ts
@@ -150,6 +152,8 @@ pipeline/check-dub-lesart-faelle.ts
 pipeline/check-dub-lesart.ts
 pipeline/check-ecchi-ausblenden.ts
 pipeline/check-effekt-abhaengigkeiten.ts
+pipeline/check-eigene-titel-bestand-lauf.ts
+pipeline/check-eigene-titel.ts
 pipeline/check-einzahl-folge.ts
 pipeline/check-empfehlung-ablage.ts
 pipeline/check-empfehlung-ablauf.ts
@@ -175,6 +179,7 @@ pipeline/check-favoriten-feed-faelle.ts
 pipeline/check-fetch-pruefungen-laufzeit.ts
 pipeline/check-film-ohne-weg.ts
 pipeline/check-filter-genres.ts
+pipeline/check-filter-zyklus.ts
 pipeline/check-finale-wache.ts
 pipeline/check-folge-ueber-anzahl-bau.ts
 pipeline/check-folge-ueber-anzahl.ts
@@ -224,6 +229,7 @@ pipeline/check-invarianten.ts
 pipeline/check-ja-hat-weg.ts
 pipeline/check-juengeres-ja-weg.ts
 pipeline/check-jw-ablauf.ts
+pipeline/check-jw-anbieterliste.ts
 pipeline/check-jw-auswahl.ts
 pipeline/check-jw-frisch-lauf.ts
 pipeline/check-jw-kennung-fremd-lauf.ts
@@ -327,6 +333,7 @@ pipeline/check-og-termin.ts
 pipeline/check-ohne-synchro-namen.ts
 pipeline/check-omu-ohne-termin.ts
 pipeline/check-panel-chips.ts
+pipeline/check-panel-cover.ts
 pipeline/check-panel-disc-doppel.ts
 pipeline/check-panel-titel-nachgeladen.ts
 pipeline/check-paramount.ts
@@ -351,6 +358,7 @@ pipeline/check-prime-phase-laufzeit.ts
 pipeline/check-prime-pille.ts
 pipeline/check-prime-seite-richten.ts
 pipeline/check-prime-seiten-sperre.ts
+pipeline/check-prime-suchadresse-tot.ts
 pipeline/check-prime-teilseiten-kanal.ts
 pipeline/check-prime-teilseiten.ts
 pipeline/check-prime-zugeordnet-jw.ts
@@ -371,6 +379,7 @@ pipeline/check-reihen-traeger-aufrufer.ts
 pipeline/check-reihen-traeger.ts
 pipeline/check-reinids-grund.ts
 pipeline/check-remake-verdrahtung.ts
+pipeline/check-remake-zaehlung-pipeline.ts
 pipeline/check-remake-zaehlung.ts
 pipeline/check-rohfolgen-ablauf.ts
 pipeline/check-rohfolgen-cartoons.ts
@@ -401,6 +410,7 @@ pipeline/check-sprecher-filter.ts
 pipeline/check-sprung-lesestelle.ts
 pipeline/check-staerkste-seite.ts
 pipeline/check-staffel-jahr0.ts
+pipeline/check-staffel-riegel.ts
 pipeline/check-staffel-synonyme.ts
 pipeline/check-staffel-teil.ts
 pipeline/check-staffel-verdrahtung.ts
@@ -431,6 +441,7 @@ pipeline/check-titel-vorschau.ts
 pipeline/check-titelwechsel.ts
 pipeline/check-tmdb-404-neusuche.ts
 pipeline/check-tmdb-ablauf.ts
+pipeline/check-tmdb-film-suche.ts
 pipeline/check-tmdb-folgen-404-lauf.ts
 pipeline/check-tmdb-folgen-404.ts
 pipeline/check-tmdb-folgen-auswahl.ts
@@ -440,6 +451,8 @@ pipeline/check-tmdb-folgen-luecke.ts
 pipeline/check-tmdb-folgentitel-absolut.ts
 pipeline/check-tmdb-folgentitel-datum.ts
 pipeline/check-tmdb-genre.ts
+pipeline/check-tmdb-geteilt-plakat-bau.ts
+pipeline/check-tmdb-geteilt-plakat.ts
 pipeline/check-tmdb-hauptserie.ts
 pipeline/check-tmdb-katalog.ts
 pipeline/check-tmdb-staffel0.ts

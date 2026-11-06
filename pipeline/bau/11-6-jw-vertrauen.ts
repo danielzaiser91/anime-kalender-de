@@ -5,6 +5,7 @@ import { type DubCheck } from '../lib/dub-confirmed.ts'
 import { primeHakenOhneBeleg, primeTitelMitBeleg, type MeldungEintrag, type UrteilEintrag } from '../lib/haken-beleg.ts'
 import { leseZugeordnet } from '../lib/prime-meldung-riegel.ts'
 import { type JwBefund } from '../lib/jw-vertrauen.ts'
+import { kanalHandbelegWege } from '../lib/handbeleg-weg.ts'
 import { brichAbBeiWiderspruch } from '../lib/bau-widerspruch.ts'
 import { kennzeichneJwSeiten, type JwSeitenErgebnis } from './jw-seite-ton.ts'
 import { messungAusBelegen, neinAdressenAus } from './jw-seite-messung.ts'
@@ -29,6 +30,7 @@ export function kennzeichneDeutschLautJustwatch({ titles, tmdbMehrdeutig, alleCh
     messung: messungAusBelegen(alleChecks, urteile, meldungen),
     neinAdressen: neinAdressenAus(alleChecks),
     ausgenommen: tmdbMehrdeutig,
+    ohneJustwatch: kanalHandbelegWege(alleChecks),
     hinweisNurSerie: true,
   })
   logJwSeiten('Anime', ergebnis)

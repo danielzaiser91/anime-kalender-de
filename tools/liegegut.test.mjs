@@ -9,7 +9,7 @@ import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
-import { checkStand, geteilteEntscheidungen, kopfZeitVon, kopfZeiten, liegegut, main, mainCommits, naechsterSchritt, signaleEinzel, stillstandSignal, ueberholtTreffer, urteile } from './liegegut.mjs'
+import { offenePrs, checkStand, geteilteEntscheidungen, kopfZeitVon, kopfZeiten, liegegut, main, mainCommits, naechsterSchritt, signaleEinzel, stillstandSignal, ueberholtTreffer, urteile } from './liegegut.mjs'
 
 const fehler = []
 const pruefe = (name, ok, info) => {
@@ -134,6 +134,12 @@ console.log('liegegut: Signal 7 Überholt-Gegenprobe (Fälle 1437, 1371, 1386)')
   pruefe('zwei Stichwörter, aber keine gemeinsame Datei → kein Treffer', ueberholtTreffer(titel1437, ['andere.ts'], commits.slice(0, 1)).length === 0)
   pruefe('Füllwort „statt“ zählt nicht als Stichwort', ueberholtTreffer('Stift hängt statt Stempel', ['d.ts'], [{ hash: 'x', betreff: 'Rand hängt statt Stempel', dateien: ['d.ts'] }]).length === 1 && ueberholtTreffer('Stift statt Marke', ['d.ts'], [{ hash: 'x', betreff: 'Rand statt Flagge', dateien: ['d.ts'] }]).length === 0)
   pruefe('Stamm: „Termine“ trifft „Terminen“', ueberholtTreffer('Kanal Termine', ['d.ts'], [{ hash: 'x', betreff: 'Kanal Terminen', dateien: ['d.ts'] }]).length === 1)
+  const sammel = ['tools/check-logic-liste.txt', 'tools/check-bestand-liste.txt', 'data/dub-confirmed.yaml']
+  const gleichTitel = 'Kanal Termine Deutsch'
+  for (const datei of sammel) {
+    pruefe(`nur Sammeldatei ${datei} gemeinsam → kein Treffer`, ueberholtTreffer(gleichTitel, [datei], [{ hash: 'x', betreff: gleichTitel, dateien: [datei, 'fremd.ts'] }]).length === 0)
+  }
+  pruefe('Sammeldatei + echte gemeinsame Datei → Treffer', ueberholtTreffer(gleichTitel, [sammel[0], 'echt.ts'], [{ hash: 'x', betreff: gleichTitel, dateien: [sammel[0], 'echt.ts'] }]).length === 1)
 }
 
 console.log('liegegut: Grenzen und Randfälle (Mutationsprobe 21.10.2026)')
@@ -298,13 +304,76 @@ console.log('liegegut: Nichtauskunft und Startlogik')
   pruefe('ohne Funde → Exit 0, „0 auffällige PRs“', main(attrappeGh([pr(1, { comments: [daniel(2, 'frisch')] })]), attrappeGit(), (t) => leer.push(t), JETZT) === 0 && leer.at(-1) === 'liegegut: 0 auffällige PRs')
 }
 
+console.log('liegegut: offene PRs in Blöcken (GraphQL-Limit 05.11.2026)')
+{
+  const p1 = { number: 7, title: 'a', isDraft: false, body: 'b1' }
+  const p2 = { number: 9, title: 'z', isDraft: false, body: 'b2' }
+  const sammel = (aufrufe, comments) => (args) => {
+    aufrufe.push(args.join(' '))
+    const f = args[args.indexOf('--json') + 1]
+    if (args[1] === 'list' && f === 'number,title,headRefOid,createdAt,mergeable,mergeStateStatus,isDraft,body') return JSON.stringify([p1, p2])
+    if (args[1] === 'list' && f === 'number,reviews,statusCheckRollup') return JSON.stringify([{ number: 9, reviews: ['r9'], statusCheckRollup: ['s9'] }, { number: 7, reviews: ['r7'], statusCheckRollup: ['s7'] }])
+    if (args[1] === 'list') return comments(args)
+    return JSON.stringify({ comments: ['einzeln-' + args[2]] })
+  }
+  const ganz = []
+  const ok = offenePrs(sammel(ganz, () => JSON.stringify([{ number: 9, comments: ['c9'] }, { number: 7, comments: ['c7'] }])))
+  pruefe('Blöcke: drei Listenaufrufe, Felder je Nummer zusammengeführt', ganz.length === 3 && ok[0].number === 7 && ok[0].comments[0] === 'c7' && ok[0].reviews[0] === 'r7' && ok[1].statusCheckRollup[0] === 's9' && ok[1].body === 'b2', { ganz, ok })
+  const limit = []
+  const zeilen = offenePrs(sammel(limit, () => { throw new Error('GraphQL: Resource limits for this query exceeded.') }))
+  pruefe('Limit bei comments → je PR ein pr view, andere Felder unverändert', limit.slice(3).join('|') === 'pr view 7 --json comments|pr view 9 --json comments' && zeilen[1].comments[0] === 'einzeln-9' && zeilen[0].comments[0] === 'einzeln-7' && zeilen[0].reviews[0] === 'r7', limit)
+}
+
+console.log('liegegut: Fehlerwege der Blöcke (Prüfer A1–A3)')
+{
+  const p1 = { number: 7, title: 'a', isDraft: false, body: 'b1' }
+  const p2 = { number: 9, title: 'z', isDraft: false, body: 'b2' }
+  const LIMIT = new Error('Command failed\nGraphQL: Resource limits for this query exceeded.')
+  const bau = (verhalten) => (args) => {
+    const f = args[args.indexOf('--json') + 1]
+    if (args[1] === 'list' && f.startsWith('number,title')) return JSON.stringify([p1, p2])
+    return verhalten(args, f)
+  }
+  const gruppe = (nr, f) => (f.includes('comments') ? { number: nr, comments: [] } : { number: nr, reviews: [], statusCheckRollup: [] })
+  const liste = (f) => JSON.stringify([gruppe(7, f), gruppe(9, f)])
+  const wirft = (text) => { try { text(); return null } catch (e) { return String(e.message) } }
+  const http = wirft(() => offenePrs(bau((a, f) => { if (f === 'number,comments') throw new Error('HTTP 502'); return liste(f) })))
+  pruefe('A1: HTTP 502 in einer Gruppe schlägt durch (kein pr view)', http === 'HTTP 502', http)
+  const aus = []
+  pruefe('A1: Exit 2 mit FEHLER bei HTTP 502', main(bau((a, f) => { if (f === 'number,comments') throw new Error('HTTP 502'); return liste(f) }), attrappeGit(), (t) => aus.push(t), JETZT) === 2 && /FEHLER HTTP 502/.test(aus.join()), aus)
+  const aufrufe = []
+  const rr = offenePrs(bau((a, f) => {
+    aufrufe.push(a.join(' '))
+    if (a[1] === 'list' && f === 'number,reviews,statusCheckRollup') throw LIMIT
+    if (a[1] === 'view') return JSON.stringify({ reviews: ['v' + a[2]], statusCheckRollup: [] })
+    return liste(f)
+  }))
+  pruefe('A2: Limit bei reviews,statusCheckRollup → pr view je PR mit genau diesen Feldern', aufrufe.filter((x) => x.startsWith('pr view')).join('|') === 'pr view 7 --json reviews,statusCheckRollup|pr view 9 --json reviews,statusCheckRollup' && rr[1].reviews[0] === 'v9' && rr[0].comments.length === 0, aufrufe)
+  const view = wirft(() => offenePrs(bau((a, f) => {
+    if (a[1] === 'list' && f === 'number,comments') throw LIMIT
+    if (a[1] === 'view') throw new Error('HTTP 404: pr view')
+    return liste(f)
+  })))
+  pruefe('A2: Fehler im pr view des Rückfalls schlägt durch', view === 'HTTP 404: pr view', view)
+  const hinweise = []
+  const fehlt = offenePrs(bau((a, f) => (f === 'number,comments' ? JSON.stringify([gruppe(9, f)]) : liste(f))), (h) => hinweise.push(h))
+  pruefe('A3: PR 7 fehlt in einer Gruppe → übersprungen, Hinweiszeile mit Nummer, PR 9 bleibt', fehlt.length === 1 && fehlt[0].number === 9 && hinweise.length === 1 && /PR 7 übersprungen/.test(hinweise[0]), { fehlt, hinweise })
+  const gesamt = []
+  const ghGanz = bau((a, f) => (f === 'number,comments' ? JSON.stringify([gruppe(9, f)]) : liste(f)))
+  const rest = attrappeGh([pr(9)])
+  const code = main((a) => (a[1] === 'list' ? ghGanz(a) : rest(a)), attrappeGit(), (t) => gesamt.push(t), JETZT)
+  pruefe('A3: main meldet die Hinweiszeile und läuft mit Exit 0 durch', code === 0 && gesamt.some((z) => /PR 7 übersprungen/.test(z)) && /liegegut: \d+ auffällige PRs/.test(gesamt.at(-1)), gesamt)
+}
+
 console.log('liegegut: eigener Prozess (Vorlader tools/pr-nachrechnen-mock.mjs)')
 {
   const werk = fs.mkdtempSync(path.join(os.tmpdir(), 'liegegut-'))
-  const felder = 'number,title,headRefOid,createdAt,mergeable,mergeStateStatus,isDraft,body,comments,reviews,statusCheckRollup'
+  const leicht = 'number,title,headRefOid,createdAt,mergeable,mergeStateStatus,isDraft,body'
   const frei = pr(1676, { comments: [{ author: { login: 'github-actions' }, createdAt: '2026-10-20T10:44:00Z', body: `**Prüfer-Review** für ${KOPF.slice(0, 9)} - Urteil: **ok**` }] })
   const daten = {
-    [`pr list --state open --limit 100 --json ${felder}`]: { aus: JSON.stringify([frei]) },
+    [`pr list --state open --limit 100 --json ${leicht}`]: { aus: JSON.stringify([frei]) },
+    'pr list --state open --limit 100 --json number,reviews,statusCheckRollup': { aus: JSON.stringify([frei]) },
+    'pr list --state open --limit 100 --json number,comments': { aus: JSON.stringify([frei]) },
     [`api repos/{owner}/{repo}/commits/${KOPF} --jq .commit.committer.date`]: { aus: '2026-10-20T10:40:00Z\n' },
     'api repos/{owner}/{repo}/pulls/1676/files --paginate --jq .[].filename': { aus: 'tools/x.mjs\n' },
     [`log origin/main --since=${frei.createdAt} --name-only --format=%x01%h%x09%s`]: { aus: '' },
@@ -314,7 +383,7 @@ console.log('liegegut: eigener Prozess (Vorlader tools/pr-nachrechnen-mock.mjs)'
   const skript = fileURLToPath(new URL('./liegegut.mjs', import.meta.url))
   const lauf = spawnSync(process.execPath, ['--import', vorlader, skript], { encoding: 'utf8', env: { ...process.env, ATTRAPPE_LOG: path.join(werk, 'log.txt'), ATTRAPPE_DATEN: path.join(werk, 'daten.json') } })
   pruefe('Prozess: Exit 0, Zeile für 1676 und Schlusszeile', lauf.status === 0 && /PR 1676: MERGEN – Signal 1/.test(lauf.stdout) && /liegegut: 1 auffällige PRs/.test(lauf.stdout), { s: lauf.status, o: lauf.stdout, e: lauf.stderr })
-  const leerDaten = { ...daten, [`pr list --state open --limit 100 --json ${felder}`]: { fehler: 'HTTP 502' } }
+  const leerDaten = { ...daten, [`pr list --state open --limit 100 --json ${leicht}`]: { fehler: 'HTTP 502' } }
   fs.writeFileSync(path.join(werk, 'daten.json'), JSON.stringify(leerDaten))
   const kaputt = spawnSync(process.execPath, ['--import', vorlader, skript], { encoding: 'utf8', env: { ...process.env, ATTRAPPE_LOG: path.join(werk, 'log.txt'), ATTRAPPE_DATEN: path.join(werk, 'daten.json') } })
   pruefe('Prozess: Abruffehler → Exit 2 mit FEHLER', kaputt.status === 2 && /liegegut: FEHLER/.test(kaputt.stdout), { s: kaputt.status, o: kaputt.stdout })
