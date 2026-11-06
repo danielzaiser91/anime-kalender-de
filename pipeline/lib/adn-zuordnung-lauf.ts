@@ -11,6 +11,7 @@ import { ordneAdnZuAnisearch, titellisteFrisch, type AdnOffen } from './adn-anis
 import { aktualisiereOffenSeit, type OffenSeit } from './adn-offen-seit.ts'
 import { todayIso } from '../../shared/time.ts'
 import type { AdnShow } from './adn.ts'
+import { katalogMitNeuen } from './adn-neuzugaenge.ts'
 
 const OFFEN_DATEI = 'data/adn-anisearch-offen.json'
 const SEIT_DATEI = 'data/adn-offen-seit.json'
@@ -83,4 +84,18 @@ export async function ordneKatalogZuAnisearch(
   schreibeOffen(offen, offenDatei, seitDatei, heute)
   const grund = (g: string) => offen.filter((o) => o.grund === g).length
   log(`ADN-Katalog: ${zuordnung.size} von ${shows.length} einem aniSearch-Eintrag zugeordnet; offen: ${grund('kein-kandidat')} ohne Kandidat, ${grund('mehrdeutig')} mehrdeutig, ${grund('vergeben')} vergeben (${offenDatei})`)
+}
+
+/**
+ * Der Katalog mit neuen Serien dahinter, die Liste der offenen im selben Zug nachgeführt (05.11.2026: der Lauf „laufende Serien“ nahm
+ * Serien in den Katalog, ohne sie zuzuordnen oder als offen zu führen). Der Aufrufer schreibt den Katalog mit dem Ergebnis.
+ */
+export async function katalogMitNeuenZugeordnet(
+  katalog: AdnShow[],
+  neu: AdnShow[],
+  wege: Parameters<typeof ordneKatalogZuAnisearch>[2] = {},
+): Promise<AdnShow[]> {
+  const alle = katalogMitNeuen(katalog, neu)
+  await ordneKatalogZuAnisearch(alle, katalog, wege)
+  return alle
 }
