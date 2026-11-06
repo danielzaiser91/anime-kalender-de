@@ -56,30 +56,30 @@ Reihenfolge ab hier: Jahr aufsteigend (vor 2010 zuerst), dann Kennung. Nr. zähl
 | 39 | 2827 | 1974 | Calimero | **nicht eingetragen (Zuordnung unsicher)**: fernsehserien.de /calimero nennt DVD 1-3 (Folgen 1-12), aber die EAN 828768611494 der DVD „Calimero 1“ gehört laut früherer K10plus-Probe zur CGI-Serie 2006; OFDb /fassung/21585,518357 (Toei-Serie 1974) ist nur ein Polyband-Video (VHS, 25.09.2006, EAN 4006448953607) |
 | 40 | 3834 | 1974 | Blinki: Der außerirdische Wunderzwerg | fernsehserien.de /blinki-der-ausserirdische-wunderzwerg: „noch keine DVDs oder Blu-rays“ (Verlag VPS: Video) |
 
-## Block 3 (offen)
+## Block 3 (erledigt 06.11.2026): 1 Eintrag von 20
 
-| Nr | Kennung | Jahr | Titel | Format |
+| Nr | Kennung | Jahr | Titel | Befund (Quelle, 06.11.2026) |
 |---|---|---|---|---|
-| 41 | 3043 | 1975 | Die kleine Seejungfrau | MOVIE |
-| 42 | 3054 | 1975 | Nadine: Stern der Seine | TV |
-| 43 | 8240 | 1975 | Kum Kum | TV |
-| 44 | 10282 | 1975 | Es war einmal | TV |
-| 45 | 11421 | 1975 | Der weiße Delphin | TV |
-| 46 | 2545 | 1976 | Huckleberry Finn | TV |
-| 47 | 3823 | 1976 | Little Lulu | TV |
-| 48 | 6262 | 1976 | Ausflug ins Märchenland | TV |
-| 49 | 9978 | 1976 | Rückkehr der Dinosaurier | TV |
-| 50 | 126438 | 1976 | Chuck, der schlaue Biber | TV |
-| 51 | 3847 | 1977 | Die Wilden Schwäne | MOVIE |
-| 52 | 4073 | 1977 | Angriff der Dino Monster | TV |
-| 53 | 10009970 | 1977 | Eichhörnchen und Igel schützen ihre Heimat | TV |
-| 54 | 16560 | 1978 | Goldwing | MOVIE |
-| 55 | 3828 | 1979 | Der goldene Feuervogel | SPECIAL |
-| 56 | 4199 | 1979 | Prinz Arthus | TV |
-| 57 | 3810 | 1980 | Die kleinen Zwurze | TV |
-| 58 | 4614 | 1980 | Prinz Arthus | TV |
-| 59 | 4991 | 1980 | Vier schöne Schwestern | SPECIAL |
-| 60 | 9575 | 1980 | Jakobus Nimmersatt | SPECIAL |
+| 41 | 3043 | 1975 | Die kleine Seejungfrau | DVD „Die kleine Seejungfrau“ im Ostfilm-Shop ist der tschechische Film (1976), nicht Toei; keine Toei-Disc gefunden. Websuche am 06.11. gesperrt (DuckDuckGo/Brave), keine Disc belegbar; erneut prüfen |
+| 42 | 3054 | 1975 | Nadine: Stern der Seine | fernsehserien.de /nadine-stern-der-seine/dvd-blu-ray: „noch keine DVDs oder Blu-rays“ |
+| 43 | 8240 | 1975 | Kum Kum | fernsehserien.de /kum-kum/dvd-blu-ray: kein DVD-Eintrag (nur MP3-Downloads) |
+| 44 | 10282 | 1975 | Es war einmal | fernsehserien.de /es-war-einmal/dvd-blu-ray: „noch keine DVDs oder Blu-rays“ |
+| 45 | 11421 | 1975 | Der weiße Delphin | fernsehserien.de /der-weisse-delphin/dvd-blu-ray: „noch keine DVDs oder Blu-rays“ |
+| 46 | 2545 | 1976 | Huckleberry Finn | fernsehserien.de /huckleberry-finn/dvd-blu-ray: „noch keine DVDs oder Blu-rays“ |
+| 47 | 3823 | 1976 | Little Lulu | fernsehserien.de /little-lulu/dvd-blu-ray: „noch keine DVDs oder Blu-rays“ |
+| 48 | 6262 | 1976 | Ausflug ins Märchenland | fernsehserien.de /ausflug-ins-maerchenland/dvd-blu-ray: „noch keine DVDs oder Blu-rays“ |
+| 49 | 9978 | 1976 | Rückkehr der Dinosaurier | Websuche am 06.11. gesperrt (DuckDuckGo/Brave), keine Disc belegbar; erneut prüfen |
+| 50 | 126438 | 1976 | Chuck, der schlaue Biber | fernsehserien.de /chuck-der-schlaue-biber/dvd-blu-ray: „noch keine DVDs oder Blu-rays“ |
+| 51 | 3847 | 1977 | Die Wilden Schwäne | **Eintrag**: Die Wilden Schwäne (Toei 1977, 1 DVD), Anime Cult, 08.11.2024, EAN 4059251663324, Deutsch Dolby Digital 2.0 Mono (mediamarkt.de Art.-Nr. 2955729: Titel „1977“, Handlung Elisa und sechs Brüder = Hakuchou no Ouji). bluray-disc/OFDb nicht erreichbar (OFDb rendert per JS, Suche gesperrt): Beleg nur Shop-Seite, Datum/EAN aus deren Produktdaten |
+| 52 | 4073 | 1977 | Angriff der Dino Monster | Websuche am 06.11. gesperrt (DuckDuckGo/Brave), keine Disc belegbar; erneut prüfen |
+| 53 | 10009970 | 1977 | Eichhörnchen und Igel schützen ihre Heimat | nordkoreanische Serie (Joseon 4.26); keine deutsche Disc zu erwarten, nicht gesucht |
+| 54 | 16560 | 1978 | Goldwing | koreanischer Film (Hwanggeum Nalgae); keine deutsche Disc zu erwarten, nicht gesucht |
+| 55 | 3828 | 1979 | Der goldene Feuervogel | Websuche am 06.11. gesperrt (DuckDuckGo/Brave), keine Disc belegbar; erneut prüfen |
+| 56 | 4199 | 1979 | Prinz Arthus | fernsehserien.de /prinz-arthus/dvd-blu-ray: „noch keine DVDs oder Blu-rays“ (Seite deckt beide Prinz-Arthus-Einträge) |
+| 57 | 3810 | 1980 | Die kleinen Zwurze | fernsehserien.de /die-kleinen-zwurze/dvd-blu-ray: „noch keine DVDs oder Blu-rays“ |
+| 58 | 4614 | 1980 | Prinz Arthus | fernsehserien.de /prinz-arthus/dvd-blu-ray: „noch keine DVDs oder Blu-rays“ (Seite deckt beide Prinz-Arthus-Einträge) |
+| 59 | 4991 | 1980 | Vier schöne Schwestern | Websuche am 06.11. gesperrt (DuckDuckGo/Brave), keine Disc belegbar; erneut prüfen |
+| 60 | 9575 | 1980 | Jakobus Nimmersatt | Websuche am 06.11. gesperrt (DuckDuckGo/Brave), keine Disc belegbar; erneut prüfen |
 
 ## Block 4 (offen)
 
