@@ -47,8 +47,8 @@ pruefe('Neuer Treffer: Zählzeile nennt 1 neu', /1 Treffer, davon 0 Altfälle \(
 const gruen = lauf([900010, 900011], block(900011, 'B0SEITE011', 'B0SEITE011') + block(900010, 'B0SEITE010', 'B0SEITE010'))
 pruefe('Eigene Seiten: Exit 0, keine Marke, 0 Treffer', gruen.status === 0 && !gruen.aus.includes('handbeleg-note-asin ') && /0 Treffer/.test(gruen.aus), gruen)
 
-// Doppelführung mit dem Notizseiten-Wächter: dessen Altfall (20913 mit der Seite B0C8TKFF2J) filtert dieser Wächter aus.
-const altfall = lauf([20913, 900011], block(900011, 'B0C8TKFF2J', 'B0C8TKFF2J') + block(20913, 'B0C8THGKXC', 'B0C8TKFF2J'))
+// Doppelführung mit dem Notizseiten-Wächter: dessen Altfall (108511 mit der Seite B0CJC11GRB) filtert dieser Wächter aus.
+const altfall = lauf([108511, 900011], block(900011, 'B0CJC11GRB', 'B0CJC11GRB') + block(108511, 'B0CJC11GRX', 'B0CJC11GRB'))
 pruefe('Altfall des Notizseiten-Wächters: Exit 0, 0 Treffer', altfall.status === 0 && /0 Treffer/.test(altfall.aus), altfall)
 
 // Eigener Altfall der Ratsche (Goblin Slayer 2): Exit 0, als Altfall gezählt, keine Marke.

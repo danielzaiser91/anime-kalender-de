@@ -91,12 +91,14 @@ pipeline/check-cartoon-pruefregeln.ts
 pipeline/check-cartoon-reihen.ts
 pipeline/check-cartoon-staffeln.ts
 pipeline/check-cartoon-ton.ts
+pipeline/check-cartoon-wege-falten-leer-lauf.ts
 pipeline/check-cartoon-wege-falten.ts
 pipeline/check-cartoon-wege.ts
 pipeline/check-cartoon-zwilling.ts
 pipeline/check-cover-luecken-bau.ts
 pipeline/check-cover-luecken-wache.ts
 pipeline/check-cover-quelle.ts
+pipeline/check-cr-abruf-logik.ts
 pipeline/check-cr-auftakt-wache.ts
 pipeline/check-cr-batch-phase.ts
 pipeline/check-cr-batch-wache.ts
@@ -206,6 +208,7 @@ pipeline/check-folgenzahl-sichtung.ts
 pipeline/check-gleiche-adresse.ts
 pipeline/check-hand-gesehen.ts
 pipeline/check-handbeleg-anbieter-zaehlung.ts
+pipeline/check-handbeleg-fast-doppel.ts
 pipeline/check-handbeleg-fremde-adresse.ts
 pipeline/check-handbeleg-note-asin-lauf.ts
 pipeline/check-handbeleg-note-asin.ts
@@ -266,6 +269,7 @@ pipeline/check-kanal-merkliste-gesperrt-lauf.ts
 pipeline/check-kanal-merkliste.ts
 pipeline/check-kanal-messung.ts
 pipeline/check-kanal-namen.ts
+pipeline/check-kanal-start.ts
 pipeline/check-kanal-verlust.ts
 pipeline/check-kapitel-katalog.ts
 pipeline/check-kapitel-shop-wege.ts
@@ -306,6 +310,7 @@ pipeline/check-nein-handbeleg-cr.ts
 pipeline/check-nein-handbeleg-datum.ts
 pipeline/check-nein-handbeleg.ts
 pipeline/check-nein-wiedervorlage.ts
+pipeline/check-netflix-404-gate.ts
 pipeline/check-netflix-fremde-meldung-lauf.ts
 pipeline/check-netflix-fremde-meldung.ts
 pipeline/check-netflix-quellen.ts

@@ -24,6 +24,8 @@ const OHNE_AUSGANG = {
     'nur Warnung (⚠ WARNUNG, Exit 0): ein Sammler kann jederzeit eine Disc ohne EAN melden, Rot würde den Bestandsbau stoppen; 27.10.2026',
   'pipeline/check-gleiche-adresse-bestand.ts':
     'nur Warnung (⚠ WARNUNG, Exit 0): die Erweiterung kann jederzeit einen Beleg an eine fremde Amazon-Seite melden, Rot würde den Bestandsbau stoppen; 28.10.2026',
+  'pipeline/check-handbeleg-fast-doppel-bestand.ts':
+    'nur Warnung (⚠ WARNUNG, Exit 0): Bestandsbau und Meldungen können jederzeit ein Beleg-Paar gleich bis auf das Prüfdatum schreiben, Rot würde den Bestandsbau stoppen; 03.11.2026',
   'pipeline/check-joyn-luecke-bestand.ts':
     'nur Warnung (⚠ WARNUNG, Exit 0): die Linkprüfung kann jederzeit eine Joyn-Adresse als tot entfernen, Rot würde den Bestandsbau stoppen; 04.11.2026',
   'pipeline/check-joyn-sender-bestand.ts':

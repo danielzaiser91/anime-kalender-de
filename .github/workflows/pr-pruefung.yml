@@ -78,7 +78,21 @@ jobs:
       - uses: ./.github/actions/kette-einrichten
         with:
           playwright: 'true'
-      - run: npm run check:workflows
+      - run: npm run check:wachen
+      - run: npm run check:tests-1
+
+  # Zweite Hälfte von tests-alle (tools/tests-teil.mjs): halbiert die Laufzeit des längsten Teiljobs (Messung 03.11.2026, Tests 330 s auf 4 Kernen).
+  workflows2:
+    name: Kette – Workflows 2
+    if: ${{ !startsWith(github.head_ref, 'daten/') && !github.event.pull_request.draft }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/kette-einrichten
+        with:
+          playwright: 'true'
+      - run: npm run check:tests-2
 
   typen:
     name: Kette – Typen und Worker
@@ -118,7 +132,7 @@ jobs:
   # diesen Job überspringen, und übersprungen zählt als bestanden. Hier zählt nur `success`; sind alle Teiljobs `cancelled` (Neustart durch Push), ist es kein Fehlschlag.
   kette:
     name: PR-Prüfkette
-    needs: [logik, bau, workflows, typen, uebrige, datenbau, aussehen]
+    needs: [logik, bau, workflows, workflows2, typen, uebrige, datenbau, aussehen]
     if: ${{ always() && !startsWith(github.head_ref, 'daten/') && !github.event.pull_request.draft }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
