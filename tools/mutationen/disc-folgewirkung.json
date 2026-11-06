@@ -1,0 +1,15 @@
+[
+  { "name": "Kontrolle unmutiert", "aenderungen": [] },
+  { "name": "11-2-2: jeder Weg schließt den Riegel (alter Zustand)", "datei": "pipeline/bau/11-2-2-wege-ohne-weg.ts", "suche": "(title.watchLinks ?? []).some((w) => !istAnisearchDisc(w))", "ersetze": "(title.watchLinks ?? []).length" },
+  { "name": "11-2-2: nur Streams schließen den Riegel nicht", "datei": "pipeline/bau/11-2-2-wege-ohne-weg.ts", "suche": "(title.streams ?? []).length || (title.watchLinks", "ersetze": "(title.watchLinks" },
+  { "name": "11-2-2: jeder Kauflink gilt als Disc-Weg", "datei": "pipeline/bau/11-2-2-wege-ohne-weg.ts", "suche": "w.kind === 'buy' && w.name === 'aniSearch'", "ersetze": "w.kind === 'buy'" },
+  { "name": "11-2-2: jeder aniSearch-Weg gilt als Disc-Weg", "datei": "pipeline/bau/11-2-2-wege-ohne-weg.ts", "suche": "w.kind === 'buy' && w.name === 'aniSearch'", "ersetze": "w.name === 'aniSearch'" },
+  { "name": "11-2-2: Disc-Weg geht verloren", "datei": "pipeline/bau/11-2-2-wege-ohne-weg.ts", "suche": "title.watchLinks = [...wege, ...(title.watchLinks ?? [])]", "ersetze": "title.watchLinks = wege" },
+  { "name": "11-2-2: Disc-Weg zuerst", "datei": "pipeline/bau/11-2-2-wege-ohne-weg.ts", "suche": "title.watchLinks = [...wege, ...(title.watchLinks ?? [])]", "ersetze": "title.watchLinks = [...(title.watchLinks ?? []), ...wege]" },
+  { "name": "japanStartTag: früherer deutscher Block zählt", "datei": "pipeline/lib/nah-am-japan-start.ts", "suche": "l.language !== 'Deutsch' && l.language !== 'Japanisch' &&", "ersetze": "l.language !== 'Japanisch' &&" },
+  { "name": "japanStartTag: gleicher Tag zählt als früher", "datei": "pipeline/lib/nah-am-japan-start.ts", "suche": "(tagMs(l.released) ?? Infinity) < jp", "ersetze": "(tagMs(l.released) ?? Infinity) <= jp" },
+  { "name": "japanStartTag: Block ohne Datum zählt als früher", "datei": "pipeline/lib/nah-am-japan-start.ts", "suche": "(tagMs(l.released) ?? Infinity) < jp", "ersetze": "(tagMs(l.released) ?? 0) < jp" },
+  { "name": "japanStartTag: früherer Block ändert nichts", "datei": "pipeline/lib/nah-am-japan-start.ts", "suche": "return frueher ? undefined : jp", "ersetze": "return jp" },
+  { "name": "japanStartTag: ohne Japan trotzdem ein Tag", "datei": "pipeline/lib/nah-am-japan-start.ts", "suche": "if (jp === undefined) return undefined", "ersetze": "if (jp === undefined) return 0" },
+  { "name": "09-5: Aufruf von japanStartTag ersetzt durch alte Zeile", "datei": "pipeline/bau/09-5-weitere-quellen.ts", "suche": "const jpTag = japanStartTag(asDe)", "ersetze": "const jpTag = tagAus(asDe.find((l) => l.language === 'Japanisch')?.released)" }
+]

@@ -15,7 +15,7 @@ import { anisearchBruecke } from '../lib/anisearch-katalog-ids.ts'
 import { ladeJustwatchDeutsch, ohneSammelSynchro, sammeleintragTitel } from '../lib/anisearch-sammeleintrag.ts'
 import { handErstausgabe, ladeErstausgabeVonHand } from '../lib/erstausgabe-von-hand.ts'
 import { type EntfernterVerweis } from './grundlagen.ts'
-import { istNahAmJapanStart } from '../lib/nah-am-japan-start.ts'
+import { istNahAmJapanStart, japanStartTag } from '../lib/nah-am-japan-start.ts'
 import { joynZeile, setzeJoynDeutsch } from './joyn-pauschal.ts'
 
 export function werteWeitereQuellenAus({ releases, titles, adnKatalog, adnVerweiseErgaenzt, verweiseEntfernt, schreibWurzel }: {
@@ -84,7 +84,7 @@ export function werteWeitereQuellenAus({ releases, titles, adnKatalog, adnVerwei
         return m ? Date.UTC(Number(m[3]), Number(m[2]) - 1, Number(m[1])) : undefined
       }
       const deTag = tagAus(asDe.find((l) => l.language === 'Deutsch')?.released)
-      const jpTag = tagAus(asDe.find((l) => l.language === 'Japanisch')?.released)
+      const jpTag = japanStartTag(asDe)
       const verlage = asDe.find((l) => l.language === 'Deutsch')?.publisher ?? []
       const simulcast =
         deTag !== undefined && jpTag !== undefined && Math.abs(deTag - jpTag) <= 7 * 864e5 &&
