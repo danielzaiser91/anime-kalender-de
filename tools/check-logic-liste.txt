@@ -141,6 +141,7 @@ pipeline/check-disc-anisearch-datum.ts
 pipeline/check-disc-bereich.ts
 pipeline/check-disc-ean.ts
 pipeline/check-disc-kaufweg-auto.ts
+pipeline/check-disc-reine-titel.ts
 pipeline/check-disc-suchlinks.ts
 pipeline/check-disc-teil-hinweis.ts
 pipeline/check-disc-teil-verdrahtung.ts
@@ -291,6 +292,7 @@ pipeline/check-lesestelle.ts
 pipeline/check-link-leere-adresse.ts
 pipeline/check-links-laufzeit.ts
 pipeline/check-links-sperre-laufzeit.ts
+pipeline/check-live-adresse.ts
 pipeline/check-logic.ts
 pipeline/check-luecken-staffel0.ts
 pipeline/check-mail-verschoben-datum.ts

@@ -107,6 +107,7 @@ try {
     releases: [],
   })
   erwarte('über legeCrVerweiseUndTermineAn: Null-Block-Serie bekommt keinen Katalog-Weg', ueberAufrufer.streams.length, 0)
+  /* Reine aniSearch-Titel (ab 10 Mio.) haben nie einen Eintrag in anisearch.json (06.11.2026: 0 von 166); ihre Disc kommt aus dem Archiv, ihre Websites nicht (quellen.md). */
   erwarte('Ein Titel ohne aniSearch-Eintrag bleibt ohne Weg', (() => {
     const t = { id: 900599, slug: 'wege-900599', streams: [] } as unknown as Title
     legeCrWegeAusKatalogAn({ titles: new Map([[t.id, t]]), anisearch: {}, crDub, handNein })
