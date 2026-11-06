@@ -8,7 +8,8 @@
 // Ausnahmen: daniel-zum-abarbeiten/berichte/ und /listen/ (Analyst-Berichte), daniel-zum-abarbeiten/mockups/ (Mockup-Bauer). Ein Worktree liegt
 // außerhalb des Hauptordners und ist damit frei.
 // Leitplanke, offene Formen (nicht erkannt, also nicht gesperrt): /mnt/c/…, 8.3-Kurznamen (ANIME~1), Pfade mit ~ oder $ (null,
-// nicht statisch bekannt). Normiert werden Backslash, Git-Bash /c/…, UNC //?/c:/… und /cygdrive/c/….
+// nicht statisch bekannt). Symlinks und Junctions (z. B. die node_modules-Junction im Worktree) werden nicht aufgelöst: ein
+// Schreiben über sie bleibt frei, bekannte Lücke. Normiert werden Backslash, Git-Bash /c/…, UNC //?/c:/… und /cygdrive/c/….
 // Einbindung ohne Änderung an settings.json: in ~/.claude/hooks/dispatch-pretooluse.js ins Feld PRUEFER eine Zeile
 //   ['subagent-schreibsperre.js', (i) => { const g = require(path.join(H, 'subagent-schreibsperre.js')).pruefe(i); return g ? { permissionDecision: 'deny', permissionDecisionReason: g } : null }],
 const path = require('node:path')
