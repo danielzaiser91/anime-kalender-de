@@ -26,6 +26,7 @@ import { waehleStaffel, type TmdbStaffel } from './lib/tmdb-staffel.ts'
 import { bilderAbzufragen, FRIST_TAGE, streicheBilderUeberFrist } from './lib/tmdb-ablauf.ts'
 import { holeBanner } from './lib/tmdb-banner-abruf.ts'
 import { holeStaffel0 } from './lib/tmdb-staffel0-abruf.ts'
+import { messeAnilistCoverImLauf } from './lib/anilist-cover-lauf.ts'
 
 const LIMIT = Number(process.argv[process.argv.indexOf('--limit') + 1]) || Infinity
 const ALLE = process.argv.includes('--alle')
@@ -187,6 +188,7 @@ async function main(): Promise<void> {
   writeJson('data/tmdb-poster.json', bestand)
   schreibeCoverListe(bestand, readJson<GrundBestand>(GRUND_DATEI, {}))
   await holeBanner(apiKey, LIMIT, ALLE)
+  await messeAnilistCoverImLauf()
   log(`${gefunden} von ${offen.length} Titeln mit Plakat, ${fehler} Fehler`)
   recordSource('tmdb-poster', gefunden)
 }
