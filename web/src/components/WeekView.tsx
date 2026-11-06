@@ -36,20 +36,6 @@ export interface Tag {
 
 
 
-/** Welche Tage der Woche überhaupt TV- oder Disc-Termine haben, ungefiltert: Dort bleibt der Kopf samt Auge stehen, auch wenn der Filter alle Einträge ausblendet. */
-export function bereicheJeTag(roh: ReleaseEvent[], monday: string): Map<string, { tv: boolean; disc: boolean }> {
-  const bis = addDays(monday, 6)
-  const jeTag = new Map<string, { tv: boolean; disc: boolean }>()
-  for (const ev of roh) {
-    if (ev.date < monday || ev.date > bis) continue
-    const stand = jeTag.get(ev.date) ?? { tv: false, disc: false }
-    if (ev.platform === 'tv') stand.tv = true
-    if (ev.releaseType === 'disc') stand.disc = true
-    jeTag.set(ev.date, stand)
-  }
-  return jeTag
-}
-
 function nachZeit(a: ReleaseEvent, b: ReleaseEvent): number {
   return (a.time ?? OHNE_UHRZEIT).localeCompare(b.time ?? OHNE_UHRZEIT) || a.name.localeCompare(b.name, 'de')
 }
@@ -102,7 +88,6 @@ export function WeekView(p: WocheProps) {
   const today = todayIso()
   const monday = startOfWeek(p.anchorDate)
   const days = useMemo(() => tageDerWoche(p.events, monday), [p.events, monday])
-  const roh = useMemo(() => bereicheJeTag(p.data.events, monday), [p.data, monday])
   const { landingId, landingRef, now } = useSprungZuHeute({ days, today, monday })
   useZielTag(days.map((d) => d.date))
   const total = days.reduce((s, d) => s + d.stream.length + d.tv.length, 0)
@@ -110,7 +95,7 @@ export function WeekView(p: WocheProps) {
   return (
     <div className="flex flex-col">
       {days.map((tag) => (
-        <TagZeile key={tag.date} tag={tag} p={p} roh={roh.get(tag.date)} today={today} now={now} landingId={landingId} landingRef={landingRef} />
+        <TagZeile key={tag.date} tag={tag} p={p} today={today} now={now} landingId={landingId} landingRef={landingRef} />
       ))}
       {total === 0 && (
         <p className="rounded-2xl border border-dashed border-ak-rand p-8 text-center text-sm text-ak-leise">{t('week.empty')}</p>
@@ -122,7 +107,6 @@ export function WeekView(p: WocheProps) {
 function TagZeile({
   tag,
   p,
-  roh,
   today,
   now,
   landingId,
@@ -130,7 +114,6 @@ function TagZeile({
 }: {
   tag: Tag
   p: WocheProps
-  roh: { tv: boolean; disc: boolean } | undefined
   today: string
   now: string
   landingId?: string
@@ -139,7 +122,8 @@ function TagZeile({
   const heute = tag.date === today
   const vorbei = tag.date < today
   /* Ausgeschaltet bleibt der Kasten mit dem Auge stehen, solange der Tag Fernsehtermine hat — gezeigt werden dann nur Premieren. */
-  const zeigeTv = p.tvAn || !!roh?.tv
+  const roh = p.data.eventsByDate.get(tag.date) ?? []
+  const zeigeTv = p.tvAn || roh.some((e) => e.platform === 'tv')
   /* Steht nur Zweitanbieter da, bliebe vom Raster eine leere Fläche. */
   const rasterLeer = tag.zweit.length > 0 && tag.zweit.length === tag.stream.length && tag.disc.length === 0
   const vorbeiBis = heute ? now : vorbei ? '99:99' : undefined
@@ -158,7 +142,7 @@ function TagZeile({
       <div className={['flex min-w-0 flex-col gap-4', rasterLeer && zeigeTv ? 'lg:min-h-[250px]' : ''].join(' ')}>
         {!rasterLeer && <PosterRaster tag={tag} p={p} heute={heute} now={now} landingId={landingId} landingRef={landingRef} />}
         <ZweitanbieterZeilen termine={tag.zweit} data={p.data} hidden={p.hidden} vorbeiBis={vorbeiBis} onOpen={p.onOpen} />
-        <DiscKasten termine={tag.disc} data={p.data} hidden={p.hidden} onOpen={p.onOpen} vorhanden={!!roh?.disc} auge={{ an: p.discAn, umschalten: () => p.augeUmschalten('disc') }} />
+        <DiscKasten termine={tag.disc} data={p.data} hidden={p.hidden} onOpen={p.onOpen} vorhanden={roh.some((e) => e.releaseType === 'disc')} auge={{ an: p.discAn, umschalten: () => p.augeUmschalten('disc') }} />
       </div>
       {zeigeTv && <TvSpalte tag={tag} p={p} vorbeiBis={vorbeiBis} jetzt={heute ? now : undefined} />}
     </section>

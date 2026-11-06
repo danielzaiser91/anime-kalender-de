@@ -22,7 +22,7 @@ const TAG = '2026-11-04'
 const tv = { id: 'tv1', date: TAG, titleId: 900401, releaseSlug: 'tv-p', platform: 'tv', releaseType: 'weekly', name: 'Probe TV', time: '20:15' } as unknown as ReleaseEvent
 const disc = { id: 'd1', date: TAG, titleId: 900402, releaseSlug: 'd-p', platform: 'crunchyroll', releaseType: 'disc', name: 'Probe Disc' } as unknown as ReleaseEvent
 const daten = (events: ReleaseEvent[]) =>
-  ({ titles: [], titleById: new Map(), releases: [], releaseBySlug: new Map(), events, eventsByDate: new Map(), releasesByTitle: new Map(), meta: {} }) as never
+  ({ titles: [], titleById: new Map(), releases: [], releaseBySlug: new Map(), events, eventsByDate: new Map([[TAG, events]]), releasesByTitle: new Map(), meta: {} }) as never
 
 interface Aufruf {
   navigate: unknown[]
