@@ -1,6 +1,6 @@
 /**
  * Zusicherung: aniSearch-Seiten, die ein AniList-Titel aufnimmt (`data/anisearch-seiten-aufgenommen.yaml`, Anlass Thus Spoke Kishibe Rohan:
- * Netflix führt eine Miniserie mit vier Folgen, wir hatten drei Titel), bekommen keine eigene Zeile und zählen als umgezogen (`zuAk` für die alten Adressen folgt erst nach dem Bestandsbau).
+ * Netflix führt eine Miniserie mit vier Folgen, wir hatten drei Titel), bekommen keine eigene Zeile und zählen als umgezogen; ihre alten Adressen leiten per `zuAk` (nach dem Bestandsbau eingetragen).
  * Läuft in `check:logic`; der Bau läuft wirklich (`baueTitel`) mit den echten Handdateien.
  */
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
@@ -10,6 +10,8 @@ import { baueTitel } from './bau/02-titel.ts'
 import { anisearchUmgezogen, dubNurHinterToggle, ergaenzeAnisearchTitel } from './bau/anisearch-titel.ts'
 import type { AniListMedia } from './lib/anilist.ts'
 import { aufgenommeneSeiten, leseAufgenommeneSeiten } from './lib/anisearch-aufgenommen.ts'
+import { ladeAkVon } from './lib/ausgabe-kennung.ts'
+import { ROOT } from './lib/util.ts'
 import type { Title } from '../shared/types.ts'
 
 let verletzt = 0
@@ -22,6 +24,16 @@ const BASIS = 10_000_000
 
 console.log('\nEchte Datei: Kishibe Rohan:')
 pruefe('die Handdatei nimmt die Seiten 13343 und 14752 in 21778 auf', aufgenommeneSeiten[13343] === 21778 && aufgenommeneSeiten[14752] === 21778 && Object.keys(aufgenommeneSeiten).length === 2, aufgenommeneSeiten)
+
+console.log('\nAlte Adressen leiten auf den aufnehmenden Titel (echte data/kennungen.json):')
+{
+  const { zeilen } = ladeAkVon(join(ROOT, 'data', 'kennungen.json'))
+  for (const [seite, ziel] of Object.entries(aufgenommeneSeiten)) {
+    const zielAk = zeilen.find((z) => z[1] === ziel)?.[0]
+    const alt = zeilen.find((z) => z[1] === BASIS + Number(seite) && z[2] === Number(seite))
+    pruefe(`Seite ${seite}: die alte Zeile hat zuAk = ak von ${ziel}`, zielAk !== undefined && alt !== undefined && alt[3] === zielAk, { zielAk, alt })
+  }
+}
 
 console.log('\nAnlegen der aniSearch-Zeilen (echte Einträge):')
 {
