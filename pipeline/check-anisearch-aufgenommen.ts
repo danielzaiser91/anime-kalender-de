@@ -20,8 +20,11 @@ function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
 }
 const BASIS = 10_000_000
 
-console.log('\nEchte Datei: Kishibe Rohan:')
-pruefe('die Handdatei nimmt die Seiten 13343 und 14752 in 21778 auf', aufgenommeneSeiten[13343] === 21778 && aufgenommeneSeiten[14752] === 21778 && Object.keys(aufgenommeneSeiten).length === 2, aufgenommeneSeiten)
+console.log('\nEchte Datei: Kishibe Rohan, Flavors of Youth, Baki Hanma:')
+pruefe('die Handdatei nimmt 13343 und 14752 in 21778 auf', aufgenommeneSeiten[13343] === 21778 && aufgenommeneSeiten[14752] === 21778)
+pruefe('die Handdatei nimmt 13418 und 13419 in 101231 auf', aufgenommeneSeiten[13418] === 101231 && aufgenommeneSeiten[13419] === 101231)
+pruefe('die Handdatei nimmt 18616 in 146646 auf', aufgenommeneSeiten[18616] === 146646)
+pruefe('genau diese fünf Seiten gehen auf', Object.keys(aufgenommeneSeiten).length === 5, aufgenommeneSeiten)
 
 console.log('\nAnlegen der aniSearch-Zeilen (echte Einträge):')
 {
@@ -34,7 +37,11 @@ console.log('\nAnlegen der aniSearch-Zeilen (echte Einträge):')
   pruefe('steht 21778 im Bestand, haben die beiden Seiten keine Zeile', !mit.has(BASIS + 13343) && !mit.has(BASIS + 14752))
   const ohne = zeilen([])
   pruefe('Gegenprobe: ohne 21778 stehen beide Seiten als eigene Zeile da', ohne.has(BASIS + 13343) && ohne.has(BASIS + 14752))
-  pruefe('Gegenprobe: andere Seiten mit Deutsch bleiben (Flavors of Youth 13418)', mit.has(BASIS + 13418))
+  pruefe('Gegenprobe: andere Seiten mit Deutsch bleiben (Death Note Relight 5194)', mit.has(BASIS + 5194))
+  const flavors = zeilen([101231, 146646])
+  pruefe('stehen 101231 und 146646 im Bestand, haben 13418, 13419 und 18616 keine Zeile', !flavors.has(BASIS + 13418) && !flavors.has(BASIS + 13419) && !flavors.has(BASIS + 18616))
+  pruefe('Gegenprobe: nur 101231 im Bestand, bleibt 18616 eine Zeile', zeilen([101231]).has(BASIS + 18616) && !zeilen([101231]).has(BASIS + 13418))
+  pruefe('Gegenprobe: nur 146646 im Bestand, bleiben 13418 und 13419 Zeilen', zeilen([146646]).has(BASIS + 13418) && zeilen([146646]).has(BASIS + 13419) && !zeilen([146646]).has(BASIS + 18616))
 }
 
 console.log('\nBaue den Titel wirklich (baueTitel):')
