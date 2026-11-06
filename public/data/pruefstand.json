@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-11-06T18:26:38.689Z",
+ "erzeugtAm": "2026-11-06T23:08:18.948Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -437,8 +437,8 @@
    "name": "Netflix",
    "plattform": "netflix",
    "gemeldet": 773,
-   "gesamt": 1081,
-   "offen": 308,
+   "gesamt": 1082,
+   "offen": 309,
    "ohneSeite": 13,
    "ziel": "https://www.netflix.com/title/81608820",
    "ziele": [
@@ -469,6 +469,13 @@
     {
      "url": "https://www.netflix.com/title/82741721",
      "titel": "Atelier of Witch Hat"
+    },
+    {
+     "url": "https://www.netflix.com/title/82746480",
+     "titel": "Snowball Earth",
+     "staffeln": [
+      1
+     ]
     },
     {
      "url": "https://www.netflix.com/title/82058586",
@@ -1472,9 +1479,9 @@
   {
    "name": "Disney+",
    "plattform": "disneyplus",
-   "gemeldet": 180,
+   "gemeldet": 179,
    "gesamt": 347,
-   "offen": 167,
+   "offen": 168,
    "ohneSeite": 14,
    "ziel": "https://www.disneyplus.com/browse/entity-faa35b37-3287-4a7c-9d42-a3a5f9ad9185",
    "ziele": [
@@ -1507,6 +1514,11 @@
      "url": "https://www.disneyplus.com/browse/entity-f1bf2db1-d201-4c1f-8b4b-3e8cc79a85f6",
      "titel": "The Cleveland Show",
      "hinweis": "Staffeln unklar: TMDB zählt 88 Folgen insgesamt, der Anbieter kann sie anders schneiden"
+    },
+    {
+     "url": "https://www.disneyplus.com/de-de/series/bleach-thousand-year-blood-war/4Afet1Q421gy",
+     "titel": "Bleach: Thousand-Year Blood War",
+     "seit": "2026-11-07"
     },
     {
      "url": "https://www.disneyplus.com/browse/entity-b042544d-cd7d-40c6-9be4-db79666a1b51",

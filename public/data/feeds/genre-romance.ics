@@ -8,48 +8,6 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:cr-GT00383999@2026-10-30@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261030T160000Z
-DTEND:20261030T163000Z
-SUMMARY:Firefly Wedding – Folge 1/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/17358/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:tokyo-revengers-s3-disneyplus@2026-10-30@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261030T170000Z
-DTEND:20261030T173000Z
-SUMMARY:Tokyo Revengers: War of the Three Titans – Folge 5/13
-DESCRIPTION:Plattform: Disney+\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
- it voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom Anbiet
- er genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\
- nDetails: https://anime-kalender.de/t/15957/
-CATEGORIES:Disney+
-END:VEVENT
-BEGIN:VEVENT
-UID:2-5-dimensional-seduction-vol4@2026-10-30@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261030
-DTEND;VALUE=DATE:20261031
-SUMMARY:2.5 Dimensional Seduction – Vol. 4 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/16410/
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:dan-da-dan-s2-vol2-exklusiv@2026-10-30@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261030
-DTEND;VALUE=DATE:20261031
-SUMMARY:DAN DA DAN (Staffel 2) – Vol. 2 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/16434/
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2026-10-31@anime-kalender-d
  e
 DTSTAMP:20200101T000000Z
