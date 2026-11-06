@@ -20,7 +20,7 @@
   { "name":"gleichnamige: Format nicht geprüft", "aenderungen": [{"datei":"pipeline/lib/sammel-titel.ts","suche":"titel.filter((t) => formatPasst(name, t) && !(erste","ersetze":"titel.filter((t) => !(erste"}] },
   { "name":"gleichnamige: Titel mit Jahr gehen nicht vor (Rückfall immer)", "aenderungen": [{"datei":"pipeline/lib/sammel-titel.ts","suche":"return genau.length ? genau :","ersetze":"return"}] },
   { "name":"gleichnamige: Rückfall mit Jahr fehlt", "aenderungen": [{"datei":"pipeline/lib/sammel-titel.ts","suche":"return genau.length ? genau : mitName(","ersetze":"return genau.length ? genau : [].filter("}] },
-  { "name":"gleichnamige: Jahr nicht am Ende verankert", "aenderungen": [{"datei":"pipeline/lib/sammel-titel.ts","suche":"mitName((n) => /\\(\\d{4}\\)\\s*$/.test(n) &&","ersetze":"mitName((n) => /\\(\\d{4}\\)/.test(n) &&"}] },
+  { "name":"gleichnamige: Jahr nicht am Ende verankert", "aenderungen": [{"datei":"pipeline/lib/sammel-titel.ts","suche":"n.replace(/\\(\\d{4}\\)\\s*$/, '')","ersetze":"n.replace(/\\(\\d{4}\\)/, '')"}] },
   { "name": "eindeutigerAnfang: ein Wort genügt", "aenderungen": [{ "datei": "pipeline/lib/sammel-titel.ts", "suche": "frage.length < 2 ||", "ersetze": "frage.length < 1 ||" }] },
   { "name": "eindeutigerAnfang: drei Wörter nötig", "aenderungen": [{ "datei": "pipeline/lib/sammel-titel.ts", "suche": "frage.length < 2 ||", "ersetze": "frage.length < 4 ||" }] },
   { "name":"eindeutigerAnfang: Zusatz egal", "aenderungen": [{"datei":"pipeline/lib/sammel-titel.ts","suche":" || !ZUSATZ_ERSTER_TEIL.test(zusatz)","ersetze":""}] },
