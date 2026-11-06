@@ -44,7 +44,7 @@ import { ladePruefTitel } from './lib/pruef-titel.ts'
 import { OFFEN, PRUEFUNGEN_ABHAKEN, quittiereGemerkte } from './lib/spaeter-quittieren.ts'
 import { schalterOderAbbruch } from './lib/schalter.ts'
 import { folgenzahlIstBefund, schreibeAuffaelligkeiten, titelMitName, trifftNochZu, warnungsText } from './lib/meldungs-auffaelligkeiten.ts'
-import { ladeMeldungen, legeAbhakenAb } from './lib/meldungen-stapel.ts'
+import { ladeMeldungen, legeAbhakenAb, sperreAufPruefungen } from './lib/meldungen-stapel.ts'
 import { baueNachUrl } from './lib/nach-url.ts'
 
 const WORKER = process.env.LAUF_WORKER ?? 'https://newsletter.animekalender.workers.dev'
@@ -132,7 +132,7 @@ if (!antwort.ok) {
   }
   process.exit(1)
 }
-const { pruefungen } = (await antwort.json()) as { pruefungen: Pruefung[] }
+const { pruefungen, gesperrt } = sperreAufPruefungen(((await antwort.json()) as { pruefungen: Pruefung[] }).pruefungen)
 
 /*
   **Welche gti trägt die gemeldete Amazon-Seite?** (gti-Brücke, 17.09.2026)
@@ -159,7 +159,7 @@ const { pruefungen } = (await antwort.json()) as { pruefungen: Pruefung[] }
   }
 }
 
-if (!pruefungen.length) {
+if (!pruefungen.length && !gesperrt.length) {
   log('Keine neuen Prüfungen.')
   process.exit(0)
 }
@@ -378,7 +378,7 @@ const anbieterStruktur: Record<string, unknown> = existsSync(resolve(ROOT, 'data
 
 const ohneZuordnung: OhneZuordnung[] = []
 /** Kennungen der Meldungen, die wirklich eingetragen wurden. */
-const erledigteIds = new Set<number>()
+const erledigteIds = new Set<number>(gesperrt)
 
 /**
  * Die Staffeln hinter einer Anbieteradresse, in Ausstrahlungsreihenfolge.
@@ -1241,7 +1241,7 @@ if (!TROCKEN) {
   const { jetzt, neue } = schreibeAuffaelligkeiten(resolve(ROOT, 'data/meldungs-auffaelligkeiten.json'), auffaellig, heute, offen)
   if (process.env.GITHUB_ENV && neue.length) {
     const alt = process.env.DATEN_WARNUNG ? process.env.DATEN_WARNUNG + ' · ' : ''
-    appendFileSync(process.env.GITHUB_ENV, `DATEN_WARNUNG=${alt}${warnungsText(neue.length, jetzt.length)}\n`)
+    appendFileSync(process.env.GITHUB_ENV, `DATEN_WARNUNG=${alt}${warnungsText(neue.length, jetzt.length, neue)}\n`)
   }
 }
 if (TROCKEN) {

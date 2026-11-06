@@ -9,7 +9,7 @@ compatibility_date = "2025-05-01"
 # entscheidet der Worker über SEND_HOUR_BERLIN (tools/worker-digest-versand.test.ts
 # prüft, dass beide Stunden abgedeckt sind).
 [triggers]
-crons = ["0 * * * *", "0 5,6 * * *"]
+crons = ["0 * * * *", "0 5,6 * * *", "*/5 * * * *"]
 
 [[d1_databases]]
 binding = "DB"
