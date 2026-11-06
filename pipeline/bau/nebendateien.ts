@@ -27,6 +27,7 @@ import { mitArtikeldaten, type BelegGedaechtnis } from '../lib/beleg-lesung.ts'
 import { behalteLesetag, ladeAdnLesetage, mitLesetag, ohneFehlzuordnung } from './adn-lesetag.ts'
 import { keinAnimeFehler, keinAnimeVonHand } from './ohne-beleg.ts'
 import { ordneCartoonReihen } from './cartoon-reihen.ts'
+import { markiereCartoonReihenteile } from './reihenteil-markierung.ts'
 import { adnShowsLesen, ergaenzeAdnWege } from './cartoon-adn.ts'
 import { ergaenzeCartoonJoyn } from './cartoon-joyn.ts'
 import { setzeStaffeln, staffelnAusBelegen } from './cartoon-staffeln.ts'
@@ -196,6 +197,7 @@ export function schreibeCartoons(): void {
   kennzeichneCartoonJwSeiten(titel, belege)
   verteileWege(titel, jw, ungeprueft)
   ordneCartoonReihen(titel)
+  markiereCartoonReihenteile(titel)
   writeJson(`${OUT}/cartoons.json`, titel)
   log(`${titel.length} westliche Animationsserien geschrieben`)
 }

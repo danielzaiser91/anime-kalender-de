@@ -89,6 +89,7 @@ pipeline/check-cartoon-handliste-lauf.ts
 pipeline/check-cartoon-handliste.ts
 pipeline/check-cartoon-pruefregeln.ts
 pipeline/check-cartoon-reihen.ts
+pipeline/check-cartoon-reihenteil-bau.ts
 pipeline/check-cartoon-staffeln.ts
 pipeline/check-cartoon-ton.ts
 pipeline/check-cartoon-wege-falten-leer-lauf.ts
@@ -279,6 +280,7 @@ pipeline/check-kino-zuletzt.ts
 pipeline/check-kopf-menue.ts
 pipeline/check-kopfzeile-premiere.ts
 pipeline/check-laut-gleich.ts
+pipeline/check-lazy-rueckfall.ts
 pipeline/check-leere-liste.ts
 pipeline/check-leerer-kasten.ts
 pipeline/check-leerzeichen-gleich.ts
@@ -302,6 +304,7 @@ pipeline/check-messbelege-kalender.ts
 pipeline/check-minuten-takt.ts
 pipeline/check-motn-reihe.ts
 pipeline/check-motn-uebernahme.ts
+pipeline/check-nachlade-vorwaermen.ts
 pipeline/check-nebendateien-laufzeit.ts
 pipeline/check-nein-datum.ts
 pipeline/check-nein-handbeleg-abschluss.ts
@@ -427,6 +430,7 @@ pipeline/check-staffel-verdrahtung.ts
 pipeline/check-staffel-von-hand-ablauf.ts
 pipeline/check-staffel-von-hand.ts
 pipeline/check-staffelsumme.ts
+pipeline/check-staffelzaehlung.ts
 pipeline/check-stand-halten.ts
 pipeline/check-studio-archiv.ts
 pipeline/check-stuetzpunkt-ueberholt.ts
