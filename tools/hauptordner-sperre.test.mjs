@@ -307,8 +307,32 @@ frei(`G=${GIT_EXE}; "$G" pull --ff-only`, HAUPT, 'Variable, pull --ff-only')
 frei(`G=${GIT_EXE}; "$G" merge origin/main`, WT, 'Variable, merge im Worktree')
 frei(`G=${GIT_EXE}; cd ${WT} && "$G" merge origin/main`, HAUPT, 'Variable, cd in den Worktree')
 frei('X=foo; "$X" merge a', HAUPT, 'unbekannter Wert ohne git')
-frei('"$UNBEKANNT" merge a', HAUPT, 'unbekannte Variable bleibt frei')
 frei('G=git; G=ls; "$G" merge a', HAUPT, 'Variable später überschrieben')
+
+// Runde 1 (Prüfer PR 2990): Deklarationsvorsätze, eval/sh -c, nicht auflösbare Variable (fail-closed).
+for (const vorsatz of ['export', 'declare', 'declare -x', 'readonly', 'local', 'typeset']) {
+  gesperrt(`${vorsatz} G=git; "$G" merge x`, HAUPT, `A1 ${vorsatz}`)
+}
+gesperrt('export G=git H=ls; "$G" merge x', HAUPT, 'A1 export mit zwei Zuweisungen')
+frei('export G=ls; "$G" merge x', HAUPT, 'A1 export mit harmlosem Wert')
+gesperrt('G=git; eval "$G merge x"', HAUPT, 'A2 eval')
+gesperrt('G=git; sh -c "$G merge x"', HAUPT, 'A2 sh -c')
+gesperrt('G=git; bash -lc "\\"$G\\" merge x"', HAUPT, 'A2 bash -lc mit Anführungszeichen')
+frei('G=git; eval "$G status"', HAUPT, 'A2 eval, Lesebefehl')
+frei('G=git; sh -c "$G pull --ff-only"', HAUPT, 'A2 sh -c, pull --ff-only')
+gesperrt('G=$(command -v git); "$G" merge x', HAUPT, 'A3 command -v')
+gesperrt('G=$(which git); "$G" merge x', HAUPT, 'A3 which')
+gesperrt('G=`which git`; "$G" commit -m x', HAUPT, 'A3 Backticks')
+gesperrt('H=$G; "$H" merge x', HAUPT, 'A4 Weitergabe einer unbekannten Variable')
+gesperrt('G=git; H=$G; "$H" merge x', HAUPT, 'A4 Weitergabe einer bekannten Variable')
+gesperrt('"$UNBEKANNT" merge a', HAUPT, 'unbekannte Variable mit verbotenem Unterbefehl')
+gesperrt('A=1 "$X" push', HAUPT, 'unbekannte Variable nach Zuweisungsvorsatz')
+gesperrt('command "$X" reset --hard', HAUPT, 'unbekannte Variable nach command')
+frei('"$X" status', HAUPT, 'unbekannte Variable, Lesebefehl')
+frei('"$X" pull --ff-only', HAUPT, 'unbekannte Variable, pull --ff-only')
+frei('"$X" merge a', WT, 'unbekannte Variable im Worktree')
+frei('ls "$X" merge', HAUPT, 'Variable als Argument, nicht Programm')
+frei('G=$(command -v git); "$G" merge x', WT, 'A3 im Worktree')
 
 // Kaputtes JSON auf stdin: Prozess endet 0 ohne Ausgabe (fail-open).
 const kaputt = spawnSync(process.execPath, [hook], { input: '{kaputt', encoding: 'utf8' })
