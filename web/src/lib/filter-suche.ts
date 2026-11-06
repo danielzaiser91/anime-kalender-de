@@ -3,7 +3,7 @@
  *
  * Bei 38 Anbietern, 30 Genres und Dutzenden Keywords findet man eine Pille nur noch, wenn man
  * weiß, in welcher Gruppe sie steht. Drei eigene Suchfelder (Genre, Keyword, …) wären drei
- * Gründe, im falschen zu tippen; deshalb durchsucht **ein** Feld in der Klick-Modus-Zeile alle
+ * Gründe, im falschen zu tippen; deshalb durchsucht **ein** Feld oben im Filterfenster alle
  * Pillen und blendet aus, was nicht passt.
  *
  * Zwei Regeln, die Daniel vorgegeben hat:
