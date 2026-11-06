@@ -81,30 +81,30 @@ Reihenfolge ab hier: Jahr aufsteigend (vor 2010 zuerst), dann Kennung. Nr. zähl
 | 59 | 4991 | 1980 | Vier schöne Schwestern | Websuche am 06.11. gesperrt (DuckDuckGo/Brave), keine Disc belegbar; erneut prüfen |
 | 60 | 9575 | 1980 | Jakobus Nimmersatt | Websuche am 06.11. gesperrt (DuckDuckGo/Brave), keine Disc belegbar; erneut prüfen |
 
-## Block 4 (offen)
+## Block 4 (erledigt 06.11.2026): 1 Titel mit 6 Einträgen von 20
 
-| Nr | Kennung | Jahr | Titel | Format |
+| Nr | Kennung | Jahr | Titel | Befund (Quelle, 06.11.2026) |
 |---|---|---|---|---|
-| 61 | 2544 | 1981 | Familie Robinson | TV |
-| 62 | 3836 | 1981 | Belle und Sebastian | TV |
-| 63 | 1049 | 1982 | Goshu, der Cellist | MOVIE |
-| 64 | 2573 | 1982 | Lucy in Australien | TV |
-| 65 | 3609 | 1982 | Voltron: Verteidiger des Universums | TV |
-| 66 | 2231 | 1983 | Miyuki | TV |
-| 67 | 2568 | 1983 | Alle meine Freunde | TV |
-| 68 | 2612 | 1983 | Frau Pfeffertopf | TV_SHORT |
-| 69 | 3436 | 1983 | Gesucht, entdeckt, erfunden | TV |
-| 70 | 123147 | 1983 | Das Himmelsbuch | MOVIE |
-| 71 | 10021154 | 1983 | Das geflügelte Pferd | MOVIE |
-| 72 | 1333 | 1984 | Noozles | TV |
-| 73 | 2226 | 1984 | Familie Nikolaus | TV |
-| 74 | 2311 | 1984 | Jungle Boy, Kenia | MOVIE |
-| 75 | 3723 | 1984 | Koalabärchens Streifzüge | TV_SHORT |
-| 76 | 3812 | 1985 | Prinzessin Erdbeer | TV |
-| 77 | 3317 | 1986 | Die Sternenjäger | TV |
-| 78 | 4083 | 1986 | Micronauts | TV |
-| 79 | 6771 | 1986 | Abenteuer im Maulwurfsland | TV |
-| 80 | 2333 | 1987 | D’Artagnan und die drei Musketiere | TV |
+| 61 | 2544 | 1981 | Familie Robinson | OFDb (quicksearch + Filmseite, 06.11.2026) /film/80686: nur Free-/Pay-TV-Fassungen, keine Disc |
+| 62 | 3836 | 1981 | Belle und Sebastian | OFDb (quicksearch + Filmseite, 06.11.2026) /film/22227: nur französische Fassungen, keine deutsche Disc |
+| 63 | 1049 | 1982 | Goshu, der Cellist | nicht eingetragen (Zuordnung unsicher): OFDb /film/43004 führt DVD Picture Lake (Anja und die vier Jahreszeiten), EAN 807297107197, 26.10.2012; Fassungsseite „Fassung von Der Rote Korsar“, also Sammel-DVD ohne belegten Goshu-Inhalt |
+| 64 | 2573 | 1982 | Lucy in Australien | OFDb (quicksearch + Filmseite, 06.11.2026) /film/80695: 0 deutsche Fassungen |
+| 65 | 3609 | 1982 | Voltron: Verteidiger des Universums | **Einträge (6)**: Anime House, DVD Collection 1-6 (Folge 1-52), 31.03.2008 bis 29.04.2011, EAN 4260039672401/-418/-425/-432/-449, Collection 6 ohne EAN (OFDb /film/21465, Fassungen 263793/263795/263796/263799/309743/328560; 52 Folgen = Titel 3609) |
+| 66 | 2231 | 1983 | Miyuki | OFDb (quicksearch + Filmseite, 06.11.2026) /film/85635: 0 deutsche Fassungen (Treffer /film/76490 ohne Fassung) |
+| 67 | 2568 | 1983 | Alle meine Freunde | OFDb (quicksearch + Filmseite, 06.11.2026) /film/52037: nur US-Fassung, keine deutsche Disc |
+| 68 | 2612 | 1983 | Frau Pfeffertopf | OFDb (quicksearch + Filmseite, 06.11.2026) /film/99690: 0 Fassungen |
+| 69 | 3436 | 1983 | Gesucht, entdeckt, erfunden | OFDb (quicksearch + Filmseite, 06.11.2026) /film/142356: 0 Fassungen |
+| 70 | 123147 | 1983 | Das Himmelsbuch | OFDb (quicksearch + Filmseite, 06.11.2026): kein Titeltreffer (2 Suchwörter) |
+| 71 | 10021154 | 1983 | Das geflügelte Pferd | OFDb (quicksearch + Filmseite, 06.11.2026): kein Titeltreffer (2 Suchwörter) |
+| 72 | 1333 | 1984 | Noozles | OFDb (quicksearch + Filmseite, 06.11.2026) /film/103388: 0 Fassungen |
+| 73 | 2226 | 1984 | Familie Nikolaus | OFDb (quicksearch + Filmseite, 06.11.2026) /film/87164: 0 Fassungen |
+| 74 | 2311 | 1984 | Jungle Boy, Kenia | OFDb (quicksearch + Filmseite, 06.11.2026) /film/22212: nur Free-TV (RTL), keine Disc |
+| 75 | 3723 | 1984 | Koalabärchens Streifzüge | OFDb (quicksearch + Filmseite, 06.11.2026) /film/102965: 0 Fassungen |
+| 76 | 3812 | 1985 | Prinzessin Erdbeer | OFDb (quicksearch + Filmseite, 06.11.2026) /film/84091: 0 Fassungen |
+| 77 | 3317 | 1986 | Die Sternenjäger | OFDb (quicksearch + Filmseite, 06.11.2026) /film/101068: 0 deutsche Fassungen |
+| 78 | 4083 | 1986 | Micronauts | OFDb (quicksearch + Filmseite, 06.11.2026) /film/274715: 0 Fassungen |
+| 79 | 6771 | 1986 | Abenteuer im Maulwurfsland | OFDb (quicksearch + Filmseite, 06.11.2026) /film/294960: 0 Fassungen |
+| 80 | 2333 | 1987 | D’Artagnan und die drei Musketiere | OFDb (quicksearch + Filmseite, 06.11.2026) /film/22828: 0 Fassungen |
 
 ## Block 5 (offen)
 
