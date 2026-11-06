@@ -18,6 +18,7 @@ export const asAnbieter: Record<string, PlatformId> = {
   'adn-de': 'adn',
   adn: 'adn',
   'animation-digital-network-(de)': 'adn',
+  'anime-digital-network-(de)': 'adn',
   aniverse: 'primevideo',
   netflix: 'netflix',
   disneyplus: 'disneyplus',

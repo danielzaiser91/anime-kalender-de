@@ -15,6 +15,7 @@ import { amazonKanal, ergaenzeAboWege } from './bau/11-2-3-abo-wege.ts'
 
 const GEORGIE = 'https://www.amazon.de/dp/B0DMHSFLGQ'
 const UTENA = 'https://animationdigitalnetwork.com/de/video/1338'
+const UTENA2 = 'https://animationdigitalnetwork.com/de/video/1339'
 
 /** Kindprozess: Die Bau-Module werden erst nach dem Setzen von `AK_ROOT` geladen. */
 async function kind(): Promise<void> {
@@ -23,6 +24,7 @@ async function kind(): Promise<void> {
     const titles = new Map([
       [2542, { id: 2542, streams: [...vorab] }],
       [441, { id: 441, streams: [] }],
+      [442, { id: 442, streams: [] }],
     ])
     ergaenzeAnisearchWege({
       verweiseEntfernt: [],
@@ -32,6 +34,7 @@ async function kind(): Promise<void> {
       anisearch: {
         '2542': { streams: [{ provider: 'aniverse', url: `${GEORGIE}?tag=anisearch.de-21` }] },
         '441': { streams: [{ provider: 'animation-digital-network-(de)', url: UTENA }] },
+        '442': { streams: [{ provider: 'anime-digital-network-(de)', url: UTENA2 }] },
       } as never,
       belegFuer: () => undefined,
       linkBefunde: befunde,
@@ -110,6 +113,7 @@ if (process.argv[2] === '--kind') {
   pruefe('Kindprozess lief', r.status === 0 && Boolean(erg), { status: r.status, err: r.stderr.slice(-400) })
   const von = (art: string, id: number) => erg?.[art]?.find(([i]) => i === id)?.[1]
   pruefe('Utena (441): animation-digital-network-(de) → adn', JSON.stringify(von('mit', 441)) === JSON.stringify([`adn ${UTENA}`]), erg)
+  pruefe('Schreibweise anime-digital-network-(de) → adn', JSON.stringify(von('mit', 442)) === JSON.stringify([`adn ${UTENA2}`]), erg)
   pruefe('Georgie (2542): aniverse mit Prime-Befund → primevideo, ohne Parameter', JSON.stringify(von('mit', 2542)) === JSON.stringify([`primevideo ${GEORGIE}`]), erg)
   pruefe('Georgie ohne Prime-Befund: kein Weg (Disc-Schutz)', von('ohne', 2542)?.length === 0, erg)
   pruefe('Georgie mit vorhandenem Prime-Weg: keiner dazu', von('schon', 2542)?.length === 1, erg)
