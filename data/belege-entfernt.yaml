@@ -917,3 +917,7 @@
   url: https://www.amazon.de/gp/video/detail/0J822CL4BXX0ZX75E9JA1XCMND
   grund: 'Gleiche Amazon-Serienkennung (gti 76b69f3a, 12 Folgen) wie B07XYDCVFK = Mini Story Ivy (187053), nicht der Cartoon mit 62 Folgen'
   entferntAm: '2026-11-05'
+- anilistId: 130622
+  url: https://www.amazon.de/gp/video/detail/B0FX4Q35V2
+  grund: 'Seite hat eine Folge „The Birth of Kitaro: Das Geheimnis von GeGeGe“ (erschienen 18.11.2025, 105 min, polyband) = Shinsei-ban 2024 (10019697), nicht das Original von 2023'
+  entferntAm: '2026-11-04'

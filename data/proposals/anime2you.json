@@ -1,15 +1,72 @@
 {
-  "scrapedAt": "2026-11-05T04:13:07.749Z",
+  "scrapedAt": "2026-11-06T04:13:53.172Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 40,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 41,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 53,
-    "schon in einem Rubrik-Feed gelesen": 32,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 54,
+    "schon in einem Rubrik-Feed gelesen": 31,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 9,
     "Sprachhinweis älter als 45 Tage": 6
   },
   "proposals": [
+    {
+      "articleTitle": "Erster Trailer zum Netflix-Anime »Fool Night« + Visual",
+      "articleUrl": "https://www.anime2you.de/news/1067870/fool-night-netflix-erster-trailer/",
+      "publishedAt": "2026-11-05",
+      "category": "streaming",
+      "platforms": [
+        "netflix"
+      ],
+      "dates": [
+        {
+          "month": "2026-11",
+          "context": "n von »Fool Night« veröffentlicht. Das Video findet ihr weiter unten. Ab November 2026 »Fool Night« entsteht unter der Leitung von Regisseur"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Starttermin der vierten »Pokémon Horizonte«-Staffel auf TOGGO",
+      "articleUrl": "https://www.anime2you.de/news/1067953/pokemon-horizonte-staffel-4-toggo-start/",
+      "publishedAt": "2026-11-05",
+      "category": "allgemein",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-11-28",
+          "context": "it dem Titel »Pokémon Horizons – Wonders Ahead« ist demzufolge ab dem 28. November 2026 jeden Samstag […] Der Beitrag Starttermin der vier"
+        },
+        {
+          "month": "2026-11",
+          "context": "-Block startet. Wir fassen die Details nachfolgend für euch zusammen. Ab November 2026 Die vierte Staffel mit dem Titel »Pokémon Horizons –"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Deutscher Trailer zu »There’s No Freaking Way I’ll Be Your Lover! Unless…«",
+      "articleUrl": "https://www.anime2you.de/news/1068225/theres-no-freaking-way-ill-be-your-lover-unless-synchro-trailer/",
+      "publishedAt": "2026-11-05",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2026-11-19",
+          "context": "ng Way I’ll Be Your Lover! Unless…« erscheint nach aktuellem Stand am 19. November […] Der Beitrag Deutscher Trailer zu »There’s No Freaki"
+        },
+        {
+          "month": "2026-11",
+          "context": "utschen Synchro-Trailer veröffentlicht, den ihr unten findet. Release im November 2026 »There’s No Freaking Way I’ll Be Your Lover! Unless…«"
+        }
+      ],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Design der »Fate/stay night: Heaven’s Feel«-Komplettbox + Extras",
       "articleUrl": "https://www.anime2you.de/news/1067523/fate-stay-night-heavens-feel-komplettbox-design/",
@@ -763,7 +820,7 @@
           "folgen": 24
         }
       ],
-      "sammelGelesen": "2026-11-03"
+      "sammelGelesen": "2026-11-06"
     },
     {
       "articleTitle": "19,99 Euro pro Staffel: polyband startet große »Pokémon«-Rabattaktion",
@@ -1250,7 +1307,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-11-03"
+      "sammelGelesen": "2026-11-06"
     },
     {
       "articleTitle": "Crunchyroll ergänzt zwei weitere Anime-Neuzugänge auf Deutsch",
@@ -1817,7 +1874,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-11-03"
+      "sammelGelesen": "2026-11-06"
     },
     {
       "articleTitle": "ProSieben FUN zeigt »Akame ga KILL!« als Pay-TV-Premiere",
@@ -2048,7 +2105,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-11-03"
+      "sammelGelesen": "2026-11-06"
     },
     {
       "articleTitle": "Zwei Anime-Neuzugänge ab sofort auf Netflix verfügbar",
@@ -2136,7 +2193,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-02"
+      "sammelGelesen": "2026-11-06"
     },
     {
       "articleTitle": "Zehn neue Minifiguren zu »Lord of Mysteries« vorgestellt",
@@ -2571,7 +2628,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-11-03"
+      "sammelGelesen": "2026-11-06"
     },
     {
       "articleTitle": "Blu-ray-Design von »My Love Story with Yamada-kun at Lv999« + Extras",
@@ -7538,10 +7595,6 @@
         "kino"
       ],
       "dates": [
-        {
-          "iso": "2026-11-05",
-          "context": "in Japan am 3. November 2026 in die Kinos kommt, startet der Film am 5. November 2026 in Deutschland und der […] Der Beitrag Deutscher Ki"
-        },
         {
           "month": "2026-11",
           "context": "uch den deutschen Kinostart bestätigt. Wir fassen zusammen. Kinostart im November 2026 Während »Godzilla Minus Zero« in Japan am 3. November"

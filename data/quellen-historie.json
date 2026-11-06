@@ -3643,11 +3643,19 @@
   ],
   "auto-184591-disc": [
     {
+      "url": "https://www.anime2you.de/news/1068225/theres-no-freaking-way-ill-be-your-lover-unless-synchro-trailer/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-05",
+      "sagt": "2026-11-19",
+      "stand": "aktuell"
+    },
+    {
       "url": "https://www.anime2you.de/news/1043903/theres-no-freaking-way-ill-be-your-lover-unless-disc-termin/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-01",
       "sagt": "2026-10-22",
-      "stand": "aktuell"
+      "stand": "ueberholt",
+      "grund": "Termin verschoben auf: 2026-11-19"
     }
   ],
   "auto-1550-disc": [
@@ -6169,7 +6177,7 @@
       "url": "https://gw.api.animationdigitalnetwork.com/video/show/198",
       "name": "ADN API",
       "gesehenAm": "2026-10-29",
-      "stand": "aktuell",
+      "stand": "vermutlich-ueberholt",
       "gelesenAm": "2026-11-04",
       "bestaetigt": "2026-10-12"
     },
@@ -6183,8 +6191,8 @@
       "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
       "name": "ADN API",
       "gesehenAm": "2026-10-14",
-      "stand": "vermutlich-ueberholt",
-      "gelesenAm": "2026-10-28",
+      "stand": "aktuell",
+      "gelesenAm": "2026-11-06",
       "bestaetigt": "2026-10-12"
     },
     {
@@ -6199,7 +6207,7 @@
       "url": "https://gw.api.animationdigitalnetwork.com/video/show/352",
       "name": "ADN API",
       "gesehenAm": "2026-10-29",
-      "stand": "aktuell",
+      "stand": "vermutlich-ueberholt",
       "gelesenAm": "2026-11-04",
       "bestaetigt": "2026-10-12"
     },
@@ -6213,8 +6221,8 @@
       "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
       "name": "ADN API",
       "gesehenAm": "2026-10-14",
-      "stand": "vermutlich-ueberholt",
-      "gelesenAm": "2026-10-28",
+      "stand": "aktuell",
+      "gelesenAm": "2026-11-06",
       "bestaetigt": "2026-10-12"
     },
     {
@@ -6229,7 +6237,7 @@
       "url": "https://gw.api.animationdigitalnetwork.com/video/show/361",
       "name": "ADN API",
       "gesehenAm": "2026-10-29",
-      "stand": "aktuell",
+      "stand": "vermutlich-ueberholt",
       "gelesenAm": "2026-11-04",
       "bestaetigt": "2026-10-12"
     },
@@ -6243,8 +6251,8 @@
       "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
       "name": "ADN API",
       "gesehenAm": "2026-10-14",
-      "stand": "vermutlich-ueberholt",
-      "gelesenAm": "2026-10-28",
+      "stand": "aktuell",
+      "gelesenAm": "2026-11-06",
       "bestaetigt": "2026-10-12"
     },
     {
@@ -6607,7 +6615,7 @@
       "url": "https://gw.api.animationdigitalnetwork.com/video/show/197",
       "name": "ADN API",
       "gesehenAm": "2026-10-29",
-      "stand": "aktuell",
+      "stand": "vermutlich-ueberholt",
       "gelesenAm": "2026-11-04",
       "bestaetigt": "2026-10-12"
     },
@@ -6627,8 +6635,8 @@
       "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
       "name": "ADN API",
       "gesehenAm": "2026-10-08",
-      "stand": "vermutlich-ueberholt",
-      "gelesenAm": "2026-10-28",
+      "stand": "aktuell",
+      "gelesenAm": "2026-11-06",
       "bestaetigt": "2026-10-12"
     }
   ],
@@ -7573,7 +7581,7 @@
       "url": "https://gw.api.animationdigitalnetwork.com/video/show/887",
       "name": "ADN API",
       "gesehenAm": "2026-10-31",
-      "stand": "aktuell",
+      "stand": "vermutlich-ueberholt",
       "gelesenAm": "2026-11-04",
       "bestaetigt": "2026-10-17"
     },
@@ -7587,8 +7595,8 @@
       "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
       "name": "ADN API",
       "gesehenAm": "2026-10-16",
-      "stand": "vermutlich-ueberholt",
-      "gelesenAm": "2026-10-28",
+      "stand": "aktuell",
+      "gelesenAm": "2026-11-06",
       "bestaetigt": "2026-10-17"
     }
   ],
@@ -7612,7 +7620,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-17",
       "stand": "aktuell",
-      "gelesenAm": "2026-10-27",
+      "gelesenAm": "2026-11-06",
       "bestaetigt": "2026-10-29"
     }
   ],
@@ -7628,7 +7636,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-17",
       "stand": "aktuell",
-      "gelesenAm": "2026-10-27",
+      "gelesenAm": "2026-11-06",
       "bestaetigt": "2026-10-29"
     }
   ],
@@ -7637,7 +7645,7 @@
       "url": "https://gw.api.animationdigitalnetwork.com/video/show/1321",
       "name": "ADN API",
       "gesehenAm": "2026-11-05",
-      "stand": "aktuell",
+      "stand": "vermutlich-ueberholt",
       "gelesenAm": "2026-11-05",
       "bestaetigt": "2026-10-29"
     },
@@ -7651,8 +7659,8 @@
       "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
       "name": "ADN API",
       "gesehenAm": "2026-10-17",
-      "stand": "vermutlich-ueberholt",
-      "gelesenAm": "2026-10-27",
+      "stand": "aktuell",
+      "gelesenAm": "2026-11-06",
       "bestaetigt": "2026-10-29"
     }
   ],
@@ -7661,7 +7669,7 @@
       "url": "https://gw.api.animationdigitalnetwork.com/video/show/1318",
       "name": "ADN API",
       "gesehenAm": "2026-11-05",
-      "stand": "aktuell",
+      "stand": "vermutlich-ueberholt",
       "gelesenAm": "2026-11-05",
       "bestaetigt": "2026-10-29"
     },
@@ -7675,8 +7683,8 @@
       "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
       "name": "ADN API",
       "gesehenAm": "2026-10-17",
-      "stand": "vermutlich-ueberholt",
-      "gelesenAm": "2026-10-27",
+      "stand": "aktuell",
+      "gelesenAm": "2026-11-06",
       "bestaetigt": "2026-10-29"
     }
   ],
@@ -8485,6 +8493,33 @@
       "name": "anime2you.de",
       "gesehenAm": "2026-11-05",
       "sagt": "2026-11-04",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-5000001-joyn": [
+    {
+      "url": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-05",
+      "sagt": "2026-11-03",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-5000002-joyn": [
+    {
+      "url": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-05",
+      "sagt": "2026-11-03",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-5000003-primevideo": [
+    {
+      "url": "https://www.anime2you.de/news/1065078/aniverse-november-2026-neuzugaenge/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-05",
+      "sagt": "2026-11-01",
       "stand": "aktuell"
     }
   ]

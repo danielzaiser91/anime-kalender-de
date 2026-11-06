@@ -1,6 +1,19 @@
 {
   "vorschlaege": [
     {
+      "id": "20be1a9c69ec",
+      "host": "www.foolnight.com",
+      "titelIds": [
+        213457
+      ],
+      "titel": "Netflixシリーズ アニメ「フールナイト」配信記念！ストリート転花ピアノ展開催決定！",
+      "datum": "2026-11-05",
+      "url": "https://www.foolnight.com/news/detail.php?id=26878",
+      "sprache": "ja",
+      "kategorie": "termin",
+      "gefundenAm": "2026-11-05"
+    },
+    {
       "id": "1561e7a4c1a0",
       "host": "hyouken-anime.com",
       "titelIds": [
@@ -12,6 +25,19 @@
       "sprache": "ja",
       "kategorie": "staffel",
       "gefundenAm": "2026-11-03"
+    },
+    {
+      "id": "439ec37b7f7d",
+      "host": "tokyo-revengers-anime.com",
+      "titelIds": [
+        178083
+      ],
+      "titel": "株式会社インクルーズより、TVアニメ『東京リベンジャーズ』三天戦争編のLINE着せかえが配信決定！",
+      "datum": "2026-11-02",
+      "url": "https://tokyo-revengers-anime.com/news/archives/5183",
+      "sprache": "ja",
+      "kategorie": "termin",
+      "gefundenAm": "2026-11-05"
     },
     {
       "id": "805db4e1e6e9",

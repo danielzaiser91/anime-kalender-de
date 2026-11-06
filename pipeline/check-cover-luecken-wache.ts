@@ -60,7 +60,7 @@ pruefe('Prozess: 11 Lücken nennen zehn Kennungen und „…“', viele.out.incl
 const zehn = prozess('zehn', '{}', { '1': elf.slice(0, 10) }, [])
 pruefe('Prozess: genau 10 Lücken nennen alle ohne „…“', zehn.out.includes('10000010') && !zehn.out.includes('…'), zehn)
 const alt = prozess('alt', '{"1":"x"}', { '1': [{ id: 1, cover: bild }] }, [{ id: 1, coverImage: bild }])
-pruefe('Prozess: veralteter Listeneintrag endet mit Exit 0 und Warnzeile', alt.status === 0 && alt.out.includes('⚠ WARNUNG Cover: 1 Kennung') && !alt.out.includes('✓'), alt)
+pruefe('Prozess: veralteter Listeneintrag endet mit Exit 1, Zeile „✖ Cover: 1 Kennung“ und VERSTÖSSE: 1 auf stderr', alt.status === 1 && alt.err.includes('✖ Cover: 1 Kennung') && alt.err.includes('VERSTÖSSE: 1') && !alt.out.includes('✓'), alt)
 const fehlt = prozess('fehlt', null, {}, [])
 pruefe('Prozess: fehlende Liste endet mit Exit 1, Meldung auf stderr', fehlt.status === 1 && fehlt.err.includes('✖ Lückenliste') && fehlt.out === '', fehlt)
 const kaputt = prozess('kaputt', '{kaputt', {}, [])
