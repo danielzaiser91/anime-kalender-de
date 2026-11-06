@@ -13,7 +13,7 @@ import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { gzipSync } from 'node:zlib'
 import { ausgabeGehoertZu, kandidatenOrdnung, ordneZu, ordnungszahlen, titelOrdnung, verteileAusgaben, type DiscKandidat } from './lib/disc-zuordnung.ts'
-import { kandidatenJeKennung } from './extract-disc-ausgaben.ts'
+import { ausgabenAusHtml, formatAus, kandidatenJeKennung } from './extract-disc-ausgaben.ts'
 import type { Title } from '../shared/types.ts'
 
 let fehler = 0
@@ -114,6 +114,30 @@ const k = kandidatenJeKennung([titel(900011, 8001), titel(900012, 8001), titel(9
 pruefe('Kandidaten: titles.json-Kennung plus Besitzer', gleich(k.get(8001)!.map((x) => x.id).sort(), [900011, 900012, 900013]))
 pruefe('Kandidaten: eigene Kennung des Besitzers bleibt', gleich(k.get(8002)!.map((x) => x.id), [900013]))
 
+/* --- formatAus: Vol. N ohne /M und Komplettbox (Zeilen wörtlich aus dem Archiv) --- */
+const keine = new Set<string>()
+for (const e of ['Hamtaro: Kleine Hamster große Abenteuer - Vol. 03', 'El Hazard - Vol. 01: Collector’s Edition', 'Tenkai Knights - Vol. 06', 'Der kleine Prinz und seine Abenteuer - Vol. 01', 'Dr. Slump - Vol. 01 (Re-Release)']) {
+  pruefe(`DVD-Folge „${e}"`, formatAus(e, undefined, keine) === 'DVD', formatAus(e, undefined, keine))
+}
+for (const e of ['Futakoi - Character Song Series: Vol.04', 'Excel Saga - Original Soundtrack: Vol.02', 'Azur Lane - Character Song: Vol.02 - Laffey', 'New Game!!: Vocal Stage - Vol. 1', 'Smile Precure! - OST: Vol.01', 'Saki - Vol. 3 [eBook]']) {
+  pruefe(`Musik/eBook „${e}" bleibt draußen`, formatAus(e, e.includes('eBook') ? 'eBook' : undefined, keine) === null, formatAus(e, undefined, keine))
+}
+pruefe('Vol. ohne „ - " davor ist keine DVD-Folge', formatAus('Rozen Maiden Ouverture: Vol.01', undefined, keine) === null)
+pruefe('Komplettbox ohne Manga der Reihe ist eine Disc', formatAus('Hell’s Paradise - Komplettbox: Limited Edition', undefined, keine, new Set()) === 'DVD')
+pruefe('Komplettbox mit Manga-Band der Reihe bleibt draußen', formatAus('Given - Komplettbox', undefined, keine, new Set(['given'])) === null)
+pruefe('Komplettbox einer anderen Reihe zählt weiter', formatAus('Hell’s Paradise - Komplettbox: Limited Edition', undefined, keine, new Set(['given'])) === 'DVD')
+pruefe('Komplettbox ohne Kenntnis der Seite bleibt draußen', formatAus('Hell’s Paradise - Komplettbox: Limited Edition', undefined, keine) === null)
+pruefe('Komplettbox mit Bandangabe ist Manga', formatAus('Mashle: Magic and Muscles - Komplettbox: Bd. 01-18', undefined, keine, new Set()) === null)
+pruefe('Filmcomics-Box ist keine Disc', formatAus('Mein Nachbar Totoro: Filmcomics - Komplettbox', undefined, keine, new Set()) === null)
+const block = (datum: string, titel: string, nr: number, plakette = 'Blu-ray') =>
+  `<li class="merch1" data-date="${datum}">${plakette ? `<div class="rank">${plakette}</div>` : ''}<span class="title">${titel}</span><a data-href="article/${nr},x">x</a></li>`
+const seite = (bloecke: string[]) => `<html><section id="items"><ul>${bloecke.join('')}</ul></section></html>`
+const seiteGiven = (zeilen: string[]) => ausgabenAusHtml(seite(zeilen.map((z, i) => block('2025-10-07', z, 900040 + i, ''))))!
+const mitManga = seiteGiven(['Given - Komplettbox', 'Given - Bd. 09 [eBook]'])
+const ohneManga = seiteGiven(['Given - Komplettbox'])
+pruefe('Seite mit Manga-Band: die Komplettbox fällt heraus', mitManga.eigene.length === 0 && mitManga.verworfen === 2, mitManga)
+pruefe('Seite ohne Manga-Band: die Komplettbox bleibt', ohneManga.eigene.length === 1 && ohneManga.eigene[0]!.art === 'gesamt' && ohneManga.eigene[0]!.format === 'DVD', ohneManga)
+
 /* --- Prozess: main() über die ganze Kette gegen eine Kulisse --- */
 const wurzel = join(dirname(fileURLToPath(import.meta.url)), '..')
 const tsx = createRequire(join(wurzel, 'package.json')).resolve('tsx/cli')
@@ -122,14 +146,11 @@ const schreibe = (teile: string[], inhalt: string | Buffer) => {
   mkdirSync(dirname(join(kulisse, ...teile)), { recursive: true })
   writeFileSync(join(kulisse, ...teile), inhalt)
 }
-const block = (datum: string, titel: string, nr: number) =>
-  `<li class="merch1" data-date="${datum}"><div class="rank">Blu-ray</div><span class="title">${titel}</span><a data-href="article/${nr},x">x</a></li>`
-const seite = (bloecke: string[]) => `<html><section id="items"><ul>${bloecke.join('')}</ul></section></html>`
 schreibe(['data', 'anisearch-raw', '13597.html.gz'], gzipSync(seite([
   block('2023-10-20', 'Princess Principal: Crown Handler - Chapter 1&amp;2 [Blu-ray]', 900021),
   block('2026-09-04', 'Princess Principal - Komplettset + OVA 1+2 [Blu-ray]', 900022),
 ])))
-schreibe(['data', 'anisearch-raw', '13598.html.gz'], gzipSync(seite([block('2022-01-01', 'Eigenständig - Komplettset [Blu-ray]', 900023)])))
+schreibe(['data', 'anisearch-raw', '13598.html.gz'], gzipSync(seite([block('2022-01-01', 'Eigenständig - Komplettset [Blu-ray]', 900023), block('2022-01-02', 'Eigenständig - Vol. 1', 900024, '')])))
 schreibe(['data', 'anisearch.json'], JSON.stringify({ 900031: { anisearchId: 13598 } }))
 schreibe(['public', 'data', 'titles.json'], JSON.stringify([
   { id: 101595, titleEn: 'Princess Principal: ~Crown Handler~ 1', format: 'MOVIE', anisearchId: 13597 },
@@ -148,7 +169,7 @@ const raus = JSON.parse(readFileSync(join(kulisse, 'data', 'disc-ausgaben.json')
 pruefe('Prozess: Crown Handler 2 (nur über anisearchId) bekommt Chapter 1&2', raus['129759']?.length === 1 && raus['129759']![0]!.edition.includes('Chapter 1&2'), raus['129759'])
 pruefe('Prozess: Crown Handler 1 bekommt dieselbe Ausgabe mit Adresse', raus['101595']?.[0]?.url === 'https://www.anisearch.de/article/900021,x', raus['101595'])
 pruefe('Prozess: Crown Handler 3 bekommt nichts, auch nicht das unklare Komplettset', raus['137612'] === undefined)
-pruefe('Prozess: Besitzer aus anisearch.json bleibt wie bisher', raus['900031']?.length === 1)
+pruefe('Prozess: Besitzer aus anisearch.json bleibt wie bisher', raus['900031']?.length === 2)
 pruefe('Prozess: nichts sonst', Object.keys(raus).length === 3, Object.keys(raus))
 pruefe('Prozess: zählt Nicht-Zugeordnetes im Log', /nicht zugeordnet \(nicht eindeutig\): 1 Ausgaben, 1 Titel bleiben ohne: 137612/.test(lauf.stdout + lauf.stderr), lauf.stdout.slice(-400))
 rmSync(kulisse, { recursive: true, force: true })

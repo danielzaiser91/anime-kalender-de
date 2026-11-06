@@ -73,7 +73,22 @@ interface Ausgabe {
  * deshalb nur, wenn es einen Blu-ray-Zwilling gleichen Namens gibt oder der Name ein
  * Video-Merkmal trägt.
  */
-export function formatAus(edition: string, plakette: string | undefined, zwillinge: Set<string>): string | null {
+/** Die Reihe vor dem ersten „ - ": „Given - Bd. 09" → „given". */
+export const reiheAus = (edition: string): string => edition.split(' - ')[0]!.trim().toLowerCase()
+
+/**
+ * Zwei Schreibweisen ohne Trägerwort, die in den deutschen Disc-Zeilen trotzdem vorkommen (gemessen am 06.11.2026 über das ganze Archiv):
+ * „Name - Vol. 3" (320 Zeilen, deutsche DVD-Folgen; Musik trägt ein Wort davor: „Character Song: Vol.04", Manga heißt „Bd.")
+ * und „Komplettbox" — die gibt es auch für Manga („Given - Komplettbox" neben „Given - Bd. 09"), deshalb nur, wenn die Seite
+ * zur selben Reihe keinen Manga-Band führt.
+ */
+function dvdOhneTraegerwort(edition: string, mangaReihen: Set<string> | undefined): boolean {
+  if (/ - Vol\.\s*\d/i.test(edition)) return !/Vocal|Character|Charakter|Drama|Hörspiel/i.test(edition)
+  if (!/\bKomplettbox\b/i.test(edition) || /Comic/i.test(edition)) return false
+  return !!mangaReihen && !mangaReihen.has(reiheAus(edition))
+}
+
+export function formatAus(edition: string, plakette: string | undefined, zwillinge: Set<string>, mangaReihen?: Set<string>): string | null {
   if (plakette) {
     if (/UHD/i.test(plakette)) return '4K UHD'
     if (/Blu-?ray/i.test(plakette)) return 'Blu-ray'
@@ -87,6 +102,7 @@ export function formatAus(edition: string, plakette: string | undefined, zwillin
   }
   if (/\bBd\.|Figur|Modell|\bOST\b|Soundtrack|\bSongs?\b|Album|\bCD\b|\bED:|\bOP:|Artbook|Roman|Poster|Kalender|Nendoroid/i.test(edition)) return null
   if (zwillinge.has(edition)) return 'DVD'
+  if (dvdOhneTraegerwort(edition, mangaReihen)) return 'DVD'
   if (/\bVol\.\s*\d+\/\d+|\bBox\b|Gesamtausgabe|Komplettset|Complete|Collection|Staffel|\bDVD\b|Mediabook|Steelbook|Digipack/i.test(edition)) return 'DVD'
   return null
 }
@@ -140,6 +156,7 @@ export function ausgabenAusHtml(html: string): { eigene: Ausgabe[]; geprueft: nu
       edition: /<span class="title">([^<]*)</.exec(m[2]!)?.[1]?.trim().replace(/&amp;/g, '&') ?? '',
     }))
     .filter((b) => b.edition)
+  const mangaReihen = new Set(bloecke.filter((b) => /\bBd\./.test(b.edition)).map((b) => reiheAus(b.edition)))
   /* Namen, zu denen es eine „[Blu-ray]"-Fassung gibt — ihr Zwilling ohne Klammer ist die DVD. */
   const zwillinge = new Set(
     bloecke.filter((b) => /\s*\[Blu-?ray\]\s*$/i.test(b.edition)).map((b) => b.edition.replace(/\s*\[Blu-?ray\]\s*$/i, '')),
@@ -151,7 +168,7 @@ export function ausgabenAusHtml(html: string): { eigene: Ausgabe[]; geprueft: nu
       continue
     }
     const plakette = /<div class="rank">([^<]*)</.exec(block)?.[1]
-    const format = formatAus(edition, plakette, zwillinge) ?? (istBildtraeger(edition) ? 'DVD' : null)
+    const format = formatAus(edition, plakette, zwillinge, mangaReihen) ?? (istBildtraeger(edition) ? 'DVD' : null)
     if (!format) {
       verworfen++
       continue
