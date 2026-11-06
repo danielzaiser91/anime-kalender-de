@@ -44,6 +44,7 @@ import { fetchJson, log, readJson, sleep, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
 import { istUnplausibel } from './lib/justwatch-plausibel.ts'
 import { abweisungsZeile, nimmTreffer } from './lib/jw-kennung-fremd.ts'
+import { besterNamensTreffer, type NamensTreffer } from './lib/jw-namenstreffer.ts'
 import { todayIso } from '../shared/time.ts'
 import type { Title } from '../shared/types.ts'
 import { STAFFELN_ABFRAGE, staffelnVon, type Staffel, type StaffelRoh } from './lib/jw-staffeln.ts'
@@ -86,6 +87,8 @@ interface Befund {
   erstAm?: string
   /** Die letzte Suche fand den Titel nicht; die Angebote stammen von der Antwort davor. */
   verfehltAm?: string
+  /** Nur bei `ohneTreffer`: bester Namenstreffer mit abweichender TMDB-Kennung — gespeichert, nie zugeordnet (`lib/jw-namenstreffer.ts`). */
+  namenTreffer?: NamensTreffer
 }
 
 const SUCHE = `
@@ -162,14 +165,17 @@ async function suche(begriff: string): Promise<JwKnoten[]> {
  * Namen oder jenseits von Rang 5 (Clannad: Der Film, Baki 2, Digimon: Der Film). Bestätigt wird
  * weiter allein über die TMDB-Kennung — als Zeichenkette, JustWatch liefert sie als String.
  */
-async function sucheUeberNamen(t: Title, erwartet: number | string): Promise<JwKnoten | undefined> {
+async function sucheUeberNamen(t: Title, erwartet: number | string): Promise<{ treffer?: JwKnoten; naeherung?: NamensTreffer }> {
   const namen = [...new Set([t.titleDe, t.titleRomaji, t.titleEn].filter((n): n is string => Boolean(n)))]
+  const alle: JwKnoten[] = []
   for (const [i, name] of namen.entries()) {
     if (i) await sleep(PAUSE_MS)
-    const treffer = (await suche(name)).find((k) => String(k.content.externalIds?.tmdbId ?? '') === String(erwartet))
-    if (treffer) return treffer
+    const liste = await suche(name)
+    const treffer = liste.find((k) => String(k.content.externalIds?.tmdbId ?? '') === String(erwartet))
+    if (treffer) return { treffer }
+    alle.push(...liste)
   }
-  return undefined
+  return { naeherung: besterNamensTreffer(namen, alle, erwartet) }
 }
 
 /** Titel mit frischem Kino- oder Disc-Termin aus den veröffentlichten Terminen (`jw-frische.ts`). */
@@ -183,7 +189,7 @@ function frischeAusTermine(): Set<number> {
  * **Eine verfehlte Suche löscht keine gute Antwort** (17.09.2026). Die Suche geht über den Namen, und ihre Trefferliste
  * schwankt; ohne diesen Zweig verlor ein Titel bei einem Fehlgriff alle Angebote — und mit ihnen seine Wege im Kalender.
  */
-function verbucheFehlschlag(bestand: Record<string, Befund>, schluessel: string, erwartet: number | undefined): boolean {
+function verbucheFehlschlag(bestand: Record<string, Befund>, schluessel: string, erwartet: number | undefined, naeherung?: NamensTreffer): boolean {
   const vorher = bestand[schluessel]
   if (vorher && !vorher.ohneTreffer && vorher.jwId) {
     bestand[schluessel] = { ...vorher, geprueftAm: todayIso(), verfehltAm: todayIso() }
@@ -200,6 +206,7 @@ function verbucheFehlschlag(bestand: Record<string, Befund>, schluessel: string,
     ohneTreffer: true,
     tmdbId: erwartet,
     erstAm: vorher?.erstAm ?? todayIso(),
+    ...(naeherung ? { namenTreffer: naeherung } : {}),
   }
   return false
 }
@@ -298,14 +305,14 @@ async function main(): Promise<void> {
         sauber „0 zugeordnet, 0 Fehler" — der erste Probelauf am 07.09.2026 tat
         genau das, an fünf Titeln, deren Treffer JustWatch alle kannte.
       */
-      const gefunden = erwartet ? await sucheUeberNamen(t, erwartet) : undefined
+      const { treffer: gefunden, naeherung } = erwartet ? await sucheUeberNamen(t, erwartet) : { treffer: undefined, naeherung: undefined }
       /* Eine Kennung, die schon eine andere TMDB-Reihe hält, ist ein Fehlgriff von JustWatch (Spin-off auf Hauptserie). */
       const { treffer, halter } = nimmTreffer(bestand, String(t.id), gefunden, erwartet)
       if (halter) abgewiesen.push(`${t.titleDe || t.titleRomaji || t.titleEn} (${t.id}, Halter ${halter})`)
       sperrenInFolge = 0
       const vorher = bestand[String(t.id)]
       if (!treffer) {
-        if (verbucheFehlschlag(bestand, String(t.id), erwartet)) verfehlt++
+        if (verbucheFehlschlag(bestand, String(t.id), erwartet, naeherung)) verfehlt++
         else ohneTrefferNeu++
         continue
       }

@@ -12,6 +12,25 @@ import { beurteileAdnVerweis } from '../lib/adn-sprachen.ts'
 import { type AnisearchEintrag } from './01-quellen.ts'
 import type { AdnArchiv } from '../lib/adn-sprachen.ts'
 
+/** aniSearch-Anbieterkennung → unsere Plattform; was hier fehlt, legt keinen Weg an (Bilanz 06.11.2026: `animation-digital-network-(de)`, `aniverse` fehlten). */
+export const asAnbieter: Record<string, PlatformId> = {
+  crunchyroll: 'crunchyroll',
+  'adn-de': 'adn',
+  adn: 'adn',
+  'animation-digital-network-(de)': 'adn',
+  aniverse: 'primevideo',
+  netflix: 'netflix',
+  disneyplus: 'disneyplus',
+  youtube: 'youtube',
+  joyn: 'joyn',
+  'rtl-plus': 'rtlplus',
+  'prime-video': 'primevideo',
+  'amazon-de': 'primevideo',
+  'amazon-(de)': 'primevideo',
+  'primevideo-channel-crunchyroll-de': 'primevideo',
+  'primevideo-channel-aniverse-de': 'primevideo',
+}
+
 export function ergaenzeAnisearchWege({
   verweiseEntfernt,
   crDub,
@@ -86,21 +105,6 @@ export function ergaenzeAnisearchWege({
     Warteschlangen, die bisher an ihrer eigenen Lücke verhungert sind.
   */
   {
-    const asAnbieter: Record<string, PlatformId> = {
-      crunchyroll: 'crunchyroll',
-      'adn-de': 'adn',
-      adn: 'adn',
-      netflix: 'netflix',
-      disneyplus: 'disneyplus',
-      youtube: 'youtube',
-      joyn: 'joyn',
-      'rtl-plus': 'rtlplus',
-      'prime-video': 'primevideo',
-      'amazon-de': 'primevideo',
-      'amazon-(de)': 'primevideo',
-      'primevideo-channel-crunchyroll-de': 'primevideo',
-      'primevideo-channel-aniverse-de': 'primevideo',
-    }
     /** Adressen vergleichen sich nur ohne Protokoll, Parameter und Schrägstrich am Ende. */
     const adressKern = (u: string): string =>
       u
