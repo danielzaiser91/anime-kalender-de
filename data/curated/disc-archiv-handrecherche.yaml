@@ -1,0 +1,14 @@
+# Bereits erschienene deutsche Disc-Ausgaben, von Hand belegt (F107-Handrecherche, Daniel 06.11.2026).
+# Nur Titel ohne Eintrag im aniSearch-Archiv. Beleg ist je Eintrag eine Einzelseite (bluray-disc.de/OFDb), nur Fakten übernommen.
+# Ein Eintrag ohne `buyUrl` und ohne EAN bekommt vom Build die Amazon.de-Namenssuche; eine EAN steht nur, wo die Beleg-Seite sie nennt.
+
+- slug: der-koenig-der-affen-limited-deluxe-edition-2022-11-25
+  anilistId: 6855
+  titleDe: "Der König der Affen"
+  platform: disc
+  releaseType: disc
+  publisher: "Action Cult (MT Films, Vertrieb 375 Media)"
+  edition: "Aufruhr im Himmelspalast – Limited Deluxe Edition, Blu-ray + DVD"
+  note: "Deutsche Tonspur (DTS-HD MA 2.0 Mono), limitiert auf 1.000 Exemplare."
+  schedule: { firstEpisodeDate: "2022-11-25" }
+  sources: [https://bluray-disc.de/blu-ray-filme/174541-aufruhr_im_himmelspalast_limited_deluxe_edition_bluray_dvd]
