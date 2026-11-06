@@ -132,3 +132,12 @@ export function kanalOhneAussage(
 export function kanalJaAdressKerne(checks: DubCheck[]): Set<string> {
   return new Set(checks.filter((c) => c.kanalOhneBeleg && c.url && c.kanalMessung !== 'nein').map((c) => adressKern(c.url)))
 }
+
+/**
+ * Überholt eine jüngere Kanal-Messung mit Folgen ein älteres „nicht verfügbar“ derselben Adresse? Dann fällt nur `available: false` weg:
+ * Der Weg entsteht als Adressbeleg (🇩🇪 ?), nie als Synchro-Ja; ein `dub: false` in einer der Zeilen bleibt ein Nein.
+ */
+export function kanalJaUeberholtNein(alt: DubCheck, neu: DubCheck): boolean {
+  if (!neu.kanalOhneBeleg || neu.kanalMessung !== 'ja' || neu.available === false || neu.dub === false) return false
+  return alt.available === false && (alt.checkedAt ?? '') < (neu.checkedAt ?? '')
+}
