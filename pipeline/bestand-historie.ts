@@ -41,13 +41,14 @@ import { appendFileSync, existsSync, readFileSync, writeFileSync } from 'node:fs
 import { resolve } from 'node:path'
 import type { Title } from '../shared/types.ts'
 import { belegGruende, findeAuffaelliges, kanalTitelMenge, messen, type Kennzahlen, type LinkAbgaenge } from './lib/bestand-delta.ts'
+import { betroffeneZeilen, kuerzeZeilen } from './lib/bestand-betroffen.ts'
 import { bestandAusCommit, linkAbgaenge } from './lib/bestand-link-abgang.ts'
-import { type LinkBefund } from './lib/link-befund.ts'
+import { juengsteJeKern, type LinkBefund } from './lib/link-befund.ts'
 import { ladeVonHandBelegtAm } from './lib/verweise-von-hand.ts'
 import { ladeBelegeEntfernt } from './lib/belege-entfernt.ts'
 import { titelAusCommit, verschobeneTitel } from './lib/bestand-verschoben.ts'
 import { letzteGeltende, letzteVerwerfen } from './lib/historie-zeilen.ts'
-import { ladeHandbelege } from './lib/dub-confirmed.ts'
+import { adressKern, ladeHandbelege } from './lib/dub-confirmed.ts'
 import { ROOT } from './lib/util.ts'
 
 const DATEI = resolve(ROOT, 'data/bestand-historie.jsonl')
@@ -108,6 +109,18 @@ function linkAbgangSeitCommit(sinkt: boolean): LinkAbgaenge {
   return linkAbgaenge(bestandAusCommit(ROOT), titelJetzt(), lies<Record<string, LinkBefund>>('data/link-check.json', {}), hand)
 }
 
+/** Titel, Anbieter und Änderung hinter einem roten Befund (höchstens 20 Zeilen); gelesen wird nur bei Befund. */
+function betroffenSeitCommit(rot: boolean): string[] | undefined {
+  if (!rot) return undefined
+  const jeKern = juengsteJeKern(lies<Record<string, LinkBefund>>('data/link-check.json', {}))
+  const befundZu = (url: string) => {
+    const b = jeKern.get(adressKern(url))
+    return b ? `link-check: ${b.status} am ${b.geprueftAm ?? '?'}` : undefined
+  }
+  const zeilen = kuerzeZeilen(betroffeneZeilen(bestandAusCommit(ROOT), titelJetzt(), befundZu))
+  return zeilen.length ? zeilen : undefined
+}
+
 const dateiText = () => (existsSync(DATEI) ? readFileSync(DATEI, 'utf8') : '')
 
 /** Markiert die letzte Zeile des laufenden Laufs als verworfen; sonst bleibt die Datei, wie sie ist. */
@@ -145,6 +158,7 @@ if (!args.includes('--verwerfen')) {
       : null,
     auffaellig: auffaellig.length ? auffaellig : undefined,
     erklaert: erklaert.length ? erklaert : undefined,
+    betroffen: betroffenSeitCommit(!!vorher && auffaellig.length > 0),
   }
 
   appendFileSync(DATEI, JSON.stringify(zeile) + '\n')
