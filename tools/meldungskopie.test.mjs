@@ -12,7 +12,7 @@ import { dirname, join } from 'node:path'
 import { parse } from 'yaml'
 import { fileURLToPath } from 'node:url'
 import { TABELLEN, SCHEMA_ABFRAGE, baueKopie, exportArgumente, schemaArgumente, schemaAusJson } from './meldungskopie-bauen.mjs'
-import { STAND_MAX_STUNDEN, alterStunden, fuehreAus, fusszeile, istEinzeln } from './meldungskopie-abfrage.mjs'
+import { STAND_MAX_STUNDEN, alterStunden, fuehreAus, fusszeile, istEinzeln, laufe } from './meldungskopie-abfrage.mjs'
 import { ARTEFAKT, ARTEFAKT_DATEI, DATEINAME, WORKFLOW, holen, lokalerStand } from './meldungskopie-holen.mjs'
 import { entschluessle, verschluessle } from './meldungskopie-schluessel.mjs'
 import { mitFehlertext, wranglerAus, ziehen } from './meldungskopie-ziehen.mjs'
@@ -145,6 +145,19 @@ for (const leer of ['-- nur kommentar', '/* x */', '  ', ';', '-- a\n;']) {
   assert.throws(() => fuehreAus(basis, leer, jetzt), /Keine SQL-Anweisung/, leer)
 }
 assert.equal(fuehreAus(basis, "SELECT ';' AS x -- ende", jetzt).gesamt, 1)
+
+// Mehrere SELECT: `exec` zeigt keine Zeilen, die Fußzeile sagt es (Bauer 2448).
+const zweiSelects = fuehreAus(basis, 'SELECT 1; SELECT 2', jetzt)
+assert.deepEqual([zweiSelects.art, zweiSelects.verworfeneSelects], ['aenderung', 2])
+assert.match(fusszeile(zweiSelects), /HINWEIS: 2 SELECT zeigen bei mehreren Anweisungen keine Zeilen/)
+assert.doesNotMatch(fusszeile(update), /HINWEIS/)
+assert.equal(fuehreAus(basis, "SELECT ';' AS x; DELETE FROM prime_folge WHERE id = 99", jetzt).verworfeneSelects, 1)
+// `laufe` ohne Kopie-Datei: Kommentar mit `;` und SELECT-Wort im Text zählt nicht (Prüfer 2448).
+const speicher = new DatabaseSync(':memory:')
+for (const t of TABELLEN) speicher.exec(`CREATE TABLE ${t} (x)`)
+assert.equal(laufe(speicher, 'SELECT 1 AS x', 5).art, 'zeilen')
+assert.equal(laufe(speicher, "-- select; nichts\nINSERT INTO pruefung (x) VALUES ('select; 1')", 5).verworfeneSelects, 0)
+speicher.close()
 
 /* ---- Stand: 36 Stunden sind noch frisch, danach steht die Warnung in der Fußzeile ---- */
 const alt = (stunden) => fuehreAus(basis, 'SELECT 1 AS x', new Date(Date.parse(stand) + stunden * 3_600_000))
