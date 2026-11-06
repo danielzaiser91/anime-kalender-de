@@ -637,7 +637,7 @@ function ergebnis() {
   */
   pruefe(
     'gesperrte Folgen zählen im Knopftext als gelesen',
-    /geladen \+ gesperrtZahl < gesamtFolgen/.test(readFileSync('extension/amazon.js', 'utf8')),
+    /geladen \+ gesperrtZahl < gesamtFolgen/.test(readFileSync('extension/amazon-knopf-zeichnen.js', 'utf8')),
   )
   pruefe(
     'und die gesperrten gelten nicht als „ohne Deutsch"',

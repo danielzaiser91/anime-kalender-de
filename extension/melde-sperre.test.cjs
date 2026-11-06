@@ -315,7 +315,7 @@ console.log('Melde-Knopf: Sperre nach angekommener Meldung\n')
   pruefe('zwischen Abhaken und Vermerk steht nur Kommentar, nichts, was den Vermerk überspringt',
     erfolg > 0 && vermerk > erfolg && zwischen.replace(/\/\*[\s\S]*?\*\//g, '').trim() === '', zwischen)
   /* Die Marke „alles durch" (`gemeldetMarke(an, …)`) hängt an `durchFuerPfad`, nicht an einer Konstanten. */
-  pruefe('die Marke folgt der Sperre und dem Pfad-Merker', quelle.includes('const an = meldeSperre.gesperrt() || durchFuerPfad === location.pathname'))
+  pruefe('die Marke folgt der Sperre und dem Pfad-Merker', lies('amazon-knopf-zeichnen.js').includes('const an = meldeSperre.gesperrt() || durchFuerPfad === location.pathname'))
   pruefe('genau ein Vermerk und kein zweiter Weg zur Marke', (quelle.match(/meldeSperre\.vermerken\(/g) ?? []).length === 1)
   pruefe('zeichnen() läuft über die Sperre', /function zeichnen\(\) \{\s*meldeSperre\.zeichnen\(\)\s*\}/.test(quelle))
 }
