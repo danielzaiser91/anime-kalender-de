@@ -91,6 +91,7 @@ pipeline/check-cartoon-pruefregeln.ts
 pipeline/check-cartoon-reihen.ts
 pipeline/check-cartoon-staffeln.ts
 pipeline/check-cartoon-ton.ts
+pipeline/check-cartoon-wege-falten-leer-lauf.ts
 pipeline/check-cartoon-wege-falten.ts
 pipeline/check-cartoon-wege.ts
 pipeline/check-cartoon-zwilling.ts
