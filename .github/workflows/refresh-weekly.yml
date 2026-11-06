@@ -109,6 +109,7 @@ jobs:
       - name: Fehlschläge auswerten
         id: auswerten
         if: always()
+        continue-on-error: true
         run: bash tools/schritte-auswerten.sh
 
   # --- ADN: teilt AniList (Suche je Treffer), deshalb erst nach dem AniList-Job ---------------------------------------
@@ -156,6 +157,7 @@ jobs:
       - name: Fehlschläge auswerten
         id: auswerten
         if: always()
+        continue-on-error: true
         run: bash tools/schritte-auswerten.sh
 
   # --- Crunchyroll ----------------------------------------------------------------------------------------------------
@@ -204,6 +206,7 @@ jobs:
       - name: Fehlschläge auswerten
         id: auswerten
         if: always()
+        continue-on-error: true
         run: bash tools/schritte-auswerten.sh
 
   # --- aniSearch: ein Server, sechs Sekunden je Seite — nie zwei Läufe zugleich (Sperre `anisearch`) ----------------------
@@ -257,6 +260,7 @@ jobs:
       - name: Fehlschläge auswerten
         id: auswerten
         if: always()
+        continue-on-error: true
         run: bash tools/schritte-auswerten.sh
 
   # --- TMDB → JustWatch → Gegenprobe (jeder Schritt braucht die `tmdbId` aus dem davor) ------------------------------------
@@ -350,6 +354,7 @@ jobs:
       - name: Fehlschläge auswerten
         id: auswerten
         if: always()
+        continue-on-error: true
         run: bash tools/schritte-auswerten.sh
 
   # --- RTL+: Katalog liefert die Adressen für die Folgen; die Link-Prüfung teilt sich den Server ----------------------------
@@ -395,6 +400,7 @@ jobs:
       - name: Fehlschläge auswerten
         id: auswerten
         if: always()
+        continue-on-error: true
         run: bash tools/schritte-auswerten.sh
 
   # --- Übrige kleine Quellen (je ein Server, wenige Abfragen) ----------------------------------------------------------
@@ -464,6 +470,7 @@ jobs:
       - name: Fehlschläge auswerten
         id: auswerten
         if: always()
+        continue-on-error: true
         run: bash tools/schritte-auswerten.sh
 
   # --- Abschluss: Statusanzeige und Discord -----------------------------------------------------------------------------

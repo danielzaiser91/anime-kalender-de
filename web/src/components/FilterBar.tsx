@@ -10,7 +10,7 @@ import { AktiveFilter } from './kalender/AktiveFilter.tsx'
  *
  * **Dieselbe Ansicht wie im Kalender**: Der Zustandsstreifen
  * steht sichtbar über dem Knopf, und das Feld öffnet genau die Filter, die auch
- * Woche und Monat zeigen — Klick-Modus in eigener Zeile, betroffene Filter im
+ * Woche und Monat zeigen — Suchfeld oben, betroffene Filter im
  * Kasten, der Rest hinter „mehr Filter". Gesucht wird seit dem 26.09.2026 im
  * Kopf der Seite.
  */

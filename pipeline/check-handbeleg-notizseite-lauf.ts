@@ -37,8 +37,8 @@ function lauf(titel: object[], yamlText: string): { status: number | null; aus: 
   }
 }
 
-const altfall = lauf([{ id: 14967, streams: [weg('B09JV7CC61')] }], block(10719, 'B09JV7CC61'))
-pruefe('Altfall (Haganai) in der Ratsche: Exit 0 und Zähler', altfall.status === 0 && /1 Treffer, davon 1 Altfälle/.test(altfall.aus), altfall)
+const altfall = lauf([{ id: 900011, streams: [weg('B0CJC11GRB')] }], block(108511, 'B0CJC11GRB'))
+pruefe('Altfall (108511) in der Ratsche: Exit 0 und Zähler', altfall.status === 0 && /1 Treffer, davon 1 Altfälle/.test(altfall.aus), altfall)
 
 const neu = lauf([{ id: 900011, streams: [weg('B0NEU00001')] }], block(900010, 'B0NEU00001'))
 pruefe('Neuer Treffer: Exit 1 mit Schlüssel im Text', neu.status === 1 && neu.aus.includes('900010@B0NEU00001'), neu)

@@ -143,10 +143,6 @@
   grund: 'Seite hat 13 Folgen (Rondo of Princesses mit OVA, 3712), ein Film hat keine 13 Folgen; Summer Ghost hat B0B8NF5X8N (Fehlablage, 29.10.2026)'
   entferntAm: '2026-10-29'
 - anilistId: 20605
-  url: https://www.amazon.de/gp/video/detail/B0GVJFZD1W
-  grund: 'Amazon-Seite gehört Tokyo Ghoul:re, nicht Staffel 1 (Seitensperre, 20.10.2026)'
-  entferntAm: '2026-10-20'
-- anilistId: 20605
   url: https://www.amazon.de/gp/video/detail/B0D188KVH4
   grund: 'Amazon-Seite gehört Tokyo Ghoul:re, nicht Staffel 1 (#1612)'
   entferntAm: '2026-10-20'
@@ -908,4 +904,8 @@
 - anilistId: 10012621
   url: https://www.amazon.de/gp/video/detail/B0DJ4FCM5H
   grund: 'Seite hat eine Folge „Prinz Ribbit“ (89 min, Film) = Prinz Ribbit: Ein Frosch auf Umwegen! (10011569), nicht die Serie Super Wings'
+  entferntAm: '2026-11-04'
+- anilistId: 130622
+  url: https://www.amazon.de/gp/video/detail/B0FX4Q35V2
+  grund: 'Seite hat eine Folge „The Birth of Kitaro: Das Geheimnis von GeGeGe“ (erschienen 18.11.2025, 105 min, polyband) = Shinsei-ban 2024 (10019697), nicht das Original von 2023'
   entferntAm: '2026-11-04'

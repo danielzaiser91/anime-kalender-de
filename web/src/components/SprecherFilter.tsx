@@ -210,7 +210,7 @@ function Vorschlagsliste({ t, id, v, aktiv, zuKurz, waehlen }: { t: Translate; i
  * „mit" und „ohne" umschaltet. Verknüpfung siehe `SprecherAuswahl`. Die Vorschläge stehen im Fluss der Seite statt als
  * Schwebefenster, weil das Filterfeld selbst scrollt und ein Schwebefenster dort abgeschnitten würde.
  */
-export function SprecherFilter({ filters, onChange, mode }: { filters: FilterState; onChange: (next: FilterState) => void; mode: 'include' | 'exclude' }) {
+export function SprecherFilter({ filters, onChange }: { filters: FilterState; onChange: (next: FilterState) => void }) {
   const { t } = useLang()
   const listenId = useId()
   const [eingabe, setEingabe] = useState('')
@@ -222,7 +222,7 @@ export function SprecherFilter({ filters, onChange, mode }: { filters: FilterSta
   useEffect(() => setAktiv(0), [v.anfrage])
 
   const waehlen = (name: string) => {
-    onChange(toggleFilter(filters, 'sprecher', name, mode))
+    onChange(toggleFilter(filters, 'sprecher', name, 'include'))
     setEingabe('')
   }
   const taste = (e: KeyboardEvent<HTMLInputElement>) => {
