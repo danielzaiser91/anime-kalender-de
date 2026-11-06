@@ -335,6 +335,8 @@ function neinOhneAdresseUeberholt(a: AdressUrteil, alle: AdressUrteil[]): boolea
  * Das Nein gilt der ganzen Plattform (`dubKey`), wenn es keine Adresse trägt oder die Plattform keine Ausgabe mit Ja führt: Eine neue Adresse
  * kann dieselbe Ausgabe in anderer Schreibweise sein (JustWatch-gti statt ASIN). Erst eine belegte zweite Ausgabe (ein Ja mit eigener Adresse) beschränkt es auf seine Adresse
  * (`dubKey|adressKern`; Digimon 552 bei Prime: B0CGRJGJX1 ja, Crunchyroll-Kanal B0CHHNJJW3 nein). Abgefragt wird mit `wegVerneint`.
+ * Ein Nein ohne Adresse gilt nur, solange die Plattform kein **jüngeres** Ja an einer echten Adresse hat (`neinOhneAdresseUeberholt`; gleiches Datum: das Nein gilt):
+ * Dieselbe Messung stand oft einmal ohne und einmal mit Adresse in der Datei, und das Ja der Adresse löste nur die Kopie mit Adresse ab (Stand 06.11.2026: 7 Schlüssel).
  * Widersprechen sich Ja und Nein derselben Adresse, gilt das jüngere (`juengstesUrteil`, gesetzt von `verschmelze`).
  * Such-, Start- und Länderseiten (`istSammelKern`) sind keine Ausgabe: Ihr Ja belegt keine zweite, ihr Nein gilt der ganzen Plattform
  * und entfällt, sobald der Titel dort ein Ja an echter Adresse hat (eine Suche, die ihn nicht zeigt, widerlegt die Seite nicht; Jormungand: Perfect Order, 13331).

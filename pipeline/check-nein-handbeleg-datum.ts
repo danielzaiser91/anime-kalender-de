@@ -103,6 +103,11 @@ try {
   pruefe('Nein ohne Adresse, jüngeres Ja an der Suche: Nein gilt (Suche ist keine Ausgabe)', sperrt([neinOA(35, '2026-08-22'), beleg(35, SUCHE, '2026-10-10', '  dub: true\n')], 35, FREMD))
   pruefe('Nein ohne Adresse, Ja mit Adresse nur bei einem anderen Titel: Nein gilt', sperrt([neinOA(36, '2026-08-22'), jaMitAdr(37, '2026-10-10')], 36, FREMD))
   pruefe('zwei Nein ohne Adresse (01.09., 20.09.), Ja mit Adresse dazwischen (10.09.): das jüngste Nein gilt', sperrt([neinOA(38, '2026-09-01'), jaMitAdr(38, '2026-09-10'), neinOA(38, '2026-09-20')], 38, FREMD))
+  /* Rohzeilen (ohne Verschmelzung): das jüngste der Nein ohne Adresse zählt, gleich in welcher Reihenfolge sie stehen. */
+  const rohNein = (d: string) => ({ anilistId: 41, platform: 'primevideo' as const, dub: false, checkedAt: d })
+  const rohJa = { anilistId: 41, platform: 'primevideo' as const, url: JA_ADR, dub: true, checkedAt: '2026-09-10' }
+  pruefe('Rohzeilen: Nein 20.09., Nein 01.09., Ja mit Adresse 10.09.: Nein gilt', wegVerneint(neinHandbelege([rohNein('2026-09-20'), rohNein('2026-09-01'), rohJa]), 41, 'primevideo', FREMD))
+  pruefe('Rohzeilen: Nein 01.09., Nein 20.09., Ja mit Adresse 10.09.: Nein gilt', wegVerneint(neinHandbelege([rohNein('2026-09-01'), rohNein('2026-09-20'), rohJa]), 41, 'primevideo', FREMD))
   const mitAdresse = (id: number) => beleg(id, JA_ADR, '2026-08-22', '  dub: false\n')
   const anlass = [neinOA(39, '2026-08-22'), mitAdresse(39), jaMitAdr(39, '2026-10-10')]
   pruefe('Anlassfall: dasselbe Nein mit und ohne Adresse (22.08.), Ja mit Adresse (10.10.): kein Nein', !sperrt(anlass, 39, FREMD) && !sperrt(anlass, 39, JA_ADR))
