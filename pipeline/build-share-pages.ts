@@ -79,7 +79,7 @@ function main(): void {
   // durchweg deutschen Seite hilft weder dem Leser noch der Suche.
   const ROOT_TAG = '<div id="root"></div>'
   if (!before.includes(ROOT_TAG) && !after.includes(ROOT_TAG)) {
-    console.error('build-share-pages: <div id="root"></div> nicht gefunden — Vorlage geändert?')
+    console.error('build-share-pages: <div id="root"></div> nicht gefunden — dist/ ist schon verarbeitet (oder die Vorlage geändert): erst `vite build` neu')
     process.exit(1)
   }
 
