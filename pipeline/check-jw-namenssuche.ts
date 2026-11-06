@@ -79,6 +79,7 @@ pruefe('ONA mit 12 Folgen gegen Film → keiner', waehleKnoten({ ...serie, forma
 pruefe('TV_SHORT mit 12 Folgen gegen Film → keiner', waehleKnoten({ ...serie, format: 'TV_SHORT' } as Title, [knoten('f', 'MOVIE', 'Beispiel', 2020)], keine).art === 'keiner')
 pruefe('Serie mit 2 Folgen gegen Film → keiner', waehleKnoten({ ...serie, episodes: 2 } as Title, [knoten('f', 'MOVIE', 'Beispiel', 2020)], keine).art === 'keiner')
 pruefe('Jahr: es genügt eines von mehreren (jpYear 2023, deutsche Erstausgabe 2020)', waehleKnoten({ ...serie, jpYear: 2023, deErstausgabe: { von: '2020-01-01', synchro: true } } as Title, [knoten('s', 'SHOW', 'Beispiel', 2020)], keine).art === 'treffer')
+pruefe('Serie ohne Folgenzahl lässt beides zu (nichts behaupten, was nicht belegt ist)', waehleKnoten({ ...serie, episodes: undefined } as Title, [knoten('f', 'MOVIE', 'Beispiel', 2020)], keine).art === 'treffer')
 pruefe('Serie mit 1 Folge lässt beides zu (Film oder Serie)', waehleKnoten({ ...serie, episodes: 1 } as Title, [knoten('f', 'MOVIE', 'Beispiel', 2020)], keine).art === 'treffer')
 pruefe('OVA lässt beides zu', waehleKnoten({ ...serie, format: 'OVA', episodes: 3 } as Title, [knoten('f', 'MOVIE', 'Beispiel', 2020)], keine).art === 'treffer')
 pruefe('Name aus Romaji genügt', waehleKnoten({ titleRomaji: 'Beispiel', format: 'TV', episodes: 12, jpYear: 2020 } as Title, [knoten('s', 'SHOW', 'beispiel', 2020)], keine).art === 'treffer')
