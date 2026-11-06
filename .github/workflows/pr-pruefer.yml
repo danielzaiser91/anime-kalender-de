@@ -415,6 +415,7 @@ jobs:
           fi
           urteil=$(node -e 'const u=JSON.parse(require("fs").readFileSync(process.argv[1],"utf8"));console.log(u.urteil+" "+u.sha)' "$T/urteil.json") || { echo "::error::urteil.json unlesbar - keine Freigabe."; exit 1; }
           art=${urteil% *}; sha=${urteil#* }
+          art0=$art
           if [ "$DIFF_ZUSTAND" != "ok" ] && [ "$art" = "ok" ]; then
             echo "Diff unvollständig - Urteil ok wird zu aendern."
             art=aendern
@@ -422,13 +423,23 @@ jobs:
           fi
           if grep -qE 'gh[spuor]_[A-Za-z0-9]|github_pat_|x-access-token' "$T/protokoll.md" || grep -qF -- "$GH_TOKEN" "$T/protokoll.md"; then
             echo "Token-Muster im Protokoll - Protokoll verworfen, Urteil aendern."
+            art0=verworfen
             art=aendern
             printf 'Das Protokoll enthielt ein Token-Muster und wurde verworfen. Der Lauf ist als Fehlerfall zu behandeln (Prompt-Injektion vermutet).\n' > "$T/protokoll.md"
+          fi
+          # Kette beim Urteil noch offen (PRs 2953, 2820: „aendern“ nur deshalb, ohne Codeänderung danach „ok“): kein Review,
+          # sondern „nicht beurteilt“ mit Marke; tools/pr-pruefer-nach-kette.mjs startet den Prüfer nach Kettenende neu.
+          # Nur ein echtes Prüfer-„aendern“ bei vollständigem Diff; Überschreibungen (Diff, Token) bleiben „aendern“.
+          if [ "$art" = "aendern" ] && [ "$art0" = "aendern" ] && [ "$DIFF_ZUSTAND" = "ok" ] && node tools/pr-pruefer-kette-offen.mjs "$T/kettenlog.txt"; then
+            art=offen
+            { printf 'Die PR-Prüfkette lief beim Urteil noch; die Befunde unten sind nicht belegt. Der Prüfer startet nach Kettenende von selbst neu.\n\n'; cat "$T/protokoll.md"; } > "$T/protokoll.neu"
+            mv "$T/protokoll.neu" "$T/protokoll.md"
           fi
           titel="$art"
           if [ "$art" = "ok" ] && [ "${CHECKS:-}" != "gruen" ]; then
             titel="ok, ${CHECKS:-Checks-Stand unbekannt}"
           fi
+          if [ "$art" = "offen" ]; then titel="nicht beurteilt, Kette lief noch"; fi
           # Abnahme-Modus: "aendern" sperrt nur, solange es frei ist (Prüfstufe 2, einmal); sonst bleibt es bei einem Kommentar ohne Review, der Dirigent entscheidet.
           modus=voll
           if [ "${MODUS:-}" = "abnahme" ]; then modus=abnahme; fi
@@ -447,11 +458,14 @@ jobs:
             echo
             if [ "$modus" = "abnahme" ]; then echo "Abnahme-Modus: nur die Auflagen der ersten Runde und Regressionen im Nachtrag, keine neuen Funde."; fi
             cat "$T/protokoll.md"
+            if [ "$art" = "offen" ]; then printf '\n<!-- pruefer-kette-offen -->\n'; fi
             printf '\n<!-- pruefer-modus: %s -->\n' "$modus"
           } > "$T/kommentar.md"
           gh pr comment "$PR" --repo "$GITHUB_REPOSITORY" --body-file "$T/kommentar.md"
           if [ "$offen" = "1" ]; then
             echo "Abnahme: Auflagen offen, kein Review (Dirigent entscheidet)."
+          elif [ "$art" = "offen" ]; then
+            echo "Kette beim Urteil noch offen: nicht beurteilt, kein Review; Neustart nach Kettenende (pr-pruefer-nachtrag.yml)."
           elif [ "$art" = "ok" ]; then
             gh pr review "$PR" --repo "$GITHUB_REPOSITORY" --approve --body "Urteil: $titel. Prüfprotokoll steht als Kommentar (Stand ${HEAD_SHA:0:9})."
           else
