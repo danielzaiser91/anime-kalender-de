@@ -33,9 +33,10 @@ try {
   if (!lauf.stderr.includes('erst `vite build` neu')) fehler.push('Handlungsanweisung fehlt')
   if (fehler.length) {
     for (const f of fehler) console.error('✖ check-share-pages-doppellauf: ' + f)
-    process.exit(1)
+    process.exitCode = 1 // nicht exit(): sonst übersprünge es das finally und die Kulisse bliebe liegen
+  } else {
+    console.log('✔ check-share-pages-doppellauf: schon verarbeitetes dist/ → Exit 1 mit Anweisung „erst vite build neu“ (1 Fall)')
   }
-  console.log('✔ check-share-pages-doppellauf: schon verarbeitetes dist/ → Exit 1 mit Anweisung „erst vite build neu“ (1 Fall)')
 } finally {
   rmSync(kulisse, { recursive: true, force: true })
 }
