@@ -3,7 +3,7 @@ import { PLATFORMS, type PlatformId, type ReleaseStatus, type ReleaseType } from
 import { EMPTY_FILTERS, LIST_KEYS, toggleFilter, type FilterState, type ListKey } from '../../lib/filters.ts'
 import { useLang } from '../../lib/i18n.tsx'
 import { SucheLeerenContext } from '../../lib/suche-leeren-kontext.ts'
-import { STATUS_LABEL_KEY } from '../FilterDetails.tsx'
+import { STATUS_LABEL_KEY } from '../filter/status-etiketten.ts'
 import { KreuzZeichen } from './Zeichen.tsx'
 import { PILLE_JA, PILLE_NEIN } from '../filter/pille-zustand.ts'
 import { herkunftName } from '../filter/herkunft-gruppe.tsx'
