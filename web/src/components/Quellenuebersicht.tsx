@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import type { Release, Title } from '@shared/types.ts'
 import { istLink } from '@shared/quelle.ts'
+import { istEigenerTitel } from '@shared/eigene-titel.ts'
 import { useLang } from '../lib/i18n.tsx'
 
 /**
@@ -48,7 +49,7 @@ export function Quellenuebersicht({ title, releases, asZiel }: { title: Title; r
         speist: t(q.host === NAME_ORIGINAL ? 'quellen.feedOriginal' : 'quellen.feedTermine'),
         anzahl: q.anzahl,
       })),
-      ...(title.al ? [{ name: 'AniList', url: `https://anilist.co/anime/${title.al}`, speist: t('quellen.feedWerk') }] : []),
+      ...(title.al && !istEigenerTitel(title.al) ? [{ name: 'AniList', url: `https://anilist.co/anime/${title.al}`, speist: t('quellen.feedWerk') }] : []),
     ]
     /*
       **Verlinkt, wo wir eine Kennung haben.** Daniels Vorgabe vom 29.08.2026:

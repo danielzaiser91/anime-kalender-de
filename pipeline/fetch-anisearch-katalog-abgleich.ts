@@ -34,6 +34,7 @@ import {
   wortIndex,
 } from './lib/anisearch-katalog-abgleich.ts'
 import { todayIso } from '../shared/time.ts'
+import { istEigenerTitel } from '../shared/eigene-titel.ts'
 
 const API = 'https://api.anisearch.com/v1/anime'
 export const TITELLISTE = 'data/cache/anisearch-titelliste.json'
@@ -149,7 +150,7 @@ function ladeAnilistTitel(): { offen: Ausgeliefert[]; vergeben: Set<number> } {
  * ein Lauf darf gesichtete Paare nicht neu entscheiden. Eine Zeile je AniList-Kennung.
  */
 export function offeneTitel(alle: Ausgeliefert[], gebunden: Set<number>): Ausgeliefert[] {
-  const offen = alle.filter((t) => t.id < 10_000_000 && !t.anisearchId && !gebunden.has(t.id))
+  const offen = alle.filter((t) => t.id < 10_000_000 && !istEigenerTitel(t.id) && !t.anisearchId && !gebunden.has(t.id))
   return [...new Map(offen.map((t) => [t.id, t])).values()]
 }
 

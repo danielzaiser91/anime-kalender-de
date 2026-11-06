@@ -1,0 +1,1115 @@
+[
+ {
+  "name": "Kontrolle",
+  "aenderungen": []
+ },
+ {
+  "name": "audio Einzel",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "md.audio_locale ? [md.audio_locale] : []",
+    "ersetze": "md.audio_locale ? [] : []"
+   }
+  ]
+ },
+ {
+  "name": "audio Liste zuerst",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "return md.audio_locales ??",
+    "ersetze": "return md.audio_locale ? [md.audio_locale] : md.audio_locales ??"
+   }
+  ]
+ },
+ {
+  "name": "ohneSerienkennung seriesId",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "if (serie?.seriesId) continue",
+    "ersetze": ""
+   }
+  ]
+ },
+ {
+  "name": "ohneSK dub",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "s.dub !== undefined) continue",
+    "ersetze": "false) continue",
+    "nr": 1
+   }
+  ]
+ },
+ {
+  "name": "ohneUrteil dub",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "s.dub !== undefined) continue",
+    "ersetze": "false) continue",
+    "nr": 2
+   }
+  ]
+ },
+ {
+  "name": "filmbl dub",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "s.dub !== undefined) continue",
+    "ersetze": "false) continue",
+    "nr": 3
+   }
+  ]
+ },
+ {
+  "name": "ohneSK platform",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "s.platform !== 'crunchyroll' || s.dub",
+    "ersetze": "false || s.dub",
+    "nr": 1
+   }
+  ]
+ },
+ {
+  "name": "ohneUrteil platform",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "s.platform !== 'crunchyroll' || s.dub",
+    "ersetze": "false || s.dub",
+    "nr": 2
+   }
+  ]
+ },
+ {
+  "name": "filmbl platform",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "s.platform !== 'crunchyroll' || s.dub",
+    "ersetze": "false || s.dub",
+    "nr": 3
+   }
+  ]
+ },
+ {
+  "name": "ohneSK titel",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "titel: x.titleDe ?? x.titleEn",
+    "ersetze": "titel: x.titleDe"
+   }
+  ]
+ },
+ {
+  "name": "ohneSK folgen",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "folgen: x.episodes, url: s.url }",
+    "ersetze": "url: s.url }"
+   }
+  ]
+ },
+ {
+  "name": "ohneSK url",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "format: x.format, folgen: x.episodes, url: s.url",
+    "ersetze": "format: x.format, folgen: x.episodes, url: null"
+   }
+  ]
+ },
+ {
+  "name": "ohneUrteil folgen",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "folgen: x.episodes })",
+    "ersetze": "})"
+   }
+  ]
+ },
+ {
+  "name": "ohneUrteil romaji",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "titel: x.titleDe, en: x.titleEn, romaji: x.titleRomaji, format: x.format, folgen",
+    "ersetze": "titel: x.titleDe, en: x.titleEn, format: x.format, folgen"
+   }
+  ]
+ },
+ {
+  "name": "filmbl TV",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "x.format === 'TV' || x.format === 'ONA'",
+    "ersetze": "x.format === 'ONA'"
+   }
+  ]
+ },
+ {
+  "name": "filmbl ONA",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "x.format === 'TV' || x.format === 'ONA'",
+    "ersetze": "x.format === 'TV'"
+   }
+  ]
+ },
+ {
+  "name": "filmbl serie",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "serie: nachUrl.get(s.url)",
+    "ersetze": "serie: undefined"
+   }
+  ]
+ },
+ {
+  "name": "filmbl jahr",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "jahr: x.jpYear",
+    "ersetze": "jahr: undefined"
+   }
+  ]
+ },
+ {
+  "name": "treffer type",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "gruppe.type ?? it.type",
+    "ersetze": "it.type"
+   }
+  ]
+ },
+ {
+  "name": "treffer passt",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "if (!passt) continue",
+    "ersetze": "if (false) continue",
+    "nr": 1
+   }
+  ]
+ },
+ {
+  "name": "treffer exakt",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "const { passt, exakt } = katalogTrefferPasst(it, namen)",
+    "ersetze": "const { passt } = katalogTrefferPasst(it, namen); const exakt = false"
+   }
+  ]
+ },
+ {
+  "name": "treffer meta movie",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "?? it.movie_metadata ?? {}",
+    "ersetze": "?? {}"
+   }
+  ]
+ },
+ {
+  "name": "treffer meta series",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "it.series_metadata ?? it.movie_metadata",
+    "ersetze": "it.movie_metadata"
+   }
+  ]
+ },
+ {
+  "name": "treffer gruppen null",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "for (const gruppe of gruppen ?? [])",
+    "ersetze": "for (const gruppe of gruppen)"
+   }
+  ]
+ },
+ {
+  "name": "treffer items null",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "gruppe.items ?? []",
+    "ersetze": "gruppe.items"
+   }
+  ]
+ },
+ {
+  "name": "treffer id",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "return { id: it.id, typ",
+    "ersetze": "return { id: null, typ"
+   }
+  ]
+ },
+ {
+  "name": "treffer art",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "art: it.type, exakt",
+    "ersetze": "art: gruppe.type, exakt"
+   }
+  ]
+ },
+ {
+  "name": "treffer titel",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "titel: it.title, meta",
+    "ersetze": "titel: null, meta"
+   }
+  ]
+ },
+ {
+  "name": "fund audio",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "treffer ? audioVon(treffer.meta) : []",
+    "ersetze": "[]"
+   }
+  ]
+ },
+ {
+  "name": "fund exakt",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "exakt: treffer.exakt, titel: treffer.titel, audio }",
+    "ersetze": "titel: treffer.titel, audio }"
+   }
+  ]
+ },
+ {
+  "name": "fund typ",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "typ: treffer.typ, art",
+    "ersetze": "typ: treffer.art, art"
+   }
+  ]
+ },
+ {
+  "name": "fund spread",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "return { ...o, treffer: treffer ?",
+    "ersetze": "return { treffer: treffer ?"
+   }
+  ]
+ },
+ {
+  "name": "kat typ",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "typ === 'movie_listing' ? 'film' : 'serie'",
+    "ersetze": "typ === 'movie_listing' ? 'serie' : 'film'"
+   }
+  ]
+ },
+ {
+  "name": "kat slug",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "slug: it.slug_title ?? null",
+    "ersetze": "slug: null"
+   }
+  ]
+ },
+ {
+  "name": "kat beschreibung",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": ".slice(0, 300)",
+    "ersetze": ".slice(0, 299)"
+   }
+  ]
+ },
+ {
+  "name": "kat md",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "it.movie_listing_metadata ?? it.series_metadata ?? {}",
+    "ersetze": "it.series_metadata ?? {}"
+   }
+  ]
+ },
+ {
+  "name": "kat md2",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "it.movie_listing_metadata ?? it.series_metadata ?? {}",
+    "ersetze": "it.movie_listing_metadata ?? {}"
+   }
+  ]
+ },
+ {
+  "name": "kat untertitel",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "untertitel: md.subtitle_locales ?? []",
+    "ersetze": "untertitel: []"
+   }
+  ]
+ },
+ {
+  "name": "kat folgen",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "folgen: md.episode_count ?? null",
+    "ersetze": "folgen: null"
+   }
+  ]
+ },
+ {
+  "name": "kat staffeln",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "staffeln: md.season_count ?? null",
+    "ersetze": "staffeln: null"
+   }
+  ]
+ },
+ {
+  "name": "kat jahr launch",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "md.series_launch_year ?? md.movie_release_year",
+    "ersetze": "md.movie_release_year"
+   }
+  ]
+ },
+ {
+  "name": "kat jahr movie",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "md.series_launch_year ?? md.movie_release_year ?? null",
+    "ersetze": "md.series_launch_year ?? null"
+   }
+  ]
+ },
+ {
+  "name": "zu namen filter",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": ".filter(Boolean).map(normSchluessel)",
+    "ersetze": ".map(normSchluessel)"
+   }
+  ]
+ },
+ {
+  "name": "zu namen en",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "[o.titel, o.en, o.romaji].filter",
+    "ersetze": "[o.titel, o.romaji].filter"
+   }
+  ]
+ },
+ {
+  "name": "zu namen romaji",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "[o.titel, o.en, o.romaji].filter",
+    "ersetze": "[o.titel, o.en].filter"
+   }
+  ]
+ },
+ {
+  "name": "zu namen titel",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "[o.titel, o.en, o.romaji].filter",
+    "ersetze": "[o.en, o.romaji].filter"
+   }
+  ]
+ },
+ {
+  "name": "zu laenge",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "kn.length >= 6",
+    "ersetze": "kn.length > 6"
+   }
+  ]
+ },
+ {
+  "name": "zu laenge5",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "kn.length >= 6",
+    "ersetze": "kn.length >= 5"
+   }
+  ]
+ },
+ {
+  "name": "zu teil richtung",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "namen.some((n) => n.includes(kn))",
+    "ersetze": "namen.some((n) => kn.includes(n))"
+   }
+  ]
+ },
+ {
+  "name": "zu folgen",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "k.folgen === o.folgen) ||",
+    "ersetze": "true) ||"
+   }
+  ]
+ },
+ {
+  "name": "zu folgen o",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "(o.folgen && k.folgen",
+    "ersetze": "(k.folgen"
+   }
+  ]
+ },
+ {
+  "name": "zu movie",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "o.format === 'MOVIE' && o.folgen === 1",
+    "ersetze": "o.folgen === 1"
+   }
+  ]
+ },
+ {
+  "name": "zu movie folgen1",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "o.folgen === 1 && (k.folgen",
+    "ersetze": "o.folgen && (k.folgen"
+   }
+  ]
+ },
+ {
+  "name": "zu k0",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "(k.folgen === 0 || k.folgen === 1)",
+    "ersetze": "(k.folgen === 1)"
+   }
+  ]
+ },
+ {
+  "name": "zu punkte",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "punkte: exakt ? 5 : 3",
+    "ersetze": "punkte: exakt ? 3 : 5"
+   }
+  ]
+ },
+ {
+  "name": "zu punkte gleich",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "punkte: exakt ? 5 : 3",
+    "ersetze": "punkte: 3"
+   }
+  ]
+ },
+ {
+  "name": "zu art",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "art: exakt ? 'Name exakt'",
+    "ersetze": "art: !exakt ? 'Name exakt'"
+   }
+  ]
+ },
+ {
+  "name": "zu sort",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": ".sort((a: Lose, b: Lose) => b.punkte - a.punkte)",
+    "ersetze": ".sort((a: Lose, b: Lose) => a.punkte - b.punkte)"
+   }
+  ]
+ },
+ {
+  "name": "zu sort weg",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": ".sort((a: Lose, b: Lose) => b.punkte - a.punkte)",
+    "ersetze": ""
+   }
+  ]
+ },
+ {
+  "name": "zu gleichstand",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "if (!a || (b && b.punkte === a.punkte)) continue",
+    "ersetze": "if (!a) continue"
+   }
+  ]
+ },
+ {
+  "name": "zu gleichstand2",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "(b && b.punkte === a.punkte)",
+    "ersetze": "(b)"
+   }
+  ]
+ },
+ {
+  "name": "zu a",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "if (!a || (b",
+    "ersetze": "if ((b"
+   }
+  ]
+ },
+ {
+  "name": "zu unser",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "unser: o.titel ?? o.en",
+    "ersetze": "unser: o.titel"
+   }
+  ]
+ },
+ {
+  "name": "zu folgen out",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "audio: a.audio, art: a.art, folgen: a.folgen",
+    "ersetze": "audio: a.audio, art: a.art"
+   }
+  ]
+ },
+ {
+  "name": "zu katalogId",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "katalogId: a.id",
+    "ersetze": "katalogId: b.id"
+   }
+  ]
+ },
+ {
+  "name": "reihe en",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "(o.titel ?? o.en ?? '')",
+    "ersetze": "(o.titel ?? '')"
+   }
+  ]
+ },
+ {
+  "name": "serien includes",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "normSchluessel(it.title).includes(normSchluessel(reihe))) ids.push",
+    "ersetze": "normSchluessel(reihe).includes(normSchluessel(it.title))) ids.push"
+   }
+  ]
+ },
+ {
+  "name": "serien id",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "ids.push(it.id)",
+    "ersetze": "ids.push(it.title)"
+   }
+  ]
+ },
+ {
+  "name": "serien null",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "(antwort?.data ?? []).flatMap((g: Lose) => g.items ?? []))",
+    "ersetze": "(antwort?.data ?? []).flatMap((g: Lose) => g.items))",
+    "nr": 1
+   }
+  ]
+ },
+ {
+  "name": "block exakt",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "namen.some((n) => normSchluessel(n) === bn) ||",
+    "ersetze": "false ||"
+   }
+  ]
+ },
+ {
+  "name": "block kennwort",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "bn.includes(kennwort(n)) && kennwort(n).length >= 6",
+    "ersetze": "bn.includes(kennwort(n))"
+   }
+  ]
+ },
+ {
+  "name": "block laenge",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "kennwort(n).length >= 6)",
+    "ersetze": "kennwort(n).length > 6)"
+   }
+  ]
+ },
+ {
+  "name": "block laenge5",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "kennwort(n).length >= 6)",
+    "ersetze": "kennwort(n).length >= 5)"
+   }
+  ]
+ },
+ {
+  "name": "block sid",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "return { serienId, blockId",
+    "ersetze": "return { serienId: null, blockId"
+   }
+  ]
+ },
+ {
+  "name": "block audio",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "blockTitel: b.titel, audio: b.audio }",
+    "ersetze": "blockTitel: b.titel, audio: [] }"
+   }
+  ]
+ },
+ {
+  "name": "block titel",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "blockTitel: b.titel, audio",
+    "ersetze": "blockTitel: b.id, audio"
+   }
+  ]
+ },
+ {
+  "name": "ep serie1",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "normSchluessel(md.series_title ?? '').includes(normSchluessel(reihe)) ||",
+    "ersetze": "false ||"
+   }
+  ]
+ },
+ {
+  "name": "ep serie2",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "|| normSchluessel(reihe).includes(normSchluessel(md.series_title ?? ''))",
+    "ersetze": "|| false"
+   }
+  ]
+ },
+ {
+  "name": "ep kw0",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "k.length >= 6 && normSchluessel(it.title)",
+    "ersetze": "k.length >= 0 && normSchluessel(it.title)"
+   }
+  ]
+ },
+ {
+  "name": "ep kw 6",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "k.length >= 6 && normSchluessel(it.title)",
+    "ersetze": "k.length > 6 && normSchluessel(it.title)"
+   }
+  ]
+ },
+ {
+  "name": "ep oder",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "!serieOk || !kw",
+    "ersetze": "!serieOk && !kw"
+   }
+  ]
+ },
+ {
+  "name": "ep oder2",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "!serieOk || !kw",
+    "ersetze": "!kw"
+   }
+  ]
+ },
+ {
+  "name": "ep oder3",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "!serieOk || !kw",
+    "ersetze": "!serieOk"
+   }
+  ]
+ },
+ {
+  "name": "ep versionen",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "if (!versionen.length) continue",
+    "ersetze": ""
+   }
+  ]
+ },
+ {
+  "name": "ep sid",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "md.series_id ?? null",
+    "ersetze": "null"
+   }
+  ]
+ },
+ {
+  "name": "z block",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "if (alt?.treffer && !f.treffer) {",
+    "ersetze": "if (false) {"
+   }
+  ]
+ },
+ {
+  "name": "z block2",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "if (alt?.treffer && !f.treffer) {",
+    "ersetze": "if (alt && !f.treffer) {"
+   }
+  ]
+ },
+ {
+  "name": "z block3",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "if (alt?.treffer && !f.treffer) {",
+    "ersetze": "if (alt?.treffer) {"
+   }
+  ]
+ },
+ {
+  "name": "z behalten",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "behalten++",
+    "ersetze": "behalten += 0"
+   }
+  ]
+ },
+ {
+  "name": "z ersetzt",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "if (alt) ersetzt++",
+    "ersetze": "if (alt) neuDazu++"
+   }
+  ]
+ },
+ {
+  "name": "z neu",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "else neuDazu++",
+    "ersetze": "else ersetzt++"
+   }
+  ]
+ },
+ {
+  "name": "z sort",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "(a.id ?? 0) - (b.id ?? 0)",
+    "ersetze": "(b.id ?? 0) - (a.id ?? 0)"
+   }
+  ]
+ },
+ {
+  "name": "z id2",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "if (f?.id == null) continue",
+    "ersetze": "if (false) continue"
+   }
+  ]
+ },
+ {
+  "name": "z id2b",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "if (f?.id == null) continue",
+    "ersetze": "if (f.id == null) continue"
+   }
+  ]
+ },
+ {
+  "name": "z array",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "Array.isArray(vorher) ? vorher : []",
+    "ersetze": "vorher"
+   }
+  ]
+ },
+ {
+  "name": "z vorher id",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "for (const f of Array.isArray(vorher) ? vorher : []) if (f?.id != null)",
+    "ersetze": "for (const f of Array.isArray(vorher) ? vorher : []) if (true)"
+   }
+  ]
+ },
+ {
+  "name": "reihe idx",
+  "aenderungen": [
+   {
+    "datei": "pipeline/lib/cr-abruf-logik.ts",
+    "suche": "[0]",
+    "ersetze": "[1]",
+    "nr": 1
+   }
+  ]
+ },
+ {
+  "name": "A7 katalog typ leer",
+  "aenderungen": [
+   {
+    "datei": "pipeline/fetch-cr-katalog.mjs",
+    "suche": "alle.push(katalogEintrag(it, typ))",
+    "ersetze": "alle.push(katalogEintrag(it, \"\"))"
+   }
+  ]
+ },
+ {
+  "name": "A7 katalog it getauscht",
+  "aenderungen": [
+   {
+    "datei": "pipeline/fetch-cr-katalog.mjs",
+    "suche": "alle.push(katalogEintrag(it, typ))",
+    "ersetze": "alle.push(katalogEintrag(seite, typ))"
+   }
+  ]
+ },
+ {
+  "name": "A7 katalog zuordnung getauscht",
+  "aenderungen": [
+   {
+    "datei": "pipeline/fetch-cr-katalog.mjs",
+    "suche": "katalogZuordnung(offen, alle)",
+    "ersetze": "katalogZuordnung(alle, offen)"
+   }
+  ]
+ },
+ {
+  "name": "A7 katalog offen weg",
+  "aenderungen": [
+   {
+    "datei": "pipeline/fetch-cr-katalog.mjs",
+    "suche": "offeneOhneUrteil(titles)",
+    "ersetze": "[]"
+   }
+  ]
+ },
+ {
+  "name": "A7 einzel fund null",
+  "aenderungen": [
+   {
+    "datei": "pipeline/fetch-cr-einzelwerke.mjs",
+    "suche": "einzelwerkFund(o, treffer)",
+    "ersetze": "einzelwerkFund(o, null)"
+   }
+  ]
+ },
+ {
+  "name": "A7 einzel treffer data",
+  "aenderungen": [
+   {
+    "datei": "pipeline/fetch-cr-einzelwerke.mjs",
+    "suche": "ersterEinzelwerkTreffer(r?.data, namen)",
+    "ersetze": "ersterEinzelwerkTreffer(r, namen)"
+   }
+  ]
+ },
+ {
+  "name": "A7 einzel offen cr",
+  "aenderungen": [
+   {
+    "datei": "pipeline/fetch-cr-einzelwerke.mjs",
+    "suche": "offeneOhneSerienkennung(titles, cr)",
+    "ersetze": "offeneOhneSerienkennung(titles, { serien: [] })"
+   }
+  ]
+ },
+ {
+  "name": "A7 film offen cr",
+  "aenderungen": [
+   {
+    "datei": "pipeline/fetch-cr-filmbloecke.mjs",
+    "suche": "offeneFilmbloecke(titles, cr)",
+    "ersetze": "offeneFilmbloecke(titles, { serien: [] })"
+   }
+  ]
+ },
+ {
+  "name": "A7 film suche reihe",
+  "aenderungen": [
+   {
+    "datei": "pipeline/fetch-cr-filmbloecke.mjs",
+    "suche": "serienIdsAusSuche(s, reihe)",
+    "ersetze": "serienIdsAusSuche(s, o.en)"
+   }
+  ]
+ },
+ {
+  "name": "A7 film block sid",
+  "aenderungen": [
+   {
+    "datei": "pipeline/fetch-cr-filmbloecke.mjs",
+    "suche": "passenderBlock(await bloeckeVon(sid), namen, sid)",
+    "ersetze": "passenderBlock(await bloeckeVon(sid), namen, \"\")"
+   }
+  ]
+ },
+ {
+  "name": "A7 film block namen",
+  "aenderungen": [
+   {
+    "datei": "pipeline/fetch-cr-filmbloecke.mjs",
+    "suche": "passenderBlock(await bloeckeVon(sid), namen, sid)",
+    "ersetze": "passenderBlock(await bloeckeVon(sid), [], sid)"
+   }
+  ]
+ },
+ {
+  "name": "A7 film episode reihe",
+  "aenderungen": [
+   {
+    "datei": "pipeline/fetch-cr-filmbloecke.mjs",
+    "suche": "episodenTreffer(s2, namen, reihe)",
+    "ersetze": "episodenTreffer(s2, namen, \"\")"
+   }
+  ]
+ },
+ {
+  "name": "A7 film zusammen getauscht",
+  "aenderungen": [
+   {
+    "datei": "pipeline/fetch-cr-filmbloecke.mjs",
+    "suche": "filmbloeckeZusammen(vorher, funde)",
+    "ersetze": "filmbloeckeZusammen(funde, vorher)"
+   }
+  ]
+ }
+]

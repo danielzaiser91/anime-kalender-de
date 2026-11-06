@@ -11,7 +11,10 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import yaml from 'js-yaml'
 import { haengeBelegeAn } from './lib/belege-anhaengen.ts'
-import { blockIstEntfernt, istEntfernt, ladeBelegeEntfernt } from './lib/belege-entfernt.ts'
+import { ausSchluessel, blockIstEntfernt, istEntfernt, ladeBelegeEntfernt, toteAusnahmen } from './lib/belege-entfernt.ts'
+import { ALTFAELLE } from './lib/handbeleg-notizseite-altfaelle.ts'
+import { NOTE_ASIN_ALTFAELLE } from './lib/handbeleg-note-asin.ts'
+import { SAMMELSEITEN } from './lib/handbeleg-fremde-adresse.ts'
 import { ROOT } from './lib/util.ts'
 import { ohneGesperrteSeiten } from './lib/prime-meldung-riegel.ts'
 
@@ -122,6 +125,26 @@ if (liste.length < 7) fehler.push(`data/belege-entfernt.yaml: ${liste.length} Ei
 const belege = yaml.load(readFileSync(join(ROOT, 'data', 'dub-confirmed.yaml'), 'utf8')) as { anilistId?: number; url?: string }[]
 const zurueck = belege.filter((b) => istEntfernt(liste, b.anilistId, b.url)).map((b) => `${b.anilistId} ${b.url}`)
 if (zurueck.length) fehler.push(`Entfernte Belege stehen wieder in data/dub-confirmed.yaml: ${zurueck.join('; ')}`)
+
+/* Ausnahmelisten: kein Eintrag darf einen Beleg halten, den es nicht mehr gibt (PR 2917: `-13247@B07XYDCVFK` blieb nach der Sperre in ALTFAELLE). */
+const SYLV = 'https://www.amazon.de/gp/video/detail/B07XYDCVFK'
+const SYLV_SPERRE = [{ anilistId: -13247, url: SYLV, grund: 'x', entferntAm: 'x' }]
+const SYLV_BELEG = [{ anilistId: -13247, url: SYLV }]
+const SYLV_EINTRAG = ausSchluessel('ALTFAELLE', ['-13247@B07XYDCVFK'])
+n.faelle += 5
+erwarte('Ausnahme: lebender Beleg ist grün', toteAusnahmen(SYLV_EINTRAG, SYLV_BELEG, []), [])
+erwarte('Ausnahme: gesperrter Beleg ist rot mit Schlüssel', toteAusnahmen(SYLV_EINTRAG, SYLV_BELEG, SYLV_SPERRE), ['ALTFAELLE: -13247@B07XYDCVFK'])
+erwarte('Ausnahme: gelöschter Beleg ist rot', toteAusnahmen(SYLV_EINTRAG, [], []), ['ALTFAELLE: -13247@B07XYDCVFK'])
+erwarte('Ausnahme: Beleg gleicher Seite bei anderer Kennung hält sie nicht', toteAusnahmen(SYLV_EINTRAG, [{ anilistId: 187053, url: SYLV }], []), ['ALTFAELLE: -13247@B07XYDCVFK'])
+erwarte('Ausnahme: Sperre einer anderen Kennung an derselben Seite ändert nichts', toteAusnahmen(SYLV_EINTRAG, SYLV_BELEG, [{ ...SYLV_SPERRE[0], anilistId: 187053 }]), [])
+n.faelle++
+const ausnahmen = [
+  ...ausSchluessel('ALTFAELLE', ALTFAELLE),
+  ...ausSchluessel('NOTE_ASIN_ALTFAELLE', NOTE_ASIN_ALTFAELLE),
+  ...Object.entries(SAMMELSEITEN).map(([id, s]) => ({ liste: 'SAMMELSEITEN', anilistId: Number(id), seite: s.url })),
+]
+const tot = toteAusnahmen(ausnahmen, belege, liste)
+if (tot.length) fehler.push(`Ausnahme ohne lebenden Beleg (aus der Liste streichen, Ratsche senken): ${tot.join('; ')}`)
 
 /* Yama no Susume (14355): B0GP83RCNX und B0GP5XXDNT sind Staffel 1, also die eigene Seite; gesperrt ist nur die Fremdmessung B0GNH738G2 (Staffel 3, Titel 21003). */
 n.faelle += 3

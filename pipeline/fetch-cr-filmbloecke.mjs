@@ -33,22 +33,15 @@
  */
 import { readFileSync, writeFileSync } from 'node:fs'
 import { recordSource } from './lib/health.ts'
-import { kennwort, kennwortRoh } from './lib/cr-kennwort.ts'
-import { normSchluessel, sleep } from './lib/util.ts'
+import { kennwortRoh } from './lib/cr-kennwort.ts'
+import { sleep } from './lib/util.ts'
+import { episodenTreffer, filmbloeckeZusammen, offeneFilmbloecke, passenderBlock, reiheVon, serienIdsAusSuche } from './lib/cr-abruf-logik.ts'
 
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0 Safari/537.36'
 const titles = JSON.parse(readFileSync('public/data/titles.json', 'utf8'))
 const cr = JSON.parse(readFileSync('data/crunchyroll-dub.json', 'utf8'))
-const nachUrl = new Map(cr.serien.map((s) => [s.url, s]))
 
-const offen = []
-for (const x of titles) {
-  for (const s of x.streams ?? []) {
-    if (s.platform !== 'crunchyroll' || s.dub !== undefined) continue
-    if (x.format === 'TV' || x.format === 'ONA') continue
-    offen.push({ id: x.id, titel: x.titleDe, en: x.titleEn, romaji: x.titleRomaji, format: x.format, jahr: x.jpYear, url: s.url, serie: nachUrl.get(s.url) })
-  }
-}
+const offen = offeneFilmbloecke(titles, cr)
 console.log(`${offen.length} offene Filme/OVAs/Specials`)
 
 const tok = await fetch('https://beta-api.crunchyroll.com/auth/v1/token', {
@@ -75,28 +68,18 @@ for (const o of offen) {
   /* Kandidaten-Serien: die eigene Kennung, dazu die Suche nach „<Reihe> Movies". */
   const serienIds = new Set()
   if (o.serie?.seriesId) serienIds.add(o.serie.seriesId)
-  const reihe = (o.titel ?? o.en ?? '').split(/\s[-–—:]\s|\s*:\s*/)[0]
+  const reihe = reiheVon(o)
   for (const frage of [`${reihe} Movies`, reihe]) {
     const s = await hol(`https://beta-api.crunchyroll.com/content/v2/discover/search?q=${encodeURIComponent(frage)}&n=8&type=series&locale=de-DE`)
     await sleep(700)
-    for (const it of (s?.data ?? []).flatMap((g) => g.items ?? [])) {
-      if (normSchluessel(it.title).includes(normSchluessel(reihe))) serienIds.add(it.id)
-    }
+    for (const id of serienIdsAusSuche(s, reihe)) serienIds.add(id)
     if (serienIds.size > 3) break
   }
 
   /* In den Blöcken den Film suchen — über sein Kennwort, nicht über den ganzen Namen. */
   let treffer = null
   for (const sid of serienIds) {
-    for (const b of await bloeckeVon(sid)) {
-      const bn = normSchluessel(b.titel)
-      const passt =
-        namen.some((n) => normSchluessel(n) === bn) ||
-        namen.some((n) => bn.includes(kennwort(n)) && kennwort(n).length >= 6)
-      if (!passt) continue
-      treffer = { serienId: sid, blockId: b.id, blockTitel: b.titel, audio: b.audio }
-      break
-    }
+    treffer = passenderBlock(await bloeckeVon(sid), namen, sid)
     if (treffer) break
   }
   /*
@@ -117,16 +100,7 @@ for (const o of offen) {
       `https://beta-api.crunchyroll.com/content/v2/discover/search?q=${encodeURIComponent(`${reihe} ${kennwortRoh(o.titel ?? o.en)}`)}&n=12&type=episode&locale=de-DE`,
     )
     await sleep(700)
-    for (const it of (s2?.data ?? []).flatMap((g) => g.items ?? [])) {
-      const md = it.episode_metadata ?? {}
-      const serieOk = normSchluessel(md.series_title ?? '').includes(normSchluessel(reihe)) || normSchluessel(reihe).includes(normSchluessel(md.series_title ?? ''))
-      const kw = namen.map(kennwort).find((k) => k.length >= 6 && normSchluessel(it.title).includes(k))
-      if (!serieOk || !kw) continue
-      const versionen = (md.versions ?? []).map((v) => v.audio_locale).filter(Boolean)
-      if (!versionen.length) continue
-      treffer = { serienId: md.series_id ?? null, blockId: it.id, blockTitel: `Folge „${it.title}" in ${md.series_title}`, audio: versionen }
-      break
-    }
+    treffer = episodenTreffer(s2, namen, reihe)
   }
 
   funde.push({ ...o, serie: undefined, treffer })
@@ -161,28 +135,8 @@ const vorher = (() => {
     return []
   }
 })()
-const zusammen = new Map()
-for (const f of Array.isArray(vorher) ? vorher : []) if (f?.id != null) zusammen.set(f.id, f)
-let ersetzt = 0
-let neuDazu = 0
-let behalten = 0
-for (const f of funde) {
-  if (f?.id == null) continue
-  /*
-    Ein Lauf **ohne** Treffer überschreibt einen alten **mit** Treffer nicht.
-    Crunchyroll antwortet nicht jeden Tag gleich; ein Schweigen ist kein Nein —
-    dieselbe Asymmetrie, die dieses Projekt an jeder fremden Quelle anlegt.
-  */
-  const alt = zusammen.get(f.id)
-  if (alt?.treffer && !f.treffer) {
-    behalten++
-    continue
-  }
-  if (alt) ersetzt++
-  else neuDazu++
-  zusammen.set(f.id, f)
-}
-const gesamt = [...zusammen.values()].sort((a, b) => (a.id ?? 0) - (b.id ?? 0))
+/* Ein Lauf ohne Treffer überschreibt einen alten Treffer nicht: ein Schweigen ist kein Nein. */
+const { gesamt, neuDazu, ersetzt, behalten } = filmbloeckeZusammen(vorher, funde)
 console.log(
   `\n${neuDazu} neu, ${ersetzt} aktualisiert, ${behalten} alter Treffer gegen ein Schweigen behalten, ` +
     `${gesamt.length} Einträge insgesamt`,

@@ -33,6 +33,7 @@ const UMBAU_DATEIEN = [
   'fetch-rtlplus-folgen.ts',
   'fetch-toggo.ts',
   'fetch-wikipedia-folgen.ts',
+  'lib/cr-abruf-logik.ts',
   'lib/cr-einzelwerk-urteil.ts',
 ]
 const ALTER_NAME = /(?<![\w.$])(?:norm|warte)\s*\(|[(,]\s*norm\s*[,)]/

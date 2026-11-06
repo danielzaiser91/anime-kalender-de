@@ -9,6 +9,7 @@ import { providerToPlatform } from './titel-hilfen.ts'
 import { type TmdbTitelEintrag } from './01-quellen.ts'
 import { type SlimTitel } from './13-2-auslieferung.ts'
 import { ANISEARCH_ID_BASIS } from './anisearch-titel.ts'
+import { istEigenerTitel } from '../../shared/eigene-titel.ts'
 
 /**
  * Titel ganz ohne Weg bekommen einen — wenn **zwei** Quellen ihn belegen.
@@ -79,7 +80,7 @@ export function ergaenzeWegeAusTmdbUndMotn({ slim, tmdbTitles, tmdbZuTitel, motn
   let wegenHandpruefung = 0
   for (const eintrag of slim) {
     /* Nur bei aniSearch geführte Titel (Specials, OVAs) hängen bei TMDB oft an der Hauptserie; deren Anbieter wären erraten (12.10.2026: Fate/Stay Night UBW Prologue, GGO Refrain, Veldora’s Journal). */
-    if (eintrag.id >= ANISEARCH_ID_BASIS) continue
+    if (eintrag.id >= ANISEARCH_ID_BASIS || istEigenerTitel(eintrag.id)) continue
     if ((eintrag.streams ?? []).length || (eintrag.watchLinks ?? []).length) continue
     const zu = tmdbZuTitel[String(eintrag.id)]
     if (!zu?.tmdbId || !zu.kind) continue
