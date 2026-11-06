@@ -106,7 +106,7 @@ export function ghAufruf(args, programm = ['gh']) {
   return r.stdout
 }
 
-/** Neuester Lauf von pr-pruefung.yml zum Kopf (höchste Kennung), sonst null. */
+/** Neuester Lauf von pr-pruefung.yml zum Kopf (höchste Kennung), sonst null. Abgebrochene Läufe (Concurrency beim Wiederöffnen) zählen nur, wenn es keinen anderen gibt. */
 export function holeLauf(repo, sha, gh) {
   const roh = gh(['api', `repos/${repo}/actions/workflows/pr-pruefung.yml/runs?head_sha=${sha}&event=pull_request&per_page=30`,
     '-q', '.workflow_runs[] | [.id, .status, (.conclusion // "")] | @tsv'])
@@ -114,7 +114,8 @@ export function holeLauf(repo, sha, gh) {
     const [id, status, conclusion] = z.split('\t')
     return { id: Number(id), status, conclusion }
   })
-  return laeufe.sort((a, b) => b.id - a.id)[0] ?? null
+  const gueltig = laeufe.filter((l) => l.conclusion !== 'cancelled')
+  return (gueltig.length > 0 ? gueltig : laeufe).sort((a, b) => b.id - a.id)[0] ?? null
 }
 
 export function holeJobs(repo, runId, gh) {

@@ -41,9 +41,9 @@ export function kanalTerminQuelle(release: Pick<Release, 'platform' | 'kanal' | 
  * ein abgeleitetes Datum (`estimated`) auch nicht (Snowball Earth trug bei Crunchyroll „seit 20.07.2026“, Deutsch gab es erst im
  * Herbst), und ein Termin, dessen Quelle nur OmU nennt, ist kein Beginn auf Deutsch.
  */
-export function seitDatumVon(platform: string, releases: Release[]): string | undefined {
+export function seitDatumVon(platform: string, releases: Release[], kanal?: string): string | undefined {
   return releases
-    .filter((r) => r.platform === platform && r.releaseType !== 'disc' && !r.schedule?.estimated && r.sprache !== 'omu')
+    .filter((r) => r.platform === platform && (r.kanal ?? '').toLowerCase() === (kanal ?? '').toLowerCase() && r.releaseType !== 'disc' && !r.schedule?.estimated && r.sprache !== 'omu')
     .map((r) => r.schedule?.firstEpisodeDate)
     .filter((d): d is string => Boolean(d))
     .sort()[0]
@@ -59,7 +59,7 @@ export function kastenNenntSeit(title: Pick<Title, 'angebotSeit' | 'deErstausgab
 }
 
 /** Das „seit“ einer Stream-Pille: der belegte Beginn des Anbieters, sofern der Kasten ihn nicht schon nennt. */
-export function seitDatumFuerPille(title: Pick<Title, 'angebotSeit' | 'deErstausgabe'>, platform: string, releases: Release[]): string | undefined {
-  const datum = seitDatumVon(platform, releases)
+export function seitDatumFuerPille(title: Pick<Title, 'angebotSeit' | 'deErstausgabe'>, platform: string, releases: Release[], kanal?: string): string | undefined {
+  const datum = seitDatumVon(platform, releases, kanal)
   return datum && !kastenNenntSeit(title, platform, datum) ? datum : undefined
 }
