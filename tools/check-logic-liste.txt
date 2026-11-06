@@ -392,6 +392,7 @@ pipeline/check-reihen-teilname.ts
 pipeline/check-reihen-traeger-aufrufer.ts
 pipeline/check-reihen-traeger.ts
 pipeline/check-reinids-grund.ts
+pipeline/check-release-ohne-quelle.ts
 pipeline/check-remake-verdrahtung.ts
 pipeline/check-remake-zaehlung-pipeline.ts
 pipeline/check-remake-zaehlung.ts
