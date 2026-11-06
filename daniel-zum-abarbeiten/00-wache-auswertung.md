@@ -655,6 +655,7 @@ wer die Ursache dann noch kennt, hat Glück. Deshalb diese Datei.
 
 **Was läuft komplett falsch?** Nichts, was ich belegen kann: kein Fehlerschritt, der Lauf ist absichtlich rot. Kein Pull Request, da keine Codeursache belegt ist.
 
+**Nachtrag 04.11.2026 21:35, Ursache geklärt:** Die Prime-Seite `B084DBMYFX` fiel weg, weil der Tiefendurchlauf 69227f208 (03.11.) sie in `data/link-check.json` mit `status: region` markiert hat („In deiner Region nicht mehr auf Prime Video verfügbar“). `09-2-linkpruefung.ts` hat den Weg darauf wie vorgesehen entfernt, da der Handbeleg vom 16.10. älter ist. Prime-Zuordnung, Handbeleg und Doppelseiten-Bereinigung waren nicht beteiligt. Naruto Shippuden zeigt weiter Prime über `B07Q6VL4QC`; im selben Bau verlor kein weiterer Titel einen Prime-Weg. Folgepunkt: Bei einem Weg-Verlust gibt die Wache zuerst den Diff von `link-check.json` zwischen beiden Bauständen aus.
 
 ## 05.11.2026 — Wache meldet „7 Urteile verloren, netflix: 13 Synchro-Belege weniger" (Lauf 42055274777, Issue #2943)
 

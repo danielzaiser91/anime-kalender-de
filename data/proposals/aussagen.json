@@ -1,6 +1,6 @@
 {
   "format": 2,
-  "stand": "2026-11-05",
+  "stand": "2026-11-06",
   "hinweis": "Vorschlagsmodus: nur gelesen, nie übernommen — docs/wissen/sammelartikel-poc.md (Abschnitt „Vorschlagslauf\"). Schreiber: pipeline/fetch-sammelartikel.ts",
   "aussagen": [
     {
@@ -13506,8 +13506,8 @@
     {
       "id": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/|Z wie Zorro – Der Film||start|joyn+primevideo",
       "erstGesehen": "2026-11-04",
-      "fingerabdruck": "070123f3e901",
-      "offenOderUnklar": true,
+      "fingerabdruck": "e6617ac65b23",
+      "offenOderUnklar": false,
       "ergebnis": {
         "quelle": {
           "url": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
@@ -13529,15 +13529,22 @@
           "„ab sofort\" = Tag der Meldung"
         ],
         "zitat": "»Z wie Zorro – Der Film«\nLaufzeit: 106 Minuten\nSprache: Deutsch\nStream: Joyn, Prime Video",
-        "offen": {
-          "grund": "kein Titel mit diesem Namen",
-          "kandidaten": []
+        "zuordnung": {
+          "anilistId": 5000001,
+          "name": "Z wie Zorro – Der Film",
+          "wie": "name-genau"
         },
         "bestand": {
-          "status": "ohne-zuordnung"
+          "status": "bekannt",
+          "release": {
+            "slug": "auto-5000001-joyn",
+            "firstEpisodeDate": "2026-11-03"
+          },
+          "hatSynchroBelege": true
         },
         "inhaltZeichen": 213
-      }
+      },
+      "geaendert": "2026-11-06"
     },
     {
       "id": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/|Z wie Zorro||start|joyn+primevideo",
@@ -13581,8 +13588,8 @@
     {
       "id": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/|Zorros Geheimnis||start|joyn+primevideo",
       "erstGesehen": "2026-11-04",
-      "fingerabdruck": "a3f457d86a33",
-      "offenOderUnklar": true,
+      "fingerabdruck": "f9a17d8811d2",
+      "offenOderUnklar": false,
       "ergebnis": {
         "quelle": {
           "url": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
@@ -13604,15 +13611,22 @@
           "„ab sofort\" = Tag der Meldung"
         ],
         "zitat": "»Zorros Geheimnis«\nLaufzeit: 88 Minuten\nSprache: Deutsch\nStream: Joyn, Prime Video",
-        "offen": {
-          "grund": "kein Titel mit diesem Namen",
-          "kandidaten": []
+        "zuordnung": {
+          "anilistId": 5000002,
+          "name": "Zorros Geheimnis",
+          "wie": "name-genau"
         },
         "bestand": {
-          "status": "ohne-zuordnung"
+          "status": "bekannt",
+          "release": {
+            "slug": "auto-5000002-joyn",
+            "firstEpisodeDate": "2026-11-03"
+          },
+          "hatSynchroBelege": true
         },
         "inhaltZeichen": 351
-      }
+      },
+      "geaendert": "2026-11-06"
     },
     {
       "id": "https://www.anime2you.de/news/1067193/disney-plus-honey-lemon-soda-und-mehr-verfuegbar/|Honey Lemon Soda||start|disneyplus",

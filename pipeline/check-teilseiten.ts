@@ -140,8 +140,12 @@ function plakatSeitenMaengel(titel: Title[]): string[] {
   return mangel
 }
 
-/** Ratsche: Titel mit Cover, deren Link-Vorschau das Standardbild ist (04.11.2026, 449 gemessen am Stand f41fc446b, ohne Luft; nach dem TMDB- und Plakat-Lauf auf den neuen Messwert senken). */
-const STANDARD_TROTZ_COVER_HOECHSTENS = 449
+/**
+ * Ratsche: Titel mit Cover, deren Link-Vorschau das Standardbild ist (05.11.2026: 471 im Bau nach #2872 gemessen, ohne Luft; vorher 449).
+ * Die 22 mehr sind Filmteile mit geteiltem TMDB-Film (Digimon, Garden of Sinners, Psycho-Pass Sinners, Sailor Moon Eternal, Code Geass Akito,
+ * Princess Principal, Kitaro, Spycies, Rohirrim): Das fremde Plakat ist verworfen, das AniList-Cover bleibt, die Vorschau hat dafür keine Maße.
+ */
+const STANDARD_TROTZ_COVER_HOECHSTENS = 471
 
 function coverVorschauMaengel(titel: Title[]): string[] {
   const seiten = titel

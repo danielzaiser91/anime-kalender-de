@@ -8,56 +8,6 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-10-29#48@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261029T161000Z
-DTEND:20261029T164000Z
-SUMMARY:Dragon Ball
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-10-29#49@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261029T163500Z
-DTEND:20261029T170500Z
-SUMMARY:Dragon Ball
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-235-tv-prosieben-maxx@2026-10-29@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261029T165500Z
-DTEND:20261029T172500Z
-SUMMARY:Detektiv Conan – Folge 164
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/204/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-29#49@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261029T172500Z
-DTEND:20261029T175500Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-29#50@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261029T175000Z
-DTEND:20261029T182000Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-10-30#50@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261030T160500Z
@@ -573,8 +523,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:auto-176496-tv-prosieben-maxx@2026-11-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261106T222500Z
-DTEND:20261106T225500Z
+DTSTART:20261106T222000Z
+DTEND:20261106T225000Z
 SUMMARY:Solo Leveling: Arise from the Shadow – Folge 8
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/15790/
