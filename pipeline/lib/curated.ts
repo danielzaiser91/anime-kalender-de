@@ -65,6 +65,7 @@ export interface CuratedEntry {
 /** Die optionalen Felder eines kuratierten Eintrags, die unverändert ins Release wandern (fehlend = nicht gesetzt). */
 export function kuratierteZusaetze(entry: CuratedEntry): Partial<Release> {
   return {
+    ...(entry.hinweis ? { hinweis: entry.hinweis } : {}),
     ...(entry.nachtrag ? { nachtrag: entry.nachtrag } : {}),
     ...(entry.rhythmus ? { rhythmus: entry.rhythmus } : {}),
     ...(entry.netflixOriginal ? { netflixOriginal: true } : {}),

@@ -33,12 +33,16 @@ export function notizDurchgereicht(quelltext: string, feld = 'hinweis'): number 
 }
 
 const bau = readFileSync(new URL('./bau/05-releases.ts', import.meta.url), 'utf8')
-pruefe('Der Bau reicht entry.hinweis genau einmal an das Release weiter', notizDurchgereicht(bau) === 1, String(notizDurchgereicht(bau)))
+/* Der Hinweis geht über kuratierteZusaetze (curated.ts) an das Release; der Bau spreizt es ein. */
+const zusaetze = readFileSync(new URL('./lib/curated.ts', import.meta.url), 'utf8')
+const H = 'hinweis: entry.hinweis }'
+pruefe('Der Bau spreizt kuratierteZusaetze(entry) ins Release', bau.includes('...kuratierteZusaetze(entry)'))
+pruefe('kuratierteZusaetze reicht entry.hinweis genau einmal weiter', notizDurchgereicht(zusaetze) === 1, String(notizDurchgereicht(zusaetze)))
 pruefe('Der Bau reicht entry.note (intern) weiter, getrennt vom Hinweis', notizDurchgereicht(bau, 'note') === 1)
-pruefe('Ohne Durchreichen erkannt: Eigenschaft entfernt', notizDurchgereicht(bau.replace('hinweis: entry.hinweis,', 'hinweis: undefined,')) === 0)
-pruefe('Ohne Durchreichen erkannt: falscher Feldname', notizDurchgereicht(bau.replace('hinweis: entry.hinweis,', 'hinweise: entry.hinweis,')) === 0)
-pruefe('Zwei Eigenschaften werden beide gezählt', notizDurchgereicht(bau.replace('hinweis: entry.hinweis,', 'hinweis: entry.hinweis, hinweis: entry.hinweis,')) === 2)
-pruefe('Ohne Durchreichen erkannt: anderes Feld (die interne Notiz darf nicht an den Hinweis)', notizDurchgereicht(bau.replace('hinweis: entry.hinweis,', 'hinweis: entry.note,')) === 0)
+pruefe('Ohne Durchreichen erkannt: Eigenschaft entfernt', notizDurchgereicht(zusaetze.replace(H, 'hinweis: undefined }')) === 0)
+pruefe('Ohne Durchreichen erkannt: falscher Feldname', notizDurchgereicht(zusaetze.replace(H, 'hinweise: entry.hinweis }')) === 0)
+pruefe('Zwei Eigenschaften werden beide gezählt', notizDurchgereicht(zusaetze.replace(H, 'hinweis: entry.hinweis, hinweis: entry.hinweis }')) === 2)
+pruefe('Ohne Durchreichen erkannt: anderes Feld (die interne Notiz darf nicht an den Hinweis)', notizDurchgereicht(zusaetze.replace(H, 'hinweis: entry.note }')) === 0)
 
 /* Die Notiz eines kuratierten Eintrags ist ein Satz Text: die Bestandsprüfung gegen eigene Kulissen (die Villainess-Zeile der echten Datei ist nicht Teil davon). */
 const kuratiert = (zeilen: string) => laufeInKulisse('check-folge-zwoelf-hinweis-bestand.ts', { 'data/curated/kulisse.yaml': `- slug: kulisse-a\n${zeilen}- slug: kulisse-b\n  note: "Ein Satz."\n` })

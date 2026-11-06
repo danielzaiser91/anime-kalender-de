@@ -41,7 +41,7 @@
 # 05.11. ist ein Donnerstag: Start am Donnerstag, danach Mo–Fr (kein Widerspruch). 18:25 passt zum
 # ersten Slot, den ProSieben MAXX laut tv.de-Sichtung (data/tv-programm.json) werktags bei One Piece
 # hat; der One-Piece-Artikel (1059541) nennt dafür ungenau „18:30". Joyn: kein Starttermin
-# genannt, deshalb keine eigene Plattform.
+# genannt; seit 05.11.2026 führt Joyn die Serie (Handbeleg in data/dub-confirmed.yaml, Folge 1 vom 05.11.).
 - slug: yaiba-samurai-legend-prosieben-maxx
   anilistId: 177476
   search: "YAIBA: Samurai Legend"
@@ -53,7 +53,7 @@
     time: "18:25"
     episodeCount: 24
     wochentage: [1, 2, 3, 4, 5]
-  hinweis: "Nach der TV-Ausstrahlung sollen die Folgen kostenlos auf Joyn abrufbar sein (kein Termin genannt)."
+  hinweis: "Nach der TV-Ausstrahlung sind die Folgen kostenlos auf Joyn abrufbar (seit 05.11.2026 belegt)."
   # Handbeleg Premiere (10.10.2026): Anime2You 1059480 nennt es „deutsche TV-Premiere der ersten Staffel“;
   # davor weder deutsche Disc (erste am 04.12.2026) noch deutscher Stream (Akibapass, ADN nur OmU).
   premiere:
