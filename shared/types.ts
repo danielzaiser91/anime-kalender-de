@@ -437,6 +437,10 @@ export interface Title {
    * Dient dazu, Staffeln derselben Serie zu einer Karte zu bündeln.
    */
   franchiseId?: number
+  /** Hängt an einem anderen Teil der Reihe (AniList `PARENT`) und zählt nicht als Staffel; wie `FranchiseMember.beiwerk`. */
+  beiwerk?: true
+  /** Eigene Serie der Reihe (Spin-off, Handliste), keine Staffel; wie `FranchiseMember.eigenesWerk`. */
+  eigenesWerk?: true
   genres: string[]
   /** Schlagworte aus der festen aniSearch-Liste (`shared/schlagworte.ts`), deutsch; Cartoons tragen TMDB-Schlagworte. */
   keywords: string[]
