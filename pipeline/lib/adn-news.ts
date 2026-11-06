@@ -12,6 +12,13 @@
  * steht die ADN-Serienseite (`…/video/1423-eighty-six`). Über deren Kennung
  * wird der Artikel unserem Release zugeordnet.
  *
+ * Auswahl der Serien je Artikel (`serienDesArtikels`), damit ein Artikel nur seine eigenen Serien belegt:
+ * 1. Nur deutsche Beiträge (`/de/`) mit Serienlink zählen.
+ * 2. Links in offener Klammer (Studio-/Regie-Auskunft) zählen nicht, außer alle Links stehen so.
+ * 3. Knopf- oder Bild-Teaser sind die eigenen Serien (höchstens 2); Fließtext-Links daneben (höchstens 1)
+ *    sind Vergleiche und fallen weg. Darüber ist es eine Sammelmeldung: alle Serien bleiben.
+ * Die verworfenen Serien zählt der Lauf (`holeAdnNews`-Logzeile); `tools/adn-news-bilanz.ts` rechnet alt gegen neu.
+ *
  * Zuletzt gelesen, nicht dauerhaft gemerkt: Der Abruf läuft einmal am Tag
  * (siehe `holeAdnNews`), die Datei `data/adn-news.json` trägt den Stand.
  */
@@ -64,12 +71,18 @@ const EINZELARTIKEL_HOECHSTENS = 2
 const VERGLEICHE_HOECHSTENS = 1
 
 /**
- * Serien, um die es im Artikel geht. Verweise in Klammern („Studio: Lerche (Assassination Classroom, …)") nennen
+ * Serien, um die es im Artikel geht (Warum: ein Artikel nennt oft Serien nur als Auskunft oder Vergleich; sie
+ * würden sonst den Artikel als Quelle für eine fremde Serie ausgeben, PR 2429). Verweise in Klammern („Studio: Lerche (Assassination Classroom, …)") nennen
  * andere Serien als Auskunft über Studio oder Regie und zählen nicht. Bestehen alle Verweise aus solchen, bleiben alle.
  * Hat der Artikel nur eine oder zwei Serien mit Knopf/Bild-Teaser, sind Fließtext-Verweise Vergleiche („wie Sailor Moon")
  * und zählen nicht; eine Sammelmeldung mit mehr Knopf-Serien behält ihre Fließtext-Serien.
  */
 export function serienDesArtikels(html: string): number[] {
+  return waehleSerien(html).ids
+}
+
+/** Wie `serienDesArtikels`, dazu die Zahl der verlinkten Serien, die die Regeln verwerfen (Klammer, Vergleich). */
+export function waehleSerien(html: string): { ids: number[]; verworfen: number } {
   const treffer = [...html.matchAll(/<a\b[^>]*>/g)].filter((m) => SERIEN_LINK.test(m[0]))
   const ohneKlammer = treffer.filter((m) => !inKlammer(html, m.index))
   const gewaehlt = ohneKlammer.length ? ohneKlammer : treffer
@@ -80,7 +93,9 @@ export function serienDesArtikels(html: string): number[] {
   const einzel = anzahl >= 1 && anzahl <= EINZELARTIKEL_HOECHSTENS && nurFliesstext <= VERGLEICHE_HOECHSTENS
   const quelle = einzel ? kern : gewaehlt
   const ids = quelle.map((m) => Number(SERIEN_LINK.exec(m[0])?.[1]))
-  return [...new Set(ids)].filter((n) => Number.isFinite(n))
+  const gewonnen = [...new Set(ids)].filter((n) => Number.isFinite(n))
+  const alle = new Set(treffer.map((m) => Number(SERIEN_LINK.exec(m[0])?.[1])))
+  return { ids: gewonnen, verworfen: [...alle].filter((n) => !gewonnen.includes(n)).length }
 }
 
 /** HTML-Reste aus der Überschrift entfernen — die News-Titel tragen `&#8211;` & Co. */
