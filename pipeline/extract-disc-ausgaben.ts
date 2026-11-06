@@ -123,6 +123,52 @@ function istBildtraeger(edition: string): string | null {
   return null
 }
 
+/** Die deutschen Bildträger-Ausgaben einer archivierten Titelseite, jüngste zuerst; `null` ohne Ausgaben-Abschnitt. */
+export function ausgabenAusHtml(html: string): { eigene: Ausgabe[]; geprueft: number; auslaendisch: number; verworfen: number } | null {
+  const start = html.indexOf('<section id="items"')
+  if (start < 0) return null
+  const abschnitt = html.slice(start, html.indexOf('</section>', start))
+  let auslaendisch = 0
+  let verworfen = 0
+  const eigene: Ausgabe[] = []
+  const bloecke = [...abschnitt.matchAll(/<li class="merch\d+[^"]*" data-date="([^"]*)">([\s\S]*?)<\/li>/g)]
+    .map((m) => ({
+      datum: m[1]!,
+      block: m[2]!,
+      edition: /<span class="title">([^<]*)</.exec(m[2]!)?.[1]?.trim().replace(/&amp;/g, '&') ?? '',
+    }))
+    .filter((b) => b.edition)
+  /* Namen, zu denen es eine „[Blu-ray]"-Fassung gibt — ihr Zwilling ohne Klammer ist die DVD. */
+  const zwillinge = new Set(
+    bloecke.filter((b) => /\s*\[Blu-?ray\]\s*$/i.test(b.edition)).map((b) => b.edition.replace(/\s*\[Blu-?ray\]\s*$/i, '')),
+  )
+  for (const { datum, block, edition } of bloecke) {
+    /* Ausländische Ausgaben tragen ein Flaggenbild, deutsche nicht. */
+    if (/class="flag"[^>]*alt="[a-z]{2}"/.test(block)) {
+      auslaendisch++
+      continue
+    }
+    const plakette = /<div class="rank">([^<]*)</.exec(block)?.[1]
+    const format = formatAus(edition, plakette, zwillinge) ?? (istBildtraeger(edition) ? 'DVD' : null)
+    if (!format) {
+      verworfen++
+      continue
+    }
+    const pfad = /data-href="(article\/[^"]+)"/.exec(block)?.[1]
+    eigene.push({
+      edition,
+      datum: /^\d{4}-\d{2}-\d{2}$/.test(datum) ? datum : '',
+      ...(pfad ? { url: `https://www.anisearch.de/${pfad}` } : {}),
+      format,
+      art: artAus(edition),
+      kurz: kurzAus(edition),
+    })
+  }
+  /* Die jüngste zuerst — sie ist am ehesten noch zu bekommen. */
+  eigene.sort((a, b) => b.datum.localeCompare(a.datum))
+  return { eigene, geprueft: bloecke.length, auslaendisch, verworfen }
+}
+
 function main(): void {
   const anisearch = readJson<Record<string, { anisearchId?: number }>>('data/anisearch.json', {})
   const titles = readJson<Title[]>('public/data/titles.json', [])
@@ -144,49 +190,13 @@ function main(): void {
     if (!titleId || !bekannt.has(titleId)) continue
 
     const html = gunzipSync(readFileSync(`${ARCHIV}/${datei}`)).toString('utf8')
-    const start = html.indexOf('<section id="items"')
-    if (start < 0) continue
-    const abschnitt = html.slice(start, html.indexOf('</section>', start))
-
-    const eigene: Ausgabe[] = []
-    const bloecke = [...abschnitt.matchAll(/<li class="merch\d+[^"]*" data-date="([^"]*)">([\s\S]*?)<\/li>/g)]
-      .map((m) => ({
-        datum: m[1]!,
-        block: m[2]!,
-        edition: /<span class="title">([^<]*)</.exec(m[2]!)?.[1]?.trim().replace(/&amp;/g, '&') ?? '',
-      }))
-      .filter((b) => b.edition)
-    /* Namen, zu denen es eine „[Blu-ray]"-Fassung gibt — ihr Zwilling ohne Klammer ist die DVD. */
-    const zwillinge = new Set(
-      bloecke.filter((b) => /\s*\[Blu-?ray\]\s*$/i.test(b.edition)).map((b) => b.edition.replace(/\s*\[Blu-?ray\]\s*$/i, '')),
-    )
-    for (const { datum, block, edition } of bloecke) {
-      geprueft++
-      /* Ausländische Ausgaben tragen ein Flaggenbild, deutsche nicht. */
-      if (/class="flag"[^>]*alt="[a-z]{2}"/.test(block)) {
-        auslaendisch++
-        continue
-      }
-      const plakette = /<div class="rank">([^<]*)</.exec(block)?.[1]
-      const format = formatAus(edition, plakette, zwillinge) ?? (istBildtraeger(edition) ? 'DVD' : null)
-      if (!format) {
-        verworfen++
-        continue
-      }
-      const pfad = /data-href="(article\/[^"]+)"/.exec(block)?.[1]
-      eigene.push({
-        edition,
-        datum: /^\d{4}-\d{2}-\d{2}$/.test(datum) ? datum : '',
-        ...(pfad ? { url: `https://www.anisearch.de/${pfad}` } : {}),
-        format,
-        art: artAus(edition),
-        kurz: kurzAus(edition),
-      })
-    }
-    if (!eigene.length) continue
-    /* Die jüngste zuerst — sie ist am ehesten noch zu bekommen. */
-    eigene.sort((a, b) => b.datum.localeCompare(a.datum))
-    raus[String(titleId)] = eigene
+    const r = ausgabenAusHtml(html)
+    if (!r) continue
+    geprueft += r.geprueft
+    auslaendisch += r.auslaendisch
+    verworfen += r.verworfen
+    if (!r.eigene.length) continue
+    raus[String(titleId)] = r.eigene
   }
 
   writeJson(ZIEL, raus)
