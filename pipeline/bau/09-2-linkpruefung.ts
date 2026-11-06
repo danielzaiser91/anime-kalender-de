@@ -1,7 +1,8 @@
 import { readJson, log } from '../lib/util.ts'
 import { adressKern, dubKey, type DubCheck } from '../lib/dub-confirmed.ts'
-import { handStichtGegenLink, istTot, juengsteJeKern, type LinkBefund } from '../lib/link-befund.ts'
+import { handStichtGegenLink, istTot, juengsteJeKern } from '../lib/link-befund.ts'
 import { deutscheWegeJeTitel, hat404, netflix404EntferntNicht, wegBelegtDeutsch } from '../lib/link-rauschen.ts'
+import { ladeGewerteteBefunde, ungewertetZeile } from '../lib/netflix-404-gate.ts'
 import { type Title, type PlatformId } from '../../shared/types.ts'
 import { netflixTitelAdresse } from '../lib/netflix-adresse.ts'
 import { netflixAdresseTaugt } from '../../shared/netflix-adresse-pruefung.ts'
@@ -21,37 +22,8 @@ function deutschJeTitel(alt: Title[] | Record<string, Title>): Map<number, Set<s
   return jeTitel
 }
 
-export function werteLinkpruefungAus({
-  ytKanal,
-  ytKauf,
-  titles,
-  netflixOhneKennung,
-  checksJePlattform,
-  youtubeBefunde,
-  belegFuer,
-  vonHandBelegtAm,
-  checks,
-  vorherTitles,
-}: {
-  ytKanal: Record<string, string>
-  ytKauf: Set<string>
-  titles: Map<number, Title>
-  netflixOhneKennung: number
-  checksJePlattform: Map<string, DubCheck[]>
-  youtubeBefunde: Record<string, { art: string; inDE: number; unklar?: boolean; }>
-  belegFuer: (titleId: number, plattform: PlatformId, url?: string, anzahlWege?: number) => DubCheck | undefined
-  vonHandBelegtAm: Map<string, string>
-  checks: Map<string, DubCheck>
-  /** Der vorige Bestand; ohne Angabe liest die Funktion `public/data/titles.json`. */
-  vorherTitles?: Title[]
-}) {
-  let geprueft = 0
-  /** YouTube-Verweise, deren Urteil aus der Tonspur-Angabe der Videoseite stammt. */
-  let ytAusTonspur = 0
-  let entfernt = 0
-  let ytEntfernt = 0
-  let totEntfernt = 0
-  let adressen = 0
+/** Liest `data/youtube-befunde.json`: füllt Kanal und Kaufangebot in die übergebenen Tabellen, liefert Tonspur- und Trailer-Urteile. */
+function ladeYoutubeBefunde(ytKanal: Record<string, string>, ytKauf: Set<string>) {
   /**
    * **Was YouTube selbst über die Tonspur sagt — je Adresse.**
    *
@@ -95,10 +67,45 @@ export function werteLinkpruefungAus({
     if (typeof b?.audioDeutsch === 'boolean') ytAudio.set(url, b.audioDeutsch)
     if (b?.kategorie === 'Trailers') ytTrailer.add(url)
   }
+  return { ytAudio, ytTrailer }
+}
+
+export function werteLinkpruefungAus({
+  ytKanal,
+  ytKauf,
+  titles,
+  netflixOhneKennung,
+  checksJePlattform,
+  youtubeBefunde,
+  belegFuer,
+  vonHandBelegtAm,
+  checks,
+  vorherTitles,
+}: {
+  ytKanal: Record<string, string>
+  ytKauf: Set<string>
+  titles: Map<number, Title>
+  netflixOhneKennung: number
+  checksJePlattform: Map<string, DubCheck[]>
+  youtubeBefunde: Record<string, { art: string; inDE: number; unklar?: boolean; }>
+  belegFuer: (titleId: number, plattform: PlatformId, url?: string, anzahlWege?: number) => DubCheck | undefined
+  vonHandBelegtAm: Map<string, string>
+  checks: Map<string, DubCheck>
+  /** Der vorige Bestand; ohne Angabe liest die Funktion `public/data/titles.json`. */
+  vorherTitles?: Title[]
+}) {
+  let geprueft = 0
+  /** YouTube-Verweise, deren Urteil aus der Tonspur-Angabe der Videoseite stammt. */
+  let ytAusTonspur = 0
+  let entfernt = 0
+  let ytEntfernt = 0
+  let totEntfernt = 0
+  let adressen = 0
+  const { ytAudio, ytTrailer } = ladeYoutubeBefunde(ytKanal, ytKauf)
   /** Antwortstatus je Anbieter-Adresse aus `pipeline/check-links.ts`. */
-  const linkBefundeRoh = readJson<
-    Record<string, LinkBefund>
-  >('data/link-check.json', {})
+  const { befunde: linkBefundeRoh, ungewertet: netflix404Ungewertet } = ladeGewerteteBefunde(todayIso())
+  const zeile404 = ungewertetZeile(netflix404Ungewertet)
+  if (zeile404) log(zeile404)
   /*
     **Ein Befund gehört der Seite, nicht ihrer Schreibweise** (21.09.2026). Seit Prime-Verweise
     unter `/gp/video/detail/` ausgeliefert werden, misst die Linkprüfung auch diese Form; der Bau

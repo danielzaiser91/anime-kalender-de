@@ -91,12 +91,14 @@ pipeline/check-cartoon-pruefregeln.ts
 pipeline/check-cartoon-reihen.ts
 pipeline/check-cartoon-staffeln.ts
 pipeline/check-cartoon-ton.ts
+pipeline/check-cartoon-wege-falten-leer-lauf.ts
 pipeline/check-cartoon-wege-falten.ts
 pipeline/check-cartoon-wege.ts
 pipeline/check-cartoon-zwilling.ts
 pipeline/check-cover-luecken-bau.ts
 pipeline/check-cover-luecken-wache.ts
 pipeline/check-cover-quelle.ts
+pipeline/check-cr-abruf-logik.ts
 pipeline/check-cr-auftakt-wache.ts
 pipeline/check-cr-batch-phase.ts
 pipeline/check-cr-batch-wache.ts
@@ -179,6 +181,7 @@ pipeline/check-favoriten-feed-faelle.ts
 pipeline/check-fetch-pruefungen-laufzeit.ts
 pipeline/check-film-ohne-weg.ts
 pipeline/check-filter-genres.ts
+pipeline/check-filter-zyklus.ts
 pipeline/check-finale-wache.ts
 pipeline/check-folge-ueber-anzahl-bau.ts
 pipeline/check-folge-ueber-anzahl.ts
@@ -205,6 +208,7 @@ pipeline/check-folgenzahl-sichtung.ts
 pipeline/check-gleiche-adresse.ts
 pipeline/check-hand-gesehen.ts
 pipeline/check-handbeleg-anbieter-zaehlung.ts
+pipeline/check-handbeleg-fast-doppel.ts
 pipeline/check-handbeleg-fremde-adresse.ts
 pipeline/check-handbeleg-note-asin-lauf.ts
 pipeline/check-handbeleg-note-asin.ts
@@ -226,6 +230,9 @@ pipeline/check-install-stellen.ts
 pipeline/check-interne-angaben.ts
 pipeline/check-invarianten.ts
 pipeline/check-ja-hat-weg.ts
+pipeline/check-joyn-premiere.ts
+pipeline/check-joyn-sender-bestand-lauf.ts
+pipeline/check-joyn-sender-luecke.ts
 pipeline/check-juengeres-ja-weg.ts
 pipeline/check-jw-ablauf.ts
 pipeline/check-jw-anbieterliste.ts
@@ -300,6 +307,7 @@ pipeline/check-nein-handbeleg-cr.ts
 pipeline/check-nein-handbeleg-datum.ts
 pipeline/check-nein-handbeleg.ts
 pipeline/check-nein-wiedervorlage.ts
+pipeline/check-netflix-404-gate.ts
 pipeline/check-netflix-fremde-meldung-lauf.ts
 pipeline/check-netflix-fremde-meldung.ts
 pipeline/check-netflix-quellen.ts
@@ -450,6 +458,8 @@ pipeline/check-tmdb-folgen-luecke.ts
 pipeline/check-tmdb-folgentitel-absolut.ts
 pipeline/check-tmdb-folgentitel-datum.ts
 pipeline/check-tmdb-genre.ts
+pipeline/check-tmdb-geteilt-plakat-bau.ts
+pipeline/check-tmdb-geteilt-plakat.ts
 pipeline/check-tmdb-hauptserie.ts
 pipeline/check-tmdb-katalog.ts
 pipeline/check-tmdb-staffel0.ts

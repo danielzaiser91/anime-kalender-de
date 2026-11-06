@@ -132,10 +132,26 @@ export function zaehleWechsel(paare: WechselPaar[]): Wechsel[] {
   return [...jeHost.values()]
 }
 
+const verrauscht = (w: Wechsel): boolean => w.geprueft >= WECHSEL_MINDESTMENGE && w.wechsel * 100 > w.geprueft * WECHSEL_GRENZE_PROZENT
+
+/**
+ * Ende eines Linklaufs: Warnzeilen, und war Netflix in diesem Lauf verrauscht, tragen dessen frisch gemessene 404 `rausch: true`.
+ * Der Vermerk steht im Befund und überlebt damit spätere Teilneumessungen des Tages (der Bau rechnete die Quote sonst
+ * aus dem Rest des Tages, der mit jeder Neumessung schrumpft).
+ */
+export function meldeWechsel<B extends LinkBefund>(bestand: Record<string, B>, paare: WechselPaar[], warn: (zeile: string) => void): void {
+  const werte = zaehleWechsel(paare)
+  wechselWarnungen(werte).forEach(warn)
+  if (!werte.some((w) => w.host === 'netflix.com' && verrauscht(w))) return
+  for (const p of paare) {
+    if (p.neu === 404 && istNetflix(p.url) && bestand[p.url]) bestand[p.url] = { ...bestand[p.url], rausch: true }
+  }
+}
+
 /** Warnzeilen für Plattformen, deren Wechselanteil über der Grenze liegt (genau auf der Grenze: keine Warnung). */
 export function wechselWarnungen(werte: Wechsel[]): string[] {
   return werte
-    .filter((w) => w.geprueft >= WECHSEL_MINDESTMENGE && w.wechsel * 100 > w.geprueft * WECHSEL_GRENZE_PROZENT)
+    .filter(verrauscht)
     .map(
       (w) =>
         `⚠ WARNUNG Linkprüfung verrauscht: ${w.host} ${w.wechsel} von ${w.geprueft} Adressen mit Vorbefund wechselten lebt/tot (über ${WECHSEL_GRENZE_PROZENT} %) — einzelne 404 nicht trauen.`,

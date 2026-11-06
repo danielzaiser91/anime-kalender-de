@@ -140,3 +140,19 @@
   titel: 'Pokémon Reisen: Die Serie'
   geprueftAm: '2026-11-04'
   grund: TMDB 60572 „Pokémon", ja/JP, 1997; Staffel 25 Folge 1 „The Spectral Express!" (2021-12-17) = aniSearch 14596 Folge 91, Sendetag und englischer Titel gleich.
+
+# Kitaro-Film: TMDB 904759 ist das Original von 2023 (130622, JP 2023-11-17, 104 min). Die Neufassung „Shinsei-ban“ (10019697, 2024) hat keine eigene TMDB-Kennung gefunden;
+# der Namensabgleich hatte ihr dieselbe 904759 gegeben. `ohne: true` entfernt die Kennung und hält sie vom Namensabgleich fern.
+- anilistId: 130622
+  tmdbId: 904759
+  kind: movie
+  titel: 'The Birth of Kitaro: The Mystery of GeGeGe'
+  geprueftAm: '2026-11-04'
+  grund: TMDB JP-Originaltitel 鬼太郎誕生 ゲゲゲの謎, 2023-11-17, 104 min (https://www.themoviedb.org/movie/904759?language=en-US); JustWatch tm1190561 Originaltitel Kitarô Tanjô Gegege no Nazo, 1h 44min, 2023-11-17 (https://www.justwatch.com/de/Film/kitarou-tanjou-gegege-no-nazo).
+
+- anilistId: 10019697
+  ohne: true
+  kind: movie
+  titel: 'The Birth of Kitaro: Das Geheimnis von GeGeGe (Shinsei-ban)'
+  geprueftAm: '2026-11-04'
+  grund: Suche auf themoviedb.org (Kitaro, GeGeGe Geheimnis, 真生版; nur Seite 1) fand keinen eigenen Eintrag; 904759 ist das Original 130622 und darf nicht an zwei Titeln hängen (Bericht daniel-zum-abarbeiten/berichte/kitaro-tmdb-zuordnung-2026-11-04.md).
