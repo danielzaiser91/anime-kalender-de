@@ -18,17 +18,19 @@ export function sperrGruende(pr) {
   if (pr.mergeable === 'CONFLICTING') gruende.push('Konflikt')
   const kette = checkStand(pr.statusCheckRollup ?? []).art
   if (kette !== 'gruen') gruende.push(kette === 'rot' ? 'Kette rot' : 'Kette offen')
-  const aufKopf = urteileAufKopf(urteile(pr.comments ?? []), pr.headRefOid, pr.kopfZeit)
-  if (aufKopf.length === 0) gruende.push('kein Urteil auf dem Kopf')
-  else if (!aufKopf.every((u) => u.gut)) gruende.push('Prüfer: ändern')
+  const letztes = letztesUrteil(pr)
+  if (!letztes) gruende.push('kein Urteil auf dem Kopf')
+  else if (!letztes.gut) gruende.push('Prüfer: ändern')
   return gruende
 }
 
-/** Zeitpunkt der Freigabe: das jüngste Ok auf dem aktuellen Kopf. */
-function freigabeZeit(pr) {
-  const gute = urteileAufKopf(urteile(pr.comments ?? []), pr.headRefOid, pr.kopfZeit).filter((u) => u.gut)
-  return Math.max(...gute.map((u) => u.zeit))
+/** Das jüngste Urteil auf dem aktuellen Kopf entscheidet: ein Nachtrag mit neuem Ok löst ein früheres Ändern auf (Nachtrag-Ablauf). */
+function letztesUrteil(pr) {
+  return urteileAufKopf(urteile(pr.comments ?? []), pr.headRefOid, pr.kopfZeit).at(-1)
 }
+
+/** Zeitpunkt der Freigabe: das jüngste Urteil (nur für freigegebene PRs gerufen, also ein Ok). */
+const freigabeZeit = (pr) => letztesUrteil(pr).zeit
 
 /**
  * Plan für die nächste Befüllung. `prs`: offene PRs mit Feldern von liegegut.offenePrs plus `kopfZeit` (ms).

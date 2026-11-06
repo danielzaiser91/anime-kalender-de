@@ -33,6 +33,8 @@ pruefe('Kette offen (Lauf läuft, completedAt 0001-01-01)', gleich(sperrGruende(
 pruefe('kein Urteil', gleich(sperrGruende(pr(1, 5, { comments: [] })), ['kein Urteil auf dem Kopf']))
 pruefe('Urteil für einen alten Kopf zählt nicht', gleich(sperrGruende(pr(1, 5, { comments: [urteil(2, 5)] })), ['kein Urteil auf dem Kopf']))
 pruefe('Prüfer: ändern', gleich(sperrGruende(pr(1, 5, { comments: [urteil(1, 5, 'aendern')] })), ['Prüfer: ändern']))
+pruefe('Ändern, danach Ok auf demselben Kopf (Nachtrag-Ablauf) → frei', gleich(sperrGruende(pr(1, 5, { comments: [urteil(1, 5, 'aendern'), urteil(1, 9)] })), []))
+pruefe('Ok, danach Ändern auf demselben Kopf → gesperrt', gleich(sperrGruende(pr(1, 5, { comments: [urteil(1, 5), urteil(1, 9, 'aendern')] })), ['Prüfer: ändern']))
 pruefe('zwei Gründe zugleich', gleich(sperrGruende(pr(1, 5, { isDraft: true, statusCheckRollup: ROT })), ['Entwurf', 'Kette rot']))
 
 console.log('zugPlan: Reihenfolge, Größe, schon im Zug')
@@ -43,11 +45,13 @@ const p16 = zugPlan(viele)
 pruefe('Standardgröße 16: genau 16 aufgenommen, 2 warten', p16.aufnehmen.length === 16 && gleich(p16.zurueck.map((z) => z.nr), [116, 117]) && p16.zurueck[0].gruende[0] === 'Zug voll', p16)
 pruefe('max 17: 17 aufgenommen, einer wartet', zugPlan(viele, { max: 17 }).aufnehmen.length === 17 && zugPlan(viele, { max: 17 }).zurueck.length === 1)
 pruefe('max 18: alle', zugPlan(viele, { max: 18 }).zurueck.length === 0)
+pruefe('Zug schon über max (4 drin, max 3): nichts aufnehmen, alle warten', zugPlan([pr(1, 1), pr(2, 2)], { max: 3, imZug: [7, 8, 9, 10] }).aufnehmen.length === 0 && zugPlan([pr(1, 1), pr(2, 2)], { max: 3, imZug: [7, 8, 9, 10] }).zurueck.length === 2)
 const mitZug = zugPlan(viele, { max: 16, imZug: [100, 101, 102] })
 pruefe('im Zug: zählt gegen max, kommt nicht doppelt', mitZug.aufnehmen.length === 13 && !mitZug.aufnehmen.some((a) => [100, 101, 102].includes(a.nr)) && !mitZug.zurueck.some((z) => [100, 101, 102].includes(z.nr)), mitZug.aufnehmen.length)
 pruefe('voller Zug: nichts aufnehmen', zugPlan(viele, { max: 3, imZug: [100, 101, 102] }).aufnehmen.length === 0)
 pruefe('gesperrte PRs stehen mit Grund unter zurueck', gleich(zugPlan([pr(5, 1, { isDraft: true }), pr(6, 2)]).zurueck, [{ nr: 5, gruende: ['Entwurf'] }]))
 pruefe('Freigabe zählt vom jüngsten Ok (spätes Ok nach frühem Ok)', gleich(zugPlan([pr(7, 1, { comments: [urteil(7, 1), urteil(7, 90)] }), pr(8, 50)]).aufnehmen.map((a) => a.nr), [8, 7]))
+pruefe('Freigabe zählt vom Ok nach dem Ändern, nicht vom ersten Urteil', gleich(zugPlan([pr(7, 1, { comments: [urteil(7, 1, 'aendern'), urteil(7, 90)] }), pr(8, 50)]).aufnehmen.map((a) => a.nr), [8, 7]))
 
 console.log('zugEintraege: echte Betreffzeilen')
 const LOG = [
@@ -103,6 +107,20 @@ pruefe('Job ohne Eingrenzung (Bau) → alle', gleich(verdaechtige(PRS, [{ name: 
 pruefe('zwei Jobs, einer ohne Eingrenzung → alle', gleich(verdaechtige(PRS, [{ name: 'Kette – Workflows' }, { name: 'Kette – Logik' }]), [1, 2, 3, 4]))
 pruefe('zwei eingegrenzte Jobs → Vereinigung', gleich(verdaechtige(PRS, [{ name: 'Kette – Workflows' }, { name: 'PR-Aussehen – x' }]), [1, 2]))
 pruefe('kein Job → alle', gleich(verdaechtige(PRS, []), [1, 2, 3, 4]))
+pruefe('ein PR mit zwei Dateien, nur eine passt → Verdächtiger', gleich(verdaechtige([{ nr: 1, dateien: ['docs/a.md', 'tools/a.mjs'] }], [{ name: 'Kette – Workflows' }]), [1]))
+// Tabelle: Job → Dateien, die ihn färben können (Ja) bzw. nicht (Nein); jede Alternative der Heuristik hat einen Fall.
+const DATEN = ['data', 'x.yaml'].join('/')
+const TABELLE = [
+  ['Kette – Workflows', ['.github/workflows/a.yml', 'tools/a.mjs'], ['web/src/a.tsx', DATEN, 'docs/a.md']],
+  ['Kette – Workflows 2', ['.github/actions/a.yml', 'tools/a.test.mjs'], ['worker/a.ts', 'docs/a.md']],
+  ['Kette – Typen und Worker', ['worker/a.ts', 'shared/a.ts', 'tools/a.ts', 'pipeline/a.ts', 'web/src/a.tsx', 'tsconfig.json'], ['docs/a.md', DATEN, 'extension/a.js']],
+  ['PR-Aussehen – Panel', ['web/a.tsx', 'tools/ansicht-bild.mjs', 'docs/ansicht-a.png'], ['pipeline/a.ts', 'docs/wissen/a.md', 'worker/a.ts']],
+  ['Kette – Daten, Erweiterung, Belege', [DATEN, 'extension/a.js', 'pipeline/a.ts', 'tools/a.mjs'], ['web/src/a.tsx', 'docs/a.md', 'worker/a.ts']],
+]
+for (const [job, ja, nein] of TABELLE) {
+  for (const d of ja) pruefe(`${job}: ${d} kommt in Frage`, gleich(verdaechtige([{ nr: 1, dateien: [d] }], [{ name: job }]), [1]))
+  for (const d of nein) pruefe(`${job}: ${d} kommt nicht in Frage`, gleich(verdaechtige([{ nr: 1, dateien: [d] }], [{ name: job }]), []))
+}
 
 console.log('schuldsuche: Reihenfolge der Prüfungen')
 const jobBau = (meldung) => ({ name: 'Kette – Bau und Installation', meldung })
@@ -112,12 +130,16 @@ pruefe('main allein rot → main, nichts zurücknehmen', gleich(s0({ mainAllein:
 pruefe('main rot schlägt auch eine Ratsche', s0({ mainAllein: 'rot', fehlschlag: { jobs: [jobBau(UMFANG)] } }).art === 'main')
 pruefe('Ratsche, Basisgrenze hält → ratsche (Anlass 4 von 7 Rot-nach-Grün-Köpfen)', gleich(s0({ fehlschlag: { jobs: [jobBau(UMFANG)] }, grenzeBasis: { umfang: 8986 } }), { art: 'ratsche', ratsche: 'umfang', fall: 'ratsche', job: 'Kette – Bau und Installation' }))
 pruefe('Ratsche, Basisgrenze unbekannt → ratsche, fall ratsche-pruefen', s0({ fehlschlag: { jobs: [jobBau(COVER)] } }).fall === 'ratsche-pruefen')
+pruefe('Ratsche eingehalten (Wert = Grenze) → keine Ratsche, weiter zur Suche', s0({ fehlschlag: { jobs: [jobBau('pipeline: Überlänge der funktionen 8964 statt höchstens 8964')] }, grenzeBasis: { umfang: 9000 } }).art === 'halbieren')
 pruefe('Ratsche vom Zug selbst gerissen → keine Ratsche, weiter zur Suche', s0({ fehlschlag: { jobs: [jobBau(UMFANG)] }, grenzeBasis: { umfang: 8970 } }).art === 'halbieren')
 pruefe('Ratsche steht in einem von zwei Jobs → trotzdem ratsche', s0({ fehlschlag: { jobs: [{ name: 'Kette – Workflows', meldung: 'x' }, jobBau(COVER)] }, grenzeBasis: { 'cover-standardbild': 480 } }).art === 'ratsche')
 pruefe('genau ein Verdächtiger nach Job und Dateien → pr', gleich(s0({}), { art: 'pr', nr: 1, wie: 'job+dateien' }))
 pruefe('mehrere Verdächtige → halbieren über sie, der Rest bleibt', gleich(s0({ fehlschlag: { jobs: [{ name: 'Kette – Typen und Worker', meldung: 'x' }, { name: 'PR-Aussehen – a', meldung: 'y' }] }, zugPrs: [{ nr: 1, dateien: ['worker/a.ts'] }, { nr: 2, dateien: ['web/src/b.tsx'] }, { nr: 3, dateien: ['docs/c.md'] }] }).zustand, { bleibt: [3], verdacht: [1, 2], draussen: [] }))
 pruefe('kein Verdächtiger passt → alle werden halbiert', gleich(s0({ fehlschlag: JOBS_ROT, zugPrs: [{ nr: 4, dateien: ['docs/a.md'] }, { nr: 5, dateien: ['docs/b.md'] }] }).zustand, { bleibt: [], verdacht: [4, 5], draussen: [] }))
 pruefe('ausgeschlossen: vergeblich zurückgenommener PR kommt nicht wieder in Frage, Eingrenzung entfällt', gleich(s0({ ausgeschlossen: [1] }).zustand, { bleibt: [], verdacht: [2, 3, 4], draussen: [] }))
+const DREI = [{ nr: 1, dateien: ['tools/a.mjs'] }, { nr: 2, dateien: ['tools/b.mjs'] }, { nr: 3, dateien: ['docs/c.md'] }]
+pruefe('Eingrenzung vor dem Verdacht: Workflows-Job nennt 1 und 2 → Halbierung nur über sie', gleich(s0({ zugPrs: DREI }).zustand, { bleibt: [3], verdacht: [1, 2], draussen: [] }))
+pruefe('nach vergeblichem Verdacht auf 1 gilt die Eingrenzung nicht mehr: Halbierung über 2 und 3', gleich(s0({ zugPrs: DREI, ausgeschlossen: [1] }).zustand, { bleibt: [], verdacht: [2, 3], draussen: [] }))
 pruefe('ausgeschlossen: bleibt nur einer übrig → er wird zum Verdächtigen', gleich(s0({ ausgeschlossen: [1, 2, 3] }), { art: 'pr', nr: 4, wie: 'job+dateien' }))
 
 console.log('Halbierung: jeder Schuldige, jede Zuggröße')
@@ -193,16 +215,19 @@ console.log('Trockenlauf: Verdrahtung, nichts wird geschrieben')
 const LOG_ECHT = 'Kette – Bau und Installation\tUNKNOWN STEP\t2026-11-06T07:00:38.2159533Z   pipeline: Überlänge der funktionen 8986 statt höchstens 8964\nKette – Bau und Installation\tUNKNOWN STEP\t2026-11-06T07:00:39.0000000Z ##[error]Process completed with exit code 1.\nKopfzeile ohne Tabulator\n'
 const jl = logJobs(LOG_ECHT)
 pruefe('logJobs: ein Job, beide Zeilen, Ratsche darin lesbar', jl.length === 1 && jl[0].name === 'Kette – Bau und Installation' && ratschenMeldung(jl[0].meldung)?.wert === 8986, jl)
+pruefe('logJobs: Meldung beginnt bei der Zeit, ohne Schrittname', jl[0].meldung.startsWith('2026-11-06T07:00:38.2159533Z   pipeline: Überlänge') && !jl[0].meldung.includes('UNKNOWN STEP'), jl[0].meldung)
+pruefe('logJobs: Zeile mit nur einem Tabulator zählt nicht', logJobs('Job\tnur zwei Spalten\n').length === 0)
+pruefe('logJobs: zwei Jobs getrennt', gleich(logJobs('A\ts\tz eins\nB\ts\tz zwei\nA\ts\tz drei\n').map((j) => [j.name, j.meldung]), [['A', 'z eins\nz drei\n'], ['B', 'z zwei\n']]))
 
-function attrappen(zugLog) {
+function attrappen(zugLog, mainFehlt = false) {
   const aufrufe = []
   const ghFn = (a) => {
     aufrufe.push(['gh', ...a])
     const f = a[a.indexOf('--json') + 1]
-    if (a[0] === 'pr' && a.includes('--base')) return JSON.stringify([{ number: 1 }, { number: 2 }])
-    if (a[0] === 'pr' && f?.startsWith('number,title')) return JSON.stringify([1, 2, 3].map((n) => ({ number: n, title: `T${n}`, headRefOid: kopfVon(n), createdAt: min(0), mergeable: 'MERGEABLE', mergeStateStatus: 'CLEAN', isDraft: false, body: '' })))
-    if (a[0] === 'pr' && f?.includes('statusCheckRollup')) return JSON.stringify([1, 2, 3].map((n) => ({ number: n, reviews: [], statusCheckRollup: GRUEN })))
-    if (a[0] === 'pr' && f?.includes('comments')) return JSON.stringify([1, 2, 3].map((n) => ({ number: n, comments: [urteil(n, n * 10)] })))
+    if (a[0] === 'pr' && a.includes('--base')) return JSON.stringify([{ number: 1 }, { number: 2 }, { number: 4 }])
+    if (a[0] === 'pr' && f?.startsWith('number,title')) return JSON.stringify([1, 2, 3, 4].map((n) => ({ number: n, title: `T${n}`, headRefOid: kopfVon(n), createdAt: min(0), mergeable: 'MERGEABLE', mergeStateStatus: 'CLEAN', isDraft: false, body: '' })))
+    if (a[0] === 'pr' && f?.includes('statusCheckRollup')) return JSON.stringify([1, 2, 3, 4].map((n) => ({ number: n, reviews: [], statusCheckRollup: GRUEN })))
+    if (a[0] === 'pr' && f?.includes('comments')) return JSON.stringify([1, 2, 3, 4].map((n) => ({ number: n, comments: [n === 4 ? { author: { login: 'danielzaiser91' }, createdAt: min(-120), body: 'Prüfer: freigeben' } : urteil(n, n * 10)] })))
     if (a[0] === 'api' && a[1] === 'graphql') throw new Error('keine Karte')
     if (a[0] === 'api') return min(-60)
     if (a[0] === 'run') return LOG_ECHT
@@ -214,7 +239,10 @@ function attrappen(zugLog) {
       if (zugLog === null) throw new Error('unknown revision')
       return 'kopf1\n'
     }
-    if (a[0] === 'merge-base') return ''
+    if (a[0] === 'merge-base') {
+      if (mainFehlt) throw new Error('kein Vorfahr')
+      return ''
+    }
     if (a[0] === 'log') return a.includes('origin/main..origin/zug') ? zugLog : '\x01s1\tp1\tUmbau (#2757)\ntools/umfang-grenzen.json\n\x01s2\tp2\tPlan (#2764)\ntools/b.mjs\n'
     throw new Error(`unerwarteter git-Aufruf ${a.join(' ')}`)
   }
@@ -230,17 +258,25 @@ const a1 = attrappen(null)
 const aus1 = []
 const exit1 = await trocken(['trocken'], (z) => aus1.push(z), { ghFn: a1.ghFn, gitFn: a1.gitFn })
 const text1 = aus1.join('\n')
-pruefe('ohne Zug: Exit 0, Plan nur aus der Basis (PR 1 und 2, nicht 3)', exit1 === 0 && /ZUG-PLAN: 2 PRs aufnehmen, 0 bleiben/.test(text1) && !/#3 /.test(text1), text1)
-pruefe('ohne Zug: Übung mit Schuldsuche (Ratsche, Basisgrenze 8986) und Revert-Befehl', /"art":"ratsche","ratsche":"umfang"/.test(text1) && /REVERT #2757: git revert --no-edit s1/.test(text1), text1)
+pruefe('ohne Zug: Exit 0, Plan nur aus der Basis (PR 1 und 2 frei, PR 4 mit altem Daniel-Urteil gesperrt, nicht 3)', exit1 === 0 && /ZUG-PLAN: 2 PRs aufnehmen, 1 bleiben/.test(text1) && /#4 kein Urteil auf dem Kopf/.test(text1) && !/#3 /.test(text1), text1)
+pruefe('ohne Zug: Übung mit Schuldsuche (Ratsche, Basisgrenze 8986) und Revert-Befehl', /"art":"ratsche","ratsche":"umfang","fall":"ratsche","job":"Kette – Bau und Installation"/.test(text1) && /REVERT #2757: git revert --no-edit s1/.test(text1), text1)
 pruefe('Schlusszeile „nichts geschrieben“', /zug trocken: nichts geschrieben$/.test(text1))
 pruefe('nur lesende gh-/git-Aufrufe', nurLesend(a1.aufrufe), a1.aufrufe.map((x) => x.slice(0, 3).join(' ')))
 
 const a2 = attrappen('\x01z1\tp1 p2\tMerge pull request #1 from d/x\ntools/a.mjs\n')
 const aus2 = []
-const exit2 = await trocken(['trocken', '--max', '2'], (z) => aus2.push(z), { ghFn: a2.ghFn, gitFn: a2.gitFn })
+const exit2 = await trocken(['trocken', '--max', '1'], (z) => aus2.push(z), { ghFn: a2.ghFn, gitFn: a2.gitFn })
 const text2 = aus2.join('\n')
-pruefe('mit Zug: Zugstand und Fast-Forward-Lage, PR 1 liegt schon drin → nur PR 2 aufgenommen (max 2)', exit2 === 0 && /ZUG: 1 PR-Commits, 1 Commits seit main/.test(text2) && /"art":"ff"/.test(text2) && /ZUG-PLAN: 1 PRs aufnehmen/.test(text2) && !/UEBUNG/.test(text2), text2)
+pruefe('mit Zug: Zugstand und Fast-Forward-Lage; PR 1 liegt drin, max 1 → PR 2 wartet', exit2 === 0 && /ZUG: 1 PR-Commits, 1 Commits seit main/.test(text2) && /"art":"ff"/.test(text2) && /ZUG-PLAN: 0 PRs aufnehmen, 2 bleiben/.test(text2) && /#2 Zug voll/.test(text2) && !/UEBUNG/.test(text2), text2)
 pruefe('mit Zug: nur lesende Aufrufe', nurLesend(a2.aufrufe))
+const a6 = attrappen('\x01z1\tp1 p2\tMerge pull request #1 from d/x\ntools/a.mjs\n', true)
+const aus6 = []
+await trocken(['trocken'], (z) => aus6.push(z), { ghFn: a6.ghFn, gitFn: a6.gitFn })
+pruefe('mit Zug, main nicht im Zug → main-holen', /"art":"main-holen"/.test(aus6.join('\n')))
+const a7 = attrappen(null)
+await trocken(['trocken', '--basis', 'zug'], () => {}, { ghFn: a7.ghFn, gitFn: a7.gitFn })
+const basisAufruf = a7.aufrufe.find((x) => x[0] === 'gh' && x.includes('--base'))
+pruefe('--basis zug wird an gh weitergegeben, Standard ist main', basisAufruf?.[basisAufruf.indexOf('--base') + 1] === 'zug' && a1.aufrufe.find((x) => x.includes('--base'))[a1.aufrufe.find((x) => x.includes('--base')).indexOf('--base') + 1] === 'main')
 
 const aus3 = []
 const exit3 = await trocken(['trocken'], (z) => aus3.push(z), { ghFn: () => { throw new Error('HTTP 502') }, gitFn: a1.gitFn })
