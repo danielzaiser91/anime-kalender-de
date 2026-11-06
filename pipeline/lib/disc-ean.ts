@@ -70,7 +70,7 @@ export function discKaufUrl(
 
 /** Nach einer Terminverschiebung: ist die Ausgabe am neuen Tag eindeutig, ersetzt die EAN-Suche Namenssuche und Amazon-Handlink; sonst bleibt der Link. */
 export function buyUrlNachVerschiebung(buyUrl: string | undefined, titleId: number | undefined, nach: string, index: DiscIndex): string | undefined {
-  if (fremderHaendler(buyUrl)) return buyUrl
+  if (!buyUrl || fremderHaendler(buyUrl)) return buyUrl
   const ean = discEan(index, titleId, nach)
   return ean ? amazonEanUrl(ean) : buyUrl
 }
