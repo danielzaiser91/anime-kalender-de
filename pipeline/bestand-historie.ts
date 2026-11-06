@@ -44,6 +44,8 @@ import { belegGruende, findeAuffaelliges, kanalTitelMenge, messen, type Kennzahl
 import { betroffeneZeilen, kuerzeZeilen } from './lib/bestand-betroffen.ts'
 import { bestandAusCommit, linkAbgaenge } from './lib/bestand-link-abgang.ts'
 import { juengsteJeKern, type LinkBefund } from './lib/link-befund.ts'
+import { ladeGewerteteBefunde } from './lib/netflix-404-gate.ts'
+import { todayIso } from '../shared/time.ts'
 import { ladeVonHandBelegtAm } from './lib/verweise-von-hand.ts'
 import { ladeBelegeEntfernt } from './lib/belege-entfernt.ts'
 import { titelAusCommit, verschobeneTitel } from './lib/bestand-verschoben.ts'
@@ -106,7 +108,7 @@ function verschobenSeitCommit(schrumpft: boolean): string[] {
 function linkAbgangSeitCommit(sinkt: boolean): LinkAbgaenge {
   if (!sinkt) return { begruendet: [], unerklaert: [] }
   const hand = { belege: ladeHandbelege(), vonHandBelegtAm: ladeVonHandBelegtAm() }
-  return linkAbgaenge(bestandAusCommit(ROOT), titelJetzt(), lies<Record<string, LinkBefund>>('data/link-check.json', {}), hand)
+  return linkAbgaenge(bestandAusCommit(ROOT), titelJetzt(), ladeGewerteteBefunde(todayIso()).befunde, hand)
 }
 
 /** Titel, Anbieter und Änderung hinter einem roten Befund (höchstens 20 Zeilen); gelesen wird nur bei Befund. */
