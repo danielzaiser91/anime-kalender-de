@@ -244,6 +244,8 @@ pipeline/check-jw-auswahl.ts
 pipeline/check-jw-frisch-lauf.ts
 pipeline/check-jw-kennung-fremd-lauf.ts
 pipeline/check-jw-kennung-fremd.ts
+pipeline/check-jw-namenssuche-lauf.ts
+pipeline/check-jw-namenssuche.ts
 pipeline/check-jw-schlange.ts
 pipeline/check-jw-seite.ts
 pipeline/check-jw-staffeln.ts
