@@ -1,0 +1,9 @@
+name = "ak-adn-gw"
+main = "src/adn-gw-eingang.ts"
+compatibility_date = "2025-05-01"
+
+# ADN ordnet nach dem Land des Abrufers (seit 28.10.2026 liefert es dem US-Runner nur den französischen Katalog). Ohne Platzierung läuft der
+# Worker im Colo, das die Anfrage annimmt (Runner: IAD, Antwort französisch); mit Platzierung in Frankfurt geht der Abruf von dort aus und
+# ADN antwortet deutsch (Messung 03.11.2026, quellen.md Abschnitt ADN).
+[placement]
+region = "aws:eu-central-1"

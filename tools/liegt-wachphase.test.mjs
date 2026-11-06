@@ -15,7 +15,7 @@ const pruefe = (name, ok, info) => {
 
 const JETZT = Date.parse('2026-10-30T12:00:00Z')
 const vorStunden = (h) => new Date(JETZT - h * 3600 * 1000).toISOString()
-const FELDER = 'number,title,headRefOid,createdAt,mergeable,mergeStateStatus,isDraft,body,comments,reviews,statusCheckRollup'
+const LEICHT = 'number,title,headRefOid,createdAt,mergeable,mergeStateStatus,isDraft,body'
 const KOPF = 'a1b2c3d4e5f60718293a4b5c6d7e8f9012345678'
 
 console.log('liegt-wachphase: Sammelzeile (rein)')
@@ -52,12 +52,15 @@ console.log('liegt-wachphase: eigener Prozess laeufe-aufraeumen --trocken')
     graphqlSchluessel = args.join(' ')
     return ''
   })
-  const liste = `pr list --state open --limit 100 --json ${FELDER}`
+  const liste = `pr list --state open --limit 100 --json ${LEICHT}`
   const daten = {
     [liste]: { aus: JSON.stringify([still]) },
+    'pr list --state open --limit 100 --json number,reviews,statusCheckRollup': { aus: JSON.stringify([still]) },
+    'pr list --state open --limit 100 --json number,comments': { aus: JSON.stringify([still]) },
     [graphqlSchluessel]: { aus: `${KOPF} ${vorStunden(100)}\n` },
     'pr list --state open --limit 100 --json number,title,body,createdAt': { aus: '[]' },
     'api repos/danielzaiser91/anime-kalender-de/issues/comments?sort=created&direction=desc&per_page=100': { aus: '[]' },
+    'api repos/danielzaiser91/anime-kalender-de/actions/runs?status=in_progress&per_page=100': { aus: '{"workflow_runs":[]}' },
     ...Object.fromEntries(['bestand-bauen.yml', 'deploy.yml'].map((w) => [`run list --repo danielzaiser91/anime-kalender-de --workflow ${w} --limit 200 --json status,conclusion,createdAt,databaseId`, { aus: '[]' }])),
   }
   const abruf = path.join(werk, 'abruf-abgelehnt.mjs')

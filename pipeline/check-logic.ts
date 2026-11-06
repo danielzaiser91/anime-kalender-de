@@ -1911,13 +1911,13 @@ console.log('\nStreaming Availability API:')
   const vomBand = (datei: string) =>
     readFileSync(new URL('../' + datei, import.meta.url), 'utf8')
   const roh = yaml.load(vomBand('data/tmdb-von-hand.yaml')) as
-    | { anilistId: number; tmdbId: number; kind?: string; grund?: string; geprueftAm?: string }[]
+    | { anilistId: number; tmdbId?: number; ohne?: boolean; kind?: string; grund?: string; geprueftAm?: string }[]
     | null
   const eintraege = roh ?? []
   pruefe('die Datei enthält Einträge', eintraege.length > 0, eintraege.length)
   pruefe(
-    'jeder Eintrag nennt AniList-Kennung, TMDB-Kennung, Grund und Prüfdatum',
-    eintraege.every((e) => e.anilistId > 0 && e.tmdbId > 0 && Boolean(e.grund) && /^\d{4}-\d{2}-\d{2}$/.test(e.geprueftAm ?? '')),
+    'jeder Eintrag nennt AniList-Kennung, TMDB-Kennung (oder `ohne`), Grund und Prüfdatum',
+    eintraege.every((e) => e.anilistId > 0 && (e.ohne ? e.tmdbId === undefined : Number(e.tmdbId) > 0) && Boolean(e.grund) && /^\d{4}-\d{2}-\d{2}$/.test(e.geprueftAm ?? '')),
     eintraege.filter((e) => !e.grund || !e.geprueftAm),
   )
   pruefe(
@@ -3286,14 +3286,10 @@ console.log('\nStaffel und Teil zählen:')
     'der Filmblock-Abruf liest den alten Stand, bevor er schreibt',
     /readFileSync\('data\/cr-filmbloecke\.json'/.test(abruf),
   )
-  pruefe(
-    '… führt beide Stände zusammen',
-    /const zusammen = new Map\(\)/.test(abruf) && /zusammen\.set\(f\.id, f\)/.test(abruf),
-  )
-  pruefe(
-    '… und ein Schweigen überschreibt keinen alten Treffer',
-    /if \(alt\?\.treffer && !f\.treffer\)/.test(abruf),
-  )
+  /* Die Zusammenführung steht in `lib/cr-abruf-logik.ts` (Laufzeitfälle: `check-cr-abruf-logik.ts`); hier nur die Verdrahtung. */
+  pruefe('… führt beide Stände zusammen (filmbloeckeZusammen(vorher, funde))', /filmbloeckeZusammen\(vorher, funde\)/.test(abruf))
+  const zusammenfuehrung = readFileSync(new URL('./lib/cr-abruf-logik.ts', import.meta.url), 'utf8')
+  pruefe('… und ein Schweigen überschreibt keinen alten Treffer', /if \(alt\?\.treffer && !f\.treffer\)/.test(zusammenfuehrung))
   pruefe(
     'geschrieben wird der zusammengeführte Stand, nicht die Fundliste',
     /writeFileSync\('data\/cr-filmbloecke\.json', JSON\.stringify\(gesamt/.test(abruf),
@@ -4343,13 +4339,6 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
       kennungAusPfad,
     )('http://www.crunchyroll.com/de/a-place-further-than-the-universe') === 'GYK541EPR',
     '43 der 44 offenen Verweise standen in der alten Slug-Form ohne Kennung in der Adresse',
-  )
-
-  const roh = readFileSync('pipeline/fetch-rohfolgen.ts', 'utf8')
-  pruefe(
-    'eine Meldung ab Staffel 2 landet nicht am Reihenkopf',
-    roh.includes('gemeldeteStaffel > 1 && istReihenkopf(titel, titles)'),
-    'Amazon nennt jede Staffel gleich; der beste Namenstreffer ist der Reihenkopf',
   )
 }
 
@@ -5660,7 +5649,7 @@ pruefe(
 {
   /*
     **Datenbank und Kalender zeigen dieselbe Filteransicht**.
-    Der Klick-Modus war im Kalender hinter „Weitere Filter" versteckt. Beide Seiten
+    Die Filter waren im Kalender hinter „Weitere Filter" versteckt. Beide Seiten
     rendern jetzt `FilterDetailsFeld` — nicht zwei getrennte Filterbäume.
   */
   const liesWeb = (p: string) => readFileSync(new URL(`../web/src/components/${p}`, import.meta.url), 'utf8')

@@ -1,0 +1,18 @@
+{
+  "tools/abnahme-freigabe.mjs": 1,
+  "tools/cache-holen.mjs": 3,
+  "tools/cover-nach-r2.mjs": 1,
+  "tools/cr-zugang-holen.mjs": 1,
+  "tools/deploy-aus-build-messen.mjs": 1,
+  "tools/deploy-aus-build.mjs": 2,
+  "tools/kette-urteil.mjs": 1,
+  "tools/meldungskopie.mjs": 1,
+  "tools/pr-checks-stand.mjs": 1,
+  "tools/pr-kettenlog.mjs": 1,
+  "tools/pr-nachtraege.mjs": 1,
+  "tools/pr-pruefer-modus.mjs": 1,
+  "tools/pr-stufe.mjs": 1,
+  "tools/untersucher-vorab.mjs": 1,
+  "tools/workflows-beleg.mjs": 1,
+  "tools/zugangs-waechter.mjs": 1
+}
