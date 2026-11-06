@@ -8,192 +8,6 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:adn-1318@2026-10-29@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261029T080000Z
-DTEND:20261029T083000Z
-SUMMARY:Puella Magi Madoka Magica (neu bei ADN)
-DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nIm Angebot seit dies
- em Tag – nicht der Erscheinungstag der deutschen Fassung.\nDetails: http
- s://anime-kalender.de/t/4943/
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1321@2026-10-29@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261029T080000Z
-DTEND:20261029T083000Z
-SUMMARY:Puella Magi Madoka Magica: Der Film - Rebellion (neu bei ADN)
-DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nIm Angebot seit dies
- em Tag – nicht der Erscheinungstag der deutschen Fassung.\nDetails: http
- s://anime-kalender.de/t/5609/
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-10012621-tv-super-rtl@2026-10-29#32@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261029T085000Z
-DTEND:20261029T092000Z
-SUMMARY:Super Wings
-DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
- ails: https://anime-kalender.de/t/18191/
-CATEGORIES:Super RTL
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-10012621-tv-super-rtl@2026-10-29#33@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261029T090000Z
-DTEND:20261029T093000Z
-SUMMARY:Super Wings
-DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
- ails: https://anime-kalender.de/t/18191/
-CATEGORIES:Super RTL
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-10012621-tv-toggo-plus@2026-10-29#32@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261029T095000Z
-DTEND:20261029T102000Z
-SUMMARY:Super Wings
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/t/18191/
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-10012621-tv-toggo-plus@2026-10-29#33@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261029T100000Z
-DTEND:20261029T103000Z
-SUMMARY:Super Wings
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/t/18191/
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-158871-tv-super-rtl@2026-10-29@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261029T150500Z
-DTEND:20261029T153500Z
-SUMMARY:Pokémon Horizonte – Folge 20
-DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
- ails: https://anime-kalender.de/t/14839/
-CATEGORIES:Super RTL
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-118399-tv-prosieben-maxx@2026-10-29@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261029T154500Z
-DTEND:20261029T161500Z
-SUMMARY:Yashahime: Princess Half-Demon
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/11570/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-158871-tv-toggo-plus@2026-10-29@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261029T160500Z
-DTEND:20261029T163500Z
-SUMMARY:Pokémon Horizonte – Folge 20
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/t/14839/
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-10-29#48@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261029T161000Z
-DTEND:20261029T164000Z
-SUMMARY:Dragon Ball
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-10-29#49@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261029T163500Z
-DTEND:20261029T170500Z
-SUMMARY:Dragon Ball
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-235-tv-prosieben-maxx@2026-10-29@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261029T165500Z
-DTEND:20261029T172500Z
-SUMMARY:Detektiv Conan – Folge 164
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/204/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GDKHZEP21@2026-10-29@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261029T170000Z
-DTEND:20261029T173000Z
-SUMMARY:The Iceblade Sorcerer Shall Rule the World II – Folge 1/≈12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/17631/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-29#49@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261029T172500Z
-DTEND:20261029T175500Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-29#50@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261029T175000Z
-DTEND:20261029T182000Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-112153-tv-toggo-plus@2026-10-29@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261029T201500Z
-DTEND:20261029T204500Z
-SUMMARY:Pokémon Reisen: Die Serie
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/t/10852/
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-20462-primevideo@2026-10-29@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261029
-DTEND;VALUE=DATE:20261030
-SUMMARY:Chaika\, die Sargprinzessin (neu bei Prime Video)
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nIm Angebot s
- eit diesem Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrze
- it noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/7029/
-CATEGORIES:Prime Video
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-11433-primevideo@2026-10-29@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261029
-DTEND;VALUE=DATE:20261030
-SUMMARY:Waiting in the Summer (neu bei Prime Video)
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nIm Angebot s
- eit diesem Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrze
- it noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/5503/
-CATEGORIES:Prime Video
-END:VEVENT
-BEGIN:VEVENT
 UID:steel-ball-run-2nd-3rd-stage@2026-10-30@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261030T080000Z
@@ -535,6 +349,16 @@ SUMMARY:Jaadugar: A Witch in Mongolia Staffel 1 – Folge 12/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/t/16797/
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-887@2026-10-31@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261031T180000Z
+DTEND:20261031T183000Z
+SUMMARY:Dreamland – Folge 3/3
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: 
+ https://anime-kalender.de/t/-204084/
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-165159-tv-toggo-plus@2026-10-31@anime-kalender-de
@@ -1669,6 +1493,56 @@ DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-10012621-tv-super-rtl@2026-11-06#44@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261106T085000Z
+DTEND:20261106T092000Z
+SUMMARY:Super Wings
+DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
+ ails: https://anime-kalender.de/t/18191/
+CATEGORIES:Super RTL
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-10012621-tv-super-rtl@2026-11-06#45@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261106T090000Z
+DTEND:20261106T093000Z
+SUMMARY:Super Wings
+DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
+ ails: https://anime-kalender.de/t/18191/
+CATEGORIES:Super RTL
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-10012621-tv-toggo-plus@2026-11-06#44@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261106T095000Z
+DTEND:20261106T102000Z
+SUMMARY:Super Wings
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/18191/
+CATEGORIES:TOGGO plus
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-10012621-tv-toggo-plus@2026-11-06#45@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261106T100000Z
+DTEND:20261106T103000Z
+SUMMARY:Super Wings
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/18191/
+CATEGORIES:TOGGO plus
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-158871-tv-super-rtl@2026-11-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261106T151500Z
+DTEND:20261106T154500Z
+SUMMARY:Pokémon Horizonte – Folge 26
+DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
+ ails: https://anime-kalender.de/t/14839/
+CATEGORIES:Super RTL
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-118399-tv-prosieben-maxx@2026-11-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261106T154000Z
@@ -1709,6 +1583,16 @@ SUMMARY:Dragon Ball
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-158871-tv-toggo-plus@2026-11-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261106T161500Z
+DTEND:20261106T164500Z
+SUMMARY:Pokémon Horizonte – Folge 26
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/14839/
+CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-11-06#61@anime-kalender-de
@@ -1768,10 +1652,20 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-112153-tv-toggo-plus@2026-11-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261106T201500Z
+DTEND:20261106T204500Z
+SUMMARY:Pokémon Reisen: Die Serie
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/10852/
+CATEGORIES:TOGGO plus
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-176496-tv-prosieben-maxx@2026-11-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261106T222500Z
-DTEND:20261106T225500Z
+DTSTART:20261106T222000Z
+DTEND:20261106T225000Z
 SUMMARY:Solo Leveling: Arise from the Shadow – Folge 8
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/15790/
@@ -2928,6 +2822,16 @@ DTEND;VALUE=DATE:20261120
 SUMMARY:Naruto Shippuden: The Movie 4 - The Lost Tower (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/t/4476/
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-184591-disc@2026-11-19@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261119
+DTEND;VALUE=DATE:20261120
+SUMMARY:There’s No Freaking Way I’ll Be Your Lover! Unless… (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/16362/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT

@@ -23,7 +23,7 @@ JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine
 |---|---|---|---|---|
 | Vampire Hunter D: Bloodlust (543) | primevideo | https://watch.amazon.de/detail?gti=amzn1.dv.gti.68239688-dba5-4abc-a3b5-5e554d51081f | de, Stand 2026-10-26 | Handbeleg 2026-10-31 |
 
-### Kandidaten für neue Wege (771)
+### Kandidaten für neue Wege (772)
 
 JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „Weg ohne Kennung“: ein Weg zum Anbieter steht, seine Adresse trägt aber keine Seitenkennung.
 
@@ -247,6 +247,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Pokémon: Der Film - Diancie und der Kokon der Zerstörung (20644) | Amazon Video | amazon:amzn1.dv.gti.fcb27ba3-0225-bf00-81c7-07f4f088f5a8 | ja |
 | Daimidaler: Prince vs. Penguin Empire (20588) | Crunchyroll | crunchyroll:GEVUZEP9P | nein |
 | Daimidaler: Prince vs. Penguin Empire (20588) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.787acdc7-6cef-4e3f-b66c-a715f7b8041e | ja |
+| Akame ga Kill: Schwerter der Assassinen (20613) | Anime Digital Network Amazon Channel | amazon:amzn1.dv.gti.22b9fefb-f934-50b5-0541-ebb146b634cb | ja |
 | Ronja Räubertochter (20617) | Viaplay Amazon Channel | amazon:amzn1.dv.gti.1bf8256f-1e8c-489c-ae66-8e96247f6004 | nein |
 | Parasyte: The Maxim (20623) | Anime Digital Network Amazon Channel | amazon:amzn1.dv.gti.70a9f72c-3c91-674b-8ddb-30803f5440a4 | ja |
 | Invaders of the Rokujyoma!? (20638) | Crunchyroll | crunchyroll:G7PU41250 | nein |
