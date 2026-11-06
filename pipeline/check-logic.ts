@@ -3286,14 +3286,10 @@ console.log('\nStaffel und Teil zählen:')
     'der Filmblock-Abruf liest den alten Stand, bevor er schreibt',
     /readFileSync\('data\/cr-filmbloecke\.json'/.test(abruf),
   )
-  pruefe(
-    '… führt beide Stände zusammen',
-    /const zusammen = new Map\(\)/.test(abruf) && /zusammen\.set\(f\.id, f\)/.test(abruf),
-  )
-  pruefe(
-    '… und ein Schweigen überschreibt keinen alten Treffer',
-    /if \(alt\?\.treffer && !f\.treffer\)/.test(abruf),
-  )
+  /* Die Zusammenführung steht in `lib/cr-abruf-logik.ts` (Laufzeitfälle: `check-cr-abruf-logik.ts`); hier nur die Verdrahtung. */
+  pruefe('… führt beide Stände zusammen (filmbloeckeZusammen(vorher, funde))', /filmbloeckeZusammen\(vorher, funde\)/.test(abruf))
+  const zusammenfuehrung = readFileSync(new URL('./lib/cr-abruf-logik.ts', import.meta.url), 'utf8')
+  pruefe('… und ein Schweigen überschreibt keinen alten Treffer', /if \(alt\?\.treffer && !f\.treffer\)/.test(zusammenfuehrung))
   pruefe(
     'geschrieben wird der zusammengeführte Stand, nicht die Fundliste',
     /writeFileSync\('data\/cr-filmbloecke\.json', JSON\.stringify\(gesamt/.test(abruf),
@@ -6474,7 +6470,7 @@ pruefe(
   pruefe('Löschlauf: Ratenbegrenzung älter als 60 Minuten', aufrufe[0]?.sql === SQL_RATE_LIMIT_LOESCHEN && aufrufe[0].grenze === '2026-10-09T11:00:00.000Z', JSON.stringify(aufrufe[0]))
   pruefe('Löschlauf: nur unbestätigte Anmeldungen älter als 7 Tage', aufrufe[1]?.sql === SQL_UNBESTAETIGT_LOESCHEN && aufrufe[1].grenze === '2026-10-02T12:00:00.000Z' && SQL_UNBESTAETIGT_LOESCHEN.includes("status = 'pending'"), JSON.stringify(aufrufe[1]))
   pruefe('Löschlauf meldet die Zahlen', n.rateLimit === 2 && n.unbestaetigt === 2)
-  pruefe('… und wird stündlich aus `scheduled` aufgerufen', /async scheduled[\s\S]{0,400}loescheAbgelaufenes\(env, now\)/.test(readFileSync('worker/src/index.ts', 'utf8')))
+  pruefe('… und wird stündlich aus `scheduled` aufgerufen', /async scheduled[\s\S]{0,600}loescheAbgelaufenes\(env, now\)/.test(readFileSync('worker/src/index.ts', 'utf8')))
 }
 {
   /* Web-Push-Text (18.09.2026): eine Sache ausgeschrieben, mehrere gebündelt, nichts → kein Push. */

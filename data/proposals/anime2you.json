@@ -1,15 +1,42 @@
 {
-  "scrapedAt": "2026-11-06T04:13:53.172Z",
+  "scrapedAt": "2026-11-06T16:01:41.532Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 41,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 4,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 54,
-    "schon in einem Rubrik-Feed gelesen": 31,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 9,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 17,
+    "schon in einem Rubrik-Feed gelesen": 6,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 1,
     "Sprachhinweis älter als 45 Tage": 6
   },
   "proposals": [
+    {
+      "articleTitle": "Prime Video nimmt zwei Anime-Serien auf Deutsch ins Programm",
+      "articleUrl": "https://www.anime2you.de/news/1068059/prime-video-devils-crest-und-mehr/",
+      "publishedAt": "2026-11-06",
+      "category": "streaming",
+      "platforms": [
+        "primevideo"
+      ],
+      "dates": [],
+      "dub": "ja",
+      "hinweis": "sprache",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "28 Blu-ray-Termine von Crunchyroll, AniMoon, KSM und polyband verschoben",
+      "articleUrl": "https://www.anime2you.de/news/1068595/28-blu-ray-verschiebungen/",
+      "publishedAt": "2026-11-06",
+      "category": "disc",
+      "platforms": [
+        "crunchyroll",
+        "disc"
+      ],
+      "dates": [],
+      "dub": "unklar",
+      "pause": "verschoben",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Erster Trailer zum Netflix-Anime »Fool Night« + Visual",
       "articleUrl": "https://www.anime2you.de/news/1067870/fool-night-netflix-erster-trailer/",

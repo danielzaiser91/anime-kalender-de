@@ -74,7 +74,7 @@ function antworten({ nr = 7, pr = PR, mainSha = BASIS, laeufe, jobs, log = ECHTE
     [`api repos/{owner}/{repo}/commits/${M_ALT} --jq .parents[0].sha`]: { aus: `${BASIS}\n` },
     [`api repos/{owner}/{repo}/commits/${M_NEU} --jq .parents[0].sha`]: { aus: `${MAIN}\n` },
     [`pr view ${nr} --json number,state,mergeable,headRefOid,headRefName`]: { aus: JSON.stringify(pr) },
-    [`run list --workflow ${KETTE} --event pull_request --branch fix/x --limit 20 --json databaseId,headSha,createdAt,conclusion`]: {
+    [`run list --workflow ${KETTE} --event pull_request --branch fix/x --limit 20 --json databaseId,headSha,createdAt,conclusion,status`]: {
       aus: JSON.stringify(laeufe ?? [lauf(KOPF, '2026-10-19T10:00:00Z', 11), lauf(KOPF, '2026-10-19T12:00:00Z', 12), lauf(KOPF, '2026-10-19T11:00:00Z', 13)]),
     },
     'run view 12 --json jobs': { aus: JSON.stringify({ jobs: jobs ?? [{ name: 'Kette – Logik', databaseId: 91 }, { name: JOB, databaseId: 92, status: 'completed' }, { name: 'PR-Prüfkette', databaseId: 93 }] }) },
@@ -430,7 +430,8 @@ const UNKLAR = [
   ['geschlossen', antworten({ pr: { ...PR, state: 'CLOSED' }, mainSha: MAIN }), /nicht offen/],
   ['kein Lauf zum Kopf', antworten({ laeufe: [lauf(MAIN, '2026-10-19T12:00:00Z', 12)], mainSha: MAIN }), /kein Kettenlauf zum Kopf 08798af3f/],
   ['Lauf ohne Jobs (noch nicht angelegt)', antworten({ jobs: [], mainSha: MAIN }), /noch keine Jobs angelegt/],
-  ['Job fehlt im Lauf', antworten({ jobs: [{ name: 'Kette – Logik', databaseId: 91 }], mainSha: MAIN }), /keinen Job „Kette – Workflows“/],
+  ['Job fehlt, Lauf läuft noch (in_progress)', antworten({ laeufe: [{ ...lauf(KOPF, '2026-10-19T12:00:00Z', 12), status: 'in_progress', conclusion: '' }], jobs: [{ name: 'Kette – Logik', databaseId: 91 }], mainSha: MAIN }), /Lauf 12 \(in_progress\) hat den Job „Kette – Workflows“ noch nicht angelegt; später erneut/],
+  ['Job fehlt, Lauf abgeschlossen (failure)', antworten({ laeufe: [{ ...lauf(KOPF, '2026-10-19T12:00:00Z', 12), status: 'completed', conclusion: 'failure' }], jobs: [{ name: 'Kette – Logik', databaseId: 91 }, { name: 'PR-Datenbau', databaseId: 94 }], mainSha: MAIN }), /Lauf 12 \(abgeschlossen, failure\) hat keinen Job „Kette – Workflows“; vorhanden: Kette – Logik, PR-Datenbau/],
   ['Job wartet (queued), Log-Abruf 404', antworten({ jobs: [{ name: JOB, databaseId: 92, status: 'queued' }], logFehler: true, mainSha: MAIN }), /läuft noch \(Lauf 12\)/],
   ['Job läuft (in_progress), Log-Abruf 404', antworten({ jobs: [{ name: JOB, databaseId: 92, status: 'in_progress' }], logFehler: true, mainSha: MAIN }), /läuft noch \(Lauf 12\)/],
   ['Log ohne Basis (Job übersprungen)', antworten({ log: 'Job übersprungen', mainSha: MAIN }), /Basis nicht im Log/],
