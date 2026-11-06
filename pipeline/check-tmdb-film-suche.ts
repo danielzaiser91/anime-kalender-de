@@ -7,7 +7,7 @@
 import type { Title } from '../shared/types.ts'
 import { faelligeTitel } from './lib/tmdb-faellig.ts'
 import { nachAbruf } from './lib/tmdb-ablauf.ts'
-import { koennteFilmSein, lookup } from './lib/tmdb-titel-lookup.ts'
+import { FILMSUCHE_SEIT, koennteFilmSein, lookup } from './lib/tmdb-titel-lookup.ts'
 
 let verletzt = 0
 let faelle = 0
@@ -108,7 +108,8 @@ console.log('\nFilm-Nachsuche: Fehlschläge von vor der Regel zuerst (Rückstau 
 {
   const jetzt = '2026-11-06T12:00:00.000Z'
   const opt = { handIds: new Set<number>(), nurOhneEintrag: false, force: false, grenze: '2026-09-10T00:00:00.000Z', grenzeFehlschlag: '2026-10-30T00:00:00.000Z' }
-  const film = { ids: new Set([11, 12, 13]), vor: '2026-11-04' }
+  const film = { ids: new Set([11, 12, 13, 15]), vor: '2026-11-04' }
+  pruefe('die Film-Nachsuche gilt seit dem 04.11.2026', FILMSUCHE_SEIT === '2026-11-04', FILMSUCHE_SEIT)
   /* 11 Film-Fehlschlag Oktober, 12 Film-Fehlschlag nach der Regel, 13 Film-Fehlschlag vom 01.11. (noch nicht 7 Tage alt), 14 Serien-Fehlschlag September, 15 Treffer August. */
   const cache: Record<string, { miss?: true; tmdbId?: number; fetchedAt: string }> = {
     '11': { miss: true, fetchedAt: '2026-10-12T00:00:00.000Z' },

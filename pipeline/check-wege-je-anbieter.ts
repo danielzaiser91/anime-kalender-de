@@ -29,16 +29,19 @@ const jw: Record<number, unknown> = {
     { anbieter: 'Crunchyroll', art: 'FLATRATE', url: 'https://www.crunchyroll.com/series/G9' },
     disney(4, { audio: ['ja'] }),
     { anbieter: 'Joyn', art: 'ADS', url: 'https://www.joyn.de/serien/x', audio: ['de'] },
+    { anbieter: 'WOW', art: 'FLATRATE', url: 'https://www.wowtv.de/serien/x', audio: [] },
   ]),
   900205: befund([netflix(5)]),
   900206: befund([netflix(6)]),
   900207: befund([netflix(7)]),
   900208: befund([netflix(8)]),
   900209: befund([thalia(9), netflix(9), { anbieter: 'Crunchyroll', art: 'FLATRATE', url: 'https://www.crunchyroll.com/series/G10' }]),
+  900211: befund([netflix(11)]),
+  900212: befund([netflix(12)]),
   900210: befund([apple(10), netflix(10), disney(10), { anbieter: 'Joyn', art: 'FREE', url: 'https://www.joyn.de/serien/y' }, { anbieter: 'MagentaTV', art: 'FLATRATE', url: 'https://www.telekom.de/magentatv/z' }, { anbieter: 'Videoload', art: 'RENT', url: 'https://www.videoload.de/film/y' }]),
 }
 writeFileSync(join(wurzel, 'data', 'justwatch-audio.json'), JSON.stringify(jw))
-writeFileSync(join(wurzel, 'data', 'verweise-entfernt.json'), JSON.stringify({ verweise: [{ titleId: 900205, plattform: 'netflix', grund: 'Adresse tot' }] }))
+writeFileSync(join(wurzel, 'data', 'verweise-entfernt.json'), JSON.stringify({ verweise: [{ titleId: 900205, plattform: 'netflix', grund: 'Adresse tot' }, { titleId: 900212, plattform: 'netflix', grund: 'Adresse tot' }] }))
 writeFileSync(
   join(wurzel, 'data', 'dub-confirmed.yaml'),
   ['- anilistId: 900207', '  title: Kulisse Nein', '  platform: netflix', '  available: false', "  checkedAt: '2026-10-23'", ''].join('\n'),
@@ -71,6 +74,8 @@ try {
       titel(900208),
       titel(900209, { watchLinks: [] }),
       titel(900210),
+      titel(900211, { watchLinks: [disc as never, { name: 'Netflix', url: 'https://www.netflix.com/title/1', kind: 'stream', zugang: 'abo' } as never] }),
+      titel(900212, { watchLinks: [] }),
     ].map((t) => [t.id, t]),
   )
   ergaenzeWegeAusJustwatch({ titles, tmdbMehrdeutig: new Set(['900208']), istTot: () => false })
@@ -87,11 +92,14 @@ try {
   pruefe('Sub-Dienst mit eigener Sprachquelle kommt nicht dazu (900204)', !namen(900204).includes('Crunchyroll'), namen(900204))
   pruefe('Ton ohne Deutsch hält das Angebot zurück (900204)', !namen(900204).includes('Disney Plus'), namen(900204))
   pruefe('Ton mit Deutsch kommt dazu (900204)', namen(900204).includes('Joyn'), namen(900204))
+  pruefe('leere Tonliste belegt nichts gegen das Angebot, es kommt dazu (900204)', namen(900204).includes('Wow'), namen(900204))
   pruefe('entfernter Verweis kommt nicht zurück (900205)', !namen(900205).includes('Netflix'), namen(900205))
   pruefe('Kontrolle: ohne Eintrag im Gedächtnis kommt Netflix (900206)', namen(900206).includes('Netflix'), namen(900206))
   pruefe('Nein-Handbeleg hält Netflix zurück (900207)', !namen(900207).includes('Netflix'), namen(900207))
   pruefe('mehrdeutige TMDB-Kennung hält alles zurück (900208)', neue(900208).length === 0, namen(900208))
   pruefe('Titel ohne jeden Weg: wie bisher Händler und Sub-Dienst (900209)', ['Thalia', 'Netflix', 'Crunchyroll'].every((n) => namen(900209).includes(n)), namen(900209))
+  pruefe('ein gleichnamiger Bezugsweg wird nicht doppelt angelegt (900211)', namen(900211).filter((n) => n === 'Netflix').length === 1, namen(900211))
+  pruefe('ohne jeden Weg gilt das Gedächtnis der entfernten Verweise nicht (wie bisher, 900212)', namen(900212).includes('Netflix'), namen(900212))
   /* Die Grenze von vier gilt dieser Runde; die Runde danach (Titel mit Wegen, Anbieter ohne eigene Plattform) hat ihre eigene Kette. */
   const allein = new Map<number, Title>([[900210, titel(900210)]])
   ergaenzeWegeOhneWeg({ titles: allein, jw: jw as never, handNein: new Set(), tmdbMehrdeutig: new Set(), istTot: () => false })
