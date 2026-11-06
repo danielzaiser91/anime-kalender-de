@@ -75,6 +75,7 @@ try {
   const geduldet = (skript) => job('', `${CHECKOUT}      - name: Geduldet\n        continue-on-error: true\n        run: npx tsx ${skript}\n`)
   rot('geduldeter Schritt ohne Wachhund', geduldet('pipeline/adn-zuordnen.ts'), /darf scheitern \(continue-on-error\), aber pipeline\/adn-zuordnen\.ts meldet sich nirgends/)
   gut('geduldeter Schritt mit Wachhund', geduldet('pipeline/belege-lesen.ts'))
+  gut('geduldeter Schritt mit Vorfall-Meldung (meldeAbbruch ohne recordSource)', geduldet('pipeline/termine-pruefen.ts'))
 
   rot('|| true ohne Eintrag in der Ausnahmeliste', job('', `${CHECKOUT}      - run: echo x || true\n`), /zz-probe\.yml: `echo x \|\| true` verschluckt einen Fehler/)
 
@@ -99,6 +100,9 @@ try {
   }
   let zurueck = aendere('.github/workflows/delta-wache.yml', (t) => t.replaceAll('actions/cache/save@', 'actions/cache/saveX@'))
   rot('delta-wache sichert den Vortagsstand nicht', null, /delta-wache\.yml: der Vortagsstand .* wird nicht wiederhergestellt/)
+  zurueck()
+  zurueck = aendere('.github/workflows/delta-wache.yml', (t) => t.replace('      - name: Vortagsstand sichern\n        if: always()\n', '      - name: Vortagsstand sichern\n'))
+  rot('delta-wache sichert nur im grünen Lauf', null, /delta-wache\.yml: der Vortagsstand .* nicht mit `if: always\(\)` gesichert/)
   zurueck()
   zurueck = aendere('package.json', (t) => t.replace('"scripts": {', '"scripts": {\n    "data:zzprobe": "echo x",'))
   rot('data:-Skript in keinem Workflow', null, /npm-Skript "data:zzprobe" steht in keinem Workflow/)
