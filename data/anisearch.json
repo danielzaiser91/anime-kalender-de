@@ -843677,6 +843677,7 @@
   },
   "195604": {
     "anisearchId": 20716,
+    "descriptionDe": "Obwohl Asta die Fähigkeit der Anti-Magie erhalten hat und sich mit dem Teufel Liebe verbündet hat, scheint der Gegner übermächtig. Dante und seine Anhänger aus dem Königreich Spade planen, die Tore der Unterwelt zu öffnen und so das Königreich Clover und die gesamte Welt zu stürzen. Um dies zu verhindern, müssen Asta und seine Freunde nicht nur die beiden Ordensführer Yami und William retten, sondern auch die Dunkle Triade besiegen. Doch Asta beherrscht seine neue Kraft noch nicht richtig und kann auch die Fähigkeiten seines Teufels bisher nicht nutzen. Wird es ihm rechtzeitig gelingen, seine neuen Kräfte zu kontrollieren, und werden sie es schaffen, das Königreich zu retten? \n\nQuelle: www.anisearch.de/anime/20716",
     "streams": [
       {
         "provider": "crunchyroll",
@@ -843696,6 +843697,7 @@
           "language": "Englisch",
           "title": "Black Clover: Season 2",
           "status": "Laufend",
+          "dubbed": true,
           "released": "21.09.2026 - ?",
           "publisher": [
             "Crunchyroll",
@@ -843715,6 +843717,7 @@
           "language": "Spanisch",
           "title": "Black Clover: Temporada 2",
           "status": "Laufend",
+          "dubbed": true,
           "released": "03.10.2026 - ?",
           "publisher": [
             "Crunchyroll"
@@ -843724,6 +843727,7 @@
           "language": "Französisch",
           "title": "Black Clover : Saison 2",
           "status": "Laufend",
+          "dubbed": true,
           "released": "03.10.2026 - ?",
           "publisher": [
             "Crunchyroll"
@@ -843733,6 +843737,7 @@
           "language": "Italienisch",
           "title": "Black Clover: Stagione 2",
           "status": "Laufend",
+          "dubbed": true,
           "released": "03.10.2026 - ?",
           "publisher": [
             "Crunchyroll"
@@ -843771,7 +843776,7 @@
         "Black Clover Second Season"
       ]
     },
-    "fetchedAt": "2026-10-07T04:02:03.417Z"
+    "fetchedAt": "2026-11-06T06:01:51.381Z"
   },
   "195703": {
     "anisearchId": 20744,
@@ -879902,5 +879907,53 @@
       ]
     },
     "fetchedAt": "2026-11-04T06:01:37.827Z"
+  },
+  "219477": {
+    "anisearchId": 22090,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Oshi ni Amagami",
+          "titleNative": "推しに甘噛み",
+          "status": "Zukünftig",
+          "released": "?"
+        },
+        {
+          "language": "Englisch",
+          "title": "Otaku Vampire’s Love Bite",
+          "status": "Zukünftig",
+          "released": "?",
+          "publisher": [
+            "VIZ Media, LLC"
+          ]
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "staff": [
+        {
+          "name": "Julietta SUZUKI",
+          "role": "Original Work"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/OsigamiOfficial"
+        },
+        {
+          "name": "Oshiniamagami Anime",
+          "url": "https://oshiniamagami-anime.com/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-11-06T06:01:58.531Z"
   }
 }
