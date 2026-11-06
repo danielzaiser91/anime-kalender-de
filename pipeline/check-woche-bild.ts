@@ -106,7 +106,11 @@ async function pruefeAlles(s: Page): Promise<void> {
   pruefe('der Streifen liegt weiter als 1500 px über der Zeile, das Bild ist auf 1500 px gekappt', gl.zeileUnten - gl.streifenOben > 1500 && (await masse(s, l!.bild)).hoehe === 1500, gl)
   const lm = l?.markierung ?? [0, 0, 0, 0]
   pruefe('langer Tag: die Marke liegt trotz Kappung auf der Zeile (unten im Bild)', lm[1] > 0.8 && lm[1] + lm[3] <= 1.001, lm)
+  await pruefeAblage(s)
+}
 
+/** Zweiter Teil von `pruefeAlles`: Ablegen und Fortführen der Liste. */
+async function pruefeAblage(s: Page): Promise<void> {
   /* Ablegen: Schlüssel, Zeit und Marke kommen in die Liste; ohne Antwort der Ablage bleibt die Zeile offen. */
   await s.setContent(kurz)
   const echt = globalThis.fetch
