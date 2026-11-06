@@ -37,6 +37,7 @@ gleich('Job-Name mit Steuerzeichen bleibt einzeilig', baueDateien({ kopf: SHA, l
 
 // Prüfer-Regel steht im Prüfer-Text
 const pruefer = readFileSync(new URL('./claude-global/agents/pruefer.md', import.meta.url), 'utf8')
-gleich('pruefer.md nennt Zeile, Bedingung und Auflage', ['AUFLAGE-QUELLE start-budget', 'web/', 'Startdaten', 'Auflage'].every((s) => pruefer.includes(s)), true)
+const regel = pruefer.split('\n').find((z) => z.includes('AUFLAGE-QUELLE start-budget')) ?? ''
+gleich('pruefer.md: Regelzeile nennt Zeile, Bedingung und Auflage', ['AUFLAGE-QUELLE start-budget', '`web/`', 'Startdaten', 'ist das eine Auflage'].map((s) => regel.includes(s)), [true, true, true, true])
 
 console.log(`pr-kettenlog-budget: ${faelle} Fälle grün (Warnstufe je Job, Messzeile allein, laufender Job, baueDateien, Prüfer-Text)`)
