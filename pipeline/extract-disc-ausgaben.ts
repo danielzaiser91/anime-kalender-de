@@ -43,7 +43,7 @@ const ARCHIV = 'data/anisearch-raw'
 const ZIEL = 'data/disc-ausgaben.json'
 
 /** Eine Ausgabe, wie aniSearch sie führt. */
-interface Ausgabe {
+export interface Ausgabe {
   /** Bezeichnung im Klartext — sie nennt oft schon den Träger und die Fassung. */
   edition: string
   /** Erscheinungsdatum, ISO. Auch Vergangenes zählt: Es ist der Bezugsweg. */
@@ -123,6 +123,52 @@ function istBildtraeger(edition: string): string | null {
   return null
 }
 
+/** Die deutschen Bildträger-Ausgaben einer archivierten Titelseite (Abschnitt „Neuerscheinungen“), jüngste zuerst, samt Zählern. */
+export function ausgabenAusSeite(html: string): { ausgaben: Ausgabe[]; geprueft: number; auslaendisch: number; verworfen: number } {
+  const zaehler = { ausgaben: [] as Ausgabe[], geprueft: 0, auslaendisch: 0, verworfen: 0 }
+  const start = html.indexOf('<section id="items"')
+  if (start < 0) return zaehler
+  const abschnitt = html.slice(start, html.indexOf('</section>', start))
+
+  const bloecke = [...abschnitt.matchAll(/<li class="merch\d+[^"]*" data-date="([^"]*)">([\s\S]*?)<\/li>/g)]
+    .map((m) => ({
+      datum: m[1]!,
+      block: m[2]!,
+      edition: /<span class="title">([^<]*)</.exec(m[2]!)?.[1]?.trim().replace(/&amp;/g, '&') ?? '',
+    }))
+    .filter((b) => b.edition)
+  /* Namen, zu denen es eine „[Blu-ray]"-Fassung gibt — ihr Zwilling ohne Klammer ist die DVD. */
+  const zwillinge = new Set(
+    bloecke.filter((b) => /\s*\[Blu-?ray\]\s*$/i.test(b.edition)).map((b) => b.edition.replace(/\s*\[Blu-?ray\]\s*$/i, '')),
+  )
+  for (const { datum, block, edition } of bloecke) {
+    zaehler.geprueft++
+    /* Ausländische Ausgaben tragen ein Flaggenbild, deutsche nicht. */
+    if (/class="flag"[^>]*alt="[a-z]{2}"/.test(block)) {
+      zaehler.auslaendisch++
+      continue
+    }
+    const plakette = /<div class="rank">([^<]*)</.exec(block)?.[1]
+    const format = formatAus(edition, plakette, zwillinge) ?? (istBildtraeger(edition) ? 'DVD' : null)
+    if (!format) {
+      zaehler.verworfen++
+      continue
+    }
+    const pfad = /data-href="(article\/[^"]+)"/.exec(block)?.[1]
+    zaehler.ausgaben.push({
+      edition,
+      datum: /^\d{4}-\d{2}-\d{2}$/.test(datum) ? datum : '',
+      ...(pfad ? { url: `https://www.anisearch.de/${pfad}` } : {}),
+      format,
+      art: artAus(edition),
+      kurz: kurzAus(edition),
+    })
+  }
+  /* Die jüngste zuerst — sie ist am ehesten noch zu bekommen. */
+  zaehler.ausgaben.sort((a, b) => b.datum.localeCompare(a.datum))
+  return zaehler
+}
+
 function main(): void {
   const anisearch = readJson<Record<string, { anisearchId?: number }>>('data/anisearch.json', {})
   const titles = readJson<Title[]>('public/data/titles.json', [])
@@ -144,49 +190,12 @@ function main(): void {
     if (!titleId || !bekannt.has(titleId)) continue
 
     const html = gunzipSync(readFileSync(`${ARCHIV}/${datei}`)).toString('utf8')
-    const start = html.indexOf('<section id="items"')
-    if (start < 0) continue
-    const abschnitt = html.slice(start, html.indexOf('</section>', start))
-
-    const eigene: Ausgabe[] = []
-    const bloecke = [...abschnitt.matchAll(/<li class="merch\d+[^"]*" data-date="([^"]*)">([\s\S]*?)<\/li>/g)]
-      .map((m) => ({
-        datum: m[1]!,
-        block: m[2]!,
-        edition: /<span class="title">([^<]*)</.exec(m[2]!)?.[1]?.trim().replace(/&amp;/g, '&') ?? '',
-      }))
-      .filter((b) => b.edition)
-    /* Namen, zu denen es eine „[Blu-ray]"-Fassung gibt — ihr Zwilling ohne Klammer ist die DVD. */
-    const zwillinge = new Set(
-      bloecke.filter((b) => /\s*\[Blu-?ray\]\s*$/i.test(b.edition)).map((b) => b.edition.replace(/\s*\[Blu-?ray\]\s*$/i, '')),
-    )
-    for (const { datum, block, edition } of bloecke) {
-      geprueft++
-      /* Ausländische Ausgaben tragen ein Flaggenbild, deutsche nicht. */
-      if (/class="flag"[^>]*alt="[a-z]{2}"/.test(block)) {
-        auslaendisch++
-        continue
-      }
-      const plakette = /<div class="rank">([^<]*)</.exec(block)?.[1]
-      const format = formatAus(edition, plakette, zwillinge) ?? (istBildtraeger(edition) ? 'DVD' : null)
-      if (!format) {
-        verworfen++
-        continue
-      }
-      const pfad = /data-href="(article\/[^"]+)"/.exec(block)?.[1]
-      eigene.push({
-        edition,
-        datum: /^\d{4}-\d{2}-\d{2}$/.test(datum) ? datum : '',
-        ...(pfad ? { url: `https://www.anisearch.de/${pfad}` } : {}),
-        format,
-        art: artAus(edition),
-        kurz: kurzAus(edition),
-      })
-    }
-    if (!eigene.length) continue
-    /* Die jüngste zuerst — sie ist am ehesten noch zu bekommen. */
-    eigene.sort((a, b) => b.datum.localeCompare(a.datum))
-    raus[String(titleId)] = eigene
+    const seite = ausgabenAusSeite(html)
+    geprueft += seite.geprueft
+    auslaendisch += seite.auslaendisch
+    verworfen += seite.verworfen
+    if (!seite.ausgaben.length) continue
+    raus[String(titleId)] = seite.ausgaben
   }
 
   writeJson(ZIEL, raus)
