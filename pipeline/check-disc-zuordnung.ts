@@ -89,6 +89,21 @@ const appleseed = [kand(10689, ['Appleseed XIII: Tartaros']), kand(10693, ['Appl
 const vA = verteileAusgaben([ed('Appleseed XIII: Tartaros & Ouranos [Blu-ray]')], appleseed)
 pruefe('Appleseed: beide Namen in einer Ausgabe → beide Titel', gleich([...vA.je.keys()].sort(), [10689, 10693]))
 
+const arise = [
+  kand(17187, ['Ghost in the Shell: Arise - Border:1 Ghost Pain'], 'MOVIE', 2013),
+  kand(19191, ['Ghost in the Shell: Arise - Border:2 Ghost Whispers'], 'MOVIE', 2013),
+  kand(19193, ['Ghost in the Shell: Arise - Border:3 Ghost Tears'], 'MOVIE', 2014),
+  kand(19195, ['Ghost in the Shell: Arise - Border:4 Ghost Stands Alone'], 'MOVIE', 2014),
+]
+const aEd = ['Ghost in the Shell: Arise - Border 3+4 [Blu-ray]', 'Ghost in the Shell: Arise - Gesamtausgabe [Blu-ray]']
+const vAr = verteileAusgaben(aEd.map(ed), arise)
+pruefe('Arise: „Border:3" im Titel, „Border 3+4" in der Ausgabe → Teil 3 und 4', gleich(ids(vAr, aEd[0]!).sort(), [19193, 19195]), ids(vAr, aEd[0]!))
+pruefe('Arise: „Gesamtausgabe" ohne Zahl bleibt unklar', vAr.unklar.length === 1)
+const titan = [kand(20691, ['Attack on Titan Part I: Crimson Bow and Arrow'], 'MOVIE', 2014), kand(20692, ['Attack on Titan - Movie Teil 2: Flügel der Freiheit', 'Attack on Titan Part II: Wings of Freedom'], 'MOVIE', 2015)]
+pruefe('„Part I" im Titel ist 1 (römisch), „Part II" ist 2', gleich(titelOrdnung([titan[0]!.namen[0]!]), [1]) && gleich(titelOrdnung([titan[1]!.namen[1]!]), [2]))
+pruefe('Titan: „Teil 1" in der Ausgabe geht nur an Part I', gleich(ausgabeGehoertZu('Attack on Titan: Teil 1 - Feuerroter Pfeil und Bogen [Blu-ray]', titan, 0).ids, [20691]))
+pruefe('Titan: „Movie 1-3" geht an beide', gleich(ausgabeGehoertZu('Attack on Titan - Movie 1-3: Komplettset [Blu-ray]', titan, 0).ids, [20691, 20692]))
+
 const mardock = [kand(8100, ['Mardock Scramble: The First Compression']), kand(10624, ['Mardock Scramble: The Second Combustion']), kand(12053, ['Mardock Scramble: The Third Exhaust'])]
 pruefe('Mardock: „Trilogie" gilt für alle drei Filme', gleich(ausgabeGehoertZu('Mardock Scramble - Trilogie [Blu-ray]', mardock, 0).ids, [8100, 10624, 12053]))
 const serie = [kand(384, ['Gantz'], 'TV'), kand(395, ['Gantz', 'Gantz: Second Stage'], 'TV')]

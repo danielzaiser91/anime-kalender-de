@@ -22,7 +22,8 @@ export interface DiscKandidat {
 
 export type ZuordnungsWeg = 'einzig' | 'ordnung' | 'name' | 'position' | 'sammel'
 
-const SCHLUESSEL = 'Movie|Film|Filme|Teil|Part|Chapter|Kapitel'
+const SCHLUESSEL = 'Movie|Film|Filme|Teil|Part|Chapter|Kapitel|Border'
+const ROEMISCH: Record<string, number> = { I: 1, II: 2, III: 3, IV: 4, V: 5, VI: 6, VII: 7, VIII: 8, IX: 9, X: 10 }
 
 function zahlenAus(spec: string): number[] {
   const raus = new Set<number>()
@@ -37,7 +38,7 @@ function zahlenAus(spec: string): number[] {
 /** „Film 1-3" → [1,2,3]; „Chapter 1&2" → [1,2]; ohne Schlüsselwort + Zahl → []. */
 export function ordnungszahlen(edition: string): number[] {
   const raus = new Set<number>()
-  const re = new RegExp(`\\b(?:${SCHLUESSEL})\\s*(\\d{1,2}(?:\\s*(?:[-–+&,]|und|and)\\s*\\d{1,2})*)`, 'gi')
+  const re = new RegExp(`\\b(?:${SCHLUESSEL})\\s*:?\\s*(\\d{1,2}(?:\\s*(?:[-–+&,]|und|and)\\s*\\d{1,2})*)`, 'gi')
   for (const m of edition.matchAll(re)) {
     for (const spec of m[1]!.split(/\s*(?:[+&,]|und|and)\s*/)) for (const z of zahlenAus(spec)) raus.add(z)
   }
@@ -47,11 +48,13 @@ export function ordnungszahlen(edition: string): number[] {
 /** Die Zahlen im Titel: nach einem Schlüsselwort, sonst alle freistehenden ein- bis zweistelligen. */
 export function titelOrdnung(namen: string[]): number[] {
   const raus = new Set<number>()
-  const mitWort = new RegExp(`\\b(?:${SCHLUESSEL})\\s*(\\d{1,2})\\b`, 'gi')
+  const mitWort = new RegExp(`\\b(?:${SCHLUESSEL})\\s*:?\\s*(\\d{1,2})\\b`, 'gi')
+  const roemisch = new RegExp(`\\b(?:${SCHLUESSEL})\\s*(I{1,3}|IV|VI{0,3}|IX|X)\\b`, 'g')
   const frei = /(?<![\w.'’])(\d{1,2})(?![\w'’])/g
   for (const n of namen) {
     const treffer = [...n.matchAll(mitWort)]
     for (const m of treffer.length ? treffer : [...n.matchAll(frei)]) raus.add(Number(m[1]))
+    for (const m of n.matchAll(roemisch)) raus.add(ROEMISCH[m[1]!]!)
   }
   return [...raus]
 }

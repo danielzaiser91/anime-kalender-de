@@ -207,31 +207,43 @@ export function kandidatenJeKennung(titles: Title[], besitzer: Map<number, numbe
   return raus
 }
 
-function main(): void {
-  const anisearch = readJson<Record<string, { anisearchId?: number }>>('data/anisearch.json', {})
-  const titles = readJson<Title[]>('public/data/titles.json', [])
+/** Die bisherige 1:1-Zuordnung aus `anisearch.json` (aniSearch-Kennung → Titel), nur für Titel im Bestand. */
+export function besitzerVon(anisearch: Record<string, { anisearchId?: number }>, titles: Title[]): Map<number, number> {
   const bekannt = new Set(titles.map((t) => t.id))
   const besitzer = new Map<number, number>()
   for (const [id, e] of Object.entries(anisearch)) {
     if (e.anisearchId && bekannt.has(Number(id))) besitzer.set(e.anisearchId, Number(id))
   }
-  const kandidaten = kandidatenJeKennung(titles, besitzer)
-  const zaehler = { geprueft: 0, auslaendisch: 0, verworfen: 0 }
+  return besitzer
+}
 
-  function* seiten(): Generator<[number, Ausgabe[]]> {
-    for (const datei of readdirSync(ARCHIV)) {
-      if (!datei.endsWith('.html.gz')) continue
-      const asId = Number(datei.replace('.html.gz', ''))
-      if (!kandidaten.has(asId)) continue
-      const r = ausgabenAusHtml(gunzipSync(readFileSync(`${ARCHIV}/${datei}`)).toString('utf8'))
-      if (!r) continue
-      zaehler.geprueft += r.geprueft
-      zaehler.auslaendisch += r.auslaendisch
-      zaehler.verworfen += r.verworfen
-      yield [asId, r.eigene]
-    }
+export interface LeseZaehler {
+  geprueft: number
+  auslaendisch: number
+  verworfen: number
+}
+
+/** Liest das Archiv: je Kennung mit Titel die deutschen Ausgaben der Seite (auch leere), und zählt die Blöcke mit. */
+export function* archivSeiten(kandidaten: Map<number, DiscKandidat[]>, zaehler: LeseZaehler): Generator<[number, Ausgabe[]]> {
+  for (const datei of readdirSync(ARCHIV)) {
+    if (!datei.endsWith('.html.gz')) continue
+    const asId = Number(datei.replace('.html.gz', ''))
+    if (!kandidaten.has(asId)) continue
+    const r = ausgabenAusHtml(gunzipSync(readFileSync(`${ARCHIV}/${datei}`)).toString('utf8'))
+    if (!r) continue
+    zaehler.geprueft += r.geprueft
+    zaehler.auslaendisch += r.auslaendisch
+    zaehler.verworfen += r.verworfen
+    yield [asId, r.eigene]
   }
-  const { raus, bilanz } = ordneZu(seiten(), kandidaten, besitzer)
+}
+
+function main(): void {
+  const titles = readJson<Title[]>('public/data/titles.json', [])
+  const besitzer = besitzerVon(readJson('data/anisearch.json', {}), titles)
+  const kandidaten = kandidatenJeKennung(titles, besitzer)
+  const zaehler: LeseZaehler = { geprueft: 0, auslaendisch: 0, verworfen: 0 }
+  const { raus, bilanz } = ordneZu(archivSeiten(kandidaten, zaehler), kandidaten, besitzer)
 
   writeJson(ZIEL, raus)
   const ohneWeg = titles.filter(
