@@ -47,10 +47,16 @@ try {
   /* Weiches Gleiten läuft noch, wenn die Probe scrollt (Wochenansicht nach der Ankunft): der alte Weg bleibt falsch stehen, der neue hält die Mitte. */
   const gleiten = async () => {
     await seite.setContent(GLEITEN)
+    /* setContent setzt scrollY nicht zurück: Ausgangszustand selbst herstellen, sonst ist der zweite Fall leer. */
+    await seite.evaluate(() => scrollTo(0, 0))
+    await seite.waitForFunction(() => scrollY === 0)
     await seite.evaluate(() => {
+      /* Zielgesteuert wie das weiche Gleiten: Lage nach Bildzahl, unabhängig davon, wohin andere scrollen. */
+      let bilder = 0
       const schritt = () => {
-        scrollTo(0, Math.min(3600, scrollY + 40))
-        if (scrollY < 3600) requestAnimationFrame(schritt)
+        bilder += 1
+        scrollTo(0, Math.min(3600, bilder * 40))
+        if (bilder * 40 < 3600) requestAnimationFrame(schritt)
       }
       requestAnimationFrame(schritt)
     })
@@ -68,7 +74,20 @@ try {
   assert.ok(Math.abs(neuY + 20 - HOEHE / 2) < 30, `Gleiten: Zeile liegt nach dem Warten mittig und bleibt (y=${neuY})`)
   await ruheAbwarten(seite)
   assert.equal((await zeile.boundingBox()).y, neuY, 'ruheAbwarten ändert die Lage nicht')
-  console.log('zeile-mittig.test: 7 Zusicherungen grün (alter Weg rot, neuer Weg grün, Kind, Kulisse, Gleiten alt rot/neu grün, Ruhe)')
+  /* Frist: endloses Gleiten (Lage ändert sich in jedem Bild) → zeileMittig kehrt nach etwa der Frist zurück und wirft nicht. */
+  await seite.setContent(GLEITEN)
+  await seite.evaluate(() => {
+    let n = 0
+    /* Alle 5 ms eine neue Lage (Timer statt Bild, damit sie zwischen zwei Messungen der Probe wechselt). */
+    window.gleitTimer = setInterval(() => scrollTo(0, 1000 + ((n++ * 40) % 800)), 5)
+  })
+  const start = Date.now()
+  const grenze = new Promise((_, nein) => setTimeout(() => nein(new Error('zeileMittig kehrt nicht zurück (Frist fehlt)')), 12000))
+  await Promise.race([zeileMittig(zeile), grenze])
+  const dauer = Date.now() - start
+  assert.ok(dauer >= 3500 && dauer < 8000, `Frist: Rückkehr nach etwa 4 s (${dauer} ms)`)
+  await seite.evaluate(() => { clearInterval(window.gleitTimer) })
+  console.log('zeile-mittig.test: 9 Zusicherungen grün (alter Weg rot, neuer Weg grün, Kind, Kulisse, Gleiten alt rot/neu grün, Ruhe, Frist)')
 } finally {
   await browser.close()
 }
