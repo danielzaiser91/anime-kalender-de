@@ -52,6 +52,7 @@ pruefe('coverDatei medium', coverDatei(C365) === 'medium/365.jpg')
 pruefe('coverDatei: Banner nicht', coverDatei(BANNER) === undefined)
 pruefe('coverDatei: fremder Host nicht', coverDatei(C298.replace('s4.anilist.co', 'example.org')) === undefined)
 pruefe('coverDatei: ohne Adresse', coverDatei(undefined) === undefined)
+pruefe('coverDatei: Adresse mit fremdem Vorspann nicht', coverDatei(`https://example.org/?u=${C298}`) === undefined)
 
 /* Auswahl: Größe und Breite, jeweils an der Grenze und eins darüber. */
 pruefe('anilistMasse: 298, 365 und b482 brauchbar, 44 (412 KB) nicht', [...MASSE.keys()].sort().join() === 'anilist:large/bx298-4NawsRDRVaHR.jpg,anilist:medium/365.jpg,anilist:medium/b482-c14JwoMTmKAU.png')
@@ -135,7 +136,10 @@ mkdirSync(join(tmp, 'data'), { recursive: true })
 writeFileSync(join(tmp, 'public/data/titles.json'), JSON.stringify([titel({ id: 900001, coverImage: C298 }), titel({ id: 900002, coverImage: `${BASIS}large/neu900002.jpg` })]))
 writeFileSync(join(tmp, 'public/data/ohne-synchro.json'), JSON.stringify([titel({ id: 900003, coverImage: `${BASIS}medium/neu900003.jpg` })]))
 writeFileSync(join(tmp, COVER_MASSE_DATEI), JSON.stringify({ 'large/bx298-4NawsRDRVaHR.jpg': [460, 649, 136264], 'large/fremd.jpg': [1, 2, 3] }))
+const start = performance.now()
 await messeAnilistCoverImLauf()
+/* Untergrenze: zwei Abrufe mit je 150 ms Pause (nur nach unten geprüft, eine langsame Maschine stört nicht). */
+pruefe('Lauf: Pause von 150 ms nach jedem Abruf', performance.now() - start >= 290, `${performance.now() - start} ms`)
 const danach = JSON.parse(readFileSync(join(tmp, COVER_MASSE_DATEI), 'utf8')) as Record<string, number[]>
 pruefe('Lauf: beide neuen Cover (Hauptbestand und Katalog) abgerufen, das bekannte nicht', geholt.length === 2 && !geholt.includes(C298))
 pruefe('Lauf: Datei hat die alten und die zwei neuen Einträge', Object.keys(danach).sort().join() === 'large/bx298-4NawsRDRVaHR.jpg,large/fremd.jpg,large/neu900002.jpg,medium/neu900003.jpg')

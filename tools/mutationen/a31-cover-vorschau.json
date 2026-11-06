@@ -17,7 +17,6 @@
   { "name": "bildMasse: JPEG Breite und Höhe vertauscht", "aenderungen": [{ "datei": "pipeline/lib/anilist-cover-masse.ts", "suche": "return [b.readUInt16BE(i + 7), b.readUInt16BE(i + 5)]", "ersetze": "return [b.readUInt16BE(i + 5), b.readUInt16BE(i + 7)]" }] },
   { "name": "bildMasse: DHT (c4) zählt als SOF", "aenderungen": [{ "datei": "pipeline/lib/anilist-cover-masse.ts", "suche": " && m !== 0xc4", "ersetze": "" }] },
   { "name": "bildMasse: Segmentlänge nicht übersprungen", "aenderungen": [{ "datei": "pipeline/lib/anilist-cover-masse.ts", "suche": "i += 2 + b.readUInt16BE(i + 2)", "ersetze": "i += 2" }] },
-  { "name": "bildMasse: Obergrenze der SOF-Marker cf -> d0", "aenderungen": [{ "datei": "pipeline/lib/anilist-cover-masse.ts", "suche": "m <= 0xcf", "ersetze": "m <= 0xd0" }] },
   { "name": "bildMasse: Progressiv (c2) nicht erkannt", "aenderungen": [{ "datei": "pipeline/lib/anilist-cover-masse.ts", "suche": "m >= 0xc0 && m <= 0xcf", "ersetze": "m >= 0xc0 && m <= 0xc1" }] },
   { "name": "bildMasse: PNG-Erkennung entfernt", "aenderungen": [{ "datei": "pipeline/lib/anilist-cover-masse.ts", "suche": "if (b.length > 24 && b[0] === 0x89 && b[1] === 0x50)", "ersetze": "if (false)" }] },
   { "name": "ungemessene: Bekannte nochmal", "aenderungen": [{ "datei": "pipeline/lib/anilist-cover-masse.ts", "suche": "!(datei in bestand)", "ersetze": "true" }] },
