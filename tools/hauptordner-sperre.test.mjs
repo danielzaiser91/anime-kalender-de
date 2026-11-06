@@ -290,6 +290,26 @@ assert.equal(pruefe({ tool_name: 'Bash', cwd: HAUPT }), null, 'ohne tool_input')
 frei('', HAUPT, 'leerer Befehl')
 frei('   ', HAUPT, 'nur Leerraum')
 
+// Git über Variable (Anlass 06.11.2026: `G=…git.exe; "$G" merge` im Hauptordner rutschte durch).
+const GIT_EXE = '"/c/Program Files/Git/cmd/git.exe"'
+frei(`G=${GIT_EXE}; W=C:/code/_worktrees/anime-kalender-de/pr-2778; "$G" worktree add $W -b y origin/main; cd $W && cmd //c "mklink a b"; "$G" log`, HAUPT, 'Anlass 1: Kette mit Variable, nur Lesen')
+gesperrt(`G=${GIT_EXE}; W=C:/code/_worktrees/anime-kalender-de/pr-2778; "$G" worktree add $W -b y origin/main; cd $W; "$G" merge origin/main`, HAUPT, 'Variable nach Worktree-Kette, cd ohne && kann scheitern')
+gesperrt(`cd /c/code/ai/anime-kalender-de && G=${GIT_EXE}; "$G" merge origin/main`, WT, 'Anlass 2: cd in den Hauptordner, G=…; "$G" merge')
+gesperrt(`G=${GIT_EXE}; \${G} merge origin/main`, HAUPT, 'geschweifte Klammern')
+gesperrt('G=git; "$G" checkout x', HAUPT, 'Wert nur git')
+gesperrt(`G=${GIT_EXE} && "$G" commit -m x`, HAUPT, 'G=… && "$G" commit')
+gesperrt('G=git; S=$G; "$G" -C /c/code/ai/anime-kalender-de push', WT, 'Variable mit -C')
+gesperrt(`${GIT_EXE} merge origin/main`, HAUPT, 'voller Pfad mit Anführungszeichen')
+gesperrt('/c/Program\\ Files/Git/cmd/git.exe merge origin/main', HAUPT, 'voller Pfad mit Backslash-Leerzeichen')
+gesperrt('C:\\Progra~1\\Git\\cmd\\git.exe merge origin/main', HAUPT, 'voller Windows-Pfad')
+frei(`G=${GIT_EXE}; "$G" status`, HAUPT, 'Variable, Lesebefehl')
+frei(`G=${GIT_EXE}; "$G" pull --ff-only`, HAUPT, 'Variable, pull --ff-only')
+frei(`G=${GIT_EXE}; "$G" merge origin/main`, WT, 'Variable, merge im Worktree')
+frei(`G=${GIT_EXE}; cd ${WT} && "$G" merge origin/main`, HAUPT, 'Variable, cd in den Worktree')
+frei('X=foo; "$X" merge a', HAUPT, 'unbekannter Wert ohne git')
+frei('"$UNBEKANNT" merge a', HAUPT, 'unbekannte Variable bleibt frei')
+frei('G=git; G=ls; "$G" merge a', HAUPT, 'Variable später überschrieben')
+
 // Kaputtes JSON auf stdin: Prozess endet 0 ohne Ausgabe (fail-open).
 const kaputt = spawnSync(process.execPath, [hook], { input: '{kaputt', encoding: 'utf8' })
 assert.equal(kaputt.status, 0)

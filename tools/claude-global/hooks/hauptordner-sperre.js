@@ -3,7 +3,8 @@
 // als `worktree add` scheiterte, liefen checkout und Folgebefehle im Hauptordner.
 // Aufbau: Der Befehl wird in Segmente zerlegt (Trenner `;` `&&` `||` `|` `&`, Zeilenumbruch, Klammern, `$(…)`, Backticks, auch in
 // Anführungszeichen). In jedem Segment zählt jedes Token mit Basisname `git` als Aufruf — egal, was davor steht (timeout, env, xargs …);
-// Shells (`-c`-Bündel) und `eval` werden rekursiv geprüft, `echo`/`printf` ausgenommen.
+// Shells (`-c`-Bündel) und `eval` werden rekursiv geprüft, `echo`/`printf` ausgenommen. Ein Token `"$G"`/`${G}` zählt mit dem Wert
+// aus einem früheren `G=…` im selben Befehl (06.11.2026: `G="…/git.exe"; "$G" merge` rutschte durch); unbekannte Variablen bleiben frei.
 // Wirksames Verzeichnis: Bash-cwd, `cd`, `git -C`, `--work-tree`. Ein `cd` ohne folgendes `&&` kann scheitern: dann zählen beide
 // Möglichkeiten. Nicht bestimmbare Ziele (`$X`, `~`) fallen auf das Startverzeichnis (cwd) zurück. Klammern halten ihr `cd` im Inneren.
 // „Im Hauptordner“ heißt: erster Vorfahr mit `.git` ist der Hauptordner selbst (eine `.git`-Datei oder ein anderer Treffer = eigener
@@ -140,6 +141,9 @@ const programmName = (t) => t.replace(/\\/g, '/').split('/').pop().toLowerCase()
 /** Setzt bekannte Shell-Variablen (`W=…;` weiter vorn in der Kette) in ein Ziel ein; unbekannte bleiben stehen. */
 const mitVariablen = (ziel, vars) => ziel?.replace(/\$\{(\w+)\}|\$(\w+)/g, (m, a, b) => vars[a ?? b] ?? m)
 
+/** Programmname eines Tokens; ein Token wie `$G` / `${G}` zählt mit dem Wert, den ein früheres `G=…` im selben Befehl gesetzt hat. */
+const programmNameAufgeloest = (token, vars) => programmName(mitVariablen(token, vars) ?? token)
+
 /** Wirksame Verzeichnisse nach `-C`/`--work-tree` ab Token `von`, Unterbefehl und Argumente. */
 function liesGit(tokens, von, z) {
   let wirksam = z.moegliche
@@ -204,7 +208,7 @@ function pruefeSegment({ tokens, op }, z, haupt) {
     return null
   }
   for (let i = 0; i < tokens.length; i++) {
-    const p = programmName(tokens[i])
+    const p = programmNameAufgeloest(tokens[i], z.vars)
     if (p === 'echo' || p === 'printf') return null
     if (p === 'cd' || p === 'pushd') {
       const ziele = z.moegliche.map((v) => loese(v, mitVariablen(tokens[i + 1], z.vars)) ?? z.start)
