@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-11-06T06:11:09.224Z",
+  "generatedAt": "2026-11-06T06:48:11.420Z",
   "titleCount": 2926,
-  "belegtCount": 2589,
+  "belegtCount": 2590,
   "releaseCount": 871,
   "eventCount": 4364,
   "genres": [
@@ -269,7 +269,7 @@
     2016,
     2015
   ],
-  "patchnotesStand": "2026-11-05",
+  "patchnotesStand": "2026-11-06",
   "attribution": [
     "Dub-Daten: MyDubList (https://mydublist.com) — CC BY 4.0",
     "Metadaten: AniList (https://anilist.co)",
