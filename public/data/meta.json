@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-11-05T13:25:02.363Z",
+  "generatedAt": "2026-11-06T06:11:09.224Z",
   "titleCount": 2926,
-  "belegtCount": 2587,
-  "releaseCount": 873,
-  "eventCount": 4369,
+  "belegtCount": 2589,
+  "releaseCount": 871,
+  "eventCount": 4364,
   "genres": [
     "Action",
     "Adventure",
@@ -282,10 +282,12 @@
   ],
   "quarantaene": [
     {
-      "titleId": 106896,
-      "pruefung": "cr-ja-deckung",
-      "grund": "Crunchyroll-Ja ohne Deckung",
-      "releases": []
+      "titleId": 187538,
+      "pruefung": "kalender-plausibilitaet",
+      "grund": "ereignisOhneNews: Black Torch (crunchyroll, 2026-07-04): Start ohne Meldung",
+      "releases": [
+        "black-torch"
+      ]
     }
   ]
 }

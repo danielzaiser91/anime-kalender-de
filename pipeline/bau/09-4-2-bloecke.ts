@@ -2,10 +2,10 @@ import {
   deutscheFolgenNachDemEnde,
   beurteileNachFolgennummern,
   beurteileJeBlock,
-  beurteileBlockketten,
   beurteileTeilblock,
   type CrDubData,
 } from '../lib/crunchyroll-dub.ts'
+import { beurteileBlockkettenOhneLuecke } from '../lib/cr-ja-deckung.ts'
 import { log } from '../lib/util.ts'
 import { type Title } from '../../shared/types.ts'
 import { type KatalogEintrag } from '../lib/anilist.ts'
@@ -170,7 +170,7 @@ export function ordneCrBloeckeZu({ crDub, nachUrl, titles, katalogEintraege }: {
       )
       if (!offene.length) continue
       /* Die Kette rechnet über **alle** Einträge der Adresse, nicht nur die offenen. */
-      for (const urteil of beurteileBlockketten(serie, [...gruppe.values()])) {
+      for (const urteil of beurteileBlockkettenOhneLuecke(serie, [...gruppe.values()])) {
         const title = titles.get(urteil.titleId)
         const stream = title?.streams.find((s) => s.platform === 'crunchyroll')
         if (!stream || stream.dub !== undefined) continue
