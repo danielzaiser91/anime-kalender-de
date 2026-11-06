@@ -53,8 +53,9 @@ jobs:
     name: Prüfer nach Kettenende neu starten
     if: github.event_name == 'workflow_run' && github.event.workflow_run.event == 'pull_request'
     runs-on: ubuntu-latest
-    # Wartet bis 4 min auf das Ende des Prüfer-Laufs (sein Kommentar entsteht erst am Schluss), dann Abruf und Neustart.
-    timeout-minutes: 8
+    # Wartet bis 28 min auf das Ende des Prüfer-Laufs (sein Kommentar entsteht erst am Schluss; er hat 30 min Frist und liest
+    # das Kettenlog nach ~13 min), dann Abruf und Neustart. Ein Lauf je Kopf (Gruppe), der Runner schläft nur.
+    timeout-minutes: 32
     steps:
       - uses: actions/checkout@v4
         with:

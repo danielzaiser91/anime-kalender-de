@@ -13,8 +13,10 @@ import { neuesterLauf, neustart } from './pr-pruefer-neustart.mjs'
 const PRUEFER_WORKFLOW = 'pr-pruefer.yml'
 /** Höchstens so viele „nicht beurteilt“-Kommentare je Kopf lösen einen Neustart aus (Schleifenschutz bei wiederholten Ketten). */
 export const MAX_NEUSTARTS = 2
-const WARTE_RUNDEN = 12
-const WARTE_MS = 20_000
+// Der Prüfer-Lauf (Job-Timeout 30 min) liest das Kettenlog nach ~13 min und braucht danach noch bis zu 17 min für Modell und
+// Kommentar: das Kettenende fällt meist mitten in seinen Lauf, sein Kommentar mit der Marke entsteht erst am Schluss.
+const WARTE_RUNDEN = 56
+const WARTE_MS = 30_000
 
 /** Neuester Kommentar des Prüfer-Bots zu diesem Kopf (Liste der API, älteste zuerst) oder null. */
 export function letztesUrteil(kommentare, kopf) {
@@ -49,7 +51,8 @@ function fertigerLauf(repo, kopf, { gh, warte }) {
     if (!lauf || lauf.status === 'completed') return lauf
     warte(WARTE_MS)
   }
-  return lauf
+  // Ohne Ende des Prüfer-Laufs gäbe es kein weiteres Kettenende-Ereignis: lieber sichtbar scheitern als still nichts tun.
+  throw new Error(`Prüfer-Lauf ${lauf.id} nach ${(WARTE_RUNDEN * WARTE_MS) / 60_000} min nicht fertig`)
 }
 
 /** Einstieg; Rückgabe ist der Exit-Code. 1 nur bei Eingabe- oder Abruffehlern („FEHLGESCHLAGEN …“ im Log). */

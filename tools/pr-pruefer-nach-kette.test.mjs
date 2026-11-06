@@ -83,7 +83,12 @@ gleich('Kettenende ohne jedes Prüfer-Urteil: kein rerun', laufe({ kommentare: [
 const wartend = laufe({ kommentare: [OFFEN()], laeufe: [{ id: 5, status: 'in_progress' }, { id: 5, status: 'in_progress' }, lauf] })
 gleich('Prüfer-Lauf noch offen: zwei Pausen, dann rerun', [wartend.wartet.length, wartend.aenderungen], [2, ['run rerun 5']])
 const haengt = laufe({ kommentare: [OFFEN()], laeufe: [{ id: 5, status: 'in_progress' }] })
-gleich('Prüfer-Lauf endet nie: zwölf Pausen à 20 s (4 min), dann Entscheidung mit dem Stand, den es gibt', [haengt.wartet.length, haengt.wartet[0]], [12, 20_000])
+const SPAET = [...Array(50).fill({ id: 5, status: 'in_progress' }), lauf]
+const spaet = laufe({ kommentare: [OFFEN()], laeufe: SPAET })
+// Anlass der Prüferauflage (PR 3002): das Kettenende fällt meist mitten in den Prüfer-Lauf (Kettenlog nach ~13 min, Modell danach bis 17 min).
+gleich('Prüfer-Lauf endet erst nach 25 min (50 Pausen): trotzdem rerun, kein stiller Verlust', [spaet.wartet.length, spaet.aenderungen, spaet.code], [50, ['run rerun 5'], 0])
+gleich('Prüfer-Lauf endet nie: Exit 1 mit Zeile FEHLGESCHLAGEN, kein rerun', [haengt.code, haengt.aenderungen, haengt.zeilen.some((z) => z.includes('FEHLGESCHLAGEN') && z.includes('nicht fertig'))], [1, [], true])
+gleich('Prüfer-Lauf endet nie: 56 Pausen à 30 s (28 min)', [haengt.wartet.length, haengt.wartet[0]], [56, 30_000])
 gleich('kein offener PR zum Kopf: nichts, Exit 0', (() => { const r = laufe({ kommentare: [OFFEN()], pulls: [] }); return [r.aenderungen, r.code] })(), [[], 0])
 gleich('PR zum Kopf geschlossen: nichts', laufe({ kommentare: [OFFEN()], pulls: [pr({ state: 'closed' })] }).aenderungen, [])
 const abbruch = laufe({ kommentare: [OFFEN()], fehlerBei: '/issues/7/comments' })
@@ -98,7 +103,10 @@ gleich('Job nur beim Ende der Kette eines Pull-Request-Laufs', job.if, "github.e
 gleich('Schritt ruft das Skript ohne Argumente', schritt.run, 'node tools/pr-pruefer-nach-kette.mjs')
 gleich('Kopf kommt aus workflow_run.head_sha, nur über env', schritt.env.KOPF_SHA, '${{ github.event.workflow_run.head_sha }}')
 gleich('run enthält keinen Ausdruck', schritt.run.includes('${{'), false)
-gleich('Zeitbudget: zwölf Pausen à 20 s plus 2 min Reserve unter timeout-minutes', 12 * 20_000 + 120_000 <= job['timeout-minutes'] * 60_000, true)
+const pausenMs = haengt.wartet.reduce((s, ms) => s + ms, 0)
+gleich('Zeitbudget: Pausen plus 2 min Reserve unter timeout-minutes', pausenMs + 120_000 <= job['timeout-minutes'] * 60_000, true)
+// Untergrenze: Prüfer-Job 30 min, Kettenlog nach 13 min -> mindestens 17 min Restdauer müssen abgedeckt sein.
+gleich('Wartezeit deckt die Restdauer des Prüfer-Laufs (≥ 17 min)', pausenMs >= 17 * 60_000, true)
 gleich('Gruppe trennt Nachtrag (PR-Nummer) und Kettenende (Kopf)', wf.concurrency.group, 'pr-pruefer-nachtrag-${{ github.event.issue.number || github.event.workflow_run.head_sha }}')
 gleich('Rechte unverändert: Aktionen schreiben, sonst lesen', wf.permissions, { contents: 'read', 'pull-requests': 'read', actions: 'write' })
 
