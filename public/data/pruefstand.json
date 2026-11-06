@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-11-06T10:53:33.181Z",
+ "erzeugtAm": "2026-11-06T18:26:38.689Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -1472,10 +1472,10 @@
   {
    "name": "Disney+",
    "plattform": "disneyplus",
-   "gemeldet": 179,
-   "gesamt": 346,
+   "gemeldet": 180,
+   "gesamt": 347,
    "offen": 167,
-   "ohneSeite": 15,
+   "ohneSeite": 14,
    "ziel": "https://www.disneyplus.com/browse/entity-faa35b37-3287-4a7c-9d42-a3a5f9ad9185",
    "ziele": [
     {
@@ -1744,6 +1744,7 @@
     "0e46c665-5191-407f-8dc5-e22a0095578c": 100,
     "4XHzb6tQBRtd": 12,
     "7I31jGPKAwz5": 13,
+    "6985037f-9614-48e7-91f3-ca8a4d7428bb": 12,
     "14f5d468-38b2-4d4b-97ed-649e6c3ba4c8": 12,
     "d45b72d4-3c8d-4961-960a-c0c182890189": 2,
     "eb5b776f-8162-491a-9aca-c1e9b56729e5": 12,

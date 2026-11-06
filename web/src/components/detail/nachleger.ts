@@ -22,7 +22,7 @@ export interface Nachleger {
  * **Wer noch nachlegt, was woanders schon da ist** (Daniel, 10.10.2026, Option 2). „Nächste Folge“ zählt nur
  * Folgen, die nirgends erschienen sind (`ohneSchonErschienene`); Netflix' Folge 16 am 17.10. fiel damit aus dem
  * Kasten, obwohl Crunchyroll alle 24 hat. Hier steht je Anbieter der nächste solche Termin.
- * Nur Termine nach `heute`: Einer von heute ohne Uhrzeit gilt erst um 23:59 als erschienen, ist aber schon da.
+ * Nur Termine nach `heute`: Einer von heute ohne Uhrzeit gilt erst um 23:59 als erschienen (Katalogstart `batch` außer TV: schon ab 00:00, `istErschienen`), ist aber schon da.
  * TV, Kino und Disc sind ausgenommen: Die TV-Pille nennt Folge, Tag und Uhrzeit selbst.
  */
 export function nachlegerJeAnbieter(events: ReleaseEvent[], heute: string): Nachleger[] {
