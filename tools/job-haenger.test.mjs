@@ -1,0 +1,332 @@
+// Hängende CI-Jobs: Grenze aus timeout-minutes (mindestens 45 min), Zeile, Abbruch + Neustart ohne Warten, Verdrahtung in laeufe-aufraeumen als Prozess.
+import assert from 'node:assert/strict'
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
+import { fileURLToPath } from 'node:url'
+import { fristMinuten, grenzeMinuten, haengendeJobs, haengerWache, haengerZeile, holeLaeufeMitJobs, jobTimeouts, neustartPlan } from './job-haenger.mjs'
+import { spawnMitLimit } from './kind-mit-limit.mjs'
+
+const JETZT = Date.parse('2026-11-05T17:00:00Z')
+const YAML = `name: X
+jobs:
+  kette:
+    name: Kette – Workflows
+    timeout-minutes: 30
+    steps:
+      - run: echo
+        timeout-minutes: 99
+  lauf:
+    runs-on: ubuntu-latest
+    timeout-minutes: 330
+  ohne:
+    runs-on: ubuntu-latest
+  dynamisch:
+    timeout-minutes: \${{ fromJSON('5') }}
+  aussehen:
+    name: PR-Aussehen – \${{ matrix.teil }}
+    timeout-minutes: 20
+  matrix-ohne-name:
+    timeout-minutes: 80
+  vorn:
+    permissions:
+      contents: read
+    timeout-minutes: 15
+  zitiert:
+    name: 'Zitiert – Name'
+    timeout-minutes: 25
+  mit-klammer:
+    name: Tests (unit)
+    timeout-minutes: 90
+  ab:
+    timeout-minutes: 70
+  betriebssystem:
+    name: Os (\${{ matrix.os }})
+    timeout-minutes: 33
+  mitte:
+    name: A \${{ matrix.x }} Ende
+    timeout-minutes: 44
+`
+const t = jobTimeouts(YAML)
+assert.equal(t.kette, 30)
+assert.equal(t['Kette – Workflows'], 30)
+assert.equal(t.lauf, 330)
+assert.equal(t['PR-Aussehen – ${{ matrix.teil }}'], 20)
+assert.equal(t['matrix-ohne-name'], 80)
+assert.equal(Object.hasOwn(t, 'dynamisch') || Object.hasOwn(t, 'ohne'), false)
+// Matrix-Namen: aufgelöster Name trifft das Muster, „kennung (x)“ die Kennung; ohne Frist bleibt undefined.
+assert.equal(fristMinuten(t, 'PR-Aussehen – bilder'), 20)
+assert.equal(fristMinuten(t, 'PR-Aussehen – '), undefined, 'Platzhalter braucht mindestens ein Zeichen')
+assert.equal(fristMinuten(t, 'Anderes – bilder'), undefined)
+assert.equal(fristMinuten(t, 'matrix-ohne-name (a, b)'), 80)
+assert.equal(fristMinuten(t, 'ohne'), undefined)
+// Parser: Blockschlüssel (permissions:) vor timeout-minutes beginnt keinen neuen Job; Anführungszeichen fallen weg.
+assert.equal(t.vorn, 15)
+assert.equal(t['Zitiert – Name'], 25)
+// Name mit Klammern trifft direkt (nicht über das Streifen des Suffixes); Suffix-Streifen nur am Ende.
+assert.equal(fristMinuten(t, 'Tests (unit)'), 90)
+assert.equal(fristMinuten(t, 'a (m)b'), undefined, 'Klammer mitten im Namen wird nicht gestrichen')
+// Muster: Sonderzeichen wörtlich, an beiden Enden verankert.
+assert.equal(fristMinuten(t, 'Os (linux)'), 33)
+assert.equal(fristMinuten(t, 'Os linux'), undefined, 'Klammern im Namen sind wörtlich, keine Gruppe')
+assert.equal(fristMinuten(t, 'A b Ende'), 44)
+assert.equal(fristMinuten(t, 'A b Ende zusatz'), undefined, 'Ende verankert')
+assert.equal(fristMinuten(t, 'Vor A b Ende'), undefined, 'Anfang verankert')
+assert.equal(grenzeMinuten(t, 'matrix-ohne-name (a)'), 80)
+assert.equal(grenzeMinuten(t, 'Kette – Workflows'), 45, 'unter 45 min: 45')
+assert.equal(grenzeMinuten(t, 'lauf'), 330, 'Sammler: eigene Grenze')
+assert.equal(grenzeMinuten(t, 'ohne'), 45)
+assert.equal(grenzeMinuten(t, 'dynamisch'), 45, 'Ausdruck zählt nicht')
+
+const minVor = (m) => new Date(JETZT - m * 60_000).toISOString()
+const job = (name, minuten, status = 'in_progress', schritt = 'Run ./.github/actions/kette-einrichten') => ({
+  name,
+  status,
+  started_at: minVor(minuten),
+  steps: [
+    { name: 'Set up job', status: 'completed' },
+    { name: schritt, status: 'in_progress' },
+  ],
+})
+const lauf = (id, jobs, extra = {}) => ({ id, name: 'PR-Prüfkette', event: 'pull_request', path: '.github/workflows/pr-pruefung.yml@refs/pull/2935/merge', head_branch: 'refactor/x', run_attempt: 1, pull_requests: [{ number: 2935 }], jobs, ...extra })
+const finde = (laeufe) => haengendeJobs(laeufe, () => t, JETZT)
+
+// Grenze genau 45 min: kein Treffer, 46: Treffer.
+assert.equal(finde([lauf(1, [job('Kette – Workflows', 45)])]).length, 0)
+const h = finde([lauf(1, [job('Kette – Workflows', 46)])])
+assert.equal(h.length, 1)
+assert.equal(
+  haengerZeile(h[0]),
+  'HÄNGER Lauf 1 PR-Prüfkette / Kette – Workflows — Schritt „Run ./.github/actions/kette-einrichten“ seit 46 min (Grenze 45 min), PR 2935',
+)
+// Sammler mit 330 min: bei 200 min kein Treffer, bei 331 Treffer mit eigener Grenze; ohne PR steht der Zweig.
+assert.equal(finde([lauf(2, [job('lauf', 200)])]).length, 0)
+const sammler = finde([lauf(2, [job('lauf', 331)], { pull_requests: [] })])
+assert.equal(sammler[0].grenze, 330)
+assert.equal(sammler[0].bezug, 'refactor/x')
+// Wartende oder fertige Jobs und Jobs ohne Start zählen nicht; ein Job ohne aktiven Schritt nennt das.
+assert.equal(finde([lauf(3, [job('Kette – Workflows', 500, 'queued'), job('Kette – Workflows', 500, 'completed'), { name: 'Kette – Workflows', status: 'in_progress' }])]).length, 0)
+assert.equal(finde([lauf(4, [{ name: 'Kette – Workflows', status: 'in_progress', started_at: minVor(60), steps: [] }])])[0].schritt, '(kein Schritt aktiv)')
+// Zwei Jobs im selben Lauf: nur der hängende.
+assert.deepEqual(finde([lauf(5, [job('Kette – Workflows', 10), job('Kette – Workflows', 90)])]).map((x) => x.minuten), [90])
+
+// Abbrechbar nur: PR-Ereignis UND Job mit timeout-minutes. Sammler (schedule), Deploy (push), Job ohne Frist: nur melden.
+const abbr = (ereignis, name, minuten) => finde([lauf(6, [job(name, minuten)], { event: ereignis })])[0].abbrechbar
+assert.equal(abbr('pull_request', 'Kette – Workflows', 60), true)
+assert.equal(abbr('pull_request_target', 'Kette – Workflows', 60), true)
+assert.equal(abbr('schedule', 'lauf', 400), false)
+assert.equal(abbr('push', 'Kette – Workflows', 60), false)
+assert.equal(abbr('workflow_dispatch', 'Kette – Workflows', 60), false)
+assert.equal(abbr('pull_request', 'ohne', 60), false, 'Job ohne Frist, über 45 min: nur Zeile')
+assert.equal(abbr('pull_request', 'PR-Aussehen – bilder', 60), true, 'Matrix-Name trifft die Frist')
+
+// Neustartplan: nur abgeschlossene, nicht grüne Läufe mit gleichem run_attempt; Lauf in Abbruch bleibt; grün oder von Hand neu gestartet fällt weg.
+const merkPlan = { 7: { versuch: 1 }, 8: { versuch: 1 }, 9: { versuch: 1 }, 10: { versuch: 1 }, 11: { versuch: 2 }, 12: { versuch: 1 } }
+const infoPlan = {
+  7: { status: 'completed', conclusion: 'cancelled', run_attempt: 1 },
+  8: { status: 'in_progress', conclusion: null, run_attempt: 1 },
+  9: { status: 'completed', conclusion: 'success', run_attempt: 1 },
+  10: { status: 'in_progress', conclusion: null, run_attempt: 2 },
+  11: { status: 'completed', conclusion: 'failure', run_attempt: 2 },
+}
+assert.deepEqual(neustartPlan(merkPlan, infoPlan), { neustart: ['7', '11'], verwerfen: ['9', '10'] })
+
+// Jobliste eines Laufs nicht lesbar: leere Liste (kein Absturz), die übrigen Läufe bleiben.
+const ghEinzeln = (a) => {
+  if (a[1].includes('/runs?status')) return JSON.stringify({ workflow_runs: [{ id: 1 }, { id: 2 }, { id: 3 }] })
+  if (a[1].includes('/runs/2/')) throw new Error('503')
+  return JSON.stringify({ jobs: [{ name: `j${a[1].split('/runs/')[1][0]}` }] })
+}
+assert.deepEqual(holeLaeufeMitJobs(ghEinzeln, 'o/r').map((l) => l.jobs), [[{ name: 'j1' }], [], [{ name: 'j3' }]])
+
+// Wache mit gh-Attrappe: trocken ändert nichts, sonst Abbruch, beim nächsten Aufruf Neustart (zwei Läufe hintereinander).
+const wegwerf = mkdtempSync(join(tmpdir(), 'job-haenger-'))
+try {
+  const wurzel = join(wegwerf, 'repo')
+  const merk = join(wegwerf, 'merk.json')
+  // Echter Weg Pfad → Datei → timeout-minutes → Grenze: die Datei liegt im Wegwerf-Repo, der Lauf-Pfad trägt „@refs/…“.
+  mkdirSync(join(wurzel, '.github', 'workflows'), { recursive: true })
+  const wf = (minuten) => `name: X\njobs:\n  kette:\n    name: Kette – Workflows\n    timeout-minutes: ${minuten}\n`
+  writeFileSync(join(wurzel, '.github', 'workflows', 'pr-pruefung.yml'), wf(30))
+  const info = { 11: { status: 'in_progress', conclusion: null, run_attempt: 1 } }
+  const aufrufe = []
+  let cancelWirft = false
+  const gh = (a) => {
+    aufrufe.push(a.join(' '))
+    if (a[1].includes('/runs?status=in_progress')) {
+      return JSON.stringify({ workflow_runs: [{ ...lauf(11, undefined), jobs: undefined }, { ...lauf(12, undefined, { run_attempt: 3 }), jobs: undefined }] })
+    }
+    if (a[1].endsWith('/runs/11/jobs?per_page=100') || a[1].endsWith('/runs/12/jobs?per_page=100')) return JSON.stringify({ jobs: [job('Kette – Workflows', 90)] })
+    if (a[1].endsWith('/runs/11')) return JSON.stringify(info[11])
+    if (a[0] === 'run' && a[1] === 'cancel' && cancelWirft) throw new Error('HTTP 403: Resource not accessible by integration\nmehr')
+    if (a[0] === 'run') return ''
+    throw new Error(`unerwartet ${a.join(' ')}`)
+  }
+  const schreibend = () => aufrufe.filter((x) => x.startsWith('run '))
+  // Datei fehlt: Grenze 45; das Workflow-File liegt im Wegwerf-Repo.
+  const trocken = haengerWache(gh, 'o/r', wurzel, JETZT, merk, { trocken: true })
+  assert.equal(trocken.filter((z) => z.startsWith('HÄNGER Lauf')).length, 2)
+  assert.deepEqual(schreibend(), [], 'trocken schreibt nichts')
+  const eins = haengerWache(gh, 'o/r', wurzel, JETZT, merk)
+  assert.deepEqual(schreibend(), ['run cancel 11 --repo o/r'], 'Lauf 12 hat Versuch 3: kein Abbruch')
+  assert.ok(eins.some((z) => z.includes('Lauf 12: Versuch 3, kein Neustart mehr')))
+  assert.deepEqual(JSON.parse(readFileSync(merk, 'utf8')), { 11: { versuch: 1 } })
+  // Zweiter Aufruf, Abbruch noch nicht durch: kein zweiter Abbruch, kein Neustart.
+  haengerWache(gh, 'o/r', wurzel, JETZT, merk)
+  assert.deepEqual(schreibend(), ['run cancel 11 --repo o/r'])
+  // Dritter Aufruf, Lauf abgeschlossen: --failed, Merkdatei leer.
+  info[11] = { status: 'completed', conclusion: 'cancelled', run_attempt: 1 }
+  const drei = haengerWache(gh, 'o/r', wurzel, JETZT, merk)
+  assert.deepEqual(schreibend(), ['run cancel 11 --repo o/r', 'run rerun 11 --failed --repo o/r'])
+  assert.ok(drei.some((z) => z.includes('Lauf 11: mit --failed neu gestartet')))
+  assert.deepEqual(JSON.parse(readFileSync(merk, 'utf8')), {})
+
+  // A1: Abbruch überholt (Lauf grün) oder von Hand neu gestartet (run_attempt höher): kein rerun, Eintrag fällt weg.
+  for (const [name, neu] of [['grün', { status: 'completed', conclusion: 'success', run_attempt: 1 }], ['von Hand neu gestartet', { status: 'in_progress', conclusion: null, run_attempt: 2 }]]) {
+    writeFileSync(merk, JSON.stringify({ 11: { versuch: 1 } }))
+    info[11] = neu
+    const vorher = schreibend().length
+    haengerWache(gh, 'o/r', wurzel, JETZT, merk, { trocken: false })
+    assert.equal(schreibend().filter((x) => x.startsWith('run rerun')).length, 1, `${name}: kein weiterer rerun`)
+    assert.equal(schreibend().length, vorher, `${name}: auch kein Abbruch (Eintrag in merk verhindert ihn bis zum Verwerfen)`)
+    assert.deepEqual(JSON.parse(readFileSync(merk, 'utf8')), {}, `${name}: Eintrag entfernt`)
+  }
+
+  // A5: ohne actions:write (403) scheitert der Abbruch als Zeile, die Wache läuft weiter, nichts wird gemerkt.
+  info[11] = { status: 'in_progress', conclusion: null, run_attempt: 1 }
+  cancelWirft = true
+  const vor403 = schreibend().length
+  const z403 = haengerWache(gh, 'o/r', wurzel, JETZT, merk)
+  cancelWirft = false
+  assert.ok(z403.includes('  Lauf 11: Abbruch gescheitert: HTTP 403: Resource not accessible by integration'), z403.join('|'))
+  assert.equal(schreibend().length, vor403 + 1, 'ein Abbruchversuch, kein Neustart')
+  assert.deepEqual(JSON.parse(readFileSync(merk, 'utf8')), {})
+
+  // A2/A3: Lauf ohne PR-Ereignis (Sammler) und Job ohne Frist werden nur gemeldet.
+  const ghAnders = (ereignis, datei, minuten = 200) => (a) => {
+    if (a[1].includes('/runs?status=in_progress')) return JSON.stringify({ workflow_runs: [{ ...lauf(21, undefined, { event: ereignis, path: `.github/workflows/${datei}@refs/heads/main` }), jobs: undefined }] })
+    if (a[1].endsWith('/runs/21/jobs?per_page=100')) return JSON.stringify({ jobs: [job('Kette – Workflows', minuten)] })
+    aufrufe.push(a.join(' '))
+    return ''
+  }
+  writeFileSync(join(wurzel, '.github', 'workflows', 'sammler.yml'), wf(120))
+  writeFileSync(join(wurzel, '.github', 'workflows', 'ohne.yml'), 'name: X\njobs:\n  kette:\n    name: Kette – Workflows\n')
+  for (const [ereignis, datei] of [['schedule', 'sammler.yml'], ['pull_request', 'ohne.yml']]) {
+    const vorN = aufrufe.length
+    const zn = haengerWache(ghAnders(ereignis, datei), 'o/r', wurzel, JETZT, merk)
+    assert.equal(aufrufe.length, vorN, `${ereignis}/${datei}: weder Abbruch noch Neustart`)
+    assert.ok(zn.some((z) => z.startsWith('HÄNGER Lauf 21')) && zn.some((z) => z.includes('Lauf 21: kein PR-Lauf oder Job ohne timeout-minutes, nur gemeldet')), zn.join('|'))
+  }
+  // Frist 120 aus der Datei (Pfad mit „@refs/…“): Job bei 100 min ist kein Hänger.
+  writeFileSync(join(wurzel, '.github', 'workflows', 'pr-pruefung.yml'), wf(120))
+  const z120 = haengerWache(ghAnders('pull_request', 'pr-pruefung.yml', 100), 'o/r', wurzel, JETZT, merk, { trocken: true })
+  assert.deepEqual(z120, ['Hänger: keine Jobs über der Grenze (1 laufende Läufe)'])
+  // Grenzen und Rückfälle des echten Wegs, je Fall eine Kulisse mit genau einem Lauf 31 (PR-Ereignis, Job 200 min alt).
+  const fall = ({ datei = 'pr-pruefung.yml', versuch, status, infoWirft = false, rerunWirft = false, jobsFehlen = false } = {}) => (a) => {
+    aufrufe.push(a.join(' '))
+    if (a[1].includes('/runs?status=in_progress')) return JSON.stringify(jobsFehlen ? {} : { workflow_runs: [{ ...lauf(31, undefined, { path: `.github/workflows/${datei}@refs/pull/9/merge`, run_attempt: versuch }), jobs: undefined }] })
+    if (a[1].endsWith('/runs/31/jobs?per_page=100')) return JSON.stringify({ jobs: [job('Kette – Workflows', 200)] })
+    if (a[1].endsWith('/runs/31')) {
+      if (infoWirft) throw new Error('HTTP 502')
+      return JSON.stringify(status)
+    }
+    if (rerunWirft && a[1] === 'rerun') throw new Error('HTTP 500: kaputt\nmehr')
+    return ''
+  }
+  const cancels = () => aufrufe.filter((x) => x.startsWith('run cancel 31')).length
+  const fuehre = (f, merkInhalt = '{}') => {
+    writeFileSync(merk, merkInhalt)
+    const vorC = cancels()
+    return { zeilen: haengerWache(f, 'o/r', wurzel, JETZT, merk), neuC: cancels() - vorC }
+  }
+  writeFileSync(join(wurzel, '.github', 'workflows', 'pr-pruefung.yml'), wf(30))
+  // Versuch 2 wird noch abgebrochen, Versuch 3 nicht mehr; ohne run_attempt gilt Versuch 1.
+  assert.equal(fuehre(fall({ versuch: 2 })).neuC, 1, 'Versuch 2: Abbruch')
+  assert.equal(fuehre(fall({ versuch: 3 })).neuC, 0, 'Versuch 3: nur Zeile')
+  assert.equal(fuehre(fall({ versuch: undefined })).neuC, 1, 'ohne run_attempt: Versuch 1')
+  // Fehlende Workflow-Datei: Grenze 45, aber keine Frist bekannt → gemeldet, nicht abgebrochen, Wache läuft ganz durch.
+  const ohneDatei = fuehre(fall({ datei: 'gibts-nicht.yml', versuch: 1 }))
+  assert.equal(ohneDatei.neuC, 0)
+  assert.ok(ohneDatei.zeilen.some((z) => z.includes('Grenze 45 min')) && ohneDatei.zeilen.some((z) => z.includes('nur gemeldet')), ohneDatei.zeilen.join('|'))
+  // Mit Hängern steht nie die Entwarnungszeile; ohne laufende Läufe (Antwort ohne workflow_runs) steht sie, mit 0 Läufen.
+  assert.ok(!ohneDatei.zeilen.some((z) => z.startsWith('Hänger: keine')))
+  assert.deepEqual(fuehre(fall({ jobsFehlen: true })).zeilen, ['Hänger: keine Jobs über der Grenze (0 laufende Läufe)'])
+  // Kaputte Merkdatei zählt als leer: Abbruch läuft, keine Fehlerzeile.
+  const kaputt = fuehre(fall({ versuch: 1 }), '{kaputt')
+  assert.equal(kaputt.neuC, 1)
+  assert.ok(!kaputt.zeilen.some((z) => z.startsWith('HÄNGER?')), kaputt.zeilen.join('|'))
+  // Status eines gemerkten Laufs nicht lesbar: nichts neu starten, Merkeintrag bleibt, keine Fehlerzeile.
+  const info502 = fuehre(fall({ versuch: 1, infoWirft: true }), '{"31":{"versuch":1}}')
+  assert.ok(!info502.zeilen.some((z) => z.startsWith('HÄNGER?') || z.includes('neu gestartet')), info502.zeilen.join('|'))
+  assert.deepEqual(JSON.parse(readFileSync(merk, 'utf8')), { 31: { versuch: 1 } })
+  // Neustart scheitert: Zeile mit erster Fehlerzeile, Merkeintrag bleibt für den nächsten Aufruf.
+  const rerunFehl = fuehre(fall({ versuch: 1, status: { status: 'completed', conclusion: 'cancelled', run_attempt: 1 }, rerunWirft: true }), '{"31":{"versuch":1}}')
+  assert.ok(rerunFehl.zeilen.includes('  Lauf 31: Neustart gescheitert: HTTP 500: kaputt'), rerunFehl.zeilen.join('|'))
+  assert.deepEqual(JSON.parse(readFileSync(merk, 'utf8')), { 31: { versuch: 1 } })
+  assert.ok(aufrufe.some((x) => x === 'run rerun 31 --failed --repo o/r'))
+  // Junger Lauf (< 45 min) bekommt keinen Jobs-Abruf (Laufzeit der Wachphase), ab genau 45 min und ohne Startzeit schon; die Wache reicht die Zeit durch.
+  const startVor = (min) => new Date(JETZT - min * 60_000).toISOString()
+  const abrufe = []
+  const ghJung = (a) => {
+    abrufe.push(a[1])
+    if (a[1].includes('/runs?status')) return JSON.stringify({ workflow_runs: [{ id: 41, run_started_at: startVor(44.9) }, { id: 42, run_started_at: startVor(45) }, { id: 43, run_started_at: startVor(300) }, { id: 44 }] })
+    return JSON.stringify({ jobs: [{ name: 'x' }] })
+  }
+  const jung = holeLaeufeMitJobs(ghJung, 'o/r', JETZT)
+  assert.deepEqual(jung.map((l) => l.jobs.length), [0, 1, 1, 1])
+  assert.ok(!abrufe.some((x) => x.includes('/runs/41/')) && abrufe.some((x) => x.includes('/runs/42/')), abrufe.join('|'))
+  abrufe.length = 0
+  assert.equal(haengerWache(ghJung, 'o/r', wurzel, JETZT, merk, { trocken: true })[0].startsWith('Hänger: keine'), true)
+  assert.ok(!abrufe.some((x) => x.includes('/runs/41/')), 'Wache übergibt jetztMs')
+  // Lauf ohne jobs-Feld und Antwort ohne workflow_runs sind leer, kein Absturz.
+  assert.deepEqual(haengendeJobs([{ id: 1, path: 'x.yml' }], () => ({}), JETZT), [])
+  assert.deepEqual(holeLaeufeMitJobs(() => '{}', 'o/r'), [])
+  // Lesefehler ist eine Zeile.
+  const fehl = haengerWache(() => { throw new Error('netz\nweiter') }, 'o/r', wurzel, JETZT, merk)
+  assert.deepEqual(fehl, ['HÄNGER? Jobs nicht lesbar: netz'])
+
+  // Verdrahtung: der echte Aufrufer (laeufe-aufraeumen) fährt die Wache; gh/Worker über eine Kulisse, Start 2026-11-01 weit zurück.
+  const kulisse = join(wegwerf, 'kulisse.mjs')
+  const szenario = join(wegwerf, 'szenario.json')
+  const log = join(wegwerf, 'log.txt')
+  writeFileSync(szenario, JSON.stringify({ jobs: [{ name: 'Kette – Workflows', status: 'in_progress', started_at: '2026-11-01T15:14:00Z', steps: [{ name: 'Run ./.github/actions/kette-einrichten', status: 'in_progress' }] }] }))
+  writeFileSync(
+    kulisse,
+    `import cp from 'node:child_process'
+import { appendFileSync, readFileSync } from 'node:fs'
+import { syncBuiltinESMExports } from 'node:module'
+cp.execFileSync = (c, a) => {
+  appendFileSync(${JSON.stringify(log)}, c + ' ' + a.join(' ') + '\\n')
+  const s = JSON.parse(readFileSync(${JSON.stringify(szenario)}, 'utf8'))
+  const url = a[1] ?? ''
+  if (c === 'gh' && url.includes('/runs?status=in_progress')) return JSON.stringify({ workflow_runs: [{ id: 42, name: 'PR-Prüfkette', event: 'pull_request', path: '.github/workflows/pr-pruefung.yml@refs/pull/9/merge', head_branch: 'x', run_attempt: 1, pull_requests: [{ number: 9 }] }] })
+  if (c === 'gh' && url.endsWith('/runs/42/jobs?per_page=100')) return JSON.stringify({ jobs: s.jobs })
+  if (c === 'gh' && url.endsWith('/runs/42')) return JSON.stringify({ status: 'in_progress' })
+  return '[]'
+}
+syncBuiltinESMExports()
+globalThis.fetch = async () => new Response('{}', { status: 500 })
+`,
+  )
+  const aufraeumen = fileURLToPath(new URL('./laeufe-aufraeumen.mjs', import.meta.url))
+  const leereGesundheit = join(wegwerf, 'g.json')
+  writeFileSync(leereGesundheit, '{}')
+  const fahre = (...zusatz) => {
+    const r = spawnMitLimit(process.execPath, ['--import', `file:///${kulisse.replace(/\\/g, '/')}`, aufraeumen, ...zusatz, '--gesundheit', leereGesundheit, '--haenger-speicher', join(wegwerf, 'p-merk.json')], { encoding: 'utf8', env: { ...process.env, LAUF_TOKEN: '' } })
+    return r
+  }
+  const p1 = fahre('--trocken')
+  assert.equal(p1.status, 0, p1.stderr)
+  assert.match(p1.stdout, /^HÄNGER Lauf 42 PR-Prüfkette \/ Kette – Workflows — Schritt „Run \.\/\.github\/actions\/kette-einrichten“ seit \d+ min \(Grenze 45 min\), PR 9$/m)
+  assert.doesNotMatch(readFileSync(log, 'utf8'), /run cancel/)
+  assert.equal(existsSync(join(wegwerf, 'p-merk.json')), false, 'trocken legt keine Merkdatei an')
+  const p2 = fahre()
+  // Exit ≠ 0 ist hier die Kulisse (Status-Worker 500), nicht die Wache: ihre Zeile belegt, dass sie bis zum Ende lief.
+  assert.match(p2.stdout, /^ {2}Lauf 42: abgebrochen, Neustart folgt$/m)
+  assert.match(readFileSync(log, 'utf8'), /^gh run cancel 42 --repo danielzaiser91\/anime-kalender-de$/m)
+  // --haenger-speicher wird wirklich benutzt: der Abbruch steht dort in der Merkdatei.
+  assert.deepEqual(JSON.parse(readFileSync(join(wegwerf, 'p-merk.json'), 'utf8')), { 42: { versuch: 1 } })
+} finally {
+  rmSync(wegwerf, { recursive: true, force: true })
+}
+console.log('job-haenger: ok (Grenze 45/46 min, timeout-minutes, Zeile, Abbruch, Neustart beim nächsten Aufruf, Versuch 2/3, Lesefehler, PR-Ereignis + Frist, Matrix-Namen, 403, grün/neu gestartet, Merkdatei, laeufe-aufraeumen als Prozess)')

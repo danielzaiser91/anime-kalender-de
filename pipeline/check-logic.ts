@@ -3286,14 +3286,10 @@ console.log('\nStaffel und Teil zählen:')
     'der Filmblock-Abruf liest den alten Stand, bevor er schreibt',
     /readFileSync\('data\/cr-filmbloecke\.json'/.test(abruf),
   )
-  pruefe(
-    '… führt beide Stände zusammen',
-    /const zusammen = new Map\(\)/.test(abruf) && /zusammen\.set\(f\.id, f\)/.test(abruf),
-  )
-  pruefe(
-    '… und ein Schweigen überschreibt keinen alten Treffer',
-    /if \(alt\?\.treffer && !f\.treffer\)/.test(abruf),
-  )
+  /* Die Zusammenführung steht in `lib/cr-abruf-logik.ts` (Laufzeitfälle: `check-cr-abruf-logik.ts`); hier nur die Verdrahtung. */
+  pruefe('… führt beide Stände zusammen (filmbloeckeZusammen(vorher, funde))', /filmbloeckeZusammen\(vorher, funde\)/.test(abruf))
+  const zusammenfuehrung = readFileSync(new URL('./lib/cr-abruf-logik.ts', import.meta.url), 'utf8')
+  pruefe('… und ein Schweigen überschreibt keinen alten Treffer', /if \(alt\?\.treffer && !f\.treffer\)/.test(zusammenfuehrung))
   pruefe(
     'geschrieben wird der zusammengeführte Stand, nicht die Fundliste',
     /writeFileSync\('data\/cr-filmbloecke\.json', JSON\.stringify\(gesamt/.test(abruf),

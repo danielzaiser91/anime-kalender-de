@@ -298,7 +298,7 @@ jobs:
             Aufrufen. Ein Test, der seine Soll-Werte aus dem geprüften Modul importiert, ist sein eigenes Orakel
             (Befund). Ein neuer Wächter ohne Aufrufer in einem Tor ist ein Befund; eine Verdrahtung belegt nur ein Test,
             der den Aufrufer laufen lässt. `tools/*.test.mjs` ist ohne Listeneintrag verdrahtet (`tools/tests-alle.mjs`
-            über `npm run check:workflows`, Beleg: Zeile `[tests-alle] tools/<datei>` im Job "Kette – Workflows");
+            über `npm run check:tests-1`/`check:tests-2`, Beleg: Zeile `[tests-alle] tools/<datei>` im Job "Kette – Workflows" oder "Kette – Workflows 2");
             ein Eintrag in `check-logic-liste.txt` wäre doppelt. "Zählt nur echte Auskunft" braucht jeden Nichtauskunft-Status (timeout,
             fehler, unklar, Sperre) als Datenfall. Mutationen nennst du mit Funktionsname und Muster als Anker, nie
             mit Zeilennummer. Bei geänderten Aufrufseiten und onClick-Handlern verlangst du Mutationen auch dort

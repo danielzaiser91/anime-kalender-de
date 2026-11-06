@@ -124,7 +124,7 @@ wieder „Deutsch" mit zwölf Folgen „Deutsch Dialogue Boost" — die Tonspure
 **Mitleser** (`amazon-leser.js`) las den Hydration-Block aus dem DOM und stempelte ihn mit der
 neuen Adresse; `hydrationFinger()` enthält den Pfad, also las er bei jedem Wechsel denselben
 alten Block „neu". Seit 4.20.9 liest er den DOM-Block nur auf der geladenen Seite
-(`startPfad`); nach einem Wechsel holt `seiteNachholen()` die neue Seite, liest den Block aus
+(`startPfad`); nach einem Wechsel holt `ausNachgeholterSeite()` die neue Seite, liest den Block aus
 der Antwort und reicht den Quelltext an `amazon.js` weiter — ein Abruf statt zwei.
 **Wer eine veraltete Quelle ersetzt, sucht jeden Leser dieser Quelle** — hier waren es zwei
 Welten (Content-Skript und Seitenskript), die denselben Block unabhängig lasen.
