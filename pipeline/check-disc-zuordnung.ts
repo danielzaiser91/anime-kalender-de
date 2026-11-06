@@ -43,6 +43,7 @@ pruefe('Zahl im Reihennamen zählt nicht (Persona 3: nur Movie 3)', gleich(ordnu
 /* --- Zahl im Titel --- */
 pruefe('Crown Handler 2', gleich(titelOrdnung(['Princess Principal: ~Crown Handler~ 2']), [2]))
 pruefe('Movie 3 im Titel', gleich(titelOrdnung(['Haikyu!! Movie 3 - Talent Und Gespür']), [3]))
+pruefe('Schlüsselwort + Zahl geht vor freier Zahl („Persona 3: The Movie 2" ist 2)', gleich(titelOrdnung(['Persona 3: The Movie 2']), [2]))
 pruefe('Titel ohne Zahl', gleich(titelOrdnung(['Kabaneri of the Iron Fortress: Gebündeltes Licht']), []))
 
 /* --- Zuordnung auf geteilter Seite: die echten Fälle --- */
@@ -113,7 +114,16 @@ pruefe('„Trilogie" gilt nicht für Serien', ausgabeGehoertZu('Gantz - Trilogie
 pruefe('Ein Titel allein bekommt alles', gleich(ausgabeGehoertZu('Irgendwas - Komplettset', [kand(5, ['X'])], 0).ids, [5]))
 pruefe('Zwei Kandidaten mit gleicher Zahl: beide (kein Raten auf einen)', gleich(kandidatenOrdnung([kand(1, ['A 2']), kand(2, ['B 2'])]).get(1), []))
 
+const kurzName = [kand(1, ['Show: Alpha']), kand(2, ['Show: Betas'])]
+pruefe('Namensteile unter 6 Zeichen ordnen nichts zu („Alpha" steckt in „Alphabet")', ausgabeGehoertZu('Show - Alphabet Box', kurzName, 0).ids.length === 0)
+const eigeneZahl = [kand(1, ['Show 11'], 'MOVIE', 2001), kand(2, ['Show 12'], 'MOVIE', 2002)]
+pruefe('Tragen die Titel eigene Zahlen, entscheidet nie die Position', ausgabeGehoertZu('Show - Film 1', eigeneZahl, 1).ids.length === 0)
+
 /* --- ordneZu: Besitzer behält alles, Geschwister nur das Eindeutige --- */
+const zahlSeite = [ed('Show - Film 1'), ed('Show - Komplettset')]
+const zahlKand = [kand(901, ['Show 1'], 'MOVIE'), kand(902, ['Show 2'], 'MOVIE')]
+const z0 = ordneZu([[7000, zahlSeite]], new Map([[7000, zahlKand]]), new Map([[7000, 901]]))
+pruefe('Besitzer behält auch dann alles, wenn ihm selbst eine Ausgabe eindeutig gehört', z0.raus['901']?.length === 2 && z0.raus['902'] === undefined, z0.raus)
 const seiteWolf = [ed('Wolf’s Rain - Komplettset'), ed('Wolf’s Rain - Special: Rain Lunch Box')]
 const wolf = [kand(900001, ['Wolf’s Rain'], 'TV'), kand(900002, ['Wolf’s Rain: Rain Lunch Box'], 'OVA')]
 const z1 = ordneZu([[7001, seiteWolf]], new Map([[7001, wolf]]), new Map([[7001, 900001]]))
@@ -168,12 +178,15 @@ schreibe(['data', 'anisearch-raw', '13597.html.gz'], gzipSync(seite([
   block('2026-09-04', 'Princess Principal - Komplettset + OVA 1+2 [Blu-ray]', 900022),
 ])))
 schreibe(['data', 'anisearch-raw', '13598.html.gz'], gzipSync(seite([block('2022-01-01', 'Eigenständig - Komplettset [Blu-ray]', 900023), block('2022-01-02', 'Eigenständig - Vol. 1', 900024, '')])))
-schreibe(['data', 'anisearch.json'], JSON.stringify({ 900031: { anisearchId: 13598 }, 999999: { anisearchId: 13599 } }))
+schreibe(['data', 'anisearch-raw', '13600.html.gz'], gzipSync(seite([block('2022-02-01', 'Zwei - Komplettset [Blu-ray]', 900025)])))
+schreibe(['data', 'anisearch.json'], JSON.stringify({ 900031: { anisearchId: 13598 }, 999999: { anisearchId: 13599 }, 900032: { anisearchId: 13600 } }))
 schreibe(['public', 'data', 'titles.json'], JSON.stringify([
   { id: 101595, titleEn: 'Princess Principal: ~Crown Handler~ 1', format: 'MOVIE', anisearchId: 13597 },
   { id: 129759, titleEn: 'Princess Principal: ~Crown Handler~ 2', format: 'MOVIE', anisearchId: 13597 },
   { id: 137612, titleEn: 'Princess Principal: Crown Handler 3', format: 'MOVIE', anisearchId: 13597 },
   { id: 900031, titleEn: 'Eigenständig', format: 'TV' },
+  { id: 900032, titleEn: 'Zwei', format: 'TV' },
+  { id: 900033, titleEn: 'Zwei Extra', format: 'SPECIAL', anisearchId: 13600 },
 ]))
 const lauf = spawnSync(process.execPath, [tsx, join(wurzel, 'pipeline/extract-disc-ausgaben.ts')], {
   cwd: wurzel,
@@ -187,7 +200,8 @@ pruefe('Prozess: Crown Handler 2 (nur über anisearchId) bekommt Chapter 1&2', r
 pruefe('Prozess: Crown Handler 1 bekommt dieselbe Ausgabe mit Adresse', raus['101595']?.[0]?.url === 'https://www.anisearch.de/article/900021,x', raus['101595'])
 pruefe('Prozess: Crown Handler 3 bekommt nichts, auch nicht das unklare Komplettset', raus['137612'] === undefined)
 pruefe('Prozess: Besitzer aus anisearch.json bleibt wie bisher', raus['900031']?.length === 2)
-pruefe('Prozess: nichts sonst', Object.keys(raus).length === 3, Object.keys(raus))
+pruefe('Prozess: Besitzer einer geteilten Kennung behält die Ausgabe, das Geschwister bekommt sie nicht', raus['900032']?.length === 1 && raus['900033'] === undefined, raus)
+pruefe('Prozess: nichts sonst', Object.keys(raus).length === 4, Object.keys(raus))
 pruefe('Prozess: zählt Nicht-Zugeordnetes im Log', /nicht zugeordnet \(nicht eindeutig\): 1 Ausgaben, 1 Titel bleiben ohne: 137612/.test(lauf.stdout + lauf.stderr), lauf.stdout.slice(-400))
 rmSync(kulisse, { recursive: true, force: true })
 
