@@ -58,7 +58,7 @@ console.log('\njapanStartTag')
   pruefe('181 Tage früher: kein japanischer Start', japanStartTag([jp('Japanisch', '05.04.2014'), jp('Englisch', '06.10.2013 - ?')]) === undefined)
   pruefe('gleicher Tag: Starttag bleibt', japanStartTag([jp('Japanisch', '05.04.2014'), jp('Englisch', '05.04.2014')]) === tag('2014-04-05'))
   pruefe('ein früherer Block ohne Datum ("?") zählt nicht', japanStartTag([jp('Japanisch', '05.04.2014'), jp('Englisch', '?')]) === tag('2014-04-05'))
-  pruefe('ein früherer deutscher Block zählt nicht', japanStartTag([jp('Japanisch', '05.04.2014'), jp('Deutsch', '01.01.2014')]) === tag('2014-04-05'))
+  pruefe('ein deutscher Block weit vor Japan zählt nicht', japanStartTag([jp('Japanisch', '05.04.2014'), jp('Deutsch', '01.01.2013')]) === tag('2014-04-05'))
   pruefe('ohne japanischen Block: undefined', japanStartTag([jp('Deutsch', '19.04.2014')]) === undefined)
 }
 
