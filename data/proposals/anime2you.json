@@ -1,12 +1,12 @@
 {
-  "scrapedAt": "2026-11-05T19:02:26.716Z",
+  "scrapedAt": "2026-11-06T04:13:53.172Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 5,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 41,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 16,
-    "schon in einem Rubrik-Feed gelesen": 6,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 2,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 54,
+    "schon in einem Rubrik-Feed gelesen": 31,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 9,
     "Sprachhinweis älter als 45 Tage": 6
   },
   "proposals": [
@@ -57,7 +57,7 @@
       "dates": [
         {
           "iso": "2026-11-19",
-          "context": "26 »There’s No Freaking Way I’ll Be Your Lover! Unless…« erscheint am 19. November 2026 in einer […] Der Beitrag Deutscher Trailer zu »The"
+          "context": "ng Way I’ll Be Your Lover! Unless…« erscheint nach aktuellem Stand am 19. November […] Der Beitrag Deutscher Trailer zu »There’s No Freaki"
         },
         {
           "month": "2026-11",
@@ -820,7 +820,7 @@
           "folgen": 24
         }
       ],
-      "sammelGelesen": "2026-11-03"
+      "sammelGelesen": "2026-11-06"
     },
     {
       "articleTitle": "19,99 Euro pro Staffel: polyband startet große »Pokémon«-Rabattaktion",
@@ -1307,7 +1307,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-11-03"
+      "sammelGelesen": "2026-11-06"
     },
     {
       "articleTitle": "Crunchyroll ergänzt zwei weitere Anime-Neuzugänge auf Deutsch",
@@ -1874,7 +1874,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-11-03"
+      "sammelGelesen": "2026-11-06"
     },
     {
       "articleTitle": "ProSieben FUN zeigt »Akame ga KILL!« als Pay-TV-Premiere",
@@ -2105,7 +2105,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-11-03"
+      "sammelGelesen": "2026-11-06"
     },
     {
       "articleTitle": "Zwei Anime-Neuzugänge ab sofort auf Netflix verfügbar",
@@ -2193,7 +2193,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-02"
+      "sammelGelesen": "2026-11-06"
     },
     {
       "articleTitle": "Zehn neue Minifiguren zu »Lord of Mysteries« vorgestellt",
@@ -2628,7 +2628,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-11-03"
+      "sammelGelesen": "2026-11-06"
     },
     {
       "articleTitle": "Blu-ray-Design von »My Love Story with Yamada-kun at Lv999« + Extras",
@@ -7595,10 +7595,6 @@
         "kino"
       ],
       "dates": [
-        {
-          "iso": "2026-11-05",
-          "context": "in Japan am 3. November 2026 in die Kinos kommt, startet der Film am 5. November 2026 in Deutschland und der […] Der Beitrag Deutscher Ki"
-        },
         {
           "month": "2026-11",
           "context": "uch den deutschen Kinostart bestätigt. Wir fassen zusammen. Kinostart im November 2026 Während »Godzilla Minus Zero« in Japan am 3. November"

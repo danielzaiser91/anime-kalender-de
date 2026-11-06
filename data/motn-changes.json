@@ -3,7 +3,7 @@
     "2026-08": 55,
     "2026-09": 68,
     "2026-10": 99,
-    "2026-11": 16
+    "2026-11": 18
   },
   "gesehen": {
     "26341901:netflix": {
@@ -2010,7 +2010,7 @@
       "imdbId": "tt4655480",
       "tmdbId": "tv/62650",
       "dienst": "prime",
-      "am": "2026-10-26",
+      "am": "2026-11-06",
       "deutsch": true,
       "deutschBeiDienst": true
     },
@@ -2733,7 +2733,7 @@
       "imdbId": "tt2805096",
       "tmdbId": "tv/58841",
       "dienst": "prime",
-      "am": "2026-10-30",
+      "am": "2026-11-06",
       "deutsch": true,
       "deutschBeiDienst": true
     },
@@ -4888,7 +4888,7 @@
       "imdbId": "tt2261391",
       "tmdbId": "tv/44006",
       "dienst": "prime",
-      "am": "2026-10-30",
+      "am": "2026-11-06",
       "deutsch": true,
       "deutschBeiDienst": true
     },
@@ -10361,7 +10361,128 @@
       "am": "2026-11-01",
       "deutsch": true,
       "deutschBeiDienst": true
+    },
+    "new:9961:prime": {
+      "art": "new",
+      "titel": "Godzilla: The Series",
+      "originalTitel": "Godzilla: The Series",
+      "imdbId": "tt0177443",
+      "tmdbId": "tv/11100",
+      "dienst": "prime",
+      "am": "2026-11-06",
+      "deutsch": true,
+      "deutschBeiDienst": true
+    },
+    "new:9819447:prime": {
+      "art": "new",
+      "titel": "Mermaid Magic",
+      "originalTitel": "Mermaid Magic",
+      "imdbId": "tt20917668",
+      "tmdbId": "tv/231725",
+      "dienst": "prime",
+      "am": "2026-11-06",
+      "deutsch": true,
+      "deutschBeiDienst": true
+    },
+    "new:45462:prime": {
+      "art": "new",
+      "titel": "The Trials of Rosie O'Neill",
+      "originalTitel": "The Trials of Rosie O'Neill",
+      "imdbId": "tt0098932",
+      "tmdbId": "tv/10758",
+      "dienst": "prime",
+      "am": "2026-11-06",
+      "deutsch": true,
+      "deutschBeiDienst": true
+    },
+    "new:4583:prime": {
+      "art": "new",
+      "titel": "Goblin Slayer",
+      "originalTitel": "ゴブリンスレイヤー",
+      "imdbId": "tt8690728",
+      "tmdbId": "tv/82591",
+      "dienst": "prime",
+      "am": "2026-11-06",
+      "deutsch": true,
+      "deutschBeiDienst": true
+    },
+    "new:24597024:prime": {
+      "art": "new",
+      "titel": "Glory",
+      "originalTitel": "玉茗茶骨",
+      "imdbId": "tt34571030",
+      "tmdbId": "tv/284512",
+      "dienst": "prime",
+      "am": "2026-11-06",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "new:25665430:prime": {
+      "art": "new",
+      "titel": "The Greatest",
+      "originalTitel": "The Greatest",
+      "imdbId": "tt15715850",
+      "tmdbId": "tv/258989",
+      "dienst": "prime",
+      "am": "2026-11-06",
+      "deutsch": true,
+      "deutschBeiDienst": true
+    },
+    "new:23354085:netflix": {
+      "art": "new",
+      "titel": "Hero Without a Class: Who Even Needs Skills?!",
+      "originalTitel": "無職の英雄 別にスキルなんか要らなかったんだが",
+      "imdbId": "tt32582999",
+      "tmdbId": "tv/236565",
+      "dienst": "netflix",
+      "am": "2026-11-06",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "new:9653:netflix": {
+      "art": "new",
+      "titel": "Will Trent",
+      "originalTitel": "Will Trent",
+      "imdbId": "tt17543592",
+      "tmdbId": "tv/208569",
+      "dienst": "netflix",
+      "am": "2026-11-06",
+      "deutsch": true,
+      "deutschBeiDienst": false
+    },
+    "new:27301858:netflix": {
+      "art": "new",
+      "titel": "Anaesthesia",
+      "originalTitel": "Znieczulenie",
+      "imdbId": "tt38681812",
+      "tmdbId": "tv/312006",
+      "dienst": "netflix",
+      "am": "2026-11-06",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "removed:244:netflix": {
+      "art": "removed",
+      "titel": "The End of the F***ing World",
+      "originalTitel": "The End of the F***ing World",
+      "imdbId": "tt6257970",
+      "tmdbId": "tv/74577",
+      "dienst": "netflix",
+      "am": "2026-11-06",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "removed:2920:prime": {
+      "art": "removed",
+      "titel": "The Valhalla Murders",
+      "originalTitel": "Brot",
+      "imdbId": "tt9100822",
+      "tmdbId": "tv/97405",
+      "dienst": "prime",
+      "am": "2026-11-06",
+      "deutsch": true,
+      "deutschBeiDienst": true
     }
   },
-  "fetchedAt": "2026-11-05T04:09:31.675Z"
+  "fetchedAt": "2026-11-06T04:10:32.861Z"
 }
