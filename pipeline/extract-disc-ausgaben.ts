@@ -83,7 +83,7 @@ export const reiheAus = (edition: string): string => edition.split(' - ')[0]!.tr
  * zur selben Reihe keinen Manga-Band führt.
  */
 function dvdOhneTraegerwort(edition: string, mangaReihen: Set<string> | undefined): boolean {
-  if (/ - Vol\.\s*\d/i.test(edition)) return !/Vocal|Character|Charakter|Drama|Hörspiel/i.test(edition)
+  if (/ - Vol\.\s*\d/i.test(edition)) return !/Vocal/i.test(edition)
   if (!/\bKomplettbox\b/i.test(edition) || /Comic/i.test(edition)) return false
   return !!mangaReihen && !mangaReihen.has(reiheAus(edition))
 }

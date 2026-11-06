@@ -76,6 +76,7 @@ pruefe('Kabaneri: ohne Zahl im Titel gilt die Reihenfolge — Movie 2 ist der zw
 pruefe('Kabaneri: Movie 1+2 gehört zu beiden', gleich(ids(vKab, kEd[1]!).sort(), [98662, 98663]))
 const kabDrei = verteileAusgaben([ed('Kabaneri - Movie 3: Fehlt im Bestand')], kabaneri)
 pruefe('Kabaneri: Film 3 bei nur zwei Titeln wird nicht auf den zweiten geraten', kabDrei.unklar.length === 1 && kabDrei.je.size === 0)
+pruefe('Kabaneri: „Movie 2+3" bei zwei Titeln ist nicht eindeutig', ausgabeGehoertZu('Kabaneri - Movie 2+3: Set', kabaneri, 2).ids.length === 0)
 const kabLuecke = verteileAusgaben([ed('Kabaneri - Movie 1: A'), ed('Kabaneri - Movie 3: B')], kabaneri)
 pruefe('Kabaneri: nennt die Seite mehr Filme als Titel da sind, entscheidet die Position nicht', kabLuecke.je.size === 0 && kabLuecke.unklar.length === 2)
 
@@ -117,6 +118,7 @@ const seiteWolf = [ed('Wolf’s Rain - Komplettset'), ed('Wolf’s Rain - Specia
 const wolf = [kand(900001, ['Wolf’s Rain'], 'TV'), kand(900002, ['Wolf’s Rain: Rain Lunch Box'], 'OVA')]
 const z1 = ordneZu([[7001, seiteWolf]], new Map([[7001, wolf]]), new Map([[7001, 900001]]))
 pruefe('Besitzer behält alle Ausgaben seiner Seite', z1.raus['900001']?.length === 2)
+pruefe('Mit Besitzer wird nichts als „unklar" gezählt', z1.bilanz.unklar === 0 && z1.bilanz.leereKandidaten.length === 0, z1.bilanz)
 pruefe('Geschwister ohne eindeutigen Beleg bekommt nichts', z1.raus['900002']?.length === 1 && z1.raus['900002']![0]!.edition.includes('Lunch Box'), z1.raus['900002'])
 pruefe('Ohne Besitzer: dieselben Fälle werden nicht geraten', Object.keys(ordneZu([[7001, [ed('Wolf’s Rain - Komplettset')]]], new Map([[7001, wolf]]), new Map()).raus).length === 0)
 const z2 = ordneZu([[7002, [ed('Y - Komplettset'), ed('Y - Box 2/2')]]], new Map([[7002, [kand(900003, ['Y'])]]]), new Map())
@@ -166,7 +168,7 @@ schreibe(['data', 'anisearch-raw', '13597.html.gz'], gzipSync(seite([
   block('2026-09-04', 'Princess Principal - Komplettset + OVA 1+2 [Blu-ray]', 900022),
 ])))
 schreibe(['data', 'anisearch-raw', '13598.html.gz'], gzipSync(seite([block('2022-01-01', 'Eigenständig - Komplettset [Blu-ray]', 900023), block('2022-01-02', 'Eigenständig - Vol. 1', 900024, '')])))
-schreibe(['data', 'anisearch.json'], JSON.stringify({ 900031: { anisearchId: 13598 } }))
+schreibe(['data', 'anisearch.json'], JSON.stringify({ 900031: { anisearchId: 13598 }, 999999: { anisearchId: 13599 } }))
 schreibe(['public', 'data', 'titles.json'], JSON.stringify([
   { id: 101595, titleEn: 'Princess Principal: ~Crown Handler~ 1', format: 'MOVIE', anisearchId: 13597 },
   { id: 129759, titleEn: 'Princess Principal: ~Crown Handler~ 2', format: 'MOVIE', anisearchId: 13597 },

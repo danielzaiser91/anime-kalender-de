@@ -48,8 +48,8 @@ pruefe('leerer Bestand', archivBilanz([], new Set(), stand([])).anzahl === 0)
 console.log('\nBestandswächter als Prozess:')
 const wurzel = join(dirname(fileURLToPath(import.meta.url)), '..')
 const skript = join(wurzel, 'pipeline/check-disc-archiv-bestand.ts')
-const seite = (titel: string) =>
-  `<html><section id="items"><ul><li class="merch1" data-date="2024-01-01"><div class="rank">Blu-ray</div><span class="title">${titel}</span><a data-href="article/900091,x">x</a></li></ul></section></html>`
+const seite = (titel: string, rank = '<div class="rank">Blu-ray</div>') =>
+  `<html><section id="items"><ul><li class="merch1" data-date="2024-01-01">${rank}<span class="title">${titel}</span><a data-href="article/900091,x">x</a></li></ul></section></html>`
 function lauf(titles: unknown[], releases: unknown[], standInhalt: unknown): { code: number | null; ausgabe: string } {
   const w = mkdtempSync(join(tmpdir(), 'disc-archiv-'))
   const schreibe = (teile: string[], inhalt: string | Buffer) => {
@@ -58,7 +58,7 @@ function lauf(titles: unknown[], releases: unknown[], standInhalt: unknown): { c
   }
   try {
     schreibe(['data', 'anisearch-raw', '7777.html.gz'], gzipSync(seite('Probe - Komplettset [Blu-ray]')))
-    schreibe(['data', 'anisearch-raw', '7778.html.gz'], gzipSync('<html>ohne Ausgaben</html>'))
+    schreibe(['data', 'anisearch-raw', '7778.html.gz'], gzipSync(seite('Probe - Bd. 1', '')))
     schreibe(['data', 'anisearch.json'], '{}')
     schreibe(['public', 'data', 'titles.json'], JSON.stringify(titles))
     schreibe(['public', 'data', 'releases.json'], JSON.stringify(releases))
