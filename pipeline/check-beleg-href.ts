@@ -37,7 +37,10 @@ const ERLAUBT: Record<string, Record<string, string>> = {
     'v.quelle': 'aniSearch-Artikel der Ausgabe, selbst gebaut aus der Artikelnummer (artikelUrl)',
   },
   'web/src/components/detail/hilfen.tsx': { url: 'blob:-Adresse der ICS-Datei aus URL.createObjectURL (downloadIcs), keine Adresse aus den Daten' },
-  'web/src/components/detail/live-link.tsx': { url: 'Parameter von LiveLink; einziger Aufrufer übergibt liveAdresse().url (feste Tabelle in lib/live-adresse.ts)' },
+  'web/src/components/detail/live-link.tsx': {
+    url: 'Parameter von LiveLink; einziger Aufrufer übergibt liveAdresse().url (feste Tabelle in lib/live-adresse.ts)',
+    joynSeite: 'Parameter von JoynDanach: Joyn-Adresse des Titels aus title.streams (lib/joyn-danach.ts), keine Beleg-Quelle',
+  },
   'web/src/components/detail/termin-zeile.tsx': {
     href: 'Parameter von ProgrammLink; einziger Aufrufer übergibt tvLink.href (Eintrag daneben)',
     'tvLink.href': 'aus programmZiel: tvText.programm oder tvQuelle().url',
