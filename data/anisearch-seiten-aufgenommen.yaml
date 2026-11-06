@@ -2,7 +2,8 @@
 #
 # Wozu: aniSearch führt manches als mehrere Seiten, was ein Anbieter und AniList als einen Titel führen. Die Seite bekommt dann keine eigene Zeile
 # (`vergebeneSeiten` in `pipeline/bau/anisearch-titel.ts`), ihr Termin- und Belegstand steht am AniList-Titel. Die alte Adresse `/t/<alt>/` leitet
-# über `zuAk` in `data/kennungen.json` auf den Titel. Nur eintragen, wenn der Titel das Werk vollständig führt (Folgenzahl) und die Seite nichts
+# über `zuAk` in `data/kennungen.json` auf den Titel — erst nach dem Bestandsbau eintragen: solange `public/data` die Seite noch führt, überschreibt
+# sie sonst den Titel (gleiche ak, PR 3015). Nur eintragen, wenn der Titel das Werk vollständig führt (Folgenzahl) und die Seite nichts
 # enthält, was er nicht schon trägt; eine fehlende Seite im Titel ersetzt dieser Eintrag nicht.
 
 # Thus Spoke Kishibe Rohan (Netflix title/81280998: eine Miniserie, vier Folgen). AniList 21778 führt 4 Folgen, aniSearch teilt in drei Seiten:

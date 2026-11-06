@@ -1,12 +1,11 @@
 /**
  * Zusicherung: aniSearch-Seiten, die ein AniList-Titel aufnimmt (`data/anisearch-seiten-aufgenommen.yaml`, Anlass Thus Spoke Kishibe Rohan:
- * Netflix führt eine Miniserie mit vier Folgen, wir hatten drei Titel), bekommen keine eigene Zeile, zählen als umgezogen und leiten über `zuAk` weiter.
+ * Netflix führt eine Miniserie mit vier Folgen, wir hatten drei Titel), bekommen keine eigene Zeile und zählen als umgezogen (`zuAk` für die alten Adressen folgt erst nach dem Bestandsbau).
  * Läuft in `check:logic`; der Bau läuft wirklich (`baueTitel`) mit den echten Handdateien.
  */
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { readFileSync } from 'node:fs'
 import { baueTitel } from './bau/02-titel.ts'
 import { anisearchUmgezogen, dubNurHinterToggle, ergaenzeAnisearchTitel } from './bau/anisearch-titel.ts'
 import type { AniListMedia } from './lib/anilist.ts'
@@ -53,16 +52,6 @@ console.log('\nUmzug und Deutsch-Riegel (Fixture mit anderen Kennungen):')
   pruefe('Gegenprobe: fehlt der Titel, ist sie es nicht', !anisearchUmgezogen(new Set([900002]), new Set(), {}, eintraege, aufgenommen).has(BASIS + 7))
   pruefe('Riegel: Seite mit Deutsch, deren aufnehmender Titel im Hauptbestand steht, braucht keinen Grund', dubNurHinterToggle(new Set([900001]), '2999-12-31', new Set(), {}, eintraege, new Set(), aufgenommen).length === 0)
   pruefe('Gegenprobe: ohne den Titel im Hauptbestand meldet der Riegel die Seite', dubNurHinterToggle(new Set([900002]), '2999-12-31', new Set(), {}, eintraege, new Set(), aufgenommen).join() === '7')
-}
-
-console.log('\nWeiterleitung der alten Adressen (data/kennungen.json):')
-{
-  const zeilen = (JSON.parse(readFileSync('data/kennungen.json', 'utf8')) as { titel: [number, number, number, number?][] }).titel
-  for (const [seite, titel] of Object.entries(aufgenommeneSeiten)) {
-    const alt = zeilen.find((z) => z[1] === BASIS + Number(seite))
-    const ziel = zeilen.find((z) => z[1] === titel)
-    pruefe(`Seite ${seite}: zuAk ist die ak von ${titel}`, !!alt && !!ziel && alt[3] === ziel[0], { alt, ziel })
-  }
 }
 
 console.log('\nLesen der Handdatei:')
