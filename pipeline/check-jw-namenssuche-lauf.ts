@@ -64,6 +64,7 @@ globalThis.fetch = async (url, init) => {
   const q = JSON.parse(init.body).variables.q
   if (q !== undefined) appendFileSync(process.env.AK_ROOT + '/aufrufe.txt', Math.round(performance.now()) + '\\t' + q + '\\n')
   const modus = process.env.MODUS
+  if (modus === 'fehler') return new Response('', { status: 404 })
   if (modus === 'sperre' || (modus === 'wechsel' && /Sperre/.test(q ?? ''))) return new Response('', { status: 429, headers: { 'retry-after': '0.001' } })
   const liste = modus === 'leer' ? [] : modus === 'ohneangebote' ? [knoten('jw11', 'MOVIE', q, 2020, '777001', [])] : (ANTWORTEN[q] ?? [])
   /* Wie JustWatch: ein Feld, das die Abfrage nicht nennt, kommt nicht zurück. */
@@ -184,6 +185,9 @@ const sperre = laeufe([{ tag: '2026-10-23', modus: 'sperre' }])
 pruefe('Drei Sperren in Folge beenden den Lauf, Exit 0', sperre.status === 0 && /3 Sperren in Folge/.test(sperre.text), sperre.text.slice(-600))
 pruefe('Sperre: nur die ersten drei Titel werden gefragt', new Set(sperre.aufrufe).size === 3, [...new Set(sperre.aufrufe)])
 
+const fehlerLauf = laeufe([{ tag: '2026-10-23', modus: 'fehler' }])
+pruefe('Andere Fehler (404) beenden den Lauf nicht: alle fünf Titel werden gefragt, nichts zugeordnet', fehlerLauf.status === 0 && new Set(fehlerLauf.aufrufe).size === 5 && !/Sperren in Folge/.test(fehlerLauf.text) && !fehlerLauf.bestand['900011'], [fehlerLauf.status, [...new Set(fehlerLauf.aufrufe)]])
+
 const WECHSEL = ['Sperre A', 'Ok B', 'Sperre C', 'Ok D', 'Sperre E', 'Ok F'].map((n, i) => titel(900041 + i, n))
 const wechsel = laeufe([{ tag: '2026-10-23', modus: 'wechsel' }], { titel: WECHSEL })
 pruefe('Nicht aufeinanderfolgende Sperren beenden den Lauf nicht: alle sechs Titel werden gefragt', wechsel.status === 0 && new Set(wechsel.aufrufe).size === 6 && !/Sperren in Folge/.test(wechsel.text), [wechsel.status, [...new Set(wechsel.aufrufe)]])
@@ -196,4 +200,4 @@ if (fehler) {
   console.error(`${fehler} von ${faelle} Prüfungen fehlgeschlagen`)
   process.exit(1)
 }
-console.log(`check-jw-namenssuche-lauf: ok (${faelle} Prüfungen, Prozess auf Kulisse mit Fetch-Attrappe: Treffer, Jahr, mehrdeutig, fremd, abgewiesen, Pause, 21-Tage-Frist, verfehlt, Sperren, Plausibilität)`)
+console.log(`check-jw-namenssuche-lauf: ok (${faelle} Prüfungen, Prozess auf Kulisse mit Fetch-Attrappe: Treffer, Jahr, mehrdeutig, fremd, abgewiesen, Pause, 21-Tage-Frist, verfehlt, Sperren, Plausibilität, andere Fehler)`)
