@@ -7,8 +7,8 @@
 # bis Dezember. Beide nennen Datum, Label und Edition ausdrücklich.
 #
 # Ein angekündigter Verkaufsstart ist kein `estimated`; nennt die Quelle ihn ausdrücklich „voraussichtlich“, steht `estimated: true`. Uhrzeiten gibt
-# es bei Disc-Releases naturgemäß nicht. Ohne `buyUrl` erzeugt der Build einen
-# Amazon.de-Suchlink.
+# es bei Disc-Releases naturgemäß nicht. Kauflink: eindeutige EAN-Suche des Builds > `buyUrl` (Handlink) >
+# Namenssuche (Amazon.de), die der Build ohne `buyUrl` und EAN erzeugt.
 
 # ---------------------------------------------------------------- 04.09.2026
 
