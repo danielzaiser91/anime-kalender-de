@@ -26,9 +26,9 @@ import { todayIso } from '../../shared/time.ts'
 import { fetchJson, log, readJson, writeJson } from './util.ts'
 import { recordSource } from './health.ts'
 
-const POSTS_API = 'https://news.animationdigitalnetwork.com/wp-json/wp/v2/posts'
+export const POSTS_API = 'https://news.animationdigitalnetwork.com/wp-json/wp/v2/posts'
 /** Zwei Seiten à 100 Beiträge reichen rund einen Monat zurück. */
-const SEITEN = 2
+export const SEITEN = 2
 
 export interface WpPost {
   link?: string
