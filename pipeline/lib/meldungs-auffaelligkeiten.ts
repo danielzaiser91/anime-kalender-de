@@ -53,8 +53,17 @@ export function neueBefunde(bisher: Auffaelligkeit[], jetzt: Auffaelligkeit[]): 
   return jetzt.filter((x) => !bekannt.has(x.text))
 }
 
-export function warnungsText(neu: number, offen: number): string {
-  return `${neu} neue Meldung(en) auffällig (${offen} offen), siehe data/meldungs-auffaelligkeiten.json`
+/** Eine lange Kennungsliste („Meldung 1,2,…,16: …“) auf die erste Kennung und die Zahl kürzen. */
+function kurzText(text: string): string {
+  return text.replace(/^Meldung (\d+)((?:,\d+)+)/, (_t, erste: string, rest: string) => `Meldung ${erste} (+${rest.split(',').length - 1})`)
+}
+
+/** Die neuen Texte stehen in der Warnung, damit sie sich selbst erklärt (höchstens drei, der Rest als Zahl). */
+export function warnungsText(neu: number, offen: number, neue: Auffaelligkeit[] = []): string {
+  const basis = `${neu} neue Meldung(en) auffällig (${offen} offen), siehe data/meldungs-auffaelligkeiten.json`
+  if (!neue.length) return basis
+  const mehr = neue.length > 3 ? ` (+${neue.length - 3} weitere)` : ''
+  return `${basis} — neu: ${neue.slice(0, 3).map((x) => kurzText(x.text)).join(' | ')}${mehr}`
 }
 
 /** Schreibt die Momentaufnahme (auch leer: nichts trifft mehr zu); `neue` sind die Einträge, die vorher nicht in der Datei standen. */
