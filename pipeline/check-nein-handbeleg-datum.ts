@@ -92,6 +92,22 @@ try {
   pruefe('Ja und Nein beide an derselben Suche: das Nein gilt', wegVerneint(neinHandbelege([roh(SUCHE, { dub: true }), roh(SUCHE, { available: false })]), 27, 'primevideo', FREMD))
   pruefe('… in umgekehrter Reihenfolge ebenso', wegVerneint(neinHandbelege([roh(SUCHE, { available: false }), roh(SUCHE, { dub: true })]), 27, 'primevideo', FREMD))
 
+  console.log('\nNein ohne Adresse: nur ein jüngeres Ja mit Adresse derselben Plattform hebt es auf:')
+  const JA_ADR = prime('B0JAADRESSE')
+  const neinOA = (id: number, d: string) => ohne(id, d, '  dub: false\n')
+  const jaMitAdr = (id: number, d: string) => beleg(id, JA_ADR, d, '  dub: true\n')
+  pruefe('Nein ohne Adresse vom 22.08., Ja mit Adresse vom 10.10.: kein Nein', !sperrt([neinOA(30, '2026-08-22'), jaMitAdr(30, '2026-10-10')], 30, FREMD))
+  pruefe('… in der Datei umgekehrt angeordnet: dasselbe', !sperrt([jaMitAdr(31, '2026-10-10'), neinOA(31, '2026-08-22')], 31, FREMD))
+  pruefe('Nein ohne Adresse vom 10.10., älteres Ja mit Adresse vom 22.08.: Nein gilt', sperrt([neinOA(32, '2026-10-10'), jaMitAdr(32, '2026-08-22')], 32, FREMD))
+  pruefe('Nein ohne Adresse und Ja mit Adresse am selben Tag: Nein gilt', sperrt([neinOA(33, '2026-10-10'), jaMitAdr(33, '2026-10-10')], 33, FREMD))
+  pruefe('Nein ohne Adresse, jüngeres Ja an der Suche: Nein gilt (Suche ist keine Ausgabe)', sperrt([neinOA(35, '2026-08-22'), beleg(35, SUCHE, '2026-10-10', '  dub: true\n')], 35, FREMD))
+  pruefe('Nein ohne Adresse, Ja mit Adresse nur bei einem anderen Titel: Nein gilt', sperrt([neinOA(36, '2026-08-22'), jaMitAdr(37, '2026-10-10')], 36, FREMD))
+  pruefe('zwei Nein ohne Adresse (01.09., 20.09.), Ja mit Adresse dazwischen (10.09.): das jüngste Nein gilt', sperrt([neinOA(38, '2026-09-01'), jaMitAdr(38, '2026-09-10'), neinOA(38, '2026-09-20')], 38, FREMD))
+  const mitAdresse = (id: number) => beleg(id, JA_ADR, '2026-08-22', '  dub: false\n')
+  const anlass = [neinOA(39, '2026-08-22'), mitAdresse(39), jaMitAdr(39, '2026-10-10')]
+  pruefe('Anlassfall: dasselbe Nein mit und ohne Adresse (22.08.), Ja mit Adresse (10.10.): kein Nein', !sperrt(anlass, 39, FREMD) && !sperrt(anlass, 39, JA_ADR))
+  pruefe('Kuroko: Ja ohne Adresse, dann Ja mit Adresse und Nein ohne Adresse am selben Tag: Nein gilt', sperrt([ohne(40, '2026-08-22', '  dub: true\n'), jaMitAdr(40, '2026-09-25'), ohne(40, '2026-09-25', '  available: false\n')], 40, FREMD))
+
   console.log('\nistSammelKern:')
   const sammel = ['amazon.de/s', 'amazon.de/s/ref=nb_sb_noss', 'crunchyroll.com', 'crunchyroll.com/de', 'crunchyroll.com/de-de', 'netflix.com/search', 'anbieter.de/suche']
   const echt = ['amazon:B0DNCGXVNT', 'amazon-gti:amzn1.dv.gti.70a9f6b2-e01c-dfe3-ef0c-dc0ae2d750a5', 'netflix.com/title/7', 'crunchyroll.com/series/g6nvw1fb5/titel', 'youtube.com/watch?v=RiuV5W30Xvc', 'crunchyroll.com/deutsch', 'anbieter.de/series', 'amazon.de/dp', '']
