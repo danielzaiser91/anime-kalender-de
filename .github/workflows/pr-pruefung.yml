@@ -240,6 +240,8 @@ jobs:
           PFADE="$PFADE|^tools/ansicht-trefferprobe\.mjs$"
           PFADE="$PFADE|^tools/ansicht-tv-reihe\.mjs$"
           PFADE="$PFADE|^tools/bau-vergleich-log\.mjs$"
+          PFADE="$PFADE|^tools/bereich-auge-messen\.mjs$"
+          PFADE="$PFADE|^tools/bereich-auge-urteil\.mjs$"
           PFADE="$PFADE|^tools/bilder-ordner\.mjs$"
           PFADE="$PFADE|^tools/buehne-fenster-pruefen\.mjs$"
           PFADE="$PFADE|^tools/buehne-seite\.mjs$"
