@@ -1,15 +1,27 @@
 {
-  "scrapedAt": "2026-11-06T04:13:53.172Z",
+  "scrapedAt": "2026-11-06T15:02:18.902Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 41,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 4,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 54,
-    "schon in einem Rubrik-Feed gelesen": 31,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 9,
+    "schon in einem Rubrik-Feed gelesen": 6,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 17,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 1,
     "Sprachhinweis älter als 45 Tage": 6
   },
   "proposals": [
+    {
+      "articleTitle": "Prime Video nimmt zwei Anime-Neuzugänge ins Programm",
+      "articleUrl": "https://www.anime2you.de/news/1068059/prime-video-devils-crest-und-mehr/",
+      "publishedAt": "2026-11-06",
+      "category": "streaming",
+      "platforms": [
+        "primevideo"
+      ],
+      "dates": [],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Erster Trailer zum Netflix-Anime »Fool Night« + Visual",
       "articleUrl": "https://www.anime2you.de/news/1067870/fool-night-netflix-erster-trailer/",
