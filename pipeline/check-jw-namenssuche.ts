@@ -75,6 +75,10 @@ pruefe('Film gegen Film → Treffer', waehleKnoten(film, [knoten('f', 'MOVIE', '
 const serie = { titleEn: 'Beispiel', format: 'TV', episodes: 12, jpYear: 2020 } as Title
 pruefe('Serie mit 12 Folgen gegen Film → keiner', waehleKnoten(serie, [knoten('f', 'MOVIE', 'Beispiel', 2020)], keine).art === 'keiner')
 pruefe('Serie mit 12 Folgen gegen Serie → Treffer', waehleKnoten(serie, [knoten('s', 'SHOW', 'Beispiel', 2020)], keine).art === 'treffer')
+pruefe('ONA mit 12 Folgen gegen Film → keiner', waehleKnoten({ ...serie, format: 'ONA' } as Title, [knoten('f', 'MOVIE', 'Beispiel', 2020)], keine).art === 'keiner')
+pruefe('TV_SHORT mit 12 Folgen gegen Film → keiner', waehleKnoten({ ...serie, format: 'TV_SHORT' } as Title, [knoten('f', 'MOVIE', 'Beispiel', 2020)], keine).art === 'keiner')
+pruefe('Serie mit 2 Folgen gegen Film → keiner', waehleKnoten({ ...serie, episodes: 2 } as Title, [knoten('f', 'MOVIE', 'Beispiel', 2020)], keine).art === 'keiner')
+pruefe('Jahr: es genügt eines von mehreren (jpYear 2023, deutsche Erstausgabe 2020)', waehleKnoten({ ...serie, jpYear: 2023, deErstausgabe: { von: '2020-01-01', synchro: true } } as Title, [knoten('s', 'SHOW', 'Beispiel', 2020)], keine).art === 'treffer')
 pruefe('Serie mit 1 Folge lässt beides zu (Film oder Serie)', waehleKnoten({ ...serie, episodes: 1 } as Title, [knoten('f', 'MOVIE', 'Beispiel', 2020)], keine).art === 'treffer')
 pruefe('OVA lässt beides zu', waehleKnoten({ ...serie, format: 'OVA', episodes: 3 } as Title, [knoten('f', 'MOVIE', 'Beispiel', 2020)], keine).art === 'treffer')
 pruefe('Name aus Romaji genügt', waehleKnoten({ titleRomaji: 'Beispiel', format: 'TV', episodes: 12, jpYear: 2020 } as Title, [knoten('s', 'SHOW', 'beispiel', 2020)], keine).art === 'treffer')
@@ -92,6 +96,7 @@ const titel = [t(1), t(2), t(3, { tmdbId: 5 } as Partial<Title>), t(4), t(5, { t
 const bestand = { '2': { geprueftAm: '2026-10-01' }, '4': { geprueftAm: '2026-10-20' }, '6': { geprueftAm: '2026-10-10' } }
 const reihe = namensSchlange({ titles: titel, bestand, tmdbVon, grenze: '2026-10-15' }).map((x) => x.id)
 pruefe('Schlange: nie gefragt zuerst, dann ältester; TMDB-Titel, Titel ohne Namen und frische Befunde fehlen', reihe.join() === '1,2,6', reihe)
+pruefe('Schlange: bei gleichem Stand entscheidet die Kennung (kleinere zuerst)', namensSchlange({ titles: [t(9), t(8)], bestand: {}, tmdbVon, grenze: '2026-10-15' }).map((x) => x.id).join() === '8,9')
 pruefe('Schlange: Befund genau an der Grenze ist noch frisch', namensSchlange({ titles: [t(7)], bestand: { '7': { geprueftAm: '2026-10-15' } }, tmdbVon, grenze: '2026-10-15' }).length === 0)
 pruefe('Schlange: ein Tag vor der Grenze ist fällig', namensSchlange({ titles: [t(7)], bestand: { '7': { geprueftAm: '2026-10-14' } }, tmdbVon, grenze: '2026-10-15' }).length === 1)
 pruefe('Bekannte Kennungen: nur positive, doppelte einmal', [...bekannteTmdbKennungen([t(1, { tmdbId: 5 } as Partial<Title>), t(2, { tmdbId: 5 } as Partial<Title>), t(3, { tmdbId: -3 } as Partial<Title>), t(4)], tmdbVon)].join() === '5')
@@ -111,4 +116,4 @@ if (fehler) {
   console.error(`${fehler} von ${faelle} Prüfungen fehlgeschlagen`)
   process.exit(1)
 }
-console.log(`check-jw-namenssuche: ok (${faelle} Prüfungen: Anlassfall 10017058, Gegenproben Jahr/Art/Teilname/Ziffer/mehrdeutig/fremd, Schlange)`)
+console.log(`check-jw-namenssuche: ok (${faelle} Prüfungen: Anlassfall 10017058, Gegenproben Jahr/Art/Teilname/Ziffer/mehrdeutig/fremd, Schlange, Lage, Verdrahtung in package.json)`)
