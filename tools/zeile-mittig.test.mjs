@@ -81,10 +81,10 @@ try {
     /* Alle 5 ms eine neue Lage (Timer statt Bild, damit sie zwischen zwei Messungen der Probe wechselt). */
     window.gleitTimer = setInterval(() => scrollTo(0, 1000 + ((n++ * 40) % 800)), 5)
   })
-  const start = Date.now()
+  const start = performance.now()
   const grenze = new Promise((_, nein) => setTimeout(() => nein(new Error('zeileMittig kehrt nicht zurück (Frist fehlt)')), 12000))
   await Promise.race([zeileMittig(zeile), grenze])
-  const dauer = Date.now() - start
+  const dauer = performance.now() - start
   assert.ok(dauer >= 3500 && dauer < 8000, `Frist: Rückkehr nach etwa 4 s (${dauer} ms)`)
   await seite.evaluate(() => { clearInterval(window.gleitTimer) })
   console.log('zeile-mittig.test: 9 Zusicherungen grün (alter Weg rot, neuer Weg grün, Kind, Kulisse, Gleiten alt rot/neu grün, Ruhe, Frist)')
