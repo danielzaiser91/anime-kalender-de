@@ -157,7 +157,12 @@ const speicher = new DatabaseSync(':memory:')
 for (const t of TABELLEN) speicher.exec(`CREATE TABLE ${t} (x)`)
 assert.equal(laufe(speicher, 'SELECT 1 AS x', 5).art, 'zeilen')
 assert.equal(laufe(speicher, "-- select; nichts\nINSERT INTO pruefung (x) VALUES ('select; 1')", 5).verworfeneSelects, 0)
+// A3: SELECT im Text einer Zeichenkette oder eines Blockkommentars zählt nicht (je Fall ohne `ohneLiterale` rot).
+assert.equal(laufe(speicher, "INSERT INTO pruefung (x) VALUES ('x; select 1')", 5).verworfeneSelects, 0)
+assert.equal(laufe(speicher, "/* a; select 1 */ INSERT INTO pruefung (x) VALUES ('y')", 5).verworfeneSelects, 0)
 speicher.close()
+// A4: ein SELECT neben einem DELETE genügt für den Hinweis (Schwelle 1, nicht 2).
+assert.match(fusszeile(fuehreAus(basis, 'SELECT 1; DELETE FROM prime_folge WHERE id = 99', jetzt)), /HINWEIS: 1 SELECT/)
 
 /* ---- Stand: 36 Stunden sind noch frisch, danach steht die Warnung in der Fußzeile ---- */
 const alt = (stunden) => fuehreAus(basis, 'SELECT 1 AS x', new Date(Date.parse(stand) + stunden * 3_600_000))
