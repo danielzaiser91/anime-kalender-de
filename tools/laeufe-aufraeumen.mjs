@@ -29,6 +29,7 @@ import { rotAlarmText } from './bestand-rot-alarm.mjs'
 import { alarmZeilenMitFixPrs } from './fix-pr-hinweis.mjs'
 import { git, meldeLiegt } from './liegegut.mjs'
 import { prueferZeilen } from './pruefer-unfertig-wache.mjs'
+import { startBudgetZeilen } from './start-budget-wache.mjs'
 import { meldeRoteSammlerPrs } from './rote-sammler-prs.mjs'
 import { eskalationsText } from './wache-eskalation.mjs'
 import { wacheZeilen } from './wache-bilanz.mjs'
@@ -143,6 +144,7 @@ async function main() {
   for (const zeile of quellenZeilen) console.log(zeile)
   for (const zeile of weichWache(ghStapel, REPO, wurzel(), Date.now(), weichSpeicher())) console.log(zeile)
   for (const zeile of prueferZeilen(gh, REPO)) console.log(zeile)
+  for (const zeile of startBudgetZeilen((a) => gh(...a), REPO)) console.log(zeile)
   for (const zeile of haengerWache((a) => gh(...a), REPO, wurzel(), Date.now(), haengerSpeicher(), { trocken: TROCKEN })) console.log(zeile)
   try {
     await laeufePruefen(erledigt)

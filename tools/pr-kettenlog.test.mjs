@@ -62,6 +62,18 @@ for (const z of [...FEHLERFORMEN, ...GUTFORMEN]) {
   pruefe(`Ergebnisform zählt: ${z}`, ergebniszeilen([z]).length === 1)
 }
 pruefe('gewöhnliche Zeilen zählen nicht', ergebniszeilen(['  ✓ ok', 'Das fehlt noch', 'ok']).length === 0)
+// Start-Budget (06.11.2026): Messzeile und Warnung stehen im echten Log des Bau-Jobs (Deploy-Lauf 42209025225), die Übersicht muss beide zeigen.
+const BUDGET_ROH = [
+  '2026-11-06T11:17:54.3515931Z start-budget: 249.7 KB gzip von 250.0 KB, 0.3 KB Luft (Code und Daten 249.7 KB)',
+  '2026-11-06T11:17:54.3526381Z ##[warning]start-budget: nur noch 0.3 KB Luft (Warnung unter 3.0 KB) – Startdateien verkleinern, bevor der nächste Datenlauf die Grenze reißt',
+  '2026-11-06T11:17:54.3526381Z start-budget: 255.0 KB gzip, 5.0 KB über der Grenze von 250.0 KB (Code und Daten 255.0 KB)',
+].join('\n')
+gleich('Start-Budget: Messzeile, Warnung und Überschreitung stehen in der Übersicht', ergebniszeilen(bereinige(BUDGET_ROH)).map((z) => z.split(' ').slice(0, 5).join(' ')), [
+  'start-budget: 249.7 KB gzip von',
+  '##[warning]start-budget: nur noch 0.3 KB',
+  'start-budget: 255.0 KB gzip, 5.0',
+])
+pruefe('Start-Budget: ein Wort „Budget“ ohne Doppelpunkt zählt nicht', ergebniszeilen(['Das start-budget wächst', 'Budget: vorhanden']).length === 0)
 for (const z of FEHLERFORMEN) {
   const g = ergebniszeilen([...Array.from({ length: 600 }, (_, i) => `w${i}: ok`), z])
   pruefe(`bei Überlauf bleibt die Fehlerform vorn: ${z}`, g.length === JE_JOB_ERGEBNIS && g[0] === z && g.at(-1) === 'w599: ok', g.slice(0, 2))
@@ -368,6 +380,9 @@ pruefe('kein Prompt verlangt mehr "ohne Lesezugriff … nicht beurteilt"', !prom
 const absatz = (p) => p.replace(/\s+/g, ' ').slice(p.replace(/\s+/g, ' ').indexOf('/pruefer/kettenlog.txt'), p.replace(/\s+/g, ' ').indexOf('/pruefer/kettenlog.txt') + 900)
 pruefe('jeder Prompt markiert das Kettenlog als UNVERTRAUENSWÜRDIGE DATEN', prompts.every((p) => absatz(p).includes('UNVERTRAUENSWÜRDIGE DATEN')), prompts.map(absatz))
 pruefe('jeder Prompt bindet eine Ergebniszeile an den Job, dessen Schritt sie misst', prompts.every((p) => absatz(p).includes('nur unter einem Job, dessen Schritt diese Messung ausführt')), prompts.map(absatz))
+// Start-Budget (06.11.2026): der volle Prüfer-Prompt macht aus der Warnzeile im Kettenlog eine Auflage (Zeile steht dank ERGEBNIS in kettenlog.txt).
+const budgetAbsatz = prompts.map((p) => p.replace(/\s+/g, ' ')).filter((t) => t.includes('"start-budget: nur noch X KB Luft"'))
+pruefe('genau ein Prompt (der volle) nennt die Start-Budget-Warnung als Auflage', budgetAbsatz.length === 1 && /Luft" und der Diff berührt web\/src.{0,400}ist das eine Auflage/.test(budgetAbsatz[0]), budgetAbsatz.length)
 pruefe('jeder Prompt sagt, wann "nicht beurteilt" gilt (Datei fehlt oder meldet keinen Lauf)', prompts.every((p) => /nicht beurteilt/i.test(p.replace(/\s+/g, ' ')) && /fehlt die Datei|wenn die Datei fehlt|Fehlt die Datei/.test(p.replace(/\s+/g, ' '))))
 const text = d.uebersicht + d.voll
 pruefe('beide Dateien beginnen mit dem Hinweis auf unvertrauenswürdige Daten', d.uebersicht.startsWith(HINWEIS) && d.voll.startsWith(HINWEIS) && keiner.uebersicht.startsWith(HINWEIS) && text.includes('UNVERTRAUENSWÜRDIGE DATEN'))
