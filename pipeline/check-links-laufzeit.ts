@@ -94,6 +94,8 @@ globalThis.fetch = async (url) => {
   pruefe('erstes Netflix-404 ist unklar mit erstem Tag', nf[NETFLIX]?.status === 'unklar' && typeof nf[NETFLIX]?.erstes404 === 'string', nf[NETFLIX])
   pruefe('zweites Netflix-404 nach Jahren ist 404', nf[NETFLIX_ZWEITES]?.status === 404, nf[NETFLIX_ZWEITES])
   pruefe('Netflix 200 -> 404 im Lauf: unklar, nicht 404', RAUSCHEN.every((u) => nf[u]?.status === 'unklar' && nf[u]?.erstes404 !== undefined), nf[RAUSCHEN[0]])
+  const vermerkt = bestand as Record<string, { rausch?: unknown }>
+  pruefe('verrauschter Netflix-Lauf: Befunde tragen rausch, Amazon nicht', RAUSCHEN.every((u) => vermerkt[u]?.rausch === true) && vermerkt[SEITE]?.rausch === undefined, vermerkt[RAUSCHEN[0]])
   pruefe('Wächter: viele Wechsel einer Plattform warnen im Lauf', /WARNUNG Linkprüfung verrauscht: netflix[.]com 22 von 22/.test(`${r.stdout}${r.stderr}`), `${r.stdout}${r.stderr}`.slice(-600))
   pruefe('Netflix-404 wird nur einmal gefragt', gefragt.filter((a) => a === NETFLIX).length === 1, gefragt)
   pruefe('geprüft wird `seite`, nicht JustWatchs `url`', gefragt.includes(SEITE) && !gefragt.includes(JW) && !(JW in bestand), gefragt)

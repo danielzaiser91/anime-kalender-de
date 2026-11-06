@@ -42,7 +42,8 @@ import { resolve } from 'node:path'
 import type { Title } from '../shared/types.ts'
 import { belegGruende, findeAuffaelliges, kanalTitelMenge, messen, type Kennzahlen, type LinkAbgaenge } from './lib/bestand-delta.ts'
 import { bestandAusCommit, linkAbgaenge } from './lib/bestand-link-abgang.ts'
-import { type LinkBefund } from './lib/link-befund.ts'
+import { ladeGewerteteBefunde } from './lib/netflix-404-gate.ts'
+import { todayIso } from '../shared/time.ts'
 import { ladeVonHandBelegtAm } from './lib/verweise-von-hand.ts'
 import { ladeBelegeEntfernt } from './lib/belege-entfernt.ts'
 import { titelAusCommit, verschobeneTitel } from './lib/bestand-verschoben.ts'
@@ -105,7 +106,7 @@ function verschobenSeitCommit(schrumpft: boolean): string[] {
 function linkAbgangSeitCommit(sinkt: boolean): LinkAbgaenge {
   if (!sinkt) return { begruendet: [], unerklaert: [] }
   const hand = { belege: ladeHandbelege(), vonHandBelegtAm: ladeVonHandBelegtAm() }
-  return linkAbgaenge(bestandAusCommit(ROOT), titelJetzt(), lies<Record<string, LinkBefund>>('data/link-check.json', {}), hand)
+  return linkAbgaenge(bestandAusCommit(ROOT), titelJetzt(), ladeGewerteteBefunde(todayIso()).befunde, hand)
 }
 
 const dateiText = () => (existsSync(DATEI) ? readFileSync(DATEI, 'utf8') : '')
