@@ -4,7 +4,7 @@
     "erschienenOhneTermin": 0,
     "schaetzungNachEnde": 0,
     "spracheOffenTrotzMeldung": 0,
-    "ereignisOhneNews": 2,
+    "ereignisOhneNews": 0,
     "terminOhneBeleg": 15,
     "primeOhneTitelseite": 4
   },
@@ -12,10 +12,7 @@
     "erschienenOhneTermin": [],
     "schaetzungNachEnde": [],
     "spracheOffenTrotzMeldung": [],
-    "ereignisOhneNews": [
-      "ghost-in-the-shell-2026@2026-07-07",
-      "vom-landei-zum-schwertheiligen-2@2026-07-08"
-    ],
+    "ereignisOhneNews": [],
     "terminOhneBeleg": [
       "anisearch-169228-primevideo",
       "anisearch-176509-netflix",
