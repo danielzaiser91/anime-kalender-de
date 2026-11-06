@@ -114,7 +114,7 @@ const nachholen = schritte.find((s) => s.id === 'nachholen')
 assert.equal(wache.jobs.wache.if, undefined, 'Job „wache“ läuft immer (übersprungen zählt als bestanden)')
 assert.equal(wache.jobs.wache['continue-on-error'], undefined, 'Job „wache“ darf nicht rot verschluckt werden')
 assert.deepEqual(wache.on.schedule, [{ cron: '37 */3 * * *' }], 'GitHubs eigener Cron, alle 3 h')
-const FRISTEN = 'refresh-hourly.yml:3 refresh-data.yml:30 refresh-weekly.yml:192 adn-laufende.yml:9 claude-verpasst-recherche.yml:30 claude-anime2you-extraktion.yml:30 claude-wache-urteil.yml:30 anisearch-katalog.yml:30 ladezeiten.yml:30 offizielle-news.yml:30 meldungskopie.yml:30 tonspuren-monatlich.yml:744:ohne-abbruch'
+const FRISTEN = 'refresh-hourly.yml:3 refresh-data.yml:30 refresh-weekly.yml:192 adn-laufende.yml:9 claude-verpasst-recherche.yml:30 claude-anime2you-extraktion.yml:30 claude-wache-urteil.yml:30 anisearch-katalog.yml:30 ladezeiten.yml:30 offizielle-news.yml:30 meldungskopie.yml:30 nacht-merger.yml:3 tonspuren-monatlich.yml:744:ohne-abbruch'
 /* Der ganze run-Block ohne Kommentare und Leerzeilen, Zeile für Zeile: nichts davor (exit 0), nichts dazwischen, nichts am Ende. */
 const SOLL = [
   `PLAN="${FRISTEN}"`,

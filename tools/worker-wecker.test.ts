@@ -77,20 +77,20 @@ stumm('starteFaelligeLaeufe:')
 // Montag 04:00 UTC: stündlicher Lauf und Tageslauf (tonspuren-monatlich holt ab dem 2. des Monats nach).
 const MONTAG_VIER = new Date('2026-10-19T04:00:00.000Z')
 pruefe(
-  gleich(await nach(() => starteFaelligeLaeufe(env('t'), MONTAG_VIER)), ['refresh-hourly.yml', 'refresh-data.yml', 'tonspuren-monatlich.yml']),
+  gleich(await nach(() => starteFaelligeLaeufe(env('t'), MONTAG_VIER)), ['refresh-hourly.yml', 'nacht-merger.yml', 'refresh-data.yml', 'tonspuren-monatlich.yml']),
   'Montag 04:00 UTC: stündlicher Lauf, Tageslauf, Monatslauf',
 )
 pruefe(kopfZeilen.every((k) => k === 'Bearer t'), 'der Start trägt das Wecker-Token')
-pruefe(gleich(await nach(() => starteFaelligeLaeufe(env('t'), new Date('2026-10-19T03:59:59.999Z'))), ['refresh-hourly.yml', 'meldungskopie.yml']), 'eine Millisekunde vor 04:00: noch die Stunde 03 (Meldungskopie, kein Tageslauf)')
-pruefe(gleich(await nach(() => starteFaelligeLaeufe(env('t'), new Date('2026-10-19T04:59:59.999Z'))), ['refresh-hourly.yml', 'refresh-data.yml', 'tonspuren-monatlich.yml']), 'eine Millisekunde vor 05:00: noch die Stunde 04')
+pruefe(gleich(await nach(() => starteFaelligeLaeufe(env('t'), new Date('2026-10-19T03:59:59.999Z'))), ['refresh-hourly.yml', 'nacht-merger.yml', 'meldungskopie.yml']), 'eine Millisekunde vor 04:00: noch die Stunde 03 (Meldungskopie, kein Tageslauf)')
+pruefe(gleich(await nach(() => starteFaelligeLaeufe(env('t'), new Date('2026-10-19T04:59:59.999Z'))), ['refresh-hourly.yml', 'nacht-merger.yml', 'refresh-data.yml', 'tonspuren-monatlich.yml']), 'eine Millisekunde vor 05:00: noch die Stunde 04')
 pruefe(
-  gleich(await nach(() => starteFaelligeLaeufe(env('t'), new Date('2026-10-19T05:00:00.000Z'))), ['refresh-hourly.yml', 'refresh-weekly.yml']),
+  gleich(await nach(() => starteFaelligeLaeufe(env('t'), new Date('2026-10-19T05:00:00.000Z'))), ['refresh-hourly.yml', 'nacht-merger.yml', 'refresh-weekly.yml']),
   'Montag 05:00 UTC: Wochenlauf statt Tageslauf',
 )
 pruefe((await nach(() => starteFaelligeLaeufe(env(undefined), MONTAG_VIER))).length === 0, 'ohne Token startet nichts')
 // Monatslauf ab dem 2. (UTC): 2.11. 04:00 UTC ist in Los Angeles noch der 1.11., gezählt wird UTC.
 pruefe(
-  gleich(await nach(() => starteFaelligeLaeufe(env('t'), new Date('2026-11-02T04:00:00.000Z'))), ['refresh-hourly.yml', 'refresh-data.yml', 'tonspuren-monatlich.yml']),
+  gleich(await nach(() => starteFaelligeLaeufe(env('t'), new Date('2026-11-02T04:00:00.000Z'))), ['refresh-hourly.yml', 'nacht-merger.yml', 'refresh-data.yml', 'tonspuren-monatlich.yml']),
   '2.11. 04:00 UTC (1.11. in Los Angeles): Monatslauf startet',
 )
 // Monatstag ohne Nachholen: genau der Tag in UTC (2.11. 04:00 UTC = 1.11. in Los Angeles).
@@ -99,16 +99,16 @@ const amErsten = [{ workflow: 'x.yml', tagImMonat: 1, abstandMin: 30 }]
 pruefe(gleich(faelligeLaeufe(new Date('2026-11-02T04:00:00.000Z'), amZweiten), ['x.yml']), 'tagImMonat 2 trifft den 2.11. UTC')
 pruefe(faelligeLaeufe(new Date('2026-11-02T04:00:00.000Z'), amErsten).length === 0, 'tagImMonat 1 trifft den 2.11. UTC nicht, auch wenn es lokal der 1.11. ist')
 // Jahreswechsel: 00:00 UTC am 1.1. ist die Stunde 0 (in Los Angeles noch der 31.12.); kein Tageslauf, nur der stündliche.
-pruefe(gleich(await nach(() => starteFaelligeLaeufe(env('t'), new Date('2027-01-01T00:00:00.000Z'))), ['refresh-hourly.yml']), 'Jahreswechsel 00:00 UTC: nur der stündliche Lauf')
+pruefe(gleich(await nach(() => starteFaelligeLaeufe(env('t'), new Date('2027-01-01T00:00:00.000Z'))), ['refresh-hourly.yml', 'nacht-merger.yml']), 'Jahreswechsel 00:00 UTC: nur der stündliche Lauf')
 // 00:30 Berlin (Sommerzeit) ist 22:30 UTC des Vortags: gezählt wird UTC.
-pruefe(gleich(await nach(() => starteFaelligeLaeufe(env('t'), new Date('2026-10-19T22:30:00.000Z'))), ['refresh-hourly.yml']), '00:30 Berlin = 22:30 UTC: nur der stündliche Lauf')
+pruefe(gleich(await nach(() => starteFaelligeLaeufe(env('t'), new Date('2026-10-19T22:30:00.000Z'))), ['refresh-hourly.yml', 'nacht-merger.yml']), '00:30 Berlin = 22:30 UTC: nur der stündliche Lauf')
 
 // Der Mindestabstand (refresh-hourly: 40 min) misst gegen die übergebene Zeit, nicht gegen die Uhr des Aufrufs.
 const lauf = (vor: number) => [{ created_at: new Date(MONTAG_VIER.getTime() - vor * 60_000).toISOString(), status: 'completed', conclusion: 'success' }]
 bisherige = lauf(10)
 pruefe(gleich(await nach(() => starteFaelligeLaeufe(env('t'), MONTAG_VIER)), []), 'letzter Start 10 min vor der Wecker-Zeit: Mindestabstand sperrt alle')
 bisherige = lauf(41)
-pruefe(gleich(await nach(() => starteFaelligeLaeufe(env('t'), MONTAG_VIER)), ['refresh-hourly.yml']), '41 min vor der Wecker-Zeit: der stündliche Lauf startet, Tages- und Monatslauf (600 min und mehr) bleiben gesperrt')
+pruefe(gleich(await nach(() => starteFaelligeLaeufe(env('t'), MONTAG_VIER)), ['refresh-hourly.yml', 'nacht-merger.yml']), '41 min vor der Wecker-Zeit: der stündliche Lauf startet, Tages- und Monatslauf (600 min und mehr) bleiben gesperrt')
 bisherige = []
 
 // Nativ-Repo: `daten.yml` wird jede Stunde fällig; Abfrage und Start gehen an anime-kalender-nativ, nie an das Hauptrepo.
@@ -133,7 +133,7 @@ for (const status of [403, 404]) {
   fremdStatus = status
   fehlerLog.length = 0
   const haupt = await nach(() => starteFaelligeLaeufe(env('t'), MONTAG_VIER))
-  pruefe(gleich(haupt, ['refresh-hourly.yml', 'refresh-data.yml', 'tonspuren-monatlich.yml']), `Nativ-Start ${status}: die Hauptrepo-Läufe starten trotzdem`)
+  pruefe(gleich(haupt, ['refresh-hourly.yml', 'nacht-merger.yml', 'refresh-data.yml', 'tonspuren-monatlich.yml']), `Nativ-Start ${status}: die Hauptrepo-Läufe starten trotzdem`)
   pruefe(fehlerLog.some((z) => z.includes(`danielzaiser91/anime-kalender-nativ/daten.yml: HTTP ${status}`)), `Nativ-Start ${status}: Log nennt Repo, Workflow und Status`)
 }
 fremdStatus = 204
@@ -151,10 +151,10 @@ async function cron(zeit: Date, token: string | undefined): Promise<string[]> {
     await Promise.allSettled(offen)
   })
 }
-pruefe(gleich(await cron(MONTAG_VIER, 'attrappe'), ['refresh-hourly.yml', 'refresh-data.yml', 'tonspuren-monatlich.yml']), 'Cron Montag 04:00 UTC bei Echtzeit Dienstag 10:30: stündlicher Lauf, Tageslauf, Monatslauf')
-pruefe(gleich(await cron(new Date('2026-10-19T05:00:00.000Z'), 'attrappe'), ['refresh-hourly.yml', 'refresh-weekly.yml']), 'Cron Montag 05:00 UTC: Wochenlauf')
-pruefe(gleich(await cron(new Date('2026-10-19T04:00:30.000Z'), 'attrappe'), ['refresh-hourly.yml', 'refresh-data.yml', 'tonspuren-monatlich.yml']), 'Cron 30 Sekunden nach der Stunde: dieselbe Stunde')
-pruefe(gleich(await cron(new Date('2026-10-19T03:59:59.999Z'), 'attrappe'), ['refresh-hourly.yml', 'meldungskopie.yml']), 'Cron eine Millisekunde vor 04:00: Stunde 03')
+pruefe(gleich(await cron(MONTAG_VIER, 'attrappe'), ['refresh-hourly.yml', 'nacht-merger.yml', 'refresh-data.yml', 'tonspuren-monatlich.yml']), 'Cron Montag 04:00 UTC bei Echtzeit Dienstag 10:30: stündlicher Lauf, Tageslauf, Monatslauf')
+pruefe(gleich(await cron(new Date('2026-10-19T05:00:00.000Z'), 'attrappe'), ['refresh-hourly.yml', 'nacht-merger.yml', 'refresh-weekly.yml']), 'Cron Montag 05:00 UTC: Wochenlauf')
+pruefe(gleich(await cron(new Date('2026-10-19T04:00:30.000Z'), 'attrappe'), ['refresh-hourly.yml', 'nacht-merger.yml', 'refresh-data.yml', 'tonspuren-monatlich.yml']), 'Cron 30 Sekunden nach der Stunde: dieselbe Stunde')
+pruefe(gleich(await cron(new Date('2026-10-19T03:59:59.999Z'), 'attrappe'), ['refresh-hourly.yml', 'nacht-merger.yml', 'meldungskopie.yml']), 'Cron eine Millisekunde vor 04:00: Stunde 03')
 pruefe((await cron(MONTAG_VIER, undefined)).length === 0, 'Cron ohne Wecker-Token: nichts gestartet')
 
 if (fehler) {
