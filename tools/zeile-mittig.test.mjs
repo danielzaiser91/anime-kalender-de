@@ -6,12 +6,16 @@
 import assert from 'node:assert/strict'
 import { chromium } from 'playwright'
 import { browserDa } from './browser-weiche.mjs'
-import { verdeckung, zeileMittig } from './zeile-mittig.mjs'
+import { ruheAbwarten, verdeckung, zeileMittig } from './zeile-mittig.mjs'
 
 const HOEHE = 600
 const SEITE = `<body style="margin:0"><header style="position:sticky;top:0;height:60px;background:#ccc">Kopf</header>
 <div style="height:2000px"></div><ul style="margin:0;padding:0"><li id="z" style="height:40px">Zeile</li></ul>
 <div style="height:${HOEHE - 36 - 40}px"></div></body>`
+
+/* Lange Seite; die Zeile liegt bei etwa 3060 px. Der Bildlauf darüber läuft von außen weiter (Schritte je Bild bis 3600) und überholt sie. */
+const GLEITEN = `<body style="margin:0"><header style="position:sticky;top:0;height:60px;background:#ccc">Kopf</header>
+<div style="height:3000px"></div><ul style="margin:0;padding:0"><li id="z" style="height:40px">Zeile</li></ul><div style="height:3000px"></div></body>`
 
 if (!browserDa('zeile-mittig', chromium)) process.exit()
 
@@ -40,7 +44,31 @@ try {
   /* Ein Kind der Zeile zählt als Treffer. */
   await seite.evaluate(() => { document.querySelector('#z').innerHTML = '<b style="display:block;height:40px">Kind</b>' })
   assert.equal(await verdeckung(zeile, x, y), null, 'Kind der Zeile zählt als Treffer')
-  console.log('zeile-mittig.test: 4 Zusicherungen grün (alter Weg rot, neuer Weg grün, Kind, Kulisse)')
+  /* Weiches Gleiten läuft noch, wenn die Probe scrollt (Wochenansicht nach der Ankunft): der alte Weg bleibt falsch stehen, der neue hält die Mitte. */
+  const gleiten = async () => {
+    await seite.setContent(GLEITEN)
+    await seite.evaluate(() => {
+      const schritt = () => {
+        scrollTo(0, Math.min(3600, scrollY + 40))
+        if (scrollY < 3600) requestAnimationFrame(schritt)
+      }
+      requestAnimationFrame(schritt)
+    })
+    await seite.waitForTimeout(100)
+  }
+  await gleiten()
+  await zeileMittig(zeile, 0)
+  await seite.waitForTimeout(1500)
+  const altY = (await zeile.boundingBox()).y
+  assert.ok(altY < 0, `Kulisse: einmaliges scrollIntoView wird vom Gleiten überholt (y=${altY})`)
+  await gleiten()
+  await zeileMittig(zeile)
+  await seite.waitForTimeout(1500)
+  const neuY = (await zeile.boundingBox()).y
+  assert.ok(Math.abs(neuY + 20 - HOEHE / 2) < 30, `Gleiten: Zeile liegt nach dem Warten mittig und bleibt (y=${neuY})`)
+  await ruheAbwarten(seite)
+  assert.equal((await zeile.boundingBox()).y, neuY, 'ruheAbwarten ändert die Lage nicht')
+  console.log('zeile-mittig.test: 7 Zusicherungen grün (alter Weg rot, neuer Weg grün, Kind, Kulisse, Gleiten alt rot/neu grün, Ruhe)')
 } finally {
   await browser.close()
 }
