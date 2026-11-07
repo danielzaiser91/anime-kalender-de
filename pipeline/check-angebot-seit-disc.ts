@@ -26,13 +26,12 @@ const titel = (id: number) =>
     titleEn: `T${id}`,
     format: 'TV',
     episodes: 12,
-    anisearchId: id + 100,
     streams: [{ platform: 'netflix', url: 'https://www.netflix.com/title/1', dub: true }],
     deErstausgabe: { von: '2026-07-04', publisher: 'Netflix, Inc.', synchro: true },
   }) as unknown as Title
 
 const releases = [termin(1, 'disc'), termin(2, 'netflix')]
-const neu = ergaenzeErstausgabeAngebot({ titles: [titel(1), titel(2)], releases })
+const neu = ergaenzeErstausgabeAngebot({ titles: [titel(1), titel(2)], releases, kennungen: new Map([[1, 101], [2, 102]]) })
 pruefe('Erstausgabe: der Titel mit nur einer Disc bekommt sein „Im Angebot seit“', neu === 1 && releases.some((r) => r.titleId === 1 && r.dateMeaning === 'available-from'), releases.map((r) => r.slug))
 pruefe('Erstausgabe: der Titel mit Streaming-Termin bekommt keines', !releases.some((r) => r.titleId === 2 && r.dateMeaning === 'available-from'))
 

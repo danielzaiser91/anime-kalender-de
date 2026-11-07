@@ -50,6 +50,7 @@ import { STAFFELN_ABFRAGE, staffelnVon, type Staffel, type StaffelRoh } from './
 import { warteschlange } from './lib/jw-schlange.ts'
 import { ladeFrische } from './lib/jw-frische.ts'
 import { ANBIETERLISTEN, listenVorrangAbrufen, seiteVonJustWatch } from './lib/jw-anbieterliste.ts'
+import { bekannteTmdbKennungen, namensSchlange, suchNamen, waehleKnoten } from './lib/jw-namenssuche.ts'
 
 const ENDPUNKT = 'https://apis.justwatch.com/graphql'
 const UA = 'Mozilla/5.0 (compatible; anime-kalender.de/1.0; +https://anime-kalender.de)'
@@ -58,6 +59,8 @@ const PAUSE_MS = 1000
 /** So viele Titel hintereinander gesperrt (nach Backoff) — dann ist die Sperre keine Laune mehr. */
 const SPERREN_BIS_ABBRUCH = 3
 const DATEI = 'data/justwatch-audio.json'
+/** Titel ohne TMDB-Kennung kommen nach 21 Tagen wieder dran; der Bau liest Befunde nur bis 28 Tage (`BEFUND_MAX_TAGE`). */
+const NAMEN_ALTER_TAGE = 21
 
 interface Angebot {
   anbieter: string
@@ -86,6 +89,8 @@ interface Befund {
   erstAm?: string
   /** Die letzte Suche fand den Titel nicht; die Angebote stammen von der Antwort davor. */
   verfehltAm?: string
+  /** Zugeordnet über Namen, Jahr und Art statt über eine TMDB-Kennung unserer Seite (`lib/jw-namenssuche.ts`, seit 06.11.2026). */
+  ueberName?: boolean
 }
 
 const SUCHE = `
@@ -97,6 +102,7 @@ query Suche($q: String!, $country: Country!, $language: Language!) {
         objectType
         content(country: $country, language: $language) {
           title
+          originalReleaseYear
           fullPath
           ageCertification
           externalIds { tmdbId }
@@ -116,7 +122,7 @@ query Suche($q: String!, $country: Country!, $language: Language!) {
 interface JwKnoten {
   id: string
   objectType: string
-  content: { title: string; fullPath: string; ageCertification?: string | null; externalIds?: { tmdbId?: number | null } | null }
+  content: { title: string; originalReleaseYear?: number | null; fullPath: string; ageCertification?: string | null; externalIds?: { tmdbId?: number | null } | null }
   offers?:
     | {
         monetizationType: string
@@ -204,22 +210,14 @@ function verbucheFehlschlag(bestand: Record<string, Befund>, schluessel: string,
   return false
 }
 
-async function main(): Promise<void> {
-  const args = process.argv.slice(2)
-  const zahl = (name: string, vorgabe: number): number => {
-    const i = args.indexOf(name)
-    return i >= 0 && args[i + 1] ? Number(args[i + 1]) : vorgabe
-  }
-  const limit = zahl('--limit', 40)
-  const alterTage = zahl('--alter', 28)
-
+/** Die Eingaben des Laufs: Titel (Hauptbestand, Cartoons, Titel mit Hand-Kennung), TMDB-Zuordnung und der bisherige JustWatch-Bestand. */
+function ladeEingaben(nurCartoons: boolean): { titles: Title[]; cartoons: Title[]; tmdb: Record<string, { tmdbId?: number }>; bestand: Record<string, Befund> } {
   /*
     **Cartoons fragen mit** (16.09.2026): TMDB nennt dort nur den Dienst, keine
     Adresse — die Prime-Pille von „The Mighty Nein" führte deshalb ins Leere.
     JustWatch kennt die Seite beim Anbieter; zugeordnet wird wie immer über die
     TMDB-Kennung, die Cartoons selbst tragen. `--nur-cartoons` holt nur sie.
   */
-  const nurCartoons = args.includes('--nur-cartoons')
   const cartoons = readJson<Title[]>('public/data/cartoons.json', [])
   /*
     **Wer von Hand eine TMDB-Kennung bekommen hat, wird auch gefragt** (23.09.2026).
@@ -242,8 +240,94 @@ async function main(): Promise<void> {
     : [...readJson<Title[]>('public/data/titles.json', []), ...cartoons, ...ausDemToggle]
   const tmdb = readJson<Record<string, { tmdbId?: number }>>('data/tmdb-titles.json', {})
   const bestand = readJson<Record<string, Befund>>(DATEI, {})
+  return { titles, cartoons, tmdb, bestand }
+}
+
+/** Der Befund eines über den Namen gefundenen Titels; die TMDB-Kennung ist die von JustWatch (nicht unsere), `ueberName` kennzeichnet den Weg. */
+function befundVonNamenstreffer(vorher: Befund | undefined, treffer: JwKnoten, tmdbId: number | undefined): Befund {
+  return {
+    geprueftAm: todayIso(),
+    ...(vorher && !vorher.ohneTreffer && !vorher.erstAm ? {} : { erstAm: vorher?.erstAm ?? todayIso() }),
+    jwId: treffer.id,
+    tmdbId,
+    jwPfad: treffer.content.fullPath,
+    altersangabe: treffer.content.ageCertification ?? null,
+    staffeln: staffelnVon(treffer.seasons),
+    angebote: angeboteVon(treffer.offers),
+    ueberName: true,
+  }
+}
+
+/**
+ * Titel ohne TMDB-Kennung: Namenssuche (`lib/jw-namenssuche.ts`), höchstens `anzahl` je Lauf, die ältesten Befunde zuerst. Der Bau liest nur Befunde
+ * der letzten 28 Tage (`BEFUND_MAX_TAGE`), darum kommt jeder Titel nach 21 Tagen wieder dran. Gespeichert wird nur ein plausibler Lauf (Kopie, kein Teilstand).
+ */
+async function sucheOhneTmdb(titles: Title[], tmdb: Record<string, { tmdbId?: number }>, bestand: Record<string, Befund>, anzahl: number): Promise<void> {
+  const tmdbVon = (t: Title) => (t as Title & { tmdbId?: number }).tmdbId ?? tmdb[String(t.id)]?.tmdbId
+  const grenze = new Date(Date.now() - NAMEN_ALTER_TAGE * 86_400_000).toISOString().slice(0, 10)
+  const alle = namensSchlange({ titles, bestand, tmdbVon, grenze })
+  const bekannte = bekannteTmdbKennungen(titles, tmdbVon)
+  const neu = structuredClone(bestand)
+  log(`JustWatch (Namenssuche): ${alle.length} Titel ohne TMDB-Kennung fällig, davon werden ${Math.min(anzahl, alle.length)} gefragt.`)
+  const z = { getroffen: 0, leer: 0, verfehlt: 0, keiner: 0, fehler: 0, mehrdeutig: [] as string[], fremd: [] as string[], abgewiesen: [] as string[] }
+  let sperrenInFolge = 0
+  for (const t of alle.slice(0, anzahl)) {
+    const name = t.titleDe || t.titleRomaji || t.titleEn
+    try {
+      const knoten: JwKnoten[] = []
+      for (const [i, begriff] of suchNamen(t).entries()) {
+        if (i) await sleep(PAUSE_MS)
+        knoten.push(...(await suche(begriff)))
+      }
+      sperrenInFolge = 0
+      const u = waehleKnoten(t, knoten, bekannte)
+      if (u.art === 'mehrdeutig') z.mehrdeutig.push(`${name} (${t.id}, ${u.anzahl} Treffer)`)
+      if (u.art === 'fremd') z.fremd.push(`${name} (${t.id}, TMDB ${u.tmdbId})`)
+      const tmdbId = u.art === 'treffer' ? Number(u.knoten.content.externalIds?.tmdbId) || undefined : undefined
+      const { treffer, halter } = nimmTreffer(neu, String(t.id), u.art === 'treffer' ? u.knoten : undefined, tmdbId)
+      if (halter) z.abgewiesen.push(`${name} (${t.id}, Halter ${halter})`)
+      if (treffer) {
+        neu[String(t.id)] = befundVonNamenstreffer(neu[String(t.id)], treffer, tmdbId)
+        z.getroffen++
+        if (!neu[String(t.id)].angebote.length) z.leer++
+      } else if (verbucheFehlschlag(neu, String(t.id), undefined)) z.verfehlt++
+      else {
+        neu[String(t.id)].ueberName = true
+        z.keiner++
+      }
+    } catch (e) {
+      z.fehler++
+      warn(`JustWatch (Namenssuche): ${name} — ${(e as Error).message}`)
+      if (/^429 /.test((e as Error).message) && ++sperrenInFolge >= SPERREN_BIS_ABBRUCH) {
+        warn(`JustWatch (Namenssuche): ${SPERREN_BIS_ABBRUCH} Sperren in Folge — der Lauf endet hier, das Erreichte wird geschrieben.`)
+        break
+      }
+    }
+    await sleep(PAUSE_MS)
+  }
+  log(`JustWatch (Namenssuche): ${z.getroffen} zugeordnet (${z.leer} ohne Angebot), ${z.keiner} ohne Treffer, ${z.mehrdeutig.length} mehrdeutig, ${z.fremd.length} fremd, ${z.abgewiesen.length} abgewiesen, ${z.verfehlt} verfehlt, ${z.fehler} Fehler.`)
+  for (const [art, liste] of [['mehrdeutig', z.mehrdeutig], ['fremd (Kennung gehört schon einem anderen Titel)', z.fremd], ['abgewiesen', z.abgewiesen]] as const)
+    if (liste.length) log(`JustWatch (Namenssuche) ${art}, nichts übernommen: ${liste.join('; ')}`)
+  if (istUnplausibel(z)) return warn('JustWatch (Namenssuche): Ergebnis unplausibel — nichts geschrieben.')
+  Object.assign(bestand, neu)
+  writeJson(DATEI, bestand)
+}
+
+async function main(): Promise<void> {
+  const args = process.argv.slice(2)
+  const zahl = (name: string, vorgabe: number): number => {
+    const i = args.indexOf(name)
+    return i >= 0 && args[i + 1] ? Number(args[i + 1]) : vorgabe
+  }
+  const limit = zahl('--limit', 40)
+  const alterTage = zahl('--alter', 28)
+
+  const nurCartoons = args.includes('--nur-cartoons')
+  const { titles, cartoons, tmdb, bestand } = ladeEingaben(nurCartoons)
 
   const grenze = new Date(Date.now() - alterTage * 86_400_000).toISOString().slice(0, 10)
+  /* Titel ohne TMDB-Kennung (`--namen N`, vorgabe 0 = aus): zuerst, damit der frühe Ausstieg „nichts fällig“ unten sie nicht übergeht. */
+  if (!nurCartoons && zahl('--namen', 0) > 0) await sucheOhneTmdb(titles, tmdb, bestand, zahl('--namen', 0))
 
   /*
     **Die Warteschlange bildet sich nach dem Alter, nicht nach „schon gefragt".**

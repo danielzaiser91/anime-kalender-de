@@ -52,6 +52,8 @@ try {
   const erster = lauf()
   pruefe('der Lauf endet ohne Fehler', erster.status === 0, erster)
   pruefe('woche-kacheln.json ist geschrieben', existsSync(join(arbeit, 'public', 'data', 'woche-kacheln.json')))
+  const geschrieben = lies('woche-kacheln.json') as unknown as { events: Record<string, unknown>[] }
+  pruefe('die geschriebene Kachel-Datei ist gepackt (Termin ohne Name und Kennung, mit Stelle im Release)', !('name' in geschrieben.events[0]!) && !('releaseSlug' in geschrieben.events[0]!) && geschrieben.events[0]!.r === 0, geschrieben.events[0])
   const woche = lies('woche.json') as unknown as { titles: Record<string, unknown>[]; events: unknown[] }
   const kachel = lies('woche-kacheln.json') as unknown as { titles: Record<string, unknown>[]; releases: Record<string, unknown>[]; events: unknown[] }
   pruefe('die Woche hat sieben Termine', woche.events.length === 7 && kachel.events.length === 7, [woche.events.length, kachel.events.length])

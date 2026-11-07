@@ -879,6 +879,10 @@
       "vorschlaege": 0,
       "uebersprungen": "kein Deutschland-Bezug"
     },
+    "1064355": {
+      "am": "2026-11-07",
+      "vorschlaege": 2
+    },
     "1064405": {
       "am": "2026-10-30",
       "vorschlaege": 3
@@ -1257,6 +1261,10 @@
       "vorschlaege": 0,
       "uebersprungen": "kein Deutschland-Bezug"
     },
+    "1067756": {
+      "am": "2026-11-07",
+      "vorschlaege": 2
+    },
     "1067789": {
       "am": "2026-11-05",
       "vorschlaege": 1
@@ -1265,9 +1273,17 @@
       "am": "2026-11-05",
       "vorschlaege": 3
     },
+    "1067831": {
+      "am": "2026-11-07",
+      "vorschlaege": 0
+    },
     "1067870": {
       "am": "2026-11-05",
       "vorschlaege": 1
+    },
+    "1067897": {
+      "am": "2026-11-07",
+      "vorschlaege": 0
     },
     "1067953": {
       "am": "2026-11-05",
@@ -1276,6 +1292,10 @@
     "1068002": {
       "am": "2026-11-05",
       "vorschlaege": 0
+    },
+    "1068059": {
+      "am": "2026-11-07",
+      "vorschlaege": 2
     },
     "1068101": {
       "am": "2026-11-05",
@@ -1318,10 +1338,50 @@
       "vorschlaege": 0,
       "uebersprungen": "kein Deutschland-Bezug"
     },
+    "1068485": {
+      "am": "2026-11-07",
+      "vorschlaege": 1
+    },
     "1068505": {
       "am": "2026-11-06",
       "vorschlaege": 0,
       "uebersprungen": "kein Deutschland-Bezug"
+    },
+    "1068595": {
+      "am": "2026-11-07",
+      "vorschlaege": 15
+    },
+    "1068729": {
+      "am": "2026-11-07",
+      "vorschlaege": 2
+    },
+    "1068738": {
+      "am": "2026-11-07",
+      "vorschlaege": 2
+    },
+    "1068751": {
+      "am": "2026-11-07",
+      "vorschlaege": 4
+    },
+    "1068798": {
+      "am": "2026-11-07",
+      "vorschlaege": 1
+    },
+    "1068809": {
+      "am": "2026-11-07",
+      "vorschlaege": 1
+    },
+    "1068824": {
+      "am": "2026-11-07",
+      "vorschlaege": 0
+    },
+    "1068831": {
+      "am": "2026-11-07",
+      "vorschlaege": 0
+    },
+    "1068887": {
+      "am": "2026-11-07",
+      "vorschlaege": 3
     }
   },
   "vorschlaege": [
@@ -1909,7 +1969,8 @@
       "wochentag": null,
       "warnungen": [
         "Uhrzeit widerspricht 18:50 (Artikel 1059541) – gegenlesen",
-        "Uhrzeit widerspricht 18:50 (Artikel 1059541), 18:30 (Artikel 1063795) – gegenlesen"
+        "Uhrzeit widerspricht 18:50 (Artikel 1059541), 18:30 (Artikel 1063795) – gegenlesen",
+        "Uhrzeit widerspricht 18:50 (Artikel 1059541), 18:30 (Artikel 1063795), 06:45 (Artikel 1068887) – gegenlesen"
       ],
       "artikelId": "1060030",
       "artikel": "TV-Guide: Anime im deutschen Fernsehen in KW 42/2026",
@@ -7291,7 +7352,8 @@
       "wochentag": null,
       "warnungen": [
         "Uhrzeit widerspricht 18:50 (Artikel 1059541), 18:55 (Artikel 1060030) – gegenlesen",
-        "Uhrzeit widerspricht 18:50 (Artikel 1059541), 18:55 (Artikel 1060030), 18:55 (Artikel 1066723) – gegenlesen"
+        "Uhrzeit widerspricht 18:50 (Artikel 1059541), 18:55 (Artikel 1060030), 18:55 (Artikel 1066723) – gegenlesen",
+        "Uhrzeit widerspricht 18:50 (Artikel 1059541), 18:55 (Artikel 1060030), 18:55 (Artikel 1066723), 06:45 (Artikel 1068887) – gegenlesen"
       ],
       "artikelId": "1063795",
       "artikel": "TV-Guide: Anime im deutschen Fernsehen in KW 44/2026",
@@ -9395,7 +9457,8 @@
       "unsicher": null,
       "wochentag": null,
       "warnungen": [
-        "Uhrzeit widerspricht 18:25 (Artikel 1059480) – gegenlesen"
+        "Uhrzeit widerspricht 18:25 (Artikel 1059480) – gegenlesen",
+        "Uhrzeit widerspricht 18:25 (Artikel 1059480), 06:15 (Artikel 1068887) – gegenlesen"
       ],
       "artikelId": "1066723",
       "artikel": "TV-Guide: Anime im deutschen Fernsehen in KW 45/2026",
@@ -9506,7 +9569,8 @@
       "unsicher": null,
       "wochentag": null,
       "warnungen": [
-        "Uhrzeit widerspricht 18:50 (Artikel 1059541), 18:30 (Artikel 1063795) – gegenlesen"
+        "Uhrzeit widerspricht 18:50 (Artikel 1059541), 18:30 (Artikel 1063795) – gegenlesen",
+        "Uhrzeit widerspricht 18:50 (Artikel 1059541), 18:30 (Artikel 1063795), 06:45 (Artikel 1068887) – gegenlesen"
       ],
       "artikelId": "1066723",
       "artikel": "TV-Guide: Anime im deutschen Fernsehen in KW 45/2026",
@@ -10589,6 +10653,735 @@
       "quelle": "https://www.anime2you.de/news/1067193/disney-plus-honey-lemon-soda-und-mehr-verfuegbar/",
       "veroeffentlicht": "2026-11-04",
       "gelesenAm": "2026-11-05"
+    },
+    {
+      "titel": "Black Clover",
+      "zitat": "Nachdem Pluto TV bereits im letzten Monat die ersten 35 Folgen von »Black Clover« in sein Programm aufgenommen hat, wurden nun die restlichen 16 Folgen der ersten Staffel ergänzt. Damit sind alle 51 Episoden mit deutscher Synchronisation verfügbar.",
+      "art": "folgen",
+      "sprache": "deutsch",
+      "plattform": null,
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Pluto TV",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "36–51",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1068729",
+      "artikel": "Zwei weitere Anime-Neuzugänge kostenlos auf Deutsch bei Pluto TV",
+      "quelle": "https://www.anime2you.de/news/1068729/pluto-tv-dr-stone-und-mehr/",
+      "veroeffentlicht": "2026-11-06",
+      "gelesenAm": "2026-11-07"
+    },
+    {
+      "titel": "Dr. STONE",
+      "zitat": "Darüber hinaus bietet die Plattform seit Kurzem auch die erste Staffel der Adventure-Serie »Dr. STONE« mit deutscher Sprachfassung auf Abruf an. Von den insgesamt 24 Episoden stehen derzeit allerdings nur 23 Folgen zur Verfügung.",
+      "art": "start",
+      "sprache": "deutsch",
+      "plattform": null,
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Pluto TV",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "23 von 24",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „Pluto TV“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1068729",
+      "artikel": "Zwei weitere Anime-Neuzugänge kostenlos auf Deutsch bei Pluto TV",
+      "quelle": "https://www.anime2you.de/news/1068729/pluto-tv-dr-stone-und-mehr/",
+      "veroeffentlicht": "2026-11-06",
+      "gelesenAm": "2026-11-07"
+    },
+    {
+      "titel": "YAIBA: Samurai Legend",
+      "zitat": "Das erste Volume von »YAIBA: Samurai Legend« erscheint nach aktuellem Stand am 4. Dezember 2026 als Blu-ray und enthält die ersten zwölf Episoden auf Deutsch und Japanisch.",
+      "art": "disc",
+      "sprache": "deutsch+omu",
+      "plattform": "disc",
+      "datum": "2026-12-04",
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": null,
+      "wochentage": null,
+      "folgen": "1–12",
+      "unsicher": "Termin laut Artikel noch nicht endgültig („nach aktuellem Stand“).",
+      "wochentag": "Freitag",
+      "warnungen": [],
+      "artikelId": "1068751",
+      "artikel": "Design und Extras der limitierten Blu-ray-Edition von »YAIBA: Samurai Legend«",
+      "quelle": "https://www.anime2you.de/news/1068751/yaiba-samurai-legend-limited-edition-design/",
+      "veroeffentlicht": "2026-11-06",
+      "gelesenAm": "2026-11-07"
+    },
+    {
+      "titel": "YAIBA: Samurai Legend",
+      "zitat": "Das zweite Volume mit den Episoden 13 bis 24 folgt am 19. Februar 2027.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2027-02-19",
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": null,
+      "wochentage": null,
+      "folgen": "13–24",
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [],
+      "artikelId": "1068751",
+      "artikel": "Design und Extras der limitierten Blu-ray-Edition von »YAIBA: Samurai Legend«",
+      "quelle": "https://www.anime2you.de/news/1068751/yaiba-samurai-legend-limited-edition-design/",
+      "veroeffentlicht": "2026-11-06",
+      "gelesenAm": "2026-11-07"
+    },
+    {
+      "titel": "YAIBA: Samurai Legend",
+      "zitat": "Für die Produktion der 24-teiligen ersten Staffel, die von April bis September 2025 im japanischen Fernsehen lief und seit dem 5. November 2026 als TV-Premiere auf ProSieben MAXX ausgestrahlt wird, war das Studio WIT verantwortlich.",
+      "art": "start",
+      "sprache": "unklar",
+      "plattform": "tv",
+      "datum": "2026-11-05",
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": "ProSieben MAXX",
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Donnerstag",
+      "warnungen": [],
+      "artikelId": "1068751",
+      "artikel": "Design und Extras der limitierten Blu-ray-Edition von »YAIBA: Samurai Legend«",
+      "quelle": "https://www.anime2you.de/news/1068751/yaiba-samurai-legend-limited-edition-design/",
+      "veroeffentlicht": "2026-11-06",
+      "gelesenAm": "2026-11-07"
+    },
+    {
+      "titel": "YAIBA: Samurai Legend",
+      "zitat": "Die zweite Staffel startet am 9. Januar 2027 bei AKIBA PASS TV.",
+      "art": "start",
+      "sprache": "unklar",
+      "plattform": null,
+      "datum": "2027-01-09",
+      "uhrzeit": null,
+      "anbieter": "AKIBA PASS TV",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Samstag",
+      "warnungen": [],
+      "artikelId": "1068751",
+      "artikel": "Design und Extras der limitierten Blu-ray-Edition von »YAIBA: Samurai Legend«",
+      "quelle": "https://www.anime2you.de/news/1068751/yaiba-samurai-legend-limited-edition-design/",
+      "veroeffentlicht": "2026-11-06",
+      "gelesenAm": "2026-11-07"
+    },
+    {
+      "titel": "Tokyo Godfathers",
+      "zitat": "»Tokyo Godfathers« wird nach aktueller Planung am 13. Dezember 2026 um 16:00 Uhr mit deutscher Sprachfassung auf ZDFneo ausgestrahlt.",
+      "art": "start",
+      "sprache": "deutsch",
+      "plattform": "tv",
+      "datum": "2026-12-13",
+      "uhrzeit": "16:00",
+      "anbieter": null,
+      "sender": "ZDFneo",
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": "Termin laut Artikel vorläufig („nach aktueller Planung“).",
+      "wochentag": "Sonntag",
+      "warnungen": [],
+      "artikelId": "1068738",
+      "artikel": "Anime-Weihnachtsfilm »Tokyo Godfathers« bald erneut auf ZDFneo",
+      "quelle": "https://www.anime2you.de/news/1068738/tokyo-godfathers-bald-erneut-auf-zdfneo/",
+      "veroeffentlicht": "2026-11-06",
+      "gelesenAm": "2026-11-07"
+    },
+    {
+      "titel": "Tokyo Godfathers",
+      "zitat": "Im Anschluss steht der Streifen dann wieder kostenlos in der ZDF-Mediathek zur Verfügung.",
+      "art": "start",
+      "sprache": "unklar",
+      "plattform": null,
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "ZDF-Mediathek",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1068738",
+      "artikel": "Anime-Weihnachtsfilm »Tokyo Godfathers« bald erneut auf ZDFneo",
+      "quelle": "https://www.anime2you.de/news/1068738/tokyo-godfathers-bald-erneut-auf-zdfneo/",
+      "veroeffentlicht": "2026-11-06",
+      "gelesenAm": "2026-11-07"
+    },
+    {
+      "titel": "Black Clover Second Season",
+      "zitat": "»Black Clover Second Season« läuft seit dem 3. Oktober 2026 im japanischen Fernsehen und hierzulande bei Crunchyroll im Simulcast.",
+      "art": "start",
+      "sprache": "unklar",
+      "plattform": "crunchyroll",
+      "datum": "2026-10-03",
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Samstag",
+      "warnungen": [],
+      "artikelId": "1067756",
+      "artikel": "Neueste »Black Clover«-Folge erzielt außergewöhnliche Bewertung",
+      "quelle": "https://www.anime2you.de/news/1067756/black-clover-folge-aussergewoehnliche-bewertung/",
+      "veroeffentlicht": "2026-11-06",
+      "gelesenAm": "2026-11-07"
+    },
+    {
+      "titel": "Kaiju No.8 – Staffel 2 (Komplettbox)",
+      "zitat": "Kaiju No.8 – Staffel 2 (Komplettbox) 07.05. 05.03.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2027-03-05",
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „Crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1068595",
+      "artikel": "28 Blu-ray-Termine von Crunchyroll, AniMoon, KSM und polyband verschoben",
+      "quelle": "https://www.anime2you.de/news/1068595/28-blu-ray-verschiebungen/",
+      "veroeffentlicht": "2026-11-06",
+      "gelesenAm": "2026-11-07"
+    },
+    {
+      "titel": "Sailor Moon – Staffel 2 (Limited Steelbook Edition)",
+      "zitat": "Sailor Moon – Staffel 2 (Limited Steelbook Edition) 06.11. 20.11.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2026-11-20",
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „Crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1068595",
+      "artikel": "28 Blu-ray-Termine von Crunchyroll, AniMoon, KSM und polyband verschoben",
+      "quelle": "https://www.anime2you.de/news/1068595/28-blu-ray-verschiebungen/",
+      "veroeffentlicht": "2026-11-06",
+      "gelesenAm": "2026-11-07"
+    },
+    {
+      "titel": "Bleach – Vol. 1 (Bankai Edition)",
+      "zitat": "Bleach – Vol. 1 (Bankai Edition) 2026 2027",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "KSM Anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": "Nur Jahr genannt, kein genaues Datum.",
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „KSM Anime“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1068595",
+      "artikel": "28 Blu-ray-Termine von Crunchyroll, AniMoon, KSM und polyband verschoben",
+      "quelle": "https://www.anime2you.de/news/1068595/28-blu-ray-verschiebungen/",
+      "veroeffentlicht": "2026-11-06",
+      "gelesenAm": "2026-11-07"
+    },
+    {
+      "titel": "Bleach – Vol. 2 (Bankai Edition)",
+      "zitat": "Bleach – Vol. 2 (Bankai Edition) 2026 2027",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "KSM Anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": "Nur Jahr genannt, kein genaues Datum.",
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „KSM Anime“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1068595",
+      "artikel": "28 Blu-ray-Termine von Crunchyroll, AniMoon, KSM und polyband verschoben",
+      "quelle": "https://www.anime2you.de/news/1068595/28-blu-ray-verschiebungen/",
+      "veroeffentlicht": "2026-11-06",
+      "gelesenAm": "2026-11-07"
+    },
+    {
+      "titel": "Bleach: Thousand-Year Blood War III (Komplettbox)",
+      "zitat": "Bleach: Thousand-Year Blood War III (Komplettbox) 2026 2027",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "KSM Anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": "Nur Jahr genannt, kein genaues Datum.",
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „KSM Anime“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1068595",
+      "artikel": "28 Blu-ray-Termine von Crunchyroll, AniMoon, KSM und polyband verschoben",
+      "quelle": "https://www.anime2you.de/news/1068595/28-blu-ray-verschiebungen/",
+      "veroeffentlicht": "2026-11-06",
+      "gelesenAm": "2026-11-07"
+    },
+    {
+      "titel": "Bleach: Thousand-Year Blood War III (Limited Edition)",
+      "zitat": "Bleach: Thousand-Year Blood War III (Limited Edition) 2026 2027",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "KSM Anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": "Nur Jahr genannt, kein genaues Datum.",
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „KSM Anime“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1068595",
+      "artikel": "28 Blu-ray-Termine von Crunchyroll, AniMoon, KSM und polyband verschoben",
+      "quelle": "https://www.anime2you.de/news/1068595/28-blu-ray-verschiebungen/",
+      "veroeffentlicht": "2026-11-06",
+      "gelesenAm": "2026-11-07"
+    },
+    {
+      "titel": "Kubo Won’t Let Me Be Invisible – Staffel 1 (Komplettbox)",
+      "zitat": "Kubo Won’t Let Me Be Invisible – Staffel 1 (Komplettbox) 09.11. 10.12.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2026-12-10",
+      "uhrzeit": null,
+      "anbieter": "KSM Anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Donnerstag",
+      "warnungen": [
+        "anbieter „KSM Anime“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1068595",
+      "artikel": "28 Blu-ray-Termine von Crunchyroll, AniMoon, KSM und polyband verschoben",
+      "quelle": "https://www.anime2you.de/news/1068595/28-blu-ray-verschiebungen/",
+      "veroeffentlicht": "2026-11-06",
+      "gelesenAm": "2026-11-07"
+    },
+    {
+      "titel": "Loner Life in Another World – Vol. 1 (Limited Edition mit Sammelschuber)",
+      "zitat": "Loner Life in Another World – Vol. 1 (Limited Edition mit Sammelschuber) 27.11. 04.12.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2026-12-04",
+      "uhrzeit": null,
+      "anbieter": "polyband anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „polyband anime“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1068595",
+      "artikel": "28 Blu-ray-Termine von Crunchyroll, AniMoon, KSM und polyband verschoben",
+      "quelle": "https://www.anime2you.de/news/1068595/28-blu-ray-verschiebungen/",
+      "veroeffentlicht": "2026-11-06",
+      "gelesenAm": "2026-11-07"
+    },
+    {
+      "titel": "Bitte zieh dich an, Takamine! – Vol. 1 (Limited Edition mit Sammelschuber)",
+      "zitat": "Bitte zieh dich an, Takamine! – Vol. 1 (Limited Edition mit Sammelschuber) 20.11. 18.12.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2026-12-18",
+      "uhrzeit": null,
+      "anbieter": "AniMoon Publishing",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": "Termin gilt laut Artikel für den regulären Handel, im Online-Shop des Publishers teils bereits früher lieferbar.",
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „AniMoon Publishing“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1068595",
+      "artikel": "28 Blu-ray-Termine von Crunchyroll, AniMoon, KSM und polyband verschoben",
+      "quelle": "https://www.anime2you.de/news/1068595/28-blu-ray-verschiebungen/",
+      "veroeffentlicht": "2026-11-06",
+      "gelesenAm": "2026-11-07"
+    },
+    {
+      "titel": "Bitte zieh dich an, Takamine! – Vol. 2 (Limited Edition)",
+      "zitat": "Bitte zieh dich an, Takamine! – Vol. 2 (Limited Edition) 18.12. 15.01.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2027-01-15",
+      "uhrzeit": null,
+      "anbieter": "AniMoon Publishing",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": "Termin gilt laut Artikel für den regulären Handel, im Online-Shop des Publishers teils bereits früher lieferbar.",
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „AniMoon Publishing“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1068595",
+      "artikel": "28 Blu-ray-Termine von Crunchyroll, AniMoon, KSM und polyband verschoben",
+      "quelle": "https://www.anime2you.de/news/1068595/28-blu-ray-verschiebungen/",
+      "veroeffentlicht": "2026-11-06",
+      "gelesenAm": "2026-11-07"
+    },
+    {
+      "titel": "Bitte zieh dich an, Takamine! – Vol. 3 (Limited Edition)",
+      "zitat": "Bitte zieh dich an, Takamine! – Vol. 3 (Limited Edition) 15.01. 19.02.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2027-02-19",
+      "uhrzeit": null,
+      "anbieter": "AniMoon Publishing",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": "Termin gilt laut Artikel für den regulären Handel, im Online-Shop des Publishers teils bereits früher lieferbar.",
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „AniMoon Publishing“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1068595",
+      "artikel": "28 Blu-ray-Termine von Crunchyroll, AniMoon, KSM und polyband verschoben",
+      "quelle": "https://www.anime2you.de/news/1068595/28-blu-ray-verschiebungen/",
+      "veroeffentlicht": "2026-11-06",
+      "gelesenAm": "2026-11-07"
+    },
+    {
+      "titel": "Bocchi the Rock! – Vol. 2 (Limited Edition)",
+      "zitat": "Bocchi the Rock! – Vol. 2 (Limited Edition) 06.11. 04.12.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2026-12-04",
+      "uhrzeit": null,
+      "anbieter": "AniMoon Publishing",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": "Termin gilt laut Artikel für den regulären Handel, im Online-Shop des Publishers teils bereits früher lieferbar.",
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „AniMoon Publishing“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1068595",
+      "artikel": "28 Blu-ray-Termine von Crunchyroll, AniMoon, KSM und polyband verschoben",
+      "quelle": "https://www.anime2you.de/news/1068595/28-blu-ray-verschiebungen/",
+      "veroeffentlicht": "2026-11-06",
+      "gelesenAm": "2026-11-07"
+    },
+    {
+      "titel": "Bocchi the Rock! – Vol. 3 (Limited Edition)",
+      "zitat": "Bocchi the Rock! – Vol. 3 (Limited Edition) 18.12. 05.02.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2027-02-05",
+      "uhrzeit": null,
+      "anbieter": "AniMoon Publishing",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": "Termin gilt laut Artikel für den regulären Handel, im Online-Shop des Publishers teils bereits früher lieferbar.",
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „AniMoon Publishing“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1068595",
+      "artikel": "28 Blu-ray-Termine von Crunchyroll, AniMoon, KSM und polyband verschoben",
+      "quelle": "https://www.anime2you.de/news/1068595/28-blu-ray-verschiebungen/",
+      "veroeffentlicht": "2026-11-06",
+      "gelesenAm": "2026-11-07"
+    },
+    {
+      "titel": "Inazuma Eleven – Staffel 1 (Komplettbox)",
+      "zitat": "Inazuma Eleven – Staffel 1 (Komplettbox) 20.11. 18.12.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2026-12-18",
+      "uhrzeit": null,
+      "anbieter": "AniMoon Publishing",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": "Termin gilt laut Artikel für den regulären Handel, im Online-Shop des Publishers teils bereits früher lieferbar.",
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „AniMoon Publishing“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1068595",
+      "artikel": "28 Blu-ray-Termine von Crunchyroll, AniMoon, KSM und polyband verschoben",
+      "quelle": "https://www.anime2you.de/news/1068595/28-blu-ray-verschiebungen/",
+      "veroeffentlicht": "2026-11-06",
+      "gelesenAm": "2026-11-07"
+    },
+    {
+      "titel": "Infinite Dendrogram – Vol. 2 (Limited Edition)",
+      "zitat": "Infinite Dendrogram – Vol. 2 (Limited Edition) 30.10. 13.11.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2026-11-13",
+      "uhrzeit": null,
+      "anbieter": "AniMoon Publishing",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": "Termin gilt laut Artikel für den regulären Handel, im Online-Shop des Publishers teils bereits früher lieferbar.",
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „AniMoon Publishing“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1068595",
+      "artikel": "28 Blu-ray-Termine von Crunchyroll, AniMoon, KSM und polyband verschoben",
+      "quelle": "https://www.anime2you.de/news/1068595/28-blu-ray-verschiebungen/",
+      "veroeffentlicht": "2026-11-06",
+      "gelesenAm": "2026-11-07"
+    },
+    {
+      "titel": "Sailor Moon",
+      "zitat": "Crunchyroll bringt die Serie seit Oktober 2026 in einer neuen Steelbook-Edition auf DVD und Blu-ray in den Handel, während ADN diese auf Abruf anbietet.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1064355",
+      "artikel": "Neue Accessoire-Kollektion zu »Sailor Moon« vorgestellt",
+      "quelle": "https://www.anime2you.de/news/1064355/neue-sailor-moon-accessoire-kollektion/",
+      "veroeffentlicht": "2026-11-06",
+      "gelesenAm": "2026-11-07"
+    },
+    {
+      "titel": "Sailor Moon",
+      "zitat": "Crunchyroll bringt die Serie seit Oktober 2026 in einer neuen Steelbook-Edition auf DVD und Blu-ray in den Handel, während ADN diese auf Abruf anbietet.",
+      "art": "start",
+      "sprache": "unklar",
+      "plattform": "adn",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "ADN",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1064355",
+      "artikel": "Neue Accessoire-Kollektion zu »Sailor Moon« vorgestellt",
+      "quelle": "https://www.anime2you.de/news/1064355/neue-sailor-moon-accessoire-kollektion/",
+      "veroeffentlicht": "2026-11-06",
+      "gelesenAm": "2026-11-07"
+    },
+    {
+      "titel": "Pet",
+      "zitat": "Die 13-teilige Serie »Pet« kann ab sofort auch mit deutscher Synchronisation auf Prime Video angesehen werden.",
+      "art": "sprachfassung",
+      "sprache": "deutsch",
+      "plattform": "primevideo",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Prime Video",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "13",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1068059",
+      "artikel": "Prime Video nimmt zwei Anime-Serien auf Deutsch ins Programm",
+      "quelle": "https://www.anime2you.de/news/1068059/prime-video-devils-crest-und-mehr/",
+      "veroeffentlicht": "2026-11-06",
+      "gelesenAm": "2026-11-07"
+    },
+    {
+      "titel": "BLESS",
+      "zitat": "Der Streaming-Dienst Crunchyroll zeigt den Anime im Originalton mit deutschen Untertiteln im Simulcast.",
+      "art": "start",
+      "sprache": "omu",
+      "plattform": "crunchyroll",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": "Das japanische Fernsehen startet laut Artikel am 8. Januar 2027; ob der Crunchyroll-Simulcast zum selben Termin beginnt, wird nicht ausdrücklich gesagt.",
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1068798",
+      "artikel": "Konkreter Termin der Anime-Adaption von »BLESS« + Trailer",
+      "quelle": "https://www.anime2you.de/news/1068798/konkreter-termin-von-bless/",
+      "veroeffentlicht": "2026-11-07",
+      "gelesenAm": "2026-11-07"
+    },
+    {
+      "titel": "Gacha Girls Corps",
+      "zitat": "Crunchyroll zeigt die Serie im Simulcast.",
+      "art": "start",
+      "sprache": "unklar",
+      "plattform": "crunchyroll",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": "Der Artikel nennt den 7. Januar 2027 als Starttermin der Serie, ohne diesen Tag ausdrücklich dem Crunchyroll-Simulcast zuzuschreiben.",
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1068809",
+      "artikel": "Konkreter Termin des Isekai-Anime »Gacha Girls Corps« + Visual",
+      "quelle": "https://www.anime2you.de/news/1068809/gacha-girls-corps-konkreter-termin/",
+      "veroeffentlicht": "2026-11-07",
+      "gelesenAm": "2026-11-07"
+    },
+    {
+      "titel": "My Dress-Up Darling",
+      "zitat": "Die zwölfteilige erste Staffel ist ab Dezember 2026 in einer Steelbook-Komplettbox auf Blu-ray erhältlich.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1068485",
+      "artikel": "Neue XXL-Figur zu »My Dress-Up Darling« für über 7.000 Euro vorgestellt",
+      "quelle": "https://www.anime2you.de/news/1068485/xxl-my-dress-up-darling-figur-marin-kitagawa/",
+      "veroeffentlicht": "2026-11-07",
+      "gelesenAm": "2026-11-07"
+    },
+    {
+      "titel": "Dragon Ball",
+      "zitat": "Ab dem 23. November 2026 strahlt ProSieben MAXX jeweils von Montag bis Freitag zwischen 05:30 Uhr und 07:10 Uhr beliebte Anime-Serien aus dem Nachmittagsprogramm als Wiederholung aus. Los geht es in der Regel mit einer Doppelfolge von »Dragon Ball«, gefolgt von »YAIBA: Samurai Legend« um circa 06:15 Uhr, bevor zum Abschluss um 06:45 Uhr noch eine Episode von »One Piece« über die Bildschirme flimmert.",
+      "art": "start",
+      "sprache": "unklar",
+      "plattform": "tv",
+      "datum": "2026-11-23",
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": "ProSieben MAXX",
+      "wochentage": "Montag bis Freitag",
+      "folgen": null,
+      "unsicher": "Artikel nennt für die Dragon-Ball-Doppelfolge keine eigene Uhrzeit, nur den Blockbeginn um 05:30 Uhr; der Ablauf gilt laut Artikel nur „in der Regel“.",
+      "wochentag": "Montag",
+      "warnungen": [],
+      "artikelId": "1068887",
+      "artikel": "ProSieben MAXX startet zweiten werktäglichen Anime-Block",
+      "quelle": "https://www.anime2you.de/news/1068887/prosieben-maxx-zweiter-werktaeglicher-anime-block/",
+      "veroeffentlicht": "2026-11-07",
+      "gelesenAm": "2026-11-07"
+    },
+    {
+      "titel": "YAIBA: Samurai Legend",
+      "zitat": "Ab dem 23. November 2026 strahlt ProSieben MAXX jeweils von Montag bis Freitag zwischen 05:30 Uhr und 07:10 Uhr beliebte Anime-Serien aus dem Nachmittagsprogramm als Wiederholung aus. Los geht es in der Regel mit einer Doppelfolge von »Dragon Ball«, gefolgt von »YAIBA: Samurai Legend« um circa 06:15 Uhr, bevor zum Abschluss um 06:45 Uhr noch eine Episode von »One Piece« über die Bildschirme flimmert.",
+      "art": "start",
+      "sprache": "unklar",
+      "plattform": "tv",
+      "datum": "2026-11-23",
+      "uhrzeit": "06:15",
+      "anbieter": null,
+      "sender": "ProSieben MAXX",
+      "wochentage": "Montag bis Freitag",
+      "folgen": null,
+      "unsicher": "Uhrzeit laut Artikel nur als „circa 06:15 Uhr“ angegeben.",
+      "wochentag": "Montag",
+      "warnungen": [
+        "Uhrzeit widerspricht 18:30 (Artikel 1066723) – gegenlesen"
+      ],
+      "artikelId": "1068887",
+      "artikel": "ProSieben MAXX startet zweiten werktäglichen Anime-Block",
+      "quelle": "https://www.anime2you.de/news/1068887/prosieben-maxx-zweiter-werktaeglicher-anime-block/",
+      "veroeffentlicht": "2026-11-07",
+      "gelesenAm": "2026-11-07"
+    },
+    {
+      "titel": "One Piece",
+      "zitat": "Ab dem 23. November 2026 strahlt ProSieben MAXX jeweils von Montag bis Freitag zwischen 05:30 Uhr und 07:10 Uhr beliebte Anime-Serien aus dem Nachmittagsprogramm als Wiederholung aus. Los geht es in der Regel mit einer Doppelfolge von »Dragon Ball«, gefolgt von »YAIBA: Samurai Legend« um circa 06:15 Uhr, bevor zum Abschluss um 06:45 Uhr noch eine Episode von »One Piece« über die Bildschirme flimmert.",
+      "art": "start",
+      "sprache": "unklar",
+      "plattform": "tv",
+      "datum": "2026-11-23",
+      "uhrzeit": "06:45",
+      "anbieter": null,
+      "sender": "ProSieben MAXX",
+      "wochentage": "Montag bis Freitag",
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Montag",
+      "warnungen": [
+        "Uhrzeit widerspricht 18:55 (Artikel 1060030), 18:30 (Artikel 1063795), 18:55 (Artikel 1066723) – gegenlesen"
+      ],
+      "artikelId": "1068887",
+      "artikel": "ProSieben MAXX startet zweiten werktäglichen Anime-Block",
+      "quelle": "https://www.anime2you.de/news/1068887/prosieben-maxx-zweiter-werktaeglicher-anime-block/",
+      "veroeffentlicht": "2026-11-07",
+      "gelesenAm": "2026-11-07"
     }
   ]
 }

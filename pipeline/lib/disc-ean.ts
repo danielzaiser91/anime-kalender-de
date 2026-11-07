@@ -1,12 +1,16 @@
 /**
- * **Kauflink einer Disc: Handlink > EAN-Suche > Namenssuche** (Daniel, 27.10.2026).
+ * **Kauflink einer Disc: EAN-Suche > Handlink > Namenssuche** (Daniel, 06.11.2026; vorher Handlink zuerst).
+ *
+ * Amazon-Händler ersetzen Angebote unter derselben `/dp/`-Adresse, die EAN-Suche findet immer die Ausgabe selbst.
+ * Ist die EAN eindeutig, ersetzt sie deshalb auch einen Amazon-Handlink; Handlinks anderer Händler bleiben (das Feld
+ * `buyUrl` trägt nur einen Link, ein zweiter Weg ist im Datenmodell nicht vorgesehen), ebenso ein Handlink ohne eindeutige EAN.
  *
  * Die Namenssuche bei Amazon findet für „Detektiv Conan – Box 1 (30th Anniversary Edition) Anime Blu-ray" 616 Treffer, die
  * Suche nach der EAN genau das Produkt. Die EAN steht in `data/anisearch-artikel.json`; die Ausgabe ordnet
  * `data/disc-ausgaben.json` dem Titel und Tag zu. Gilt nur, wenn die Zuordnung eindeutig ist (eine Ausgabe, ggf. in
  * mehreren Medien) — sonst bleibt es die Namenssuche.
  */
-import { amazonEanUrl, amazonLinkArt, amazonSearchUrl } from '../../shared/plattform-suche.ts'
+import { amazonEanUrl, amazonSearchUrl } from '../../shared/plattform-suche.ts'
 import { readJson } from './util.ts'
 import type { Artikel } from './anisearch-artikel.ts'
 
@@ -47,21 +51,26 @@ export function discEan(index: DiscIndex, titleId: number | undefined, datum: st
   return blurays.length === 1 ? blurays[0]!.art!.ean : undefined
 }
 
+/** Ein Händler-Handlink, der bleibt: nicht Amazon (die EAN-Suche ersetzt nur Amazon-Adressen). */
+const fremderHaendler = (url: string | undefined): boolean => !!url && !/^https:\/\/(?:www\.)?amazon\./.test(url)
+
 export function discKaufUrl(
-  entry: { buyUrl?: string; releaseType: string },
+  entry: { buyUrl?: string; ean?: string; releaseType: string },
   titleId: number | undefined,
   datum: string,
   name: string,
   index: DiscIndex,
 ): string | undefined {
-  if (entry.buyUrl || entry.releaseType !== 'disc') return entry.buyUrl
-  const ean = discEan(index, titleId, datum)
-  return ean ? amazonEanUrl(ean) : amazonSearchUrl(name)
+  if (entry.releaseType !== 'disc') return entry.buyUrl
+  if (fremderHaendler(entry.buyUrl)) return entry.buyUrl
+  const ean = istEan(entry.ean) ? entry.ean : discEan(index, titleId, datum)
+  if (ean) return amazonEanUrl(ean)
+  return entry.buyUrl ?? amazonSearchUrl(name)
 }
 
-/** Nach einer Terminverschiebung: eine Namenssuche wird zur EAN-Suche, wenn die Ausgabe am neuen Tag eindeutig ist; Handlinks und EAN-Links bleiben. */
+/** Nach einer Terminverschiebung: ist die Ausgabe am neuen Tag eindeutig, ersetzt die EAN-Suche Namenssuche und Amazon-Handlink; sonst bleibt der Link. */
 export function buyUrlNachVerschiebung(buyUrl: string | undefined, titleId: number | undefined, nach: string, index: DiscIndex): string | undefined {
-  if (amazonLinkArt(buyUrl) !== 'name') return buyUrl
+  if (!buyUrl || fremderHaendler(buyUrl)) return buyUrl
   const ean = discEan(index, titleId, nach)
   return ean ? amazonEanUrl(ean) : buyUrl
 }
@@ -76,10 +85,12 @@ export function kaufwegFuerDiscs(
 ): number {
   let gesetzt = 0
   for (const r of releases) {
-    if (r.releaseType !== 'disc' || r.buyUrl) continue
+    if (r.releaseType !== 'disc') continue
     const datum = r.schedule?.firstEpisodeDate
     if (!datum) continue
-    r.buyUrl = discKaufUrl(r, r.titleId, datum, r.name, index)
+    const url = discKaufUrl(r, r.titleId, datum, r.name, index)
+    if (url === r.buyUrl) continue
+    r.buyUrl = url
     gesetzt++
   }
   return gesetzt

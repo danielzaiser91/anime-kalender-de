@@ -1,0 +1,156 @@
+[
+  {
+    "name": "Kontrolle (unmutiert)",
+    "aenderungen": []
+  },
+  {
+    "name": "fetch sucheOhneTmdb: Pause zwischen den Suchnamen fehlt",
+    "aenderungen": [
+      {
+        "datei": "pipeline/fetch-justwatch-audio.ts",
+        "suche": "for (const [i, begriff] of suchNamen(t).entries()) {\n        if (i) await sleep(PAUSE_MS)\n",
+        "ersetze": "for (const [i, begriff] of suchNamen(t).entries()) {\n"
+      }
+    ]
+  },
+  {
+    "name": "fetch sucheOhneTmdb: Pause zwischen den Titeln fehlt",
+    "aenderungen": [
+      {
+        "datei": "pipeline/fetch-justwatch-audio.ts",
+        "suche": "    await sleep(PAUSE_MS)\n  }\n  log(`JustWatch (Namenssuche): ${z.getroffen}",
+        "ersetze": "  }\n  log(`JustWatch (Namenssuche): ${z.getroffen}"
+      }
+    ]
+  },
+  {
+    "name": "fetch sucheOhneTmdb: Ergebnis wird nicht in den Bestand übernommen",
+    "aenderungen": [
+      {
+        "datei": "pipeline/fetch-justwatch-audio.ts",
+        "suche": "  Object.assign(bestand, neu)\n  writeJson(DATEI, bestand)",
+        "ersetze": "  writeJson(DATEI, bestand)"
+      }
+    ]
+  },
+  {
+    "name": "fetch sucheOhneTmdb: Ergebnis wird nicht gespeichert",
+    "aenderungen": [
+      {
+        "datei": "pipeline/fetch-justwatch-audio.ts",
+        "suche": "  Object.assign(bestand, neu)\n  writeJson(DATEI, bestand)",
+        "ersetze": "  Object.assign(bestand, neu)"
+      }
+    ]
+  },
+  {
+    "name": "fetch sucheOhneTmdb: Plausibilität aus",
+    "aenderungen": [
+      {
+        "datei": "pipeline/fetch-justwatch-audio.ts",
+        "suche": "if (istUnplausibel(z)) return warn('JustWatch (Namenssuche)",
+        "ersetze": "if (false && istUnplausibel(z)) return warn('JustWatch (Namenssuche)"
+      }
+    ]
+  },
+  {
+    "name": "fetch sucheOhneTmdb: Abbruch erst nach vier Sperren",
+    "aenderungen": [
+      {
+        "datei": "pipeline/fetch-justwatch-audio.ts",
+        "suche": "      if (/^429 /.test((e as Error).message) && ++sperrenInFolge >= SPERREN_BIS_ABBRUCH) {\n        warn(`JustWatch (Namenssuche)",
+        "ersetze": "      if (/^429 /.test((e as Error).message) && ++sperrenInFolge >= 4) {\n        warn(`JustWatch (Namenssuche)"
+      }
+    ]
+  },
+  {
+    "name": "fetch sucheOhneTmdb: Sperrenzähler wird nicht zurückgesetzt",
+    "aenderungen": [
+      {
+        "datei": "pipeline/fetch-justwatch-audio.ts",
+        "suche": "      sperrenInFolge = 0\n      const u = waehleKnoten",
+        "ersetze": "      const u = waehleKnoten"
+      }
+    ]
+  },
+  {
+    "name": "fetch sucheOhneTmdb: Abbruch nur bei 429 entfällt (jeder Fehler)",
+    "aenderungen": [
+      {
+        "datei": "pipeline/fetch-justwatch-audio.ts",
+        "suche": "if (/^429 /.test((e as Error).message) && ++sperrenInFolge >= SPERREN_BIS_ABBRUCH) {\n        warn(`JustWatch (Namenssuche)",
+        "ersetze": "if (++sperrenInFolge >= SPERREN_BIS_ABBRUCH) {\n        warn(`JustWatch (Namenssuche)"
+      }
+    ]
+  },
+  {
+    "name": "fetch sucheOhneTmdb: Anzahl begrenzt nicht",
+    "aenderungen": [
+      {
+        "datei": "pipeline/fetch-justwatch-audio.ts",
+        "suche": "for (const t of alle.slice(0, anzahl)) {",
+        "ersetze": "for (const t of alle) {"
+      }
+    ]
+  },
+  {
+    "name": "fetch sucheOhneTmdb: Anzahl +1",
+    "aenderungen": [
+      {
+        "datei": "pipeline/fetch-justwatch-audio.ts",
+        "suche": "for (const t of alle.slice(0, anzahl)) {",
+        "ersetze": "for (const t of alle.slice(0, anzahl + 1)) {"
+      }
+    ]
+  },
+  {
+    "name": "fetch sucheOhneTmdb: nur der erste Suchname",
+    "aenderungen": [
+      {
+        "datei": "pipeline/fetch-justwatch-audio.ts",
+        "suche": "of suchNamen(t).entries()) {\n        if (i) await sleep(PAUSE_MS)\n        knoten.push",
+        "ersetze": "of suchNamen(t).slice(0, 1).entries()) {\n        if (i) await sleep(PAUSE_MS)\n        knoten.push"
+      }
+    ]
+  },
+  {
+    "name": "fetch sucheOhneTmdb: Wiedervorlage nach 20 Tagen",
+    "aenderungen": [
+      {
+        "datei": "pipeline/fetch-justwatch-audio.ts",
+        "suche": "const NAMEN_ALTER_TAGE = 21",
+        "ersetze": "const NAMEN_ALTER_TAGE = 20"
+      }
+    ]
+  },
+  {
+    "name": "fetch sucheOhneTmdb: Wiedervorlage nach 22 Tagen",
+    "aenderungen": [
+      {
+        "datei": "pipeline/fetch-justwatch-audio.ts",
+        "suche": "const NAMEN_ALTER_TAGE = 21",
+        "ersetze": "const NAMEN_ALTER_TAGE = 22"
+      }
+    ]
+  },
+  {
+    "name": "fetch sucheOhneTmdb: Kennungssperre fehlt",
+    "aenderungen": [
+      {
+        "datei": "pipeline/fetch-justwatch-audio.ts",
+        "suche": "const { treffer, halter } = nimmTreffer(neu, String(t.id), u.art === 'treffer' ? u.knoten : undefined, tmdbId)",
+        "ersetze": "const { treffer, halter } = { treffer: u.art === 'treffer' ? u.knoten : undefined, halter: undefined as string | undefined }"
+      }
+    ]
+  },
+  {
+    "name": "fetch sucheOhneTmdb: Sperre gegen den eigenen Bestand statt der Kopie",
+    "aenderungen": [
+      {
+        "datei": "pipeline/fetch-justwatch-audio.ts",
+        "suche": "nimmTreffer(neu, String(t.id), u.art",
+        "ersetze": "nimmTreffer({}, String(t.id), u.art"
+      }
+    ]
+  }
+]
