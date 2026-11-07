@@ -8734,5 +8734,25 @@
       "gesehenAm": "2026-11-07",
       "stand": "aktuell"
     }
+  ],
+  "black-clover-s2-crunchyroll-synchro": [
+    {
+      "url": "https://www.crunchyroll.com/de/series/GRE50KV36",
+      "name": "crunchyroll.com",
+      "gesehenAm": "2026-11-07",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/news/seasonal-lineup/2026/9/15/crunchyroll-deutsche-synchros-herbst-2026",
+      "name": "Crunchyroll News",
+      "gesehenAm": "2026-11-07",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/news/seasonal-lineup/2026/9/15/crunchyroll-anime-lineup-herbst-2026",
+      "name": "Crunchyroll News",
+      "gesehenAm": "2026-11-07",
+      "stand": "aktuell"
+    }
   ]
 }
