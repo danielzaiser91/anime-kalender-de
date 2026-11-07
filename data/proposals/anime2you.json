@@ -1,15 +1,100 @@
 {
-  "scrapedAt": "2026-11-07T11:01:41.162Z",
+  "scrapedAt": "2026-11-07T20:02:33.367Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 4,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "schon in einem Rubrik-Feed gelesen": 8,
     "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 14,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 1,
+    "schon in einem Rubrik-Feed gelesen": 8,
     "Sprachhinweis älter als 45 Tage": 6
   },
   "proposals": [
+    {
+      "articleTitle": "Nur noch wenige Tage: »Pokémon«-DVDs für 19,99 Euro bei polyband",
+      "articleUrl": "https://www.anime2you.de/news/1068831/polyband-pokemon-rabattaktion-endet-bald/",
+      "publishedAt": "2026-11-07",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2026-11-10",
+          "context": "ie wichtigsten Details nachfolgend noch einmal zusammen. Nur noch bis 10. November 2026 Im Rahmen einer vom 29. Oktober bis 10. November 202"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Konkreter Termin der Anime-Adaption von »BLESS« + Trailer",
+      "articleUrl": "https://www.anime2you.de/news/1068798/konkreter-termin-von-bless/",
+      "publishedAt": "2026-11-07",
+      "category": "allgemein",
+      "platforms": [
+        "crunchyroll"
+      ],
+      "dates": [
+        {
+          "iso": "2027-01-08",
+          "context": "me-Umsetzung von »BLESS« wurde heute verkündet, dass die Serie ab dem 8. Januar 2027 im japanischen Fernsehen ausgestrahlt wird. Einen erste"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Deutscher Synchronsprecher will Netflix wegen KI-Trainings verklagen",
+      "articleUrl": "https://www.anime2you.de/news/1067729/deutscher-synchronsprecher-will-netflix-verklagen/",
+      "publishedAt": "2026-11-07",
+      "category": "streaming",
+      "platforms": [
+        "netflix"
+      ],
+      "dates": [],
+      "dub": "ja",
+      "hinweis": "sprache",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Zwei Anime-Neuzugänge ab sofort auf Crunchyroll + Synchro",
+      "articleUrl": "https://www.anime2you.de/news/1068951/crunchyroll-black-clover-second-season-synchro-und-mehr/",
+      "publishedAt": "2026-11-07",
+      "category": "streaming",
+      "platforms": [
+        "crunchyroll"
+      ],
+      "dates": [],
+      "dub": "unklar",
+      "zeiten": [
+        {
+          "tag": "samstag",
+          "zeit": "17:00",
+          "satz": "de der zweiten Staffel von »Black Clover« ab sofort zusätzlich zur japanischen Originalfassung mit Untertiteln auch mit deutscher Sprachausgabe verfügbar. Neue Episoden erscheinen samstags um 17:00 Uhr. Mehr Einzelheiten zu den Neuzugängen g"
+        },
+        {
+          "tag": "Samstag",
+          "zeit": "16:00",
+          "satz": "s stehen auch eigene Werke der Musiker auf dem Programm. »Black Clover Second Season« (Synchro) Episoden: 1 auf Deutsch verfügbar Sprache: Deutsch, Japanisch (UT) Simulcast: Jeden Samstag um 16:00 Uhr (OmU) und 17:00 Uhr (Dub) Stream: Crunc"
+        }
+      ],
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "ProSieben MAXX startet zweiten werktäglichen Anime-Block",
+      "articleUrl": "https://www.anime2you.de/news/1068887/prosieben-maxx-zweiter-werktaeglicher-anime-block/",
+      "publishedAt": "2026-11-07",
+      "category": "allgemein",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-11-23",
+          "context": "alle Einzelheiten zusammen. Neuer Anime-Block im Frühprogramm Ab dem 23. November 2026 strahlt ProSieben MAXX jeweils von Montag bis Freita"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "28 Blu-ray-Termine von Crunchyroll, AniMoon, KSM und polyband verschoben",
       "articleUrl": "https://www.anime2you.de/news/1068595/28-blu-ray-verschiebungen/",
