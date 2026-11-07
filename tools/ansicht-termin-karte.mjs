@@ -70,6 +70,7 @@ function lage(karteSel) {
 async function messe(seite, lesePixel, name) {
   const karte = seite.locator(KARTE).first()
   /* Mitte des Fensters: am Rand läge der Ausschnitt mit dem Grund unter der Karte außerhalb des Bildes (CI 15:07: Pixel „schwarz“). */
+  /* Kein Wochen-Gleiten auf dieser Seite, kein Warten auf Stillstand nötig (zeile-mittig.mjs). */
   await karte.evaluate((e) => e.scrollIntoView({ block: 'center' }))
   await seite.waitForTimeout(400)
   const z = await seite.evaluate(lage, KARTE)
