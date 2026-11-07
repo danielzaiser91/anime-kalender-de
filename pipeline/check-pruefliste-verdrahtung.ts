@@ -24,6 +24,8 @@ const wurzel = mkdtempSync(join(tmpdir(), 'pruefliste-verdrahtung-'))
 process.env.AK_ROOT = wurzel
 
 const titel = (id: number, streams: unknown[]) => ({ id, franchiseId: 900097, format: 'TV', titleDe: `T${id}`, jpYear: 2026, episodes: 12, streams }) as unknown as Title
+const such = (id: number, plattform: string) => ({ id, titel: `T${id}`, plattform, url: 'https://www.example.test/s?k=x' })
+const SUCHEN = [such(900012, 'netflix'), such(900013, 'primevideo'), such(900014, 'netflix'), such(900015, 'netflix')]
 const zeile = (titleId: number, url: string) => ({ titleId, titel: 'E', url, grund: 'g' })
 
 let verletzt = 0
@@ -71,6 +73,7 @@ try {
     jpStartAnzeige: new Map(),
     events: [],
     istTot: (u: string) => u === URL_MOTN_TOT,
+    suchOffen: SUCHEN,
     meta: { generatedAt: '2026-10-20T00:00:00Z', titleCount: 6, belegtCount: 3, releaseCount: 0, eventCount: 0, genres: [], keywords: [], platforms: [], providers: [], years: [], attribution: [] } as unknown as DataMeta,
   })
 
@@ -83,6 +86,9 @@ try {
   const wege = (id: number) => (ausgeliefert as unknown as { id: number; streams?: unknown[] }[]).find((t) => t.id === id)?.streams?.length
   pruefe('Phase 13 reicht istTot weiter: die tote MOTN-Adresse legt keinen Weg an', wege(900014) === 0, wege(900014))
   pruefe('Gegenprobe: die lebende MOTN-Adresse legt den Weg an', wege(900015) === 1, wege(900015))
+  /* Suchadressen-Liste (05.11.2026): 900012 hat die Seite schon, 900015 bekommt sie erst in Phase 13 (MOTN), 900013 (kein Prime-Weg) und 900014 (tote Adresse) bleiben offen. */
+  const offen = (JSON.parse(readFileSync(join(wurzel, 'data', 'suchadressen-offen.json'), 'utf8')) as { id: number; plattform: string }[]).map((e) => `${e.id}|${e.plattform}`)
+  pruefe('Phase 13 schreibt die Suchadressen-Liste aus dem Endzustand: nur Titel ohne Seite beim Anbieter', JSON.stringify(offen.sort()) === JSON.stringify(['900013|primevideo', '900014|netflix']), offen)
 } finally {
   process.chdir(start)
   rmSync(wurzel, { recursive: true, force: true })
