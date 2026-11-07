@@ -1,11 +1,11 @@
 {
-  "scrapedAt": "2026-11-07T13:01:21.350Z",
+  "scrapedAt": "2026-11-07T17:01:51.372Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 4,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 13,
-    "schon in einem Rubrik-Feed gelesen": 9,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 14,
+    "schon in einem Rubrik-Feed gelesen": 8,
     "Sprachhinweis älter als 45 Tage": 6
   },
   "proposals": [
@@ -38,6 +38,21 @@
         {
           "iso": "2027-01-08",
           "context": "me-Umsetzung von »BLESS« wurde heute verkündet, dass die Serie ab dem 8. Januar 2027 im japanischen Fernsehen ausgestrahlt wird. Einen erste"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "ProSieben MAXX startet zweiten werktäglichen Anime-Block",
+      "articleUrl": "https://www.anime2you.de/news/1068887/prosieben-maxx-zweiter-werktaeglicher-anime-block/",
+      "publishedAt": "2026-11-07",
+      "category": "allgemein",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-11-23",
+          "context": "alle Einzelheiten zusammen. Neuer Anime-Block im Frühprogramm Ab dem 23. November 2026 strahlt ProSieben MAXX jeweils von Montag bis Freita"
         }
       ],
       "dub": "unklar",
