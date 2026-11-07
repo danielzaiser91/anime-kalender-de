@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-11-07T10:24:57.174Z",
+ "erzeugtAm": "2026-11-07T12:26:44.072Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -439,9 +439,9 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 772,
+   "gemeldet": 773,
    "gesamt": 1082,
-   "offen": 310,
+   "offen": 309,
    "ohneSeite": 13,
    "ziel": "https://www.netflix.com/title/81608820",
    "ziele": [
@@ -1318,10 +1318,6 @@
     {
      "url": "https://www.netflix.com/title/80057609",
      "titel": "Kazoops!"
-    },
-    {
-     "url": "https://www.netflix.com/title/80063153",
-     "titel": "Kuroko’s Basketball: 1st Season"
     },
     {
      "url": "https://www.netflix.com/title/80108159",
