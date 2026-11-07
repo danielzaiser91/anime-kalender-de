@@ -201,6 +201,17 @@ function titelOhneBeleg(titelWeg: number, kanalTitel: number, belegAbzug: number
   return befund
 }
 
+/** Verschwundene Titel: verschoben (hinter den Toggle) oder gewollt zusammengelegt (`zuAk`) ist begründet, der Rest ist „Titel weniger“; die Namen stehen in der Zeile. */
+function titelAbgang(weg: number, verschoben: string[], zusammengelegt: string[]): Befund {
+  const befund: Befund = { auffaellig: [], erklaert: [] }
+  const v = Math.min(weg, verschoben.length)
+  const z = Math.min(weg - v, zusammengelegt.length)
+  if (v) befund.erklaert.push(`${v} Titel verschoben nach ohne-synchro: ${verschoben.join(', ')}`)
+  if (z) befund.erklaert.push(`${z} Titel zusammengelegt (zuAk): ${zusammengelegt.join(', ')}`)
+  if (weg - v - z > 0) befund.auffaellig.push(`${weg - v - z} Titel weniger`)
+  return befund
+}
+
 /**
  * Was auffällt, steht im Klartext dabei.
  *
@@ -213,6 +224,7 @@ export function findeAuffaelliges(
   verschoben: string[] = [],
   gruende: Record<string, string> = {},
   link: LinkAbgaenge = { begruendet: [], unerklaert: [] },
+  zusammengelegt: string[] = [],
 ): Befund {
   const auffaellig: string[] = []
   const erklaert: string[] = []
@@ -224,10 +236,9 @@ export function findeAuffaelliges(
   const anbieter = anbieterBefunde(jetzt, vorher, kanal.jeAnbieter, je, { neue: neueBelege(jetzt, vorher), gruende, link })
 
   /* Verschoben nach ohne-synchro (hinter den Toggle) ist begründet, nicht verloren; die Namen stehen in der Zeile. */
-  const titelWeg0 = Math.max(0, -d('titel'))
-  const titelVerschoben = Math.min(titelWeg0, verschoben.length)
-  if (titelVerschoben) erklaert.push(`${titelVerschoben} Titel verschoben nach ohne-synchro: ${verschoben.join(', ')}`)
-  if (titelWeg0 - titelVerschoben > 0) auffaellig.push(`${titelWeg0 - titelVerschoben} Titel weniger`)
+  const abgang = titelAbgang(Math.max(0, -d('titel')), verschoben, zusammengelegt)
+  auffaellig.push(...abgang.auffaellig)
+  erklaert.push(...abgang.erklaert)
   /*
     Auch hier gegen das Gedächtnis gerechnet: Ein Urteil verschwindet in aller
     Regel mit dem Verweis, an dem es hing — und wenn der mit Grund entfernt
