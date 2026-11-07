@@ -1,11 +1,25 @@
 // Exit 0 = kein Sammler läuft (Workflow-Datei darf gepusht werden), Exit 1 = Sammler läuft (Namen auf stdout).
-// Nur Sammler zählen: Prüfkette, Prüfer und Deploy ändern nichts an der Ablehnung ihrer Pull-Request-Zweige.
-// Derselbe Filter wie in merge-reihe.sh (grep -viE 'PR|Prüf|^Deploy auf GitHub Pages$'), dort ist Bestandsbau ein Sammler.
+// Gesperrt wird nur, weil GitHub den Pull-Request-Zweig eines Sammlers ablehnt, wenn main Workflow-Dateien ändert.
+// Alles ohne eigenen PR-Zweig ist kein Sammler und steht hier ausdrücklich (exakter Name, kein Teilstring:
+// ein künftiger Sammler wie „Prime …“ soll zählen). Ein Test hält jeden Namen gegen die `name:`-Zeilen der Workflows.
 import { execFileSync } from 'node:child_process'
 import { pathToFileURL } from 'node:url'
 
+export const KEIN_SAMMLER = [
+  'PR-Prüfkette', // Kette des PR selbst
+  'PR-Prüfer',
+  'PR-Prüfer — Neustart bei Nachtrag',
+  'Aussehen prüfen',
+  'Mutationsprobe',
+  'Deploy auf GitHub Pages', // liefert nichts per PR
+  // Pusht direkt auf main (tools/commit-data.sh), hat also keinen PR-Zweig, den GitHub ablehnen könnte.
+  'Bestand — zusammenführen und bauen',
+  // Führt fremde PRs zusammen, legt keinen eigenen PR-Zweig an.
+  'Claude — Daten-PR zusammenführen',
+]
+
 export function laufendeSammler(namen) {
-  const treffer = namen.filter((n) => n && !/PR|Prüf/i.test(n) && n !== 'Deploy auf GitHub Pages')
+  const treffer = namen.filter((n) => n && !KEIN_SAMMLER.includes(n))
   return [...new Set(treffer)].sort()
 }
 
