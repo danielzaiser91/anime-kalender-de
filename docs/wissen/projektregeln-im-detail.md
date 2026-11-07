@@ -456,6 +456,10 @@ einen Stand von `main`, auf dem eine **Workflow-Datei** geändert wurde, will er
 sie mitpushen — und das darf das `GITHUB_TOKEN` nicht. Der ganze Lauf endet
 rot, obwohl seine Arbeit fehlerfrei war.
 
+**Ursache und Abhilfe (07.11.2026):** Gepusht hat bis dahin die Checkout-Anmeldung (`GITHUB_TOKEN`), nicht das App-Token; das gab es nur für PR anlegen und mergen.
+`tools/quellen-pr.sh` meldet sich im Lauf jetzt mit dem App-Token an (`token_anmelden`), und die Token-Schritte holen es mit `permission-workflows: write`.
+Die „Praktische Folge“ darunter gilt bis zum Beleg (Messpunkt: betrieb.md „Workflow-Sperre“) weiter.
+
 **Praktische Folge:** Wer `.github/workflows/*` ändert, macht damit jeden
 Datenlauf rot, der gerade läuft oder in den nächsten Minuten startet. Das ist
 kein Grund, es zu lassen — aber ein Grund, danach hinzusehen und den Lauf neu
@@ -633,7 +637,7 @@ Seit dem 05.10.2026 (`docs/wissen/betrieb.md`, „Datenläufe neu geschnitten"; 
 - **Auf `main` schreibt nur der Bestandsbau** (`tools/commit-data.sh`, Gruppe `bau`). Alle Sammler (Stündlich, Täglich, Wöchentlich, ADN, aniSearch-Katalog, Abruf, Nachholen) reichen per Pull Request ein
   (`.github/actions/einreichen` → `tools/quellen-pr.sh`), jeder in eigener Gruppe. `tools/quellen-aufsetzen.sh` legt nur die **eigenen** Änderungen auf den jüngsten Stand zurück — niemand überschreibt,
   was ein anderer Lauf aktualisiert hat. Wer eine neue Datei in einem Lauf schreibt, trägt sie in `tools/quellen-liste.sh` ein (sonst warnt `quellen_verloren` und die Datei geht verloren).
-- **Läuft ein Sammler, wird nichts nach `.github/workflows/` gepusht** — GitHub lehnt dann seinen Pull-Request-Zweig ab, und er verliert die Arbeit (Wochenlauf 05.10.2026: 107 Minuten). Vorher
+- **(Aufgehoben ab Beleg, 07.11.2026 — betrieb.md „Workflow-Sperre“.)** **Läuft ein Sammler, wird nichts nach `.github/workflows/` gepusht** — GitHub lehnt dann seinen Pull-Request-Zweig ab, und er verliert die Arbeit (Wochenlauf 05.10.2026: 107 Minuten). Vorher
   `gh run list --status in_progress`. Ist doch etwas verloren, sichert der Lauf einen Fund als Artefakt (`fund-<Job>`): Workflow „Fund nachliefern" mit der Lauf-Nummer.
 - **Zeitpläne kommen vom Cloudflare-Wecker** (`shared/weckplan.ts`, `worker/src/wecker.ts`), nicht von GitHubs Cron (4–7 h zu spät). `wecker-wache.yml` holt Überfälliges nach.
 - **Commits an Quelldateien** warten nicht mehr auf Sammler (die liefern per Pull Request); `tools/quellen-commit-wache.sh` hält nur noch Commits an, solange ein direkt schreibender Lauf (Bestandsbau) läuft.
