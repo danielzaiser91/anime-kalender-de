@@ -172,7 +172,7 @@ assert.equal(w.waechter('### Jetzt\n- 🔵 **Form?**', JETZT), `${KENNUNG}; ${GR
 assert.equal(w.waechter(jetzt('- 🔵 **Form?**').replace('### Jetzt', '### Heute'), JETZT), '', 'anderer Abschnitt')
 assert.equal(w.waechter(jetzt('- 🔵 **F7 X** (Kann nicht: y)'), JETZT), '', 'Grund groß geschrieben')
 assert.equal(w.waechter(jetzt('- 🔵 **F7 Form?** (kann nichts tun)'), JETZT), GRUND.replace('Form?', 'F7 Form?'), 'kann nichts ist kein Grund')
-assert.equal(w.waechter(jetzt('- 🔵 **Form?** (soll nicht: x) → [Datei](file:///C:/x/F74-x.md)'), JETZT), KENNUNG, 'Kennung nur im Link-Ziel zählt nicht')
+assert.equal(w.waechter(jetzt('- 🔵 **Form?** (soll nicht: x) → [Datei](file:///C:/x/F74-x.md)'), JETZT, () => true), KENNUNG, 'Kennung nur im Link-Ziel zählt nicht')
 console.log('stand-waechter.test: ok (Jetzt-Zeilen Kennung/Grund, 20/21 Handzeilen, Als Nächstes 80/81 Zeilen und 400/401 Zeichen, Icon, Block zählt nicht, Alter 24 h Sommer/Winter, ohne Stand, Lauf meldet, Top-Prios 5/6, {live}, Stand 72 h)')
 
 // Zeitstempel „Aktualisiert:“ in der Zukunft: 12:05 Berlin genau erlaubt (5 min), 12:06 nicht; ohne Zeile nichts
@@ -189,3 +189,25 @@ assert.equal(w.waechter(winter('01:35', '2026-03-29', ' (Stand 29.03.2026 01:00;
 // Nur die erste „Aktualisiert“-Zeile zählt (Kopf); eine spätere in einem Zitat nicht
 const zwei = aktualisiert('12:00').replace('— x', '— x\nAktualisiert: 2026-10-20 12:30 — y')
 assert.equal(w.waechter(zwei, JETZT), '', 'nur erste Aktualisiert-Zeile')
+
+// Tote Datei-Links: Attrappe statt Dateisystem; nur file:///, %20 dekodiert, Anker abgeschnitten, je Dateiname eine Meldung
+const LEBT = new Set(['C:/code/mit Leerzeichen/lebt.md', 'C:/code/ai/ok.md'])
+const existiert = (p) => LEBT.has(p)
+const mitLinks = (...links) => stand(FRISCH, ...links.map((l) => `- Zeile ${l}`))
+const TOT = 'Toter Link: tot.md — umbenannt? Link nachziehen'
+assert.equal(w.waechter(mitLinks('[a](file:///C:/code/ai/ok.md)'), JETZT, existiert), '', 'lebender Link')
+assert.equal(w.waechter(mitLinks('[a](file:///C:/code/ai/tot.md)'), JETZT, existiert), TOT, 'toter Link')
+assert.equal(w.waechter(mitLinks('[a](file:///C:/code/ai/ok.md)', '[b](file:///C:/code/ai/tot.md)'), JETZT, existiert), TOT, 'tot und lebend')
+assert.equal(w.waechter(mitLinks('[a](file:///C:/code/mit%20Leerzeichen/lebt.md#abschnitt)'), JETZT, existiert), '', '%20 und Anker')
+assert.equal(w.waechter(mitLinks('[a](file:///C:/code/ai/tot.md#x)', '[b](file:///C:/code/ai/tot.md)'), JETZT, existiert), TOT, 'gleicher Name nur einmal')
+assert.equal(w.waechter(mitLinks('[a](https://example.org/tot.md)', '[b](tot.md)'), JETZT, existiert), '', 'http und relative Links zählen nicht')
+assert.equal(w.waechter(mitLinks('[a](file:///C:/code/ai/%ZZ.md)'), JETZT, existiert), '', 'kaputte Kodierung wird übersprungen')
+assert.equal(w.waechter(mitLinks('[a](file:///C:/code/ai/tot.md)', ...hand(21)), JETZT, existiert), '22 Handzeilen (erlaubt 20) — aufräumen; ' + TOT, 'nach den bestehenden Meldungen')
+// Ohne Attrappe zählt das echte Dateisystem (Wegwerf-Ordner)
+const dir = mkdtempSync(join(tmpdir(), 'stand-links-'))
+const echt = join(dir, 'echt.md').replaceAll('\\', '/')
+writeFileSync(echt, 'x')
+assert.equal(w.waechter(mitLinks(`[a](file:///${echt})`), JETZT), '', 'echte Datei lebt')
+rmSync(dir, { recursive: true })
+assert.equal(w.waechter(mitLinks(`[a](file:///${echt})`), JETZT), 'Toter Link: echt.md — umbenannt? Link nachziehen', 'echte Datei gelöscht')
+console.log('stand-waechter.test: ok (tote Datei-Links: tot/lebend, %20, Anker, Dubletten, http, Reihenfolge, echtes Dateisystem)')
