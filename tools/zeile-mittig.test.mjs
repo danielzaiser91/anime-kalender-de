@@ -6,6 +6,7 @@
 import assert from 'node:assert/strict'
 import { chromium } from 'playwright'
 import { browserDa } from './browser-weiche.mjs'
+import { sperreNetz } from './netz-sperre.mjs'
 import { verdeckung, zeileMittig } from './zeile-mittig.mjs'
 
 const HOEHE = 600
@@ -18,6 +19,7 @@ if (!browserDa('zeile-mittig', chromium)) process.exit()
 const browser = await chromium.launch()
 try {
   const seite = await browser.newPage({ viewport: { width: 800, height: HOEHE } })
+  await sperreNetz(seite)
   await seite.setContent(SEITE)
   const zeile = seite.locator('#z')
   const mitte = async () => {

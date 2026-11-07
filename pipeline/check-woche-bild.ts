@@ -7,6 +7,7 @@
 import { readFileSync } from 'node:fs'
 import { chromium, type Page } from 'playwright'
 import { belegeFuehren, bilderAnlegen, zeileFotografieren } from './lib/woche-bild.ts'
+import { sperreNetz } from '../tools/netz-sperre.mjs'
 import { zeilenSchluessel, type WocheBelege } from './lib/woche-beleg.ts'
 import { eintraegeAus, rohLesen, type WochenEintrag } from './scrape-crunchyroll-woche.ts'
 
@@ -52,6 +53,7 @@ const masse = (s: Page, bild: Buffer) =>
 
 const browser = await chromium.launch()
 const s = await browser.newPage({ viewport: { width: 900, height: 900 } })
+await sperreNetz(s)
 await s.addInitScript('window.__name = (f) => f')
 try {
   await s.setContent(kurz)
