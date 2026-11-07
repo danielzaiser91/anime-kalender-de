@@ -7,6 +7,7 @@ import { spawnSync } from 'node:child_process'
 import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
+import yaml from 'js-yaml'
 
 let fehler = 0
 let faelle = 0
@@ -44,12 +45,12 @@ const vorschlag = (veroeffentlicht: string) => ({
 })
 const katalog = [{ id: 203275, titleRomaji: "Demons' Crest", titleEn: "Devils' Crest", titleDe: 'Devils’ Crest', streams: [{ platform: 'primevideo' }] }]
 
-function lauf(vorschlaege: object[] | null, heute = '2026-11-07'): { status: number | null; aus: string; yaml: string; anzahl: string; kommentar: boolean } {
+function lauf(vorschlaege: object[] | null, heute = '2026-11-07', katalogDatei = 'titles.json'): { status: number | null; aus: string; yaml: string; anzahl: string; kommentar: boolean } {
   const wurzel = mkdtempSync(join(tmpdir(), 'synchro-lauf-'))
   try {
     for (const d of ['data/proposals', 'public/data']) mkdirSync(join(wurzel, d), { recursive: true })
     if (vorschlaege) writeFileSync(join(wurzel, 'data/proposals/anime2you-extraktion.json'), JSON.stringify({ gelesen: {}, vorschlaege }))
-    writeFileSync(join(wurzel, 'public/data/titles.json'), JSON.stringify(katalog))
+    writeFileSync(join(wurzel, 'public/data', katalogDatei), JSON.stringify(katalog))
     writeFileSync(join(wurzel, 'data/dub-confirmed.yaml'), HAND)
     const ausgabe = join(wurzel, 'github-output.txt')
     const r = spawnSync(process.execPath, [tsx, skript, '--belege', '--verzeichnis', join(wurzel, 'a2y'), '--heute', heute], {
@@ -87,5 +88,35 @@ pruefe('Ohne Vorschlagsdatei: Exit 0, anzahl=0, Datei unverändert', ohneDatei.s
 const doppelt = lauf([vorschlag('2026-11-06'), { ...vorschlag('2026-11-06'), artikelId: '1068061' }])
 pruefe('Zwei Vorschläge zum selben Titel und Weg: ein Beleg', doppelt.anzahl === 'anzahl=1' && doppelt.yaml.split('anilistId: 203275').length === 2, doppelt)
 
-console.log(fehler ? `\n${fehler} von ${faelle} Fällen verletzt.` : `check-synchro-beleg-lauf: ${faelle} Fälle ok (Prozess --belege: Verdrahtung, Fenster 7 Tage, anzahl für den Workflow).`)
+const ohneSynchro = lauf([vorschlag('2026-11-06')], '2026-11-07', 'ohne-synchro.json')
+pruefe('Titel steht nur in ohne-synchro.json: Beleg (zweite Katalogdatei wird gelesen)', ohneSynchro.status === 0 && ohneSynchro.anzahl === 'anzahl=1', ohneSynchro)
+
+// --- Der Workflow ruft den Schritt wirklich und legt den Fund auch ohne neuen Artikel vor ---------------------------------------
+interface Schritt {
+  name?: string
+  id?: string
+  if?: string
+  run?: string
+}
+const workflow = yaml.load(readFileSync(resolve('.github/workflows/claude-anime2you-extraktion.yml'), 'utf8')) as { jobs: { lesen: { steps: Schritt[] } } }
+const schritte = workflow.jobs.lesen.steps
+const platz = (f: (s: Schritt) => boolean) => schritte.findIndex(f)
+const belegeSchritt = platz((s) => s.id === 'belege')
+const uebernehmen = platz((s) => (s.run ?? '').includes('--uebernehmen'))
+const appToken = platz((s) => s.id === 'app')
+const einreichen = platz((s) => s.id === 'einreichen')
+pruefe('Workflow: Schritt „belege“ ruft --belege mit dem Arbeitsordner, ohne if (jeder Lauf)', belegeSchritt >= 0 && schritte[belegeSchritt]!.run === 'npx tsx pipeline/anime2you-extraktion.ts --belege --verzeichnis "$ARBEITSORDNER"' && schritte[belegeSchritt]!.if === undefined, schritte[belegeSchritt])
+pruefe('Workflow: Reihenfolge übernehmen, belege, App-Token, einreichen', uebernehmen >= 0 && uebernehmen < belegeSchritt && belegeSchritt < appToken && appToken < einreichen, [uebernehmen, belegeSchritt, appToken, einreichen])
+const ODER = "steps.auswahl.outputs.anzahl != '0' || steps.belege.outputs.anzahl != '0'"
+pruefe('Workflow: App-Token und Einreichen laufen bei neuen Artikeln oder neuen Belegen', schritte[appToken]!.if === ODER && schritte[einreichen]!.if === ODER, [schritte[appToken]!.if, schritte[einreichen]!.if])
+const kommentare = schritte.filter((s) => (s.run ?? '').startsWith('gh pr comment'))
+pruefe('Workflow: Zusammenfassung nur mit neuen Artikeln, Belegkommentar nur mit Belegen, beide mit PR',
+  kommentare.length === 2 &&
+    kommentare[0]!.if === "steps.einreichen.outputs.pr != '' && steps.auswahl.outputs.anzahl != '0'" &&
+    kommentare[0]!.run!.includes('zusammenfassung.md') &&
+    kommentare[1]!.if === "steps.einreichen.outputs.pr != '' && steps.belege.outputs.anzahl != '0'" &&
+    kommentare[1]!.run!.includes('belege.md'),
+  kommentare)
+
+console.log(fehler ? `\n${fehler} von ${faelle} Fällen verletzt.` : `check-synchro-beleg-lauf: ${faelle} Fälle ok (Prozess --belege: Verdrahtung, Fenster 7 Tage, anzahl für den Workflow, Schritte im Workflow).`)
 process.exit(fehler ? 1 : 0)
