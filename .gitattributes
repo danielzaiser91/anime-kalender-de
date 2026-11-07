@@ -30,6 +30,9 @@ tools/check-logic-liste.txt merge=union
 # Dasselbe für die Liste der Bestandsprüfungen: jeder PR mit einem neuen Bestandscheck fügt eine Zeile ein.
 tools/check-bestand-liste.txt merge=union
 
+# Die Liste der Werkzeuge des Jobs "aussehen" (PR-Aussehen): jeder PR mit neuer Browser-Probe fügt eine Zeile ein.
+tools/pr-aussehen-pfade.txt merge=union
+
 # Binärdateien bleiben unangetastet.
 *.png binary
 *.jpg binary
