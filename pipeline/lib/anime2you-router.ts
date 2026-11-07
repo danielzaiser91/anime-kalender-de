@@ -7,9 +7,9 @@
  * 2. Die Regel liefert mindestens eine Behauptung und alle sind Blöcke (»Titel« / Sprache: / Stream:). Sätze bleiben bei Claude: die Satzfamilie ist
  *    mit 15 von 71 Behauptungen zu dünn gemessen (Bericht 07.11.2026, „Offen und Grenzen“).
  * 3. Jeder »Titel« im Artikel hat eine Behauptung (Titel gleich oder einer im anderen enthalten): ein Titel ohne Behauptung ist Inhalt, den die Regel nicht liest.
- * 3b. Kein Block hat ein Feld `Start:` oder `Hinweis:` (die Regel liest sie nicht), und im Artikel steht kein Datum und keine Uhrzeit außer dem Tagesdatum der Regel
+ * 3b. Kein Block hat ein Feld `Start:`, `Hinweis:`, `Episoden:` oder `Simulcast:` (die Regel liest sie nicht), und im Artikel steht kein Datum und keine Uhrzeit außer dem Tagesdatum der Regel
  *    (Überschrift, Veröffentlicht- und Autorenzeile, Tag vor dem »Titel«); unabhängig von Claude und von der Anführung – „vollständig“ nur gegen Claudes Antwort wäre zirkulär.
- *    Die Regel liest keine Uhrzeit und keinen Rhythmus; ein `Simulcast:`-Block mit „Jeden Samstag um 15:30 Uhr“ geht deshalb an Claude.
+ *    Die Regel liest keine Uhrzeit und keinen Rhythmus; ein `Simulcast:`-Block mit „Jeden Samstag um 15:30 Uhr“ geht deshalb an Claude (schon durch 3b).
  * 4. Jede Behauptung besteht dieselbe Prüfung am Artikeltext wie ein Vorschlag von Claude (`pruefeVorschlag`) – sonst wäre `--uebernehmen` der Verwerfer.
  *
  * Von den erklärten Artikeln liest Claude weiter jeden fünften (`istStichprobe`, nach Artikelkennung, damit die Auswahl nicht vom Lauf abhängt),
@@ -68,8 +68,12 @@ const gedeckt = (titel: string, behauptungen: Behauptung[]): boolean => {
   return x.length >= 4 && behauptungen.some((b) => x.includes(norm(b.titel)) || norm(b.titel).includes(x))
 }
 
-/** A1: Felder im Block, die keine Regel liest (Start = Datum, Hinweis = Aussage); sie gehören Claude. */
-const FELD_OHNE_REGEL = /^(Start|Hinweis):/
+/**
+ * A1: Felder im Block, die keine Regel liest (Start = Datum, Hinweis = Aussage, Episoden = Folgenzahl, Simulcast = Wochentag und Uhrzeit); sie gehören Claude.
+ * Episoden und Simulcast bleiben hier, weil Claude aus demselben Block uneinheitlich schreibt: `art` einmal `start`, einmal `sprachfassung` (1064193 gegen 1066100),
+ * `folgen` einmal „12“, einmal „12 (komplett)“ (ADN gegen aniverse) – ein Wert und eine Art gleich Claude gibt es dort nicht (Messung PR-Text, 07.11.2026).
+ */
+const FELD_OHNE_REGEL = /^(Start|Hinweis|Episoden|Simulcast):/
 
 export function feldOhneRegel(behauptungen: Behauptung[]): string | undefined {
   for (const b of behauptungen) {
