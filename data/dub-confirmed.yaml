@@ -38392,3 +38392,23 @@
       dub: true
   checkedAt: '2026-11-05'
   note: "Joyn-Serienseite (Daniel, 05.11.2026): Staffel 1, Folge 1 „Auftritt Yaiba“ vom 05.11.2026, Senderlogo ProSieben MAXX; die Folgen sind die deutsche TV-Ausstrahlung (Anime2You 1059480: deutsche TV-Premiere der ersten Staffel). Gesehen ist nur Folge 1; Folgen 2–24 sind die TV-Planung laut Anime2You."
+
+# --- Anime2You 1068059 (06.11.2026), Prime Video: beide Seiten sind die im Artikel verlinkten Adressen, nicht von uns abgerufen ---
+- anilistId: 203275
+  title: "Devils' Crest"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0HKLZZ54Y
+  dub: true
+  checkedAt: '2026-11-06'
+  note: "Anime2You 1068059 (06.11.2026): „Neue Folgen werden fortan jeden Freitag mit deutscher Sprachausgabe sowie im japanischen Originalton mit Untertiteln veröffentlicht“, Block „Sprache: Deutsch, Japanisch (UT)“, „Episoden: 2 verfügbar“. Aussage des Artikels, Amazon-Seite nicht geprüft; aniSearch 21051 führt Deutsch als synchronisiert (Publisher Amazon)."
+- anilistId: 101350
+  title: "Pet"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0DMF65NY2
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 13
+      dub: true
+  checkedAt: '2026-11-06'
+  note: "Anime2You 1068059 (06.11.2026): „kann ab sofort auch mit deutscher Synchronisation auf Prime Video angesehen werden“, Block „Pet (Synchro)“: 13 (komplett), Sprache: Deutsch; die Originalfassung ist ein eigener Eintrag (B0C7R946DL). Aussage des Artikels, Amazon-Seite nicht geprüft. Die Seite B083F5275T (nur Japanisch, Handbeleg vom 16.10.2026) ist die Originalfassung."
