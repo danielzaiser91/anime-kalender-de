@@ -117,23 +117,25 @@ const ERST_NACH = /erst nach #(\d+)/i
 export const stapelKandidat = (pr) => (!!pr.baseRefName && pr.baseRefName !== 'main') || (pr.mergeable === 'CONFLICTING' && ERST_NACH.test((pr.body ?? '').slice(0, 200)))
 
 /**
- * Signal 9: Stapel-PR, dessen Basis-PR gesquasht gemergt wurde (Fall 3091: Teil 2 nach gesquashtem Teil 1). `gemergt` = Liste { number, headRefName }.
- * Rückgabe: Nummer des Basis-PR oder null.
+ * Signal 9: Stapel-PR, dessen Basis-PR gesquasht gemergt wurde (Fall 3091: Teil 2 nach gesquashtem Teil 1). Die Basis wird gezielt
+ * nachgeschlagen (Zweigname bzw. PR-Nummer), nicht aus einer Liste der letzten Merges: eine ältere Basis fiele sonst still durch.
+ * Rückgabe: Nummer des Basis-PR oder null; Abruffehler schlagen durch.
  */
-export function stapelBasis(pr, gemergt) {
-  const ueberZweig = pr.baseRefName && pr.baseRefName !== 'main' ? gemergt.find((g) => g.headRefName === pr.baseRefName) : undefined
-  if (ueberZweig) return ueberZweig.number
+export function stapelBasis(ghFn, pr) {
+  if (pr.baseRefName && pr.baseRefName !== 'main') {
+    const gemergt = JSON.parse(ghFn(['pr', 'list', '--state', 'merged', '--head', pr.baseRefName, '--json', 'number']))
+    if (gemergt.length > 0) return gemergt[0].number
+  }
   const nr = pr.mergeable === 'CONFLICTING' ? ERST_NACH.exec((pr.body ?? '').slice(0, 200))?.[1] : undefined
-  return nr && gemergt.some((g) => g.number === Number(nr)) ? Number(nr) : null
+  if (!nr) return null
+  return JSON.parse(ghFn(['pr', 'view', nr, '--json', 'state'])).state === 'MERGED' ? Number(nr) : null
 }
 
-/** Basis-PR je Stapel-PR (Map PR → Basis). Die Liste gemergter PRs wird nur geholt, wenn ein Kandidat da ist. */
+/** Basis-PR je Stapel-PR (Map PR → Basis); abgefragt wird nur für Kandidaten. */
 export function stapelBasen(ghFn, offen) {
   const aus = new Map()
-  if (!offen.some(stapelKandidat)) return aus
-  const gemergt = JSON.parse(ghFn(['pr', 'list', '--state', 'merged', '--limit', '100', '--json', 'number,headRefName']))
-  for (const pr of offen) {
-    const basis = stapelKandidat(pr) ? stapelBasis(pr, gemergt) : null
+  for (const pr of offen.filter(stapelKandidat)) {
+    const basis = stapelBasis(ghFn, pr)
     if (basis) aus.set(pr.number, basis)
   }
   return aus
@@ -311,8 +313,15 @@ export function offenePrs(ghFn, hinweis = () => {}) {
   return vollstaendig
 }
 
-/** Entschiedene Fragen des Projekts (Ordner relativ zum Arbeitsordner; fehlt er, z. B. im Worktree, ist die Menge leer). */
-const entschiedeneImProjekt = () => entschiedeneFragen(path.join(process.cwd(), 'daniel-zum-abarbeiten', 'fragen'))
+/** Hauptordner des Repos (auch aus einem Worktree): Elternordner des gemeinsamen .git. */
+export const hauptordner = (gitFn) => path.dirname(path.resolve(process.cwd(), gitFn(['rev-parse', '--git-common-dir']).trim()))
+
+/** Entschiedene Fragen aus dem Hauptordner (dort liegt das git-ausgeschlossene `daniel-zum-abarbeiten/fragen`); fehlt der Ordner, sagt `hinweis` es. */
+export function entschiedeneImProjekt(gitFn, hinweis) {
+  const ordner = path.join(hauptordner(gitFn), 'daniel-zum-abarbeiten', 'fragen')
+  if (!fs.existsSync(ordner)) hinweis(`liegegut: ${ordner} fehlt – entschiedene F-Nummern unbekannt (Signal 6 kann Fehlalarme zeigen)`)
+  return entschiedeneFragen(ordner)
+}
 
 /** Holt die offenen PRs über gh/git (einspeisbar) und rechnet alle. `entschieden` = Menge entschiedener F-Nummern. Rückgabe: Funde { nr, signale, zeile }. */
 export function liegegutFunde(ghFn, gitFn, jetzt, hinweis, entschieden = new Set()) {
@@ -338,7 +347,7 @@ export function liegtZeile(funde, jetzt) {
 /** Wachphase: Sammelzeile oder eigene Fehlerzeile, wirft nie (kein stilles „nichts“). */
 export function meldeLiegt(ghFn, gitFn, log, jetzt) {
   try {
-    const zeile = liegtZeile(liegegutFunde(ghFn, gitFn, jetzt, undefined, entschiedeneImProjekt()), jetzt)
+    const zeile = liegtZeile(liegegutFunde(ghFn, gitFn, jetzt, undefined, entschiedeneImProjekt(gitFn, log)), jetzt)
     if (zeile) log(zeile)
   } catch (e) {
     log(`LIEGT? liegegut nicht lesbar: ${String(e.message).split('\n')[0]}`)
@@ -375,7 +384,7 @@ export function git(args) {
 /** Startlogik: Fehler als Exit 2, Funde als Exit 0. */
 export function main(ghFn, gitFn, melde, jetzt) {
   try {
-    const zeilen = liegegut(ghFn, gitFn, jetzt, melde, entschiedeneImProjekt())
+    const zeilen = liegegut(ghFn, gitFn, jetzt, melde, entschiedeneImProjekt(gitFn, melde))
     for (const z of zeilen) melde(z)
     melde(`liegegut: ${zeilen.length} auffällige PRs`)
     return 0

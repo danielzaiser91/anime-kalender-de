@@ -9,7 +9,7 @@ import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
-import { offenePrs, checkStand, entschiedeneFragen, geteilteEntscheidungen, kopfZeitVon, kopfZeiten, liegegut, main, meldeLiegt, stapelBasis, grepMain, neueBezeichner, naechsterSchritt, signaleEinzel, stillstandSignal, ueberholtTreffer, urteile, JQ_PATCHES } from './liegegut.mjs'
+import { offenePrs, checkStand, entschiedeneFragen, geteilteEntscheidungen, kopfZeitVon, kopfZeiten, liegegut, main, meldeLiegt, hauptordner, stapelBasis, grepMain, neueBezeichner, naechsterSchritt, signaleEinzel, stillstandSignal, ueberholtTreffer, urteile, JQ_PATCHES } from './liegegut.mjs'
 
 const fehler = []
 const pruefe = (name, ok, info) => {
@@ -246,6 +246,7 @@ const attrappeGh = (liste, aufrufe = []) => (args) => {
 }
 const attrappeGit = (stand = STAND_MAIN, aufrufe = []) => (args) => {
   aufrufe.push(args.join(' '))
+  if (args[0] === 'rev-parse') return '.git\n'
   const datei = args.at(-1)
   if (stand[datei] === undefined) throw Object.assign(new Error('git grep: kein Treffer'), { status: 1 })
   return `origin/main:${datei}:${stand[datei]}\n`
@@ -387,10 +388,16 @@ console.log('liegegut: Fehlerwege der Blöcke (Prüfer A1–A3)')
 
 console.log('liegegut: Signal 9 Stapel-PR nach gesquashtem Basis-PR (Fall 3091, 07.11.)')
 {
-  const GEMERGT = [{ number: 3090, headRefName: 'feat/teil-1' }, { number: 3000, headRefName: 'fix/anderes' }]
+  // Gezielte Nachschlage-Abrufe: Zweig → gemergte PRs (`--head`), Nummer → Zustand. Die Basis 3090 liegt weit zurück (kein Listenfenster).
+  const ZWEIGE = { 'feat/teil-1': [{ number: 3090 }], 'fix/anderes': [{ number: 3000 }] }
+  const STAENDE = { 3090: 'MERGED', 3095: 'OPEN' }
   const mitMerged = (liste, aufrufe = []) => {
     const rest = attrappeGh(liste, aufrufe)
-    return (args) => (args.includes('merged') ? (aufrufe.push(args.join(' ')), JSON.stringify(GEMERGT)) : rest(args))
+    return (args) => {
+      if (args[0] === 'pr' && args[1] === 'list' && args.includes('merged')) return (aufrufe.push(args.join(' ')), JSON.stringify(ZWEIGE[args[args.indexOf('--head') + 1]] ?? []))
+      if (args[0] === 'pr' && args[1] === 'view') return (aufrufe.push(args.join(' ')), JSON.stringify({ state: STAENDE[args[2]] ?? 'OPEN' }))
+      return rest(args)
+    }
   }
   const teil2 = pr(3091, { baseRefName: 'feat/teil-1', mergeable: 'CONFLICTING', mergeStateStatus: 'DIRTY', comments: [daniel(2, 'frisch')] })
   const zeilen = liegegut(mitMerged([teil2]), attrappeGit(), JETZT)
@@ -405,7 +412,14 @@ console.log('liegegut: Signal 9 Stapel-PR nach gesquashtem Basis-PR (Fall 3091, 
   pruefe('Basiszweig ohne gemergten PR → keine Zeile', liegegut(mitMerged([fremderZweig]), attrappeGit(), JETZT).length === 0)
   const aufrufe = []
   liegegut(mitMerged([pr(1, { comments: [daniel(2, 'frisch')] })], aufrufe), attrappeGit(), JETZT)
-  pruefe('ohne Kandidat kein Abruf gemergter PRs', !aufrufe.some((a) => a.includes('merged')), aufrufe)
+  pruefe('ohne Kandidat kein Nachschlagen (kein merged-, kein view-Abruf)', !aufrufe.some((a) => a.includes('merged') || a.startsWith('pr view')), aufrufe)
+  const abrufe = []
+  liegegut(mitMerged([teil2, ausBody], abrufe), attrappeGit(), JETZT)
+  pruefe('A4: Nachschlagen gezielt (Zweig per --head, Nummer per pr view), kein Listenfenster', abrufe.some((a) => a.includes('--head feat/teil-1')) && abrufe.some((a) => a === 'pr view 3090 --json state') && !abrufe.some((a) => a.includes('merged') && a.includes('--limit')), abrufe)
+  const fehlerGh = (args) => { if (args[1] === 'view') throw new Error('HTTP 502'); return mitMerged([ausBody])(args) }
+  let geworfen = ''
+  try { liegegut(fehlerGh, attrappeGit(), JETZT) } catch (e) { geworfen = e.message }
+  pruefe('A4: Abruffehler beim Nachschlagen bricht sichtbar ab (kein stilles „kein Stapel“)', /HTTP 502/.test(geworfen), geworfen)
   pruefe('STAPEL schlägt STILLSTAND in der Reihenfolge der Schritte', naechsterSchritt([8, 9], [], false) === 'STAPEL')
 }
 
@@ -422,8 +436,13 @@ console.log('liegegut: Signal 6 ohne entschiedene F-Nummern (Fall F39) und Leser
   fs.writeFileSync(path.join(dir, 'F44-offen.md'), '# F44\n\nB – Du drückst jetzt „Entschieden“: T-130 geht sofort\n')
   fs.writeFileSync(path.join(dir, 'E29-mockup.md'), 'Entschieden: ja\n')
   fs.writeFileSync(path.join(dir, 'F390-x.md'), '- Entschieden: nein\n')
+  fs.writeFileSync(path.join(dir, 'F77-fett.md'), '# F77\n\n**Entschieden** 20.10.: B\n')
   const menge = entschiedeneFragen(dir)
-  pruefe('Leser: F39, F108 (klein geschrieben) und F390 entschieden; F44 (Wort mitten in der Zeile) und E29 nicht', JSON.stringify([...menge].sort()) === JSON.stringify(['F108', 'F39', 'F390']), [...menge])
+  pruefe('Leser: F39, F77 (fett), F108 (klein geschrieben) und F390 (Listenpunkt) entschieden; F44 (Wort mitten in der Zeile) und E29 nicht', JSON.stringify([...menge].sort()) === JSON.stringify(['F108', 'F39', 'F390', 'F77']), [...menge])
+  fs.writeFileSync(path.join(dir, 'F39-uhrzeit.md'), '# F39\n')
+  fs.rmSync(path.join(dir, 'F108-x.md'), { force: true })
+  const einzeln = (inhalt) => { fs.writeFileSync(path.join(dir, 'F55-einzeln.md'), inhalt); return entschiedeneFragen(dir).has('F55') }
+  pruefe('Leser einzeln: fett → ja, Listenpunkt → ja, Zitat „> Entschieden“ → ja, Fließtext → nein', einzeln('**Entschieden: A**\n') && einzeln('- Entschieden: A\n') && einzeln('> Entschieden: A\n') && !einzeln('Noch nicht Entschieden: A\n'))
   fs.rmSync(dir, { recursive: true, force: true })
   pruefe('Ordner fehlt → leere Menge', entschiedeneFragen(path.join(os.tmpdir(), 'liegegut-gibt-es-nicht')).size === 0)
   const lauf = liegegut(attrappeGh([pr(1508, { body: 'F39', comments: [daniel(2, 'x')] }), pr(1513, { body: 'F39', comments: [daniel(2, 'x')] })]), attrappeGit(), JETZT, undefined, new Set(['F39']))
@@ -432,21 +451,38 @@ console.log('liegegut: Signal 6 ohne entschiedene F-Nummern (Fall F39) und Leser
   const arbeit = fs.mkdtempSync(path.join(os.tmpdir(), 'liegegut-wache-'))
   fs.mkdirSync(path.join(arbeit, 'daniel-zum-abarbeiten', 'fragen'), { recursive: true })
   const zwei = [pr(1508, { body: 'F39', comments: [daniel(2, 'x')] }), pr(1513, { body: 'F39', comments: [daniel(2, 'x')] })]
-  const wache = () => {
+  // Hauptordner kommt aus git (absolut), der Arbeitsordner dieses Tests ist ein anderer
+  const gitMitHaupt = (haupt) => (a) => (a[0] === 'rev-parse' ? `${path.join(haupt, '.git')}\n` : attrappeGit()(a))
+  const wache = (haupt) => {
     const aus = []
-    meldeLiegt(attrappeGh(zwei), attrappeGit(), (t) => aus.push(t), JETZT)
+    meldeLiegt(attrappeGh(zwei), gitMitHaupt(haupt), (t) => aus.push(t), JETZT)
     return aus.join('\n')
   }
-  const vorher = process.cwd()
-  process.chdir(arbeit)
-  const offen = wache()
+  const offen = wache(arbeit)
   fs.writeFileSync(path.join(arbeit, 'daniel-zum-abarbeiten', 'fragen', 'F39-x.md'), 'Entschieden: A\n')
-  const entschieden = wache()
-  process.chdir(vorher)
+  const entschieden = wache(arbeit)
+  const fehlt = wache(path.join(arbeit, 'gibt-es-nicht'))
   fs.rmSync(arbeit, { recursive: true, force: true })
-  pruefe('Wachphase: F39 offen → LIEGT-Zeile mit gleicher Entscheidung, entschieden → keine', /gleiche Entscheidung/.test(offen) && entschieden === '', { offen, entschieden })
-  const f = { number: 3200, baseRefName: 'main', mergeable: 'MERGEABLE', body: 'erst nach #3090' }
-  pruefe('stapelBasis: „erst nach #N“ ohne Konflikt → null, mit Konflikt → N', stapelBasis(f, [{ number: 3090, headRefName: 'x' }]) === null && stapelBasis({ ...f, mergeable: 'CONFLICTING' }, [{ number: 3090, headRefName: 'x' }]) === 3090)
+  pruefe('Wachphase: F39 offen → LIEGT-Zeile, entschieden (anderer cwd) → keine Zeile', /gleiche Entscheidung/.test(offen) && entschieden === '', { offen, entschieden })
+  pruefe('Wachphase: Ordner fehlt → Hinweiszeile vor der LIEGT-Zeile', /^liegegut: .*fehlt – entschiedene F-Nummern unbekannt/.test(fehlt) && /LIEGT:/.test(fehlt), { fehlt })
+  // Echtes git: Hauptordner aus einem Worktree heraus (die attrappierte Ausgabe verdeckte Pfadfehler)
+  const repo = fs.mkdtempSync(path.join(os.tmpdir(), 'liegegut-git-'))
+  const haupt = path.join(repo, 'haupt')
+  const wt = path.join(repo, 'wt')
+  fs.mkdirSync(haupt)
+  const g = (cwd, ...a) => execFileSync('git', ['-c', 'user.name=t', '-c', 'user.email=t@t', ...a], { cwd, encoding: 'utf8', timeout: 60000 })
+  g(haupt, 'init', '-q')
+  g(haupt, 'commit', '-q', '--allow-empty', '-m', 'x')
+  g(haupt, 'worktree', 'add', '-q', wt)
+  const vorher = process.cwd()
+  const echtGit = (a) => g(process.cwd(), ...a)
+  process.chdir(wt)
+  const ausWorktree = fs.realpathSync(hauptordner(echtGit))
+  process.chdir(haupt)
+  const ausHaupt = fs.realpathSync(hauptordner(echtGit))
+  process.chdir(vorher)
+  fs.rmSync(repo, { recursive: true, force: true })
+  pruefe('echtes git: Hauptordner aus Worktree und aus Hauptordner derselbe', ausWorktree === ausHaupt && path.basename(ausHaupt) === 'haupt', { ausWorktree, ausHaupt })
 }
 
 console.log('liegegut: Signal 2 mit Abnahme-Nachtrag des Dirigenten (Fälle 1716, 1758: echte Abfolge)')
@@ -469,6 +505,7 @@ console.log('liegegut: eigener Prozess (Vorlader tools/pr-nachrechnen-mock.mjs)'
     'pr list --state open --limit 100 --json number,comments': { aus: JSON.stringify([frei]) },
     [`api repos/{owner}/{repo}/commits/${KOPF} --jq .commit.committer.date`]: { aus: '2026-10-20T10:40:00Z\n' },
     [`api repos/{owner}/{repo}/pulls/1676/files --paginate --jq ${JQ_PATCHES}`]: { aus: '+++ b/tools/x.mjs\n@@ -1 +1,2 @@\n+nagel = 1\n' },
+    'rev-parse --git-common-dir': { aus: `${path.join(werk, 'haupt', '.git')}\n` },
   }
   fs.writeFileSync(path.join(werk, 'daten.json'), JSON.stringify(daten))
   const vorlader = pathToFileURL(fileURLToPath(new URL('./pr-nachrechnen-mock.mjs', import.meta.url))).href
@@ -481,17 +518,23 @@ console.log('liegegut: eigener Prozess (Vorlader tools/pr-nachrechnen-mock.mjs)'
   pruefe('Prozess: Abruffehler → Exit 2 mit FEHLER', kaputt.status === 2 && /liegegut: FEHLER/.test(kaputt.stdout), { s: kaputt.status, o: kaputt.stdout })
   // Entschiedene F-Nummern: Arbeitsordner mit fragen/F39*.md, zwei PRs nennen F39 (Verdrahtung von main() zum Leser)
   const zwei = [pr(1676, { body: 'F39', comments: [bot(1, KOPF, 'ok')] }), pr(1677, { body: 'F39', comments: [bot(1, KOPF, 'ok')] })]
-  const mitF39 = { ...daten, [`api repos/{owner}/{repo}/pulls/1677/files --paginate --jq ${JQ_PATCHES}`]: daten[`api repos/{owner}/{repo}/pulls/1676/files --paginate --jq ${JQ_PATCHES}`] }
+  const mitF39 = { ...daten, 'rev-parse --git-common-dir': { aus: `${path.join(werk, 'arbeit', '.git')}\n` }, [`api repos/{owner}/{repo}/pulls/1677/files --paginate --jq ${JQ_PATCHES}`]: daten[`api repos/{owner}/{repo}/pulls/1676/files --paginate --jq ${JQ_PATCHES}`] }
   for (const k of Object.keys(mitF39)) if (k.startsWith('pr list')) mitF39[k] = { aus: JSON.stringify(zwei) }
   fs.writeFileSync(path.join(werk, 'daten.json'), JSON.stringify(mitF39))
   const fragenOrdner = path.join(werk, 'arbeit', 'daniel-zum-abarbeiten', 'fragen')
   fs.mkdirSync(fragenOrdner, { recursive: true })
-  const fahre = () => spawnSync(process.execPath, ['--import', vorlader, skript], { encoding: 'utf8', timeout: 60000, cwd: path.join(werk, 'arbeit'), env: { ...process.env, ATTRAPPE_LOG: path.join(werk, 'log.txt'), ATTRAPPE_DATEN: path.join(werk, 'daten.json') } })
+  // Arbeitsordner des Prozesses ist ein fremder (wie ein Worktree ohne fragen/); der Hauptordner kommt aus git rev-parse --git-common-dir
+  fs.mkdirSync(path.join(werk, 'fremd'), { recursive: true })
+  const fahre = () => spawnSync(process.execPath, ['--import', vorlader, skript], { encoding: 'utf8', timeout: 60000, cwd: path.join(werk, 'fremd'), env: { ...process.env, ATTRAPPE_LOG: path.join(werk, 'log.txt'), ATTRAPPE_DATEN: path.join(werk, 'daten.json') } })
   const offen = fahre()
   pruefe('Prozess: F39 ohne Entscheidung → Signal 6 (Kontrolle)', offen.status === 0 && /; 6 Gleiche offene Entscheidung F39/.test(offen.stdout), { o: offen.stdout, e: offen.stderr })
   fs.writeFileSync(path.join(fragenOrdner, 'F39-x.md'), '# F39\n\nEntschieden: A\n')
   const entschieden = fahre()
   pruefe('Prozess: F39 entschieden → kein Signal 6', entschieden.status === 0 && !/6 Gleiche offene/.test(entschieden.stdout) && /liegegut: \d+ auffällige PRs/.test(entschieden.stdout), { o: entschieden.stdout, e: entschieden.stderr })
+  pruefe('Prozess: F39 entschieden im Hauptordner, Prozess läuft in fremdem Ordner → kein Signal 6, keine Hinweiszeile', !/fehlt – entschiedene/.test(entschieden.stdout))
+  fs.rmSync(fragenOrdner, { recursive: true, force: true })
+  const ohneOrdner = fahre()
+  pruefe('Prozess: fragen/ fehlt → sichtbare Hinweiszeile, Exit 0, Signal 6 wieder da', ohneOrdner.status === 0 && /liegegut: .*fragen.* fehlt – entschiedene F-Nummern unbekannt/.test(ohneOrdner.stdout) && /; 6 Gleiche offene/.test(ohneOrdner.stdout), { o: ohneOrdner.stdout, e: ohneOrdner.stderr })
   fs.rmSync(werk, { recursive: true, force: true })
 }
 
