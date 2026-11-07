@@ -95,7 +95,7 @@ pruefe('leere Datei', merkeNachmessung('', [kanal('2026-10-31')]).text === '')
 pruefe('keine Meldungen', merkeNachmessung(alt, []).text === alt)
 pruefe('unlesbarer Block im Bestand: bleibt, lesbarer wird gemerkt', (() => { const k = merkeNachmessung(alt + '- kaputt: [\n  x: {\n', [kanal('2026-10-31')]); return k.gemerkt === 1 && k.text.endsWith('- kaputt: [\n  x: {\n') })())
 
-/* Abruf als Prozess: fetch-pruefungen.ts mit einer Kanal-Meldung, ohne dass ein Beleg entsteht (Attrappe `tools/nein-datum-mock.mjs`). */
+/* Abruf als Prozess: fetch-pruefungen.ts mit einer Kanal-Meldung, auf einer bekannten Adresse: sie wird ausgelassen, es entsteht kein Beleg (Attrappe `tools/nein-datum-mock.mjs`). */
 const kulisse = mkdtempSync(join(tmpdir(), 'nein-nachmessung-'))
 try {
   const tsx = createRequire(join(wurzel, 'package.json')).resolve('tsx/cli')
@@ -111,7 +111,7 @@ try {
   const schreibzugriffe = readFileSync(log, 'utf8').split('\n').filter(Boolean).map((z) => JSON.parse(z) as { pfad: string; inhalt: string })
   const belege = schreibzugriffe.filter((s) => /dub-confirmed\.yaml$/.test(s.pfad)).map((s) => s.inhalt)
   pruefe('Abruf (Prozess) endet mit Exit 0', lauf.status === 0, lauf.stderr.slice(-300))
-  pruefe('Abruf: genau ein Schreibzugriff auf die Belege, das Nein behält checkedAt und trägt nachgemessenAm', belege.length === 1 && belege[0]!.includes("checkedAt: '2026-08-26'") && belege[0]!.includes("nachgemessenAm: '2026-10-24'"), belege)
+  pruefe('Abruf: genau ein Schreibzugriff auf die Belege, das Nein behält checkedAt und trägt nachgemessenAm', belege.length === 1 && belege[0]!.includes("checkedAt: '2026-08-26'") && belege[0]!.includes("nachgemessenAm: '2026-10-24'") && !belege[0]!.includes('Aus dem Browser'), belege)
 } finally {
   rmSync(kulisse, { recursive: true, force: true })
 }
