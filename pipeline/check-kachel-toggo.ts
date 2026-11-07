@@ -34,7 +34,7 @@ const luecke = [block(1, '2026-11-01T00:00', '2026-11-10T00:00'), block(2, '2026
 pruefe('Lücke zwischen zwei Fenstern bleibt', JSON.stringify(offeneFenster(luecke, JETZT)) === '[["2026-11-01T00:00","2026-11-10T00:00"],["2026-11-20T00:00","2026-11-30T00:00"]]')
 const anstoss = [block(1, '2026-11-01T00:00', '2026-11-10T00:00'), block(2, '2026-11-10T00:00', '2026-11-30T00:00')]
 pruefe('anstoßende Fenster werden eins', JSON.stringify(offeneFenster(anstoss, JETZT)) === '[["2026-11-01T00:00","2026-11-30T00:00"]]')
-const innen = [block(1, '2026-11-01T00:00', '2026-12-31T00:00'), block(2, '2026-11-05T00:00', '2026-11-06T00:00')]
+const innen = [block(1, '2026-11-01T00:00', '2026-12-31T00:00'), block(2, '2026-11-12T00:00', '2026-11-13T00:00')]
 pruefe('Fenster im Fenster ändert das Ende nicht', JSON.stringify(offeneFenster(innen, JETZT)) === '[["2026-11-01T00:00","2026-12-31T00:00"]]')
 
 /* Äquivalenz: der Filter sagt mit Blöcken und mit Fenstern zu jeder Zeit dasselbe (jede Grenze, eine Minute davor und danach). */
@@ -78,6 +78,10 @@ const woche: WochenDatei = { von: 'a', bis: 'b', titles: [mitWeg(6, gemischt)], 
 const kachel = baueKachelDatei(woche, JETZT)
 const mitFenster = (f: unknown): WochenDatei => ({ ...kachel, titles: [{ ...kachel.titles[0]!, watchLinks: [{ ...kachel.titles[0]!.watchLinks![0]!, toggoOffen: f } as unknown as WatchLink] }] })
 const meldet = (k: WochenDatei, teil: string) => pruefeKachelDatei(k, woche, JETZT).some((f) => f.includes(teil))
+pruefe('geschlossenes Fenster steht nicht in der Kachel (nur die zwei offenen)', JSON.stringify((kachel.titles[0]!.watchLinks![0] as WatchLink).toggoOffen) === '[["2026-11-01T00:00","2026-11-08T00:00"],["2026-11-12T00:00","2026-11-14T00:00"]]', (kachel.titles[0]!.watchLinks![0] as WatchLink).toggoOffen)
+const abo = { id: 8, slug: 't8', watchLinks: [{ name: 'Prime', kind: 'stream', zugang: 'abo', url: 'https://p', toggo: gemischt }] } as unknown as Title
+const aboWoche: WochenDatei = { von: 'a', bis: 'b', titles: [abo], releases: [], events: [] }
+pruefe('Weg ohne Gratis-Zugang: toggo fällt ohne Fenster weg, kein Widerspruch', pruefeKachelDatei(baueKachelDatei(aboWoche, JETZT), aboWoche, JETZT).length === 0 && !JSON.stringify(baueKachelDatei(aboWoche, JETZT)).includes('toggo'))
 pruefe('saubere Kachel: kein Widerspruch', pruefeKachelDatei(kachel, woche, JETZT).length === 0, pruefeKachelDatei(kachel, woche, JETZT))
 pruefe('zu spätes Ende eines Fensters wird gemeldet', meldet(mitFenster([['2026-11-01T00:00', '2026-11-09T00:00'], ['2026-11-12T00:00', '2026-11-14T00:00']]), 'sagt Toggo zu'))
 pruefe('zu früher Beginn wird gemeldet', meldet(mitFenster([['2026-11-01T00:00', '2026-11-08T00:00'], ['2026-11-11T00:00', '2026-11-14T00:00']]), 'sagt Toggo zu'))
