@@ -92,8 +92,9 @@ export function pruefeArtikel(a: RouterArtikel): { grund: string } | { vorschlae
   if (behauptungen.some((b) => b.familie !== 'block')) return { grund: 'Satz-Behauptung' }
   const ohne = [...a.text.matchAll(/»([^»«]{2,100})«/g)].map((m) => m[1]!).find((t) => !gedeckt(t, behauptungen))
   if (ohne) return { grund: `Titel ohne Behauptung: ${ohne}` }
-  const zeilen = a.text.split('\n')
-  const bezug = { text: a.text, titel: zeilen[0] ?? '', veroeffentlicht: /^Veröffentlicht:\s*(\d{4}-\d{2}-\d{2})/.exec(zeilen[1] ?? '')?.[1] ?? '' }
+  // Ohne Artikeltitel geprüft: der Block-Titel steht im Zitat, und was so besteht, besteht auch in `--uebernehmen` (dort kommt der Artikeltitel nur dazu).
+  const veroeffentlicht = /^Veröffentlicht:\s*(\d{4}-\d{2}-\d{2})/.exec(a.text.split('\n')[1] ?? '')?.[1] ?? ''
+  const bezug = { text: a.text, veroeffentlicht }
   const vorschlaege = behauptungen.map(alsVorschlag)
   for (const v of vorschlaege) {
     const r = pruefeVorschlag(v, bezug)

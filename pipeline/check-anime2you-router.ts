@@ -9,7 +9,7 @@ import { createRequire } from 'node:module'
 import { existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
-import { fileURLToPath } from 'node:url'
+import { fileURLToPath, pathToFileURL } from 'node:url'
 import { parse } from 'yaml'
 import { alsVorschlag, entscheide, istStichprobe, plane, rubrikenAusHtml } from './lib/anime2you-router.ts'
 import { leseRouterZeile, routerSchritt } from './lib/anime2you-router-lauf.ts'
@@ -95,6 +95,10 @@ pruefe('Titel steckt im Titel einer Behauptung (kürzer im Text, vier Zeichen): 
 pruefe('Text-Titel mit drei Zeichen im Titel einer Behauptung: Claude', mit(text2('Mehr zu »Wil« folgt.')).grund === 'Titel ohne Behauptung: Wil')
 pruefe('Text-Titel mit vier Zeichen im Titel einer Behauptung: erklärt', mit(text2('Mehr zu »Wild« folgt.')).weg === 'regel')
 pruefe('Block mit Titel unter vier Zeichen deckt sich nicht selbst: Claude', entscheide({ id: '1', rubriken: ['Crunchyroll'], text: 'Neuer Titel auf Crunchyroll\nVeröffentlicht: 2026-10-24\n\n»Ao«\nSprache: Deutsch, Japanisch (UT)\nStream: Crunchyroll\n' }).grund === 'Titel ohne Behauptung: Ao')
+const ohneErsteZeile = ok.text.slice(ok.text.indexOf('\n') + 1)
+pruefe('Titel nur in der Überschrift (erste Zeile): Claude', mit(`Zwei Neuzugänge: »Foo Bar« auf Crunchyroll\n${ohneErsteZeile}`).grund === 'Titel ohne Behauptung: Foo Bar')
+const mitTag = entscheide({ id: '1', rubriken: ['Crunchyroll'], text: 'Neuer Titel auf Crunchyroll\nVeröffentlicht: 2026-10-24\n\n2. November: »Foo Bar«\nSprache: Deutsch, Japanisch (UT)\nStream: Crunchyroll\n' })
+pruefe('Block mit Tag vor dem Titel: erklärt, Datum 2026-11-02 gegen den Veröffentlichungstag geprüft', mitTag.weg === 'regel' && mitTag.vorschlaege?.[0]?.datum === '2026-11-02', mitTag)
 // Das zweite Zitat scheitert an der Prüfung (Länge über 500): nicht nur der erste Block wird geprüft.
 const lang = ok.text.replace(/Stream: Prime Video , Crunchyroll(?![\s\S]*Stream: Prime Video , Crunchyroll)/, `Stream: Crunchyroll ${'x'.repeat(600)}`)
 pruefe('Fall zum Zitat über 500 Zeichen verändert den Text', lang !== ok.text && lang.length > ok.text.length + 500)
@@ -230,6 +234,15 @@ try {
   pruefe('Prozess: Ordner fehlt → Exit 0, Ausfall im Log und als Abbruch, kein claude=', ohneOrdner.status === 0 && ohneOrdner.aus.includes('Router: Ausfall') && ohneOrdner.aus.includes('Abbruch (anime2you-router)') && lies(ausgabe) === '', ohneOrdner)
   const ohneArg = starte('anime2you-router.ts', akP, { GITHUB_OUTPUT: ausgabe })
   pruefe('Prozess: ohne Argument → Exit 0 und Aufrufhinweis', ohneArg.status === 0 && ohneArg.aus.includes('Aufruf: anime2you-router.ts --verzeichnis') && lies(ausgabe) === '', ohneArg)
+
+  /* `--auswahl` legt die Rubriken der Seite in `auswahl.json` (Attrappe: Feed mit einem Artikel, Rubrik als Objekt {"1":"Crunchyroll"}). */
+  const akA = join(tmp, 'wurzel-auswahl')
+  mkdirSync(akA, { recursive: true })
+  const mock = pathToFileURL(join(wurzel, 'tools/anime2you-auswahl-mock.mjs')).href
+  const auswahlLauf = starte('anime2you-extraktion.ts', akA, { NODE_OPTIONS: `--import ${mock}` }, '--auswahl', '--verzeichnis', join(tmp, 'a2y-auswahl'))
+  const auswahlDatei = join(tmp, 'a2y-auswahl', 'auswahl.json')
+  const gewaehlt = existsSync(auswahlDatei) ? (JSON.parse(lies(auswahlDatei)) as { kandidaten: { id: string; rubriken?: string[] }[] }).kandidaten : []
+  pruefe('--auswahl: Exit 0, ein Artikel mit der Rubrik der Seite', auswahlLauf.status === 0 && gewaehlt.length === 1 && gewaehlt[0]!.id === '1063615' && gewaehlt[0]!.rubriken?.join() === 'Crunchyroll', auswahlLauf.aus.slice(-400))
 
   /* Verdrahtung im Workflow. */
   const wf = parse(lies(join(wurzel, '.github/workflows/claude-anime2you-extraktion.yml'))) as { jobs: { lesen: { steps: Schritt[] } } }
