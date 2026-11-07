@@ -3,9 +3,31 @@
  * liegt, aber unter dem sticky Kopf steckt (Samstag: Scroll am Maximum, Zeile bei y=36); die Maus trifft dann den Kopf.
  */
 
-/** Scrollt das Element so, dass es mittig im Fenster liegt (sticky Kopf und Fußleiste verdecken die Mitte nicht). */
+/**
+ * Scrollt das Element so, dass es mittig im Fenster liegt (sticky Kopf und Fußleiste verdecken die Mitte nicht).
+ * Nachladendes Layout (Bilder, Listen) verschiebt die Zeile nach dem Scroll aus dem Fenster (CI: y=-158, -270); darum wird
+ * erneut zentriert, bis die Lage `RUHE_BILDER` Bilder lang unverändert blieb.
+ */
+const RUHE_BILDER = 8
 export async function zeileMittig(zeile) {
-  await zeile.evaluate((el) => el.scrollIntoView({ block: 'center' }))
+  await zeile.evaluate((el, ruhe) => new Promise((fertig) => {
+    let letzte = null
+    let still = 0
+    let versuche = 0
+    const schritt = () => {
+      const oben = el.getBoundingClientRect().top
+      if (oben === letzte) still++
+      else {
+        still = 0
+        letzte = null
+        el.scrollIntoView({ block: 'center' })
+        letzte = el.getBoundingClientRect().top
+      }
+      if (still >= ruhe || ++versuche > 300) fertig(undefined)
+      else requestAnimationFrame(schritt)
+    }
+    schritt()
+  }), RUHE_BILDER)
 }
 
 /** Meldung, wenn am Zeigerpunkt (x, y) nicht die Zeile oder ein Kind von ihr liegt; sonst null. */

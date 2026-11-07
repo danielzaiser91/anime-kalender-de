@@ -80,6 +80,7 @@ export function lageAbweichungen({ karte, zeile, zeiger, fenster }) {
 async function zeigeUndMesse(seite, zeile, ausRechts) {
   await seite.mouse.move(2, 2)
   await seite.waitForTimeout(150)
+  await zeileMittig(zeile)
   const box = await zeile.boundingBox()
   const x = ausRechts === undefined ? box.x + Math.min(box.width / 2, 60) : box.x + box.width - ausRechts
   const verdeckt = await verdeckung(zeile, x, box.y + box.height / 2)
