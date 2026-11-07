@@ -61,7 +61,7 @@ Die Rollen laden ihre Regeln selbst (`~/.claude/agents/*.md`, Prüftechnik im Sk
 
 ```
 Gegenstand: <Mockup/Ticket/PR/Datei> — Ziel in einem Satz
-Rolle/Ort: <Agententyp> · <Worktree/Zweig> (nur wenn nicht der Standard; „liegt bereit“ nur, wenn ich ihn angelegt habe, sonst „leg an: <Pfad>, Zweig <name>“; bei Nachbesserung in vorhandenem Worktree immer „erst `git pull --ff-only` auf den PR-Kopf, dann `git merge origin/main`“ — Bauer 1386 setzte 24.10. auf einem 3 Merges alten Stand auf) · Änderungsrecht (nur lesen | darf ändern in …)
+Rolle/Ort: <Agententyp> · <Worktree/Zweig> (nur wenn nicht der Standard; „liegt bereit“ nur, wenn ich ihn angelegt habe, sonst „leg an: <Pfad>, Zweig <name>“; bei Nachbesserung in vorhandenem Worktree immer „erst `git pull --ff-only` auf den PR-Kopf, dann `git merge origin/main`“ — Bauer 1386 setzte 24.10. auf einem 3 Merges alten Stand auf; bei einem bestehenden PR stehen Zweig und Worktree-Pfad kopiert aus `gh pr view N --json headRefName` und `git worktree list`, nie aus dem Gedächtnis — zweimal falsche Namen, 07.11.2026) · Änderungsrecht (nur lesen | darf ändern in …)
 Zusatzentscheidungen: <Vorgaben nur dieses Falls: Dateibesitz, bereits Ausgeschlossenes, Bekannt (Datei:Zeile, Zahl), Bedrohungsmodell, Runde + Auflagen wörtlich, Plattformregel, relevante Dateien; bei Nacharbeit am offenen PR: Nachtrag als Datei vor dem Push melden>
 Risiko/Umfang: <0|1|2 · S|M|L> (Zeitschätzung gibt der Agent selbst per estimateMin; Prüfer schätzt nicht)
 Ticket: <AK-n/rolle#k>
