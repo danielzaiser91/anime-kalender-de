@@ -346,6 +346,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-6920-tv-rtl@2026-11-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261107T221000Z
+DTEND:20261107T224000Z
+SUMMARY:Blade
+DESCRIPTION:Plattform: RTL\nRelease-Art: Wöchentlich (Simuldub)\nDetails: 
+ https://anime-kalender.de/t/4057/
+CATEGORIES:RTL
+END:VEVENT
+BEGIN:VEVENT
 UID:das-band-der-unterwelt-netflix@2026-11-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261107
@@ -612,16 +622,6 @@ DTEND;VALUE=DATE:20261121
 SUMMARY:Sailor Moon R (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/t/660/
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:inazuma-eleven-s1-box@2026-11-20@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261120
-DTEND;VALUE=DATE:20261121
-SUMMARY:Inazuma Eleven – Staffel 1 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/3427/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
@@ -910,6 +910,16 @@ DESCRIPTION:Plattform: Disney+\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  er genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\
  nDetails: https://anime-kalender.de/t/15957/
 CATEGORIES:Disney+
+END:VEVENT
+BEGIN:VEVENT
+UID:inazuma-eleven-s1-box@2026-12-18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261218
+DTEND;VALUE=DATE:20261219
+SUMMARY:Inazuma Eleven – Staffel 1 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/3427/
+CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
 UID:fate-stay-night-heavens-feel-1-presage-flower-gesamtausgabe@2026-12-18@
