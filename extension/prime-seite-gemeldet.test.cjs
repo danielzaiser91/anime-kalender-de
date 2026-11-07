@@ -183,7 +183,7 @@ async function checklisteNachNeuladen({ gesichert = {}, gemeldeteSeiten = [], pf
     window: fenster,
   })
   fenster.document = dokument
-  const alle = ['box.js', 'melde-sperre.js', 'prime-stand.js', 'prime-stand-ziele.js', 'prime-region.js', 'prime-fassungen.js', 'amazon.js'].map(lies)
+  const alle = ['box.js', 'melde-sperre.js', 'prime-stand.js', 'prime-stand-ziele.js', 'prime-region.js', 'prime-fassungen.js', 'amazon-knopf-zeichnen.js', 'amazon.js'].map(lies)
   const { absturz } = laufen([alle.join('\n')], k)
   await durchlaufen()
   k.takt()
