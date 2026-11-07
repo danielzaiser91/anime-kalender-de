@@ -22,6 +22,7 @@ pipeline/check-cr-ja-deckung-bestand.ts
 pipeline/check-cr-neu-bestand.ts
 pipeline/check-cr-teilseiten-bestand.ts
 pipeline/check-deutsche-folgenzahl-bestand.ts
+pipeline/check-disc-anisearch-bestand.ts
 pipeline/check-disc-suchlinks-bestand.ts
 pipeline/check-eigene-titel-bestand.ts
 pipeline/check-empfehlung-bestand.ts
@@ -45,6 +46,7 @@ pipeline/check-herkunftsland-bestand.ts
 pipeline/check-interne-angaben-bestand.ts
 pipeline/check-ja-hat-weg-bestand.ts
 pipeline/check-joyn-sender-bestand.ts
+pipeline/check-jw-ohne-tmdb-bestand.ts
 pipeline/check-jw-vertrauen-bestand.ts
 pipeline/check-kachel-buendel-bestand.ts
 pipeline/check-kalender-plausibilitaet-bestand.ts
