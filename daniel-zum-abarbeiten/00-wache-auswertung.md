@@ -689,3 +689,14 @@ wer die Ursache dann noch kennt, hat Glück. Deshalb diese Datei.
 **Wo sind echte Risiken und Lücken?** Ursache belegt: `public/data/meta.json` in 87585063 trägt `quarantaene: [{titleId 187538, pruefung "kalender-plausibilitaet", grund "ereignisOhneNews: Black Torch (crunchyroll, 2026-07-04): Start ohne Meldung"}]`. Die Plausibilitätsprüfung hat den Titel samt `folgen/187538.json` aus dem Bestand genommen. Der Titel kam in einem späteren Bau ohne Handeingriff zurück. **Nicht belegt:** warum die Meldung zum Start vom 04.07. um 04:24 UTC fehlte und um 08:20 UTC nicht mehr, ob also eine News-Quelle schwankte. Die Quarantäne löscht den Titel aus der Live-Liste, obwohl der Grundsatz „Ein Vorfilter verschiebt, er löscht" gilt. Ein Titel mit belegtem Synchro-Weg verschwindet für Stunden aus der Seite.
 
 **Was läuft komplett falsch?** Nichts, was ich belegen kann: kein Fehlerschritt, der Lauf ist absichtlich rot. Kein Pull Request, da keine Codeursache belegt ist und die Prüfung wie vorgesehen arbeitete.
+
+
+## 07.11.2026 — Wache meldet „2 Titel weniger“ und „3 Titel weniger“ (Lauf 42379748885, Issue #3098)
+
+**Was läuft korrekt.** Die Wache hat beide Sprünge gefunden (06.11. 20:51 und 21:19 Berlin-Lauf, −2 und −3). Gemessen über Git-Stände von `public/data/titles.json`: Bau 50619ee5 (20:56 UTC) verlor 10013343 und 10014752 (je „Thus Spoke Kishibe Rohan …“, OVA), Bau b4a51b65 (21:26 UTC) verlor 10013418, 10013419 (Flavors of Youth, Kurzfilme) und 10018616 (Baki Hanma Season 2 – Father vs Son Saga). Ursache sind die beiden gewollten Datenkorrekturen #3015 (Rohan als ein Titel mit vier Folgen, 9447e065) und #3044 (Flavors of Youth und Baki Hanma als je ein Titel, 3d445d02); beide liegen im `headSha`. Kein Verlust an Synchro-Belegen: die fünf Titel hatten keine Streams.
+
+**Wo ist Verbesserungspotenzial?** Die Wache unterscheidet nicht zwischen Verlust und beabsichtigter Zusammenführung. Sie könnte die Commit-Betreffe (`fix(data): … als ein Titel`) neben die verschwundenen IDs stellen und die IDs mit Namen nennen.
+
+**Wo sind echte Risiken und Lücken?** Die Wache nennt weiterhin keine Titel (wie schon am 04. und 06.11.). Nicht geprüft: ob die alten Adressen der entfernten IDs auf den Sammeltitel weiterleiten (für Rohan ist #3045 `zuAk` dafür da; für Flavors of Youth und Baki Hanma habe ich es nicht gemessen).
+
+**Was läuft komplett falsch?** Nichts: kein Fehlerschritt, der Lauf ist absichtlich rot. Kein Pull Request, da keine Codeursache vorliegt.
