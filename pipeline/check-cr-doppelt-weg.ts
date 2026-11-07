@@ -12,7 +12,7 @@ import { join } from 'node:path'
 import type { Title } from '../shared/types.ts'
 import type { NeueSerienFolge } from './lib/cr-neue-serie.ts'
 
-/* `bereinigeWege` schreibt Nebendateien (Suchadressen): Wurzel vor dem Laden der Module in einen Wegwerf-Ordner legen. */
+/* `bereinigeWege` schreibt Nebendateien: Wurzel vor dem Laden der Module in einen Wegwerf-Ordner legen. */
 process.env.AK_ROOT = mkdtempSync(join(tmpdir(), 'cr-doppelt-'))
 mkdirSync(join(process.env.AK_ROOT, 'data'), { recursive: true })
 mkdirSync(join(process.env.AK_ROOT, 'daniel-zum-abarbeiten', 'listen'), { recursive: true })

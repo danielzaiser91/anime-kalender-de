@@ -2,7 +2,6 @@ import { type IstTot } from '../lib/adresse-tot.ts'
 import { type WatchLink, type Title } from '../../shared/types.ts'
 import { providerName } from '../../shared/mappings.ts'
 import { log, readJson } from '../lib/util.ts'
-import { schreibeSuchadressen } from './nebendateien.ts'
 import { type AnisearchEintrag } from './01-quellen.ts'
 import { type EntfernterVerweis } from './grundlagen.ts'
 
@@ -356,7 +355,6 @@ export function bereinigeWege({
   }
   if (ausSuche) log(`${ausSuche} Suchadressen über den deutschen Katalog auf ihre Serienadresse gesetzt`)
   if (suchAdressen) log(`${suchAdressen} Suchadressen entfernt — eine Suche ist kein Weg zu einem Titel`)
-  schreibeSuchadressen(suchOffen)
 }
 
 /**

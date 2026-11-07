@@ -21,7 +21,7 @@ const ID = 9000020
 const weg = (name: string, url: string): WatchLink => ({ name, url, kind: 'stream' }) as WatchLink
 const beleg = (platform: string, rest: { dub?: boolean; available?: boolean }) => ({ anilistId: ID, platform, ...rest }) as DubCheck
 
-/* `bereinigeWege` schreibt bei jedem Lauf die Suchadressen-Liste; der Test lenkt sie in einen Temp-Ordner um. */
+/* Der Abschluss schreibt bei jedem Lauf die JustWatch-Widerspruchsliste; der Test lenkt sie in einen Temp-Ordner um. */
 suchadressenInTemp()
 
 /** Lässt den Abschluss mit einem Titel (Netflix- und Prime-Bezugsweg) und den Handbelegen laufen; liefert die Namen der verbleibenden Bezugswege. */

@@ -145,7 +145,7 @@ const kanalDeutschNein = verschmelze(kanalBeleg(), { anilistId: OVA, platform: '
 pruefe('Gegenprobe: ein jüngeres Nein (dub: false) nimmt dem Kanal-Weg die Adresse', kanalDeutschNein.kanalOhneBeleg === true && behalten([kanalDeutschNein], [weg(URL_BELEG)]).length === 0, kanalDeutschNein)
 
 console.log('\nAufrufer (schliesseWegeAb) reicht die Belege durch:')
-/** Der Abschluss schreibt nebenbei die Listen der offenen Suchadressen; die Prüfung lenkt sie in einen Temp-Ordner um. */
+/** Der Abschluss schreibt nebenbei die JustWatch-Widerspruchsliste; die Prüfung lenkt sie in einen Temp-Ordner um. */
 suchadressenInTemp()
 function abschliessen(checks: DubCheck[]): StreamLink[] {
   const nurAnisearch = titel(10_000_000 + OVA, [weg(URL_BELEG, { dub: true })])

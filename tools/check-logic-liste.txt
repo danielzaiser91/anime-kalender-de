@@ -447,6 +447,7 @@ pipeline/check-stand-halten.ts
 pipeline/check-studio-archiv.ts
 pipeline/check-stuetzpunkt-ueberholt.ts
 pipeline/check-such-chip.ts
+pipeline/check-suchadressen-endzustand.ts
 pipeline/check-suchfeld-arten.ts
 pipeline/check-suchhinweis-bereich.ts
 pipeline/check-suchhinweis-lauf.ts
