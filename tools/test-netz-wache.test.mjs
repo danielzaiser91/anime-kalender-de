@@ -14,6 +14,8 @@ const faelle = [
   ['Regex ^https?', `${START}await s.route(/^https?:\\/\\//, (r) => r.abort())`, true, true],
   ['Regex .*', `${START}await s.route(/.*/, (r) => r.abort())`, true, true],
   ['Regex ^https?:\\/\\/.* mit Flag', `${START}await s.route(/^https?:\\/\\/.*/i, (r) => r.fulfill())`, true, true],
+  ['Regex ^https?: ohne Schrägstriche', `${START}await s.route(/^https?:/, (r) => r.abort())`, true, true],
+  ['Glob-Zeichenkette .* ist keine Sperre', `${START}await s.route('.*', (r) => r.abort())`, true, false],
   ['Helfer sperreNetz', `${START}await sperreNetz(s)`, true, true],
   ['nur eine Einzeladresse', `${START}await s.route('https://bild.test/**', (r) => r.abort())`, true, false],
   ['Teilpfad **/api/*', `${START}await s.route('**/api/*', (r) => r.abort())`, true, false],
@@ -49,8 +51,8 @@ for (const [name, text, startet, abgesichert] of faelle) {
 }
 assert.ok(Object.keys(AUSNAHMEN).length > 0 && Object.values(AUSNAHMEN).every((g) => typeof g === 'string' && g.trim()), 'jede Ausnahme hat einen Grund')
 
-const lauf = (wurzel) =>
-  spawnSync(process.execPath, [join(import.meta.dirname, 'test-netz-wache.mjs'), '--wurzel', wurzel, '--ohne-ausnahmen'], {
+const lauf = (wurzel, ausnahmen = 'leer.json') =>
+  spawnSync(process.execPath, [join(import.meta.dirname, 'test-netz-wache.mjs'), '--wurzel', wurzel, '--ausnahmen', join(wurzel, ausnahmen)], {
     encoding: 'utf8',
     timeout: 60_000,
     windowsHide: true,
@@ -59,6 +61,10 @@ const lauf = (wurzel) =>
 const wurzel = mkdtempSync(join(tmpdir(), 'netz-wache-'))
 try {
   for (const d of ['tools/archiv', 'pipeline', 'extension', 'web/src']) mkdirSync(join(wurzel, d), { recursive: true })
+  mkdirSync(join(wurzel, 'tools', 'node_modules'), { recursive: true })
+  writeFileSync(join(wurzel, 'tools', 'node_modules', 'fremd.mjs'), START)
+  writeFileSync(join(wurzel, 'leer.json'), '{}')
+  writeFileSync(join(wurzel, 'weg.json'), '{"tools/weg.mjs":"gibt es nicht"}')
   writeFileSync(join(wurzel, 'tools', 'gut.mjs'), `${START}await s.route('**/*', f)`)
   writeFileSync(join(wurzel, 'tools', 'schlecht.mjs'), START)
   writeFileSync(join(wurzel, 'tools', 'archiv', 'alt.mjs'), START)
@@ -83,6 +89,10 @@ try {
   const gruen = lauf(wurzel)
   assert.equal(gruen.status, 0, `Exit 0 ohne Verstoß: ${gruen.stderr}`)
   assert.match(gruen.stdout, /1 Dateien mit Browser, 1 abgesichert, 0 Ausnahmen, 0 Verstöße/)
+
+  const veraltet = lauf(wurzel, 'weg.json')
+  assert.equal(veraltet.status, 1, 'Ausnahme ohne Browserstart allein macht rot')
+  assert.match(veraltet.stderr, /tools\/weg\.mjs: Ausnahme ohne Browserstart/)
 
   rmSync(join(wurzel, 'tools', 'gut.mjs'))
   assert.equal(lauf(wurzel).status, 1, 'kein einziger Browser gefunden ist rot (Wächter blind)')

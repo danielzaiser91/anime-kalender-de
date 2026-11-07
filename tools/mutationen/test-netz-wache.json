@@ -52,6 +52,7 @@
 {"name":"Verstoß ohne Exit","datei":"tools/test-netz-wache.mjs","suche":"e.verstoesse.length === 0 && ","ersetze":""},
 {"name":"veraltet ohne Exit","datei":"tools/test-netz-wache.mjs","suche":"e.veraltet.length === 0 && ","ersetze":""},
 {"name":"Exit immer 0","datei":"tools/test-netz-wache.mjs","suche":"return ok ? 0 : 1","ersetze":"return 0"},
-{"name":"Ausnahmen immer","datei":"tools/test-netz-wache.mjs","suche":"process.argv.includes('--ohne-ausnahmen') ? {} : AUSNAHMEN","ersetze":"AUSNAHMEN"},
+{"name":"Ausnahmen immer","datei":"tools/test-netz-wache.mjs","suche":"a > 0 ? JSON.parse(readFileSync(process.argv[a + 1], 'utf8')) : AUSNAHMEN","ersetze":"AUSNAHMEN"},
+{"name":"Ausnahmen nie aus Datei","datei":"tools/test-netz-wache.mjs","suche":"a > 0 ? JSON.parse(readFileSync(process.argv[a + 1], 'utf8')) : AUSNAHMEN","ersetze":"{}"},
 {"name":"Browser nicht gezählt","datei":"tools/test-netz-wache.mjs","suche":"browser++","ersetze":""}
 ]

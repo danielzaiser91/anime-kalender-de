@@ -9,7 +9,7 @@
  * Newsletter-Worker senden, rund 320 je Kettenlauf (78.189 von 100.000 Tageslimit).
  * Nicht gedeckt: Node-Tests der Erweiterung (`extension/*.test.cjs`) laufen in `vm` mit eigenem `fetch`, kein Browser.
  *
- * Aufruf: `node tools/test-netz-wache.mjs [--wurzel <ordner>] [--ohne-ausnahmen]` (Exit 1 bei Verstoß; die Optionen sind für den Test).
+ * Aufruf: `node tools/test-netz-wache.mjs [--wurzel <ordner>] [--ausnahmen <json>]` (Exit 1 bei Verstoß; die Optionen sind für den Test).
  */
 import { readdirSync, readFileSync } from 'node:fs'
 import { join, relative, resolve } from 'node:path'
@@ -151,7 +151,8 @@ export function pruefe(wurzel, ausnahmen = AUSNAHMEN) {
 function main() {
   const i = process.argv.indexOf('--wurzel')
   const wurzel = i > 0 ? resolve(process.argv[i + 1]) : resolve(import.meta.dirname, '..')
-  const e = pruefe(wurzel, process.argv.includes('--ohne-ausnahmen') ? {} : AUSNAHMEN)
+  const a = process.argv.indexOf('--ausnahmen')
+  const e = pruefe(wurzel, a > 0 ? JSON.parse(readFileSync(process.argv[a + 1], 'utf8')) : AUSNAHMEN)
   for (const v of e.verstoesse) console.error(`✖ ${v}: startet einen Browser ohne Catch-all-route`)
   for (const v of e.veraltet) console.error(`✖ ${v}: Ausnahme ohne Browserstart — aus AUSNAHMEN streichen`)
   const ok = e.verstoesse.length === 0 && e.veraltet.length === 0 && e.browser > 0
