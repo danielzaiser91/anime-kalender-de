@@ -23,7 +23,7 @@ const schluessel = (id: number, plattform: string) => `${id}|${plattform}`
 /** Plattformen ohne Stream-Weg: dort bedeutet ein Termin Sendung, Kino oder Kauf, nicht „läuft dort auf Deutsch". */
 const KEIN_STREAM = new Set(['tv', 'kino'])
 
-const SYNCHRO_WORTLAUT = /synchron|auf deutsch|deutsche[nrm]? (?:fassung|tonspur|sprachfassung|ton)\b/i
+const SYNCHRO_WORTLAUT = /synchron|auf deutsch|sprache:\s*deutsch\b|deutsche[nrm]? (?:fassung|tonspur|sprachfassung|sprachausgabe|ton)\b/i
 /** „keine deutsche Synchro", „ohne Synchronisation" — der Satz verneint, was er zu belegen scheint. */
 const VERNEINT = /\b(?:keine[nrms]?|kein|ohne|nicht)\b[^.]{0,40}(?:synchron|deutsch)|(?:synchron|deutsch)[^.]{0,40}\b(?:nicht|nie|kein)/i
 
