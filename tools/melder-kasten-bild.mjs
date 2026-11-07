@@ -298,9 +298,42 @@ const extremLage = await extremObj.evaluate(() => {
     linkTextBreite: Math.round(t.width),
     linkHoehe: Math.round(b.height),
     aufEinerZeile: Math.abs(a.y - b.y) <= 1,
+    ueberstand: Math.round(b.right - document.querySelector('.ak-amazon-suchhinweis').getBoundingClientRect().right),
   }
 })
 await extremObj.close()
+
+/*
+  **Und Daniels echter Text vom 07.11.2026: Liste veraltet.**
+  „48 Prime-Titel · 2 Suchen offen · Liste veraltet" schob aniSearch rechts aus dem
+  Kasten (der linke Platz schrumpfte nicht, `flex-shrink: 0`). Gemessen wird der Überstand
+  der rechten Pille über den Kastenrand — er muss 0 sein.
+*/
+async function misseVeraltet(text) {
+  const obj = await browser.newPage({ viewport: { width: 520, height: 420 } })
+  await obj.setContent(
+    seite.replace(
+      /(<button type="button" class="ak-uebersicht ak-uebersicht-innen">)[^<]*/,
+      (_, anfang) => anfang + text,
+    ),
+  )
+  const lage = await obj.evaluate(() => {
+    const kasten = document.querySelector('.ak-amazon-suchhinweis').getBoundingClientRect()
+    const knopf = document.querySelector('.ak-uebersicht-innen').getBoundingClientRect()
+    const link = document.querySelector('.ak-such-fuss-rechts a').getBoundingClientRect()
+    return {
+      text: document.querySelector('.ak-uebersicht-innen').textContent.trim(),
+      ueberstand: Math.round(link.right - kasten.right),
+      abstand: Math.round(link.left - knopf.right),
+      linkHoehe: Math.round(link.height),
+    }
+  })
+  await obj.close()
+  return lage
+}
+/* Der zweite Text ist so lang, dass er in jeder Schrift (auch ohne Segoe UI) über die Kastenbreite ginge. */
+const veraltetLage = await misseVeraltet('48 Prime-Titel · 2 Suchen offen · Liste veraltet')
+const veraltetLang = await misseVeraltet('148 Prime-Titel · 12 Suchen offen · Liste veraltet und mehr')
 const langeLage = await langObj.evaluate(() => {
   const kasten = document.querySelector('.ak-amazon-suchhinweis')
   const knopf = document.querySelector('.ak-uebersicht-innen')
@@ -455,6 +488,26 @@ pruefe(
 pruefe(
   extremLage != null && extremLage.linkHoehe <= 30,
   `bei der längsten Beschriftung bleibt aniSearch einzeilig (${extremLage?.linkHoehe} px hoch)`,
+)
+pruefe(
+  veraltetLage.text.startsWith('48 Prime-Titel'),
+  'die Kulisse „Liste veraltet" trägt Daniels echten Text',
+)
+pruefe(
+  veraltetLage.ueberstand <= 0,
+  `„Liste veraltet": aniSearch ragt nicht aus dem Kasten (Überstand ${veraltetLage.ueberstand} px)`,
+)
+pruefe(
+  veraltetLage.abstand >= 0 && veraltetLage.linkHoehe <= 30,
+  `… überlappt den Nachbarn nicht und bleibt einzeilig (Abstand ${veraltetLage.abstand}, ${veraltetLage.linkHoehe} px hoch)`,
+)
+pruefe(
+  veraltetLang.ueberstand <= 0 && veraltetLang.abstand >= 0,
+  `… auch bei noch längerem Text (Überstand ${veraltetLang.ueberstand}, Abstand ${veraltetLang.abstand} px)`,
+)
+pruefe(
+  extremLage != null && extremLage.ueberstand <= 0,
+  `längste Beschriftung: aniSearch ragt nicht aus dem Kasten (Überstand ${extremLage?.ueberstand} px)`,
 )
 pruefe(lage.fertig && lage.fertig.breite > lage.kastenBreite * 0.8, '„gemeldet ✓" nimmt die volle Breite')
 pruefe(lage.fertig && lage.fertig.hoehe >= 28, '… mit fester Höhe statt Innenabstand')
