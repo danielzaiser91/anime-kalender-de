@@ -141,11 +141,11 @@ function plakatSeitenMaengel(titel: Title[]): string[] {
 }
 
 /**
- * Ratsche: Titel mit Cover, deren Link-Vorschau das Standardbild ist (05.11.2026: 471 im Bau nach #2872 gemessen, ohne Luft; vorher 449).
- * Die 22 mehr sind Filmteile mit geteiltem TMDB-Film (Digimon, Garden of Sinners, Psycho-Pass Sinners, Sailor Moon Eternal, Code Geass Akito,
- * Princess Principal, Kitaro, Spycies, Rohirrim): Das fremde Plakat ist verworfen, das AniList-Cover bleibt, die Vorschau hat dafür keine Maße.
+ * Ratsche: Titel mit Cover, deren Link-Vorschau das Standardbild ist (Seiten im Bau; 06.11.2026, Datenstand 3266bdc89: vorher 471, mit gemessenen
+ * AniList-Covern 158 = 83 Cover über 250 KB + 75 aniSearch-Kopien, 12 Luft). Dieselbe Grenze prüft `check-cover-vorschau-bestand.ts` schon vor dem
+ * Seitenbau auf dem frisch gebauten Bestand (die Kette eines Code-PR sieht hier nur den eingecheckten Stand).
  */
-const STANDARD_TROTZ_COVER_HOECHSTENS = 471
+const STANDARD_TROTZ_COVER_HOECHSTENS = 170
 
 function coverVorschauMaengel(titel: Title[]): string[] {
   const seiten = titel

@@ -14,6 +14,17 @@ import { pathToFileURL } from 'node:url'
 import { kandidat, reihenfolge, vorabGrund } from './nacht-merger-wahl.mjs'
 
 export const HOECHSTENS_VORGABE = 3
+/** Wartezeit vor der einen Wiederholung, wenn GitHub die Mergebarkeit noch rechnet (UNKNOWN, gemessen 07.11.2026 bei #2994/#3049: wenig später CLEAN). */
+export const UNKNOWN_WARTE_MS = 20_000
+const NOCH_NICHT_BERECHNET = /noch nicht berechnet/
+
+/** `pr-nachrechnen` mit genau einer Wiederholung, wenn die Mergebarkeit oder der Test-Merge noch nicht berechnet war (Exit 2, nichts angestoßen). */
+export function nachrechnenMitWiederholung(welt, nummer) {
+  const erst = welt.nachrechnen(nummer)
+  if (erst.exit !== 2 || !NOCH_NICHT_BERECHNET.test(erst.text)) return erst
+  welt.warte(UNKNOWN_WARTE_MS)
+  return welt.nachrechnen(nummer)
+}
 
 /**
  * Ein Lauf. `welt` bringt alle Seiteneffekte mit (im Test eine Attrappe):
@@ -47,7 +58,7 @@ export function lauf(welt, { hoechstens = HOECHSTENS_VORGABE, trocken = false } 
       abgewiesen(pr, `Kopf hat sich geändert (${pr.kopf.slice(0, 9)} -> ${kopf.slice(0, 9)}), nächster Lauf`)
       continue
     }
-    const r = welt.nachrechnen(pr.nummer)
+    const r = nachrechnenMitWiederholung(welt, pr.nummer)
     if (r.exit !== 0) {
       abgewiesen(pr, `Kette nicht als aktuell bestätigt (nachrechnen Exit ${r.exit}): ${r.text}`)
       continue

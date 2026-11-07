@@ -13,7 +13,7 @@
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import yaml from 'js-yaml'
-import type { NewsEintrag, NewsArt, NewsMeldung, OffiziellKategorie, Title } from '../../shared/types.ts'
+import type { NewsArt, NewsMeldung, OffiziellKategorie, Title } from '../../shared/types.ts'
 import { addDays } from '../../shared/time.ts'
 import { hostVon } from '../../shared/quelle.ts'
 
@@ -96,6 +96,3 @@ export function offizielleMeldungen(
 
 /** Wo das Fenster einer Art beginnt: offizielle Meldungen 365 Tage zurück, alle anderen am `standard` (120 Tage). */
 export const fensterBeginn = (art: NewsArt, heute: string, standard: string): string => (art === 'offiziell' ? addDays(heute, -FENSTER_OFFIZIELL_TAGE) : standard)
-
-/** Trägt der Eintrag eine offizielle Meldung? Dann gilt für ihn die Obergrenze der Datei nicht. */
-export const traegtOffizielle = (e: NewsEintrag): boolean => e.meldungen.some((m) => m.art === 'offiziell')

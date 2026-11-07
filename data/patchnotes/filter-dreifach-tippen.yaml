@@ -1,3 +1,4 @@
 kategorie: feature
-text: "Filter: Tipp wählt, zweiter schließt aus, dritter löst"
-untertitel: Kein Umschalter mehr, jede Pille schaltet selbst
+highlight: true
+text: Filter per Tippen wählen oder ausschließen
+untertitel: Erster Tipp wählt, zweiter schließt aus, dritter löscht; Klick-Modus entfällt

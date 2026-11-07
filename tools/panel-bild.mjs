@@ -15,6 +15,7 @@
  * Aufruf: node tools/panel-bild.mjs [--docs] [--woche] [<AniList-Id> …]
  *         `--woche` öffnet über `#/woche?t=` statt über die Datenbank: nötig für Titel, die nur der Kalender kennt (Cartoons wie Avatar);
  *         die Prüfung der Seitensperre entfällt dann.
+ *         `--abschnitt=Neuigkeiten` bildet zusätzlich diese Karte des Panels ab (`panel-<id>-neuigkeiten-<thema>.png`, Teilwort der Überschrift).
  *         npm run check:panel
  *
  * Ergebnis: panel-<id>-<hell|dunkel>.png im Temp-Ordner, mit `--docs` (`npm run panel:bilder`) in docs/, dazu die gemessenen Höhen des
@@ -29,11 +30,13 @@ import path from 'node:path'
 import { bilderOrdner } from './bilder-ordner.mjs'
 import { distPruefen } from './dist-frisch.mjs'
 import { pruefeSperreUndSchliesse } from './panel-sperre.mjs'
+import { abschnittAusArgumenten, abschnittsbild } from './panel-abschnitt.mjs'
 
 const WURZEL = path.resolve(import.meta.dirname, '..')
 const DIST = path.join(WURZEL, 'dist')
 const BILDER = bilderOrdner(WURZEL, 'ak-panel')
 const WOCHE = process.argv.includes('--woche')
+const ABSCHNITT = abschnittAusArgumenten(process.argv)
 /*
   Drei Zustände desselben Kastens, an denen sich das Springen zeigt: Staffel 1
   der Apothekerin hat Stream **und** Disc (also den Umschalter), Staffel 2 nur
@@ -80,6 +83,12 @@ async function pruefeNichtVorgescrollt(panel, id) {
     console.log(`  ✕ ${id}: Panel öffnet um ${px} px vorgescrollt`)
     process.exitCode = 1
   }
+}
+
+/** Das Bild des ganzen Panels; danach, wenn gewählt, die Karte (`--abschnitt=`), weil das Abbilden der Karte scrollt. */
+async function panelBild(panel, id, thema) {
+  await panel.screenshot({ path: path.join(BILDER, `panel-${id}-${thema}.png`) })
+  await abschnittsbild(panel, ABSCHNITT, BILDER, id, thema)
 }
 
 /** Schließt den Browser; die Seitensperre wird nur über die Datenbank-Ansicht geprüft (Cartoons gibt es dort nicht). */
@@ -216,7 +225,7 @@ async function main() {
       const kasten = panel.locator('[data-kasten] > section')
       if (!(await kasten.count())) {
         if (thema === 'dunkel') ohneKasten.push(id)
-        await panel.screenshot({ path: path.join(BILDER, `panel-${id}-${thema}.png`) })
+        await panelBild(panel, id, thema)
         continue
       }
       await kasten.waitFor({ state: 'visible', timeout: 15_000 }).then(() => pruefeNichtVorgescrollt(panel, id))
@@ -229,7 +238,7 @@ async function main() {
           ueberlauf: Math.max(ueberlauf.innen - ueberlauf.sichtbar, ueberlauf.raus, ueberlauf.pillen),
         })
       }
-      await panel.screenshot({ path: path.join(BILDER, `panel-${id}-${thema}.png`) })
+      await panelBild(panel, id, thema)
     }
   }
 

@@ -689,6 +689,16 @@ wer die Ursache dann noch kennt, hat Glück. Deshalb diese Datei.
 
 **Was läuft komplett falsch?** Nichts über den Bau selbst; die Zeile, an der es bricht: `pipeline/check-tote-adressen.ts` (Ausgabe „1 ausgelieferte Adresse(n) sind als tot belegt"). Kein neuer Pull Request, #2913 ist die Reparatur.
 
+## 05.11.2026 — Wache meldet „7 Urteile verloren, netflix: 13 Synchro-Belege weniger" (Lauf 42055274777, Issue #2943)
+
+**Was läuft korrekt.** Die Wache hat den Sprung dem Bestandsbau `dea9fed9` (04.11., 16:23 UTC) zugeordnet. Gemessen über Git-Stände von `public/data/titles.json` (`dea9fed9^` → `dea9fed9`): 18 Titel mit weniger Streams, davon 12 Netflix (z. B. Eyeshield 21, Beelzebub, Made in Abyss, Fate/Heaven's Feel I–III) und je einer bei Prime und Crunchyroll (BTOOOM!, Kuroshitsuji, Fruits Basket prelude); ein Titel ganz weg: PERSONA5 the Animation: Stars and Ours (106896). Der Bau ist grün; `ef519461` (17:16) verlor nur noch einen weiteren Titel (Haganai, begründet entfernt).
+
+**Wo ist Verbesserungspotenzial?** Wieder nennt die Wache weder Titel noch Adresse; der Vergleich lief von Hand über zwei `titles.json`-Stände. Titel-ID + Stream-URL gehören in `00-wache.md` (dritte Auswertung mit dieser Lücke: 04.11., 02.11.).
+
+**Wo sind echte Risiken und Lücken?** Dasselbe Muster wie am 02.11.: Der Lauf „Tiefendurchlauf gesammelt (RTL+ und Links)" (`a58fb0e1`, 04.11., 15:10 UTC) hat in `data/link-check.json` für u. a. `netflix.com/title/81422700` (Eyeshield 21) `404` mit `geprueftAm 2026-11-04` geschrieben; der Bau 73 Minuten später ließ diese Streams fallen. Zwei Tage zuvor stand dieselbe Adresse noch auf 200. **Nicht belegt:** ob Netflix die Titel wirklich nimmt oder die Linkprüfung vom Runner falsche 404 bekommt — dass bei jedem Tiefendurchlauf dieselbe Familie (Eyeshield, Beelzebub, Naruto Shippuuden) fällt und zwischendurch zurückkommt, spricht für Flackern, beweist es nicht. Ein einzelnes 404 reicht offenbar, einen Stream zu streichen. Nicht geklärt: warum PERSONA5 (106896) wegfiel und nicht in `ohne-synchro.json` steht, und was bei BTOOOM!/Kuroshitsuji/Fruits Basket die Crunchyroll-Streams nahm.
+
+**Was läuft komplett falsch?** Nichts, was ich belegen kann: kein Fehlerschritt, der Lauf ist absichtlich rot. Kein Pull Request, da keine Codeursache belegt ist; Verdacht auf Quelle bzw. Abruf (Linkprüfung), kein Eingriff ohne Gegenprobe.
+
 
 ## 06.11.2026 — Wache meldet „1 Titel weniger; adn und crunchyroll: je 1 Synchro-Beleg weniger" (Lauf 42239544132, Issue #3020)
 
