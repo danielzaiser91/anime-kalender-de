@@ -28,6 +28,23 @@ export const ghLesend = (gh) => (args) => {
   return gh(args)
 }
 
+/**
+ * Höchstmenge neu angestoßener Ketten je Lauf (je PR zählt das erste `pr close`). Jede Kette kostet Actions-Minuten; 4 = Merge-Riegel (3) + 1,
+ * gewählt, nicht gemessen: am 07.11.2026 stießen 2 von 4 Kandidaten an. Darüber wirft der Aufruf vor dem Schließen, der PR wird übersprungen
+ * und kommt im nächsten Lauf (40 min später) dran.
+ */
+export const ANSTOESSE_HOECHSTENS = 4
+export const ghMitAnstossRiegel = (gh, hoechstens = ANSTOESSE_HOECHSTENS) => {
+  const angestossen = new Set()
+  return (args) => {
+    if (args[0] === 'pr' && args[1] === 'close' && !angestossen.has(args[2])) {
+      if (angestossen.size >= hoechstens) throw new Error(`Höchstmenge ${hoechstens} Ketten-Anstöße je Lauf erreicht, nichts angestoßen`)
+      angestossen.add(args[2])
+    }
+    return gh(args)
+  }
+}
+
 /** Stufe aus der JSON-Ausgabe von `pr-stufe`; alles Unlesbare gilt als 2 (nur von Hand). */
 export function stufeVon(nummer, ausfuehren) {
   try {
@@ -42,6 +59,7 @@ export function echteWelt({ trocken, gh = ghEcht, stufeAus, repo = process.env.G
   if (!/^[\w.-]+\/[\w.-]+$/.test(repo ?? '')) throw new Error('GITHUB_REPOSITORY fehlt oder ist ungültig')
   const stufeSkript = stufeAus ?? ((args) => mitLimit(args[0], args.slice(1), { encoding: 'utf8', maxBuffer: 16 * 1024 * 1024 }, { limitMs: STUFE_LIMIT_MS }))
   const zusammenfassung = process.env.GITHUB_STEP_SUMMARY
+  const nachrechnenGh = trocken ? ghLesend(gh) : ghMitAnstossRiegel(gh)
   return {
     zeile: (t) => {
       zeileAus(t)
@@ -68,10 +86,11 @@ export function echteWelt({ trocken, gh = ghEcht, stufeAus, repo = process.env.G
       checks: JSON.parse(gh(['pr', 'view', String(pr.nummer), '--json', 'statusCheckRollup', '--jq', '.statusCheckRollup'])),
       kommentare: zeilen(gh(['api', `repos/${repo}/issues/${pr.nummer}/comments`, '--paginate', '--jq', '.[] | {login: .user.login, assoc: .author_association, at: .created_at, body: .body}'])).map((z) => JSON.parse(z)),
     }),
+    warte: schlafe,
     kopfVon: (n) => gh(['pr', 'view', String(n), '--json', 'headRefOid', '--jq', '.headRefOid']).trim(),
     nachrechnen: (n) => {
       const meldungen = []
-      const exit = nachrechnenMain([String(n)], trocken ? ghLesend(gh) : gh, (t) => meldungen.push(t), schlafe)
+      const exit = nachrechnenMain([String(n)], nachrechnenGh, (t) => meldungen.push(t), schlafe)
       return { exit, text: meldungen.join(' | ') }
     },
     bauCommittet: () => {
