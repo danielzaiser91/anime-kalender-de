@@ -679,6 +679,16 @@ wer die Ursache dann noch kennt, hat Glück. Deshalb diese Datei.
 
 **Nachtrag 04.11.2026 21:35, Ursache geklärt:** Die Prime-Seite `B084DBMYFX` fiel weg, weil der Tiefendurchlauf 69227f208 (03.11.) sie in `data/link-check.json` mit `status: region` markiert hat („In deiner Region nicht mehr auf Prime Video verfügbar“). `09-2-linkpruefung.ts` hat den Weg darauf wie vorgesehen entfernt, da der Handbeleg vom 16.10. älter ist. Prime-Zuordnung, Handbeleg und Doppelseiten-Bereinigung waren nicht beteiligt. Naruto Shippuden zeigt weiter Prime über `B07Q6VL4QC`; im selben Bau verlor kein weiterer Titel einen Prime-Weg. Folgepunkt: Bei einem Weg-Verlust gibt die Wache zuerst den Diff von `link-check.json` zwischen beiden Bauständen aus.
 
+## 05.11.2026 — Bestandsbau rot: `check:tote-adressen` (Lauf 42021853266, Issue #2912)
+
+**Was läuft korrekt.** Die Zusicherung `check:tote-adressen` hat getan, was sie soll: Sie hat `6702 Fairy Tail — primevideo: …/B0CHBX8CM2` als tot belegt gemeldet (`VERSTÖSSE: 1`), und der Bau hat nichts committet. Der ausgelieferte Bestand blieb unverändert (`git show HEAD:public/data/titles.json` enthält die Adresse nicht).
+
+**Wo ist Verbesserungspotenzial?** Derselbe Fehler stand in vier Läufen hintereinander (42012747113, 42015576150, 42016364469, 42018647894, jetzt 42021853266), jedes Mal mit einem Kommentar am Issue #2912. Ein Bau, der dieselbe Zusicherung zum zweiten Mal in Folge verletzt, könnte automatisch einen Treffer am offenen Issue erkennen und gar nicht erst neu anfangen.
+
+**Wo sind echte Risiken und Lücken?** Der Reparatur-PR #2913 hängt offen und ist nicht im headSha; bis zum Merge bleibt jeder Bestandsbau rot. Der Nachbau lokal erzeugt den Weg nicht, weil die Rohfolgen/Meldungen aus D1 nicht in den gesicherten Eingaben liegen — ob #2913 die einzige Ursache ist, lässt sich erst am nächsten Bau messen. Zweite Möglichkeit: `handSticht` (`pipeline/bau/09-2-linkpruefung.ts`) lässt eine frische Meldung den Linkbefund schlagen, `check:tote-adressen` kennt diese Meldung nicht.
+
+**Was läuft komplett falsch?** Nichts über den Bau selbst; die Zeile, an der es bricht: `pipeline/check-tote-adressen.ts` (Ausgabe „1 ausgelieferte Adresse(n) sind als tot belegt"). Kein neuer Pull Request, #2913 ist die Reparatur.
+
 ## 05.11.2026 — Wache meldet „7 Urteile verloren, netflix: 13 Synchro-Belege weniger" (Lauf 42055274777, Issue #2943)
 
 **Was läuft korrekt.** Die Wache hat den Sprung dem Bestandsbau `dea9fed9` (04.11., 16:23 UTC) zugeordnet. Gemessen über Git-Stände von `public/data/titles.json` (`dea9fed9^` → `dea9fed9`): 18 Titel mit weniger Streams, davon 12 Netflix (z. B. Eyeshield 21, Beelzebub, Made in Abyss, Fate/Heaven's Feel I–III) und je einer bei Prime und Crunchyroll (BTOOOM!, Kuroshitsuji, Fruits Basket prelude); ein Titel ganz weg: PERSONA5 the Animation: Stars and Ours (106896). Der Bau ist grün; `ef519461` (17:16) verlor nur noch einen weiteren Titel (Haganai, begründet entfernt).
