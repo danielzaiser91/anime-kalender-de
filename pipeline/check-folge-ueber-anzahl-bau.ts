@@ -29,6 +29,7 @@ const release = {
 } as unknown as Release
 
 const schreibWurzel = mkdtempSync(join(tmpdir(), 'folge-ueber-anzahl-'))
+let fehlt: string[] = []
 try {
   pruefeSynchroJePlattform({
     releases: [release],
@@ -47,13 +48,13 @@ try {
     vorherTitles: [],
     schreibWurzel,
   })
-  const fehlt = [PRUEFLISTE, PRIME_PRUEFLISTE, 'data/adn-vde-historie.json'].filter((pfad) => !existsSync(join(schreibWurzel, pfad)))
-  if (fehlt.length) {
-    console.error('FEHLER: die Phase schreibt ihre Prüfliste nicht unter die übergebene Wurzel', fehlt)
-    process.exit(1)
-  }
+  fehlt = [PRUEFLISTE, PRIME_PRUEFLISTE, 'data/adn-vde-historie.json'].filter((pfad) => !existsSync(join(schreibWurzel, pfad)))
 } finally {
   rmSync(schreibWurzel, { recursive: true, force: true })
+}
+if (fehlt.length) {
+  console.error('FEHLER: die Phase schreibt ihre Prüfliste nicht unter die übergebene Wurzel', fehlt)
+  process.exit(1)
 }
 
 if (release.schedule.episodeCount !== 3 || release.schedule.episodeCountAssumed !== true) {

@@ -1,12 +1,12 @@
 {
- "erzeugtAm": "2026-11-07T10:24:57.174Z",
+ "erzeugtAm": "2026-11-07T16:32:57.296Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
-   "gemeldet": 932,
-   "gesamt": 1002,
-   "offen": 70,
+   "gemeldet": 927,
+   "gesamt": 1001,
+   "offen": 74,
    "ohneSeite": 2,
    "suchAdressen": [
     "https://www.amazon.de/s?k=Super%20Wings&i=instant-video",
@@ -232,6 +232,11 @@
      "hinweis": "Staffeln unklar: TMDB zählt 168 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.44b69da7-d905-017f-c691-54059237c2a9",
+     "titel": "Sylvanian Families",
+     "hinweis": "Staffeln unklar: TMDB zählt 62 Folgen insgesamt, der Anbieter kann sie anders schneiden"
+    },
+    {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.0cb8c40c-c316-369d-4c63-7adba44df4ab",
      "titel": "Bobby und Bill (Boule & Bill)",
      "hinweis": "Staffeln unklar: TMDB zählt 104 Folgen insgesamt, der Anbieter kann sie anders schneiden"
@@ -439,9 +444,9 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 772,
+   "gemeldet": 773,
    "gesamt": 1082,
-   "offen": 310,
+   "offen": 309,
    "ohneSeite": 13,
    "ziel": "https://www.netflix.com/title/81608820",
    "ziele": [
@@ -1320,10 +1325,6 @@
      "titel": "Kazoops!"
     },
     {
-     "url": "https://www.netflix.com/title/80063153",
-     "titel": "Kuroko’s Basketball: 1st Season"
-    },
-    {
      "url": "https://www.netflix.com/title/80108159",
      "titel": "Fragestunde mit den StoryBots"
     },
@@ -1778,28 +1779,6 @@
     "8cc06990-0faf-4a7e-ac1f-fb74cb4b9286": 15,
     "5ecc8b00-79fd-4c1a-81ed-f44260ef38d4": 13
    }
-  },
-  {
-   "name": "Suchadressen",
-   "plattform": "suchadressen",
-   "gemeldet": 0,
-   "gesamt": 2,
-   "offen": 2,
-   "titel": 0,
-   "ohneSeite": 2,
-   "ziel": "https://netflix.com",
-   "ziele": [
-    {
-     "url": "https://netflix.com",
-     "titel": "Meine ganz besondere Hochzeit: Special"
-    },
-    {
-     "url": "https://www.amazon.de/s?k=TANK%20CHAIR&i=instant-video",
-     "titel": "Tank Chair"
-    }
-   ],
-   "naechster": "Meine ganz besondere Hochzeit: Special",
-   "hinweis": "Suchadressen ohne Titelseite: den richtigen Treffer beim Anbieter heraussuchen"
   }
  ]
 }

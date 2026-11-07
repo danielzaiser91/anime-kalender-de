@@ -156,7 +156,7 @@ async function main(): Promise<void> {
   const { ergaenzeWegeAusJustwatch } = await import('./bau/11-2-justwatch.ts')
   const { baueIstTot } = await import('./lib/adresse-tot.ts')
   const { suchadressenInTemp } = await import('./lib/suchadressen-temp.ts')
-  suchadressenInTemp()
+  suchadressenInTemp() // lenkt die JustWatch-Widerspruchsliste des Abschlusses um
 
   /** Lässt den Abschluss mit einem Titel laufen; `lautPruefung` ist die Linkprüfung, `toteAdressen` die Handbeleg-Menge. */
   function lauf(t: Title, opt: Parameters<Lauf>[1] = {}): Title {
