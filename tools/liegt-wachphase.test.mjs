@@ -15,7 +15,7 @@ const pruefe = (name, ok, info) => {
 
 const JETZT = Date.parse('2026-10-30T12:00:00Z')
 const vorStunden = (h) => new Date(JETZT - h * 3600 * 1000).toISOString()
-const LEICHT = 'number,title,headRefOid,createdAt,mergeable,mergeStateStatus,isDraft,body'
+const LEICHT = 'number,title,headRefOid,createdAt,mergeable,mergeStateStatus,isDraft,body,baseRefName'
 const KOPF = 'a1b2c3d4e5f60718293a4b5c6d7e8f9012345678'
 
 console.log('liegt-wachphase: Sammelzeile (rein)')

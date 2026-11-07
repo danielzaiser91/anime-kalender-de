@@ -460,6 +460,19 @@ console.log('liegegut: eigener Prozess (Vorlader tools/pr-nachrechnen-mock.mjs)'
   fs.writeFileSync(path.join(werk, 'daten.json'), JSON.stringify(leerDaten))
   const kaputt = spawnSync(process.execPath, ['--import', vorlader, skript], { encoding: 'utf8', env: { ...process.env, ATTRAPPE_LOG: path.join(werk, 'log.txt'), ATTRAPPE_DATEN: path.join(werk, 'daten.json') } })
   pruefe('Prozess: Abruffehler → Exit 2 mit FEHLER', kaputt.status === 2 && /liegegut: FEHLER/.test(kaputt.stdout), { s: kaputt.status, o: kaputt.stdout })
+  // Entschiedene F-Nummern: Arbeitsordner mit fragen/F39*.md, zwei PRs nennen F39 (Verdrahtung von main() zum Leser)
+  const zwei = [pr(1676, { body: 'F39', comments: [bot(1, KOPF, 'ok')] }), pr(1677, { body: 'F39', comments: [bot(1, KOPF, 'ok')] })]
+  const mitF39 = { ...daten, [`api repos/{owner}/{repo}/pulls/1677/files --paginate --jq ${JQ_PATCHES}`]: daten[`api repos/{owner}/{repo}/pulls/1676/files --paginate --jq ${JQ_PATCHES}`] }
+  for (const k of Object.keys(mitF39)) if (k.startsWith('pr list')) mitF39[k] = { aus: JSON.stringify(zwei) }
+  fs.writeFileSync(path.join(werk, 'daten.json'), JSON.stringify(mitF39))
+  const fragenOrdner = path.join(werk, 'arbeit', 'daniel-zum-abarbeiten', 'fragen')
+  fs.mkdirSync(fragenOrdner, { recursive: true })
+  const fahre = () => spawnSync(process.execPath, ['--import', vorlader, skript], { encoding: 'utf8', timeout: 60000, cwd: path.join(werk, 'arbeit'), env: { ...process.env, ATTRAPPE_LOG: path.join(werk, 'log.txt'), ATTRAPPE_DATEN: path.join(werk, 'daten.json') } })
+  const offen = fahre()
+  pruefe('Prozess: F39 ohne Entscheidung → Signal 6 (Kontrolle)', offen.status === 0 && /Signal 6 Gleiche offene Entscheidung F39/.test(offen.stdout), { o: offen.stdout, e: offen.stderr })
+  fs.writeFileSync(path.join(fragenOrdner, 'F39-x.md'), '# F39\n\nEntschieden: A\n')
+  const entschieden = fahre()
+  pruefe('Prozess: F39 entschieden → kein Signal 6', entschieden.status === 0 && !/Signal 6/.test(entschieden.stdout) && /liegegut: \d+ auffällige PRs/.test(entschieden.stdout), { o: entschieden.stdout, e: entschieden.stderr })
   fs.rmSync(werk, { recursive: true, force: true })
 }
 
