@@ -114,6 +114,10 @@ jobs:
       - name: Anime2You (leicht)
         run: bash tools/schritt.sh --zeit 2m "Anime2You (leicht)" -- npm run data:anime2you -- --leicht
 
+      # Beobachtungsliste: angekündigte Starts (Releases, ohne-synchro.json) ohne Synchro-Beleg; liest nur den Bestand, ruft nichts ab, Fehler endet mit Exit 0.
+      - name: Synchro-Beobachtung
+        run: bash tools/schritt.sh --zeit 2m "Synchro-Beobachtung" -- npm run data:synchro-beobachtung
+
       # Was der Prüflauf gemessen hat, als Bild festhalten (privat, R2). Öffnet nur dann einen Browser, wenn ein frischer Vermerk noch kein Bild hat.
       - name: Messbelege ablegen
         run: bash tools/schritt.sh --zeit 10m "Messbelege" -- npx tsx pipeline/messbelege.ts
