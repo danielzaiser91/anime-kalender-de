@@ -108,6 +108,7 @@ pipeline/check-cr-batch-phase.ts
 pipeline/check-cr-batch-wache.ts
 pipeline/check-cr-block-standardname.ts
 pipeline/check-cr-blockkette-luecke.ts
+pipeline/check-cr-browser-start.ts
 pipeline/check-cr-doppelt-weg.ts
 pipeline/check-cr-einzelwerk-urteil.ts
 pipeline/check-cr-film-wege.ts
@@ -518,6 +519,7 @@ pipeline/check-woche-neue-serien.ts
 pipeline/check-wochen-datei.ts
 pipeline/check-wochen-kacheln-lauf.ts
 pipeline/check-wochen-kacheln.ts
+pipeline/check-wochen-packen.ts
 pipeline/check-wochenprogramm-sendetag.ts
 pipeline/check-workflow-browser.ts
 pipeline/check-write-json-atomar.ts
