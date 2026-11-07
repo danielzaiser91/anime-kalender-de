@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-11-07T10:08:49.491Z",
+  "generatedAt": "2026-11-07T16:16:41.925Z",
   "titleCount": 2923,
-  "belegtCount": 2587,
-  "releaseCount": 877,
-  "eventCount": 4383,
+  "belegtCount": 2586,
+  "releaseCount": 888,
+  "eventCount": 4405,
   "genres": [
     "Action",
     "Adventure",
@@ -266,7 +266,11 @@
     2018,
     2017,
     2016,
-    2015
+    2015,
+    2011,
+    2010,
+    2009,
+    2008
   ],
   "patchnotesStand": "2026-11-07",
   "attribution": [

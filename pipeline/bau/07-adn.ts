@@ -15,7 +15,7 @@ import { terminSpanne } from '../lib/adn-spanne.ts'
 import { ergaenzeTeilnamen } from './adn-teilnamen.ts'
 import { verschmelzeAdnMitKuratiertem } from './adn-kuratiert.ts'
 import { adnShowsAusKalenderUndKatalog, belegeTonKuratierterAdnTermine } from './adn-kuratiert-ton.ts'
-import { loeseAdnTitelIds, titelZurShow } from './adn-show-titel.ts'
+import { adnShowsMitKatalogKennung, loeseAdnTitelIds, titelZurShow } from './adn-show-titel.ts'
 import { cartoonTitelJeAdn } from './cartoon-adn.ts'
 import type { CartoonEintrag } from '../lib/cartoons.ts'
 import { type Title, type Release } from '../../shared/types.ts'
@@ -72,11 +72,8 @@ function ergaenzeAdnTitelAusDaten({ titles, releases, titleByName, seenSlugs, ca
   loeseAdnTitelIds(adnKatalog.shows, titles)
   const adn: AdnData = {
     ...adnKalender,
-    shows: [
-      ...adnKalender.shows,
-      // Der Kalender ist die frischere Quelle — was dort schon steht, gewinnt.
-      ...adnKatalog.shows.filter((k) => !adnKalender.shows.some((s) => s.showId === k.showId)),
-    ],
+    // Der Kalender ist die frischere Quelle — was dort schon steht, gewinnt (die Katalog-`titleId` übernimmt er).
+    shows: adnShowsMitKatalogKennung(adnKalender.shows, adnKatalog.shows),
   }
   const curatedAdnShows = new Set(
     releases

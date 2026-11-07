@@ -1,26 +1,46 @@
 {
-  "scrapedAt": "2026-11-07T04:13:20.291Z",
+  "scrapedAt": "2026-11-07T13:01:21.350Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 39,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 4,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "schon in einem Rubrik-Feed gelesen": 30,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 56,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 13,
+    "schon in einem Rubrik-Feed gelesen": 9,
     "Sprachhinweis älter als 45 Tage": 6
   },
   "proposals": [
     {
-      "articleTitle": "Prime Video nimmt zwei Anime-Serien auf Deutsch ins Programm",
-      "articleUrl": "https://www.anime2you.de/news/1068059/prime-video-devils-crest-und-mehr/",
-      "publishedAt": "2026-11-06",
-      "category": "streaming",
+      "articleTitle": "Nur noch wenige Tage: »Pokémon«-DVDs für 19,99 Euro bei polyband",
+      "articleUrl": "https://www.anime2you.de/news/1068831/polyband-pokemon-rabattaktion-endet-bald/",
+      "publishedAt": "2026-11-07",
+      "category": "disc",
       "platforms": [
-        "primevideo"
+        "disc"
       ],
-      "dates": [],
-      "dub": "ja",
-      "hinweis": "sprache",
+      "dates": [
+        {
+          "iso": "2026-11-10",
+          "context": "ie wichtigsten Details nachfolgend noch einmal zusammen. Nur noch bis 10. November 2026 Im Rahmen einer vom 29. Oktober bis 10. November 202"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Konkreter Termin der Anime-Adaption von »BLESS« + Trailer",
+      "articleUrl": "https://www.anime2you.de/news/1068798/konkreter-termin-von-bless/",
+      "publishedAt": "2026-11-07",
+      "category": "allgemein",
+      "platforms": [
+        "crunchyroll"
+      ],
+      "dates": [
+        {
+          "iso": "2027-01-08",
+          "context": "me-Umsetzung von »BLESS« wurde heute verkündet, dass die Serie ab dem 8. Januar 2027 im japanischen Fernsehen ausgestrahlt wird. Einen erste"
+        }
+      ],
+      "dub": "unklar",
       "alreadyCurated": false
     },
     {
