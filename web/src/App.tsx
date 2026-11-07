@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { Title } from '@shared/types.ts'
 import { useSprecherAuswahl } from './lib/sprecher.ts'
-import { EinstellungenDialog } from './components/Einstellungen.tsx'
+import { EinstellungenLazy } from './components/EinstellungenLazy.tsx'
 import { loadAllTitles, loadCartoons, loadOhneSynchro, loadSynonyme } from './lib/data.ts'
 import { useStartdaten } from './lib/start-daten.ts'
 import { useEinstellungenOffen } from './lib/einstellungen-offen.ts'
@@ -25,7 +25,7 @@ import { cacheCoversForOffline } from './lib/pwa.ts'
 import { coverBild, KACHEL_DICHTE } from './lib/cover.ts'
 import { KalenderBereich } from './components/kalender/KalenderBereich.tsx'
 import { DatenbankBereichLazy } from './components/DatenbankBereichLazy.tsx'
-import { DetailPanel } from './components/DetailPanel.tsx'
+import { DetailPanelLazy } from './components/DetailPanelLazy.tsx'
 import { Footer } from './components/Footer.tsx'
 import { StartGeruest, WochenSkelett } from './components/StartGeruest.tsx'
 import { useErstesErgebnis } from './lib/erstes-ergebnis.ts'
@@ -199,7 +199,7 @@ export default function App() {
   return (
     <div className={`flex min-h-full flex-col ${fussAbstand(route.view)}`}>
       {kopf}
-      <EinstellungenDialog
+      <EinstellungenLazy
         offen={einstellungenOffen}
         schliessen={() => setEinstellungenOffen(false)}
       />
@@ -251,7 +251,7 @@ export default function App() {
       <InstallDialog />
 
       {openTitleId !== undefined && voll && (
-        <DetailPanel
+        <DetailPanelLazy
           data={data}
           titleId={openTitleId}
           discZuerst={route.disc}

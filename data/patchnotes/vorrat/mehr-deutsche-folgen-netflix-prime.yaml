@@ -1,0 +1,5 @@
+kategorie: feature
+text: Mehr deutsche Folgen bei Netflix und Prime erkannt
+untertitel: 'Peppa Wutz, Teen Titans Go!, Tayo: Der Kleine Bus'
+wartetAuf: Rohfolgen-Lauf mit Wirkung von PR 2740 und 2762 — cartoons.json Peppa Wutz (-12225) Netflix dubRanges über Folge 13 hinaus (04.11. 08:45 noch 1–13), titles.json Tayo (163828) Prime mit dubRanges; dann Beispiele prüfen
+seit: '2026-11-04'

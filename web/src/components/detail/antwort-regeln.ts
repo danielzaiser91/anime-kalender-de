@@ -2,7 +2,7 @@
  * **Zwei Regeln für den Antwort-Kasten** — ausgelagert, weil `berechneAntwort`
  * die Längengrenze reißt (`tools/umfang-pruefen.mjs`).
  */
-import { anzeigeFolge, istErschienen, releaseStatus } from '@shared/logic.ts'
+import { anzeigeFolge, istErschienen, istKatalogstartOhneUhrzeit, releaseStatus } from '@shared/logic.ts'
 import { formatDate, todayIso, weekdayName } from '@shared/time.ts'
 import type { Release, ReleaseEvent, Title, WatchLink } from '@shared/types.ts'
 import { erstausgabeVorDisc } from '../../lib/erste-disc.ts'
@@ -202,10 +202,14 @@ export function fertigAntwort(
   gesamt: number | undefined,
   belegteFolgen: number,
   events: ReleaseEvent[],
-): { art: 'fertig'; raus?: number; gesamt?: number; gesamtAbgeleitet: boolean } {
+  heute?: string,
+): { art: 'fertig'; raus?: number; gesamt?: number; gesamtAbgeleitet: boolean; heuteOffen?: boolean } {
   const wochenplan = events.some((e) => e.releaseType === 'weekly' && e.platform !== 'tv' && e.platform !== 'disc')
   const belegt = Boolean(gesamt && belegteFolgen >= gesamt) || wochenplan
-  return { art: 'fertig', raus, gesamt, gesamtAbgeleitet: !belegt }
+  /* Nur wenn der ganze Katalogstart heute liegt; früherer Teil (z. B. 20.10.) heißt: "Alle N heute" wäre falsch. */
+  const katalog = events.filter(istKatalogstartOhneUhrzeit)
+  const heuteOffen = (katalog.length > 0 && katalog.every((e) => e.date === heute)) || undefined
+  return { art: 'fertig', raus, gesamt, gesamtAbgeleitet: !belegt, heuteOffen }
 }
 
 /** Bis zu welcher Folge die Folgenliste „erschienen" kennt: Nur bei laufender Ausstrahlung ist `raus` eine Folgennummer; bei `fertig` ist es die Zahl der Ereignisse (One Piece: 10) und ließ ab Folge 11 alles ohne Flagge als „noch nicht erschienen" stehen. */

@@ -135,3 +135,4 @@ Daten 18, Workflow/CI 12, Rest 8); Wochenzahl im Protokoll fortschreiben.
   `wecker-wache.yml` (stand.md „Als Nächstes“ 🔴); Ausnahmeliste „bekannt rot“ verworfen.
 
 - 21.10.2026, Code (Termin): check:umfang grün, Überlänge pipeline 13.239 → 9.425 seit 26.09.; Funde: 62× „heute“ in UTC trotz Zeitzonenregel (kein Wächter), ~27 lokale `norm`, 12 tote Exporte. Maßnahmen: Bauer Wächter + Umstellung auf `todayIso()`, Rest „Als Nächstes“.
+- 05.11.2026, Daten (Termin, erstmals): 15 Releases mit `sources: []` im fertigen `releases.json` (niemand prüft den fertigen Datensatz, `data:validate` nur Kuratiertes); Netflix-Prüfliste 5 → 71 in einer Woche, `22-belege-ohne-fundstelle` 27 → 93; ADN 8 Tage ohne Erfolg. Maßnahmen: Bauer Quellen-Wächter am fertigen Datensatz; Wächter „Restliste wächst“ und Bündelung der Beleglisten in Als Nächstes. Bericht `berichte/prueftisch-daten-2026-11-05.md`.

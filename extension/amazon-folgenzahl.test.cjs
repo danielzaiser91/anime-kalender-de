@@ -572,7 +572,7 @@ pruefe(
     'der Leser stempelt mit der Abruf-Adresse',
     /*
       Gezählt gegen die Sendestellen, nicht gegen eine feste Zahl: Am 15.09.2026
-      kam mit `seiteNachholen()` eine vierte dazu, und die „3" wurde rot, obwohl
+      kam mit `ausNachgeholterSeite()` eine vierte dazu, und die „3" wurde rot, obwohl
       jede Stelle richtig stempelte.
     */
     leser.split('fuerAdresse: abrufAdresse').length - 1 === (leser.match(/window\.postMessage\(/g) ?? []).length &&
