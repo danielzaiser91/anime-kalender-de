@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict'
-import { einmalWiederholen, faelleDurchlaufen, mitFrischemBrowser } from './lib/screenshot-wiederholen.ts'
+import { einmalWiederholen, faelleDurchlaufen, faelleMitFrischemBrowser, mitFrischemBrowser } from './lib/screenshot-wiederholen.ts'
 
 const FEHLER = 'Page.captureScreenshot: Unable to capture screenshot'
 const keinWarten = async () => {}
@@ -124,4 +124,16 @@ function lauf(fehlschlaege: string[]) {
   })
   assert.equal(await b.fuer(2), 'neu')
 }
-console.log('screenshot-wiederholen: 13 Fälle in Ordnung (Browser-Wechsel nur bei Versuch 2, Wiederholung ok/gescheitert gemeldet, einmal wiederholt mit Pause 1500 ms und Versuch 2, zweiter Fehler rot, anderer Fehler rot, Durchlauf)')
+/* Verdrahtung: Fall wirft bei Versuch 1 den Screenshot-Fehler, Versuch 2 muss den frischen Browser sehen (nicht den alten). */
+{
+  const gesehen: string[] = []
+  const b = mitFrischemBrowser('alt', async () => 'neu', async () => {})
+  const pruefe = async (br: string, f: string) => {
+    gesehen.push(`${f}:${br}`)
+    if (br === 'alt' && f === 'b') throw new Error(FEHLER)
+    return true
+  }
+  assert.equal(await faelleMitFrischemBrowser(['a', 'b', 'c'], b, pruefe, () => {}, keinWarten), 0)
+  assert.deepEqual(gesehen, ['a:alt', 'b:alt', 'b:neu', 'c:neu'])
+}
+console.log('screenshot-wiederholen: 14 Fälle in Ordnung (Verdrahtung: Wiederholung sieht frischen Browser, Browser-Wechsel nur bei Versuch 2, Wiederholung ok/gescheitert gemeldet, einmal wiederholt mit Pause 1500 ms und Versuch 2, zweiter Fehler rot, anderer Fehler rot, Durchlauf)')

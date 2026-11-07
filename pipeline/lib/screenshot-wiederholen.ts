@@ -44,6 +44,17 @@ export async function faelleDurchlaufen<F>(
   return fehler
 }
 
+/** Fälle durchlaufen; jede Wiederholung (Versuch 2) bekommt den frischen Browser aus `browser.fuer`. */
+export function faelleMitFrischemBrowser<F, B>(
+  faelle: F[],
+  browser: { fuer(versuch: 1 | 2): Promise<B> },
+  pruefe: (b: B, f: F) => Promise<boolean>,
+  melde: (zeile: string) => void,
+  warte?: (ms: number) => Promise<void>,
+): Promise<number> {
+  return faelleDurchlaufen(faelle, async (f, versuch) => pruefe(await browser.fuer(versuch), f), melde, warte)
+}
+
 /** Browser je Versuch: Versuch 1 nutzt den laufenden, Versuch 2 schließt ihn und startet einen frischen. */
 export function mitFrischemBrowser<B>(erster: B, starte: () => Promise<B>, schliesse: (b: B) => Promise<void>) {
   let aktuell = erster

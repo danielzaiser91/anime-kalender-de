@@ -4,7 +4,7 @@
  * Aufruf: npx tsx pipeline/check-beleg-wand.ts   (Exit 1 bei Verstoß)
  */
 import { chromium, type Browser, type Page } from 'playwright'
-import { faelleDurchlaufen, mitFrischemBrowser } from './lib/screenshot-wiederholen.ts'
+import { faelleMitFrischemBrowser, mitFrischemBrowser } from './lib/screenshot-wiederholen.ts'
 import { belegAusschnitt, istEinfarbig, stuetzbegriffe } from './lib/beleg-bild.ts'
 import { warteschlange, type BelegGedaechtnis } from './lib/beleg-lesung.ts'
 
@@ -73,7 +73,7 @@ async function pruefeAufSeite(seite: Page, f: Fall): Promise<boolean> {
 const browser = mitFrischemBrowser(await chromium.launch(), () => chromium.launch(), (b) => b.close())
 let fehler: number
 try {
-  fehler = await faelleDurchlaufen(faelle, async (f, versuch) => pruefeFall(await browser.fuer(versuch), f), console.log)
+  fehler = await faelleMitFrischemBrowser(faelle, browser, pruefeFall, console.log)
 } finally {
   await browser.browser().close()
 }
