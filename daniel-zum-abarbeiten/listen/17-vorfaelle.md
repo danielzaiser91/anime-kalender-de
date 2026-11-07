@@ -4,7 +4,7 @@ Was der Browser-Erweiterung aufgefallen ist, seit dieser Lauf zuletzt gelesen ha
 Bis zum 10.09.2026 stand das in der Browserkonsole — also an einer Stelle, die
 niemand liest: Daniel schaut dort nicht hin, und der Agent kommt gar nicht daran.
 
-Stand: 2026-11-07 16:06 · 3 Vorfall/Vorfälle
+Stand: 2026-11-07 16:16 · 3 Vorfall/Vorfälle
 
 **Ein Vorfall ist nicht zwingend ein Fehler.** „Keine Tonspur gelesen" ist ein
 vorgesehener Fall — interessant wird er erst durch seine Häufigkeit.
