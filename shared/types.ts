@@ -541,8 +541,7 @@ export interface Release {
   edition?: string
   /** Ein kurzer Hinweis für Besucher (ohne Personennamen) — steht im Detail-Panel und auf der Teilen-Seite. */
   hinweis?: string
-  /** Interne Pflegenotiz; wird nie ausgeliefert (`release-ohne-notiz.ts`). */
-  note?: string
+  note?: string // interne Pflegenotiz, nie ausgeliefert (`release-ohne-notiz.ts`)
   netflixOriginal?: boolean /* Netflix-Eigenproduktion: nur dann gilt die übliche 17-Uhr-JST-Zeit als Schätzung */; nachtrag?: { kurz: string; abschnitte: { art: string; text: string }[] } // Termin lag beim Eintragen schon zurück: News „Rückwirkend eingetragen", Text hinter „mehr" (Daniel, 04.10.2026)
   /**
    * **Was an einer Fassung geschnitten ist — und wo es steht** (Daniel, 19.09.2026, an
