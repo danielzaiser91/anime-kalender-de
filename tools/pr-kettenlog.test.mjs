@@ -170,6 +170,8 @@ const gh = (args) => {
 const l = holeLauf('o/r', SHA, gh)
 pruefe('neuester Lauf = höchste Kennung, nicht der erste', l.id === 9 && l.conclusion === 'failure', l)
 pruefe('Abruf filtert auf Kopf und pull_request', aufrufe[0].some((a) => a.includes(`head_sha=${SHA}`) && a.includes('event=pull_request')), aufrufe[0])
+pruefe('neuerer abgebrochener Lauf verliert gegen älteren fertigen', holeLauf('o/r', SHA, () => '12\tcompleted\tcancelled\n8\tcompleted\tsuccess\n').id === 8)
+pruefe('nur abgebrochene Läufe: der neueste', holeLauf('o/r', SHA, () => '3\tcompleted\tcancelled\n12\tcompleted\tcancelled\n').id === 12)
 gleich('kein Lauf: null', holeLauf('o/r', SHA, () => ''), null)
 const js = holeJobs('o/r', 9, gh)
 pruefe('Jobs gelesen', js.length === 3 && js[1].status === 'in_progress' && js[1].conclusion === '')
@@ -349,7 +351,8 @@ pruefe('Schritt: Kopf, Ordner, Frist und Beschreibungsdatei als Argumente, fail-
 const VORLAUF_MIN = 1.5
 const PRUEFER_MAX_MIN = 13
 const jobMinuten = wf.jobs.pruefen['timeout-minutes']
-pruefe('Frist: deckt p90 der Kette (12,9 min) ab', frist >= 780, frist)
+// PR 2852, Kopf bea96992d (04.11.2026): Kette 15:46:39 bis 16:18:02 = 31,4 min; bei 13 min urteilte der Prüfer auf unfertiger Kette „aendern“.
+pruefe('Frist: deckt die längste gemessene Kette (31,4 min) ab', frist >= 31.4 * 60, frist)
 pruefe('Frist: Vorlauf + Frist + voller Prüfer bleibt unter dem Job-Timeout', VORLAUF_MIN + frist / 60 + PRUEFER_MAX_MIN <= jobMinuten, { frist, jobMinuten })
 pruefe('Berechtigung actions: read vorhanden, Bash im Prüfer weiter verboten', wf.permissions.actions === 'read' && schritte.filter((s) => s.with?.settings).every((s) => JSON.parse(s.with.settings).permissions.deny.includes('Bash')))
 const prompts = schritte.filter((s) => s.with?.prompt).map((s) => s.with.prompt)

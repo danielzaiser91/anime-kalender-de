@@ -80,7 +80,7 @@ const OHNE_TERMIN = KURATIERT.replace('  schedule:', '  zeitplan:').replace('   
 /** Handdateien, die der Bau voraussetzt (ohne sie bricht er mit ENOENT ab). */
 const HAND = ['kino-ankuendigungen.yaml', 'ohne-synchro-von-hand.yaml', 'ankuendigungen.yaml', 'anisearch-ids-hand.yaml', 'fanservice-urteil.yaml', 'shop-wege-falsches-ziel.yaml']
 const wurzel = mkdtempSync(join(tmpdir(), 'phasenfolge-'))
-function fahre(name: string, kuratiertYaml: string) {
+function fahre(name: string, kuratiertYaml: string, umgebung: Record<string, string> = {}) {
   const ordner = join(wurzel, name)
   mkdirSync(join(ordner, 'data', 'cache'), { recursive: true })
   mkdirSync(join(ordner, 'data', 'curated'), { recursive: true })
@@ -90,6 +90,8 @@ function fahre(name: string, kuratiertYaml: string) {
   /* Zwei Quellen von „tot“: die Linkprüfung kennt TOT_PRUEFUNG, ein Handbeleg „nicht verfügbar“ kennt TOT_HAND. */
   writeFileSync(join(ordner, 'data', 'link-check.json'), JSON.stringify({ [TOT_PRUEFUNG]: { status: 404, geprueftAm: '2026-11-01' } }))
   writeFileSync(join(ordner, 'data', 'dub-confirmed.yaml'), `- anilistId: 900001\n  platform: netflix\n  url: ${TOT_HAND}\n  available: false\n  checkedAt: '2026-11-01'\n`)
+  /* Die Markierung eigener Werke läuft in der Folge mit: der Probetitel steht in der Handliste der Spin-offs. */
+  writeFileSync(join(ordner, 'data', 'spinoff-von-hand.yaml'), '- ids: [900001]\n  grund: Probe\n  quelle: https://example.org/\n')
   const bau = pathToFileURL(join(import.meta.dirname, 'bau')).href
   const skript = join(ordner, 'lauf.mts')
   writeFileSync(
@@ -97,11 +99,11 @@ function fahre(name: string, kuratiertYaml: string) {
     `import { ladeQuellen } from '${bau}/01-quellen.ts'
 import { bauePhasenfolge } from '${bau}/phasenfolge.ts'
 const e = bauePhasenfolge(ladeQuellen())
-console.log('ERGEBNIS ' + JSON.stringify({ titel: e.titles.size, releases: e.releases.length, events: e.events.length, totPruefung: e.istTot('${TOT_PRUEFUNG}'), totHand: e.istTot('${TOT_HAND}'), lebt: e.istTot('${LEBT}') }))
+console.log('ERGEBNIS ' + JSON.stringify({ titel: e.titles.size, releases: e.releases.length, events: e.events.length, totPruefung: e.istTot('${TOT_PRUEFUNG}'), totHand: e.istTot('${TOT_HAND}'), lebt: e.istTot('${LEBT}'), eigenesWerk: e.titles.get(900001)?.eigenesWerk === true }))
 `,
   )
   return spawnSync(process.execPath, ['--import', 'tsx', skript], {
-    env: { ...process.env, AK_ROOT: ordner, AK_PHASE_ZUSTAND: '', AK_PHASE_TITEL: '' },
+    env: { ...process.env, AK_ROOT: ordner, AK_PHASE_ZUSTAND: '', AK_PHASE_TITEL: '', ...umgebung },
     encoding: 'utf8',
     windowsHide: true,
     timeout: 120000,
@@ -117,8 +119,12 @@ try {
   pruefe('Ergebnis trägt das Prädikat: nur laut Linkprüfung tote Adresse', ergebnis?.totPruefung === true, ergebnis)
   pruefe('Ergebnis trägt das Prädikat: nur laut Handbeleg tote Adresse', ergebnis?.totHand === true, ergebnis)
   pruefe('Ergebnis trägt das Prädikat: lebende Adresse ist nicht tot', ergebnis?.lebt === false, ergebnis)
+  pruefe('Die Folge markiert eigene Werke aus der Handliste (Staffelzählung) und meldet es im Log', ergebnis?.eigenesWerk === true && gut.stdout.includes('1 eigene Werke markiert'), { ergebnis, log: gut.stdout.slice(-300) })
   pruefe('Bilanzzeile 05 gedruckt', gut.stdout.includes('Bilanz 05-releases: 1 Titel, 1 Releases, - Termine (1 kuratiert)'), gut.stdout.slice(-600))
   pruefe('Bilanzzeile 10 gedruckt', /Bilanz 10-komplettabwurf: 1 Titel, 1 Releases, [1-9]\d* Termine \(1 kuratiert\)/.test(gut.stdout), gut.stdout.slice(-600))
+  const rueckweg = fahre('rueckweg', KURATIERT, { REIHEN_QUELLE: 'anilist' })
+  const rueckZeile = rueckweg.stdout.split('\n').find((z) => z.startsWith('ERGEBNIS '))
+  pruefe('Rückweg REIHEN_QUELLE=anilist markiert eigene Werke ebenfalls', rueckweg.status === 0 && !!rueckZeile && JSON.parse(rueckZeile.slice(9)).eigenesWerk === true, { status: rueckweg.status, log: rueckweg.stdout.slice(-300) })
 
   const leer = fahre('leer', OHNE_TERMIN)
   pruefe('Kuratierter Eintrag ohne Titel: Prozess endet mit Fehler', leer.status !== 0 && !leer.stdout.includes('ERGEBNIS'), { status: leer.status })

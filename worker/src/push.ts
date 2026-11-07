@@ -1,7 +1,12 @@
 import { pushText, pushZiel, type PushEreignis, type WeitererAnbieter } from './push-text.ts'
 import { fehlerLog } from './werte.ts'
+import { imTagesfenster } from './push-fenster.ts'
 import { istPushDienst } from './push-dienst.ts'
 import { ladeKennungen, leseFavoriten, type Kennungen } from './favoriten-kennung.ts'
+import { istErschienen } from '../../shared/logic.ts'
+
+/** Für Push gilt ein Katalogstart ohne Uhrzeit erst um 23:59 als erschienen: Netflix schaltet gegen 9 Uhr frei, "Jetzt auf Deutsch" um 00:00 käme zu früh. */
+export const pushIstErschienen = (e: PushEreignis, zeit: Date): boolean => istErschienen(e, zeit, false)
 
 /**
  * **Web-Push ohne Nutzlast — der Zustell-PoC** (18.09.2026, Plan in status.md).
@@ -228,14 +233,17 @@ export async function pushVersand(
   ereignisse: PushEreignis[],
   istErschienen: (e: PushEreignis, zeit: Date) => boolean,
   weitere: WeitererAnbieter[] = [],
+  /** Der Fünf-Minuten-Lauf kennt die „Jetzt auch bei“-Meldungen nicht und setzt deshalb nie die erste Marke. */
+  ohneErstlauf = false,
 ): Promise<string> {
   const marke = await leseMarke(env.DB)
+  if (!marke && ohneErstlauf) return 'keine Marke: der Stundenlauf setzt sie'
   if (!marke) {
     await schreibeMarke(env.DB, jetzt, weitere.map(weiterSchluessel))
     return 'Erstlauf: Marke gesetzt, 0 Abos gelesen'
   }
   const seit = new Date(marke.zuletzt)
-  const neueEreignisse = ereignisse.filter((e) => istErschienen(e, jetzt) && !istErschienen(e, seit))
+  const neueEreignisse = imTagesfenster(ereignisse, seit, jetzt).filter((e) => istErschienen(e, jetzt) && !istErschienen(e, seit))
   const neueWeitere = weitere.filter((w) => !marke.gemeldet.includes(weiterSchluessel(w)))
   if (!neueEreignisse.length && !neueWeitere.length) return '0 Abos gelesen, nichts Neues'
   const { results } = await env.DB.prepare('SELECT endpoint, favoriten, erstellt, zuletzt, gemeldet, offen, offen_ziel FROM push_abo ORDER BY zuletzt ASC').all<AboZeile>()

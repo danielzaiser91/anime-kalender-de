@@ -1,5 +1,5 @@
 /**
- * Automatische Disc-Termine (aus Anime2You-Meldungen, Phase 08) bekommen ihren Kaufweg wie Handeinträge (Handlink > EAN > Name).
+ * Automatische Disc-Termine (aus Anime2You-Meldungen, Phase 08) bekommen ihren Kaufweg wie Handeinträge (EAN > Handlink > Name).
  * Läuft den echten Bauschritt `ergaenzeDiscUndZugang` gegen einen Wegwerf-Ordner (`AK_ROOT`); Ausgaben und Artikel sind Kulisse.
  * Ohne den Aufruf in `11-1` bleibt eine Auto-Disc ohne Kaufweg (19 von 195 am 01.11.2026) — dann wird dieser Test rot.
  */
@@ -50,6 +50,7 @@ try {
     rel('auto-mit-ean', 900501, { herkunft: 'Box 1 laut Meldung' }),
     rel('auto-ohne-ausgabe', 900502),
     rel('auto-hand', 900501, { buyUrl: dp }),
+    rel('auto-hand-ohne-ean', 900502, { buyUrl: dp }),
     rel('auto-weekly', 900501, { releaseType: 'weekly', platform: 'netflix' }),
     rel('auto-ohne-datum', 900501, { schedule: undefined }),
   ]
@@ -59,7 +60,8 @@ try {
   console.log('\nBau (ergaenzeDiscUndZugang):')
   pruefe('Auto-Disc mit eindeutiger EAN: EAN-Suche', von('auto-mit-ean').buyUrl === `https://www.amazon.de/s?k=${EAN}`, von('auto-mit-ean').buyUrl)
   pruefe('Auto-Disc ohne Ausgabe: Namenssuche statt nichts', amazonLinkArt(von('auto-ohne-ausgabe').buyUrl) === 'name', von('auto-ohne-ausgabe').buyUrl)
-  pruefe('Handlink bleibt', von('auto-hand').buyUrl === dp, von('auto-hand').buyUrl)
+  pruefe('Amazon-Handlink mit eindeutiger EAN: EAN-Suche', von('auto-hand').buyUrl === `https://www.amazon.de/s?k=${EAN}`, von('auto-hand').buyUrl)
+  pruefe('Handlink ohne EAN bleibt', von('auto-hand-ohne-ean').buyUrl === dp, von('auto-hand-ohne-ean').buyUrl)
   pruefe('Kein Disc-Termin: nichts erfunden', von('auto-weekly').buyUrl === undefined, von('auto-weekly').buyUrl)
   pruefe('Disc ohne Datum: nichts erfunden', von('auto-ohne-datum').buyUrl === undefined, von('auto-ohne-datum').buyUrl)
   // Reihenfolge: Die Verknüpfung mit der aniSearch-Ausgabe (11-1) überspringt Termine mit buyUrl — sie muss davor laufen.

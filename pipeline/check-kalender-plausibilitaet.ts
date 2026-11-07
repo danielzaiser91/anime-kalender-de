@@ -148,6 +148,20 @@ console.log('\nKalender-Plausibilität 4: Ereignis ohne News')
   pruefe('Meldung der Reihe oder eines Teils, geschätzter Start, Start innerhalb eines Termins, gemeldete Verspätung und Folge (ein Tag Versatz), Folge von gestern, vor dem News- oder Folgenfenster treffen nicht', ids.length === 3, ids)
 }
 
+console.log('\nKalender-Plausibilität 4b: lückenloses News-Fenster beginnt bei der ältesten nicht-offiziellen Meldung')
+{
+  const offiziell = { am: '2026-06-27', titelId: 99, meldungen: [{ art: 'offiziell' }] } as unknown as NewsEintrag
+  const b = {
+    titles: [titel(1), titel(2)],
+    releases: [release(1, 'r1', { firstEpisodeDate: '2026-07-04' }), release(2, 'r2', { firstEpisodeDate: '2026-09-25' })],
+    news: [offiziell, news('2026-09-19', 99)],
+    events: [ereignis(1, 's1', '2026-07-04', { staffelstart: true }), ereignis(2, 's2', '2026-09-25', { staffelstart: true })],
+  }
+  const ids = treffer('ereignisOhneNews', b)
+  pruefe('Start vor dem lückenlosen Fenster zählt nicht (offizielle Meldung vom 27.06. verschiebt es nicht)', !ids.includes(1), ids)
+  pruefe('Start im Fenster ohne Meldung zählt', gleich(ids, [2]), ids)
+}
+
 console.log('\nKalender-Plausibilität 5: Termin ohne Quelle')
 {
   const ids = treffer('terminOhneBeleg', { titles: [titel(1), titel(2)], releases: [release(1, 'r1', {}, { sources: [] }), release(2, 'r2', {})] })

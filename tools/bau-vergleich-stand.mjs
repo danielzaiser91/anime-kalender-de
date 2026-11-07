@@ -6,6 +6,7 @@
  */
 import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
+import { newsDelta } from './bau-vergleich-news.mjs'
 import { beschreibeUnterschied } from './vergleich-unterschied.mjs'
 
 /** Stand der Basis; '' für eine Datei, die es dort nicht gibt. */
@@ -27,5 +28,8 @@ export function liesSeite({ git, basis, glatt, eigene }, ordner, pfad, istKandid
 
 /** Zeilen der Ausgabe für `pfad`: Feldvergleich, auch wenn nur eine Seite die Datei geschrieben hat. */
 export function beschreibeDatei(kontext, a, b, pfad) {
-  return beschreibeUnterschied(pfad, liesSeite(kontext, a, pfad, false), liesSeite(kontext, b, pfad, true))
+  const alt = liesSeite(kontext, a, pfad, false)
+  const neu = liesSeite(kontext, b, pfad, true)
+  const zeilen = beschreibeUnterschied(pfad, alt, neu)
+  return pfad === 'public/data/news.json' ? [...zeilen, ...newsDelta(alt, neu)] : zeilen
 }
