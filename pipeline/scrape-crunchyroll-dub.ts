@@ -59,10 +59,11 @@
  * Aufruf: npm run data:cr-dub [-- --limit 10] [-- --nur <urlteil>]
  *                             [-- --browser] [-- --seitenanzeige] [-- --pause 400]
  */
-import { chromium, type Browser, type Page } from 'playwright'
+import { chromium, type Page } from 'playwright'
 import { log, readJson, sleep, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
 import { fortschrittsMelder } from './lib/lauf-fortschritt.ts'
+import { browserHolerMit } from './lib/cr-browser-start.ts'
 import type { Title } from '../shared/types.ts'
 import { addDays, todayIso } from '../shared/time.ts'
 import type { CrSerie, CrStaffel } from './lib/crunchyroll-dub.ts'
@@ -715,12 +716,11 @@ async function main(): Promise<void> {
    * paar hundert Megabyte; ein Lauf über lauter bekannte Kennungen braucht ihn
    * kein einziges Mal.
    */
-  let browser: Browser | undefined
-  const browserHolen = async (): Promise<Browser> => (browser ??= await chromium.launch())
+  const browserHalter = browserHolerMit(() => chromium.launch(), log)
   let seiten: CrunchyrollSeiten | undefined
   const seitenHolen = async (): Promise<CrunchyrollSeiten> => {
     if (!seiten) {
-      seiten = new CrunchyrollSeiten(await browserHolen(), PAUSE_MS)
+      seiten = new CrunchyrollSeiten(await browserHalter.holen('Adresse ohne Serienkennung'), PAUSE_MS)
       await seiten.oeffnen()
     }
     return seiten
@@ -751,7 +751,7 @@ async function main(): Promise<void> {
     )
 
   if (SEITENANZEIGE) {
-    const page = await (await browserHolen()).newPage({
+    const page = await (await browserHalter.holen('--seitenanzeige')).newPage({
       userAgent: CHROME,
       locale: 'de-DE',
       viewport: { width: 1600, height: 1200 },
@@ -777,7 +777,7 @@ async function main(): Promise<void> {
       void melde(i + 1, kurz)
       await sleep(1500)
     }
-    await browser?.close()
+    await browserHalter.aktuell()?.close()
     sichern()
     recordSource('crunchyroll-dub', bestand.size, bestand.size ? undefined : 'keine Seite gelesen')
     log(`Fertig: ${bestand.size} Seiten im Bestand, davon ${ohneDeutsch} in diesem Lauf ohne deutsche Tonspur`)
@@ -795,7 +795,7 @@ async function main(): Promise<void> {
   if (zugang) {
     quelle = new CrunchyrollCms(zugang, PAUSE_MS)
   } else {
-    const api = new CrunchyrollApi(await browserHolen(), PAUSE_MS)
+    const api = new CrunchyrollApi(await browserHalter.holen('kein Zugangspaket'), PAUSE_MS)
     await api.oeffnen()
     // Dieselbe Seite tut es auch für die Seitenaufrufe — ein zweites Fenster
     // wäre ein zweites Fenster für nichts.
@@ -980,7 +980,7 @@ async function main(): Promise<void> {
   }
 
   await seiten?.schliessen()
-  await browser?.close()
+  await browserHalter.aktuell()?.close()
 
   sichern()
   kennungenSichern()

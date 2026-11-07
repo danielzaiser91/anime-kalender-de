@@ -178,6 +178,22 @@ function fenster() {
   pruefe(!pushFaellig([], t), 'keine Termine: nicht fällig')
 }
 
+/** Katalogstart ohne Uhrzeit: für den Push erst 23:59, nicht 00:00 (Netflix schaltet gegen 9 Uhr frei). */
+async function katalogstartOhneUhrzeit() {
+  zeige('Katalogstart ohne Uhrzeit (batch):')
+  const batch = { ...YAIBA, id: 'k@2026-11-06', titleId: 177478, date: '2026-11-06', time: undefined, releaseType: 'batch', platform: 'netflix', tvPremiere: false } as unknown as ReleaseEvent
+  pruefe(!pushFaellig([batch], new Date('2026-11-05T23:05:00.000Z')), 'pushFaellig 00:05 Berlin am Starttag: nicht fällig')
+  pruefe(pushFaellig([batch], new Date('2026-11-06T23:05:00.000Z')), 'pushFaellig 00:05 Berlin am Folgetag (23:59 überschritten): fällig')
+  const db = neueDatenbank()
+  const env = await umgebung(db, [batch], 'ak:177478')
+  pushZeiten.length = 0
+  await takt(env, STUNDE, new Date('2026-11-05T23:00:00.000Z'))
+  await takt(env, FUENF, new Date('2026-11-05T23:05:00.000Z'))
+  pruefe(pushZeiten.length === 0, `Stunden- und Fünf-Minuten-Lauf um 00:00/00:05 Berlin am Starttag: kein Push (${pushZeiten.length})`)
+  await takt(env, STUNDE, new Date('2026-11-06T23:00:00.000Z'))
+  pruefe(pushZeiten.length === 1, `Stundenlauf nach 23:59 Berlin des Starttags: Push (${pushZeiten.length})`)
+}
+
 async function tageswechselUndCpu() {
   zeige('Vorfilter über das Datum:')
   const bei = (date: string, time: string) => ({ ...YAIBA, date, time }) as ReleaseEvent
@@ -223,6 +239,7 @@ await volleStunde()
 await ohneTermin()
 await jetztAuchBei()
 fenster()
+await katalogstartOhneUhrzeit()
 await tageswechselUndCpu()
 wrangler()
 zeige(fehler ? `${fehler} Prüfung(en) FEHL` : 'Push-Takt: alle Prüfungen ok (Yaiba 17:25 UTC, volle Stunde, Fenster, Trigger)')

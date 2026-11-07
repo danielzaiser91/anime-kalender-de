@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-11-06T17:01:43.473Z",
+  "scrapedAt": "2026-11-07T19:01:39.462Z",
   "serien": [
     {
       "url": "http://www.crunchyroll.com/de/a-place-further-than-the-universe",
@@ -70408,7 +70408,7 @@
       "seriesId": "GRE50KV36",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-10-12",
+      "geprueftAm": "2026-11-07",
       "deutschImAngebot": true,
       "staffeln": [
         {
@@ -71487,12 +71487,23 @@
         {
           "name": "Staffel 2",
           "staffelId": "GS00385471JAJP",
-          "folgen": 2,
-          "kacheln": 2,
-          "deutsch": 0,
-          "fremd": 0,
-          "deutscheFassung": false
+          "folgen": 6,
+          "kacheln": 6,
+          "deutsch": 1,
+          "fremd": 3,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 171,
+              "guid": "GE00385472DEDE",
+              "laufend": 1,
+              "verfuegbarAb": "2026-11-07T16:00:00Z"
+            }
+          ]
         }
+      ],
+      "neuFolgen": [
+        "GE00385472DEDE"
       ]
     },
     {
@@ -74000,7 +74011,7 @@
       "seriesId": "GT00361955",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-10-31",
+      "geprueftAm": "2026-11-07",
       "deutschImAngebot": true,
       "staffeln": [
         {
@@ -74089,9 +74100,9 @@
         {
           "name": "Staffel 2",
           "staffelId": "GS00384019JAJP",
-          "folgen": 6,
-          "kacheln": 6,
-          "deutsch": 3,
+          "folgen": 7,
+          "kacheln": 7,
+          "deutsch": 4,
           "fremd": 0,
           "deutscheFassung": true,
           "deutscheFolgen": [
@@ -74112,11 +74123,18 @@
               "guid": "GE00384099DEDE",
               "laufend": 3,
               "verfuegbarAb": "2026-10-31T13:30:00Z"
+            },
+            {
+              "nummer": 4,
+              "guid": "GE00384100DEDE",
+              "laufend": 4,
+              "verfuegbarAb": "2026-11-07T14:30:00Z"
             }
           ]
         }
       ],
       "neuFolgen": [
+        "GE00384100DEDE",
         "GE00384099DEDE",
         "GE00384097DEDE",
         "GE00384098DEDE"
@@ -177544,15 +177562,15 @@
       "seriesId": "GT00384015",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-10-31",
+      "geprueftAm": "2026-11-07",
       "deutschImAngebot": true,
       "staffeln": [
         {
           "name": "Staffel 1",
           "staffelId": "GS00384047JAJP",
-          "folgen": 4,
-          "kacheln": 4,
-          "deutsch": 1,
+          "folgen": 5,
+          "kacheln": 5,
+          "deutsch": 2,
           "fremd": 0,
           "deutscheFassung": true,
           "deutscheFolgen": [
@@ -177561,11 +177579,18 @@
               "guid": "GE00384363DEDE",
               "laufend": 1,
               "verfuegbarAb": "2026-10-31T09:30:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "GE00384364DEDE",
+              "laufend": 2,
+              "verfuegbarAb": "2026-11-07T10:30:00Z"
             }
           ]
         }
       ],
       "neuFolgen": [
+        "GE00384364DEDE",
         "GE00384363DEDE"
       ]
     },
@@ -177857,7 +177882,7 @@
       "seriesId": "GRE50KV36",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-11-04",
+      "geprueftAm": "2026-11-07",
       "deutschImAngebot": true,
       "staffeln": [
         {
@@ -178936,12 +178961,23 @@
         {
           "name": "Staffel 2",
           "staffelId": "GS00385471JAJP",
-          "folgen": 5,
-          "kacheln": 5,
-          "deutsch": 0,
+          "folgen": 6,
+          "kacheln": 6,
+          "deutsch": 1,
           "fremd": 3,
-          "deutscheFassung": false
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 171,
+              "guid": "GE00385472DEDE",
+              "laufend": 1,
+              "verfuegbarAb": "2026-11-07T16:00:00Z"
+            }
+          ]
         }
+      ],
+      "neuFolgen": [
+        "GE00385472DEDE"
       ]
     },
     {

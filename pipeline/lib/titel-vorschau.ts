@@ -3,9 +3,11 @@
  *
  * WhatsApp zeigt eine Karte nur, wenn das Bild klein genug ist (um 300 KB) und die Maße im Kopf stehen.
  * Die TMDB-Banner der Titel liegen in Größe `w1280` (bis über 1 MB); dieselbe Datei in `w780` ist
- * 780×439 und im Messbestand (16 Titel, 03.11.2026) höchstens 137 KB. Alles andere (AniList-Banner
- * mit 4,75:1 und beliebiger Größe, Cover, Titel ohne Bild) nimmt das Standardbild 1200×630.
+ * 780×439 und im Messbestand (16 Titel, 03.11.2026) höchstens 137 KB. Ein AniList-Cover führt die Seite nur mit
+ * gemessenen Maßen und Größe (`anilist-cover-masse.ts`). Alles andere (AniList-Banner mit 4,75:1 und beliebiger Größe,
+ * ungemessene Cover, Titel ohne Bild) nimmt das Standardbild 1200×630.
  */
+import { coverDatei, coverSchluessel, MIN_BREITE } from './anilist-cover-masse.ts'
 
 export interface Vorschau {
   url: string
@@ -13,7 +15,7 @@ export interface Vorschau {
   hoehe: number
   /** Große Karte für breite Bilder, kleine (`summary`) für das hochformatige Plakat. */
   karte: 'summary_large_image' | 'summary'
-  typ: 'image/jpeg'
+  typ: 'image/jpeg' | 'image/png'
 }
 
 /** Maße der Original-Plakate aus `data/tmdb-poster.json`, Schlüssel = Pfad (`/abc.jpg`). */
@@ -32,9 +34,18 @@ export function plakatMasse(poster: Record<string, { p?: string | null; w?: numb
   return masse
 }
 
+/** AniList-Cover mit gemessenen Maßen (nur klein und breit genug, sonst nicht in `masse`), in eigener Größe. */
+function anilistVorschau(cover: string | undefined, masse: PlakatMasse): Vorschau | undefined {
+  const datei = coverDatei(cover)
+  const m = datei ? masse.get(coverSchluessel(datei)) : undefined
+  if (!cover || !datei || !m) return undefined
+  return { url: cover, breite: m[0], hoehe: m[1], karte: 'summary', typ: datei.endsWith('.png') ? 'image/png' : 'image/jpeg' }
+}
+
 /**
  * Eigenes Bild mit wahren Maßen, sonst das Standardbild: erst das TMDB-Banner in w780 (780×439), dann das
- * TMDB-Plakat in w500 (Höhe aus den Originalmaßen, nur wenn sie vorliegen), sonst Standard 1200×630.
+ * TMDB-Plakat in w500 (Höhe aus den Originalmaßen, nur wenn sie vorliegen), dann das AniList-Cover mit gemessenen
+ * Maßen, sonst Standard 1200×630.
  */
 export function vorschauBild(banner: string | undefined, cover: string | undefined, standardUrl: string, masse: PlakatMasse): Vorschau {
   const b = banner ? TMDB_BANNER.exec(banner) : null
@@ -45,6 +56,8 @@ export function vorschauBild(banner: string | undefined, cover: string | undefin
     const hoehe = Math.round((PLAKAT_BREITE * original[1]) / original[0])
     return { url: cover, breite: PLAKAT_BREITE, hoehe, karte: 'summary', typ: 'image/jpeg' }
   }
+  const anilist = anilistVorschau(cover, masse)
+  if (anilist) return anilist
   return { url: standardUrl, breite: 1200, hoehe: 630, karte: 'summary_large_image', typ: 'image/jpeg' }
 }
 
@@ -72,8 +85,10 @@ export function vorschauMaengel(html: string, site: string): string[] {
   const mangel: string[] = []
   const bild = /property="og:image" content="([^"]+)"/.exec(html)?.[1]
   const tmdb = bild ? ERLAUBT_TMDB.exec(bild) : null
-  if (bild && !bild.startsWith(site) && !tmdb) mangel.push(`og:image weder eigene Domain noch TMDB w780/w500: ${bild}`)
+  const anilist = coverDatei(bild) !== undefined
+  if (bild && !bild.startsWith(site) && !tmdb && !anilist) mangel.push(`og:image weder eigene Domain noch TMDB w780/w500 noch AniList-Cover: ${bild}`)
   const breite = /property="og:image:width" content="(\d+)"/.exec(html)?.[1]
+  if (anilist && breite && Number(breite) < MIN_BREITE) mangel.push(`og:image:width ${breite} unter ${MIN_BREITE}: ${bild}`)
   if (tmdb && breite && Number(breite) !== BREITE_JE_GROESSE[tmdb[1]]) mangel.push(`og:image:width ${breite} passt nicht zu ${tmdb[1]}: ${bild}`)
   if (bild && !/property="og:image:width" content="\d+"/.test(html)) mangel.push('og:image:width fehlt')
   if (bild && !/property="og:image:height" content="\d+"/.test(html)) mangel.push('og:image:height fehlt')

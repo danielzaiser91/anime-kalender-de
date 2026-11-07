@@ -68,6 +68,7 @@ Datei es erlaubt. Tatsachenzahlen (IDs, Termine, Uhrzeiten, Folgenzahlen, Synchr
   Urteil-Kommentar des Agent-Prüfers am PR** („Prüfer Runde N: freigeben“) — ein Urteil nur im
   Bericht an mich zählt der Rundenzähler-Hook nicht; fehlt er, poste ich das Urteil mit
   Rundennummer vor dem Merge (18.10.2026: u. a. die geprüften PRs 1520 und 1522 ohne Kommentar, Zähler sah 0 Runden).
+  **Urteilsdatei trägt die PR-Nummer** (`urteil-<PR>.md`) und wird im selben Zug geschrieben, in dem sie gepostet wird. Eine allgemeine `urteil.md` von einem früheren PR landete am falschen PR, und Löschen sperrt der Klassifizierer (04.11.2026, 2837 → 2849).
   **Seit 21.10.2026 eine Runde, bei Prüfstufe 2 höchstens zwei (Daniel):** Bei „ändern“ prüft (außer Stufe 2) kein zweiter Prüfer; ich nehme die Nachbesserung
   gegen die Auflagenliste ab und poste „Abnahme Dirigent: A1…An erfüllt“ mit den Probe-Ausgaben, dann Merge.
   Der Kommentar **beginnt mit `## Nachtrag (Abnahme Dirigent …)`**, sonst liest ihn der CI-Prüfer nicht, und der PR bleibt
@@ -90,7 +91,7 @@ Datei es erlaubt. Tatsachenzahlen (IDs, Termine, Uhrzeiten, Folgenzahlen, Synchr
   und bei Dingen, die nur Daniel kann (Login, Hardware, Geschmack ohne Messbares).
 - Ein Auftrag an Daniel steht nur unter „Daniel-Todo“ in `stand.md`, wenn es ohne ihn nicht geht.
 - Merge auf `main` erst, wenn kein Bestandslauf läuft (sonst Doppelbau); Zweig-Push ist jederzeit ok.
-- **Ist main an mehreren Stellen rot, gehören die Fixes in einen PR** — jeder Einzel-PR bleibt sonst an der jeweils anderen roten Stelle hängen, und die Regeln sperren den Merge (26.10.2026: Kachel-Fix #2096 und Wächter-Fix #2098 blockierten sich, #2100 bündelt beide Commits). Vor dem Start eines Fix-Bauers fragen: Welche Ketten sind auf main rot, und deckt dieser PR alle? Bei rotem main steht der Fix-PR in der Merge-Reihe vorne; andere PRs erst danach (Vorschlags-Ledger, 01.11.2026).
+- **Ist main an mehreren Stellen rot, gehören die Fixes in einen PR** — jeder Einzel-PR bleibt sonst an der jeweils anderen roten Stelle hängen, und die Regeln sperren den Merge (26.10.2026: Kachel-Fix #2096 und Wächter-Fix #2098 blockierten sich, #2100 bündelt beide Commits). Vor dem Start eines Fix-Bauers fragen: Welche Ketten sind auf main rot, und deckt dieser PR alle? Bei rotem main steht der Fix-PR in der Merge-Reihe vorne; andere PRs erst danach (Vorschlags-Ledger, 01.11.2026). **„Vorne“ heißt: sofort einzeln `merge-reihe.sh <PR>` neben der laufenden Reihe** (einzige Ausnahme von „keine zweite daneben“) — der Nachschub hängt hinten an; 05.11.2026 lag 2913 (Fix für roten Bestandsbau) freigegeben hinter 30 PRs, Bestand 2,5 h rot. Vor jedem Nachschub fragen: Behebt dieser PR einen roten Lauf auf main?
 
 ## Ticket abnehmen gehört zum Merge (Daniel, 11.10.2026)
 

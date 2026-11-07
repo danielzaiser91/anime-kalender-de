@@ -1,7 +1,7 @@
 import { addDays } from '../../shared/time.ts'
 import type { NewsEintrag } from '../../shared/types.ts'
 import { ankuendigungFrisch } from '../../shared/ankuendigung.ts'
-import { traegtOffizielle } from './news-offiziell.ts'
+import { traegtOffizielle } from '../../shared/news-typen.ts'
 
 /** So lange gelten Folgen- und Termin-Meldungen einer laufenden Serie als Vorgeschichte, die die Obergrenze nicht kappt. */
 const LAUFEND_TAGE = 56

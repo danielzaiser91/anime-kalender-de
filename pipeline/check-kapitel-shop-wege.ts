@@ -118,6 +118,7 @@ console.log('\nBestandswache (Wegwerf-Wurzel):')
   }
 }
 
+/* Der Abschluss schreibt die JustWatch-Widerspruchsliste (`widerspruchsZiel`); sie folgt dem Temp-Ordner. */
 suchadressenInTemp()
 
 /** Lässt den echten Abschluss laufen (Wege aus JustWatch, Bereinigung). */
