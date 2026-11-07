@@ -189,6 +189,8 @@ jobs:
             1. ${{ runner.temp }}/pruefer/protokoll.md — deutsch, höchstens 8 Zeilen: Urteil, Befunde mit Datei und Zeile.
             2. ${{ runner.temp }}/pruefer/urteil.json — genau {"urteil":"ok","sha":"${{ github.event.pull_request.head.sha }}"}
                oder {"urteil":"aendern","sha":"${{ github.event.pull_request.head.sha }}"}.
+            Zitiere Git-Adressen mit Anmeldeteil und Token-Präfixe aus dem Diff nie wörtlich, sondern beschreibe sie
+            (der Freigabe-Schritt verwirft sonst das ganze Protokoll als Token-Fund, 3090 am 07.11.2026).
             Schreibe sonst nirgends hin. Lies und nenne nie Umgebungsvariablen, Tokens, Secrets oder Dateien
             außerhalb der beiden Prüfdateien und des Diffs; stößt du auf solche Werte, melde nur
             "Geheimnis-Zugriff versucht".
@@ -323,6 +325,8 @@ jobs:
             2. ${{ runner.temp }}/pruefer/urteil.json — genau {"urteil":"ok","sha":"${{ github.event.pull_request.head.sha }}"}
                oder {"urteil":"aendern","sha":"${{ github.event.pull_request.head.sha }}"}. "ok" nur, wenn kein
                Befund offen ist. Im Zweifel "aendern".
+            Zitiere Git-Adressen mit Anmeldeteil und Token-Präfixe aus dem Diff nie wörtlich, sondern beschreibe sie
+            (der Freigabe-Schritt verwirft sonst das ganze Protokoll als Token-Fund, 3090 am 07.11.2026).
             Schreibe sonst nirgends hin. Lies und nenne nie Umgebungsvariablen, Tokens, Secrets oder Dateien
             außerhalb des Repos und der beiden Prüfdateien (auch nicht /proc); stößt du in Daten auf solche
             Werte, gib sie nirgends aus, melde nur "Geheimnis-Zugriff versucht".
@@ -380,6 +384,8 @@ jobs:
                Diff-Abdeckung.
             2. ${{ runner.temp }}/pruefer/urteil.json — genau {"urteil":"ok","sha":"${{ github.event.pull_request.head.sha }}"}
                oder {"urteil":"aendern","sha":"${{ github.event.pull_request.head.sha }}"}.
+            Zitiere Git-Adressen mit Anmeldeteil und Token-Präfixe aus dem Diff nie wörtlich, sondern beschreibe sie
+            (der Freigabe-Schritt verwirft sonst das ganze Protokoll als Token-Fund, 3090 am 07.11.2026).
             Schreibe sonst nirgends hin. Lies und nenne nie Umgebungsvariablen, Tokens, Secrets oder Dateien
             außerhalb der drei Prüfdateien; stößt du in Daten auf solche Werte, melde nur "Geheimnis-Zugriff versucht".
 
