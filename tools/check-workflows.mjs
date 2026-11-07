@@ -320,6 +320,7 @@ for (const datei of readdirSync(DIR).filter((f) => f.endsWith('.yml') || f.endsW
 const NUR_VON_HAND = {
   'data:bauprobe': 'läuft im Einreichen-Schritt (tools/quellen-bauprobe.sh, Eingabe bauprobe der Aktion einreichen), nicht als eigener Workflow-Schritt',
   'data:bauprobe-basis': 'Teil von data:bauprobe und Vergleichslauf auf main (tools/quellen-bauprobe.sh), nicht als eigener Workflow-Schritt',
+  'data:synchro-beobachtung': 'Workflow-Schritt im Stundenlauf (refresh-hourly.yml) folgt in einem eigenen PR, weil ein Sammler die Datei sperrt; danach hier streichen',
   'data:all': 'Sammelbefehl für einen kompletten Durchlauf von Hand',
   'data:icons': 'erzeugt Bilddateien, die im Repo liegen — läuft bei einer Designänderung',
   'data:adn:refresh': 'holt das ADN-Archiv komplett neu; Stunden Laufzeit, nur bei Parserbruch',

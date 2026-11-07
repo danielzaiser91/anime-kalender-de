@@ -104,6 +104,17 @@ pruefe('ein Medium am Ende nimmt sein „+“ mit', gleich('Limited Edition Blu-
 pruefe('nur das Medium → nichts', gleich('Blu-ray') === undefined, gleich('Blu-ray'))
 pruefe('ohne Angabe → nichts', gleich('') === undefined)
 
+console.log('\nLivestream:')
+const LIVE = 'https://www.joyn.de/play/live-tv?channel_id=5'
+const maxx = zeile(tvTermin(), { ...tvAngabe, programm: PROGRAMM })
+pruefe('ProSieben MAXX: Link zum Livestream, daneben das Programm', links(maxx).includes(LIVE) && links(maxx).includes(PROGRAMM), links(maxx))
+pruefe('… genau einmal, in neuem Tab, mit noopener und Hinweis „Live auf Joyn“', links(maxx).filter((l) => l === LIVE).length === 1 && maxx.includes('aria-label="Live auf Joyn"') && maxx.includes('rel="noopener"'))
+pruefe('Schreibweise egal: „PROSIEBEN MAXX“', links(zeile(tvTermin({ sender: 'PROSIEBEN MAXX' }), tvAngabe)).includes(LIVE))
+pruefe('anderer Sender: kein Livestream-Link', !links(zeile(tvTermin({ sender: 'TOGGO' }), tvAngabe)).includes(LIVE))
+pruefe('MAXX-Name als Präfix („ProSieben MAXX HD“) trifft nicht', !links(zeile(tvTermin({ sender: 'ProSieben MAXX HD' }), tvAngabe)).includes(LIVE))
+pruefe('Stream-Termin ohne Sender: kein Livestream-Link', !links(zeile(tvTermin({ platform: 'primevideo', sender: undefined, releaseType: 'weekly' }))).includes(LIVE))
+pruefe('Stream-Termin mit Sendernamen MAXX: kein Livestream-Link', !links(zeile(tvTermin({ platform: 'primevideo' }))).includes(LIVE))
+
 console.log('\nForm:')
 pruefe('TV-Pille ist eckig, nicht rund', !ankuendigung.includes('rounded-full"') && ankuendigung.includes('rounded-xl'))
 pruefe('Disc-Pille ist eckig, nicht rund', !disc.includes('rounded-full py') && disc.includes('rounded-xl'))

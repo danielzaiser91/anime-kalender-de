@@ -25,20 +25,13 @@ import { SprecherFilter } from './SprecherFilter.tsx'
 import { TitelNamenContext } from '../lib/sprecher.ts'
 import { HerkunftZaehlungContext } from '../lib/herkunft-zaehlung.ts'
 import { herkunftListe, herkunftName, HerkunftChip, InfoZeichen } from './filter/herkunft-gruppe.tsx'
+import { STATUS_LABEL_KEY } from './filter/status-etiketten.ts'
 
 export const FSK_OPTIONS: Fsk[] = [0, 6, 12, 16, 18]
 
 export const STATUS_OPTIONS: ReleaseStatus[] = ['airing', 'tba', 'abgeschlossen', 'erschienen', 'unbekannt']
 
 export const KEYWORD_PREVIEW = 24
-
-export const STATUS_LABEL_KEY = {
-  airing: 'status.airing',
-  abgeschlossen: 'status.abgeschlossen',
-  tba: 'status.tba',
-  erschienen: 'status.erschienen',
-  unbekannt: 'status.unbekannt',
-} as const
 
 /**
  * **Der UND/ODER-Schalter einer Kategorie.**

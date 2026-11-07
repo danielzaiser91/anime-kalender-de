@@ -14579,6 +14579,60 @@
     "fetchedAt": "2026-10-05T04:37:47.128Z",
     "stand": 1
   },
+  "1183": {
+    "ean": "7640105235261",
+    "audio": [
+      "Deutsch (Dolby Digital 2.0)",
+      "Japanisch (Dolby Digital 2.0)",
+      "Französisch (Dolby Digital 2.0)"
+    ],
+    "untertitel": [
+      "Deutsch",
+      "Französisch",
+      "Polnisch",
+      "Niederländisch",
+      "Schwedisch"
+    ],
+    "publisher": "Kazé Deutschland",
+    "umfang": "Einzelnes Vol.",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 479,
+        "typ": "OVA",
+        "folgen": 4
+      }
+    ],
+    "fetchedAt": "2026-11-07T04:54:56.301Z",
+    "stand": 1
+  },
+  "1184": {
+    "ean": "7640105235278",
+    "audio": [
+      "Deutsch (Dolby Digital 2.0)",
+      "Japanisch (Dolby Digital 2.0)",
+      "Französisch (Dolby Digital 2.0)"
+    ],
+    "untertitel": [
+      "Deutsch",
+      "Französisch",
+      "Polnisch",
+      "Niederländisch",
+      "Schwedisch"
+    ],
+    "publisher": "Kazé Deutschland",
+    "umfang": "Einzelnes Vol.",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 479,
+        "typ": "OVA",
+        "folgen": 4
+      }
+    ],
+    "fetchedAt": "2026-11-07T04:54:49.793Z",
+    "stand": 1
+  },
   "1189": {
     "ean": "0828768900994",
     "audio": [
@@ -21694,6 +21748,24 @@
     "fetchedAt": "2026-10-03T20:32:00.302Z",
     "stand": 1
   },
+  "4713": {
+    "ean": "4260131126642",
+    "audio": [
+      "Deutsch (Dolby Digital 2.0)"
+    ],
+    "publisher": "New KSM",
+    "umfang": "Staffel / Gesamtausgabe",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 3873,
+        "typ": "TV-Serie",
+        "folgen": 26
+      }
+    ],
+    "fetchedAt": "2026-11-07T04:55:35.084Z",
+    "stand": 1
+  },
   "4715": {
     "enthalten": [
       {
@@ -21957,6 +22029,24 @@
       }
     ],
     "fetchedAt": "2026-10-05T04:49:31.014Z",
+    "stand": 1
+  },
+  "5031": {
+    "ean": "4013659004493",
+    "audio": [
+      "Deutsch (Stereo)"
+    ],
+    "publisher": "Phoenix Bild- u. Tonträger Vertrieb",
+    "umfang": "Staffel / Gesamtausgabe",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 4442,
+        "typ": "TV-Serie",
+        "folgen": 13
+      }
+    ],
+    "fetchedAt": "2026-11-07T04:55:41.496Z",
     "stand": 1
   },
   "5036": {
@@ -22902,6 +22992,97 @@
       }
     ],
     "fetchedAt": "2026-10-07T04:44:31.398Z",
+    "stand": 1
+  },
+  "6967": {
+    "umfang": "Bundle / Komplettset",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 4749,
+        "typ": "TV-Serie",
+        "folgen": 26
+      }
+    ],
+    "fetchedAt": "2026-11-07T04:56:53.207Z",
+    "stand": 1
+  },
+  "6968": {
+    "umfang": "Einzelnes Vol.",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 4749,
+        "typ": "TV-Serie",
+        "folgen": 26
+      }
+    ],
+    "fetchedAt": "2026-11-07T04:56:40.184Z",
+    "stand": 1
+  },
+  "6969": {
+    "umfang": "Einzelnes Vol.",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 4749,
+        "typ": "TV-Serie",
+        "folgen": 26
+      }
+    ],
+    "fetchedAt": "2026-11-07T04:56:46.695Z",
+    "stand": 1
+  },
+  "6970": {
+    "umfang": "Einzelnes Vol.",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 4749,
+        "typ": "TV-Serie",
+        "folgen": 26
+      }
+    ],
+    "fetchedAt": "2026-11-07T04:56:33.670Z",
+    "stand": 1
+  },
+  "6971": {
+    "umfang": "Einzelnes Vol.",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 4749,
+        "typ": "TV-Serie",
+        "folgen": 26
+      }
+    ],
+    "fetchedAt": "2026-11-07T04:56:27.138Z",
+    "stand": 1
+  },
+  "6972": {
+    "umfang": "Einzelnes Vol.",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 4749,
+        "typ": "TV-Serie",
+        "folgen": 26
+      }
+    ],
+    "fetchedAt": "2026-11-07T04:56:20.624Z",
+    "stand": 1
+  },
+  "6973": {
+    "umfang": "Einzelnes Vol.",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 4749,
+        "typ": "TV-Serie",
+        "folgen": 26
+      }
+    ],
+    "fetchedAt": "2026-11-07T04:56:14.088Z",
     "stand": 1
   },
   "7030": {
@@ -23909,6 +24090,30 @@
       }
     ],
     "fetchedAt": "2026-10-06T06:00:22.659Z",
+    "stand": 1
+  },
+  "7584": {
+    "ean": "4013549062442",
+    "audio": [
+      "Deutsch",
+      "Englisch",
+      "Niederländisch"
+    ],
+    "untertitel": [
+      "Deutsch",
+      "Niederländisch"
+    ],
+    "publisher": "Splendid Animation",
+    "umfang": "Film",
+    "medium": "Blu-ray 3D",
+    "enthalten": [
+      {
+        "anisearchId": 10552,
+        "typ": "Film",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:04:02.521Z",
     "stand": 1
   },
   "7616": {
@@ -26434,6 +26639,33 @@
     "fetchedAt": "2026-10-05T04:22:46.015Z",
     "stand": 1
   },
+  "9756": {
+    "ean": "7640105235285",
+    "audio": [
+      "Deutsch (Dolby Digital 2.0)",
+      "Französisch (Dolby Digital 2.0)",
+      "Japanisch (Dolby Digital 2.0)"
+    ],
+    "untertitel": [
+      "Deutsch",
+      "Französisch",
+      "Polnisch",
+      "Niederländisch",
+      "Schwedisch"
+    ],
+    "publisher": "Kazé Deutschland",
+    "umfang": "Mini-Serie",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 479,
+        "typ": "OVA",
+        "folgen": 4
+      }
+    ],
+    "fetchedAt": "2026-11-07T04:54:43.274Z",
+    "stand": 1
+  },
   "9758": {
     "medium": "DVD",
     "enthalten": [
@@ -27217,6 +27449,57 @@
     "fetchedAt": "2026-10-06T06:32:11.679Z",
     "stand": 1
   },
+  "10180": {
+    "ean": "4014270197984",
+    "audio": [
+      "Deutsch"
+    ],
+    "publisher": "Komplett-Media",
+    "umfang": "Staffel / Gesamtausgabe",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 5217,
+        "typ": "TV-Serie",
+        "folgen": 26
+      }
+    ],
+    "fetchedAt": "2026-11-07T04:58:17.054Z",
+    "stand": 1
+  },
+  "10181": {
+    "umfang": "Staffel / Gesamtausgabe",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 4750,
+        "typ": "TV-Serie",
+        "folgen": 26
+      }
+    ],
+    "fetchedAt": "2026-11-07T04:57:06.016Z",
+    "stand": 1
+  },
+  "10182": {
+    "ean": "4014270198134",
+    "audio": [
+      "Deutsch (Dolby Digital 2.0)",
+      "Englisch (Dolby Digital 2.0)",
+      "Französisch (Dolby Digital 2.0)"
+    ],
+    "publisher": "Komplett-Media",
+    "umfang": "Staffel / Gesamtausgabe",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 4749,
+        "typ": "TV-Serie",
+        "folgen": 26
+      }
+    ],
+    "fetchedAt": "2026-11-07T04:56:07.551Z",
+    "stand": 1
+  },
   "10183": {
     "umfang": "Staffel / Gesamtausgabe",
     "medium": "DVD",
@@ -27228,6 +27511,24 @@
       }
     ],
     "fetchedAt": "2026-10-08T04:50:40.572Z",
+    "stand": 1
+  },
+  "10184": {
+    "ean": "4014270197823",
+    "audio": [
+      "Deutsch"
+    ],
+    "publisher": "Komplett-Media",
+    "umfang": "Staffel / Gesamtausgabe",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 5293,
+        "typ": "TV-Serie",
+        "folgen": 26
+      }
+    ],
+    "fetchedAt": "2026-11-07T04:59:54.955Z",
     "stand": 1
   },
   "10185": {
@@ -27980,6 +28281,72 @@
     "fetchedAt": "2026-10-03T21:07:42.121Z",
     "stand": 1
   },
+  "10700": {
+    "ean": "4030521106864",
+    "audio": [
+      "Englisch (Dolby Digital 5.1)",
+      "Deutsch (Dolby Digital 5.1)",
+      "Italienisch (Dolby Digital 5.1)",
+      "Spanisch (Dolby Digital 5.1)",
+      "Französisch (Dolby Digital 5.1)"
+    ],
+    "untertitel": [
+      "Deutsch",
+      "Dänisch",
+      "Englisch",
+      "Finnisch",
+      "Französisch",
+      "Niederländisch",
+      "Italienisch",
+      "Norwegisch",
+      "Portugiesisch",
+      "Spanisch",
+      "Türkisch",
+      "Schwedisch"
+    ],
+    "publisher": "Anchor Bay Entertainment",
+    "umfang": "Film",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 5407,
+        "typ": "OVA",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:01:13.257Z",
+    "stand": 1
+  },
+  "10701": {
+    "ean": "4030521720855",
+    "audio": [
+      "Deutsch (Dolby TrueHD 5.1)",
+      "Englisch (Dolby TrueHD 5.1)",
+      "Italienisch (Dolby TrueHD 5.1)"
+    ],
+    "untertitel": [
+      "Deutsch",
+      "Dänisch",
+      "Englisch",
+      "Finnisch",
+      "Italienisch",
+      "Norwegisch",
+      "Schwedisch",
+      "Türkisch"
+    ],
+    "publisher": "Anchor Bay Entertainment",
+    "umfang": "Film",
+    "medium": "Blu-ray",
+    "enthalten": [
+      {
+        "anisearchId": 5407,
+        "typ": "OVA",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:01:06.742Z",
+    "stand": 1
+  },
   "10747": {
     "ean": "4260034632844",
     "audio": [
@@ -28022,6 +28389,50 @@
       }
     ],
     "fetchedAt": "2026-10-07T05:32:26.663Z",
+    "stand": 1
+  },
+  "10811": {
+    "ean": "4010324037541",
+    "audio": [
+      "Englisch (DTS-HD 5.1)",
+      "Deutsch (DTS-HD 5.1)"
+    ],
+    "untertitel": [
+      "Deutsch"
+    ],
+    "publisher": "Concorde Video",
+    "umfang": "Film",
+    "medium": "Blu-ray",
+    "enthalten": [
+      {
+        "anisearchId": 5374,
+        "typ": "Film",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:00:01.482Z",
+    "stand": 1
+  },
+  "10812": {
+    "ean": "4010324028402",
+    "audio": [
+      "Englisch (Dolby Digital 5.1)",
+      "Deutsch (DTS)"
+    ],
+    "untertitel": [
+      "Deutsch"
+    ],
+    "publisher": "Concorde Video",
+    "umfang": "Film",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 5374,
+        "typ": "Film",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:00:07.998Z",
     "stand": 1
   },
   "10894": {
@@ -31769,6 +32180,24 @@
       }
     ],
     "fetchedAt": "2026-10-07T05:16:25.969Z",
+    "stand": 1
+  },
+  "13292": {
+    "ean": "4260261431012",
+    "audio": [
+      "Deutsch (Dolby Digital 2.0)"
+    ],
+    "publisher": "New KSM",
+    "umfang": "Staffel / Gesamtausgabe",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 3873,
+        "typ": "TV-Serie",
+        "folgen": 26
+      }
+    ],
+    "fetchedAt": "2026-11-07T04:55:28.674Z",
     "stand": 1
   },
   "13420": {
@@ -47155,6 +47584,24 @@
     "fetchedAt": "2026-10-12T04:59:42.164Z",
     "stand": 1
   },
+  "24727": {
+    "ean": "4029759152262",
+    "audio": [
+      "Deutsch"
+    ],
+    "publisher": "Edel Germany GmbH",
+    "umfang": "Staffel / Gesamtausgabe",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 14481,
+        "typ": "TV-Serie",
+        "folgen": 26
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:07:55.548Z",
+    "stand": 1
+  },
   "25154": {
     "ean": "4260394330565",
     "audio": [
@@ -54885,6 +55332,113 @@
     "fetchedAt": "2026-10-08T05:32:51.354Z",
     "stand": 1
   },
+  "31703": {
+    "ean": "4013549052870",
+    "audio": [
+      "Englisch",
+      "Deutsch"
+    ],
+    "untertitel": [
+      "Deutsch",
+      "Niederländisch"
+    ],
+    "publisher": "Splendid Animation",
+    "umfang": "Film",
+    "medium": "Blu-ray",
+    "enthalten": [
+      {
+        "anisearchId": 10552,
+        "typ": "Film",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:03:55.997Z",
+    "stand": 1
+  },
+  "31704": {
+    "ean": "4013549062428",
+    "audio": [
+      "Englisch",
+      "Deutsch",
+      "Niederländisch"
+    ],
+    "untertitel": [
+      "Deutsch",
+      "Niederländisch"
+    ],
+    "publisher": "Splendid Animation",
+    "umfang": "Film",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 10552,
+        "typ": "Film",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:04:09.056Z",
+    "stand": 1
+  },
+  "31705": {
+    "ean": "4020628887001",
+    "audio": [
+      "Englisch",
+      "Deutsch"
+    ],
+    "untertitel": [
+      "Deutsch"
+    ],
+    "medium": "Blu-ray 3D",
+    "enthalten": [
+      {
+        "anisearchId": 9667,
+        "typ": "Film",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:03:23.460Z",
+    "stand": 1
+  },
+  "31706": {
+    "ean": "4020628858117",
+    "audio": [
+      "Englisch",
+      "Deutsch"
+    ],
+    "untertitel": [
+      "Deutsch"
+    ],
+    "medium": "Blu-ray",
+    "enthalten": [
+      {
+        "anisearchId": 9667,
+        "typ": "Film",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:03:17.061Z",
+    "stand": 1
+  },
+  "31707": {
+    "ean": "4020628886981",
+    "audio": [
+      "Englisch",
+      "Deutsch"
+    ],
+    "untertitel": [
+      "Deutsch"
+    ],
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 9667,
+        "typ": "Film",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:03:29.865Z",
+    "stand": 1
+  },
   "31759": {
     "ean": "4260039673453",
     "audio": [
@@ -59958,6 +60512,124 @@
     "fetchedAt": "2026-10-06T06:44:47.147Z",
     "stand": 1
   },
+  "36648": {
+    "ean": "4052912473065",
+    "audio": [
+      "Deutsch (Dolby Digital 2.0 Stereo)",
+      "Englisch (Dolby Digital 2.0 Stereo)",
+      "Französisch (Dolby Digital 2.0 Stereo)"
+    ],
+    "publisher": "Studio Hamburg Enterprises",
+    "umfang": "Staffel / Gesamtausgabe",
+    "medium": "Blu-ray",
+    "enthalten": [
+      {
+        "anisearchId": 4749,
+        "typ": "TV-Serie",
+        "folgen": 26
+      }
+    ],
+    "fetchedAt": "2026-11-07T04:56:01.037Z",
+    "stand": 1
+  },
+  "36649": {
+    "ean": "4052912574137",
+    "audio": [
+      "Englisch",
+      "Deutsch",
+      "Französisch"
+    ],
+    "publisher": "Studio Hamburg Enterprises",
+    "umfang": "Staffel / Gesamtausgabe",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 5293,
+        "typ": "TV-Serie",
+        "folgen": 26
+      }
+    ],
+    "fetchedAt": "2026-11-07T04:59:09.267Z",
+    "stand": 1
+  },
+  "36650": {
+    "umfang": "Einzelnes Vol.",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 5293,
+        "typ": "TV-Serie",
+        "folgen": 26
+      }
+    ],
+    "fetchedAt": "2026-11-07T04:59:48.440Z",
+    "stand": 1
+  },
+  "36651": {
+    "umfang": "Einzelnes Vol.",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 5293,
+        "typ": "TV-Serie",
+        "folgen": 26
+      }
+    ],
+    "fetchedAt": "2026-11-07T04:59:41.903Z",
+    "stand": 1
+  },
+  "36652": {
+    "umfang": "Einzelnes Vol.",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 5293,
+        "typ": "TV-Serie",
+        "folgen": 26
+      }
+    ],
+    "fetchedAt": "2026-11-07T04:59:35.390Z",
+    "stand": 1
+  },
+  "36653": {
+    "umfang": "Einzelnes Vol.",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 5293,
+        "typ": "TV-Serie",
+        "folgen": 26
+      }
+    ],
+    "fetchedAt": "2026-11-07T04:59:28.866Z",
+    "stand": 1
+  },
+  "36654": {
+    "umfang": "Einzelnes Vol.",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 5293,
+        "typ": "TV-Serie",
+        "folgen": 26
+      }
+    ],
+    "fetchedAt": "2026-11-07T04:59:22.319Z",
+    "stand": 1
+  },
+  "36655": {
+    "umfang": "Einzelnes Vol.",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 5293,
+        "typ": "TV-Serie",
+        "folgen": 26
+      }
+    ],
+    "fetchedAt": "2026-11-07T04:59:15.787Z",
+    "stand": 1
+  },
   "36712": {
     "ean": "4260408050106",
     "audio": [
@@ -60681,6 +61353,30 @@
     "fetchedAt": "2026-10-08T05:54:49.241Z",
     "stand": 1
   },
+  "37223": {
+    "medium": "Blu-ray",
+    "enthalten": [
+      {
+        "anisearchId": 11556,
+        "typ": "Film",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:04:41.642Z",
+    "stand": 1
+  },
+  "37224": {
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 11556,
+        "typ": "Film",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:04:48.044Z",
+    "stand": 1
+  },
   "37239": {
     "ean": "4260495764924",
     "untertitel": [
@@ -60902,6 +61598,240 @@
       }
     ],
     "fetchedAt": "2026-10-06T05:47:59.388Z",
+    "stand": 1
+  },
+  "37274": {
+    "ean": "4013549071345",
+    "audio": [
+      "Englisch",
+      "Deutsch",
+      "Niederländisch"
+    ],
+    "publisher": "Splendid Animation",
+    "umfang": "Film",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 10552,
+        "typ": "Film",
+        "folgen": 1
+      },
+      {
+        "anisearchId": 11569,
+        "typ": "Film",
+        "folgen": 1
+      },
+      {
+        "anisearchId": 11556,
+        "typ": "Film",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:03:49.461Z",
+    "stand": 1
+  },
+  "37275": {
+    "ean": "4013549071383",
+    "audio": [
+      "Niederländisch (DTS-HD 5.1)",
+      "Englisch (DTS-HD 5.1)",
+      "Deutsch (DTS-HD 5.1)"
+    ],
+    "untertitel": [
+      "Deutsch",
+      "Niederländisch"
+    ],
+    "publisher": "Splendid Animation",
+    "umfang": "Film",
+    "medium": "Blu-ray 3D",
+    "enthalten": [
+      {
+        "anisearchId": 10552,
+        "typ": "Film",
+        "folgen": 1
+      },
+      {
+        "anisearchId": 11569,
+        "typ": "Film",
+        "folgen": 1
+      },
+      {
+        "anisearchId": 11556,
+        "typ": "Film",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:03:42.929Z",
+    "stand": 1
+  },
+  "37287": {
+    "ean": "4052912573765",
+    "audio": [
+      "Deutsch",
+      "Englisch",
+      "Französisch"
+    ],
+    "publisher": "Studio Hamburg Enterprises",
+    "umfang": "Staffel / Gesamtausgabe",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 5217,
+        "typ": "TV-Serie",
+        "folgen": 26
+      }
+    ],
+    "fetchedAt": "2026-11-07T04:58:10.540Z",
+    "stand": 1
+  },
+  "37288": {
+    "umfang": "Einzelnes Vol.",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 5217,
+        "typ": "TV-Serie",
+        "folgen": 26
+      }
+    ],
+    "fetchedAt": "2026-11-07T04:58:56.224Z",
+    "stand": 1
+  },
+  "37289": {
+    "umfang": "Einzelnes Vol.",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 5217,
+        "typ": "TV-Serie",
+        "folgen": 26
+      }
+    ],
+    "fetchedAt": "2026-11-07T04:58:49.685Z",
+    "stand": 1
+  },
+  "37290": {
+    "umfang": "Einzelnes Vol.",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 5217,
+        "typ": "TV-Serie",
+        "folgen": 26
+      }
+    ],
+    "fetchedAt": "2026-11-07T04:58:43.171Z",
+    "stand": 1
+  },
+  "37291": {
+    "umfang": "Einzelnes Vol.",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 5217,
+        "typ": "TV-Serie",
+        "folgen": 26
+      }
+    ],
+    "fetchedAt": "2026-11-07T04:58:36.645Z",
+    "stand": 1
+  },
+  "37292": {
+    "umfang": "Einzelnes Vol.",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 5217,
+        "typ": "TV-Serie",
+        "folgen": 26
+      }
+    ],
+    "fetchedAt": "2026-11-07T04:58:30.107Z",
+    "stand": 1
+  },
+  "37293": {
+    "umfang": "Einzelnes Vol.",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 5217,
+        "typ": "TV-Serie",
+        "folgen": 26
+      }
+    ],
+    "fetchedAt": "2026-11-07T04:58:23.590Z",
+    "stand": 1
+  },
+  "37300": {
+    "ean": "4013549043991",
+    "audio": [
+      "Niederländisch (DTS-HD 5.1)",
+      "Englisch (DTS-HD 5.1)",
+      "Deutsch (DTS-HD 5.1)"
+    ],
+    "untertitel": [
+      "Deutsch",
+      "Niederländisch"
+    ],
+    "publisher": "Splendid Animation",
+    "umfang": "Film",
+    "medium": "Blu-ray",
+    "enthalten": [
+      {
+        "anisearchId": 11569,
+        "typ": "Film",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:04:54.576Z",
+    "stand": 1
+  },
+  "37301": {
+    "ean": "4013549064781",
+    "audio": [
+      "Englisch (DTS-HD 5.1)",
+      "Deutsch (DTS-HD 5.1)",
+      "Niederländisch (DTS-HD 5.1)"
+    ],
+    "untertitel": [
+      "Deutsch",
+      "Niederländisch"
+    ],
+    "publisher": "Splendid Animation",
+    "umfang": "Film",
+    "medium": "Blu-ray 3D",
+    "enthalten": [
+      {
+        "anisearchId": 11569,
+        "typ": "Film",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:05:01.100Z",
+    "stand": 1
+  },
+  "37302": {
+    "ean": "4013549064767",
+    "audio": [
+      "Englisch (Dolby Digital 5.1)",
+      "Deutsch (Dolby Digital 5.1)",
+      "Niederländisch (Dolby Digital 5.1)"
+    ],
+    "untertitel": [
+      "Deutsch",
+      "Niederländisch"
+    ],
+    "publisher": "Splendid Animation",
+    "umfang": "Film",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 11569,
+        "typ": "Film",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:05:07.600Z",
     "stand": 1
   },
   "37393": {
@@ -68469,6 +69399,50 @@
     "fetchedAt": "2026-10-09T06:26:10.828Z",
     "stand": 1
   },
+  "41249": {
+    "ean": "4260497790013",
+    "audio": [
+      "Deutsch (Dolby Digital 2.0)",
+      "Japanisch (Dolby Digital 2.0)"
+    ],
+    "untertitel": [
+      "Deutsch"
+    ],
+    "publisher": "AniMoon Publishing GmbH",
+    "umfang": "Einzelnes Vol.",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 6242,
+        "typ": "TV-Serie",
+        "folgen": 12
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:03:04.135Z",
+    "stand": 1
+  },
+  "41250": {
+    "ean": "4260497790020",
+    "audio": [
+      "Deutsch (DTS-HD 2.0)",
+      "Japanisch (DTS-HD 2.0)"
+    ],
+    "untertitel": [
+      "Deutsch"
+    ],
+    "publisher": "AniMoon Publishing GmbH",
+    "umfang": "Einzelnes Vol.",
+    "medium": "Blu-ray",
+    "enthalten": [
+      {
+        "anisearchId": 6242,
+        "typ": "TV-Serie",
+        "folgen": 12
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:03:10.657Z",
+    "stand": 1
+  },
   "41251": {
     "ean": "4260090986622",
     "audio": [
@@ -68511,6 +69485,51 @@
       }
     ],
     "fetchedAt": "2026-10-07T05:52:36.161Z",
+    "stand": 1
+  },
+  "41255": {
+    "ean": "4013549081115",
+    "audio": [
+      "Deutsch (DTS-HD 5.1)"
+    ],
+    "untertitel": [
+      "Deutsch"
+    ],
+    "publisher": "Splendid Film/WVG",
+    "medium": "Blu-ray",
+    "enthalten": [
+      {
+        "anisearchId": 11556,
+        "typ": "Film",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:04:35.208Z",
+    "stand": 1
+  },
+  "41257": {
+    "ean": "4013549079136",
+    "audio": [
+      "Niederländisch",
+      "Englisch",
+      "Deutsch"
+    ],
+    "publisher": "Splendid Animation",
+    "umfang": "Film",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 10552,
+        "typ": "Film",
+        "folgen": 1
+      },
+      {
+        "anisearchId": 11569,
+        "typ": "Film",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:03:36.389Z",
     "stand": 1
   },
   "41259": {
@@ -68623,6 +69642,28 @@
       }
     ],
     "fetchedAt": "2026-10-10T04:56:10.331Z",
+    "stand": 1
+  },
+  "41279": {
+    "ean": "4260017066789",
+    "audio": [
+      "Japanisch",
+      "Deutsch"
+    ],
+    "untertitel": [
+      "Deutsch"
+    ],
+    "publisher": "Rapid Eye Movies HE GmbH",
+    "umfang": "Film",
+    "medium": "Blu-ray",
+    "enthalten": [
+      {
+        "anisearchId": 1546,
+        "typ": "Film",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-07T04:55:15.875Z",
     "stand": 1
   },
   "41330": {
@@ -69872,6 +70913,50 @@
     "fetchedAt": "2026-10-08T05:36:36.933Z",
     "stand": 1
   },
+  "41847": {
+    "ean": "4260497790037",
+    "audio": [
+      "Deutsch (Dolby Digital 2.0)",
+      "Japanisch (Dolby Digital 2.0)"
+    ],
+    "untertitel": [
+      "Deutsch"
+    ],
+    "publisher": "AniMoon Publishing GmbH",
+    "umfang": "Einzelnes Vol.",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 6242,
+        "typ": "TV-Serie",
+        "folgen": 12
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:02:57.627Z",
+    "stand": 1
+  },
+  "41848": {
+    "ean": "4260497790044",
+    "audio": [
+      "Deutsch",
+      "Japanisch"
+    ],
+    "untertitel": [
+      "Deutsch"
+    ],
+    "publisher": "AniMoon Publishing GmbH",
+    "umfang": "Einzelnes Vol.",
+    "medium": "Blu-ray",
+    "enthalten": [
+      {
+        "anisearchId": 6242,
+        "typ": "TV-Serie",
+        "folgen": 12
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:02:51.096Z",
+    "stand": 1
+  },
   "41852": {
     "ean": "4260039673842",
     "audio": [
@@ -70492,6 +71577,50 @@
       }
     ],
     "fetchedAt": "2026-10-09T06:30:49.702Z",
+    "stand": 1
+  },
+  "41961": {
+    "ean": "4260497790068",
+    "audio": [
+      "Deutsch (DTS-HD 2.0)",
+      "Japanisch (DTS-HD 2.0)"
+    ],
+    "untertitel": [
+      "Deutsch"
+    ],
+    "publisher": "AniMoon Publishing GmbH",
+    "umfang": "Einzelnes Vol.",
+    "medium": "Blu-ray",
+    "enthalten": [
+      {
+        "anisearchId": 6242,
+        "typ": "TV-Serie",
+        "folgen": 12
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:02:38.020Z",
+    "stand": 1
+  },
+  "41962": {
+    "ean": "4260497790051",
+    "audio": [
+      "Deutsch",
+      "Japanisch"
+    ],
+    "untertitel": [
+      "Deutsch"
+    ],
+    "publisher": "AniMoon Publishing GmbH",
+    "umfang": "Einzelnes Vol.",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 6242,
+        "typ": "TV-Serie",
+        "folgen": 12
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:02:44.552Z",
     "stand": 1
   },
   "41974": {
@@ -71882,6 +73011,50 @@
     "fetchedAt": "2026-10-05T03:46:23.500Z",
     "stand": 1
   },
+  "42316": {
+    "ean": "4260497790075",
+    "audio": [
+      "Deutsch (Dolby Digital 2.0)",
+      "Japanisch (Dolby Digital 2.0)"
+    ],
+    "untertitel": [
+      "Deutsch"
+    ],
+    "publisher": "AniMoon Publishing GmbH",
+    "umfang": "Einzelnes Vol.",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 6242,
+        "typ": "TV-Serie",
+        "folgen": 12
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:02:31.492Z",
+    "stand": 1
+  },
+  "42317": {
+    "ean": "4260497790082",
+    "audio": [
+      "Deutsch (DTS-HD 2.0)",
+      "Japanisch (DTS-HD 2.0)"
+    ],
+    "untertitel": [
+      "Deutsch"
+    ],
+    "publisher": "AniMoon Publishing GmbH",
+    "umfang": "Einzelnes Vol.",
+    "medium": "Blu-ray",
+    "enthalten": [
+      {
+        "anisearchId": 6242,
+        "typ": "TV-Serie",
+        "folgen": 12
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:02:24.972Z",
+    "stand": 1
+  },
   "42332": {
     "ean": "7630017508478",
     "audio": [
@@ -72102,6 +73275,94 @@
     "fetchedAt": "2026-10-05T04:16:09.946Z",
     "stand": 1
   },
+  "42429": {
+    "ean": "4260497790105",
+    "audio": [
+      "Deutsch (DTS-HD 2.0)",
+      "Japanisch (DTS-HD 2.0)"
+    ],
+    "untertitel": [
+      "Deutsch"
+    ],
+    "publisher": "AniMoon Publishing GmbH",
+    "umfang": "Einzelnes Vol.",
+    "medium": "Blu-ray",
+    "enthalten": [
+      {
+        "anisearchId": 6242,
+        "typ": "TV-Serie",
+        "folgen": 12
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:02:11.890Z",
+    "stand": 1
+  },
+  "42430": {
+    "ean": "4260497790099",
+    "audio": [
+      "Deutsch (Dolby Digital 2.0)",
+      "Japanisch (Dolby Digital 2.0)"
+    ],
+    "untertitel": [
+      "Deutsch"
+    ],
+    "publisher": "AniMoon Publishing GmbH",
+    "umfang": "Einzelnes Vol.",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 6242,
+        "typ": "TV-Serie",
+        "folgen": 12
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:02:18.434Z",
+    "stand": 1
+  },
+  "42431": {
+    "ean": "4260497790112",
+    "audio": [
+      "Deutsch (Dolby Digital 2.0)",
+      "Japanisch (Dolby Digital 2.0)"
+    ],
+    "untertitel": [
+      "Deutsch"
+    ],
+    "publisher": "AniMoon Publishing GmbH",
+    "umfang": "Einzelnes Vol.",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 6242,
+        "typ": "TV-Serie",
+        "folgen": 12
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:02:05.366Z",
+    "stand": 1
+  },
+  "42432": {
+    "ean": "4260497790129",
+    "audio": [
+      "Deutsch (DTS-HD 2.0)",
+      "Japanisch (DTS-HD 2.0)"
+    ],
+    "untertitel": [
+      "Deutsch"
+    ],
+    "publisher": "AniMoon Publishing GmbH",
+    "umfang": "Einzelnes Vol.",
+    "medium": "Blu-ray",
+    "enthalten": [
+      {
+        "anisearchId": 6242,
+        "typ": "TV-Serie",
+        "folgen": 12
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:01:58.833Z",
+    "stand": 1
+  },
   "42434": {
     "ean": "7630017506610",
     "audio": [
@@ -72272,6 +73533,84 @@
     "fetchedAt": "2026-10-07T06:19:11.945Z",
     "stand": 1
   },
+  "42519": {
+    "umfang": "Einzelnes Vol.",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 4750,
+        "typ": "TV-Serie",
+        "folgen": 26
+      }
+    ],
+    "fetchedAt": "2026-11-07T04:57:44.443Z",
+    "stand": 1
+  },
+  "42520": {
+    "umfang": "Einzelnes Vol.",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 4750,
+        "typ": "TV-Serie",
+        "folgen": 26
+      }
+    ],
+    "fetchedAt": "2026-11-07T04:57:38.053Z",
+    "stand": 1
+  },
+  "42521": {
+    "umfang": "Einzelnes Vol.",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 4750,
+        "typ": "TV-Serie",
+        "folgen": 26
+      }
+    ],
+    "fetchedAt": "2026-11-07T04:57:31.640Z",
+    "stand": 1
+  },
+  "42522": {
+    "umfang": "Einzelnes Vol.",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 4750,
+        "typ": "TV-Serie",
+        "folgen": 26
+      }
+    ],
+    "fetchedAt": "2026-11-07T04:57:25.227Z",
+    "stand": 1
+  },
+  "42523": {
+    "umfang": "Einzelnes Vol.",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 4750,
+        "typ": "TV-Serie",
+        "folgen": 26
+      }
+    ],
+    "fetchedAt": "2026-11-07T04:57:18.822Z",
+    "stand": 1
+  },
+  "42524": {
+    "umfang": "Einzelnes Vol.",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 4750,
+        "typ": "TV-Serie",
+        "folgen": 26
+      }
+    ],
+    "fetchedAt": "2026-11-07T04:57:12.405Z",
+    "stand": 1
+  },
   "42525": {
     "ean": "4260495760551",
     "audio": [
@@ -72332,6 +73671,39 @@
       }
     ],
     "fetchedAt": "2026-10-06T06:48:40.605Z",
+    "stand": 1
+  },
+  "42529": {
+    "umfang": "Staffel / Gesamtausgabe",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 4750,
+        "typ": "TV-Serie",
+        "folgen": 26
+      }
+    ],
+    "fetchedAt": "2026-11-07T04:56:59.603Z",
+    "stand": 1
+  },
+  "42530": {
+    "ean": "4052912570184",
+    "audio": [
+      "Deutsch",
+      "Englisch",
+      "Französisch"
+    ],
+    "publisher": "Studio Hamburg Enterprises",
+    "umfang": "Staffel / Gesamtausgabe",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 4749,
+        "typ": "TV-Serie",
+        "folgen": 26
+      }
+    ],
+    "fetchedAt": "2026-11-07T04:55:54.518Z",
     "stand": 1
   },
   "42531": {
@@ -73014,6 +74386,94 @@
       }
     ],
     "fetchedAt": "2026-10-10T04:47:47.087Z",
+    "stand": 1
+  },
+  "42770": {
+    "ean": "4260497790136",
+    "audio": [
+      "Deutsch (Dolby Digital 2.0)",
+      "Japanisch (Dolby Digital 2.0)"
+    ],
+    "untertitel": [
+      "Deutsch"
+    ],
+    "publisher": "AniMoon Publishing GmbH",
+    "umfang": "Einzelnes Vol.",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 6242,
+        "typ": "TV-Serie",
+        "folgen": 12
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:01:52.298Z",
+    "stand": 1
+  },
+  "42771": {
+    "ean": "4260497790143",
+    "audio": [
+      "Deutsch",
+      "Japanisch"
+    ],
+    "untertitel": [
+      "Deutsch"
+    ],
+    "publisher": "AniMoon Publishing GmbH",
+    "umfang": "Einzelnes Vol.",
+    "medium": "Blu-ray",
+    "enthalten": [
+      {
+        "anisearchId": 6242,
+        "typ": "TV-Serie",
+        "folgen": 12
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:01:45.770Z",
+    "stand": 1
+  },
+  "42772": {
+    "ean": "4260497790167",
+    "audio": [
+      "Deutsch (DTS-HD 2.0)",
+      "Japanisch (DTS-HD 2.0)"
+    ],
+    "untertitel": [
+      "Deutsch"
+    ],
+    "publisher": "AniMoon Publishing GmbH",
+    "umfang": "Einzelnes Vol.",
+    "medium": "Blu-ray",
+    "enthalten": [
+      {
+        "anisearchId": 6242,
+        "typ": "TV-Serie",
+        "folgen": 12
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:01:32.723Z",
+    "stand": 1
+  },
+  "42773": {
+    "ean": "4260497790150",
+    "audio": [
+      "Deutsch (Dolby Digital 2.0)",
+      "Japanisch (Dolby Digital 2.0)"
+    ],
+    "untertitel": [
+      "Deutsch"
+    ],
+    "publisher": "AniMoon Publishing GmbH",
+    "umfang": "Einzelnes Vol.",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 6242,
+        "typ": "TV-Serie",
+        "folgen": 12
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:01:39.243Z",
     "stand": 1
   },
   "42779": {
@@ -73734,6 +75194,97 @@
       }
     ],
     "fetchedAt": "2026-10-07T06:03:23.597Z",
+    "stand": 1
+  },
+  "43197": {
+    "ean": "4009750311967",
+    "audio": [
+      "Deutsch",
+      "Englisch"
+    ],
+    "publisher": "EuroVideo Medien GmbH",
+    "umfang": "Film",
+    "medium": "Blu-ray 3D",
+    "enthalten": [
+      {
+        "anisearchId": 12434,
+        "typ": "Film",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:05:52.736Z",
+    "stand": 1
+  },
+  "43199": {
+    "ean": "4020628901479",
+    "audio": [
+      "Deutsch",
+      "Englisch"
+    ],
+    "untertitel": [
+      "Deutsch"
+    ],
+    "medium": "Blu-ray",
+    "enthalten": [
+      {
+        "anisearchId": 11997,
+        "typ": "Film",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:05:14.025Z",
+    "stand": 1
+  },
+  "43200": {
+    "ean": "4020628901462",
+    "audio": [
+      "Englisch",
+      "Deutsch"
+    ],
+    "untertitel": [
+      "Deutsch"
+    ],
+    "medium": "Blu-ray 3D",
+    "enthalten": [
+      {
+        "anisearchId": 11997,
+        "typ": "Film",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:05:20.429Z",
+    "stand": 1
+  },
+  "43201": {
+    "ean": "4020628901486",
+    "audio": [
+      "Deutsch",
+      "Englisch"
+    ],
+    "untertitel": [
+      "Deutsch"
+    ],
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 11997,
+        "typ": "Film",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:05:26.843Z",
+    "stand": 1
+  },
+  "43207": {
+    "medium": "Blu-ray 3D",
+    "enthalten": [
+      {
+        "anisearchId": 13226,
+        "typ": "Film",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:06:31.594Z",
     "stand": 1
   },
   "43213": {
@@ -81006,6 +82557,26 @@
     "fetchedAt": "2026-10-05T04:17:35.437Z",
     "stand": 1
   },
+  "46908": {
+    "ean": "4052912774063",
+    "audio": [
+      "Englisch (Dolby Digital 2.0 Stereo)",
+      "Deutsch (Dolby Digital 2.0 Stereo)",
+      "Französisch (Dolby Digital 2.0 Stereo)"
+    ],
+    "publisher": "Studio Hamburg Enterprises",
+    "umfang": "Staffel / Gesamtausgabe",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 5217,
+        "typ": "TV-Serie",
+        "folgen": 26
+      }
+    ],
+    "fetchedAt": "2026-11-07T04:58:04.024Z",
+    "stand": 1
+  },
   "46915": {
     "ean": "7630017509567",
     "audio": [
@@ -85306,6 +86877,31 @@
     "fetchedAt": "2026-10-09T05:03:31.924Z",
     "stand": 1
   },
+  "49288": {
+    "ean": "4052912871496",
+    "audio": [
+      "Englisch (Dolby Digital 2.0 Stereo)",
+      "Deutsch (Dolby Digital 2.0 Stereo)",
+      "Französisch (Dolby Digital 2.0 Stereo)"
+    ],
+    "untertitel": [
+      "Deutsch",
+      "Englisch",
+      "Französisch"
+    ],
+    "publisher": "Studio Hamburg Enterprises",
+    "umfang": "Staffel / Gesamtausgabe",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 4749,
+        "typ": "TV-Serie",
+        "folgen": 26
+      }
+    ],
+    "fetchedAt": "2026-11-07T04:55:48.007Z",
+    "stand": 1
+  },
   "49289": {
     "ean": "4260497790464",
     "audio": [
@@ -86081,6 +87677,24 @@
       }
     ],
     "fetchedAt": "2026-10-10T06:13:50.822Z",
+    "stand": 1
+  },
+  "49740": {
+    "ean": "4029759129608",
+    "audio": [
+      "Deutsch"
+    ],
+    "publisher": "Edel Germany GmbH",
+    "umfang": "Staffel / Gesamtausgabe",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 11124,
+        "typ": "TV-Serie",
+        "folgen": 26
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:04:28.684Z",
     "stand": 1
   },
   "49751": {
@@ -93953,6 +95567,69 @@
     "fetchedAt": "2026-10-10T05:46:12.634Z",
     "stand": 1
   },
+  "54643": {
+    "ean": "4061229098342",
+    "audio": [
+      "Englisch",
+      "Deutsch"
+    ],
+    "untertitel": [
+      "Deutsch"
+    ],
+    "publisher": "Capelight Pictures (Vertrieb Universum Film)",
+    "medium": "Blu-ray 3D",
+    "enthalten": [
+      {
+        "anisearchId": 13576,
+        "typ": "Film",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:06:44.425Z",
+    "stand": 1
+  },
+  "54644": {
+    "ean": "4061229098304",
+    "audio": [
+      "Englisch (Dolby Digital 5.1)",
+      "Deutsch (Dolby Digital 5.1)"
+    ],
+    "untertitel": [
+      "Deutsch"
+    ],
+    "publisher": "Capelight Pictures (Vertrieb Universum Film)",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 13576,
+        "typ": "Film",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:06:50.841Z",
+    "stand": 1
+  },
+  "54645": {
+    "ean": "4061229098311",
+    "audio": [
+      "Englisch",
+      "Deutsch"
+    ],
+    "untertitel": [
+      "Deutsch"
+    ],
+    "publisher": "Capelight Pictures (Vertrieb Universum Film)",
+    "medium": "Blu-ray",
+    "enthalten": [
+      {
+        "anisearchId": 13576,
+        "typ": "Film",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:06:38.009Z",
+    "stand": 1
+  },
   "54656": {
     "ean": "4013549063258",
     "audio": [
@@ -93974,6 +95651,70 @@
       }
     ],
     "fetchedAt": "2026-10-11T05:32:24.787Z",
+    "stand": 1
+  },
+  "54660": {
+    "ean": "4260318087698",
+    "audio": [
+      "Englisch (DTS-HD 5.1)",
+      "Deutsch (DTS-HD 5.1)"
+    ],
+    "untertitel": [
+      "Deutsch"
+    ],
+    "publisher": "KSM GmbH",
+    "medium": "Blu-ray",
+    "enthalten": [
+      {
+        "anisearchId": 14011,
+        "typ": "Film",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:07:03.787Z",
+    "stand": 1
+  },
+  "54661": {
+    "ean": "4260318087704",
+    "audio": [
+      "Englisch (DTS-HD 5.1)",
+      "Deutsch (DTS-HD 5.1)"
+    ],
+    "untertitel": [
+      "Deutsch"
+    ],
+    "publisher": "New KSM",
+    "umfang": "Film",
+    "medium": "Blu-ray 3D",
+    "enthalten": [
+      {
+        "anisearchId": 14011,
+        "typ": "Film",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:07:10.335Z",
+    "stand": 1
+  },
+  "54662": {
+    "ean": "4260318087681",
+    "audio": [
+      "Englisch (Dolby Digital 5.1)",
+      "Deutsch (Dolby Digital 5.1)"
+    ],
+    "untertitel": [
+      "Deutsch"
+    ],
+    "publisher": "KSM GmbH",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 14011,
+        "typ": "Film",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:07:16.739Z",
     "stand": 1
   },
   "54668": {
@@ -94218,6 +95959,52 @@
     "fetchedAt": "2026-10-03T20:27:31.863Z",
     "stand": 1
   },
+  "54684": {
+    "ean": "4260394331807",
+    "audio": [
+      "Englisch (DTS-HD Master Audio 5.1)",
+      "Deutsch (DTS-HD Master Audio 5.1)",
+      "Französisch (DTS-HD Master Audio 5.1)"
+    ],
+    "untertitel": [
+      "Deutsch",
+      "Englisch"
+    ],
+    "publisher": "New KSM",
+    "umfang": "Film",
+    "medium": "Blu-ray 3D",
+    "enthalten": [
+      {
+        "anisearchId": 14011,
+        "typ": "Film",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:06:57.381Z",
+    "stand": 1
+  },
+  "54689": {
+    "ean": "7630017502797",
+    "audio": [
+      "Deutsch (Dolby Digital 2.0)",
+      "Japanisch (Dolby Digital 2.0)"
+    ],
+    "untertitel": [
+      "Deutsch"
+    ],
+    "publisher": "Kazé Deutschland",
+    "umfang": "Film",
+    "medium": "Blu-ray",
+    "enthalten": [
+      {
+        "anisearchId": 5194,
+        "typ": "TV-Spezial",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-07T04:57:50.990Z",
+    "stand": 1
+  },
   "54692": {
     "ean": "4061229094214",
     "audio": [
@@ -94253,6 +96040,69 @@
       }
     ],
     "fetchedAt": "2026-10-10T05:25:19.975Z",
+    "stand": 1
+  },
+  "54697": {
+    "ean": "4260229591567",
+    "audio": [
+      "Englisch (DTS-HD 5.1)",
+      "Deutsch (DTS-HD 5.1)"
+    ],
+    "untertitel": [
+      "Deutsch"
+    ],
+    "publisher": "Alive - Vertrieb und Marketing/DVD",
+    "medium": "Blu-ray 3D",
+    "enthalten": [
+      {
+        "anisearchId": 14017,
+        "typ": "Film",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:07:29.558Z",
+    "stand": 1
+  },
+  "54698": {
+    "ean": "4260229591536",
+    "audio": [
+      "Englisch (Dolby Digital 5.1)",
+      "Deutsch (Dolby Digital 5.1)"
+    ],
+    "untertitel": [
+      "Deutsch"
+    ],
+    "publisher": "Alive - Vertrieb und Marketing/DVD",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 14017,
+        "typ": "Film",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:07:35.979Z",
+    "stand": 1
+  },
+  "54699": {
+    "ean": "4260229591550",
+    "audio": [
+      "Englisch (DTS-HD 5.1)",
+      "Deutsch (DTS-HD 5.1)"
+    ],
+    "untertitel": [
+      "Deutsch"
+    ],
+    "publisher": "Alive - Vertrieb und Marketing/DVD",
+    "medium": "Blu-ray",
+    "enthalten": [
+      {
+        "anisearchId": 14017,
+        "typ": "Film",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:07:23.151Z",
     "stand": 1
   },
   "54721": {
@@ -94724,6 +96574,72 @@
     "fetchedAt": "2026-10-06T06:49:58.722Z",
     "stand": 1
   },
+  "55071": {
+    "ean": "4260495769035",
+    "audio": [
+      "Englisch",
+      "Deutsch"
+    ],
+    "untertitel": [
+      "Deutsch"
+    ],
+    "publisher": "New KSM",
+    "umfang": "Film",
+    "medium": "Blu-ray 3D",
+    "enthalten": [
+      {
+        "anisearchId": 13182,
+        "typ": "Film",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:06:18.634Z",
+    "stand": 1
+  },
+  "55072": {
+    "ean": "4260495768366",
+    "audio": [
+      "Englisch (Dolby Digital 5.1)",
+      "Deutsch (Dolby Digital 5.1)"
+    ],
+    "untertitel": [
+      "Deutsch"
+    ],
+    "publisher": "New KSM",
+    "umfang": "Film",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 13182,
+        "typ": "Film",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:06:25.191Z",
+    "stand": 1
+  },
+  "55073": {
+    "ean": "4260495768373",
+    "audio": [
+      "Englisch",
+      "Deutsch"
+    ],
+    "untertitel": [
+      "Deutsch"
+    ],
+    "publisher": "New KSM",
+    "umfang": "Film",
+    "medium": "Blu-ray",
+    "enthalten": [
+      {
+        "anisearchId": 13182,
+        "typ": "Film",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:06:12.220Z",
+    "stand": 1
+  },
   "55076": {
     "ean": "4260394339148",
     "audio": [
@@ -94743,6 +96659,68 @@
       }
     ],
     "fetchedAt": "2026-10-08T06:24:07.713Z",
+    "stand": 1
+  },
+  "55077": {
+    "ean": "4260017067670",
+    "audio": [
+      "Japanisch"
+    ],
+    "untertitel": [
+      "Deutsch"
+    ],
+    "publisher": "Rapid Eye Movies HE GmbH",
+    "umfang": "Film",
+    "medium": "Blu-ray",
+    "enthalten": [
+      {
+        "anisearchId": 1546,
+        "typ": "Film",
+        "folgen": 1
+      },
+      {
+        "anisearchId": 3713,
+        "typ": "Film",
+        "folgen": 1
+      },
+      {
+        "anisearchId": 1000,
+        "typ": "Film",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-07T04:55:02.812Z",
+    "stand": 1
+  },
+  "55078": {
+    "ean": "4260017067663",
+    "audio": [
+      "Japanisch"
+    ],
+    "untertitel": [
+      "Deutsch"
+    ],
+    "publisher": "Rapid Eye Movies HE GmbH",
+    "umfang": "Film",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 1546,
+        "typ": "Film",
+        "folgen": 1
+      },
+      {
+        "anisearchId": 3713,
+        "typ": "Film",
+        "folgen": 1
+      },
+      {
+        "anisearchId": 1000,
+        "typ": "Film",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-07T04:55:09.363Z",
     "stand": 1
   },
   "55079": {
@@ -98777,6 +100755,42 @@
     "fetchedAt": "2026-10-05T04:30:00.005Z",
     "stand": 1
   },
+  "58360": {
+    "ean": "0889854656799",
+    "audio": [
+      "Deutsch (DD)"
+    ],
+    "publisher": "Sony Music Entertainment Germany",
+    "umfang": "Cour / Box",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 12621,
+        "typ": "TV-Serie",
+        "folgen": 52
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:06:05.820Z",
+    "stand": 1
+  },
+  "58361": {
+    "ean": "0889854927493",
+    "audio": [
+      "Deutsch"
+    ],
+    "publisher": "Sony Music Entertainment",
+    "umfang": "Cour / Box",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 12621,
+        "typ": "TV-Serie",
+        "folgen": 52
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:05:59.272Z",
+    "stand": 1
+  },
   "58377": {
     "ean": "0889854901097",
     "audio": [
@@ -99038,6 +101052,28 @@
       }
     ],
     "fetchedAt": "2026-10-10T04:46:09.012Z",
+    "stand": 1
+  },
+  "58747": {
+    "ean": "7630017502773",
+    "audio": [
+      "Deutsch (Dolby Digital 2.0)",
+      "Japanisch (Dolby Digital 2.0)"
+    ],
+    "untertitel": [
+      "Deutsch"
+    ],
+    "publisher": "Kazé Deutschland",
+    "umfang": "Film",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 5194,
+        "typ": "TV-Spezial",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-07T04:57:57.512Z",
     "stand": 1
   },
   "58921": {
@@ -103045,6 +105081,41 @@
     "fetchedAt": "2026-10-07T05:42:34.533Z",
     "stand": 1
   },
+  "61997": {
+    "ean": "4009750307748",
+    "audio": [
+      "Deutsch"
+    ],
+    "publisher": "EuroVideo Medien GmbH",
+    "medium": "Blu-ray",
+    "enthalten": [
+      {
+        "anisearchId": 14545,
+        "typ": "Film",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:08:01.940Z",
+    "stand": 1
+  },
+  "61998": {
+    "ean": "4009750233269",
+    "audio": [
+      "Deutsch (Dolby Digital 5.1)",
+      "Englisch (Dolby Digital 5.1)"
+    ],
+    "publisher": "EuroVideo Medien GmbH",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 14545,
+        "typ": "Film",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:08:08.425Z",
+    "stand": 1
+  },
   "62011": {
     "ean": "4260497791119",
     "untertitel": [
@@ -103105,6 +105176,29 @@
       }
     ],
     "fetchedAt": "2026-10-11T04:45:45.361Z",
+    "stand": 1
+  },
+  "62022": {
+    "ean": "4029759139003",
+    "audio": [
+      "Deutsch"
+    ],
+    "publisher": "Edel Germany GmbH",
+    "umfang": "Staffel / Gesamtausgabe",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 13153,
+        "typ": "TV-Serie",
+        "folgen": 25
+      },
+      {
+        "anisearchId": 12133,
+        "typ": "TV-Spezial",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:05:39.918Z",
     "stand": 1
   },
   "62143": {
@@ -104950,6 +107044,23 @@
     "fetchedAt": "2026-10-06T05:55:10.361Z",
     "stand": 1
   },
+  "63760": {
+    "ean": "4042999128446",
+    "audio": [
+      "Deutsch (Dolby Digital 2.0)"
+    ],
+    "publisher": "Release Company GmbH (Vertrieb Universum Film)",
+    "medium": "Blu-ray 3D",
+    "enthalten": [
+      {
+        "anisearchId": 14613,
+        "typ": "Film",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:08:14.910Z",
+    "stand": 1
+  },
   "63959": {
     "ean": "4260623483260",
     "audio": [
@@ -106088,6 +108199,26 @@
       }
     ],
     "fetchedAt": "2026-10-10T04:52:02.008Z",
+    "stand": 1
+  },
+  "65828": {
+    "ean": "4052912770751",
+    "audio": [
+      "Englisch (Dolby Digital 2.0 Stereo)",
+      "Deutsch (Dolby Digital 2.0 Stereo)",
+      "Französisch (Dolby Digital 2.0 Stereo)"
+    ],
+    "publisher": "Studio Hamburg Enterprises",
+    "umfang": "Staffel / Gesamtausgabe",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 5293,
+        "typ": "TV-Serie",
+        "folgen": 26
+      }
+    ],
+    "fetchedAt": "2026-11-07T04:59:02.742Z",
     "stand": 1
   },
   "65860": {
@@ -109779,6 +111910,50 @@
       }
     ],
     "fetchedAt": "2026-10-11T05:16:42.260Z",
+    "stand": 1
+  },
+  "73034": {
+    "ean": "4260497791515",
+    "audio": [
+      "Deutsch (Dolby Digital 2.0)",
+      "Japanisch (Dolby Digital 2.0)"
+    ],
+    "untertitel": [
+      "Deutsch"
+    ],
+    "publisher": "AniMoon Publishing GmbH",
+    "umfang": "Staffel / Gesamtausgabe",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 6242,
+        "typ": "TV-Serie",
+        "folgen": 12
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:01:26.199Z",
+    "stand": 1
+  },
+  "73035": {
+    "ean": "4260497791522",
+    "audio": [
+      "Deutsch (DTS-HD 2.0)",
+      "Japanisch (DTS-HD 2.0)"
+    ],
+    "untertitel": [
+      "Deutsch"
+    ],
+    "publisher": "AniMoon Publishing GmbH",
+    "umfang": "Staffel / Gesamtausgabe",
+    "medium": "Blu-ray",
+    "enthalten": [
+      {
+        "anisearchId": 6242,
+        "typ": "TV-Serie",
+        "folgen": 12
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:01:19.780Z",
     "stand": 1
   },
   "73050": {
@@ -120468,6 +122643,34 @@
     "fetchedAt": "2026-10-10T05:13:01.617Z",
     "stand": 1
   },
+  "82295": {
+    "ean": "4029759150992",
+    "audio": [
+      "Deutsch"
+    ],
+    "publisher": "Edel Germany GmbH",
+    "umfang": "Staffel / Gesamtausgabe",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 13153,
+        "typ": "TV-Serie",
+        "folgen": 25
+      },
+      {
+        "anisearchId": 12133,
+        "typ": "TV-Spezial",
+        "folgen": 1
+      },
+      {
+        "anisearchId": 11124,
+        "typ": "TV-Serie",
+        "folgen": 26
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:04:22.120Z",
+    "stand": 1
+  },
   "82311": {
     "ean": "7630017522986",
     "audio": [
@@ -120493,6 +122696,28 @@
       }
     ],
     "fetchedAt": "2026-10-08T05:49:15.838Z",
+    "stand": 1
+  },
+  "82323": {
+    "ean": "4029759151975",
+    "audio": [
+      "Deutsch"
+    ],
+    "publisher": "Edel Germany GmbH",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 13153,
+        "typ": "TV-Serie",
+        "folgen": 25
+      },
+      {
+        "anisearchId": 12133,
+        "typ": "TV-Spezial",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:05:33.388Z",
     "stand": 1
   },
   "82464": {
@@ -120693,6 +122918,82 @@
       }
     ],
     "fetchedAt": "2026-10-11T05:04:25.369Z",
+    "stand": 1
+  },
+  "82518": {
+    "ean": "4042564209723",
+    "audio": [
+      "Deutsch",
+      "Englisch"
+    ],
+    "publisher": "cmv-Laservision",
+    "umfang": "Film",
+    "medium": "DVD + Blu-ray",
+    "enthalten": [
+      {
+        "anisearchId": 5407,
+        "typ": "OVA",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:00:27.591Z",
+    "stand": 1
+  },
+  "82519": {
+    "ean": "4042564209716",
+    "audio": [
+      "Deutsch",
+      "Englisch"
+    ],
+    "publisher": "cmv-Laservision",
+    "umfang": "Film",
+    "medium": "DVD + Blu-ray",
+    "enthalten": [
+      {
+        "anisearchId": 5407,
+        "typ": "OVA",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:00:34.121Z",
+    "stand": 1
+  },
+  "82520": {
+    "ean": "4042564209709",
+    "audio": [
+      "Deutsch",
+      "Englisch"
+    ],
+    "publisher": "cmv-Laservision",
+    "umfang": "Film",
+    "medium": "DVD + Blu-ray",
+    "enthalten": [
+      {
+        "anisearchId": 5407,
+        "typ": "OVA",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:00:40.640Z",
+    "stand": 1
+  },
+  "82521": {
+    "ean": "4042564209686",
+    "audio": [
+      "Deutsch",
+      "Englisch"
+    ],
+    "publisher": "Intergroove Media GmbH",
+    "umfang": "Film",
+    "medium": "DVD + Blu-ray",
+    "enthalten": [
+      {
+        "anisearchId": 5407,
+        "typ": "OVA",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:00:53.705Z",
     "stand": 1
   },
   "82581": {
@@ -121063,6 +123364,25 @@
       }
     ],
     "fetchedAt": "2026-10-08T04:57:06.867Z",
+    "stand": 1
+  },
+  "82983": {
+    "ean": "4042564209693",
+    "audio": [
+      "Deutsch",
+      "Englisch"
+    ],
+    "publisher": "cmv-Laservision",
+    "umfang": "Film",
+    "medium": "DVD + Blu-ray",
+    "enthalten": [
+      {
+        "anisearchId": 5407,
+        "typ": "OVA",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:00:47.191Z",
     "stand": 1
   },
   "83163": {
@@ -129528,6 +131848,44 @@
     "fetchedAt": "2026-10-05T04:36:41.376Z",
     "stand": 1
   },
+  "97097": {
+    "ean": "4260403752494",
+    "audio": [
+      "Deutsch",
+      "Englisch"
+    ],
+    "publisher": "cmv-Laservision",
+    "umfang": "Film",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 5407,
+        "typ": "OVA",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:00:21.063Z",
+    "stand": 1
+  },
+  "97098": {
+    "ean": "4260403752500",
+    "audio": [
+      "Deutsch",
+      "Englisch"
+    ],
+    "publisher": "cmv-Laservision",
+    "umfang": "Film",
+    "medium": "Blu-ray",
+    "enthalten": [
+      {
+        "anisearchId": 5407,
+        "typ": "OVA",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:00:14.542Z",
+    "stand": 1
+  },
   "97146": {
     "ean": "4260495764979",
     "audio": [
@@ -129627,6 +131985,21 @@
       }
     ],
     "fetchedAt": "2026-10-08T05:54:42.606Z",
+    "stand": 1
+  },
+  "97708": {
+    "ean": "4042564209679",
+    "publisher": "cmv-Laservision",
+    "umfang": "Film",
+    "medium": "DVD + Blu-ray",
+    "enthalten": [
+      {
+        "anisearchId": 5407,
+        "typ": "OVA",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:01:00.219Z",
     "stand": 1
   },
   "98101": {
@@ -130490,6 +132863,21 @@
       }
     ],
     "fetchedAt": "2026-10-08T05:36:56.901Z",
+    "stand": 1
+  },
+  "98923": {
+    "ean": "9783963586491",
+    "publisher": "Altraverse GmbH",
+    "umfang": "Mini-Serie + One-shot",
+    "medium": "DVD + Buch",
+    "enthalten": [
+      {
+        "anisearchId": 16095,
+        "typ": "Web",
+        "folgen": 6
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:08:27.858Z",
     "stand": 1
   },
   "99648": {
@@ -133955,6 +136343,24 @@
     "fetchedAt": "2026-10-09T04:53:48.458Z",
     "stand": 1
   },
+  "103167": {
+    "ean": "4029759167952",
+    "audio": [
+      "Deutsch"
+    ],
+    "publisher": "Edel Germany GmbH",
+    "umfang": "Einzelnes Vol.",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 14481,
+        "typ": "TV-Serie",
+        "folgen": 26
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:07:49.018Z",
+    "stand": 1
+  },
   "103203": {
     "ean": "7630017528834",
     "audio": [
@@ -134923,6 +137329,36 @@
       }
     ],
     "fetchedAt": "2026-10-08T05:49:29.181Z",
+    "stand": 1
+  },
+  "105147": {
+    "ean": "0704400021657",
+    "publisher": "FUNimation",
+    "umfang": "Staffel / Gesamtausgabe",
+    "medium": "DVD + Blu-ray",
+    "enthalten": [
+      {
+        "anisearchId": 12846,
+        "typ": "TV-Serie",
+        "folgen": 25
+      },
+      {
+        "anisearchId": 11549,
+        "typ": "TV-Serie",
+        "folgen": 25
+      },
+      {
+        "anisearchId": 12341,
+        "typ": "TV-Spezial",
+        "folgen": 1
+      },
+      {
+        "anisearchId": 10978,
+        "typ": "TV-Serie",
+        "folgen": 13
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:05:46.322Z",
     "stand": 1
   },
   "105193": {
@@ -138558,6 +140994,31 @@
     "fetchedAt": "2026-10-11T05:09:25.217Z",
     "stand": 1
   },
+  "112925": {
+    "ean": "4029759169390",
+    "publisher": "Edel Germany GmbH",
+    "umfang": "Staffel / Gesamtausgabe",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 14481,
+        "typ": "TV-Serie",
+        "folgen": 26
+      },
+      {
+        "anisearchId": 13153,
+        "typ": "TV-Serie",
+        "folgen": 25
+      },
+      {
+        "anisearchId": 11124,
+        "typ": "TV-Serie",
+        "folgen": 26
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:04:15.594Z",
+    "stand": 1
+  },
   "112989": {
     "ean": "7630017528957",
     "audio": [
@@ -141215,6 +143676,24 @@
       }
     ],
     "fetchedAt": "2026-10-09T06:27:43.814Z",
+    "stand": 1
+  },
+  "116128": {
+    "ean": "4029759175094",
+    "audio": [
+      "Deutsch"
+    ],
+    "publisher": "Edel Germany GmbH",
+    "umfang": "Einzelnes Vol.",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 14481,
+        "typ": "TV-Serie",
+        "folgen": 26
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:07:42.503Z",
     "stand": 1
   },
   "116175": {
@@ -147106,6 +149585,29 @@
       }
     ],
     "fetchedAt": "2026-10-07T06:01:19.361Z",
+    "stand": 1
+  },
+  "129240": {
+    "ean": "4029759180715",
+    "audio": [
+      "Deutsch"
+    ],
+    "publisher": "Edel Germany GmbH",
+    "umfang": "Bundle / Komplettset",
+    "medium": "Blu-ray",
+    "enthalten": [
+      {
+        "anisearchId": 17074,
+        "typ": "TV-Spezial",
+        "folgen": 1
+      },
+      {
+        "anisearchId": 17058,
+        "typ": "TV-Spezial",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:08:40.782Z",
     "stand": 1
   },
   "129373": {
@@ -158598,6 +161100,43 @@
     "fetchedAt": "2026-10-13T05:48:45.423Z",
     "stand": 1
   },
+  "146950": {
+    "ean": "4260131122897",
+    "audio": [
+      "Deutsch"
+    ],
+    "publisher": "New KSM",
+    "umfang": "Staffel / Gesamtausgabe",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 18543,
+        "typ": "TV-Serie",
+        "folgen": 13
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:09:06.521Z",
+    "stand": 1
+  },
+  "146951": {
+    "ean": "4260131129872",
+    "audio": [
+      "Deutsch",
+      "Englisch"
+    ],
+    "publisher": "New KSM",
+    "umfang": "Staffel / Gesamtausgabe",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 18543,
+        "typ": "TV-Serie",
+        "folgen": 13
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:09:00.128Z",
+    "stand": 1
+  },
   "146974": {
     "ean": "7630017532510",
     "audio": [
@@ -158835,6 +161374,28 @@
       }
     ],
     "fetchedAt": "2026-10-08T05:51:02.865Z",
+    "stand": 1
+  },
+  "146988": {
+    "ean": "7630017533142",
+    "audio": [
+      "Deutsch",
+      "Japanisch"
+    ],
+    "untertitel": [
+      "Deutsch"
+    ],
+    "publisher": "Crunchyroll",
+    "umfang": "Film",
+    "medium": "Blu-ray",
+    "enthalten": [
+      {
+        "anisearchId": 17859,
+        "typ": "TV-Spezial",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:08:47.339Z",
     "stand": 1
   },
   "147094": {
@@ -163720,6 +166281,24 @@
       }
     ],
     "fetchedAt": "2026-10-05T04:17:15.685Z",
+    "stand": 1
+  },
+  "153061": {
+    "ean": "4029759178361",
+    "audio": [
+      "Deutsch"
+    ],
+    "publisher": "Edel Germany GmbH",
+    "umfang": "Staffel / Gesamtausgabe",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 16892,
+        "typ": "TV-Serie",
+        "folgen": 26
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:08:34.265Z",
     "stand": 1
   },
   "153386": {
@@ -175850,6 +178429,24 @@
     "fetchedAt": "2026-10-05T04:56:05.999Z",
     "stand": 1
   },
+  "173023": {
+    "ean": "4260696737833",
+    "audio": [
+      "Deutsch"
+    ],
+    "publisher": "Pidax film media Ltd.",
+    "umfang": "Staffel / Gesamtausgabe",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 3873,
+        "typ": "TV-Serie",
+        "folgen": 26
+      }
+    ],
+    "fetchedAt": "2026-11-07T04:55:22.273Z",
+    "stand": 1
+  },
   "173024": {
     "ean": "7630017538444",
     "audio": [
@@ -180067,6 +182664,50 @@
     "fetchedAt": "2026-10-11T05:36:12.428Z",
     "stand": 1
   },
+  "177139": {
+    "ean": "4013549161206",
+    "audio": [
+      "Chinesisch",
+      "Deutsch"
+    ],
+    "untertitel": [
+      "Deutsch"
+    ],
+    "publisher": "Splendid Animation",
+    "umfang": "Film",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 19532,
+        "typ": "Film",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:09:19.315Z",
+    "stand": 1
+  },
+  "177140": {
+    "ean": "4013549156288",
+    "audio": [
+      "Chinesisch",
+      "Deutsch"
+    ],
+    "untertitel": [
+      "Deutsch"
+    ],
+    "publisher": "Splendid Animation",
+    "umfang": "Film",
+    "medium": "Blu-ray",
+    "enthalten": [
+      {
+        "anisearchId": 19532,
+        "typ": "Film",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:09:12.922Z",
+    "stand": 1
+  },
   "177141": {
     "ean": "4006448773571",
     "audio": [
@@ -184100,6 +186741,28 @@
       }
     ],
     "fetchedAt": "2026-10-13T06:24:59.164Z",
+    "stand": 1
+  },
+  "185685": {
+    "ean": "7630017538857",
+    "audio": [
+      "Japanisch",
+      "Deutsch"
+    ],
+    "untertitel": [
+      "Deutsch"
+    ],
+    "publisher": "Crunchyroll",
+    "umfang": "Staffel / Gesamtausgabe",
+    "medium": "Blu-ray",
+    "enthalten": [
+      {
+        "anisearchId": 14867,
+        "typ": "TV-Serie",
+        "folgen": 13
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:08:21.460Z",
     "stand": 1
   },
   "185691": {
@@ -189727,6 +192390,50 @@
     "fetchedAt": "2026-10-08T05:12:25.423Z",
     "stand": 1
   },
+  "197069": {
+    "ean": "4006448368241",
+    "audio": [
+      "Deutsch",
+      "Japanisch"
+    ],
+    "untertitel": [
+      "Deutsch"
+    ],
+    "publisher": "polyband Medien GmbH",
+    "umfang": "Film",
+    "medium": "Blu-ray",
+    "enthalten": [
+      {
+        "anisearchId": 19697,
+        "typ": "Film",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:09:32.338Z",
+    "stand": 1
+  },
+  "197070": {
+    "ean": "4006448368319",
+    "audio": [
+      "Deutsch",
+      "Japanisch"
+    ],
+    "untertitel": [
+      "Deutsch"
+    ],
+    "publisher": "polyband Medien GmbH",
+    "umfang": "Film",
+    "medium": "Blu-ray",
+    "enthalten": [
+      {
+        "anisearchId": 19697,
+        "typ": "Film",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:09:25.827Z",
+    "stand": 1
+  },
   "197198": {
     "ean": "4006448368579",
     "audio": [
@@ -193322,6 +196029,33 @@
     "fetchedAt": "2026-10-13T06:28:33.191Z",
     "stand": 1
   },
+  "207682": {
+    "ean": "4006448368616",
+    "audio": [
+      "Deutsch",
+      "Japanisch"
+    ],
+    "untertitel": [
+      "Deutsch"
+    ],
+    "publisher": "polyband Medien GmbH",
+    "umfang": "Staffel / Gesamtausgabe",
+    "medium": "Blu-ray",
+    "enthalten": [
+      {
+        "anisearchId": 9632,
+        "typ": "OVA",
+        "folgen": 3
+      },
+      {
+        "anisearchId": 479,
+        "typ": "OVA",
+        "folgen": 4
+      }
+    ],
+    "fetchedAt": "2026-11-07T04:54:36.757Z",
+    "stand": 1
+  },
   "207683": {
     "ean": "7630017544407",
     "audio": [
@@ -195261,6 +197995,25 @@
     "fetchedAt": "2026-10-13T06:38:21.847Z",
     "stand": 1
   },
+  "214973": {
+    "ean": "4262477519959",
+    "audio": [
+      "Deutsch",
+      "Englisch"
+    ],
+    "publisher": "Pidax film media Ltd.",
+    "umfang": "Staffel / Gesamtausgabe",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 18543,
+        "typ": "TV-Serie",
+        "folgen": 13
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:08:53.733Z",
+    "stand": 1
+  },
   "215324": {
     "ean": "4262477519942",
     "audio": [
@@ -196506,6 +199259,42 @@
       }
     ],
     "fetchedAt": "2026-10-05T05:16:39.743Z",
+    "stand": 1
+  },
+  "220204": {
+    "ean": "4029856451411",
+    "audio": [
+      "Deutsch",
+      "Englisch"
+    ],
+    "umfang": "Film",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 21150,
+        "typ": "Film",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:09:45.132Z",
+    "stand": 1
+  },
+  "220205": {
+    "ean": "4029856451428",
+    "audio": [
+      "Deutsch",
+      "Englisch"
+    ],
+    "umfang": "Film",
+    "medium": "Blu-ray",
+    "enthalten": [
+      {
+        "anisearchId": 21150,
+        "typ": "Film",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-11-07T05:09:38.742Z",
     "stand": 1
   },
   "220207": {

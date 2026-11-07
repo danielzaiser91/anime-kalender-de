@@ -6470,7 +6470,7 @@ pruefe(
   pruefe('Löschlauf: Ratenbegrenzung älter als 60 Minuten', aufrufe[0]?.sql === SQL_RATE_LIMIT_LOESCHEN && aufrufe[0].grenze === '2026-10-09T11:00:00.000Z', JSON.stringify(aufrufe[0]))
   pruefe('Löschlauf: nur unbestätigte Anmeldungen älter als 7 Tage', aufrufe[1]?.sql === SQL_UNBESTAETIGT_LOESCHEN && aufrufe[1].grenze === '2026-10-02T12:00:00.000Z' && SQL_UNBESTAETIGT_LOESCHEN.includes("status = 'pending'"), JSON.stringify(aufrufe[1]))
   pruefe('Löschlauf meldet die Zahlen', n.rateLimit === 2 && n.unbestaetigt === 2)
-  pruefe('… und wird stündlich aus `scheduled` aufgerufen', /async scheduled[\s\S]{0,400}loescheAbgelaufenes\(env, now\)/.test(readFileSync('worker/src/index.ts', 'utf8')))
+  pruefe('… und wird stündlich aus `scheduled` aufgerufen', /async scheduled[\s\S]{0,600}loescheAbgelaufenes\(env, now\)/.test(readFileSync('worker/src/index.ts', 'utf8')))
 }
 {
   /* Web-Push-Text (18.09.2026): eine Sache ausgeschrieben, mehrere gebündelt, nichts → kein Push. */
@@ -8154,12 +8154,12 @@ console.log('\nBeleg: Fundstelle, Banner, Handlung:')
   {
     const um = (iso: string) => faelligeLaeufe(new Date(iso)).filter((w) => w !== 'daten.yml').sort().join(',')
     pruefe('Wecker: das Nativ-Repo (daten.yml, fremdes Repo) wird jede Stunde fällig', faelligeLaeufe(new Date('2026-10-06T15:00:00Z')).includes('daten.yml'))
-    pruefe('Wecker: jede Stunde der Stundenlauf', um('2026-10-06T15:00:00Z') === 'refresh-hourly.yml', um('2026-10-06T15:00:00Z'))
-    pruefe('Wecker: 04 Uhr UTC zusätzlich der Tageslauf (und der Nachhol-Kandidat Tonspuren)', um('2026-10-06T04:00:00Z') === 'refresh-data.yml,refresh-hourly.yml,tonspuren-monatlich.yml', um('2026-10-06T04:00:00Z'))
-    pruefe('Wecker: Montag 05 Uhr UTC der Wochenlauf, Dienstag nicht', um('2026-10-05T05:00:00Z') === 'refresh-hourly.yml,refresh-weekly.yml' && um('2026-10-06T05:00:00Z') === 'refresh-hourly.yml', um('2026-10-05T05:00:00Z'))
-    pruefe('Wecker: ADN alle sechs Stunden, Sonntag zählt als 7', um('2026-10-04T08:00:00Z') === 'adn-laufende.yml,refresh-hourly.yml' && um('2026-10-04T05:00:00Z') === 'refresh-hourly.yml')
-    pruefe('Wecker: die Ladezeiten-Messung täglich um 16 Uhr UTC, sonst nicht', um('2026-10-06T16:00:00Z') === 'ladezeiten.yml,refresh-hourly.yml' && !um('2026-10-06T15:00:00Z').includes('ladezeiten'), um('2026-10-06T16:00:00Z'))
-    pruefe('Wecker: der Monatslauf der Tonspuren am 2. um 04 Uhr UTC, am 1. nicht', um('2026-11-02T04:00:00Z') === 'refresh-data.yml,refresh-hourly.yml,tonspuren-monatlich.yml' && um('2026-11-01T04:00:00Z') === 'refresh-data.yml,refresh-hourly.yml', um('2026-11-02T04:00:00Z'))
+    pruefe('Wecker: jede Stunde der Stundenlauf', um('2026-10-06T15:00:00Z') === 'claude-anime2you-extraktion.yml,nacht-merger.yml,refresh-hourly.yml', um('2026-10-06T15:00:00Z'))
+    pruefe('Wecker: 04 Uhr UTC zusätzlich der Tageslauf (und der Nachhol-Kandidat Tonspuren)', um('2026-10-06T04:00:00Z') === 'claude-anime2you-extraktion.yml,nacht-merger.yml,refresh-data.yml,refresh-hourly.yml,tonspuren-monatlich.yml', um('2026-10-06T04:00:00Z'))
+    pruefe('Wecker: Montag 05 Uhr UTC der Wochenlauf, Dienstag nicht', um('2026-10-05T05:00:00Z') === 'claude-anime2you-extraktion.yml,nacht-merger.yml,refresh-hourly.yml,refresh-weekly.yml' && um('2026-10-06T05:00:00Z') === 'claude-anime2you-extraktion.yml,nacht-merger.yml,refresh-hourly.yml', um('2026-10-05T05:00:00Z'))
+    pruefe('Wecker: ADN alle sechs Stunden, Sonntag zählt als 7', um('2026-10-04T08:00:00Z') === 'adn-laufende.yml,claude-anime2you-extraktion.yml,nacht-merger.yml,refresh-hourly.yml' && um('2026-10-04T05:00:00Z') === 'claude-anime2you-extraktion.yml,nacht-merger.yml,refresh-hourly.yml')
+    pruefe('Wecker: die Ladezeiten-Messung täglich um 16 Uhr UTC, sonst nicht', um('2026-10-06T16:00:00Z') === 'claude-anime2you-extraktion.yml,ladezeiten.yml,nacht-merger.yml,refresh-hourly.yml' && !um('2026-10-06T15:00:00Z').includes('ladezeiten'), um('2026-10-06T16:00:00Z'))
+    pruefe('Wecker: der Monatslauf der Tonspuren am 2. um 04 Uhr UTC, am 1. nicht', um('2026-11-02T04:00:00Z') === 'claude-anime2you-extraktion.yml,nacht-merger.yml,refresh-data.yml,refresh-hourly.yml,tonspuren-monatlich.yml' && um('2026-11-01T04:00:00Z') === 'claude-anime2you-extraktion.yml,nacht-merger.yml,refresh-data.yml,refresh-hourly.yml', um('2026-11-02T04:00:00Z'))
   }
   /* Monatslauf nachholen: ein abgebrochener Lauf am 2. führt am 3. zum Start, ein erfolgreicher nicht (motn 02.10.2026 nach 4 s abgebrochen). */
   {
@@ -8184,15 +8184,19 @@ console.log('\nBeleg: Fundstelle, Banner, Handlung:')
   }
   /* „Im Angebot seit" aus der aniSearch-Erstausgabe (Magilumière Staffel 2, 05.10.2026). */
   {
-    const titel = (id: number, extra: Record<string, unknown>) => ({ id, titleEn: `T${id}`, format: 'TV', episodes: 12, anisearchId: id + 100, streams: [{ platform: 'primevideo', url: 'https://www.amazon.de/gp/video/detail/X', dub: true }], ...extra }) as unknown as Title
+    const titel = (id: number, extra: Record<string, unknown>) => ({ id, titleEn: `T${id}`, format: 'TV', episodes: 12, streams: [{ platform: 'primevideo', url: 'https://www.amazon.de/gp/video/detail/X', dub: true }], ...extra }) as unknown as Title
     const erst = (von: string, publisher: string) => ({ deErstausgabe: { von, publisher, synchro: true } })
     const releases: Release[] = [{ titleId: 4 } as Release]
+    /* Der Bau-Titel trägt keine `anisearchId` (wie im echten Bau); die Kennung kommt aus der Zuordnung. Titel 6 hat keine. */
+    const kennungen = new Map([[1, 101], [2, 102], [3, 103], [4, 104], [5, 105]])
     const neu = ergaenzeErstausgabeAngebot({
-      titles: [titel(1, erst('2026-07-04', 'Amazon.com, Inc.')), titel(2, erst('2025-07-04', 'Amazon.com, Inc.')), titel(3, erst('2026-07-04', 'KSM Anime')), titel(4, erst('2026-07-04', 'Amazon.com, Inc.')), titel(5, { ...erst('2026-07-04', 'Netflix, Inc.') })],
+      titles: [titel(1, erst('2026-07-04', 'Amazon.com, Inc.')), titel(2, erst('2025-07-04', 'Amazon.com, Inc.')), titel(3, erst('2026-07-04', 'KSM Anime')), titel(4, erst('2026-07-04', 'Amazon.com, Inc.')), titel(5, { ...erst('2026-07-04', 'Netflix, Inc.') }), titel(6, erst('2026-07-04', 'Amazon.com, Inc.'))],
       releases,
+      kennungen,
     })
-    pruefe('Erstausgabe ab 2026 bei Amazon: ein Eintrag „Im Angebot seit" mit aniSearch als Quelle', neu === 1 && releases.some((r) => r.titleId === 1 && r.dateMeaning === 'available-from' && r.platform === 'primevideo' && r.sources[0] === 'https://www.anisearch.de/anime/101'), JSON.stringify(releases.map((r) => [r.titleId, r.platform])))
+    pruefe('Erstausgabe ab 2026 bei Amazon: ein Eintrag „Im Angebot seit" mit aniSearch als Quelle', neu === 1 && releases.some((r) => r.titleId === 1 && r.dateMeaning === 'available-from' && r.platform === 'primevideo' && r.sources[0] === 'https://www.anisearch.de/anime/101' && r.quellen?.[0]?.url === r.sources[0]), JSON.stringify(releases.map((r) => [r.titleId, r.platform])))
     pruefe('nicht für 2025, nicht für Disc-Verlage, nicht bei vorhandenem Termin, nicht ohne Weg zum Anbieter', !releases.some((r) => [2, 3, 5].includes(r.titleId)) && releases.filter((r) => r.titleId === 4).length === 1)
+    pruefe('ohne aniSearch-Kennung entsteht kein Termin (kein Termin ohne Quelle)', !releases.some((r) => r.titleId === 6) && releases.every((r) => r.titleId === 4 || r.sources.length > 0))
   }
   /* Magenta führt Joyn/Disney+ durch (Daniel, 04.10.2026): die Folgenseite fällt weg, Staffelübersicht und Kaufseite bleiben. */
   {

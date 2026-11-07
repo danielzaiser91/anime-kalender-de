@@ -78,6 +78,10 @@ Ein Wächter, der Stellen per Muster findet (Regex auf HTML, Manifest, Quelltext
 
 Eine Verwerfungsliste mit Zähler genügt nicht, wenn sie normal hoch ist: `termine-ausgelassen.json` zählte 221 verworfene Crunchyroll-Serien, niemand las sie, und drei deutsche Synchros fehlten im Kalender, bis Daniel sie fand. Für jede Quelle, deren Einträge auf der Seite erscheinen sollen, gehört ein Wächter dazu, der die frischen Quelleinträge (z. B. neue deutsche Folgen der letzten 14 Tage) gegen die Ausgabe hält und jeden fehlenden Eintrag namentlich meldet. Ein altes Nein braucht außerdem ein Ablaufdatum, sonst schlägt es jeden neueren Befund.
 
+## Leere Antwort ist ein Ausfall (04.11.2026)
+
+Ein Abruf einer fremden Liste, die nie leer sein sollte (Soll > 0), warnt sichtbar bei 0 Treffern und bei einem gerissenen Seitenriegel — nicht nur bei einer Ausnahme. `?? []` auf eine geänderte Antwortform macht sonst aus „Quelle kaputt“ still „nichts zu tun“ (PR 2823, JW-Joyn-Liste: One Piece wäre wieder 28 Tage liegen geblieben). Der Test fährt eine Attrappe mit leerer Antwort und erwartet die Warnung.
+
 ## Verwandte Regeln
 
 - `pruefen-und-belegen`: misst, statt zu vermuten — hier geht es um das, was gar nicht erst

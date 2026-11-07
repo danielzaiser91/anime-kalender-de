@@ -76,12 +76,11 @@ function gleichnamige(name: string, zusatz: string, titel: Title[], synonyme: Ma
   const frage = namensWoerter(name).join('')
   if (frage.length < 4) return []
   const erste = ohneTeilAngabe(name, zusatz)
-  return titel.filter(
-    (t) =>
-      formatPasst(name, t) &&
-      !(erste && istFortsetzung(t, titel)) &&
-      namenVon(t, synonyme).some((n) => namensWoerter(n).join('') === frage),
-  )
+  const mitName = (gleicht: (n: string) => boolean) =>
+    titel.filter((t) => formatPasst(name, t) && !(erste && istFortsetzung(t, titel)) && namenVon(t, synonyme).some(gleicht))
+  const genau = mitName((n) => namensWoerter(n).join('') === frage)
+  // Remake mit Jahr im Namen („Magic Knight Rayearth (2026)“): die Meldung nennt nur den Namen; ein Titel ohne Jahr geht vor.
+  return genau.length ? genau : mitName((n) => namensWoerter(n.replace(/\(\d{4}\)\s*$/, '')).join('') === frage)
 }
 
 /**

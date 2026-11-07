@@ -7,7 +7,7 @@ import { join } from 'node:path'
 import { spawnSync } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
 import { gzipSync } from 'node:zlib'
-import { bewerteWocheGroesse, WOCHE_GRENZE } from './lib/woche-groesse.ts'
+import { bewerteWocheGroesse, WOCHE_GRENZE, WOCHE_WARNUNG } from './lib/woche-groesse.ts'
 
 const wurzel = mkdtempSync(join(tmpdir(), 'woche-groesse-'))
 const datei = (name: string, bytes: Buffer): string => {
@@ -28,6 +28,13 @@ try {
   assert.equal(bewerteWocheGroesse(datei('leer.json', Buffer.alloc(0))).code, 0, 'leere Datei liegt unter der Grenze')
   assert.equal(bewerteWocheGroesse(datei('gross.json', randomBytes(WOCHE_GRENZE + 2000))).code, 1, 'Vorgabegrenze 22 KB greift')
   assert.equal(WOCHE_GRENZE, 22 * 1024)
+  assert.equal(WOCHE_WARNUNG, 20 * 1024)
+  assert.doesNotMatch(bewerteWocheGroesse(p, gz + 1000, gz).text, /WARNUNG/, 'genau an der Warnschwelle noch keine Warnung')
+  const warnt = bewerteWocheGroesse(p, gz + 1000, gz - 1)
+  assert.equal(warnt.code, 0, 'Warnung ist nicht rot')
+  assert.match(warnt.text, /^⚠ WARNUNG woche-kacheln\.json/, 'ein Byte über der Warnschwelle warnt')
+  assert.equal(bewerteWocheGroesse(p, gz - 1, gz - 2).code, 1, 'über der Grenze bleibt rot, auch über der Warnschwelle')
+  const warnDatei = datei('warn.json', randomBytes(WOCHE_WARNUNG + 1000))
   const skript = fileURLToPath(new URL('./check-woche-groesse-bestand.ts', import.meta.url))
   const lauf = (pfad: string) => spawnSync(process.execPath, ['--import', import.meta.resolve('tsx'), skript, pfad], { encoding: 'utf8', windowsHide: true })
   const zuGross = lauf(datei('gross.json', randomBytes(WOCHE_GRENZE + 2000)))
@@ -37,7 +44,10 @@ try {
   assert.equal(klein.status, 0, 'Prozess meldet Exit 0 bei kleiner Datei')
   assert.match(klein.stdout, /^check-woche-groesse-bestand: ok – woche-kacheln\.json/m)
   assert.equal(lauf(join(wurzel, 'fehlt.json')).status, 1, 'Prozess: fehlende Datei ist rot')
-  console.log('check-woche-groesse: ok (9 Fälle: Grenze, ein Byte drüber, Luft, fehlt, leer, Vorgabegrenze, Prozess zu groß/klein/fehlt)')
+  const warnLauf = lauf(warnDatei)
+  assert.equal(warnLauf.status, 0, 'Prozess: Warnung ist Exit 0')
+  assert.match(warnLauf.stdout, /^ {2}⚠ WARNUNG woche-kacheln\.json/m, 'Prozess: Zeile mit ⚠ WARNUNG für commit-data.sh')
+  console.log('check-woche-groesse: ok (15 Fälle: Grenze, ein Byte drüber, Luft, fehlt, leer, Vorgabegrenze, Warnschwelle ±1, Prozess zu groß/klein/fehlt/Warnung)')
 } finally {
   rmSync(wurzel, { recursive: true, force: true })
 }

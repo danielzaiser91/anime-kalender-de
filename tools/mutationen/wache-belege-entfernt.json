@@ -19,6 +19,6 @@
   { "name": "belegGruende: Name-Rückfall", "datei": "pipeline/lib/bestand-delta.ts", "suche": "namen.get(b.anilistId) ?? 'Titel'", "ersetze": "namen.get(b.anilistId) ?? ''" },
   { "name": "belegGruende: Grund weg", "datei": "pipeline/lib/bestand-delta.ts", "suche": "(${b.anilistId}): ${b.grund}`", "ersetze": "(${b.anilistId})`" },
   { "name": "historie: Einträge nicht gelesen", "datei": "pipeline/bestand-historie.ts", "suche": "belegeEntfernt: ladeBelegeEntfernt(DATEI_BELEGE_ENTFERNT),", "ersetze": "" },
-  { "name": "historie: Gründe nicht übergeben", "datei": "pipeline/bestand-historie.ts", "suche": ", belegGruendeAusDateien(), link)", "ersetze": ", {}, link)" },
+  { "name": "historie: Gründe nicht übergeben", "datei": "pipeline/bestand-historie.ts", "suche": ", belegGruendeAusDateien(), link, abgang.zusammengelegt)", "ersetze": ", {}, link, abgang.zusammengelegt)" },
   { "name": "historie: falsche Datei", "datei": "pipeline/bestand-historie.ts", "suche": "resolve(ROOT, 'data/belege-entfernt.yaml')", "ersetze": "resolve(ROOT, 'data/belege-entfernt.yml')" }
 ]
