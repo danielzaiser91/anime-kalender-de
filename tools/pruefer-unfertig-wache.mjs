@@ -24,7 +24,8 @@ export function urteile(kommentare, n = LETZTE_URTEILE) {
 /** Zählung über die jüngsten Urteile: `{ gesamt, unfertig, anteil }`. */
 export function unfertigeKette(kommentare, n = LETZTE_URTEILE) {
   const liste = urteile(kommentare, n)
-  const unfertig = liste.filter((u) => u.includes('Checks laufen noch')).length
+  // „nicht beurteilt, Kette lief noch“: seit dem Nachlauf (pr-pruefer-nach-kette.mjs) die Form, in der der Prüfer die unfertige Kette meldet.
+  const unfertig = liste.filter((u) => u.includes('Checks laufen noch') || u.includes('Kette lief noch')).length
   return { gesamt: liste.length, unfertig, anteil: liste.length === 0 ? 0 : unfertig / liste.length }
 }
 

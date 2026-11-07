@@ -55,7 +55,7 @@ export function discEan(index: DiscIndex, titleId: number | undefined, datum: st
 const fremderHaendler = (url: string | undefined): boolean => !!url && !/^https:\/\/(?:www\.)?amazon\./.test(url)
 
 export function discKaufUrl(
-  entry: { buyUrl?: string; releaseType: string },
+  entry: { buyUrl?: string; ean?: string; releaseType: string },
   titleId: number | undefined,
   datum: string,
   name: string,
@@ -63,7 +63,7 @@ export function discKaufUrl(
 ): string | undefined {
   if (entry.releaseType !== 'disc') return entry.buyUrl
   if (fremderHaendler(entry.buyUrl)) return entry.buyUrl
-  const ean = discEan(index, titleId, datum)
+  const ean = istEan(entry.ean) ? entry.ean : discEan(index, titleId, datum)
   if (ean) return amazonEanUrl(ean)
   return entry.buyUrl ?? amazonSearchUrl(name)
 }
