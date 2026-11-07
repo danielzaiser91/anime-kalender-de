@@ -98,6 +98,20 @@
     grund: m.ok ? m.abgewiesen : `nicht gesendet: ${m.abgewiesen}`,
   })
 
+  /**
+   * Bleibt der Melde-Knopf weg? (F109 = A, 07.11.2026: unbekannte Prime-Seiten dürfen melden.)
+   * Weg bleibt er nur, wenn die Seite (serieBekannt, seiteGehtUnsAn: Funktionen, nur bei Bedarf gerufen) weder in der Prüfliste noch Suchauftrag noch Staffel einer bekannten Serie ist
+   * UND uns nichts angeht (kein Prime-Video-Merkmal) oder die Prüfliste gar nicht geladen ist — sonst hieße jede Seite „unbekannt“.
+   */
+  globalThis.akPrimeKnopfVersteckt = ({ listeGeladen, inListe, ausSuche, serieBekannt, seiteGehtUnsAn }) =>
+    !inListe && !ausSuche && !serieBekannt() && !(listeGeladen && seiteGehtUnsAn())
+
+  /** Die Kopfzeile „was gemeldet wird“; eine Seite außerhalb der Prüfliste sagt das zuerst. */
+  globalThis.akPrimeMeldetZeile = (unbekannt, name, kennung) => {
+    const kopf = unbekannt ? 'Nicht auf der Prüfliste:' : 'meldet:'
+    return name ? `${kopf} ${name} · ${kennung}` : kennung ? `${kopf} ${kennung}` : ''
+  }
+
   /** Regionsweg nur, wenn Folgen gesperrt sind und keine lesbare übrig bleibt; ohne Kenntnis der Seitentext. */
   globalThis.akPrimeStaffelRegionWeg = (gesperrt, offen, seitenTextRegionWeg) =>
     gesperrt > 0 || offen > 0 ? gesperrt > 0 && offen === 0 : seitenTextRegionWeg
