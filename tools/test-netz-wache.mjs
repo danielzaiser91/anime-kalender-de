@@ -16,24 +16,17 @@ import { join, relative, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import ts from 'typescript'
 
-/** Greifen absichtlich online zu (Messung/Sammler gegen echte Seiten) und sind keine Tests. */
-export const AUSNAHMEN = {
-  'tools/handy-tempo.mjs': 'Messung gegen die Live-Seite',
-  'tools/leistung-messen.mjs': 'Messung gegen die Live-Seite',
-  'tools/panel-stichprobe.mjs': 'Stichprobe gegen die Live-Seite',
-  'tools/testlink.mjs': 'ruft Links von Hand ab',
-  'tools/messung-crunchyroll-region.mjs': 'Messung gegen Crunchyroll',
-  'tools/lauf-status-app-pruefen.mjs': 'Electron-App; ihre beiden einzigen Netzziele sind einzeln geroutet',
-  'pipeline/belege-lesen.ts': 'Sammler liest echte Seiten',
-  'pipeline/messbelege.ts': 'Sammler liest echte Seiten',
-  'pipeline/sammelartikel-poc.ts': 'PoC gegen echte Seiten',
-  'pipeline/scrape-crunchyroll-dub.ts': 'Sammler',
-  'pipeline/scrape-crunchyroll-woche.ts': 'Sammler',
-  'pipeline/lib/crunchyroll-api.ts': 'Sammler',
-}
+/* Pfad -> Grund: Dateien, die absichtlich online gehen. Eigene Datei mit „ausnahmen“ im Namen, damit die
+ * skript-aufrufer-wache die Pfade als Daten liest und nicht als Aufrufer zählt (sonst fällt jede Ausnahme dort durch). */
+export const AUSNAHMEN = JSON.parse(readFileSync(join(import.meta.dirname, 'test-netz-ausnahmen.json'), 'utf8'))
 
 const STARTER = new Set(['launch', 'launchPersistentContext', 'newContext', 'newPage'])
 const ALLES_STRING = new Set(['**/*', '**'])
+// Ganze Regex-Körper, die jede http(s)-Adresse treffen; ein Teilpfad (`^https?:\/\/api\.x\/`) ist keine Sperre.
+const ALLES_REGEX = new Set(['.*', '^.*', '.*$', '^.*$', '^https?:', '^https?:\\/\\/', '^https?:\\/\\/.*', '^https?:\\/\\/.*$'])
+// Empfänger von `route`: Seite oder Kontext, nicht irgendein Objekt (`app.route`).
+const EMPFAENGER = /^(page|seite|s|p|c|ctx|context|kontext|browserContext|seiteOderKontext|[a-z]*(Seite|Page|Kontext|Context)(Obj)?)$/i
+const SPERRENDE_AUFRUFE = new Set(['abort', 'fulfill'])
 const ENDUNGEN = /\.(mjs|cjs|ts|tsx)$/
 const AUSGELASSEN = new Set(['node_modules', 'archiv', '.git', 'dist', 'data'])
 const BEREICHE = ['tools', 'pipeline', 'extension', 'web/src']
@@ -43,24 +36,71 @@ function aufrufName(knoten) {
   return ts.isPropertyAccessExpression(f) ? f.name.text : ts.isIdentifier(f) ? f.text : ''
 }
 
-function istAllesRoute(arg) {
+function istAllesMuster(arg) {
   if (!arg) return false
   if (ts.isStringLiteralLike(arg)) return ALLES_STRING.has(arg.text)
-  if (ts.isRegularExpressionLiteral(arg)) return /^\/(\^https\?:|\.\*\/)/.test(arg.text)
-  return false
+  if (!ts.isRegularExpressionLiteral(arg)) return false
+  return ALLES_REGEX.has(arg.text.slice(1, arg.text.lastIndexOf('/')))
+}
+
+/** Ruft der Teilbaum `abort`/`fulfill` auf, direkt oder über eine Funktion aus `sperrer`? */
+function ruftSperre(baum, sperrer) {
+  let ja = false
+  const besuche = (k) => {
+    if (ts.isCallExpression(k)) {
+      const n = aufrufName(k)
+      if (SPERRENDE_AUFRUFE.has(n) || (ts.isIdentifier(k.expression) && sperrer.get(n) === true)) ja = true
+    }
+    ts.forEachChild(k, besuche)
+  }
+  besuche(baum)
+  return ja
+}
+
+const istFunktion = (k) => ts.isArrowFunction(k) || ts.isFunctionExpression(k)
+
+/** Funktionen dieser Datei: Name -> ruft sie selbst `abort`/`fulfill` auf (eine Stufe, für Handler wie `antworte`)? */
+function sperrFunktionen(quelle) {
+  const karte = new Map()
+  const besuche = (k) => {
+    if (ts.isFunctionDeclaration(k) && k.name && k.body) karte.set(k.name.text, ruftSperre(k.body, karte))
+    const init = ts.isVariableDeclaration(k) && ts.isIdentifier(k.name) ? k.initializer : undefined
+    if (init && istFunktion(init)) karte.set(k.name.text, ruftSperre(init.body, karte))
+    ts.forEachChild(k, besuche)
+  }
+  besuche(quelle)
+  return karte
+}
+
+/* Eigene Funktion der Datei: ihr Rumpf zählt. Fremde (importiert, Parameter) und Fabrikaufrufe `ausliefern(daten)`
+ * werden vertraut — Grenze des Wächters; ein Inline-Handler ohne abort/fulfill (nur `continue`) gilt nicht. */
+function handlerSperrt(h, karte) {
+  if (!h) return false
+  const name = ts.isIdentifier(h) ? h.text : ts.isCallExpression(h) && ts.isIdentifier(h.expression) ? h.expression.text : ''
+  if (name) return karte.has(name) ? karte.get(name) : true
+  return istFunktion(h) && ruftSperre(h.body, karte)
+}
+
+/** `seite.route(<alles>, <Handler, der abort/fulfill ruft>)` auf einer Seite oder einem Kontext. */
+function istSperrRoute(k, sperrer) {
+  const f = k.expression
+  if (!ts.isPropertyAccessExpression(f) || f.name.text !== 'route') return false
+  const e = f.expression
+  const empfaenger = ts.isIdentifier(e) ? e.text : ts.isPropertyAccessExpression(e) ? e.name.text : ''
+  return EMPFAENGER.test(empfaenger) && istAllesMuster(k.arguments[0]) && handlerSperrt(k.arguments[1], sperrer)
 }
 
 /** { startet, abgesichert } aus dem Syntaxbaum — Kommentare und Zeichenketten zählen nicht. */
 export function untersuche(text, name = 'x.ts') {
   const quelle = ts.createSourceFile(name, text, ts.ScriptTarget.Latest, true)
+  const sperrer = sperrFunktionen(quelle)
   let startet = false
   let abgesichert = false
   const besuche = (k) => {
     if (ts.isCallExpression(k)) {
-      const n = aufrufName(k)
-      if (STARTER.has(n)) startet = true
-      if (n === 'route' && istAllesRoute(k.arguments[0])) abgesichert = true
-      if (n === 'sperreNetz') abgesichert = true
+      if (STARTER.has(aufrufName(k))) startet = true
+      if (istSperrRoute(k, sperrer)) abgesichert = true
+      if (ts.isIdentifier(k.expression) && k.expression.text === 'sperreNetz') abgesichert = true
     }
     ts.forEachChild(k, besuche)
   }
