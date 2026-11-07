@@ -38354,6 +38354,17 @@
   dub: true
   checkedAt: '2026-11-03'
   note: "Folgen 1–6 mit deutschem Ton — Tonspuren: en|Englisch [Original], de|Deutsch, uk|Ukrainisch, tr|Türkisch, ru|Russisch, fr|Französisch, hi|Hindi, it|Italienisch, ja|Japanisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch, cs|Tschechisch, hu|Ungarisch — Gemessen in der Randprobe — gemessen: Folge 1 und 6, dazwischen nicht geprüft — Folge 6: Wenn du ein Land willst, musst du dafür töten"
+- anilistId: 175443
+  title: "Honey Lemon Soda"
+  platform: disneyplus
+  url: https://www.disneyplus.com/de-de/browse/entity-6985037f-9614-48e7-91f3-ca8a4d7428bb
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 12
+      dub: true
+  checkedAt: '2026-11-04'
+  note: "Disney+-Katalogstart 03.11.2026, alle 12 Folgen mit deutschem Ton (Sichtung am 04.11.2026). Die Kennung entity-6985037f gilt in allen Ländern; entity-1464ef16 ist in Deutschland nicht verfügbar. Anime2You nannte die Synchro schon am 30.10.2026."
 # --- Aus dem Browser gemeldet, abgeholt am 2026-11-04 ---
 
 - anilistId: 102351
@@ -38363,7 +38374,6 @@
   dub: true
   checkedAt: '2026-10-13'
   note: "Tonspuren: Deutsch — Amazon-Seite B0D7N68Q5T: alle 12 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.834ee1bc-c7bc-4b4c-839c-ee8826498aed"
-
 # --- Joyn, von Daniel gesehen am 2026-11-05 ---
 # One Piece (21) und Fish-Man Island (183423) haben keinen Handbeleg: niemand hat Joyn dort gesehen, der Weg wird über die
 # JustWatch-Joyn-Liste erwartet; bis dahin nennt die Warnzeile von pipeline/check-joyn-sender-bestand.ts beide.
@@ -38379,3 +38389,21 @@
       dub: true
   checkedAt: '2026-11-05'
   note: "Joyn-Serienseite (Daniel, 05.11.2026): Staffel 1, Folge 1 „Auftritt Yaiba“ vom 05.11.2026, Senderlogo ProSieben MAXX; die Folgen sind die deutsche TV-Ausstrahlung (Anime2You 1059480: deutsche TV-Premiere der ersten Staffel). Gesehen ist nur Folge 1; Folgen 2–24 sind die TV-Planung laut Anime2You."
+
+# --- Anime2You 1068059 (06.11.2026), Prime Video: beide Seiten sind die im Artikel verlinkten Adressen, nicht von uns abgerufen ---
+- anilistId: 203275
+  title: "Devils' Crest"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0HKLZZ54Y
+  dub: true
+  checkedAt: '2026-11-06'
+  note: "Anime2You 1068059 (06.11.2026): „Neue Folgen werden fortan jeden Freitag mit deutscher Sprachausgabe sowie im japanischen Originalton mit Untertiteln veröffentlicht“, Block „Sprache: Deutsch, Japanisch (UT)“, „Episoden: 2 verfügbar“. Aussage des Artikels, Amazon-Seite nicht geprüft; aniSearch 21051 führt Deutsch als synchronisiert (Publisher Amazon)."
+# --- Aus dem Browser gemeldet, abgeholt am 2026-11-07 ---
+
+- anilistId: 101350
+  title: "Pet"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0DMF65NY2
+  dub: true
+  checkedAt: '2026-11-07'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0DMF65NY2: alle 13 Folgen geprüft, Abos: Prime — Staffel nicht im Bestand, Titel von der Seite gelesen, zugang=abo_und_kauf, gti=amzn1.dv.gti.0e5030e4-ec94-4f4f-a7c3-23162e7e52b8"

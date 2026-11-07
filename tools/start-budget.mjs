@@ -15,10 +15,10 @@ import { pathToFileURL } from 'node:url'
 import { gzipSync } from 'node:zlib'
 
 const KB = 1024
-// Grenze 250 KB (25.10.2026, Schrift E: Ist 236,0 KB lokal, 237,5 KB in der Kette ohne Webschriften; Ist + 10 KB, abgerundet auf 250 wegen Luft über der Warnschwelle). Davor 280 KB (25.10.2026: Ist 274,8 KB, 18,2 KB weniger, seit die Wochenansicht aus `woche-kacheln.json` startet; Ist-Zahl + 10 KB, auf volle 10 KB abgerundet).
+// Grenze 190 KB (05.11.2026: Ist 184,4 KB lokal nach lazy() für Detailpanel, Monat, Filterfeld und Einstellungen, vorher 247,8 KB; CI misst ca. 1,5 KB mehr; Ist + 5,6 KB). Davor 250 KB (25.10.2026, Schrift E: Ist 236,0 KB lokal, 237,5 KB in der Kette ohne Webschriften; Ist + 10 KB, abgerundet auf 250 wegen Luft über der Warnschwelle). Davor 280 KB (25.10.2026: Ist 274,8 KB, 18,2 KB weniger, seit die Wochenansicht aus `woche-kacheln.json` startet; Ist-Zahl + 10 KB, auf volle 10 KB abgerundet).
 // Davor 300 KB (23.10.2026: Ist 293,8 KB nach verzögertem Laden der Seitenansichten); davor 310 KB inkl. Schriften (18.10.2026: 330 KB bei Ist 327 KB; 20.10.2026: Ist 305,2 KB nach Unbounded-Teilmenge, 5 KB Reserve; Ziel bleibt 300 KB).
 // Die Grenze steigt nie; sie sinkt von Hand, wenn der Ist-Wert dauerhaft darunter liegt.
-export const GRENZE = 250 * KB
+export const GRENZE = 190 * KB
 /** Frühwarnung: bleibt weniger Luft, druckt der Lauf eine `::warning::`-Zeile (Daten wachsen mit jedem Datenlauf; 25.10.2026 riss die Grenze um 0,2 KB). */
 export const WARNLUFT = 3 * KB
 
