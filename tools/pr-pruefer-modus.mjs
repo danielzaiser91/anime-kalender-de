@@ -38,7 +38,7 @@ function leseCi(k) {
   if (k.user?.login !== CI_BOT) return null
   const body = String(k.body ?? '')
   const m = CI_URTEIL.exec(body)
-  if (!m) return null
+  if (!m || m[2].startsWith('nicht beurteilt')) return null // „Kette lief noch“ ist kein Urteil: Modus und Auflagen bleiben die der Runde davor
   // Im Abnahme-Modus steht die Zeile „Abnahme-Modus: …“ vor dem Protokoll, daher Zeilenanfang irgendwo statt Textanfang.
   if (body.split('\n').some((zeile) => zeile.startsWith(VERWORFEN_TEXT))) return null
   const marke = MARKE.exec(body.trimEnd().split('\n').at(-1))

@@ -22,6 +22,9 @@ export function alterStunden(stand, jetzt = new Date()) {
   return (jetzt.getTime() - Date.parse(stand)) / 3_600_000
 }
 
+/** Wie viele Anweisungen mit SELECT beginnen: bei mehreren Anweisungen zeigt `exec` deren Zeilen nicht. */
+const selectAnzahl = (sql) => ohneLiterale(sql).split(';').filter((a) => /^\s*select\b/i.test(a)).length
+
 const zeilenJeTabelle = (db) => Object.fromEntries(TABELLEN.map((t) => [t, db.prepare(`SELECT COUNT(*) AS n FROM ${t}`).get().n]))
 
 /** Liest streamend (kein `all()`: bei Millionen Zeilen sprengt es den Speicher); behält die ersten `max`, zählt den Rest. */
@@ -36,7 +39,7 @@ function lies(stmt, max) {
 }
 
 /** Ergebnis einer Abfrage: `zeilen` (höchstens `max`) samt `gesamt` bei einer einzelnen SELECT-Anweisung, sonst `geaendert` und `differenz` je Tabelle. */
-function laufe(db, sql, max) {
+export function laufe(db, sql, max) {
   // Nur Kommentar/Leerraum/`;`: `prepare` liefert eine schon abgeschlossene Anweisung ("statement has been finalized").
   if (ohneLiterale(sql).replace(/[\s;]/g, '') === '') throw new Error('Keine SQL-Anweisung (nur Kommentar oder leer)')
   const einzeln = istEinzeln(sql) ? db.prepare(sql) : null
@@ -45,7 +48,8 @@ function laufe(db, sql, max) {
   db.exec(sql)
   const nachher = zeilenJeTabelle(db)
   const differenz = Object.fromEntries(TABELLEN.map((t) => [t, nachher[t] - vorher[t]]))
-  return { art: 'aenderung', geaendert: db.prepare('SELECT total_changes() AS n').get().n, differenz }
+  const verworfeneSelects = selectAnzahl(sql)
+  return { art: 'aenderung', geaendert: db.prepare('SELECT total_changes() AS n').get().n, differenz, verworfeneSelects }
 }
 
 export function fuehreAus(kopie, sql, jetzt = new Date(), max = Infinity) {
@@ -69,5 +73,6 @@ export function fusszeile(e) {
   const alt = `Kopie vom ${e.stand} (vor ${e.alterStunden.toFixed(1)} h)`
   const warnung = e.alterStunden > STAND_MAX_STUNDEN ? ` — ÄLTER ALS ${STAND_MAX_STUNDEN} h: neue Kopie mit "holen" oder den Lauf meldungskopie.yml anstoßen` : ''
   const was = e.art === 'zeilen' ? `${e.gesamt} Zeilen` : `${e.geaendert} Zeilen geändert, Differenz ${JSON.stringify(e.differenz)}`
-  return `${was} in ${e.ms} ms · ${alt}${warnung}`
+  const hinweis = e.verworfeneSelects > 0 ? ` — HINWEIS: ${e.verworfeneSelects} SELECT zeigen bei mehreren Anweisungen keine Zeilen; einzeln abfragen` : ''
+  return `${was}${hinweis} in ${e.ms} ms · ${alt}${warnung}`
 }

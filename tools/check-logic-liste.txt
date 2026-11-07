@@ -34,6 +34,7 @@ pipeline/check-angebot-seit-disc.ts
 pipeline/check-angebot-seit.ts
 pipeline/check-angebot-stichtag.ts
 pipeline/check-angebot-termine.ts
+pipeline/check-anilist-cover-vorschau.ts
 pipeline/check-anilist-produkt.ts
 pipeline/check-anime2you-abruf.ts
 pipeline/check-anime2you-entwurf.ts
@@ -101,7 +102,9 @@ pipeline/check-cartoon-wege.ts
 pipeline/check-cartoon-zwilling.ts
 pipeline/check-cover-luecken-bau.ts
 pipeline/check-cover-luecken-wache.ts
+pipeline/check-cover-masse-poster-lauf.ts
 pipeline/check-cover-quelle.ts
+pipeline/check-cover-vorschau-bestand-lauf.ts
 pipeline/check-cr-abruf-logik.ts
 pipeline/check-cr-auftakt-wache.ts
 pipeline/check-cr-batch-phase.ts
@@ -236,6 +239,8 @@ pipeline/check-install-stellen.ts
 pipeline/check-interne-angaben.ts
 pipeline/check-invarianten.ts
 pipeline/check-ja-hat-weg.ts
+pipeline/check-joyn-luecke-lauf.ts
+pipeline/check-joyn-luecke.ts
 pipeline/check-joyn-premiere.ts
 pipeline/check-joyn-sender-bestand-lauf.ts
 pipeline/check-joyn-sender-luecke.ts
@@ -387,7 +392,9 @@ pipeline/check-prime-zugeordnet-jw.ts
 pipeline/check-prime-zugeordnet-lader.ts
 pipeline/check-prime-zugeordnet-leser-faelle.ts
 pipeline/check-prime-zugeordnet-leser.ts
+pipeline/check-process-exit-im-try.ts
 pipeline/check-proposals-bestand.ts
+pipeline/check-pruef-titel-schaltung.ts
 pipeline/check-pruefliste-verdrahtung.ts
 pipeline/check-quarantaene.ts
 pipeline/check-quellen-schreiber.ts
@@ -422,6 +429,7 @@ pipeline/check-screenshot-wiederholen.ts
 pipeline/check-seiten-ansicht.ts
 pipeline/check-seiten-seo.ts
 pipeline/check-serien-vorsatz.ts
+pipeline/check-share-pages-doppellauf.ts
 pipeline/check-sichtung-folge.ts
 pipeline/check-sichtungsfenster.ts
 pipeline/check-sonderfolgen.ts
@@ -445,6 +453,7 @@ pipeline/check-stand-halten.ts
 pipeline/check-studio-archiv.ts
 pipeline/check-stuetzpunkt-ueberholt.ts
 pipeline/check-such-chip.ts
+pipeline/check-suchadressen-endzustand.ts
 pipeline/check-suchfeld-arten.ts
 pipeline/check-suchhinweis-bereich.ts
 pipeline/check-suchhinweis-lauf.ts
