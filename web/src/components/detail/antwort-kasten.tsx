@@ -392,7 +392,7 @@ export function AntwortKasten({
       nichts.
     */
     /* „Alle 1 Folgen" stand über OVAs mit einer Folge — dort sagt die Überschrift ohne Zahl dasselbe. */
-    haupt = antwort.gesamt && antwort.gesamt > 1
+    haupt = antwort.heuteOffen && antwort.gesamt && antwort.gesamt > 1 ? T('antwort.heuteUhrzeitOffen', { count: antwort.gesamt }) : antwort.gesamt && antwort.gesamt > 1
       ? fertigZahlText(antwort.gesamt, antwort.gesamtAbgeleitet, T)
       : folgenZahl && !antwort.gesamt && folgenZahl[1] > 1 ? deFolgenZahlText(folgenZahl, releases, T) : T('antwort.fertigTitel')
     /*

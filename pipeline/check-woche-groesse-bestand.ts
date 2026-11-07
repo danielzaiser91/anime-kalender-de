@@ -10,6 +10,7 @@ if (import.meta.url === pathToFileURL(process.argv[1]!).href) {
   const pfad = process.argv[2] ?? fileURLToPath(new URL('../public/data/woche-kacheln.json', import.meta.url))
   const { code, text } = bewerteWocheGroesse(pfad)
   if (code) console.error(`check-woche-groesse-bestand: ${text}`)
+  else if (text.startsWith('⚠ WARNUNG')) console.log(`  ${text}`)
   else console.log(`check-woche-groesse-bestand: ok – ${text}`)
   console.log(`VERSTÖSSE: ${code}`)
   process.exit(code)

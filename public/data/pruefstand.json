@@ -1,12 +1,12 @@
 {
- "erzeugtAm": "2026-11-05T16:11:36.630Z",
+ "erzeugtAm": "2026-11-07T16:32:57.296Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
-   "gemeldet": 899,
-   "gesamt": 969,
-   "offen": 70,
+   "gemeldet": 927,
+   "gesamt": 1001,
+   "offen": 74,
    "ohneSeite": 2,
    "suchAdressen": [
     "https://www.amazon.de/s?k=Super%20Wings&i=instant-video",
@@ -232,6 +232,11 @@
      "hinweis": "Staffeln unklar: TMDB zählt 168 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.44b69da7-d905-017f-c691-54059237c2a9",
+     "titel": "Sylvanian Families",
+     "hinweis": "Staffeln unklar: TMDB zählt 62 Folgen insgesamt, der Anbieter kann sie anders schneiden"
+    },
+    {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.0cb8c40c-c316-369d-4c63-7adba44df4ab",
      "titel": "Bobby und Bill (Boule & Bill)",
      "hinweis": "Staffeln unklar: TMDB zählt 104 Folgen insgesamt, der Anbieter kann sie anders schneiden"
@@ -267,6 +272,7 @@
     "B0FKZM9J6V": 25,
     "B0GG3S1LQD": 26,
     "B0H4XQ2NNZ": 51,
+    "B0D59HJGBZ": 24,
     "B0B8T893H2": 13,
     "B0FW2J99HL": 167,
     "B0B6S983B4": 40,
@@ -368,6 +374,7 @@
     "B0C7NSMB25": 12,
     "B07XYDCVFK": 12,
     "B0DZCL6XMM": 24,
+    "B0CP7P8QCY": 12,
     "0ST5YU69NBGTLE16XV4G99HZNC": 12,
     "B0CYSWYH7J": 12,
     "B0B6VQDB6D": 12,
@@ -375,6 +382,7 @@
     "B09V4N69ZT": 12,
     "B0D8SX7TGW": 12,
     "B0CVG6BDYZ": 13,
+    "B0CVHGSMMX": 12,
     "B09C12DRYV": 12,
     "B0GFGTTR3N": 25,
     "B0B8SM98JV": 12,
@@ -436,10 +444,10 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 757,
-   "gesamt": 952,
-   "offen": 195,
-   "ohneSeite": 14,
+   "gemeldet": 773,
+   "gesamt": 1082,
+   "offen": 309,
+   "ohneSeite": 13,
    "ziel": "https://www.netflix.com/title/81608820",
    "ziele": [
     {
@@ -451,8 +459,19 @@
      "titel": "Numberblocks"
     },
     {
+     "url": "https://www.netflix.com/title/81054853",
+     "titel": "Cyberpunk: Edgerunners",
+     "staffeln": [
+      1
+     ]
+    },
+    {
      "url": "https://www.netflix.com/title/81684733",
      "titel": "Oshi no Ko: Mein Star"
+    },
+    {
+     "url": "https://www.netflix.com/title/81900358",
+     "titel": "Wistoria: Wand and Sword"
     },
     {
      "url": "https://www.netflix.com/title/82036361",
@@ -463,28 +482,115 @@
      "titel": "Meine ganz besondere Hochzeit: Special"
     },
     {
+     "url": "https://www.netflix.com/title/82741721",
+     "titel": "Atelier of Witch Hat"
+    },
+    {
+     "url": "https://www.netflix.com/title/82746480",
+     "titel": "Snowball Earth",
+     "staffeln": [
+      1
+     ]
+    },
+    {
+     "url": "https://www.netflix.com/title/82058586",
+     "titel": "Possibly the Greatest Alchemist of All Time"
+    },
+    {
      "url": "https://www.netflix.com/title/80135674",
      "titel": "My Hero Academia"
+    },
+    {
+     "url": "https://www.netflix.com/title/81262169",
+     "titel": "Re:Zero - Starting Life in Another World: Staffel 3"
+    },
+    {
+     "url": "https://www.netflix.com/title/81661821",
+     "titel": "Alya Sometimes Hides Her Feelings in Russian"
     },
     {
      "url": "https://www.netflix.com/title/81685164",
      "titel": "Mashle: Magic and Muscles"
     },
     {
+     "url": "https://www.netflix.com/title/81748453",
+     "titel": "A Sign of Affection"
+    },
+    {
+     "url": "https://www.netflix.com/title/81748512",
+     "titel": "Solo Leveling"
+    },
+    {
+     "url": "https://www.netflix.com/title/81768918",
+     "titel": "Spice and Wolf: Merchant Meets the Wise Wolf"
+    },
+    {
      "url": "https://www.netflix.com/title/81771389",
      "titel": "Wind Breaker"
+    },
+    {
+     "url": "https://www.netflix.com/title/81909977",
+     "titel": "2.5 Dimensional Seduction"
+    },
+    {
+     "url": "https://www.netflix.com/title/81910037",
+     "titel": "Failure Frame: I Became the Strongest and Annihilated Everything with Low-Level Spells"
+    },
+    {
+     "url": "https://www.netflix.com/title/81940284",
+     "titel": "Girls Band Cry"
+    },
+    {
+     "url": "https://www.netflix.com/title/81943371",
+     "titel": "Uzumaki"
+    },
+    {
+     "url": "https://www.netflix.com/title/81955440",
+     "titel": "Loner Life in Another World"
     },
     {
      "url": "https://www.netflix.com/title/82040442",
      "titel": "Overlord: The Sacred Kingdom"
     },
     {
+     "url": "https://www.netflix.com/title/80165290",
+     "titel": "Masamune-kun’s Revenge"
+    },
+    {
+     "url": "https://www.netflix.com/title/80196595",
+     "titel": "In Another World with My Smartphone"
+    },
+    {
      "url": "https://www.netflix.com/title/81003894",
      "titel": "Captain Tsubasa: Staffel 2 - Die Junioren"
     },
     {
+     "url": "https://www.netflix.com/title/81644043",
+     "titel": "Ranking of Kings: The Treasure Chest of Courage"
+    },
+    {
      "url": "https://www.netflix.com/title/81680101",
      "titel": "Zom 100: Bucket List of the Dead"
+    },
+    {
+     "url": "https://www.netflix.com/title/81680115",
+     "titel": "Ayakashi Triangle"
+    },
+    {
+     "url": "https://www.netflix.com/title/81680192",
+     "titel": "Tomo-chan Is a Girl!"
+    },
+    {
+     "url": "https://www.netflix.com/title/81680344",
+     "titel": "NieR:Automata Ver1.1a"
+    },
+    {
+     "url": "https://www.netflix.com/title/81684407",
+     "titel": "Raeliana: Warum sie die Verlobte des Dukes wurde"
+    },
+    {
+     "url": "https://www.netflix.com/title/81686706",
+     "titel": "Dead Mount Death Play"
     },
     {
      "url": "https://www.netflix.com/title/81714596",
@@ -495,28 +601,104 @@
      "titel": "Blue Giant"
     },
     {
+     "url": "https://www.netflix.com/title/81765074",
+     "titel": "Rascal Does Not Dream of a Sister Venturing Out"
+    },
+    {
+     "url": "https://www.netflix.com/title/81768275",
+     "titel": "Die Parallelwelt-Chroniken des Aristokraten"
+    },
+    {
+     "url": "https://www.netflix.com/title/81924850",
+     "titel": "Spy × Family Code: White"
+    },
+    {
+     "url": "https://www.netflix.com/title/81215627",
+     "titel": "Chainsaw Man"
+    },
+    {
+     "url": "https://www.netflix.com/title/81594245",
+     "titel": "A Couple of Cuckoos"
+    },
+    {
+     "url": "https://www.netflix.com/title/81594273",
+     "titel": "I’m Quitting Heroing"
+    },
+    {
+     "url": "https://www.netflix.com/title/81617962",
+     "titel": "My Isekai Life: I Gained a Second Character Class and Became the Strongest Sage in the World!"
+    },
+    {
+     "url": "https://www.netflix.com/title/81620000",
+     "titel": "Lycoris Recoil"
+    },
+    {
+     "url": "https://www.netflix.com/title/81641170",
+     "titel": "Bocchi the Rock!"
+    },
+    {
      "url": "https://www.netflix.com/title/81642888",
      "titel": "Urusei Yatsura"
+    },
+    {
+     "url": "https://www.netflix.com/title/81672787",
+     "titel": "Welcome to Demon School! Iruma-kun: Staffel 3"
     },
     {
      "url": "https://www.netflix.com/title/81700393",
      "titel": "The Deer King"
     },
     {
+     "url": "https://www.netflix.com/title/81757621",
+     "titel": "Detektiv Conan: Die Halloween-Braut"
+    },
+    {
      "url": "https://www.netflix.com/title/81765372",
      "titel": "The First Slam Dunk"
+    },
+    {
+     "url": "https://www.netflix.com/title/80131659",
+     "titel": "Re:Zero - Starting Life in Another World"
     },
     {
      "url": "https://www.netflix.com/title/81028791",
      "titel": "Cells at Work!"
     },
     {
+     "url": "https://www.netflix.com/title/81194192",
+     "titel": "Welcome to Demon School! Iruma-kun"
+    },
+    {
+     "url": "https://www.netflix.com/title/81333467",
+     "titel": "To Your Eternity"
+    },
+    {
+     "url": "https://www.netflix.com/title/81336986",
+     "titel": "Higurashi: When They Cry Gou"
+    },
+    {
      "url": "https://www.netflix.com/title/81392162",
      "titel": "Cells at Work! Code Black"
     },
     {
+     "url": "https://www.netflix.com/title/81392169",
+     "titel": "Ich bin eine Spinne, na und?"
+    },
+    {
+     "url": "https://www.netflix.com/title/81427422",
+     "titel": "Don’t Toy with Me, Miss Nagatoro"
+    },
+    {
+     "url": "https://www.netflix.com/title/81442520",
+     "titel": "Tokyo Revengers"
+    },
+    {
      "url": "https://www.netflix.com/title/81492822",
      "titel": "Belle"
+    },
+    {
+     "url": "https://www.netflix.com/title/81511191",
+     "titel": "The World’s Finest Assassin Gets Reincarnated in Another World as an Aristocrat"
     },
     {
      "url": "https://www.netflix.com/title/81602834",
@@ -531,8 +713,60 @@
      "titel": "Danmachi: Is It Wrong to Try to Pick Up Girls in a Dungeon? Familia Myth"
     },
     {
+     "url": "https://www.netflix.com/title/81061754",
+     "titel": "Kaguya-sama: Love Is War"
+    },
+    {
+     "url": "https://www.netflix.com/title/81234294",
+     "titel": "Bofuri: I Don’t Want to Get Hurt, So I’ll Max Out My Defense."
+    },
+    {
+     "url": "https://www.netflix.com/title/81263648",
+     "titel": "Gleipnir"
+    },
+    {
+     "url": "https://www.netflix.com/title/81266992",
+     "titel": "Sing “Yesterday” for Me"
+    },
+    {
+     "url": "https://www.netflix.com/title/81299211",
+     "titel": "Rent-a-Girlfriend"
+    },
+    {
+     "url": "https://www.netflix.com/title/81299341",
+     "titel": "Deca-Dence"
+    },
+    {
+     "url": "https://www.netflix.com/title/81310654",
+     "titel": "Bakugan: Armored Alliance"
+    },
+    {
+     "url": "https://www.netflix.com/title/81329313",
+     "titel": "Tower of God"
+    },
+    {
+     "url": "https://www.netflix.com/title/81336398",
+     "titel": "Yashahime: Princess Half-Demon"
+    },
+    {
+     "url": "https://www.netflix.com/title/81341928",
+     "titel": "By the Grace of the Gods"
+    },
+    {
+     "url": "https://www.netflix.com/title/81403488",
+     "titel": "Iwakakeru! Sport Climbing Girls"
+    },
+    {
      "url": "https://www.netflix.com/title/81410810",
      "titel": "Demon Slayer: Kimetsu no Yaiba - The Movie: Mugen Train"
+    },
+    {
+     "url": "https://www.netflix.com/title/81508630",
+     "titel": "Josie, der Tiger und die Fische"
+    },
+    {
+     "url": "https://www.netflix.com/title/80132126",
+     "titel": "Bungo Stray Dogs"
     },
     {
      "url": "https://www.netflix.com/title/80175351",
@@ -542,20 +776,112 @@
      ]
     },
     {
+     "url": "https://www.netflix.com/title/81101468",
+     "titel": "Danmachi: Is It Wrong to Try to Pick Up Girls in a Dungeon? Arrow of the Orion"
+    },
+    {
+     "url": "https://www.netflix.com/title/81143618",
+     "titel": "How Heavy Are the Dumbbells You Lift?"
+    },
+    {
+     "url": "https://www.netflix.com/title/81144576",
+     "titel": "Astra Lost in Space"
+    },
+    {
+     "url": "https://www.netflix.com/title/81196818",
+     "titel": "Cautious Hero: The Hero Is Overpowered but Overly Cautious"
+    },
+    {
      "url": "https://www.netflix.com/title/81208104",
      "titel": "Children of the Sea"
+    },
+    {
+     "url": "https://www.netflix.com/title/81228006",
+     "titel": "Rascal Does Not Dream of a Dreaming Girl"
+    },
+    {
+     "url": "https://www.netflix.com/title/81295070",
+     "titel": "Hello World"
     },
     {
      "url": "https://www.netflix.com/title/81427481",
      "titel": "The Legend of Hei: Die Kraft in dir"
     },
     {
+     "url": "https://www.netflix.com/title/80231942",
+     "titel": "Citrus"
+    },
+    {
+     "url": "https://www.netflix.com/title/80991680",
+     "titel": "Hinamatsuri"
+    },
+    {
+     "url": "https://www.netflix.com/title/80995912",
+     "titel": "A Place Further Than the Universe"
+    },
+    {
      "url": "https://www.netflix.com/title/81004268",
      "titel": "Mirai: Das Mädchen aus der Zukunft"
     },
     {
+     "url": "https://www.netflix.com/title/81004514",
+     "titel": "How Not to Summon a Demon Lord"
+    },
+    {
+     "url": "https://www.netflix.com/title/81010668",
+     "titel": "Darling in the Franxx"
+    },
+    {
+     "url": "https://www.netflix.com/title/81025783",
+     "titel": "Bloom into You"
+    },
+    {
+     "url": "https://www.netflix.com/title/81037377",
+     "titel": "Yunas Geisterhaus"
+    },
+    {
+     "url": "https://www.netflix.com/title/81037593",
+     "titel": "I Want to Eat Your Pancreas"
+    },
+    {
      "url": "https://www.netflix.com/title/81037597",
      "titel": "Okko und ihre Geisterfreunde"
+    },
+    {
+     "url": "https://www.netflix.com/title/80186349",
+     "titel": "Miss Kobayashi’s Dragon Maid"
+    },
+    {
+     "url": "https://www.netflix.com/title/80187572",
+     "titel": "Danmachi: Sword Oratoria"
+    },
+    {
+     "url": "https://www.netflix.com/title/80192978",
+     "titel": "Akashic Records of Bastard Magical Instructor"
+    },
+    {
+     "url": "https://www.netflix.com/title/80193052",
+     "titel": "Eromanga Sensei"
+    },
+    {
+     "url": "https://www.netflix.com/title/80193136",
+     "titel": "WorldEnd: What Do You Do at the End of the World? Are You Busy? Will You Save Us?"
+    },
+    {
+     "url": "https://www.netflix.com/title/80193178",
+     "titel": "Classroom of the Elite"
+    },
+    {
+     "url": "https://www.netflix.com/title/80194878",
+     "titel": "Scum’s Wish"
+    },
+    {
+     "url": "https://www.netflix.com/title/80227111",
+     "titel": "Juni Taisen: Zodiac War"
+    },
+    {
+     "url": "https://www.netflix.com/title/80232868",
+     "titel": "Katsugeki: Touken Ranbu"
     },
     {
      "url": "https://www.netflix.com/title/80238911",
@@ -586,12 +912,40 @@
      "titel": "No Game No Life Zero"
     },
     {
+     "url": "https://www.netflix.com/title/81285994",
+     "titel": "Overlord (Movies)"
+    },
+    {
+     "url": "https://www.netflix.com/title/81285995",
+     "titel": "Overlord - Der dunkle Held"
+    },
+    {
+     "url": "https://www.netflix.com/title/81757605",
+     "titel": "Detektiv Conan: Der purpurrote Liebesbrief"
+    },
+    {
+     "url": "https://www.netflix.com/title/80142717",
+     "titel": "Grimgar, Ashes and Illusions"
+    },
+    {
      "url": "https://www.netflix.com/title/80145747",
      "titel": "Pretty Guardian Sailor Moon Crystal"
     },
     {
+     "url": "https://www.netflix.com/title/80182163",
+     "titel": "Gate"
+    },
+    {
      "url": "https://www.netflix.com/title/80223226",
      "titel": "A Silent Voice"
+    },
+    {
+     "url": "https://www.netflix.com/title/81107662",
+     "titel": "Küss ihn, nicht mich!"
+    },
+    {
+     "url": "https://www.netflix.com/title/80005873",
+     "titel": "Highschool D×D"
     },
     {
      "url": "https://www.netflix.com/title/80040104",
@@ -602,8 +956,24 @@
      "titel": "Kamisama Kiss"
     },
     {
+     "url": "https://www.netflix.com/title/80134173",
+     "titel": "Haikyu!! Movie 1 - Ende und Anfang"
+    },
+    {
+     "url": "https://www.netflix.com/title/80134174",
+     "titel": "Haikyu!! Movie 2 - Gewinner und Verlierer"
+    },
+    {
      "url": "https://www.netflix.com/title/80159876",
      "titel": "Girls und Panzer: Der Film"
+    },
+    {
+     "url": "https://www.netflix.com/title/81757600",
+     "titel": "Detektiv Conan: Die Sonnenblumen des Infernos"
+    },
+    {
+     "url": "https://www.netflix.com/title/80020759",
+     "titel": "Terror in Tokio"
     },
     {
      "url": "https://www.netflix.com/title/80081848",
@@ -630,16 +1000,48 @@
      "titel": "The Devil Is a Part-Timer!"
     },
     {
+     "url": "https://www.netflix.com/title/80028089",
+     "titel": "Magi: The Kingdom of Magic"
+    },
+    {
+     "url": "https://www.netflix.com/title/80052668",
+     "titel": "Beyond the Boundary: Kyoukai no Kanata"
+    },
+    {
      "url": "https://www.netflix.com/title/80132218",
      "titel": "Nagi no Asukara"
+    },
+    {
+     "url": "https://www.netflix.com/title/80052713",
+     "titel": "Btooom!"
+    },
+    {
+     "url": "https://www.netflix.com/title/80151421",
+     "titel": "Naruto Spin off! Rock Lee & seine Ninja-Kumpels"
     },
     {
      "url": "https://www.netflix.com/title/80198443",
      "titel": "One Piece Z"
     },
     {
+     "url": "https://www.netflix.com/title/80241072",
+     "titel": "Another"
+    },
+    {
+     "url": "https://www.netflix.com/title/80104167",
+     "titel": "Die Reise nach Agartha"
+    },
+    {
+     "url": "https://www.netflix.com/title/80209888",
+     "titel": "Gosick"
+    },
+    {
      "url": "https://www.netflix.com/title/81104406",
      "titel": "Maid-sama"
+    },
+    {
+     "url": "https://www.netflix.com/title/81757633",
+     "titel": "Magic Kaito: Kid the Phantom Thief"
     },
     {
      "url": "https://www.netflix.com/title/70153298",
@@ -656,6 +1058,10 @@
     {
      "url": "https://www.netflix.com/title/70309457",
      "titel": "Vampire Knight Guilty"
+    },
+    {
+     "url": "https://www.netflix.com/title/80007757",
+     "titel": "Inazuma Eleven"
     },
     {
      "url": "https://www.netflix.com/title/80998780",
@@ -685,6 +1091,14 @@
      "titel": "Higurashi no Naku Koro ni"
     },
     {
+     "url": "https://www.netflix.com/title/80988066",
+     "titel": "Hellsing Ultimate OVA"
+    },
+    {
+     "url": "https://www.netflix.com/title/81056036",
+     "titel": "Die Melancholie der Haruhi Suzumiya"
+    },
+    {
      "url": "https://www.netflix.com/title/70014551",
      "titel": "Paranoia Agent"
     },
@@ -712,6 +1126,10 @@
      ]
     },
     {
+     "url": "https://www.netflix.com/title/81757599",
+     "titel": "Detektiv Conan: Die Kreuzung des Labyrinths"
+    },
+    {
      "url": "https://www.netflix.com/title/80146549",
      "titel": "Mobile Suit Gundam Seed"
     },
@@ -737,6 +1155,10 @@
     {
      "url": "https://www.netflix.com/title/70020763",
      "titel": "Sailor Moon S"
+    },
+    {
+     "url": "https://www.netflix.com/title/80116992",
+     "titel": "Sailor Moon S: Schneeprinzessin Kaguya"
     },
     {
      "url": "https://www.netflix.com/title/26588007",
@@ -903,10 +1325,6 @@
      "titel": "Kazoops!"
     },
     {
-     "url": "https://www.netflix.com/title/80063153",
-     "titel": "Kuroko’s Basketball: 1st Season"
-    },
-    {
      "url": "https://www.netflix.com/title/80108159",
      "titel": "Fragestunde mit den StoryBots"
     },
@@ -1015,11 +1433,14 @@
    "bekannt": {
     "70205012": 26,
     "70297439": 52,
+    "80000603": 500,
     "80001305": 26,
+    "80082107": 24,
     "80103318": 13,
     "80174918": 12,
     "80174974": 10,
     "80186926": 6,
+    "80206326": 26,
     "80212481": 13,
     "80221272": 13,
     "80992137": 24,
@@ -1029,12 +1450,14 @@
     "81033445": 26,
     "81050064": 6,
     "81054851": 6,
+    "81080523": 15,
     "81095103": 1,
     "81176966": 6,
     "81220429": 12,
     "81220435": 14,
     "81228009": 13,
     "81239555": 52,
+    "81253271": 48,
     "81276500": 6,
     "81280998": 4,
     "81281344": 8,
@@ -1044,6 +1467,7 @@
     "81313291": 12,
     "81341765": 8,
     "81409869": 1,
+    "81422700": 36,
     "81442091": 12,
     "81497635": 12,
     "81499847": 13,
@@ -1067,9 +1491,9 @@
    "name": "Disney+",
    "plattform": "disneyplus",
    "gemeldet": 179,
-   "gesamt": 346,
-   "offen": 167,
-   "ohneSeite": 15,
+   "gesamt": 347,
+   "offen": 168,
+   "ohneSeite": 14,
    "ziel": "https://www.disneyplus.com/browse/entity-faa35b37-3287-4a7c-9d42-a3a5f9ad9185",
    "ziele": [
     {
@@ -1101,6 +1525,11 @@
      "url": "https://www.disneyplus.com/browse/entity-f1bf2db1-d201-4c1f-8b4b-3e8cc79a85f6",
      "titel": "The Cleveland Show",
      "hinweis": "Staffeln unklar: TMDB zählt 88 Folgen insgesamt, der Anbieter kann sie anders schneiden"
+    },
+    {
+     "url": "https://www.disneyplus.com/de-de/series/bleach-thousand-year-blood-war/4Afet1Q421gy",
+     "titel": "Bleach: Thousand-Year Blood War",
+     "seit": "2026-11-07"
     },
     {
      "url": "https://www.disneyplus.com/browse/entity-b042544d-cd7d-40c6-9be4-db79666a1b51",
@@ -1338,6 +1767,7 @@
     "0e46c665-5191-407f-8dc5-e22a0095578c": 100,
     "4XHzb6tQBRtd": 12,
     "7I31jGPKAwz5": 13,
+    "6985037f-9614-48e7-91f3-ca8a4d7428bb": 12,
     "14f5d468-38b2-4d4b-97ed-649e6c3ba4c8": 12,
     "d45b72d4-3c8d-4961-960a-c0c182890189": 2,
     "eb5b776f-8162-491a-9aca-c1e9b56729e5": 12,
@@ -1349,28 +1779,6 @@
     "8cc06990-0faf-4a7e-ac1f-fb74cb4b9286": 15,
     "5ecc8b00-79fd-4c1a-81ed-f44260ef38d4": 13
    }
-  },
-  {
-   "name": "Suchadressen",
-   "plattform": "suchadressen",
-   "gemeldet": 0,
-   "gesamt": 2,
-   "offen": 2,
-   "titel": 0,
-   "ohneSeite": 2,
-   "ziel": "https://netflix.com",
-   "ziele": [
-    {
-     "url": "https://netflix.com",
-     "titel": "Meine ganz besondere Hochzeit: Special"
-    },
-    {
-     "url": "https://www.amazon.de/s?k=TANK%20CHAIR&i=instant-video",
-     "titel": "Tank Chair"
-    }
-   ],
-   "naechster": "Meine ganz besondere Hochzeit: Special",
-   "hinweis": "Suchadressen ohne Titelseite: den richtigen Treffer beim Anbieter heraussuchen"
   }
  ]
 }

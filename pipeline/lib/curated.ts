@@ -15,6 +15,8 @@ export interface CuratedEntry {
   sender?: string
   platformUrl?: string
   buyUrl?: string
+  /** Von Hand belegte EAN einer Disc; daraus entsteht der Kauflink (`discKaufUrl`), wenn kein `buyUrl` steht. */
+  ean?: string
   releaseType: ReleaseType
   fsk?: Fsk
   /** Siehe `Release.dateMeaning`; für Katalogaufnahmen älterer Titel `available-from`. */

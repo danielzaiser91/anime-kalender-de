@@ -50,6 +50,24 @@
     - https://www.crunchyroll.com/de/news/latest/2026/6/15/black-clover-staffel-2-premiere-oktober-2026
     - https://anilist.co/anime/195604
 
+# Black Clover Staffel 2, deutsche Fassung: Crunchyrolls Katalog (Abruf 07.11.2026, `data/crunchyroll-dub.json`, Staffel „GS00385471JAJP“)
+# führt Folge 171 (durchlaufend gezählt, Folge 1 der Staffel) mit deutscher Tonspur, `verfuegbarAb` 07.11.2026 16:00 UTC. Der OmU-Eintrag oben bleibt
+# (Start 03.10.2026, Untertitel); ohne diesen zweiten Eintrag trug der Weg „deutsch", während jeder Termin „nur OmU" sagte (Bau 42389332341).
+# Der Wochentakt der Synchro ist mit einer Folge nicht messbar, deshalb keine Folgenzahl, keine Uhrzeit und kein `lastEpisodeDate`.
+- slug: black-clover-s2-crunchyroll-synchro
+  anilistId: 195604
+  titleDe: "Black Clover – Staffel 2"
+  platform: crunchyroll
+  releaseType: weekly
+  schedule:
+    firstEpisodeDate: "2026-11-07"
+    observed:
+      1: "2026-11-07"
+  note: "Die deutsche Synchro läuft bei Crunchyroll seit dem 07.11.2026 (Folge 171, Folge 1 der Staffel); der Katalog nennt bisher nur diese eine deutsche Folge. Die Folgen mit Untertiteln laufen seit dem 03.10.2026."
+  sources:
+    - https://www.crunchyroll.com/de/series/GRE50KV36
+    - https://www.crunchyroll.com/de/news/seasonal-lineup/2026/9/15/crunchyroll-deutsche-synchros-herbst-2026
+
 - slug: dragon-ball-daima-rtlplus
   anilistId: 170083
   search: "Dragon Ball Daima"

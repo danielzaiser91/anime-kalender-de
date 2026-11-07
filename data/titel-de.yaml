@@ -19,6 +19,14 @@
 # quellen — mindestens zwei, unabhängig voneinander
 # geprueftAm — wann nachgesehen wurde
 
+- id: 21778
+  titleDe: "Thus Spoke Kishibe Rohan"
+  geprueftAm: "2026-11-06"
+  note: "Eine Miniserie mit vier Folgen, so führt sie Netflix (title/81280998, Titelseite nicht abgerufen: Daniel 06.11.2026) und TMDB (tv/118443). Der aniSearch-Name nannte nur die erste Folge (Das Millionärsdorf)."
+  quellen:
+    - https://www.netflix.com/title/81280998
+    - https://www.themoviedb.org/tv/118443
+
 - id: 2043
   titleDe: "Cat’s Eye – Ein Supertrio"
   geprueftAm: "2026-09-16"
