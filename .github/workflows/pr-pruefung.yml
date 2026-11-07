@@ -228,7 +228,7 @@ jobs:
           # Außer der Oberfläche zählen genau die Dateien, die dieser Job ausführt: die Werkzeuge von check:panel und
           # check:ansichten, deren direkte Importe und dieser Workflow. Die Werkzeuge stehen in tools/pr-aussehen-pfade.txt.
           PFADE='^(web/src/|web/buehne/|extension/.*\.css$|\.github/workflows/pr-pruefung\.yml$|package\.json$|tools/pr-aussehen-pfade\.txt$)'
-          LISTE="^($(grep -v -e '^#' -e '^$' tools/pr-aussehen-pfade.txt | sed -e 's/\./\\./g' | paste -sd'|'))\$"
+          LISTE="^($(grep -v '^#' tools/pr-aussehen-pfade.txt | sed -e 's/\./\\./g' | paste -sd'|'))\$"
           if git diff --name-only HEAD^1 HEAD | grep -qE -e "$PFADE" -e "$LISTE"; then
             echo "betroffen=1" >> "$GITHUB_OUTPUT"
           fi

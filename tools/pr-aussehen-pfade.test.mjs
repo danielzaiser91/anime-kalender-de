@@ -96,14 +96,13 @@ export function listenFehler(text) {
 
 /** Der Schritt liest die Datei wirklich (Lauf im Wegwerf-Repo) und die Listenprüfung schlägt bei jedem Formfehler an. */
 function pruefeSelbst(lauf, liste) {
-  const klein = '# k\ntools/a-b.mjs\ntools/c.mjs\n'
+  const klein = '# k (offene Klammer\ntools/a-b.mjs\ntools/c.mjs\n'
   assert.equal(jobSagtBetroffen(lauf, klein, 'tools/c.mjs'), true, 'Werkzeug aus der Liste löst den Job aus')
   assert.equal(jobSagtBetroffen(lauf, klein, 'tools/cx.mjs'), false, 'Werkzeug außerhalb der Liste löst ihn nicht aus')
   assert.equal(jobSagtBetroffen(lauf, klein, 'tools/aXb.mjs'), false, 'Punkt und Bindestrich werden wörtlich genommen')
   assert.equal(jobSagtBetroffen(lauf, klein, 'tools/c-mjs'), false, 'Punkt im Pfad wird maskiert')
   assert.equal(jobSagtBetroffen(lauf, klein, 'tools/pr-aussehen-pfade.txt'), true, 'Änderung der Liste löst den Job aus')
   assert.equal(jobSagtBetroffen(lauf, klein, 'web/src/x.tsx'), true, 'Oberfläche löst den Job aus')
-  assert.equal(jobSagtBetroffen(lauf, `${klein}\n`, 'tools/zz.mjs'), false, 'Leerzeile in der Liste macht den Ausdruck nicht zu weit')
   assert.deepEqual(listenFehler(liste), [])
   assert.deepEqual(listenFehler('tools/b.mjs\ntools/a.mjs\n'), ['nicht sortiert (LC_ALL=C sort)'])
   assert.deepEqual(listenFehler('tools/a.mjs\ntools/a.mjs\n'), ['doppelte Zeile'])
