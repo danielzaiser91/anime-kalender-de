@@ -1,12 +1,12 @@
 {
- "erzeugtAm": "2026-11-06T10:53:33.181Z",
+ "erzeugtAm": "2026-11-07T16:32:57.296Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
-   "gemeldet": 899,
-   "gesamt": 969,
-   "offen": 70,
+   "gemeldet": 927,
+   "gesamt": 1001,
+   "offen": 74,
    "ohneSeite": 2,
    "suchAdressen": [
     "https://www.amazon.de/s?k=Super%20Wings&i=instant-video",
@@ -232,6 +232,11 @@
      "hinweis": "Staffeln unklar: TMDB zählt 168 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.44b69da7-d905-017f-c691-54059237c2a9",
+     "titel": "Sylvanian Families",
+     "hinweis": "Staffeln unklar: TMDB zählt 62 Folgen insgesamt, der Anbieter kann sie anders schneiden"
+    },
+    {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.0cb8c40c-c316-369d-4c63-7adba44df4ab",
      "titel": "Bobby und Bill (Boule & Bill)",
      "hinweis": "Staffeln unklar: TMDB zählt 104 Folgen insgesamt, der Anbieter kann sie anders schneiden"
@@ -267,6 +272,7 @@
     "B0FKZM9J6V": 25,
     "B0GG3S1LQD": 26,
     "B0H4XQ2NNZ": 51,
+    "B0D59HJGBZ": 24,
     "B0B8T893H2": 13,
     "B0FW2J99HL": 167,
     "B0B6S983B4": 40,
@@ -368,6 +374,7 @@
     "B0C7NSMB25": 12,
     "B07XYDCVFK": 12,
     "B0DZCL6XMM": 24,
+    "B0CP7P8QCY": 12,
     "0ST5YU69NBGTLE16XV4G99HZNC": 12,
     "B0CYSWYH7J": 12,
     "B0B6VQDB6D": 12,
@@ -375,6 +382,7 @@
     "B09V4N69ZT": 12,
     "B0D8SX7TGW": 12,
     "B0CVG6BDYZ": 13,
+    "B0CVHGSMMX": 12,
     "B09C12DRYV": 12,
     "B0GFGTTR3N": 25,
     "B0B8SM98JV": 12,
@@ -437,8 +445,8 @@
    "name": "Netflix",
    "plattform": "netflix",
    "gemeldet": 773,
-   "gesamt": 1081,
-   "offen": 308,
+   "gesamt": 1082,
+   "offen": 309,
    "ohneSeite": 13,
    "ziel": "https://www.netflix.com/title/81608820",
    "ziele": [
@@ -449,6 +457,13 @@
     {
      "url": "https://www.netflix.com/title/81272431",
      "titel": "Numberblocks"
+    },
+    {
+     "url": "https://www.netflix.com/title/81054853",
+     "titel": "Cyberpunk: Edgerunners",
+     "staffeln": [
+      1
+     ]
     },
     {
      "url": "https://www.netflix.com/title/81684733",
@@ -469,6 +484,13 @@
     {
      "url": "https://www.netflix.com/title/82741721",
      "titel": "Atelier of Witch Hat"
+    },
+    {
+     "url": "https://www.netflix.com/title/82746480",
+     "titel": "Snowball Earth",
+     "staffeln": [
+      1
+     ]
     },
     {
      "url": "https://www.netflix.com/title/82058586",
@@ -1303,10 +1325,6 @@
      "titel": "Kazoops!"
     },
     {
-     "url": "https://www.netflix.com/title/80063153",
-     "titel": "Kuroko’s Basketball: 1st Season"
-    },
-    {
      "url": "https://www.netflix.com/title/80108159",
      "titel": "Fragestunde mit den StoryBots"
     },
@@ -1473,9 +1491,9 @@
    "name": "Disney+",
    "plattform": "disneyplus",
    "gemeldet": 179,
-   "gesamt": 346,
-   "offen": 167,
-   "ohneSeite": 15,
+   "gesamt": 347,
+   "offen": 168,
+   "ohneSeite": 14,
    "ziel": "https://www.disneyplus.com/browse/entity-faa35b37-3287-4a7c-9d42-a3a5f9ad9185",
    "ziele": [
     {
@@ -1507,6 +1525,11 @@
      "url": "https://www.disneyplus.com/browse/entity-f1bf2db1-d201-4c1f-8b4b-3e8cc79a85f6",
      "titel": "The Cleveland Show",
      "hinweis": "Staffeln unklar: TMDB zählt 88 Folgen insgesamt, der Anbieter kann sie anders schneiden"
+    },
+    {
+     "url": "https://www.disneyplus.com/de-de/series/bleach-thousand-year-blood-war/4Afet1Q421gy",
+     "titel": "Bleach: Thousand-Year Blood War",
+     "seit": "2026-11-07"
     },
     {
      "url": "https://www.disneyplus.com/browse/entity-b042544d-cd7d-40c6-9be4-db79666a1b51",
@@ -1744,6 +1767,7 @@
     "0e46c665-5191-407f-8dc5-e22a0095578c": 100,
     "4XHzb6tQBRtd": 12,
     "7I31jGPKAwz5": 13,
+    "6985037f-9614-48e7-91f3-ca8a4d7428bb": 12,
     "14f5d468-38b2-4d4b-97ed-649e6c3ba4c8": 12,
     "d45b72d4-3c8d-4961-960a-c0c182890189": 2,
     "eb5b776f-8162-491a-9aca-c1e9b56729e5": 12,
@@ -1755,28 +1779,6 @@
     "8cc06990-0faf-4a7e-ac1f-fb74cb4b9286": 15,
     "5ecc8b00-79fd-4c1a-81ed-f44260ef38d4": 13
    }
-  },
-  {
-   "name": "Suchadressen",
-   "plattform": "suchadressen",
-   "gemeldet": 0,
-   "gesamt": 2,
-   "offen": 2,
-   "titel": 0,
-   "ohneSeite": 2,
-   "ziel": "https://netflix.com",
-   "ziele": [
-    {
-     "url": "https://netflix.com",
-     "titel": "Meine ganz besondere Hochzeit: Special"
-    },
-    {
-     "url": "https://www.amazon.de/s?k=TANK%20CHAIR&i=instant-video",
-     "titel": "Tank Chair"
-    }
-   ],
-   "naechster": "Meine ganz besondere Hochzeit: Special",
-   "hinweis": "Suchadressen ohne Titelseite: den richtigen Treffer beim Anbieter heraussuchen"
   }
  ]
 }

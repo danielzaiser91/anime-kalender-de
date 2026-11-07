@@ -1,6 +1,6 @@
 {
   "format": 2,
-  "stand": "2026-11-06",
+  "stand": "2026-11-07",
   "hinweis": "Vorschlagsmodus: nur gelesen, nie übernommen — docs/wissen/sammelartikel-poc.md (Abschnitt „Vorschlagslauf\"). Schreiber: pipeline/fetch-sammelartikel.ts",
   "aussagen": [
     {
@@ -13707,6 +13707,153 @@
           "hatSynchroBelege": true
         },
         "inhaltZeichen": 339
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1068729/pluto-tv-dr-stone-und-mehr/|Black Clover|Episode 36 bis 51|start|",
+      "erstGesehen": "2026-11-07",
+      "fingerabdruck": "aef52d7f6758",
+      "offenOderUnklar": true,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1068729/pluto-tv-dr-stone-und-mehr/",
+          "veroeffentlicht": "2026-11-06",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Black Clover",
+        "zusatz": "Episode 36 bis 51",
+        "art": "start",
+        "plattformen": [],
+        "deutsch": "ja",
+        "folgen": 51,
+        "konfidenz": 0.6,
+        "gruende": [
+          "Sprache: Deutsch",
+          "kein Tag genannt",
+          "kein Anbieter genannt"
+        ],
+        "zitat": "»Black Clover« – Episode 36 bis 51\nEpisoden: 36 bis 51 (komplett)\nSprache: Deutsch\nStream: Pluto TV",
+        "zuordnung": {
+          "anilistId": 97940,
+          "name": "Black Clover",
+          "wie": "name-genau",
+          "vorbehalt": "Zusatz „Episode 36 bis 51\" nicht aufgelöst"
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 415
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1068729/pluto-tv-dr-stone-und-mehr/|Dr. STONE|Staffel 1|start|",
+      "erstGesehen": "2026-11-07",
+      "fingerabdruck": "ef14fd998c2f",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1068729/pluto-tv-dr-stone-und-mehr/",
+          "veroeffentlicht": "2026-11-06",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Dr. STONE",
+        "zusatz": "Staffel 1",
+        "art": "start",
+        "plattformen": [],
+        "deutsch": "ja",
+        "konfidenz": 0.6,
+        "gruende": [
+          "Sprache: Deutsch",
+          "kein Tag genannt",
+          "kein Anbieter genannt"
+        ],
+        "zitat": "»Dr. STONE« – Staffel 1\nEpisoden: 23 von 24\nSprache: Deutsch\nStream: Pluto TV",
+        "zuordnung": {
+          "anilistId": 105333,
+          "name": "Dr. Stone",
+          "wie": "name-genau"
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 435
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1068059/prime-video-devils-crest-und-mehr/|Devils‘ Crest||start|primevideo",
+      "erstGesehen": "2026-11-07",
+      "fingerabdruck": "733279add23f",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1068059/prime-video-devils-crest-und-mehr/",
+          "veroeffentlicht": "2026-11-06",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Devils‘ Crest",
+        "art": "start",
+        "plattformen": [
+          "primevideo"
+        ],
+        "datum": "2026-11-06",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "ja",
+        "woechentlich": true,
+        "konfidenz": 0.8,
+        "gruende": [
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»Devils‘ Crest« (Simulcast)\n»Devils‘ Crest« (Simulcast)\nEpisoden: 2 verfügbar\nSprache: Deutsch, Japanisch (UT)\nSimulcast: Jeden Freitag eine neue Episode\nStream: Prime Video",
+        "zuordnung": {
+          "anilistId": 203275,
+          "name": "Devils' Crest",
+          "wie": "name+start",
+          "abstandTage": 0
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": false
+        },
+        "inhaltZeichen": 367
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1068059/prime-video-devils-crest-und-mehr/|Pet||start|primevideo",
+      "erstGesehen": "2026-11-07",
+      "fingerabdruck": "46007e99e3f5",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1068059/prime-video-devils-crest-und-mehr/",
+          "veroeffentlicht": "2026-11-06",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Pet",
+        "art": "start",
+        "plattformen": [
+          "primevideo"
+        ],
+        "datum": "2026-11-06",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "ja",
+        "folgen": 13,
+        "konfidenz": 0.8,
+        "gruende": [
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»Pet« (Synchro)\n»Pet« (Synchro)\nEpisoden: 13 (komplett)\nSprache: Deutsch\nHinweis: Die Originalfassung ist unter einem separaten Eintrag verfügbar\nStream: Prime Video",
+        "zuordnung": {
+          "anilistId": 101350,
+          "name": "Pet",
+          "wie": "name-genau"
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 362
       }
     }
   ]

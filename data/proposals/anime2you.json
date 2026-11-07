@@ -1,15 +1,256 @@
 {
-  "scrapedAt": "2026-11-06T04:13:53.172Z",
+  "scrapedAt": "2026-11-07T13:01:21.350Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 41,
-    "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 4,
+    "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 54,
-    "schon in einem Rubrik-Feed gelesen": 31,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 9,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 13,
+    "schon in einem Rubrik-Feed gelesen": 9,
     "Sprachhinweis älter als 45 Tage": 6
   },
   "proposals": [
+    {
+      "articleTitle": "Nur noch wenige Tage: »Pokémon«-DVDs für 19,99 Euro bei polyband",
+      "articleUrl": "https://www.anime2you.de/news/1068831/polyband-pokemon-rabattaktion-endet-bald/",
+      "publishedAt": "2026-11-07",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2026-11-10",
+          "context": "ie wichtigsten Details nachfolgend noch einmal zusammen. Nur noch bis 10. November 2026 Im Rahmen einer vom 29. Oktober bis 10. November 202"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Konkreter Termin der Anime-Adaption von »BLESS« + Trailer",
+      "articleUrl": "https://www.anime2you.de/news/1068798/konkreter-termin-von-bless/",
+      "publishedAt": "2026-11-07",
+      "category": "allgemein",
+      "platforms": [
+        "crunchyroll"
+      ],
+      "dates": [
+        {
+          "iso": "2027-01-08",
+          "context": "me-Umsetzung von »BLESS« wurde heute verkündet, dass die Serie ab dem 8. Januar 2027 im japanischen Fernsehen ausgestrahlt wird. Einen erste"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "28 Blu-ray-Termine von Crunchyroll, AniMoon, KSM und polyband verschoben",
+      "articleUrl": "https://www.anime2you.de/news/1068595/28-blu-ray-verschiebungen/",
+      "publishedAt": "2026-11-06",
+      "category": "disc",
+      "platforms": [
+        "crunchyroll",
+        "disc"
+      ],
+      "dates": [],
+      "dub": "unklar",
+      "pause": "verschoben",
+      "alreadyCurated": false,
+      "verschiebungen": [
+        {
+          "titel": "Kaiju No.8 – Staffel 2 (Komplettbox)",
+          "alt": "2026-05-07",
+          "neu": "2027-03-05"
+        },
+        {
+          "titel": "Sailor Moon – Staffel 2 (Limited Steelbook Edition)",
+          "alt": "2026-11-06",
+          "neu": "2026-11-20"
+        },
+        {
+          "titel": "Kubo Won’t Let Me Be Invisible – Staffel 1 (Komplettbox)",
+          "alt": "2026-11-09",
+          "neu": "2026-12-10"
+        },
+        {
+          "titel": "Loner Life in Another World – Vol. 1 (Limited Edition mit Sammelschuber)",
+          "alt": "2026-11-27",
+          "neu": "2026-12-04"
+        },
+        {
+          "titel": "Bitte zieh dich an, Takamine! – Vol. 1 (Limited Edition mit Sammelschuber)",
+          "alt": "2026-11-20",
+          "neu": "2026-12-18"
+        },
+        {
+          "titel": "Bitte zieh dich an, Takamine! – Vol. 2 (Limited Edition)",
+          "alt": "2026-12-18",
+          "neu": "2027-01-15"
+        },
+        {
+          "titel": "Bitte zieh dich an, Takamine! – Vol. 3 (Limited Edition)",
+          "alt": "2027-01-15",
+          "neu": "2027-02-19"
+        },
+        {
+          "titel": "Bocchi the Rock! – Vol. 2 (Limited Edition)",
+          "alt": "2026-11-06",
+          "neu": "2026-12-04"
+        },
+        {
+          "titel": "Bocchi the Rock! – Vol. 3 (Limited Edition)",
+          "alt": "2026-12-18",
+          "neu": "2027-02-05"
+        },
+        {
+          "titel": "Inazuma Eleven – Staffel 1 (Komplettbox)",
+          "alt": "2026-11-20",
+          "neu": "2026-12-18"
+        },
+        {
+          "titel": "Infinite Dendrogram – Vol. 2 (Limited Edition)",
+          "alt": "2026-10-30",
+          "neu": "2026-11-13"
+        },
+        {
+          "titel": "My Love Story with Yamada-kun at Lv999 – Vol. 3 (Limited Edition)",
+          "alt": "2027-01-15",
+          "neu": "2027-02-05"
+        },
+        {
+          "titel": "Nukitashi – Vol. 1 (Limited Edition mit Sammelschuber)",
+          "alt": "2026-11-06",
+          "neu": "2026-12-10"
+        },
+        {
+          "titel": "Sakamoto Days – Vol. 1 (Limited Edition mit Sammelschuber)",
+          "alt": "2026-11-13",
+          "neu": "2026-11-20"
+        },
+        {
+          "titel": "Sakamoto Days – Vol. 2 (Limited Edition)",
+          "alt": "2026-12-11",
+          "neu": "2026-12-25"
+        },
+        {
+          "titel": "Sakamoto Days – Vol. 3 (Limited Edition)",
+          "alt": "2027-01-15",
+          "neu": "2027-01-29"
+        },
+        {
+          "titel": "Sakamoto Days – Vol. 4 (Limited Edition)",
+          "alt": "2027-02-19",
+          "neu": "2027-03-05"
+        },
+        {
+          "titel": "Spice and Wolf: Merchant Meets the Wise Wolf – Vol. 2 (Limited Edition)",
+          "alt": "2026-11-06",
+          "neu": "2026-12-04"
+        },
+        {
+          "titel": "Strike Witches (Staffel 2) – Vol. 2 (Limited Edition)",
+          "alt": "2026-12-11",
+          "neu": "2027-01-15"
+        },
+        {
+          "titel": "Strike Witches (Staffel 2) – Vol. 3 (Limited Edition)",
+          "alt": "2027-01-15",
+          "neu": "2027-02-26"
+        },
+        {
+          "titel": "The Café Terrace and Its Goddesses – Staffel 2 (Komplettbox)",
+          "alt": "2027-01-15",
+          "neu": "2027-02-05"
+        },
+        {
+          "titel": "Virgin Road – Vol. 1 (Limited Edition mit Sammelschuber)",
+          "alt": "2026-11-06",
+          "neu": "2026-11-13"
+        },
+        {
+          "titel": "Virgin Road – Vol. 2 (Limited Edition)",
+          "alt": "2026-12-04",
+          "neu": "2026-12-17"
+        },
+        {
+          "titel": "Virgin Road – Vol. 3 (Limited Edition)",
+          "alt": "2027-01-15",
+          "neu": "2027-01-29"
+        }
+      ]
+    },
+    {
+      "articleTitle": "Design und Extras der limitierten Blu-ray-Edition von »YAIBA: Samurai Legend«",
+      "articleUrl": "https://www.anime2you.de/news/1068751/yaiba-samurai-legend-limited-edition-design/",
+      "publishedAt": "2026-11-06",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2026-12-04",
+          "context": "Volume von »YAIBA: Samurai Legend« erscheint nach aktuellem Stand am 4. Dezember 2026 als Blu-ray und enthält die ersten zwölf Episoden auf"
+        },
+        {
+          "month": "2026-12",
+          "context": "egend« vorgestellt. Die neuen Produktbilder findet ihr unten. Release ab Dezember 2026 Das erste Volume von »YAIBA: Samurai Legend« erschein"
+        }
+      ],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Anime-Weihnachtsfilm »Tokyo Godfathers« bald erneut auf ZDFneo",
+      "articleUrl": "https://www.anime2you.de/news/1068738/tokyo-godfathers-bald-erneut-auf-zdfneo/",
+      "publishedAt": "2026-11-06",
+      "category": "allgemein",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-12-13",
+          "context": "ng im Dezember 2026 »Tokyo Godfathers« wird nach aktueller Planung am 13. Dezember 2026 um 16:00 Uhr mit deutscher Sprachfassung auf ZDFneo"
+        },
+        {
+          "month": "2026-12",
+          "context": "al erstmals im Nachmittagsprogramm. Wir fassen zusammen. Ausstrahlung im Dezember 2026 »Tokyo Godfathers« wird nach aktueller Planung am 13."
+        }
+      ],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Zwei weitere Anime-Neuzugänge kostenlos auf Deutsch bei Pluto TV",
+      "articleUrl": "https://www.anime2you.de/news/1068729/pluto-tv-dr-stone-und-mehr/",
+      "publishedAt": "2026-11-06",
+      "category": "streaming",
+      "platforms": [],
+      "dates": [],
+      "dub": "ja",
+      "alreadyCurated": false,
+      "sammel": [
+        {
+          "titel": "Black Clover",
+          "zusatz": "Episode 36 bis 51",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Pluto TV"
+          ],
+          "folgen": 51
+        },
+        {
+          "titel": "Dr. STONE",
+          "zusatz": "Staffel 1",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Pluto TV"
+          ]
+        }
+      ],
+      "sammelGelesen": "2026-11-07"
+    },
     {
       "articleTitle": "Erster Trailer zum Netflix-Anime »Fool Night« + Visual",
       "articleUrl": "https://www.anime2you.de/news/1067870/fool-night-netflix-erster-trailer/",
@@ -444,7 +685,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-04"
+      "sammelGelesen": "2026-11-07"
     },
     {
       "articleTitle": "TV-Guide: Anime im deutschen Fernsehen in KW 45/2026",
@@ -620,7 +861,7 @@
           "folgen": 13
         }
       ],
-      "sammelGelesen": "2026-11-04"
+      "sammelGelesen": "2026-11-07"
     },
     {
       "articleTitle": "Sieben Disc-Neuheiten ab sofort im AKIBA PASS SHOP vorbestellbar",
@@ -1000,7 +1241,7 @@
           "folgen": 12
         }
       ],
-      "sammelGelesen": "2026-11-04"
+      "sammelGelesen": "2026-11-07"
     },
     {
       "articleTitle": "Disney+ nimmt zwei Anime-Neuzugänge ins Programm",
@@ -1039,7 +1280,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-04"
+      "sammelGelesen": "2026-11-07"
     },
     {
       "articleTitle": "Zwei Anime-Neuzugänge auf Deutsch bei Crunchyroll",
@@ -1089,7 +1330,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-04"
+      "sammelGelesen": "2026-11-07"
     },
     {
       "articleTitle": "Crunchyroll zeigt dritte »Mashle«-Staffel im Simulcast",
@@ -1839,18 +2080,6 @@
       ],
       "dates": [],
       "dub": "ja",
-      "zeiten": [
-        {
-          "tag": "Samstag",
-          "zeit": "15:30",
-          "satz": "Staffel 2 »Die Tagebücher der Apothekerin« – Staffel 3 »A Wild Last Boss Appeared!« – Staffel 2 Episoden: 2 auf Deutsch verfügbar Sprache: Deutsch, Japanisch (UT) Simulcast: Jeden Samstag um 15:30 Uhr Stream: Prime Video , Crunchyroll Handl"
-        },
-        {
-          "tag": "Freitag",
-          "zeit": "17:00",
-          "satz": "seiner unerwarteten Wiedergeburt zu lüften. »Die Tagebücher der Apothekerin« – Staffel 3 Episoden: 1 von 12 auf Deutsch verfügbar Sprache: Deutsch, Japanisch (UT) Simulcast: Jeden Freitag um 17:00 Uhr Stream: Prime Video , Crunchyroll Handl"
-        }
-      ],
       "alreadyCurated": false,
       "sammel": [
         {
