@@ -21,14 +21,25 @@ DESCRIPTION:Plattform: Joyn\nRelease-Art: Katalogtitel\nIm Angebot seit die
 CATEGORIES:Joyn
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-18679-adn@2026-11-18@anime-kalender-de
+UID:motn-11617-primevideo@2026-11-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261118
-DTEND;VALUE=DATE:20261119
-SUMMARY:Kill La Kill (neu bei ADN)
+DTSTART;VALUE=DATE:20261106
+DTEND;VALUE=DATE:20261107
+SUMMARY:Highschool D×D (neu bei Prime Video)
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nIm Angebot s
+ eit diesem Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrze
+ it noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/5532/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1218@2026-11-18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261118T080000Z
+DTEND:20261118T083000Z
+SUMMARY:Kill la Kill (neu bei ADN)
 DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nIm Angebot seit dies
- em Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrzeit noch 
- nicht bestätigt.\nDetails: https://anime-kalender.de/t/6710/
+ em Tag – nicht der Erscheinungstag der deutschen Fassung.\nDetails: http
+ s://anime-kalender.de/t/6710/
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -39,16 +50,6 @@ DTEND;VALUE=DATE:20261121
 SUMMARY:The Café Terrace and Its Goddesses – Staffel 1 (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/t/14548/
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:please-put-them-on-takamine-vol1@2026-11-20@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261120
-DTEND;VALUE=DATE:20261121
-SUMMARY:Bitte zieh dich an\, Takamine! – Vol. 1 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/16104/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
@@ -152,23 +153,33 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
-UID:please-put-them-on-takamine-vol2@2026-12-18@anime-kalender-de
+UID:nukitashi-vol1@2026-12-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261210
+DTEND;VALUE=DATE:20261211
+SUMMARY:Nukitashi – Vol. 1 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/15668/
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:please-put-them-on-takamine-vol1@2026-12-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261218
 DTEND;VALUE=DATE:20261219
-SUMMARY:Bitte zieh dich an\, Takamine! – Vol. 2 (Disc)
+SUMMARY:Bitte zieh dich an\, Takamine! – Vol. 1 (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/t/16104/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-166477-disc@2027-01-15@anime-kalender-de
+UID:please-put-them-on-takamine-vol2@2027-01-15@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20270115
 DTEND;VALUE=DATE:20270116
-SUMMARY:The Café Terrace and Its Goddesses (Disc)
+SUMMARY:Bitte zieh dich an\, Takamine! – Vol. 2 (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/15195/
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/16104/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
@@ -179,6 +190,16 @@ DTEND;VALUE=DATE:20270129
 SUMMARY:Isekai Onsen Paradise (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/t/15558/
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-166477-disc@2027-02-05@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20270205
+DTEND;VALUE=DATE:20270206
+SUMMARY:The Café Terrace and Its Goddesses (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/15195/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 END:VCALENDAR
