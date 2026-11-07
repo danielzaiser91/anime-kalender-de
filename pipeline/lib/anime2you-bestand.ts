@@ -10,6 +10,8 @@ export interface GelesenerArtikel {
   vorschlaege: number
   /** Gesetzt, wenn der Artikel nicht an Claude ging (kein Deutschland-Bezug). */
   uebersprungen?: string
+  /** `regel`, wenn der Router den Artikel der Regel überlassen hat und Claude ihn nicht gelesen hat. */
+  durch?: 'regel'
 }
 
 export interface GespeicherterVorschlag extends GepruefterVorschlag {
