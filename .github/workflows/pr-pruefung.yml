@@ -216,6 +216,8 @@ jobs:
             befehl: npm run check:einstellungen
           - teil: Suchhinweis
             befehl: npm run check:suchhinweis
+          - teil: Filter-Tempo
+            befehl: npm run check:filter-tempo
           - teil: Bühne-Fenster
             befehl: npm run check:buehne-fenster
     steps:
@@ -252,6 +254,8 @@ jobs:
           PFADE="$PFADE|^tools/ansicht-trefferprobe\.mjs$"
           PFADE="$PFADE|^tools/ansicht-tv-reihe\.mjs$"
           PFADE="$PFADE|^tools/bau-vergleich-log\.mjs$"
+          PFADE="$PFADE|^tools/bereich-auge-messen\.mjs$"
+          PFADE="$PFADE|^tools/bereich-auge-urteil\.mjs$"
           PFADE="$PFADE|^tools/bilder-ordner\.mjs$"
           PFADE="$PFADE|^tools/buehne-fenster-pruefen\.mjs$"
           PFADE="$PFADE|^tools/buehne-seite\.mjs$"
@@ -261,6 +265,8 @@ jobs:
           PFADE="$PFADE|^tools/einstellungen-bild\.mjs$"
           PFADE="$PFADE|^tools/einzel-sperre\.mjs$"
           PFADE="$PFADE|^tools/einzel-sperre-schlange\.mjs$"
+          PFADE="$PFADE|^tools/filter-tempo\.mjs$"
+          PFADE="$PFADE|^tools/filter-tempo-urteil\.mjs$"
           PFADE="$PFADE|^tools/kachel-ecken-live\.mjs$"
           PFADE="$PFADE|^tools/kachel-ecken-messen\.mjs$"
           PFADE="$PFADE|^tools/linux-schrift\.mjs$"
@@ -276,6 +282,7 @@ jobs:
           PFADE="$PFADE|^tools/schwerer-lauf\.mjs$"
           PFADE="$PFADE|^tools/such-chip-messen\.mjs$"
           PFADE="$PFADE|^tools/suchhinweis-quickfix-pruefen\.mjs$"
+          PFADE="$PFADE|^tools/tempo-kern\.mjs$"
           PFADE="$PFADE|^tools/termin-karte-urteil\.mjs$"
           PFADE="$PFADE|^tools/trefferprobe-ausnahmen\.mjs$"
           PFADE="$PFADE|^tools/trefferprobe-browser\.mjs$"
