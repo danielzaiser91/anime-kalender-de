@@ -83,8 +83,8 @@ export function wegeHinweisVon({ title, antwort, favorites, verbindung, releases
 export function kastenNotizVon(releases: Release[], today: string): Release | undefined {
   const mitNotiz = releases.filter(
     (r) =>
-      r.note &&
-      /* Die Notiz des Kinostarts steht im Banner darüber. */
+      r.hinweis &&
+      /* Der Hinweis des Kinostarts steht im Banner darüber. */
       !(r.platform === 'kino' && (r.cinemaUntil ? r.cinemaUntil >= today : (r.schedule?.firstEpisodeDate ?? '') >= addDays(today, -60))),
   )
   if (!mitNotiz.length) return undefined

@@ -215,7 +215,7 @@ export function body(
       <h1 style="font-size:1.6rem;margin:0 0 .5rem;color:#fff;">${esc(release.name)}</h1>
       <p style="margin:0 0 1rem;color:#9aa5bd;">${esc(fakten.join(' · '))}</p>${namenZeile(title, release.name)}
       ${synopsenAbsatz(synopsis)}
-      ${release.note ? `<p style="margin:0 0 1.5rem;color:#9aa5bd;">${esc(release.note)}</p>` : ''}
+      ${release.hinweis ? `<p style="margin:0 0 1.5rem;color:#9aa5bd;">${esc(release.hinweis)}</p>` : ''}
       <h2 style="font-size:1.1rem;margin:0 0 .5rem;color:#fff;">${termineUeberschrift(title)}</h2>
       <ul style="margin:0 0 1.5rem;padding-left:1.2rem;">
         ${termine || '<li>Noch kein Termin erfasst.</li>'}
