@@ -89,7 +89,7 @@ pruefe('Kontrolle: ohne Seitentitel lässt sich nichts widerlegen, der bisherige
 const staffelNeu = { adresse: 'B0NEU', id: 'B0NEU', titel: 'Dr. Stone' }
 const namensfall = (listeneintrag, erledigtEintrag, seite = staffelNeu) =>
   seiteBauen(seite, { B0ALT: listeneintrag }, erledigtEintrag ? { B0ALT: erledigtEintrag } : {})('B0ALT') === 'B0ALT'
-pruefe('Name nur im Erledigten (Liste trägt einen anderen): derselbe Eintrag', namensfall({ titel: 'Steinzeit' }, { serie: 'Dr. Stone' }))
+pruefe('Name nur im Erledigten (Liste trägt einen anderen): derselbe Eintrag', namensfall({ titel: 'Steinzeit' }, { serie: 'Dr. Stone – Staffel 3' }))
 pruefe('Name nur im Serienfeld der Liste', namensfall({ titel: 'Steinzeit', serie: 'Dr. Stone' }))
 pruefe('Name nur in den Einträgen der Liste', namensfall({ titel: 'Steinzeit', eintraege: [{ name: 'Dr. Stone' }] }))
 pruefe('Eintrag heißt länger als die Seite („Dr. Stone: Ryusui")', namensfall({ titel: 'Dr. Stone: Ryusui' }))

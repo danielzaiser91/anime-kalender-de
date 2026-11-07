@@ -974,6 +974,32 @@ Klickstellen. `suchauftragMerken()` hebt zwei Zeilen darüber schon das
 Weglegen auf, mit genau dieser Begründung: „Ein Vorsatz an den Klickstellen wäre
 bei der dritten vergessen." Er war bei allen vieren vergessen.
 
+## Ein „bisheriger Eintrag" überlebt den Seitenwechsel nur für dieselbe Serie (07.11.2026)
+
+Daniel am 07.11.2026 auf „Devils' Crest" (B0HKLZZ54Y, nicht in der Prüfliste): Beim ersten Aufruf kein Melden-Knopf
+(unbekannter Titel: „Weg statt grau", gewollt), nach dem Weg über „Petals of Reincarnation" (B0GVN98MKW, in der Liste)
+und zurück ein Knopf, dessen Klick nichts tat, und `aniSearch` ragte rechts aus dem Kasten. Die Diagnose zeigte
+`zustand.id` = Devils' Crest, aber `listenId` und `eintrag` = Petals. Ursache: `listenSchluessel(bisher)` gibt den
+bisherigen Eintrag zurück, wenn er in der Liste steht — gedacht für den Staffelwechsel derselben Serie, galt aber für
+jeden Seitenwechsel. Der Kasten nannte dann Petals, die Meldung trug den Titel „Petals" zur Adresse von Devils' Crest,
+und `akPrimeMeldungWiderspruch` wies den Klick ab, ohne dass der Besucher einen Grund sah.
+
+- **Regel:** Ein Rückfall auf „den bisherigen Wert" (`bisher`, `letzte…`, `vorher…`) gilt erst, wenn ein zweites Merkmal
+  zeigt, dass die Seite dieselbe Serie ist (`akPrimeEintragGehoertZurSeite`, Titelkern wie `serieBekannt`).
+- **Ein Klick ohne Wirkung zeigt einen Grund** (`abweisenMitGrund` → `akPrimeGrundZeigen`: „⚠ <Grund>" am Knopf, vier
+  Sekunden). Bloßes `abweisen()` ist nur für den Durchgang gedacht, der den Grund ohnehin liest.
+- **Der Prüffall ist A → B → A mit einer Liste, die nur B kennt** (`amazon-melden-spa-wechsel.test.cjs`). Der Test von
+  4.32.39 (`amazon-prime-wechsel`) fasste A → B, gab `listenId` aber fest vor — der Zustand, der den Fehler trug, kam in
+  der Kulisse gar nicht vor. **Eine SPA-Kulisse darf keinen Wert fest vorgeben, den der Wechsel verändert** (`id`,
+  `listenId`, `eintrag`); sie lässt die echte Funktion ihn rechnen.
+- **Layout:** `.ak-such-fuss-mitte` schrumpft (`flex: 0 1 max-content`) und bricht um, statt `aniSearch` aus dem Kasten
+  zu schieben. `tools/melder-kasten-bild.mjs` misst den Überstand der rechten Pille für Daniels echten Text
+  („48 Prime-Titel · 2 Suchen offen · Liste veraltet") und eine so lange Beschriftung, dass es in jeder Schrift gilt.
+- **Diagnose:** `knopfLage.imKasten` fragte nach dem Elternelement des Knopfes (`ak-z-melden`) und meldete im Kasten
+  stets `false`; jetzt `closest('.ak-amazon-suchhinweis')`.
+- **Offen (Entscheidung Daniel):** Eine unbekannte Prime-Seite (nicht in der ausgelieferten Prüfliste) zeigt weiter
+  keinen Knopf. Soll dort ein Kasten „nicht auf der Prüfliste" stehen? Das ist eine Änderung der Regel „Weg statt grau".
+
 ## Wer einen Fehlalarm abstellt, muss sagen, was der Wächter noch fangen soll
 
 Am 09.09.2026 stand auf frisch geladenen Seiten mit **einer** Staffel die
