@@ -85,3 +85,13 @@ export function loeseAdnTitelIds(shows: AdnShow[], titles: Map<number, Title>): 
     show.titleId = undefined
   }
 }
+
+/**
+ * Kalender und Katalog zusammen, der Kalender gewinnt. Steht dieselbe Serie im Katalog mit gelöster `titleId` (der Kalender trägt keine `anisearchId`),
+ * übernimmt der Kalender-Eintrag sie — sonst verlor Madoka Film 3 (Show 1321) am 06.11.2026 seinen ADN-Weg, als sie im Kalenderfenster erschien.
+ */
+export function adnShowsMitKatalogKennung(kalender: AdnShow[], katalog: AdnShow[]): AdnShow[] {
+  const katalogTitel = new Map(katalog.map((k) => [k.showId, k.titleId]))
+  const ausKalender = kalender.map((s) => ({ ...s, titleId: s.titleId ?? katalogTitel.get(s.showId) }))
+  return [...ausKalender, ...katalog.filter((k) => !kalender.some((s) => s.showId === k.showId))]
+}

@@ -15,6 +15,8 @@ import { pillenZiel } from './pillen-ziel.ts'
 import { seitAbText } from './seit-datum.ts'
 import { kaufTextSchluessel, kurzeAusgabe } from './disc-ausgabe.ts'
 import { tvQuelle } from './tv-quelle.ts'
+import { liveAdresse } from '../../lib/live-adresse.ts'
+import { LiveLink } from './live-link.tsx'
 
 type TvText = ReturnType<typeof tvAngabe>
 
@@ -264,6 +266,7 @@ export function TerminZeile({ release, titel, today, tvText, deutsch }: {
   const zweite = [release.publisher, kurzeAusgabe(release.edition)].filter(Boolean).join(' · ')
   const text = [zweite, deutsch?.folgen || fortschrittVon(release, t), terminTeil(release, tvText, today, t)].filter(Boolean).join(' · ')
   const tvLink = tv ? programmZiel(release, tvText, t) : undefined
+  const live = tv ? liveAdresse(release.sender) : undefined
   const unten = (
     <>
       {tvText?.laeuft && <LaeuftZeile laeuft={tvText.laeuft} t={t} />}
@@ -285,6 +288,7 @@ export function TerminZeile({ release, titel, today, tvText, deutsch }: {
       status={deutsch ? <DubStatus art="belegt" /> : undefined}
       aktion={
         <>
+          {live && <LiveLink url={live.url} hinweis={t('tv.live', { name: live.name })} />}
           {tvLink && <ProgrammLink href={tvLink.href} hinweis={tvLink.hinweis} />}
           <MerkenKnopf release={release} today={today} zeile />
         </>

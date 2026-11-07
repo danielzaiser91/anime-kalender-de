@@ -7,7 +7,7 @@ import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
-import { basisFehlt, urteil } from './check-dub-lesart.ts'
+import { basisFehlt, lauf as dubLauf, urteil } from './check-dub-lesart.ts'
 import { dubLesart, dubLesungen, offeneLesungen } from './lib/dub-lesart.ts'
 
 const wurzel = resolve(import.meta.dirname, '..')
@@ -74,7 +74,7 @@ pruefe('Basis fehlt: ohne CI keine Meldung', basisFehlt(undefined, false) === un
 pruefe('Basis da: in CI keine Meldung', basisFehlt({ offen: 1, marken: 1 }, true) === undefined)
 pruefe('Urteil: Basis gleich ist in Ordnung', urteil(ST(2, 3), { offen: 2, marken: 3 }, { offen: 2, marken: 3 }).length === 0)
 
-// Prozess gegen Wegwerf-Wurzel
+// Wächter gegen Wegwerf-Wurzel (ohne Prozess; die Fälle „Prozess: neue Lesung in pipeline/bau“ und „echter Bestand“ starten einen echten)
 function kulisseAnlegen(dateien: Record<string, string>, grenzen: { offen: number; marken: number }): string {
   const kulisse = mkdtempSync(join(tmpdir(), 'dub-lesart-'))
   mkdirSync(join(kulisse, 'shared'))
@@ -85,40 +85,51 @@ function kulisseAnlegen(dateien: Record<string, string>, grenzen: { offen: numbe
   return kulisse
 }
 
+/** Der Lauf ohne Prozess (Argumente, CI-Kennzeichen, Ausgabe als Parameter); Verdrahtung und Exit-Code prüfen die Fälle mit `wachterProzess`. */
 function wachter(kulisse: string, extra: string[] = [], ci = false): { status: number | null; aus: string } {
+  const zeilen: string[] = []
+  const status = dubLauf(['--wurzel', kulisse, ...extra], ci, { log: (z) => zeilen.push(z), error: (z) => zeilen.push(z) })
+  return { status, aus: `${zeilen.join('\n')}\n` }
+}
+
+function wachterProzess(kulisse: string, extra: string[] = [], ci = false): { status: number | null; aus: string } {
   const env = { ...process.env }
   if (ci) env.CI = 'true'
   else delete env.CI
-  const l = spawnSync(process.execPath, [tsx, join(wurzel, 'pipeline/check-dub-lesart.ts'), '--wurzel', kulisse, ...extra], { encoding: 'utf8', timeout: 120_000, cwd: kulisse, env })
+  const l = spawnSync(process.execPath, [tsx, join(wurzel, 'pipeline/check-dub-lesart.ts'), '--wurzel', kulisse, ...extra], { encoding: 'utf8', timeout: 120_000, cwd: tmpdir(), env })
   return { status: l.status, aus: `${l.stdout}${l.stderr}` }
 }
 
-function lauf(dateien: Record<string, string>, grenzen: { offen: number; marken: number }): { status: number | null; aus: string } {
+function lauf(dateien: Record<string, string>, grenzen: { offen: number; marken: number }, prozess = false): { status: number | null; aus: string } {
   const kulisse = kulisseAnlegen(dateien, grenzen)
   try {
-    return wachter(kulisse)
+    return prozess ? wachterProzess(kulisse) : wachter(kulisse)
   } finally {
     rmSync(kulisse, { recursive: true, force: true })
   }
 }
 
 const MARKIERT = fn(['return t.streams.some((s) => s.dub === true) // dub-lesart: handbeleg'])
-const neu = lauf({ 'pipeline/bau/neu.ts': ROH }, { offen: 0, marken: 0 })
+const neu = lauf({ 'pipeline/bau/neu.ts': ROH }, { offen: 0, marken: 0 }, true)
 pruefe('Prozess: neue Lesung in pipeline/bau bei Grenze 0 ist rot, nennt Datei:Zeile', neu.status === 1 && neu.aus.includes('pipeline/bau/neu.ts:2'), neu.aus)
+const kulisseListe = kulisseAnlegen({ 'pipeline/bau/neu.ts': ROH }, { offen: 0, marken: 0 })
+const liste = wachter(kulisseListe, ['--liste'])
+rmSync(kulisseListe, { recursive: true, force: true })
+pruefe('Lauf: --liste nennt die offenen Stellen und bleibt trotz Überschreitung der Grenze bei Exit 0', liste.status === 0 && liste.aus.includes('pipeline/bau/neu.ts:2') && !liste.aus.includes('dub-lesart:'), liste.aus)
 const ausShared = lauf({ 'shared/neu.ts': ROH }, { offen: 0, marken: 0 })
-pruefe('Prozess: neue Lesung in shared ist rot', ausShared.status === 1 && ausShared.aus.includes('shared/neu.ts:2'), ausShared.aus)
+pruefe('Lauf: neue Lesung in shared ist rot', ausShared.status === 1 && ausShared.aus.includes('shared/neu.ts:2'), ausShared.aus)
 const gedeckt = lauf({ 'pipeline/bau/neu.ts': fn(['return s.dub === true && !s.dubAbgeleitet']), 'shared/neu.ts': MARKIERT }, { offen: 0, marken: 1 })
-pruefe('Prozess: Stelle über dubAbgeleitet oder mit Marke bleibt grün', gedeckt.status === 0 && gedeckt.aus.includes('0 offene') && gedeckt.aus.includes('1 Marken'), gedeckt.aus)
+pruefe('Lauf: Stelle über dubAbgeleitet oder mit Marke bleibt grün', gedeckt.status === 0 && gedeckt.aus.includes('0 offene') && gedeckt.aus.includes('1 Marken'), gedeckt.aus)
 const genau = lauf({ 'pipeline/bau/neu.ts': ROH }, { offen: 1, marken: 0 })
-pruefe('Prozess: genau an der Grenze (1 von 1) grün', genau.status === 0 && genau.aus.includes('1 offene Lese-Stellen (höchstens 1)'), genau.aus)
+pruefe('Lauf: genau an der Grenze (1 von 1) grün', genau.status === 0 && genau.aus.includes('1 offene Lese-Stellen (höchstens 1)'), genau.aus)
 const zwei = lauf({ 'pipeline/bau/a.ts': ROH, 'pipeline/bau/b.ts': ROH }, { offen: 1, marken: 0 })
-pruefe('Prozess: eine Stelle über der Grenze (2 von 1) rot', zwei.status === 1, zwei.aus)
+pruefe('Lauf: eine Stelle über der Grenze (2 von 1) rot', zwei.status === 1, zwei.aus)
 const zuHoch = lauf({ 'pipeline/bau/neu.ts': ROH }, { offen: 2, marken: 0 })
-pruefe('Prozess: Grenze über dem Zählstand rot mit „auf 1 senken“ (A8)', zuHoch.status === 1 && zuHoch.aus.includes('auf 1 senken'), zuHoch.aus)
+pruefe('Lauf: Grenze über dem Zählstand rot mit „auf 1 senken“ (A8)', zuHoch.status === 1 && zuHoch.aus.includes('auf 1 senken'), zuHoch.aus)
 const tot = lauf({ 'pipeline/bau/neu.ts': TOT }, { offen: 0, marken: 1 })
-pruefe('Prozess: Marke ohne Lesung ist rot (A4)', tot.status === 1 && tot.aus.includes('Marke ohne Lesung'), tot.aus)
+pruefe('Lauf: Marke ohne Lesung ist rot (A4)', tot.status === 1 && tot.aus.includes('Marke ohne Lesung'), tot.aus)
 const zwanzigste = lauf({ 'pipeline/bau/neu.ts': MARKIERT, 'shared/x.ts': MARKIERT }, { offen: 0, marken: 1 })
-pruefe('Prozess: eine Marke mehr als die Grenze ist rot (A4)', zwanzigste.status === 1 && zwanzigste.aus.includes('Mehr Marken'), zwanzigste.aus)
+pruefe('Lauf: eine Marke mehr als die Grenze ist rot (A4)', zwanzigste.status === 1 && zwanzigste.aus.includes('Mehr Marken'), zwanzigste.aus)
 
 // Basisvergleich mit echtem git (Wegwerf-Repo): Grenze im Zweig angehoben, Basis niedriger
 function git(kulisse: string, ...args: string[]): void {
@@ -130,32 +141,21 @@ try {
   git(gitKulisse, 'add', '-A')
   git(gitKulisse, 'commit', '-q', '-m', 'basis')
   const ohneAnheben = wachter(gitKulisse, ['--basis', 'HEAD'])
-  pruefe('Prozess mit git: Grenze gleich der Basis grün', ohneAnheben.status === 0 && ohneAnheben.aus.includes('Basisvergleich ja'), ohneAnheben.aus)
+  pruefe('Lauf mit git: Grenze gleich der Basis grün', ohneAnheben.status === 0 && ohneAnheben.aus.includes('Basisvergleich ja'), ohneAnheben.aus)
   writeFileSync(join(gitKulisse, 'pipeline/bau/b.ts'), ROH)
   writeFileSync(join(gitKulisse, 'tools/dub-lesart-grenzen.json'), JSON.stringify({ offen: 2, marken: 0 }))
   const angehoben = wachter(gitKulisse, ['--basis', 'HEAD'])
-  pruefe('Prozess mit git: neue Lesung samt angehobener Grenze ist rot (A8)', angehoben.status === 1 && angehoben.aus.includes('Basis erhöht'), angehoben.aus)
+  pruefe('Lauf mit git: neue Lesung samt angehobener Grenze ist rot (A8)', angehoben.status === 1 && angehoben.aus.includes('Basis erhöht'), angehoben.aus)
   const ohneBasis = wachter(gitKulisse, ['--basis', 'gibt-es-nicht'])
-  pruefe('Prozess mit git: unlesbare Basis entfällt, Zählstand zählt weiter', ohneBasis.status === 0 && ohneBasis.aus.includes('Basisvergleich entfällt'), ohneBasis.aus)
-  const ciOhneBasis = wachter(gitKulisse, ['--basis', 'gibt-es-nicht'], true)
-  pruefe('Prozess mit git: in CI ohne Basis ist rot (A8)', ciOhneBasis.status === 1 && ciOhneBasis.aus.includes('entfällt in CI'), ciOhneBasis.aus)
+  pruefe('Lauf mit git: unlesbare Basis entfällt, Zählstand zählt weiter', ohneBasis.status === 0 && ohneBasis.aus.includes('Basisvergleich entfällt'), ohneBasis.aus)
+  const ciOhneBasis = wachterProzess(gitKulisse, ['--basis', 'gibt-es-nicht'], true)
+  pruefe('Prozess mit git: in CI (Umgebung CI=true) ohne Basis ist rot (A8)', ciOhneBasis.status === 1 && ciOhneBasis.aus.includes('entfällt in CI'), ciOhneBasis.aus)
   git(gitKulisse, 'add', '-A')
   git(gitKulisse, 'commit', '-q', '-m', 'angehoben')
   const ciMitBasis = wachter(gitKulisse, ['--basis', 'HEAD~1'], true)
-  pruefe('Prozess mit git: in CI mit Basis ist die Zeile „Basisvergleich ja“ und der Vergleich greift', ciMitBasis.status === 1 && ciMitBasis.aus.includes('Basisvergleich ja') && ciMitBasis.aus.includes('Basis erhöht'), ciMitBasis.aus)
+  pruefe('Lauf mit git: in CI mit Basis ist die Zeile „Basisvergleich ja“ und der Vergleich greift', ciMitBasis.status === 1 && ciMitBasis.aus.includes('Basisvergleich ja') && ciMitBasis.aus.includes('Basis erhöht'), ciMitBasis.aus)
 } finally {
   rmSync(gitKulisse, { recursive: true, force: true })
-}
-
-// Grenzdatei erst in diesem PR: Basis lesbar, aber ohne Datei; in CI grün mit eigener Zeile, nicht „entfällt“
-const neuKulisse = kulisseAnlegen({ 'pipeline/bau/a.ts': ROH }, { offen: 1, marken: 0 })
-try {
-  git(neuKulisse, 'init', '-q')
-  git(neuKulisse, 'commit', '-q', '--allow-empty', '-m', 'leer')
-  const neuInCi = wachter(neuKulisse, ['--basis', 'HEAD'], true)
-  pruefe('Prozess mit git: Basis ohne Grenzdatei ist in CI grün („Grenzdatei neu“)', neuInCi.status === 0 && neuInCi.aus.includes('Grenzdatei neu'), neuInCi.aus)
-} finally {
-  rmSync(neuKulisse, { recursive: true, force: true })
 }
 
 const echt = spawnSync(process.execPath, [tsx, join(wurzel, 'pipeline/check-dub-lesart.ts')], { encoding: 'utf8', timeout: 120_000 })

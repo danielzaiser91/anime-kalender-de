@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-11-05T10:23:50.596Z",
+  "generatedAt": "2026-11-07T16:32:31.943Z",
   "titleCount": 2923,
-  "belegtCount": 2587,
-  "releaseCount": 870,
-  "eventCount": 4366,
+  "belegtCount": 2586,
+  "releaseCount": 888,
+  "eventCount": 4405,
   "genres": [
     "Action",
     "Adventure",
@@ -200,25 +200,25 @@
     "Amazon (DVD / Blu-ray)",
     "Arthouse CNMA",
     "Sky Go",
-    "bücher.de",
     "filmfriend",
     "Chili",
+    "bücher.de",
     "Kixi",
+    "Pluto TV",
     "Amazon Prime (ADN)",
     "Amazon Prime (Pokémon TV)",
     "Shahid VIP",
     "Netzkino",
-    "Pluto TV",
-    "Amazon Prime (ProSieben Fun)",
     "Kino On Demand",
     "Netflix",
-    "Thalia",
+    "Amazon Prime (ProSieben Fun)",
+    "Plex",
     "ADN",
     "Amazon (Blu-ray)",
     "Amazon (DVD)",
     "Amazon (Trilogie, 3 DVDs)",
     "Hbo Max",
-    "Hugendubel",
+    "Thalia",
     "Verleihshop (Leih-DVD)",
     "Videobuster (Leih-Disc)",
     "ZDF",
@@ -228,7 +228,6 @@
     "Jpc",
     "Paramount+",
     "Paramount+ über Apple TV",
-    "Plex",
     "Verleihshop",
     "Verleihshop (Leih-Blu-ray)",
     "Zavvi",
@@ -245,13 +244,13 @@
     "Ard Plus Apple Tv Channel",
     "Buy Zoxs",
     "Filmzie",
+    "Hugendubel",
     "Justwatch Tv Plus",
     "Kika",
     "KSM Anime — Complete Edition (AKIBA PASS Shop)",
     "Plex Channel",
     "Plex Player",
     "Pokémon TV",
-    "Rtl+",
     "Vimeo"
   ],
   "years": [
@@ -267,9 +266,13 @@
     2018,
     2017,
     2016,
-    2015
+    2015,
+    2011,
+    2010,
+    2009,
+    2008
   ],
-  "patchnotesStand": "2026-11-05",
+  "patchnotesStand": "2026-11-07",
   "attribution": [
     "Dub-Daten: MyDubList (https://mydublist.com) — CC BY 4.0",
     "Metadaten: AniList (https://anilist.co)",
@@ -279,13 +282,5 @@
     "Termine: aniSearch, Anime2You — siehe Quellenangabe je Eintrag",
     "Markenzeichen der Anbieter: simple-icons (https://simpleicons.org) — CC0, Wikimedia Commons (https://commons.wikimedia.org) — gemeinfrei, ADN-Wortmarke aus der französischen Wikipedia, maxdome-Zeichen nach „Maxdome Logo (2021)“ von videociety GmbH (CC BY-SA 4.0, zugeschnitten); die Marken gehören ihren Inhabern",
     "Welche Folgen auf Netflix eine deutsche Tonspur haben: Streaming Availability API (https://www.movieofthenight.com/about/api)"
-  ],
-  "quarantaene": [
-    {
-      "titleId": 106896,
-      "pruefung": "cr-ja-deckung",
-      "grund": "Crunchyroll-Ja ohne Deckung",
-      "releases": []
-    }
   ]
 }

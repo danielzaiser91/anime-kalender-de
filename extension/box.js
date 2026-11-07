@@ -309,11 +309,16 @@ const akKlickZiele = new Set()
 let akKlickHoerer = false
 
 function akKlickVerteilen(e) {
-  for (const ziel of [...akKlickZiele]) {
-    const el = ziel.el
+  const treffer = [...akKlickZiele].filter(({ el }) => {
     const getroffen = e.target === el || (e.target && el.contains?.(e.target))
-    if (!getroffen || el.disabled === true || el.ariaDisabled === 'true') continue
+    return getroffen && el.disabled !== true && el.ariaDisabled !== 'true'
+  })
+  /* Wie beim Aufsteigen: das tiefste Element zuerst, und ein `stopPropagation()` hält die äußeren auf. */
+  treffer.sort((a, b) => (a.el.contains?.(b.el) && a.el !== b.el ? 1 : b.el.contains?.(a.el) && a.el !== b.el ? -1 : 0))
+  const schonGestoppt = e.cancelBubble
+  for (const ziel of treffer) {
     ziel.aktion(e)
+    if (!schonGestoppt && e.cancelBubble) break
   }
 }
 
@@ -332,6 +337,19 @@ function akKlick(el, aktion) {
       entfernen()
     }
   }
+}
+
+/** Entfernt `wurzel` und meldet alle Knöpfe darunter ab (Dialog zu): als Kinder blieben sie sonst samt abgehängtem Teilbaum in der Menge. */
+function akKlickEntfernen(wurzel) {
+  for (const ziel of [...akKlickZiele]) {
+    if (wurzel.contains?.(ziel.el)) akKlickZiele.delete(ziel)
+  }
+  wurzel.remove()
+}
+
+/** Anzahl angemeldeter Knöpfe (Test: bleibt nach Öffnen und Schließen des Dialogs gleich). */
+function akKlickZahl() {
+  return akKlickZiele.size
 }
 
 function akIconStarten() {

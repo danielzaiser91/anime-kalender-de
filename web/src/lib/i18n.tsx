@@ -159,11 +159,6 @@ const TEXTE = {
   'card.missedCheck': 'wir sehen mehrmals täglich nach',
   'card.missedLateBadge': 'kam {d}',
 
-  'filter.mode': 'Klick-Modus',
-  'filter.modeInclude': 'Auswählen',
-  'filter.modeExclude': 'Ausschließen',
-  'filter.modeIncludeHint': 'Ein Klick behält nur, was dieses Tag trägt.',
-  'filter.modeExcludeHint': 'Ein Klick entfernt alles, was dieses Tag trägt.',
   'filter.button': 'Filter',
   'filter.reset': 'zurücksetzen',
   'filter.platform': 'Plattform',
@@ -690,8 +685,9 @@ const TEXTE = {
   'filter.schnell.disc': 'Disc',
   'filter.schnell.verfuegbar': 'verfügbar',
   'filter.schnell.cartoon': 'Cartoon',
-  'filter.schnell.ja': 'Nur anzeigen',
-  'filter.schnell.nein': 'Ausblenden',
+  'filter.zustand.nichts': 'nicht gewählt',
+  'filter.zustand.ja': 'ausgewählt',
+  'filter.zustand.nein': 'ausgeschlossen',
   'filter.kostenlosHint': 'Nur Titel mit kostenlosen Folgen, etwa bei TOGGO oder YouTube.',
   'filter.availableHint':
     'Filtert Ergebnisse auf bestätigte Streaming-Verfügbarkeit.',
@@ -709,6 +705,7 @@ const TEXTE = {
   'tv.premiereHinweis': 'Erstmals auf Deutsch, im TV. Nicht verpassen!',
   'tv.laeuft': 'Läuft',
   'tv.imProgramm': 'Im TV-Programm',
+  'tv.live': 'Live auf {name}',
   'tv.quelle': 'Quelle des Termins: {name}',
   // Der Anbieter führt den Titel, die Adresse kennt nur TMDB — der Klick landet dort (22.09.2026).
   'detail.ueberTmdb': '{name} (über TMDB)',

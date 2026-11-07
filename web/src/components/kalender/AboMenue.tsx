@@ -7,7 +7,7 @@ import { InstallZeile } from '../InstallPrompt.tsx'
 import { pushAktivGemerkt, pushAusschalten, pushEinschalten, pushMoeglich } from '../../lib/push.ts'
 import { Schwebe } from './Schwebe.tsx'
 import { BurgerZeichen, GlockenZeichen, KalenderZeichen, PostZeichen, ZahnradZeichen } from './Zeichen.tsx'
-import { Schalter } from './FilterFeld.tsx'
+import { Schalter } from './Schalter.tsx'
 
 /**
  * **Burger-Menü oben rechts** (seit 27.10.2026, vorher Glocken-Knopf): Kalender-Abo, Newsletter,

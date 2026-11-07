@@ -18,6 +18,7 @@ import { coverFuer } from './cover-regel.ts'
 import { bewertungNachRegel, mitProduktFeldern } from './produkt-regel.ts'
 import { todayIso, addDays } from '../../shared/time.ts'
 import { ohneGesperrte } from './sperre.ts'
+import { ohneEigene } from '../../shared/eigene-titel.ts'
 import { ersterDeutscherTermin } from '../../shared/tv-signale.ts'
 import { eigenesJa, zaehltAlsDeutscherTermin } from '../lib/news.ts'
 import { quellenName, quellenZusammenfuehren, type Vorschlag, meldungenAus } from '../lib/meldungen.ts'
@@ -26,6 +27,7 @@ import { mitArtikeldaten, type BelegGedaechtnis } from '../lib/beleg-lesung.ts'
 import { behalteLesetag, ladeAdnLesetage, mitLesetag, ohneFehlzuordnung } from './adn-lesetag.ts'
 import { keinAnimeFehler, keinAnimeVonHand } from './ohne-beleg.ts'
 import { ordneCartoonReihen } from './cartoon-reihen.ts'
+import { markiereCartoonReihenteile } from './reihenteil-markierung.ts'
 import { adnShowsLesen, ergaenzeAdnWege } from './cartoon-adn.ts'
 import { setzeStaffeln, staffelnAusBelegen } from './cartoon-staffeln.ts'
 import { verteileWege } from './cartoon-wege.ts'
@@ -192,6 +194,7 @@ export function schreibeCartoons(): void {
   kennzeichneCartoonJwSeiten(titel, belege)
   verteileWege(titel, jw, ungeprueft)
   ordneCartoonReihen(titel)
+  markiereCartoonReihenteile(titel)
   writeJson(`${OUT}/cartoons.json`, titel)
   log(`${titel.length} westliche Animationsserien geschrieben`)
 }
@@ -574,7 +577,7 @@ export function schreibeNeuMitSynchro(titles: Title[], releases: Release[]): voi
     ein Neuzugang **des Bestands**, und darüber gibt es nichts zu melden.
   */
   const belegteSynchro = (t: Title) => belegteDeutscheSynchro(t, ersterTermin, heute)
-  const neu = ohneGesperrte(titles)
+  const neu = ohneEigene(ohneGesperrte(titles))
     .filter((t) => {
       const seit = historie.seit[t.id]
       // Der Ausgangsstand ist kein Neuzugang, egal wie jung sein Datum ist.

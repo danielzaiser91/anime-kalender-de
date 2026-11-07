@@ -35,7 +35,7 @@ function leseCi(k) {
   if (k.user?.login !== CI_BOT) return null
   const body = String(k.body ?? '')
   const m = CI_URTEIL.exec(body)
-  if (!m) return null
+  if (!m || m[2].startsWith('nicht beurteilt')) return null // „Kette lief noch“ ist kein Urteil: Modus und Auflagen bleiben die der Runde davor
   const marke = MARKE.exec(body.trimEnd().split('\n').at(-1))
   return { kopf: m[1].slice(0, 9), wort: m[2].split(',')[0], modus: marke ? marke[1] : 'voll', text: body }
 }

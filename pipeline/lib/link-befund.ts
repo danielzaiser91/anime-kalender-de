@@ -11,7 +11,23 @@
  * der **jüngste** Messwert entscheidet. Bau und `check:tote-adressen` benutzen beide diese Funktion,
  * damit die Regel nicht wieder auseinanderläuft.
  */
-import { adressKern } from './dub-confirmed.ts'
+import { adressGleich, adressKern, type DubCheck } from './dub-confirmed.ts'
+
+/**
+ * Eine jüngere Handprüfung derselben Adresse schlägt den Linkbefund (22.09.2026, Fairy Tail): Der Beleg nennt genau diese
+ * Adresse, ist jünger als `linkAm` und meldet die Seite nicht selbst als weg; oder der Weg ist in
+ * `verweise-von-hand.yaml` jünger bestätigt (`vonHandBelegtAm`: Adresskern → belegtAm). Bau und Wache nutzen diese eine Regel.
+ */
+export function handStichtGegenLink(
+  check: Pick<DubCheck, 'available' | 'url' | 'checkedAt'> | undefined,
+  linkAm: string,
+  streamUrl: string,
+  vonHandBelegtAm: ReadonlyMap<string, string>,
+): boolean {
+  if (check?.available === false) return false
+  const belegJuenger = Boolean(check?.url && adressGleich(check.url, streamUrl)) && String(check?.checkedAt ?? '') > linkAm
+  return belegJuenger || (vonHandBelegtAm.get(adressKern(streamUrl)) ?? '') > linkAm
+}
 
 export interface LinkBefund {
   status: number | string
@@ -19,6 +35,8 @@ export interface LinkBefund {
   geprueftAm?: string
   /** Netflix: Tag des ersten 404 einer Folge; solange nur dieses eine gemessen ist, steht der Befund auf `unklar`. */
   erstes404?: string
+  /** Netflix: das 404 stammt aus einem verrauschten Lauf und bestätigt nichts (`meldeWechsel`, `netflix-404-gate.ts`). */
+  rausch?: true
 }
 
 /**

@@ -1,3 +1,4 @@
+import { ohneGeteilteFilme } from '../lib/tmdb-eindeutig.ts'
 import { log, readJson, warn } from '../lib/util.ts'
 import { ladeAnisearchAbruf } from '../lib/anisearch-verworfen.ts'
 import { ladeKatalogEintraege } from '../lib/katalog-eingefroren.ts'
@@ -7,6 +8,7 @@ import type { DubConfidence, Title } from '../../shared/types.ts'
 import { anisearchHand } from './grundlagen.ts'
 import { anisearchKatalogPaare } from '../lib/anisearch-katalog-ids.ts'
 import { slugify } from '../lib/util.ts'
+import { aufgenommeneSeiten } from '../lib/anisearch-aufgenommen.ts'
 
 /**
  * **Titel, die nur bei aniSearch stehen** (Daniel, 06.10.2026: „wir nehmen alle Kennungen von aniSearch und tragen alle Titel so ein, wie
@@ -74,8 +76,9 @@ const mitDeutsch = (dub?: string): boolean => dub === 'd' || dub === 'p' || dub 
  * Eigenkennungen, die ein Katalog-Lauf nachträglich einem AniList-Titel zugeordnet hat: Der Titel zieht um, er geht nicht verloren.
  * Führt aniSearch Deutsch (d/p/c), muss der Nachfolger im `hauptbestand` stehen; ohne Deutsch genügt `hinterToggle`.
  */
-export function anisearchUmgezogen(hauptbestand: Set<number>, hinterToggle: Set<number>, zuordnung: Zuordnung = zuordnungen(), eintraege: Record<string, Eintrag> = alle()): Set<number> {
+export function anisearchUmgezogen(hauptbestand: Set<number>, hinterToggle: Set<number>, zuordnung: Zuordnung = zuordnungen(), eintraege: Record<string, Eintrag> = alle(), aufgenommen: Record<number, number> = aufgenommeneSeiten): Set<number> {
   const umgezogen = new Set<number>()
+  for (const [seite, titel] of Object.entries(aufgenommen)) if (hauptbestand.has(titel)) umgezogen.add(ANISEARCH_ID_BASIS + Number(seite))
   for (const [anilist, z] of Object.entries(zuordnung)) {
     if (!z.anisearchId) continue
     const ziel = Number(anilist)
@@ -88,9 +91,10 @@ export function anisearchUmgezogen(hauptbestand: Set<number>, hinterToggle: Set<
  * Einträge mit Deutsch bei aniSearch (d/p/c), deren eigener oder zugeordneter AniList-Titel nicht im `hauptbestand` steht (Daniel, 08.10.2026:
  * Teilsynchro gehört in den Hauptbestand). Ausgenommen: noch nicht gestartet (Ankündigung bleibt hinter dem Toggle) und `ausgenommen` (Handurteil „keine Synchro").
  */
-export function dubNurHinterToggle(hauptbestand: Set<number>, heute: string, ausgenommen: Set<number> = new Set(), zuordnung: Zuordnung = zuordnungen(), eintraege: Record<string, Eintrag> = alle(), angekuendigt: Set<number> = new Set()): string[] {
+export function dubNurHinterToggle(hauptbestand: Set<number>, heute: string, ausgenommen: Set<number> = new Set(), zuordnung: Zuordnung = zuordnungen(), eintraege: Record<string, Eintrag> = alle(), angekuendigt: Set<number> = new Set(), aufgenommen: Record<number, number> = aufgenommeneSeiten): string[] {
   const anilistIds = new Map<number, number[]>()
   for (const [anilist, z] of Object.entries(zuordnung)) if (z.anisearchId) anilistIds.set(z.anisearchId, [...(anilistIds.get(z.anisearchId) ?? []), Number(anilist)])
+  for (const [seite, titel] of Object.entries(aufgenommen)) anilistIds.set(Number(seite), [...(anilistIds.get(Number(seite)) ?? []), titel])
   return Object.entries(eintraege)
     .filter(([schluessel, e]) => {
       if (!mitDeutsch(e.dub) || (e.von && e.von > heute)) return false
@@ -147,6 +151,7 @@ export function vergebeneSeiten(titles: Map<number, Title>): Set<number> {
     const ohneDeutsch = alle()[String(e.anisearchId)]?.dub === '-' && !(Number(anilistId) in anisearchHand)
     if (titles.has(Number(anilistId)) || ohneDeutsch) vergeben.add(e.anisearchId)
   }
+  for (const [seite, titel] of Object.entries(aufgenommeneSeiten)) if (titles.has(titel)) vergeben.add(Number(seite))
   return vergeben
 }
 
@@ -163,7 +168,7 @@ export function traegerJeSeite(): Map<number, number[]> {
  */
 export function ergaenzeAnisearchTitel(titles: Map<number, Title>, jpStart: Map<number, string>, jpStartAnzeige: Map<number, string>, frei: Set<number> = new Set()): number {
   /* Cover: die aniSearch-Bilder dürfen wir nicht weitergeben; wo TMDB ein Plakat zu Name und Jahr kennt (`fetch-tmdb-poster.ts`), steht es als Cover. */
-  const poster = readJson<Record<string, { p: string } | null>>('data/tmdb-poster.json', {})
+  const poster = ohneGeteilteFilme(readJson<Record<string, { p: string } | null>>('data/tmdb-poster.json', {}), 'Plakate (aniSearch-Titel)')
   const vergeben = vergebeneSeiten(titles)
   for (const asId of frei) vergeben.delete(asId)
   let neu = 0

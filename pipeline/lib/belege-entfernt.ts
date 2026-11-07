@@ -33,3 +33,26 @@ export function blockIstEntfernt(liste: readonly BelegEntfernt[], block: string[
     return false
   }
 }
+
+/** Ausnahmeliste-Eintrag zu einem Handbeleg: Kennung plus Seite (ASIN oder ganze Adresse). */
+export interface AusnahmeSchluessel {
+  liste: string
+  anilistId: number
+  seite: string
+}
+
+/** `<Kennung>@<Seite>` wie in `ALTFAELLE` und `NOTE_ASIN_ALTFAELLE`. */
+export function ausSchluessel(liste: string, schluessel: readonly string[]): AusnahmeSchluessel[] {
+  return schluessel.map((s) => ({ liste, anilistId: Number(s.slice(0, s.indexOf('@'))), seite: s.slice(s.indexOf('@') + 1) }))
+}
+
+/** Einträge, zu denen es in der Beleg-Datei keinen lebenden Beleg mehr gibt (fehlt oder steht in `belege-entfernt.yaml`); die Seite steht in Adresse oder Notiz („Amazon-Seite …“). */
+export function toteAusnahmen(
+  eintraege: readonly AusnahmeSchluessel[],
+  belege: readonly { anilistId?: number; url?: string; note?: string }[],
+  entfernt: readonly BelegEntfernt[],
+): string[] {
+  return eintraege
+    .filter((e) => !belege.some((b) => b.anilistId === e.anilistId && !!b.url && `${b.url} ${b.note ?? ''}`.toLowerCase().includes(e.seite.toLowerCase()) && !istEntfernt(entfernt, b.anilistId, b.url)))
+    .map((e) => `${e.liste}: ${e.anilistId}@${e.seite}`)
+}

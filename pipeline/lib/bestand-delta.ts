@@ -7,6 +7,17 @@ import type { Title } from '../../shared/types.ts'
 import { anzeigeName } from '../../shared/titles.ts'
 import { sperrKern, type BelegEntfernt } from './sperr-kern.ts'
 
+/** Ein fehlender Synchro-Beleg (Anbieter, „Titel (Kennung): Adresse", link-check-Eintrag). Hier statt in `bestand-link-abgang.ts`: dieses Modul läuft in `delta-wache.yml` ohne `npm ci` (kein js-yaml im Importgraph). */
+export interface LinkAbgang {
+  anbieter: string
+  text: string
+  befund?: string
+}
+export interface LinkAbgaenge {
+  begruendet: LinkAbgang[]
+  unerklaert: LinkAbgang[]
+}
+
 export interface Kennzahlen {
   titel: number
   titelMitVerweis: number
@@ -169,6 +180,39 @@ function kanalZuwachs(jetzt: Kennzahlen, vorher: Kennzahlen): { jeAnbieter: Reco
 }
 
 /**
+ * Titel, die ihr einziges Ja verloren haben: erklärt durch Kanal-Titel (Regel vom 11.10.2026) und durch gewollt entfernte
+ * Belege/Links (derselbe Verweis, der das Urteil erklärt: Kitarou 130622, Prime-Beleg am 05.11.2026); der Rest färbt rot.
+ */
+function titelOhneBeleg(titelWeg: number, kanalTitel: number, belegAbzug: number): Befund {
+  const weg = Math.max(0, titelWeg)
+  const kanal = Math.min(kanalTitel, weg)
+  const beleg = Math.min(belegAbzug, weg - kanal)
+  const rest = weg - kanal - beleg
+  const befund: Befund = { auffaellig: [], erklaert: [] }
+  if (rest > 0) {
+    befund.auffaellig.push(
+      `${rest} Titel ohne Synchro-Beleg` +
+        (kanal ? ` (${kanal} weitere durch Kanal-Titel herabgestuft)` : '') +
+        (beleg ? ` (${beleg} weitere durch gewollt entfernten Beleg)` : ''),
+    )
+  }
+  if (kanal) befund.erklaert.push(`${kanal} Titel ohne Synchro-Beleg, weil ihr Ja nur Amazons Sprachangabe auf einem Kanal-Titel war`)
+  if (beleg) befund.erklaert.push(`${beleg} Titel ohne Synchro-Beleg, weil ihr Beleg gewollt entfernt wurde`)
+  return befund
+}
+
+/** Verschwundene Titel: verschoben (hinter den Toggle) oder gewollt zusammengelegt (`zuAk`) ist begründet, der Rest ist „Titel weniger“; die Namen stehen in der Zeile. */
+function titelAbgang(weg: number, verschoben: string[], zusammengelegt: string[]): Befund {
+  const befund: Befund = { auffaellig: [], erklaert: [] }
+  const v = Math.min(weg, verschoben.length)
+  const z = Math.min(weg - v, zusammengelegt.length)
+  if (v) befund.erklaert.push(`${v} Titel verschoben nach ohne-synchro: ${verschoben.join(', ')}`)
+  if (z) befund.erklaert.push(`${z} Titel zusammengelegt (zuAk): ${zusammengelegt.join(', ')}`)
+  if (weg - v - z > 0) befund.auffaellig.push(`${weg - v - z} Titel weniger`)
+  return befund
+}
+
+/**
  * Was auffällt, steht im Klartext dabei.
  *
  * Die Schwellen sind bewusst niedrig: Lieber eine Zeile zu viel in der Historie
@@ -179,6 +223,8 @@ export function findeAuffaelliges(
   vorher: Kennzahlen | null,
   verschoben: string[] = [],
   gruende: Record<string, string> = {},
+  link: LinkAbgaenge = { begruendet: [], unerklaert: [] },
+  zusammengelegt: string[] = [],
 ): Befund {
   const auffaellig: string[] = []
   const erklaert: string[] = []
@@ -187,13 +233,12 @@ export function findeAuffaelliges(
   const kanal = kanalZuwachs(jetzt, vorher)
   /* Je Anbieter zuerst: Nur was ein Anbieter selbst an Kanal-Titeln zugelegt hat, erklärt auch Urteile (Prime-Kanäle erklären keine Netflix-Abnahme). */
   const je: Befund = { auffaellig: [], erklaert: [] }
-  const anbieter = anbieterBefunde(jetzt, vorher, kanal.jeAnbieter, je, { neue: neueBelege(jetzt, vorher), gruende })
+  const anbieter = anbieterBefunde(jetzt, vorher, kanal.jeAnbieter, je, { neue: neueBelege(jetzt, vorher), gruende, link })
 
   /* Verschoben nach ohne-synchro (hinter den Toggle) ist begründet, nicht verloren; die Namen stehen in der Zeile. */
-  const titelWeg0 = Math.max(0, -d('titel'))
-  const titelVerschoben = Math.min(titelWeg0, verschoben.length)
-  if (titelVerschoben) erklaert.push(`${titelVerschoben} Titel verschoben nach ohne-synchro: ${verschoben.join(', ')}`)
-  if (titelWeg0 - titelVerschoben > 0) auffaellig.push(`${titelWeg0 - titelVerschoben} Titel weniger`)
+  const abgang = titelAbgang(Math.max(0, -d('titel')), verschoben, zusammengelegt)
+  auffaellig.push(...abgang.auffaellig)
+  erklaert.push(...abgang.erklaert)
   /*
     Auch hier gegen das Gedächtnis gerechnet: Ein Urteil verschwindet in aller
     Regel mit dem Verweis, an dem es hing — und wenn der mit Grund entfernt
@@ -201,7 +246,7 @@ export function findeAuffaelliges(
     Wache, alle fünf erklärt.
   */
   const urteilWeg = -d('mitUrteil')
-  const urteilRest = urteilWeg - Math.max(0, d('entferntProtokolliert')) - anbieter.beleg
+  const urteilRest = urteilWeg - Math.max(0, d('entferntProtokolliert')) - anbieter.beleg - anbieter.link
   const urteilKanal = anbieter.kanal
   if (urteilRest - urteilKanal > 0) {
     auffaellig.push(
@@ -212,14 +257,9 @@ export function findeAuffaelliges(
   }
   /* Ein Titel, dessen einziges Ja an einem Kanal-Titel-Beleg hing, ist gewollt ohne Synchro-Beleg (Regel vom 11.10.2026). */
   const titelWeg = -d('titelMitSynchro')
-  const titelKanal = Math.min(kanal.titel, Math.max(0, titelWeg))
-  if (titelWeg - titelKanal > 0) {
-    auffaellig.push(
-      `${titelWeg - titelKanal} Titel ohne Synchro-Beleg` +
-        (titelKanal ? ` (${titelKanal} weitere durch Kanal-Titel herabgestuft)` : ''),
-    )
-  }
-  if (titelKanal) erklaert.push(`${titelKanal} Titel ohne Synchro-Beleg, weil ihr Ja nur Amazons Sprachangabe auf einem Kanal-Titel war`)
+  const ohneBeleg = titelOhneBeleg(titelWeg, kanal.titel, anbieter.beleg + anbieter.link)
+  auffaellig.push(...ohneBeleg.auffaellig)
+  erklaert.push(...ohneBeleg.erklaert)
   if (d('termine') < -20) auffaellig.push(`${-d('termine')} Termine weniger`)
   /*
     Ein Verweis, der verschwindet, ist oft richtig — tote Adressen und belegte
@@ -256,10 +296,11 @@ function anbieterBefunde(
   vorher: Kennzahlen,
   kanal: Record<string, number>,
   befund: Befund,
-  belege: { neue: string[]; gruende: Record<string, string> },
-): { kanal: number; beleg: number } {
+  belege: { neue: string[]; gruende: Record<string, string>; link: LinkAbgaenge },
+): { kanal: number; beleg: number; link: number } {
   let erklaertGesamt = 0
   let belegGesamt = 0
+  let linkGesamt = 0
   for (const [anbieter, zahl] of Object.entries(jetzt.jeAnbieter)) {
     const alt = vorher.jeAnbieter?.[anbieter] ?? 0
     if (zahl >= alt) continue
@@ -270,15 +311,18 @@ function anbieterBefunde(
     )
     const durchBeleg = belegErklaerung(anbieter, weg - begruendet, belege, befund)
     belegGesamt += durchBeleg
-    const rest = weg - begruendet - durchBeleg
+    const durchLink = linkErklaerung(anbieter, weg - begruendet - durchBeleg, belege.link, befund)
+    linkGesamt += durchLink
+    const rest = weg - begruendet - durchBeleg - durchLink
     const durchKanal = Math.min(kanal[anbieter] ?? 0, Math.max(0, rest))
     erklaertGesamt += durchKanal
     if (durchKanal) befund.erklaert.push(`${anbieter}: ${durchKanal} Synchro-Belege herabgestuft (Kanal-Titel, Amazons Sprachangabe)`)
     if (rest - durchKanal <= 0) continue
     befund.auffaellig.push(
       `${anbieter}: ${rest - durchKanal} Synchro-Belege weniger` +
-        (begruendet + durchBeleg ? ` (${begruendet + durchBeleg} weitere sind begründet entfernt)` : '') +
+        (begruendet + durchBeleg + durchLink ? ` (${begruendet + durchBeleg + durchLink} weitere sind begründet entfernt)` : '') +
         (durchKanal ? ` (${durchKanal} weitere durch Kanal-Titel herabgestuft)` : ''),
+      ...belege.link.unerklaert.filter((a) => a.anbieter === anbieter).map((a) => `${anbieter}: fehlt ${a.text} (${a.befund ?? 'kein link-check-Eintrag'})`),
     )
   }
   for (const [anbieter, alt] of Object.entries(vorher.jeAnbieter ?? {})) {
@@ -288,7 +332,15 @@ function anbieterBefunde(
       if (alt - durchBeleg > 0) befund.auffaellig.push(`${anbieter}: alle ${alt} Synchro-Belege weg`)
     }
   }
-  return { kanal: erklaertGesamt, beleg: belegGesamt }
+  return { kanal: erklaertGesamt, beleg: belegGesamt, link: linkGesamt }
+}
+
+/** Wie viele des Rückgangs `rest` bei diesem Anbieter die Linkprüfung entfernt hat (404/region); Titel und Adresse landen in `befund.erklaert`. */
+function linkErklaerung(anbieter: string, rest: number, link: LinkAbgaenge, befund: Befund): number {
+  const eigene = link.begruendet.filter((a) => a.anbieter === anbieter)
+  const n = Math.min(eigene.length, Math.max(0, rest))
+  for (const a of eigene.slice(0, n)) befund.erklaert.push(`${anbieter}: Weg durch Linkprüfung entfernt – ${a.text} (${a.befund})`)
+  return n
 }
 
 /** Schlüssel der Belege, die `data/belege-entfernt.yaml` seit der vorigen Zeile neu entzieht; ohne das Feld in einer der Zeilen nichts. */
