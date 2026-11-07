@@ -151,6 +151,8 @@ const rest16 = stand([zeile('2026-11-01', { gleich: 50 }), zeile('2026-11-08', {
 const rest155 = stand([zeile('2026-11-01', { gleich: 100 }), zeile('2026-11-08', { gleich: 69, nurClaude: 31 })])
 pruefe('Rest 15,5 % (31 von 200): nein', rest155.urteil === 'nein' && rest155.gruende.some((g) => g.startsWith('Restquote 15.5 %')), rest155)
 pruefe('Behauptungen zählen gleich und Fehlbelege zusammen', stand([zeile('2026-11-08', { gleich: 60, nurRegel: 3 })]).behauptungen === 63)
+const mitFehl = stand([zeile('2026-11-08', { gleich: 50, nurRegel: 10, nurClaude: 10 })])
+pruefe('Rest bezieht sich auf gleich + nurClaude, Fehlbelege zählen nicht mit (10 von 60)', Math.abs(mitFehl.restquote - 10 / 60) < 1e-9, mitFehl.restquote)
 const beides = stand([zeile('2026-11-08', { gleich: 2, nurRegel: 1 })])
 pruefe('Fehlbeleg bei zu wenig Daten: nein (vor offen)', beides.urteil === 'nein' && beides.gruende.length === 3, beides)
 pruefe('Rest über 15 % (20 von 120): nein', rest16.urteil === 'nein' && rest16.restquote > 0.15, rest16)
