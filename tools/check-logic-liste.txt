@@ -27,6 +27,7 @@ pipeline/check-adn-sprachriegel.ts
 pipeline/check-adn-titelliste-abruf.ts
 pipeline/check-adressen-schreiben.ts
 pipeline/check-adressen.ts
+pipeline/check-ak-umleitung-lauf.ts
 pipeline/check-aktualisierung-verborgen.ts
 pipeline/check-anbieter-logo.ts
 pipeline/check-angebot-feed.ts
