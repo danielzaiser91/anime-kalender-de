@@ -257,6 +257,7 @@ pipeline/check-kachel-favorit-render.ts
 pipeline/check-kachel-favorit.ts
 pipeline/check-kachel-im-angebot.ts
 pipeline/check-kachel-katalog.ts
+pipeline/check-kachel-toggo.ts
 pipeline/check-kalender-filter.ts
 pipeline/check-kalender-plausibilitaet-kanal.ts
 pipeline/check-kalender-plausibilitaet.ts
