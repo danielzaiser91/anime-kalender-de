@@ -10,24 +10,37 @@
  */
 const RUHE_BILDER = 8
 export async function zeileMittig(zeile) {
-  await zeile.evaluate((el, ruhe) => new Promise((fertig) => {
+  await ruhigImFenster(zeile, true)
+}
+
+/** Wartet, bis die Lage der Zeile ruhig ist, und holt sie nur dann in die Mitte, wenn sie ganz außerhalb des Fensters liegt (eine bewusst gewählte Lage bleibt). */
+export async function zeileImFenster(zeile) {
+  await ruhigImFenster(zeile, false)
+}
+
+async function ruhigImFenster(zeile, immerMittig) {
+  await zeile.evaluate((el, p) => new Promise((fertig) => {
     let letzte = null
     let still = 0
     let versuche = 0
+    const draussen = () => {
+      const r = el.getBoundingClientRect()
+      return r.bottom <= 0 || r.top >= window.innerHeight
+    }
     const schritt = () => {
       const oben = el.getBoundingClientRect().top
       if (oben === letzte) still++
       else {
         still = 0
         letzte = null
-        el.scrollIntoView({ block: 'center' })
+        if (p.immerMittig || draussen()) el.scrollIntoView({ block: 'center' })
         letzte = el.getBoundingClientRect().top
       }
-      if (still >= ruhe || ++versuche > 300) fertig(undefined)
+      if (still >= p.ruhe || ++versuche > 300) fertig(undefined)
       else requestAnimationFrame(schritt)
     }
     schritt()
-  }), RUHE_BILDER)
+  }), { ruhe: RUHE_BILDER, immerMittig })
 }
 
 /** Meldung, wenn am Zeigerpunkt (x, y) nicht die Zeile oder ein Kind von ihr liegt; sonst null. */
