@@ -102,6 +102,7 @@ jobs:
           private-key: ${{ secrets.DATEN_APP_KEY }}
           permission-contents: write
           permission-pull-requests: write
+          permission-workflows: write
 
       - name: Ergebnis als Pull Request einreichen
         id: einreichen

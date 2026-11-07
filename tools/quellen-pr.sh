@@ -37,6 +37,15 @@ token_abmelden() {
 }
 trap token_abmelden EXIT
 
+# Im Lauf pusht der Zweig mit dem App-Token, nicht mit der Checkout-Anmeldung (`GITHUB_TOKEN`): nur die App darf Workflow-Dateien mitpushen, wenn `main` welche geändert hat (07.11.2026).
+token_anmelden() {
+  [ "${GITHUB_ACTIONS:-}" = true ] && [ -n "${GH_TOKEN:-}" ] && [ -n "${GITHUB_REPOSITORY:-}" ] || return 0
+  if git config --local --get http.https://github.com/.extraheader > /dev/null; then git config --local --unset-all http.https://github.com/.extraheader; fi
+  git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+  echo "--- Zweig-Push mit dem App-Token angemeldet (Recht workflows)"
+}
+token_anmelden
+
 NACHRICHT="${1:?Commit-Nachricht fehlt}"
 
 source "$(dirname "${BASH_SOURCE[0]}")/quellen-liste.sh"

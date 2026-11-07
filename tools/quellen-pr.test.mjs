@@ -95,6 +95,18 @@ esac
   const remote = sh(lauf, 'git config --get remote.origin.url').out.trim()
   pruefe('nach dem Lauf steht das Token nicht mehr in .git/config', !readFileSync(join(lauf, '.git/config'), 'utf8').includes('geheim') && remote === 'https://github.com/x/y.git', remote)
 
+  // Sammler-Lauf (07.11.2026): Remote ohne Token, Checkout-Anmeldung als extraheader. Das Skript meldet sich mit dem App-Token an (nur die App darf Workflow-Dateien pushen);
+  // insteadOf lenkt nur die Adresse MIT App-Token auf den lokalen Ursprung, ohne Anmeldung scheitert schon das Holen.
+  const appAdresse = 'https://x-access-token:appgeheim@github.com/x/y.git'
+  sh(lauf, 'git remote set-url origin https://github.com/x/y.git && git config --local http.https://github.com/.extraheader "AUTHORIZATION: basic checkoutgeheim"')
+  writeFileSync(join(lauf, 'data/cinestar.json'), '{"neu":"app"}')
+  const mitApp = { GIT_CONFIG_COUNT: '1', GIT_CONFIG_KEY_0: `url.${posix(ursprung)}.insteadOf`, GIT_CONFIG_VALUE_0: appAdresse, GIT_TERMINAL_PROMPT: '0' }
+  const r4 = sh(lauf, `PATH="${posix(bin)}:$PATH" GITHUB_ACTIONS=true GH_TOKEN=appgeheim GITHUB_REPOSITORY=x/y GITHUB_RUN_ID=80 QUELLEN_PRUEFBEFEHL=true bash tools/quellen-pr.sh "chore(data): Test App"`, mitApp)
+  pruefe('Lauf in Actions: Zweig-Push mit dem App-Token endet mit Erfolg', r4.status === 0, r4.out.slice(-600))
+  pruefe('der Zweig des Laufs mit App-Token steht im Ursprung', /daten\/80-/.test(sh(ursprung, 'git branch --list "daten/80-*"').out))
+  const konfig = readFileSync(join(lauf, '.git/config'), 'utf8')
+  pruefe('danach stehen weder App-Token noch Checkout-Anmeldung in .git/config', !konfig.includes('appgeheim') && !konfig.includes('checkoutgeheim'), konfig)
+
   // Lokaler Aufruf ohne Lauf-Kennung (Daniels Rechner): kein `daten/`-Zweig, den Kette und CI-Prüfer überspringen.
   sh(lauf, `git remote set-url origin "${posix(ursprung)}"`)
   writeFileSync(join(lauf, 'data/cinestar.json'), '{"neu":"lokal"}')
