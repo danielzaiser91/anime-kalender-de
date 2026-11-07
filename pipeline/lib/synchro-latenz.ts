@@ -30,7 +30,7 @@ export function latenzStand(
   heute: string,
 ): LatenzStand {
   const noch = new Set(neu.map((e) => e.id))
-  const warten = [...alt.filter((e) => !noch.has(e.id)), ...(vorher.abgeloest ?? [])].filter((e) => !noch.has(e.id))
+  const warten = [...alt, ...(vorher.abgeloest ?? [])].filter((e) => !noch.has(e.id))
   const belegt = [...(vorher.belegt ?? [])]
   const abgeloest: BeobachtungsEintrag[] = []
   for (const e of warten) {
