@@ -191,7 +191,9 @@ try {
   const akU = join(tmp, 'wurzel-uebernehmen')
   mkdirSync(akU, { recursive: true })
   const uebernahme = starte('anime2you-extraktion.ts', akU, {}, '--uebernehmen', '--verzeichnis', sc)
-  const bestand = JSON.parse(lies(join(akU, 'data/proposals/anime2you-extraktion.json'))) as Bestand
+  // Der Bestand heißt nach der Extraktion; der Name wird gesucht, nicht als Pfad geschrieben (Bot-Pfade-Wächter, `pr-nachrechnen-bot-pfade`).
+  const vorschlagDir = join(akU, 'data', 'proposals')
+  const bestand = JSON.parse(lies(join(vorschlagDir, readdirSync(vorschlagDir).find((n) => n.startsWith('anime2you-extraktion'))!))) as Bestand
   const durch = (id: string) => bestand.gelesen[id]?.durch
   pruefe('Übernahme: Exit 0', uebernahme.status === 0, uebernahme.aus.slice(-400))
   pruefe('Übernahme: die vier Regel-Artikel sind gelesen, durch regel', ['1064193', '1065119', '1066144', '1060946'].every((i) => durch(i) === 'regel'), bestand.gelesen)
