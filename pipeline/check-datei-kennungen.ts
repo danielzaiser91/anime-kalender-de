@@ -2,7 +2,7 @@ import { createHash } from 'node:crypto'
 import { mkdirSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { NACH_DEM_BAU_UMGESCHRIEBEN, dateiKennungen, schreibeDateienInMeta } from '../tools/daten-kennungen.ts'
+import { NACH_DEM_BAU_UMGESCHRIEBEN, NICHT_AUSGELIEFERT, dateiKennungen, schreibeDateienInMeta } from '../tools/daten-kennungen.ts'
 import { uebersetzteKopie } from '../tools/vite-kennungen.ts'
 import { vorladeSkript } from '../tools/vite-vorladen.ts'
 import { datenAdresse } from '../web/src/lib/daten-adresse.ts'
@@ -62,6 +62,16 @@ pruefe('derselbe Inhalt unter anderem Namen im Ordner ändert die Ordnerkennung'
   }
   return dateiKennungen(a)['voices/'] !== dateiKennungen(b)['voices/']
 })())
+
+/* Diagnose-Dateien, die nie in `meta.dateien` landen (jeder Eintrag kostet Bytes in jedem Seitenaufruf). */
+pruefe('nicht ausgeliefert: die Liste nennt eingabe-stand.json', NICHT_AUSGELIEFERT.join() === 'eingabe-stand.json')
+{
+  const diag = mkdtempSync(join(tmpdir(), 'dk-diag-'))
+  writeFileSync(join(diag, 'eingabe-stand.json'), '{"a":1}')
+  writeFileSync(join(diag, 'events.json'), '[1]')
+  pruefe('nicht ausgeliefert: eingabe-stand.json fehlt in den Kennungen, die übrigen Dateien bleiben', Object.keys(dateiKennungen(diag)).join() === 'events.json')
+  pruefe('nicht ausgeliefert: auch mit eigener Ausnahmeliste', Object.keys(dateiKennungen(diag, ['meta.json'])).join() === 'events.json')
+}
 
 /* Die Kennung hängt an der übersetzten Fassung (`uebersetzteKopie`): eine Änderung der Übersetzung ändert die Adresse, eine unbeteiligte Zeile in `data/kennungen.json` nicht. */
 function kennungenMitZeilen(zeilen: number[][], titles = '[{"id":5,"slug":"x"}]'): Record<string, string> {

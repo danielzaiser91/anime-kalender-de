@@ -6,6 +6,8 @@
  *
  * Aufruf: node tools/mutationsanker.mjs <liste.json>…   prüft genau diese Listen
  *         node tools/mutationsanker.mjs --alle          misst alle Listen (Messung, Exit 0)
+ * Mutanten ohne `tests`-Eintrag meldet der Aufruf mit Listen als Warnung (⚠, Exit unverändert); die Ratsche steht in
+ * tools/mutationsanker-ohne-tests.test.mjs (Zahl je Liste darf nur sinken, neue Listen tragen `tests`).
  * Im PR prüft tools/pr-vorpruefung.mjs die Listen, die der Diff neu anlegt oder ändert, und jede Liste, deren
  * Mutanten eine Datei des Diffs nennen (der Code kann dorthin gewandert sein); übrige Listen bleiben unberührt.
  */
@@ -70,6 +72,27 @@ export function pruefeListen(listen, lies = leseDatei) {
   return { fehler, anzahl }
 }
 
+/** Namen der Mutanten einer Liste ohne eigenen `tests`-Eintrag (dann braucht der Läufer `--test`); Kontrollen, Paar-Listen und kaputte Listen zählen nicht. */
+export function ohneTestsEintrag(listeText) {
+  try {
+    const roh = parseListeText(listeText)
+    if (Array.isArray(roh) && roh.length > 0 && roh.every(Array.isArray)) return []
+    return normalisiereListe(roh).filter((m) => m.aenderungen.length > 0 && !(Array.isArray(m.tests) && m.tests.length > 0)).map((m) => m.name)
+  } catch {
+    return []
+  }
+}
+
+/** Warnzeilen „Liste: Mutant ohne tests-Eintrag“ für die genannten Listen. */
+export function testsLueckenZeilen(listen, lies = leseDatei) {
+  return listen.flatMap((name) => ohneTestsEintrag(lies(name) ?? '[]').map((m) => `${name}: „${m}“ ohne tests-Eintrag`))
+}
+
+/** Ratsche: `ist` = Liste -> Zahl der Mutanten ohne tests-Eintrag, `bekannt` = erlaubte Zahl je Liste (fehlt sie, gilt 0). Rückgabe: Zeilen für Listen über ihrer Grenze. */
+export function ratscheLuecken(ist, bekannt) {
+  return Object.entries(ist).filter(([liste, n]) => n > (bekannt[liste] ?? 0)).map(([liste, n]) => `${liste}: ${n} Mutanten ohne tests-Eintrag, erlaubt ${bekannt[liste] ?? 0}`)
+}
+
 /** Die Mutationslisten, die der Diff (Pfade) neu anlegt oder ändert; gelöschte Dateien fehlen auf der Platte und fallen weg. */
 export const listenImDiff = (dateien) => dateien.filter(istMutationsliste)
 
@@ -115,6 +138,7 @@ function main() {
   }
   const { fehler, anzahl } = pruefeListen(args)
   for (const f of fehler) console.error(`  ✖ ${f}`)
+  for (const z of testsLueckenZeilen(args)) console.error(`  ⚠ ${z}`)
   console.log(`Mutationsanker: ${args.length} Listen, ${anzahl} Mutanten, ${fehler.length} Anker nicht auffindbar`)
   return fehler.length ? 1 : 0
 }
