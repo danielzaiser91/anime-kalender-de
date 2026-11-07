@@ -129,9 +129,6 @@ const SATZGRENZE = new RegExp(`(?<!\\d\\.)(?<=[.!?])\\s+(?=[A-ZÄÖÜ»])|(?<=\\
 const KEINE_SYNCHRO = /synchronsprech|synchronstimme|synchronregie|synchronisiert von/i
 const TITEL_IM_SATZ = /»([^»«]{2,100})«/g
 
-/** Eine Zeile der Titelliste oben im Artikel („Ab 02.11.: »I Parry Everything!« (Dub)“): beginnt mit dem Titel, hat Beiwerk dahinter, ist kurz und endet ohne Satzzeichen. */
-const istListenzeile = (s: string): boolean => /^(?:.{0,40}?:\s*)?»[^»«]{2,120}«/.test(s) && /\s/.test(s.replace(/»[^»«]*«/, '').trim()) && s.length < 140 && !/[.!?]$/.test(s)
-
 /** Schärfungen 2 und 4 auf einen Satz; `undefined` = Rest für Claude. */
 function plattformDesSatzes(satz: string, titel: string[], artikelPlattformen: string[], jahr: number): string | undefined {
   const aelteresJahr = [...satz.matchAll(/\b(20\d\d)\b/g)].some((m) => Number(m[1]) < jahr)
@@ -147,7 +144,6 @@ export function satzBehauptungen(zeilen: string[], veroeffentlicht: string): Beh
   const jahr = Number(veroeffentlicht.slice(0, 4))
   const aus: Behauptung[] = []
   for (const satz of zeilen.slice(2).flatMap((z) => z.split(SATZGRENZE))) {
-    if (istListenzeile(satz)) continue
     const titel = [...satz.matchAll(TITEL_IM_SATZ)].map((m) => m[1]!)
     if (!titel.length || !nenntSynchro(satz) || KEINE_SYNCHRO.test(satz)) continue
     const plattform = plattformDesSatzes(satz, titel, artikelPlattformen, jahr)

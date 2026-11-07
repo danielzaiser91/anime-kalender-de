@@ -87,7 +87,6 @@ for (const wort of ['Synchronstimme', 'Synchronregie', 'Synchronsprecher']) prue
 pruefe('„synchronisiert von“ zählt nicht', satz('»Foo« wurde synchronisiert von Studio X und läuft bei Netflix.').length === 0)
 pruefe('Jahr vor dem Veröffentlichungsjahr macht den Satz zum Rest', satz('Die deutsche Synchronisation von »Foo« lief 2025 bei Netflix.').length === 0)
 pruefe('Jahr des Veröffentlichungsjahrs bleibt', satz('Die deutsche Synchronisation von »Foo« läuft 2026 bei Netflix.').length === 1)
-pruefe('Listenzeile zählt nicht', satz('Bis 30.11.: »Foo« auf Deutsch').length === 0)
 pruefe('Satz mit Untertiteln und Synchro: deutsch+omu', satz('»Foo« gibt es bei Netflix mit deutscher Synchronisation und im Originalton mit Untertiteln.').map((b) => b.sprache).join() === 'deutsch+omu')
 pruefe('Satz nur mit Synchro: deutsch', satz('»Foo« gibt es bei Netflix mit deutscher Synchronisation.').map((b) => b.sprache).join() === 'deutsch')
 pruefe('Satzgrenze nach „153.“ vor „Bei“', satz('Reborn! läuft bis Episode 153. Bei »Foo« kommt die deutsche Synchronisation hinzu.').length === 1)
@@ -95,9 +94,8 @@ pruefe('keine Satzgrenze nach Tag vor Monatsnamen', satz('Ab dem 3. November lä
 pruefe('ohne Veröffentlicht-Zeile: nichts', leseBehauptungen('Titel\nkeine Zeile\n\n»Foo« bei Netflix mit deutscher Synchronisation.').length === 0)
 pruefe('Artikeltitel mit zwei Plattformen, Satz ohne: Rest', satzMit('Netflix und Crunchyroll', 'Die deutsche Synchronisation von »Foo« läuft an.').length === 0)
 pruefe('Artikeltitel ohne Plattform, Satz ohne: Rest', satzMit('Neuigkeiten', 'Die deutsche Synchronisation von »Foo« läuft an.').length === 0)
-const lang = `»Foo« gibt es bei Netflix mit deutscher Synchronisation ${'und vielen weiteren Beigaben '.repeat(6)}`
 pruefe('das Satz-Zitat ist der ganze Satz', satz('Die deutsche Synchronisation von »Foo« läuft bei Netflix an.')[0]?.zitat === 'Die deutsche Synchronisation von »Foo« läuft bei Netflix an.')
-pruefe('lange Zeile ohne Satzzeichen ist keine Listenzeile', lang.length >= 140 && satz(lang).length === 1)
+pruefe('Leerzeile im Block gehört nicht ins Zitat', leseBehauptungen('Foo bei Netflix\nVeröffentlicht: 2026-10-01\n\n»Bar«\n\nSprache: Deutsch\nStream: Netflix\n')[0]?.zitat === '»Bar«\nSprache: Deutsch\nStream: Netflix')
 for (const [wort, satzText] of [['Untertiteln', 'mit deutscher Synchronisation und mit Untertiteln'], ['Originalton', 'mit deutscher Synchronisation und im Originalton'], ['japanisch', 'mit deutscher Synchronisation und japanischem Ton']] as const)
   pruefe(`${wort} macht den Satz deutsch+omu`, satz(`Bei Netflix läuft »Foo« ${satzText}.`).map((b) => b.sprache).join() === 'deutsch+omu')
 
