@@ -224,6 +224,7 @@ Vor dem Anlegen eines Zweigs `git ls-remote origin <zweig>` und `gh pr list --he
 - **Umgehungsfälle aus der Bedrohungsliste, nicht aus der eigenen Schreibweise (Bauer 2536, 31.10.2026):** Testfälle für einen Wächter leiten sich aus den Formen ab, mit denen man ihn umgehen kann, sonst überleben Mutanten.
 
 - **Verdrahtung und fehlende Steuervariable testen (31.10.2026, PR 2539):** Eine reine Funktion mit Tests reicht nicht — ein Szenario muss belegen, dass der Aufrufer die Variable übergibt (Literal-Mutant wird rot). Eine leere Steuervariable (z. B. Frist) darf nie still „unbegrenzt“ heißen: Warnung/Exit samt Test.
+- **Eine Warnung braucht einen Leser (07.11.2026, PR 3127):** Eine neue `⚠ WARNUNG`-Zeile im Bau gilt erst, wenn belegt ist, wo sie sichtbar wird; `bestand_warnungen` in `tools/commit-data.sh` liest nur `bestand-pruefung.txt`, Bau-Stdout wird nie zur `::warning::`-Anmerkung. Weg über `bestandWarnzeile` oder Test gegen diesen Pfad.
 
 - **Fallback-Szenarien mit verschiedenen Werten (PR 2540, 31.10.2026):** Prüft ein Test einen Rückfall `a ?? b`, bekommen a und b verschiedene Werte — sonst bleibt der Mutant, der a und b vertauscht oder den Rückfall streicht, grün.
 
