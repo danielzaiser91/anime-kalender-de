@@ -393,6 +393,7 @@ pipeline/check-prime-zugeordnet-jw.ts
 pipeline/check-prime-zugeordnet-lader.ts
 pipeline/check-prime-zugeordnet-leser-faelle.ts
 pipeline/check-prime-zugeordnet-leser.ts
+pipeline/check-process-exit-im-try.ts
 pipeline/check-proposals-bestand.ts
 pipeline/check-pruef-titel-schaltung.ts
 pipeline/check-pruefliste-verdrahtung.ts
