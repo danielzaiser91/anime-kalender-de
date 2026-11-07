@@ -310,6 +310,12 @@
   belegtAm: '2026-09-27'
   zugang: kostenlos
   beleg: 'JustWatch führt „Dragon Ball" bei Joyn als kostenlos mit Werbung (ADS), Abfrage 27.09.2026; die Folgen laufen seit 24.09.2026 Mo–Fr auf ProSieben MAXX und stehen danach rollend in der Mediathek. Joyn ist deutsch (Daniel, 02.09.2026)'
+- anilistId: 3199
+  title: "Tico: Ein toller Freund"
+  platform: joyn
+  url: https://www.joyn.de/serien/tico-ein-toller-freund-die-komplette-serie
+  belegtAm: '2026-11-04'
+  beleg: 'Adresse von Daniel (04.11.2026, 10:44). JustWatch führt Tico nur bei Amazon Video (Abruf 04.11.2026), Joyn selbst wird nicht abgerufen (Text- und Data-Mining-Vorbehalt); die Linkprüfung prüft die Adresse'
 
 # Monsuno Staffel 1 (13185): kostenlos auf YouTube, Daniel 02.10.2026. Staffel 2 und 3 haben keine deutsche Fassung.
 - anilistId: 13185

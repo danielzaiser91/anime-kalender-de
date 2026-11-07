@@ -6,7 +6,7 @@
 import assert from 'node:assert/strict'
 import { chromium } from 'playwright'
 import { browserDa } from './browser-weiche.mjs'
-import { verdeckung, zeileMittig } from './zeile-mittig.mjs'
+import { verdeckung, zeileImFenster, zeileMittig } from './zeile-mittig.mjs'
 
 const HOEHE = 600
 const SEITE = `<body style="margin:0"><header style="position:sticky;top:0;height:60px;background:#ccc">Kopf</header>
@@ -40,7 +40,36 @@ try {
   /* Ein Kind der Zeile zählt als Treffer. */
   await seite.evaluate(() => { document.querySelector('#z').innerHTML = '<b style="display:block;height:40px">Kind</b>' })
   assert.equal(await verdeckung(zeile, x, y), null, 'Kind der Zeile zählt als Treffer')
-  console.log('zeile-mittig.test: 4 Zusicherungen grün (alter Weg rot, neuer Weg grün, Kind, Kulisse)')
+  /* Layout verschiebt die Zeile 60 ms nach dem Scroll aus dem Fenster (Bilder oberhalb laden nach, Verankerung aus). */
+  const SPAET = `<body style="margin:0;overflow-anchor:none"><div id="s" style="height:3000px"></div>
+<ul style="margin:0;padding:0"><li id="z" style="height:40px">Zeile</li></ul><div style="height:3000px"></div></body>`
+  const kulisse = async () => {
+    await seite.setContent(SPAET)
+    await seite.evaluate(() => setTimeout(() => { document.querySelector('#s').style.height = '1500px' }, 60))
+  }
+  await kulisse()
+  await seite.evaluate(() => document.querySelector('#z').scrollIntoView({ block: 'center' }))
+  await seite.waitForTimeout(150)
+  const verschoben = await zeile.boundingBox()
+  assert.ok(verschoben.y < 0, `Kulisse: einmaliges Zentrieren lässt die Zeile aus dem Fenster rutschen (y=${verschoben.y})`)
+  await kulisse()
+  await zeileMittig(zeile)
+  await seite.waitForTimeout(150)
+  const spaet = await zeile.boundingBox()
+  assert.ok(Math.abs(spaet.y + 20 - HOEHE / 2) < 30, `späte Verschiebung: Zeile liegt danach mittig (y=${spaet.y})`)
+  assert.equal(await verdeckung(zeile, spaet.x + 40, spaet.y + 20), null, 'späte Verschiebung: Zeile wird getroffen')
+  /* zeileImFenster: holt die ausgerutschte Zeile zurück, lässt eine bewusst tiefe Lage (unten am Fenster) stehen. */
+  await kulisse()
+  await seite.evaluate(() => document.querySelector('#z').scrollIntoView({ block: 'center' }))
+  await zeileImFenster(zeile)
+  await seite.waitForTimeout(150)
+  const zurueck = await zeile.boundingBox()
+  assert.ok(zurueck.y >= 0 && zurueck.y < HOEHE, `zeileImFenster: ausgerutschte Zeile kommt zurück (y=${zurueck.y})`)
+  await seite.evaluate(() => { const z = document.querySelector('#z'); window.scrollBy(0, z.getBoundingClientRect().top - 500) })
+  const unten = (await zeile.boundingBox()).y
+  await zeileImFenster(zeile)
+  assert.equal((await zeile.boundingBox()).y, unten, 'zeileImFenster: Zeile unten am Fenster bleibt dort')
+  console.log('zeile-mittig.test: 9 Zusicherungen grün (alter Weg rot, neuer Weg grün, Kind, Kulisse, späte Verschiebung rot/grün, zeileImFenster zurück/stehen)')
 } finally {
   await browser.close()
 }
