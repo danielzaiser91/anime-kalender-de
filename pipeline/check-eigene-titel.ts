@@ -280,7 +280,7 @@ console.log('Verdrahtung im Bau (Syntaxbaum)')
   const fehlerListe = [
     ...pruefeAufrufAnweisung(phasen, 'bauePhasenfolge', 'haengeEigeneUm', 'titles, releases', 'ergaenzeTermineAusNewsUndTv'),
     ...pruefeAufrufAnweisung(lies('13-6-kennungen.ts'), 'ergaenzeKennungen', 'schreibeEigeneZuAk', '', 'execFileSync'),
-    ...pruefeAufrufAnweisung(lies('11-wege-abschluss.ts'), 'schliesseWegeAb', 'begrenzeWegeAufBelege', 'titles.values(), alleChecks'),
+    ...pruefeAufrufAnweisung(lies('11-wege-abschluss.ts'), 'schliesseWegeAb', 'begrenzeWegeAufBelege', 'titles.values(), alleChecks, jwJoyn'),
   ]
   pruefe(fehlerListe.length === 0, `Phase 08 → Umhängen, Kennungen → zuAk und Wegebegrenzung stehen als eigene Anweisung am richtigen Platz: ${fehlerListe.join(' | ')}`)
   const mutant = (alt: string, neu: string) => pruefeAufrufAnweisung(phasen.replace(alt, neu), 'bauePhasenfolge', 'haengeEigeneUm', 'titles, releases', 'ergaenzeTermineAusNewsUndTv').length

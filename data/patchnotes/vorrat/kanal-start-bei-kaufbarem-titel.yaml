@@ -1,0 +1,5 @@
+kategorie: bugfix
+text: "Angel’s Egg: „im Abo“ statt „endlich im Stream“"
+untertitel: Der Film war schon kaufbar, die Meldung sagt das jetzt
+wartetAuf: Bestandsbau, dessen news.json die Meldung auto-885-primevideo (Angel’s Egg, 05.11.) mit schonKaufbar statt jahre 41 führt — PR 2792 ließ data/news-historie.json unverändert, der Bau vom 06.11. 22:34 UTC trägt weiter jahre und discSeitText; dann auch Wolf Girl & Black Prince (auto-20701, 19.11.) prüfen
+seit: '2026-11-06'

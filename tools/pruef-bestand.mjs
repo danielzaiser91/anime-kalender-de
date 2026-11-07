@@ -17,6 +17,7 @@ import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { ladeNeinFaelle } from '../pipeline/lib/nein-wiedervorlage-lesen.ts'
 import { todayIso } from '../shared/time.ts'
+import { istErweitert } from './pruef-schaltung.mjs'
 
 export { brauchtUrteil, wartet } from './offen-erschienen.mjs'
 
@@ -45,7 +46,7 @@ export function regeln(wurzel = WURZEL) {
   } catch {
     /* Ohne Regeldatei bleibt alles beim Alten. */
   }
-  const erweitert = process.env.PRUEFLISTE_ERWEITERT === '1' || (process.env.PRUEFLISTE_ERWEITERT !== '0' && datei.erweitert === true)
+  const erweitert = istErweitert(process.env.PRUEFLISTE_ERWEITERT, datei)
   const ergebnis = {
     erweitert,
     vertrauen: datei.vertrauen ?? {},
