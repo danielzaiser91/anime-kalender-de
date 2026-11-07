@@ -28,7 +28,7 @@ export function leseBelegStand(belegDatei: string, heute: string): { belegt: Bel
   const zeilen = (yaml.load(readFileSync(belegDatei, 'utf8')) as BelegZeile[] | null) ?? []
   const belegt: Belegstand = new Map()
   for (const z of zeilen.filter((e) => typeof e.dub === 'boolean' || typeof e.available === 'boolean')) {
-    const bis = z.dub === false && z.available !== false ? String(z.checkedAt ?? IMMER) : IMMER
+    const bis = z.dub === false ? String(z.checkedAt ?? IMMER) : IMMER
     const k = `${z.anilistId}|${z.platform}`
     if ((belegt.get(k) ?? '') < bis) belegt.set(k, bis)
   }
@@ -52,8 +52,7 @@ export function gibSynchroBelegeAb(o: {
   warn: (text: string) => void
 }): AbgabeErgebnis {
   const { belegt, heuteAuto } = leseBelegStand(o.belegDatei, o.heute)
-  const platz = Math.max(0, HOECHSTENS_AM_TAG - heuteAuto)
-  const erg = waehleSynchroBelege(o.vorschlaege, ladeKatalog(o.katalogDateien), belegt, o.heute, platz)
+  const erg = waehleSynchroBelege(o.vorschlaege, ladeKatalog(o.katalogDateien), belegt, o.heute, HOECHSTENS_AM_TAG - heuteAuto)
   if (erg.belege.length) {
     haengeBelegeAn({
       datei: o.belegDatei,

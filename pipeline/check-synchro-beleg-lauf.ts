@@ -1,7 +1,7 @@
 /**
  * Prozesstest zu `anime2you-extraktion.ts --belege` (F108, 07.11.2026): das echte Skript läuft in einem Wegwerf-Ordner (AK_ROOT) mit
  * Vorschlagsdatei, Katalog und Belegdatei. Belegt die Verdrahtung (Fenster von 7 Tagen, Katalog lesen, Beleg schreiben, `anzahl`
- * für den Workflow, Kommentardatei), nicht nur die Auswahlfunktion. Der Tag kommt über `--heute`, nicht von der Uhr.
+ * für den Workflow, Kommentardatei), nicht nur die Auswahlfunktion. Der Tag (2999, nie die echte Uhr) kommt über `--heute`.
  */
 import { spawnSync } from 'node:child_process'
 import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
@@ -45,7 +45,7 @@ const vorschlag = (veroeffentlicht: string) => ({
 })
 const katalog = [{ id: 203275, titleRomaji: "Demons' Crest", titleEn: "Devils' Crest", titleDe: 'Devils’ Crest', streams: [{ platform: 'primevideo' }] }]
 
-function lauf(vorschlaege: object[] | null, heute = '2026-11-07', katalogDatei = 'titles.json'): { status: number | null; aus: string; yaml: string; anzahl: string; kommentar: boolean } {
+function lauf(vorschlaege: object[] | null, heute = '2999-12-30', katalogDatei = 'titles.json'): { status: number | null; aus: string; yaml: string; anzahl: string; kommentar: boolean } {
   const wurzel = mkdtempSync(join(tmpdir(), 'synchro-lauf-'))
   try {
     for (const d of ['data/proposals', 'public/data']) mkdirSync(join(wurzel, d), { recursive: true })
@@ -72,23 +72,23 @@ function lauf(vorschlaege: object[] | null, heute = '2026-11-07', katalogDatei =
   }
 }
 
-const treffer = lauf([vorschlag('2026-11-06')])
+const treffer = lauf([vorschlag('2999-12-29')])
 pruefe('Treffer: Exit 0, anzahl=1, Kommentardatei da', treffer.status === 0 && treffer.anzahl === 'anzahl=1' && treffer.kommentar, treffer)
-pruefe('Treffer: Beleg 203275 primevideo dub true steht in der Datei, der Handblock davor unverändert', treffer.yaml.startsWith(HAND) && /anilistId: 203275\n {2}title: "Devils’ Crest"\n {2}platform: primevideo\n {2}dub: true\n {2}checkedAt: '2026-11-07'/.test(treffer.yaml), treffer.yaml)
+pruefe('Treffer: Beleg 203275 primevideo dub true steht in der Datei, der Handblock davor unverändert', treffer.yaml.startsWith(HAND) && /anilistId: 203275\n {2}title: "Devils’ Crest"\n {2}platform: primevideo\n {2}dub: true\n {2}checkedAt: '2999-12-30'/.test(treffer.yaml), treffer.yaml)
 pruefe('Treffer: Log nennt den Auto-Beleg', treffer.aus.includes('Auto-Beleg: Devils’ Crest (203275) bei primevideo, Artikel 1068059'), treffer.aus)
 
-const grenze = lauf([vorschlag('2026-10-31')])
-pruefe('Fenster: Artikel genau 7 Tage alt (31.10. bei heute 07.11.) zählt noch', grenze.status === 0 && grenze.anzahl === 'anzahl=1', grenze)
-const zuAlt = lauf([vorschlag('2026-10-30')])
-pruefe('Fenster: 8 Tage alt zählt nicht, anzahl=0, Datei unverändert', zuAlt.status === 0 && zuAlt.anzahl === 'anzahl=0' && zuAlt.yaml === HAND, zuAlt)
+const grenze = lauf([vorschlag('2999-12-23')])
+pruefe('Fenster: Artikel genau 7 Tage alt (23.12. bei heute 30.12.) zählt noch', grenze.status === 0 && grenze.anzahl === 'anzahl=1', grenze)
+const zuAlt = lauf([vorschlag('2999-12-22')])
+pruefe('Fenster: 8 Tage alt (22.12.) zählt nicht, anzahl=0, Datei unverändert', zuAlt.status === 0 && zuAlt.anzahl === 'anzahl=0' && zuAlt.yaml === HAND, zuAlt)
 
 const ohneDatei = lauf(null)
 pruefe('Ohne Vorschlagsdatei: Exit 0, anzahl=0, Datei unverändert', ohneDatei.status === 0 && ohneDatei.anzahl === 'anzahl=0' && ohneDatei.yaml === HAND, ohneDatei)
 
-const doppelt = lauf([vorschlag('2026-11-06'), { ...vorschlag('2026-11-06'), artikelId: '1068061' }])
+const doppelt = lauf([vorschlag('2999-12-29'), { ...vorschlag('2999-12-29'), artikelId: '1068061' }])
 pruefe('Zwei Vorschläge zum selben Titel und Weg: ein Beleg', doppelt.anzahl === 'anzahl=1' && doppelt.yaml.split('anilistId: 203275').length === 2, doppelt)
 
-const ohneSynchro = lauf([vorschlag('2026-11-06')], '2026-11-07', 'ohne-synchro.json')
+const ohneSynchro = lauf([vorschlag('2999-12-29')], '2999-12-30', 'ohne-synchro.json')
 pruefe('Titel steht nur in ohne-synchro.json: Beleg (zweite Katalogdatei wird gelesen)', ohneSynchro.status === 0 && ohneSynchro.anzahl === 'anzahl=1', ohneSynchro)
 
 // --- Der Workflow ruft den Schritt wirklich und legt den Fund auch ohne neuen Artikel vor ---------------------------------------

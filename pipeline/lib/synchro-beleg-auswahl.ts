@@ -56,14 +56,13 @@ export const NOTIZ_MARKE = 'Anime2You-Automatik'
 
 const ARTEN = new Set(['start', 'folgen', 'sprachfassung'])
 const KEIN_STREAM = new Set(['tv', 'kino', 'disc'])
-const UNTERTITEL = /(?:deutsch\w*\s+)?(?:untertitel\w*|omu)\b/gi
 
 const name = (s: string | null | undefined): string => (s ?? '').toLowerCase().replace(/[^\p{L}\p{N}]+/gu, '')
 
-/** Bejaht das Zitat die Synchro? Untertitel und das bloße „auf Deutsch“ zählen nicht (beides trifft sonst `SYNCHRO_WORTLAUT`). */
+/** Bejaht das Zitat die Synchro? Das bloße „auf Deutsch“ zählt nicht (trifft `SYNCHRO_WORTLAUT`, auch „auf Deutsch untertitelt“); Untertitel treffen den Wortlaut ohnehin nicht. */
 export function nenntSynchro(zitat: string): boolean {
   if (VERNEINT.test(zitat)) return false
-  return SYNCHRO_WORTLAUT.test(zitat.replace(UNTERTITEL, ' ').replace(/auf deutsch/gi, ' '))
+  return SYNCHRO_WORTLAUT.test(zitat.replace(/auf deutsch/gi, ' '))
 }
 
 /** Der einzige Katalogtitel mit diesem Namen; bei keinem oder mehreren der Grund als Text. */

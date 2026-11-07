@@ -103,6 +103,7 @@ pruefe('unsicher gesetzt: zurückgestellt', ids(lauf([mit(PET, { unsicher: 'Arti
 pruefe('Tag heute: Beleg; Tag morgen: zurückgestellt', ids(lauf([mit(PET, { datum: '2026-11-07' })])) === '101350' && ids(lauf([mit(PET, { datum: '2026-11-08' })])) === '')
 const echteWarnung = pruefeName('anbieter', 'Prime Video', 'Pet startet.', ARTIKEL).warnung ?? ''
 pruefe('ANBIETER_NUR_IM_ARTIKEL passt auf die echte Warnung von pruefeName (Gleichlauf)', ANBIETER_NUR_IM_ARTIKEL.test(echteWarnung) && !ANBIETER_NUR_IM_ARTIKEL.test('sender „ProSieben MAXX“ steht nur im Artikeltext, nicht im Zitat – gegenlesen'), echteWarnung)
+pruefe('ANBIETER_NUR_IM_ARTIKEL ist an beiden Enden verankert (kein Anhängsel, kein Vorspann)', !ANBIETER_NUR_IM_ARTIKEL.test(`${echteWarnung} und mehr`) && !ANBIETER_NUR_IM_ARTIKEL.test(`Hinweis: ${echteWarnung}`))
 
 // --- Stufe 2: Titel -------------------------------------------------------------------------------------------------------------
 pruefe('Teilwort: „Pet“ trifft nicht „Pet Shop of Horrors“', ordneTitelZu('Pet', KATALOG) === PET_TITEL)
@@ -112,7 +113,14 @@ const ZWEI = [...KATALOG, { id: 900103, titleDe: 'Pet', streams: [weg('primevide
 pruefe('Mehrdeutig (zwei Titel „Pet“): keiner', typeof ordneTitelZu('Pet', ZWEI) === 'string' && ids(lauf([PET], ZWEI)) === '' && grund(lauf([PET], ZWEI)).includes('mehrdeutig'))
 pruefe('Nicht im Katalog: zurückgestellt', grund(lauf([mit(PET, { titel: 'Unbekannter Titel' })])) === 'Titel nicht im Katalog')
 pruefe('Name ohne Buchstaben: zurückgestellt', ids(lauf([mit(PET, { titel: '!!!' })])) === '')
-pruefe('Verwandter Name („Crest of the Stars“) bekommt den Haken nicht', ids(lauf([mit(DC, { titel: 'Crest of the Stars' })])) === '900102', lauf([mit(DC, { titel: 'Crest of the Stars' })]))
+pruefe('Ähnlicher Name („Crest of the Stars“) trifft nur den eigenen Eintrag, nicht Devils’ Crest', ids(lauf([mit(DC, { titel: 'Crest of the Stars' })])) === '900102', lauf([mit(DC, { titel: 'Crest of the Stars' })]))
+const NAMEN: KatalogTitel[] = [{ id: 900104, titleDe: 'Deutscher Name', titleEn: 'English Name', titleRomaji: 'Romaji Name', streams: [weg('primevideo')] }]
+for (const n of ['Deutscher Name', 'English Name', 'Romaji Name']) pruefe(`Jeder der drei Namen trifft: ${n}`, ordneTitelZu(n, NAMEN) === NAMEN[0])
+const NETFLIX_PET: KatalogTitel[] = [{ ...PET_TITEL, streams: [weg('netflix')] }]
+const PET_NETFLIX = mit(PET, { plattform: 'netflix' })
+pruefe('Plattform netflix: Beleg trägt netflix, ein Ja bei primevideo sperrt nicht', lauf([PET_NETFLIX], NETFLIX_PET, new Map([['101350|primevideo', IMMER]])).belege[0]?.plattform === 'netflix')
+pruefe('Plattform netflix: ein Ja bei netflix sperrt', ids(lauf([PET_NETFLIX], NETFLIX_PET, new Map([['101350|netflix', IMMER]]))) === '')
+pruefe('Beleg-Zeilen tragen die Plattform des Belegs', belegZeilen(lauf([PET_NETFLIX], NETFLIX_PET).belege[0]!, '2026-11-07').includes('  platform: netflix'))
 
 // --- Stufe 3: Weg und Handbelege ---------------------------------------------------------------------------------------------------
 const mitWegen = (...streams: { platform: string; dub?: boolean }[]) => [{ ...PET_TITEL, streams }]
@@ -170,6 +178,15 @@ try {
   const e4 = tun([PET], '2026-11-09')
   pruefe('Riegel: am Folgetag zählen die 10 von gestern nicht', e4.belege.length === 1)
   pruefe('leseBelegStand zählt zehn Auto-Belege am 08.11. und keinen am 09.11.', (writeFileSync(belegDatei, hand + zehn), leseBelegStand(belegDatei, '2026-11-08').heuteAuto === 10 && leseBelegStand(belegDatei, '2026-11-09').heuteAuto === 0))
+  const stand = (text: string) => (writeFileSync(belegDatei, text), leseBelegStand(belegDatei, '2026-11-08'))
+  const eintrag = (urteil: string, am: string) => `- anilistId: 7\n  platform: netflix\n  ${urteil}\n  checkedAt: '${am}'\n`
+  pruefe('Handbelege von heute ohne die Marke zählen nicht für den Riegel', stand(zehn.replaceAll('Anime2You-Automatik: x', 'von Hand')).heuteAuto === 0)
+  pruefe('Ja vor Nein in der Datei: das Ja sperrt weiter', stand(eintrag('dub: true', '2026-10-01') + eintrag('dub: false', '2026-10-16')).belegt.get('7|netflix') === IMMER)
+  pruefe('Nein vor Ja in der Datei: das Ja sperrt', stand(eintrag('dub: false', '2026-10-16') + eintrag('dub: true', '2026-10-01')).belegt.get('7|netflix') === IMMER)
+  pruefe('Nein allein sperrt bis zu seinem Messtag', stand(eintrag('dub: false', '2026-10-16')).belegt.get('7|netflix') === '2026-10-16')
+  pruefe('Zwei Nein: das jüngere zählt, in beiden Reihenfolgen', stand(eintrag('dub: false', '2026-10-16') + eintrag('dub: false', '2026-10-20')).belegt.get('7|netflix') === '2026-10-20' && stand(eintrag('dub: false', '2026-10-20') + eintrag('dub: false', '2026-10-16')).belegt.get('7|netflix') === '2026-10-20')
+  pruefe('available: false sperrt für immer', stand(eintrag('available: false', '2026-10-01')).belegt.get('7|netflix') === IMMER)
+  pruefe('Eintrag ohne Urteil (nur Notiz) sperrt nicht', stand(eintrag('note: x', '2026-10-01')).belegt.size === 0)
 
   // Ränder: leere Datei, nur Kommentar, kein Katalog
   writeFileSync(belegDatei, '')
