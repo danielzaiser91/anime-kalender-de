@@ -50,6 +50,9 @@ async function fall(browser, seitenStopp) {
   const seite = await (await browser.newContext({ viewport: { width: 1280, height: 800 } })).newPage()
   const fehler = []
   seite.on('pageerror', (e) => fehler.push(String(e)))
+  // Alles außer der Seite abfangen: ohne das fragte jeder Kettenlauf ~320-mal den echten Worker (07.11.2026, Tageslimit).
+  let draussen = 0
+  await seite.route('**/*', (r) => { draussen++; return r.fulfill({ contentType: 'application/json', body: '{}' }) })
   await seite.route('https://www.netflix.com/**', (r) => r.fulfill({ contentType: 'text/html', body: SEITE }))
   await seite.addInitScript(attrappe)
   await seite.goto('https://www.netflix.com/browse')
@@ -112,7 +115,7 @@ async function fall(browser, seitenStopp) {
   await klick(seite, '#b', `${wo}: innerer Knopf mit stopPropagation`)
   assert.deepEqual(await seite.evaluate(() => window.__reihe), ['a', 'aussen', 'b'], `${wo}: Reihenfolge innen vor außen, Stopp hält die Zeile auf`)
   await seite.context().close()
-  console.log(`  ✓ ${wo}: Toggle, Ruhemodus, Bericht, Prüfliste öffnen und schließen`)
+  console.log(`  ✓ ${wo}: Toggle, Ruhemodus, Bericht, Prüfliste öffnen und schließen (${draussen} Anfragen nach außen abgefangen)`)
 }
 
 if (!browserDa('netflix-kasten-klick', chromium)) process.exit()

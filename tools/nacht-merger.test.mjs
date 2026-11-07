@@ -4,7 +4,7 @@
  * Trockenlauf) prüfen die Fälle über `lauf`, nie über den Quelltext.
  */
 import { argumente, lauf } from './nacht-merger.mjs'
-import { bauCommittetGerade, bestandIstRot, echteWelt, ghLesend, stufeVon } from './nacht-merger-welt.mjs'
+import { bauCommittetGerade, bestandIstRot, echteWelt, ghLesend, ghMitAnstossRiegel, stufeVon } from './nacht-merger-welt.mjs'
 import { freigabe, kandidat, ketteStand, neuesteJeCheck, reihenfolge, urteilIstOk, vorabGrund } from './nacht-merger-wahl.mjs'
 
 let fehler = 0
@@ -150,8 +150,11 @@ function welt(prs, o = {}) {
       return p
     },
     kopfVon: (n) => (o.neuerKopf?.[n] ?? prs.find((p) => p.nummer === n).kopf),
+    warte: (ms) => log.aufrufe.push(`warte ${ms}`),
     nachrechnen: (n) => {
       log.aufrufe.push(`nachrechnen ${n}`)
+      const folge = o.folge?.[n]
+      if (folge !== undefined && folge.length > 0) return folge.shift()
       return { exit: exits[n] ?? 0, text: `Exit ${exits[n] ?? 0}` }
     },
     bauCommittet: () => o.bau === true,
@@ -179,6 +182,25 @@ const vier = () => [pr({ nummer: 11, erstellt: '2026-11-01T01:00:00Z' }), pr({ n
   const r = lauf(w, { hoechstens: 3 })
   pruefe('nachrechnen Exit 1 oder 2: nicht gemergt, die übrigen kommen dran', r.gemergt.join(',') === '13,14')
   pruefe('Abweisung nennt Exit und Text', w.log.zeilen.some((z) => z.startsWith('ÜBERSPRUNGEN #11') && z.includes('Exit 1')) && w.log.zeilen.some((z) => z.includes('#12') && z.includes('Exit 2')))
+}
+const UNKNOWN = { exit: 2, text: 'PR 11: Mergebarkeit noch nicht berechnet (UNKNOWN), gleich erneut aufrufen' }
+{
+  // UNKNOWN: nach kurzer Wartezeit genau eine zweite Abfrage; ist sie grün, wird gemergt
+  const w = welt(vier(), { folge: { 11: [UNKNOWN, { exit: 0, text: 'aktuell' }] } })
+  const r = lauf(w, { hoechstens: 1 })
+  pruefe('UNKNOWN, dann aktuell: nach 20 s Wartezeit gemergt', r.gemergt.join(',') === '11' && w.log.aufrufe.join(',') === 'nachrechnen 11,warte 20000,nachrechnen 11,merge 11')
+}
+{
+  // Zweimal UNKNOWN: nur eine Wiederholung, dann übersprungen; der nächste Kandidat kommt dran
+  const w = welt(vier(), { folge: { 11: [UNKNOWN, UNKNOWN] } })
+  const r = lauf(w, { hoechstens: 1 })
+  pruefe('zweimal UNKNOWN: genau zwei Abfragen, nicht gemergt, Abweisung nennt den Grund', r.gemergt.join(',') === '12' && w.log.aufrufe.filter((x) => x === 'nachrechnen 11').length === 2 && w.log.zeilen.some((z) => z.startsWith('ÜBERSPRUNGEN #11') && z.includes('UNKNOWN')))
+}
+{
+  // Andere Exit-2-Gründe (Konflikt) und Exit 1 (Kette neu angestoßen) werden nicht wiederholt, es wird nicht gewartet
+  const w = welt(vier(), { folge: { 11: [{ exit: 2, text: 'PR 11 hat einen Konflikt mit main' }], 12: [{ exit: 1, text: 'NICHT AKTUELL, Test-Merge noch nicht berechnet' }] } })
+  lauf(w, { hoechstens: 3 })
+  pruefe('Konflikt (Exit 2) und NICHT AKTUELL (Exit 1): keine Wiederholung, keine Wartezeit', !w.log.aufrufe.some((x) => x.startsWith('warte')) && w.log.aufrufe.filter((x) => x === 'nachrechnen 11').length === 1 && w.log.aufrufe.filter((x) => x === 'nachrechnen 12').length === 1)
 }
 {
   const w = welt(vier(), { exits: { 11: 3 } })
@@ -285,6 +307,9 @@ pruefe('stufeVon: Müll, Fehler und Text gelten als 2', stufeVon(5, () => 'kaput
   w.merge(voll)
   const m = aufrufe.at(-1)
   pruefe('echteWelt: merge als Squash mit Kopfbindung, nie --admin, nie --auto', m === `pr merge 7 --squash --subject Titel 7 (#7) --match-head-commit ${KOPF}` && !m.includes('--admin') && !m.includes('--auto'))
+  const t0 = performance.now()
+  w.warte(30)
+  pruefe('echteWelt: warte wartet wirklich', performance.now() - t0 >= 25)
   w.zeile('Probezeile')
   pruefe('echteWelt: Zeile geht an die Ausgabe', ausgaben.join('|') === 'Probezeile')
 }
@@ -312,6 +337,36 @@ pruefe('stufeVon: Müll, Fehler und Text gelten als 2', stufeVon(5, () => 'kaput
   const echtAufrufe = []
   const echt = echteWelt({ trocken: false, gh: veraltet(echtAufrufe), repo: 'o/r', zeileAus: () => {} }).nachrechnen(7)
   pruefe('Gegenprobe ohne Trockenlauf: derselbe PR wird geschlossen und geöffnet, Exit 1', echt.exit === 1 && echtAufrufe.includes('pr close 7') && echtAufrufe.includes('pr reopen 7'))
+  // Höchstmenge Anstöße je Lauf: fünf veraltete PRs (21..25) über dieselbe echteWelt, nur die ersten vier werden geschlossen und geöffnet
+  const viele = []
+  let aktuell = 21
+  const grundGh = veraltet([])
+  const dieWelt = echteWelt({
+    trocken: false,
+    gh: (args) => {
+      viele.push(args.join(' '))
+      return grundGh(args.map((a) => (String(a) === String(aktuell) ? '7' : String(a).replace(`pulls/${aktuell}/`, 'pulls/7/'))))
+    },
+    repo: 'o/r',
+    zeileAus: () => {},
+  })
+  const ergebnisse = [21, 22, 23, 24, 25].map((nr) => {
+    aktuell = nr
+    return dieWelt.nachrechnen(nr)
+  })
+  const geschlossen = viele.filter((s) => s.startsWith('pr close')).join(',')
+  pruefe('Höchstmenge: vier Anstöße (Exit 1), der fünfte scheitert vor dem Schließen (Exit 2, Hinweis)', ergebnisse.map((e) => e.exit).join(',') === '1,1,1,1,2' && geschlossen === 'pr close 21,pr close 22,pr close 23,pr close 24' && ergebnisse[4].text.includes('Höchstmenge 4'))
+  // Der Riegel zählt je PR einmal: ein zweiter Aufruf für denselben PR (nach UNKNOWN-Wiederholung) verbraucht keinen weiteren Anstoß
+  const eng = ghMitAnstossRiegel(() => '', 1)
+  eng(['pr', 'close', '8'])
+  eng(['pr', 'close', '8'])
+  let zweiter = false
+  try {
+    eng(['pr', 'close', '9'])
+  } catch {
+    zweiter = true
+  }
+  pruefe('ghMitAnstossRiegel: derselbe PR zählt einmal, ein weiterer PR über der Grenze wirft; Lesen und Reopen zählen nie', zweiter && ghMitAnstossRiegel(() => 'x', 0)(['pr', 'view', '1']) === 'x')
 }
 pruefe('echteWelt: ohne Repo-Angabe Fehler', (() => { try { echteWelt({ trocken: true, gh: () => '', repo: '' }); return false } catch { return true } })())
 pruefe('argumente: Vorgabe', JSON.stringify(argumente([])) === '{"trocken":false,"hoechstens":3}')

@@ -9,7 +9,7 @@ import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { auflagenText, bestimmeModus, main } from './pr-pruefer-modus.mjs'
+import { VERWORFEN_TEXT, auflagenText, bestimmeModus, main } from './pr-pruefer-modus.mjs'
 
 const fehler = []
 const gleich = (name, ist, soll) => {
@@ -54,6 +54,26 @@ gleich('Fall 3: keine Kommentare -> voll', kurz(bestimmeModus([], '2')).modus, '
 gleich('Fall 3: nur Agent-Prüfer-Kommentar, noch kein CI-Review -> voll', bestimmeModus([R1, NACHTRAG], '2').modus, 'voll')
 gleich('Fall 3: nur Nachtrag und Stufen-Kommentar -> voll', bestimmeModus([agent('<!-- pr-stufe -->', 'NONE', BOT), NACHTRAG], '2').modus, 'voll')
 
+// Verworfenes Protokoll (Token-Muster): das Review der Freigabe-Stufe gilt als nicht stattgefunden.
+const VERWORFEN = ci('bbbbbbbbb', 'aendern', 'voll', 'Das Protokoll enthielt ein Token-Muster und wurde verworfen. Der Lauf ist als Fehlerfall zu behandeln.')
+const LEERE_ABNAHME = ci('bbbbbbbbb', 'aendern', 'abnahme', 'Abnahme-Modus: keine Auflagen.\nGrund: "Protokoll enthielt ein Token-Muster und wurde verworfen"')
+// Format der Freigabe-Stufe im Abnahme-Modus (pr-pruefer.yml): Kopf, Leerzeile, Abnahme-Zeile, dann gleich das Protokoll.
+const VERWORFEN_ABNAHME = {
+  user: { login: BOT },
+  author_association: 'NONE',
+  body: `**Prüfer-Review** für ccccccccc - Urteil: **aendern**\n\nAbnahme-Modus: nur die Auflagen der ersten Runde und Regressionen im Nachtrag, keine neuen Funde.\n${VERWORFEN_TEXT} Der Lauf ist als Fehlerfall zu behandeln.\n\n<!-- pruefer-modus: abnahme -->\n`,
+}
+gleich('Verworfenes Review im Abnahme-Format: Vorgänger und aendern-frei bleiben wie ohne', [bestimmeModus([CI_R1, VERWORFEN_ABNAHME], '2').vorher, bestimmeModus([CI_R1, VERWORFEN_ABNAHME], '2').aenderFrei], ['aaaaaaaaa', true])
+const tupel = (m) => [m.modus, m.vorher, m.aenderFrei, m.auflagen.length]
+gleich('Verworfenes Review allein -> voll, keine Auflage, kein Vorgänger', tupel(bestimmeModus([VERWORFEN], '2')), ['voll', '', true, 0])
+gleich('Verworfenes plus echtes aendern -> Abnahme nur mit dem echten', tupel(bestimmeModus([VERWORFEN, CI_R1], '2')), ['abnahme', 'aaaaaaaaa', true, 1])
+gleich('Echtes aendern, dann verworfenes -> Vorgänger bleibt das echte', bestimmeModus([CI_R1, VERWORFEN], '2').vorher, 'aaaaaaaaa')
+gleich('Abnahme-aendern ohne Auflagenliste verbraucht aendern-frei nicht', tupel(bestimmeModus([VERWORFEN, LEERE_ABNAHME], '2')), ['voll', 'bbbbbbbbb', true, 0])
+gleich('Abnahme-aendern mit Auflagen verbraucht aendern-frei', bestimmeModus([CI_R1, ci('aaaaaaaaa', 'aendern', 'abnahme')], '2').aenderFrei, false)
+gleich('Abnahme-aendern vor den Auflagen verbraucht nicht', bestimmeModus([ci('aaaaaaaaa', 'aendern', 'abnahme'), CI_R1], '2').aenderFrei, true)
+gleich('Der Verwerfungstext steht wörtlich im Workflow',
+  fs.readFileSync(fileURLToPath(new URL('../.github/workflows/pr-pruefer.yml', import.meta.url)), 'utf8').includes(VERWORFEN_TEXT), true)
+
 // Wer zählt: nur der Bot als CI-Review, nur Berechtigte als Agent-Prüfer; Marke nur in der letzten Zeile.
 const fremdesCi = { user: { login: 'fremd' }, author_association: 'NONE', body: CI_R1.body }
 gleich('CI-Kopfzeile von einem Fremden -> kein Review, voll', bestimmeModus([fremdesCi], '2').modus, 'voll')
@@ -85,6 +105,11 @@ gleich('Review aendern ohne jede Auflagen-Quelle (fremder Kommentar): voll', bes
 gleich('Wiederholung auf demselben Kopf nach einem Nachtrag (jüngstes Review aendern): abnahme', bestimmeModus([CI_R1, NACHTRAG], '2').modus, 'abnahme')
 gleich('Abnahme-aendern, dann neuer Kopf: weiter abnahme', bestimmeModus([CI_R1, abnahmeAendern], '2').modus, 'abnahme')
 gleich('Nur ein Abnahme-aendern ohne Quelle (Verlauf unvollständig): voll, es gibt nichts abzunehmen', bestimmeModus([abnahmeAendern], '2').modus, 'voll')
+// „nicht beurteilt, Kette lief noch“ (pr-pruefer.yml) ist kein Urteil: der Neustart nach Kettenende prüft im Modus der Runde davor.
+const ausstehend = ci('aaaaaaaaa', 'nicht beurteilt, Kette lief noch', 'voll')
+gleich('Review aendern, dann „nicht beurteilt“ (Kette offen): weiter abnahme mit derselben Auflage', kurz(bestimmeModus([CI_R1, ausstehend], '2')), kurz(bestimmeModus([CI_R1], '2')))
+gleich('Erstes Urteil „nicht beurteilt“, sonst nichts: voll, keine Abnahme', bestimmeModus([ausstehend], '2').modus, 'voll')
+gleich('Abnahme-aendern, dann „nicht beurteilt“: Sperre bleibt (nicht frei)', bestimmeModus([CI_R1, abnahmeAendern, ausstehend], '2').aenderFrei, false)
 gleich('Ohne Auflagen steht der Hinweis in der Datei', auflagenText([], '999999999').includes('Keine Auflagen'), true)
 gleich('Letzter geprüfter Kopf ist der des jüngsten CI-Reviews', bestimmeModus([CI_R1, abnahmeOk], '2').vorher, 'ddddddddd')
 gleich('Kopf wird auf 9 Zeichen gekürzt', bestimmeModus([ci('0123456789abcdef', 'aendern', 'voll')], '2').vorher, '012345678')
