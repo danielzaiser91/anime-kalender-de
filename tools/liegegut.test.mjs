@@ -138,6 +138,7 @@ console.log('liegegut: Signal 7 Überholt über den Diff (Fehlalarme 07.11.2026:
   pruefe('einer fehlt auf main → kein Treffer (verschiedene Namen, einer vorhanden)', ueberholtTreffer(neuP, (_d, namen) => namen.filter((n) => n === 'GRENZWERT').map((n) => `3:${n}`).join('\n')).length === 0)
   pruefe('keiner steht auf main → kein Treffer (Titel ähnelt einem main-Commit, Inhalt neu)', ueberholtTreffer(neuP, () => '').length === 0)
   pruefe('Teilwort auf main (GRENZWERT_MAX) ist kein Treffer für GRENZWERT', ueberholtTreffer(patch('a.ts', ['+const GRENZWERT = 5']), () => '4:const GRENZWERT_MAX = 6').length === 0)
+  pruefe('Wortende auf main (MAX_GRENZWERT) ist kein Treffer für GRENZWERT', ueberholtTreffer(patch('a.ts', ['+const GRENZWERT = 5']), () => '4:const MAX_GRENZWERT = 6').length === 0)
   pruefe('PR ohne neue Bezeichner (nur Daten/Doku) → kein Treffer', ueberholtTreffer('', stehtAlles).length === 0 && ueberholtTreffer(patch('docs/x.md', ['+text']), stehtAlles).length === 0)
 
   const werk = fs.mkdtempSync(path.join(os.tmpdir(), 'liegegut-git-'))
