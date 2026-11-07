@@ -35,6 +35,7 @@ pruefe('Anime2You „mit deutscher Sprachausgabe“ belegt Synchro', dubFeldFehl
 pruefe('„deutsche Sprachausgabe“ ohne Endung belegt Synchro', dubFeldFehler({ ...gut, dubZitat: 'Es gibt eine deutsche Sprachausgabe.' }) === undefined)
 pruefe('Gegenprobe: nur Untertitel („Sprache: Japanisch, Untertitel: Deutsch“) belegt nichts', dubFeldFehler({ ...gut, dubZitat: 'Sprache: Japanisch, Untertitel: Deutsch' }) !== undefined)
 pruefe('Gegenprobe: „deutsche Untertitel“ belegt nichts', dubFeldFehler({ ...gut, dubZitat: 'Mit deutschen Untertiteln.' }) !== undefined)
+pruefe('Gegenprobe: „Untertitelsprache: Deutsch“ und „Originalsprache: Deutsch“ belegen nichts', ['Untertitelsprache: Deutsch', 'Originalsprache: Deutsch', 'Untertitel-Sprache: Deutsch'].every((dubZitat) => dubFeldFehler({ ...gut, dubZitat }) !== undefined))
 pruefe('Gegenprobe: „keine deutsche Sprachausgabe“ verneint', dubFeldFehler({ ...gut, dubZitat: 'Es gibt keine deutsche Sprachausgabe.' }) !== undefined)
 pruefe('Lesedatum fehlt', dubFeldFehler({ ...gut, dubGeprueftAm: undefined }) !== undefined)
 pruefe('TV-Termin trägt keinen Streambeleg', dubFeldFehler({ ...gut, platform: 'tv' }) !== undefined)
