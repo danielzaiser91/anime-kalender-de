@@ -1,21 +1,21 @@
 # Kontrollmessung: Streaming Availability API
 
-Stand 2026-10-23. Erzeugt von `npm run data:motn:check`, **nicht von Hand pflegen**.
+Stand 2026-11-07. Erzeugt von `npm run data:motn:check`, **nicht von Hand pflegen**.
 
-Bestand: **2034 Serien** der Quelle, davon **802 Zuordnungen**
-zu unseren Einträgen. Davon ließen sich **495** gegen einen unabhängigen Beleg halten
+Bestand: **2123 Serien** der Quelle, davon **835 Zuordnungen**
+zu unseren Einträgen. Davon ließen sich **513** gegen einen unabhängigen Beleg halten
 (Handprüfung oder Crunchyroll-Serienseite).
 
 | | Zahl |
 |---|---|
-| bestätigt (wir ja, Quelle ja) | 162 |
-| **widersprochen** (wir nein, Quelle ja) | 3 |
-| Quelle schweigt (wir ja, Quelle führt es nicht) | 330 |
+| bestätigt (wir ja, Quelle ja) | 170 |
+| **widersprochen** (wir nein, Quelle ja) | 4 |
+| Quelle schweigt (wir ja, Quelle führt es nicht) | 339 |
 
 **Nur die mittlere Zeile ist ein Widerspruch.** Die untere ist der bekannte Verzug der Quelle:
 Sie belegt, was da ist, nie was fehlt (siehe `pipeline/lib/motn.ts`).
 
-**Wie belastbar die Null ist: 30 der 495 Vergleiche standen gegen ein belegtes *Nein*.**
+**Wie belastbar die Null ist: 29 der 513 Vergleiche standen gegen ein belegtes *Nein*.**
 Nur die können überhaupt ein Widerspruch werden — die übrigen messen, ob die Quelle eine
 bekannte Synchro auch kennt, nicht ob sie eine erfindet. Die Decke dafür liegt in unserem
 eigenen Bestand: Belegte Absagen gibt es kaum, und mehr Anfragen an die Quelle ändern das
@@ -26,12 +26,12 @@ das Gegenteil belegt haben" — nicht „sie tut es nie".
 
 | Anbieter | verglichen | bestätigt | widersprochen | Quelle schweigt |
 |---|---|---|---|---|
-| crunchyroll | 258 | 10 | 0 | 248 |
-| netflix | 89 | 56 | 0 | 33 |
-| primevideo | 79 | 51 | 2 | 26 |
-| crunchyroll — Kanal `crunchyrollde` | 39 | 26 | 0 | 13 |
+| crunchyroll | 263 | 10 | 0 | 253 |
+| netflix | 93 | 59 | 0 | 34 |
+| primevideo | 82 | 52 | 3 | 27 |
+| crunchyroll — Kanal `crunchyrollde` | 44 | 29 | 0 | 15 |
 | disneyplus | 24 | 17 | 0 | 7 |
-| adn — Kanal `animedigitalde` | 6 | 2 | 1 | 3 |
+| adn — Kanal `animedigitalde` | 7 | 3 | 1 | 3 |
 
 **Crunchyroll ist hier der Prüfstein, nicht das Ziel.** Für 190 Serien wissen wir aus unserem
 eigenen Abruf, ob dort eine deutsche Tonspur liegt — für Netflix wissen wir es fast nirgends
@@ -55,10 +55,11 @@ fehlt bislang jede Trefferquote.
 | Date a Live IV | primevideo | keine Synchro | Handprüfung | 35–46 |
 | Dorohedoro | adn | keine Synchro | Handprüfung | 1–12 |
 | Ragna Crimson | primevideo | keine Synchro | Handprüfung | 1–24 |
+| Yandere Dark Elf: She Chased Me All the Way from Another World! | primevideo | keine Synchro | Handprüfung | 1–12 |
 
 ## Deutscher Ton bei Netflix, aber keine Zuordnung
 
-**53 Serien** trägt die Quelle mit deutschem Netflix-Ton, ohne dass ein Beleg
+**55 Serien** trägt die Quelle mit deutschem Netflix-Ton, ohne dass ein Beleg
 daraus wird. Fast immer ist es die Folgenrechnung: Die Quelle nummeriert ihre Folgen nicht,
 zugeordnet wird über die **Position** in ihrer Liste, und die geht nur auf, wenn die Länge
 exakt zu unserer Staffelaufteilung passt. 26 Einträge für 25 Folgen heißen, dass irgendwo ein
@@ -69,7 +70,8 @@ Antwort.
 
 | unser Titel | Serie laut Quelle | Jahr | Folgen in der Liste | ihr `episodeCount` | Netflix-Folgen mit deutschem Ton |
 |---|---|---|---|---|---|
-| Pokémon Horizonte | Pokémon Horizons | 2023 | 148 | 147 | 89 |
+| Miraculous: Geschichten von Ladybug und Cat Noir | Miraculous: Tales of Ladybug & Cat Noir | 2015 | 163 | 181 | 110 |
+| Pokémon Horizonte | Pokémon Horizons | 2023 | 155 | = | 89 |
 | The Seven Deadly Sins | The Seven Deadly Sins | 2014 | 96 | = | 76 |
 | Kuroko’s Basketball: Staffel 1 | Kuroko's Basketball | 2012 | 78 | = | 75 |
 | Shaman King (2021) | SHAMAN KING | 2021 | 52 | = | 52 |
@@ -95,6 +97,7 @@ Antwort.
 | Swordgai The Animation | SWORD GAI: The Animation | 2018 | 24 | = | 24 |
 | Ghost in the Shell: SAC_2045 | Ghost in the Shell: SAC_2045 | 2020 | 24 | = | 24 |
 | Meine Wiedergeburt als Schleim in einer anderen Welt | That Time I Got Reincarnated as a Slime | 2018 | 96 | = | 24 |
+| Kakegurui: Das Leben ist ein Spiel | Kakegurui | 2017 | 24 | = | 24 |
 | Fate/Grand Order Absolute Demonic Front: Babylonia | Fate/Grand Order Absolute Demonic Front: Babylonia | 2019 | 21 | = | 21 |
 | Great Pretender | Great Pretender | 2020 | 27 | = | 18 |
 | Altered Carbon: Resleeved | Altered Carbon | 2018 | 18 | = | 18 |
@@ -129,8 +132,8 @@ Unsere jüngste **beobachtete** Folge gegen die jüngste, die die Quelle führt.
 
 | Release | unsere Folge | beobachtet am | Folge laut Quelle | Tage seit der Beobachtung |
 |---|---|---|---|---|
-| Das Band der Unterwelt | 15 | 2026-10-10 | 9 | 13 |
-| Blue Box: Staffel 2 | 4 | 2026-10-25 | — | -2 |
+| Das Band der Unterwelt | 15 | 2026-10-10 | 17 | 28 |
+| Blue Box: Staffel 2 | 4 | 2026-10-25 | — | 13 |
 
 ## Was diese Quelle liefern kann
 
