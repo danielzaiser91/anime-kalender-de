@@ -1,28 +1,15 @@
 {
-  "scrapedAt": "2026-11-07T04:13:20.291Z",
+  "scrapedAt": "2026-11-07T11:01:41.162Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 39,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 4,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "schon in einem Rubrik-Feed gelesen": 30,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 56,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
+    "schon in einem Rubrik-Feed gelesen": 8,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 14,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 1,
     "Sprachhinweis älter als 45 Tage": 6
   },
   "proposals": [
-    {
-      "articleTitle": "Prime Video nimmt zwei Anime-Serien auf Deutsch ins Programm",
-      "articleUrl": "https://www.anime2you.de/news/1068059/prime-video-devils-crest-und-mehr/",
-      "publishedAt": "2026-11-06",
-      "category": "streaming",
-      "platforms": [
-        "primevideo"
-      ],
-      "dates": [],
-      "dub": "ja",
-      "hinweis": "sprache",
-      "alreadyCurated": false
-    },
     {
       "articleTitle": "28 Blu-ray-Termine von Crunchyroll, AniMoon, KSM und polyband verschoben",
       "articleUrl": "https://www.anime2you.de/news/1068595/28-blu-ray-verschiebungen/",
