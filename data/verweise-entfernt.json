@@ -1,5 +1,5 @@
 {
-  "stand": "2026-11-06T23:07:58.209Z",
+  "stand": "2026-11-07T09:46:11.681Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -351,7 +351,7 @@
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
       "geprueftAm": "2026-11-02",
       "entferntAm": "2026-11-07",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 97985,
@@ -2353,7 +2353,7 @@
       "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
       "geprueftAm": "2026-11-04",
       "entferntAm": "2026-11-07",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 21730,
@@ -3266,7 +3266,7 @@
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
       "geprueftAm": "2026-11-04",
       "entferntAm": "2026-11-07",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 21269,
@@ -6159,7 +6159,7 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-11-07",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 100465,
@@ -6215,17 +6215,6 @@
       "geprueftAm": null,
       "entferntAm": "2026-11-07",
       "letzterWeg": false
-    },
-    {
-      "titleId": 101350,
-      "titel": "Pet",
-      "plattform": "primevideo",
-      "url": "https://www.amazon.de/gp/video/detail/B083F5275T",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-11-07",
-      "letzterWeg": true
     },
     {
       "titleId": 101918,
@@ -7909,6 +7898,17 @@
       "geprueftAm": null,
       "entferntAm": "2026-11-07",
       "letzterWeg": false
+    },
+    {
+      "titleId": 101350,
+      "titel": "Pet",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/gp/video/detail/B083F5275T",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-11-07",
+      "letzterWeg": true
     },
     {
       "titleId": 170221,
