@@ -10,12 +10,22 @@ import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'nod
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { parse } from 'yaml'
 import type { Behauptung } from './lib/anime2you-regel.ts'
 import {
   bilanz, ergaenzeSchatten, schattenLauf, titelGleich, vergleiche, vergleicheArtikel,
   type Lauf, type SchattenBestand,
 } from './lib/anime2you-schatten.ts'
 import { SCHATTEN_DATEI, schattenSchritt, leseRohAntwort, type Ablage } from './lib/anime2you-schatten-lauf.ts'
+
+interface Schritt {
+  name?: string
+  uses?: string
+  run?: string
+  if?: string
+  env?: unknown
+  [schluessel: string]: unknown
+}
 
 let fehler = 0
 function pruefe(name: string, bedingung: boolean, gefunden?: unknown): void {
@@ -94,6 +104,8 @@ pruefe('doppelte Regel-Behauptung (Block und Satz): einmal', vergleiche('x', [b(
 pruefe('Titel gleich bis auf Schreibweise', titelGleich('Aoashi – Staffel 2', 'aoashi staffel 2'))
 pruefe('Titel mit Zusatz gegen ohne', titelGleich('Aoashi', 'Aoashi – Staffel 2') && titelGleich('Aoashi – Staffel 2', 'Aoashi'))
 pruefe('kurzer Anfang zählt nicht', !titelGleich('Re', 'Re:Zero'))
+pruefe('kurzer Titel gleich sich selbst', titelGleich('Ao', 'ao'))
+pruefe('drei Zeichen als Anfang reichen nicht, vier schon', !titelGleich('Foo', 'Foo Bar') && titelGleich('Fooo', 'Fooo Bar'))
 pruefe('verschiedene Titel', !titelGleich('Foo Bar', 'Foo Baz'))
 pruefe('leerer Titel passt nie', !titelGleich('', '') && !titelGleich('»«', 'Foo'))
 
@@ -204,6 +216,23 @@ try {
   const datei = join(akA, SCHATTEN_DATEI)
   const geschrieben = JSON.parse(readFileSync(datei, 'utf8')) as SchattenBestand
   pruefe('Prozess: Exit 0, Zeile im Log, Datei mit einem Lauf', ok.status === 0 && /Schatten: 2 Artikel, gleich 2, nur Regel 0, nur Claude 0, ohne Antwort 1, Schattenfehler 0, [\d.]+ ms/.test(ok.aus) && geschrieben.laeufe.length === 1 && !ok.aus.includes('Abbruch (') && /^\d{4}-\d{2}-\d{2}$/.test(geschrieben.laeufe[0]!.am), { ...ok, geschrieben })
+  /* Verdrahtung: der Workflow ruft das Skript mit dem Arbeitsordner des Laufs auf, nach Claude und vor der Übernahme, ohne den Lauf rot zu machen. */
+  const wf = parse(readFileSync(join(wurzel, '.github/workflows/claude-anime2you-extraktion.yml'), 'utf8')) as { jobs: { lesen: { steps: Schritt[] } } }
+  const schritte = wf.jobs.lesen.steps
+  const nr = (f: (s: Schritt) => boolean): number => schritte.findIndex(f)
+  const iClaude = nr((s) => String(s.uses ?? '').startsWith('anthropics/claude-code-action'))
+  const iUebernahme = nr((s) => String(s.run ?? '').includes('--uebernehmen'))
+  const iSchatten = nr((s) => String(s.run ?? '').includes('anime2you-schatten.ts'))
+  const schatten = schritte[iSchatten]
+  pruefe('Workflow: ein Schattenschritt zwischen Claude und Übernahme', iClaude >= 0 && iSchatten > iClaude && iSchatten < iUebernahme, [iClaude, iSchatten, iUebernahme])
+  pruefe('Workflow: Schattenschritt darf scheitern (continue-on-error), hat Frist bis 5 min und läuft nur bei Artikeln', schatten?.['continue-on-error'] === true && Number(schatten['timeout-minutes']) > 0 && Number(schatten['timeout-minutes']) <= 5 && schatten.if === schritte[iUebernahme]!.if, schatten)
+  pruefe('Workflow: LAUF_TOKEN für die Vorfallmeldung', (schatten?.env as Record<string, string> | undefined)?.LAUF_TOKEN === '${{ secrets.LAUF_TOKEN }}', schatten?.env)
+  const wortlaut = String(schatten?.run ?? '').trim().split(/\s+/)
+  pruefe('Workflow: Aufruf mit demselben Arbeitsordner wie die Übernahme', wortlaut.join(' ') === 'npx tsx pipeline/anime2you-schatten.ts --verzeichnis "$ARBEITSORDNER"' && String(schritte[iUebernahme]!.run).includes('--verzeichnis "$ARBEITSORDNER"'), wortlaut)
+  const akW = join(tmp, 'wurzel-w')
+  mkdirSync(akW, { recursive: true })
+  const ausWorkflow = starte(wortlaut[2]!.replace('pipeline/', ''), akW, wortlaut[3]!, ordner)
+  pruefe('Workflow: der Aufruf aus der YAML läuft durch und schreibt die Zeile', ausWorkflow.status === 0 && (JSON.parse(readFileSync(join(akW, SCHATTEN_DATEI), 'utf8')) as SchattenBestand).laeufe.length === 1, ausWorkflow)
   const akB = join(tmp, 'wurzel-b')
   mkdirSync(akB, { recursive: true })
   const aus = starte('anime2you-schatten.ts', akB, '--verzeichnis', join(tmp, 'gibt-es-nicht'))
