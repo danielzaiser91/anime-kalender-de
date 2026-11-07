@@ -37,6 +37,7 @@ import { adressKern, loadDubChecks } from './lib/dub-confirmed.ts'
 import { haengeBelegeAn } from './lib/belege-anhaengen.ts'
 import { kanalJaAdressKerne, kanalOhneAussage } from './lib/kanal-titel.ts'
 import { schluesselAdresse, titelSchluessel } from './lib/zuordnung.ts'
+import { ratePerName } from './lib/namens-zuordnung.ts'
 import { staffelNummern, type Reiheneintrag } from './lib/staffel-nummern.ts'
 import { verteileMeldungen } from './lib/meldungen-verteilen.ts'
 import { liegenGeblieben, schreibeMeldungenListe, type OhneZuordnung } from './lib/meldungen-liste.ts'
@@ -544,41 +545,14 @@ for (const gruppe of jeAdresse.values()) {
     // Der Titel ist die letzte Chance — und nur ein Vorschlag: Ein Name ist
     // eine Ähnlichkeit, kein Beleg.
     /**
-     * Der Namensvergleich darf unscharf sein — sonst findet er das Naheliegende
-     * nicht.
-     *
-     * Daniel meldete „Magi – Netflix" als verschwunden; wir führen den Titel als
-     * „Magi: The Labyrinth of Magic". Exakt verglichen passte nichts, und in der
-     * Liste stand „Titel von Hand suchen" — dabei war die Antwort schlicht, dass
-     * wir für diesen Titel gar keinen Netflix-Verweis haben und also nichts zu
-     * tun ist (23.08.2026: „warum soll ich das nochmal prüfen").
-     *
-     * Erst exakt, dann als Anfang eines längeren Namens. Der Vorschlag bleibt
-     * ein Vorschlag — er entscheidet nichts, er stellt nur die richtige Frage.
+     * Der Namensvergleich darf unscharf sein, der Vorschlag bleibt ein Vorschlag (`ratePerName`). Ein **exakter**
+     * Treffer auf genau einen Titel entscheidet selbst (Daniel, 23.08.2026: „NANA", „Saiki K."): da gibt es nichts
+     * zu entscheiden, nur etwas einzutragen. Vorgelegt wird, was mehrdeutig ist: mehrere Treffer, ein ungefährer, keiner.
      */
     const name = p.serientitel ?? p.titel ?? ''
-    const schluessel = name ? titelSchluessel(name) : ''
-    let geraten = schluessel ? (nachTitel.get(schluessel) ?? []) : []
-    if (!geraten.length && schluessel.length >= 4) {
-      for (const [k, ids] of nachTitel) {
-        // „magi" findet „magi the labyrinth of magic", nicht „imagination".
-        if (k === schluessel || k.startsWith(schluessel + ' ')) geraten = [...geraten, ...ids]
-      }
-    }
-    /**
-     * Ein **exakter** Namenstreffer auf genau einen Titel entscheidet selbst.
-     *
-     * Daniel am 23.08.2026: „was soll ich genau machen ... was genau soll denn
-     * verbunden werden". Bei „NANA", „The Disastrous Life of Saiki K." und „My
-     * Love Story with Yamada-kun at Lv999" hiess der gemeldete Name **genau** so
-     * wie unserer — da gibt es nichts zu entscheiden, nur etwas einzutragen.
-     *
-     * Vorgelegt wird nur noch, was mehrdeutig ist: mehrere Treffer, ein
-     * ungefährer, oder gar keiner.
-     */
-    const eindeutig = [...new Set(geraten)]
-    const unserName = eindeutig.length === 1 ? (liste.find((x) => x.id === eindeutig[0])?.titleDe ?? liste.find((x) => x.id === eindeutig[0])?.titleEn ?? '') : ''
-    if (eindeutig.length === 1 && unserName && titelSchluessel(name) === titelSchluessel(unserName)) {
+    const unserName = (id: number) => liste.find((x) => x.id === id)?.titleDe ?? liste.find((x) => x.id === id)?.titleEn ?? ''
+    const { treffer: eindeutig, exakt } = ratePerName(name, nachTitel, unserName)
+    if (exakt) {
       // Der Name stimmt **genau** — da gibt es nichts zu entscheiden, nur
       // etwas einzutragen. Die Adresse ist neu und kommt gleich mit.
       ids = eindeutig
