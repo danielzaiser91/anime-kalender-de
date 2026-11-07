@@ -3,6 +3,7 @@
  * vom 02.11.2026 (Staffelkennung 81184773, gti 81184787 … 81184798). Geprüft werden Sperre, Wächter und die Sperrliste selbst.
  */
 import { readFileSync } from 'node:fs'
+import { ohneGesperrtePruefungen } from './lib/meldungen-stapel.ts'
 import { bereinigeAltbestand } from './lib/rohfolgen-staffelmisch.ts'
 import { doppelteNetflixKennungen, ladeFremdeMeldungen, ohneFremdeNetflixMeldungen, type FremdeMeldung } from './lib/netflix-fremde-meldung.ts'
 
@@ -84,6 +85,22 @@ for (const [falsch, richtig, kennung] of PAARE) {
 pruefe('81969861 (Tougen Anki): Dangers-Folge 81788314 weg, eigene Staffel 82069977 bleibt', eine(sperre, zeile(N('81969861'), 81788314, 'Staffel 1')) === 1 && eine(sperre, zeile(N('81969861'), 82069001, '82069977')) === 0)
 pruefe('81227574 (Kung Fu Panda): Dee-Film 81382725 weg, eigene Staffel 81227575 bleibt', eine(sperre, zeile(N('81227574'), 81382725, 'Das Prequel')) === 1 && eine(sperre, zeile(N('81227574'), 81227600, '81227575')) === 0)
 pruefe('81183924 (Dragon Age): „Staffel 3“-Folge 81515752 weg', eine(sperre, zeile(N('81183924'), 81515752, 'Staffel 3')) === 1)
+
+console.log('Prüfungen (Feld `folge` = Folgenkennung, Meldungskopie 06.11.2026)')
+const DRAGON = N('81183924')
+const FARZAR = N('81259476')
+const pr = (id: number, url: string, folge: string | null, plattform = 'netflix') => ({ id, url, plattform, folge })
+const gesperrtVon = (zeilen: ReturnType<typeof pr>[]) => ohneGesperrtePruefungen(zeilen, sperre).gesperrt.sort((a, b) => a - b)
+pruefe('Dragon Age Staffel 2 (Anfang und Ende) und Staffel 3: gesperrt', gesperrtVon([pr(1, DRAGON, '81508284'), pr(2, DRAGON, '81508299'), pr(3, DRAGON, '81515752')]).join() === '1,2,3')
+pruefe('Dragon Age Staffel 1 (eigene Folgen 81183926): bleibt', gesperrtVon([pr(1, DRAGON, '81183926')]).length === 0)
+pruefe('Folge direkt vor und nach Staffel 2 (81508283, 81508300): bleibt', gesperrtVon([pr(1, DRAGON, '81508283'), pr(2, DRAGON, '81508300')]).length === 0)
+pruefe('Farzar Staffel 2 (Anfang und Ende): gesperrt, Staffel 1 (81346965) bleibt', gesperrtVon([pr(1, FARZAR, '81246546'), pr(2, FARZAR, '81246558'), pr(3, FARZAR, '81346965')]).join() === '1,2')
+pruefe('dieselbe Folgenkennung an der richtigen Adresse (Angry Birds): bleibt', gesperrtVon([pr(1, N('81161575'), '81508284')]).length === 0)
+pruefe('Prime-Zeile mit gesperrter Kennung: bleibt', gesperrtVon([pr(1, DRAGON, '81508284', 'primevideo')]).length === 0)
+pruefe('Zeile ohne Folgenkennung: bleibt', gesperrtVon([pr(1, DRAGON, null)]).length === 0)
+const geteilt = ohneGesperrtePruefungen([pr(1, DRAGON, '81508284'), pr(2, DRAGON, '81508285'), pr(3, FARZAR, '81246546'), pr(4, DRAGON, '81183926')], sperre)
+pruefe('Rest und Zählung je Adresse', geteilt.pruefungen.map((p) => p.id).join() === '4' && geteilt.jeAdresse.get(DRAGON) === 2 && geteilt.jeAdresse.get(FARZAR) === 1, [...geteilt.jeAdresse])
+pruefe('ohne Sperrliste: nichts gesperrt', ohneGesperrtePruefungen([pr(1, DRAGON, '81508284')], []).gesperrt.length === 0)
 
 console.log('Sperrliste')
 const roh = JSON.parse(readFileSync(new URL('../data/netflix-fremde-meldungen.json', import.meta.url), 'utf8')) as FremdeMeldung[]

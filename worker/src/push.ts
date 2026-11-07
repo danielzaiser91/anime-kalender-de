@@ -3,6 +3,10 @@ import { fehlerLog } from './werte.ts'
 import { imTagesfenster } from './push-fenster.ts'
 import { istPushDienst } from './push-dienst.ts'
 import { ladeKennungen, leseFavoriten, type Kennungen } from './favoriten-kennung.ts'
+import { istErschienen } from '../../shared/logic.ts'
+
+/** Für Push gilt ein Katalogstart ohne Uhrzeit erst um 23:59 als erschienen: Netflix schaltet gegen 9 Uhr frei, "Jetzt auf Deutsch" um 00:00 käme zu früh. */
+export const pushIstErschienen = (e: PushEreignis, zeit: Date): boolean => istErschienen(e, zeit, false)
 
 /**
  * **Web-Push ohne Nutzlast — der Zustell-PoC** (18.09.2026, Plan in status.md).

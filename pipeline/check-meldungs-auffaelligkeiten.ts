@@ -119,8 +119,28 @@ pruefe(r4.befunde?.length === 3, `Lauf 4: ${r4.befunde?.length} Befunde statt 3 
 pruefe(r4.warnung?.includes('DATEN_WARNUNG=1 neue Meldung(en) auffällig (3 offen)') === true, `Lauf 4, genau ein neuer Befund: ${r4.warnung}`)
 pruefeAbhaken(4, r4, [900002])
 
+const gesperrteIds = Array.from({ length: 16 }, (_x, i) => 900101 + i)
+const r5 = laufe(5)
+pruefe(r5.status === 0, `Lauf 5 endete mit ${r5.status}: ${r5.fehler}`)
+pruefe(r5.befunde !== null && r5.befunde.length === 0, `Lauf 5: gesperrte Folgenkennungen bleiben auffällig: ${JSON.stringify(r5.befunde)}`)
+pruefe(r5.warnung === undefined, `Lauf 5: gesperrte Folgenkennungen lösen eine Warnung aus: ${r5.warnung}`)
+pruefeAbhaken(5, r5, gesperrteIds)
+
+const r6 = laufe(6)
+pruefe(r6.status === 0, `Lauf 6 endete mit ${r6.status}: ${r6.fehler}`)
+pruefe(r6.befunde?.length === 1 && r6.befunde[0]!.text.includes('16 Folgen gemeldet, Titel 6 (Gti-Titel 6) hat 6'), `Lauf 6: ungesperrte Folgen müssen auffällig bleiben: ${JSON.stringify(r6.befunde)}`)
+const erwartetNeu = 'DATEN_WARNUNG=1 neue Meldung(en) auffällig (1 offen), siehe '
+pruefe(r6.warnung?.includes(erwartetNeu) === true && r6.warnung.includes('.json — neu: Meldung 900201 (+15): 16 Folgen gemeldet, Titel 6 (Gti-Titel 6) hat 6'), `Lauf 6: die Warnung nennt den neuen Text nicht: ${r6.warnung}`)
+
+const text = (n: number) => ({ am: '2026-11-06', text: `Meldung ${n}: x` })
+pruefe(warnungsText(2, 3).startsWith('2 neue Meldung(en) auffällig (3 offen), siehe ') && warnungsText(2, 3).endsWith('.json'), 'Warnung ohne Texte ändert sich')
+pruefe(warnungsText(1, 1, [text(7)]).endsWith(' — neu: Meldung 7: x'), 'Warnung nennt den einen neuen Text nicht')
+pruefe(warnungsText(1, 1, [{ am: '', text: 'Meldung 5,6: y' }]).endsWith(' — neu: Meldung 5 (+1): y'), 'Warnung kürzt die Kennungsliste nicht')
+pruefe(warnungsText(3, 3, [text(1), text(2), text(3)]).endsWith(' — neu: Meldung 1: x | Meldung 2: x | Meldung 3: x'), 'Warnung mit genau drei Texten')
+pruefe(warnungsText(4, 4, [text(1), text(2), text(3), text(4)]).endsWith(' — neu: Meldung 1: x | Meldung 2: x | Meldung 3: x (+1 weitere)'), 'Warnung mit vier Texten nennt nur drei und zählt den Rest')
+
 if (fehler.length) {
   console.error(`check-meldungs-auffaelligkeiten: ${fehler.join('; ')}`)
   process.exit(1)
 }
-console.log('check-meldungs-auffaelligkeiten: weniger Folgen kein Befund; Befund bleibt, solange er zutrifft (Lauf 2: 2 offen, keine Warnung), erledigter fällt weg (Lauf 3), genau ein neuer Befund warnt mit „1 neue … (3 offen)“ (Lauf 4).')
+console.log('check-meldungs-auffaelligkeiten: weniger Folgen kein Befund; Befund bleibt, solange er zutrifft (Lauf 2: 2 offen, keine Warnung), erledigter fällt weg (Lauf 3), genau ein neuer Befund warnt mit „1 neue … (3 offen)“ (Lauf 4); gesperrte Netflix-Folgen sind weder auffällig noch offen (Lauf 5: 16 abgehakt), ungesperrte bleiben auffällig und die Warnung nennt ihren Text (Lauf 6).')

@@ -38,6 +38,9 @@ if (gruppe === 'run' && aktion === 'view') {
 } else if (gruppe === 'pr' && aktion === 'list') {
   if (nach('--state') !== 'open') falsch('pr list state')
   process.stdout.write(JSON.stringify(liste(antworten.prs)))
+} else if (gruppe === 'issue' && aktion === 'create') {
+  protokoll(`ANGELEGT ${nach('--title')}`)
+  process.stdout.write(`https://github.com/danielzaiser91/anime-kalender-de/issues/${antworten.neuesIssue}\n`)
 } else if ((gruppe === 'issue' || gruppe === 'pr') && aktion === 'comment') {
   protokoll(`KOMMENTAR ${gruppe} ${args[2]}`)
 } else {

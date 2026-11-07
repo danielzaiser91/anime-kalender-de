@@ -21,6 +21,16 @@ DESCRIPTION:Plattform: Joyn\nRelease-Art: Katalogtitel\nIm Angebot seit die
 CATEGORIES:Joyn
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-6920-tv-rtl@2026-11-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261107T221000Z
+DTEND:20261107T224000Z
+SUMMARY:Blade
+DESCRIPTION:Plattform: RTL\nRelease-Art: Wöchentlich (Simuldub)\nDetails: 
+ https://anime-kalender.de/t/4057/
+CATEGORIES:RTL
+END:VEVENT
+BEGIN:VEVENT
 UID:memories-2026-11-18@2026-11-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261118
