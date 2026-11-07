@@ -109,6 +109,8 @@ const unmarkiert = lauf([
   /* bekannte Adresse ohne Kennzeichen und eine fremde Zeichenfolge davor: beides zählt nicht als „unbekannt=1" */
   zeile(9, 'B0KASTEN04', 'Kastenprobe Delta', false),
   zeile(10, 'B0KASTEN07', 'Kastenprobe Zeta', true, 'xunbekannt=1'),
+  /* … und eine längere Zahl dahinter */
+  zeile(12, 'B0KASTEN08', 'Kastenprobe Eta', true, 'unbekannt=10'),
 ])
 if (unmarkiert.ausgabe.includes('Unbekannte Prime-Seiten')) fehler.push('ohne Kennzeichen darf nichts als „Unbekannte Prime-Seiten" gezählt werden')
 const standard = unmarkiert.liste.split('\n').find((z) => z.includes(seite('B0KASTEN05'))) ?? ''

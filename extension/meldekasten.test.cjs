@@ -497,6 +497,21 @@ function pruefeUnbekannteSeite() {
     s.takt()
     return { s, z }
   }
+  /* Die übrigen Gründe, den Knopf zu behalten, jeder allein (ohne Prime-Video-Merkmal): Suchauftrag und Staffel einer bekannten Serie. */
+  {
+    const { s } = unbekannt((x) => {
+      x.werte.set('seiteGehtUnsAn', () => false)
+      x.werte.set('eintrag', { titel: 'Titel', url: 'https://www.amazon.de/dp/A', ausSuche: true })
+    })
+    pruefe('Suchauftrag, ohne Prime-Video-Merkmal: Knopf bleibt', sichtbar(s.knopf), s.knopf.style.display)
+  }
+  {
+    const { s } = unbekannt((x) => {
+      x.werte.set('seiteGehtUnsAn', () => false)
+      x.werte.set('serieBekannt', () => true)
+    })
+    pruefe('Staffel einer bekannten Serie, ohne Prime-Video-Merkmal: Knopf bleibt', sichtbar(s.knopf), s.knopf.style.display)
+  }
   {
     const { s, z } = unbekannt()
     pruefe('unbekannte Prime-Seite: Knopf sichtbar, frei, endet auf „Sprache melden"',
