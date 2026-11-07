@@ -39,7 +39,8 @@ function leseCi(k) {
   const body = String(k.body ?? '')
   const m = CI_URTEIL.exec(body)
   if (!m) return null
-  if (body.slice(m[0].length).trimStart().startsWith(VERWORFEN_TEXT)) return null
+  // Im Abnahme-Modus steht die Zeile „Abnahme-Modus: …“ vor dem Protokoll, daher Zeilenanfang irgendwo statt Textanfang.
+  if (body.split('\n').some((zeile) => zeile.startsWith(VERWORFEN_TEXT))) return null
   const marke = MARKE.exec(body.trimEnd().split('\n').at(-1))
   return { kopf: m[1].slice(0, 9), wort: m[2].split(',')[0], modus: marke ? marke[1] : 'voll', text: body }
 }

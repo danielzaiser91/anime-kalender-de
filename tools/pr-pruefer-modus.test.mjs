@@ -57,6 +57,13 @@ gleich('Fall 3: nur Nachtrag und Stufen-Kommentar -> voll', bestimmeModus([agent
 // Verworfenes Protokoll (Token-Muster): das Review der Freigabe-Stufe gilt als nicht stattgefunden.
 const VERWORFEN = ci('bbbbbbbbb', 'aendern', 'voll', 'Das Protokoll enthielt ein Token-Muster und wurde verworfen. Der Lauf ist als Fehlerfall zu behandeln.')
 const LEERE_ABNAHME = ci('bbbbbbbbb', 'aendern', 'abnahme', 'Abnahme-Modus: keine Auflagen.\nGrund: "Protokoll enthielt ein Token-Muster und wurde verworfen"')
+// Format der Freigabe-Stufe im Abnahme-Modus (pr-pruefer.yml): Kopf, Leerzeile, Abnahme-Zeile, dann gleich das Protokoll.
+const VERWORFEN_ABNAHME = {
+  user: { login: BOT },
+  author_association: 'NONE',
+  body: `**Prüfer-Review** für ccccccccc - Urteil: **aendern**\n\nAbnahme-Modus: nur die Auflagen der ersten Runde und Regressionen im Nachtrag, keine neuen Funde.\n${VERWORFEN_TEXT} Der Lauf ist als Fehlerfall zu behandeln.\n\n<!-- pruefer-modus: abnahme -->\n`,
+}
+gleich('Verworfenes Review im Abnahme-Format: Vorgänger und aendern-frei bleiben wie ohne', [bestimmeModus([CI_R1, VERWORFEN_ABNAHME], '2').vorher, bestimmeModus([CI_R1, VERWORFEN_ABNAHME], '2').aenderFrei], ['aaaaaaaaa', true])
 const tupel = (m) => [m.modus, m.vorher, m.aenderFrei, m.auflagen.length]
 gleich('Verworfenes Review allein -> voll, keine Auflage, kein Vorgänger', tupel(bestimmeModus([VERWORFEN], '2')), ['voll', '', true, 0])
 gleich('Verworfenes plus echtes aendern -> Abnahme nur mit dem echten', tupel(bestimmeModus([VERWORFEN, CI_R1], '2')), ['abnahme', 'aaaaaaaaa', true, 1])
