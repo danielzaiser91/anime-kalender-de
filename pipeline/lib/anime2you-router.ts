@@ -69,17 +69,39 @@ const gedeckt = (titel: string, behauptungen: Behauptung[]): boolean => {
 }
 
 /**
- * A1: Felder im Block, die keine Regel liest (Start = Datum, Hinweis = Aussage, Episoden = Folgenzahl, Simulcast = Wochentag und Uhrzeit); sie gehören Claude.
- * Episoden und Simulcast bleiben hier, weil Claude aus demselben Block uneinheitlich schreibt: `art` einmal `start`, einmal `sprachfassung` (1064193 gegen 1066100),
- * `folgen` einmal „12“, einmal „12 (komplett)“ (ADN gegen aniverse) – ein Wert und eine Art gleich Claude gibt es dort nicht (Messung PR-Text, 07.11.2026).
+ * A1 (Allowlist): Im Block trägt die Regel nur `Sprache:`, `Stream:` und `Laufzeit:` (Laufzeit ohne Aussage). Jede andere Zeile im Zitat nach der Kopfzeile
+ * und jede `Name:`-Zeile im Neun-Zeilen-Fenster dahinter (`Neue Folge:`, `Verfügbar bis:`, `Folgen:`, `Start:`, `Hinweis:`, `Episoden:`, `Simulcast:` …) gehört Claude.
+ * Episoden und Simulcast: Claude schreibt aus demselben Block uneinheitlich (`art` einmal `start`, einmal `sprachfassung`; `folgen` „12“ gegen „12 (komplett)“, Messung PR-Text 07.11.2026).
  */
-const FELD_OHNE_REGEL = /^(Start|Hinweis|Episoden|Simulcast):/
+const FELD_MIT_REGEL = ['Sprache', 'Stream', 'Laufzeit']
+/** Hinter dem Zitat steht in 31 Zeilen der 16 echten Artikel `Handlung:` (Inhaltsangabe; Datum und Uhrzeit darin fängt `datumAusserhalb`): dort Fließtext. */
+const FENSTER_ERLAUBT = [...FELD_MIT_REGEL, 'Handlung']
+const NAME_ZEILE = /^([^:»«]{1,40}):(?:\s|$)/
+const KOPFZEILE = /^(?:(.{0,40}?):\s*)?»([^»«]{2,120})«(.*)$/
 
-export function feldOhneRegel(behauptungen: Behauptung[]): string | undefined {
+/** Die Zeilen des Artikels wie die Regel sie liest (getrimmt, ohne Leerzeilen). */
+const artikelZeilen = (text: string): string[] => text.split('\n').map((z) => z.trim()).filter(Boolean)
+
+/** Zeilen hinter dem Zitat bis zum nächsten Kopf, höchstens neun Zeilen unter dem Kopf des Blocks. */
+function fensterHinterZitat(zeilen: string[], zitat: string[]): string[] {
+  const i = zeilen.findIndex((_, j) => zitat.every((z, k) => zeilen[j + k] === z))
+  if (i < 0) return []
+  const aus: string[] = []
+  for (let j = i + zitat.length; j < zeilen.length && !KOPFZEILE.test(zeilen[j]!) && j - i <= 9; j++) aus.push(zeilen[j]!)
+  return aus
+}
+
+export function feldOhneRegel(text: string, behauptungen: Behauptung[]): string | undefined {
+  const zeilen = artikelZeilen(text)
   for (const b of behauptungen) {
-    for (const zeile of b.zitat.split('\n')) {
-      const m = FELD_OHNE_REGEL.exec(zeile)
-      if (m) return m[1]
+    const zitat = b.zitat.split('\n')
+    for (const zeile of zitat.slice(1)) {
+      const name = NAME_ZEILE.exec(zeile)?.[1]
+      if (name === undefined || !FELD_MIT_REGEL.includes(name)) return name ?? zeile.slice(0, 40)
+    }
+    for (const zeile of fensterHinterZitat(zeilen, zitat)) {
+      const name = NAME_ZEILE.exec(zeile)?.[1]
+      if (name !== undefined && !FENSTER_ERLAUBT.includes(name)) return name
     }
   }
   return undefined
@@ -141,7 +163,7 @@ export function pruefeArtikel(a: RouterArtikel): { grund: string } | { vorschlae
   if (behauptungen.some((b) => b.familie !== 'block')) return { grund: 'Satz-Behauptung' }
   const ohne = [...a.text.matchAll(/»([^»«]{2,100})«/g)].map((m) => m[1]!).find((t) => !gedeckt(t, behauptungen))
   if (ohne) return { grund: `Titel ohne Behauptung: ${ohne}` }
-  const feld = feldOhneRegel(behauptungen)
+  const feld = feldOhneRegel(a.text, behauptungen)
   if (feld) return { grund: `Feld ohne Regel: ${feld}` }
   const datum = datumAusserhalb(a.text, behauptungen)
   if (datum) return { grund: `Datum oder Uhrzeit außerhalb der Regel: ${datum}` }

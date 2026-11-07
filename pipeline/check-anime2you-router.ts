@@ -169,6 +169,31 @@ for (const [feld, zeile] of ECHTE_FORMEN) {
   pruefe(`A1 echte Form „${zeile}“ im letzten Block: Claude, Feld ${feld}`, mit(nachSprache(zeile, true)).grund === `Feld ohne Regel: ${feld}`, mit(nachSprache(zeile, true)))
 }
 pruefe('A1 Feld Laufzeit bleibt erlaubt (Regel braucht es nicht, es trägt keine Aussage)', mit(nachSprache('Laufzeit: 24 Minuten')).weg === 'regel')
+/* A1 Allowlist: jede andere Zeile im Block geht an Claude, vor wie nach `Stream:` (das Zitat endet an der letzten Feldzeile, die Zeile dahinter liegt im Fenster). */
+const nachStream = (zeile: string, letzter = false): string => {
+  const zeilen = ok.text.split('\n')
+  const idx = letzter ? zeilen.map((z) => z.trim().startsWith('Stream:')).lastIndexOf(true) : zeilen.findIndex((z) => z.trim().startsWith('Stream:'))
+  zeilen.splice(idx + 1, 0, ` ${zeile}`)
+  return zeilen.join('\n')
+}
+pruefe('A1 Fall bereit: Stream-Zeile gefunden', nachStream('X').length === ok.text.length + 3 && nachStream('X', true) !== nachStream('X'))
+for (const [name, zeile] of [['Neue Folge', 'Neue Folge: Jeden Samstag'], ['Verfügbar bis', 'Verfügbar bis: unbekannt'], ['Folgen', 'Folgen: 12'], ['Noch nicht verfügbar', 'Noch nicht verfügbar: ab Dezember']] as const) {
+  for (const [wo, text] of [['vor Stream, erster Block', nachSprache(zeile)], ['vor Stream, letzter Block', nachSprache(zeile, true)], ['nach Stream, erster Block', nachStream(zeile)], ['nach Stream, letzter Block', nachStream(zeile, true)]] as const) {
+    pruefe(`A1 Allowlist „${zeile}“ ${wo}: Claude`, mit(text).grund === `Feld ohne Regel: ${name}`, mit(text))
+  }
+}
+pruefe('A1 Allowlist: Zeile ohne Doppelpunkt im Zitat („Noch nicht verfügbar“ vor Stream): Claude', mit(nachSprache('Noch nicht verfügbar')).grund === 'Feld ohne Regel: Noch nicht verfügbar', mit(nachSprache('Noch nicht verfügbar')))
+for (const zeile of ['Laufzeit: 24 Minuten', 'Sprache: Deutsch', 'Stream: Crunchyroll', 'Handlung: Ein Junge zieht aus.']) {
+  pruefe(`A1 Allowlist Gegenfall: nur erlaubte Zeile „${zeile}“ nach Stream: erklärt`, mit(nachStream(zeile)).weg === 'regel', mit(nachStream(zeile)))
+  if (!zeile.startsWith('Handlung')) pruefe(`A1 Allowlist Gegenfall: nur erlaubte Zeile „${zeile}“ nach Sprache, letzter Block: erklärt`, mit(nachSprache(zeile, true)).weg === 'regel', mit(nachSprache(zeile, true)))
+}
+pruefe('A1 Allowlist: „Handlung:“ mitten im Zitat (vor Stream) ist nicht erlaubt: Claude', mit(nachSprache('Handlung: Ein Junge zieht aus.')).grund === 'Feld ohne Regel: Handlung')
+/* A2 (Prüfer R1): nur die Kopfzeile nennt den Titel, und der Titel trägt eine Uhrzeit – die Regel liest ihn, der Rest nach dem »Titel« gehört nicht ihr; die Kopfzeile zählt ab dem ersten », nicht ab dem letzten «. */
+const nurKopf = (titel: string): string => `Neue Titel auf Crunchyroll\nVeröffentlicht: 2026-10-24\n\n»${titel}« – Staffel 2\nSprache: Deutsch, Japanisch (UT)\nStream: Crunchyroll\n`
+const kopfMitZeit = entscheide({ id: '1', rubriken: ['Crunchyroll'], text: nurKopf('Mission 11:30') })
+pruefe('A2 Titel mit Uhrzeit nur in der Kopfzeile: Claude, nennt 11:30', kopfMitZeit.weg === 'claude' && kopfMitZeit.grund === 'Datum oder Uhrzeit außerhalb der Regel: 11:30', kopfMitZeit)
+const kopfOhneZeit = entscheide({ id: '1', rubriken: ['Crunchyroll'], text: nurKopf('Mission Alpha') })
+pruefe('A2 Titel ohne Datumsform nur in der Kopfzeile: erklärt', kopfOhneZeit.weg === 'regel', kopfOhneZeit)
 /* A2: Datum oder Uhrzeit außerhalb der gelesenen Stellen – unabhängig von der Anführung. */
 const satzFall = (satz: string): string => `${ok.text}\n${satz}\n`
 for (const [name, satz, treffer] of [
