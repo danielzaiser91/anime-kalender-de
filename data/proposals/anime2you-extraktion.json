@@ -1350,6 +1350,22 @@
     "1068751": {
       "am": "2026-11-07",
       "vorschlaege": 4
+    },
+    "1068798": {
+      "am": "2026-11-07",
+      "vorschlaege": 1
+    },
+    "1068809": {
+      "am": "2026-11-07",
+      "vorschlaege": 1
+    },
+    "1068824": {
+      "am": "2026-11-07",
+      "vorschlaege": 0
+    },
+    "1068831": {
+      "am": "2026-11-07",
+      "vorschlaege": 0
     }
   },
   "vorschlaege": [
@@ -11215,6 +11231,48 @@
       "artikel": "Prime Video nimmt zwei Anime-Serien auf Deutsch ins Programm",
       "quelle": "https://www.anime2you.de/news/1068059/prime-video-devils-crest-und-mehr/",
       "veroeffentlicht": "2026-11-06",
+      "gelesenAm": "2026-11-07"
+    },
+    {
+      "titel": "BLESS",
+      "zitat": "Der Streaming-Dienst Crunchyroll zeigt den Anime im Originalton mit deutschen Untertiteln im Simulcast.",
+      "art": "start",
+      "sprache": "omu",
+      "plattform": "crunchyroll",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": "Das japanische Fernsehen startet laut Artikel am 8. Januar 2027; ob der Crunchyroll-Simulcast zum selben Termin beginnt, wird nicht ausdrücklich gesagt.",
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1068798",
+      "artikel": "Konkreter Termin der Anime-Adaption von »BLESS« + Trailer",
+      "quelle": "https://www.anime2you.de/news/1068798/konkreter-termin-von-bless/",
+      "veroeffentlicht": "2026-11-07",
+      "gelesenAm": "2026-11-07"
+    },
+    {
+      "titel": "Gacha Girls Corps",
+      "zitat": "Crunchyroll zeigt die Serie im Simulcast.",
+      "art": "start",
+      "sprache": "unklar",
+      "plattform": "crunchyroll",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": "Der Artikel nennt den 7. Januar 2027 als Starttermin der Serie, ohne diesen Tag ausdrücklich dem Crunchyroll-Simulcast zuzuschreiben.",
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1068809",
+      "artikel": "Konkreter Termin des Isekai-Anime »Gacha Girls Corps« + Visual",
+      "quelle": "https://www.anime2you.de/news/1068809/gacha-girls-corps-konkreter-termin/",
+      "veroeffentlicht": "2026-11-07",
       "gelesenAm": "2026-11-07"
     }
   ]
