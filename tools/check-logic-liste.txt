@@ -34,6 +34,7 @@ pipeline/check-angebot-seit-disc.ts
 pipeline/check-angebot-seit.ts
 pipeline/check-angebot-stichtag.ts
 pipeline/check-angebot-termine.ts
+pipeline/check-anilist-cover-vorschau.ts
 pipeline/check-anilist-produkt.ts
 pipeline/check-anime2you-abruf.ts
 pipeline/check-anime2you-entwurf.ts
@@ -101,7 +102,9 @@ pipeline/check-cartoon-wege.ts
 pipeline/check-cartoon-zwilling.ts
 pipeline/check-cover-luecken-bau.ts
 pipeline/check-cover-luecken-wache.ts
+pipeline/check-cover-masse-poster-lauf.ts
 pipeline/check-cover-quelle.ts
+pipeline/check-cover-vorschau-bestand-lauf.ts
 pipeline/check-cr-abruf-logik.ts
 pipeline/check-cr-auftakt-wache.ts
 pipeline/check-cr-batch-phase.ts
@@ -423,6 +426,7 @@ pipeline/check-screenshot-wiederholen.ts
 pipeline/check-seiten-ansicht.ts
 pipeline/check-seiten-seo.ts
 pipeline/check-serien-vorsatz.ts
+pipeline/check-share-pages-doppellauf.ts
 pipeline/check-sichtung-folge.ts
 pipeline/check-sichtungsfenster.ts
 pipeline/check-sonderfolgen.ts
