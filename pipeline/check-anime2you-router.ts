@@ -182,6 +182,11 @@ for (const [name, zeile] of [['Neue Folge', 'Neue Folge: Jeden Samstag'], ['Verf
     pruefe(`A1 Allowlist „${zeile}“ ${wo}: Claude`, mit(text).grund === `Feld ohne Regel: ${name}`, mit(text))
   }
 }
+/* Fenstergrenze: höchstens neun Zeilen unter dem Kopf; die Zitatlänge (Kopf, Sprache, Stream = 3) zählt mit, also liegt die Zeile nach 6 Fülltext-Zeilen noch drin, nach 7 nicht. */
+const mitFuell = (k: number): string => nachStream([...Array(k).fill('Fülltext ohne Feld.'), 'Neue Folge: Jeden Samstag'].join('\n'), true)
+pruefe('A1 Fenster: Name-Zeile nach 3 Fülltext-Zeilen liegt im Fenster: Claude', mit(mitFuell(3)).grund === 'Feld ohne Regel: Neue Folge', mit(mitFuell(3)))
+pruefe('A1 Fenster: Name-Zeile nach 6 Fülltext-Zeilen (neunte Zeile) liegt im Fenster: Claude', mit(mitFuell(6)).grund === 'Feld ohne Regel: Neue Folge', mit(mitFuell(6)))
+pruefe('A1 Fenster: Name-Zeile nach 7 Fülltext-Zeilen (zehnte Zeile) liegt außerhalb: erklärt', mit(mitFuell(7)).weg === 'regel', mit(mitFuell(7)))
 pruefe('A1 Allowlist: Zeile ohne Doppelpunkt im Zitat („Noch nicht verfügbar“ vor Stream): Claude', mit(nachSprache('Noch nicht verfügbar')).grund === 'Feld ohne Regel: Noch nicht verfügbar', mit(nachSprache('Noch nicht verfügbar')))
 for (const zeile of ['Laufzeit: 24 Minuten', 'Sprache: Deutsch', 'Stream: Crunchyroll', 'Handlung: Ein Junge zieht aus.']) {
   pruefe(`A1 Allowlist Gegenfall: nur erlaubte Zeile „${zeile}“ nach Stream: erklärt`, mit(nachStream(zeile)).weg === 'regel', mit(nachStream(zeile)))
