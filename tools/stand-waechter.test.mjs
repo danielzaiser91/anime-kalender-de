@@ -4,7 +4,7 @@
  * Feste Zeit, Wegwerf-Dateien unter os.tmpdir().
  */
 import assert from 'node:assert/strict'
-import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
@@ -203,11 +203,23 @@ assert.equal(w.waechter(mitLinks('[a](file:///C:/code/ai/tot.md#x)', '[b](file:/
 assert.equal(w.waechter(mitLinks('[a](https://example.org/tot.md)', '[b](tot.md)'), JETZT, existiert), '', 'http und relative Links zählen nicht')
 assert.equal(w.waechter(mitLinks('[a](file:///C:/code/ai/%ZZ.md)'), JETZT, existiert), '', 'kaputte Kodierung wird übersprungen')
 assert.equal(w.waechter(mitLinks('[a](file:///C:/code/ai/tot.md)', ...hand(21)), JETZT, existiert), '22 Handzeilen (erlaubt 20) — aufräumen; ' + TOT, 'nach den bestehenden Meldungen')
-// Ohne Attrappe zählt das echte Dateisystem (Wegwerf-Ordner)
+// Echtes Dateisystem plattformunabhängig: Laufwerkspfad C:/… wird auf den Wegwerf-Ordner abgebildet
 const dir = mkdtempSync(join(tmpdir(), 'stand-links-'))
-const echt = join(dir, 'echt.md').replaceAll('\\', '/')
-writeFileSync(echt, 'x')
-assert.equal(w.waechter(mitLinks(`[a](file:///${echt})`), JETZT), '', 'echte Datei lebt')
+const echtFs = (p) => existsSync(join(dir, p.replace(/^[A-Za-z]:\//, '')))
+const echtLink = mitLinks('[a](file:///C:/echt.md)')
+writeFileSync(join(dir, 'echt.md'), 'x')
+assert.equal(w.waechter(echtLink, JETZT, echtFs), '', 'echte Datei lebt')
 rmSync(dir, { recursive: true })
-assert.equal(w.waechter(mitLinks(`[a](file:///${echt})`), JETZT), 'Toter Link: echt.md — umbenannt? Link nachziehen', 'echte Datei gelöscht')
+assert.equal(w.waechter(echtLink, JETZT, echtFs), 'Toter Link: echt.md — umbenannt? Link nachziehen', 'echte Datei gelöscht')
+// Standardprüfung (fs.existsSync) nur dort, wo Laufwerkspfade echt sind
+if (process.platform === 'win32') {
+  const d2 = mkdtempSync(join(tmpdir(), 'stand-links-'))
+  const p2 = join(d2, 'echt.md').replaceAll('\\', '/')
+  writeFileSync(p2, 'x')
+  assert.equal(w.waechter(mitLinks(`[a](file:///${p2})`), JETZT), '', 'Standard: echte Datei lebt')
+  rmSync(d2, { recursive: true })
+  assert.equal(w.waechter(mitLinks(`[a](file:///${p2})`), JETZT), 'Toter Link: echt.md — umbenannt? Link nachziehen', 'Standard: Datei gelöscht')
+} else {
+  console.log('stand-waechter.test: Standard-Dateisystemfall übersprungen (nur win32); Fall mit abgebildetem Pfad lief')
+}
 console.log('stand-waechter.test: ok (tote Datei-Links: tot/lebend, %20, Anker, Dubletten, http, Reihenfolge, echtes Dateisystem)')
