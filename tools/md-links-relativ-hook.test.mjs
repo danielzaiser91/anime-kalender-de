@@ -45,13 +45,27 @@ try {
   assert.equal(r.status, 0)
   assert.equal(readFileSync(ziel, 'utf8'), '[s](../berichte/x.md#L3)\n')
   assert.match(JSON.parse(r.stdout).hookSpecificOutput.additionalContext, /e\.md: 1/)
+  // Git-Stand: s.md ist frisch, aber sauber (wie nach einem Pull) und trägt noch file:///
+  const sauber = tmp + '/jetzt/s.md'
+  const sauberText = `[p](file:///${tmp}/pull.md)\n`
+  writeFileSync(sauber, sauberText)
+  const git = (...a) => assert.equal(spawnSync('git', ['-c', 'user.name=t', '-c', 'user.email=t@t', ...a], { cwd: tmp, encoding: 'utf8', timeout: 15000 }).status, 0)
+  git('init', '-q')
+  git('add', '-A')
+  git('commit', '-q', '-m', 'basis')
   const b = lauf({ tool_name: 'Bash', tool_input: { command: 'node x' } })
   assert.equal(b.status, 0)
-  assert.equal(b.stdout, '', 'nichts mehr umzuschreiben, stand.md ausgenommen')
+  assert.equal(b.stdout, '', 'nichts Geändertes, stand.md ausgenommen')
+  assert.equal(readFileSync(sauber, 'utf8'), sauberText, 'frisch gepullte, saubere Datei bleibt unberührt')
   assert.match(readFileSync(tmp + '/stand.md', 'utf8'), /file:\/\/\//)
   writeFileSync(ziel, `[t](file:///${tmp}/a.md)\n`)
   lauf({ tool_name: 'Bash', tool_input: { command: 'node x' } })
   assert.equal(readFileSync(ziel, 'utf8'), '[t](../a.md)\n', 'Bash-Ereignis erfasst frisch geänderte Dateien')
+  assert.equal(readFileSync(sauber, 'utf8'), sauberText, 'sauber bleibt auch neben einer geänderten Datei')
+  const neu = tmp + '/jetzt/n.md'
+  writeFileSync(neu, `[n](file:///${tmp}/n.md)\n`)
+  lauf({ tool_name: 'Bash', tool_input: { command: 'node x' } })
+  assert.equal(readFileSync(neu, 'utf8'), '[n](../n.md)\n', 'neue, ungetrackte Datei wird bearbeitet')
 } finally {
   rmSync(tmp, { recursive: true, force: true })
 }
