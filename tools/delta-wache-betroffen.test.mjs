@@ -110,7 +110,7 @@ function schreiber(vorherTitel, jetztTitel, historie) {
     git(ordner, 'add', 'public/data/titles.json')
     git(ordner, 'commit', '-q', '-m', 'stand')
     writeFileSync(join(ordner, 'public/data/titles.json'), JSON.stringify(jetztTitel))
-    writeFileSync(join(ordner, 'data/link-check.json'), JSON.stringify({ [NF(1)]: { status: 404, geprueftAm: '2026-10-26' } }))
+    writeFileSync(join(ordner, 'data/link-check.json'), JSON.stringify({ [NF(1)]: { status: 200, geprueftAm: '2026-10-26' } }))
     const datei = join(ordner, 'data/bestand-historie.jsonl')
     writeFileSync(datei, historie.map((x) => JSON.stringify(x)).join('\n') + '\n')
     const r = spawnSync(process.execPath, [join(wurzel, 'pipeline/bestand-historie.ts')], { env: { ...process.env, AK_ROOT: ordner, GITHUB_RUN_ID: '' }, encoding: 'utf8', windowsHide: true, timeout: 60000 })
@@ -124,7 +124,7 @@ const stand = { zeitpunkt: '2026-11-05T05:00:00.000Z', titel: 2, titelMitVerweis
 const zwei = [titel(20, 'Naruto Shippuden', s('netflix', NF(1), true)), titel(21, 'Made in Abyss', s('netflix', NF(2), true))]
 const verlust = schreiber(zwei, [zwei[1], titel(20, 'Naruto Shippuden')], [stand])
 assert.ok(verlust.auffaellig?.length, 'Kulisse ist rot')
-assert.deepEqual(verlust.betroffen, ['Naruto Shippuden (20) · netflix · Synchro-Beleg weg (link-check: 404 am 2026-10-26)'])
+assert.deepEqual(verlust.betroffen, ['Naruto Shippuden (20) · netflix · Synchro-Beleg weg (link-check: 200 am 2026-10-26)'])
 const ruhig = schreiber(zwei, zwei, [{ ...stand }])
 assert.equal(ruhig.auffaellig, undefined)
 assert.equal(ruhig.betroffen, undefined, 'ohne Befund kein Feld')

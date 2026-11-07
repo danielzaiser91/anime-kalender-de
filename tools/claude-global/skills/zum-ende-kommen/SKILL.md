@@ -5,7 +5,9 @@ description: "Bei „ende“, „zum ende kommen“, „feierabend“, „nichts
 
 # Zum Ende kommen (Daniel, 18.10.2026)
 
-„Ende“ heißt: **nichts Neues mehr, aber nichts abwürgen.** Was schon läuft, darf fertig werden und wird sauber abgeschlossen; danach steht eine Übergabe, mit der die nächste Sitzung ohne Nachfragen weitermacht. Die Sitzung bleibt offen (sitzungsgebundene Crons und Berichte laufen weiter) — das unterscheidet es von `sitzungswechsel`, der Agenten pausiert und neu startet.
+„Ende“ heißt: **Ende — danach läuft nichts mehr** (Daniel, 05.11.2026: „wenn ende dann ende. dann darf nichts mehr laufen“). Agenten halten an einem sauberen Punkt an, schreiben ihre Übergabe und hören auf; nichts wird „noch fertig“ laufen gelassen. Danach steht eine Übergabe, mit der die nächste Sitzung ohne Nachfragen weitermacht. Die alte Fassung („nichts abwürgen, Laufendes darf fertig werden“) ist aufgehoben; die Abschnitte unten gelten nur noch für ein Ende mit Uhrzeit, bis diese erreicht ist.
+
+**„Schluss für heute“ / „ende“ am Abend heißt: der PC wird heruntergefahren (Daniel, 05.11.2026 00:14).** Dann läuft lokal nichts weiter — keine Merge-Reihe, kein Monitor, kein Hintergrundskript. Bauer schreiben ihre Übergabe und hören auf, lokale Reihen und Monitore werden sofort beendet (`ps -ef`, Kontrolle: nichts außer der eigenen Shell). Was über Nacht laufen soll, läuft remote (GitHub Actions, Cloud), sonst morgen. Anlass: Die Merge-Reihe sollte bis 01:34 laufen und blockierte das Git-Update; dazu 62 verwaiste `tail`/`grep`-Monitore seit 09:42.
 
 ## Was ab jetzt nicht mehr passiert
 
