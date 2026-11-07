@@ -1,8 +1,9 @@
-import { lazy, Suspense } from 'react'
+import { Suspense } from 'react'
 import type { Dataset } from '../lib/data.ts'
+import { lazyMitRueckfall } from './lazy-mit-rueckfall.tsx'
 
 /** „Entdecken“ ist ein eigener Chunk und lädt erst auf `#/entdecken` (Start-Budget). */
-const EmpfehlungView = lazy(() => import('./empfehlung/EmpfehlungView.tsx'))
+const EmpfehlungView = lazyMitRueckfall<{ data: Dataset }>(() => import('./empfehlung/EmpfehlungView.tsx'), (m) => m.default)
 
 export function EmpfehlungLazy({ data }: { data: Dataset }) {
   return (

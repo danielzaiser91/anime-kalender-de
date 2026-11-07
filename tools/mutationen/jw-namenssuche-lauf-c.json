@@ -1,0 +1,4 @@
+[
+  { "name": "Kontrolle (unmutiert)", "aenderungen": [] },
+  { "name": "fetch sucheOhneTmdb: Abbruch nur bei 429 entfällt (jeder Fehler)", "aenderungen": [{ "datei": "pipeline/fetch-justwatch-audio.ts", "suche": "if (/^429 /.test((e as Error).message) && ++sperrenInFolge >= SPERREN_BIS_ABBRUCH) {\n        warn(`JustWatch (Namenssuche)", "ersetze": "if (++sperrenInFolge >= SPERREN_BIS_ABBRUCH) {\n        warn(`JustWatch (Namenssuche)" }] }
+]

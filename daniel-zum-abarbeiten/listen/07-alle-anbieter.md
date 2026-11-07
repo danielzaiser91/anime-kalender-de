@@ -1,6 +1,6 @@
 # Prüfliste: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-11-06 · **196 offene Verweise** in **150 Zeilen**.
+Stand 2026-11-07 · **195 offene Verweise** in **149 Zeilen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Was geprüft ist, gehört
 nach `data/dub-confirmed.yaml`; beim nächsten Lauf verschwindet es hier.
@@ -35,7 +35,7 @@ Synchro und zweiter ohne, Zeile 4 tot.
 |---|---|
 | [Netflix](07-netflix.md) | 177 |
 | [Prime Video](07-primevideo.md) | 16 |
-| [Disney+](07-disneyplus.md) | 3 |
+| [Disney+](07-disneyplus.md) | 2 |
 
 ## Zu prüfen
 
@@ -43,57 +43,57 @@ Synchro und zweiter ohne, Zeile 4 tot.
 |---|---|---|---|
 | 1 | 2026-11-06 | A Silent Voice | [Hauptserie](https://www.netflix.com/title/80223226) |
 | 2 | 2026-11-06 | Failure Frame: I Became the Strongest and Annihilated Everything with Low-Level Spells | [Hauptserie](https://www.netflix.com/title/81910037) |
-| 3 | 2026-11-03 | Gosick | [Hauptserie](https://www.netflix.com/title/80209888) |
-| 4 | 2026-11-03 | Honey Lemon Soda | [Hauptserie]() |
-| 5 | 2026-11-03 | No Game No Life | [Zero](https://www.netflix.com/title/81068687) |
-| 6 | 2026-11-01 | M.A.S.K. | [Hauptserie]() |
-| 7 | 2026-10-25 | Meine ganz besondere Hochzeit | [Special](https://www.netflix.com/title/82643530) |
-| 8 | 2026-10-15 | Sankarea: Undying Love | [Hauptserie]() |
-| 9 | 2026-10-10 | Demon Slayer: Kimetsu no Yaiba | [Mugen Train Arc]() · [Entertainment District Arc]() |
-| 10 | 2026-10-08 | Kamisama Kiss | [Hauptserie](https://www.netflix.com/title/80070071) |
-| 11 | 2026-10-06 | My Hero Academia | [Vigilantes Staffel 2](https://www.netflix.com/title/82036361) |
-| 12 | 2026-10-02 | Chainsaw Man | [Hauptserie](https://www.netflix.com/title/81215627) |
-| 13 | 2026-09-28 | Jujutsu Kaisen | [0](https://www.netflix.com/title/81602834) |
-| 14 | 2026-09-26 | Welcome to Demon School! Iruma-kun | [Staffel 4](https://www.disneyplus.com/browse/entity-b042544d-cd7d-40c6-9be4-db79666a1b51) |
-| 15 | 2026-09-25 | JoJo’s Bizarre Adventure | [Steel Ball Run: Jojo’s Bizarre Adventure - Phase 2-3](https://www.netflix.com/title/82116553) |
-| 16 | 2026-09-20 | A Sign of Affection | [Hauptserie](https://www.netflix.com/title/81748453) |
-| 17 | 2026-09-07 | 2.5 Dimensional Seduction — 2.5 Dimensional Seduction | [2.5 Dimensional Seduction](https://www.netflix.com/title/81909977) |
-| 18 | 2026-09-07 | How Not to Summon a Demon Lord | [Hauptserie](https://www.netflix.com/title/81004514) |
-| 19 | 2026-09-06 | Classroom of the Elite | [Hauptserie](https://www.netflix.com/title/80193178) |
-| 20 | 2026-09-04 | A Couple of Cuckoos | [Hauptserie](https://www.netflix.com/title/81594245) |
-| 21 | 2026-09-01 | Hellsing | [Ultimate OVA](https://www.netflix.com/title/80988066) |
-| 22 | 2026-08-29 | Yu-Gi-Oh! (1998) | [Yu-Gi-Oh! GX]() |
-| 23 | 2026-08-27 | Aesthetica of a Rogue Hero | [Hauptserie](https://www.amazon.de/gp/video/detail/B0GVKRLHXX) |
-| 24 | 2026-08-21 | Vampire Knight | [Guilty](https://www.netflix.com/title/70309457) |
-| 25 | 2026-08-05 | Slam Dunk | [The First Slam Dunk](https://www.netflix.com/title/81765372) |
-| 26 | 2026-07-24 | Parasyte: The Maxim | [Hauptserie](https://www.netflix.com/title/80191008) |
-| 27 | 2026-07-22 | Welcome to Demon School! Iruma-kun | [Hauptserie](https://www.netflix.com/title/81194192) · [Welcome to Demon-School! Iruma-kun: Staffel 2](https://www.netflix.com/title/81194192) · [Staffel 3](https://www.netflix.com/title/81672787) |
-| 28 | 2026-07-19 | Wistoria: Wand and Sword | [Hauptserie](https://www.netflix.com/title/81900358) · [Hauptserie](https://www.netflix.com/title/81900358) |
-| 29 | 2026-06-22 | Atelier of Witch Hat | [Hauptserie](https://www.netflix.com/title/82741721) |
-| 30 | 2026-03-10 | Touken Ranbu: Hanamaru | [Katsugeki: Touken Ranbu](https://www.netflix.com/title/80232868) |
-| 31 | 2026-01-17 | Terror in Tokio | [Hauptserie](https://www.netflix.com/title/80020759) |
-| 32 | 2025-04-09 | Possibly the Greatest Alchemist of All Time | [Hauptserie](https://www.netflix.com/title/82058586) |
-| 33 | 2025-04-03 | Devil May Cry | [Hauptserie](https://www.netflix.com/title/81506915) |
-| 34 | 2024-10-20 | Uzumaki | [Hauptserie](https://www.netflix.com/title/81943371) |
-| 35 | 2024-10-09 | Alya Sometimes Hides Her Feelings in Russian | [Hauptserie](https://www.netflix.com/title/81661821) |
-| 36 | 2024-09-20 | Overlord | [Movies](https://www.netflix.com/title/81285994) · [Der dunkle Held](https://www.netflix.com/title/81285995) · [The Sacred Kingdom](https://www.netflix.com/title/82040442) |
-| 37 | 2024-09-05 | Spy × Family | [Code: White](https://www.netflix.com/title/81924850) |
-| 38 | 2024-09-05 | Spy × Family | [Code: White](https://watch.amazon.de/detail?gti=amzn1.dv.gti.a3523598-4cd6-4004-8763-f4fbb45e0ac6) |
-| 39 | 2024-08-02 | My Hero Academia | [You’re Next](https://watch.amazon.de/detail?gti=amzn1.dv.gti.c903bcab-b4d5-4bdb-b418-70ab5650132e) |
-| 40 | 2024-07-19 | Wind Breaker | [Hauptserie](https://www.netflix.com/title/81771389) |
-| 41 | 2024-07-11 | Beyond the Boundary: Kyoukai no Kanata | [Hauptserie](https://www.netflix.com/title/80052668) |
-| 42 | 2024-06-30 | Captain Tsubasa: Die tollen Fußballstars | [Captain Tsubasa: Staffel 2 - Die Junioren](https://www.netflix.com/title/81003894) |
-| 43 | 2024-04-20 | Mashle: Magic and Muscles | [Hauptserie](https://www.netflix.com/title/81685164) · [The Divine Visionary Candidate Exam Arc](https://www.netflix.com/title/81685164) |
-| 44 | 2024-04-19 | Bluelock | [Blue Lock: The Movie - Episode Nagi](https://watch.amazon.de/detail?gti=amzn1.dv.gti.ae9245d5-07c5-41ce-ba90-d9f8779f046c) |
-| 45 | 2024-03-31 | Solo Leveling | [Hauptserie](https://www.netflix.com/title/81748512) |
-| 46 | 2024-02-16 | Haikyu!! | [Das Play-off der Müllhalde](https://watch.amazon.de/detail?gti=amzn1.dv.gti.467b800e-3262-4857-82b7-ed7a8634cb5b) |
-| 47 | 2024-01-30 | Zom 100: Bucket List of the Dead | [Hauptserie](https://www.netflix.com/title/81680101) |
-| 48 | 2024-01-17 | Bofuri: I Don’t Want to Get Hurt, So I’ll Max Out My Defense. | [Hauptserie](https://www.netflix.com/title/81234294) |
-| 49 | 2023-11-17 | GeGeGe no Kitaro | [The Birth of Kitaro: The Mystery of GeGeGe](https://www.amazon.de/gp/video/detail/0U2F1VC6MV5CHFW4ZP7GSM1RX0) |
-| 50 | 2023-10-16 | Ayakashi Triangle | [Hauptserie](https://www.netflix.com/title/81680115) |
-| 51 | 2023-10-01 | Cautious Hero: The Hero Is Overpowered but Overly Cautious | [Hauptserie](https://www.netflix.com/title/81196818) |
-| 52 | 2023-09-18 | Masamune-kun’s Revenge | [Hauptserie](https://www.netflix.com/title/80165290) · [R](https://www.netflix.com/title/80165290) |
-| 53 | 2023-07-23 | NieR:Automata Ver1.1a | [Hauptserie](https://www.netflix.com/title/81680344) |
+| 3 | 2026-11-06 | Highschool D×D | [Hauptserie](https://www.netflix.com/title/80005873) · [New](https://www.netflix.com/title/80005873) · [BorN](https://www.netflix.com/title/80005873) |
+| 4 | 2026-11-06 | NieR:Automata Ver1.1a | [Hauptserie](https://www.netflix.com/title/81680344) |
+| 5 | 2026-11-03 | Gosick | [Hauptserie](https://www.netflix.com/title/80209888) |
+| 6 | 2026-11-03 | No Game No Life | [Zero](https://www.netflix.com/title/81068687) |
+| 7 | 2026-11-01 | M.A.S.K. | [Hauptserie]() |
+| 8 | 2026-10-25 | Meine ganz besondere Hochzeit | [Special](https://www.netflix.com/title/82643530) |
+| 9 | 2026-10-15 | Sankarea: Undying Love | [Hauptserie]() |
+| 10 | 2026-10-11 | Ghost in the Shell: Stand Alone Complex | [Ghost in the Shell](https://www.netflix.com/title/540533) · [Hauptserie](https://www.netflix.com/title/70213091) · [2nd GIG](https://www.netflix.com/title/70213091) · [Solid State Society](https://www.netflix.com/title/70071919) |
+| 11 | 2026-10-10 | Demon Slayer: Kimetsu no Yaiba | [Mugen Train Arc]() · [Entertainment District Arc]() |
+| 12 | 2026-10-08 | Kamisama Kiss | [Hauptserie](https://www.netflix.com/title/80070071) |
+| 13 | 2026-10-06 | My Hero Academia | [Vigilantes Staffel 2](https://www.netflix.com/title/82036361) |
+| 14 | 2026-10-02 | Chainsaw Man | [Hauptserie](https://www.netflix.com/title/81215627) |
+| 15 | 2026-09-28 | Jujutsu Kaisen | [0](https://www.netflix.com/title/81602834) |
+| 16 | 2026-09-26 | Welcome to Demon School! Iruma-kun | [Staffel 4](https://www.disneyplus.com/browse/entity-b042544d-cd7d-40c6-9be4-db79666a1b51) |
+| 17 | 2026-09-25 | JoJo’s Bizarre Adventure | [Steel Ball Run: Jojo’s Bizarre Adventure - Phase 2-3](https://www.netflix.com/title/82116553) |
+| 18 | 2026-09-20 | A Sign of Affection | [Hauptserie](https://www.netflix.com/title/81748453) |
+| 19 | 2026-09-07 | 2.5 Dimensional Seduction — 2.5 Dimensional Seduction | [2.5 Dimensional Seduction](https://www.netflix.com/title/81909977) |
+| 20 | 2026-09-07 | How Not to Summon a Demon Lord | [Hauptserie](https://www.netflix.com/title/81004514) |
+| 21 | 2026-09-06 | Classroom of the Elite | [Hauptserie](https://www.netflix.com/title/80193178) |
+| 22 | 2026-09-04 | A Couple of Cuckoos | [Hauptserie](https://www.netflix.com/title/81594245) |
+| 23 | 2026-09-01 | Hellsing | [Ultimate OVA](https://www.netflix.com/title/80988066) |
+| 24 | 2026-08-29 | Yu-Gi-Oh! (1998) | [Yu-Gi-Oh! GX]() |
+| 25 | 2026-08-27 | Aesthetica of a Rogue Hero | [Hauptserie](https://www.amazon.de/gp/video/detail/B0GVKRLHXX) |
+| 26 | 2026-08-21 | Vampire Knight | [Guilty](https://www.netflix.com/title/70309457) |
+| 27 | 2026-08-05 | Slam Dunk | [The First Slam Dunk](https://www.netflix.com/title/81765372) |
+| 28 | 2026-07-24 | Parasyte: The Maxim | [Hauptserie](https://www.netflix.com/title/80191008) |
+| 29 | 2026-07-22 | Welcome to Demon School! Iruma-kun | [Hauptserie](https://www.netflix.com/title/81194192) · [Welcome to Demon-School! Iruma-kun: Staffel 2](https://www.netflix.com/title/81194192) · [Staffel 3](https://www.netflix.com/title/81672787) |
+| 30 | 2026-07-19 | Wistoria: Wand and Sword | [Hauptserie](https://www.netflix.com/title/81900358) · [Hauptserie](https://www.netflix.com/title/81900358) |
+| 31 | 2026-06-22 | Atelier of Witch Hat | [Hauptserie](https://www.netflix.com/title/82741721) |
+| 32 | 2026-03-10 | Touken Ranbu: Hanamaru | [Katsugeki: Touken Ranbu](https://www.netflix.com/title/80232868) |
+| 33 | 2025-04-09 | Possibly the Greatest Alchemist of All Time | [Hauptserie](https://www.netflix.com/title/82058586) |
+| 34 | 2025-04-03 | Devil May Cry | [Hauptserie](https://www.netflix.com/title/81506915) |
+| 35 | 2024-10-20 | Uzumaki | [Hauptserie](https://www.netflix.com/title/81943371) |
+| 36 | 2024-10-09 | Alya Sometimes Hides Her Feelings in Russian | [Hauptserie](https://www.netflix.com/title/81661821) |
+| 37 | 2024-09-20 | Overlord | [Movies](https://www.netflix.com/title/81285994) · [Der dunkle Held](https://www.netflix.com/title/81285995) · [The Sacred Kingdom](https://www.netflix.com/title/82040442) |
+| 38 | 2024-09-05 | Spy × Family | [Code: White](https://www.netflix.com/title/81924850) |
+| 39 | 2024-09-05 | Spy × Family | [Code: White](https://watch.amazon.de/detail?gti=amzn1.dv.gti.a3523598-4cd6-4004-8763-f4fbb45e0ac6) |
+| 40 | 2024-08-02 | My Hero Academia | [You’re Next](https://watch.amazon.de/detail?gti=amzn1.dv.gti.c903bcab-b4d5-4bdb-b418-70ab5650132e) |
+| 41 | 2024-07-19 | Wind Breaker | [Hauptserie](https://www.netflix.com/title/81771389) |
+| 42 | 2024-07-11 | Beyond the Boundary: Kyoukai no Kanata | [Hauptserie](https://www.netflix.com/title/80052668) |
+| 43 | 2024-06-30 | Captain Tsubasa: Die tollen Fußballstars | [Captain Tsubasa: Staffel 2 - Die Junioren](https://www.netflix.com/title/81003894) |
+| 44 | 2024-04-20 | Mashle: Magic and Muscles | [Hauptserie](https://www.netflix.com/title/81685164) · [The Divine Visionary Candidate Exam Arc](https://www.netflix.com/title/81685164) |
+| 45 | 2024-04-19 | Bluelock | [Blue Lock: The Movie - Episode Nagi](https://watch.amazon.de/detail?gti=amzn1.dv.gti.ae9245d5-07c5-41ce-ba90-d9f8779f046c) |
+| 46 | 2024-03-31 | Solo Leveling | [Hauptserie](https://www.netflix.com/title/81748512) |
+| 47 | 2024-02-16 | Haikyu!! | [Das Play-off der Müllhalde](https://watch.amazon.de/detail?gti=amzn1.dv.gti.467b800e-3262-4857-82b7-ed7a8634cb5b) |
+| 48 | 2024-01-30 | Zom 100: Bucket List of the Dead | [Hauptserie](https://www.netflix.com/title/81680101) |
+| 49 | 2024-01-17 | Bofuri: I Don’t Want to Get Hurt, So I’ll Max Out My Defense. | [Hauptserie](https://www.netflix.com/title/81234294) |
+| 50 | 2023-11-17 | GeGeGe no Kitaro | [The Birth of Kitaro: The Mystery of GeGeGe](https://www.amazon.de/gp/video/detail/0U2F1VC6MV5CHFW4ZP7GSM1RX0) |
+| 51 | 2023-10-16 | Ayakashi Triangle | [Hauptserie](https://www.netflix.com/title/81680115) |
+| 52 | 2023-10-01 | Cautious Hero: The Hero Is Overpowered but Overly Cautious | [Hauptserie](https://www.netflix.com/title/81196818) |
+| 53 | 2023-09-18 | Masamune-kun’s Revenge | [Hauptserie](https://www.netflix.com/title/80165290) · [R](https://www.netflix.com/title/80165290) |
 | 54 | 2023-07-07 | Resident Evil: Infinite Darkness | [Resident Evil: Death Island](https://www.netflix.com/title/81714596) |
 | 55 | 2023-06-27 | Dead Mount Death Play | [Hauptserie](https://www.netflix.com/title/81686706) |
 | 56 | 2023-06-27 | Raeliana: Warum sie die Verlobte des Dukes wurde | [Hauptserie](https://www.netflix.com/title/81684407) |
@@ -165,8 +165,8 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 122 | 2016-03-28 | Grimgar, Ashes and Illusions | [Hauptserie](https://www.netflix.com/title/80142717) |
 | 123 | 2016-03-26 | Gate | [Hauptserie](https://www.netflix.com/title/80182163) · [Teil 2](https://www.netflix.com/title/80182163) |
 | 124 | 2015-11-21 | Girls & Panzer | [Girls und Panzer: Der Film](https://www.netflix.com/title/80159876) |
-| 125 | 2015-06-20 | Highschool D×D | [Hauptserie](https://www.netflix.com/title/80005873) · [New](https://www.netflix.com/title/80005873) · [BorN](https://www.netflix.com/title/80005873) |
-| 126 | 2015-03-29 | Aldnoah.Zero | [Hauptserie](https://www.netflix.com/title/80040104) · [2](https://www.netflix.com/title/80040104) |
+| 125 | 2015-03-29 | Aldnoah.Zero | [Hauptserie](https://www.netflix.com/title/80040104) · [2](https://www.netflix.com/title/80040104) |
+| 126 | 2014-09-26 | Terror in Tokio | [Hauptserie](https://www.netflix.com/title/80020759) |
 | 127 | 2014-09-22 | Shojo-Mangaka Nozaki-kun | [Hauptserie](https://www.netflix.com/title/80081848) |
 | 128 | 2014-07-31 | Dragon Nest: Die Chroniken von Altera | [Hauptserie](https://www.netflix.com/title/80084763) |
 | 129 | 2014-06-21 | Lupin III.: Teil 1 | [Lupin III.: Daisuke Jigens Grabstein](https://watch.amazon.de/detail?gti=amzn1.dv.gti.f783e7fb-3d94-40aa-88fb-2009fc9bfe2c) |
@@ -183,14 +183,13 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 140 | 2008-07-16 | Clannad | [OVA - Das Tomoyo Kapitel](https://www.netflix.com/title/70204963) |
 | 141 | 2008-05-30 | Spice and Wolf | [Hauptserie](https://www.netflix.com/title/70205026) |
 | 142 | 2007-03-03 | 5 Centimeters per Second | [Hauptserie](https://www.netflix.com/title/70093699) |
-| 143 | 2006-09-01 | Ghost in the Shell: Stand Alone Complex | [Ghost in the Shell](https://www.netflix.com/title/540533) · [Hauptserie](https://www.netflix.com/title/70213091) · [2nd GIG](https://www.netflix.com/title/70213091) · [Solid State Society](https://www.netflix.com/title/70071919) |
-| 144 | 2006-07-03 | Die Melancholie der Haruhi Suzumiya | [Hauptserie](https://www.netflix.com/title/81056036) |
-| 145 | 2004-12-25 | Samurai 7 | [Hauptserie](https://www.netflix.com/title/70205019) |
-| 146 | 2004-05-18 | Paranoia Agent | [Hauptserie](https://www.netflix.com/title/70014551) |
-| 147 | 2004-04-17 | Appleseed: Kampf um die Freiheit | [Appleseed](https://www.netflix.com/title/70023531) |
-| 148 | 2004-03-28 | Sonic X | [Hauptserie](https://www.netflix.com/title/60036794) |
-| 149 | 2003-09-27 | Mobile Suit Gundam Seed | [Hauptserie](https://www.netflix.com/title/80146549) |
-| 150 | 2001-12-24 | Beyblade | [Hauptserie](https://www.netflix.com/title/70155614) |
+| 143 | 2006-07-03 | Die Melancholie der Haruhi Suzumiya | [Hauptserie](https://www.netflix.com/title/81056036) |
+| 144 | 2004-12-25 | Samurai 7 | [Hauptserie](https://www.netflix.com/title/70205019) |
+| 145 | 2004-05-18 | Paranoia Agent | [Hauptserie](https://www.netflix.com/title/70014551) |
+| 146 | 2004-04-17 | Appleseed: Kampf um die Freiheit | [Appleseed](https://www.netflix.com/title/70023531) |
+| 147 | 2004-03-28 | Sonic X | [Hauptserie](https://www.netflix.com/title/60036794) |
+| 148 | 2003-09-27 | Mobile Suit Gundam Seed | [Hauptserie](https://www.netflix.com/title/80146549) |
+| 149 | 2001-12-24 | Beyblade | [Hauptserie](https://www.netflix.com/title/70155614) |
 
 ## Warum die einzelnen Anbieter unsicher sind
 

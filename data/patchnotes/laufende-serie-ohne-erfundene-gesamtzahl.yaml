@@ -1,3 +1,4 @@
 kategorie: bugfix
-text: Laufende Serien zeigen keine erfundene Gesamtzahl
-untertitel: Beyblade X nennt deutsche Folgentitel ab Folge 66
+text: Keine geratene Gesamtzahl mehr bei laufenden Serien
+untertitel: 'Beyblade X: 123 Folgen auf Deutsch statt „123 von 128“'
+link: '#/datenbank?t=165159'

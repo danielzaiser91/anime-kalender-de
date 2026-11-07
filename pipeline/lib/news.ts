@@ -41,7 +41,7 @@ import { behalteEintrag } from './news-obergrenze.ts'
 import { titelNachSerienId, waehleStaffel } from './news-cr-zuordnung.ts'
 import { rhythmusMeldung } from './news-rhythmus.ts'
 import { ohneDoppelteTakte, taktMeldungen } from './news-takt.ts'
-import { neuJahre, neuZeile } from './news-neu-zeile.ts'
+import { ankuendigungJahre, neuJahre, neuZeile } from './news-neu-zeile.ts'
 import { haltFelderFest, type FesteFelder } from './news-felder-fest.ts'
 import { haltPremiereFest, haltWeitererFest, vergissAlte } from './news-einfrieren.ts'
 import { premiereBelegtTv } from '../../shared/premiere.ts'
@@ -216,7 +216,7 @@ function terminMeldungen(
         ...(art === 'disc' && ausgabeKurz(r.edition) ? { ausgabe: ausgabeKurz(r.edition) } : {}),
         quelle, belege: belegeVonRelease(r), ...(r.schedule?.estimated ? { geschaetzt: true } : {}), ...(art === 'angekuendigt' && (t.deErstausgabe?.synchro || t.streams.some((s) => eigenesJa(s) && s.platform !== r.platform)) ? { weiterer: true } : {}),
         /* Die Notiz des Releases (`note`) ist intern und kommt nie in eine Meldung. */
-        ...(art === 'angekuendigt' && r.platform !== 'tv' ? neuJahre(t, datum) : {}),
+        ...(art === 'angekuendigt' && r.platform !== 'tv' ? ankuendigungJahre(t, r, datum) : {}),
       })
     }
     for (const m of verspaetungsMeldungen(r)) raus.push({ ...m, titel: t })
