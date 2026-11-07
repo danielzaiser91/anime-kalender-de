@@ -307,6 +307,11 @@ console.log('liegegut: Signal 8 Stillstand (48 h)')
   pruefe('nur Signal 8 → Schritt STILLSTAND, mit Signal 3 → NACHBESSERN', naechsterSchritt([8], [], false) === 'STILLSTAND' && naechsterSchritt([3, 8], [], false) === 'NACHBESSERN')
   const lauf = liegegut(attrappeGh([pr(11, { comments: [daniel(60, 'Hinweis')] })]), attrappeGit(), JETZT)
   pruefe('Gesamtlauf: still wartender PR bekommt eine Zeile', lauf.length === 1 && /^PR 11: STILLSTAND – Signal 8 Stillstand/.test(lauf[0]), lauf)
+  const zwei = () => [pr(21, { body: 'F109', comments: [daniel(2, 'frisch')] }), pr(22, { body: 'F109', comments: [daniel(2, 'frisch')] })]
+  const signal6 = (standText) => liegegut(attrappeGh(zwei()), attrappeGit(), JETZT, () => {}, standText).filter((z) => z.includes('Signal 6')).length
+  pruefe('Gesamtlauf: F109 nur außerhalb von Jetzt → kein Signal 6 (Verdrahtung)', signal6('### Jetzt\n### Später\n- F109 = A') === 0)
+  pruefe('Gesamtlauf: F109 unter Jetzt → Signal 6 in beiden PRs', signal6('### Jetzt\n- F109 offen\n### Später') === 2)
+  pruefe('Gesamtlauf: ohne stand.md → Signal 6 wie zuvor', signal6(null) === 2)
 }
 
 console.log('liegegut: Gesamtlauf mit Anlassfällen')
