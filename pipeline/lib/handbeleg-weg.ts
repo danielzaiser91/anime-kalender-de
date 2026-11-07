@@ -30,13 +30,28 @@ export function istHandbelegterJaWeg(titleId: number, platform: string, url: str
 
 /**
  * Titel nur bei aniSearch tragen keine Wege, die der Name erraten hat (`Title.herkunft`); ein Handbeleg „deutsch" mit Adresse ist das Gegenteil von
- * geraten (Daniel hat die Seite gesehen) und bleibt, mit `herkunft: 'handbeleg'`. Alles andere fällt weg. Verändert `streams`.
+ * geraten (Daniel hat die Seite gesehen) und bleibt, mit `herkunft: 'handbeleg'`. Ebenso bleibt ein Joyn-Weg, dessen Adresse JustWatch nennt
+ * (`jwJoyn`, dann `herkunft: 'justwatch'`: kein Beginn belegt, keine Meldung „neu“; JustWatch ordnet sie über die TMDB-Kennung zu, nie über den Namen): Happy Fish 2 und drei weitere Filme verloren ihn sonst. Alles
+ * andere fällt weg. Verändert `streams`.
  */
-export function behalteNurHandbelegteWege(titel: Title, checks: DubCheck[]): void {
+export function behalteNurHandbelegteWege(titel: Title, checks: DubCheck[], jwJoyn: Map<string, Set<string>> = new Map()): void {
   const belegt = handbelegteWege(checks)
-  titel.streams = (titel.streams ?? [])
-    .filter((s) => belegt.has(schluessel(titel.id, s.platform, s.url)))
-    .map((s) => ({ ...s, herkunft: 'handbeleg' as const }))
+  const eigene = jwJoyn.get(String(titel.id))
+  titel.streams = (titel.streams ?? []).flatMap<StreamLink>((s) => {
+    if (belegt.has(schluessel(titel.id, s.platform, s.url))) return [{ ...s, herkunft: 'handbeleg' as const }]
+    return s.platform === 'joyn' && eigene?.has(s.url) ? [{ ...s, herkunft: 'justwatch' as const }] : []
+  })
+}
+
+/** Die Joyn-Adressen, die JustWatch je Titelkennung nennt (`data/justwatch-audio.json`); eine Adresse bei einem fremden Titel trägt nichts. */
+export function joynAdressenVonJw(jw: Record<string, { angebote?: { anbieter?: string; url?: string }[] }>): Map<string, Set<string>> {
+  const je = new Map<string, Set<string>>()
+  for (const [id, b] of Object.entries(jw)) {
+    const adressen = new Set<string>()
+    for (const a of b.angebote ?? []) if (a.url && /joyn/i.test(a.anbieter ?? '')) adressen.add(a.url)
+    if (adressen.size) je.set(id, adressen)
+  }
+  return je
 }
 
 /**

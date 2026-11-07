@@ -9,6 +9,7 @@ import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { parse } from 'yaml'
+import { baueDateien } from './pr-kettenlog.mjs'
 import { WORKFLOW, fuerSchnappschuss, leseSchnappschuss, meldung, schreibeSchnappschuss, unterschiede } from './pr-pruefer-schnappschuss.mjs'
 
 const fehler = []
@@ -83,6 +84,10 @@ function laufe(f) {
     fs.writeFileSync(path.join(bin, 'gh'), ATTRAPPE, { mode: 0o755 })
     if (f.urteil !== null) fs.writeFileSync(path.join(temp, 'pruefer', 'urteil.json'), f.urteil)
     if (f.protokoll !== null) fs.writeFileSync(path.join(temp, 'pruefer', 'protokoll.md'), f.protokoll)
+    // Das Werkzeug des Schritts liegt wie im Workflow unter tools/ des Arbeitsordners.
+    fs.mkdirSync(path.join(ordner, 'tools'))
+    fs.copyFileSync(new URL('./pr-pruefer-kette-offen.mjs', import.meta.url), path.join(ordner, 'tools', 'pr-pruefer-kette-offen.mjs'))
+    if (f.kettenlog) fs.writeFileSync(path.join(temp, 'pruefer', 'kettenlog.txt'), f.kettenlog)
     const skript = path.join(ordner, 'schritt.sh')
     fs.writeFileSync(skript, freigabe.run)
     const log = path.join(ordner, 'aufrufe.log')
@@ -203,6 +208,37 @@ const vLeer = laufe({ ...basis, urteil: urteil('aendern') })
 pruefe('Modus-Ausgabe fehlt ganz, aendern: Änderungswunsch (fail closed)', JSON.stringify(vLeer.aufrufe) === JSON.stringify(ABLEHNUNG.aufrufe) && marke(vLeer) === '<!-- pruefer-modus: voll -->', vLeer)
 const aAnderer = abnahme('aendern', '0', { urteil: urteil('aendern', ANDERER) })
 pruefe('Abnahme, Urteil für anderen Stand: nichts gepostet', JSON.stringify(aAnderer.aufrufe) === JSON.stringify(NICHTS.aufrufe), aAnderer)
+
+// Kette beim Urteil noch offen (PRs 2953, 2820): „aendern“ wird zu „nicht beurteilt“ ohne Review; eine fertige rote Kette bleibt „aendern“.
+// Kettenlog aus dem echten Erzeuger (pr-kettenlog.mjs), nicht nachgebaut.
+const kettenlog = (lauf, jobStatus) => baueDateien({ kopf: KOPF, lauf, jobs: [{ name: 'Kette – Logik', status: jobStatus, conclusion: jobStatus === 'completed' ? lauf.conclusion : '', log: 'x: ok' }] }).uebersicht
+const KETTE_LAEUFT = kettenlog({ id: 9, status: 'in_progress', conclusion: '' }, 'in_progress')
+const KETTE_ROT = kettenlog({ id: 9, status: 'completed', conclusion: 'failure' }, 'completed')
+const KETTE_GRUEN = kettenlog({ id: 9, status: 'completed', conclusion: 'success' }, 'completed')
+const AUSSTEHEND = '**Prüfer-Review** für ccccccccc - Urteil: **nicht beurteilt, Kette lief noch**'
+const offenFall = (extra) => laufe({ ...basis, urteil: urteil('aendern'), kettenlog: KETTE_LAEUFT, ...extra })
+const kOffen = offenFall({})
+pruefe('Kette offen, Urteil aendern: nur Kommentar, kein Review, Titel „nicht beurteilt“, Marke, Hinweis vor dem Protokoll',
+  nurKommentar(kOffen) && ersteZeile(kOffen) === AUSSTEHEND && kOffen.kommentar.includes('<!-- pruefer-kette-offen -->') && kOffen.kommentar.includes('lief beim Urteil noch') && kOffen.kommentar.indexOf('lief beim Urteil noch') < kOffen.kommentar.indexOf('Alles gut.'), kOffen)
+pruefe('Kette offen, Marke steht vor der Modus-Marke (der Modus liest die letzte Zeile)', marke(kOffen) === '<!-- pruefer-modus: voll -->', kOffen.kommentar)
+const kRot = laufe({ ...basis, urteil: urteil('aendern'), kettenlog: KETTE_ROT })
+pruefe('Gegenfall: Kette fertig und rot, Urteil aendern: Änderungswunsch wie bisher, keine Marke', JSON.stringify(kRot.aufrufe) === JSON.stringify(ABLEHNUNG.aufrufe) && ersteZeile(kRot).endsWith('Urteil: **aendern**') && !kRot.kommentar.includes('pruefer-kette-offen'), kRot)
+pruefe('Gegenfall: Kette fertig und grün, Urteil aendern: Änderungswunsch', JSON.stringify(laufe({ ...basis, urteil: urteil('aendern'), kettenlog: KETTE_GRUEN }).aufrufe) === JSON.stringify(ABLEHNUNG.aufrufe))
+pruefe('Kettenlog fehlt, Urteil aendern: Änderungswunsch (fail closed)', JSON.stringify(laufe({ ...basis, urteil: urteil('aendern') }).aufrufe) === JSON.stringify(ABLEHNUNG.aufrufe))
+const kOk = laufe({ ...basis, kettenlog: KETTE_LAEUFT })
+pruefe('Kette offen, Urteil ok: Freigabe wie bisher (Check-Stand-Zusatz regelt den Rest)', JSON.stringify(kOk.aufrufe) === JSON.stringify(FREIGABE.aufrufe) && !kOk.kommentar.includes('pruefer-kette-offen'), kOk)
+const kDiff = offenFall({ zustand: 'unvollstaendig' })
+pruefe('Kette offen, Diff unvollständig, Urteil aendern: Änderungswunsch (Diff geht vor)', JSON.stringify(kDiff.aufrufe) === JSON.stringify(ABLEHNUNG.aufrufe) && !kDiff.kommentar.includes('pruefer-kette-offen'), kDiff)
+const kDiffOk = laufe({ ...basis, zustand: 'unvollstaendig', kettenlog: KETTE_LAEUFT })
+pruefe('Kette offen, Diff unvollständig, Urteil ok: bleibt aendern mit Review', JSON.stringify(kDiffOk.aufrufe) === JSON.stringify(ABLEHNUNG.aufrufe) && ersteZeile(kDiffOk).endsWith('Urteil: **aendern**'), kDiffOk)
+const kToken = offenFall({ protokoll: 'x ghp_abcdef y\n' })
+pruefe('Kette offen, Token im Protokoll: Änderungswunsch, Token verworfen', JSON.stringify(kToken.aufrufe) === JSON.stringify(ABLEHNUNG.aufrufe) && !kToken.kommentar.includes('ghp_abcdef') && !kToken.kommentar.includes('pruefer-kette-offen'), kToken)
+const kAbnahme = offenFall({ modus: 'abnahme', frei: '1' })
+pruefe('Kette offen, Abnahme-Modus, aendern frei: kein Review, nicht beurteilt, Modus-Marke abnahme', nurKommentar(kAbnahme) && ersteZeile(kAbnahme) === AUSSTEHEND && marke(kAbnahme) === '<!-- pruefer-modus: abnahme -->', kAbnahme)
+const kAbnahmeZu = offenFall({ modus: 'abnahme', frei: '0' })
+pruefe('Kette offen, Abnahme-Modus, aendern gesperrt: nicht beurteilt statt „Auflagen offen“', ersteZeile(kAbnahmeZu) === AUSSTEHEND && nurKommentar(kAbnahmeZu), kAbnahmeZu)
+const kAnderer = offenFall({ urteil: urteil('aendern', ANDERER) })
+pruefe('Kette offen, Urteil für anderen Stand: nichts gepostet', JSON.stringify(kAnderer.aufrufe) === JSON.stringify(NICHTS.aufrufe), kAnderer)
 
 const token = laufe({ ...basis, protokoll: 'x ghp_abcdef y\n' })
 pruefe('Token im Protokoll: Kommentar enthält das Token nicht', !token.kommentar.includes('ghp_abcdef') && token.kommentar.includes('verworfen'), token.kommentar)

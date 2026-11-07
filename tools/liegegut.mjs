@@ -14,10 +14,6 @@ export const KONFLIKT_H = 24 // Konflikt ohne Aktivität; der Beginn des Konflik
 export const ROT_H = 12 // Rote Checks auf dem aktuellen Kopf: ein Wiederholungslauf dauert weniger.
 export const AENDERN_H = 24 // Ändern-Urteil ohne neuen Commit: der Bauer hatte einen Tag.
 export const STILLSTAND_H = 48 // Keine Aktivität (Commit, Kommentar, Review), egal warum: fängt PRs, die auf kein anderes Signal passen (z. B. wartet still auf den Prüfer). Stand 30.10.2026, Schwelle = zwei Tage.
-export const STICHWORT_MIN = 5 // Titelwörter ab dieser Länge zählen für die Überholt-Gegenprobe.
-export const STICHWORT_STAMM = 6 // Vergleich über die ersten Buchstaben („Termine“ = „Terminen“).
-export const STICHWORT_TREFFER = 2 // Gemeinsame Stämme zwischen Titel und main-Commit; eins allein ist Zufall (1386: 30 Commits an denselben Dateien).
-export const FUELLWOERTER = new Set(['statt', 'nicht', 'keine', 'sowie', 'wieder', 'schon', 'gegen']) // Funktionswörter ohne Sachbezug (21.10.2026: 'statt' allein machte aus 1433 einen Treffer).
 
 const GRUEN = new Set(['SUCCESS', 'NEUTRAL', 'SKIPPED'])
 const ROT = new Set(['FAILURE', 'TIMED_OUT', 'STARTUP_FAILURE', 'ERROR'])
@@ -117,33 +113,60 @@ export function geteilteEntscheidungen(prs) {
   return aus
 }
 
-/** Titelwörter als Stämme. */
-export function stichwoerter(text) {
-  const woerter = text.toLowerCase().match(/[a-zäöüß]+/g) ?? []
-  return new Set(woerter.filter((w) => w.length >= STICHWORT_MIN && !FUELLWOERTER.has(w)).map((w) => w.slice(0, STICHWORT_STAMM)))
+export const BEZEICHNER_MIN = 6 // Kürzere Namen (`main`, `zeile`) stehen auf main in fast jeder Datei.
+const BEZEICHNER = /(?:\b(?:function\*?|class|interface|enum)\s+|\b(?:const|let|var|type)\s+)([A-Za-z_$][\w$]*)(?=\s*(?:[=(<{:]|$))/g
+const CODE_DATEI = /\.(?:[mc]?[jt]s|tsx)$/
+
+const bezeichnerIn = (zeile) => [...zeile.matchAll(BEZEICHNER)].map((m) => m[1]).filter((n) => n.length >= BEZEICHNER_MIN)
+
+/**
+ * Signal 7: neue Bezeichner je Codedatei aus den Patches (`+++ b/<datei>` gefolgt von Hunk-Zeilen).
+ * Nur hinzugefügte, nicht zugleich entfernte Namen (eine geänderte Signatur ist kein neuer Name). Rückgabe: Map Datei → Namenliste.
+ */
+export function neueBezeichner(patches) {
+  const je = new Map()
+  let datei = null
+  let alt = new Set()
+  const neu = []
+  const schliesse = () => {
+    if (datei && CODE_DATEI.test(datei)) {
+      const namen = [...new Set(neu)].filter((n) => !alt.has(n))
+      if (namen.length > 0) je.set(datei, namen)
+    }
+    alt = new Set()
+    neu.length = 0
+  }
+  for (const z of patches.split('\n')) {
+    if (z.startsWith('+++ b/')) {
+      schliesse()
+      datei = z.slice(6).trim()
+    } else if (z.startsWith('+')) neu.push(...bezeichnerIn(z.slice(1)))
+    else if (z.startsWith('-')) bezeichnerIn(z.slice(1)).forEach((n) => alt.add(n))
+  }
+  schliesse()
+  return je
 }
 
-/** Liest `git log --name-only --format=%x01%h%x09%s` in Commits { hash, betreff, dateien }. */
-export function mainCommits(log) {
-  return log.split('\x01').filter((b) => b.trim() !== '').map((block) => {
-    const [kopf, ...dateien] = block.split('\n')
-    const [hash, betreff] = kopf.split('\t')
-    return { hash, betreff: betreff ?? '', dateien: dateien.filter((d) => d.trim() !== '') }
-  })
+/** Fundstelle „datei:zeile name“ je Name, der in der Datei auf main steht (`grepFn(datei, namen)` liefert Trefferzeilen `zeile:text`). */
+export function fundstellen(namen, grepFn) {
+  const aus = []
+  for (const [datei, liste] of namen) {
+    const zeilen = grepFn(datei, liste).split('\n').filter((z) => z !== '')
+    for (const n of liste) {
+      const wort = new RegExp(`(?<![\\w$])${n.replace(/\$/g, '\\$')}(?![\\w$])`)
+      const z = zeilen.find((t) => wort.test(t))
+      if (z) aus.push({ fundstelle: `${datei}:${z.split(':')[0]} ${n}` })
+    }
+  }
+  return aus
 }
 
-// Sammeldateien, die fast jeder PR ergänzt: eine Überschneidung allein hier sagt nichts (04.11.2026: 3 von 3 Fehlalarmen, 2785/2701/2633).
-export const SAMMELDATEIEN = new Set(['tools/check-logic-liste.txt', 'tools/check-bestand-liste.txt', 'data/dub-confirmed.yaml'])
-
-/** Signal 7 (Hinweis, kein Schluss): main-Commits seit PR-Datum mit gemeinsamer Datei (ohne Sammeldateien) und mindestens STICHWORT_TREFFER gemeinsamen Titelstämmen. */
-export function ueberholtTreffer(titel, dateien, commits) {
-  const eigene = new Set(dateien.filter((d) => !SAMMELDATEIEN.has(d)))
-  const woerter = stichwoerter(titel)
-  return commits.filter((c) => {
-    if (!c.dateien.some((d) => eigene.has(d))) return false
-    const gemeinsam = [...stichwoerter(c.betreff)].filter((w) => woerter.has(w))
-    return gemeinsam.length >= STICHWORT_TREFFER
-  })
+/** Treffer = Fundstellen, wenn ALLE neuen Bezeichner des PR schon auf main stehen (mindestens einer); sonst leer. Ein Titel-Treffer allein reicht nicht. */
+export function ueberholtTreffer(patches, grepFn) {
+  const namen = neueBezeichner(patches)
+  const gesamt = [...namen.values()].reduce((s, l) => s + l.length, 0)
+  const funde = fundstellen(namen, grepFn)
+  return gesamt > 0 && funde.length === gesamt ? funde : []
 }
 
 const NAECHSTER = { STILLSTAND: 'STILLSTAND', UEBERHOLT: 'ÜBERHOLT?', DANIEL: 'DANIEL', MERGEN: 'MERGEN', NACHBESSERN: 'NACHBESSERN' }
@@ -165,7 +188,7 @@ const braucheGegenprobe = (nummern) => nummern.some((n) => n === 1 || n === 3 ||
 
 /** Eine Zeile je auffälligem PR; `seit` = frühester Zeitpunkt der Signale. */
 export function zeile(nr, schritt, texte, seit, treffer, geprueft) {
-  const probe = !geprueft ? '' : treffer.length > 0 ? `; Gegenprobe: Treffer ${treffer.map((c) => `${c.hash} „${c.betreff}“`).join(' | ')}` : '; Gegenprobe: keine Treffer'
+  const probe = !geprueft ? '' : treffer.length > 0 ? `; Gegenprobe: Treffer ${treffer.map((c) => c.fundstelle).join(' | ')}` : '; Gegenprobe: keine Treffer'
   return `PR ${nr}: ${schritt} – Signal ${texte.join('; ')} – seit ${zeitText(seit)}${probe}`
 }
 
@@ -271,10 +294,23 @@ export function meldeLiegt(ghFn, gitFn, log, jetzt) {
   }
 }
 
+/** git grep auf origin/main in einer Datei; Exit 1 (kein Treffer) ist eine Auskunft, jeder andere Fehler schlägt durch. Rückgabe: Zeilen `zeile:text`. */
+export function grepMain(gitFn, datei, namen) {
+  try {
+    const aus = gitFn(['grep', '-n', '-w', '-F', ...namen.flatMap((n) => ['-e', n]), 'origin/main', '--', datei])
+    return aus.split('\n').map((z) => z.replace(/^origin\/main:[^:]*:/, '')).join('\n')
+  } catch (e) {
+    if (e.status === 1) return ''
+    throw e
+  }
+}
+
+// Nur Codedateien: Datenpatches sind groß und nennen keine Bezeichner.
+export const JQ_PATCHES = '.[] | select(.filename | test("\\\\.([mc]?[jt]s|tsx)$")) | "+++ b/\\(.filename)\\n\\(.patch // "")"'
+
 function probeFuer(ghFn, gitFn, pr) {
-  const dateien = ghFn(['api', `repos/{owner}/{repo}/pulls/${pr.number}/files`, '--paginate', '--jq', '.[].filename']).split('\n').filter((d) => d !== '')
-  const log = gitFn(['log', 'origin/main', `--since=${pr.createdAt}`, '--name-only', '--format=%x01%h%x09%s'])
-  return ueberholtTreffer(pr.title, dateien, mainCommits(log))
+  const patches = ghFn(['api', `repos/{owner}/{repo}/pulls/${pr.number}/files`, '--paginate', '--jq', JQ_PATCHES])
+  return ueberholtTreffer(patches, (datei, namen) => grepMain(gitFn, datei, namen))
 }
 
 export function gh(args) {

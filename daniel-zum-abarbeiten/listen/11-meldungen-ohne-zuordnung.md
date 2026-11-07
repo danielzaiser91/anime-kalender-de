@@ -9,7 +9,7 @@ Der Vorschlag stammt aus einem Namensvergleich und ist **kein Beleg**:
 gehört die gemeldete Adresse als zusätzlicher Verweis an den Titel; stimmt er
 nicht, gehört die Zeile gestrichen.
 
-Stand: 2026-11-06
+Stand: 2026-11-07
 
 ## Was hier zu tun ist
 
@@ -294,8 +294,6 @@ nicht. Vier Fälle, vier Handgriffe:
 | primevideo | https://www.amazon.de/gp/video/detail/B0CJ1VR18Y | The Eminence in Shadow: 2nd Season (The Eminence in Shadow Season 2) — Staffel 1 der Seite B0B8TNHXSN gehört nicht zum Auftragstitel | dub | [The Eminence in Shadow: 2nd Season](https://anilist.co/anime/161964) | Seite B0B8TNHXSN als Verweis an ihren Staffel-Titel eintragen |
 | netflix | https://www.netflix.com/title/81700960 | LEGO® Friends: Das nächste Kapitel — Folgentitel widersprechen sich — Staffel 3 des Anbieters: nur 11 von 20 Titeln liegen im selben Block (Versatz 23) | dub | [LEGO Friends: Das nächste Kapitel](https://anilist.co/anime/-218695) | Meldung des Blocks prüfen |
 | netflix | https://www.netflix.com/title/81700960 | LEGO® Friends: Das nächste Kapitel — keine Folge der Meldung fällt in die Zielstaffeln | dub | [LEGO Friends: Das nächste Kapitel](https://anilist.co/anime/-218695) | Staffelaufteilung der Seite prüfen |
-| primevideo | https://www.amazon.de/gp/video/detail/B0B8QWFTNZ | Arifureta: From Commonplace to World’s Strongest (Arifureta: From Commonplace to World's Strongest) | dub | — | Titel von Hand suchen |
-| primevideo | https://www.amazon.de/gp/video/detail/B0B8QWFTNZ | Arifureta: From Commonplace to World’s Strongest (Arifureta: From Commonplace to World's Strongest) | weg | — | nichts — diese Adresse steht bei uns nirgends |
 | primevideo | https://www.amazon.de/gp/video/detail/B0GYDLTDD8 | Cardcaptor Sakura — Staffel 2 in der Reihe nicht zu bestimmen | kein_dub | [Cardcaptor Sakura](https://anilist.co/anime/232) | Seite B0H2PWXL7B als Verweis an den Titel von Staffel 2 eintragen |
 | primevideo | https://www.amazon.de/gp/video/detail/B0GYDLTDD8 | Cardcaptor Sakura — Staffel 3 in der Reihe nicht zu bestimmen | kein_dub | [Cardcaptor Sakura](https://anilist.co/anime/232) | Seite B0GWVR4Q9Z als Verweis an den Titel von Staffel 3 eintragen |
 | netflix | https://www.netflix.com/title/81772673 | Mating Season — keine Folge der Meldung fällt in die Zielstaffeln | dub | [Mating Season](https://anilist.co/anime/-290295) | Staffelaufteilung der Seite prüfen |

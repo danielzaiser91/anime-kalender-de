@@ -31,7 +31,8 @@ import { titelAenderung } from './lib/sitemap-datum.ts'
 import { cartoonMitSynchroBeleg, teilenPfad } from '../shared/teilen.ts'
 import { synchroBelegt } from '../shared/titles.ts'
 import { OG_FASSUNG } from './lib/og-fassung.ts'
-import { plakatMasse, type PlakatMasse } from './lib/titel-vorschau.ts'
+import type { PlakatMasse } from './lib/titel-vorschau.ts'
+import { ladeVorschauMasse } from './lib/vorschau-masse.ts'
 import { standardKennungFuer } from './lib/og-standard.ts'
 import { seitenQuelle, type SynopsenFuerSeiten } from './lib/handlung-eigen.ts'
 import { ladeAkVon, umleitungen, type AkVon, type KennungsZeile } from './lib/ausgabe-kennung.ts'
@@ -79,7 +80,7 @@ function main(): void {
   // durchweg deutschen Seite hilft weder dem Leser noch der Suche.
   const ROOT_TAG = '<div id="root"></div>'
   if (!before.includes(ROOT_TAG) && !after.includes(ROOT_TAG)) {
-    console.error('build-share-pages: <div id="root"></div> nicht gefunden — Vorlage geändert?')
+    console.error('build-share-pages: <div id="root"></div> nicht gefunden — dist/ ist schon verarbeitet (oder die Vorlage geändert): erst `vite build` neu')
     process.exit(1)
   }
 
@@ -114,7 +115,7 @@ function main(): void {
   const volleTitel = new Map(ladeAlleTitel().map((t) => [t.id, t]))
   schreibeUebersicht(releases, titleById, belegteTermine(releases, volleTitel), today, before, after, ROOT_TAG, adresseVon)
   /* Zuerst die Titelseiten samt Verzeichnis: Die Startseite verlinkt dessen Buchstaben. */
-  const buchstaben = schreibeAlleTitelSeiten(akVon, kennungsZeilen, { before, after, rootTag: ROOT_TAG, today, synopses, jeTitel, standardKennung, masse: plakatMasse(readJson('data/tmdb-poster.json', {})) })
+  const buchstaben = schreibeAlleTitelSeiten(akVon, kennungsZeilen, { before, after, rootTag: ROOT_TAG, today, synopses, jeTitel, standardKennung, masse: ladeVorschauMasse() })
   schreibeStartseite(releases, titleById, today, template, ROOT_TAG, adresseVon, buchstaben, standardKennung)
 }
 
@@ -127,7 +128,7 @@ interface SeitenRahmen {
   synopses: SynopsenFuerSeiten
   jeTitel: Map<number, Release[]>
   standardKennung: string
-  /** Maße der TMDB-Plakate für die Vorschau (`data/tmdb-poster.json`). */
+  /** Maße der Plakate und Cover für die Vorschau (`lib/vorschau-masse.ts`). */
   masse: PlakatMasse
 }
 

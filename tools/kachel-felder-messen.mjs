@@ -19,6 +19,7 @@ import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { baueWochenDatei } from '../shared/wochen-datei.ts'
 import { RELEASE_OHNE, STREAM_OHNE, TITEL_OHNE, WATCHLINK_OHNE, baueKachelDatei } from '../shared/wochen-kacheln.ts'
+import { packeKachel } from '../shared/wochen-packen.ts'
 
 const arg = (name, vorgabe) => (process.argv.includes(name) ? process.argv[process.argv.indexOf(name) + 1] : vorgabe)
 const DIST = path.resolve(arg('--dist', path.join(import.meta.dirname, '..', 'dist')))
@@ -138,7 +139,7 @@ async function messeWoche(browser, tag, titles, releases, events) {
   for (const breite of [1280, 390]) {
     const lesen = await lauf(browser, tag, breite, woche, { proxy: true, bedienen: breite === 1280 })
     const alt = await lauf(browser, tag, breite, woche, {})
-    const neu = await lauf(browser, tag, breite, kachel, {})
+    const neu = await lauf(browser, tag, breite, packeKachel(kachel), {})
     if (!lesen.wochenpfad || !neu.wochenpfad) fehler.push(`${tag} ${breite}: Wochenpfad nicht gewählt, nichts gemessen`)
     if (!alt.dom || alt.dom !== neu.dom) fehler.push(`${tag} ${breite}: Start aus der Kachel-Datei zeichnet anders als aus der vollen Wochen-Datei (${neu.dom.length} statt ${alt.dom.length} Zeichen)`)
     for (const [pfad, n] of Object.entries(lesen.gelesen)) gelesen[pfad] = (gelesen[pfad] ?? 0) + n
