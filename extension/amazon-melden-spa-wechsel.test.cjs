@@ -37,13 +37,13 @@ function globaleLaden() {
 }
 
 /** Der echte `listenSchluessel()` aus amazon.js mit den echten Helfern aus prime-region.js; Adresse und Titel kommen von außen. */
-function seiteBauen(zustand, eigeneListe = liste) {
+function seiteBauen(zustand, eigeneListe = liste, erledigt = {}) {
   return handlerKompilieren(
     '(function listenSchluessel(bisher) {' + ausschnitt(quelle, 'function listenSchluessel(bisher) {', '\n  }') + ')',
     {
       titelKern: handlerKompilieren(kernText, {}).klick,
       liste: eigeneListe,
-      erledigt: {},
+      erledigt,
       seitenTitel: () => zustand.titel,
       asinAusAdresse: () => zustand.adresse,
       gtiSprung: () => null,
@@ -85,6 +85,34 @@ pruefe('Kontrolle: Staffelwechsel derselben Serie behält den Eintrag der Serie'
 const ohneTitel = { adresse: 'B0STAFFEL2', id: 'B0STAFFEL2', titel: '' }
 pruefe('Kontrolle: ohne Seitentitel lässt sich nichts widerlegen, der bisherige Eintrag bleibt', seiteBauen(ohneTitel, mitSerie)('B0STAFFEL1') === 'B0STAFFEL1')
 
+/* Woher der Name der Serie kommt: jede Quelle und jede Richtung des „enthält" hat einen Fall, in dem nur sie den Ausschlag gibt. */
+const staffelNeu = { adresse: 'B0NEU', id: 'B0NEU', titel: 'Dr. Stone' }
+const namensfall = (listeneintrag, erledigtEintrag, seite = staffelNeu) =>
+  seiteBauen(seite, { B0ALT: listeneintrag }, erledigtEintrag ? { B0ALT: erledigtEintrag } : {})('B0ALT') === 'B0ALT'
+pruefe('Name nur im Erledigten (Liste trägt einen anderen): derselbe Eintrag', namensfall({ titel: 'Steinzeit' }, { serie: 'Dr. Stone' }))
+pruefe('Name nur im Serienfeld der Liste', namensfall({ titel: 'Steinzeit', serie: 'Dr. Stone' }))
+pruefe('Name nur in den Einträgen der Liste', namensfall({ titel: 'Steinzeit', eintraege: [{ name: 'Dr. Stone' }] }))
+pruefe('Eintrag heißt länger als die Seite („Dr. Stone: Ryusui")', namensfall({ titel: 'Dr. Stone: Ryusui' }))
+pruefe('Seite heißt länger als der Eintrag („Dr. Stone: New World")', namensfall({ titel: 'Dr. Stone' }, null, { ...staffelNeu, titel: 'Dr. Stone: New World' }))
+pruefe('Kontrolle: ein fremder Name hält den Eintrag nicht', !namensfall({ titel: 'Steinzeit', eintraege: [{ name: 'Petals of Reincarnation' }] }, { serie: 'Anderes' }))
+pruefe('Kontrolle: ein zu kurzer Name (unter vier Zeichen) zählt nicht', !namensfall({ titel: 'Dr' }, null, { ...staffelNeu, titel: 'Dr. Stone' }))
+
+console.log('SPA-Wechsel: Anzeigeregeln')
+const serieBekannt = (seitenTitel, mitListe) =>
+  handlerKompilieren('(function serieBekannt() {' + ausschnitt(quelle, 'function serieBekannt() {', '\n  }') + ')', {
+    titelKern: handlerKompilieren(kernText, {}).klick,
+    seitenTitel: () => seitenTitel,
+    erledigt: {},
+    liste: mitListe,
+    globalThis: globaleLaden(),
+  }).klick()
+pruefe('serieBekannt: Seite „Dr. Stone", Liste führt „Dr. Stone – Staffel 3": bekannt', serieBekannt('Dr. Stone', { X: { titel: 'Dr. Stone – Staffel 3' } }) === true)
+pruefe('serieBekannt: Seite „Devils\' Crest" steht nicht in der Liste: unbekannt', serieBekannt(TITEL_A, liste) === false)
+const imKastenAusdruck = ausschnitt(quelle, 'imKasten: ', '\n').replace(/^imKasten: /, '').replace(/,\s*$/, '')
+const imKasten = (knopf) => handlerKompilieren(imKastenAusdruck, { knopf }).klick
+pruefe('Diagnose: Knopf in der Meldezeile des Kastens zählt als „im Kasten"', imKasten({ closest: (w) => (w === '.ak-amazon-suchhinweis' ? {} : null), parentElement: { className: 'ak-z-melden' } }) === true)
+pruefe('Diagnose: Knopf außerhalb des Kastens zählt nicht', imKasten({ closest: () => null, parentElement: { className: 'x' } }) === false)
+
 console.log('SPA-Wechsel: Grund am Knopf')
 const grundZeile = ausschnitt(quelle, 'const abweisenMitGrund = ', '\n').replace('const abweisenMitGrund = ', '')
 function grundZeigen(knopf, gruende) {
@@ -110,8 +138,9 @@ function grundZeigen(knopf, gruende) {
 console.log('SPA-Wechsel: Klick')
 const handler = ausschnitt(quelle, "knopf.addEventListener('click', meldeSperre.mitSperre(", '\n  }))\n').replace(/\)\)\n$/, '')
 
-async function klicken({ eintragTitel, listenKey, seitenTitelWert, verlassen, seitenKennung = A }) {
+async function klicken({ eintragTitel, listenKey, seitenTitelWert, verlassen, seitenKennung = A, geladen = 2, wechselt = false }) {
   const knopf = knopfNeu()
+  if (wechselt) knopf.dataset.wechselt = 'true'
   const gruende = []
   const gesendet = []
   const abweisen = (g) => gruende.push(g)
@@ -128,7 +157,7 @@ async function klicken({ eintragTitel, listenKey, seitenTitelWert, verlassen, se
     staffelZahl: () => 1,
     seitenTitel: () => seitenTitelWert,
     deutschInFolgen: () => true,
-    geladeneFolgen: () => 2,
+    geladeneFolgen: () => geladen,
     sprachenAusFolgen: () => ['Deutsch'],
     seitenLage: () => ({ folgenLautSeite: 2 }),
     gesehen: { gesamt: 2, jeFolge: null },
@@ -165,6 +194,10 @@ async function haupt() {
   const alt = await klicken({ eintragTitel: TITEL_B, listenKey: B, seitenTitelWert: TITEL_B, verlassen, seitenKennung: B })
   pruefe('Kontrolle: mit dem alten Eintrag von B wird abgewiesen', alt.gesendet.length === 0 && alt.gruende[0] === 'Titel gehört zur verlassenen Seite', alt)
   pruefe('… und der Grund steht am Knopf (kein stiller Klick)', alt.knopfText.includes('Titel gehört zur verlassenen Seite') && alt.knopfTitel === 'Titel gehört zur verlassenen Seite', alt)
+  const mitten = await klicken({ eintragTitel: TITEL_A, listenKey: A, seitenTitelWert: TITEL_A, verlassen, wechselt: true })
+  pruefe('mitten im Staffelwechsel: nichts gesendet, Grund am Knopf', mitten.gesendet.length === 0 && mitten.knopfText === '⚠ Staffelwechsel läuft', mitten)
+  const leer = await klicken({ eintragTitel: TITEL_A, listenKey: A, seitenTitelWert: TITEL_A, verlassen, geladen: 0 })
+  pruefe('keine Folge gelesen: nichts gesendet, Grund am Knopf', leer.gesendet.length === 0 && leer.knopfText === '⚠ keine Folge gelesen', leer)
   if (fehler.length) {
     console.error(`\n${fehler.length} Fehler`)
     process.exit(1)
