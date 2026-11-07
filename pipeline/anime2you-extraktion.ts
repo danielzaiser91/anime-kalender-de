@@ -130,7 +130,7 @@ function uebernehmen(ordner: string): void {
   }
   const neuer = ergaenzeBestand(bestand, neu, gelesen, heute)
   writeJson(DATEI, { ...neuer, vorschlaege: mitWiderspruechen(neuer.vorschlaege) }, true)
-  const md = zusammenfassung({ neu, verworfen, ungelesen, uebersprungen: plan.uebersprungen.length }, heute)
+  const md = zusammenfassung({ neu, verworfen, ungelesen, uebersprungen: plan.uebersprungen.length, regel: [...regelIds].filter((id) => !ungelesen.includes(id)) }, heute)
   writeFileSync(resolve(ordner, 'zusammenfassung.md'), md, 'utf8')
   log(md)
   if (process.env.GITHUB_STEP_SUMMARY) appendFileSync(process.env.GITHUB_STEP_SUMMARY, `${md}\n`)

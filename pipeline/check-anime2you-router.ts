@@ -11,6 +11,7 @@ import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { parse } from 'yaml'
+import { zusammenfassung } from './lib/anime2you-bericht.ts'
 import { alsVorschlag, entscheide, istStichprobe, plane, rubrikenAusHtml } from './lib/anime2you-router.ts'
 import { leseRouterZeile, routerSchritt } from './lib/anime2you-router-lauf.ts'
 import { bilanz, type Lauf } from './lib/anime2you-schatten.ts'
@@ -27,7 +28,7 @@ interface Fall {
   plattform?: string
   titel?: string[]
   text: string
-  claude: { titel: string; plattform: string; sprache: string }[]
+  claude: { titel: string; art: string; plattform: string; sprache: string }[]
 }
 interface Schritt {
   id?: string
@@ -47,9 +48,34 @@ function pruefe(name: string, bedingung: boolean, gefunden?: unknown): void {
 }
 
 const wurzel = join(dirname(fileURLToPath(import.meta.url)), '..')
-const faelle = JSON.parse(readFileSync(join(wurzel, 'tools/anime2you-router-faelle.json'), 'utf8')) as Fall[]
+const echt = JSON.parse(readFileSync(join(wurzel, 'tools/anime2you-router-faelle.json'), 'utf8')) as Fall[]
+/** Diese fünf echten Artikel erklärte die erste Fassung des Routers; sie tragen `Simulcast:` mit Uhrzeit bzw. `Hinweis:`, die die Regel nicht liest (A1/A2) und gehen heute an Claude. */
+const FRUEHER_ERKLAERT = ['1063615', '1064193', '1065119', '1066100', '1060946']
+const ohneUngelesenes = (text: string): string => text.replace(/^[ \t]*(Simulcast|Hinweis):.*\n/gm, '')
+/** Die Testmenge für Schritt, Plan und Übernahme: die fünf ohne ihre ungelesenen Zeilen (Weg `regel` wie zuvor), die übrigen echt. */
+const faelle = echt.map((f) => (FRUEHER_ERKLAERT.includes(f.id) ? { ...f, text: ohneUngelesenes(f.text) } : f))
 const fall = (id: string): Fall => faelle.find((f) => f.id === id)!
 const art = (f: Fall, rubriken = f.rubriken, text = f.text) => ({ id: f.id, text, rubriken })
+
+/** Claude-Vorschläge zu den sechs Regel-Artikeln, die kein Regel-Gegenstück gleicher Art haben (`art/Titel/Plattform`). 1064193 und 1060946: `start`, die Claude aus `Simulcast:`/`Hinweis:` las (im echten Text). */
+const CLAUDE_REST: Record<string, string[]> = {
+  '1063615': [],
+  '1064193': ['start/Aoashi – Staffel 2/crunchyroll', 'start/Aoashi – Staffel 2/primevideo', 'start/PSYREN/crunchyroll', 'start/PSYREN/primevideo'],
+  '1065119': [],
+  '1066100': [],
+  '1066144': ['start/Der Held ohne Klasse: Der Aufstieg eines Talentlosen/netflix', 'folgen/My Happy Marriage/netflix'],
+  '1060946': ['start/Avatar: Die sieben Häfen/primevideo', 'start/Yoyo & Nene – Die magischen Schwestern/primevideo'],
+}
+
+/** Behauptungen der Regel (Titel), zu denen Claude nur eine andere Art als `sprachfassung` schrieb (`start`/`folgen`: Claude las dort Simulcast, Hinweis oder Episoden mit). */
+const SPRACHFASSUNG_FEHLT: Record<string, string[]> = {
+  '1063615': [],
+  '1064193': ['Aoashi', 'PSYREN'],
+  '1065119': [],
+  '1066100': [],
+  '1066144': ['Der Held ohne Klasse: Der Aufstieg eines Talentlosen', 'My Happy Marriage'],
+  '1060946': ['Avatar: Die sieben Häfen', 'Yoyo & Nene – Die magischen Schwestern'],
+}
 
 /* Echte Artikel: Weg, Grund, Behauptungen. */
 for (const f of faelle) {
@@ -60,12 +86,17 @@ for (const f of faelle) {
     const v = e.vorschlaege ?? []
     pruefe(`${f.id}: Titel der Behauptungen`, v.map((x) => x.titel).join('|') === f.titel!.join('|'), v.map((x) => x.titel))
     pruefe(`${f.id}: Plattform ${f.plattform} und Art sprachfassung bei allen`, v.every((x) => x.plattform === f.plattform && x.art === 'sprachfassung'), v)
-    // Fehlbeleg = Regel behauptet deutsch, Claude hat zu Titel und Plattform keinen deutschen Vorschlag.
-    const fehlbelege = v.filter((x) => !f.claude.some((c) => c.plattform === x.plattform && c.titel.toLowerCase().startsWith(String(x.titel).toLowerCase()) && c.sprache.startsWith('deutsch')))
-    pruefe(`${f.id}: Fehlbelege gegen Claude = 0`, fehlbelege.length === 0, fehlbelege)
-    // Claude-Vorschläge ohne Regel-Gegenstück: nur Aoashi/PSYREN bei Prime Video (Claudes eigener Fehlbeleg), sonst keiner.
-    const rest = f.claude.filter((c) => !v.some((x) => x.plattform === c.plattform && c.titel.toLowerCase().startsWith(String(x.titel).toLowerCase())))
-    pruefe(`${f.id}: Claude-Rest ${f.id === '1064193' ? 'Aoashi und PSYREN bei Prime Video' : 'leer'}`, rest.map((c) => `${c.titel}/${c.plattform}`).join('|') === (f.id === '1064193' ? 'Aoashi – Staffel 2/primevideo|PSYREN/primevideo' : ''), rest)
+    // Fehlbeleg = Regel behauptet deutsch, Claude hat zu Titel und Plattform (gleich welcher Art) keinen deutschen Vorschlag.
+    const gleichTitel = (c: Fall['claude'][number], x: Record<string, unknown>): boolean => c.plattform === x.plattform && c.titel.toLowerCase().startsWith(String(x.titel).toLowerCase())
+    const gleich = (c: Fall['claude'][number], x: Record<string, unknown>): boolean => gleichTitel(c, x) && c.art === x.art
+    const fehlbelege = v.filter((x) => !f.claude.some((c) => gleichTitel(c, x) && c.sprache.startsWith('deutsch')))
+    pruefe(`${f.id}: Fehlbelege gegen Claude (Titel, Plattform) = 0`, fehlbelege.length === 0, fehlbelege)
+    // A3: die Art zählt mit. Behauptungen der Regel (sprachfassung), zu denen Claude keine sprachfassung gleichen Titels geschrieben hat, stehen fest je Artikel.
+    const ohneGleicheArt = v.filter((x) => !f.claude.some((c) => gleich(c, x))).map((x) => String(x.titel))
+    pruefe(`${f.id}: Regel-Behauptungen ohne Claude-sprachfassung: ${SPRACHFASSUNG_FEHLT[f.id]!.length}`, ohneGleicheArt.join('|') === SPRACHFASSUNG_FEHLT[f.id]!.join('|'), ohneGleicheArt)
+    // Claude-Vorschläge ohne Regel-Gegenstück (auch anderer Art): fester Soll je Artikel, gemessen an Claudes Rohantwort.
+    const rest = f.claude.filter((c) => !v.some((x) => gleich(c, x)))
+    pruefe(`${f.id}: Claude-Rest ${CLAUDE_REST[f.id]!.length}`, rest.map((c) => `${c.art}/${c.titel}/${c.plattform}`).join('|') === CLAUDE_REST[f.id]!.join('|'), rest)
   }
 }
 
@@ -74,6 +105,23 @@ const plan = plane(faelle.map((f) => art(f)))
 pruefe('Plan: erspart', plan.erspart.join() === '1064193,1065119,1066144,1060946', plan.erspart)
 pruefe('Plan: Stichprobe', plan.stichprobe.join() === '1063615,1066100', plan.stichprobe)
 pruefe('Plan: Rest = 10 Artikel', plan.rest.length === 10 && plan.entscheidungen.length === 16, plan.rest)
+
+/* Die echten Texte der fünf (A1/A2): unlesbare Zeilen schicken sie zu Claude, nur 1066144 (Netflix, ohne Simulcast/Hinweis) bleibt erklärt. */
+const GRUND_ECHT: Record<string, string> = {
+  '1063615': 'Datum oder Uhrzeit außerhalb der Regel: 15:30 Uhr',
+  '1064193': 'Datum oder Uhrzeit außerhalb der Regel: 11:00 Uhr',
+  '1065119': 'Datum oder Uhrzeit außerhalb der Regel: 17:15 Uhr',
+  '1066100': 'Datum oder Uhrzeit außerhalb der Regel: 18:00 Uhr',
+  '1060946': 'Feld ohne Regel: Hinweis',
+}
+for (const f of echt) {
+  if (!(f.id in GRUND_ECHT)) continue
+  const e = entscheide(art(f))
+  pruefe(`${f.id} echter Text: Claude, „${GRUND_ECHT[f.id]}“`, e.weg === 'claude' && e.grund === GRUND_ECHT[f.id], e)
+}
+pruefe('1066144 echter Text: weiter erklärt', entscheide(art(echt.find((f) => f.id === '1066144')!)).weg === 'regel')
+const planEcht = plane(echt.map((f) => art(f)))
+pruefe('Plan mit echten Texten: erspart nur 1066144, keine Stichprobe, Rest 15', planEcht.erspart.join() === '1066144' && planEcht.stichprobe.length === 0 && planEcht.rest.length === 15, planEcht)
 
 /* Bedingungen einzeln, am erklärten Artikel 1063615 verändert. */
 const ok = fall('1063615')
@@ -88,6 +136,62 @@ for (const r of ['Merchandise', 'Promo-Video', 'Japan', 'DVD & Blu-ray', 'Ankün
 pruefe('Text ohne „Veröffentlicht“: keine Behauptung', mit(ok.text.replace('Veröffentlicht:', 'Datum:')).grund === 'keine Behauptung')
 const mitSatz = `${ok.text}\nAußerdem läuft »Foo Bar« ab sofort auf Crunchyroll mit deutscher Synchronisation.\n`
 pruefe('zusätzliche Satz-Behauptung: Claude', mit(mitSatz).grund === 'Satz-Behauptung')
+/* A1: Felder ohne Regel (je Feld ein Fall, Feld im ersten und im letzten Block, Feld ohne Datum). */
+const nachSprache = (zeile: string, letzter = false): string => {
+  const zeilen = ok.text.split('\n')
+  const idx = letzter ? zeilen.map((z) => z.trim().startsWith('Sprache:')).lastIndexOf(true) : zeilen.findIndex((z) => z.trim().startsWith('Sprache:'))
+  zeilen.splice(idx + 1, 0, ` ${zeile}`)
+  return zeilen.join('\n')
+}
+pruefe('A1 Fall bereit: Sprache-Zeile gefunden', nachSprache('X').length === ok.text.length + 3 && nachSprache('X', true) !== nachSprache('X'))
+for (const [feld, zeile] of [['Start', 'Start: 12. Dezember 2026 um 15:30 Uhr'], ['Start', 'Start: bald'], ['Hinweis', 'Hinweis: Die Episoden 2 und 3 sind im Paramount+-Channel verfügbar.']] as const) {
+  pruefe(`A1 ${zeile.slice(0, 30)}… im ersten Block: Claude, Feld ${feld}`, mit(nachSprache(zeile)).grund === `Feld ohne Regel: ${feld}`, mit(nachSprache(zeile)))
+  pruefe(`A1 ${zeile.slice(0, 30)}… im letzten Block: Claude, Feld ${feld}`, mit(nachSprache(zeile, true)).grund === `Feld ohne Regel: ${feld}`, mit(nachSprache(zeile, true)))
+}
+pruefe('A1 Feld Laufzeit bleibt erlaubt (Regel braucht es nicht, es trägt keine Aussage)', mit(nachSprache('Laufzeit: 24 Minuten')).weg === 'regel')
+/* A2: Datum oder Uhrzeit außerhalb der gelesenen Stellen – unabhängig von der Anführung. */
+const satzFall = (satz: string): string => `${ok.text}\n${satz}\n`
+for (const [name, satz, treffer] of [
+  ['typografische Anführung', 'Außerdem startet „Foo Bar“ am 5. Dezember 2026 um 18:00 Uhr auf Crunchyroll mit deutscher Synchro.', '5. Dezember'],
+  ['gerade Anführung', 'Außerdem startet "Foo Bar" am 5. Dezember 2026 um 18:00 Uhr auf Crunchyroll mit deutscher Synchro.', '5. Dezember'],
+  ['ohne Anführung', 'Außerdem startet Foo Bar am 5. Dezember 2026 um 18:00 Uhr auf Crunchyroll mit deutscher Synchro.', '5. Dezember'],
+  ['Spitzklammer-Anführung ohne Behauptung', 'Außerdem startet »Foo Bar« am 5. Dezember 2026 auf Crunchyroll.', null],
+  ['nur Uhrzeit mit Uhr', 'Foo Bar läuft um 18:00 Uhr.', '18:00 Uhr'],
+  ['nur Uhrzeit mit Doppelpunkt', 'Foo Bar läuft ab 18:30.', '18:30'],
+  ['volle Stunde', 'Foo Bar läuft um 18 Uhr.', '18 Uhr'],
+  ['Zahlendatum', 'Foo Bar startet am 05.12. auf Crunchyroll.', '05.12.'],
+  ['ISO-Datum', 'Foo Bar startet 2026-12-05 auf Crunchyroll.', '2026-12-05'],
+  ['Monatsmitte', 'Foo Bar startet Mitte Dezember auf Crunchyroll.', 'Mitte Dezember'],
+  ['Monatsende klein geschrieben', 'Foo Bar startet ende dezember auf Crunchyroll.', 'ende dezember'],
+  ['Tag und Monat klein geschrieben', 'Foo Bar startet am 5. dezember auf Crunchyroll.', '5. dezember'],
+  ['Uhrzeit mit Punkt', 'Foo Bar läuft um 18.30 Uhr.', '18.30 Uhr'],
+] as const) {
+  const e = mit(satzFall(satz))
+  pruefe(`A2 ${name}: ${treffer ? `Claude, „${treffer}“` : 'Claude (Titel ohne Behauptung)'}`, e.weg === 'claude' && (treffer === null ? e.grund === 'Titel ohne Behauptung: Foo Bar' : e.grund === `Datum oder Uhrzeit außerhalb der Regel: ${treffer}`), e)
+}
+pruefe('A2 Tag ohne Leerzeichen vor dem Monat („5.Dezember“): Claude', mit(satzFall('Foo Bar startet am 5.Dezember.')).grund === 'Datum oder Uhrzeit außerhalb der Regel: 5.Dezember')
+const zeilenVon = ok.text.split('\n')
+const ersteTextzeile = [...zeilenVon.slice(0, 3), 'Am 5. Dezember geht es los.', ...zeilenVon.slice(3)].join('\n')
+pruefe('A2 erste Textzeile nach der Veröffentlicht-Zeile ist gelesen: Claude', mit(ersteTextzeile).grund === 'Datum oder Uhrzeit außerhalb der Regel: 5. Dezember', mit(ersteTextzeile))
+const autorAlsSatz = (zeile: string): string => ok.text.replace(' 24. Oktober 2026 um 17:54 Uhr ', zeile)
+pruefe('A2 Fall bereit: Autorenzeile ersetzt', autorAlsSatz('X') !== ok.text)
+pruefe('A2 Autorenzeile mit Text davor ist keine Autorenzeile: Claude', mit(autorAlsSatz(' Foo startet am 24. Oktober 2026 um 17:54 Uhr ')).grund === 'Datum oder Uhrzeit außerhalb der Regel: 24. Oktober')
+pruefe('A2 Autorenzeile mit Text dahinter ist keine Autorenzeile: Claude', mit(autorAlsSatz(' 24. Oktober 2026 um 17:54 Uhr und mehr ')).grund === 'Datum oder Uhrzeit außerhalb der Regel: 24. Oktober')
+pruefe('A2 Autorenzeile mit Tag vor Monat falsch (anderer Monat): Claude', mit(autorAlsSatz(' 24. November 2026 um 17:54 Uhr ')).grund === 'Datum oder Uhrzeit außerhalb der Regel: 24. November')
+const zweiBloecke = 'Neue Titel auf Crunchyroll\nVeröffentlicht: 2026-10-24\n\n2. November: »Foo Bar«\nSprache: Deutsch, Japanisch (UT)\nStream: Crunchyroll\n\n3. November: »Baz Qux«\nSprache: Deutsch, Japanisch (UT)\nStream: Crunchyroll\n'
+pruefe('A2 zwei Blöcke, beide mit Tag vor dem Titel: erklärt', entscheide({ id: '1', rubriken: ['Crunchyroll'], text: zweiBloecke }).weg === 'regel', entscheide({ id: '1', rubriken: ['Crunchyroll'], text: zweiBloecke }))
+pruefe('A2 zweiter Block mit Datum hinter dem Titel, erster ohne: Claude', entscheide({ id: '1', rubriken: ['Crunchyroll'], text: zweiBloecke.replace('»Baz Qux«', '»Baz Qux« ab 7. Dezember') }).grund === 'Datum oder Uhrzeit außerhalb der Regel: 7. Dezember')
+pruefe('A2 erster Block mit Datum hinter dem Titel, zweiter ohne: Claude', entscheide({ id: '1', rubriken: ['Crunchyroll'], text: zweiBloecke.replace('»Foo Bar«', '»Foo Bar« ab 7. Dezember') }).grund === 'Datum oder Uhrzeit außerhalb der Regel: 7. Dezember')
+pruefe('A1 „Start:“ mitten im Titel ist kein Feld: erklärt', entscheide({ id: '1', rubriken: ['Crunchyroll'], text: 'Neuer Titel auf Crunchyroll\nVeröffentlicht: 2026-10-24\n\n»Quick Start: Foo Bar«\nSprache: Deutsch, Japanisch (UT)\nStream: Crunchyroll\n' }).weg === 'regel')
+pruefe('A2 Satz ohne Datum und Uhrzeit: erklärt', mit(satzFall('Foo Bar kommt bald auf Crunchyroll.')).weg === 'regel')
+pruefe('A2 Zahlen ohne Datum („Staffel 2.“, „1.5 Mio“): erklärt', mit(satzFall('Die Serie hat 2. Staffel Folgen und 1.5 Mio Fans.')).weg === 'regel')
+pruefe('A2 Autorenzeile mit anderem Tag als Veröffentlicht: Claude', mit(ok.text.replace('24. Oktober 2026 um', '25. Oktober 2026 um')).grund === 'Datum oder Uhrzeit außerhalb der Regel: 25. Oktober', mit(ok.text.replace('24. Oktober 2026 um', '25. Oktober 2026 um')))
+pruefe('A2 zweite Zeile mit der Zeit des Veröffentlichungstags: Claude (nur die Autorenzeile ist Vorspann)', mit(satzFall('24. Oktober 2026 um 17:54 Uhr')).grund === 'Datum oder Uhrzeit außerhalb der Regel: 24. Oktober', mit(satzFall('24. Oktober 2026 um 17:54 Uhr')))
+const kopfMit = (nachsatz: string): string => 'Neuer Titel auf Crunchyroll\nVeröffentlicht: 2026-10-24\n\n2. November: »Foo Bar«' + nachsatz + '\nSprache: Deutsch, Japanisch (UT)\nStream: Crunchyroll\n'
+pruefe('A2 Kopfzeile: Tag vor dem Titel ist gelesen → erklärt', entscheide({ id: '1', rubriken: ['Crunchyroll'], text: kopfMit('') }).weg === 'regel')
+pruefe('A2 Kopfzeile: Datum hinter dem Titel ist ungelesen → Claude', entscheide({ id: '1', rubriken: ['Crunchyroll'], text: kopfMit(' – ab 5. Dezember') }).grund === 'Datum oder Uhrzeit außerhalb der Regel: 5. Dezember')
+pruefe('A2 Sprache-Zeile mit Uhrzeit ist ungelesen → Claude', entscheide({ id: '1', rubriken: ['Crunchyroll'], text: kopfMit('').replace('Japanisch (UT)', 'Japanisch (UT), 18:00 Uhr') }).grund === 'Datum oder Uhrzeit außerhalb der Regel: 18:00 Uhr')
+pruefe('A2 Stream-Zeile mit Datum ist ungelesen → Claude', entscheide({ id: '1', rubriken: ['Crunchyroll'], text: kopfMit('').replace('Stream: Crunchyroll', 'Stream: Crunchyroll (ab 5. Dezember)') }).grund === 'Datum oder Uhrzeit außerhalb der Regel: 5. Dezember')
 const text2 = (zusatz: string): string => `${ok.text}\n${zusatz}\n`
 pruefe('Titel ohne Behauptung: Claude mit dem Titel', mit(text2('Mehr zu »Apothekerin Spin-off« folgt.')).grund === 'Titel ohne Behauptung: Apothekerin Spin-off')
 pruefe('Titel enthält den Titel einer Behauptung (länger im Text): erklärt', mit(text2('Mehr zu »A Wild Last Boss Appeared! Special« folgt.')).weg === 'regel')
@@ -200,6 +304,22 @@ try {
   const regelVorschlaege = bestand.vorschlaege.filter((v) => ['1064193', '1065119', '1066144', '1060946'].includes(v.artikelId))
   pruefe('Übernahme: 8 geprüfte Vorschläge der Regel (2+2+2+2), Art sprachfassung, Quelle gesetzt', regelVorschlaege.length === 8 && regelVorschlaege.every((v) => v.art === 'sprachfassung' && v.quelle === `https://www.anime2you.de/news/${v.artikelId}/`), regelVorschlaege.length)
   pruefe('Übernahme: Claudes Stichprobe-Artikel tragen kein „durch“', durch('1063615') === undefined && bestand.gelesen['1063615']?.vorschlaege === 0 && durch('1066100') === undefined && bestand.gelesen['1066100']?.vorschlaege === 0)
+  // A4: die Zusammenfassung für den Daten-PR nennt die Kennungen der Regel-Artikel (Reihenfolge der Auswahl, `regel`).
+  const md = lies(join(sc, 'zusammenfassung.md'))
+  pruefe('Übernahme: Zusammenfassung nennt die vier Regel-Artikel', md.includes('Von der Regel gelesen, Claude hat sie nicht gelesen: 4 (1064193, 1065119, 1066144, 1060946).'), md.slice(0, 600))
+  const ohneRegel = zusammenfassung({ neu: [], verworfen: [], ungelesen: [], uebersprungen: 0 }, '2026-11-07')
+  const regelLeer = zusammenfassung({ neu: [], verworfen: [], ungelesen: [], uebersprungen: 0, regel: [] }, '2026-11-07')
+  pruefe('Zusammenfassung ohne Regel-Artikel: keine Regel-Zeile (fehlend und leer)', !ohneRegel.includes('Von der Regel') && !regelLeer.includes('Von der Regel'), ohneRegel)
+  // Eine Regel-Antwortdatei fehlt: der Artikel ist ungelesen und steht nicht unter „von der Regel gelesen“.
+  const sc2 = ordnerAnlegen('scharf-ohne-datei')
+  routerSchritt(sc2, true)
+  rmSync(join(sc2, 'ergebnis', '1065119.json'))
+  for (const id of ['1063615', '1066100']) schreibe(join(sc2, 'ergebnis', `${id}.json`), JSON.stringify({ gelesen: true, vorschlaege: [] }))
+  const akU2 = join(tmp, 'wurzel-uebernehmen-2')
+  mkdirSync(akU2, { recursive: true })
+  const uebernahme2 = starte('anime2you-extraktion.ts', akU2, {}, '--uebernehmen', '--verzeichnis', sc2)
+  const md2 = lies(join(sc2, 'zusammenfassung.md'))
+  pruefe('Übernahme ohne eine Regel-Antwortdatei: Exit 0, Zeile nennt nur die drei gelesenen', uebernahme2.status === 0 && md2.includes('Von der Regel gelesen, Claude hat sie nicht gelesen: 3 (1064193, 1066144, 1060946).'), md2.slice(0, 600))
   pruefe('Übernahme: Stichprobe-Artikel ohne Antwortdatei wären ungelesen, nicht „regel“', durch('1058839') === undefined && bestand.gelesen['1058839'] === undefined)
 
   /* Schattenzeile und Bilanz. */
@@ -272,4 +392,4 @@ if (fehler) {
   console.error(`✖ ${fehler} Fehler`)
   process.exit(1)
 }
-console.log(`✓ Anime2You-Router: ${faelle.length} echte Artikel (6 erklärt, 4 erspart, 2 Stichprobe, 10 Rest; Fehlbelege gegen Claude 0), Bedingungen einzeln, Rubrik-Leser, Schritt Schatten/scharf/Rückbau, Übernahme, Schattenzeile, Prozesse, Workflow`)
+console.log(`✓ Anime2You-Router: ${faelle.length} echte Artikel (echte Texte: 1 erklärt = 1 erspart, 15 Rest; ohne Simulcast/Hinweis-Zeilen 6 erklärt, 4 erspart, 2 Stichprobe, 10 Rest; Fehlbelege gegen Claude 0, Art mitgemessen), A1 Felder ohne Regel, A2 Datum/Uhrzeit außerhalb, Zusammenfassung nennt Regel-Artikel, Bedingungen einzeln, Rubrik-Leser, Schritt Schatten/scharf/Rückbau, Übernahme, Schattenzeile, Prozesse, Workflow`)

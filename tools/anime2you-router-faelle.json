@@ -16,11 +16,13 @@
     "claude": [
       {
         "titel": "A Wild Last Boss Appeared!",
+        "art": "sprachfassung",
         "plattform": "crunchyroll",
         "sprache": "deutsch+omu"
       },
       {
         "titel": "Die Tagebücher der Apothekerin",
+        "art": "sprachfassung",
         "plattform": "crunchyroll",
         "sprache": "deutsch+omu"
       }
@@ -43,21 +45,25 @@
     "claude": [
       {
         "titel": "Aoashi – Staffel 2",
+        "art": "start",
         "plattform": "crunchyroll",
         "sprache": "deutsch+omu"
       },
       {
         "titel": "Aoashi – Staffel 2",
+        "art": "start",
         "plattform": "primevideo",
         "sprache": "deutsch+omu"
       },
       {
         "titel": "PSYREN",
+        "art": "start",
         "plattform": "crunchyroll",
         "sprache": "deutsch+omu"
       },
       {
         "titel": "PSYREN",
+        "art": "start",
         "plattform": "primevideo",
         "sprache": "deutsch+omu"
       }
@@ -80,11 +86,13 @@
     "claude": [
       {
         "titel": "Magic Knight Rayearth",
+        "art": "sprachfassung",
         "plattform": "crunchyroll",
         "sprache": "deutsch+omu"
       },
       {
         "titel": "The Detective Is Already Dead – Staffel 2",
+        "art": "sprachfassung",
         "plattform": "crunchyroll",
         "sprache": "deutsch+omu"
       }
@@ -108,16 +116,19 @@
     "claude": [
       {
         "titel": "Firefly Wedding",
+        "art": "sprachfassung",
         "plattform": "crunchyroll",
         "sprache": "deutsch+omu"
       },
       {
         "titel": "The Iceblade Sorcerer Shall Rule the World – Staffel 2",
+        "art": "sprachfassung",
         "plattform": "crunchyroll",
         "sprache": "deutsch+omu"
       },
       {
         "titel": "The Vermilion Mask",
+        "art": "sprachfassung",
         "plattform": "crunchyroll",
         "sprache": "deutsch+omu"
       }
@@ -140,11 +151,13 @@
     "claude": [
       {
         "titel": "Der Held ohne Klasse: Der Aufstieg eines Talentlosen",
+        "art": "start",
         "plattform": "netflix",
         "sprache": "deutsch+omu"
       },
       {
         "titel": "My Happy Marriage",
+        "art": "folgen",
         "plattform": "netflix",
         "sprache": "deutsch+omu"
       }
@@ -167,11 +180,13 @@
     "claude": [
       {
         "titel": "Avatar: Die sieben Häfen",
+        "art": "start",
         "plattform": "primevideo",
         "sprache": "deutsch"
       },
       {
         "titel": "Yoyo & Nene – Die magischen Schwestern",
+        "art": "start",
         "plattform": "primevideo",
         "sprache": "deutsch"
       }
@@ -190,11 +205,13 @@
     "claude": [
       {
         "titel": "Iron Man: Rise of Technovore",
+        "art": "abgang",
         "plattform": "netflix",
         "sprache": "deutsch"
       },
       {
         "titel": "Berserk",
+        "art": "abgang",
         "plattform": "netflix",
         "sprache": "omu"
       }
@@ -213,16 +230,19 @@
     "claude": [
       {
         "titel": "Berserk",
+        "art": "sprachfassung",
         "plattform": "netflix",
         "sprache": "omu"
       },
       {
         "titel": "Berserk",
+        "art": "sprachfassung",
         "plattform": "aniverse",
         "sprache": "deutsch"
       },
       {
         "titel": "Berserk",
+        "art": "disc",
         "plattform": "disc",
         "sprache": "unklar"
       }
@@ -241,36 +261,43 @@
     "claude": [
       {
         "titel": "I Parry Everything!",
+        "art": "start",
         "plattform": "adn",
         "sprache": "deutsch+omu"
       },
       {
         "titel": "I Parry Everything!",
+        "art": "start",
         "plattform": "primevideo",
         "sprache": "deutsch+omu"
       },
       {
         "titel": "Pretty Cure",
+        "art": "start",
         "plattform": "adn",
         "sprache": "omu"
       },
       {
         "titel": "Kotoura-san",
+        "art": "start",
         "plattform": "adn",
         "sprache": "omu"
       },
       {
         "titel": "KILL la KILL",
+        "art": "start",
         "plattform": "adn",
         "sprache": "deutsch+omu"
       },
       {
         "titel": "Cross Game",
+        "art": "start",
         "plattform": "adn",
         "sprache": "omu"
       },
       {
         "titel": "Reborn!",
+        "art": "folgen",
         "plattform": "adn",
         "sprache": "omu"
       }
@@ -289,36 +316,43 @@
     "claude": [
       {
         "titel": "M.A.S.K.",
+        "art": "start",
         "plattform": "aniverse",
         "sprache": "deutsch"
       },
       {
         "titel": "The Forsaken Saintess and Her Foodie Road Trip in Another World",
+        "art": "start",
         "plattform": "aniverse",
         "sprache": "omu"
       },
       {
         "titel": "Angel’s Egg",
+        "art": "start",
         "plattform": "aniverse",
         "sprache": "deutsch+omu"
       },
       {
         "titel": "Shaman King – Staffel 4",
+        "art": "start",
         "plattform": "aniverse",
         "sprache": "deutsch"
       },
       {
         "titel": "Wolf Girl and Black Prince – Staffel 1",
+        "art": "start",
         "plattform": "aniverse",
         "sprache": "deutsch+omu"
       },
       {
         "titel": "Call of the Night – Staffel 2",
+        "art": "sprachfassung",
         "plattform": "aniverse",
         "sprache": "deutsch"
       },
       {
         "titel": "The Most Heretical Last Boss Queen – Staffel 1",
+        "art": "sprachfassung",
         "plattform": "aniverse",
         "sprache": "deutsch"
       }
@@ -337,6 +371,7 @@
     "claude": [
       {
         "titel": "Reborn as a Space Mercenary",
+        "art": "start",
         "plattform": "crunchyroll",
         "sprache": "deutsch+omu"
       }
@@ -355,6 +390,7 @@
     "claude": [
       {
         "titel": "Cyberpunk: Edgerunners II",
+        "art": "start",
         "plattform": "netflix",
         "sprache": "deutsch+omu"
       }
@@ -373,51 +409,61 @@
     "claude": [
       {
         "titel": "Der Held ohne Klasse: Der Aufstieg eines Talentlosen",
+        "art": "start",
         "plattform": "netflix",
         "sprache": "unklar"
       },
       {
         "titel": "Bass X Machina",
+        "art": "start",
         "plattform": "netflix",
         "sprache": "deutsch+omu"
       },
       {
         "titel": "Fool Night",
+        "art": "start",
         "plattform": "netflix",
         "sprache": "omu"
       },
       {
         "titel": "The Ramparts of Ice",
+        "art": "folgen",
         "plattform": "netflix",
         "sprache": "deutsch+omu"
       },
       {
         "titel": "STEEL BALL RUN: JoJo’s Bizarre Adventure",
+        "art": "folgen",
         "plattform": "netflix",
         "sprache": "deutsch+omu"
       },
       {
         "titel": "Tougen Anki",
+        "art": "folgen",
         "plattform": "netflix",
         "sprache": "omu"
       },
       {
         "titel": "Das Band der Unterwelt",
+        "art": "folgen",
         "plattform": "netflix",
         "sprache": "deutsch+omu"
       },
       {
         "titel": "Ranma 1/2",
+        "art": "folgen",
         "plattform": "netflix",
         "sprache": "deutsch+omu"
       },
       {
         "titel": "Blue Box",
+        "art": "folgen",
         "plattform": "netflix",
         "sprache": "deutsch+omu"
       },
       {
         "titel": "Dragon Ball Super: Beerus",
+        "art": "folgen",
         "plattform": "netflix",
         "sprache": "omu"
       }
@@ -436,11 +482,13 @@
     "claude": [
       {
         "titel": "Honey Lemon Soda",
+        "art": "start",
         "plattform": "disneyplus",
         "sprache": "deutsch+omu"
       },
       {
         "titel": "One Punch Man",
+        "art": "start",
         "plattform": "disneyplus",
         "sprache": "unklar"
       }
@@ -459,26 +507,31 @@
     "claude": [
       {
         "titel": "Demon Slayer: Entertainment District Arc",
+        "art": "start",
         "plattform": "primevideo",
         "sprache": "deutsch+omu"
       },
       {
         "titel": "Demon Slayer: Hashira Training Arc",
+        "art": "start",
         "plattform": "primevideo",
         "sprache": "deutsch+omu"
       },
       {
         "titel": "Demon Slayer: Mugen Train Arc",
+        "art": "start",
         "plattform": "primevideo",
         "sprache": "deutsch+omu"
       },
       {
         "titel": "Demon Slayer: Swordsmith Village Arc",
+        "art": "start",
         "plattform": "primevideo",
         "sprache": "deutsch+omu"
       },
       {
         "titel": "The Sky Crawlers",
+        "art": "start",
         "plattform": "primevideo",
         "sprache": "deutsch+omu"
       }
@@ -497,6 +550,7 @@
     "claude": [
       {
         "titel": "Disney Twisted-Wonderland – Staffel 2",
+        "art": "start",
         "plattform": "disneyplus",
         "sprache": "unklar"
       }

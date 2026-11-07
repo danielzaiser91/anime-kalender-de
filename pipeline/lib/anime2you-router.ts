@@ -7,13 +7,16 @@
  * 2. Die Regel liefert mindestens eine Behauptung und alle sind Blöcke (»Titel« / Sprache: / Stream:). Sätze bleiben bei Claude: die Satzfamilie ist
  *    mit 15 von 71 Behauptungen zu dünn gemessen (Bericht 07.11.2026, „Offen und Grenzen“).
  * 3. Jeder »Titel« im Artikel hat eine Behauptung (Titel gleich oder einer im anderen enthalten): ein Titel ohne Behauptung ist Inhalt, den die Regel nicht liest.
+ * 3b. Kein Block hat ein Feld `Start:` oder `Hinweis:` (die Regel liest sie nicht), und im Artikel steht kein Datum und keine Uhrzeit außer dem Tagesdatum der Regel
+ *    (Überschrift, Veröffentlicht- und Autorenzeile, Tag vor dem »Titel«); unabhängig von Claude und von der Anführung – „vollständig“ nur gegen Claudes Antwort wäre zirkulär.
+ *    Die Regel liest keine Uhrzeit und keinen Rhythmus; ein `Simulcast:`-Block mit „Jeden Samstag um 15:30 Uhr“ geht deshalb an Claude.
  * 4. Jede Behauptung besteht dieselbe Prüfung am Artikeltext wie ein Vorschlag von Claude (`pruefeVorschlag`) – sonst wäre `--uebernehmen` der Verwerfer.
  *
  * Von den erklärten Artikeln liest Claude weiter jeden fünften (`istStichprobe`, nach Artikelkennung, damit die Auswahl nicht vom Lauf abhängt),
  * damit die Abweichung Regel gegen Claude weiter gemessen wird (Schattenschritt).
  */
 import { decodeEntities } from './feed.ts'
-import { leseBehauptungen, type Behauptung } from './anime2you-regel.ts'
+import { leseBehauptungen, MONATE, type Behauptung } from './anime2you-regel.ts'
 import { norm } from './anime2you-schatten.ts'
 import { pruefeVorschlag } from './anime2you-vorschlag.ts'
 
@@ -65,6 +68,48 @@ const gedeckt = (titel: string, behauptungen: Behauptung[]): boolean => {
   return x.length >= 4 && behauptungen.some((b) => x.includes(norm(b.titel)) || norm(b.titel).includes(x))
 }
 
+/** A1: Felder im Block, die keine Regel liest (Start = Datum, Hinweis = Aussage); sie gehören Claude. */
+const FELD_OHNE_REGEL = /^(Start|Hinweis):/
+
+export function feldOhneRegel(behauptungen: Behauptung[]): string | undefined {
+  for (const b of behauptungen) {
+    for (const zeile of b.zitat.split('\n')) {
+      const m = FELD_OHNE_REGEL.exec(zeile)
+      if (m) return m[1]
+    }
+  }
+  return undefined
+}
+
+const MONAT = `(?:${MONATE.join('|')})`
+const DATUM = new RegExp(`\\b\\d{1,2}\\.\\s*${MONAT}\\b|\\b(?:Anfang|Mitte|Ende)\\s+${MONAT}\\b|\\b\\d{1,2}\\.\\d{1,2}\\.|\\b\\d{4}-\\d{2}-\\d{2}\\b`, 'i')
+const UHRZEIT = /\b\d{1,2}[:.]\d{2}\s*Uhr\b|\b\d{1,2}:\d{2}\b|\b\d{1,2}\s*Uhr\b/i
+
+/** Der Text ohne die Stellen, deren Datum die Regel liest: Überschrift, Veröffentlicht-Zeile, Autorenzeile und je Block das Tagesdatum vor dem »Titel«. Alles andere (auch `Sprache:`, `Stream:`, Simulcast) bleibt; unabhängig von jeder Anführung. */
+export function ausserhalbDerRegel(text: string, behauptungen: Behauptung[]): string {
+  // Wie die Regel: Zeilen getrimmt, Leerzeilen weg (ein Zitat besteht aus solchen Zeilen).
+  const zeilen = text.split('\n').map((z) => z.trim()).filter(Boolean)
+  const [jahr, monat, tag] = (/^Veröffentlicht:\s*(\d{4}-\d{2}-\d{2})/.exec(zeilen[1] ?? '')?.[1] ?? '').split('-').map(Number)
+  let rest = zeilen.slice(2)
+  // Die Zeitangabe der Autorenzeile („24. Oktober 2026 um 17:54 Uhr“, Tag = Veröffentlicht) ist Vorspann, keine Aussage; nur die erste Zeile genau dieser Form.
+  const autorZeile = new RegExp(`^${tag}\\. ${MONATE[(monat ?? 1) - 1]} ${jahr} um \\d{1,2}:\\d{2} Uhr$`)
+  const autor = jahr ? rest.findIndex((z) => autorZeile.test(z)) : -1
+  if (autor >= 0) rest = rest.filter((_, i) => i !== autor)
+  for (const b of behauptungen) {
+    const zitat = b.zitat.split('\n')
+    const i = rest.findIndex((_, j) => zitat.every((z, k) => rest[j + k] === z))
+    if (i < 0) continue
+    rest[i] = zitat[0]!.slice(zitat[0]!.indexOf('»'))
+  }
+  return rest.join('\n')
+}
+
+/** A2: Datum oder Uhrzeit außerhalb der von der Regel gelesenen Stellen (erste Fundstelle) – dort steht eine Aussage, die die Regel verliert. */
+export function datumAusserhalb(text: string, behauptungen: Behauptung[]): string | undefined {
+  const rest = ausserhalbDerRegel(text, behauptungen)
+  return DATUM.exec(rest)?.[0] ?? UHRZEIT.exec(rest)?.[0]
+}
+
 export interface Entscheidung {
   id: string
   /** `regel`: vollständig erklärt; `claude`: bleibt bei Claude. */
@@ -92,6 +137,10 @@ export function pruefeArtikel(a: RouterArtikel): { grund: string } | { vorschlae
   if (behauptungen.some((b) => b.familie !== 'block')) return { grund: 'Satz-Behauptung' }
   const ohne = [...a.text.matchAll(/»([^»«]{2,100})«/g)].map((m) => m[1]!).find((t) => !gedeckt(t, behauptungen))
   if (ohne) return { grund: `Titel ohne Behauptung: ${ohne}` }
+  const feld = feldOhneRegel(behauptungen)
+  if (feld) return { grund: `Feld ohne Regel: ${feld}` }
+  const datum = datumAusserhalb(a.text, behauptungen)
+  if (datum) return { grund: `Datum oder Uhrzeit außerhalb der Regel: ${datum}` }
   // Ohne Artikeltitel geprüft: der Block-Titel steht im Zitat, und was so besteht, besteht auch in `--uebernehmen` (dort kommt der Artikeltitel nur dazu).
   const veroeffentlicht = /^Veröffentlicht:\s*(\d{4}-\d{2}-\d{2})/.exec(a.text.split('\n')[1] ?? '')?.[1] ?? ''
   const bezug = { text: a.text, veroeffentlicht }
