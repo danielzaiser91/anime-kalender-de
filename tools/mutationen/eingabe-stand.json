@@ -1,0 +1,25 @@
+[
+  { "name": "Kontrolle (unmutiert)", "aenderungen": [] },
+  { "name": "findeRueckschritte: < zu <= (Gleichstand wäre Befund)", "aenderungen": [{ "datei": "pipeline/lib/eingabe-stand.ts", "suche": "Date.parse(jetzt) < Date.parse(vorher)", "ersetze": "Date.parse(jetzt) <= Date.parse(vorher)" }] },
+  { "name": "findeRueckschritte: < zu > (Fortschritt wäre Befund)", "aenderungen": [{ "datei": "pipeline/lib/eingabe-stand.ts", "suche": "Date.parse(jetzt) < Date.parse(vorher)", "ersetze": "Date.parse(jetzt) > Date.parse(vorher)" }] },
+  { "name": "findeRueckschritte: Textvergleich statt Zeit", "aenderungen": [{ "datei": "pipeline/lib/eingabe-stand.ts", "suche": "Date.parse(jetzt) < Date.parse(vorher)", "ersetze": "jetzt < vorher" }] },
+  { "name": "findeRueckschritte: alt und neu vertauscht", "aenderungen": [{ "datei": "pipeline/lib/eingabe-stand.ts", "suche": "gefunden.push({ eingabe, alt: vorher, neu: jetzt })", "ersetze": "gefunden.push({ eingabe, alt: jetzt, neu: vorher })" }] },
+  { "name": "findeRueckschritte: fehlende Vorgängerdatei wirft", "aenderungen": [{ "datei": "pipeline/lib/eingabe-stand.ts", "suche": "Object.entries(alt ?? {})", "ersetze": "Object.entries(alt!)" }] },
+  { "name": "findeRueckschritte: Guard fehlender neuer Eintrag entfernt (gleichwertig: NaN < x ist false)", "aenderungen": [{ "datei": "pipeline/lib/eingabe-stand.ts", "suche": "jetzt !== undefined && ", "ersetze": "" }] },
+  { "name": "findeRueckschritte: Schleife leer", "aenderungen": [{ "datei": "pipeline/lib/eingabe-stand.ts", "suche": "Object.entries(alt ?? {})", "ersetze": "[]" }] },
+  { "name": "leseEingabeStand: Texttyp nicht geprüft", "aenderungen": [{ "datei": "pipeline/lib/eingabe-stand.ts", "suche": "typeof wert === 'string' && ", "ersetze": "" }] },
+  { "name": "leseEingabeStand: Datum nicht geprüft", "aenderungen": [{ "datei": "pipeline/lib/eingabe-stand.ts", "suche": " && !Number.isNaN(Date.parse(wert))", "ersetze": "" }] },
+  { "name": "leseEingabeStand: ?. entfernt (null wirft)", "aenderungen": [{ "datei": "pipeline/lib/eingabe-stand.ts", "suche": "null | undefined)?.[feld]", "ersetze": "null | undefined)![feld]" }] },
+  { "name": "schluesselVon: data/ bleibt", "aenderungen": [{ "datei": "pipeline/lib/eingabe-stand.ts", "suche": ".replace(/^data\\//, '')", "ersetze": "" }] },
+  { "name": "schluesselVon: .json bleibt", "aenderungen": [{ "datei": "pipeline/lib/eingabe-stand.ts", "suche": ".replace(/\\.json$/, '')", "ersetze": "" }] },
+  { "name": "EINGABEN: cr-katalog-de falsches Feld", "aenderungen": [{ "datei": "pipeline/lib/eingabe-stand.ts", "suche": "data/cr-katalog-de.json', feld: 'geholtAm'", "ersetze": "data/cr-katalog-de.json', feld: 'scrapedAt'" }] },
+  { "name": "EINGABEN: Cache-Datei gestrichen", "aenderungen": [{ "datei": "pipeline/lib/eingabe-stand.ts", "suche": "  { datei: 'data/cache/anilist-katalog.json', feld: 'geholtAm' },\n", "ersetze": "" }] },
+  { "name": "vermerke: Stand nicht gesetzt", "aenderungen": [{ "datei": "pipeline/lib/eingabe-stand.ts", "suche": "meta.eingabeStand = leseEingabeStand(lies)", "ersetze": "meta.eingabeStand = {}" }] },
+  { "name": "vermerke: Warnung entfernt", "aenderungen": [{ "datei": "pipeline/lib/eingabe-stand.ts", "suche": "    log(`⚠ WARNUNG Eingabestand zurück", "ersetze": "    void (`⚠ WARNUNG Eingabestand zurück" }] },
+  { "name": "vermerke: vergleicht gegen sich selbst", "aenderungen": [{ "datei": "pipeline/lib/eingabe-stand.ts", "suche": "findeRueckschritte(vorige.eingabeStand, meta.eingabeStand)", "ersetze": "findeRueckschritte(meta.eingabeStand, meta.eingabeStand)" }] },
+  { "name": "Bau: Aufruf entfernt (0 &&)", "aenderungen": [{ "datei": "pipeline/bau/13-5-kerndateien.ts", "suche": "  vermerkeEingabeStand(meta,", "ersetze": "  0 && vermerkeEingabeStand(meta," }] },
+  { "name": "Bau: vorige meta.json nicht gelesen ({})", "aenderungen": [{ "datei": "pipeline/bau/13-5-kerndateien.ts", "suche": "readJson<Pick<DataMeta, 'eingabeStand'>>(`${OUT}/meta.json`, {})", "ersetze": "{}" }] },
+  { "name": "Bau: Aufruf erst nach dem Schreiben der meta.json", "aenderungen": [
+    { "datei": "pipeline/bau/13-5-kerndateien.ts", "suche": "  vermerkeEingabeStand(meta, readJson<Pick<DataMeta, 'eingabeStand'>>(`${OUT}/meta.json`, {}))\n  writeJson(`${OUT}/meta.json`, meta, true)\n", "ersetze": "  writeJson(`${OUT}/meta.json`, meta, true)\n  vermerkeEingabeStand(meta, readJson<Pick<DataMeta, 'eingabeStand'>>(`${OUT}/meta.json`, {}))\n" }
+  ] }
+]
