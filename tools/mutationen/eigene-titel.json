@@ -61,7 +61,7 @@
   { "name": "phasenfolge: Umhängen entfernt", "aenderungen": [{ "datei": "pipeline/bau/phasenfolge.ts", "suche": "  haengeEigeneUm(titles, releases)\n", "ersetze": "  0 && haengeEigeneUm(titles, releases)\n" }] },
   { "name": "phasenfolge: Umhängen mit leeren Terminen", "aenderungen": [{ "datei": "pipeline/bau/phasenfolge.ts", "suche": "  haengeEigeneUm(titles, releases)\n", "ersetze": "  haengeEigeneUm(titles, [])\n" }] },
   { "name": "13-6: zuAk entfernt", "aenderungen": [{ "datei": "pipeline/bau/13-6-kennungen.ts", "suche": "  schreibeEigeneZuAk()\n", "ersetze": "  0 && schreibeEigeneZuAk()\n" }] },
-  { "name": "11-wege-abschluss: Wegebegrenzung entfernt", "aenderungen": [{ "datei": "pipeline/bau/11-wege-abschluss.ts", "suche": "  begrenzeWegeAufBelege(titles.values(), alleChecks)\n", "ersetze": "  0 && begrenzeWegeAufBelege(titles.values(), alleChecks)\n" }] },
+  { "name": "11-wege-abschluss: Wegebegrenzung entfernt", "aenderungen": [{ "datei": "pipeline/bau/11-wege-abschluss.ts", "suche": "  begrenzeWegeAufBelege(titles.values(), alleChecks, jwJoyn)\n", "ersetze": "  0 && begrenzeWegeAufBelege(titles.values(), alleChecks, jwJoyn)\n" }] },
   { "name": "13-3-1: TMDB-Anbieter für eigene Titel", "aenderungen": [{ "datei": "pipeline/bau/13-3-1-tmdb-wege.ts", "suche": " || istEigenerTitel(eintrag.id)", "ersetze": "" }] },
   { "name": "katalog-abgleich: eigener Titel wird zugeordnet", "aenderungen": [{ "datei": "pipeline/fetch-anisearch-katalog-abgleich.ts", "suche": "!istEigenerTitel(t.id) && ", "ersetze": "" }] },
   { "name": "nebendateien: Erstmals-Meldung auch für eigene Titel", "aenderungen": [{ "datei": "pipeline/bau/nebendateien.ts", "suche": "ohneEigene(ohneGesperrte(titles))", "ersetze": "ohneGesperrte(titles)" }] },
