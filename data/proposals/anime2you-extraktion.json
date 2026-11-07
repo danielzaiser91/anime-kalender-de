@@ -1261,10 +1261,6 @@
       "vorschlaege": 0,
       "uebersprungen": "kein Deutschland-Bezug"
     },
-    "1067729": {
-      "am": "2026-11-07",
-      "vorschlaege": 0
-    },
     "1067756": {
       "am": "2026-11-07",
       "vorschlaege": 2
@@ -1277,17 +1273,9 @@
       "am": "2026-11-05",
       "vorschlaege": 3
     },
-    "1067831": {
-      "am": "2026-11-07",
-      "vorschlaege": 0
-    },
     "1067870": {
       "am": "2026-11-05",
       "vorschlaege": 1
-    },
-    "1067897": {
-      "am": "2026-11-07",
-      "vorschlaege": 0
     },
     "1067953": {
       "am": "2026-11-05",
@@ -1382,19 +1370,6 @@
     "1068831": {
       "am": "2026-11-07",
       "vorschlaege": 0
-    },
-    "1068859": {
-      "am": "2026-11-07",
-      "vorschlaege": 0,
-      "uebersprungen": "kein Deutschland-Bezug"
-    },
-    "1068887": {
-      "am": "2026-11-07",
-      "vorschlaege": 3
-    },
-    "1068951": {
-      "am": "2026-11-07",
-      "vorschlaege": 2
     }
   },
   "vorschlaege": [
@@ -1982,8 +1957,7 @@
       "wochentag": null,
       "warnungen": [
         "Uhrzeit widerspricht 18:50 (Artikel 1059541) – gegenlesen",
-        "Uhrzeit widerspricht 18:50 (Artikel 1059541), 18:30 (Artikel 1063795) – gegenlesen",
-        "Uhrzeit widerspricht 18:50 (Artikel 1059541), 18:30 (Artikel 1063795), 06:45 (Artikel 1068887) – gegenlesen"
+        "Uhrzeit widerspricht 18:50 (Artikel 1059541), 18:30 (Artikel 1063795) – gegenlesen"
       ],
       "artikelId": "1060030",
       "artikel": "TV-Guide: Anime im deutschen Fernsehen in KW 42/2026",
@@ -7365,8 +7339,7 @@
       "wochentag": null,
       "warnungen": [
         "Uhrzeit widerspricht 18:50 (Artikel 1059541), 18:55 (Artikel 1060030) – gegenlesen",
-        "Uhrzeit widerspricht 18:50 (Artikel 1059541), 18:55 (Artikel 1060030), 18:55 (Artikel 1066723) – gegenlesen",
-        "Uhrzeit widerspricht 18:50 (Artikel 1059541), 18:55 (Artikel 1060030), 18:55 (Artikel 1066723), 06:45 (Artikel 1068887) – gegenlesen"
+        "Uhrzeit widerspricht 18:50 (Artikel 1059541), 18:55 (Artikel 1060030), 18:55 (Artikel 1066723) – gegenlesen"
       ],
       "artikelId": "1063795",
       "artikel": "TV-Guide: Anime im deutschen Fernsehen in KW 44/2026",
@@ -9470,8 +9443,7 @@
       "unsicher": null,
       "wochentag": null,
       "warnungen": [
-        "Uhrzeit widerspricht 18:25 (Artikel 1059480) – gegenlesen",
-        "Uhrzeit widerspricht 18:25 (Artikel 1059480), 06:15 (Artikel 1068887) – gegenlesen"
+        "Uhrzeit widerspricht 18:25 (Artikel 1059480) – gegenlesen"
       ],
       "artikelId": "1066723",
       "artikel": "TV-Guide: Anime im deutschen Fernsehen in KW 45/2026",
@@ -9582,8 +9554,7 @@
       "unsicher": null,
       "wochentag": null,
       "warnungen": [
-        "Uhrzeit widerspricht 18:50 (Artikel 1059541), 18:30 (Artikel 1063795) – gegenlesen",
-        "Uhrzeit widerspricht 18:50 (Artikel 1059541), 18:30 (Artikel 1063795), 06:45 (Artikel 1068887) – gegenlesen"
+        "Uhrzeit widerspricht 18:50 (Artikel 1059541), 18:30 (Artikel 1063795) – gegenlesen"
       ],
       "artikelId": "1066723",
       "artikel": "TV-Guide: Anime im deutschen Fernsehen in KW 45/2026",
@@ -11326,97 +11297,6 @@
       "artikelId": "1068485",
       "artikel": "Neue XXL-Figur zu »My Dress-Up Darling« für über 7.000 Euro vorgestellt",
       "quelle": "https://www.anime2you.de/news/1068485/xxl-my-dress-up-darling-figur-marin-kitagawa/",
-      "veroeffentlicht": "2026-11-07",
-      "gelesenAm": "2026-11-07"
-    },
-    {
-      "titel": "ANI-ROCK FES. 2024: My Hero Academia PLUS ULTRA LIVE",
-      "zitat": "»ANI-ROCK FES. 2024: My Hero Academia PLUS ULTRA LIVE« Laufzeit: 114 Minuten Sprache: Japanisch (UT)",
-      "art": "start",
-      "sprache": "omu",
-      "plattform": "crunchyroll",
-      "datum": null,
-      "uhrzeit": null,
-      "anbieter": "Crunchyroll",
-      "sender": null,
-      "wochentage": null,
-      "folgen": null,
-      "unsicher": null,
-      "wochentag": null,
-      "warnungen": [
-        "anbieter „Crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
-        "plattform „crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
-      ],
-      "artikelId": "1068951",
-      "artikel": "Zwei Anime-Neuzugänge ab sofort auf Crunchyroll + Synchro",
-      "quelle": "https://www.anime2you.de/news/1068951/crunchyroll-black-clover-second-season-synchro-und-mehr/",
-      "veroeffentlicht": "2026-11-07",
-      "gelesenAm": "2026-11-07"
-    },
-    {
-      "titel": "Dragon Ball",
-      "zitat": "Ab dem 23. November 2026 strahlt ProSieben MAXX jeweils von Montag bis Freitag zwischen 05:30 Uhr und 07:10 Uhr beliebte Anime-Serien aus dem Nachmittagsprogramm als Wiederholung aus. Los geht es in der Regel mit einer Doppelfolge von »Dragon Ball«, gefolgt von »YAIBA: Samurai Legend« um circa 06:15 Uhr, bevor zum Abschluss um 06:45 Uhr noch eine Episode von »One Piece« über die Bildschirme flimmert.",
-      "art": "start",
-      "sprache": "unklar",
-      "plattform": "tv",
-      "datum": "2026-11-23",
-      "uhrzeit": null,
-      "anbieter": null,
-      "sender": "ProSieben MAXX",
-      "wochentage": "Montag bis Freitag",
-      "folgen": null,
-      "unsicher": "Für »Dragon Ball« selbst nennt der Artikel keine eigene Uhrzeit, nur den Blockbeginn um 05:30 Uhr.",
-      "wochentag": "Montag",
-      "warnungen": [],
-      "artikelId": "1068887",
-      "artikel": "ProSieben MAXX startet zweiten werktäglichen Anime-Block",
-      "quelle": "https://www.anime2you.de/news/1068887/prosieben-maxx-zweiter-werktaeglicher-anime-block/",
-      "veroeffentlicht": "2026-11-07",
-      "gelesenAm": "2026-11-07"
-    },
-    {
-      "titel": "YAIBA: Samurai Legend",
-      "zitat": "Ab dem 23. November 2026 strahlt ProSieben MAXX jeweils von Montag bis Freitag zwischen 05:30 Uhr und 07:10 Uhr beliebte Anime-Serien aus dem Nachmittagsprogramm als Wiederholung aus. Los geht es in der Regel mit einer Doppelfolge von »Dragon Ball«, gefolgt von »YAIBA: Samurai Legend« um circa 06:15 Uhr, bevor zum Abschluss um 06:45 Uhr noch eine Episode von »One Piece« über die Bildschirme flimmert.",
-      "art": "start",
-      "sprache": "unklar",
-      "plattform": "tv",
-      "datum": "2026-11-23",
-      "uhrzeit": "06:15",
-      "anbieter": null,
-      "sender": "ProSieben MAXX",
-      "wochentage": "Montag bis Freitag",
-      "folgen": null,
-      "unsicher": "Artikel nennt die Uhrzeit als ungefähr (»circa 06:15 Uhr«).",
-      "wochentag": "Montag",
-      "warnungen": [
-        "Uhrzeit widerspricht 18:30 (Artikel 1066723) – gegenlesen"
-      ],
-      "artikelId": "1068887",
-      "artikel": "ProSieben MAXX startet zweiten werktäglichen Anime-Block",
-      "quelle": "https://www.anime2you.de/news/1068887/prosieben-maxx-zweiter-werktaeglicher-anime-block/",
-      "veroeffentlicht": "2026-11-07",
-      "gelesenAm": "2026-11-07"
-    },
-    {
-      "titel": "One Piece",
-      "zitat": "Ab dem 23. November 2026 strahlt ProSieben MAXX jeweils von Montag bis Freitag zwischen 05:30 Uhr und 07:10 Uhr beliebte Anime-Serien aus dem Nachmittagsprogramm als Wiederholung aus. Los geht es in der Regel mit einer Doppelfolge von »Dragon Ball«, gefolgt von »YAIBA: Samurai Legend« um circa 06:15 Uhr, bevor zum Abschluss um 06:45 Uhr noch eine Episode von »One Piece« über die Bildschirme flimmert.",
-      "art": "start",
-      "sprache": "unklar",
-      "plattform": "tv",
-      "datum": "2026-11-23",
-      "uhrzeit": "06:45",
-      "anbieter": null,
-      "sender": "ProSieben MAXX",
-      "wochentage": "Montag bis Freitag",
-      "folgen": null,
-      "unsicher": null,
-      "wochentag": "Montag",
-      "warnungen": [
-        "Uhrzeit widerspricht 18:55 (Artikel 1060030), 18:30 (Artikel 1063795), 18:55 (Artikel 1066723) – gegenlesen"
-      ],
-      "artikelId": "1068887",
-      "artikel": "ProSieben MAXX startet zweiten werktäglichen Anime-Block",
-      "quelle": "https://www.anime2you.de/news/1068887/prosieben-maxx-zweiter-werktaeglicher-anime-block/",
       "veroeffentlicht": "2026-11-07",
       "gelesenAm": "2026-11-07"
     }
