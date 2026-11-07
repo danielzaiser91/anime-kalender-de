@@ -678,3 +678,14 @@ wer die Ursache dann noch kennt, hat Glück. Deshalb diese Datei.
 **Wo sind echte Risiken und Lücken?** Ursache belegt: `public/data/meta.json` in 87585063 trägt `quarantaene: [{titleId 187538, pruefung "kalender-plausibilitaet", grund "ereignisOhneNews: Black Torch (crunchyroll, 2026-07-04): Start ohne Meldung"}]`. Die Plausibilitätsprüfung hat den Titel samt `folgen/187538.json` aus dem Bestand genommen. Der Titel kam in einem späteren Bau ohne Handeingriff zurück. **Nicht belegt:** warum die Meldung zum Start vom 04.07. um 04:24 UTC fehlte und um 08:20 UTC nicht mehr, ob also eine News-Quelle schwankte. Die Quarantäne löscht den Titel aus der Live-Liste, obwohl der Grundsatz „Ein Vorfilter verschiebt, er löscht" gilt. Ein Titel mit belegtem Synchro-Weg verschwindet für Stunden aus der Seite.
 
 **Was läuft komplett falsch?** Nichts, was ich belegen kann: kein Fehlerschritt, der Lauf ist absichtlich rot. Kein Pull Request, da keine Codeursache belegt ist und die Prüfung wie vorgesehen arbeitete.
+
+
+## 07.11.2026 — Bestandsbau rot: woche-kacheln.json 24,1 KB gzip über Grenze 22 KB (Lauf 42357876863, Issue #3072)
+
+**Was läuft korrekt.** `check:bestand` hat angeschlagen und der Bau hat nichts committet („Aus dem Bau-Lauf wird nichts committet“); der zuletzt committete Stand (21,5 KB) blieb live. Gemessen im Protokoll: `check-woche-groesse-bestand: woche-kacheln.json 24.1 KB gzip, 2.1 KB über der Grenze von 22.0 KB`, 1 von 83 Prüfungen rot.
+
+**Wo ist Verbesserungspotenzial?** Die Datei wächst mit dem Wochen-Inhalt (71 → 77 Titel, 157 → 166 Termine laut Issue #3072). Die Grenze wirkt erst beim Bau, nicht schon bei der Planung; die Meldung nennt weder die größten Posten noch die Woche.
+
+**Wo sind echte Risiken und Lücken?** Die Lücke kehrt bei jeder vollen Woche wieder; solange sie rot ist, committet der Bestandsbau gar nichts (auch keine unabhängigen Datenfunde). Die Grenze anheben ist keine Lösung: lokaler Webbau steht bei 189,5 von 190,0 KB Start-Budget, CI misst laut `tools/start-budget.mjs` rund 1,5 KB mehr. Nicht geprüft: ob die Datei ab dem 09.11. (neue Woche) von selbst unter 22 KB fällt; das ist eine Vermutung.
+
+**Was läuft komplett falsch?** Am Code nichts: Kein Fehlerschritt außer dem beabsichtigten `check:bestand`. Kein Pull Request, da der Wochen-Inhalt die Ursache ist und die Entscheidung (Kacheln verschlanken oder Budget bewusst anheben) bei Daniel liegt.
