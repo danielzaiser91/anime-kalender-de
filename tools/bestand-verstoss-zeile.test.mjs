@@ -24,6 +24,8 @@ const OHNE_AUSGANG = {
     'nur Warnung (⚠ WARNUNG, Exit 0): der Auszug läuft vor dem Bau, ein heute neuer Titel hat bis zum nächsten Lauf keine Zeile, Rot würde den Bestandsbau stoppen; 06.11.2026',
   'pipeline/check-disc-suchlinks-bestand.ts':
     'nur Warnung (⚠ WARNUNG, Exit 0): ein Sammler kann jederzeit eine Disc ohne EAN melden, Rot würde den Bestandsbau stoppen; 27.10.2026',
+  'pipeline/check-eingabe-stand-bestand.ts':
+    'nur Warnung (⚠ WARNUNG, Exit 0): ein zurückgenommener Sammler-Stand ist legitim, Rot würde den Bestandsbau stoppen; 07.11.2026',
   'pipeline/check-gleiche-adresse-bestand.ts':
     'nur Warnung (⚠ WARNUNG, Exit 0): die Erweiterung kann jederzeit einen Beleg an eine fremde Amazon-Seite melden, Rot würde den Bestandsbau stoppen; 28.10.2026',
   'pipeline/check-handbeleg-fast-doppel-bestand.ts':

@@ -26,6 +26,7 @@ pipeline/check-deutsche-folgenzahl-bestand.ts
 pipeline/check-disc-anisearch-bestand.ts
 pipeline/check-disc-suchlinks-bestand.ts
 pipeline/check-eigene-titel-bestand.ts
+pipeline/check-eingabe-stand-bestand.ts
 pipeline/check-empfehlung-bestand.ts
 pipeline/check-empfehlung-kern-bestand.ts
 pipeline/check-favoriten-feed-bestand.ts

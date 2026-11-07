@@ -1,13 +1,16 @@
 /**
- * Eingabestand: Welcher Abrufzeitpunkt jeder Sammler-Eingabe steckt im erzeugten Datensatz (`meta.json` → `eingabeStand`)?
- * Ein Bau auf älteren Eingaben als der vorige fällt als Warnung im Bau-Log auf — kein Abbruch: ein zurückgenommener
+ * Eingabestand: Welcher Abrufzeitpunkt jeder Sammler-Eingabe steckt im erzeugten Datensatz (`public/data/eingabe-stand.json`,
+ * nicht in `meta.json`: die lädt jeder Besucher, diese Datei lädt das Web nicht und `sw.js` führt sie nicht)?
+ * Ein Bau auf älteren Eingaben als der vorige fällt als Warnung auf (Bau-Log und `check-eingabe-stand-bestand.ts`, das
+ * `bestand_warnungen` in `tools/commit-data.sh` zur Annotation macht) — kein Abbruch: ein zurückgenommener
  * Sammler-Stand („Sammler-Stand zurückgenommen“) ist legitim und dürfte den Bestandsbau sonst dauerhaft rot machen.
- * Nur Dateien, die ihren Zeitstempel selbst tragen; hier wird keiner erfunden.
+ * Nur Dateien, die ihren Zeitstempel selbst tragen; hier wird keiner erfunden. Nicht aufgenommen: `stand` in `anisearch-*.json`
+ * (Tag des Baus, vom Bau selbst geschrieben), `verweise-entfernt.json` (Gedächtnis des Baus) und `sammelartikel-stand.json`
+ * (Zustand des Sammlers, der Bau liest sie nicht).
  */
-import { readJson, log } from './util.ts'
-import type { DataMeta } from '../../shared/types.ts'
+import { readJson, writeJson, log } from './util.ts'
 
-/** Eingaben des Baus mit eigenem Abrufzeitpunkt (Stand 07.11.2026, gegen die Köpfe der Dateien gemessen); Schlüssel in `meta.json` = Dateiname ohne `.json`. */
+/** Eingaben des Baus mit eigenem Abrufzeitpunkt (Stand 07.11.2026, gegen die Köpfe der Dateien gemessen); Schlüssel in der Datei = Dateiname ohne `.json`. */
 export const EINGABEN: readonly { datei: string; feld: string }[] = [
   { datei: 'data/cache/anilist-katalog.json', feld: 'geholtAm' },
   { datei: 'data/adn-catalog.json', feld: 'scrapedAt' },
@@ -60,10 +63,24 @@ export function findeRueckschritte(alt: EingabeStand | undefined, neu: EingabeSt
   return gefunden
 }
 
-/** Setzt `meta.eingabeStand` und warnt je Rückschritt gegenüber der bisher ausgelieferten `meta.json` (vor deren Neuschreiben aufrufen). */
-export function vermerkeEingabeStand(meta: DataMeta, vorige: Pick<DataMeta, 'eingabeStand'>, lies: (datei: string) => unknown = (d) => readJson<unknown>(d, null)): void {
-  meta.eingabeStand = leseEingabeStand(lies)
-  for (const r of findeRueckschritte(vorige.eingabeStand, meta.eingabeStand)) {
-    log(`⚠ WARNUNG Eingabestand zurück: ${r.eingabe} ${r.alt} → ${r.neu} (Bau auf älterer Eingabe als der vorige)`)
-  }
+/** Inhalt von `public/data/eingabe-stand.json`: der Stand dieses Baus und seine Rückschritte gegenüber dem vorigen. */
+export interface EingabeStandDatei {
+  stand: EingabeStand
+  zurueck: Rueckschritt[]
+}
+
+/** Die einzeilige Warnung; nur „⚠ WARNUNG“-Zeilen macht `bestand_warnungen` in `tools/commit-data.sh` zur Annotation. */
+export const rueckschrittZeile = (r: Rueckschritt): string =>
+  `⚠ WARNUNG Eingabestand zurück: ${r.eingabe} ${r.alt} → ${r.neu} (Bau auf älterer Eingabe als der vorige)`
+
+export function baueEingabeStandDatei(vorige: Partial<EingabeStandDatei> | null, lies: (datei: string) => unknown): EingabeStandDatei {
+  const stand = leseEingabeStand(lies)
+  return { stand, zurueck: findeRueckschritte(vorige?.stand, stand) }
+}
+
+/** Liest die bisher ausgelieferte Datei, schreibt die neue und meldet je Rückschritt im Bau-Log (vor dem Neuschreiben der Datei aufrufen). */
+export function schreibeEingabeStand(pfad: string, lies: (datei: string) => unknown = (d) => readJson<unknown>(d, null)): void {
+  const datei = baueEingabeStandDatei(readJson<Partial<EingabeStandDatei> | null>(pfad, null), lies)
+  for (const r of datei.zurueck) log(rueckschrittZeile(r))
+  writeJson(pfad, datei, true)
 }

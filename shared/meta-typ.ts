@@ -19,8 +19,6 @@ export interface DataMeta {
   providers: string[]
   years: number[]; patchnotesStand?: string // Letzteres: jüngster Patch-Notes-Tag (Ungelesen-Punkt)
   attribution: string[]
-  /** Abrufzeitpunkt je Sammler-Eingabe des Baus (`pipeline/lib/eingabe-stand.ts`); das Web liest es nicht. */
-  eingabeStand?: Record<string, string>
   /** Vom Bestandsbau zurückgestellte Titel samt ihren Releases (`tools/quarantaene.mjs`); fehlt ohne Quarantäne. */
   quarantaene?: ZurueckgestellterTitel[]
 }
