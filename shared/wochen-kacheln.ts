@@ -30,7 +30,10 @@ export const RELEASE_OHNE = [
 export const STREAM_OHNE = ['url', 'seite', 'fenster', 'dubQuelle', 'dubStand', 'herkunft', 'sharedWith'] as const
 export const WATCHLINK_OHNE = ['url', 'toggo', 'dubAbgeleitet', 'ueberTmdb', 'ersetzt'] as const
 
-/** `kostenloseFolgen` (Filter „kostenlos“) liest Adresse, Fenster und Folge eines kostenlosen Wegs: Der bleibt, nur `toggo` wird zu `toggoOffen`. */
+/**
+ * `kostenloseFolgen` (Filter „kostenlos“) liest von einem kostenlosen Weg nur Art, Zugang, Deutsch-Urteil, Adresse (Einzelvideo), Folge, Bereiche
+ * und Toggo-Fenster: Der behält die Adresse, `toggo` wird zu `toggoOffen`, den Rest der Abzugsliste (Joyn-`fenster`, `sharedWith` …) wirft er ab.
+ */
 const kostenlos = (weg: { zugang?: string }): boolean => weg.zugang === 'kostenlos'
 
 type Feldliste = readonly string[]
@@ -39,7 +42,7 @@ const ohne = <T extends object>(eintrag: T, felder: Feldliste): T =>
   Object.fromEntries(Object.entries(eintrag).filter(([name]) => !felder.includes(name))) as T
 
 const wegKachel = <T extends StreamLink | WatchLink>(weg: T, felder: Feldliste, jetzt: string): T =>
-  kostenlos(weg) ? toggoKompakt(weg, jetzt) : ohne(weg, felder)
+  kostenlos(weg) ? ohne(toggoKompakt(weg, jetzt), felder.filter((f) => f !== 'url')) : ohne(weg, felder)
 
 function titelKachel(titel: Title, jetzt: string): Title {
   const kachel = ohne(titel, TITEL_OHNE)

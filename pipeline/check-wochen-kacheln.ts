@@ -84,11 +84,11 @@ const woche: WochenDatei = {
     titel(1, {
       streams: [
         { platform: 'netflix', url: 'https://n', dub: true, dubRanges: [{ from: 1, to: 2, dub: true }], zugang: 'abo', seite: 's', kanal: 'k', sharedWith: [2] },
-        { platform: 'toggo', url: 'https://t', dub: true, zugang: 'kostenlos', toggo: [{ staffel: 1, von: 1, bis: 3, ab: '2026-10-01T00:00', ende: '2026-12-31T23:59' }], kanal: 'k' },
+        { platform: 'toggo', url: 'https://t', dub: true, zugang: 'kostenlos', toggo: [{ staffel: 1, von: 1, bis: 3, ab: '2026-10-01T00:00', ende: '2026-12-31T23:59' }], kanal: 'k', fenster: [{ nr: 1 }], sharedWith: [2], dubQuelle: 'q' },
       ],
       watchLinks: [
         { name: 'Prime', kind: 'stream', zugang: 'abo', url: 'https://p', toggo: [{ von: 1 }], dubAbgeleitet: true },
-        { name: 'Frei', kind: 'stream', zugang: 'kostenlos', url: 'https://f', nurFolge: 4, toggo: [{ von: 1 }] },
+        { name: 'Frei', kind: 'stream', zugang: 'kostenlos', url: 'https://f', nurFolge: 4, toggo: [{ von: 1 }], ersetzt: 'x' },
       ],
     }),
     titel(2),

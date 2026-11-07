@@ -57,6 +57,17 @@ const mitNurFolge = mitWeg(2, gemischt, { streams: [{ platform: 'youtube', url: 
 pruefe('ein zweiter kostenloser Weg (Einzelvideo) bleibt Ja', kostenloseFolgen(baueKachelDatei({ von: 'a', bis: 'b', titles: [mitNurFolge], releases: [], events: [] }, JETZT).titles[0]!, '2026-11-10T00:00') !== undefined)
 pruefe('Fenster ändern das Ergebnis: vor dem ersten Fenster Nein, im Fenster Ja', !kostenloseFolgen(mitWeg(3, gemischt), '2026-11-09T00:00') && !!kostenloseFolgen(mitWeg(3, gemischt), '2026-11-02T00:00'))
 
+/* Kostenlose Wege ohne Toggo: Panel-Felder fallen weg, der Filter sagt dasselbe (Einzelvideo braucht die Adresse, Bereiche und Folge bleiben). */
+const frei = (weg: object): Title => ({ id: 7, slug: 't7', streams: [{ zugang: 'kostenlos', dub: true, fenster: [{ nr: 1, ab: 'a', ende: 'e' }], sharedWith: 2, dubQuelle: 'q', herkunft: 'h', seite: 's', ...weg }] }) as unknown as Title
+const kachelVon = (t: Title): Title => baueKachelDatei({ von: 'a', bis: 'b', titles: [t], releases: [], events: [] }, JETZT).titles[0]!
+const video = frei({ platform: 'youtube', url: 'https://www.youtube.com/watch?v=x' })
+pruefe('Einzelvideo: Adresse bleibt, Filter gleich (ein Video)', JSON.stringify(kostenloseFolgen(kachelVon(video), JETZT)) === JSON.stringify(kostenloseFolgen(video, JETZT)) && kostenloseFolgen(video, JETZT)?.frei === 1)
+pruefe('Playlist ohne Zahl: Filter gleich (unbekannt)', JSON.stringify(kostenloseFolgen(kachelVon(frei({ platform: 'youtube', url: 'https://www.youtube.com/watch?v=x&list=y' })), JETZT)) === '{"unbekannt":true}')
+const bereich = frei({ platform: 'joyn', url: 'https://www.joyn.de/serien/x', dubRanges: [{ from: 3, to: 5, dub: true }] })
+pruefe('Folgenbereich: Zahl bleibt gleich (3)', kostenloseFolgen(kachelVon(bereich), JETZT)?.frei === 3 && kostenloseFolgen(bereich, JETZT)?.frei === 3)
+pruefe('Joyn-Fenster, geteilte Zahl und Quelle fallen aus der Kachel', !/fenster|sharedWith|dubQuelle|herkunft|"seite"/.test(JSON.stringify(kachelVon(bereich))))
+pruefe('ein Weg ohne Deutsch (dub false) zählt weiter nicht', kostenloseFolgen(kachelVon(frei({ platform: 'youtube', url: 'https://www.youtube.com/watch?v=x', dub: false })), JETZT) === undefined)
+
 const g = (t: Title): number => JSON.stringify(t).length
 const kleinDatei = baueKachelDatei({ von: 'a', bis: 'b', titles: [mitWeg(4, beyblade), mitWeg(5, horizons)], releases: [], events: [] }, JETZT)
 pruefe('Größe: Beyblade X und die 100 Fenster sind unter 1000 Byte', g(kleinDatei.titles[0]!) + g(kleinDatei.titles[1]!) < 1000, g(kleinDatei.titles[0]!) + g(kleinDatei.titles[1]!))
