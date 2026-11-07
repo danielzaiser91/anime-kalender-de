@@ -1,6 +1,6 @@
 # Arbeitspakete: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-11-06 · **195 offene Verweise** in **149 Zeilen**,
+Stand 2026-11-07 · **195 offene Verweise** in **149 Zeilen**,
 aufgeteilt in **8 Pakete** zu je 20.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Derselbe Bestand wie in
@@ -49,8 +49,8 @@ der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 | 12 | Netflix | Mobile Suit Gundam Seed | [Hauptserie](https://www.netflix.com/title/80146549) |
 | 13 | Netflix | Sailor Moon: Das Mädchen mit den Zauberkräften | [Sailor Moon R Movie: Gefährliche Blumen](https://www.netflix.com/title/26588007) · [Sailor Moon S: Schneeprinzessin Kaguya](https://www.netflix.com/title/80116992) · [Pretty Guardian Sailor Moon Crystal](https://www.netflix.com/title/80145747) · [Pretty Guardian Sailor Moon Crystal Season III](https://www.netflix.com/title/80145747) |
 | 14 | Netflix | Captain Tsubasa: Die tollen Fußballstars | [Captain Tsubasa: Staffel 2 - Die Junioren](https://www.netflix.com/title/81003894) |
-| 15 | Netflix | Bungo Stray Dogs | [Hauptserie](https://www.netflix.com/title/80132126) · [2](https://www.netflix.com/title/80132126) · [3](https://www.netflix.com/title/80132126) |
-| 16 | Netflix | Highschool D×D | [Hauptserie](https://www.netflix.com/title/80005873) · [New](https://www.netflix.com/title/80005873) · [BorN](https://www.netflix.com/title/80005873) |
+| 15 | Netflix | Highschool D×D | [Hauptserie](https://www.netflix.com/title/80005873) · [New](https://www.netflix.com/title/80005873) · [BorN](https://www.netflix.com/title/80005873) |
+| 16 | Netflix | Bungo Stray Dogs | [Hauptserie](https://www.netflix.com/title/80132126) · [2](https://www.netflix.com/title/80132126) · [3](https://www.netflix.com/title/80132126) |
 | 17 | Netflix | Cells at Work! | [Hauptserie](https://www.netflix.com/title/81028791) · [! Staffel 2](https://www.netflix.com/title/81028791) · [Code Black](https://www.netflix.com/title/81392162) |
 | 18 | Netflix | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.netflix.com/title/81099976) |
 | 19 | Prime Video | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.amazon.de/gp/video/detail/B0FVF9T7ZP) |
@@ -104,26 +104,26 @@ der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 | 57 | Netflix | Spice and Wolf | [Hauptserie](https://www.netflix.com/title/70205026) |
 | 58 | Netflix | Paranoia Agent | [Hauptserie](https://www.netflix.com/title/70014551) |
 | 59 | Netflix | Failure Frame: I Became the Strongest and Annihilated Everything with Low-Level Spells | [Hauptserie](https://www.netflix.com/title/81910037) |
-| 60 | Prime Video | Sankarea: Undying Love | [Hauptserie]() |
+| 60 | Netflix | NieR:Automata Ver1.1a | [Hauptserie](https://www.netflix.com/title/81680344) |
 
 ## Paket 4 — Zeilen 61 bis 80
 
 | # | Anbieter | Reihe | Noch zu bestätigen |
 |---|---|---|---|
-| 61 | Netflix | Chainsaw Man | [Hauptserie](https://www.netflix.com/title/81215627) |
-| 62 | Netflix | A Sign of Affection | [Hauptserie](https://www.netflix.com/title/81748453) |
-| 63 | Netflix | How Not to Summon a Demon Lord | [Hauptserie](https://www.netflix.com/title/81004514) |
-| 64 | Netflix | Classroom of the Elite | [Hauptserie](https://www.netflix.com/title/80193178) |
-| 65 | Prime Video | Aesthetica of a Rogue Hero | [Hauptserie](https://www.amazon.de/gp/video/detail/B0GVKRLHXX) |
-| 66 | Netflix | Possibly the Greatest Alchemist of All Time | [Hauptserie](https://www.netflix.com/title/82058586) |
-| 67 | Netflix | Alya Sometimes Hides Her Feelings in Russian | [Hauptserie](https://www.netflix.com/title/81661821) |
-| 68 | Netflix | Beyond the Boundary: Kyoukai no Kanata | [Hauptserie](https://www.netflix.com/title/80052668) |
-| 69 | Netflix | Solo Leveling | [Hauptserie](https://www.netflix.com/title/81748512) |
-| 70 | Netflix | Zom 100: Bucket List of the Dead | [Hauptserie](https://www.netflix.com/title/81680101) |
-| 71 | Netflix | Bofuri: I Don’t Want to Get Hurt, So I’ll Max Out My Defense. | [Hauptserie](https://www.netflix.com/title/81234294) |
-| 72 | Netflix | Ayakashi Triangle | [Hauptserie](https://www.netflix.com/title/81680115) |
-| 73 | Netflix | Cautious Hero: The Hero Is Overpowered but Overly Cautious | [Hauptserie](https://www.netflix.com/title/81196818) |
-| 74 | Netflix | NieR:Automata Ver1.1a | [Hauptserie](https://www.netflix.com/title/81680344) |
+| 61 | Prime Video | Sankarea: Undying Love | [Hauptserie]() |
+| 62 | Netflix | Chainsaw Man | [Hauptserie](https://www.netflix.com/title/81215627) |
+| 63 | Netflix | A Sign of Affection | [Hauptserie](https://www.netflix.com/title/81748453) |
+| 64 | Netflix | How Not to Summon a Demon Lord | [Hauptserie](https://www.netflix.com/title/81004514) |
+| 65 | Netflix | Classroom of the Elite | [Hauptserie](https://www.netflix.com/title/80193178) |
+| 66 | Prime Video | Aesthetica of a Rogue Hero | [Hauptserie](https://www.amazon.de/gp/video/detail/B0GVKRLHXX) |
+| 67 | Netflix | Possibly the Greatest Alchemist of All Time | [Hauptserie](https://www.netflix.com/title/82058586) |
+| 68 | Netflix | Alya Sometimes Hides Her Feelings in Russian | [Hauptserie](https://www.netflix.com/title/81661821) |
+| 69 | Netflix | Beyond the Boundary: Kyoukai no Kanata | [Hauptserie](https://www.netflix.com/title/80052668) |
+| 70 | Netflix | Solo Leveling | [Hauptserie](https://www.netflix.com/title/81748512) |
+| 71 | Netflix | Zom 100: Bucket List of the Dead | [Hauptserie](https://www.netflix.com/title/81680101) |
+| 72 | Netflix | Bofuri: I Don’t Want to Get Hurt, So I’ll Max Out My Defense. | [Hauptserie](https://www.netflix.com/title/81234294) |
+| 73 | Netflix | Ayakashi Triangle | [Hauptserie](https://www.netflix.com/title/81680115) |
+| 74 | Netflix | Cautious Hero: The Hero Is Overpowered but Overly Cautious | [Hauptserie](https://www.netflix.com/title/81196818) |
 | 75 | Netflix | Dead Mount Death Play | [Hauptserie](https://www.netflix.com/title/81686706) |
 | 76 | Netflix | Raeliana: Warum sie die Verlobte des Dukes wurde | [Hauptserie](https://www.netflix.com/title/81684407) |
 | 77 | Netflix | Die Parallelwelt-Chroniken des Aristokraten | [Hauptserie](https://www.netflix.com/title/81768275) |

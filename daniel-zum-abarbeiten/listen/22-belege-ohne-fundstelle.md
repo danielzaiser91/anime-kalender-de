@@ -1,4 +1,4 @@
-# Belege ohne Fundstelle (100)
+# Belege ohne Fundstelle (105)
 
 Die Aussage war auf der Seite nicht zu finden. Von Hand prüfen: nennt der Artikel den Titel und den Termin? Wenn nein, ist der Beleg hinfällig und der Termin braucht eine andere Quelle.
 
@@ -7,8 +7,12 @@ Die Aussage war auf der Seite nicht zu finden. Von Hand prüfen: nennt der Artik
 - https://www.anime2you.de/news/1033802/netflix-anime-neu-im-august-2026/ (gelesen 2026-10-28) — The Ribbon Hero (211308)
 - https://www.anisearch.de/article/216599,miss-kobayashis-dragon-maid-s-steelbook-blu-ray (gelesen 2026-10-31) — Kobayashi-san Chi no Maidragon S (107717)
 - https://www.anisearch.de/article/216599 (gelesen 2026-10-31) — Kobayashi-san Chi no Maidragon S (107717)
+- https://www.anisearch.de/article/185053,gods-games-we-play-gesamtausgabe-blu-ray (gelesen 2026-11-07) — Kami wa Game ni Ueteiru. (144176)
+- https://www.anisearch.de/article/185053 (gelesen 2026-11-07) — Kami wa Game ni Ueteiru. (144176)
 - https://www.anisearch.de/article/215273,from-bureaucrat-to-villainess-dads-been-reincarnated-complete-series-blu-ray (gelesen 2026-10-29) — kein Titel zugeordnet
 - https://www.anisearch.de/article/215273 (gelesen 2026-10-29) — kein Titel zugeordnet
+- https://www.anisearch.de/article/201864,sakamoto-days-vol-3-4-limited-steelcase-edition-blu-ray (gelesen 2026-11-07) — Sakamoto Days: Teil 2 – Vol. 3 (184237)
+- https://www.anisearch.de/article/201864 (gelesen 2026-11-07) — Sakamoto Days: Teil 2 – Vol. 3 (184237)
 - https://www.anisearch.de/article/216797,miss-kobayashis-dragon-maid-gesamtausgabe-steelbook-blu-ray (gelesen 2026-10-31) — Miss Kobayashi's Dragon Maid: Valentines and Hot Springs! (Please Don't Get Your Hopes Up) (98580)
 - https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/ (gelesen 2026-11-01) — Shingeki no Kyojin: The Final Season (110277), Black Clover – Staffel 3 (97940), Blue Exorcist: Beyond the Snow Saga – Vol. 2 (176311), Campfire Cooking in Another World with My Absurd Skill (156067), Girls Band Cry – Vol. 1 (164212), I Was Reincarnated as the 7th Prince So I Can Take My Time Perfecting My Magical Ability (156415), I'll Become a Villainess Who Goes Down in History (168139), I'm Standing on a Million Lives – Staffel 1 (116242), Isekai One Turn Kill Nee-san: Ane Douhan no Isekai Seikatsu Hajimemashita (146234), Re:Monster – Staffel 1 (169417), Strike Witches (Staffel 2) – Vol. 1 (6381), The Café Terrace and Its Goddesses – Staffel 1 (154412), The Case Study of Vanitas (Staffel 1) – Vol. 2 (131646), Virgin Road: Die Henkerin und ihre Art zu leben (129193), Wind Breaker (Staffel 2) – Vol. 1 (178680), World's End Harem – Vol. 2 (118465), 2.5 Dimensional Seduction – Vol. 4 (185515), Inazuma Eleven – Staffel 1 (5231), Infinite Dendrogram – Vol. 2 (107420), The Great Adventures of Robin Hood (2543), Sword of the Demon Hunter: Kijin Gentôshô (143598), Higeki no Genkyou to Naru Saikyou Gedou Last Boss Joou wa Tami no Tame ni Tsukushimasu. (156040), As a Reincarnated Aristocrat, I’ll Use My Appraisal Skill to Rise in the World (164702), Banana Fish – Vol. 1 (100388), Bitte zieh dich an, Takamine! – Vol. 1 (179965), My Love Story with Yamada-kun at Lv999 – Vol. 1 (154965), Sakamoto Days – Vol. 1 (177709), Tougen Anki – Teil 1 (177474), Vampire Knight: Guilty (4752), Inazuma Eleven: The Movie - Team Oger greift an (9032), Nukitashi: Welcome to Love Island! (174188), Recovery of an MMO Junkie – Vol. 2 (99726)
 - https://www.anime2you.de/news/1035909/24-blu-ray-termine-verschoben/ (gelesen 2026-11-01) — I Was Reincarnated as the 7th Prince So I Can Take My Time Perfecting My Magical Ability (156415), I'm Standing on a Million Lives – Staffel 1 (116242), Isekai One Turn Kill Nee-san: Ane Douhan no Isekai Seikatsu Hajimemashita (146234), Re:Monster – Staffel 1 (169417), Strike Witches (Staffel 2) – Vol. 1 (6381), The Café Terrace and Its Goddesses – Staffel 1 (154412), Virgin Road: Die Henkerin und ihre Art zu leben (129193), Inazuma Eleven – Staffel 1 (5231), Infinite Dendrogram – Vol. 2 (107420), Higeki no Genkyou to Naru Saikyou Gedou Last Boss Joou wa Tami no Tame ni Tsukushimasu. (156040), My Love Story with Yamada-kun at Lv999 – Vol. 1 (154965), Sakamoto Days – Vol. 1 (177709), Inazuma Eleven: The Movie - Team Oger greift an (9032), 100-man no Inochi no Ue ni Ore wa Tatteiru 2nd Season (127366)
@@ -36,19 +40,18 @@ Die Aussage war auf der Seite nicht zu finden. Von Hand prüfen: nennt der Artik
 - https://de.wikipedia.org/wiki/Pok%C3%A9mon_(Anime)/Horizonte (gelesen 2026-11-02) — Pokémon Horizons: The Series (158871)
 - https://www.kinoheld.de/film/your-name-gestern-heute-und-fuer-immer (gelesen 2026-11-02) — Your Name. Gestern, heute und für immer (21519)
 - https://press.disneyplus.com/news/next-on-disney-plus-october-2026 (gelesen 2026-11-01) — Tokyo Revengers: War of the Three Titans Arc (178083)
-- https://www.joyn.de/serien/dragon-ball-super-dpp50bwivlve (gelesen 2026-10-27) — Dragon Ball Super (21175)
-- https://www.joyn.de/serien/frieren-nach-dem-ende-der-reise (gelesen 2026-11-02) — Frieren: Nach dem Ende der Reise (154587)
+- https://www.joyn.de/serien/dragon-ball-super-dpp50bwivlve (gelesen 2026-10-27) — kein Titel zugeordnet
+- https://www.joyn.de/serien/frieren-nach-dem-ende-der-reise (gelesen 2026-11-02) — kein Titel zugeordnet
 - https://www.joyn.de/serien/higurashi-when-they-cry-gou (gelesen 2026-10-15) — kein Titel zugeordnet
-- https://www.joyn.de/serien/yashahime (gelesen 2026-11-02) — Yashahime: Princess Half-Demon (118399), Yashahime: Princess Half-Demon - The Second Act (131264)
-- https://www.joyn.de/serien/log-horizon (gelesen 2026-10-13) — Log Horizon (17265), Log Horizon Season 2 (20671)
-- https://www.joyn.de/serien/naruto (gelesen 2026-10-27) — Naruto (20)
-- https://www.joyn.de/serien/naruto-shippuden-dp9lg5cqfaaj (gelesen 2026-10-27) — NARUTO: Shippuuden (1735)
+- https://www.joyn.de/serien/yashahime (gelesen 2026-11-02) — kein Titel zugeordnet
+- https://www.joyn.de/serien/naruto (gelesen 2026-10-27) — kein Titel zugeordnet
+- https://www.joyn.de/serien/naruto-shippuden-dp9lg5cqfaaj (gelesen 2026-10-27) — kein Titel zugeordnet
 - https://www.joyn.de/filme/naruto-shippuden-the-movie-bonds (gelesen 2026-10-13) — kein Titel zugeordnet
 - https://www.joyn.de/filme/naruto-shippuden-the-movie-die-erben-des-willens-des-feuers (gelesen 2026-10-13) — kein Titel zugeordnet
 - https://www.joyn.de/serien/boruto-dp7adnkxkcfc (gelesen 2026-10-27) — kein Titel zugeordnet
-- https://www.anime2you.de/news/1052846/animoon-crunchyroll-ksm-25-verschiebungen/ (gelesen 2026-10-31) — Kobayashi-san Chi no Maidragon S (107717), Afro Samurai + Afro Samurai Resurrection (1292), Miss Kobayashi’s Dragon Maid – Staffel 1 (21776)
+- https://www.anime2you.de/news/1052846/animoon-crunchyroll-ksm-25-verschiebungen/ (gelesen 2026-11-07) — Kobayashi-san Chi no Maidragon S (107717), Afro Samurai + Afro Samurai Resurrection (1292), Miss Kobayashi’s Dragon Maid – Staffel 1 (21776)
 - https://www.anime2you.de/news/1056385/22-verschiebungen-animoon-crunchyroll-peppermint/ (gelesen 2026-11-01) — Strike Witches (Staffel 2) – Vol. 1 (6381), The Café Terrace and Its Goddesses – Staffel 1 (154412), Inazuma Eleven – Staffel 1 (5231), Infinite Dendrogram – Vol. 2 (107420), Bitte zieh dich an, Takamine! – Vol. 1 (179965), My Love Story with Yamada-kun at Lv999 – Vol. 1 (154965), Sailor Moon: Das Mädchen mit den Zauberkräften (530), Girls Band Cry – Vol. 2 (164212), The Café Terrace and Its Goddesses Season 2 (166477)
-- https://www.anime2you.de/news/1053610/disney-plus-spy-x-family-und-mehr/ (gelesen 2026-10-31) — Naruto Shippuden – Staffel 3 (1735), SPY x FAMILY (140960), Spy × Family (Cour 2) (142838), Spy × Family: Staffel 2 (158927)
+- https://www.anime2you.de/news/1053610/disney-plus-spy-x-family-und-mehr/ (gelesen 2026-11-07) — Naruto Shippuden – Staffel 3 (1735), SPY x FAMILY (140960), Spy × Family (Cour 2) (142838), Spy × Family: Staffel 2 (158927)
 - https://www.anime2you.de/news/1054748/adn-neuzugaenge-im-oktober-2026/ (gelesen 2026-11-06) — BLEACH: The DiamondDust Rebellion - Mou Hitotsu no Hyourinmaru (2889), BLEACH: Fade to Black - Kimi no Na wo Yobu (4835), Bleach: The Movie - Hell Verse (8247), 86: Eighty Six (116589), 86: Eighty Six – Teil 2 (131586), Bleach: The Movie - Memories of Nobody (1686), Mahou Shoujo Madoka☆Magica (9756), Tensei Shitara Dragon no Tamago Datta: Saikyou Igai Mezasa Nee (187941)
 - https://www.anime2you.de/news/1054501/disney-plus-demon-slayer-infinity-castle-und-mehr/ (gelesen 2026-11-01) — Yu☆Gi☆Oh! Duel Monsters (481)
 - https://www.anime2you.de/news/1052887/disc-neuheiten-oktober-2026/ (gelesen 2026-11-01) — Summer Wars – Ultimate Edition (5681), Ame & Yuki – Die Wolfskinder – Ultimate Edition (12355), Das Mädchen, das durch die Zeit sprang – Ultimate Edition (2236), Der Junge und das Biest – Ultimate Edition (20981), I Want You To Show Me Your Panties With a Disgusted Face Returns (196840), DAN DA DAN (Staffel 2) – Vol. 2 (185660)
@@ -88,6 +91,7 @@ Die Aussage war auf der Seite nicht zu finden. Von Hand prüfen: nennt der Artik
 - https://www.anime2you.de/news/1047034/disney-plus-classroom-of-the-elite-und-mehr/ (gelesen 2026-11-03) — Bleach (269)
 - https://www.joyn.de/filme/naruto-shippuden-the-movie-the-lost-tower (gelesen 2026-10-20) — kein Titel zugeordnet
 - https://www.joyn.de/filme/naruto-shippuden-the-movie-blood-prison (gelesen 2026-10-31) — kein Titel zugeordnet
+- https://www.joyn.de/filme/the-last-naruto-the-movie (gelesen 2026-11-07) — The Last: Naruto the Movie (16870)
 - https://news.animationdigitalnetwork.com/de/2026/10/26/die-1-euro-aktion-ist-zurueck-streame-anime-fuer-1e-bei-adn/ (gelesen 2026-11-02) — Shingeki no Kyojin (16498)
 - https://news.animationdigitalnetwork.com/de/2026/10/15/reincarnated-as-a-dragon-hatchling-cast-alle-infos-zur-deutschen-synchro/ (gelesen 2026-11-02) — Tensei Shitara Dragon no Tamago Datta: Saikyou Igai Mezasa Nee (187941)
 - https://www.anime2you.de/news/1064806/adn-neuzugaenge-im-november-2026/ (gelesen 2026-11-03) — Ore wa Subete wo [Parry] Suru: Gyaku Kanchigai no Sekai Saikyou wa Boukensha ni Naritai (170695)
@@ -102,3 +106,4 @@ Die Aussage war auf der Seite nicht zu finden. Von Hand prüfen: nennt der Artik
 - https://www.anime2you.de/news/1035676/aniverse-august-2026-neuzugaenge/ (gelesen 2026-11-05) — Zero kara Hajimeru Mahou no Sho (97682), Azumanga Daiou THE ANIMATION (66), Aesthetica of a Rogue Hero (13161)
 - https://news.animationdigitalnetwork.com/de/2026/11/03/adn-bringt-tv-app-heraus-streame-anime-auf-fernseher-und-konsole/ (gelesen 2026-11-06) — Shingeki no Kyojin (16498)
 - https://www.anime2you.de/news/1067193/disney-plus-honey-lemon-soda-und-mehr-verfuegbar/ (gelesen 2026-11-06) — Boruto: Naruto Next Generations (97938)
+- https://www.joyn.de/serien/clannad-dpp0mkvw37d3 (gelesen 2026-11-07) — Clannad: Der Film (2167), Clannad: After Story (4181)
