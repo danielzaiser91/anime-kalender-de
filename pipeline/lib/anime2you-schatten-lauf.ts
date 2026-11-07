@@ -3,7 +3,7 @@
  * mit Claudes Rohantwort und hängt eine Zeile an die Schattendatei. Er wirft nie: jeder Fehler wird gezählt (`schattenFehler`) und gemeldet,
  * damit der Lauf nicht seinetwegen rot wird (`pipeline/anime2you-schatten.ts` beendet den Prozess in jedem Fall mit Exit 0).
  */
-import { existsSync, readFileSync } from 'node:fs'
+import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { ergaenzeSchatten, schattenLauf, type ArtikelEingabe, type Lauf, type SchattenBestand } from './anime2you-schatten.ts'
 
@@ -17,7 +17,6 @@ export interface Ablage {
 
 /** Claudes Rohvorschläge einer Antwortdatei; `undefined`, wenn sie fehlt, kaputt ist oder der Artikel nicht als gelesen gemeldet wurde (wie `leseAntwort` in `anime2you-extraktion.ts`). */
 export function leseRohAntwort(pfad: string): unknown[] | undefined {
-  if (!existsSync(pfad)) return undefined
   try {
     const a = JSON.parse(readFileSync(pfad, 'utf8')) as { gelesen?: unknown; vorschlaege?: unknown }
     return a.gelesen === true && Array.isArray(a.vorschlaege) ? a.vorschlaege : undefined

@@ -120,6 +120,9 @@ pruefe('Lauf: gleich 2 (der kaputte Artikel in der Mitte hält die anderen nicht
 pruefe('Lauf: Dauer aus der eingespeisten Uhr', lauf.ms === 12, lauf.ms)
 pruefe('Lauf: Uhr rückwärts gibt nie negative Dauer', schattenLauf('2026-11-07', [], zeit(50, 10)).ms === 0)
 const mitAbweichung = schattenLauf('2026-11-07', [eingabe(fall('1064193'))], zeit(0, 1))
+pruefe('Lauf: nurClaude und gleich summiert', mitAbweichung.nurClaude === 2 && mitAbweichung.gleich === 2 && mitAbweichung.nurRegel === 0, mitAbweichung)
+const ohneClaude = schattenLauf('2026-11-07', [{ id: '1066661', text: textVon(iron), claude: [] }], zeit(0, 1))
+pruefe('Lauf: Behauptung ohne Claude-Vorschlag zählt als nurRegel und steht einzeln da', ohneClaude.nurRegel === 1 && ohneClaude.gleich === 0 && ohneClaude.faelle.length === 1 && ohneClaude.faelle[0]!.seite === 'nurRegel' && ohneClaude.faelle[0]!.artikelId === '1066661', ohneClaude)
 pruefe('Lauf: Abweichungen stehen einzeln mit Artikel und Seite', mitAbweichung.faelle.length === 2 && mitAbweichung.faelle.every((f) => f.seite === 'nurClaude' && f.artikelId === '1064193' && f.plattform === 'primevideo'), mitAbweichung.faelle)
 
 /* Bestand: Aufbewahrung 30 Tage. */
@@ -145,6 +148,11 @@ pruefe('Fehlbeleg wird als Grund genannt', einFehl.gruende.some((g) => g.include
 const rest15 = stand([zeile('2026-11-01', { gleich: 170 }), zeile('2026-11-08', { nurClaude: 30 })])
 pruefe('Rest genau 15 %: ja', rest15.urteil === 'ja' && Math.abs(rest15.restquote - 0.15) < 1e-9, rest15)
 const rest16 = stand([zeile('2026-11-01', { gleich: 50 }), zeile('2026-11-08', { gleich: 50, nurClaude: 20 })])
+const rest155 = stand([zeile('2026-11-01', { gleich: 100 }), zeile('2026-11-08', { gleich: 69, nurClaude: 31 })])
+pruefe('Rest 15,5 % (31 von 200): nein', rest155.urteil === 'nein' && rest155.gruende.some((g) => g.startsWith('Restquote 15.5 %')), rest155)
+pruefe('Behauptungen zählen gleich und Fehlbelege zusammen', stand([zeile('2026-11-08', { gleich: 60, nurRegel: 3 })]).behauptungen === 63)
+const beides = stand([zeile('2026-11-08', { gleich: 2, nurRegel: 1 })])
+pruefe('Fehlbeleg bei zu wenig Daten: nein (vor offen)', beides.urteil === 'nein' && beides.gruende.length === 3, beides)
 pruefe('Rest über 15 % (20 von 120): nein', rest16.urteil === 'nein' && rest16.restquote > 0.15, rest16)
 pruefe('Rest ohne gleich und ohne nurClaude: Quote 0', stand([zeile('2026-11-08')]).restquote === 0)
 const viel = stand([zeile('2026-11-01', { gleich: 60, schattenFehler: 2, ohneAntwort: 3, ms: 7 }), zeile('2026-11-08', { gleich: 60, ms: 90 })])
