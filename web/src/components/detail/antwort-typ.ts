@@ -42,6 +42,8 @@ export type Antwort =
       gesamt?: number
       /** Die Zahl ist die Folgenzahl des Werks, nicht am Weg belegt — „≈“ im Kasten. */
       gesamtAbgeleitet?: boolean
+      /** Katalogstart ohne Uhrzeit am Starttag: da, aber Zeitpunkt offen — Kasten sagt "heute, Uhrzeit offen". */
+      heuteOffen?: boolean
     }
   /** Belegt ist nur ein Teil — die Zahl sagt welcher. */
   | { art: 'teilweise'; raus?: number; gesamt: number; /** false: M stammt nur aus Annahme oder Listenlänge — kein „von M“. */ gesamtBelegt: boolean; restBelegt: boolean; deFolgen?: { n: number; quelle: { name: string }; zitat: string } }

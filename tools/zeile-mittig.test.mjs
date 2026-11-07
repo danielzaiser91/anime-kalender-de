@@ -6,7 +6,7 @@
 import assert from 'node:assert/strict'
 import { chromium } from 'playwright'
 import { browserDa } from './browser-weiche.mjs'
-import { ruheAbwarten, verdeckung, zeileMittig } from './zeile-mittig.mjs'
+import { ruheAbwarten, verdeckung, zeileImFenster, zeileMittig } from './zeile-mittig.mjs'
 
 const HOEHE = 600
 const SEITE = `<body style="margin:0"><header style="position:sticky;top:0;height:60px;background:#ccc">Kopf</header>
@@ -44,50 +44,56 @@ try {
   /* Ein Kind der Zeile zählt als Treffer. */
   await seite.evaluate(() => { document.querySelector('#z').innerHTML = '<b style="display:block;height:40px">Kind</b>' })
   assert.equal(await verdeckung(zeile, x, y), null, 'Kind der Zeile zählt als Treffer')
-  /* Weiches Gleiten läuft noch, wenn die Probe scrollt (Wochenansicht nach der Ankunft): der alte Weg bleibt falsch stehen, der neue hält die Mitte. */
-  const gleiten = async () => {
-    await seite.setContent(GLEITEN)
-    /* setContent setzt scrollY nicht zurück: Ausgangszustand selbst herstellen, sonst ist der zweite Fall leer. */
-    await seite.evaluate(() => scrollTo(0, 0))
-    await seite.waitForFunction(() => scrollY === 0)
-    await seite.evaluate(() => {
-      /* Zielgesteuert wie das weiche Gleiten: Lage nach Bildzahl, unabhängig davon, wohin andere scrollen. */
-      let bilder = 0
-      const schritt = () => {
-        bilder += 1
-        scrollTo(0, Math.min(3600, bilder * 40))
-        if (bilder * 40 < 3600) requestAnimationFrame(schritt)
-      }
-      requestAnimationFrame(schritt)
-    })
-    await seite.waitForTimeout(100)
+  /* Layout verschiebt die Zeile 60 ms nach dem Scroll aus dem Fenster (Bilder oberhalb laden nach, Verankerung aus). */
+  const SPAET = `<body style="margin:0;overflow-anchor:none"><div id="s" style="height:3000px"></div>
+<ul style="margin:0;padding:0"><li id="z" style="height:40px">Zeile</li></ul><div style="height:3000px"></div></body>`
+  const kulisse = async () => {
+    await seite.setContent(SPAET)
+    await seite.evaluate(() => setTimeout(() => { document.querySelector('#s').style.height = '1500px' }, 60))
   }
-  await gleiten()
-  await zeileMittig(zeile, 0)
-  await seite.waitForTimeout(1500)
-  const altY = (await zeile.boundingBox()).y
-  assert.ok(altY < 0, `Kulisse: einmaliges scrollIntoView wird vom Gleiten überholt (y=${altY})`)
-  await gleiten()
+  await kulisse()
+  await seite.evaluate(() => document.querySelector('#z').scrollIntoView({ block: 'center' }))
+  await seite.waitForTimeout(150)
+  const verschoben = await zeile.boundingBox()
+  assert.ok(verschoben.y < 0, `Kulisse: einmaliges Zentrieren lässt die Zeile aus dem Fenster rutschen (y=${verschoben.y})`)
+  await kulisse()
   await zeileMittig(zeile)
-  await seite.waitForTimeout(1500)
-  const neuY = (await zeile.boundingBox()).y
-  assert.ok(Math.abs(neuY + 20 - HOEHE / 2) < 30, `Gleiten: Zeile liegt nach dem Warten mittig und bleibt (y=${neuY})`)
-  await ruheAbwarten(seite)
-  assert.equal((await zeile.boundingBox()).y, neuY, 'ruheAbwarten ändert die Lage nicht')
-  /* Frist: endloses Gleiten (Lage ändert sich in jedem Bild) → zeileMittig kehrt nach etwa der Frist zurück und wirft nicht. */
+  await seite.waitForTimeout(150)
+  const spaet = await zeile.boundingBox()
+  assert.ok(Math.abs(spaet.y + 20 - HOEHE / 2) < 30, `späte Verschiebung: Zeile liegt danach mittig (y=${spaet.y})`)
+  assert.equal(await verdeckung(zeile, spaet.x + 40, spaet.y + 20), null, 'späte Verschiebung: Zeile wird getroffen')
+  /* zeileImFenster: holt die ausgerutschte Zeile zurück, lässt eine bewusst tiefe Lage (unten am Fenster) stehen. */
+  await kulisse()
+  await seite.evaluate(() => document.querySelector('#z').scrollIntoView({ block: 'center' }))
+  await zeileImFenster(zeile)
+  await seite.waitForTimeout(150)
+  const zurueck = await zeile.boundingBox()
+  assert.ok(zurueck.y >= 0 && zurueck.y < HOEHE, `zeileImFenster: ausgerutschte Zeile kommt zurück (y=${zurueck.y})`)
+  await seite.evaluate(() => { const z = document.querySelector('#z'); window.scrollBy(0, z.getBoundingClientRect().top - 500) })
+  const unten = (await zeile.boundingBox()).y
+  await zeileImFenster(zeile)
+  assert.equal((await zeile.boundingBox()).y, unten, 'zeileImFenster: Zeile unten am Fenster bleibt dort')
+  /* ruheAbwarten: Gleiten läuft noch (Bildlauf bis 3600 px, 40 px je Bild), danach steht die Lage und ändert sich nicht mehr. */
   await seite.setContent(GLEITEN)
+  await seite.evaluate(() => scrollTo(0, 0))
   await seite.evaluate(() => {
-    let n = 0
-    /* Alle 5 ms eine neue Lage (Timer statt Bild, damit sie zwischen zwei Messungen der Probe wechselt). */
-    window.gleitTimer = setInterval(() => scrollTo(0, 1000 + ((n++ * 40) % 800)), 5)
+    let bilder = 0
+    const schritt = () => {
+      bilder += 1
+      scrollTo(0, Math.min(3600, bilder * 40))
+      if (bilder * 40 < 3600) requestAnimationFrame(schritt)
+    }
+    requestAnimationFrame(schritt)
   })
-  const start = performance.now()
-  const grenze = new Promise((_, nein) => setTimeout(() => nein(new Error('zeileMittig kehrt nicht zurück (Frist fehlt)')), 12000))
-  await Promise.race([zeileMittig(zeile), grenze])
-  const dauer = performance.now() - start
-  assert.ok(dauer >= 3500 && dauer < 8000, `Frist: Rückkehr nach etwa 4 s (${dauer} ms)`)
-  await seite.evaluate(() => { clearInterval(window.gleitTimer) })
-  console.log('zeile-mittig.test: 9 Zusicherungen grün (alter Weg rot, neuer Weg grün, Kind, Kulisse, Gleiten alt rot/neu grün, Ruhe, Frist)')
+  await seite.waitForTimeout(100)
+  const mittendrin = await seite.evaluate(() => scrollY)
+  assert.ok(mittendrin < 3600, `Kulisse: Gleiten läuft noch (scrollY=${mittendrin})`)
+  await ruheAbwarten(seite)
+  const ruhigY = await seite.evaluate(() => scrollY)
+  assert.equal(ruhigY, 3600, 'ruheAbwarten kehrt erst nach dem Gleiten zurück')
+  await seite.waitForTimeout(200)
+  assert.equal(await seite.evaluate(() => scrollY), ruhigY, 'ruheAbwarten: Lage bleibt')
+  console.log('zeile-mittig.test: 11 Zusicherungen grün (alter Weg rot, neuer Weg grün, Kind, Kulisse, späte Verschiebung rot/grün, zeileImFenster zurück/stehen, ruheAbwarten Gleiten/Ruhe)')
 } finally {
   await browser.close()
 }

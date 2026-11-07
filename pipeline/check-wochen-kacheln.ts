@@ -5,7 +5,12 @@
  */
 import type { Release, ReleaseEvent, Title } from '../shared/types.ts'
 import type { WochenDatei } from '../shared/wochen-datei.ts'
-import { KACHEL_DATEI, RELEASE_OHNE, STREAM_OHNE, TITEL_OHNE, WATCHLINK_OHNE, baueKachelDatei, pruefeKachelDatei } from '../shared/wochen-kacheln.ts'
+import { KACHEL_DATEI, RELEASE_OHNE, STREAM_OHNE, TITEL_OHNE, WATCHLINK_OHNE, baueKachelDatei as baue, pruefeKachelDatei as pruefeKachel } from '../shared/wochen-kacheln.ts'
+
+/* Feste Uhr: Fenster und Prüfung rechnen ab hier (nie mit der echten Zeit). */
+const JETZT = '2026-10-05T12:00'
+const baueKachelDatei = (w: WochenDatei) => baue(w, JETZT)
+const pruefeKachelDatei = (k: WochenDatei, w: WochenDatei) => pruefeKachel(k, w, JETZT)
 
 let verletzt = 0
 let faelle = 0
@@ -79,11 +84,11 @@ const woche: WochenDatei = {
     titel(1, {
       streams: [
         { platform: 'netflix', url: 'https://n', dub: true, dubRanges: [{ from: 1, to: 2, dub: true }], zugang: 'abo', seite: 's', kanal: 'k', sharedWith: [2] },
-        { platform: 'toggo', url: 'https://t', dub: true, zugang: 'kostenlos', toggo: [{ von: 1, bis: 3, ab: 'a', ende: 'e' }], kanal: 'k' },
+        { platform: 'toggo', url: 'https://t', dub: true, zugang: 'kostenlos', toggo: [{ staffel: 1, von: 1, bis: 3, ab: '2026-10-01T00:00', ende: '2026-12-31T23:59' }], kanal: 'k', fenster: [{ nr: 1 }], sharedWith: [2], dubQuelle: 'q' },
       ],
       watchLinks: [
         { name: 'Prime', kind: 'stream', zugang: 'abo', url: 'https://p', toggo: [{ von: 1 }], dubAbgeleitet: true },
-        { name: 'Frei', kind: 'stream', zugang: 'kostenlos', url: 'https://f', nurFolge: 4, toggo: [{ von: 1 }] },
+        { name: 'Frei', kind: 'stream', zugang: 'kostenlos', url: 'https://f', nurFolge: 4, toggo: [{ von: 1 }], ersetzt: 'x' },
       ],
     }),
     titel(2),
@@ -109,10 +114,10 @@ pruefe('Reihenfolge bleibt', kachel.titles.map((t) => t.id).join() === '1,2' && 
 
 const streams = t1.streams as Record<string, unknown>[]
 pruefe('Weg ohne Gratis-Zugang: Adresse, Seite weg, Kanal (Kanal-Start der Kachel), Urteil und Bereiche bleiben', schluessel(streams[0]!) === 'platform,dub,dubRanges,zugang,kanal', schluessel(streams[0]!))
-pruefe('kostenloser Stream bleibt ganz (Filter „kostenlos“ liest Adresse und Fenster)', JSON.stringify(streams[1]) === JSON.stringify(woche.titles[0]!.streams![1]))
+pruefe('kostenloser Stream bleibt, nur toggo wird zu toggoOffen (Filter liest Adresse und Fenster)', JSON.stringify(streams[1]) === JSON.stringify({ platform: 'toggo', url: 'https://t', dub: true, zugang: 'kostenlos', kanal: 'k', toggoOffen: [['2026-10-01T00:00', '2026-12-31T23:59']] }), streams[1])
 const links = t1.watchLinks as Record<string, unknown>[]
 pruefe('Link ohne Gratis-Zugang: nur Name, Art, Zugang', schluessel(links[0]!) === 'name,kind,zugang', schluessel(links[0]!))
-pruefe('kostenloser Link bleibt ganz', JSON.stringify(links[1]) === JSON.stringify(woche.titles[0]!.watchLinks![1]))
+pruefe('kostenloser Link bleibt, Block ohne Fenster ergibt leere Fenster', JSON.stringify(links[1]) === JSON.stringify({ name: 'Frei', kind: 'stream', zugang: 'kostenlos', url: 'https://f', nurFolge: 4, toggoOffen: [] }), links[1])
 pruefe('der Eingang bleibt unberührt (kein Aliasing)', 'titleDe' in woche.titles[0]! && 'sources' in woche.releases[0]!)
 pruefe('ein Titel ohne Wege bekommt keine leeren Listen', !('streams' in (kachel.titles[1] as unknown as object)))
 pruefe('ein sauberer Schnitt hat keinen Widerspruch', pruefeKachelDatei(kachel, woche).length === 0, pruefeKachelDatei(kachel, woche))
@@ -124,6 +129,13 @@ pruefe('verlorenes Release-Feld wird gemeldet', meldet({ ...kachel, releases: [{
 pruefe('fehlender Titel wird gemeldet', meldet({ ...kachel, titles: kachel.titles.slice(1) }, '1 Titel statt 2'))
 pruefe('vertauschte Reihenfolge wird gemeldet', meldet({ ...kachel, releases: [kachel.releases[1]!, kachel.releases[0]!] }, 'Stelle 0'))
 pruefe('geänderter Termin wird gemeldet', meldet({ ...kachel, events: [{ ...kachel.events[0]!, date: '2026-10-07' }, kachel.events[1]!] }, 'Termine weichen'))
+const andereReihenfolge = Object.fromEntries(Object.entries(kachel.events[0]!).reverse()) as unknown as ReleaseEvent
+pruefe('Termin mit anderer Schlüsselreihenfolge ist gleich', pruefeKachelDatei({ ...kachel, events: [andereReihenfolge, kachel.events[1]!] }, woche).length === 0)
+pruefe('Termin mit zusätzlichem Feld wird gemeldet', meldet({ ...kachel, events: [{ ...kachel.events[0]!, extra: 1 } as ReleaseEvent, kachel.events[1]!] }, 'Termine weichen'))
+const ohneFeld = { ...kachel.events[0]! } as Partial<ReleaseEvent>
+delete ohneFeld.name
+pruefe('Termin mit fehlendem Feld wird gemeldet', meldet({ ...kachel, events: [ohneFeld as ReleaseEvent, kachel.events[1]!] }, 'Termine weichen'))
+pruefe('zusätzlicher Termin wird gemeldet', meldet({ ...kachel, events: [...kachel.events, kachel.events[0]!] }, 'Termine weichen'))
 pruefe('andere Woche wird gemeldet', meldet({ ...kachel, bis: '2026-10-12' }, 'andere Woche'))
 pruefe('erfundenes Feld wird gemeldet', meldet({ ...kachel, releases: [{ ...kachel.releases[0]!, erfunden: 1 } as unknown as Release, kachel.releases[1]!] }, 'Release a weicht'))
 pruefe('gekürzte Liste im Weg wird gemeldet', meldet({ ...kachel, titles: [{ ...kachel.titles[0]!, streams: kachel.titles[0]!.streams!.slice(1) }, kachel.titles[1]!] }, 'Titel 1 weicht'))

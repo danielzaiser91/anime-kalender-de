@@ -1,0 +1,64 @@
+name: Nacht-Merger
+
+# F99 (Daniel 01.11.2026): mergt freigegebene PRs auch dann, wenn niemand wach ist — in der Cloud, nie auf Daniels Rechner.
+# Der Cloudflare-Wecker startet den Workflow stündlich per workflow_dispatch (`shared/weckplan.ts`).
+# Regeln: `tools/nacht-merger-wahl.mjs` (Stufe 0/1, Kette grün am Kopf, Prüfer-Urteil ok oder Nachtrag zum Kopf, kein Workflow-Pfad),
+# Ablauf und Riegel (höchstens N Merges je Lauf, Protokollzeile mit Grund): `tools/nacht-merger.mjs`; vor jedem Merge `tools/pr-nachrechnen.mjs`.
+#
+# **Token:** Das GITHUB_TOKEN kann PRs weder wieder öffnen noch Folgeläufe auslösen (Ereignisse von GITHUB_TOKEN starten keine Workflows):
+# ein veralteter PR bekäme nie eine neue Kette, und ein Merge löste weder Deploy noch Bestandsbau aus. Gemergt wird darum nur mit dem
+# Secret `NACHT_MERGER_TOKEN` (fine-grained PAT, dieses Repo: Contents, Pull requests, Actions je Read and write). Fehlt es, läuft der Lauf
+# als Trockenlauf mit dem GITHUB_TOKEN (nur lesen) und protokolliert, was er täte.
+
+on:
+  workflow_dispatch:
+    inputs:
+      trocken:
+        description: 'Nur protokollieren, nichts schließen, öffnen oder mergen'
+        type: boolean
+        default: false
+      hoechstens:
+        description: 'Höchstens so viele Merges je Lauf'
+        type: string
+        default: '3'
+
+permissions:
+  contents: read
+  pull-requests: read
+  actions: read
+
+# Zwei Läufe stießen sich gegenseitig die Ketten neu an.
+concurrency:
+  group: nacht-merger
+  cancel-in-progress: false
+
+jobs:
+  mergen:
+    name: PRs mergen
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      # Volle Commit-Historie ohne Dateiinhalte: `pr-nachrechnen` liest `git log basis..main` und fetcht Kopf und main selbst.
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          filter: blob:none
+          persist-credentials: false
+
+      - name: Freigegebene PRs mergen
+        env:
+          GH_TOKEN: ${{ secrets.NACHT_MERGER_TOKEN || secrets.GITHUB_TOKEN }}
+          MERGER_TOKEN_DA: ${{ secrets.NACHT_MERGER_TOKEN != '' }}
+          TROCKEN: ${{ inputs.trocken }}
+          HOECHSTENS: ${{ inputs.hoechstens || '3' }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          # `pr-nachrechnen` ruft `gh api repos/{owner}/{repo}/…`: gh löst die Platzhalter über GH_REPO auf, ohne auf den Git-Remote des Checkouts angewiesen zu sein.
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -u
+          args=(--hoechstens "$HOECHSTENS")
+          if [ "$TROCKEN" = "true" ] || [ "$MERGER_TOKEN_DA" != "true" ]; then
+            args+=(--trocken)
+            [ "$MERGER_TOKEN_DA" = "true" ] || echo "Trockenlauf: Secret NACHT_MERGER_TOKEN fehlt (GITHUB_TOKEN kann weder neu anstoßen noch Folgeläufe auslösen)."
+          fi
+          node tools/nacht-merger.mjs "${args[@]}"

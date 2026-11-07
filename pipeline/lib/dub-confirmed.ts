@@ -20,7 +20,7 @@ import type { CartoonStaffel } from '../../shared/cartoon-staffeln-typ.ts'
 import { warn } from './util.ts'
 import { loadCurated } from './curated.ts'
 import { dubChecksAusTerminen } from './dub-aus-terminen.ts'
-import { ohneKanalSprache } from './kanal-titel.ts'
+import { kanalJaUeberholtNein, ohneKanalSprache } from './kanal-titel.ts'
 import { ergaenzeMerkliste, MERKLISTE } from './kanal-merkliste.ts'
 
 export interface DubCheck {
@@ -295,6 +295,7 @@ export function verschmelze(a: DubCheck, b: DubCheck): DubCheck {
   if (urteil) verschmolzen.juengstesUrteil = urteil
   // Ein jüngeres Ja hebt das ältere „nicht verfügbar“ auf (Spy × Family, Disney+: sonst fiel der Weg live weg).
   if (urteil === 'ja' && verschmolzen.available === false) delete verschmolzen.available
+  if (kanalJaUeberholtNein(alt, neu)) delete verschmolzen.available
   return verschmolzen
 }
 
@@ -319,6 +320,14 @@ export function dubKey(anilistId: number, platform: string): string {
   return `${anilistId}|${platform}`
 }
 
+type AdressUrteil = { titel: string; kern: string; sammel: boolean; ja: boolean; neinAm: string; jaAm: string }
+
+/** Ein Nein ohne Adresse ist überholt, wenn dieselbe Plattform ein datiertes Ja an echter Adresse hat, das jünger ist als das Nein (gleiches Datum: das Nein gilt). */
+function neinOhneAdresseUeberholt(a: AdressUrteil, alle: AdressUrteil[]): boolean {
+  if (a.kern || a.sammel || !a.neinAm) return false
+  return alle.some((b) => b.titel === a.titel && b.ja && b.kern !== '' && b.jaAm > a.neinAm)
+}
+
 /**
  * Schlüssel aller Handbelege, die einen Weg verneinen (`available: false` oder `dub: false`), ausgewertet je Adresse (`adressKern`):
  * Ein Ja derselben Adresse (`dub: true` oder ein deutscher Bereich) hebt das Nein auf, außer die verschmolzene Zeile trägt selbst
@@ -327,27 +336,34 @@ export function dubKey(anilistId: number, platform: string): string {
  * Das Nein gilt der ganzen Plattform (`dubKey`), wenn es keine Adresse trägt oder die Plattform keine Ausgabe mit Ja führt: Eine neue Adresse
  * kann dieselbe Ausgabe in anderer Schreibweise sein (JustWatch-gti statt ASIN). Erst eine belegte zweite Ausgabe (ein Ja mit eigener Adresse) beschränkt es auf seine Adresse
  * (`dubKey|adressKern`; Digimon 552 bei Prime: B0CGRJGJX1 ja, Crunchyroll-Kanal B0CHHNJJW3 nein). Abgefragt wird mit `wegVerneint`.
+ * Ein Nein ohne Adresse gilt nur, solange die Plattform kein **jüngeres** Ja an einer echten Adresse hat (`neinOhneAdresseUeberholt`; gleiches Datum: das Nein gilt):
+ * Dieselbe Messung stand oft einmal ohne und einmal mit Adresse in der Datei, und das Ja der Adresse löste nur die Kopie mit Adresse ab (Stand 06.11.2026: 7 Schlüssel).
  * Widersprechen sich Ja und Nein derselben Adresse, gilt das jüngere (`juengstesUrteil`, gesetzt von `verschmelze`).
  * Such-, Start- und Länderseiten (`istSammelKern`) sind keine Ausgabe: Ihr Ja belegt keine zweite, ihr Nein gilt der ganzen Plattform
  * und entfällt, sobald der Titel dort ein Ja an echter Adresse hat (eine Suche, die ihn nicht zeigt, widerlegt die Seite nicht; Jormungand: Perfect Order, 13331).
  */
-export function neinHandbelege(checks: Pick<DubCheck, 'anilistId' | 'platform' | 'url' | 'dub' | 'available' | 'dubRanges' | 'juengstesUrteil'>[]): Set<string> {
-  const adressen = new Map<string, { titel: string; kern: string; sammel: boolean; nein: boolean; ja: boolean }>()
+export function neinHandbelege(checks: (Pick<DubCheck, 'anilistId' | 'platform' | 'url' | 'dub' | 'available' | 'dubRanges' | 'juengstesUrteil'> & { checkedAt?: string })[]): Set<string> {
+  const adressen = new Map<string, { titel: string; kern: string; sammel: boolean; nein: boolean; ja: boolean; neinAm: string; jaAm: string }>()
   for (const c of checks) {
     const titel = dubKey(c.anilistId, c.platform)
     const roh = adressKern(c.url)
     const sammel = istSammelKern(roh)
     const kern = sammel ? '' : roh
-    const a = adressen.get(`${titel}|${roh}`) ?? { titel, kern, sammel, nein: false, ja: false }
+    const a = adressen.get(`${titel}|${roh}`) ?? { titel, kern, sammel, nein: false, ja: false, neinAm: '', jaAm: '' }
     /* Haben zwei Zeilen derselben Adresse verschiedene Daten, gilt das Urteil der jüngeren (`verschmelze`). */
-    a.nein ||= c.juengstesUrteil ? c.juengstesUrteil === 'nein' : c.dub === false || c.available === false
-    a.ja ||= c.juengstesUrteil ? c.juengstesUrteil === 'ja' : c.available !== false && (c.dub === true || Boolean(c.dubRanges?.some((r) => r.dub)))
+    const nein = c.juengstesUrteil ? c.juengstesUrteil === 'nein' : c.dub === false || c.available === false
+    const ja = c.juengstesUrteil ? c.juengstesUrteil === 'ja' : c.available !== false && (c.dub === true || Boolean(c.dubRanges?.some((r) => r.dub)))
+    a.nein ||= nein
+    a.ja ||= ja
+    if (nein && (c.checkedAt ?? '') > a.neinAm) a.neinAm = c.checkedAt ?? ''
+    if (ja && (c.checkedAt ?? '') > a.jaAm) a.jaAm = c.checkedAt ?? ''
     adressen.set(`${titel}|${roh}`, a)
   }
   const mitJa = new Set([...adressen.values()].filter((a) => a.ja && a.kern).map((a) => a.titel))
   const nein = new Set<string>()
   for (const a of adressen.values()) {
     if (!a.nein || (a.ja && a.kern) || (a.sammel && mitJa.has(a.titel))) continue
+    if (neinOhneAdresseUeberholt(a, [...adressen.values()])) continue
     nein.add(a.kern && mitJa.has(a.titel) ? `${a.titel}|${a.kern}` : a.titel)
   }
   return nein

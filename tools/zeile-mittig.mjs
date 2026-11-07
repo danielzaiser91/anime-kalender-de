@@ -3,35 +3,44 @@
  * liegt, aber unter dem sticky Kopf steckt (Samstag: Scroll am Maximum, Zeile bei y=36); die Maus trifft dann den Kopf.
  */
 
-/** Harte Frist, bis die Seite zur Ruhe gekommen sein muss; danach misst die Probe, was da ist (und meldet ehrlich). */
-const RUHE_FRIST_MS = 4000
-/** So viele Bilder in Folge ohne Bewegung gelten als Stillstand. */
-const RUHE_BILDER = 8
-
 /**
- * Läuft im Browser: holt das Element mittig und wartet, bis die Lage über `ruhe` Bilder hält. Die Wochenansicht gleitet nach
- * jeder Ankunft weich zum nächsten Termin (`woche-sprung.ts`); ein einmaliges `scrollIntoView` mitten darin wird vom Gleiten
- * überholt, die Zeile landet nach der Messung unter dem Kopf (Flackern der Kette 06.11.2026, 3 von 8 lokalen Läufen).
- * Mit `ruhe` = 0 entfällt das Warten (Test des alten Wegs).
+ * Scrollt das Element so, dass es mittig im Fenster liegt (sticky Kopf und Fußleiste verdecken die Mitte nicht).
+ * Nachladendes Layout (Bilder, Listen) verschiebt die Zeile nach dem Scroll aus dem Fenster (CI: y=-158, -270); darum wird
+ * erneut zentriert, bis die Lage `RUHE_BILDER` Bilder lang unverändert blieb.
  */
-async function haltMittig(el, p) {
-  const bild = () => new Promise((fertig) => { requestAnimationFrame(fertig); setTimeout(fertig, 50) })
-  const ende = performance.now() + p.frist
-  let ruhig = 0
-  let letzte = null
-  do {
-    el.scrollIntoView({ block: 'center' })
-    if (p.ruhe === 0) return true
-    await bild()
-    ruhig = scrollY === letzte ? ruhig + 1 : 0
-    letzte = scrollY
-  } while (ruhig < p.ruhe && performance.now() < ende)
-  return ruhig >= p.ruhe
+const RUHE_BILDER = 8
+export async function zeileMittig(zeile) {
+  await ruhigImFenster(zeile, true)
 }
 
-/** Scrollt das Element so, dass es mittig im Fenster liegt (sticky Kopf und Fußleiste verdecken die Mitte nicht) und die Lage hält. */
-export async function zeileMittig(zeile, ruhe = RUHE_BILDER) {
-  await zeile.evaluate(haltMittig, { ruhe, frist: RUHE_FRIST_MS })
+/** Wartet, bis die Lage der Zeile ruhig ist, und holt sie nur dann in die Mitte, wenn sie ganz außerhalb des Fensters liegt (eine bewusst gewählte Lage bleibt). */
+export async function zeileImFenster(zeile) {
+  await ruhigImFenster(zeile, false)
+}
+
+async function ruhigImFenster(zeile, immerMittig) {
+  await zeile.evaluate((el, p) => new Promise((fertig) => {
+    let letzte = null
+    let still = 0
+    let versuche = 0
+    const draussen = () => {
+      const r = el.getBoundingClientRect()
+      return r.bottom <= 0 || r.top >= window.innerHeight
+    }
+    const schritt = () => {
+      const oben = el.getBoundingClientRect().top
+      if (oben === letzte) still++
+      else {
+        still = 0
+        letzte = null
+        if (p.immerMittig || draussen()) el.scrollIntoView({ block: 'center' })
+        letzte = el.getBoundingClientRect().top
+      }
+      if (still >= p.ruhe || ++versuche > 300) fertig(undefined)
+      else requestAnimationFrame(schritt)
+    }
+    schritt()
+  }), { ruhe: RUHE_BILDER, immerMittig })
 }
 
 /** Wartet auf Stillstand des Bildlaufs, ohne selbst zu scrollen (für Proben, die mit `scrollIntoViewIfNeeded` arbeiten). */
@@ -46,7 +55,7 @@ export async function ruheAbwarten(seite) {
       ruhig = scrollY === letzte ? ruhig + 1 : 0
       letzte = scrollY
     }
-  }, { ruhe: RUHE_BILDER, frist: RUHE_FRIST_MS })
+  }, { ruhe: 8, frist: 4000 })
 }
 
 /** Meldung, wenn am Zeigerpunkt (x, y) nicht die Zeile oder ein Kind von ihr liegt; sonst null. */

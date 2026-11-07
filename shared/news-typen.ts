@@ -186,3 +186,6 @@ export interface NewsEintrag {
   cover?: string
   meldungen: NewsMeldung[]
 }
+
+/** Trägt der Eintrag eine offizielle Meldung? Dann gilt für ihn die Obergrenze der Datei nicht. */
+export const traegtOffizielle = (e: NewsEintrag): boolean => e.meldungen.some((m) => m.art === 'offiziell')

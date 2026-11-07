@@ -13,7 +13,7 @@ import { pathToFileURL } from 'node:url'
 import { parse } from 'yaml'
 
 export const GRUPPE = 'justwatch-datei'
-export const SKRIPT = 'tsx pipeline/fetch-justwatch-audio.ts --alter 100000 --limit 60'
+export const SKRIPT = 'tsx pipeline/fetch-justwatch-audio.ts --alter 100000 --limit 60 --namen 60'
 const RUFT_AN = /npm run data:justwatch(?:-frisch)?(?![\w-])/
 const EINREICHEN = './.github/actions/einreichen'
 

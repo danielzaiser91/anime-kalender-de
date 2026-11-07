@@ -164,3 +164,7 @@ Aufrufe.
 
 Wenn die Antwort „nur wenn er vorher woanders hingewechselt ist" lautet oder ein
 Rückwärtsschrägstrich im Pfad steht, ist der Block falsch.
+
+## Skripte, die Daniel startet, zeigen Fortschritt (04.11.2026)
+
+Anlass: `einspielen-als-admin.cmd` druckte nur „ERFOLGREICH: … gelöscht“ und lief dann stumm 1–2 Minuten; Daniel hielt es für fertig und schloss das Fenster (Git-Update abgebrochen). Daniel: „mach es informativer“. Jedes Skript für Daniel (cmd, sh): Kopfzeile mit Dauer und „Fenster offen lassen“, vor jedem Schritt `[n/N] was … `, danach `ok` oder `FEHLER, Code …`, am Ende das prüfbare Ergebnis (z. B. Versionen) mit „Erwartet: …“ und erst dann „Fertig. Fenster kann zu.“ — die Anleitung nennt genau diese Endzeilen.

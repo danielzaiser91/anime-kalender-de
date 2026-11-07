@@ -1,0 +1,21 @@
+# aniSearch-Seiten, die in einem AniList-Titel aufgehen: aniSearch-Seite → AniList-Kennung des Titels.
+#
+# Wozu: aniSearch führt manches als mehrere Seiten, was ein Anbieter und AniList als einen Titel führen. Die Seite bekommt dann keine eigene Zeile
+# (`vergebeneSeiten` in `pipeline/bau/anisearch-titel.ts`), ihr Termin- und Belegstand steht am AniList-Titel. Die alte Adresse `/t/<alt>/` leitet
+# über `zuAk` in `data/kennungen.json` auf den Titel — erst nach dem Bestandsbau eintragen: solange `public/data` die Seite noch führt, überschreibt
+# sie sonst den Titel (gleiche ak, PR 3015). Nur eintragen, wenn der Titel das Werk vollständig führt (Folgenzahl) und die Seite nichts
+# enthält, was er nicht schon trägt; eine fehlende Seite im Titel ersetzt dieser Eintrag nicht.
+
+# Thus Spoke Kishibe Rohan (Netflix title/81280998: eine Miniserie, vier Folgen). AniList 21778 führt 4 Folgen, aniSearch teilt in drei Seiten:
+# 11869 (Das Millionärsdorf, am Titel gebunden in anisearch-ids-hand.yaml), 13343 (Mutsu-kabe Hill, 1 Folge), 14752 (Bei der Beichte / Der Lauf, 2 Folgen).
+13343: 21778
+14752: 21778
+
+# Flavors of Youth (Netflix title/80234491: ein Eintrag, drei Kurzfilme). AniList 101231 führt 3 Teile; 13417 (Liebe in Shanghai) ist am Titel gebunden,
+# 13418 (Die Reisnudeln) und 13419 (Eine kleine Modenschau) sind je ein Teil, 1 + 1 + 1 = 3.
+13418: 101231
+13419: 101231
+
+# Baki Hanma Staffel 2 (Netflix title/81236338: eine Staffel mit 27 Folgen, Deutsch 1–27). AniList 146646 führt 27 Folgen; 17241 (Teil 1) ist am Titel gebunden,
+# 18616 (Teil 2, 14 Folgen, Netflix 24.08.2023) liegt im Titel: dessen jpEnd ist 2023-08-24, der Start (Teil 1) der 26.07.2023.
+18616: 146646
