@@ -20,7 +20,8 @@ function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
 const kulisse = mkdtempSync(join(tmpdir(), 'ak-nein-datum-'))
 mkdirSync(join(kulisse, 'data'))
 process.env.AK_ROOT = kulisse
-const { ladeHandbelege, neinHandbelege, wegVerneint } = await import('./lib/dub-confirmed.ts')
+const { ladeHandbelege, neinHandbelege, wegVerneint, adressKern } = await import('./lib/dub-confirmed.ts')
+const { handbelegteWege } = await import('./lib/handbeleg-weg.ts')
 const { istSammelKern } = await import('../shared/adresse-kern.ts')
 
 const prime = (asin: string) => `https://www.amazon.de/dp/${asin}`
@@ -72,16 +73,31 @@ try {
   pruefe('anderer Titel mit derselben Adresse und Ja: kein Nein', !sperrt(zwei, 13, FREMD))
   pruefe('Nein an Adresse X, jüngeres Ja an Adresse Y: Nein gilt nur X', sperrt([beleg(14, prime('B0ADRESSEX1'), '2026-09-01', '  dub: false\n'), beleg(14, prime('B0ADRESSEY1'), '2026-09-10', '  dub: true\n')], 14, prime('B0ADRESSEX1')) && !sperrt([beleg(14, prime('B0ADRESSEX1'), '2026-09-01', '  dub: false\n'), beleg(14, prime('B0ADRESSEY1'), '2026-09-10', '  dub: true\n')], 14, FREMD))
 
-  console.log('\nJüngeres Kanal-Ja ist kein Urteil (Promare 99425, Vermeil in Gold 146210; Kanal-Regel `kanal-titel.ts`):')
-  const PROMARE = 'https://www.amazon.de/gp/video/detail/B0FZ7WGYCB'
-  const KANAL = 'Tonspuren: Deutsch — Amazon-Seite B0FZ7WGYCB: alle 1 Folge geprüft, Abos: aniversede — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg'
-  const wegP = (id: number, d: string) => beleg(id, PROMARE, d, '  available: false\n')
-  const kanalJa = (id: number, d: string, extra = '', note = KANAL) =>
-    beleg(id, PROMARE, d, `  dub: true\n  kanalMessung: ja\n${extra}  note: "${note}"\n`)
-  pruefe('Promare: älteres available: false, jüngeres Kanal-Ja: das Nein bleibt', sperrt([wegP(30, '2026-08-25'), kanalJa(30, '2026-10-16')], 30, PROMARE))
-  pruefe('Vermeil in Gold: dasselbe, Datei in umgekehrter Reihenfolge', sperrt([kanalJa(31, '2026-10-16'), wegP(31, '2026-08-25')], 31, PROMARE))
-  pruefe('Kontrolle: dasselbe Ja ohne Kanal-Warnung hebt das Nein auf', !sperrt([wegP(32, '2026-08-25'), kanalJa(32, '2026-10-16', '', 'Tonspuren: Deutsch')], 32, PROMARE))
-  pruefe('Kontrolle: Kanal-Ja mit zweiteQuelle hebt das Nein auf', !sperrt([wegP(33, '2026-08-25'), kanalJa(33, '2026-10-16', '  zweiteQuelle: "Netflix, 16.10.2026"\n')], 33, PROMARE))
+  console.log('\nJüngere Kanal-Messung mit Folgen überholt „nicht verfügbar“ (Promare 99425, Vermeil in Gold 146210):')
+  const KANAL_ADR = 'https://www.amazon.de/gp/video/detail/B0FZ7WGYCB'
+  const KANAL = 'Tonspuren: Deutsch — Amazon-Seite B0FZ7WGYCB: alle 1 Folge geprüft, Ids: x — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg'
+  const wegK = (id: number, d: string, extra = '') => beleg(id, KANAL_ADR, d, `  available: false\n${extra}`)
+  const kanalJa = (id: number, d: string, extra = '', messung = 'ja') =>
+    beleg(id, KANAL_ADR, d, `  dub: true\n  kanalMessung: ${messung}\n${extra}  note: "${KANAL}"\n`)
+  const hatWeg = (id: number) => handbelegteWege(ladeHandbelege()).has(`${id}|primevideo|${adressKern(KANAL_ADR)}`)
+  const ergebnis = (zeilen: string[], id: number) => ({ nein: sperrt(zeilen, id, KANAL_ADR), weg: hatWeg(id) })
+  const soll = (zeilen: string[], id: number, nein: boolean, weg: boolean) => {
+    const e = ergebnis(zeilen, id)
+    return e.nein === nein && e.weg === weg
+  }
+  pruefe('Promare: älteres available: false, jüngeres Kanal-Ja: kein Nein, Adressweg da', soll([wegK(30, '2026-08-25'), kanalJa(30, '2026-10-16')], 30, false, true), ergebnis([wegK(30, '2026-08-25'), kanalJa(30, '2026-10-16')], 30))
+  pruefe('Vermeil in Gold: Datei in umgekehrter Reihenfolge ebenso', soll([kanalJa(31, '2026-10-16'), wegK(31, '2026-08-25')], 31, false, true))
+  pruefe('Kontrolle: dub: false im älteren Beleg bleibt ein Nein', soll([beleg(32, KANAL_ADR, '2026-08-25', '  dub: false\n'), kanalJa(32, '2026-10-16')], 32, true, false))
+  pruefe('Kontrolle: älteres Nein trägt dub: false und available: false: Nein bleibt', soll([wegK(33, '2026-08-25', '  dub: false\n'), kanalJa(33, '2026-10-16')], 33, true, false))
+  pruefe('Kontrolle: ohne jüngere Messung (nur available: false) bleibt das Nein', soll([wegK(34, '2026-08-25')], 34, true, false))
+  pruefe('Kontrolle: Kanal-Messung älter als das Nein: das Nein bleibt', soll([kanalJa(35, '2026-08-25'), wegK(35, '2026-10-16')], 35, true, false))
+  pruefe('Kontrolle: gleicher Tag: das Nein bleibt', soll([wegK(36, '2026-10-16'), kanalJa(36, '2026-10-16')], 36, true, false))
+  pruefe('Kontrolle: jüngere Messung nein (keine Folge deutsch): das Nein bleibt', soll([wegK(37, '2026-08-25'), kanalJa(37, '2026-10-16', '', 'nein')], 37, true, false))
+  pruefe('Kontrolle: jüngere Zeile mit eigenem available: false: das Nein bleibt', soll([wegK(38, '2026-08-25'), kanalJa(38, '2026-10-16', '  available: false\n')], 38, true, false))
+  pruefe('Kontrolle: jüngeres Ja ohne Kanal-Warnung hebt wie bisher auf (kein Nein, Ja-Weg)', soll([wegK(39, '2026-08-25'), beleg(39, KANAL_ADR, '2026-10-16', '  dub: true\n  kanalMessung: ja\n')], 39, false, true))
+  sperrt([wegK(40, '2026-08-25'), kanalJa(40, '2026-10-16')], 40, KANAL_ADR)
+  const geladen = ladeHandbelege().filter((c) => c.anilistId === 40)
+  pruefe('Kein Synchro-Ja: eine verschmolzene Zeile, ohne dub und available, mit kanalOhneBeleg', geladen.length === 1 && geladen[0]!.dub === undefined && geladen[0]!.available === undefined && geladen[0]!.kanalOhneBeleg === true, geladen)
 
   console.log('\nSuch-, Start- und Länderseiten sind keine Ausgabe:')
   const SUCHE = 'https://www.amazon.de/s?k=Jormungand%3A%20Perfect%20Order&i=instant-video'
