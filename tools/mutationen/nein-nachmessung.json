@@ -19,7 +19,7 @@
   { "name": "Schreiben: bestehendes Feld wird nicht ersetzt", "aenderungen": [{ "datei": "pipeline/lib/nein-nachmessung.ts", "suche": "if (vorhanden >= 0) return", "ersetze": "if (false) return" }] },
   { "name": "Schreiben: Feld vor checkedAt statt dahinter", "aenderungen": [{ "datei": "pipeline/lib/nein-nachmessung.ts", "suche": "[...block.slice(0, nach + 1), zeile, ...block.slice(nach + 1)]", "ersetze": "[...block.slice(0, nach), zeile, ...block.slice(nach)]" }] },
   { "name": "Schreiben: Zähler zählt nichts", "aenderungen": [{ "datei": "pipeline/lib/nein-nachmessung.ts", "suche": "    gemerkt++", "ersetze": "    gemerkt += 0" }] },
-  { "name": "Schreiben: keine Meldungen -> trotzdem Text neu", "aenderungen": [{ "datei": "pipeline/lib/nein-nachmessung.ts", "suche": "if (!tage.size) return { text: alt, gemerkt: 0 }", "ersetze": "" }] },
+  { "name": "Kontrolle gleichwertig: Kurzschluss ohne Meldungen weg (Text bleibt identisch, spart nur das Parsen)", "aenderungen": [{ "datei": "pipeline/lib/nein-nachmessung.ts", "suche": "if (!tage.size) return { text: alt, gemerkt: 0 }", "ersetze": "" }] },
   { "name": "Verdrahtung: Aufruf in haengeBelegeAn entfernt", "aenderungen": [{ "datei": "pipeline/lib/belege-anhaengen.ts", "suche": "merkeNachmessung(datiert, o.meldungen ?? [])", "ersetze": "{ text: datiert, gemerkt: 0 }" }] },
   { "name": "Verdrahtung: Meldungen leer übergeben", "aenderungen": [{ "datei": "pipeline/lib/belege-anhaengen.ts", "suche": "o.meldungen ?? []", "ersetze": "[]" }] },
   { "name": "Verdrahtung: Schreiben nur bei erneuert/neuen Zeilen (gemerkt vergessen)", "aenderungen": [{ "datei": "pipeline/lib/belege-anhaengen.ts", "suche": "if (erneuert || gemerkt || neueZeilen", "ersetze": "if (erneuert || neueZeilen" }] },
