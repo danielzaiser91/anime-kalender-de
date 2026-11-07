@@ -6,6 +6,7 @@
  * Verlaufs-Abfragen (`?verlauf=<Workflow>` und die Kästchenreihe je Lauf-Art).
  */
 import { type Env } from './env.ts'
+import { tokenAusKopf, tokenGleich } from './lauf-token.ts'
 import { jetztIso, zahlOderNull } from './werte.ts'
 import { SQL_AUFRAEUMEN, SQL_EINE_ART, SQL_LAEUFE_LAUFEND, SQL_VERLAUF, LAUF_ARTEN } from './lauf-sql.ts'
 import { ereignisSenden } from './ereignisse.ts'
@@ -75,8 +76,8 @@ export async function handleLauf(request: Request, env: Env, ctx?: ExecutionCont
 
   // Ohne gesetztes Secret bleibt der Pfad lesbar, aber nicht beschreibbar —
   // sonst könnte jeder Beliebige falsche Läufe melden.
-  const token = request.headers.get('X-Lauf-Token') ?? ''
-  if (!env.LAUF_TOKEN || token !== env.LAUF_TOKEN) return antwort({ error: 'Nicht erlaubt' }, 403)
+  const token = tokenAusKopf(request)
+  if (!env.LAUF_TOKEN || !tokenGleich(token, env.LAUF_TOKEN)) return antwort({ error: 'Nicht erlaubt' }, 403)
 
   let daten: Record<string, string | undefined>
   try {

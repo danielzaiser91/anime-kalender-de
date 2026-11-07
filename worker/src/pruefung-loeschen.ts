@@ -1,4 +1,5 @@
 import { type Env } from './env.ts'
+import { tokenAusKopf, tokenGleich } from './lauf-token.ts'
 import { verwirfGemeldet } from './pruefung-gemeldet-cache.ts'
 import { exporteVerwerfen } from './export-speicher.ts'
 import { loescheTitelFolgen, loescheTitelzeile } from './titelzeile-aufgaben.ts'
@@ -17,8 +18,8 @@ export async function loeschePruefungen({ request, env, antwort }: {
       dagegen verschwinden, sonst gilt eine Reihe als geprüft, die niemand
       geprüft hat.
     */
-    const token = request.headers.get('X-Lauf-Token') ?? ''
-    if (!env.LAUF_TOKEN || token !== env.LAUF_TOKEN) return antwort({ error: 'Nicht erlaubt' }, 403)
+    const token = tokenAusKopf(request)
+    if (!env.LAUF_TOKEN || !tokenGleich(token, env.LAUF_TOKEN)) return antwort({ error: 'Nicht erlaubt' }, 403)
     let daten: { ids?: number[]; url?: string; nummern?: number[] }
     try {
       daten = (await request.json()) as { ids?: number[]; url?: string; nummern?: number[] }

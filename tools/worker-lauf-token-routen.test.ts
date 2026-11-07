@@ -1,6 +1,6 @@
 /**
  * Prüf-Token an den Routen `/land`, `/netzfund` (GET, POST), `/vorfall` (GET, POST, DELETE), `/debug/digest` und
- * `/debug/monitor`: Bearer gilt, `?token=` übergangsweise, falscher oder fehlender Token -> 403. Läuft über `worker.fetch`.
+ * `/debug/monitor`: Bearer gilt, `?token=` gilt nicht mehr, falscher oder fehlender Token -> 403. Läuft über `worker.fetch`.
  *
  * Aufruf: `npx tsx tools/worker-lauf-token-routen.test.ts`
  */
@@ -41,7 +41,7 @@ async function leseRoute(pfad: string, geheim: string) {
     faelle++
   }
   await nicht403(rufe(env, pfad, { Authorization: `Bearer ${geheim}` }), 'Bearer ok')
-  await nicht403(rufe(env, `${pfad}${mit}token=${geheim}`), 'Query übergangsweise ok')
+  await ist403(rufe(env, `${pfad}${mit}token=${geheim}`), 'richtiges Token in der Adresse wird abgelehnt')
   await ist403(rufe(env, pfad, { Authorization: 'Bearer falsch' }), 'falscher Bearer')
   await ist403(rufe(env, `${pfad}${mit}token=falsch`), 'falsche Query')
   await ist403(rufe(env, pfad), 'ohne Token')

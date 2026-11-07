@@ -1,5 +1,5 @@
 import { type Env } from './env.ts'
-import { tokenGleich, tokenMitUebergang } from './lauf-token.ts'
+import { tokenAusKopf, tokenGleich } from './lauf-token.ts'
 import { ausSpeicher } from './export-speicher.ts'
 import { zaehleOffenePruefungen, ZAEHLEN_SEKUNDEN } from './pruefung-zaehlen.ts'
 import { liefereRohfolgen } from './pruefung-rohfolgen.ts'
@@ -101,7 +101,7 @@ export async function beantwortePruefungLesen({ request, env, antwort, ausCache 
 
     // Die Pipeline holt sich, was noch nicht übernommen wurde.
     const sucheP = new URL(request.url).searchParams
-    const token = tokenMitUebergang(request)
+    const token = tokenAusKopf(request)
     if (!env.LAUF_TOKEN || !tokenGleich(token, env.LAUF_TOKEN)) return antwort({ error: 'Nicht erlaubt' }, 403)
 
     /*
