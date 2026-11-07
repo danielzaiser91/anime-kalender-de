@@ -124,8 +124,11 @@ const unmarkiert = lauf([
   zeile(10, 'B0KASTEN07', 'Kastenprobe Zeta', true, 'xunbekannt=1'),
   /* … und eine längere Zahl dahinter */
   zeile(12, 'B0KASTEN08', 'Kastenprobe Eta', true, 'unbekannt=10'),
+  /* A1 ohne Kennzeichen: die alte Regel gilt unverändert, exakter Name ordnet zu, auch bei 1 Folge gegen 12 */
+  zeile(17, 'B0KASTEN13', 'Kastenprobe Sigma', false, 'unbekannt=1', 1),
 ])
 if (unmarkiert.ausgabe.includes('Unbekannte Prime-Seiten')) fehler.push('ohne Kennzeichen darf nichts als „Unbekannte Prime-Seiten" gezählt werden')
+if (unmarkiert.liste.includes(seite('B0KASTEN13'))) fehler.push('ohne Kennzeichen darf die Folgenzahl-Prüfung nicht greifen (alte Regel)')
 const standard = unmarkiert.liste.split('\n').find((z) => z.includes(seite('B0KASTEN05'))) ?? ''
 if (!standard.includes('Titel von Hand suchen') || standard.includes('Kein Treffer im Bestand')) fehler.push(`ohne Kennzeichen bleibt die Standardzeile: ${standard}`)
 
