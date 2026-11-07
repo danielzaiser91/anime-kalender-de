@@ -15,6 +15,7 @@ import { spawnSync } from 'node:child_process'
 import fs from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
+import { budgetHinweise } from './pr-kettenlog-budget.mjs'
 import { baueZitateDatei, zitateAusBeschreibung } from './pr-kettenlog-zitate.mjs'
 
 const TAKT_MS = 15_000
@@ -67,7 +68,7 @@ export function kopfZeilen({ kopf, lauf, jobs, fehler = '' }) {
 /** Beide Dateitexte aus Kopfdaten und den Logs der abgeschlossenen Jobs ({ name, status, conclusion, log }). */
 export function baueDateien({ kopf, lauf, jobs, fehler = '' }) {
   const kopfz = [HINWEIS, ...kopfZeilen({ kopf, lauf, jobs, fehler })]
-  const uebersicht = [...kopfz]
+  const uebersicht = [...kopfz, ...budgetHinweise(jobs, (j) => bereinige(j.log ?? ''), sauber)]
   const voll = [...kopfz]
   for (const j of jobs) {
     if (j.status !== 'completed') continue
