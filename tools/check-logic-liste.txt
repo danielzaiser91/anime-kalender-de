@@ -183,6 +183,7 @@ pipeline/check-escape-hoerer.ts
 pipeline/check-escape-stapel.ts
 pipeline/check-favoriten-feed-faelle.ts
 pipeline/check-fetch-pruefungen-laufzeit.ts
+pipeline/check-fetch-pruefungen-unbekannt.ts
 pipeline/check-film-ohne-weg.ts
 pipeline/check-filter-genres.ts
 pipeline/check-filter-zyklus.ts

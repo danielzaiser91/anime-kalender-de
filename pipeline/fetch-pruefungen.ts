@@ -38,6 +38,7 @@ import { haengeBelegeAn } from './lib/belege-anhaengen.ts'
 import { kanalJaAdressKerne, kanalOhneAussage } from './lib/kanal-titel.ts'
 import { schluesselAdresse, titelSchluessel } from './lib/zuordnung.ts'
 import { ratePerName } from './lib/namens-zuordnung.ts'
+import { istUnbekannteSeite, katalogTreffer, neuerZaehler, urteileUnbekannt, zaehlzeile } from './lib/unbekannte-seite.ts'
 import { staffelNummern, type Reiheneintrag } from './lib/staffel-nummern.ts'
 import { verteileMeldungen } from './lib/meldungen-verteilen.ts'
 import { liegenGeblieben, schreibeMeldungenListe, type OhneZuordnung } from './lib/meldungen-liste.ts'
@@ -355,6 +356,8 @@ let ausSuchadresseZugeordnet = 0
 /** Wie viele Adressen die Meldung selbst zugeordnet hat — der Weg ohne Raten. */
 let ausMeldungZugeordnet = 0
 const offenGeblieben: string[] = []
+/** Meldungen aus dem Kasten „Nicht auf der Prüfliste" (`unbekannt=1`): wohin jede ging. */
+const unbekanntZaehler = neuerZaehler()
 /*
   **Was nach einem Fehler der Erweiterung aussieht, wird sichtbar** (Daniel,
   17.09.2026: „bau es so, das wir direkt mitbekommen wenn die extension schuld
@@ -541,6 +544,8 @@ for (const gruppe of jeAdresse.values()) {
       ausSuchadresseZugeordnet++
     }
   }
+  const unbekannt = istUnbekannteSeite(gruppe.map((m) => m.notiz))
+  if (unbekannt && ids.length) unbekanntZaehler.ueberAdresse++
   if (!ids.length) {
     // Der Titel ist die letzte Chance — und nur ein Vorschlag: Ein Name ist
     // eine Ähnlichkeit, kein Beleg.
@@ -557,8 +562,12 @@ for (const gruppe of jeAdresse.values()) {
       // etwas einzutragen. Die Adresse ist neu und kommt gleich mit.
       ids = eindeutig
       selbstZugeordnet++
+      if (unbekannt) unbekanntZaehler.eindeutig++
     } else {
-      ohneZuordnung.push({ url: p.url, name, plattform: p.plattform, befund: p.befund, vorschlag: eindeutig })
+      // Kasten „Nicht auf der Prüfliste": Grund und Zähler statt der Standardzeile (`urteileUnbekannt`).
+      const urteil = unbekannt ? urteileUnbekannt(eindeutig, katalogTreffer(ROOT, name)) : null
+      if (urteil) unbekanntZaehler[urteil.art]++
+      ohneZuordnung.push({ url: p.url, name, plattform: p.plattform, befund: p.befund, vorschlag: urteil?.vorschlag ?? eindeutig, ...(urteil && { zuTun: urteil.zuTun }) })
       offenGeblieben.push(
         `${p.url} — im Datensatz nicht gefunden${eindeutig.length ? ` (Vorschlag: ${eindeutig.join(', ')})` : ''}`,
       )
@@ -1203,6 +1212,7 @@ log(
       ? `, ${ausgelassenKanal} Kanal-Meldung(en) ohne Urteil ausgelassen (sie würden nur einen jüngeren Beleg verdecken)`
       : ''),
 )
+if (zaehlzeile(unbekanntZaehler)) log(zaehlzeile(unbekanntZaehler))
 for (const o of offenGeblieben) warn(o)
 for (const a of auffaellig) warn(`Auffällig: ${a}`)
 if (!TROCKEN) {
