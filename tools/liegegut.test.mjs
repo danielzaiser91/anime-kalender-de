@@ -9,7 +9,7 @@ import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
-import { offenePrs, checkStand, geteilteEntscheidungen, kopfZeitVon, kopfZeiten, liegegut, main, grepMain, neueBezeichner, naechsterSchritt, signaleEinzel, stillstandSignal, ueberholtTreffer, urteile, JQ_PATCHES } from './liegegut.mjs'
+import { offenePrs, checkStand, entschiedeneFragen, geteilteEntscheidungen, kopfZeitVon, kopfZeiten, liegegut, main, grepMain, neueBezeichner, naechsterSchritt, signaleEinzel, stillstandSignal, ueberholtTreffer, urteile, JQ_PATCHES } from './liegegut.mjs'
 
 const fehler = []
 const pruefe = (name, ok, info) => {
@@ -331,7 +331,7 @@ console.log('liegegut: offene PRs in Blöcken (GraphQL-Limit 05.11.2026)')
   const sammel = (aufrufe, comments) => (args) => {
     aufrufe.push(args.join(' '))
     const f = args[args.indexOf('--json') + 1]
-    if (args[1] === 'list' && f === 'number,title,headRefOid,createdAt,mergeable,mergeStateStatus,isDraft,body') return JSON.stringify([p1, p2])
+    if (args[1] === 'list' && f === 'number,title,headRefOid,createdAt,mergeable,mergeStateStatus,isDraft,body,baseRefName') return JSON.stringify([p1, p2])
     if (args[1] === 'list' && f === 'number,reviews,statusCheckRollup') return JSON.stringify([{ number: 9, reviews: ['r9'], statusCheckRollup: ['s9'] }, { number: 7, reviews: ['r7'], statusCheckRollup: ['s7'] }])
     if (args[1] === 'list') return comments(args)
     return JSON.stringify({ comments: ['einzeln-' + args[2]] })
@@ -385,10 +385,64 @@ console.log('liegegut: Fehlerwege der Blöcke (Prüfer A1–A3)')
   pruefe('A3: main meldet die Hinweiszeile und läuft mit Exit 0 durch', code === 0 && gesamt.some((z) => /PR 7 übersprungen/.test(z)) && /liegegut: \d+ auffällige PRs/.test(gesamt.at(-1)), gesamt)
 }
 
+console.log('liegegut: Signal 9 Stapel-PR nach gesquashtem Basis-PR (Fall 3091, 07.11.)')
+{
+  const GEMERGT = [{ number: 3090, headRefName: 'feat/teil-1' }, { number: 3000, headRefName: 'fix/anderes' }]
+  const mitMerged = (liste, aufrufe = []) => {
+    const rest = attrappeGh(liste, aufrufe)
+    return (args) => (args.includes('merged') ? (aufrufe.push(args.join(' ')), JSON.stringify(GEMERGT)) : rest(args))
+  }
+  const teil2 = pr(3091, { baseRefName: 'feat/teil-1', mergeable: 'CONFLICTING', mergeStateStatus: 'DIRTY', comments: [daniel(2, 'frisch')] })
+  const zeilen = liegegut(mitMerged([teil2]), attrappeGit(), JETZT)
+  pruefe('Basiszweig gehört zu gemergtem PR → STAPEL-Zeile mit Basis-Nummer', zeilen.length === 1 && /^PR 3091: STAPEL – Signal 9 Basis #3090 gesquasht → main hineinmergen/.test(zeilen[0]), zeilen)
+  const ausBody = pr(3092, { baseRefName: 'main', body: 'erst nach #3090 (Teil 2)\n\nText', mergeable: 'CONFLICTING', mergeStateStatus: 'DIRTY', comments: [daniel(2, 'frisch')] })
+  pruefe('Basis main, Konflikt und „erst nach #3090“ (gemergt) → STAPEL', /^PR 3092: STAPEL/.test(liegegut(mitMerged([ausBody]), attrappeGit(), JETZT)[0] ?? ''))
+  const ohneKonflikt = pr(3093, { baseRefName: 'main', body: 'erst nach #3090', comments: [daniel(2, 'frisch')] })
+  pruefe('„erst nach #3090“ ohne Konflikt (schon sauber) → keine Zeile', liegegut(mitMerged([ohneKonflikt]), attrappeGit(), JETZT).length === 0)
+  const offeneBasis = pr(3094, { baseRefName: 'main', body: 'erst nach #3095', mergeable: 'CONFLICTING', comments: [daniel(2, 'frisch')] })
+  pruefe('Basis-PR nicht in der Liste gemergter PRs (noch offen) → keine STAPEL-Zeile', !/STAPEL/.test(liegegut(mitMerged([offeneBasis]), attrappeGit(), JETZT).join('\n')))
+  const fremderZweig = pr(3096, { baseRefName: 'feat/lebt-noch', comments: [daniel(2, 'frisch')] })
+  pruefe('Basiszweig ohne gemergten PR → keine Zeile', liegegut(mitMerged([fremderZweig]), attrappeGit(), JETZT).length === 0)
+  const aufrufe = []
+  liegegut(mitMerged([pr(1, { comments: [daniel(2, 'frisch')] })], aufrufe), attrappeGit(), JETZT)
+  pruefe('ohne Kandidat kein Abruf gemergter PRs', !aufrufe.some((a) => a.includes('merged')), aufrufe)
+  pruefe('STAPEL schlägt STILLSTAND in der Reihenfolge der Schritte', naechsterSchritt([8, 9], [], false) === 'STAPEL')
+}
+
+console.log('liegegut: Signal 6 ohne entschiedene F-Nummern (Fall F39) und Leser fragen/F*.md')
+{
+  const a = pr(1508, { body: 'Entscheidung F39 offen' })
+  const b = pr(1513, { body: 'F39 und F40' })
+  const c = pr(1514, { body: 'F40' })
+  pruefe('F39 entschieden → nur F40 bleibt geteilt (b, c)', JSON.stringify([...geteilteEntscheidungen([a, b, c], new Set(['F39']))]) === JSON.stringify([[1513, ['F40']], [1514, ['F40']]]))
+  pruefe('ohne Entschiedene bleibt F39 geteilt (Kontrolle)', geteilteEntscheidungen([a, b]).size === 2)
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'liegegut-fragen-'))
+  fs.writeFileSync(path.join(dir, 'F39-uhrzeit.md'), '# F39\n\n**Entschieden: A (Daniel 19.10.).**\n')
+  fs.writeFileSync(path.join(dir, 'f108-synchro.md'), '# F108\n\nEntschieden 20.10.: ja\n')
+  fs.writeFileSync(path.join(dir, 'F44-offen.md'), '# F44\n\nB – Du drückst jetzt „Entschieden“: T-130 geht sofort\n')
+  fs.writeFileSync(path.join(dir, 'E29-mockup.md'), 'Entschieden: ja\n')
+  fs.writeFileSync(path.join(dir, 'F390-x.md'), '- Entschieden: nein\n')
+  const menge = entschiedeneFragen(dir)
+  pruefe('Leser: F39, F108 (klein geschrieben) und F390 entschieden; F44 (Wort mitten in der Zeile) und E29 nicht', JSON.stringify([...menge].sort()) === JSON.stringify(['F108', 'F39', 'F390']), [...menge])
+  fs.rmSync(dir, { recursive: true, force: true })
+  pruefe('Ordner fehlt → leere Menge', entschiedeneFragen(path.join(os.tmpdir(), 'liegegut-gibt-es-nicht')).size === 0)
+  const lauf = liegegut(attrappeGh([pr(1508, { body: 'F39', comments: [daniel(2, 'x')] }), pr(1513, { body: 'F39', comments: [daniel(2, 'x')] })]), attrappeGit(), JETZT, undefined, new Set(['F39']))
+  pruefe('Gesamtlauf: entschiedene F39 → keine DANIEL-Zeile', lauf.length === 0, lauf)
+}
+
+console.log('liegegut: Signal 2 mit Abnahme-Nachtrag des Dirigenten (Fälle 1716, 1758: echte Abfolge)')
+{
+  const dir1716 = [bot(30, 'a'.repeat(9), 'aendern'), bot(29, KOPF, 'aendern'), bot(28, KOPF, 'ok'), daniel(20, 'Prüfer Runde 1: freigeben', `Kopf ${KOPF.slice(0, 9)}. Checks grün`), daniel(10, '## Nachtrag (Abnahme Dirigent)', 'Abgenommen, ändern nichts')]
+  pruefe('1716: aendern, ok, Dirigent freigeben, Abnahme-Nachtrag → kein Widerspruch', !nummern(pr(1716, { comments: dir1716 })).includes(2))
+  const dir1758 = [bot(30, KOPF, 'aendern'), bot(29, KOPF, 'ok'), daniel(20, '## Nachtrag (Abnahme Dirigent 21.10.2026 14:47)', 'Abgenommen gegen die Liste B1–B4: freigeben')]
+  pruefe('1758: aendern, ok, Abnahme-Nachtrag mit „freigeben“ im Text → kein Widerspruch', !nummern(pr(1758, { comments: dir1758 })).includes(2))
+  pruefe('Kontrolle: ok, dann Dirigent „Prüfer …: ändern“ → Widerspruch bleibt', nummern(pr(1, { comments: [bot(30, KOPF, 'ok'), daniel(20, 'Prüfer Runde 2: ändern')] })).includes(2))
+}
+
 console.log('liegegut: eigener Prozess (Vorlader tools/pr-nachrechnen-mock.mjs)')
 {
   const werk = fs.mkdtempSync(path.join(os.tmpdir(), 'liegegut-'))
-  const leicht = 'number,title,headRefOid,createdAt,mergeable,mergeStateStatus,isDraft,body'
+  const leicht = 'number,title,headRefOid,createdAt,mergeable,mergeStateStatus,isDraft,body,baseRefName'
   const frei = pr(1676, { comments: [{ author: { login: 'github-actions' }, createdAt: '2026-10-20T10:44:00Z', body: `**Prüfer-Review** für ${KOPF.slice(0, 9)} - Urteil: **ok**` }] })
   const daten = {
     [`pr list --state open --limit 100 --json ${leicht}`]: { aus: JSON.stringify([frei]) },
@@ -413,4 +467,4 @@ if (fehler.length > 0) {
   console.error(`liegegut.test: ${fehler.length} Fehler`)
   process.exit(1)
 }
-console.log('liegegut.test: alle Fälle grün (7 Signale, Grenzen, Gesamtlauf, Nichtauskunft, Prozess)')
+console.log('liegegut.test: alle Fälle grün (9 Signale, Stapel, entschiedene F-Nummern, Grenzen, Gesamtlauf, Nichtauskunft, Prozess)')
