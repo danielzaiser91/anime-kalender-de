@@ -1330,6 +1330,10 @@
       "vorschlaege": 0,
       "uebersprungen": "kein Deutschland-Bezug"
     },
+    "1068485": {
+      "am": "2026-11-07",
+      "vorschlaege": 1
+    },
     "1068505": {
       "am": "2026-11-06",
       "vorschlaege": 0,
@@ -11272,6 +11276,27 @@
       "artikelId": "1068809",
       "artikel": "Konkreter Termin des Isekai-Anime »Gacha Girls Corps« + Visual",
       "quelle": "https://www.anime2you.de/news/1068809/gacha-girls-corps-konkreter-termin/",
+      "veroeffentlicht": "2026-11-07",
+      "gelesenAm": "2026-11-07"
+    },
+    {
+      "titel": "My Dress-Up Darling",
+      "zitat": "Die zwölfteilige erste Staffel ist ab Dezember 2026 in einer Steelbook-Komplettbox auf Blu-ray erhältlich.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1068485",
+      "artikel": "Neue XXL-Figur zu »My Dress-Up Darling« für über 7.000 Euro vorgestellt",
+      "quelle": "https://www.anime2you.de/news/1068485/xxl-my-dress-up-darling-figur-marin-kitagawa/",
       "veroeffentlicht": "2026-11-07",
       "gelesenAm": "2026-11-07"
     }
