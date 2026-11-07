@@ -3,7 +3,10 @@
 // als `worktree add` scheiterte, liefen checkout und Folgebefehle im Hauptordner.
 // Aufbau: Der Befehl wird in Segmente zerlegt (Trenner `;` `&&` `||` `|` `&`, Zeilenumbruch, Klammern, `$(…)`, Backticks, auch in
 // Anführungszeichen). In jedem Segment zählt jedes Token mit Basisname `git` als Aufruf — egal, was davor steht (timeout, env, xargs …);
-// Shells (`-c`-Bündel) und `eval` werden rekursiv geprüft, `echo`/`printf` ausgenommen.
+// Shells (`-c`-Bündel) und `eval` werden rekursiv geprüft, `echo`/`printf` ausgenommen. Ein Token `"$G"`/`${G}` zählt mit dem Wert
+// aus einem früheren `G=…` im selben Befehl (06.11.2026: `G="…/git.exe"; "$G" merge` rutschte durch), auch nach `export`/`declare`/`readonly`, in `eval`/`sh -c` und über `H=$G`.
+// Fail-closed: steht an Programmstelle eine nicht auflösbare Variable (`G=$(command -v git)`), prüft die Sperre sie wie git
+// — `"$X" status` und `pull --ff-only` bleiben frei, `"$X" merge` im Hauptordner nicht.
 // Wirksames Verzeichnis: Bash-cwd, `cd`, `git -C`, `--work-tree`. Ein `cd` ohne folgendes `&&` kann scheitern: dann zählen beide
 // Möglichkeiten. Nicht bestimmbare Ziele (`$X`, `~`) fallen auf das Startverzeichnis (cwd) zurück. Klammern halten ihr `cd` im Inneren.
 // „Im Hauptordner“ heißt: erster Vorfahr mit `.git` ist der Hauptordner selbst (eine `.git`-Datei oder ein anderer Treffer = eigener
@@ -140,6 +143,9 @@ const programmName = (t) => t.replace(/\\/g, '/').split('/').pop().toLowerCase()
 /** Setzt bekannte Shell-Variablen (`W=…;` weiter vorn in der Kette) in ein Ziel ein; unbekannte bleiben stehen. */
 const mitVariablen = (ziel, vars) => ziel?.replace(/\$\{(\w+)\}|\$(\w+)/g, (m, a, b) => vars[a ?? b] ?? m)
 
+/** Programmname eines Tokens; ein Token wie `$G` / `${G}` zählt mit dem Wert, den ein früheres `G=…` im selben Befehl gesetzt hat. */
+const programmNameAufgeloest = (token, vars) => programmName(mitVariablen(token, vars) ?? token)
+
 /** Wirksame Verzeichnisse nach `-C`/`--work-tree` ab Token `von`, Unterbefehl und Argumente. */
 function liesGit(tokens, von, z) {
   let wirksam = z.moegliche
@@ -196,15 +202,35 @@ function eingebetteterBefehl(tokens, i) {
   return undefined
 }
 
+const DEKLARATION = new Set(['export', 'declare', 'readonly', 'local', 'typeset'])
+const VORSATZ = new Set(['command', 'exec', 'env', 'builtin', 'sudo', 'nohup', 'time', 'xargs', 'timeout'])
+
+/** Zuweisungen eines reinen Zuweisungs-Segments (auch nach `export`/`declare -x`/`readonly`), sonst null. */
+function zuweisungen(tokens) {
+  let i = 0
+  if (DEKLARATION.has(tokens[0])) {
+    i = 1
+    while (tokens[i]?.startsWith('-')) i++
+  }
+  const liste = tokens.slice(i).map((t) => /^([A-Za-z_]\w*)=(.*)$/s.exec(t))
+  return liste.length && liste.every(Boolean) ? liste : null
+}
+
+/** Steht an Programmstelle (Token `i`) eine Variable, die sich nicht auflösen lässt? Fail-closed: sie wird wie git behandelt. */
+function unbekanntesProgramm(tokens, i, vars) {
+  if (!/^\$\{?\w+\}?$/.test(mitVariablen(tokens[i], vars))) return false
+  return tokens.slice(0, i).every((t) => VORSATZ.has(t) || /^[A-Za-z_]\w*=/.test(t) || t.startsWith('-'))
+}
+
 /** Prüft ein Segment; setzt bei `cd` z.moegliche. Grund oder null. */
 function pruefeSegment({ tokens, op }, z, haupt) {
-  const zuweisung = tokens.map((t) => /^([A-Za-z_]\w*)=(.*)$/s.exec(t))
-  if (zuweisung.every(Boolean)) {
-    for (const [, name, wert] of zuweisung) z.vars[name] = wert || undefined
+  const zuweisung = zuweisungen(tokens)
+  if (zuweisung) {
+    for (const [, name, wert] of zuweisung) z.vars[name] = mitVariablen(wert, z.vars) || undefined
     return null
   }
   for (let i = 0; i < tokens.length; i++) {
-    const p = programmName(tokens[i])
+    const p = programmNameAufgeloest(tokens[i], z.vars)
     if (p === 'echo' || p === 'printf') return null
     if (p === 'cd' || p === 'pushd') {
       const ziele = z.moegliche.map((v) => loese(v, mitVariablen(tokens[i + 1], z.vars)) ?? z.start)
@@ -217,12 +243,12 @@ function pruefeSegment({ tokens, op }, z, haupt) {
     const skript = eingebetteterBefehl(tokens, i)
     if (skript) {
       for (const v of z.moegliche) {
-        const grund = pruefeBefehl(skript, v, haupt)
+        const grund = pruefeBefehl(skript, v, haupt, z.vars)
         if (grund) return grund
       }
       return null
     }
-    if (p === 'git' || p === 'git.exe') {
+    if (p === 'git' || p === 'git.exe' || unbekanntesProgramm(tokens, i, z.vars)) {
       const { wirksam, unter, args } = liesGit(tokens, i, z)
       const ortGrund = unter === 'worktree' ? ORT.worktreeZielGrund(args, wirksam, (v, p) => loese(v, mitVariablen(p, z.vars))) : null
       if (ortGrund) return ortGrund
@@ -234,9 +260,9 @@ function pruefeSegment({ tokens, op }, z, haupt) {
 }
 
 /** Prüft einen Befehl ab Startverzeichnis `cwd`; liefert den Grund oder null. */
-function pruefeBefehl(befehl, cwd, haupt = HAUPT) {
+function pruefeBefehl(befehl, cwd, haupt = HAUPT, vars = {}) {
   const start = loese(null, cwd)
-  const z = { moegliche: [start], start, vars: {} }
+  const z = { moegliche: [start], start, vars: { ...vars } }
   const aussen = []
   for (const seg of zerlege(ohneHeredoc(befehl))) {
     if (seg.auf) aussen.push(z.moegliche)
