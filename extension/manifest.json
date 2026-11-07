@@ -124,6 +124,7 @@
         "prime-such-bruecke.js",
         "prime-region.js",
         "prime-treffer-kopf.js",
+        "amazon-knopf-zeichnen.js",
         "amazon.js"
       ],
       "css": [
