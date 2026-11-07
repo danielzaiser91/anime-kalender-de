@@ -58,7 +58,7 @@ pruefe('Stand: genau die sechs vorhandenen Zeitstempel', JSON.stringify(stand) =
 pruefe('Stand: Datei fehlt → Eintrag fehlt', stand['toggo'] === undefined && Object.keys(leseEingabeStand(() => undefined)).length === 0)
 pruefe('Stand: null (Datei fehlt im Bau) → leer', Object.keys(leseEingabeStand(() => null)).length === 0)
 pruefe('Stand: Feld fehlt → kein Eintrag', Object.keys(leseEingabeStand((d) => (dateiname(d) === 'motn.json' ? { geholtAm: MOTN } : undefined))).length === 0)
-pruefe('Stand: Zahl statt Text → kein Eintrag', Object.keys(leseEingabeStand((d) => (dateiname(d) === 'motn.json' ? { fetchedAt: 1762488237029 } : undefined))).length === 0)
+pruefe('Stand: Zahl statt Text → kein Eintrag', Object.keys(leseEingabeStand((d) => (dateiname(d) === 'motn.json' ? { fetchedAt: 2026 } : undefined))).length === 0)
 pruefe('Stand: kein Datum → kein Eintrag', Object.keys(leseEingabeStand((d) => (dateiname(d) === 'motn.json' ? { fetchedAt: 'gestern' } : undefined))).length === 0)
 pruefe('Stand: Liste statt Objekt (Eingabe ohne Kopf) → kein Eintrag', Object.keys(leseEingabeStand(() => [])).length === 0)
 pruefe('Liste: 19 Eingaben, keine doppelt', EINGABEN.length === 19 && new Set(EINGABEN.map((e) => e.datei)).size === 19, EINGABEN.length)

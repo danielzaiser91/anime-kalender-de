@@ -5,7 +5,7 @@
   { "name": "findeRueckschritte: Textvergleich statt Zeit", "aenderungen": [{ "datei": "pipeline/lib/eingabe-stand.ts", "suche": "Date.parse(jetzt) < Date.parse(vorher)", "ersetze": "jetzt < vorher" }] },
   { "name": "findeRueckschritte: alt und neu vertauscht", "aenderungen": [{ "datei": "pipeline/lib/eingabe-stand.ts", "suche": "gefunden.push({ eingabe, alt: vorher, neu: jetzt })", "ersetze": "gefunden.push({ eingabe, alt: jetzt, neu: vorher })" }] },
   { "name": "findeRueckschritte: fehlende Vorgängerdatei wirft", "aenderungen": [{ "datei": "pipeline/lib/eingabe-stand.ts", "suche": "Object.entries(alt ?? {})", "ersetze": "Object.entries(alt!)" }] },
-  { "name": "findeRueckschritte: Guard fehlender neuer Eintrag entfernt (gleichwertig: NaN < x ist false)", "aenderungen": [{ "datei": "pipeline/lib/eingabe-stand.ts", "suche": "jetzt !== undefined && ", "ersetze": "" }] },
+  { "name": "Kontrolle gleichwertig: Guard fehlender neuer Eintrag entfernt (NaN < x ist false)", "aenderungen": [{ "datei": "pipeline/lib/eingabe-stand.ts", "suche": "jetzt !== undefined && ", "ersetze": "" }] },
   { "name": "findeRueckschritte: Schleife leer", "aenderungen": [{ "datei": "pipeline/lib/eingabe-stand.ts", "suche": "Object.entries(alt ?? {})", "ersetze": "[]" }] },
   { "name": "leseEingabeStand: Texttyp nicht geprüft", "aenderungen": [{ "datei": "pipeline/lib/eingabe-stand.ts", "suche": "typeof wert === 'string' && ", "ersetze": "" }] },
   { "name": "leseEingabeStand: Datum nicht geprüft", "aenderungen": [{ "datei": "pipeline/lib/eingabe-stand.ts", "suche": " && !Number.isNaN(Date.parse(wert))", "ersetze": "" }] },
