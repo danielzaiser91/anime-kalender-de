@@ -71,4 +71,6 @@ export interface WatchLink {
    * Tag alt, und bei Daima schließt jeden Abend ein Fenster.
    */
   toggo?: Array<{ staffel: number; von: number; bis: number; ab: string; ende: string }>
+  /** **Nur in `woche-kacheln.json`** (statt `toggo`): die Fenster `[ab, ende)`, in denen mindestens eine Folge frei ist (`shared/toggo-fenster.ts`). */
+  toggoOffen?: Array<[ab: string, ende: string]>
 }

@@ -4,11 +4,10 @@
  * (`daniel-zum-abarbeiten/listen/kalender-plausibilitaet.md`). Rein: liest nichts, die Dateien lädt `check-kalender-plausibilitaet-bestand.ts`.
  */
 import type { Release, ReleaseEvent, Title } from '../../shared/types.ts'
-import type { NewsEintrag } from '../../shared/news-typen.ts'
+import { traegtOffizielle, type NewsEintrag } from '../../shared/news-typen.ts'
 import { addDays } from '../../shared/time.ts'
 import { stufeTitelEin } from '../../web/src/lib/db-relevanz.ts'
 import { istKeineTitelseite } from '../bau/11-7-wege-aus-terminen.ts'
-import { traegtOffizielle } from './news-offiziell.ts'
 import { kanalSchluessel } from './kanal-titel.ts'
 import { ausloeserZeile } from './ausloeser-zeilen.ts'
 import { alleTermineGekennzeichnet } from './pruefung.ts'

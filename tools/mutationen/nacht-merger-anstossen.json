@@ -1,0 +1,21 @@
+[
+  { "name": "Kontrolle unmutiert", "aenderungen": [] },
+  { "name": "lauf: Wiederholung nicht aufgerufen", "datei": "tools/nacht-merger.mjs", "suche": "const r = nachrechnenMitWiederholung(welt, pr.nummer)", "ersetze": "const r = welt.nachrechnen(pr.nummer)" },
+  { "name": "Wiederholung: Exit-Prüfung immer falsch", "datei": "tools/nacht-merger.mjs", "suche": "erst.exit !== 2 ||", "ersetze": "false ||" },
+  { "name": "Wiederholung: Exit-Prüfung entfernt", "datei": "tools/nacht-merger.mjs", "suche": "erst.exit !== 2 || !", "ersetze": "!" },
+  { "name": "Wiederholung: Text-Prüfung umgekehrt", "datei": "tools/nacht-merger.mjs", "suche": "|| !NOCH_NICHT_BERECHNET.test(erst.text)", "ersetze": "|| NOCH_NICHT_BERECHNET.test(erst.text)" },
+  { "name": "Wiederholung: Text-Prüfung entfernt (jedes Exit 2)", "datei": "tools/nacht-merger.mjs", "suche": "|| !NOCH_NICHT_BERECHNET.test(erst.text)", "ersetze": "" },
+  { "name": "Wiederholung: Wartezeit entfällt", "datei": "tools/nacht-merger.mjs", "suche": "  welt.warte(UNKNOWN_WARTE_MS)\n", "ersetze": "" },
+  { "name": "Wiederholung: Wartezeit +1", "datei": "tools/nacht-merger.mjs", "suche": "UNKNOWN_WARTE_MS = 20_000", "ersetze": "UNKNOWN_WARTE_MS = 20_001" },
+  { "name": "Wiederholung: Wartezeit -1", "datei": "tools/nacht-merger.mjs", "suche": "UNKNOWN_WARTE_MS = 20_000", "ersetze": "UNKNOWN_WARTE_MS = 19_999" },
+  { "name": "Wiederholung: liefert das erste Ergebnis", "datei": "tools/nacht-merger.mjs", "suche": "  return welt.nachrechnen(nummer)\n}", "ersetze": "  welt.nachrechnen(nummer)\n  return erst\n}" },
+  { "name": "Riegel: Grenze >", "datei": "tools/nacht-merger-welt.mjs", "suche": "angestossen.size >= hoechstens", "ersetze": "angestossen.size > hoechstens" },
+  { "name": "Riegel: PR zählt mehrfach", "datei": "tools/nacht-merger-welt.mjs", "suche": " && !angestossen.has(args[2])", "ersetze": "" },
+  { "name": "Riegel: Zähler nie gesetzt", "datei": "tools/nacht-merger-welt.mjs", "suche": "      angestossen.add(args[2])\n", "ersetze": "" },
+  { "name": "Riegel: zählt reopen statt close", "datei": "tools/nacht-merger-welt.mjs", "suche": "args[1] === 'close' &&", "ersetze": "args[1] === 'reopen' &&" },
+  { "name": "Riegel: Höchstmenge 5", "datei": "tools/nacht-merger-welt.mjs", "suche": "ANSTOESSE_HOECHSTENS = 4", "ersetze": "ANSTOESSE_HOECHSTENS = 5" },
+  { "name": "Riegel: Höchstmenge 3", "datei": "tools/nacht-merger-welt.mjs", "suche": "ANSTOESSE_HOECHSTENS = 4", "ersetze": "ANSTOESSE_HOECHSTENS = 3" },
+  { "name": "Verdrahtung: nachrechnen ohne Riegel", "datei": "tools/nacht-merger-welt.mjs", "suche": "trocken ? ghLesend(gh) : ghMitAnstossRiegel(gh)", "ersetze": "trocken ? ghLesend(gh) : gh" },
+  { "name": "Verdrahtung: Trockenlauf ohne Lesesperre", "datei": "tools/nacht-merger-welt.mjs", "suche": "trocken ? ghLesend(gh) : ghMitAnstossRiegel(gh)", "ersetze": "ghMitAnstossRiegel(gh)" },
+  { "name": "Verdrahtung: Welt hat kein warte", "datei": "tools/nacht-merger-welt.mjs", "suche": "    warte: schlafe,\n", "ersetze": "" }
+]

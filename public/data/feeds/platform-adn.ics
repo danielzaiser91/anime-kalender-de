@@ -12,7 +12,7 @@ UID:adn-887@2026-10-31@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261031T180000Z
 DTEND:20261031T183000Z
-SUMMARY:Dreamland – Folge 3/3
+SUMMARY:Dreamland – Folge 2/2
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: 
  https://anime-kalender.de/t/-204084/
 CATEGORIES:ADN
@@ -29,14 +29,14 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nIm Angebot seit dies
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-18679-adn@2026-11-18@anime-kalender-de
+UID:adn-1218@2026-11-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261118
-DTEND;VALUE=DATE:20261119
-SUMMARY:Kill La Kill (neu bei ADN)
+DTSTART:20261118T080000Z
+DTEND:20261118T083000Z
+SUMMARY:Kill la Kill (neu bei ADN)
 DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nIm Angebot seit dies
- em Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrzeit noch 
- nicht bestätigt.\nDetails: https://anime-kalender.de/t/6710/
+ em Tag – nicht der Erscheinungstag der deutschen Fassung.\nDetails: http
+ s://anime-kalender.de/t/6710/
 CATEGORIES:ADN
 END:VEVENT
 END:VCALENDAR
