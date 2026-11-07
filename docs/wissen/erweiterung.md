@@ -974,6 +974,54 @@ Klickstellen. `suchauftragMerken()` hebt zwei Zeilen darüber schon das
 Weglegen auf, mit genau dieser Begründung: „Ein Vorsatz an den Klickstellen wäre
 bei der dritten vergessen." Er war bei allen vieren vergessen.
 
+## Ein „bisheriger Eintrag" überlebt den Seitenwechsel nur für dieselbe Serie (07.11.2026)
+
+Daniel am 07.11.2026 auf „Devils' Crest" (B0HKLZZ54Y, nicht in der Prüfliste): Beim ersten Aufruf kein Melden-Knopf
+(unbekannter Titel: „Weg statt grau", gewollt), nach dem Weg über „Petals of Reincarnation" (B0GVN98MKW, in der Liste)
+und zurück ein Knopf, dessen Klick nichts tat, und `aniSearch` ragte rechts aus dem Kasten. Die Diagnose zeigte
+`zustand.id` = Devils' Crest, aber `listenId` und `eintrag` = Petals. Ursache: `listenSchluessel(bisher)` gibt den
+bisherigen Eintrag zurück, wenn er in der Liste steht — gedacht für den Staffelwechsel derselben Serie, galt aber für
+jeden Seitenwechsel. Der Kasten nannte dann Petals, die Meldung trug den Titel „Petals" zur Adresse von Devils' Crest,
+und `akPrimeMeldungWiderspruch` wies den Klick ab, ohne dass der Besucher einen Grund sah.
+
+- **Regel:** Ein Rückfall auf „den bisherigen Wert" (`bisher`, `letzte…`, `vorher…`) gilt erst, wenn ein zweites Merkmal
+  zeigt, dass die Seite dieselbe Serie ist (`akPrimeEintragGehoertZurSeite`, Titelkern wie `serieBekannt`).
+- **Ein Klick ohne Wirkung zeigt einen Grund** (`abweisenMitGrund` → `akPrimeGrundZeigen`: „⚠ <Grund>" am Knopf, vier
+  Sekunden). Bloßes `abweisen()` ist nur für den Durchgang gedacht, der den Grund ohnehin liest.
+- **Der Prüffall ist A → B → A mit einer Liste, die nur B kennt** (`amazon-melden-spa-wechsel.test.cjs`). Der Test von
+  4.32.39 (`amazon-prime-wechsel`) fasste A → B, gab `listenId` aber fest vor — der Zustand, der den Fehler trug, kam in
+  der Kulisse gar nicht vor. **Eine SPA-Kulisse darf keinen Wert fest vorgeben, den der Wechsel verändert** (`id`,
+  `listenId`, `eintrag`); sie lässt die echte Funktion ihn rechnen.
+- **Layout:** `.ak-such-fuss-mitte` schrumpft (`flex: 0 1 max-content`) und bricht um, statt `aniSearch` aus dem Kasten
+  zu schieben. `tools/melder-kasten-bild.mjs` misst den Überstand der rechten Pille für Daniels echten Text
+  („48 Prime-Titel · 2 Suchen offen · Liste veraltet") und eine so lange Beschriftung, dass es in jeder Schrift gilt.
+- **Diagnose:** `knopfLage.imKasten` fragte nach dem Elternelement des Knopfes (`ak-z-melden`) und meldete im Kasten
+  stets `false`; jetzt `closest('.ak-amazon-suchhinweis')`.
+- **Entschieden (Daniel, F109 = A, 07.11.2026):** Eine unbekannte Prime-Seite zeigt den Kasten, siehe nächster Abschnitt.
+
+## Unbekannte Prime-Seiten melden: „Nicht auf der Prüfliste" + „Sprache melden" (F109 = A, 07.11.2026)
+
+Die Regel „Weg statt grau" (27.08.2026) ist für Prime-Video-Seiten aufgehoben: Eine Seite, die weder in der Prüfliste steht
+noch Suchauftrag noch Staffel einer bekannten Serie ist, zeigt den Kasten mit der Kopfzeile „Nicht auf der Prüfliste: <Titel> · <Kennung>"
+und dem Knopf „… · Sprache melden". **Weg bleibt der Knopf** auf Seiten ohne Prime-Video-Merkmal (`seiteGehtUnsAn()`: `/gp/video/`,
+Hydration-Block, Folgen-Reiter) und solange die Prüfliste nicht geladen ist (leer) — sonst hieße jede Seite „unbekannt".
+Die Entscheidung steht in `meldenVersteckt()` (`amazon.js`, Regel `akPrimeKnopfVersteckt` in `prime-region.js`) und gilt für Knopf und Kopfzeile gemeinsam.
+
+- **Die Meldung trägt**, was jede Meldung trägt (Seitentitel als `titel`, Kennung als `seiten_kennung`, `gti=` in der Notiz, Sprachen, Staffel, Folgenzahl),
+  dazu in der Notiz `unbekannt=1` (vorher nur der Text „Staffel nicht im Bestand, Titel von der Seite gelesen"; „· neu" am Knopf entfällt).
+- **Der Bau (`fetch-pruefungen.ts`)** ordnet eine Meldung ohne `titelId` und ohne bekannte Adresse über den Namen zu (`ratePerName`,
+  `pipeline/lib/namens-zuordnung.ts`; nur ein **exakter** Treffer auf genau einen Titel in `titles.json` entscheidet selbst). Alles andere
+  bleibt im Briefkasten und steht in `daniel-zum-abarbeiten/listen/11-meldungen-ohne-zuordnung.md` mit Grund (`pipeline/lib/unbekannte-seite.ts`):
+  **mehrdeutig** (mehrere oder nur ähnliche Treffer im Bestand, Vorschläge), **Katalog ohne Synchro** (exakter Name in `ohne-synchro-namen.json`: das Werk ist bekannt, die
+  Synchro nicht belegt; hier wird nichts automatisch eingetragen), **ohne Treffer** (Kandidat für einen neuen Titel). Das Protokoll zählt jeden Ausgang:
+  `Unbekannte Prime-Seiten: N gemeldet — a über den Namen zugeordnet, b über die Adresse, c mehrdeutig, d im Katalog ohne Synchro, e ohne Treffer`.
+- **Prüffälle:** `extension/prime-kasten-unbekannt.test.cjs` (Regel mit jeder Teilbedingung allein, Kopfzeile), `extension/meldekasten.test.cjs` (echtes `zeichnenRoh()`),
+  `extension/amazon-melden-spa-wechsel.test.cjs` (echter Klick sendet mit `unbekannt=1`), `pipeline/check-fetch-pruefungen-unbekannt.ts` (Prozess gegen Wegwerf-Wurzel: alle Ausgänge).
+  Mutationsliste: `tools/mutationen/prime-kasten-unbekannt.json`.
+- **Messpunkte:** erste Meldung über den neuen Kasten, nach 5 Meldungen, nach einer Woche — jeweils die Zählzeile des Bauprotokolls (zugeordnet / mehrdeutig / Katalog / ohne Treffer).
+- **Offen:** Ob ein eindeutiger Treffer im Katalog ohne Synchro automatisch einen Synchro-Beleg bekommen soll (Titel kommt dann in den Hauptbestand), ist nicht
+  entschieden und nicht gebaut; bis dahin Handarbeit aus der Liste ohne Zuordnung.
+
 ## Wer einen Fehlalarm abstellt, muss sagen, was der Wächter noch fangen soll
 
 Am 09.09.2026 stand auf frisch geladenen Seiten mit **einer** Staffel die

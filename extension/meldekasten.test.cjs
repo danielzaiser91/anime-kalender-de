@@ -24,6 +24,9 @@ const roh = quelle.indexOf('  function zeichnenRoh() {', von)
 const bis = quelle.indexOf('\n  }\n', roh)
 const code = von < 0 || roh < 0 || bis < 0 ? '' : quelle.slice(von, bis + 4)
 pruefe('Sperre, zeichnen() und zeichnenRoh() im Quelltext gefunden', code.length > 20000, code.length)
+const meldenVon = quelle.indexOf('  function meldenVersteckt() {')
+const meldenCode = meldenVon < 0 ? '' : quelle.slice(meldenVon, quelle.indexOf('\n  }\n', meldenVon) + 4)
+pruefe('meldenVersteckt() im Quelltext gefunden', meldenCode.length > 100, meldenCode.length)
 
 const sperre = vm.createContext({ Date, String, Number, Boolean, Object, JSON, Promise })
 sperre.globalThis = sperre
@@ -127,6 +130,8 @@ function grundwerte(z, knopf, speicher) {
 function seiteNeu(z, speicher) {
   const knopf = knopfNeu()
   const werte = new Map(Object.entries(grundwerte(z, knopf, speicher)))
+  /* Die Seite hat hier kein Prime-Video-Merkmal, solange ein Fall `seiteGehtUnsAn` nicht ersetzt. */
+  werte.set('seiteGehtUnsAn', () => false)
   /* Wie `nichtAngekommen()` in amazon.js: nur ein vorhandener Briefkasten ohne die Adresse zählt als nicht angekommen. */
   werte.set('nichtAngekommen', (id) => {
     const url = werte.get('liste')[id]?.url
@@ -145,6 +150,8 @@ function seiteNeu(z, speicher) {
       return true
     },
   })
+  /* Die echte `meldenVersteckt()` aus amazon.js, gegen dieselbe Kulisse. */
+  werte.set('meldenVersteckt', new Function('kulisse', `with (kulisse) { ${meldenCode}\n return meldenVersteckt }`)(kulisse))
   const s = new Function('kulisse', `with (kulisse) { ${code}\n return { meldeSperre, zeichnen } }`)(kulisse)
   return { ...s, knopf, werte, takt: () => { werte.set('letzterStand', ''); s.zeichnen() } }
 }
@@ -186,7 +193,7 @@ const gemeldet = { L: { staffeln: { 1: true } } }
   den Fall aus Daniels Bild (offen 0, Zeile 8432 vor 4.31.8) in die Mitte.
 */
 const zweige = [
-  ['nicht mehr auf der Prüfliste (Knopf weg, Z. „Weg statt grau")', (s) => s.werte.set('liste', {})],
+  ['nicht mehr auf der Prüfliste, kein Prime-Video-Merkmal (Knopf weg)', (s) => s.werte.set('liste', { ANDERE: { url: 'https://www.amazon.de/dp/ANDERE' } })],
   ['alles durch (Knopf weg, Marke „gemeldet ✓")', (s, z) => {
     s.werte.set('erledigt', gemeldet)
     z.angekommen = true
@@ -477,9 +484,60 @@ async function pruefeJuengereGewinnt() {
     k['/dp/X|1|true'] > jetzt - 1000 && k['/dp/W|1|true'] === jetzt - STUNDE && k['/dp/V|1|true'] === jetzt - 2 * STUNDE, k)
 }
 
+/* F109 = A (07.11.2026): eine Prime-Seite außerhalb der Prüfliste bietet „Sprache melden" an; jede Teilbedingung allein. */
+function pruefeUnbekannteSeite() {
+  const fremd = { ANDERE: { url: 'https://www.amazon.de/dp/ANDERE' } }
+  const unbekannt = (aendern) => {
+    const z = zustandNeu({ aufListe: false })
+    const s = seiteNeu(z, {})
+    s.werte.set('liste', fremd)
+    s.werte.set('eintrag', { titel: null, url: 'https://www.amazon.de/dp/A', unbekannt: true })
+    s.werte.set('seiteGehtUnsAn', () => true)
+    aendern?.(s)
+    s.takt()
+    return { s, z }
+  }
+  /* Die übrigen Gründe, den Knopf zu behalten, jeder allein (ohne Prime-Video-Merkmal): Suchauftrag und Staffel einer bekannten Serie. */
+  {
+    const { s } = unbekannt((x) => {
+      x.werte.set('seiteGehtUnsAn', () => false)
+      x.werte.set('eintrag', { titel: 'Titel', url: 'https://www.amazon.de/dp/A', ausSuche: true })
+    })
+    pruefe('Suchauftrag, ohne Prime-Video-Merkmal: Knopf bleibt', sichtbar(s.knopf), s.knopf.style.display)
+  }
+  {
+    const { s } = unbekannt((x) => {
+      x.werte.set('seiteGehtUnsAn', () => false)
+      x.werte.set('serieBekannt', () => true)
+    })
+    pruefe('Staffel einer bekannten Serie, ohne Prime-Video-Merkmal: Knopf bleibt', sichtbar(s.knopf), s.knopf.style.display)
+  }
+  {
+    const { s, z } = unbekannt()
+    pruefe('unbekannte Prime-Seite: Knopf sichtbar, frei, endet auf „Sprache melden"',
+      sichtbar(s.knopf) && !s.knopf.disabled && s.knopf.textContent.endsWith(' · Sprache melden'), { text: s.knopf.textContent, display: s.knopf.style.display })
+    s.meldeSperre.vermerken()
+    s.takt()
+    pruefe('… nach der Meldung: Knopf weg, Marke „gemeldet ✓" (kein zweiter Klick)', !sichtbar(s.knopf) && z.marke !== null, { display: s.knopf.style.display, marke: z.marke })
+  }
+  {
+    const { s } = unbekannt((x) => x.werte.set('seiteGehtUnsAn', () => false))
+    pruefe('Kontrolle: gleiche Seite ohne Prime-Video-Merkmal: Knopf weg', !sichtbar(s.knopf), s.knopf.style.display)
+  }
+  {
+    const { s } = unbekannt((x) => x.werte.set('liste', {}))
+    pruefe('Kontrolle: Prüfliste nicht geladen (leer): Knopf weg, sonst hieße jede Seite „unbekannt"', !sichtbar(s.knopf), s.knopf.style.display)
+  }
+  {
+    const { s } = unbekannt((x) => x.werte.set('eintrag', { titel: 'Titel', url: 'https://www.amazon.de/dp/A' }))
+    pruefe('Kontrolle: Seite in der Prüfliste zeigt „melden", nicht „Sprache melden"', sichtbar(s.knopf) && !s.knopf.textContent.endsWith('Sprache melden'), s.knopf.textContent)
+  }
+}
+
 async function main() {
   pruefeVorher()
   pruefeZweige()
+  pruefeUnbekannteSeite()
   await pruefeNeuladen()
   await pruefeAlter()
   await pruefeMehrere()

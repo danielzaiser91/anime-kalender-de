@@ -218,6 +218,8 @@ jobs:
             befehl: npm run check:suchhinweis
           - teil: Bühne-Fenster
             befehl: npm run check:buehne-fenster
+          - teil: Melde-Kasten
+            befehl: npm run check:kasten
     steps:
       - uses: actions/checkout@v4
         with:
@@ -264,6 +266,7 @@ jobs:
           PFADE="$PFADE|^tools/kachel-ecken-live\.mjs$"
           PFADE="$PFADE|^tools/kachel-ecken-messen\.mjs$"
           PFADE="$PFADE|^tools/linux-schrift\.mjs$"
+          PFADE="$PFADE|^tools/melder-kasten-bild\.mjs$"
           PFADE="$PFADE|^tools/panel-bild\.mjs$"
           PFADE="$PFADE|^tools/panel-messen\.mjs$"
           PFADE="$PFADE|^tools/panel-messen-browser\.mjs$"

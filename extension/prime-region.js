@@ -57,11 +57,60 @@
   /** Ausstieg des Klicks ohne Senden; der Durchgang erfährt den Grund sofort (`ok: true` = schon gemeldet). */
   globalThis.akPrimeAbweisung = (grund, ok, pfad, am) => ({ pfad, ok, am, abgewiesen: grund })
 
+  /** Nennt `titel` dieselbe Serie wie `seitenTitel`? Verglichen wird der Kern (`kern`), „enthält" genügt. */
+  globalThis.akPrimeTitelPasst = (kern, seitenTitel, titel) => {
+    const serie = kern(seitenTitel)
+    const k = kern(titel)
+    return k.length >= 4 && (k === serie || k.includes(serie) || serie.includes(k))
+  }
+
+  /**
+   * Gehört ein Listeneintrag (`eintraege`: Prüfliste, Erledigtes) zur Serie der Seite? Der Rückfall auf den bisherigen
+   * Eintrag gilt nur für einen Staffelwechsel derselben Serie — nach dem Weg zu einem anderen Titel hielt er den der
+   * Vorseite fest (Daniel, 07.11.2026). Ohne Seitentitel lässt sich nichts widerlegen.
+   */
+  globalThis.akPrimeEintragGehoertZurSeite = (kern, seitenTitel, eintraege) =>
+    !kern(seitenTitel) ||
+    eintraege.some((e) =>
+      [e?.serie, e?.titel, ...(e?.eintraege ?? []).map((x) => x?.name)].some((t) => globalThis.akPrimeTitelPasst(kern, seitenTitel, t)),
+    )
+
+  /**
+   * Weist ab (`abweisen`) und zeigt den Grund vier Sekunden am Knopf — ein Klick ohne Wirkung war stumm (07.11.2026).
+   * Danach kommt Text und Hinweis zurück, sofern niemand den Knopf inzwischen neu beschriftet hat.
+   */
+  globalThis.akPrimeGrundZeigen = (knopf, grund, abweisen) => {
+    abweisen(grund)
+    const vorher = { text: knopf.textContent, title: knopf.title }
+    const jetzt = `⚠ ${grund}`
+    knopf.textContent = jetzt
+    knopf.title = grund
+    setTimeout(() => {
+      if (knopf.textContent !== jetzt) return
+      knopf.textContent = vorher.text
+      knopf.title = vorher.title
+    }, 4000)
+  }
+
   /** Antwort des Durchgangs auf eine Abweisung. */
   globalThis.akPrimeAbweisungAntwort = (m) => ({
     ok: m.ok,
     grund: m.ok ? m.abgewiesen : `nicht gesendet: ${m.abgewiesen}`,
   })
+
+  /**
+   * Bleibt der Melde-Knopf weg? (F109 = A, 07.11.2026: unbekannte Prime-Seiten dürfen melden.)
+   * Weg bleibt er nur, wenn die Seite (serieBekannt, seiteGehtUnsAn: Funktionen, nur bei Bedarf gerufen) weder in der Prüfliste noch Suchauftrag noch Staffel einer bekannten Serie ist
+   * UND uns nichts angeht (kein Prime-Video-Merkmal) oder die Prüfliste gar nicht geladen ist — sonst hieße jede Seite „unbekannt“.
+   */
+  globalThis.akPrimeKnopfVersteckt = ({ listeGeladen, inListe, ausSuche, serieBekannt, seiteGehtUnsAn }) =>
+    !inListe && !ausSuche && !serieBekannt() && !(listeGeladen && seiteGehtUnsAn())
+
+  /** Die Kopfzeile „was gemeldet wird“; eine Seite außerhalb der Prüfliste sagt das zuerst. */
+  globalThis.akPrimeMeldetZeile = (unbekannt, name, kennung) => {
+    const kopf = unbekannt ? 'Nicht auf der Prüfliste:' : 'meldet:'
+    return name ? `${kopf} ${name} · ${kennung}` : kennung ? `${kopf} ${kennung}` : ''
+  }
 
   /** Regionsweg nur, wenn Folgen gesperrt sind und keine lesbare übrig bleibt; ohne Kenntnis der Seitentext. */
   globalThis.akPrimeStaffelRegionWeg = (gesperrt, offen, seitenTextRegionWeg) =>

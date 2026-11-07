@@ -1163,7 +1163,7 @@ async function speicherSchreiben(werte) {
         text: knopf?.textContent ?? null,
         gesperrt: Boolean(knopf?.disabled),
         sichtbar: knopf?.style?.display !== 'none',
-        imKasten: Boolean(knopf?.parentElement?.className?.includes?.('ak-amazon-suchhinweis')),
+        imKasten: Boolean(knopf?.closest?.('.ak-amazon-suchhinweis')),
         /* Die drei Bedingungen, die ihn sperren — einzeln, damit erkennbar ist, welche. */
         seiteOffen: seiteOffen(),
         gemeldeteStaffel: gemeldeteStaffelNummer,
@@ -6380,12 +6380,20 @@ async function speicherSchreiben(werte) {
       eine der Staffeln. `titelKern()` wirft Staffelangaben und Satzzeichen
       ohnehin weg; was bleibt, muss nur ineinander vorkommen.
     */
-    const passt = (t) => {
-      const k = titelKern(t)
-      return k.length >= 4 && (k === serie || k.includes(serie) || serie.includes(k))
-    }
+    const passt = (t) => globalThis.akPrimeTitelPasst(titelKern, seitenTitel(), t)
     if (Object.keys(erledigt).some((k) => passt(erledigt[k]?.serie) || passt(erledigt[k]?.titel))) return true
     return Object.values(liste).some((e) => passt(e?.serie) || passt(e?.titel))
+  }
+
+  /** Eine Entscheidung für Knopf und Kopfzeile: bleibt „melden“ auf dieser Seite weg? */
+  function meldenVersteckt() {
+    return globalThis.akPrimeKnopfVersteckt({
+      listeGeladen: Object.keys(liste).length > 0,
+      inListe: Boolean(liste[listenId]),
+      ausSuche: Boolean(eintrag?.ausSuche),
+      serieBekannt,
+      seiteGehtUnsAn,
+    })
   }
 
   function listenSchluessel(bisher) {
@@ -6413,7 +6421,7 @@ async function speicherSchreiben(werte) {
     } catch {
       /* `gesehen` noch nicht angelegt. */
     }
-    if (bisher && liste[bisher]) return bisher
+    if (bisher && liste[bisher] && globalThis.akPrimeEintragGehoertZurSeite(titelKern, seitenTitel(), [liste[bisher], erledigt[bisher]])) return bisher
     /**
      * Nach einem **Neuladen** auf einer Staffel-Seite hilft `bisher` nicht mehr.
      *
@@ -7641,40 +7649,12 @@ async function speicherSchreiben(werte) {
      * Ob eine Seite Folgen hergibt, ist erst interessant, wenn überhaupt etwas
      * zu tun ist. Die Frage davor ist immer: Steht dieser Titel auf der Liste?
      */
-    /**
-     * Was nicht auf der Prüfliste steht, wird nicht geprüft.
-     *
-     * Daniel am 25.08.2026: „alle die zu prüfen sind sollten als info
-     * ausreichen, wenn der titel kein zu prüfender ist, sollte keine prüfung
-     * möglich sein, so einfach, es muss keine altdaten stand behalten werden."
-     *
-     * Der erste Anlauf war eine zweite Liste mit den bereits geprüften Titeln,
-     * damit sich „erledigt" von „unbekannt" unterscheiden lässt. Das war eine
-     * Antwort auf eine Frage, die sich gar nicht stellt: **Die Prüfliste sagt
-     * bereits, was zu tun ist.** Alles andere ist nichts zu tun — aus welchem
-     * Grund auch immer.
-     *
-     * Damit fällt die Entscheidung vom 23.08.2026, auch unbekannte Staffeln
-     * melden zu lassen. Sie hat einmal geholfen („Oshi no Ko" Staffel 3 kam so
-     * in den Bestand), aber sie kostet mehr, als sie bringt: Ein Knopf, der
-     * überall etwas anbietet, bietet es auch dort an, wo längst alles geklärt
-     * ist. Fehlt uns eine Staffel wirklich, fällt das über die Serie auf — der
-     * Listenschlüssel sucht sie auch über den Serientitel.
-     */
     /*
-      **Ein Suchauftrag zählt wie ein Listeneintrag.** Der Knopf wurde in 3.44
-      ausgeblendet, sobald der Titel nicht auf der Prüfliste steht — und genau
-      das ist der Fall, für den der Sprung gebaut wurde: Die Titelseite hinter
-      einer Suchadresse steht nirgends. Damit sammelte und meldete dort nichts
-      mehr.
+      **Ein Suchauftrag zählt wie ein Listeneintrag; eine unbekannte Prime-Seite darf melden** (F109 = A, 07.11.2026,
+      vorher „Weg statt grau"): Der Bau ordnet sie zu oder legt sie in die Liste ohne Zuordnung. Weg bleibt der Knopf nur
+      auf Seiten ohne Prime-Video-Merkmal und ohne geladene Prüfliste (`akPrimeKnopfVersteckt`).
     */
-    if (!liste[listenId] && !eintrag?.ausSuche && !serieBekannt()) {
-      /*
-        **Weg statt grau.** Ein Knopf, der auf jeder fremden Titelseite „nicht
-        auf der Prüfliste" schreibt, ist auf 99 von 100 Seiten Störung ohne
-        Auskunft. Der Übersichts-Knopf bleibt —
-        über den kommt man an die Liste.
-      */
+    if (meldenVersteckt()) {
       knopf.style.display = 'none'
       return
     }
@@ -8072,9 +8052,6 @@ async function speicherSchreiben(werte) {
             `${geladen} von ${gesehen.gesamt}, Rest nicht in Region`
           : `${geladen} von ${gesehen.gesamt}` +
             (wartet ? ' — lädt nach' : ' — Abschnitte selbst öffnen')
-    // Eine Staffel, die wir nicht führen, wird trotzdem gemeldet — der Knopf
-    // sagt es nur dazu, damit die Meldung nicht wie eine Zuordnung aussieht.
-    const woher = eintrag.unbekannt ? ' · neu' : ''
     // Bei einem Kanal-Titel ist die Angabe ein Hinweis, kein Beleg.
     const kanalHinweis = ueberKanal() ? ' · ⚠ Kanal' : ''
     // Die Zugangsart gehört an den Knopf — sonst meldet man sie blind mit.
@@ -9024,8 +9001,9 @@ async function speicherSchreiben(werte) {
     */
     const zielTitel = eintrag?.ausSuche ? (eintrag.titel ?? '') : ''
     const kurz = zielTitel.length > 38 ? zielTitel.slice(0, 36) + '…' : zielTitel
-    const zielTeil = kurz ? ` · melden als „${kurz}"` : ' · melden'
-    const neuerText = `${sprachStand}${umfangTeil}${staffelText2 ?? ''}${zugang}${kanalHinweis}${woher}${zielTeil}`
+    // Eine Seite außerhalb der Prüfliste sagt es in der Kopfzeile des Kastens; am Knopf steht, was er tut.
+    const zielTeil = kurz ? ` · melden als „${kurz}"` : eintrag.unbekannt ? ' · Sprache melden' : ' · melden'
+    const neuerText = `${sprachStand}${umfangTeil}${staffelText2 ?? ''}${zugang}${kanalHinweis}${zielTeil}`
     /*
       **Jeder Wechsel der Beschriftung wird mitgeschrieben.**
 
@@ -9616,15 +9594,11 @@ async function speicherSchreiben(werte) {
         })()
         const wasGemeldetWird = (() => {
           /*
-            **Keine Kopfzeile über einer leeren Meldezeile.** Auf einer Titelseite,
-            die nicht auf der Prüfliste steht, blendet der Takt den Knopf aus („Weg
-            statt grau", 27.08.2026). Die Kopfzeile „meldet: Vom Landei zum
-            Schwertheiligen · B0H1QXQL33" stand trotzdem da, darunter nichts
-            (Daniel, 13.09.2026, zweimal: „weder gemeldet ✅, noch ein klickbarer
-            button"). Was nicht gemeldet werden kann, wird auch nicht angekündigt.
+            **Keine Kopfzeile über einer leeren Meldezeile** (Daniel, 13.09.2026): Wo der Knopf wegbleibt,
+            wird auch nichts angekündigt — dieselbe Entscheidung wie beim Knopf.
           */
           try {
-            if (!liste[listenId] && !eintrag?.ausSuche && !serieBekannt()) return ''
+            if (meldenVersteckt()) return ''
           } catch {
             /* Ohne Auskunft bleibt es bei der Kopfzeile. */
           }
@@ -9643,11 +9617,7 @@ async function speicherSchreiben(werte) {
             }
           })()
           const name = e?.titel ?? ausAuftrag ?? seitenTitel() ?? null
-          return name
-            ? `meldet: ${name} · ${kennungJetzt}`
-            : kennungJetzt
-              ? `meldet: ${kennungJetzt}`
-              : ''
+          return globalThis.akPrimeMeldetZeile(Boolean(eintrag?.unbekannt), name, kennungJetzt)
         })()
         let z = meldetZeile.querySelector('.ak-meldet')
         if (wasGemeldetWird) {
@@ -9914,6 +9884,7 @@ async function speicherSchreiben(werte) {
 
   // --- Melden --------------------------------------------------------------
 
+  const abweisenMitGrund = (grund) => globalThis.akPrimeGrundZeigen(knopf, grund, abweisen)
   knopf.addEventListener('click', meldeSperre.mitSperre(async (befundBeimKlick) => {
     if (!verbindungLebt()) {
       abweisen('Erweiterung neu geladen')
@@ -9977,12 +9948,12 @@ async function speicherSchreiben(werte) {
      * kommt.
      */
     if (knopf.dataset.wechselt === 'true' && knopf.dataset.neuLaden !== 'true') {
-      abweisen('Staffelwechsel läuft')
+      abweisenMitGrund('Staffelwechsel läuft')
       return
     }
     /* Alter Name mit neuer ASIN wäre Falschdaten: Name und Kennung müssen von derselben Seite stammen. */
     const widerspruch = globalThis.akPrimeMeldungWiderspruch(document, quelltextVonFruehererSeite(), asinAusAdresse(), asinAusSeite(), eintrag.titel ?? seitenTitel(), titelVerlassen)
-    if (widerspruch) return abweisen(widerspruch)
+    if (widerspruch) return abweisenMitGrund(widerspruch)
     if (knopf.dataset.neuLaden === 'true') {
       knopf.textContent = '↻ lädt neu …'
       // Defensiv: Im Testsandkasten gibt es kein `reload`.
@@ -9994,10 +9965,10 @@ async function speicherSchreiben(werte) {
     const nichtAbrufbar = knopf.dataset.tot === 'true'
     const sprachen = sprachenAusFolgen()
     const geladen = geladeneFolgen()
-    // Ein toter Verweis hat naturgemaess keine Folgen -- er ist der einzige
-    // Grund, hier ohne geladene Folgen weiterzugehen.
-    if (!geladen && !nichtAbrufbar) {
-      abweisen('keine Folge gelesen')
+    // Ein toter Verweis der Prüfliste hat naturgemäß keine Folgen; eine unbekannte Seite meldet ohne gelesene Folge nie "weg"
+    // (der Bau könnte sie per Namen einem Titel zuordnen und dessen Wege aufheben).
+    if (!geladen && (!nichtAbrufbar || eintrag.unbekannt)) {
+      abweisenMitGrund('keine Folge gelesen')
       return
     }
     const deutsch = deutschInFolgen()
@@ -10396,7 +10367,7 @@ async function speicherSchreiben(werte) {
                   (gesperrtN ? `, ${gesperrtN} in der Region gesperrt` : '')
               : `nur ${geladen} von ${gesehen.gesamt} Folgen geladen — Rest ungeprüft`) +
             `, Abos: ${abos().join(', ') || 'keine Angabe'}` +
-            (eintrag.unbekannt ? ' — Staffel nicht im Bestand, Titel von der Seite gelesen' : '') +
+            (eintrag.unbekannt ? ' — Staffel nicht im Bestand, Titel von der Seite gelesen, unbekannt=1' : '') +
             // Beide Kennungen, solange sie auseinandergehen können: Die eine
             // steht in der Adresse, die andere im Quelltext, und nur die
             // zweite meint die gezeigte Staffel.
