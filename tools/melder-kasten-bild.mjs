@@ -349,6 +349,7 @@ const langeLage = await langObj.evaluate(() => {
     knopfHoehe: Math.round(a.height),
     linkHoehe: Math.round(b.height),
     aufEinerZeile: Math.abs(a.y - b.y) <= 1,
+    ueberstand: Math.round(b.right - k.right),
     /* Gegenprobe: Steht in der Kulisse wirklich die lange Beschriftung? */
     text: knopf.textContent.trim(),
   }
@@ -474,8 +475,9 @@ pruefe(
   `… und aniSearch gibt nach (${langeLage?.linkBreite} statt ${lage.link?.breite} px)`,
 )
 pruefe(
-  langeLage != null && langeLage.knopfHoehe <= 30,
-  `… ohne dass der Text umbricht (${langeLage?.knopfHoehe} px hoch)`,
+  langeLage != null && langeLage.ueberstand <= 0 && langeLage.knopfHoehe <= 60,
+  /* Seit 07.11.2026 darf der Text umbrechen (auf Linux-Schrift 38 px, zwei Zeilen), solange nichts aus dem Kasten ragt. */
+  `… der Text bricht höchstens in zwei Zeilen um, nichts ragt aus dem Kasten (${langeLage?.knopfHoehe} px hoch, Überstand ${langeLage?.ueberstand})`,
 )
 /*
   **Und beim Extremfall gibt aniSearch nicht seinen Namen her.**
