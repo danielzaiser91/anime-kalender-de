@@ -122,7 +122,7 @@ export const stapelKandidat = (pr) => (!!pr.baseRefName && pr.baseRefName !== 'm
  * Rückgabe: Nummer des Basis-PR oder null; Abruffehler schlagen durch.
  */
 export function stapelBasis(ghFn, pr) {
-  if (false) {
+  if (pr.baseRefName && pr.baseRefName !== 'main') {
     const gemergt = JSON.parse(ghFn(['pr', 'list', '--state', 'merged', '--head', pr.baseRefName, '--json', 'number']))
     if (gemergt.length > 0) return gemergt[0].number
   }

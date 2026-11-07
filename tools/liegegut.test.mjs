@@ -421,6 +421,8 @@ console.log('liegegut: Signal 9 Stapel-PR nach gesquashtem Basis-PR (Fall 3091, 
   try { liegegut(fehlerGh, attrappeGit(), JETZT) } catch (e) { geworfen = e.message }
   pruefe('A4: Abruffehler beim Nachschlagen bricht sichtbar ab (kein stilles „kein Stapel“)', /HTTP 502/.test(geworfen), geworfen)
   pruefe('STAPEL schlägt STILLSTAND in der Reihenfolge der Schritte', naechsterSchritt([8, 9], [], false) === 'STAPEL')
+  const sauber = { number: 3200, baseRefName: 'main', mergeable: 'MERGEABLE', body: 'erst nach #3090' }
+  pruefe('stapelBasis direkt: „erst nach #N“ ohne Konflikt → null, mit Konflikt → N', stapelBasis(mitMerged([]), sauber) === null && stapelBasis(mitMerged([]), { ...sauber, mergeable: 'CONFLICTING' }) === 3090)
 }
 
 console.log('liegegut: Signal 6 ohne entschiedene F-Nummern (Fall F39) und Leser fragen/F*.md')
