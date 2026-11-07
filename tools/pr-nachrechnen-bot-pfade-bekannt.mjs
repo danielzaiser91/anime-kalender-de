@@ -21,6 +21,7 @@ const WEGWERF_WURZEL = {
   'pipeline/check-kanal-aussortieren.ts': ['data/prime-kanal-aussortiert.json'],
   'pipeline/check-folgen-fremde-adressen-lauf.ts': ['data/folgen-zuordnung.json'],
   'pipeline/check-sammelartikel.ts': ['data/proposals/aussagen.json', 'data/sammelartikel-stand.json'],
+  'pipeline/check-synchro-beleg-lauf.ts': ['data/proposals/anime2you-extraktion.json'],
   'pipeline/check-vorfaelle-ablauf.ts': ['daniel-zum-abarbeiten/listen/17-vorfaelle.md'],
   'tools/bau-eingaben.test.mjs': ['data/bestand-historie.jsonl'],
   'tools/delta-wache-ausgleich.test.mjs': ['data/bestand-historie.jsonl'],
