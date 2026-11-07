@@ -5,7 +5,8 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import type { Schedule } from '../shared/types.ts'
 import type { Sichtung } from '../shared/sichtung.ts'
-import { FESTGELEGTE_ZEITEN, fristStrengIn, sichtungsFehler as pruefeSichtung, zeitFehler } from './lib/sichtungsfenster.ts'
+import { FESTGELEGTE_ZEITEN, fristStrengIn, sichtungsFehler as pruefeSichtung, zeitFehler, zeitMeldungen } from './lib/sichtungsfenster.ts'
+import { addDays } from '../shared/time.ts'
 
 let fehler = 0
 function pruefe(name: string, ok: boolean, ist?: unknown): void {
@@ -64,6 +65,29 @@ pruefe('zeitFehler: Ausnahme am letzten Tag still', zeitFehler(plan({ time: '11:
 const tagDanach = '2026-11-03'
 pruefe('zeitFehler: Ausnahme am Tag nach der Frist ein Fehler', /abgelaufen/.test(zeitFehler(plan({ time: '11:00', timeEstimated: true }), tagDanach, avatar, true, AUSNAHMEN).join()), zeitFehler(plan({ time: '11:00', timeEstimated: true }), tagDanach, avatar, true, AUSNAHMEN))
 pruefe('zeitFehler: abgelaufen, aber nicht streng (Deploy): still', zeitFehler(plan({ time: '11:00', timeEstimated: true }), tagDanach, avatar, false, AUSNAHMEN).length === 0)
+/* Vorwarnung: drei Tage vor `bis` gelb (Warnzeile, kein Fehler); Tage werden aus dem Eintrag abgeleitet. */
+const festgelegtePlan = plan({ time: '11:00', timeEstimated: true })
+const meldungen = (heute: string, s: Schedule = festgelegtePlan, strengEnv: Record<string, string> = {}) => {
+  const warnungen: string[] = []
+  const fehlerListe = zeitMeldungen('"x"', s, avatar, heute, strengEnv, AUSNAHMEN, (z) => warnungen.push(z))
+  return { warnungen, fehlerListe }
+}
+const frist = AUSNAHMEN[avatar].bis
+const vier = meldungen(addDays(frist, -4))
+pruefe('Vorwarnung: bis-4 still', vier.warnungen.length === 0 && vier.fehlerListe.length === 0, vier)
+const drei = meldungen(addDays(frist, -3))
+pruefe('Vorwarnung: bis-3 warnt, kein Fehler', drei.warnungen.length === 1 && drei.fehlerListe.length === 0 && /noch 3 Tage/.test(drei.warnungen[0]!) && drei.warnungen[0]!.startsWith('⚠ WARNUNG'), drei)
+const eins = meldungen(addDays(frist, -1))
+pruefe('Vorwarnung: bis-1 warnt mit Restzahl', eins.warnungen.length === 1 && /noch 1 Tage/.test(eins.warnungen[0]!), eins)
+const letzter = meldungen(frist)
+pruefe('Vorwarnung: am bis-Tag warnt, noch kein Fehler', letzter.warnungen.length === 1 && /noch 0 Tage/.test(letzter.warnungen[0]!) && letzter.fehlerListe.length === 0, letzter)
+const danach = meldungen(addDays(frist, 1))
+pruefe('Vorwarnung: Tag nach bis ist der Fehler (wie bisher), keine Warnung', danach.warnungen.length === 0 && danach.fehlerListe.length === 1 && /abgelaufen/.test(danach.fehlerListe[0]!), danach)
+pruefe('Vorwarnung: warnt auch im strengen PR-Lauf', meldungen(addDays(frist, -2), festgelegtePlan, { GITHUB_ACTIONS: 'true', GITHUB_EVENT_NAME: 'pull_request' }).warnungen.length === 1)
+pruefe('Vorwarnung: Eintrag mit Sichtung (Ausnahme ungenutzt) warnt nicht', meldungen(addDays(frist, -2), gut()).warnungen.length === 0)
+const fremd: string[] = []
+zeitMeldungen('"x"', festgelegtePlan, `${avatar}-x`, addDays(frist, -2), {}, AUSNAHMEN, (z) => fremd.push(z))
+pruefe('Vorwarnung: nur für den Slug der Ausnahme', fremd.length === 0, fremd)
 pruefe('Frist: lokal streng', fristStrengIn({}) === true)
 pruefe('Frist: PR-CI streng', fristStrengIn({ GITHUB_ACTIONS: 'true', GITHUB_EVENT_NAME: 'pull_request' }) === true)
 for (const ereignis of ['push', 'schedule', 'workflow_dispatch', undefined]) pruefe(`Frist: CI-Ereignis ${ereignis} warnt nur`, fristStrengIn({ GITHUB_ACTIONS: 'true', GITHUB_EVENT_NAME: ereignis }) === false)
