@@ -4,10 +4,6 @@
     "grund": "Stand 26.10.2026: keine Titelmarke; sperrt den Bestandsbau ganz. Streichen, sobald der Wächter Titel meldet."
   },
   {
-    "datei": "pipeline/check-adn-kennung-bestand.ts",
-    "grund": "Stand 07.11.2026: keine Titelmarke; meldet ADN-showIds, keine Titel. Streichen, sobald der Wächter Titel meldet."
-  },
-  {
     "datei": "pipeline/check-adn-offen-bestand.ts",
     "grund": "Stand 26.10.2026: keine Titelmarke; sperrt den Bestandsbau ganz. Streichen, sobald der Wächter Titel meldet."
   },

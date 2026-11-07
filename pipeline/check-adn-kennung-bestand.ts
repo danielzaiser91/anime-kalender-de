@@ -4,6 +4,7 @@
  */
 import { readFileSync } from 'node:fs'
 import { adnShowsMitKatalogKennung, loeseAdnTitelIds } from './bau/adn-show-titel.ts'
+import { melde } from './lib/quarantaene.ts'
 import type { AdnData } from './lib/adn.ts'
 import type { Title } from '../shared/types.ts'
 
@@ -18,6 +19,7 @@ const verloren = kalender
   .filter((k) => katalog.some((s) => s.showId === k.showId && s.titleId))
   .filter((k) => !zusammen.find((s) => s.showId === k.showId)?.titleId)
   .map((k) => k.showId)
+for (const showId of verloren) melde(katalog.find((s) => s.showId === showId)!.titleId!, 'adn-kennung-bestand', `ADN-showId ${showId} ohne titleId trotz Katalog-Zuordnung`)
 
 console.log(`ADN: ${kalender.filter((k) => katalog.some((s) => s.showId === k.showId)).length} showIds in Kalender und Katalog, ohne Weg trotz Katalog-Zuordnung: ${verloren.length}`)
 if (verloren.length) console.error(`  ✖ ADN-showId ohne titleId trotz Katalog-Zuordnung: ${verloren.join(', ')}`)
