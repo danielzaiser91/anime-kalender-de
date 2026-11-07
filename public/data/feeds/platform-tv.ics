@@ -8,136 +8,6 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:auto-10012621-tv-super-rtl@2026-10-30#34@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261030T085000Z
-DTEND:20261030T092000Z
-SUMMARY:Super Wings
-DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
- ails: https://anime-kalender.de/t/18191/
-CATEGORIES:Super RTL
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-10012621-tv-super-rtl@2026-10-30#35@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261030T090000Z
-DTEND:20261030T093000Z
-SUMMARY:Super Wings
-DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
- ails: https://anime-kalender.de/t/18191/
-CATEGORIES:Super RTL
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-10012621-tv-toggo-plus@2026-10-30#34@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261030T095000Z
-DTEND:20261030T102000Z
-SUMMARY:Super Wings
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/t/18191/
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-10012621-tv-toggo-plus@2026-10-30#35@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261030T100000Z
-DTEND:20261030T103000Z
-SUMMARY:Super Wings
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/t/18191/
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-158871-tv-super-rtl@2026-10-30@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261030T150500Z
-DTEND:20261030T153500Z
-SUMMARY:Pokémon Horizonte – Folge 21
-DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
- ails: https://anime-kalender.de/t/14839/
-CATEGORIES:Super RTL
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-118399-tv-prosieben-maxx@2026-10-30@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261030T154000Z
-DTEND:20261030T161000Z
-SUMMARY:Yashahime: Princess Half-Demon
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/11570/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-158871-tv-toggo-plus@2026-10-30@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261030T160500Z
-DTEND:20261030T163500Z
-SUMMARY:Pokémon Horizonte – Folge 21
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/t/14839/
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-10-30#50@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261030T160500Z
-DTEND:20261030T163500Z
-SUMMARY:Dragon Ball
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-10-30#51@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261030T163000Z
-DTEND:20261030T170000Z
-SUMMARY:Dragon Ball
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-235-tv-prosieben-maxx@2026-10-30@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261030T165500Z
-DTEND:20261030T172500Z
-SUMMARY:Detektiv Conan – Folge 165
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/204/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-30#51@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261030T172000Z
-DTEND:20261030T175000Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-30#52@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261030T175000Z
-DTEND:20261030T182000Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-112153-tv-toggo-plus@2026-10-30@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261030T201500Z
-DTEND:20261030T204500Z
-SUMMARY:Pokémon Reisen: Die Serie
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/t/10852/
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-15-tv-prosieben-maxx@2026-10-31#23@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261031T045500Z
@@ -981,6 +851,46 @@ SUMMARY:Eyeshield 21
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/6/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-158871-tv-super-rtl@2026-11-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261107T115500Z
+DTEND:20261107T122500Z
+SUMMARY:Pokémon Horizonte – Folge 134
+DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
+ ails: https://anime-kalender.de/t/14839/
+CATEGORIES:Super RTL
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-158871-tv-toggo-plus@2026-11-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261107T125500Z
+DTEND:20261107T132500Z
+SUMMARY:Pokémon Horizonte – Folge 134
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/14839/
+CATEGORIES:TOGGO plus
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-165159-tv-toggo-plus@2026-11-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261107T194000Z
+DTEND:20261107T201000Z
+SUMMARY:Beyblade X – Folge 123
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/15075/
+CATEGORIES:TOGGO plus
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-6920-tv-rtl@2026-11-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261107T221000Z
+DTEND:20261107T224000Z
+SUMMARY:Blade
+DESCRIPTION:Plattform: RTL\nRelease-Art: Wöchentlich (Simuldub)\nDetails: 
+ https://anime-kalender.de/t/4057/
+CATEGORIES:RTL
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-5027-tv-disney-channel@2026-11-08#19@anime-kalender-de

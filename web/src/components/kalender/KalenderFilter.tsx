@@ -7,7 +7,7 @@ import { activeFilterCount, type FilterState } from '../../lib/filters.ts'
 import { useMobil } from '../../lib/use-mobil.ts'
 import { KalenderWerkzeug } from '../filter/KalenderWerkzeug.tsx'
 import { Steuerleiste } from './KalenderKopf.tsx'
-import { FilterFeld } from './FilterFeld.tsx'
+import { FilterFeldLazy } from './FilterFeldLazy.tsx'
 
 export interface KalenderFilterProps {
   data: Dataset
@@ -51,7 +51,7 @@ export function KalenderFilter(p: KalenderFilterProps) {
         /* Das Filterfeld steht über der Steuerleiste — dort, wo man es geöffnet hat. Die gewählten
            Filter stehen **im** Feld (`FilterFeld`), nicht mehr als eigene Zeile darüber. */
         <div className="fixed inset-x-2 bottom-[4.5rem] z-30 mx-auto flex max-h-[calc(100dvh-10rem)] max-w-[1180px] flex-col rounded-3xl shadow-[0_24px_60px_rgba(0,0,0,.45)]">
-          <FilterFeld
+          <FilterFeldLazy
             data={p.data}
             filters={p.filters}
             onChange={p.setFilters}

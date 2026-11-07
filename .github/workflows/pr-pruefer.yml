@@ -35,7 +35,7 @@ jobs:
       !startsWith(github.head_ref, 'daten/') &&
       !github.event.pull_request.draft
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 60
     env:
       PR: ${{ github.event.pull_request.number }}
       HEAD_SHA: ${{ github.event.pull_request.head.sha }}
@@ -131,11 +131,14 @@ jobs:
       # (kettenlog.txt), die in den Nachträgen zitierten Zeilen mit Treffern (kettenlog-zitate.txt, 31.10.2026: die Übersicht
       # kappt je Job, der Abnahme-Prüfer hat kein Grep) und das bereinigte Log (kettenlog-voll.txt) in den Prüfordner. Fail-soft: ohne Datei gilt „nicht beurteilt“.
       # 13 statt 9 min (30.10.2026): die Kette braucht im Median 9,6 min, p90 12,9 min (316 Läufe seit 28.10.); bei 9 min
-      # sah jeder fünfte Prüfer-Lauf (33 von 174) nur eine unfertige Kette. Rest: 13 + Prüfer < timeout 30 min.
+      # sah jeder fünfte Prüfer-Lauf (33 von 174) nur eine unfertige Kette.
+      # 36 min, Timeout 60 (04.11.2026, PR 2852 Kopf bea96992d): eine Kette brauchte 31,4 min, der Prüfer urteilte nach 13 min
+      # „aendern“ (Kettenlauf nicht abgeschlossen). Budget: 1,5 + 36 + 13 + 2 < 60 (tools/pr-pruefer-eingabe.test.mjs).
+      # Endet die Kette früher, endet das Warten früher; die Frist kostet nur bei Hängern Laufzeit.
       - name: Kettenlog bereitlegen
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: node tools/pr-kettenlog.mjs "$HEAD_SHA" "$RUNNER_TEMP/pruefer" 780 "$RUNNER_TEMP/pruefer/pr-beschreibung.txt" || echo "Kettenlog nicht bereitgelegt"
+        run: node tools/pr-kettenlog.mjs "$HEAD_SHA" "$RUNNER_TEMP/pruefer" 2160 "$RUNNER_TEMP/pruefer/pr-beschreibung.txt" || echo "Kettenlog nicht bereitgelegt"
 
       # Laufzeitsperre (PR 1427): "ok" nur bei vollständigem Diff und einer Beschreibung, die mit der Commit-Liste bis
       # zum Kopf endet. Direkt vor den Prüfern, damit kein früherer Schritt die Beschreibung danach noch ändert.

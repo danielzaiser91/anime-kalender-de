@@ -4,7 +4,8 @@
  * Nummer der Staffel in ihrer Reihe schon — aber nur, wo zwei unabhängige Zählweisen sie gleich nennen.
  */
 import type { Title } from '../../shared/types.ts'
-import { anzeigeName, hauptstaffeln, staffelStaende, zaehlgruppeVon } from '../../shared/titles.ts'
+import { anzeigeName, zaehlgruppeVon } from '../../shared/titles.ts'
+import { staffelStandVon } from '../../shared/staffel-zaehlung.ts'
 import { einzigeStaffelDerLinie, remakeVonDerReihe } from '../bau/remake-von.ts'
 import { staffelnDesFranchise } from './adn.ts'
 
@@ -35,12 +36,11 @@ export function staffelNummer(t: Title, reihen: Map<number, Title[]>, remakeQuel
     (reihen.get(t.franchiseId) ?? []).map((x) => ({ ...x, remakeVon: remakeVon.get(x.id) })),
     t.id,
   )
-  const lauf = staffelnDesFranchise(gruppe, t.franchiseId)
+  const lauf = staffelnDesFranchise(gruppe, t.franchiseId).filter((x) => !x.eigenesWerk)
   const stelle = lauf.findIndex((x) => x.id === t.id) + 1
   if (!stelle) return undefined
-  const teile = lauf.map((x) => ({ id: x.id, name: anzeigeName(x), format: x.format, episodes: x.episodes, jpYear: x.jpYear, jpStart: x.jpStart }))
-  const kopf = reihen.get(t.franchiseId)!.find((x) => x.id === t.franchiseId) ?? lauf[0]!
-  const stand = staffelStaende(hauptstaffeln(teile), anzeigeName(kopf)).get(t.id)
+  const teile = lauf.map((x) => ({ id: x.id, name: anzeigeName(x), format: x.format, episodes: x.episodes, jpYear: x.jpYear, jpStart: x.jpStart, beiwerk: x.beiwerk }))
+  const stand = staffelStandVon(teile, t.id)
   if (!stand) return einzigeStaffelDerLinie(reihen.get(t.franchiseId) ?? [], remakeVon, t.id) ? 1 : undefined
   return stand.teil === undefined && stand.staffel === stelle ? stelle : undefined
 }

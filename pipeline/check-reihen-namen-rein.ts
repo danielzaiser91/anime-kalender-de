@@ -176,6 +176,13 @@ console.log('\nReiner Weg, Katalog leer: nur Ziele im Hauptbestand')
   pruefe('Ein Ziel nur im Katalog fehlt, die Alleinstehenden bleiben allein', reihe(m, BOONIE_1) === BOONIE_1 && reihe(m, KITTY_1) === KITTY_1 && reihe(m, CARNIVAL) === CARNIVAL)
 }
 
+console.log('\nReiner Weg: die Beiwerk-Markierung liest den übergebenen Katalog (nicht den Standardkatalog)')
+{
+  const m = hauptbestand()
+  mitQuelle(undefined, () => fuehreReihenZusammenQuelle(args(m), quellen([eintrag(MOND_TEIL, 'Mondlicht Chronik: Teil Zwei', [], null, { eltern: [MOND_KOPF] })])))
+  pruefe('Elternkante im übergebenen Katalog: der Teil ist Beiwerk, der Kopf nicht', m.get(MOND_TEIL)!.beiwerk === true && m.get(MOND_KOPF)!.beiwerk === undefined, [m.get(MOND_TEIL)!.beiwerk, m.get(MOND_KOPF)!.beiwerk])
+}
+
 const wirft = (grund: string) => (): never => {
   throw new Error(grund)
 }

@@ -1,7 +1,7 @@
 import { useCallback, useRef, useState } from 'react'
 import { activeFilterCount } from '../../lib/filters.ts'
 import { useLang } from '../../lib/i18n.tsx'
-import { FilterFeld } from '../kalender/FilterFeld.tsx'
+import { FilterFeldLazy } from '../kalender/FilterFeldLazy.tsx'
 import type { KalenderFilterProps } from '../kalender/KalenderFilter.tsx'
 import { FilterPopover } from './FilterPopover.tsx'
 import { AnsichtKnopf, HeuteChip } from './KalenderSteuerung.tsx'
@@ -22,7 +22,7 @@ export function KalenderWerkzeug(p: KalenderFilterProps) {
         <HeuteChip view={p.view} date={p.date} onDate={p.onDate} />
       </Werkzeugleiste>
       <FilterPopover offen={offen} schliessen={zu} ausloeser={knopf} label={t('filter.button')}>
-        <FilterFeld
+        <FilterFeldLazy
           data={p.data}
           filters={p.filters}
           onChange={p.setFilters}
