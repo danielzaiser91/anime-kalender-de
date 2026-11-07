@@ -6,6 +6,7 @@
  */
 import { mitLimit } from './kind-mit-limit.mjs'
 import { pathToFileURL } from 'node:url'
+import { existsSync, readFileSync } from 'node:fs'
 
 const STUNDE = 3600 * 1000
 // Schwellen (Stand 21.10.2026, aus dem Liegegut-Bericht der 13 PRs vom 21.10.: kürzer meldet bei normalem Prüfer-Takt Fehlalarm).
@@ -87,7 +88,8 @@ export function signaleEinzel(pr, kopfZeit, jetzt) {
   if (pr.mergeable === 'CONFLICTING' && stunden(ruhe, jetzt) > KONFLIKT_H) aus.push({ nr: 3, text: 'Konflikt liegt', seit: ruhe })
   if (checks.art === 'rot' && stunden(checks.seit, jetzt) > ROT_H) aus.push({ nr: 4, text: 'Checks rot auf dem Kopf', seit: checks.seit })
   const letztes = aufKopf.at(-1)
-  if (letztes && !letztes.gut && stunden(letztes.zeit, jetzt) > AENDERN_H) aus.push({ nr: 5, text: 'Ändern-Urteil ohne neuen Commit', seit: letztes.zeit })
+  const freigegeben = (pr.reviews ?? []).some((r) => r.state === 'APPROVED' && Date.parse(r.submittedAt) > letztes?.zeit)
+  if (letztes && !letztes.gut && !freigegeben && stunden(letztes.zeit, jetzt) > AENDERN_H) aus.push({ nr: 5, text: 'Ändern-Urteil ohne neuen Commit', seit: letztes.zeit })
   return aus
 }
 
@@ -98,12 +100,25 @@ export function stillstandSignal(pr, kopfZeit, jetzt) {
   return stunden(letzte, jetzt) > STILLSTAND_H ? [{ nr: 8, text: 'Stillstand', seit: letzte }] : []
 }
 
-/** Signal 6: F-Nummern (offene Entscheidungen), die mehr als ein PR nennt. Rückgabe: Map PR-Nummer → Liste der geteilten F-Nummern. */
-export function geteilteEntscheidungen(prs) {
+/**
+ * F-Nummern, die in `stand.md` unter „### Jetzt“ (bis zur nächsten Überschrift) stehen = offen. Reine Funktion; Text null/undefined → null
+ * (Datei fehlt, z. B. in CI: keine Einschränkung, Signal 6 bleibt wie zuvor, statt Entscheidungen still zu verschlucken).
+ */
+export function offeneEntscheidungen(standText) {
+  if (typeof standText !== 'string') return null
+  const zeilen = standText.split('\n')
+  const von = zeilen.findIndex((z) => /^### Jetzt\s*$/.test(z))
+  if (von < 0) return new Set()
+  const bis = zeilen.findIndex((z, i) => i > von && /^#{2,3}\s/.test(z))
+  return new Set(zeilen.slice(von + 1, bis < 0 ? undefined : bis).join('\n').match(/\bF\d+\b/g) ?? [])
+}
+
+/** Signal 6: F-Nummern (offene Entscheidungen), die mehr als ein PR nennt; `offen` (Set, null = alle) beschränkt auf noch offene. Rückgabe: Map PR-Nummer → Liste der geteilten F-Nummern. */
+export function geteilteEntscheidungen(prs, offen = null) {
   const je = new Map()
   for (const pr of prs) {
     const text = [pr.title, pr.body, ...pr.comments.filter((c) => c.author?.login === 'danielzaiser91' || c.body.includes('**Prüfer-Review**')).map((c) => c.body)].join('\n')
-    for (const f of new Set(text.match(/\bF\d+\b/g) ?? [])) je.set(f, [...(je.get(f) ?? []), pr.number])
+    for (const f of new Set(text.match(/\bF\d+\b/g) ?? [])) if (offen === null || offen.has(f)) je.set(f, [...(je.get(f) ?? []), pr.number])
   }
   const aus = new Map()
   for (const [f, nummern] of je) {
@@ -265,15 +280,15 @@ export function offenePrs(ghFn, hinweis = () => {}) {
 }
 
 /** Holt die offenen PRs über gh/git (einspeisbar) und rechnet alle. Rückgabe: Funde { nr, signale, zeile }. */
-export function liegegutFunde(ghFn, gitFn, jetzt, hinweis) {
+export function liegegutFunde(ghFn, gitFn, jetzt, hinweis, standText) {
   const offen = offenePrs(ghFn, hinweis).filter((p) => !p.isDraft)
-  const geteilt = geteilteEntscheidungen(offen)
+  const geteilt = geteilteEntscheidungen(offen, offeneEntscheidungen(standText))
   const karte = kopfZeiten(ghFn)
   return offen.map((pr) => bewertePr(ghFn, gitFn, pr, geteilt.get(pr.number), jetzt, karte)).filter((f) => f !== null)
 }
 
 /** Dieselben Funde als Textzeilen. */
-export const liegegut = (ghFn, gitFn, jetzt, hinweis) => liegegutFunde(ghFn, gitFn, jetzt, hinweis).map((f) => f.zeile)
+export const liegegut = (ghFn, gitFn, jetzt, hinweis, standText) => liegegutFunde(ghFn, gitFn, jetzt, hinweis, standText).map((f) => f.zeile)
 
 const KURZ = { 1: 'Freigabe ruht', 2: 'Urteile widersprechen', 3: 'Konflikt', 4: 'rot', 5: 'Ändern offen', 6: 'gleiche Entscheidung', 8: 'Stillstand' }
 
@@ -322,9 +337,9 @@ export function git(args) {
 }
 
 /** Startlogik: Fehler als Exit 2, Funde als Exit 0. */
-export function main(ghFn, gitFn, melde, jetzt) {
+export function main(ghFn, gitFn, melde, jetzt, standText) {
   try {
-    const zeilen = liegegut(ghFn, gitFn, jetzt, melde)
+    const zeilen = liegegut(ghFn, gitFn, jetzt, melde, standText)
     for (const z of zeilen) melde(z)
     melde(`liegegut: ${zeilen.length} auffällige PRs`)
     return 0
@@ -335,5 +350,6 @@ export function main(ghFn, gitFn, melde, jetzt) {
 }
 
 if (import.meta.url === pathToFileURL(process.argv[1]).href) {
-  process.exit(main(gh, git, (t) => console.log(t), Date.now()))
+  const standPfad = new URL('../daniel-zum-abarbeiten/stand.md', import.meta.url)
+  process.exit(main(gh, git, (t) => console.log(t), Date.now(), existsSync(standPfad) ? readFileSync(standPfad, 'utf8') : null))
 }

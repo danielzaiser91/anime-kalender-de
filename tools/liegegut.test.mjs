@@ -9,7 +9,7 @@ import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
-import { offenePrs, checkStand, geteilteEntscheidungen, kopfZeitVon, kopfZeiten, liegegut, main, grepMain, neueBezeichner, naechsterSchritt, signaleEinzel, stillstandSignal, ueberholtTreffer, urteile, JQ_PATCHES } from './liegegut.mjs'
+import { offenePrs, checkStand, geteilteEntscheidungen, offeneEntscheidungen, kopfZeitVon, kopfZeiten, liegegut, main, grepMain, neueBezeichner, naechsterSchritt, signaleEinzel, stillstandSignal, ueberholtTreffer, urteile, JQ_PATCHES } from './liegegut.mjs'
 
 const fehler = []
 const pruefe = (name, ok, info) => {
@@ -103,6 +103,11 @@ console.log('liegegut: Signal 5 Ändern-Urteil ohne neuen Commit (Fall 1390)')
   pruefe('genau 24 h → noch nicht', nummern(pr(20, { comments: [bot(24, KOPF, 'aendern')] }), 40).length === 0)
   pruefe('neuer Commit nach dem Urteil: Urteil gilt nicht mehr', nummern(pr(21, { comments: [bot(30, ALT, 'aendern')] }), 2).length === 0)
   pruefe('Daniel ändern seit 25 h, danach Bot ok → kein Signal 5 (letztes Urteil ok)', !nummern(pr(22, { comments: [daniel(26, 'Prüfer: ändern'), bot(25, KOPF, 'ok')] }), 40).includes(5))
+  const review = (stunden, state) => ({ state, submittedAt: h(stunden), author: { login: 'danielzaiser91' } })
+  const ohneApprove = pr(3009, { comments: [bot(30, KOPF, 'aendern')] })
+  pruefe('Ändern seit 30 h, Approve jünger → kein Signal 5 (3009)', !nummern({ ...ohneApprove, reviews: [review(10, 'APPROVED')] }, 40).includes(5))
+  pruefe('Gegenfall: Approve älter als das Ändern → Signal 5 bleibt', nummern({ ...ohneApprove, reviews: [review(40, 'APPROVED')] }, 40).includes(5))
+  pruefe('Gegenfall: jüngeres Review ohne Approve (COMMENTED) → Signal 5 bleibt', nummern({ ...ohneApprove, reviews: [review(10, 'COMMENTED')] }, 40).includes(5))
 }
 
 console.log('liegegut: Signal 6 gleiche offene Entscheidung (Fälle 1508, 1513)')
@@ -120,6 +125,23 @@ console.log('liegegut: Signal 6 gleiche offene Entscheidung (Fälle 1508, 1513)'
   pruefe('Bot-Kommentar ohne Prüfer-Review (pr-stufe) zählt nicht', geteilteEntscheidungen([stufe, imDaniel]).size === 0)
   pruefe('Kommentar eines Fremden zählt nicht', geteilteEntscheidungen([pr(1515, { comments: [{ author: { login: 'fremd' }, createdAt: h(5), body: 'F39' }] }), imDaniel]).size === 0)
   pruefe('„F390“ ist nicht F39', geteilteEntscheidungen([a, pr(1601, { body: 'F390' })]).size === 0)
+}
+
+console.log('liegegut: Signal 6 nur für F-Nummern unter „### Jetzt“ in stand.md (F109 = A, 07.11.2026: 3141/3138/3117)')
+{
+  const stand = ['## Daniel-Todo', '### Jetzt', '- 🟠 **Frage** F39 offen', '', '### Später', '- ⏳ F40 wartet', '## Als Nächstes', '- F109 = A erledigt'].join('\n')
+  const offen = offeneEntscheidungen(stand)
+  pruefe('nur F39 steht unter Jetzt', JSON.stringify([...offen]) === '["F39"]', [...offen])
+  const a = pr(3117, { body: 'F109 und F39' })
+  const b = pr(3138, { body: 'F109 und F39' })
+  pruefe('F39 offen unter Jetzt → Signal in beiden PRs', JSON.stringify([...geteilteEntscheidungen([a, b], offen)]) === JSON.stringify([[3117, ['F39']], [3138, ['F39']]]))
+  const c = pr(3141, { body: 'F109' })
+  const d = pr(3142, { body: 'F109 F40' })
+  pruefe('F109 nur außerhalb von Jetzt → kein Signal', geteilteEntscheidungen([c, d], offen).size === 0)
+  pruefe('F40 unter Später zählt nicht', geteilteEntscheidungen([pr(1, { body: 'F40' }), pr(2, { body: 'F40' })], offen).size === 0)
+  pruefe('Datei fehlt (null) → keine Einschränkung', geteilteEntscheidungen([c, d], offeneEntscheidungen(null)).size === 2)
+  pruefe('Jetzt am Dateiende (ohne nächste Überschrift)', offeneEntscheidungen('### Jetzt\n- F7').has('F7'))
+  pruefe('ohne Abschnitt Jetzt → nichts offen', offeneEntscheidungen('## X\nF7').size === 0)
 }
 
 console.log('liegegut: Signal 7 Überholt über den Diff (Fehlalarme 07.11.2026: 7 von 7 nur wegen ähnlichem Titel)')
