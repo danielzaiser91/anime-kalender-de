@@ -469,10 +469,10 @@ console.log('liegegut: eigener Prozess (Vorlader tools/pr-nachrechnen-mock.mjs)'
   fs.mkdirSync(fragenOrdner, { recursive: true })
   const fahre = () => spawnSync(process.execPath, ['--import', vorlader, skript], { encoding: 'utf8', timeout: 60000, cwd: path.join(werk, 'arbeit'), env: { ...process.env, ATTRAPPE_LOG: path.join(werk, 'log.txt'), ATTRAPPE_DATEN: path.join(werk, 'daten.json') } })
   const offen = fahre()
-  pruefe('Prozess: F39 ohne Entscheidung → Signal 6 (Kontrolle)', offen.status === 0 && /Signal 6 Gleiche offene Entscheidung F39/.test(offen.stdout), { o: offen.stdout, e: offen.stderr })
+  pruefe('Prozess: F39 ohne Entscheidung → Signal 6 (Kontrolle)', offen.status === 0 && /; 6 Gleiche offene Entscheidung F39/.test(offen.stdout), { o: offen.stdout, e: offen.stderr })
   fs.writeFileSync(path.join(fragenOrdner, 'F39-x.md'), '# F39\n\nEntschieden: A\n')
   const entschieden = fahre()
-  pruefe('Prozess: F39 entschieden → kein Signal 6', entschieden.status === 0 && !/Signal 6/.test(entschieden.stdout) && /liegegut: \d+ auffällige PRs/.test(entschieden.stdout), { o: entschieden.stdout, e: entschieden.stderr })
+  pruefe('Prozess: F39 entschieden → kein Signal 6', entschieden.status === 0 && !/6 Gleiche offene/.test(entschieden.stdout) && /liegegut: \d+ auffällige PRs/.test(entschieden.stdout), { o: entschieden.stdout, e: entschieden.stderr })
   fs.rmSync(werk, { recursive: true, force: true })
 }
 
