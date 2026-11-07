@@ -129,7 +129,7 @@ const SATZGRENZE = new RegExp(`(?<!\\d\\.)(?<=[.!?])\\s+(?=[A-ZÄÖÜ»])|(?<=\\
 const KEINE_SYNCHRO = /synchronsprech|synchronstimme|synchronregie|synchronisiert von/i
 const TITEL_IM_SATZ = /»([^»«]{2,100})«/g
 
-/** Eine Titelzeile der Liste oben im Artikel („Bis 30.11.: »Berserk«“): kurz, ohne Satzzeichen am Ende. */
+/** Eine Zeile der Titelliste oben im Artikel („Ab 02.11.: »I Parry Everything!« (Dub)“): beginnt mit dem Titel, hat Beiwerk dahinter, ist kurz und endet ohne Satzzeichen. */
 const istListenzeile = (s: string): boolean => /^(?:.{0,40}?:\s*)?»[^»«]{2,120}«/.test(s) && /\s/.test(s.replace(/»[^»«]*«/, '').trim()) && s.length < 140 && !/[.!?]$/.test(s)
 
 /** Schärfungen 2 und 4 auf einen Satz; `undefined` = Rest für Claude. */
@@ -153,7 +153,7 @@ export function satzBehauptungen(zeilen: string[], veroeffentlicht: string): Beh
     const plattform = plattformDesSatzes(satz, titel, artikelPlattformen, jahr)
     if (!plattform) continue
     const omu = /untertitel|originalton|japanisch/i.test(satz)
-    aus.push({ titel: titel[0]!, plattform, sprache: /deutsch|synchron/i.test(satz) && omu ? 'deutsch+omu' : 'deutsch', zitat: satz.slice(0, 500), familie: 'satz' })
+    aus.push({ titel: titel[0]!, plattform, sprache: omu ? 'deutsch+omu' : 'deutsch', zitat: satz.slice(0, 500), familie: 'satz' })
   }
   return aus
 }
