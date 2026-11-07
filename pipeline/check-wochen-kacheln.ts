@@ -129,6 +129,13 @@ pruefe('verlorenes Release-Feld wird gemeldet', meldet({ ...kachel, releases: [{
 pruefe('fehlender Titel wird gemeldet', meldet({ ...kachel, titles: kachel.titles.slice(1) }, '1 Titel statt 2'))
 pruefe('vertauschte Reihenfolge wird gemeldet', meldet({ ...kachel, releases: [kachel.releases[1]!, kachel.releases[0]!] }, 'Stelle 0'))
 pruefe('geänderter Termin wird gemeldet', meldet({ ...kachel, events: [{ ...kachel.events[0]!, date: '2026-10-07' }, kachel.events[1]!] }, 'Termine weichen'))
+const andereReihenfolge = Object.fromEntries(Object.entries(kachel.events[0]!).reverse()) as unknown as ReleaseEvent
+pruefe('Termin mit anderer Schlüsselreihenfolge ist gleich', pruefeKachelDatei({ ...kachel, events: [andereReihenfolge, kachel.events[1]!] }, woche).length === 0)
+pruefe('Termin mit zusätzlichem Feld wird gemeldet', meldet({ ...kachel, events: [{ ...kachel.events[0]!, extra: 1 } as ReleaseEvent, kachel.events[1]!] }, 'Termine weichen'))
+const ohneFeld = { ...kachel.events[0]! } as Partial<ReleaseEvent>
+delete ohneFeld.name
+pruefe('Termin mit fehlendem Feld wird gemeldet', meldet({ ...kachel, events: [ohneFeld as ReleaseEvent, kachel.events[1]!] }, 'Termine weichen'))
+pruefe('zusätzlicher Termin wird gemeldet', meldet({ ...kachel, events: [...kachel.events, kachel.events[0]!] }, 'Termine weichen'))
 pruefe('andere Woche wird gemeldet', meldet({ ...kachel, bis: '2026-10-12' }, 'andere Woche'))
 pruefe('erfundenes Feld wird gemeldet', meldet({ ...kachel, releases: [{ ...kachel.releases[0]!, erfunden: 1 } as unknown as Release, kachel.releases[1]!] }, 'Release a weicht'))
 pruefe('gekürzte Liste im Weg wird gemeldet', meldet({ ...kachel, titles: [{ ...kachel.titles[0]!, streams: kachel.titles[0]!.streams!.slice(1) }, kachel.titles[1]!] }, 'Titel 1 weicht'))
