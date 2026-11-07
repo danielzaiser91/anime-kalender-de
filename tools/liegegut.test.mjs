@@ -9,7 +9,7 @@ import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
-import { offenePrs, checkStand, entschiedeneFragen, geteilteEntscheidungen, kopfZeitVon, kopfZeiten, liegegut, main, grepMain, neueBezeichner, naechsterSchritt, signaleEinzel, stillstandSignal, ueberholtTreffer, urteile, JQ_PATCHES } from './liegegut.mjs'
+import { offenePrs, checkStand, entschiedeneFragen, geteilteEntscheidungen, kopfZeitVon, kopfZeiten, liegegut, main, meldeLiegt, stapelBasis, grepMain, neueBezeichner, naechsterSchritt, signaleEinzel, stillstandSignal, ueberholtTreffer, urteile, JQ_PATCHES } from './liegegut.mjs'
 
 const fehler = []
 const pruefe = (name, ok, info) => {
@@ -428,6 +428,25 @@ console.log('liegegut: Signal 6 ohne entschiedene F-Nummern (Fall F39) und Leser
   pruefe('Ordner fehlt → leere Menge', entschiedeneFragen(path.join(os.tmpdir(), 'liegegut-gibt-es-nicht')).size === 0)
   const lauf = liegegut(attrappeGh([pr(1508, { body: 'F39', comments: [daniel(2, 'x')] }), pr(1513, { body: 'F39', comments: [daniel(2, 'x')] })]), attrappeGit(), JETZT, undefined, new Set(['F39']))
   pruefe('Gesamtlauf: entschiedene F39 → keine DANIEL-Zeile', lauf.length === 0, lauf)
+  // Wachphase (meldeLiegt) liest die Fragen im Arbeitsordner
+  const arbeit = fs.mkdtempSync(path.join(os.tmpdir(), 'liegegut-wache-'))
+  fs.mkdirSync(path.join(arbeit, 'daniel-zum-abarbeiten', 'fragen'), { recursive: true })
+  const zwei = [pr(1508, { body: 'F39', comments: [daniel(2, 'x')] }), pr(1513, { body: 'F39', comments: [daniel(2, 'x')] })]
+  const wache = () => {
+    const aus = []
+    meldeLiegt(attrappeGh(zwei), attrappeGit(), (t) => aus.push(t), JETZT)
+    return aus.join('\n')
+  }
+  const vorher = process.cwd()
+  process.chdir(arbeit)
+  const offen = wache()
+  fs.writeFileSync(path.join(arbeit, 'daniel-zum-abarbeiten', 'fragen', 'F39-x.md'), 'Entschieden: A\n')
+  const entschieden = wache()
+  process.chdir(vorher)
+  fs.rmSync(arbeit, { recursive: true, force: true })
+  pruefe('Wachphase: F39 offen → LIEGT-Zeile mit gleicher Entscheidung, entschieden → keine', /gleiche Entscheidung/.test(offen) && entschieden === '', { offen, entschieden })
+  const f = { number: 3200, baseRefName: 'main', mergeable: 'MERGEABLE', body: 'erst nach #3090' }
+  pruefe('stapelBasis: „erst nach #N“ ohne Konflikt → null, mit Konflikt → N', stapelBasis(f, [{ number: 3090, headRefName: 'x' }]) === null && stapelBasis({ ...f, mergeable: 'CONFLICTING' }, [{ number: 3090, headRefName: 'x' }]) === 3090)
 }
 
 console.log('liegegut: Signal 2 mit Abnahme-Nachtrag des Dirigenten (Fälle 1716, 1758: echte Abfolge)')
