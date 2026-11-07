@@ -105,6 +105,35 @@ const echteWarnung = pruefeName('anbieter', 'Prime Video', 'Pet startet.', ARTIK
 pruefe('ANBIETER_NUR_IM_ARTIKEL passt auf die echte Warnung von pruefeName (Gleichlauf)', ANBIETER_NUR_IM_ARTIKEL.test(echteWarnung) && !ANBIETER_NUR_IM_ARTIKEL.test('sender „ProSieben MAXX“ steht nur im Artikeltext, nicht im Zitat – gegenlesen'), echteWarnung)
 pruefe('ANBIETER_NUR_IM_ARTIKEL ist an beiden Enden verankert (kein Anhängsel, kein Vorspann)', !ANBIETER_NUR_IM_ARTIKEL.test(`${echteWarnung} und mehr`) && !ANBIETER_NUR_IM_ARTIKEL.test(`Hinweis: ${echteWarnung}`))
 
+// --- Stufe 1b: Plattform an die Synchro-Aussage gebunden (Artikel 1064193 und 1064806, wörtlich aus dem Abruf; Claude ordnete auch Prime Video zu) ---
+const CR_ARTIKEL = 'Crunchyroll ergänzt zwei weitere Anime-Neuzugänge auf Deutsch'
+const ADN_ARTIKEL = 'ADN kündigt sechs Anime-Neuzugänge für November 2026 an'
+const AOASHI_ZITAT = '»Aoashi« – Staffel 2\nEpisoden: 1 auf Deutsch verfügbar\nSprache: Deutsch, Japanisch (UT)\nSimulcast: Jeden Sonntag um 11:00 Uhr'
+const PSYREN_ZITAT = '»PSYREN«\nEpisoden: 1 auf Deutsch verfügbar\nSprache: Deutsch, Japanisch (UT)\nSimulcast: Jeden Montag um 16:30 Uhr'
+const PARRY_ZITAT = ' 2. November: »I Parry Everything!« (Synchro)\n Episoden: 12 (komplett)\n Sprache: Deutsch, Japanisch (UT)\n Hinweis: Der Originalton ist bereits verfügbar\n Stream: ADN, Prime Video'
+const gebunden = (titel: string, artikel: string, zitat: string, plattform: string) => mit(PET, { titel, artikel, zitat, plattform: plattform as GespeicherterVorschlag['plattform'], sprache: 'deutsch+omu', art: 'start' })
+const zweiWege = (id: number, titleDe: string, a: string, b: string): KatalogTitel => ({ id, titleDe, streams: [weg(a), weg(b)] })
+const KAT_B: KatalogTitel[] = [
+  zweiWege(900401, 'Aoashi – Staffel 2', 'crunchyroll', 'primevideo'),
+  zweiWege(900402, 'PSYREN', 'crunchyroll', 'primevideo'),
+  zweiWege(900403, 'I Parry Everything!', 'adn', 'primevideo'),
+]
+const FAELLE_B = [
+  ['Aoashi', 'Aoashi – Staffel 2', CR_ARTIKEL, AOASHI_ZITAT, 'crunchyroll', 'primevideo', '900401'],
+  ['PSYREN', 'PSYREN', CR_ARTIKEL, PSYREN_ZITAT, 'crunchyroll', 'primevideo', '900402'],
+  ['I Parry Everything!', 'I Parry Everything!', ADN_ARTIKEL, PARRY_ZITAT, 'adn', 'primevideo', '900403'],
+] as const
+for (const [n, titel, artikel, zitat, richtig, falsch, id] of FAELLE_B) {
+  const falschE = lauf([gebunden(titel, artikel, zitat, falsch)], KAT_B)
+  pruefe(`${n}: ${falsch} ist nicht an die Synchro gebunden – kein Beleg, Grund benannt`, ids(falschE) === '' && grund(falschE).includes('nicht eindeutig an die Synchro-Aussage gebunden'), falschE)
+  pruefe(`${n}: ${richtig} (Artikeltitel) bleibt Beleg`, ids(lauf([gebunden(titel, artikel, zitat, richtig)], KAT_B)) === id)
+}
+const SATZ = 'Die Serie »Pet« kommt ab sofort mit deutscher Synchronisation zu Crunchyroll.'
+pruefe('Ein-Plattform-Zitat bindet gegen den Artikeltitel einer anderen Plattform', ids(lauf([gebunden('Pet', 'Prime Video nimmt Anime auf', SATZ, 'crunchyroll')], [{ ...PET_TITEL, streams: [weg('crunchyroll')] }])) === '101350')
+pruefe('Ein-Plattform-Zitat einer anderen Plattform als der Vorschlag: nicht gebunden', ids(lauf([gebunden('Pet', 'Crunchyroll und Prime Video', SATZ, 'primevideo')])) === '')
+pruefe('Zitat nennt zwei Plattformen, Titel keine: nicht gebunden', ids(lauf([gebunden('Pet', 'Neuzugänge im November', PARRY_ZITAT.replace('I Parry Everything!', 'Pet'), 'adn')], [{ ...PET_TITEL, streams: [weg('adn')] }])) === '')
+pruefe('Zitat ohne Plattform, Titel mit zwei Plattformen: nicht gebunden', ids(lauf([gebunden('Pet', 'Crunchyroll und Prime Video starten', 'Die Serie »Pet« kommt mit deutscher Synchronisation.', 'primevideo')])) === '')
+
 // --- Stufe 2: Titel -------------------------------------------------------------------------------------------------------------
 pruefe('Teilwort: „Pet“ trifft nicht „Pet Shop of Horrors“', ordneTitelZu('Pet', KATALOG) === PET_TITEL)
 pruefe('Schreibweise: Apostroph und Anführung egal', ordneTitelZu("Devils' Crest", KATALOG) === DC_TITEL && ordneTitelZu('DEVILS’ CREST', KATALOG) === DC_TITEL)
@@ -117,7 +146,7 @@ pruefe('Ähnlicher Name („Crest of the Stars“) trifft nur den eigenen Eintra
 const NAMEN: KatalogTitel[] = [{ id: 900104, titleDe: 'Deutscher Name', titleEn: 'English Name', titleRomaji: 'Romaji Name', streams: [weg('primevideo')] }]
 for (const n of ['Deutscher Name', 'English Name', 'Romaji Name']) pruefe(`Jeder der drei Namen trifft: ${n}`, ordneTitelZu(n, NAMEN) === NAMEN[0])
 const NETFLIX_PET: KatalogTitel[] = [{ ...PET_TITEL, streams: [weg('netflix')] }]
-const PET_NETFLIX = mit(PET, { plattform: 'netflix' })
+const PET_NETFLIX = mit(PET, { plattform: 'netflix', zitat: PET_ZITAT.replace('Prime Video', 'Netflix'), artikel: 'Netflix nimmt zwei Anime-Serien auf Deutsch ins Programm' })
 pruefe('Plattform netflix: Beleg trägt netflix, ein Ja bei primevideo sperrt nicht', lauf([PET_NETFLIX], NETFLIX_PET, new Map([['101350|primevideo', IMMER]])).belege[0]?.plattform === 'netflix')
 pruefe('Plattform netflix: ein Ja bei netflix sperrt', ids(lauf([PET_NETFLIX], NETFLIX_PET, new Map([['101350|netflix', IMMER]]))) === '')
 pruefe('Beleg-Zeilen tragen die Plattform des Belegs', belegZeilen(lauf([PET_NETFLIX], NETFLIX_PET).belege[0]!, '2026-11-07').includes('  platform: netflix'))

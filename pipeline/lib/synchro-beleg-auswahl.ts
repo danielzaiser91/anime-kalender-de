@@ -7,13 +7,14 @@
  *
  * 1. Das Zitat nennt die Synchro ausdrücklich und bejahend (`nenntSynchro`), Sprache deutsch oder deutsch+omu, Art start/folgen/sprachfassung,
  *    Stream-Plattform, kein Tag in der Zukunft, kein „unsicher“, keine Warnung. Ausnahme: „Anbieter/Plattform steht nur im Artikeltext“ –
- *    die Plattform belegt dann der vorhandene Weg des Titels (Stufe 3) unabhängig vom Artikel.
+ *    die Plattform belegt dann der vorhandene Weg des Titels (Stufe 3) unabhängig vom Artikel. Die Plattform muss an die Synchro-Aussage
+ *    gebunden sein (`plattformGebunden`): genau diese eine im Zitat, sonst genau diese eine im Artikeltitel; mehrdeutig = kein Beleg.
  * 2. Der Titel passt mit genau einem Katalogtitel im Namen überein (gleiche Wortfolge in titleDe, titleEn oder titleRomaji, kein Teilwort).
  *    Bewusst strenger als der Fuzzy-Abgleich `bewerteTreffer` (adn.ts): eine Fehlzuordnung wäre ein falscher Haken an fremdem Titel.
  * 3. Der Titel hat genau einen Weg bei dieser Plattform, und dessen Urteil steht noch offen (kein `dub`); ein Handbeleg zu Titel und Plattform
  *    gewinnt immer, auch ein Nein.
  */
-import { ANBIETER_NUR_IM_ARTIKEL } from './anime2you-abgleich.ts'
+import { ANBIETER_NUR_IM_ARTIKEL, nenntName, PLATTFORM_NAMEN } from './anime2you-abgleich.ts'
 import type { GespeicherterVorschlag } from './anime2you-bestand.ts'
 import { SYNCHRO_WORTLAUT, VERNEINT } from './dub-aus-terminen.ts'
 
@@ -74,11 +75,26 @@ export function ordneTitelZu(titel: string, katalog: KatalogTitel[]): KatalogTit
   return treffer.length ? `Titel mehrdeutig (${treffer.map((t) => t.id).join(', ')})` : 'Titel nicht im Katalog'
 }
 
+const plattformenIn = (text: string): string[] => Object.entries(PLATTFORM_NAMEN).filter(([, n]) => nenntName(text, n)).map(([id]) => id)
+
+/**
+ * Ist die Plattform des Vorschlags an die Synchro-Aussage gebunden? Ja, wenn das Zitat genau diese eine Plattform nennt; nennt es keine oder
+ * mehrere (Stream-Zeile „Prime Video, Crunchyroll“ gilt dem Titel, nicht der Synchro), entscheidet der Artikeltitel – er muss genau diese
+ * eine Plattform nennen. Sonst ist die Zuordnung mehrdeutig (Aoashi, PSYREN, I Parry Everything!: Synchro nur bei Crunchyroll bzw. ADN).
+ */
+export function plattformGebunden(v: Pick<GespeicherterVorschlag, 'plattform' | 'zitat' | 'artikel'>): boolean {
+  const imZitat = plattformenIn(v.zitat)
+  if (imZitat.length === 1) return imZitat[0] === v.plattform
+  const imTitel = plattformenIn(v.artikel)
+  return imTitel.length === 1 && imTitel[0] === v.plattform
+}
+
 function ersterGrund(v: GespeicherterVorschlag, heute: string): string | undefined {
   if (!ARTEN.has(v.art)) return `Art ${v.art}`
   if (v.warnungen.some((w) => !ANBIETER_NUR_IM_ARTIKEL.test(w))) return 'Warnung am Vorschlag'
   if (v.unsicher) return 'Vorschlag ist als unsicher gekennzeichnet'
   if (!v.plattform || KEIN_STREAM.has(v.plattform)) return 'keine Stream-Plattform im Datenmodell'
+  if (!plattformGebunden(v)) return `Plattform ${v.plattform} nicht eindeutig an die Synchro-Aussage gebunden (Zitat und Artikeltitel)`
   if (v.datum && v.datum > heute) return `Tag ${v.datum} liegt in der Zukunft`
   return undefined
 }
