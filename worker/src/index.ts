@@ -43,7 +43,7 @@ import { handlePruefung } from './pruefung.ts'
 import { loadNews, weitereAusNews } from './news-quelle.ts'
 import { handleLauf } from './lauf.ts'
 import { handleCrZugang } from './cr-zugang.ts'
-import { tokenGleich, tokenMitUebergang } from './lauf-token.ts'
+import { tokenAusKopf, tokenGleich, tokenMitUebergang } from './lauf-token.ts'
 import { EMAIL_RE, mitAnmeldeSchutz } from './anmelde-schutz.ts'
 import { digestStand, mitPlatzpruefung, wochenAboFaellig } from './newsletter-kapazitaet.ts'
 import { handleBeleg } from './beleg.ts'; import { loescheAbgelaufenes } from './loeschfristen.ts'; import { starteFaelligeLaeufe } from './wecker.ts'
@@ -1119,7 +1119,7 @@ async function handleNetzfund(request: Request, env: Env): Promise<Response> {
   }
 
   if (request.method !== 'POST') return antwort({ error: 'GET oder POST erwartet' }, 405)
-  const token = request.headers.get('X-Lauf-Token') ?? ''
+  const token = tokenAusKopf(request)
   if (!env.LAUF_TOKEN || !tokenGleich(token, env.LAUF_TOKEN)) return antwort({ error: 'Nicht erlaubt' }, 403)
 
   let daten: Record<string, unknown>
@@ -1196,7 +1196,7 @@ async function handleVorfall(request: Request, env: Env): Promise<Response> {
     die `/pruefung` mit seinem DELETE vermeidet.
   */
   if (request.method === 'DELETE') {
-    const token = request.headers.get('X-Lauf-Token') ?? ''
+    const token = tokenAusKopf(request)
     if (!env.LAUF_TOKEN || !tokenGleich(token, env.LAUF_TOKEN)) return antwort({ error: 'Nicht erlaubt' }, 403)
     let ids: number[] = []
     try {
@@ -1214,7 +1214,7 @@ async function handleVorfall(request: Request, env: Env): Promise<Response> {
   }
 
   if (request.method !== 'POST') return antwort({ error: 'GET, POST oder DELETE erwartet' }, 405)
-  const token = request.headers.get('X-Lauf-Token') ?? ''
+  const token = tokenAusKopf(request)
   if (!env.LAUF_TOKEN || !tokenGleich(token, env.LAUF_TOKEN)) return antwort({ error: 'Nicht erlaubt' }, 403)
 
   let daten: Record<string, unknown>

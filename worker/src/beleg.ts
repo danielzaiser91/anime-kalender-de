@@ -7,6 +7,7 @@
  *   GET  /beleg?liste=<präfix>  die ersten 100 Schlüssel darunter
  */
 import type { Env } from './env.ts'
+import { tokenAusKopf, tokenGleich } from './lauf-token.ts'
 import { BELEG_SCHLUESSEL as SCHLUESSEL } from '../../shared/beleg-schluessel.ts'
 
 const HOECHSTENS_BYTES = 15 * 1024 * 1024
@@ -17,7 +18,7 @@ function antwort(daten: unknown, status = 200, origin = '*'): Response {
 
 export async function handleBeleg(request: Request, env: Env, url: URL): Promise<Response> {
   const origin = env.ALLOWED_ORIGIN || '*'
-  const darfSchreiben = Boolean(env.LAUF_TOKEN) && request.headers.get('X-Lauf-Token') === env.LAUF_TOKEN
+  const darfSchreiben = Boolean(env.LAUF_TOKEN) && tokenGleich(tokenAusKopf(request), env.LAUF_TOKEN)
   const liestEinzeln = request.method === 'GET' && url.searchParams.get('key') !== null
   if (!liestEinzeln && !darfSchreiben) return antwort({ error: 'Nicht erlaubt' }, 403, origin)
   if (!env.BELEGE) return antwort({ error: 'Beleg-Ablage nicht eingerichtet' }, 503)
