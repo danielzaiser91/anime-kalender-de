@@ -21,8 +21,9 @@ function pruefe(name, ok, gefunden) {
 const quelle = lies('amazon.js')
 const von = quelle.indexOf('  // Sperre nach angekommener Meldung')
 const roh = quelle.indexOf('  function zeichnenRoh() {', von)
-const bis = quelle.indexOf('\n  }\n', roh)
-const code = von < 0 || roh < 0 || bis < 0 ? '' : quelle.slice(von, bis + 4)
+/* zeichnenRoh steht in amazon-knopf-zeichnen.js; Aufruf und Welt-Getter in amazon.js enden mit „  }))“. */
+const bis = quelle.indexOf('\n  }))\n', roh)
+const code = von < 0 || roh < 0 || bis < 0 ? '' : lies('amazon-knopf-zeichnen.js') + quelle.slice(von, bis + 7)
 pruefe('Sperre, zeichnen() und zeichnenRoh() im Quelltext gefunden', code.length > 20000, code.length)
 const meldenVon = quelle.indexOf('  function meldenVersteckt() {')
 const meldenCode = meldenVon < 0 ? '' : quelle.slice(meldenVon, quelle.indexOf('\n  }\n', meldenVon) + 4)

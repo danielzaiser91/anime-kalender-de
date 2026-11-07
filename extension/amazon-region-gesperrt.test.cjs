@@ -17,7 +17,7 @@ function pruefe(name, ok, gefunden) {
   console.error(`  ✗ ${name}${gefunden === undefined ? '' : ` — gefunden: ${JSON.stringify(gefunden)}`}`)
 }
 
-const quelle = readFileSync(resolve(__dirname, 'amazon.js'), 'utf8')
+const quelle = readFileSync(resolve(__dirname, 'amazon-knopf-zeichnen.js'), 'utf8') + readFileSync(resolve(__dirname, 'amazon.js'), 'utf8')
 const kasten = {}
 kasten.globalThis = kasten
 vm.runInNewContext(readFileSync(resolve(__dirname, 'prime-region.js'), 'utf8'), kasten)
