@@ -14,8 +14,8 @@ export const KEIN_SAMMLER = [
   'Deploy auf GitHub Pages', // liefert nichts per PR
   // Pusht direkt auf main (tools/commit-data.sh), hat also keinen PR-Zweig, den GitHub ablehnen könnte.
   'Bestand — zusammenführen und bauen',
-  // Führt fremde PRs zusammen, legt keinen eigenen PR-Zweig an.
-  'Claude — Daten-PR zusammenführen',
+  // Bewusst NICHT hier: „Claude — Daten-PR zusammenführen“. Er merged origin/main in fremde PR-Zweige und pusht
+  // sie; kam inzwischen eine Workflow-Änderung auf main, enthält sein Push sie, und GitHub lehnt ihn ab (Sammler-Fehlerfall).
 ]
 
 export function laufendeSammler(namen) {

@@ -11,9 +11,10 @@ const NICHT_SAMMLER = [
   'Mutationsprobe',
   'Deploy auf GitHub Pages',
   'Bestand — zusammenführen und bauen',
-  'Claude — Daten-PR zusammenführen',
 ]
 for (const n of NICHT_SAMMLER) assert.deepEqual(laufendeSammler([n]), [], n)
+// Pusht gemergte fremde PR-Zweige, GitHub lehnt sie bei neuen Workflow-Dateien ab: zählt.
+assert.deepEqual(laufendeSammler(['Claude — Daten-PR zusammenführen']), ['Claude — Daten-PR zusammenführen'])
 
 assert.deepEqual(laufendeSammler([]), [])
 assert.deepEqual(laufendeSammler(['Prime-Kanal messen']), ['Prime-Kanal messen'])
@@ -32,4 +33,4 @@ for (const f of readdirSync(dir).filter((x) => x.endsWith('.yml'))) {
 }
 for (const n of NICHT_SAMMLER) assert.ok(namen.has(n), `kein Workflow heißt mehr "${n}"`)
 
-console.log(`sammler-laeuft: ${NICHT_SAMMLER.length} Ausnahmen gegen ${namen.size} echte Workflow-Namen, 15 Fälle grün`)
+console.log(`sammler-laeuft: ${NICHT_SAMMLER.length} Ausnahmen gegen ${namen.size} echte Workflow-Namen, Fälle grün`)
