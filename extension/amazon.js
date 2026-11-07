@@ -1136,7 +1136,7 @@ async function speicherSchreiben(werte) {
       */
       sichtbarkeit: sicher(() => ({
         imPlayer: imPlayer(),
-        seiteGehtUnsAn,
+        seiteGehtUnsAn: seiteGehtUnsAn(),
         fensterHoehe: window.innerHeight,
         container: [...document.querySelectorAll('.webPlayerSDKContainer, [data-testid="player-container"]')].map((e) => ({
           klasse: String(e.className).slice(0, 80),
@@ -9965,9 +9965,9 @@ async function speicherSchreiben(werte) {
     const nichtAbrufbar = knopf.dataset.tot === 'true'
     const sprachen = sprachenAusFolgen()
     const geladen = geladeneFolgen()
-    // Ein toter Verweis hat naturgemaess keine Folgen -- er ist der einzige
-    // Grund, hier ohne geladene Folgen weiterzugehen.
-    if (!geladen && !nichtAbrufbar) {
+    // Ein toter Verweis der Prüfliste hat naturgemäß keine Folgen; eine unbekannte Seite meldet ohne gelesene Folge nie "weg"
+    // (der Bau könnte sie per Namen einem Titel zuordnen und dessen Wege aufheben).
+    if (!geladen && (!nichtAbrufbar || eintrag.unbekannt)) {
       abweisenMitGrund('keine Folge gelesen')
       return
     }

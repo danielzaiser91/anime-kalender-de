@@ -38,7 +38,7 @@ import { haengeBelegeAn } from './lib/belege-anhaengen.ts'
 import { kanalJaAdressKerne, kanalOhneAussage } from './lib/kanal-titel.ts'
 import { schluesselAdresse, titelSchluessel } from './lib/zuordnung.ts'
 import { ratePerName } from './lib/namens-zuordnung.ts'
-import { istUnbekannteSeite, katalogTreffer, neuerZaehler, urteileUnbekannt, zaehlzeile } from './lib/unbekannte-seite.ts'
+import { istUnbekannteSeite, katalogTreffer, neuerZaehler, urteileUnbekannt, widerspruchZumTitel, zaehlzeile } from './lib/unbekannte-seite.ts'
 import { staffelNummern, type Reiheneintrag } from './lib/staffel-nummern.ts'
 import { verteileMeldungen } from './lib/meldungen-verteilen.ts'
 import { liegenGeblieben, schreibeMeldungenListe, type OhneZuordnung } from './lib/meldungen-liste.ts'
@@ -557,7 +557,10 @@ for (const gruppe of jeAdresse.values()) {
     const name = p.serientitel ?? p.titel ?? ''
     const unserName = (id: number) => liste.find((x) => x.id === id)?.titleDe ?? liste.find((x) => x.id === id)?.titleEn ?? ''
     const { treffer: eindeutig, exakt } = ratePerName(name, nachTitel, unserName)
-    if (exakt) {
+    // Seite ohne Auftrag (`unbekannt=1`): exakt zählt nur, wenn Folgenzahl, Format und Reihe passen (`widerspruchZumTitel`).
+    const gemeldet = Math.max(0, ...gruppe.map((x) => (typeof x.folgen === 'number' ? x.folgen : 0)))
+    const widerspruch = exakt && unbekannt ? widerspruchZumTitel(gemeldet, liste.find((x) => x.id === eindeutig[0]), reiheVon.get(eindeutig[0]!)?.length ?? 1) : null
+    if (exakt && !widerspruch) {
       // Der Name stimmt **genau** — da gibt es nichts zu entscheiden, nur
       // etwas einzutragen. Die Adresse ist neu und kommt gleich mit.
       ids = eindeutig
@@ -565,7 +568,7 @@ for (const gruppe of jeAdresse.values()) {
       if (unbekannt) unbekanntZaehler.eindeutig++
     } else {
       // Kasten „Nicht auf der Prüfliste": Grund und Zähler statt der Standardzeile (`urteileUnbekannt`).
-      const urteil = unbekannt ? urteileUnbekannt(eindeutig, katalogTreffer(ROOT, name)) : null
+      const urteil = unbekannt ? urteileUnbekannt(eindeutig, katalogTreffer(ROOT, name), widerspruch) : null
       if (urteil) unbekanntZaehler[urteil.art]++
       ohneZuordnung.push({ url: p.url, name, plattform: p.plattform, befund: p.befund, vorschlag: urteil?.vorschlag ?? eindeutig, ...(urteil && { zuTun: urteil.zuTun }) })
       offenGeblieben.push(

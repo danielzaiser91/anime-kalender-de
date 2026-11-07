@@ -36,10 +36,25 @@ export function katalogTreffer(wurzel: string, name: string): number[] {
   return [...new Set(katalog.filter((t) => [t.titleDe, t.titleEn, t.titleRomaji].some((n) => n && titelSchluessel(n) === schluessel)).map((t) => t.id))]
 }
 
-/** Was mit einer Meldung geschieht, die der Bestand nicht exakt zuordnet. `bestand`: Treffer in titles.json, `katalog`: im Katalog. */
-export function urteileUnbekannt(bestand: number[], katalog: number[]): Urteil {
+/**
+ * Passt eine Seite ohne Auftrag zum Titel, dessen Name sie exakt trägt? Sonst der Grund (null = passt).
+ * Der Name allein trennt kein Werk von Realfilm, Remake, Film gleichen Namens oder „Staffel 1" jeder Fortsetzung
+ * (F109, Prüfer 3117 A1): Folgenzahl in derselben Toleranz wie die Staffelprüfung des Baus (÷/× 1,5), Film nur mit einer Folge,
+ * und ein Titel in einer Reihe mit mehreren Einträgen ist ohne Staffelnummer nicht eindeutig.
+ */
+export function widerspruchZumTitel(gemeldet: number, titel: { episodes?: number; format?: string } | undefined, reihe: number): string | null {
+  const soll = titel?.episodes ?? 0
+  if (gemeldet > 0 && soll > 0 && (gemeldet > soll * 1.5 || gemeldet < soll / 1.5)) return `Seite nennt ${gemeldet} Folgen, der Titel hat ${soll}`
+  if (gemeldet > 1 && titel?.format === 'MOVIE') return `Seite nennt ${gemeldet} Folgen, der Titel ist ein Film`
+  if (reihe > 1) return `der Titel gehört zu einer Reihe mit ${reihe} Einträgen, die Staffel der Seite ist nicht bestimmt`
+  return null
+}
+
+/** Was mit einer Meldung geschieht, die der Bestand nicht zuordnet. `bestand`: Treffer in titles.json, `katalog`: im Katalog, `grund`: warum ein exakter Name nicht reichte. */
+export function urteileUnbekannt(bestand: number[], katalog: number[], grund: string | null = null): Urteil {
   if (bestand.length) {
-    return { art: 'mehrdeutig', vorschlag: bestand, zuTun: 'Mehrere oder nur ähnliche Treffer: den richtigen Titel wählen, die Seite als Verweis eintragen' }
+    const zuTun = grund ? `Name stimmt, aber ${grund}: den richtigen Titel wählen, die Seite als Verweis eintragen` : 'Mehrere oder nur ähnliche Treffer: den richtigen Titel wählen, die Seite als Verweis eintragen'
+    return { art: 'mehrdeutig', vorschlag: bestand, zuTun }
   }
   if (katalog.length) {
     return { art: 'katalog', vorschlag: katalog, zuTun: 'Titel steht im Katalog ohne Synchro: Seite als Verweis und Synchro-Beleg eintragen' }
@@ -53,6 +68,6 @@ export function zaehlzeile(z: Zaehler): string {
   if (!n) return ''
   return (
     `Unbekannte Prime-Seiten: ${n} gemeldet — ${z.eindeutig} über den Namen zugeordnet, ${z.ueberAdresse} über die Adresse, ` +
-    `${z.mehrdeutig} mehrdeutig, ${z.katalog} im Katalog ohne Synchro, ${z.keiner} ohne Treffer (alle in der Liste ohne Zuordnung)`
+    `${z.mehrdeutig} mehrdeutig, ${z.katalog} im Katalog ohne Synchro, ${z.keiner} ohne Treffer`
   )
 }

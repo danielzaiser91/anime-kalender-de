@@ -69,6 +69,29 @@ pruefe('amazon.js: Kontrolle, bekannter Eintrag → „meldet: …"', kopf({ tit
 const versteckt = handlerKompilieren(kopfText, { liste: {}, id: 'B0H', listenId: 'B0H', kennungJetzt: 'B0H', eintrag: {}, meldenVersteckt: () => true, suchauftrag: () => null, zurReihe: () => true, seitenTitel: () => 'X', globalThis: k }).klick
 pruefe('amazon.js: wo der Knopf wegbleibt, steht auch keine Kopfzeile', versteckt === '', versteckt)
 
+/* A5: das echte `seiteGehtUnsAn()` aus amazon.js gegen Seitenlagen; nur Ort, Hydration-Block, Folgen-Reiter und Eintrag sind Attrappen. */
+console.log('Unbekannte Seite: echtes seiteGehtUnsAn()')
+const gehtAnText = '(function seiteGehtUnsAn() {' + ausschnitt(quelle, 'function seiteGehtUnsAn() {', '\n  }') + ')'
+function gehtAn({ pfad, hydration = false, reiter = false }) {
+  return handlerKompilieren(gehtAnText, {
+    location: { pathname: pfad },
+    document: { getElementById: (id) => (hydration && id === 'dv-web-page-hydration-data' ? {} : null) },
+    seitenLage: () => ({ hatFolgenReiter: reiter }),
+    eintragFuer: () => ({ unbekannt: true }),
+    id: 'B0BUCH',
+  }).klick()
+}
+pruefe('Buchseite (/dp/, kein Hydration-Block, kein Folgen-Reiter): geht uns nichts an', gehtAn({ pfad: '/dp/B0BUCH' }) === false)
+pruefe('Prime-Startseite (/gp/video/storefront): Merkmal gilt, Kasten nur als Hülle (es gibt dort keine Kennung, der Knopf entsteht erst mit einer)', gehtAn({ pfad: '/gp/video/storefront', hydration: true }) === true)
+pruefe('Pfad /gp/video/ ohne Hydration-Block: gilt', gehtAn({ pfad: '/gp/video/detail/B0H' }) === true)
+pruefe('Titelseite unter /dp/ mit Hydration-Block: gilt', gehtAn({ pfad: '/dp/B0H', hydration: true }) === true)
+pruefe('Seite mit Folgen-Reiter: gilt', gehtAn({ pfad: '/dp/B0H', reiter: true }) === true)
+const kennungsWarten = quelle.includes('if (!id) {\n    id = await new Promise((fertig) => {')
+pruefe('Ohne Kennung wartet amazon.js auf eine, statt zu zeichnen (Startseite bekommt keinen Meldeknopf)', kennungsWarten)
+
+/* A3: die Diagnose behält ihren Wahrheitswert (Belegfeld der Air-Gear-Messung), nicht die Funktion selbst. */
+pruefe('Diagnose: seiteGehtUnsAn wird als Wahrheitswert berichtet', quelle.includes('seiteGehtUnsAn: seiteGehtUnsAn(),'))
+
 if (fehler.length) {
   console.error(`\n${fehler.length} Zusicherung(en) verletzt.`)
   process.exit(1)

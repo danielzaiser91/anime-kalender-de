@@ -20,16 +20,21 @@ const fehler: string[] = []
 const LISTE = 'daniel-zum-abarbeiten/listen/11-meldungen-ohne-zuordnung.md'
 
 const seite = (kennung: string) => `https://www.amazon.de/dp/${kennung}`
-const titel = (id: number, titleDe: string, streams: unknown[] = []) => ({ id, titleDe, format: 'TV', episodes: 12, streams })
+const titel = (id: number, titleDe: string, streams: unknown[] = [], zusatz: object = {}) => ({ id, titleDe, format: 'TV', episodes: 12, streams, ...zusatz })
 const BESTAND = [
   titel(900011, 'Kastenprobe Alpha'),
   titel(900021, 'Kastenprobe Beta'),
   titel(900022, 'Kastenprobe Beta'),
   titel(900041, 'Kastenprobe Delta', [{ platform: 'primevideo', url: seite('B0KASTEN04') }]),
+  titel(900051, 'Kastenprobe Sigma'),
+  titel(900052, 'Kastenprobe Sigma Zwei'),
+  titel(900061, 'Kastenprobe Tau'),
+  titel(900062, 'Kastenprobe Tau 2'),
+  titel(900071, 'Kastenprobe Upsilon', [], { episodes: undefined, format: 'MOVIE' }),
 ]
 const KATALOG = [{ id: 900031, titleEn: 'Kastenprobe Gamma', format: 'TV' }]
 
-function zeile(nr: number, kennung: string, name: string, markiert: boolean, kennzeichen = 'unbekannt=1') {
+function zeile(nr: number, kennung: string, name: string, markiert: boolean, kennzeichen = 'unbekannt=1', folgen = 12) {
   return {
     id: 940000 + nr,
     plattform: 'primevideo',
@@ -37,7 +42,7 @@ function zeile(nr: number, kennung: string, name: string, markiert: boolean, ken
     sprachen: '["Deutsch"]',
     befund: 'dub',
     titel: name,
-    folgen: 12,
+    folgen,
     folge_nr: 1,
     staffel: 1,
     staffeln: null,
@@ -57,7 +62,7 @@ function lauf(zeilen: unknown[]) {
   try {
     for (const ordner of ['data/curated', 'public/data', 'extension', 'daniel-zum-abarbeiten/listen']) mkdirSync(join(tmp, ordner), { recursive: true })
     writeFileSync(join(tmp, 'public/data/titles.json'), JSON.stringify(BESTAND))
-    writeFileSync(join(tmp, 'public/data/franchises.json'), '{}')
+    writeFileSync(join(tmp, 'public/data/franchises.json'), JSON.stringify({ 77: [{ id: 900061, name: 'Kastenprobe Tau', format: 'TV', jpStart: '2020-01-01' }, { id: 900062, name: 'Kastenprobe Tau 2', format: 'TV', jpStart: '2021-01-01' }] }))
     writeFileSync(join(tmp, 'public/data/cartoons.json'), '[]')
     writeFileSync(join(tmp, 'public/data/ohne-synchro-namen.json'), JSON.stringify(KATALOG))
     writeFileSync(join(tmp, 'data/dub-confirmed.yaml'), '# leer\n')
@@ -88,10 +93,15 @@ const reihe = [
   zeile(5, 'B0KASTEN04', 'Kastenprobe Delta', true),
   /* Ein Teil des Katalognamens ist kein Katalogtreffer (Gleichheit, nicht „enthält"). */
   zeile(8, 'B0KASTEN06', 'Kastenprobe Gamm', true),
+  /* A1: exakter Name, aber die Seite passt nicht zum Titel: eine Folge gegen zwölf; Titel in einer Reihe; Film mit zwölf Folgen */
+  zeile(13, 'B0KASTEN09', 'Kastenprobe Sigma', true, 'unbekannt=1', 1),
+  zeile(16, 'B0KASTEN12', 'Kastenprobe Sigma Zwei', true, 'unbekannt=1', 30),
+  zeile(14, 'B0KASTEN10', 'Kastenprobe Tau', true),
+  zeile(15, 'B0KASTEN11', 'Kastenprobe Upsilon', true),
 ]
 const markiert = lauf(reihe)
-const ZAEHLZEILE = 'Unbekannte Prime-Seiten: 6 gemeldet — 1 über den Namen zugeordnet, 1 über die Adresse, 1 mehrdeutig, 1 im Katalog ohne Synchro, 2 ohne Treffer'
-if (!markiert.ausgabe.includes(ZAEHLZEILE)) fehler.push(`Zählzeile fehlt oder weicht ab: ${markiert.ausgabe.split('\n').filter((z) => z.includes('Unbekannte Prime')).join(' | ') || '(keine)'}`)
+const ZAEHLZEILE = 'Unbekannte Prime-Seiten: 10 gemeldet — 1 über den Namen zugeordnet, 1 über die Adresse, 5 mehrdeutig, 1 im Katalog ohne Synchro, 2 ohne Treffer'
+if (!markiert.ausgabe.split('\n').some((z) => z.endsWith(ZAEHLZEILE))) fehler.push(`Zählzeile fehlt oder weicht ab: ${markiert.ausgabe.split('\n').filter((z) => z.includes('Unbekannte Prime')).join(' | ') || '(keine)'}`)
 const liste = markiert.liste.split('\n')
 const zeileZu = (kennung: string) => liste.find((z) => z.includes(seite(kennung))) ?? ''
 if (zeileZu('B0KASTEN01') || zeileZu('B0KASTEN04')) fehler.push('eindeutiger Name und bekannte Adresse gehören nicht in die Liste ohne Zuordnung')
@@ -99,8 +109,11 @@ if (!zeileZu('B0KASTEN02').includes('Mehrere oder nur ähnliche Treffer') || !ze
 if (!zeileZu('B0KASTEN03').includes('Titel steht im Katalog ohne Synchro') || !zeileZu('B0KASTEN03').includes('900031')) fehler.push(`Katalog: Grund oder Vorschlag fehlen: ${zeileZu('B0KASTEN03')}`)
 if (!zeileZu('B0KASTEN05').includes('Kein Treffer im Bestand')) fehler.push(`ohne Treffer: Grund fehlt: ${zeileZu('B0KASTEN05')}`)
 const warnungen = markiert.ausgabe.split('\n').filter((z) => z.includes('im Datensatz nicht gefunden'))
-if (warnungen.length !== 4) fehler.push(`vier Meldungen bleiben liegen, aber ${warnungen.length} Warnzeilen: ${warnungen.join(' | ')}`)
+if (warnungen.length !== 8) fehler.push(`acht Meldungen bleiben liegen, aber ${warnungen.length} Warnzeilen: ${warnungen.join(' | ')}`)
 if (!zeileZu('B0KASTEN06').includes('Kein Treffer im Bestand')) fehler.push(`Teilname des Katalogtitels ist kein Katalogtreffer: ${zeileZu('B0KASTEN06')}`)
+for (const [kennung, grund] of [['B0KASTEN09', 'Seite nennt 1 Folgen, der Titel hat 12'], ['B0KASTEN12', 'Seite nennt 30 Folgen, der Titel hat 12'], ['B0KASTEN10', 'Reihe mit 2 Einträgen'], ['B0KASTEN11', 'der Titel ist ein Film']]) {
+  if (!zeileZu(kennung).includes('Name stimmt, aber') || !zeileZu(kennung).includes(grund)) fehler.push(`exakter Name, aber Seite passt nicht (${kennung}): ${zeileZu(kennung)}`)
+}
 
 /* Dieselben Seiten ohne Kennzeichen: Standardzeile, keine Zählung (die Erweiterung vor F109 meldete so). */
 const unmarkiert = lauf([
