@@ -1,18 +1,17 @@
 /**
- * Prüf-Token: Header `Authorization: Bearer` gilt, Query nur übergangsweise, falscher oder fehlender Token wird abgewiesen.
+ * Prüf-Token: Header `Authorization: Bearer` gilt, `?token=` gilt nicht mehr, falscher oder fehlender Token wird abgewiesen.
  * Läuft die echten Handler (`/cr-zugang`, `/debug/…` über den Eingang, Lese-Deckel), nicht nur den Helfer.
  *
  * Aufruf: `npx tsx tools/worker-lauf-token.test.ts`
  */
 import assert from 'node:assert/strict'
-import { tokenAusKopf, tokenGleich, tokenMitUebergang, UEBERGANG_BIS } from '../worker/src/lauf-token.ts'
+import { tokenAusKopf, tokenGleich } from '../worker/src/lauf-token.ts'
 import { adminAnfrage } from '../web/src/lib/admin-aufruf.ts'
+import { handlePruefung } from '../worker/src/pruefung.ts'
 import { handleCrZugang } from '../worker/src/cr-zugang.ts'
 import { GEDECKELT, istFrei } from '../worker/src/lesedeckel.ts'
 import { type Env } from '../worker/src/env.ts'
-import { festeUhr } from './feste-uhr.ts'
 
-festeUhr('2026-10-12T12:00:00Z') // Query-Übergang gilt bis UEBERGANG_BIS; echte Uhr ließe den Test ab 07.11. kippen
 const GEHEIM = 'geheim-1'
 const db = { prepare: () => ({ first: async () => null }) }
 const env = { LAUF_TOKEN: GEHEIM, DEBUG_TOKEN: 'debug-1', DB: db } as unknown as Env
@@ -24,9 +23,6 @@ assert.equal(tokenAusKopf(anfrage('', { authorization: `bearer ${GEHEIM}` })), G
 assert.equal(tokenAusKopf(anfrage('', { 'X-Lauf-Token': 'alt' })), 'alt', 'bisheriger Kopf gilt weiter')
 assert.equal(tokenAusKopf(anfrage('', { Authorization: 'Basic abc' })), '', 'anderes Schema ist kein Token')
 assert.equal(tokenAusKopf(anfrage('?token=q')), '', 'tokenAusKopf liest die Adresse nie')
-assert.equal(tokenMitUebergang(anfrage('?token=q')), 'q', 'Übergang: Query')
-assert.equal(tokenMitUebergang(anfrage('?token=q', { Authorization: 'Bearer h' })), 'h', 'Kopf schlägt Query')
-assert.equal(tokenMitUebergang(anfrage('')), '')
 
 /* Zeitkonstanter Vergleich: gleiche Länge, andere Länge, Präfix, leer, fehlendes Geheimnis */
 assert.equal(tokenGleich('abc', 'abc'), true)
@@ -37,11 +33,11 @@ assert.equal(tokenGleich('', 'abc'), false)
 assert.equal(tokenGleich('', ''), false, 'leeres Geheimnis stimmt nie')
 assert.equal(tokenGleich('x', undefined), false)
 
-/* Echter Handler /cr-zugang: Kopf ok (404 = hinter der Sperre, kein Paket), Query übergangsweise ok, sonst 403 */
+/* Echter Handler /cr-zugang: Kopf ok (404 = hinter der Sperre, kein Paket), Query abgelehnt (403), sonst 403 */
 const status = async (suche: string, kopf?: Record<string, string>) => (await handleCrZugang(anfrage(suche, kopf), env)).status
 assert.equal(await status('', { Authorization: `Bearer ${GEHEIM}` }), 404, 'Bearer ok')
 assert.equal(await status('', { 'X-Lauf-Token': GEHEIM }), 404, 'X-Lauf-Token ok')
-assert.equal(await status(`?token=${GEHEIM}`), 404, 'Query übergangsweise ok')
+assert.equal(await status(`?token=${GEHEIM}`), 403, 'richtiges Token in der Adresse wird abgelehnt')
 assert.equal(await status('', { Authorization: 'Bearer falsch' }), 403, 'falscher Bearer')
 assert.equal(await status('?token=falsch'), 403, 'falsche Query')
 assert.equal(await status('', { Authorization: 'Bearer falsch' }), 403)
@@ -56,18 +52,22 @@ const deckel = (kopf: Record<string, string>, suche = '') => istFrei(new Request
 assert.equal(deckel({ Authorization: `Bearer ${GEHEIM}` }), true)
 assert.equal(deckel({ Authorization: 'Bearer debug-1' }), true)
 assert.equal(deckel({ Authorization: 'Bearer falsch' }), false)
-assert.equal(deckel({}, `?token=${GEHEIM}`), true, 'Query übergangsweise')
+assert.equal(deckel({}, `?token=${GEHEIM}`), false, 'richtiges Token in der Adresse lässt nicht frei')
 assert.equal(deckel({}), false)
 
 /* Bearer mit zwei Leerzeichen: der Token wird getrimmt (trim-Mutant) */
 assert.equal(tokenAusKopf(anfrage('', { Authorization: 'Bearer  x' })), 'x')
 
-/* Ablauf des Query-Übergangs: Uhr eingespeist, davor Query ok, ab dem Zeitpunkt nicht mehr */
-const vorher = Date.parse(UEBERGANG_BIS) - 1
-assert.equal(UEBERGANG_BIS, '2026-11-07T00:00:00Z')
-assert.equal(tokenMitUebergang(anfrage('?token=q'), vorher), 'q', 'eine Millisekunde vor dem Ablauf')
-assert.equal(tokenMitUebergang(anfrage('?token=q'), vorher + 1), '', 'ab dem Ablauf gilt Query nicht mehr')
-assert.equal(tokenMitUebergang(anfrage('?token=q', { Authorization: 'Bearer h' }), vorher + 1), 'h', 'Kopf gilt weiter')
+/* Schreib-Routen /pruefung (POST, DELETE): Kopf geht, ?token= wird abgelehnt (403) */
+for (const methode of ['POST', 'DELETE']) {
+  const rufe = async (suche: string, kopf: Record<string, string> = {}) =>
+    (await handlePruefung(new Request(`https://w.test/pruefung${suche}`, { method: methode, headers: kopf, body: '{}' }), env)).status
+  assert.equal(await rufe(`?token=${GEHEIM}`), 403, `${methode}: richtiges Token in der Adresse wird abgelehnt`)
+  assert.equal(await rufe(''), 403, `${methode}: ohne Token`)
+  assert.equal(await rufe('', { Authorization: 'Bearer falsch' }), 403, `${methode}: falscher Bearer`)
+  assert.notEqual(await rufe('', { Authorization: `Bearer ${GEHEIM}` }), 403, `${methode}: Bearer geht`)
+  assert.notEqual(await rufe('', { 'X-Lauf-Token': GEHEIM }), 403, `${methode}: X-Lauf-Token geht`)
+}
 
 /* Betreiber-Panel: Token im Kopf, nie in der Adresse */
 const aufrufe: { url: string; kopf: unknown }[] = []

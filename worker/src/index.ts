@@ -43,7 +43,7 @@ import { handlePruefung } from './pruefung.ts'
 import { loadNews, weitereAusNews } from './news-quelle.ts'
 import { handleLauf } from './lauf.ts'
 import { handleCrZugang } from './cr-zugang.ts'
-import { tokenAusKopf, tokenGleich, tokenMitUebergang } from './lauf-token.ts'
+import { tokenAusKopf, tokenGleich } from './lauf-token.ts'
 import { EMAIL_RE, mitAnmeldeSchutz } from './anmelde-schutz.ts'
 import { digestStand, mitPlatzpruefung, wochenAboFaellig } from './newsletter-kapazitaet.ts'
 import { handleBeleg } from './beleg.ts'; import { loescheAbgelaufenes } from './loeschfristen.ts'; import { starteFaelligeLaeufe } from './wecker.ts'
@@ -1067,7 +1067,7 @@ export async function runMonitor(
  */
 async function handleLand(request: Request, env: Env): Promise<Response> {
   const kopf = { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
-  const token = tokenMitUebergang(request)
+  const token = tokenAusKopf(request)
   if (!env.LAUF_TOKEN || !tokenGleich(token, env.LAUF_TOKEN)) {
     return new Response(JSON.stringify({ error: 'Nicht erlaubt' }), { status: 403, headers: kopf })
   }
@@ -1110,7 +1110,7 @@ async function handleNetzfund(request: Request, env: Env): Promise<Response> {
     new Response(JSON.stringify(body), { status, headers: offen })
 
   if (request.method === 'GET') {
-    const token = tokenMitUebergang(request)
+    const token = tokenAusKopf(request)
     if (!env.LAUF_TOKEN || !tokenGleich(token, env.LAUF_TOKEN)) return antwort({ error: 'Nicht erlaubt' }, 403)
     const { results } = await env.DB.prepare(
       'SELECT id, url, reihe, laenge, felder, proben, gemeldet_am FROM netzfund ORDER BY gemeldet_am DESC LIMIT 200',
@@ -1181,7 +1181,7 @@ async function handleVorfall(request: Request, env: Env): Promise<Response> {
     new Response(JSON.stringify(body), { status, headers: offen })
 
   if (request.method === 'GET') {
-    const token = tokenMitUebergang(request)
+    const token = tokenAusKopf(request)
     if (!env.LAUF_TOKEN || !tokenGleich(token, env.LAUF_TOKEN)) return antwort({ error: 'Nicht erlaubt' }, 403)
     const { results } = await env.DB.prepare(
       `SELECT id, plattform, art, url, reihe, folge_nr, staffel, text, version, gemeldet_am
@@ -1344,7 +1344,7 @@ async function verteile(request: Request, env: Env, ctx: ExecutionContext): Prom
         return handleRhythmus(request, env)
       case '/debug/digest': {
         // Versand von Hand auslösen. Nur mit dem Secret DEBUG_TOKEN; ohne Secret abgeschaltet.
-        const token = tokenMitUebergang(request)
+        const token = tokenAusKopf(request)
         if (!env.DEBUG_TOKEN || !tokenGleich(token, env.DEBUG_TOKEN)) {
           return json(env, { error: 'Nicht erlaubt' }, 403)
         }
@@ -1359,7 +1359,7 @@ async function verteile(request: Request, env: Env, ctx: ExecutionContext): Prom
         }
       }
       case '/debug/monitor': {
-        if (!env.DEBUG_TOKEN || !tokenGleich(tokenMitUebergang(request), env.DEBUG_TOKEN)) return json(env, { error: 'Nicht erlaubt' }, 403)
+        if (!env.DEBUG_TOKEN || !tokenGleich(tokenAusKopf(request), env.DEBUG_TOKEN)) return json(env, { error: 'Nicht erlaubt' }, 403)
         const mode = url.searchParams.get('mail')
         try {
           const result = await runMonitor(
