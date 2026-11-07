@@ -27,10 +27,6 @@ export const SAMMELSEITEN: Record<number, { url: string; grund: string }> = {
     url: 'https://www.crunchyroll.com/de/series/GYP8DP1MY/jojos-bizarre-adventure',
     grund: 'Eine Serienseite für alle JoJo-Staffeln; die Specials Recaps und Re-Edited (ohne-synchro) teilen sie (sharedWith 3).',
   },
-  187053: {
-    url: 'https://www.amazon.de/gp/video/detail/B07XYDCVFK',
-    grund: 'Prime-Seite „Sylvanian Families“ (12 Mini-Folgen): Cartoon -13247 und Anime „Mini Episodes – Ivy“ tragen je einen Handbeleg dafür; ob beide dasselbe Werk sind, ist offen.',
-  },
 }
 
 export interface FremderBeleg {

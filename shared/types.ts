@@ -173,7 +173,7 @@ export interface StreamLink {
   dubAbgeleitet?: DubAbgeleitet
   /** JustWatch spricht nur von der Staffel, nicht von dieser Seite, oder der Wächter hat den Anbieter abgeschaltet: nur Hinweis „laut JustWatch“. */
   dubHintOnly?: true
-  /** Woher der Weg stammt, wenn nicht aus unseren Anime-Quellen: `tmdb` = nur der Anbieter laut TMDB (Deutschland), ohne Sprachangabe (Cartoon-Umzug, 09.10.2026); `termin` = nur der Anbieter eines sicheren Kalendertermins, ohne Tonurteil (11.10.2026); `handbeleg` = Weg eines Titels nur bei aniSearch, den ein Handbeleg „deutsch“ mit Adresse trägt (14.10.2026); `justwatch` = Prime-Kauf-/Leihweg nur aus JustWatch (23.10.2026), meldet nicht „neu“. */
+  /** Woher der Weg stammt, wenn nicht aus unseren Anime-Quellen: `tmdb` = nur der Anbieter laut TMDB (Deutschland), ohne Sprachangabe (Cartoon-Umzug, 09.10.2026); `termin` = nur der Anbieter eines sicheren Kalendertermins, ohne Tonurteil (11.10.2026); `handbeleg` = Weg eines Titels nur bei aniSearch, den ein Handbeleg „deutsch“ mit Adresse trägt (14.10.2026); `justwatch` = Prime-Kauf-/Leihweg (23.10.2026) oder Joyn-Weg eines Titels nur bei aniSearch (04.11.2026) nur aus JustWatch, meldet nicht „neu“. */
   herkunft?: 'tmdb' | 'termin' | 'handbeleg' | 'justwatch'
   /**
    * Wo in dieser Staffel der deutsche Ton liegt — wenn er nicht überall liegt.

@@ -37,6 +37,7 @@ function liefereAus({ synchro, quarantaene, ...rest }: Phasenergebnis): void {
     allTitles,
     kanalJeAdresse: synchro.kanalJeAdresse,
     motnTon: synchro.motnTon,
+    suchOffen: synchro.suchOffen,
     meta,
   })
   schreibeAboFeeds({ newsFuerRss, events, platforms, allTitles, genres, meta, keywords })

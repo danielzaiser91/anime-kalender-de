@@ -36,3 +36,19 @@ export function titelAusCommit(wurzel: string, stand = 'HEAD'): Kurz[] {
     return []
   }
 }
+
+/** Eine Zeile aus `data/kennungen.json`: `[ak, AniList-Kennung, aniSearch-Kennung, zuAk?]`. */
+type Kennung = readonly number[]
+
+/** Anzeigenamen der Titel, die im vorigen Hauptbestand standen, im jetzigen fehlen und in `kennungen` eine `zuAk`-Umleitung auf einen Nachfolger tragen (gewollte Zusammenlegung, z. B. Rohan #3015). */
+export function zusammengelegteTitel(vorher: Kurz[], jetzt: Kurz[], kennungen: Kennung[]): string[] {
+  const imHaupt = new Set(jetzt.map((t) => t.id))
+  const umgeleitet = new Set(kennungen.filter((z) => z[3] !== undefined).map((z) => z[1]))
+  return vorher.filter((t) => !imHaupt.has(t.id) && umgeleitet.has(t.id)).map((t) => anzeigeName(t))
+}
+
+/** Kennungen (höchstens `grenze`) der Titel, die seit dem vorigen Hauptbestand fehlen; für die Historie-Zeile, damit ein Verlust ohne Diff auffindbar ist. */
+export function fehlendeTitelIds(vorher: Kurz[], jetzt: Kurz[], grenze = 10): number[] {
+  const imHaupt = new Set(jetzt.map((t) => t.id))
+  return vorher.filter((t) => !imHaupt.has(t.id)).map((t) => t.id).slice(0, grenze)
+}

@@ -252,5 +252,50 @@
         "ersetze": ""
       }
     ]
+  },
+  {
+    "name": "K1 pushFaellig: Standardwert istErschienen statt pushIstErschienen",
+    "aenderungen": [
+      {
+        "datei": "worker/src/push-takt.ts",
+        "suche": "ereignisse: PushEreignis[],\n  jetzt: Date,\n  erschienen: (e: PushEreignis, zeit: Date) => boolean = pushIstErschienen",
+        "ersetze": "ereignisse: PushEreignis[],\n  jetzt: Date,\n  erschienen: (e: PushEreignis, zeit: Date) => boolean = (e, z) => istErschienen(e, z)"
+      },
+      {
+        "datei": "worker/src/push-takt.ts",
+        "suche": "import { fehlerLog } from './werte.ts'",
+        "ersetze": "import { fehlerLog } from './werte.ts'\nimport { istErschienen } from '../../shared/logic.ts'"
+      }
+    ]
+  },
+  {
+    "name": "K2 pushSchnell: Standardwert istErschienen statt pushIstErschienen",
+    "aenderungen": [
+      {
+        "datei": "worker/src/push-takt.ts",
+        "suche": "ladeEreignisse: () => Promise<ReleaseEvent[]>,\n  erschienen: (e: PushEreignis, zeit: Date) => boolean = pushIstErschienen",
+        "ersetze": "ladeEreignisse: () => Promise<ReleaseEvent[]>,\n  erschienen: (e: PushEreignis, zeit: Date) => boolean = (e, z) => istErschienen(e, z)"
+      },
+      {
+        "datei": "worker/src/push-takt.ts",
+        "suche": "import { fehlerLog } from './werte.ts'",
+        "ersetze": "import { fehlerLog } from './werte.ts'\nimport { istErschienen } from '../../shared/logic.ts'"
+      }
+    ]
+  },
+  {
+    "name": "K3 pushStuendlich: Aufruf mit istErschienen statt pushIstErschienen",
+    "aenderungen": [
+      {
+        "datei": "worker/src/push-takt.ts",
+        "suche": "ereignisse, pushIstErschienen, weitereAusNews",
+        "ersetze": "ereignisse, (e, z) => istErschienen(e, z), weitereAusNews"
+      },
+      {
+        "datei": "worker/src/push-takt.ts",
+        "suche": "import { fehlerLog } from './werte.ts'",
+        "ersetze": "import { fehlerLog } from './werte.ts'\nimport { istErschienen } from '../../shared/logic.ts'"
+      }
+    ]
   }
 ]
