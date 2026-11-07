@@ -6,7 +6,7 @@ const VORSILBE = 'suchadressen-'
 const STUNDE = 60 * 60 * 1000
 
 /**
- * Lenkt die Suchadressen-Listen des Bau-Abschlusses (`SUCHADRESSEN_ORDNER`, siehe `bau/nebendateien.ts`) in einen Temp-Ordner um,
+ * Lenkt die Listen des Bau-Abschlusses (Suchadressen in Phase 13, JustWatch-Widersprüche in Phase 11; `SUCHADRESSEN_ORDNER`, siehe `bau/nebendateien.ts`) in einen Temp-Ordner um,
  * damit Prüfungen keine getrackten Dateien beschreiben. Der Ordner verschwindet beim Prozessende; Reste älter als eine Stunde
  * (abgebrochene Läufe) räumt der Aufruf weg.
  */

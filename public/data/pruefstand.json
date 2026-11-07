@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-11-07T15:45:44.864Z",
+ "erzeugtAm": "2026-11-07T16:32:57.296Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -1779,28 +1779,6 @@
     "8cc06990-0faf-4a7e-ac1f-fb74cb4b9286": 15,
     "5ecc8b00-79fd-4c1a-81ed-f44260ef38d4": 13
    }
-  },
-  {
-   "name": "Suchadressen",
-   "plattform": "suchadressen",
-   "gemeldet": 0,
-   "gesamt": 2,
-   "offen": 2,
-   "titel": 0,
-   "ohneSeite": 2,
-   "ziel": "https://netflix.com",
-   "ziele": [
-    {
-     "url": "https://netflix.com",
-     "titel": "Meine ganz besondere Hochzeit: Special"
-    },
-    {
-     "url": "https://www.amazon.de/s?k=TANK%20CHAIR&i=instant-video",
-     "titel": "Tank Chair"
-    }
-   ],
-   "naechster": "Meine ganz besondere Hochzeit: Special",
-   "hinweis": "Suchadressen ohne Titelseite: den richtigen Treffer beim Anbieter heraussuchen"
   }
  ]
 }
