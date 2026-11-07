@@ -52,10 +52,24 @@ export function istPruefskript(pfad, text) {
 
 /** Nennt `text` das Skript als eigenes Wort (Dateiname) oder, bei TypeScript, als Importpfad ohne Endung nach einem „/“? */
 export function nenntSkript(text, pfad) {
-  const name = pfad.split('/').pop()
-  const basis = name.replace(/\.(mjs|cjs|js|mts|ts)$/, '')
-  const import_ = /\.m?ts$/.test(pfad) ? `|(?<=\\/)${maskiere(basis)}(?:\\.js)?(?=['"])` : ''
-  return new RegExp(`(?<![\\w.-])(?:${maskiere(name)}${import_})(?![\\w.-])`).test(text)
+  const { basis, muster } = nennMuster(pfad)
+  // Jeder Treffer des Musters enthält den Basisnamen; die Teilzeichenkettensuche spart fast alle Regex-Läufe.
+  return text.includes(basis) && muster.test(text)
+}
+
+const MUSTER = new Map()
+
+/** Basisname und Suchmuster je Skriptpfad, einmal gebaut (erreichbar() fragt jedes Skript je Text). */
+function nennMuster(pfad) {
+  let m = MUSTER.get(pfad)
+  if (!m) {
+    const name = pfad.split('/').pop()
+    const basis = name.replace(/\.(mjs|cjs|js|mts|ts)$/, '')
+    const import_ = /\.m?ts$/.test(pfad) ? `|(?<=\\/)${maskiere(basis)}(?:\\.js)?(?=['"])` : ''
+    m = { basis, muster: new RegExp(`(?<![\\w.-])(?:${maskiere(name)}${import_})(?![\\w.-])`) }
+    MUSTER.set(pfad, m)
+  }
+  return m
 }
 
 /** Alle `run`-Werte eines YAML-Dokuments (Workflows, Actions). */

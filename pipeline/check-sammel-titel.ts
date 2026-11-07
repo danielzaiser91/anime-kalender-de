@@ -82,6 +82,13 @@ const KATALOG: Title[] = [
   titel(900097, 'Wizard’s Tale: Der Beginn', undefined, 'TV', 2026),
   { ...titel(900098, undefined, undefined, 'TV', 2026), titleRomaji: 'Kimi no Namae' },
   titel(900094, 'Dein Name', undefined, 'MOVIE', 2016),
+  titel(900201, 'Magic Knight Rayearth (2026)', 'Magic Knight Rayearth (2026)', 'TV', 2026),
+  titel(900202, 'Alt Neu', undefined, 'TV', 1999),
+  titel(900203, 'Alt Neu (2024)', undefined, 'TV', 2024),
+  titel(900204, 'Doppel Remake (2020)', undefined, 'TV', 2020),
+  titel(900205, 'Doppel Remake (2024)', undefined, 'TV', 2024),
+  titel(900206, 'Mitte (2020) Name', undefined, 'TV', 2020),
+  titel(900207, 'Kino Remake (2026)', undefined, 'MOVIE', 2026),
   ...FORTSETZUNGEN,
 ]
 /** Wörtlich aus `public/data/synonyme.json`. */
@@ -141,6 +148,13 @@ async function pruefeNamen(): Promise<void> {
   pruefe('zwei Anfänge → keiner', id('Zwillingsserie: Der') === undefined)
   pruefe('ein Anfang mit „Part 2“ daneben ist nicht eindeutig', id('Doppel Werk') === undefined)
   pruefe('Anfang gilt nur am Namensbeginn, nicht mitten im Namen', id('Dark Elf') === undefined)
+  // Remake mit Jahr im Bestandsnamen (wörtlich „Magic Knight Rayearth (2026)“, Meldungen 1065119/1050718).
+  pruefe('Jahr im Bestandsnamen: „Magic Knight Rayearth“ → „… (2026)“', id('Magic Knight Rayearth') === 900201, id('Magic Knight Rayearth'))
+  pruefe('Jahr im Bestandsnamen: Staffel-1-Zusatz bleibt erlaubt', id('Magic Knight Rayearth', 'Staffel 1') === 900201)
+  pruefe('Titel ohne Jahr geht vor dem Titel mit Jahr', id('Alt Neu') === 900202, id('Alt Neu'))
+  pruefe('zwei Titel mit verschiedenem Jahr → keiner', id('Doppel Remake') === undefined, id('Doppel Remake'))
+  pruefe('Jahr nur am Namensende, nicht mitten im Namen', id('Mitte Name') === undefined, id('Mitte Name'))
+  pruefe('Film-Sperre gilt auch für Titel mit Jahr', id('Kino Remake') === undefined, id('Kino Remake'))
   pruefe('Film-Wort verlangt einen Film (Eureka Seven/Trinity Seven nicht)', id('Seven Stories Movie 1') === undefined && id('K: Seven Stories Movie 1') === 900001)
   pruefe('ohne Film-Wort kein Film im Namensanfang', id('Kinoserie Special') === undefined)
 }

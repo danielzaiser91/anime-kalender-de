@@ -60,3 +60,6 @@ Ergänzt die Klasse K1 in `bauer.md`/`pruefer.md`; Anlässe stehen in `lehren.md
 - **Frist-Mutation (31.10.2026, PR 2533):** „Frist ignoriert“ überlebt, solange kein Testfall einen Befehl hat, der nach der Frist anders endet als in ihr — je Frist einen solchen Fall anlegen.
 
 - **Mutationsläufer nie mit `--test true` (Prüfer 2540, 31.10.2026):** Ohne echten Testbefehl gibt es kein Rot-Signal, der Läufer läuft minutenlang und blockiert die Shell.
+- **AK_ROOT vor dem ersten Import setzen (05.11.2026, Bauer 2901):** Tests, die eine Wegwerf-Wurzel nutzen, setzen `process.env.AK_ROOT` und laden das Modul danach per dynamischem `await import()` — ein statischer Import liest die Wurzel vorher und schreibt in echte `data/`-Dateien.
+- **Datumsgrenze mit vorgestellter Uhr messen (05.11.2026, PR 2905):** Läuft eine Übergangsfrist im Code ab (`UEBERGANG_BIS` o. ä.), alle betroffenen Tests einmal mit `npx tsx --import <shim>` fahren, wobei der Shim `Date`/`Date.now` auf einen Tag nach der Frist schiebt. Rot wird nur, wer eine echte Uhr nutzt; diese Tests vor der Frist umstellen.
+- **Geteilte Helfer (05.11.2026, Prüfer 2903):** Sammelt ein Fix Fehler in einem Helfer, den mehrere Abrufarten teilen (`fetchText`), zählt er fremde Fehler mit. Gegenprobe: ein Fall, in dem nur ein anderer Aufrufer scheitert.

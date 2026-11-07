@@ -22,6 +22,7 @@
  */
 import type { StreamLink, WatchLink } from './types.ts'
 import { nowHhMm, todayIso } from './time.ts'
+import { fensterOffen } from './toggo-fenster.ts'
 
 export type Kostenlos = { frei?: number; unbekannt: boolean }
 
@@ -38,6 +39,8 @@ function folgenFuer(w: Partial<WatchLink & StreamLink>, jetzt: string): number[]
     const offen = w.toggo.filter((b) => b.ab <= jetzt && jetzt < b.ende)
     return offen.flatMap((b) => Array.from({ length: b.bis - b.von + 1 }, (_, i) => b.von + i))
   }
+  /* Kachel-Form von `toggo`: nur Ja/Nein, ohne Folgennummern (die Zahl ist dort unbekannt, der Filter fragt nur nach „irgendeine“). */
+  if (w.toggoOffen) return fensterOffen(w.toggoOffen, jetzt) ? 'eine' : []
   if (w.nurFolge != null) return [w.nurFolge]
   const deutsch = (w.dubRanges ?? []).filter((r) => r.dub)
   if (deutsch.length) return deutsch.flatMap((r) => Array.from({ length: r.to - r.from + 1 }, (_, i) => r.from + i))

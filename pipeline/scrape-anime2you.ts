@@ -31,6 +31,7 @@ import { SAMMELARTIKEL, leseVerschiebungstabelle, type Verschiebung } from './li
 import { DISC_UEBERSICHT, leseDiscUebersicht, type DiscZeile } from './lib/disc-uebersicht.ts'
 import { deutschlandBezug, dubBefund, type Sprachbefund } from './lib/sprachbefund.ts'
 import { vorschlaegeMitBestand } from './lib/proposals-bestand.ts'
+import { leerGrund } from './lib/anime2you-abruf.ts'
 import { leichteFeeds, volltextNoetig, vorschlaegeGeaendert } from './lib/anime2you-leicht.ts'
 
 const UA = 'Mozilla/5.0 (compatible; anime-kalender.de/1.0; +https://anime-kalender.de)'
@@ -62,6 +63,8 @@ const ALLE_FEEDS: { category: string; url: string }[] = [
 /** `--leicht` (stündlich, siehe `lib/anime2you-leicht.ts`) holt nur die erste Seite je Feed und nichts nach. */
 const LEICHT = process.argv.includes('--leicht')
 const FEEDS = LEICHT ? leichteFeeds(ALLE_FEEDS) : ALLE_FEEDS
+/** Gescheiterte Feed-Abrufe dieses Laufs (Adresse und Grund), damit ein Ausfall nicht als ruhiger Tag gemeldet wird. */
+const abrufFehler: string[] = []
 
 /** Wortmarken, an denen eine Plattform im Fließtext erkennbar ist. */
 const PLATFORM_HINTS: { platform: PlatformId; pattern: RegExp }[] = [
@@ -284,16 +287,19 @@ async function discUebersichtNachholen(alle: Proposal[], heute: string): Promise
   return aus
 }
 
-async function fetchText(url: string): Promise<string | undefined> {
+/** `fehler`: nur die Feed-Abrufe geben ihn mit; Artikel- und Nachhol-Abrufe sagen nichts über den Feed. */
+async function fetchText(url: string, fehler?: string[]): Promise<string | undefined> {
   try {
     const res = await fetch(url, { headers: { 'User-Agent': UA, Accept: 'application/rss+xml, text/xml' } })
     if (!res.ok) {
       warn(`${url}: HTTP ${res.status}`)
+      fehler?.push(`${url}: HTTP ${res.status}`)
       return undefined
     }
     return await res.text()
   } catch (err) {
     warn(`${url}: ${(err as Error).message}`)
+    fehler?.push(`${url}: ${(err as Error).message}`)
     return undefined
   }
 }
@@ -367,7 +373,7 @@ async function main(): Promise<void> {
   const bekannt = new Map(readJson<{ proposals: Proposal[] }>(VORSCHLAEGE, { proposals: [] }).proposals.map((p) => [p.articleUrl, p] as const))
 
   for (const feed of FEEDS) {
-    const xml = await fetchText(feed.url)
+    const xml = await fetchText(feed.url, abrufFehler)
     if (!xml) continue
     const items = parseFeed(xml)
     log(`Anime2You ${feed.category}: ${items.length} Meldungen`)
@@ -451,7 +457,7 @@ async function main(): Promise<void> {
     await sleep(1200)
   }
 
-  recordSource('anime2you', proposals.length, proposals.length ? undefined : 'kein Feed-Eintrag mit Termin')
+  recordSource('anime2you', proposals.length, proposals.length ? undefined : leerGrund(abrufFehler, FEEDS.length))
   if (!proposals.length) {
     warn('Keine Vorschläge gefunden — Feed-Aufbau geändert? Bestand bleibt unangetastet.')
     return
