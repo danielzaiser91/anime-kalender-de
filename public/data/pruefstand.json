@@ -1,11 +1,11 @@
 {
- "erzeugtAm": "2026-11-06T18:26:38.689Z",
+ "erzeugtAm": "2026-11-07T10:24:57.174Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
-   "gemeldet": 899,
-   "gesamt": 969,
+   "gemeldet": 932,
+   "gesamt": 1002,
    "offen": 70,
    "ohneSeite": 2,
    "suchAdressen": [
@@ -267,6 +267,7 @@
     "B0FKZM9J6V": 25,
     "B0GG3S1LQD": 26,
     "B0H4XQ2NNZ": 51,
+    "B0D59HJGBZ": 24,
     "B0B8T893H2": 13,
     "B0FW2J99HL": 167,
     "B0B6S983B4": 40,
@@ -368,6 +369,7 @@
     "B0C7NSMB25": 12,
     "B07XYDCVFK": 12,
     "B0DZCL6XMM": 24,
+    "B0CP7P8QCY": 12,
     "0ST5YU69NBGTLE16XV4G99HZNC": 12,
     "B0CYSWYH7J": 12,
     "B0B6VQDB6D": 12,
@@ -375,6 +377,7 @@
     "B09V4N69ZT": 12,
     "B0D8SX7TGW": 12,
     "B0CVG6BDYZ": 13,
+    "B0CVHGSMMX": 12,
     "B09C12DRYV": 12,
     "B0GFGTTR3N": 25,
     "B0B8SM98JV": 12,
@@ -436,9 +439,9 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 773,
-   "gesamt": 1081,
-   "offen": 308,
+   "gemeldet": 772,
+   "gesamt": 1082,
+   "offen": 310,
    "ohneSeite": 13,
    "ziel": "https://www.netflix.com/title/81608820",
    "ziele": [
@@ -449,6 +452,13 @@
     {
      "url": "https://www.netflix.com/title/81272431",
      "titel": "Numberblocks"
+    },
+    {
+     "url": "https://www.netflix.com/title/81054853",
+     "titel": "Cyberpunk: Edgerunners",
+     "staffeln": [
+      1
+     ]
     },
     {
      "url": "https://www.netflix.com/title/81684733",
@@ -469,6 +479,13 @@
     {
      "url": "https://www.netflix.com/title/82741721",
      "titel": "Atelier of Witch Hat"
+    },
+    {
+     "url": "https://www.netflix.com/title/82746480",
+     "titel": "Snowball Earth",
+     "staffeln": [
+      1
+     ]
     },
     {
      "url": "https://www.netflix.com/title/82058586",
@@ -1472,9 +1489,9 @@
   {
    "name": "Disney+",
    "plattform": "disneyplus",
-   "gemeldet": 180,
+   "gemeldet": 179,
    "gesamt": 347,
-   "offen": 167,
+   "offen": 168,
    "ohneSeite": 14,
    "ziel": "https://www.disneyplus.com/browse/entity-faa35b37-3287-4a7c-9d42-a3a5f9ad9185",
    "ziele": [
@@ -1507,6 +1524,11 @@
      "url": "https://www.disneyplus.com/browse/entity-f1bf2db1-d201-4c1f-8b4b-3e8cc79a85f6",
      "titel": "The Cleveland Show",
      "hinweis": "Staffeln unklar: TMDB zählt 88 Folgen insgesamt, der Anbieter kann sie anders schneiden"
+    },
+    {
+     "url": "https://www.disneyplus.com/de-de/series/bleach-thousand-year-blood-war/4Afet1Q421gy",
+     "titel": "Bleach: Thousand-Year Blood War",
+     "seit": "2026-11-07"
     },
     {
      "url": "https://www.disneyplus.com/browse/entity-b042544d-cd7d-40c6-9be4-db79666a1b51",

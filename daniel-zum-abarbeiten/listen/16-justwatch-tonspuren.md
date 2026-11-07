@@ -1,16 +1,17 @@
 # Was JustWatch zu offenen Verweisen sagt
 
-Stand: 2026-11-06. Erzeugt von `npm run data:justwatch`.
+Stand: 2026-11-07. Erzeugt von `npm run data:justwatch`.
 
 **Das sind Kandidaten, keine Belege.** Die Angabe gilt der **Serie**, nicht der
 einzelnen Folge — bei „Kill Blue" meldet JustWatch `de` für alle zwölf, belegt
 sind acht. Und ein fehlendes `de` belegt nichts: Netflix meldet dort gar keine
 Tonspur. Was hier steht, sagt, **wo sich das Nachsehen lohnt**.
 
-37 offene Verweise, zu denen JustWatch eine Tonspur nennt.
+38 offene Verweise, zu denen JustWatch eine Tonspur nennt.
 
 | Titel | Anbieter | JustWatch sagt | Tonspuren | Quelle |
 |---|---|---|---|---|
+| [Yu-Gi-Oh! GX](https://anime-kalender.de/#/datenbank?t=482) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/You-Xi-Wang-deyuerumonsutazuGX) |
 | [Pokémon](https://anime-kalender.de/#/datenbank?t=527) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/Pokemon) |
 | [Pokémon](https://anime-kalender.de/#/datenbank?t=527) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/Pokemon) |
 | [Sonic X](https://anime-kalender.de/#/datenbank?t=1816) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/Sonic-X) |
