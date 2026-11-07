@@ -20,7 +20,7 @@ import type { CartoonStaffel } from '../../shared/cartoon-staffeln-typ.ts'
 import { warn } from './util.ts'
 import { loadCurated } from './curated.ts'
 import { dubChecksAusTerminen } from './dub-aus-terminen.ts'
-import { ohneKanalSprache } from './kanal-titel.ts'
+import { kanalJaUeberholtNein, ohneKanalSprache } from './kanal-titel.ts'
 import { ergaenzeMerkliste, MERKLISTE } from './kanal-merkliste.ts'
 
 export interface DubCheck {
@@ -295,6 +295,7 @@ export function verschmelze(a: DubCheck, b: DubCheck): DubCheck {
   if (urteil) verschmolzen.juengstesUrteil = urteil
   // Ein jüngeres Ja hebt das ältere „nicht verfügbar“ auf (Spy × Family, Disney+: sonst fiel der Weg live weg).
   if (urteil === 'ja' && verschmolzen.available === false) delete verschmolzen.available
+  if (kanalJaUeberholtNein(alt, neu)) delete verschmolzen.available
   return verschmolzen
 }
 
