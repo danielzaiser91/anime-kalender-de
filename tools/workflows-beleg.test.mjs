@@ -110,9 +110,9 @@ function repo() {
 // 1c. Prüfer 2687 A1: Was `check:workflows` liest, zählt im Abdruck. Die Tests aus tests-alle deckt der Leser-Wächter von pr-nachrechnen-bot-pfade ab;
 // hier die Skripte der Kette selbst: kein Datei-Literal der Daten darf in der Ausnahme (istDatenpfad) stehen.
 {
-  const kette = [...readFileSync(join(tools, '..', 'package.json'), 'utf8').matchAll(/check:workflows": "([^"]+)"/g)][0][1]
+  const kette = [...readFileSync(join(tools, '..', 'package.json'), 'utf8').matchAll(/check:wachen": "([^"]+)"/g)][0][1]
   const skripte = [...kette.matchAll(/node (tools\/[\w.-]+\.mjs)/g)].map((m) => m[1]).filter((s) => !s.endsWith('tests-alle.mjs'))
-  ok(skripte.length === 4, `check:workflows: 4 Skripte neben tests-alle (${skripte.join(', ')})`)
+  ok(skripte.length === 4, `check:wachen: 4 Skripte (check:workflows = Wachen + tests-alle) (${skripte.join(', ')})`)
   // Meldungstext, keine Lesung (tools/check-workflows.mjs: Hinweis auf die Prüfliste).
   const NUR_GENANNT = new Set(['anbieter-vorschlaege.json', 'crunchyroll-woche.json'].map((n) => `tools/check-workflows.mjs|${['data', n].join('/')}`))
   const literal = new RegExp(`${['data', ''].join('/')}[\\w./-]+\\.(?:json|jsonl|yaml|md)`, 'g')

@@ -27,8 +27,8 @@ import { holeAdnNews } from './lib/adn-news.ts'
 import { istFranzoesischeSicht, type KatalogAuskunft, katalogBilanzZeile, mitUngepruftenAlten, mitWiederholung, riegelBilanz, schreibeArchiv, verworfen, WIEDERHOLUNG_WARTE_MS } from './lib/adn-sprachriegel.ts'
 import { baueWarteschlange, fragWarteschlange, warteschlangeZeile } from './lib/adn-katalog-warteschlange.ts'
 import { listeNenntNeuesVde } from './lib/adn-laufend-archiv.ts'
-import { fragNeuzugaenge, katalogMitNeuen } from './lib/adn-neuzugaenge.ts'
-import { ordneKatalogZuAnisearch } from './lib/adn-zuordnung-lauf.ts'
+import { fragNeuzugaenge } from './lib/adn-neuzugaenge.ts'
+import { katalogMitNeuenZugeordnet, ordneKatalogZuAnisearch } from './lib/adn-zuordnung-lauf.ts'
 import {
   bestimmeRhythmus,
   type AdnData,
@@ -488,7 +488,7 @@ function archivKennungen(): number[] {
 
 /**
  * Serien, die seit dem letzten Katalog-Lauf neu in der ADN-Liste stehen, sofort ins Archiv und in den Katalog (Begründung in
- * `lib/adn-neuzugaenge.ts`). Die Zuordnung zu aniSearch bleibt dem Wochenlauf; Filme finden ihren Titel über den Namen (`filmZurShow`).
+ * `lib/adn-neuzugaenge.ts`). Die Liste der offenen wird sofort nachgeführt; Filme finden ihren Titel über den Namen (`filmZurShow`).
  */
 async function holeNeueSerien(liste: ReadonlyMap<number, AdnListenEintrag>): Promise<void> {
   const katalog = readJson<AdnData>(KATALOG_DATEI, { scrapedAt: '', window: { from: '', to: '' }, shows: [] })
@@ -502,7 +502,7 @@ async function holeNeueSerien(liste: ReadonlyMap<number, AdnListenEintrag>): Pro
   writeJson(KATALOG_STAND, lauf.stand)
   if (offen.length) warn(`ADN: ${offen.length} neue Serien nicht abrufbar (${offen.join(', ')}) — nächster Lauf versucht es wieder.`)
   if (!shows.length) return
-  writeJson(KATALOG_DATEI, { ...katalog, shows: katalogMitNeuen(katalog.shows, shows) } satisfies AdnData, true)
+  writeJson(KATALOG_DATEI, { ...katalog, shows: await katalogMitNeuenZugeordnet(katalog.shows, shows) } satisfies AdnData, true)
   log(`ADN: ${shows.length} neue Serien mit deutscher Fassung im Katalog: ${shows.map((s) => s.title).join('; ')}`)
 }
 

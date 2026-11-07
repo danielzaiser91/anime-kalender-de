@@ -1,45 +1,45 @@
 {
-  "stand": "2026-11-06",
+  "stand": "2026-11-07",
   "deckung": {
-    "titel": 20684,
-    "mitSeite": 16331,
+    "titel": 20683,
+    "mitSeite": 16327,
     "ohneSeite": 8,
-    "ohneAnisearchKennung": 3073,
+    "ohneAnisearchKennung": 3076,
     "ohneReferenz": 1272,
     "seitenImArchiv": 17531,
     "kanten": 18605
   },
   "gesamt": {
-    "titel": 16331,
-    "gleich": 13990,
-    "fehlen": 902,
+    "titel": 16327,
+    "gleich": 13987,
+    "fehlen": 901,
     "zusaetzlich": 1322,
     "gemischt": 117
   },
   "hauptbestand": {
-    "titel": 2877,
-    "gleich": 2289,
-    "fehlen": 328,
+    "titel": 2874,
+    "gleich": 2287,
+    "fehlen": 327,
     "zusaetzlich": 244,
     "gemischt": 16
   },
   "haelfteA": {
-    "titel": 7457,
-    "gleich": 6326,
+    "titel": 7458,
+    "gleich": 6327,
     "fehlen": 314,
     "zusaetzlich": 707,
     "gemischt": 110
   },
   "haelfteB": {
-    "titel": 8874,
-    "gleich": 7664,
-    "fehlen": 588,
+    "titel": 8869,
+    "gleich": 7660,
+    "fehlen": 587,
     "zusaetzlich": 615,
     "gemischt": 7
   },
   "cluster": {
-    "einzel": 5750,
-    "gleich": 2453,
+    "einzel": 5752,
+    "gleich": 2452,
     "zerlegt": 102,
     "verschmilzt": 105,
     "gemischt": 10
@@ -140,7 +140,7 @@
       {
         "id": 287,
         "name": "Grappler Baki (TV)",
-        "titel": 13,
+        "titel": 12,
         "referenz": 1,
         "anisearch": 3
       },

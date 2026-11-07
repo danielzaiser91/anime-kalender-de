@@ -1,5 +1,5 @@
 /**
- * Kauflink einer Disc: Handlink > EAN-Suche > Namenssuche (27.10.2026). Rechenregel (`discEan`, `discKaufUrl`), Linkart (`amazonLinkArt`)
+ * Kauflink einer Disc: EAN-Suche > Handlink > Namenssuche (06.11.2026, vorher Handlink zuerst). Rechenregel (`discEan`, `discKaufUrl`), Linkart (`amazonLinkArt`)
  * und der echte Bau-Aufruf (`baueReleases` gegen einen Wegwerf-Ordner über `AK_ROOT`, Kulissen-Dateien ohne Bezug zu `public/data`).
  */
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
@@ -58,10 +58,20 @@ const eanLaenge = (ean: string) => discEan(mit({ '1': [aus(1, 'DVD')] }, { '1': 
 pruefe('EAN-Länge: 8 und 14 Ziffern gelten, 7 und 15 nicht', eanLaenge('12345678') === '12345678' && eanLaenge('12345678901234') === '12345678901234' && eanLaenge('1234567') === undefined && eanLaenge('123456789012345') === undefined, [eanLaenge('12345678'), eanLaenge('12345678901234'), eanLaenge('1234567'), eanLaenge('123456789012345')])
 pruefe('Blu-ray ohne EAN, DVD mit EAN: die DVD-EAN', discEan(mit({ '1': [aus(1, 'Blu-ray'), aus(2, 'DVD')] }, { '1': art(undefined, 'Blu-ray'), '2': art('222222222222', 'DVD') }), 1, TAG) === '222222222222')
 
-console.log('\nKauflink (reihenfolge Handlink > EAN > Name):')
+console.log('\nKauflink (reihenfolge EAN > Handlink > Name):')
 const dp = 'https://www.amazon.de/dp/B0HGB36K4K'
+const dpLang = 'https://www.amazon.de/Banana-Fish-Staffel-Vol-1-Blu-ray/dp/B0H26RZXLW'
+const andererHaendler = 'https://www.example-shop.de/conan-box-1'
+const EAN_URL = 'https://www.amazon.de/s?k=7630017545978'
 const link = (e: { buyUrl?: string; releaseType: string }) => discKaufUrl(e, 900301, TAG, 'Detektiv Conan – Box 1', conan)
-pruefe('Handlink gewinnt vor der EAN', link({ buyUrl: dp, releaseType: 'disc' }) === dp)
+pruefe('eindeutige EAN schlägt Amazon-Handlink', link({ buyUrl: dp, releaseType: 'disc' }) === EAN_URL, link({ buyUrl: dp, releaseType: 'disc' }))
+pruefe('eindeutige EAN schlägt Amazon-Handlink mit Titel im Pfad', link({ buyUrl: dpLang, releaseType: 'disc' }) === EAN_URL)
+pruefe('eindeutige EAN schlägt gespeicherte Namenssuche', link({ buyUrl: 'https://www.amazon.de/s?k=Conan', releaseType: 'disc' }) === EAN_URL)
+pruefe('Handlink eines anderen Händlers bleibt trotz EAN', link({ buyUrl: andererHaendler, releaseType: 'disc' }) === andererHaendler)
+const mehrdeutig = mit({ '1': [aus(1, 'Blu-ray', 'Box 01'), aus(2, 'Blu-ray', 'Box 02')] }, { '1': art('111111111111', 'Blu-ray'), '2': art('222222222222', 'Blu-ray') })
+pruefe('mehrdeutige EAN: Handlink bleibt', discKaufUrl({ buyUrl: dp, releaseType: 'disc' }, 1, TAG, 'X', mehrdeutig) === dp)
+pruefe('Titel ohne Ausgabe: Handlink bleibt', discKaufUrl({ buyUrl: dp, releaseType: 'disc' }, 900399, TAG, 'X', conan) === dp)
+pruefe('anderer Tag: Handlink bleibt', discKaufUrl({ buyUrl: dp, releaseType: 'disc' }, 900301, '2026-12-19', 'X', conan) === dp)
 pruefe('Disc mit EAN: EAN-Suche', link({ releaseType: 'disc' }) === 'https://www.amazon.de/s?k=7630017545978', link({ releaseType: 'disc' }))
 const ohneEan = discKaufUrl({ releaseType: 'disc' }, 900399, TAG, 'Nur Name', conan)
 pruefe('Disc ohne EAN: Namenssuche', ohneEan === `https://www.amazon.de/s?k=${encodeURIComponent('Nur Name Anime Blu-ray')}`, ohneEan)
@@ -101,7 +111,15 @@ console.log('\nTerminverschiebung (Phase 08, verschiebungenAnwenden):')
   const alt = nachNeu({ '7': [aus(1, 'Blu-ray', 'Box 01', ALT)] }, eanArt, rel('Cafe Terrace Box 1', 7))
   pruefe('verschoben, Ausgabe nur am alten Tag: Namenssuche bleibt', alt.buyUrl === suche('Cafe Terrace Box 1'), alt)
   const h = nachNeu(eine, eanArt, rel('Cafe Terrace Box 1', 7, { buyUrl: dp }))
-  pruefe('verschoben: Handlink bleibt', h.buyUrl === dp, h)
+  pruefe('verschoben, eindeutig: EAN-Suche ersetzt Amazon-Handlink', h.buyUrl === 'https://www.amazon.de/s?k=4020628531904', h)
+  const hm = nachNeu(zwei, { '1': art('111111111111', 'Blu-ray'), '2': art('222222222222', 'Blu-ray') }, rel('Cafe Terrace Box 1', 7, { buyUrl: dp }))
+  pruefe('verschoben, mehrdeutig: Handlink bleibt', hm.buyUrl === dp, hm)
+  const hf = nachNeu(eine, eanArt, rel('Cafe Terrace Box 1', 7, { buyUrl: andererHaendler }))
+  pruefe('verschoben, eindeutig: Handlink eines anderen Händlers bleibt', hf.buyUrl === andererHaendler, hf)
+  const ohneLink = nachNeu(eine, eanArt, rel('Cafe Terrace Box 1', 7, { buyUrl: undefined }))
+  pruefe('verschoben, ohne Link: bleibt ohne (11-1 verknüpft nur Termine ohne buyUrl)', ohneLink.buyUrl === undefined, ohneLink)
+  const alteEan = nachNeu(eine, eanArt, rel('Cafe Terrace Box 1', 7, { buyUrl: 'https://www.amazon.de/s?k=999999999999' }))
+  pruefe('verschoben, EAN-Link des alten Tags: die EAN des neuen Tags (Good Luck Girl Vol. 2)', alteEan.buyUrl === 'https://www.amazon.de/s?k=4020628531904', alteEan)
   const o = nachNeu(eine, eanArt, rel('Cafe Terrace Box 1', 7), false)
   pruefe('ohne Index (Aufrufer ohne Ausgaben): Namenssuche bleibt', o.buyUrl === suche('Cafe Terrace Box 1'), o)
   const f = nachNeu(eine, eanArt, rel('Cafe Terrace Box 1', 8))
@@ -119,10 +137,10 @@ console.log('\nBau (baueReleases gegen Wegwerf-Ordner):')
   try {
     const { baueReleases } = await import('./bau/05-releases.ts')
     const eintrag = (slug: string, extra: object = {}) => ({ slug, platform: 'disc', releaseType: 'disc', titleDe: slug, schedule: { firstEpisodeDate: TAG }, sources: [], ...extra })
-    const curated = [eintrag('mit-ean'), eintrag('mit-hand', { buyUrl: dp }), eintrag('ohne-titel-ausgabe'), eintrag('anderer-tag', { schedule: { firstEpisodeDate: '2026-12-25' } })]
+    const curated = [eintrag('mit-ean'), eintrag('mit-hand', { buyUrl: dp }), eintrag('ohne-titel-ausgabe'), eintrag('anderer-tag', { schedule: { firstEpisodeDate: '2026-12-25' } }), eintrag('hand-ohne-ean', { buyUrl: dp })]
     const { releases } = baueReleases({
       curated: curated as never,
-      curatedIds: { 'mit-ean': 900301, 'mit-hand': 900301, 'ohne-titel-ausgabe': 900399, 'anderer-tag': 900301 },
+      curatedIds: { 'mit-ean': 900301, 'mit-hand': 900301, 'ohne-titel-ausgabe': 900399, 'anderer-tag': 900301, 'hand-ohne-ean': 900399 },
       titles: new Map(),
       tmdb: {},
       anisearchEpisodes: () => undefined,
@@ -132,10 +150,11 @@ console.log('\nBau (baueReleases gegen Wegwerf-Ordner):')
     })
     const url = (slug: string) => releases.find((r) => r.slug === slug)?.buyUrl
     pruefe('Bau: Disc mit eindeutiger EAN → EAN-Suche', url('mit-ean') === 'https://www.amazon.de/s?k=7630017545978', url('mit-ean'))
-    pruefe('Bau: Handlink bleibt', url('mit-hand') === dp, url('mit-hand'))
+    pruefe('Bau: Amazon-Handlink mit eindeutiger EAN → EAN-Suche', url('mit-hand') === EAN_URL, url('mit-hand'))
+    pruefe('Bau: Handlink ohne eindeutige EAN bleibt', url('hand-ohne-ean') === dp, url('hand-ohne-ean'))
     pruefe('Bau: Titel ohne Ausgabe → Namenssuche', amazonLinkArt(url('ohne-titel-ausgabe')) === 'name', url('ohne-titel-ausgabe'))
     pruefe('Bau: anderer Tag → Namenssuche', amazonLinkArt(url('anderer-tag')) === 'name', url('anderer-tag'))
-    pruefe('Bau: alle vier Releases entstanden', releases.length === 4, releases.length)
+    pruefe('Bau: alle fünf Releases entstanden', releases.length === 5, releases.length)
 
     // Disc-Termine aus den News (`automatisch`) laufen nicht durch `discKaufUrl`; der echte Bauschritt 11-1 setzt EAN- oder Namenssuche (`kaufwegFuerDiscs`).
     const { ergaenzeDiscUndZugang } = await import('./bau/11-1-disc-und-zugang.ts')
@@ -146,6 +165,7 @@ console.log('\nBau (baueReleases gegen Wegwerf-Ordner):')
       news('n-tag', 900301, '2026-12-19'),
       news('n-titel', 900399, TAG),
       news('n-hand', 900301, TAG, { buyUrl: dp }),
+      news('n-hand-ohne', 900399, TAG, { buyUrl: dp }),
       news('n-kein-news', 900301, TAG, { automatisch: undefined }),
       news('n-stream', 900301, TAG, { releaseType: 'weekly' }),
     ]
@@ -159,7 +179,7 @@ console.log('\nBau (baueReleases gegen Wegwerf-Ordner):')
       console.log = logAlt
     }
     const gezaehlt = zeilen.find((z) => z.includes('ohne Kaufweg bekamen'))
-    pruefe('Bau-Log zählt die gesetzten Kaufwege (EAN-Disc, Verknüpfte, anderer Tag, Titel ohne Ausgabe, ohne News-Herkunft = 5)', /\] 5 Disc-Termin\(e\) ohne Kaufweg bekamen/.test(gezaehlt ?? ''), gezaehlt)
+    pruefe('Bau-Log zählt die gesetzten Kaufwege (EAN-Disc, Verknüpfte, anderer Tag, Titel ohne Ausgabe, ohne News-Herkunft, Amazon-Handlink mit EAN = 6; Handlink ohne EAN bleibt unverändert und zählt nicht)', /\] 6 Disc-Termin\(e\) ohne Kaufweg bekamen/.test(gezaehlt ?? ''), gezaehlt)
     const nurl = (slug: string) => (nr.find((r) => r.slug === slug) as { buyUrl?: string }).buyUrl
     pruefe('News-Disc mit eindeutiger EAN → EAN-Suche (Bauschritt 11-1)', nurl('n-ean') === 'https://www.amazon.de/s?k=7630017545978', nurl('n-ean'))
     const verkn = nr.find((r) => r.slug === 'n-verkn') as { edition?: string; platformUrl?: string }
@@ -167,13 +187,14 @@ console.log('\nBau (baueReleases gegen Wegwerf-Ordner):')
     const namen = (n: string) => `https://www.amazon.de/s?k=${encodeURIComponent(`${n} Anime Blu-ray`)}`
     pruefe('News-Disc, anderer Tag → Namenssuche', nurl('n-tag') === namen('n-tag'), nurl('n-tag'))
     pruefe('News-Disc, Titel ohne Ausgabe → Namenssuche', nurl('n-titel') === namen('n-titel'), nurl('n-titel'))
-    pruefe('News-Disc mit Handlink bleibt', nurl('n-hand') === dp, nurl('n-hand'))
+    pruefe('News-Disc mit Amazon-Handlink und eindeutiger EAN → EAN-Suche', nurl('n-hand') === EAN_URL, nurl('n-hand'))
+    pruefe('News-Disc mit Handlink ohne EAN bleibt', nurl('n-hand-ohne') === dp, nurl('n-hand-ohne'))
     pruefe('Disc ohne News-Herkunft: gleicher Weg (EAN-Suche)', nurl('n-kein-news') === 'https://www.amazon.de/s?k=7630017545978', nurl('n-kein-news'))
     pruefe('kein Disc-Termin bleibt unberührt', nurl('n-stream') === undefined, nurl('n-stream'))
     pruefe('News-Disc ohne Termin-Datum bleibt ohne Kaufweg', nurl('n-ohne-datum') === undefined, nurl('n-ohne-datum'))
     const { kaufwegFuerDiscs } = await import('./lib/disc-ean.ts')
-    const direkt = [news('d-1', 900301, TAG), news('d-2', 900399, TAG), news('d-hand', 900301, TAG, { buyUrl: dp }), news('d-stream', 900301, TAG, { releaseType: 'weekly' }), news('d-ohne', 900301, TAG, { schedule: {} })]
-    pruefe('kaufwegFuerDiscs zählt nur gesetzte Kaufwege (2 von 5)', kaufwegFuerDiscs(direkt as never, conan) === 2)
+    const direkt = [news('d-1', 900301, TAG), news('d-2', 900399, TAG), news('d-hand', 900301, TAG, { buyUrl: dp }), news('d-hand-ohne', 900399, TAG, { buyUrl: dp }), news('d-stream', 900301, TAG, { releaseType: 'weekly' }), news('d-ohne', 900301, TAG, { schedule: {} })]
+    pruefe('kaufwegFuerDiscs zählt nur geänderte Kaufwege (3 von 6)', kaufwegFuerDiscs(direkt as never, conan) === 3)
   } finally {
     rmSync(wurzel, { recursive: true, force: true })
   }

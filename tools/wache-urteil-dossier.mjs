@@ -2,7 +2,7 @@
  * Das Dossier für das Wachen-Urteil: je Datei eine Quelle der Befunde, als Text. Jede Quelle für sich in try/catch – fällt eine aus, steht ihr Fehler im Dossier
  * (das Urteil soll es wissen), die übrigen bleiben.
  */
-import { LIMIT_SKRIPT_MS, mitLimit } from './kind-mit-limit.mjs'
+import { LIMIT_SKRIPT_MS, LIMIT_STAPEL_MS, mitLimit } from './kind-mit-limit.mjs'
 import { existsSync, readFileSync } from 'node:fs'
 import { rotAlarmText } from './bestand-rot-alarm.mjs'
 
@@ -10,7 +10,8 @@ const REPO = process.env.GITHUB_REPOSITORY || 'danielzaiser91/anime-kalender-de'
 const STUNDEN = 3600e3
 
 const lies = (pfad) => readFileSync(pfad, 'utf8')
-const gh = (...a) => mitLimit(process.env.GH_BIN || 'gh', a, { encoding: 'utf8', maxBuffer: 16 << 20 })
+const ghMitFrist = (limitMs, ...a) => mitLimit(process.env.GH_BIN || 'gh', a, { encoding: 'utf8', maxBuffer: 16 << 20 }, { limitMs })
+const gh = (...a) => ghMitFrist(undefined, ...a)
 
 /** Ein Werkzeug-Skript laufen lassen; sein Exit-Code 1 ist ein Befund, kein Fehler – die Ausgabe zählt. */
 export function laufe(skript, ...args) {
@@ -37,8 +38,9 @@ export function briefkastenMitHilfe(aus) {
 }
 
 /** Läufe der letzten 48 Stunden je Workflow: Zählung nach Ausgang; je Workflow mit Fehlschlägen die drei jüngsten mit Zweig und Adresse. */
-function laeufe() {
-  const roh = gh('run', 'list', '--repo', REPO, '--limit', '1000', '--json', 'workflowName,conclusion,status,createdAt,url,headBranch')
+export function laeufe(ghFn = ghMitFrist) {
+  // Gemessen 05.11.2026: 100 Läufe 3 s, 300 9 s, 1000 25 s (über der Einzelfrist von 15 s: dauerhaft "abgebrochen"); 700 (~17 s) mit Stapelfrist (30 s).
+  const roh = ghFn(LIMIT_STAPEL_MS, 'run', 'list', '--repo', REPO, '--limit', '700', '--json', 'workflowName,conclusion,status,createdAt,url,headBranch')
   const alle = JSON.parse(roh)
   const grenze = Date.now() - 48 * STUNDEN
   const jung = alle.filter((l) => Date.parse(l.createdAt) >= grenze)
@@ -70,13 +72,18 @@ function offenes() {
   return `Offene Issues:\n${issues.map(zeile).join('\n') || '(keine)'}\n\nOffene Pull Requests:\n${prs.map(zeile).join('\n') || '(keine)'}\n`
 }
 
+/** Eine Dossierzeile je Quelle; „grün aber leer“ macht einen stillen Ausfall sichtbar. */
+export function quellenZeile(name, tage, s) {
+  return `${name.padEnd(28)} letzter Erfolg ${Number.isFinite(tage) ? `vor ${tage.toFixed(1)} Tagen` : 'nie'}, ${s.lastCount ?? '?'} Treffer${s.lastError ? `, Fehler: ${s.lastError}` : ''}${s.leerSeit ? `, grün aber leer seit ${s.leerSeit.slice(0, 10)}` : ''}`
+}
+
 /** Quellenzustand: Alter des letzten Erfolgs und letzter Fehler je Quelle, das Älteste zuerst; dazu die Blocker der Seite. */
 function quellen() {
   const gesund = JSON.parse(lies('data/source-health.json'))
   const zeilen = Object.entries(gesund)
     .map(([name, s]) => ({ name, tage: (Date.now() - Date.parse(s.lastOk)) / (24 * STUNDEN), s }))
     .sort((a, b) => (Number.isFinite(b.tage) ? b.tage : 1e9) - (Number.isFinite(a.tage) ? a.tage : 1e9))
-    .map(({ name, tage, s }) => `${name.padEnd(28)} letzter Erfolg ${Number.isFinite(tage) ? `vor ${tage.toFixed(1)} Tagen` : 'nie'}, ${s.lastCount ?? '?'} Treffer${s.lastError ? `, Fehler: ${s.lastError}` : ''}`)
+    .map(({ name, tage, s }) => quellenZeile(name, tage, s))
   const blocker = existsSync('public/data/blocker.json') ? lies('public/data/blocker.json').slice(0, 2000) : '(Datei fehlt)'
   return `source-health.json, ältester Erfolg zuerst:\n${zeilen.join('\n')}\n\npublic/data/blocker.json:\n${blocker}\n`
 }

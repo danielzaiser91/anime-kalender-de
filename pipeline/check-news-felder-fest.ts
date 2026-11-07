@@ -18,19 +18,19 @@ function pruefe(name: string, ok: boolean, ist?: unknown): void {
   console.error(`FEHLER: ${name}`, ist === undefined ? '' : JSON.stringify(ist))
 }
 
-const FELDER = ['hinweis', 'anbieter', 'kanal', 'geschaetzt', 'jahre', 'discSeitText', 'omu'] as const
+const FELDER = ['hinweis', 'anbieter', 'kanal', 'geschaetzt', 'jahre', 'discSeitText', 'omu', 'schonKaufbar'] as const
 const historie = (felder?: Record<string, FesteFelder>): NewsHistorie => ({ zuerst: {}, ...(felder ? { felder } : {}) })
 const titelOb = { id: 1 } as Title
 const lebend = (extra: Partial<NewsMeldung> = {}, schluessel = 'neu:r-1:2099-01-01'): DatiertNews =>
   ({ art: 'neu', platform: 'netflix', release: 'r-1', datum: '2099-01-01', am: '2026-10-01', titel: titelOb, schluessel, ...extra }) as DatiertNews
 const K = 'neu:r-1:2099-01-01'
-const voll: Partial<NewsMeldung> = { hinweis: 'H1', anbieter: 'A1', kanal: 'K1', geschaetzt: true, jahre: 14, discSeitText: '4 Monaten', omu: 'synchro-offen' }
-const anders: Partial<NewsMeldung> = { hinweis: 'H2', anbieter: 'A2', kanal: 'K2', geschaetzt: false, jahre: 15, discSeitText: '5 Monaten', omu: 'synchro-angekuendigt' }
+const voll: Partial<NewsMeldung> = { hinweis: 'H1', anbieter: 'A1', kanal: 'K1', geschaetzt: true, jahre: 14, discSeitText: '4 Monaten', omu: 'synchro-offen', schonKaufbar: true }
+const anders: Partial<NewsMeldung> = { hinweis: 'H2', anbieter: 'A2', kanal: 'K2', geschaetzt: false, jahre: 15, discSeitText: '5 Monaten', omu: 'synchro-angekuendigt', schonKaufbar: false }
 
 /* 1. Die Weiche: erster Stand wird festgehalten; jedes Feld einzeln gekippt (anderer Wert, weg, neu) bleibt beim ersten Stand. */
 const h1 = historie()
 const erst = haltFelderFest(h1, [lebend(voll)], [])
-pruefe('Erster Bau: alle sieben Felder werden festgehalten', JSON.stringify(h1.felder?.[K]) === JSON.stringify(voll) && erst[0]!.hinweis === 'H1', h1.felder)
+pruefe('Erster Bau: alle acht Felder werden festgehalten', JSON.stringify(h1.felder?.[K]) === JSON.stringify(voll) && erst[0]!.hinweis === 'H1', h1.felder)
 for (const f of FELDER) {
   const kippt = haltFelderFest(historie({ [K]: { ...voll } }), [lebend({ ...voll, [f]: anders[f] })], [])[0]!
   pruefe(`${f}: anderer Wert wird auf den ersten Stand zurückgesetzt`, kippt[f] === voll[f] && FELDER.every((g) => kippt[g] === voll[g]), kippt)

@@ -1,3 +1,4 @@
 kategorie: bugfix
-text: Neue Fassung lädt, ohne dass die Seite springt
-untertitel: Du bleibst an der Stelle, an der du gelesen hast.
+highlight: true
+text: Nach einer Pause bleibst du an deiner Stelle
+untertitel: Neue Daten laden im Hintergrund, kein Sprung zu „heute“

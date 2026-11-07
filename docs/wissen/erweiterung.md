@@ -124,7 +124,7 @@ wieder „Deutsch" mit zwölf Folgen „Deutsch Dialogue Boost" — die Tonspure
 **Mitleser** (`amazon-leser.js`) las den Hydration-Block aus dem DOM und stempelte ihn mit der
 neuen Adresse; `hydrationFinger()` enthält den Pfad, also las er bei jedem Wechsel denselben
 alten Block „neu". Seit 4.20.9 liest er den DOM-Block nur auf der geladenen Seite
-(`startPfad`); nach einem Wechsel holt `seiteNachholen()` die neue Seite, liest den Block aus
+(`startPfad`); nach einem Wechsel holt `ausNachgeholterSeite()` die neue Seite, liest den Block aus
 der Antwort und reicht den Quelltext an `amazon.js` weiter — ein Abruf statt zwei.
 **Wer eine veraltete Quelle ersetzt, sucht jeden Leser dieser Quelle** — hier waren es zwei
 Welten (Content-Skript und Seitenskript), die denselben Block unabhängig lasen.
@@ -2603,7 +2603,7 @@ Befund an der Meldungskopie vom 02.11.2026: 27 Staffelkennungen (`staffel_text` 
 
 Seit der Erweiterung nach diesem Stand prüft `akNetflixSeitentreu()` (`extension/netflix-seitentreue.js`) vor dem Senden: `listeFuer` muss die Seite von jetzt sein, und jede Folge muss in deren Liste stehen. Test `extension/netflix-seitentreue.test.cjs` lässt die echten Melder mit den Barbie-gti laufen. Der genaue Auslöser im Browser ist nicht aus den Zeilen allein belegt (Vermutung: Seitenwechsel der Automatik während eines Durchlaufs); die Prüfung sitzt deshalb an der Sendestelle und deckt jeden Weg dorthin ab.
 
-Altzeilen: `data/netflix-fremde-meldungen.json` führt je falscher Adresse die Staffelkennungen bzw. gti, die dort fremd sind (zehn Einträge, je mit Beleg und der richtigen Adresse). `bereinigeAltbestand()` hakt sie im nächsten Rohfolgen-Lauf ab, ohne sie zuzuordnen. Der Wächter `doppelteNetflixKennungen()` (`pipeline/lib/netflix-fremde-meldung.ts`) warnt in `fetch-rohfolgen.ts` mit `WARNUNG Netflix-Meldung unter zwei Adressen`, wenn eine Kennung oder gti noch unter zwei Adressen steht; ein neuer Fall kommt dann als Eintrag in die Liste. Tests: `pipeline/check-netflix-fremde-meldung.ts`, `pipeline/check-netflix-fremde-meldung-lauf.ts`.
+Altzeilen: `data/netflix-fremde-meldungen.json` führt je falscher Adresse die Staffelkennungen bzw. gti, die dort fremd sind (zehn Einträge, je mit Beleg und der richtigen Adresse). `bereinigeAltbestand()` hakt sie im nächsten Rohfolgen-Lauf ab, ohne sie zuzuordnen. Dieselbe Liste wirkt seit 06.11.2026 auf die Prüfungen (`sperreAufPruefungen()` in `fetch-pruefungen.ts`, `pipeline/lib/meldungen-stapel.ts`): Eine Prüfung kennt nur die Folgenkennung (Feld `folge`), nicht die Staffelkennung, also zählt dort allein die `gti`-Liste des Eintrags (Dragon Age und Farzar Staffel 2 mit allen Folgenkennungen aus der Meldungskopie). Gesperrte Prüfungen fallen aus Zuordnung und Auffälligkeitsliste, das Log nennt Zahl und Adresse (`Sperrliste (netflix-fremde-meldungen.json): …`), und der Lauf hakt sie ab. Ein neuer Fall braucht also die Folgenkennungen im Eintrag, nicht nur die Staffelkennung. Der Wächter `doppelteNetflixKennungen()` (`pipeline/lib/netflix-fremde-meldung.ts`) warnt in `fetch-rohfolgen.ts` mit `WARNUNG Netflix-Meldung unter zwei Adressen`, wenn eine Kennung oder gti noch unter zwei Adressen steht; ein neuer Fall kommt dann als Eintrag in die Liste. Tests: `pipeline/check-netflix-fremde-meldung.ts`, `pipeline/check-netflix-fremde-meldung-lauf.ts`.
 
 ## Netflix: Profilauswahl klappt alles ein (a-32, 05.11.2026)
 
