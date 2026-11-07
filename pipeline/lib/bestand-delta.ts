@@ -180,6 +180,28 @@ function kanalZuwachs(jetzt: Kennzahlen, vorher: Kennzahlen): { jeAnbieter: Reco
 }
 
 /**
+ * Titel, die ihr einziges Ja verloren haben: erklärt durch Kanal-Titel (Regel vom 11.10.2026) und durch gewollt entfernte
+ * Belege/Links (derselbe Verweis, der das Urteil erklärt: Kitarou 130622, Prime-Beleg am 05.11.2026); der Rest färbt rot.
+ */
+function titelOhneBeleg(titelWeg: number, kanalTitel: number, belegAbzug: number): Befund {
+  const weg = Math.max(0, titelWeg)
+  const kanal = Math.min(kanalTitel, weg)
+  const beleg = Math.min(belegAbzug, weg - kanal)
+  const rest = weg - kanal - beleg
+  const befund: Befund = { auffaellig: [], erklaert: [] }
+  if (rest > 0) {
+    befund.auffaellig.push(
+      `${rest} Titel ohne Synchro-Beleg` +
+        (kanal ? ` (${kanal} weitere durch Kanal-Titel herabgestuft)` : '') +
+        (beleg ? ` (${beleg} weitere durch gewollt entfernten Beleg)` : ''),
+    )
+  }
+  if (kanal) befund.erklaert.push(`${kanal} Titel ohne Synchro-Beleg, weil ihr Ja nur Amazons Sprachangabe auf einem Kanal-Titel war`)
+  if (beleg) befund.erklaert.push(`${beleg} Titel ohne Synchro-Beleg, weil ihr Beleg gewollt entfernt wurde`)
+  return befund
+}
+
+/**
  * Was auffällt, steht im Klartext dabei.
  *
  * Die Schwellen sind bewusst niedrig: Lieber eine Zeile zu viel in der Historie
@@ -224,14 +246,9 @@ export function findeAuffaelliges(
   }
   /* Ein Titel, dessen einziges Ja an einem Kanal-Titel-Beleg hing, ist gewollt ohne Synchro-Beleg (Regel vom 11.10.2026). */
   const titelWeg = -d('titelMitSynchro')
-  const titelKanal = Math.min(kanal.titel, Math.max(0, titelWeg))
-  if (titelWeg - titelKanal > 0) {
-    auffaellig.push(
-      `${titelWeg - titelKanal} Titel ohne Synchro-Beleg` +
-        (titelKanal ? ` (${titelKanal} weitere durch Kanal-Titel herabgestuft)` : ''),
-    )
-  }
-  if (titelKanal) erklaert.push(`${titelKanal} Titel ohne Synchro-Beleg, weil ihr Ja nur Amazons Sprachangabe auf einem Kanal-Titel war`)
+  const ohneBeleg = titelOhneBeleg(titelWeg, kanal.titel, anbieter.beleg + anbieter.link)
+  auffaellig.push(...ohneBeleg.auffaellig)
+  erklaert.push(...ohneBeleg.erklaert)
   if (d('termine') < -20) auffaellig.push(`${-d('termine')} Termine weniger`)
   /*
     Ein Verweis, der verschwindet, ist oft richtig — tote Adressen und belegte
