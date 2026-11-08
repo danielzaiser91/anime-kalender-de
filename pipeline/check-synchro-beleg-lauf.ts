@@ -45,12 +45,14 @@ const vorschlag = (veroeffentlicht: string) => ({
 })
 const katalog = [{ id: 203275, titleRomaji: "Demons' Crest", titleEn: "Devils' Crest", titleDe: 'Devils’ Crest', streams: [{ platform: 'primevideo' }] }]
 
-function lauf(vorschlaege: object[] | null, heute = '2999-12-30', katalogDatei = 'titles.json'): { status: number | null; aus: string; yaml: string; anzahl: string; kommentar: boolean } {
+interface Lauf { status: number | null; aus: string; yaml: string; anzahl: string; kommentar: boolean; flaute: string }
+
+function lauf(vorschlaege: object[] | null, heute = '2999-12-30', katalogDatei = 'titles.json', inhalt: object[] = katalog): Lauf {
   const wurzel = mkdtempSync(join(tmpdir(), 'synchro-lauf-'))
   try {
     for (const d of ['data/proposals', 'public/data']) mkdirSync(join(wurzel, d), { recursive: true })
     if (vorschlaege) writeFileSync(join(wurzel, 'data/proposals/anime2you-extraktion.json'), JSON.stringify({ gelesen: {}, vorschlaege }))
-    writeFileSync(join(wurzel, 'public/data', katalogDatei), JSON.stringify(katalog))
+    writeFileSync(join(wurzel, 'public/data', katalogDatei), JSON.stringify(inhalt))
     writeFileSync(join(wurzel, 'data/dub-confirmed.yaml'), HAND)
     const ausgabe = join(wurzel, 'github-output.txt')
     const r = spawnSync(process.execPath, [tsx, skript, '--belege', '--verzeichnis', join(wurzel, 'a2y'), '--heute', heute], {
@@ -66,6 +68,7 @@ function lauf(vorschlaege: object[] | null, heute = '2999-12-30', katalogDatei =
       yaml: readFileSync(join(wurzel, 'data/dub-confirmed.yaml'), 'utf8'),
       anzahl: existsSync(ausgabe) ? readFileSync(ausgabe, 'utf8').trim() : '',
       kommentar: existsSync(join(wurzel, 'a2y/belege.md')),
+      flaute: existsSync(join(wurzel, 'a2y/flaute.txt')) ? readFileSync(join(wurzel, 'a2y/flaute.txt'), 'utf8') : '',
     }
   } finally {
     rmSync(wurzel, { recursive: true, force: true })
@@ -90,6 +93,20 @@ pruefe('Zwei Vorschläge zum selben Titel und Weg: ein Beleg', doppelt.anzahl ==
 
 const ohneSynchro = lauf([vorschlag('2999-12-29')], '2999-12-30', 'ohne-synchro.json')
 pruefe('Titel steht nur in ohne-synchro.json: Beleg (zweite Katalogdatei wird gelesen)', ohneSynchro.status === 0 && ohneSynchro.anzahl === 'anzahl=1', ohneSynchro)
+
+// --- Flaute: viele strittige Vorschläge, kein Beleg -> Warnung (Lauf 08.11.2026, 0 von 18) -------------------------------------
+const unbekannt = (n: number) => Array.from({ length: n }, (_, i) => ({ ...vorschlag('2999-12-29'), titel: `Unbekannt ${i}`, artikelId: `9${i}` }))
+const flaute = lauf(unbekannt(5))
+pruefe('Flaute: 5 Vorschläge ohne Katalogtreffer, 0 Belege: ::warning:: mit Liste, flaute.txt, Ausgabe flaute=1, Exit 0',
+  flaute.status === 0 && flaute.aus.includes('::warning::Synchro-Belege: 0 Belege bei 5 Vorschlägen') && flaute.aus.includes('Unbekannt 4 (Artikel 94): Titel nicht im Katalog') && flaute.flaute.startsWith('Synchro-Belege: 0 Belege bei 5') && flaute.anzahl === 'anzahl=0\nflaute=1', flaute)
+const vier = lauf(unbekannt(4))
+pruefe('Flaute: 4 Vorschläge (unter der Schwelle 5): keine Warnung', vier.status === 0 && !vier.aus.includes('::warning::') && vier.flaute === '' && vier.anzahl === 'anzahl=0', vier)
+const nurRichtig = lauf(unbekannt(6).map((v) => ({ ...v, titel: 'Devils‘ Crest' })), '2999-12-30', 'titles.json', [{ ...katalog[0]!, streams: [{ platform: 'primevideo', dub: true }] }])
+pruefe('Flaute: 6 Vorschläge, alle „Weg trägt schon dub: true“ (richtig): keine Warnung', nurRichtig.status === 0 && nurRichtig.aus.includes('Weg trägt schon dub: true') && !nurRichtig.aus.includes('::warning::') && nurRichtig.flaute === '', nurRichtig)
+const gemischt = lauf(unbekannt(4).concat(unbekannt(3).map((v) => ({ ...v, titel: 'Devils‘ Crest' }))), '2999-12-30', 'titles.json', [{ ...katalog[0]!, streams: [{ platform: 'primevideo', dub: true }] }])
+pruefe('Flaute: 4 strittige plus 3 richtige: gezählt werden nur die strittigen, keine Warnung', gemischt.status === 0 && gemischt.flaute === '', gemischt)
+const mitBeleg = lauf(unbekannt(5).concat([vorschlag('2999-12-29')]))
+pruefe('Flaute: 5 strittige, aber ein Beleg: keine Warnung', mitBeleg.status === 0 && mitBeleg.anzahl === 'anzahl=1' && mitBeleg.flaute === '', mitBeleg)
 
 // --- Der Workflow ruft den Schritt wirklich und legt den Fund auch ohne neuen Artikel vor ---------------------------------------
 interface Schritt {

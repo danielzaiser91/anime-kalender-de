@@ -23,7 +23,8 @@ import { artikelText, lohntLesung, neueKandidaten, type Kandidat } from './lib/a
 import { beschreibe, pruefeVorschlag } from './lib/anime2you-vorschlag.ts'
 import { ergaenzeBestand, mitWiderspruechen, type Bestand, type GelesenerArtikel, type GespeicherterVorschlag } from './lib/anime2you-bestand.ts'
 import { zusammenfassung, type Verworfen } from './lib/anime2you-bericht.ts'
-import { belegBericht, gibSynchroBelegeAb } from './lib/synchro-beleg-abgabe.ts'
+import { belegBericht, gibSynchroBelegeAb, type AbgabeErgebnis } from './lib/synchro-beleg-abgabe.ts'
+import { belegFlaute } from './lib/synchro-beleg-flaute.ts'
 
 const DATEI = 'data/proposals/anime2you-extraktion.json'
 const UA = 'Mozilla/5.0 (compatible; anime-kalender.de/1.0; +https://anime-kalender.de)'
@@ -155,6 +156,16 @@ function belegeAbgeben(ordner: string, heute: string): void {
   mkdirSync(ordner, { recursive: true })
   writeFileSync(resolve(ordner, 'belege.md'), belegBericht(erg, heute), 'utf8')
   if (process.env.GITHUB_OUTPUT) appendFileSync(process.env.GITHUB_OUTPUT, `anzahl=${erg.belege.length}\n`)
+  meldeFlaute(erg, ordner)
+}
+
+/** Warnung im Lauf-Log und `flaute.txt` (Text für die Status-App) samt Ausgabe `flaute=1`; ohne Flaute geschieht nichts. */
+function meldeFlaute(erg: AbgabeErgebnis, ordner: string): void {
+  const text = belegFlaute(erg)
+  if (!text) return
+  console.log(`::warning::${text}`)
+  writeFileSync(resolve(ordner, 'flaute.txt'), text, 'utf8')
+  if (process.env.GITHUB_OUTPUT) appendFileSync(process.env.GITHUB_OUTPUT, 'flaute=1\n')
 }
 
 const args = process.argv.slice(2)

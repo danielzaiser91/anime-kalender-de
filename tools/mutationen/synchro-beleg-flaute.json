@@ -1,0 +1,13 @@
+[
+  {"name":"flaute Schwelle 5 -> 6","aenderungen":[{"datei":"pipeline/lib/synchro-beleg-flaute.ts","suche":"MINDEST = 5","ersetze":"MINDEST = 6"}],"tests":["npx tsx pipeline/check-synchro-beleg-lauf.ts"]},
+  {"name":"flaute Schwelle 5 -> 4","aenderungen":[{"datei":"pipeline/lib/synchro-beleg-flaute.ts","suche":"MINDEST = 5","ersetze":"MINDEST = 4"}],"tests":["npx tsx pipeline/check-synchro-beleg-lauf.ts"]},
+  {"name":"flaute Vergleich < -> <=","aenderungen":[{"datei":"pipeline/lib/synchro-beleg-flaute.ts","suche":"strittig.length < MINDEST","ersetze":"strittig.length <= MINDEST"}],"tests":["npx tsx pipeline/check-synchro-beleg-lauf.ts"]},
+  {"name":"flaute Belege ignoriert","aenderungen":[{"datei":"pipeline/lib/synchro-beleg-flaute.ts","suche":"if (erg.belege.length) return undefined","ersetze":""}],"tests":["npx tsx pipeline/check-synchro-beleg-lauf.ts"]},
+  {"name":"flaute richtige Gründe zählen mit","aenderungen":[{"datei":"pipeline/lib/synchro-beleg-flaute.ts","suche":"!RICHTIG.includes(z.grund)","ersetze":"true"}],"tests":["npx tsx pipeline/check-synchro-beleg-lauf.ts"]},
+  {"name":"flaute Grund Weg-schon-dub entfällt","aenderungen":[{"datei":"pipeline/lib/synchro-beleg-flaute.ts","suche":"const RICHTIG = ['Weg trägt schon dub: true', ","ersetze":"const RICHTIG = ["}],"tests":["npx tsx pipeline/check-synchro-beleg-lauf.ts"]},
+  {"name":"flaute Grund Handbeleg entfällt","aenderungen":[{"datei":"pipeline/lib/synchro-beleg-flaute.ts","suche":", 'Handbeleg zu Titel und Plattform steht schon']","ersetze":"]"}],"tests":["npx tsx pipeline/check-synchro-beleg-lauf.ts","npx tsx pipeline/check-synchro-beleg-auswahl.ts"]},
+  {"name":"verdrahtung meldeFlaute nicht aufgerufen","aenderungen":[{"datei":"pipeline/anime2you-extraktion.ts","suche":"  meldeFlaute(erg, ordner)\n}","ersetze":"}"}],"tests":["npx tsx pipeline/check-synchro-beleg-lauf.ts"]},
+  {"name":"verdrahtung ::warning:: fehlt","aenderungen":[{"datei":"pipeline/anime2you-extraktion.ts","suche":"console.log(`::warning::${text}`)","ersetze":"console.log(text)"}],"tests":["npx tsx pipeline/check-synchro-beleg-lauf.ts"]},
+  {"name":"verdrahtung flaute.txt nicht geschrieben","aenderungen":[{"datei":"pipeline/anime2you-extraktion.ts","suche":"writeFileSync(resolve(ordner, 'flaute.txt'), text, 'utf8')","ersetze":""}],"tests":["npx tsx pipeline/check-synchro-beleg-lauf.ts"]},
+  {"name":"verdrahtung Ausgabe flaute=1 fehlt","aenderungen":[{"datei":"pipeline/anime2you-extraktion.ts","suche":"appendFileSync(process.env.GITHUB_OUTPUT, 'flaute=1\\n')","ersetze":""}],"tests":["npx tsx pipeline/check-synchro-beleg-lauf.ts"]}
+]
