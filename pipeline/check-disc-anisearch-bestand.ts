@@ -9,7 +9,7 @@ import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { gunzipSync } from 'node:zlib'
-import { ausgabenAusSeite } from './extract-disc-ausgaben.ts'
+import { ausgabenAusHtml } from './extract-disc-ausgaben.ts'
 import { titelOhneDisc } from './lib/disc-ohne-zuordnung.ts'
 import { seiteZuTitel } from './lib/anisearch-seite-zu-titel.ts'
 
@@ -31,7 +31,7 @@ export function bilanz(wurzel: string): string[] {
   const ausgabenVon = (titelId: number): number => {
     const datei = join(wurzel, 'data/anisearch-raw', `${asIdVon.get(titelId)}.html.gz`)
     if (!asIdVon.has(titelId) || !existsSync(datei)) return 0
-    return ausgabenAusSeite(gunzipSync(readFileSync(datei)).toString('utf8')).ausgaben.length
+    return ausgabenAusHtml(gunzipSync(readFileSync(datei)).toString('utf8'))?.eigene.length ?? 0
   }
   const fehlt = titelOhneDisc(ids, ausgabenVon, disc)
   const zeilen = [`Disc-Zuordnung: ${fehlt.length} Titel mit Disc-Ausgabe auf der aniSearch-Seite, aber ohne Zeile in data/disc-ausgaben.json (von ${ids.length} Titeln)`]

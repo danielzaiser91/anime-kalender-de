@@ -119,6 +119,45 @@ esac
   pruefe('zwei Jobs in derselben Minute: zwei Zweige', jobZweige.join(',') === 'daten/79-anilist-20261103-0658,daten/79-tmdb-20261103-0658', jobZweige)
   const ersterInhalt = sh(ursprung, 'git show daten/79-anilist-20261103-0658:data/cinestar.json').out.trim()
   pruefe('der Zweig des ersten Jobs trägt weiter dessen Fund', ersterInhalt === '{"job":"a"}', ersterInhalt)
+
+  // `gh pr create` scheitert (GitHub-502 ohne Antwort, Sendezeiten-Lauf 05.11.2026): drei Versuche, vorher Blick auf einen schon bestehenden PR, Fehlertext im Log.
+  const bin2 = join(dir, 'bin2')
+  mkdirSync(bin2)
+  writeFileSync(join(bin2, 'sleep'), '#!/bin/sh\nexit 0\n')
+  writeFileSync(
+    join(bin2, 'gh'),
+    `#!/bin/sh
+D="$(dirname "$0")"
+case "$1 $2" in
+  "pr create") echo x >> "$D/create-aufrufe"
+    if [ "$(wc -l < "$D/create-aufrufe")" -le "$(cat "$D/create-fehler")" ]; then echo "HTTP 502: Bad Gateway (Versuch $(wc -l < "$D/create-aufrufe"))" >&2; exit 1; fi
+    echo "https://github.com/x/y/pull/99" ;;
+  "pr list") [ -f "$D/schon-da" ] && echo "https://github.com/x/y/pull/88"; exit 0 ;;
+  "pr view") echo "MERGEABLE" ;;
+  "pr merge") exit 0 ;;
+esac
+`,
+  )
+  chmodSync(join(bin2, 'gh'), 0o755)
+  chmodSync(join(bin2, 'sleep'), 0o755)
+  const anlegen = (nr, fehlerAnzahl, schonDa = false) => {
+    writeFileSync(join(bin2, 'create-fehler'), String(fehlerAnzahl))
+    writeFileSync(join(bin2, 'create-aufrufe'), '')
+    rmSync(join(bin2, 'schon-da'), { force: true })
+    if (schonDa) writeFileSync(join(bin2, 'schon-da'), '')
+    writeFileSync(join(lauf, 'data/cinestar.json'), `{"anlegen":${nr}}`)
+    const aus = join(dir, `ausgabe-${nr}.txt`)
+    writeFileSync(aus, '')
+    const res = sh(lauf, `PATH="${posix(bin2)}:$PATH" GITHUB_OUTPUT="${posix(aus)}" GITHUB_RUN_ID=8${nr} QUELLEN_PRUEFBEFEHL=true bash tools/quellen-pr.sh "chore(data): anlegen ${nr}"`, {})
+    return { ...res, aufrufe: readFileSync(join(bin2, 'create-aufrufe'), 'utf8').split('\n').filter(Boolean).length, ausgabe: readFileSync(aus, 'utf8') }
+  }
+  const zweimal = anlegen(1, 2)
+  pruefe('PR-Anlegen: zwei Fehlversuche, der dritte gelingt', zweimal.status === 0 && zweimal.aufrufe === 3 && /pr=99/.test(zweimal.ausgabe), `${zweimal.status} ${zweimal.aufrufe} ${zweimal.out.slice(-300)}`)
+  pruefe('PR-Anlegen: der Fehlertext jedes Versuchs steht im Log', /Versuch 1 von 3\): HTTP 502: Bad Gateway \(Versuch 1\)/.test(zweimal.out) && /Versuch 2 von 3\): HTTP 502: Bad Gateway \(Versuch 2\)/.test(zweimal.out), zweimal.out.slice(-400))
+  const schonDa = anlegen(2, 1, true)
+  pruefe('PR-Anlegen: ein trotz Fehler entstandener PR wird übernommen, kein zweites create', schonDa.status === 0 && schonDa.aufrufe === 1 && /pr=88/.test(schonDa.ausgabe), `${schonDa.status} ${schonDa.aufrufe} ${schonDa.ausgabe}`)
+  const dreimal = anlegen(3, 3)
+  pruefe('PR-Anlegen: drei Fehlversuche enden rot mit ::error:: und letztem Text', dreimal.status !== 0 && dreimal.aufrufe === 3 && /::error::.*nach drei Versuchen.*Bad Gateway \(Versuch 3\)/.test(dreimal.out), `${dreimal.status} ${dreimal.aufrufe} ${dreimal.out.slice(-300)}`)
 } finally {
   rmSync(dir, { recursive: true, force: true })
 }

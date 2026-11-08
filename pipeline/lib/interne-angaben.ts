@@ -3,7 +3,7 @@
  * Geprüft wird nach Feldern, nicht nach Wörtern: In den Feldern der Liste stehen echte Namen (Sprecher, Figur, Titel, Synopse,
  * Folgentitel) und sind ausgenommen; jedes andere Textfeld darf keine Person der Pflege nennen.
  */
-const PFLEGE = /daniel|zaiser/i
+export const PFLEGE = /daniel|zaiser/i
 
 /** Dateien, in denen das Feld `note` (interne Notiz) nie vorkommen darf, auch ohne Namen im Text. */
 const NOTIZ_DATEIEN = /^(releases|woche|woche-kacheln)\.json$/

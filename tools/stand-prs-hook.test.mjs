@@ -5,7 +5,7 @@
  */
 import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
-import { mkdtempSync, readFileSync, rmSync, statSync, utimesSync, writeFileSync, existsSync, mkdirSync } from 'node:fs'
+import { copyFileSync, mkdtempSync, readFileSync, rmSync, statSync, utimesSync, writeFileSync, existsSync, mkdirSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
@@ -242,7 +242,7 @@ try {
   const zustand = () => JSON.parse(readFileSync(zustandDatei, 'utf8'))
   const lies = () => readFileSync(datei, 'utf8')
   const ALT = Date.parse('2026-10-01T08:00:00Z')
-  writeFileSync(datei, '# Stand\r\n## In Arbeit (Stand 31.12.2999 00:00)\r\n- ▶ **Hand** — bleibt\r\n\r\n## Als Nächstes\r\n- 🔵 x\r\n')
+  writeFileSync(datei, '# Stand\r\n## In Arbeit (Stand 31.12.2999 00:00)\r\n- ▶ **Hand** {eigen · normal · - · 01.10.} — bleibt\r\n\r\n## Als Nächstes\r\n- 🔵 x {eigen · normal · - · 01.10.}\r\n')
   utimesSync(datei, new Date(ALT), new Date(ALT))
   const daten = { offen: [pr(901001, { kommentare: [] }), pr(901002)], gemergt: [gemergt(901009, iso(JETZT - MIN))] }
   const jetztLauf = (gh, t) => h.lauf({ jetzt: true }, { env, gh, jetzt: t })
@@ -262,11 +262,11 @@ try {
   assert.ok(existsSync(`${datei}.pr-sperre`), 'fremde Sperre bleibt')
   assert.deepEqual(jetztLauf(ghNachbau(daten), JETZT + 2 * MIN), { ergebnis: 'unverändert', erfolg: true }, 'verwaiste Sperre übernommen')
   const mitHandzeile = (args) => {
-    writeFileSync(datei, lies().replace('- 🔵 x\r\n', '- 🔵 x\r\n- 🔵 **Während der Abfrage**\r\n'))
+    writeFileSync(datei, lies().replace('- 🔵 x {eigen · normal · - · 01.10.}\r\n', '- 🔵 x {eigen · normal · - · 01.10.}\r\n- 🔵 **Während der Abfrage** {eigen · normal · - · 01.10.}\r\n'))
     return ghNachbau({ ...daten, offen: [pr(901003)] })(args)
   }
   assert.equal(jetztLauf(mitHandzeile, JETZT + 3 * MIN).ergebnis, 'geschrieben (2 Zeilen)')
-  assert.ok(lies().includes('- 🔵 **Während der Abfrage**\r\n') && lies().includes('[PR 901003]') && !lies().includes('[PR 901001]'))
+  assert.ok(lies().includes('- 🔵 **Während der Abfrage** {eigen · normal · - · 01.10.}\r\n') && lies().includes('[PR 901003]') && !lies().includes('[PR 901001]'))
 
   // Abruffehler: still bis VERALTET nach dem letzten Erfolg, danach Hinweiszeile und laut; Erfolg räumt sie weg.
   const kaputt = () => {
@@ -307,7 +307,7 @@ try {
   assert.ok(!existsSync(`${datei}.pr-sperre`), 'Sperre nach Fehler frei')
 
   // Prozess: Hook-Eingabe auf stdin, gh als Attrappe; still bei Erfolg, systemMessage bei kaputter Marke.
-  writeFileSync(datei, '## In Arbeit (Stand 31.12.2999 00:00)\n- Hand\n')
+  writeFileSync(datei, '## In Arbeit (Stand 31.12.2999 00:00)\n- Hand {eigen · normal · - · 01.10.}\n')
   rmSync(zustandDatei)
   const log = join(ordner, 'attrappe.log')
   const prozessEnv = { ...process.env, ...env, STAND_PRS_GH_SKRIPT: ATTRAPPE, STAND_PRS_ATTRAPPE_LOG: log }
@@ -315,13 +315,33 @@ try {
   const p1 = hook({ hook_event_name: 'UserPromptSubmit' })
   assert.equal(p1.status, 0, p1.stderr)
   assert.equal(p1.stdout, '', 'Erfolg ist still')
-  assert.ok(lies().startsWith(`## In Arbeit (Stand 31.12.2999 00:00)\n- Hand\n${h.AUF}\n- **Zweiter offener PR** — CI ok · Prüfer R1 freigeben · Checks grün`), lies())
+  assert.ok(lies().startsWith(`## In Arbeit (Stand 31.12.2999 00:00)\n- Hand {eigen · normal · - · 01.10.}\n${h.AUF}\n- **Zweiter offener PR** — CI ok · Prüfer R1 freigeben · Checks grün`), lies())
   assert.equal(readFileSync(log, 'utf8'), 'richtig: api graphql\n')
   writeFileSync(datei, `${lies()}\n${h.ZU}\n`)
   const p2 = hook(post('"/c/Program Files/GitHub CLI/gh.exe" pr merge 901002 --squash'))
   assert.deepEqual(JSON.parse(p2.stdout), { systemMessage: 'stand-prs.js: nicht geschrieben: Marken: 1× Anfangs-, 2× Endmarke (stand.md, Abschnitt „In Arbeit“)' })
   const p3 = spawnSync(process.execPath, [HOOK, '--jetzt'], { env: { ...prozessEnv, STAND_PRS_ATTRAPPE_LOG: join(ordner, 'nie', 'x.log') }, encoding: 'utf8', windowsHide: true })
   assert.match(p3.stdout, /^stand-prs: Fehler: /, 'Attrappe scheitert: Fehler auf stdout')
+
+  // Hook allein installiert (ohne mods/): lädt, pflegt den Block weiter, meldet nur keine Kennzeichen
+  const allein = join(ordner, 'allein', 'hooks')
+  mkdirSync(allein, { recursive: true })
+  for (const datei of ['stand-prs.js', 'stand-prs-block.js', 'stand-waechter.js']) copyFileSync(join(import.meta.dirname, 'claude-global', 'hooks', datei), join(allein, datei))
+  const leerAntwort = JSON.stringify({ data: { repository: { offen: { pageInfo: { hasNextPage: false }, nodes: [] }, gemergt: { pageInfo: { hasNextPage: false }, nodes: [] } } } })
+  const skript = join(ordner, 'allein', 'lauf.cjs')
+  const lauf = [
+    `const h = require(${JSON.stringify(join(allein, 'stand-prs.js'))})`,
+    "const r = h.lauf({ jetzt: true }, { env: JSON.parse(process.env.LAUF_ENV), gh: () => process.env.LEER, jetzt: Date.parse('2026-11-08T12:00:00Z') })",
+    'console.log(JSON.stringify(r))',
+  ]
+  writeFileSync(skript, lauf.join('\n'))
+  const dateiAllein = join(ordner, 'allein', 'stand.md')
+  writeFileSync(dateiAllein, '## In Arbeit (Stand 08.11.2026 12:00)\n- Hand ohne Kennzeichen\n')
+  const pa = spawnSync(process.execPath, [skript], { encoding: 'utf8', timeout: 20000, windowsHide: true, env: { ...process.env, LEER: leerAntwort, LAUF_ENV: JSON.stringify({ STAND_PRS_DATEI: dateiAllein, STAND_PRS_ZUSTAND: join(ordner, 'allein', 'z.json') }) } })
+  assert.equal(pa.status, 0, pa.stderr)
+  const ra = JSON.parse(pa.stdout)
+  assert.equal(ra.erfolg, true, pa.stdout)
+  assert.equal(ra.warnung, undefined, 'ohne Mod-Datei keine Kennzeichen-Meldung')
 } finally {
   rmSync(ordner, { recursive: true, force: true })
 }

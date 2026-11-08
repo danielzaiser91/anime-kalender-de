@@ -31,10 +31,7 @@ pruefe('genau diese fünf Seiten gehen auf', Object.keys(aufgenommeneSeiten).len
 console.log('\nAlte Adressen leiten auf den aufnehmenden Titel (echte data/kennungen.json):')
 {
   const { zeilen } = ladeAkVon(join(ROOT, 'data', 'kennungen.json'))
-  /* Ausnahme seit 06.11.2026 (PR 3044): zuAk folgt, sobald ein Bestandsbau nach dem Merge auf main liegt; danach streichen. */
-  const NOCH_OHNE_ZUAK = new Set([13418, 13419, 18616])
   for (const [seite, ziel] of Object.entries(aufgenommeneSeiten)) {
-    if (NOCH_OHNE_ZUAK.has(Number(seite))) continue
     const zielAk = zeilen.find((z) => z[1] === ziel)?.[0]
     const alt = zeilen.find((z) => z[1] === BASIS + Number(seite) && z[2] === Number(seite))
     pruefe(`Seite ${seite}: die alte Zeile hat zuAk = ak von ${ziel}`, zielAk !== undefined && alt !== undefined && alt[3] === zielAk, { zielAk, alt })
