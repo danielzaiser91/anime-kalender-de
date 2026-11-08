@@ -9,6 +9,7 @@ export type LiveEintrag = Eintrag & { zeit: number }
 
 export type PipelineEintrag = Eintrag & { zeit: number; ort: 'pipeline' | 'worker' | 'warteliste' | 'deploy' | '?' }
 export type PrioEintrag = Eintrag & { status: string; details: string[] }
+export type UnterwegsEintrag = { status: string; seit: number; titel: string; meta: string; start: number | null; startArt: 'Info' | 'Bestand' | null; live: number | null }
 
 declare module 'claude-code' {
   interface PluginState {
@@ -31,6 +32,8 @@ declare module 'claude-code' {
       vonDir: DanielTodo
       // Anzahl fälliger 📅-Einträge: ändert sich nur an einer Zeitgrenze und zeichnet dann neu.
       faellig: number
+      // „## Titel unterwegs“: Synchro-Infos mit Status, Zeitstempel des letzten Wechsels und Dauer bis live.
+      unterwegs: UnterwegsEintrag[]
       // „## Regelmäßig“ aus stand.md.
       regeln: Regel[]
       // Minute (Epoch/60000) der letzten Neuzeichnung der Regelmäßig-Gruppe: der nächste Lauf zählt herunter.

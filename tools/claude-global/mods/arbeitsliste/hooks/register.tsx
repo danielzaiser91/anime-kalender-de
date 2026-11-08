@@ -16,6 +16,9 @@ import { prioZeichenJeZeile, zaehleTopPrios, zeichenJeSpalte } from './prios'
 import type { PrioEintrag } from './prios'
 import { geradeInArbeit, zaehleZiele } from './ziele'
 import type { ZielStand } from './ziele'
+import { zaehleUnterwegs } from './unterwegs'
+import type { UnterwegsEintrag } from './unterwegs'
+import { unterwegsBereich } from './unterwegs-pane'
 
 const DATEI = 'C:/code/ai/anime-kalender-de/daniel-zum-abarbeiten/stand.md'
 const ZIELE_DATEI = 'C:/code/ai/anime-kalender-de/daniel-zum-abarbeiten/ziele.md'
@@ -47,6 +50,7 @@ const ORT_FARBE: Record<Ort, string> = { pipeline: 'warning', worker: AKZENT, wa
 const topPrios = atom({ plugin: 'arbeitsliste', key: 'topPriosV2' } as const, [] as PrioEintrag[])
 const ziele = atom({ plugin: 'arbeitsliste', key: 'ziele' } as const, [] as ZielStand[])
 const gerade = atom({ plugin: 'arbeitsliste', key: 'gerade' } as const, { titel: [], mehr: 0 } as { titel: string[]; mehr: number })
+const unterwegs = atom({ plugin: 'arbeitsliste', key: 'unterwegs' } as const, [] as UnterwegsEintrag[])
 const regeln = atom({ plugin: 'arbeitsliste', key: 'regeln' } as const, [] as Regel[])
 // Minute der letzten Neuzeichnung: der Countdown „in 13 h 45 min“ ändert sich nur beim Minutenwechsel.
 const minute = atom({ plugin: 'arbeitsliste', key: 'minute' } as const, 0)
@@ -247,8 +251,11 @@ async function aktualisiere($: EngineInterface): Promise<void> {
     if (!gleich(await read($, gerade), neuGerade)) await update($, gerade, () => neuGerade)
     const neueRegeln = zaehleRegelmaessig(text)
     if (!gleich(await read($, regeln), neueRegeln)) await update($, regeln, () => neueRegeln)
+    const neuUnterwegs = zaehleUnterwegs(text, Date.now())
+    if (!gleich(await read($, unterwegs), neuUnterwegs)) await update($, unterwegs, () => neuUnterwegs)
     const min = Math.floor((await $.clock.now()) / 60_000)
-    if (neueRegeln.some(r => r.cron) && (await read($, minute)) !== min) await update($, minute, () => min)
+    // Alter und Schwellen laufen mit der Zeit: bei Cron-Regeln oder Titeln unterwegs minütlich neu zeichnen.
+    if ((neueRegeln.some(r => r.cron) || neuUnterwegs.length) && (await read($, minute)) !== min) await update($, minute, () => min)
   } catch {
     fehler = 'stand.md nicht lesbar'
   }
@@ -331,6 +338,7 @@ type PaneDaten = {
   top: PrioEintrag[]
   ziele: ZielStand[]
   gerade: { titel: string[]; mehr: number }
+  unterwegs: UnterwegsEintrag[]
 }
 
 // Liest alle Atome des Panes; faellig und minute nur, damit der Render bei ihnen neu läuft.
@@ -351,7 +359,8 @@ async function lesePaneDaten($: EngineInterface): Promise<PaneDaten> {
   const top = await read($, topPrios)
   const zieleListe = await read($, ziele)
   const geradeListe = await read($, gerade)
-  return { l, bis, still, sparen, auf, ausgeklappt, jetztMs, regelListe, liveListe, pipeListe, von, agenten: agentenListe, top, ziele: zieleListe, gerade: geradeListe }
+  const unterwegsListe = await read($, unterwegs)
+  return { l, bis, still, sparen, auf, ausgeklappt, jetztMs, regelListe, liveListe, pipeListe, von, agenten: agentenListe, top, ziele: zieleListe, gerade: geradeListe, unterwegs: unterwegsListe }
 }
 
 // Grundbausteine des Panes: Breite, Kürzen, Kürzungsschnitte, Titel, Punkt, Aufklapp-Zeilen.
@@ -702,6 +711,7 @@ async function zeichnePane($: EngineInterface, e: any) {
       {paneSpar(a, d)}
       {paneLive(a, d)}
       {paneJetzt(a, d)}
+      {unterwegsBereich(a, d.unterwegs, d.jetztMs)}
       {paneGerade(a, d)}
       {paneSpaeter(a, d)}
       {paneAgenten($, a, d)}
