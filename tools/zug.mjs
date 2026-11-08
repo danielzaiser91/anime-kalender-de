@@ -204,3 +204,61 @@ export function ffEntscheidung({ mainImZug, kettenKopf, zugKopf }) {
   if (!mainImZug) return { art: 'main-holen', grund: 'main ist weitergelaufen (Bots oder Direkt-Merge)' }
   return { art: 'ff', grund: 'main ist Vorfahr des Zug-Kopfs' }
 }
+
+// ── Fahrt (P2b): Zweige, Urteil über die Kette, Log. Die I/O liegt in tools/zug-fahrt.mjs, hier steht nur, was sich rechnen lässt. ──
+
+export const FAHRT_ZWEIG = 'zug-fahrt' // Schnappschuss: Zug plus main; die Kette läuft als PR zug-fahrt → main, der Zug nimmt währenddessen weiter Unter-PRs auf.
+export const PROBE_ZWEIG = 'zug-probe' // „main allein“: main-Kopf plus ein leerer Commit, Kette ohne Unter-PRs.
+
+/** Urteil eines Kettenlaufs (`gh run`: status, conclusion): 'gruen', 'rot' oder 'offen' (läuft, abgebrochen, übersprungen: kein Urteil). */
+export function ketteArt({ status, conclusion }) {
+  if (status !== 'completed') return 'offen'
+  if (conclusion === 'success') return 'gruen'
+  return conclusion === 'failure' || conclusion === 'timed_out' ? 'rot' : 'offen'
+}
+
+/**
+ * Nächster Schritt für das Ergebnis einer Fahrt-Kette. `ff`: Ergebnis von ffEntscheidung (nur bei grün gebraucht).
+ * Rot ohne Probe → 'probe-starten' (main allein prüfen, sonst ist die Schuldsuche blind); rot mit Probe → 'schuldsuche'.
+ */
+export function fahrtSchritt({ kette, ff, mainAllein }) {
+  if (kette === 'offen') return { art: 'abwarten' }
+  if (kette === 'gruen') return ff.art === 'ff' ? { art: 'ff-pruefen' } : { art: ff.art, grund: ff.grund }
+  return mainAllein === undefined ? { art: 'probe-starten' } : { art: 'schuldsuche' }
+}
+
+/** Basisstand für die Grenzen der Ratschen: der Zug vor dem Hereinholen von main (erster Elternteil des Merge-Commits), sonst main selbst. */
+export const basisRef = (kopfEltern) => (kopfEltern > 1 ? `origin/${FAHRT_ZWEIG}^1` : 'origin/main')
+
+/**
+ * Zustand jeder gemeldeten Ratsche der roten Jobs gegen die Basisgrenzen, für das Fahrt-Log.
+ * Rückgabe: [{ job, name, wert, grenze, basis, fall }]; `fall` wie ratschenFall ('ok', 'ratsche', 'zug', 'ratsche-pruefen').
+ */
+export function ratschenZustand(jobs, grenzeBasis) {
+  const zeilen = []
+  for (const job of jobs) {
+    const r = ratschenMeldung(job.meldung ?? '')
+    if (!r) continue
+    const basis = grenzeBasis[r.schluessel] ?? grenzeBasis[r.name]
+    zeilen.push({ job: job.name, name: r.schluessel ?? r.name, wert: r.wert, grenze: r.grenze, basis: basis ?? null, fall: ratschenFall(r, basis) })
+  }
+  return zeilen
+}
+
+const FALL_TEXT = { ok: 'eingehalten', ratsche: 'Senkung auf main (nicht der Zug)', zug: 'vom Zug gerissen', 'ratsche-pruefen': 'Basisgrenze unbekannt' }
+
+/** Zeilen für das Fahrt-Log (Schrittzusammenfassung und PR-Kommentar). `kopf`: Zug-Kopf der Fahrt; `urteil`: Ergebnis von schuldsuche oder null. */
+export function fahrtLog({ kopf, kette, schritt, ratschen = [], grenzeBasis = {}, urteil = null }) {
+  const zeilen = [`## Fahrt ${String(kopf).slice(0, 9)}: Kette ${kette}, Schritt ${schritt.art}${schritt.grund ? ` (${schritt.grund})` : ''}`]
+  if (urteil) zeilen.push(`Schuldsuche: ${JSON.stringify(urteil)}`)
+  zeilen.push(`Ratschen am Basisstand: ${Object.keys(grenzeBasis).length === 0 ? 'keine gelesen' : Object.entries(grenzeBasis).map(([k, v]) => `${k}=${v}`).join(', ')}`)
+  if (ratschen.length === 0) zeilen.push('Ratschen im Fehlschlag: keine gemeldet')
+  for (const r of ratschen) zeilen.push(`Ratsche ${r.name} (${r.job}): Wert ${r.wert}, Grenze main ${r.grenze}, Basis ${r.basis ?? '?'} → ${FALL_TEXT[r.fall] ?? r.fall}`)
+  return zeilen
+}
+
+/** Nach dem Schieben (P2c): Bau und Deploy starten, weil bestand-bauen.yml und deploy.yml push-Läufe des Daten-App-Akteurs überspringen (Befund P0). Bau zuerst: sein Ende startet über workflow_run schon den nächsten Deploy; der eigene deckt den Fall, dass der Bau rot endet. */
+export const bauUndDeployBefehle = () => [
+  ['workflow', 'run', 'bestand-bauen.yml', '--ref', 'main'],
+  ['workflow', 'run', 'deploy.yml', '--ref', 'main'],
+]

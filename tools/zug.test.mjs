@@ -3,7 +3,7 @@
  * Ratschen-Zeilen wörtlich aus den roten Läufen vom 05./06.11.2026 (daniel-zum-abarbeiten/berichte/rot-nach-gruen-2026-11-06.md).
  * Kreislauf: Fahrt rot → Schuldsuche → Revert → nächste Fahrt, mit einem Orakel statt echter Ketten.
  */
-import { basisGrenzen, ffEntscheidung, halbierungVersuch, halbierungWeiter, ratschenFall, ratschenMeldung, revertPlan, schuldsuche, sperrGruende, verdaechtige, zugEintraege, zugPlan, zurueckholen } from './zug.mjs'
+import { basisGrenzen, basisRef, bauUndDeployBefehle, fahrtLog, fahrtSchritt, ketteArt, ratschenZustand, ffEntscheidung, halbierungVersuch, halbierungWeiter, ratschenFall, ratschenMeldung, revertPlan, schuldsuche, sperrGruende, verdaechtige, zugEintraege, zugPlan, zurueckholen } from './zug.mjs'
 import { logJobs, trocken } from './zug-trocken.mjs'
 
 const fehler = []
@@ -304,6 +304,23 @@ pruefe('nur eine der Cover-Dateien da → deren Wert', basisGrenzen((d) => (d ==
 const UMF2 = 'web/src: Überlänge der funktionen 3340 statt höchstens 3333'
 pruefe('schuldsuche: Basisgrenze je Bereich, hält → ratsche', s0({ fehlschlag: { jobs: [jobBau(UMF2)] }, grenzeBasis: { 'umfang:web/src:funktionen': 3340, 'umfang:pipeline:funktionen': 1 } }).art === 'ratsche')
 pruefe('schuldsuche: Basisgrenze des anderen Bereichs zählt nicht → Zug', s0({ fehlschlag: { jobs: [jobBau(UMF2)] }, grenzeBasis: { 'umfang:web/src:funktionen': 3335, 'umfang:pipeline:funktionen': 9999 } }).art === 'halbieren')
+
+console.log('Fahrt: reine Regeln')
+for (const [status, conclusion, soll] of [['completed', 'success', 'gruen'], ['completed', 'failure', 'rot'], ['completed', 'timed_out', 'rot'], ['completed', 'cancelled', 'offen'], ['completed', 'skipped', 'offen'], ['in_progress', '', 'offen'], ['queued', 'success', 'offen']]) {
+  pruefe(`ketteArt ${status}/${conclusion || '-'} → ${soll}`, ketteArt({ status, conclusion }) === soll)
+}
+pruefe('Fahrt: Kette offen → abwarten', fahrtSchritt({ kette: 'offen' }).art === 'abwarten')
+pruefe('Fahrt: grün und ff → ff-pruefen', fahrtSchritt({ kette: 'gruen', ff: { art: 'ff', grund: 'x' } }).art === 'ff-pruefen')
+pruefe('Fahrt: grün, main weitergelaufen → main-holen mit Grund', gleich(fahrtSchritt({ kette: 'gruen', ff: { art: 'main-holen', grund: 'g' } }), { art: 'main-holen', grund: 'g' }))
+pruefe('Fahrt: rot ohne Probe → probe-starten, mit Probe (auch gruen) → schuldsuche', fahrtSchritt({ kette: 'rot' }).art === 'probe-starten' && fahrtSchritt({ kette: 'rot', mainAllein: 'gruen' }).art === 'schuldsuche' && fahrtSchritt({ kette: 'rot', mainAllein: 'rot' }).art === 'schuldsuche')
+pruefe('basisRef: Merge-Commit → Zug vor main, sonst main', basisRef(2) === 'origin/zug-fahrt^1' && basisRef(1) === 'origin/main')
+const ZST = ratschenZustand([{ name: 'Kette – Bau', meldung: UMFANG }, { name: 'Kette – Logik', meldung: 'FEHL anderes' }, { name: 'Kette – Aussehen', meldung: BUDGET }], { 'umfang:pipeline:funktionen': 8986, 'start-budget': 240 })
+pruefe('ratschenZustand: nur Jobs mit Ratsche, Basis je Schlüssel', ZST.length === 2 && gleich(ZST[0], { job: 'Kette – Bau', name: 'umfang:pipeline:funktionen', wert: 8986, grenze: 8964, basis: 8986, fall: 'ratsche' }) && ZST[1].fall === 'zug' && ZST[1].basis === 240, ZST)
+pruefe('ratschenZustand: Basisgrenze fehlt → null und ratsche-pruefen', gleich(ratschenZustand([{ name: 'j', meldung: UMFANG }], {}).map((z) => [z.basis, z.fall]), [[null, 'ratsche-pruefen']]))
+const FLOG = fahrtLog({ kopf: 'abcdef0123456789', kette: 'rot', schritt: { art: 'schuldsuche' }, ratschen: ZST, grenzeBasis: { 'start-budget': 240 }, urteil: { art: 'main' } })
+pruefe('fahrtLog: Kopf, Urteil, Ratschen-Stand und je Ratsche eine Zeile', FLOG[0] === '## Fahrt abcdef012: Kette rot, Schritt schuldsuche' && FLOG[1] === 'Schuldsuche: {"art":"main"}' && FLOG[2] === 'Ratschen am Basisstand: start-budget=240' && FLOG.length === 5 && /Wert 8986, Grenze main 8964, Basis 8986 → Senkung auf main/.test(FLOG[3]) && /→ vom Zug gerissen/.test(FLOG[4]), FLOG)
+pruefe('fahrtLog: ohne Grenzen und Ratschen sagt es beides', fahrtLog({ kopf: 'a', kette: 'grün', schritt: { art: 'ff-pruefen', grund: 'ok' } }).join('|') === '## Fahrt a: Kette grün, Schritt ff-pruefen (ok)|Ratschen am Basisstand: keine gelesen|Ratschen im Fehlschlag: keine gemeldet')
+pruefe('bauUndDeployBefehle: erst Bau, dann Deploy, beide auf main', gleich(bauUndDeployBefehle(), [['workflow', 'run', 'bestand-bauen.yml', '--ref', 'main'], ['workflow', 'run', 'deploy.yml', '--ref', 'main']]))
 
 if (fehler.length > 0) {
   console.error(`zug.test: ${fehler.length} Fehler`)
