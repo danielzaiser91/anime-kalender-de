@@ -47,13 +47,13 @@ const katalog = [{ id: 203275, titleRomaji: "Demons' Crest", titleEn: "Devils' C
 
 interface Lauf { status: number | null; aus: string; yaml: string; anzahl: string; kommentar: boolean; flaute: string }
 
-function lauf(vorschlaege: object[] | null, heute = '2999-12-30', katalogDatei = 'titles.json', inhalt: object[] = katalog): Lauf {
+function lauf(vorschlaege: object[] | null, heute = '2999-12-30', katalogDatei = 'titles.json', inhalt: object[] = katalog, hand = HAND): Lauf {
   const wurzel = mkdtempSync(join(tmpdir(), 'synchro-lauf-'))
   try {
     for (const d of ['data/proposals', 'public/data']) mkdirSync(join(wurzel, d), { recursive: true })
     if (vorschlaege) writeFileSync(join(wurzel, 'data/proposals/anime2you-extraktion.json'), JSON.stringify({ gelesen: {}, vorschlaege }))
     writeFileSync(join(wurzel, 'public/data', katalogDatei), JSON.stringify(inhalt))
-    writeFileSync(join(wurzel, 'data/dub-confirmed.yaml'), HAND)
+    writeFileSync(join(wurzel, 'data/dub-confirmed.yaml'), hand)
     const ausgabe = join(wurzel, 'github-output.txt')
     const r = spawnSync(process.execPath, [tsx, skript, '--belege', '--verzeichnis', join(wurzel, 'a2y'), '--heute', heute], {
       cwd: wurzel,
@@ -103,6 +103,9 @@ const vier = lauf(unbekannt(4))
 pruefe('Flaute: 4 Vorschläge (unter der Schwelle 5): keine Warnung', vier.status === 0 && !vier.aus.includes('::warning::') && vier.flaute === '' && vier.anzahl === 'anzahl=0', vier)
 const nurRichtig = lauf(unbekannt(6).map((v) => ({ ...v, titel: 'Devils‘ Crest' })), '2999-12-30', 'titles.json', [{ ...katalog[0]!, streams: [{ platform: 'primevideo', dub: true }] }])
 pruefe('Flaute: 6 Vorschläge, alle „Weg trägt schon dub: true“ (richtig): keine Warnung', nurRichtig.status === 0 && nurRichtig.aus.includes('Weg trägt schon dub: true') && !nurRichtig.aus.includes('::warning::') && nurRichtig.flaute === '', nurRichtig)
+const JA = `${HAND}- anilistId: 203275\n  title: "Devils’ Crest"\n  platform: primevideo\n  dub: true\n  checkedAt: '2999-12-29'\n`
+const handbeleg = lauf(unbekannt(6).map((v) => ({ ...v, titel: 'Devils‘ Crest' })), '2999-12-30', 'titles.json', katalog, JA)
+pruefe('Flaute: 6 Vorschläge, alle „Handbeleg steht schon“ (richtig): keine Warnung', handbeleg.status === 0 && handbeleg.aus.includes('Handbeleg zu Titel und Plattform steht schon') && !handbeleg.aus.includes('::warning::') && handbeleg.flaute === '', handbeleg)
 const gemischt = lauf(unbekannt(4).concat(unbekannt(3).map((v) => ({ ...v, titel: 'Devils‘ Crest' }))), '2999-12-30', 'titles.json', [{ ...katalog[0]!, streams: [{ platform: 'primevideo', dub: true }] }])
 pruefe('Flaute: 4 strittige plus 3 richtige: gezählt werden nur die strittigen, keine Warnung', gemischt.status === 0 && gemischt.flaute === '', gemischt)
 const mitBeleg = lauf(unbekannt(5).concat([vorschlag('2999-12-29')]))
