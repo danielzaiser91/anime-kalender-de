@@ -165,6 +165,8 @@
     "check:cls-wechsel": "node tools/schwer.mjs node tools/cls-wechsel.mjs",
     "check:suchhinweis": "npm run buehne:bauen && node tools/suchhinweis-quickfix-pruefen.mjs",
     "check:buehne-fenster": "npm run buehne:bauen && node tools/buehne-fenster-pruefen.mjs",
+    "check:buehne-messen": "npm run buehne:bauen && node tools/buehne-messen.mjs && node tools/buehne-zustand-pruefen.mjs",
+    "check:buehne-panel": "npm run buehne:bauen && node tools/buehne-panel-pruefen.mjs",
     "mess:suche": "node tools/such-messung.mjs",
     "mess:filter": "node tools/filter-messung.mjs",
     "check:ladezeiten": "node tools/ladezeiten-messen.mjs",
