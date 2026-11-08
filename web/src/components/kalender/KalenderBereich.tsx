@@ -6,6 +6,7 @@ import { activeFilterCount, type FilterState } from '../../lib/filters.ts'
 import { addDays, monthName, startOfMonth, startOfWeek, todayIso } from '@shared/time.ts'
 import { useLang } from '../../lib/i18n.tsx'
 import { merkeZielTag } from '../../lib/ziel-tag.ts'
+import { useAnsichtOben } from '../../lib/ansicht-scroll.ts'
 import { WeekView } from '../WeekView.tsx'
 import { MonatLazy } from './MonatLazy.tsx'
 import { KalenderKopf, wochenSpanne } from './KalenderKopf.tsx'
@@ -43,6 +44,7 @@ export function KalenderBereich(p: KalenderBereichProps) {
   const { t } = useLang()
   const { route, navigate } = p
   const monat = route.view === 'monat'
+  useAnsichtOben(route.view)
   const [von, bis] = spanne(route)
   const zeitraum = useMemo(() => p.data.events.filter((e) => e.date >= von && e.date <= bis), [p.data, von, bis])
   const imZeitraum = useMemo(() => p.events.filter((e) => e.date >= von && e.date <= bis), [p.events, von, bis])
