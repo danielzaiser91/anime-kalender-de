@@ -15,6 +15,7 @@ import type { Title } from '../../shared/types.ts'
 import type { CrSerie } from './crunchyroll-dub.ts'
 import { zerlege } from './cr-staffel-nummer.ts'
 import { log } from './util.ts'
+import { gruppiereJeKennung } from './je-kennung.ts'
 
 export interface OffenerBefund {
   herkunft?: string
@@ -39,7 +40,7 @@ export function gleicherBlock(neinTitel: string, blockName: string): boolean {
 
 export function serienNachKennung(serien: CrSerie[]): Map<string, CrSerie> {
   const raus = new Map<string, CrSerie>()
-  for (const s of serien) if (s.seriesId) raus.set(s.seriesId, s)
+  for (const [k, liste] of gruppiereJeKennung(serien, (s) => s.seriesId)) raus.set(k, liste.at(-1)!)
   return raus
 }
 

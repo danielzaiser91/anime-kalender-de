@@ -7,6 +7,7 @@ import { type EntfernterVerweis } from './grundlagen.ts'
 import { serienBesitz, istFremd, entferneFremdeCrWege, entferneFremdeNachStaffeln } from './cr-serie-geteilt.ts'
 import { vorDemStart } from '../lib/crunchyroll-vollstaendig.ts'
 import { neinUeberholtMitLog, serienNachKennung, type OffenerBefund } from '../lib/cr-nein-ueberholt.ts'
+import { gruppiereJeKennung } from '../lib/je-kennung.ts'
 import { katalogSerieIstEinWerk } from '../lib/cr-katalog-ein-werk.ts'
 import { kennungAusPfad, kennungMitAdressgedaechtnis, type KennungsAdressen } from '../lib/cr-kennung-gedaechtnis.ts'
 
@@ -180,11 +181,9 @@ export function ordneCrKatalogZu({ titles, crDub, verweiseEntfernt }: {
         Folgen als der Titel" träfe 24, fast alle zu Recht deutsch (geteilte
         Cours wie 86 oder Dead Mount Death Play).
       */
-      const crBloeckeJeKennung = new Map(
-        crDub.serien.filter((s) => s.seriesId).map((s) => [s.seriesId as string, s.staffeln ?? []]),
-      )
+      const crSerienGruppen = gruppiereJeKennung(crDub.serien, (s) => s.seriesId)
       const hinterDemEnde = (kennung: string, title: Title): boolean =>
-        deutscheFolgenNachDemEnde(crBloeckeJeKennung.get(kennung) ?? [], title.episodes)
+        deutscheFolgenNachDemEnde(crSerienGruppen.get(kennung)?.at(-1)?.staffeln ?? [], title.episodes)
       if (nachKennung.size) { const besitz = serienBesitz(titles, kennungVon, nachKennung)
         for (const title of titles.values()) {
           for (const stream of title.streams) {
