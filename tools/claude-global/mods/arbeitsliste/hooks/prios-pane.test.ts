@@ -25,7 +25,7 @@ test('Pane: Top-Prios als Kasten mit Rahmen ganz oben; Chip mit Status vor dem T
   const p = await pane($, on)
   const z = zeilen(await p.drawn())
   expect(hat(await p.drawn(), 'borderStyle', 'round')).toBe(true)
-  expect(z[0]).toBe('Top-Prios')
+  expect(z[0]).toBe('Ziele')
   expect(z).toContain('   AGENT  D1 Zuordner nachgebessert, Prüfung läuft')
   expect(z).toContain('▸  LIVE  Speed Vorprüfung vor dem PR')
   expect(hat(await p.drawn(), 'backgroundColor', 'suggestion')).toBe(true)
@@ -70,7 +70,7 @@ test('Pane: unbekannter Status ist sichtbar (rot, mit Wort); Altzeile ohne Statu
 test('Pane: ohne „## Top-Prios“ kein Kasten und kein Fehler', async ($, on) => {
   const p = await pane($, on, STAND)
   expect(hat(await p.drawn(), 'borderStyle', 'round')).toBe(false)
-  expect(zeilen(await p.drawn()).join('\n')).not.toContain('Top-Prios')
+  expect(zeilen(await p.drawn()).join('\n')).not.toContain('Ziele')
   await p.unmount()
 })
 
