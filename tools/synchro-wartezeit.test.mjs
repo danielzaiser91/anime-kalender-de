@@ -86,6 +86,8 @@ for (const name of ['Classroom of the Elite Staffel 4: Second Year, First Semest
 }
 // Wortgrenze: „Vivid“ und „Partizan“ enthalten iv/vi/part, sind aber keine Zählung — der Name gehört zu Staffel 1 und alarmiert.
 assert.equal(wartende(katalog([block('Staffel 1', FOLGE_171)]), [omu({ name: 'Vivid Partizan' })], nach(600)).length, 1)
+// …und am Wortende („Counterpart“ endet auf part): auch dort keine Zählung.
+assert.equal(wartende(katalog([block('Staffel 1', FOLGE_171)]), [omu({ name: 'Counterpart Story' })], nach(600)).length, 1)
 // Mehrdeutig: zwei Blöcke derselben Staffelnummer (Staffel 2 und Season 2) lassen keine Wahl — unklar, kein Alarm.
 assert.deepEqual(synchroWartende(katalog([block('Staffel 2', FOLGE_171), block('Season 2', FOLGE_171)]), [omu()], nach(600)), { wartende: [], unklar: ['Black Clover – Staffel 2'] })
 // Ein undatierter Block gleicher Nummer zählt nicht mit: der datierte bleibt der eine.
