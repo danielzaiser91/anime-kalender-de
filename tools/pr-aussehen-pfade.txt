@@ -26,8 +26,10 @@ tools/ansicht-trefferprobe.mjs
 tools/ansicht-tv-reihe.mjs
 tools/bau-vergleich-log.mjs
 tools/bilder-ordner.mjs
+tools/browser-weiche.mjs
 tools/buehne-fenster-pruefen.mjs
 tools/buehne-seite.mjs
+tools/cls-wechsel.mjs
 tools/dist-frisch.mjs
 tools/duell-urteil.mjs
 tools/ecken-urteil.mjs
@@ -50,6 +52,7 @@ tools/schwer.mjs
 tools/schwerer-lauf.mjs
 tools/such-chip-messen.mjs
 tools/suchhinweis-quickfix-pruefen.mjs
+tools/tempo-kern.mjs
 tools/termin-karte-urteil.mjs
 tools/trefferprobe-ausnahmen.mjs
 tools/trefferprobe-browser.mjs

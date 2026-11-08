@@ -212,6 +212,8 @@ jobs:
             befehl: npm run check:ansichten-desktop
           - teil: Ansichten Handy
             befehl: npm run check:ansichten-handy
+          - teil: Ansichtswechsel
+            befehl: npm run check:cls-wechsel
           - teil: Einstellungen
             befehl: npm run check:einstellungen
           - teil: Suchhinweis

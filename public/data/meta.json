@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-11-07T20:59:51.774Z",
+  "generatedAt": "2026-11-08T14:28:23.770Z",
   "titleCount": 2923,
-  "belegtCount": 2590,
+  "belegtCount": 2591,
   "releaseCount": 889,
   "eventCount": 4417,
   "genres": [
@@ -183,8 +183,8 @@
   "providers": [
     "aniSearch",
     "Amazon Prime (Crunchyroll)",
-    "maxdome",
     "Apple TV",
+    "maxdome",
     "freenet meinVOD",
     "MagentaTV",
     "Videoload",
@@ -272,7 +272,7 @@
     2009,
     2008
   ],
-  "patchnotesStand": "2026-11-07",
+  "patchnotesStand": "2026-11-08",
   "attribution": [
     "Dub-Daten: MyDubList (https://mydublist.com) — CC BY 4.0",
     "Metadaten: AniList (https://anilist.co)",
