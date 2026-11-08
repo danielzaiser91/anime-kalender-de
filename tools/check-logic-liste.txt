@@ -247,6 +247,7 @@ pipeline/check-install-stellen.ts
 pipeline/check-interne-angaben.ts
 pipeline/check-invarianten.ts
 pipeline/check-ja-hat-weg.ts
+pipeline/check-joyn-hand-tv.ts
 pipeline/check-joyn-luecke-lauf.ts
 pipeline/check-joyn-luecke.ts
 pipeline/check-joyn-premiere.ts
