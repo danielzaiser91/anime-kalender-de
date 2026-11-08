@@ -222,7 +222,7 @@ pruefe('Weder Plattform noch Anbieter: keine Stream-Plattform, zurückgestellt',
 pruefe('Anbieter ohne Plattform-Kennung: Grund nennt den Anbieter', grund(lauf([APPLE], [{ ...PET_TITEL, titleDe: 'Dr. STONE' }])) === 'keine Stream-Plattform im Datenmodell (Anbieter Apple TV+ hat keine Kennung)')
 
 // --- Pluto TV (Artikel 1068729): gespeichert mit plattform null und Anbieter „Pluto TV“, bevor es eine Kennung gab ---
-const PLUTO = mit(PET, { titel: 'Dr. STONE', plattform: null, anbieter: 'Pluto TV', artikel: PLUTO_ARTIKEL, zitat: DS_ZITAT, art: 'start', folgen: '23 von 24', warnungen: [] })
+const PLUTO = mit(PET, { titel: 'Dr. STONE', plattform: null, anbieter: 'Pluto TV', artikel: PLUTO_ARTIKEL, zitat: DS_ZITAT, art: 'start', folgen: null, warnungen: [] })
 const DS_ID = 105333
 const KAT_PLUTO: KatalogTitel[] = [
   { id: 900601, titleDe: 'Dr. STONE Special', streams: [weg('primevideo')] },

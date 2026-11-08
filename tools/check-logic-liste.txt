@@ -477,6 +477,7 @@ pipeline/check-suchhinweis-bereich.ts
 pipeline/check-suchhinweis-lauf.ts
 pipeline/check-sw-cache-regeln.ts
 pipeline/check-synchro-beleg-auswahl.ts
+pipeline/check-synchro-beleg-folgen.ts
 pipeline/check-synchro-beleg-lauf.ts
 pipeline/check-synchro-beobachtung.ts
 pipeline/check-synchro-original.ts

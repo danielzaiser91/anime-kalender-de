@@ -17,6 +17,7 @@
 import { ANBIETER_NUR_IM_ARTIKEL, nenntName, PLATTFORM_NAMEN } from './anime2you-abgleich.ts'
 import type { GespeicherterVorschlag } from './anime2you-bestand.ts'
 import { SYNCHRO_WORTLAUT, VERNEINT } from './dub-aus-terminen.ts'
+import { folgenUrteil } from './synchro-beleg-folgen.ts'
 
 export interface KatalogTitel {
   id: number
@@ -35,6 +36,8 @@ export interface AutoBeleg {
   artikelId: string
   quelle: string
   veroeffentlicht: string
+  /** Nur diese Folgen nennt der Artikel (Zählung des Artikels); ohne: der ganze Titel. */
+  bereich?: { von: number; bis: number }
 }
 
 export interface Zurueckgestellt {
@@ -177,6 +180,11 @@ export function waehleSynchroBelege(
       lehne(grund)
       continue
     }
+    const folgen = folgenUrteil(v.folgen, v.zitat)
+    if ('grund' in folgen) {
+      lehne({ text: folgen.grund })
+      continue
+    }
     const t = ordneTitelZu(v.titel, katalog, v.plattform!)
     if (typeof t === 'string') {
       lehne({ text: t, strittig: true })
@@ -192,13 +200,14 @@ export function waehleSynchroBelege(
       continue
     }
     schluessel.set(`${t.id}|${v.plattform}`, IMMER)
-    belege.push(neuerBeleg(v, t))
+    belege.push(neuerBeleg(v, t, folgen))
   }
   return { belege, zurueck }
 }
 
-function neuerBeleg(v: GespeicherterVorschlag, t: KatalogTitel): AutoBeleg {
+function neuerBeleg(v: GespeicherterVorschlag, t: KatalogTitel, folgen: { ganz: true } | { von: number; bis: number }): AutoBeleg {
   return {
+    ...('von' in folgen ? { bereich: folgen } : {}),
     anilistId: t.id,
     titel: t.titleDe ?? t.titleEn ?? t.titleRomaji ?? v.titel,
     plattform: v.plattform!,
@@ -211,13 +220,15 @@ function neuerBeleg(v: GespeicherterVorschlag, t: KatalogTitel): AutoBeleg {
 
 /** Die Zeilen eines Belegs für `haengeBelegeAn`; Zeichenketten als JSON, damit Anführungszeichen im Zitat das YAML nicht brechen. */
 export function belegZeilen(b: AutoBeleg, heute: string): string[] {
-  const note = `${NOTIZ_MARKE}: Artikel ${b.quelle} (${b.veroeffentlicht}): „${b.zitat}“ Aussage des Artikels; Seite des Anbieters nicht geprüft.`
+  const teil = b.bereich ? ` Nur die Folgen ${b.bereich.von} bis ${b.bereich.bis} (Zählung des Artikels), die übrigen bleiben offen.` : ''
+  const note = `${NOTIZ_MARKE}: Artikel ${b.quelle} (${b.veroeffentlicht}): „${b.zitat}“ Aussage des Artikels;${teil} Seite des Anbieters nicht geprüft.`
   return [
     '',
     `- anilistId: ${b.anilistId}`,
     `  title: ${JSON.stringify(b.titel)}`,
     `  platform: ${b.plattform}`,
     '  dub: true',
+    ...(b.bereich ? ['  dubRanges:', `    - from: ${b.bereich.von}`, `      to: ${b.bereich.bis}`, '      dub: true'] : []),
     `  checkedAt: '${heute}'`,
     `  note: ${JSON.stringify(note)}`,
   ]
