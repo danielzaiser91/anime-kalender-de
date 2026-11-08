@@ -1,15 +1,49 @@
 {
-  "scrapedAt": "2026-11-08T04:12:04.049Z",
+  "scrapedAt": "2026-11-08T13:02:01.243Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 38,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 5,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 56,
-    "schon in einem Rubrik-Feed gelesen": 28,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 1,
+    "schon in einem Rubrik-Feed gelesen": 9,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 11,
     "Sprachhinweis älter als 45 Tage": 6
   },
   "proposals": [
+    {
+      "articleTitle": "Zwei weitere Anime-Neuzugänge ab sofort auf Joyn verfügbar",
+      "articleUrl": "https://www.anime2you.de/news/1069021/joyn-yaiba-samurai-legend-und-mehr/",
+      "publishedAt": "2026-11-08",
+      "category": "streaming",
+      "platforms": [
+        "joyn"
+      ],
+      "dates": [],
+      "dub": "ja",
+      "zeiten": [
+        {
+          "tag": "Freitag",
+          "zeit": "18:30",
+          "satz": "ins Chaos zu stürzen. »YAIBA: Samurai Legend« Episoden: 2 von 24 Sprache: Deutsch Hinweis: Neue Episoden erscheinen jeweils nach der TV-Ausstrahlung auf ProSieben MAXX (Montag bis Freitag um 18:30 Uhr) Stream: Joyn (kostenlos) Handlung: Yai"
+        }
+      ],
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Start der fünften »Minami-ke«-Staffel steht fest + Teaser",
+      "articleUrl": "https://www.anime2you.de/news/1068978/minami-ke-staffel-5-start/",
+      "publishedAt": "2026-11-08",
+      "category": "allgemein",
+      "platforms": [],
+      "dates": [
+        {
+          "month": "2027-04",
+          "context": "aption von »Minami-ke« wurde heute verkündet, dass die fünfte Staffel ab April 2027 im japanischen Fernsehen ausgestrahlt wird. Einen ersten"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Nur noch wenige Tage: »Pokémon«-DVDs für 19,99 Euro bei polyband",
       "articleUrl": "https://www.anime2you.de/news/1068831/polyband-pokemon-rabattaktion-endet-bald/",
