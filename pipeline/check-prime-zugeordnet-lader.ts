@@ -1,7 +1,7 @@
 /**
  * Zusicherung: **`data/prime-zugeordnet.json` wird nur über `leseZugeordnet` gelesen und geschrieben; eine von Hand gesperrte Seite
  * (`data/belege-entfernt.yaml`) zählt dort für keinen Leser** (19.10.2026, PR 1612 R4).
- * Anlass: Der Zuordner schreibt die Datei per `{...bisher, ...zugeordnet}`; eine wieder angelegte Zeile B0GVJFZD1W→20605 wäre in
+ * Anlass: Der Zuordner schreibt die Datei roh per `{...bisher, ...zugeordnet}` (gesperrte Zeilen bleiben, Tokyo Ghoul 20605 ging so verloren); eine wieder angelegte Zeile B0GVJFZD1W→20605 wäre in
  * `09-3` gesperrt, in `09-7` (geteilte Seiten) aber weiter gezählt worden. Fährt den echten Zuordner-Abschluss und `09-7` gegen eine Kulisse
  * (`AK_ROOT`). Läuft in `check:logic`. `09-3` deckt `check-prime-seiten-sperre.ts`; `11-6`/`cartoon-jw-seite` lesen über dieselbe Funktion (Lücke: ohne eigenen Fall).
  */
@@ -44,8 +44,18 @@ try {
   })
   const danach = JSON.parse(readFileSync(join(kulisse, 'data/prime-zugeordnet.json'), 'utf8')) as Record<string, { titleId: number }>
   const ids = Object.values(danach).map((m) => m.titleId)
-  if (ids.includes(GESPERRT)) fehler.push(`Zuordner schrieb die gesperrte Zeile für ${GESPERRT} zurück`)
   if (!ids.includes(FREI)) fehler.push(`Kontrolle: die freie Zeile für ${FREI} fehlt nach dem Zuordner`)
+  // Die Sperre blendet nur beim Lesen aus: die Datei behält die gesperrten Zeilen (alte und neue), kein Leser sieht sie.
+  if (ids.filter((id) => id === GESPERRT).length !== 2) fehler.push(`Zuordner verwarf eine nur gesperrte Zeile für ${GESPERRT} (Datei: ${ids.join(',')})`)
+  const { leseZugeordnet } = await import('./lib/prime-meldung-riegel.ts')
+  const gelesen = Object.values(leseZugeordnet<{ titleId: number }>()).map((m) => m.titleId)
+  if (gelesen.includes(GESPERRT)) fehler.push(`leseZugeordnet zeigte die gesperrte Zeile für ${GESPERRT}`)
+  if (!gelesen.includes(FREI)) fehler.push(`Kontrolle: leseZugeordnet verlor die freie Zeile für ${FREI}`)
+  // Sperre aufgehoben: die Zeile ist wieder da, ohne dass der Zuordner sie neu melden muss.
+  schreibe('data/belege-entfernt.yaml', '[]\n')
+  const frei = Object.values(leseZugeordnet<{ titleId: number }>()).filter((m) => m.titleId === GESPERRT).length
+  if (frei !== 2) fehler.push(`nach aufgehobener Sperre kamen ${frei} statt 2 Zeilen für ${GESPERRT} zurück`)
+  schreibe('data/belege-entfernt.yaml', JSON.stringify([{ anilistId: GESPERRT, url: `https://www.amazon.de/dp/${SPERRE}`, grund: 'Sperre', entferntAm: '2026-10-29' }]))
 
   // Leseweg 09-7: dieselbe Datei, mit der gesperrten Zeile von Hand zurückgelegt — der Leser darf sie nicht zählen.
   schreibe('data/prime-zugeordnet.json', JSON.stringify({ [`${gp(SPERRE)}#4`]: meldung(GESPERRT, 'B0NEUNEU01'), [`${gp(SPERRE)}#6`]: meldung(FREI, 'B0NEUNEU02') }))
@@ -72,4 +82,4 @@ if (fehler.length) {
   console.error(`FEHL check-prime-zugeordnet-lader:\n  ${fehler.join('\n  ')}`)
   process.exit(1)
 }
-console.log('check-prime-zugeordnet-lader: 4 Fälle ok.')
+console.log('check-prime-zugeordnet-lader: 8 Fälle ok.')
