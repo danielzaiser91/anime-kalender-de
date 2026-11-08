@@ -8,19 +8,6 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:seven-knights-marronnier-kingdom-primevideo@2026-10-31@anime-kalender-d
- e
-DTSTAMP:20200101T000000Z
-DTSTART:20261031T160000Z
-DTEND:20261031T163000Z
-SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 5/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/17642/
-CATEGORIES:Prime Video
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GT00384006@2026-11-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261101T150000Z

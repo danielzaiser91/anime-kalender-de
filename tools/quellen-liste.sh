@@ -57,6 +57,8 @@ QUELLEN=(
   data/sprecher-quellen.json
   data/tmdb-poster.json
   data/tmdb-poster-grund.json
+  # Maße und Größe der AniList-Cover für die Link-Vorschau (06.11.2026), im Lauf von fetch-tmdb-poster gemessen.
+  data/anilist-cover-masse.json
   # TMDB-Zuordnung der Nur-AniList-Titel (11.10.2026), noch nicht im Bau; die Prüfliste der unsicheren Treffer liegt daneben.
   data/tmdb-katalog-zuordnung.json
   daniel-zum-abarbeiten/listen/tmdb-katalog-unsicher.md

@@ -8,36 +8,6 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:auto-158871-tv-super-rtl@2026-10-31@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261031T120000Z
-DTEND:20261031T123000Z
-SUMMARY:Pokémon Horizonte – Folge 133
-DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
- ails: https://anime-kalender.de/t/14839/
-CATEGORIES:Super RTL
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-158871-tv-toggo-plus@2026-10-31@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261031T130000Z
-DTEND:20261031T133000Z
-SUMMARY:Pokémon Horizonte – Folge 133
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/t/14839/
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-165159-tv-toggo-plus@2026-10-31@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261031T194500Z
-DTEND:20261031T201500Z
-SUMMARY:Beyblade X – Folge 122
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/t/15075/
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-158871-tv-super-rtl@2026-11-02@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261102T151500Z
@@ -240,6 +210,16 @@ SUMMARY:Beyblade X – Folge 123
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/15075/
 CATEGORIES:TOGGO plus
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-527-disc@2026-11-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261110
+DTEND;VALUE=DATE:20261111
+SUMMARY:Pokémon (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/483/
+CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
 UID:shin-chan-vol15@2026-11-20@anime-kalender-de

@@ -2297,13 +2297,13 @@
       "url": "https://news.animationdigitalnetwork.com/de/2026/11/03/adn-bringt-tv-app-heraus-streame-anime-auf-fernseher-und-konsole/",
       "name": "news.animationdigitalnetwork.com",
       "gesehenAm": "2026-11-05",
-      "stand": "vermutlich-ueberholt"
+      "stand": "aktuell"
     },
     {
       "url": "https://news.animationdigitalnetwork.com/de/2026/10/26/die-1-euro-aktion-ist-zurueck-streame-anime-fuer-1e-bei-adn/",
       "name": "news.animationdigitalnetwork.com",
       "gesehenAm": "2026-10-27",
-      "stand": "aktuell"
+      "stand": "vermutlich-ueberholt"
     },
     {
       "url": "https://gw.api.animationdigitalnetwork.com/video/show/662",
@@ -6288,7 +6288,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-14",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-07",
+      "gelesenAm": "2026-11-08",
       "bestaetigt": "2026-10-12"
     },
     {
@@ -6318,7 +6318,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-14",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-07",
+      "gelesenAm": "2026-11-08",
       "bestaetigt": "2026-10-12"
     },
     {
@@ -6348,7 +6348,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-14",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-07",
+      "gelesenAm": "2026-11-08",
       "bestaetigt": "2026-10-12"
     },
     {
@@ -6732,7 +6732,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-08",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-07",
+      "gelesenAm": "2026-11-08",
       "bestaetigt": "2026-10-12"
     }
   ],
@@ -7692,8 +7692,8 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-16",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-07",
-      "bestaetigt": "2026-10-24"
+      "gelesenAm": "2026-11-08",
+      "bestaetigt": "2026-10-17"
     }
   ],
   "manga-love-story-step-up-gesamtausgabe-ova": [
@@ -7716,7 +7716,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-17",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-07",
+      "gelesenAm": "2026-11-08",
       "bestaetigt": "2026-10-29"
     }
   ],
@@ -7732,7 +7732,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-17",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-07",
+      "gelesenAm": "2026-11-08",
       "bestaetigt": "2026-10-29"
     }
   ],
@@ -7756,7 +7756,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-17",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-07",
+      "gelesenAm": "2026-11-08",
       "bestaetigt": "2026-10-29"
     }
   ],
@@ -7780,7 +7780,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-17",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-07",
+      "gelesenAm": "2026-11-08",
       "bestaetigt": "2026-10-29"
     }
   ],
@@ -8621,11 +8621,17 @@
   ],
   "adn-1218": [
     {
+      "url": "https://news.animationdigitalnetwork.com/de/2026/09/28/line-up-zur-herbst-season-2026-neue-anime-bei-adn/",
+      "name": "news.animationdigitalnetwork.com",
+      "gesehenAm": "2026-11-08",
+      "stand": "aktuell"
+    },
+    {
       "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
       "name": "ADN API",
       "gesehenAm": "2026-11-07",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-07",
+      "gelesenAm": "2026-11-08",
       "bestaetigt": "2026-11-18"
     }
   ],
@@ -8658,6 +8664,99 @@
     {
       "url": "https://www.anime2you.de/news/1068059/prime-video-devils-crest-und-mehr/",
       "name": "anime2you.de",
+      "gesehenAm": "2026-11-07",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-527-disc": [
+    {
+      "url": "https://www.anime2you.de/news/1068831/polyband-pokemon-rabattaktion-endet-bald/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-07",
+      "sagt": "2026-11-10",
+      "stand": "aktuell"
+    }
+  ],
+  "der-koenig-der-affen-limited-deluxe-edition-2022-11-25": [
+    {
+      "url": "https://bluray-disc.de/blu-ray-filme/174541-aufruhr_im_himmelspalast_limited_deluxe_edition_bluray_dvd",
+      "name": "bluray-disc.de",
+      "gesehenAm": "2026-11-07",
+      "stand": "aktuell"
+    }
+  ],
+  "die-wilden-schwaene-dvd-2024-11-08": [
+    {
+      "url": "https://www.mediamarkt.de/de/product/_die-wilden-schwane-1977-dvd-2955729.html",
+      "name": "mediamarkt.de",
+      "gesehenAm": "2026-11-07",
+      "stand": "aktuell"
+    }
+  ],
+  "voltron-verteidiger-des-universums-collection-1-dvd-2008-03-31": [
+    {
+      "url": "https://www.ofdb.de/fassung/21465,263793,Voltron-Der-Besch%C3%BCtzer-des-Universums/",
+      "name": "ofdb.de",
+      "gesehenAm": "2026-11-07",
+      "stand": "aktuell"
+    }
+  ],
+  "voltron-verteidiger-des-universums-collection-2-dvd-2008-08-25": [
+    {
+      "url": "https://www.ofdb.de/fassung/21465,263795,Voltron-Der-Besch%C3%BCtzer-des-Universums/",
+      "name": "ofdb.de",
+      "gesehenAm": "2026-11-07",
+      "stand": "aktuell"
+    }
+  ],
+  "voltron-verteidiger-des-universums-collection-3-dvd-2008-10-06": [
+    {
+      "url": "https://www.ofdb.de/fassung/21465,263796,Voltron-Der-Besch%C3%BCtzer-des-Universums/",
+      "name": "ofdb.de",
+      "gesehenAm": "2026-11-07",
+      "stand": "aktuell"
+    }
+  ],
+  "voltron-verteidiger-des-universums-collection-4-dvd-2009-01-26": [
+    {
+      "url": "https://www.ofdb.de/fassung/21465,263799,Voltron-Der-Besch%C3%BCtzer-des-Universums/",
+      "name": "ofdb.de",
+      "gesehenAm": "2026-11-07",
+      "stand": "aktuell"
+    }
+  ],
+  "voltron-verteidiger-des-universums-collection-5-dvd-2010-05-28": [
+    {
+      "url": "https://www.ofdb.de/fassung/21465,309743,Voltron-Der-Besch%C3%BCtzer-des-Universums/",
+      "name": "ofdb.de",
+      "gesehenAm": "2026-11-07",
+      "stand": "aktuell"
+    }
+  ],
+  "voltron-verteidiger-des-universums-collection-6-dvd-2011-04-29": [
+    {
+      "url": "https://www.ofdb.de/fassung/21465,328560,Voltron-Der-Besch%C3%BCtzer-des-Universums/",
+      "name": "ofdb.de",
+      "gesehenAm": "2026-11-07",
+      "stand": "aktuell"
+    }
+  ],
+  "black-clover-s2-crunchyroll-synchro": [
+    {
+      "url": "https://www.crunchyroll.com/de/series/GRE50KV36",
+      "name": "crunchyroll.com",
+      "gesehenAm": "2026-11-07",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/news/seasonal-lineup/2026/9/15/crunchyroll-deutsche-synchros-herbst-2026",
+      "name": "Crunchyroll News",
+      "gesehenAm": "2026-11-07",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/news/seasonal-lineup/2026/9/15/crunchyroll-anime-lineup-herbst-2026",
+      "name": "Crunchyroll News",
       "gesehenAm": "2026-11-07",
       "stand": "aktuell"
     }

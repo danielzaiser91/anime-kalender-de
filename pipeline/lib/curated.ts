@@ -15,6 +15,8 @@ export interface CuratedEntry {
   sender?: string
   platformUrl?: string
   buyUrl?: string
+  /** Von Hand belegte EAN einer Disc; daraus entsteht der Kauflink (`discKaufUrl`), wenn kein `buyUrl` steht. */
+  ean?: string
   releaseType: ReleaseType
   fsk?: Fsk
   /** Siehe `Release.dateMeaning`; für Katalogaufnahmen älterer Titel `available-from`. */
@@ -22,6 +24,8 @@ export interface CuratedEntry {
   publisher?: string
   edition?: string
   note?: string
+  /** Kurzer Hinweis für Besucher, wird ausgeliefert (kein Personenname); `note` bleibt intern. */
+  hinweis?: string
   /** Siehe `Release.netflixOriginal`. */
   netflixOriginal?: boolean
   /** Siehe `Release.sprache` — ein Termin ohne belegte deutsche Synchro (Kinostart nur OmU). */
@@ -63,6 +67,7 @@ export interface CuratedEntry {
 /** Die optionalen Felder eines kuratierten Eintrags, die unverändert ins Release wandern (fehlend = nicht gesetzt). */
 export function kuratierteZusaetze(entry: CuratedEntry): Partial<Release> {
   return {
+    ...(entry.hinweis ? { hinweis: entry.hinweis } : {}),
     ...(entry.nachtrag ? { nachtrag: entry.nachtrag } : {}),
     ...(entry.rhythmus ? { rhythmus: entry.rhythmus } : {}),
     ...(entry.netflixOriginal ? { netflixOriginal: true } : {}),

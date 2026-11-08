@@ -63,6 +63,12 @@ try {
   assert.equal(b.stdout, '', 'nichts Geändertes, stand.md ausgenommen')
   assert.equal(readFileSync(sauber, 'utf8'), sauberText, 'frisch gepullte, saubere Datei bleibt unberührt')
   assert.match(readFileSync(tmp + '/stand.md', 'utf8'), /file:\/\/\//)
+  const gepullt = tmp + '/jetzt/gepullt.md'
+  writeFileSync(gepullt, `[g](file:///${tmp}/g.md)\n`)
+  git('add', '-A')
+  git('commit', '-q', '-m', 'x')
+  lauf({ tool_name: 'Bash', tool_input: { command: 'node x' } })
+  assert.match(readFileSync(gepullt, 'utf8'), /file:\/\/\//, 'frisch gepullte (unveränderte) Datei bleibt unberührt')
   writeFileSync(ziel, `[t](file:///${tmp}/a.md)\n`)
   lauf({ tool_name: 'Bash', tool_input: { command: 'node x' } })
   assert.equal(readFileSync(ziel, 'utf8'), '[t](../a.md)\n', 'Bash-Ereignis erfasst frisch geänderte Dateien')
@@ -84,6 +90,7 @@ try {
   lauf({ tool_name: 'Bash', tool_input: { command: 'node x' } })
   assert.equal(readFileSync(tmp + '/jetzt/r.md', 'utf8'), '[r](../r.md)\n', 'umbenannte Datei wird bearbeitet')
   assert.equal(readFileSync(rest, 'utf8'), restText, 'alter Pfad der Umbenennung trifft keine saubere Datei')
+  assert.match(readFileSync(gepullt, 'utf8'), /file:\/\/\//, 'gepullte Datei bleibt auch neben einer geänderten unberührt')
 } finally {
   rmSync(tmp, { recursive: true, force: true })
 }

@@ -1,7 +1,8 @@
 import assert from 'node:assert/strict'
-import { einmalWiederholen, faelleDurchlaufen } from './lib/screenshot-wiederholen.ts'
+import { einmalWiederholen, faelleDurchlaufen, faelleMitFrischemBrowser, mitFrischemBrowser } from './lib/screenshot-wiederholen.ts'
 
 const FEHLER = 'Page.captureScreenshot: Unable to capture screenshot'
+const keinWarten = async () => {}
 
 function lauf(fehlschlaege: string[]) {
   let n = 0
@@ -19,22 +20,21 @@ function lauf(fehlschlaege: string[]) {
 {
   const zeilen: string[] = []
   const l = lauf([])
-  assert.equal(await einmalWiederholen(l.fn, (z) => zeilen.push(z)), 'ok')
+  assert.equal(await einmalWiederholen(l.fn, (z) => zeilen.push(z), keinWarten), 'ok')
   assert.equal(l.aufrufe(), 1)
   assert.equal(zeilen.length, 0)
 }
 {
   const zeilen: string[] = []
   const l = lauf([FEHLER])
-  assert.equal(await einmalWiederholen(l.fn, (z) => zeilen.push(z)), 'ok')
+  assert.equal(await einmalWiederholen(l.fn, (z) => zeilen.push(z), keinWarten), 'ok')
   assert.equal(l.aufrufe(), 2)
-  assert.equal(zeilen.length, 1)
-  assert.match(zeilen[0]!, /einmal wiederholt/)
+  assert.deepEqual(zeilen.map((z) => z.replace(/:.*/, '')), ['Screenshot-Fehler, einmal wiederholt', 'Screenshot-Wiederholung ok'])
 }
 {
   const l = lauf([FEHLER, FEHLER, FEHLER])
   await assert.rejects(
-    einmalWiederholen(l.fn, () => {}),
+    einmalWiederholen(l.fn, () => {}, keinWarten),
     /Unable to capture screenshot/,
   )
   assert.equal(l.aufrufe(), 2)
@@ -42,7 +42,7 @@ function lauf(fehlschlaege: string[]) {
 {
   const l = lauf(['Timeout 30000ms exceeded'])
   await assert.rejects(
-    einmalWiederholen(l.fn, () => {}),
+    einmalWiederholen(l.fn, () => {}, keinWarten),
     /Timeout/,
   )
   assert.equal(l.aufrufe(), 1)
@@ -50,7 +50,7 @@ function lauf(fehlschlaege: string[]) {
 {
   const l = lauf([FEHLER, 'Timeout 30000ms exceeded'])
   await assert.rejects(
-    einmalWiederholen(l.fn, () => {}),
+    einmalWiederholen(l.fn, () => {}, keinWarten),
     /Timeout/,
   )
   assert.equal(l.aufrufe(), 2)
@@ -64,15 +64,76 @@ function lauf(fehlschlaege: string[]) {
     if (name === 'b' && versuche[name] === 1) throw new Error(FEHLER)
     return name !== 'c'
   }
-  assert.equal(await faelleDurchlaufen(['a', 'b', 'c'], pruefe, (z) => zeilen.push(z)), 1)
+  assert.equal(await faelleDurchlaufen(['a', 'b', 'c'], pruefe, (z) => zeilen.push(z), keinWarten), 1)
   assert.deepEqual(versuche, { a: 1, b: 2, c: 1 })
-  assert.equal(zeilen.length, 1)
+  assert.equal(zeilen.length, 2)
 }
 {
   const pruefe = async (name: string) => {
     if (name === 'b') throw new Error(FEHLER)
     return true
   }
-  await assert.rejects(faelleDurchlaufen(['a', 'b', 'c'], pruefe, () => {}), /Unable to capture screenshot/)
+  await assert.rejects(faelleDurchlaufen(['a', 'b', 'c'], pruefe, () => {}, keinWarten), /Unable to capture screenshot/)
 }
-console.log('screenshot-wiederholen: 7 Fälle in Ordnung (einmal wiederholt, zweiter Fehler rot, anderer Fehler rot, Durchlauf)')
+/* Reihenfolge: Versuch 1, Meldung, Pause von 1500 ms, Versuch 2 (frischer Kontext); ohne Fehler keine Pause. */
+{
+  const spur: string[] = []
+  const lauf2 = async (v: 1 | 2) => {
+    spur.push(`versuch${v}`)
+    if (v === 1) throw new Error(FEHLER)
+    return 'ok'
+  }
+  assert.equal(await einmalWiederholen(lauf2, () => spur.push('meldung'), async (ms) => void spur.push(`pause${ms}`)), 'ok')
+  assert.deepEqual(spur, ['versuch1', 'meldung', 'pause1500', 'versuch2', 'meldung'])
+}
+{
+  const pausen: number[] = []
+  await einmalWiederholen(async () => 'ok', () => {}, async (ms) => void pausen.push(ms))
+  assert.deepEqual(pausen, [])
+}
+/* Wiederholung scheitert wieder am Screenshot: weiter rot, nie stilles Grün. */
+{
+  const versuche: number[] = []
+  const lauf3 = async (v: 1 | 2) => {
+    versuche.push(v)
+    throw new Error(FEHLER)
+  }
+  const zeilen: string[] = []
+  await assert.rejects(einmalWiederholen(lauf3, (z) => zeilen.push(z), keinWarten), /Unable to capture screenshot/)
+  assert.deepEqual(versuche, [1, 2])
+  assert.equal(zeilen.at(-1), 'Screenshot-Wiederholung gescheitert')
+  assert.equal(zeilen.filter((z) => z === 'Screenshot-Wiederholung ok').length, 0)
+}
+/* Browser: Versuch 1 startet nichts, Versuch 2 schließt zuerst den alten, dann startet er einen neuen; ein Fehler beim Schließen stoppt nicht. */
+{
+  const spur: string[] = []
+  const starte = async () => {
+    spur.push('launch')
+    return 'neu'
+  }
+  const b = mitFrischemBrowser('alt', starte, async (x) => void spur.push(`close:${x}`))
+  assert.equal(await b.fuer(1), 'alt')
+  assert.deepEqual(spur, [])
+  assert.equal(await b.fuer(2), 'neu')
+  assert.deepEqual(spur, ['close:alt', 'launch'])
+  assert.equal(b.browser(), 'neu')
+}
+{
+  const b = mitFrischemBrowser('alt', async () => 'neu', async () => {
+    throw new Error('tot')
+  })
+  assert.equal(await b.fuer(2), 'neu')
+}
+/* Verdrahtung: Fall wirft bei Versuch 1 den Screenshot-Fehler, Versuch 2 muss den frischen Browser sehen (nicht den alten). */
+{
+  const gesehen: string[] = []
+  const b = mitFrischemBrowser('alt', async () => 'neu', async () => {})
+  const pruefe = async (br: string, f: string) => {
+    gesehen.push(`${f}:${br}`)
+    if (br === 'alt' && f === 'b') throw new Error(FEHLER)
+    return true
+  }
+  assert.equal(await faelleMitFrischemBrowser(['a', 'b', 'c'], b, pruefe, () => {}, keinWarten), 0)
+  assert.deepEqual(gesehen, ['a:alt', 'b:alt', 'b:neu', 'c:neu'])
+}
+console.log('screenshot-wiederholen: 14 Fälle in Ordnung (Verdrahtung: Wiederholung sieht frischen Browser, Browser-Wechsel nur bei Versuch 2, Wiederholung ok/gescheitert gemeldet, einmal wiederholt mit Pause 1500 ms und Versuch 2, zweiter Fehler rot, anderer Fehler rot, Durchlauf)')

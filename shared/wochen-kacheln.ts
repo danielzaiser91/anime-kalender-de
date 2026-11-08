@@ -23,7 +23,7 @@ export const TITEL_OHNE = [
 ] as const
 
 export const RELEASE_OHNE = [
-  'automatisch', 'buyUrl', 'cinemaUntil', 'disputedDates', 'edition', 'herkunft', 'netflixOriginal', 'nachtrag', 'note', 'platformUrl',
+  'automatisch', 'buyUrl', 'cinemaUntil', 'disputedDates', 'edition', 'herkunft', 'hinweis', 'netflixOriginal', 'nachtrag', 'note', 'platformUrl',
   'publisher', 'quellen', 'rhythmus', 'schnitt', 'sources',
 ] as const
 
@@ -100,6 +100,7 @@ export function pruefeKachelDatei(kachel: WochenDatei, woche: WochenDatei, jetzt
   const vollTitel = woche.titles.map((v, i) => (kachel.titles[i] ? paare[i]![1] : v))
   fehler.push(...pruefeEintraege('Titel', paare.map((p) => p[0]), vollTitel, (t) => t.id, TITEL_OHNE))
   fehler.push(...pruefeEintraege('Release', kachel.releases, woche.releases, (r) => r.slug, RELEASE_OHNE))
-  if (JSON.stringify(kachel.events) !== JSON.stringify(woche.events)) fehler.push('Kachel-Datei: Termine weichen von der Wochen-Datei ab')
+  /* Gleich Wert für Wert, die Reihenfolge der Schlüssel zählt nicht (Auspacken der Packform legt sie anders ab). */
+  if (!teilVon(kachel.events, woche.events) || !teilVon(woche.events, kachel.events)) fehler.push('Kachel-Datei: Termine weichen von der Wochen-Datei ab')
   return fehler.slice(0, 20)
 }
