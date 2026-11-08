@@ -96,7 +96,7 @@ export function legeOmuBegleiterAn(releases: Release[], titles: Map<number, Titl
       z.ohneDub++
       continue
     }
-    const wahl = title && kennung ? blockWahlFuer(title, titles, kennung, crDub.serien, gemesseneFolgenzahl(omu)) : null
+    const wahl = title && kennung ? blockWahlFuer(title, titles, kennung, crDub.serien, { folgen: gemesseneFolgenzahl(omu), ab: omu.schedule.firstEpisodeDate }) : null
     const gefunden = wahl?.treffer
     if (!title || !gefunden) {
       z.ohneBlock++

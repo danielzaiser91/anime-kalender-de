@@ -30,7 +30,24 @@ const TODESNOTIZ = block('Death Note', 37, '2025-05-15T16:00:00Z')
 pruefe(wahl([TODESNOTIZ, TODESNOTIZ, TODESNOTIZ], { nummern: [1], geteilt: false }) === 'Death Note|einzig', 'Death Note: einziger Block trotz Dubletten')
 pruefe(wahl([TODESNOTIZ], { nummern: [1], geteilt: true }) === '-|Serie geteilt, ein Block', 'geteilte Serie: ein Block gehört nicht dem erstbesten Titel')
 const AKITO = block('Code Geass - Akito the Exiled', 5, '2022-12-13T07:59:00Z')
-pruefe(wahl([AKITO], { nummern: [1], namen: ['Code Geass: Akito the Exiled - To Beloved Ones'], folgen: 1, geteilt: true }) === '-|Serie geteilt, ein Block', 'Akito: fünf Titel an einem Block bekommen ihn nicht')
+pruefe(wahl([AKITO], { nummern: [1], namen: ['Code Geass: Akito the Exiled - To Beloved Ones'], folgen: 1, geteilt: true }) === '-|Block hat mehr Folgen als der Titel', 'Akito: fünf Titel an einem Block bekommen ihn nicht')
+pruefe(wahl([AKITO], { nummern: [1], namen: ['Code Geass: Akito the Exiled - To Beloved Ones'], geteilt: true }) === '-|Serie geteilt, ein Block', 'Akito ohne Folgenzahl: geteilte Serie')
+// Der einzige Block ohne Zahl kann die Vorstaffel sein: nur für Titel, die als Staffel 1 zählen.
+pruefe(wahl([TODESNOTIZ], { nummern: [2], geteilt: false }) === '-|einziger Block, Titel ist nicht Staffel 1', 'Staffel 2 bekommt den einzigen Block ohne Nummer nicht')
+pruefe(wahl([TODESNOTIZ], { nummern: [], geteilt: false }) === '-|einziger Block, Titel ist nicht Staffel 1', 'unbekannte Staffelnummer bekommt ihn auch nicht')
+pruefe(wahl([TODESNOTIZ], { nummern: [2, 1], geteilt: false }) === 'Death Note|einzig', 'Staffel 1 unter mehreren möglichen Nummern genügt')
+// Ein Block mit deutschen Folgen vor dem OmU-Start ist eine Vorstaffel, die noch läuft (Tsukimichi 2 gegen den Block der 1. Staffel).
+pruefe(wahl([TODESNOTIZ], { nummern: [1], geteilt: false, ab: '2025-05-15' }) === 'Death Note|einzig', 'Folge genau am Starttag zählt')
+pruefe(wahl([TODESNOTIZ], { nummern: [1], geteilt: false, ab: '2025-05-16' }) === '-|Blöcke haben deutsche Folgen vor dem OmU-Start', 'Folge einen Tag vor dem Start zählt nicht')
+const LAUFEND = { name: 'Tsukimichi', folgen: 2, deutscheFolgen: [folge('2024-05-14T10:00:00Z'), folge('2024-05-16T10:00:00Z')] }
+pruefe(wahl([LAUFEND], { nummern: [1], namen: ['Tsukimichi'], geteilt: false, ab: '2024-05-15' }) === '-|Blöcke haben deutsche Folgen vor dem OmU-Start', 'Block, der vor dem Start begann und nach dem Start weiterläuft, zählt nicht')
+pruefe(wahl([LAUFEND], { nummern: [1], namen: ['Tsukimichi'], geteilt: false }) === 'Tsukimichi|einzig', 'ohne Starttag (Titel allein) bleibt der Block wählbar')
+// Ein Block mit mehr als einer Folge über der Titelzahl gehört auch anderen Titeln (K-ON!! mit 27 Folgen gegen K-ON! mit 13).
+const KON = [block('K-ON!! (German Dub)', 27, '2021-03-17T17:00:00Z'), block('K-ON! The Movie', 2, '2021-12-15T17:00:00Z')]
+pruefe(wahl(KON, { nummern: [1], namen: ['K-ON!'], folgen: 13, geteilt: false }) === '-|mehrere Blöcke, keiner eindeutig', 'K-ON! bekommt nicht den Block von K-ON!!')
+pruefe(wahl([block('Riddle', 13, '2021-01-27T00:00:00Z')], { nummern: [1], folgen: 12, geteilt: false }) === 'Riddle|einzig', 'ein Block mit einer Folge mehr (Zusammenfassung) passt')
+pruefe(wahl([block('Riddle', 14, '2021-01-27T00:00:00Z')], { nummern: [1], folgen: 12, geteilt: false }) === '-|Block hat mehr Folgen als der Titel', 'zwei Folgen mehr passen nicht')
+pruefe(wahl([block('Riddle', 4, '2021-01-27T00:00:00Z')], { nummern: [1], folgen: 12, geteilt: false }) === 'Riddle|einzig', 'ein kürzerer Block (nur ein Teil ist deutsch) passt')
 pruefe(wahl([TODESNOTIZ, block('Death Note Relight', 2)], { nummern: [1], geteilt: false }) === 'Death Note|einzig', 'ein undatierter Nachbarblock zählt nicht mit')
 
 // Name: Blockname gleicht dem Titelnamen (ohne Satzzeichen, Groß-/Kleinschreibung, „(German Dub)“).
@@ -63,6 +80,17 @@ const KURZ = [block('OVAs', 2, '2024-01-01T00:00:00Z'), block('Zwei', 3, '2024-0
 pruefe(wahl(KURZ, { nummern: [], namen: ['Serie OVAs'], folgen: 2, geteilt: true }) === '-|mehrere Blöcke, keiner eindeutig', 'Namensende unter 8 Zeichen zählt nicht')
 const ACHT = [block('Teil Eins', 2, '2024-01-01T00:00:00Z'), block('Zwei', 3, '2024-02-01T00:00:00Z')]
 pruefe(wahl(ACHT, { nummern: [], namen: ['Serie Teil Eins'], folgen: 2, geteilt: true }) === 'Teil Eins|folgen', 'Namensende mit genau 8 Zeichen zählt')
+// Stammen die Staffelnummern nur aus dem Namen (Wache), scheidet der Grundname neben einer Folgestaffel aus (Vinland Saga).
+const VINLAND = [block('VINLAND SAGA', 24, '2022-07-07T00:00:00Z'), block('VINLAND SAGA SEASON 2', 24, '2023-01-10T00:00:00Z')]
+pruefe(wahl(VINLAND, { nummern: [1], namen: ['Vinland Saga'], folgen: 24, geteilt: false }) === 'VINLAND SAGA|name', 'Vinland Saga mit Reihe: der Grundname ist Staffel 1')
+pruefe(wahl(VINLAND, { nummern: [1], namen: ['Vinland Saga'], folgen: 24, geteilt: false, nummernAusName: true }) === '-|mehrere Blöcke, keiner eindeutig', 'Vinland Saga nur nach dem Namen: keine Wahl')
+pruefe(wahl(NAGATORO, { nummern: [], namen: ['Don\'t Toy with Me, Miss Nagatoro 2nd Attack'], folgen: 12, geteilt: false, nummernAusName: true }).endsWith('|name'), 'der Block mit dem längeren Namen bleibt wählbar')
+const GRUNDFOLGEN = [block('Folge Alpha', 2, '2024-01-01T00:00:00Z'), block('Folge Alpha Teil Zwei', 3, '2024-02-01T00:00:00Z')]
+pruefe(wahl(GRUNDFOLGEN, { nummern: [1], namen: ['Titel Folge Alpha'], folgen: 2, geteilt: true, nummernAusName: true }) === '-|mehrere Blöcke, keiner eindeutig', 'Grundname scheidet auch für den Weg über die Folgenzahl aus')
+pruefe(wahl(GRUNDFOLGEN, { nummern: [1], namen: ['Titel Folge Alpha'], folgen: 2, geteilt: true }) === 'Folge Alpha|folgen', '…mit Reihe bleibt er wählbar')
+// Nur ein Namensanfang ist ein Grundname; steckt der Name mitten in einem anderen, bleibt er wählbar.
+const MITTE = [block('Kleine Reise', 12, '2024-01-01T00:00:00Z'), block('Die Kleine Reise Zwei', 12, '2024-02-01T00:00:00Z')]
+pruefe(wahl(MITTE, { nummern: [1], namen: ['Kleine Reise'], folgen: 12, geteilt: true, nummernAusName: true }) === 'Kleine Reise|name', 'Name mitten in einem anderen Blocknamen ist kein Grundname')
 // Zwei gleich lange Blöcke mit Namensende: keine Wahl.
 const ZWILLING = [block('Folge Alpha', 2, '2024-01-01T00:00:00Z'), block('Folge Beta', 2, '2024-02-01T00:00:00Z')]
 pruefe(wahl(ZWILLING, { nummern: [], namen: ['Titel Folge Alpha', 'Titel Folge Beta'], folgen: 2, geteilt: true }) === '-|mehrere Blöcke, keiner eindeutig', 'zwei passende Blöcke: keine Wahl')

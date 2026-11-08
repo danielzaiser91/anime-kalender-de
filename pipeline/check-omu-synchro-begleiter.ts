@@ -325,6 +325,12 @@ function pruefeBlockOhneZahl(): void {
   pruefe('…eine andere Zahl (7) wählt nichts', lauf(titelZusatz, zahlBloecke, andereZahl).z.erzeugt === 0)
   pruefe('…ist die Zahl nur angenommen, zählt die Folgenzahl des Titels (12)', lauf(mitName('Schwarzer Klee Zusatz Teil', { episodes: 12 }), zahlBloecke, angenommen).z.erzeugt === 1)
   pruefe('…die belegte Zahl des Termins (12) schlägt die des Titels (7)', lauf(mitName('Schwarzer Klee Zusatz Teil', { episodes: 7 }), zahlBloecke).z.erzeugt === 1)
+  const davor = lauf(mitName('Black Clover Season 2'), serie(block('Schwarzer Klee', [folge(170, 16, '2026-10-02T15:00:00Z')])))
+  pruefe('Block ohne Zahl, dessen Folgen alle vor dem OmU-Start liegen: nichts, Grund genannt', davor.z.erzeugt === 0 && davor.gruende['Blöcke haben deutsche Folgen vor dem OmU-Start'] === 1, davor.gruende)
+  const zuGross = lauf(mitName('Black Clover Season 2', { episodes: 3 }), serie(block('Schwarzer Klee', woche(12))), angenommen)
+  pruefe('Block mit mehr Folgen als der Titel (3): nichts, Grund genannt', zuGross.z.erzeugt === 0 && zuGross.gruende['Block hat mehr Folgen als der Titel'] === 1, zuGross.gruende)
+  const mitGrundname = serie(block('Schwarzer Klee Teil Eins', [S2_ERSTE]), block('Schwarzer Klee Teil Eins Fortsetzung', [folge(172, 2, '2026-11-14T16:00:00Z')]))
+  pruefe('Bau kennt die Reihe: der Grundname neben einem längeren Blocknamen bleibt wählbar', lauf(mitName('Schwarzer Klee Teil Eins'), mitGrundname).z.erzeugt === 1)
   const staffel1 = lauf(mitName('Black Clover Season 2'), serie(block('Season 1 Part 4', [S2_ERSTE])))
   pruefe('Block „Season 1 Part 4“ gilt nicht für Staffel 2: nichts', staffel1.rs.length === 1 && staffel1.z.erzeugt === 0, staffel1.z)
 }

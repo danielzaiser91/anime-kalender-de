@@ -97,6 +97,17 @@ assert.equal(wartende(katalog([block('Staffel 2', FOLGE_171), undatiert]), [omu(
 assert.deepEqual(synchroWartende(katalog([block('Season 1 Part 4', '2026-02-01T16:00:00Z')]), [omu()], nach(600)), { wartende: [], unklar: [] })
 // Block ohne Zahl im Namen („Platinum End“, einziger Block, Serie nicht geteilt): zugeordnet, Alarm nach 600 min.
 assert.deepEqual(synchroWartende(katalog([block('Platinum End', FOLGE_171)]), [omu({ name: 'Platinum End' })], nach(600)), { wartende: [{ name: 'Platinum End', titleId: 195604, minuten: 600 }], unklar: [] })
+// …nicht für „Staffel 2“ (der Block ohne Zahl kann die Vorstaffel sein, die noch deutsch läuft): unklar mit Grund, kein Alarm.
+assert.deepEqual(synchroWartende(katalog([block('Black Clover', FOLGE_171)]), [omu()], nach(600)), { wartende: [], unklar: ['Black Clover – Staffel 2 (einziger Block, Titel ist nicht Staffel 1)'] })
+// …und nicht, wenn alle Folgen des Blocks vor dem OmU-Start liegen: weder Alarm noch „unklar“ (die Serie hat nichts ab dem Start).
+assert.deepEqual(synchroWartende(katalog([block('Platinum End', '2026-10-02T15:00:00Z')]), [omu({ name: 'Platinum End' })], nach(600)), { wartende: [], unklar: [] })
+// Ein Block, der schon vor dem OmU-Start Folgen hatte und danach weiterläuft, gehört einer Vorstaffel: unklar mit Grund, kein Alarm.
+assert.deepEqual(synchroWartende(katalog([block('Platinum End', '2026-10-02T15:00:00Z', FOLGE_171)]), [omu({ name: 'Platinum End' })], nach(600)), { wartende: [], unklar: ['Platinum End (Blöcke haben deutsche Folgen vor dem OmU-Start)'] })
+// Der Grundname neben einer Folgestaffel gehört der 1. Staffel; die Wache kennt die Reihe nicht und ordnet ihn nicht zu (Tsukimichi 2).
+const TSUKIMICHI = katalog([block('Tsukimichi', FOLGE_171), block('Tsukimichi Teil Zwei', '2026-12-01T10:00:00Z')])
+assert.deepEqual(synchroWartende(TSUKIMICHI, [omu({ name: 'Tsukimichi' })], nach(600)), { wartende: [], unklar: ['Tsukimichi (mehrere Blöcke, keiner eindeutig)'] })
+assert.equal(wartende(TSUKIMICHI, [omu({ name: 'Tsukimichi Teil Zwei' })], nach(600)).length, 0, 'Teil Zwei beginnt erst am 01.12.: noch keine Folge, kein Alarm')
+assert.equal(wartende(TSUKIMICHI, [omu({ name: 'Tsukimichi Teil Zwei' })], Date.parse('2026-12-01T10:00:00Z') + 100 * MINUTE).length, 1, 'Teil Zwei über den Namen')
 // …an einer geteilten Serie nur über den Namen: bei anderem Namen unklar mit Grund, kein Alarm.
 assert.deepEqual(synchroWartende(katalog([block('Platinum End', FOLGE_171)]), [omu({ name: 'Anderer Name' }), GETEILT], nach(600)), { wartende: [], unklar: ['Anderer Name (Serie geteilt, ein Block)'] })
 assert.equal(wartende(katalog([block('Platinum End', FOLGE_171)]), [omu({ name: 'Platinum End' }), GETEILT], nach(600)).length, 1, 'geteilt, aber Name gleich')

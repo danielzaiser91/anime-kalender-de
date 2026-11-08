@@ -9,6 +9,10 @@ export interface BlockTitel {
   folgen?: number
   /** Ein anderer Titel hat einen Weg zu derselben Serie. */
   geteilt?: boolean
+  /** Berliner Starttag des OmU-Termins (YYYY-MM-DD); Blöcke ohne deutsche Folge ab dann scheiden für die Wege ohne Zahl aus. */
+  ab?: string
+  /** Die Staffelnummern stammen nur aus dem Namen des Termins (Wache), nicht aus der Reihe (Bau): Grundnamen vor Folgestaffeln scheiden aus. */
+  nummernAusName?: boolean
 }
 export interface BlockWahl {
   treffer: { block: CrStaffel; url: string } | null

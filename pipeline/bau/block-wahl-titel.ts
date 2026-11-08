@@ -11,12 +11,12 @@ function namenDesTitels(t: Title): string[] {
 }
 
 /**
- * Der Katalogblock dieses Titels an der Crunchyroll-Serie `kennung` samt Weg (`blockWahl`); `folgen` ist die Folgenzahl des Termins,
- * sonst die des Titels. Geteilt heißt: ein anderer Titel hat einen Weg zu derselben Serie.
+ * Der Katalogblock dieses Titels an der Crunchyroll-Serie `kennung` samt Weg (`blockWahl`); `termin.folgen` ist die belegte Folgenzahl des
+ * OmU-Termins (sonst zählt die des Titels), `termin.ab` sein Berliner Starttag. Geteilt heißt: ein anderer Titel hat einen Weg zu derselben Serie.
  */
-export function blockWahlFuer(title: Title, titles: Map<number, Title>, kennung: string, serien: CrSerie[], folgen?: number) {
+export function blockWahlFuer(title: Title, titles: Map<number, Title>, kennung: string, serien: CrSerie[], termin: { folgen?: number; ab?: string } = {}) {
   const geteilt = [...titles.values()].some(
     (x) => x.id !== title.id && x.streams.some((s) => s.platform === 'crunchyroll' && crunchyrollSeriesId(s.url) === kennung),
   )
-  return blockWahl(serien, kennung, { nummern: katalogStaffeln(title, titles, kennung), namen: namenDesTitels(title), folgen: folgen ?? title.episodes, geteilt })
+  return blockWahl(serien, kennung, { nummern: katalogStaffeln(title, titles, kennung), namen: namenDesTitels(title), folgen: termin.folgen ?? title.episodes, geteilt, ab: termin.ab })
 }
