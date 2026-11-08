@@ -6,6 +6,7 @@
  */
 import { readFileSync } from 'node:fs'
 import { chromium, type Page } from 'playwright'
+import { mitNeuerSeite, mitRuecksetzung } from './lib/screenshot-wiederholen.ts'
 import { belegeFuehren, bilderAnlegen, zeileFotografieren } from './lib/woche-bild.ts'
 import { zeilenSchluessel, type WocheBelege } from './lib/woche-beleg.ts'
 import { eintraegeAus, rohLesen, type WochenEintrag } from './scrape-crunchyroll-woche.ts'
@@ -50,10 +51,9 @@ const masse = (s: Page, bild: Buffer) =>
     return { breite: bmp.width, hoehe: bmp.height }
   }, bild.toString('base64'))
 
-const browser = await chromium.launch()
-const s = await browser.newPage({ viewport: { width: 900, height: 900 } })
-await s.addInitScript('window.__name = (f) => f')
-try {
+/** Alle Prüfungen auf einer Seite; bei einem Screenshot-Fehler läuft sie auf frischer Seite von vorn, darum setzt `mitRuecksetzung` den Zähler `fehler` je Versuch zurück. */
+async function pruefeAlles(s: Page): Promise<void> {
+  await s.addInitScript('window.__name = (f) => f')
   await s.setContent(kurz)
   const a = await zeileFotografieren(s, '0-0')
   const g = await lage(s, '0-0')
@@ -106,7 +106,11 @@ try {
   pruefe('der Streifen liegt weiter als 1500 px über der Zeile, das Bild ist auf 1500 px gekappt', gl.zeileUnten - gl.streifenOben > 1500 && (await masse(s, l!.bild)).hoehe === 1500, gl)
   const lm = l?.markierung ?? [0, 0, 0, 0]
   pruefe('langer Tag: die Marke liegt trotz Kappung auf der Zeile (unten im Bild)', lm[1] > 0.8 && lm[1] + lm[3] <= 1.001, lm)
+  await pruefeAblage(s)
+}
 
+/** Zweiter Teil von `pruefeAlles`: Ablegen und Fortführen der Liste. */
+async function pruefeAblage(s: Page): Promise<void> {
   /* Ablegen: Schlüssel, Zeit und Marke kommen in die Liste; ohne Antwort der Ablage bleibt die Zeile offen. */
   await s.setContent(kurz)
   const echt = globalThis.fetch
@@ -153,6 +157,11 @@ try {
   const ohneToken = await bilderAnlegen(s, { k: { ...belege.k!, bild: undefined } }, [{ schluessel: 'k', marke: '0-0' }], '2026-10-15T13:00:00.000Z')
   pruefe('ohne Token wird nichts fotografiert und nichts angefragt', ohneToken === 0 && angefragt.length === vorToken && s.viewportSize()?.width === 700)
   globalThis.fetch = echt
+}
+
+const browser = await chromium.launch()
+try {
+  await mitNeuerSeite(browser, { viewport: { width: 900, height: 900 } }, mitRuecksetzung(pruefeAlles, () => { fehler = 0 }), console.log)
 } finally {
   await browser.close()
 }

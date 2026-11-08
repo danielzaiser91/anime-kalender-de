@@ -5,7 +5,7 @@
  */
 import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
-import { mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { BAU_VARIABLEN, ohneBauVariablen } from './bau-umgebung.mjs'
@@ -14,7 +14,7 @@ const WURZEL = resolve(import.meta.dirname, '..')
 const ordner = mkdtempSync(join(tmpdir(), 'bau-umgebung-'))
 const posix = (p) => p.replace(/\\/g, '/')
 // Fest eingetragen statt aus dem Modul gelesen: sonst wäre die geprüfte Liste ihr eigenes Orakel (Prüfer 1647).
-const ERWARTET = ['BAU_BEGINN', 'BAU_LAUF', 'DATEN_WARNUNG', 'LAUF_SCHRITTE', 'LAUF_TOKEN', 'LAUF_ZIEL', 'LAUF_ZWECK', 'MELDER', 'MELDUNGEN_SICHERN']
+const ERWARTET = ['BAU_BEGINN', 'BAU_LAUF', 'DATEN_WARNUNG', 'GITHUB_ENV', 'GITHUB_OUTPUT', 'GITHUB_PATH', 'GITHUB_STATE', 'GITHUB_STEP_SUMMARY', 'LAUF_SCHRITTE', 'LAUF_TOKEN', 'LAUF_ZIEL', 'LAUF_ZWECK', 'MELDER', 'MELDUNGEN_SICHERN']
 
 /** Prüfung und ihr Kindprozess melden Exit 1, sobald eine Bau-Variable dasitzt oder die fremde Variable fehlt. */
 function schreibeListe() {
@@ -43,7 +43,36 @@ function lauf(liste, name, bauVariablen) {
   return { status: r.status, text: `${r.stdout}\n${r.stderr}` }
 }
 
+const SCHREIB_DATEIEN = ['GITHUB_ENV', 'GITHUB_OUTPUT', 'GITHUB_PATH', 'GITHUB_STATE', 'GITHUB_STEP_SUMMARY']
+
+/** Eine Prüfung, die wie `fetch-pruefungen.ts` an jede gesetzte Schreibdatei anhängt, und ein Elternprozess, der sie als Kind startet. */
+function schreibeSchreiber() {
+  const kind = join(ordner, 'c-schreiber.mjs')
+  writeFileSync(kind, `import { appendFileSync } from 'node:fs'
+for (const n of ${JSON.stringify(SCHREIB_DATEIEN)}) if (process.env[n]) appendFileSync(process.env[n], 'DATEN_WARNUNG=Titel 900001 (Staffelreihe)\\n')
+`)
+  const eltern = join(ordner, 'd-schreiber-eltern.mjs')
+  writeFileSync(eltern, `import { spawnSync } from 'node:child_process'
+spawnSync(process.execPath, ['${posix(kind)}'], { stdio: 'inherit', env: { ...process.env } })
+`)
+  const liste = join(ordner, 'schreiber.txt')
+  writeFileSync(liste, `${posix(kind)}\n${posix(eltern)}\n`)
+  return liste
+}
+
+/** Bestandsbau 08.11.2026: die Schreibdateien zeigen auf Temp-Dateien; nach dem Lauf muss jede leer oder fehlen. */
+function pruefeSchreibdateien(name) {
+  const dateien = Object.fromEntries(SCHREIB_DATEIEN.map((n) => [n, join(ordner, `ziel-${name.replace(':', '-')}-${n}.txt`)]))
+  const r = lauf(schreibeSchreiber(), name, dateien)
+  assert.equal(r.status, 0, `${name}: Schreiber-Prüfung läuft durch: ${r.text.slice(-400)}`)
+  for (const [n, pfad] of Object.entries(dateien)) {
+    const inhalt = existsSync(pfad) ? readFileSync(pfad, 'utf8') : ''
+    assert.equal(inhalt, '', `${name}: ${n} blieb unbeschrieben, stand aber: ${inhalt}`)
+  }
+}
+
 try {
+  for (const name of ['check:logic', 'check:bestand-liste']) pruefeSchreibdateien(name)
   assert.deepEqual([...BAU_VARIABLEN].sort(), ERWARTET, 'Liste der Bau-Variablen wie erwartet')
   const alle = Object.fromEntries(ERWARTET.map((n) => [n, '1']))
   const liste = schreibeListe()
