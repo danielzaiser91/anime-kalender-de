@@ -8,46 +8,6 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:cr-GT00384015@2026-10-31@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261031T093000Z
-DTEND:20261031T100000Z
-SUMMARY:The Vermilion Mask – Folge 1/≈12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/16918/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-G6793XKZY@2026-10-31@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261031T103000Z
-DTEND:20261031T110000Z
-SUMMARY:Ascendance of a Bookworm Staffel 4 – Folge 24/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/15570/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:last-boss-s2-crunchyroll@2026-10-31@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261031T143000Z
-DTEND:20261031T150000Z
-SUMMARY:A Wild Last Boss Appeared! – Staffel 2 – Folge 3/≈12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/17248/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GT00378078@2026-10-31@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261031T170000Z
-DTEND:20261031T173000Z
-SUMMARY:Jaadugar: A Witch in Mongolia Staffel 1 – Folge 12/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/16797/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GT00384006@2026-11-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261101T150000Z
@@ -75,10 +35,8 @@ DTSTART:20261101T160000Z
 DTEND:20261101T163000Z
 SUMMARY:As a Reincarnated Aristocrat\, I'll Use My Appraisal Skill to Rise 
  in the World – Staffel 3 – Folge 3/≈12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/16469/
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/t/16469/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -137,10 +95,8 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261106T160000Z
 DTEND:20261106T163000Z
 SUMMARY:Die Tagebücher der Apothekerin: Staffel 3 - Teil 1 – Folge 3/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/16914/
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/t/16914/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -190,10 +146,8 @@ DTSTART:20261108T150000Z
 DTEND:20261108T153000Z
 SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
  hip! Staffel 1 – Folge 6/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/16547/
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/t/16547/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -202,10 +156,8 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261108T153000Z
 DTEND:20261108T160000Z
 SUMMARY:Overgeared Staffel 1 – Folge 7/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/17645/
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/t/17645/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -215,10 +167,8 @@ DTSTART:20261108T160000Z
 DTEND:20261108T163000Z
 SUMMARY:As a Reincarnated Aristocrat\, I'll Use My Appraisal Skill to Rise 
  in the World – Staffel 3 – Folge 4/≈12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/16469/
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/t/16469/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -228,9 +178,7 @@ DTSTART;VALUE=DATE:20261108
 DTEND;VALUE=DATE:20261109
 SUMMARY:Aoashi Staffel 2 – Folge 3/24
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter gena
- nnter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetail
- s: https://anime-kalender.de/t/16812/
+ hrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/16812/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT

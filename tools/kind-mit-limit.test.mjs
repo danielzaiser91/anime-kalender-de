@@ -49,7 +49,7 @@ try {
   const r = spawnSync(process.execPath, ['--import', 'data:text/javascript,globalThis.fetch=async()=>new Response("[]",{status:200})', werkzeug, '--trocken', '--gesundheit', gesundheit], {
     encoding: 'utf8',
     timeout: 120_000,
-    env: { ...process.env, ...ghEnv, WACHE_LIMIT_MS: '2000' },
+    env: { ...process.env, ...ghEnv, WACHE_LIMIT_MS: '2000', AK_SYNCHRO_QUELLE: join(tmpdir(), 'ohne-synchro-quelle-kind-mit-limit') },
   })
   assert.equal(r.status, 0, `Wache lief bis zum Ende: ${r.stderr}`)
   assert.match(r.stdout, /^Rote Sammler-PRs nicht lesbar: FEHLER: gh pr list nach 2 s abgebrochen$/m)
@@ -64,7 +64,7 @@ try {
   // 4. Abschluss-Catch: kein gh-Aufruf der Wache wirft heute bis dorthin durch (alle fangen selbst); ein geworfenes
   // „FEHLER: …“ aus main() (hier über Date.now im Skript) endet als stderr-Zeile ohne Stack und mit Exit 1.
   const wirft = 'const j=Date.now;Date.now=()=>{if(!new Error().stack.includes("laeufe-aufraeumen.mjs"))return j();throw new Error("FEHLER: gh run list nach 2 s abgebrochen")};globalThis.fetch=async()=>new Response("[]",{status:200})'
-  const a = spawnSync(process.execPath, ['--import', `data:text/javascript,${wirft}`, werkzeug, '--trocken', '--gesundheit', gesundheit], { encoding: 'utf8', timeout: 120_000, env: { ...process.env, ...ghEnv, WACHE_LIMIT_MS: '2000' } })
+  const a = spawnSync(process.execPath, ['--import', `data:text/javascript,${wirft}`, werkzeug, '--trocken', '--gesundheit', gesundheit], { encoding: 'utf8', timeout: 120_000, env: { ...process.env, ...ghEnv, WACHE_LIMIT_MS: '2000', AK_SYNCHRO_QUELLE: join(tmpdir(), 'ohne-synchro-quelle-kind-mit-limit') } })
   assert.equal(a.status, 1, `Exit 1 beim Abschluss-Fehler: ${a.stdout}`)
   assert.equal(a.stderr.trim(), 'FEHLER: gh run list nach 2 s abgebrochen')
 } finally {

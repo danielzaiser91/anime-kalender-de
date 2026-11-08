@@ -4,8 +4,8 @@ Alles, wofür ich dich brauche, steht hier; ich arbeite mit allem anderen weiter
 
 ## Entscheidungen
 
-1. **Konzept eigene Kennungen statt AniList-IDs** ([konzept-eigene-ids.md](file:///C:/code/ai/anime-kalender-de/docs/wissen/konzept-eigene-ids.md)): eigene, nie wiederverwendete Zahl (`ak`) je Titel, aniSearch als Quelle, AniList/MAL/TMDB nur als Zuordnung; wegfallende und zusammengelegte Titel bleiben mit Weiterleitung. Drei Fragen stehen am Ende des Konzepts: einverstanden? Wie lange gelten alte Adressen (`t=<AniList-ID>`; mein Vorschlag sechs Monate nach der Abschaltung von AniList als Quelle)? Umstellung vor dem Katalog-Lauf (mein Vorschlag)?
-2. **Cover:** Recherche steht in [quellen.md](file:///C:/code/ai/anime-kalender-de/docs/wissen/quellen.md) (Abschnitt „Cover-Bilder"). Kurz: Bei uns sind es nur Verweise auf AniLists Server; eine bedenkenlos freie Alternative gibt es nicht. Vorschlag stufenweise (AniList behalten, bei aniSearch nachfragen, TMDB mit Attribution als Rückfall). **Dein Teil:** in deine offene Mail an `api@anisearch.com` die Frage aufnehmen, ob wir ihre Cover verlinken dürfen.
+1. **Konzept eigene Kennungen statt AniList-IDs** ([konzept-eigene-ids.md](../../docs/wissen/konzept-eigene-ids.md)): eigene, nie wiederverwendete Zahl (`ak`) je Titel, aniSearch als Quelle, AniList/MAL/TMDB nur als Zuordnung; wegfallende und zusammengelegte Titel bleiben mit Weiterleitung. Drei Fragen stehen am Ende des Konzepts: einverstanden? Wie lange gelten alte Adressen (`t=<AniList-ID>`; mein Vorschlag sechs Monate nach der Abschaltung von AniList als Quelle)? Umstellung vor dem Katalog-Lauf (mein Vorschlag)?
+2. **Cover:** Recherche steht in [quellen.md](../../docs/wissen/quellen.md) (Abschnitt „Cover-Bilder"). Kurz: Bei uns sind es nur Verweise auf AniLists Server; eine bedenkenlos freie Alternative gibt es nicht. Vorschlag stufenweise (AniList behalten, bei aniSearch nachfragen, TMDB mit Attribution als Rückfall). **Dein Teil:** in deine offene Mail an `api@anisearch.com` die Frage aufnehmen, ob wir ihre Cover verlinken dürfen.
 
 ## Handprüfungen
 
