@@ -31,6 +31,7 @@
  * laufen deshalb von Hand, nicht in der Kette vor dem Commit.
  */
 import { chromium } from 'playwright'
+import { sperreNetz } from './test-netz-sperre.mjs'
 import { readFileSync } from 'node:fs'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -73,6 +74,7 @@ const seite = `
 const browser = await chromium.launch()
 const kontext = await browser.newContext({ viewport: { width: 1280, height: 720 } })
 const s = await kontext.newPage()
+await sperreNetz(s)
 /* Netflix' eigener dunkler Grund — sonst misst man weiß auf weiß. */
 await s.setContent(`<style>body{margin:0;background:#141414;height:720px}${css}</style>${seite}`)
 

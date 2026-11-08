@@ -18,6 +18,7 @@
  * Ergebnis: `docs/netflix-kasten.png`
  */
 import { chromium } from 'playwright'
+import { sperreNetz } from './test-netz-sperre.mjs'
 import { readFileSync, mkdirSync } from 'node:fs'
 
 const css = readFileSync('extension/melder.css', 'utf8')
@@ -28,6 +29,7 @@ const BILD = process.env.BILD ?? 'docs/netflix-kasten.png'
 
 const browser = await chromium.launch()
 const seite = await browser.newPage({ viewportSize: { width: 520, height: 420 } })
+await sperreNetz(seite)
 
 await seite.setContent(`<!doctype html><meta charset="utf-8">
 <style>

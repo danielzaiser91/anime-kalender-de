@@ -16,6 +16,7 @@
  * Ergebnis: `docs/netflix-dialog.png`
  */
 import { chromium } from 'playwright'
+import { sperreNetz } from './test-netz-sperre.mjs'
 import { readFileSync, mkdirSync } from 'node:fs'
 import vm from 'node:vm'
 
@@ -94,6 +95,7 @@ zeilen = Object.entries(offeneTitel).map(([id, eintrag]) => ({
 
 const browser = await chromium.launch()
 const seite = await browser.newPage({ viewportSize: { width: 820, height: 520 } })
+await sperreNetz(seite)
 await seite.setContent(`<!doctype html><meta charset="utf-8">
 <style>html{background:#141414}body{margin:0;font:13px/1.45 system-ui,sans-serif}${css}
 .ak-dialog{position:static}</style>`)

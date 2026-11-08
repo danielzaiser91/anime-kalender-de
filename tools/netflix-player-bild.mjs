@@ -11,6 +11,7 @@
  * Aufruf: `node tools/netflix-player-bild.mjs` · `npm run check:netflix-player`
  */
 import { chromium } from 'playwright'
+import { sperreNetz } from './test-netz-sperre.mjs'
 import { readFileSync } from 'node:fs'
 
 const css = readFileSync('extension/melder.css', 'utf8')
@@ -30,6 +31,7 @@ pruefe('melder.css hat keinen Stil dafür', !/ak-player/.test(css))
 
 const browser = await chromium.launch()
 const seite = await browser.newPage({ viewportSize: { width: 900, height: 400 } })
+await sperreNetz(seite)
 await seite.setContent(`<!doctype html><meta charset="utf-8"><style>html,body{margin:0;background:#000}${css}</style>
 <div class="ak-box" style="position:fixed;right:10px;bottom:10px;width:200px;height:80px;background:#fff"><div>Kasten</div></div>`)
 

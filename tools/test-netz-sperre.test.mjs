@@ -1,4 +1,4 @@
-/* Wächter: jeder tools/*.test.* mit Playwright, der Dateien aus extension/ lädt, sperrt das Netz (sperreNetz);
+/* Wächter: jedes tools/*.{mjs,cjs,ts} (Tests wie Bildwerkzeuge) mit Playwright, der Dateien aus extension/ lädt, sperrt das Netz (sperreNetz);
  * dazu die Sperre selbst gegen eine Seiten-Attrappe. Aufruf: node tools/test-netz-sperre.test.mjs */
 import assert from 'node:assert/strict'
 import { readdirSync, readFileSync } from 'node:fs'
@@ -38,7 +38,7 @@ assert.equal(sperreFehlt(PW), false, 'Playwright ohne Erweiterung')
 assert.equal(sperreFehlt(EXT), false, 'Erweiterung ohne Browser')
 assert.equal(sperreFehlt(PW + EXT + '// sperreNetz fehlt'), true, 'nur der Aufruf zählt')
 
-const test = readdirSync(tools).filter((f) => /\.test\.(mjs|cjs|ts)$/.test(f))
+const test = readdirSync(tools).filter((f) => /\.(mjs|cjs|ts)$/.test(f))
 const ohne = test.filter((f) => sperreFehlt(readFileSync(join(tools, f), 'utf8')))
-assert.deepEqual(ohne, [], `Browser-Test mit Erweiterung ohne Netz-Sperre: ${ohne.join(', ')}`)
-console.log(`test-netz-sperre: ok (${test.length} Tests geprüft, ohne Sperre: ${ohne.length}; Sperre fängt workers.dev ab)`)
+assert.deepEqual(ohne, [], `Browser-Skript mit Erweiterung ohne Netz-Sperre: ${ohne.join(', ')}`)
+console.log(`test-netz-sperre: ok (${test.length} Tests und Bildwerkzeuge geprüft, ohne Sperre: ${ohne.length}; Sperre fängt workers.dev ab)`)

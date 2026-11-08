@@ -22,6 +22,7 @@
  * Ergebnis: `docs/disney-kasten.png`
  */
 import { chromium } from 'playwright'
+import { sperreNetz } from './test-netz-sperre.mjs'
 import { readFileSync } from 'node:fs'
 
 const css = readFileSync('extension/melder.css', 'utf8')
@@ -42,6 +43,7 @@ const TEXT = process.env.TEXT ?? 'Folge 7 von 24: kein Deutsch gefunden\nDie üb
 
 const browser = await chromium.launch()
 const seite = await browser.newPage({ viewportSize: { width: 520, height: 420 } })
+await sperreNetz(seite)
 await seite.setContent(`<!doctype html><meta charset="utf-8">
 <style>
   html { background: #0d1117; }
