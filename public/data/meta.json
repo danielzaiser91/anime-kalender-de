@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-08T04:09:46.326Z",
+  "generatedAt": "2026-11-08T04:24:18.380Z",
   "titleCount": 2923,
   "belegtCount": 2591,
   "releaseCount": 889,
@@ -183,8 +183,8 @@
   "providers": [
     "aniSearch",
     "Amazon Prime (Crunchyroll)",
-    "maxdome",
     "Apple TV",
+    "maxdome",
     "freenet meinVOD",
     "MagentaTV",
     "Videoload",
