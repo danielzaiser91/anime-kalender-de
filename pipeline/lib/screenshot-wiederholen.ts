@@ -1,3 +1,5 @@
+import type { Browser, BrowserContextOptions, Page } from 'playwright'
+
 /** Playwright meldet gelegentlich „Unable to capture screenshot“ (Kette rot bei PR 1574, 1612, 1713, 2792; jeder Neulauf grün). Nur dieser Fehler wird einmal wiederholt. */
 export const SCREENSHOT_FEHLER = /Unable to capture screenshot/
 
@@ -67,5 +69,60 @@ export function mitFrischemBrowser<B>(erster: B, starte: () => Promise<B>, schli
       }
       return aktuell
     },
+  }
+}
+
+/** Gesamtzahl der Versuche von `mitWiederholung` (Kette rot am 05.11.2026 trotz einer Wiederholung auf derselben Sitzung). */
+export const VERSUCHE = 3
+
+/** Führt `lauf` bis zu `VERSUCHE`-mal mit Pause aus; nur der Screenshot-Fehler löst einen neuen Versuch aus, jeder andere Fehler geht sofort durch. */
+export async function mitWiederholung<T>(
+  lauf: () => Promise<T>,
+  melde: (zeile: string) => void,
+  warte: (ms: number) => Promise<void> = schlafen,
+): Promise<T> {
+  for (let versuch = 1; ; versuch++) {
+    try {
+      return await lauf()
+    } catch (e) {
+      const text = e instanceof Error ? e.message : String(e)
+      if (!SCREENSHOT_FEHLER.test(text)) throw e
+      const erste = text.split('\n')[0]
+      if (versuch >= VERSUCHE) throw new Error(`Screenshot-Fehler auch im ${VERSUCHE}. Versuch (jeweils neue Seite): ${erste}`)
+      melde(`Screenshot-Fehler, Versuch ${versuch} von ${VERSUCHE}, neue Seite: ${erste}`)
+      await warte(PAUSE_MS)
+    }
+  }
+}
+
+/** Jeder Versuch öffnet eine neue Seite und schließt sie auch bei einem Fehler; die Sitzung des Fehlers wird nie wiederverwendet. */
+export function mitNeuerSeite<T>(
+  browser: Browser,
+  optionen: BrowserContextOptions,
+  lauf: (seite: Page) => Promise<T>,
+  melde: (zeile: string) => void,
+  warte?: (ms: number) => Promise<void>,
+): Promise<T> {
+  return mitWiederholung(async () => {
+    const seite = await browser.newPage(optionen)
+    try {
+      return await lauf(seite)
+    } finally {
+      await seite.close()
+    }
+  }, melde, warte)
+}
+
+/** Jeder Versuch beginnt mit `zuruecksetzen` (z. B. Fehlerzähler auf 0) und lässt weder die ersetzte Abruffunktion noch das Token für den nächsten Versuch zurück, auch nicht nach einem Fehler. */
+export function mitRuecksetzung<S>(lauf: (s: S) => Promise<void>, zuruecksetzen: () => void): (s: S) => Promise<void> {
+  return async (s) => {
+    zuruecksetzen()
+    const echtFetch = globalThis.fetch
+    try {
+      await lauf(s)
+    } finally {
+      globalThis.fetch = echtFetch
+      delete process.env.LAUF_TOKEN
+    }
   }
 }
