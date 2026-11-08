@@ -36,11 +36,13 @@
  */
 import { gunzipSync } from 'node:zlib'
 import { readFileSync, readdirSync } from 'node:fs'
-import { log, readJson, writeJson } from './lib/util.ts'
+import { resolve } from 'node:path'
+import { ROOT, log, readJson, writeJson } from './lib/util.ts'
 import type { Title } from '../shared/types.ts'
+import { ordneZu, type DiscKandidat } from './lib/disc-zuordnung.ts'
 import { seiteZuTitel } from './lib/anisearch-seite-zu-titel.ts'
 
-const ARCHIV = 'data/anisearch-raw'
+const ARCHIV = resolve(ROOT, 'data/anisearch-raw')
 const ZIEL = 'data/disc-ausgaben.json'
 
 /** Eine Ausgabe, wie aniSearch sie führt. */
@@ -72,7 +74,22 @@ export interface Ausgabe {
  * deshalb nur, wenn es einen Blu-ray-Zwilling gleichen Namens gibt oder der Name ein
  * Video-Merkmal trägt.
  */
-export function formatAus(edition: string, plakette: string | undefined, zwillinge: Set<string>): string | null {
+/** Die Reihe vor dem ersten „ - ": „Given - Bd. 09" → „given". */
+export const reiheAus = (edition: string): string => edition.split(' - ')[0]!.trim().toLowerCase()
+
+/**
+ * Zwei Schreibweisen ohne Trägerwort, die in den deutschen Disc-Zeilen trotzdem vorkommen (gemessen am 06.11.2026 über das ganze Archiv):
+ * „Name - Vol. 3" (320 Zeilen, deutsche DVD-Folgen; Musik trägt ein Wort davor: „Character Song: Vol.04", Manga heißt „Bd.")
+ * und „Komplettbox" — die gibt es auch für Manga („Given - Komplettbox" neben „Given - Bd. 09"), deshalb nur, wenn die Seite
+ * zur selben Reihe keinen Manga-Band führt.
+ */
+function dvdOhneTraegerwort(edition: string, mangaReihen: Set<string> | undefined): boolean {
+  if (/ - Vol\.\s*\d/i.test(edition)) return !/Vocal/i.test(edition)
+  if (!/\bKomplettbox\b/i.test(edition) || /Comic/i.test(edition)) return false
+  return !!mangaReihen && !mangaReihen.has(reiheAus(edition))
+}
+
+export function formatAus(edition: string, plakette: string | undefined, zwillinge: Set<string>, mangaReihen?: Set<string>): string | null {
   if (plakette) {
     if (/UHD/i.test(plakette)) return '4K UHD'
     if (/Blu-?ray/i.test(plakette)) return 'Blu-ray'
@@ -86,6 +103,7 @@ export function formatAus(edition: string, plakette: string | undefined, zwillin
   }
   if (/\bBd\.|Figur|Modell|\bOST\b|Soundtrack|\bSongs?\b|Album|\bCD\b|\bED:|\bOP:|Artbook|Roman|Poster|Kalender|Nendoroid/i.test(edition)) return null
   if (zwillinge.has(edition)) return 'DVD'
+  if (dvdOhneTraegerwort(edition, mangaReihen)) return 'DVD'
   if (/\bVol\.\s*\d+\/\d+|\bBox\b|Gesamtausgabe|Komplettset|Complete|Collection|Staffel|\bDVD\b|Mediabook|Steelbook|Digipack/i.test(edition)) return 'DVD'
   return null
 }
@@ -124,13 +142,14 @@ function istBildtraeger(edition: string): string | null {
   return null
 }
 
-/** Die deutschen Bildträger-Ausgaben einer archivierten Titelseite (Abschnitt „Neuerscheinungen“), jüngste zuerst, samt Zählern. */
-export function ausgabenAusSeite(html: string): { ausgaben: Ausgabe[]; geprueft: number; auslaendisch: number; verworfen: number } {
-  const zaehler = { ausgaben: [] as Ausgabe[], geprueft: 0, auslaendisch: 0, verworfen: 0 }
+/** Die deutschen Bildträger-Ausgaben einer archivierten Titelseite, jüngste zuerst; `null` ohne Ausgaben-Abschnitt. */
+export function ausgabenAusHtml(html: string): { eigene: Ausgabe[]; geprueft: number; auslaendisch: number; verworfen: number } | null {
   const start = html.indexOf('<section id="items"')
-  if (start < 0) return zaehler
+  if (start < 0) return null
   const abschnitt = html.slice(start, html.indexOf('</section>', start))
-
+  let auslaendisch = 0
+  let verworfen = 0
+  const eigene: Ausgabe[] = []
   const bloecke = [...abschnitt.matchAll(/<li class="merch\d+[^"]*" data-date="([^"]*)">([\s\S]*?)<\/li>/g)]
     .map((m) => ({
       datum: m[1]!,
@@ -138,25 +157,25 @@ export function ausgabenAusSeite(html: string): { ausgaben: Ausgabe[]; geprueft:
       edition: /<span class="title">([^<]*)</.exec(m[2]!)?.[1]?.trim().replace(/&amp;/g, '&') ?? '',
     }))
     .filter((b) => b.edition)
+  const mangaReihen = new Set(bloecke.filter((b) => /\bBd\./.test(b.edition)).map((b) => reiheAus(b.edition)))
   /* Namen, zu denen es eine „[Blu-ray]"-Fassung gibt — ihr Zwilling ohne Klammer ist die DVD. */
   const zwillinge = new Set(
     bloecke.filter((b) => /\s*\[Blu-?ray\]\s*$/i.test(b.edition)).map((b) => b.edition.replace(/\s*\[Blu-?ray\]\s*$/i, '')),
   )
   for (const { datum, block, edition } of bloecke) {
-    zaehler.geprueft++
     /* Ausländische Ausgaben tragen ein Flaggenbild, deutsche nicht. */
     if (/class="flag"[^>]*alt="[a-z]{2}"/.test(block)) {
-      zaehler.auslaendisch++
+      auslaendisch++
       continue
     }
     const plakette = /<div class="rank">([^<]*)</.exec(block)?.[1]
-    const format = formatAus(edition, plakette, zwillinge) ?? (istBildtraeger(edition) ? 'DVD' : null)
+    const format = formatAus(edition, plakette, zwillinge, mangaReihen) ?? (istBildtraeger(edition) ? 'DVD' : null)
     if (!format) {
-      zaehler.verworfen++
+      verworfen++
       continue
     }
     const pfad = /data-href="(article\/[^"]+)"/.exec(block)?.[1]
-    zaehler.ausgaben.push({
+    eigene.push({
       edition,
       datum: /^\d{4}-\d{2}-\d{2}$/.test(datum) ? datum : '',
       ...(pfad ? { url: `https://www.anisearch.de/${pfad}` } : {}),
@@ -166,35 +185,66 @@ export function ausgabenAusSeite(html: string): { ausgaben: Ausgabe[]; geprueft:
     })
   }
   /* Die jüngste zuerst — sie ist am ehesten noch zu bekommen. */
-  zaehler.ausgaben.sort((a, b) => b.datum.localeCompare(a.datum))
-  return zaehler
+  eigene.sort((a, b) => b.datum.localeCompare(a.datum))
+  return { eigene, geprueft: bloecke.length, auslaendisch, verworfen }
 }
 
-function main(): void {
-  const anisearch = readJson<Record<string, { anisearchId?: number }>>('data/anisearch.json', {})
-  const titles = readJson<Title[]>('public/data/titles.json', [])
+/** Die Titel je aniSearch-Kennung: alle mit `anisearchId` in titles.json, dazu der Besitzer aus anisearch.json. */
+export function kandidatenJeKennung(titles: Title[], besitzer: Map<number, number>): Map<number, DiscKandidat[]> {
+  const nachId = new Map(titles.map((t) => [t.id, t]))
+  const alsKandidat = (t: Title): DiscKandidat => ({
+    id: t.id,
+    namen: [t.titleDe, t.titleEn, t.titleRomaji].filter((n): n is string => !!n),
+    ...(t.format ? { format: t.format } : {}),
+    ...(t.jpYear ? { jpYear: t.jpYear } : {}),
+  })
+  const raus = new Map<number, DiscKandidat[]>()
+  const fuege = (asId: number, t: Title) => {
+    const liste = raus.get(asId) ?? []
+    if (!liste.some((k) => k.id === t.id)) raus.set(asId, [...liste, alsKandidat(t)])
+  }
+  for (const t of titles) if (t.anisearchId) fuege(t.anisearchId, t)
+  for (const [asId, id] of besitzer) fuege(asId, nachId.get(id)!)
+  return raus
+}
+
+/** Die 1:1-Zuordnung aus `anisearch.json` (aniSearch-Kennung → Titel) samt reinen aniSearch-Titeln, nur für Titel im Bestand. */
+export function besitzerVon(anisearch: Record<string, { anisearchId?: number }>, titles: Title[]): Map<number, number> {
   const bekannt = new Set(titles.map((t) => t.id))
-  const nachAsId = seiteZuTitel(anisearch, bekannt)
+  const besitzer = new Map<number, number>()
+  for (const [asId, id] of seiteZuTitel(anisearch, bekannt)) {
+    if (bekannt.has(id)) besitzer.set(asId, id)
+  }
+  return besitzer
+}
 
-  const raus: Record<string, Ausgabe[]> = {}
-  let geprueft = 0
-  let auslaendisch = 0
-  let verworfen = 0
+export interface LeseZaehler {
+  geprueft: number
+  auslaendisch: number
+  verworfen: number
+}
 
+/** Liest das Archiv: je Kennung mit Titel die deutschen Ausgaben der Seite (auch leere), und zählt die Blöcke mit. */
+export function* archivSeiten(kandidaten: Map<number, DiscKandidat[]>, zaehler: LeseZaehler): Generator<[number, Ausgabe[]]> {
   for (const datei of readdirSync(ARCHIV)) {
     if (!datei.endsWith('.html.gz')) continue
     const asId = Number(datei.replace('.html.gz', ''))
-    const titleId = nachAsId.get(asId)
-    if (!titleId || !bekannt.has(titleId)) continue
-
-    const html = gunzipSync(readFileSync(`${ARCHIV}/${datei}`)).toString('utf8')
-    const seite = ausgabenAusSeite(html)
-    geprueft += seite.geprueft
-    auslaendisch += seite.auslaendisch
-    verworfen += seite.verworfen
-    if (!seite.ausgaben.length) continue
-    raus[String(titleId)] = seite.ausgaben
+    if (!kandidaten.has(asId)) continue
+    const r = ausgabenAusHtml(gunzipSync(readFileSync(`${ARCHIV}/${datei}`)).toString('utf8'))
+    if (!r) continue
+    zaehler.geprueft += r.geprueft
+    zaehler.auslaendisch += r.auslaendisch
+    zaehler.verworfen += r.verworfen
+    yield [asId, r.eigene]
   }
+}
+
+function main(): void {
+  const titles = readJson<Title[]>('public/data/titles.json', [])
+  const besitzer = besitzerVon(readJson('data/anisearch.json', {}), titles)
+  const kandidaten = kandidatenJeKennung(titles, besitzer)
+  const zaehler: LeseZaehler = { geprueft: 0, auslaendisch: 0, verworfen: 0 }
+  const { raus, bilanz } = ordneZu(archivSeiten(kandidaten, zaehler), kandidaten, besitzer)
 
   writeJson(ZIEL, raus)
   const ohneWeg = titles.filter(
@@ -202,9 +252,11 @@ function main(): void {
   ).length
   log(
     `Disc-Ausgaben: ${Object.keys(raus).length} Titel mit deutscher Ausgabe ` +
-      `(${geprueft} Blöcke geprüft, ${auslaendisch} ausländisch, ${verworfen} kein Bildträger)`,
+      `(${zaehler.geprueft} Blöcke geprüft, ${zaehler.auslaendisch} ausländisch, ${zaehler.verworfen} kein Bildträger)`,
   )
   log(`  davon ${ohneWeg} Titel, die sonst keinen einzigen Weg zeigen`)
+  log(`  ${bilanz.neuUeberKennung} Titel über ihre anisearchId zugeordnet, ${bilanz.geteilteSeiten} Seiten mit geteilter Kennung`)
+  log(`  nicht zugeordnet (nicht eindeutig): ${bilanz.unklar} Ausgaben, ${bilanz.leereKandidaten.length} Titel bleiben ohne: ${bilanz.leereKandidaten.join(', ')}`)
 }
 
 /* Nur als Hauptlauf — die Zusicherungen importieren die Funktionen oben, und ein Import darf

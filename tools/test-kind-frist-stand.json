@@ -100,7 +100,6 @@
   "tools/untersucher-frist.test.mjs": 5,
   "tools/urteile-aus-kopie.test.mjs": 1,
   "tools/voraussichtlich-pruefung.test.mjs": 1,
-  "tools/wache-bilanz.test.mjs": 1,
   "tools/wache-eskalation.test.mjs": 1,
   "tools/wache-fix-gemergt.test.mjs": 2,
   "tools/wache-verdrahtung.test.mjs": 2,

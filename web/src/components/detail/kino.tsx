@@ -339,8 +339,8 @@ export function KinoBanner({
         <MerkenKnopf release={release} today={today} />
       </div>
       {/* Die Notiz des Kinostarts gehört hierher, nicht in den Kasten darunter — sonst steht sie neben einer Auskunft, die von etwas anderem handelt. */}
-      {release.note && (
-        <p className="mt-2 pl-3 text-t4 text-ak-warnung-text">{release.note}</p>
+      {release.hinweis && (
+        <p className="mt-2 pl-3 text-t4 text-ak-warnung-text">{release.hinweis}</p>
       )}
     </div>
   )
