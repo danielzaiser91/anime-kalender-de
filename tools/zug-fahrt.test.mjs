@@ -73,6 +73,7 @@ function fakeGh(zustand = {}) {
     if (a === 'run' && b === 'view') return JSON.stringify(zustand.lauf[args[2]])
     if ((a === 'pr' && ['create', 'comment', 'close'].includes(b)) || (a === 'workflow' && b === 'run')) {
       schreib.push(args.join(' '))
+      if (b === 'create') zustand.beiCreate?.()
       return ''
     }
     throw new Error(`gh-Attrappe kennt nicht: ${args.join(' ')}`)
@@ -144,9 +145,26 @@ console.log('bereiteFahrt: echtes git')
 console.log('start: Push, PR, laufende Fahrt, Trockenlauf')
 {
   const w = weltMitZug()
-  const { gh, schreib } = fakeGh()
+  const zu = {}
+  const { gh, schreib } = fakeGh(zu)
+  let beiPr = null
+  zu.beiCreate = () => {
+    beiPr = refOrigin(w, 'refs/heads/zug-fahrt')
+  }
   const c = ctx(w, gh)
   pruefe('start → Exit 0', start(c) === 0, c.zeilen)
+  const endKopf = refOrigin(w, 'refs/heads/zug-fahrt')
+  pruefe('beim Anlegen des PR steht nur ein Platzhalter (main plus leerer Commit) auf dem Zweig, der Kopf folgt danach', beiPr !== null && beiPr !== endKopf && w.gitOrigin(['rev-parse', `${beiPr}^`]).trim() === refOrigin(w, 'refs/heads/main') && w.gitOrigin(['rev-parse', `${beiPr}^{tree}`]).trim() === w.gitOrigin(['rev-parse', 'refs/heads/main^{tree}']).trim(), { beiPr, endKopf })
+  const c2 = ctx(w, fakeGh({ prs: { 'zug-fahrt': 7 }, laeufe: { 'zug-fahrt': [{ databaseId: 1, status: 'completed', conclusion: 'failure' }] } }).gh)
+  process.env.GIT_COMMITTER_DATE = '2031-01-01T00:00:00Z' // anderer Merge-Commit (Uhrzeit), gleiche Eltern
+  const exit2 = start(c2)
+  delete process.env.GIT_COMMITTER_DATE
+  pruefe('zweiter Aufruf ohne Änderung an Zug und main → keine neue Fahrt, obwohl der Merge-Commit anders ist', exit2 === 0 && /unverändert/.test(c2.zeilen.at(-1)) && refOrigin(w, 'refs/heads/zug-fahrt') === endKopf, c2.zeilen)
+  w.git(['checkout', '-q', 'main'])
+  w.schreibe('daten.txt', 'neu\n', 'chore(data): Bot nach der Fahrt')
+  w.git(['push', '-q', 'origin', 'main'])
+  const c3 = ctx(w, fakeGh({ prs: { 'zug-fahrt': 7 }, laeufe: { 'zug-fahrt': [{ databaseId: 1, status: 'completed', conclusion: 'failure' }] } }).gh)
+  pruefe('main ist weitergelaufen → neue Fahrt, anderer Kopf', start(c3) === 0 && refOrigin(w, 'refs/heads/zug-fahrt') !== endKopf, c3.zeilen)
   pruefe('zug-fahrt liegt auf origin und enthält den Zug-Kopf', hatRef(w, 'refs/heads/zug-fahrt') && istVorfahr(w, 'refs/heads/zug', 'refs/heads/zug-fahrt'))
   pruefe('PR zug-fahrt → main angelegt, Beschreibung mit Patch-Notes-Zeile', schreib.length === 1 && /^pr create --base main --head zug-fahrt --title chore\(zug\): Fahrt --body .*Patch Notes: keine – CI:/s.test(schreib[0]), schreib)
 }
@@ -224,9 +242,15 @@ function weltMitFahrt() {
 console.log('urteil auf zug-fahrt: rot → Probe main allein')
 {
   const { w, kopf } = weltMitFahrt()
-  const { gh, schreib } = fakeGh({ prs: { 'zug-fahrt': 7 }, lauf: { 9: { databaseId: 9, headSha: kopf, status: 'completed', conclusion: 'failure' } } })
+  const zu = { prs: { 'zug-fahrt': 7 }, lauf: { 9: { databaseId: 9, headSha: kopf, status: 'completed', conclusion: 'failure' } } }
+  let beiPr = null
+  zu.beiCreate = () => {
+    beiPr = refOrigin(w, 'refs/heads/zug-probe')
+  }
+  const { gh, schreib } = fakeGh(zu)
   const c = ctx(w, gh)
   pruefe('rot → Exit 0', urteil(c, 'zug-fahrt', '9') === 0, c.zeilen)
+  pruefe('Probe: beim Anlegen des PR steht ein Platzhalter auf dem Zweig, danach der Probe-Kopf', beiPr !== null && beiPr !== refOrigin(w, 'refs/heads/zug-probe'))
   pruefe('zug-probe = main plus genau ein leerer Commit', hatRef(w, 'refs/heads/zug-probe') && w.gitOrigin(['rev-list', '--count', 'refs/heads/main..refs/heads/zug-probe']).trim() === '1' && w.gitOrigin(['diff', '--stat', 'refs/heads/main', 'refs/heads/zug-probe']).trim() === '')
   pruefe('Probe-PR gegen main angelegt, Fahrt-Log kommentiert', schreib.some((s) => /^pr create --base main --head zug-probe /.test(s)) && schreib.some((s) => /^pr comment 7 .*Kette rot, Schritt probe-starten/s.test(s)), schreib)
 }

@@ -38,6 +38,23 @@ const versuche = (fn) => {
 /** Gibt es den Zweig auf origin? (`ls-remote` liefert bei fehlendem Zweig nichts, aber Exit 0.) */
 export const remoteHat = (git, zweig) => git(['ls-remote', '--heads', 'origin', zweig]).trim() !== ''
 
+/** Kopf eines Zweigs auf origin oder null. */
+const remoteKopf = (git, zweig) => git(['ls-remote', '--heads', 'origin', zweig]).split('\t')[0].trim() || null
+
+/**
+ * Liegt dieser Stand (gleicher Zug-Kopf und gleiches main) schon auf zug-fahrt? Der Merge-Commit trägt die Uhrzeit und ist nie gleich,
+ * darum zählen die Eltern; ein erneuter Push desselben Stands löste ohnehin keine Kette aus.
+ */
+function schonGefahren(git, kopf) {
+  const fern = remoteKopf(git, FAHRT_ZWEIG)
+  if (fern === null) return false
+  if (fern === kopf) return true
+  git(['fetch', '--quiet', 'origin', FAHRT_ZWEIG])
+  const eltern = (sha) => git(['rev-list', '--parents', '-n', '1', sha]).trim().split(' ').slice(1)
+  const [a, b] = [eltern(fern), eltern(kopf)]
+  return b.length > 1 && a.length === b.length && a.every((e, i) => e === b[i])
+}
+
 const istVorfahr = (git, a, b) => versuche(() => git(['merge-base', '--is-ancestor', a, b]) ?? '') !== null
 
 /**
@@ -92,9 +109,22 @@ export function start({ gh, git, melde, trocken }) {
   }
   melde(`Fahrt ${fahrt.kopf.slice(0, 9)}: Zug ${fahrt.zugVorher.slice(0, 9)} plus main${fahrt.mainImZug ? '' : ' (nicht hereingeholt)'}`)
   if (trocken) return ende(melde, 'trocken: kein Push, kein PR')
-  git(['push', '--force', 'origin', `${FAHRT_ZWEIG}:refs/heads/${FAHRT_ZWEIG}`])
-  if (pr === null) gh(['pr', 'create', '--base', 'main', '--head', FAHRT_ZWEIG, '--title', 'chore(zug): Fahrt', '--body', PR_TEXT])
+  if (schonGefahren(git, fahrt.kopf)) return ende(melde, 'Zug und main unverändert seit der letzten Fahrt: keine neue (ein Push desselben Kopfs löste keine Kette aus)')
+  pushMitPr({ gh, git }, FAHRT_ZWEIG, fahrt.kopf, 'chore(zug): Fahrt', pr)
   return 0
+}
+
+/**
+ * Kopf auf den Zweig pushen (der Push der App löst die Kette aus). Gibt es noch keinen PR, geht ein Platzhalter voraus: das Workflow-Token öffnet den PR,
+ * aber ein PR, den es öffnet, startet keine Kette; erst der Push danach (synchronize) tut es. Den PR mit dem App-Token anzulegen sperrt app-token-sperre.
+ */
+export function pushMitPr({ gh, git }, zweig, kopf, titel, vorhandenerPr) {
+  const push = (sha) => git(['push', '--force', 'origin', `${sha}:refs/heads/${zweig}`])
+  if (vorhandenerPr === null) {
+    push(git(['commit-tree', 'origin/main^{tree}', '-p', 'origin/main', '-m', 'Platzhalter: die Kette startet mit dem nächsten Push']).trim())
+    gh(['pr', 'create', '--base', 'main', '--head', zweig, '--title', titel, '--body', PR_TEXT])
+  }
+  push(kopf)
 }
 
 /** Datei am Basisstand lesen oder null (git show). */
@@ -126,10 +156,9 @@ function fahrtGruen({ git, melde }, lauf) {
 /** Probe „main allein“: main-Kopf plus leerer Commit, PR gegen main; die Kette läuft darauf ohne Unter-PRs. */
 export function starteProbe({ gh, git, melde, trocken }) {
   if (trocken) return ende(melde, 'trocken: Probe main allein würde starten')
-  git(['checkout', '-q', '-B', PROBE_ZWEIG, 'origin/main'])
-  git(['commit', '-q', '--allow-empty', '-m', 'Probe: main allein (Sammelzug)'])
-  git(['push', '--force', 'origin', `${PROBE_ZWEIG}:refs/heads/${PROBE_ZWEIG}`])
-  if (offenerPr(gh, PROBE_ZWEIG) === null) gh(['pr', 'create', '--base', 'main', '--head', PROBE_ZWEIG, '--title', 'chore(zug): Probe main allein', '--body', PR_TEXT])
+  git(['fetch', '--quiet', 'origin', 'main'])
+  const kopf = git(['commit-tree', 'origin/main^{tree}', '-p', 'origin/main', '-m', 'Probe: main allein (Sammelzug)']).trim()
+  pushMitPr({ gh, git }, PROBE_ZWEIG, kopf, 'chore(zug): Probe main allein', offenerPr(gh, PROBE_ZWEIG))
   return 0
 }
 
