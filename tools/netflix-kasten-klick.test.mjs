@@ -11,6 +11,7 @@ import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { chromium } from 'playwright'
 import { browserDa } from './browser-weiche.mjs'
+import { sperreNetz } from './test-netz-sperre.mjs'
 
 const EXT = resolve(import.meta.dirname, '..', 'extension')
 const manifest = JSON.parse(readFileSync(resolve(EXT, 'manifest.json'), 'utf8'))
@@ -51,8 +52,7 @@ async function fall(browser, seitenStopp) {
   const fehler = []
   seite.on('pageerror', (e) => fehler.push(String(e)))
   // Alles außer der Seite abfangen: ohne das fragte jeder Kettenlauf ~320-mal den echten Worker (07.11.2026, Tageslimit).
-  let draussen = 0
-  await seite.route('**/*', (r) => { draussen++; return r.fulfill({ contentType: 'application/json', body: '{}' }) })
+  const draussen = await sperreNetz(seite)
   await seite.route('https://www.netflix.com/**', (r) => r.fulfill({ contentType: 'text/html', body: SEITE }))
   await seite.addInitScript(attrappe)
   await seite.goto('https://www.netflix.com/browse')
@@ -115,7 +115,7 @@ async function fall(browser, seitenStopp) {
   await klick(seite, '#b', `${wo}: innerer Knopf mit stopPropagation`)
   assert.deepEqual(await seite.evaluate(() => window.__reihe), ['a', 'aussen', 'b'], `${wo}: Reihenfolge innen vor außen, Stopp hält die Zeile auf`)
   await seite.context().close()
-  console.log(`  ✓ ${wo}: Toggle, Ruhemodus, Bericht, Prüfliste öffnen und schließen (${draussen} Anfragen nach außen abgefangen)`)
+  console.log(`  ✓ ${wo}: Toggle, Ruhemodus, Bericht, Prüfliste öffnen und schließen (${draussen.length} Anfragen nach außen abgefangen)`)
 }
 
 if (!browserDa('netflix-kasten-klick', chromium)) process.exit()

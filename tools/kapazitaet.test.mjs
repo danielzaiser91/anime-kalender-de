@@ -17,8 +17,9 @@ assert.equal(GRENZE_ANFRAGEN, 70_000)
 assert.equal(GRENZE_D1_GESCHRIEBEN, 70_000)
 assert.equal(GRENZE_CRON_P99_MS, 8)
 
+const HEUTE = '2026-10-22'
 const tag = (felder) => ({ datum: '2026-10-22', anfragen: 0, geschrieben: 0, cronP99Ms: 0, ueberCpu: 0, ...felder })
-const befunde = (felder) => bewerteKapazitaet([tag(felder)]).befunde
+const befunde = (felder) => bewerteKapazitaet([tag(felder)], HEUTE).befunde
 
 /* ---- Anfragen: 70.000 genau ist noch grün ---- */
 assert.equal(befunde({ anfragen: 70_000 }).length, 0)
@@ -34,16 +35,49 @@ assert.equal(befunde({ cronP99Ms: 8 }).length, 0)
 assert.equal(befunde({ cronP99Ms: 8.1 }).length, 1)
 assert.match(befunde({ cronP99Ms: 8.1 })[0], /Cron-CPU p99 8,1 ms|Cron-CPU p99 8\.1 ms/)
 /* ---- exceededCpu: nur Warnung, genau 1 genügt ---- */
-assert.equal(bewerteKapazitaet([tag({ ueberCpu: 1 })]).warnungen.length, 1)
-assert.equal(bewerteKapazitaet([tag({ ueberCpu: 1 })]).befunde.length, 0)
-assert.equal(bewerteKapazitaet([tag({ ueberCpu: 0 })]).warnungen.length, 0)
+assert.equal(bewerteKapazitaet([tag({ ueberCpu: 1 })], HEUTE).warnungen.length, 1)
+assert.equal(bewerteKapazitaet([tag({ ueberCpu: 1 })], HEUTE).befunde.length, 0)
+assert.equal(bewerteKapazitaet([tag({ ueberCpu: 0 })], HEUTE).warnungen.length, 0)
 /* ---- Nicht gemessen (null) ist weder rot noch 0 ---- */
-assert.deepEqual(bewerteKapazitaet([tag({ anfragen: null, geschrieben: null, cronP99Ms: null, ueberCpu: null })]), { befunde: [], warnungen: [] })
-assert.deepEqual(bewerteKapazitaet([]), { befunde: [], warnungen: [] })
+assert.deepEqual(bewerteKapazitaet([tag({ anfragen: null, geschrieben: null, cronP99Ms: null, ueberCpu: null })], HEUTE), { befunde: [], warnungen: [] })
+assert.deepEqual(bewerteKapazitaet([], HEUTE), { befunde: [], warnungen: [] })
 /* ---- Der schlimmste Tag zählt, nicht der letzte; drei Schwellen zugleich = drei Befunde ---- */
-const woche = [tag({ datum: '2026-10-20', anfragen: 80_000 }), tag({ datum: '2026-10-21', anfragen: 10 }), tag({ datum: '2026-10-22', anfragen: 20 })]
-assert.match(bewerteKapazitaet(woche).befunde[0], /2026-10-20/)
+const woche = [tag({ datum: '2026-10-21', anfragen: 80_000 }), tag({ datum: '2026-10-20', anfragen: 10 }), tag({ datum: '2026-10-22', anfragen: 20 })]
+assert.match(bewerteKapazitaet(woche, HEUTE).befunde[0], /2026-10-21/)
 assert.equal(befunde({ anfragen: 70_001, geschrieben: 70_001, cronP99Ms: 9 }).length, 3)
+/* ---- Frische: Befund nur ab gestern, ältere Spitze = Warnung mit Datum und Wert ---- */
+const spitze = (datum, felder = { anfragen: 86_915 }) => [tag({ datum: '2026-10-19' }), tag({ datum, ...felder }), tag({ datum: '2026-10-22' })]
+const vorDreiTagen = bewerteKapazitaet(spitze('2026-10-19'), HEUTE)
+assert.equal(vorDreiTagen.befunde.length, 0)
+assert.equal(vorDreiTagen.warnungen.length, 1)
+assert.match(vorDreiTagen.warnungen[0], /Altbefund.*86\.915 Worker-Anfragen am 2026-10-19/)
+assert.equal(bewerteKapazitaet(spitze('2026-10-20'), HEUTE).befunde.length, 0, 'vorgestern ist alt')
+assert.equal(bewerteKapazitaet(spitze('2026-10-21'), HEUTE).befunde.length, 1, 'gestern ist Befund')
+assert.equal(bewerteKapazitaet(spitze('2026-10-22'), HEUTE).befunde.length, 1, 'heute ist Befund')
+assert.equal(bewerteKapazitaet(spitze('2026-10-21'), HEUTE).warnungen.length, 0)
+const zweiAlte = [tag({ datum: '2026-10-18', anfragen: 86_915 }), tag({ datum: '2026-10-19', anfragen: 84_115 }), tag({ datum: '2026-10-22', anfragen: 3_183 })]
+assert.deepEqual(bewerteKapazitaet(zweiAlte, HEUTE).befunde, [])
+assert.equal(bewerteKapazitaet(zweiAlte, HEUTE).warnungen.length, 2, 'jede alte Spitze eine Warnzeile')
+assert.equal(bewerteKapazitaet(spitze('2026-10-20', { geschrieben: 70_001 }), HEUTE).warnungen.length, 1)
+assert.equal(bewerteKapazitaet(spitze('2026-10-20', { cronP99Ms: 9 }), HEUTE).warnungen.length, 1)
+assert.equal(bewerteKapazitaet(spitze('2026-10-20', { cronP99Ms: 9 }), HEUTE).befunde.length, 0)
+assert.equal(bewerteKapazitaet([tag({ datum: '2026-12-31', anfragen: 80_000 })], '2027-01-01').befunde.length, 1, 'Jahreswechsel: gestern')
+assert.equal(bewerteKapazitaet([tag({ datum: '2026-12-30', anfragen: 80_000 })], '2027-01-01').befunde.length, 0)
+{
+  /* Verdrahtung: lauf() übergibt das UTC-Datum von jetzt; Spitze am ältesten Fenstertag = Exit 0 mit ::warning::. */
+  const zeilen = []
+  const alteSpitze = async (url, init) => {
+    const { query, variables } = JSON.parse(init.body)
+    const name = ['workersInvocationsAdaptive', 'workersInvocationsScheduled', 'd1AnalyticsAdaptiveGroups'].find((n) => query.includes(n))
+    const requests = variables.tag === '2026-10-17' ? 86_915 : 10
+    const daten = { workersInvocationsAdaptive: [{ dimensions: { scriptName: 'newsletter', status: 'success' }, sum: { requests, errors: 0 }, quantiles: { cpuTimeP50: 1000, cpuTimeP99: 2000 } }], workersInvocationsScheduled: [], d1AnalyticsAdaptiveGroups: [] }[name]
+    return { ok: true, json: async () => ({ data: { viewer: { accounts: [{ [name]: daten }] } } }) }
+  }
+  const code = await lauf({ token: 'T', konto: 'K', jetzt: new Date('2026-10-23T12:00:00Z'), holen: alteSpitze, ausgabe: (z) => zeilen.push(z) })
+  assert.equal(code, 0, zeilen.join('\n'))
+  assert.ok(zeilen.some((z) => z.startsWith('::warning::') && z.includes('86.915') && z.includes('2026-10-17')))
+  assert.ok(!zeilen.some((z) => z.startsWith('::error::')))
+}
 
 /* ---- Messung gegen eine nachgebildete API ---- */
 function api({ ohne = [] } = {}) {
@@ -86,7 +120,7 @@ assert.equal(t.cronP99Ms, 8.2, 'Cron getrennt von allen Aufrufen')
 assert.equal(t.gelesen, 5000)
 assert.equal(t.geschrieben, 321)
 assert.equal(m.nichtLesbar.length, 0)
-assert.equal(bewerteKapazitaet(m.tage).befunde.length, 1, 'nur Cron p99 8,2 ms ist über der Schwelle')
+assert.equal(bewerteKapazitaet(m.tage, '2026-10-23').befunde.length, 1, 'nur Cron p99 8,2 ms ist über der Schwelle')
 assert.match(berichtZeilen(m).join('\n'), /Skript newsletter: 1\.002 Anfragen am 2026-10-23/)
 
 /* ---- Ein Datensatz fehlt: gemeldet, nicht als 0 gewertet ---- */
@@ -95,7 +129,7 @@ const n = await messe({ token: 'T', konto: 'K', jetzt: JETZT, tage: 2, holen: b.
 assert.equal(n.tage[1].cronP99Ms, null)
 assert.equal(n.tage[1].anfragen, 1042)
 assert.equal(n.nichtLesbar.length, 1)
-assert.equal(bewerteKapazitaet(n.tage).befunde.length, 0)
+assert.equal(bewerteKapazitaet(n.tage, '2026-10-23').befunde.length, 0)
 
 /* ---- Prozess ohne Token: Exit 0 mit Hinweis ---- */
 const env = { ...process.env }

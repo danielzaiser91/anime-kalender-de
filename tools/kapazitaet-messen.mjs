@@ -125,7 +125,7 @@ export async function lauf({ token, konto, jetzt, tage = 7, holen = fetch, ausga
   }
   const messung = await messe({ token, konto, jetzt, tage, holen })
   for (const z of berichtZeilen(messung)) ausgabe(z)
-  const { befunde, warnungen } = bewerteKapazitaet(messung.tage)
+  const { befunde, warnungen } = bewerteKapazitaet(messung.tage, jetzt.toISOString().slice(0, 10))
   for (const m of messung.nichtLesbar) befunde.push(`Kapazität: Datensatz nicht lesbar (${m}) — Messung unvollständig, Token-Rechte und Feldnamen prüfen`)
   for (const w of warnungen) ausgabe(`::warning::${w}`)
   for (const b of befunde) ausgabe(`::error::${b}`)
