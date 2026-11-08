@@ -1,6 +1,6 @@
 // Wache „Synchro-Wartezeit“: Fälle mit dem Black-Clover-Katalog vom 07.11.2026 (Folge 171, verfuegbarAb 16:00Z); kein Netz.
 import assert from 'node:assert/strict'
-import { spawnSync } from 'node:child_process'
+import { spawn, spawnSync } from 'node:child_process'
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
@@ -79,6 +79,20 @@ for (const name of [
   const r = synchroWartende(katalog([block('Season 1', FOLGE_171)]), [omu({ name }), GETEILT], nach(600))
   assert.deepEqual(r, { wartende: [], unklar: [name] }, name)
 }
+// Dieselben Namen allein an der Serie (kein Geschwister-Titel): die Zählung im Namen allein macht die Staffel unklar.
+for (const name of ['Classroom of the Elite Staffel 4: Second Year, First Semester', 'The Iceblade Sorcerer Shall Rule the World II', 'The Quintessential Quintuplets Specials', "Kaiju No. 8 Narumi's Week at Work"]) {
+  const r = synchroWartende(katalog([block('Season 1', FOLGE_171)]), [omu({ name })], nach(600))
+  assert.deepEqual(r, { wartende: [], unklar: [name] }, `allein: ${name}`)
+}
+// Wortgrenze: „Vivid“ und „Partizan“ enthalten iv/vi/part, sind aber keine Zählung — der Name gehört zu Staffel 1 und alarmiert.
+assert.equal(wartende(katalog([block('Staffel 1', FOLGE_171)]), [omu({ name: 'Vivid Partizan' })], nach(600)).length, 1)
+// Mehrdeutig: zwei Blöcke derselben Staffelnummer (Staffel 2 und Season 2) lassen keine Wahl — unklar, kein Alarm.
+assert.deepEqual(synchroWartende(katalog([block('Staffel 2', FOLGE_171), block('Season 2', FOLGE_171)]), [omu()], nach(600)), { wartende: [], unklar: ['Black Clover – Staffel 2'] })
+// Ein undatierter Block gleicher Nummer zählt nicht mit: der datierte bleibt der eine.
+const undatiert = { name: 'Season 2', deutscheFolgen: [{ guid: 'u' }] }
+assert.equal(wartende(katalog([block('Staffel 2', FOLGE_171), undatiert]), [omu()], nach(600)).length, 1)
+// Folgen nur vor dem OmU-Start in irgendeinem Block: nichts zu melden, auch nicht „unklar“.
+assert.deepEqual(synchroWartende(katalog([block('Season 1 Part 4', '2026-02-01T16:00:00Z')]), [omu()], nach(600)), { wartende: [], unklar: [] })
 // Block ohne Zahl im Namen („Platinum End“): unklar, nicht „kein Alarm“.
 assert.deepEqual(synchroWartende(katalog([block('Platinum End', FOLGE_171)]), [omu({ name: 'Platinum End' })], nach(600)), { wartende: [], unklar: ['Platinum End'] })
 // Staffelnummern: ausdrücklich, Name ohne Zählung allein an der Serie, geteilte Serie, Zahl im Namen.
@@ -141,8 +155,10 @@ assert.deepEqual(await holeSynchroJson('releases', async () => ({ ok: true, json
 const haengt = (_url, optionen) =>
   new Promise((_ok, fehler) => optionen.signal.addEventListener('abort', () => fehler(optionen.signal.reason)))
 const wachhalter = setInterval(() => {}, 50) // AbortSignal.timeout hält die Ereignisschleife nicht offen; ein echter Abruf tut es über den Socket
-await assert.rejects(holeSynchroJson('katalog', haengt, '', 20), { name: 'TimeoutError' })
-const beiFrist = await synchroWartezeitZeilen((name) => holeSynchroJson(name, haengt, '', 20), nach(120))
+// Greift die übergebene Frist nicht, bleibt der Abruf bis zur Standardfrist (30 s) hängen: nach 2 s gilt das als verfehlt.
+const binnen2s = (p) => Promise.race([p, new Promise((_ok, fehler) => setTimeout(() => fehler(new Error('Frist greift nicht')), 2000))])
+await assert.rejects(binnen2s(holeSynchroJson('katalog', haengt, '', 20)), { name: 'TimeoutError' })
+const beiFrist = await binnen2s(synchroWartezeitZeilen((name) => holeSynchroJson(name, haengt, '', 20), nach(120)))
 clearInterval(wachhalter)
 assert.match(beiFrist[0], /^SYNCHRO\? Wartezeit nicht lesbar: .*timeout/)
 // Die Standardfrist ist 30 s (Abruf der Wache darf nie länger hängen als ein Bruchteil des 3-Minuten-Jobs).
@@ -168,12 +184,12 @@ try {
   const SOFORT_500 = 'globalThis.fetch=async()=>new Response("{}",{status:500})'
   const gesundheit = join(wegwerf, 'g.json')
   writeFileSync(gesundheit, '{}')
-  const fahre = (releases, laeufe = [], fetchTeil = SOFORT_500, quelle = true) => {
+  const fahre = (releases, laeufe = [], fetchTeil = SOFORT_500) => {
     const dir = join(wegwerf, 'quelle')
     mkdirSync(dir, { recursive: true })
     writeFileSync(join(dir, 'katalog.json'), JSON.stringify(BC))
     writeFileSync(join(dir, 'releases.json'), JSON.stringify(releases))
-    const env = { ...process.env, LAUF_TOKEN: '', ...(quelle ? { AK_SYNCHRO_QUELLE: dir } : { AK_SYNCHRO_QUELLE: '' }) }
+    const env = { ...process.env, LAUF_TOKEN: '', AK_SYNCHRO_QUELLE: dir }
     return spawnSync(process.execPath, ['--import', stub(laeufe, fetchTeil), aufraeumen, '--trocken', '--gesundheit', gesundheit], { encoding: 'utf8', timeout: 120_000, env })
   }
   const alarm = fahre([omu()])
@@ -184,18 +200,35 @@ try {
   assert.match(ruhig.stdout, /^Synchro-Wartezeit: kein Alarm/m)
   assert.doesNotMatch(ruhig.stdout, /ALARM Synchro/)
 
-  // A1 Reihenfolge: Hängt der Server (hier 3 s Verzögerung, dann 500), steht der ALARM des Bestandsbaus vor der Synchro-Zeile.
-  const langsam = 'globalThis.fetch=async(u)=>{if(/raw.githubusercontent|anime-kalender.de/.test(String(u)))await new Promise((r)=>setTimeout(r,3000));return new Response("{}",{status:500})}'
+  // A1 Reihenfolge: Der Abruf der Wache startet sofort, wartet aber auf eine Freigabedatei, die der Test erst anlegt, wenn der
+  // ALARM des Bestandsbaus auf stdout erscheint. Wartete die Wache vor den Alarmen auf den Abruf, bliebe die Freigabe aus (KEINE-FREIGABE).
+  const freigabe = join(wegwerf, 'freigabe')
+  const wartend = `globalThis.fetch=async(u)=>{if(/crunchyroll-dub[.]json|[/]data[/]releases[.]json/.test(String(u))){const fs=await import("node:fs");for(let i=0;i<100;i++){if(fs.existsSync(${JSON.stringify(freigabe)})){console.error("FREIGABE");return new Response("{}",{status:500})}await new Promise((r)=>setTimeout(r,50))}console.error("KEINE-FREIGABE")}return new Response("{}",{status:500})}`
   const rot = [
     { status: 'completed', conclusion: 'success', createdAt: '2026-10-18T01:00:00Z', databaseId: 1 },
     { status: 'completed', conclusion: 'failure', createdAt: '2026-10-18T02:00:00Z', databaseId: 2 },
   ]
-  const hang = fahre([omu()], rot, langsam, false)
-  assert.equal(hang.status, 0, hang.stderr)
-  const bestand = hang.stdout.indexOf('ALARM Bestandsbau')
-  const synchro = hang.stdout.indexOf('SYNCHRO? Wartezeit nicht lesbar')
+  const kind = spawn(process.execPath, ['--import', stub(rot, wartend), aufraeumen, '--trocken', '--gesundheit', gesundheit], {
+    timeout: 60_000,
+    env: { ...process.env, LAUF_TOKEN: '', AK_SYNCHRO_QUELLE: '' },
+  })
+  let aus = ''
+  let fehl = ''
+  kind.stdout.on('data', (d) => {
+    aus += d
+    if (aus.includes('ALARM Bestandsbau')) writeFileSync(freigabe, 'ja')
+  })
+  kind.stderr.on('data', (d) => {
+    fehl += d
+  })
+  const status = await new Promise((fertig) => kind.on('close', fertig))
+  assert.equal(status, 0, fehl)
+  assert.match(fehl, /FREIGABE/)
+  assert.doesNotMatch(fehl, /KEINE-FREIGABE/, aus.slice(0, 600))
+  const bestand = aus.indexOf('ALARM Bestandsbau')
+  const synchro = aus.indexOf('SYNCHRO? Wartezeit nicht lesbar')
   assert.ok(bestand >= 0 && synchro > bestand, `Bestandsbau-ALARM (${bestand}) vor der Synchro-Zeile (${synchro})`)
-  assert.match(hang.stdout, /^WACHE nicht geprüft: Synchro-Wartezeit \(/m)
+  assert.match(aus, /^WACHE nicht geprüft: Synchro-Wartezeit \(/m)
 } finally {
   rmSync(wegwerf, { recursive: true, force: true })
 }
