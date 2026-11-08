@@ -14,13 +14,12 @@ import { WURZELN } from './pr-aussehen-pfade.test.mjs'
 
 const WURZEL = resolve(import.meta.dirname, '..')
 
-/** Nachtlauf-Befehle, die der PR bewusst nicht fährt. Stand 25.10.2026: neun offene Lücken (Folgeauftrag: in die Matrix aufnehmen). */
+/** Nachtlauf-Befehle, die der PR bewusst nicht fährt. Stand 07.11.2026: acht offene Lücken (Folgeauftrag: in die Matrix aufnehmen). */
 export const AUSNAHMEN = {
   'check:trailer': 'Lücke 25.10.2026: nur nachts, noch nicht in der PR-Matrix',
   'check:tv-schalter': 'Lücke 25.10.2026: nur nachts, noch nicht in der PR-Matrix',
   'check:news': 'Lücke 25.10.2026: nur nachts, noch nicht in der PR-Matrix',
   'check:news --handy': 'Lücke 25.10.2026: nur nachts, noch nicht in der PR-Matrix',
-  'check:kasten': 'Lücke 25.10.2026: nur nachts, noch nicht in der PR-Matrix',
   'check:disney-kasten': 'Lücke 25.10.2026: nur nachts, noch nicht in der PR-Matrix',
   'check:netflix-player': 'Lücke 25.10.2026: nur nachts, noch nicht in der PR-Matrix',
   'check:netflix-kasten': 'Lücke 25.10.2026: nur nachts, noch nicht in der PR-Matrix',

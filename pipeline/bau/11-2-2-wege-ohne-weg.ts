@@ -16,6 +16,12 @@ export const PHYSISCHE_SHOPS =
   /amazon dvd|blu-ray|thalia|hugendubel|buecher|zavvi|jpc|zoxs|medimops|verleihshop|behind the tree|videobuster/i
 
 /**
+ * Der Disc-Weg aus `11-1` (aniSearch-Artikel, `data/disc-ausgaben.json`) sagt nichts darüber, wo man den Titel sehen kann, und schließt den
+ * Riegel „ohne jeden Weg" deshalb nicht: Mit dem Weg gingen 26 Titel ihre JustWatch-Rückfallwege verloren (Netflix, ADN, Rtl+), 06.11.2026.
+ */
+const istAnisearchDisc = (w: WatchLink): boolean => w.kind === 'buy' && w.name === 'aniSearch'
+
+/**
  * **Ein Titel ohne jeden Bezugsweg — was JustWatch dazu kennt.**
  *
  * 243 Titel im Hauptbestand hatten am 07.09.2026 keinen einzigen Weg. Für
@@ -32,7 +38,7 @@ export const PHYSISCHE_SHOPS =
  *
  * | Riegel | warum |
  * |---|---|
- * | nur Anbieter, die der Titel **noch nicht** hat (`vorhandeneAnbieter`) | unsere Adresse beim selben Anbieter ist die geprüfte; ein anderer Weg (auch der aniSearch-Disc-Link) beantwortet die Frage nach Netflix oder Disney+ nicht (06.11.2026: 292 von 298 Titeln mit JustWatch-Angeboten blieben so ohne sie) |
+ * | nur Anbieter, die der Titel **noch nicht** hat (`vorhandeneAnbieter`) | unsere Adresse beim selben Anbieter ist die geprüfte; ein anderer Stream beantwortet die Frage nach Netflix oder Disney+ nicht (06.11.2026: 292 von 298 Titeln mit JustWatch-Angeboten blieben so ohne sie); gilt nur bei Titeln mit Stream, ohne Stream schließt jeder Bezugsweg außer dem aniSearch-Disc-Link (PR 3029, `check-disc-folgewirkung.ts`) |
  * | nichts, was einmal entfernt wurde | sonst kommt ein belegtes Nein über die Hintertür zurück |
  * | „JustWatch TV" fliegt raus | die Eigenwerbung des Dienstes, führt zurück auf justwatch.com |
  * | höchstens vier je Titel | eine Liste von zwölf Amazon-Varianten beantwortet keine Frage |
@@ -49,13 +55,16 @@ export function ergaenzeWegeOhneWeg({ titles, jw, handNein, tmdbMehrdeutig, istT
 }) {
   let jwWege = 0
   for (const title of titles.values()) {
+    /* Mit Stream gilt `vorhandeneAnbieter`; ohne Stream schließt jeder Bezugsweg außer dem aniSearch-Disc-Link den Riegel (PR 3029). */
+    if (!(title.streams ?? []).length && (title.watchLinks ?? []).some((w) => !istAnisearchDisc(w))) continue
     /* JustWatch findet den Titel über dieselbe TMDB-Kennung — mehrdeutig heißt auch hier: nicht verwenden. */
     if (tmdbMehrdeutig.has(String(title.id))) continue
     const b = jw[String(title.id)]
     if (!b || b.ohneTreffer || !b.angebote?.length) continue
     const wege: WatchLink[] = []
     const da = vorhandeneAnbieter(title)
-    const leer = !da.plattformen.size && !da.namen.size
+    /* Nur der aniSearch-Disc-Link am Titel (ohne Stream) gilt weiter als „ohne jeden Weg“ (PR 3029). */
+    const leer = !da.plattformen.size && [...da.namen].every((n) => n === 'aniSearch')
     for (const a of nachArt(b.angebote)) {
       if (!a.url || /^justwatch/i.test(a.anbieter)) continue
       if (istTot(a.url)) continue
@@ -96,7 +105,7 @@ export function ergaenzeWegeOhneWeg({ titles, jw, handNein, tmdbMehrdeutig, istT
       if (wege.length >= 4) break
     }
     if (!wege.length) continue
-    title.watchLinks = [...(title.watchLinks ?? []), ...wege]
+    title.watchLinks = [...wege, ...(title.watchLinks ?? [])]
     jwWege += wege.length
   }
   if (jwWege) log(`${jwWege} Bezugswege aus JustWatch für Anbieter ergänzt, die der Titel noch nicht hatte`)

@@ -9,11 +9,11 @@ export interface EigeneLage {
   warnungen: string[]
 }
 
-/** Was an einem vorhandenen eigenen Titel fehlt: der Termin beim belegten Anbieter, das Cover (es gibt keine Quelle, bis eine TMDB-Zuordnung getragen ist). */
+/** Was an einem vorhandenen eigenen Titel fehlt: der Termin beim belegten Anbieter, das Cover (`tmdb` steht in der Handdatei, das Plakat kommt mit dem nächsten Plakatlauf; `coverGrund` entschuldigt). */
 function fehlendes(e: EigenerEintrag, titel: Titel, releases: { titleId: number; platform: string }[]): string[] {
   const raus: string[] = []
   if (!releases.some((r) => r.titleId === titel.id && e.anbieter.includes(r.platform))) raus.push(`„${e.name}“ (Zeile ${e.nr}): die Meldung hat keinen Termin bei ${e.anbieter.join('/')} ergeben — der Titel steht ohne Datum im Kalender`)
-  if (!titel.coverImage) raus.push(`„${e.name}“ (Zeile ${e.nr}) hat kein Cover — der Titel steht ohne Bild im Kalender`)
+  if (!titel.coverImage && !e.coverGrund) raus.push(`„${e.name}“ (Zeile ${e.nr}) hat kein Cover — das Plakat von ${e.tmdb} holt der nächste Plakatlauf, bis dahin steht der Titel ohne Bild im Kalender`)
   return raus
 }
 

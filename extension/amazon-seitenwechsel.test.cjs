@@ -30,7 +30,7 @@ function pruefe(name, bedingung, gefunden) {
 
 console.log('Zusicherungen zum Seitenwechsel (Bungo Stray Dogs, 10.09.2026)\n')
 
-const quelle = readFileSync(resolve(__dirname, 'amazon.js'), 'utf8')
+const quelle = readFileSync(resolve(__dirname, 'amazon-knopf-zeichnen.js'), 'utf8') + readFileSync(resolve(__dirname, 'amazon.js'), 'utf8')
 
 /* --- Die Unterscheidung selbst, wirklich ausgeführt --- */
 const stueck = quelle.match(/function quelltextVonFruehererSeite\(\) \{[\s\S]*?\n  \}/)

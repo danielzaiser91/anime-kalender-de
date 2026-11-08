@@ -38,6 +38,7 @@ const jw: Record<number, unknown> = {
   900209: befund([thalia(9), netflix(9), { anbieter: 'Crunchyroll', art: 'FLATRATE', url: 'https://www.crunchyroll.com/series/G10' }]),
   900211: befund([netflix(11)]),
   900212: befund([netflix(12)]),
+  900213: befund([netflix(13)]),
   900210: befund([apple(10), netflix(10), disney(10), { anbieter: 'Joyn', art: 'FREE', url: 'https://www.joyn.de/serien/y' }, { anbieter: 'MagentaTV', art: 'FLATRATE', url: 'https://www.telekom.de/magentatv/z' }, { anbieter: 'Videoload', art: 'RENT', url: 'https://www.videoload.de/film/y' }]),
 }
 writeFileSync(join(wurzel, 'data', 'justwatch-audio.json'), JSON.stringify(jw))
@@ -60,7 +61,7 @@ try {
   const { ergaenzeWegeAusJustwatch } = await import('./bau/11-2-justwatch.ts')
   const { ergaenzeWegeOhneWeg } = await import('./bau/11-2-2-wege-ohne-weg.ts')
   const disc = { name: 'aniSearch', url: 'https://www.anisearch.de/article/1,x', kind: 'buy', zugang: 'kauf' }
-  const titel = (id: number, extra: Partial<Title> = {}) => ({ id, streams: [], watchLinks: [disc], keywords: [], genres: [], ...extra }) as unknown as Title
+  const titel = (id: number, extra: Partial<Title> = {}) => ({ id, streams: [stream('youtube')], watchLinks: [disc], keywords: [], genres: [], ...extra }) as unknown as Title
   const stream = (platform: string) => ({ platform, url: `https://example.org/${platform}` })
   const titles = new Map<number, Title>(
     [
@@ -72,10 +73,11 @@ try {
       titel(900206),
       titel(900207),
       titel(900208),
-      titel(900209, { watchLinks: [] }),
+      titel(900209, { streams: [], watchLinks: [] }),
       titel(900210),
       titel(900211, { watchLinks: [disc as never, { name: 'Netflix', url: 'https://www.netflix.com/title/1', kind: 'stream', zugang: 'abo' } as never] }),
-      titel(900212, { watchLinks: [] }),
+      titel(900212, { streams: [], watchLinks: [] }),
+      titel(900213, { watchLinks: [{ name: 'Amazon', url: 'https://www.amazon.de/dp/B0X', kind: 'buy', zugang: 'kauf' } as never] }),
     ].map((t) => [t.id, t]),
   )
   ergaenzeWegeAusJustwatch({ titles, tmdbMehrdeutig: new Set(['900208']), istTot: () => false })
@@ -84,6 +86,7 @@ try {
 
   pruefe('Disc-Link allein verdrängt Netflix nicht mehr (900201)', neue(900201).includes('Netflix'), namen(900201))
   pruefe('Abo steht vor Leihe/Kauf (900201)', neue(900201).indexOf('Netflix') < neue(900201).indexOf('Apple TV'), namen(900201))
+  pruefe('mit Stream schließt ein anderer Kauflink den Riegel nicht, Netflix kommt dazu (900213)', namen(900213).includes('Netflix'), namen(900213))
   pruefe('Disc-Händler kommt nicht zu einem Titel mit Weg (900201)', !namen(900201).includes('Thalia'), namen(900201))
   pruefe('der Disc-Link bleibt stehen (900201)', namen(900201).includes('aniSearch'), namen(900201))
   pruefe('selber Anbieter wie der Stream: kein Doppel (900202)', !namen(900202).includes('Netflix'), namen(900202))

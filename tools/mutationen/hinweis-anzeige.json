@@ -1,0 +1,8 @@
+[
+  { "name": "Kontrolle", "aenderungen": [] },
+  { "name": "KinoBanner liest nur die Bedingung aus note", "datei": "web/src/components/detail/kino.tsx", "suche": "{release.hinweis && (", "ersetze": "{release.note && (" },
+  { "name": "KinoBanner zeigt note im Absatz", "datei": "web/src/components/detail/kino.tsx", "suche": "text-ak-warnung-text\">{release.hinweis}</p>", "ersetze": "text-ak-warnung-text\">{release.note}</p>" },
+  { "name": "AntwortBereich reicht note statt hinweis an den Kasten", "datei": "web/src/components/detail/antwort-bereich.tsx", "suche": "notiz={kastenNotiz?.hinweis}", "ersetze": "notiz={kastenNotiz?.note}" },
+  { "name": "AntwortBereich reicht schnitt als Notiz", "datei": "web/src/components/detail/antwort-bereich.tsx", "suche": "notiz={kastenNotiz?.hinweis}", "ersetze": "notiz={kastenNotiz?.schnitt}" },
+  { "name": "AntwortBereich reicht keine Notiz", "datei": "web/src/components/detail/antwort-bereich.tsx", "suche": "notiz={kastenNotiz?.hinweis}", "ersetze": "notiz={undefined}" }
+]

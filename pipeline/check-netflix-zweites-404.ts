@@ -3,6 +3,8 @@
  * 14 Titel verloren ihren Netflix-Weg an einem einmaligen 404, obwohl alle Adressen seit 18.09. durchgehend 200 waren).
  * Dazu der Wächter: mehr als 10 % Lebt/Tot-Wechsel einer Plattform in einem Lauf (Mindestmenge 20) warnen.
  * 1. `netflixBefund`: Tabelle der Vorbefunde, Grenze 1/2/3 Tage, Jahreswechsel, andere Anbieter und Status unverändert.
+ * 1b. Seit 05.11.2026: ein Netflix-404 entfernt keinen Weg mit belegtem Deutsch (Handbeleg, Vorstand, geführter Abgang), auch kein bestätigtes —
+ *     die CI sah dieselben 34 Adressen drei Tage lang als 404, das zweite 404 war kein unabhängiger Beleg. Andere Anbieter unverändert.
  * 2. Kreislauf: Lauf 1 (200 -> 404), Bau, Lauf 2 am nächsten Tag, Bau, Lauf 3 nach einer Woche, Bau — durch die echte Bauphase 09-2.
  * 3. `zaehleWechsel` / `wechselWarnungen`: genau 10 % warnt nicht, 11 % ab 20 Adressen warnt, Nichtauskunft zählt nicht.
  */
@@ -11,6 +13,7 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import type { Title } from '../shared/types.ts'
 import type { LinkBefund } from './lib/link-befund.ts'
+import type { DubCheck } from './lib/dub-confirmed.ts'
 
 const kulisse = mkdtempSync(join(tmpdir(), 'netflix-zweites-404-'))
 process.env.AK_ROOT = kulisse
@@ -28,8 +31,9 @@ try {
   mkdirSync(join(kulisse, 'data/curated'), { recursive: true })
   writeFileSync(join(kulisse, 'data/kino-ankuendigungen.yaml'), '[]\n')
   writeFileSync(join(kulisse, 'data/dub-confirmed.yaml'), '# leer\n')
-  const { netflixBefund, nimmBefund, zaehleWechsel, wechselWarnungen, zweitesNetflix404, hat404 } = await import('./lib/link-rauschen.ts')
+  const { wegBelegtDeutsch, netflixBefund, nimmBefund, zaehleWechsel, wechselWarnungen, zweitesNetflix404, hat404 } = await import('./lib/link-rauschen.ts')
   const { werteLinkpruefungAus } = await import('./bau/09-2-linkpruefung.ts')
+  const { dubKey, adressKern } = await import('./lib/dub-confirmed.ts')
 
   /* 1. Tabelle. Werte fest eingetragen, nicht aus dem Modul gelesen. */
   const tot = (am: string): LinkBefund => ({ status: 404, geprueftAm: am })
@@ -55,25 +59,27 @@ try {
 
   /* 2. Kreislauf durch die echte Bauphase: Lauf, Bau, nächster Lauf, Bau. */
   /** Der Bau über einen Titel mit einem Netflix-Weg `weg`; `befunde` ist der Inhalt von `link-check.json`. */
-  const baueMit = (befunde: Record<string, LinkBefund>, weg: string) => {
+  let gehalten = -1
+  const baueMit = (befunde: Record<string, LinkBefund>, weg: string | string[], vorher: Title[] = [DEUTSCH], plattform = 'netflix', belege = new Map<string, DubCheck[]>(), hand = new Map<string, string>()) => {
     writeFileSync(join(kulisse, 'data/link-check.json'), JSON.stringify(befunde))
-    const titles = new Map<number, Title>([[1735, { id: 1735, streams: [{ platform: 'netflix', url: weg }], entfernteStreams: [] } as unknown as Title]])
-    werteLinkpruefungAus({
+    const wege = [weg].flat().map((url) => ({ platform: plattform, url }))
+    const titles = new Map<number, Title>([[1735, { id: 1735, streams: wege, entfernteStreams: [] } as unknown as Title]])
+    gehalten = werteLinkpruefungAus({
       ytKanal: {},
       ytKauf: new Set(),
       titles,
       netflixOhneKennung: 0,
-      checksJePlattform: new Map(),
+      checksJePlattform: belege,
       youtubeBefunde: {},
       belegFuer: () => undefined,
-      vonHandBelegtAm: new Map(),
+      vonHandBelegtAm: hand,
       checks: new Map(),
-      vorherTitles: [DEUTSCH],
-    })
+      vorherTitles: vorher,
+    }).netflix404Gehalten
     return titles.get(1735)
   }
-  const baue = (befund: LinkBefund) => {
-    const t = baueMit({ [NF]: befund }, NF)
+  const baue = (befund: LinkBefund, vorher?: Title[], plattform?: string, url = NF, belege?: Map<string, DubCheck[]>) => {
+    const t = baueMit({ [url]: befund }, url, vorher, plattform, belege)
     return { wege: t?.streams.length, abgang: t?.entfernteStreams?.length ?? 0 }
   }
   /* Netflix-Riegel (Bau 09-2): zwei Formen derselben Kennung, die neue (`/title/`) mit erstem 404, die alte (`/watch/`) lebt. */
@@ -93,10 +99,35 @@ try {
   const lauf2 = netflixBefund(NF, lauf1, tot('2026-11-03'))
   erwarte('Bau nach Lauf 2 (1 Tag später): Weg bleibt', baue(lauf2), { wege: 1, abgang: 0 })
   const lauf3 = netflixBefund(NF, lauf2, tot('2026-11-09'))
-  erwarte('Bau nach Lauf 3 (zweites 404 nach einer Woche): Weg geht', baue(lauf3), { wege: 0, abgang: 1 })
+  erwarte('Bau nach Lauf 3 (zweites 404 nach einer Woche) bei belegtem Deutsch: Weg bleibt', baue(lauf3), { wege: 1, abgang: 0 })
+  erwarte('Bau nach Lauf 3 ohne belegtes Deutsch: Weg geht, ohne Abgangsvermerk', baue(lauf3, []), { wege: 0, abgang: 0 })
+  erwarte('Bau nach Lauf 3, Vorstand ohne Ja (dub false): Weg geht', baue(lauf3, [{ id: 1735, streams: [{ platform: 'netflix', url: NF, dub: false }] } as unknown as Title]), { wege: 0, abgang: 0 })
+  /* Der Vorstand zählt auch den schon geführten Abgang: nach dem Bau vom 04.11. kommt der Weg so zurück. */
+  const alsAbgang = [{ id: 1735, streams: [], entfernteStreams: [{ platform: 'netflix', url: NF, dub: true }] } as unknown as Title]
+  erwarte('Bau nach Lauf 3, Deutsch nur als geführter Abgang: Weg bleibt', baue(lauf3, alsAbgang), { wege: 1, abgang: 0 })
+  const handBeleg = new Map([[dubKey(1735, 'netflix'), [{ dub: true, url: NF } as unknown as DubCheck]]])
+  erwarte('Bau nach Lauf 3, Deutsch nur per Handbeleg: Weg bleibt', baue(lauf3, [], 'netflix', NF, handBeleg), { wege: 1, abgang: 0 })
+  erwarte('Zähler: gehaltene Netflix-Wege mit 404', gehalten, 1)
+  const fremdBeleg = new Map([[dubKey(1735, 'netflix'), [{ dub: true, url: 'https://www.netflix.com/title/999' } as unknown as DubCheck]]])
+  erwarte('Bau nach Lauf 3, Handbeleg einer anderen Adresse: Weg geht', baue(lauf3, [], 'netflix', NF, fremdBeleg), { wege: 0, abgang: 1 })
+  baue(lauf3, [])
+  erwarte('Zähler: nichts gehalten ohne Deutsch', gehalten, 0)
+  /* Eine jüngere Handbestätigung hält den Weg ohnehin (handSticht); er zählt dann nicht als vom Deutsch-Riegel gehalten. */
+  const handJung = baueMit({ [NF]: tot('2026-11-09') }, NF, [DEUTSCH], 'netflix', undefined, new Map([[adressKern(NF), '2026-11-10']]))
+  erwarte('Handbestätigung jünger als der Befund: Weg bleibt, Zähler 0', [handJung?.streams.length, gehalten], [1, 0])
+  /* A1: zwei Netflix-Wege am Titel, X deutsch, Y (Staffel 3) mit bestätigtem 404 und nie deutsch: Y geht, X bleibt. */
+  const Y = 'https://www.netflix.com/title/81000333'
+  const zwei = baueMit({ [NF]: { status: 200, geprueftAm: '2026-11-09' }, [Y]: tot('2026-11-09') }, [NF, Y])
+  erwarte('Zwei Wege, Y mit 404 ohne eigenes Deutsch: Y geht, X bleibt', [zwei?.streams.map((s) => s.url), gehalten], [[NF], 0])
+  const beide = baueMit({ [NF]: tot('2026-11-09'), [Y]: tot('2026-11-09') }, [NF, Y])
+  erwarte('Zwei Wege mit 404, nur X deutsch: X bleibt, Y geht', [beide?.streams.map((s) => s.url), gehalten], [[NF], 1])
+  const joyn = 'https://www.joyn.de/serien/x'
+  const joynVorher = [{ id: 1735, streams: [{ platform: 'joyn', url: joyn, dub: true }] } as unknown as Title]
+  erwarte('Anderer Anbieter mit belegtem Deutsch: bestätigtes 404 entfernt weiter', baue(tot('2026-11-09'), joynVorher, 'joyn', joyn), { wege: 0, abgang: 1 })
   const erholt = netflixBefund(NF, lauf2, { status: 200, geprueftAm: '2026-11-09' })
   erwarte('Bau nach 200 statt zweitem 404: Weg bleibt, kein erstes404 mehr', [baue(erholt), (erholt as LinkBefund).erstes404], [{ wege: 1, abgang: 0 }, undefined])
-  erwarte('Kontrolle: hartes 404 entfernt weiter', baue(tot('2026-11-02')), { wege: 0, abgang: 1 })
+  erwarte('Kontrolle: hartes 404 ohne belegtes Deutsch entfernt weiter', baue(tot('2026-11-02'), []), { wege: 0, abgang: 0 })
+  erwarte('Netflix mit belegtem Deutsch, Region-Befund: entfernt weiter (nur 404 ist Rauschen)', baue({ status: 'region', geprueftAm: '2026-11-02' }), { wege: 0, abgang: 1 })
 
   erwarte('Adresse nicht lesbar: kein Netflix', netflixBefund('keine adresse', undefined, tot('2026-11-02')), tot('2026-11-02'))
   erwarte('erstes404 nur aus unklar: ein Rest an anderem Status zählt nicht', netflixBefund(NF, { status: 200, geprueftAm: '2026-10-01', erstes404: '2026-10-01' }, tot('2026-11-05')), ersterTag('2026-11-05', '2026-11-05'))
@@ -158,6 +189,13 @@ try {
   erwarte('Kette 503, timeout, unklar, dann 404 nach der Frist: bestätigt', kette([503, 'timeout', 'unklar'], '2026-11-02'), tot('2026-11-02'))
   erwarte('Kette 503, timeout, dann 404: Vermerk überlebt beide Nichtauskünfte', kette([503, 'timeout'], '2026-10-29')?.status, 404)
 
+  /* 2d. `wegBelegtDeutsch`: je Adresse, nur mit Ja. */
+  erwarte('Weg: gleiche Adresse mit Ja', wegBelegtDeutsch(NF, [{ url: NF, dub: true }]), true)
+  erwarte('Weg: andere Adresse mit Ja', wegBelegtDeutsch(NF, [{ url: 'https://www.netflix.com/title/999', dub: true }]), false)
+  erwarte('Weg: gleiche Adresse mit Nein oder ohne Urteil', [wegBelegtDeutsch(NF, [{ url: NF, dub: false }]), wegBelegtDeutsch(NF, [{ url: NF }])], [false, false])
+  erwarte('Weg: Beleg ohne Adresse zählt nicht', wegBelegtDeutsch(NF, [{ dub: true }]), false)
+  erwarte('Weg: keine Wege', wegBelegtDeutsch(NF, []), false)
+
   /* 3. Wächter. */
   const lauf = (anzahl: number, wechsler: number, host = 'www.netflix.com', alt: unknown = 200, neu: unknown = 404) =>
     Array.from({ length: anzahl }, (_, i) => ({ url: `https://${host}/title/${i}`, alt, neu: i < wechsler ? neu : alt }))
@@ -186,4 +224,4 @@ if (fehler.length) {
   console.error(`check-netflix-zweites-404: ${fehler.join('; ')}`)
   process.exit(1)
 }
-console.log(`check-netflix-zweites-404: ${pruefungen} Fälle — einzelnes Netflix-404 lässt den Weg stehen, zweites nach 2 Tagen entfernt ihn, mehr als 10 % Wechsel je Plattform warnt.`)
+console.log(`check-netflix-zweites-404: ${pruefungen} Fälle — einzelnes Netflix-404 lässt den Weg stehen, zweites nach 2 Tagen entfernt ihn nur ohne belegtes Deutsch, mehr als 10 % Wechsel je Plattform warnt.`)
