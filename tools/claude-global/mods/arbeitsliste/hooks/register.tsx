@@ -1,15 +1,15 @@
 import { atom, read, update } from 'claude-code'
 import type { EngineInterface, Register, RenderSurface, Timer } from 'claude-code'
 
-import { KURZTITEL_MAX, kuerze, loeseZiel, schalte, schneide, sortiere, sortiereJetzt, teile, zaehle, zaehleLive, zaehlePipeline, zaehleVonDir, zuLang } from './zaehlen'
-import type { DanielEintrag, DanielTodo, Dringlichkeit, Eintrag, Liste, LiveEintrag, Ort, PipelineEintrag, Schnitt } from './zaehlen'
+import { KURZTITEL_MAX, kuerze, loeseZiel, schalte, schneide, sortiereJetzt, teile, zaehle, zaehlePipeline, zaehleVonDir, zuLang } from './zaehlen'
+import type { DanielEintrag, DanielTodo, Dringlichkeit, Eintrag, Liste, Ort, PipelineEintrag, Schnitt } from './zaehlen'
 import { BALD_MIN, DRINGEND_MIN, abstandMin, detailZeile, inKurz, sortiereRegeln, zaehleRegelmaessig } from './regelmaessig'
 import type { Regel } from './regelmaessig'
 import { baueLeiste } from './leiste'
 import type { LeisteStand } from './leiste'
 import { LOG, MESS_MARKER, haengeAn, messDauer, messStart, unterschied } from './messung'
 import { kopierText } from './kopieren'
-import { agentenText, istPruefer } from './pruefer'
+import { istPruefer } from './pruefer'
 import { bereichOffen, bereichsKennung, bereichsKopf, topPriosKasten } from './bereiche'
 import type { PrioUmfeld } from './bereiche'
 import { prioZeichenJeZeile, zaehleTopPrios, zeichenJeSpalte } from './prios'
@@ -31,18 +31,13 @@ const AKZENT = 'claude'
 // Themenschlüssel: folgt dem hellen/dunklen Thema (im Standardthema bläulich).
 const LINK_FARBE = 'suggestion'
 const MAX_ZEILEN = 2
-// Terminal-Darstellung der Warte-Art (Emoji aus stand.md); ⏰ markiert fällige Termine in Jetzt.
-const ICON: Record<string, string> = { kalender: '📅', wartet: '⏳', blockiert: '🚫' }
 // Jetzt: Icon und Themenfarbe je Dringlichkeit (rot / orange bis gelb / bläulich).
 const DRINGLICH_ICON: Record<Dringlichkeit, string> = { dringend: '🔴', heute: '🟠', bald: '🔵' }
 const DRINGLICH_FARBE: Record<Dringlichkeit, string> = { dringend: 'error', heute: 'warning', bald: 'suggestion' }
 
-const liste = atom({ plugin: 'arbeitsliste', key: 'liste' } as const, { inArbeit: [], todo: [] } as Liste)
 const vonDir = atom({ plugin: 'arbeitsliste', key: 'vonDir' } as const, { jetzt: [], spaeter: [] } as DanielTodo)
 // Zahl fälliger 📅-Einträge: nur wenn sie sich ändert, zeichnet der 30-s-Takt neu.
 const faellig = atom({ plugin: 'arbeitsliste', key: 'faellig' } as const, 0)
-// Schon auf 2 Tage gefiltert; der 30-s-Takt schreibt nur bei Änderung.
-const live = atom({ plugin: 'arbeitsliste', key: 'live' } as const, [] as LiveEintrag[])
 const pipeline = atom({ plugin: 'arbeitsliste', key: 'pipeline' } as const, [] as PipelineEintrag[])
 // Farbe der Ort-Marke in „In Pipeline“ (Themenschlüssel); „?“ fällt auf.
 const ORT_FARBE: Record<Ort, string> = { pipeline: 'warning', worker: AKZENT, warteliste: 'suggestion', deploy: 'success', '?': 'error' }
@@ -238,11 +233,8 @@ async function aktualisiere($: EngineInterface): Promise<void> {
     neu = zaehle(text)
     neuVon = zaehleVonDir(text)
     const nFaellig = teile(neuVon, new Date()).jetzt.filter(z => z.faellig).length
-    if (!gleich(await read($, liste), neu)) await update($, liste, () => neu as Liste)
     if (!gleich(await read($, vonDir), neuVon)) await update($, vonDir, () => neuVon as DanielTodo)
     if ((await read($, faellig)) !== nFaellig) await update($, faellig, () => nFaellig)
-    const neuLive = zaehleLive(text, new Date())
-    if (!gleich(await read($, live), neuLive)) await update($, live, () => neuLive)
     const neuPipeline = zaehlePipeline(text)
     if (!gleich(await read($, pipeline), neuPipeline)) await update($, pipeline, () => neuPipeline)
     const neueTop = zaehleTopPrios(text)
@@ -318,23 +310,16 @@ function mehrKnopf(Button: any, $: EngineInterface, id: string, s: Schnitt<unkno
   )
 }
 
-// Groß: fett mit Akzent und ◆; normal: Standard; klein: gedimmt mit ·.
-const symbol = (g: string, normal: string) => (g === 'gross' ? '◆' : g === 'klein' ? '·' : normal)
+// Groß: fett mit Akzent; normal: Standard; klein: gedimmt.
 const farbe = (g: string) => (g === 'gross' ? AKZENT : undefined)
 
 type PaneDaten = {
-  l: Liste
-  bis: string | null
-  still: Ruhe
-  sparen: boolean
   auf: number | null
   ausgeklappt: string[]
   jetztMs: number
   regelListe: ReturnType<typeof sortiereRegeln>
-  liveListe: LiveEintrag[]
   pipeListe: PipelineEintrag[]
   von: ReturnType<typeof teile>
-  agenten: Agent[]
   top: PrioEintrag[]
   ziele: ZielStand[]
   gerade: { titel: string[]; mehr: number }
@@ -343,24 +328,19 @@ type PaneDaten = {
 
 // Liest alle Atome des Panes; faellig und minute nur, damit der Render bei ihnen neu läuft.
 async function lesePaneDaten($: EngineInterface): Promise<PaneDaten> {
-  const l = await read($, liste)
-  const bis = await read($, autonomBis)
-  const still = await read($, ruhe)
-  const sparen = await read($, spar)
   const auf = await read($, offen)
   await read($, faellig)
   await read($, minute)
   const ausgeklappt = await read($, aufgeklappt)
   const jetztMs = Date.now()
   const regelListe = sortiereRegeln(await read($, regeln), jetztMs)
-  const liveListe = await read($, live)
   const pipeListe = await read($, pipeline)
   const von = teile(await read($, vonDir), new Date())
   const top = await read($, topPrios)
   const zieleListe = await read($, ziele)
   const geradeListe = await read($, gerade)
   const unterwegsListe = await read($, unterwegs)
-  return { l, bis, still, sparen, auf, ausgeklappt, jetztMs, regelListe, liveListe, pipeListe, von, agenten: agentenListe, top, ziele: zieleListe, gerade: geradeListe, unterwegs: unterwegsListe }
+  return { auf, ausgeklappt, jetztMs, regelListe, pipeListe, von, top, ziele: zieleListe, gerade: geradeListe, unterwegs: unterwegsListe }
 }
 
 // Grundbausteine des Panes: Breite, Kürzen, Kürzungsschnitte, Titel, Punkt, Aufklapp-Zeilen.
@@ -455,46 +435,6 @@ function baueVerweise($: EngineInterface, a: ReturnType<typeof baueAnsicht>) {
 
 type Ansicht = ReturnType<typeof baueAnsicht> & ReturnType<typeof baueVerweise>
 
-function paneAutonom(a: Ansicht, d: PaneDaten) {
-  const { Text } = a
-  return (
-    <Text dimColor={!d.bis} color={d.bis ? 'success' : undefined}>
-      {d.bis ? `● Autonomer Modus bis ${uhrzeit(d.bis)}` : '○ Autonomer Modus aus'}
-    </Text>
-  )
-}
-
-function paneRuhe(a: Ansicht, d: PaneDaten) {
-  const { Text } = a
-  if (!d.still) return null
-  return <Text color="warning">{d.still === 'sanft' ? '🔇 Ruhemodus sanft: Laufende enden, dann höchstens 2 Agenten (Prüfer zählen nicht)' : '🔇 Ruhemodus hart: höchstens 2 Agenten (Prüfer zählen nicht)'}</Text>
-}
-
-function paneSpar(a: Ansicht, d: PaneDaten) {
-  const { Text } = a
-  if (!d.sparen) return null
-  return <Text color="suggestion">● Sparmodus: nur Sonnet mittel und Haiku als Subagenten</Text>
-}
-
-function paneLive(a: Ansicht, d: PaneDaten) {
-  const { Box, kopf, istAuf, titel, punkt, verweise, details, mehr, schnitt } = a
-  if (!d.liveListe.length) return null
-  const liveS = schnitt(d.liveListe, 'live')
-  return (
-    <Box flexDirection="column">
-      {kopf('live', 'Neu und jetzt live testbar:')}
-      {!istAuf('live') ? null : liveS.sichtbar.map((z, i) => (
-        <Box flexDirection="column" key={`live-${i}`}>
-          {zeile(Box, `live-z-${i}`, punkt(`live:${i}`, '✦', 400 + i), titel(z))}
-          {verweise(z, 'v-live-' + i)}
-          {d.auf === 400 + i ? details(z, `live:${i}`) : null}
-        </Box>
-      ))}
-      {istAuf('live') ? mehr('live', liveS) : null}
-    </Box>
-  )
-}
-
 function paneJetzt(a: Ansicht, d: PaneDaten) {
   const { Box, Text, kopf, istAuf, jetztTitel, punkt, verweise, details, mehr, schnitt } = a
   const jetztS = schnitt(sortiereJetzt(d.von.jetzt), 'jetzt')
@@ -514,104 +454,15 @@ function paneJetzt(a: Ansicht, d: PaneDaten) {
   )
 }
 
-function paneSpaeter(a: Ansicht, d: PaneDaten) {
-  const { Box, Text, kopf, istAuf, kt, punkt, verweise, details, mehr, schnitt } = a
-  if (!d.von.spaeter.length) return null
-  const spaetS = schnitt(d.von.spaeter, 'spaeter')
-  return (
-    <Box flexDirection="column">
-      {kopf('spaeter', 'Später', d.von.spaeter.length, true)}
-      {!istAuf('spaeter') ? null : spaetS.sichtbar.map((z: DanielEintrag, i) => (
-        <Box flexDirection="column" key={`spaet-${i}`}>
-          {zeile(Box, `spaet-z-${i}`, punkt(`spaet:${i}`, ICON[z.icon ?? ''] ?? '○', 200 + i), <Text dimColor wrap="wrap">{kt(z.titel)}</Text>)}
-          {verweise(z, 'v-spaet-' + i)}
-          {d.auf === 200 + i ? details(z, `spaet:${i}`) : null}
-        </Box>
-      ))}
-      {istAuf('spaeter') ? mehr('spaeter', spaetS) : null}
-    </Box>
-  )
-}
-
-function paneAgenten($: EngineInterface, a: Ansicht, d: PaneDaten) {
-  const { Box, Button, Text, kopf, istAuf, breite, gesamt, stumm, mehr, schnitt } = a
-  if (!d.agenten.length) return null
-  const agentS = schnitt(d.agenten, 'agenten')
-  return (
-    <Box flexDirection="column">
-      {kopf('agenten', agentenText(d.agenten.filter(x => !istPruefer(x)).length, d.agenten.filter(istPruefer).length).replace('Agents', 'Agenten'))}
-      {istAuf('agenten') ? <Button key="agenten" plain dimColor label="    Agents öffnen" onPress={() => void schalteSavvyPane($)} /> : null}
-      {!istAuf('agenten') ? null : agentS.sichtbar.map((x, i) =>
-        zeile(
-          Box,
-          `agent-${i}`,
-          stumm('●', AKZENT),
-          <Text wrap="wrap">
-            {kuerze(x.description, gesamt(breite) - (x.stepTotal ? 6 : 0))}
-            {x.stepTotal ? <Text dimColor>  {x.stepDone ?? 0}/{x.stepTotal}</Text> : null}
-          </Text>,
-        ),
-      )}
-      {istAuf('agenten') ? mehr('agenten', agentS) : null}
-    </Box>
-  )
-}
-
-function paneInArbeit(a: Ansicht, d: PaneDaten) {
-  const { Box, Text, kopf, istAuf, titel, punkt, verweise, details, mehr, schnitt } = a
-  const arbeit = sortiere(d.l.inArbeit)
-  const arbeitS = schnitt(arbeit.filter(z => z.groesse !== 'klein'), 'arbeit')
-  const kleinS = schnitt(arbeit.filter(z => z.groesse === 'klein'), 'klein', 0)
-  // Die Nummer ist die Stelle in der sortierten Liste, damit sie beim Kürzen und Aufklappen stehen bleibt.
-  const arbeitZeile = (z: Eintrag) => {
-    const i = arbeit.indexOf(z)
-    return (
-      <Box flexDirection="column" key={`now-${i}`}>
-        {zeile(Box, `now-z-${i}`, punkt(`now:${i}`, symbol(z.groesse, '●'), i), titel(z))}
-        {verweise(z, 'v-now-' + i)}
-        {d.auf === i ? details(z, `now:${i}`) : null}
-      </Box>
-    )
-  }
-  return (
-    <Box flexDirection="column">
-      {kopf('arbeit', 'In Arbeit', d.l.inArbeit.length)}
-      {istAuf('arbeit') && d.l.inArbeit.length === 0 ? <Text dimColor>  nichts</Text> : null}
-      {istAuf('arbeit') ? arbeitS.sichtbar.map(arbeitZeile) : null}
-      {istAuf('arbeit') ? mehr('arbeit', arbeitS) : null}
-      {istAuf('arbeit') ? kleinS.sichtbar.map(arbeitZeile) : null}
-      {istAuf('arbeit') ? mehr('klein', kleinS, 'Kleinigkeiten') : null}
-    </Box>
-  )
-}
-
 // Laufende Punkte aus den Kennzeichen von stand.md, höchstens fünf (Rang: tools/naechster.mjs).
 function paneGerade(a: Ansicht, d: PaneDaten) {
-  const { Box, Text } = a
+  const { Box, Text, kopf, istAuf } = a
   if (!d.gerade.titel.length) return null
   return (
     <Box flexDirection="column">
-      <Text bold>Gerade in Arbeit</Text>
-      {d.gerade.titel.map((t, i) => <Text key={`gerade-${i}`} wrap="wrap">{`  ● ${t}`}</Text>)}
-      {d.gerade.mehr ? <Text dimColor>{`  + ${d.gerade.mehr} weitere`}</Text> : null}
-    </Box>
-  )
-}
-
-function paneNaechstes(a: Ansicht, d: PaneDaten) {
-  const { Box, Text, kopf, istAuf, kt, stumm, verweise, mehr, schnitt } = a
-  const later = schnitt(sortiere(d.l.todo), 'todo')
-  return (
-    <Box flexDirection="column">
-      {kopf('todo', 'Als Nächstes', d.l.todo.length, true)}
-      {istAuf('todo') && d.l.todo.length === 0 ? <Text dimColor>  nichts</Text> : null}
-      {!istAuf('todo') ? null : later.sichtbar.map((z, i) => (
-        <Box flexDirection="column" key={`later-${i}`}>
-          {zeile(Box, `later-z-${i}`, stumm(symbol(z.groesse, '○'), farbe(z.groesse)), <Text dimColor={z.groesse !== 'gross'} bold={z.groesse === 'gross'} wrap="wrap">{kt(z.titel)}</Text>)}
-          {verweise(z, 'v-later-' + i)}
-        </Box>
-      ))}
-      {istAuf('todo') ? mehr('todo', later) : null}
+      {kopf('gerade', 'Gerade in Arbeit')}
+      {istAuf('gerade') ? d.gerade.titel.map((t, i) => <Text key={`gerade-${i}`} wrap="wrap">{`  ● ${t}`}</Text>) : null}
+      {istAuf('gerade') && d.gerade.mehr ? <Text dimColor>{`  + ${d.gerade.mehr} weitere`}</Text> : null}
     </Box>
   )
 }
@@ -706,17 +557,9 @@ async function zeichnePane($: EngineInterface, e: any) {
   return (
     <Box flexDirection="column" gap={1} paddingX={1}>
       {topPriosKasten($.ui.resolve(e), d.top, prioUmfeld($, e, d, a.oeffne))}
-      {paneAutonom(a, d)}
-      {paneRuhe(a, d)}
-      {paneSpar(a, d)}
-      {paneLive(a, d)}
       {paneJetzt(a, d)}
       {unterwegsBereich(a, d.unterwegs, d.jetztMs)}
       {paneGerade(a, d)}
-      {paneSpaeter(a, d)}
-      {paneAgenten($, a, d)}
-      {paneInArbeit(a, d)}
-      {paneNaechstes(a, d)}
       {panePipeline(a, d)}
       {paneRegeln($, a, d)}
     </Box>

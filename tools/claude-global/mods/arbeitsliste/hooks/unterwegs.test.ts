@@ -1,6 +1,6 @@
 import { test, expect } from 'claude-code/testing'
 
-import { PANE, STAND, hat, zeilen, starte } from './testhilfe'
+import { PANE, STAND, zeilen, starte } from './testhilfe'
 import { alterMin, dauerMin, dauerText, haengt, kurzDauer, labelText, langsam, seitText, zaehleUnterwegs } from './unterwegs'
 
 // Feste Uhr: 08.11.2026 15:00 Ortszeit.
