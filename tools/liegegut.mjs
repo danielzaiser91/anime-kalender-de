@@ -6,6 +6,7 @@
  */
 import { mitLimit } from './kind-mit-limit.mjs'
 import { pathToFileURL } from 'node:url'
+import fs from 'node:fs'
 
 const STUNDE = 3600 * 1000
 // Schwellen (Stand 21.10.2026, aus dem Liegegut-Bericht der 13 PRs vom 21.10.: kürzer meldet bei normalem Prüfer-Takt Fehlalarm).
@@ -98,12 +99,26 @@ export function stillstandSignal(pr, kopfZeit, jetzt) {
   return stunden(letzte, jetzt) > STILLSTAND_H ? [{ nr: 8, text: 'Stillstand', seit: letzte }] : []
 }
 
-/** Signal 6: F-Nummern (offene Entscheidungen), die mehr als ein PR nennt. Rückgabe: Map PR-Nummer → Liste der geteilten F-Nummern. */
-export function geteilteEntscheidungen(prs) {
+/** Entschiedene F-Nummern aus dem Text von stand.md (Muster „F109 = A“). Rückgabe: Set wie „F109“. */
+export function entschiedeneF(text) {
+  return new Set([...text.matchAll(/\b(F\d+) = [A-Z]\b/g)].map((m) => m[1]))
+}
+
+/** stand.md lesen und auswerten; fehlt die Datei (CI), ist nichts entschieden. */
+export function entschiedeneAusStand(pfad = new URL('../daniel-zum-abarbeiten/stand.md', import.meta.url)) {
+  try {
+    return entschiedeneF(fs.readFileSync(pfad, 'utf8'))
+  } catch {
+    return new Set()
+  }
+}
+
+/** Signal 6: F-Nummern (offene Entscheidungen, ohne `entschieden`), die mehr als ein PR nennt. Rückgabe: Map PR-Nummer → Liste der geteilten F-Nummern. */
+export function geteilteEntscheidungen(prs, entschieden = new Set()) {
   const je = new Map()
   for (const pr of prs) {
     const text = [pr.title, pr.body, ...pr.comments.filter((c) => c.author?.login === 'danielzaiser91' || c.body.includes('**Prüfer-Review**')).map((c) => c.body)].join('\n')
-    for (const f of new Set(text.match(/\bF\d+\b/g) ?? [])) je.set(f, [...(je.get(f) ?? []), pr.number])
+    for (const f of new Set(text.match(/\bF\d+\b/g) ?? [])) if (!entschieden.has(f)) je.set(f, [...(je.get(f) ?? []), pr.number])
   }
   const aus = new Map()
   for (const [f, nummern] of je) {
@@ -267,7 +282,7 @@ export function offenePrs(ghFn, hinweis = () => {}) {
 /** Holt die offenen PRs über gh/git (einspeisbar) und rechnet alle. Rückgabe: Funde { nr, signale, zeile }. */
 export function liegegutFunde(ghFn, gitFn, jetzt, hinweis) {
   const offen = offenePrs(ghFn, hinweis).filter((p) => !p.isDraft)
-  const geteilt = geteilteEntscheidungen(offen)
+  const geteilt = geteilteEntscheidungen(offen, entschiedeneAusStand())
   const karte = kopfZeiten(ghFn)
   return offen.map((pr) => bewertePr(ghFn, gitFn, pr, geteilt.get(pr.number), jetzt, karte)).filter((f) => f !== null)
 }

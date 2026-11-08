@@ -9,7 +9,7 @@ import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
-import { offenePrs, checkStand, geteilteEntscheidungen, kopfZeitVon, kopfZeiten, liegegut, main, grepMain, neueBezeichner, naechsterSchritt, signaleEinzel, stillstandSignal, ueberholtTreffer, urteile, JQ_PATCHES } from './liegegut.mjs'
+import { offenePrs, checkStand, geteilteEntscheidungen, entschiedeneF, entschiedeneAusStand, kopfZeitVon, kopfZeiten, liegegut, main, grepMain, neueBezeichner, naechsterSchritt, signaleEinzel, stillstandSignal, ueberholtTreffer, urteile, JQ_PATCHES } from './liegegut.mjs'
 
 const fehler = []
 const pruefe = (name, ok, info) => {
@@ -110,6 +110,12 @@ console.log('liegegut: Signal 6 gleiche offene Entscheidung (Fälle 1508, 1513)'
   const a = pr(1508, { body: 'Entscheidung F39 offen' })
   const b = pr(1513, { title: 'Regel (F39)', body: 'F39 und F39' })
   const c = pr(1600, { body: 'Regel F40 gilt' })
+  const ent = entschiedeneF('- F109 = A: x\nF106 = B, offen F39 und F1 = a und F7 =B')
+  pruefe('entschiedeneF: nur Großbuchstabe mit „ = “', JSON.stringify([...ent]) === JSON.stringify(['F109', 'F106']), [...ent])
+  pruefe('entschieden fällt raus', geteilteEntscheidungen([a, b], new Set(['F39'])).size === 0)
+  pruefe('offen bleibt trotz anderer Entschiedener', geteilteEntscheidungen([a, b], new Set(['F40'])).size === 2)
+  pruefe('leeres Set ändert nichts', geteilteEntscheidungen([a, b], new Set()).size === 2)
+  pruefe('fehlende stand.md → nichts entschieden', entschiedeneAusStand(path.join(os.tmpdir(), 'gibt-es-nicht-stand.md')).size === 0)
   const m = geteilteEntscheidungen([a, b, c])
   pruefe('F39 in zwei PRs → beide', JSON.stringify([...m]) === JSON.stringify([[1508, ['F39']], [1513, ['F39']]]), [...m])
   pruefe('F-Nummer nur in einem PR (auch zweimal genannt) → nichts', geteilteEntscheidungen([b, c]).size === 0)
