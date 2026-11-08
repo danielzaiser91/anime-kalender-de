@@ -59,7 +59,7 @@ const istVorfahr = (git, a, b) => versuche(() => git(['merge-base', '--is-ancest
 
 /**
  * Zug-Zweig lokal als `zug-fahrt` anlegen und main hereinholen. Rückgabe { art, ... }:
- *   kein-zug (origin/zug fehlt), leer (Zug hat nichts, was main nicht hat), konflikt { dateien }, bereit { kopf, zugVorher, mainImZug }.
+ *   kein-zug (origin/zug fehlt), leer (Zug hat nichts, was main nicht hat), konflikt { dateien }, bereit { kopf, zugVorher }.
  * Bei einem Konflikt wird der Merge abgebrochen, nichts bleibt halb stehen.
  */
 export function bereiteFahrt(git) {
@@ -69,14 +69,13 @@ export function bereiteFahrt(git) {
   if (git(['rev-list', '--count', 'origin/main..origin/zug']).trim() === '0') return { art: 'leer' }
   const zugVorher = git(['rev-parse', 'origin/zug']).trim()
   git(['checkout', '-q', '-B', FAHRT_ZWEIG, 'origin/zug'])
-  if (!istVorfahr(git, 'origin/main', 'HEAD')) {
-    if (versuche(() => git(['merge', '--no-edit', '-m', "Merge branch 'main' into zug", 'origin/main']) ?? '') === null) {
-      const dateien = git(['diff', '--name-only', '--diff-filter=U']).split('\n').filter(Boolean)
-      git(['merge', '--abort'])
-      return { art: 'konflikt', dateien }
-    }
+  // Steckt main schon im Zug, ist der Merge ein Nichts (kein neuer Commit).
+  if (versuche(() => git(['merge', '--no-edit', '-m', "Merge branch 'main' into zug", 'origin/main']) ?? '') === null) {
+    const dateien = git(['diff', '--name-only', '--diff-filter=U']).split('\n').filter(Boolean)
+    git(['merge', '--abort'])
+    return { art: 'konflikt', dateien }
   }
-  return { art: 'bereit', kopf: git(['rev-parse', 'HEAD']).trim(), zugVorher, mainImZug: istVorfahr(git, 'origin/main', 'HEAD') }
+  return { art: 'bereit', kopf: git(['rev-parse', 'HEAD']).trim(), zugVorher }
 }
 
 /** Offener PR mit diesem Kopfzweig gegen main (Nummer) oder null. */
@@ -107,7 +106,7 @@ export function start({ gh, git, melde, trocken }) {
     melde(`FEHLER main lässt sich nicht in den Zug holen, Konflikt in: ${fahrt.dateien.join(', ')}`)
     return 1
   }
-  melde(`Fahrt ${fahrt.kopf.slice(0, 9)}: Zug ${fahrt.zugVorher.slice(0, 9)} plus main${fahrt.mainImZug ? '' : ' (nicht hereingeholt)'}`)
+  melde(`Fahrt ${fahrt.kopf.slice(0, 9)}: Zug ${fahrt.zugVorher.slice(0, 9)} plus main`)
   if (trocken) return ende(melde, 'trocken: kein Push, kein PR')
   if (schonGefahren(git, fahrt.kopf)) return ende(melde, 'Zug und main unverändert seit der letzten Fahrt: keine neue (ein Push desselben Kopfs löste keine Kette aus)')
   pushMitPr({ gh, git }, FAHRT_ZWEIG, fahrt.kopf, 'chore(zug): Fahrt', pr)

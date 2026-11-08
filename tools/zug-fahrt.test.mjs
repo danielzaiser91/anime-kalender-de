@@ -67,7 +67,7 @@ function fakeGh(zustand = {}) {
   const gh = (args) => {
     const [a, b] = args
     const opt = (n) => args[args.indexOf(n) + 1]
-    if (a === 'pr' && b === 'list') return JSON.stringify(zustand.prs?.[opt('--head')] ? [{ number: zustand.prs[opt('--head')] }] : [])
+    if (a === 'pr' && b === 'list') return JSON.stringify(zustand.prs?.[opt('--head')] && opt('--base') === 'main' ? [{ number: zustand.prs[opt('--head')] }] : [])
     if (a === 'run' && b === 'list') return JSON.stringify(zustand.laeufe?.[opt('--branch')] ?? [])
     if (a === 'run' && b === 'view' && args.includes('--log-failed')) return zustand.log?.[args[2]] ?? ''
     if (a === 'run' && b === 'view') return JSON.stringify(zustand.lauf[args[2]])
@@ -125,7 +125,7 @@ console.log('bereiteFahrt: echtes git')
   const zugVorher = refOrigin(w, 'refs/heads/zug')
   const f = bereiteFahrt(w.git)
   const eltern = w.git(['rev-list', '--parents', '-n', '1', 'HEAD']).trim().split(' ').length - 1
-  pruefe('Zug vor, main weitergelaufen → bereit, main im Zug, Merge-Commit mit zwei Eltern', f.art === 'bereit' && f.mainImZug === true && eltern === 2, f)
+  pruefe('Zug vor, main weitergelaufen → bereit, Merge-Commit mit zwei Eltern', f.art === 'bereit' && eltern === 2, f)
   pruefe('zugVorher ist der Zug-Kopf vor dem Hereinholen (Basis der Ratschen-Grenzen)', f.zugVorher === zugVorher && w.git(['rev-parse', 'HEAD^1']).trim() === zugVorher)
   pruefe('Merge-Betreff wie zugEintraege ihn kennt (keine PR-Nummer)', w.git(['log', '-1', '--format=%s']).trim() === "Merge branch 'main' into zug")
   pruefe('der Zug auf origin wird nicht berührt', refOrigin(w, 'refs/heads/zug') === zugVorher)
@@ -133,7 +133,7 @@ console.log('bereiteFahrt: echtes git')
 {
   const w = weltMitZug({ mainWeiter: false })
   const f = bereiteFahrt(w.git)
-  pruefe('main nichts Neues → kein Merge-Commit, Kopf = Zug-Kopf', f.art === 'bereit' && f.kopf === f.zugVorher && f.mainImZug === true, f)
+  pruefe('main nichts Neues → kein Merge-Commit, Kopf = Zug-Kopf', f.art === 'bereit' && f.kopf === f.zugVorher, f)
 }
 {
   const w = weltMitZug({ konflikt: true })
@@ -198,8 +198,7 @@ console.log('start: Push, PR, laufende Fahrt, Trockenlauf')
 
 console.log('urteil auf zug-fahrt: grün, Fast-Forward nur als Dry-Run')
 const LAUF_GRUEN = { 9: { databaseId: 9, headSha: '', status: 'completed', conclusion: 'success' } }
-function weltMitFahrt() {
-  const w = weltMitZug()
+function weltMitFahrt(w = weltMitZug()) {
   start(ctx(w, fakeGh().gh))
   const kopf = refOrigin(w, 'refs/heads/zug-fahrt')
   return { w, kopf }
@@ -263,8 +262,8 @@ console.log('urteil auf zug-fahrt: rot → Probe main allein')
 
 console.log('urteil auf zug-probe: Schuldsuche mit Basisgrenzen')
 const logZeile = (job, text) => `${job}\tSchritt\t2026-11-06T07:00:01.0Z ${text}\n`
-function probeWelt(logText, probeErgebnis, prsOffen = { 'zug-fahrt': 7, 'zug-probe': 8 }) {
-  const { w, kopf } = weltMitFahrt()
+function probeWelt(logText, probeErgebnis, prsOffen = { 'zug-fahrt': 7, 'zug-probe': 8 }, fahrt = weltMitFahrt()) {
+  const { w, kopf } = fahrt
   const zustand = {
     prs: prsOffen,
     laeufe: { 'zug-fahrt': [{ databaseId: 5, headSha: kopf, status: 'completed', conclusion: 'failure' }] },
@@ -326,6 +325,97 @@ const UMFANG = logZeile('Kette – Bau und Installation', '  pipeline: Überlän
   pruefe('trocken: Schuldsuche läuft, aber kein Kommentar und kein Schließen', schreib.length === 0)
 }
 
+console.log('Lücken aus der Mutationsprobe: Unter-PR als Merge-Commit, Zug ohne Merge von main, Geschwister-Kopf, Aufrufform des Dry-Runs')
+{
+  // Unter-PR #105 liegt als Merge-Commit im Zug (GitHub-Merge-Commit): seine Dateien zeigt nur `git log -m`.
+  const w = welt()
+  w.git(['checkout', '-q', '-b', 'zug'])
+  w.schreibe('web/src/a.ts', 'a\n', 'feat(a): erster Unter-PR (#101)')
+  w.git(['checkout', '-q', '-b', 'pr105'])
+  w.schreibe('.github/workflows/y.yml', 'y\n', 'ci: Änderung im Unter-PR')
+  w.git(['checkout', '-q', 'zug'])
+  w.git(['merge', '--no-ff', '-q', '-m', 'Merge pull request #105 from x/y', 'pr105'])
+  w.git(['push', '-q', 'origin', 'zug'])
+  w.git(['checkout', '-q', 'main'])
+  const r = probeWelt(logZeile('Kette – Workflows', 'FEHL workflow y.yml kaputt'), 'success', { 'zug-fahrt': 7, 'zug-probe': 8 }, weltMitFahrt(w))
+  pruefe('Unter-PR als Merge-Commit: seine Dateien zählen für den Verdacht (git log -m) → #105', /"art":"pr","nr":105/.test(r.kommentar), r.kommentar)
+}
+{
+  // Zug ohne Merge von main: der Kopf der Fahrt ist ein gewöhnlicher Commit; die Basis der Grenzen ist dann main, nicht sein Elternteil.
+  const w = welt()
+  w.git(['checkout', '-q', '-b', 'zug'])
+  w.schreibe('tools/umfang-grenzen.json', JSON.stringify({ ueberlaenge: { pipeline: { funktionen: 8970 } } }), 'chore: Unter-PR senkt die Grenze (#103)')
+  w.schreibe('web/src/b.ts', 'b\n', 'feat(b): zweiter Unter-PR (#102)')
+  w.git(['push', '-q', 'origin', 'zug'])
+  w.git(['checkout', '-q', 'main'])
+  const fahrt = weltMitFahrt(w)
+  pruefe('Kontrolle: Kopf der Fahrt ist kein Merge-Commit', w.gitOrigin(['rev-list', '--parents', '-n', '1', 'refs/heads/zug-fahrt']).trim().split(' ').length === 2)
+  const r = probeWelt(logZeile('Kette – Bau und Installation', '  pipeline: Überlänge der funktionen 8980 statt höchstens 8964'), 'success', undefined, fahrt)
+  pruefe('ohne Merge von main gilt main als Basis (8986): Wert 8980 hält → ratsche (der Elternteil des Kopfs hätte 8970)', /"art":"ratsche"/.test(r.kommentar) && /Basis 8986/.test(r.kommentar), r.kommentar)
+}
+{
+  const w = weltMitZug({ mainWeiter: false })
+  start(ctx(w, fakeGh().gh))
+  const erster = refOrigin(w, 'refs/heads/zug-fahrt')
+  w.git(['checkout', '-q', 'zug'])
+  w.git(['commit', '-q', '--amend', '-m', 'ci(b): zweiter Unter-PR, neu gefasst (#102)'])
+  w.git(['push', '-q', '--force', 'origin', 'zug'])
+  w.git(['checkout', '-q', 'main'])
+  const c = ctx(w, fakeGh({ prs: { 'zug-fahrt': 7 }, laeufe: { 'zug-fahrt': [{ databaseId: 1, status: 'completed', conclusion: 'failure' }] } }).gh)
+  pruefe('anderer Zug-Kopf mit gleichem Elternteil (ohne Merge) → neue Fahrt, kein „unverändert“', start(c) === 0 && refOrigin(w, 'refs/heads/zug-fahrt') !== erster && refOrigin(w, 'refs/heads/zug-fahrt') === refOrigin(w, 'refs/heads/zug'), c.zeilen)
+}
+{
+  const { w, kopf } = weltMitFahrt()
+  const aufgerufen = []
+  const git = (a) => {
+    aufgerufen.push(a)
+    return w.git(a)
+  }
+  const { gh } = fakeGh({ prs: { 'zug-fahrt': 7 }, lauf: { 9: { ...LAUF_GRUEN[9], headSha: kopf } } })
+  const c = ctx(w, gh, { git })
+  urteil(c, 'zug-fahrt', '9')
+  const pushes = aufgerufen.filter((a) => a[0] === 'push')
+  pruefe('grün: genau ein Push, und der ist ein Dry-Run des Kopfs nach main', pushes.length === 1 && JSON.stringify(pushes[0]) === JSON.stringify(['push', '--dry-run', 'origin', `${kopf}:refs/heads/main`]), pushes)
+}
+{
+  const { w, kopf } = weltMitFahrt()
+  const git = (a) => {
+    if (a[0] === 'push' && a.includes('--dry-run')) throw new Error('rejected')
+    return w.git(a)
+  }
+  const { gh, schreib } = fakeGh({ prs: { 'zug-fahrt': 7 }, lauf: { 9: { ...LAUF_GRUEN[9], headSha: kopf } } })
+  const c = ctx(w, gh, { git })
+  urteil(c, 'zug-fahrt', '9')
+  pruefe('Dry-Run abgelehnt (obwohl main im Kopf steckt) → main-holen mit Grund, nicht ff-pruefen', /Schritt main-holen \(Dry-Run abgelehnt/.test(schreib.join('\n')), schreib)
+}
+{
+  const { w, kopf } = weltMitFahrt()
+  w.git(['checkout', '-q', 'main'])
+  w.schreibe('daten.txt', 'neu\n', 'chore(data): Bot nach der Fahrt')
+  w.git(['push', '-q', 'origin', 'main'])
+  const { gh, schreib } = fakeGh({ prs: { 'zug-fahrt': 7 }, lauf: { 9: { ...LAUF_GRUEN[9], headSha: kopf } } })
+  urteil(ctx(w, gh), 'zug-fahrt', '9')
+  pruefe('main weitergelaufen: der Grund kommt aus der Fast-Forward-Regel (Bots oder Direkt-Merge), nicht aus dem Dry-Run', /Schritt main-holen \(main ist weitergelaufen \(Bots oder Direkt-Merge\)\)/.test(schreib.join('\n')), schreib)
+}
+{
+  const r = probeWelt(UMFANG, 'success', { 'zug-probe': 8 })
+  pruefe('kein Fahrt-PR offen → kein Kommentar, der Probe-PR wird trotzdem geschlossen', !r.schreib.some((s) => s.startsWith('pr comment')) && r.schreib.includes('pr close 8 --delete-branch'), r.schreib)
+  const q = probeWelt(UMFANG, 'success', { 'zug-fahrt': 7 })
+  pruefe('kein Probe-PR offen → kein pr close', q.schreib.some((s) => s.startsWith('pr comment 7')) && !q.schreib.some((s) => s.startsWith('pr close')), q.schreib)
+  const { w } = weltMitFahrt()
+  const zu = { prs: { 'zug-fahrt': 7 }, lauf: { 9: { databaseId: 9, headSha: 'a'.repeat(40), status: 'completed', conclusion: 'failure' } } }
+  const { gh } = fakeGh(zu)
+  urteil(ctx(w, gh), 'zug-fahrt', '9')
+  pruefe('Probe: Platzhalter-Kopf hat main als Elternteil und main als Baum, Probe-Kopf ebenso', w.gitOrigin(['rev-parse', 'refs/heads/zug-probe^']).trim() === refOrigin(w, 'refs/heads/main') && w.gitOrigin(['rev-parse', 'refs/heads/zug-probe^{tree}']).trim() === w.gitOrigin(['rev-parse', 'refs/heads/main^{tree}']).trim())
+}
+{
+  const w = weltMitZug()
+  const aus = []
+  const { gh, schreib } = fakeGh()
+  const exit = main(['start', '--trocken'], { gh, git: w.git, melde: (z) => aus.push(z) })
+  pruefe('main(start --trocken) schreibt nichts (der Schalter kommt in start an)', exit === 0 && !hatRef(w, 'refs/heads/zug-fahrt') && schreib.length === 0 && /trocken/.test(aus.at(-1)), aus)
+}
+
 console.log('bauDeploy und Einstieg')
 {
   const { gh, schreib } = fakeGh()
@@ -342,7 +432,12 @@ function gleichListe(a, b) {
 {
   const aus = []
   pruefe('ohne Befehl → Exit 2 mit Aufruf-Zeile', main([], { melde: (z) => aus.push(z) }) === 2 && /Aufruf:/.test(aus[0]))
-  pruefe('urteil ohne gültigen Zweig oder Lauf → Exit 2', main(['urteil', '--zweig', 'main', '--lauf', '1'], { melde: () => {} }) === 2 && main(['urteil', '--zweig', 'zug-fahrt', '--lauf', 'x'], { melde: () => {} }) === 2)
+  // Attrappen, die einen Aufruf des Urteils als Exit 0 zeigen: ein stiller Abruffehler (echtes gh) ergäbe auch Exit 2 und verdeckte die Prüfung.
+  const laeuft = { gh: () => JSON.stringify({ databaseId: 1, headSha: 'a'.repeat(40), status: 'in_progress', conclusion: '' }), git: () => '', melde: () => {} }
+  pruefe('Kontrolle: gültiger Aufruf mit laufender Kette → Exit 0', main(['urteil', '--zweig', 'zug-fahrt', '--lauf', '1'], laeuft) === 0)
+  pruefe('urteil mit Zweig main → Exit 2', main(['urteil', '--zweig', 'main', '--lauf', '1'], laeuft) === 2)
+  pruefe('urteil mit Lauf x → Exit 2', main(['urteil', '--zweig', 'zug-fahrt', '--lauf', 'x'], laeuft) === 2)
+  pruefe('urteil ohne Lauf → Exit 2', main(['urteil', '--zweig', 'zug-fahrt'], laeuft) === 2)
   const aus2 = []
   pruefe('Abruffehler → Exit 2 mit FEHLER-Zeile', main(['urteil', '--zweig', 'zug-fahrt', '--lauf', '3'], { gh: () => { throw new Error('HTTP 502') }, git: () => '', melde: (z) => aus2.push(z) }) === 2 && /FEHLER HTTP 502/.test(aus2[0]), aus2)
 }
