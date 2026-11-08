@@ -1,5 +1,6 @@
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
+import { istErweitert } from '../../tools/pruef-schaltung.mjs'
 
 /**
  * Die Titel, unter denen eine Meldung der Erweiterung eine Adresse wiederfindet: der Hauptbestand und —
@@ -12,11 +13,12 @@ export function ladePruefTitel<T>(wurzel: string): T[] {
     const roh = JSON.parse(readFileSync(resolve(wurzel, 'public/data', datei), 'utf8'))
     return Array.isArray(roh) ? roh : (roh.titles ?? Object.values(roh))
   }
-  let erweitert = process.env.PRUEFLISTE_ERWEITERT === '1'
+  let datei: unknown
   try {
-    erweitert ||= JSON.parse(readFileSync(resolve(wurzel, 'data/pruefliste-regeln.json'), 'utf8')).erweitert === true
+    datei = JSON.parse(readFileSync(resolve(wurzel, 'data/pruefliste-regeln.json'), 'utf8'))
   } catch {
     /* Ohne Regeldatei gilt der Hauptbestand allein. */
   }
+  const erweitert = istErweitert(process.env.PRUEFLISTE_ERWEITERT, datei)
   return erweitert ? [...lies('titles.json'), ...lies('cartoons.json')] : lies('titles.json')
 }

@@ -1,0 +1,327 @@
+[
+ {
+  "id": "1066661",
+  "name": "Netflix-Abgänge: Berserk nur OmU, Iron Man deutsch",
+  "claude": [
+   {
+    "titel": "Iron Man: Rise of Technovore",
+    "art": "abgang",
+    "plattform": "netflix",
+    "anbieter": "Netflix",
+    "sender": null,
+    "datum": "2026-11-13",
+    "uhrzeit": null,
+    "wochentage": null,
+    "sprache": "deutsch",
+    "folgen": null,
+    "zitat": "»Iron Man: Rise of Technovore« Verfügbar bis: 13. November 2026 Laufzeit: 88 Minuten Sprache: Deutsch, Englisch (UT)",
+    "unsicher": null
+   },
+   {
+    "titel": "Berserk",
+    "art": "abgang",
+    "plattform": "netflix",
+    "anbieter": "Netflix",
+    "sender": null,
+    "datum": "2026-11-30",
+    "uhrzeit": null,
+    "wochentage": null,
+    "sprache": "omu",
+    "folgen": "25",
+    "zitat": "Darüber hinaus kann die 25-teilige Anime-Serie »Berserk« aus dem Jahr 1997 nur noch bis zum 30. November 2026 im japanischen Originalton mit deutschen Untertiteln auf Netflix angesehen werden.",
+    "unsicher": null
+   }
+  ]
+ },
+ {
+  "id": "1064193",
+  "name": "Aoashi und PSYREN: Stream Prime Video, Crunchyroll, Artikel Crunchyroll (Claude hatte auch primevideo)",
+  "claude": [
+   {
+    "titel": "Aoashi – Staffel 2",
+    "art": "start",
+    "plattform": "crunchyroll",
+    "anbieter": "Crunchyroll",
+    "sender": null,
+    "datum": null,
+    "uhrzeit": "11:00",
+    "wochentage": "Jeden Sonntag",
+    "sprache": "deutsch+omu",
+    "folgen": "1",
+    "zitat": "»Aoashi« – Staffel 2\nEpisoden: 1 auf Deutsch verfügbar\nSprache: Deutsch, Japanisch (UT)\nSimulcast: Jeden Sonntag um 11:00 Uhr",
+    "unsicher": null
+   },
+   {
+    "titel": "Aoashi – Staffel 2",
+    "art": "start",
+    "plattform": "primevideo",
+    "anbieter": "Prime Video",
+    "sender": null,
+    "datum": null,
+    "uhrzeit": "11:00",
+    "wochentage": "Jeden Sonntag",
+    "sprache": "deutsch+omu",
+    "folgen": "1",
+    "zitat": "»Aoashi« – Staffel 2\nEpisoden: 1 auf Deutsch verfügbar\nSprache: Deutsch, Japanisch (UT)\nSimulcast: Jeden Sonntag um 11:00 Uhr",
+    "unsicher": null
+   },
+   {
+    "titel": "PSYREN",
+    "art": "start",
+    "plattform": "crunchyroll",
+    "anbieter": "Crunchyroll",
+    "sender": null,
+    "datum": null,
+    "uhrzeit": "16:30",
+    "wochentage": "Jeden Montag",
+    "sprache": "deutsch+omu",
+    "folgen": "1",
+    "zitat": "»PSYREN«\nEpisoden: 1 auf Deutsch verfügbar\nSprache: Deutsch, Japanisch (UT)\nSimulcast: Jeden Montag um 16:30 Uhr",
+    "unsicher": null
+   },
+   {
+    "titel": "PSYREN",
+    "art": "start",
+    "plattform": "primevideo",
+    "anbieter": "Prime Video",
+    "sender": null,
+    "datum": null,
+    "uhrzeit": "16:30",
+    "wochentage": "Jeden Montag",
+    "sprache": "deutsch+omu",
+    "folgen": "1",
+    "zitat": "»PSYREN«\nEpisoden: 1 auf Deutsch verfügbar\nSprache: Deutsch, Japanisch (UT)\nSimulcast: Jeden Montag um 16:30 Uhr",
+    "unsicher": null
+   }
+  ]
+ },
+ {
+  "id": "1064806",
+  "name": "ADN: I Parry Everything (Stream ADN, Prime Video), Satzgrenze nach „153.“",
+  "claude": [
+   {
+    "titel": "I Parry Everything!",
+    "art": "start",
+    "plattform": "adn",
+    "anbieter": "ADN",
+    "sender": null,
+    "datum": "2026-11-02",
+    "uhrzeit": null,
+    "wochentage": null,
+    "sprache": "deutsch+omu",
+    "folgen": "12",
+    "zitat": " 2. November: »I Parry Everything!« (Synchro)\n Episoden: 12 (komplett)\n Sprache: Deutsch, Japanisch (UT)\n Hinweis: Der Originalton ist bereits verfügbar\n Stream: ADN, Prime Video",
+    "unsicher": null
+   },
+   {
+    "titel": "I Parry Everything!",
+    "art": "start",
+    "plattform": "primevideo",
+    "anbieter": "Prime Video",
+    "sender": null,
+    "datum": "2026-11-02",
+    "uhrzeit": null,
+    "wochentage": null,
+    "sprache": "deutsch+omu",
+    "folgen": "12",
+    "zitat": " 2. November: »I Parry Everything!« (Synchro)\n Episoden: 12 (komplett)\n Sprache: Deutsch, Japanisch (UT)\n Hinweis: Der Originalton ist bereits verfügbar\n Stream: ADN, Prime Video",
+    "unsicher": null
+   },
+   {
+    "titel": "Pretty Cure",
+    "art": "start",
+    "plattform": "adn",
+    "anbieter": "ADN",
+    "sender": null,
+    "datum": "2026-11-04",
+    "uhrzeit": null,
+    "wochentage": null,
+    "sprache": "omu",
+    "folgen": "49",
+    "zitat": " 4. November: »Pretty Cure«\n Episoden: 49 (komplett)\n Sprache: Japanisch (UT)\n Stream: ADN",
+    "unsicher": null
+   },
+   {
+    "titel": "Kotoura-san",
+    "art": "start",
+    "plattform": "adn",
+    "anbieter": "ADN",
+    "sender": null,
+    "datum": "2026-11-11",
+    "uhrzeit": null,
+    "wochentage": null,
+    "sprache": "omu",
+    "folgen": "12",
+    "zitat": " 11. November: »Kotoura-san«\n Episoden: 12 (komplett)\n Sprache: Japanisch (UT)\n Stream: ADN",
+    "unsicher": null
+   },
+   {
+    "titel": "KILL la KILL",
+    "art": "start",
+    "plattform": "adn",
+    "anbieter": "ADN",
+    "sender": null,
+    "datum": "2026-11-18",
+    "uhrzeit": null,
+    "wochentage": null,
+    "sprache": "deutsch+omu",
+    "folgen": "24",
+    "zitat": " 18. November: »KILL la KILL«\n Episoden: 24 (komplett)\n Sprache: Deutsch, Japanisch (UT)\n Stream: ADN",
+    "unsicher": null
+   },
+   {
+    "titel": "Cross Game",
+    "art": "start",
+    "plattform": "adn",
+    "anbieter": "ADN",
+    "sender": null,
+    "datum": "2026-11-25",
+    "uhrzeit": null,
+    "wochentage": null,
+    "sprache": "omu",
+    "folgen": "50",
+    "zitat": " 25. November: »Cross Game«\n Episoden: 50 (komplett)\n Sprache: Japanisch (UT)\n Stream: ADN",
+    "unsicher": null
+   },
+   {
+    "titel": "Reborn!",
+    "art": "folgen",
+    "plattform": "adn",
+    "anbieter": "ADN",
+    "sender": null,
+    "datum": "2026-11-28",
+    "uhrzeit": null,
+    "wochentage": null,
+    "sprache": "omu",
+    "folgen": "102–153",
+    "zitat": " 28. November: »Reborn!« – Episode 102 bis 153\n Episoden: 52\n Sprache: Japanisch (UT)\n Stream: ADN",
+    "unsicher": null
+   }
+  ]
+ },
+ {
+  "id": "1065078",
+  "name": "aniverse: Satz mit zwei Titeln, Block „Noch nicht verfügbar“",
+  "claude": [
+   {
+    "titel": "M.A.S.K.",
+    "art": "start",
+    "plattform": "aniverse",
+    "anbieter": "aniverse",
+    "sender": null,
+    "datum": "2026-11-01",
+    "uhrzeit": null,
+    "wochentage": null,
+    "sprache": "deutsch",
+    "folgen": "73 (komplett)",
+    "zitat": "1. November: »M.A.S.K.« Episoden: 73 (komplett) Sprache: Deutsch",
+    "unsicher": null
+   },
+   {
+    "titel": "The Forsaken Saintess and Her Foodie Road Trip in Another World",
+    "art": "start",
+    "plattform": "aniverse",
+    "anbieter": "aniverse",
+    "sender": null,
+    "datum": "2026-11-01",
+    "uhrzeit": null,
+    "wochentage": null,
+    "sprache": "omu",
+    "folgen": "12 (komplett)",
+    "zitat": "1. November: »The Forsaken Saintess and Her Foodie Road Trip in Another World« Episoden: 12 (komplett) Sprache: Japanisch (UT)",
+    "unsicher": null
+   },
+   {
+    "titel": "Angel’s Egg",
+    "art": "start",
+    "plattform": "aniverse",
+    "anbieter": "aniverse",
+    "sender": null,
+    "datum": "2026-11-05",
+    "uhrzeit": null,
+    "wochentage": null,
+    "sprache": "deutsch+omu",
+    "folgen": null,
+    "zitat": "5. November: »Angel’s Egg« Laufzeit: 72 Minuten Sprache: Deutsch, Japanisch (UT)",
+    "unsicher": null
+   },
+   {
+    "titel": "Shaman King – Staffel 4",
+    "art": "start",
+    "plattform": "aniverse",
+    "anbieter": "aniverse",
+    "sender": null,
+    "datum": "2026-11-12",
+    "uhrzeit": null,
+    "wochentage": null,
+    "sprache": "deutsch",
+    "folgen": "16 (komplett)",
+    "zitat": "12. November: »Shaman King« – Staffel 4 Episoden: 16 (komplett) Sprache: Deutsch",
+    "unsicher": null
+   },
+   {
+    "titel": "Wolf Girl and Black Prince – Staffel 1",
+    "art": "start",
+    "plattform": "aniverse",
+    "anbieter": "aniverse",
+    "sender": null,
+    "datum": "2026-11-19",
+    "uhrzeit": null,
+    "wochentage": null,
+    "sprache": "deutsch+omu",
+    "folgen": "12 (komplett)",
+    "zitat": "19. November: »Wolf Girl and Black Prince« – Staffel 1 Episoden: 12 (komplett) Sprache: Deutsch, Japanisch (UT)",
+    "unsicher": null
+   },
+   {
+    "titel": "Call of the Night – Staffel 2",
+    "art": "sprachfassung",
+    "plattform": "aniverse",
+    "anbieter": "aniverse",
+    "sender": null,
+    "datum": "2026-11-20",
+    "uhrzeit": null,
+    "wochentage": null,
+    "sprache": "deutsch",
+    "folgen": "13 (komplett)",
+    "zitat": "20. November: »Call of the Night« – Staffel 2 (Synchro) Episoden: 13 (komplett) Sprache: Deutsch, Japanisch (UT)",
+    "unsicher": null
+   },
+   {
+    "titel": "The Most Heretical Last Boss Queen – Staffel 1",
+    "art": "sprachfassung",
+    "plattform": "aniverse",
+    "anbieter": "aniverse",
+    "sender": null,
+    "datum": "2026-11-26",
+    "uhrzeit": null,
+    "wochentage": null,
+    "sprache": "deutsch",
+    "folgen": "12 (komplett)",
+    "zitat": "26. November: »The Most Heretical Last Boss Queen« – Staffel 1 (Synchro) Episoden: 12 (komplett) Sprache: Deutsch, Japanisch (UT)",
+    "unsicher": null
+   }
+  ]
+ },
+ {
+  "id": "1067575",
+  "name": "»Digimon«-Sänger liefert Titelsong für Anime-Serie der Sparkasse",
+  "text": "»Digimon«-Sänger liefert Titelsong für Anime-Serie der Sparkasse\nVeröffentlicht: 2026-11-04\n\nAnkündigung \n\n »Digimon«-Sänger liefert Titelsong für Anime-Serie der Sparkasse\n \n \n\n \n\n 4. November 2026 um 18:17 Uhr \n\n Von Sarah Dumann \n\n \n Die Sparkassen-Finanzgruppe hat heute den offiziellen Titelsong ihrer ersten eigenen Anime-Serie »Der Schatten über Anlegion« vorgestellt. Das dazugehörige Musikvideo findet ihr weiter unten in diesem Artikel.\n Titelsong von Frank Schindel\n Der Song mit dem Titel »Hier werden Helden geboren« wird von dem deutschen Popsänger Frank Schindel beigesteuert, der Anime-Fans insbesondere durch den »Digimon«-Titelsong »Leb‘ deinen Traum« bekannt sein dürfte. Außerdem wirkte er an deutschsprachigen Songs zu »Dragon Ball Z« und »Yu-Gi-Oh!« mit.\n \n \n \n \n\n Für die Komposition und musikalische Umsetzung des Openings zu »Der Schatten über Anlegion« zeichnete sich das Unternehmen 2WEI Music verantwortlich.\n \n \n \n\n »Wir betrachten Animes für unser Serien-Projekt ganzheitlich und handeln an erster Stelle immer aus dem Kern der Community heraus. Dabei stecken wir nicht nur viel Liebe zum Detail in die Serie, sondern auch in begleitende Assets« , erklärt Janine Schumann, Leiterin Campaigns & Brand Solutions im Newsroom der Sparkassen.\n »Mittlerweile habe ich den Titelsong schon unendliche Male gehört und dank der einzigartigen Stimme von Frank Schindel kann ich mittlerweile guten Gewissens behaupten: Hier liegt echtes Ohrwurmpotential in der Luft.« \n \n Premiere im Januar 2027\n »Der Schatten über Anlegion« entsteht in dem japanischen Studio D’ART Shtajio und soll ab Januar 2027 mit deutscher Synchronisation auf YouTube erscheinen. Ein konkreter Starttermin steht bislang noch nicht fest.\n \n\n \n Bei der Umsetzung wird vollständig auf künstliche Intelligenz verzichtet. Sämtliche Szenen werden zunächst von Hand gezeichnet und anschließend digital animiert. An der Serie sind außerdem Jung von Matt SPORTS und PATHOS beteiligt.\n Bis zur Premiere sind weitere Überraschungen geplant. Unter anderem sollen bekannte Content-Creator in dem Anime auftreten und über ihre eigenen Kanäle zusätzliche Einblicke in das Projekt gewähren.\n \n\n \n Die Geschichte spielt im friedlichen Königreich Anlegion, das plötzlich von einer unbekannten Bedrohung heimgesucht wird. Im Mittelpunkt stehen die junge Kaneko und ihr treuer Begleiter Spark, das einzige rote Sparschwein des Königreichs. Gemeinsam werden sie von einem geheimnisvollen Reiter angegriffen.\n Mehr zum Thema:\n Sparkasse kündigt eigene Anime-Serie »Der Schatten über Anlegion« an \n Weltweiter Anime-Boom beschert Japan neue Rekordumsätze \n Disney+ wegen fehlender 4K- und HDR-Funktionen abgemahnt \n Musikvideo:\n Externer Inhalt\n Dieses YouTube-Video ist blockiert, um deine Privatsphäre zu schützen.\n Video laden Mehr Infos \n \n\n © Sparkassen-Finanzgruppe \n \n \n\n \n i Dieser Artikel enthält Affiliate-Links. Wenn du über diese Links einkaufst, erhalten wir eine Provision. Es entstehen keine zusätzlichen Kosten. Mehr dazu.\n",
+  "claude": [
+   {
+    "titel": "Der Schatten über Anlegion",
+    "art": "ankuendigung",
+    "plattform": "youtube",
+    "anbieter": "YouTube",
+    "sender": null,
+    "datum": null,
+    "uhrzeit": null,
+    "wochentage": null,
+    "sprache": "deutsch",
+    "folgen": null,
+    "zitat": "»Der Schatten über Anlegion« entsteht in dem japanischen Studio D’ART Shtajio und soll ab Januar 2027 mit deutscher Synchronisation auf YouTube erscheinen.",
+    "unsicher": "Ein konkreter Starttermin steht bislang noch nicht fest."
+   }
+  ]
+ }
+]

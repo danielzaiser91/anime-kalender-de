@@ -60,11 +60,22 @@ function bearbeite(dateien) {
   return gemacht
 }
 
+/** Nur Dateien, die vom Git-Stand abweichen oder neu sind: was `git pull` frisch geschrieben hat, bleibt unberührt,
+ *  sonst wird der Hauptordner nach jedem Pull schmutzig und das nächste `pull --ff-only` scheitert (06.11.2026). */
+function nurGeaenderte(dateien) {
+  if (dateien.length === 0) return dateien
+  const r = require('node:child_process').spawnSync('git', ['status', '--porcelain', '-z', '--untracked-files=all', '--', '.'], { cwd: WURZEL, encoding: 'utf8' })
+  if (r.status !== 0) return []
+  const top = require('node:child_process').spawnSync('git', ['rev-parse', '--show-toplevel'], { cwd: WURZEL, encoding: 'utf8' }).stdout.trim().replace(/\\/g, '/')
+  const offen = new Set(r.stdout.split('\0').filter(Boolean).map((z) => (top + '/' + z.slice(3)).toLowerCase()))
+  return dateien.filter((d) => offen.has(d.replace(/\\/g, '/').toLowerCase()))
+}
+
 function main() {
   let e = {}
   try { e = JSON.parse(fs.readFileSync(0, 'utf8') || '{}') } catch { return }
   const datei = e.tool_input && e.tool_input.file_path
-  const dateien = e.tool_name === 'Bash' ? (fs.existsSync(WURZEL) ? frische(WURZEL, Date.now() - FRISCH) : []) : datei ? [datei] : []
+  const dateien = e.tool_name === 'Bash' ? (fs.existsSync(WURZEL) ? nurGeaenderte(frische(WURZEL, Date.now() - FRISCH)) : []) : datei ? [datei] : []
   const gemacht = bearbeite(dateien)
   if (gemacht.length === 0) return
   const hinweis = 'md-links-relativ: file:///-Links in Daniels .md-Dateien relativ gemacht (VS-Code-Vorschau zeigt file: nicht als Link) — ' + gemacht.join(', ')

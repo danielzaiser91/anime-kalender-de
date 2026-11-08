@@ -22,14 +22,14 @@ const skript = resolve('pipeline/check-handbeleg-note-asin-bestand.ts')
 const block = (id: number, asin: string, notizAsin: string) =>
   `- anilistId: ${id}\n  title: "T${id}"\n  platform: primevideo\n  url: https://www.amazon.de/gp/video/detail/${asin}\n  dub: true\n  note: "Tonspuren: Deutsch — Amazon-Seite ${notizAsin}: alle 12 Folgen geprüft"\n`
 
-function lauf(titelIds: number[], yamlText: string): { status: number | null; aus: string } {
+function lauf(titelIds: number[], yamlText: string, altfaelle: string[] = []): { status: number | null; aus: string } {
   const wurzel = mkdtempSync(join(tmpdir(), 'note-asin-'))
   try {
     mkdirSync(join(wurzel, 'public/data'), { recursive: true })
     mkdirSync(join(wurzel, 'data'), { recursive: true })
     writeFileSync(join(wurzel, 'public/data/titles.json'), JSON.stringify(titelIds.map((id) => ({ id }))))
     writeFileSync(join(wurzel, 'data/dub-confirmed.yaml'), yamlText)
-    const r = spawnSync(process.execPath, [tsx, skript], { cwd: wurzel, encoding: 'utf8', timeout: 60000, windowsHide: true })
+    const r = spawnSync(process.execPath, [tsx, skript], { cwd: wurzel, encoding: 'utf8', timeout: 60000, windowsHide: true, env: { ...process.env, AK_NOTIZSEITE_ALTFAELLE: JSON.stringify(altfaelle) } })
     return { status: r.status, aus: `${r.stdout}${r.stderr}` }
   } finally {
     rmSync(wurzel, { recursive: true, force: true })
@@ -47,8 +47,8 @@ pruefe('Neuer Treffer: Zählzeile nennt 1 neu', /1 Treffer, davon 0 Altfälle \(
 const gruen = lauf([900010, 900011], block(900011, 'B0SEITE011', 'B0SEITE011') + block(900010, 'B0SEITE010', 'B0SEITE010'))
 pruefe('Eigene Seiten: Exit 0, keine Marke, 0 Treffer', gruen.status === 0 && !gruen.aus.includes('handbeleg-note-asin ') && /0 Treffer/.test(gruen.aus), gruen)
 
-// Doppelführung mit dem Notizseiten-Wächter: dessen Altfall (108511 mit der Seite B0CJC11GRB) filtert dieser Wächter aus.
-const altfall = lauf([108511, 900011], block(900011, 'B0CJC11GRB', 'B0CJC11GRB') + block(108511, 'B0CJC11GRX', 'B0CJC11GRB'))
+// Doppelführung mit dem Notizseiten-Wächter: dessen Altfall (Fixture 900014 mit der Seite B0C8TKFF2J) filtert dieser Wächter aus.
+const altfall = lauf([900014, 900011], block(900011, 'B0C8TKFF2J', 'B0C8TKFF2J') + block(900014, 'B0C8THGKXC', 'B0C8TKFF2J'), ['900014@B0C8TKFF2J'])
 pruefe('Altfall des Notizseiten-Wächters: Exit 0, 0 Treffer', altfall.status === 0 && /0 Treffer/.test(altfall.aus), altfall)
 
 // Eigener Altfall der Ratsche (Goblin Slayer 2): Exit 0, als Altfall gezählt, keine Marke.

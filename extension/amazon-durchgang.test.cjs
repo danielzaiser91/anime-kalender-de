@@ -11,7 +11,7 @@
 const { readFileSync } = require('node:fs')
 const vm = require('node:vm')
 
-const quelle = readFileSync(__dirname + '/amazon.js', 'utf8')
+const quelle = readFileSync(__dirname + '/amazon-knopf-zeichnen.js', 'utf8') + readFileSync(__dirname + '/amazon.js', 'utf8')
 const von = quelle.indexOf('  // --- Durchgang über die Prüfliste')
 const bis = quelle.indexOf('  function primeTakt()')
 /*
