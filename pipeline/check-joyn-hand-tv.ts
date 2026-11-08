@@ -54,7 +54,7 @@ const SICHTUNGEN = [
 writeFileSync(join(wurzel, 'data', 'tv-programm.json'), JSON.stringify({ sendungen: Object.fromEntries(SICHTUNGEN) }))
 
 const { ergaenzeTermineAusNewsUndTv } = await import('./bau/08-news-tv.ts')
-const { setzeJoynFenster } = await import('./bau/13-1-joyn-fenster.ts')
+const { schreibeSynopsenUndReichereAn } = await import('./bau/13-1-anreichern.ts')
 const { joynAngabe } = await import('../web/src/lib/joyn.ts')
 type Release = import('../shared/types.ts').Release
 
@@ -83,7 +83,7 @@ function bau(releases: Release[], titles = new Map([[177476, titel()]])): Releas
   console.log = () => undefined
   try {
     ergaenzeTermineAusNewsUndTv({ titles, releases } as unknown as Parameters<typeof ergaenzeTermineAusNewsUndTv>[0])
-    setzeJoynFenster([...titles.values()] as never, releases)
+    schreibeSynopsenUndReichereAn({ allTitles: [...titles.values()] as never, releases, kanalJeAdresse: new Map() })
   } finally {
     console.log = alt
   }
@@ -119,6 +119,9 @@ const anderer = handtermin()
 anderer.sender = 'TOGGO plus'
 bau([anderer])
 pruefe('Anderer Sender: keine Beobachtung aus den MAXX-Sichtungen', anderer.schedule.observed === undefined && anderer.folgenBelegt === undefined, anderer.schedule)
+const kurz = handtermin({ episodeCount: 3 })
+bau([kurz])
+pruefe('Handtermin mit drei Folgen: genau Folge 1 bis 3 übernommen (Obergrenze eingeschlossen)', Object.keys(kurz.schedule.observed ?? {}).join() === '1,2,3', kurz.schedule.observed)
 const fremderTitel = handtermin()
 fremderTitel.titleId = 21
 bau([fremderTitel], new Map([[177476, titel()], [21, { ...titel(), id: 21, franchiseId: 21, titleEn: 'One Piece', streams: [] }]]))
