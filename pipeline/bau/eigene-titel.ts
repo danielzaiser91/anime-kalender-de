@@ -20,9 +20,20 @@ export interface EigenerEintrag {
   zitat: string
   zuId?: number
   widerrufen?: string
+  /** TMDB-Werk (`movie/<Kennung>` oder `tv/<Kennung>`), dessen Plakat der Titel trägt (`lib/eigene-tmdb.ts`). */
+  tmdb?: string
+  /** Statt `tmdb`: warum es kein Plakat gibt. */
+  coverGrund?: string
 }
 
 const FORMATE = ['TV', 'MOVIE', 'OVA', 'ONA', 'SPECIAL']
+
+/** Jede lebende Zeile nennt, woher ihr Plakat kommt (`tmdb`) oder warum keins da ist (`coverGrund`): ein Termin ohne Bild fiel am 03.11.2026 erst im Kalender auf. */
+function pruefeCover(e: Partial<EigenerEintrag>, wo: string): void {
+  if (e.tmdb !== undefined && !/^(movie|tv)\/\d+$/.test(String(e.tmdb))) throw new Error(`${wo}: tmdb muss movie/<Kennung> oder tv/<Kennung> sein`)
+  if (e.widerrufen || e.zuId) return
+  if (e.tmdb === undefined && !e.coverGrund?.trim()) throw new Error(`${wo}: tmdb (Plakat) oder coverGrund fehlt`)
+}
 
 /** Prüft eine Zeile der Handdatei; ein Fehler bricht den Bau ab, statt einen halben Titel zu zeigen. */
 function pruefeZeile(e: Partial<EigenerEintrag>, i: number, gesehen: Set<number>): EigenerEintrag {
@@ -37,6 +48,7 @@ function pruefeZeile(e: Partial<EigenerEintrag>, i: number, gesehen: Set<number>
   if (!Array.isArray(e.sources) || !e.sources.length || e.sources.some((q) => !/^https:\/\//.test(String(q)))) throw new Error(`${wo}: sources fehlen oder sind keine Adressen`)
   if (!e.zitat?.trim()) throw new Error(`${wo}: zitat fehlt`)
   if (e.zuId !== undefined && !Number.isInteger(e.zuId)) throw new Error(`${wo}: zuId ist keine Kennung`)
+  pruefeCover(e, wo)
   return e as EigenerEintrag
 }
 

@@ -24,7 +24,7 @@ const wurzel = mkdtempSync(join(tmpdir(), 'eigene-bestand-'))
 mkdirSync(join(wurzel, 'data'))
 mkdirSync(join(wurzel, 'public/data'), { recursive: true })
 const ID = 5_000_000 + 910001
-const zeile = (extra: string[] = []) => ['- nr: 910001', '  name: Fixture Eins', '  format: MOVIE', '  anbieter: [joyn]', '  tag: 2999-01-02', '  sources: [https://example.org/a]', '  zitat: "Z"', ...extra].join('\n')
+const zeile = (extra: string[] = []) => ['- nr: 910001', '  name: Fixture Eins', '  format: MOVIE', '  anbieter: [joyn]', '  tag: 2999-01-02', '  sources: [https://example.org/a]', '  zitat: "Z"', '  tmdb: movie/12', ...extra].join('\n')
 const schreibe = (pfad: string, inhalt: string): void => writeFileSync(join(wurzel, pfad), inhalt)
 const json = (pfad: string, inhalt: unknown): void => schreibe(pfad, JSON.stringify(inhalt))
 

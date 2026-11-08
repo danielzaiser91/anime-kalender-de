@@ -15,6 +15,9 @@
 #   zitat      der belegende Satz, wörtlich
 #   zuId       (optional) Kennung des Katalogtitels, in dem dieser Titel aufgeht: Termine ziehen um, die alte Adresse leitet weiter
 #   widerrufen (optional) Quelle und Datum, wenn die Ankündigung zurückgenommen wurde: Titel und Termin entfallen, die Nummer bleibt vergeben
+#   tmdb       `movie/<Kennung>` oder `tv/<Kennung>`: das TMDB-Werk, dessen Plakat der Titel trägt. Pflicht, außer `coverGrund` oder `zuId` steht da.
+#              Die Kennung stammt aus der TMDB-Suche (Name, Jahr, Genre Animation), nie geraten; der Plakatlauf holt das Bild beim nächsten Durchlauf.
+#   coverGrund statt `tmdb`: warum es kein Plakat gibt (ein Termin ohne Bild fiel am 03.11.2026 erst im Kalender auf)
 #
 # Führt ein Katalog den Titel später selbst, meldet der Bestandsprüfer „Katalog führt jetzt …“: dann `zuId` setzen, nicht löschen.
 
@@ -23,21 +26,24 @@
   format: MOVIE
   anbieter: [joyn, primevideo]
   tag: 2026-11-03
+  tmdb: movie/290462 # TMDB „Z wie Zorro - Der Film“ (快傑ゾロ, 1996-11-11, Animation), abgelesen 08.11.2026
   sources: [https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/]
-  zitat: "»Z wie Zorro – Der Film« Laufzeit: 106 Minuten Sprache: Deutsch Stream: Joyn , Prime Video (Überschrift: 25 Anime-Neuzugänge ab sofort auf Joyn verfügbar, 3. November 2026)"
+  zitat: "»Z wie Zorro – Der Film«Laufzeit: 106 Minuten Sprache: Deutsch Stream: Joyn , Prime Video (Überschrift: 25 Anime-Neuzugänge ab sofort auf Joyn verfügbar, 3. November 2026)"
 
 - nr: 2
   name: Zorros Geheimnis
   format: MOVIE
   anbieter: [joyn, primevideo]
   tag: 2026-11-03
+  tmdb: movie/1717866 # TMDB „Zorro’s Geheimnis“ (Zorro's Secret, 1996, Animation), abgelesen 08.11.2026; Laufzeit dort 75 statt 88 min
   sources: [https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/]
-  zitat: "»Zorros Geheimnis« Laufzeit: 88 Minuten Sprache: Deutsch Stream: Joyn , Prime Video (Überschrift: 25 Anime-Neuzugänge ab sofort auf Joyn verfügbar, 3. November 2026)"
+  zitat: "»Zorros Geheimnis«Laufzeit: 88 Minuten Sprache: Deutsch Stream: Joyn , Prime Video (Überschrift: 25 Anime-Neuzugänge ab sofort auf Joyn verfügbar, 3. November 2026)"
 
 - nr: 3
   name: M.A.S.K.
   format: TV
   anbieter: [primevideo]
   tag: 2026-11-01
+  tmdb: tv/4961 # TMDB „M.A.S.K.“ (1985-09-30, Animation, 75 Folgen), abgelesen 08.11.2026
   sources: [https://www.anime2you.de/news/1065078/aniverse-november-2026-neuzugaenge/]
   zitat: "Der Prime Video Channel aniverse stockt sein Programm auch im November 2026 mit mehreren neuen Anime-Titeln auf. … 1. November: »M.A.S.K.« Episoden: 73 (komplett) Sprache: Deutsch Stream: Noch nicht verfügbar"
