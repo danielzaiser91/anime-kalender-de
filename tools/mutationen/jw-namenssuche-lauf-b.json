@@ -1,0 +1,154 @@
+[
+  {
+    "name": "Kontrolle (unmutiert)",
+    "aenderungen": []
+  },
+  {
+    "name": "fetch sucheOhneTmdb: ohne Treffer ohne Kennzeichen ueberName",
+    "aenderungen": [
+      {
+        "datei": "pipeline/fetch-justwatch-audio.ts",
+        "suche": "        neu[String(t.id)].ueberName = true\n",
+        "ersetze": ""
+      }
+    ]
+  },
+  {
+    "name": "fetch sucheOhneTmdb: verfehlt überschreibt die alte Antwort",
+    "aenderungen": [
+      {
+        "datei": "pipeline/fetch-justwatch-audio.ts",
+        "suche": "} else if (verbucheFehlschlag(neu, String(t.id), undefined)) z.verfehlt++",
+        "ersetze": "} else if (false) z.verfehlt++"
+      }
+    ]
+  },
+  {
+    "name": "fetch befundVonNamenstreffer: ueberName fehlt",
+    "aenderungen": [
+      {
+        "datei": "pipeline/fetch-justwatch-audio.ts",
+        "suche": "    angebote: angeboteVon(treffer.offers),\n    ueberName: true,\n",
+        "ersetze": "    angebote: angeboteVon(treffer.offers),\n"
+      }
+    ]
+  },
+  {
+    "name": "fetch befundVonNamenstreffer: JW-Kennung wird nicht gespeichert",
+    "aenderungen": [
+      {
+        "datei": "pipeline/fetch-justwatch-audio.ts",
+        "suche": "    jwId: treffer.id,\n    tmdbId,\n",
+        "ersetze": "    jwId: treffer.id,\n    tmdbId: undefined,\n"
+      }
+    ]
+  },
+  {
+    "name": "fetch befundVonNamenstreffer: erstAm wird jedes Mal neu",
+    "aenderungen": [
+      {
+        "datei": "pipeline/fetch-justwatch-audio.ts",
+        "suche": "    geprueftAm: todayIso(),\n    ...(vorher && !vorher.ohneTreffer && !vorher.erstAm ? {} : { erstAm: vorher?.erstAm ?? todayIso() }),\n    jwId: treffer.id,",
+        "ersetze": "    geprueftAm: todayIso(),\n    erstAm: todayIso(),\n    jwId: treffer.id,"
+      }
+    ]
+  },
+  {
+    "name": "fetch sucheOhneTmdb: Treffer ohne Angebot zählt nicht als leer",
+    "aenderungen": [
+      {
+        "datei": "pipeline/fetch-justwatch-audio.ts",
+        "suche": "        if (!neu[String(t.id)].angebote.length) z.leer++\n",
+        "ersetze": ""
+      }
+    ]
+  },
+  {
+    "name": "fetch sucheOhneTmdb: mehrdeutig wird nicht gemeldet",
+    "aenderungen": [
+      {
+        "datei": "pipeline/fetch-justwatch-audio.ts",
+        "suche": "if (u.art === 'mehrdeutig') z.mehrdeutig.push(",
+        "ersetze": "if (false) z.mehrdeutig.push("
+      }
+    ]
+  },
+  {
+    "name": "fetch sucheOhneTmdb: fremd wird nicht gemeldet",
+    "aenderungen": [
+      {
+        "datei": "pipeline/fetch-justwatch-audio.ts",
+        "suche": "if (u.art === 'fremd') z.fremd.push(",
+        "ersetze": "if (false) z.fremd.push("
+      }
+    ]
+  },
+  {
+    "name": "fetch main: Namenssuche läuft nie",
+    "aenderungen": [
+      {
+        "datei": "pipeline/fetch-justwatch-audio.ts",
+        "suche": "if (!nurCartoons && zahl('--namen', 0) > 0) await",
+        "ersetze": "if (false && !nurCartoons && zahl('--namen', 0) > 0) await"
+      }
+    ]
+  },
+  {
+    "name": "fetch main: Namenssuche auch bei --nur-cartoons",
+    "aenderungen": [
+      {
+        "datei": "pipeline/fetch-justwatch-audio.ts",
+        "suche": "if (!nurCartoons && zahl('--namen', 0) > 0) await",
+        "ersetze": "if (zahl('--namen', 0) > 0) await"
+      }
+    ]
+  },
+  {
+    "name": "fetch main: Namenssuche auch ohne --namen",
+    "aenderungen": [
+      {
+        "datei": "pipeline/fetch-justwatch-audio.ts",
+        "suche": "zahl('--namen', 0) > 0) await",
+        "ersetze": "zahl('--namen', 0) >= 0) await"
+      }
+    ]
+  },
+  {
+    "name": "fetch main: Anzahl wird nicht durchgereicht",
+    "aenderungen": [
+      {
+        "datei": "pipeline/fetch-justwatch-audio.ts",
+        "suche": "await sucheOhneTmdb(titles, tmdb, bestand, zahl('--namen', 0))",
+        "ersetze": "await sucheOhneTmdb(titles, tmdb, bestand, 1000)"
+      }
+    ]
+  },
+  {
+    "name": "fetch main: Namenssuche nach dem frühen Ausstieg",
+    "aenderungen": [
+      {
+        "datei": "pipeline/fetch-justwatch-audio.ts",
+        "suche": "  if (!nurCartoons && zahl('--namen', 0) > 0) await sucheOhneTmdb(titles, tmdb, bestand, zahl('--namen', 0))\n",
+        "ersetze": ""
+      },
+      {
+        "datei": "pipeline/fetch-justwatch-audio.ts",
+        "suche": "  if (!offen.length) {\n    log('JustWatch: keine offenen Verweise zur Wiedervorlage.')\n    recordSource('justwatch-audio', 0)\n    return\n  }\n",
+        "ersetze": "  if (!offen.length) {\n    log('JustWatch: keine offenen Verweise zur Wiedervorlage.')\n    recordSource('justwatch-audio', 0)\n    return\n  }\n  if (!nurCartoons && zahl('--namen', 0) > 0) await sucheOhneTmdb(titles, tmdb, bestand, zahl('--namen', 0))\n"
+      }
+    ]
+  },
+  {
+    "name": "fetch SUCHE: Erscheinungsjahr wird nicht abgefragt (Attrappe liefert es trotzdem, nur Anker)",
+    "aenderungen": [
+      {
+        "datei": "pipeline/fetch-justwatch-audio.ts",
+        "suche": "          title\n          originalReleaseYear\n",
+        "ersetze": "          title\n"
+      }
+    ],
+    "tests": [
+      "npx tsx pipeline/check-jw-namenssuche-lauf.ts"
+    ]
+  }
+]

@@ -33,7 +33,7 @@ function pruefe(name, bedingung, gefunden) {
 
 console.log('Zusicherungen zur Folgenzahl (Tsubasa, Chibi Maruko-chan, Blood-C)\n')
 
-const quelle = readFileSync(resolve(__dirname, 'amazon.js'), 'utf8')
+const quelle = readFileSync(resolve(__dirname, 'amazon.js'), 'utf8') + readFileSync(resolve(__dirname, 'amazon-knopf-zeichnen.js'), 'utf8')
 
 /*
   `istFilmSeite()` wird aus dem Quelltext geschnitten und mit einem eigenen
@@ -541,7 +541,7 @@ pruefe(
   ZEXAL trug 101 und 201 für die beiden Bände derselben Staffel).
 */
 {
-  const q = readFileSync(__dirname + '/amazon.js', 'utf8')
+  const q = readFileSync(__dirname + '/amazon-knopf-zeichnen.js', 'utf8') + readFileSync(__dirname + '/amazon.js', 'utf8')
   const von = q.indexOf('  function staffelNummer()')
   const bis = q.indexOf('\n  }', von) + 4
   const code = q.slice(von, bis).replace(/^ {2}/gm, '')
@@ -572,7 +572,7 @@ pruefe(
     'der Leser stempelt mit der Abruf-Adresse',
     /*
       Gezählt gegen die Sendestellen, nicht gegen eine feste Zahl: Am 15.09.2026
-      kam mit `seiteNachholen()` eine vierte dazu, und die „3" wurde rot, obwohl
+      kam mit `ausNachgeholterSeite()` eine vierte dazu, und die „3" wurde rot, obwohl
       jede Stelle richtig stempelte.
     */
     leser.split('fuerAdresse: abrufAdresse').length - 1 === (leser.match(/window\.postMessage\(/g) ?? []).length &&
@@ -589,7 +589,7 @@ pruefe(
   `docs/diagnose/tokyo-ghoul-s4-ohne-folgen.json`).
 */
 {
-  const q = readFileSync(__dirname + '/amazon.js', 'utf8')
+  const q = readFileSync(__dirname + '/amazon-knopf-zeichnen.js', 'utf8') + readFileSync(__dirname + '/amazon.js', 'utf8')
   const zaehl = q.indexOf('const fehlend = Math.max(0, gesehen.gesamt - geladen - wegInRegion)')
   const melden = q.indexOf('Diese Seite führt keine Folgenliste')
   pruefe('der Meldezweig steht vor dem Zählzweig', melden > 0 && zaehl > 0 && melden < zaehl)
@@ -612,7 +612,7 @@ pruefe(
   gibt es keine Karte auf dieser Seite, die man markieren könnte.
 */
 {
-  const q = readFileSync(__dirname + '/amazon.js', 'utf8')
+  const q = readFileSync(__dirname + '/amazon-knopf-zeichnen.js', 'utf8') + readFileSync(__dirname + '/amazon.js', 'utf8')
   const ohneKennung = []
   let i = q.indexOf('kastenKnopf(')
   while (i !== -1) {

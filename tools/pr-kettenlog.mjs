@@ -23,7 +23,7 @@ export const LOG_PAUSE_MS = 20_000
 const FEHL_LOG = '##[error]Log nicht abrufbar:'
 export const JE_JOB_ERGEBNIS = 450
 export const ZEILE_MAX = 300
-const ERGEBNIS = /(alles in Ordnung|Prüfungen grün|: (ok|grün)\b|\b\d+ von \d+\b|\b\d+ Fehler\b|\bFEHL\b|##\[error\]|^\s*[✖✕✗]|Process completed with exit code)/
+const ERGEBNIS = /(alles in Ordnung|Prüfungen grün|: (ok|grün)\b|\b\d+ von \d+\b|\b\d+ Fehler\b|\bFEHL\b|##\[error\]|^\s*[✖✕✗]|Process completed with exit code|(^|\]|\s)start-budget: )/
 // Ein Name landet in einer Textdatei, die der Prüfer liest: Steuerzeichen raus.
 const sauber = (text) => String(text).replace(/[\u0000-\u001f\u007f]+/g, ' ').slice(0, 80)
 
@@ -106,7 +106,7 @@ export function ghAufruf(args, programm = ['gh']) {
   return r.stdout
 }
 
-/** Neuester Lauf von pr-pruefung.yml zum Kopf (höchste Kennung), sonst null. */
+/** Neuester Lauf von pr-pruefung.yml zum Kopf (höchste Kennung), sonst null. Abgebrochene Läufe (Concurrency beim Wiederöffnen) zählen nur, wenn es keinen anderen gibt. */
 export function holeLauf(repo, sha, gh) {
   const roh = gh(['api', `repos/${repo}/actions/workflows/pr-pruefung.yml/runs?head_sha=${sha}&event=pull_request&per_page=30`,
     '-q', '.workflow_runs[] | [.id, .status, (.conclusion // "")] | @tsv'])
@@ -114,7 +114,8 @@ export function holeLauf(repo, sha, gh) {
     const [id, status, conclusion] = z.split('\t')
     return { id: Number(id), status, conclusion }
   })
-  return laeufe.sort((a, b) => b.id - a.id)[0] ?? null
+  const gueltig = laeufe.filter((l) => l.conclusion !== 'cancelled')
+  return (gueltig.length > 0 ? gueltig : laeufe).sort((a, b) => b.id - a.id)[0] ?? null
 }
 
 export function holeJobs(repo, runId, gh) {

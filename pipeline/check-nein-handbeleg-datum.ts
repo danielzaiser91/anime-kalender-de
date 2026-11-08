@@ -20,7 +20,8 @@ function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
 const kulisse = mkdtempSync(join(tmpdir(), 'ak-nein-datum-'))
 mkdirSync(join(kulisse, 'data'))
 process.env.AK_ROOT = kulisse
-const { ladeHandbelege, neinHandbelege, wegVerneint } = await import('./lib/dub-confirmed.ts')
+const { ladeHandbelege, neinHandbelege, wegVerneint, adressKern } = await import('./lib/dub-confirmed.ts')
+const { handbelegteWege } = await import('./lib/handbeleg-weg.ts')
 const { istSammelKern } = await import('../shared/adresse-kern.ts')
 
 const prime = (asin: string) => `https://www.amazon.de/dp/${asin}`
@@ -72,6 +73,32 @@ try {
   pruefe('anderer Titel mit derselben Adresse und Ja: kein Nein', !sperrt(zwei, 13, FREMD))
   pruefe('Nein an Adresse X, jüngeres Ja an Adresse Y: Nein gilt nur X', sperrt([beleg(14, prime('B0ADRESSEX1'), '2026-09-01', '  dub: false\n'), beleg(14, prime('B0ADRESSEY1'), '2026-09-10', '  dub: true\n')], 14, prime('B0ADRESSEX1')) && !sperrt([beleg(14, prime('B0ADRESSEX1'), '2026-09-01', '  dub: false\n'), beleg(14, prime('B0ADRESSEY1'), '2026-09-10', '  dub: true\n')], 14, FREMD))
 
+  console.log('\nJüngere Kanal-Messung mit Folgen überholt „nicht verfügbar“ (Promare 99425, Vermeil in Gold 146210):')
+  const KANAL_ADR = 'https://www.amazon.de/gp/video/detail/B0FZ7WGYCB'
+  const KANAL = 'Tonspuren: Deutsch — Amazon-Seite B0FZ7WGYCB: alle 1 Folge geprüft, Ids: x — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg'
+  const wegK = (id: number, d: string, extra = '') => beleg(id, KANAL_ADR, d, `  available: false\n${extra}`)
+  const kanalJa = (id: number, d: string, extra = '', messung = 'ja') =>
+    beleg(id, KANAL_ADR, d, `  dub: true\n  kanalMessung: ${messung}\n${extra}  note: "${KANAL}"\n`)
+  const hatWeg = (id: number) => handbelegteWege(ladeHandbelege()).has(`${id}|primevideo|${adressKern(KANAL_ADR)}`)
+  const ergebnis = (zeilen: string[], id: number) => ({ nein: sperrt(zeilen, id, KANAL_ADR), weg: hatWeg(id) })
+  const soll = (zeilen: string[], id: number, nein: boolean, weg: boolean) => {
+    const e = ergebnis(zeilen, id)
+    return e.nein === nein && e.weg === weg
+  }
+  pruefe('Promare: älteres available: false, jüngeres Kanal-Ja: kein Nein, Adressweg da', soll([wegK(30, '2026-08-25'), kanalJa(30, '2026-10-16')], 30, false, true), ergebnis([wegK(30, '2026-08-25'), kanalJa(30, '2026-10-16')], 30))
+  pruefe('Vermeil in Gold: Datei in umgekehrter Reihenfolge ebenso', soll([kanalJa(31, '2026-10-16'), wegK(31, '2026-08-25')], 31, false, true))
+  pruefe('Kontrolle: dub: false im älteren Beleg bleibt ein Nein', soll([beleg(32, KANAL_ADR, '2026-08-25', '  dub: false\n'), kanalJa(32, '2026-10-16')], 32, true, false))
+  pruefe('Kontrolle: älteres Nein trägt dub: false und available: false: Nein bleibt', soll([wegK(33, '2026-08-25', '  dub: false\n'), kanalJa(33, '2026-10-16')], 33, true, false))
+  pruefe('Kontrolle: ohne jüngere Messung (nur available: false) bleibt das Nein', soll([wegK(34, '2026-08-25')], 34, true, false))
+  pruefe('Kontrolle: Kanal-Messung älter als das Nein: das Nein bleibt', soll([kanalJa(35, '2026-08-25'), wegK(35, '2026-10-16')], 35, true, false))
+  pruefe('Kontrolle: gleicher Tag: das Nein bleibt', soll([wegK(36, '2026-10-16'), kanalJa(36, '2026-10-16')], 36, true, false))
+  pruefe('Kontrolle: jüngere Messung nein (keine Folge deutsch): das Nein bleibt', soll([wegK(37, '2026-08-25'), kanalJa(37, '2026-10-16', '', 'nein')], 37, true, false))
+  pruefe('Kontrolle: jüngere Zeile mit eigenem available: false: das Nein bleibt', soll([wegK(38, '2026-08-25'), kanalJa(38, '2026-10-16', '  available: false\n')], 38, true, false))
+  pruefe('Kontrolle: jüngeres Ja ohne Kanal-Warnung hebt wie bisher auf (kein Nein, Ja-Weg)', soll([wegK(39, '2026-08-25'), beleg(39, KANAL_ADR, '2026-10-16', '  dub: true\n  kanalMessung: ja\n')], 39, false, true))
+  sperrt([wegK(40, '2026-08-25'), kanalJa(40, '2026-10-16')], 40, KANAL_ADR)
+  const geladen = ladeHandbelege().filter((c) => c.anilistId === 40)
+  pruefe('Kein Synchro-Ja: eine verschmolzene Zeile, ohne dub und available, mit kanalOhneBeleg', geladen.length === 1 && geladen[0]!.dub === undefined && geladen[0]!.available === undefined && geladen[0]!.kanalOhneBeleg === true, geladen)
+
   console.log('\nSuch-, Start- und Länderseiten sind keine Ausgabe:')
   const SUCHE = 'https://www.amazon.de/s?k=Jormungand%3A%20Perfect%20Order&i=instant-video'
   const ASIN = prime('B0DNCGXVNT')
@@ -91,6 +118,27 @@ try {
   pruefe('Ja und Nein beide ohne Adresse: das Nein gilt', wegVerneint(neinHandbelege([roh(undefined, { dub: true }), roh(undefined, { available: false })]), 27, 'primevideo', FREMD))
   pruefe('Ja und Nein beide an derselben Suche: das Nein gilt', wegVerneint(neinHandbelege([roh(SUCHE, { dub: true }), roh(SUCHE, { available: false })]), 27, 'primevideo', FREMD))
   pruefe('… in umgekehrter Reihenfolge ebenso', wegVerneint(neinHandbelege([roh(SUCHE, { available: false }), roh(SUCHE, { dub: true })]), 27, 'primevideo', FREMD))
+
+  console.log('\nNein ohne Adresse: nur ein jüngeres Ja mit Adresse derselben Plattform hebt es auf:')
+  const JA_ADR = prime('B0JAADRESSE')
+  const neinOA = (id: number, d: string) => ohne(id, d, '  dub: false\n')
+  const jaMitAdr = (id: number, d: string) => beleg(id, JA_ADR, d, '  dub: true\n')
+  pruefe('Nein ohne Adresse vom 22.08., Ja mit Adresse vom 10.10.: kein Nein', !sperrt([neinOA(30, '2026-08-22'), jaMitAdr(30, '2026-10-10')], 30, FREMD))
+  pruefe('… in der Datei umgekehrt angeordnet: dasselbe', !sperrt([jaMitAdr(31, '2026-10-10'), neinOA(31, '2026-08-22')], 31, FREMD))
+  pruefe('Nein ohne Adresse vom 10.10., älteres Ja mit Adresse vom 22.08.: Nein gilt', sperrt([neinOA(32, '2026-10-10'), jaMitAdr(32, '2026-08-22')], 32, FREMD))
+  pruefe('Nein ohne Adresse und Ja mit Adresse am selben Tag: Nein gilt', sperrt([neinOA(33, '2026-10-10'), jaMitAdr(33, '2026-10-10')], 33, FREMD))
+  pruefe('Nein ohne Adresse, jüngeres Ja an der Suche: Nein gilt (Suche ist keine Ausgabe)', sperrt([neinOA(35, '2026-08-22'), beleg(35, SUCHE, '2026-10-10', '  dub: true\n')], 35, FREMD))
+  pruefe('Nein ohne Adresse, Ja mit Adresse nur bei einem anderen Titel: Nein gilt', sperrt([neinOA(36, '2026-08-22'), jaMitAdr(37, '2026-10-10')], 36, FREMD))
+  pruefe('zwei Nein ohne Adresse (01.09., 20.09.), Ja mit Adresse dazwischen (10.09.): das jüngste Nein gilt', sperrt([neinOA(38, '2026-09-01'), jaMitAdr(38, '2026-09-10'), neinOA(38, '2026-09-20')], 38, FREMD))
+  /* Rohzeilen (ohne Verschmelzung): das jüngste der Nein ohne Adresse zählt, gleich in welcher Reihenfolge sie stehen. */
+  const rohNein = (d: string) => ({ anilistId: 41, platform: 'primevideo' as const, dub: false, checkedAt: d })
+  const rohJa = { anilistId: 41, platform: 'primevideo' as const, url: JA_ADR, dub: true, checkedAt: '2026-09-10' }
+  pruefe('Rohzeilen: Nein 20.09., Nein 01.09., Ja mit Adresse 10.09.: Nein gilt', wegVerneint(neinHandbelege([rohNein('2026-09-20'), rohNein('2026-09-01'), rohJa]), 41, 'primevideo', FREMD))
+  pruefe('Rohzeilen: Nein 01.09., Nein 20.09., Ja mit Adresse 10.09.: Nein gilt', wegVerneint(neinHandbelege([rohNein('2026-09-01'), rohNein('2026-09-20'), rohJa]), 41, 'primevideo', FREMD))
+  const mitAdresse = (id: number) => beleg(id, JA_ADR, '2026-08-22', '  dub: false\n')
+  const anlass = [neinOA(39, '2026-08-22'), mitAdresse(39), jaMitAdr(39, '2026-10-10')]
+  pruefe('Anlassfall: dasselbe Nein mit und ohne Adresse (22.08.), Ja mit Adresse (10.10.): kein Nein', !sperrt(anlass, 39, FREMD) && !sperrt(anlass, 39, JA_ADR))
+  pruefe('Kuroko: Ja ohne Adresse, dann Ja mit Adresse und Nein ohne Adresse am selben Tag: Nein gilt', sperrt([ohne(40, '2026-08-22', '  dub: true\n'), jaMitAdr(40, '2026-09-25'), ohne(40, '2026-09-25', '  available: false\n')], 40, FREMD))
 
   console.log('\nistSammelKern:')
   const sammel = ['amazon.de/s', 'amazon.de/s/ref=nb_sb_noss', 'crunchyroll.com', 'crunchyroll.com/de', 'crunchyroll.com/de-de', 'netflix.com/search', 'anbieter.de/suche']

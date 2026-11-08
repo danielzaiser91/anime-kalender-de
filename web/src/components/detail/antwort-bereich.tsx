@@ -62,7 +62,7 @@ export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, te
           t={t}
           today={today}
           wegeHinweis={wegeHinweis}
-          notiz={kastenNotiz?.note}
+          notiz={kastenNotiz?.hinweis}
           folgen={<FolgenMitNachlegern titleId={title.id} wege={deutscheBereicheDerWege(title)} antwort={antwort} releases={releases} today={today} laufzeitImKopf={Boolean(title.runtimeMin)} />}
           schnitt={kastenNotiz?.schnitt}
           angebotSeit={angebotSeitZeileVon(title, t)}

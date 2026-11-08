@@ -4,7 +4,7 @@
  * (`daniel-zum-abarbeiten/listen/kalender-plausibilitaet.md`). Rein: liest nichts, die Dateien lädt `check-kalender-plausibilitaet-bestand.ts`.
  */
 import type { Release, ReleaseEvent, Title } from '../../shared/types.ts'
-import type { NewsEintrag } from '../../shared/news-typen.ts'
+import { traegtOffizielle, type NewsEintrag } from '../../shared/news-typen.ts'
 import { addDays } from '../../shared/time.ts'
 import { stufeTitelEin } from '../../web/src/lib/db-relevanz.ts'
 import { istKeineTitelseite } from '../bau/11-7-wege-aus-terminen.ts'
@@ -138,13 +138,20 @@ function meldungenJeReihe(b: Bestand): Map<number, { art: string; am: string }[]
   return m
 }
 
+/**
+ * Ab diesem Tag ist `news.json` lückenlos: die Obergrenze (`news-obergrenze.ts`) kappt alles Ältere, nur offizielle Meldungen (365 Tage) bleiben
+ * einzeln stehen. Darum zählt die älteste nicht-offizielle Meldung, nicht die älteste überhaupt (Black Torch, Start 04.07., 06.11.2026).
+ */
+export function luckenlosAb(news: NewsEintrag[], heute: string): string {
+  return news.filter((n) => !traegtOffizielle(n)).map((n) => n.am).sort()[0] ?? heute
+}
+
 /** 4. Ein belegtes Ereignis ohne Meldung: Start eines Termins, ausgebliebene Folge, neue Crunchyroll-Folge. */
 export function ereignisOhneNews(b: Bestand): Treffer[] {
   const meldungen = meldungenJeReihe(b)
   const reihe = new Map(b.titles.map((t) => [t.id, t.franchiseId ?? t.id]))
   const start = new Map(b.releases.map((r) => [r.slug, r.schedule.firstEpisodeDate]))
-  /* Älter als die älteste Meldung der Datei lässt sich nichts beurteilen: die News halten nur ein Fenster. */
-  const aeltesteNews = b.news.map((n) => n.am).sort()[0] ?? b.heute
+  const aeltesteNews = luckenlosAb(b.news, b.heute)
   const bis = addDays(b.heute, -NEWS_VERZUG_TAGE)
   const folgenAb = addDays(b.heute, -FOLGEN_FENSTER_TAGE)
   const treffer: Treffer[] = []

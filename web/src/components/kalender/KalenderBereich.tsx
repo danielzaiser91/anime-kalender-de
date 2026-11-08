@@ -8,7 +8,7 @@ import { useLang } from '../../lib/i18n.tsx'
 import { merkeZielTag } from '../../lib/ziel-tag.ts'
 import { useAnsichtOben } from '../../lib/ansicht-scroll.ts'
 import { WeekView } from '../WeekView.tsx'
-import { MonthView } from '../MonthView.tsx'
+import { MonatLazy } from './MonatLazy.tsx'
 import { KalenderKopf, wochenSpanne } from './KalenderKopf.tsx'
 import { KalenderFilter } from './KalenderFilter.tsx'
 import { zaehlung } from './Marken.tsx'
@@ -86,7 +86,7 @@ export function KalenderBereich(p: KalenderBereichProps) {
         onMonat={() => navigate({ view: 'monat' })}
       />
       {monat ? (
-        <MonthView data={p.data} events={p.events} anchorDate={route.date} hidden={p.hidden} onOpen={oeffnen} onPickDay={zurWoche} favorites={p.favorites} />
+        <MonatLazy data={p.data} events={p.events} anchorDate={route.date} hidden={p.hidden} onOpen={oeffnen} onPickDay={zurWoche} favorites={p.favorites} />
       ) : (
         <WeekView
           data={p.data}

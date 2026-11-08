@@ -15,7 +15,7 @@ const GRENZE = '2026-01-01'
  * Es entsteht nur, wo (1) der Titel noch **keinen** Termin hat, (2) die Erstausgabe ab 2026 liegt, (3) der Verlag ein Streaming-Anbieter ist, (4) wir auf diesen
  * Anbieter mit belegter Synchro verlinken. Ehrlich bleibt es durch \`dateMeaning: 'available-from'\` („Im Angebot seit") — kein Erscheinungstag je Folge.
  */
-export function ergaenzeErstausgabeAngebot({ titles, releases }: { titles: Iterable<Title>; releases: Release[] }): number {
+export function ergaenzeErstausgabeAngebot({ titles, releases, kennungen }: { titles: Iterable<Title>; releases: Release[]; kennungen: ReadonlyMap<number, number> }): number {
   const hatTermin = titelMitTermin(releases)
   let neu = 0
   for (const t of titles) {
@@ -24,7 +24,10 @@ export function ergaenzeErstausgabeAngebot({ titles, releases }: { titles: Itera
     if (hatTermin.has(t.id) || !e?.von || e.von < GRENZE || !plattform) continue
     const verweis = t.streams.find((s) => s.platform === plattform && s.dub === true)
     if (!verweis) continue
-    const quelle = t.anisearchId ? `https://www.anisearch.de/anime/${t.anisearchId}` : undefined
+    /* Der Bau-Titel trägt noch keine `anisearchId` (die setzt erst die Auslieferung); ohne Kennung entsteht kein Termin — kein Termin ohne Quelle. */
+    const asId = kennungen.get(t.id)
+    if (!asId) continue
+    const quelle = `https://www.anisearch.de/anime/${asId}`
     releases.push({
       slug: `anisearch-${t.id}-${plattform}`,
       titleId: t.id,
@@ -35,8 +38,8 @@ export function ergaenzeErstausgabeAngebot({ titles, releases }: { titles: Itera
       dateMeaning: 'available-from',
       schedule: { firstEpisodeDate: e.von, episodeCount: t.episodes ?? 1, lastEpisodeDate: e.von },
       year: Number(e.von.slice(0, 4)),
-      sources: quelle ? [quelle] : [],
-      ...(quelle ? { quellen: [{ url: quelle, name: 'anisearch.de', gesehenAm: todayIso(), sagt: e.von, stand: 'aktuell' as const }] } : {}),
+      sources: [quelle],
+      quellen: [{ url: quelle, name: 'anisearch.de', gesehenAm: todayIso(), sagt: e.von, stand: 'aktuell' as const }],
     } as Release)
     neu++
   }

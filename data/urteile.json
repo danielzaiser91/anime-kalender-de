@@ -36736,62 +36736,62 @@
   "187053|primevideo|1": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-10-16"
+    "tag": "2026-10-13"
   },
   "187053|primevideo|2": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-10-16"
+    "tag": "2026-10-13"
   },
   "187053|primevideo|3": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-10-16"
+    "tag": "2026-09-28"
   },
   "187053|primevideo|4": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-10-16"
+    "tag": "2026-09-28"
   },
   "187053|primevideo|5": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-10-16"
+    "tag": "2026-09-28"
   },
   "187053|primevideo|6": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-10-16"
+    "tag": "2026-09-28"
   },
   "187053|primevideo|7": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-10-16"
+    "tag": "2026-09-28"
   },
   "187053|primevideo|8": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-10-16"
+    "tag": "2026-09-28"
   },
   "187053|primevideo|9": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-10-16"
+    "tag": "2026-09-28"
   },
   "187053|primevideo|10": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-10-16"
+    "tag": "2026-09-28"
   },
   "187053|primevideo|11": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-10-16"
+    "tag": "2026-09-28"
   },
   "187053|primevideo|12": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-10-16"
+    "tag": "2026-10-13"
   },
   "100179|primevideo|1": {
     "urteil": "deutsch",
@@ -49925,9 +49925,9 @@
     "tag": "2026-10-16"
   },
   "101350|primevideo|13": {
-    "urteil": "kein deutsch",
+    "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-10-16"
+    "tag": "2026-11-07"
   },
   "170916|primevideo|1": {
     "urteil": "kein deutsch",
@@ -81367,6 +81367,11 @@
     "art": "gemessen",
     "tag": "2026-08-22"
   },
+  "20791|netflix|1": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-08-22"
+  },
   "21188|netflix|0": {
     "urteil": "nicht verfügbar",
     "art": "gemessen",
@@ -81904,6 +81909,11 @@
   },
   "13759|netflix|0": {
     "urteil": "nicht verfügbar",
+    "art": "gemessen",
+    "tag": "2026-08-22"
+  },
+  "21718|netflix|1": {
+    "urteil": "deutsch",
     "art": "gemessen",
     "tag": "2026-08-22"
   },
@@ -82803,6 +82813,11 @@
     "tag": "2026-08-22"
   },
   "108553|netflix|1": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-08-22"
+  },
+  "21719|netflix|1": {
     "urteil": "deutsch",
     "art": "gemessen",
     "tag": "2026-08-22"

@@ -92,6 +92,7 @@ export const TEXTE_KALENDER = {
   'kal.folge': 'Folge {n}',
   'kal.folgeVon': 'Folge {n}/{von}',
   'kal.folgen': '{n} Folgen',
+  'kal.kanalNeu': 'neu bei {kanal}',
   'kal.folgenSpanne': 'Folgen {von}–{bis}',
   'kal.folgenSpanneVon': 'Folge {von}–{bis}/{gesamt}',
   'kal.katalogAlle': 'Alle {n} Folgen auf einmal',

@@ -100,29 +100,35 @@ export function basisFehlt(basis: Grenzen | undefined, ci: boolean): string | un
   return !basis && ci ? 'Basisvergleich entfällt in CI: Grenzen der Basis (main) nicht lesbar' : undefined
 }
 
-function argument(name: string): string | undefined {
-  const i = process.argv.indexOf(name)
-  return i >= 0 ? process.argv[i + 1] : undefined
+function argument(argv: string[], name: string): string | undefined {
+  const i = argv.indexOf(name)
+  return i >= 0 ? argv[i + 1] : undefined
 }
 
-function main(): number {
-  const wurzel = resolve(argument('--wurzel') ?? resolve(import.meta.dirname, '..'))
+export interface Ausgabe {
+  log: (z: string) => void
+  error: (z: string) => void
+}
+
+/** Der Lauf mit Argumenten, CI-Kennzeichen und Ausgabe als Parameter (Exit-Code als Rückgabe); die Fälle rufen ihn ohne Prozess auf. */
+export function lauf(argv: string[], ci: boolean, aus: Ausgabe): number {
+  const wurzel = resolve(argument(argv, '--wurzel') ?? resolve(import.meta.dirname, '..'))
   const stand = zaehle(wurzel)
-  if (process.argv.includes('--liste')) {
-    console.log(stand.offen.join('\n'))
+  if (argv.includes('--liste')) {
+    aus.log(stand.offen.join('\n'))
     return 0
   }
   const grenzen = gelesen(readFileSync(join(wurzel, GRENZDATEI), 'utf8'))
-  const basis = basisGrenzen(wurzel, argument('--basis'))
-  console.log(`dub-lesart: ${stand.offen.length} offene Lese-Stellen (höchstens ${grenzen.offen}), ${stand.marken} Marken (höchstens ${grenzen.marken}), ${stand.tote.length} tote; Basisvergleich ${basis ? 'ja' : 'entfällt'}`)
+  const basis = basisGrenzen(wurzel, argument(argv, '--basis'))
+  aus.log(`dub-lesart: ${stand.offen.length} offene Lese-Stellen (höchstens ${grenzen.offen}), ${stand.marken} Marken (höchstens ${grenzen.marken}), ${stand.tote.length} tote; Basisvergleich ${basis ? 'ja' : 'entfällt'}`)
   const fehler = urteil(stand, grenzen, basis)
-  const ohneBasis = basisFehlt(basis, Boolean(process.env.CI))
+  const ohneBasis = basisFehlt(basis, ci)
   if (ohneBasis) fehler.push(ohneBasis)
   if (fehler.length) {
-    console.error(`✖ ${fehler.join('\n✖ ')}\nBeachte dubAbgeleitet bzw. istLautAnbieter (shared/saison.ts) oder markiere mit „dub-lesart: <Grund>“. Die Grenzen werden nicht angehoben.`)
+    aus.error(`✖ ${fehler.join('\n✖ ')}\nBeachte dubAbgeleitet bzw. istLautAnbieter (shared/saison.ts) oder markiere mit „dub-lesart: <Grund>“. Die Grenzen werden nicht angehoben.`)
     return 1
   }
   return 0
 }
 
-if (import.meta.url === pathToFileURL(process.argv[1]!).href) process.exit(main())
+if (import.meta.url === pathToFileURL(process.argv[1]!).href) process.exit(lauf(process.argv, Boolean(process.env.CI), console))

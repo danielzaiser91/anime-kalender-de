@@ -8,7 +8,34 @@
  */
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
-import { ROOT } from './util.ts'
+import { istFremd, ladeFremdeMeldungen, type FremdeMeldung } from './netflix-fremde-meldung.ts'
+import { log, ROOT } from './util.ts'
+
+type Meldung = { id: number; url: string; plattform: string; folge?: string | null }
+
+/**
+ * Die Netflix-Sperrliste gilt auch für Prüfungen (06.11.2026). Ihre Zeilen tragen die Folgenkennung im Feld `folge`
+ * (Sicht `pruefung_titel`), die Staffelkennung kennt die Prüfung nicht: gesperrt wird über die `gti`-Liste des Eintrags.
+ * Gesperrte Zeilen kommen weder in die Zuordnung noch in die Auffälligkeitsliste; sie werden abgehakt.
+ */
+export function ohneGesperrtePruefungen<T extends Meldung>(
+  pruefungen: T[],
+  sperre: FremdeMeldung[],
+): { pruefungen: T[]; gesperrt: number[]; jeAdresse: Map<string, number> } {
+  const gesperrt = pruefungen.filter((p) => p.plattform === 'netflix' && istFremd({ id: p.id, url: p.url, gti: p.folge }, sperre))
+  const jeAdresse = new Map<string, number>()
+  for (const p of gesperrt) jeAdresse.set(p.url, (jeAdresse.get(p.url) ?? 0) + 1)
+  const weg = new Set(gesperrt.map((p) => p.id))
+  return { pruefungen: weg.size ? pruefungen.filter((p) => !weg.has(p.id)) : pruefungen, gesperrt: [...weg], jeAdresse }
+}
+
+/** Wie `ohneGesperrtePruefungen` mit der echten Sperrliste; benennt, was verworfen wurde (Ergebniszeile im Log). */
+export function sperreAufPruefungen<T extends Meldung>(pruefungen: T[], sperre: FremdeMeldung[] = ladeFremdeMeldungen()) {
+  const r = ohneGesperrtePruefungen(pruefungen, sperre)
+  const nennung = [...r.jeAdresse].map(([url, n]) => `${url.replace('https://www.netflix.com/title/', 'netflix/')}: ${n}`).join(', ')
+  log(`Sperrliste (netflix-fremde-meldungen.json): ${r.gesperrt.length} von ${pruefungen.length} Prüfungen verworfen und abgehakt${nennung ? ` (${nennung})` : ''}`)
+  return r
+}
 
 export async function ladeMeldungen(adresse: string, token: string): Promise<Response> {
   const nachspiel = process.env.MELDUNGEN_ANTWORT

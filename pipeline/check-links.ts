@@ -29,7 +29,7 @@ import { readSourceHealth, recordSource } from './lib/health.ts'
 import { netflixTonspurSchritt } from './lib/netflix-tonspur-schritt.ts'
 import { fortschritt, drosselNachVorlauf, passtInsBudget, pauseMitStand, waehleArbeit, ZEITBUDGET_SEKUNDEN, linkCheckEnde, zaehleBefund } from './lib/link-check-gesundheit.ts'
 import { istFaellig, istTot } from './lib/link-befund.ts'
-import { nimmBefund, wechselWarnungen, zaehleWechsel, zweitesNetflix404, type WechselPaar } from './lib/link-rauschen.ts'
+import { meldeWechsel, nimmBefund, zweitesNetflix404, type WechselPaar } from './lib/link-rauschen.ts'
 import { pruefbare } from './lib/pruefbare-adresse.ts'
 import { todayIso } from '../shared/time.ts'
 
@@ -86,6 +86,8 @@ interface Befund {
   prime?: boolean
   /** Netflix: Tag des ersten 404 einer Folge (`link-rauschen.ts`). */
   erstes404?: string
+  /** Netflix: das 404 stammt aus einem verrauschten Lauf und bestätigt nichts (`meldeWechsel`). */
+  rausch?: true
   /** Netflix-Film: Deutsch in der Audio-Zeile der Titelseite (`netflix-tonspur-schritt.ts`). */
   audio?: 'ja' | 'nein' | 'unbekannt'
   audioAm?: string
@@ -465,8 +467,8 @@ async function main(): Promise<void> {
     innerhalb einer Datei. Was inzwischen dazukam, bleibt stehen; nur dieser
     Lauf hat neuere Auskünfte über die Adressen, die er selbst gefragt hat.
   */
+  meldeWechsel(bestand, wechsel, warn)
   sichere()
-  wechselWarnungen(zaehleWechsel(wechsel)).forEach(warn)
   const gesamtTot = Object.values(bestand).filter((b) => istTot(b.status)).length
   log(`Verweise: ${geprueft} geprüft, ${zaehler.tot} davon unbrauchbar. Im Bestand insgesamt ${gesamtTot} unbrauchbar.`)
   if (uebersprungen) log(`${uebersprungen} Amazon-Adressen wegen der Sperre übersprungen — sie bleiben fällig.`)
