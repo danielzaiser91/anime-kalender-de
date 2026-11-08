@@ -468,6 +468,8 @@ pipeline/check-suchfeld-arten.ts
 pipeline/check-suchhinweis-bereich.ts
 pipeline/check-suchhinweis-lauf.ts
 pipeline/check-sw-cache-regeln.ts
+pipeline/check-synchro-beleg-auswahl.ts
+pipeline/check-synchro-beleg-lauf.ts
 pipeline/check-synchro-beobachtung.ts
 pipeline/check-synchro-original.ts
 pipeline/check-synchro-termin-offen.ts
