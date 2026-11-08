@@ -12,6 +12,7 @@ export const PLATFORM_PRIORITY: PlatformId[] = [
   'wow',
   'joyn',
   'rtlplus',
+  'plutotv',
   'youtube',
   'tv',
   'disc',

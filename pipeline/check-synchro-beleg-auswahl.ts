@@ -15,7 +15,7 @@ import type { GespeicherterVorschlag } from './lib/anime2you-bestand.ts'
 import { pruefeVorschlag } from './lib/anime2you-vorschlag.ts'
 import { belegBericht, gibSynchroBelegeAb, leseBelegStand } from './lib/synchro-beleg-abgabe.ts'
 import { belegFlaute } from './lib/synchro-beleg-flaute.ts'
-import { belegZeilen, HOECHSTENS_AM_TAG, IMMER, nenntSynchro, ordneTitelZu, waehleSynchroBelege, type Belegstand, type KatalogTitel } from './lib/synchro-beleg-auswahl.ts'
+import { belegZeilen, HOECHSTENS_AM_TAG, IMMER, mitPlattformAusAnbieter, nenntSynchro, ordneTitelZu, waehleSynchroBelege, type Belegstand, type KatalogTitel } from './lib/synchro-beleg-auswahl.ts'
 
 let fehler = 0
 let faelle = 0
@@ -182,6 +182,10 @@ pruefe('Angenommenes Ja, aber Handbeleg-Nein bis zum Artikeltag: gesperrt', ids(
 
 // --- Flaute: nur Zuordnungsfehler zählen (Vorschlagsstand 08.11.2026, Auswahl der echten Gründe; die Wege tragen hier gemessene Urteile, 0 Belege) ---
 const mitWegen = (...streams: { platform: string; dub?: boolean }[]) => [{ ...PET_TITEL, streams }]
+// Wörtlich aus data/proposals/anime2you-extraktion.json (Artikel 1068729, gelesen 07.11.2026)
+const PLUTO_ARTIKEL = 'Zwei weitere Anime-Neuzugänge kostenlos auf Deutsch bei Pluto TV'
+const BC_ZITAT = 'Nachdem Pluto TV bereits im letzten Monat die ersten 35 Folgen von »Black Clover« in sein Programm aufgenommen hat, wurden nun die restlichen 16 Folgen der ersten Staffel ergänzt. Damit sind alle 51 Episoden mit deutscher Synchronisation verfügbar.'
+const DS_ZITAT = 'Darüber hinaus bietet die Plattform seit Kurzem auch die erste Staffel der Adventure-Serie »Dr. STONE« mit deutscher Sprachfassung auf Abruf an. Von den insgesamt 24 Episoden stehen derzeit allerdings nur 23 Folgen zur Verfügung.'
 const ZEILEN_0811: [string, Partial<GespeicherterVorschlag>, KatalogTitel[]][] = [
   ['Iron Man', { art: 'abgang' }, []],
   ['Der Held ohne Klasse', { plattform: 'netflix', zitat: PET_ZITAT.replace('Prime Video', 'Netflix'), artikel: 'Netflix' }, [{ id: 900501, titleDe: 'Der Held ohne Klasse', streams: [] }]],
@@ -189,8 +193,8 @@ const ZEILEN_0811: [string, Partial<GespeicherterVorschlag>, KatalogTitel[]][] =
   ['Gosick', {}, [{ id: 900503, titleDe: 'Gosick', streams: [weg('primevideo', true)] }]],
   ['Fool Night', { datum: '2026-11-26' }, [{ id: 900504, titleDe: 'Fool Night', streams: [weg('primevideo')] }]],
   ['Der Schatten über Anlegion', { art: 'ankuendigung' }, []],
-  ['Black Clover', { plattform: null, anbieter: 'Pluto TV' }, []],
-  ['Dr. STONE', { plattform: null, anbieter: 'Pluto TV' }, []],
+  ['Black Clover', { plattform: null, anbieter: 'Pluto TV', artikel: PLUTO_ARTIKEL, zitat: BC_ZITAT }, [{ id: 900506, titleDe: 'Black Clover', streams: [] }]],
+  ['Dr. STONE', { plattform: null, anbieter: 'Pluto TV', artikel: PLUTO_ARTIKEL, zitat: DS_ZITAT }, [{ id: 900507, titleDe: 'Dr. STONE', streams: [] }]],
   ['Tokyo Godfathers', { unsicher: 'Plattform fehlt im Artikel' }, []],
   ['Akira', {}, [{ id: 900505, titleDe: 'Akira', streams: [weg('netflix')] }]],
   ['YAIBA: Samurai Legend', { warnungen: ['Uhrzeit widerspricht 18:25 – gegenlesen'] }, []],
@@ -213,9 +217,26 @@ pruefe('Colorful durch die Auswahl: Weg trägt schon dub gilt dem Film, nicht �
   grund(lauf([mit(PET, { titel: 'Colorful', plattform: 'joyn', artikel: 'Anime-Neuzugänge auf Joyn', zitat: '»Colorful« mit deutscher Synchronisation auf Joyn.' })], [COLORFUL_KURZ, { ...COLORFUL_FILM, streams: [weg('joyn', true)] }])) === 'Weg trägt schon dub: true')
 
 // --- Benannte Ausfälle: Anbieter ohne Kennung (Pluto TV), Zitat ohne Synchro-Wort (Artikel 1068729, 1069021) ---
-const PLUTO = mit(PET, { titel: 'Dr. STONE', plattform: null, anbieter: 'Pluto TV', zitat: 'Die erste Staffel »Dr. STONE« mit deutscher Synchronisation.' })
-pruefe('Weder Plattform noch Anbieter: keine Stream-Plattform, zurückgestellt', grund(lauf([mit(PLUTO, { anbieter: null })])) === 'keine Stream-Plattform im Datenmodell')
-pruefe('Anbieter ohne Plattform-Kennung: Grund nennt den Anbieter', grund(lauf([PLUTO], [{ ...PET_TITEL, titleDe: 'Dr. STONE' }])) === 'keine Stream-Plattform im Datenmodell (Anbieter Pluto TV hat keine Kennung)')
+const APPLE = mit(PET, { titel: 'Dr. STONE', plattform: null, anbieter: 'Apple TV+', zitat: 'Die erste Staffel »Dr. STONE« mit deutscher Synchronisation.' })
+pruefe('Weder Plattform noch Anbieter: keine Stream-Plattform, zurückgestellt', grund(lauf([mit(APPLE, { anbieter: null })])) === 'keine Stream-Plattform im Datenmodell')
+pruefe('Anbieter ohne Plattform-Kennung: Grund nennt den Anbieter', grund(lauf([APPLE], [{ ...PET_TITEL, titleDe: 'Dr. STONE' }])) === 'keine Stream-Plattform im Datenmodell (Anbieter Apple TV+ hat keine Kennung)')
+
+// --- Pluto TV (Artikel 1068729): gespeichert mit plattform null und Anbieter „Pluto TV“, bevor es eine Kennung gab ---
+const PLUTO = mit(PET, { titel: 'Dr. STONE', plattform: null, anbieter: 'Pluto TV', artikel: PLUTO_ARTIKEL, zitat: DS_ZITAT, art: 'start', folgen: '23 von 24', warnungen: [] })
+const DS_ID = 105333
+const KAT_PLUTO: KatalogTitel[] = [
+  { id: 900601, titleDe: 'Dr. STONE Special', streams: [weg('primevideo')] },
+  { id: DS_ID, titleDe: 'Dr. STONE', streams: [weg('plutotv'), weg('netflix', true)] },
+  { id: 900602, titleDe: 'Dr. STONE: New World', streams: [weg('plutotv')] },
+]
+const E_PLUTO = lauf([PLUTO], KAT_PLUTO)
+pruefe('Pluto TV: Vorschlag mit Anbietername wird ein Beleg an plutotv, am richtigen Titel unter dreien', E_PLUTO.belege.length === 1 && E_PLUTO.belege[0]!.anilistId === DS_ID && E_PLUTO.belege[0]!.plattform === 'plutotv', E_PLUTO)
+pruefe('Pluto TV: der Beleg als YAML trägt platform: plutotv', E_PLUTO.belege.length === 1 && belegZeilen(E_PLUTO.belege[0]!, '2026-11-08').includes('  platform: plutotv'))
+const OHNE_WEG = lauf([PLUTO], [{ id: DS_ID, titleDe: 'Dr. STONE', streams: [weg('netflix', true)] }])
+pruefe('Pluto TV: ohne Weg bei plutotv wartet der Beleg auf den Bestandsbau, kein Zuordnungsfehler', grund(OHNE_WEG) === 'kein Weg bei plutotv (wartet auf den Bestandsbau)' && OHNE_WEG.zurueck[0]!.strittig === false, OHNE_WEG)
+pruefe('Pluto TV: ein Zitat, das nur Prime Video nennt, bindet die Plattform nicht', lauf([mit(PLUTO, { zitat: PET_ZITAT })], KAT_PLUTO).belege.length === 0)
+pruefe('Pluto TV: ein Handbeleg zu Titel und Plattform sperrt wie bei jeder Plattform', grund(lauf([PLUTO], KAT_PLUTO, new Map([[`${DS_ID}|plutotv`, IMMER]]))) === 'Handbeleg zu Titel und Plattform steht schon')
+pruefe('Nachträgliche Plattform: nur Pluto TV wird aus dem Anbieter gelesen, null bei Prime Video bleibt null', mitPlattformAusAnbieter(PLUTO).plattform === 'plutotv' && mitPlattformAusAnbieter(mit(PET, { plattform: null })).plattform === null)
 const YAIBA = mit(PET, { titel: 'YAIBA: Samurai Legend', zitat: 'Die ersten beiden Episoden von »YAIBA: Samurai Legend« stehen kostenlos auf Deutsch zur Verfügung.' })
 pruefe('Deutsches Zitat ohne Synchro-Wort: wird gezählt und benannt, nicht still übergangen', lauf([YAIBA]).zurueck.length === 1 && grund(lauf([YAIBA])) === 'Zitat nennt die Synchro nicht ausdrücklich', lauf([YAIBA]))
 pruefe('Vorschlag in anderer Sprache (omu) ist kein Ablehnungsfall und wird nicht gezählt', lauf([mit(YAIBA, { sprache: 'omu' })]).zurueck.length === 0)

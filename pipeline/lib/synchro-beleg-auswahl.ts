@@ -102,6 +102,18 @@ export function ordneTitelZu(titel: string, katalog: KatalogTitel[], plattform?:
   return treffer.length ? `Titel mehrdeutig (${treffer.map((t) => t.id).join(', ')})` : 'Titel nicht im Katalog'
 }
 
+/**
+ * Plattformen, die erst nach dem Lesen schon gespeicherter Artikel aufgenommen wurden: deren Vorschläge tragen nur den Anbieternamen („Pluto TV“,
+ * `plattform: null`). Bei jeder anderen Plattform ist ein `null` die Absicht des Lesers und bleibt es. Streichen, wenn der Bestand (90 Tage) vom 08.11.2026 abgelaufen ist.
+ */
+const NACHTRAEGLICH = new Set(['plutotv'])
+
+export function mitPlattformAusAnbieter(v: GespeicherterVorschlag): GespeicherterVorschlag {
+  if (v.plattform || !v.anbieter) return v
+  const id = Object.entries(PLATTFORM_NAMEN).find(([, n]) => n === v.anbieter!.trim().toLowerCase())?.[0]
+  return id && NACHTRAEGLICH.has(id) ? { ...v, plattform: id as GespeicherterVorschlag['plattform'] } : v
+}
+
 const plattformenIn = (text: string): string[] => Object.entries(PLATTFORM_NAMEN).filter(([, n]) => nenntName(text, n)).map(([id]) => id)
 
 /**
@@ -152,7 +164,8 @@ export function waehleSynchroBelege(
   const belege: AutoBeleg[] = []
   const zurueck: Zurueckgestellt[] = []
   const schluessel = new Map(belegt)
-  for (const v of vorschlaege) {
+  for (const roh of vorschlaege) {
+    const v = mitPlattformAusAnbieter(roh)
     if (!v.sprache.startsWith('deutsch')) continue
     const lehne = (g: Grund) => zurueck.push({ titel: v.titel, artikelId: v.artikelId, grund: g.text, strittig: g.strittig === true })
     if (!nenntSynchro(v.zitat)) {

@@ -31,6 +31,7 @@ const KOSTENLOS = new Set([
   'zdf',
   'youtube',
   'pluto tv',
+  'plutotv',
   'toggo',
   'kixi',
   'filmfriend',

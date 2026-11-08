@@ -18,6 +18,8 @@ export type PlatformId =
   | 'wow'
   | 'joyn'
   | 'rtlplus'
+  /** Kostenlos mit Werbung, auf Abruf (Serien, Filme); der lineare Kanalplan ist nicht gemeint. */
+  | 'plutotv'
   | 'youtube'
   | 'disc'
   | 'kino'
@@ -746,6 +748,7 @@ export const PLATFORMS: Record<PlatformId, { name: string; color: string; home: 
   wow: { name: 'WOW', color: '#00b1ff', home: 'https://www.wowtv.de/' },
   joyn: { name: 'Joyn', color: '#fa1b5a', home: 'https://www.joyn.de/' },
   rtlplus: { name: 'RTL+', color: '#e2001a', home: 'https://plus.rtl.de/' },
+  plutotv: { name: 'Pluto TV', color: '#c026d3', home: 'https://pluto.tv/de/' },
   youtube: { name: 'YouTube', color: '#ff0000', home: 'https://www.youtube.com/' },
   disc: { name: 'DVD / Blu-ray', color: '#16a34a', home: 'https://www.amazon.de/' },
   kino: { name: 'Kino', color: '#eab308', home: '' },

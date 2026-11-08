@@ -38046,3 +38046,16 @@
   dub: true
   checkedAt: '2026-11-07'
   note: "Tonspuren: Deutsch — Amazon-Seite B0DMF65NY2: alle 13 Folgen geprüft, Abos: Prime — Staffel nicht im Bestand, Titel von der Seite gelesen, zugang=abo_und_kauf, gti=amzn1.dv.gti.0e5030e4-ec94-4f4f-a7c3-23162e7e52b8"
+
+# --- Anime2You 1068729 (06.11.2026), Pluto TV: Folgen 1-51 laut Artikel, nicht die ganze Serie (170) ---
+- anilistId: 97940
+  title: "Black Clover"
+  platform: plutotv
+  url: https://pluto.tv/gsa/shows/black-clover/
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 51
+      dub: true
+  checkedAt: '2026-11-08'
+  note: "Anime2You 1068729 (06.11.2026): „Damit sind alle 51 Episoden mit deutscher Synchronisation verfügbar.“ (erste Staffel; 35 Folgen seit Artikel 1066055 vom 31.10.2026, 16 ergänzt). Aussage des Artikels, Pluto-Seite nicht geprüft."
