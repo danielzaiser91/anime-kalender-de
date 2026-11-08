@@ -3579,8 +3579,8 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   */
   pruefe(
     'die Zuordnungen werden mit dem alten Stand zusammengeführt',
-    /const bisher = leseZugeordnet<\(typeof zugeordnet\)\[string\]>\(\)/.test(roh) &&
-      /writeJson\('data\/prime-zugeordnet\.json', leseZugeordnet\(\{ \.\.\.bisher, \.\.\.zugeordnet \}\)\)/.test(roh),
+    /const bisher = readJson<Record<string, \(typeof zugeordnet\)\[string\]>>\('data\/prime-zugeordnet\.json', \{\}\)/.test(roh) &&
+      /writeJson\('data\/prime-zugeordnet\.json', \{ \.\.\.bisher, \.\.\.zugeordnet \}\)/.test(roh),
     'die Datei wird wieder überschrieben — jede Zuordnung hält dann einen Bau',
   )
 
@@ -4065,7 +4065,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   pruefe('Auto-Termin: aus einer Meldung mit nur Originalton entsteht kein Release', releasesAus([omu], titel, [], '2026-10-08').length === 0)
   pruefe('Auto-Termin: die Meldung zählt als „nur Originalton" (Protokoll, Rückzugsgrund)', nurOriginaltonMeldungen([omu]).length === 1)
   const still = releasesAus([v('https://a/1', 'unklar', 'ab dem 11. Oktober 2026 bei Crunchyroll')], titel, [], '2026-10-08')[0]
-  pruefe('Auto-Termin: nennt die Meldung keine Sprache, sagt die Notiz das', /sagt sie nicht/.test(still?.note ?? ''), still?.note)
+  pruefe('Auto-Termin: nennt die Meldung keine Sprache, sagt die Notiz das', /sagt sie nicht/.test(still?.hinweis ?? ''), still?.hinweis)
   /* **Kennzeichnung bis in die Karte** (10.10.2026): Ein Termin ohne Sprachzusage trägt `sprache`, das Event erbt es, und er belegt keine Synchro. */
   pruefe('Auto-Termin: ohne Sprachzusage ist der Termin gekennzeichnet (sprache: offen), das Event erbt es', still?.sprache === 'offen' && expandEvents(still!).every((e) => e.sprache === 'offen'), still?.sprache)
   {
@@ -4080,11 +4080,11 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     pruefe('Bau-Prüfung: „alle Folgen" (batch) aus einer Simulcast-Meldung ist ein Widerspruch', autoReleaseWidersprueche(auto({ releaseType: 'batch' }), [meldung('ja', '»X« im Simulcast')]).length === 1 && autoReleaseWidersprueche(auto({}), [meldung('ja', '»X« im Simulcast')]).length === 0)
   }
   const offen = releasesAus([v('https://a/1', 'offen', 'ab dem 11. Oktober 2026 bei Crunchyroll')], titel, [], '2026-10-08')[0]
-  pruefe('Auto-Termin: lässt die Meldung die Synchro offen, sagt die Notiz das', /noch offen/.test(offen?.note ?? ''), offen?.note)
+  pruefe('Auto-Termin: lässt die Meldung die Synchro offen, sagt die Notiz das', /noch offen/.test(offen?.hinweis ?? ''), offen?.hinweis)
   const zugesagt = releasesAus([v('https://a/1', 'ja', 'ab dem 11. Oktober 2026 bei Crunchyroll')], titel, [], '2026-10-08')[0]
-  pruefe('Auto-Termin: mit Sprachzusage keine Notiz', zugesagt !== undefined && zugesagt.note === undefined, zugesagt?.note)
+  pruefe('Auto-Termin: mit Sprachzusage keine Notiz', zugesagt !== undefined && zugesagt.hinweis === undefined, zugesagt?.hinweis)
   const disc = releasesAus([v('https://a/1', 'unklar', 'erscheint am 11. Oktober 2026 auf Blu-ray', 'disc', ['disc'])], [{ ...titel[0]!, format: 'MOVIE' }], [], '2026-10-08')[0]
-  pruefe('Auto-Termin: eine Disc (auch eines Films) ohne Sprachangabe bekommt keine Notiz', disc !== undefined && disc.note === undefined, disc?.note)
+  pruefe('Auto-Termin: eine Disc (auch eines Films) ohne Sprachangabe bekommt keine Notiz', disc !== undefined && disc.hinweis === undefined, disc?.hinweis)
   const zwei = releasesAus([v('https://a/still', 'unklar', 'ab dem 11. Oktober 2026'), v('https://a/zusage', 'zugesagt', 'ab dem 11. Oktober 2026')], titel, [], '2026-10-08')
   pruefe('Auto-Termin: melden zwei Artikel denselben Termin, belegt ihn der mit Sprachzusage', zwei.length === 1 && zwei[0]!.sources[0] === 'https://a/zusage', zwei.map((r) => r.sources))
 
@@ -4605,8 +4605,8 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   )
   pruefe(
     'die Reihe trennt Beiwerk von Hauptstaffeln',
-    /* Die Hauptstaffel-Regel steht seit dem 13.09.2026 in shared/titles.ts — Kopf und Liste teilen sie. */
-    bau.includes('beiwerk:') && readFileSync('shared/titles.ts', 'utf8').includes('!m.beiwerk'),
+    /* Die Hauptstaffel-Regel steht in shared/titles.ts; ihr Beiwerk-Fall läuft als Laufzeitfall (`hauptstaffeln`, „Beiwerk-Reihe“, JoJo-Block). */
+    bau.includes('beiwerk:'),
     'ohne die PARENT-Kante ist bei einer ONA-Reihe alles Hauptserie',
   )
   pruefe(
@@ -4920,6 +4920,12 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   ]
   const ids = hauptstaffeln(jojo).map((m) => m.id).join(',')
   pruefe('ein ONA mit zehn und mehr Folgen ist Hauptserie, Kurzes und Beiwerk nicht', ids === '1,2', ids)
+  const ohneFernsehen = [
+    { id: 5, name: 'Stone Ocean', format: 'ONA', episodes: 12 },
+    { id: 6, name: 'Beiwerk-Reihe', format: 'ONA', episodes: 12, beiwerk: true },
+  ]
+  const idsOhneTv = hauptstaffeln(ohneFernsehen).map((m) => m.id).join(',')
+  pruefe('ohne Fernsehstaffel zählt Beiwerk ebenfalls nicht zur Hauptserie', idsOhneTv === '5', idsOhneTv)
   const sbr = [
     { id: 1, name: 'Golden Wind', format: 'TV', episodes: 39 },
     { id: 5, name: 'Steel Ball Run: JoJo’s Bizarre Adventure', format: 'ONA', episodes: 1 },
@@ -5931,15 +5937,11 @@ pruefe(
       readFileSync('worker/migrations/047-schreiblast-indizes.sql', 'utf8'),
     ),
   )
-  pruefe(
-    'die Ladeabfrage erzwingt den gti-Index',
-    readFileSync('worker/src/rohfolgen-abgleich.ts', 'utf8').includes('INDEXED BY prime_folge_gti'),
-  )
+  /* Die Ladeabfragen erzwingen gti- und Seiten-Index: `tools/worker-rohfolgen-index.test.ts` (Laufzeit, Attrappe der Datenbank). */
   /* Dieselbe Ursache, die andere Anweisung: `seiten_kennung` las 3430 Zeilen je Aufruf (26 %). */
   pruefe(
-    'und die Seiten-Ladeabfrage den Seiten-Index',
-    readFileSync('worker/src/rohfolgen-abgleich.ts', 'utf8').includes('INDEXED BY prime_folge_seite') &&
-      readFileSync('worker/migrations/042-prime-folge-seite-index.sql', 'utf8').includes('prime_folge_seite'),
+    'und der Seiten-Index existiert in der Migration',
+    readFileSync('worker/migrations/042-prime-folge-seite-index.sql', 'utf8').includes('prime_folge_seite'),
   )
   /* Die Abfragen stehen in `lauf-sql.ts` — dort prüft dieser Lauf sie auf Klammer-Gleichgewicht
      und Gestalt (29.09.2026: eine fehlende Klammer ließ `/lauf` stundenlang mit 500 antworten). */
@@ -8154,12 +8156,12 @@ console.log('\nBeleg: Fundstelle, Banner, Handlung:')
   {
     const um = (iso: string) => faelligeLaeufe(new Date(iso)).filter((w) => w !== 'daten.yml').sort().join(',')
     pruefe('Wecker: das Nativ-Repo (daten.yml, fremdes Repo) wird jede Stunde fällig', faelligeLaeufe(new Date('2026-10-06T15:00:00Z')).includes('daten.yml'))
-    pruefe('Wecker: jede Stunde der Stundenlauf', um('2026-10-06T15:00:00Z') === 'refresh-hourly.yml', um('2026-10-06T15:00:00Z'))
-    pruefe('Wecker: 04 Uhr UTC zusätzlich der Tageslauf (und der Nachhol-Kandidat Tonspuren)', um('2026-10-06T04:00:00Z') === 'refresh-data.yml,refresh-hourly.yml,tonspuren-monatlich.yml', um('2026-10-06T04:00:00Z'))
-    pruefe('Wecker: Montag 05 Uhr UTC der Wochenlauf, Dienstag nicht', um('2026-10-05T05:00:00Z') === 'refresh-hourly.yml,refresh-weekly.yml' && um('2026-10-06T05:00:00Z') === 'refresh-hourly.yml', um('2026-10-05T05:00:00Z'))
-    pruefe('Wecker: ADN alle sechs Stunden, Sonntag zählt als 7', um('2026-10-04T08:00:00Z') === 'adn-laufende.yml,refresh-hourly.yml' && um('2026-10-04T05:00:00Z') === 'refresh-hourly.yml')
-    pruefe('Wecker: die Ladezeiten-Messung täglich um 16 Uhr UTC, sonst nicht', um('2026-10-06T16:00:00Z') === 'ladezeiten.yml,refresh-hourly.yml' && !um('2026-10-06T15:00:00Z').includes('ladezeiten'), um('2026-10-06T16:00:00Z'))
-    pruefe('Wecker: der Monatslauf der Tonspuren am 2. um 04 Uhr UTC, am 1. nicht', um('2026-11-02T04:00:00Z') === 'refresh-data.yml,refresh-hourly.yml,tonspuren-monatlich.yml' && um('2026-11-01T04:00:00Z') === 'refresh-data.yml,refresh-hourly.yml', um('2026-11-02T04:00:00Z'))
+    pruefe('Wecker: jede Stunde der Stundenlauf', um('2026-10-06T15:00:00Z') === 'claude-anime2you-extraktion.yml,nacht-merger.yml,refresh-hourly.yml', um('2026-10-06T15:00:00Z'))
+    pruefe('Wecker: 04 Uhr UTC zusätzlich der Tageslauf (und der Nachhol-Kandidat Tonspuren)', um('2026-10-06T04:00:00Z') === 'claude-anime2you-extraktion.yml,nacht-merger.yml,refresh-data.yml,refresh-hourly.yml,tonspuren-monatlich.yml', um('2026-10-06T04:00:00Z'))
+    pruefe('Wecker: Montag 05 Uhr UTC der Wochenlauf, Dienstag nicht', um('2026-10-05T05:00:00Z') === 'claude-anime2you-extraktion.yml,nacht-merger.yml,refresh-hourly.yml,refresh-weekly.yml' && um('2026-10-06T05:00:00Z') === 'claude-anime2you-extraktion.yml,nacht-merger.yml,refresh-hourly.yml', um('2026-10-05T05:00:00Z'))
+    pruefe('Wecker: ADN alle sechs Stunden, Sonntag zählt als 7', um('2026-10-04T08:00:00Z') === 'adn-laufende.yml,claude-anime2you-extraktion.yml,nacht-merger.yml,refresh-hourly.yml' && um('2026-10-04T05:00:00Z') === 'claude-anime2you-extraktion.yml,nacht-merger.yml,refresh-hourly.yml')
+    pruefe('Wecker: die Ladezeiten-Messung täglich um 16 Uhr UTC, sonst nicht', um('2026-10-06T16:00:00Z') === 'claude-anime2you-extraktion.yml,ladezeiten.yml,nacht-merger.yml,refresh-hourly.yml' && !um('2026-10-06T15:00:00Z').includes('ladezeiten'), um('2026-10-06T16:00:00Z'))
+    pruefe('Wecker: der Monatslauf der Tonspuren am 2. um 04 Uhr UTC, am 1. nicht', um('2026-11-02T04:00:00Z') === 'claude-anime2you-extraktion.yml,nacht-merger.yml,refresh-data.yml,refresh-hourly.yml,tonspuren-monatlich.yml' && um('2026-11-01T04:00:00Z') === 'claude-anime2you-extraktion.yml,nacht-merger.yml,refresh-data.yml,refresh-hourly.yml', um('2026-11-02T04:00:00Z'))
   }
   /* Monatslauf nachholen: ein abgebrochener Lauf am 2. führt am 3. zum Start, ein erfolgreicher nicht (motn 02.10.2026 nach 4 s abgebrochen). */
   {
@@ -8184,15 +8186,19 @@ console.log('\nBeleg: Fundstelle, Banner, Handlung:')
   }
   /* „Im Angebot seit" aus der aniSearch-Erstausgabe (Magilumière Staffel 2, 05.10.2026). */
   {
-    const titel = (id: number, extra: Record<string, unknown>) => ({ id, titleEn: `T${id}`, format: 'TV', episodes: 12, anisearchId: id + 100, streams: [{ platform: 'primevideo', url: 'https://www.amazon.de/gp/video/detail/X', dub: true }], ...extra }) as unknown as Title
+    const titel = (id: number, extra: Record<string, unknown>) => ({ id, titleEn: `T${id}`, format: 'TV', episodes: 12, streams: [{ platform: 'primevideo', url: 'https://www.amazon.de/gp/video/detail/X', dub: true }], ...extra }) as unknown as Title
     const erst = (von: string, publisher: string) => ({ deErstausgabe: { von, publisher, synchro: true } })
     const releases: Release[] = [{ titleId: 4 } as Release]
+    /* Der Bau-Titel trägt keine `anisearchId` (wie im echten Bau); die Kennung kommt aus der Zuordnung. Titel 6 hat keine. */
+    const kennungen = new Map([[1, 101], [2, 102], [3, 103], [4, 104], [5, 105]])
     const neu = ergaenzeErstausgabeAngebot({
-      titles: [titel(1, erst('2026-07-04', 'Amazon.com, Inc.')), titel(2, erst('2025-07-04', 'Amazon.com, Inc.')), titel(3, erst('2026-07-04', 'KSM Anime')), titel(4, erst('2026-07-04', 'Amazon.com, Inc.')), titel(5, { ...erst('2026-07-04', 'Netflix, Inc.') })],
+      titles: [titel(1, erst('2026-07-04', 'Amazon.com, Inc.')), titel(2, erst('2025-07-04', 'Amazon.com, Inc.')), titel(3, erst('2026-07-04', 'KSM Anime')), titel(4, erst('2026-07-04', 'Amazon.com, Inc.')), titel(5, { ...erst('2026-07-04', 'Netflix, Inc.') }), titel(6, erst('2026-07-04', 'Amazon.com, Inc.'))],
       releases,
+      kennungen,
     })
-    pruefe('Erstausgabe ab 2026 bei Amazon: ein Eintrag „Im Angebot seit" mit aniSearch als Quelle', neu === 1 && releases.some((r) => r.titleId === 1 && r.dateMeaning === 'available-from' && r.platform === 'primevideo' && r.sources[0] === 'https://www.anisearch.de/anime/101'), JSON.stringify(releases.map((r) => [r.titleId, r.platform])))
+    pruefe('Erstausgabe ab 2026 bei Amazon: ein Eintrag „Im Angebot seit" mit aniSearch als Quelle', neu === 1 && releases.some((r) => r.titleId === 1 && r.dateMeaning === 'available-from' && r.platform === 'primevideo' && r.sources[0] === 'https://www.anisearch.de/anime/101' && r.quellen?.[0]?.url === r.sources[0]), JSON.stringify(releases.map((r) => [r.titleId, r.platform])))
     pruefe('nicht für 2025, nicht für Disc-Verlage, nicht bei vorhandenem Termin, nicht ohne Weg zum Anbieter', !releases.some((r) => [2, 3, 5].includes(r.titleId)) && releases.filter((r) => r.titleId === 4).length === 1)
+    pruefe('ohne aniSearch-Kennung entsteht kein Termin (kein Termin ohne Quelle)', !releases.some((r) => r.titleId === 6) && releases.every((r) => r.titleId === 4 || r.sources.length > 0))
   }
   /* Magenta führt Joyn/Disney+ durch (Daniel, 04.10.2026): die Folgenseite fällt weg, Staffelübersicht und Kaufseite bleiben. */
   {
