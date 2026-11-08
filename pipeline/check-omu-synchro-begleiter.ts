@@ -24,6 +24,7 @@ process.env.AK_ROOT = wurzel
 const { werteCrunchyrollDubAus } = await import('./bau/09-4-crunchyroll-dub.ts')
 const { legeCrVerweiseUndTermineAn } = await import('./bau/09-4-4-termine.ts')
 const { legeOmuBegleiterAn, legeOmuBegleiterAnUndMelde } = await import('./bau/omu-synchro-begleiter.ts')
+const { expandEvents } = await import('../shared/logic.ts')
 const { sammleWiderlegungen, deutscheFolgenTage } = await import('./bau/widerlegung-woche.ts')
 const { deutschNurAusSpracheTermin } = await import('./lib/pruefung.ts')
 type Release = import('../shared/types.ts').Release
@@ -43,7 +44,7 @@ const S2_ERSTE = folge(171, 1, '2026-11-07T16:00:00Z')
 
 const titel = (id: number, jpYear: number, episodes: number | undefined, extra: object = {}) =>
   ({ id, franchiseId: 97940, titleEn: id === 97940 ? 'Black Clover' : 'Black Clover Season 2', format: 'TV', jpYear, jpStart: `${jpYear}-01-01`, episodes, streams: [], ...extra }) as unknown as Title
-const bcTitel = () => new Map<number, Title>([[97940, titel(97940, 2017, 170)], [195604, titel(195604, 2026, undefined, { fsk: 12 })]])
+const bcTitel = () => new Map<number, Title>([[97940, titel(97940, 2017, 170)], [195604, titel(195604, 2026, undefined, { fsk: 12, streams: [{ platform: 'crunchyroll', url: URL_DE, dub: true }] })]])
 
 const omuRelease = (extra: object = {}): Release =>
   ({ slug: OMU_SLUG, titleId: 195604, name: 'Black Clover – Staffel 2', platform: 'crunchyroll', platformUrl: URL_DE, releaseType: 'weekly', sprache: 'omu', schedule: { firstEpisodeDate: '2026-10-03', estimated: true, episodeCount: 12 }, year: 2026, sources: [], ...extra }) as unknown as Release
@@ -74,7 +75,7 @@ function ableitungUndBegleiter(releases: Release[], dub: never, titles: Map<numb
   stumm(() => legeCrVerweiseUndTermineAn({ titles, anisearch: {}, belegt: 0, crDub: dub, verschwunden: 0, usNeinOffen: 0, nachUrl, releases, jetzt }))
   return legeOmuBegleiterAn(releases, titles, dub)
 }
-const Z0 = { erzeugt: 0, ohneBlock: 0, vorOmuStart: 0, handVorhanden: 0 }
+const Z0 = { erzeugt: 0, ohneBlock: 0, vorOmuStart: 0, handVorhanden: 0, ohneDub: 0 }
 
 try {
   /* 1. Geteilte Serie, neue Staffel bekommt die Synchro — im Bau, ohne den Eintrag aus 3116. Die Uhr steht weit hinter dem Frischefenster:
@@ -84,7 +85,7 @@ try {
   const s1 = ohneSprache(rs1)[0]
   pruefe('1: Black Clover S2: genau ein deutscher Termin neben dem OmU-Termin', rs1.length === 2 && mitSprache(rs1).length === 1 && ohneSprache(rs1).length === 1, rs1.map((r) => r.slug))
   pruefe('1: der Termin heißt <slug>-synchro, 07.11.2026 um 17:00, Folge 1 an diesem Tag', s1?.slug === `${OMU_SLUG}-synchro` && s1.schedule.firstEpisodeDate === '2026-11-07' && s1.schedule.time === '17:00' && JSON.stringify(s1.schedule.observed) === '{"1":"2026-11-07"}', s1?.schedule)
-  pruefe('1: keine Folgenzahl, kein Ende, Serienadresse als Beleg, Herkunft nennt den Block', s1?.schedule.episodeCount === undefined && s1?.schedule.lastEpisodeDate === undefined && s1?.sources.join() === URL_DE && /1 Folgen mit belegtem Termin \(Block „Staffel 2“\)/.test(s1?.herkunft ?? ''), s1)
+  pruefe('1: Folgenzahl vom OmU-Termin (12), kein Ende, Serienadresse als Beleg, Herkunft nennt den Block', s1?.schedule.episodeCount === 12 && s1?.schedule.lastEpisodeDate === undefined && s1?.sources.join() === URL_DE && /1 Folgen mit belegtem Termin \(Block „Staffel 2“\)/.test(s1?.herkunft ?? ''), s1)
   pruefe('1: Name, Seite, Wochentakt, Jahr und FSK stammen vom OmU-Termin und Titel', s1?.name === 'Black Clover – Staffel 2' && s1.platformUrl === URL_DE && s1.platform === 'crunchyroll' && s1.releaseType === 'weekly' && s1.year === 2026 && s1.fsk === 12, s1)
   pruefe('1: der OmU-Termin bleibt unverändert', JSON.stringify(rs1[0]) === JSON.stringify(omuRelease()), rs1[0])
 
@@ -94,6 +95,15 @@ try {
   const t22 = ohneSprache(tag22)
   pruefe('2: Tag 22, vier Wochenfolgen: weiter genau ein deutscher Termin, ab 07.11. mit den vier Folgen', t22.length === 1 && t22[0]?.schedule.firstEpisodeDate === '2026-11-07' && Object.keys(t22[0]?.schedule.observed ?? {}).join() === '1,2,3,4', t22.map((r) => r.schedule))
   pruefe('2: Tag 22: es ist der Begleiter (die Ableitung hat nach 21 Tagen verworfen), die Herkunft nennt 4 Folgen', t22[0]?.slug === `${OMU_SLUG}-synchro` && /4 Folgen mit belegtem Termin/.test(t22[0]?.herkunft ?? ''), t22[0])
+  /* A1: Die Folgenzahl des OmU-Termins (hier „angenommen“, aus aniSearch) trägt der Begleiter; expandEvents liefert die vier belegten Folgen und schreibt ab Folge 5 fort (≈). */
+  const mitZahl = (extra: object) => bau([omuRelease({ schedule: { firstEpisodeDate: '2026-10-03', estimated: true, episodeCount: 12, ...extra } })], crDub([block('Staffel 2', wochen)]), bcTitel(), Date.parse('2026-11-29T05:00:00Z'))
+  const ereignisse = expandEvents(ohneSprache(mitZahl({ episodeCountAssumed: true, episodeCountSource: 'anisearch' }))[0]!)
+  pruefe('2: Tag 22 über expandEvents: mindestens die vier belegten Termine, Folge 2 (14.11.) ist da', ereignisse.length >= 4 && ereignisse.slice(0, 4).map((e) => e.date).join() === '2026-11-07,2026-11-14,2026-11-21,2026-11-28', ereignisse.map((e) => e.date))
+  pruefe('2: Tag 22: Folgen ab 5 geschätzt, 1 bis 4 nicht; die Zahl bleibt „angenommen“ (≈) und trägt die Herkunft', ereignisse.length === 12 && ereignisse.slice(0, 4).every((e) => !e.estimated) && ereignisse.slice(4).every((e) => e.estimated) && ereignisse.every((e) => e.episodeCount === 12 && e.episodeCountAssumed === true) && ohneSprache(mitZahl({ episodeCountAssumed: true, episodeCountSource: 'anisearch' }))[0]?.schedule.episodeCountSource === 'anisearch', ereignisse.map((e) => [e.episode, e.estimated]))
+  const ohneAssumed = expandEvents(ohneSprache(mitZahl({}))[0]!)
+  pruefe('2: OmU-Zahl ohne „angenommen“: der Begleiter erfindet das Kennzeichen nicht', ohneAssumed.every((e) => e.episodeCountAssumed === undefined) && ohneSprache(mitZahl({}))[0]?.schedule.episodeCountAssumed === undefined, ohneAssumed.map((e) => e.episodeCountAssumed))
+  const ohneZahl = bau([omuRelease({ schedule: { firstEpisodeDate: '2026-10-03', estimated: true } })], crDub([block('Staffel 2', wochen)]), bcTitel(), Date.parse('2026-11-29T05:00:00Z'))
+  pruefe('2: OmU ohne Zahl: der Begleiter behauptet keine (Kontrolle zu den Fällen davor)', ohneSprache(ohneZahl)[0]?.schedule.episodeCount === undefined, ohneSprache(ohneZahl)[0]?.schedule)
   /* Mit der Zuordnung beider Titel an die Adresse (wie im echten Bau) erzeugt die Ableitung den Termin im Fenster; ab Tag 22 fällt er weg. */
   const beide = bcTitel()
   const nachUrl = new Map<string, Title[]>([[URL_DE, [beide.get(97940)!, beide.get(195604)!]]])
@@ -167,6 +177,17 @@ try {
   rmSync(neuDatei)
   pruefe('Neue Serie, Tag 2: die Ableitung liefert den Termin (Begleiter erst danach), genau ein deutscher Termin', ohneSprache(neuNah).length === 1 && !/-synchro$/.test(ohneSprache(neuNah)[0]?.slug ?? ''), neuNah.map((r) => r.slug))
   pruefe('Neue Serie, Tag 55: der Begleiter hält den Termin aus der Seite der Katalogfolgen', ohneSprache(neuFern).length === 1 && ohneSprache(neuFern)[0]?.slug === 'neue-serie-crunchyroll-synchro' && ohneSprache(neuFern)[0]?.schedule.firstEpisodeDate === '2026-11-07', neuFern.map((r) => r.slug))
+  /* A3: Ein Titel einer fremden Reihe an derselben Serienadresse zählt nicht als Geschwister: Katalog „Staffel 1“ gilt dem Titel, der in seiner Reihe allein an der Serie hängt. */
+  const fremdTitel = (franchiseId: number | undefined) => ({ ...titel(777, 2020, 12, { streams: [{ platform: 'crunchyroll', url: URL_DE, dub: true }] }), franchiseId }) as Title
+  const mitFremdem = bcTitel()
+  mitFremdem.set(777, fremdTitel(555))
+  const rsA3 = [omuRelease()]
+  const zA3 = legeOmuBegleiterAn(rsA3, mitFremdem, crDub([block('Staffel 1', [S2_ERSTE])]))
+  pruefe('A3: fremde Reihe (franchiseId 555) an derselben Serie: Block „Staffel 1“ gilt dem Titel (Staffel 2 der eigenen Reihe, eigene Serie in der Reihe)', zA3.erzeugt === 1 && rsA3.length === 2, zA3)
+  const alleinOhneReihe = new Map<number, Title>([[195604, { ...bcTitel().get(195604)!, franchiseId: undefined } as Title], [777, fremdTitel(undefined)]])
+  const rsA3b = [omuRelease()]
+  const zA3b = legeOmuBegleiterAn(rsA3b, alleinOhneReihe, crDub([block('Staffel 1', [S2_ERSTE])]))
+  pruefe('A3: beide ohne Reihe: der Fremde ist kein Geschwister (kein Vergleich undefined = undefined)', zA3b.erzeugt === 1 && rsA3b.length === 2, zA3b)
   /* Zwei verschieden benannte Blöcke derselben Staffelnummer: nicht entscheidbar, nichts erzeugt. */
   const rsM = [omuRelease()]
   const zM = legeOmuBegleiterAn(rsM, bcTitel(), crDub([block('Staffel 2', [S2_ERSTE]), block('Season 2', [folge(172, 1, '2026-11-08T16:00:00Z')])]))
@@ -216,6 +237,17 @@ try {
   pruefe('9: mit der deutschen Katalogfolge (2327) widerlegt das Wochenprogramm den Begleiter nicht', !Object.keys(mitKatalog.gedaechtnis).includes(`${OMU_SLUG}-synchro`), mitKatalog.gedaechtnis)
 
   /* Zählzeile im Bau-Log. */
+  const zeilenMitTitel = (releases: Release[], titles: Map<number, Title>, dub: never = crDub()): string[] => {
+    const zeilen: string[] = []
+    const altLog = console.log
+    console.log = (...a: unknown[]) => void zeilen.push(a.join(' ').replace('[pipeline] ', ''))
+    try {
+      legeOmuBegleiterAnUndMelde(releases, titles, dub)
+    } finally {
+      console.log = altLog
+    }
+    return zeilen
+  }
   const zeilenVon = (releases: Release[], dub: never): string[] => {
     const zeilen: string[] = []
     const altLog = console.log
@@ -227,11 +259,23 @@ try {
     }
     return zeilen
   }
-  const zeile = (e: number, o: number, v: number, h: number) => `OmU-Begleiter: ${e} erzeugt, ${o} ohne Block, ${v} mit Folgen nur vor dem OmU-Start, ${h} mit Gegenstück am Titel`
+  const zeile = (e: number, o: number, v: number, h: number, d = 0) => `OmU-Begleiter: ${e} erzeugt, ${o} ohne Block, ${v} mit Folgen nur vor dem OmU-Start, ${h} mit Gegenstück am Titel, ${d} ohne Synchro-Beleg am Weg`
   pruefe('Zählzeile: 1 erzeugt', zeilenVon([omuRelease()], crDub()).join('|') === zeile(1, 0, 0, 0))
   pruefe('Zählzeile: nur „ohne Block“ (US-Katalog) steht im Log', zeilenVon([omuRelease()], us).join('|') === zeile(0, 1, 0, 0))
   pruefe('Zählzeile: nur „vor dem OmU-Start“ steht im Log', zeilenVon([omuRelease()], crDub([block('Staffel 2', [folge(171, 1, '2026-10-02T15:00:00Z')])])).join('|') === zeile(0, 0, 1, 0))
   pruefe('Zählzeile: nur „Gegenstück am Titel“ steht im Log', zeilenVon([omuRelease(), handRelease()], crDub()).join('|') === zeile(0, 0, 0, 1))
+  const ohneDubTitel = bcTitel()
+  ohneDubTitel.get(195604)!.streams = [{ platform: 'crunchyroll', url: URL_DE } as never]
+  const rsD = [omuRelease()]
+  const zD = legeOmuBegleiterAn(rsD, ohneDubTitel, crDub())
+  pruefe('A2: Weg ohne dub: nichts erzeugt, als „ohne Synchro-Beleg“ gezählt (deutscher Block mit datierter Folge ist da)', rsD.length === 1 && JSON.stringify(zD) === JSON.stringify({ ...Z0, ohneDub: 1 }), zD)
+  const dubFalse = bcTitel()
+  dubFalse.get(195604)!.streams = [{ platform: 'crunchyroll', url: URL_DE, dub: false } as never]
+  pruefe('A2: dub false: ebenso nichts', JSON.stringify(legeOmuBegleiterAn([omuRelease()], dubFalse, crDub())) === JSON.stringify({ ...Z0, ohneDub: 1 }))
+  const andereSerie = bcTitel()
+  andereSerie.get(195604)!.streams = [{ platform: 'crunchyroll', url: 'https://www.crunchyroll.com/de/series/GRANDERE/x', dub: true } as never]
+  pruefe('A2: dub nur an einer anderen Serie des Titels: nichts', JSON.stringify(legeOmuBegleiterAn([omuRelease()], andereSerie, crDub())) === JSON.stringify({ ...Z0, ohneDub: 1 }))
+  pruefe('A2: Zählzeile nennt „ohne Synchro-Beleg am Weg“', zeilenVon([omuRelease()], crDub()).join('|') === zeile(1, 0, 0, 0) && zeilenMitTitel([omuRelease()], ohneDubTitel).join('|') === zeile(0, 0, 0, 0, 1))
   pruefe('Zählzeile: ohne OmU-Termin keine Zeile', zeilenVon([handRelease()], crDub()).length === 0)
 } finally {
   rmSync(wurzel, { recursive: true, force: true })

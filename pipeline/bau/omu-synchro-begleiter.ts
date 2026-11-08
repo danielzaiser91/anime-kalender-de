@@ -23,12 +23,22 @@ export interface BegleiterZaehlung {
   ohneBlock: number
   vorOmuStart: number
   handVorhanden: number
+  ohneDub: number
 }
 
 interface DeutscheFolge {
   tag: string
   zeit: string
   laufend?: number
+}
+
+/**
+ * Trägt der Titel an dieser Crunchyroll-Serie den Synchro-Beleg (`dub === true`)? Ohne ihn behauptet der Begleiter nichts:
+ * der Katalog führt auch Wege mit Untertitel-Folgen, und die 11 Wege ohne `dub` im Bestand (08.11.2026) haben keinen OmU-Termin,
+ * betroffen ist heute also keiner — das Gate hält den Fall offen, in dem ein deutscher Block ohne Weg-Beleg einen Termin machte.
+ */
+function hatDubBeleg(title: Title, kennung: string): boolean {
+  return title.streams.some((s) => s.platform === 'crunchyroll' && s.dub === true && crunchyrollSeriesId(s.url) === kennung)
 }
 
 /** Der eine Katalogblock der Staffel, die zu `title` passt, samt Serienadresse — `null`, wenn keiner oder mehrere passen. */
@@ -52,7 +62,20 @@ function datierteFolgen(block: CrStaffel): DeutscheFolge[] {
   return raus
 }
 
-/** Der Begleiter-Termin aus den Folgen ab dem OmU-Start; ohne Folgenzahl (die Länge der laufenden Staffel ist offen). */
+/**
+ * Die Folgenzahl des OmU-Termins samt Herkunft und „≈“. Ohne sie machte `termineAusPlan` nur einen Termin und verlöre ab Tag 22
+ * (Ende des Ableitungsfensters) auch die belegten Folgen 2 bis n; die Werte bleiben so, wie der OmU-Termin sie trägt.
+ */
+function folgenzahlVon(omu: Release): Partial<Release['schedule']> {
+  const s = omu.schedule
+  return {
+    ...(s.episodeCount !== undefined ? { episodeCount: s.episodeCount } : {}),
+    ...(s.episodeCountSource !== undefined ? { episodeCountSource: s.episodeCountSource } : {}),
+    ...(s.episodeCountAssumed !== undefined ? { episodeCountAssumed: s.episodeCountAssumed } : {}),
+  }
+}
+
+/** Der Begleiter-Termin aus den Folgen ab dem OmU-Start; die Folgenzahl kommt vom OmU-Termin (`folgenzahlVon`). */
 function begleiterTermin(omu: Release, title: Title, block: CrStaffel, url: string, folgen: DeutscheFolge[]): Release {
   const tage = folgen.map((f) => f.tag).sort()
   const zeiten = new Set(folgen.map((f) => f.zeit))
@@ -68,6 +91,7 @@ function begleiterTermin(omu: Release, title: Title, block: CrStaffel, url: stri
       firstEpisodeDate: tage[0]!,
       ...(zeiten.size === 1 ? { time: [...zeiten][0] } : {}),
       ...(Object.keys(beobachtet).length ? { observed: beobachtet } : {}),
+      ...folgenzahlVon(omu),
     },
     fsk: title.fsk,
     herkunft: `${crHerkunft(folgen.length, block.name)}, Begleiter zum OmU-Termin`,
@@ -81,7 +105,7 @@ function begleiterTermin(omu: Release, title: Title, block: CrStaffel, url: stri
  * und gibt zurück, wie viele Termine entstanden oder aus welchem Grund keiner.
  */
 export function legeOmuBegleiterAn(releases: Release[], titles: Map<number, Title>, crDub: CrDubData): BegleiterZaehlung {
-  const z: BegleiterZaehlung = { erzeugt: 0, ohneBlock: 0, vorOmuStart: 0, handVorhanden: 0 }
+  const z: BegleiterZaehlung = { erzeugt: 0, ohneBlock: 0, vorOmuStart: 0, handVorhanden: 0, ohneDub: 0 }
   for (const omu of releases.filter((r) => r.platform === 'crunchyroll' && r.sprache === 'omu')) {
     const gegenstueck = releases.some((r) => r.platform === 'crunchyroll' && r.sprache === undefined && r.titleId === omu.titleId)
     if (gegenstueck) {
@@ -90,6 +114,10 @@ export function legeOmuBegleiterAn(releases: Release[], titles: Map<number, Titl
     }
     const title = titles.get(omu.titleId)
     const kennung = crunchyrollSeriesId(omu.platformUrl)
+    if (title && kennung && !hatDubBeleg(title, kennung)) {
+      z.ohneDub++
+      continue
+    }
     const gefunden = title && kennung ? katalogBlock(crDub.serien, kennung, katalogStaffeln(title, titles, kennung)) : null
     if (!title || !gefunden) {
       z.ohneBlock++
@@ -109,8 +137,8 @@ export function legeOmuBegleiterAn(releases: Release[], titles: Map<number, Titl
 /** Wie `legeOmuBegleiterAn`, dazu die Zählzeile im Bau-Log (nur wenn es überhaupt einen OmU-Termin gab). */
 export function legeOmuBegleiterAnUndMelde(releases: Release[], titles: Map<number, Title>, crDub: CrDubData): BegleiterZaehlung {
   const z = legeOmuBegleiterAn(releases, titles, crDub)
-  if (z.erzeugt + z.ohneBlock + z.vorOmuStart + z.handVorhanden) {
-    log(`OmU-Begleiter: ${z.erzeugt} erzeugt, ${z.ohneBlock} ohne Block, ${z.vorOmuStart} mit Folgen nur vor dem OmU-Start, ${z.handVorhanden} mit Gegenstück am Titel`)
+  if (z.erzeugt + z.ohneBlock + z.vorOmuStart + z.handVorhanden + z.ohneDub) {
+    log(`OmU-Begleiter: ${z.erzeugt} erzeugt, ${z.ohneBlock} ohne Block, ${z.vorOmuStart} mit Folgen nur vor dem OmU-Start, ${z.handVorhanden} mit Gegenstück am Titel, ${z.ohneDub} ohne Synchro-Beleg am Weg`)
   }
   return z
 }
