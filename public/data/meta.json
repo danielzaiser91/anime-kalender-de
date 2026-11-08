@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-11-07T13:09:51.362Z",
+  "generatedAt": "2026-11-08T15:48:06.122Z",
   "titleCount": 2923,
-  "belegtCount": 2588,
-  "releaseCount": 880,
-  "eventCount": 4397,
+  "belegtCount": 2591,
+  "releaseCount": 889,
+  "eventCount": 4417,
   "genres": [
     "Action",
     "Adventure",
@@ -183,8 +183,8 @@
   "providers": [
     "aniSearch",
     "Amazon Prime (Crunchyroll)",
-    "maxdome",
     "Apple TV",
+    "maxdome",
     "freenet meinVOD",
     "MagentaTV",
     "Videoload",
@@ -266,9 +266,13 @@
     2018,
     2017,
     2016,
-    2015
+    2015,
+    2011,
+    2010,
+    2009,
+    2008
   ],
-  "patchnotesStand": "2026-11-07",
+  "patchnotesStand": "2026-11-08",
   "attribution": [
     "Dub-Daten: MyDubList (https://mydublist.com) — CC BY 4.0",
     "Metadaten: AniList (https://anilist.co)",

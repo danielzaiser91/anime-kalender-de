@@ -6,6 +6,7 @@ import { type EntfernterVerweis } from './grundlagen.ts'
 import { type KatalogEintrag } from '../lib/anilist.ts'
 import { type AnisearchEintrag } from './01-quellen.ts'
 import { legeCrVerweiseUndTermineAn } from './09-4-4-termine.ts'
+import { legeOmuBegleiterAnUndMelde } from './omu-synchro-begleiter.ts'
 import { ordneCrKatalogZu } from './09-4-3-katalog.ts'
 import { ordneCrBloeckeZu } from './09-4-2-bloecke.ts'
 import { ordneCrSerienZu } from './09-4-1-serien.ts'
@@ -23,6 +24,7 @@ export function werteCrunchyrollDubAus({
   katalogEintraege,
   anisearch,
   releases,
+  jetzt,
 }: {
   titles: Map<number, Title>
   usNeinWiderlegt: (serie: { nichtVerfuegbar?: boolean; katalog?: string; seriesId?: string | null; }) => boolean
@@ -31,6 +33,8 @@ export function werteCrunchyrollDubAus({
   anisearch: Record<string, AnisearchEintrag>
   releases: Release[]
   crDub: CrDubData
+  /** Die Uhr für „frisch“ (21 Tage) in der Terminableitung; nur Tests setzen sie. */
+  jetzt?: number
 }) {
   if (crDub.serien.length) {
     const { nachUrl, belegt, verschwunden, usNeinOffen } = ordneCrSerienZu({
@@ -58,7 +62,9 @@ export function werteCrunchyrollDubAus({
 
     ordneCrKatalogZu({ titles, crDub, verweiseEntfernt })
 
-    legeCrVerweiseUndTermineAn({ titles, anisearch, belegt, crDub: { ...crDub, serien: [...crDub.serien, ...neueSerien.seiten] }, verschwunden, usNeinOffen, nachUrl, releases })
+    const crDubMitNeuen = { ...crDub, serien: [...crDub.serien, ...neueSerien.seiten] }
+    legeCrVerweiseUndTermineAn({ titles, anisearch, belegt, crDub: crDubMitNeuen, verschwunden, usNeinOffen, nachUrl, releases, jetzt })
+    legeOmuBegleiterAnUndMelde(releases, titles, crDubMitNeuen)
 
     /* Geschrieben wird erst am Ende — nach der letzten Stelle, die entfernt. */
   }

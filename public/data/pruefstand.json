@@ -1,22 +1,39 @@
 {
- "erzeugtAm": "2026-11-07T12:26:44.072Z",
+ "erzeugtAm": "2026-11-08T15:29:50.887Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
-   "gemeldet": 932,
+   "gemeldet": 919,
    "gesamt": 1002,
-   "offen": 70,
+   "offen": 83,
    "ohneSeite": 2,
    "suchAdressen": [
     "https://www.amazon.de/s?k=Super%20Wings&i=instant-video",
     "https://www.amazon.de/s?k=Fischen%20Impossible%3A%20Eine%20tierische%20Rettungsaktion&i=instant-video"
    ],
-   "ziel": "https://www.amazon.de/gp/video/detail/B0D84DKFSH",
+   "ziel": "https://www.amazon.de/gp/video/detail/B09FRLPFK4",
    "ziele": [
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B09FRLPFK4",
+     "titel": "Do, Re & Mi",
+     "hinweis": "Staffeln unklar: TMDB zählt 23 Folgen insgesamt, der Anbieter kann sie anders schneiden"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B09JLN6S1R",
+     "titel": "Detektiv Conan (Detective Conan)"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B0DNNFT23G",
+     "titel": "Shin-chan (Shin Chan)"
+    },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0D84DKFSH",
      "titel": "2.5 Dimensional Seduction (2.5-jigen no Ririsa 2nd Season)"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B0GFPBT6FG",
+     "titel": "Oshi no Ko: Mein Star (OSHI NO KO)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0H7YCRTJN",
@@ -107,12 +124,24 @@
      "titel": "Golden Kamuy 4 (Golden Kamuy Season 4)"
     },
     {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.ff7803bf-9b4c-46aa-beee-abb5e2ccd76c",
+     "titel": "Darwin’s Game (Darwin's Game)"
+    },
+    {
      "url": "https://www.amazon.de/gp/video/detail/B09MDQX4CW",
      "titel": "Appare-Ranman!"
     },
     {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.8b1dc17e-4332-49a4-a6a1-44e23da7ad23",
+     "titel": "Super HxEros"
+    },
+    {
      "url": "https://www.amazon.de/gp/video/detail/0J16B1NAB82TO0O5A5Q8TLG1VP",
      "titel": "Babylon"
+    },
+    {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.6364cc70-74ea-4084-88ad-ab2953e1484b",
+     "titel": "Laidbackers"
     },
     {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.077c1435-754d-407d-9d26-9ddb34a272d0",
@@ -175,6 +204,10 @@
      "titel": "Lupin III.: Daisuke Jigens Grabstein (Lupin the IIIrd: Jigen's Gravestone)"
     },
     {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.c9667593-ba0f-4e6a-a5f0-a1de3d9b4338",
+     "titel": "Inou Battle Within Everyday Life (When Supernatural Battles Became Commonplace)"
+    },
+    {
      "url": "https://www.amazon.de/gp/video/detail/B0GMY84XLR",
      "titel": "Wanna Be the Strongest in the World!"
     },
@@ -191,6 +224,10 @@
      "titel": "Free! Iwatobi Swim Club (Free! -Iwatobi Swim Club-)"
     },
     {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.cd532c25-2012-4814-8763-40202b020269",
+     "titel": "Kill La Kill"
+    },
+    {
      "url": "https://www.amazon.de/gp/video/detail/B0GVKRLHXX",
      "titel": "Aesthetica of a Rogue Hero"
     },
@@ -203,12 +240,20 @@
      "titel": "Bakemonogatari"
     },
     {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.6aad68c8-1e46-46e9-be1e-3d4de43488a5",
+     "titel": "Black Butler"
+    },
+    {
      "url": "https://www.amazon.de/gp/video/detail/B09KX2VLPR",
      "titel": "Higurashi no Naku Koro ni Kai (When They Cry Kai)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B09JZHRQ18",
      "titel": "Higurashi no Naku Koro ni (When They Cry)"
+    },
+    {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.1374d3dd-9d96-4d41-b0f8-38932f0c9145",
+     "titel": "Ikki Tousen: Dragon Girls (Battle Vixens: Ikki Tousen)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0GYDLTDD8",
@@ -219,17 +264,14 @@
      "titel": "Fushigi Yûgi New OVA: The Mysterious Play (Mysterious Play OVA 2)"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B09JLN6S1R",
-     "titel": "Detektiv Conan (Detective Conan)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0DNNFT23G",
-     "titel": "Shin-chan (Shin Chan)"
-    },
-    {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.5ba2d356-b885-4716-adfa-3a95cec98fff",
      "titel": "Polly Pocket",
      "hinweis": "Staffeln unklar: TMDB zählt 168 Folgen insgesamt, der Anbieter kann sie anders schneiden"
+    },
+    {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.44b69da7-d905-017f-c691-54059237c2a9",
+     "titel": "Sylvanian Families",
+     "hinweis": "Staffeln unklar: TMDB zählt 62 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.0cb8c40c-c316-369d-4c63-7adba44df4ab",
@@ -261,7 +303,7 @@
      "titel": "Zweite Prime-Ausgabe (B0DJ4FCM5H)"
     }
    ],
-   "naechster": "2.5 Dimensional Seduction (2.5-jigen no Ririsa 2nd Season)",
+   "naechster": "Do, Re & Mi",
    "bekannt": {
     "B0DGGZSKRM": 13,
     "B0FKZM9J6V": 25,
@@ -427,7 +469,7 @@
     "B0FJ7GC6S6": 10,
     "B0FDH3SLKB": 11,
     "B0DJWXLZ55": 12,
-    "B0HKFFGQ7F": 5,
+    "B0HKFFGQ7F": 6,
     "B0FN41VKQ5": 12,
     "B0DQ6SDQL2": 12,
     "B0H1QXQL33": 12,
@@ -439,9 +481,9 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 773,
+   "gemeldet": 766,
    "gesamt": 1082,
-   "offen": 309,
+   "offen": 316,
    "ohneSeite": 13,
    "ziel": "https://www.netflix.com/title/81608820",
    "ziele": [
@@ -452,6 +494,10 @@
     {
      "url": "https://www.netflix.com/title/81272431",
      "titel": "Numberblocks"
+    },
+    {
+     "url": "https://www.netflix.com/title/80107103",
+     "titel": "One Piece"
     },
     {
      "url": "https://www.netflix.com/title/81054853",
@@ -1774,28 +1820,6 @@
     "8cc06990-0faf-4a7e-ac1f-fb74cb4b9286": 15,
     "5ecc8b00-79fd-4c1a-81ed-f44260ef38d4": 13
    }
-  },
-  {
-   "name": "Suchadressen",
-   "plattform": "suchadressen",
-   "gemeldet": 0,
-   "gesamt": 2,
-   "offen": 2,
-   "titel": 0,
-   "ohneSeite": 2,
-   "ziel": "https://netflix.com",
-   "ziele": [
-    {
-     "url": "https://netflix.com",
-     "titel": "Meine ganz besondere Hochzeit: Special"
-    },
-    {
-     "url": "https://www.amazon.de/s?k=TANK%20CHAIR&i=instant-video",
-     "titel": "Tank Chair"
-    }
-   ],
-   "naechster": "Meine ganz besondere Hochzeit: Special",
-   "hinweis": "Suchadressen ohne Titelseite: den richtigen Treffer beim Anbieter heraussuchen"
   }
  ]
 }
