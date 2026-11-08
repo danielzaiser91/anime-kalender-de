@@ -1,6 +1,6 @@
 import { readJson, log, discSlug } from '../lib/util.ts'
 import { writeJsonStand } from '../lib/stand-halten.ts'
-import { alleTermine, ausgelassen as termineAusgelassen, beobachtungenAusBlock } from '../lib/crunchyroll-termine.ts'
+import { alleTermine, ausgelassen as termineAusgelassen, beobachtungenAusBlock, reichsteSerieJeKennung } from '../lib/crunchyroll-termine.ts'
 import { beobachtungenZusammenfuehren } from '../lib/crunchyroll.ts'
 import { crHerkunft } from '../lib/cr-batch-wache.ts'
 import { zahlFelder } from '../lib/offene-folgenzahl.ts'
@@ -150,7 +150,7 @@ export function legeCrVerweiseUndTermineAn({ titles, anisearch, belegt, crDub, v
       )
 
     /* Vorhandene Wochentermine bekommen die Tage der Folgen, die das Kalenderfenster nicht sah — siehe `beobachtungenAusBlock()`. */
-    const crNachKennung = new Map(crDub.serien.map((s) => [s.seriesId, s]))
+    const crNachKennung = reichsteSerieJeKennung(crDub.serien)
     let folgenDatiert = 0
     for (const r of releases) {
       if (r.platform !== 'crunchyroll' || r.releaseType !== 'weekly' || !r.schedule.observed) continue

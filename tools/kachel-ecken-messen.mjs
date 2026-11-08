@@ -368,6 +368,7 @@ export function sammleFehler(gemessen) {
 
 /** Bild des Ausschnitts um die erste Favoriten-Kachel des Laufs „mit“ (in beiden Läufen dieselbe Stelle). */
 async function bildVonKachel(seite, ansicht, datei, kachelnMit) {
+  /* Kein Wochen-Gleiten, Bildaufnahme ohne Zeiger: kein Warten auf Stillstand nötig (zeile-mittig.mjs). */
   const index = kachelnMit.findIndex((k) => k.favorit)
   await seite.evaluate(({ selektor, i }) => [...document.querySelectorAll(selektor)].filter((el) => el.offsetParent !== null)[i].scrollIntoView({ block: 'center' }), { selektor: SELEKTOR[ansicht], i: index })
   await seite.waitForTimeout(300)

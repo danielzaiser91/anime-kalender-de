@@ -7,7 +7,7 @@ Abschnitt „JustWatch-Ton je Seite“. Unsere Messung (Handbeleg, Meldung der E
 <!-- anime:start -->
 ## Anime
 
-Flagge „Deutsch“: 108 Wege, nur Hinweis: 2.
+Flagge „Deutsch“: 104 Wege, nur Hinweis: 2.
 
 JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine Flagge): mehrere Staffeln 17, Mehrteiler 9.
 
@@ -23,7 +23,7 @@ JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine
 |---|---|---|---|---|
 | Vampire Hunter D: Bloodlust (543) | primevideo | https://watch.amazon.de/detail?gti=amzn1.dv.gti.68239688-dba5-4abc-a3b5-5e554d51081f | de, Stand 2026-10-26 | Handbeleg 2026-10-31 |
 
-### Kandidaten für neue Wege (756)
+### Kandidaten für neue Wege (760)
 
 JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „Weg ohne Kennung“: ein Weg zum Anbieter steht, seine Adresse trägt aber keine Seitenkennung.
 
@@ -226,6 +226,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Gingitsune: Messenger Fox of the Gods (18411) | Amazon Prime Video | amazon:amzn1.dv.gti.eec0c738-28a1-47d4-8564-00f17ad9c7ac | ja |
 | Lupin III. vs Detektiv Conan: The Movie (18429) | Amazon Video | amazon:amzn1.dv.gti.f4bc0a1d-6dee-4528-9244-01b3c75a522c | ja |
 | Girls und Panzer: Der Film (18617) | Amazon Prime Video | amazon:amzn1.dv.gti.cac341f1-211d-494b-b1e9-baca0e3c3483 | ja |
+| Kill La Kill (18679) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.cd532c25-2012-4814-8763-40202b020269 | nein |
 | Arpeggio of Blue Steel: Ars Nova (18893) | Amazon Prime Video | amazon:amzn1.dv.gti.d3c06ecb-e8a7-4c66-921b-8b8f08724156 | ja |
 | Giovannis Insel (19115) | CineMix+ Amazon Channel | amazon:amzn1.dv.gti.0ca9f6bc-2aae-934a-b039-0005c00e4c16 | ja |
 | Akuma no Riddle (19429) | Crunchyroll | crunchyroll:G14U43ENG | nein |
@@ -263,6 +264,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Arpeggio of Blue Steel: Ars Nova - Cadenza (20764) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.23ab08b9-2bff-43ab-be1b-b0487d41df79 | ja |
 | Akatsuki no Yona: Prinzessin der Morgendämmerung (20770) | Amazon Prime Video | amazon:amzn1.dv.gti.acb7379b-54e3-9c6a-b499-00b86c1613b1 | ja |
 | Trinity Seven (20631) | Amazon Prime Video | amazon:amzn1.dv.gti.ef0ffada-e2db-4e80-999d-c8a1c81ac0d4 | ja |
+| Inou Battle Within Everyday Life (20646) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.c9667593-ba0f-4e6a-a5f0-a1de3d9b4338 | nein |
 | Sky Wizards Academy (20774) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.a4b67c10-6952-2165-6adc-7d6d06cbe57d | ja |
 | Dragon Ball Z: Resurrection ‚F‘ (20778) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.7b2d398b-5595-41da-a5d3-5dbc17e1c712 | ja |
 | Dragon Ball Z: Resurrection ‚F‘ (20778) | Amazon Video | amazon:amzn1.dv.gti.f2fb5b2e-1619-4370-8a94-8c7dc2632d07 | ja |
@@ -438,6 +440,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Rascal Does Not Dream of a Dreaming Girl (104157) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.f0b9cb08-1c69-0163-d099-7dd0726e135c | nein |
 | Shikizakura (105119) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.dc808391-6da1-4564-82aa-bb9e4fc5e187 | ja |
 | The Relative Worlds (104562) | Amazon Prime Video | amazon:amzn1.dv.gti.0a286973-21b7-4d9b-afe0-c5e1f020d1d4 | ja |
+| Darwin’s Game (105190) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.ff7803bf-9b4c-46aa-beee-abb5e2ccd76c | nein |
 | Cautious Hero: The Hero Is Overpowered but Overly Cautious (105156) | Crunchyroll | crunchyroll:G0DUN55JZ | ja |
 | Cautious Hero: The Hero Is Overpowered but Overly Cautious (105156) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.f95890b6-492d-4b5d-a31f-0a13c14f3b34 | nein |
 | White Snake: Die Legende der weißen Schlange (107371) | Amazon Video | amazon:amzn1.dv.gti.4819b905-d1cc-4052-afa6-593ab6263b6a | ja |
@@ -477,6 +480,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Elainas Reise (112609) | Crunchyroll | crunchyroll:GE00102831DEDE | nein |
 | Elainas Reise (112609) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.1e4aedec-4a0d-44e6-8c7d-3e5caf8423a8 | nein |
 | Ein Fremder am Strand (112788) | Crunchyroll | crunchyroll:GPWUK4EEV | ja |
+| Super HxEros (112818) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.8b1dc17e-4332-49a4-a6a1-44e23da7ad23 | nein |
 | Yes, No, or Maybe? (112930) | Amazon Video | amazon:amzn1.dv.gti.fdee804a-898b-49b8-b7c8-d10665f30371 | ja |
 | Monster Girl Doctor (113286) | Crunchyroll | crunchyroll:GWDU8D9ZK | ja |
 | Monster Girl Doctor (113286) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.7738eec0-dc61-49db-a6eb-03da87f75076 | nein |

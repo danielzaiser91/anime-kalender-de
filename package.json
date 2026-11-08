@@ -166,6 +166,8 @@
     "check:suchhinweis": "npm run buehne:bauen && node tools/suchhinweis-quickfix-pruefen.mjs",
     "check:buehne-fenster": "npm run buehne:bauen && node tools/buehne-fenster-pruefen.mjs",
     "check:filter-tempo": "node tools/filter-tempo.mjs --dist dist --n 2 --grenze 200 --spitze 800 && node tools/bereich-auge-messen.mjs --dist dist",
+    "check:buehne-messen": "npm run buehne:bauen && node tools/buehne-messen.mjs && node tools/buehne-zustand-pruefen.mjs",
+    "check:buehne-panel": "npm run buehne:bauen && node tools/buehne-panel-pruefen.mjs",
     "mess:suche": "node tools/such-messung.mjs",
     "mess:filter": "node tools/filter-messung.mjs",
     "check:ladezeiten": "node tools/ladezeiten-messen.mjs",

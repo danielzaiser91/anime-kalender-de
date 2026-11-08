@@ -18,6 +18,7 @@ pipeline/check-adn-kuratiert.ts
 pipeline/check-adn-laufend-archiv.ts
 pipeline/check-adn-lesetag.ts
 pipeline/check-adn-neuzugaenge.ts
+pipeline/check-adn-news-lauf.ts
 pipeline/check-adn-news-serien.ts
 pipeline/check-adn-offen-wache.ts
 pipeline/check-adn-spanne.ts
@@ -27,6 +28,7 @@ pipeline/check-adn-sprachriegel.ts
 pipeline/check-adn-titelliste-abruf.ts
 pipeline/check-adressen-schreiben.ts
 pipeline/check-adressen.ts
+pipeline/check-ak-umleitung-lauf.ts
 pipeline/check-aktualisierung-verborgen.ts
 pipeline/check-anbieter-logo.ts
 pipeline/check-angebot-feed.ts
@@ -116,6 +118,7 @@ pipeline/check-cr-auftakt-wache.ts
 pipeline/check-cr-batch-phase.ts
 pipeline/check-cr-batch-wache.ts
 pipeline/check-cr-block-standardname.ts
+pipeline/check-cr-block-zaehlung.ts
 pipeline/check-cr-blockkette-luecke.ts
 pipeline/check-cr-browser-start.ts
 pipeline/check-cr-doppelt-weg.ts
@@ -252,6 +255,7 @@ pipeline/check-install-stellen.ts
 pipeline/check-interne-angaben.ts
 pipeline/check-invarianten.ts
 pipeline/check-ja-hat-weg.ts
+pipeline/check-joyn-hand-tv.ts
 pipeline/check-joyn-luecke-lauf.ts
 pipeline/check-joyn-luecke.ts
 pipeline/check-joyn-premiere.ts
@@ -560,6 +564,7 @@ pipeline/check-zuordner-riegel.ts
 pipeline/check-zuordnung-fremd-lauf.ts
 pipeline/check-zuordnung-fremd.ts
 pipeline/check-zweitanbieter.ts
+tools/adn-news-bilanz.test.ts
 tools/anime2you-luecken.test.ts
 tools/apt-fremdquelle.mjs
 tools/buehne-entwurf-render.test.ts
