@@ -1,5 +1,5 @@
 import { readJson, log } from '../lib/util.ts'
-import { kapitelImBlock, deutscheFolgenNachDemEnde, type CrDubData } from '../lib/crunchyroll-dub.ts'
+import { kapitelImBlock, type CrDubData } from '../lib/crunchyroll-dub.ts'
 import { belegeEinzelwerke, type EinzelwerkEintrag } from '../lib/cr-einzelwerk-urteil.ts'
 import { type Title } from '../../shared/types.ts'
 import { todayIso } from '../../shared/time.ts'
@@ -8,6 +8,7 @@ import { serienBesitz, istFremd, entferneFremdeCrWege, entferneFremdeNachStaffel
 import { vorDemStart } from '../lib/crunchyroll-vollstaendig.ts'
 import { neinUeberholtMitLog, serienNachKennung, type OffenerBefund } from '../lib/cr-nein-ueberholt.ts'
 import { gruppiereJeKennung } from '../lib/je-kennung.ts'
+import { alleHinterDemEnde } from '../lib/cr-hinter-dem-ende.ts'
 import { katalogSerieIstEinWerk } from '../lib/cr-katalog-ein-werk.ts'
 import { kennungAusPfad, kennungMitAdressgedaechtnis, type KennungsAdressen } from '../lib/cr-kennung-gedaechtnis.ts'
 
@@ -183,7 +184,7 @@ export function ordneCrKatalogZu({ titles, crDub, verweiseEntfernt }: {
       */
       const crSerienGruppen = gruppiereJeKennung(crDub.serien, (s) => s.seriesId)
       const hinterDemEnde = (kennung: string, title: Title): boolean =>
-        deutscheFolgenNachDemEnde(crSerienGruppen.get(kennung)?.at(-1)?.staffeln ?? [], title.episodes)
+        alleHinterDemEnde(crSerienGruppen.get(kennung), title.episodes)
       if (nachKennung.size) { const besitz = serienBesitz(titles, kennungVon, nachKennung)
         for (const title of titles.values()) {
           for (const stream of title.streams) {

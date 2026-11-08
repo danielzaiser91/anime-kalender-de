@@ -5,6 +5,7 @@
  * Aufruf: npx tsx pipeline/check-cr-nein-ueberholt.ts
  */
 import type { CrSerie } from './lib/crunchyroll-dub.ts'
+import { alleHinterDemEnde } from './lib/cr-hinter-dem-ende.ts'
 import { gleicherBlock, neinUeberholt, serienNachKennung, type OffenerBefund } from './lib/cr-nein-ueberholt.ts'
 
 let fehler = 0
@@ -82,6 +83,25 @@ const ohneStaffeln = serienNachKennung([{ ...serie('GT00361955', '2026-10-25', [
 pruefe('Serie ohne Staffelliste: kein Absturz, nichts überholt', !neinUeberholt(nein('GT00361955', 'Season 2', '2026-09-28'), ohneStaffeln))
 const ohneZahl = serienNachKennung([{ ...serie('GT00361955', '2026-10-25', [['Staffel 2', 5, 5]]), staffeln: [{ name: 'Staffel 2', folgen: 5 }] } as unknown as CrSerie])
 pruefe('Block ohne Angabe deutscher Folgen zählt als 0', !neinUeberholt(nein('GT00361955', 'Season 2', '2026-09-28'), ohneZahl))
+
+// Doppelte Kennung: derselbe Block unter zwei Adressen, verschieden frisch (219 von 768 Kennungen am 08.11.2026).
+const alt = serie('GT00361955', '2026-10-20', [['Staffel 2', 0, 5]])
+const frisch = serie('GT00361955', '2026-10-30', [['Staffel 2', 3, 5]])
+const nein2 = nein('GT00361955', 'Season 2', '2026-10-25')
+pruefe('Doppeleintrag, frischer zuletzt: Nein überholt', neinUeberholt(nein2, serienNachKennung([alt, frisch])))
+pruefe('Doppeleintrag, frischer zuerst: der ältere verdeckt ihn nicht', neinUeberholt(nein2, serienNachKennung([frisch, alt])))
+pruefe('Doppeleintrag: beide behalten', serienNachKennung([frisch, alt]).get('GT00361955')?.length === 2)
+pruefe('Doppeleintrag, keiner frischer als das Nein: nichts überholt', !neinUeberholt(nein('GT00361955', 'Season 2', '2026-11-01'), serienNachKennung([frisch, alt])))
+
+const mitLaufend = (laufend: number[]): CrSerie =>
+  ({ ...serie('GZJH3D7G9', '2026-11-08', []), staffeln: [{ name: 'Staffel 3', deutsch: 3, folgen: 3, deutscheFolgen: laufend.map((n) => ({ laufend: n })) }] }) as unknown as CrSerie
+const bloecke49 = mitLaufend([49, 50, 51])
+const bloecke1 = mitLaufend([1, 2, 3])
+pruefe('alleHinterDemEnde: nur der alte Eintrag (49–51) liegt hinter 12 Folgen', alleHinterDemEnde([bloecke49], 12))
+pruefe('alleHinterDemEnde: frischer Eintrag (1–3) neben dem alten sperrt nicht (alte Reihenfolge)', !alleHinterDemEnde([bloecke1, bloecke49], 12))
+pruefe('alleHinterDemEnde: frischer Eintrag (1–3) neben dem alten sperrt nicht (umgekehrt)', !alleHinterDemEnde([bloecke49, bloecke1], 12))
+pruefe('alleHinterDemEnde: beide hinter dem Ende sperren', alleHinterDemEnde([bloecke49, mitLaufend([60])], 12))
+pruefe('alleHinterDemEnde: ohne Eintrag oder leer nie', !alleHinterDemEnde(undefined, 12) && !alleHinterDemEnde([], 12))
 
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)
