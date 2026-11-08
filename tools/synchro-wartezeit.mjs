@@ -14,7 +14,8 @@
  */
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
-import { STAFFEL_IM_NAMEN, datierteFolgen, folgenAbOmuStart, katalogBlock } from './cr-katalogblock.mjs'
+import { STAFFEL_IM_NAMEN, datierteFolgen, folgenAbOmuStart } from './cr-katalogblock.mjs'
+import { blockWahl } from './cr-blockwahl.mjs'
 
 export const SYNCHRO_GRENZE_MINUTEN = 90
 const FRIST_MS = 30_000
@@ -50,7 +51,7 @@ export function fruehesteDeutsche(katalog, omu, cr = []) {
   const kennung = serieVon(omu)
   const startTag = omu.schedule.firstEpisodeDate
   const nummern = staffelnummern(omu, cr)
-  const gefunden = nummern && kennung ? katalogBlock(katalog.serien ?? [], kennung, nummern) : null
+  const gefunden = nummern && kennung ? blockWahl(katalog.serien ?? [], kennung, { nummern }).treffer : null
   if (!gefunden) return serieHatFolgenAb(katalog, kennung, startTag) ? 'unklar' : undefined
   const folgen = folgenAbOmuStart(datierteFolgen(gefunden.block), startTag)
   return folgen.length ? Math.min(...folgen.map((f) => f.ms)) : undefined

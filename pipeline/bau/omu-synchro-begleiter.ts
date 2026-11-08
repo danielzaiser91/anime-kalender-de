@@ -14,8 +14,8 @@ import type { CrDubData, CrStaffel } from '../lib/crunchyroll-dub.ts'
 import { crHerkunft } from '../lib/cr-batch-wache.ts'
 import { log } from '../lib/util.ts'
 import type { Release, Title } from '../../shared/types.ts'
-import { katalogBlock, datierteFolgen, folgenAbOmuStart, type DeutscheFolge } from '../../tools/cr-katalogblock.mjs'
-import { katalogStaffeln } from './widerlegung-staffel.ts'
+import { datierteFolgen, folgenAbOmuStart, type DeutscheFolge } from '../../tools/cr-katalogblock.mjs'
+import { blockWahlFuer } from './block-wahl-titel.ts'
 
 /** Zahl der Releases je Ausgang, damit kein Verwerfungspfad still bleibt. */
 export interface BegleiterZaehlung {
@@ -91,7 +91,7 @@ export function legeOmuBegleiterAn(releases: Release[], titles: Map<number, Titl
       z.ohneDub++
       continue
     }
-    const gefunden = title && kennung ? katalogBlock(crDub.serien, kennung, katalogStaffeln(title, titles, kennung)) : null
+    const gefunden = title && kennung ? blockWahlFuer(title, titles, kennung, crDub.serien).treffer : null
     if (!title || !gefunden) {
       z.ohneBlock++
       continue
