@@ -135,6 +135,9 @@ const committen = (ok = true) => (text) => {
   assert.deepEqual(auswahl({ autor: 'Daniel', dateien: ['data/a.json'] }).fremd, ['data/a.json'])
   assert.deepEqual(auswahl({ autor: 'github-actions[bot]', betreff: 'chore(data): Bestand neu gebaut', dateien: ['data/b.json'] }).fremd, ['data/b.json'])
   assert.deepEqual(auswahl({ autor: 'github-actions[bot]', betreff: undefined, dateien: ['data/c.json'] }).fremd, ['data/c.json'])
+  // Fremde Änderung außerhalb von data/ steht unter keinDatenpfad, nicht unter fremd.
+  const a = sammlerAuswahl([{ autor: SAMMLER, dateien: ['extension/y.js'] }, { autor: 'Daniel', dateien: ['extension/y.js'] }])
+  assert.deepEqual([a.fremd, a.keinDatenpfad], [[], ['extension/y.js']])
 }
 
 // 3. Bleibt der Bau auch ohne den Sammler-Stand rot (Ursache woanders): alles zurück auf HEAD, nichts committet.
@@ -143,6 +146,7 @@ const committen = (ok = true) => (text) => {
   aufrufe.length = 0
   const e = zuruecknehmen({ cwd, basis, bauen: () => false, committen: committen() })
   assert.equal(e.art, 'bleibt-rot')
+  assert.deepEqual(e.ausgelassen, { fremd: [], keinDatenpfad: ['extension/x.js'], ruecknahmen: 0 })
   assert.equal(aufrufe.length, 0, 'bei rotem Bau kein Commit')
   assert.equal(git(cwd, 'status', '--porcelain'), '', 'Arbeitsbaum wieder auf HEAD')
   assert.equal(lies(cwd, 'data/neu-vom-sammler.json'), '{}')
@@ -167,6 +171,7 @@ const committen = (ok = true) => (text) => {
   const e = zuruecknehmen({ cwd, basis, bauen: () => { gebaut++; return true }, committen: committen() })
   assert.equal(e.art, 'nichts')
   assert.equal(gebaut, 0)
+  assert.deepEqual(e.ausgelassen, { fremd: [], keinDatenpfad: [], ruecknahmen: 0 })
 }
 
 // 6. Reine Auswahlregel: Cache, Nicht-data-Pfade, gemischte Dateien; ein Sammler-Commit, der eine Datei löscht.
@@ -196,7 +201,9 @@ assert.deepEqual(
   assert.match(r.stdout, /Sammler-Zurücknahme ausgelassen: 0 Dateien mit fremder Änderung; 1 außerhalb von data\/ oder in data\/cache: extension\/x\.js; 0 frühere/)
   assert.match(lies(cwd, 'commit-aufrufe.txt'), /^chore\(data\): Sammler-Stand zurückgenommen \([0-9a-f]{8}\)\|1\n$/)
   const leer = lauf('--basis', 'HEAD')
+  assert.equal(leer.status, 0, leer.stderr)
   assert.match(leer.stdout, /Sammler-Zurücknahme: nichts \(0 Dateien/)
+  assert.match(leer.stdout, /Sammler-Zurücknahme ausgelassen: 0 Dateien mit fremder Änderung; 0 außerhalb von data\/ oder in data\/cache; 0 frühere/)
   const ohne = lauf()
   assert.equal(ohne.status, 2)
   assert.match(ohne.stderr, /--basis/)
