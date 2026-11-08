@@ -28,8 +28,8 @@ function offsetMinuten(utc) {
 /** "2026-11-08" → "2026-11-08T00:00:00+01:00" (Offset der Zone zu diesem Zeitpunkt, Sommerzeit inklusive). */
 export function berlinMitternacht(tag) {
   const roh = new Date(`${tag}T00:00:00Z`)
-  let off = offsetMinuten(roh)
-  off = offsetMinuten(new Date(roh.getTime() - off * 60000))
+  // Eine Messung am UTC-Mitternachtspunkt genügt: Umstellungen liegen in Berlin um 02:00/03:00, nie vor Ortsmitternacht.
+  const off = offsetMinuten(roh)
   const betrag = Math.abs(off)
   const hh = String(Math.floor(betrag / 60)).padStart(2, '0')
   const mm = String(betrag % 60).padStart(2, '0')
@@ -73,7 +73,7 @@ function titelEintrag(t) {
 export function vergleicheTitel(alt, neu) {
   const am = new Map(alt.map((t) => [t.id, t]))
   const nm = new Map(neu.map((t) => [t.id, t]))
-  const out = { neu: [], neuMitSynchro: [], entfernt: [], synchroNeu: [], synchroVerloren: [], wegeNeu: [], wegeOhneSprache: [] }
+  const out = { neu: [], neuMitSynchro: [], entfernt: [], synchroNeu: [], synchroVerloren: [], wegeNeu: [], wegeOhneSprache: [], trailerNeu: [] }
   for (const t of neu) {
     const o = am.get(t.id)
     if (!o) {
@@ -83,8 +83,27 @@ export function vergleicheTitel(alt, neu) {
     }
     vergleicheBestehenden(o, t, out)
   }
+  out.trailerNeu = trailerNeu(am, neu)
   for (const t of alt) if (!nm.has(t.id)) out.entfernt.push({ id: t.id, name: name(t) })
   return out
+}
+
+/** Bestehende Titel, deren Trailer neu oder anders ist. */
+function trailerNeu(altNachId, neu) {
+  const aus = []
+  for (const t of neu) {
+    const o = altNachId.get(t.id)
+    if (o && t.trailer && JSON.stringify(o.trailer) !== JSON.stringify(t.trailer)) {
+      aus.push({ id: t.id, name: name(t), sprache: t.trailer.sprache || null })
+    }
+  }
+  return aus
+}
+
+/** Katalogeinträge ohne Synchro (ohne-synchro.json), die gegenüber der Basis neu sind. */
+export function katalogNeu(alt, neu) {
+  const bekannt = new Set((alt || []).map((t) => t.id))
+  return (neu || []).filter((t) => !bekannt.has(t.id)).map((t) => ({ id: t.id, name: name(t) }))
 }
 
 function vergleicheBestehenden(o, t, out) {
@@ -153,10 +172,23 @@ export function vorschlaegeDesTages(proposals, tag) {
   }))
 }
 
-/** Offene PRs, die Datendateien berühren (public/data, data/). */
+/** Offene PRs, die Datendateien berühren: Nummer, Titel, Art (Bau = public/data, Handdaten = data/). */
 export function queueMitDaten(prs) {
-  return (prs || []).map((p) => ({ nummer: p.number, titel: p.title, dateien: (p.files || []).map((f) => f.path).filter((f) => f.startsWith('public/data/') || f.startsWith('data/')) }))
-    .filter((p) => p.dateien.length > 0)
+  const aus = []
+  for (const p of prs || []) {
+    const dateien = (p.files || []).map((f) => f.path).filter((f) => f.startsWith('public/data/') || f.startsWith('data/'))
+    if (dateien.length === 0) continue
+    const art = dateien.some((f) => f.startsWith('public/data/')) ? 'Bau' : 'Handdaten'
+    aus.push({ nummer: p.number, titel: p.title, art, dateien })
+  }
+  return aus
+}
+
+export const QUEUE_LIMIT = 100
+
+/** Offene PRs über gh (eingespeist: ghFn bekommt die Argumente, liefert den JSON-Text). */
+export function holeQueue(ghFn) {
+  return queueMitDaten(JSON.parse(ghFn(['pr', 'list', '--state', 'open', '--limit', String(QUEUE_LIMIT), '--json', 'number,title,files'])))
 }
 
 export function textZeilen(r) {
@@ -167,8 +199,11 @@ export function textZeilen(r) {
   z.push(`- ${r.titel.wegeNeu.length} neue Wege mit Sprachangabe, ${r.titel.wegeOhneSprache.length} neue Wege ohne Sprachangabe (dub unbekannt)`)
   z.push(`- Termine: ${r.termine.termineNeu.length} neu, ${r.termine.termineGeaendert.length} geändert`)
   z.push(`- ${r.meldungen.length} Verweise (meldungen.json): ${r.meldungen.map((m) => m.titel).join('; ') || '-'}`)
-  z.push(`- ${r.vorschlaege.length} Vorschläge aus Anime2You, noch ohne Beleg: ${r.vorschlaege.map((v) => `${v.titel} (${v.plattform || v.anbieter || '?'})`).join('; ') || '-'}`)
+  z.push(`- ${r.katalogNeu.length} neue Katalogeinträge ohne Synchro: ${r.katalogNeu.map((t) => t.name).join('; ') || '-'}`)
+  z.push(`- ${r.titel.trailerNeu.length} Titel mit neuem Trailer: ${r.titel.trailerNeu.map((t) => `${t.name} (${t.sprache || '?'})`).join('; ') || '-'}`)
+  z.push(`- ${r.vorschlaege.length} Vorschläge aus Anime2You, am Tag gelesen (Übernahme als Handbeleg offen oder schon erfolgt): ${r.vorschlaege.map((v) => `${v.titel} (${v.plattform || v.anbieter || '?'})`).join('; ') || '-'}`)
   if (r.queue) z.push(`- Queue: ${r.queue.length} offene PRs mit Datendateien`)
+  for (const p of r.queue || []) z.push(`  #${p.nummer} ${p.art}: ${p.titel}`)
   return z
 }
 
@@ -183,8 +218,9 @@ export function baueBericht({ tag, basis, ref, lies, queue }) {
     termine: vergleicheTermine(lade(basis, p('releases.json')), lade(ref, p('releases.json'))),
     news: newsDesTages(lade(ref, p('news.json')), tag),
     meldungen: meldungenNeu(lade(basis, p('meldungen.json')), lade(ref, p('meldungen.json'))),
+    katalogNeu: katalogNeu(lade(basis, p('ohne-synchro.json')), lade(ref, p('ohne-synchro.json'))),
     vorschlaege: vorschlaegeDesTages(lade(ref, 'data/proposals/anime2you-extraktion.json'), tag),
-    queue: queue ? queueMitDaten(queue) : undefined,
+    queue,
   }
 }
 
@@ -202,17 +238,22 @@ function arg(argv, name, vorgabe) {
   return i >= 0 ? argv[i + 1] : vorgabe
 }
 
-export function main(argv, jetzt) {
+const ghAufruf = (args) => execFileSync('gh', args, { encoding: 'utf8', timeout: 60000, windowsHide: true })
+
+/** Baut die Ausgabe (JSON oder Textzeilen); `deps` speist git-Lesen und gh ein. */
+export function erzeuge(argv, jetzt, deps = {}) {
+  const gitFn = deps.git || git
   const tag = arg(argv, '--tag', heuteBerlin(jetzt))
   const ref = arg(argv, '--ref', 'origin/main')
-  const basis = arg(argv, '--basis', null) || findeBasis(tag, ref)
-  const lies = (r, pfad) => git(['show', `${r}:${pfad}`])
-  const queue = argv.includes('--queue')
-    ? JSON.parse(execFileSync('gh', ['pr', 'list', '--state', 'open', '--limit', '100', '--json', 'number,title,files'], { encoding: 'utf8', timeout: 60000, windowsHide: true }))
-    : undefined
-  const bericht = baueBericht({ tag, basis: git(['rev-parse', basis]).trim(), ref, lies, queue })
-  if (argv.includes('--json')) console.log(JSON.stringify(bericht, null, 2))
-  else for (const z of textZeilen(bericht)) console.log(z)
+  const basis = arg(argv, '--basis', null) || findeBasis(tag, ref, gitFn)
+  const lies = (r, pfad) => gitFn(['show', `${r}:${pfad}`])
+  const queue = argv.includes('--queue') ? holeQueue(deps.gh || ghAufruf) : undefined
+  const bericht = baueBericht({ tag, basis: gitFn(['rev-parse', basis]).trim(), ref, lies, queue })
+  return argv.includes('--json') ? JSON.stringify(bericht, null, 2) : textZeilen(bericht).join('\n')
+}
+
+export function main(argv, jetzt) {
+  console.log(erzeuge(argv, jetzt))
   return 0
 }
 
