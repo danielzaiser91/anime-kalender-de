@@ -37,7 +37,7 @@ interface Fall {
   eintrag?: Partial<Eintrag>
   /** Block im Dub-Bestand (Teil von `crDub.serien`). */
   serie?: object
-  /** Zweiter, älterer Katalogeintrag derselben Kennung unter anderer Adresse (steht nach dem frischen). */
+  /** Zweiter, älterer Katalogeintrag derselben Kennung unter anderer Adresse (steht im Bestand VOR dem frischen: erster Eintrag darf nicht allein urteilen). */
   serieAlt?: object
   /** Soll des Verweises: `dub` danach. */
   dub: boolean | undefined
@@ -124,8 +124,8 @@ try {
   const crDub = {
     scrapedAt: '2026-10-25T00:00:00Z',
     serien: [
-      ...faelle.filter((f) => f.serie).map((f) => ({ url: adresse(f.kennung), ...f.serie })),
       ...faelle.filter((f) => f.serieAlt).map((f) => ({ url: `${adresse(f.kennung)}?alt`, ...f.serieAlt })),
+      ...faelle.filter((f) => f.serie).map((f) => ({ url: adresse(f.kennung), ...f.serie })),
       { url: adresse('OUEBERHOL'), seriesId: 'OUEBERHOL', geprueftAm: '2026-10-10', staffeln: [{ name: 'Serie Staffel 2', folgen: 12, kacheln: 12, deutsch: 12, fremd: 0 }] },
     ],
   } as unknown as CrDubData
