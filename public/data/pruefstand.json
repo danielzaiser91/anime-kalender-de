@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-11-08T14:10:01.605Z",
+ "erzeugtAm": "2026-11-08T15:29:50.887Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -18,6 +18,14 @@
      "url": "https://www.amazon.de/gp/video/detail/B09FRLPFK4",
      "titel": "Do, Re & Mi",
      "hinweis": "Staffeln unklar: TMDB zählt 23 Folgen insgesamt, der Anbieter kann sie anders schneiden"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B09JLN6S1R",
+     "titel": "Detektiv Conan (Detective Conan)"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B0DNNFT23G",
+     "titel": "Shin-chan (Shin Chan)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0D84DKFSH",
@@ -256,14 +264,6 @@
      "titel": "Fushigi Yûgi New OVA: The Mysterious Play (Mysterious Play OVA 2)"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B09JLN6S1R",
-     "titel": "Detektiv Conan (Detective Conan)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0DNNFT23G",
-     "titel": "Shin-chan (Shin Chan)"
-    },
-    {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.5ba2d356-b885-4716-adfa-3a95cec98fff",
      "titel": "Polly Pocket",
      "hinweis": "Staffeln unklar: TMDB zählt 168 Folgen insgesamt, der Anbieter kann sie anders schneiden"
@@ -481,9 +481,9 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 773,
+   "gemeldet": 766,
    "gesamt": 1082,
-   "offen": 309,
+   "offen": 316,
    "ohneSeite": 13,
    "ziel": "https://www.netflix.com/title/81608820",
    "ziele": [
@@ -494,6 +494,10 @@
     {
      "url": "https://www.netflix.com/title/81272431",
      "titel": "Numberblocks"
+    },
+    {
+     "url": "https://www.netflix.com/title/80107103",
+     "titel": "One Piece"
     },
     {
      "url": "https://www.netflix.com/title/81054853",
