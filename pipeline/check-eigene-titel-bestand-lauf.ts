@@ -58,6 +58,9 @@ try {
   pruefe('widerrufen, Titel noch da: Exit 1', widerrufen.status === 1 && widerrufen.ausgabe.includes('widerrufen ist'), widerrufen.ausgabe)
   const ohneBild = lauf(zeile(), [{ ...eigener, coverImage: undefined }], [], [termin])
   pruefe('Titel ohne Cover: Exit 0 mit Warnung (kein Fehler, es gibt keine Cover-Quelle)', ohneBild.status === 0 && ohneBild.ausgabe.includes('⚠ WARNUNG Eigene Titel: „Fixture Eins“ (Zeile 910001) hat kein Cover') && ohneBild.ausgabe.includes('VERSTÖSSE: 0'), ohneBild.ausgabe)
+  pruefe('Warnung nennt das Plakat, das der nächste Lauf holt (movie/12)', ohneBild.ausgabe.includes('das Plakat von movie/12 holt der nächste Plakatlauf'), ohneBild.ausgabe)
+  const mitGrund = lauf(zeile(['  coverGrund: TMDB führt das Werk nicht']).replace('  tmdb: movie/12\n', ''), [{ ...eigener, coverImage: undefined }], [], [termin])
+  pruefe('Titel ohne Cover mit coverGrund: Exit 0, keine Cover-Warnung', mitGrund.status === 0 && mitGrund.ausgabe.includes('VERSTÖSSE: 0') && !mitGrund.ausgabe.includes('hat kein Cover'), mitGrund.ausgabe)
   const leer = lauf('[]\n', [], [], [])
   pruefe('keine Zeilen: Exit 0', leer.status === 0 && leer.ausgabe.includes('0 Zeilen'), leer.ausgabe)
   /* Die Bewertung selbst: zwei Zeilen, nur die erste fehlt; die Fremdzeile mit demselben Namen im anderen Format meldet nichts. */
