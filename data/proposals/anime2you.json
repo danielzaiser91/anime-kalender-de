@@ -1,11 +1,12 @@
 {
-  "scrapedAt": "2026-11-07T20:02:33.367Z",
+  "scrapedAt": "2026-11-08T04:12:04.049Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 4,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 38,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 14,
-    "schon in einem Rubrik-Feed gelesen": 8,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 56,
+    "schon in einem Rubrik-Feed gelesen": 28,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
     "Sprachhinweis älter als 45 Tage": 6
   },
   "proposals": [
@@ -78,7 +79,27 @@
           "satz": "s stehen auch eigene Werke der Musiker auf dem Programm. »Black Clover Second Season« (Synchro) Episoden: 1 auf Deutsch verfügbar Sprache: Deutsch, Japanisch (UT) Simulcast: Jeden Samstag um 16:00 Uhr (OmU) und 17:00 Uhr (Dub) Stream: Crunc"
         }
       ],
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "sammel": [
+        {
+          "titel": "ANI-ROCK FES. 2024: My Hero Academia PLUS ULTRA LIVE",
+          "deutsch": false,
+          "woechentlich": false,
+          "stream": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "titel": "Black Clover Second Season",
+          "deutsch": true,
+          "woechentlich": true,
+          "stream": [
+            "Crunchyroll",
+            "Prime Video"
+          ]
+        }
+      ],
+      "sammelGelesen": "2026-11-08"
     },
     {
       "articleTitle": "ProSieben MAXX startet zweiten werktäglichen Anime-Block",
@@ -416,7 +437,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-05"
+      "sammelGelesen": "2026-11-08"
     },
     {
       "articleTitle": "Design der neuen »Neon Genesis Evangelion«-Komplettbox + Extras",
@@ -789,7 +810,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-05"
+      "sammelGelesen": "2026-11-08"
     },
     {
       "articleTitle": "AniMoon-Angebot: RomCom-Serie »Toradora!« zum Sonderpreis",
@@ -845,7 +866,7 @@
           "folgen": 13
         }
       ],
-      "sammelGelesen": "2026-11-05"
+      "sammelGelesen": "2026-11-08"
     },
     {
       "articleTitle": "ProSieben MAXX zeigt »Wandering Witch: Elainas Reise« als TV-Premiere",
@@ -1207,7 +1228,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-11-05"
+      "sammelGelesen": "2026-11-08"
     },
     {
       "articleTitle": "Neue Anime-Katalogtitel im November 2026 bei aniverse",
@@ -1634,7 +1655,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-11-05"
+      "sammelGelesen": "2026-11-08"
     },
     {
       "articleTitle": "Crunchyroll bringt besonderes »Black Clover«-Erlebnis nach Deutschland",
@@ -2120,7 +2141,7 @@
           "edition": "limited-edition sammelschuber"
         }
       ],
-      "discGelesen": "2026-11-05"
+      "discGelesen": "2026-11-08"
     },
     {
       "articleTitle": "Zwei Synchro-Neuzugänge ab sofort auf Crunchyroll verfügbar",
@@ -2215,7 +2236,7 @@
       "alreadyCurated": false
     },
     {
-      "articleTitle": "Crunchyroll zeigt »Bless« im Simulcast + Teaser",
+      "articleTitle": "Crunchyroll zeigt »BLESS« im Simulcast + Teaser",
       "articleUrl": "https://www.anime2you.de/news/1062951/crunchyroll-zeigt-bless-im-simulcast/",
       "publishedAt": "2026-10-22",
       "category": "streaming",
@@ -2225,7 +2246,7 @@
       "dates": [
         {
           "month": "2027-01",
-          "context": "von »Bless« gesichert hat. Einen neuen Teaser findet ihr unten. Start im Januar 2027 »Bless« wird nach aktueller Planung ab Januar 2027 im j"
+          "context": "von »BLESS« gesichert hat. Einen neuen Teaser findet ihr unten. Start im Januar 2027 »BLESS« wird nach aktueller Planung ab Januar 2027 im j"
         }
       ],
       "dub": "nein",
