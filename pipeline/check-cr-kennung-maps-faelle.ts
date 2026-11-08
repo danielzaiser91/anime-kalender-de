@@ -25,6 +25,7 @@ pruefe('böse: Konstruktor ohne Namen', namen('f(new Map(l.map((s) => [s.seriesI
 pruefe('böse: Alias const id = s.seriesId', namen('const m = new Map()\nfor (const s of l) { const id = s.seriesId\n m.set(id, s) }') === 'm')
 pruefe('böse: crunchyrollSeriesId(url) als Schlüssel', namen('const m = new Map()\nm.set(crunchyrollSeriesId(u), 1)') === 'm')
 pruefe('böse: Parameter seriesId', namen('function f(seriesId: string) { const m = new Map()\n m.set(seriesId, 1) }') === 'm')
+pruefe('böse: deutscher Name serienKennung', namen('const m = new Map()\nm.set(serienKennung, 1)') === 'm')
 pruefe('böse: Großschreibung (SeriesId)', namen('const m = new Map()\nm.set(x.crSeriesId, 1)') === 'm')
 pruefe('böse: Empfänger mit Punkt (this.jeSerie)', namen('class A { f() { this.jeSerie.set(s.seriesId, s) } }') === 'this.jeSerie')
 pruefe('gut: Gruppierung über gruppiereJeKennung', namen('const g = gruppiereJeKennung(l, (s) => s.seriesId)') === '')

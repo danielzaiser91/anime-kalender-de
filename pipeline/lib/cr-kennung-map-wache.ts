@@ -6,11 +6,11 @@ export interface KennungsMap {
   zeile: number
 }
 
-const KENNUNG = /seriesid|serienkennung|crunchyrollseriesid\(/i
+const KENNUNG = /seriesid|serienkennung/i
 
 /**
  * Maps, die per `x.set(<Serienkennung>, …)` oder `new Map(….map(e => [<Serienkennung>, …]))` beschrieben werden.
- * Erkannt: Eigenschaft/Name/Aufruf mit seriesId, Serienkennung oder crunchyrollSeriesId(…); ein `const`-Alias darauf
+ * Erkannt: Eigenschaft, Name oder Aufruf (auch crunchyrollSeriesId(…)) mit seriesId oder Serienkennung; ein `const`-Alias darauf
  * (`const id = s.seriesId`) gilt mit. Nicht erkannt: Kennung über eine Hilfsfunktion mit anderem Namen.
  */
 export function findeKennungsMaps(text: string): KennungsMap[] {
