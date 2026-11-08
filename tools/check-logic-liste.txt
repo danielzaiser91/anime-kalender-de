@@ -469,8 +469,8 @@ pipeline/check-staffel-von-hand.ts
 pipeline/check-staffelsumme.ts
 pipeline/check-staffelzaehlung.ts
 pipeline/check-stand-halten.ts
-pipeline/check-streaming-luecke.ts
 pipeline/check-streaming-kleinfixes.ts
+pipeline/check-streaming-luecke.ts
 pipeline/check-streaming-zaehlen.ts
 pipeline/check-studio-archiv.ts
 pipeline/check-stuetzpunkt-ueberholt.ts
