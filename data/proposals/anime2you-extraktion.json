@@ -1293,8 +1293,17 @@
       "am": "2026-11-05",
       "vorschlaege": 2
     },
+    "1067963": {
+      "am": "2026-11-08",
+      "vorschlaege": 0,
+      "uebersprungen": "kein Deutschland-Bezug"
+    },
     "1068002": {
       "am": "2026-11-05",
+      "vorschlaege": 0
+    },
+    "1068026": {
+      "am": "2026-11-08",
       "vorschlaege": 0
     },
     "1068059": {
@@ -1394,7 +1403,27 @@
     },
     "1068951": {
       "am": "2026-11-07",
+      "vorschlaege": 3
+    },
+    "1068978": {
+      "am": "2026-11-08",
+      "vorschlaege": 0
+    },
+    "1068991": {
+      "am": "2026-11-08",
       "vorschlaege": 1
+    },
+    "1069007": {
+      "am": "2026-11-08",
+      "vorschlaege": 1
+    },
+    "1069021": {
+      "am": "2026-11-08",
+      "vorschlaege": 3
+    },
+    "1069032": {
+      "am": "2026-11-08",
+      "vorschlaege": 0
     }
   },
   "vorschlaege": [
@@ -3453,7 +3482,8 @@
       "wochentag": "Donnerstag",
       "warnungen": [
         "Uhrzeit widerspricht 18:30 (Artikel 1059541) – gegenlesen",
-        "Uhrzeit widerspricht 18:30 (Artikel 1059541), 18:30 (Artikel 1066723) – gegenlesen"
+        "Uhrzeit widerspricht 18:30 (Artikel 1059541), 18:30 (Artikel 1066723) – gegenlesen",
+        "Uhrzeit widerspricht 18:30 (Artikel 1059541), 18:30 (Artikel 1066723), 18:30 (Artikel 1069021) – gegenlesen"
       ],
       "artikelId": "1059480",
       "artikel": "Starttermin von »YAIBA: Samurai Legend« auf ProSieben MAXX",
@@ -11332,7 +11362,7 @@
     {
       "titel": "Black Clover Second Season",
       "zitat": "»Black Clover Second Season« (Synchro) Episoden: 1 auf Deutsch verfügbar Sprache: Deutsch, Japanisch (UT) Simulcast: Jeden Samstag um 16:00 Uhr (OmU) und 17:00 Uhr (Dub)",
-      "art": "start",
+      "art": "folgen",
       "sprache": "deutsch",
       "plattform": "crunchyroll",
       "datum": null,
@@ -11340,8 +11370,32 @@
       "anbieter": "Crunchyroll",
       "sender": null,
       "wochentage": "Jeden Samstag",
-      "folgen": "1",
-      "unsicher": "Artikel nennt zusätzlich 16:00 Uhr als Simulcast-Zeit für die OmU-Fassung; kein konkretes Startdatum genannt, nur „ab sofort“.",
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „Crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1068951",
+      "artikel": "Zwei Anime-Neuzugänge ab sofort auf Crunchyroll + Synchro",
+      "quelle": "https://www.anime2you.de/news/1068951/crunchyroll-black-clover-second-season-synchro-und-mehr/",
+      "veroeffentlicht": "2026-11-07",
+      "gelesenAm": "2026-11-07"
+    },
+    {
+      "titel": "Black Clover Second Season",
+      "zitat": "»Black Clover Second Season« (Synchro) Episoden: 1 auf Deutsch verfügbar Sprache: Deutsch, Japanisch (UT) Simulcast: Jeden Samstag um 16:00 Uhr (OmU) und 17:00 Uhr (Dub)",
+      "art": "folgen",
+      "sprache": "omu",
+      "plattform": "crunchyroll",
+      "datum": null,
+      "uhrzeit": "16:00",
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": "Jeden Samstag",
+      "folgen": null,
+      "unsicher": null,
       "wochentag": null,
       "warnungen": [
         "anbieter „Crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
@@ -11356,16 +11410,16 @@
     {
       "titel": "Dragon Ball",
       "zitat": "Ab dem 23. November 2026 strahlt ProSieben MAXX jeweils von Montag bis Freitag zwischen 05:30 Uhr und 07:10 Uhr beliebte Anime-Serien aus dem Nachmittagsprogramm als Wiederholung aus. Los geht es in der Regel mit einer Doppelfolge von »Dragon Ball«, gefolgt von »YAIBA: Samurai Legend« um circa 06:15 Uhr, bevor zum Abschluss um 06:45 Uhr noch eine Episode von »One Piece« über die Bildschirme flimmert.",
-      "art": "folgen",
+      "art": "start",
       "sprache": "unklar",
       "plattform": "tv",
       "datum": "2026-11-23",
-      "uhrzeit": "05:30",
+      "uhrzeit": null,
       "anbieter": null,
       "sender": "ProSieben MAXX",
       "wochentage": "Montag bis Freitag",
       "folgen": null,
-      "unsicher": "Für »Dragon Ball« selbst wird keine Einzeluhrzeit genannt, nur der Blockbeginn 05:30 Uhr; die Reihenfolge gilt laut Artikel nur „in der Regel“ und kann abweichen.",
+      "unsicher": "Eine eigene Uhrzeit für »Dragon Ball« nennt der Artikel nicht; der Block beginnt laut Artikel insgesamt um 05:30 Uhr.",
       "wochentag": "Montag",
       "warnungen": [],
       "artikelId": "1068887",
@@ -11377,7 +11431,7 @@
     {
       "titel": "YAIBA: Samurai Legend",
       "zitat": "Ab dem 23. November 2026 strahlt ProSieben MAXX jeweils von Montag bis Freitag zwischen 05:30 Uhr und 07:10 Uhr beliebte Anime-Serien aus dem Nachmittagsprogramm als Wiederholung aus. Los geht es in der Regel mit einer Doppelfolge von »Dragon Ball«, gefolgt von »YAIBA: Samurai Legend« um circa 06:15 Uhr, bevor zum Abschluss um 06:45 Uhr noch eine Episode von »One Piece« über die Bildschirme flimmert.",
-      "art": "folgen",
+      "art": "start",
       "sprache": "unklar",
       "plattform": "tv",
       "datum": "2026-11-23",
@@ -11386,10 +11440,11 @@
       "sender": "ProSieben MAXX",
       "wochentage": "Montag bis Freitag",
       "folgen": null,
-      "unsicher": "Artikel nennt die Uhrzeit als „circa 06:15 Uhr“; die Reihenfolge gilt nur „in der Regel“ und kann abweichen.",
+      "unsicher": "Artikel nennt die Uhrzeit nur als „circa“ (ungefähre Angabe).",
       "wochentag": "Montag",
       "warnungen": [
-        "Uhrzeit widerspricht 18:30 (Artikel 1066723) – gegenlesen"
+        "Uhrzeit widerspricht 18:30 (Artikel 1066723) – gegenlesen",
+        "Uhrzeit widerspricht 18:30 (Artikel 1066723), 18:30 (Artikel 1069021) – gegenlesen"
       ],
       "artikelId": "1068887",
       "artikel": "ProSieben MAXX startet zweiten werktäglichen Anime-Block",
@@ -11400,7 +11455,7 @@
     {
       "titel": "One Piece",
       "zitat": "Ab dem 23. November 2026 strahlt ProSieben MAXX jeweils von Montag bis Freitag zwischen 05:30 Uhr und 07:10 Uhr beliebte Anime-Serien aus dem Nachmittagsprogramm als Wiederholung aus. Los geht es in der Regel mit einer Doppelfolge von »Dragon Ball«, gefolgt von »YAIBA: Samurai Legend« um circa 06:15 Uhr, bevor zum Abschluss um 06:45 Uhr noch eine Episode von »One Piece« über die Bildschirme flimmert.",
-      "art": "folgen",
+      "art": "start",
       "sprache": "unklar",
       "plattform": "tv",
       "datum": "2026-11-23",
@@ -11409,7 +11464,7 @@
       "sender": "ProSieben MAXX",
       "wochentage": "Montag bis Freitag",
       "folgen": null,
-      "unsicher": "Die Reihenfolge der Serien im Block gilt laut Artikel nur „in der Regel“ und kann abweichen.",
+      "unsicher": null,
       "wochentag": "Montag",
       "warnungen": [
         "Uhrzeit widerspricht 18:55 (Artikel 1060030), 18:30 (Artikel 1063795), 18:55 (Artikel 1066723) – gegenlesen"
@@ -11419,6 +11474,119 @@
       "quelle": "https://www.anime2you.de/news/1068887/prosieben-maxx-zweiter-werktaeglicher-anime-block/",
       "veroeffentlicht": "2026-11-07",
       "gelesenAm": "2026-11-07"
+    },
+    {
+      "titel": "Akira",
+      "zitat": "Der Science-Fiction-Klassiker »Akira« aus dem Jahr 1988 kann ab sofort mit deutscher Synchronisation im kostenpflichtigen Plus-Abo von Joyn gestreamt werden.",
+      "art": "start",
+      "sprache": "deutsch",
+      "plattform": "joyn",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Joyn",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1069021",
+      "artikel": "Zwei weitere Anime-Neuzugänge ab sofort auf Joyn verfügbar",
+      "quelle": "https://www.anime2you.de/news/1069021/joyn-yaiba-samurai-legend-und-mehr/",
+      "veroeffentlicht": "2026-11-08",
+      "gelesenAm": "2026-11-08"
+    },
+    {
+      "titel": "YAIBA: Samurai Legend",
+      "zitat": "Darüber hinaus stehen die ersten beiden Episoden der 24-teiligen Actionserie »YAIBA: Samurai Legend« seit Kurzem kostenlos auf Deutsch zur Verfügung.",
+      "art": "start",
+      "sprache": "deutsch",
+      "plattform": "joyn",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Joyn",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "1–2",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „Joyn“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „joyn“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1069021",
+      "artikel": "Zwei weitere Anime-Neuzugänge ab sofort auf Joyn verfügbar",
+      "quelle": "https://www.anime2you.de/news/1069021/joyn-yaiba-samurai-legend-und-mehr/",
+      "veroeffentlicht": "2026-11-08",
+      "gelesenAm": "2026-11-08"
+    },
+    {
+      "titel": "YAIBA: Samurai Legend",
+      "zitat": "»YAIBA: Samurai Legend« Episoden: 2 von 24 Sprache: Deutsch Hinweis: Neue Episoden erscheinen jeweils nach der TV-Ausstrahlung auf ProSieben MAXX (Montag bis Freitag um 18:30 Uhr)",
+      "art": "folgen",
+      "sprache": "deutsch",
+      "plattform": "tv",
+      "datum": null,
+      "uhrzeit": "18:30",
+      "anbieter": null,
+      "sender": "ProSieben MAXX",
+      "wochentage": "Montag bis Freitag",
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "Uhrzeit widerspricht 18:25 (Artikel 1059480), 06:15 (Artikel 1068887) – gegenlesen"
+      ],
+      "artikelId": "1069021",
+      "artikel": "Zwei weitere Anime-Neuzugänge ab sofort auf Joyn verfügbar",
+      "quelle": "https://www.anime2you.de/news/1069021/joyn-yaiba-samurai-legend-und-mehr/",
+      "veroeffentlicht": "2026-11-08",
+      "gelesenAm": "2026-11-08"
+    },
+    {
+      "titel": "Sakamoto Days",
+      "zitat": "Der rund zweistündige Action-Film mit dem Titel »Sakamoto Days« steht ab sofort im japanischen Originalton mit deutschen Untertiteln auf Abruf zur Verfügung. Eine deutsche Synchronisation wird bislang nicht angeboten.",
+      "art": "start",
+      "sprache": "omu",
+      "plattform": "primevideo",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Prime Video",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": "Betrifft die Live-Action-Verfilmung, nicht die Anime-Serie.",
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „Prime Video“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „prime video“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1069007",
+      "artikel": "Live-Action-Adaption von »Sakamoto Days« ab sofort bei Prime Video",
+      "quelle": "https://www.anime2you.de/news/1069007/sakamoto-days-live-action-film-prime-video/",
+      "veroeffentlicht": "2026-11-08",
+      "gelesenAm": "2026-11-08"
+    },
+    {
+      "titel": "Bride of the Barrier Master",
+      "zitat": "Netflix zeigt den Fantasy-Anime ab Januar 2027 im Simulcast.",
+      "art": "ankuendigung",
+      "sprache": "unklar",
+      "plattform": "netflix",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Netflix",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1068991",
+      "artikel": "Neue Teaser zum Netflix-Anime »Bride of the Barrier Master« + Visuals",
+      "quelle": "https://www.anime2you.de/news/1068991/bride-of-the-barrier-master-neue-teaser/",
+      "veroeffentlicht": "2026-11-08",
+      "gelesenAm": "2026-11-08"
     }
   ]
 }

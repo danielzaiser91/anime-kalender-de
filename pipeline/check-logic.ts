@@ -3579,8 +3579,8 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   */
   pruefe(
     'die Zuordnungen werden mit dem alten Stand zusammengeführt',
-    /const bisher = leseZugeordnet<\(typeof zugeordnet\)\[string\]>\(\)/.test(roh) &&
-      /writeJson\('data\/prime-zugeordnet\.json', leseZugeordnet\(\{ \.\.\.bisher, \.\.\.zugeordnet \}\)\)/.test(roh),
+    /const bisher = readJson<Record<string, \(typeof zugeordnet\)\[string\]>>\('data\/prime-zugeordnet\.json', \{\}\)/.test(roh) &&
+      /writeJson\('data\/prime-zugeordnet\.json', \{ \.\.\.bisher, \.\.\.zugeordnet \}\)/.test(roh),
     'die Datei wird wieder überschrieben — jede Zuordnung hält dann einen Bau',
   )
 
@@ -4065,7 +4065,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   pruefe('Auto-Termin: aus einer Meldung mit nur Originalton entsteht kein Release', releasesAus([omu], titel, [], '2026-10-08').length === 0)
   pruefe('Auto-Termin: die Meldung zählt als „nur Originalton" (Protokoll, Rückzugsgrund)', nurOriginaltonMeldungen([omu]).length === 1)
   const still = releasesAus([v('https://a/1', 'unklar', 'ab dem 11. Oktober 2026 bei Crunchyroll')], titel, [], '2026-10-08')[0]
-  pruefe('Auto-Termin: nennt die Meldung keine Sprache, sagt die Notiz das', /sagt sie nicht/.test(still?.note ?? ''), still?.note)
+  pruefe('Auto-Termin: nennt die Meldung keine Sprache, sagt die Notiz das', /sagt sie nicht/.test(still?.hinweis ?? ''), still?.hinweis)
   /* **Kennzeichnung bis in die Karte** (10.10.2026): Ein Termin ohne Sprachzusage trägt `sprache`, das Event erbt es, und er belegt keine Synchro. */
   pruefe('Auto-Termin: ohne Sprachzusage ist der Termin gekennzeichnet (sprache: offen), das Event erbt es', still?.sprache === 'offen' && expandEvents(still!).every((e) => e.sprache === 'offen'), still?.sprache)
   {
@@ -4080,11 +4080,11 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     pruefe('Bau-Prüfung: „alle Folgen" (batch) aus einer Simulcast-Meldung ist ein Widerspruch', autoReleaseWidersprueche(auto({ releaseType: 'batch' }), [meldung('ja', '»X« im Simulcast')]).length === 1 && autoReleaseWidersprueche(auto({}), [meldung('ja', '»X« im Simulcast')]).length === 0)
   }
   const offen = releasesAus([v('https://a/1', 'offen', 'ab dem 11. Oktober 2026 bei Crunchyroll')], titel, [], '2026-10-08')[0]
-  pruefe('Auto-Termin: lässt die Meldung die Synchro offen, sagt die Notiz das', /noch offen/.test(offen?.note ?? ''), offen?.note)
+  pruefe('Auto-Termin: lässt die Meldung die Synchro offen, sagt die Notiz das', /noch offen/.test(offen?.hinweis ?? ''), offen?.hinweis)
   const zugesagt = releasesAus([v('https://a/1', 'ja', 'ab dem 11. Oktober 2026 bei Crunchyroll')], titel, [], '2026-10-08')[0]
-  pruefe('Auto-Termin: mit Sprachzusage keine Notiz', zugesagt !== undefined && zugesagt.note === undefined, zugesagt?.note)
+  pruefe('Auto-Termin: mit Sprachzusage keine Notiz', zugesagt !== undefined && zugesagt.hinweis === undefined, zugesagt?.hinweis)
   const disc = releasesAus([v('https://a/1', 'unklar', 'erscheint am 11. Oktober 2026 auf Blu-ray', 'disc', ['disc'])], [{ ...titel[0]!, format: 'MOVIE' }], [], '2026-10-08')[0]
-  pruefe('Auto-Termin: eine Disc (auch eines Films) ohne Sprachangabe bekommt keine Notiz', disc !== undefined && disc.note === undefined, disc?.note)
+  pruefe('Auto-Termin: eine Disc (auch eines Films) ohne Sprachangabe bekommt keine Notiz', disc !== undefined && disc.hinweis === undefined, disc?.hinweis)
   const zwei = releasesAus([v('https://a/still', 'unklar', 'ab dem 11. Oktober 2026'), v('https://a/zusage', 'zugesagt', 'ab dem 11. Oktober 2026')], titel, [], '2026-10-08')
   pruefe('Auto-Termin: melden zwei Artikel denselben Termin, belegt ihn der mit Sprachzusage', zwei.length === 1 && zwei[0]!.sources[0] === 'https://a/zusage', zwei.map((r) => r.sources))
 

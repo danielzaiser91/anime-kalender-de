@@ -1,0 +1,9 @@
+[
+  { "name": "Kontrolle unmutiert", "aenderungen": [] },
+  { "name": "nur zwei Versuche", "datei": "tools/quellen-pr.sh", "suche": "for versuch in 1 2 3; do\n    if [ \"$versuch\" -gt 1 ]", "ersetze": "for versuch in 1 2; do\n    if [ \"$versuch\" -gt 1 ]" },
+  { "name": "Blick auf bestehenden PR entfernt", "datei": "tools/quellen-pr.sh", "suche": "if [ \"$versuch\" -gt 1 ]; then", "ersetze": "if [ \"$versuch\" -gt 99 ]; then" },
+  { "name": "Blick auf bestehenden PR schon im ersten Versuch", "datei": "tools/quellen-pr.sh", "suche": "if [ \"$versuch\" -gt 1 ]; then", "ersetze": "if [ \"$versuch\" -gt 0 ]; then" },
+  { "name": "Fehlschlag wird nicht weitergegeben", "datei": "tools/quellen-pr.sh", "suche": "pr_anlegen || exit 1", "ersetze": "pr_anlegen || true" },
+  { "name": "Fehlertext nicht ausgegeben", "datei": "tools/quellen-pr.sh", "suche": "(Versuch $versuch von 3): $letzter\"", "ersetze": "(Versuch $versuch von 3)\"" },
+  { "name": "::error:: ohne letzten Text", "datei": "tools/quellen-pr.sh", "suche": "nach drei Versuchen nicht angelegt werden: $letzter\"", "ersetze": "nach drei Versuchen nicht angelegt werden.\"" },
+  { "name": "bestehender PR nicht übernommen", "datei": "tools/quellen-pr.sh", "suche": "        PR=\"$vorhanden\"\n", "ersetze": "        PR=\"\"\n" }]
