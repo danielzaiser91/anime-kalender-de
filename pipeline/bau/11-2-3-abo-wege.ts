@@ -4,6 +4,15 @@ import { type StreamLink, type Title } from '../../shared/types.ts'
 import { stripAffiliate } from '../../shared/mappings.ts'
 import { wegVerneint } from '../lib/dub-confirmed.ts'
 import { plattformVon } from '../lib/cartoons.ts'
+import { hatStreamingWeg } from '../../tools/streaming-weg-zaehlen.mjs'
+
+/** Der Kanalname eines Amazon-Kanal-Angebots in der Schreibweise der Wege („ADN“, „aniverse“), sonst `undefined`. */
+export function amazonKanal(anbieter: string): string | undefined {
+  if (!/ Amazon Channel$/i.test(anbieter)) return undefined
+  const name = anbieter.replace(/ Amazon Channel$/i, '')
+  if (/^Anime Digital Network$/i.test(name)) return 'ADN'
+  return /^Aniverse$/i.test(name) ? 'aniverse' : name
+}
 
 export type JwAbo = { ohneTreffer?: boolean; angebote?: { anbieter: string; art: string; url?: string; audio?: string[] }[] }
 
@@ -52,6 +61,7 @@ export function ergaenzeAboWege({ titles, jw, handNein, tmdbMehrdeutig, istTot }
     if (!b || b.ohneTreffer || !b.angebote?.length) continue
     if (tmdbMehrdeutig.has(String(title.id))) continue
     const vorhanden = new Set((title.streams ?? []).map((x) => x.platform))
+    const ohneWeg = !hatStreamingWeg(title)
     let neueHier = 0
     for (const a of b.angebote) {
       if (neueHier >= 2) break
@@ -63,10 +73,13 @@ export function ergaenzeAboWege({ titles, jw, handNein, tmdbMehrdeutig, istTot }
         live ging): `plattformVon()` vergleicht mit `startsWith`, und „RTL+ Max Amazon
         Channel" beginnt nun einmal mit „RTL+". Von 112 Kandidaten waren 68 solche Kanäle —
         ihre Adresse führt zu `watch.amazon.de`, die Pille hätte „RTL+" behauptet und Amazon
-        geöffnet. Wer den Kanal gebucht hat, sieht den Weg ohnehin über Prime.
+        geöffnet. Darum wird der Kanal nie als der Anbieter geführt, sondern — nur für einen Titel
+        ganz ohne Streaming-Weg (`streams` und `watchLinks` vom Typ stream; gemessen 06.11.2026:
+        297 Titel mit Crunchyroll-Weg bekämen sonst eine Doppelpille) — als Prime Video mit Kanalname.
       */
-      if (/Amazon Channel/i.test(a.anbieter)) continue
-      const plattform = plattformVon(a.anbieter)
+      const kanal = amazonKanal(a.anbieter)
+      if (kanal && (!ohneWeg || !/^https?:\/\/watch\.amazon\.de\//.test(a.url))) continue
+      const plattform = kanal ? 'primevideo' : plattformVon(a.anbieter)
       if (!plattform || vorhanden.has(plattform)) continue
       if (wegVerneint(handNein, title.id, plattform, a.url)) continue
       title.streams = [
@@ -75,6 +88,7 @@ export function ergaenzeAboWege({ titles, jw, handNein, tmdbMehrdeutig, istTot }
           platform: plattform,
           url: stripAffiliate(a.url),
           ...(a.art === 'ADS' ? { zugang: 'kostenlos' as const } : { zugang: 'abo' as const }),
+          ...(kanal ? { kanal } : {}),
         } as StreamLink,
       ]
       vorhanden.add(plattform)

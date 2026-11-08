@@ -14,8 +14,11 @@ import { bereichOffen, bereichsKennung, bereichsKopf, topPriosKasten } from './b
 import type { PrioUmfeld } from './bereiche'
 import { prioZeichenJeZeile, zaehleTopPrios, zeichenJeSpalte } from './prios'
 import type { PrioEintrag } from './prios'
+import { geradeInArbeit, zaehleZiele } from './ziele'
+import type { ZielStand } from './ziele'
 
 const DATEI = 'C:/code/ai/anime-kalender-de/daniel-zum-abarbeiten/stand.md'
+const ZIELE_DATEI = 'C:/code/ai/anime-kalender-de/daniel-zum-abarbeiten/ziele.md'
 // Je Sitzung eine Datei `<Sitzungs-ID>.txt` (Stop-Hook agenten-vorrat.js); fremde Sitzungen zählen hier nicht.
 const MARKER_ORDNER = 'C:/Users/ih/.claude/autonomer-modus'
 const PANE = 'arbeitsliste'
@@ -42,6 +45,8 @@ const pipeline = atom({ plugin: 'arbeitsliste', key: 'pipeline' } as const, [] a
 const ORT_FARBE: Record<Ort, string> = { pipeline: 'warning', worker: AKZENT, warteliste: 'suggestion', deploy: 'success', '?': 'error' }
 // Schlüssel V2: ein beim Hot-Reload erhaltener Altzustand ohne status/details darf nicht gezeichnet werden.
 const topPrios = atom({ plugin: 'arbeitsliste', key: 'topPriosV2' } as const, [] as PrioEintrag[])
+const ziele = atom({ plugin: 'arbeitsliste', key: 'ziele' } as const, [] as ZielStand[])
+const gerade = atom({ plugin: 'arbeitsliste', key: 'gerade' } as const, { titel: [], mehr: 0 } as { titel: string[]; mehr: number })
 const regeln = atom({ plugin: 'arbeitsliste', key: 'regeln' } as const, [] as Regel[])
 // Minute der letzten Neuzeichnung: der Countdown „in 13 h 45 min“ ändert sich nur beim Minutenwechsel.
 const minute = atom({ plugin: 'arbeitsliste', key: 'minute' } as const, 0)
@@ -207,6 +212,12 @@ function zeichneLeiste($: EngineInterface, e: any, daten: LeistenDaten, start: n
   return element
 }
 
+// ziele.md fehlt oder ist leer: kein Balken, kein Fehler.
+async function aktualisiereZiele($: EngineInterface): Promise<void> {
+  const neu = await ($.fs.read(ZIELE_DATEI) as Promise<string>).then(zaehleZiele, () => [] as ZielStand[])
+  if (!gleich(await read($, ziele), neu)) await update($, ziele, () => neu)
+}
+
 // Liest die Datei neu; der Zeitgeber startet beim ersten Aufruf (auch nach Hot-Reload).
 async function aktualisiere($: EngineInterface): Promise<void> {
   const bis = await lieseAutonomBis($)
@@ -232,6 +243,8 @@ async function aktualisiere($: EngineInterface): Promise<void> {
     if (!gleich(await read($, pipeline), neuPipeline)) await update($, pipeline, () => neuPipeline)
     const neueTop = zaehleTopPrios(text)
     if (!gleich(await read($, topPrios), neueTop)) await update($, topPrios, () => neueTop)
+    const neuGerade = geradeInArbeit(text, Date.now())
+    if (!gleich(await read($, gerade), neuGerade)) await update($, gerade, () => neuGerade)
     const neueRegeln = zaehleRegelmaessig(text)
     if (!gleich(await read($, regeln), neueRegeln)) await update($, regeln, () => neueRegeln)
     const min = Math.floor((await $.clock.now()) / 60_000)
@@ -239,6 +252,7 @@ async function aktualisiere($: EngineInterface): Promise<void> {
   } catch {
     fehler = 'stand.md nicht lesbar'
   }
+  await aktualisiereZiele($)
   const n = neu && neuVon ? zuLang(neu, [...neuVon.jetzt, ...neuVon.spaeter]) : 0
   const status = fehler ?? (n ? `Arbeitsliste: ${n} Titel über ${KURZTITEL_MAX} Zeichen` : undefined)
   if (status !== letzterStatus) {
@@ -315,6 +329,8 @@ type PaneDaten = {
   von: ReturnType<typeof teile>
   agenten: Agent[]
   top: PrioEintrag[]
+  ziele: ZielStand[]
+  gerade: { titel: string[]; mehr: number }
 }
 
 // Liest alle Atome des Panes; faellig und minute nur, damit der Render bei ihnen neu läuft.
@@ -333,7 +349,9 @@ async function lesePaneDaten($: EngineInterface): Promise<PaneDaten> {
   const pipeListe = await read($, pipeline)
   const von = teile(await read($, vonDir), new Date())
   const top = await read($, topPrios)
-  return { l, bis, still, sparen, auf, ausgeklappt, jetztMs, regelListe, liveListe, pipeListe, von, agenten: agentenListe, top }
+  const zieleListe = await read($, ziele)
+  const geradeListe = await read($, gerade)
+  return { l, bis, still, sparen, auf, ausgeklappt, jetztMs, regelListe, liveListe, pipeListe, von, agenten: agentenListe, top, ziele: zieleListe, gerade: geradeListe }
 }
 
 // Grundbausteine des Panes: Breite, Kürzen, Kürzungsschnitte, Titel, Punkt, Aufklapp-Zeilen.
@@ -558,6 +576,19 @@ function paneInArbeit(a: Ansicht, d: PaneDaten) {
   )
 }
 
+// Laufende Punkte aus den Kennzeichen von stand.md, höchstens fünf (Rang: tools/naechster.mjs).
+function paneGerade(a: Ansicht, d: PaneDaten) {
+  const { Box, Text } = a
+  if (!d.gerade.titel.length) return null
+  return (
+    <Box flexDirection="column">
+      <Text bold>Gerade in Arbeit</Text>
+      {d.gerade.titel.map((t, i) => <Text key={`gerade-${i}`} wrap="wrap">{`  ● ${t}`}</Text>)}
+      {d.gerade.mehr ? <Text dimColor>{`  + ${d.gerade.mehr} weitere`}</Text> : null}
+    </Box>
+  )
+}
+
 function paneNaechstes(a: Ansicht, d: PaneDaten) {
   const { Box, Text, kopf, istAuf, kt, stumm, verweise, mehr, schnitt } = a
   const later = schnitt(sortiere(d.l.todo), 'todo')
@@ -652,6 +683,7 @@ function prioUmfeld($: EngineInterface, e: any, d: PaneDaten, oeffne: (href: str
     offen: kennung => d.ausgeklappt.includes(kennung),
     schalte: kennung => void update($, aufgeklappt, a => schalte(a, kennung)),
     oeffne: href => void oeffne(href),
+    ziele: d.ziele,
   }
 }
 
@@ -670,6 +702,7 @@ async function zeichnePane($: EngineInterface, e: any) {
       {paneSpar(a, d)}
       {paneLive(a, d)}
       {paneJetzt(a, d)}
+      {paneGerade(a, d)}
       {paneSpaeter(a, d)}
       {paneAgenten($, a, d)}
       {paneInArbeit(a, d)}

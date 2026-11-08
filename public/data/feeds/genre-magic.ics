@@ -8,26 +8,6 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:cr-G6793XKZY@2026-10-31@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261031T103000Z
-DTEND:20261031T110000Z
-SUMMARY:Ascendance of a Bookworm Staffel 4 – Folge 24/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/15570/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:last-boss-s2-crunchyroll@2026-10-31@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261031T143000Z
-DTEND:20261031T150000Z
-SUMMARY:A Wild Last Boss Appeared! – Staffel 2 – Folge 3/≈12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/17248/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GT00384004@2026-11-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261101T153000Z
@@ -245,10 +225,8 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261108T153000Z
 DTEND:20261108T160000Z
 SUMMARY:Overgeared Staffel 1 – Folge 7/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/17645/
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/t/17645/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
