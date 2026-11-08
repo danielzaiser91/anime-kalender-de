@@ -94,8 +94,15 @@ try {
   const t22 = ohneSprache(tag22)
   pruefe('2: Tag 22, vier Wochenfolgen: weiter genau ein deutscher Termin, ab 07.11. mit den vier Folgen', t22.length === 1 && t22[0]?.schedule.firstEpisodeDate === '2026-11-07' && Object.keys(t22[0]?.schedule.observed ?? {}).join() === '1,2,3,4', t22.map((r) => r.schedule))
   pruefe('2: Tag 22: es ist der Begleiter (die Ableitung hat nach 21 Tagen verworfen), die Herkunft nennt 4 Folgen', t22[0]?.slug === `${OMU_SLUG}-synchro` && /4 Folgen mit belegtem Termin/.test(t22[0]?.herkunft ?? ''), t22[0])
-  const tag13 = bau([omuRelease()], crDub([block('Staffel 2', wochen.slice(0, 2))]), bcTitel(), Date.parse('2026-11-20T05:00:00Z'))
-  pruefe('2: Tag 13 (im Fenster): ebenfalls genau ein deutscher Termin, kein Doppel aus Ableitung und Begleiter', ohneSprache(tag13).length === 1, ohneSprache(tag13).map((r) => r.slug))
+  /* Mit der Zuordnung beider Titel an die Adresse (wie im echten Bau) erzeugt die Ableitung den Termin im Fenster; ab Tag 22 fällt er weg. */
+  const beide = bcTitel()
+  const nachUrl = new Map<string, Title[]>([[URL_DE, [beide.get(97940)!, beide.get(195604)!]]])
+  const imFenster = [omuRelease()]
+  const zFenster = ableitungUndBegleiter(imFenster, crDub([block('Staffel 2', wochen.slice(0, 2))]), beide, nachUrl, Date.parse('2026-11-20T05:00:00Z'))
+  pruefe('2: Tag 13: die Ableitung liefert den Termin (nicht der Begleiter), genau ein deutscher Termin', ohneSprache(imFenster).length === 1 && !/-synchro$/.test(ohneSprache(imFenster)[0]?.slug ?? '') && zFenster.erzeugt === 0 && zFenster.handVorhanden === 1, { z: zFenster, slugs: imFenster.map((r) => r.slug) })
+  const nach21 = [omuRelease()]
+  const zNach21 = ableitungUndBegleiter(nach21, crDub([block('Staffel 2', wochen)]), beide, nachUrl, Date.parse('2026-11-29T05:00:00Z'))
+  pruefe('2: Tag 22: die Ableitung ist weg, der Begleiter hält den Termin mit allen vier Folgen', ohneSprache(nach21).length === 1 && ohneSprache(nach21)[0]?.slug === `${OMU_SLUG}-synchro` && zNach21.erzeugt === 1 && Object.keys(ohneSprache(nach21)[0]?.schedule.observed ?? {}).join() === '1,2,3,4', { z: zNach21, slugs: nach21.map((r) => r.slug) })
 
   /* 3. Hand-Eintrag ohne sprache (Stand nach 3116): nichts erzeugt. */
   const mitHand = [omuRelease(), handRelease()]
@@ -145,6 +152,25 @@ try {
   const rs7b = [rayOmu]
   const z7b = legeOmuBegleiterAn(rs7b, rayTitel, rayDub)
   pruefe('7: ohne Ableitung erzeugt der Begleiter für die eigene Serie den Termin aus „Staffel 1“', z7b.erzeugt === 1 && rs7b[1]?.slug === 'rayearth-crunchyroll-synchro' && rs7b[1]?.schedule.firstEpisodeDate === '2026-10-25', { z7b, s: rs7b[1]?.schedule })
+  /* sprache „offen“ (Termin ohne Sprachangabe) verdrängt die Ableitung ebenfalls nicht — nur „omu“ allein wäre zu eng. */
+  const rs7c = [{ ...rayOmu, sprache: 'offen' } as Release]
+  ableitungUndBegleiter(rs7c, rayDub, rayTitel, new Map([[RAY_URL, [rayNeu]]]), Date.parse('2026-11-02T05:00:00Z'))
+  pruefe('7: Termin mit sprache offen: die Ableitung legt den deutschen Termin trotzdem an', ohneSprache(rs7c).length === 1 && mitSprache(rs7c).length === 1, rs7c.map((r) => r.slug))
+  /* Eine Serie, die der Dub-Sammler nie gelesen hat (Seite aus den Katalogfolgen): Ableitung im Fenster, danach der Begleiter. */
+  const NEU_URL = 'https://www.crunchyroll.com/de/series/GRNEU/neue-serie-test'
+  const neueSerie = () => new Map<number, Title>([[400, { id: 400, titleEn: 'Neue Serie Test', format: 'TV', jpYear: 2026, streams: [] } as unknown as Title]])
+  const neuOmu = () => omuRelease({ slug: 'neue-serie-crunchyroll', titleId: 400, platformUrl: NEU_URL, schedule: { firstEpisodeDate: '2026-10-03', estimated: true } })
+  const neuDatei = join(wurzel, 'data', 'crunchyroll-neu.json')
+  writeFileSync(neuDatei, JSON.stringify({ folgen: [{ serieId: 'GRNEU', serie: 'Neue Serie Test', staffel: 'Staffel 1', nummer: 1, verfuegbarAb: '2026-11-07T16:00:00Z', gesehenAm: '2026-11-07', guid: 'gn1', staffelId: 'GSNEU' }] }))
+  const neuNah = bau([neuOmu()], crDub(), neueSerie(), Date.parse('2026-11-08T05:00:00Z'))
+  const neuFern = bau([neuOmu()], crDub(), neueSerie(), Date.parse('2026-12-31T05:00:00Z'))
+  rmSync(neuDatei)
+  pruefe('Neue Serie, Tag 2: die Ableitung liefert den Termin (Begleiter erst danach), genau ein deutscher Termin', ohneSprache(neuNah).length === 1 && !/-synchro$/.test(ohneSprache(neuNah)[0]?.slug ?? ''), neuNah.map((r) => r.slug))
+  pruefe('Neue Serie, Tag 55: der Begleiter hält den Termin aus der Seite der Katalogfolgen', ohneSprache(neuFern).length === 1 && ohneSprache(neuFern)[0]?.slug === 'neue-serie-crunchyroll-synchro' && ohneSprache(neuFern)[0]?.schedule.firstEpisodeDate === '2026-11-07', neuFern.map((r) => r.slug))
+  /* Zwei verschieden benannte Blöcke derselben Staffelnummer: nicht entscheidbar, nichts erzeugt. */
+  const rsM = [omuRelease()]
+  const zM = legeOmuBegleiterAn(rsM, bcTitel(), crDub([block('Staffel 2', [S2_ERSTE]), block('Season 2', [folge(172, 1, '2026-11-08T16:00:00Z')])]))
+  pruefe('Zwei Blöcke „Staffel 2“ und „Season 2“: nichts erzeugt, als „ohne Block“ gezählt', rsM.length === 1 && JSON.stringify(zM) === JSON.stringify({ ...Z0, ohneBlock: 1 }), zM)
 
   /* 8. Uneinheitliche Uhrzeiten: der Termin trägt keine Uhrzeit. */
   const rs8 = [omuRelease()]

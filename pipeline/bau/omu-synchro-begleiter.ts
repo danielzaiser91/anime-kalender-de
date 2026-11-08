@@ -56,7 +56,7 @@ function datierteFolgen(block: CrStaffel): DeutscheFolge[] {
 function begleiterTermin(omu: Release, title: Title, block: CrStaffel, url: string, folgen: DeutscheFolge[]): Release {
   const tage = folgen.map((f) => f.tag).sort()
   const zeiten = new Set(folgen.map((f) => f.zeit))
-  const beobachtet = Object.fromEntries(folgen.filter((f) => Number.isInteger(f.laufend) && f.laufend! >= 1).map((f) => [f.laufend!, f.tag]))
+  const beobachtet = Object.fromEntries(folgen.filter((f) => (f.laufend ?? 0) >= 1).map((f) => [f.laufend!, f.tag]))
   return {
     slug: `${omu.slug}-synchro`,
     titleId: omu.titleId,
