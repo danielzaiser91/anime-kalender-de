@@ -33,12 +33,12 @@ interface DeutscheFolge {
 }
 
 /**
- * Trägt der Titel an dieser Crunchyroll-Serie den Synchro-Beleg (`dub === true`)? Ohne ihn behauptet der Begleiter nichts:
+ * Trägt der Titel an dieser Crunchyroll-Serie den Synchro-Beleg (`dub === true`, nicht bloß abgeleitet über `dubAbgeleitet`)? Ohne ihn behauptet der Begleiter nichts:
  * der Katalog führt auch Wege mit Untertitel-Folgen, und die 11 Wege ohne `dub` im Bestand (08.11.2026) haben keinen OmU-Termin,
  * betroffen ist heute also keiner — das Gate hält den Fall offen, in dem ein deutscher Block ohne Weg-Beleg einen Termin machte.
  */
 function hatDubBeleg(title: Title, kennung: string): boolean {
-  return title.streams.some((s) => s.platform === 'crunchyroll' && s.dub === true && crunchyrollSeriesId(s.url) === kennung)
+  return title.streams.some((s) => s.platform === 'crunchyroll' && s.dub === true && !s.dubAbgeleitet && crunchyrollSeriesId(s.url) === kennung)
 }
 
 /** Der eine Katalogblock der Staffel, die zu `title` passt, samt Serienadresse — `null`, wenn keiner oder mehrere passen. */
