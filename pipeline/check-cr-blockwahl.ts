@@ -129,7 +129,7 @@ pruefe(cells('2018-07-07', 13, [1]) === `-|${DOPPELT}`, 'Cells at Work! mit Star
 pruefe(cells('2018-07-08', 14, [1]) === `-|${DOPPELT}`, 'Cells at Work! mit passender Folgenzahl: offen')
 pruefe(wahl(CELLS, { nummern: [2], namen: ['Cells at Work!!'], folgen: 8, geteilt: false, ab: '2021-02-06' }) === `-|${DOPPELT}`, 'Cells at Work!! Staffel 2: derselbe Glattname, offen')
 // Der eigene Grund nur, wenn der doppelte Name auch zum Titel passt; sonst bleibt der allgemeine.
-pruefe(wahl(CELLS, { nummern: [], namen: ['Ganz anderer Titel'], folgen: 3, geteilt: true }) === `-|${MEHRERE}`, 'doppelter Glattname ohne Bezug zum Titel: allgemeiner Grund')
+pruefe(wahl(CELLS, { nummern: [], namen: ['Ganz anderer Titel'], folgen: 14, geteilt: true }) === `-|${MEHRERE}`, 'doppelter Glattname ohne Bezug zum Titel: allgemeiner Grund')
 pruefe(wahl(CELLS, { nummern: [], namen: ['Serie Cells at Work'], folgen: 14, geteilt: true }) === `-|${DOPPELT}`, 'doppelter Glattname über den Folgenweg (Namensende, 14 Folgen): eigener Grund')
 // Auch ein Block, den eine genannte andere Staffel aus der Wahl nimmt, macht den Namen doppelt (Prüfung über alle Blöcke, nicht nur die freien).
 const ZWEITE = [block('Foo Bar Baz', 12, '2024-01-01T00:00:00Z'), block('Foo Bar Baz (German Dub, 2nd Season)', 12, '2024-06-01T00:00:00Z')]
