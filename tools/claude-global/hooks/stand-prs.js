@@ -15,6 +15,7 @@ const path = require('node:path')
 const { execFileSync } = require('node:child_process')
 const B = require('./stand-prs-block.js')
 const { waechter } = require('./stand-waechter.js')
+const { kennzeichenMeldung } = require('./stand-kennzeichen.js')
 
 const REPO = ['danielzaiser91', 'anime-kalender-de']
 const GH_WINDOWS = 'C:/Program Files/GitHub CLI/gh.exe'
@@ -230,7 +231,7 @@ function aktualisiere({ datei, gh, jetzt, erfolg }) {
     const r = B.ersetzeBlock(vorher.split(eol).join('\n'), frisch.reihen ?? null, hinweis)
     if (r.fehler) return { ergebnis: `nicht geschrieben: ${r.fehler}`, laut: true }
     const neu = r.text.split('\n').join(eol)
-    const warnung = waechter(r.text, jetzt)
+    const warnung = [waechter(r.text, jetzt), kennzeichenMeldung(r.text)].filter(Boolean).join('; ')
     const zusatz = warnung ? { warnung } : {}
     const fertig = frisch.fehler ? { ergebnis: `veraltet: ${frisch.fehler}`, laut: true, ...zusatz } : null
     if (neu === vorher) return fertig ?? { ergebnis: 'unverändert', erfolg: true, ...zusatz }
