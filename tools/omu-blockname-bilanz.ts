@@ -69,6 +69,7 @@ function abgleich(paare: Paar[]): void {
     const weit = gewaehlt.filter((p) => Math.abs(zahl(p) ?? 0) > 1)
     const vorJapan = gewaehlt.filter((p) => ersteFolge(p.wahl.treffer!.block).slice(0, 4) < String(p.t.jpYear))
     console.log(`Abgleich ${weg}: ${gewaehlt.length} Paare, Folgenzahl gleich ${gleich}, um 1 ${um1}, ohne Titelangabe ${unbekannt}, um mehr ${weit.length}, erste deutsche Folge vor dem japanischen Jahr ${vorJapan.length}`)
+    for (const p of gewaehlt.filter((q) => Math.abs(zahl(q) ?? 0) === 1)) console.log(`   um 1: ${anzeigeName(p.t)} (${p.t.id}) ${p.t.episodes} Folgen, Block „${p.wahl.treffer!.block.name}“ ${p.wahl.treffer!.block.folgen}`)
     for (const p of weit) console.log(`   um mehr: ${anzeigeName(p.t)} (${p.t.id}) ${p.t.episodes} Folgen, Block „${p.wahl.treffer!.block.name}“ ${p.wahl.treffer!.block.folgen}`)
     for (const p of vorJapan) console.log(`   vor Japan: ${anzeigeName(p.t)} (${p.t.id}) jpYear ${p.t.jpYear}, Block „${p.wahl.treffer!.block.name}“ ab ${ersteFolge(p.wahl.treffer!.block).slice(0, 10)}`)
     if (weg === 'folgen') for (const p of gewaehlt) console.log(`   ${anzeigeName(p.t)} (${p.t.id}, jpStart ${p.t.jpStart}, ${p.t.episodes} Folgen) → „${p.wahl.treffer!.block.name}“ ab ${ersteFolge(p.wahl.treffer!.block).slice(0, 10)}, ${p.wahl.treffer!.block.folgen} Folgen`)
