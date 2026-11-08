@@ -69,7 +69,7 @@ pruefe('Doppelte Kennung, frischer Eintrag zuerst: er gilt', reichsteSerieJeKenn
 pruefe('Doppelte Kennung, frischer Eintrag zuletzt: er gilt', reichsteSerieJeKennung([ariAlt, ariFrisch]).get('GG5H5XQMD')?.url === ARI)
 pruefe('Eintrag ohne deutschen Katalog oder ohne Kennung zählt nicht', reichsteSerieJeKennung([{ ...ariFrisch, katalog: 'us' } as Serie, { ...ariAlt, seriesId: undefined } as Serie]).size === 0)
 
-function wochenRelease(slug: string, url: string, beobachtet: Record<number, string>, erster: string): Release {
+function wochenRelease(slug: string, url: string, beobachtet: Record<number, string>, erster: string, mehr: Record<string, unknown> = {}): Release {
   return {
     slug,
     titleId: 195516,
@@ -77,7 +77,7 @@ function wochenRelease(slug: string, url: string, beobachtet: Record<number, str
     platform: 'crunchyroll',
     platformUrl: url,
     releaseType: 'weekly',
-    schedule: { firstEpisodeDate: erster, time: '17:00', episodeCount: 12, observed: beobachtet },
+    schedule: { firstEpisodeDate: erster, time: '17:00', episodeCount: 12, observed: beobachtet, ...mehr },
   } as unknown as Release
 }
 
@@ -114,7 +114,8 @@ pruefe('Phase Aristocrat Staffel 3 (älterer Eintrag zuerst): dasselbe Ergebnis'
 /* Die Bestandswache: dieselbe Lage als Befund, unabhängig von der Paarung über den Starttag des Blocks. */
 const { schaetzungTrotzKatalog } = await import('./lib/cr-katalog-schaetzung.ts')
 const JETZT = new Date('2026-11-08T12:00:00Z')
-const apoRelease = (beobachtet: Record<number, string>, erster = '2026-10-23') => wochenRelease('apothecary-diaries-s3-cour1', APO, beobachtet, erster)
+const apoRelease = (beobachtet: Record<number, string>, erster = '2026-10-23', mehr: Record<string, unknown> = {}) =>
+  wochenRelease('apothecary-diaries-s3-cour1', APO, beobachtet, erster, mehr)
 const offen = (r: Release, serien: Serie[] = [apothekerin], jetzt = JETZT) => schaetzungTrotzKatalog([r], serien, jetzt).map((o) => o.folge).sort()
 pruefe('Wache: der Datensatz vom 08.11. (nur Folge 2 beobachtet) meldet Folge 1 und 3', offen(apoRelease({ 2: '2026-10-30' })).join() === '1,3', offen(apoRelease({ 2: '2026-10-30' })))
 pruefe('Wache: mit allen drei Tagen ist nichts offen', offen(apoRelease({ 1: '2026-10-23', 2: '2026-10-30', 3: '2026-11-06' })).length === 0)
@@ -124,6 +125,26 @@ pruefe('Wache: Starttag einen Tag neben dem Block gilt noch', offen(apoRelease({
 pruefe('Wache: Folge 3 trägt am 06.11. 16:00 UTC einen Stempel in der Zukunft: erst ab 16:00 offen', offen(apoRelease({ 2: '2026-10-30' }), [apothekerin], new Date('2026-11-06T15:00:00Z')).join() === '1')
 pruefe('Wache: zwei Blöcke am Starttag: nichts wird geraten', offen(apoRelease({ 2: '2026-10-30' }, '2026-10-23'), [{ ...apothekerin, staffeln: [...apothekerin.staffeln!, block('Doppelgänger', folge(60, 1, '2026-10-23T15:00:00Z'))] } as Serie]).length === 0)
 pruefe('Wache: Eintrag mit Wochentermin ohne Serie im Katalog: nichts offen', offen(apoRelease({ 2: '2026-10-30' }), []).length === 0)
+pruefe('Wache: Starttag zwei Tage vor dem Block: nichts offen (Toleranz genau ein Tag)', offen(apoRelease({ 2: '2026-10-30' }, '2026-10-21')).length === 0)
+pruefe('Wache: Starttag zwei Tage nach dem Block: nichts offen', offen(apoRelease({ 2: '2026-10-30' }, '2026-10-25')).length === 0)
+/* Der Termin liegt vor dem Stempel (16:00 Berlin gegen 17:00): Folge 3 ist als Termin erschienen, der Katalog führt sie noch nicht. */
+pruefe('Wache: Termin erschienen, Katalogstempel noch in der Zukunft: Folge 3 nicht gemeldet', offen(apoRelease({ 2: '2026-10-30' }, '2026-10-23', { time: '16:00' }), [apothekerin], new Date('2026-11-06T15:30:00Z')).join() === '1')
+pruefe('Wache: Stempel da, Termin noch nicht erschienen (23:00): Folge 3 nicht gemeldet', offen(apoRelease({ 2: '2026-10-30' }, '2026-10-23', { time: '23:00' }), [apothekerin], new Date('2026-11-06T17:00:00Z')).join() === '1')
+pruefe('Wache: ohne Beobachtung, Termin als geschätzt markiert: Ankündigung, nichts offen', offen(apoRelease({}, '2026-10-23', { estimated: true })).length === 0)
+pruefe('Wache: abgeschlossener Termin (letzte Folge belegt): nichts offen', offen(apoRelease({ 2: '2026-10-30' }, '2026-10-23', { lastEpisodeDate: '2026-11-06', episodeCount: 3 })).length === 0)
+const nummerNeuStelleAnders = { url: APO, seriesId: 'G3KHEVDJ7', katalog: 'de', staffeln: [block('S1', folge(2, 7, '2026-04-11T10:00:00Z'), folge(3, 8, '2026-04-18T10:00:00Z'), folge(4, 9, '2026-04-25T10:00:00Z'))] } as unknown as Serie
+const nummerRelease = () => wochenRelease('nummer-vor-stelle', APO, { 2: '2026-04-11' }, '2026-04-11', { time: '12:00', episodeCount: 4 })
+pruefe('Wache: der Block zählt nach Crunchyrolls Nummer (2–4), nicht nach der Stelle (7–9): Folge 3 und 4 gemeldet', offen(nummerRelease(), [nummerNeuStelleAnders], new Date('2026-05-01T12:00:00Z')).join() === '3,4', offen(nummerRelease(), [nummerNeuStelleAnders], new Date('2026-05-01T12:00:00Z')))
+
+/* Paarung: Weichen, die ein einzelner Fall nicht zeigt. */
+const tagGleich = '2026-04-11T10:00:00Z'
+const beideZaehlungen = { url: 'x', seriesId: 'X', katalog: 'de', staffeln: [block('S1', folge(2, 2, tagGleich), folge(3, 5, '2026-04-18T10:00:00Z'), folge(4, 6, '2026-04-25T10:00:00Z'))] } as unknown as Serie
+pruefe('Paarung: passen Nummer und Stelle zum selben Block, gilt die Nummer (Folge 3 und 4, nicht 5 und 6)', Object.keys(beobachtungenAusBlock(beideZaehlungen, { 2: '2026-04-11' })).join() === '3,4', beobachtungenAusBlock(beideZaehlungen, { 2: '2026-04-11' }))
+pruefe('Paarung: eine abweichende zweite Beobachtung verwirft den Block', Object.keys(beobachtungenAusBlock(apothekerin, { 2: '2026-10-30', 3: '2026-11-07' })).length === 0)
+const gleichviel = (url: string, folgen: ReturnType<typeof folge>[]) => ({ url, seriesId: 'G', katalog: 'de', staffeln: [block('S', ...folgen)] }) as unknown as Serie
+const eins = gleichviel('https://a.example/erster', [folge(1, 1, '2026-10-18T15:00:00Z')])
+const zweiter = gleichviel('https://a.example/zweiter', [folge(1, 1, '2026-10-18T15:00:00Z')])
+pruefe('Doppelte Kennung, gleich viele Folgen: der erste Eintrag bleibt, in beiden Reihenfolgen', reichsteSerieJeKennung([eins, zweiter]).get('G')?.url === eins.url && reichsteSerieJeKennung([zweiter, eins]).get('G')?.url === zweiter.url)
 
 if (verletzt) {
   console.error(`check-cr-block-zaehlung: ${verletzt} von ${faelle} Fällen verletzt`)
