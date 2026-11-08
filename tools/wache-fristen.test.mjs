@@ -21,7 +21,7 @@ const GROESSTE_LUECKE = {
   'deploy.yml': 12.7,
   'adn-laufende.yml': 7.0,
   'claude-verpasst-recherche.yml': 24.0,
-  'claude-anime2you-extraktion.yml': 24.0,
+  'claude-anime2you-extraktion.yml': 2.0,
   'claude-wache-urteil.yml': 24.0,
   'claude-daten-merge.yml': 1.95,
   'anisearch-katalog.yml': 24.0,
@@ -42,6 +42,7 @@ const F = FRISTEN_STUNDEN
 // Takt-Workflows: drei Takte (shared/weckplan.ts: stündlich; adn-laufende alle 6 h), nicht nur irgendein Wert im Band.
 assert.equal(F['refresh-hourly.yml'], 3 * 1)
 assert.equal(F['adn-laufende.yml'], 3 * 6)
+assert.equal(F['claude-anime2you-extraktion.yml'], 3 * 1)
 
 // Der Fall: stündlicher Workflow, letzter Erfolg vor 4 h -> Meldung (vorher Frist 12 h: stumm)
 assert.equal(befundZuAlt('refresh-hourly.yml', 4), 'refresh-hourly.yml: letzter erfolgreicher Lauf vor 4 h, erlaubt 3 h')
@@ -75,6 +76,7 @@ const befunde = pruefeFristen(
 assert.deepEqual(befunde, [
   'refresh-hourly.yml: letzter erfolgreicher Lauf vor 4 h, erlaubt 3 h',
   'deploy.yml: Abfrage fehlgeschlagen (gh kaputt)',
+  'claude-anime2you-extraktion.yml: letzter erfolgreicher Lauf vor 4 h, erlaubt 3 h',
   `ladezeiten.yml: letzter erfolgreicher Lauf nie, erlaubt ${F['ladezeiten.yml']} h`,
 ])
 assert.equal(zeilen.length, Object.keys(F).length - 1) // alle außer dem Abruf-Fehler

@@ -12,7 +12,7 @@
   releaseType: disc
   publisher: "Crunchyroll"
   edition: "Blu-ray"
-  note: "Die ersten sechs Episoden, deutsche Sprachausgabe (Anime2You)."
+  hinweis: "Die ersten sechs Episoden, deutsche Sprachausgabe (Anime2You)."
   schedule: { firstEpisodeDate: "2026-11-20" }
   sources: [https://www.anime2you.de/news/1046924/as-a-reincarnated-aristocrat-staffel-2-disc-termin/]
 
@@ -79,7 +79,7 @@
   releaseType: disc
   publisher: "polyband anime"
   edition: "DVD-Box"
-  note: "Die Box umfasst die ersten beiden Staffeln."
+  hinweis: "Die Box umfasst die ersten beiden Staffeln."
   schedule: { firstEpisodeDate: "2026-11-27" }
   sources: [https://www.anime2you.de/news/1046360/akiba-pass-shop-vier-polyband-neuheiten/]
 
@@ -90,6 +90,7 @@
   releaseType: disc
   publisher: "polyband anime"
   edition: "DVD-Box"
+  hinweis: "Die Box umfasst die Staffeln 14 bis 16."
   note: "Die Box umfasst die Staffeln 14 bis 16; der Eintrag hängt an der ersten davon."
   schedule: { firstEpisodeDate: "2026-11-27" }
   sources: [https://www.anime2you.de/news/1046360/akiba-pass-shop-vier-polyband-neuheiten/]
@@ -115,7 +116,7 @@
   releaseType: disc
   publisher: "Crunchyroll"
   edition: "Limited Edition mit Sammelschuber, DVD und Blu-ray"
-  note: "Die ersten sechs Episoden auf Deutsch (Anime2You)."
+  hinweis: "Die ersten sechs Episoden auf Deutsch (Anime2You)."
   schedule: { firstEpisodeDate: "2026-12-04" }
   sources: [https://www.anime2you.de/news/1044146/apothecary-diaries-staffel-2-disc-release/, https://www.anime2you.de/news/1060073/apothecary-diaries-staffel-2-volume-2-termin/]
 
@@ -139,7 +140,7 @@
   releaseType: disc
   publisher: "Crunchyroll"
   edition: "Blu-ray"
-  note: "Jahr aus dem Artikeldatum abgeleitet."
+  hinweis: "Jahr aus dem Artikeldatum abgeleitet."
   buyUrl: https://www.amazon.de/dp/B0HMCLGLNN
   schedule: { firstEpisodeDate: "2027-01-15", estimated: true }
   sources: [https://www.anime2you.de/news/1058300/20-blu-ray-neuheiten-bei-amazon-vorbestellbar/]
@@ -151,7 +152,7 @@
   releaseType: disc
   publisher: "Crunchyroll"
   edition: "Blu-ray"
-  note: "Jahr aus dem Artikeldatum abgeleitet. Vol. 2 hat noch keinen Termin im Datensatz."
+  hinweis: "Jahr aus dem Artikeldatum abgeleitet. Vol. 2 hat noch keinen Termin."
   buyUrl: https://www.amazon.de/dp/B0HMCG93DS
   schedule: { firstEpisodeDate: "2027-01-15", estimated: true }
   sources: [https://www.anime2you.de/news/1058300/20-blu-ray-neuheiten-bei-amazon-vorbestellbar/]

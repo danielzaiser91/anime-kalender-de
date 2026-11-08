@@ -7,15 +7,15 @@ Abschnitt „JustWatch-Ton je Seite“. Unsere Messung (Handbeleg, Meldung der E
 <!-- anime:start -->
 ## Anime
 
-Flagge „Deutsch“: 102 Wege, nur Hinweis: 0.
+Flagge „Deutsch“: 104 Wege, nur Hinweis: 2.
 
-JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine Flagge): mehrere Staffeln 15, Mehrteiler 9.
+JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine Flagge): mehrere Staffeln 17, Mehrteiler 9.
 
 | Anbieter | mit eigener Messung | Widersprüche | Anteil | Anzeige |
 |---|---|---|---|---|
 | crunchyroll | 8 | 0 | 0.0 % | Flagge |
 | disneyplus | 14 | 0 | 0.0 % | Flagge |
-| primevideo | 140 | 1 | 0.7 % | Flagge |
+| primevideo | 142 | 1 | 0.7 % | Flagge |
 
 ### Widersprüche (1)
 
@@ -23,7 +23,7 @@ JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine
 |---|---|---|---|---|
 | Vampire Hunter D: Bloodlust (543) | primevideo | https://watch.amazon.de/detail?gti=amzn1.dv.gti.68239688-dba5-4abc-a3b5-5e554d51081f | de, Stand 2026-10-26 | Handbeleg 2026-10-31 |
 
-### Kandidaten für neue Wege (759)
+### Kandidaten für neue Wege (760)
 
 JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „Weg ohne Kennung“: ein Weg zum Anbieter steht, seine Adresse trägt aber keine Seitenkennung.
 
@@ -156,6 +156,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Pokémon: Giratina und der Himmelsritter (4026) | Amazon Video | amazon:amzn1.dv.gti.52b27e08-d481-4fbd-d766-61714ddd1152 | ja |
 | Michiko & Hatchin (4087) | Crunchyroll | crunchyroll:GG1U24423 | ja |
 | Michiko & Hatchin (4087) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.c835475f-dcc2-40e6-84ac-07cf1077f7b1 | nein |
+| Batman: Gotham Knight (4094) | Amazon Video | amazon:amzn1.dv.gti.a1ec29eb-069c-489e-9fda-bd7dee23f127 | ja |
 | The Garden of Sinners: Paradoxe Helix (4282) | Crunchyroll | crunchyroll:G50UZ1EDE | ja |
 | Detektiv Conan: Die Partitur des Grauens (4447) | Crunchyroll | crunchyroll:GPWUK08Q5 | ja |
 | Erzählung einer weißen Schlange (4513) | Amazon Prime Video | amazon:amzn1.dv.gti.f06a68b4-be29-4b33-8158-0be169c5484d | ja |

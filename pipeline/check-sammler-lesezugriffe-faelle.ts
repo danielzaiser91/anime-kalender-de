@@ -6,7 +6,7 @@
 import { spawnSync } from 'node:child_process'
 import { rmSync } from 'node:fs'
 import { join } from 'node:path'
-import { hinweisZeilen, lauf, pruefeZugriffe, sammleFunde, type Zulassung } from './check-sammler-lesezugriffe.ts'
+import { hinweisZeilen, lauf, pruefeZugriffe, sammleFunde, leseZeilen, type Zulassung } from './check-sammler-lesezugriffe.ts'
 import { findeLesezugriffe } from './lib/sammler-lesezugriffe.ts'
 import { legeKulisseAn } from './lib/sammler-lesezugriffe-kulisse.ts'
 
@@ -140,6 +140,11 @@ pruefe('mehrere Aufrufe: je einer', art(`${MARKE}deutschMarke(1)\ndeutschMarke(2
 console.log('\nEntscheidung: Liste, Gründe, Zeitfenster')
 const gut = 'ganze Datei als Eingabe, kein fester Schlüssel'
 const zul = (datei: string, liest: string, grund = gut): Zulassung => ({ datei, liest, grund })
+const zeilen = (liste: Zulassung[]) => liste.map((e) => JSON.stringify(e)).join('\n') + '\n'
+const zwei = [zul('pipeline/a.ts', 'data/a.json'), zul('pipeline/b.ts', 'data/b.json')]
+pruefe('Zeilendatei: zwei Einträge, CRLF und Leerzeilen stören nicht', JSON.stringify(leseZeilen(`\n${zeilen(zwei).replaceAll('\n', '\r\n')}\n`)) === JSON.stringify(zwei))
+pruefe('Zeilendatei: leere Datei ergibt keine Einträge', leseZeilen('').length === 0)
+pruefe('Zeilendatei: zwei in einem Zug angehängte Einträge (union) bleiben lesbar', leseZeilen(zeilen([zwei[0]]) + zeilen([zwei[1]])).length === 2)
 const funde = (...paare: [string, string][]) => new Map(paare.map(([d, z]) => [d, new Set([z])]))
 const fehler = (f: Map<string, Set<string>>, l: Zulassung[], u?: Map<string, Set<string>>) => pruefeZugriffe(f, l, u)
 pruefe('gelisteter Zugriff mit Grund: grün', fehler(funde(['pipeline/a.ts', 'data/a.json']), [zul('pipeline/a.ts', 'data/a.json')]).length === 0)
@@ -158,8 +163,8 @@ pruefe('eine ähnlich benannte Sammlerdatei ist keine Handdatei', fehler(funde([
 
 console.log('\nLauf gegen eine Kulisse (Quelle und Ziel aus dem Wurzel-Argument)')
 const LISTE_TXT = '# Kopf\npipeline/check-a.ts\npipeline/check-b.ts\ntools/x.test.ts\n'
-const gelistet = JSON.stringify([zul('pipeline/check-a.ts', 'data/a.json')])
-const basis = { 'tools/check-logic-liste.txt': LISTE_TXT, 'tools/sammler-lesezugriffe.json': gelistet, 'pipeline/check-a.ts': `readJson('data/a.json', {})`, 'pipeline/check-b.ts': `appendFileSync('data/b.json', '')`, 'tools/x.test.ts': `join(kulisse, 'data/c.json')\nconst L = ['data/d.json']` }
+const gelistet = zeilen([zul('pipeline/check-a.ts', 'data/a.json')])
+const basis = { 'tools/check-logic-liste.txt': LISTE_TXT, 'tools/sammler-lesezugriffe.jsonl': gelistet, 'pipeline/check-a.ts': `readJson('data/a.json', {})`, 'pipeline/check-b.ts': `appendFileSync('data/b.json', '')`, 'tools/x.test.ts': `join(kulisse, 'data/c.json')\nconst L = ['data/d.json']` }
 const w1 = legeKulisseAn(basis)
 pruefe('Kulisse grün: gelisteter Zugriff, Schreiben und Kulisse in tools/ stören nicht', lauf(w1).fehler.length === 0 && lauf(w1).zeile.includes('1 Lesezugriffe begründet in 1 Prüfungen'), lauf(w1))
 pruefe('sammleFunde: nur pipeline/check-a.ts, tools/ zählt nur echtes Lesen', [...sammleFunde(w1).keys()].join() === 'pipeline/check-a.ts')
@@ -173,9 +178,9 @@ const w7 = legeKulisseAn({ ...basis, 'tools/z.test.mjs': `readFileSync('data/e.j
 pruefe('Lesen in einem .test.mjs unter tools/: rot', lauf(w7).fehler.length === 1 && lauf(w7).fehler[0]!.includes('tools/z.test.mjs'), lauf(w7).fehler)
 const w9 = legeKulisseAn({ ...basis, 'pipeline/check-b.ts': `import { deutschMarke } from './lib/anisearch-marke.ts'\nconsole.log(deutschMarke(123))` })
 pruefe('mittelbares Lesen (deutschMarke(123)) in einer Prüfung der Liste: rot, mit Eintrag grün', lauf(w9).fehler.length === 1 && lauf(w9).fehler[0]!.includes('data/anisearch-dubs.json') && lauf(w9).fehler[0]!.includes('pipeline/check-b.ts'), lauf(w9).fehler)
-const w10 = legeKulisseAn({ ...basis, 'tools/sammler-lesezugriffe.json': JSON.stringify([zul('pipeline/check-a.ts', 'data/a.json'), zul('pipeline/check-b.ts', 'data/anisearch-dubs.json')]), 'pipeline/check-b.ts': `import { deutschMarke } from './lib/anisearch-marke.ts'\nconsole.log(deutschMarke(123))` })
+const w10 = legeKulisseAn({ ...basis, 'tools/sammler-lesezugriffe.jsonl': zeilen([zul('pipeline/check-a.ts', 'data/a.json'), zul('pipeline/check-b.ts', 'data/anisearch-dubs.json')]), 'pipeline/check-b.ts': `import { deutschMarke } from './lib/anisearch-marke.ts'\nconsole.log(deutschMarke(123))` })
 pruefe('mittelbares Lesen mit Eintrag und Grund: grün', lauf(w10).fehler.length === 0, lauf(w10).fehler)
-const w11 = legeKulisseAn({ ...basis, 'tools/sammler-lesezugriffe.json': JSON.stringify([zul('pipeline/check-a.ts', 'data/a.json'), zul('tools/v.test.mjs', 'data/e.json')]), 'tools/v.test.mjs': `const u = new URL('../data/e.json', import.meta.url)\nreadFileSync(u, 'utf8')` })
+const w11 = legeKulisseAn({ ...basis, 'tools/sammler-lesezugriffe.jsonl': zeilen([zul('pipeline/check-a.ts', 'data/a.json'), zul('tools/v.test.mjs', 'data/e.json')]), 'tools/v.test.mjs': `const u = new URL('../data/e.json', import.meta.url)\nreadFileSync(u, 'utf8')` })
 pruefe('Lesen über eine new URL-Variable in tools/ mit Eintrag: grün (kein „veraltet“)', lauf(w11).fehler.length === 0, lauf(w11).fehler)
 const w12 = legeKulisseAn({ ...basis, 'tools/v.test.mjs': `const u = new URL('../data/e.json', import.meta.url)\nreadFileSync(u, 'utf8')` })
 pruefe('Lesen über eine new URL-Variable in tools/ ohne Eintrag: rot', lauf(w12).fehler.length === 1 && lauf(w12).fehler[0]!.includes('tools/v.test.mjs'), lauf(w12).fehler)
@@ -201,7 +206,7 @@ const r13 = lauf(w13)
 pruefe('„?“ in einem Test unter tools/: kein Fehler, eine Hinweiszeile mit sortierten Zielen', r13.fehler.length === 0 && r13.hinweise.join('|') === '  ? tools/q.test.mjs: data/a.json, data/b.json', [r13.fehler, r13.hinweise])
 const w18 = legeKulisseAn(ruhig)
 pruefe('Hinweis nennt nichts, wenn alles erkannt ist', lauf(w18).hinweise.length === 0, lauf(w18).hinweise)
-const w14 = legeKulisseAn({ ...ruhig, 'tools/q.test.mjs': `const P = 'data/a.json'\nappendFileSync(P, '')\nreadFileSync('data/a.json')`, 'tools/sammler-lesezugriffe.json': JSON.stringify([zul('pipeline/check-a.ts', 'data/a.json'), zul('tools/q.test.mjs', 'data/a.json')]) })
+const w14 = legeKulisseAn({ ...ruhig, 'tools/q.test.mjs': `const P = 'data/a.json'\nappendFileSync(P, '')\nreadFileSync('data/a.json')`, 'tools/sammler-lesezugriffe.jsonl': zeilen([zul('pipeline/check-a.ts', 'data/a.json'), zul('tools/q.test.mjs', 'data/a.json')]) })
 pruefe('„?“ auf ein Ziel, das dieselbe Datei sicher liest: kein Hinweis', lauf(w14).hinweise.length === 0 && lauf(w14).fehler.length === 0, [lauf(w14).hinweise, lauf(w14).fehler])
 const w15 = legeKulisseAn({ ...ruhig, 'tools/q.test.mjs': `const P = 'data/a.yaml'\nconst Q = 'data/b-von-hand.json'\nappendFileSync(P, '')\nappendFileSync(Q, '')` })
 pruefe('„?“ auf Handdateien: kein Hinweis', lauf(w15).hinweise.length === 0, lauf(w15).hinweise)
@@ -214,7 +219,7 @@ const mitHinweis = fehler(new Map(), veraltet, new Map([['tools/q.test.mjs', new
 pruefe('veralteter Eintrag mit „?“ auf demselben Ziel: weiter rot, Text nennt die unbekannte Form', mitHinweis.length === 1 && mitHinweis[0]!.includes('veraltet') && mitHinweis[0]!.includes('unbekannter Form'), mitHinweis)
 const fremd = fehler(new Map(), veraltet, new Map([['tools/q.test.mjs', new Set(['data/z.json'])], ['tools/r.test.mjs', new Set(['data/a.json'])]]))
 pruefe('„?“ auf anderes Ziel oder in anderer Datei: derselbe Fehler ohne Zusatz', fremd.length === 1 && !fremd[0]!.includes('unbekannter Form'), fremd)
-const w19 = legeKulisseAn({ ...ruhig, 'tools/q.test.mjs': UNKLAR, 'tools/sammler-lesezugriffe.json': JSON.stringify([zul('pipeline/check-a.ts', 'data/a.json'), zul('tools/q.test.mjs', 'data/a.json')]) })
+const w19 = legeKulisseAn({ ...ruhig, 'tools/q.test.mjs': UNKLAR, 'tools/sammler-lesezugriffe.jsonl': zeilen([zul('pipeline/check-a.ts', 'data/a.json'), zul('tools/q.test.mjs', 'data/a.json')]) })
 pruefe('Lauf: Eintrag, dessen Zugriff nur als „?“ erkannt wird, meldet „veraltet“ samt Hinweis auf die unbekannte Form', lauf(w19).fehler.length === 1 && lauf(w19).fehler[0]!.includes('tools/q.test.mjs → data/a.json') && lauf(w19).fehler[0]!.includes('unbekannter Form'), lauf(w19).fehler)
 rmSync(w19, { recursive: true, force: true })
 const viele = (n: number) => new Map([['tools/v.test.mjs', new Set(Array.from({ length: n }, (_, i) => `data/z${i}.json`))]])
