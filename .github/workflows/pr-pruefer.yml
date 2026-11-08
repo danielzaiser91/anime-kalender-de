@@ -11,7 +11,7 @@ name: PR-Prüfer
 
 on:
   pull_request_target:
-    branches: [main]
+    branches: [main, zug]
     # Ohne `reopened`: Wiederöffnen (tools/pr-nachrechnen.mjs) rechnet nur die Kette nach, der Kopf und sein Urteil bleiben.
     types: [opened, synchronize, ready_for_review]
 
