@@ -111,6 +111,11 @@ assert.equal(wartende(TSUKIMICHI, [omu({ name: 'Tsukimichi Teil Zwei' })], Date.
 // …an einer geteilten Serie nur über den Namen: bei anderem Namen unklar mit Grund, kein Alarm.
 assert.deepEqual(synchroWartende(katalog([block('Platinum End', FOLGE_171)]), [omu({ name: 'Anderer Name' }), GETEILT], nach(600)), { wartende: [], unklar: ['Anderer Name (Serie geteilt, ein Block)'] })
 assert.equal(wartende(katalog([block('Platinum End', FOLGE_171)]), [omu({ name: 'Platinum End' }), GETEILT], nach(600)).length, 1, 'geteilt, aber Name gleich')
+// Ohne Staffel 1 (Name mit „Part“) wählt der Name nicht, wenn ein anderer Titel der Serie ihn trägt (andereNamen der Wache).
+const PART_ZWEI = katalog([block('Platinum End Part 2', FOLGE_171)])
+const NAMENSVETTER = { ...omu(), titleId: 99, name: 'Platinum End Part 2', sprache: undefined }
+assert.equal(wartende(PART_ZWEI, [omu({ name: 'Platinum End Part 2' }), { ...NAMENSVETTER, name: 'Anderer Titel' }], nach(600)).length, 1, 'Name ohne Vetter: gewählt')
+assert.deepEqual(synchroWartende(PART_ZWEI, [omu({ name: 'Platinum End Part 2' }), NAMENSVETTER], nach(600)), { wartende: [], unklar: ['Platinum End Part 2 (Serie geteilt, ein Block)'] })
 // Mehrere Blöcke ohne Zahl: der Name entscheidet, sonst die Folgenzahl des Termins (nicht, wenn sie nur „angenommen“ ist).
 const ZWEI = katalog([block('Black Clover Teil Eins', '2026-10-01T16:00:00Z'), block('Black Clover Teil Zwei', FOLGE_171, '2026-11-14T16:00:00Z')])
 assert.equal(wartende(ZWEI, [omu({ name: 'Black Clover Teil Zwei' }), GETEILT], nach(600)).length, 1, 'Name')

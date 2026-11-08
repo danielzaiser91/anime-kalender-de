@@ -15,8 +15,9 @@ function namenDesTitels(t: Title): string[] {
  * OmU-Termins (sonst zählt die des Titels), `termin.ab` sein Berliner Starttag. Geteilt heißt: ein anderer Titel hat einen Weg zu derselben Serie.
  */
 export function blockWahlFuer(title: Title, titles: Map<number, Title>, kennung: string, serien: CrSerie[], termin: { folgen?: number; ab?: string } = {}) {
-  const geteilt = [...titles.values()].some(
+  const andere = [...titles.values()].filter(
     (x) => x.id !== title.id && x.streams.some((s) => s.platform === 'crunchyroll' && crunchyrollSeriesId(s.url) === kennung),
   )
-  return blockWahl(serien, kennung, { nummern: katalogStaffeln(title, titles, kennung), namen: namenDesTitels(title), folgen: termin.folgen ?? title.episodes, geteilt, ab: termin.ab })
+  const andereNamen = andere.flatMap(namenDesTitels)
+  return blockWahl(serien, kennung, { nummern: katalogStaffeln(title, titles, kennung), namen: namenDesTitels(title), andereNamen, folgen: termin.folgen ?? title.episodes, geteilt: andere.length > 0, ab: termin.ab })
 }

@@ -6,7 +6,9 @@
  *  1. `zahl`:   „Staffel n“/„Season n“ am Namensende passt zu einer Staffelnummer des Titels (`katalogBlock`).
  *  2. `einzig`: die Serie führt genau einen datierten deutschen Block ohne Staffelzusatz („Season 1 Part 4“), kein anderer Titel teilt
  *     sie und der Titel zählt als Staffel 1 (`nummern` enthält 1): ein Block ohne Nummer kann sonst die Vorstaffel sein.
- *  3. `name`:   der Blockname gleicht (ohne Satzzeichen, Groß-/Kleinschreibung, „(German Dub)“) einem Namen des Titels.
+ *     Trägt der Block eine Sonderform („Specials“, „OVA“, „Movie“), muss auch ein Titelname sie nennen.
+ *  3. `name`:   der Blockname gleicht (ohne Satzzeichen, Groß-/Kleinschreibung, „(German Dub)“) einem Namen des Titels; ein Titel ohne
+ *     Staffel 1 nur, wenn der Name ihn von den Vorstaffeln trennt (`nameFuerStaffel`).
  *  4. `folgen`: genau ein Block hat so viele Folgen wie der Titel und sein Name steht am Ende eines Titelnamens (Folgenzahl allein
  *     reicht nie: Filme und Einzelfolgen haben alle 1, Attack on Titan Part I ≠ „Last Attack“).
  * Ein Block mit ausdrücklicher Nummer, die nicht zum Titel passt, kommt für 2 bis 4 nie in Frage; ebenso keiner mit deutschen Folgen vor
@@ -60,7 +62,7 @@ function datierteBloecke(serien, kennung) {
 /**
  * @param {import('../pipeline/lib/crunchyroll-dub.ts').CrSerie[]} serien
  * @param {string} kennung
- * @param {{ nummern: number[], namen?: string[], folgen?: number, geteilt?: boolean, ab?: string, nummernAusName?: boolean }} titel
+ * @param {{ nummern: number[], namen?: string[], andereNamen?: string[], folgen?: number, geteilt?: boolean, ab?: string, nummernAusName?: boolean }} titel
  * @returns {{ treffer: { block: object, url: string } | null, weg?: string, grund?: string }}
  */
 export function blockWahl(serien, kennung, titel) {
@@ -79,12 +81,13 @@ export function blockWahl(serien, kennung, titel) {
   if (!wahl.liste.length) return { treffer: null, grund: wahl.grund }
   const ohneZusatz = bloecke.length === 1 && Number.isNaN(genannteStaffel(wahl.liste[0].block.name))
   const alsStaffel1 = titel.nummern.includes(1)
-  if (ohneZusatz && !titel.geteilt && alsStaffel1) return { treffer: wahl.liste[0], weg: 'einzig' }
+  if (ohneZusatz && !titel.geteilt && alsStaffel1 && sonderformPasst(wahl.liste[0].block.name, titel.namen)) return { treffer: wahl.liste[0], weg: 'einzig' }
   const namen = new Set((titel.namen ?? []).map(blockName))
   const nachName = titel.nummernAusName ? ohneGrundnamen(wahl.liste, bloecke) : wahl.liste
   const doppelt = doppelteNamen(bloecke)
-  const nameGleich = (b) => namen.has(blockName(b.block.name))
-  const folgenGleich = (b) => b.block.folgen === titel.folgen && verwandt(b.block.name, namen)
+  const trennt = (b) => nameFuerStaffel(blockName(b.block.name), namen, titel)
+  const nameGleich = (b) => namen.has(blockName(b.block.name)) && trennt(b)
+  const folgenGleich = (b) => titel.folgen !== undefined && trennt(b) && b.block.folgen === titel.folgen && verwandt(b.block.name, namen)
   const eindeutig = nachName.filter((b) => !doppelt.has(blockName(b.block.name)))
   const gleich = eindeutig.filter(nameGleich)
   if (gleich.length === 1) return { treffer: gleich[0], weg: 'name' }
@@ -94,6 +97,24 @@ export function blockWahl(serien, kennung, titel) {
     return { treffer: null, grund: 'Blockname gleicht nach dem Glätten einem zweiten Block der Serie' }
   }
   return { treffer: null, grund: offenerGrund(bloecke.length, ohneZusatz, titel.geteilt) }
+}
+
+const SONDERFORM = /\b(?:specials?|ovas?|oads?|movie|film|picture drama)\b/i
+
+/** Ein einziger Block mit Sonderform im Namen („Specials“, „OVA“, „Movie“) gehört nur einem Titel, dessen Name dieselbe Form nennt. */
+function sonderformPasst(blockname, namen) {
+  return !SONDERFORM.test(blockname) || (namen ?? []).some((n) => SONDERFORM.test(n))
+}
+
+/**
+ * Ein Titel, der nicht als Staffel 1 zählt, bekommt einen Block über den Namen nur, wenn der Name ihn von den Vorstaffeln trennt:
+ * nicht, wenn ein anderer Titel der Serie (`andereNamen`) ihn trägt, und nicht, wenn er der Anfang eines längeren eigenen Namens ist
+ * („Cool Anime“ neben „Cool Anime Part 2“). Arc-Namen („Entertainment District Arc“) bestehen beides.
+ */
+function nameFuerStaffel(geglaettet, eigeneNamen, titel) {
+  if (titel.nummern.includes(1)) return true
+  const andere = new Set((titel.andereNamen ?? []).map(blockName))
+  return !andere.has(geglaettet) && ![...eigeneNamen].some((n) => n !== geglaettet && n.startsWith(geglaettet))
 }
 
 /**

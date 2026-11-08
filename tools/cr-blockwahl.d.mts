@@ -13,6 +13,8 @@ export interface BlockTitel {
   ab?: string
   /** Die Staffelnummern stammen nur aus dem Namen des Termins (Wache), nicht aus der Reihe (Bau): Grundnamen vor Folgestaffeln scheiden aus. */
   nummernAusName?: boolean
+  /** Namen der anderen Titel an derselben Serie: ein Titel ohne Staffel 1 darf über den Namen keinen Block der Vorstaffel wählen. */
+  andereNamen?: string[]
 }
 export interface BlockWahl {
   treffer: { block: CrStaffel; url: string } | null

@@ -90,6 +90,15 @@ function nenneKollisionen(paare: Paar[]): void {
   console.log(`Kollisionen: ${doppelt.size} Serien mit doppeltem Glattnamen, ${betroffen.length} Paare dort, davon ${verdeckt} wegen des Namens offen (mit Starttag)`)
 }
 
+/** Die Bilanz als Tabelle zum Kopieren in den PR: Zeilen je Weg, dazu offen und Summe. */
+function tabelle(paare: Paar[], wahl: Wahl, kopf: string): void {
+  const je = (weg: string | undefined) => paare.filter((p) => wahl(p).treffer && wahl(p).weg === weg).length
+  const offen = paare.filter((p) => !wahl(p).treffer).length
+  console.log(`| ${kopf} | Paare |\n|---|---|`)
+  for (const weg of ['zahl', 'einzig', 'name', 'folgen']) console.log(`| zugeordnet über ${weg} | ${je(weg)} |`)
+  console.log(`| zugeordnet insgesamt | ${paare.length - offen} |\n| offen | ${offen} |\n| Paare | ${paare.length} |`)
+}
+
 function zaehle(paare: Paar[], mitListe: boolean, wahl: Wahl, kopf: string): void {
   const nachher: Record<string, string[]> = {}
   const vorher = paare.filter((p) => katalogBlock(crDub.serien, p.k, katalogStaffeln(p.t, titles, p.k))).length
@@ -104,6 +113,7 @@ function zaehle(paare: Paar[], mitListe: boolean, wahl: Wahl, kopf: string): voi
   console.log(`vorher (Zahl im Blocknamen): ${vorher} zugeordnet, ${paare.length - vorher} offen`)
   for (const [k, v] of Object.entries(nachher).sort()) console.log(`nachher ${k}: ${v.length}`, mitListe ? v.join('; ') : '')
   console.log(`nachher zugeordnet insgesamt (${kopf}): ${zugeordnet}`)
+  tabelle(paare, wahl, kopf)
 }
 
 /** Folgenzahl und Jahr der ersten deutschen Folge gegen die Angaben des Titels, je Weg ohne Zahl. */

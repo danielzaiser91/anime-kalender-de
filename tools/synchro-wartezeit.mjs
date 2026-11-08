@@ -52,7 +52,8 @@ function serieHatFolgenAb(katalog, kennung, startTag) {
 /** Was die Wache über den OmU-Termin weiß, damit `blockWahl` einen Block ohne Zahl im Namen finden kann. */
 function blockTitel(omu, cr) {
   const zahl = omu.schedule.episodeCountAssumed ? undefined : omu.schedule.episodeCount
-  return { nummern: staffelnummern(omu, cr) ?? [], namen: [String(omu.name)], folgen: zahl, geteilt: teilenSerie(omu, cr), ab: omu.schedule.firstEpisodeDate, nummernAusName: true }
+  const andereNamen = cr.filter((r) => r.titleId !== omu.titleId && serieVon(r) === serieVon(omu)).map((r) => String(r.name))
+  return { nummern: staffelnummern(omu, cr) ?? [], namen: [String(omu.name)], andereNamen, folgen: zahl, geteilt: teilenSerie(omu, cr), ab: omu.schedule.firstEpisodeDate, nummernAusName: true }
 }
 
 /**

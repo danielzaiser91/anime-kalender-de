@@ -54,6 +54,31 @@ pruefe(wahl([block('Riddle', 13, '2021-01-27T00:00:00Z')], { nummern: [1], folge
 pruefe(wahl([block('Riddle', 14, '2021-01-27T00:00:00Z')], { nummern: [1], folgen: 12, geteilt: false }) === '-|Block hat mehr Folgen als der Titel', 'zwei Folgen mehr passen nicht')
 pruefe(wahl([block('Riddle', 4, '2021-01-27T00:00:00Z')], { nummern: [1], folgen: 12, geteilt: false }) === 'Riddle|einzig', 'ein kürzerer Block (nur ein Teil ist deutsch) passt')
 pruefe(wahl([TODESNOTIZ, block('Death Note Relight', 2)], { nummern: [1], geteilt: false }) === 'Death Note|einzig', 'ein undatierter Nachbarblock zählt nicht mit')
+// Sonderform im Blocknamen: der einzige Block gehört nur einem Titel, dessen Name dieselbe Form nennt (Vorsorge, 0 Treffer im Bestand 08.11.2026).
+const TV = { nummern: [1], namen: ['Cool Anime'], geteilt: false }
+pruefe(wahl([block('Specials', 2, '2025-05-15T16:00:00Z')], { ...TV, folgen: 12 }) === `-|einziger Block, Titel ist nicht Staffel 1`, '„Specials“ (2) gegen TV mit 12 Folgen: offen')
+pruefe(wahl([block('Cool Anime OVA', 12, '2025-05-15T16:00:00Z')], { ...TV, folgen: 12 }) === `-|einziger Block, Titel ist nicht Staffel 1`, '„Cool Anime OVA“ (12) gegen TV mit 12 Folgen: offen')
+pruefe(wahl([block('Cool Anime Movie', 1, '2025-05-15T16:00:00Z')], { ...TV, folgen: 1 }) === `-|einziger Block, Titel ist nicht Staffel 1`, '„Cool Anime Movie“ (1) gegen Titel mit einer Folge, kein Film: offen')
+pruefe(wahl([block('Cool Anime Movie', 1, '2025-05-15T16:00:00Z')], { ...TV, namen: ['Cool Anime Movie'], folgen: 1 }) === 'Cool Anime Movie|einzig', 'derselbe Block für einen Titel, der „Movie“ nennt: gewählt')
+pruefe(wahl([block('Cool Anime OVA', 2, '2025-05-15T16:00:00Z')], { ...TV, namen: ['Cool Anime OAD'], folgen: 2 }) === 'Cool Anime OVA|einzig', 'Sonderform im Titelnamen genügt (OAD zu OVA)')
+pruefe(wahl([block('Cool Anime Picture Drama', 2, '2025-05-15T16:00:00Z')], { ...TV, folgen: 2 }) === `-|einziger Block, Titel ist nicht Staffel 1`, '„Picture Drama“ gegen TV: offen')
+pruefe(wahl([block('Cool Anime OAD', 2, '2025-05-15T16:00:00Z')], { ...TV, folgen: 2 }) === `-|einziger Block, Titel ist nicht Staffel 1`, '„OAD“ gegen TV: offen')
+pruefe(wahl([block('Cool Anime Film', 1, '2025-05-15T16:00:00Z')], { ...TV, folgen: 1 }) === `-|einziger Block, Titel ist nicht Staffel 1`, '„Film“ gegen TV: offen')
+pruefe(wahl([block('Cool Anime OVAs', 2, '2025-05-15T16:00:00Z')], { ...TV, folgen: 2 }) === `-|einziger Block, Titel ist nicht Staffel 1`, '„OVAs“ gegen TV: offen')
+pruefe(wahl([block('Cool Anime Specials', 2, '2025-05-15T16:00:00Z')], { ...TV, namen: ['Cool Anime Special'], folgen: 2 }) === 'Cool Anime Specials|einzig', 'Titel „Special“ bekommt den Block „Specials“')
+pruefe(wahl([block('Cool Anime Videofilm', 2, '2025-05-15T16:00:00Z')], { ...TV, folgen: 2 }) === 'Cool Anime Videofilm|einzig', 'Wortgrenze: „Videofilm“ ist keine Sonderform')
+
+// Name ohne Staffel 1: nur, wenn der Name von den Vorstaffeln trennt (Vorsorge, 0 Treffer im Bestand 08.11.2026).
+const TSUKI = [block('Tsukimichi', 12, '2025-05-15T16:00:00Z'), block('Tsukimichi Arc Eins', 12, '2025-06-15T16:00:00Z')]
+pruefe(wahl([block('Tsukimichi', 12, '2025-05-15T16:00:00Z')], { nummern: [2], namen: ['Tsukimichi'], andereNamen: ['Tsukimichi'], folgen: 12, geteilt: true }) === '-|Serie geteilt, ein Block', 'Staffel 2 mit dem Namen der Staffel 1 (andere Titel der Serie): offen')
+pruefe(wahl(TSUKI, { nummern: [2], namen: ['Tsukimichi'], andereNamen: ['Tsukimichi'], folgen: 12, geteilt: true }) === `-|${MEHRERE}`, 'Staffel 2 mit dem Namen der Staffel 1, zwei Blöcke: offen')
+pruefe(wahl([block('Cool Anime', 12, '2025-05-15T16:00:00Z'), block('Zebra Beta Gamma', 12, '2025-06-15T16:00:00Z')], { nummern: [2], namen: ['Cool Anime Part 2', 'Cool Anime'], folgen: 12, geteilt: true }) === `-|${MEHRERE}`, '„Part 2“ mit dem Grundnamen unter den Namen: offen')
+const ARC = [block('Demon Arc Neun', 11, '2025-05-15T16:00:00Z'), block('Zebra Beta Gamma', 12, '2025-06-15T16:00:00Z')]
+pruefe(wahl(ARC, { nummern: [2], namen: ['Demon Slayer: Demon Arc Neun', 'Demon Arc Neun'], andereNamen: ['Demon Slayer'], folgen: 11, geteilt: true }) === 'Demon Arc Neun|name', 'Arc-Name ohne Staffel 1 bleibt zugeordnet')
+pruefe(wahl(ARC, { nummern: [], namen: ['Demon Arc Neun'], folgen: 11, geteilt: true }) === 'Demon Arc Neun|name', 'Arc-Name ohne Nummern und ohne andere Namen bleibt zugeordnet')
+// Fehlt die Folgenzahl, entscheidet sie nicht (undefined === undefined).
+const OHNE_ZAHL = [{ name: 'Ende Teil', deutscheFolgen: [folge('2025-05-15T16:00:00Z')] }, block('Zebra Beta Gamma', 12, '2025-06-15T16:00:00Z')]
+pruefe(wahl(OHNE_ZAHL as never, { nummern: [], namen: ['Serie Ende Teil'], geteilt: true }).startsWith('-|'), 'ohne Folgenzahl an Block und Titel: keine Wahl über die Folgen')
 
 // Name: Blockname gleicht dem Titelnamen (ohne Satzzeichen, Groß-/Kleinschreibung, „(German Dub)“).
 const NAGATORO = [block('Don\'t Toy with Me, Miss Nagatoro', 12, '2021-04-10T00:00:00Z'), block('Don’t Toy With Me, Miss Nagatoro 2nd Attack (German Dub)', 12, '2023-01-28T00:00:00Z')]
@@ -173,6 +198,16 @@ pruefe(fuer({ titleDe: 'Die Reise', titleEn: 'Alpha Quest Final', titleRomaji: '
 pruefe(fuer({ titleDe: 'The Final Season', titleEn: 'Anderer Name' }, ZWEI('Die finale Staffel')) === 'Die finale Staffel|name', 'Name nur über den Anzeigenamen (eindeutschenStaffel): Treffer')
 pruefe(fuer({ titleDe: 'Die Reise', titleEn: 'Anderer Name', titleRomaji: 'Quest Drei Romaji' }, ZWEI('Quest Drei Romaji')) === 'Quest Drei Romaji|name', 'Name nur über titleRomaji: Treffer')
 pruefe(fuer({ titleDe: 'Die Reise', titleEn: 'Anderer Name' }, ZWEI('Quest Drei Romaji')) === `-|${MEHRERE}`, 'Kontrolle: keine der Namensquellen passt, kein Treffer')
+// Verdrahtung: die Namen der anderen Titel an derselben Serie kommen aus `blockWahlFuer` (Staffel 2 trägt den Namen der Staffel 1).
+const cr = [{ platform: 'crunchyroll', url: 'https://www.crunchyroll.com/series/K1/x' }]
+const erste = titelMit({ id: 900102, titleEn: 'Zebra Beta Gamma', franchiseId: 7, jpYear: 2022, streams: cr })
+const zweite = titelMit({ id: 900101, titleEn: 'Zebra Beta Gamma', franchiseId: 7, jpYear: 2024, streams: cr })
+const reihe = new Map([[erste.id, erste], [zweite.id, zweite]])
+const zweiBloecke = serien(block('Zebra Beta Gamma', 12, '2024-01-01T00:00:00Z'), block('Quelle Eins Zwei', 12, '2024-02-01T00:00:00Z'))
+const wZwei = blockWahlFuer(zweite, reihe, 'K1', zweiBloecke)
+pruefe(wZwei.treffer === null, 'Staffel 2 mit dem Namen der Staffel 1 (zweiter Titel an der Serie): kein Block', wZwei)
+const wEins = blockWahlFuer(erste, reihe, 'K1', zweiBloecke)
+pruefe(wEins.weg === 'name', 'Kontrolle: die Staffel 1 mit demselben Namen bekommt den Block', wEins)
 // Mehrere Titelnamen, nur einer endet auf den Blocknamen („some“, nicht „every“): Folgenweg.
 const MINI2 = [block('Alpha Teil', 2, '2024-01-01T00:00:00Z'), block('Beta Teil', 3, '2024-02-01T00:00:00Z')]
 pruefe(wahl(MINI2, { nummern: [], namen: ['Serie Alpha Teil', 'Ganz Anders'], folgen: 2, geteilt: true }) === 'Alpha Teil|folgen', 'zwei Titelnamen, nur einer endet auf den Blocknamen: Block gewählt')
