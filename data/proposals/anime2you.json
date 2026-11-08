@@ -1,12 +1,12 @@
 {
-  "scrapedAt": "2026-11-08T13:02:01.243Z",
+  "scrapedAt": "2026-11-08T18:01:37.251Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 5,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 10,
+    "schon in einem Rubrik-Feed gelesen": 8,
     "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 1,
-    "schon in einem Rubrik-Feed gelesen": 9,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 11,
     "Sprachhinweis älter als 45 Tage": 6
   },
   "proposals": [
@@ -39,6 +39,36 @@
         {
           "month": "2027-04",
           "context": "aption von »Minami-ke« wurde heute verkündet, dass die fünfte Staffel ab April 2027 im japanischen Fernsehen ausgestrahlt wird. Einen ersten"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Start des RomCom-Anime »My Crush’s Crush« steht fest + Teaser",
+      "articleUrl": "https://www.anime2you.de/news/1069089/start-von-my-crushs-crush/",
+      "publishedAt": "2026-11-08",
+      "category": "allgemein",
+      "platforms": [],
+      "dates": [
+        {
+          "month": "2027-04",
+          "context": "r kommenden Serie verkündet. Einen ersten Teaser gibt es unten. Start im April 2027 »My Crush’s Crush« wird demzufolge ab April 2027 im japa"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "TV-Guide: Anime im deutschen Fernsehen in KW 46/2026",
+      "articleUrl": "https://www.anime2you.de/news/1069143/anime-tv-programm-46-2026/",
+      "publishedAt": "2026-11-08",
+      "category": "allgemein",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-11-15",
+          "context": "damit ihr keine Sendung verpasst! Premieren und Highlights Vom 9. bis 15. November 2026 gibt es wieder zahlreiche Anime-Premieren und -Highl"
         }
       ],
       "dub": "unklar",
