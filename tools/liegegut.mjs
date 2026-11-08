@@ -1,5 +1,5 @@
 /**
- * Liegegut-Wächter: findet offene PRs, die liegen geblieben sind (Freigabe ohne Merge, Konflikt, rote Checks, Ändern-Urteil ohne Commit,
+ * Liegegut-Wächter: findet offene PRs, die liegen geblieben sind (Freigabe ohne Merge, Konflikt, rote Checks, Ändern-Urteil ohne Commit (eine Dirigenten-Abnahme „## Nachtrag (Abnahme Dirigent“ mit Kopf hebt es auf),
  * widersprüchliche Urteile, gleiche offene Entscheidung, überholt). Hinweisgeber, kein Tor: Exit 0 auch mit Funden, Exit 2 nur bei
  * Abruffehler (nie stilles „nichts gefunden“). Aufruf: node tools/liegegut.mjs
  * Signale und Anlass: daniel-zum-abarbeiten/berichte/liegegut-2026-10-21.md (PR 1676 lag freigegeben und grün 20.10. bis 21.10.).
@@ -25,7 +25,7 @@ function abnahmeKoepfe(text) {
   return text.match(/\b[0-9a-f]{9,40}\b/g) ?? []
 }
 
-/** Urteile aus den Kommentaren: Bot „**Prüfer-Review** für <Kopf> - Urteil: **ok|aendern**“, Daniel „Prüfer …: freigeben|ändern“. */
+/** Urteile aus den Kommentaren: Bot „**Prüfer-Review** für <Kopf> - Urteil: **ok|aendern**“, Daniel „Prüfer …: freigeben|ändern“ und die Abnahme „## Nachtrag (Abnahme Dirigent“ mit Kopf (gut). */
 export function urteile(comments) {
   const aus = []
   for (const c of comments) {
