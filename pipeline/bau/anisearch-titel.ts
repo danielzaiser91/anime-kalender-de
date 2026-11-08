@@ -162,7 +162,7 @@ export function traegerJeSeite(): Map<number, number[]> {
   return traeger
 }
 
-/** Ende nur, wenn belegt; der Starttag gilt als Ende nur bei einem Einzeltermin (Film; bei AniList: FINISHED), ein laufender Titel hat keins. */
+/** Ende nur, wenn belegt; der Starttag gilt als Ende nur bei einem Einzeltermin (Film oder genau eine Folge; bei AniList: FINISHED), ein laufender Titel hat keins. */
 export const jpEndAusAnisearch = (bis: string | undefined, von: string | undefined, einzeltermin: boolean): string | undefined => bis ?? (einzeltermin ? von : undefined)
 
 /**
@@ -192,7 +192,7 @@ export function ergaenzeAnisearchTitel(titles: Map<number, Title>, jpStart: Map<
       format: FORMAT[e.ty] ?? 'SPECIAL',
       episodes: e.f,
       jpYear: e.y,
-      jpEnd: jpEndAusAnisearch(e.bis, e.von, FORMAT[e.ty] === 'MOVIE'),
+      jpEnd: jpEndAusAnisearch(e.bis, e.von, FORMAT[e.ty] === 'MOVIE' || e.f === 1),
       genres: [],
       keywords: [],
       studios: e.st ?? [],
