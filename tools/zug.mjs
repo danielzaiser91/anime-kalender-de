@@ -85,19 +85,43 @@ export function revertPlan(eintraege, nummern) {
 }
 
 // Meldungen der Ratschen-Wächter, wörtlich aus den roten Läufen vom 05./06.11.2026 (rot-nach-gruen-2026-11-06.md). Jede liefert { wert, grenze }.
+// `schluessel` (nur Umfang: je Bereich und Art eine eigene Grenze in tools/umfang-grenzen.json) wählt die Basisgrenze in `grenzeBasis`.
+// Cover: zwei Wächter melden es, check-teilseiten („Standardbild, erlaubt“) und check-cover-vorschau-bestand („Standardbild als Link-Vorschau, erlaubt“).
 const RATSCHEN = [
-  { name: 'cover-standardbild', suche: /(\d+) Titel mit Cover zeigen das Standardbild, erlaubt höchstens (\d+)/, wert: (m) => Number(m[1]), grenze: (m) => Number(m[2]) },
-  { name: 'umfang', suche: /Überlänge der funktionen (\d+) statt höchstens (\d+)/, wert: (m) => Number(m[1]), grenze: (m) => Number(m[2]) },
+  { name: 'cover-standardbild', suche: /(\d+) Titel mit Cover zeigen das Standardbild(?: als Link-Vorschau)?, erlaubt höchstens (\d+)/, wert: (m) => Number(m[1]), grenze: (m) => Number(m[2]) },
+  { name: 'umfang', suche: /([\w/.-]+): Überlänge der (funktionen|dateien) (\d+) statt höchstens (\d+)/, wert: (m) => Number(m[3]), grenze: (m) => Number(m[4]), schluessel: (m) => `umfang:${m[1]}:${m[2]}` },
+  { name: 'umfang', suche: /([\w/.-]+): Ketten \([^)]*\) (\d+) statt höchstens (\d+)/, wert: (m) => Number(m[2]), grenze: (m) => Number(m[3]), schluessel: (m) => `umfang:${m[1]}:ketten` },
   { name: 'start-budget', suche: /start-budget: ([\d.]+) KB[^\n]*?über der Grenze von ([\d.]+) KB/, wert: (m) => Number(m[1]), grenze: (m) => Number(m[2]) },
 ]
 
-/** Erste Ratschen-Meldung im Text oder null: { name, wert, grenze }. */
+/** Erste Ratschen-Meldung im Text oder null: { name, wert, grenze } (Umfang zusätzlich `schluessel`). */
 export function ratschenMeldung(text) {
   for (const r of RATSCHEN) {
     const m = r.suche.exec(text)
-    if (m) return { name: r.name, wert: r.wert(m), grenze: r.grenze(m) }
+    if (m) return { name: r.name, wert: r.wert(m), grenze: r.grenze(m), ...(r.schluessel ? { schluessel: r.schluessel(m) } : {}) }
   }
   return null
+}
+
+/**
+ * Grenzen der Ratschen am Basisstand. `lies(datei)` liefert den Text der Datei am Basisstand (git show <basis>:<datei>) oder null.
+ * Rückgabe: { 'cover-standardbild', 'start-budget' (KB), 'umfang:<bereich>:<art>' }; was am Basisstand fehlt, fehlt auch hier (dann 'ratsche-pruefen').
+ * Cover steht in zwei Wächtern: die strengere (kleinere) zählt.
+ */
+export function basisGrenzen(lies) {
+  const grenzen = {}
+  const cover = [
+    ['pipeline/check-cover-vorschau-bestand.ts', /export const HOECHSTENS = (\d+)/],
+    ['pipeline/check-teilseiten.ts', /const STANDARD_TROTZ_COVER_HOECHSTENS = (\d+)/],
+  ].map(([datei, muster]) => muster.exec(lies(datei) ?? '')?.[1]).filter((w) => w !== undefined).map(Number)
+  if (cover.length > 0) grenzen['cover-standardbild'] = Math.min(...cover)
+  const budget = /export const GRENZE = (\d+(?:\.\d+)?) \* KB/.exec(lies('tools/start-budget.mjs') ?? '')?.[1]
+  if (budget !== undefined) grenzen['start-budget'] = Number(budget)
+  const umfang = lies('tools/umfang-grenzen.json')
+  for (const [bereich, werte] of Object.entries(umfang ? JSON.parse(umfang).ueberlaenge ?? {} : {})) {
+    for (const [art, wert] of Object.entries(werte)) grenzen[`umfang:${bereich}:${art}`] = wert
+  }
+  return grenzen
 }
 
 /**
@@ -139,7 +163,7 @@ export function schuldsuche({ zugPrs, fehlschlag, mainAllein, grenzeBasis = {}, 
   for (const job of fehlschlag.jobs) {
     const r = ratschenMeldung(job.meldung ?? '')
     if (!r) continue
-    const fall = ratschenFall(r, grenzeBasis[r.name])
+    const fall = ratschenFall(r, grenzeBasis[r.schluessel] ?? grenzeBasis[r.name])
     if (fall !== 'zug' && fall !== 'ok') return { art: 'ratsche', ratsche: r.name, fall, job: job.name }
   }
   const offen = zugPrs.filter((p) => !ausgeschlossen.includes(p.nr))

@@ -3,7 +3,7 @@
  * Ratschen-Zeilen wörtlich aus den roten Läufen vom 05./06.11.2026 (daniel-zum-abarbeiten/berichte/rot-nach-gruen-2026-11-06.md).
  * Kreislauf: Fahrt rot → Schuldsuche → Revert → nächste Fahrt, mit einem Orakel statt echter Ketten.
  */
-import { ffEntscheidung, halbierungVersuch, halbierungWeiter, ratschenFall, ratschenMeldung, revertPlan, schuldsuche, sperrGruende, verdaechtige, zugEintraege, zugPlan, zurueckholen } from './zug.mjs'
+import { basisGrenzen, ffEntscheidung, halbierungVersuch, halbierungWeiter, ratschenFall, ratschenMeldung, revertPlan, schuldsuche, sperrGruende, verdaechtige, zugEintraege, zugPlan, zurueckholen } from './zug.mjs'
 import { logJobs, trocken } from './zug-trocken.mjs'
 
 const fehler = []
@@ -85,7 +85,10 @@ const COVER = '471 Titel mit Cover zeigen das Standardbild, erlaubt höchstens 4
 const UMFANG = '  pipeline: Überlänge der funktionen 8986 statt höchstens 8964'
 const BUDGET = 'start-budget: 250.2 KB gzip, 0.2 KB über der Grenze von 250.0 KB (index 120.1)'
 pruefe('Cover', gleich(ratschenMeldung(COVER), { name: 'cover-standardbild', wert: 471, grenze: 449 }))
-pruefe('Umfang', gleich(ratschenMeldung(UMFANG), { name: 'umfang', wert: 8986, grenze: 8964 }))
+pruefe('Umfang', gleich(ratschenMeldung(UMFANG), { name: 'umfang', wert: 8986, grenze: 8964, schluessel: 'umfang:pipeline:funktionen' }))
+pruefe('Umfang je Bereich und Art: web/src dateien', gleich(ratschenMeldung('web/src: Überlänge der dateien 300 statt höchstens 295'), { name: 'umfang', wert: 300, grenze: 295, schluessel: 'umfang:web/src:dateien' }))
+pruefe('Umfang Ketten', gleich(ratschenMeldung('shared: Ketten (mehrere Anweisungen/Felder/Einträge in einer Zeile) 37 statt höchstens 36'), { name: 'umfang', wert: 37, grenze: 36, schluessel: 'umfang:shared:ketten' }))
+pruefe('Cover aus der Bestandsprüfung („als Link-Vorschau“)', gleich(ratschenMeldung('171 Titel mit Cover zeigen das Standardbild als Link-Vorschau, erlaubt höchstens 170 (jüngste Kennungen: 9)'), { name: 'cover-standardbild', wert: 171, grenze: 170 }))
 pruefe('Start-Budget', gleich(ratschenMeldung(BUDGET), { name: 'start-budget', wert: 250.2, grenze: 250 }))
 pruefe('andere Meldung → null', ratschenMeldung('FEHL Fortsetzungsseite (nach > 0): auch ohne COUNT(*)') === null && ratschenMeldung('') === null)
 pruefe('wert ≤ Grenze → ok', ratschenFall({ wert: 449, grenze: 449 }, 500) === 'ok')
@@ -283,6 +286,24 @@ const exit3 = await trocken(['trocken'], (z) => aus3.push(z), { ghFn: () => { th
 pruefe('Abruffehler → Exit 2 mit Fehlerzeile, kein Plan', exit3 === 2 && /FEHLER HTTP 502/.test(aus3.join('\n')) && !/ZUG-PLAN/.test(aus3.join('\n')))
 const aus4 = []
 pruefe('falscher Aufruf → Exit 2', (await trocken(['los'], (z) => aus4.push(z), { ghFn: a1.ghFn, gitFn: a1.gitFn })) === 2 && /Aufruf:/.test(aus4[0]))
+
+console.log('basisGrenzen: Grenzen am Basisstand aus den Dateitexten')
+const DATEIEN = {
+  'pipeline/check-cover-vorschau-bestand.ts': 'import x\nexport const HOECHSTENS = 170\n',
+  'pipeline/check-teilseiten.ts': 'const STANDARD_TROTZ_COVER_HOECHSTENS = 168\n',
+  'tools/start-budget.mjs': 'const KB = 1024\nexport const GRENZE = 190 * KB\n',
+  'tools/umfang-grenzen.json': JSON.stringify({ ueberlaenge: { pipeline: { funktionen: 8907, dateien: 1030, ketten: 285 }, 'web/src': { funktionen: 3333 } } }),
+}
+const bg = basisGrenzen((d) => DATEIEN[d] ?? null)
+pruefe('Cover: die strengere der zwei Grenzen', bg['cover-standardbild'] === 168)
+pruefe('Start-Budget in KB', bg['start-budget'] === 190)
+pruefe('Umfang je Bereich und Art', bg['umfang:pipeline:funktionen'] === 8907 && bg['umfang:pipeline:ketten'] === 285 && bg['umfang:web/src:funktionen'] === 3333)
+pruefe('Umfang: nichts erfunden', Object.keys(bg).length === 6, Object.keys(bg))
+pruefe('Datei fehlt am Basisstand → Schlüssel fehlt (kein Raten)', gleich(basisGrenzen(() => null), {}))
+pruefe('nur eine der Cover-Dateien da → deren Wert', basisGrenzen((d) => (d === 'pipeline/check-teilseiten.ts' ? DATEIEN[d] : null))['cover-standardbild'] === 168)
+const UMF2 = 'web/src: Überlänge der funktionen 3340 statt höchstens 3333'
+pruefe('schuldsuche: Basisgrenze je Bereich, hält → ratsche', s0({ fehlschlag: { jobs: [jobBau(UMF2)] }, grenzeBasis: { 'umfang:web/src:funktionen': 3340, 'umfang:pipeline:funktionen': 1 } }).art === 'ratsche')
+pruefe('schuldsuche: Basisgrenze des anderen Bereichs zählt nicht → Zug', s0({ fehlschlag: { jobs: [jobBau(UMF2)] }, grenzeBasis: { 'umfang:web/src:funktionen': 3335, 'umfang:pipeline:funktionen': 9999 } }).art === 'halbieren')
 
 if (fehler.length > 0) {
   console.error(`zug.test: ${fehler.length} Fehler`)
