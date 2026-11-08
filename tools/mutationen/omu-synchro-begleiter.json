@@ -35,7 +35,7 @@
   {"name":"begleiter Zähler vorOmuStart","aenderungen":[{"datei":"pipeline/bau/omu-synchro-begleiter.ts","suche":"z.vorOmuStart++","ersetze":"z.vorOmuStart += 0"}]},
   {"name":"begleiter Zähler ohneBlock Titel","aenderungen":[{"datei":"pipeline/bau/omu-synchro-begleiter.ts","suche":"z.ohneBlock++","ersetze":"z.ohneBlock += 0"}]},
   {"name":"begleiter Folgen vor Start: Zweig entfernt","aenderungen":[{"datei":"pipeline/bau/omu-synchro-begleiter.ts","suche":"if (!folgen.length) {","ersetze":"if (false) {"}]},
-  {"name":"begleiter Staffel fest 2","aenderungen":[{"datei":"pipeline/bau/omu-synchro-begleiter.ts","suche":"katalogBlock(crDub.serien, kennung, katalogStaffeln(title, titles, kennung))","ersetze":"katalogBlock(crDub.serien, kennung, [2])"}]},
+  {"name":"begleiter Staffel fest 2","aenderungen":[{"datei":"pipeline/bau/block-wahl-titel.ts","suche":"nummern: katalogStaffeln(title, titles, kennung)","ersetze":"nummern: [2]"}]},
   {"name":"begleiter Log: immer","aenderungen":[{"datei":"pipeline/bau/omu-synchro-begleiter.ts","suche":"if (z.erzeugt + z.ohneBlock + z.vorOmuStart + z.handVorhanden + z.ohneDub) {","ersetze":"if (true) {"}]},
   {"name":"begleiter Log: erzeugt zählt nicht","aenderungen":[{"datei":"pipeline/bau/omu-synchro-begleiter.ts","suche":"if (z.erzeugt + z.ohneBlock","ersetze":"if (z.ohneBlock"}]},
   {"name":"begleiter Log: ohneBlock zählt nicht","aenderungen":[{"datei":"pipeline/bau/omu-synchro-begleiter.ts","suche":"z.ohneBlock + z.vorOmuStart","ersetze":"z.vorOmuStart"}]},

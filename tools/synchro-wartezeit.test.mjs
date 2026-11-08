@@ -55,7 +55,7 @@ for (const fremd of [{ titleId: 1 }, { platform: 'netflix' }, { sprache: 'offen'
 
 // Staffel: deutsche Folgen nur einer anderen Staffel lösen keinen Alarm aus, sondern zählen als „Staffel unklar“ (Zeile unten).
 const nurPart4 = synchroWartende(katalog([block('Season 1 Part 4', FOLGE_171)]), [omu()], nach(600))
-assert.deepEqual(nurPart4, { wartende: [], unklar: ['Black Clover – Staffel 2'] })
+assert.deepEqual(nurPart4, { wartende: [], unklar: ['Black Clover – Staffel 2 (alle Blöcke tragen eine andere Staffelnummer)'] })
 assert.deepEqual(wartende(katalog([block('Staffel 3', FOLGE_171)]), [omu()], nach(600)), [])
 // Eigene Serie: Name ohne jede Zählung gehört zu „Staffel 1“, solange kein anderer Titel die Serie teilt.
 const rayearth = omu({ name: 'Rayearth', titleId: 7 })
@@ -77,26 +77,38 @@ for (const name of [
   "Kaiju No. 8 Narumi's Week at Work",
 ]) {
   const r = synchroWartende(katalog([block('Season 1', FOLGE_171)]), [omu({ name }), GETEILT], nach(600))
-  assert.deepEqual(r, { wartende: [], unklar: [name] }, name)
+  assert.deepEqual(r, { wartende: [], unklar: [`${name} (alle Blöcke tragen eine andere Staffelnummer)`] }, name)
 }
 // Dieselben Namen allein an der Serie (kein Geschwister-Titel): die Zählung im Namen allein macht die Staffel unklar.
 for (const name of ['Classroom of the Elite Staffel 4: Second Year, First Semester', 'The Iceblade Sorcerer Shall Rule the World II', 'The Quintessential Quintuplets Specials', "Kaiju No. 8 Narumi's Week at Work"]) {
   const r = synchroWartende(katalog([block('Season 1', FOLGE_171)]), [omu({ name })], nach(600))
-  assert.deepEqual(r, { wartende: [], unklar: [name] }, `allein: ${name}`)
+  assert.deepEqual(r, { wartende: [], unklar: [`${name} (alle Blöcke tragen eine andere Staffelnummer)`] }, `allein: ${name}`)
 }
 // Wortgrenze: „Vivid“ und „Partizan“ enthalten iv/vi/part, sind aber keine Zählung — der Name gehört zu Staffel 1 und alarmiert.
 assert.equal(wartende(katalog([block('Staffel 1', FOLGE_171)]), [omu({ name: 'Vivid Partizan' })], nach(600)).length, 1)
 // …und am Wortende („Counterpart“ endet auf part): auch dort keine Zählung.
 assert.equal(wartende(katalog([block('Staffel 1', FOLGE_171)]), [omu({ name: 'Counterpart Story' })], nach(600)).length, 1)
 // Mehrdeutig: zwei Blöcke derselben Staffelnummer (Staffel 2 und Season 2) lassen keine Wahl — unklar, kein Alarm.
-assert.deepEqual(synchroWartende(katalog([block('Staffel 2', FOLGE_171), block('Season 2', FOLGE_171)]), [omu()], nach(600)), { wartende: [], unklar: ['Black Clover – Staffel 2'] })
+assert.deepEqual(synchroWartende(katalog([block('Staffel 2', FOLGE_171), block('Season 2', FOLGE_171)]), [omu()], nach(600)), { wartende: [], unklar: ['Black Clover – Staffel 2 (mehrere Blöcke zur selben Staffelnummer)'] })
 // Ein undatierter Block gleicher Nummer zählt nicht mit: der datierte bleibt der eine.
 const undatiert = { name: 'Season 2', deutscheFolgen: [{ guid: 'u' }] }
 assert.equal(wartende(katalog([block('Staffel 2', FOLGE_171), undatiert]), [omu()], nach(600)).length, 1)
 // Folgen nur vor dem OmU-Start in irgendeinem Block: nichts zu melden, auch nicht „unklar“.
 assert.deepEqual(synchroWartende(katalog([block('Season 1 Part 4', '2026-02-01T16:00:00Z')]), [omu()], nach(600)), { wartende: [], unklar: [] })
-// Block ohne Zahl im Namen („Platinum End“): unklar, nicht „kein Alarm“.
-assert.deepEqual(synchroWartende(katalog([block('Platinum End', FOLGE_171)]), [omu({ name: 'Platinum End' })], nach(600)), { wartende: [], unklar: ['Platinum End'] })
+// Block ohne Zahl im Namen („Platinum End“, einziger Block, Serie nicht geteilt): zugeordnet, Alarm nach 600 min.
+assert.deepEqual(synchroWartende(katalog([block('Platinum End', FOLGE_171)]), [omu({ name: 'Platinum End' })], nach(600)), { wartende: [{ name: 'Platinum End', titleId: 195604, minuten: 600 }], unklar: [] })
+// …an einer geteilten Serie nur über den Namen: bei anderem Namen unklar mit Grund, kein Alarm.
+assert.deepEqual(synchroWartende(katalog([block('Platinum End', FOLGE_171)]), [omu({ name: 'Anderer Name' }), GETEILT], nach(600)), { wartende: [], unklar: ['Anderer Name (Serie geteilt, ein Block)'] })
+assert.equal(wartende(katalog([block('Platinum End', FOLGE_171)]), [omu({ name: 'Platinum End' }), GETEILT], nach(600)).length, 1, 'geteilt, aber Name gleich')
+// Mehrere Blöcke ohne Zahl: der Name entscheidet, sonst die Folgenzahl des Termins (nicht, wenn sie nur „angenommen“ ist).
+const ZWEI = katalog([block('Black Clover Teil Eins', '2026-10-01T16:00:00Z'), block('Black Clover Teil Zwei', FOLGE_171, '2026-11-14T16:00:00Z')])
+assert.equal(wartende(ZWEI, [omu({ name: 'Black Clover Teil Zwei' }), GETEILT], nach(600)).length, 1, 'Name')
+assert.deepEqual(synchroWartende(ZWEI, [omu({ name: 'Black Clover Teil Drei' }), GETEILT], nach(600)), { wartende: [], unklar: ['Black Clover Teil Drei (mehrere Blöcke, keiner eindeutig)'] })
+const ZAHL_BLOECKE = katalog([{ ...block('Alpha Teil', FOLGE_171), folgen: 2 }, { ...block('Beta Teil', FOLGE_171), folgen: 3 }])
+const mitZahl = (schedule) => omu({ name: 'Serie Beta Teil', schedule: { firstEpisodeDate: '2026-10-03', ...schedule } })
+assert.equal(wartende(ZAHL_BLOECKE, [mitZahl({ episodeCount: 3 }), GETEILT], nach(600)).length, 1, 'Folgenzahl')
+assert.equal(wartende(ZAHL_BLOECKE, [mitZahl({ episodeCount: 2 }), GETEILT], nach(600)).length, 0, 'andere Folgenzahl')
+assert.equal(wartende(ZAHL_BLOECKE, [mitZahl({ episodeCount: 3, episodeCountAssumed: true }), GETEILT], nach(600)).length, 0, 'angenommene Zahl zählt nicht')
 // Staffelnummern: ausdrücklich, Name ohne Zählung allein an der Serie, geteilte Serie, Zahl im Namen.
 assert.deepEqual(staffelnummern(omu(), []), [2])
 assert.deepEqual(staffelnummern(omu({ name: 'Rayearth' }), []), [1])
@@ -141,7 +153,7 @@ assert.ok(zeilen120[0].startsWith(ALARM_BC), zeilen120[0])
 assert.match(zeilen120[0], /Synchro-Beleg am Weg.*Handbeleg oder Hand-Eintrag$/)
 assert.deepEqual(await synchroWartezeitZeilen(holer(BC, [omu()]), nach(89)), ['Synchro-Wartezeit: kein Alarm (Grenze 90 min)'])
 assert.deepEqual(await synchroWartezeitZeilen(holer(katalog([block('Season 1 Part 4', FOLGE_171)]), [omu()]), nach(600)), [
-  'Synchro-Wartezeit: 1 OmU-Termin(e) nicht prüfbar (Staffel unklar): Black Clover – Staffel 2',
+  'Synchro-Wartezeit: 1 OmU-Termin(e) nicht prüfbar (Staffel unklar): Black Clover – Staffel 2 (alle Blöcke tragen eine andere Staffelnummer)',
 ])
 const mitBeidem = await synchroWartezeitZeilen(holer(BC, [omu(), omu({ titleId: 8, name: 'Platinum End', slug: 'p', platformUrl: 'https://www.crunchyroll.com/de/series/PLAT/x' })]), nach(600))
 assert.equal(mitBeidem.length, 1, 'Platinum End hat im Katalog keine Folgen — nur der Alarm bleibt')

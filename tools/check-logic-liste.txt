@@ -116,6 +116,7 @@ pipeline/check-cr-batch-wache.ts
 pipeline/check-cr-block-standardname.ts
 pipeline/check-cr-block-zaehlung.ts
 pipeline/check-cr-blockkette-luecke.ts
+pipeline/check-cr-blockwahl.ts
 pipeline/check-cr-browser-start.ts
 pipeline/check-cr-doppelt-weg.ts
 pipeline/check-cr-einzelwerk-urteil.ts

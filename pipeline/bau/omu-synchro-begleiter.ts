@@ -73,11 +73,16 @@ function begleiterTermin(omu: Release, title: Title, block: CrStaffel, url: stri
   }
 }
 
+/** Die Folgenzahl des OmU-Termins, nur wenn sie belegt ist (nicht „angenommen“); sonst zählt die des Titels. */
+function gemesseneFolgenzahl(omu: Release): number | undefined {
+  return omu.schedule.episodeCountAssumed ? undefined : omu.schedule.episodeCount
+}
+
 /**
  * Legt zu jedem Crunchyroll-Termin mit `sprache: 'omu'` ohne deutsches Gegenstück den Synchro-Termin an (`sprache: 'offen'` bleibt unberührt)
  * und gibt zurück, wie viele Termine entstanden oder aus welchem Grund keiner.
  */
-export function legeOmuBegleiterAn(releases: Release[], titles: Map<number, Title>, crDub: CrDubData): BegleiterZaehlung {
+export function legeOmuBegleiterAn(releases: Release[], titles: Map<number, Title>, crDub: CrDubData, gruende: Record<string, number> = {}): BegleiterZaehlung {
   const z: BegleiterZaehlung = { erzeugt: 0, ohneBlock: 0, vorOmuStart: 0, handVorhanden: 0, ohneDub: 0 }
   for (const omu of releases.filter((r) => r.platform === 'crunchyroll' && r.sprache === 'omu')) {
     const gegenstueck = releases.some((r) => r.platform === 'crunchyroll' && r.sprache === undefined && r.titleId === omu.titleId)
@@ -91,9 +96,12 @@ export function legeOmuBegleiterAn(releases: Release[], titles: Map<number, Titl
       z.ohneDub++
       continue
     }
-    const gefunden = title && kennung ? blockWahlFuer(title, titles, kennung, crDub.serien).treffer : null
+    const wahl = title && kennung ? blockWahlFuer(title, titles, kennung, crDub.serien, gemesseneFolgenzahl(omu)) : null
+    const gefunden = wahl?.treffer
     if (!title || !gefunden) {
       z.ohneBlock++
+      const grund = wahl?.grund ?? 'Titel oder Serienadresse fehlt'
+      gruende[grund] = (gruende[grund] ?? 0) + 1
       continue
     }
     const folgen = folgenAbOmuStart(datierteFolgen(gefunden.block), omu.schedule.firstEpisodeDate)
@@ -109,9 +117,11 @@ export function legeOmuBegleiterAn(releases: Release[], titles: Map<number, Titl
 
 /** Wie `legeOmuBegleiterAn`, dazu die Zählzeile im Bau-Log (nur wenn es überhaupt einen OmU-Termin gab). */
 export function legeOmuBegleiterAnUndMelde(releases: Release[], titles: Map<number, Title>, crDub: CrDubData): BegleiterZaehlung {
-  const z = legeOmuBegleiterAn(releases, titles, crDub)
+  const gruende: Record<string, number> = {}
+  const z = legeOmuBegleiterAn(releases, titles, crDub, gruende)
   if (z.erzeugt + z.ohneBlock + z.vorOmuStart + z.handVorhanden + z.ohneDub) {
-    log(`OmU-Begleiter: ${z.erzeugt} erzeugt, ${z.ohneBlock} ohne Block, ${z.vorOmuStart} mit Folgen nur vor dem OmU-Start, ${z.handVorhanden} mit Gegenstück am Titel, ${z.ohneDub} ohne Synchro-Beleg am Weg`)
+    const warum = Object.entries(gruende).map(([grund, n]) => `${n}× ${grund}`).join(', ')
+    log(`OmU-Begleiter: ${z.erzeugt} erzeugt, ${z.ohneBlock} ohne Block${warum ? ` (${warum})` : ''}, ${z.vorOmuStart} mit Folgen nur vor dem OmU-Start, ${z.handVorhanden} mit Gegenstück am Titel, ${z.ohneDub} ohne Synchro-Beleg am Weg`)
   }
   return z
 }

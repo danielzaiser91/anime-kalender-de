@@ -4,11 +4,13 @@
  * Anlass: Black Clover Staffel 2, 07.11.2026 — Folge 171 deutsch um 17:00, im Kalender erst um 21:39 (Bau rot, Rücknahmen).
  * Als „deutscher Termin“ zählt jeder Crunchyroll-Termin des Titels ohne `sprache`, auch der `-synchro`-Begleiter aus dem Bau.
  *
- * Block, Folgen und Berliner Tag kommen aus `tools/cr-katalogblock.mjs`, derselben Datei wie beim Begleiter. Nur die Staffelnummer
+ * Block, Folgen und Berliner Tag kommen aus `tools/cr-katalogblock.mjs`, die Blockwahl aus `tools/cr-blockwahl.mjs` (auch ohne Zahl
+ * im Blocknamen: einziger Block, Name, Folgenzahl), beides dieselben Dateien wie beim Begleiter. Nur die Staffelnummer
  * rechnet die Wache selbst (`staffelnummern`): der Bau nimmt sie aus Reihe und Beziehungsdateien (`katalogStaffeln`), die dieses
  * Skript im Job `abschluss` (ohne `npm ci`, 3 min) nicht lesen kann. Sie ist eine Teilmenge des Bau-Wegs: nur eine ausdrückliche
  * „Staffel n“/„Season n“ am Namensende oder ein Name ohne jede Staffelmarke an einer Serie, die kein anderer Titel teilt.
- * Alles andere ist „Staffel unklar“ und wird als eigene Zeile gezählt, nie als „kein Alarm“ verschwiegen.
+ * „Geteilt“ kennt die Wache nur aus den Crunchyroll-Terminen des Datensatzes, nicht aus allen Titeln des Baus.
+ * Alles andere ist „Staffel unklar“ mit Grund und wird als eigene Zeile gezählt, nie als „kein Alarm“ verschwiegen.
  * Grenze der Untergrenze: Gesehen wird nur, wer schon einen OmU-Termin hat; eine Staffel ganz ohne Termin meldet `check:cr-termine`.
  * Nur Node-Bordmittel (laeufe-aufraeumen.mjs läuft in Workflows ohne `npm ci`).
  */
@@ -33,10 +35,11 @@ export function staffelnummern(omu, cr) {
   const ausdruecklich = STAFFEL_IM_NAMEN.exec(String(omu.name))?.[1]
   if (ausdruecklich) return [Number(ausdruecklich)]
   if (ANDERE_ZAEHLUNG.test(String(omu.name))) return null
-  const kennung = serieVon(omu)
-  const geteilt = cr.some((r) => r.titleId !== omu.titleId && serieVon(r) === kennung)
-  return geteilt ? null : [1]
+  return teilenSerie(omu, cr) ? null : [1]
 }
+
+/** Führt ein Crunchyroll-Termin eines anderen Titels zur selben Serie? */
+const teilenSerie = (omu, cr) => cr.some((r) => r.titleId !== omu.titleId && serieVon(r) === serieVon(omu))
 
 /** Hat die Serie irgendwo (egal welcher Block) datierte deutsche Folgen ab dem Starttag? Dann ist „Staffel unklar“ eine Lücke. */
 function serieHatFolgenAb(katalog, kennung, startTag) {
@@ -46,14 +49,22 @@ function serieHatFolgenAb(katalog, kennung, startTag) {
     .some((block) => folgenAbOmuStart(datierteFolgen(block), startTag).length > 0)
 }
 
-/** Früheste datierte deutsche Folge (ms) der Staffel ab dem OmU-Start, `undefined` ohne eine, `'unklar'` ohne zuordenbaren Block. */
+/** Was die Wache über den OmU-Termin weiß, damit `blockWahl` einen Block ohne Zahl im Namen finden kann. */
+function blockTitel(omu, cr) {
+  const zahl = omu.schedule.episodeCountAssumed ? undefined : omu.schedule.episodeCount
+  return { nummern: staffelnummern(omu, cr) ?? [], namen: [String(omu.name)], folgen: zahl, geteilt: teilenSerie(omu, cr) }
+}
+
+/**
+ * Früheste datierte deutsche Folge (ms) der Staffel ab dem OmU-Start, `undefined` ohne eine,
+ * `{ unklar: Grund }` ohne zuordenbaren Block, obwohl die Serie Folgen ab dem Start führt.
+ */
 export function fruehesteDeutsche(katalog, omu, cr = []) {
   const kennung = serieVon(omu)
   const startTag = omu.schedule.firstEpisodeDate
-  const nummern = staffelnummern(omu, cr)
-  const gefunden = nummern && kennung ? blockWahl(katalog.serien ?? [], kennung, { nummern }).treffer : null
-  if (!gefunden) return serieHatFolgenAb(katalog, kennung, startTag) ? 'unklar' : undefined
-  const folgen = folgenAbOmuStart(datierteFolgen(gefunden.block), startTag)
+  const wahl = kennung ? blockWahl(katalog.serien ?? [], kennung, blockTitel(omu, cr)) : { treffer: null, grund: 'keine Serienadresse' }
+  if (!wahl.treffer) return serieHatFolgenAb(katalog, kennung, startTag) ? { unklar: wahl.grund } : undefined
+  const folgen = folgenAbOmuStart(datierteFolgen(wahl.treffer.block), startTag)
   return folgen.length ? Math.min(...folgen.map((f) => f.ms)) : undefined
 }
 
@@ -64,7 +75,7 @@ export function synchroWartende(katalog, releases, jetztMs, grenzeMinuten = SYNC
   for (const omu of cr.filter((r) => r.sprache === 'omu')) {
     if (cr.some((r) => r.titleId === omu.titleId && r.sprache === undefined)) continue
     const seit = fruehesteDeutsche(katalog, omu, cr)
-    if (seit === 'unklar') raus.unklar.push(omu.name)
+    if (seit?.unklar) raus.unklar.push(`${omu.name} (${seit.unklar})`)
     if (typeof seit !== 'number') continue
     const minuten = Math.floor((jetztMs - seit) / 60_000)
     if (minuten >= grenzeMinuten) raus.wartende.push({ name: omu.name, titleId: omu.titleId, minuten })

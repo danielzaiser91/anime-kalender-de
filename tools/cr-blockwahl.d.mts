@@ -15,4 +15,5 @@ export interface BlockWahl {
   weg?: 'zahl' | 'einzig' | 'name' | 'folgen'
   grund?: string
 }
+export function blockName(name: string): string
 export function blockWahl(serien: CrSerie[], kennung: string, titel: BlockTitel): BlockWahl

@@ -1,0 +1,104 @@
+/**
+ * Zusicherung: `blockWahl` (tools/cr-blockwahl.mjs) findet den deutschen Katalogblock eines Titels auch ohne Zahl im Blocknamen —
+ * und ordnet nie falsch zu, wo mehrere Blöcke passen könnten. Die Blöcke sind wörtlich aus `data/crunchyroll-dub.json`
+ * (Stand 08.11.2026, Name, Folgenzahl, erste datierte deutsche Folge); die Verdrahtung in Begleiter und Wache prüfen
+ * `check-omu-synchro-begleiter.ts` und `tools/synchro-wartezeit.test.mjs`.
+ * Aufruf: `npm run check:logic`.
+ */
+import { blockWahl } from '../tools/cr-blockwahl.mjs'
+
+let verletzt = 0
+let geprueft = 0
+function pruefe(ok: boolean, text: string, ist?: unknown): void {
+  geprueft++
+  if (!ok) {
+    verletzt++
+    console.log(`  ✖ ${text}`, ist === undefined ? '' : JSON.stringify(ist))
+  }
+}
+
+const folge = (verfuegbarAb: string) => ({ nummer: 1, guid: 'g', laufend: 1, verfuegbarAb })
+const block = (name: string, folgen: number, ab?: string) => ({ name, folgen, deutscheFolgen: ab ? [folge(ab)] : [] })
+const serien = (...staffeln: ReturnType<typeof block>[]) => [{ url: 'u', seriesId: 'K1', katalog: 'de', staffeln }] as never
+const wahl = (staffeln: ReturnType<typeof block>[], titel: Parameters<typeof blockWahl>[2]) => {
+  const w = blockWahl(serien(...staffeln), 'K1', titel)
+  return `${w.treffer?.block.name ?? '-'}|${w.weg ?? w.grund}`
+}
+
+// Einziger Block (Death Note, dreimal unter derselben Serie geführt): ohne Zahl, wenn kein anderer Titel die Serie teilt.
+const TODESNOTIZ = block('Death Note', 37, '2025-05-15T16:00:00Z')
+pruefe(wahl([TODESNOTIZ, TODESNOTIZ, TODESNOTIZ], { nummern: [1], geteilt: false }) === 'Death Note|einzig', 'Death Note: einziger Block trotz Dubletten')
+pruefe(wahl([TODESNOTIZ], { nummern: [1], geteilt: true }) === '-|Serie geteilt, ein Block', 'geteilte Serie: ein Block gehört nicht dem erstbesten Titel')
+const AKITO = block('Code Geass - Akito the Exiled', 5, '2022-12-13T07:59:00Z')
+pruefe(wahl([AKITO], { nummern: [1], namen: ['Code Geass: Akito the Exiled - To Beloved Ones'], folgen: 1, geteilt: true }) === '-|Serie geteilt, ein Block', 'Akito: fünf Titel an einem Block bekommen ihn nicht')
+pruefe(wahl([TODESNOTIZ, block('Death Note Relight', 2)], { nummern: [1], geteilt: false }) === 'Death Note|einzig', 'ein undatierter Nachbarblock zählt nicht mit')
+
+// Name: Blockname gleicht dem Titelnamen (ohne Satzzeichen, Groß-/Kleinschreibung, „(German Dub)“).
+const NAGATORO = [block('Don\'t Toy with Me, Miss Nagatoro', 12, '2021-04-10T00:00:00Z'), block('Don’t Toy With Me, Miss Nagatoro 2nd Attack (German Dub)', 12, '2023-01-28T00:00:00Z')]
+pruefe(wahl(NAGATORO, { nummern: [2], namen: ['DON\'T TOY WITH ME, MISS NAGATORO 2nd Attack'], folgen: 12, geteilt: false }).endsWith('|name'), 'Nagatoro 2nd Attack: Name trotz Apostroph, Großschreibung und (German Dub)')
+pruefe(wahl(NAGATORO, { nummern: [1], namen: ['Don\'t Toy with Me, Miss Nagatoro'], folgen: 12, geteilt: false }) === 'Don\'t Toy with Me, Miss Nagatoro|name', 'Nagatoro Staffel 1 bekommt den ersten Block')
+pruefe(wahl(NAGATORO, { nummern: [], namen: ['Ganz anderer Titel'], folgen: 12, geteilt: false }) === '-|mehrere Blöcke, keiner eindeutig', 'ohne Namenstreffer bei gleicher Folgenzahl keine Wahl')
+
+// Folgenzahl nur zusammen mit dem Namensende und ab zwei Folgen (Classroom of the Elite 4, Tonikawa, Golden Kamuy).
+const CLASSROOM = [block('Season 1', 12, '2022-08-03T19:00:00Z'), block('Classroom of the Elite Staffel 2', 13, '2022-08-01T19:00:00Z'), block('Classroom of the Elite Staffel 3', 13, '2024-01-24T20:00:00Z'), block('4th Season: Second Year, First Semester', 16, '2026-05-06T12:30:00Z')]
+const CLASSROOM_4 = ['Classroom of the Elite 4th Season: Second Year, First Semester']
+pruefe(wahl(CLASSROOM, { nummern: [4], namen: CLASSROOM_4, folgen: 16, geteilt: false }) === '4th Season: Second Year, First Semester|folgen', 'Classroom of the Elite 4: Block über Folgenzahl und Namensende')
+pruefe(wahl(CLASSROOM, { nummern: [4], namen: CLASSROOM_4, folgen: 15, geteilt: false }) === '-|mehrere Blöcke, keiner eindeutig', 'Classroom 4 mit 15 statt 16 Folgen: kein Block')
+pruefe(wahl(CLASSROOM, { nummern: [4], namen: ['Ganz anderer Titel'], folgen: 16, geteilt: false }) === '-|mehrere Blöcke, keiner eindeutig', 'Classroom 4 ohne Namensende: kein Block')
+pruefe(wahl(CLASSROOM, { nummern: [4], namen: CLASSROOM_4, geteilt: false }) === '-|mehrere Blöcke, keiner eindeutig', 'Classroom 4 ohne Folgenzahl: kein Block')
+const TONIKAWA = [block('Season 1', 14, '2020-10-03T06:59:00Z'), block('TONIKAWA: Over The Moon For You Staffel 2', 12, '2022-11-23T07:59:00Z'), block('~High School Days~', 4, '2023-07-13T06:59:00Z')]
+pruefe(wahl(TONIKAWA, { nummern: [], namen: ['TONIKAWA: Over The Moon For You ~High School Days~'], folgen: 4, geteilt: false }) === '~High School Days~|folgen', 'Tonikawa High School Days: Block über Folgenzahl 4')
+// Zwei Folgen reichen, eine nicht: Filme und Einzelfolgen haben alle 1 (Attack on Titan Part I ≠ „Last Attack“).
+const TITAN = [block('Attack on Titan: Season 2', 12, '2022-02-08T17:00:00Z'), block('Attack on Titan: Last Attack', 1, '2025-04-18T00:00:00Z'), block('Attack on Titan OADs', 8, '2022-10-19T19:00:00Z')]
+pruefe(wahl(TITAN, { nummern: [], namen: ['Attack on Titan Part I: Crimson Bow and Arrow'], folgen: 1, geteilt: true }) === '-|mehrere Blöcke, keiner eindeutig', 'Film mit einer Folge bekommt keinen Einzelfolgen-Block')
+const MINI = [block('Alpha Teil', 2, '2024-01-01T00:00:00Z'), block('Beta Teil', 3, '2024-02-01T00:00:00Z')]
+pruefe(wahl(MINI, { nummern: [], namen: ['Serie Alpha Teil'], folgen: 2, geteilt: true }) === 'Alpha Teil|folgen', 'Folgenzahl und Namensende wählen den Block')
+// Einzelfolgen mit Namensende gehen auch (MHA „I am a hero too“, 1 Folge); eine Einzelfolge ohne Namensende nie.
+const MHA = [block('Season 6', 26, '2022-10-29T00:00:00Z'), block('FINAL SEASON', 12, '2025-10-25T00:00:00Z'), block('I am a hero too', 1, '2026-08-02T00:00:00Z')]
+pruefe(wahl(MHA, { nummern: [], namen: ['My Hero Academia: I am a hero too'], folgen: 1, geteilt: true }) === 'I am a hero too|folgen', 'MHA I am a hero too: Einzelfolge über Namensende')
+pruefe(wahl(MHA, { nummern: [], namen: ['My Hero Academia More'], folgen: 1, geteilt: true }) === '-|mehrere Blöcke, keiner eindeutig', 'MHA More: Einzelfolge ohne Namensende bleibt offen')
+pruefe(wahl(MHA, { nummern: [], namen: ['My Hero Academia FINAL SEASON'], folgen: 11, geteilt: true }) === '-|mehrere Blöcke, keiner eindeutig', 'MHA FINAL SEASON mit 11 statt 12 Folgen bleibt offen')
+// Namensende ab 8 Zeichen (ohne Satzzeichen): „OVAs“ ist zu kurz, „Teil Eins“ reicht.
+const KURZ = [block('OVAs', 2, '2024-01-01T00:00:00Z'), block('Zwei', 3, '2024-02-01T00:00:00Z')]
+pruefe(wahl(KURZ, { nummern: [], namen: ['Serie OVAs'], folgen: 2, geteilt: true }) === '-|mehrere Blöcke, keiner eindeutig', 'Namensende unter 8 Zeichen zählt nicht')
+const ACHT = [block('Teil Eins', 2, '2024-01-01T00:00:00Z'), block('Zwei', 3, '2024-02-01T00:00:00Z')]
+pruefe(wahl(ACHT, { nummern: [], namen: ['Serie Teil Eins'], folgen: 2, geteilt: true }) === 'Teil Eins|folgen', 'Namensende mit genau 8 Zeichen zählt')
+// Zwei gleich lange Blöcke mit Namensende: keine Wahl.
+const ZWILLING = [block('Folge Alpha', 2, '2024-01-01T00:00:00Z'), block('Folge Beta', 2, '2024-02-01T00:00:00Z')]
+pruefe(wahl(ZWILLING, { nummern: [], namen: ['Titel Folge Alpha', 'Titel Folge Beta'], folgen: 2, geteilt: true }) === '-|mehrere Blöcke, keiner eindeutig', 'zwei passende Blöcke: keine Wahl')
+
+// Der Name der Vorstaffel am Anfang des Titelnamens ist kein Treffer (Ron Kamonohashi 2 darf nicht Staffel 1 bekommen).
+const RON = [block('Meisterdetektiv Ron Kamonohashi', 13, '2024-02-14T04:00:00Z'), block('Meisterdetektiv Ron Kamonohashi 2nd Season', 13, '2024-10-28T09:00:00Z')]
+const RON_2 = ['Ron Kamonohashi’s Forbidden Deductions Season 2', 'Meisterdetektiv Ron Kamonohashi Season 2']
+pruefe(wahl(RON, { nummern: [2], namen: RON_2, folgen: 13, geteilt: false }) === '-|mehrere Blöcke, keiner eindeutig', 'Ron Kamonohashi 2: nie der Block der Vorstaffel')
+pruefe(wahl(RON, { nummern: [1], namen: ['Meisterdetektiv Ron Kamonohashi'], folgen: 13, geteilt: false }) === 'Meisterdetektiv Ron Kamonohashi|name', 'Ron Kamonohashi 1 bekommt seinen Block')
+
+// Ein Block, der eine andere Staffel nennt, kommt nie in Frage (Black Clover Staffel 2 gegen „Season 1 Part 4“; MHA Vigilantes).
+pruefe(wahl([block('Season 1 Part 4', 16, '2024-08-14T15:00:00Z')], { nummern: [2], namen: ['Black Clover – Staffel 2'], geteilt: false }) === '-|alle Blöcke tragen eine andere Staffelnummer', 'Season 1 Part 4 gehört nicht zu Staffel 2')
+pruefe(wahl([block('Foo 2nd Season', 12, '2024-01-01T00:00:00Z')], { nummern: [1], geteilt: false }) === '-|alle Blöcke tragen eine andere Staffelnummer', '„2nd Season“ nennt Staffel 2')
+pruefe(wahl([block('Foo Season2', 12, '2024-01-01T00:00:00Z')], { nummern: [1], geteilt: false }) === '-|alle Blöcke tragen eine andere Staffelnummer', '„Season2“ ohne Leerzeichen nennt Staffel 2')
+pruefe(wahl([block('Foo Season 2 Part 2', 12, '2024-01-01T00:00:00Z')], { nummern: [2], geteilt: false }) === '-|einziger Block nennt eine Staffel', 'einziger Block mit Staffelzusatz („Season 2 Part 2“) bleibt offen, auch wenn er passt')
+
+// Zahl im Namen bleibt der erste Weg; mehrere Blöcke derselben Nummer sind mehrdeutig, kein Rückgriff auf die Folgenregeln.
+const ICEBLADE = [block('Season 1', 12, '2023-01-06T00:00:00Z'), block('Staffel 2', 5, '2026-10-29T00:00:00Z')]
+pruefe(wahl(ICEBLADE, { nummern: [2], namen: ['The Iceblade Sorcerer Shall Rule the World II'], folgen: 5, geteilt: false }) === 'Staffel 2|zahl', 'Iceblade Sorcerer II: Zahl im Namen')
+pruefe(wahl([block('Staffel 2', 12, '2025-04-26T00:00:00Z'), block('Season 2', 12, '2025-04-26T00:00:00Z')], { nummern: [2], namen: ['Staffel 2'], folgen: 12, geteilt: false }) === '-|mehrere Blöcke zur selben Staffelnummer', 'zwei Blöcke derselben Nummer: keine Wahl')
+
+// Namen, die nach dem Glätten gleich sind, aber zu zwei Blöcken gehören, geben keine Wahl.
+const GLEICH = [block('Folge Alpha', 2, '2024-01-01T00:00:00Z'), block('FOLGE ALPHA!', 3, '2024-02-01T00:00:00Z')]
+pruefe(wahl(GLEICH, { nummern: [], namen: ['Folge Alpha'], folgen: 9, geteilt: true }) === '-|mehrere Blöcke, keiner eindeutig', 'zwei gleich geglättete Blocknamen: keine Wahl')
+
+// Nur der deutsche Katalog und nur die eigene Serie zählen.
+const fremd = (katalog: string, seriesId: string) => [{ url: 'u', seriesId, katalog, staffeln: [block('Death Note', 37, '2025-05-15T16:00:00Z')] }] as never
+pruefe(blockWahl(fremd('us', 'K1'), 'K1', { nummern: [1] }).grund === 'kein datierter deutscher Block', 'US-Katalog belegt nichts')
+pruefe(blockWahl(fremd('de', 'ANDERE'), 'K1', { nummern: [1] }).grund === 'kein datierter deutscher Block', 'Block einer anderen Serie zählt nicht')
+
+// Offene Fälle tragen einen Grund, auch ohne Blöcke.
+pruefe(wahl([], { nummern: [1] }) === '-|kein datierter deutscher Block', 'keine Blöcke: Grund genannt')
+pruefe(wahl([block('Solo', 12)], { nummern: [1] }) === '-|kein datierter deutscher Block', 'nur undatierter Block: Grund genannt')
+
+if (verletzt) {
+  console.log(`${verletzt} Zusicherung(en) verletzt.`)
+  process.exit(1)
+}
+console.log(`check-cr-blockwahl: ${geprueft} Zusicherungen halten (einzig, name, folgen, Vorstaffel, andere Staffelnummer, Zahl zuerst).`)
