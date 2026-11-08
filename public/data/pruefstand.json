@@ -1,12 +1,12 @@
 {
- "erzeugtAm": "2026-11-07T23:09:09.368Z",
+ "erzeugtAm": "2026-11-08T13:00:44.747Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
-   "gemeldet": 926,
+   "gemeldet": 919,
    "gesamt": 1002,
-   "offen": 76,
+   "offen": 83,
    "ohneSeite": 2,
    "suchAdressen": [
     "https://www.amazon.de/s?k=Super%20Wings&i=instant-video",
@@ -116,12 +116,24 @@
      "titel": "Golden Kamuy 4 (Golden Kamuy Season 4)"
     },
     {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.ff7803bf-9b4c-46aa-beee-abb5e2ccd76c",
+     "titel": "Darwin’s Game (Darwin's Game)"
+    },
+    {
      "url": "https://www.amazon.de/gp/video/detail/B09MDQX4CW",
      "titel": "Appare-Ranman!"
     },
     {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.8b1dc17e-4332-49a4-a6a1-44e23da7ad23",
+     "titel": "Super HxEros"
+    },
+    {
      "url": "https://www.amazon.de/gp/video/detail/0J16B1NAB82TO0O5A5Q8TLG1VP",
      "titel": "Babylon"
+    },
+    {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.6364cc70-74ea-4084-88ad-ab2953e1484b",
+     "titel": "Laidbackers"
     },
     {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.077c1435-754d-407d-9d26-9ddb34a272d0",
@@ -184,6 +196,10 @@
      "titel": "Lupin III.: Daisuke Jigens Grabstein (Lupin the IIIrd: Jigen's Gravestone)"
     },
     {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.c9667593-ba0f-4e6a-a5f0-a1de3d9b4338",
+     "titel": "Inou Battle Within Everyday Life (When Supernatural Battles Became Commonplace)"
+    },
+    {
      "url": "https://www.amazon.de/gp/video/detail/B0GMY84XLR",
      "titel": "Wanna Be the Strongest in the World!"
     },
@@ -200,6 +216,10 @@
      "titel": "Free! Iwatobi Swim Club (Free! -Iwatobi Swim Club-)"
     },
     {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.cd532c25-2012-4814-8763-40202b020269",
+     "titel": "Kill La Kill"
+    },
+    {
      "url": "https://www.amazon.de/gp/video/detail/B0GVKRLHXX",
      "titel": "Aesthetica of a Rogue Hero"
     },
@@ -212,12 +232,20 @@
      "titel": "Bakemonogatari"
     },
     {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.6aad68c8-1e46-46e9-be1e-3d4de43488a5",
+     "titel": "Black Butler"
+    },
+    {
      "url": "https://www.amazon.de/gp/video/detail/B09KX2VLPR",
      "titel": "Higurashi no Naku Koro ni Kai (When They Cry Kai)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B09JZHRQ18",
      "titel": "Higurashi no Naku Koro ni (When They Cry)"
+    },
+    {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.1374d3dd-9d96-4d41-b0f8-38932f0c9145",
+     "titel": "Ikki Tousen: Dragon Girls (Battle Vixens: Ikki Tousen)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0GYDLTDD8",
