@@ -10,7 +10,7 @@ import path from 'node:path'
 import { execFileSync, spawnSync } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
 import yaml from 'js-yaml'
-import { zuruecknehmen, sammlerDateien, SAMMLER } from './sammler-zuruecknehmen.mjs'
+import { zuruecknehmen, sammlerDateien, sammlerAuswahl, ausgelassenZeile, SAMMLER } from './sammler-zuruecknehmen.mjs'
 
 const hier = path.dirname(fileURLToPath(import.meta.url))
 const wurzel = fs.mkdtempSync(path.join(os.tmpdir(), 'szn-'))
@@ -99,6 +99,44 @@ const committen = (ok = true) => (text) => {
   assert.equal(lies(cwd, 'data/zweite-datei.json'), '{"stand":"mensch"}')
 }
 
+// 2b. Jeder Verwerfungspfad ist gezählt und benannt: fremd geänderte Datei, Nicht-data-Pfad, Rücknahme-Commit.
+{
+  const { cwd, basis } = szenario('selbe-datei')
+  const e = zuruecknehmen({ cwd, basis, bauen: bauAttrappe(cwd), committen: committen() })
+  assert.deepEqual(e.ausgelassen, { fremd: ['data/zweite-datei.json'], keinDatenpfad: ['extension/x.js'], ruecknahmen: 0 })
+  assert.equal(
+    ausgelassenZeile(e.ausgelassen),
+    'Sammler-Zurücknahme ausgelassen: 1 Dateien mit fremder Änderung: data/zweite-datei.json; 1 außerhalb von data/ oder in data/cache: extension/x.js; 0 frühere Rücknahme-Commits nicht als fremd gezählt',
+  )
+}
+
+// 2c. Eigener Rücknahme-Commit (github-actions[bot], echter Betreff) ist kein „fremd“: ein später erneut gesammelter Stand wird wieder zurückgenommen.
+//     Anlass 07.11.2026 (16:15, 17:16, 18:15, 19:15 je eine Rücknahme, danach blieben Dateien still stehen).
+{
+  const { cwd, basis } = szenario()
+  const bot = 'github-actions[bot]'
+  // Erste Rücknahme lief schon, der Bau blieb trotzdem rot (Ursache später): anime2you.json steht wieder auf Basis-Stand.
+  commit(cwd, bot, 'chore(data): Sammler-Stand zurückgenommen (abcd1234)', { 'data/proposals/anime2you.json': '["a","b","c","d","e"]', 'data/zweite-datei.json': '{"stand":"alt"}' })
+  commit(cwd, SAMMLER, 'chore(data): Sendezeiten gesammelt', { 'data/proposals/anime2you.json': '["a"]', 'data/zweite-datei.json': '{"stand":"neuer"}' })
+  const e = zuruecknehmen({ cwd, basis, bauen: bauAttrappe(cwd), committen: committen() })
+  assert.equal(e.art, 'zurueckgenommen')
+  assert.deepEqual(e.dateien, ['data/neu-vom-sammler.json', 'data/proposals/anime2you.json', 'data/zweite-datei.json'])
+  assert.equal(e.ausgelassen.ruecknahmen, 1)
+  assert.equal(e.ausgelassen.fremd.length, 0)
+  assert.equal(lies(cwd, 'data/zweite-datei.json'), '{"stand":"alt"}')
+}
+
+// 2d. Gegenfälle zu 2c: gleicher Betreff von einem Menschen, derselbe Bot mit anderem Betreff (echter Bau) und ohne Betreff bleiben „fremd“.
+{
+  const gleich = 'chore(data): Sammler-Stand zurückgenommen (abcd1234)'
+  const sammlerCommit = { autor: SAMMLER, betreff: 'x', dateien: ['data/a.json', 'data/b.json', 'data/c.json'] }
+  const auswahl = (c) => sammlerAuswahl([sammlerCommit, { betreff: gleich, ...c }])
+  assert.deepEqual(auswahl({ autor: 'github-actions[bot]', dateien: ['data/a.json'] }).dateien, ['data/a.json', 'data/b.json', 'data/c.json'])
+  assert.deepEqual(auswahl({ autor: 'Daniel', dateien: ['data/a.json'] }).fremd, ['data/a.json'])
+  assert.deepEqual(auswahl({ autor: 'github-actions[bot]', betreff: 'chore(data): Bestand neu gebaut', dateien: ['data/b.json'] }).fremd, ['data/b.json'])
+  assert.deepEqual(auswahl({ autor: 'github-actions[bot]', betreff: undefined, dateien: ['data/c.json'] }).fremd, ['data/c.json'])
+}
+
 // 3. Bleibt der Bau auch ohne den Sammler-Stand rot (Ursache woanders): alles zurück auf HEAD, nichts committet.
 {
   const { cwd, basis } = szenario()
@@ -155,6 +193,7 @@ assert.deepEqual(
   const r = lauf('--basis', basis)
   assert.equal(r.status, 0, r.stderr)
   assert.match(r.stdout, /Sammler-Zurücknahme: zurueckgenommen \(3 Dateien/)
+  assert.match(r.stdout, /Sammler-Zurücknahme ausgelassen: 0 Dateien mit fremder Änderung; 1 außerhalb von data\/ oder in data\/cache: extension\/x\.js; 0 frühere/)
   assert.match(lies(cwd, 'commit-aufrufe.txt'), /^chore\(data\): Sammler-Stand zurückgenommen \([0-9a-f]{8}\)\|1\n$/)
   const leer = lauf('--basis', 'HEAD')
   assert.match(leer.stdout, /Sammler-Zurücknahme: nichts \(0 Dateien/)
