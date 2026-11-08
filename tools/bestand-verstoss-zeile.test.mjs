@@ -14,33 +14,10 @@ const wurzel = join(dirname(fileURLToPath(import.meta.url)), '..')
 const lies = (rel) => readFileSync(join(wurzel, rel), 'utf8')
 const stumm = (text) => findeStummeAusgaenge(text).map((s) => s.zeile)
 
-/** Prüfungen ohne eigenen Fehlerausgang, mit Grund. Der Test verlangt, dass sie wirklich keinen haben. */
-const OHNE_AUSGANG = {
-  'pipeline/check-anisearch-paar-bestand.ts':
-    'nur Warnung (⚠ WARNUNG, Exit 0): der tägliche Abruf der aniSearch-Brücke kann jederzeit ein neues Fehlpaar liefern, Rot würde den Bestandsbau stoppen; 01.11.2026',
-  'pipeline/check-ankuendigung-versteckt-bestand.ts':
-    'nur Warnung (⚠ WARNUNG, Exit 0): ein Titel mit frischer Ankündigung hinter dem Toggle kann zu Recht dort liegen (aniSearch „Deutsch nicht genannt“, Handurteil), Rot würde den Bestandsbau stoppen; 26.10.2026',
-  'pipeline/check-disc-anisearch-bestand.ts':
-    'nur Warnung (⚠ WARNUNG, Exit 0): der Auszug läuft vor dem Bau, ein heute neuer Titel hat bis zum nächsten Lauf keine Zeile, Rot würde den Bestandsbau stoppen; 06.11.2026',
-  'pipeline/check-disc-suchlinks-bestand.ts':
-    'nur Warnung (⚠ WARNUNG, Exit 0): ein Sammler kann jederzeit eine Disc ohne EAN melden, Rot würde den Bestandsbau stoppen; 27.10.2026',
-  'pipeline/check-gleiche-adresse-bestand.ts':
-    'nur Warnung (⚠ WARNUNG, Exit 0): die Erweiterung kann jederzeit einen Beleg an eine fremde Amazon-Seite melden, Rot würde den Bestandsbau stoppen; 28.10.2026',
-  'pipeline/check-handbeleg-fast-doppel-bestand.ts':
-    'nur Warnung (⚠ WARNUNG, Exit 0): Bestandsbau und Meldungen können jederzeit ein Beleg-Paar gleich bis auf das Prüfdatum schreiben, Rot würde den Bestandsbau stoppen; 03.11.2026',
-  'pipeline/check-joyn-luecke-bestand.ts':
-    'nur Warnung (⚠ WARNUNG, Exit 0): die Linkprüfung kann jederzeit eine Joyn-Adresse als tot entfernen, Rot würde den Bestandsbau stoppen; 04.11.2026',
-  'pipeline/check-joyn-sender-bestand.ts':
-    'nur Warnung (⚠ WARNUNG, Exit 0): ein Joyn-Weg kommt aus JustWatch oder von Hand, ein neuer TV-Termin darf den Bestandsbau nicht stoppen; 05.11.2026',
-  'pipeline/check-jw-ohne-tmdb-bestand.ts':
-    'nur Warnung (⚠ WARNUNG, Exit 0): neue aniSearch-Titel kommen täglich ohne TMDB-Kennung hinzu, Rot würde den Bestandsbau stoppen; 06.11.2026',
-  'pipeline/check-meldungen-ohne-release-bestand.ts':
-    'nur Warnung (⚠ WARNUNG, Exit 0): Anime2You kann jederzeit eine Meldung bringen, die der Bau keinem Release zuordnet, Rot würde den Bestandsbau stoppen; 04.11.2026',
-  'pipeline/check-handlung-eigen-bestand.ts':
-    'verwaist ist seit 26.10.2026 eine Warnung (herabgestufteWarnzeile, Exit 0): ein Eintrag ohne Titel bringt nichts live, der Bau bindet nur Einträge zu Titeln im Bestand ein',
-  'pipeline/check-streaming-luecke-bestand.ts':
-    'nur Warnung (⚠ WARNUNG, Exit 0): neue aniSearch-Titel kommen täglich ohne Weg hinzu, Rot würde den Bestandsbau stoppen; 06.11.2026',
-}
+/** Prüfungen ohne eigenen Fehlerausgang, mit Grund (Zeilendatei: Pfad, Tabulator, Grund). Der Test verlangt, dass sie wirklich keinen haben. */
+const OHNE_AUSGANG = Object.fromEntries(
+  lies('tools/bestand-ohne-ausgang.txt').split(/\r?\n/).filter((z) => z && !z.startsWith('#')).map((z) => z.split('\t')),
+)
 
 // Fälle der Regel (Zeilennummern: erste Zeile = 1).
 assert.deepEqual(stumm('process.exit(1)'), [1], 'nackter Ausgang ist stumm')

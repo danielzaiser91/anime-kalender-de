@@ -154,7 +154,7 @@ pruefe('Liste gegen Text gleicher Länge wird gemeldet', pruefeKachelDatei(mitPl
 
 /* Die Abzugslisten, fest eingetragen: gemessen mit `tools/kachel-felder-messen.mjs` (25.10.2026); jede Änderung ist eine Entscheidung. */
 const TITEL_FEST = 'angebotSeit,anisearchId,ankuendigung,annId,ausgabenOhneDe,bannerImage,dubHinweis,einzelquelle,entfernteStreams,episodes,franchiseId,fskQuelle,hasVoices,jpEnd,jpSeason,jpStart,jpStatus,jpYear,kino,malId,runtimeMin,score,scoreQuelle,staffeln,staffelnQuelle,studios,synopsis,titleDe,titleEn,titleNative,titleRomaji,tmdbId,trailer,westlich'
-const RELEASE_FEST = 'automatisch,buyUrl,cinemaUntil,disputedDates,edition,herkunft,netflixOriginal,nachtrag,note,platformUrl,publisher,quellen,rhythmus,schnitt,sources'
+const RELEASE_FEST = 'automatisch,buyUrl,cinemaUntil,disputedDates,edition,herkunft,hinweis,netflixOriginal,nachtrag,note,platformUrl,publisher,quellen,rhythmus,schnitt,sources'
 pruefe('Dateiname der Kachel-Datei', KACHEL_DATEI === 'woche-kacheln')
 pruefe('Abzugsliste Titel', TITEL_OHNE.join() === TITEL_FEST)
 pruefe('Abzugsliste Release', RELEASE_OHNE.join() === RELEASE_FEST)

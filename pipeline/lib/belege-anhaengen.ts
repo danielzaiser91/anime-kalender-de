@@ -19,12 +19,14 @@ export function haengeBelegeAn(o: {
   heute: string
   log: (text: string) => void
   warn: (text: string) => void
+  /** Kommentarzeile über dem Block; ohne Angabe die der Browser-Meldungen. */
+  kopf?: string
 }): void {
   const { datei: p, zeilen, heute, log, warn } = o
   /* Dasselbe Nein noch einmal gemessen: das Datum des vorhandenen Belegs rückt vor (`nein-datum-erneuern.ts`). */
   const { text: alt, erneuert } = erneuereNeinDatum(readFileSync(p, 'utf8'), zeilen)
   if (erneuert) log(`${erneuert} Nein-Beleg(e) mit neuem Messdatum`)
-  const kopf = `\n# --- Aus dem Browser gemeldet, abgeholt am ${heute} ---`
+  const kopf = `\n${o.kopf ?? `# --- Aus dem Browser gemeldet, abgeholt am ${heute} ---`}`
   /* Ein Beleg, der schon dasteht, wird nicht noch einmal angehängt (Solo Leveling, 15.09.2026). */
   const { bloecke, neu: ungeprueft } = neueBelegBloecke(alt, zeilen)
   const entfernt = ladeBelegeEntfernt(join(dirname(p), ENTFERNT_NAME))
