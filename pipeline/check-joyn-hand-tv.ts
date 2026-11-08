@@ -109,6 +109,10 @@ pruefe('Pille am 05.11. 18:40: noch nichts abrufbar (Sendeende 18:50), Folge 1 a
 pruefe('Pille am 09.11. 19:00: Folge 1–3', pille('2026-11-09T19:00') === '≈ Fg. 1–3 · Fg. 4 ab 10.11.', pille('2026-11-09T19:00'))
 
 /* Gegenproben: nichts wird geraten oder überschrieben. */
+const auto = handtermin({ observed: {} })
+auto.slug = 'auto-177476-tv-prosieben-maxx'
+bau([auto])
+pruefe('Ein Auto-Termin (Kennung „auto-…“) wird nicht als Handtermin behandelt', auto.folgenBelegt === undefined && Object.keys(auto.schedule.observed ?? {}).length === 0, auto.schedule)
 const eigene = handtermin({ observed: { 1: '2026-11-05' } })
 bau([eigene])
 pruefe('Handtermin mit eigener Beobachtung bleibt, wie er ist', JSON.stringify(eigene.schedule.observed) === JSON.stringify({ 1: '2026-11-05' }) && eigene.folgenBelegt === undefined, eigene.schedule)
