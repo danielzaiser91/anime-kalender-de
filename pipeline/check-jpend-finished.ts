@@ -43,9 +43,11 @@ const jpEnd = (m: AniListMedia) => titleFromMedia(m, 'high').jpEnd
 pruefe('RELEASING ohne endDate: kein jpEnd', jpEnd(medium('RELEASING')) === undefined)
 pruefe('NOT_YET_RELEASED ohne endDate: kein jpEnd', jpEnd(medium('NOT_YET_RELEASED')) === undefined)
 pruefe('Status null ohne endDate: kein jpEnd', jpEnd(medium(null)) === undefined)
+pruefe('CANCELLED ohne endDate: kein jpEnd', jpEnd(medium('CANCELLED')) === undefined)
+pruefe('HIATUS ohne endDate: kein jpEnd', jpEnd(medium('HIATUS')) === undefined)
 pruefe('FINISHED ohne endDate: Starttag', jpEnd(medium('FINISHED')) === '2020-01-05')
 pruefe('FINISHED mit endDate: endDate', jpEnd(medium('FINISHED', { year: 2020, month: 3, day: 22 })) === '2020-03-22')
 pruefe('RELEASING mit endDate: endDate', jpEnd(medium('RELEASING', { year: 2021, month: 6, day: 1 })) === '2021-06-01')
 
-console.log(fehler ? `\njpEnd-FINISHED: ${fehler} Zusicherung(en) verletzt.` : 'jpEnd-FINISHED: 6 Zusicherungen halten.')
+console.log(fehler ? `\njpEnd-FINISHED: ${fehler} Zusicherung(en) verletzt.` : 'jpEnd-FINISHED: 8 Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)
