@@ -75,7 +75,7 @@ pruefe('Termin ohne Quelle ergibt keinen Weg', weg(9).length === 0)
 pruefe('bewusst entfernter Verweis kommt nicht zurück', weg(10).length === 0)
 
 pruefe('laut Linkprüfung tote Termin-Adresse (Beelzebub, 02.11.2026) wird nie die Adresse', weg(14).length === 1 && weg(14)[0]!.url === '')
-pruefe('Pluto TV ist ein Streaming-Anbieter: der sichere Termin ergibt einen Weg mit Titelseite', weg(15).length === 1 && weg(15)[0]!.platform === 'plutotv' && weg(15)[0]!.url === PLUTO, weg(15))
+pruefe('Pluto TV ist ein Streaming-Anbieter: der sichere Termin ergibt einen Weg mit Titelseite', weg(15).length === 1 && weg(15)[0]!.platform === 'plutotv' && weg(15)[0]!.url === PLUTO, JSON.stringify(weg(15)))
 pruefe('Pluto TV: ein geschätzter Termin ergibt keinen Weg', weg(16).length === 0)
 pruefe('Handbeleg „nicht verfügbar“: kein Weg aus dem Termin (Kamisama Hajimemashita)', weg(11).length === 0)
 pruefe('Handbeleg „ohne deutschen Ton“: kein Weg aus dem Termin', weg(13).length === 0)
