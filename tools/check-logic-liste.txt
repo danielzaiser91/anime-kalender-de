@@ -39,8 +39,10 @@ pipeline/check-anilist-produkt.ts
 pipeline/check-anime2you-abruf.ts
 pipeline/check-anime2you-entwurf.ts
 pipeline/check-anime2you-leicht.ts
+pipeline/check-anime2you-regel.ts
 pipeline/check-anime2you-rhythmus.ts
 pipeline/check-anime2you-sammelartikel.ts
+pipeline/check-anime2you-schatten.ts
 pipeline/check-anime2you-vorschlag.ts
 pipeline/check-anisearch-archiv-text.ts
 pipeline/check-anisearch-archiv.ts
@@ -62,6 +64,7 @@ pipeline/check-anisearch-spalte.ts
 pipeline/check-anisearch-sprecher.ts
 pipeline/check-ankuendigung-news.ts
 pipeline/check-ankuendigung-sichtbar.ts
+pipeline/check-ansicht-scroll.ts
 pipeline/check-antwort-jetzt.ts
 pipeline/check-antwort-vorstart.ts
 pipeline/check-auf-deutsch-vorstart.ts
@@ -82,6 +85,7 @@ pipeline/check-belege-entfernt.ts
 pipeline/check-belege-riegel-schreiben.ts
 pipeline/check-belegstaerke-forum.ts
 pipeline/check-belegstaerke-handbelegt.ts
+pipeline/check-belegstaerke-justwatch.ts
 pipeline/check-belegstaerke.ts
 pipeline/check-bestand-delta-entfernt.ts
 pipeline/check-bild-und-synchro.ts
@@ -119,6 +123,7 @@ pipeline/check-cr-folgestaffel.ts
 pipeline/check-cr-frisch.ts
 pipeline/check-cr-ja-deckung.ts
 pipeline/check-cr-katalog-ein-werk.ts
+pipeline/check-cr-katalogblock.ts
 pipeline/check-cr-kennung-gedaechtnis.ts
 pipeline/check-cr-kennwort.ts
 pipeline/check-cr-komplettabwurf.ts
@@ -165,6 +170,7 @@ pipeline/check-ecchi-ausblenden.ts
 pipeline/check-effekt-abhaengigkeiten.ts
 pipeline/check-eigene-titel-bestand-lauf.ts
 pipeline/check-eigene-titel.ts
+pipeline/check-eigene-tmdb-plakat-lauf.ts
 pipeline/check-einzahl-folge.ts
 pipeline/check-empfehlung-ablage.ts
 pipeline/check-empfehlung-ablauf.ts
@@ -217,6 +223,7 @@ pipeline/check-folgenzahl-sichtung.ts
 pipeline/check-gleiche-adresse.ts
 pipeline/check-hand-gesehen.ts
 pipeline/check-handbeleg-anbieter-zaehlung.ts
+pipeline/check-handbeleg-fast-doppel-ratsche.ts
 pipeline/check-handbeleg-fast-doppel.ts
 pipeline/check-handbeleg-fremde-adresse.ts
 pipeline/check-handbeleg-note-asin-lauf.ts
@@ -232,6 +239,7 @@ pipeline/check-handlung-eigen.ts
 pipeline/check-herkunft-je-folge.ts
 pipeline/check-herkunftsfilter.ts
 pipeline/check-herkunftsland.ts
+pipeline/check-hinweis-anzeige.ts
 pipeline/check-ics-folgen.ts
 pipeline/check-ics-kopf.ts
 pipeline/check-import-meta-env.ts
@@ -244,6 +252,7 @@ pipeline/check-joyn-luecke.ts
 pipeline/check-joyn-premiere.ts
 pipeline/check-joyn-sender-bestand-lauf.ts
 pipeline/check-joyn-sender-luecke.ts
+pipeline/check-jpend-finished.ts
 pipeline/check-juengeres-ja-weg.ts
 pipeline/check-jw-ablauf.ts
 pipeline/check-jw-anbieterliste.ts
@@ -253,6 +262,7 @@ pipeline/check-jw-kennung-fremd-lauf.ts
 pipeline/check-jw-kennung-fremd.ts
 pipeline/check-jw-namenssuche-lauf.ts
 pipeline/check-jw-namenssuche.ts
+pipeline/check-jw-namenstreffer-lauf.ts
 pipeline/check-jw-schlange.ts
 pipeline/check-jw-seite.ts
 pipeline/check-jw-staffeln.ts
@@ -359,6 +369,7 @@ pipeline/check-og-schaetz.ts
 pipeline/check-og-termin.ts
 pipeline/check-ohne-synchro-namen.ts
 pipeline/check-omu-ohne-termin.ts
+pipeline/check-omu-synchro-begleiter.ts
 pipeline/check-panel-chips.ts
 pipeline/check-panel-cover.ts
 pipeline/check-panel-disc-doppel.ts
@@ -450,6 +461,8 @@ pipeline/check-staffel-von-hand.ts
 pipeline/check-staffelsumme.ts
 pipeline/check-staffelzaehlung.ts
 pipeline/check-stand-halten.ts
+pipeline/check-streaming-kleinfixes.ts
+pipeline/check-streaming-zaehlen.ts
 pipeline/check-studio-archiv.ts
 pipeline/check-stuetzpunkt-ueberholt.ts
 pipeline/check-such-chip.ts
@@ -458,6 +471,8 @@ pipeline/check-suchfeld-arten.ts
 pipeline/check-suchhinweis-bereich.ts
 pipeline/check-suchhinweis-lauf.ts
 pipeline/check-sw-cache-regeln.ts
+pipeline/check-synchro-beleg-auswahl.ts
+pipeline/check-synchro-beleg-lauf.ts
 pipeline/check-synchro-beobachtung.ts
 pipeline/check-synchro-original.ts
 pipeline/check-synchro-termin-offen.ts

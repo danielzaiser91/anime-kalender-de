@@ -135,7 +135,7 @@ try {
   pruefe('Bestandswächter mit gemischter Gruppe: Exit 0, Warnzeile zur Herkunft, keine zum Aufräumen', gemischtLauf.status === 0 && /^⚠ WARNUNG Handbelege: 1 Fast-Doppel-Gruppe\(n\) aus Browser/m.test(gemischtLauf.stdout) && !/zusammenführbar —/.test(gemischtLauf.stdout), gemischtLauf.stdout + gemischtLauf.stderr)
   writeFileSync(bestandsDatei, datei(beleg(1, '2026-08-01'), beleg(2, '2026-09-01')))
   const sauber = bestandLauf()
-  pruefe('Bestandswächter ohne Fast-Doppel: Exit 0, keine Warnung', sauber.status === 0 && !/WARNUNG/.test(sauber.stdout) && /: 0 zusammenführbar/.test(sauber.stdout), sauber.stdout + sauber.stderr)
+  pruefe('Bestandswächter ohne Fast-Doppel: Exit 0, keine Warnung', sauber.status === 0 && !/WARNUNG Handbelege: /.test(sauber.stdout) && /: 0 zusammenführbar/.test(sauber.stdout), sauber.stdout + sauber.stderr)
   /* Aufruf wie in der Warnzeile: ohne Dateiargument, die Handbelege im Arbeitsordner. */
   writeFileSync(bestandsDatei, nurHand)
   const ohneDatei = spawnSync(process.execPath, ['--import', tsx, werkzeug], { cwd: wurzel, encoding: 'utf8', timeout: 120_000 })

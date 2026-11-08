@@ -58,12 +58,12 @@ export function legeCrVerweiseUndTermineAn({ titles, anisearch, belegt, crDub, v
       const title = titles.get(t.titleId)
       if (!title) continue
       /*
-        **Ein vorhandener Streaming-Termin gewinnt.** Was aus dem Kalender oder
-        aus einem kuratierten Eintrag stammt, ist näher an der Quelle als eine
-        Ableitung — und ein zweites Release derselben Plattform würde
-        behaupten, es gäbe die Staffel zweimal.
+        **Ein vorhandener Streaming-Termin gewinnt** — nicht aber einer mit `sprache`
+        (OmU, offen): Er sagt nichts über die deutsche Fassung (Black Clover S2,
+        07.11.2026). Sonst stünde ein zweites Release derselben Plattform da, das
+        die Staffel zweimal behauptet; Kalender und Kuratierung sind näher an der Quelle.
       */
-      const vorhanden = releases.filter((r) => r.titleId === t.titleId && r.platform === 'crunchyroll')
+      const vorhanden = releases.filter((r) => r.titleId === t.titleId && r.platform === 'crunchyroll' && !r.sprache)
       if (vorhanden.length) {
         /*
           **Ein gemessener Wochentakt schlägt den Aufnahmetag** (Daniel, 20.09.2026, „Das Band
