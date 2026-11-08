@@ -6,6 +6,8 @@ const ZIELE = ['Autonomie', 'Live5', 'Daten', '-']
 const KENNZEICHEN = new RegExp(`\\{(${ARTEN.join('|')}) · (${DRINGLICHKEITEN.join('|')}) · (${ZIELE.join('|')}) · (\\d\\d)\\.(\\d\\d)\\.(?: · wartet: ([^}]*\\S))?\\}`, 'u')
 // Beginnt eine Klammer mit einer Art, gilt sie als Kennzeichen-Versuch (sonst ist sie ein Status wie {arbeit-agent}).
 const VERSUCH = new RegExp(`\\{(?:${ARTEN.join('|')})\\b[^}]*\\}`, 'u')
+// Laufstempel einer Zeile in „Als Nächstes“: der Punkt ist begonnen und startet nicht noch einmal.
+const LAEUFT = /\{läuft:/u
 const ABSCHNITTE = ['In Arbeit', 'Als Nächstes']
 const AUF = '<!-- pr-zeilen'
 const ZU = '<!-- /pr-zeilen'
@@ -92,14 +94,15 @@ function rangliste(text, jetzt) {
   return { eintraege, fehler }
 }
 
-/** `{rangliste, naechster, laufend, fehler}`: laufend = „In Arbeit“ ohne `wartet`; nächster = erster „Als Nächstes“ ohne `wartet`. */
+/** `{rangliste, naechster, laufend, fehler}`: laufend = „In Arbeit“ oder mit `{läuft: …}`, ohne `wartet`; nächster = erster „Als Nächstes“ ohne `wartet` und ohne `{läuft: …}`. */
 function auswerten(text, jetzt) {
   const { eintraege, fehler } = rangliste(text, jetzt)
   const frei = (e) => e.k.wartet === null
+  const laeuft = (e) => e.abschnitt === 'In Arbeit' || LAEUFT.test(e.zeile)
   return {
     rangliste: eintraege,
-    naechster: eintraege.find((e) => e.abschnitt === 'Als Nächstes' && frei(e)) ?? null,
-    laufend: eintraege.filter((e) => e.abschnitt === 'In Arbeit' && frei(e)),
+    naechster: eintraege.find((e) => e.abschnitt === 'Als Nächstes' && frei(e) && !laeuft(e)) ?? null,
+    laufend: eintraege.filter((e) => laeuft(e) && frei(e)),
     fehler,
   }
 }

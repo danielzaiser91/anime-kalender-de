@@ -5,7 +5,7 @@
  */
 import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
-import { mkdtempSync, readFileSync, rmSync, statSync, utimesSync, writeFileSync, existsSync, mkdirSync } from 'node:fs'
+import { copyFileSync, mkdtempSync, readFileSync, rmSync, statSync, utimesSync, writeFileSync, existsSync, mkdirSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
@@ -322,6 +322,26 @@ try {
   assert.deepEqual(JSON.parse(p2.stdout), { systemMessage: 'stand-prs.js: nicht geschrieben: Marken: 1× Anfangs-, 2× Endmarke (stand.md, Abschnitt „In Arbeit“)' })
   const p3 = spawnSync(process.execPath, [HOOK, '--jetzt'], { env: { ...prozessEnv, STAND_PRS_ATTRAPPE_LOG: join(ordner, 'nie', 'x.log') }, encoding: 'utf8', windowsHide: true })
   assert.match(p3.stdout, /^stand-prs: Fehler: /, 'Attrappe scheitert: Fehler auf stdout')
+
+  // Hook allein installiert (ohne mods/): lädt, pflegt den Block weiter, meldet nur keine Kennzeichen
+  const allein = join(ordner, 'allein', 'hooks')
+  mkdirSync(allein, { recursive: true })
+  for (const datei of ['stand-prs.js', 'stand-prs-block.js', 'stand-waechter.js']) copyFileSync(join(import.meta.dirname, 'claude-global', 'hooks', datei), join(allein, datei))
+  const leerAntwort = JSON.stringify({ data: { repository: { offen: { pageInfo: { hasNextPage: false }, nodes: [] }, gemergt: { pageInfo: { hasNextPage: false }, nodes: [] } } } })
+  const skript = join(ordner, 'allein', 'lauf.cjs')
+  const lauf = [
+    `const h = require(${JSON.stringify(join(allein, 'stand-prs.js'))})`,
+    "const r = h.lauf({ jetzt: true }, { env: JSON.parse(process.env.LAUF_ENV), gh: () => process.env.LEER, jetzt: Date.parse('2026-11-08T12:00:00Z') })",
+    'console.log(JSON.stringify(r))',
+  ]
+  writeFileSync(skript, lauf.join('\n'))
+  const dateiAllein = join(ordner, 'allein', 'stand.md')
+  writeFileSync(dateiAllein, '## In Arbeit (Stand 08.11.2026 12:00)\n- Hand ohne Kennzeichen\n')
+  const pa = spawnSync(process.execPath, [skript], { encoding: 'utf8', timeout: 20000, windowsHide: true, env: { ...process.env, LEER: leerAntwort, LAUF_ENV: JSON.stringify({ STAND_PRS_DATEI: dateiAllein, STAND_PRS_ZUSTAND: join(ordner, 'allein', 'z.json') }) } })
+  assert.equal(pa.status, 0, pa.stderr)
+  const ra = JSON.parse(pa.stdout)
+  assert.equal(ra.erfolg, true, pa.stdout)
+  assert.equal(ra.warnung, undefined, 'ohne Mod-Datei keine Kennzeichen-Meldung')
 } finally {
   rmSync(ordner, { recursive: true, force: true })
 }

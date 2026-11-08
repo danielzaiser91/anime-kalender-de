@@ -30,6 +30,10 @@ assert.equal(K.parseKennzeichen('- **A** {eigen · normal · Daten}').grund, 'Ke
 assert.equal(K.parseKennzeichen('- **A** {eigen · normal · Daten · 5.11.}').ok, false, 'Eingang einstellig')
 assert.equal(K.parseKennzeichen('- **A** {eigen · normal · Daten · 31.13.}').grund, 'Eingang 31.13. ist kein Datum', 'Monat 13')
 assert.equal(K.parseKennzeichen('- **A** {eigen · normal · Daten · 00.11.}').grund, 'Eingang 00.11. ist kein Datum', 'Tag 0')
+assert.equal(K.parseKennzeichen('- **A** {eigen · normal · Daten · 32.11.}').grund, 'Eingang 32.11. ist kein Datum', 'Tag 32')
+assert.equal(K.parseKennzeichen('- **A** {eigen · normal · Daten · 05.00.}').grund, 'Eingang 05.00. ist kein Datum', 'Monat 0')
+assert.equal(K.parseKennzeichen('- **A** {eigen · normal · Daten · 31.12.}').ok, true, 'Grenze 31.12. gilt')
+assert.equal(K.parseKennzeichen('- **A** {eigen · normal · Daten · 01.01.}').ok, true, 'Grenze 01.01. gilt')
 assert.equal(K.parseKennzeichen('- **A** {eigen · normal · Daten · 05.11. · wartet: }').ok, false, 'wartet leer')
 assert.equal(K.parseKennzeichen('- **A** {eigen · normal · Daten · 05.11.} und {eigen · x}').ok, true, 'erste gültige Klammer zählt')
 
@@ -69,6 +73,15 @@ assert.equal(n.naechster.titel, 'zweiter', 'wartet überspringen, obwohl höher'
 assert.deepEqual(titel(n.laufend), ['läuft-1', 'läuft-2'], 'wartende In-Arbeit-Zeile läuft nicht')
 assert.equal(K.auswerten(stand([z('x', 'eigen', 'normal', '-', '01.11.')], []), JETZT).naechster, null, 'nichts Startbares')
 assert.equal(K.auswerten(stand([], [z('x', 'eigen', 'normal', '-', '01.11.', 'Daniel')]), JETZT).naechster, null, 'alles wartet')
+
+// {läuft: …} in „Als Nächstes“: Zeile steht unter laufend, vorn im Rang, ist nie der nächste startbare Punkt
+const lz = z('begonnen', 'kritisch', 'hoch', 'Daten', '05.11.').replace('Text', '{läuft: Bauer seit 12:53} Text')
+const l = K.auswerten(stand([], [z('frei-1', 'eigen', 'normal', '-', '01.11.'), lz, z('frei-2', 'auftrag', 'normal', '-', '02.11.')]), JETZT)
+assert.equal(l.rangliste[0].titel, 'begonnen', 'läuft steht vorn im Rang')
+assert.equal(l.naechster.titel, 'frei-2', 'nächster ist die nächste freie Zeile')
+assert.deepEqual(titel(l.laufend), ['begonnen'], 'läuft zählt als laufend')
+assert.deepEqual(titel(K.auswerten(stand([], [lz.replace('{kritisch · hoch · Daten · 05.11.}', '{kritisch · hoch · Daten · 05.11. · wartet: Lauf}')]), JETZT).laufend), [], 'läuft und wartet: nicht laufend')
+assert.equal(K.auswerten(stand([], [z('x', 'eigen', 'normal', '-', '01.11.').replace('Text', 'läuft: nichts')]), JETZT).naechster.titel, 'x', 'Wort ohne Klammer ist kein Stempel')
 
 // Fehler mit Zeile; Auto-Block, eingerückte Details, andere Abschnitte und CRLF
 const mitFehler = stand(['<!-- pr-zeilen: x -->', '- **PR-Zeile** ohne Kennzeichen', '<!-- /pr-zeilen -->', '  - eingerückt', '- **Ohne** nichts'], [z('ok', 'eigen', 'normal', '-', '01.11.'), '- **Kaputt** {eigen · normal}'])
