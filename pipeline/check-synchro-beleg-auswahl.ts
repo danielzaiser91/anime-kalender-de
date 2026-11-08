@@ -162,6 +162,7 @@ pruefe('Staffelzählung: „Third Season“ trifft Staffel 3, „Fourth Season�
 pruefe('Staffelzählung: „Staffel 4“ ohne Staffel-4-Eintrag fällt nicht auf den Grundtitel (Naruto Shippuden – Staffel 4)', ordneTitelZu('Black Clover – Staffel 4', BC) === 'Titel nicht im Katalog')
 pruefe('Staffelzählung: Beleg „Black Clover Second Season“ (Crunchyroll, offen) geht an 195604',
   ids(lauf([mit(PET, { titel: 'Black Clover Second Season', plattform: 'crunchyroll', artikel: 'Crunchyroll + Synchro', zitat: '»Black Clover Second Season« (Synchro) Episoden: 1 auf Deutsch verfügbar Sprache: Deutsch, Japanisch (UT) Simulcast: Jeden Samstag' })], [BC_STAFFEL1, { ...BC_STAFFEL2, streams: [weg('crunchyroll')] }])) === '195604')
+pruefe('Staffelzählung: „Season 2“ im Artikel trifft einen Katalogtitel nur mit „Staffel 2“', (ordneTitelZu('Black Clover Season 2', [{ id: 900302, titleDe: 'Black Clover: Staffel 2' }]) as KatalogTitel).id === 900302)
 const COLORFUL_FILM: KatalogTitel = { id: 8142, titleDe: 'Colorful', titleEn: 'Colorful ~ The Motion Picture', streams: [weg('primevideo'), weg('joyn')] }
 const COLORFUL_KURZ: KatalogTitel = { id: 841, titleDe: 'Colorful', titleEn: 'COLORFUL', streams: [] }
 pruefe('Gleichnamige: nur einer hat einen Weg bei der Plattform – er gewinnt (Colorful)', (ordneTitelZu('Colorful', [COLORFUL_KURZ, COLORFUL_FILM], 'joyn') as KatalogTitel).id === 8142)
@@ -173,6 +174,7 @@ pruefe('Colorful durch die Auswahl: Weg trägt schon dub gilt dem Film, nicht �
 
 // --- Benannte Ausfälle: Anbieter ohne Kennung (Pluto TV), Zitat ohne Synchro-Wort (Artikel 1068729, 1069021) ---
 const PLUTO = mit(PET, { titel: 'Dr. STONE', plattform: null, anbieter: 'Pluto TV', zitat: 'Die erste Staffel »Dr. STONE« mit deutscher Synchronisation.' })
+pruefe('Weder Plattform noch Anbieter: keine Stream-Plattform, zurückgestellt', grund(lauf([mit(PLUTO, { anbieter: null })])) === 'keine Stream-Plattform im Datenmodell')
 pruefe('Anbieter ohne Plattform-Kennung: Grund nennt den Anbieter', grund(lauf([PLUTO], [{ ...PET_TITEL, titleDe: 'Dr. STONE' }])) === 'keine Stream-Plattform im Datenmodell (Anbieter Pluto TV hat keine Kennung)')
 const YAIBA = mit(PET, { titel: 'YAIBA: Samurai Legend', zitat: 'Die ersten beiden Episoden von »YAIBA: Samurai Legend« stehen kostenlos auf Deutsch zur Verfügung.' })
 pruefe('Deutsches Zitat ohne Synchro-Wort: wird gezählt und benannt, nicht still übergangen', lauf([YAIBA]).zurueck.length === 1 && grund(lauf([YAIBA])) === 'Zitat nennt die Synchro nicht ausdrücklich', lauf([YAIBA]))
