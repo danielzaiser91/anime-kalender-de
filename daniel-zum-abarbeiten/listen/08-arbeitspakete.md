@@ -63,22 +63,22 @@ der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 | 21 | Netflix | Maid-sama | [Hauptserie](https://www.netflix.com/title/81104406) |
 | 22 | Netflix | Samurai 7 | [Hauptserie](https://www.netflix.com/title/70205019) |
 | 23 | Netflix | Magi: The Labyrinth of Magic | [Magi: The Kingdom of Magic](https://www.netflix.com/title/80028089) |
-| 24 | Netflix | Gosick | [Hauptserie](https://www.netflix.com/title/80209888) |
-| 25 | Disney+ | Welcome to Demon School! Iruma-kun | [Staffel 4](https://www.disneyplus.com/browse/entity-b042544d-cd7d-40c6-9be4-db79666a1b51) |
-| 26 | Netflix | 2.5 Dimensional Seduction — 2.5 Dimensional Seduction | [2.5 Dimensional Seduction](https://www.netflix.com/title/81909977) |
-| 27 | Netflix | A Couple of Cuckoos | [Hauptserie](https://www.netflix.com/title/81594245) |
-| 28 | Netflix | Parasyte: The Maxim | [Hauptserie](https://www.netflix.com/title/80191008) |
-| 29 | Netflix | Wistoria: Wand and Sword | [Hauptserie](https://www.netflix.com/title/81900358) · [Hauptserie](https://www.netflix.com/title/81900358) |
-| 30 | Netflix | Mashle: Magic and Muscles | [Hauptserie](https://www.netflix.com/title/81685164) · [The Divine Visionary Candidate Exam Arc](https://www.netflix.com/title/81685164) |
-| 31 | Netflix | Masamune-kun’s Revenge | [Hauptserie](https://www.netflix.com/title/80165290) · [R](https://www.netflix.com/title/80165290) |
-| 32 | Netflix | In Another World with My Smartphone | [Hauptserie](https://www.netflix.com/title/80196595) · [2](https://www.netflix.com/title/80196595) |
-| 33 | Netflix | Tokyo Revengers | [Hauptserie](https://www.netflix.com/title/81442520) |
-| 34 | Netflix | Ich bin eine Spinne, na und? | [Hauptserie](https://www.netflix.com/title/81392169) |
-| 35 | Netflix | Kaguya-sama: Love Is War | [Hauptserie](https://www.netflix.com/title/81061754) · [?](https://www.netflix.com/title/81061754) |
-| 36 | Netflix | Darling in the Franxx | [Hauptserie](https://www.netflix.com/title/81010668) |
-| 37 | Netflix | Gate | [Hauptserie](https://www.netflix.com/title/80182163) · [Teil 2](https://www.netflix.com/title/80182163) |
-| 38 | Netflix | Aldnoah.Zero | [Hauptserie](https://www.netflix.com/title/80040104) · [2](https://www.netflix.com/title/80040104) |
-| 39 | Netflix | Love, Chunibyo & Other Delusions! | [Hauptserie](https://www.netflix.com/title/80239860) · [Heart Throb](https://www.netflix.com/title/80239860) |
+| 24 | Disney+ | Welcome to Demon School! Iruma-kun | [Staffel 4](https://www.disneyplus.com/browse/entity-b042544d-cd7d-40c6-9be4-db79666a1b51) |
+| 25 | Netflix | 2.5 Dimensional Seduction — 2.5 Dimensional Seduction | [2.5 Dimensional Seduction](https://www.netflix.com/title/81909977) |
+| 26 | Netflix | A Couple of Cuckoos | [Hauptserie](https://www.netflix.com/title/81594245) |
+| 27 | Netflix | Parasyte: The Maxim | [Hauptserie](https://www.netflix.com/title/80191008) |
+| 28 | Netflix | Wistoria: Wand and Sword | [Hauptserie](https://www.netflix.com/title/81900358) · [Hauptserie](https://www.netflix.com/title/81900358) |
+| 29 | Netflix | Mashle: Magic and Muscles | [Hauptserie](https://www.netflix.com/title/81685164) · [The Divine Visionary Candidate Exam Arc](https://www.netflix.com/title/81685164) |
+| 30 | Netflix | Masamune-kun’s Revenge | [Hauptserie](https://www.netflix.com/title/80165290) · [R](https://www.netflix.com/title/80165290) |
+| 31 | Netflix | In Another World with My Smartphone | [Hauptserie](https://www.netflix.com/title/80196595) · [2](https://www.netflix.com/title/80196595) |
+| 32 | Netflix | Tokyo Revengers | [Hauptserie](https://www.netflix.com/title/81442520) |
+| 33 | Netflix | Ich bin eine Spinne, na und? | [Hauptserie](https://www.netflix.com/title/81392169) |
+| 34 | Netflix | Kaguya-sama: Love Is War | [Hauptserie](https://www.netflix.com/title/81061754) · [?](https://www.netflix.com/title/81061754) |
+| 35 | Netflix | Darling in the Franxx | [Hauptserie](https://www.netflix.com/title/81010668) |
+| 36 | Netflix | Gate | [Hauptserie](https://www.netflix.com/title/80182163) · [Teil 2](https://www.netflix.com/title/80182163) |
+| 37 | Netflix | Aldnoah.Zero | [Hauptserie](https://www.netflix.com/title/80040104) · [2](https://www.netflix.com/title/80040104) |
+| 38 | Netflix | Love, Chunibyo & Other Delusions! | [Hauptserie](https://www.netflix.com/title/80239860) · [Heart Throb](https://www.netflix.com/title/80239860) |
+| 39 | Netflix | Gosick | [Hauptserie](https://www.netflix.com/title/80209888) |
 | 40 | Prime Video | Black Butler | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.6aad68c8-1e46-46e9-be1e-3d4de43488a5) |
 
 ## Paket 3 — Zeilen 41 bis 60
@@ -176,42 +176,42 @@ der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 | 114 | Netflix | Rascal Does Not Dream of Bunny Girl Senpai | [Rascal Does Not Dream of a Dreaming Girl](https://www.netflix.com/title/81228006) · [Rascal Does Not Dream of a Sister Venturing Out](https://www.netflix.com/title/81765074) |
 | 115 | Prime Video | Code Geass: Lelouch of the Rebellion | [Initiation](https://watch.amazon.de/detail?gti=amzn1.dv.gti.b0bb7dff-f320-0490-8aec-76f307a1f81d) · [Verherrlichung](https://watch.amazon.de/detail?gti=amzn1.dv.gti.88bb7e12-4a26-732f-eb5b-37733d139471) |
 | 116 | Netflix | A Silent Voice | [Hauptserie](https://www.netflix.com/title/80223226) |
-| 117 | Netflix | No Game No Life | [Zero](https://www.netflix.com/title/81068687) |
-| 118 | Prime Video | M.A.S.K. | [Hauptserie]() |
-| 119 | Netflix | Jujutsu Kaisen | [0](https://www.netflix.com/title/81602834) |
-| 120 | Netflix | Slam Dunk | [The First Slam Dunk](https://www.netflix.com/title/81765372) |
+| 117 | Prime Video | M.A.S.K. | [Hauptserie]() |
+| 118 | Netflix | Jujutsu Kaisen | [0](https://www.netflix.com/title/81602834) |
+| 119 | Netflix | Slam Dunk | [The First Slam Dunk](https://www.netflix.com/title/81765372) |
+| 120 | Netflix | Spy × Family | [Code: White](https://www.netflix.com/title/81924850) |
 
 ## Paket 7 — Zeilen 121 bis 140
 
 | # | Anbieter | Reihe | Noch zu bestätigen |
 |---|---|---|---|
-| 121 | Netflix | Spy × Family | [Code: White](https://www.netflix.com/title/81924850) |
-| 122 | Prime Video | Spy × Family | [Code: White](https://watch.amazon.de/detail?gti=amzn1.dv.gti.a3523598-4cd6-4004-8763-f4fbb45e0ac6) |
-| 123 | Prime Video | My Hero Academia | [You’re Next](https://watch.amazon.de/detail?gti=amzn1.dv.gti.c903bcab-b4d5-4bdb-b418-70ab5650132e) |
-| 124 | Prime Video | Bluelock | [Blue Lock: The Movie - Episode Nagi](https://watch.amazon.de/detail?gti=amzn1.dv.gti.ae9245d5-07c5-41ce-ba90-d9f8779f046c) |
-| 125 | Prime Video | Haikyu!! | [Das Play-off der Müllhalde](https://watch.amazon.de/detail?gti=amzn1.dv.gti.467b800e-3262-4857-82b7-ed7a8634cb5b) |
-| 126 | Prime Video | GeGeGe no Kitaro | [The Birth of Kitaro: The Mystery of GeGeGe](https://www.amazon.de/gp/video/detail/0U2F1VC6MV5CHFW4ZP7GSM1RX0) |
-| 127 | Netflix | Resident Evil: Infinite Darkness | [Resident Evil: Death Island](https://www.netflix.com/title/81714596) |
-| 128 | Netflix | GREEN DA KA RA × Mirai no Mirai | [Mirai: Das Mädchen aus der Zukunft](https://www.netflix.com/title/81004268) |
-| 129 | Prime Video | Mobile Suit Gundam | [Cucuruz Doan’s Island](https://watch.amazon.de/detail?gti=amzn1.dv.gti.c38ba568-4a91-4796-ac66-2577e5c97b8a) |
-| 130 | Netflix | Blue Giant | [Hauptserie](https://www.netflix.com/title/81763062) |
-| 131 | Netflix | Josie, der Tiger und die Fische | [Hauptserie](https://www.netflix.com/title/81508630) |
-| 132 | Netflix | The Deer King | [Hauptserie](https://www.netflix.com/title/81700393) |
-| 133 | Netflix | Belle | [Hauptserie](https://www.netflix.com/title/81492822) |
-| 134 | Netflix | Lu over the Wall | [Hauptserie](https://www.netflix.com/title/80238911) |
-| 135 | Netflix | Demon Slayer: Kimetsu no Yaiba | [The Movie: Mugen Train](https://www.netflix.com/title/81410810) |
-| 136 | Netflix | Another World | [Hello World](https://www.netflix.com/title/81295070) |
-| 137 | Netflix | The Legend of Luoxiaohei | [The Legend of Hei: Die Kraft in dir](https://www.netflix.com/title/81427481) |
-| 138 | Netflix | Children of the Sea | [Hauptserie](https://www.netflix.com/title/81208104) |
-| 139 | Prime Video | LUPIN THE IIIRD: Zenigata and the Two Lupins | [Lupin III.: Fujiko Mines Lüge](https://watch.amazon.de/detail?gti=amzn1.dv.gti.077c1435-754d-407d-9d26-9ddb34a272d0) |
-| 140 | Netflix | Okko’s Inn | [Okko und ihre Geisterfreunde](https://www.netflix.com/title/81037597) |
+| 121 | Prime Video | Spy × Family | [Code: White](https://watch.amazon.de/detail?gti=amzn1.dv.gti.a3523598-4cd6-4004-8763-f4fbb45e0ac6) |
+| 122 | Prime Video | My Hero Academia | [You’re Next](https://watch.amazon.de/detail?gti=amzn1.dv.gti.c903bcab-b4d5-4bdb-b418-70ab5650132e) |
+| 123 | Prime Video | Bluelock | [Blue Lock: The Movie - Episode Nagi](https://watch.amazon.de/detail?gti=amzn1.dv.gti.ae9245d5-07c5-41ce-ba90-d9f8779f046c) |
+| 124 | Prime Video | Haikyu!! | [Das Play-off der Müllhalde](https://watch.amazon.de/detail?gti=amzn1.dv.gti.467b800e-3262-4857-82b7-ed7a8634cb5b) |
+| 125 | Prime Video | GeGeGe no Kitaro | [The Birth of Kitaro: The Mystery of GeGeGe](https://www.amazon.de/gp/video/detail/0U2F1VC6MV5CHFW4ZP7GSM1RX0) |
+| 126 | Netflix | Resident Evil: Infinite Darkness | [Resident Evil: Death Island](https://www.netflix.com/title/81714596) |
+| 127 | Netflix | GREEN DA KA RA × Mirai no Mirai | [Mirai: Das Mädchen aus der Zukunft](https://www.netflix.com/title/81004268) |
+| 128 | Prime Video | Mobile Suit Gundam | [Cucuruz Doan’s Island](https://watch.amazon.de/detail?gti=amzn1.dv.gti.c38ba568-4a91-4796-ac66-2577e5c97b8a) |
+| 129 | Netflix | Blue Giant | [Hauptserie](https://www.netflix.com/title/81763062) |
+| 130 | Netflix | Josie, der Tiger und die Fische | [Hauptserie](https://www.netflix.com/title/81508630) |
+| 131 | Netflix | The Deer King | [Hauptserie](https://www.netflix.com/title/81700393) |
+| 132 | Netflix | Belle | [Hauptserie](https://www.netflix.com/title/81492822) |
+| 133 | Netflix | Lu over the Wall | [Hauptserie](https://www.netflix.com/title/80238911) |
+| 134 | Netflix | Demon Slayer: Kimetsu no Yaiba | [The Movie: Mugen Train](https://www.netflix.com/title/81410810) |
+| 135 | Netflix | Another World | [Hello World](https://www.netflix.com/title/81295070) |
+| 136 | Netflix | The Legend of Luoxiaohei | [The Legend of Hei: Die Kraft in dir](https://www.netflix.com/title/81427481) |
+| 137 | Netflix | Children of the Sea | [Hauptserie](https://www.netflix.com/title/81208104) |
+| 138 | Prime Video | LUPIN THE IIIRD: Zenigata and the Two Lupins | [Lupin III.: Fujiko Mines Lüge](https://watch.amazon.de/detail?gti=amzn1.dv.gti.077c1435-754d-407d-9d26-9ddb34a272d0) |
+| 139 | Netflix | Okko’s Inn | [Okko und ihre Geisterfreunde](https://www.netflix.com/title/81037597) |
+| 140 | Netflix | I Want to Eat Your Pancreas | [Hauptserie](https://www.netflix.com/title/81037593) |
 
 ## Paket 8 — Zeilen 141 bis 150
 
 | # | Anbieter | Reihe | Noch zu bestätigen |
 |---|---|---|---|
-| 141 | Netflix | I Want to Eat Your Pancreas | [Hauptserie](https://www.netflix.com/title/81037593) |
-| 142 | Netflix | Fireworks: Alles eine Frage der Zeit | [Hauptserie](https://www.netflix.com/title/81000505) |
+| 141 | Netflix | Fireworks: Alles eine Frage der Zeit | [Hauptserie](https://www.netflix.com/title/81000505) |
+| 142 | Netflix | No Game No Life | [Zero](https://www.netflix.com/title/81068687) |
 | 143 | Netflix | Mutafukaz | [Hauptserie](https://www.netflix.com/title/81037697) |
 | 144 | Netflix | Girls & Panzer | [Girls und Panzer: Der Film](https://www.netflix.com/title/80159876) |
 | 145 | Netflix | Dragon Nest: Die Chroniken von Altera | [Hauptserie](https://www.netflix.com/title/80084763) |
