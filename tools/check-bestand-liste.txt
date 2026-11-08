@@ -25,8 +25,8 @@ pipeline/check-cr-neu-bestand.ts
 pipeline/check-cr-teilseiten-bestand.ts
 pipeline/check-deutsche-folgenzahl-bestand.ts
 pipeline/check-disc-anisearch-bestand.ts
-pipeline/check-disc-handlinks-bestand.ts
 pipeline/check-disc-archiv-bestand.ts
+pipeline/check-disc-handlinks-bestand.ts
 pipeline/check-disc-suchlinks-bestand.ts
 pipeline/check-eigene-titel-bestand.ts
 pipeline/check-empfehlung-bestand.ts
