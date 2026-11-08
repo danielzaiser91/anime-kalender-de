@@ -35,6 +35,7 @@ test('zaehleZiele: Zählung, nächster Meilenstein ohne Fettdruck und Beleg, Zie
 test('balken und zielZeile: gerundet auf zehn Stellen; alles erreicht ohne „nächster“', () => {
   expect(balken({ name: 'x', erreicht: 2, gesamt: 4, naechster: null })).toBe('█████░░░░░')
   expect(balken({ name: 'x', erreicht: 0, gesamt: 0, naechster: null })).toBe('░░░░░░░░░░')
+  expect(balken({ name: 'x', erreicht: 2, gesamt: 3, naechster: null })).toBe('███████░░░')
   expect(zielZeile({ name: 'x', erreicht: 3, gesamt: 3, naechster: null })).toBe('██████████ 3 von 3')
   expect(zielZeile(zaehleZiele(ZIELE)[0]!)).toBe('█████░░░░░ 2 von 4 · Prüfer in der Cloud')
 })
@@ -59,12 +60,13 @@ async function pane($: any, on: any, stand: string, ziele: string) {
 }
 
 test('Pane: Ziele-Kasten mit Balken unter dem Ziel; „Gerade in Arbeit“ mit fünf Zeilen und Rest', async ($, on) => {
-  const stand = `# Stand\n\n## Top-Prios\n- **Ziel 1 · Autonomie** {arbeit-ich} läuft\n- **Ziel 2 · Live in 5 min** {queue} x\n\n${STAND_K}\n`
+  const stand = `# Stand\n\n## Top-Prios\n- **Ziel 1 · Autonomie** {arbeit-ich} läuft\n- **Ziel 2 · Live in 5 min** {queue} x\n- **Ziel 3 · Vollständige Daten** {queue} y\n\n${STAND_K}\n`
   const p = await pane($, on, stand, ZIELE)
   const z = zeilen(await p.drawn())
   expect(z[0]).toBe('Ziele')
   expect(z).toContain('    █████░░░░░ 2 von 4 · Prüfer in der Cloud')
   expect(z).toContain('    ░░░░░░░░░░ 0 von 1 · Deploy unter 5 min')
+  expect(z.join('\n')).not.toContain('0 von 0')
   expect(z).toContain('Gerade in Arbeit')
   expect(z).toContain('  ● Zwei')
   expect(z).toContain('  + 2 weitere')
