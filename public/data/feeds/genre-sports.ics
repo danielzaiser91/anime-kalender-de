@@ -8,56 +8,6 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:auto-15-tv-prosieben-maxx@2026-10-31#23@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261031T045500Z
-DTEND:20261031T052500Z
-SUMMARY:Eyeshield 21
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/6/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-15-tv-prosieben-maxx@2026-10-31#24@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261031T052000Z
-DTEND:20261031T055000Z
-SUMMARY:Eyeshield 21
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/6/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-15-tv-prosieben-maxx@2026-10-31#25@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261031T054500Z
-DTEND:20261031T061500Z
-SUMMARY:Eyeshield 21
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/6/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-15-tv-prosieben-maxx@2026-10-31#26@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261031T061000Z
-DTEND:20261031T064000Z
-SUMMARY:Eyeshield 21
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/6/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-165159-tv-toggo-plus@2026-10-31@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261031T194500Z
-DTEND:20261031T201500Z
-SUMMARY:Beyblade X – Folge 122
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/t/15075/
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-189123-netflix@2026-11-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261101
@@ -78,54 +28,6 @@ SUMMARY:Aoashi Staffel 2 – Folge 2/24
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/16812/
 CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-99938-joyn@2026-11-03@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261103
-DTEND;VALUE=DATE:20261104
-SUMMARY:Girls und Panzer - Das Finale: Teil 1
-DESCRIPTION:Plattform: Joyn\nRelease-Art: Film\nUhrzeit noch nicht bestäti
- gt.\nGeschätzter Termin: kein vom Anbieter genannter Tag\, sondern aus Rh
- ythmus oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.
- de/t/8795/
-CATEGORIES:Joyn
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-107208-joyn@2026-11-03@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261103
-DTEND;VALUE=DATE:20261104
-SUMMARY:Girls und Panzer - Das Finale: Teil 2
-DESCRIPTION:Plattform: Joyn\nRelease-Art: Film\nUhrzeit noch nicht bestäti
- gt.\nGeschätzter Termin: kein vom Anbieter genannter Tag\, sondern aus Rh
- ythmus oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.
- de/t/10290/
-CATEGORIES:Joyn
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-124115-joyn@2026-11-03@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261103
-DTEND;VALUE=DATE:20261104
-SUMMARY:Girls und Panzer - Das Finale: Teil 3
-DESCRIPTION:Plattform: Joyn\nRelease-Art: Film\nUhrzeit noch nicht bestäti
- gt.\nGeschätzter Termin: kein vom Anbieter genannter Tag\, sondern aus Rh
- ythmus oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.
- de/t/12088/
-CATEGORIES:Joyn
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-18619-joyn@2026-11-03@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261103
-DTEND;VALUE=DATE:20261104
-SUMMARY:Girls & Panzer: This Is the Real Anzio Battle!
-DESCRIPTION:Plattform: Joyn\nRelease-Art: Katalogtitel\nUhrzeit noch nicht 
- bestätigt.\nGeschätzter Termin: kein vom Anbieter genannter Tag\, sonder
- n aus Rhythmus oder Originalterminen abgeleitet.\nDetails: https://anime-k
- alender.de/t/6699/
-CATEGORIES:Joyn
 END:VEVENT
 BEGIN:VEVENT
 UID:steel-ball-run-2nd-3rd-stage@2026-11-06@anime-kalender-de
@@ -218,9 +120,7 @@ DTSTART;VALUE=DATE:20261108
 DTEND;VALUE=DATE:20261109
 SUMMARY:Aoashi Staffel 2 – Folge 3/24
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter gena
- nnter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetail
- s: https://anime-kalender.de/t/16812/
+ hrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/16812/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT

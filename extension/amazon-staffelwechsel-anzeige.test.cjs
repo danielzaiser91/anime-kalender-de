@@ -18,7 +18,7 @@ function pruefe(name, ok, gefunden) {
 }
 
 const lies = (datei) => readFileSync(`${__dirname}/${datei}`, 'utf8')
-const quelle = lies('amazon.js')
+const quelle = lies('amazon-knopf-zeichnen.js') + lies('amazon.js')
 const k = { Set, Number, Object, Array, String, Boolean }
 k.globalThis = k
 vm.runInNewContext(lies('prime-stand.js'), k)

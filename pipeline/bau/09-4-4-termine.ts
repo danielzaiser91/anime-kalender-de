@@ -1,6 +1,6 @@
 import { readJson, log, discSlug } from '../lib/util.ts'
 import { writeJsonStand } from '../lib/stand-halten.ts'
-import { alleTermine, ausgelassen as termineAusgelassen, beobachtungenAusBlock } from '../lib/crunchyroll-termine.ts'
+import { alleTermine, ausgelassen as termineAusgelassen, beobachtungenAusBlock, reichsteSerieJeKennung } from '../lib/crunchyroll-termine.ts'
 import { beobachtungenZusammenfuehren } from '../lib/crunchyroll.ts'
 import { crHerkunft } from '../lib/cr-batch-wache.ts'
 import { zahlFelder } from '../lib/offene-folgenzahl.ts'
@@ -58,12 +58,12 @@ export function legeCrVerweiseUndTermineAn({ titles, anisearch, belegt, crDub, v
       const title = titles.get(t.titleId)
       if (!title) continue
       /*
-        **Ein vorhandener Streaming-Termin gewinnt.** Was aus dem Kalender oder
-        aus einem kuratierten Eintrag stammt, ist näher an der Quelle als eine
-        Ableitung — und ein zweites Release derselben Plattform würde
-        behaupten, es gäbe die Staffel zweimal.
+        **Ein vorhandener Streaming-Termin gewinnt** — nicht aber einer mit `sprache`
+        (OmU, offen): Er sagt nichts über die deutsche Fassung (Black Clover S2,
+        07.11.2026). Sonst stünde ein zweites Release derselben Plattform da, das
+        die Staffel zweimal behauptet; Kalender und Kuratierung sind näher an der Quelle.
       */
-      const vorhanden = releases.filter((r) => r.titleId === t.titleId && r.platform === 'crunchyroll')
+      const vorhanden = releases.filter((r) => r.titleId === t.titleId && r.platform === 'crunchyroll' && !r.sprache)
       if (vorhanden.length) {
         /*
           **Ein gemessener Wochentakt schlägt den Aufnahmetag** (Daniel, 20.09.2026, „Das Band
@@ -150,7 +150,7 @@ export function legeCrVerweiseUndTermineAn({ titles, anisearch, belegt, crDub, v
       )
 
     /* Vorhandene Wochentermine bekommen die Tage der Folgen, die das Kalenderfenster nicht sah — siehe `beobachtungenAusBlock()`. */
-    const crNachKennung = new Map(crDub.serien.map((s) => [s.seriesId, s]))
+    const crNachKennung = reichsteSerieJeKennung(crDub.serien)
     let folgenDatiert = 0
     for (const r of releases) {
       if (r.platform !== 'crunchyroll' || r.releaseType !== 'weekly' || !r.schedule.observed) continue

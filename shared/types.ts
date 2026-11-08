@@ -539,8 +539,10 @@ export interface Release {
   fsk?: Fsk
   publisher?: string
   edition?: string
-  /** Ein Hinweis für Besucher — steht im Detail-Panel und auf der Teilen-Seite. */
-  note?: string; netflixOriginal?: boolean /* Netflix-Eigenproduktion: nur dann gilt die übliche 17-Uhr-JST-Zeit als Schätzung */; nachtrag?: { kurz: string; abschnitte: { art: string; text: string }[] } // Termin lag beim Eintragen schon zurück: News „Rückwirkend eingetragen", Text hinter „mehr" (Daniel, 04.10.2026)
+  /** Ein kurzer Hinweis für Besucher (ohne Personennamen) — steht im Detail-Panel und auf der Teilen-Seite. */
+  hinweis?: string
+  note?: string // interne Pflegenotiz, nie ausgeliefert (`release-ohne-notiz.ts`)
+  netflixOriginal?: boolean /* Netflix-Eigenproduktion: nur dann gilt die übliche 17-Uhr-JST-Zeit als Schätzung */; nachtrag?: { kurz: string; abschnitte: { art: string; text: string }[] } // Termin lag beim Eintragen schon zurück: News „Rückwirkend eingetragen", Text hinter „mehr" (Daniel, 04.10.2026)
   /**
    * **Was an einer Fassung geschnitten ist — und wo es steht** (Daniel, 19.09.2026, an
    * Dragon Ball Daima: „es fehlt ein link zur quelle … oder wir listen selbst auf

@@ -322,7 +322,7 @@ function veraltetTest(schritte) {
   // Geprueft wird die Quelle selbst — eine nachgebaute Attrappe wuerde nur sich
   // selbst bestaetigen. Alle drei Zustaende muessen im Wechsel-Zweig enden.
   const fs = require('node:fs')
-  const quelle = fs.readFileSync(require('node:path').resolve(__dirname, 'amazon.js'), 'utf8')
+  const quelle = fs.readFileSync(require('node:path').resolve(__dirname, 'amazon-knopf-zeichnen.js'), 'utf8') + fs.readFileSync(require('node:path').resolve(__dirname, 'amazon.js'), 'utf8')
   const von = quelle.indexOf('function beiStaffelwechsel()')
   /*
     Das Fenster misst den Zweig, nicht die Zeichen: Es wächst mit, wenn dort
@@ -363,7 +363,7 @@ function veraltetTest(schritte) {
     'derselbe Titel gilt als frisch',
     gehoertZurSeite('B0FZLQTT9W', '/gp/video/detail/B0FZLQTT9W') === true,
   )
-  const quelle = require('node:fs').readFileSync(require('node:path').resolve(__dirname, 'amazon.js'), 'utf8')
+  const quelle = require('node:fs').readFileSync(require('node:path').resolve(__dirname, 'amazon-knopf-zeichnen.js'), 'utf8') + require('node:fs').readFileSync(require('node:path').resolve(__dirname, 'amazon.js'), 'utf8')
   const block = quelle.slice(quelle.indexOf('function quelltextGehoertZurSeite()'), quelle.indexOf('function quelltextGehoertZurSeite()') + 1400)
   pruefe('und die Quelle nimmt dafuer asinAusAdresse()', /const ausAdresse = asinAusAdresse\(\)/.test(block))
 }
@@ -386,7 +386,7 @@ function veraltetTest(schritte) {
   pruefe('die verspaetete des vorigen Titels nicht', nimmAn(darwin, clannad) === false)
   pruefe('eine Meldung ohne Adresse zaehlt weiterhin', nimmAn(undefined, clannad) === true)
 
-  const quelle = require('node:fs').readFileSync(require('node:path').resolve(__dirname, 'amazon.js'), 'utf8')
+  const quelle = require('node:fs').readFileSync(require('node:path').resolve(__dirname, 'amazon-knopf-zeichnen.js'), 'utf8') + require('node:fs').readFileSync(require('node:path').resolve(__dirname, 'amazon.js'), 'utf8')
   pruefe('der Empfaenger prueft die Adresse', /e\.data\.fuerAdresse !== location\.pathname/.test(quelle))
   /* Free!, 15.09.2026: „S1, S2, S3 gemeldet" auf einer Seite mit einer Staffel. */
   const kurz = /function gemeldetKurz\(asinEintrag\) \{[\s\S]*?\n  \}/.exec(quelle)?.[0] ?? ''
@@ -510,7 +510,7 @@ function veraltetTest(schritte) {
     .filter((f) => f.endsWith('.ts'))
     .map((f) => fs.readFileSync(require('node:path').join(ordner, f), 'utf8'))
     .join('\n')
-  const leser = fs.readFileSync(require('node:path').resolve(__dirname, 'amazon.js'), 'utf8')
+  const leser = fs.readFileSync(require('node:path').resolve(__dirname, 'amazon-knopf-zeichnen.js'), 'utf8') + fs.readFileSync(require('node:path').resolve(__dirname, 'amazon.js'), 'utf8')
   /*
     **Seit Stufe 1 (22.09.2026) meldet der Leser `vorhanden` / `ton_de` / `art`
     statt `befund`.** Dieselbe Frage je Feld: steht jeder Wert, den amazon.js
@@ -546,7 +546,7 @@ function veraltetTest(schritte) {
  */
 {
   const fs = require('node:fs')
-  const leser = fs.readFileSync(require('node:path').resolve(__dirname, 'amazon.js'), 'utf8')
+  const leser = fs.readFileSync(require('node:path').resolve(__dirname, 'amazon-knopf-zeichnen.js'), 'utf8') + fs.readFileSync(require('node:path').resolve(__dirname, 'amazon.js'), 'utf8')
   pruefe(
     'unvollständiger Stand ohne Deutsch führt zu keiner Meldung',
     /**
@@ -591,7 +591,7 @@ function veraltetTest(schritte) {
  */
 {
   const fs = require('node:fs')
-  const leser = fs.readFileSync(require('node:path').resolve(__dirname, 'amazon.js'), 'utf8')
+  const leser = fs.readFileSync(require('node:path').resolve(__dirname, 'amazon-knopf-zeichnen.js'), 'utf8') + fs.readFileSync(require('node:path').resolve(__dirname, 'amazon.js'), 'utf8')
   pruefe(
     'der Regionshinweis wird erkannt',
     /In deiner Region nicht mehr auf Prime Video/.test(leser),
@@ -625,7 +625,7 @@ function veraltetTest(schritte) {
  */
 {
   const fs = require('node:fs')
-  const leser = fs.readFileSync(require('node:path').resolve(__dirname, 'amazon.js'), 'utf8')
+  const leser = fs.readFileSync(require('node:path').resolve(__dirname, 'amazon-knopf-zeichnen.js'), 'utf8') + fs.readFileSync(require('node:path').resolve(__dirname, 'amazon.js'), 'utf8')
   pruefe(
     'ohne geladenen Stand sagt der Knopf, dass er prueft',
     /if \(!standGeladen\)[\s\S]{0,300}pr(?:ü|ue)fe Melde-Status/.test(leser),
@@ -654,7 +654,7 @@ function veraltetTest(schritte) {
  */
 {
   const fs = require('node:fs')
-  const leser = fs.readFileSync(require('node:path').resolve(__dirname, 'amazon.js'), 'utf8')
+  const leser = fs.readFileSync(require('node:path').resolve(__dirname, 'amazon-knopf-zeichnen.js'), 'utf8') + fs.readFileSync(require('node:path').resolve(__dirname, 'amazon.js'), 'utf8')
   pruefe(
     'gespeichert wird der Seitentitel, nicht der Listenname',
     /bisher\.serie = seitenTitel\(\)/.test(leser),
@@ -685,7 +685,7 @@ function veraltetTest(schritte) {
  */
 {
   const fs = require("node:fs")
-  const leser = fs.readFileSync(require("node:path").resolve(__dirname, "amazon.js"), "utf8")
+  const leser = fs.readFileSync(require("node:path").resolve(__dirname, "amazon-knopf-zeichnen.js"), "utf8") + fs.readFileSync(require("node:path").resolve(__dirname, "amazon.js"), "utf8")
   const stelleOg = leser.indexOf("og:title")
   const stelleMuster = leser.indexOf("const ausAuswahl =")
   pruefe(
@@ -716,7 +716,7 @@ function veraltetTest(schritte) {
  */
 {
   const fs = require("node:fs")
-  const leser = fs.readFileSync(require("node:path").resolve(__dirname, "amazon.js"), "utf8")
+  const leser = fs.readFileSync(require("node:path").resolve(__dirname, "amazon-knopf-zeichnen.js"), "utf8") + fs.readFileSync(require("node:path").resolve(__dirname, "amazon.js"), "utf8")
   const stelleRegion = leser.indexOf("if (regionWeg && !deutsch && (!vollstaendig || gesperrteFolgen > 0)) {")
   const stelleVollstaendig = leser.indexOf("if (!vollstaendig && !(regionWeg && deutsch)) {")
   pruefe(
@@ -767,7 +767,7 @@ function veraltetTest(schritte) {
  */
 {
   const fs = require('node:fs')
-  const leser = fs.readFileSync(require('node:path').resolve(__dirname, 'amazon.js'), 'utf8')
+  const leser = fs.readFileSync(require('node:path').resolve(__dirname, 'amazon-knopf-zeichnen.js'), 'utf8') + fs.readFileSync(require('node:path').resolve(__dirname, 'amazon.js'), 'utf8')
   const lesungen = (leser.match(/documentElement\?\.innerHTML/g) ?? []).length
   pruefe('nur eine einzige Stelle liest den Quelltext', lesungen === 1, { lesungen })
   pruefe('und sie haelt ihn eine Frist lang fest', /HTML_FRIST_MS/.test(leser))
@@ -830,7 +830,7 @@ function veraltetTest(schritte) {
     Umbau blieb der Knopf deshalb auf „Tonspuren nicht gefunden" (Daniel,
     15.09.2026, 10:20). amazon.js fragt beim Start nach, der Leser antwortet.
   */
-  const inhalt = fs.readFileSync(require('node:path').resolve(__dirname, 'amazon.js'), 'utf8')
+  const inhalt = fs.readFileSync(require('node:path').resolve(__dirname, 'amazon-knopf-zeichnen.js'), 'utf8') + fs.readFileSync(require('node:path').resolve(__dirname, 'amazon.js'), 'utf8')
   pruefe('amazon.js fragt beim Start nach dem Stand', inhalt.includes("marke: 'ak-amazon-anfrage'"))
   pruefe('und der Leser beantwortet die Anfrage', /marke !== 'ak-amazon-anfrage'[\s\S]{0,80}senden\(zustand/.test(leser))
 }
@@ -850,7 +850,7 @@ function veraltetTest(schritte) {
     Fassung liefe unweigerlich auseinander (dieselbe Bauweise wie in
     `uebersicht.test.cjs`).
   */
-  const quelle = require('node:fs').readFileSync(require('node:path').resolve(__dirname, 'amazon.js'), 'utf8')
+  const quelle = require('node:fs').readFileSync(require('node:path').resolve(__dirname, 'amazon-knopf-zeichnen.js'), 'utf8') + require('node:fs').readFileSync(require('node:path').resolve(__dirname, 'amazon.js'), 'utf8')
   const von = quelle.indexOf('function imPlayer')
   const bis = quelle.indexOf('\n  }\n', von) + 4
   let document

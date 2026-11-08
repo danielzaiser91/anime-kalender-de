@@ -14,9 +14,9 @@ export function findeVoraussichtlichOhneSchaetzung(text: string): string[] {
   const liste = yaml.load(text)
   if (!Array.isArray(liste)) return []
   const slugs: string[] = []
-  for (const e of liste as { slug?: string; note?: string; schedule?: { estimated?: boolean } }[]) {
+  for (const e of liste as { slug?: string; note?: string; hinweis?: string; schedule?: { estimated?: boolean } }[]) {
     if (!e?.slug || !e.schedule || e.schedule.estimated === true) continue
-    if (VORAUSSICHTLICH.test(e.note ?? '')) slugs.push(e.slug)
+    if (VORAUSSICHTLICH.test(`${e.note ?? ''} ${e.hinweis ?? ''}`)) slugs.push(e.slug)
   }
   return slugs
 }

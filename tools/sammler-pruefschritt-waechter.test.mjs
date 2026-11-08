@@ -73,6 +73,14 @@ erwarte('quellen-pr.sh: zweites gh pr create', (s) => { s.skripte[PR] += '\ngh p
 erwarte('quellen-pr.sh: zweites gh pr create als gh pr new', (s) => { s.skripte[PR] += '\ngh pr new --fill\n' }, /genau ein gh pr create/)
 erwarte('quellen-pr.sh: zweites gh pr merge', (s) => { s.skripte[PR] += '\ngh  pr merge 1 --admin\n' }, /genau ein gh pr merge/)
 assert.deepEqual(mit((s) => { s.skripte[PR] += '\n# gh pr create\n' }), [], 'quellen-pr.sh: Kommentar mit gh pr create zählt nicht')
+assert.deepEqual(mit((s) => { s.skripte[PR] += '\necho "::warning::gh pr create schlug fehl"\n' }), [], 'quellen-pr.sh: Textausgabe mit gh pr create zählt nicht')
+erwarte('quellen-pr.sh: gh pr create hinter echo verkettet', (s) => { s.skripte[PR] += '\necho x; gh pr create --fill\n' }, /genau ein gh pr create/)
+erwarte('quellen-pr.sh: gh pr create im Unterbefehl einer Textausgabe', (s) => { s.skripte[PR] += '\necho "$(gh pr create --fill)"\n' }, /genau ein gh pr create/)
+erwarte('quellen-pr.sh: zweites gh pr create in pr_anlegen', (s) => {
+  s.skripte[PR] = s.skripte[PR].replace('  echo "::error::Der Pull Request', '  gh pr create --fill\n  echo "::error::Der Pull Request')
+}, /genau ein gh pr create/)
+erwarte('quellen-pr.sh: pr_anlegen wird nicht aufgerufen', (s) => { s.skripte[PR] = s.skripte[PR].replace('pr_anlegen || exit 1', 'true') }, /Reihenfolge muss sein/)
+erwarte('quellen-pr.sh: pr_anlegen steht nach dem Rot-Zweig', (s) => { s.skripte[PR] = `${ohne(s.skripte[PR], 'pr_anlegen || exit 1')}\npr_anlegen || exit 1` }, /Reihenfolge muss sein/)
 
 // Weg 4: die Marke und der App-Autor bei den Nachholern
 const MERGEN = 'daten-pr-mergen.sh'
