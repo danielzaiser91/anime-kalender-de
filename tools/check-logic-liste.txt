@@ -391,6 +391,7 @@ pipeline/check-patchnotes.ts
 pipeline/check-phasen-zustand.ts
 pipeline/check-phasenfolge.ts
 pipeline/check-pille-nur-untertitel.ts
+pipeline/check-plattform-rang.ts
 pipeline/check-poster-karte-saal.ts
 pipeline/check-premiere.ts
 pipeline/check-prime-kanal.ts

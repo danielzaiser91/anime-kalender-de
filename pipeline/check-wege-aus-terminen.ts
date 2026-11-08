@@ -28,8 +28,9 @@ const termin = (titleId: number, platform: string, mehr: Partial<Release> = {}) 
 
 const DISNEY = 'https://www.disneyplus.com/de-de/browse/entity-be391742'
 const NETFLIX_404 = 'https://www.netflix.com/title/81253271'
+const PLUTO = 'https://pluto.tv/de/on-demand/series/dr-stone-1'
 const PRIME_SUCHE = 'https://www.amazon.de/s?k=TANK%20CHAIR&i=instant-video'
-const titles = new Map([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14].map((id) => [id, titel(id)]))
+const titles = new Map([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16].map((id) => [id, titel(id)]))
 titles.get(3)!.streams = [{ platform: 'disneyplus', url: DISNEY, dub: true }]
 const releases = [
   termin(1, 'disneyplus', { platformUrl: DISNEY }),
@@ -46,6 +47,8 @@ const releases = [
   termin(12, 'primevideo', { platformUrl: PRIME_SUCHE }),
   termin(13, 'disneyplus', { platformUrl: DISNEY }),
   termin(14, 'netflix', { platformUrl: NETFLIX_404 }),
+  termin(15, 'plutotv', { platformUrl: PLUTO }),
+  termin(16, 'plutotv', { platformUrl: PLUTO, schedule: { firstEpisodeDate: '2026-10-02', estimated: true } }),
 ]
 const entfernt = [{ titleId: 10, plattform: 'disneyplus' }] as Parameters<typeof ergaenzeWegeAusTerminen>[0]['verweiseEntfernt']
 const tot = new Set<string>([])
@@ -72,6 +75,8 @@ pruefe('Termin ohne Quelle ergibt keinen Weg', weg(9).length === 0)
 pruefe('bewusst entfernter Verweis kommt nicht zurück', weg(10).length === 0)
 
 pruefe('laut Linkprüfung tote Termin-Adresse (Beelzebub, 02.11.2026) wird nie die Adresse', weg(14).length === 1 && weg(14)[0]!.url === '')
+pruefe('Pluto TV ist ein Streaming-Anbieter: der sichere Termin ergibt einen Weg mit Titelseite', weg(15).length === 1 && weg(15)[0]!.platform === 'plutotv' && weg(15)[0]!.url === PLUTO, weg(15))
+pruefe('Pluto TV: ein geschätzter Termin ergibt keinen Weg', weg(16).length === 0)
 pruefe('Handbeleg „nicht verfügbar“: kein Weg aus dem Termin (Kamisama Hajimemashita)', weg(11).length === 0)
 pruefe('Handbeleg „ohne deutschen Ton“: kein Weg aus dem Termin', weg(13).length === 0)
 pruefe('Handbeleg „deutsch“: Weg mit Urteil und Folgenbereich, ohne Herkunft Termin (TANK CHAIR)', weg(12).length === 1 && weg(12)[0]!.dub === true && weg(12)[0]!.dubRanges?.[0]?.to === 1 && weg(12)[0]!.herkunft === undefined)
