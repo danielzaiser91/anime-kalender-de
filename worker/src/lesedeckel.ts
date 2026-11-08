@@ -2,7 +2,7 @@
  * **Lese-Deckel für jede Anfrage** (15.10.2026).
  *
  * Bis heute zählte nur die Meldungs-Route (`mitTagesdeckel`) ihre gelesenen Zeilen. Die Lese-Routen liefen am
- * Zähler vorbei, darunter `GET /pruefung?token=` (`offenePruefungen`, rund 36.000 Zeilen je Aufruf), den die
+ * Zähler vorbei, darunter `GET /pruefung` (`offenePruefungen`, rund 36.000 Zeilen je Aufruf), den die
  * Erweiterung auf jeder Prime-Seite rief: Am 15.10.2026 waren um 12:48 MESZ 6,72 Mio. Zeilen gelesen, D1 stand
  * bis 02:00 MESZ.
  *

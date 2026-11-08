@@ -73,7 +73,7 @@ await schreibRoute('/netzfund', 'POST')
 await schreibRoute('/vorfall', 'POST')
 await schreibRoute('/vorfall', 'DELETE')
 
-/** Schreibende Routen von `/pruefung`, `/lauf`, `/beleg` lesen den Kopf über `tokenAusKopf`: Bearer wie X-Lauf-Token. */
+/** Schreibende Routen von `/pruefung`, `/lauf`, `/beleg`, `/netzfund`, `/vorfall` lesen den Kopf über `tokenAusKopf`: Bearer wie X-Lauf-Token. */
 async function bearerRoute(pfad: string, methode: string) {
   const status = (e: Env, kopf: Record<string, string>) => rufe(e, pfad, kopf, methode)
   assert.notEqual(await status(env, { Authorization: 'Bearer lauf-1' }), 403, `${methode} ${pfad}: Bearer ok`)
@@ -88,5 +88,8 @@ await bearerRoute('/pruefung', 'POST')
 await bearerRoute('/pruefung', 'DELETE')
 await bearerRoute('/lauf', 'POST')
 await bearerRoute('/beleg', 'POST')
+await bearerRoute('/netzfund', 'POST')
+await bearerRoute('/vorfall', 'POST')
+await bearerRoute('/vorfall', 'DELETE')
 
 ausgabe(`worker-lauf-token-routen.test: ${faelle} Fälle grün (/land, /netzfund, /vorfall, /debug/digest, /debug/monitor, /pruefung, /lauf, /beleg)`)
