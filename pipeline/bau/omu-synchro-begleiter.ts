@@ -10,12 +10,12 @@
  * Hinweis: Bei einer geteilten Serie löst ab Tag 22 der Begleiter (`-synchro`) den abgeleiteten Termin ab; der Slug wechselt dann.
  */
 import { crunchyrollSeriesId } from '../lib/crunchyroll.ts'
-import type { CrDubData, CrSerie, CrStaffel } from '../lib/crunchyroll-dub.ts'
+import type { CrDubData, CrStaffel } from '../lib/crunchyroll-dub.ts'
 import { crHerkunft } from '../lib/cr-batch-wache.ts'
-import { nachBerlin } from '../lib/crunchyroll-termine.ts'
 import { log } from '../lib/util.ts'
 import type { Release, Title } from '../../shared/types.ts'
-import { STAFFEL_IM_NAMEN, katalogStaffeln } from './widerlegung-staffel.ts'
+import { katalogBlock, datierteFolgen, folgenAbOmuStart, type DeutscheFolge } from '../../tools/cr-katalogblock.mjs'
+import { katalogStaffeln } from './widerlegung-staffel.ts'
 
 /** Zahl der Releases je Ausgang, damit kein Verwerfungspfad still bleibt. */
 export interface BegleiterZaehlung {
@@ -26,12 +26,6 @@ export interface BegleiterZaehlung {
   ohneDub: number
 }
 
-interface DeutscheFolge {
-  tag: string
-  zeit: string
-  laufend?: number
-}
-
 /**
  * Trägt der Titel an dieser Crunchyroll-Serie den Synchro-Beleg (`dub === true`, nicht bloß abgeleitet über `dubAbgeleitet`)? Ohne ihn behauptet der Begleiter nichts:
  * der Katalog führt auch Wege mit Untertitel-Folgen, und die 11 Wege ohne `dub` im Bestand (08.11.2026) haben keinen OmU-Termin,
@@ -39,27 +33,6 @@ interface DeutscheFolge {
  */
 function hatDubBeleg(title: Title, kennung: string): boolean {
   return title.streams.some((s) => s.platform === 'crunchyroll' && s.dub === true && !s.dubAbgeleitet && crunchyrollSeriesId(s.url) === kennung)
-}
-
-/** Der eine Katalogblock der Staffel, die zu `title` passt, samt Serienadresse — `null`, wenn keiner oder mehrere passen. */
-function katalogBlock(serien: CrSerie[], kennung: string, nummern: number[]): { block: CrStaffel; url: string } | null {
-  const treffer = serien
-    .filter((s) => s.katalog === 'de' && s.seriesId === kennung)
-    .flatMap((s) => (s.staffeln ?? []).map((block) => ({ block, url: s.url })))
-    .filter(({ block }) => nummern.includes(Number(STAFFEL_IM_NAMEN.exec(block.name)?.[1])))
-    .filter(({ block }) => (block.deutscheFolgen ?? []).some((f) => f.verfuegbarAb))
-  const namen = new Set(treffer.map((t) => t.block.name))
-  return namen.size === 1 ? treffer[0]! : null
-}
-
-/** Die datierten deutschen Folgen eines Blocks mit Berliner Tag und Uhrzeit. */
-function datierteFolgen(block: CrStaffel): DeutscheFolge[] {
-  const raus: DeutscheFolge[] = []
-  for (const f of block.deutscheFolgen ?? []) {
-    const b = f.verfuegbarAb ? nachBerlin(f.verfuegbarAb) : null
-    if (b) raus.push({ tag: b.datum, zeit: b.zeit, laufend: f.laufend })
-  }
-  return raus
 }
 
 /**
@@ -123,7 +96,7 @@ export function legeOmuBegleiterAn(releases: Release[], titles: Map<number, Titl
       z.ohneBlock++
       continue
     }
-    const folgen = datierteFolgen(gefunden.block).filter((f) => f.tag >= omu.schedule.firstEpisodeDate)
+    const folgen = folgenAbOmuStart(datierteFolgen(gefunden.block), omu.schedule.firstEpisodeDate)
     if (!folgen.length) {
       z.vorOmuStart++
       continue
