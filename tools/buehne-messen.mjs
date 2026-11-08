@@ -2,7 +2,9 @@
 /**
  * Misst die Zellen der Bühne: Tippziele (≥ 44 px, nur Handy-Zellen) und Textkontrast (WCAG AA, alle Zellen, hell und dunkel).
  *
- * **Maßstab ist Vorher.** Was die echte App heute schon verfehlt, steht als „bestehend" in der Zählung; rot wird der Lauf nur
+ * **Maßstab ist Vorher.** „Vorher" ist die Vorher-Zelle desselben Mockups, kein Vergleich gegen main: Ein Befund, den
+ * App-Code in beide Zellen bringt, fällt hier nicht auf.
+ * Was die echte App heute schon verfehlt, steht als „bestehend" in der Zählung; rot wird der Lauf nur
  * für Befunde, die das Nachher (die Variante des Mockups) NEU hinzubringt — ein Mockup darf nichts verschlechtern.
  * Ein Mockup mit Vorher = Nachher (die Proben) ist damit immer grün, zeigt aber die Zahl des Bestands.
  *
