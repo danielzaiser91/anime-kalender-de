@@ -30,7 +30,7 @@ try {
   schreibe('public/data/ohne-synchro.json', '[]')
   mkdirSync(join(kulisse, 'data/curated'), { recursive: true })
   schreibe('data/belege-entfernt.yaml', JSON.stringify([{ anilistId: GESPERRT, url: `https://www.amazon.de/dp/${SPERRE}`, grund: 'Sperre', entferntAm: '2026-10-29' }]))
-  schreibe('data/prime-zugeordnet.json', JSON.stringify({ [`${gp('B0ALTALT01')}#2`]: meldung(GESPERRT, 'B0ALTALT01') }))
+  schreibe('data/prime-zugeordnet.json', JSON.stringify({ [`${gp('B0ALTALT01')}#2`]: meldung(GESPERRT, 'B0ALTALT01'), [`${gp(SPERRE)}#6`]: meldung(FREI, 'B0VERALTET') }))
 
   // Schreibweg: der Zuordner legt die gesperrte Zeile neu an (und eine freie Zeile desselben Laufs).
   const { schliesseRohfolgenAb } = await import('./lib/rohfolgen-abschluss.ts')
@@ -42,7 +42,8 @@ try {
     veraltet: [],
     zaehler: { ueberFolgentitel: 0, uebersprungenStaffel: 0, ohneFolgenzuordnung: 0 },
   })
-  const danach = JSON.parse(readFileSync(join(kulisse, 'data/prime-zugeordnet.json'), 'utf8')) as Record<string, { titleId: number }>
+  const danach = JSON.parse(readFileSync(join(kulisse, 'data/prime-zugeordnet.json'), 'utf8')) as Record<string, { titleId: number; asin: string }>
+  if (danach[`${gp(SPERRE)}#6`]?.asin !== 'B0NEUNEU02') fehler.push('eine erneute Meldung ersetzte ihren alten Eintrag nicht')
   const ids = Object.values(danach).map((m) => m.titleId)
   if (!ids.includes(FREI)) fehler.push(`Kontrolle: die freie Zeile für ${FREI} fehlt nach dem Zuordner`)
   // Die Sperre blendet nur beim Lesen aus: die Datei behält die gesperrten Zeilen (alte und neue), kein Leser sieht sie.
@@ -82,4 +83,4 @@ if (fehler.length) {
   console.error(`FEHL check-prime-zugeordnet-lader:\n  ${fehler.join('\n  ')}`)
   process.exit(1)
 }
-console.log('check-prime-zugeordnet-lader: 8 Fälle ok.')
+console.log('check-prime-zugeordnet-lader: 9 Fälle ok.')
