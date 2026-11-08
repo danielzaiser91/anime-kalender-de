@@ -93,7 +93,7 @@
   releaseType: disc
   publisher: "AniMoon Publishing"
   edition: "Blu-ray mit Sammelschuber und Figur"
-  note: "Folgen 1–4. Deutsche Synchronfassung von TNT Media, Dialogregie Jermain Meyer."
+  hinweis: "Folgen 1–4. Deutsche Synchronfassung von TNT Media, Dialogregie Jermain Meyer."
   schedule: { firstEpisodeDate: "2026-09-04" }
   sources: [https://www.anime2you.de/news/1035764/bocchi-the-rock-deutscher-trailer/]
 
@@ -107,7 +107,7 @@
   releaseType: disc
   publisher: "KSM Anime"
   edition: "Komplettbox, Blu-ray"
-  note: "Alle 224 Folgen in überarbeiteter HD-Fassung plus die zwölfteilige Reihe „Capsule Monsters“."
+  hinweis: "Alle 224 Folgen in überarbeiteter HD-Fassung plus die zwölfteilige Reihe „Capsule Monsters“."
   schedule: { firstEpisodeDate: "2026-09-17" }
   sources: [https://www.anime2you.de/news/1038025/neue-yu-gi-oh-box-vorbestellbar/]
 
@@ -239,7 +239,7 @@
   releaseType: disc
   publisher: "AniMoon Publishing"
   edition: "Blu-ray"
-  note: "Folgen 5–8."
+  hinweis: "Folgen 5–8."
   schedule: { firstEpisodeDate: "2026-10-02" }
   sources: [https://www.anime2you.de/news/1035764/bocchi-the-rock-deutscher-trailer/]
 
@@ -425,7 +425,7 @@
   releaseType: disc
   publisher: "peppermint anime"
   edition: "Blu-ray, Standard und Limited Edition mit Sammelschuber"
-  note: "Folgen 25–30, deutsche Tonspur."
+  hinweis: "Folgen 25–30, deutsche Tonspur."
   schedule: { firstEpisodeDate: "2027-04-16" }
   sources: [https://www.anime2you.de/news/1037042/oshi-no-ko-staffel-3-disc-termin/]
 
@@ -437,7 +437,7 @@
   releaseType: disc
   publisher: "peppermint anime"
   edition: "Blu-ray, Standard und Limited Edition"
-  note: "Folgen 31–35, deutsche Tonspur."
+  hinweis: "Folgen 31–35, deutsche Tonspur."
   schedule: { firstEpisodeDate: "2027-06-18" }
   sources: [https://www.anime2you.de/news/1037042/oshi-no-ko-staffel-3-disc-termin/]
 
@@ -636,7 +636,7 @@
   releaseType: disc
   publisher: "peppermint anime"
   edition: "Trilogie, Blu-ray im Digipak, Standard und Limited Edition"
-  note: "Voraussichtlicher Termin; deutsche Synchronisation laut Anime2You."
+  hinweis: "Voraussichtlicher Termin; deutsche Synchronisation laut Anime2You."
   schedule: { firstEpisodeDate: "2026-12-18", estimated: true }
   sources: [https://www.anime2you.de/news/1058465/fate-stay-night-heavens-feel-erscheint-als-komplettbox/]
 
@@ -647,7 +647,7 @@
   releaseType: disc
   publisher: "peppermint anime"
   edition: "Trilogie, Blu-ray im Digipak, Standard und Limited Edition"
-  note: "Voraussichtlicher Termin; deutsche Synchronisation laut Anime2You."
+  hinweis: "Voraussichtlicher Termin; deutsche Synchronisation laut Anime2You."
   schedule: { firstEpisodeDate: "2026-12-18", estimated: true }
   sources: [https://www.anime2you.de/news/1058465/fate-stay-night-heavens-feel-erscheint-als-komplettbox/]
 
@@ -658,7 +658,7 @@
   releaseType: disc
   publisher: "peppermint anime"
   edition: "Trilogie, Blu-ray im Digipak, Standard und Limited Edition"
-  note: "Voraussichtlicher Termin; deutsche Synchronisation laut Anime2You."
+  hinweis: "Voraussichtlicher Termin; deutsche Synchronisation laut Anime2You."
   schedule: { firstEpisodeDate: "2026-12-18", estimated: true }
   sources: [https://www.anime2you.de/news/1058465/fate-stay-night-heavens-feel-erscheint-als-komplettbox/]
 
@@ -709,7 +709,7 @@
   publisher: "Crunchyroll"
   edition: "Steelbook-Komplettbox, Blu-ray"
   buyUrl: https://www.amazon.de/dp/B0HMCHK26Q
-  note: "Voraussichtlicher Termin."
+  hinweis: "Voraussichtlicher Termin."
   schedule: { firstEpisodeDate: "2026-12-04", estimated: true }
   sources: [https://www.anime2you.de/news/1058332/kaiju-no-8-staffel-1-steelbook-edition/]
 
@@ -724,6 +724,7 @@
   releaseType: disc
   publisher: "Crunchyroll"
   edition: "Komplettbox, Blu-ray"
+  hinweis: "Neuer Termin laut Anime2You (11.10.2026); im September war noch der 04.12.2026 genannt."
   note: "Termin 05.03.2027 (Anime2You, 11.10.2026); im September war noch der 04.12.2026 genannt. Sprache: Stand der älteren Meldung vom 05.09.2026 (dort „deutsche Sprachfassung sowie Originalton mit Untertiteln“); die neuere Meldung vom 11.10.2026 nennt die Sprache nicht."
   schedule: { firstEpisodeDate: "2027-03-05" }
   sources:
@@ -740,7 +741,7 @@
   releaseType: disc
   publisher: "polyband anime"
   edition: "Blu-ray"
-  note: "Deutsche Sprachfassung laut Anime2You (03.10.2026)."
+  hinweis: "Deutsche Sprachfassung laut Anime2You (03.10.2026)."
   schedule: { firstEpisodeDate: "2026-12-11" }
   sources:
     - https://www.anime2you.de/news/1056789/akiba-pass-shop-sailor-moon-und-mehr/

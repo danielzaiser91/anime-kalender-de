@@ -96,7 +96,7 @@ function pruefeSkripte({ prSh, pruefenSh, bauSh }) {
   const quelle = prSh.indexOf('source "$(dirname "${BASH_SOURCE[0]}")/quellen-pruefen.sh"')
   const aufruf = prSh.indexOf('quellen_pruefen)"')
   const bauprobe = prSh.indexOf('quellen_bauprobe)" || PRUEF_ROT=1')
-  const anlegen = prSh.indexOf('PR="$(gh pr create')
+  const anlegen = prSh.indexOf('pr_anlegen || exit 1')
   const mergen = prSh.indexOf('if gh pr merge')
   const rotZweig = prSh.indexOf('if [ "$PRUEF_ROT" = 1 ]; then\n  # Das Label')
   /* Bei i = 0 ist der Vergleich mit undefined falsch: die erste Stelle hat keinen Vorgänger. */
@@ -106,7 +106,8 @@ function pruefeSkripte({ prSh, pruefenSh, bauSh }) {
   if (!prSh.includes('[ "$PRUEF_ROT" = 0 ] && [ "${QUELLEN_BAUPROBE:-}" = 1 ]')) fehler.push('quellen-pr.sh: der Probebau läuft nur bei grüner Prüfung und mit QUELLEN_BAUPROBE=1')
   if (!bauSh.includes('${QUELLEN_BAUBEFEHL:-npm run data:bauprobe}')) fehler.push('quellen-bauprobe.sh: Standardbefehl ist nicht `npm run data:bauprobe`')
   if (!bauSh.includes('${QUELLEN_BAUBASISBEFEHL:-npm run data:bauprobe-basis}')) fehler.push('quellen-bauprobe.sh: Basisbefehl ist nicht `npm run data:bauprobe-basis`')
-  const code = ohneKommentare(prSh)
+  /* Reine Textausgabe (echo ohne Verkettung oder Unterbefehl) führt nichts aus, auch wenn sie „gh pr create“ nennt. */
+  const code = ohneKommentare(prSh).split('\n').filter((z) => !/^\s*echo\b[^;&|`]*$/.test(z) || z.includes('$(')).join('\n')
   const zahl = (muster) => (code.match(new RegExp(muster.source, 'g')) ?? []).length
   if (zahl(/\bgh\b[^\n]*?\bpr (create|new)\b/) !== 1) fehler.push('quellen-pr.sh: genau ein gh pr create erwartet (ein zweiter Weg zum PR umginge Prüfung und Marke)')
   if (zahl(/\bgh\b[^\n]*?\bpr merge\b/) !== 1) fehler.push('quellen-pr.sh: genau ein gh pr merge erwartet')

@@ -41,14 +41,16 @@ import { appendFileSync, existsSync, readFileSync, writeFileSync } from 'node:fs
 import { resolve } from 'node:path'
 import type { Title } from '../shared/types.ts'
 import { belegGruende, findeAuffaelliges, kanalTitelMenge, messen, type Kennzahlen, type LinkAbgaenge } from './lib/bestand-delta.ts'
+import { betroffeneZeilen, kuerzeZeilen } from './lib/bestand-betroffen.ts'
 import { bestandAusCommit, linkAbgaenge } from './lib/bestand-link-abgang.ts'
+import { juengsteJeKern, type LinkBefund } from './lib/link-befund.ts'
 import { ladeGewerteteBefunde } from './lib/netflix-404-gate.ts'
 import { todayIso } from '../shared/time.ts'
 import { ladeVonHandBelegtAm } from './lib/verweise-von-hand.ts'
 import { ladeBelegeEntfernt } from './lib/belege-entfernt.ts'
-import { titelAusCommit, verschobeneTitel } from './lib/bestand-verschoben.ts'
+import { fehlendeTitelIds, titelAusCommit, verschobeneTitel, zusammengelegteTitel } from './lib/bestand-verschoben.ts'
 import { letzteGeltende, letzteVerwerfen } from './lib/historie-zeilen.ts'
-import { ladeHandbelege } from './lib/dub-confirmed.ts'
+import { adressKern, ladeHandbelege } from './lib/dub-confirmed.ts'
 import { ROOT } from './lib/util.ts'
 
 const DATEI = resolve(ROOT, 'data/bestand-historie.jsonl')
@@ -96,10 +98,16 @@ function belegGruendeAusDateien(): Record<string, string> {
   return belegGruende(ladeBelegeEntfernt(DATEI_BELEGE_ENTFERNT), titelJetzt())
 }
 
-/** Namen der Titel, die seit dem letzten Commit in `ohne-synchro.json` gewandert sind; gelesen wird nur, wenn der Hauptbestand schrumpfte. */
-function verschobenSeitCommit(schrumpft: boolean): string[] {
-  if (!schrumpft) return []
-  return verschobeneTitel(titelAusCommit(ROOT), titelJetzt(), lies<Title[]>('public/data/ohne-synchro.json', []))
+/** Titel, die seit dem letzten Commit aus dem Hauptbestand fehlen: verschoben nach `ohne-synchro.json`, gewollt zusammengelegt (`zuAk`) und die Kennungen aller; gelesen wird nur, wenn der Hauptbestand schrumpfte. */
+function abgangSeitCommit(schrumpft: boolean): { verschoben: string[]; zusammengelegt: string[]; weg: number[] } {
+  if (!schrumpft) return { verschoben: [], zusammengelegt: [], weg: [] }
+  const vorher = titelAusCommit(ROOT)
+  const kennungen = lies<{ titel?: number[][] }>('data/kennungen.json', {}).titel ?? []
+  return {
+    verschoben: verschobeneTitel(vorher, titelJetzt(), lies<Title[]>('public/data/ohne-synchro.json', [])),
+    zusammengelegt: zusammengelegteTitel(vorher, titelJetzt(), kennungen),
+    weg: fehlendeTitelIds(vorher, titelJetzt()),
+  }
 }
 
 /** Synchro-Belege, die seit dem letzten Commit fehlen, nach Linkprüfung begründet oder nicht; gelesen wird nur, wenn die Urteile sanken. */
@@ -107,6 +115,18 @@ function linkAbgangSeitCommit(sinkt: boolean): LinkAbgaenge {
   if (!sinkt) return { begruendet: [], unerklaert: [] }
   const hand = { belege: ladeHandbelege(), vonHandBelegtAm: ladeVonHandBelegtAm() }
   return linkAbgaenge(bestandAusCommit(ROOT), titelJetzt(), ladeGewerteteBefunde(todayIso()).befunde, hand)
+}
+
+/** Titel, Anbieter und Änderung hinter einem roten Befund (höchstens 20 Zeilen); gelesen wird nur bei Befund. */
+function betroffenSeitCommit(rot: boolean): string[] | undefined {
+  if (!rot) return undefined
+  const jeKern = juengsteJeKern(lies<Record<string, LinkBefund>>('data/link-check.json', {}))
+  const befundZu = (url: string) => {
+    const b = jeKern.get(adressKern(url))
+    return b ? `link-check: ${b.status} am ${b.geprueftAm ?? '?'}` : undefined
+  }
+  const zeilen = kuerzeZeilen(betroffeneZeilen(bestandAusCommit(ROOT), titelJetzt(), befundZu))
+  return zeilen.length ? zeilen : undefined
 }
 
 const dateiText = () => (existsSync(DATEI) ? readFileSync(DATEI, 'utf8') : '')
@@ -124,9 +144,9 @@ if (args.includes('--verwerfen') || args.includes('--ersetzen')) verwirfLetzte()
 if (!args.includes('--verwerfen')) {
   const jetzt = messenAusDateien()
   const vorher = letzteGeltende(dateiText()) as (Kennzahlen & { zeitpunkt: string }) | null
-  const verschoben = verschobenSeitCommit(!!vorher && jetzt.titel < vorher.titel)
+  const abgang = abgangSeitCommit(!!vorher && jetzt.titel < vorher.titel)
   const link = linkAbgangSeitCommit(!!vorher && jetzt.mitUrteil < vorher.mitUrteil)
-  const { auffaellig, erklaert } = findeAuffaelliges(jetzt, vorher, verschoben, belegGruendeAusDateien(), link)
+  const { auffaellig, erklaert } = findeAuffaelliges(jetzt, vorher, abgang.verschoben, belegGruendeAusDateien(), link, abgang.zusammengelegt)
 
   const zeile = {
     zeitpunkt: new Date().toISOString(),
@@ -146,6 +166,8 @@ if (!args.includes('--verwerfen')) {
       : null,
     auffaellig: auffaellig.length ? auffaellig : undefined,
     erklaert: erklaert.length ? erklaert : undefined,
+    betroffen: betroffenSeitCommit(!!vorher && auffaellig.length > 0),
+    titelWeg: abgang.weg.length ? abgang.weg : undefined,
   }
 
   appendFileSync(DATEI, JSON.stringify(zeile) + '\n')

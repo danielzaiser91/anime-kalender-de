@@ -1,5 +1,7 @@
 import type { Release, StreamLink, Title, WatchLink } from './types.ts'
 import type { WochenDatei } from './wochen-datei.ts'
+import { jetztBerlin } from './kostenlos.ts'
+import { toggoAbgleich, toggoKompakt } from './kachel-toggo.ts'
 
 /**
  * **Kachel-Datei: die Wochen-Datei ohne alles, was der Start der Wochenansicht nie liest** (`woche-kacheln.json`).
@@ -21,14 +23,17 @@ export const TITEL_OHNE = [
 ] as const
 
 export const RELEASE_OHNE = [
-  'automatisch', 'buyUrl', 'cinemaUntil', 'disputedDates', 'edition', 'herkunft', 'netflixOriginal', 'nachtrag', 'note', 'platformUrl',
+  'automatisch', 'buyUrl', 'cinemaUntil', 'disputedDates', 'edition', 'herkunft', 'hinweis', 'netflixOriginal', 'nachtrag', 'note', 'platformUrl',
   'publisher', 'quellen', 'rhythmus', 'schnitt', 'sources',
 ] as const
 
 export const STREAM_OHNE = ['url', 'seite', 'fenster', 'dubQuelle', 'dubStand', 'herkunft', 'sharedWith'] as const
 export const WATCHLINK_OHNE = ['url', 'toggo', 'dubAbgeleitet', 'ueberTmdb', 'ersetzt'] as const
 
-/** `kostenloseFolgen` (Filter „kostenlos“) liest Adresse, Fenster und Folge eines kostenlosen Wegs: Der bleibt ganz. */
+/**
+ * `kostenloseFolgen` (Filter „kostenlos“) liest von einem kostenlosen Weg nur Art, Zugang, Deutsch-Urteil, Adresse (Einzelvideo), Folge, Bereiche
+ * und Toggo-Fenster: Der behält die Adresse, `toggo` wird zu `toggoOffen`, den Rest der Abzugsliste (Joyn-`fenster`, `sharedWith` …) wirft er ab.
+ */
 const kostenlos = (weg: { zugang?: string }): boolean => weg.zugang === 'kostenlos'
 
 type Feldliste = readonly string[]
@@ -36,12 +41,13 @@ type Feldliste = readonly string[]
 const ohne = <T extends object>(eintrag: T, felder: Feldliste): T =>
   Object.fromEntries(Object.entries(eintrag).filter(([name]) => !felder.includes(name))) as T
 
-const wegKachel = <T extends StreamLink | WatchLink>(weg: T, felder: Feldliste): T => (kostenlos(weg) ? weg : ohne(weg, felder))
+const wegKachel = <T extends StreamLink | WatchLink>(weg: T, felder: Feldliste, jetzt: string): T =>
+  kostenlos(weg) ? ohne(toggoKompakt(weg, jetzt), felder.filter((f) => f !== 'url')) : ohne(weg, felder)
 
-function titelKachel(titel: Title): Title {
+function titelKachel(titel: Title, jetzt: string): Title {
   const kachel = ohne(titel, TITEL_OHNE)
-  if (kachel.streams) kachel.streams = kachel.streams.map((s) => wegKachel(s, STREAM_OHNE))
-  if (kachel.watchLinks) kachel.watchLinks = kachel.watchLinks.map((w) => wegKachel(w, WATCHLINK_OHNE))
+  if (kachel.streams) kachel.streams = kachel.streams.map((s) => wegKachel(s, STREAM_OHNE, jetzt))
+  if (kachel.watchLinks) kachel.watchLinks = kachel.watchLinks.map((w) => wegKachel(w, WATCHLINK_OHNE, jetzt))
   return kachel
 }
 
@@ -52,8 +58,8 @@ function releaseKachel(release: Release): Release {
 }
 
 /** Schneidet die Kachel-Datei aus der Wochen-Datei (Reihenfolge und Termine bleiben). */
-export function baueKachelDatei(woche: WochenDatei): WochenDatei {
-  return { von: woche.von, bis: woche.bis, titles: woche.titles.map(titelKachel), releases: woche.releases.map(releaseKachel), events: woche.events }
+export function baueKachelDatei(woche: WochenDatei, jetzt: string = jetztBerlin()): WochenDatei {
+  return { von: woche.von, bis: woche.bis, titles: woche.titles.map((t) => titelKachel(t, jetzt)), releases: woche.releases.map(releaseKachel), events: woche.events }
 }
 
 /** Ob `klein` aus `gross` stammt: jedes Feld gleich, Listen gleich lang, nichts Neues. */
@@ -87,11 +93,14 @@ function pruefeEintraege<T extends object>(was: string, kachel: T[], voll: T[], 
  * Widersprüche zwischen Kachel-Datei und Wochen-Datei (leer = in Ordnung): gleiche Woche, gleiche Einträge in gleicher Reihenfolge,
  * jedes Feld der Kachel steht gleich in der Wochen-Datei, kein Feld fehlt, das nicht auf der Abzugsliste steht, Termine unverändert.
  */
-export function pruefeKachelDatei(kachel: WochenDatei, woche: WochenDatei): string[] {
+export function pruefeKachelDatei(kachel: WochenDatei, woche: WochenDatei, jetzt: string = jetztBerlin()): string[] {
   const fehler: string[] = []
   if (kachel.von !== woche.von || kachel.bis !== woche.bis) fehler.push('Kachel-Datei: andere Woche als die Wochen-Datei')
-  fehler.push(...pruefeEintraege('Titel', kachel.titles, woche.titles, (t) => t.id, TITEL_OHNE))
+  const paare = kachel.titles.map((k, i) => (woche.titles[i] ? toggoAbgleich(k, woche.titles[i]!, jetzt, fehler) : [k, k] as [Title, Title]))
+  const vollTitel = woche.titles.map((v, i) => (kachel.titles[i] ? paare[i]![1] : v))
+  fehler.push(...pruefeEintraege('Titel', paare.map((p) => p[0]), vollTitel, (t) => t.id, TITEL_OHNE))
   fehler.push(...pruefeEintraege('Release', kachel.releases, woche.releases, (r) => r.slug, RELEASE_OHNE))
-  if (JSON.stringify(kachel.events) !== JSON.stringify(woche.events)) fehler.push('Kachel-Datei: Termine weichen von der Wochen-Datei ab')
+  /* Gleich Wert für Wert, die Reihenfolge der Schlüssel zählt nicht (Auspacken der Packform legt sie anders ab). */
+  if (!teilVon(kachel.events, woche.events) || !teilVon(woche.events, kachel.events)) fehler.push('Kachel-Datei: Termine weichen von der Wochen-Datei ab')
   return fehler.slice(0, 20)
 }

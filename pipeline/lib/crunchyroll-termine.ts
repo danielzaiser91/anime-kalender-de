@@ -110,7 +110,7 @@ export interface CrTermin {
  * Gerechnet wird über `Intl` (`shared/time.ts` hat keine Umrechnung von UTC-Zeitstempel in Datum und Uhrzeit,
  * `utcZeitInBerlin` kennt nur die Uhrzeit) — eine feste Stundenverschiebung wäre im Winter richtig und im Sommer falsch.
  */
-function nachBerlin(iso: string): { datum: string; zeit: string } | null {
+export function nachBerlin(iso: string): { datum: string; zeit: string } | null {
   const d = new Date(iso)
   if (Number.isNaN(d.getTime())) return null
   const teile = new Intl.DateTimeFormat('de-DE', {

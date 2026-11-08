@@ -81,6 +81,7 @@ export const LAUF_ARTEN = [
   'Erweiterung — Version zählen',
   'Abnahme — Freigabe',
   'Mutationsprobe',
+  'Nacht-Merger',
 ]
 
 /** Alle Abfragen dieses Moduls — für den Prüflauf. */

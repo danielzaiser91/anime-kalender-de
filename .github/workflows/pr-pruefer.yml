@@ -35,7 +35,7 @@ jobs:
       !startsWith(github.head_ref, 'daten/') &&
       !github.event.pull_request.draft
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 60
     env:
       PR: ${{ github.event.pull_request.number }}
       HEAD_SHA: ${{ github.event.pull_request.head.sha }}
@@ -131,11 +131,14 @@ jobs:
       # (kettenlog.txt), die in den Nachträgen zitierten Zeilen mit Treffern (kettenlog-zitate.txt, 31.10.2026: die Übersicht
       # kappt je Job, der Abnahme-Prüfer hat kein Grep) und das bereinigte Log (kettenlog-voll.txt) in den Prüfordner. Fail-soft: ohne Datei gilt „nicht beurteilt“.
       # 13 statt 9 min (30.10.2026): die Kette braucht im Median 9,6 min, p90 12,9 min (316 Läufe seit 28.10.); bei 9 min
-      # sah jeder fünfte Prüfer-Lauf (33 von 174) nur eine unfertige Kette. Rest: 13 + Prüfer < timeout 30 min.
+      # sah jeder fünfte Prüfer-Lauf (33 von 174) nur eine unfertige Kette.
+      # 36 min, Timeout 60 (04.11.2026, PR 2852 Kopf bea96992d): eine Kette brauchte 31,4 min, der Prüfer urteilte nach 13 min
+      # „aendern“ (Kettenlauf nicht abgeschlossen). Budget: 1,5 + 36 + 13 + 2 < 60 (tools/pr-pruefer-eingabe.test.mjs).
+      # Endet die Kette früher, endet das Warten früher; die Frist kostet nur bei Hängern Laufzeit.
       - name: Kettenlog bereitlegen
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: node tools/pr-kettenlog.mjs "$HEAD_SHA" "$RUNNER_TEMP/pruefer" 780 "$RUNNER_TEMP/pruefer/pr-beschreibung.txt" || echo "Kettenlog nicht bereitgelegt"
+        run: node tools/pr-kettenlog.mjs "$HEAD_SHA" "$RUNNER_TEMP/pruefer" 2160 "$RUNNER_TEMP/pruefer/pr-beschreibung.txt" || echo "Kettenlog nicht bereitgelegt"
 
       # Laufzeitsperre (PR 1427): "ok" nur bei vollständigem Diff und einer Beschreibung, die mit der Commit-Liste bis
       # zum Kopf endet. Direkt vor den Prüfern, damit kein früherer Schritt die Beschreibung danach noch ändert.
@@ -279,6 +282,10 @@ jobs:
             Neuer Mess- oder Prüfschritt (17.10.2026, PR 1452): Er braucht eine Ergebniszeile im CI-Log des
             geprüften Kopfs (z. B. "dunkel/woche: 14 Kacheln, 0 Fehler"), die der Nachtrag zitiert. Ein grüner
             Schritt ohne solche Zeile hat nicht gemessen (Startprüfung nie wahr, Exit 0): "aendern".
+            Start-Budget (06.11.2026): Steht in kettenlog.txt unter dem Job, der den Web-Bau ausführt, eine Zeile
+            "start-budget: nur noch X KB Luft" und der Diff berührt web/src, shared/ oder die Startdaten (public/data/woche-kacheln.json
+            und die Dateien, die das Vorlade-Skript anfordert), ist das eine Auflage: Der Bauer nennt in der Beschreibung die
+            Startgröße vorher/nachher (node tools/start-budget.mjs) und verkleinert, wenn der PR sie erhöht. Zitiere die Zeile im Protokoll.
             Toleranz in einer Zuordnung (±1 Jahr, ungefähre Folgenzahl): nur frei, wenn die Beschreibung die Fälle
             zählt, die allein durch sie hereinkommen, und jeden als richtig belegt.
             Benennt die Beschreibung eine Verdrahtung (Aufruf in build.ts oder einer Phase) selbst als ungetestet,
@@ -415,6 +422,7 @@ jobs:
           fi
           urteil=$(node -e 'const u=JSON.parse(require("fs").readFileSync(process.argv[1],"utf8"));console.log(u.urteil+" "+u.sha)' "$T/urteil.json") || { echo "::error::urteil.json unlesbar - keine Freigabe."; exit 1; }
           art=${urteil% *}; sha=${urteil#* }
+          art0=$art
           if [ "$DIFF_ZUSTAND" != "ok" ] && [ "$art" = "ok" ]; then
             echo "Diff unvollständig - Urteil ok wird zu aendern."
             art=aendern
@@ -422,13 +430,23 @@ jobs:
           fi
           if grep -qE 'gh[spuor]_[A-Za-z0-9]|github_pat_|x-access-token' "$T/protokoll.md" || grep -qF -- "$GH_TOKEN" "$T/protokoll.md"; then
             echo "Token-Muster im Protokoll - Protokoll verworfen, Urteil aendern."
+            art0=verworfen
             art=aendern
             printf 'Das Protokoll enthielt ein Token-Muster und wurde verworfen. Der Lauf ist als Fehlerfall zu behandeln (Prompt-Injektion vermutet).\n' > "$T/protokoll.md"
+          fi
+          # Kette beim Urteil noch offen (PRs 2953, 2820: „aendern“ nur deshalb, ohne Codeänderung danach „ok“): kein Review,
+          # sondern „nicht beurteilt“ mit Marke; tools/pr-pruefer-nach-kette.mjs startet den Prüfer nach Kettenende neu.
+          # Nur ein echtes Prüfer-„aendern“ bei vollständigem Diff; Überschreibungen (Diff, Token) bleiben „aendern“.
+          if [ "$art" = "aendern" ] && [ "$art0" = "aendern" ] && [ "$DIFF_ZUSTAND" = "ok" ] && node tools/pr-pruefer-kette-offen.mjs "$T/kettenlog.txt"; then
+            art=offen
+            { printf 'Die PR-Prüfkette lief beim Urteil noch; die Befunde unten sind nicht belegt. Der Prüfer startet nach Kettenende von selbst neu.\n\n'; cat "$T/protokoll.md"; } > "$T/protokoll.neu"
+            mv "$T/protokoll.neu" "$T/protokoll.md"
           fi
           titel="$art"
           if [ "$art" = "ok" ] && [ "${CHECKS:-}" != "gruen" ]; then
             titel="ok, ${CHECKS:-Checks-Stand unbekannt}"
           fi
+          if [ "$art" = "offen" ]; then titel="nicht beurteilt, Kette lief noch"; fi
           # Abnahme-Modus: "aendern" sperrt nur, solange es frei ist (Prüfstufe 2, einmal); sonst bleibt es bei einem Kommentar ohne Review, der Dirigent entscheidet.
           modus=voll
           if [ "${MODUS:-}" = "abnahme" ]; then modus=abnahme; fi
@@ -447,11 +465,14 @@ jobs:
             echo
             if [ "$modus" = "abnahme" ]; then echo "Abnahme-Modus: nur die Auflagen der ersten Runde und Regressionen im Nachtrag, keine neuen Funde."; fi
             cat "$T/protokoll.md"
+            if [ "$art" = "offen" ]; then printf '\n<!-- pruefer-kette-offen -->\n'; fi
             printf '\n<!-- pruefer-modus: %s -->\n' "$modus"
           } > "$T/kommentar.md"
           gh pr comment "$PR" --repo "$GITHUB_REPOSITORY" --body-file "$T/kommentar.md"
           if [ "$offen" = "1" ]; then
             echo "Abnahme: Auflagen offen, kein Review (Dirigent entscheidet)."
+          elif [ "$art" = "offen" ]; then
+            echo "Kette beim Urteil noch offen: nicht beurteilt, kein Review; Neustart nach Kettenende (pr-pruefer-nachtrag.yml)."
           elif [ "$art" = "ok" ]; then
             gh pr review "$PR" --repo "$GITHUB_REPOSITORY" --approve --body "Urteil: $titel. Prüfprotokoll steht als Kommentar (Stand ${HEAD_SHA:0:9})."
           else
