@@ -4,6 +4,7 @@ import { nichtErlaubt } from './pruefung-ablehnung.ts'
 import { loeschePruefungenMitMarke } from './pruefung-loeschen.ts'
 import { beantwortePruefungLesen } from './pruefung-lesen.ts'
 import { ausCacheFuer } from './cache-kurz.ts'
+import { tokenAusKopf, tokenGleich } from './lauf-token.ts'
 
 export async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext): Promise<Response> {
   const offen = {
@@ -89,8 +90,8 @@ export async function handlePruefung(request: Request, env: Env, ctx?: Execution
 
   if (request.method !== 'POST') return antwort({ error: 'GET, POST oder DELETE erwartet' }, 405)
 
-  const token = request.headers.get('X-Lauf-Token') ?? ''
-  if (!env.LAUF_TOKEN || token !== env.LAUF_TOKEN) return nichtErlaubt(antwort)
+  const token = tokenAusKopf(request)
+  if (!env.LAUF_TOKEN || !tokenGleich(token, env.LAUF_TOKEN)) return nichtErlaubt(antwort)
 
   return await speichereMitProtokoll({ request, antwort, token, env, ctx })
 }

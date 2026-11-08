@@ -71,6 +71,9 @@ export function nenntAnderen(text: string, name: string): boolean {
   return GRUPPEN.some((g) => g !== eigene && nenntGruppe(text, g))
 }
 
+/** Die Warnung von `pruefeName`, wenn Anbieter oder Plattform nur im Artikeltext stehen (und das Zitat keinen anderen nennt). */
+export const ANBIETER_NUR_IM_ARTIKEL = /^(?:anbieter|plattform) „[^“]+“ steht nur im Artikeltext, nicht im Zitat – gegenlesen$/
+
 /** Sender oder Anbieter gegen Zitat und Artikeltext: `undefined` = in Ordnung, sonst der Grund der Verwerfung oder eine Warnung. */
 export function pruefeName(feld: string, name: string, zitat: string, artikel: string): { grund?: string; warnung?: string } {
   if (nenntName(zitat, name)) return {}

@@ -23,6 +23,7 @@ import { readFileSync, existsSync } from 'node:fs'
 import { register, createRequire } from 'node:module'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { dirname, resolve } from 'node:path'
+import { nurKaufWeg } from './streaming-weg-zaehlen.mjs'
 
 const WURZEL = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const arg = (n, d) => process.argv.find((a) => a.startsWith(`--${n}=`))?.split('=')[1] ?? d
@@ -270,7 +271,7 @@ async function main() {
     cartoonMitJustWatchHinweis: ohneDubHinweisCartoons,
     cartoonOhneStaffelwissen: cartoons.length,
     ...staffel,
-    hauptOhneStreamMitDisc: haupt.filter((t) => !t.streams?.length && t.watchLinks?.length).length,
+    hauptOhneStreamMitDisc: haupt.filter(nurKaufWeg).length,
     hauptOhneJedenWeg: haupt.filter((t) => !t.streams?.length && !t.watchLinks?.length && !releasesJeTitel.has(t.id)).length,
     cartoonOhneStream: cartoons.filter((t) => !t.streams?.length).length,
     releasesTitelOhneStream: [...releasesJeTitel].filter(([id]) => ![...haupt, ...cartoons].find((t) => t.id === id)?.streams?.length).length,

@@ -68,6 +68,7 @@ export function aktionen(seite) {
     ['Filter auf', () => tippe(leiste.locator('button[aria-controls=ak-filter]'))],
     ['Filter zu', () => tippe(leiste.locator('button[aria-controls=ak-filter]'))],
     ['Panel auf', async () => {
+      /* Kein Wochen-Gleiten, Tipp ohne Hover-Messung: kein Warten auf Stillstand nötig (zeile-mittig.mjs). */
       const karte = seite.locator('.ak-oeffnen').first().locator('..')
       await karte.evaluate((el) => el.scrollIntoView({ block: 'center' }))
       await tippe(karte)

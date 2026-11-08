@@ -210,8 +210,8 @@ pruefe('Marke der Pille heißt wie der Kopf: „Sprache offen“', translate('de
 const noten: string[] = []
 for (const f of readdirSync('data/curated').filter((x) => x.startsWith('tv-') && x.endsWith('.yaml'))) {
   const dok = parse(readFileSync(`data/curated/${f}`, 'utf8')) as unknown
-  for (const r of (Array.isArray(dok) ? dok : ((dok as { releases?: unknown[] })?.releases ?? [])) as { note?: string; slug?: string }[]) {
-    if (r.note?.startsWith('Uhrzeit:')) noten.push(r.slug ?? '?')
+  for (const r of (Array.isArray(dok) ? dok : ((dok as { releases?: unknown[] })?.releases ?? [])) as { note?: string; hinweis?: string; slug?: string }[]) {
+    if ([r.note, r.hinweis].some((t) => t?.startsWith('Uhrzeit:'))) noten.push(r.slug ?? '?')
   }
 }
 pruefe('keine TV-Notiz beginnt mit „Uhrzeit:“ (Herleitung gehört in den YAML-Kommentar)', noten.length === 0, noten)

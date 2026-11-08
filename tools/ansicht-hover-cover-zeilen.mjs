@@ -6,7 +6,7 @@
  * Hat die Woche für eine Ansicht keine Ereignisse mit Cover, wird sie übersprungen; sonst muss es Zeilen geben.
  */
 import { readFileSync } from 'node:fs'
-import { verdeckung, zeileMittig } from './zeile-mittig.mjs'
+import { ruheAbwarten, verdeckung, zeileImFenster, zeileMittig } from './zeile-mittig.mjs'
 import { coverBild } from '../web/src/lib/cover.ts'
 import { VORSCHAU_BREITE, VORSCHAU_HOEHE } from '../web/src/lib/hover-cover.ts'
 
@@ -80,6 +80,7 @@ export function lageAbweichungen({ karte, zeile, zeiger, fenster }) {
 async function zeigeUndMesse(seite, zeile, ausRechts) {
   await seite.mouse.move(2, 2)
   await seite.waitForTimeout(150)
+  await zeileImFenster(zeile)
   const box = await zeile.boundingBox()
   const x = ausRechts === undefined ? box.x + Math.min(box.width / 2, 60) : box.x + box.width - ausRechts
   const verdeckt = await verdeckung(zeile, x, box.y + box.height / 2)
@@ -164,6 +165,7 @@ async function messeUntenRand(seite, zeile, wahl) {
     await seite.setViewportSize(FENSTER)
     await seite.mouse.move(2, 2)
     await z.evaluate((el, platz) => window.scrollBy(0, el.getBoundingClientRect().top - platz - 110), VORSCHAU_PLATZ)
+    await ruheAbwarten(seite)
     const box = await z.boundingBox()
     await seite.setViewportSize({ width: FENSTER.width, height: Math.ceil(box.y + box.height) + 24 })
     await seite.waitForTimeout(200)

@@ -25,7 +25,7 @@
   platform: kino
   releaseType: movie
   publisher: "Wild Bunch Germany"
-  note: "Wiederaufführung zum 25. Jubiläum."
+  hinweis: "Wiederaufführung zum 25. Jubiläum."
   schedule: { firstEpisodeDate: "2026-08-18" }
   sources: [https://www.anime2you.de/news/1034379/chihiros-reise-ins-zauberland-bald-wieder-im-kino/]
 
@@ -36,6 +36,7 @@
   platform: kino
   releaseType: movie
   publisher: "Crunchyroll (KAZÉ Anime)"
+  hinweis: "Am Starttag laufen 42 deutsche Vorstellungen in 36 Städten, ab dem 27.08. nur noch deutsche (gezählt am 25.08.2026 über alle 43 CineStar-Standorte)."
   note: "Am Starttag laufen 42 deutsche Vorstellungen in 36 Städten, ab dem 27.08. nur noch deutsche. Gezählt über alle 43 CineStar-Standorte am 25.08.2026; die FSK führt den Film unter der Nummer 287674 mit deutscher Sprachfassung."
   schedule: { firstEpisodeDate: "2026-08-25" }
   sources:
@@ -52,7 +53,7 @@
   platform: kino
   releaseType: movie
   publisher: "CineStar CineAnime"
-  note: "Einzelvorstellung im Rahmen von CineAnime, nur an diesem Tag. Gezählt am 14.09.2026: 30 deutsche Vorstellungen in 28 CineStar-Kinos."
+  hinweis: "Einzelvorstellung im Rahmen von CineAnime, nur an diesem Tag. Gezählt am 14.09.2026: 30 deutsche Vorstellungen in 28 CineStar-Kinos."
   schedule: { firstEpisodeDate: "2026-09-29" }
   sources:
     - https://www.cinestar.de/kino-augsburg/veranstaltung-your-name-cineanime
@@ -99,7 +100,7 @@
   platform: kino
   releaseType: movie
   publisher: "peppermint anime"
-  note: "Eine deutsche Synchronfassung ist nicht geplant."
+  hinweis: "Eine deutsche Synchronfassung ist nicht geplant."
   sprache: omu
   schedule: { firstEpisodeDate: "2026-10-27" }
   sources:
