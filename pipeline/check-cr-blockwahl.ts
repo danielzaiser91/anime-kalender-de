@@ -66,6 +66,7 @@ pruefe(wahl([block('Cool Anime OAD', 2, '2025-05-15T16:00:00Z')], { ...TV, folge
 pruefe(wahl([block('Cool Anime Film', 1, '2025-05-15T16:00:00Z')], { ...TV, folgen: 1 }) === `-|einziger Block, Titel ist nicht Staffel 1`, '„Film“ gegen TV: offen')
 pruefe(wahl([block('Cool Anime OVAs', 2, '2025-05-15T16:00:00Z')], { ...TV, folgen: 2 }) === `-|einziger Block, Titel ist nicht Staffel 1`, '„OVAs“ gegen TV: offen')
 pruefe(wahl([block('Cool Anime Specials', 2, '2025-05-15T16:00:00Z')], { ...TV, namen: ['Cool Anime Special'], folgen: 2 }) === 'Cool Anime Specials|einzig', 'Titel „Special“ bekommt den Block „Specials“')
+pruefe(wahl([block('Cool Anime Movie', 1, '2025-05-15T16:00:00Z')], { ...TV, namen: ['Cool Anime', 'Cool Anime Movie'], folgen: 1 }) === 'Cool Anime Movie|einzig', 'ein Titelname mit „Movie“ genügt, der andere nennt sie nicht')
 pruefe(wahl([block('Cool Anime Videofilm', 2, '2025-05-15T16:00:00Z')], { ...TV, folgen: 2 }) === 'Cool Anime Videofilm|einzig', 'Wortgrenze: „Videofilm“ ist keine Sonderform')
 
 // Name ohne Staffel 1: nur, wenn der Name von den Vorstaffeln trennt (Vorsorge, 0 Treffer im Bestand 08.11.2026).

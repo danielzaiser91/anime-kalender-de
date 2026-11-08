@@ -116,6 +116,8 @@ const PART_ZWEI = katalog([block('Platinum End Part 2', FOLGE_171)])
 const NAMENSVETTER = { ...omu(), titleId: 99, name: 'Platinum End Part 2', sprache: undefined }
 assert.equal(wartende(PART_ZWEI, [omu({ name: 'Platinum End Part 2' }), { ...NAMENSVETTER, name: 'Anderer Titel' }], nach(600)).length, 1, 'Name ohne Vetter: gewählt')
 assert.deepEqual(synchroWartende(PART_ZWEI, [omu({ name: 'Platinum End Part 2' }), NAMENSVETTER], nach(600)), { wartende: [], unklar: ['Platinum End Part 2 (Serie geteilt, ein Block)'] })
+const ANDERE_SERIE = { ...NAMENSVETTER, platformUrl: 'https://www.crunchyroll.com/de/series/ANDERE/x' }
+assert.equal(wartende(PART_ZWEI, [omu({ name: 'Platinum End Part 2' }), ANDERE_SERIE], nach(600)).length, 1, 'gleicher Name an einer anderen Serie zählt nicht')
 // Mehrere Blöcke ohne Zahl: der Name entscheidet, sonst die Folgenzahl des Termins (nicht, wenn sie nur „angenommen“ ist).
 const ZWEI = katalog([block('Black Clover Teil Eins', '2026-10-01T16:00:00Z'), block('Black Clover Teil Zwei', FOLGE_171, '2026-11-14T16:00:00Z')])
 assert.equal(wartende(ZWEI, [omu({ name: 'Black Clover Teil Zwei' }), GETEILT], nach(600)).length, 1, 'Name')
