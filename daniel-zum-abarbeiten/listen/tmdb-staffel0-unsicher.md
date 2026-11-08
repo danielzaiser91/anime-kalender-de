@@ -1,6 +1,6 @@
 # TMDB-Staffel 0: unsichere Treffer
 
-Erzeugt von `pipeline/lib/tmdb-staffel0-abruf.ts` (im Plakat-Lauf). 152 Titel sind zugeordnet (`data/tmdb-staffel0.json`), 113 unsicher (diese Liste), 0 ohne Zuordnung, weil zwei Titel dieselbe Folge träfen.
+Erzeugt von `pipeline/lib/tmdb-staffel0-abruf.ts` (im Plakat-Lauf). 152 Titel sind zugeordnet (`data/tmdb-staffel0.json`), 111 unsicher (diese Liste), 0 ohne Zuordnung, weil zwei Titel dieselbe Folge träfen.
 Sicher heißt: Datum höchstens ±1 Tag, Name der Folge gleich (englisch oder japanisch), Länge gleich, einziger Treffer. Die Spalte „Tage“ ist TMDB minus unser japanischer Start.
 
 | Titel | Start | TMDB | Werte | Grund |
@@ -107,11 +107,9 @@ Sicher heißt: Datum höchstens ±1 Tag, Name der Folge gleich (englisch oder ja
 | [Bikini Warriors (2016)](https://anime-kalender.de/#/woche?t=10011635) | 2016-12-07 | [tv/70716/season/0](https://www.themoviedb.org/tv/70716/season/0) Folge 2 | +0 Tage, Länge –, Name anders | Datum nah, aber Name oder Länge tragen nicht |
 | [Miraculous Ladybug: A Christmas Special / Santa Claws](https://anime-kalender.de/#/woche?t=10012133) | 2017-02-22 | [tv/65334/season/0](https://www.themoviedb.org/tv/65334/season/0) Folge 1 | -73 Tage, Länge –, Name gleich | Name gleich, aber Datum oder Länge tragen nicht |
 | [Tsukigakirei: The Road So Far](https://anime-kalender.de/#/woche?t=10012493) | 2017-05-19 | [tv/70880/season/0](https://www.themoviedb.org/tv/70880/season/0) Folge 1 | +0 Tage, Länge –, Name anders | Datum nah, aber Name oder Länge tragen nicht |
-| [Thus Spoke Kishibe Rohan: Mutsu-kabe Hill](https://anime-kalender.de/#/woche?t=10013343) | 2018-07-19 | [tv/45790/season/0](https://www.themoviedb.org/tv/45790/season/0) Folge 2 | +0 Tage, Länge –, Name anders | Datum nah, aber Name oder Länge tragen nicht |
 | [Sword Art Online: Alicization - Recollection](https://anime-kalender.de/#/woche?t=10014175) | 2019-02-17 | [tv/45782/season/0](https://www.themoviedb.org/tv/45782/season/0) Folge 23 | +0 Tage, Länge –, Name anders | Datum nah, aber Name oder Länge tragen nicht |
 | [L/R: Licensed by Royalty – Sweet Enemies in the Same Desert](https://anime-kalender.de/#/woche?t=10014631) | 2003-04-25 | [tv/42787/season/0](https://www.themoviedb.org/tv/42787/season/0) Folge 1 | +0 Tage, Länge –, Name anders | Datum nah, aber Name oder Länge tragen nicht |
 | [Sword Art Online: Alicization - War of Underworld Reflection](https://anime-kalender.de/#/woche?t=10014663) | 2019-10-06 | [tv/45782/season/0](https://www.themoviedb.org/tv/45782/season/0) Folge 24 | +0 Tage, Länge –, Name anders | Datum nah, aber Name oder Länge tragen nicht |
-| [Thus Spoke Kishibe Rohan: At a Confessional / The Run](https://anime-kalender.de/#/woche?t=10014752) | 2020-03-25 | [tv/45790/season/0](https://www.themoviedb.org/tv/45790/season/0) Folge 6 | +0 Tage, Länge –, Name anders | Datum nah, aber Name oder Länge tragen nicht |
 | [Sword Art Online: Alicization - War of Underworld Episode 12.5](https://anime-kalender.de/#/woche?t=10015501) | 2020-07-05 | [tv/45782/season/0](https://www.themoviedb.org/tv/45782/season/0) Folge 25 | +0 Tage, Länge –, Name anders | Datum nah, aber Name oder Länge tragen nicht |
 | [Lupin the 3rd: Part 6 - The Times](https://anime-kalender.de/#/woche?t=10016648) | 2021-10-10 | [tv/31572/season/0](https://www.themoviedb.org/tv/31572/season/0) Folge 3 | +0 Tage, Länge –, Name anders | Datum nah, aber Name oder Länge tragen nicht |
 | [The Faraway Paladin: The Path Taken](https://anime-kalender.de/#/woche?t=10016980) | 2021-11-27 | [tv/123525/season/0](https://www.themoviedb.org/tv/123525/season/0) Folge 1 | +0 Tage, Länge –, Name anders | Datum nah, aber Name oder Länge tragen nicht |
