@@ -151,9 +151,36 @@ pruefe('Plattform netflix: Beleg trägt netflix, ein Ja bei primevideo sperrt ni
 pruefe('Plattform netflix: ein Ja bei netflix sperrt', ids(lauf([PET_NETFLIX], NETFLIX_PET, new Map([['101350|netflix', IMMER]]))) === '')
 pruefe('Beleg-Zeilen tragen die Plattform des Belegs', belegZeilen(lauf([PET_NETFLIX], NETFLIX_PET).belege[0]!, '2026-11-07').includes('  platform: netflix'))
 
+// --- Stufe 2b: Staffelzählung, Gleichnamige (echte Fälle vom 08.11.2026: Black Clover 195604, Colorful 8142/841, Artikel 1068951, 1066831) ---
+const BC_STAFFEL2: KatalogTitel = { id: 195604, titleDe: 'Black Clover: Staffel 2', titleEn: 'Black Clover Season 2', titleRomaji: 'Black Clover 2nd Season', streams: [weg('crunchyroll')] }
+const BC_STAFFEL1: KatalogTitel = { id: 97940, titleDe: 'Black Clover', titleEn: 'Black Clover', titleRomaji: 'Black Clover', streams: [weg('crunchyroll')] }
+const BC = [BC_STAFFEL1, BC_STAFFEL2, { id: 900301, titleDe: 'Black Clover: Staffel 3', streams: [weg('crunchyroll')] }]
+for (const n of ['Black Clover Second Season', 'Black Clover 2nd Season', 'Black Clover Season 2', 'Black Clover: Staffel 2'])
+  pruefe(`Staffelzählung: „${n}“ trifft Staffel 2, nicht Staffel 1 oder 3`, ordneTitelZu(n, BC) === BC_STAFFEL2, ordneTitelZu(n, BC))
+pruefe('Staffelzählung: „Black Clover“ trifft weiter nur Staffel 1', ordneTitelZu('Black Clover', BC) === BC_STAFFEL1)
+pruefe('Staffelzählung: „Third Season“ trifft Staffel 3, „Fourth Season“ keinen', (ordneTitelZu('Black Clover Third Season', BC) as KatalogTitel).id === 900301 && ordneTitelZu('Black Clover Fourth Season', BC) === 'Titel nicht im Katalog')
+pruefe('Staffelzählung: „Staffel 4“ ohne Staffel-4-Eintrag fällt nicht auf den Grundtitel (Naruto Shippuden – Staffel 4)', ordneTitelZu('Black Clover – Staffel 4', BC) === 'Titel nicht im Katalog')
+pruefe('Staffelzählung: Beleg „Black Clover Second Season“ (Crunchyroll, offen) geht an 195604',
+  ids(lauf([mit(PET, { titel: 'Black Clover Second Season', plattform: 'crunchyroll', artikel: 'Crunchyroll + Synchro', zitat: '»Black Clover Second Season« (Synchro) Episoden: 1 auf Deutsch verfügbar Sprache: Deutsch, Japanisch (UT) Simulcast: Jeden Samstag' })], [BC_STAFFEL1, { ...BC_STAFFEL2, streams: [weg('crunchyroll')] }])) === '195604')
+const COLORFUL_FILM: KatalogTitel = { id: 8142, titleDe: 'Colorful', titleEn: 'Colorful ~ The Motion Picture', streams: [weg('primevideo'), weg('joyn')] }
+const COLORFUL_KURZ: KatalogTitel = { id: 841, titleDe: 'Colorful', titleEn: 'COLORFUL', streams: [] }
+pruefe('Gleichnamige: nur einer hat einen Weg bei der Plattform – er gewinnt (Colorful)', (ordneTitelZu('Colorful', [COLORFUL_KURZ, COLORFUL_FILM], 'joyn') as KatalogTitel).id === 8142)
+pruefe('Gleichnamige: beide mit Weg bei der Plattform bleiben mehrdeutig', String(ordneTitelZu('Colorful', [COLORFUL_FILM, { ...COLORFUL_KURZ, streams: [weg('joyn')] }], 'joyn')).includes('mehrdeutig'))
+pruefe('Gleichnamige: keiner mit Weg bei der Plattform bleibt mehrdeutig', String(ordneTitelZu('Colorful', [COLORFUL_KURZ, COLORFUL_FILM], 'netflix')).includes('mehrdeutig'))
+pruefe('Gleichnamige: ohne Plattform kein Vorzug', String(ordneTitelZu('Colorful', [COLORFUL_KURZ, COLORFUL_FILM])).includes('mehrdeutig'))
+pruefe('Colorful durch die Auswahl: Weg trägt schon dub gilt dem Film, nicht „mehrdeutig“',
+  grund(lauf([mit(PET, { titel: 'Colorful', plattform: 'joyn', artikel: 'Anime-Neuzugänge auf Joyn', zitat: '»Colorful« mit deutscher Synchronisation auf Joyn.' })], [COLORFUL_KURZ, { ...COLORFUL_FILM, streams: [weg('joyn', true)] }])) === 'Weg trägt schon dub: true')
+
+// --- Benannte Ausfälle: Anbieter ohne Kennung (Pluto TV), Zitat ohne Synchro-Wort (Artikel 1068729, 1069021) ---
+const PLUTO = mit(PET, { titel: 'Dr. STONE', plattform: null, anbieter: 'Pluto TV', zitat: 'Die erste Staffel »Dr. STONE« mit deutscher Synchronisation.' })
+pruefe('Anbieter ohne Plattform-Kennung: Grund nennt den Anbieter', grund(lauf([PLUTO], [{ ...PET_TITEL, titleDe: 'Dr. STONE' }])) === 'keine Stream-Plattform im Datenmodell (Anbieter Pluto TV hat keine Kennung)')
+const YAIBA = mit(PET, { titel: 'YAIBA: Samurai Legend', zitat: 'Die ersten beiden Episoden von »YAIBA: Samurai Legend« stehen kostenlos auf Deutsch zur Verfügung.' })
+pruefe('Deutsches Zitat ohne Synchro-Wort: wird gezählt und benannt, nicht still übergangen', lauf([YAIBA]).zurueck.length === 1 && grund(lauf([YAIBA])) === 'Zitat nennt die Synchro nicht ausdrücklich', lauf([YAIBA]))
+pruefe('Vorschlag in anderer Sprache (omu) ist kein Ablehnungsfall und wird nicht gezählt', lauf([mit(YAIBA, { sprache: 'omu' })]).zurueck.length === 0)
+
 // --- Stufe 3: Weg und Handbelege ---------------------------------------------------------------------------------------------------
 const mitWegen = (...streams: { platform: string; dub?: boolean }[]) => [{ ...PET_TITEL, streams }]
-pruefe('Kein Weg bei der Plattform (nur Netflix): zurückgestellt', grund(lauf([PET], mitWegen(weg('netflix')))) === 'kein Weg bei primevideo')
+pruefe('Kein Weg bei der Plattform (nur Netflix): zurückgestellt', grund(lauf([PET], mitWegen(weg('netflix')))) === 'kein Weg bei primevideo (wartet auf den Bestandsbau)')
 pruefe('Zwei Wege bei der Plattform: zurückgestellt', grund(lauf([PET], mitWegen(weg('primevideo'), weg('primevideo')))) === '2 Wege bei primevideo')
 pruefe('Weg trägt dub: true: zurückgestellt', grund(lauf([PET], mitWegen(weg('primevideo', true)))) === 'Weg trägt schon dub: true')
 pruefe('Weg trägt dub: false: zurückgestellt', grund(lauf([PET], mitWegen(weg('primevideo', false)))) === 'Weg trägt schon dub: false')

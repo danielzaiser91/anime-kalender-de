@@ -66,12 +66,31 @@ export function nenntSynchro(zitat: string): boolean {
   return SYNCHRO_WORTLAUT.test(zitat.replace(/auf deutsch/gi, ' '))
 }
 
-/** Der einzige Katalogtitel mit diesem Namen; bei keinem oder mehreren der Grund als Text. */
-export function ordneTitelZu(titel: string, katalog: KatalogTitel[]): KatalogTitel | string {
-  const gesucht = name(titel)
+const ZAHL_WORT: Record<string, string> = { second: '2', third: '3', fourth: '4', fifth: '5' }
+
+/**
+ * Name mit einheitlicher Staffelzählung: „Second Season“, „2nd Season“, „Season 2“ und „Staffel 2“ werden alle zu „staffel 2“ –
+ * der Artikel schreibt anders als der Katalog (Black Clover Second Season gegen „Black Clover: Staffel 2“, Katalog 195604).
+ */
+export function staffelName(s: string | null | undefined): string {
+  const zaehlung = (s ?? '')
+    .toLowerCase()
+    .replace(/\b(?:(\d+)(?:st|nd|rd|th)|(second|third|fourth|fifth))\s+season\b/g, (_m, z?: string, w?: string) => `staffel ${z ?? ZAHL_WORT[w!]}`)
+    .replace(/\b(?:season|staffel)\s*(\d+)\b/g, (_m, z: string) => `staffel ${z}`)
+  return name(zaehlung)
+}
+
+/**
+ * Der einzige Katalogtitel mit diesem Namen; bei keinem oder mehreren der Grund als Text. Mit `plattform` entscheidet bei mehreren Namensgleichen
+ * der, der dort einen Weg hat (Colorful: Film 8142 mit Joyn-Weg gegen die Kurzserie 841 ohne Wege).
+ */
+export function ordneTitelZu(titel: string, katalog: KatalogTitel[], plattform?: string): KatalogTitel | string {
+  const gesucht = staffelName(titel)
   if (!gesucht) return 'Titel ohne Buchstaben'
-  const treffer = katalog.filter((t) => [t.titleDe, t.titleEn, t.titleRomaji].some((n) => name(n) === gesucht))
+  const treffer = katalog.filter((t) => [t.titleDe, t.titleEn, t.titleRomaji].some((n) => staffelName(n) === gesucht))
   if (treffer.length === 1) return treffer[0]!
+  const mitWeg = treffer.filter((t) => (t.streams ?? []).some((s) => s.platform === plattform))
+  if (mitWeg.length === 1) return mitWeg[0]!
   return treffer.length ? `Titel mehrdeutig (${treffer.map((t) => t.id).join(', ')})` : 'Titel nicht im Katalog'
 }
 
@@ -93,6 +112,7 @@ function ersterGrund(v: GespeicherterVorschlag, heute: string): string | undefin
   if (!ARTEN.has(v.art)) return `Art ${v.art}`
   if (v.warnungen.some((w) => !ANBIETER_NUR_IM_ARTIKEL.test(w))) return 'Warnung am Vorschlag'
   if (v.unsicher) return 'Vorschlag ist als unsicher gekennzeichnet'
+  if (!v.plattform && v.anbieter) return `keine Stream-Plattform im Datenmodell (Anbieter ${v.anbieter} hat keine Kennung)`
   if (!v.plattform || KEIN_STREAM.has(v.plattform)) return 'keine Stream-Plattform im Datenmodell'
   if (!plattformGebunden(v)) return `Plattform ${v.plattform} nicht eindeutig an die Synchro-Aussage gebunden (Zitat und Artikeltitel)`
   if (v.datum && v.datum > heute) return `Tag ${v.datum} liegt in der Zukunft`
@@ -102,7 +122,7 @@ function ersterGrund(v: GespeicherterVorschlag, heute: string): string | undefin
 function wegGrund(t: KatalogTitel, plattform: string, belegt: Belegstand, artikelTag: string): string | undefined {
   const wege = (t.streams ?? []).filter((s) => s.platform === plattform)
   if ((belegt.get(`${t.id}|${plattform}`) ?? '') >= artikelTag) return 'Handbeleg zu Titel und Plattform steht schon'
-  if (wege.length !== 1) return wege.length ? `${wege.length} Wege bei ${plattform}` : `kein Weg bei ${plattform}`
+  if (wege.length !== 1) return wege.length ? `${wege.length} Wege bei ${plattform}` : `kein Weg bei ${plattform} (wartet auf den Bestandsbau)`
   if (wege[0]!.dub !== undefined) return `Weg trägt schon dub: ${wege[0]!.dub}`
   return undefined
 }
@@ -122,14 +142,18 @@ export function waehleSynchroBelege(
   const zurueck: Zurueckgestellt[] = []
   const schluessel = new Map(belegt)
   for (const v of vorschlaege) {
-    if (!v.sprache.startsWith('deutsch') || !nenntSynchro(v.zitat)) continue
+    if (!v.sprache.startsWith('deutsch')) continue
     const lehne = (grund: string) => zurueck.push({ titel: v.titel, artikelId: v.artikelId, grund })
+    if (!nenntSynchro(v.zitat)) {
+      lehne('Zitat nennt die Synchro nicht ausdrücklich')
+      continue
+    }
     const grund = ersterGrund(v, heute)
     if (grund) {
       lehne(grund)
       continue
     }
-    const t = ordneTitelZu(v.titel, katalog)
+    const t = ordneTitelZu(v.titel, katalog, v.plattform!)
     if (typeof t === 'string') {
       lehne(t)
       continue
