@@ -60,14 +60,25 @@ function bearbeite(dateien) {
   return gemacht
 }
 
+/** Pfade aus `status --porcelain -z`; bei Umbenennung/Kopie (R/C) folgt der alte Pfad als eigenes Feld und zählt nicht. */
+function geaendertePfade(roh) {
+  const felder = roh.split('\0').filter(Boolean)
+  const pfade = []
+  for (let i = 0; i < felder.length; i++) {
+    pfade.push(felder[i].slice(3))
+    if (/[RC]/.test(felder[i].slice(0, 2))) i++
+  }
+  return pfade
+}
+
 /** Nur Dateien, die vom Git-Stand abweichen oder neu sind: was `git pull` frisch geschrieben hat, bleibt unberührt,
  *  sonst wird der Hauptordner nach jedem Pull schmutzig und das nächste `pull --ff-only` scheitert (06.11.2026). */
 function nurGeaenderte(dateien) {
   if (dateien.length === 0) return dateien
   const r = require('node:child_process').spawnSync('git', ['status', '--porcelain', '-z', '--untracked-files=all', '--', '.'], { cwd: WURZEL, encoding: 'utf8' })
-  if (r.status !== 0) return []
+  if (r.status !== 0) return dateien // ohne Git-Stand lieber zu viel umschreiben als Links liegen lassen
   const top = require('node:child_process').spawnSync('git', ['rev-parse', '--show-toplevel'], { cwd: WURZEL, encoding: 'utf8' }).stdout.trim().replace(/\\/g, '/')
-  const offen = new Set(r.stdout.split('\0').filter(Boolean).map((z) => (top + '/' + z.slice(3)).toLowerCase()))
+  const offen = new Set(geaendertePfade(r.stdout).map((p) => (top + '/' + p).toLowerCase()))
   return dateien.filter((d) => offen.has(d.replace(/\\/g, '/').toLowerCase()))
 }
 
