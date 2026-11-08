@@ -11,7 +11,7 @@ name: PR-Prüfer
 
 on:
   pull_request_target:
-    branches: [main]
+    branches: [main, zug]
     # Ohne `reopened`: Wiederöffnen (tools/pr-nachrechnen.mjs) rechnet nur die Kette nach, der Kopf und sein Urteil bleiben.
     types: [opened, synchronize, ready_for_review]
 
@@ -282,6 +282,10 @@ jobs:
             Neuer Mess- oder Prüfschritt (17.10.2026, PR 1452): Er braucht eine Ergebniszeile im CI-Log des
             geprüften Kopfs (z. B. "dunkel/woche: 14 Kacheln, 0 Fehler"), die der Nachtrag zitiert. Ein grüner
             Schritt ohne solche Zeile hat nicht gemessen (Startprüfung nie wahr, Exit 0): "aendern".
+            Start-Budget (06.11.2026): Steht in kettenlog.txt unter dem Job, der den Web-Bau ausführt, eine Zeile
+            "start-budget: nur noch X KB Luft" und der Diff berührt web/src, shared/ oder die Startdaten (public/data/woche-kacheln.json
+            und die Dateien, die das Vorlade-Skript anfordert), ist das eine Auflage: Der Bauer nennt in der Beschreibung die
+            Startgröße vorher/nachher (node tools/start-budget.mjs) und verkleinert, wenn der PR sie erhöht. Zitiere die Zeile im Protokoll.
             Toleranz in einer Zuordnung (±1 Jahr, ungefähre Folgenzahl): nur frei, wenn die Beschreibung die Fälle
             zählt, die allein durch sie hereinkommen, und jeden als richtig belegt.
             Benennt die Beschreibung eine Verdrahtung (Aufruf in build.ts oder einer Phase) selbst als ungetestet,

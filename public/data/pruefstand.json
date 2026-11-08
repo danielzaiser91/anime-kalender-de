@@ -1,12 +1,12 @@
 {
- "erzeugtAm": "2026-11-07T23:09:09.368Z",
+ "erzeugtAm": "2026-11-08T16:35:49.465Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
-   "gemeldet": 926,
+   "gemeldet": 924,
    "gesamt": 1002,
-   "offen": 76,
+   "offen": 78,
    "ohneSeite": 2,
    "suchAdressen": [
     "https://www.amazon.de/s?k=Super%20Wings&i=instant-video",
@@ -18,6 +18,14 @@
      "url": "https://www.amazon.de/gp/video/detail/B09FRLPFK4",
      "titel": "Do, Re & Mi",
      "hinweis": "Staffeln unklar: TMDB zählt 23 Folgen insgesamt, der Anbieter kann sie anders schneiden"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B09JLN6S1R",
+     "titel": "Detektiv Conan (Detective Conan)"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B0DNNFT23G",
+     "titel": "Shin-chan (Shin Chan)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0D84DKFSH",
@@ -212,6 +220,10 @@
      "titel": "Bakemonogatari"
     },
     {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.6aad68c8-1e46-46e9-be1e-3d4de43488a5",
+     "titel": "Black Butler"
+    },
+    {
      "url": "https://www.amazon.de/gp/video/detail/B09KX2VLPR",
      "titel": "Higurashi no Naku Koro ni Kai (When They Cry Kai)"
     },
@@ -220,20 +232,16 @@
      "titel": "Higurashi no Naku Koro ni (When They Cry)"
     },
     {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.1374d3dd-9d96-4d41-b0f8-38932f0c9145",
+     "titel": "Ikki Tousen: Dragon Girls (Battle Vixens: Ikki Tousen)"
+    },
+    {
      "url": "https://www.amazon.de/gp/video/detail/B0GYDLTDD8",
      "titel": "Cardcaptor Sakura"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CJYMLW6W",
      "titel": "Fushigi Yûgi New OVA: The Mysterious Play (Mysterious Play OVA 2)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B09JLN6S1R",
-     "titel": "Detektiv Conan (Detective Conan)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0DNNFT23G",
-     "titel": "Shin-chan (Shin Chan)"
     },
     {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.5ba2d356-b885-4716-adfa-3a95cec98fff",
@@ -441,7 +449,7 @@
     "B0FJ7GC6S6": 10,
     "B0FDH3SLKB": 11,
     "B0DJWXLZ55": 12,
-    "B0HKFFGQ7F": 5,
+    "B0HKFFGQ7F": 6,
     "B0FN41VKQ5": 12,
     "B0DQ6SDQL2": 12,
     "B0H1QXQL33": 12,
@@ -453,9 +461,9 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 773,
+   "gemeldet": 766,
    "gesamt": 1082,
-   "offen": 309,
+   "offen": 316,
    "ohneSeite": 13,
    "ziel": "https://www.netflix.com/title/81608820",
    "ziele": [
@@ -466,6 +474,10 @@
     {
      "url": "https://www.netflix.com/title/81272431",
      "titel": "Numberblocks"
+    },
+    {
+     "url": "https://www.netflix.com/title/80107103",
+     "titel": "One Piece"
     },
     {
      "url": "https://www.netflix.com/title/81054853",

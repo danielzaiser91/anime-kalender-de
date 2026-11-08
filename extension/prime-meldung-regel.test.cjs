@@ -59,7 +59,7 @@ async function klick(e, umgebung = {}) {
   const f = new Function(
     'knopf', 'verbindungLebt', 'standGeladen', 'standFertig', 'erledigt', 'listenId', 'staffelSchluessel', 'letzterStand', 'zeichnen',
     'location', 'htmlNeuLesen', 'sprachenAusFolgen', 'geladeneFolgen', 'deutschInFolgen', 'gesehen', 'seitenLage', 'ueberKanal',
-    'setTimeout', 'abweisen', 'chrome', 'globalThis', 'quelltextVonFruehererSeite', 'titelVerlassen', 'document', 'eintrag', 'asinAusAdresse', 'asinAusSeite', 'seitenTitel',
+    'setTimeout', 'abweisen', 'abweisenMitGrund', 'chrome', 'globalThis', 'quelltextVonFruehererSeite', 'titelVerlassen', 'document', 'eintrag', 'asinAusAdresse', 'asinAusSeite', 'seitenTitel',
     `return (async () => {\n${klickCodeMitToken}\nreturn 'sendet'\n})()`,
   )
   const ergebnis = await f(
@@ -68,6 +68,7 @@ async function klick(e, umgebung = {}) {
     { gesamt: e.gesamt, abschnitte: e.abschnitte, gesperrt: e.gesperrt ? karte(e.gesperrt) : undefined },
     () => ({ folgenLautSeite: e.lautSeite ?? 0, regionFolgen: [] }), () => e.kanal ?? false, () => {},
     (grund, ok = false) => abgewiesen.push({ grund, ok }),
+    (grund) => abgewiesen.push({ grund, ok: false }),
     { storage: { sync: { get: umgebung.tokenGet ?? (() => Promise.resolve({ token: 'T' })) } } }, kasten,
     () => false, null, { querySelector: () => null }, { titel: 'T' }, () => 'A', () => 'A', () => 'T',
   )

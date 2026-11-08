@@ -84,6 +84,7 @@ function punkte({ k, a }) {
 /** Misst eine Kachel in einem Thema; liefert die Fehlertexte. `lesePixel` liest Pixel aus einem PNG (läuft im Browser). */
 async function messeThema(seite, lesePixel, name) {
   const kachel = seite.locator(KACHEL).first()
+  /* Kein Wochen-Gleiten, Pixelmessung ohne Zeiger: kein Warten auf Stillstand nötig (zeile-mittig.mjs). */
   await kachel.scrollIntoViewIfNeeded()
   await seite.waitForTimeout(400)
   const lage = await seite.evaluate(rechtecke, [KACHEL, ABZEICHEN])

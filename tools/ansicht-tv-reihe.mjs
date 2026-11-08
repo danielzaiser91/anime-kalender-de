@@ -13,6 +13,7 @@ import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { urteilReihe, urteilTastatur, urteilRand, tvKulisse } from './tv-reihe-urteil.mjs'
 import { setzeSichtbarkeitSchwebender } from './kachel-ecken-messen.mjs'
+import { ruheAbwarten } from './zeile-mittig.mjs'
 
 const WURZEL = path.resolve(import.meta.dirname, '..')
 const ANZAHL_TV = 12
@@ -91,6 +92,8 @@ async function messeRand(seite, selektor) {
   await seite.evaluate(setzeSichtbarkeitSchwebender, 'hidden')
   const kachel = seite.locator(`${selektor} [data-tv-zeile]`).first()
   await kachel.scrollIntoViewIfNeeded()
+  /* Die Woche gleitet nach der Ankunft zum nächsten Termin; erst danach ist die Lage der Kachel fest. */
+  await ruheAbwarten(seite)
   const r = await kachel.boundingBox()
   const png = (await seite.screenshot()).toString('base64')
   await seite.evaluate(setzeSichtbarkeitSchwebender, '')

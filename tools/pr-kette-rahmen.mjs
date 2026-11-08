@@ -13,7 +13,7 @@ const RUNNER = 'ubuntu-latest'
 const SOLL_PERMISSIONS = { contents: 'read' }
 /** Einzige erlaubte Workflow-env: Ortszeit wie Daniels Rechner, damit Berlin-Fehler (00:30 Berlin = 22:30 UTC) in der Kette auffallen. */
 const SOLL_ENV = { TZ: 'Europe/Berlin' }
-const SOLL_TRIGGER = { pull_request: { branches: ['main'], types: ['opened', 'synchronize', 'reopened', 'ready_for_review'] } }
+const SOLL_TRIGGER = { pull_request: { branches: ['main', 'zug'], types: ['opened', 'synchronize', 'reopened', 'ready_for_review'] } }
 
 const NM_SCHLUESSEL = "nm-${{ runner.os }}-node22-${{ hashFiles('package.json', 'package-lock.json') }}"
 const PW_SCHLUESSEL = "pw-${{ runner.os }}-${{ hashFiles('package-lock.json') }}"

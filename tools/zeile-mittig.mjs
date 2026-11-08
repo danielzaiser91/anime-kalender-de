@@ -43,6 +43,21 @@ async function ruhigImFenster(zeile, immerMittig) {
   }), { ruhe: RUHE_BILDER, immerMittig })
 }
 
+/** Wartet auf Stillstand des Bildlaufs, ohne selbst zu scrollen (für Proben, die mit `scrollIntoViewIfNeeded` arbeiten). */
+export async function ruheAbwarten(seite) {
+  await seite.evaluate(async (p) => {
+    const bild = () => new Promise((fertig) => { requestAnimationFrame(fertig); setTimeout(fertig, 50) })
+    const ende = performance.now() + p.frist
+    let ruhig = 0
+    let letzte = null
+    while (ruhig < p.ruhe && performance.now() < ende) {
+      await bild()
+      ruhig = scrollY === letzte ? ruhig + 1 : 0
+      letzte = scrollY
+    }
+  }, { ruhe: 8, frist: 4000 })
+}
+
 /** Meldung, wenn am Zeigerpunkt (x, y) nicht die Zeile oder ein Kind von ihr liegt; sonst null. */
 export async function verdeckung(zeile, x, y) {
   const trifft = await zeile.evaluate((el, p) => {
