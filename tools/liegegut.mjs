@@ -280,9 +280,9 @@ export function offenePrs(ghFn, hinweis = () => {}) {
 }
 
 /** Holt die offenen PRs über gh/git (einspeisbar) und rechnet alle. Rückgabe: Funde { nr, signale, zeile }. */
-export function liegegutFunde(ghFn, gitFn, jetzt, hinweis) {
+export function liegegutFunde(ghFn, gitFn, jetzt, hinweis, standPfad = undefined) {
   const offen = offenePrs(ghFn, hinweis).filter((p) => !p.isDraft)
-  const geteilt = geteilteEntscheidungen(offen, entschiedeneAusStand())
+  const geteilt = geteilteEntscheidungen(offen, entschiedeneAusStand(standPfad))
   const karte = kopfZeiten(ghFn)
   return offen.map((pr) => bewertePr(ghFn, gitFn, pr, geteilt.get(pr.number), jetzt, karte)).filter((f) => f !== null)
 }

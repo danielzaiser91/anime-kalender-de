@@ -9,7 +9,7 @@ import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
-import { offenePrs, checkStand, geteilteEntscheidungen, entschiedeneF, entschiedeneAusStand, kopfZeitVon, kopfZeiten, liegegut, main, grepMain, neueBezeichner, naechsterSchritt, signaleEinzel, stillstandSignal, ueberholtTreffer, urteile, JQ_PATCHES } from './liegegut.mjs'
+import { liegegutFunde, offenePrs, checkStand, geteilteEntscheidungen, entschiedeneF, entschiedeneAusStand, kopfZeitVon, kopfZeiten, liegegut, main, grepMain, neueBezeichner, naechsterSchritt, signaleEinzel, stillstandSignal, ueberholtTreffer, urteile, JQ_PATCHES } from './liegegut.mjs'
 
 const fehler = []
 const pruefe = (name, ok, info) => {
@@ -313,6 +313,17 @@ console.log('liegegut: Gesamtlauf mit Anlassfällen')
   pruefe('Entwurf und frischer PR ohne Zeile', nach(1700) === undefined && nach(1701) === undefined)
   pruefe('Gegenprobe nur für Signale 1, 3, 5: 1508 (nur Signal 6) ruft die Dateiliste nicht ab', !gh.some((a) => a.includes('/pulls/1508/files')) && gh.some((a) => a.includes('/pulls/1437/files')))
   pruefe('git grep auf origin/main, je PR eine Datei, nie git log', git.length > 0 && git.every((a) => /^grep -n -w -F -e \S+ origin\/main -- \S+$/.test(a)), git)
+}
+
+console.log('liegegut: entschiedene F-Nummer aus stand.md bis in den Gesamtlauf')
+{
+  const werk = fs.mkdtempSync(path.join(os.tmpdir(), 'liegegut-stand-'))
+  const stand = path.join(werk, 'stand.md')
+  const nummern = (pfad) => liegegutFunde(attrappeGh(LISTE), attrappeGit(), JETZT, () => {}, pfad).filter((f) => /Signal 6|; 6 /.test(f.zeile)).map((f) => f.nr).sort()
+  fs.writeFileSync(stand, '- F39 = A: entschieden\n')
+  pruefe('Kontrolle: F39 offen (Datei fehlt) → 1508 und 1513 mit Signal 6', JSON.stringify(nummern(path.join(werk, 'fehlt.md'))) === '[1508,1513]', nummern(path.join(werk, 'fehlt.md')))
+  pruefe('F39 = A in stand.md → kein Signal 6 mehr', nummern(stand).length === 0, nummern(stand))
+  fs.rmSync(werk, { recursive: true, force: true })
 }
 
 console.log('liegegut: Nichtauskunft und Startlogik')
