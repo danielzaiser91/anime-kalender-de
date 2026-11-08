@@ -107,6 +107,7 @@ const HANDGEPFLEGT = new Set([
   'data/belege-entfernt.yaml',
   'data/synchron-forum-treffer.yaml',
   'data/netflix-fremde-meldungen.json',
+  'data/joyn-luecke-ausnahmen.json',
   'data/eigene-titel.yaml',
 ])
 for (const datei of readdirSync(pipelineDir, { recursive: true })) {

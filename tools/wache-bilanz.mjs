@@ -5,6 +5,7 @@ const LESEFEHLER = [
   ['Bestandsbau', 'ALARM? Läufe des Bestandsbaus nicht lesbar: '],
   ['Fehlerschritte', 'ALARM? Fehlerschritte des Bestandsbaus nicht lesbar: '],
   ['Deploy', 'ALARM? Läufe des Deploys nicht lesbar: '],
+  ['Synchro-Wartezeit', 'SYNCHRO? Wartezeit nicht lesbar: '],
 ]
 const QUELLEN = 'Quellen'
 

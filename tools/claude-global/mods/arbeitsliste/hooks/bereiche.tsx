@@ -3,6 +3,8 @@
 import { hatAusklapp, statusVon, textKlappt } from './prios'
 import type { PrioEintrag } from './prios'
 import type { Verweis } from './zaehlen'
+import { zielZeile, zielZu } from './ziele'
+import type { ZielStand } from './ziele'
 
 // Standard: alles zu, nur „Jetzt“ offen; ein Eintrag in der Liste kehrt den Standard um.
 const STANDARD_OFFEN = ['jetzt']
@@ -27,6 +29,7 @@ export type PrioUmfeld = {
   offen: (kennung: string) => boolean
   schalte: (kennung: string) => void
   oeffne: (href: string) => void
+  ziele: ZielStand[]
 }
 
 export const prioKennung = (e: PrioEintrag): string => `prio:${e.titel}`
@@ -87,6 +90,17 @@ function prioDetails(ui: any, e: PrioEintrag, u: PrioUmfeld) {
   ))
 }
 
+// Balken und nächster Meilenstein unter dem Ziel; ohne ziele.md kein Balken.
+function zielBalken(ui: any, z: ZielStand | undefined) {
+  const { Text } = ui
+  if (!z?.gesamt) return null
+  return (
+    <Text dimColor wrap="wrap">
+      {`    ${zielZeile(z)}`}
+    </Text>
+  )
+}
+
 // Kasten mit Rahmen ganz oben, immer offen, ohne Schalter; je Eintrag Status-Chip, Text, Link-Knöpfe.
 export function topPriosKasten(ui: any, eintraege: PrioEintrag[], u: PrioUmfeld) {
   const { Box, Text } = ui
@@ -94,11 +108,12 @@ export function topPriosKasten(ui: any, eintraege: PrioEintrag[], u: PrioUmfeld)
   return (
     <Box key="top-prios" flexDirection="column" borderStyle="round" borderColor="warning" paddingX={1}>
       <Text bold color="warning">
-        Top-Prios
+        Ziele
       </Text>
       {eintraege.map((e, i) => (
         <Box flexDirection="column" key={`top-${i}`}>
           {prioKopf(ui, e, u)}
+          {zielBalken(ui, zielZu(e.titel, u.ziele))}
           {prioDetails(ui, e, u)}
           {linkKnoepfe(ui, e, u.oeffne)}
         </Box>

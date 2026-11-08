@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-11-07T15:01:40.163Z",
+  "scrapedAt": "2026-11-08T16:01:58.103Z",
   "serien": [
     {
       "url": "http://www.crunchyroll.com/de/a-place-further-than-the-universe",
@@ -23604,7 +23604,7 @@
       "seriesId": "G4PH0WX5J",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-11-01",
+      "geprueftAm": "2026-11-08",
       "deutschImAngebot": true,
       "staffeln": [
         {
@@ -23765,9 +23765,9 @@
         {
           "name": "Staffel 2",
           "staffelId": "GS00384020JAJP",
-          "folgen": 5,
-          "kacheln": 5,
-          "deutsch": 2,
+          "folgen": 6,
+          "kacheln": 6,
+          "deutsch": 3,
           "fremd": 1,
           "deutscheFassung": true,
           "deutscheFolgen": [
@@ -23782,11 +23782,18 @@
               "guid": "GE00384110DEDE",
               "laufend": 2,
               "verfuegbarAb": "2026-11-01T10:00:00Z"
+            },
+            {
+              "nummer": 3,
+              "guid": "GE00384111DEDE",
+              "laufend": 3,
+              "verfuegbarAb": "2026-11-08T10:00:00Z"
             }
           ]
         }
       ],
       "neuFolgen": [
+        "GE00384111DEDE",
         "GE00384110DEDE",
         "GE00384109DEDE"
       ]
@@ -64445,7 +64452,7 @@
       "seriesId": "GG5H5XQMD",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-11-01",
+      "geprueftAm": "2026-11-08",
       "deutschImAngebot": true,
       "staffeln": [
         {
@@ -64617,9 +64624,9 @@
         {
           "name": "Staffel 3",
           "staffelId": "GS00384021JAJP",
-          "folgen": 6,
-          "kacheln": 6,
-          "deutsch": 3,
+          "folgen": 7,
+          "kacheln": 7,
+          "deutsch": 4,
           "fremd": 1,
           "deutscheFassung": true,
           "deutscheFolgen": [
@@ -64640,11 +64647,18 @@
               "guid": "GE00384135DEDE",
               "laufend": 3,
               "verfuegbarAb": "2026-11-01T16:00:00Z"
+            },
+            {
+              "nummer": 4,
+              "guid": "GE00384136DEDE",
+              "laufend": 4,
+              "verfuegbarAb": "2026-11-08T16:00:00Z"
             }
           ]
         }
       ],
       "neuFolgen": [
+        "GE00384136DEDE",
         "GE00384135DEDE",
         "GE00384134DEDE",
         "GE00384133DEDE"
@@ -70408,7 +70422,7 @@
       "seriesId": "GRE50KV36",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-10-12",
+      "geprueftAm": "2026-11-07",
       "deutschImAngebot": true,
       "staffeln": [
         {
@@ -71487,12 +71501,23 @@
         {
           "name": "Staffel 2",
           "staffelId": "GS00385471JAJP",
-          "folgen": 2,
-          "kacheln": 2,
-          "deutsch": 0,
-          "fremd": 0,
-          "deutscheFassung": false
+          "folgen": 6,
+          "kacheln": 6,
+          "deutsch": 1,
+          "fremd": 3,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 171,
+              "guid": "GE00385472DEDE",
+              "laufend": 1,
+              "verfuegbarAb": "2026-11-07T16:00:00Z"
+            }
+          ]
         }
+      ],
+      "neuFolgen": [
+        "GE00385472DEDE"
       ]
     },
     {
@@ -174394,15 +174419,15 @@
       "seriesId": "GT00384006",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-11-01",
+      "geprueftAm": "2026-11-08",
       "deutschImAngebot": true,
       "staffeln": [
         {
           "name": "Staffel 1",
           "staffelId": "GS00384035JAJP",
-          "folgen": 5,
-          "kacheln": 5,
-          "deutsch": 5,
+          "folgen": 6,
+          "kacheln": 6,
+          "deutsch": 6,
           "fremd": 0,
           "deutscheFassung": true,
           "deutscheFolgen": [
@@ -174435,11 +174460,18 @@
               "guid": "GE00389233DEDE",
               "laufend": 5,
               "verfuegbarAb": "2026-11-01T14:00:00Z"
+            },
+            {
+              "nummer": 6,
+              "guid": "GE00389234DEDE",
+              "laufend": 6,
+              "verfuegbarAb": "2026-11-08T14:00:00Z"
             }
           ]
         }
       ],
       "neuFolgen": [
+        "GE00389234DEDE",
         "GE00389233DEDE",
         "GE00389232DEDE",
         "GE00389231DEDE",
@@ -174452,7 +174484,7 @@
       "seriesId": "G4PH0WX5J",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-11-01",
+      "geprueftAm": "2026-11-08",
       "deutschImAngebot": true,
       "staffeln": [
         {
@@ -174613,9 +174645,9 @@
         {
           "name": "Staffel 2",
           "staffelId": "GS00384020JAJP",
-          "folgen": 5,
-          "kacheln": 5,
-          "deutsch": 2,
+          "folgen": 6,
+          "kacheln": 6,
+          "deutsch": 3,
           "fremd": 1,
           "deutscheFassung": true,
           "deutscheFolgen": [
@@ -174630,11 +174662,18 @@
               "guid": "GE00384110DEDE",
               "laufend": 2,
               "verfuegbarAb": "2026-11-01T10:00:00Z"
+            },
+            {
+              "nummer": 3,
+              "guid": "GE00384111DEDE",
+              "laufend": 3,
+              "verfuegbarAb": "2026-11-08T10:00:00Z"
             }
           ]
         }
       ],
       "neuFolgen": [
+        "GE00384111DEDE",
         "GE00384110DEDE",
         "GE00384109DEDE"
       ]
@@ -175846,15 +175885,15 @@
       "seriesId": "GT00384004",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-11-01",
+      "geprueftAm": "2026-11-08",
       "deutschImAngebot": true,
       "staffeln": [
         {
           "name": "Staffel 1",
           "staffelId": "GS00384033JAJP",
-          "folgen": 6,
-          "kacheln": 6,
-          "deutsch": 6,
+          "folgen": 7,
+          "kacheln": 7,
+          "deutsch": 7,
           "fremd": 0,
           "deutscheFassung": true,
           "deutscheFolgen": [
@@ -175893,11 +175932,18 @@
               "guid": "GE00384233DEDE",
               "laufend": 6,
               "verfuegbarAb": "2026-11-01T14:30:00Z"
+            },
+            {
+              "nummer": 7,
+              "guid": "GE00384234DEDE",
+              "laufend": 7,
+              "verfuegbarAb": "2026-11-08T14:30:00Z"
             }
           ]
         }
       ],
       "neuFolgen": [
+        "GE00384234DEDE",
         "GE00384233DEDE",
         "GE00384232DEDE",
         "GE00384231DEDE",
@@ -177871,7 +177917,7 @@
       "seriesId": "GRE50KV36",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-11-04",
+      "geprueftAm": "2026-11-07",
       "deutschImAngebot": true,
       "staffeln": [
         {
@@ -178950,12 +178996,23 @@
         {
           "name": "Staffel 2",
           "staffelId": "GS00385471JAJP",
-          "folgen": 5,
-          "kacheln": 5,
-          "deutsch": 0,
+          "folgen": 6,
+          "kacheln": 6,
+          "deutsch": 1,
           "fremd": 3,
-          "deutscheFassung": false
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 171,
+              "guid": "GE00385472DEDE",
+              "laufend": 1,
+              "verfuegbarAb": "2026-11-07T16:00:00Z"
+            }
+          ]
         }
+      ],
+      "neuFolgen": [
+        "GE00385472DEDE"
       ]
     },
     {

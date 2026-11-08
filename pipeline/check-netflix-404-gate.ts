@@ -144,7 +144,9 @@ try {
 
   /* 3. Durch die echte Bauphase 09-2. JustWatch-Stände mit Fernzukunft bzw. Altdatum, damit der Test keine Uhr liest. */
   const DEUTSCH = { id: 1735, streams: [{ platform: 'netflix', url: nf(80000603), dub: true }] } as unknown as Title
-  const baue = (befunde: Record<string, LinkBefund>, jwDatei: object) => {
+  /** Deutsch auf Netflix, aber unter einer anderen Adresse: der Weg zählt als Abgang, ist aber nicht selbst belegt. */
+  const OHNE_DEUTSCH = { id: 1735, streams: [{ platform: 'netflix', url: nf(1), dub: true }] } as unknown as Title
+  const baue = (befunde: Record<string, LinkBefund>, jwDatei: object, vorher: Title = OHNE_DEUTSCH) => {
     writeFileSync(join(kulisse, 'data/link-check.json'), JSON.stringify(befunde))
     writeFileSync(join(kulisse, 'data/justwatch-audio.json'), JSON.stringify(jwDatei))
     const titles = new Map<number, Title>([[1735, { id: 1735, streams: [{ platform: 'netflix', url: nf(80000603) }], entfernteStreams: [] } as unknown as Title]])
@@ -158,7 +160,7 @@ try {
       belegFuer: () => undefined,
       vonHandBelegtAm: new Map(),
       checks: new Map(),
-      vorherTitles: [DEUTSCH],
+      vorherTitles: [vorher],
     })
     return { wege: titles.get(1735)?.streams.length, abgang: titles.get(1735)?.entfernteStreams?.length ?? 0 }
   }
@@ -171,6 +173,7 @@ try {
   erwarte('Bau: 404, keine JW-Datei: Weg geht', baue(eigenes, {}), { wege: 0, abgang: 1 })
   erwarte('Bau: Massenlauf, JW schweigt: Weg bleibt', baue({ ...lauf('2026-11-04', 20, 5), ...eigenes }, {}), { wege: 1, abgang: 0 })
   erwarte('Bau: ruhiger Lauf, JW schweigt: Weg geht', baue({ ...lauf('2026-11-04', 20, 1, 5000), ...eigenes }, {}), { wege: 0, abgang: 1 })
+  erwarte('Bau: ruhiger Lauf, JW schweigt, deutscher Ton belegt: Weg bleibt (Regel aus 2904)', baue({ ...lauf('2026-11-04', 20, 1, 5000), ...eigenes }, {}, DEUTSCH), { wege: 1, abgang: 0 })
 } finally {
   rmSync(kulisse, { recursive: true, force: true })
 }
