@@ -121,6 +121,17 @@ const fremd = (katalog: string, seriesId: string) => [{ url: 'u', seriesId, kata
 pruefe(blockWahl(fremd('us', 'K1'), 'K1', { nummern: [1] }).grund === 'kein datierter deutscher Block', 'US-Katalog belegt nichts')
 pruefe(blockWahl(fremd('de', 'ANDERE'), 'K1', { nummern: [1] }).grund === 'kein datierter deutscher Block', 'Block einer anderen Serie zählt nicht')
 
+// Auch der Weg über die Zahl liest nur den deutschen Katalog und nur die eigene Serie, wenn es daneben einen deutschen Block gibt.
+const mitNachbar = (katalog: string, seriesId: string) => [
+  { url: 'u', seriesId: 'K1', katalog: 'de', staffeln: [block('Foo', 12, '2025-01-01T00:00:00Z')] },
+  { url: 'u', seriesId, katalog, staffeln: [block('Staffel 2', 12, '2025-02-01T00:00:00Z')] },
+] as never
+pruefe(blockWahl(mitNachbar('us', 'K1'), 'K1', { nummern: [2] }).grund === 'einziger Block, Titel ist nicht Staffel 1', 'Block „Staffel 2“ im US-Katalog zählt nicht')
+pruefe(blockWahl(mitNachbar('de', 'ANDERE'), 'K1', { nummern: [2] }).grund === 'einziger Block, Titel ist nicht Staffel 1', 'Block „Staffel 2“ einer anderen Serie zählt nicht')
+pruefe(blockWahl(mitNachbar('de', 'K1'), 'K1', { nummern: [2] }).weg === 'zahl', 'Kontrolle: derselbe Block in der eigenen deutschen Serie zählt')
+
+pruefe(wahl([block('Staffel 2', 12, '2025-01-01T00:00:00Z'), block('Season 2', 12)], { nummern: [2] }) === 'Staffel 2|zahl', 'ein undatierter Block gleicher Nummer zählt nicht mit')
+
 // Offene Fälle tragen einen Grund, auch ohne Blöcke.
 pruefe(wahl([], { nummern: [1] }) === '-|kein datierter deutscher Block', 'keine Blöcke: Grund genannt')
 pruefe(wahl([block('Solo', 12)], { nummern: [1] }) === '-|kein datierter deutscher Block', 'nur undatierter Block: Grund genannt')
