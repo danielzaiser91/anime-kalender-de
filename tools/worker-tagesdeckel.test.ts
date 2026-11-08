@@ -480,10 +480,10 @@ console.log('Lesezeilen: keine Gesamtzahl der Rohfolgen mehr (12.10.2026)')
     return { inhalt, gezaehlt: abfragen.some((a) => /COUNT\(\*\)/.test(a.sql)) }
   }
   const erste = await hole(0)
-  pruefe(erste.inhalt.folgen.length === 2 && erste.inhalt.weiter === null, 'erste Seite unter dem Limit: gesperrte Folge zählt nicht' + ` (Ist: folgen=${erste.inhalt.folgen.length}, weiter=${erste.inhalt.weiter})`)
-  pruefe(!erste.gezaehlt && erste.inhalt.gesamt === undefined, '... und ohne COUNT(*), ohne Gesamtzahl' + ` (Ist: gezaehlt=${erste.gezaehlt}, gesamt=${erste.inhalt.gesamt})`)
+  pruefe(erste.inhalt.folgen.length === 2 && erste.inhalt.weiter === null, 'erste Seite unter dem Limit: gesperrte Folge zählt nicht')
+  pruefe(!erste.gezaehlt && erste.inhalt.gesamt === undefined, '... und ohne COUNT(*), ohne Gesamtzahl')
   const spaeter = await hole(PRUEFUNG_ID_AB + 1)
-  pruefe(spaeter.inhalt.folgen.length === 1 && !spaeter.gezaehlt, 'Fortsetzungsseite (nach > 0): auch ohne COUNT(*) (der Bau setzt über `weiter` fort)' + ` (Ist: folgen=${spaeter.inhalt.folgen.length}, gezaehlt=${spaeter.gezaehlt})`)
+  pruefe(spaeter.inhalt.folgen.length === 1 && !spaeter.gezaehlt, 'Fortsetzungsseite (nach > 0): auch ohne COUNT(*) (der Bau setzt über `weiter` fort)')
 }
 
 console.log('Lesezeilen: /lauf wird 120 Sekunden gehalten')
