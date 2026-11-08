@@ -127,6 +127,8 @@ pipeline/check-cr-kalender-auswahl.ts
 pipeline/check-cr-katalog-ein-werk.ts
 pipeline/check-cr-katalogblock.ts
 pipeline/check-cr-kennung-gedaechtnis.ts
+pipeline/check-cr-kennung-maps-faelle.ts
+pipeline/check-cr-kennung-maps.ts
 pipeline/check-cr-kennwort.ts
 pipeline/check-cr-komplettabwurf.ts
 pipeline/check-cr-nein-ueberholt.ts
