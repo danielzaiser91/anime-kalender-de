@@ -128,6 +128,12 @@ pruefe(cells('2018-07-08', 13, [1]) === `-|${DOPPELT}`, 'Cells at Work! Staffel 
 pruefe(cells('2018-07-07', 13, [1]) === `-|${DOPPELT}`, 'Cells at Work! mit Starttag am ersten Tag: offen mit Grund')
 pruefe(cells('2018-07-08', 14, [1]) === `-|${DOPPELT}`, 'Cells at Work! mit passender Folgenzahl: offen')
 pruefe(wahl(CELLS, { nummern: [2], namen: ['Cells at Work!!'], folgen: 8, geteilt: false, ab: '2021-02-06' }) === `-|${DOPPELT}`, 'Cells at Work!! Staffel 2: derselbe Glattname, offen')
+// Der eigene Grund nur, wenn der doppelte Name auch zum Titel passt; sonst bleibt der allgemeine.
+pruefe(wahl(CELLS, { nummern: [], namen: ['Ganz anderer Titel'], folgen: 3, geteilt: true }) === `-|${MEHRERE}`, 'doppelter Glattname ohne Bezug zum Titel: allgemeiner Grund')
+pruefe(wahl(CELLS, { nummern: [], namen: ['Serie Cells at Work'], folgen: 14, geteilt: true }) === `-|${DOPPELT}`, 'doppelter Glattname über den Folgenweg (Namensende, 14 Folgen): eigener Grund')
+// Auch ein Block, den eine genannte andere Staffel aus der Wahl nimmt, macht den Namen doppelt (Prüfung über alle Blöcke, nicht nur die freien).
+const ZWEITE = [block('Foo Bar Baz', 12, '2024-01-01T00:00:00Z'), block('Foo Bar Baz (German Dub, 2nd Season)', 12, '2024-06-01T00:00:00Z')]
+pruefe(wahl(ZWEITE, { nummern: [1], namen: ['Foo Bar Baz'], folgen: 12, geteilt: false }) === `-|${DOPPELT}`, 'Doppelname auch mit einem Block, der eine andere Staffel nennt')
 // Weitere echte Paare: „OVA“ / „OVA (German Dub)“ und die zwei Sprachfassungen von „INVADERS of the ROKUJYOMA!?“ (Namensweg und Folgenweg).
 const OVAS = [block('OVA', 2, '2024-01-01T00:00:00Z'), block('OVA (German Dub)', 2, '2024-02-01T00:00:00Z')]
 pruefe(wahl(OVAS, { nummern: [], namen: ['OVA'], folgen: 2, geteilt: true }) === `-|${DOPPELT}`, 'OVA / OVA (German Dub): offen')
@@ -149,6 +155,7 @@ pruefe(wahl([platz('Ranking of Kings', 23)], { nummern: [1], namen: ['Ranking of
 const KOENIGE = [platz('Ranking of Kings', 23), block('Anderer Teil', 12, '2022-01-01T00:00:00Z')]
 pruefe(wahl(KOENIGE, { nummern: [1], geteilt: false }) === `-|${MEHRERE}`, 'Platzhalterblock neben einem echten: der echte ist nicht „einziger Block“')
 pruefe(wahl(KOENIGE, { nummern: [1], namen: ['Ranking of Kings'], folgen: 23, geteilt: false }) === `-|${MEHRERE}`, 'der Name des Platzhalterblocks wählt ihn nicht')
+pruefe(wahl(KOENIGE, { nummern: [1], namen: ['Ranking of Kings'], folgen: 23, geteilt: false, ab: '2021-10-10' }) === `-|${MEHRERE}`, 'der Name des Platzhalterblocks wählt ihn auch mit Starttag nicht')
 pruefe(wahl(KOENIGE, { nummern: [1], namen: ['Anderer Teil'], folgen: 12, geteilt: false }) === 'Anderer Teil|name', 'der echte Nachbarblock bleibt über seinen Namen wählbar')
 pruefe(wahl([{ name: 'Grenze', folgen: 2, deutscheFolgen: [folge('2001-01-03T00:00:00Z')] }], { nummern: [1], geteilt: false }) === 'Grenze|einzig', 'ab dem 3. Januar 2001 ist das Datum echt')
 pruefe(wahl([{ name: 'Grenze', folgen: 2, deutscheFolgen: [folge('2001-01-02T23:59:00Z')] }], { nummern: [1], geteilt: false }) === '-|deutsche Folgen nur mit Platzhalter-Datum', 'der 2. Januar 2001 bis 23:59 ist Platzhalter')
