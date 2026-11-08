@@ -159,7 +159,7 @@ function belegeAbgeben(ordner: string, heute: string): void {
   meldeFlaute(erg, ordner)
 }
 
-/** Warnung im Lauf-Log und `flaute.txt` (Text für die Status-App) samt Ausgabe `flaute=1`; ohne Flaute geschieht nichts. */
+/** Warnung im Lauf-Log; `flaute.txt` und Ausgabe `flaute=1` haben noch keinen Leser (Workflow-Schritt als Vorschlag im PR). Ohne Flaute geschieht nichts. */
 function meldeFlaute(erg: AbgabeErgebnis, ordner: string): void {
   const text = belegFlaute(erg)
   if (!text) return

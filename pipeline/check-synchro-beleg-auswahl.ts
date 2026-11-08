@@ -14,6 +14,7 @@ import { ANBIETER_NUR_IM_ARTIKEL, pruefeName } from './lib/anime2you-abgleich.ts
 import type { GespeicherterVorschlag } from './lib/anime2you-bestand.ts'
 import { pruefeVorschlag } from './lib/anime2you-vorschlag.ts'
 import { belegBericht, gibSynchroBelegeAb, leseBelegStand } from './lib/synchro-beleg-abgabe.ts'
+import { belegFlaute } from './lib/synchro-beleg-flaute.ts'
 import { belegZeilen, HOECHSTENS_AM_TAG, IMMER, nenntSynchro, ordneTitelZu, waehleSynchroBelege, type Belegstand, type KatalogTitel } from './lib/synchro-beleg-auswahl.ts'
 
 let fehler = 0
@@ -163,10 +164,49 @@ pruefe('Staffelzählung: „Staffel 4“ ohne Staffel-4-Eintrag fällt nicht auf
 pruefe('Staffelzählung: Beleg „Black Clover Second Season“ (Crunchyroll, offen) geht an 195604',
   ids(lauf([mit(PET, { titel: 'Black Clover Second Season', plattform: 'crunchyroll', artikel: 'Crunchyroll + Synchro', zitat: '»Black Clover Second Season« (Synchro) Episoden: 1 auf Deutsch verfügbar Sprache: Deutsch, Japanisch (UT) Simulcast: Jeden Samstag' })], [BC_STAFFEL1, { ...BC_STAFFEL2, streams: [weg('crunchyroll')] }])) === '195604')
 pruefe('Staffelzählung: „Season 2“ im Artikel trifft einen Katalogtitel nur mit „Staffel 2“', (ordneTitelZu('Black Clover Season 2', [{ id: 900302, titleDe: 'Black Clover: Staffel 2' }]) as KatalogTitel).id === 900302)
-const COLORFUL_FILM: KatalogTitel = { id: 8142, titleDe: 'Colorful', titleEn: 'Colorful ~ The Motion Picture', streams: [weg('primevideo'), weg('joyn')] }
+const COLORFUL_FILM: KatalogTitel = { id: 8142, titleDe: 'Colorful', titleEn: 'Colorful ~ The Motion Picture', streams: [weg('primevideo'), weg('joyn', true)] }
 const COLORFUL_KURZ: KatalogTitel = { id: 841, titleDe: 'Colorful', titleEn: 'COLORFUL', streams: [] }
 pruefe('Gleichnamige: nur einer hat einen Weg bei der Plattform – er gewinnt (Colorful)', (ordneTitelZu('Colorful', [COLORFUL_KURZ, COLORFUL_FILM], 'joyn') as KatalogTitel).id === 8142)
-pruefe('Gleichnamige: beide mit Weg bei der Plattform bleiben mehrdeutig', String(ordneTitelZu('Colorful', [COLORFUL_FILM, { ...COLORFUL_KURZ, streams: [weg('joyn')] }], 'joyn')).includes('mehrdeutig'))
+pruefe('Gleichnamige: beide mit Weg bei der Plattform bleiben mehrdeutig', String(ordneTitelZu('Colorful', [COLORFUL_FILM, { ...COLORFUL_KURZ, streams: [weg('joyn', true)] }], 'joyn')).includes('mehrdeutig'))
+const FILM_OHNE_URTEIL: KatalogTitel = { ...COLORFUL_FILM, streams: [weg('joyn')] }
+const COLORFUL_ARTIKEL = mit(PET, { titel: 'Colorful', plattform: 'joyn', artikel: 'Anime-Neuzugänge auf Joyn', zitat: '»Colorful« mit deutscher Synchronisation auf Joyn.' })
+pruefe('Gleichnamige: Film mit Joyn-Weg ohne Urteil gegen Serie ohne Weg – mehrdeutig, kein Beleg (Auflage A1)',
+  String(ordneTitelZu('Colorful', [COLORFUL_KURZ, FILM_OHNE_URTEIL], 'joyn')).includes('mehrdeutig') && ids(lauf([COLORFUL_ARTIKEL], [COLORFUL_KURZ, FILM_OHNE_URTEIL])) === '' && grund(lauf([COLORFUL_ARTIKEL], [COLORFUL_KURZ, FILM_OHNE_URTEIL])).includes('mehrdeutig'))
+const wegAbgeleitet = (dub: boolean, wie = 'joyn-pauschal') => ({ platform: 'joyn', dub, dubAbgeleitet: wie })
+const FILM_PAUSCHAL: KatalogTitel = { ...COLORFUL_FILM, streams: [wegAbgeleitet(true)] }
+pruefe('Angenommenes Ja (joyn-pauschal) wird vom Artikel ersetzt: Beleg', ids(lauf([COLORFUL_ARTIKEL], [FILM_PAUSCHAL])) === '8142')
+pruefe('Angenommenes Ja (kanal-erbt) wird ersetzt', ids(lauf([COLORFUL_ARTIKEL], [{ ...FILM_PAUSCHAL, streams: [wegAbgeleitet(true, 'kanal-erbt')] }])) === '8142')
+pruefe('Gemessenes Ja (ohne dubAbgeleitet) bleibt: kein Beleg', grund(lauf([COLORFUL_ARTIKEL], [{ ...FILM_PAUSCHAL, streams: [weg('joyn', true)] }])) === 'Weg trägt schon dub: true')
+pruefe('Angenommenes Nein gibt es nicht; dub: false mit dubAbgeleitet bleibt abgelehnt', grund(lauf([COLORFUL_ARTIKEL], [{ ...FILM_PAUSCHAL, streams: [wegAbgeleitet(false)] }])) === 'Weg trägt schon dub: false')
+pruefe('Angenommenes Ja, aber Handbeleg-Nein bis zum Artikeltag: gesperrt', ids(lauf([COLORFUL_ARTIKEL], [FILM_PAUSCHAL], new Map([['8142|joyn', '2026-11-06']]))) === '')
+
+// --- Flaute: nur Zuordnungsfehler zählen (Vorschlagsstand 08.11.2026, Auswahl der echten Gründe; die Wege tragen hier gemessene Urteile, 0 Belege) ---
+const mitWegen = (...streams: { platform: string; dub?: boolean }[]) => [{ ...PET_TITEL, streams }]
+const ZEILEN_0811: [string, Partial<GespeicherterVorschlag>, KatalogTitel[]][] = [
+  ['Iron Man', { art: 'abgang' }, []],
+  ['Der Held ohne Klasse', { plattform: 'netflix', zitat: PET_ZITAT.replace('Prime Video', 'Netflix'), artikel: 'Netflix' }, [{ id: 900501, titleDe: 'Der Held ohne Klasse', streams: [] }]],
+  ['Clannad', {}, [{ id: 900502, titleDe: 'Clannad', streams: [weg('primevideo', true)] }]],
+  ['Gosick', {}, [{ id: 900503, titleDe: 'Gosick', streams: [weg('primevideo', true)] }]],
+  ['Fool Night', { datum: '2026-11-26' }, [{ id: 900504, titleDe: 'Fool Night', streams: [weg('primevideo')] }]],
+  ['Der Schatten über Anlegion', { art: 'ankuendigung' }, []],
+  ['Black Clover', { plattform: null, anbieter: 'Pluto TV' }, []],
+  ['Dr. STONE', { plattform: null, anbieter: 'Pluto TV' }, []],
+  ['Tokyo Godfathers', { unsicher: 'Plattform fehlt im Artikel' }, []],
+  ['Akira', {}, [{ id: 900505, titleDe: 'Akira', streams: [weg('netflix')] }]],
+  ['YAIBA: Samurai Legend', { warnungen: ['Uhrzeit widerspricht 18:25 – gegenlesen'] }, []],
+  ['Naruto Shippuden – Staffel 4', {}, []],
+  ['Girls und Panzer OVA – Real Anzio Battle', {}, []],
+]
+const KATALOG_0811 = ZEILEN_0811.flatMap(([, , k]) => k)
+const V_0811 = ZEILEN_0811.map(([titel, o], i) => mit(PET, { titel, artikelId: `8${i}`, ...o }))
+const E_0811 = lauf(V_0811, KATALOG_0811)
+pruefe('Stand 08.11.: 0 Belege, 13 Ablehnungen, davon nur 2 Zuordnungsfehler (Naruto, Anzio) – keine Flaute-Warnung', E_0811.belege.length === 0 && E_0811.zurueck.length === 13 && E_0811.zurueck.filter((z) => z.strittig).length === 2 && belegFlaute(E_0811) === undefined, E_0811.zurueck)
+const SIEBEN = Array.from({ length: 5 }, (_, i) => mit(PET, { titel: `Unbekannt ${i}`, artikelId: `7${i}` }))
+pruefe('Fünf Zuordnungsfehler, 0 Belege: Warnung mit allen fünf in der Liste', (belegFlaute(lauf(SIEBEN)) ?? '').includes('0 Belege bei 5 ') && (belegFlaute(lauf(SIEBEN)) ?? '').includes('Unbekannt 4 (Artikel 74)'))
+pruefe('Vier Zuordnungsfehler: keine Warnung', belegFlaute(lauf(SIEBEN.slice(0, 4))) === undefined)
+pruefe('Fünf Zuordnungsfehler plus ein Beleg: keine Warnung', belegFlaute(lauf([...SIEBEN, PET])) === undefined)
+pruefe('Mehrere Wege und Plattform-Bindung zählen als Zuordnungsfehler', lauf([PET], mitWegen(weg('primevideo'), weg('primevideo'))).zurueck[0]?.strittig === true && lauf([gebunden('Aoashi', CR_ARTIKEL, AOASHI_ZITAT, 'primevideo')], KAT_B).zurueck[0]?.strittig === true)
+pruefe('Berechtigte Gründe sind nicht strittig (Weg trägt Urteil, kein Weg, Handbeleg)', [lauf([PET], mitWegen(weg('primevideo', true))), lauf([PET], mitWegen(weg('netflix'))), lauf([PET], KATALOG, new Map([['101350|primevideo', IMMER]]))].every((e) => e.zurueck.length === 1 && !e.zurueck[0]!.strittig))
 pruefe('Gleichnamige: keiner mit Weg bei der Plattform bleibt mehrdeutig', String(ordneTitelZu('Colorful', [COLORFUL_KURZ, COLORFUL_FILM], 'netflix')).includes('mehrdeutig'))
 pruefe('Gleichnamige: ohne Plattform kein Vorzug', String(ordneTitelZu('Colorful', [COLORFUL_KURZ, COLORFUL_FILM])).includes('mehrdeutig'))
 pruefe('Colorful durch die Auswahl: Weg trägt schon dub gilt dem Film, nicht „mehrdeutig“',
@@ -181,7 +221,6 @@ pruefe('Deutsches Zitat ohne Synchro-Wort: wird gezählt und benannt, nicht stil
 pruefe('Vorschlag in anderer Sprache (omu) ist kein Ablehnungsfall und wird nicht gezählt', lauf([mit(YAIBA, { sprache: 'omu' })]).zurueck.length === 0)
 
 // --- Stufe 3: Weg und Handbelege ---------------------------------------------------------------------------------------------------
-const mitWegen = (...streams: { platform: string; dub?: boolean }[]) => [{ ...PET_TITEL, streams }]
 pruefe('Kein Weg bei der Plattform (nur Netflix): zurückgestellt', grund(lauf([PET], mitWegen(weg('netflix')))) === 'kein Weg bei primevideo (wartet auf den Bestandsbau)')
 pruefe('Zwei Wege bei der Plattform: zurückgestellt', grund(lauf([PET], mitWegen(weg('primevideo'), weg('primevideo')))) === '2 Wege bei primevideo')
 pruefe('Weg trägt dub: true: zurückgestellt', grund(lauf([PET], mitWegen(weg('primevideo', true)))) === 'Weg trägt schon dub: true')
