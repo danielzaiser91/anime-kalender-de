@@ -15,6 +15,7 @@ import { legeOmuBegleiterAn } from '../pipeline/bau/omu-synchro-begleiter.ts'
 import { katalogStaffeln } from '../pipeline/bau/widerlegung-staffel.ts'
 import { anzeigeName } from '../shared/titles.ts'
 import { katalogBlock, nachBerlin } from './cr-katalogblock.mjs'
+import { blockName, istPlatzhalter } from './cr-blockwahl.mjs'
 import { fruehesteDeutsche, staffelnummern } from './synchro-wartezeit.mjs'
 import type { Release, Title } from '../shared/types.ts'
 import type { CrDubData, CrStaffel } from '../pipeline/lib/crunchyroll-dub.ts'
@@ -23,56 +24,103 @@ const titles = new Map((JSON.parse(readFileSync('public/data/titles.json', 'utf8
 const crDub = JSON.parse(readFileSync('data/crunchyroll-dub.json', 'utf8')) as CrDubData
 const crReleases = (JSON.parse(readFileSync('public/data/releases.json', 'utf8')) as Release[]).filter((r) => r.platform === 'crunchyroll')
 const hatDatum = (b: CrStaffel) => (b.deutscheFolgen ?? []).some((f) => f.verfuegbarAb)
+const hatEchtesDatum = (b: CrStaffel) => (b.deutscheFolgen ?? []).some((f) => f.verfuegbarAb && !istPlatzhalter(f))
 const ersteFolge = (b: CrStaffel) => (b.deutscheFolgen ?? []).map((f) => f.verfuegbarAb ?? '').filter(Boolean).sort()[0] ?? ''
 
 interface Paar {
   t: Title
   k: string
   url: string
+  /** Ohne Starttag (Titel allein) — eine Obergrenze: der Bau kennt immer einen OmU-Termin mit Starttag. */
   wahl: ReturnType<typeof blockWahlFuer>
+  /** Mit Starttag = japanischer Start und Folgenzahl des Titels, wie der Bau einen OmU-Termin anlegt. */
+  wahlAb: ReturnType<typeof blockWahlFuer>
 }
+type Wahl = (p: Paar) => ReturnType<typeof blockWahlFuer>
+
+/** Der Starttag, mit dem `omuTermin` und damit der Bau einen OmU-Termin anlegt. */
+const startTag = (t: Title) => t.jpStart ?? `${t.jpYear}-01-01`
+
+/** Was `paareLaden` nicht erfasst, je Weg (nicht je Paar): jeder Verwerfungsgrund mit Zahl. */
+const ausfaelle = { ohneBeleg: 0, ohneSerienId: 0, ohneDatiertenBlock: 0 }
 
 function paareLaden(): Paar[] {
   const raus: Paar[] = []
   for (const t of titles.values()) {
-    const wege = t.streams.filter((s) => s.platform === 'crunchyroll' && s.dub === true && !s.dubAbgeleitet)
+    const crWege = t.streams.filter((s) => s.platform === 'crunchyroll')
+    const wege = crWege.filter((s) => s.dub === true && !s.dubAbgeleitet)
+    ausfaelle.ohneBeleg += crWege.length - wege.length
+    for (const s of wege) {
+      const k = crunchyrollSeriesId(s.url)
+      const bloecke = crDub.serien.filter((x) => x.katalog === 'de' && x.seriesId === k).flatMap((x) => x.staffeln ?? [])
+      if (!k) ausfaelle.ohneSerienId++
+      else if (!bloecke.some(hatDatum)) ausfaelle.ohneDatiertenBlock++
+    }
     for (const k of new Set(wege.map((s) => crunchyrollSeriesId(s.url)))) {
       const bloecke = crDub.serien.filter((s) => s.katalog === 'de' && s.seriesId === k).flatMap((s) => s.staffeln ?? [])
       if (!k || !bloecke.some(hatDatum)) continue
-      raus.push({ t, k, url: wege.find((s) => crunchyrollSeriesId(s.url) === k)!.url, wahl: blockWahlFuer(t, titles, k, crDub.serien) })
+      const url = wege.find((s) => crunchyrollSeriesId(s.url) === k)!.url
+      const ab = { ab: startTag(t), folgen: t.episodes }
+      raus.push({ t, k, url, wahl: blockWahlFuer(t, titles, k, crDub.serien), wahlAb: blockWahlFuer(t, titles, k, crDub.serien, ab) })
     }
   }
   return raus
 }
 
-function zaehle(paare: Paar[], mitListe: boolean): void {
+/** Die Wege, die nie ein Paar werden (Skill stille-ausfaelle-verhindern): eigene Zeilen, damit die Zählbasis ihre Ausfälle nennt. */
+function nenneAusfaelle(paare: Paar[]): void {
+  console.log(`Ausfälle vor der Zählbasis (Wege, nicht Paare): ohne Synchro-Beleg (dub nicht true oder abgeleitet): ${ausfaelle.ohneBeleg}`)
+  console.log(`Ausfälle: belegt, ohne Serien-ID (Slug-Adresse): ${ausfaelle.ohneSerienId}`)
+  console.log(`Ausfälle: belegt, ohne datierten deutschen Block: ${ausfaelle.ohneDatiertenBlock}`)
+  console.log(`Zählbasis: ${paare.length} Paare (Titel, Serie)`)
+}
+
+/** Serien, in denen zwei datierte deutsche Blöcke nach dem Glätten denselben Namen tragen (Kollisionsprüfung über alle Blöcke einer Serie). */
+function nenneKollisionen(paare: Paar[]): void {
+  const doppelt = new Set<string>()
+  for (const k of new Set(paare.map((p) => p.k))) {
+    const namen = new Map<string, Set<string>>()
+    for (const s of crDub.serien.filter((x) => x.katalog === 'de' && x.seriesId === k)) {
+      for (const b of (s.staffeln ?? []).filter(hatEchtesDatum)) namen.set(blockName(b.name), (namen.get(blockName(b.name)) ?? new Set()).add(b.name))
+    }
+    if ([...namen.values()].some((n) => n.size > 1)) doppelt.add(k)
+  }
+  const betroffen = paare.filter((p) => doppelt.has(p.k))
+  const verdeckt = betroffen.filter((p) => p.wahlAb.grund?.startsWith('Blockname gleicht')).length
+  console.log(`Kollisionen: ${doppelt.size} Serien mit doppeltem Glattnamen, ${betroffen.length} Paare dort, davon ${verdeckt} wegen des Namens offen (mit Starttag)`)
+}
+
+function zaehle(paare: Paar[], mitListe: boolean, wahl: Wahl, kopf: string): void {
   const nachher: Record<string, string[]> = {}
   const vorher = paare.filter((p) => katalogBlock(crDub.serien, p.k, katalogStaffeln(p.t, titles, p.k))).length
   for (const p of paare) {
-    const schluessel = p.wahl.treffer ? `zugeordnet über ${p.wahl.weg}` : `offen: ${p.wahl.grund}`
+    const schluessel = wahl(p).treffer ? `zugeordnet über ${wahl(p).weg}` : `offen: ${wahl(p).grund}`
     nachher[schluessel] ??= []
     nachher[schluessel].push(`${p.t.titleEn ?? p.t.titleRomaji} (${p.t.id})`)
   }
+  const zugeordnet = paare.filter((p) => wahl(p).treffer).length
+  console.log(`== ${kopf} ==`)
   console.log(`Paare mit Synchro-Beleg und datiertem deutschem Block: ${paare.length}`)
   console.log(`vorher (Zahl im Blocknamen): ${vorher} zugeordnet, ${paare.length - vorher} offen`)
   for (const [k, v] of Object.entries(nachher).sort()) console.log(`nachher ${k}: ${v.length}`, mitListe ? v.join('; ') : '')
+  console.log(`nachher zugeordnet insgesamt (${kopf}): ${zugeordnet}`)
 }
 
 /** Folgenzahl und Jahr der ersten deutschen Folge gegen die Angaben des Titels, je Weg ohne Zahl. */
-function abgleich(paare: Paar[]): void {
+function abgleich(paare: Paar[], wahl: Wahl): void {
   for (const weg of ['einzig', 'name', 'folgen']) {
-    const gewaehlt = paare.filter((p) => p.wahl.weg === weg)
-    const zahl = (p: Paar) => (p.t.episodes === undefined ? undefined : p.wahl.treffer!.block.folgen - p.t.episodes)
+    const gewaehlt = paare.filter((p) => wahl(p).weg === weg)
+    const zahl = (p: Paar) => (p.t.episodes === undefined ? undefined : wahl(p).treffer!.block.folgen - p.t.episodes)
     const gleich = gewaehlt.filter((p) => zahl(p) === 0).length
     const um1 = gewaehlt.filter((p) => Math.abs(zahl(p) ?? 0) === 1).length
     const unbekannt = gewaehlt.filter((p) => zahl(p) === undefined).length
     const weit = gewaehlt.filter((p) => Math.abs(zahl(p) ?? 0) > 1)
-    const vorJapan = gewaehlt.filter((p) => ersteFolge(p.wahl.treffer!.block).slice(0, 4) < String(p.t.jpYear))
+    const vorJapan = gewaehlt.filter((p) => ersteFolge(wahl(p).treffer!.block).slice(0, 4) < String(p.t.jpYear))
     console.log(`Abgleich ${weg}: ${gewaehlt.length} Paare, Folgenzahl gleich ${gleich}, um 1 ${um1}, ohne Titelangabe ${unbekannt}, um mehr ${weit.length}, erste deutsche Folge vor dem japanischen Jahr ${vorJapan.length}`)
-    for (const p of gewaehlt.filter((q) => Math.abs(zahl(q) ?? 0) === 1)) console.log(`   um 1: ${anzeigeName(p.t)} (${p.t.id}) ${p.t.episodes} Folgen, Block „${p.wahl.treffer!.block.name}“ ${p.wahl.treffer!.block.folgen}`)
-    for (const p of weit) console.log(`   um mehr: ${anzeigeName(p.t)} (${p.t.id}) ${p.t.episodes} Folgen, Block „${p.wahl.treffer!.block.name}“ ${p.wahl.treffer!.block.folgen}`)
-    for (const p of vorJapan) console.log(`   vor Japan: ${anzeigeName(p.t)} (${p.t.id}) jpYear ${p.t.jpYear}, Block „${p.wahl.treffer!.block.name}“ ab ${ersteFolge(p.wahl.treffer!.block).slice(0, 10)}`)
-    if (weg === 'folgen') for (const p of gewaehlt) console.log(`   ${anzeigeName(p.t)} (${p.t.id}, jpStart ${p.t.jpStart}, ${p.t.episodes} Folgen) → „${p.wahl.treffer!.block.name}“ ab ${ersteFolge(p.wahl.treffer!.block).slice(0, 10)}, ${p.wahl.treffer!.block.folgen} Folgen`)
+    for (const p of gewaehlt.filter((q) => Math.abs(zahl(q) ?? 0) === 1)) console.log(`   um 1: ${anzeigeName(p.t)} (${p.t.id}) ${p.t.episodes} Folgen, Block „${wahl(p).treffer!.block.name}“ ${wahl(p).treffer!.block.folgen}`)
+    for (const p of weit) console.log(`   um mehr: ${anzeigeName(p.t)} (${p.t.id}) ${p.t.episodes} Folgen, Block „${wahl(p).treffer!.block.name}“ ${wahl(p).treffer!.block.folgen}`)
+    for (const p of vorJapan) console.log(`   vor Japan: ${anzeigeName(p.t)} (${p.t.id}) jpYear ${p.t.jpYear}, Block „${wahl(p).treffer!.block.name}“ ab ${ersteFolge(wahl(p).treffer!.block).slice(0, 10)}`)
+    if (weg === 'folgen') for (const p of gewaehlt) console.log(`   ${anzeigeName(p.t)} (${p.t.id}, jpStart ${p.t.jpStart}, ${p.t.episodes} Folgen) → „${wahl(p).treffer!.block.name}“ ab ${ersteFolge(wahl(p).treffer!.block).slice(0, 10)}, ${wahl(p).treffer!.block.folgen} Folgen`)
   }
 }
 
@@ -106,7 +154,7 @@ function echteWege(paare: Paar[]): void {
     else if (wacheTag) {
       stand.nurWache++
       stand.neuUneins += neu
-      console.log(`   nur die Wache ordnet zu: ${anzeigeName(p.t)} (${p.t.id}), Bau: ${p.wahl.grund}${vorher}`)
+      console.log(`   nur die Wache ordnet zu: ${anzeigeName(p.t)} (${p.t.id}), Bau: ${p.wahlAb.grund}${vorher}`)
     } else stand.keiner++
   }
   console.log(`Echter Bau und echte Wache je Paar: beide gleich ${stand.beide}, nur Bau ${stand.nurBau}, nur Wache ${stand.nurWache}, verschiedener Block ${stand.verschieden}, keiner ${stand.keiner}`)
@@ -115,8 +163,16 @@ function echteWege(paare: Paar[]): void {
 }
 
 const paare = paareLaden()
-zaehle(paare, process.argv.includes('--liste'))
+const mitListe = process.argv.includes('--liste')
+nenneAusfaelle(paare)
+zaehle(paare, mitListe, (p) => p.wahl, 'ohne Starttag (Obergrenze, Platzhalter zählen nicht)')
+zaehle(paare, mitListe, (p) => p.wahlAb, 'mit Starttag = japanischer Start (im Bau erreichbar)')
+const platzhalter = paare.filter((p) => p.wahlAb.grund === 'deutsche Folgen nur mit Platzhalter-Datum')
+console.log(`reine Platzhalterpaare (nie zugeordnet): ${platzhalter.length} ${mitListe ? platzhalter.map((p) => `${p.t.titleEn ?? p.t.titleRomaji} (${p.t.id})`).join('; ') : ''}`)
+const aufPlatzhalter = (wahl: Wahl) => paare.filter((p) => wahl(p).treffer && !hatEchtesDatum(wahl(p).treffer!.block))
+console.log(`Zuordnungen auf einen Block nur mit Platzhalter-Datum: ohne Starttag ${aufPlatzhalter((p) => p.wahl).length}, mit Starttag ${aufPlatzhalter((p) => p.wahlAb).length} (${aufPlatzhalter((p) => p.wahlAb).map((p) => `${p.t.id} über ${p.wahlAb.weg}`).join(', ')})`)
+nenneKollisionen(paare)
 if (process.argv.includes('--abgleich')) {
-  abgleich(paare)
+  abgleich(paare, (p) => p.wahlAb)
   echteWege(paare)
 }

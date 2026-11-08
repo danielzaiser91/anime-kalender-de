@@ -6,6 +6,11 @@
  * Aufruf: `npm run check:logic`.
  */
 import { blockWahl } from '../tools/cr-blockwahl.mjs'
+import { blockWahlFuer } from './bau/block-wahl-titel.ts'
+import type { Title } from '../shared/types.ts'
+
+const DOPPELT = 'Blockname gleicht nach dem Glätten einem zweiten Block der Serie'
+const MEHRERE = 'mehrere Blöcke, keiner eindeutig'
 
 let verletzt = 0
 let geprueft = 0
@@ -114,7 +119,56 @@ pruefe(wahl([block('Staffel 2', 12, '2025-04-26T00:00:00Z'), block('Season 2', 1
 
 // Namen, die nach dem Glätten gleich sind, aber zu zwei Blöcken gehören, geben keine Wahl.
 const GLEICH = [block('Folge Alpha', 2, '2024-01-01T00:00:00Z'), block('FOLGE ALPHA!', 3, '2024-02-01T00:00:00Z')]
-pruefe(wahl(GLEICH, { nummern: [], namen: ['Folge Alpha'], folgen: 9, geteilt: true }) === '-|mehrere Blöcke, keiner eindeutig', 'zwei gleich geglättete Blocknamen: keine Wahl')
+pruefe(wahl(GLEICH, { nummern: [], namen: ['Folge Alpha'], folgen: 9, geteilt: true }) === `-|${DOPPELT}`, 'zwei gleich geglättete Blocknamen: keine Wahl, eigener Grund')
+// Echte Blöcke aus dem Katalog (Stand 08.11.2026): „Cells at Work!“ 14 Folgen ab 2018-07-07, „Cells at Work!!“ 8 ab 2021-02-06. Ein Starttag einen Tag
+// nach der ersten deutschen Folge räumt den richtigen Block weg; der geglättete Name darf dann nicht den zweiten treffen.
+const CELLS = [block('Cells at Work!', 14, '2018-07-07T16:30:00Z'), block('Cells at Work!!', 8, '2021-02-06T16:00:00Z')]
+const cells = (ab: string, folgen: number, nummern: number[]) => wahl(CELLS, { nummern, namen: ['Cells at Work!'], folgen, geteilt: false, ab })
+pruefe(cells('2018-07-08', 13, [1]) === `-|${DOPPELT}`, 'Cells at Work! Staffel 1, Starttag einen Tag nach der ersten Folge: nie „Cells at Work!!“')
+pruefe(cells('2018-07-07', 13, [1]) === `-|${DOPPELT}`, 'Cells at Work! mit Starttag am ersten Tag: offen mit Grund')
+pruefe(cells('2018-07-08', 14, [1]) === `-|${DOPPELT}`, 'Cells at Work! mit passender Folgenzahl: offen')
+pruefe(wahl(CELLS, { nummern: [2], namen: ['Cells at Work!!'], folgen: 8, geteilt: false, ab: '2021-02-06' }) === `-|${DOPPELT}`, 'Cells at Work!! Staffel 2: derselbe Glattname, offen')
+// Weitere echte Paare: „OVA“ / „OVA (German Dub)“ und die zwei Sprachfassungen von „INVADERS of the ROKUJYOMA!?“ (Namensweg und Folgenweg).
+const OVAS = [block('OVA', 2, '2024-01-01T00:00:00Z'), block('OVA (German Dub)', 2, '2024-02-01T00:00:00Z')]
+pruefe(wahl(OVAS, { nummern: [], namen: ['OVA'], folgen: 2, geteilt: true }) === `-|${DOPPELT}`, 'OVA / OVA (German Dub): offen')
+const ROKU = [block('INVADERS of the ROKUJYOMA!? (German Dub)', 12, '2023-11-28T00:00:00Z'), block('INVADERS of the ROKUJYOMA!? (German Europe)', 12, '2023-11-28T00:00:00Z')]
+pruefe(wahl(ROKU, { nummern: [], namen: ['INVADERS of the ROKUJYOMA!?'], folgen: 12, geteilt: true }) === `-|${DOPPELT}`, 'Rokujyoma: zwei Sprachfassungen, Namensweg offen')
+pruefe(wahl(ROKU, { nummern: [], namen: ['Die Rokujyoma Serie INVADERS of the ROKUJYOMA!? (German Dub)'], folgen: 12, geteilt: true }) === `-|${DOPPELT}`, 'Rokujyoma: Folgenweg offen')
+// Ein doppelter Glattname verdeckt nur die eigenen Blöcke: der Nachbar mit eigenem Namen bleibt wählbar.
+const MIT_NACHBAR = [...CELLS, block('Cells at Work: Black', 8, '2021-02-06T16:00:00Z')]
+pruefe(wahl(MIT_NACHBAR, { nummern: [], namen: ['Cells at Work: Black'], folgen: 8, geteilt: false }) === 'Cells at Work: Black|name', 'Nachbarblock mit eigenem Namen bleibt wählbar')
+
+// Platzhalter-Datum (2001-01-02): kein Starttag. Faraway Paladin 1: 12 von 13 Folgen mit Platzhalter, eine echt (2021-11-27).
+const platz = (name: string, folgen: number, echt?: string) => ({ name, folgen, deutscheFolgen: [folge('2001-01-02T07:59:00Z'), ...(echt ? [folge(echt)] : [])] })
+const PALADIN = [platz('The Faraway Paladin', 13, '2021-11-27T16:00:00Z'), block('The Faraway Paladin The Lord Of The Rust Mountains', 12, '2023-11-05T00:00:00Z')]
+pruefe(wahl(PALADIN, { nummern: [1], namen: ['The Faraway Paladin'], folgen: 13, geteilt: false, ab: '2021-10-10' }) === 'The Faraway Paladin|name', 'gemischter Block mit Platzhalter und echter Folge wird gewählt')
+pruefe(wahl(PALADIN, { nummern: [1], namen: ['The Faraway Paladin'], folgen: 13, geteilt: false, ab: '2021-11-28' }) === `-|${MEHRERE}`, 'die echte Folge vor dem Starttag schließt den Block weiter aus')
+pruefe(wahl([platz('Ranking of Kings', 23)], { nummern: [1], namen: ['Ranking of Kings'], folgen: 23, geteilt: false }) === '-|deutsche Folgen nur mit Platzhalter-Datum', 'Block nur mit Platzhalter ist nie zugeordnet (ohne Starttag)')
+pruefe(wahl([platz('Ranking of Kings', 23)], { nummern: [1], namen: ['Ranking of Kings'], folgen: 23, geteilt: false, ab: '2021-10-10' }) === '-|deutsche Folgen nur mit Platzhalter-Datum', 'Block nur mit Platzhalter ist nie zugeordnet (mit Starttag)')
+// Ein Block mit Platzhalter zählt als Block (kein „einziger Block“ daneben: Ranking of Kings 1 bekäme sonst den Nachbarblock), wird aber nie gewählt.
+const KOENIGE = [platz('Ranking of Kings', 23), block('Anderer Teil', 12, '2022-01-01T00:00:00Z')]
+pruefe(wahl(KOENIGE, { nummern: [1], geteilt: false }) === `-|${MEHRERE}`, 'Platzhalterblock neben einem echten: der echte ist nicht „einziger Block“')
+pruefe(wahl(KOENIGE, { nummern: [1], namen: ['Ranking of Kings'], folgen: 23, geteilt: false }) === `-|${MEHRERE}`, 'der Name des Platzhalterblocks wählt ihn nicht')
+pruefe(wahl(KOENIGE, { nummern: [1], namen: ['Anderer Teil'], folgen: 12, geteilt: false }) === 'Anderer Teil|name', 'der echte Nachbarblock bleibt über seinen Namen wählbar')
+pruefe(wahl([{ name: 'Grenze', folgen: 2, deutscheFolgen: [folge('2001-01-03T00:00:00Z')] }], { nummern: [1], geteilt: false }) === 'Grenze|einzig', 'ab dem 3. Januar 2001 ist das Datum echt')
+pruefe(wahl([{ name: 'Grenze', folgen: 2, deutscheFolgen: [folge('2001-01-02T23:59:00Z')] }], { nummern: [1], geteilt: false }) === '-|deutsche Folgen nur mit Platzhalter-Datum', 'der 2. Januar 2001 bis 23:59 ist Platzhalter')
+
+// Namensquellen des Titels (`blockWahlFuer`): jede Quelle trägt allein einen Treffer; es genügt ein Titelname, der auf den Blocknamen endet.
+const titelMit = (felder: object) => ({ id: 900101, titleEn: undefined, titleRomaji: undefined, titleDe: undefined, format: 'TV', jpYear: 2024, episodes: 12, streams: [], ...felder }) as unknown as Title
+const fuer = (felder: object, staffeln: ReturnType<typeof block>[]) => {
+  const t = titelMit(felder)
+  const w = blockWahlFuer(t, new Map([[t.id, t]]), 'K1', serien(...staffeln))
+  return `${w.treffer?.block.name ?? '-'}|${w.weg ?? w.grund}`
+}
+const ZWEI = (a: string) => [block(a, 12, '2024-01-01T00:00:00Z'), block('Zebra Beta Gamma', 12, '2024-02-01T00:00:00Z')]
+pruefe(fuer({ titleDe: 'The Final Season', titleEn: 'Anderer Name', titleRomaji: 'Dritter Name' }, ZWEI('The Final Season')) === 'The Final Season|name', 'Name nur über titleDe (Ron Kamonohashi 158926): Treffer')
+pruefe(fuer({ titleDe: 'Die Reise', titleEn: 'Alpha Quest Final', titleRomaji: 'Dritter Name' }, ZWEI('Alpha Quest Final')) === 'Alpha Quest Final|name', 'Name nur über titleEn: Treffer')
+pruefe(fuer({ titleDe: 'The Final Season', titleEn: 'Anderer Name' }, ZWEI('Die finale Staffel')) === 'Die finale Staffel|name', 'Name nur über den Anzeigenamen (eindeutschenStaffel): Treffer')
+pruefe(fuer({ titleDe: 'Die Reise', titleEn: 'Anderer Name', titleRomaji: 'Quest Drei Romaji' }, ZWEI('Quest Drei Romaji')) === 'Quest Drei Romaji|name', 'Name nur über titleRomaji: Treffer')
+pruefe(fuer({ titleDe: 'Die Reise', titleEn: 'Anderer Name' }, ZWEI('Quest Drei Romaji')) === `-|${MEHRERE}`, 'Kontrolle: keine der Namensquellen passt, kein Treffer')
+// Mehrere Titelnamen, nur einer endet auf den Blocknamen („some“, nicht „every“): Folgenweg.
+const MINI2 = [block('Alpha Teil', 2, '2024-01-01T00:00:00Z'), block('Beta Teil', 3, '2024-02-01T00:00:00Z')]
+pruefe(wahl(MINI2, { nummern: [], namen: ['Serie Alpha Teil', 'Ganz Anders'], folgen: 2, geteilt: true }) === 'Alpha Teil|folgen', 'zwei Titelnamen, nur einer endet auf den Blocknamen: Block gewählt')
 
 // Nur der deutsche Katalog und nur die eigene Serie zählen.
 const fremd = (katalog: string, seriesId: string) => [{ url: 'u', seriesId, katalog, staffeln: [block('Death Note', 37, '2025-05-15T16:00:00Z')] }] as never

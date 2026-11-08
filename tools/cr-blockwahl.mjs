@@ -11,6 +11,8 @@
  *     reicht nie: Filme und Einzelfolgen haben alle 1, Attack on Titan Part I ≠ „Last Attack“).
  * Ein Block mit ausdrücklicher Nummer, die nicht zum Titel passt, kommt für 2 bis 4 nie in Frage; ebenso keiner mit deutschen Folgen vor
  * dem OmU-Start (`ab`, wenn bekannt) und keiner mit mehr als einer Folge über der Zahl des Titels. Jeder Fehlschlag trägt einen Grund.
+ * Zwei Sperren für 3 und 4: ein geglätteter Blockname, den zwei datierte Blöcke der Serie tragen, wählt nie (geprüft über alle Blöcke,
+ * vor Starttag und Folgenzahl); das Platzhalter-Datum 2001-01-02 zählt nicht als Starttag, ein Block nur mit Platzhalter wird nie gewählt.
  */
 import { STAFFEL_IM_NAMEN, datierteFolgen, katalogBlock } from './cr-katalogblock.mjs'
 
@@ -39,6 +41,11 @@ function genannteStaffel(name) {
   return Number(treffer?.[1] ?? treffer?.[2])
 }
 
+/** Crunchyrolls Platzhalter-Datum („2001-01-02T07:59:00Z“ an Folgen ohne echten Termin) belegt keinen Starttag. */
+export const istPlatzhalter = (folge) => Boolean(folge.verfuegbarAb) && folge.verfuegbarAb < '2001-01-03'
+
+const echteFolgen = (block) => (block.deutscheFolgen ?? []).filter((f) => f.verfuegbarAb && !istPlatzhalter(f))
+/** Ein Block mit Platzhalter-Datum zählt für „einziger Block“ und doppelte Namen mit, kann aber nie gewählt werden. */
 const datiert = (block) => (block.deutscheFolgen ?? []).some((f) => f.verfuegbarAb)
 
 /** Die Blöcke mit datierten deutschen Folgen, je Name einer (derselbe Block steht unter mehreren Serienadressen). */
@@ -75,11 +82,29 @@ export function blockWahl(serien, kennung, titel) {
   if (ohneZusatz && !titel.geteilt && alsStaffel1) return { treffer: wahl.liste[0], weg: 'einzig' }
   const namen = new Set((titel.namen ?? []).map(blockName))
   const nachName = titel.nummernAusName ? ohneGrundnamen(wahl.liste, bloecke) : wahl.liste
-  const gleich = nachName.filter((b) => namen.has(blockName(b.block.name)))
+  const doppelt = doppelteNamen(bloecke)
+  const nameGleich = (b) => namen.has(blockName(b.block.name))
+  const folgenGleich = (b) => b.block.folgen === titel.folgen && verwandt(b.block.name, namen)
+  const eindeutig = nachName.filter((b) => !doppelt.has(blockName(b.block.name)))
+  const gleich = eindeutig.filter(nameGleich)
   if (gleich.length === 1) return { treffer: gleich[0], weg: 'name' }
-  const gleichViele = nachName.filter((b) => b.block.folgen === titel.folgen && verwandt(b.block.name, namen))
+  const gleichViele = eindeutig.filter(folgenGleich)
   if (gleichViele.length === 1) return { treffer: gleichViele[0], weg: 'folgen' }
+  if (nachName.some((b) => doppelt.has(blockName(b.block.name)) && (nameGleich(b) || folgenGleich(b)))) {
+    return { treffer: null, grund: 'Blockname gleicht nach dem Glätten einem zweiten Block der Serie' }
+  }
   return { treffer: null, grund: offenerGrund(bloecke.length, ohneZusatz, titel.geteilt) }
+}
+
+/**
+ * Geglättete Blocknamen, die zwei datierte Blöcke der Serie tragen („Cells at Work!“ / „Cells at Work!!“, „OVA“ / „OVA (German Dub)“):
+ * der Name unterscheidet sie nicht. Geprüft über alle Blöcke der Serie, vor Starttag und Folgenzahl — sonst räumt `ab` den richtigen
+ * Block weg und der Name trifft den falschen.
+ */
+function doppelteNamen(bloecke) {
+  const zaehler = new Map()
+  for (const b of bloecke) zaehler.set(blockName(b.block.name), (zaehler.get(blockName(b.block.name)) ?? 0) + 1)
+  return new Set([...zaehler].filter(([, n]) => n > 1).map(([name]) => name))
 }
 
 /**
@@ -101,7 +126,10 @@ function ohneGrundnamen(liste, bloecke) {
  * mehr als der Titel: ein größerer Block gehört auch anderen Titeln (K-ON!! mit 27 Folgen gehört nicht zu K-ON! mit 13).
  */
 function kandidaten(frei, titel) {
-  const ab = titel.ab ? frei.filter((b) => datierteFolgen(b.block).every((f) => f.tag >= titel.ab)) : frei
+  const echt = frei.filter((b) => echteFolgen(b.block).length > 0)
+  if (!echt.length) return { liste: [], grund: 'deutsche Folgen nur mit Platzhalter-Datum' }
+  const echteTage = (b) => datierteFolgen({ deutscheFolgen: echteFolgen(b.block) })
+  const ab = titel.ab ? echt.filter((b) => echteTage(b).every((f) => f.tag >= titel.ab)) : echt
   if (!ab.length) return { liste: [], grund: 'Blöcke haben deutsche Folgen vor dem OmU-Start' }
   const passend = ab.filter((b) => titel.folgen === undefined || b.block.folgen <= titel.folgen + 1)
   return passend.length ? { liste: passend } : { liste: [], grund: 'Block hat mehr Folgen als der Titel' }

@@ -21,3 +21,4 @@ export interface BlockWahl {
 }
 export function blockName(name: string): string
 export function blockWahl(serien: CrSerie[], kennung: string, titel: BlockTitel): BlockWahl
+export function istPlatzhalter(folge: { verfuegbarAb?: string }): boolean
