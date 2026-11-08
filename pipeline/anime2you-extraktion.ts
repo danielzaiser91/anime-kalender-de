@@ -1,24 +1,29 @@
 /**
  * **Anime2You automatisch vollständig lesen, Stufe P2: Claude wertet neue Artikel aus** (Termine, Anbieter, Sprachfassung, Sender).
  *
- * Zwei Aufrufe, beide aus `claude-anime2you-extraktion.yml`:
+ * Drei Aufrufe, alle aus `claude-anime2you-extraktion.yml`:
  *
  * - `--auswahl --verzeichnis <ordner>`: holt die Gesamt-Feeds, wählt die noch nicht gelesenen Artikel mit Deutschland-Bezug, legt je Artikel
  *   `artikel/<id>.txt` an (`ergebnis/` bleibt leer, Claude legt `ergebnis/<id>.json` neu an) und meldet `anzahl=<n>`. Bei null startet kein Claude.
  * - `--uebernehmen --verzeichnis <ordner>`: prüft jede Antwort gegen den Artikeltext (`lib/anime2you-vorschlag.ts`), hängt die bestandenen
  *   Vorschläge an `data/proposals/anime2you-extraktion.json` und schreibt `zusammenfassung.md` für den Pull Request.
  *
+ * - `--belege --verzeichnis <ordner>`: trägt aus den Vorschlägen der letzten Tage die eindeutigen Synchro-Aussagen als Handbeleg in
+ *   `data/dub-confirmed.yaml` ein (`lib/synchro-beleg-abgabe.ts`) und meldet `anzahl=<n>`; läuft bei jedem Lauf, auch ohne neuen Artikel.
+ *   `--heute JJJJ-MM-TT` setzt den Tag fest (nur für Tests).
+ *
  * Claude darf nur Dateien in `ergebnis/` schreiben. Die Quelle eines Vorschlags setzt dieses Skript aus der Artikelkennung – nie das Modell.
  */
 import { appendFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { parseFeed } from './lib/feed.ts'
-import { log, readJson, sleep, warn, writeJson } from './lib/util.ts'
-import { todayIso } from '../shared/time.ts'
+import { log, readJson, ROOT, sleep, warn, writeJson } from './lib/util.ts'
+import { addDays, todayIso } from '../shared/time.ts'
 import { artikelText, lohntLesung, neueKandidaten, type Kandidat } from './lib/anime2you-artikel.ts'
 import { beschreibe, pruefeVorschlag } from './lib/anime2you-vorschlag.ts'
 import { ergaenzeBestand, mitWiderspruechen, type Bestand, type GelesenerArtikel, type GespeicherterVorschlag } from './lib/anime2you-bestand.ts'
 import { zusammenfassung, type Verworfen } from './lib/anime2you-bericht.ts'
+import { belegBericht, gibSynchroBelegeAb } from './lib/synchro-beleg-abgabe.ts'
 
 const DATEI = 'data/proposals/anime2you-extraktion.json'
 const UA = 'Mozilla/5.0 (compatible; anime-kalender.de/1.0; +https://anime-kalender.de)'
@@ -28,6 +33,8 @@ const FEED_SEITEN = 2
 const HOECHSTENS_ABRUFE = 30
 const HOECHSTENS_LESUNGEN = 20
 const HOECHSTENS_JE_ARTIKEL = 15
+/** So lange nach der Veröffentlichung wird ein Vorschlag noch auf einen Auto-Beleg geprüft: der Weg des Titels kommt oft erst mit dem nächsten Bestandsbau. */
+const BELEG_FENSTER_TAGE = 7
 
 interface Auswahl {
   kandidaten: Kandidat[]
@@ -133,14 +140,32 @@ function uebernehmen(ordner: string): void {
   if (plan.kandidaten.length && ungelesen.length === plan.kandidaten.length) throw new Error('Claude hat keinen einzigen Artikel als gelesen gemeldet')
 }
 
+/** Jede Stunde, auch ohne neuen Artikel: Synchro-Aussagen der letzten Tage, deren Weg inzwischen im Katalog steht, werden Handbeleg (`lib/synchro-beleg-auswahl.ts`). */
+function belegeAbgeben(ordner: string, heute: string): void {
+  const bestand = readJson<Bestand>(DATEI, { gelesen: {}, vorschlaege: [] })
+  const frisch = addDays(heute, -BELEG_FENSTER_TAGE)
+  const erg = gibSynchroBelegeAb({
+    vorschlaege: bestand.vorschlaege.filter((v) => v.veroeffentlicht >= frisch),
+    belegDatei: resolve(ROOT, 'data/dub-confirmed.yaml'),
+    katalogDateien: [resolve(ROOT, 'public/data/titles.json'), resolve(ROOT, 'public/data/ohne-synchro.json')],
+    heute,
+    log,
+    warn,
+  })
+  mkdirSync(ordner, { recursive: true })
+  writeFileSync(resolve(ordner, 'belege.md'), belegBericht(erg, heute), 'utf8')
+  if (process.env.GITHUB_OUTPUT) appendFileSync(process.env.GITHUB_OUTPUT, `anzahl=${erg.belege.length}\n`)
+}
+
 const args = process.argv.slice(2)
 const ordner = /--verzeichnis[= ](\S+)/.exec(args.join(' '))?.[1]
-if (!ordner || !(args.includes('--auswahl') || args.includes('--uebernehmen'))) {
-  console.error('Aufruf: anime2you-extraktion.ts --auswahl|--uebernehmen --verzeichnis <ordner>')
+if (!ordner || !(args.includes('--auswahl') || args.includes('--uebernehmen') || args.includes('--belege'))) {
+  console.error('Aufruf: anime2you-extraktion.ts --auswahl|--uebernehmen|--belege --verzeichnis <ordner>')
   process.exit(1)
 }
 try {
   if (args.includes('--auswahl')) await auswahl(ordner)
+  else if (args.includes('--belege')) belegeAbgeben(ordner, /--heute[= ](\d{4}-\d{2}-\d{2})/.exec(args.join(' '))?.[1] ?? todayIso())
   else uebernehmen(ordner)
 } catch (err) {
   console.error(err)

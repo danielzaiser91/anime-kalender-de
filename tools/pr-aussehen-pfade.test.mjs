@@ -13,7 +13,7 @@ import ts from 'typescript'
 import { parse } from 'yaml'
 
 const WURZEL = resolve(import.meta.dirname, '..')
-export const WURZELN = ['check:panel', 'check:ansichten', 'check:einstellungen', 'check:suchhinweis', 'check:buehne-fenster']
+export const WURZELN = ['check:panel', 'check:ansichten', 'check:einstellungen', 'check:suchhinweis', 'check:buehne-fenster', 'check:cls-wechsel']
 
 /** Setzt die `PFADE=…`-Zeilen des Shell-Skripts zu einem regulären Ausdruck zusammen. */
 export function pfadAusdruck(text) {

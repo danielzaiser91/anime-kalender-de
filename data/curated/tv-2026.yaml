@@ -23,7 +23,7 @@
       2: "2026-08-29"
       3: "2026-08-30"
       20: "2026-09-22"
-  note: "Wiederholung ab 26.09.2026 samstags und sonntags um 21:15. Die TV-Fassung ist geschnitten."
+  hinweis: "Wiederholung ab 26.09.2026 samstags und sonntags um 21:15. Die TV-Fassung ist geschnitten."
   schnitt:
     was:
       - "Mr. Popo ist aus dem Bild entfernt: Szenen mit ihm gekürzt, das Bild herangezoomt oder durch ein Standbild ersetzt."
@@ -53,7 +53,7 @@
     time: "18:25"
     episodeCount: 24
     wochentage: [1, 2, 3, 4, 5]
-  note: "Nach der TV-Ausstrahlung sind die Folgen kostenlos auf Joyn abrufbar (seit 05.11.2026 belegt)."
+  hinweis: "Nach der TV-Ausstrahlung sind die Folgen kostenlos auf Joyn abrufbar (seit 05.11.2026 belegt)."
   # Handbeleg Premiere (10.10.2026): Anime2You 1059480 nennt es „deutsche TV-Premiere der ersten Staffel“;
   # davor weder deutsche Disc (erste am 04.12.2026) noch deutscher Stream (Akibapass, ADN nur OmU).
   premiere:
@@ -81,6 +81,6 @@
     time: "18:50"
     episodeCount: 98
     wochentage: [1, 2, 3, 4, 5]
-  note: "Wiederholung der Folgen 780 bis 877; die Characters-Log-Specials laufen nur im Originalton mit Untertiteln."
+  hinweis: "Wiederholung der Folgen 780 bis 877; die Characters-Log-Specials laufen nur im Originalton mit Untertiteln."
   sources:
     - https://www.anime2you.de/news/1059541/
