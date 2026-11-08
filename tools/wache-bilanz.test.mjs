@@ -1,17 +1,17 @@
 // Schlusszeilen der Wache: ruhig, Alarm, Ausfall je Prüfung; Verdrahtung in laeufe-aufraeumen als Prozess (gh als Kulisse).
 import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
-import { mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { wacheZeilen } from './wache-bilanz.mjs'
 
 const RUHIG_ROT = ['Bestandsbau: kein Alarm (letzter grüner Lauf x, 0 rote/abgebrochene danach)', 'Deploy: kein Alarm']
-const NAMEN = 'Bestandsbau, Fehlerschritte, Deploy, Quellen'
+const NAMEN = 'Bestandsbau, Fehlerschritte, Deploy, Synchro-Wartezeit, Quellen'
 
-// Ruhig: vier Prüfungen, genau eine Zeile.
-assert.deepEqual(wacheZeilen(RUHIG_ROT, []), [`WACHE ruhig: 4 Prüfungen ohne Alarm (${NAMEN})`])
+// Ruhig: fünf Prüfungen, genau eine Zeile.
+assert.deepEqual(wacheZeilen(RUHIG_ROT, []), [`WACHE ruhig: 5 Prüfungen ohne Alarm (${NAMEN})`])
 // Jede Alarmart unterdrückt die Entwarnung.
 assert.deepEqual(wacheZeilen(['ALARM Bestandsbau seit 7.0 h rot (x)', 'Deploy: kein Alarm'], []), [])
 assert.deepEqual(wacheZeilen(['ALARM Bestandsbau seit 2.0 h rot mit 2 verschiedenen Fehlerschritten (a; b)', 'Deploy: kein Alarm'], []), [])
@@ -20,17 +20,23 @@ assert.deepEqual(wacheZeilen(RUHIG_ROT, ['ALARM Quelle a seit 20.0 Tagen ohne Er
 // Ausfall je Prüfung: eigene Zeile mit Grund, nie ruhig mitgezählt.
 assert.deepEqual(wacheZeilen(['Bestandsbau: kein Alarm (x)', 'ALARM? Läufe des Deploys nicht lesbar: deploy kaputt'], []), [
   'WACHE nicht geprüft: Deploy (deploy kaputt)',
-  'WACHE ruhig: 3 Prüfungen ohne Alarm (Bestandsbau, Fehlerschritte, Quellen)',
+  'WACHE ruhig: 4 Prüfungen ohne Alarm (Bestandsbau, Fehlerschritte, Synchro-Wartezeit, Quellen)',
 ])
 assert.deepEqual(wacheZeilen(['ALARM? Läufe des Bestandsbaus nicht lesbar: a', 'ALARM? Fehlerschritte des Bestandsbaus nicht lesbar: b', 'Deploy: kein Alarm'], ['ALARM? g.json nicht lesbar: c']), [
   'WACHE nicht geprüft: Bestandsbau (a)',
   'WACHE nicht geprüft: Fehlerschritte (b)',
   'WACHE nicht geprüft: Quellen (g.json nicht lesbar: c)',
-  'WACHE ruhig: 1 Prüfungen ohne Alarm (Deploy)',
+  'WACHE ruhig: 2 Prüfungen ohne Alarm (Deploy, Synchro-Wartezeit)',
 ])
 // Nichts lief: keine Entwarnung.
-const alles = ['ALARM? Läufe des Bestandsbaus nicht lesbar: a', 'ALARM? Fehlerschritte des Bestandsbaus nicht lesbar: a', 'ALARM? Läufe des Deploys nicht lesbar: a']
+const alles = ['ALARM? Läufe des Bestandsbaus nicht lesbar: a', 'ALARM? Fehlerschritte des Bestandsbaus nicht lesbar: a', 'ALARM? Läufe des Deploys nicht lesbar: a', 'SYNCHRO? Wartezeit nicht lesbar: a']
 assert.equal(wacheZeilen(alles, ['ALARM? q']).some((z) => z.startsWith('WACHE ruhig')), false)
+// Synchro-Wartezeit nicht lesbar: nicht geprüft, nie als Prüfung gezählt; ein Synchro-ALARM unterdrückt die Entwarnung.
+assert.deepEqual(wacheZeilen([...RUHIG_ROT, 'SYNCHRO? Wartezeit nicht lesbar: katalog: HTTP 503'], []), [
+  'WACHE nicht geprüft: Synchro-Wartezeit (katalog: HTTP 503)',
+  'WACHE ruhig: 4 Prüfungen ohne Alarm (Bestandsbau, Fehlerschritte, Deploy, Quellen)',
+])
+assert.deepEqual(wacheZeilen([...RUHIG_ROT, 'ALARM Synchro-Wartezeit: X (Titel 1)'], []), [])
 // Ausfall plus echter Alarm: Ausfall bleibt sichtbar, ruhig fehlt.
 assert.deepEqual(wacheZeilen(['ALARM Bestandsbau seit 7.0 h rot (x)', 'ALARM? Läufe des Deploys nicht lesbar: d'], []), ['WACHE nicht geprüft: Deploy (d)'])
 
@@ -43,13 +49,22 @@ try {
   const aufraeumen = fileURLToPath(new URL('./laeufe-aufraeumen.mjs', import.meta.url))
   const datei = join(wegwerf, 'g.json')
   writeFileSync(datei, '{}')
-  const fahre = (laeufe, gesundheit = datei) =>
-    spawnSync(process.execPath, ['--import', stub(laeufe), aufraeumen, '--trocken', '--gesundheit', gesundheit], { encoding: 'utf8', env: { ...process.env, LAUF_TOKEN: '' } })
+  // Lesbare Quelle der Synchro-Wartezeit: leerer Katalog und keine Termine, also kein Alarm und keine Netzabfrage.
+  const synchroDir = join(wegwerf, 'synchro')
+  mkdirSync(synchroDir)
+  writeFileSync(join(synchroDir, 'katalog.json'), '{"serien":[]}')
+  writeFileSync(join(synchroDir, 'releases.json'), '[]')
+  const fahre = (laeufe, gesundheit = datei, synchro = synchroDir) =>
+    spawnSync(process.execPath, ['--import', stub(laeufe), aufraeumen, '--trocken', '--gesundheit', gesundheit], {
+      encoding: 'utf8',
+      timeout: 120_000,
+      env: { ...process.env, LAUF_TOKEN: '', AK_SYNCHRO_QUELLE: synchro },
+    })
   const letzteZeile = (r) => r.stdout.trim().split('\n').at(-1)
 
   const ruhig = fahre([lauf('success', '2999-12-31T01:00:00Z')])
   assert.equal(ruhig.status, 0, ruhig.stderr)
-  assert.equal(letzteZeile(ruhig), `WACHE ruhig: 4 Prüfungen ohne Alarm (${NAMEN})`)
+  assert.equal(letzteZeile(ruhig), `WACHE ruhig: 5 Prüfungen ohne Alarm (${NAMEN})`)
   assert.notEqual(ruhig.stderr.trim(), '', 'der Lauf-Teil lief vor der Schlusszeile (Worker-Meldung)')
 
   const alarm = fahre([lauf('success', '2026-10-18T01:00:00Z'), lauf('failure', '2026-10-18T02:00:00Z')])
@@ -60,12 +75,18 @@ try {
   assert.equal(ausfall.status, 0, ausfall.stderr)
   assert.match(ausfall.stdout, /^WACHE nicht geprüft: Bestandsbau \(gh weg\)$/m)
   assert.match(ausfall.stdout, /^WACHE nicht geprüft: Deploy \(gh weg\)$/m)
-  assert.equal(letzteZeile(ausfall), 'WACHE ruhig: 1 Prüfungen ohne Alarm (Quellen)')
+  assert.equal(letzteZeile(ausfall), 'WACHE ruhig: 2 Prüfungen ohne Alarm (Synchro-Wartezeit, Quellen)')
+
+  // Synchro-Wartezeit nicht lesbar (Ordner ohne Dateien): eigene Zeile, nicht in der Entwarnung.
+  const ohneSynchro = fahre([lauf('success', '2999-12-31T01:00:00Z')], datei, join(wegwerf, 'fehlt'))
+  assert.match(ohneSynchro.stdout, /^SYNCHRO\? Wartezeit nicht lesbar: /m)
+  assert.match(ohneSynchro.stdout, /^WACHE nicht geprüft: Synchro-Wartezeit \(/m)
+  assert.equal(letzteZeile(ohneSynchro), 'WACHE ruhig: 4 Prüfungen ohne Alarm (Bestandsbau, Fehlerschritte, Deploy, Quellen)')
 
   const ohneDatei = fahre([lauf('success', '2999-12-31T01:00:00Z')], join(wegwerf, 'fehlt.json'))
   assert.match(ohneDatei.stdout, /^WACHE nicht geprüft: Quellen \(/m)
-  assert.doesNotMatch(ohneDatei.stdout, /WACHE ruhig: 4/)
+  assert.doesNotMatch(ohneDatei.stdout, /WACHE ruhig: 5/)
 } finally {
   rmSync(wegwerf, { recursive: true, force: true })
 }
-console.log('wache-bilanz: ok (ruhig, 4 Alarmarten, Ausfall je Prüfung, nichts gelaufen, laeufe-aufraeumen als Prozess)')
+console.log('wache-bilanz: ok (ruhig, 5 Prüfungen, 4 Alarmarten, Synchro nicht lesbar, Ausfall je Prüfung, nichts gelaufen, laeufe-aufraeumen als Prozess)')

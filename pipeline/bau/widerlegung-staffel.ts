@@ -1,5 +1,7 @@
 import type { Title } from '../../shared/types.ts'
-import { anzeigeName, hauptstaffeln, staffelStaende } from '../../shared/titles.ts'
+import { anzeigeName } from '../../shared/titles.ts'
+import { crunchyrollSeriesId } from '../lib/crunchyroll.ts'
+import { staffelStandVon } from '../../shared/staffel-zaehlung.ts'
 import { einzigeStaffelDerLinie, remakeVonDerReihe } from './remake-von.ts'
 
 /**
@@ -19,12 +21,26 @@ export function staffelDesTitels(t: Title, titles: Iterable<Title>, remakeQuelle
     episodes: x.episodes,
     jpYear: x.jpYear,
     jpStart: x.jpStart,
+    beiwerk: x.beiwerk,
+    eigenesWerk: x.eigenesWerk,
   }))
-  const kopf = reihe.find((x) => x.id === t.franchiseId) ?? reihe[0]!
-  const stand = staffelStaende(hauptstaffeln(teile), anzeigeName(kopf)).get(t.id)
+  const stand = staffelStandVon(teile, t.id)
   if (stand) return stand.teil === undefined ? stand.staffel : undefined
   return einzigeStaffelDerLinie(reihe, remakeVon, t.id) ? 1 : undefined
 }
 
 /** „Staffel 3“ / „Season 3“ am Ende des Staffelnamens im Katalog. */
 export const STAFFEL_IM_NAMEN = /(?:staffel|season)\s+(\d+)\s*$/i
+
+/**
+ * Welche Katalogstaffeln (Nummer im Staffelnamen) können zu diesem Titel an der Crunchyroll-Serie `kennung` gehören?
+ * „Staffel 1“ gilt, wenn der Titel allein an der Serie hängt (die Katalogstaffel zählt je Serie, nicht je Reihe;
+ * Magic Knight Rayearth 2026). Dazu die errechnete Staffel der Reihe (ein Titel allein in seiner Reihe ist Staffel 1).
+ */
+export function katalogStaffeln(title: Title, titles: Map<number, Title>, kennung: string): number[] {
+  const teilt = (x: Title) => x.streams.some((s) => s.platform === 'crunchyroll' && crunchyrollSeriesId(s.url) === kennung)
+  const andere = [...titles.values()].filter((x) => x.id !== title.id && x.franchiseId !== undefined && x.franchiseId === title.franchiseId)
+  const staffel = andere.length ? staffelDesTitels(title, titles.values()) : 1
+  const eigeneSerie = !andere.some(teilt) && teilt(title)
+  return [...(eigeneSerie ? [1] : []), ...(staffel === undefined ? [] : [staffel])]
+}

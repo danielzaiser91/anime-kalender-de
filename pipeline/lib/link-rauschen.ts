@@ -1,3 +1,4 @@
+import { adressKern } from '../../shared/adresse-kern.ts'
 import { istAuskunft, istTot, type LinkBefund } from './link-befund.ts'
 
 /**
@@ -32,6 +33,34 @@ export function netflixBefund<B extends LinkBefund>(url: string, alt: LinkBefund
   const am = neu.geprueftAm ?? ''
   if (erstes && tage(erstes, am) >= ABSTAND_TAGE) return neu
   return { ...neu, status: 'unklar', erstes404: erstes ?? am }
+}
+
+/**
+ * Ein Netflix-404 der Linkprüfung entfernt keinen Weg, der belegt deutschen Ton trägt. Die CI sieht je Adresse tagelang
+ * dasselbe 404 (34 Adressen: 404 am 02., 03. und 04.11.2026, davor seit 18.09. durchgehend 200; 14 Titel mit `dub: true`
+ * verloren so ihren Weg trotz der Zwei-Tage-Regel), ein zweites 404 belegt also nichts über Deutschland.
+ */
+export const netflix404EntferntNicht = (plattform: string, befund: unknown, warDeutsch: boolean): boolean => plattform === 'netflix' && befund === 404 && warDeutsch
+
+export interface DeutschWeg {
+  url?: string
+  dub?: boolean
+}
+
+/**
+ * Ob genau dieser Weg (seine Adresse, nicht der Anbieter) mit deutschem Ton belegt ist. Bau 09-2 (Vorstand und Handbelege)
+ * und `check:tote-adressen` (ausgelieferter Weg) fragen beide hier: ein deutscher Staffel-1-Weg deckt keine Staffel-3-Adresse.
+ */
+export function wegBelegtDeutsch(url: string, wege: DeutschWeg[]): boolean {
+  const kern = adressKern(url)
+  return wege.some((w) => w.dub === true && w.url !== undefined && adressKern(w.url) === kern) // dub-lesart: irgendwie – jeder Weg mit Ja zählt, auch ein abgeleiteter
+}
+
+/** Die Wege mit „DE ✓" je Titel im vorigen Bestand, auch die geführten Abgänge (Eingabe für `wegBelegtDeutsch`). */
+export function deutscheWegeJeTitel(alt: Array<{ id: number; streams?: DeutschWeg[]; entfernteStreams?: DeutschWeg[] }>): Map<number, DeutschWeg[]> {
+  const jeTitel = new Map<number, DeutschWeg[]>()
+  for (const t of alt) jeTitel.set(t.id, [...(t.streams ?? []), ...(t.entfernteStreams ?? [])].filter((w) => w.dub === true)) // dub-lesart: irgendwie – jeder Weg mit Ja zählt
+  return jeTitel
 }
 
 /** Ein 404 liegt vor: bestätigt oder als erstes noch `unklar` (`erstes404`). Der Netflix-Riegel im Bau (09-2) fragt so, sonst wanderte ein Weg von der lebenden zur wackligen Form. */
@@ -103,10 +132,26 @@ export function zaehleWechsel(paare: WechselPaar[]): Wechsel[] {
   return [...jeHost.values()]
 }
 
+const verrauscht = (w: Wechsel): boolean => w.geprueft >= WECHSEL_MINDESTMENGE && w.wechsel * 100 > w.geprueft * WECHSEL_GRENZE_PROZENT
+
+/**
+ * Ende eines Linklaufs: Warnzeilen, und war Netflix in diesem Lauf verrauscht, tragen dessen frisch gemessene 404 `rausch: true`.
+ * Der Vermerk steht im Befund und überlebt damit spätere Teilneumessungen des Tages (der Bau rechnete die Quote sonst
+ * aus dem Rest des Tages, der mit jeder Neumessung schrumpft).
+ */
+export function meldeWechsel<B extends LinkBefund>(bestand: Record<string, B>, paare: WechselPaar[], warn: (zeile: string) => void): void {
+  const werte = zaehleWechsel(paare)
+  wechselWarnungen(werte).forEach(warn)
+  if (!werte.some((w) => w.host === 'netflix.com' && verrauscht(w))) return
+  for (const p of paare) {
+    if (p.neu === 404 && istNetflix(p.url) && bestand[p.url]) bestand[p.url] = { ...bestand[p.url], rausch: true }
+  }
+}
+
 /** Warnzeilen für Plattformen, deren Wechselanteil über der Grenze liegt (genau auf der Grenze: keine Warnung). */
 export function wechselWarnungen(werte: Wechsel[]): string[] {
   return werte
-    .filter((w) => w.geprueft >= WECHSEL_MINDESTMENGE && w.wechsel * 100 > w.geprueft * WECHSEL_GRENZE_PROZENT)
+    .filter(verrauscht)
     .map(
       (w) =>
         `⚠ WARNUNG Linkprüfung verrauscht: ${w.host} ${w.wechsel} von ${w.geprueft} Adressen mit Vorbefund wechselten lebt/tot (über ${WECHSEL_GRENZE_PROZENT} %) — einzelne 404 nicht trauen.`,

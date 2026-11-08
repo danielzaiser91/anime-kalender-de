@@ -160,12 +160,12 @@ export function AntwortKasten({
   /**
    * **Was den Termin erklärt, steht beim Termin.**
    *
-   * `Release.note` trägt das, was aus keiner Zahl hervorgeht — „der Tag steht
+   * `Release.hinweis` trägt das, was aus keiner Zahl hervorgeht — „der Tag steht
    * noch nicht fest", „Netflix nennt den Termin auf der Titelseite; das Jahr
    * ist abgeleitet". Was nur unsere Zuordnung erklärt („Zum Start standen die
    * Folgen 1 bis 3 bereit", „Automatisch übernommen aus …"), steht seit dem
    * 13.09.2026 in `Release.herkunft` und nicht hier.
-   * **271 Releases haben eine**, und sie standen bis zum 04.09.2026 als
+   * **45 Releases haben eine** (Stand 05.11.2026, `data/curated/*.yaml`), und sie standen bis zum 04.09.2026 als
    * orangefarbener Kasten im Terminbereich.
    *
    * Mit dem Bereich sind sie verschwunden — unbeabsichtigt, denn die Pille
@@ -392,7 +392,7 @@ export function AntwortKasten({
       nichts.
     */
     /* „Alle 1 Folgen" stand über OVAs mit einer Folge — dort sagt die Überschrift ohne Zahl dasselbe. */
-    haupt = antwort.gesamt && antwort.gesamt > 1
+    haupt = antwort.heuteOffen && antwort.gesamt && antwort.gesamt > 1 ? T('antwort.heuteUhrzeitOffen', { count: antwort.gesamt }) : antwort.gesamt && antwort.gesamt > 1
       ? fertigZahlText(antwort.gesamt, antwort.gesamtAbgeleitet, T)
       : folgenZahl && !antwort.gesamt && folgenZahl[1] > 1 ? deFolgenZahlText(folgenZahl, releases, T) : T('antwort.fertigTitel')
     /*

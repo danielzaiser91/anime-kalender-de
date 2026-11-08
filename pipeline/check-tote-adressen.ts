@@ -24,13 +24,14 @@ import type { Title } from '../shared/types.ts'
 import { adressKern } from './lib/dub-confirmed.ts'
 import { handGesehenAm } from './lib/hand-gesehen.ts'
 import { istTot, juengsteJeKern } from './lib/link-befund.ts'
+import { netflix404EntferntNicht, wegBelegtDeutsch } from './lib/link-rauschen.ts'
+import { ladeGewerteteBefunde } from './lib/netflix-404-gate.ts'
+import { todayIso } from '../shared/time.ts'
 
 const roh = JSON.parse(readFileSync('public/data/titles.json', 'utf8')) as Title[] | { titles: Title[] }
 const titles: Title[] = Array.isArray(roh) ? roh : roh.titles
-const befunde = JSON.parse(readFileSync('data/link-check.json', 'utf8')) as Record<
-  string,
-  { status: number | string; geprueftAm?: string }
->
+/* Dieselbe Wertung wie im Bau: ein Netflix-404 aus einem Massen-404-Lauf oder bei noch geführter JustWatch-Adresse zählt nicht. */
+const { befunde } = ladeGewerteteBefunde(todayIso(), process.cwd())
 
 /*
   Eine jüngere Handprüfung derselben Adresse, die die Seite nicht als weg meldet, schlägt den
@@ -60,7 +61,8 @@ const tot = (url?: string): boolean => {
 const treffer: string[] = []
 for (const t of titles) {
   for (const s of t.streams ?? []) {
-    if (tot(s.url)) treffer.push(`${t.id} ${t.titleDe ?? t.titleEn ?? ''} — ${s.platform}: ${s.url}`)
+    const netflixBleibt = netflix404EntferntNicht(s.platform, befundJeKern.get(kern(s.url))?.status, wegBelegtDeutsch(s.url, [s])) // derselbe Weg-Test wie im Bau 09-2
+    if (tot(s.url) && !netflixBleibt) treffer.push(`${t.id} ${t.titleDe ?? t.titleEn ?? ''} — ${s.platform}: ${s.url}`)
   }
   for (const w of t.watchLinks ?? []) {
     if (tot(w.url)) treffer.push(`${t.id} ${t.titleDe ?? t.titleEn ?? ''} — ${w.name}: ${w.url}`)

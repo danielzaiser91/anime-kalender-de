@@ -140,8 +140,12 @@ function plakatSeitenMaengel(titel: Title[]): string[] {
   return mangel
 }
 
-/** Ratsche: Titel mit Cover, deren Link-Vorschau das Standardbild ist (04.11.2026, 449 gemessen am Stand f41fc446b, ohne Luft; nach dem TMDB- und Plakat-Lauf auf den neuen Messwert senken). */
-const STANDARD_TROTZ_COVER_HOECHSTENS = 449
+/**
+ * Ratsche: Titel mit Cover, deren Link-Vorschau das Standardbild ist (Seiten im Bau; 06.11.2026, Datenstand 3266bdc89: vorher 471, mit gemessenen
+ * AniList-Covern 158 = 83 Cover über 250 KB + 75 aniSearch-Kopien, 12 Luft). Dieselbe Grenze prüft `check-cover-vorschau-bestand.ts` schon vor dem
+ * Seitenbau auf dem frisch gebauten Bestand (die Kette eines Code-PR sieht hier nur den eingecheckten Stand).
+ */
+const STANDARD_TROTZ_COVER_HOECHSTENS = 170
 
 function coverVorschauMaengel(titel: Title[]): string[] {
   const seiten = titel

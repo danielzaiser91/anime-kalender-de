@@ -23,11 +23,14 @@
 import { log, readJson, warn, writeJson } from './lib/util.ts'
 import type { Title } from '../shared/types.ts'
 import { todayIso } from '../shared/time.ts'
+import { hatStreamingWeg } from '../tools/streaming-weg-zaehlen.mjs'
 
 interface Kennzahlen {
   gemessenAm: string
   titel: number
   mitVerweis: number
+  /** `streams` nicht leer oder `watchLinks` mit `kind: 'stream'` (`tools/streaming-weg-zaehlen.mjs`). */
+  mitStreamingWeg: number
   ohneVerweis: number
   mitSynchro: number
   verweiseGesamt: number
@@ -70,6 +73,7 @@ function main(): void {
     gemessenAm: heute,
     titel: titles.length,
     mitVerweis: titles.filter((t) => (t.streams ?? []).length > 0).length,
+    mitStreamingWeg: titles.filter(hatStreamingWeg).length,
     ohneVerweis: titles.filter((t) => !(t.streams ?? []).length).length,
     mitSynchro,
     verweiseGesamt: verweise,
@@ -95,13 +99,13 @@ function main(): void {
 
   const vorher = ohneHeute.length > 1 ? ohneHeute[ohneHeute.length - 2]! : null
   const pfeil = (k: keyof Kennzahlen): string => {
-    if (!vorher || typeof zahlen[k] !== 'number') return ''
+    if (!vorher || typeof zahlen[k] !== 'number' || typeof vorher[k] !== 'number') return ''
     const d = (zahlen[k] as number) - (vorher[k] as number)
     return d === 0 ? '' : d > 0 ? ` (+${d})` : ` (${d})`
   }
 
   log(`Bestand am ${heute}:`)
-  log(`  ${zahlen.titel} Titel${pfeil('titel')}, davon ${zahlen.mitVerweis} mit Verweis${pfeil('mitVerweis')}`)
+  log(`  ${zahlen.titel} Titel${pfeil('titel')}, davon ${zahlen.mitVerweis} mit Verweis${pfeil('mitVerweis')}, ${zahlen.mitStreamingWeg} mit Streaming-Weg${pfeil('mitStreamingWeg')}`)
   log(`  ${zahlen.mitSynchro} mit belegter Synchro${pfeil('mitSynchro')}, ${zahlen.verweiseGesamt} Verweise${pfeil('verweiseGesamt')}`)
   log(`  offen: ${zahlen.ohneVerweis} ohne Verweis${pfeil('ohneVerweis')}, ${zahlen.ohneSprachurteil} ohne Sprachurteil${pfeil('ohneSprachurteil')}`)
   log(`  Lücken: ${zahlen.ohneDeutschenNamen} ohne deutschen Namen${pfeil('ohneDeutschenNamen')}, ${zahlen.serienOhneFolgenzahl} Serien ohne Folgenzahl${pfeil('serienOhneFolgenzahl')}`)

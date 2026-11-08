@@ -1,3 +1,4 @@
+import { ohneGeteilteFilme } from './tmdb-eindeutig.ts'
 import { readJson } from './util.ts'
 
 /**
@@ -15,7 +16,7 @@ export type TmdbPlakate = Record<string, { p: string } | null>
 /** aniSearch-Kennung → Eintrag des Manifests; `datei` fehlt bei Einträgen ohne Bild. */
 export type EigeneCover = Record<string, { datei?: string }>
 
-export const ladeTmdbPlakate = (): TmdbPlakate => readJson<TmdbPlakate>('data/tmdb-poster.json', {})
+export const ladeTmdbPlakate = (): TmdbPlakate => ohneGeteilteFilme(readJson<TmdbPlakate>('data/tmdb-poster.json', {}), 'Plakate (Cover)')
 export const ladeEigeneCover = (): EigeneCover => readJson<EigeneCover>('data/cover-eigen.json', {})
 
 /** Hat der aniSearch-only-Titel eine eigene Kopie seines Covers (`data/cover-eigen.json`)? */

@@ -5,6 +5,8 @@
  * Signale und Anlass: daniel-zum-abarbeiten/berichte/liegegut-2026-10-21.md (PR 1676 lag freigegeben und grün 20.10. bis 21.10.).
  */
 import { mitLimit } from './kind-mit-limit.mjs'
+import fs from 'node:fs'
+import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 
 const STUNDE = 3600 * 1000
@@ -14,10 +16,6 @@ export const KONFLIKT_H = 24 // Konflikt ohne Aktivität; der Beginn des Konflik
 export const ROT_H = 12 // Rote Checks auf dem aktuellen Kopf: ein Wiederholungslauf dauert weniger.
 export const AENDERN_H = 24 // Ändern-Urteil ohne neuen Commit: der Bauer hatte einen Tag.
 export const STILLSTAND_H = 48 // Keine Aktivität (Commit, Kommentar, Review), egal warum: fängt PRs, die auf kein anderes Signal passen (z. B. wartet still auf den Prüfer). Stand 30.10.2026, Schwelle = zwei Tage.
-export const STICHWORT_MIN = 5 // Titelwörter ab dieser Länge zählen für die Überholt-Gegenprobe.
-export const STICHWORT_STAMM = 6 // Vergleich über die ersten Buchstaben („Termine“ = „Terminen“).
-export const STICHWORT_TREFFER = 2 // Gemeinsame Stämme zwischen Titel und main-Commit; eins allein ist Zufall (1386: 30 Commits an denselben Dateien).
-export const FUELLWOERTER = new Set(['statt', 'nicht', 'keine', 'sowie', 'wieder', 'schon', 'gegen']) // Funktionswörter ohne Sachbezug (21.10.2026: 'statt' allein machte aus 1433 einen Treffer).
 
 const GRUEN = new Set(['SUCCESS', 'NEUTRAL', 'SKIPPED'])
 const ROT = new Set(['FAILURE', 'TIMED_OUT', 'STARTUP_FAILURE', 'ERROR'])
@@ -102,12 +100,53 @@ export function stillstandSignal(pr, kopfZeit, jetzt) {
   return stunden(letzte, jetzt) > STILLSTAND_H ? [{ nr: 8, text: 'Stillstand', seit: letzte }] : []
 }
 
-/** Signal 6: F-Nummern (offene Entscheidungen), die mehr als ein PR nennt. Rückgabe: Map PR-Nummer → Liste der geteilten F-Nummern. */
-export function geteilteEntscheidungen(prs) {
+/** Entschiedene F-Nummern („F44“) aus `fragen/F*.md`: eine Zeile, die mit „Entschieden“ beginnt (auch fett oder als Listenpunkt). Fehlt der Ordner, ist die Menge leer. */
+export function entschiedeneFragen(ordner, fsFn = fs) {
+  const aus = new Set()
+  if (!fsFn.existsSync(ordner)) return aus
+  for (const datei of fsFn.readdirSync(ordner)) {
+    const nr = /^f(\d+)(?!\d)/i.exec(datei)
+    if (nr && /^[\s*>-]*Entschieden/m.test(fsFn.readFileSync(path.join(ordner, datei), 'utf8'))) aus.add(`F${nr[1]}`)
+  }
+  return aus
+}
+
+const ERST_NACH = /erst nach #(\d+)/i
+
+/** Kandidat für Signal 9: Basis ein anderer Zweig als main, oder Konflikt und „erst nach #N“ am Anfang der Beschreibung. */
+export const stapelKandidat = (pr) => (!!pr.baseRefName && pr.baseRefName !== 'main') || (pr.mergeable === 'CONFLICTING' && ERST_NACH.test((pr.body ?? '').slice(0, 200)))
+
+/**
+ * Signal 9: Stapel-PR, dessen Basis-PR gesquasht gemergt wurde (Fall 3091: Teil 2 nach gesquashtem Teil 1). Die Basis wird gezielt
+ * nachgeschlagen (Zweigname bzw. PR-Nummer), nicht aus einer Liste der letzten Merges: eine ältere Basis fiele sonst still durch.
+ * Rückgabe: Nummer des Basis-PR oder null; Abruffehler schlagen durch.
+ */
+export function stapelBasis(ghFn, pr) {
+  if (pr.baseRefName && pr.baseRefName !== 'main') {
+    const gemergt = JSON.parse(ghFn(['pr', 'list', '--state', 'merged', '--head', pr.baseRefName, '--json', 'number']))
+    if (gemergt.length > 0) return gemergt[0].number
+  }
+  const nr = pr.mergeable === 'CONFLICTING' ? ERST_NACH.exec((pr.body ?? '').slice(0, 200))?.[1] : undefined
+  if (!nr) return null
+  return JSON.parse(ghFn(['pr', 'view', nr, '--json', 'state'])).state === 'MERGED' ? Number(nr) : null
+}
+
+/** Basis-PR je Stapel-PR (Map PR → Basis); abgefragt wird nur für Kandidaten. */
+export function stapelBasen(ghFn, offen) {
+  const aus = new Map()
+  for (const pr of offen.filter(stapelKandidat)) {
+    const basis = stapelBasis(ghFn, pr)
+    if (basis) aus.set(pr.number, basis)
+  }
+  return aus
+}
+
+/** Signal 6: F-Nummern (offene Entscheidungen), die mehr als ein PR nennt; `entschieden` (Menge) zählt nicht mehr. Rückgabe: Map PR-Nummer → Liste der geteilten F-Nummern. */
+export function geteilteEntscheidungen(prs, entschieden = new Set()) {
   const je = new Map()
   for (const pr of prs) {
     const text = [pr.title, pr.body, ...pr.comments.filter((c) => c.author?.login === 'danielzaiser91' || c.body.includes('**Prüfer-Review**')).map((c) => c.body)].join('\n')
-    for (const f of new Set(text.match(/\bF\d+\b/g) ?? [])) je.set(f, [...(je.get(f) ?? []), pr.number])
+    for (const f of new Set(text.match(/\bF\d+\b/g) ?? [])) if (!entschieden.has(f)) je.set(f, [...(je.get(f) ?? []), pr.number])
   }
   const aus = new Map()
   for (const [f, nummern] of je) {
@@ -117,40 +156,68 @@ export function geteilteEntscheidungen(prs) {
   return aus
 }
 
-/** Titelwörter als Stämme. */
-export function stichwoerter(text) {
-  const woerter = text.toLowerCase().match(/[a-zäöüß]+/g) ?? []
-  return new Set(woerter.filter((w) => w.length >= STICHWORT_MIN && !FUELLWOERTER.has(w)).map((w) => w.slice(0, STICHWORT_STAMM)))
+export const BEZEICHNER_MIN = 6 // Kürzere Namen (`main`, `zeile`) stehen auf main in fast jeder Datei.
+const BEZEICHNER = /(?:\b(?:function\*?|class|interface|enum)\s+|\b(?:const|let|var|type)\s+)([A-Za-z_$][\w$]*)(?=\s*(?:[=(<{:]|$))/g
+const CODE_DATEI = /\.(?:[mc]?[jt]s|tsx)$/
+
+const bezeichnerIn = (zeile) => [...zeile.matchAll(BEZEICHNER)].map((m) => m[1]).filter((n) => n.length >= BEZEICHNER_MIN)
+
+/**
+ * Signal 7: neue Bezeichner je Codedatei aus den Patches (`+++ b/<datei>` gefolgt von Hunk-Zeilen).
+ * Nur hinzugefügte, nicht zugleich entfernte Namen (eine geänderte Signatur ist kein neuer Name). Rückgabe: Map Datei → Namenliste.
+ */
+export function neueBezeichner(patches) {
+  const je = new Map()
+  let datei = null
+  let alt = new Set()
+  const neu = []
+  const schliesse = () => {
+    if (datei && CODE_DATEI.test(datei)) {
+      const namen = [...new Set(neu)].filter((n) => !alt.has(n))
+      if (namen.length > 0) je.set(datei, namen)
+    }
+    alt = new Set()
+    neu.length = 0
+  }
+  for (const z of patches.split('\n')) {
+    if (z.startsWith('+++ b/')) {
+      schliesse()
+      datei = z.slice(6).trim()
+    } else if (z.startsWith('+')) neu.push(...bezeichnerIn(z.slice(1)))
+    else if (z.startsWith('-')) bezeichnerIn(z.slice(1)).forEach((n) => alt.add(n))
+  }
+  schliesse()
+  return je
 }
 
-/** Liest `git log --name-only --format=%x01%h%x09%s` in Commits { hash, betreff, dateien }. */
-export function mainCommits(log) {
-  return log.split('\x01').filter((b) => b.trim() !== '').map((block) => {
-    const [kopf, ...dateien] = block.split('\n')
-    const [hash, betreff] = kopf.split('\t')
-    return { hash, betreff: betreff ?? '', dateien: dateien.filter((d) => d.trim() !== '') }
-  })
+/** Fundstelle „datei:zeile name“ je Name, der in der Datei auf main steht (`grepFn(datei, namen)` liefert Trefferzeilen `zeile:text`). */
+export function fundstellen(namen, grepFn) {
+  const aus = []
+  for (const [datei, liste] of namen) {
+    const zeilen = grepFn(datei, liste).split('\n').filter((z) => z !== '')
+    for (const n of liste) {
+      const wort = new RegExp(`(?<![\\w$])${n.replace(/\$/g, '\\$')}(?![\\w$])`)
+      const z = zeilen.find((t) => wort.test(t))
+      if (z) aus.push({ fundstelle: `${datei}:${z.split(':')[0]} ${n}` })
+    }
+  }
+  return aus
 }
 
-// Sammeldateien, die fast jeder PR ergänzt: eine Überschneidung allein hier sagt nichts (04.11.2026: 3 von 3 Fehlalarmen, 2785/2701/2633).
-export const SAMMELDATEIEN = new Set(['tools/check-logic-liste.txt', 'tools/check-bestand-liste.txt', 'data/dub-confirmed.yaml'])
-
-/** Signal 7 (Hinweis, kein Schluss): main-Commits seit PR-Datum mit gemeinsamer Datei (ohne Sammeldateien) und mindestens STICHWORT_TREFFER gemeinsamen Titelstämmen. */
-export function ueberholtTreffer(titel, dateien, commits) {
-  const eigene = new Set(dateien.filter((d) => !SAMMELDATEIEN.has(d)))
-  const woerter = stichwoerter(titel)
-  return commits.filter((c) => {
-    if (!c.dateien.some((d) => eigene.has(d))) return false
-    const gemeinsam = [...stichwoerter(c.betreff)].filter((w) => woerter.has(w))
-    return gemeinsam.length >= STICHWORT_TREFFER
-  })
+/** Treffer = Fundstellen, wenn ALLE neuen Bezeichner des PR schon auf main stehen (mindestens einer); sonst leer. Ein Titel-Treffer allein reicht nicht. */
+export function ueberholtTreffer(patches, grepFn) {
+  const namen = neueBezeichner(patches)
+  const gesamt = [...namen.values()].reduce((s, l) => s + l.length, 0)
+  const funde = fundstellen(namen, grepFn)
+  return gesamt > 0 && funde.length === gesamt ? funde : []
 }
 
-const NAECHSTER = { STILLSTAND: 'STILLSTAND', UEBERHOLT: 'ÜBERHOLT?', DANIEL: 'DANIEL', MERGEN: 'MERGEN', NACHBESSERN: 'NACHBESSERN' }
+const NAECHSTER = { STAPEL: 'STAPEL', STILLSTAND: 'STILLSTAND', UEBERHOLT: 'ÜBERHOLT?', DANIEL: 'DANIEL', MERGEN: 'MERGEN', NACHBESSERN: 'NACHBESSERN' }
 
 /** Nächster Schritt aus Signalen und Gegenprobe; `daniel` = Signal 6 oder Signal 2 mit Bot-Urteil als letztem (nur Daniel löst das). */
 export function naechsterSchritt(nummern, treffer, botLetzt) {
   const hat = (n) => nummern.includes(n)
+  if (hat(9)) return NAECHSTER.STAPEL
   if (nummern.every((n) => n === 8)) return NAECHSTER.STILLSTAND
   if (treffer.length > 0 && (hat(1) || hat(3) || hat(5))) return NAECHSTER.UEBERHOLT
   if (hat(6) || (hat(2) && botLetzt)) return NAECHSTER.DANIEL
@@ -165,7 +232,7 @@ const braucheGegenprobe = (nummern) => nummern.some((n) => n === 1 || n === 3 ||
 
 /** Eine Zeile je auffälligem PR; `seit` = frühester Zeitpunkt der Signale. */
 export function zeile(nr, schritt, texte, seit, treffer, geprueft) {
-  const probe = !geprueft ? '' : treffer.length > 0 ? `; Gegenprobe: Treffer ${treffer.map((c) => `${c.hash} „${c.betreff}“`).join(' | ')}` : '; Gegenprobe: keine Treffer'
+  const probe = !geprueft ? '' : treffer.length > 0 ? `; Gegenprobe: Treffer ${treffer.map((c) => c.fundstelle).join(' | ')}` : '; Gegenprobe: keine Treffer'
   return `PR ${nr}: ${schritt} – Signal ${texte.join('; ')} – seit ${zeitText(seit)}${probe}`
 }
 
@@ -194,7 +261,7 @@ export function kopfZeitVon(ghFn, pr, karte) {
 }
 
 /** Bewertet einen PR; null, wenn nichts auffällt, sonst { nr, signale: [{ nr, seit }], zeile }. */
-function bewertePr(ghFn, gitFn, pr, geteilt, jetzt, karte) {
+function bewertePr(ghFn, gitFn, pr, geteilt, jetzt, karte, stapel) {
   const kopfZeit = kopfZeitVon(ghFn, pr, karte)
   if (Number.isNaN(kopfZeit)) throw new Error(`PR ${pr.number}: Kopf-Zeit nicht lesbar`)
   const signale = [...signaleEinzel(pr, kopfZeit, jetzt), ...stillstandSignal(pr, kopfZeit, jetzt)]
@@ -206,6 +273,11 @@ function bewertePr(ghFn, gitFn, pr, geteilt, jetzt, karte) {
     zeiten.push(kopfZeit)
     nummern.push(6)
   }
+  if (stapel) {
+    texte.push(`9 Basis #${stapel} gesquasht → main hineinmergen`)
+    zeiten.push(Math.max(kopfZeit, ...pr.comments.map((c) => Date.parse(c.createdAt))))
+    nummern.push(9)
+  }
   if (nummern.length === 0) return null
   const geprueft = braucheGegenprobe(nummern)
   const treffer = geprueft ? probeFuer(ghFn, gitFn, pr) : []
@@ -214,19 +286,56 @@ function bewertePr(ghFn, gitFn, pr, geteilt, jetzt, karte) {
   return { nr: pr.number, signale: nummern.map((n, i) => ({ nr: n, seit: zeiten[i] })), zeile: text }
 }
 
-/** Holt die offenen PRs über gh/git (einspeisbar) und rechnet alle. Rückgabe: Funde { nr, signale, zeile }. */
-export function liegegutFunde(ghFn, gitFn, jetzt) {
-  const felder = 'number,title,headRefOid,createdAt,mergeable,mergeStateStatus,isDraft,body,comments,reviews,statusCheckRollup'
-  const offen = JSON.parse(ghFn(['pr', 'list', '--state', 'open', '--limit', '100', '--json', felder])).filter((p) => !p.isDraft)
-  const geteilt = geteilteEntscheidungen(offen)
+const FELDER_LEICHT = 'number,title,headRefOid,createdAt,mergeable,mergeStateStatus,isDraft,body,baseRefName'
+const FELDER_GRUPPEN = ['reviews,statusCheckRollup', 'comments']
+
+/** Eine Feldgruppe aller offenen PRs; scheitert die Sammelabfrage am GraphQL-Limit (nur dann), je PR einzeln (`pr view`); jeder andere Fehler schlägt durch. */
+function feldGruppe(ghFn, felder, nummern) {
+  try {
+    return JSON.parse(ghFn(['pr', 'list', '--state', 'open', '--limit', '100', '--json', `number,${felder}`]))
+  } catch (e) {
+    if (!/Resource limits/.test(String(e.message))) throw e
+    return nummern.map((n) => ({ number: n, ...JSON.parse(ghFn(['pr', 'view', String(n), '--json', felder])) }))
+  }
+}
+
+/** Offene PRs mit allen Feldern: leichte Abfrage plus Feldgruppen getrennt, weil comments+reviews+statusCheckRollup zusammen das GraphQL-Limit sprengen (05.11.2026, 48 PRs). */
+export function offenePrs(ghFn, hinweis = () => {}) {
+  const leicht = JSON.parse(ghFn(['pr', 'list', '--state', 'open', '--limit', '100', '--json', FELDER_LEICHT]))
+  const nummern = leicht.map((p) => p.number)
+  const gruppen = FELDER_GRUPPEN.flatMap((g) => feldGruppe(ghFn, g, nummern))
+  const vollstaendig = []
+  for (const p of leicht) {
+    const teile = gruppen.filter((g) => g.number === p.number)
+    if (teile.length === FELDER_GRUPPEN.length) vollstaendig.push(Object.assign({}, p, ...teile))
+    else hinweis(`liegegut: PR ${p.number} übersprungen (in einer Feldgruppe nicht mehr offen)`)
+  }
+  return vollstaendig
+}
+
+/** Hauptordner des Repos (auch aus einem Worktree): Elternordner des gemeinsamen .git. */
+export const hauptordner = (gitFn) => path.dirname(path.resolve(process.cwd(), gitFn(['rev-parse', '--git-common-dir']).trim()))
+
+/** Entschiedene Fragen aus dem Hauptordner (dort liegt das git-ausgeschlossene `daniel-zum-abarbeiten/fragen`); fehlt der Ordner, sagt `hinweis` es. */
+export function entschiedeneImProjekt(gitFn, hinweis) {
+  const ordner = path.join(hauptordner(gitFn), 'daniel-zum-abarbeiten', 'fragen')
+  if (!fs.existsSync(ordner)) hinweis(`liegegut: ${ordner} fehlt – entschiedene F-Nummern unbekannt (Signal 6 kann Fehlalarme zeigen)`)
+  return entschiedeneFragen(ordner)
+}
+
+/** Holt die offenen PRs über gh/git (einspeisbar) und rechnet alle. `entschieden` = Menge entschiedener F-Nummern. Rückgabe: Funde { nr, signale, zeile }. */
+export function liegegutFunde(ghFn, gitFn, jetzt, hinweis, entschieden = new Set()) {
+  const offen = offenePrs(ghFn, hinweis).filter((p) => !p.isDraft)
+  const geteilt = geteilteEntscheidungen(offen, entschieden)
   const karte = kopfZeiten(ghFn)
-  return offen.map((pr) => bewertePr(ghFn, gitFn, pr, geteilt.get(pr.number), jetzt, karte)).filter((f) => f !== null)
+  const stapel = stapelBasen(ghFn, offen)
+  return offen.map((pr) => bewertePr(ghFn, gitFn, pr, geteilt.get(pr.number), jetzt, karte, stapel.get(pr.number))).filter((f) => f !== null)
 }
 
 /** Dieselben Funde als Textzeilen. */
-export const liegegut = (ghFn, gitFn, jetzt) => liegegutFunde(ghFn, gitFn, jetzt).map((f) => f.zeile)
+export const liegegut = (ghFn, gitFn, jetzt, hinweis, entschieden) => liegegutFunde(ghFn, gitFn, jetzt, hinweis, entschieden).map((f) => f.zeile)
 
-const KURZ = { 1: 'Freigabe ruht', 2: 'Urteile widersprechen', 3: 'Konflikt', 4: 'rot', 5: 'Ändern offen', 6: 'gleiche Entscheidung', 8: 'Stillstand' }
+const KURZ = { 1: 'Freigabe ruht', 2: 'Urteile widersprechen', 3: 'Konflikt', 4: 'rot', 5: 'Ändern offen', 6: 'gleiche Entscheidung', 8: 'Stillstand', 9: 'Stapel' }
 
 /** Eine Sammelzeile für die Wachphase: `LIEGT: 2377 (Konflikt 30 h, Stillstand 52 h), …`; null ohne Funde. */
 export function liegtZeile(funde, jetzt) {
@@ -238,17 +347,30 @@ export function liegtZeile(funde, jetzt) {
 /** Wachphase: Sammelzeile oder eigene Fehlerzeile, wirft nie (kein stilles „nichts“). */
 export function meldeLiegt(ghFn, gitFn, log, jetzt) {
   try {
-    const zeile = liegtZeile(liegegutFunde(ghFn, gitFn, jetzt), jetzt)
+    const zeile = liegtZeile(liegegutFunde(ghFn, gitFn, jetzt, undefined, entschiedeneImProjekt(gitFn, log)), jetzt)
     if (zeile) log(zeile)
   } catch (e) {
     log(`LIEGT? liegegut nicht lesbar: ${String(e.message).split('\n')[0]}`)
   }
 }
 
+/** git grep auf origin/main in einer Datei; Exit 1 (kein Treffer) ist eine Auskunft, jeder andere Fehler schlägt durch. Rückgabe: Zeilen `zeile:text`. */
+export function grepMain(gitFn, datei, namen) {
+  try {
+    const aus = gitFn(['grep', '-n', '-w', '-F', ...namen.flatMap((n) => ['-e', n]), 'origin/main', '--', datei])
+    return aus.split('\n').map((z) => z.replace(/^origin\/main:[^:]*:/, '')).join('\n')
+  } catch (e) {
+    if (e.status === 1) return ''
+    throw e
+  }
+}
+
+// Nur Codedateien: Datenpatches sind groß und nennen keine Bezeichner.
+export const JQ_PATCHES = '.[] | select(.filename | test("\\\\.([mc]?[jt]s|tsx)$")) | "+++ b/\\(.filename)\\n\\(.patch // "")"'
+
 function probeFuer(ghFn, gitFn, pr) {
-  const dateien = ghFn(['api', `repos/{owner}/{repo}/pulls/${pr.number}/files`, '--paginate', '--jq', '.[].filename']).split('\n').filter((d) => d !== '')
-  const log = gitFn(['log', 'origin/main', `--since=${pr.createdAt}`, '--name-only', '--format=%x01%h%x09%s'])
-  return ueberholtTreffer(pr.title, dateien, mainCommits(log))
+  const patches = ghFn(['api', `repos/{owner}/{repo}/pulls/${pr.number}/files`, '--paginate', '--jq', JQ_PATCHES])
+  return ueberholtTreffer(patches, (datei, namen) => grepMain(gitFn, datei, namen))
 }
 
 export function gh(args) {
@@ -262,7 +384,7 @@ export function git(args) {
 /** Startlogik: Fehler als Exit 2, Funde als Exit 0. */
 export function main(ghFn, gitFn, melde, jetzt) {
   try {
-    const zeilen = liegegut(ghFn, gitFn, jetzt)
+    const zeilen = liegegut(ghFn, gitFn, jetzt, melde, entschiedeneImProjekt(gitFn, melde))
     for (const z of zeilen) melde(z)
     melde(`liegegut: ${zeilen.length} auffällige PRs`)
     return 0

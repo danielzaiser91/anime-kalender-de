@@ -1,0 +1,301 @@
+[
+  {
+    "name": "Kontrolle (unmutiert)",
+    "aenderungen": []
+  },
+  {
+    "name": "pushSchnell: volle Stunde nicht ausgelassen (doppelter Push)",
+    "aenderungen": [
+      {
+        "datei": "worker/src/push-takt.ts",
+        "suche": "getUTCMinutes() === 0",
+        "ersetze": "getUTCMinutes() === 99"
+      }
+    ]
+  },
+  {
+    "name": "pushSchnell: Stunden-Ausstieg gilt bei :05 statt :00",
+    "aenderungen": [
+      {
+        "datei": "worker/src/push-takt.ts",
+        "suche": "getUTCMinutes() === 0",
+        "ersetze": "getUTCMinutes() === 5"
+      }
+    ]
+  },
+  {
+    "name": "pushSchnell: Frühausstieg fällt weg (D1 in jedem Takt)",
+    "aenderungen": [
+      {
+        "datei": "worker/src/push-takt.ts",
+        "suche": "if (!pushFaellig(ereignisse, jetzt, erschienen))",
+        "ersetze": "if (false as boolean)"
+      }
+    ]
+  },
+  {
+    "name": "pushSchnell: ohneErstlauf false",
+    "aenderungen": [
+      {
+        "datei": "worker/src/push-takt.ts",
+        "suche": "[], true)",
+        "ersetze": "[], false)"
+      }
+    ]
+  },
+  {
+    "name": "pushFaellig: Fenster 5 statt 10 Minuten",
+    "aenderungen": [
+      {
+        "datei": "worker/src/push-takt.ts",
+        "suche": "PUSH_FENSTER_MS = 10 * 60_000",
+        "ersetze": "PUSH_FENSTER_MS = 5 * 60_000"
+      }
+    ]
+  },
+  {
+    "name": "pushFaellig: Fenster 11 Minuten",
+    "aenderungen": [
+      {
+        "datei": "worker/src/push-takt.ts",
+        "suche": "PUSH_FENSTER_MS = 10 * 60_000",
+        "ersetze": "PUSH_FENSTER_MS = 11 * 60_000"
+      }
+    ]
+  },
+  {
+    "name": "pushFaellig: Termin schon vor dem Fenster zählt mit",
+    "aenderungen": [
+      {
+        "datei": "worker/src/push-takt.ts",
+        "suche": "erschienen(e, jetzt) && !erschienen(e, seit)",
+        "ersetze": "erschienen(e, jetzt)"
+      }
+    ]
+  },
+  {
+    "name": "pushFaellig: Zukunftstermin zählt",
+    "aenderungen": [
+      {
+        "datei": "worker/src/push-takt.ts",
+        "suche": "erschienen(e, jetzt) && !erschienen(e, seit)",
+        "ersetze": "!erschienen(e, seit)"
+      }
+    ]
+  },
+  {
+    "name": "pushFaellig: immer fällig",
+    "aenderungen": [
+      {
+        "datei": "worker/src/push-takt.ts",
+        "suche": "return imTagesfenster(ereignisse, seit, jetzt).some((e) => erschienen(e, jetzt) && !erschienen(e, seit))",
+        "ersetze": "return true"
+      }
+    ]
+  },
+  {
+    "name": "pushFaellig: nie fällig",
+    "aenderungen": [
+      {
+        "datei": "worker/src/push-takt.ts",
+        "suche": "return imTagesfenster(ereignisse, seit, jetzt).some((e) => erschienen(e, jetzt) && !erschienen(e, seit))",
+        "ersetze": "return false"
+      }
+    ]
+  },
+  {
+    "name": "pushFaellig: Standard-Urteil ohne istErschienen (immer wahr)",
+    "aenderungen": [
+      {
+        "datei": "worker/src/push-takt.ts",
+        "suche": "erschienen: (e: PushEreignis, zeit: Date) => boolean = istErschienen,\n): boolean",
+        "ersetze": "erschienen: (e: PushEreignis, zeit: Date) => boolean = () => true,\n): boolean"
+      }
+    ]
+  },
+  {
+    "name": "push.ts: keine Marke und ohneErstlauf setzt trotzdem die Marke",
+    "aenderungen": [
+      {
+        "datei": "worker/src/push.ts",
+        "suche": "if (!marke && ohneErstlauf) return 'keine Marke: der Stundenlauf setzt sie'\n",
+        "ersetze": ""
+      }
+    ]
+  },
+  {
+    "name": "index: Fünf-Minuten-Zweig fällt weg (Takt läuft als Stundenlauf)",
+    "aenderungen": [
+      {
+        "datei": "worker/src/index.ts",
+        "suche": "if (event.cron === PUSH_CRON) return",
+        "ersetze": "if (false as boolean) return"
+      }
+    ]
+  },
+  {
+    "name": "index: Fünf-Minuten-Zweig ruft den Stundenversand",
+    "aenderungen": [
+      {
+        "datei": "worker/src/index.ts",
+        "suche": "return ctx.waitUntil(pushSchnellMitLog(env, now, () => loadEvents(env)))",
+        "ersetze": "return ctx.waitUntil(pushStuendlich(env, now, () => loadEvents(env), () => loadNews(env)).then(() => undefined))"
+      }
+    ]
+  },
+  {
+    "name": "index: stündlicher Push wird nicht mehr gerufen",
+    "aenderungen": [
+      {
+        "datei": "worker/src/index.ts",
+        "suche": "pushStuendlich(env, now, () => loadEvents(env), () => loadNews(env))\n        .then((msg) => console.log(`[push] ${msg}`))",
+        "ersetze": "Promise.resolve('aus')\n        .then((msg) => console.log(`[push] ${msg}`))"
+      }
+    ]
+  },
+  {
+    "name": "wrangler: Fünf-Minuten-Trigger fehlt",
+    "aenderungen": [
+      {
+        "datei": "worker/wrangler.toml",
+        "suche": ", \"*/5 * * * *\"]",
+        "ersetze": "]"
+      }
+    ]
+  },
+  {
+    "name": "wrangler: Trigger alle zehn Minuten",
+    "aenderungen": [
+      {
+        "datei": "worker/wrangler.toml",
+        "suche": "\"*/5 * * * *\"",
+        "ersetze": "\"*/10 * * * *\""
+      }
+    ]
+  },
+  {
+    "name": "A2a pushStuendlich: weitereAusNews entfernt ([] statt)",
+    "aenderungen": [
+      {
+        "datei": "worker/src/push-takt.ts",
+        "suche": "weitereAusNews(news))",
+        "ersetze": "[])"
+      }
+    ]
+  },
+  {
+    "name": "A2b pushSchnell: weitereAusNews statt []",
+    "aenderungen": [
+      {
+        "datei": "worker/src/push-takt.ts",
+        "suche": "erschienen, [], true)",
+        "ersetze": "erschienen, [{ id: 177476, name: 'YAIBA', anbieter: 'Netflix' }], true)"
+      }
+    ]
+  },
+  {
+    "name": "A1 Vorfilter entfernt (pushFaellig)",
+    "aenderungen": [
+      {
+        "datei": "worker/src/push-takt.ts",
+        "suche": "imTagesfenster(ereignisse, seit, jetzt).some",
+        "ersetze": "ereignisse.some"
+      }
+    ]
+  },
+  {
+    "name": "A1 Vorfilter entfernt (pushVersand)",
+    "aenderungen": [
+      {
+        "datei": "worker/src/push.ts",
+        "suche": "imTagesfenster(ereignisse, seit, jetzt).filter",
+        "ersetze": "ereignisse.filter"
+      }
+    ]
+  },
+  {
+    "name": "A1 Vorfilter zu breit (4000 Tage zurück)",
+    "aenderungen": [
+      {
+        "datei": "worker/src/push-fenster.ts",
+        "suche": "von.getTime() - 86_400_000",
+        "ersetze": "von.getTime() - 4000 * 86_400_000"
+      }
+    ]
+  },
+  {
+    "name": "A1 Vorfilter zu breit (4000 Tage vor)",
+    "aenderungen": [
+      {
+        "datei": "worker/src/push-fenster.ts",
+        "suche": "bis.getTime() + 86_400_000",
+        "ersetze": "bis.getTime() + 4000 * 86_400_000"
+      }
+    ]
+  },
+  {
+    "name": "A1 Vorfilter zu schmal (kein Vortag; gleichwertig: ein Termin vom Vortag von von ist zu von schon erschienen)",
+    "aenderungen": [
+      {
+        "datei": "worker/src/push-fenster.ts",
+        "suche": "von.getTime() - 86_400_000",
+        "ersetze": "von.getTime()"
+      }
+    ]
+  },
+  {
+    "name": "A1 Vorfilter: Obergrenze ausgelassen (Zukunft)",
+    "aenderungen": [
+      {
+        "datei": "worker/src/push-fenster.ts",
+        "suche": " && e.date <= zu",
+        "ersetze": ""
+      }
+    ]
+  },
+  {
+    "name": "K1 pushFaellig: Standardwert istErschienen statt pushIstErschienen",
+    "aenderungen": [
+      {
+        "datei": "worker/src/push-takt.ts",
+        "suche": "ereignisse: PushEreignis[],\n  jetzt: Date,\n  erschienen: (e: PushEreignis, zeit: Date) => boolean = pushIstErschienen",
+        "ersetze": "ereignisse: PushEreignis[],\n  jetzt: Date,\n  erschienen: (e: PushEreignis, zeit: Date) => boolean = (e, z) => istErschienen(e, z)"
+      },
+      {
+        "datei": "worker/src/push-takt.ts",
+        "suche": "import { fehlerLog } from './werte.ts'",
+        "ersetze": "import { fehlerLog } from './werte.ts'\nimport { istErschienen } from '../../shared/logic.ts'"
+      }
+    ]
+  },
+  {
+    "name": "K2 pushSchnell: Standardwert istErschienen statt pushIstErschienen",
+    "aenderungen": [
+      {
+        "datei": "worker/src/push-takt.ts",
+        "suche": "ladeEreignisse: () => Promise<ReleaseEvent[]>,\n  erschienen: (e: PushEreignis, zeit: Date) => boolean = pushIstErschienen",
+        "ersetze": "ladeEreignisse: () => Promise<ReleaseEvent[]>,\n  erschienen: (e: PushEreignis, zeit: Date) => boolean = (e, z) => istErschienen(e, z)"
+      },
+      {
+        "datei": "worker/src/push-takt.ts",
+        "suche": "import { fehlerLog } from './werte.ts'",
+        "ersetze": "import { fehlerLog } from './werte.ts'\nimport { istErschienen } from '../../shared/logic.ts'"
+      }
+    ]
+  },
+  {
+    "name": "K3 pushStuendlich: Aufruf mit istErschienen statt pushIstErschienen",
+    "aenderungen": [
+      {
+        "datei": "worker/src/push-takt.ts",
+        "suche": "ereignisse, pushIstErschienen, weitereAusNews",
+        "ersetze": "ereignisse, (e, z) => istErschienen(e, z), weitereAusNews"
+      },
+      {
+        "datei": "worker/src/push-takt.ts",
+        "suche": "import { fehlerLog } from './werte.ts'",
+        "ersetze": "import { fehlerLog } from './werte.ts'\nimport { istErschienen } from '../../shared/logic.ts'"
+      }
+    ]
+  }
+]

@@ -1,5 +1,5 @@
 {
-  "geholtAm": "2026-11-05T04:10:23.119Z",
+  "geholtAm": "2026-11-08T04:09:21.774Z",
   "titel": {
     "21": {
       "seite": "One Piece (Anime)/Episodenliste",
@@ -15897,7 +15897,8 @@
         {
           "nr": 1369,
           "st": 46,
-          "dt": "Der Kern erwacht"
+          "dt": "Der Kern erwacht",
+          "ead": "2026-11-06"
         },
         {
           "nr": 1370,
@@ -15907,7 +15908,7 @@
         {
           "nr": 1371,
           "st": 1,
-          "dt": "—1"
+          "dt": "Eine Welt voller Abenteuer"
         },
         {
           "nr": 1372,
@@ -16002,6 +16003,21 @@
         {
           "nr": 1390,
           "st": 20,
+          "dt": "—1"
+        },
+        {
+          "nr": 1391,
+          "st": 21,
+          "dt": "—1"
+        },
+        {
+          "nr": 1392,
+          "st": 22,
+          "dt": "—1"
+        },
+        {
+          "nr": 1393,
+          "st": 23,
           "dt": "—1"
         }
       ]
