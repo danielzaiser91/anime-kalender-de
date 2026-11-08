@@ -1,20 +1,22 @@
 /**
  * Zusicherung: Der Auto-Beleg liest das Feld `folgen` des Vorschlags (A1, PR 3197; Anlass Dr. STONE auf Pluto TV: „23 von 24“ wurde als ganzer
  * Titel belegt). Eine Teilangabe wird `dubRanges`, wo die Nummern eindeutig sind, sonst bleibt der Vorschlag mit benanntem Grund liegen.
- * Die beiden Anlassfälle (Dr. STONE und My Hero Academia aus den Artikeln 1068729 und 1066055) stehen wörtlich im Test; dazu läuft jeder
- * Vorschlag aus `data/proposals/anime2you-extraktion.json` einzeln durch die Auswahl und wird gegen ein unabhängiges Kriterium gehalten.
+ * Die beiden Anlassfälle (Dr. STONE und My Hero Academia aus den Artikeln 1068729 und 1066055) stehen wörtlich im Test. Dazu läuft jeder
+ * deutsche Vorschlag mit Folgenangabe einzeln durch die Auswahl und wird gegen ein unabhängiges Kriterium gehalten. Diese 67 Vorschläge liegen
+ * als Abzug in `tools/synchro-folgen-faelle.json` (unverändert aus dem Vorschlagsbestand des Sammlers, Stand 08.11.2026, ohne gleiche
+ * Wiederholungen): die Sammler-Datei selbst liest kein Test der Kette, denn ein Daten-PR des Sammlers startet die Kette nicht neu.
  *
  * Aufruf: npm run check:logic (steckt darin) oder `tsx pipeline/check-synchro-beleg-folgen.ts`
  */
-import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
-import { join, resolve } from 'node:path'
+import { join } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import yaml from 'js-yaml'
 import type { GespeicherterVorschlag } from './lib/anime2you-bestand.ts'
 import { gibSynchroBelegeAb } from './lib/synchro-beleg-abgabe.ts'
 import { belegZeilen, mitPlattformAusAnbieter, waehleSynchroBelege, type KatalogTitel } from './lib/synchro-beleg-auswahl.ts'
 import { folgenUrteil } from './lib/synchro-beleg-folgen.ts'
-import { ROOT } from './lib/util.ts'
 
 let fehler = 0
 let faelle = 0
@@ -140,30 +142,28 @@ try {
 }
 
 // --- Jeder gespeicherte Vorschlag, einzeln, gegen ein unabhängiges Kriterium -------------------------------------------------------
-const DATEI = resolve(ROOT, 'data/proposals/anime2you-extraktion.json')
+const alle = JSON.parse(readFileSync(fileURLToPath(new URL('../tools/synchro-folgen-faelle.json', import.meta.url)), 'utf8')) as GespeicherterVorschlag[]
+pruefe('Abzug der gespeicherten Vorschläge ist nicht leer (sonst prüft die Schleife nichts)', alle.length > 0)
 let gesehen = 0
 let teilangaben = 0
 let beleg = 0
-if (existsSync(DATEI)) {
-  const alle = (JSON.parse(readFileSync(DATEI, 'utf8')) as { vorschlaege: GespeicherterVorschlag[] }).vorschlaege
-  alle.forEach((roh, i) => {
-    const v = mitPlattformAusAnbieter(roh)
-    if (!v.plattform) return
-    gesehen++
-    const e = waehleSynchroBelege([roh], [{ id: 920000 + i, titleDe: v.titel, streams: [{ platform: v.plattform }] }], new Map(), '2026-11-08', 10)
-    const f = (roh.folgen ?? '').trim()
-    const range = /^(\d+)\s*(?:–|-|bis)\s*(\d+)/.exec(f)
-    const teil = /\bvon\b|^ab\b|^Staffel|\(Episode/i.test(f)
-    if (teil || range) teilangaben++
-    if (!e.belege.length) return
-    beleg++
-    const b = e.belege[0]!
-    const wo = `${roh.artikelId} ${roh.titel} folgen=${JSON.stringify(roh.folgen)}`
-    pruefe(`Alle Vorschläge: Teilangabe ergibt keinen ganzen Beleg (${wo})`, !teil)
-    if (range) pruefe(`Alle Vorschläge: Bereich im Beleg gleich dem Artikel (${wo})`, b.bereich?.von === Number(range[1]) && b.bereich?.bis === Number(range[2]), b.bereich)
-    else pruefe(`Alle Vorschläge: kein Bereich ohne Bereichsangabe (${wo})`, b.bereich === undefined, b.bereich)
-    if (f && !range) pruefe(`Alle Vorschläge: Zahl nur mit „(komplett)“ oder N-teilig im Text (${wo})`, /komplett|teilig/i.test(`${f} ${roh.zitat}`))
-  })
-}
-console.log(`check-synchro-beleg-folgen: ${faelle} Fälle ${fehler ? 'FEHLER' : 'ok'} (Anlass Dr. STONE 23 von 24 und My Hero Academia; ${gesehen} gespeicherte Vorschläge mit Plattform einzeln geprüft, davon ${teilangaben} mit Teilangabe, ${beleg} wären ein Beleg).`)
+alle.forEach((roh, i) => {
+  const v = mitPlattformAusAnbieter(roh)
+  if (!v.plattform) return
+  gesehen++
+  const e = waehleSynchroBelege([roh], [{ id: 920000 + i, titleDe: v.titel, streams: [{ platform: v.plattform }] }], new Map(), '2026-11-08', 10)
+  const f = (roh.folgen ?? '').trim()
+  const range = /^(\d+)\s*(?:–|-|bis)\s*(\d+)/.exec(f)
+  const teil = /\bvon\b|^ab\b|^Staffel|\(Episode/i.test(f)
+  if (teil || range) teilangaben++
+  if (!e.belege.length) return
+  beleg++
+  const b = e.belege[0]!
+  const wo = `${roh.artikelId} ${roh.titel} folgen=${JSON.stringify(roh.folgen)}`
+  pruefe(`Alle Vorschläge: Teilangabe ergibt keinen ganzen Beleg (${wo})`, !teil)
+  if (range) pruefe(`Alle Vorschläge: Bereich im Beleg gleich dem Artikel (${wo})`, b.bereich?.von === Number(range[1]) && b.bereich?.bis === Number(range[2]), b.bereich)
+  else pruefe(`Alle Vorschläge: kein Bereich ohne Bereichsangabe (${wo})`, b.bereich === undefined, b.bereich)
+  if (f && !range) pruefe(`Alle Vorschläge: Zahl nur mit „(komplett)“ oder N-teilig im Text (${wo})`, /komplett|teilig/i.test(`${f} ${roh.zitat}`))
+})
+console.log(`check-synchro-beleg-folgen: ${faelle} Fälle ${fehler ? 'FEHLER' : 'ok'} (Anlass Dr. STONE 23 von 24 und My Hero Academia; ${gesehen} Vorschläge des Abzugs einzeln geprüft, davon ${teilangaben} mit Teilangabe, ${beleg} wären ein Beleg).`)
 if (fehler) process.exit(1)
