@@ -1,6 +1,6 @@
 /**
  * Wächter gegen Zeitbomben (20.10.2026, check-woche-beleg verlangte eine Zeile, die `fortschreiben` nach 21 Tagen entfernt):
- * Jede Prüfung, die eine Sammler-Datei unter `data/` aus dem Repo liest, steht mit Grund in `tools/sammler-lesezugriffe.json`
+ * Jede Prüfung, die eine Sammler-Datei unter `data/` aus dem Repo liest, steht mit Grund in `tools/sammler-lesezugriffe.jsonl`
  * („stabil, weil …“). Neue Lesezugriffe ohne Eintrag, Einträge ohne Zugriff und Gründe unter 20 Zeichen sind rot;
  * Dateien mit Zeitfenster (VERBOTEN) darf keine Prüfung lesen — sie bringt ihre Eingabe als Kulisse mit.
  * Aufruf: npm run check:logic (steckt darin) oder `tsx pipeline/check-sammler-lesezugriffe.ts`
@@ -13,6 +13,11 @@ export interface Zulassung {
   datei: string
   liest: string
   grund: string
+}
+
+/** Eine Zeile je Eintrag (JSON), damit `merge=union` zwei angehängte Einträge ohne Konflikt zusammenführt. */
+export function leseZeilen(text: string): Zulassung[] {
+  return text.split(/\r?\n/).filter((z) => z.trim()).map((z) => JSON.parse(z) as Zulassung)
 }
 
 /** Fortschreiben oder Fenster entfernt Zeilen (`BEHALTEN_TAGE`, Wochenfenster): ein fester Schlüssel darin läuft ab. */
@@ -39,7 +44,7 @@ export function pruefeZugriffe(funde: Map<string, Set<string>>, liste: Zulassung
   for (const [datei, ziele] of funde) {
     for (const ziel of ziele) {
       if (VERBOTEN.has(ziel)) fehler.push(`${datei}: liest ${ziel} (Zeitfenster) — Kulisse statt Repo-Datei nehmen`)
-      else if (!HAND.test(ziel) && !gelistet.has(`${datei} ${ziel}`)) fehler.push(`${datei}: liest ${ziel} ohne Eintrag in tools/sammler-lesezugriffe.json`)
+      else if (!HAND.test(ziel) && !gelistet.has(`${datei} ${ziel}`)) fehler.push(`${datei}: liest ${ziel} ohne Eintrag in tools/sammler-lesezugriffe.jsonl`)
     }
   }
   return fehler
@@ -80,7 +85,7 @@ export function hinweisZeilen(unklar: Map<string, Set<string>>): string[] {
 
 /** Quelle und Zieldatei kommen aus `wurzel` (Repo oder Kulisse). */
 export function lauf(wurzel: string): { fehler: string[]; zeile: string; hinweise: string[] } {
-  const liste = JSON.parse(readFileSync(`${wurzel}/tools/sammler-lesezugriffe.json`, 'utf8')) as Zulassung[]
+  const liste = leseZeilen(readFileSync(`${wurzel}/tools/sammler-lesezugriffe.jsonl`, 'utf8'))
   const { funde, unklar } = scanne(wurzel)
   const zeile = `check-sammler-lesezugriffe: ${liste.length} Lesezugriffe begründet in ${funde.size} Prüfungen, keine Datei mit Zeitfenster`
   return { fehler: pruefeZugriffe(funde, liste, unklar), zeile, hinweise: hinweisZeilen(unklar) }
