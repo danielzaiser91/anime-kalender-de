@@ -1,4 +1,4 @@
-import { test, expect } from 'claude-code/testing'
+import { test, expect, mock } from 'claude-code/testing'
 
 import { PANE, STAND, zeilen, starte } from './testhilfe'
 import { alterMin, dauerMin, dauerText, haengt, kurzDauer, labelText, langsam, seitText, zaehleUnterwegs } from './unterwegs'
@@ -134,6 +134,31 @@ function farbeVon(knoten: unknown, anfang: string, aus: (string | undefined)[] =
   for (const c of liste) farbeVon(c, anfang, aus)
   return aus
 }
+
+// Alter und Schwellen laufen mit der Zeit: mit Titeln unterwegs schreibt der Lauf `minute` (Neuzeichnung), ohne Titel und ohne Cron-Regeln nicht.
+async function minutenSchreibungen($: any, on: any, stand: string): Promise<number> {
+  const uhr = mock.clock(on)
+  on('session.start', (_$: any, e: any) => ({ cwd: e.cwd }))
+  on('ui.status', () => ({ value: undefined }) as never)
+  on('fs.read', (_$: any, e: any) => (e.path.endsWith('stand.md') ? ({ value: stand } as never) : ({ deny: 'fehlt' } as never)))
+  let n = 0
+  // Die Test-Uhr startet bei Minute 0 (wie der Anfangswert des Atoms): erst vorstellen, dann starten.
+  await uhr.advance(600_000)
+  on('state.set', (_$: any, e: any, next: any) => {
+    if (e.key === 'minute') n++
+    return next(e)
+  })
+  await $.session.start({ cwd: 'C:/x', surface: 'terminal', isInteractive: true })
+  return n
+}
+
+test('Minutentakt: mit Titeln unterwegs wird `minute` geschrieben, ohne Titel und Regeln nicht', async ($, on) => {
+  expect(await minutenSchreibungen($, on, MIT_ABSCHNITT)).toBe(1)
+})
+
+test('Minutentakt: ohne Titel unterwegs keine Schreibung', async ($, on) => {
+  expect(await minutenSchreibungen($, on, STAND)).toBe(0)
+})
 
 test('Pane: ohne Abschnitt keine Überschrift und kein Fehler', async ($, on) => {
   starte(on, null, [], true, STAND)
