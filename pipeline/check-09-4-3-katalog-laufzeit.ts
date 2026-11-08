@@ -63,6 +63,7 @@ const faelle: Fall[] = [
   { id: 900415, name: 'Nachrunde: Prüfdatum fehlt, Stand des Dub-Bestands gilt', kennung: 'KNACHR005', stream: { dub: false }, serie: { seriesId: 'KNACHR005', staffeln: [] }, dub: false },
   { id: 900416, name: 'Nachrunde: Titel beginnt erst nach dem Katalogstand, Nein bleibt', kennung: 'KNACHR006', stream: { dub: false }, serie: { seriesId: 'KNACHR006', geprueftAm: '2026-10-01', staffeln: [] }, dub: false },
   { id: 900417, name: 'Nachrunde: Franchise mit zwei Staffeln, Nein bleibt', kennung: 'KNACHR007', stream: { dub: false }, eintrag: { staffeln: 2 }, serie: { seriesId: 'KNACHR007', geprueftAm: '2026-10-01', staffeln: [] }, dub: false },
+  { id: 900423, name: 'Nachrunde: Doppeladresse, frische Prüfung steht vor der alten – Katalog nicht jünger als die frische, Nein bleibt', kennung: 'KNACHR008', stream: { dub: false }, serieAlt: { seriesId: 'KNACHR008', geprueftAm: KATALOG_STAND, staffeln: [] }, serie: { seriesId: 'KNACHR008', geprueftAm: '2026-10-01', staffeln: [] }, dub: false },
 ]
 /* Ein Fall mit zwei Titeln an einer Serie: der Besitzer (12 Folgen) gehört dazu, der andere (6) ist fremd. */
 const BESITZER = 900420

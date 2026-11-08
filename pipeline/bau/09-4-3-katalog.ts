@@ -6,7 +6,7 @@ import { todayIso } from '../../shared/time.ts'
 import { type EntfernterVerweis } from './grundlagen.ts'
 import { serienBesitz, istFremd, entferneFremdeCrWege, entferneFremdeNachStaffeln } from './cr-serie-geteilt.ts'
 import { vorDemStart } from '../lib/crunchyroll-vollstaendig.ts'
-import { neinUeberholtMitLog, serienNachKennung, type OffenerBefund } from '../lib/cr-nein-ueberholt.ts'
+import { neinUeberholtMitLog, serienNachKennung, juengstePruefungJeKennung, type OffenerBefund } from '../lib/cr-nein-ueberholt.ts'
 import { gruppiereJeKennung } from '../lib/je-kennung.ts'
 import { alleHinterDemEnde } from '../lib/cr-hinter-dem-ende.ts'
 import { katalogSerieIstEinWerk } from '../lib/cr-katalog-ein-werk.ts'
@@ -254,9 +254,7 @@ export function ordneCrKatalogZu({ titles, crDub, verweiseEntfernt }: {
         const dubStand = crDub.scrapedAt?.slice(0, 10) ?? ''
         const katalogStand = (katalog.geholtAm ?? '').slice(0, 10)
         let ausKatalogNeuer = 0
-        const geprueftJe = new Map(
-          crDub.serien.filter((s) => s.seriesId).map((s) => [s.seriesId as string, s.geprueftAm ?? dubStand]),
-        )
+        const geprueftJe = juengstePruefungJeKennung(crSerienGruppen, dubStand)
         for (const title of titles.values()) {
           for (const stream of title.streams) {
             if (stream.platform !== 'crunchyroll' || stream.dub !== false) continue

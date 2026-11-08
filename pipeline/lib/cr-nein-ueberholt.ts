@@ -61,3 +61,10 @@ export function neinUeberholtMitLog(b: OffenerBefund, serien: Map<string, CrSeri
   log(`  ${wer}: Crunchyroll-Nein vom ${b.geprueftAm} (${b.titel}) vom Dub-Bestand überholt`)
   return true
 }
+
+/** Jüngster Prüftag je Kennung (ohne Datum am Eintrag gilt `rueckfall`): ein älterer Doppeleintrag darf ihn nicht senken. */
+export function juengstePruefungJeKennung(serien: Map<string, CrSerie[]>, rueckfall: string): Map<string, string> {
+  return new Map(
+    [...serien].map(([k, liste]) => [k, liste.map((s) => s.geprueftAm ?? rueckfall).reduce((a, b) => (b > a ? b : a))]),
+  )
+}
