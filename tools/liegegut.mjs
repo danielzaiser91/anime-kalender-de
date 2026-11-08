@@ -6,6 +6,7 @@
  */
 import { mitLimit } from './kind-mit-limit.mjs'
 import { pathToFileURL } from 'node:url'
+import { PRAEFIX as ABNAHME_PRAEFIX } from './abnahme-freigabe.mjs'
 
 const STUNDE = 3600 * 1000
 // Schwellen (Stand 21.10.2026, aus dem Liegegut-Bericht der 13 PRs vom 21.10.: kürzer meldet bei normalem Prüfer-Takt Fehlalarm).
@@ -18,6 +19,12 @@ export const STILLSTAND_H = 48 // Keine Aktivität (Commit, Kommentar, Review), 
 const GRUEN = new Set(['SUCCESS', 'NEUTRAL', 'SKIPPED'])
 const ROT = new Set(['FAILURE', 'TIMED_OUT', 'STARTUP_FAILURE', 'ERROR'])
 
+/** Köpfe (>= 9 Zeichen) einer Dirigenten-Abnahme; gleiche Erkennung wie tools/abnahme-freigabe.mjs, ohne Kopf keine. */
+function abnahmeKoepfe(text) {
+  if (typeof text !== 'string' || !text.startsWith(ABNAHME_PRAEFIX)) return []
+  return text.match(/\b[0-9a-f]{9,40}\b/g) ?? []
+}
+
 /** Urteile aus den Kommentaren: Bot „**Prüfer-Review** für <Kopf> - Urteil: **ok|aendern**“, Daniel „Prüfer …: freigeben|ändern“. */
 export function urteile(comments) {
   const aus = []
@@ -27,6 +34,7 @@ export function urteile(comments) {
       const m = /\*\*Prüfer-Review\*\* für ([0-9a-f]{7,40})\b[\s\S]*?Urteil: \*\*(ok|aendern)\b/.exec(c.body)
       if (m) aus.push({ zeit: Date.parse(c.createdAt), quelle: 'bot', kopf: m[1], gut: m[2] === 'ok' })
     } else if (login === 'danielzaiser91') {
+      for (const kopf of abnahmeKoepfe(c.body)) aus.push({ zeit: Date.parse(c.createdAt), quelle: 'daniel', kopf, gut: true })
       const m = /^Prüfer(?!\p{L}).*?(?<!\p{L})(freigeben|ändern)(?!\p{L})/iu.exec(c.body)
       if (m) aus.push({ zeit: Date.parse(c.createdAt), quelle: 'daniel', kopf: /Kopf ([0-9a-f]{7,40})/.exec(c.body)?.[1] ?? null, gut: m[1].toLowerCase() === 'freigeben' })
     }
