@@ -17,7 +17,7 @@
  * Aufruf: npm run check:logic. Was `public/data` liest, steht in `check-logic-bestand.ts` (`check:bestand`), auch die Handbeleg-Zusicherungen gegen den Bestand.
  */
 import { ladeAkVon, uebersetzeDatei, umleitungen } from './lib/ausgabe-kennung.ts'
-import { umleiteKarte, umleiteListe } from '../web/src/lib/ak-umleiten.ts'
+import { adresseHatTitel, adresseNachfolger, umleiteKarte, umleiteListe } from '../web/src/lib/ak-umleiten.ts'
 import { leseFavoriten } from '../worker/src/favoriten-lesen.ts'
 import { mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
@@ -8411,6 +8411,11 @@ pruefe('TV-Beleg springt zur Stunde der Sendung (Boruto, ProSieben MAXX)', tvdeS
   const abbild = new Map(paare)
   const [altAk, neuAk] = paare[0]!
   pruefe('Umleitung (Browser): Liste und Karten ziehen auf den Nachfolger um, ohne Doppel; Zahlen und Tage ordnen sich sinnvoll', umleiteListe([altAk, neuAk, 5], abbild).join() === `${neuAk},5` && umleiteKarte({ [altAk]: 3, [neuAk]: 5 }, abbild)[neuAk] === 5 && umleiteKarte({ [altAk]: '2026-10-01', [neuAk]: '2026-10-08' }, abbild)[neuAk] === '2026-10-01')
+  const unbekannt = 987_654_321
+  const adresse = adresseNachfolger(`/t/${altAk}/`, `#/woche?d=2026-11-01&t=${altAk}`, abbild)
+  pruefe('Umleitung (Adresse): alter Pfad und alter Hash zeigen auf den Nachfolger, Rest der Adresse bleibt', adresse?.pfad === `/t/${neuAk}/` && adresse.hash === `#/woche?d=2026-11-01&t=${neuAk}` && adresseNachfolger(`/anime/t/${altAk}`, '', abbild)?.pfad === `/anime/t/${neuAk}`)
+  pruefe('Umleitung (Adresse): gültige oder unbekannte ak und fremde Pfade bleiben unverändert', adresseNachfolger(`/t/${neuAk}/`, `#/woche?t=${neuAk}`, abbild) === undefined && adresseNachfolger(`/t/${unbekannt}/`, `#/woche?t=${unbekannt}`, abbild) === undefined && adresseNachfolger(`/x/t/${altAk}/y`, '', abbild) === undefined)
+  pruefe('Umleitung (Adresse): Cartoon ?t=-N wie bisher, -1 trifft nicht -12', adresseNachfolger('/', '#/woche?t=-12', new Map([[-12, 4711]]))?.hash === '#/woche?t=4711' && adresseNachfolger('/', '#/woche?t=-12', new Map([[-1, 4711]])) === undefined && adresseHatTitel('/', '#/woche') === false)
   pruefe('Umleitung (Worker): gespeicherte Liste mit ak: wird auf den Nachfolger umgeschrieben, eine fremde Zahl bleibt', [...leseFavoriten(`ak:${altAk},7`, { umleitung: abbild })].join() === `${neuAk},7` && [...leseFavoriten(`ak:${altAk},7`)].join() === `${altAk},7`)
   pruefe('Umleitung (Worker): eine Liste ohne Vorsatz gilt als ak-Kennungen und wird ebenfalls umgeleitet', [...leseFavoriten(`${altAk},7`, { umleitung: abbild })].join() === `${neuAk},7` && [...leseFavoriten(`${altAk},7`)].join() === `${altAk},7`)
   /* AniList-Katalog: der Frischlauf holt nie mehr als die frischen Jahre, auch bei geändertem Fingerabdruck (Tageslauf 09.10.2026: zehn Minuten ab 1907). */
