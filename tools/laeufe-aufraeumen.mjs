@@ -136,6 +136,8 @@ async function main() {
   // Ein roter Sammler-Fund lässt den Lauf grün; er bleibt als PR liegen und muss hier auffallen (tools/rote-sammler-prs.mjs).
   const erledigt = erledigtArgumente(args)
   if (erledigt.fehler) return fehlerAbbruch(erledigt.fehler)
+  // Die Abrufe starten sofort (Frist 30 s), ihre Zeilen kommen erst nach allen Alarmen: ein hängender Server verzögert keinen ALARM.
+  const synchroWartezeit = synchroWartezeitZeilen(holeSynchroJson, Date.now())
   meldeRoteSammlerPrs()
   meldeLiegt((a) => gh(...a), git, console.log, Date.now())
   await stillstandMelden()
@@ -144,14 +146,14 @@ async function main() {
   const quellenZeilen = eskalationsText(gesundheitsDatei(), Date.now(), fixZusatz(wurzel()))
   for (const zeile of quellenZeilen) console.log(zeile)
   for (const zeile of weichWache(ghStapel, REPO, wurzel(), Date.now(), weichSpeicher())) console.log(zeile)
-  const synchroZeilen = await synchroWartezeitZeilen(holeSynchroJson, Date.now())
-  for (const zeile of synchroZeilen) console.log(zeile)
   for (const zeile of prueferZeilen(gh, REPO)) console.log(zeile)
   for (const zeile of startBudgetZeilen((a) => gh(...a), REPO)) console.log(zeile)
   for (const zeile of haengerWache((a) => gh(...a), REPO, wurzel(), Date.now(), haengerSpeicher(), { trocken: TROCKEN })) console.log(zeile)
   try {
     await laeufePruefen(erledigt)
   } finally {
+    const synchroZeilen = await synchroWartezeit
+    for (const zeile of synchroZeilen) console.log(zeile)
     for (const zeile of wacheZeilen([...rotZeilen, ...synchroZeilen], quellenZeilen)) console.log(zeile)
   }
 }
