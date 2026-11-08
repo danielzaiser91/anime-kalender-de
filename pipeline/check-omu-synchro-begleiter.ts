@@ -275,6 +275,9 @@ try {
   const andereSerie = bcTitel()
   andereSerie.get(195604)!.streams = [{ platform: 'crunchyroll', url: 'https://www.crunchyroll.com/de/series/GRANDERE/x', dub: true } as never]
   pruefe('A2: dub nur an einer anderen Serie des Titels: nichts', JSON.stringify(legeOmuBegleiterAn([omuRelease()], andereSerie, crDub())) === JSON.stringify({ ...Z0, ohneDub: 1 }))
+  const andereSeite = bcTitel()
+  andereSeite.get(195604)!.streams = [{ platform: 'netflix', url: URL_DE, dub: true } as never]
+  pruefe('A2: dub an einem Netflix-Weg mit gleicher Adresse zählt nicht als Crunchyroll-Beleg', JSON.stringify(legeOmuBegleiterAn([omuRelease()], andereSeite, crDub())) === JSON.stringify({ ...Z0, ohneDub: 1 }))
   pruefe('A2: Zählzeile nennt „ohne Synchro-Beleg am Weg“', zeilenVon([omuRelease()], crDub()).join('|') === zeile(1, 0, 0, 0) && zeilenMitTitel([omuRelease()], ohneDubTitel).join('|') === zeile(0, 0, 0, 0, 1))
   pruefe('Zählzeile: ohne OmU-Termin keine Zeile', zeilenVon([handRelease()], crDub()).length === 0)
 } finally {
