@@ -53,10 +53,12 @@ pruefe('Gleichstand: der zuletzt gelesene gewinnt', gewaehlt([wenig, zwilling]) 
 pruefe('Einzeleintrag bleibt', gewaehlt([alt]) === 'alt')
 const drei = gewaehlt([{ rawTitle: 'a', dates: ['2026-08-01'], obs: 5 }, frisch, { rawTitle: 'c', dates: ['2026-07-01'], obs: 9 }])
 pruefe('drei Einträge, der mittlere ist der jüngste', drei === 'frisch', drei)
+const lang: Roh = { rawTitle: 'lang', dates: ['2026-10-01', '2026-08-01'], obs: 1 }
+pruefe('mehrere Termine: der jüngste zählt, nicht der erste', gewaehlt([lang, frisch]) === 'lang')
 
 rmSync(ordner, { recursive: true, force: true })
 if (verletzt) {
   console.error(`FEHL check-cr-kalender-auswahl: ${verletzt} Prüfung(en) verletzt`)
   process.exit(1)
 }
-console.log('check-cr-kalender-auswahl: 7 Prüfungen ok.')
+console.log('check-cr-kalender-auswahl: 8 Prüfungen ok.')
