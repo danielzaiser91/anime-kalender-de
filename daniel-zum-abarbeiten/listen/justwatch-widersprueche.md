@@ -23,7 +23,7 @@ JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine
 |---|---|---|---|---|
 | Vampire Hunter D: Bloodlust (543) | primevideo | https://watch.amazon.de/detail?gti=amzn1.dv.gti.68239688-dba5-4abc-a3b5-5e554d51081f | de, Stand 2026-10-26 | Handbeleg 2026-10-31 |
 
-### Kandidaten für neue Wege (760)
+### Kandidaten für neue Wege (762)
 
 JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „Weg ohne Kennung“: ein Weg zum Anbieter steht, seine Adresse trägt aber keine Seitenkennung.
 
@@ -543,6 +543,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | In the Land of Leadale (130166) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.1d6f56ac-5ee0-4013-b13d-bebc9e8f555b | nein |
 | The Greatest Demon Lord Is Reborn as a Typical Nobody (130586) | Crunchyroll | crunchyroll:GG1U23KED | ja |
 | The Greatest Demon Lord Is Reborn as a Typical Nobody (130586) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.c471b9c4-2560-403c-b201-d3c3ec9c1b1a | ja |
+| The Birth Of Kitaro - Das Geheimnis von Gegege (130622) | Amazon Video | amazon:amzn1.dv.gti.fbdee0cb-089f-4cf1-88b1-6a8a73a8c994 | nein |
 | The Quintessential Quintuplets Movie (131520) | Crunchyroll | crunchyroll:G0DUNJV40 | ja |
 | Jujutsu Kaisen 0 (131573) | Crunchyroll | crunchyroll:GMEE00194450PLPL | ja |
 | The Journey: Die Legende vom guten Dieb (110224) | Amazon Prime Video | amazon:amzn1.dv.gti.8f956063-1f24-48a6-88b8-c5bc7c82a4bb | ja |
@@ -789,6 +790,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Prinz Ribbit: Ein Frosch auf Umwegen! (10011569) | Amazon Video | amazon:amzn1.dv.gti.244e6fdd-f4a4-44c7-95d0-8829720b24c1 | ja |
 | Re:Zero - Starting Life in Another World: Bünde aus Eis (10013951) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.5d11c410-4b4b-4fef-8c75-b1c01805685e | nein |
 | Attack on Titan: The Last Attack (10019527) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.1af3f16e-7da6-4d78-aac7-1713988ecd89 | nein |
+| The Birth of Kitaro: Das Geheimnis von GeGeGe (10019697) | Amazon Video | amazon:amzn1.dv.gti.fbdee0cb-089f-4cf1-88b1-6a8a73a8c994 | ja |
 <!-- anime:end -->
 
 <!-- cartoons:start -->
