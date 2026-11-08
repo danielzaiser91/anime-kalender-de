@@ -257,6 +257,7 @@ pipeline/check-jw-kennung-fremd-lauf.ts
 pipeline/check-jw-kennung-fremd.ts
 pipeline/check-jw-namenssuche-lauf.ts
 pipeline/check-jw-namenssuche.ts
+pipeline/check-jw-namenstreffer-lauf.ts
 pipeline/check-jw-schlange.ts
 pipeline/check-jw-seite.ts
 pipeline/check-jw-staffeln.ts
@@ -454,6 +455,8 @@ pipeline/check-staffel-von-hand.ts
 pipeline/check-staffelsumme.ts
 pipeline/check-staffelzaehlung.ts
 pipeline/check-stand-halten.ts
+pipeline/check-streaming-kleinfixes.ts
+pipeline/check-streaming-zaehlen.ts
 pipeline/check-studio-archiv.ts
 pipeline/check-stuetzpunkt-ueberholt.ts
 pipeline/check-such-chip.ts
