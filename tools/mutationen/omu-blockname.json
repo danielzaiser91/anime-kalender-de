@@ -30,7 +30,7 @@
   {"name":"genannteStaffel: ordinal entfernt","aenderungen":[{"datei":"tools/cr-blockwahl.mjs","suche":"|(\\d+)(?:st|nd|rd|th)\\s+season","ersetze":""}],"tests":["npx tsx pipeline/check-cr-blockwahl.ts"]},
   {"name":"genannteStaffel: Leerzeichen Pflicht","aenderungen":[{"datei":"tools/cr-blockwahl.mjs","suche":"(?:staffel|season)\\s*0*","ersetze":"(?:staffel|season)\\s+0*"}],"tests":["npx tsx pipeline/check-cr-blockwahl.ts"]},
   {"name":"offenerGrund: mehrere ab 1","aenderungen":[{"datei":"tools/cr-blockwahl.mjs","suche":"if (anzahl > 1)","ersetze":"if (anzahl >= 1)"}],"tests":["npx tsx pipeline/check-cr-blockwahl.ts"]},
-  {"name":"offenerGrund: geteilt ohne Prüfung","aenderungen":[{"datei":"tools/cr-blockwahl.mjs","suche":"return ohneZusatz && geteilt ?","ersetze":"return ohneZusatz ?"}],"tests":["npx tsx pipeline/check-cr-blockwahl.ts"]},
+  {"name":"offenerGrund: Zusatz-Grund immer","aenderungen":[{"datei":"tools/cr-blockwahl.mjs","suche":"return ohneZusatz ?","ersetze":"return true ?"}],"tests":["npx tsx pipeline/check-cr-blockwahl.ts"]},
   {"name":"Wache: angenommene Zahl zählt","aenderungen":[{"datei":"tools/synchro-wartezeit.mjs","suche":"omu.schedule.episodeCountAssumed ? undefined : omu.schedule.episodeCount","ersetze":"omu.schedule.episodeCount"}],"tests":["node tools/synchro-wartezeit.test.mjs"]},
   {"name":"Wache: Name nicht übergeben","aenderungen":[{"datei":"tools/synchro-wartezeit.mjs","suche":"namen: [String(omu.name)]","ersetze":"namen: []"}],"tests":["node tools/synchro-wartezeit.test.mjs"]},
   {"name":"Wache: Folgenzahl nicht übergeben","aenderungen":[{"datei":"tools/synchro-wartezeit.mjs","suche":"folgen: zahl,","ersetze":"folgen: undefined,"}],"tests":["node tools/synchro-wartezeit.test.mjs"]},

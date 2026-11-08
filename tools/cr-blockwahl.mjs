@@ -73,11 +73,12 @@ export function blockWahl(serien, kennung, titel) {
   if (gleich.length === 1) return { treffer: gleich[0], weg: 'name' }
   const gleichViele = frei.filter((b) => b.block.folgen === titel.folgen && verwandt(b.block.name, namen))
   if (gleichViele.length === 1) return { treffer: gleichViele[0], weg: 'folgen' }
-  return { treffer: null, grund: offenerGrund(bloecke.length, ohneZusatz, titel.geteilt) }
+  return { treffer: null, grund: offenerGrund(bloecke.length, ohneZusatz) }
 }
 
 /** Warum kein Block gewählt wurde, wenn alle Wege versagten. */
-function offenerGrund(anzahl, ohneZusatz, geteilt) {
+function offenerGrund(anzahl, ohneZusatz) {
   if (anzahl > 1) return 'mehrere Blöcke, keiner eindeutig'
-  return ohneZusatz && geteilt ? 'Serie geteilt, ein Block' : 'einziger Block nennt eine Staffel'
+  /* Ein einziger Block ohne Zusatz, der nicht gewählt wurde, scheiterte nur an der geteilten Serie. */
+  return ohneZusatz ? 'Serie geteilt, ein Block' : 'einziger Block nennt eine Staffel'
 }

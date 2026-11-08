@@ -323,6 +323,8 @@ function pruefeBlockOhneZahl(): void {
   pruefe('…eine nur angenommene Zahl wählt nichts', lauf(titelZusatz, zahlBloecke, angenommen).z.erzeugt === 0)
   const andereZahl = omuRelease({ schedule: { firstEpisodeDate: '2026-10-03', estimated: true, episodeCount: 7 } })
   pruefe('…eine andere Zahl (7) wählt nichts', lauf(titelZusatz, zahlBloecke, andereZahl).z.erzeugt === 0)
+  pruefe('…ist die Zahl nur angenommen, zählt die Folgenzahl des Titels (12)', lauf(mitName('Schwarzer Klee Zusatz Teil', { episodes: 12 }), zahlBloecke, angenommen).z.erzeugt === 1)
+  pruefe('…die belegte Zahl des Termins (12) schlägt die des Titels (7)', lauf(mitName('Schwarzer Klee Zusatz Teil', { episodes: 7 }), zahlBloecke).z.erzeugt === 1)
   const staffel1 = lauf(mitName('Black Clover Season 2'), serie(block('Season 1 Part 4', [S2_ERSTE])))
   pruefe('Block „Season 1 Part 4“ gilt nicht für Staffel 2: nichts', staffel1.rs.length === 1 && staffel1.z.erzeugt === 0, staffel1.z)
 }
