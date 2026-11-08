@@ -192,17 +192,21 @@ export function waehleSynchroBelege(
       continue
     }
     schluessel.set(`${t.id}|${v.plattform}`, IMMER)
-    belege.push({
-      anilistId: t.id,
-      titel: t.titleDe ?? t.titleEn ?? t.titleRomaji ?? v.titel,
-      plattform: v.plattform!,
-      zitat: v.zitat,
-      artikelId: v.artikelId,
-      quelle: v.quelle,
-      veroeffentlicht: v.veroeffentlicht,
-    })
+    belege.push(neuerBeleg(v, t))
   }
   return { belege, zurueck }
+}
+
+function neuerBeleg(v: GespeicherterVorschlag, t: KatalogTitel): AutoBeleg {
+  return {
+    anilistId: t.id,
+    titel: t.titleDe ?? t.titleEn ?? t.titleRomaji ?? v.titel,
+    plattform: v.plattform!,
+    zitat: v.zitat,
+    artikelId: v.artikelId,
+    quelle: v.quelle,
+    veroeffentlicht: v.veroeffentlicht,
+  }
 }
 
 /** Die Zeilen eines Belegs für `haengeBelegeAn`; Zeichenketten als JSON, damit Anführungszeichen im Zitat das YAML nicht brechen. */
