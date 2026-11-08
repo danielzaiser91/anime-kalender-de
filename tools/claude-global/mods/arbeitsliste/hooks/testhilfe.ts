@@ -91,7 +91,7 @@ const SITZUNG = 'eigene-sitzung'
 const FREMDE_MARKER = [`${MARKER_ORDNER}/fremde-sitzung.txt`, 'C:/Users/ih/.claude/autonomer-modus-bis.txt']
 
 // `engine`: unterste Leiste wie im Betrieb, wenn kein fremdes Modul zeichnet.
-export function starte(on: On, marker: string | null, status: (string | undefined)[] = [], engine = true, stand = STAND, ruhe: boolean | string = false, agenten = 0, pruefer = 0, spar = false) {
+export function starte(on: On, marker: string | null, status: (string | undefined)[] = [], engine = true, stand = STAND, ruhe: boolean | string = false, agenten = 0, pruefer = 0, spar = false, ziele = '') {
   mock.clock(on)
   on('session.start', ($, e) => ({ cwd: e.cwd }))
   on('session.id', () => ({ value: SITZUNG }) as never)
@@ -105,6 +105,7 @@ export function starte(on: On, marker: string | null, status: (string | undefine
     // Der Pfad kommt mit Rückwärtsschrägstrichen an (Windows).
     const pfad = e.path.replace(/\\/g, '/')
     if (pfad.endsWith('stand.md')) return { value: stand } as never
+    if (ziele && pfad.endsWith('ziele.md')) return { value: ziele } as never
     if (marker !== null && pfad === `${MARKER_ORDNER}/${SITZUNG}.txt`) return { value: marker } as never
     if (FREMDE_MARKER.includes(pfad)) return { value: new Date(Date.now() + 3_600_000).toISOString() } as never
     if (ruhe !== false && e.path.endsWith('ruhemodus.txt')) return { value: ruhe === true ? '' : ruhe } as never

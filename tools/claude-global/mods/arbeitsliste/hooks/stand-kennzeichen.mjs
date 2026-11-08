@@ -1,5 +1,5 @@
 // Kennzeichen der Zeilen in „## In Arbeit“ und „## Als Nächstes“ von stand.md (Daniel 08.11.2026) und die Rangordnung daraus.
-// Zeile trägt `{<Art> · <Dringlichkeit> · <Ziel> · <Eingang TT.MM.> [· wartet: <worauf>]}`. Eine Quelle für Hook, tools/naechster.mjs und Mod.
+// Zeile trägt `{<Art> · <Dringlichkeit> · <Ziel> · <Eingang TT.MM.> [· wartet: <worauf>]}`. Eine Quelle für Hook (stand-prs.js), tools/naechster.mjs und Mod (liegt in der Mod, weil Hook und Mod unter ~/.claude dieselbe Lage zueinander haben wie im Repo).
 const ARTEN = ['kritisch', 'angefangen', 'auftrag', 'eigen']
 const DRINGLICHKEITEN = ['sofort', 'hoch', 'normal', 'später']
 const ZIELE = ['Autonomie', 'Live5', 'Daten', '-']
@@ -104,4 +104,4 @@ function auswerten(text, jetzt) {
   }
 }
 
-module.exports = { ARTEN, DRINGLICHKEITEN, ZIELE, parseKennzeichen, kennzeichenZeilen, pruefeKennzeichen, kennzeichenMeldung, rangliste, auswerten }
+export { ARTEN, DRINGLICHKEITEN, ZIELE, parseKennzeichen, kennzeichenZeilen, pruefeKennzeichen, kennzeichenMeldung, rangliste, auswerten }

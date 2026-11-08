@@ -15,7 +15,7 @@ const path = require('node:path')
 const { execFileSync } = require('node:child_process')
 const B = require('./stand-prs-block.js')
 const { waechter } = require('./stand-waechter.js')
-const { kennzeichenMeldung } = require('./stand-kennzeichen.js')
+const { kennzeichenMeldung } = require('../mods/arbeitsliste/hooks/stand-kennzeichen.mjs')
 
 const REPO = ['danielzaiser91', 'anime-kalender-de']
 const GH_WINDOWS = 'C:/Program Files/GitHub CLI/gh.exe'
