@@ -18,7 +18,7 @@ function antwort(daten: unknown, status = 200, origin = '*'): Response {
 
 export async function handleBeleg(request: Request, env: Env, url: URL): Promise<Response> {
   const origin = env.ALLOWED_ORIGIN || '*'
-  const darfSchreiben = Boolean(env.LAUF_TOKEN) && tokenGleich(tokenAusKopf(request), env.LAUF_TOKEN)
+  const darfSchreiben = tokenGleich(tokenAusKopf(request), env.LAUF_TOKEN)
   const liestEinzeln = request.method === 'GET' && url.searchParams.get('key') !== null
   if (!liestEinzeln && !darfSchreiben) return antwort({ error: 'Nicht erlaubt' }, 403, origin)
   if (!env.BELEGE) return antwort({ error: 'Beleg-Ablage nicht eingerichtet' }, 503)

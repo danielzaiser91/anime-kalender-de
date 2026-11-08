@@ -15,7 +15,7 @@ import { adressKern, dubKey } from './dub-confirmed.ts'
  *  - ein überzähliger Beleg einen eigenen Kommentar unmittelbar davor trägt (er würde am Nachbarn hängen bleiben), oder
  *  - der bleibende Beleg keine eigene `checkedAt`-Zeile hat, in die das jüngste Datum passt.
  */
-export type FastDoppelBilanz = { text: string; entfernt: number; gruppen: number; gemischt: number; blockiert: number }
+export type FastDoppelBilanz = { text: string; entfernt: number; gruppen: number; gemischt: number; blockiert: number; blockiertFalt: string[] }
 
 type Block = { von: number; bis: number; datumZeile: number; falt: string; schluessel: string; datum: string; browser: boolean; kommentar: boolean }
 
@@ -78,13 +78,17 @@ export function entferneFastDoppel(text: string): FastDoppelBilanz {
   let gruppen = 0
   let gemischt = 0
   let blockiert = 0
+  const blockiertFalt: string[] = []
   for (const g of gruppenMap.values()) {
     if (g.length < 2) continue
     gruppen++
     const [bleibt, ...weg] = g as [Block, ...Block[]]
     const juengster = g.reduce((a, b) => (b.datum > a.datum ? b : a)).datum
     if (g.some((b) => b.browser !== bleibt.browser)) gemischt++
-    else if (weg.some((b) => b.kommentar) || bleibt.datumZeile < 0 || !g.every((b) => ISO_TAG.test(b.datum)) || trenntFremder(g, alle)) blockiert++
+    else if (weg.some((b) => b.kommentar) || bleibt.datumZeile < 0 || !g.every((b) => ISO_TAG.test(b.datum)) || trenntFremder(g, alle)) {
+      blockiert++
+      blockiertFalt.push(bleibt.falt)
+    }
     else {
       weg.forEach((b) => raus.add(b))
       if (juengster !== bleibt.datum) neuesDatum.set(bleibt.datumZeile, juengster)
@@ -104,5 +108,5 @@ export function entferneFastDoppel(text: string): FastDoppelBilanz {
     while (ausgabe.length && (ausgabe[ausgabe.length - 1] ?? '').trim() === '') ausgabe.pop()
     i = b.bis
   }
-  return { text: ausgabe.join('\n'), entfernt: raus.size, gruppen, gemischt, blockiert }
+  return { text: ausgabe.join('\n'), entfernt: raus.size, gruppen, gemischt, blockiert, blockiertFalt }
 }

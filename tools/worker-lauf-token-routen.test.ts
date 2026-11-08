@@ -73,4 +73,20 @@ await schreibRoute('/netzfund', 'POST')
 await schreibRoute('/vorfall', 'POST')
 await schreibRoute('/vorfall', 'DELETE')
 
-ausgabe(`worker-lauf-token-routen.test: ${faelle} Fälle grün (/land, /netzfund, /vorfall, /debug/digest, /debug/monitor)`)
+/** Schreibende Routen von `/pruefung`, `/lauf`, `/beleg` lesen den Kopf über `tokenAusKopf`: Bearer wie X-Lauf-Token. */
+async function bearerRoute(pfad: string, methode: string) {
+  const status = (e: Env, kopf: Record<string, string>) => rufe(e, pfad, kopf, methode)
+  assert.notEqual(await status(env, { Authorization: 'Bearer lauf-1' }), 403, `${methode} ${pfad}: Bearer ok`)
+  assert.notEqual(await status(env, { 'X-Lauf-Token': 'lauf-1' }), 403, `${methode} ${pfad}: X-Lauf-Token ok`)
+  assert.equal(await status(env, { Authorization: 'Bearer falsch' }), 403, `${methode} ${pfad}: falscher Bearer`)
+  assert.equal(await status(env, { 'X-Lauf-Token': 'lauf-12' }), 403, `${methode} ${pfad}: längerer Token`)
+  assert.equal(await status(env, {}), 403, `${methode} ${pfad}: ohne Token`)
+  assert.equal(await status(ohneSecret, { Authorization: 'Bearer lauf-1' }), 403, `${methode} ${pfad}: ohne Secret`)
+  faelle += 6
+}
+await bearerRoute('/pruefung', 'POST')
+await bearerRoute('/pruefung', 'DELETE')
+await bearerRoute('/lauf', 'POST')
+await bearerRoute('/beleg', 'POST')
+
+ausgabe(`worker-lauf-token-routen.test: ${faelle} Fälle grün (/land, /netzfund, /vorfall, /debug/digest, /debug/monitor, /pruefung, /lauf, /beleg)`)

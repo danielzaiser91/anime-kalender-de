@@ -40,7 +40,7 @@
   # deutschen Synchros für Herbst 2026 an" (15.09.2026) führt Black Clover Staffel 2, das
   # Lineup nennt „OmU: 3. Oktober, DE: TBA". Der alte Satz „Eine deutsche Fassung ist noch
   # nicht angekündigt" war seit dem 15.09. falsch.
-  note: "Crunchyroll zeigt die Staffel ab dem 03.10.2026 mit Untertiteln. Die deutsche Synchro ist angekündigt, ihr Termin noch offen — das Datum ist der Start mit Untertiteln."
+  hinweis: "Crunchyroll zeigt die Staffel ab dem 03.10.2026 mit Untertiteln. Die deutsche Synchro ist angekündigt, ihr Termin noch offen — das Datum ist der Start mit Untertiteln."
   sprache: omu
   sources:
     - https://www.crunchyroll.com/de/news/seasonal-lineup/2026/9/15/crunchyroll-deutsche-synchros-herbst-2026
@@ -49,6 +49,24 @@
     - https://www.crunchyroll.com/news/latest/2026/6/15/black-clover-season-2-anime-october-2026-release-date-director
     - https://www.crunchyroll.com/de/news/latest/2026/6/15/black-clover-staffel-2-premiere-oktober-2026
     - https://anilist.co/anime/195604
+
+# Black Clover Staffel 2, deutsche Fassung: Crunchyrolls Katalog (Abruf 07.11.2026, `data/crunchyroll-dub.json`, Staffel „GS00385471JAJP“)
+# führt Folge 171 (durchlaufend gezählt, Folge 1 der Staffel) mit deutscher Tonspur, `verfuegbarAb` 07.11.2026 16:00 UTC. Der OmU-Eintrag oben bleibt
+# (Start 03.10.2026, Untertitel); ohne diesen zweiten Eintrag trug der Weg „deutsch", während jeder Termin „nur OmU" sagte (Bau 42389332341).
+# Der Wochentakt der Synchro ist mit einer Folge nicht messbar, deshalb keine Folgenzahl, keine Uhrzeit und kein `lastEpisodeDate`.
+- slug: black-clover-s2-crunchyroll-synchro
+  anilistId: 195604
+  titleDe: "Black Clover – Staffel 2"
+  platform: crunchyroll
+  releaseType: weekly
+  schedule:
+    firstEpisodeDate: "2026-11-07"
+    observed:
+      1: "2026-11-07"
+  note: "Die deutsche Synchro läuft bei Crunchyroll seit dem 07.11.2026 (Folge 171, Folge 1 der Staffel); der Katalog nennt bisher nur diese eine deutsche Folge. Die Folgen mit Untertiteln laufen seit dem 03.10.2026."
+  sources:
+    - https://www.crunchyroll.com/de/series/GRE50KV36
+    - https://www.crunchyroll.com/de/news/seasonal-lineup/2026/9/15/crunchyroll-deutsche-synchros-herbst-2026
 
 - slug: dragon-ball-daima-rtlplus
   anilistId: 170083
@@ -68,7 +86,7 @@
   # zeigt, ist nicht bekannt".
   # Zusammengefasst als „TOGGO" (Daniel, 22.09.2026): Geschnitten ist es bei TOGGO plus und in
   # der TOGGO-App — und seit Daniels Prüfung vom 25.09.2026 belegt auch bei RTL+.
-  note: "Geschnitten wie bei TOGGO."
+  hinweis: "Geschnitten wie bei TOGGO."
   schnitt:
     was:
       - "Mr. Popo ist aus dem Bild entfernt: Szenen mit ihm gekürzt, das Bild herangezoomt oder durch ein Standbild ersetzt."
@@ -130,7 +148,7 @@
   # MESZ; Disney+ Brasilien meldet „jede Woche freitags 14:00" (= 17:00 UTC, passt). Ab 25.10. gilt MEZ, die Folge kommt dann
   # um 18:00 (`zeiten`). Anime2You nennt „samstags 19:00 Uhr" — der Unterschied steht offen im Hinweis; am 09.10. 19:00 prüft
   # Daniel (Kalender-Notiz). Folge 1 ist gesehen (Disney+ „Neue Folge", Anime2You 02.10. 19:55 „ab sofort").
-  note: "Disney+ weltweit: freitags um 19:00 Uhr (ab 30.10. um 18:00 Uhr wegen der Zeitumstellung) laut offizieller Serienseite. Anime2You nennt samstags um 19:00 Uhr."
+  hinweis: "Disney+ weltweit: freitags um 19:00 Uhr (ab 30.10. um 18:00 Uhr wegen der Zeitumstellung) laut offizieller Serienseite. Anime2You nennt samstags um 19:00 Uhr."
   # Text der News-Meldung „Rückwirkend eingetragen" (Entwurf G, Daniel 04.10.2026): erster Satz = Weiterlaufen, der Rest steht hinter „mehr".
   nachtrag:
     kurz: "Die Serie läuft im Simulcast wöchentlich freitags um 19 Uhr; die nächste Folge erscheint voraussichtlich am 09.10."
@@ -247,7 +265,7 @@
   platform: disneyplus
   releaseType: batch
   schedule: { firstEpisodeDate: "2026-10-05", episodeCount: 12 }
-  note: "Disney+ führt Teil 1: zwölf von 24 Folgen (Anime2You, 05.10.2026)."
+  hinweis: "Disney+ führt Teil 1: zwölf von 24 Folgen (Anime2You, 05.10.2026)."
   sources:
     - https://www.anime2you.de/news/1057649/disney-plus-gachiakuta-und-mehr/
 
@@ -283,7 +301,7 @@
   releaseType: movie
   dateMeaning: available-from
   schedule: { firstEpisodeDate: "2026-09-28" }
-  note: "Netflix, 155 Minuten."
+  hinweis: "Netflix, 155 Minuten."
   sources:
     - https://www.anime2you.de/news/1054490/netflix-demon-slayer-infinity-castle-und-mehr/
 
@@ -332,7 +350,7 @@
     observed:
       12: "2026-09-19"
       15: "2026-10-10"
-  note: "Gesamtzahl 24 nach AniList, von Netflix nicht genannt."
+  hinweis: "Gesamtzahl 24 nach AniList, von Netflix nicht genannt."
   sources:
     - https://www.netflix.com/title/82719204
 
@@ -447,6 +465,7 @@
       1: "2026-10-18"
       2: "2026-10-25"
   sprache: omu
+  hinweis: "Netflix startet am 18.10.2026, neue Folgen wöchentlich, laut Anime2You mit japanischem Ton und Untertiteln. Folge 1 hat laut Sichtung bei Netflix (18.10.2026) keine deutsche Synchro; Folge 2 nennt Netflix für den 25.10.2026."
   note: "Netflix startet am 18.10.2026, neue Folgen wöchentlich, laut Anime2You 1052708 mit japanischem Ton und Untertiteln („Sprache: Japanisch (UT)“). Folge 1 hat laut Daniels Sichtung (Netflix, 18.10.2026) keine deutsche Synchro; Folge 2 nennt Netflix für den 25.10.2026."
   sources:
     - https://www.anime2you.de/news/1060009/dragon-ball-super-beerus-simulcast-gestartet/
@@ -511,7 +530,7 @@
   platformUrl: https://www.netflix.com/title/81088875
   releaseType: batch
   schedule: { firstEpisodeDate: "2026-11-03", episodeCount: 6 }
-  note: "Netflix-Eigenproduktion, alle 6 Folgen am 03.11.2026 (Daniel, 03.11.2026)."
+  hinweis: "Netflix-Eigenproduktion, alle 6 Folgen am 03.11.2026."
   sources:
     - https://www.netflix.com/title/81088875
     - https://www.anime2you.de/news/1043257/netflix-bass-x-machina-angekuendigt/
