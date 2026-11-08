@@ -22,10 +22,13 @@ import type { Title } from '../shared/types.ts'
 import { passtFilm, waehlePlakat, type TmdbBild } from './lib/tmdb-plakat.ts'
 import { GRUND_DATEI, plakatEintrag, plakatSuche, type GrundBestand, type PlakatBestand } from './lib/tmdb-plakat-suche.ts'
 import { schreibeCoverListe } from './lib/cover-liste.ts'
+import { ladeEigeneTitel } from './bau/eigene-titel.ts'
+import { eigeneTmdbZuordnung } from './lib/eigene-tmdb.ts'
 import { waehleStaffel, type TmdbStaffel } from './lib/tmdb-staffel.ts'
 import { bilderAbzufragen, FRIST_TAGE, streicheBilderUeberFrist } from './lib/tmdb-ablauf.ts'
 import { holeBanner } from './lib/tmdb-banner-abruf.ts'
 import { holeStaffel0 } from './lib/tmdb-staffel0-abruf.ts'
+import { messeAnilistCoverImLauf } from './lib/anilist-cover-lauf.ts'
 
 const LIMIT = Number(process.argv[process.argv.indexOf('--limit') + 1]) || Infinity
 const ALLE = process.argv.includes('--alle')
@@ -151,7 +154,7 @@ async function main(): Promise<void> {
     recordSource('tmdb-poster', 0, 'kein Schlüssel')
     return
   }
-  const zuordnung = readJson<Record<string, { tmdbId?: number; kind?: string }>>('data/tmdb-titles.json', {})
+  const zuordnung = { ...readJson<Record<string, { tmdbId?: number; kind?: string }>>('data/tmdb-titles.json', {}), ...eigeneTmdbZuordnung(ladeEigeneTitel()) }
   const bestand = readJson<PlakatBestand>('data/tmdb-poster.json', {})
   const { offen, entfernt } = bilderAbzufragen(zuordnung, bestand, ALLE, LIMIT, new Date())
   for (const id of entfernt) delete bestand[id]
@@ -187,6 +190,7 @@ async function main(): Promise<void> {
   writeJson('data/tmdb-poster.json', bestand)
   schreibeCoverListe(bestand, readJson<GrundBestand>(GRUND_DATEI, {}))
   await holeBanner(apiKey, LIMIT, ALLE)
+  await messeAnilistCoverImLauf()
   log(`${gefunden} von ${offen.length} Titeln mit Plakat, ${fehler} Fehler`)
   recordSource('tmdb-poster', gefunden)
 }

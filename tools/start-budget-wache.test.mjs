@@ -1,16 +1,12 @@
-// Wachzeile „Startbudget wird eng“: Tabellentest der Auswertung, Abrufreihenfolge, Fehlerarten und Verdrahtung in der Wachphase.
-// Die Budget-Zeilen sind wörtlich die Ausgabe von tools/start-budget.mjs (bewerte mit Grenze 187,4 KB am 06.11.2026), mit Log-Präfix wie im Job-Log.
+// Wachzeile „Start-Budget wenig Luft“: Annotation lesen, Läufe ohne build-Job überspringen, Abruffehler, Verdrahtung in der Wachphase.
+// Die Annotationstexte sind wörtlich die des Deploy-Laufs 42209025225 (Abruf 06.11.2026).
 import assert from 'node:assert/strict'
-import { fileURLToPath } from 'node:url'
-import { budgetZeile, startBudgetZeilen } from './start-budget-wache.mjs'
-
-const PRAEFIX = 'build\tBauen\t2026-11-06T16:17:39.9903758Z '
-const MESS_OK = `${PRAEFIX}start-budget: 186.7 KB gzip von 190.0 KB, 3.3 KB Luft (Code und Daten 186.7 KB)`
-const MESS_ENG = `${PRAEFIX}start-budget: 185.1 KB gzip von 187.4 KB, 2.3 KB Luft (Code und Daten 185.1 KB)`
-const WARN = `${PRAEFIX}##[warning]start-budget: nur noch 2.3 KB Luft (Warnung unter 3.0 KB) – Startdateien verkleinern, bevor der nächste Datenlauf die Grenze reißt`
-const WARN_ROH = '::warning::start-budget: nur noch 0.4 KB Luft (Warnung unter 3.0 KB) – Startdateien verkleinern'
-const LOG_OK = `x\n${MESS_OK}\ny\n`
-const LOG_ENG = `x\n${MESS_ENG}\n${WARN}\ny\n`
+import { spawnSync } from 'node:child_process'
+import { mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
+import { fileURLToPath, pathToFileURL } from 'node:url'
+import { luftAusAnnotationen, startBudgetZeilen } from './start-budget-wache.mjs'
 
 let faelle = 0
 const gleich = (name, ist, soll) => {
@@ -18,72 +14,72 @@ const gleich = (name, ist, soll) => {
   faelle++
 }
 
-// Auswertung des Logs: genau die Warnzeile des Budget-Werkzeugs löst aus, die Messzeile allein nicht
-gleich('Warnzeile im Job-Log', budgetZeile(LOG_ENG, 77), 'WARNUNG start-budget: 2.3 KB Luft (Warnung unter 3.0 KB, Deploy-Lauf 77)')
-gleich('Warnzeile roh (::warning::)', budgetZeile(WARN_ROH, 5), 'WARNUNG start-budget: 0.4 KB Luft (Warnung unter 3.0 KB, Deploy-Lauf 5)')
-gleich('3,3 KB Luft: Messzeile ohne Warnung', budgetZeile(LOG_OK, 77), null)
-gleich('Schwelle kommt aus der Warnzeile, nicht aus der Wache', budgetZeile('start-budget: nur noch 5.0 KB Luft (Warnung unter 6.0 KB)', 1), 'WARNUNG start-budget: 5.0 KB Luft (Warnung unter 6.0 KB, Deploy-Lauf 1)')
-gleich('Log ohne Budget-Zeile', budgetZeile('nichts davon', 77), undefined)
-gleich('leeres Log', budgetZeile('', 77), undefined)
-gleich('Zeile mit ganzer Zahl', budgetZeile('start-budget: nur noch 2 KB Luft (Warnung unter 3 KB)', 1), 'WARNUNG start-budget: 2 KB Luft (Warnung unter 3 KB, Deploy-Lauf 1)')
+const NODE20 = { annotation_level: 'warning', message: 'Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24' }
+const BUDGET = { annotation_level: 'warning', message: 'start-budget: nur noch 0.3 KB Luft (Warnung unter 3.0 KB) – Startdateien verkleinern, bevor der nächste Datenlauf die Grenze reißt' }
+const HOOK = { annotation_level: 'warning', message: "React Hook useEffect has missing dependencies: 'ersetze', 'ohne', and 'staffeln'." }
 
-// Abruf: Reihenfolge und Argumente, drei verschiedene Antworten (Lauf 4711, Job 9001)
-const SCHLUESSEL = {
-  lauf: 'run list --repo o/r --workflow deploy.yml --branch main --status success --limit 1 --json databaseId -q .[0].databaseId',
-  job: 'run view 4711 --repo o/r --json jobs -q .jobs[] | select(.name == "build") | .databaseId',
-  log: 'run view 4711 --repo o/r --job 9001 --log',
+// Auswahl aus den Annotationen
+gleich('Warnung mit Zahl', luftAusAnnotationen([NODE20, BUDGET, HOOK]), 0.3)
+gleich('ganze Zahl', luftAusAnnotationen([{ ...BUDGET, message: 'start-budget: nur noch 2 KB Luft (Warnung unter 3.0 KB)' }]), 2)
+gleich('zweistellig mit Nachkomma', luftAusAnnotationen([{ ...BUDGET, message: 'start-budget: nur noch 12.5 KB Luft' }]), 12.5)
+gleich('ohne Warnung: null', luftAusAnnotationen([NODE20, HOOK]), null)
+gleich('leere Liste: null', luftAusAnnotationen([]), null)
+gleich('Stufe notice zählt nicht', luftAusAnnotationen([{ ...BUDGET, annotation_level: 'notice' }]), null)
+gleich('Text mitten in der Zeile zählt nicht', luftAusAnnotationen([{ ...BUDGET, message: 'x start-budget: nur noch 0.3 KB Luft' }]), null)
+gleich('Eintrag ohne Text', luftAusAnnotationen([{}, undefined, BUDGET]), 0.3)
+
+// Abruf: Reihenfolge, erster build-Job, übersprungene Läufe
+const REPO = 'o/r'
+const gh = (tabelle, log = []) => (a) => {
+  log.push(a.join(' '))
+  const antwort = tabelle[a.join(' ')]
+  if (antwort === undefined) throw new Error(`HTTP 404: ${a.join(' ')}`)
+  if (antwort instanceof Error) throw antwort
+  return JSON.stringify(antwort)
 }
-const kulisse = (log, aufrufe = []) => (...a) => {
-  aufrufe.push(a.join(' '))
-  const k = a.join(' ')
-  if (k === SCHLUESSEL.lauf) return '4711\n'
-  if (k === SCHLUESSEL.job) return '9001\n'
-  if (k === SCHLUESSEL.log) return log
-  throw new Error(`unerwarteter Aufruf: ${k}`)
-}
-const aufrufe = []
-gleich('Warnung aus dem Abruf', startBudgetZeilen(kulisse(LOG_ENG, aufrufe), 'o/r'), ['WARNUNG start-budget: 2.3 KB Luft (Warnung unter 3.0 KB, Deploy-Lauf 4711)'])
-gleich('Abruf: Lauf, Job, Log in dieser Reihenfolge', aufrufe, [SCHLUESSEL.lauf, SCHLUESSEL.job, SCHLUESSEL.log])
-gleich('genug Luft: keine Zeile', startBudgetZeilen(kulisse(LOG_OK), 'o/r'), [])
-gleich('Log ohne Budget-Zeile: START-BUDGET?', startBudgetZeilen(kulisse('leer'), 'o/r'), ['START-BUDGET? Deploy-Lauf 4711: keine start-budget-Zeile im Bau-Log'])
+const LISTE = 'run list --repo o/r --workflow deploy.yml --branch main --status success --limit 6 --json databaseId'
+const jobs = (...j) => ({ jobs: j })
+const bau = (id, conclusion = 'success') => ({ id, name: 'build', conclusion })
 
-// Fehlerarten: jede Nichtauskunft ist eine eigene Zeile, nie stilles Grün
-gleich('kein erfolgreicher Lauf', startBudgetZeilen(() => '\n', 'o/r'), ['START-BUDGET? kein erfolgreicher Deploy-Lauf auf main gefunden'])
-const ohneJob = (...a) => (a[0] === 'run' && a[1] === 'list' ? '4711' : '')
-gleich('Lauf ohne Job „build“', startBudgetZeilen(ohneJob, 'o/r'), ['START-BUDGET? Deploy-Lauf 4711 hat keinen Job „build“'])
-gleich('Abruffehler: nur die erste Fehlerzeile', startBudgetZeilen(() => { throw new Error('gh: HTTP 503\nzweite Zeile') }, 'o/r'), ['START-BUDGET? Bau-Log nicht lesbar: gh: HTTP 503'])
-const logFehler = (...a) => (a.join(' ') === SCHLUESSEL.log ? (() => { throw new Error('Zeitlimit') })() : kulisse('')(...a))
-gleich('Fehler erst beim Log', startBudgetZeilen(logFehler, 'o/r'), ['START-BUDGET? Bau-Log nicht lesbar: Zeitlimit'])
+const log1 = []
+const zeilen = startBudgetZeilen(gh({ [LISTE]: [{ databaseId: 10 }, { databaseId: 20 }], 'api repos/o/r/actions/runs/10/jobs': jobs({ id: 1, name: 'herkunft', conclusion: 'success' }, bau(2, 'skipped')), 'api repos/o/r/actions/runs/20/jobs': jobs(bau(21)), 'api repos/o/r/check-runs/21/annotations': [NODE20, BUDGET] }, log1), REPO)
+gleich('Warnzeile mit Luft und Lauf', zeilen, ['WARNUNG start-budget: 0.3 KB Luft (Deploy-Lauf 20); Startdateien verkleinern, bevor der nächste Datenlauf die Grenze reißt'])
+gleich('übersprungener build-Job: nächster Lauf, 4 Abrufe', log1.length, 4)
+gleich('Annotation des gefundenen Jobs, nicht des übersprungenen', log1.at(-1), 'api repos/o/r/check-runs/21/annotations')
 
-// Verdrahtung: die Wachphase ruft die Wache wirklich auf (Prozess mit gh-Attrappe, Schlüssel für repo danielzaiser91/anime-kalender-de)
-const { spawnSync } = await import('node:child_process')
-const { mkdtempSync, rmSync, writeFileSync } = await import('node:fs')
-const { pathToFileURL } = await import('node:url')
-const { tmpdir } = await import('node:os')
-const { join } = await import('node:path')
+const log2 = []
+gleich('Lauf mit build-Job ohne Warnung: keine Zeile, kein weiterer Lauf', startBudgetZeilen(gh({ [LISTE]: [{ databaseId: 10 }, { databaseId: 20 }], 'api repos/o/r/actions/runs/10/jobs': jobs(bau(2)), 'api repos/o/r/actions/runs/20/jobs': jobs(bau(21)), 'api repos/o/r/check-runs/2/annotations': [NODE20], 'api repos/o/r/check-runs/21/annotations': [BUDGET] }, log2), REPO), [])
+gleich('nur der jüngste Lauf wird gelesen', log2.length, 3)
+gleich('kein erfolgreicher build-Job: eigene Zeile', startBudgetZeilen(gh({ [LISTE]: [{ databaseId: 10 }], 'api repos/o/r/actions/runs/10/jobs': jobs(bau(2, 'failure')) }), REPO), ['START-BUDGET? kein erfolgreicher build-Job in den letzten 6 Deploy-Läufen auf main'])
+gleich('keine Läufe: eigene Zeile', startBudgetZeilen(gh({ [LISTE]: [] }), REPO)[0].startsWith('START-BUDGET? '), true)
+gleich('Abruffehler: nur die erste Fehlerzeile', startBudgetZeilen(gh({ [LISTE]: new Error('gh: HTTP 503\nzweite Zeile') }), REPO), ['START-BUDGET? Messung nicht lesbar: gh: HTTP 503'])
+gleich('Annotationen nicht abrufbar: eigene Zeile', startBudgetZeilen(gh({ [LISTE]: [{ databaseId: 10 }], 'api repos/o/r/actions/runs/10/jobs': jobs(bau(2)) }), REPO)[0].startsWith('START-BUDGET? Messung nicht lesbar'), true)
+gleich('kaputtes JSON: eigene Zeile', startBudgetZeilen(() => 'kein json', REPO)[0].startsWith('START-BUDGET? '), true)
+
+// Verdrahtung: die Wachphase ruft die Funktion wirklich auf (Prozess mit gh-Attrappe)
 const ordner = mkdtempSync(join(tmpdir(), 'start-budget-wache-'))
 const vorlader = pathToFileURL(fileURLToPath(new URL('./pr-nachrechnen-mock.mjs', import.meta.url))).href
 const abruf = join(ordner, 'abruf-abgelehnt.mjs')
 writeFileSync(abruf, "globalThis.fetch = async () => { throw new Error('offline') }\n")
 const werkzeug = fileURLToPath(new URL('./laeufe-aufraeumen.mjs', import.meta.url))
-const R = 'danielzaiser91/anime-kalender-de'
+const ECHT = 'danielzaiser91/anime-kalender-de'
 const starte = (daten) => {
   writeFileSync(join(ordner, 'daten.json'), JSON.stringify(daten))
   const env = { ...process.env, ATTRAPPE_LOG: join(ordner, 'log.txt'), ATTRAPPE_DATEN: join(ordner, 'daten.json'), LAUF_TOKEN: '' }
   const args = ['--import', vorlader, '--import', pathToFileURL(abruf).href, werkzeug, '--trocken', '--wurzel', ordner, '--gesundheit', join(ordner, 'fehlt.json')]
   return spawnSync(process.execPath, args, { encoding: 'utf8', windowsHide: true, timeout: 60_000, env })
 }
-const daten = (log) => ({
-  [SCHLUESSEL.lauf.replace('o/r', R)]: { aus: '4711\n' },
-  [SCHLUESSEL.job.replace('o/r', R)]: { aus: '9001\n' },
-  [SCHLUESSEL.log.replace('o/r', R)]: { aus: log },
+const kette = (annotationen) => ({
+  [`run list --repo ${ECHT} --workflow deploy.yml --branch main --status success --limit 6 --json databaseId`]: { aus: JSON.stringify([{ databaseId: 77 }]) },
+  [`api repos/${ECHT}/actions/runs/77/jobs`]: { aus: JSON.stringify(jobs(bau(78))) },
+  [`api repos/${ECHT}/check-runs/78/annotations`]: { aus: JSON.stringify(annotationen) },
 })
-const warnt = starte(daten(LOG_ENG))
-gleich('Prozess: Warnzeile steht in der Ausgabe der Wachphase', /^WARNUNG start-budget: 2\.3 KB Luft \(Warnung unter 3\.0 KB, Deploy-Lauf 4711\)$/m.test(warnt.stdout), true)
-const ruhig = starte(daten(LOG_OK))
-gleich('Prozess: genug Luft, keine start-budget-Zeile', /^(WARNUNG start-budget|START-BUDGET)/m.test(ruhig.stdout), false)
+const warnt = starte(kette([BUDGET]))
+gleich('Prozess: Warnzeile steht in der Ausgabe der Wachphase', /^WARNUNG start-budget: 0\.3 KB Luft \(Deploy-Lauf 77\)/m.test(warnt.stdout), true)
+const ruhig = starte(kette([NODE20]))
+gleich('Prozess: ohne Budget-Warnung keine Zeile', /WARNUNG start-budget|^START-BUDGET/m.test(ruhig.stdout), false)
 const kaputt = starte({})
-gleich('Prozess: Abruffehler als START-BUDGET?-Zeile', /^START-BUDGET\? Bau-Log nicht lesbar: /m.test(kaputt.stdout), true)
+gleich('Prozess: Abruffehler als START-BUDGET?-Zeile', /^START-BUDGET\? Messung nicht lesbar/m.test(kaputt.stdout), true)
 rmSync(ordner, { recursive: true, force: true })
 
-console.log(`start-budget-wache: ${faelle} Fälle grün (Warnzeile, Schwelle aus dem Werkzeug, Abrufreihenfolge, Nichtauskunft, Prozess)`)
+console.log(`start-budget-wache: ${faelle} Fälle grün (Annotation, Läufe ohne build-Job, Abruffehler, Prozess in der Wachphase)`)

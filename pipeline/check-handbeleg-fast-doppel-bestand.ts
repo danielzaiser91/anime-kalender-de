@@ -8,10 +8,12 @@
  */
 import { readFileSync } from 'node:fs'
 import { entferneFastDoppel } from './lib/handbeleg-fast-doppel.ts'
+import { ratschenZeilen } from './lib/handbeleg-fast-doppel-ratsche.ts'
 
 const bilanz = entferneFastDoppel(readFileSync('data/dub-confirmed.yaml', 'utf8'))
 if (bilanz.entfernt) {
   console.log(`⚠ WARNUNG Handbelege: ${bilanz.entfernt} Fast-Doppel (gleich bis auf das Prüfdatum) zusammenführbar — npx tsx tools/handbelege-fast-doppel.ts`)
 }
 if (bilanz.gemischt) console.log(`⚠ WARNUNG Handbelege: ${bilanz.gemischt} Fast-Doppel-Gruppe(n) aus Browser-Meldung und Handprüfung — von Hand ansehen`)
+for (const zeile of ratschenZeilen(bilanz)) console.log(zeile)
 console.log(`check-handbeleg-fast-doppel-bestand: ${bilanz.entfernt} zusammenführbar, ${bilanz.blockiert} blockiert, ${bilanz.gemischt} gemischt, ${bilanz.gruppen} Gruppen.`)

@@ -3,7 +3,8 @@
  * von `tools/start-budget.mjs`, im Lauf selbst unsichtbar) steht als eigene Zeile oben in `kettenlog.txt`. Ob der PR `web/` oder
  * Startdaten berührt, entscheidet der Prüfer am Diff (tools/claude-global/agents/pruefer.md).
  */
-import { WARNZEILE } from './start-budget-wache.mjs'
+// Warnzeile wörtlich aus `tools/start-budget.mjs` (dort `::warning::`, im Job-Log mit `##[warning]`-Präfix).
+const WARNZEILE = /start-budget: nur noch (\d+(?:\.\d+)?) KB Luft \(Warnung unter (\d+(?:\.\d+)?) KB\)/
 
 /** Eine Zeile je Job mit Warnstufe (Job-Name, Restluft, Schwelle); `jobs` sind { name, status, log } mit bereinigten Zeilen aus `zeilenVon`. */
 export function budgetHinweise(jobs, zeilenVon, name) {

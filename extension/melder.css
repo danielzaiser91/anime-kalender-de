@@ -1136,7 +1136,8 @@ button.ak-zu:hover { color: #e6edf3; }
   soll: eine Untergrenze für den kurzen Fall.
 */
 .ak-such-fuss-mitte {
-  flex: 0 0 max-content;
+  /* Schrumpft bis zur Hälfte und bricht dann um (07.11.2026: bei `flex-shrink: 0` ragte aniSearch aus dem Kasten). */
+  flex: 0 1 max-content;
   min-width: 50%;
 }
 
@@ -1784,6 +1785,14 @@ button.ak-zu:hover { color: #e6edf3; }
 
 /* Wiedergabeseite: Kasten weg, solange kein Durchgang läuft (Marke setzt box.js). */
 html.ak-im-player:not(.ak-durchgang) .ak-box {
+  display: none !important;
+}
+
+/* Netflix-Profilauswahl („Wer schaut gerade?"): alles der Erweiterung weg (netflix-profilwahl.js). */
+html.ak-profilwahl .ak-box,
+html.ak-profilwahl .ak-icon,
+html.ak-profilwahl .ak-dialog,
+html.ak-profilwahl .ak-schutzflaeche {
   display: none !important;
 }
 

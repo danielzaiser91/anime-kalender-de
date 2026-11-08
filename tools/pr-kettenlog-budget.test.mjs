@@ -35,9 +35,9 @@ gleich('Auflage-Quelle steht über den Job-Abschnitten', d.uebersicht.indexOf(HI
 gleich('ohne Warnstufe keine Auflage-Quelle', baueDateien({ kopf: SHA, lauf, jobs: [job('PR-Aussehen', MESS)] }).uebersicht.includes('AUFLAGE-QUELLE'), false)
 gleich('Job-Name mit Steuerzeichen bleibt einzeilig', baueDateien({ kopf: SHA, lauf, jobs: [job('A\nB', WARN)] }).uebersicht.includes('„A B“'), true)
 
-// Prüfer-Regel steht im Prüfer-Text
+// Prüfer-Regel (PR 3014) nennt die Zeile, auf die der Hinweis verweist
 const pruefer = readFileSync(new URL('./claude-global/agents/pruefer.md', import.meta.url), 'utf8')
-const regel = pruefer.split('\n').find((z) => z.includes('AUFLAGE-QUELLE start-budget')) ?? ''
-gleich('pruefer.md: Regelzeile nennt Zeile, Bedingung und Auflage', ['AUFLAGE-QUELLE start-budget', '`web/`', 'Startdaten', 'ist das eine Auflage'].map((s) => regel.includes(s)), [true, true, true, true])
+const regel = pruefer.split('\n').find((z) => z.includes('Start-Budget-Warnung')) ?? ''
+gleich('pruefer.md: Regelzeile nennt Zeile, Bedingung und Auflage', ['start-budget: nur noch', '`web/src`', 'Startdaten', 'ist das Auflage'].map((s) => regel.includes(s)), [true, true, true, true])
 
 console.log(`pr-kettenlog-budget: ${faelle} Fälle grün (Warnstufe je Job, Messzeile allein, laufender Job, baueDateien, Prüfer-Text)`)

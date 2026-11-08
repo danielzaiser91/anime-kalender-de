@@ -151,6 +151,7 @@ async function klicken({ frueher, kopf, adresse, seitenKennung, titel, verlassen
     titelVerlassen: verlassen,
     document: { querySelector: () => (kopf ? { dataset: { kennung: kopf } } : null) },
     abweisen: (g) => gruende.push(g),
+    abweisenMitGrund: (g) => gruende.push(g),
     WORKER: 'https://worker.test/pruefung',
     chrome: { storage: { sync: { get: async () => ({ token: 'tok' }) } } },
     setTimeout: () => 0,

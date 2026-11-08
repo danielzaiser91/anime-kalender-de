@@ -24,7 +24,7 @@ export const LOG_PAUSE_MS = 20_000
 const FEHL_LOG = '##[error]Log nicht abrufbar:'
 export const JE_JOB_ERGEBNIS = 450
 export const ZEILE_MAX = 300
-const ERGEBNIS = /(alles in Ordnung|Prüfungen grün|: (ok|grün)\b|\b\d+ von \d+\b|\b\d+ Fehler\b|\bFEHL\b|##\[error\]|^\s*[✖✕✗]|Process completed with exit code)/
+const ERGEBNIS = /(alles in Ordnung|Prüfungen grün|: (ok|grün)\b|\b\d+ von \d+\b|\b\d+ Fehler\b|\bFEHL\b|##\[error\]|^\s*[✖✕✗]|Process completed with exit code|(^|\]|\s)start-budget: )/
 // Ein Name landet in einer Textdatei, die der Prüfer liest: Steuerzeichen raus.
 const sauber = (text) => String(text).replace(/[\u0000-\u001f\u007f]+/g, ' ').slice(0, 80)
 
