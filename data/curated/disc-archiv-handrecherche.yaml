@@ -1,0 +1,91 @@
+# Bereits erschienene deutsche Disc-Ausgaben, von Hand belegt (F107-Handrecherche eines Agenten, 06.11.2026).
+# Nur Titel ohne Eintrag im aniSearch-Archiv. Beleg ist je Eintrag eine Einzelseite (bluray-disc.de/OFDb), nur Fakten übernommen.
+# Ein Eintrag ohne `buyUrl` und ohne EAN bekommt vom Build die Amazon.de-Namenssuche; eine EAN steht nur, wo die Beleg-Seite sie nennt.
+
+- slug: der-koenig-der-affen-limited-deluxe-edition-2022-11-25
+  anilistId: 6855
+  titleDe: "Der König der Affen"
+  platform: disc
+  releaseType: disc
+  publisher: "Action Cult (MT Films, Vertrieb 375 Media)"
+  edition: "Aufruhr im Himmelspalast – Limited Deluxe Edition, Blu-ray + DVD"
+  note: "Deutsche Tonspur (DTS-HD MA 2.0 Mono), limitiert auf 1.000 Exemplare."
+  schedule: { firstEpisodeDate: "2022-11-25" }
+  sources: [https://bluray-disc.de/blu-ray-filme/174541-aufruhr_im_himmelspalast_limited_deluxe_edition_bluray_dvd]
+
+- slug: die-wilden-schwaene-dvd-2024-11-08
+  anilistId: 3847
+  titleDe: "Die Wilden Schwäne"
+  platform: disc
+  releaseType: disc
+  publisher: "Anime Cult"
+  edition: "DVD"
+  ean: "4059251663324"
+  note: "Deutsche Tonspur (Dolby Digital 2.0 Mono), dazu Englisch."
+  schedule: { firstEpisodeDate: "2024-11-08" }
+  sources: [https://www.mediamarkt.de/de/product/_die-wilden-schwane-1977-dvd-2955729.html]
+
+- slug: voltron-verteidiger-des-universums-collection-1-dvd-2008-03-31
+  anilistId: 3609
+  titleDe: "Voltron: Verteidiger des Universums"
+  platform: disc
+  releaseType: disc
+  publisher: "Anime House"
+  edition: "Collection 1 (Folge 1-10), DVD"
+  ean: "4260039672401"
+  schedule: { firstEpisodeDate: "2008-03-31" }
+  sources: ["https://www.ofdb.de/fassung/21465,263793,Voltron-Der-Besch%C3%BCtzer-des-Universums/"]
+
+- slug: voltron-verteidiger-des-universums-collection-2-dvd-2008-08-25
+  anilistId: 3609
+  titleDe: "Voltron: Verteidiger des Universums"
+  platform: disc
+  releaseType: disc
+  publisher: "Anime House"
+  edition: "Collection 2 (Folge 11-19), DVD"
+  ean: "4260039672418"
+  schedule: { firstEpisodeDate: "2008-08-25" }
+  sources: ["https://www.ofdb.de/fassung/21465,263795,Voltron-Der-Besch%C3%BCtzer-des-Universums/"]
+
+- slug: voltron-verteidiger-des-universums-collection-3-dvd-2008-10-06
+  anilistId: 3609
+  titleDe: "Voltron: Verteidiger des Universums"
+  platform: disc
+  releaseType: disc
+  publisher: "Anime House"
+  edition: "Collection 3 (Folge 20-28), DVD"
+  ean: "4260039672425"
+  schedule: { firstEpisodeDate: "2008-10-06" }
+  sources: ["https://www.ofdb.de/fassung/21465,263796,Voltron-Der-Besch%C3%BCtzer-des-Universums/"]
+
+- slug: voltron-verteidiger-des-universums-collection-4-dvd-2009-01-26
+  anilistId: 3609
+  titleDe: "Voltron: Verteidiger des Universums"
+  platform: disc
+  releaseType: disc
+  publisher: "Anime House"
+  edition: "Collection 4 (Folge 29-37), DVD"
+  ean: "4260039672432"
+  schedule: { firstEpisodeDate: "2009-01-26" }
+  sources: ["https://www.ofdb.de/fassung/21465,263799,Voltron-Der-Besch%C3%BCtzer-des-Universums/"]
+
+- slug: voltron-verteidiger-des-universums-collection-5-dvd-2010-05-28
+  anilistId: 3609
+  titleDe: "Voltron: Verteidiger des Universums"
+  platform: disc
+  releaseType: disc
+  publisher: "Anime House"
+  edition: "Collection 5 (Folge 38-46), DVD"
+  ean: "4260039672449"
+  schedule: { firstEpisodeDate: "2010-05-28" }
+  sources: ["https://www.ofdb.de/fassung/21465,309743,Voltron-Der-Besch%C3%BCtzer-des-Universums/"]
+
+- slug: voltron-verteidiger-des-universums-collection-6-dvd-2011-04-29
+  anilistId: 3609
+  titleDe: "Voltron: Verteidiger des Universums"
+  platform: disc
+  releaseType: disc
+  publisher: "Anime House"
+  edition: "Collection 6 (Folge 47-52), DVD"
+  schedule: { firstEpisodeDate: "2011-04-29" }
+  sources: ["https://www.ofdb.de/fassung/21465,328560,Voltron-Der-Besch%C3%BCtzer-des-Universums/"]

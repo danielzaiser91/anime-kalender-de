@@ -49,9 +49,22 @@ try {
   assert.equal(b.status, 0)
   assert.equal(b.stdout, '', 'nichts mehr umzuschreiben, stand.md ausgenommen')
   assert.match(readFileSync(tmp + '/stand.md', 'utf8'), /file:\/\/\//)
+  const git = (...a) => spawnSync('git', ['-c', 'user.name=t', '-c', 'user.email=t@t', ...a], { cwd: tmp, encoding: 'utf8', timeout: 15000 })
+  assert.equal(git('init', '-q').status, 0)
+  const gepullt = tmp + '/jetzt/gepullt.md'
+  writeFileSync(gepullt, `[g](file:///${tmp}/g.md)\n`)
+  git('add', '-A')
+  assert.equal(git('commit', '-q', '-m', 'x').status, 0)
+  lauf({ tool_name: 'Bash', tool_input: { command: 'node x' } })
+  assert.match(readFileSync(gepullt, 'utf8'), /file:\/\/\//, 'frisch gepullte (unveränderte) Datei bleibt unberührt')
   writeFileSync(ziel, `[t](file:///${tmp}/a.md)\n`)
   lauf({ tool_name: 'Bash', tool_input: { command: 'node x' } })
   assert.equal(readFileSync(ziel, 'utf8'), '[t](../a.md)\n', 'Bash-Ereignis erfasst frisch geänderte Dateien')
+  assert.match(readFileSync(gepullt, 'utf8'), /file:\/\/\//, 'gepullte Datei bleibt auch neben einer geänderten unberührt')
+  const neu = tmp + '/jetzt/neu.md'
+  writeFileSync(neu, `[n](file:///${tmp}/n.md)\n`)
+  lauf({ tool_name: 'Bash', tool_input: { command: 'node x' } })
+  assert.equal(readFileSync(neu, 'utf8'), '[n](../n.md)\n', 'neue (ungetrackte) Datei wird umgeschrieben')
 } finally {
   rmSync(tmp, { recursive: true, force: true })
 }

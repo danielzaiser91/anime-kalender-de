@@ -399,7 +399,7 @@
   releaseType: disc
   publisher: "AniMoon Publishing"
   edition: "Limited Edition mit Sammelschuber, DVD & Blu-ray"
-  note: "Erhielt in Deutschland keine FSK-Freigabe."
+  hinweis: "Erhielt in Deutschland keine FSK-Freigabe."
   schedule: { firstEpisodeDate: "2026-08-28" }
   sources:
     - https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/

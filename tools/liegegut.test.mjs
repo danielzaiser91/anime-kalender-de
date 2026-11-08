@@ -4,12 +4,12 @@
  * 1508/1513 gleiche Entscheidung F39), Grenzen genau auf/über der Schwelle, Nichtauskunft und Startlogik als eigener Prozess.
  * Schwellen und Erwartungen stehen hier fest eingetragen (nicht aus dem Modul importiert).
  */
-import { spawnSync } from 'node:child_process'
+import { execFileSync, spawnSync } from 'node:child_process'
 import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
-import { offenePrs, checkStand, geteilteEntscheidungen, kopfZeitVon, kopfZeiten, liegegut, main, mainCommits, naechsterSchritt, signaleEinzel, stillstandSignal, ueberholtTreffer, urteile } from './liegegut.mjs'
+import { offenePrs, checkStand, geteilteEntscheidungen, kopfZeitVon, kopfZeiten, liegegut, main, grepMain, neueBezeichner, naechsterSchritt, signaleEinzel, stillstandSignal, ueberholtTreffer, urteile, JQ_PATCHES } from './liegegut.mjs'
 
 const fehler = []
 const pruefe = (name, ok, info) => {
@@ -122,24 +122,41 @@ console.log('liegegut: Signal 6 gleiche offene Entscheidung (Fälle 1508, 1513)'
   pruefe('„F390“ ist nicht F39', geteilteEntscheidungen([a, pr(1601, { body: 'F390' })]).size === 0)
 }
 
-console.log('liegegut: Signal 7 Überholt-Gegenprobe (Fälle 1437, 1371, 1386)')
+console.log('liegegut: Signal 7 Überholt über den Diff (Fehlalarme 07.11.2026: 7 von 7 nur wegen ähnlichem Titel)')
 {
-  const log = ['\x01ad6d02998\tfix(bau): Urteil-Ja löscht die JustWatch-Kennzeichnung (#1441)', 'pipeline/bau/urteil-schliesst-luecken.ts', '', '\x01bbbbbbbbb\tfeat: anderes Thema', 'pipeline/bau/urteil-schliesst-luecken.ts', '\x01ccccccccc\tfix: Urteil JustWatch Kennzeichnung', 'docs/x.md', ''].join('\n')
-  const commits = mainCommits(log)
-  pruefe('mainCommits liest drei Commits mit Dateien', commits.length === 3 && commits[0].hash === 'ad6d02998' && commits[1].dateien.length === 1 && commits[2].dateien[0] === 'docs/x.md', commits)
-  const titel1437 = 'fix(bau): spätes Urteil entfernt die JustWatch-Flagge am selben Weg'
-  const dateien = ['pipeline/bau/urteil-schliesst-luecken.ts']
-  pruefe('Datei + zwei Stichwörter → Treffer ad6d02998 (nur der)', ueberholtTreffer(titel1437, dateien, commits).map((c) => c.hash).join() === 'ad6d02998')
-  pruefe('Datei gleich, aber nur ein Stichwort (Urteil) → kein Treffer', ueberholtTreffer('Urteil schließt Lücke', dateien, commits).length === 0)
-  pruefe('zwei Stichwörter, aber keine gemeinsame Datei → kein Treffer', ueberholtTreffer(titel1437, ['andere.ts'], commits.slice(0, 1)).length === 0)
-  pruefe('Füllwort „statt“ zählt nicht als Stichwort', ueberholtTreffer('Stift hängt statt Stempel', ['d.ts'], [{ hash: 'x', betreff: 'Rand hängt statt Stempel', dateien: ['d.ts'] }]).length === 1 && ueberholtTreffer('Stift statt Marke', ['d.ts'], [{ hash: 'x', betreff: 'Rand statt Flagge', dateien: ['d.ts'] }]).length === 0)
-  pruefe('Stamm: „Termine“ trifft „Terminen“', ueberholtTreffer('Kanal Termine', ['d.ts'], [{ hash: 'x', betreff: 'Kanal Terminen', dateien: ['d.ts'] }]).length === 1)
-  const sammel = ['tools/check-logic-liste.txt', 'tools/check-bestand-liste.txt', 'data/dub-confirmed.yaml']
-  const gleichTitel = 'Kanal Termine Deutsch'
-  for (const datei of sammel) {
-    pruefe(`nur Sammeldatei ${datei} gemeinsam → kein Treffer`, ueberholtTreffer(gleichTitel, [datei], [{ hash: 'x', betreff: gleichTitel, dateien: [datei, 'fremd.ts'] }]).length === 0)
-  }
-  pruefe('Sammeldatei + echte gemeinsame Datei → Treffer', ueberholtTreffer(gleichTitel, [sammel[0], 'echt.ts'], [{ hash: 'x', betreff: gleichTitel, dateien: [sammel[0], 'echt.ts'] }]).length === 1)
+  const patch = (datei, zeilen) => `+++ b/${datei}\n@@ -1,3 +1,4 @@\n${zeilen.join('\n')}`
+  const neuP = patch('tools/a.mjs', ['+export function neueFunktion(x) {', '+const GRENZWERT = 5', '+const abc = 1', '+  return x', ' alt'])
+  const m = neueBezeichner(neuP)
+  pruefe('neue Bezeichner: Funktion und Konstante, kurzer Name (abc) nicht', JSON.stringify([...m]) === JSON.stringify([['tools/a.mjs', ['neueFunktion', 'GRENZWERT']]]), [...m])
+  pruefe('Name in entfernter UND hinzugefügter Zeile (Signaturänderung) ist nicht neu', neueBezeichner(patch('tools/a.mjs', ['-function bestehend(a) {', '+function bestehend(a, b) {'])).size === 0)
+  pruefe('Name nur in entfernter Zeile zählt nicht, Name davor in der Nachbardatei schon', JSON.stringify([...neueBezeichner(`${patch('x.ts', ['+const nurHier = 1'])}\n${patch('y.ts', ['-const nurHier = 1'])}`)]) === JSON.stringify([['x.ts', ['nurHier']]]))
+  pruefe('Nicht-Code (Doku, Daten) liefert keine Namen', neueBezeichner(patch('docs/x.md', ['+const dokuName = 1'])).size === 0 && neueBezeichner(patch('data/x.json', ['+const datenName = 1'])).size === 0)
+  pruefe('Typen und Klassen zählen, TS und tsx auch', JSON.stringify([...neueBezeichner(patch('web/src/k.tsx', ['+export type Zustand = 1', '+class Behaelter {'])).values()]) === JSON.stringify([['Zustand', 'Behaelter']]))
+  const stehtAlles = (_datei, namen) => namen.map((n, i) => `${10 + i}:  ${n} = 1`).join('\n')
+  const t = ueberholtTreffer(neuP, stehtAlles)
+  pruefe('alle neuen Namen stehen auf main → Treffer mit Fundstelle', t.map((x) => x.fundstelle).join() === 'tools/a.mjs:10 neueFunktion,tools/a.mjs:11 GRENZWERT', t)
+  pruefe('einer fehlt auf main → kein Treffer (verschiedene Namen, einer vorhanden)', ueberholtTreffer(neuP, (_d, namen) => namen.filter((n) => n === 'GRENZWERT').map((n) => `3:${n}`).join('\n')).length === 0)
+  pruefe('keiner steht auf main → kein Treffer (Titel ähnelt einem main-Commit, Inhalt neu)', ueberholtTreffer(neuP, () => '').length === 0)
+  pruefe('Teilwort auf main (GRENZWERT_MAX) ist kein Treffer für GRENZWERT', ueberholtTreffer(patch('a.ts', ['+const GRENZWERT = 5']), () => '4:const GRENZWERT_MAX = 6').length === 0)
+  pruefe('Wortende auf main (MAX_GRENZWERT) ist kein Treffer für GRENZWERT', ueberholtTreffer(patch('a.ts', ['+const GRENZWERT = 5']), () => '4:const MAX_GRENZWERT = 6').length === 0)
+  pruefe('PR ohne neue Bezeichner (nur Daten/Doku) → kein Treffer', ueberholtTreffer('', stehtAlles).length === 0 && ueberholtTreffer(patch('docs/x.md', ['+text']), stehtAlles).length === 0)
+
+  const werk = fs.mkdtempSync(path.join(os.tmpdir(), 'liegegut-git-'))
+  const echt = (args) => execFileSync('git', args, { cwd: werk, encoding: 'utf8', windowsHide: true, timeout: 20000 })
+  echt(['init', '-q'])
+  fs.writeFileSync(path.join(werk, 'lib.mjs'), 'export function vorhanden() {}\nconst anderes = 1\n')
+  echt(['add', 'lib.mjs'])
+  echt(['-c', 'user.name=t', '-c', 'user.email=t@t', 'commit', '-q', '-m', 'x'])
+  echt(['update-ref', 'refs/remotes/origin/main', 'HEAD'])
+  pruefe('echtes git: Treffer ohne Präfix, Zeilennummer vorn', grepMain(echt, 'lib.mjs', ['vorhanden']).trim() === '1:export function vorhanden() {}', grepMain(echt, 'lib.mjs', ['vorhanden']))
+  pruefe('echtes git: kein Treffer (Exit 1) → leer', grepMain(echt, 'lib.mjs', ['fehlt']) === '')
+  let geworfen = null
+  try { grepMain((a) => echt(a.map((x) => (x === 'origin/main' ? 'gibtesnicht' : x))), 'lib.mjs', ['vorhanden']) } catch (e) { geworfen = e }
+  pruefe('echtes git: unbekannter Ref (Exit 128) wirft, kein stilles „nichts“', geworfen !== null && geworfen.status === 128, geworfen?.status)
+  const gesamt = ueberholtTreffer(patch('lib.mjs', ['+export function vorhanden() {}', '+const anderes = 1']), (d, n) => grepMain(echt, d, n))
+  pruefe('echtes git: Patch gegen main-Stand → beide Namen belegt', gesamt.map((x) => x.fundstelle).join() === 'lib.mjs:1 vorhanden,lib.mjs:2 anderes', gesamt)
+  pruefe('echtes git: einer neu → kein Treffer', ueberholtTreffer(patch('lib.mjs', ['+const anderes = 1', '+const wirklichNeu = 2']), (d, n) => grepMain(echt, d, n)).length === 0)
+  fs.rmSync(werk, { recursive: true, force: true })
 }
 
 console.log('liegegut: Grenzen und Randfälle (Mutationsprobe 21.10.2026)')
@@ -181,15 +198,6 @@ console.log('liegegut: Grenzen und Randfälle (Mutationsprobe 21.10.2026)')
   pruefe('Ändern, Nachtrag-Kommentar, ok: kein Signal 2', !mitNachtrag.some((s) => s.nr === 2), mitNachtrag)
   const umgekehrt = signaleEinzel(pr(39, { comments: [bot(30, KOPF, 'ok'), bot(20, KOPF, 'aendern')] }), JETZT - 100 * 3600 * 1000, JETZT)
   pruefe('Ok, dann ändern: Signal 2 bleibt', umgekehrt.some((s) => s.nr === 2), umgekehrt)
-  const nur = (titel, commitBetreff) => ueberholtTreffer(titel, ['d.ts'], [{ hash: 'x', betreff: commitBetreff, dateien: ['d.ts'] }]).length
-  pruefe('Wörter unter 5 Buchstaben zählen nicht (Kanal + kein + eine)', nur('Kanal erbt kein Deutsch', 'Kanal erbt kein Brot') === 0 && nur('Kanal erbt Deutsch', 'Kanal erbt Deutsch') === 1)
-  pruefe('Stamm 6: Terminal ≠ Terminen reicht zusammen mit Kanal', nur('Kanal Terminen', 'Kanal Terminal') === 1)
-  pruefe('Stamm nicht kürzer: Sendeplan ≠ Sendezeit', nur('Kanal Sendeplan', 'Kanal Sendezeit') === 0)
-  pruefe('Stamm nicht länger: Termine = Terminen', nur('Kanal Termine', 'Kanal Terminen') === 1)
-  pruefe('Füllwort statt zählt nicht (statt + Stempel allein ist kein Treffer)', nur('Stift statt Stempel', 'Rand statt Stempel') === 0)
-  pruefe('Füllwörter nicht, keine, sowie, wieder, schon, gegen zählen nicht', nur('nicht keine sowie wieder schon gegen', 'nicht keine sowie wieder schon gegen') === 0)
-  const zweiDateien = [{ hash: 'x', betreff: 'Kanal Deutsch', dateien: ['d.ts', 'fremd.ts'] }]
-  pruefe('Commit mit zwei Dateien, eine gemeinsam → Treffer', ueberholtTreffer('Kanal Deutsch', ['d.ts'], zweiDateien).length === 1)
   const f = (titel) => pr(40, { title: titel, body: '' })
   pruefe('F-Nummer nur im Titel zählt', geteilteEntscheidungen([f('Regel F39'), pr(41, { body: 'F39' })]).size === 2)
 }
@@ -208,10 +216,11 @@ console.log('liegegut: nächster Schritt (Tabelle)')
 }
 
 // Gesamtlauf mit eingespeistem gh/git: Anlassfälle, Reihenfolge der Schritte
-const GIT_LOG = ['\x01ad6d02998\tfix(bau): Urteil-Ja löscht die JustWatch-Kennzeichnung (#1441)', 'pipeline/bau/urteil-schliesst-luecken.ts', '\x0159d384028\tfix: Alle Staffeln meldet nur gemeldete Staffeln (#1688)', 'extension/melder.js', ''].join('\n')
+const STAND_MAIN = { 'pipeline/bau/urteil-schliesst-luecken.ts': '7:export function loescheKennzeichnung(weg) {', 'extension/melder.js': '3:const MELDEKASTEN = 1' }
 const LISTE = [
   pr(1676, { comments: [bot(20, KOPF, 'ok')], title: 'feat(x): Freigabe liegt' }),
   pr(1437, { mergeable: 'CONFLICTING', mergeStateStatus: 'DIRTY', comments: [bot(40, KOPF, 'ok')], title: 'fix(bau): spätes Urteil entfernt die JustWatch-Flagge am selben Weg' }),
+  pr(1438, { mergeable: 'CONFLICTING', mergeStateStatus: 'DIRTY', comments: [bot(40, KOPF, 'ok')], title: 'fix(bau): spätes Urteil entfernt die JustWatch-Flagge am selben Weg' }),
   pr(1530, { mergeable: 'CONFLICTING', mergeStateStatus: 'DIRTY', comments: [bot(40, KOPF, 'ok')], title: 'fix(kalender): Termine ohne Beleg raus' }),
   pr(1397, { comments: [bot(60, KOPF, 'ok'), daniel(59, 'Prüfer Runde 4: ändern')], title: 'fix(extension): Meldekasten' }),
   pr(1513, { comments: [daniel(60, 'Prüfer: freigeben'), bot(59, KOPF, 'aendern')], body: 'F39', title: 'Regel Uhrzeit' }),
@@ -220,16 +229,26 @@ const LISTE = [
   pr(1390, { comments: [bot(30, KOPF, 'aendern')], title: 'feat(netflix): Meldung meldet die Staffel' }),
   pr(1701, { comments: [daniel(2, 'frisch')] }),
 ]
+// Patch je PR: 1437/1390 bringen Namen, die auf main schon stehen; 1438 hat denselben Titel wie 1437, aber einen neuen Namen; alle anderen eine neue Datei.
+const patchVon = (url) => {
+  const text = (datei, zeile) => `+++ b/${datei}\n@@ -1 +1,2 @@\n+${zeile}\n`
+  if (url.includes('/1437/')) return text('pipeline/bau/urteil-schliesst-luecken.ts', 'export function loescheKennzeichnung(weg) {')
+  if (url.includes('/1390/')) return text('extension/melder.js', 'const MELDEKASTEN = 1')
+  if (url.includes('/1438/')) return text('pipeline/bau/urteil-schliesst-luecken.ts', 'export function ganzAndereSache(weg) {')
+  return text('andere.ts', 'const voelligNeuHier = 1')
+}
 const attrappeGh = (liste, aufrufe = []) => (args) => {
   aufrufe.push(args.join(' '))
   if (args[0] === 'pr') return JSON.stringify(liste)
   if (args[1].includes('/commits/')) return h(100)
-  if (args[1].endsWith('/files')) return args[1].includes('/1437/') ? 'pipeline/bau/urteil-schliesst-luecken.ts\n' : args[1].includes('/1390/') ? 'extension/melder.js\n' :'andere.ts\n'
+  if (args[1].endsWith('/files')) return patchVon(args[1])
   throw new Error(`unerwartet: ${args.join(' ')}`)
 }
-const attrappeGit = (log = GIT_LOG, aufrufe = []) => (args) => {
+const attrappeGit = (stand = STAND_MAIN, aufrufe = []) => (args) => {
   aufrufe.push(args.join(' '))
-  return log
+  const datei = args.at(-1)
+  if (stand[datei] === undefined) throw Object.assign(new Error('git grep: kein Treffer'), { status: 1 })
+  return `origin/main:${datei}:${stand[datei]}\n`
 }
 
 console.log('liegegut: Kopf-Zeiten in einem Aufruf')
@@ -272,21 +291,22 @@ console.log('liegegut: Gesamtlauf mit Anlassfällen')
 {
   const gh = []
   const git = []
-  const zeilen = liegegut(attrappeGh(LISTE, gh), attrappeGit(GIT_LOG, git), JETZT)
+  const zeilen = liegegut(attrappeGh(LISTE, gh), attrappeGit(STAND_MAIN, git), JETZT)
   const nach = (n) => zeilen.find((z) => z.startsWith(`PR ${n}:`))
   pruefe('1676 → MERGEN mit „keine Treffer“', /^PR 1676: MERGEN – Signal 1 Freigabe \+ grün \+ ruhend – seit \d\d\.\d\d\. [\d:]+; Gegenprobe: keine Treffer$/.test(nach(1676) ?? ''), nach(1676))
-  pruefe('1437 → ÜBERHOLT? mit Treffer ad6d02998', /^PR 1437: ÜBERHOLT\? – Signal 3 Konflikt liegt.*Treffer ad6d02998/.test(nach(1437) ?? ''), nach(1437))
+  pruefe('1437 → ÜBERHOLT? mit Fundstelle der Funktion auf main', /^PR 1437: ÜBERHOLT\? – Signal 3 Konflikt liegt.*Treffer pipeline\/bau\/urteil-schliesst-luecken\.ts:7 loescheKennzeichnung$/.test(nach(1437) ?? ''), nach(1437))
+  pruefe('1438 gleicher Titel und gleiche Datei wie 1437, aber neuer Name → NACHBESSERN, kein Fehlalarm', /^PR 1438: NACHBESSERN – Signal 3 .*keine Treffer$/.test(nach(1438) ?? ''), nach(1438))
   pruefe('1530 → NACHBESSERN (Konflikt, kein Treffer)', /^PR 1530: NACHBESSERN – Signal 3 .*keine Treffer$/.test(nach(1530) ?? ''), nach(1530))
   pruefe('1397 → NACHBESSERN (Daniel ändern zuletzt)', /^PR 1397: NACHBESSERN – Signal 2/.test(nach(1397) ?? ''), nach(1397))
   pruefe('1513 → DANIEL (Bot zuletzt, F39)', /^PR 1513: DANIEL – Signal 2 .*; 5 .*; 6 Gleiche offene Entscheidung F39/.test(nach(1513) ?? ''), nach(1513))
   pruefe('1508 → DANIEL (nur F39 geteilt), ohne Gegenprobe', /^PR 1508: DANIEL – Signal 6 Gleiche offene Entscheidung F39 – seit \d\d\.\d\d\. [\d:]+$/.test(nach(1508) ?? ''), nach(1508))
-  pruefe('1390 nur Signal 5 mit Treffer → ÜBERHOLT? (Gegenprobe läuft auch für Signal 5)', /^PR 1390: ÜBERHOLT\? – Signal 5 .*Treffer 59d384028/.test(nach(1390) ?? ''), nach(1390))
+  pruefe('1390 nur Signal 5 mit Treffer → ÜBERHOLT? (Gegenprobe läuft auch für Signal 5)', /^PR 1390: ÜBERHOLT\? – Signal 5 .*Treffer extension\/melder\.js:3 MELDEKASTEN$/.test(nach(1390) ?? ''), nach(1390))
   pruefe('„seit“ 1508: Kopf-Commit (17.10. 11:00 Berlin)', (nach(1508) ?? '').endsWith('seit 17.10. 11:00'), nach(1508))
   pruefe('„seit“ 1513: frühester Zeitpunkt aller Signale (Kopf-Commit des Signals 6)', (nach(1513) ?? '').includes('seit 17.10. 11:00;'), nach(1513))
   pruefe('„seit“ 1676: Kommentar (20.10. 19:00 Berlin)', (nach(1676) ?? '').includes('seit 20.10. 19:00;'), nach(1676))
   pruefe('Entwurf und frischer PR ohne Zeile', nach(1700) === undefined && nach(1701) === undefined)
   pruefe('Gegenprobe nur für Signale 1, 3, 5: 1508 (nur Signal 6) ruft die Dateiliste nicht ab', !gh.some((a) => a.includes('/pulls/1508/files')) && gh.some((a) => a.includes('/pulls/1437/files')))
-  pruefe('git log mit origin/main, Beginn am PR-Datum und Dateinamen', git.length > 0 && git.every((a) => a === `log origin/main --since=${h(200)} --name-only --format=%x01%h%x09%s`), git)
+  pruefe('git grep auf origin/main, je PR eine Datei, nie git log', git.length > 0 && git.every((a) => /^grep -n -w -F -e \S+ origin\/main -- \S+$/.test(a)), git)
 }
 
 console.log('liegegut: Nichtauskunft und Startlogik')
@@ -299,7 +319,7 @@ console.log('liegegut: Nichtauskunft und Startlogik')
   pruefe('gh wirft → Exit 2', main(() => { throw new Error('HTTP 502') }, attrappeGit(), (t) => aus.push(t), JETZT) === 2 && /FEHLER HTTP 502/.test(aus.join()))
   const ok = []
   const code = main(attrappeGh(LISTE), attrappeGit(), (t) => ok.push(t), JETZT)
-  pruefe('Funde → Exit 0 und Schlusszeile mit Zahl', code === 0 && ok.at(-1) === 'liegegut: 7 auffällige PRs', ok.at(-1))
+  pruefe('Funde → Exit 0 und Schlusszeile mit Zahl', code === 0 && ok.at(-1) === 'liegegut: 8 auffällige PRs', ok.at(-1))
   const leer = []
   pruefe('ohne Funde → Exit 0, „0 auffällige PRs“', main(attrappeGh([pr(1, { comments: [daniel(2, 'frisch')] })]), attrappeGit(), (t) => leer.push(t), JETZT) === 0 && leer.at(-1) === 'liegegut: 0 auffällige PRs')
 }
@@ -375,8 +395,7 @@ console.log('liegegut: eigener Prozess (Vorlader tools/pr-nachrechnen-mock.mjs)'
     'pr list --state open --limit 100 --json number,reviews,statusCheckRollup': { aus: JSON.stringify([frei]) },
     'pr list --state open --limit 100 --json number,comments': { aus: JSON.stringify([frei]) },
     [`api repos/{owner}/{repo}/commits/${KOPF} --jq .commit.committer.date`]: { aus: '2026-10-20T10:40:00Z\n' },
-    'api repos/{owner}/{repo}/pulls/1676/files --paginate --jq .[].filename': { aus: 'tools/x.mjs\n' },
-    [`log origin/main --since=${frei.createdAt} --name-only --format=%x01%h%x09%s`]: { aus: '' },
+    [`api repos/{owner}/{repo}/pulls/1676/files --paginate --jq ${JQ_PATCHES}`]: { aus: '+++ b/tools/x.mjs\n@@ -1 +1,2 @@\n+nagel = 1\n' },
   }
   fs.writeFileSync(path.join(werk, 'daten.json'), JSON.stringify(daten))
   const vorlader = pathToFileURL(fileURLToPath(new URL('./pr-nachrechnen-mock.mjs', import.meta.url))).href

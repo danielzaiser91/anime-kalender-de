@@ -1,6 +1,6 @@
 # Aufträge für Daniel
 
-Alles, wofür ich dich brauche, steht hier — nummeriert, je Punkt ein Link, Vorher / Erwartet / Falsch, wenn …. Entscheidungen und Erledigtes stehen in [archiv/entscheidungen-und-erledigt.md](file:///C:/code/ai/_wtumbau/daniel-zum-abarbeiten/archiv/entscheidungen-und-erledigt.md).
+Alles, wofür ich dich brauche, steht hier — nummeriert, je Punkt ein Link, Vorher / Erwartet / Falsch, wenn …. Entscheidungen und Erledigtes stehen in [archiv/entscheidungen-und-erledigt.md](../../_wtumbau/daniel-zum-abarbeiten/archiv/entscheidungen-und-erledigt.md).
 
 Stand: 08.10.2026 03:10
 
@@ -17,6 +17,6 @@ Stand: 08.10.2026 03:10
 
 ## Offen
 
-4. **Entscheidung: Hosting** (Recherche liegt vor: [hosting-vergleich-2026-10-06.md](file:///C:/code/ai/anime-kalender-de/docs/wissen/hosting-vergleich-2026-10-06.md))
+4. **Entscheidung: Hosting** (Recherche liegt vor: [hosting-vergleich-2026-10-06.md](../docs/wissen/hosting-vergleich-2026-10-06.md))
    Empfehlung: GitHub Pages vorerst behalten und Cloudflare (Workers Static Assets, 0 €, Zone liegt schon dort) als zweites Deploy-Ziel vorbereiten. Umschalten, wenn die 30-Tage-Messung (`site_probe`) unter 99,9 % liegt oder ein Ausfall der ausgelieferten Seite belegt ist. Pages bleibt dann als Rückfall.
    - Sag „so", oder was du anders willst (z. B. gleich eigener Server).
