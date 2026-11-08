@@ -82,6 +82,7 @@ export const LAUF_ARTEN = [
   'Abnahme — Freigabe',
   'Mutationsprobe',
   'Nacht-Merger',
+  'Zug — Fahrt',
 ]
 
 /** Alle Abfragen dieses Moduls — für den Prüflauf. */
