@@ -13,6 +13,7 @@ import { schreibeNurOriginalton } from '../lib/nur-originalton-liste.ts'
 import { todayIso, addDays } from '../../shared/time.ts'
 import { type TvSendung } from '../fetch-tv-programm.ts'
 import { type WikiListen, sendungNeuZuordnen, releasesAusTvProgramm, sendungenAnhaengen } from '../lib/tv-termine.ts'
+import { belegeHandTermine } from '../lib/tv-hand-belege.ts'
 import { type AnisearchFolgen, anisearchFolgenListe, kennungenVereint } from '../lib/anisearch-folgen-liste.ts'
 import { anisearchKennungen } from './anisearch-kennung.ts'
 import { quellenPflegen } from './nebendateien.ts'
@@ -74,6 +75,8 @@ export function ergaenzeTermineAusNewsUndTv({ titles, releases }: {
   const tvZugeordnet = sendungNeuZuordnen(tvProgramm, titles, tvFolgenListen)
   const ausTv = releasesAusTvProgramm(tvZugeordnet, titles, releases, tvFolgenListen)
   releases.push(...ausTv)
+  const handBelegt = belegeHandTermine(releases, tvZugeordnet, titles, tvFolgenListen)
+  if (handBelegt) log(`${handBelegt} Hand-TV-Termine mit den Tagen ihrer gesichteten Folgen belegt`)
   sendungenAnhaengen(releases, tvZugeordnet, addDays(todayIso(), -1), tvFolgenListen)
   if (ausTv.length) log(`${ausTv.length} TV-Termine aus dem RTL+-Programm: ${ausTv.map((r) => `${r.name} (${r.sender})`).join(', ')}`)
 

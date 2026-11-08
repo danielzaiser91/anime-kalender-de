@@ -1,6 +1,6 @@
 {
   "format": 2,
-  "stand": "2026-11-07",
+  "stand": "2026-11-08",
   "hinweis": "Vorschlagsmodus: nur gelesen, nie übernommen — docs/wissen/sammelartikel-poc.md (Abschnitt „Vorschlagslauf\"). Schreiber: pipeline/fetch-sammelartikel.ts",
   "aussagen": [
     {
@@ -13784,7 +13784,7 @@
     {
       "id": "https://www.anime2you.de/news/1068059/prime-video-devils-crest-und-mehr/|Devils‘ Crest||start|primevideo",
       "erstGesehen": "2026-11-07",
-      "fingerabdruck": "733279add23f",
+      "fingerabdruck": "49c9c52d64bf",
       "offenOderUnklar": false,
       "ergebnis": {
         "quelle": {
@@ -13808,16 +13808,20 @@
         "zitat": "»Devils‘ Crest« (Simulcast)\n»Devils‘ Crest« (Simulcast)\nEpisoden: 2 verfügbar\nSprache: Deutsch, Japanisch (UT)\nSimulcast: Jeden Freitag eine neue Episode\nStream: Prime Video",
         "zuordnung": {
           "anilistId": 203275,
-          "name": "Devils' Crest",
-          "wie": "name+start",
-          "abstandTage": 0
+          "name": "Devils’ Crest",
+          "wie": "name-genau"
         },
         "bestand": {
-          "status": "neu",
-          "hatSynchroBelege": false
+          "status": "bekannt",
+          "release": {
+            "slug": "devils-crest-primevideo",
+            "firstEpisodeDate": "2026-11-06"
+          },
+          "hatSynchroBelege": true
         },
         "inhaltZeichen": 367
-      }
+      },
+      "geaendert": "2026-11-08"
     },
     {
       "id": "https://www.anime2you.de/news/1068059/prime-video-devils-crest-und-mehr/|Pet||start|primevideo",
@@ -13854,6 +13858,83 @@
           "hatSynchroBelege": true
         },
         "inhaltZeichen": 362
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1068951/crunchyroll-black-clover-second-season-synchro-und-mehr/|Black Clover Second Season||start|crunchyroll+primevideo",
+      "erstGesehen": "2026-11-08",
+      "fingerabdruck": "f2472eae55c3",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1068951/crunchyroll-black-clover-second-season-synchro-und-mehr/",
+          "veroeffentlicht": "2026-11-07",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Black Clover Second Season",
+        "art": "start",
+        "plattformen": [
+          "crunchyroll",
+          "primevideo"
+        ],
+        "deutsch": "ja",
+        "woechentlich": true,
+        "zeit": "16:00",
+        "konfidenz": 0.6,
+        "gruende": [
+          "kein Tag genannt"
+        ],
+        "zitat": "»Black Clover Second Season« (Synchro)\n»Black Clover Second Season« (Synchro)\nEpisoden: 1 auf Deutsch verfügbar\nSprache: Deutsch, Japanisch (UT)\nSimulcast: Jeden Samstag um 16:00 Uhr (OmU) und 17:00 Uhr (Dub)\nStream: Crunchyroll, Prime Video",
+        "zuordnung": {
+          "anilistId": 195604,
+          "name": "Black Clover: Staffel 2",
+          "wie": "name-genau"
+        },
+        "bestand": {
+          "status": "bekannt",
+          "release": {
+            "slug": "black-clover-s2-crunchyroll",
+            "firstEpisodeDate": "2026-10-03"
+          },
+          "ankuendigung": {
+            "omuAb": "2026-10-03",
+            "synchro": "angekuendigt"
+          },
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 340
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1068951/crunchyroll-black-clover-second-season-synchro-und-mehr/|ANI-ROCK FES. 2024: My Hero Academia PLUS ULTRA LIVE||start|crunchyroll",
+      "erstGesehen": "2026-11-08",
+      "fingerabdruck": "ce60f13c9968",
+      "offenOderUnklar": true,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1068951/crunchyroll-black-clover-second-season-synchro-und-mehr/",
+          "veroeffentlicht": "2026-11-07",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "ANI-ROCK FES. 2024: My Hero Academia PLUS ULTRA LIVE",
+        "art": "start",
+        "plattformen": [
+          "crunchyroll"
+        ],
+        "deutsch": "nein",
+        "konfidenz": 0.6,
+        "gruende": [
+          "Sprache: Japanisch (UT)",
+          "kein Tag genannt"
+        ],
+        "zitat": "»ANI-ROCK FES. 2024: My Hero Academia PLUS ULTRA LIVE«\nLaufzeit: 114 Minuten\nSprache: Japanisch (UT)\nStream: Crunchyroll",
+        "offen": {
+          "grund": "kein Titel mit diesem Namen",
+          "kandidaten": []
+        },
+        "bestand": {
+          "status": "ohne-zuordnung"
+        }
       }
     }
   ]

@@ -6,13 +6,14 @@
 import { readFileSync } from 'node:fs'
 import yaml from 'js-yaml'
 import { findeFremdeNoteAsins, NOTE_ASIN_ALTFAELLE } from './lib/handbeleg-note-asin.ts'
-import { ALTFAELLE } from './lib/handbeleg-notizseite-altfaelle.ts'
+import { leseAltfaelle } from './lib/handbeleg-notizseite-altfaelle.ts'
 import type { BlockSeite } from './lib/handbeleg-notizseite.ts'
 import { meldeVerletzte } from './lib/quarantaene.ts'
 
 const titel = JSON.parse(readFileSync('public/data/titles.json', 'utf8')) as { id: number }[]
 const belege = (yaml.load(readFileSync('data/dub-confirmed.yaml', 'utf8')) as BlockSeite[] | null) ?? []
-const treffer = findeFremdeNoteAsins(belege).filter((t) => !ALTFAELLE.includes(t))
+const ALTFAELLE_LISTE = leseAltfaelle()
+const treffer = findeFremdeNoteAsins(belege).filter((t) => !ALTFAELLE_LISTE.includes(t))
 const neu = treffer.filter((t) => !NOTE_ASIN_ALTFAELLE.includes(t))
 const neuIds = new Set(neu.map((t) => Number(t.split('@')[0])))
 meldeVerletzte(titel, 'handbeleg-note-asin', 'Handbeleg mit der Notizseite eines anderen Titels', (t) => neuIds.has(t.id))

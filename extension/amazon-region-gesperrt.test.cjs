@@ -17,7 +17,7 @@ function pruefe(name, ok, gefunden) {
   console.error(`  ✗ ${name}${gefunden === undefined ? '' : ` — gefunden: ${JSON.stringify(gefunden)}`}`)
 }
 
-const quelle = readFileSync(resolve(__dirname, 'amazon.js'), 'utf8')
+const quelle = readFileSync(resolve(__dirname, 'amazon-knopf-zeichnen.js'), 'utf8') + readFileSync(resolve(__dirname, 'amazon.js'), 'utf8')
 const kasten = {}
 kasten.globalThis = kasten
 vm.runInNewContext(readFileSync(resolve(__dirname, 'prime-region.js'), 'utf8'), kasten)
@@ -78,13 +78,13 @@ const klickCode = stueck("const nichtAbrufbar = knopf.dataset.tot === 'true'", '
 function klick({ tot = 'false', geladen, gesperrt, soll, deutsch = false, regionDom = [] }) {
   const knopf = { dataset: { tot }, textContent: '', title: '' }
   const f = new Function(
-    'knopf', 'sprachenAusFolgen', 'geladeneFolgen', 'deutschInFolgen', 'gesehen', 'seitenLage', 'ueberKanal', 'setTimeout', 'zeichnen', 'abweisen', 'globalThis',
+    'knopf', 'sprachenAusFolgen', 'geladeneFolgen', 'deutschInFolgen', 'gesehen', 'seitenLage', 'ueberKanal', 'setTimeout', 'zeichnen', 'abweisen', 'abweisenMitGrund', 'globalThis',
     `let letzterStand = ''\n${klickCode}\nreturn 'weiter'`,
   )
   const ergebnis = f(
     knopf, () => [], () => geladen, () => deutsch,
     { gesamt: soll, gesperrt: gesperrt ? karte(gesperrt) : undefined },
-    () => ({ folgenLautSeite: 0, regionFolgen: regionDom }), () => false, () => 0, () => {}, () => {}, kasten,
+    () => ({ folgenLautSeite: 0, regionFolgen: regionDom }), () => false, () => 0, () => {}, () => {}, () => {}, kasten,
   )
   return { ergebnis, text: knopf.textContent }
 }

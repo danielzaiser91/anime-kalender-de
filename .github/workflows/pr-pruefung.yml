@@ -13,7 +13,7 @@ name: PR-Prüfkette
 
 on:
   pull_request:
-    branches: [main]
+    branches: [main, zug]
     types: [opened, synchronize, reopened, ready_for_review]
 
 permissions:
@@ -212,12 +212,20 @@ jobs:
             befehl: npm run check:ansichten-desktop
           - teil: Ansichten Handy
             befehl: npm run check:ansichten-handy
+          - teil: Ansichtswechsel
+            befehl: npm run check:cls-wechsel
           - teil: Einstellungen
             befehl: npm run check:einstellungen
           - teil: Suchhinweis
             befehl: npm run check:suchhinweis
           - teil: Bühne-Fenster
             befehl: npm run check:buehne-fenster
+          - teil: Bühne-Messen
+            befehl: npm run check:buehne-messen
+          - teil: Bühne-Panel
+            befehl: npm run check:buehne-panel
+          - teil: Melde-Kasten
+            befehl: npm run check:kasten
     steps:
       - uses: actions/checkout@v4
         with:
@@ -253,8 +261,14 @@ jobs:
           PFADE="$PFADE|^tools/ansicht-tv-reihe\.mjs$"
           PFADE="$PFADE|^tools/bau-vergleich-log\.mjs$"
           PFADE="$PFADE|^tools/bilder-ordner\.mjs$"
+          PFADE="$PFADE|^tools/browser-weiche\.mjs$"
           PFADE="$PFADE|^tools/buehne-fenster-pruefen\.mjs$"
+          PFADE="$PFADE|^tools/buehne-messen\.mjs$"
+          PFADE="$PFADE|^tools/buehne-messung\.mjs$"
+          PFADE="$PFADE|^tools/buehne-panel-pruefen\.mjs$"
           PFADE="$PFADE|^tools/buehne-seite\.mjs$"
+          PFADE="$PFADE|^tools/buehne-zustand-pruefen\.mjs$"
+          PFADE="$PFADE|^tools/cls-wechsel\.mjs$"
           PFADE="$PFADE|^tools/dist-frisch\.mjs$"
           PFADE="$PFADE|^tools/duell-urteil\.mjs$"
           PFADE="$PFADE|^tools/ecken-urteil\.mjs$"
@@ -264,6 +278,7 @@ jobs:
           PFADE="$PFADE|^tools/kachel-ecken-live\.mjs$"
           PFADE="$PFADE|^tools/kachel-ecken-messen\.mjs$"
           PFADE="$PFADE|^tools/linux-schrift\.mjs$"
+          PFADE="$PFADE|^tools/melder-kasten-bild\.mjs$"
           PFADE="$PFADE|^tools/panel-abschnitt\.mjs$"
           PFADE="$PFADE|^tools/panel-bild\.mjs$"
           PFADE="$PFADE|^tools/panel-messen\.mjs$"
@@ -277,6 +292,7 @@ jobs:
           PFADE="$PFADE|^tools/schwerer-lauf\.mjs$"
           PFADE="$PFADE|^tools/such-chip-messen\.mjs$"
           PFADE="$PFADE|^tools/suchhinweis-quickfix-pruefen\.mjs$"
+          PFADE="$PFADE|^tools/tempo-kern\.mjs$"
           PFADE="$PFADE|^tools/termin-karte-urteil\.mjs$"
           PFADE="$PFADE|^tools/trefferprobe-ausnahmen\.mjs$"
           PFADE="$PFADE|^tools/trefferprobe-browser\.mjs$"
