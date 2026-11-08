@@ -162,6 +162,9 @@ export function traegerJeSeite(): Map<number, number[]> {
   return traeger
 }
 
+/** Ende nur, wenn belegt; der Starttag gilt als Ende nur bei einem Einzeltermin (Film; bei AniList: FINISHED), ein laufender Titel hat keins. */
+export const jpEndAusAnisearch = (bis: string | undefined, von: string | undefined, einzeltermin: boolean): string | undefined => bis ?? (einzeltermin ? von : undefined)
+
 /**
  * Legt die Titel an, die bei uns noch keine eigene aniSearch-Kennung tragen. Gibt zurück, wie viele es sind.
  * @param frei Seiten, die trotz Träger eine Zeile bekommen: die ein Sammeltitel trägt, der in seine Seiten zerfällt (`freizugebendeSeiten`).
@@ -189,7 +192,7 @@ export function ergaenzeAnisearchTitel(titles: Map<number, Title>, jpStart: Map<
       format: FORMAT[e.ty] ?? 'SPECIAL',
       episodes: e.f,
       jpYear: e.y,
-      jpEnd: e.bis ?? e.von,
+      jpEnd: jpEndAusAnisearch(e.bis, e.von, FORMAT[e.ty] === 'MOVIE'),
       genres: [],
       keywords: [],
       studios: e.st ?? [],
