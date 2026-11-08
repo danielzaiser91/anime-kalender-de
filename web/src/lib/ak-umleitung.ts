@@ -1,5 +1,5 @@
 import { loadJson } from './data.ts'
-import { umleiteKarte, umleiteListe } from './ak-umleiten.ts'
+import { adresseHatTitel, adresseNachfolger, umleiteKarte, umleiteListe } from './ak-umleiten.ts'
 
 /**
  * **Zusammengeführte Titel ziehen in gemerkten Listen auf ihren Nachfolger um** (Dubletten, 08.10.2026).
@@ -27,18 +27,15 @@ function anwenden(abbild: Map<number, number>): void {
   }
 }
 
-/** Eine geöffnete Adresse `#/…?t=<Cartoon>`: Cartoons, die als Anime geführt werden, stehen mit ihrer negativen Kennung in `ak-umleitung.json`. */
-const CARTOON_IN_ADRESSE = /([?&]t=)(-\d+)(?!\d)/
-
+/** Eine geöffnete Adresse `/t/<ak>/` oder `#/…?t=<ak>` (zusammengelegte Titel, Cartoons mit negativer Kennung) zeigt auf den Nachfolger. */
 function adresseUmschreiben(abbild: Map<number, number>): void {
-  const treffer = CARTOON_IN_ADRESSE.exec(location.hash)
-  const ziel = treffer && abbild.get(Number(treffer[2]))
-  if (ziel) history.replaceState(history.state, '', `${location.pathname}${location.search}${location.hash.replace(CARTOON_IN_ADRESSE, `$1${ziel}`)}`)
+  const neu = adresseNachfolger(location.pathname, location.hash, abbild)
+  if (neu) history.replaceState(history.state, '', `${neu.pfad}${location.search}${neu.hash}`)
 }
 
 async function umleiten(): Promise<void> {
   try {
-    const mitAdresse = CARTOON_IN_ADRESSE.test(location.hash)
+    const mitAdresse = adresseHatTitel(location.pathname, location.hash)
     if (!mitAdresse && ![...LISTEN, ...KARTEN].some((k) => localStorage.getItem(k))) return
     const paare = await loadJson<[number, number][]>('ak-umleitung.json')
     if (mitAdresse) adresseUmschreiben(new Map(paare))

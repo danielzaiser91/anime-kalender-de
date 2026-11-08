@@ -4,7 +4,7 @@
  * Aufruf: npx tsx pipeline/check-beleg-wand.ts   (Exit 1 bei Verstoß)
  */
 import { chromium, type Browser, type Page } from 'playwright'
-import { faelleDurchlaufen } from './lib/screenshot-wiederholen.ts'
+import { faelleMitFrischemBrowser, mitFrischemBrowser } from './lib/screenshot-wiederholen.ts'
 import { sperreNetz } from '../tools/netz-sperre.mjs'
 import { belegAusschnitt, istEinfarbig, stuetzbegriffe } from './lib/beleg-bild.ts'
 import { warteschlange, type BelegGedaechtnis } from './lib/beleg-lesung.ts'
@@ -71,9 +71,14 @@ async function pruefeAufSeite(seite: Page, f: Fall): Promise<boolean> {
   return ok
 }
 
-const browser = await chromium.launch()
-let fehler = await faelleDurchlaufen(faelle, (f) => pruefeFall(browser, f), console.log)
-await browser.close()
+/* Die Wiederholung nimmt einen frischen Browser: eine neue Seite im selben Browser scheiterte am selben Fehler. */
+const browser = mitFrischemBrowser(await chromium.launch(), () => chromium.launch(), (b) => b.close())
+let fehler: number
+try {
+  fehler = await faelleMitFrischemBrowser(faelle, browser, pruefeFall, console.log)
+} finally {
+  await browser.browser().close()
+}
 /* Kinoheld sucht zuerst „Veröffentlichung“, andere Seiten nur ihre eigenen Begriffe. */
 const sb = [stuetzbegriffe('https://www.kinoheld.de/film/x', ['A']), stuetzbegriffe('https://kinoheld.de/film/x', ['A']), stuetzbegriffe('https://www.joyn.de/serien/x', ['A'])]
 const sbOk = sb[0]!.join() === 'Veröffentlichung,A' && sb[1]!.join() === 'Veröffentlichung,A' && sb[2]!.join() === 'A'

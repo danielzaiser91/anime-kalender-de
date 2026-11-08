@@ -1,0 +1,8 @@
+[
+  { "name": "Kontrolle unmutiert", "aenderungen": [] },
+  { "name": "Anker pr_anlegen entfernt", "datei": "tools/sammler-pruefschritt-waechter.mjs", "suche": "prSh.indexOf('pr_anlegen || exit 1')", "ersetze": "prSh.indexOf('quellen_bauprobe)\" || PRUEF_ROT=1')" },
+  { "name": "echo-Filter entfernt", "datei": "tools/sammler-pruefschritt-waechter.mjs", "suche": ".filter((z) => !/^\\s*echo\\b[^;&|`]*$/.test(z) || z.includes('$(')).join('\\n')", "ersetze": ".join('\\n')" },
+  { "name": "echo-Filter ohne Unterbefehl-Ausnahme", "datei": "tools/sammler-pruefschritt-waechter.mjs", "suche": " || z.includes('$(')", "ersetze": "" },
+  { "name": "echo-Filter lässt Verkettung durch", "datei": "tools/sammler-pruefschritt-waechter.mjs", "suche": "[^;&|`]*$/.test(z)", "ersetze": ".*$/.test(z)" },
+  { "name": "Anzahl gh pr create >= 1", "datei": "tools/sammler-pruefschritt-waechter.mjs", "suche": "zahl(/\\bgh\\b[^\\n]*?\\bpr (create|new)\\b/) !== 1", "ersetze": "zahl(/\\bgh\\b[^\\n]*?\\bpr (create|new)\\b/) < 1" }
+]

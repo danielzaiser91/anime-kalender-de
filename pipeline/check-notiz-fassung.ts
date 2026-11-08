@@ -16,7 +16,7 @@ export function nenntAndereFassung(note: string): boolean {
   return ANDERE_FASSUNG.test(note)
 }
 
-type Eintrag = { slug?: string; note?: string; sprache?: string }
+type Eintrag = { slug?: string; note?: string; hinweis?: string; sprache?: string }
 
 const proben: Array<[string, boolean]> = [
   ['Deutsche Synchronisation und englischer Originalton mit Untertiteln; zuerst drei Folgen.', true],
@@ -37,9 +37,10 @@ for (const datei of readdirSync(ordner).filter((d) => d.endsWith('.yaml'))) {
   const liste = yaml.load(readFileSync(new URL(datei, ordner), 'utf8'))
   if (!Array.isArray(liste)) continue
   for (const e of liste as Eintrag[]) {
-    if (!e.note || e.sprache === 'omu' || e.sprache === 'offen' || !nenntAndereFassung(e.note)) continue
+    const text = `${e.note ?? ''} ${e.hinweis ?? ''}`
+    if (!text.trim() || e.sprache === 'omu' || e.sprache === 'offen' || !nenntAndereFassung(text)) continue
     warnungen++
-    console.warn(`  ⚠ ${datei} ${e.slug}: Notiz nennt eine andere Fassung als die deutsche — streichen, wenn sie nichts Eigenes belegt: „${e.note.slice(0, 90)}“`)
+    console.warn(`  ⚠ ${datei} ${e.slug}: Notiz nennt eine andere Fassung als die deutsche — streichen, wenn sie nichts Eigenes belegt: „${text.trim().slice(0, 90)}“`)
   }
 }
 console.log(warnungen ? `${warnungen} Warnung(en), kein Fehler.` : '  ✓ keine Notiz nennt eine andere Fassung')

@@ -40,6 +40,8 @@ pruefe('Zahlenschlüssel erben das Feld des Elternteils', interneAngaben('releas
 pruefe('Schreibweisen: Daniels, DANIEL, Zaiser', interneAngaben('releases.json', [{ note: 'Daniels' }, { note: 'DANIEL' }, { note: 'Zaiser' }]).length === 3)
 pruefe('Zwei Treffer in einer Datei werden beide gezählt', interneAngaben('releases.json', [{ note: 'Daniel' }, { source: 'Daniel' }]).length === 2)
 pruefe('Feld note ohne Namen: Verstoß in releases, woche, woche-kacheln', ['releases.json', 'woche.json', 'woche-kacheln.json'].every((d) => interneAngaben(d, [{ note: 'x' }]).length === 1))
+pruefe('Feld hinweis in releases.json ohne Namen: kein Verstoß (Besucherhinweis wird ausgeliefert)', interneAngaben('releases.json', [{ hinweis: 'Erhielt in Deutschland keine FSK-Freigabe.' }]).length === 0)
+pruefe('Feld hinweis in releases.json mit Namen: Verstoß, auch in woche.json', ['releases.json', 'woche.json'].every((d) => interneAngaben(d, [{ hinweis: 'Folge 1 laut Daniels Sichtung' }]).length === 1))
 pruefe('Feld note in anderer Datei (news.json) ohne Namen: kein Verstoß', interneAngaben('news.json', [{ note: 'x' }]).length === 0)
 pruefe('Zwei Felder in einem Objekt: das zweite schlägt an', interneAngaben('releases.json', { a: 'ok', note: 'Daniel' }).length === 1)
 pruefe('Namensfeld der einen Datei ist in der anderen kein Namensfeld', interneAngaben('voices/1.json', [{ note: 'Daniel Fehlow' }]).length === 1 && interneAngaben('sprecher.json', [{ actor: 'Daniel Axt' }]).length === 1)
@@ -49,6 +51,7 @@ pruefe('Ohne Namen, Zahlen, null, leer: kein Treffer', interneAngaben('releases.
 const rel = { titleId: 1, slug: 'r-1', platform: 'netflix', note: ANLASS, sources: ['https://example.org/1'], schedule: { firstEpisodeDate: '2099-01-01' } } as unknown as Release
 const rel2 = { ...rel, slug: 'r-2', note: undefined } as unknown as Release
 pruefe('ohneNotiz: note weg, Rest gleich', JSON.stringify(ohneNotiz(rel)) === JSON.stringify({ titleId: 1, slug: 'r-1', platform: 'netflix', sources: ['https://example.org/1'], schedule: { firstEpisodeDate: '2099-01-01' } }), ohneNotiz(rel))
+pruefe('ohneNotiz: der Besucherhinweis bleibt, die Notiz geht', JSON.stringify(ohneNotiz({ ...rel, hinweis: 'Kurz.' } as Release)).includes('"hinweis":"Kurz."') && !JSON.stringify(ohneNotiz({ ...rel, hinweis: 'Kurz.' } as Release)).includes('"note"'))
 pruefe('ohneNotiz verändert die Eingabe nicht', rel.note === ANLASS)
 let geschrieben: { pfad: string; daten: unknown } | undefined
 schreibeReleasesJson([rel, rel2], 'x/releases.json', (pfad, daten) => {
