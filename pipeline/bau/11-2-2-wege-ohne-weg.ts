@@ -16,6 +16,12 @@ export const PHYSISCHE_SHOPS =
   /amazon dvd|blu-ray|thalia|hugendubel|buecher|zavvi|jpc|zoxs|medimops|verleihshop|behind the tree|videobuster/i
 
 /**
+ * Der Disc-Weg aus `11-1` (aniSearch-Artikel, `data/disc-ausgaben.json`) sagt nichts darüber, wo man den Titel sehen kann, und schließt den
+ * Riegel „ohne jeden Weg" deshalb nicht: Mit dem Weg gingen 26 Titel ihre JustWatch-Rückfallwege verloren (Netflix, ADN, Rtl+), 06.11.2026.
+ */
+const istAnisearchDisc = (w: WatchLink): boolean => w.kind === 'buy' && w.name === 'aniSearch'
+
+/**
  * **Ein Titel ohne jeden Bezugsweg — was JustWatch dazu kennt.**
  *
  * 243 Titel im Hauptbestand hatten am 07.09.2026 keinen einzigen Weg. Für
@@ -47,7 +53,7 @@ export function ergaenzeWegeOhneWeg({ titles, jw, handNein, tmdbMehrdeutig, istT
 }) {
   let jwWege = 0
   for (const title of titles.values()) {
-    if ((title.streams ?? []).length || (title.watchLinks ?? []).length) continue
+    if ((title.streams ?? []).length || (title.watchLinks ?? []).some((w) => !istAnisearchDisc(w))) continue
     /* JustWatch findet den Titel über dieselbe TMDB-Kennung — mehrdeutig heißt auch hier: nicht verwenden. */
     if (tmdbMehrdeutig.has(String(title.id))) continue
     const b = jw[String(title.id)]
@@ -86,7 +92,7 @@ export function ergaenzeWegeOhneWeg({ titles, jw, handNein, tmdbMehrdeutig, istT
       if (wege.length >= 4) break
     }
     if (!wege.length) continue
-    title.watchLinks = wege
+    title.watchLinks = [...wege, ...(title.watchLinks ?? [])]
     jwWege += wege.length
   }
   if (jwWege) log(`${jwWege} Bezugswege aus JustWatch für Titel ohne jeden Weg ergänzt`)

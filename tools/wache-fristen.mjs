@@ -11,7 +11,7 @@ export function fristAusTakt(taktStunden, bisherStunden) {
 /**
  * Workflow: erlaubtes Alter des letzten erfolgreichen Laufs in Stunden — die einzige Frist-Tabelle, die Wochen-Wache
  * (`tools/wache-woechentlich.mjs`) und Zugangs-Wache (`tools/zugangs-waechter.mjs`) lesen.
- * Takt aus `shared/weckplan.ts` (Stand 27.10.2026): refresh-hourly stündlich, adn-laufende 4 Starts am Tag (alle 6 h).
+ * Takt aus `shared/weckplan.ts` (Stand 27.10.2026): refresh-hourly stündlich, adn-laufende 4 Starts am Tag (alle 6 h); claude-anime2you-extraktion stündlich seit 07.11.2026 (Lücke wie refresh-hourly angesetzt, Messung steht aus).
  * Werte aus den größten Lücken zwischen zwei Erfolgen (`gh run list`, 7 Tage, bei Wochen- und Monatsläufen 14 Tage / alle Läufe,
  * Messung 03.11.2026) plus Reserve: bestand-bauen 13,5 h, refresh-weekly 243,6 h, tonspuren-monatlich 867,7 h;
  * meldungskopie.yml bleibt bei 36 h (= STAND_MAX_STUNDEN in meldungskopie-abfrage.mjs, Wecker-Wache holt nach 30 h nach), obwohl eine Lücke 33,2 h maß;
@@ -27,7 +27,7 @@ export const FRISTEN_STUNDEN = {
   'deploy.yml': 48,
   'adn-laufende.yml': fristAusTakt(6, 24),
   'claude-verpasst-recherche.yml': 36,
-  'claude-anime2you-extraktion.yml': 36,
+  'claude-anime2you-extraktion.yml': fristAusTakt(1, 36),
   'claude-wache-urteil.yml': 36,
   'claude-daten-merge.yml': 48,
   'anisearch-katalog.yml': 36,

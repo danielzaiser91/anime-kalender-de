@@ -10,6 +10,7 @@ tools/claude-global/hooks/hauptordner-sperre.js # Claude-Hook, wird von tools/cl
 tools/claude-global/hooks/ort-sperre.js # Claude-Hook-Baustein, von hauptordner-sperre.js eingebunden, wird von tools/claude-global/einrichten.mjs nach ~/.claude kopiert
 tools/claude-global/hooks/no-verify-sperre.js # Claude-Hook, wird von tools/claude-global/einrichten.mjs nach ~/.claude kopiert
 tools/claude-global/hooks/pruefrunden.js # Claude-Hook, wird von tools/claude-global/einrichten.mjs nach ~/.claude kopiert
+tools/claude-global/hooks/subagent-schreibsperre.js # Claude-Hook, wird von tools/claude-global/einrichten.mjs nach ~/.claude kopiert
 tools/claude-global/hooks/stand-waechter.js # Claude-Hook, wird von tools/claude-global/einrichten.mjs nach ~/.claude kopiert
 tools/cr-vorschlaege-pruefen.mjs # Handwerkzeug, muss von einer deutschen IP laufen (Runner stehen in den USA, Kopfkommentar); schreibt data/cr-vorschlaege.json, die pipeline/bau/09-3-prime.ts liest, letzter Lauf 28.08.2026
 tools/lauf-status-app-pruefen.mjs # Handwerkzeug, startet die Electron-Statusanzeige aus C:/code/ai/__assets/tools/lauf-status (braucht ein Fenster, nicht CI-fähig); die Lauf-Arten-Gegenprobe steht in check:logic
