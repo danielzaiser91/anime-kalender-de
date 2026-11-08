@@ -1,6 +1,6 @@
 name: Claude — Anime2You-Artikel auswerten
 
-# **Neue Anime2You-Artikel liest Claude täglich und liefert Vorschläge mit Quelle als Pull Request.**
+# **Neue Anime2You-Artikel liest Claude stündlich und liefert Vorschläge mit Quelle als Pull Request; eindeutige Synchro-Aussagen werden gleich Handbeleg.**
 #
 # Die Feeds und die Wortmarken-Filter (`scrape-anime2you.ts`) übersehen, was nur im Fließtext steht: ProSieben-MAXX-Starts, Paramount+,
 # Sprachfassungen. Am 10.10.2026 fehlten so YAIBA (MAXX ab 05.11.), One Piece (MAXX), Avatar: Die sieben Häfen (Paramount+) und das Datum
@@ -9,10 +9,12 @@ name: Claude — Anime2You-Artikel auswerten
 # Das Modell schreibt nur in `ergebnis/<id>.json` im Arbeitsordner, nie ins Repo. `pipeline/anime2you-extraktion.ts --uebernehmen` prüft
 # jeden Vorschlag am Artikeltext (Zitat wörtlich vorhanden, Tag und Uhrzeit im Zitat, deutsche Fassung nur bei deutscher Wortmarke) und setzt
 # die Quelle selbst. Das Ergebnis ist `data/proposals/anime2you-extraktion.json` – eine Vorschlagsliste, die keinen Bau speist. Ein Vorschlag
-# wird erst durch einen Handeintrag zum Termin. Eingereicht wird wie bei jedem Sammel-Lauf über `quellen-pr.sh`; die Zusammenfassung
-# steht als Kommentar am Pull Request.
+# wird erst durch einen Handeintrag zum Termin – außer bei einer eindeutigen Synchro-Aussage: Der Schritt »Synchro-Belege eintragen«
+# (`--belege`, bei jedem Lauf, auch ohne neuen Artikel) trägt sie ohne Modell als Handbeleg `dub: true` in `data/dub-confirmed.yaml` ein
+# (Auswahl und Riegel: `pipeline/lib/synchro-beleg-auswahl.ts`, höchstens 10 je Tag). Eingereicht wird wie bei jedem Sammel-Lauf über
+# `quellen-pr.sh`; die Zusammenfassungen stehen als Kommentare am Pull Request.
 #
-# Gibt es nichts Neues, endet der Lauf nach dem Feed-Abruf, ohne Claude zu starten.
+# Gibt es nichts Neues, endet der Lauf nach dem Feed-Abruf und der Belegprüfung, ohne Claude zu starten.
 
 on:
   # Zeitplan: Cloudflare-Wecker (`shared/weckplan.ts`) startet diesen Lauf per workflow_dispatch zur festen Stunde (UTC); `wecker-wache.yml` holt Überfälliges nach.
@@ -100,12 +102,17 @@ jobs:
         if: steps.auswahl.outputs.anzahl != '0'
         run: npx tsx pipeline/anime2you-extraktion.ts --uebernehmen --verzeichnis "$ARBEITSORDNER"
 
+      # Bei jedem Lauf, auch ohne neuen Artikel: Der Weg des Titels kommt oft erst mit dem nächsten Bestandsbau, die Aussage aus dem Artikel steht dann schon (Fenster 7 Tage).
+      - name: Synchro-Belege eintragen
+        id: belege
+        run: npx tsx pipeline/anime2you-extraktion.ts --belege --verzeichnis "$ARBEITSORDNER"
+
       # **Die Anmeldung wird vorher neu gesetzt:** Der Claude-Schritt richtet für sich ein eigenes Token als Git-Anmeldung ein und widerruft es
       # am Ende (13.09.2026, `claude-verpasst-recherche.yml`). Ohne diese beiden Zeilen pusht hier niemand.
       # Die App darf `main` am Ruleset vorbei mergen, `GITHUB_TOKEN` nicht (11.10.2026); fehlt das Token, wird der Lauf rot (kein Rückfall: ein angelegter, nie gemergter PR bliebe unbemerkt).
       - name: App-Token holen
         id: app
-        if: steps.auswahl.outputs.anzahl != '0'
+        if: steps.auswahl.outputs.anzahl != '0' || steps.belege.outputs.anzahl != '0'
         uses: actions/create-github-app-token@v3
         with:
           app-id: ${{ secrets.DATEN_APP_ID }}
@@ -115,7 +122,7 @@ jobs:
 
       - name: Ergebnis als Pull Request einreichen
         id: einreichen
-        if: steps.auswahl.outputs.anzahl != '0'
+        if: steps.auswahl.outputs.anzahl != '0' || steps.belege.outputs.anzahl != '0'
         env:
           GH_TOKEN: ${{ steps.app.outputs.token }}
           # Sicherung für den Fall, dass das Einreichen scheitert (siehe `.github/actions/einreichen`, `fund-nachliefern.yml`).
@@ -126,11 +133,18 @@ jobs:
           bash tools/quellen-pr.sh "chore(data): Anime2You-Artikel ausgewertet"
 
       - name: Zusammenfassung an den Pull Request hängen
-        if: steps.einreichen.outputs.pr != ''
+        if: steps.einreichen.outputs.pr != '' && steps.auswahl.outputs.anzahl != '0'
         continue-on-error: true
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: gh pr comment "${{ steps.einreichen.outputs.pr }}" --body-file "$ARBEITSORDNER/zusammenfassung.md"
+
+      - name: Belege an den Pull Request hängen
+        if: steps.einreichen.outputs.pr != '' && steps.belege.outputs.anzahl != '0'
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh pr comment "${{ steps.einreichen.outputs.pr }}" --body-file "$ARBEITSORDNER/belege.md"
 
       - name: Fund sichern
         if: always() && steps.auswahl.outputs.anzahl != '0'

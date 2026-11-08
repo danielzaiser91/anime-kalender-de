@@ -28,7 +28,11 @@ tools/bau-vergleich-log.mjs
 tools/bilder-ordner.mjs
 tools/browser-weiche.mjs
 tools/buehne-fenster-pruefen.mjs
+tools/buehne-messen.mjs
+tools/buehne-messung.mjs
+tools/buehne-panel-pruefen.mjs
 tools/buehne-seite.mjs
+tools/buehne-zustand-pruefen.mjs
 tools/cls-wechsel.mjs
 tools/dist-frisch.mjs
 tools/duell-urteil.mjs
@@ -39,6 +43,7 @@ tools/einzel-sperre.mjs
 tools/kachel-ecken-live.mjs
 tools/kachel-ecken-messen.mjs
 tools/linux-schrift.mjs
+tools/melder-kasten-bild.mjs
 tools/panel-abschnitt.mjs
 tools/panel-bild.mjs
 tools/panel-messen-browser.mjs

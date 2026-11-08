@@ -1,12 +1,12 @@
 {
- "erzeugtAm": "2026-11-08T14:10:01.605Z",
+ "erzeugtAm": "2026-11-08T16:35:49.465Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
-   "gemeldet": 919,
+   "gemeldet": 924,
    "gesamt": 1002,
-   "offen": 83,
+   "offen": 78,
    "ohneSeite": 2,
    "suchAdressen": [
     "https://www.amazon.de/s?k=Super%20Wings&i=instant-video",
@@ -18,6 +18,14 @@
      "url": "https://www.amazon.de/gp/video/detail/B09FRLPFK4",
      "titel": "Do, Re & Mi",
      "hinweis": "Staffeln unklar: TMDB zählt 23 Folgen insgesamt, der Anbieter kann sie anders schneiden"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B09JLN6S1R",
+     "titel": "Detektiv Conan (Detective Conan)"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B0DNNFT23G",
+     "titel": "Shin-chan (Shin Chan)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0D84DKFSH",
@@ -116,24 +124,12 @@
      "titel": "Golden Kamuy 4 (Golden Kamuy Season 4)"
     },
     {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.ff7803bf-9b4c-46aa-beee-abb5e2ccd76c",
-     "titel": "Darwin’s Game (Darwin's Game)"
-    },
-    {
      "url": "https://www.amazon.de/gp/video/detail/B09MDQX4CW",
      "titel": "Appare-Ranman!"
     },
     {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.8b1dc17e-4332-49a4-a6a1-44e23da7ad23",
-     "titel": "Super HxEros"
-    },
-    {
      "url": "https://www.amazon.de/gp/video/detail/0J16B1NAB82TO0O5A5Q8TLG1VP",
      "titel": "Babylon"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.6364cc70-74ea-4084-88ad-ab2953e1484b",
-     "titel": "Laidbackers"
     },
     {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.077c1435-754d-407d-9d26-9ddb34a272d0",
@@ -196,10 +192,6 @@
      "titel": "Lupin III.: Daisuke Jigens Grabstein (Lupin the IIIrd: Jigen's Gravestone)"
     },
     {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.c9667593-ba0f-4e6a-a5f0-a1de3d9b4338",
-     "titel": "Inou Battle Within Everyday Life (When Supernatural Battles Became Commonplace)"
-    },
-    {
      "url": "https://www.amazon.de/gp/video/detail/B0GMY84XLR",
      "titel": "Wanna Be the Strongest in the World!"
     },
@@ -214,10 +206,6 @@
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CHN14W48",
      "titel": "Free! Iwatobi Swim Club (Free! -Iwatobi Swim Club-)"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.cd532c25-2012-4814-8763-40202b020269",
-     "titel": "Kill La Kill"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0GVKRLHXX",
@@ -254,14 +242,6 @@
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CJYMLW6W",
      "titel": "Fushigi Yûgi New OVA: The Mysterious Play (Mysterious Play OVA 2)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B09JLN6S1R",
-     "titel": "Detektiv Conan (Detective Conan)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0DNNFT23G",
-     "titel": "Shin-chan (Shin Chan)"
     },
     {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.5ba2d356-b885-4716-adfa-3a95cec98fff",
@@ -481,9 +461,9 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 773,
+   "gemeldet": 766,
    "gesamt": 1082,
-   "offen": 309,
+   "offen": 316,
    "ohneSeite": 13,
    "ziel": "https://www.netflix.com/title/81608820",
    "ziele": [
@@ -494,6 +474,10 @@
     {
      "url": "https://www.netflix.com/title/81272431",
      "titel": "Numberblocks"
+    },
+    {
+     "url": "https://www.netflix.com/title/80107103",
+     "titel": "One Piece"
     },
     {
      "url": "https://www.netflix.com/title/81054853",

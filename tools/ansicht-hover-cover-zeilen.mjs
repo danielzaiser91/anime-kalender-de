@@ -6,7 +6,7 @@
  * Hat die Woche für eine Ansicht keine Ereignisse mit Cover, wird sie übersprungen; sonst muss es Zeilen geben.
  */
 import { readFileSync } from 'node:fs'
-import { verdeckung, zeileImFenster, zeileMittig } from './zeile-mittig.mjs'
+import { ruheAbwarten, verdeckung, zeileImFenster, zeileMittig } from './zeile-mittig.mjs'
 import { coverBild } from '../web/src/lib/cover.ts'
 import { VORSCHAU_BREITE, VORSCHAU_HOEHE } from '../web/src/lib/hover-cover.ts'
 
@@ -165,6 +165,7 @@ async function messeUntenRand(seite, zeile, wahl) {
     await seite.setViewportSize(FENSTER)
     await seite.mouse.move(2, 2)
     await z.evaluate((el, platz) => window.scrollBy(0, el.getBoundingClientRect().top - platz - 110), VORSCHAU_PLATZ)
+    await ruheAbwarten(seite)
     const box = await z.boundingBox()
     await seite.setViewportSize({ width: FENSTER.width, height: Math.ceil(box.y + box.height) + 24 })
     await seite.waitForTimeout(200)

@@ -13,7 +13,7 @@ name: PR-Prüfkette
 
 on:
   pull_request:
-    branches: [main]
+    branches: [main, zug]
     types: [opened, synchronize, reopened, ready_for_review]
 
 permissions:
@@ -220,6 +220,12 @@ jobs:
             befehl: npm run check:suchhinweis
           - teil: Bühne-Fenster
             befehl: npm run check:buehne-fenster
+          - teil: Bühne-Messen
+            befehl: npm run check:buehne-messen
+          - teil: Bühne-Panel
+            befehl: npm run check:buehne-panel
+          - teil: Melde-Kasten
+            befehl: npm run check:kasten
     steps:
       - uses: actions/checkout@v4
         with:

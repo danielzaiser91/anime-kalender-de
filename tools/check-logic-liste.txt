@@ -18,6 +18,7 @@ pipeline/check-adn-kuratiert.ts
 pipeline/check-adn-laufend-archiv.ts
 pipeline/check-adn-lesetag.ts
 pipeline/check-adn-neuzugaenge.ts
+pipeline/check-adn-news-lauf.ts
 pipeline/check-adn-news-serien.ts
 pipeline/check-adn-offen-wache.ts
 pipeline/check-adn-spanne.ts
@@ -27,6 +28,7 @@ pipeline/check-adn-sprachriegel.ts
 pipeline/check-adn-titelliste-abruf.ts
 pipeline/check-adressen-schreiben.ts
 pipeline/check-adressen.ts
+pipeline/check-ak-umleitung-lauf.ts
 pipeline/check-aktualisierung-verborgen.ts
 pipeline/check-anbieter-logo.ts
 pipeline/check-angebot-feed.ts
@@ -114,6 +116,7 @@ pipeline/check-cr-auftakt-wache.ts
 pipeline/check-cr-batch-phase.ts
 pipeline/check-cr-batch-wache.ts
 pipeline/check-cr-block-standardname.ts
+pipeline/check-cr-block-zaehlung.ts
 pipeline/check-cr-blockkette-luecke.ts
 pipeline/check-cr-browser-start.ts
 pipeline/check-cr-doppelt-weg.ts
@@ -123,6 +126,7 @@ pipeline/check-cr-folgestaffel.ts
 pipeline/check-cr-frisch.ts
 pipeline/check-cr-ja-deckung.ts
 pipeline/check-cr-katalog-ein-werk.ts
+pipeline/check-cr-katalogblock.ts
 pipeline/check-cr-kennung-gedaechtnis.ts
 pipeline/check-cr-kennwort.ts
 pipeline/check-cr-komplettabwurf.ts
@@ -148,14 +152,17 @@ pipeline/check-deutsche-folgenzahl-hinweis.ts
 pipeline/check-deutsche-folgenzahl.ts
 pipeline/check-disc-anisearch-bau.ts
 pipeline/check-disc-anisearch-datum.ts
+pipeline/check-disc-archiv.ts
 pipeline/check-disc-bereich.ts
 pipeline/check-disc-ean.ts
+pipeline/check-disc-folgewirkung.ts
 pipeline/check-disc-kaufweg-auto.ts
 pipeline/check-disc-reine-titel.ts
 pipeline/check-disc-suchlinks.ts
 pipeline/check-disc-teil-hinweis.ts
 pipeline/check-disc-teil-verdrahtung.ts
 pipeline/check-disc-verschiebung-staffel.ts
+pipeline/check-disc-zuordnung.ts
 pipeline/check-disney-gesamtnummer.ts
 pipeline/check-dub-abgeleitet-lauf.ts
 pipeline/check-dub-abgeleitet.ts
@@ -222,6 +229,7 @@ pipeline/check-folgenzahl-sichtung.ts
 pipeline/check-gleiche-adresse.ts
 pipeline/check-hand-gesehen.ts
 pipeline/check-handbeleg-anbieter-zaehlung.ts
+pipeline/check-handbeleg-fast-doppel-ratsche.ts
 pipeline/check-handbeleg-fast-doppel.ts
 pipeline/check-handbeleg-fremde-adresse.ts
 pipeline/check-handbeleg-note-asin-lauf.ts
@@ -245,11 +253,14 @@ pipeline/check-install-stellen.ts
 pipeline/check-interne-angaben.ts
 pipeline/check-invarianten.ts
 pipeline/check-ja-hat-weg.ts
+pipeline/check-joyn-danach.ts
+pipeline/check-joyn-hand-tv.ts
 pipeline/check-joyn-luecke-lauf.ts
 pipeline/check-joyn-luecke.ts
 pipeline/check-joyn-premiere.ts
 pipeline/check-joyn-sender-bestand-lauf.ts
 pipeline/check-joyn-sender-luecke.ts
+pipeline/check-jpend-finished.ts
 pipeline/check-juengeres-ja-weg.ts
 pipeline/check-jw-ablauf.ts
 pipeline/check-jw-anbieterliste.ts
@@ -468,6 +479,8 @@ pipeline/check-suchfeld-arten.ts
 pipeline/check-suchhinweis-bereich.ts
 pipeline/check-suchhinweis-lauf.ts
 pipeline/check-sw-cache-regeln.ts
+pipeline/check-synchro-beleg-auswahl.ts
+pipeline/check-synchro-beleg-lauf.ts
 pipeline/check-synchro-beobachtung.ts
 pipeline/check-synchro-original.ts
 pipeline/check-synchro-termin-offen.ts
@@ -549,6 +562,7 @@ pipeline/check-zuordner-riegel.ts
 pipeline/check-zuordnung-fremd-lauf.ts
 pipeline/check-zuordnung-fremd.ts
 pipeline/check-zweitanbieter.ts
+tools/adn-news-bilanz.test.ts
 tools/anime2you-luecken.test.ts
 tools/apt-fremdquelle.mjs
 tools/buehne-entwurf-render.test.ts

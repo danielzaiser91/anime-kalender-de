@@ -384,6 +384,11 @@ export function landAusAnilist(code: string | null | undefined): { land?: string
   return code && code !== 'JP' ? { land: code } : {}
 }
 
+/** Ende in Japan: `endDate`; ohne sie gilt der Starttag nur bei FINISHED (Einzeltermin), laufende Titel haben kein Ende. */
+export function jpEndAusAnilist(media: AniListMedia): string | undefined {
+  return isoDate(media.endDate) ?? (media.status === 'FINISHED' ? isoDate(media.startDate) : undefined)
+}
+
 export function titleFromMedia(media: AniListMedia, confidence: DubConfidence): Title {
   const display = media.title.english ?? media.title.romaji ?? media.title.native ?? `#${media.id}`
   return {
@@ -397,7 +402,8 @@ export function titleFromMedia(media: AniListMedia, confidence: DubConfidence): 
     episodes: media.episodes ?? undefined,
     jpYear: media.seasonYear ?? media.startDate?.year ?? undefined,
     jpSeason: media.season ?? undefined,
-    jpEnd: isoDate(media.endDate) ?? isoDate(media.startDate), jpStartTag: media.startDate?.day ? isoDatumGenau(media.startDate) : undefined,
+    jpEnd: jpEndAusAnilist(media),
+    jpStartTag: media.startDate?.day ? isoDatumGenau(media.startDate) : undefined,
     genres: mapGenres(media),
     /* Schlagworte und Bewertung setzt `produkt-regel.ts` aus aniSearch; das AniList-Banner gilt nur noch als Übergang für TMDB-Lücken. */
     keywords: [],
