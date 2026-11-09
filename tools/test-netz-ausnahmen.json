@@ -10,5 +10,6 @@
   "pipeline/sammelartikel-poc.ts": "PoC gegen echte Seiten",
   "pipeline/scrape-crunchyroll-dub.ts": "Sammler",
   "pipeline/scrape-crunchyroll-woche.ts": "Sammler",
-  "pipeline/lib/crunchyroll-api.ts": "Sammler"
+  "pipeline/lib/crunchyroll-api.ts": "Sammler",
+  "pipeline/lib/screenshot-wiederholen.ts": "Hilfsbibliothek: öffnet Seiten nur für Aufrufer, die sperreNetz in ihrer Seitenfunktion setzen (check-beleg-wand, check-woche-bild)"
 }
