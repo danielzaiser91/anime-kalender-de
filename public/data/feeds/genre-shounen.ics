@@ -437,6 +437,18 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-177476-joyn@2026-11-08@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261108
+DTEND;VALUE=DATE:20261109
+SUMMARY:Yaiba: Samurai Legend
+DESCRIPTION:Plattform: Joyn\nRelease-Art: Katalogtitel\nUhrzeit noch nicht 
+ bestätigt.\nGeschätzter Termin: kein vom Anbieter genannter Tag\, sonder
+ n aus Rhythmus oder Originalterminen abgeleitet.\nDetails: https://anime-k
+ alender.de/t/15908/
+CATEGORIES:Joyn
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GT00371866@2026-11-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261109T143000Z
