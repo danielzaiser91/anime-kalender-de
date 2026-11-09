@@ -102,6 +102,17 @@ const anderer = joyn()
 lauf([maxx({ sender: 'TOGGO plus' }), anderer])
 pruefe('Anderer Sender liefert keine Fenster und keine Tage', anderer.schedule.observed === undefined, anderer.schedule)
 
+/* Zwei Joyn-Termine desselben Titels: die zweite Staffel (ab Folge 4) bekommt nur Folgen ab ihrer ersten Nummer. */
+const staffel1 = joyn({ slug: 'yaiba-joyn-s1' })
+const staffel2 = joyn({ slug: 'yaiba-joyn-s2', schedule: { ...joyn().schedule, firstEpisodeNumber: 4 } })
+lauf([maxx(), staffel1, staffel2])
+pruefe('Staffel 1 ohne firstEpisodeNumber: Folge 1–6', tage(staffel1) === JSON.stringify(MAXX_TAGE), staffel1.schedule.observed)
+pruefe(
+  'Staffel 2 ab Folge 4: nur Folge 4–6, keine Folgen der Vorstaffel',
+  tage(staffel2) === JSON.stringify({ 4: '2026-11-10', 5: '2026-11-11', 6: '2026-11-12' }),
+  staffel2.schedule.observed,
+)
+
 /* Sendeende nach Mitternacht: der Joyn-Tag ist der Abruftag (Sendeende), nicht der Sendetag. */
 const spaetNachts = joyn()
 lauf([maxx({ schedule: { firstEpisodeDate: '2026-11-05', time: '23:50', wochentage: [1], observed: { 1: '2026-11-05' } } as never }), spaetNachts])

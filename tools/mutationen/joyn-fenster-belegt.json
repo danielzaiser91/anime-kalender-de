@@ -10,5 +10,10 @@
   { "name": "Tage: widerlegt nicht geprüft", "aenderungen": [{ "datei": "pipeline/bau/13-1-joyn-fenster.ts", "suche": " || r.widerlegt", "ersetze": "" }] },
   { "name": "Tage: Plan nicht geprüft", "aenderungen": [{ "datei": "pipeline/bau/13-1-joyn-fenster.ts", "suche": " || !r.schedule", "ersetze": "" }] },
   { "name": "Tage: eigene Beobachtung überschrieben", "aenderungen": [{ "datei": "pipeline/bau/13-1-joyn-fenster.ts", "suche": "      if (observed[nr]) continue\n", "ersetze": "" }] },
-  { "name": "Tage: Zähler zählt nicht", "aenderungen": [{ "datei": "pipeline/bau/13-1-joyn-fenster.ts", "suche": "      neu++\n", "ersetze": "" }] }
+  { "name": "Tage: Zähler zählt nicht", "aenderungen": [{ "datei": "pipeline/bau/13-1-joyn-fenster.ts", "suche": "      neu++\n", "ersetze": "" }] },
+  { "name": "Staffel: Vorstaffel-Folgen nicht gefiltert", "aenderungen": [{ "datei": "pipeline/bau/13-1-joyn-fenster.ts", "suche": "nr < ersteNr || ", "ersetze": "" }] },
+  { "name": "Staffel: Grenze nr <= ersteNr", "aenderungen": [{ "datei": "pipeline/bau/13-1-joyn-fenster.ts", "suche": "nr < ersteNr", "ersetze": "nr <= ersteNr" }] },
+  { "name": "Staffel: Grenze nr < ersteNr + 1", "aenderungen": [{ "datei": "pipeline/bau/13-1-joyn-fenster.ts", "suche": "nr < ersteNr", "ersetze": "nr < ersteNr + 1" }] },
+  { "name": "Staffel: Standard 1 statt keine Angabe = 2", "aenderungen": [{ "datei": "pipeline/bau/13-1-joyn-fenster.ts", "suche": "firstEpisodeNumber ?? 1", "ersetze": "firstEpisodeNumber ?? 2" }] },
+  { "name": "Staffel: firstEpisodeNumber ignoriert", "aenderungen": [{ "datei": "pipeline/bau/13-1-joyn-fenster.ts", "suche": "r.schedule.firstEpisodeNumber ?? 1", "ersetze": "1" }] }
 ]

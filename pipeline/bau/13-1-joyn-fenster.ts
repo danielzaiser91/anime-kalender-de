@@ -89,8 +89,9 @@ function merkeTag(gemessen: Map<number, Map<number, string>>, titleId: number, n
 /*
   **Gemessene Joyn-Tage belegen die Folgen des Joyn-Termins** (09.11.2026, Daniel: „≈ 18:50“ bei Yaiba). Ein Joyn-Termin mit Sendetagen
   ohne Beobachtung gilt ab der zweiten Folge als fortgeschrieben (`terminGeschaetzt`), obwohl die Fenster Tag und Uhrzeit der auf
-  ProSieben MAXX gesehenen Folgen belegen. Diese Folgen kommen in `observed`; spätere bleiben geschätzt. Nur Fenster aus Sichtungen
-  (nicht die 19 Folgen vor der ersten), eine eigene Beobachtung bleibt. Gibt die Zahl der neu belegten Folgen zurück.
+  ProSieben MAXX gesehenen Folgen belegen. Annahme: `observed` ist hier ein Schluss von einer MAXX-Sichtung auf Joyn, keine Joyn-Messung
+  (Joyn wird nicht gelesen); „Joyn ab Sendeende“ ist nur an Dragon Ball Super gemessen (22.09.2026, docs/wissen/quellen.md). Diese Folgen kommen in `observed`; spätere bleiben geschätzt. Nur Fenster aus Sichtungen
+  (nicht die 19 Folgen vor der ersten), eine eigene Beobachtung bleibt; Folgen vor `firstEpisodeNumber` gehören zur Vorstaffel. Gibt die Zahl der neu belegten Folgen zurück.
 */
 export function belegeJoynTage(releases: Release[], gemessen: Map<number, Map<number, string>>): number {
   let neu = 0
@@ -98,8 +99,9 @@ export function belegeJoynTage(releases: Release[], gemessen: Map<number, Map<nu
     const tage = gemessen.get(r.titleId)
     if (r.platform !== 'joyn' || r.widerlegt || !r.schedule || !tage) continue
     const observed = (r.schedule.observed ??= {})
+    const ersteNr = r.schedule.firstEpisodeNumber ?? 1
     for (const [nr, tag] of tage) {
-      if (observed[nr]) continue
+      if (nr < ersteNr || observed[nr]) continue
       observed[nr] = tag
       neu++
     }
