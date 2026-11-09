@@ -62,8 +62,8 @@ Datei es erlaubt. Tatsachenzahlen (IDs, Termine, Uhrzeiten, Folgenzahlen, Synchr
 
 ## Regel
 
-- **PRs, die ich oder meine Subagenten erzeugt haben, merge ich selbst** (`gh pr merge <nr>
-  --squash --delete-branch`), nachdem ich den Bericht nachgeprüft habe (Diff angesehen,
+- **PRs, die ich oder meine Subagenten erzeugt haben, merge ich selbst** (`node tools/pr-nachrechnen.mjs <nr> && t=$(gh pr view <nr> --json title -q .title) && gh pr merge <nr>
+  --squash --subject "$t (#<nr>)"`), nachdem ich den Bericht nachgeprüft habe (Diff angesehen,
   Prüfkette grün, Lauf grün). Daniel wird dafür nie gebeten. **Ab Stufe 1 kein Merge ohne
   Urteil-Kommentar des Agent-Prüfers am PR** („Prüfer Runde N: freigeben“) — ein Urteil nur im
   Bericht an mich zählt der Rundenzähler-Hook nicht; fehlt er, poste ich das Urteil mit
