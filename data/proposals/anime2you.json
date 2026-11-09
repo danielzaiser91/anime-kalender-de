@@ -1,15 +1,32 @@
 {
-  "scrapedAt": "2026-11-09T05:02:52.972Z",
+  "scrapedAt": "2026-11-09T16:02:12.316Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 40,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 57,
-    "schon in einem Rubrik-Feed gelesen": 26,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 14,
+    "schon in einem Rubrik-Feed gelesen": 5,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 1,
     "Sprachhinweis älter als 45 Tage": 6
   },
   "proposals": [
+    {
+      "articleTitle": "Netflix zeigt Slice-of-Life-Anime »Hirayasumi« im Simulcast + Teaser",
+      "articleUrl": "https://www.anime2you.de/news/1069203/netflix-zeigt-hirayasumi-im-simulcast/",
+      "publishedAt": "2026-11-09",
+      "category": "allgemein",
+      "platforms": [
+        "netflix"
+      ],
+      "dates": [
+        {
+          "month": "2027-01",
+          "context": "en Anime-Serie »Hirayasumi« gesichert hat. Wir fassen zusammen. Start im Januar 2027 »Hirayasumi« wird ab Januar 2027 im japanischen Fernseh"
+        }
+      ],
+      "dub": "nein",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Zwei weitere Anime-Neuzugänge ab sofort auf Joyn verfügbar",
       "articleUrl": "https://www.anime2you.de/news/1069021/joyn-yaiba-samurai-legend-und-mehr/",
