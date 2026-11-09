@@ -48,6 +48,7 @@ pruefe('Schalter aus + Basis zug', !istZugPr({ baseRefName: 'zug' }, false))
 pruefe('Schalter an + Basis main', !istZugPr({ baseRefName: 'main' }, true))
 pruefe('Schalter an + keine Basis', !istZugPr({}, true))
 pruefe('Schalter undefiniert (nicht true) + Basis zug', !istZugPr({ baseRefName: 'zug' }, undefined))
+pruefe('Schalter nur truthy (1, "ja") + Basis zug -> kein Zug-PR', !istZugPr({ baseRefName: 'zug' }, 1) && !istZugPr({ baseRefName: 'zug' }, 'ja'))
 
 console.log('pr-nachrechnen: Basis zug')
 const FELDER_ALT = 'number,state,mergeable,headRefOid,headRefName'
@@ -113,6 +114,8 @@ function ghAttrappe(basis, gemergteBasis) {
 }
 const zeilen = (basis, gemergt, aktiv) => liegegutFunde(ghAttrappe(basis, gemergt), () => '', JETZT, () => {}, new Set(), aktiv).map((f) => f.zeile)
 {
+  const ohneSchalter = liegegutFunde(ghAttrappe('zug', []), () => '', JETZT, () => {}, new Set()).map((f) => f.zeile)
+  pruefe('ohne Schalter-Argument gilt der eingecheckte Schalter (aus): MERGEN wie vorher', ohneSchalter.length === 1 && /^PR 7: MERGEN – /.test(ohneSchalter[0]), ohneSchalter)
   const aus = zeilen('zug', [], false)
   pruefe('aus: PR auf zug, freigegeben und ruhend -> MERGEN wie vorher', aus.length === 1 && /^PR 7: MERGEN – Signal 1 Freigabe/.test(aus[0]), aus)
   const an = zeilen('zug', [], true)
