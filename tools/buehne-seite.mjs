@@ -117,25 +117,28 @@ export async function oeffneZellen(seite, { mockup, variante, fall, teil, zeit }
 /**
  * Geht alle Mockups × Fälle × Zeiten × Varianten durch (ohne `zeiten` im Mockup einmal ohne Zeit). Die erste Variante bringt
  * Vorher und Nachher, jede weitere nur Nachher — Vorher ist ja immer dasselbe. `filter` (Namensteil) schränkt die Mockups ein.
+ * `beiZellen` darf Zeilen (Befunde) zurückgeben; übernommen wird nur die des erfolgreichen Versuchs, damit eine Wiederholung nach
+ * halber Messung nichts doppelt meldet. Rückgabe: alle Zeilen plus je zweimal abgestürzter Einheit eine „Absturz …“-Zeile.
  */
 export async function durchlaufe(seite, filter, beiZellen) {
   const mockups = (await listeMockups(seite)).filter((m) => !filter || m.name.includes(filter))
   if (!mockups.length) throw new Error(`kein Mockup${filter ? ` mit „${filter}“` : ''} gefunden`)
-  const abstuerze = []
+  const zeilen = []
   let aktuell = seite
   for (const m of mockups) {
     for (const fall of m.faelle) {
       for (const zeit of m.zeiten.length ? m.zeiten : [undefined]) {
         for (const [i, variante] of m.varianten.entries()) {
           const einheit = async (s) => beiZellen({ mockup: m.name, fall, variante, zeit, zellen: await oeffneZellen(s, { mockup: m.name, variante, fall, teil: i === 0 ? 'beide' : 'nachher', zeit }) })
-          const { seite: benutzt, absturz } = await mitWiederholung(aktuell, einheit, ersetzeSeite)
+          const { seite: benutzt, absturz, ergebnis } = await mitWiederholung(aktuell, einheit, ersetzeSeite)
           aktuell = benutzt
-          if (absturz) abstuerze.push(`Absturz ${m.name}/${fall}${zeit ? `@${zeit.slice(11, 16)}` : ''} ${variante} (Seite zweimal abgestürzt: ${absturz})`)
+          zeilen.push(...(ergebnis ?? []))
+          if (absturz) zeilen.push(`Absturz ${m.name}/${fall}${zeit ? `@${zeit.slice(11, 16)}` : ''} ${variante} (Seite zweimal abgestürzt: ${absturz})`)
         }
       }
     }
   }
-  return abstuerze
+  return zeilen
 }
 
 /** Schließt die abgestürzte Seite und öffnet im selben Kontext (Routen, Fenstergröße bleiben) eine neue. */

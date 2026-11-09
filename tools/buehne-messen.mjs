@@ -11,6 +11,7 @@
  * Aufruf: node tools/buehne-messen.mjs [--mockup <Namensteil>] [--liste]   (`--liste` zeigt auch die bestehenden Befunde)
  *         npm run buehne:messen        (baut die Bühne vorher neu)
  */
+import { pathToFileURL } from 'node:url'
 import { argument, durchlaufe, starteBuehne } from './buehne-seite.mjs'
 import { kontrastImRahmen, MIN_TIPPZIEL, tippzieleImRahmen } from './buehne-messung.mjs'
 
@@ -51,13 +52,16 @@ async function bestaendige(neu, zelle, alt, andere) {
   return neu.filter(({ art, f }) => zweit.has(`${art}:${f.schluessel}`))
 }
 
-async function main() {
-  const { browser, seite, fremde } = await starteBuehne()
+/** Der ganze Lauf; `starte` und `ausgabe` sind austauschbar (Test mit Attrappe-Browser). Setzt `process.exitCode` bei Befunden. */
+export async function lauf({ starte, filter, ausgabe, liste = LISTE }) {
+  const { browser, seite, fremde } = await starte()
   const vorher = new Map()
-  const rot = []
+  let rot = []
   let gemessen = 0
   try {
-    rot.push(...(await durchlaufe(seite, argument('--mockup', ''), async ({ mockup, fall, variante, zeit, zellen }) => {
+    rot = await durchlaufe(seite, filter, async ({ mockup, fall, variante, zeit, zellen }) => {
+      /* Befunde dieser Einheit: nur der erfolgreiche Versuch zählt (durchlaufe übernimmt ihn), sonst stünden sie nach einer Wiederholung doppelt. */
+      const befunde = []
       const schluesselVorFall = `${mockup}/${fall}${zeit ? `@${zeit.slice(11, 16)}` : ''}`
       for (const z of zellen.filter((c) => c.schluessel.startsWith('vorher'))) vorher.set(`${schluesselVorFall}/${ort(z.schluessel)}`, await messeZelle(z))
       for (const z of zellen.filter((c) => c.schluessel.startsWith('nachher'))) {
@@ -68,21 +72,22 @@ async function main() {
         const neu = await bestaendige(neueBefunde(messung, alt, andere), z, alt, andere)
         gemessen++
         const bestehend = messung.tipp.length + messung.kontrast.length - neu.length
-        console.log(`  ${neu.length ? '✕' : 'ok'} ${schluesselVorFall} ${variante} ${ort(z.schluessel)}: ${neu.length} neu, ${bestehend} bestehend (Tippziele ${messung.tipp.length}, Kontrast ${messung.kontrast.length})`)
-        for (const { art, f } of neu) rot.push(`${schluesselVorFall} ${variante} ${ort(z.schluessel)}: ${zeile(art, f)}`)
-        if (LISTE) for (const art of ['tipp', 'kontrast']) for (const f of messung[art]) console.log(`      ${art === 'tipp' ? 'Tippziel' : 'Kontrast'} ${zeile(art, f)}`)
+        ausgabe(`  ${neu.length ? '✕' : 'ok'} ${schluesselVorFall} ${variante} ${ort(z.schluessel)}: ${neu.length} neu, ${bestehend} bestehend (Tippziele ${messung.tipp.length}, Kontrast ${messung.kontrast.length})`)
+        for (const { art, f } of neu) befunde.push(`${schluesselVorFall} ${variante} ${ort(z.schluessel)}: ${zeile(art, f)}`)
+        if (liste) for (const art of ['tipp', 'kontrast']) for (const f of messung[art]) ausgabe(`      ${art === 'tipp' ? 'Tippziel' : 'Kontrast'} ${zeile(art, f)}`)
       }
-    })))
+      return befunde
+    })
   } finally {
     await browser.close()
   }
   if (!gemessen) rot.push('keine einzige Zelle gemessen — Bühne oder Selektor kaputt')
   if (fremde.length) rot.push(`${fremde.length} Anfragen nach draußen, z. B. ${fremde[0]}`)
   if (rot.length) {
-    console.log(`\n  ✕ ${rot.length} neue Befunde:`)
-    for (const r of rot.slice(0, 40)) console.log(`    ${r}`)
+    ausgabe(`\n  ✕ ${rot.length} neue Befunde:`)
+    for (const r of rot.slice(0, 40)) ausgabe(`    ${r}`)
     process.exitCode = 1
-  } else console.log(`\n  ok  ${gemessen} Nachher-Zellen gemessen, nichts gegenüber Vorher verschlechtert`)
+  } else ausgabe(`\n  ok  ${gemessen} Nachher-Zellen gemessen, nichts gegenüber Vorher verschlechtert`)
 }
 
-await main()
+if (import.meta.url === pathToFileURL(process.argv[1]).href) await lauf({ starte: starteBuehne, filter: argument('--mockup', ''), ausgabe: console.log })

@@ -9,19 +9,19 @@ export const istAbsturz = (fehler) => /(page|target) crashed/i.test(String(fehle
 
 /**
  * Führt `arbeit(seite)` aus. Bei Absturz: `ersetze(seite)` liefert eine frische Seite, einmal wird wiederholt.
- * Gibt `{ seite, absturz }` zurück: `seite` ist die zuletzt benutzte (ggf. neue), `absturz` ist `null` oder die Meldung des
- * zweiten Absturzes. Andere Fehler werfen weiter.
+ * Gibt `{ seite, absturz, ergebnis }` zurück: `seite` ist die zuletzt benutzte (ggf. neue), `absturz` ist `null` oder die
+ * Meldung des zweiten Absturzes, `ergebnis` der Rückgabewert des erfolgreichen Versuchs (nie eines abgestürzten). Andere Fehler werfen weiter.
  */
 export async function mitWiederholung(seite, arbeit, ersetze) {
   let aktuell = seite
   for (let versuch = 1; ; versuch++) {
     try {
-      await arbeit(aktuell)
-      return { seite: aktuell, absturz: null }
+      const ergebnis = await arbeit(aktuell)
+      return { seite: aktuell, absturz: null, ergebnis }
     } catch (fehler) {
       if (!istAbsturz(fehler)) throw fehler
       aktuell = await ersetze(aktuell)
-      if (versuch === 2) return { seite: aktuell, absturz: String(fehler.message ?? fehler).split('\n')[0] }
+      if (versuch === 2) return { seite: aktuell, absturz: String(fehler.message ?? fehler).split('\n')[0], ergebnis: undefined }
     }
   }
 }

@@ -19,10 +19,11 @@ const crash = () => new Error('page.evaluate: Page crashed\n  at x')
   const arbeit = async (s) => {
     benutzt.push(s)
     if (s === 'alt') throw crash()
+    return ['z']
   }
   const r = await mitWiederholung('alt', arbeit, async () => (ersetzt++, 'neu'))
   assert.deepEqual(benutzt, ['alt', 'neu'])
-  assert.deepEqual(r, { seite: 'neu', absturz: null })
+  assert.deepEqual(r, { seite: 'neu', absturz: null, ergebnis: ['z'] })
   assert.equal(ersetzt, 1)
 }
 
@@ -45,7 +46,7 @@ const crash = () => new Error('page.evaluate: Page crashed\n  at x')
 /** Kein Fehler: kein Ersatz. */
 {
   const r = await mitWiederholung('a', async () => {}, async () => 'b')
-  assert.deepEqual(r, { seite: 'a', absturz: null })
+  assert.deepEqual(r, { seite: 'a', absturz: null, ergebnis: undefined })
 }
 
 /** Attrappe einer Bühnen-Seite: `abstuerze` = Liste der Adressen-Nummern (1-basiert), bei denen die Seite abstürzt. */
@@ -53,13 +54,14 @@ function attrappe(plan, protokoll, name = 'S0') {
   const seite = {
     name,
     goto: async (url) => {
+      if (seite.geschlossen) throw new Error('Target closed')
       if (url === 'about:blank') return
       protokoll.push(`${seite.name} ${decodeURIComponent(url.split('#')[1])}`)
       if (url.includes('?') && plan.stirbt.has(protokoll.filter((p) => p.includes('?')).length)) throw crash()
     },
     locator: () => ({ first: () => ({ waitFor: async () => {} }), waitFor: async () => {}, elementHandles: async () => [] }),
     $$eval: async (sel) => (sel.includes('uebersicht') ? ['m1'] : sel.includes('"Variante"') ? ['A', 'B'] : sel.includes('"Fall"') ? ['f1'] : []),
-    close: async () => { protokoll.push(`close ${seite.name}`) },
+    close: async () => { seite.geschlossen = true; protokoll.push(`close ${seite.name}`) },
     context: () => ({ newPage: async () => attrappe(plan, protokoll, `S${++plan.nr}`) }),
   }
   return seite
@@ -70,11 +72,15 @@ function attrappe(plan, protokoll, name = 'S0') {
   const protokoll = []
   const plan = { stirbt: new Set([1]), nr: 0 }
   const zellen = []
-  const meldungen = await durchlaufe(attrappe(plan, protokoll), '', async (a) => zellen.push(a.variante))
+  const meldungen = await durchlaufe(attrappe(plan, protokoll), '', async (a) => { zellen.push(a.variante) })
   assert.deepEqual(meldungen, [])
   assert.deepEqual(zellen, ['A', 'B'])
   assert.ok(protokoll.includes('close S0'), 'abgestürzte Seite geschlossen')
   assert.ok(protokoll.some((p) => p.startsWith('S1 m1?')), 'Wiederholung läuft auf der neuen Seite')
+  /* Die Folge-Einheit (Variante B) läuft ebenfalls auf der Ersatzseite, nie mehr auf der geschlossenen S0. */
+  const nachB = protokoll.filter((p) => p.includes('v=B'))
+  assert.ok(nachB.length > 0 && nachB.every((p) => p.startsWith('S1 ')), nachB.join('|'))
+  assert.ok(protokoll.slice(protokoll.indexOf('close S0')).every((p) => !p.startsWith('S0 ')), 'nach dem Schließen kein Zugriff auf S0')
 }
 
 /** Der echte Aufrufer: eine Einheit stürzt zweimal ab → benannte Zeile, die andere Variante wird noch gemessen. */
@@ -82,7 +88,7 @@ function attrappe(plan, protokoll, name = 'S0') {
   const protokoll = []
   const plan = { stirbt: new Set([1, 2]), nr: 0 }
   const zellen = []
-  const meldungen = await durchlaufe(attrappe(plan, protokoll), '', async (a) => zellen.push(a.variante))
+  const meldungen = await durchlaufe(attrappe(plan, protokoll), '', async (a) => { zellen.push(a.variante) })
   assert.equal(meldungen.length, 1)
   assert.match(meldungen[0], /^Absturz m1\/f1 A \(Seite zweimal abgestürzt: /)
   assert.deepEqual(zellen, ['B'])

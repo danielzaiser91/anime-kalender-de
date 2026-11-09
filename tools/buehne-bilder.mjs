@@ -12,6 +12,7 @@
  */
 import { mkdir } from 'node:fs/promises'
 import path from 'node:path'
+import { pathToFileURL } from 'node:url'
 import { argument, durchlaufe, starteBuehne } from './buehne-seite.mjs'
 
 const WURZEL = path.resolve(import.meta.dirname, '..')
@@ -24,28 +25,31 @@ async function nimmAuf({ mockup, fall, variante, zeit, zellen }, ordner, dateien
     const uhr = zeit ? `-${zeit.slice(11, 16).replace(':', '')}` : ''
     const name = `${teil === 'vorher' ? 'vorher' : `nachher-${variante}`}-${geraet}-${thema}${uhr}.png`
     await z.figur.asElement().screenshot({ path: path.join(ziel, name) })
-    dateien.push(path.join(ziel, name))
+    dateien.add(path.join(ziel, name))
   }
 }
 
-async function main() {
-  const ordner = path.resolve(WURZEL, argument('--aus', 'buehne-bilder'))
-  const { browser, seite, fremde } = await starteBuehne()
-  const dateien = []
+/** Der ganze Lauf; `starte` und `ausgabe` sind austauschbar (Test mit Attrappe-Browser). Setzt `process.exitCode` bei Absturz/Fremdanfrage. */
+export async function lauf({ starte, filter, aus, ausgabe }) {
+  const ordner = path.resolve(WURZEL, aus)
+  const { browser, seite, fremde } = await starte()
+  const dateien = new Set()
   let abstuerze = []
   try {
-    abstuerze = await durchlaufe(seite, argument('--mockup', ''), (ansicht) => nimmAuf(ansicht, ordner, dateien))
+    abstuerze = await durchlaufe(seite, filter, (ansicht) => nimmAuf(ansicht, ordner, dateien))
   } finally {
     await browser.close()
   }
-  for (const a of abstuerze) console.log(`  ✕ ${a}`)
+  for (const a of abstuerze) ausgabe(`  ✕ ${a}`)
   if (abstuerze.length) process.exitCode = 1
-  console.log(`${dateien.length} Bilder in ${ordner}`)
-  for (const d of dateien) console.log(`  ${path.relative(ordner, d)}`)
+  ausgabe(`${dateien.size} Bilder in ${ordner}`)
+  for (const d of dateien) ausgabe(`  ${path.relative(ordner, d)}`)
   if (fremde.length) {
-    console.log(`\n  ✕ ${fremde.length} Anfragen nach draußen, z. B. ${fremde[0]}`)
+    ausgabe(`\n  ✕ ${fremde.length} Anfragen nach draußen, z. B. ${fremde[0]}`)
     process.exitCode = 1
   }
 }
 
-await main()
+if (import.meta.url === pathToFileURL(process.argv[1]).href) {
+  await lauf({ starte: starteBuehne, filter: argument('--mockup', ''), aus: argument('--aus', 'buehne-bilder'), ausgabe: console.log })
+}
