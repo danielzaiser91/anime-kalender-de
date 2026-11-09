@@ -1,5 +1,5 @@
 {
-  "stand": "2026-11-09T22:06:13.780Z",
+  "stand": "2026-11-09T22:37:08.953Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -6963,6 +6963,17 @@
       "geprueftAm": null,
       "entferntAm": "2026-11-09",
       "letzterWeg": false
+    },
+    {
+      "titleId": 141821,
+      "titel": "Demon Slave: The Chained Soldier",
+      "plattform": "adn",
+      "url": "https://animationdigitalnetwork.com/de/video/1125",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-11-09",
+      "letzterWeg": true
     },
     {
       "titleId": 143277,

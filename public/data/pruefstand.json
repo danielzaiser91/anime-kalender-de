@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-11-09T22:06:36.181Z",
+ "erzeugtAm": "2026-11-09T22:37:29.573Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -7,10 +7,11 @@
    "gemeldet": 937,
    "gesamt": 995,
    "offen": 58,
-   "ohneSeite": 6,
+   "ohneSeite": 7,
    "suchAdressen": [
     "https://www.amazon.de/s?k=Super%20Wings&i=instant-video",
     "https://www.amazon.de/s?k=Pretty%20Cure&i=instant-video",
+    "https://www.amazon.de/s?k=Demon%20Slave%3A%20The%20Chained%20Soldier&i=instant-video",
     "https://www.amazon.de/s?k=The%20Birth%20Of%20Kitaro%20-%20Das%20Geheimnis%20von%20Gegege&i=instant-video",
     "https://www.amazon.de/s?k=Fischen%20Impossible%3A%20Eine%20tierische%20Rettungsaktion&i=instant-video",
     "https://www.amazon.de/s?k=Z%20wie%20Zorro%20%E2%80%93%20Der%20Film&i=instant-video",
