@@ -44,6 +44,6 @@ if (folgen < 1000) {
 /* Serienbeleg ohne Folgenflagge: nur Zählung, nie Rot (`lib/serienbeleg-ohne-folgenflagge.ts`). */
 fehler += pruefeSerienbeleg(fileURLToPath(new URL('../', import.meta.url)))
 
-console.log(`check-folgenflaggen-bestand:${fehler ? `${fehler} Fehler` : 'ok'} (${listen} Folgenlisten, ${folgen} Folgen aus den Bereichen der Wege)`)
+console.log(`check-folgenflaggen-bestand: ${fehler ? `${fehler} Fehler` : 'ok'} (${listen} Folgenlisten, ${folgen} Folgen aus den Bereichen der Wege)`)
 console.log(`VERSTÖSSE: ${fehler}`)
 process.exit(fehler ? 1 : 0)
