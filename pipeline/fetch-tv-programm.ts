@@ -244,6 +244,34 @@ export function namenIndex(): Map<string, number> {
   return namen
 }
 
+/** Liest je Tag und Sender die tv.de-Seite und reicht den Text an `verarbeite`; eine fehlgeschlagene Seite wird gewarnt und übersprungen. */
+export async function tvDeSeitenLesen(
+  abruf: typeof fetch,
+  tage: string[],
+  slugs: string[],
+  verarbeite: (slug: string, tag: string, html: string) => void,
+  pause: () => Promise<void> = () => new Promise((ok) => setTimeout(ok, 1500)),
+): Promise<{ seiten: number }> {
+  let seiten = 0
+  for (const tag of tage) {
+    const [j, m, t] = tag.split('-')
+    for (const slug of slugs) {
+      try {
+        const antwort = await abruf(`https://tv.de/sender/${slug}/${t}.${m}.${j}/`, {
+          headers: { 'User-Agent': 'anime-kalender-de (https://anime-kalender.de; einmal am Tag, nur Anime)' },
+        })
+        if (!antwort.ok) throw new Error(`HTTP ${antwort.status}`)
+        seiten++
+        verarbeite(slug, tag, await antwort.text())
+      } catch (err) {
+        warn(`tv.de ${slug} ${tag}: ${err instanceof Error ? err.message : String(err)}`)
+      }
+      await pause()
+    }
+  }
+  return { seiten }
+}
+
 export async function main(): Promise<void> {
   /* Fällt eine Quelle aus, arbeitet die andere weiter — gemeldet wird trotzdem. */
   let sendungen: ReturnType<typeof sendungenAusSeite> = []
@@ -292,39 +320,28 @@ export async function main(): Promise<void> {
   let tvdeSeiten = 0
   const tvdeFaellig = datei.tvdeGeholtAm !== heute || process.argv.includes('--tvde')
   if (!tvdeFaellig) log(`tv.de heute schon geholt (${datei.tvdeGeholtAm}) — übersprungen.`)
-  for (let d = -1; tvdeFaellig && d <= 7; d++) {
-    const tag = new Date(Date.now() + d * 864e5).toISOString().slice(0, 10)
-    const [j, m, t] = tag.split('-')
-    for (const [slug, name] of Object.entries(TVDE_SENDER)) {
-      try {
-        const antwort = await fetch(`https://tv.de/sender/${slug}/${t}.${m}.${j}/`, {
-          headers: { 'User-Agent': 'anime-kalender-de (https://anime-kalender.de; einmal am Tag, nur Anime)' },
-        })
-        if (!antwort.ok) throw new Error(`HTTP ${antwort.status}`)
-        tvdeSeiten++
-        for (const s of tvDeSendungen(await antwort.text(), tag)) {
-          const titleId = titelZuordnen(s.titel, namen)
-          if (!titleId) continue
-          const kennung = `tvde_${slug}+${s.kennung}`
-          if (!bestand[kennung]) neu++
-          tvde++
-          bestand[kennung] = {
-            titleId,
-            titel: s.titel,
-            ...(s.folge ? { folge: s.folge } : {}),
-            sender: name,
-            start: s.start,
-            ende: s.ende,
-            gesehenAm: bestand[kennung]?.gesehenAm ?? heute,
-          }
-          log(`  ${name} ${s.start.slice(0, 16)} ${s.titel}${s.folge ? ` — ${s.folge}` : ''} → ${titleId} (tv.de)`)
-        }
-      } catch (err) {
-        warn(`tv.de ${slug} ${tag}: ${err instanceof Error ? err.message : String(err)}`)
+  const tage = Array.from({ length: 9 }, (_, i) => new Date(Date.now() + (i - 1) * 864e5).toISOString().slice(0, 10))
+  const lauf = await tvDeSeitenLesen(fetch, tvdeFaellig ? tage : [], Object.keys(TVDE_SENDER), (slug, tag, html) => {
+    const name = TVDE_SENDER[slug]!
+    for (const s of tvDeSendungen(html, tag)) {
+      const titleId = titelZuordnen(s.titel, namen)
+      if (!titleId) continue
+      const kennung = `tvde_${slug}+${s.kennung}`
+      if (!bestand[kennung]) neu++
+      tvde++
+      bestand[kennung] = {
+        titleId,
+        titel: s.titel,
+        ...(s.folge ? { folge: s.folge } : {}),
+        sender: name,
+        start: s.start,
+        ende: s.ende,
+        gesehenAm: bestand[kennung]?.gesehenAm ?? heute,
       }
-      await new Promise((ok) => setTimeout(ok, 1500))
+      log(`  ${name} ${s.start.slice(0, 16)} ${s.titel}${s.folge ? ` — ${s.folge}` : ''} → ${titleId} (tv.de)`)
     }
-  }
+  })
+  tvdeSeiten = lauf.seiten
   /* Nachtblöcke: je gesichteter Reihe und Sender einmal die Detailseite mit „Bald im TV". */
   if (tvdeFaellig) {
     const reihen = new Map<string, { slug: string; kennung: string; titel: string; titleId: number; sender: string }>()
