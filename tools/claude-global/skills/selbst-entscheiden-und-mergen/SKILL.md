@@ -42,6 +42,7 @@ Datei es erlaubt. Tatsachenzahlen (IDs, Termine, Uhrzeiten, Folgenzahlen, Synchr
   „aendern“ sagen; dann hängt der PR still auf BLOCKED (1069 und 1074 je 20 min). In der nächsten Wachphase
   `reviewDecision` lesen; bei CHANGES_REQUESTED den letzten Prüfprotokoll-Kommentar holen
   (`gh api repos/<repo>/issues/<N>/comments -q '.[-1].body'`). Bei DIRTY löst ein Merge von main den Konflikt, kein Rebase; danach vor dem Push `node tools/pr-vorpruefung.test.mjs` — ein konfliktfreier Merge kann `tools/check-*-liste.txt` unsortiert hinterlassen (2289, 28.10.2026: Kette rot, eine Prüfrunde verloren).
+  Ein PR, der eine Prüfung über das ganze Repo neu rot schaltet, wird nur gemergt, wenn seine Kette gegen den aktuellen main-Kopf lief, sonst erst main einmergen (09.11.2026: #2950 schaltete `mutationsanker --alle` rot, main nach #3196 war rot, Fix #3260).
   Der Check „Prüfer-Review“ steht auch bei „aendern“ auf **pass** — `gh pr checks` sagt darüber nichts (1133: 13 min
   für grün gehalten, 13.10.2026). Darum in jeder Wachphase statt `gh pr list` einmal:
   `gh pr list --json number,reviewDecision,mergeStateStatus -q '.[]|"\(.number) \(.reviewDecision) \(.mergeStateStatus)"'`.
