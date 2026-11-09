@@ -1,11 +1,11 @@
 {
-  "scrapedAt": "2026-11-09T16:02:12.316Z",
+  "scrapedAt": "2026-11-09T20:01:54.837Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 14,
-    "schon in einem Rubrik-Feed gelesen": 5,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 13,
+    "schon in einem Rubrik-Feed gelesen": 6,
     "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 1,
     "Sprachhinweis älter als 45 Tage": 6
   },
@@ -28,46 +28,19 @@
       "alreadyCurated": false
     },
     {
-      "articleTitle": "Zwei weitere Anime-Neuzugänge ab sofort auf Joyn verfügbar",
-      "articleUrl": "https://www.anime2you.de/news/1069021/joyn-yaiba-samurai-legend-und-mehr/",
-      "publishedAt": "2026-11-08",
-      "category": "streaming",
-      "platforms": [
-        "joyn"
-      ],
-      "dates": [],
-      "dub": "ja",
-      "zeiten": [
+      "articleTitle": "Thalia startet große Rabattaktion mit zahlreichen Anime-Produkten",
+      "articleUrl": "https://www.anime2you.de/news/1069214/thalia-singles-day-2026-rabattaktion/",
+      "publishedAt": "2026-11-09",
+      "category": "disc",
+      "platforms": [],
+      "dates": [
         {
-          "tag": "Freitag",
-          "zeit": "18:30",
-          "satz": "ins Chaos zu stürzen. »YAIBA: Samurai Legend« Episoden: 2 von 24 Sprache: Deutsch Hinweis: Neue Episoden erscheinen jeweils nach der TV-Ausstrahlung auf ProSieben MAXX (Montag bis Freitag um 18:30 Uhr) Stream: Joyn (kostenlos) Handlung: Yai"
+          "iso": "2026-11-11",
+          "context": "mit Gutscheincode Mit dem Gutscheincode GESCHENK gibt es noch bis zum 11. November 2026 einen Preisnachlass von 15 % auf einen Großteil des"
         }
       ],
-      "alreadyCurated": false,
-      "sammel": [
-        {
-          "titel": "Akira",
-          "deutsch": true,
-          "woechentlich": false,
-          "stream": [
-            "Joyn (kostenplichtig)"
-          ],
-          "datum": "2026-11-08",
-          "datumGeschaetzt": true
-        },
-        {
-          "titel": "YAIBA: Samurai Legend",
-          "deutsch": true,
-          "woechentlich": false,
-          "stream": [
-            "Joyn (kostenlos)"
-          ],
-          "datum": "2026-11-08",
-          "datumGeschaetzt": true
-        }
-      ],
-      "sammelGelesen": "2026-11-09"
+      "dub": "unklar",
+      "alreadyCurated": false
     },
     {
       "articleTitle": "Start der fünften »Minami-ke«-Staffel steht fest + Teaser",

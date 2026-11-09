@@ -49,6 +49,7 @@ pipeline/check-handlung-eigen-bestand.ts
 pipeline/check-herkunftsland-bestand.ts
 pipeline/check-interne-angaben-bestand.ts
 pipeline/check-ja-hat-weg-bestand.ts
+pipeline/check-joyn-block-bestand.ts
 pipeline/check-joyn-luecke-bestand.ts
 pipeline/check-joyn-pille-bestand.ts
 pipeline/check-joyn-sender-bestand.ts
@@ -68,6 +69,7 @@ pipeline/check-news-einfrieren-bestand.ts
 pipeline/check-news-felder-bestand.ts
 pipeline/check-news-offiziell-bestand.ts
 pipeline/check-nur-omu-bestand.ts
+pipeline/check-prime-gleiche-gti-bestand.ts
 pipeline/check-prime-teilseiten-bestand.ts
 pipeline/check-reihen-namen-bestand.ts
 pipeline/check-reihen-teilname-bestand.ts

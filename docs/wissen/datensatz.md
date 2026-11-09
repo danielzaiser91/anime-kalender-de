@@ -1181,9 +1181,13 @@ Folge: Notizen mit Besucherwert (z. B. „Erhielt in Deutschland keine FSK-Freig
 
 Wer einen Handbeleg aus `data/dub-confirmed.yaml` als falsch entfernt, trägt Kennung und Adresse im selben Commit in `data/belege-entfernt.yaml` ein (mit `grund`, `entferntAm`). Sonst hängt der nächste Bestandsbau ihn aus den abgeholten Browser-Meldungen wieder an (`pipeline/lib/belege-anhaengen.ts`, Regel `pipeline/lib/belege-entfernt.ts`). `check-belege-entfernt.ts` prüft, dass kein Eintrag der Liste in der Beleg-Datei steht. Anlass: Heidi 1974 (2225) bekam den Disney+-Weg des Cartoons zurück, Made in Abyss (97986) die Amazon-Seite der Goldenen Stadt (PR 2288).
 
+**Stehen an derselben Adresse auch echte Ja-Blöcke des Titels, kommt kein Eintrag in `belege-entfernt.yaml`** (09.11.2026, PR 3288, Goblin Slayer 2): `istEntfernt` vergleicht nur Kennung und Adresse und sperrte die Ja-Blöcke mit, `check-belege-entfernt.ts` würde rot. Dann wird nur der falsche Block gelöscht und der PR begründet, warum er nicht wiederkehrt: die Meldung, die ihn schrieb, ist übernommen (Meldungskopie, `übernommen=1`), eine offene Meldung mit gleicher Seite wird benannt und ihre Folge (Ratsche, Titelmarke) erklärt.
+
 ## Prime-Handbelege: `url` ist oft die Einstiegsseite (29.10.2026)
 
 Die `url` eines Prime-Handbelegs ist oft die Einstiegsseite; die gemessene Seite steht in der Notiz („Amazon-Seite X“, „Seitenadresse“). Die `asin` in `prime-zugeordnet.json` ist kein Seitenbeleg. Gleiche `gti` an zwei Adressen heißt: derselbe Inhalt. „Laut Adresse Staffel k“ in der Notiz belegt, zu welcher Staffel die Adresse gehört; ein Beleg mit abweichendem k ist falsch abgelegt und wird umgehängt oder in `belege-entfernt.yaml` eingetragen (Quelle: Analyse der 32 Fremdpaare, 29.10.2026).
+
+**Ein Titel führt je gti einen Prime-Weg** (09.11.2026): der Bau (`fuehrePrimeGleicheGtiZusammen` in `pipeline/lib/prime-gleiche-gti.ts`, am Ende von `schliesseWegeAb`) führt Prime-Wege mit derselben gti am selben Titel zusammen. Es bleibt der Weg mit Folgenbereichen, sonst einer mit Deutsch-Urteil, sonst der erste; Kanal, Zugang, Seite und Herkunft ergänzt er vom entfernten. Ja gegen Nein bleibt doppelt und macht `check-prime-gleiche-gti-bestand.ts` rot. Grund: `adresseDesWegs` vergibt einem Termin nur bei genau einem Weg dessen Adresse. Auf main 19 Titel (Stand 0c6eecdba, `public/data/titles.json` mit `data/amazon-gti-belegt.json`), danach 0.
 
 ## Folgen-Zuordnung ohne fremde Adressen (29.10.2026)
 

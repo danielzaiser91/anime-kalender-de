@@ -203,18 +203,6 @@ DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-47-joyn@2026-11-08@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261108
-DTEND;VALUE=DATE:20261109
-SUMMARY:Akira
-DESCRIPTION:Plattform: Joyn\nRelease-Art: Film\nUhrzeit noch nicht bestäti
- gt.\nGeschätzter Termin: kein vom Anbieter genannter Tag\, sondern aus Rh
- ythmus oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.
- de/t/29/
-CATEGORIES:Joyn
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GT00371866@2026-11-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261109T143000Z
