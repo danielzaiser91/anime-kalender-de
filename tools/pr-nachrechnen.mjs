@@ -67,12 +67,12 @@ const ohneKetteLeser = (datei) => (datei.startsWith('docs/') && datei !== LIEST_
 
 /**
  * Dateien auf main, die jeden PR entwerten, auch ohne Zusammenhang: sie legen fest, was die Kette prüft (Kettendefinition, Pakete, Wächter
- * unter tools/check-*, Ausführungslisten, Grenzen, das von `design-kontrast` gelesene Dokument). Alles andere Fremde (Sammler-Workflows,
- * Agenten-Texte, Erweiterung, einzelne Werkzeuge, einzelne Prüfungen und Tests unter pipeline/ und tools/) entwertet nur bei Zusammenhang
+ * unter tools/check-*, Grenzen, das von `design-kontrast` gelesene Dokument). Alles andere Fremde (Sammler-Workflows, Agenten-Texte,
+ * Erweiterung, einzelne Werkzeuge, Ausführungslisten `tools/check-*-liste.txt`, einzelne Prüfungen und Tests unter pipeline/ und tools/) entwertet nur bei Zusammenhang
  * mit dem PR (`bewegtesGelesen`: Berührung, Nennung, Import in beide Richtungen). Anlass: Nacht-Merger, 15 Merges in 59 Läufen,
  * 148 Abweisungen „main bewegte …“ (Auswertung 09.11.2026).
  */
-export const kettenweit = (datei) => datei === LIEST_KETTE || /^(\.github\/workflows\/pr-pruefung\.yml|package(-lock)?\.json|tsconfig[^/]*\.json|eslint\.config\.[^/]+|tools\/(check-[^/]*|[^/]*-liste\.txt|umfang-grenzen\.json))$/.test(datei)
+export const kettenweit = (datei) => datei === LIEST_KETTE || /^(\.github\/workflows\/pr-pruefung\.yml|package(-lock)?\.json|tsconfig[^/]*\.json|eslint\.config\.[^/]+|tools\/(check-[^/]*\.(mjs|cjs|js|ts)|umfang-grenzen\.json))$/.test(datei)
 
 const lokal = (vergleich) => (vergleich.lokalFehler === undefined ? '' : ` (lokales git: ${vergleich.lokalFehler})`)
 
