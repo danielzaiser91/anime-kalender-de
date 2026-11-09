@@ -294,6 +294,7 @@ jobs:
           PFADE="$PFADE|^tools/suchhinweis-quickfix-pruefen\.mjs$"
           PFADE="$PFADE|^tools/tempo-kern\.mjs$"
           PFADE="$PFADE|^tools/termin-karte-urteil\.mjs$"
+          PFADE="$PFADE|^tools/test-netz-sperre\.mjs$"
           PFADE="$PFADE|^tools/trefferprobe-ausnahmen\.mjs$"
           PFADE="$PFADE|^tools/trefferprobe-browser\.mjs$"
           PFADE="$PFADE|^tools/trefferprobe-selbsttest\.mjs$"
