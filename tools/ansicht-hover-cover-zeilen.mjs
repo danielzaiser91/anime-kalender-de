@@ -27,6 +27,12 @@ const ABSTAND_MIN = 8
 const ABSTAND_MAX = 40
 /** Mindesthöhe über einer Zeile, damit die Karte darüber Platz hat. */
 const VORSCHAU_PLATZ = VORSCHAU_HOEHE + 20
+/**
+ * So viele Zeilen der Ansicht kommen für den Randfall unten in Frage. Der TV-Kasten des heutigen Tages rollt in einer
+ * Spalte von Zeilenhöhe (WeekView `TvSpalte`): seine Zeilen liegen im Dokument weit oben oder sind weggeschnitten,
+ * erst die Kästen späterer Tage bieten eine Zeile mit Platz darüber — das sind schon mehr als zwölf Zeilen weiter.
+ */
+const KANDIDATEN_MAX = 80
 
 /** Dateiname eines Cover-Links ohne Größenordner und Abfrage: gleich für jede Größe desselben Bildes. */
 function bildName(url) {
@@ -159,7 +165,7 @@ function zeileTrifft(zeile) {
 async function messeUntenRand(seite, zeile, wahl) {
   const zeilen = seite.locator(wahl)
   const kandidaten = [zeile]
-  for (let i = 0; i < Math.min(await zeilen.count(), 12); i++) kandidaten.push(zeilen.nth(i))
+  for (let i = 0; i < Math.min(await zeilen.count(), KANDIDATEN_MAX); i++) kandidaten.push(zeilen.nth(i))
   for (const z of kandidaten) {
     if ((await z.evaluate((el) => el.getBoundingClientRect().top + window.scrollY)) < VORSCHAU_PLATZ) continue
     await seite.setViewportSize(FENSTER)
