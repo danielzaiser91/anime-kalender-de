@@ -15,6 +15,7 @@ import { logJobs } from './zug-trocken.mjs'
 import { FAHRT_ZWEIG, PROBE_ZWEIG, basisGrenzen, basisRef, bauUndDeployBefehle, fahrtLog, fahrtSchritt, ffEntscheidung, ketteArt, ratschenZustand, revertPlan, schuldsuche, zugEintraege } from './zug.mjs'
 
 const KETTE = 'pr-pruefung.yml'
+const KETTE_NAME = 'PR-Prüfkette'
 const GIT_LIMIT_MS = 120_000
 const PR_TEXT = 'Sammelfahrt des Zugs, wird von zug-fahrt.yml verwaltet, nicht von Hand mergen.\n\nPatch Notes: keine – CI: Fahrt-PR, die Unter-PRs tragen ihre eigenen Patch Notes, 0 Titel/Termine/Meldungen/Wege/Zeilen.'
 
@@ -189,7 +190,8 @@ function probeFertig({ gh, git }, probe) {
 /** Kette auf einem Fahrt- oder Probe-Zweig ist fertig. `lauf`: Nummer des Kettenlaufs (workflow_run.id). */
 export function urteil(ctx, zweig, laufNr) {
   const { gh, melde, trocken } = ctx
-  const lauf = JSON.parse(gh(['run', 'view', String(laufNr), '--json', 'databaseId,headSha,status,conclusion']))
+  const lauf = JSON.parse(gh(['run', 'view', String(laufNr), '--json', 'databaseId,headSha,status,conclusion,workflowName,headBranch']))
+  if (lauf.workflowName !== KETTE_NAME || lauf.headBranch !== zweig) return ende(melde, `Lauf ${laufNr} ist nicht die Kette auf ${zweig} (${lauf.workflowName}/${lauf.headBranch}): kein Urteil, nichts geschoben`, 2)
   const kette = ketteArt(lauf)
   if (kette === 'offen') return ende(melde, `Kette ${laufNr} auf ${zweig}: kein Urteil (${lauf.status}/${lauf.conclusion || '-'})`)
   const pr = offenerPr(gh, FAHRT_ZWEIG)
@@ -202,8 +204,16 @@ export function urteil(ctx, zweig, laufNr) {
   }
   if (kette === 'gruen') {
     const { log, schritt } = fahrtGruen(ctx, lauf)
-    schreibeLog(log, { ...ctx, pr })
-    return schritt.art === 'geschoben' ? bauDeploy(ctx) : 0
+    let kommentarFehler = null
+    try {
+      schreibeLog(log, { ...ctx, pr })
+    } catch (e) {
+      kommentarFehler = e
+    }
+    // Nach dem echten Push startet Bau/Deploy auch, wenn der Kommentar scheitert.
+    const exit = schritt.art === 'geschoben' ? bauDeploy(ctx) : 0
+    if (kommentarFehler) throw kommentarFehler
+    return exit
   }
   schreibeLog(fahrtLog({ kopf: lauf.headSha, kette: 'rot', schritt: fahrtSchritt({ kette: 'rot' }) }), { ...ctx, pr })
   return starteProbe(ctx)

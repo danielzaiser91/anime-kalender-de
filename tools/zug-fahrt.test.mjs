@@ -70,7 +70,9 @@ function fakeGh(zustand = {}) {
     if (a === 'pr' && b === 'list') return JSON.stringify(zustand.prs?.[opt('--head')] && opt('--base') === 'main' ? [{ number: zustand.prs[opt('--head')] }] : [])
     if (a === 'run' && b === 'list') return JSON.stringify(zustand.laeufe?.[opt('--branch')] ?? [])
     if (a === 'run' && b === 'view' && args.includes('--log-failed')) return zustand.log?.[args[2]] ?? ''
-    if (a === 'run' && b === 'view') return JSON.stringify(zustand.lauf[args[2]])
+    // Standard: Lauf 6 ist die Probe, alle anderen die Fahrt; Einzelfälle überschreiben beides.
+    if (a === 'run' && b === 'view') return JSON.stringify({ workflowName: 'PR-Prüfkette', headBranch: args[2] === '6' ? 'zug-probe' : 'zug-fahrt', ...zustand.lauf[args[2]] })
+    if (a === 'pr' && b === 'comment' && zustand.kommentarFehler) throw new Error('HTTP 502 beim Kommentar')
     if ((a === 'pr' && ['create', 'comment', 'close'].includes(b)) || (a === 'workflow' && b === 'run')) {
       schreib.push(args.join(' '))
       if (b === 'create') zustand.beiCreate?.()
@@ -433,7 +435,7 @@ function gleichListe(a, b) {
   const aus = []
   pruefe('ohne Befehl → Exit 2 mit Aufruf-Zeile', main([], { melde: (z) => aus.push(z) }) === 2 && /Aufruf:/.test(aus[0]))
   // Attrappen, die einen Aufruf des Urteils als Exit 0 zeigen: ein stiller Abruffehler (echtes gh) ergäbe auch Exit 2 und verdeckte die Prüfung.
-  const laeuft = { gh: () => JSON.stringify({ databaseId: 1, headSha: 'a'.repeat(40), status: 'in_progress', conclusion: '' }), git: () => '', melde: () => {} }
+  const laeuft = { gh: () => JSON.stringify({ workflowName: 'PR-Prüfkette', headBranch: 'zug-fahrt', databaseId: 1, headSha: 'a'.repeat(40), status: 'in_progress', conclusion: '' }), git: () => '', melde: () => {} }
   pruefe('Kontrolle: gültiger Aufruf mit laufender Kette → Exit 0', main(['urteil', '--zweig', 'zug-fahrt', '--lauf', '1'], laeuft) === 0)
   pruefe('urteil mit Zweig main → Exit 2', main(['urteil', '--zweig', 'main', '--lauf', '1'], laeuft) === 2)
   pruefe('urteil mit Lauf x → Exit 2', main(['urteil', '--zweig', 'zug-fahrt', '--lauf', 'x'], laeuft) === 2)
@@ -532,6 +534,31 @@ const botCommitAufMain = (w) => {
   const { gh, schreib } = fakeGh({ prs: { 'zug-fahrt': 7 }, lauf: { 9: { databaseId: 9, headSha: kopf, status: 'completed', conclusion: 'failure' } }, log: { 9: '' } })
   urteil(ctx(w, gh, { schieben: true }), 'zug-fahrt', '9')
   pruefe('rote Kette + --schieben: main unverändert, kein Bau', refOrigin(w, 'refs/heads/main') === mainVorher && !schreib.some((s) => s.startsWith('workflow run')), schreib)
+}
+{
+  const fremd = [
+    ['anderer Workflow', { workflowName: 'Deploy' }],
+    ['anderer Zweig', { headBranch: 'zug-probe' }],
+  ]
+  for (const [name, abweichung] of fremd) {
+    const { w, kopf } = weltMitFahrt()
+    const mainVorher = refOrigin(w, 'refs/heads/main')
+    const aufgerufen = []
+    const { gh, schreib } = fakeGh({ prs: { 'zug-fahrt': 7 }, lauf: { 9: { ...LAUF_GRUEN[9], headSha: kopf, ...abweichung } } })
+    const c = ctx(w, gh, { git: gitMitProtokoll(w, aufgerufen), schieben: true })
+    pruefe(`grüner Lauf, ${name}, gleicher Kopf → Exit 2, kein Push, kein Kommentar, kein Dispatch`, urteil(c, 'zug-fahrt', '9') === 2 && refOrigin(w, 'refs/heads/main') === mainVorher && !aufgerufen.some((a) => a[0] === 'push') && schreib.length === 0 && /nicht die Kette/.test(c.zeilen[0]), { zeilen: c.zeilen, schreib })
+  }
+}
+{
+  const { w, kopf } = weltMitFahrt()
+  const { gh, schreib } = fakeGh({ prs: { 'zug-fahrt': 7 }, lauf: { 9: { ...LAUF_GRUEN[9], headSha: kopf } }, kommentarFehler: true })
+  let geworfen = null
+  try {
+    urteil(ctx(w, gh, { schieben: true }), 'zug-fahrt', '9')
+  } catch (e) {
+    geworfen = e
+  }
+  pruefe('Kommentar wirft nach echtem Push → main vorn, Bau und Deploy starten trotzdem, Fehler bleibt sichtbar', refOrigin(w, 'refs/heads/main') === kopf && schreib.join('|') === 'workflow run bestand-bauen.yml --ref main|workflow run deploy.yml --ref main' && /HTTP 502/.test(geworfen?.message), { schreib, geworfen: geworfen?.message })
 }
 
 rmSync(wurzel, { recursive: true, force: true })
