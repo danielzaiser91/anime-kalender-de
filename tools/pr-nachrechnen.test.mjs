@@ -363,7 +363,7 @@ for (const fremd of ['.github/workflows/claude-animenyou-extraktion.yml', '.gith
   const code3 = main(['7'], k3.gh, k3.melde, k3.warte, stub3)
   pruefe(`C: PR berührt ${fremd} selbst -> 1, Leser nicht gefragt`, code3 === 1 && stub3.aufrufe.length === 0 && k3.meldungen.join().includes(`der PR berührt ${fremd}`), { code3, m: k3.meldungen })
 }
-for (const [datei, erwartet] of [['.github/workflows/pr-pruefung.yml', true], ['.github/workflows/pr-pruefer.yml', false], ['package.json', true], ['package-lock.json', true], ['tsconfig.json', true], ['pipeline/check-x.ts', false], ['pipeline/bau/x.ts', false], ['tools/check-logic-liste.txt', true], ['tools/check-x.mjs', true], ['tools/x.mjs', false], ['tools/x.test.mjs', false], ['tools/umfang-grenzen.json', true], ['docs/wissen/design-regeln.md', true], ['extension/manifest.json', false], ['web/src/a.tsx', false]]) {
+for (const [datei, erwartet] of [['.github/workflows/pr-pruefung.yml', true], ['.github/workflows/pr-pruefer.yml', false], ['package.json', true], ['package-lock.json', true], ['tsconfig.json', true], ['pipeline/check-x.ts', false], ['pipeline/bau/x.ts', false], ['tools/check-logic-liste.txt', true], ['tools/check-x.mjs', true], ['tools/x.mjs', false], ['eslint.config.js', true], ['tools/andere-liste.txt', true], ['web/package.json', false], ['tools/x.test.mjs', false], ['tools/umfang-grenzen.json', true], ['docs/wissen/design-regeln.md', true], ['extension/manifest.json', false], ['web/src/a.tsx', false]]) {
   pruefe(`kettenweit(${datei}) = ${erwartet}`, kettenweit(datei) === erwartet)
 }
 {
