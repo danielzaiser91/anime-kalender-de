@@ -84,11 +84,11 @@ console.log('Ratschen: wörtliche Meldungen')
 const COVER = '471 Titel mit Cover zeigen das Standardbild, erlaubt höchstens 449'
 const UMFANG = '  pipeline: Überlänge der funktionen 8986 statt höchstens 8964'
 const BUDGET = 'start-budget: 250.2 KB gzip, 0.2 KB über der Grenze von 250.0 KB (index 120.1)'
-pruefe('Cover', gleich(ratschenMeldung(COVER), { name: 'cover-standardbild', wert: 471, grenze: 449 }))
+pruefe('Cover', gleich(ratschenMeldung(COVER), { name: 'cover-standardbild', wert: 471, grenze: 449, schluessel: 'cover-standardbild:teilseiten' }))
 pruefe('Umfang', gleich(ratschenMeldung(UMFANG), { name: 'umfang', wert: 8986, grenze: 8964, schluessel: 'umfang:pipeline:funktionen' }))
 pruefe('Umfang je Bereich und Art: web/src dateien', gleich(ratschenMeldung('web/src: Überlänge der dateien 300 statt höchstens 295'), { name: 'umfang', wert: 300, grenze: 295, schluessel: 'umfang:web/src:dateien' }))
 pruefe('Umfang Ketten', gleich(ratschenMeldung('shared: Ketten (mehrere Anweisungen/Felder/Einträge in einer Zeile) 37 statt höchstens 36'), { name: 'umfang', wert: 37, grenze: 36, schluessel: 'umfang:shared:ketten' }))
-pruefe('Cover aus der Bestandsprüfung („als Link-Vorschau“)', gleich(ratschenMeldung('171 Titel mit Cover zeigen das Standardbild als Link-Vorschau, erlaubt höchstens 170 (jüngste Kennungen: 9)'), { name: 'cover-standardbild', wert: 171, grenze: 170 }))
+pruefe('Cover aus der Bestandsprüfung („als Link-Vorschau“)', gleich(ratschenMeldung('171 Titel mit Cover zeigen das Standardbild als Link-Vorschau, erlaubt höchstens 170 (jüngste Kennungen: 9)'), { name: 'cover-standardbild', wert: 171, grenze: 170, schluessel: 'cover-standardbild:vorschau' }))
 pruefe('Start-Budget', gleich(ratschenMeldung(BUDGET), { name: 'start-budget', wert: 250.2, grenze: 250 }))
 pruefe('andere Meldung → null', ratschenMeldung('FEHL Fortsetzungsseite (nach > 0): auch ohne COUNT(*)') === null && ratschenMeldung('') === null)
 pruefe('wert ≤ Grenze → ok', ratschenFall({ wert: 449, grenze: 449 }, 500) === 'ok')
@@ -135,7 +135,7 @@ pruefe('Ratsche, Basisgrenze hält → ratsche (Anlass 4 von 7 Rot-nach-Grün-K�
 pruefe('Ratsche, Basisgrenze unbekannt → ratsche, fall ratsche-pruefen', s0({ fehlschlag: { jobs: [jobBau(COVER)] } }).fall === 'ratsche-pruefen')
 pruefe('Ratsche eingehalten (Wert = Grenze) → keine Ratsche, weiter zur Suche', s0({ fehlschlag: { jobs: [jobBau('pipeline: Überlänge der funktionen 8964 statt höchstens 8964')] }, grenzeBasis: { umfang: 9000 } }).art === 'halbieren')
 pruefe('Ratsche vom Zug selbst gerissen → keine Ratsche, weiter zur Suche', s0({ fehlschlag: { jobs: [jobBau(UMFANG)] }, grenzeBasis: { umfang: 8970 } }).art === 'halbieren')
-pruefe('Ratsche steht in einem von zwei Jobs → trotzdem ratsche', s0({ fehlschlag: { jobs: [{ name: 'Kette – Workflows', meldung: 'x' }, jobBau(COVER)] }, grenzeBasis: { 'cover-standardbild': 480 } }).art === 'ratsche')
+pruefe('Ratsche steht in einem von zwei Jobs → trotzdem ratsche', s0({ fehlschlag: { jobs: [{ name: 'Kette – Workflows', meldung: 'x' }, jobBau(COVER)] }, grenzeBasis: { 'cover-standardbild:teilseiten': 480 } }).art === 'ratsche')
 pruefe('genau ein Verdächtiger nach Job und Dateien → pr', gleich(s0({}), { art: 'pr', nr: 1, wie: 'job+dateien' }))
 pruefe('mehrere Verdächtige → halbieren über sie, der Rest bleibt', gleich(s0({ fehlschlag: { jobs: [{ name: 'Kette – Typen und Worker', meldung: 'x' }, { name: 'PR-Aussehen – a', meldung: 'y' }] }, zugPrs: [{ nr: 1, dateien: ['worker/a.ts'] }, { nr: 2, dateien: ['web/src/b.tsx'] }, { nr: 3, dateien: ['docs/c.md'] }] }).zustand, { bleibt: [3], verdacht: [1, 2], draussen: [] }))
 pruefe('kein Verdächtiger passt → alle werden halbiert', gleich(s0({ fehlschlag: JOBS_ROT, zugPrs: [{ nr: 4, dateien: ['docs/a.md'] }, { nr: 5, dateien: ['docs/b.md'] }] }).zustand, { bleibt: [], verdacht: [4, 5], draussen: [] }))
@@ -295,12 +295,18 @@ const DATEIEN = {
   'tools/umfang-grenzen.json': JSON.stringify({ ueberlaenge: { pipeline: { funktionen: 8907, dateien: 1030, ketten: 285 }, 'web/src': { funktionen: 3333 } } }),
 }
 const bg = basisGrenzen((d) => DATEIEN[d] ?? null)
-pruefe('Cover: die strengere der zwei Grenzen', bg['cover-standardbild'] === 168)
+pruefe('Cover: je Wächter eine eigene Grenze (Vorschau 170, Teilseiten 168)', bg['cover-standardbild:vorschau'] === 170 && bg['cover-standardbild:teilseiten'] === 168)
 pruefe('Start-Budget in KB', bg['start-budget'] === 190)
 pruefe('Umfang je Bereich und Art', bg['umfang:pipeline:funktionen'] === 8907 && bg['umfang:pipeline:ketten'] === 285 && bg['umfang:web/src:funktionen'] === 3333)
-pruefe('Umfang: nichts erfunden', Object.keys(bg).length === 6, Object.keys(bg))
+pruefe('Umfang: nichts erfunden', Object.keys(bg).length === 7, Object.keys(bg))
 pruefe('Datei fehlt am Basisstand → Schlüssel fehlt (kein Raten)', gleich(basisGrenzen(() => null), {}))
-pruefe('nur eine der Cover-Dateien da → deren Wert', basisGrenzen((d) => (d === 'pipeline/check-teilseiten.ts' ? DATEIEN[d] : null))['cover-standardbild'] === 168)
+pruefe('nur eine der Cover-Dateien da → nur deren Schlüssel', gleich(basisGrenzen((d) => (d === 'pipeline/check-teilseiten.ts' ? DATEIEN[d] : null)), { 'cover-standardbild:teilseiten': 168 }))
+const COVER_V = '171 Titel mit Cover zeigen das Standardbild als Link-Vorschau, erlaubt höchstens 170 (jüngste Kennungen: 9)'
+pruefe('schuldsuche Cover Teilseiten: eigene Basisgrenze 480 hält 471 → ratsche (Minimum 170 hätte Zug gesagt)', s0({ fehlschlag: { jobs: [jobBau(COVER)] }, grenzeBasis: { 'cover-standardbild:teilseiten': 480, 'cover-standardbild:vorschau': 170 } }).art === 'ratsche')
+pruefe('schuldsuche Cover Vorschau: eigene Basisgrenze 175 hält 171 → ratsche (Minimum 168 hätte Zug gesagt)', s0({ fehlschlag: { jobs: [jobBau(COVER_V)] }, grenzeBasis: { 'cover-standardbild:vorschau': 175, 'cover-standardbild:teilseiten': 168 } }).art === 'ratsche')
+pruefe('schuldsuche Cover: Basisgrenze des anderen Wächters zählt nicht → Zug', s0({ fehlschlag: { jobs: [jobBau(COVER_V)] }, grenzeBasis: { 'cover-standardbild:vorschau': 170, 'cover-standardbild:teilseiten': 999 } }).art === 'halbieren')
+const zust = ratschenZustand([jobBau(COVER_V)], { 'cover-standardbild:vorschau': 175, 'cover-standardbild:teilseiten': 168 })
+pruefe('Fahrt-Log Cover: Name mit Wächter, Basis 175, Fall ratsche', zust[0].name === 'cover-standardbild:vorschau' && zust[0].basis === 175 && zust[0].fall === 'ratsche', zust)
 const UMF2 = 'web/src: Überlänge der funktionen 3340 statt höchstens 3333'
 pruefe('schuldsuche: Basisgrenze je Bereich, hält → ratsche', s0({ fehlschlag: { jobs: [jobBau(UMF2)] }, grenzeBasis: { 'umfang:web/src:funktionen': 3340, 'umfang:pipeline:funktionen': 1 } }).art === 'ratsche')
 pruefe('schuldsuche: Basisgrenze des anderen Bereichs zählt nicht → Zug', s0({ fehlschlag: { jobs: [jobBau(UMF2)] }, grenzeBasis: { 'umfang:web/src:funktionen': 3335, 'umfang:pipeline:funktionen': 9999 } }).art === 'halbieren')
