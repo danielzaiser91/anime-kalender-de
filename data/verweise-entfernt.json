@@ -1,5 +1,5 @@
 {
-  "stand": "2026-11-09T05:58:54.383Z",
+  "stand": "2026-11-09T22:06:13.780Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -4413,6 +4413,17 @@
       "letzterWeg": false
     },
     {
+      "titleId": 21,
+      "titel": "One Piece",
+      "plattform": "adn",
+      "url": "https://animationdigitalnetwork.com/de/video/561-one-piece",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-11-09",
+      "letzterWeg": false
+    },
+    {
       "titleId": 33,
       "titel": "Berserk",
       "plattform": "netflix",
@@ -6847,7 +6858,7 @@
       "titleId": 130298,
       "titel": "The Eminence in Shadow",
       "plattform": "adn",
-      "url": "https://animationdigitalnetwork.de/video/the-eminence-in-shadow",
+      "url": "https://animationdigitalnetwork.com/de/video/973-the-eminence-in-shadow",
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
@@ -6902,7 +6913,7 @@
       "titleId": 139587,
       "titel": "Reincarnated as a Sword",
       "plattform": "adn",
-      "url": "https://animationdigitalnetwork.de/video/reincarnated-as-a-sword",
+      "url": "https://animationdigitalnetwork.com/de/video/970-reincarnated-as-a-sword",
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
@@ -7895,6 +7906,28 @@
       "url": "https://www.netflix.com/title/80987039",
       "seriesId": null,
       "grund": "der Anbieter führt 23 + 25 Folgen, und die belegten Titel füllen sie exakt — für 1 weitere ist dort kein Platz",
+      "geprueftAm": null,
+      "entferntAm": "2026-11-09",
+      "letzterWeg": false
+    },
+    {
+      "titleId": 130298,
+      "titel": "The Eminence in Shadow",
+      "plattform": "adn",
+      "url": "https://animationdigitalnetwork.de/video/the-eminence-in-shadow",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-11-09",
+      "letzterWeg": false
+    },
+    {
+      "titleId": 139587,
+      "titel": "Reincarnated as a Sword",
+      "plattform": "adn",
+      "url": "https://animationdigitalnetwork.de/video/reincarnated-as-a-sword",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-11-09",
       "letzterWeg": false

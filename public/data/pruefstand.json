@@ -1,12 +1,12 @@
 {
- "erzeugtAm": "2026-11-09T18:55:30.939Z",
+ "erzeugtAm": "2026-11-09T22:06:36.181Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
-   "gemeldet": 900,
-   "gesamt": 982,
-   "offen": 82,
+   "gemeldet": 937,
+   "gesamt": 995,
+   "offen": 58,
    "ohneSeite": 6,
    "suchAdressen": [
     "https://www.amazon.de/s?k=Super%20Wings&i=instant-video",
@@ -16,22 +16,12 @@
     "https://www.amazon.de/s?k=Z%20wie%20Zorro%20%E2%80%93%20Der%20Film&i=instant-video",
     "https://www.amazon.de/s?k=Miru%20Tights&i=instant-video"
    ],
-   "ziel": "https://www.amazon.de/gp/video/detail/B09FRLPFK4",
+   "ziel": "https://www.amazon.de/gp/video/detail/0TJR1ZN3C977PKPV9W05WCTI7Z",
    "ziele": [
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B09FRLPFK4",
-     "titel": "Do, Re & Mi",
-     "hinweis": "Staffeln unklar: TMDB zählt 23 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
     {
      "url": "https://www.amazon.de/gp/video/detail/0TJR1ZN3C977PKPV9W05WCTI7Z",
      "titel": "Kung Fu Panda: Die Tatzen des Schicksals (Kung Fu Panda: The Paws of Destiny)",
      "hinweis": "Staffeln unklar: TMDB zählt 26 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0B1N7L61W",
-     "titel": "Blaze und die Monster-Maschinen (Blaze and the Monster Machines)",
-     "hinweis": "Staffeln unklar: TMDB zählt 179 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0D11XTMDJ",
@@ -67,10 +57,6 @@
      "titel": "Meine Wiedergeburt als Schleim in einer anderen Welt: Staffel 4 (That Time I Got Reincarnated as a Slime Season 4)"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B0DMKS6Y12",
-     "titel": "From Bureaucrat to Villainess: Dad’s Been Reincarnated! (From Bureaucrat to Villainess: Dad's Been Reincarnated!)"
-    },
-    {
      "url": "https://www.amazon.de/gp/video/detail/B0DX1Y1FFR",
      "titel": "Yaiba: Samurai Legend"
     },
@@ -79,19 +65,11 @@
      "titel": "Yandere Dark Elf: She Chased Me All the Way from Another World!"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B0FP4BJZFG",
-     "titel": "Dusk Beyond the End of the World"
-    },
-    {
      "url": "https://www.amazon.de/gp/video/detail/amzn1.dv.gti.234d22cb-bca3-4855-b0f7-04a79eecdbcd?tag=justat1218-21&token=491B3E20E8D6C755745FD7E34BCE779F25003CB2",
      "titel": "Nukitashi: Welcome to Love Island! (Nukitashi THE ANIMATION)"
     },
     {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.467b800e-3262-4857-82b7-ed7a8634cb5b",
-     "titel": "Haikyu!! Das Play-off der Müllhalde (HAIKYU!! The Dumpster Battle)"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.ae9245d5-07c5-41ce-ba90-d9f8779f046c",
+     "url": "https://www.amazon.de/gp/video/detail/B0F24XDY49",
      "titel": "Blue Lock: The Movie - Episode Nagi (BLUE LOCK THE MOVIE -EPISODE NAGI-)"
     },
     {
@@ -99,24 +77,8 @@
      "titel": "Girls Band Cry"
     },
     {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.c903bcab-b4d5-4bdb-b418-70ab5650132e",
-     "titel": "My Hero Academia: You’re Next"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/0KXOMCNFCKPTA6Z6HNIJ0ESQ9P",
-     "titel": "Edens Zero: Season 2 (EDENS ZERO Season 2)"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.a3523598-4cd6-4004-8763-f4fbb45e0ac6",
-     "titel": "Spy × Family Code: White (SPY x FAMILY CODE: White)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0BZWFR7H1",
-     "titel": "Bluelock (BLUE LOCK)"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.c38ba568-4a91-4796-ac66-2577e5c97b8a",
-     "titel": "Mobile Suit Gundam: Cucuruz Doan’s Island (Mobile Suit Gundam: Cucuruz Doan's Island)"
+     "url": "https://www.amazon.de/gp/video/detail/B0D37HZ8YN",
+     "titel": "Black Butler: Public School Arc"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CVLJNLWJ",
@@ -139,40 +101,16 @@
      "titel": "Golden Kamuy 4 (Golden Kamuy Season 4)"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B09MDQX4CW",
-     "titel": "Appare-Ranman!"
-    },
-    {
      "url": "https://www.amazon.de/gp/video/detail/0J16B1NAB82TO0O5A5Q8TLG1VP",
      "titel": "Babylon"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.077c1435-754d-407d-9d26-9ddb34a272d0",
-     "titel": "Lupin III.: Fujiko Mines Lüge (Lupin the IIIrd: Fujiko's Lie)"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.88bb7e12-4a26-732f-eb5b-37733d139471",
-     "titel": "Code Geass: Lelouch of the Rebellion - Verherrlichung (Code Geass: Lelouch of the Rebellion III - Glorification)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0CW5WH6XZ",
-     "titel": "Tokyo Ghoul:re"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/0O59G87GV5BELGUFJKLQQAGHP4",
      "titel": "Granblue Fantasy: The Animation"
     },
     {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.b0bb7dff-f320-0490-8aec-76f307a1f81d",
-     "titel": "Code Geass: Lelouch of the Rebellion - Initiation (Code Geass: Lelouch of the Rebellion I - Initiation)"
-    },
-    {
      "url": "https://www.amazon.de/gp/video/detail/B0CHKG67BC",
      "titel": "Kabaneri of the Iron Fortress"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.5482d2e9-157c-411c-b5c3-7f3210286c90",
-     "titel": "A Silent Voice"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CVBLNC3X",
@@ -203,10 +141,6 @@
      "titel": "Chaika, die Sargprinzessin (Chaika -The Coffin Princess-)"
     },
     {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.f783e7fb-3d94-40aa-88fb-2009fc9bfe2c",
-     "titel": "Lupin III.: Daisuke Jigens Grabstein (Lupin the IIIrd: Jigen's Gravestone)"
-    },
-    {
      "url": "https://www.amazon.de/gp/video/detail/B0GMY84XLR",
      "titel": "Wanna Be the Strongest in the World!"
     },
@@ -219,20 +153,8 @@
      "titel": "Kuroko’s Basketball: 2nd Season (Kuroko's Basketball 2)"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B0CHN14W48",
-     "titel": "Free! Iwatobi Swim Club (Free! -Iwatobi Swim Club-)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0GVKRLHXX",
-     "titel": "Aesthetica of a Rogue Hero"
-    },
-    {
      "url": "https://www.amazon.de/gp/video/detail/B0DMWSJ7B9",
      "titel": "Maid-sama (Maid-Sama!)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0FRB2TRSF",
-     "titel": "Bakemonogatari"
     },
     {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.6aad68c8-1e46-46e9-be1e-3d4de43488a5",
@@ -249,10 +171,6 @@
     {
      "url": "https://www.amazon.de/gp/video/detail/B0GYDLTDD8",
      "titel": "Cardcaptor Sakura"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0CJYMLW6W",
-     "titel": "Fushigi Yûgi New OVA: The Mysterious Play (Mysterious Play OVA 2)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0FQV7ZW7C",
@@ -275,24 +193,9 @@
      "hinweis": "Staffeln unklar: TMDB zählt 62 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.0cb8c40c-c316-369d-4c63-7adba44df4ab",
-     "titel": "Bobby und Bill (Boule & Bill)",
-     "hinweis": "Staffeln unklar: TMDB zählt 104 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.fb67e1f8-cf3f-47e4-912b-87adb7d65b1b",
-     "titel": "Der gestiefelte Kater – Abenteuer in San Lorenzo (The Adventures of Puss in Boots)",
-     "hinweis": "Staffeln unklar: TMDB zählt 77 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.52b549b8-8258-0ee7-5674-d76be73f5363",
      "titel": "Yakari",
      "hinweis": "Staffeln unklar: TMDB zählt 156 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.febb6760-5fcf-e6a0-1ae8-69b34a3ffe8f",
-     "titel": "Die Piratenfamilie (Famille Pirate)",
-     "hinweis": "Staffeln unklar: TMDB zählt 40 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.fcb60c92-47ad-8dce-d547-98eba8d33282",
@@ -309,7 +212,7 @@
      "titel": "Zweite Prime-Ausgabe (B0DJ4FCM5H)"
     }
    ],
-   "naechster": "Do, Re & Mi",
+   "naechster": "Kung Fu Panda: Die Tatzen des Schicksals (Kung Fu Panda: The Paws of Destiny)",
    "bekannt": {
     "B0DGGZSKRM": 13,
     "B0FKZM9J6V": 25,
@@ -367,6 +270,7 @@
     "B0CH8XZTL7": 12,
     "B0GX19XQ9J": 12,
     "B0170N47P8": 4,
+    "0Q6QUJIEW346VMM87OG648DPND": 2,
     "B0CGS3NC7T": 25,
     "B0GTQ6D142": 12,
     "B0D6ZSNNM5": 12,
@@ -380,6 +284,8 @@
     "B0CHKG67BC": 12,
     "B0DN482ZYY": 13,
     "B0DNG8BDW3": 12,
+    "B0DP6T4SHX": 131,
+    "B0DJB5HLCV": 131,
     "B0DNC27MBN": 13,
     "B0CGXXZXLS": 12,
     "B0F14S6334": 12,
@@ -455,6 +361,7 @@
     "B0DHVD768H": 14,
     "B0CYFKT276": 13,
     "B0D8FH5NC6": 13,
+    "B0CX261SM2": 11,
     "B0FX17N29N": 13,
     "B0GPKQ8QW9": 14,
     "B0DDJ1CH7R": 12,
@@ -1536,8 +1443,8 @@
    "name": "Disney+",
    "plattform": "disneyplus",
    "gemeldet": 179,
-   "gesamt": 347,
-   "offen": 168,
+   "gesamt": 342,
+   "offen": 163,
    "ohneSeite": 14,
    "ziel": "https://www.disneyplus.com/browse/entity-faa35b37-3287-4a7c-9d42-a3a5f9ad9185",
    "ziele": [
@@ -1579,31 +1486,6 @@
     {
      "url": "https://www.disneyplus.com/browse/entity-b042544d-cd7d-40c6-9be4-db79666a1b51",
      "titel": "Welcome to Demon School! Iruma-kun"
-    },
-    {
-     "url": "https://www.disneyplus.com/de-de/browse/entity-5973d358-1997-47d0-942d-e85b455ed9db",
-     "titel": "Fire Force: Staffel 3",
-     "seit": "2026-08-26"
-    },
-    {
-     "url": "https://www.disneyplus.com/de-de/browse/entity-54a25fcf-a472-4d40-9968-13e2957e5abf",
-     "titel": "One-Punch Man: Staffel 3",
-     "seit": "2026-08-26"
-    },
-    {
-     "url": "https://www.disneyplus.com/de-de/series/the-rising-of-the-shield-hero-aka-tate-no-yuusha-no/4lgHH2jdAefe",
-     "titel": "The Rising of the Shield Hero: Staffel 2",
-     "seit": "2026-08-26"
-    },
-    {
-     "url": "https://www.disneyplus.com/de-de/series/chainsaw-man/2gMK1kC3JIEh",
-     "titel": "Chainsaw Man",
-     "seit": "2026-08-26"
-    },
-    {
-     "url": "https://www.disneyplus.com/de-de/series/aoashi/27OVvACG0ySD",
-     "titel": "Aoashi",
-     "seit": "2026-08-26"
     },
     {
      "url": "https://www.disneyplus.com/de-de/movies/children-of-the-sea/PPmmokvapG3T",
