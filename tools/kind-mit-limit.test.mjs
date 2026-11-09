@@ -7,7 +7,7 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { legeGhAttrappe } from './gh-attrappe.mjs'
-import { LIMIT_EINZEL_MS, LIMIT_SKRIPT_MS, LIMIT_STAPEL_MS, LIMIT_TEST_MS, abbruchText, ghStapel, mitLimit, spawnMitLimit } from './kind-mit-limit.mjs'
+import { LIMIT_EINZEL_MS, LIMIT_SKRIPT_MS, LIMIT_STAPEL_MS, LIMIT_TEST_MS, abbruchText, ghApiJson, ghStapel, mitLimit, spawnMitLimit } from './kind-mit-limit.mjs'
 
 // 1. Eingespeister Ausführer: Optionen kommen an (Limit, windowsHide), ETIMEDOUT wird zur FEHLER-Zeile.
 const gesehen = []
@@ -33,6 +33,15 @@ assert.deepEqual(stapelAntwort, [{ ok: true, aus: 'x' }])
 assert.equal(stapelOpt[0].timeout, 30_000)
 assert.equal(stapelOpt[0].input, '[["a"],["b"]]')
 assert.throws(() => ghStapel([['a']], { ausfuehren: () => { throw zeitueberschreitung } }), { message: /^FEHLER: .*gh-stapel\.mjs nach 30 s abgebrochen$/ })
+// 2c. ghApiJson (PR-Werkzeuge): Aufruf `gh api …`, Frist 30 s (festes Literal, kein WACHE_LIMIT_MS im Test), Hänger → FEHLER-Zeile.
+const apiGesehen = []
+const apiAntwort = ghApiJson(['repos/x/y/pulls/1/comments', '--paginate'], { ausfuehren: (b, a, o) => (apiGesehen.push([b, a, o]), '[{"id":7}]') })
+assert.deepEqual(apiAntwort, [{ id: 7 }])
+assert.equal(apiGesehen[0][0], 'gh')
+assert.deepEqual(apiGesehen[0][1], ['api', 'repos/x/y/pulls/1/comments', '--paginate'])
+assert.equal(apiGesehen[0][2].timeout, 30_000)
+assert.equal(apiGesehen[0][2].windowsHide, true)
+assert.throws(() => ghApiJson(['repos/x/y/pulls/1/comments'], { ausfuehren: () => { throw zeitueberschreitung } }), { message: 'FEHLER: gh api repos/x/y/pulls/1/comments nach 30 s abgebrochen' })
 // Abschlusstext: Zeitlimit ohne Stack, anderer Fehler mit Stack.
 assert.equal(abbruchText(new Error('FEHLER: gh x nach 15 s abgebrochen')), 'FEHLER: gh x nach 15 s abgebrochen')
 const anderer = new Error('kaputt')

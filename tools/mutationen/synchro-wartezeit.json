@@ -48,7 +48,7 @@
   { "name": "Katalogblock: Zahl nicht am Namensende", "datei": "tools/cr-katalogblock.mjs", "suche": "(\\d+)\\s*$/i", "ersetze": "(\\d+)/i" },
   { "name": "Katalogblock: Zeitpunkt der Folge 0", "datei": "tools/cr-katalogblock.mjs", "suche": "ms: Date.parse(f.verfuegbarAb)", "ersetze": "ms: 0" },
   { "name": "Katalogblock: Zeitzone UTC statt Berlin", "datei": "tools/cr-katalogblock.mjs", "suche": "timeZone: 'Europe/Berlin',", "ersetze": "timeZone: 'UTC',", "tests": ["npx tsx pipeline/check-cr-katalogblock.ts"] },
-  { "name": "Aufrufer: Abruf wartet am Anfang", "datei": "tools/laeufe-aufraeumen.mjs", "suche": "const synchroWartezeit = synchroWartezeitZeilen(holeSynchroJson, Date.now())", "ersetze": "const synchroWartezeit = await synchroWartezeitZeilen(holeSynchroJson, Date.now())" },
+  { "name": "Aufrufer: Abruf nicht vor dem Block abgeschlossen (await entfernt)", "datei": "tools/laeufe-aufraeumen.mjs", "suche": "const synchroZeilen = await synchroWartezeitZeilen(holeSynchroJson, Date.now())", "ersetze": "const synchroZeilen = synchroWartezeitZeilen(holeSynchroJson, Date.now())" },
   { "name": "Aufrufer: Zeilen nicht gedruckt", "datei": "tools/laeufe-aufraeumen.mjs", "suche": "for (const zeile of synchroZeilen) console.log(zeile)", "ersetze": "" },
   { "name": "Aufrufer: Wache nicht aufgerufen", "datei": "tools/laeufe-aufraeumen.mjs", "suche": "synchroWartezeitZeilen(holeSynchroJson, Date.now())", "ersetze": "[]" },
   { "name": "Aufrufer: Alarm nicht in der Bilanz", "datei": "tools/laeufe-aufraeumen.mjs", "suche": "wacheZeilen([...rotZeilen, ...synchroZeilen], quellenZeilen)", "ersetze": "wacheZeilen(rotZeilen, quellenZeilen)" },

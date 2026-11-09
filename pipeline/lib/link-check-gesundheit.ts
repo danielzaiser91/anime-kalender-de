@@ -12,11 +12,13 @@ import { istAuskunft, istTot } from './link-befund.ts'
  * gegen die Sperre rannte, „gesund“ melden.
  */
 export function meldeLinkCheckZwischenstand(
-  bestand: Record<string, { status: unknown; geprueftAm?: string }>,
+  bestand: Record<string, { status: unknown; geprueftAm?: string; erstes404?: string; rausch?: true }>,
   heute: string,
   melde: typeof recordSource = recordSource,
 ): number {
-  const auskuenfte = Object.values(bestand).filter((b) => b.geprueftAm === heute && istAuskunft(b.status)).length
+  /* Ein heute erstmals gemessenes Netflix-404 steht als `unklar`, die Seite hat aber geantwortet (außer bei Rauschen). */
+  const ersteAuskunft = (b: { status: unknown; erstes404?: string; rausch?: true }) => b.status === 'unklar' && b.erstes404 === heute && !b.rausch
+  const auskuenfte = Object.values(bestand).filter((b) => b.geprueftAm === heute && (istAuskunft(b.status) || ersteAuskunft(b))).length
   melde('link-check', auskuenfte, auskuenfte ? undefined : 'bisher nur Nichtauskünfte', undefined, false)
   return auskuenfte
 }

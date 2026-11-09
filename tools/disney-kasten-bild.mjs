@@ -23,6 +23,7 @@
  */
 import { chromium } from 'playwright'
 import { readFileSync } from 'node:fs'
+import { sperreNetz } from './netz-sperre.mjs'
 
 const css = readFileSync('extension/melder.css', 'utf8')
 const box = readFileSync('extension/box.js', 'utf8')
@@ -42,6 +43,7 @@ const TEXT = process.env.TEXT ?? 'Folge 7 von 24: kein Deutsch gefunden\nDie üb
 
 const browser = await chromium.launch()
 const seite = await browser.newPage({ viewportSize: { width: 520, height: 420 } })
+await sperreNetz(seite)
 await seite.setContent(`<!doctype html><meta charset="utf-8">
 <style>
   html { background: #0d1117; }
