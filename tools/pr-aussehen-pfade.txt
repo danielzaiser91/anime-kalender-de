@@ -25,8 +25,11 @@ tools/ansicht-termin-karte.mjs
 tools/ansicht-trefferprobe.mjs
 tools/ansicht-tv-reihe.mjs
 tools/bau-vergleich-log.mjs
+tools/bereich-auge-messen.mjs
+tools/bereich-auge-urteil.mjs
 tools/bilder-ordner.mjs
 tools/browser-weiche.mjs
+tools/buehne-absturz.mjs
 tools/buehne-fenster-pruefen.mjs
 tools/buehne-messen.mjs
 tools/buehne-messung.mjs
@@ -40,10 +43,13 @@ tools/ecken-urteil.mjs
 tools/einstellungen-bild.mjs
 tools/einzel-sperre-schlange.mjs
 tools/einzel-sperre.mjs
+tools/filter-tempo-urteil.mjs
+tools/filter-tempo.mjs
 tools/kachel-ecken-live.mjs
 tools/kachel-ecken-messen.mjs
 tools/linux-schrift.mjs
 tools/melder-kasten-bild.mjs
+tools/netz-sperre.mjs
 tools/panel-abschnitt.mjs
 tools/panel-bild.mjs
 tools/panel-messen-browser.mjs

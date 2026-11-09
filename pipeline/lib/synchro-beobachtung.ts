@@ -3,6 +3,7 @@
  * Reine Regel; das Skript `pipeline/synchro-beobachtung.ts` liest den Bestand und schreibt `data/proposals/synchro-beobachtung.json`
  * (kein Eingang des Baus, nur Blick auf das, was bald belegt sein müsste).
  *
+ * Zweite Quelle: Titel aus `ohne-synchro.json` mit `jpStart` (voller Tag) im selben Fenster, Anbieter „unbekannt“, gleiche Entnahme.
  * Aufnahme: Release mit Start in −7…+30 Tagen, Titel ohne Stream `dub: true`, ohne Synchro-Beleg (aniSearch `d`/`c`, Handbeleg).
  * Der Beleg ist derselbe wie im Widerspruchswächter (`synchroBeleg`). Entnahme: sobald ein Beleg da ist oder der Start mehr als 14 Tage zurückliegt.
  * Einträge sind je Titel und Anbieter einmalig; `seit` ist der Tag der ersten Aufnahme und bleibt erhalten.
@@ -24,6 +25,16 @@ export interface BeobachtungsEintrag {
 const VOR = 7
 const NACH = 30
 const FRIST_NACH_START = 14
+
+/** Anbieter der zweiten Quelle: Titel hinter dem Toggle „ohne Synchro“ haben keinen Release (Devils' Crest stand dort, ohne dass ihn die Liste sah). */
+const UNBEKANNT = 'unbekannt'
+
+/** Titel aus `ohne-synchro.json` als Start-Einträge; nur volle Tage zählen (bei „2026-12“ ist der Start unbekannt, kein erfundener Tag). */
+export function ohneSynchroStarts(ohneSynchro: Title[]): Release[] {
+  return ohneSynchro
+    .filter((t) => t.jpStart?.length === 10)
+    .map((t) => ({ slug: `ohne-synchro-${t.id}`, titleId: t.id, platform: UNBEKANNT, schedule: { firstEpisodeDate: t.jpStart } }) as unknown as Release)
+}
 
 const schluessel = (id: number, anbieter: string): string => `${id}|${anbieter}`
 const anbieterVon = (r: Release): string => (r.platform === 'tv' && r.sender ? `tv: ${r.sender}` : r.platform)

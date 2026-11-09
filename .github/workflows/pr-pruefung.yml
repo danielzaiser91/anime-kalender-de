@@ -218,6 +218,8 @@ jobs:
             befehl: npm run check:einstellungen
           - teil: Suchhinweis
             befehl: npm run check:suchhinweis
+          - teil: Filter-Tempo
+            befehl: npm run check:filter-tempo
           - teil: Bühne-Fenster
             befehl: npm run check:buehne-fenster
           - teil: Bühne-Messen

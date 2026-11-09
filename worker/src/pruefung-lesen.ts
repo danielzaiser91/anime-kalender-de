@@ -1,5 +1,5 @@
 import { type Env } from './env.ts'
-import { tokenGleich, tokenMitUebergang } from './lauf-token.ts'
+import { tokenAusKopf, tokenGleich } from './lauf-token.ts'
 import { ausSpeicher } from './export-speicher.ts'
 import { zaehleOffenePruefungen, ZAEHLEN_SEKUNDEN } from './pruefung-zaehlen.ts'
 import { liefereRohfolgen } from './pruefung-rohfolgen.ts'
@@ -10,7 +10,7 @@ import { wartendSchluessel } from './pruefung-stand-briefkasten.ts'
 import { type AusCache } from './cache-kurz.ts'
 import { allePruefungen, offenePruefungen } from './titelzeile-lesen.ts'
 
-/** Höchstalter der offenen Liste für den Bau (`?token=`), wenn seitdem gemeldet oder abgehakt wurde. */
+/** Höchstalter der offenen Liste für den Bau, wenn seitdem gemeldet oder abgehakt wurde. */
 export const OFFEN_FRIST_MS = 5 * 60_000
 
 export async function beantwortePruefungLesen({ request, env, antwort, ausCache }: {
@@ -101,7 +101,7 @@ export async function beantwortePruefungLesen({ request, env, antwort, ausCache 
 
     // Die Pipeline holt sich, was noch nicht übernommen wurde.
     const sucheP = new URL(request.url).searchParams
-    const token = tokenMitUebergang(request)
+    const token = tokenAusKopf(request)
     if (!env.LAUF_TOKEN || !tokenGleich(token, env.LAUF_TOKEN)) return antwort({ error: 'Nicht erlaubt' }, 403)
 
     /*
@@ -130,7 +130,7 @@ export async function beantwortePruefungLesen({ request, env, antwort, ausCache 
 }
 
 /**
- * Die offenen Meldungen für den Bau (`?token=`), in R2 wie `?alle=1` (15.10.2026): Ein Aufruf liest rund 36.000
+ * Die offenen Meldungen für den Bau, in R2 wie `?alle=1` (15.10.2026): Ein Aufruf liest rund 36.000
  * Zeilen, und die Erweiterung fragte auf jeder Prime-Seite. Neu gerechnet wird erst nach einer Meldung oder einem
  * Abhaken (Marke), dann spätestens nach `OFFEN_FRIST_MS`: Der Bau sieht eine frische Meldung nach höchstens fünf Minuten.
  */
