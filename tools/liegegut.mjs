@@ -8,6 +8,7 @@ import { mitLimit } from './kind-mit-limit.mjs'
 import fs from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
+import { istZugPr, leseZugAktiv } from './zug-aktiv.mjs'
 
 const STUNDE = 3600 * 1000
 // Schwellen (Stand 21.10.2026, aus dem Liegegut-Bericht der 13 PRs vom 21.10.: kürzer meldet bei normalem Prüfer-Takt Fehlalarm).
@@ -114,7 +115,7 @@ export function entschiedeneFragen(ordner, fsFn = fs) {
 const ERST_NACH = /erst nach #(\d+)/i
 
 /** Kandidat für Signal 9: Basis ein anderer Zweig als main, oder Konflikt und „erst nach #N“ am Anfang der Beschreibung. */
-export const stapelKandidat = (pr) => (!!pr.baseRefName && pr.baseRefName !== 'main') || (pr.mergeable === 'CONFLICTING' && ERST_NACH.test((pr.body ?? '').slice(0, 200)))
+export const stapelKandidat = (pr, zugAktiv = false) => !istZugPr(pr, zugAktiv) && ((!!pr.baseRefName && pr.baseRefName !== 'main') || (pr.mergeable === 'CONFLICTING' && ERST_NACH.test((pr.body ?? '').slice(0, 200))))
 
 /**
  * Signal 9: Stapel-PR, dessen Basis-PR gesquasht gemergt wurde (Fall 3091: Teil 2 nach gesquashtem Teil 1). Die Basis wird gezielt
@@ -132,9 +133,9 @@ export function stapelBasis(ghFn, pr) {
 }
 
 /** Basis-PR je Stapel-PR (Map PR → Basis); abgefragt wird nur für Kandidaten. */
-export function stapelBasen(ghFn, offen) {
+export function stapelBasen(ghFn, offen, zugAktiv = false) {
   const aus = new Map()
-  for (const pr of offen.filter(stapelKandidat)) {
+  for (const pr of offen.filter((p) => stapelKandidat(p, zugAktiv))) {
     const basis = stapelBasis(ghFn, pr)
     if (basis) aus.set(pr.number, basis)
   }
@@ -212,16 +213,16 @@ export function ueberholtTreffer(patches, grepFn) {
   return gesamt > 0 && funde.length === gesamt ? funde : []
 }
 
-const NAECHSTER = { STAPEL: 'STAPEL', STILLSTAND: 'STILLSTAND', UEBERHOLT: 'ÜBERHOLT?', DANIEL: 'DANIEL', MERGEN: 'MERGEN', NACHBESSERN: 'NACHBESSERN' }
+const NAECHSTER = { STAPEL: 'STAPEL', STILLSTAND: 'STILLSTAND', UEBERHOLT: 'ÜBERHOLT?', DANIEL: 'DANIEL', MERGEN: 'MERGEN', ZUG: 'AUF ZUG MERGEN (merge-reihe-zug.sh)', NACHBESSERN: 'NACHBESSERN' }
 
 /** Nächster Schritt aus Signalen und Gegenprobe; `daniel` = Signal 6 oder Signal 2 mit Bot-Urteil als letztem (nur Daniel löst das). */
-export function naechsterSchritt(nummern, treffer, botLetzt) {
+export function naechsterSchritt(nummern, treffer, botLetzt, imZug = false) {
   const hat = (n) => nummern.includes(n)
   if (hat(9)) return NAECHSTER.STAPEL
   if (nummern.every((n) => n === 8)) return NAECHSTER.STILLSTAND
   if (treffer.length > 0 && (hat(1) || hat(3) || hat(5))) return NAECHSTER.UEBERHOLT
   if (hat(6) || (hat(2) && botLetzt)) return NAECHSTER.DANIEL
-  if (hat(1)) return NAECHSTER.MERGEN
+  if (hat(1)) return imZug ? NAECHSTER.ZUG : NAECHSTER.MERGEN
   return NAECHSTER.NACHBESSERN
 }
 
@@ -261,7 +262,7 @@ export function kopfZeitVon(ghFn, pr, karte) {
 }
 
 /** Bewertet einen PR; null, wenn nichts auffällt, sonst { nr, signale: [{ nr, seit }], zeile }. */
-function bewertePr(ghFn, gitFn, pr, geteilt, jetzt, karte, stapel) {
+function bewertePr(ghFn, gitFn, pr, geteilt, jetzt, karte, stapel, imZug) {
   const kopfZeit = kopfZeitVon(ghFn, pr, karte)
   if (Number.isNaN(kopfZeit)) throw new Error(`PR ${pr.number}: Kopf-Zeit nicht lesbar`)
   const signale = [...signaleEinzel(pr, kopfZeit, jetzt), ...stillstandSignal(pr, kopfZeit, jetzt)]
@@ -282,7 +283,7 @@ function bewertePr(ghFn, gitFn, pr, geteilt, jetzt, karte, stapel) {
   const geprueft = braucheGegenprobe(nummern)
   const treffer = geprueft ? probeFuer(ghFn, gitFn, pr) : []
   const botLetzt = urteileAufKopf(urteile(pr.comments), pr.headRefOid, kopfZeit).at(-1)?.quelle === 'bot'
-  const text = zeile(pr.number, naechsterSchritt(nummern, treffer, botLetzt), texte, Math.min(...zeiten), treffer, geprueft)
+  const text = zeile(pr.number, naechsterSchritt(nummern, treffer, botLetzt, imZug), texte, Math.min(...zeiten), treffer, geprueft)
   return { nr: pr.number, signale: nummern.map((n, i) => ({ nr: n, seit: zeiten[i] })), zeile: text }
 }
 
@@ -324,16 +325,16 @@ export function entschiedeneImProjekt(gitFn, hinweis) {
 }
 
 /** Holt die offenen PRs über gh/git (einspeisbar) und rechnet alle. `entschieden` = Menge entschiedener F-Nummern. Rückgabe: Funde { nr, signale, zeile }. */
-export function liegegutFunde(ghFn, gitFn, jetzt, hinweis, entschieden = new Set()) {
+export function liegegutFunde(ghFn, gitFn, jetzt, hinweis, entschieden = new Set(), zugAktiv = leseZugAktiv()) {
   const offen = offenePrs(ghFn, hinweis).filter((p) => !p.isDraft)
   const geteilt = geteilteEntscheidungen(offen, entschieden)
   const karte = kopfZeiten(ghFn)
-  const stapel = stapelBasen(ghFn, offen)
-  return offen.map((pr) => bewertePr(ghFn, gitFn, pr, geteilt.get(pr.number), jetzt, karte, stapel.get(pr.number))).filter((f) => f !== null)
+  const stapel = stapelBasen(ghFn, offen, zugAktiv)
+  return offen.map((pr) => bewertePr(ghFn, gitFn, pr, geteilt.get(pr.number), jetzt, karte, stapel.get(pr.number), istZugPr(pr, zugAktiv))).filter((f) => f !== null)
 }
 
 /** Dieselben Funde als Textzeilen. */
-export const liegegut = (ghFn, gitFn, jetzt, hinweis, entschieden) => liegegutFunde(ghFn, gitFn, jetzt, hinweis, entschieden).map((f) => f.zeile)
+export const liegegut = (ghFn, gitFn, jetzt, hinweis, entschieden, zugAktiv) => liegegutFunde(ghFn, gitFn, jetzt, hinweis, entschieden, zugAktiv).map((f) => f.zeile)
 
 const KURZ = { 1: 'Freigabe ruht', 2: 'Urteile widersprechen', 3: 'Konflikt', 4: 'rot', 5: 'Ändern offen', 6: 'gleiche Entscheidung', 8: 'Stillstand', 9: 'Stapel' }
 

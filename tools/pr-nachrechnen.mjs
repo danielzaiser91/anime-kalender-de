@@ -19,6 +19,7 @@ import { pathToFileURL } from 'node:url'
 import { BOT_DATEIEN_OHNE_LESER, istBotBild, istBotDatei } from './pr-nachrechnen-bot-pfade.mjs'
 import { gitAufruf, gitLeser } from './pr-nachrechnen-leser-git.mjs'
 import { standardVoll } from './pr-nachrechnen-vergleich-git.mjs'
+import { ZUG, istZugPr, leseZugAktiv } from './zug-aktiv.mjs'
 
 export const KETTE = 'pr-pruefung.yml'
 /** Kleiner Job der Kette mit Checkout ohne eigenes `ref` (prüft `pr-nachrechnen.test.mjs` an der YAML). */
@@ -118,6 +119,9 @@ function datenpfadGrund(gh, pr, basis, main, leser, voll) {
 
 const kurz = (sha) => sha.slice(0, 9)
 
+/** Felder von `pr view`; `baseRefName` nur bei gelegtem Zug-Schalter, damit der Aufruf mit Schalter aus byte-gleich bleibt. */
+const prFelder = (zugAktiv) => `number,state,mergeable,headRefOid,headRefName${zugAktiv ? ',baseRefName' : ''}`
+
 function oeffneMitWiederholung(gh, nummer) {
   for (let versuch = 1; ; versuch++) {
     try {
@@ -202,12 +206,16 @@ function basisDesLaufs(gh, pr) {
 }
 
 /** Ablauf für einen PR; `gh(args)` und `warte(ms)` sind eingespeist, `melde` schreibt eine Zeile. Rückgabe: Exit-Code (siehe Kopf). */
-export function nachrechnen(nummer, gh, melde, warte, leser = gitLeser(gitAufruf), voll = standardVoll) {
-  const pr = JSON.parse(gh(['pr', 'view', String(nummer), '--json', 'number,state,mergeable,headRefOid,headRefName']))
+export function nachrechnen(nummer, gh, melde, warte, leser = gitLeser(gitAufruf), voll = standardVoll, zugAktiv = leseZugAktiv()) {
+  const pr = JSON.parse(gh(['pr', 'view', String(nummer), '--json', prFelder(zugAktiv)]))
   const halt = hindernis(pr)
   if (halt !== null) {
     melde(halt)
     return 2
+  }
+  if (istZugPr(pr, zugAktiv)) {
+    melde(`PR ${nummer}: Basis ${ZUG}, kein Nachrechnen gegen main (die Fahrt rechnet den ganzen Zug)`)
+    return 0
   }
   const { basis, grund } = basisDesLaufs(gh, pr)
   if (grund !== undefined) {
