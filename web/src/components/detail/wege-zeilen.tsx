@@ -15,6 +15,7 @@ import { tvVorbeiPillen } from './tv-vorbei.tsx'
 import type { Translate } from '../../lib/i18n.tsx'
 import { pillenSchluessel, type sortiereNachZugang } from './wege-sortieren.ts'
 import { tvAngabe } from '../../lib/tv-angabe.ts'
+import { joynDanach } from '../../lib/joyn-danach.ts'
 import { teilAngaben } from './wege-falten.ts'
 import { pilleUnten } from './pille-unten.ts'
 import { ausgabenOhneDeSichtbar, kanalTerminQuelle } from './chips-regeln.ts'
@@ -31,6 +32,7 @@ export function terminPillen(rs: Release[], title: Title, releases: Release[], t
         today={today}
         tvText={tvAngabe(r, title, releases, today, jetztBerlin().slice(11, 16))}
         deutsch={quelle ? { folgen: folgenAngabeFuer(quelle) } : undefined}
+        joynUrl={joynDanach(r, title)}
       />
     )
   })
