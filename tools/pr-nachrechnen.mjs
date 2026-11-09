@@ -72,7 +72,7 @@ const ohneKetteLeser = (datei) => (datei.startsWith('docs/') && datei !== LIEST_
  * mit dem PR (`bewegtesGelesen`: Berührung, Nennung, Import in beide Richtungen). Anlass: Nacht-Merger, 15 Merges in 59 Läufen,
  * 148 Abweisungen „main bewegte …“ (Auswertung 09.11.2026).
  */
-export const kettenweit = (datei) => datei === LIEST_KETTE || /^(\.github\/workflows\/pr-pruefung\.yml|package(-lock)?\.json|tsconfig[^/]*\.json|eslint\.config\.[^/]+|tools\/(check-[^/]*\.(mjs|cjs|js|ts)|umfang-grenzen\.json))$/.test(datei)
+export const kettenweit = (datei) => datei === LIEST_KETTE || /^(\.github\/(workflows\/pr-pruefung\.yml|actions\/.+)|package(-lock)?\.json|tsconfig[^/]*\.json|eslint\.config\.[^/]+|tools\/(check-[^/]*\.(mjs|cjs|js|ts)|umfang-grenzen\.json))$/.test(datei)
 
 const lokal = (vergleich) => (vergleich.lokalFehler === undefined ? '' : ` (lokales git: ${vergleich.lokalFehler})`)
 
