@@ -90,6 +90,8 @@ export function istPremiere(
   zeit?: string,
   /** Der Handbeleg `Release.premiere` (`weg: 'tv'`) des Releases, zu dem der Termin gehört. */
   handbeleg?: boolean,
+  /** Wie ein Release in Termine zerlegt wird; die Oberfläche reicht eine zwischenspeichernde Fassung herein. */
+  entfalte: (r: Release) => ReleaseEvent[] = expandEvents,
 ): boolean | undefined {
   /* Lief sie schon früher auf Deutsch (Wikipedia-EAD, RTL+-Start), ist es eine Wiederholung —
      Dragon Ball Folge 1 auf ProSieben MAXX 2026 ist nicht deren Premiere (1999). */
@@ -98,7 +100,7 @@ export function istPremiere(
   /* Dieselbe Folge lief an einem früheren Termin desselben Senders/Tages (Nachtwiederholung). */
   const frueheresTv = releases
     .filter((r) => r.platform === 'tv')
-    .flatMap((r) => expandEvents(r))
+    .flatMap((r) => entfalte(r))
     .filter((e) => e.episode && !e.sichtung && (e.date < datum || (e.date === datum && zeit !== undefined && (e.time ?? '') < zeit)))
   if (frueheresTv.some((e) => e.episode === folge)) return false
   const plattformen = new Set([
@@ -114,7 +116,7 @@ export function istPremiere(
     if (p === 'joyn' && handbeleg) continue
     const eigene = releases.filter((r) => r.platform === p && r.releaseType !== 'disc')
     if (eigene.length) {
-      const termine = eigene.flatMap((r) => expandEvents(r))
+      const termine = eigene.flatMap((r) => entfalte(r))
       if (termine.some((e) => e.episode === folge && e.date <= datum)) return false
       for (const e of termine) {
         if (e.date <= datum && e.episode) bestand = Math.max(bestand, e.episode)

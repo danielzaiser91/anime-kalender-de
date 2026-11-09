@@ -11,6 +11,7 @@
  *   Behauptung dazu: Rest, den Claude weiter lesen muss.
  */
 import { leseBehauptungen, type Behauptung } from './anime2you-regel.ts'
+import type { RouterZeile } from './anime2you-router.ts'
 
 /** Wie im Bericht: deutsche Sprache, nicht unsicher, Art eines Starts, eine Stream-Plattform. */
 const BELEG_ARTEN = ['start', 'folgen', 'sprachfassung']
@@ -45,9 +46,11 @@ export interface Lauf {
   ms: number
   /** Die Abweichungen im Einzelnen, damit jede ein Testfall werden kann. */
   faelle: { artikelId: string; seite: 'nurRegel' | 'nurClaude'; titel: string; plattform: string; widerspruch?: true }[]
+  /** Was der Router (`anime2you-router.ts`) in diesem Lauf entschied; fehlt, wenn sein Schritt nicht lief. */
+  router?: RouterZeile
 }
 
-const norm = (s: string): string => s.toLowerCase().replace(/[^a-z0-9äöüß]+/g, '')
+export const norm = (s: string): string => s.toLowerCase().replace(/[^a-z0-9äöüß]+/g, '')
 
 /** Titel gleich oder einer der beiden der längere mit dem anderen als Anfang („Titel“ gegen „Titel Staffel 2“). */
 export function titelGleich(a: string, b: string): boolean {
@@ -167,6 +170,9 @@ export interface Bilanz {
   schattenFehler: number
   ohneAntwort: number
   maxMs: number
+  /** Summen der Routerzeilen: Artikel gesamt, von der Regel erklärt und ohne Stichprobe (Claude würde sie nicht lesen). */
+  routerArtikel: number
+  routerErspart: number
   urteil: 'ja' | 'nein' | 'offen'
   gruende: string[]
 }
@@ -202,6 +208,8 @@ export function bilanz(b: SchattenBestand): Bilanz {
     schattenFehler: summe((x) => x.schattenFehler),
     ohneAntwort: summe((x) => x.ohneAntwort),
     maxMs: Math.max(0, ...l.map((x) => x.ms)),
+    routerArtikel: summe((x) => x.router?.artikel ?? 0),
+    routerErspart: summe((x) => x.router?.erspart ?? 0),
     urteil,
     gruende: [...gruende, ...offen],
   }

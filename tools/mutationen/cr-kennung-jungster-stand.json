@@ -1,0 +1,9 @@
+[
+ {"name":"B1 geprueftJe: letzter Eintrag","tests":["npx tsx pipeline/check-09-4-3-katalog-laufzeit.ts"],"aenderungen":[{"datei":"pipeline/lib/cr-nein-ueberholt.ts","suche":".reduce((a, b) => (b > a ? b : a))","ersetze":".reduce((a, b) => b)"}]},
+ {"name":"B2 geprueftJe: ältester Eintrag","tests":["npx tsx pipeline/check-09-4-3-katalog-laufzeit.ts"],"aenderungen":[{"datei":"pipeline/lib/cr-nein-ueberholt.ts","suche":".reduce((a, b) => (b > a ? b : a))","ersetze":".reduce((a, b) => (b < a ? b : a))"}]},
+ {"name":"B3 geprueftJe: Rückfall fehlt","tests":["npx tsx pipeline/check-09-4-3-katalog-laufzeit.ts"],"aenderungen":[{"datei":"pipeline/lib/cr-nein-ueberholt.ts","suche":"s.geprueftAm ?? rueckfall","ersetze":"s.geprueftAm ?? ''"}]},
+ {"name":"B4 kachelSeit: letzte Kachel","tests":["npx tsx pipeline/check-nein-wiedervorlage.ts"],"aenderungen":[{"datei":"pipeline/lib/crunchyroll-adressen.ts","suche":"if (am > (kachelSeit.get(serie) ?? '')) kachelSeit.set(serie, am)","ersetze":"kachelSeit.set(serie, am)"}]},
+ {"name":"B5 kachelSeit: älteste Kachel","tests":["npx tsx pipeline/check-nein-wiedervorlage.ts"],"aenderungen":[{"datei":"pipeline/lib/crunchyroll-adressen.ts","suche":"if (am > (kachelSeit.get(serie) ?? '')) kachelSeit.set(serie, am)","ersetze":"if (am < (kachelSeit.get(serie) ?? '9')) kachelSeit.set(serie, am)"}]},
+ {"name":"B6 geprueftJe: Gruppen nicht verdrahtet (leere Map)","tests":["npx tsx pipeline/check-09-4-3-katalog-laufzeit.ts"],"aenderungen":[{"datei":"pipeline/bau/09-4-3-katalog.ts","suche":"juengstePruefungJeKennung(crSerienGruppen, dubStand)","ersetze":"juengstePruefungJeKennung(new Map(), dubStand)"}]},
+ {"name":"Kontrolle","aenderungen":[],"tests":["npx tsx pipeline/check-nein-wiedervorlage.ts"]}
+]

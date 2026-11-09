@@ -1165,3 +1165,16 @@
       url: https://www.anisearch.de/anime/14933
     - name: "aniSearch (Special 7: Special Crime Investigation Unit)"
       url: https://www.anisearch.de/anime/14278
+
+- id: 203275 # Devils' Crest (2026, ONA/TV laut Quelle, Folgenzahl offen)
+  umfang: titel
+  lizenz: CC BY-SA 4.0
+  text: >-
+    Fantasy-Serie (2026, Production I.G) nach der Light-Novel-Reihe von Reki Kawahara, dem Autor von „Sword Art Online“. Der Sechstklässler Yuuma Ashihara testet zusammen mit seiner Zwillingsschwester Sawa und Mitschülern das neuartige Online-Rollenspiel „Actual Magic“, das ganz in eine virtuelle Welt eintauchen lässt. Die Testaufgabe wirkt leicht: den Endgegner bezwingen und danach heil ausloggen. Doch kurz darauf verschmilzt das Spiel mit der Wirklichkeit, und Yuumas Klassenkameradin Sumika verwandelt sich in eines der Monster. Nun geht es ums Überleben.
+  quellen:
+    - name: Wikipedia (EN)
+      url: https://en.wikipedia.org/wiki/Demons%27_Crest
+    - name: Anime2You
+      url: https://www.anime2you.de/news/1056679/devils-crest-neuer-trailer/
+    - name: AniList
+      url: https://anilist.co/anime/203275

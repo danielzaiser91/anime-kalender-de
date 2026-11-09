@@ -16,6 +16,7 @@ import { useHoverCover } from './kalender/HoverCover.tsx'
 import { TvKasten } from './kalender/TvKasten.tsx'
 import { ZweitanbieterZeilen } from './kalender/ZweitanbieterZeilen.tsx'
 import { anbieterUndFolge, zaehlung } from './kalender/Marken.tsx'
+import { BereichAuge, type Auge } from './kalender/BereichAuge.tsx'
 
 /** Ohne Uhrzeit hinter alles mit — ziffernbasiert, damit jede Kollation es hinten einsortiert. */
 const OHNE_UHRZEIT = '99:99'
@@ -68,6 +69,9 @@ export interface WocheProps {
   favorites: Set<number>
   hidden: Set<number>
   tvAn: boolean
+  /** Blendet der Filter „Im Handel" nicht aus? (Auge am Kopf; Klick schaltet denselben Filter wie der Chip.) */
+  discAn: boolean
+  augeUmschalten: (bereich: 'tv' | 'disc') => void
   gefiltert: boolean
   onToggleFavorite: (titleId: number) => void
   onToggleHidden: (titleId: number) => void
@@ -117,8 +121,9 @@ function TagZeile({
 }) {
   const heute = tag.date === today
   const vorbei = tag.date < today
-  /* Ausgeschaltet bleiben Premieren sichtbar — dann steht der Kasten nur für sie da. */
-  const zeigeTv = p.tvAn || tag.tv.length > 0
+  /* Ausgeschaltet bleibt der Kasten mit dem Auge stehen, solange der Tag Fernsehtermine hat — gezeigt werden dann nur Premieren. */
+  const roh = p.data.eventsByDate.get(tag.date) ?? []
+  const zeigeTv = p.tvAn || roh.some((e) => e.platform === 'tv')
   /* Steht nur Zweitanbieter da, bliebe vom Raster eine leere Fläche. */
   const rasterLeer = tag.zweit.length > 0 && tag.zweit.length === tag.stream.length && tag.disc.length === 0
   const vorbeiBis = heute ? now : vorbei ? '99:99' : undefined
@@ -137,7 +142,7 @@ function TagZeile({
       <div className={['flex min-w-0 flex-col gap-4', rasterLeer && zeigeTv ? 'lg:min-h-[250px]' : ''].join(' ')}>
         {!rasterLeer && <PosterRaster tag={tag} p={p} heute={heute} now={now} landingId={landingId} landingRef={landingRef} />}
         <ZweitanbieterZeilen termine={tag.zweit} data={p.data} hidden={p.hidden} vorbeiBis={vorbeiBis} onOpen={p.onOpen} />
-        <DiscKasten termine={tag.disc} data={p.data} hidden={p.hidden} onOpen={p.onOpen} />
+        <DiscKasten termine={tag.disc} data={p.data} hidden={p.hidden} onOpen={p.onOpen} vorhanden={roh.some((e) => e.releaseType === 'disc')} auge={{ an: p.discAn, umschalten: () => p.augeUmschalten('disc') }} />
       </div>
       {zeigeTv && <TvSpalte tag={tag} p={p} vorbeiBis={vorbeiBis} jetzt={heute ? now : undefined} />}
     </section>
@@ -147,7 +152,15 @@ function TagZeile({
 /** Rechte Spalte: der TV-Kasten rollt in Zeilenhöhe. */
 function TvSpalte({ tag, p, vorbeiBis, jetzt }: { tag: Tag; p: WocheProps; vorbeiBis?: string; jetzt?: string }) {
   const kasten = (
-    <TvKasten termine={tag.tv} data={p.data} hidden={p.hidden} vorbeiBis={vorbeiBis} jetzt={jetzt} onOpen={(ev) => p.onOpen(ev.releaseSlug, ev.date)} />
+    <TvKasten
+      termine={tag.tv}
+      data={p.data}
+      hidden={p.hidden}
+      vorbeiBis={vorbeiBis}
+      jetzt={jetzt}
+      onOpen={(ev) => p.onOpen(ev.releaseSlug, ev.date)}
+      auge={{ an: p.tvAn, umschalten: () => p.augeUmschalten('tv') }}
+    />
   )
   return (
     <div className="relative min-w-0 lg:min-h-0">
@@ -243,18 +256,25 @@ function DiscKasten({
   data,
   hidden,
   onOpen,
+  vorhanden,
+  auge,
 }: {
   termine: ReleaseEvent[]
   data: Dataset
   hidden: Set<number>
   onOpen: (slug: string, date: string) => void
+  /** Hat der Tag Disc-Termine, ungefiltert? Dann bleibt der Kopf samt Auge stehen, auch wenn der Filter alle ausblendet. */
+  vorhanden: boolean
+  auge: Auge
 }) {
   const { t } = useLang()
-  if (!termine.length) return null
+  if (!termine.length && !vorhanden) return null
   return (
     <div className="flex flex-col gap-0.5 rounded-2xl border border-ak-linie bg-ak-flaeche/40 px-3.5 py-2.5">
       <h3 className="flex items-center gap-2 text-xs font-bold tracking-[0.1em] text-ak-leise uppercase">
-        {t('card.inStores')} · {termine.length}
+        {t('card.inStores')}
+        {termine.length > 0 && ` · ${termine.length}`}
+        <BereichAuge auge={auge} bereich={t('kal.imHandel')} klasse="text-ak-leise hover:text-ak-text" />
       </h3>
       <ul className="flex flex-col">
         {termine.map((ev) => (
