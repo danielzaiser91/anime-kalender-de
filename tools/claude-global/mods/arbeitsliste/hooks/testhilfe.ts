@@ -86,9 +86,9 @@ export async function oeffneAlle(pane: { drawn: () => Promise<unknown>; press: (
 }
 
 // Autonomer Modus: je Sitzung eine Datei. Die Testsitzung ist SITZUNG; fremde Dateien (und die alte globale) liegen mit Endzeit vor.
-const MARKER_ORDNER = 'C:/Users/ih/.claude/autonomer-modus'
 const SITZUNG = 'eigene-sitzung'
-const FREMDE_MARKER = [`${MARKER_ORDNER}/fremde-sitzung.txt`, 'C:/Users/ih/.claude/autonomer-modus-bis.txt']
+const MARKER_ENDE = `/autonomer-modus/${SITZUNG}.txt`
+const FREMDE_MARKER = ['/autonomer-modus/fremde-sitzung.txt', '/autonomer-modus-bis.txt']
 
 // `engine`: unterste Leiste wie im Betrieb, wenn kein fremdes Modul zeichnet.
 export function starte(on: On, marker: string | null, status: (string | undefined)[] = [], engine = true, stand = STAND, ruhe: boolean | string = false, agenten = 0, pruefer = 0, spar = false, ziele = '') {
@@ -106,8 +106,8 @@ export function starte(on: On, marker: string | null, status: (string | undefine
     const pfad = e.path.replace(/\\/g, '/')
     if (pfad.endsWith('stand.md')) return { value: stand } as never
     if (ziele && pfad.endsWith('ziele.md')) return { value: ziele } as never
-    if (marker !== null && pfad === `${MARKER_ORDNER}/${SITZUNG}.txt`) return { value: marker } as never
-    if (FREMDE_MARKER.includes(pfad)) return { value: new Date(Date.now() + 3_600_000).toISOString() } as never
+    if (marker !== null && pfad.endsWith(MARKER_ENDE)) return { value: marker } as never
+    if (FREMDE_MARKER.some(m => pfad.endsWith(m))) return { value: new Date(Date.now() + 3_600_000).toISOString() } as never
     if (ruhe !== false && e.path.endsWith('ruhemodus.txt')) return { value: ruhe === true ? '' : ruhe } as never
     if (spar && e.path.endsWith('sparmodus.txt')) return { value: '' } as never
     return { deny: 'fehlt' } as never
