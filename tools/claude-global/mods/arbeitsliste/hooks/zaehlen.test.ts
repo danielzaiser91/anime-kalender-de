@@ -1,6 +1,6 @@
 import { test, expect } from 'claude-code/testing'
 
-import { extrahiereLinks, loeseZiel, kurz, schalte, schneide, sortiere, sortiereJetzt, teile, zaehle, zaehleLive, zaehlePipeline, zaehleVonDir, zuLang } from './zaehlen'
+import { extrahiereLinks, loeseZiel, kurz, schalte, schneide, sortiereJetzt, teile, zaehle, zaehlePipeline, zaehleVonDir, zuLang } from './zaehlen'
 
 const PIPE = `## In Pipeline
 
@@ -170,12 +170,6 @@ test('Größenmarken: [groß]/[klein] werden erkannt und aus dem Titel entfernt'
   expect(v.jetzt[0]!.groesse).toBe('klein')
 })
 
-test('sortiere: groß, normal, klein; Dateireihenfolge innerhalb der Gruppe', () => {
-  const e = (titel: string, groesse: 'gross' | 'normal' | 'klein') => ({ titel, rest: '', groesse, links: [] })
-  const s = sortiere([e('k1', 'klein'), e('n1', 'normal'), e('g1', 'gross'), e('n2', 'normal'), e('g2', 'gross')])
-  expect(s.map(x => x.titel)).toEqual(['g1', 'g2', 'n1', 'n2', 'k1'])
-})
-
 test('loeseZiel: relativ gegen daniel-zum-abarbeiten, file-URL, C:/, C:\\, https, Anker', () => {
   const B = 'C:\\code\\ai\\anime-kalender-de\\daniel-zum-abarbeiten\\'
   expect(loeseZiel('berichte/x.md')).toEqual({ href: 'file:///C:/code/ai/anime-kalender-de/daniel-zum-abarbeiten/berichte/x.md', pfad: B + 'berichte\\x.md' })
@@ -196,31 +190,6 @@ test('extrahiereLinks: Markdown, nackte URL und Pfad, ohne Doppelte und ohne Sat
     'file:///C:/code/ai/y.md',
   ])
   expect(v[0]!.label).toBe('Bericht')
-})
-
-const LIVE = `## Neu und live testbar
-- [2026-10-10 12:00] Wochenstart statt „Alle Folgen“ — [Seite](https://anime-kalender.de/)
-- [2026-10-09 09:00] Neuere Zeile von gestern — [Link](https://anime-kalender.de/x)
-- [2026-10-08 11:59] Älter als 2 Tage
-- ohne Zeitstempel
-- [2026-13-45 99:99] ungültig
-## Feature
-- [2026-10-10 13:00] steht im falschen Abschnitt
-`
-
-test('Live: Filter auf 2 Tage, neueste zuerst, ohne gültigen Zeitstempel nicht anzeigen, Link bleibt', () => {
-  const v = zaehleLive(LIVE, new Date(2026, 9, 10, 12, 0))
-  expect(v.map(e => e.titel)).toEqual(['Wochenstart statt „Alle Folgen“', 'Neuere Zeile von gestern'])
-  expect(v[0]!.links[0]!.href).toBe('https://anime-kalender.de/')
-  // genau 2 Tage alt bleibt, eine Minute mehr nicht
-  expect(zaehleLive(LIVE, new Date(2026, 9, 10, 12, 0)).length).toBe(2)
-  expect(zaehleLive(LIVE, new Date(2026, 9, 11, 9, 0)).map(e => e.titel)).toEqual(['Wochenstart statt „Alle Folgen“', 'Neuere Zeile von gestern'])
-  expect(zaehleLive(LIVE, new Date(2026, 9, 11, 9, 1)).map(e => e.titel)).toEqual(['Wochenstart statt „Alle Folgen“'])
-})
-
-test('Live: leerer oder fehlender Abschnitt ergibt nichts', () => {
-  expect(zaehleLive('## Neu und live testbar\n\n## Feature\n', new Date())).toEqual([])
-  expect(zaehleLive('# Stand\n', new Date())).toEqual([])
 })
 
 test('schneide: bis 5 alles, darüber 5 und Rest versteckt; aufgeklappt alles; max 0 = zu', () => {
