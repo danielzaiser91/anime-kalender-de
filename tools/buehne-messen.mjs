@@ -57,7 +57,7 @@ async function main() {
   const rot = []
   let gemessen = 0
   try {
-    await durchlaufe(seite, argument('--mockup', ''), async ({ mockup, fall, variante, zeit, zellen }) => {
+    rot.push(...(await durchlaufe(seite, argument('--mockup', ''), async ({ mockup, fall, variante, zeit, zellen }) => {
       const schluesselVorFall = `${mockup}/${fall}${zeit ? `@${zeit.slice(11, 16)}` : ''}`
       for (const z of zellen.filter((c) => c.schluessel.startsWith('vorher'))) vorher.set(`${schluesselVorFall}/${ort(z.schluessel)}`, await messeZelle(z))
       for (const z of zellen.filter((c) => c.schluessel.startsWith('nachher'))) {
@@ -72,7 +72,7 @@ async function main() {
         for (const { art, f } of neu) rot.push(`${schluesselVorFall} ${variante} ${ort(z.schluessel)}: ${zeile(art, f)}`)
         if (LISTE) for (const art of ['tipp', 'kontrast']) for (const f of messung[art]) console.log(`      ${art === 'tipp' ? 'Tippziel' : 'Kontrast'} ${zeile(art, f)}`)
       }
-    })
+    })))
   } finally {
     await browser.close()
   }

@@ -9,6 +9,7 @@ import { chromium } from 'playwright'
 import { existsSync } from 'node:fs'
 import { readFile } from 'node:fs/promises'
 import path from 'node:path'
+import { mitWiederholung } from './buehne-absturz.mjs'
 
 const WURZEL = path.resolve(import.meta.dirname, '..')
 export const BUEHNE = path.join(WURZEL, 'buehne-dist')
@@ -48,10 +49,10 @@ export async function starteBuehne() {
   const browser = await chromium.launch()
   // 12000 px hoch: Die Bühnen-Seite ist so hoch wie das Fenster (`.seite`, 100dvh) und staucht die Zellen darauf; erst ein sehr
   // hohes Fenster gibt jeder Zelle ihre volle Gerätehöhe (Bilder, Messungen) und schaltet den Zoom von „beide" ab.
-  const seite = await browser.newPage({ viewport: { width: 1400, height: 12000 } })
+  const kontext = await browser.newContext({ viewport: { width: 1400, height: 12000 } })
   const fremde = []
-  await seite.route('**/*', (route) => antworte(route, fremde))
-  return { browser, seite, fremde }
+  await kontext.route('**/*', (route) => antworte(route, fremde))
+  return { browser, seite: await kontext.newPage(), fremde }
 }
 
 /** Alle Mockups der Bühne (Namen aus der Übersicht) samt Varianten, Fällen und Zeiten (aus den Knöpfen der Leiste). */
@@ -120,16 +121,28 @@ export async function oeffneZellen(seite, { mockup, variante, fall, teil, zeit }
 export async function durchlaufe(seite, filter, beiZellen) {
   const mockups = (await listeMockups(seite)).filter((m) => !filter || m.name.includes(filter))
   if (!mockups.length) throw new Error(`kein Mockup${filter ? ` mit „${filter}“` : ''} gefunden`)
+  const abstuerze = []
+  let aktuell = seite
   for (const m of mockups) {
     for (const fall of m.faelle) {
       for (const zeit of m.zeiten.length ? m.zeiten : [undefined]) {
         for (const [i, variante] of m.varianten.entries()) {
-          const zellen = await oeffneZellen(seite, { mockup: m.name, variante, fall, teil: i === 0 ? 'beide' : 'nachher', zeit })
-          await beiZellen({ mockup: m.name, fall, variante, zeit, zellen })
+          const einheit = async (s) => beiZellen({ mockup: m.name, fall, variante, zeit, zellen: await oeffneZellen(s, { mockup: m.name, variante, fall, teil: i === 0 ? 'beide' : 'nachher', zeit }) })
+          const { seite: benutzt, absturz } = await mitWiederholung(aktuell, einheit, ersetzeSeite)
+          aktuell = benutzt
+          if (absturz) abstuerze.push(`Absturz ${m.name}/${fall}${zeit ? `@${zeit.slice(11, 16)}` : ''} ${variante} (Seite zweimal abgestürzt: ${absturz})`)
         }
       }
     }
   }
+  return abstuerze
+}
+
+/** Schließt die abgestürzte Seite und öffnet im selben Kontext (Routen, Fenstergröße bleiben) eine neue. */
+async function ersetzeSeite(seite) {
+  const kontext = seite.context()
+  await seite.close().catch(() => {})
+  return kontext.newPage()
 }
 
 /** Wert eines Aufrufarguments (`--aus <x>`), sonst `vorgabe`. */

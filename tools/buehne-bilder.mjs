@@ -32,11 +32,14 @@ async function main() {
   const ordner = path.resolve(WURZEL, argument('--aus', 'buehne-bilder'))
   const { browser, seite, fremde } = await starteBuehne()
   const dateien = []
+  let abstuerze = []
   try {
-    await durchlaufe(seite, argument('--mockup', ''), (ansicht) => nimmAuf(ansicht, ordner, dateien))
+    abstuerze = await durchlaufe(seite, argument('--mockup', ''), (ansicht) => nimmAuf(ansicht, ordner, dateien))
   } finally {
     await browser.close()
   }
+  for (const a of abstuerze) console.log(`  ✕ ${a}`)
+  if (abstuerze.length) process.exitCode = 1
   console.log(`${dateien.length} Bilder in ${ordner}`)
   for (const d of dateien) console.log(`  ${path.relative(ordner, d)}`)
   if (fremde.length) {
