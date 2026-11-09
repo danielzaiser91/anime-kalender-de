@@ -66,7 +66,7 @@ export function mitFremdTiteln(t: Title, ausAs: Folge[] | undefined, q: TitelQue
   const crSerie = crUrl ? q.crSerien.get(crUrl) : undefined
   const archiv = ladeCrArchiv(crSerie?.seriesId)
   const mitCr = mitCrTiteln(ausAs, crFolgentitel(t, crSerie, archiv) ?? crFolgentitelGeteilt(t, crSerie, archiv, vorhandeneTitel(ausAs)))
-  const mitRtl = mitCrTiteln(mitCr, rtlplusFolgentitel(deutscheTitel(mitCr), q.rtlplus[String(t.id)]))
+  const mitRtl = mitCrTiteln(mitCr, rtlplusFolgentitel(deutscheTitel(mitCr), q.rtlplus[String(t.id)]), true)
   if (!luecke(mitRtl)) return mitKitsuTiteln(t, mitRtl, kitsu)
   const nummern = mitRtl?.length ? mitRtl.map((x) => x.nr) : Array.from({ length: t.episodes ?? 0 }, (_, i) => i + 1)
   const mitTmdbStaffel = mitCrTiteln(mitRtl, tmdbFolgentitel(t, q.tmdbNamen[String(t.id)]?.nameDe, q.tmdbFolgen[String(t.id)], nummern, vorhandeneTitel(mitRtl)))

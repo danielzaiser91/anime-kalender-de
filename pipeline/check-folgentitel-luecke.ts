@@ -13,7 +13,7 @@ import { fileURLToPath } from 'node:url'
 import type { Title } from '../shared/types.ts'
 import { abgleich } from './bau/folgentitel-abgleich.ts'
 import { crFolgentitelGeteilt } from './bau/folgentitel-cr-geteilt.ts'
-import type { CrArchiv, CrSerie } from './bau/folgentitel-cr.ts'
+import { mitCrTiteln, type CrArchiv, type CrSerie } from './bau/folgentitel-cr.ts'
 import { handFehler, ladeHandTitel } from './bau/folgentitel-hand.ts'
 import { rtlplusFolgentitel } from './bau/folgentitel-rtlplus.ts'
 import { mitFremdTiteln, type TitelQuellen } from './bau/folgentitel-stufen.ts'
@@ -76,6 +76,12 @@ const imBauEnglisch = mitFremdTiteln(beyblade, zeilenEnglisch, { ...leer, rtlplu
 pruefe('im Bau, aniSearch mit englischen Titeln ab 66: Folge 66 bekommt den deutschen RTL+-Titel', imBauEnglisch?.find((x) => x.nr === 66)?.de === 'Etwas Fesselndes', imBauEnglisch)
 pruefe('im Bau, englische Titel ab 66: Folge 101 und 103 ebenso, der englische bleibt daneben', imBauEnglisch?.find((x) => x.nr === 101)?.de === 'Vernichtung' && imBauEnglisch.find((x) => x.nr === 103)?.de === 'Bey der Zukunft' && imBauEnglisch.find((x) => x.nr === 66)?.en === 'Something Captivating', imBauEnglisch)
 pruefe('im Bau, englische Titel: widersprechen die deutschen Titel der RTL+-Liste, bleibt sie draußen', mitFremdTiteln(beyblade, [{ nr: 66 }, ...[1, 2, 3, 65].map((nr) => ({ nr, de: `Anders ${nr}` }))], { ...leer, rtlplus: { '165159': rtlBeyblade } })?.find((x) => x.nr === 66)?.de === undefined)
+/* Lehnwörter: RTL+ führt „Partner“ (83) und „Supernova“ (99), aniSearch hat dort denselben Text als englischen Titel (data/rtlplus-folgen.json, 09.11.2026). */
+const rtlLehn = { folgen: [...rtlBeyblade.folgen, { nr: 83, dt: 'Partner' }, { nr: 99, dt: 'Supernova' }] }
+const zeilenLehn = [...zeilen.filter((z) => z.nr <= 65), { nr: 83, en: 'Partner' }, { nr: 99, en: 'Supernova' }]
+const imBauLehn = mitFremdTiteln(beyblade, zeilenLehn, { ...leer, rtlplus: { '165159': rtlLehn } })
+pruefe('im Bau: RTL+-Titel gleich dem englischen (Lehnwort „Partner“, „Supernova“) gilt als deutsch', imBauLehn?.find((x) => x.nr === 83)?.de === 'Partner' && imBauLehn.find((x) => x.nr === 99)?.de === 'Supernova', imBauLehn)
+pruefe('Kontrolle: derselbe Text aus Crunchyroll/TMDB (mitCrTiteln ohne nurDeutsch) bleibt „nicht deutsch“', mitCrTiteln([{ nr: 83, en: 'Partner' }, { nr: 84 }], karte([83, 'Partner'], [84, 'Anderer']))?.[0].de === undefined)
 
 console.log('\nCrunchyroll: eine Staffel eines geteilten Verweises')
 const serieMit = (staffeln: { name: string; ab: string; von: number; bis: number }[]): CrSerie => ({
