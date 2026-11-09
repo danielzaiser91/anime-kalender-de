@@ -1,8 +1,8 @@
 [
   { "name": "Kontrolle (unmutiert)", "aenderungen": [] },
   { "name": "bleibt: nicht eingearbeitet fliegt", "aenderungen": [{ "datei": "pipeline/lib/anime2you-bleibt.ts", "suche": "if (!p.alreadyCurated) return true", "ersetze": "if (!p.alreadyCurated) return false" }] },
-  { "name": "bleibt: Zukunftsdatum zählt nicht", "aenderungen": [{ "datei": "pipeline/lib/anime2you-bleibt.ts", "suche": "(d.iso ?? `${d.month}-31`) >= heute) return true", "ersetze": "(d.iso ?? `${d.month}-31`) >= heute) return false" }] },
-  { "name": "bleibt: heute zählt nicht (> statt >=)", "aenderungen": [{ "datei": "pipeline/lib/anime2you-bleibt.ts", "suche": "`${d.month}-31`) >= heute) return true", "ersetze": "`${d.month}-31`) > heute) return true" }] },
+  { "name": "bleibt: Zukunftsdatum zählt nicht", "aenderungen": [{ "datei": "pipeline/lib/anime2you-bleibt.ts", "suche": ">= heute)) return true", "ersetze": ">= heute)) return false" }] },
+  { "name": "bleibt: heute zählt nicht (> statt >=)", "aenderungen": [{ "datei": "pipeline/lib/anime2you-bleibt.ts", "suche": ">= heute)) return true", "ersetze": "> heute)) return true" }] },
   { "name": "bleibt: Monatsende -31 entfällt", "aenderungen": [{ "datei": "pipeline/lib/anime2you-bleibt.ts", "suche": "`${d.month}-31`", "ersetze": "`${d.month}`" }] },
   { "name": "bleibt: Verschiebungen zählen nicht", "aenderungen": [{ "datei": "pipeline/lib/anime2you-bleibt.ts", "suche": "if (p.verschiebungen?.length) return true", "ersetze": "if (p.verschiebungen?.length) return false" }] },
   { "name": "bleibt: Sammeleinträge zählen nicht (alte Bedingung)", "aenderungen": [{ "datei": "pipeline/lib/anime2you-bleibt.ts", "suche": "return Boolean(p.sammel?.length)", "ersetze": "return false" }] },

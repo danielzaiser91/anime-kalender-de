@@ -51,6 +51,7 @@ const gewaehlt = waehleVorrat(
     eintrag('https://x/hinweis-alt/', { hinweis: 'sprache', publishedAt: '2026-09-24', dates: [{ iso: '2026-12-01' }] }),
     eintrag('https://x/hinweis-grenze/', { hinweis: 'sprache', publishedAt: '2026-09-25', dates: [{ iso: '2026-12-01' }] }),
     eintrag('https://x/offen/', { dates: [{ iso: '2026-12-02' }] }),
+    eintrag('https://x/ohne-hinweis-alt/', { publishedAt: '2026-01-01', dates: [{ iso: '2026-12-03' }] }),
   ],
   new Set(['https://x/joyn', 'https://x/leer']),
   HEUTE,
@@ -61,6 +62,7 @@ pruefe('waehleVorrat: Kuratierter Sammelartikel bleibt (Adresse mit Schrägstric
 pruefe('waehleVorrat: Kuratierter ohne Termine fliegt', !gewaehlt.includes('https://x/leer/'))
 pruefe('waehleVorrat: Sprachhinweis 46 Tage alt fliegt, 45 Tage bleibt', !gewaehlt.includes('https://x/hinweis-alt/') && gewaehlt.includes('https://x/hinweis-grenze/'))
 pruefe('waehleVorrat: Unkuratiertes bleibt', gewaehlt.includes('https://x/offen/'))
+pruefe('waehleVorrat: alter Eintrag ohne Sprachhinweis bleibt', gewaehlt.includes('https://x/ohne-hinweis-alt/'))
 pruefe('waehleVorrat: Verfall wird mit Grund einmal gezählt', verworfen.length === 1 && verworfen[0] === 'Sprachhinweis älter als 45 Tage')
 
 // Ganzer Lauf von scrape-anime2you.ts (Kulisse AK_ROOT, Attrappe): derselbe alte Sprachhinweis muss im Vorrat verworfen werden.
