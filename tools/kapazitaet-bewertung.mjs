@@ -37,8 +37,16 @@ function ueberschreitungen(tage) {
   const alt = []
   tage.forEach((t, i) => {
     const liste = i >= tage.length - FRISCHE_TAGE ? frisch : alt
+    let einzelnUeber = false
     for (const [name, n] of Object.entries(jeSkript(t))) {
-      if (n != null && n > GRENZE_ANFRAGEN) liste.push(`${zahl(n)} Worker-Anfragen im Skript ${name} am ${t.datum} über ${zahl(GRENZE_ANFRAGEN)} (70 % von ${zahl(KONTINGENT_ANFRAGEN)})`)
+      if (n != null && n > GRENZE_ANFRAGEN) {
+        einzelnUeber = true
+        liste.push(`${zahl(n)} Worker-Anfragen im Skript ${name} am ${t.datum} über ${zahl(GRENZE_ANFRAGEN)} (70 % von ${zahl(KONTINGENT_ANFRAGEN)})`)
+      }
+    }
+    /* Das Kontolimit zählt die Summe aller Skripte; ein einzelnes Skript über der Grenze ist damit schon gemeldet. */
+    if (!einzelnUeber && t.anfragen != null && t.anfragen > GRENZE_ANFRAGEN) {
+      liste.push(`${zahl(t.anfragen)} Worker-Anfragen aller Skripte am ${t.datum} über ${zahl(GRENZE_ANFRAGEN)} (70 % von ${zahl(KONTINGENT_ANFRAGEN)})`)
     }
     if (t.geschrieben != null && t.geschrieben > GRENZE_D1_GESCHRIEBEN) {
       liste.push(`${zahl(t.geschrieben)} D1-Zeilen geschrieben am ${t.datum} über ${zahl(GRENZE_D1_GESCHRIEBEN)} (70 % von ${zahl(KONTINGENT_D1_GESCHRIEBEN)})`)

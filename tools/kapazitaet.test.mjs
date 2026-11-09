@@ -62,10 +62,22 @@ assert.equal(bewerteKapazitaet(tage3({}, {}, { geschrieben: 80_000 })).befunde.l
 assert.equal(bewerteKapazitaet(tage3({ cronP99Ms: 9 }, {}, {})).befunde.length, 1)
 /* Ein einzelner Tag ist frisch; ohne Tage nichts */
 assert.equal(bewerteKapazitaet([tag({ anfragen: 70_001 })]).befunde.length, 1)
-/* Grenze je Skript: zwei Skripte je unter 70.000 (Summe darüber) sind grün, eines darüber rot und namentlich genannt;
-   ein kleines fremdes Skript (ak-adn-gw) zählt nicht in die Grenze des großen */
+/* Grenze je Skript und zusätzlich die Kontosumme: ein einzelnes Skript darüber ist rot und namentlich genannt (die Summe
+   dann nicht doppelt), zwei Skripte je darunter mit Summe darüber sind rot als Summe */
 const skripte = (jeSkript) => bewerteKapazitaet([tag({ jeSkript, anfragen: Object.values(jeSkript).reduce((p, c) => p + c, 0) })])
-assert.equal(skripte({ newsletter: 69_000, 'ak-adn-gw': 1_159 }).befunde.length, 0, 'Summe 70.159, aber kein Skript darüber')
+const summeRot = skripte({ a: 60_000, b: 60_000 }).befunde
+assert.equal(summeRot.length, 1, 'zwei Skripte je 60.000: Summe 120.000 ist rot')
+assert.match(summeRot[0], /120\.000 Worker-Anfragen aller Skripte am 2026-10-22/)
+assert.equal(skripte({ a: 35_000, b: 35_000 }).befunde.length, 0, 'Summe genau 70.000 grün')
+assert.equal(skripte({ a: 35_000, b: 35_001 }).befunde.length, 1, 'Summe 70.001 rot')
+assert.equal(skripte({ newsletter: 69_000, 'ak-adn-gw': 1_159 }).befunde.length, 1, 'Summe 70.159 rot, kein Skript einzeln darüber')
+const aeltereSumme = bewerteKapazitaet([
+  tag({ datum: '2026-10-20', jeSkript: { a: 60_000, b: 60_000 }, anfragen: 120_000 }),
+  tag({ datum: '2026-10-21' }),
+  tag({ datum: '2026-10-22' }),
+])
+assert.equal(aeltereSumme.befunde.length, 0, 'Summe vor 3 Tagen nicht mehr rot')
+assert.match(aeltereSumme.warnungen[0], /aller Skripte am 2026-10-20.*älter als 2 Tage/)
 const rot = skripte({ newsletter: 71_000, 'ak-adn-gw': 5 }).befunde
 assert.equal(rot.length, 1)
 assert.match(rot[0], /71\.000 Worker-Anfragen im Skript newsletter am 2026-10-22/)
