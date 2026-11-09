@@ -5,6 +5,8 @@
  */
 import { basisGrenzen, basisRef, bauUndDeployBefehle, fahrtLog, fahrtSchritt, ketteArt, ratschenZustand, ffEntscheidung, halbierungVersuch, halbierungWeiter, ratschenFall, ratschenMeldung, revertPlan, schuldsuche, sperrGruende, verdaechtige, zugEintraege, zugPlan, zurueckholen } from './zug.mjs'
 import { logJobs, trocken } from './zug-trocken.mjs'
+import { standardTrotzCoverMaengel } from '../pipeline/lib/plakat-vorschau-wache.ts'
+import { coverVorschauBestandMangel } from '../pipeline/lib/cover-vorschau-bestand.ts'
 
 const fehler = []
 const pruefe = (name, ok, info) => {
@@ -81,14 +83,21 @@ pruefe('Nummer nicht im Zug → fehlt, kein Befehl', gleich(revertPlan(ZUG, [2, 
 pruefe('Main-Merge wird nie zurückgenommen', revertPlan(ZUG, [1, 2, 3]).befehle.length === 3)
 
 console.log('Ratschen: wörtliche Meldungen')
-const COVER = '471 Titel mit Cover zeigen das Standardbild, erlaubt höchstens 449'
+// Cover-Texte kommen aus den Erzeugerfunktionen der Wächter (check-teilseiten bzw. check-cover-vorschau-bestand), nicht von Hand getippt.
+const coverTeilseiten = (n, max) => standardTrotzCoverMaengel(Array.from({ length: n }, (_, i) => ({ slug: `s${i}`, coverImage: 'c', bild: 'https://x/og/default.jpg' })), 'https://x/', max)[0]
+const coverBestand = (n, max) => coverVorschauBestandMangel(Array.from({ length: n }, (_, i) => ({ id: i + 1 })), max)
+const COVER = coverTeilseiten(471, 449)
+const COVER_V = coverBestand(171, 170)
+pruefe('Cover-Texte der Erzeuger: Teilseiten ohne, Bestand mit Kennungs-Anhang', !COVER.includes('jüngste Kennungen') && COVER_V.endsWith('(jüngste Kennungen: 171)'), [COVER, COVER_V])
 const UMFANG = '  pipeline: Überlänge der funktionen 8986 statt höchstens 8964'
 const BUDGET = 'start-budget: 250.2 KB gzip, 0.2 KB über der Grenze von 250.0 KB (index 120.1)'
 pruefe('Cover', gleich(ratschenMeldung(COVER), { name: 'cover-standardbild', wert: 471, grenze: 449, schluessel: 'cover-standardbild:teilseiten' }))
 pruefe('Umfang', gleich(ratschenMeldung(UMFANG), { name: 'umfang', wert: 8986, grenze: 8964, schluessel: 'umfang:pipeline:funktionen' }))
 pruefe('Umfang je Bereich und Art: web/src dateien', gleich(ratschenMeldung('web/src: Überlänge der dateien 300 statt höchstens 295'), { name: 'umfang', wert: 300, grenze: 295, schluessel: 'umfang:web/src:dateien' }))
 pruefe('Umfang Ketten', gleich(ratschenMeldung('shared: Ketten (mehrere Anweisungen/Felder/Einträge in einer Zeile) 37 statt höchstens 36'), { name: 'umfang', wert: 37, grenze: 36, schluessel: 'umfang:shared:ketten' }))
-pruefe('Cover aus der Bestandsprüfung („als Link-Vorschau“)', gleich(ratschenMeldung('171 Titel mit Cover zeigen das Standardbild als Link-Vorschau, erlaubt höchstens 170 (jüngste Kennungen: 9)'), { name: 'cover-standardbild', wert: 171, grenze: 170, schluessel: 'cover-standardbild:vorschau' }))
+pruefe('Cover aus der Bestandsprüfung (Anhang „jüngste Kennungen“)', gleich(ratschenMeldung(COVER_V), { name: 'cover-standardbild', wert: 171, grenze: 170, schluessel: 'cover-standardbild:vorschau' }))
+pruefe('Cover Teilseiten mit dreistelliger Grenze: Ziffern nicht abgeschnitten', gleich(ratschenMeldung(coverTeilseiten(1200, 1195)), { name: 'cover-standardbild', wert: 1200, grenze: 1195, schluessel: 'cover-standardbild:teilseiten' }))
+pruefe('Cover Bestand mit mehreren Kennungen im Anhang', ratschenMeldung(coverBestand(175, 170))?.schluessel === 'cover-standardbild:vorschau' && ratschenMeldung(coverBestand(175, 170))?.grenze === 170)
 pruefe('Start-Budget', gleich(ratschenMeldung(BUDGET), { name: 'start-budget', wert: 250.2, grenze: 250 }))
 pruefe('andere Meldung → null', ratschenMeldung('FEHL Fortsetzungsseite (nach > 0): auch ohne COUNT(*)') === null && ratschenMeldung('') === null)
 pruefe('wert ≤ Grenze → ok', ratschenFall({ wert: 449, grenze: 449 }, 500) === 'ok')
@@ -301,7 +310,6 @@ pruefe('Umfang je Bereich und Art', bg['umfang:pipeline:funktionen'] === 8907 &&
 pruefe('Umfang: nichts erfunden', Object.keys(bg).length === 7, Object.keys(bg))
 pruefe('Datei fehlt am Basisstand → Schlüssel fehlt (kein Raten)', gleich(basisGrenzen(() => null), {}))
 pruefe('nur eine der Cover-Dateien da → nur deren Schlüssel', gleich(basisGrenzen((d) => (d === 'pipeline/check-teilseiten.ts' ? DATEIEN[d] : null)), { 'cover-standardbild:teilseiten': 168 }))
-const COVER_V = '171 Titel mit Cover zeigen das Standardbild als Link-Vorschau, erlaubt höchstens 170 (jüngste Kennungen: 9)'
 pruefe('schuldsuche Cover Teilseiten: eigene Basisgrenze 480 hält 471 → ratsche (Minimum 170 hätte Zug gesagt)', s0({ fehlschlag: { jobs: [jobBau(COVER)] }, grenzeBasis: { 'cover-standardbild:teilseiten': 480, 'cover-standardbild:vorschau': 170 } }).art === 'ratsche')
 pruefe('schuldsuche Cover Vorschau: eigene Basisgrenze 175 hält 171 → ratsche (Minimum 168 hätte Zug gesagt)', s0({ fehlschlag: { jobs: [jobBau(COVER_V)] }, grenzeBasis: { 'cover-standardbild:vorschau': 175, 'cover-standardbild:teilseiten': 168 } }).art === 'ratsche')
 pruefe('schuldsuche Cover: Basisgrenze des anderen Wächters zählt nicht → Zug', s0({ fehlschlag: { jobs: [jobBau(COVER_V)] }, grenzeBasis: { 'cover-standardbild:vorschau': 170, 'cover-standardbild:teilseiten': 999 } }).art === 'halbieren')

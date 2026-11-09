@@ -86,10 +86,10 @@ export function revertPlan(eintraege, nummern) {
 
 // Meldungen der Ratschen-Wächter, wörtlich aus den roten Läufen vom 05./06.11.2026 (rot-nach-gruen-2026-11-06.md). Jede liefert { wert, grenze }.
 // `schluessel` (nur Umfang: je Bereich und Art eine eigene Grenze in tools/umfang-grenzen.json) wählt die Basisgrenze in `grenzeBasis`.
-// Cover: zwei Wächter melden es, check-teilseiten („Standardbild, erlaubt“) und check-cover-vorschau-bestand („Standardbild als Link-Vorschau, erlaubt“).
+// Cover: beide Wächter melden denselben Text (standardTrotzCoverMaengel); nur der Bestandswächter hängt „ (jüngste Kennungen: …)“ an, daran ist er von check-teilseiten zu unterscheiden.
 const RATSCHEN = [
-  { name: 'cover-standardbild', suche: /(\d+) Titel mit Cover zeigen das Standardbild als Link-Vorschau, erlaubt höchstens (\d+)/, wert: (m) => Number(m[1]), grenze: (m) => Number(m[2]), schluessel: () => 'cover-standardbild:vorschau' },
-  { name: 'cover-standardbild', suche: /(\d+) Titel mit Cover zeigen das Standardbild, erlaubt höchstens (\d+)/, wert: (m) => Number(m[1]), grenze: (m) => Number(m[2]), schluessel: () => 'cover-standardbild:teilseiten' },
+  { name: 'cover-standardbild', suche: /(\d+) Titel mit Cover zeigen das Standardbild als Link-Vorschau, erlaubt höchstens (\d+) \(jüngste Kennungen:/, wert: (m) => Number(m[1]), grenze: (m) => Number(m[2]), schluessel: () => 'cover-standardbild:vorschau' },
+  { name: 'cover-standardbild', suche: /(\d+) Titel mit Cover zeigen das Standardbild als Link-Vorschau, erlaubt höchstens (\d+)(?!\d| \(jüngste Kennungen:)/, wert: (m) => Number(m[1]), grenze: (m) => Number(m[2]), schluessel: () => 'cover-standardbild:teilseiten' },
   { name: 'umfang', suche: /([\w/.-]+): Überlänge der (funktionen|dateien) (\d+) statt höchstens (\d+)/, wert: (m) => Number(m[3]), grenze: (m) => Number(m[4]), schluessel: (m) => `umfang:${m[1]}:${m[2]}` },
   { name: 'umfang', suche: /([\w/.-]+): Ketten \([^)]*\) (\d+) statt höchstens (\d+)/, wert: (m) => Number(m[2]), grenze: (m) => Number(m[3]), schluessel: (m) => `umfang:${m[1]}:ketten` },
   { name: 'start-budget', suche: /start-budget: ([\d.]+) KB[^\n]*?über der Grenze von ([\d.]+) KB/, wert: (m) => Number(m[1]), grenze: (m) => Number(m[2]) },
