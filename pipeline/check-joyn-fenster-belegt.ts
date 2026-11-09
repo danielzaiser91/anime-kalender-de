@@ -23,7 +23,7 @@ const wurzel = mkdtempSync(join(tmpdir(), 'joyn-fenster-belegt-'))
 process.env.AK_ROOT = wurzel
 mkdirSync(join(wurzel, 'data', 'proposals'), { recursive: true })
 writeFileSync(join(wurzel, 'data', 'kino-ankuendigungen.yaml'), '[]\n')
-const { setzeJoynFenster } = await import('./bau/13-1-joyn-fenster.ts')
+const { setzeJoynFenster, belegeJoynTage } = await import('./bau/13-1-joyn-fenster.ts')
 const { schreibeSynopsenUndReichereAn } = await import('./bau/13-1-anreichern.ts')
 const { expandEvents } = await import('../shared/logic.ts')
 type Release = import('../shared/types.ts').Release
@@ -101,6 +101,21 @@ pruefe('Sendetermin ohne Beobachtung: kein Fenster, nichts belegt', ohneFenster.
 const anderer = joyn()
 lauf([maxx({ sender: 'TOGGO plus' }), anderer])
 pruefe('Anderer Sender liefert keine Fenster und keine Tage', anderer.schedule.observed === undefined, anderer.schedule)
+
+/* Sendeende nach Mitternacht: der Joyn-Tag ist der Abruftag (Sendeende), nicht der Sendetag. */
+const spaetNachts = joyn()
+lauf([maxx({ schedule: { firstEpisodeDate: '2026-11-05', time: '23:50', wochentage: [1], observed: { 1: '2026-11-05' } } as never }), spaetNachts])
+pruefe('Sendung 23:50 endet 00:15: Folge 1 gilt am Folgetag', tage(spaetNachts) === JSON.stringify({ 1: '2026-11-06' }), spaetNachts.schedule.observed)
+
+/* Die Zählung des Schritts (Log-Zeile): nur neu belegte Folgen, ein zweiter Lauf zählt nichts. */
+const zaehlen = (rs: Release[]) => {
+  const gemessen = new Map([[177476, new Map([[1, '2026-11-05'], [2, '2026-11-06'], [3, '2026-11-09']])]])
+  return belegeJoynTage(rs, gemessen)
+}
+const z1 = joyn()
+const z2 = joyn({ schedule: { ...joyn().schedule, observed: { 2: '2026-11-06' } } })
+pruefe('Zählung: drei neu belegte Folgen, bei einer vorhandenen zwei', zaehlen([z1]) === 3 && zaehlen([z2]) === 2)
+pruefe('Zählung: zweiter Lauf über denselben Termin zählt nichts', zaehlen([z1]) === 0)
 
 /* Die „davor“-Folgen (Conan-Form): Erste sichere Sichtung Folge 134, Fenster für 115–133 beginnen nur „vor“ dem ersten Tag und belegen keinen Tag. */
 const conan = joyn({ schedule: { firstEpisodeDate: '2026-09-20', time: '18:25', episodeCount: 41, wochentage: [1, 2, 3, 4, 5] } })

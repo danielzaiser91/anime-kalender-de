@@ -92,7 +92,7 @@ function merkeTag(gemessen: Map<number, Map<number, string>>, titleId: number, n
   ProSieben MAXX gesehenen Folgen belegen. Diese Folgen kommen in `observed`; spätere bleiben geschätzt. Nur Fenster aus Sichtungen
   (nicht die 19 Folgen vor der ersten), eine eigene Beobachtung bleibt. Gibt die Zahl der neu belegten Folgen zurück.
 */
-function belegeJoynTage(releases: Release[], gemessen: Map<number, Map<number, string>>): number {
+export function belegeJoynTage(releases: Release[], gemessen: Map<number, Map<number, string>>): number {
   let neu = 0
   for (const r of releases) {
     const tage = gemessen.get(r.titleId)
