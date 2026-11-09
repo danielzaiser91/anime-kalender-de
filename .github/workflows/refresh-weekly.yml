@@ -103,6 +103,7 @@ jobs:
         with:
           nachricht: 'chore(data): Tiefendurchlauf gesammelt (AniList)'
           fund: anilist
+          bauprobe: 'true'
           app-id: ${{ secrets.DATEN_APP_ID }}
           app-key: ${{ secrets.DATEN_APP_KEY }}
 
@@ -151,6 +152,7 @@ jobs:
         with:
           nachricht: 'chore(data): Tiefendurchlauf gesammelt (ADN)'
           fund: adn
+          bauprobe: 'true'
           app-id: ${{ secrets.DATEN_APP_ID }}
           app-key: ${{ secrets.DATEN_APP_KEY }}
 
@@ -200,6 +202,7 @@ jobs:
         with:
           nachricht: 'chore(data): Tiefendurchlauf gesammelt (Crunchyroll)'
           fund: crunchyroll
+          bauprobe: 'true'
           app-id: ${{ secrets.DATEN_APP_ID }}
           app-key: ${{ secrets.DATEN_APP_KEY }}
 
@@ -254,6 +257,7 @@ jobs:
         with:
           nachricht: 'chore(data): Tiefendurchlauf gesammelt (aniSearch)'
           fund: anisearch
+          bauprobe: 'true'
           app-id: ${{ secrets.DATEN_APP_ID }}
           app-key: ${{ secrets.DATEN_APP_KEY }}
 
@@ -348,6 +352,7 @@ jobs:
         with:
           nachricht: 'chore(data): Tiefendurchlauf gesammelt (TMDB und JustWatch)'
           fund: tmdb
+          bauprobe: 'true'
           app-id: ${{ secrets.DATEN_APP_ID }}
           app-key: ${{ secrets.DATEN_APP_KEY }}
 
@@ -394,6 +399,7 @@ jobs:
         with:
           nachricht: 'chore(data): Tiefendurchlauf gesammelt (RTL+ und Links)'
           fund: rtl
+          bauprobe: 'true'
           app-id: ${{ secrets.DATEN_APP_ID }}
           app-key: ${{ secrets.DATEN_APP_KEY }}
 
@@ -464,6 +470,7 @@ jobs:
         with:
           nachricht: 'chore(data): Tiefendurchlauf gesammelt (übrige Quellen)'
           fund: sonst
+          bauprobe: 'true'
           app-id: ${{ secrets.DATEN_APP_ID }}
           app-key: ${{ secrets.DATEN_APP_KEY }}
 

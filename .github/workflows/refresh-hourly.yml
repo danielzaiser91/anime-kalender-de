@@ -132,6 +132,7 @@ jobs:
         with:
           nachricht: 'chore(data): Sendezeiten gesammelt'
           fund: sendezeiten
+          bauprobe: 'true'
           app-id: ${{ secrets.DATEN_APP_ID }}
           app-key: ${{ secrets.DATEN_APP_KEY }}
 

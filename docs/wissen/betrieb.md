@@ -46,7 +46,7 @@ Seitdem gilt:
   öffnet einen Pull Request und mergt ihn **nur**, wenn GitHub `MERGEABLE`
   sagt. Jeder Abruf trägt `continue-on-error`; fällt eine Quelle aus, macht der
   Rest weiter.
-- **Probebau vor dem Merge (nur `daten-auf-abruf.yml`, 31.10.2026).** Daten-PRs
+- **Probebau vor dem Merge (`daten-auf-abruf.yml` 31.10.2026, `refresh-hourly`/`refresh-data`/`refresh-weekly` 09.11.2026).** Daten-PRs
   überspringen die PR-Kette, der App-Merge ist ein Bypass: PR 2524 (`data:cartoons`)
   kam ohne Bau auf `main` und machte den Bestandsbau rot (adn-729, Cartoon-Häkchen
   ohne Handbeleg). Die Aktion `einreichen` kennt die Eingabe `bauprobe`; mit ihr
@@ -58,7 +58,12 @@ Seitdem gilt:
   geerbt und der Fund geht durch (Warnung „main ist schon rot“); ein Fund, der
   main repariert, baut grün. Binär, nicht je Fehler. Kosten: rund 2,5–4 Minuten
   je Lauf mit Fund (PR-Datenbau, gemessen 31.10.2026), bei rotem Bau etwa eine
-  Minute mehr für die Basis. Andere Sammler haben den Probebau nicht.
+  Minute mehr für die Basis. Messung 09.11.2026 (Bestandsbau seit 14.10.: 34 Rot-Folgen,
+  19 mit nur Daten-Commits davor): Sendezeiten 12,5, Tagesquellen 2,5, Tiefendurchlauf 2,5,
+  ADN 1, Anime2You 0,5 (je Folge geteilt, wenn mehrere Sammler davor lagen). Darum
+  haben Stunden-, Tages- und Wochenlauf den Probebau (Stundenlauf rund +4 Minuten je
+  Lauf); ADN laufende, Anime2You und die übrigen Einreicher noch nicht. Die anderen
+  15 Rot-Folgen kamen von Code-Pushes oder hatten keinen Commit davor.
 - **Bleibt ein Pull Request wegen eines Konflikts offen, übernimmt
   `Claude — Daten-PR zusammenführen`** — der einzige Ort im Projekt, an dem ein
   Konflikt in Datendateien aufgelöst wird. Daniel dazu: „So ist es sicherer.

@@ -188,6 +188,7 @@ jobs:
         with:
           nachricht: 'chore(data): Tagesquellen gesammelt'
           fund: sammeln
+          bauprobe: 'true'
           app-id: ${{ secrets.DATEN_APP_ID }}
           app-key: ${{ secrets.DATEN_APP_KEY }}
 
@@ -245,6 +246,7 @@ jobs:
         with:
           nachricht: 'chore(data): aniSearch-Tagesquellen gesammelt'
           fund: anisearch
+          bauprobe: 'true'
           app-id: ${{ secrets.DATEN_APP_ID }}
           app-key: ${{ secrets.DATEN_APP_KEY }}
 
