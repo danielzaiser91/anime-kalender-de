@@ -1163,7 +1163,7 @@ async function speicherSchreiben(werte) {
         text: knopf?.textContent ?? null,
         gesperrt: Boolean(knopf?.disabled),
         sichtbar: knopf?.style?.display !== 'none',
-        imKasten: Boolean(knopf?.parentElement?.className?.includes?.('ak-amazon-suchhinweis')),
+        imKasten: Boolean(knopf?.closest?.('.ak-amazon-suchhinweis')),
         /* Die drei Bedingungen, die ihn sperren — einzeln, damit erkennbar ist, welche. */
         seiteOffen: seiteOffen(),
         gemeldeteStaffel: gemeldeteStaffelNummer,
@@ -6380,10 +6380,7 @@ async function speicherSchreiben(werte) {
       eine der Staffeln. `titelKern()` wirft Staffelangaben und Satzzeichen
       ohnehin weg; was bleibt, muss nur ineinander vorkommen.
     */
-    const passt = (t) => {
-      const k = titelKern(t)
-      return k.length >= 4 && (k === serie || k.includes(serie) || serie.includes(k))
-    }
+    const passt = (t) => globalThis.akPrimeTitelPasst(titelKern, seitenTitel(), t)
     if (Object.keys(erledigt).some((k) => passt(erledigt[k]?.serie) || passt(erledigt[k]?.titel))) return true
     return Object.values(liste).some((e) => passt(e?.serie) || passt(e?.titel))
   }
@@ -6413,7 +6410,7 @@ async function speicherSchreiben(werte) {
     } catch {
       /* `gesehen` noch nicht angelegt. */
     }
-    if (bisher && liste[bisher]) return bisher
+    if (bisher && liste[bisher] && globalThis.akPrimeEintragGehoertZurSeite(titelKern, seitenTitel(), [liste[bisher], erledigt[bisher]])) return bisher
     /**
      * Nach einem **Neuladen** auf einer Staffel-Seite hilft `bisher` nicht mehr.
      *
@@ -8098,6 +8095,7 @@ async function speicherSchreiben(werte) {
 
   // --- Melden --------------------------------------------------------------
 
+  const abweisenMitGrund = (grund) => globalThis.akPrimeGrundZeigen(knopf, grund, abweisen)
   knopf.addEventListener('click', meldeSperre.mitSperre(async (befundBeimKlick) => {
     if (!verbindungLebt()) {
       abweisen('Erweiterung neu geladen')
@@ -8161,12 +8159,12 @@ async function speicherSchreiben(werte) {
      * kommt.
      */
     if (knopf.dataset.wechselt === 'true' && knopf.dataset.neuLaden !== 'true') {
-      abweisen('Staffelwechsel läuft')
+      abweisenMitGrund('Staffelwechsel läuft')
       return
     }
     /* Alter Name mit neuer ASIN wäre Falschdaten: Name und Kennung müssen von derselben Seite stammen. */
     const widerspruch = globalThis.akPrimeMeldungWiderspruch(document, quelltextVonFruehererSeite(), asinAusAdresse(), asinAusSeite(), eintrag.titel ?? seitenTitel(), titelVerlassen)
-    if (widerspruch) return abweisen(widerspruch)
+    if (widerspruch) return abweisenMitGrund(widerspruch)
     if (knopf.dataset.neuLaden === 'true') {
       knopf.textContent = '↻ lädt neu …'
       // Defensiv: Im Testsandkasten gibt es kein `reload`.
@@ -8181,7 +8179,7 @@ async function speicherSchreiben(werte) {
     // Ein toter Verweis hat naturgemaess keine Folgen -- er ist der einzige
     // Grund, hier ohne geladene Folgen weiterzugehen.
     if (!geladen && !nichtAbrufbar) {
-      abweisen('keine Folge gelesen')
+      abweisenMitGrund('keine Folge gelesen')
       return
     }
     const deutsch = deutschInFolgen()

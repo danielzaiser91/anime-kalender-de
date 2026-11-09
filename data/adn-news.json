@@ -1,26 +1,6 @@
 {
-  "geholtAm": "2026-11-08T02:00:49.872Z",
+  "geholtAm": "2026-11-09T02:00:55.243Z",
   "artikel": [
-    {
-      "titel": "ADN bringt TV-App heraus: Streame deine Anime auf Fernseher und Konsole!",
-      "url": "https://news.animationdigitalnetwork.com/de/2026/11/03/adn-bringt-tv-app-heraus-streame-anime-auf-fernseher-und-konsole/",
-      "datum": "2026-11-03",
-      "showIds": [
-        1432,
-        970,
-        1311,
-        887,
-        561,
-        999,
-        1160,
-        724,
-        319,
-        427,
-        662,
-        197,
-        1350
-      ]
-    },
     {
       "titel": "I Parry Everything jetzt auf Deutsch im Stream bei ADN!",
       "url": "https://news.animationdigitalnetwork.com/de/2026/11/02/i-parry-everything-jetzt-auf-deutsch-im-stream-bei-adn/",
@@ -707,6 +687,22 @@
       "datum": "2026-05-19",
       "showIds": [
         1008
+      ]
+    },
+    {
+      "titel": "Neue Avatare zu Reincarnated as a Dragon Hatchling bei ADN",
+      "url": "https://news.animationdigitalnetwork.com/de/2026/05/13/neue-avatare-zu-reincarnated-as-a-dragon-hatchling-bei-adn/",
+      "datum": "2026-05-13",
+      "showIds": [
+        1347
+      ]
+    },
+    {
+      "titel": "Horror-Anime Mononoke ab sofort im Stream bei ADN",
+      "url": "https://news.animationdigitalnetwork.com/de/2026/05/11/horror-anime-mononoke-ab-sofort-im-stream-bei-adn/",
+      "datum": "2026-05-11",
+      "showIds": [
+        1397
       ]
     }
   ]

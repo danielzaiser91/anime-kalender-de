@@ -1293,8 +1293,17 @@
       "am": "2026-11-05",
       "vorschlaege": 2
     },
+    "1067963": {
+      "am": "2026-11-08",
+      "vorschlaege": 0,
+      "uebersprungen": "kein Deutschland-Bezug"
+    },
     "1068002": {
       "am": "2026-11-05",
+      "vorschlaege": 0
+    },
+    "1068026": {
+      "am": "2026-11-08",
       "vorschlaege": 0
     },
     "1068059": {
@@ -1415,6 +1424,19 @@
     "1069032": {
       "am": "2026-11-08",
       "vorschlaege": 0
+    },
+    "1069058": {
+      "am": "2026-11-08",
+      "vorschlaege": 0,
+      "uebersprungen": "kein Deutschland-Bezug"
+    },
+    "1069089": {
+      "am": "2026-11-08",
+      "vorschlaege": 0
+    },
+    "1069143": {
+      "am": "2026-11-08",
+      "vorschlaege": 8
     }
   },
   "vorschlaege": [
@@ -3474,7 +3496,8 @@
       "warnungen": [
         "Uhrzeit widerspricht 18:30 (Artikel 1059541) – gegenlesen",
         "Uhrzeit widerspricht 18:30 (Artikel 1059541), 18:30 (Artikel 1066723) – gegenlesen",
-        "Uhrzeit widerspricht 18:30 (Artikel 1059541), 18:30 (Artikel 1066723), 18:30 (Artikel 1069021) – gegenlesen"
+        "Uhrzeit widerspricht 18:30 (Artikel 1059541), 18:30 (Artikel 1066723), 18:30 (Artikel 1069021) – gegenlesen",
+        "Uhrzeit widerspricht 18:30 (Artikel 1059541), 18:30 (Artikel 1066723), 18:30 (Artikel 1069021), 18:30 (Artikel 1069143) – gegenlesen"
       ],
       "artikelId": "1059480",
       "artikel": "Starttermin von »YAIBA: Samurai Legend« auf ProSieben MAXX",
@@ -11435,7 +11458,8 @@
       "wochentag": "Montag",
       "warnungen": [
         "Uhrzeit widerspricht 18:30 (Artikel 1066723) – gegenlesen",
-        "Uhrzeit widerspricht 18:30 (Artikel 1066723), 18:30 (Artikel 1069021) – gegenlesen"
+        "Uhrzeit widerspricht 18:30 (Artikel 1066723), 18:30 (Artikel 1069021) – gegenlesen",
+        "Uhrzeit widerspricht 18:30 (Artikel 1066723), 18:30 (Artikel 1069021), 18:30 (Artikel 1069143) – gegenlesen"
       ],
       "artikelId": "1068887",
       "artikel": "ProSieben MAXX startet zweiten werktäglichen Anime-Block",
@@ -11576,6 +11600,92 @@
       "artikelId": "1068991",
       "artikel": "Neue Teaser zum Netflix-Anime »Bride of the Barrier Master« + Visuals",
       "quelle": "https://www.anime2you.de/news/1068991/bride-of-the-barrier-master-neue-teaser/",
+      "veroeffentlicht": "2026-11-08",
+      "gelesenAm": "2026-11-08"
+    },
+    {
+      "titel": "YAIBA: Samurai Legend",
+      "zitat": "YAIBA: Samurai Legend ProSieben MAXX · Folge 3-6 · Montag bis Donnerstag um 18:30 Uhr",
+      "art": "folgen",
+      "sprache": "unklar",
+      "plattform": "tv",
+      "datum": null,
+      "uhrzeit": "18:30",
+      "anbieter": null,
+      "sender": "ProSieben MAXX",
+      "wochentage": "Montag bis Donnerstag",
+      "folgen": "3-6",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "Uhrzeit widerspricht 18:25 (Artikel 1059480), 06:15 (Artikel 1068887) – gegenlesen"
+      ],
+      "artikelId": "1069143",
+      "artikel": "TV-Guide: Anime im deutschen Fernsehen in KW 46/2026",
+      "quelle": "https://www.anime2you.de/news/1069143/anime-tv-programm-46-2026/",
+      "veroeffentlicht": "2026-11-08",
+      "gelesenAm": "2026-11-08"
+    },
+    {
+      "titel": "Hell’s Paradise",
+      "zitat": "Hell’s Paradise ProSieben FUN · Folge 11-12 · Montag um 20:55 Uhr",
+      "art": "folgen",
+      "sprache": "unklar",
+      "plattform": "tv",
+      "datum": null,
+      "uhrzeit": "20:55",
+      "anbieter": null,
+      "sender": "ProSieben FUN",
+      "wochentage": "Montag",
+      "folgen": "11-12",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1069143",
+      "artikel": "TV-Guide: Anime im deutschen Fernsehen in KW 46/2026",
+      "quelle": "https://www.anime2you.de/news/1069143/anime-tv-programm-46-2026/",
+      "veroeffentlicht": "2026-11-08",
+      "gelesenAm": "2026-11-08"
+    },
+    {
+      "titel": "Dororo",
+      "zitat": "Dororo ProSieben FUN · Folge 11-12 · Montag um 21:45 Uhr",
+      "art": "folgen",
+      "sprache": "unklar",
+      "plattform": "tv",
+      "datum": null,
+      "uhrzeit": "21:45",
+      "anbieter": null,
+      "sender": "ProSieben FUN",
+      "wochentage": "Montag",
+      "folgen": "11-12",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1069143",
+      "artikel": "TV-Guide: Anime im deutschen Fernsehen in KW 46/2026",
+      "quelle": "https://www.anime2you.de/news/1069143/anime-tv-programm-46-2026/",
+      "veroeffentlicht": "2026-11-08",
+      "gelesenAm": "2026-11-08"
+    },
+    {
+      "titel": "Magical Girl Special Ops Asuka",
+      "zitat": "Magical Girl Special Ops Asuka ProSieben FUN · Ab Montag um 22:35 Uhr",
+      "art": "start",
+      "sprache": "unklar",
+      "plattform": "tv",
+      "datum": null,
+      "uhrzeit": "22:35",
+      "anbieter": null,
+      "sender": "ProSieben FUN",
+      "wochentage": "Montag",
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1069143",
+      "artikel": "TV-Guide: Anime im deutschen Fernsehen in KW 46/2026",
+      "quelle": "https://www.anime2you.de/news/1069143/anime-tv-programm-46-2026/",
       "veroeffentlicht": "2026-11-08",
       "gelesenAm": "2026-11-08"
     }

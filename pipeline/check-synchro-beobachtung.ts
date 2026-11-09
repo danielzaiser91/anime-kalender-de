@@ -9,7 +9,8 @@ import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'nod
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import type { Release, Title } from '../shared/types.ts'
-import { beobachtungsListe, type BeobachtungsEintrag } from './lib/synchro-beobachtung.ts'
+import { beobachtungsListe, ohneSynchroStarts, type BeobachtungsEintrag } from './lib/synchro-beobachtung.ts'
+import { latenzStand } from './lib/synchro-latenz.ts'
 import type { SynchroBelege } from './lib/synchro-widerspruch.ts'
 
 let fehler = 0
@@ -66,6 +67,29 @@ pruefe(ids([titel(2), titel(1)], [rel(2, '2026-11-24'), rel(1, '2026-11-26')]) =
 pruefe(ids([titel(5), titel(3)], [rel(5, '2026-11-24'), rel(3, '2026-11-24')]) === '3:disc,5:disc', 'gleicher Start: nach Kennung')
 pruefe(ids([titel(1)], [rel(1, '2026-11-25', 'tv', { sender: 'TOGGO plus' })]) === '1:tv: TOGGO plus', 'TV nennt den Sender')
 
+console.log('\nBeobachtungsliste: zweite Quelle ohne-synchro.json (reine Funktion)')
+const ohneStarts = ohneSynchroStarts([titel(1, { jpStart: '2026-11-25' }), titel(2, { jpStart: '2026-12' }), titel(3), titel(4, { jpStart: '2026' })])
+pruefe(ohneStarts.length === 1 && ohneStarts[0].titleId === 1 && ohneStarts[0].platform === 'unbekannt', 'nur voller Tag zählt, Anbieter unbekannt')
+pruefe(ids([titel(1, { jpStart: '2026-11-25' })], ohneStarts) === '1:unbekannt', 'als Start-Eintrag aufgenommen')
+pruefe(ids([titel(1, { jpStart: '2026-11-25' })], ohneStarts, [], belege({ nachTitel: { '1': 'd' } })) === '', 'Beleg nimmt auch diese Quelle heraus')
+pruefe(ids([titel(1, { jpStart: '2026-11-12' })], ohneSynchroStarts([titel(1, { jpStart: '2026-11-12' })])) === '', 'gleiches Fenster: vor 8 Tagen → nicht aufgenommen')
+
+console.log('\nBeobachtungsliste: Latenz bis Beleg (reine Funktion)')
+const l1 = eintrag(1, 'disc', '2026-11-25', '2026-11-10')
+const l2 = eintrag(2, 'disc', '2026-11-25', '2026-11-12')
+const lat = (alt: BeobachtungsEintrag[], neu: BeobachtungsEintrag[], vor: object, hist: Record<string, string>, heute = HEUTE) => latenzStand(alt, neu, vor, hist, heute)
+pruefe(lat([l1], [], {}, { '1': '2026-11-15' }).belegt[0]?.tage === 5, 'Eintrag weg, Historie 5 Tage später → tage 5')
+pruefe(lat([l1], [l1], {}, { '1': '2026-11-15' }).belegt.length === 0, 'Eintrag noch auf der Liste → nichts gezählt')
+pruefe(lat([l1], [], {}, { '1': '2026-11-09' }).belegt.length === 0, 'Historie vor der Aufnahme (Altbestand) → nichts gezählt')
+pruefe(lat([l1], [], {}, { '1': '2026-11-10' }).belegt[0]?.tage === 0, 'Beleg am Aufnahmetag → tage 0')
+pruefe(lat([l1], [], {}, {}).abgeloest.length === 1, 'ohne Historie → wartet')
+pruefe(lat([], [], { abgeloest: [l1] }, {}, '2026-12-25').abgeloest.length === 1, 'wartet 45 Tage nach seit')
+pruefe(lat([], [], { abgeloest: [l1] }, {}, '2026-12-26').abgeloest.length === 0, 'nach 46 Tagen verworfen')
+pruefe(lat([l1, l2], [], { belegt: [{ id: 1, titel: 'x', seit: '2026-11-10', beleg: '2026-11-11', tage: 1 }] }, { '1': '2026-11-15', '2': '2026-11-18' }).belegt.map((b) => `${b.id}:${b.tage}`).join() === '1:1,2:6', 'schon gezählt bleibt, neuer kommt dazu, keine Doppelzählung')
+pruefe(lat([l1], [], { abgeloest: [l1] }, {}).abgeloest.length === 1, 'derselbe Eintrag in alt und abgeloest → einmal')
+const viele = Array.from({ length: 101 }, (_, i) => ({ id: i + 10, titel: 'x', seit: '2026-11-01', beleg: '2026-11-02', tage: 1 }))
+pruefe(lat([], [], { belegt: viele }, {}).belegt.length === 100 && lat([], [], { belegt: viele }, {}).belegt[0].id === 11, 'belegt wird auf die letzten 100 gekappt')
+
 console.log('\nBeobachtungsliste: Skript als Prozess')
 const wurzel = join(import.meta.dirname, '..')
 const ordner = mkdtempSync(join(tmpdir(), 'synchro-beobachtung-'))
@@ -94,6 +118,24 @@ rmSync(dubsDatei)
 pruefe(lauf('2026-11-22').status === 0 && ids2() === '900002', 'Lauf 4: ohne diese Marke steht der Titel wieder auf der Liste')
 writeFileSync(join(ordner, 'data', 'dub-confirmed.yaml'), ['- anilistId: 900002', '  platform: disc', '  dub: true', '  checkedAt: "2026-11-07"', ''].join('\n'))
 pruefe(lauf('2026-11-22').status === 0 && ids2() === '', 'Lauf 5: Handbeleg dub: true nimmt heraus')
+const ohneDatei = join(ordner, 'public', 'data', 'ohne-synchro.json')
+const jsonLies = (): { eintraege: BeobachtungsEintrag[]; abgeloest: BeobachtungsEintrag[]; belegt: { id: number; tage: number; beleg: string }[] } => JSON.parse(readFileSync(ziel, 'utf8'))
+writeFileSync(ohneDatei, JSON.stringify([titel(900003, { jpStart: '2026-11-24' }), titel(900004, { jpStart: '2026-12' })]))
+writeFileSync(join(ordner, 'data', 'dub-confirmed.yaml'), '')
+writeFileSync(dubsDatei, '{}')
+const ohneLauf = lauf('2026-11-22')
+const ohneListe = jsonLies().eintraege
+pruefe(ohneLauf.status === 0 && ohneListe.length === 2 && ohneListe.some((e) => e.id === 900003 && e.anbieter === 'unbekannt' && e.start === '2026-11-24'), 'ohne-synchro.json: Titel mit vollem jpStart im Fenster → Anbieter unbekannt')
+pruefe(!ohneListe.some((e) => e.id === 900004), 'ohne-synchro.json: Monatsangabe ohne Tag → nicht aufgenommen')
+writeFileSync(join(ordner, 'data', 'anisearch-dub-ids.json'), JSON.stringify({ '901003': 'd' }))
+lauf('2026-11-26')
+const ohneWeg = jsonLies()
+pruefe(ohneWeg.eintraege.every((e) => e.id !== 900003) && ohneWeg.abgeloest.some((e) => e.id === 900003) && ohneWeg.belegt.length === 0, 'Latenz: Beleg da, Historie kennt den Tag noch nicht → wartet in abgeloest')
+writeFileSync(join(ordner, 'data', 'synchro-historie.json'), JSON.stringify({ angelegtAm: '2026-08-13', seit: { 900003: '2026-11-27' } }))
+const latenzLauf = lauf('2026-11-27')
+const bel = jsonLies()
+pruefe(latenzLauf.stdout.includes('1 belegt (Tage bis Beleg: 5)') && bel.belegt.length === 1 && bel.belegt[0].id === 900003 && bel.belegt[0].tage === 5 && bel.abgeloest.length === 0, `Latenz: Historie kennt den Tag → belegt nach 5 Tagen — ${latenzLauf.stdout.trim().slice(0, 120)}`)
+pruefe(lauf('2026-11-28').status === 0 && jsonLies().belegt.length === 1, 'Latenz: zweiter Lauf zählt denselben Titel nicht doppelt')
 writeFileSync(join(ordner, 'public', 'data', 'titles.json'), '{kaputt')
 const vorher = readFileSync(ziel, 'utf8')
 const kaputt = lauf('2026-11-23')

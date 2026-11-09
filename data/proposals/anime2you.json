@@ -1,12 +1,12 @@
 {
-  "scrapedAt": "2026-11-08T13:02:01.243Z",
+  "scrapedAt": "2026-11-09T05:02:52.972Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 5,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 40,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 1,
-    "schon in einem Rubrik-Feed gelesen": 9,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 11,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 57,
+    "schon in einem Rubrik-Feed gelesen": 26,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
     "Sprachhinweis älter als 45 Tage": 6
   },
   "proposals": [
@@ -27,7 +27,30 @@
           "satz": "ins Chaos zu stürzen. »YAIBA: Samurai Legend« Episoden: 2 von 24 Sprache: Deutsch Hinweis: Neue Episoden erscheinen jeweils nach der TV-Ausstrahlung auf ProSieben MAXX (Montag bis Freitag um 18:30 Uhr) Stream: Joyn (kostenlos) Handlung: Yai"
         }
       ],
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "sammel": [
+        {
+          "titel": "Akira",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Joyn (kostenplichtig)"
+          ],
+          "datum": "2026-11-08",
+          "datumGeschaetzt": true
+        },
+        {
+          "titel": "YAIBA: Samurai Legend",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Joyn (kostenlos)"
+          ],
+          "datum": "2026-11-08",
+          "datumGeschaetzt": true
+        }
+      ],
+      "sammelGelesen": "2026-11-09"
     },
     {
       "articleTitle": "Start der fünften »Minami-ke«-Staffel steht fest + Teaser",
@@ -39,6 +62,36 @@
         {
           "month": "2027-04",
           "context": "aption von »Minami-ke« wurde heute verkündet, dass die fünfte Staffel ab April 2027 im japanischen Fernsehen ausgestrahlt wird. Einen ersten"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Start des RomCom-Anime »My Crush’s Crush« steht fest + Teaser",
+      "articleUrl": "https://www.anime2you.de/news/1069089/start-von-my-crushs-crush/",
+      "publishedAt": "2026-11-08",
+      "category": "allgemein",
+      "platforms": [],
+      "dates": [
+        {
+          "month": "2027-04",
+          "context": "r kommenden Serie verkündet. Einen ersten Teaser gibt es unten. Start im April 2027 »My Crush’s Crush« wird demzufolge ab April 2027 im japa"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "TV-Guide: Anime im deutschen Fernsehen in KW 46/2026",
+      "articleUrl": "https://www.anime2you.de/news/1069143/anime-tv-programm-46-2026/",
+      "publishedAt": "2026-11-08",
+      "category": "allgemein",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-11-15",
+          "context": "damit ihr keine Sendung verpasst! Premieren und Highlights Vom 9. bis 15. November 2026 gibt es wieder zahlreiche Anime-Premieren und -Highl"
         }
       ],
       "dub": "unklar",
@@ -495,306 +548,6 @@
       "alreadyCurated": false
     },
     {
-      "articleTitle": "25 Anime-Neuzugänge ab sofort auf Joyn verfügbar",
-      "articleUrl": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
-      "publishedAt": "2026-11-03",
-      "category": "streaming",
-      "platforms": [
-        "aniverse",
-        "joyn"
-      ],
-      "dates": [],
-      "dub": "unklar",
-      "alreadyCurated": false,
-      "sammel": [
-        {
-          "titel": "Akame ga KILL!",
-          "deutsch": true,
-          "woechentlich": false,
-          "stream": [
-            "Joyn",
-            "Prime Video"
-          ],
-          "folgen": 24,
-          "datum": "2026-11-03",
-          "datumGeschaetzt": true
-        },
-        {
-          "titel": "Clannad",
-          "deutsch": true,
-          "woechentlich": false,
-          "stream": [
-            "Joyn",
-            "Prime Video"
-          ],
-          "folgen": 49,
-          "datum": "2026-11-03",
-          "datumGeschaetzt": true
-        },
-        {
-          "titel": "Clannad: Der Film",
-          "deutsch": true,
-          "woechentlich": false,
-          "stream": [
-            "Joyn",
-            "Prime Video"
-          ],
-          "datum": "2026-11-03",
-          "datumGeschaetzt": true
-        },
-        {
-          "titel": "Colorful",
-          "deutsch": true,
-          "woechentlich": false,
-          "stream": [
-            "Joyn",
-            "Prime Video"
-          ],
-          "datum": "2026-11-03",
-          "datumGeschaetzt": true
-        },
-        {
-          "titel": "Girls und Panzer: Das Finale – Teil 1",
-          "deutsch": true,
-          "woechentlich": false,
-          "stream": [
-            "Joyn",
-            "Prime Video"
-          ],
-          "datum": "2026-11-03",
-          "datumGeschaetzt": true
-        },
-        {
-          "titel": "Girls und Panzer: Das Finale – Teil 2",
-          "deutsch": true,
-          "woechentlich": false,
-          "stream": [
-            "Joyn",
-            "Prime Video"
-          ],
-          "datum": "2026-11-03",
-          "datumGeschaetzt": true
-        },
-        {
-          "titel": "Girls und Panzer: Das Finale – Teil 3",
-          "deutsch": true,
-          "woechentlich": false,
-          "stream": [
-            "Joyn",
-            "Prime Video"
-          ],
-          "datum": "2026-11-03",
-          "datumGeschaetzt": true
-        },
-        {
-          "titel": "Girls und Panzer OVA – This is the Real Anzio Battle!",
-          "deutsch": true,
-          "woechentlich": false,
-          "stream": [
-            "Joyn",
-            "Prime Video"
-          ],
-          "datum": "2026-11-03",
-          "datumGeschaetzt": true
-        },
-        {
-          "titel": "Gosick",
-          "deutsch": true,
-          "woechentlich": false,
-          "stream": [
-            "Joyn",
-            "Prime Video"
-          ],
-          "folgen": 24,
-          "datum": "2026-11-03",
-          "datumGeschaetzt": true
-        },
-        {
-          "titel": "Hyouka",
-          "deutsch": true,
-          "woechentlich": false,
-          "stream": [
-            "Joyn",
-            "Prime Video"
-          ],
-          "folgen": 23,
-          "datum": "2026-11-03",
-          "datumGeschaetzt": true
-        },
-        {
-          "titel": "K: Seven Stories – Movie 1",
-          "deutsch": true,
-          "woechentlich": false,
-          "stream": [
-            "Joyn",
-            "Prime Video"
-          ],
-          "datum": "2026-11-03",
-          "datumGeschaetzt": true
-        },
-        {
-          "titel": "K: Seven Stories – Movie 2",
-          "deutsch": true,
-          "woechentlich": false,
-          "stream": [
-            "Joyn",
-            "Prime Video"
-          ],
-          "datum": "2026-11-03",
-          "datumGeschaetzt": true
-        },
-        {
-          "titel": "K: Seven Stories – Movie 3",
-          "deutsch": true,
-          "woechentlich": false,
-          "stream": [
-            "Joyn",
-            "Prime Video"
-          ],
-          "datum": "2026-11-03",
-          "datumGeschaetzt": true
-        },
-        {
-          "titel": "K: Seven Stories – Movie 4",
-          "deutsch": true,
-          "woechentlich": false,
-          "stream": [
-            "Joyn",
-            "Prime Video"
-          ],
-          "datum": "2026-11-03",
-          "datumGeschaetzt": true
-        },
-        {
-          "titel": "K: Seven Stories – Movie 5",
-          "deutsch": true,
-          "woechentlich": false,
-          "stream": [
-            "Joyn",
-            "Prime Video"
-          ],
-          "datum": "2026-11-03",
-          "datumGeschaetzt": true
-        },
-        {
-          "titel": "K: Seven Stories – Movie 6",
-          "deutsch": true,
-          "woechentlich": false,
-          "stream": [
-            "Joyn",
-            "Prime Video"
-          ],
-          "datum": "2026-11-03",
-          "datumGeschaetzt": true
-        },
-        {
-          "titel": "Kanon",
-          "deutsch": true,
-          "woechentlich": false,
-          "stream": [
-            "Joyn",
-            "Prime Video"
-          ],
-          "folgen": 24,
-          "datum": "2026-11-03",
-          "datumGeschaetzt": true
-        },
-        {
-          "titel": "No Game No Life Zero",
-          "deutsch": true,
-          "woechentlich": false,
-          "stream": [
-            "Joyn",
-            "Prime Video"
-          ],
-          "datum": "2026-11-03",
-          "datumGeschaetzt": true
-        },
-        {
-          "titel": "Star Blazers 2199 – Space Battleship Yamato – Odyssey of the Celestial Arc",
-          "deutsch": true,
-          "woechentlich": false,
-          "stream": [
-            "Joyn",
-            "Prime Video"
-          ],
-          "datum": "2026-11-03",
-          "datumGeschaetzt": true
-        },
-        {
-          "titel": "Tada Never Falls in Love",
-          "deutsch": true,
-          "woechentlich": false,
-          "stream": [
-            "Joyn",
-            "Prime Video"
-          ],
-          "folgen": 13,
-          "datum": "2026-11-03",
-          "datumGeschaetzt": true
-        },
-        {
-          "titel": "Tico: Ein toller Freund",
-          "deutsch": true,
-          "woechentlich": false,
-          "stream": [
-            "Joyn",
-            "Prime Video"
-          ],
-          "folgen": 39,
-          "datum": "2026-11-03",
-          "datumGeschaetzt": true
-        },
-        {
-          "titel": "To Love Ru: Darkness",
-          "deutsch": true,
-          "woechentlich": false,
-          "stream": [
-            "Joyn",
-            "Prime Video"
-          ],
-          "folgen": 26,
-          "datum": "2026-11-03",
-          "datumGeschaetzt": true
-        },
-        {
-          "titel": "Z wie Zorro – Der Film",
-          "deutsch": true,
-          "woechentlich": false,
-          "stream": [
-            "Joyn",
-            "Prime Video"
-          ],
-          "datum": "2026-11-03",
-          "datumGeschaetzt": true
-        },
-        {
-          "titel": "Z wie Zorro",
-          "deutsch": true,
-          "woechentlich": false,
-          "stream": [
-            "Joyn",
-            "Prime Video"
-          ],
-          "folgen": 52,
-          "datum": "2026-11-03",
-          "datumGeschaetzt": true
-        },
-        {
-          "titel": "Zorros Geheimnis",
-          "deutsch": true,
-          "woechentlich": false,
-          "stream": [
-            "Joyn",
-            "Prime Video"
-          ],
-          "datum": "2026-11-03",
-          "datumGeschaetzt": true
-        }
-      ],
-      "sammelGelesen": "2026-11-07"
-    },
-    {
       "articleTitle": "TV-Guide: Anime im deutschen Fernsehen in KW 45/2026",
       "articleUrl": "https://www.anime2you.de/news/1066723/anime-tv-programm-45-2026/",
       "publishedAt": "2026-11-02",
@@ -1168,7 +921,7 @@
           "folgen": 24
         }
       ],
-      "sammelGelesen": "2026-11-06"
+      "sammelGelesen": "2026-11-09"
     },
     {
       "articleTitle": "19,99 Euro pro Staffel: polyband startet große »Pokémon«-Rabattaktion",
@@ -1655,7 +1408,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-11-06"
+      "sammelGelesen": "2026-11-09"
     },
     {
       "articleTitle": "Crunchyroll ergänzt zwei weitere Anime-Neuzugänge auf Deutsch",
@@ -2210,7 +1963,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-11-06"
+      "sammelGelesen": "2026-11-09"
     },
     {
       "articleTitle": "ProSieben FUN zeigt »Akame ga KILL!« als Pay-TV-Premiere",
@@ -2441,7 +2194,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-11-06"
+      "sammelGelesen": "2026-11-09"
     },
     {
       "articleTitle": "Zwei Anime-Neuzugänge ab sofort auf Netflix verfügbar",
@@ -2478,7 +2231,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-05"
+      "sammelGelesen": "2026-11-09"
     },
     {
       "articleTitle": "Netflix nimmt Fantasy-Anime »Der Held ohne Klasse« ins Programm",
@@ -2529,7 +2282,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-06"
+      "sammelGelesen": "2026-11-09"
     },
     {
       "articleTitle": "Zehn neue Minifiguren zu »Lord of Mysteries« vorgestellt",
@@ -2619,7 +2372,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-04"
+      "sammelGelesen": "2026-11-09"
     },
     {
       "articleTitle": "»Lady Oscar« erscheint in einer neuen Blu-ray-Komplettbox",
@@ -2964,7 +2717,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-11-06"
+      "sammelGelesen": "2026-11-09"
     },
     {
       "articleTitle": "Blu-ray-Design von »My Love Story with Yamada-kun at Lv999« + Extras",
@@ -3046,7 +2799,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-02"
+      "sammelGelesen": "2026-11-09"
     },
     {
       "articleTitle": "Design der 30th Anniversary Edition von »Detektiv Conan«",
@@ -3165,7 +2918,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-04"
+      "sammelGelesen": "2026-11-09"
     },
     {
       "articleTitle": "»Black Clover« stellt neuen Crunchyroll-Bestwert für 2026 auf",
@@ -3312,7 +3065,7 @@
           "folgen": 54
         }
       ],
-      "sammelGelesen": "2026-11-02"
+      "sammelGelesen": "2026-11-09"
     },
     {
       "articleTitle": "Erste »Kaiju No. 8«-Staffel erscheint im limitierten Steelbook + Design",
