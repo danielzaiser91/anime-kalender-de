@@ -1,8 +1,8 @@
 {
-  "scrapedAt": "2026-11-08T04:08:30.487Z",
+  "scrapedAt": "2026-11-09T04:09:11.875Z",
   "window": {
-    "from": "2026-09-24",
-    "to": "2027-01-22"
+    "from": "2026-09-25",
+    "to": "2027-01-23"
   },
   "shows": [
     {
@@ -433,6 +433,19 @@
           "duration": 1380,
           "title": "Reisender",
           "image": "https://image.animationdigitalnetwork.com/license/dreamland/tv/web/eps2_320x180.jpg"
+        },
+        {
+          "date": "2026-10-31",
+          "time": "18:00",
+          "episode": 3,
+          "url": "https://animationdigitalnetwork.com/de/video/887-dreamland/32722-folge-3",
+          "season": "1",
+          "seasonReference": "dreamland_tv",
+          "order": 8,
+          "type": "EPS",
+          "duration": 1380,
+          "title": "Savane",
+          "image": "https://image.animationdigitalnetwork.com/license/dreamland/tv/web/eps3_320x180.jpg"
         }
       ],
       "batch": false
