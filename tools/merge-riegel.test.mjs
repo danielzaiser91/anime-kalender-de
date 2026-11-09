@@ -59,6 +59,7 @@ for (const c of [
   // Aufruf über das Reihen-Skript enthält den Text nicht
   'bash C:/code/ai/__assets/tools/merge-reihe.sh 3123 3124',
   // Text: echo/printf und Heredoc
+  'echo gh pr merge 5 --squash',
   'echo "gh pr merge 5 --squash"',
   "printf 'gh pr merge 5'",
   'git commit -m "gh pr merge 5 nur nach Nachrechnen"',
