@@ -153,13 +153,21 @@ console.log('\nTeil nur bei mehreren Teilen derselben Staffel:')
   ]
   const standF = staffelStaende(fremd, 'Foo')
   pruefe('Foo: „Bar Part 2" hängt an „Bar" (Staffel 2), nicht an „Baz" (Staffel 3)', standF.get(4)?.staffel === 2 && standF.get(4)?.teil === 2 && standF.get(3)?.staffel === 3, [...standF])
+  /* Eine Staffelangabe gehört zum Basisnamen: „Staffel 2 Part 2" hängt an „Staffel 2" (ohne Bindestrich, das fängt die Staffelregel nicht). */
   const mitStaffel = [
     { id: 1, name: 'Foo: Bar', jpStart: '2020-01-01' },
-    { id: 2, name: 'Foo: Baz', jpStart: '2021-01-01' },
+    { id: 2, name: 'Foo: Bar Staffel 2', jpStart: '2021-01-01' },
     { id: 3, name: 'Foo: Bar Staffel 2 Part 2', jpStart: '2022-01-01' },
   ]
   const standM = staffelStaende(mitStaffel, 'Foo')
-  pruefe('Foo: „Bar Staffel 2 Part 2" nennt eine Staffel, die Regel greift nicht (eigene Staffel 3)', standM.get(3)?.staffel === 3 && standM.get(3)?.teil === undefined, [...standM])
+  pruefe('Foo: „Bar Staffel 2 Part 2" ist Teil 2 der Staffel 2', standM.get(3)?.staffel === 2 && standM.get(3)?.teil === 2, [...standM])
+  /* „Part 1" ist nie ein zweiter Teil, auch nicht bei gleichem Namen wie ein früherer Eintrag. */
+  const eins = [
+    { id: 1, name: 'Foo: Bar', jpStart: '2020-01-01' },
+    { id: 2, name: 'Foo: Bar Part 1', jpStart: '2021-01-01' },
+  ]
+  const standE = staffelStaende(eins, 'Foo')
+  pruefe('Foo: „Bar Part 1" ist keine zweite Hälfte von „Bar" (eigene Staffel 2)', standE.get(2)?.staffel === 2 && standE.get(2)?.teil === undefined, [...standE])
 }
 
 {

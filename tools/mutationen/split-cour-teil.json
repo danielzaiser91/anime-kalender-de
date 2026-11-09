@@ -12,7 +12,6 @@
   { "name": "titles.splitCourTeil: Name nicht eingedeutscht (Cour bleibt Cour)", "aenderungen": [{ "datei": "shared/titles.ts", "suche": "name: eindeutschenStaffel(sortiert[i]!.name), i", "ersetze": "name: sortiert[i]!.name, i" }] },
   { "name": "staffel-part.teilAmEnde: Teil 2 -> nur ab Teil 3", "aenderungen": [{ "datei": "shared/staffel-part.ts", "suche": "ende.nr < 2", "ersetze": "ende.nr < 3" }] },
   { "name": "staffel-part.teilAmEnde: Teil 1 zählt auch", "aenderungen": [{ "datei": "shared/staffel-part.ts", "suche": "ende.nr < 2", "ersetze": "ende.nr < 1" }] },
-  { "name": "staffel-part.teilEinerFrueherenStaffel: Staffelangabe im Namen nicht ausgenommen", "aenderungen": [{ "datei": "shared/staffel-part.ts", "suche": " || /Staffel\\s+\\d+/i.test(name)", "ersetze": "" }] },
   { "name": "staffel-part.teilEinerFrueherenStaffel: ältester statt jüngster Treffer", "aenderungen": [{ "datei": "shared/staffel-part.ts", "suche": "fruehere.slice().reverse()", "ersetze": "fruehere.slice()" }] },
   { "name": "staffel-part.teilEinerFrueherenStaffel: Teil-1-Marke des früheren nicht abgezogen", "aenderungen": [{ "datei": "shared/staffel-part.ts", "suche": "woerter(teilAmEnde(e.name)?.basis ?? e.name)", "ersetze": "woerter(e.name)" }] },
   { "name": "staffel-part.teilEinerFrueherenStaffel: Nummer falsch (ende.nr -> 2)", "aenderungen": [{ "datei": "shared/staffel-part.ts", "suche": "return { eintrag: e, nr: ende.nr }", "ersetze": "return { eintrag: e, nr: 2 }" }] },

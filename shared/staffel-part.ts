@@ -39,11 +39,11 @@ function woerter(name: string): string {
  * Ist dieser Name der zweite (dritte …) Teil einer früheren Staffel, auch ohne den Reihennamen davor?
  * Ja, wenn er auf „Teil N" (N ≥ 2) endet und sein Basisname dieselben Wörter hat wie ein früherer Eintrag
  * (mit oder ohne dessen eigenes „Teil 1"): „Attack on Titan: Finale Staffel Teil 2" nach „… Finale Staffel".
- * Liefert den jüngsten solchen Eintrag. Ein Name mit eigener Staffelangabe ist nie ein Teil.
+ * Liefert den jüngsten solchen Eintrag. Staffelangaben im Namen („Staffel 2 Teil 2") gehören zum Basisnamen und müssen beim früheren Eintrag ebenso stehen.
  */
 export function teilEinerFrueherenStaffel<T extends { name: string }>(name: string, fruehere: T[]): { eintrag: T; nr: number } | undefined {
   const ende = teilAmEnde(name)
-  if (!ende || ende.nr < 2 || /Staffel\s+\d+/i.test(name)) return undefined
+  if (!ende || ende.nr < 2) return undefined
   const gesucht = woerter(ende.basis)
   for (const e of fruehere.slice().reverse()) {
     if (woerter(teilAmEnde(e.name)?.basis ?? e.name) === gesucht) return { eintrag: e, nr: ende.nr }
