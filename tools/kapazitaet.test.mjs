@@ -24,7 +24,7 @@ const befunde = (felder) => bewerteKapazitaet([tag(felder)]).befunde
 /* ---- Anfragen: 70.000 genau ist noch grün ---- */
 assert.equal(befunde({ anfragen: 70_000 }).length, 0)
 assert.equal(befunde({ anfragen: 70_001 }).length, 1)
-assert.match(befunde({ anfragen: 70_001 })[0], /Worker-Anfragen am 2026-10-22/)
+assert.match(befunde({ anfragen: 70_001 })[0], /Worker-Anfragen im Skript \(gesamt\) am 2026-10-22/)
 assert.equal(befunde({ anfragen: 69_999 }).length, 0)
 /* ---- D1 geschrieben ---- */
 assert.equal(befunde({ geschrieben: 70_000 }).length, 0)
@@ -41,10 +41,59 @@ assert.equal(bewerteKapazitaet([tag({ ueberCpu: 0 })]).warnungen.length, 0)
 /* ---- Nicht gemessen (null) ist weder rot noch 0 ---- */
 assert.deepEqual(bewerteKapazitaet([tag({ anfragen: null, geschrieben: null, cronP99Ms: null, ueberCpu: null })]), { befunde: [], warnungen: [] })
 assert.deepEqual(bewerteKapazitaet([]), { befunde: [], warnungen: [] })
-/* ---- Der schlimmste Tag zählt, nicht der letzte; drei Schwellen zugleich = drei Befunde ---- */
-const woche = [tag({ datum: '2026-10-20', anfragen: 80_000 }), tag({ datum: '2026-10-21', anfragen: 10 }), tag({ datum: '2026-10-22', anfragen: 20 })]
-assert.match(bewerteKapazitaet(woche).befunde[0], /2026-10-20/)
-assert.equal(befunde({ anfragen: 70_001, geschrieben: 70_001, cronP99Ms: 9 }).length, 3)
+/* ---- Frische Tage: nur die letzten 2 UTC-Tage sind rot, ältere Überschreitungen eine Warnung mit Datum ---- */
+const tage3 = (a, b, c, extra = {}) => [
+  tag({ datum: '2026-10-20', ...a }),
+  tag({ datum: '2026-10-21', ...b }),
+  tag({ datum: '2026-10-22', ...c }),
+].map((t) => ({ ...t, ...extra }))
+const alt = bewerteKapazitaet(tage3({ anfragen: 80_000 }, {}, {}))
+assert.equal(alt.befunde.length, 0, 'Spitze vor 3 Tagen ist nicht mehr rot')
+assert.equal(alt.warnungen.length, 1)
+assert.match(alt.warnungen[0], /80\.000 Worker-Anfragen im Skript \(gesamt\) am 2026-10-20.*älter als 2 Tage/)
+assert.match(bewerteKapazitaet(tage3({}, { anfragen: 80_000 }, {})).befunde[0], /2026-10-21/, 'vorletzter Tag ist noch frisch')
+assert.match(bewerteKapazitaet(tage3({}, {}, { anfragen: 80_000 })).befunde[0], /2026-10-22/)
+assert.equal(bewerteKapazitaet(tage3({ anfragen: 70_000 }, {}, {})).warnungen.length, 0, 'genau 70.000 auch alt noch still')
+assert.equal(bewerteKapazitaet(tage3({ anfragen: 70_001 }, {}, {})).warnungen.length, 1)
+/* D1-Schreiben gilt genauso */
+assert.equal(bewerteKapazitaet(tage3({ geschrieben: 80_000 }, {}, {})).befunde.length, 0)
+assert.match(bewerteKapazitaet(tage3({ geschrieben: 80_000 }, {}, {})).warnungen[0], /D1-Zeilen geschrieben am 2026-10-20/)
+assert.equal(bewerteKapazitaet(tage3({}, {}, { geschrieben: 80_000 })).befunde.length, 1)
+/* Cron-CPU zählt weiter über das ganze Fenster */
+assert.equal(bewerteKapazitaet(tage3({ cronP99Ms: 9 }, {}, {})).befunde.length, 1)
+/* Ein einzelner Tag ist frisch; ohne Tage nichts */
+assert.equal(bewerteKapazitaet([tag({ anfragen: 70_001 })]).befunde.length, 1)
+/* Grenze je Skript und zusätzlich die Kontosumme: ein einzelnes Skript darüber ist rot und namentlich genannt (die Summe
+   dann nicht doppelt), zwei Skripte je darunter mit Summe darüber sind rot als Summe */
+const skripte = (jeSkript) => bewerteKapazitaet([tag({ jeSkript, anfragen: Object.values(jeSkript).reduce((p, c) => p + c, 0) })])
+const summeRot = skripte({ a: 60_000, b: 60_000 }).befunde
+assert.equal(summeRot.length, 1, 'zwei Skripte je 60.000: Summe 120.000 ist rot')
+assert.match(summeRot[0], /120\.000 Worker-Anfragen aller Skripte am 2026-10-22/)
+assert.equal(skripte({ a: 35_000, b: 35_000 }).befunde.length, 0, 'Summe genau 70.000 grün')
+assert.equal(skripte({ a: 35_000, b: 35_001 }).befunde.length, 1, 'Summe 70.001 rot')
+assert.equal(skripte({ newsletter: 69_000, 'ak-adn-gw': 1_159 }).befunde.length, 1, 'Summe 70.159 rot, kein Skript einzeln darüber')
+const aeltereSumme = bewerteKapazitaet([
+  tag({ datum: '2026-10-20', jeSkript: { a: 60_000, b: 60_000 }, anfragen: 120_000 }),
+  tag({ datum: '2026-10-21' }),
+  tag({ datum: '2026-10-22' }),
+])
+assert.equal(aeltereSumme.befunde.length, 0, 'Summe vor 3 Tagen nicht mehr rot')
+assert.match(aeltereSumme.warnungen[0], /aller Skripte am 2026-10-20.*älter als 2 Tage/)
+const rot = skripte({ newsletter: 71_000, 'ak-adn-gw': 5 }).befunde
+assert.equal(rot.length, 1)
+assert.match(rot[0], /71\.000 Worker-Anfragen im Skript newsletter am 2026-10-22/)
+assert.equal(skripte({ a: 70_001, b: 70_001 }).befunde.length, 2, 'jedes Skript über der Grenze einzeln')
+assert.equal(skripte({ newsletter: 70_000 }).befunde.length, 0)
+assert.equal(skripte({ newsletter: 70_001 }).befunde.length, 1)
+/* Anlassfall 06./07.11.2026: Spitze 86.915 / 84.115 im Skript newsletter, am 09.11. nur noch 2.258 */
+const spitze = ['2026-11-03', '2026-11-04', '2026-11-05', '2026-11-06', '2026-11-07', '2026-11-08', '2026-11-09'].map((datum, i) => {
+  const n = [8_000, 11_000, 9_000, 86_915, 84_115, 6_408, 2_258][i]
+  return tag({ datum, anfragen: n + 300, jeSkript: { newsletter: n, 'ak-adn-gw': 300 } })
+})
+const anlass = bewerteKapazitaet(spitze)
+assert.equal(anlass.befunde.length, 0, 'am 09.11. ist die Wache wieder grün')
+assert.deepEqual(anlass.warnungen.map((w) => w.match(/am (\S+)/)[1]), ['2026-11-06', '2026-11-07'])
+assert.equal(bewerteKapazitaet(spitze.slice(0, 6)).befunde.length, 1, 'am 08.11. war der 07.11. noch frisch und rot')
 
 /* ---- Messung gegen eine nachgebildete API ---- */
 function api({ ohne = [], stundenFehlt = false } = {}) {
