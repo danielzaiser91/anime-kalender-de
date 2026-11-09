@@ -9,9 +9,9 @@
  * Claude-App kommentiert der Inhaber (17.10.2026, PR 1394: drei Nachträge nie beim Prüfer angekommen).
  * Die Commit-Liste mit Dateien je Commit braucht der Prüfer für „Umbau und Verhaltensänderung nie im selben Commit“.
  */
-import { spawnSync } from 'node:child_process'
 import { readFileSync, writeFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
+import { ghApiJson } from './kind-mit-limit.mjs'
 
 export const NACHTRAG = /^\s*(\*\*|#+ *)?(Nachtrag|Nachbesserung)/i
 // Frühere Prüferrunden: Agent-Kommentare „Prüfer Runde N“ und das CI-Protokoll (Bot), damit der Prüfer seine Auflagen einlösen kann.
@@ -55,12 +55,6 @@ export function commitAbschnitt(commits) {
   return COMMITS + commits.map(zeile).join('') + hinweis
 }
 
-function gh(args) {
-  const r = spawnSync('gh', ['api', ...args], { encoding: 'utf8', maxBuffer: 1 << 28 })
-  if (r.status !== 0) throw new Error(r.stderr)
-  return JSON.parse(r.stdout)
-}
-
 /** `--slurp` fasst die Seiten von `--paginate` zu einem Array von Arrays zusammen. */
 function holeKommentare(api, repo, pr) {
   return api(['--paginate', '--slurp', `repos/${repo}/issues/${pr}/comments`]).flat()
@@ -99,7 +93,7 @@ export function ergaenzeDatei(datei, { api, repo, pr, autor }) {
 function main() {
   const [pr, autor, datei] = process.argv.slice(2)
   if (!/^\d+$/.test(pr ?? '') || !AUTOR.test(autor ?? '') || !datei) return console.error('Aufruf: pr-nachtraege.mjs <PR> <autor> <datei>')
-  ergaenzeDatei(datei, { api: gh, repo: process.env.GITHUB_REPOSITORY, pr, autor })
+  ergaenzeDatei(datei, { api: ghApiJson, repo: process.env.GITHUB_REPOSITORY, pr, autor })
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) main()

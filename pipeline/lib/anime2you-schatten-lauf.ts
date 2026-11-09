@@ -5,6 +5,7 @@
  */
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
+import { leseRouterZeile } from './anime2you-router-lauf.ts'
 import { ergaenzeSchatten, schattenLauf, type ArtikelEingabe, type Lauf, type SchattenBestand } from './anime2you-schatten.ts'
 
 /** Relativ zur Wurzel (`AK_ROOT`); `data/proposals` geht mit dem Pull Request des Laufs mit (`tools/quellen-liste.sh`). */
@@ -43,6 +44,8 @@ export function schattenSchritt(ordner: string, ablage: Ablage, am: string, jetz
     melde(`Schatten: Ausfall beim Lesen – ${(err as Error).message}`)
     lauf = { am, artikel: 0, ohneAntwort: 0, schattenFehler: 1, gleich: 0, nurRegel: 0, nurClaude: 0, ms: 0, faelle: [] }
   }
+  const router = leseRouterZeile(ordner)
+  if (router) lauf = { ...lauf, router }
   try {
     ablage.schreibe(ergaenzeSchatten(ablage.lies(), lauf))
   } catch (err) {

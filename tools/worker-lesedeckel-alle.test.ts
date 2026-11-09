@@ -129,10 +129,10 @@ console.log('Welche Anfragen der Deckel sperren darf (istFrei)')
   pruefe(GEDECKELT.join(' ') === '/pruefung /netzfund /vorfall', `die gesperrten Routen genau: ${GEDECKELT.join(' ')}`)
   for (const pfad of ['/pruefung', '/netzfund', '/vorfall']) pruefe(!istFrei(anfrage(pfad), env), `${pfad} ohne Token: gedeckelt`)
   pruefe(['/lauf', '/verlauf', '/status'].every((pfad) => istFrei(anfrage(pfad), env)), 'Statusanzeige (/lauf, /verlauf, /status): nie gesperrt, sonst am Deckel blind')
-  pruefe(istFrei(anfrage('/pruefung?token=t'), env), 'Bau mit Token in der Adresse: frei')
+  pruefe(istFrei(anfrage('/pruefung', { headers: { 'X-Lauf-Token': 't' } }), env), 'Bau mit Token im Kopf: frei')
   pruefe(istFrei(anfrage('/pruefung', { method: 'POST', headers: { 'X-Lauf-Token': 't' } }), env), 'Meldung/Auftrag mit Token im Kopf: frei (eigener Deckel)')
-  pruefe(istFrei(anfrage('/lauf?token=d'), env), 'Wartung mit DEBUG_TOKEN: frei')
-  pruefe(!istFrei(anfrage('/pruefung?token=falsch'), env), 'falsches Token: gedeckelt')
+  pruefe(istFrei(anfrage('/lauf', { headers: { 'X-Lauf-Token': 'd' } }), env), 'Wartung mit DEBUG_TOKEN: frei')
+  pruefe(!istFrei(anfrage('/pruefung', { headers: { 'X-Lauf-Token': 'falsch' } }), env), 'falsches Token: gedeckelt')
   pruefe(!istFrei(anfrage('/pruefung'), { LAUF_TOKEN: '' } as unknown as Env), 'leeres Token bei leerem Secret: gedeckelt')
   pruefe(istFrei(anfrage('/unsubscribe'), env) && istFrei(anfrage('/health'), env), 'Besucher-Wege (Abmeldung, Health): frei')
 }
@@ -147,7 +147,7 @@ console.log('Jede Anfrage zählt, gebucht wird gesammelt')
   pruefe(gelesenHeute(db) === 0 && ungebuchtFuerTest() === BUCHEN_AB - 1, `unter BUCHEN_AB: gesammelt, noch nicht gebucht (${ungebuchtFuerTest()})`)
   await mitLesedeckel(anfrage('/health'), env, {}, liesZeilen(1))
   pruefe(gelesenHeute(db) === BUCHEN_AB && ungebuchtFuerTest() === 0, `spätestens nach BUCHEN_AB Zeilen steht alles im Tageszähler (${gelesenHeute(db)}), auch von freien Routen`)
-  await mitLesedeckel(anfrage('/pruefung?token=t'), env, {}, liesZeilen(36_000))
+  await mitLesedeckel(anfrage('/pruefung', { headers: { 'X-Lauf-Token': 't' } }), env, {}, liesZeilen(36_000))
   pruefe(gelesenHeute(db) === BUCHEN_AB + 36_000, `eine große Anfrage wird sofort gebucht (${gelesenHeute(db)})`)
 }
 {
@@ -196,7 +196,7 @@ console.log('Am Deckel')
   pruefe(r.status === 429 && inhalt.tageslimit === true, 'am Deckel: 429 mit tageslimit (dieselbe Antwort wie bei Meldungen)')
   pruefe(retry > 0 && retry <= 86_400 && r.headers.get('Access-Control-Allow-Origin') === '*', `Retry-After bis 00:00 UTC (${retry} s) und CORS * (die Erweiterung liest die Antwort)`)
   pruefe(spur.abfragen.length === 1 && spur.abfragen[0]!.includes('schreib_tag'), `die Route selbst läuft nicht: nur der Blick in den Zähler (${spur.abfragen.length} Anweisung)`)
-  const bau = await eingang(anfrage('/pruefung?token=t'), env)
+  const bau = await eingang(anfrage('/pruefung', { headers: { 'X-Lauf-Token': 't' } }), env)
   pruefe(bau.status === 200 && Array.isArray(((await bau.json()) as { pruefungen?: unknown[] }).pruefungen), 'der Bau (Token) bekommt am Deckel seine Liste')
   pruefe((await mitLesedeckel(anfrage('/subscribe'), env, {}, liesZeilen(1))).status === 200, 'Besucher-Wege (Newsletter) lesen am Deckel weiter')
   pruefe((await mitLesedeckel(anfrage('/pruefung?zaehlen=1'), env, {}, async () => new Response('aus dem Cache'))).status === 200, 'eine Antwort aus dem Cache (kein D1-Zugriff) kommt am Deckel weiter')
@@ -238,8 +238,8 @@ console.log('Ein Fehler beim Ablegen in R2 kostet die Antwort nicht')
   const env = umgebung(db, { abfragen: [] })
   /* R2: ein Schreibzugriff je Sekunde und Schlüssel; Bau und Erweiterung können gleichzeitig ablegen. */
   const werfend = { get: async () => null, head: async () => null, put: async () => Promise.reject(new Error('429 Too Many Requests')) }
-  const r = await eingang(anfrage('/pruefung?token=t'), { ...env, BELEGE: werfend } as unknown as Env)
-  pruefe(r.status === 200 && Array.isArray(((await r.json()) as { pruefungen?: unknown[] }).pruefungen), `put wirft: ?token= antwortet trotzdem 200 mit der Liste (${r.status})`)
+  const r = await eingang(anfrage('/pruefung', { headers: { 'X-Lauf-Token': 't' } }), { ...env, BELEGE: werfend } as unknown as Env)
+  pruefe(r.status === 200 && Array.isArray(((await r.json()) as { pruefungen?: unknown[] }).pruefungen), `put wirft: der Abruf mit Kopf antwortet trotzdem 200 mit der Liste (${r.status})`)
 }
 
 console.log('Riegel je Anfrage: der Bau sperrt den Tag nicht, eine teure Meldung schon')
@@ -249,7 +249,7 @@ console.log('Riegel je Anfrage: der Bau sperrt den Tag nicht, eine teure Meldung
   const spur: Spur = { abfragen: [], extra: (sql) => (offen.test(sql) ? 36_000 : 0) }
   const env = umgebung(db, spur)
   ungebuchtFuerTest(0)
-  const bau = await eingang(anfrage('/pruefung?token=t'), env)
+  const bau = await eingang(anfrage('/pruefung', { headers: { 'X-Lauf-Token': 't' } }), env)
   pruefe(bau.status === 200 && gelesenHeute(db) === 36_000, `Bau-Abruf mit 36.000 Zeilen: gezählt, ohne Riegel-Aufschlag (${gelesenHeute(db)})`)
   pruefe((await eingang(anfrage('/pruefung?zaehlen=1'), env)).status === 200, 'danach antworten die Lese-Routen weiter')
   pruefe((await eingang(melde(meldung(1)), env)).status === 200, 'danach werden Meldungen weiter gespeichert')
@@ -265,7 +265,7 @@ console.log('Riegel je Anfrage: der Bau sperrt den Tag nicht, eine teure Meldung
   pruefe((await eingang(anfrage('/pruefung?zaehlen=1'), env)).status === 429, 'danach bekommen auch die Lese-Routen ohne Token 429')
 }
 
-console.log('Die offene Liste des Baus kommt aus R2 (?token=)')
+console.log('Die offene Liste des Baus kommt aus R2 (Token im Kopf)')
 /** Zugesagt: Der Bau sieht eine neue Meldung spätestens nach fünf Minuten (`OFFEN_FRIST_MS`). */
 const SPAETESTENS = 5 * 60_000
 {
@@ -274,7 +274,7 @@ const SPAETESTENS = 5 * 60_000
   const env = umgebung(db, spur, true)
   Date.now = () => uhr
   ungebuchtFuerTest(0)
-  const liste = async () => ((await (await eingang(anfrage('/pruefung?token=t'), env)).json()) as { pruefungen: unknown[] }).pruefungen.length
+  const liste = async () => ((await (await eingang(anfrage('/pruefung', { headers: { 'X-Lauf-Token': 't' } }), env)).json()) as { pruefungen: unknown[] }).pruefungen.length
   await eingang(melde(meldung(1)), env)
   uhr += 2 * 60_000
   pruefe((await liste()) === 1, 'Ausgang: eine offene Meldung')
@@ -296,7 +296,7 @@ const SPAETESTENS = 5 * 60_000
   const env = umgebung(db, { abfragen: [] }, true)
   ungebuchtFuerTest(0)
   objekte.clear()
-  const liste = async (suche: string) => ((await (await eingang(anfrage(`/pruefung?token=t${suche}`), env)).json()) as { pruefungen: unknown[] }).pruefungen.length
+  const liste = async (suche: string) => ((await (await eingang(anfrage(`/pruefung?x=1${suche}`, { headers: { 'X-Lauf-Token': "t" } }), env)).json()) as { pruefungen: unknown[] }).pruefungen.length
   await eingang(melde(meldung(1)), env)
   const alle = await liste('')
   pruefe(alle === 1 && (await liste('&plattform=netflix')) === 0, 'je Plattform eine eigene Liste in R2 (nicht die Liste aller)')

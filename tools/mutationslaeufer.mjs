@@ -198,6 +198,20 @@ function bewerte(zeilen) {
   return zeilen.filter((z) => (z.kontrolle ? z.urteil !== "GRÜN" : z.urteil !== "rot")).length
 }
 
+// Schlusszeile: Anker-Fehler (nicht gefunden, mehrdeutig, wirkungslos) getrennt von echten Überlebenden.
+export function schlusszeile(zeilen) {
+  const zahl = (urteil) => zeilen.filter((z) => z.urteil === urteil && !z.kontrolle).length
+  const teile = [
+    `${zeilen.filter((z) => z.urteil === "rot").length} rot`,
+    `${zahl("GRÜN")} überlebt`,
+    `${zahl("nicht gefunden")} Anker nicht gefunden`,
+    `${zahl("mehrdeutig")} mehrdeutig`,
+    `${zahl("wirkungslos")} wirkungslos`,
+    `${zeilen.length} gesamt`,
+  ]
+  return `mutationslaeufer: ${teile.join(", ")}`
+}
+
 async function lauf(opt, mutanten, originale) {
   const grund = new Set(mutanten.flatMap((m) => m.tests ?? opt.tests))
   for (const t of grund) {
@@ -273,7 +287,7 @@ export async function main(argv) {
     if (opt.log) writeFileSync(join(opt.log, "tabelle.md"), `${md}\n`)
     console.log(`\n${md}`)
     const schlecht = bewerte(zeilen)
-    console.log(`\nmutationslaeufer: ${zeilen.filter((z) => z.urteil === "rot").length} rot, ${schlecht} nicht wie erwartet, ${zeilen.length} gesamt`)
+    console.log(`\n${schlusszeile(zeilen)}`)
     return schlecht > 0 ? 1 : 0
   } finally {
     zuruecksetzen()
