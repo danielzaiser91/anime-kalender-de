@@ -14,7 +14,7 @@
 // Worktrees selbst liegen seit 25.10.2026 unter C:/code/_worktrees/<repo>/<thema>, außerhalb des Hauptordners. Zwei weitere Prüfungen
 // (Ziel von `git worktree add`, Wegwerfdateien per Write in Repo-Wurzeln) stehen in ort-sperre.js und laufen über dieselbe Einbindung.
 // Unbekannte Git-Unterbefehle sind frei: gesperrt wird nur, was Zweig oder Stand schreibt (SCHREIBEND und SONDER).
-// Einbindung ohne Änderung an settings.json: in ~/.claude/hooks/dispatch-pretooluse.js ins Feld PRUEFER eine Zeile
+// Einbindung ohne Änderung an settings.json: in .claude/hooks/dispatch-pretooluse.js ins Feld PRUEFER eine Zeile
 //   ['hauptordner-sperre.js', (i) => { const g = require(path.join(H, 'hauptordner-sperre.js')).pruefe(i); return g ? { permissionDecision: 'deny', permissionDecisionReason: g } : null }],
 // Alternativ als eigener Eintrag in ~/.claude/settings.json unter hooks.PreToolUse: (der Matcher des Verteilers enthält Write; als Einzeleintrag braucht die Write-Sperre "Bash|Write")
 //   { "matcher": "Bash|Write", "hooks": [{ "type": "command", "command": "node", "args": ["C:/Users/ih/.claude/hooks/hauptordner-sperre.js"], "timeout": 10 }] }

@@ -1,4 +1,4 @@
-// Aufruf: node ~/.claude/hooks/vorrat-sperre-test.mjs — Exit 1 bei einem Fehlschlag.
+// Aufruf: node .claude/hooks/vorrat-sperre-test.mjs — Exit 1 bei einem Fehlschlag.
 import { createRequire } from 'node:module'
 const { pruefe } = createRequire(import.meta.url)('./vorrat-sperre.js')
 

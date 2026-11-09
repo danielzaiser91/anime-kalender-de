@@ -20,9 +20,9 @@ const MODULE = [
   ['watch.js', async (i) => require(join(H, 'watch.js')).lauf(i, 'UserPromptSubmit')],
   ['posteingang.js', async () => require(join(H, 'posteingang.js')).lauf()],
   ['kontext-stand.js', async (i) => (await import('./kontext-stand.mjs')).lauf(i)],
-  ['daniel-dateien.js', async (i) => (await import('./daniel-dateien.mjs')).lauf(i)],
+  ['daniel-dateien.mjs', async (i) => (await import('./daniel-dateien.mjs')).lauf(i)],
   ['prozess-waechter.js', async () => require(join(H, 'prozess-waechter.js')).meldung()],
-  ['ende-termin.js', async () => (await import('./ende-termin.mjs')).meldung()],
+  ['ende-termin.mjs', async () => (await import('./ende-termin.mjs')).meldung()],
   ['software-updates.js', async () => (await import('./software-updates.mjs')).meldung()],
 ]
 

@@ -8,7 +8,7 @@
 // ersetzte die übrigen Hooks des Ereignisses); async blockiert nichts, `gh api graphql` braucht ≈ 3 s (19.10.2026):
 //   hooks.PostToolUse[]:      { "matcher": "Bash", "hooks": [{ "type": "command", "command": "node", "args": ["C:/Users/ih/.claude/hooks/stand-prs.js"], "timeout": 60, "async": true }] }
 //   hooks.UserPromptSubmit[]: { "hooks": [{ "type": "command", "command": "node", "args": ["C:/Users/ih/.claude/hooks/stand-prs.js"], "timeout": 60, "async": true }] }
-// Von Hand: node ~/.claude/hooks/stand-prs.js --jetzt
+// Von Hand: node .claude/hooks/stand-prs.js --jetzt
 const fs = require('node:fs')
 const os = require('node:os')
 const path = require('node:path')

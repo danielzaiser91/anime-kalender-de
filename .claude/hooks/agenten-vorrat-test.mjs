@@ -1,4 +1,4 @@
-// Test: node ~/.claude/hooks/agenten-vorrat-test.mjs
+// Test: node .claude/hooks/agenten-vorrat-test.mjs
 import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'

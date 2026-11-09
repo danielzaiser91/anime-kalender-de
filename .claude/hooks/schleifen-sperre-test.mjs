@@ -1,4 +1,4 @@
-// Test für schleifen-sperre.js: node ~/.claude/hooks/schleifen-sperre-test.mjs
+// Test für schleifen-sperre.js: node .claude/hooks/schleifen-sperre-test.mjs
 import { createRequire } from 'node:module'
 const { pruefe } = createRequire(import.meta.url)('./schleifen-sperre.js')
 

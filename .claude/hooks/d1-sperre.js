@@ -4,7 +4,7 @@
  * mit `--remote`/`--preview` geht nur durch, wenn das Plan-Tor (EXPLAIN QUERY PLAN gegen das Schema, ohne Daten)
  * nichts findet oder eine Freigabe des Dirigenten vorliegt, und das Tagesbudget reicht. Lesen mit Schlüssel bleibt frei.
  * Anlass: das Einspiel-SQL der Titelzeile las 9,1 Mio. Zeilen (Tageskontingent 5 Mio.), geschätzt waren 50.000.
- * Logik: C:/code/ai/__assets/tools/d1-schutz/ (plan-tor.mjs, urteil.mjs, zustand.mjs). Test: node ~/.claude/hooks/d1-sperre-test.mjs
+ * Logik: C:/code/ai/__assets/tools/d1-schutz/ (plan-tor.mjs, urteil.mjs, zustand.mjs). Test: node .claude/hooks/d1-sperre-test.mjs
  * Schutz vor Versehen, nicht vor Absicht. Abgedeckt auch: Quotes/Backslashes im Wort, Flaggen vor `d1`, `bash|sh -…c [--]`,
  * `cmd //c`, `bash <<EOF`, `bash <<<`, `npm run <skript>` (samt pre/post); `$`-Wörter im Aufruf und `| bash` sperren,
  * außer bei wörtlichem `--local` ohne `--remote` im selben Befehl.

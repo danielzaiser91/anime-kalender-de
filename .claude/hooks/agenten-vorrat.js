@@ -6,7 +6,7 @@ const path = require('node:path')
 const { laufendeAgenten, grenze } = require('./agenten-grenze.js')
 
 // Je Sitzung ein Marker (Daniel, 14.10.2026): Routinen und andere Sitzungen sollen nicht mitlaufen.
-const markerVon = (sitzung) => `C:/Users/ih/.claude/autonomer-modus/${sitzung}.txt`
+const markerVon = (sitzung) => require('path').join(require('os').homedir(), '.claude', 'autonomer-modus', `${sitzung}.txt`)
 
 function autonomBis(jetzt, sitzung) {
   try {

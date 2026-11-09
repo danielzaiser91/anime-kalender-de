@@ -1,4 +1,4 @@
-// Test für d1-sperre.js (Plan-Tor + Freigabe + Tagesbudget): node ~/.claude/hooks/d1-sperre-test.mjs
+// Test für d1-sperre.js (Plan-Tor + Freigabe + Tagesbudget): node .claude/hooks/d1-sperre-test.mjs
 // Liest Schema und Migrationen aus C:/code/ai/anime-kalender-de/worker; Zustandsdateien in state/d1-test/ (danach gelöscht).
 import { createRequire } from 'node:module'
 import { mkdirSync, rmSync, writeFileSync, readFileSync } from 'node:fs'

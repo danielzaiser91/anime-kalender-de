@@ -1,4 +1,4 @@
-// Test für snapshot-path-reparatur.js: node ~/.claude/hooks/snapshot-path-reparatur-test.mjs
+// Test für snapshot-path-reparatur.js: node .claude/hooks/snapshot-path-reparatur-test.mjs
 import fs from 'fs'
 import os from 'os'
 import path from 'path'

@@ -93,7 +93,7 @@ function sperreFrei(sperre, jetzt, lebt) {
 
 /** Warnzeile für den Sitzungsstart; null bis einschließlich WARN_AB. */
 function warnzeile(anzahl) {
-  return anzahl > WARN_AB ? `Worktree-Wächter: ${anzahl} Worktrees (Grenze ${WARN_AB}); Abbau läuft im Hintergrund, Rest: node ~/.claude/hooks/worktree-aufraeumen.js --liste` : null
+  return anzahl > WARN_AB ? `Worktree-Wächter: ${anzahl} Worktrees (Grenze ${WARN_AB}); Abbau läuft im Hintergrund, Rest: node .claude/hooks/worktree-aufraeumen.js --liste` : null
 }
 
 /** Obergrenze der PR-Liste (Stand 02.11.2026 rund 2700 PRs); erreicht die Antwort sie, fehlen vermutlich PRs und es wird nichts abgebaut. */

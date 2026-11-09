@@ -9,7 +9,7 @@ const RUHE_GRENZE = 2
 const FRISCH_MS = 60 * 60 * 1000
 const AUSGENOMMEN = new Set(['pruefer'])
 // Ruhemodus (Daniel, 10.10.2026; Prüfer zählen auch dort nicht, 14.10.2026; auf 2 angehoben 14.10.2026 18:00, wieder 1 seit 22:31, 2 seit 17.10.2026 22:49): Markerdatei da → höchstens RUHE_GRENZE Agenten.
-const RUHE_MARKER = 'C:/Users/ih/.claude/ruhemodus.txt'
+const RUHE_MARKER = require('path').join(require('os').homedir(), '.claude', 'ruhemodus.txt')
 const grenze = (marker = process.env.RUHE_MARKER || RUHE_MARKER) => (fs.existsSync(marker) ? RUHE_GRENZE : GRENZE)
 
 function letzteZeile(datei) {
@@ -67,7 +67,7 @@ function pruefe(input, jetzt = Date.now()) {
   const gezaehlt = laufendeAgenten(ordner, jetzt).filter((a) => !AUSGENOMMEN.has(a.typ))
   const g = grenze()
   if (gezaehlt.length < g) return null
-  return `Agenten-Grenze${g === RUHE_GRENZE ? ' (Ruhemodus)' : ''}: ${gezaehlt.length} von ${g} laufen schon (${gezaehlt.map((a) => a.beschreibung).join(' · ')}). Erst starten, wenn einer fertig ist; Prüfer (pruefer) zählen nicht. Daniel 13.10.2026, Hook ~/.claude/hooks/agenten-grenze.js.`
+  return `Agenten-Grenze${g === RUHE_GRENZE ? ' (Ruhemodus)' : ''}: ${gezaehlt.length} von ${g} laufen schon (${gezaehlt.map((a) => a.beschreibung).join(' · ')}). Erst starten, wenn einer fertig ist; Prüfer (pruefer) zählen nicht. Daniel 13.10.2026, Hook .claude/hooks/agenten-grenze.js.`
 }
 
 module.exports = { laufendeAgenten, pruefe, GRENZE, grenze }

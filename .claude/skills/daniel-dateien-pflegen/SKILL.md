@@ -52,7 +52,7 @@ Ort: `daniel-zum-abarbeiten/` im Hauptordner des Projekts. `stand.md` ist unvers
 Neue Mockups entstehen seit 11.10.2026 als Ausschnitt der Bühne (echte App, eingefrorene Fälle), Vorgehen im Skill `mockups`. `mockups/basis/` gilt nur noch für Altbestand; das Design-Menü (Palette) des Navigators ist mit Bühne Schritt 4 entfernt.
 
 ## Hook
-`~/.claude/hooks/daniel-dateien.js` (UserPromptSubmit) meldet Messbares: `stand.md` deutlich älter als die jüngste Arbeit (`mockups/index.html` ändert sich nur bei Mockup-Ereignissen, dafür gibt es die OFFEN- und die Navigator-Prüfung), alter Stempel, abgelaufenes „wartet auf“, „entschieden/erledigt“ unter „Daniel-Todo“, Mockup-Datei ohne Navigator-Eintrag. Meldung → vor der Antwort beheben; dieselbe Meldung kommt je Sitzung nur einmal (Minutenzahlen zählen nicht). Das Urteil bleibt bei mir; bei einem Ereignis wird nachgeführt, auch ohne Meldung.
+`.claude/hooks/daniel-dateien.mjs` (UserPromptSubmit) meldet Messbares: `stand.md` deutlich älter als die jüngste Arbeit (`mockups/index.html` ändert sich nur bei Mockup-Ereignissen, dafür gibt es die OFFEN- und die Navigator-Prüfung), alter Stempel, abgelaufenes „wartet auf“, „entschieden/erledigt“ unter „Daniel-Todo“, Mockup-Datei ohne Navigator-Eintrag. Meldung → vor der Antwort beheben; dieselbe Meldung kommt je Sitzung nur einmal (Minutenzahlen zählen nicht). Das Urteil bleibt bei mir; bei einem Ereignis wird nachgeführt, auch ohne Meldung.
 
 **Überschriften nie umformulieren (11.10.2026):** Die Mod liest die Abschnitte per Präfix (`## In Arbeit`, `## Als Nächstes (Todo)`, `### Jetzt` …). Zusätze nur hinter dem vollständigen Präfix anhängen; nach jeder Überschriftsänderung die Mod-Zählung prüfen (Arbeitsliste zeigte „Als Nächstes 0“, weil `(Todo;` statt `(Todo)` stand).
 
@@ -66,7 +66,7 @@ Eine Liste „gehört das zusammen?“ geht erst an Daniel, wenn ein Agent alle 
 
 **Patch-Skripte an `stand.md` (18.10.2026):** Jeder Filter gilt nur zwischen der eigenen `## `-Überschrift und der nächsten, nie über die ganze Datei; das Skript gibt die entfernten Zeilen aus und bricht ab, wenn eine aus einem anderen Abschnitt stammt (ein Datumsfilter für „Neu und live testbar“ nahm 20 Zeilen aus „In Pipeline“ mit, aus `~/.claude/file-history` zurückgeholt).
 
-**Auslagern heißt nur Erledigtes (18.10.2026):** Wer `stand.md` kürzt, verschiebt nur Abgeschlossenes in Berichte; eine offene Sache (PR, Auflage, Auftrag) bleibt als Zeile mit Link stehen, notfalls einzeilig. Jeder offene PR braucht eine Zeile mit `pull/N`; der Hook `daniel-dateien.js` gleicht das mit `gh pr list` ab. Anlass: Ein ausgelagerter In-Arbeit-Kopf machte 14 PRs unsichtbar, darunter Daniels Kachelrand-Auftrag, der 24 h lag.
+**Auslagern heißt nur Erledigtes (18.10.2026):** Wer `stand.md` kürzt, verschiebt nur Abgeschlossenes in Berichte; eine offene Sache (PR, Auflage, Auftrag) bleibt als Zeile mit Link stehen, notfalls einzeilig. Jeder offene PR braucht eine Zeile mit `pull/N`; der Hook `daniel-dateien.mjs` gleicht das mit `gh pr list` ab. Anlass: Ein ausgelagerter In-Arbeit-Kopf machte 14 PRs unsichtbar, darunter Daniels Kachelrand-Auftrag, der 24 h lag.
 
 **Daniels Fehlermeldung nie nach „Als Nächstes“ (24.10.2026):** Zwei Meldungen (Netflix-Zahl, Beyblade-Regionssperre 21.10.) lagen Tage in „Als Nächstes“ bzw. nirgends, Daniel hielt sie für gefixt. Eine Fehlermeldung von Daniel kommt als 🔴-Zeile nach „In Arbeit“ mit Datum seiner Meldung und bleibt dort, bis ein PR gemergt und live gemessen ist.
 

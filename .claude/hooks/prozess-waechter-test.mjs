@@ -1,4 +1,4 @@
-// Test für prozess-waechter.js (nur die Drosselung): node ~/.claude/hooks/prozess-waechter-test.mjs
+// Test für prozess-waechter.js (nur die Drosselung): node .claude/hooks/prozess-waechter-test.mjs
 import { createRequire } from 'node:module'
 import fs from 'node:fs'
 import os from 'node:os'

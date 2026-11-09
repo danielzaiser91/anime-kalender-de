@@ -2,7 +2,7 @@
 // C:/code/ai/anime-kalender-de; gearbeitet wird im Worktree unter C:/code/_worktrees/anime-kalender-de/<thema>. Anlass: Regel
 // „Worktree vor dem ersten Write“ in bauer.md, trotzdem Verstöße (2454, 2687).
 // Erkennung: Der Hook-Eingabe-Block trägt `agent_id` und `agent_type` nur, wenn der Aufruf aus einem Subagenten kommt; in der
-// Hauptsitzung fehlen beide (Claude-Code-Hooks-Doku „Common input fields“; gleiche Annahme in ~/.claude/hooks/befehlsregister.js
+// Hauptsitzung fehlen beide (Claude-Code-Hooks-Doku „Common input fields“; gleiche Annahme in .claude/hooks/befehlsregister.js
 // und log-instructions.js). Die Hauptsitzung (Dirigent) bleibt frei.
 // Gesperrt sind nur die Typen bauer, pruefer, analyst (im Befehlsregister als `typ` belegt); general-purpose, claude u. a. bleiben frei.
 // Ausnahmen: daniel-zum-abarbeiten/berichte/ und /listen/ (Analyst-Berichte), daniel-zum-abarbeiten/mockups/ (Mockup-Bauer). Ein Worktree liegt
@@ -10,7 +10,7 @@
 // Leitplanke, offene Formen (nicht erkannt, also nicht gesperrt): /mnt/c/…, 8.3-Kurznamen (ANIME~1), Pfade mit ~ oder $ (null,
 // nicht statisch bekannt). Symlinks und Junctions (z. B. die node_modules-Junction im Worktree) werden nicht aufgelöst: ein
 // Schreiben über sie bleibt frei, bekannte Lücke. Normiert werden Backslash, Git-Bash /c/…, UNC //?/c:/… und /cygdrive/c/….
-// Einbindung ohne Änderung an settings.json: in ~/.claude/hooks/dispatch-pretooluse.js ins Feld PRUEFER eine Zeile
+// Einbindung ohne Änderung an settings.json: in .claude/hooks/dispatch-pretooluse.js ins Feld PRUEFER eine Zeile
 //   ['subagent-schreibsperre.js', (i) => { const g = require(path.join(H, 'subagent-schreibsperre.js')).pruefe(i); return g ? { permissionDecision: 'deny', permissionDecisionReason: g } : null }],
 const path = require('node:path')
 

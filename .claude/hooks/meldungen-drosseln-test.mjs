@@ -1,5 +1,5 @@
 // Test für die gedrosselten Meldungen (posteingang.js, daniel-dateien.mjs, watch.js):
-//   node ~/.claude/hooks/meldungen-drosseln-test.mjs
+//   node .claude/hooks/meldungen-drosseln-test.mjs
 // Läuft komplett in einem Temp-Ordner (USERPROFILE, DANIEL_ORDNER, DANIEL_DATEIEN_STAND umgebogen).
 import { createRequire } from 'node:module'
 import fs from 'node:fs'

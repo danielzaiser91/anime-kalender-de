@@ -8,7 +8,7 @@
  *      ~/.claude/server-freigaben.json passt (Daniel, F2 A, 13.10.2026: kein Klickfenster,
  *      das den autonomen Modus anhält; „escalate“ kennt Claude Code nicht und ließ alles durch)
  *   3. Inline-Code mit Backslash an python/node (Heredoc, -c, -e) → deny (Rückfall-Register;
- *      Test: node ~/.claude/hooks/guard-test.mjs)
+ *      Test: node .claude/hooks/guard-test.mjs)
  *
  * Laut Doku ist ein PreToolUse-Hook die einzige Ebene mit echter Durchsetzung:
  * "To block an action regardless of what Claude decides, use a PreToolUse hook instead."

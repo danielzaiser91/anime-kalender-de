@@ -1,4 +1,4 @@
-// Test für das Befehls-Register: node ~/.claude/hooks/befehlsregister-test.mjs
+// Test für das Befehls-Register: node .claude/hooks/befehlsregister-test.mjs
 // Prüft Maskierung (mit Testgeheimnissen), Pre-Modul im Bündel (updatedInput ohne permissionDecision, deny gewinnt, escalate bleibt),
 // Post-Hook (Exit, Zeitlimit), Rotation/Größenbegrenzung, Abfragewerkzeug, Kandidatenregeln und Ende zu Ende mit einem echten Prozess.
 import assert from 'node:assert/strict'

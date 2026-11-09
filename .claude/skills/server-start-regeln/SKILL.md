@@ -42,7 +42,7 @@ beides.
 
 ## Durchsetzung
 
-Ein `PreToolUse`-Hook (`~/.claude/hooks/guard.js`, Test `guard-test.mjs`) erkennt die typischen
+Ein `PreToolUse`-Hook (`.claude/hooks/guard.js`, Test `guard-test.mjs`) erkennt die typischen
 Startbefehle und antwortet mit `deny`, kein Klickfenster (F2 A, Daniel 13.10.2026; das frühere
 `escalate` kennt Claude Code nicht und ließ alles durch). Ablauf: Sperre → Frage als F-Zeile in
 `stand.md`, weiterarbeiten → sagt Daniel ja, Eintrag in `~/.claude/server-freigaben.json`:

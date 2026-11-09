@@ -5,10 +5,7 @@
   },
   "permissions": {
     "allow": [
-      "Bash(node C:/code/ai/__assets/tools/mit-lauf-token.mjs *)",
-      "Edit(~/.claude/hooks/state/d1-freigaben.json)",
-      "Bash(*gh.exe* pr merge *)",
-      "Bash(gh pr merge:*)"
+      "Edit(~/.claude/hooks/state/d1-freigaben.json)"
     ]
   },
   "hooks": {
@@ -26,7 +23,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"C:/code/ai/__assets/tools/wissensbasis-pruefen.mjs\" \"--leise\"",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/falls-vorhanden.js\" \"C:/code/ai/__assets/tools/wissensbasis-pruefen.mjs\" \"--leise\"",
             "timeout": 15
           }
         ]
@@ -180,7 +177,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"C:/code/ai/__assets/tools/prozess-inventur/nach-agent.mjs\" \"--hook\"",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/falls-vorhanden.js\" \"C:/code/ai/__assets/tools/prozess-inventur/nach-agent.mjs\" \"--hook\"",
             "timeout": 30,
             "async": true
           }

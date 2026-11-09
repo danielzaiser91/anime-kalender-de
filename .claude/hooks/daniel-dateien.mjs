@@ -21,7 +21,7 @@ import { fileURLToPath } from 'node:url'
 import { execFileSync } from 'node:child_process'
 
 const WURZEL = process.env.DANIEL_ORDNER || 'C:/code/ai/anime-kalender-de/daniel-zum-abarbeiten'
-const STAND = process.env.DANIEL_DATEIEN_STAND || join(homedir(), '.claude', 'hooks', 'state', 'daniel-dateien.json')
+const STAND = process.env.DANIEL_DATEIEN_STAND || join(homedir(), '.claude', 'hooks', 'state', 'daniel-dateien.mjson')
 const MIN = 60_000
 const MAX_SITZUNGEN = 20
 
