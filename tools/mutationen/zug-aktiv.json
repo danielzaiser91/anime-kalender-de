@@ -23,7 +23,7 @@
   { "name": "liegegut: liegegutFunde ohne Schalter je PR", "aenderungen": [{ "datei": "tools/liegegut.mjs", "suche": "stapel.get(pr.number), istZugPr(pr, zugAktiv))", "ersetze": "stapel.get(pr.number), false)" }] },
   { "name": "liegegut: liegegutFunde stapelBasen ohne Schalter", "aenderungen": [{ "datei": "tools/liegegut.mjs", "suche": "stapelBasen(ghFn, offen, zugAktiv)", "ersetze": "stapelBasen(ghFn, offen)" }] },
   { "name": "liegegut: liegegut() verliert Schalter", "aenderungen": [{ "datei": "tools/liegegut.mjs", "suche": "liegegutFunde(ghFn, gitFn, jetzt, hinweis, entschieden, zugAktiv).map", "ersetze": "liegegutFunde(ghFn, gitFn, jetzt, hinweis, entschieden).map" }] },
-  { "name": "liegegut: Standardschalter true", "aenderungen": [{ "datei": "tools/liegegut.mjs", "suche": "entschieden = new Set(), zugAktiv = leseZugAktiv())", "ersetze": "entschieden = new Set(), zugAktiv = true)" }], "tests": ["node tools/liegegut.test.mjs"] },
+  { "name": "liegegut: Standardschalter true", "aenderungen": [{ "datei": "tools/liegegut.mjs", "suche": "entschieden = new Set(), zugAktiv = leseZugAktiv())", "ersetze": "entschieden = new Set(), zugAktiv = true)" }] },
   { "name": "zug-freigabe: Status nicht geprüft", "aenderungen": [{ "datei": "tools/zug-freigabe.mjs", "suche": "if (pr.state !== 'OPEN')", "ersetze": "if (false)" }] },
   { "name": "zug-freigabe: Basis nicht geprüft", "aenderungen": [{ "datei": "tools/zug-freigabe.mjs", "suche": "if (pr.baseRefName !== ZUG)", "ersetze": "if (false)" }] },
   { "name": "zug-freigabe: Kopfzeit 0", "aenderungen": [{ "datei": "tools/zug-freigabe.mjs", "suche": "kopfZeit: kopfZeitVon(ghFn, pr, new Map())", "ersetze": "kopfZeit: 0" }] },
