@@ -1,10 +1,10 @@
 import { type Env } from './env.ts'
-import { tokenAusKopf, tokenGleich } from './lauf-token.ts'
 import { speichereMitProtokoll } from './pruefung-protokoll.ts'
 import { nichtErlaubt } from './pruefung-ablehnung.ts'
 import { loeschePruefungenMitMarke } from './pruefung-loeschen.ts'
 import { beantwortePruefungLesen } from './pruefung-lesen.ts'
 import { ausCacheFuer } from './cache-kurz.ts'
+import { tokenAusKopf, tokenGleich } from './lauf-token.ts'
 
 export async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext): Promise<Response> {
   const offen = {

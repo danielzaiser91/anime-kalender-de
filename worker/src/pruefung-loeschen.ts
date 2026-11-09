@@ -1,9 +1,9 @@
 import { type Env } from './env.ts'
-import { tokenAusKopf, tokenGleich } from './lauf-token.ts'
 import { verwirfGemeldet } from './pruefung-gemeldet-cache.ts'
 import { exporteVerwerfen } from './export-speicher.ts'
 import { loescheTitelFolgen, loescheTitelzeile } from './titelzeile-aufgaben.ts'
 import { TITEL_ID_AB } from './titelzeile-format.ts'
+import { tokenAusKopf, tokenGleich } from './lauf-token.ts'
 
 export async function loeschePruefungen({ request, env, antwort }: {
   request: Request<unknown, CfProperties<unknown>>
