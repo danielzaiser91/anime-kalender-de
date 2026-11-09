@@ -29,8 +29,8 @@ runs:
       shell: bash
       run: echo "QUELLEN_BAUPROBE=1" >> "$GITHUB_ENV"
 
-    # Die App darf `main` am Ruleset `main-pruefweg` vorbei mergen, `GITHUB_TOKEN` nicht (11.10.2026). Das Aufsetzen und der Zweig-Push laufen weiter mit der Checkout-Anmeldung;
-    # nur Anlegen und Mergen des Pull Requests brauchen die App. Gelingt das Token nicht, wird der Lauf rot (kein Rückfall auf github.token: ein nie gemergter PR bliebe unbemerkt); der Einreichen-Schritt läuft trotzdem, damit der Fund gesichert wird.
+    # Die App darf `main` am Ruleset `main-pruefweg` vorbei mergen, `GITHUB_TOKEN` nicht (11.10.2026). Auch der Zweig-Push läuft mit dem App-Token (`quellen-pr.sh`, `token_anmelden`),
+    # sonst lehnt GitHub Workflow-Änderungen von `main` ab; dafür braucht es `workflows: write`. Gelingt das Token nicht, wird der Lauf rot (kein Rückfall auf github.token: ein nie gemergter PR bliebe unbemerkt); der Einreichen-Schritt läuft trotzdem, damit der Fund gesichert wird.
     - name: App-Token holen
       id: app
       uses: actions/create-github-app-token@v3
@@ -39,6 +39,7 @@ runs:
         private-key: ${{ inputs.app-key }}
         permission-contents: write
         permission-pull-requests: write
+        permission-workflows: write
 
     - name: Quellen als Pull Request einreichen
       id: pr

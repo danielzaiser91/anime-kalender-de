@@ -1,7 +1,7 @@
 # DVD- und Blu-ray-Veröffentlichungen im deutschen Raum, August 2026.
 # Quelle: Anime2You-Monatsübersicht. Alle Termine sind bestätigte Verkaufsstarts,
 # deshalb kein `estimated`. Uhrzeit gibt es bei Disc-Releases naturgemäß nicht.
-# Ohne `buyUrl` erzeugt der Build automatisch einen Amazon.de-Suchlink.
+# Kauflink: eindeutige EAN-Suche des Builds > `buyUrl` (Handlink) > Namenssuche; ohne `buyUrl` und EAN erzeugt der Build die Amazon.de-Namenssuche.
 #
 # ---------------------------------------------------------------------------
 # WARNUNG: Die Termine der AniMoon-Boxen unten NICHT nach aniSearch korrigieren.
