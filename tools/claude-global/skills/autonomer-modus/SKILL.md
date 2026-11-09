@@ -74,6 +74,7 @@ Immer in dieser Reihenfolge:
    - **Rechnerlast:** `node C:/code/ai/__assets/tools/last-blick.mjs` — jede „ZU VIEL“-Zeile wird in derselben Wachphase behoben (Agent anweisen, Prüfkette serialisieren, Bauer-Zahl senken), nicht nur notiert; Daniel bemerkte 91 bash und Ruckeln vor mir (18.10.2026).
    - **Liegende PRs** (anime-kalender-de, seit 21.10.2026): `node tools/liegegut.mjs` — jede Zeile bekommt in derselben Wachphase einen Besitzer (Merge-Reihe, Nachbesserung in den Vorrat, Schließen mit Beleg); 13 PRs lagen bis zu 4 Tage, weil niemand hinsah.
    - **Ticket-Board an die PRs angleichen:** `node C:/code/ai/ticket-board/bin/ticket.mjs abgleich --alle-projekte` (offen → in-arbeit, gemergt → bald-live, geschlossen → verworfen; seit 28.10.2026, vorher standen 13 Tickets „in Arbeit“ mit längst gemergtem PR).
+   - **Globale Regeln aktuell:** `node tools/claude-global/einrichten.mjs --pruefen` (im Hauptordner nach `git pull --ff-only`) — bei Exit 1 sofort `einrichten.mjs` ohne Schalter; sonst gelten gemergte Lehren in `bauer.md` und Skills lokal nicht (09.11.2026).
    - **Prüftisch:** in der ersten Wachphase des Tages den fälligen Bereich nach Skill
      `prueftisch` an einen Analysten geben (Daniel, 16.10.2026).
 
