@@ -83,9 +83,9 @@
     "lastCount": 930
   },
   "rohfolgen": {
-    "lastOk": "2026-11-09T05:58:18.073Z",
-    "lastRun": "2026-11-09T18:54:49.056Z",
-    "lastCount": 0
+    "lastOk": "2026-11-09T19:09:39.842Z",
+    "lastRun": "2026-11-09T19:09:39.842Z",
+    "lastCount": 1
   },
   "anisearch-folgen": {
     "lastOk": "2026-11-09T05:07:09.129Z",
@@ -113,8 +113,8 @@
     "lastCount": 11
   },
   "vorfaelle": {
-    "lastOk": "2026-11-09T18:54:45.391Z",
-    "lastRun": "2026-11-09T18:54:45.391Z",
+    "lastOk": "2026-11-09T19:09:35.388Z",
+    "lastRun": "2026-11-09T19:09:35.388Z",
     "lastCount": 0,
     "leerSeit": "2026-11-08T23:08:09.578Z"
   },
