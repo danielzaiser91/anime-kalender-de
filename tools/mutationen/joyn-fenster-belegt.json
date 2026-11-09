@@ -9,7 +9,7 @@
   { "name": "Tage: Plattform nicht geprüft", "aenderungen": [{ "datei": "pipeline/bau/13-1-joyn-fenster.ts", "suche": "r.platform !== 'joyn' || ", "ersetze": "" }] },
   { "name": "Tage: widerlegt nicht geprüft", "aenderungen": [{ "datei": "pipeline/bau/13-1-joyn-fenster.ts", "suche": " || r.widerlegt", "ersetze": "" }] },
   { "name": "Tage: Plan nicht geprüft", "aenderungen": [{ "datei": "pipeline/bau/13-1-joyn-fenster.ts", "suche": " || !r.schedule", "ersetze": "" }] },
-  { "name": "Tage: eigene Beobachtung überschrieben", "aenderungen": [{ "datei": "pipeline/bau/13-1-joyn-fenster.ts", "suche": "      if (observed[nr]) continue\n", "ersetze": "" }] },
+  { "name": "Tage: eigene Beobachtung überschrieben", "aenderungen": [{ "datei": "pipeline/bau/13-1-joyn-fenster.ts", "suche": " || observed[nr]", "ersetze": "" }] },
   { "name": "Tage: Zähler zählt nicht", "aenderungen": [{ "datei": "pipeline/bau/13-1-joyn-fenster.ts", "suche": "      neu++\n", "ersetze": "" }] },
   { "name": "Staffel: Vorstaffel-Folgen nicht gefiltert", "aenderungen": [{ "datei": "pipeline/bau/13-1-joyn-fenster.ts", "suche": "nr < ersteNr || ", "ersetze": "" }] },
   { "name": "Staffel: Grenze nr <= ersteNr", "aenderungen": [{ "datei": "pipeline/bau/13-1-joyn-fenster.ts", "suche": "nr < ersteNr", "ersetze": "nr <= ersteNr" }] },
