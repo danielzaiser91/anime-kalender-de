@@ -105,6 +105,8 @@ jobs:
       - run: npm run typecheck
       - run: npm run check:worker
       - run: npm run check:hooks
+      # Mod-Tests (`claude plugin test`): laufen nur, wenn der PR tools/claude-global/mods/ ändert, sonst Ergebniszeile „übersprungen“.
+      - run: npm run check:mod-tests
 
   uebrige:
     name: Kette – Daten, Erweiterung, Belege

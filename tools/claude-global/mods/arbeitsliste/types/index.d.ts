@@ -5,6 +5,9 @@ export type DanielEintrag = Eintrag & { icon?: 'kalender' | 'wartet' | 'blockier
 export type Regel = Eintrag & { rhythmus: string; cron?: string }
 export type DanielTodo = { jetzt: DanielEintrag[]; spaeter: DanielEintrag[] }
 
+export type ZielStand = { name: string; erreicht: number; gesamt: number; naechster: string | null }
+export type GeradeInArbeit = { titel: string[]; mehr: number }
+
 export type PipelineEintrag = Eintrag & { zeit: number; ort: 'pipeline' | 'worker' | 'warteliste' | 'deploy' | '?' }
 export type PrioEintrag = Eintrag & { status: string; details: string[] }
 export type UnterwegsEintrag = { status: string; seit: number; titel: string; meta: string; start: number | null; startArt: 'Info' | 'Bestand' | null; live: number | null }
@@ -37,6 +40,10 @@ declare module 'claude-code' {
       ruhe: 'hart' | 'sanft' | null
       // Sparmodus aus sparmodus.txt: nur Sonnet mittel und Haiku als Subagenten.
       spar: boolean
+      // Ziele aus ziele.md: je Ziel erreichte und alle Meilensteine, dazu der nächste offene.
+      ziele: ZielStand[]
+      // „Gerade in Arbeit“: höchstens fünf Titel aus den Kennzeichen von stand.md, `mehr` = Rest.
+      gerade: GeradeInArbeit
       // Klickzähler des Agents-Knopfs: savvy-progress hört auf diesen Schreibvorgang und schaltet sein Pane (kein Slash-Befehl im Chat).
       agentenKnopf: number
     }
