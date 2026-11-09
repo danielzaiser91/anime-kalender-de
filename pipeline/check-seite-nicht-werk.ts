@@ -73,6 +73,24 @@ try {
     pruefe(`${name}: der Weg gilt als verneint`, g.verneint)
   }
 
+  console.log('\nNein (Feld) JÜNGER als die Messung: gilt ebenso (beide Zeilen werden gelesen, nicht nur die ältere)')
+  const JUENGER = NEIN_FELD.replace('2026-09-13', '2026-11-05')
+  const juenger = geladen([MESSUNG, JUENGER])
+  pruefe('Messung 16.10., Nein (Feld) 05.11.: ein Beleg, Urteil nein, Messwerte fehlen, verneint',
+    juenger.alle.length === 1 && urteilVon(juenger.check) === 'nein' && juenger.check.dub === undefined && juenger.check.seiteNichtWerk === true && juenger.verneint, juenger.check)
+  const juengerRev = geladen([JUENGER, MESSUNG])
+  pruefe('dieselben Zeilen in umgekehrter Dateireihenfolge: verneint', juengerRev.alle.length === 1 && juengerRev.verneint && urteilVon(juengerRev.check) === 'nein', juengerRev.check)
+
+  console.log('\nAndere Adresse, gleicher Titel: ein echtes Ja bleibt unberührt')
+  const ANDERE_URL = 'https://www.amazon.de/dp/B0AAAAAAAA'
+  const zwei = geladen([NEIN_FELD, MESSUNG.replace(URL, ANDERE_URL)])
+  pruefe('zwei Belege (je Adresse)', zwei.alle.length === 2, zwei.alle)
+  const ja = zwei.alle.find((c) => c.url === ANDERE_URL)
+  const nein = zwei.alle.find((c) => c.url === URL)
+  pruefe('andere Adresse: Urteil ja, kein Feld', !!ja && urteilVon(ja) === 'ja' && ja.seiteNichtWerk === undefined, ja)
+  pruefe('Adresse mit Feld: nein, verneint', !!nein && urteilVon(nein) === 'nein' && zwei.verneint, nein)
+  pruefe('andere Adresse nicht verneint', !wegVerneint(neinHandbelege(zwei.alle), 138103, 'primevideo', ANDERE_URL))
+
   console.log('\nOhne Feld gewinnt die Messung weiter (Gegenprobe, andere Zeile gleicher Art)')
   const nur = geladen([MESSUNG_BEREICH])
   pruefe('nur Messung: kein Nein, Bereiche bleiben', urteilVon(nur.check) === 'ja' && nur.check.dubRanges?.length === 1 && !nur.verneint, nur.check)
