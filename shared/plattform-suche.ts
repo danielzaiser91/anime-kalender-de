@@ -12,7 +12,7 @@ export function amazonEanUrl(ean: string): string {
 
 /** Wie genau führt ein Amazon-Link zum Produkt? `name` = Namenssuche (viele Treffer), `ean` = ein Treffer, `produkt` = Produktseite. */
 export function amazonLinkArt(url: string | undefined): 'name' | 'ean' | 'produkt' | undefined {
-  const m = /^https:\/\/(?:www\.)?amazon\.[a-z.]+\/(s\?|dp\/|gp\/product\/)(?:k=([^&]*))?/.exec(url ?? '')
+  const m = /^https:\/\/(?:www\.)?amazon\.[a-z.]+\/(s\?|(?:[^/?#]+\/)?dp\/|gp\/product\/)(?:k=([^&]*))?/.exec(url ?? '')
   if (!m) return undefined
   if (m[1] !== 's?') return 'produkt'
   return /^\d{8,14}$/.test(m[2] ?? '') ? 'ean' : 'name'
