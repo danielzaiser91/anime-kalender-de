@@ -36,6 +36,7 @@ import { eskalationsText } from './wache-eskalation.mjs'
 import { wacheZeilen } from './wache-bilanz.mjs'
 import { fixZusatz } from './wache-fix-gemergt.mjs'
 import { weichWache } from './wache-weicher-schritt.mjs'
+import { serienWache } from './wache-weicher-serie.mjs'
 import { fileURLToPath } from 'node:url'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
@@ -148,6 +149,7 @@ async function main() {
   const quellenZeilen = eskalationsText(gesundheitsDatei(), Date.now(), fixZusatz(wurzel()))
   for (const zeile of quellenZeilen) console.log(zeile)
   for (const zeile of weichWache(ghStapel, REPO, wurzel(), Date.now(), weichSpeicher())) console.log(zeile)
+  for (const zeile of serienWache(ghStapel, REPO, wurzel(), Date.now(), weichSpeicher())) console.log(zeile)
   for (const zeile of prueferZeilen(gh, REPO)) console.log(zeile)
   for (const zeile of startBudgetZeilen((a) => gh(...a), REPO)) console.log(zeile)
   for (const zeile of haengerWache((a) => gh(...a), REPO, wurzel(), Date.now(), haengerSpeicher(), { trocken: TROCKEN })) console.log(zeile)
