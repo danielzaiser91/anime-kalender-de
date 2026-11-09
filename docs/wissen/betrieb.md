@@ -639,6 +639,14 @@ dann lesbar, wenn gerade kein Lauf sichtbar ist:
   Fehlermail von GitHub.
 - **`public/data/meta.json`** — `generatedAt`, `titleCount`, `releaseCount`, `eventCount` des
   zuletzt ausgelieferten Datensatzes. Dieselben Zahlen stehen im Seitenfuß.
+- **`public/data/eingabe-stand.json`** (seit 07.11.2026, A2a) — Abrufzeitpunkt je Sammler-Eingabe des Baus
+  (19 Dateien mit eigenem Zeitstempel, Liste `EINGABEN` in `pipeline/lib/eingabe-stand.ts`) und die
+  Rückschritte dieses Baus gegenüber dem vorigen. Bewusst nicht in `meta.json` (die lädt jeder Besucher);
+  das Web lädt die Datei nicht, `sw.js` führt sie nicht. Ein Rückschritt druckt im Bau
+  `⚠ WARNUNG Eingabestand zurück: <Eingabe> alt → neu` und erscheint über
+  `check-eingabe-stand-bestand.ts` als `::warning::` des Laufs (`bestand_warnungen`). Warnung statt Abbruch,
+  weil ein zurückgenommener Sammler-Stand legitim vorkommt. Nicht aufgenommen: `stand` in `anisearch-*.json`
+  (Tag des Baus), `verweise-entfernt.json` (Gedächtnis des Baus), `sammelartikel-stand.json` (Sammler-Zustand, vom Bau ungelesen).
 
 Eine Meldung an mich, wenn ein Lauf **erfolgreich** durch ist, gibt es nicht — GitHub meldet nur
 Fehler; rote Läufe findet `tools/laeufe-aufraeumen.mjs`. **Discord bekommt keine Laufmeldungen**
