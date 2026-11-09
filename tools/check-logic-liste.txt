@@ -484,6 +484,7 @@ pipeline/check-streaming-kleinfixes.ts
 pipeline/check-streaming-zaehlen.ts
 pipeline/check-studio-archiv.ts
 pipeline/check-stuetzpunkt-ueberholt.ts
+pipeline/check-stumme-quellen.ts
 pipeline/check-such-chip.ts
 pipeline/check-suchadressen-endzustand.ts
 pipeline/check-suchfeld-arten.ts
