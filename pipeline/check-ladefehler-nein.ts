@@ -60,6 +60,8 @@ pruefe('Ladefehler-Nein als available: false: Urteil ja', JSON.stringify(urteile
 pruefe('der Weg gilt nicht als verneint', verneint([JA, NEIN, NEIN_ANDERE_NOTIZ]).length === 0, verneint([JA, NEIN, NEIN_ANDERE_NOTIZ]))
 pruefe('das Ja behält Datum und Notiz', lade([JA, NEIN])[0]?.checkedAt === '2026-08-28' && /alle 10 Folgen/.test(lade([JA, NEIN])[0]?.note ?? ''), lade([JA, NEIN])[0])
 pruefe('Gegenfall: Ladefehler-Nein ohne Ja bleibt ein Nein', JSON.stringify(urteile([NEIN])) === '["nein"]', urteile([NEIN]))
+const NEIN_ALT = NEIN_TEIL.replace('2026-09-28', '2026-08-30')
+pruefe('Gegenfall: älteres Nein plus Ladefehler-Nein verschmelzen wie bisher (jüngeres Datum)', lade([NEIN_ALT, NEIN])[0]?.checkedAt === '2026-09-28', lade([NEIN_ALT, NEIN]))
 pruefe('Gegenprobe: Nein mit gelesenen Folgen („nur 6 von 8“) überstimmt das Ja', JSON.stringify(urteile([JA, NEIN_TEIL])) === '["nein"]', urteile([JA, NEIN_TEIL]))
 pruefe('Gegenprobe: „nur 10 von 12“ ist kein Ladefehler (nur 0 zählt)', JSON.stringify(urteile([JA, NEIN_ZEHN])) === '["nein"]', urteile([JA, NEIN_ZEHN]))
 pruefe('Gegenprobe: Nein mit gelesenen Folgen verneint den Weg', verneint([JA, NEIN_TEIL]).length === 1, verneint([JA, NEIN_TEIL]))
