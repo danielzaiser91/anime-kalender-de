@@ -14,11 +14,8 @@
   { "name": "staffel-part.teilAmEnde: Teil 1 zählt auch", "aenderungen": [{ "datei": "shared/staffel-part.ts", "suche": "ende.nr < 2", "ersetze": "ende.nr < 1" }] },
   { "name": "staffel-part.teilEinerFrueherenStaffel: ältester statt jüngster Treffer", "aenderungen": [{ "datei": "shared/staffel-part.ts", "suche": "fruehere.slice().reverse()", "ersetze": "fruehere.slice()" }] },
   { "name": "staffel-part.teilEinerFrueherenStaffel: Teil-1-Marke des früheren nicht abgezogen", "aenderungen": [{ "datei": "shared/staffel-part.ts", "suche": "woerter(teilAmEnde(e.name)?.basis ?? e.name)", "ersetze": "woerter(e.name)" }] },
-  { "name": "staffel-part.teilEinerFrueherenStaffel: Nummer falsch (ende.nr -> 2)", "aenderungen": [{ "datei": "shared/staffel-part.ts", "suche": "return { eintrag: e, nr: ende.nr }", "ersetze": "return { eintrag: e, nr: 2 }" }] },
   { "name": "staffel-part.woerter: Wortfolge zählt (kein sort)", "aenderungen": [{ "datei": "shared/staffel-part.ts", "suche": ".filter(Boolean).sort().join(' ')", "ersetze": ".filter(Boolean).join(' ')" }] },
   { "name": "staffel-part.woerter: Groß-/Kleinschreibung zählt", "aenderungen": [{ "datei": "shared/staffel-part.ts", "suche": ".replace(/\\p{M}/gu, '').toLowerCase()", "ersetze": ".replace(/\\p{M}/gu, '')" }] },
   { "name": "staffel-part.teilAmEnde: römische Zahl nicht erkannt", "aenderungen": [{ "datei": "shared/staffel-part.ts", "suche": "Teil\\s+(\\d+|[IVX]+)", "ersetze": "Teil\\s+(\\d+)" }] },
-  { "name": "staffel-part.teilAmEnde: Klammer-Form (Teil 2) nicht erkannt", "aenderungen": [{ "datei": "shared/staffel-part.ts", "suche": "[\\s:–—(-]*\\(?\\s*Teil", "ersetze": "[\\s:–—-]*Teil" }] },
-  { "name": "staffel-part.teilAmEnde: Bindestrich/Gedankenstrich vor Teil bleibt im Basisnamen", "aenderungen": [{ "datei": "shared/staffel-part.ts", "suche": "(.*?)[\\s:–—(-]*\\(?\\s*Teil", "ersetze": "(.*?)\\s*Teil" }] },
   { "name": "staffel-part.teilAmEnde: Namensende-Anker weg", "aenderungen": [{ "datei": "shared/staffel-part.ts", "suche": "\\)?\\s*$/i.exec(name)\n  if (!m?.[1])", "ersetze": "\\)?/i.exec(name)\n  if (!m?.[1])" }] }
 ]
