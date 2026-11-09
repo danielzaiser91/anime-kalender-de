@@ -66,5 +66,13 @@ export function ghStapel(liste, { ausfuehren } = {}) {
   return JSON.parse(mitLimit(process.execPath, [skript], { input: JSON.stringify(liste), encoding: 'utf8', maxBuffer: 256 << 20 }, { limitMs: LIMIT_STAPEL_MS, ausfuehren }))
 }
 
+/**
+ * `gh api <args>` als JSON, mit Zeitlimit (Sammelfrist 30 s: eine paginierte Kommentarliste ist größer als ein `run list`);
+ * ein Hänger wirft „FEHLER: gh api … abgebrochen“. Für die PR-Werkzeuge der Prüfkette (pr-pruefer-modus, pr-nachtraege).
+ */
+export function ghApiJson(args, { ausfuehren } = {}) {
+  return JSON.parse(mitLimit('gh', ['api', ...args], { encoding: 'utf8', maxBuffer: 1 << 28 }, { limitMs: LIMIT_STAPEL_MS, ausfuehren }))
+}
+
 /** Text für den Abschluss einer Wache: ein Zeitlimit (FEHLER: …) als klare Zeile, alles andere mit Stack. */
 export const abbruchText = (fehler) => (String(fehler.message).startsWith('FEHLER:') ? fehler.message : fehler.stack)

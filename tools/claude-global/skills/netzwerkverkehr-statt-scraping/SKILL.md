@@ -337,3 +337,5 @@ Dazu ein Handgriff, der drei Minuten kostet: **die Bitte an den Menschen, den
 Netzwerk-Tab zu öffnen und zu sagen, welche Abrufe beim Seitenaufruf laufen.**
 Wo eine Messung nur in einer angemeldeten Sitzung möglich ist, wird sie erbeten,
 nicht ersetzt — das steht in `pruefen-und-belegen` und gilt hier genauso.
+
+**„Lädt nur per JavaScript“ ist kein Befund (06.11.2026, OFDb):** Bevor ein Bericht eine Quelle so verwirft, steht darin, welches Skript der Seite gelesen und welcher Abruf (JSON/XHR) gesucht wurde. OFDb galt als JS-only; das Such-Skript `quicksearch_filme.min.js` führte zu `quicksearch.php` (JSON), die Detailseiten sind statisches HTML.

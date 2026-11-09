@@ -37,6 +37,15 @@ token_abmelden() {
 }
 trap token_abmelden EXIT
 
+# Im Lauf pusht der Zweig mit dem App-Token, nicht mit der Checkout-Anmeldung (`GITHUB_TOKEN`): nur die App darf Workflow-Dateien mitpushen, wenn `main` welche geändert hat (07.11.2026).
+token_anmelden() {
+  [ "${GITHUB_ACTIONS:-}" = true ] && [ -n "${GH_TOKEN:-}" ] && [ -n "${GITHUB_REPOSITORY:-}" ] || return 0
+  if git config --local --get http.https://github.com/.extraheader > /dev/null; then git config --local --unset-all http.https://github.com/.extraheader; fi
+  git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+  echo "--- Zweig-Push mit dem App-Token angemeldet (Recht workflows)"
+}
+token_anmelden
+
 NACHRICHT="${1:?Commit-Nachricht fehlt}"
 
 source "$(dirname "${BASH_SOURCE[0]}")/quellen-liste.sh"
@@ -201,7 +210,32 @@ Pull Request noch offen, gab es einen Konflikt — dann übernimmt
 
 # `gh pr create` und `gh pr merge` brauchen GH_TOKEN in der Umgebung; die Workflows reichen das Token der App
 # anime-kalender-daten durch (Bypass im Ruleset `main-pruefweg`, 11.10.2026).
-PR="$(gh pr create --base main --head "$ZWEIG" --title "$TITEL" --body "$BODY" 2>&1 | tail -1)"
+# Drei Versuche: ein GitHub-502 beim Anlegen (Sendezeiten-Lauf 42060735696, 05.11.2026) ließ den Lauf ohne Fehlertext und ohne PR enden.
+# Vor jedem neuen Versuch wird nachgesehen, ob der PR trotz Fehlermeldung entstanden ist.
+pr_anlegen() {
+  local versuch ausgabe vorhanden letzter=""
+  for versuch in 1 2 3; do
+    if [ "$versuch" -gt 1 ]; then
+      vorhanden="$(gh pr list --head "$ZWEIG" --state open --json url -q '.[0].url' 2>/dev/null)" || vorhanden=""
+      if [ -n "$vorhanden" ]; then
+        PR="$vorhanden"
+        echo "PR zum Zweig $ZWEIG besteht schon, kein neuer Versuch."
+        return 0
+      fi
+    fi
+    if ausgabe="$(gh pr create --base main --head "$ZWEIG" --title "$TITEL" --body "$BODY" 2>&1)"; then
+      PR="$(printf '%s\n' "$ausgabe" | tail -1)"
+      return 0
+    fi
+    letzter="$(printf '%s' "$ausgabe" | tr '\n' ' ' | cut -c1-400)"
+    echo "::warning::gh pr create fehlgeschlagen (Versuch $versuch von 3): $letzter"
+    [ "$versuch" -lt 3 ] && sleep $((5 + RANDOM % 10))
+  done
+  echo "::error::Der Pull Request konnte nach drei Versuchen nicht angelegt werden: $letzter"
+  return 1
+}
+PR=""
+pr_anlegen || exit 1
 NUMMER="$(printf '%s' "$PR" | grep -oE '[0-9]+$' || true)"
 melde "pr=$NUMMER"
 echo "Pull Request: $PR"

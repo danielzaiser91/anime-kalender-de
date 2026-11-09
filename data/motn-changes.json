@@ -3,7 +3,7 @@
     "2026-08": 55,
     "2026-09": 68,
     "2026-10": 99,
-    "2026-11": 22
+    "2026-11": 30
   },
   "gesehen": {
     "26341901:netflix": {
@@ -2735,7 +2735,7 @@
       "imdbId": "tt2805096",
       "tmdbId": "tv/58841",
       "dienst": "prime",
-      "am": "2026-11-06",
+      "am": "2026-11-07",
       "deutsch": true,
       "deutschBeiDienst": true
     },
@@ -11120,5 +11120,5 @@
       "deutschBeiDienst": false
     }
   },
-  "fetchedAt": "2026-11-07T04:09:54.642Z"
+  "fetchedAt": "2026-11-09T04:09:16.022Z"
 }

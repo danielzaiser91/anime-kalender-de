@@ -110,7 +110,7 @@ export interface CrTermin {
  * Gerechnet wird über `Intl` (`shared/time.ts` hat keine Umrechnung von UTC-Zeitstempel in Datum und Uhrzeit,
  * `utcZeitInBerlin` kennt nur die Uhrzeit) — eine feste Stundenverschiebung wäre im Winter richtig und im Sommer falsch.
  */
-function nachBerlin(iso: string): { datum: string; zeit: string } | null {
+export function nachBerlin(iso: string): { datum: string; zeit: string } | null {
   const d = new Date(iso)
   if (Number.isNaN(d.getTime())) return null
   const teile = new Intl.DateTimeFormat('de-DE', {
@@ -444,7 +444,7 @@ function erstesDatum(st: CrStaffel): string {
     .sort()[0]!
 }
 
-function datierte(st: CrStaffel): { nummer?: number; guid: string; verfuegbarAb?: string }[] {
+function datierte(st: CrStaffel): { nummer?: number; laufend?: number; guid: string; verfuegbarAb?: string }[] {
   return (st.deutscheFolgen ?? []).filter((f) => Boolean(f.verfuegbarAb))
 }
 
@@ -486,16 +486,42 @@ export function beobachtungenAusBlock(serie: CrSerie, beobachtet: Record<number,
   if (serie.katalog !== 'de') return {}
   const gesehen = Object.entries(beobachtet)
   if (!gesehen.length) return {}
-  const passend = (serie.staffeln ?? []).filter((st) => {
-    const tage = new Map(datierte(st).filter((f) => f.nummer).map((f) => [String(f.nummer), nachBerlin(f.verfuegbarAb!)?.datum]))
-    const gemeinsam = gesehen.filter(([n]) => tage.has(n))
-    return gemeinsam.length > 0 && gemeinsam.every(([n, d]) => tage.get(n) === d)
+  const treffer = (serie.staffeln ?? []).flatMap((st) => {
+    const zaehlung = ZAEHLUNGEN.find((art) => passtZaehlung(st, art, gesehen))
+    return zaehlung ? [{ st, zaehlung }] : []
   })
-  if (passend.length !== 1) return {}
+  if (treffer.length !== 1) return {}
+  const { st, zaehlung } = treffer[0]!
   const raus: Record<number, string> = {}
-  for (const f of datierte(passend[0]!)) {
+  for (const f of datierte(st)) {
     const datum = nachBerlin(f.verfuegbarAb!)?.datum
-    if (f.nummer && datum && !beobachtet[f.nummer]) raus[f.nummer] = datum
+    const nr = f[zaehlung]
+    if (nr && datum && !beobachtet[nr]) raus[nr] = datum
   }
   return raus
+}
+
+/**
+ * Je Serienkennung der deutsche Eintrag mit den meisten datierten Folgen: Dieselbe Serie steht unter mehreren Adressen
+ * (mit und ohne `/de/`, 219 von 768 Kennungen am 08.11.2026), und ein späterer, älterer Abruf darf den frischeren nicht verdecken.
+ */
+export function reichsteSerieJeKennung(serien: CrSerie[]): Map<string, CrSerie> {
+  const raus = new Map<string, CrSerie>()
+  const gewicht = (s: CrSerie): number => (s.staffeln ?? []).reduce((n, st) => n + datierte(st).length, 0)
+  for (const s of serien) {
+    if (!s.seriesId || s.katalog !== 'de') continue
+    const bisher = raus.get(s.seriesId)
+    if (!bisher || gewicht(s) > gewicht(bisher)) raus.set(s.seriesId, s)
+  }
+  return raus
+}
+
+/** Die Zählungen eines Blocks: Crunchyrolls Folgennummer, dann die Stelle im Block (Apothekerin Staffel 3: 49–51 gegen 1–3). */
+const ZAEHLUNGEN = ['nummer', 'laufend'] as const
+
+/** Trägt die Zählung `art` des Blocks mindestens eine beobachtete Folge, und stimmt an jeder gemeinsamen der Tag? */
+function passtZaehlung(st: CrStaffel, art: (typeof ZAEHLUNGEN)[number], gesehen: [string, string][]): boolean {
+  const tage = new Map(datierte(st).filter((f) => f[art]).map((f) => [String(f[art]), nachBerlin(f.verfuegbarAb!)?.datum]))
+  const gemeinsam = gesehen.filter(([n]) => tage.has(n))
+  return gemeinsam.length > 0 && gemeinsam.every(([n, d]) => tage.get(n) === d)
 }

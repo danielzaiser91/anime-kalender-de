@@ -50,6 +50,7 @@ export const BOT_DATEIEN_OHNE_LESER = [
   'data/pillen-luecken.json',
   'data/prime-kanal-aussortiert.json',
   'data/proposals/anime2you-extraktion.json',
+  'data/proposals/anime2you-schatten.json',
   'data/proposals/aussagen.json',
   'data/proposals/offizielle-news.json',
   'data/qualitaet-verlauf.json',

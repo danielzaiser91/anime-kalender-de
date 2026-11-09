@@ -108,11 +108,15 @@ jobs:
 
       # Ein geschätzter Termin, an dem nichts erschien, darf nicht stehen bleiben, als wäre er eingetreten. Braucht die Beobachtungen des Kalender-Abrufs.
       - name: Verpasste Termine prüfen
-        run: bash tools/schritt.sh --zeit 2m "Verpasste Termine" -- npx tsx pipeline/termine-pruefen.ts
+        run: bash tools/schritt.sh --zeit 1m "Verpasste Termine" -- npx tsx pipeline/termine-pruefen.ts
 
       # Neue Anime2You-Meldungen stündlich statt erst im Tageslauf (Artikel warteten im Mittel 16 h): nur die erste Seite je Feed (4 Abrufe), Volltext nur für neue Adressen.
       - name: Anime2You (leicht)
         run: bash tools/schritt.sh --zeit 2m "Anime2You (leicht)" -- npm run data:anime2you -- --leicht
+
+      # Beobachtungsliste: angekündigte Starts (Releases, ohne-synchro.json) ohne Synchro-Beleg; liest nur den Bestand, ruft nichts ab, Fehler endet mit Exit 0.
+      - name: Synchro-Beobachtung
+        run: bash tools/schritt.sh --zeit 1m "Synchro-Beobachtung" -- npm run data:synchro-beobachtung
 
       # Was der Prüflauf gemessen hat, als Bild festhalten (privat, R2). Öffnet nur dann einen Browser, wenn ein frischer Vermerk noch kein Bild hat.
       - name: Messbelege ablegen

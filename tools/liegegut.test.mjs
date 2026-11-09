@@ -9,7 +9,7 @@ import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
-import { offenePrs, checkStand, geteilteEntscheidungen, kopfZeitVon, kopfZeiten, liegegut, main, grepMain, neueBezeichner, naechsterSchritt, signaleEinzel, stillstandSignal, ueberholtTreffer, urteile, JQ_PATCHES } from './liegegut.mjs'
+import { offenePrs, checkStand, geteilteEntscheidungen, offeneEntscheidungen, kopfZeitVon, kopfZeiten, liegegut, main, meldeLiegt, hauptordner, standImProjekt, stapelBasis, grepMain, neueBezeichner, naechsterSchritt, signaleEinzel, stillstandSignal, ueberholtTreffer, urteile, JQ_PATCHES } from './liegegut.mjs'
 
 const fehler = []
 const pruefe = (name, ok, info) => {
@@ -50,6 +50,19 @@ console.log('liegegut: Urteile lesen')
   pruefe('Bot ok, Bot ändern, Daniel freigeben mit Kopf, Daniel ändern ohne Kopf; Bauer und Fremde zählen nicht', JSON.stringify(u.map((x) => [x.quelle, x.gut, x.kopf])) === JSON.stringify([['bot', true, 'a1b2c3d4e'], ['bot', false, 'ffffffffff'.slice(0, 9)], ['daniel', true, 'a1b2c3d4e'], ['daniel', false, null]]), u)
   const rot = urteile([{ author: { login: 'github-actions' }, createdAt: h(1), body: `**Prüfer-Review** für ${KOPF.slice(0, 9)} - Urteil: **ok, Checks rot: Kette**` }])
   pruefe('„ok, Checks rot“ bleibt ein ok-Urteil (rot meldet Signal 4)', rot.length === 1 && rot[0].gut === true)
+}
+
+console.log('liegegut: Dirigenten-Abnahme hebt Ändern-Urteil auf (PR 3009)')
+{
+  const k9 = KOPF.slice(0, 9)
+  const lage = (c) => nummern(pr(40, { comments: [bot(40, KOPF, 'aendern'), c] }), 50)
+  const abn = (text) => daniel(30, text)
+  pruefe('Bot ändern, dann Abnahme mit Kopf → kein Signal 5', !lage(abn(`## Nachtrag (Abnahme Dirigent)\nA1 erfüllt, Kopf ${k9}`)).includes(5))
+  pruefe('Abnahme ohne Kopf → Signal 5 bleibt', lage(abn('## Nachtrag (Abnahme Dirigent)\nA1 erfüllt')).includes(5))
+  pruefe('Abnahme mit fremdem Kopf → Signal 5 bleibt', lage(abn(`## Nachtrag (Abnahme Dirigent)\n${ALT.slice(0, 9)}`)).includes(5))
+  pruefe('Kopf unter 9 Zeichen gilt nicht', lage(abn(`## Nachtrag (Abnahme Dirigent)\n${KOPF.slice(0, 8)}`)).includes(5))
+  pruefe('ohne Abnahme-Präfix zählt der Kommentar nicht', lage(abn(`Nachtrag (Abnahme Dirigent)\n${k9}`)).includes(5))
+  pruefe('Abnahme eines Fremden zählt nicht', lage({ author: { login: 'fremd' }, createdAt: h(30), body: `## Nachtrag (Abnahme Dirigent)\n${k9}` }).includes(5))
 }
 
 console.log('liegegut: Signal 1 Freigabe + grün + ruhend (Fall 1676)')
@@ -103,6 +116,11 @@ console.log('liegegut: Signal 5 Ändern-Urteil ohne neuen Commit (Fall 1390)')
   pruefe('genau 24 h → noch nicht', nummern(pr(20, { comments: [bot(24, KOPF, 'aendern')] }), 40).length === 0)
   pruefe('neuer Commit nach dem Urteil: Urteil gilt nicht mehr', nummern(pr(21, { comments: [bot(30, ALT, 'aendern')] }), 2).length === 0)
   pruefe('Daniel ändern seit 25 h, danach Bot ok → kein Signal 5 (letztes Urteil ok)', !nummern(pr(22, { comments: [daniel(26, 'Prüfer: ändern'), bot(25, KOPF, 'ok')] }), 40).includes(5))
+  const review = (stunden, state) => ({ state, submittedAt: h(stunden), author: { login: 'danielzaiser91' } })
+  const ohneApprove = pr(3009, { comments: [bot(30, KOPF, 'aendern')] })
+  pruefe('Ändern seit 30 h, Approve jünger → kein Signal 5 (3009)', !nummern({ ...ohneApprove, reviews: [review(10, 'APPROVED')] }, 40).includes(5))
+  pruefe('Gegenfall: Approve älter als das Ändern → Signal 5 bleibt', nummern({ ...ohneApprove, reviews: [review(40, 'APPROVED')] }, 40).includes(5))
+  pruefe('Gegenfall: jüngeres Review ohne Approve (COMMENTED) → Signal 5 bleibt', nummern({ ...ohneApprove, reviews: [review(10, 'COMMENTED')] }, 40).includes(5))
 }
 
 console.log('liegegut: Signal 6 gleiche offene Entscheidung (Fälle 1508, 1513)')
@@ -120,6 +138,23 @@ console.log('liegegut: Signal 6 gleiche offene Entscheidung (Fälle 1508, 1513)'
   pruefe('Bot-Kommentar ohne Prüfer-Review (pr-stufe) zählt nicht', geteilteEntscheidungen([stufe, imDaniel]).size === 0)
   pruefe('Kommentar eines Fremden zählt nicht', geteilteEntscheidungen([pr(1515, { comments: [{ author: { login: 'fremd' }, createdAt: h(5), body: 'F39' }] }), imDaniel]).size === 0)
   pruefe('„F390“ ist nicht F39', geteilteEntscheidungen([a, pr(1601, { body: 'F390' })]).size === 0)
+}
+
+console.log('liegegut: Signal 6 nur für F-Nummern unter „### Jetzt“ in stand.md (F109 = A, 07.11.2026: 3141/3138/3117)')
+{
+  const stand = ['## Daniel-Todo', '### Jetzt', '- 🟠 **Frage** F39 offen', '', '### Später', '- ⏳ F40 wartet', '## Als Nächstes', '- F109 = A erledigt'].join('\n')
+  const offen = offeneEntscheidungen(stand)
+  pruefe('nur F39 steht unter Jetzt', JSON.stringify([...offen]) === '["F39"]', [...offen])
+  const a = pr(3117, { body: 'F109 und F39' })
+  const b = pr(3138, { body: 'F109 und F39' })
+  pruefe('F39 offen unter Jetzt → Signal in beiden PRs', JSON.stringify([...geteilteEntscheidungen([a, b], offen)]) === JSON.stringify([[3117, ['F39']], [3138, ['F39']]]))
+  const c = pr(3141, { body: 'F109' })
+  const d = pr(3142, { body: 'F109 F40' })
+  pruefe('F109 nur außerhalb von Jetzt → kein Signal', geteilteEntscheidungen([c, d], offen).size === 0)
+  pruefe('F40 unter Später zählt nicht', geteilteEntscheidungen([pr(1, { body: 'F40' }), pr(2, { body: 'F40' })], offen).size === 0)
+  pruefe('Datei fehlt (null) → keine Einschränkung', geteilteEntscheidungen([c, d], offeneEntscheidungen(null)).size === 2)
+  pruefe('Jetzt am Dateiende (ohne nächste Überschrift)', offeneEntscheidungen('### Jetzt\n- F7').has('F7'))
+  pruefe('ohne Abschnitt Jetzt → nichts offen', offeneEntscheidungen('## X\nF7').size === 0)
 }
 
 console.log('liegegut: Signal 7 Überholt über den Diff (Fehlalarme 07.11.2026: 7 von 7 nur wegen ähnlichem Titel)')
@@ -246,6 +281,7 @@ const attrappeGh = (liste, aufrufe = []) => (args) => {
 }
 const attrappeGit = (stand = STAND_MAIN, aufrufe = []) => (args) => {
   aufrufe.push(args.join(' '))
+  if (args[0] === 'rev-parse') return '.git\n'
   const datei = args.at(-1)
   if (stand[datei] === undefined) throw Object.assign(new Error('git grep: kein Treffer'), { status: 1 })
   return `origin/main:${datei}:${stand[datei]}\n`
@@ -285,6 +321,11 @@ console.log('liegegut: Signal 8 Stillstand (48 h)')
   pruefe('nur Signal 8 → Schritt STILLSTAND, mit Signal 3 → NACHBESSERN', naechsterSchritt([8], [], false) === 'STILLSTAND' && naechsterSchritt([3, 8], [], false) === 'NACHBESSERN')
   const lauf = liegegut(attrappeGh([pr(11, { comments: [daniel(60, 'Hinweis')] })]), attrappeGit(), JETZT)
   pruefe('Gesamtlauf: still wartender PR bekommt eine Zeile', lauf.length === 1 && /^PR 11: STILLSTAND – Signal 8 Stillstand/.test(lauf[0]), lauf)
+  const zwei = () => [pr(21, { body: 'F109', comments: [daniel(2, 'frisch')] }), pr(22, { body: 'F109', comments: [daniel(2, 'frisch')] })]
+  const signal6 = (standText) => liegegut(attrappeGh(zwei()), attrappeGit(), JETZT, () => {}, standText).filter((z) => z.includes('Signal 6')).length
+  pruefe('Gesamtlauf: F109 nur außerhalb von Jetzt → kein Signal 6 (Verdrahtung)', signal6('### Jetzt\n### Später\n- F109 = A') === 0)
+  pruefe('Gesamtlauf: F109 unter Jetzt → Signal 6 in beiden PRs', signal6('### Jetzt\n- F109 offen\n### Später') === 2)
+  pruefe('Gesamtlauf: ohne stand.md → Signal 6 wie zuvor', signal6(null) === 2)
 }
 
 console.log('liegegut: Gesamtlauf mit Anlassfällen')
@@ -331,7 +372,7 @@ console.log('liegegut: offene PRs in Blöcken (GraphQL-Limit 05.11.2026)')
   const sammel = (aufrufe, comments) => (args) => {
     aufrufe.push(args.join(' '))
     const f = args[args.indexOf('--json') + 1]
-    if (args[1] === 'list' && f === 'number,title,headRefOid,createdAt,mergeable,mergeStateStatus,isDraft,body') return JSON.stringify([p1, p2])
+    if (args[1] === 'list' && f === 'number,title,headRefOid,createdAt,mergeable,mergeStateStatus,isDraft,body,baseRefName') return JSON.stringify([p1, p2])
     if (args[1] === 'list' && f === 'number,reviews,statusCheckRollup') return JSON.stringify([{ number: 9, reviews: ['r9'], statusCheckRollup: ['s9'] }, { number: 7, reviews: ['r7'], statusCheckRollup: ['s7'] }])
     if (args[1] === 'list') return comments(args)
     return JSON.stringify({ comments: ['einzeln-' + args[2]] })
@@ -385,10 +426,107 @@ console.log('liegegut: Fehlerwege der Blöcke (Prüfer A1–A3)')
   pruefe('A3: main meldet die Hinweiszeile und läuft mit Exit 0 durch', code === 0 && gesamt.some((z) => /PR 7 übersprungen/.test(z)) && /liegegut: \d+ auffällige PRs/.test(gesamt.at(-1)), gesamt)
 }
 
+console.log('liegegut: Signal 9 Stapel-PR nach gesquashtem Basis-PR (Fall 3091, 07.11.)')
+{
+  // Gezielte Nachschlage-Abrufe: Zweig → gemergte PRs (`--head`), Nummer → Zustand. Die Basis 3090 liegt weit zurück (kein Listenfenster).
+  const ZWEIGE = { 'feat/teil-1': [{ number: 3090 }], 'fix/anderes': [{ number: 3000 }] }
+  const STAENDE = { 3090: 'MERGED', 3095: 'OPEN' }
+  const mitMerged = (liste, aufrufe = []) => {
+    const rest = attrappeGh(liste, aufrufe)
+    return (args) => {
+      if (args[0] === 'pr' && args[1] === 'list' && args.includes('merged')) return (aufrufe.push(args.join(' ')), JSON.stringify(ZWEIGE[args[args.indexOf('--head') + 1]] ?? []))
+      if (args[0] === 'pr' && args[1] === 'view') return (aufrufe.push(args.join(' ')), JSON.stringify({ state: STAENDE[args[2]] ?? 'OPEN' }))
+      return rest(args)
+    }
+  }
+  const teil2 = pr(3091, { baseRefName: 'feat/teil-1', mergeable: 'CONFLICTING', mergeStateStatus: 'DIRTY', comments: [daniel(2, 'frisch')] })
+  const zeilen = liegegut(mitMerged([teil2]), attrappeGit(), JETZT)
+  pruefe('Basiszweig gehört zu gemergtem PR → STAPEL-Zeile mit Basis-Nummer', zeilen.length === 1 && /^PR 3091: STAPEL – Signal 9 Basis #3090 gesquasht → main hineinmergen/.test(zeilen[0]), zeilen)
+  const ausBody = pr(3092, { baseRefName: 'main', body: 'erst nach #3090 (Teil 2)\n\nText', mergeable: 'CONFLICTING', mergeStateStatus: 'DIRTY', comments: [daniel(2, 'frisch')] })
+  pruefe('Basis main, Konflikt und „erst nach #3090“ (gemergt) → STAPEL', /^PR 3092: STAPEL/.test(liegegut(mitMerged([ausBody]), attrappeGit(), JETZT)[0] ?? ''))
+  const ohneKonflikt = pr(3093, { baseRefName: 'main', body: 'erst nach #3090', comments: [daniel(2, 'frisch')] })
+  pruefe('„erst nach #3090“ ohne Konflikt (schon sauber) → keine Zeile', liegegut(mitMerged([ohneKonflikt]), attrappeGit(), JETZT).length === 0)
+  const offeneBasis = pr(3094, { baseRefName: 'main', body: 'erst nach #3095', mergeable: 'CONFLICTING', comments: [daniel(2, 'frisch')] })
+  pruefe('Basis-PR nicht in der Liste gemergter PRs (noch offen) → keine STAPEL-Zeile', !/STAPEL/.test(liegegut(mitMerged([offeneBasis]), attrappeGit(), JETZT).join('\n')))
+  const fremderZweig = pr(3096, { baseRefName: 'feat/lebt-noch', comments: [daniel(2, 'frisch')] })
+  pruefe('Basiszweig ohne gemergten PR → keine Zeile', liegegut(mitMerged([fremderZweig]), attrappeGit(), JETZT).length === 0)
+  const aufrufe = []
+  liegegut(mitMerged([pr(1, { comments: [daniel(2, 'frisch')] })], aufrufe), attrappeGit(), JETZT)
+  pruefe('ohne Kandidat kein Nachschlagen (kein merged-, kein view-Abruf)', !aufrufe.some((a) => a.includes('merged') || a.startsWith('pr view')), aufrufe)
+  const abrufe = []
+  liegegut(mitMerged([teil2, ausBody], abrufe), attrappeGit(), JETZT)
+  pruefe('A4: Nachschlagen gezielt (Zweig per --head, Nummer per pr view), kein Listenfenster', abrufe.some((a) => a.includes('--head feat/teil-1')) && abrufe.some((a) => a === 'pr view 3090 --json state') && !abrufe.some((a) => a.includes('merged') && a.includes('--limit')), abrufe)
+  const fehlerGh = (args) => { if (args[1] === 'view') throw new Error('HTTP 502'); return mitMerged([ausBody])(args) }
+  let geworfen = ''
+  try { liegegut(fehlerGh, attrappeGit(), JETZT) } catch (e) { geworfen = e.message }
+  pruefe('A4: Abruffehler beim Nachschlagen bricht sichtbar ab (kein stilles „kein Stapel“)', /HTTP 502/.test(geworfen), geworfen)
+  pruefe('STAPEL schlägt STILLSTAND in der Reihenfolge der Schritte', naechsterSchritt([8, 9], [], false) === 'STAPEL')
+  const sauber = { number: 3200, baseRefName: 'main', mergeable: 'MERGEABLE', body: 'erst nach #3090' }
+  pruefe('stapelBasis direkt: „erst nach #N“ ohne Konflikt → null, mit Konflikt → N', stapelBasis(mitMerged([]), sauber) === null && stapelBasis(mitMerged([]), { ...sauber, mergeable: 'CONFLICTING' }) === 3090)
+}
+
+console.log('liegegut: Signal 6 liest stand.md aus dem Hauptordner (einzige Quelle, auch aus einem Worktree)')
+{
+  const zwei = [pr(1508, { body: 'F39', comments: [daniel(2, 'x')] }), pr(1513, { body: 'F39', comments: [daniel(2, 'x')] })]
+  const arbeit = fs.mkdtempSync(path.join(os.tmpdir(), 'liegegut-wache-'))
+  fs.mkdirSync(path.join(arbeit, 'daniel-zum-abarbeiten'), { recursive: true })
+  const standDatei = path.join(arbeit, 'daniel-zum-abarbeiten', 'stand.md')
+  // Hauptordner kommt aus git (absolut), der Arbeitsordner dieses Tests ist ein anderer
+  const gitMitHaupt = (haupt) => (a) => (a[0] === 'rev-parse' ? `${path.join(haupt, '.git')}\n` : attrappeGit()(a))
+  const wache = (haupt) => {
+    const aus = []
+    meldeLiegt(attrappeGh(zwei), gitMitHaupt(haupt), (t) => aus.push(t), JETZT)
+    return aus.join('\n')
+  }
+  fs.writeFileSync(standDatei, '## Daniel-Todo\n### Jetzt\n- F39 offen\n### Später\n- F40\n')
+  const offen = wache(arbeit)
+  fs.writeFileSync(standDatei, '## Daniel-Todo\n### Jetzt\n- F40 offen\n### Später\n- F39 erledigt\n')
+  const entschieden = wache(arbeit)
+  fs.rmSync(standDatei)
+  const fehlt = wache(arbeit)
+  const hinweise = []
+  const ohne = standImProjekt(gitMitHaupt(arbeit), (t) => hinweise.push(t))
+  fs.writeFileSync(standDatei, '### Jetzt\n- F1\n')
+  const mit = standImProjekt(gitMitHaupt(arbeit), (t) => hinweise.push(t))
+  fs.rmSync(arbeit, { recursive: true, force: true })
+  pruefe('Wachphase: F39 unter Jetzt → LIEGT-Zeile; nur unter Später (anderer cwd) → keine Zeile', /gleiche Entscheidung/.test(offen) && entschieden === '', { offen, entschieden })
+  pruefe('Wachphase: stand.md fehlt → Hinweiszeile vor der LIEGT-Zeile, Signal 6 uneingeschränkt', /^liegegut: .*stand\.md fehlt – offene F-Nummern unbekannt/.test(fehlt) && /LIEGT:.*gleiche Entscheidung/.test(fehlt), { fehlt })
+  pruefe('standImProjekt: fehlt → null und genau ein Hinweis; vorhanden → Text ohne Hinweis', ohne === null && mit === '### Jetzt\n- F1\n' && hinweise.length === 1, { ohne, mit, hinweise })
+  const lauf = liegegut(attrappeGh(zwei), attrappeGit(), JETZT, undefined, '### Jetzt\n- F40\n')
+  pruefe('Gesamtlauf: F39 nicht unter Jetzt → keine DANIEL-Zeile', lauf.length === 0, lauf)
+  // Echtes git: Hauptordner aus einem Worktree heraus (die attrappierte Ausgabe verdeckte Pfadfehler)
+  const repo = fs.mkdtempSync(path.join(os.tmpdir(), 'liegegut-git-'))
+  const haupt = path.join(repo, 'haupt')
+  const wt = path.join(repo, 'wt')
+  fs.mkdirSync(haupt)
+  const g = (cwd, ...a) => execFileSync('git', ['-c', 'user.name=t', '-c', 'user.email=t@t', ...a], { cwd, encoding: 'utf8', timeout: 60000 })
+  g(haupt, 'init', '-q')
+  g(haupt, 'commit', '-q', '--allow-empty', '-m', 'x')
+  g(haupt, 'worktree', 'add', '-q', wt)
+  const vorher = process.cwd()
+  const echtGit = (a) => g(process.cwd(), ...a)
+  process.chdir(wt)
+  const ausWorktree = fs.realpathSync(hauptordner(echtGit))
+  process.chdir(haupt)
+  const ausHaupt = fs.realpathSync(hauptordner(echtGit))
+  process.chdir(vorher)
+  fs.rmSync(repo, { recursive: true, force: true })
+  pruefe('echtes git: Hauptordner aus Worktree und aus Hauptordner derselbe', ausWorktree === ausHaupt && path.basename(ausHaupt) === 'haupt', { ausWorktree, ausHaupt })
+}
+
+console.log('liegegut: Signal 2 mit Abnahme-Nachtrag des Dirigenten (Fälle 1716, 1758: echte Abfolge)')
+{
+  const dir1716 = [bot(30, 'a'.repeat(9), 'aendern'), bot(29, KOPF, 'aendern'), bot(28, KOPF, 'ok'), daniel(20, 'Prüfer Runde 1: freigeben', `Kopf ${KOPF.slice(0, 9)}. Checks grün`), daniel(10, '## Nachtrag (Abnahme Dirigent)', 'Abgenommen, ändern nichts')]
+  pruefe('1716: aendern, ok, Dirigent freigeben, Abnahme-Nachtrag → kein Widerspruch', !nummern(pr(1716, { comments: dir1716 })).includes(2))
+  const dir1758 = [bot(30, KOPF, 'aendern'), bot(29, KOPF, 'ok'), daniel(20, '## Nachtrag (Abnahme Dirigent 21.10.2026 14:47)', 'Abgenommen gegen die Liste B1–B4: freigeben')]
+  pruefe('1758: aendern, ok, Abnahme-Nachtrag mit „freigeben“ im Text → kein Widerspruch', !nummern(pr(1758, { comments: dir1758 })).includes(2))
+  pruefe('Kontrolle: ok, dann Dirigent „Prüfer …: ändern“ → Widerspruch bleibt', nummern(pr(1, { comments: [bot(30, KOPF, 'ok'), daniel(20, 'Prüfer Runde 2: ändern')] })).includes(2))
+}
+
 console.log('liegegut: eigener Prozess (Vorlader tools/pr-nachrechnen-mock.mjs)')
 {
   const werk = fs.mkdtempSync(path.join(os.tmpdir(), 'liegegut-'))
-  const leicht = 'number,title,headRefOid,createdAt,mergeable,mergeStateStatus,isDraft,body'
+  const leicht = 'number,title,headRefOid,createdAt,mergeable,mergeStateStatus,isDraft,body,baseRefName'
   const frei = pr(1676, { comments: [{ author: { login: 'github-actions' }, createdAt: '2026-10-20T10:44:00Z', body: `**Prüfer-Review** für ${KOPF.slice(0, 9)} - Urteil: **ok**` }] })
   const daten = {
     [`pr list --state open --limit 100 --json ${leicht}`]: { aus: JSON.stringify([frei]) },
@@ -396,6 +534,7 @@ console.log('liegegut: eigener Prozess (Vorlader tools/pr-nachrechnen-mock.mjs)'
     'pr list --state open --limit 100 --json number,comments': { aus: JSON.stringify([frei]) },
     [`api repos/{owner}/{repo}/commits/${KOPF} --jq .commit.committer.date`]: { aus: '2026-10-20T10:40:00Z\n' },
     [`api repos/{owner}/{repo}/pulls/1676/files --paginate --jq ${JQ_PATCHES}`]: { aus: '+++ b/tools/x.mjs\n@@ -1 +1,2 @@\n+nagel = 1\n' },
+    'rev-parse --git-common-dir': { aus: `${path.join(werk, 'haupt', '.git')}\n` },
   }
   fs.writeFileSync(path.join(werk, 'daten.json'), JSON.stringify(daten))
   const vorlader = pathToFileURL(fileURLToPath(new URL('./pr-nachrechnen-mock.mjs', import.meta.url))).href
@@ -406,6 +545,26 @@ console.log('liegegut: eigener Prozess (Vorlader tools/pr-nachrechnen-mock.mjs)'
   fs.writeFileSync(path.join(werk, 'daten.json'), JSON.stringify(leerDaten))
   const kaputt = spawnSync(process.execPath, ['--import', vorlader, skript], { encoding: 'utf8', env: { ...process.env, ATTRAPPE_LOG: path.join(werk, 'log.txt'), ATTRAPPE_DATEN: path.join(werk, 'daten.json') } })
   pruefe('Prozess: Abruffehler → Exit 2 mit FEHLER', kaputt.status === 2 && /liegegut: FEHLER/.test(kaputt.stdout), { s: kaputt.status, o: kaputt.stdout })
+  // Offene F-Nummern: stand.md im Hauptordner, zwei PRs nennen F39 (Verdrahtung von main() zum Leser)
+  const zwei = [pr(1676, { body: 'F39', comments: [bot(1, KOPF, 'ok')] }), pr(1677, { body: 'F39', comments: [bot(1, KOPF, 'ok')] })]
+  const mitF39 = { ...daten, 'rev-parse --git-common-dir': { aus: `${path.join(werk, 'arbeit', '.git')}\n` }, [`api repos/{owner}/{repo}/pulls/1677/files --paginate --jq ${JQ_PATCHES}`]: daten[`api repos/{owner}/{repo}/pulls/1676/files --paginate --jq ${JQ_PATCHES}`] }
+  for (const k of Object.keys(mitF39)) if (k.startsWith('pr list')) mitF39[k] = { aus: JSON.stringify(zwei) }
+  fs.writeFileSync(path.join(werk, 'daten.json'), JSON.stringify(mitF39))
+  const standOrdner = path.join(werk, 'arbeit', 'daniel-zum-abarbeiten')
+  const standDatei = path.join(standOrdner, 'stand.md')
+  fs.mkdirSync(standOrdner, { recursive: true })
+  // Arbeitsordner des Prozesses ist ein fremder (wie ein Worktree ohne stand.md); der Hauptordner kommt aus git rev-parse --git-common-dir
+  fs.mkdirSync(path.join(werk, 'fremd'), { recursive: true })
+  const fahre = () => spawnSync(process.execPath, ['--import', vorlader, skript], { encoding: 'utf8', timeout: 60000, cwd: path.join(werk, 'fremd'), env: { ...process.env, ATTRAPPE_LOG: path.join(werk, 'log.txt'), ATTRAPPE_DATEN: path.join(werk, 'daten.json') } })
+  fs.writeFileSync(standDatei, '### Jetzt\n- F39 offen\n')
+  const offen = fahre()
+  pruefe('Prozess: F39 unter Jetzt → Signal 6, keine Hinweiszeile', offen.status === 0 && /; 6 Gleiche offene Entscheidung F39/.test(offen.stdout) && !/stand\.md fehlt/.test(offen.stdout), { o: offen.stdout, e: offen.stderr })
+  fs.writeFileSync(standDatei, '### Jetzt\n- F40 offen\n### Später\n- F39\n')
+  const erledigt = fahre()
+  pruefe('Prozess: F39 nicht mehr unter Jetzt (Hauptordner, Prozess in fremdem Ordner) → kein Signal 6', erledigt.status === 0 && !/6 Gleiche offene/.test(erledigt.stdout) && /liegegut: \d+ auffällige PRs/.test(erledigt.stdout), { o: erledigt.stdout, e: erledigt.stderr })
+  fs.rmSync(standDatei)
+  const ohneDatei = fahre()
+  pruefe('Prozess: stand.md fehlt → sichtbare Hinweiszeile, Exit 0, Signal 6 wieder da', ohneDatei.status === 0 && /liegegut: .*stand\.md fehlt – offene F-Nummern unbekannt/.test(ohneDatei.stdout) && /; 6 Gleiche offene/.test(ohneDatei.stdout), { o: ohneDatei.stdout, e: ohneDatei.stderr })
   fs.rmSync(werk, { recursive: true, force: true })
 }
 
@@ -413,4 +572,4 @@ if (fehler.length > 0) {
   console.error(`liegegut.test: ${fehler.length} Fehler`)
   process.exit(1)
 }
-console.log('liegegut.test: alle Fälle grün (7 Signale, Grenzen, Gesamtlauf, Nichtauskunft, Prozess)')
+console.log('liegegut.test: alle Fälle grün (9 Signale, Stapel, offene F-Nummern aus stand.md, Grenzen, Gesamtlauf, Nichtauskunft, Prozess)')
