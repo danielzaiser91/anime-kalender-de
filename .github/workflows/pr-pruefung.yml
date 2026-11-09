@@ -39,6 +39,9 @@ jobs:
         with:
           playwright: 'true'
       - run: npm run check:logic
+        env:
+          # check-patchnotes-pflicht liest die Kommentare des PR (Ausweg aus einem Falschtreffer der Textsuche).
+          GH_TOKEN: ${{ github.token }}
 
   bau:
     name: Kette – Bau und Installation
