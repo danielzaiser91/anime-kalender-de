@@ -4,8 +4,10 @@
  */
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
+import { spawnSync } from 'node:child_process'
+import { fileURLToPath } from 'node:url'
 import { parse } from 'yaml'
-import { alarmEntscheid, alarmLauf, alarmZeilen } from './alarm-issue.mjs'
+import { alarmEntscheid, alarmLauf, alarmZeilen, berlinTag } from './alarm-issue.mjs'
 
 const lies = (pfad) => readFileSync(new URL(`../${pfad}`, import.meta.url), 'utf8')
 const SCHLUSS = '12 Läufe in der App, 0 rot\n\n0 abgenommen (trocken), 0 bleiben sichtbar\n'
@@ -13,7 +15,7 @@ const BESTAND = 'ALARM Bestandsbau seit 7.5 h rot (kein grüner Lauf danach, 3 r
 const DEPLOY = 'ALARM Deploy seit 8.0 h ohne Erfolg (kein grüner Lauf, 2 rote/abgebrochene danach, Grenze 6 h)'
 const mit = (...zeilen) => `Kopf\n${zeilen.join('\n')}\n${SCHLUSS}`
 const TAG = '2026-11-09'
-const TITEL = `ALARM ${TAG}: Bestandsbau oder Deploy rot`
+const TITEL = `ALARM ${TAG}: Wache meldet ALARM`
 const issue = (number, title, body = '', kommentare = []) => ({ number, title, body, comments: kommentare.map((b) => ({ body: b })) })
 
 /* ---- Zeilen ---- */
@@ -38,7 +40,7 @@ assert.ok(komm[0].text.includes(DEPLOY) && !komm[0].text.includes(BESTAND), 'Kom
 /* Die Art steht schon in einem Kommentar: nichts mehr. */
 assert.deepEqual(alarmEntscheid({ ausgabe: mit(BESTAND, DEPLOY), offene: [issue(7, TITEL, neu[0].text, ['Neue Alarmart: - ' + DEPLOY])], tag: TAG }), [])
 /* Ein Issue eines anderen Tags zählt nicht als Tagesissue: neues Issue, das alte schließt. */
-const folgetag = alarmEntscheid({ ausgabe: mit(BESTAND), offene: [issue(5, 'ALARM 2026-11-08: Bestandsbau oder Deploy rot', BESTAND)], tag: TAG })
+const folgetag = alarmEntscheid({ ausgabe: mit(BESTAND), offene: [issue(5, 'ALARM 2026-11-08: Wache meldet ALARM', BESTAND)], tag: TAG })
 assert.deepEqual(folgetag.map((h) => h.typ), ['neu', 'schliessen'])
 assert.equal(folgetag[1].nummer, 5)
 
@@ -50,6 +52,27 @@ assert.deepEqual(alarmEntscheid({ ausgabe: mit(), offene: [], tag: TAG }), [], '
 assert.deepEqual(alarmEntscheid({ ausgabe: mit('ALARM? Läufe des Bestandsbaus nicht lesbar: timeout'), offene: [issue(7, TITEL)], tag: TAG }), [], 'Lesefehler schließt nicht')
 assert.deepEqual(alarmEntscheid({ ausgabe: 'Kopf\nTypeError: boom\n', offene: [issue(7, TITEL)], tag: TAG }), [], 'Absturz schließt nicht')
 assert.deepEqual(alarmEntscheid({ ausgabe: '', offene: [issue(7, TITEL)], tag: TAG }), [], 'leere Ausgabe schließt nicht')
+/* A2: von Hand angelegte Issues mit demselben Label bleiben unberührt (Schließen und Folgetag). */
+const vonHand = issue(3, 'Quelle X prüfen')
+assert.deepEqual(alarmEntscheid({ ausgabe: mit(), offene: [vonHand, issue(7, TITEL)], tag: TAG }).map((h) => h.nummer), [7], 'Schließen nur bei „ALARM “-Titel')
+assert.deepEqual(alarmEntscheid({ ausgabe: mit(BESTAND), offene: [vonHand], tag: TAG }).map((h) => h.typ), ['neu'], 'Handissue wird weder Tagesissue noch geschlossen')
+
+/* A3: zwei Zeilen derselben Wortgruppe („ALARM Bestandsbau“) sind zwei Arten; Stundenzahlen allein sind keine neue Art. */
+const SCHRITTE = 'ALARM Bestandsbau seit 7.0 h rot mit 2 verschiedenen Fehlerschritten (a; b; Grenze 2)'
+const zweiArten = alarmEntscheid({ ausgabe: mit(BESTAND, SCHRITTE), offene: [issue(7, TITEL, `- ${BESTAND}`)], tag: TAG })
+assert.deepEqual(zweiArten.map((h) => h.typ), ['kommentar'], 'zweite Bestandsbau-Zeile wird gemeldet')
+assert.ok(zweiArten[0].text.includes(SCHRITTE) && !zweiArten[0].text.includes(BESTAND))
+assert.deepEqual(alarmEntscheid({ ausgabe: mit(BESTAND.replace('7.5 h', '13.5 h').replace('3 rote', '9 rote')), offene: [issue(7, TITEL, `- ${BESTAND}`)], tag: TAG }), [], 'andere Zahlen, gleiche Art')
+
+/* Berliner Tag: 23:30 UTC im Sommer ist schon der Folgetag, im Winter noch nicht. */
+assert.equal(berlinTag(new Date('2026-07-01T23:30:00Z')), '2026-07-02')
+assert.equal(berlinTag(new Date('2026-11-09T22:30:00Z')), '2026-11-09')
+assert.equal(berlinTag(new Date('2026-11-09T23:30:00Z')), '2026-11-10')
+
+/* Fehlende Ausgabedatei (Checkout gescheitert): Exit 0, kein gh-Aufruf (ohne Token im Test würde gh scheitern). */
+const lauf = spawnSync(process.execPath, [fileURLToPath(new URL('./alarm-issue.mjs', import.meta.url)), '/nicht/vorhanden.txt'], { encoding: 'utf8', timeout: 30000, env: { PATH: '' } })
+assert.equal(lauf.status, 0, lauf.stderr)
+assert.match(lauf.stdout, /keine Ausgabe der Wachphase/)
 
 /* ---- Ganzer Lauf mit gh-Attrappe: Aufrufe samt Argumenten, zweiter Lauf am selben Tag ohne Duplikat ---- */
 function attrappe(offene) {
@@ -91,10 +114,10 @@ assert.ok(job['timeout-minutes'] <= 9)
 const aufraeumen = job.steps.findIndex((s) => /laeufe-aufraeumen\.mjs/.test(s.run ?? ''))
 const issueSchritt = job.steps.findIndex((s) => /alarm-issue\.mjs/.test(s.run ?? ''))
 assert.ok(aufraeumen >= 0 && issueSchritt > aufraeumen, 'erst Aufräumen, dann Issue')
-assert.ok(!/--trocken/.test(job.steps[aufraeumen].run), 'Aufräumen läuft scharf')
+assert.match(job.steps[aufraeumen].run, /laeufe-aufraeumen\.mjs --trocken >/, 'Wachphase nur lesend (scharf würde haengerWache Läufe abbrechen)')
 assert.equal(job.steps[aufraeumen]['continue-on-error'], true, 'Absturz des Aufräumens stoppt den Alarm nicht')
 assert.equal(job.steps[issueSchritt].if, 'always()')
-assert.equal(job.steps[aufraeumen].env.LAUF_TOKEN, '${{ secrets.LAUF_TOKEN }}')
+assert.ok(!JSON.stringify(job).includes('LAUF_TOKEN'), 'kein LAUF_TOKEN im Job')
 assert.ok(job.needs === undefined, 'unabhängig vom Deploy und vom Nachholen')
 assert.ok(!JSON.stringify(job.steps[issueSchritt]).includes('LAUF_TOKEN'), 'Issue-Schritt sieht das Lauf-Token nicht')
 

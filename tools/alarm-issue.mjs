@@ -9,7 +9,7 @@
  * Eine Zeile `ALARM? …` heißt „Abruf nicht lesbar“: sie löst nichts aus und schließt nichts. Fehlt die Schlusszeile der
  * Wachphase („Läufe in der App“), ist die Ausgabe unvollständig (Absturz): dann bleibt alles, wie es ist.
  */
-import { readFileSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { mitLimit } from './kind-mit-limit.mjs'
 
@@ -21,12 +21,18 @@ export function alarmZeilen(ausgabe) {
   return ausgabe.split('\n').map((z) => z.trimEnd()).filter((z) => z.startsWith('ALARM '))
 }
 
-/** Die Art einer Alarmzeile: „ALARM Bestandsbau“, „ALARM Deploy“ (die Stundenzahl dahinter wechselt je Lauf). */
+/** Die Art einer Alarmzeile: die ganze Zeile ohne Zahlen (Stunden, Anzahlen wechseln je Lauf); „rot“ und „Fehlerschritte“ bleiben zwei Arten. */
 export function alarmArt(zeile) {
-  return zeile.split(' ').slice(0, 2).join(' ')
+  return zeile.replace(/\d+(\.\d+)?/g, '#')
 }
 
-const titelFuer = (tag) => `ALARM ${tag}: Bestandsbau oder Deploy rot`
+/** Der Tag in Berliner Ortszeit (`JJJJ-MM-TT`): um Mitternacht UTC läge der UTC-Tag 1–2 h vor dem Berliner Datum. */
+export function berlinTag(datum) {
+  return new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Berlin' }).format(datum)
+}
+
+const TITEL_PRAEFIX = 'ALARM '
+const titelFuer = (tag) => `${TITEL_PRAEFIX}${tag}: Wache meldet ALARM`
 const istTagesIssue = (issue, tag) => issue.title === titelFuer(tag)
 const volltext = (issue) => [issue.body ?? '', ...(issue.comments ?? []).map((k) => k.body ?? '')].join('\n')
 const zeilenText = (zeilen) => zeilen.map((z) => `- ${z}`).join('\n')
@@ -36,7 +42,9 @@ const zeilenText = (zeilen) => zeilen.map((z) => `- ${z}`).join('\n')
  * (`number`, `title`, `body`, `comments[].body`), `tag` = Datum `JJJJ-MM-TT`. Rückgabe: Liste von Handlungen
  * `{ typ: 'neu' | 'kommentar' | 'schliessen', … }`.
  */
-export function alarmEntscheid({ ausgabe, offene, tag }) {
+export function alarmEntscheid({ ausgabe, offene: alleOffene, tag }) {
+  // Nur Issues, die dieses Werkzeug angelegt hat (Titel „ALARM …“); von Hand angelegte mit demselben Label bleiben unberührt.
+  const offene = alleOffene.filter((i) => i.title.startsWith(TITEL_PRAEFIX))
   const zeilen = alarmZeilen(ausgabe)
   const lesefehler = ausgabe.split('\n').some((z) => z.startsWith('ALARM?'))
   if (!zeilen.length) {
@@ -49,7 +57,7 @@ export function alarmEntscheid({ ausgabe, offene, tag }) {
     const alte = offene.map((i) => ({ typ: 'schliessen', nummer: i.number, text: `Alarm besteht weiter, neues Tagesissue vom ${tag}.` }))
     return [{ typ: 'neu', titel: titelFuer(tag), text }, ...alte]
   }
-  const bekannt = volltext(heute)
+  const bekannt = alarmArt(volltext(heute))
   const neue = zeilen.filter((z) => !bekannt.includes(alarmArt(z)))
   if (!neue.length) return []
   return [{ typ: 'kommentar', nummer: heute.number, text: `Neue Alarmart:\n\n${zeilenText(neue)}` }]
@@ -79,7 +87,11 @@ export function alarmLauf({ ausgabe, tag, gh, repo }) {
 
 if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
   const gh = (a) => mitLimit('gh', a, { encoding: 'utf8', maxBuffer: 8 << 20 })
-  const ausgabe = readFileSync(process.argv[2], 'utf8')
-  const handlungen = alarmLauf({ ausgabe, tag: new Date().toISOString().slice(0, 10), gh, repo: process.env.GITHUB_REPOSITORY })
+  const ausgabe = existsSync(process.argv[2]) ? readFileSync(process.argv[2], 'utf8') : ''
+  if (!ausgabe) {
+    console.log('Alarm-Issues: keine Ausgabe der Wachphase, nichts zu tun')
+    process.exit(0)
+  }
+  const handlungen = alarmLauf({ ausgabe, tag: berlinTag(new Date()), gh, repo: process.env.GITHUB_REPOSITORY })
   console.log(`Alarm-Issues: ${handlungen.length} Handlung(en): ${handlungen.map((h) => h.typ).join(', ') || 'keine'}`)
 }

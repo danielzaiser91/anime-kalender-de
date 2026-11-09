@@ -70,7 +70,7 @@ jobs:
 
   # **Rot-Alarm ohne Claude-Sitzung** (09.11.2026): die Wachphase (`laeufe-aufraeumen`) läuft im 3-h-Takt, unabhängig vom Deploy und vom Nachholen oben;
   # jede `ALARM `-Zeile wird zu einem GitHub-Issue mit Label `alarm` (GitHub mailt dem Inhaber), je Tag eines, vorbei = geschlossen (tools/alarm-issue.mjs).
-  # Dasselbe Aufräumen nimmt überholte rote Läufe aus der Laufstatus-App; ein Absturz davon verhindert den Alarm nicht (continue-on-error, always()).
+  # Ein Absturz der Wachphase verhindert den Alarm-Schritt nicht (continue-on-error, always()).
   alarm:
     runs-on: ubuntu-latest
     timeout-minutes: 8
@@ -84,13 +84,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Wachphase und Aufräumen
+      # Nur lesend (--trocken, ohne LAUF_TOKEN): scharf würde `haengerWache` Läufe abbrechen und neu starten, das Aufräumen übernimmt der Deploy.
+      - name: Wachphase (nur lesend)
         continue-on-error: true
-        env:
-          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: |
           code=0
-          node tools/laeufe-aufraeumen.mjs > "$RUNNER_TEMP/wachphase.txt" 2>&1 || code=$?
+          node tools/laeufe-aufraeumen.mjs --trocken > "$RUNNER_TEMP/wachphase.txt" 2>&1 || code=$?
           cat "$RUNNER_TEMP/wachphase.txt"
           exit $code
 
