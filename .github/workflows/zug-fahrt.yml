@@ -1,0 +1,93 @@
+name: Zug — Fahrt
+
+# Sammelzug (F105 = B, Daniel 06.11.2026), Phase P2b. Unter-PRs gehen auf den Zweig `zug`; eine Fahrt holt main in einen Schnappschuss `zug-fahrt`, lässt die
+# PR-Prüfkette einmal darüber laufen (PR zug-fahrt → main) und schiebt bei Grün main per Fast-Forward darauf. Der Ablauf steht in tools/zug-fahrt.mjs
+# (Entscheidungen als reine Funktionen in tools/zug.mjs), dieser Workflow reicht nur die Zugänge und das Ereignis durch.
+#
+# Auslöser:
+#  - workflow_run der PR-Prüfkette auf `zug-fahrt` oder `zug-probe`: Urteil. Grün → Fast-Forward nur als Dry-Run (der echte Push von main ist P2c, hier
+#    steht er nicht). Rot → Probe „main allein“ (`zug-probe`: main plus leerer Commit, Kette ohne Unter-PRs), danach Schuldsuche samt Ratschen-Stand im Fahrt-Log.
+#  - workflow_dispatch: `start` baut die nächste Fahrt, `bau-deploy` startet Bau und Deploy (nach dem Schieben, P2c; bestand-bauen.yml und deploy.yml
+#    überspringen Push-Läufe der Daten-App, sie laufen darum nicht von selbst). Standard ist `trocken`: nichts wird geschrieben.
+#  - Der Wecker (regelmäßiger `start`) und der echte Push folgen mit P2c.
+#
+# Zugänge: Das Token der Daten-App sieht nur der Checkout (Art `checkout` in tools/app-token-sperre.mjs); die App pusht, weil ein Push mit dem Workflow-Token keine
+# Kette startet. gh läuft mit dem Workflow-Token (PR anlegen und kommentieren, Läufe lesen, Bau und Deploy anstoßen). Ein PR, den dieses Token öffnet, startet
+# ebenfalls keine Kette: tools/zug-fahrt.mjs pusht darum nach dem Anlegen den Kopf noch einmal (synchronize). Zurückgenommen wird nichts, der Revert-Plan steht im Log.
+# Code aus `zug` oder dem Unter-PR läuft hier nie: der Checkout ist main, der Zug wird nur mit git gelesen und gemergt.
+
+on:
+  workflow_run:
+    workflows: ['PR-Prüfkette']
+    types: [completed]
+    branches: [zug-fahrt, zug-probe]
+  workflow_dispatch:
+    inputs:
+      modus:
+        description: 'start = Fahrt bauen, bau-deploy = Bau und Deploy starten'
+        type: choice
+        options: [start, bau-deploy]
+        default: start
+      trocken:
+        description: 'Nur lesen und melden, nichts schreiben'
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+concurrency:
+  # Eine Fahrt-Bearbeitung zugleich; kein Lauf bricht einen anderen ab (ein halber Push von zug-fahrt wäre schlimmer als ein wartender Lauf).
+  group: zug-fahrt
+  cancel-in-progress: false
+
+jobs:
+  fahrt:
+    name: Fahrt
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.workflow_run.event == 'pull_request' &&
+       github.event.workflow_run.head_repository.full_name == github.repository &&
+       (github.event.workflow_run.head_branch == 'zug-fahrt' || github.event.workflow_run.head_branch == 'zug-probe'))
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      pull-requests: write
+      actions: write
+    steps:
+      - name: App-Token holen
+        id: app
+        uses: actions/create-github-app-token@v3
+        with:
+          app-id: ${{ secrets.DATEN_APP_ID }}
+          private-key: ${{ secrets.DATEN_APP_KEY }}
+          permission-contents: write
+
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ steps.app.outputs.token }}
+
+      # Der Merge von main in den Zug braucht den ganzen Verlauf (der Checkout holt nur den Kopf).
+      - name: Verlauf holen und Kennung setzen
+        run: |
+          if [ "$(git rev-parse --is-shallow-repository)" = true ]; then git fetch --quiet --unshallow origin; fi
+          git config user.name "anime-kalender-zug"
+          git config user.email "zug@users.noreply.github.com"
+
+      - name: Fahrt
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EREIGNIS: ${{ github.event_name }}
+          MODUS: ${{ inputs.modus }}
+          TROCKEN: ${{ inputs.trocken }}
+          ZWEIG: ${{ github.event.workflow_run.head_branch }}
+          LAUF: ${{ github.event.workflow_run.id }}
+        run: |
+          if [ "$EREIGNIS" = workflow_run ]; then
+            node tools/zug-fahrt.mjs urteil --zweig "$ZWEIG" --lauf "$LAUF"
+          elif [ "$TROCKEN" = true ]; then
+            node tools/zug-fahrt.mjs "$MODUS" --trocken
+          else
+            node tools/zug-fahrt.mjs "$MODUS"
+          fi

@@ -1,12 +1,14 @@
 import { readJson, log } from '../lib/util.ts'
-import { kapitelImBlock, deutscheFolgenNachDemEnde, type CrDubData } from '../lib/crunchyroll-dub.ts'
+import { kapitelImBlock, type CrDubData } from '../lib/crunchyroll-dub.ts'
 import { belegeEinzelwerke, type EinzelwerkEintrag } from '../lib/cr-einzelwerk-urteil.ts'
 import { type Title } from '../../shared/types.ts'
 import { todayIso } from '../../shared/time.ts'
 import { type EntfernterVerweis } from './grundlagen.ts'
 import { serienBesitz, istFremd, entferneFremdeCrWege, entferneFremdeNachStaffeln } from './cr-serie-geteilt.ts'
 import { vorDemStart } from '../lib/crunchyroll-vollstaendig.ts'
-import { neinUeberholtMitLog, serienNachKennung, type OffenerBefund } from '../lib/cr-nein-ueberholt.ts'
+import { neinUeberholtMitLog, serienNachKennung, juengstePruefungJeKennung, type OffenerBefund } from '../lib/cr-nein-ueberholt.ts'
+import { gruppiereJeKennung } from '../lib/je-kennung.ts'
+import { alleHinterDemEnde } from '../lib/cr-hinter-dem-ende.ts'
 import { katalogSerieIstEinWerk } from '../lib/cr-katalog-ein-werk.ts'
 import { kennungAusPfad, kennungMitAdressgedaechtnis, type KennungsAdressen } from '../lib/cr-kennung-gedaechtnis.ts'
 
@@ -180,11 +182,9 @@ export function ordneCrKatalogZu({ titles, crDub, verweiseEntfernt }: {
         Folgen als der Titel" träfe 24, fast alle zu Recht deutsch (geteilte
         Cours wie 86 oder Dead Mount Death Play).
       */
-      const crBloeckeJeKennung = new Map(
-        crDub.serien.filter((s) => s.seriesId).map((s) => [s.seriesId as string, s.staffeln ?? []]),
-      )
+      const crSerienGruppen = gruppiereJeKennung(crDub.serien, (s) => s.seriesId)
       const hinterDemEnde = (kennung: string, title: Title): boolean =>
-        deutscheFolgenNachDemEnde(crBloeckeJeKennung.get(kennung) ?? [], title.episodes)
+        alleHinterDemEnde(crSerienGruppen.get(kennung), title.episodes)
       if (nachKennung.size) { const besitz = serienBesitz(titles, kennungVon, nachKennung)
         for (const title of titles.values()) {
           for (const stream of title.streams) {
@@ -254,9 +254,7 @@ export function ordneCrKatalogZu({ titles, crDub, verweiseEntfernt }: {
         const dubStand = crDub.scrapedAt?.slice(0, 10) ?? ''
         const katalogStand = (katalog.geholtAm ?? '').slice(0, 10)
         let ausKatalogNeuer = 0
-        const geprueftJe = new Map(
-          crDub.serien.filter((s) => s.seriesId).map((s) => [s.seriesId as string, s.geprueftAm ?? dubStand]),
-        )
+        const geprueftJe = juengstePruefungJeKennung(crSerienGruppen, dubStand)
         for (const title of titles.values()) {
           for (const stream of title.streams) {
             if (stream.platform !== 'crunchyroll' || stream.dub !== false) continue
