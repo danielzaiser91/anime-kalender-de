@@ -1185,6 +1185,8 @@ Wer einen Handbeleg aus `data/dub-confirmed.yaml` als falsch entfernt, trägt Ke
 
 Die `url` eines Prime-Handbelegs ist oft die Einstiegsseite; die gemessene Seite steht in der Notiz („Amazon-Seite X“, „Seitenadresse“). Die `asin` in `prime-zugeordnet.json` ist kein Seitenbeleg. Gleiche `gti` an zwei Adressen heißt: derselbe Inhalt. „Laut Adresse Staffel k“ in der Notiz belegt, zu welcher Staffel die Adresse gehört; ein Beleg mit abweichendem k ist falsch abgelegt und wird umgehängt oder in `belege-entfernt.yaml` eingetragen (Quelle: Analyse der 32 Fremdpaare, 29.10.2026).
 
+**Ein Titel führt je gti einen Prime-Weg** (09.11.2026): der Bau (`fuehrePrimeGleicheGtiZusammen` in `pipeline/lib/prime-gleiche-gti.ts`, am Ende von `schliesseWegeAb`) führt Prime-Wege mit derselben gti am selben Titel zusammen. Es bleibt der Weg mit Folgenbereichen, sonst einer mit Deutsch-Urteil, sonst der erste; Kanal, Zugang, Seite und Herkunft ergänzt er vom entfernten. Ja gegen Nein bleibt doppelt und macht `check-prime-gleiche-gti-bestand.ts` rot. Grund: `adresseDesWegs` vergibt einem Termin nur bei genau einem Weg dessen Adresse. Auf main 19 Titel (Stand 0c6eecdba, `public/data/titles.json` mit `data/amazon-gti-belegt.json`), danach 0.
+
 ## Folgen-Zuordnung ohne fremde Adressen (29.10.2026)
 
 **Pflichtbeleg für Änderungen an `zuordnung.ts` und den Urteilsregeln (30.10.2026):** vorher und nachher `node tools/urteile-aus-kopie.mjs --baum <Baum> --aus <datei>` an der Meldungskopie fahren und die Differenz (`--vergleich`) in den PR schreiben (betrieb.md, Abschnitt Meldungskopie).
