@@ -742,3 +742,14 @@ wer die Ursache dann noch kennt, hat Glück. Deshalb diese Datei.
 **Wo sind echte Risiken und Lücken?** Die Wache nennt weiterhin keine Titel (wie schon am 04. und 06.11.). Nicht geprüft: ob die alten Adressen der entfernten IDs auf den Sammeltitel weiterleiten (für Rohan ist #3045 `zuAk` dafür da; für Flavors of Youth und Baki Hanma habe ich es nicht gemessen).
 
 **Was läuft komplett falsch?** Nichts: kein Fehlerschritt, der Lauf ist absichtlich rot. Kein Pull Request, da keine Codeursache vorliegt.
+
+
+## 09.11.2026 — Wache meldet „23 Termine weniger“ und „adn: 3 Synchro-Belege weniger, joyn: 6 weniger“ (Lauf 42665162790, Issue #3293)
+
+**Was läuft korrekt.** Die Wache hat beide Sprünge erfasst und der Bau war grün. Gemessen über Git-Stände von `public/data/titles.json`: Die neun ADN-Adressen (u. a. Steins;Gate, Clannad, Rosario + Vampire, I Parry Everything!) standen bis `1c4ca819` (05:28 UTC) drin und fehlen ab `37551e15` (06:17 UTC, Lauf 42570179259). Dazwischen lief nur der Tiefendurchlauf „ADN“ (`3bf23c4b`, 05:54 UTC); `headSha` `0c6eecdb` enthält beide Stände.
+
+**Wo ist Verbesserungspotenzial?** Die Wache nennt nun Titel und Adresse, schreibt aber „kein link-check-Eintrag“, ohne zu sagen, welche Quelldatei die Adresse trug. Der Bestandseintrag in `bestand-historie.jsonl` könnte den Grund je Beleg mitführen.
+
+**Wo sind echte Risiken und Lücken?** `3bf23c4b` ließ `data/adn-catalog.json` von 4135 auf 3606 Titelzeilen schrumpfen (Shows 116 → 109) und trug in `data/adn-anisearch-offen.json` neue Einträge mit `grund: "titelliste-fehlt"` ein, darunter Steins;Gate (918), I Parry Everything! (1207), Magic Kaito 1412 (336). Die Adressen stammen aus `data/anisearch.json`, dort unverändert. **Nicht belegt:** ob die ADN-Zuordnung wegen der fehlenden Titelliste die Streams fallen ließ oder eine andere Bauphase; die Zeile im Bau habe ich nicht gefunden. Ein Abruf, der Titellisten verliert, bleibt grün und wird nur von der Wache bemerkt. Zu den 23 Terminen (08.11., 19:09 Berlin) und den 6 Joyn-Belegen habe ich keine Quelle gemessen.
+
+**Was läuft komplett falsch?** Nichts, was ich belegen kann: kein Fehlerschritt, der Lauf ist absichtlich rot. Kein Pull Request, da keine Codeursache belegt ist; Verdacht auf Abruf/Quelle (ADN-Tiefendurchlauf), Gegenprobe steht aus.
