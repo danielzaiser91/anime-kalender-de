@@ -244,14 +244,17 @@ export function namenIndex(): Map<string, number> {
   return namen
 }
 
-/** Liest je Tag und Sender die tv.de-Seite und reicht den Text an `verarbeite`; eine fehlgeschlagene Seite wird gewarnt und übersprungen. */
+/**
+ * Liest je Tag und Sender die tv.de-Seite. Die erste Antwort 403 beendet den Abruf (Sperre seit 06.11.2026):
+ * weitere Seiten verlängern sie nur. Nichtauskunft, kein Befund.
+ */
 export async function tvDeSeitenLesen(
   abruf: typeof fetch,
   tage: string[],
   slugs: string[],
   verarbeite: (slug: string, tag: string, html: string) => void,
   pause: () => Promise<void> = () => new Promise((ok) => setTimeout(ok, 1500)),
-): Promise<{ seiten: number }> {
+): Promise<{ seiten: number; gesperrt: boolean }> {
   let seiten = 0
   for (const tag of tage) {
     const [j, m, t] = tag.split('-')
@@ -260,6 +263,10 @@ export async function tvDeSeitenLesen(
         const antwort = await abruf(`https://tv.de/sender/${slug}/${t}.${m}.${j}/`, {
           headers: { 'User-Agent': 'anime-kalender-de (https://anime-kalender.de; einmal am Tag, nur Anime)' },
         })
+        if (antwort.status === 403) {
+          warn(`tv.de ${slug} ${tag}: HTTP 403 — Abruf beendet, nächster Versuch morgen`)
+          return { seiten, gesperrt: true }
+        }
         if (!antwort.ok) throw new Error(`HTTP ${antwort.status}`)
         seiten++
         verarbeite(slug, tag, await antwort.text())
@@ -269,7 +276,7 @@ export async function tvDeSeitenLesen(
       await pause()
     }
   }
-  return { seiten }
+  return { seiten, gesperrt: false }
 }
 
 export async function main(): Promise<void> {
@@ -342,8 +349,9 @@ export async function main(): Promise<void> {
     }
   })
   tvdeSeiten = lauf.seiten
+  const tvdeGesperrt = lauf.gesperrt
   /* Nachtblöcke: je gesichteter Reihe und Sender einmal die Detailseite mit „Bald im TV". */
-  if (tvdeFaellig) {
+  if (tvdeFaellig && !tvdeGesperrt) {
     const reihen = new Map<string, { slug: string; kennung: string; titel: string; titleId: number; sender: string }>()
     for (const [k, v] of Object.entries(bestand)) {
       const m = /^tvde_([^+]+)\+(\d+)$/.exec(k)
@@ -392,15 +400,22 @@ export async function main(): Promise<void> {
   if (TROCKEN) return
   writeJson(DATEI, {
     geholtAm: new Date().toISOString(),
-    tvdeGeholtAm: tvdeSeiten ? heute : datei.tvdeGeholtAm,
+    tvdeGeholtAm: tvdeMarke(tvdeSeiten, tvdeGesperrt, heute, datei.tvdeGeholtAm),
     sendungen: bestand,
   })
   if (sendungen.length) recordSource('tv-programm', sendungen.length)
-  if (tvdeFaellig) meldeTvDe(tvde, tvdeSeiten)
+  if (tvdeFaellig) meldeTvDe(tvde, tvdeSeiten, tvdeGesperrt)
+}
+
+/** Tagesmarke: nach Erfolg und nach einer Sperre (403) ruht tv.de bis morgen; sonst bleibt die alte stehen. */
+export function tvdeMarke(seiten: number, gesperrt: boolean, heute: string, alt: string | undefined): string | undefined {
+  return seiten > 0 || gesperrt ? heute : alt
 }
 
 /** Meldet den tv.de-Abruf. Seiten gelesen, aber keine Sendung erkannt = Markup geändert (05.10.2026: `tw-flex` wurde `tw:flex`, vier Tage lang null Sendungen bei grünem Lauf). */
-function meldeTvDe(sendungen: number, seiten: number): void {
+export function meldeTvDe(sendungen: number, seiten: number, gesperrt = false): void {
+  /* Auch eine Teilsperre (erst Seiten gelesen, dann 403) bleibt in der Health sichtbar: kein lastOk, Fehlertext bleibt. */
+  if (gesperrt) return recordSource('tv-de', 0, 'gesperrt (HTTP 403)', 0, false)
   const keineErkannt = seiten > 0 && sendungen === 0
   const fehler = seiten ? (keineErkannt ? 'Seiten gelesen, aber keine Sendung erkannt (Markup geändert?)' : undefined) : 'keine Seite gelesen'
   recordSource('tv-de', sendungen, fehler, keineErkannt ? 0 : seiten, seiten > 0 && !keineErkannt)
