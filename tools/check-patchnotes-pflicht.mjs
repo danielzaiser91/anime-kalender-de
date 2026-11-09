@@ -19,7 +19,18 @@ import { ladeBasis } from './pr-basis.mjs'
 const ORDNER = 'data/patchnotes/'
 const EINTRAG = /^data\/patchnotes\/[^/]+\.yaml$/
 // `shared/` zählt ganz: die Web-Anzeige nutzt es, eine Einzelprüfung der Importe wäre brüchig; Daten-PRs befreit die Beschreibung.
-const SICHTBAR = /^(web\/src\/|shared\/|data\/curated\/|data\/dub-confirmed\.yaml$)/
+const SICHTBAR_HANDDATEN = [
+  'dub-confirmed.yaml',
+  'kennungen.json',
+  'tmdb-von-hand.yaml',
+  'justwatch-audio.json',
+  'handlung-eigen.yaml',
+  'belege-entfernt.yaml',
+  'kanal-seiten.json',
+  'netflix-fremde-meldungen.json',
+]
+// Handdateien in `data/`, die Besucher als Kennung, Weg, Handlung oder Meldung sehen (Gegenstück: `cache/`, `proposals/`, Betriebsdateien).
+const SICHTBAR = new RegExp(`^(web/src/|shared/|data/curated/|data/(${SICHTBAR_HANDDATEN.map((d) => d.replace('.', '\\.')).join('|')})$)`)
 // Sammler- und Datenläufe (Zweige `daten/…`, `claude/…`) schreiben keine Patch Notes.
 const AUSGENOMMENE_ZWEIGE = /^(daten|claude)\//
 const KEINE_ZEILE = /^\s*Patch Notes:\s*keine\s*[–—-]\s*(.*\S)/im
@@ -29,6 +40,12 @@ const VERTAGT_ZEILE = /^\s*Patch Notes:\s*vertagt\s*[–—-]\s*\S/im
 // Eine „keine“-Zeile, die in Wahrheit vertagt (Anlass: 7 von 94 Zeilen seit 29.10.2026, nie folgte ein Eintrag).
 const VERTAGUNG_IM_GRUND =
   /sp[äa]ter|vertag|wirkt erst|(n[äa]chste[nm]?|folgenden) (\S+ )?\S*(lauf|bau|abruf|lesung|deploy)|(patch note|note) folgt/i
+// Vertagung irgendwo im Text (Anlass: 9 von 10 PRs, 01.–09.11.2026, schrieben sie unter „Wirkung“, nicht in die Zeile):
+// „wirkt erst nach/mit/im …“, „nach/mit dem nächsten|folgenden … Lauf/Bau“, „erst nach dem (ersten) Lauf“.
+const VERTAGUNG_IM_TEXT =
+  /wirkt erst (nach|mit|im|in|beim)\b|(n[äa]chste[nm]?|folgenden) (\S+ )?\S*(lauf|bau|abruf|lesung|deploy)\b|erst (nach|mit|im|in) (dem|der) (\S+ )?\S*(lauf|bau)\b/i
+// Die Zeile nennt selbst eine sichtbare Wirkung („sichtbar entfällt …“); „keine sichtbare …“ und „0 … sichtbar geändert“ sind keine.
+const SICHTBARE_WIRKUNG_IM_GRUND = /\bsichtbar\w*\s+(entf[äa]llt|[äa]ndert|wechselt|verschwindet|erscheint|kommt|fehlt|wird)\b/i
 
 // „keine“ gilt nur mit einer Klasse am Anfang des Grundes (Umbau, Test, Werkzeug, CI, Doku, Erweiterung, intern). „Daten“ steht absichtlich nicht
 // darin: Datenkorrekturen ändern, was Besucher sehen (Anlass: 10 sichtbare und 12 Daten-Titel-PRs unter 102 „keine“-PRs seit 29.10.2026, betrieb.md).
@@ -47,6 +64,9 @@ function grundFehler(beschreibung, titel, sichtbar) {
       '  Erlaubt am Anfang: Umbau, Test, Werkzeug, CI, Doku, Erweiterung, intern. Ändert der PR Daten oder Anzeige, die Besucher sehen,\n' +
       '  legt er einen Eintrag in data/patchnotes/ an (oder einen Entwurf unter vorrat/ mit „Patch Notes: vertagt – <Grund>“).'
     )
+  }
+  if (sichtbar && SICHTBARE_WIRKUNG_IM_GRUND.test(grund)) {
+    return `Die „keine“-Zeile nennt selbst eine sichtbare Wirkung („${grund.slice(0, 60)}“): Eintrag in data/patchnotes/ anlegen.`
   }
   if (DATEN_TITEL.test(titel) && !NULL_WIRKUNG.test(grund)) {
     return `Titel „${titel.slice(0, 40)}“ ändert Daten: „keine“ nennt die gemessene Wirkung („0 Titel ändern sich“, Beleg bau-vergleich), sonst Eintrag oder Vorrat.`
@@ -70,10 +90,13 @@ export const neueVorratEintraege = (nameStatus) => neueEintraege(nameStatus, VOR
 function vertagungOhneVorrat(beschreibung, vorrat) {
   if (vorrat.length) return null
   const vertagt = VERTAGT_ZEILE.test(beschreibung)
-  const verkappt = VERTAGUNG_IM_GRUND.test(KEINE_ZEILE.exec(beschreibung)?.[1] ?? '')
-  if (!vertagt && !verkappt) return null
+  const grund = KEINE_ZEILE.exec(beschreibung)?.[1]
+  const verkappt = VERTAGUNG_IM_GRUND.test(grund ?? '')
+  const imText = grund !== undefined && VERTAGUNG_IM_TEXT.test(beschreibung)
+  if (!vertagt && !verkappt && !imText) return null
+  const wo = vertagt ? '„vertagt“' : verkappt ? '„keine“ mit „später/nächster Lauf“' : '„keine“, der Text nennt die Wirkung „erst nach dem Lauf/Bau“'
   return (
-    `Die Beschreibung vertagt die Patch Note (${vertagt ? '„vertagt“' : '„keine“ mit „später/nächster Lauf“'}), legt aber keinen Entwurf an.\n` +
+    `Die Beschreibung vertagt die Patch Note (${wo}), legt aber keinen Entwurf an.\n` +
     '  Neue Datei data/patchnotes/vorrat/<name>.yaml (Felder wie ein Eintrag, dazu wartetAuf und seit), Zeile „Patch Notes: vertagt – <Grund>“.\n' +
     '  Ist gar nichts Sichtbares zu erwarten: „Patch Notes: keine – <Grund>“ ohne „später“ und ohne „nächster Lauf“.'
   )
@@ -152,6 +175,45 @@ function grundFaelle(web) {
   ]
 }
 
+/** Fälle der Nachschärfung vom 09.11.2026: Zeilen und Sätze wörtlich aus PR 2874, 2856, 3081, 3023, 2749, 2606, 2704, 2756, 3037, 3107, 3048. */
+function nachschaerfungsFaelle(web) {
+  const keine = (g) => `Patch Notes: keine – ${g}`
+  const pipeline = ['pipeline/x.ts']
+  const vorrat = ['data/patchnotes/vorrat/x.yaml']
+  const mitText = (satz, grund = 'Werkzeug, 0 Titel/Termine/Meldungen/Wege/Zeilen.') => `Wirkung\n${satz}\n${keine(grund)}`
+  const text = [
+    'Sichtbar erst nach dem nächsten TMDB-Titel-Lauf: Der Shinsei-ban verliert Handlung.',
+    '- Sichtbare Wirkung nach dem nächsten Bestandsbau: Stars and Ours kommt aus der Quarantäne zurück.',
+    'Wirkung nach dem nächsten Bau: ADN 146 -> 147 (Madoka-Weg zurück).',
+    '- Die Wirkung (Wege im Kalender) entsteht erst nach dem ersten Datenlauf `refresh-data.yml`.',
+    'Cover erscheinen erst nach dem Lauf.',
+    'die Wirkung (belegtes Deutsch bei Netflix-Filmen) entsteht erst nach dem ersten Wochenlauf.',
+    'Handbeleg wirkt erst nach dem Bau.',
+    'die Joyn-Wege erscheinen mit dem folgenden Bestandsbau',
+  ]
+  return [
+    ...text.map((t, i) => [`Vertagung im Text ${i + 1} von ${text.length} ohne Vorrat ist rot`, { dateien: pipeline, neu: [], beschreibung: mitText(t) }, false]),
+    ...text.map((t, i) => [`Vertagung im Text ${i + 1} von ${text.length} mit Vorrat ist grün`, { dateien: pipeline, neu: [], beschreibung: mitText(t), vorrat }, true]),
+    ['Satz ohne Vertagung bleibt grün', { dateien: pipeline, neu: [], beschreibung: mitText('Rot würde den Bestandsbau stoppen, Bots schreiben die Datei laufend.') }, true],
+    ['„nach dem ersten Bestandsbau“ als Rückblick bleibt grün', { dateien: pipeline, neu: [], beschreibung: mitText('Probe vor/nach dem ersten Bestandsbau nach #2428.') }, true],
+    ['„Wirkt erst, wenn …“ ohne Lauf bleibt grün', { dateien: pipeline, neu: [], beschreibung: mitText('Wirkt erst, wenn Zweig zug existiert.') }, true],
+    ['Vertagung im Text ohne „keine“-Zeile ist keine Zeilen-Vertagung', { dateien: pipeline, neu: [], beschreibung: 'Wirkung nach dem nächsten Bestandsbau.' }, true],
+    ['2704 sichtbare Wirkung in der „keine“-Zeile ist rot', { dateien: ['data/dub-confirmed.yaml'], neu: [], beschreibung: keine('intern, Korrektur eines Belegs; sichtbar entfällt höchstens ein falscher Prime-Link bei Yashahime') }, false],
+    ['„keine sichtbare Änderung“ in der Zeile bleibt grün', { dateien: web, neu: [], beschreibung: keine('Werkzeug/CI, keine sichtbare Änderung (0 Titel/Termine/Meldungen).') }, true],
+    ['„0 … sichtbar geändert“ in der Zeile bleibt grün', { dateien: web, neu: [], beschreibung: keine('Umbau und Werkzeug, 0 Titel/Termine/Meldungen/Wege/Zeilen sichtbar geändert.') }, true],
+    ['sichtbare Wirkung in der Zeile mit Eintrag ist grün', { dateien: web, neu: ['A'], beschreibung: keine('intern, sichtbar entfällt ein Link') }, true],
+    ...['kennungen.json', 'tmdb-von-hand.yaml', 'justwatch-audio.json', 'handlung-eigen.yaml', 'belege-entfernt.yaml', 'kanal-seiten.json', 'netflix-fremde-meldungen.json'].map((d) => [
+      `Handdatei ${d} ohne Eintrag und ohne Zeile ist rot`,
+      { dateien: [`data/${d}`], neu: [], beschreibung: '' },
+      false,
+    ]),
+    ['Handdatei data/kennungen.json: Grund ohne Klasse ist rot', { dateien: ['data/kennungen.json'], neu: [], beschreibung: keine('Fancy Nancy und elf weitere JustWatch-Kennungen') }, false],
+    ['Handdatei data/kennungen.json: Grund mit Klasse ist grün', { dateien: ['data/kennungen.json'], neu: [], beschreibung: keine('Werkzeug, 0 Titel/Termine/Meldungen/Wege/Zeilen') }, true],
+    ['data/cache/ bleibt unsichtbar', { dateien: ['data/cache/x.json'], neu: [], beschreibung: '' }, true],
+    ['data/kennungen.json.bak ist keine Handdatei', { dateien: ['data/kennungen.jsonx', 'data/kennungenXjson'], neu: [], beschreibung: '' }, true],
+  ]
+}
+
 function gegenproben() {
   const web = ['web/src/App.tsx']
   const fall = [
@@ -178,6 +240,7 @@ function gegenproben() {
   fall.push(['neueVorratEintraege: nur neu angelegte Dateien im Unterordner', null, neueVorratEintraege(vorratStatus).join() === 'data/patchnotes/vorrat/v.yaml'])
   fall.push(...vertagungsFaelle(web))
   fall.push(...grundFaelle(web))
+  fall.push(...nachschaerfungsFaelle(web))
   // Ohne Eingabe steht in der dritten Spalte schon das Ergebnis der Probe (Wahrheitswert).
   const ergebnis = (eingabe, erwartet) => (eingabe ? bewerte(eingabe).ok === erwartet : erwartet)
   const fehler = fall.filter(([, eingabe, erwartet]) => !ergebnis(eingabe, erwartet))
