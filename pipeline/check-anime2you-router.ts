@@ -49,10 +49,10 @@ function pruefe(name: string, bedingung: boolean, gefunden?: unknown): void {
 
 const wurzel = join(dirname(fileURLToPath(import.meta.url)), '..')
 const echt = JSON.parse(readFileSync(join(wurzel, 'tools/anime2you-router-faelle.json'), 'utf8')) as Fall[]
-/** Diese fünf echten Artikel erklärte die erste Fassung des Routers; sie tragen `Simulcast:` mit Uhrzeit bzw. `Hinweis:`, die die Regel nicht liest (A1/A2) und gehen heute an Claude. */
-const FRUEHER_ERKLAERT = ['1063615', '1064193', '1065119', '1066100', '1060946']
-const ohneUngelesenes = (text: string): string => text.replace(/^[ \t]*(Simulcast|Hinweis):.*\n/gm, '')
-/** Die Testmenge für Schritt, Plan und Übernahme: die fünf ohne ihre ungelesenen Zeilen (Weg `regel` wie zuvor), die übrigen echt. */
+/** Diese sechs echten Artikel erklärte die erste Fassung des Routers; sie tragen `Episoden:`, `Simulcast:` bzw. `Hinweis:`, die die Regel nicht liest (A1/A2) und gehen heute an Claude. */
+const FRUEHER_ERKLAERT = ['1063615', '1064193', '1065119', '1066100', '1066144', '1060946']
+const ohneUngelesenes = (text: string): string => text.replace(/^[ \t]*(Simulcast|Hinweis|Episoden):.*\n/gm, '')
+/** Die Testmenge für Schritt, Plan und Übernahme: die sechs ohne ihre ungelesenen Zeilen (Weg `regel` wie zuvor), die übrigen echt. */
 const faelle = echt.map((f) => (FRUEHER_ERKLAERT.includes(f.id) ? { ...f, text: ohneUngelesenes(f.text) } : f))
 const fall = (id: string): Fall => faelle.find((f) => f.id === id)!
 const art = (f: Fall, rubriken = f.rubriken, text = f.text) => ({ id: f.id, text, rubriken })
@@ -106,22 +106,32 @@ pruefe('Plan: erspart', plan.erspart.join() === '1064193,1065119,1066144,1060946
 pruefe('Plan: Stichprobe', plan.stichprobe.join() === '1063615,1066100', plan.stichprobe)
 pruefe('Plan: Rest = 10 Artikel', plan.rest.length === 10 && plan.entscheidungen.length === 16, plan.rest)
 
-/* Die echten Texte der fünf (A1/A2): unlesbare Zeilen schicken sie zu Claude, nur 1066144 (Netflix, ohne Simulcast/Hinweis) bleibt erklärt. */
+/* Die echten Texte der sechs (A1): `Episoden:` steht in jedem Block vor `Simulcast:`/`Hinweis:` und ist der erste Grund; kein echter Artikel bleibt erklärt. */
 const GRUND_ECHT: Record<string, string> = {
-  '1063615': 'Datum oder Uhrzeit außerhalb der Regel: 15:30 Uhr',
-  '1064193': 'Datum oder Uhrzeit außerhalb der Regel: 11:00 Uhr',
-  '1065119': 'Datum oder Uhrzeit außerhalb der Regel: 17:15 Uhr',
-  '1066100': 'Datum oder Uhrzeit außerhalb der Regel: 18:00 Uhr',
-  '1060946': 'Feld ohne Regel: Hinweis',
+  '1063615': 'Feld ohne Regel: Episoden',
+  '1064193': 'Feld ohne Regel: Episoden',
+  '1065119': 'Feld ohne Regel: Episoden',
+  '1066100': 'Feld ohne Regel: Episoden',
+  '1066144': 'Feld ohne Regel: Episoden',
+  '1060946': 'Feld ohne Regel: Episoden',
 }
 for (const f of echt) {
   if (!(f.id in GRUND_ECHT)) continue
   const e = entscheide(art(f))
   pruefe(`${f.id} echter Text: Claude, „${GRUND_ECHT[f.id]}“`, e.weg === 'claude' && e.grund === GRUND_ECHT[f.id], e)
 }
-pruefe('1066144 echter Text: weiter erklärt', entscheide(art(echt.find((f) => f.id === '1066144')!)).weg === 'regel')
 const planEcht = plane(echt.map((f) => art(f)))
-pruefe('Plan mit echten Texten: erspart nur 1066144, keine Stichprobe, Rest 15', planEcht.erspart.join() === '1066144' && planEcht.stichprobe.length === 0 && planEcht.rest.length === 15, planEcht)
+pruefe('Plan mit echten Texten: nichts erspart, keine Stichprobe, Rest 16', planEcht.erspart.length === 0 && planEcht.stichprobe.length === 0 && planEcht.rest.length === 16, planEcht)
+
+/* TV-Guide und Disc-Listen: die Regel hat keine Zeilenform dafür. Sie gehen über ihre echte Rubrik an Claude, und auch unter einer erlaubten Rubrik trägt die Regel sie nicht (zweite Absicherung). */
+const tvDisc = JSON.parse(readFileSync(join(wurzel, 'tools/anime2you-router-tv-disc-faelle.json'), 'utf8')) as { id: string; rubrik: string; text: string }[]
+const GRUND_TV_DISC_ERLAUBT: Record<string, string> = { '1063795': 'keine Behauptung', '1066085': 'keine Behauptung', '1068595': 'keine Behauptung' }
+for (const f of tvDisc) {
+  pruefe(`${f.id}: Rubrik ${f.rubrik} geht an Claude`, entscheide({ id: f.id, text: f.text, rubriken: [f.rubrik] }).grund === `Rubrik ${f.rubrik}`)
+  const e = entscheide({ id: f.id, text: f.text, rubriken: ['Crunchyroll'] })
+  pruefe(`${f.id}: ${f.rubrik} unter erlaubter Rubrik: Claude, „${GRUND_TV_DISC_ERLAUBT[f.id]}“`, e.weg === 'claude' && e.grund === GRUND_TV_DISC_ERLAUBT[f.id], e)
+}
+pruefe('TV-Guide und Disc: drei echte Artikel', tvDisc.length === 3 && tvDisc.filter((f) => f.rubrik === 'TV-Guide').length === 1)
 
 /* Bedingungen einzeln, am erklärten Artikel 1063615 verändert. */
 const ok = fall('1063615')
@@ -148,7 +158,47 @@ for (const [feld, zeile] of [['Start', 'Start: 12. Dezember 2026 um 15:30 Uhr'],
   pruefe(`A1 ${zeile.slice(0, 30)}… im ersten Block: Claude, Feld ${feld}`, mit(nachSprache(zeile)).grund === `Feld ohne Regel: ${feld}`, mit(nachSprache(zeile)))
   pruefe(`A1 ${zeile.slice(0, 30)}… im letzten Block: Claude, Feld ${feld}`, mit(nachSprache(zeile, true)).grund === `Feld ohne Regel: ${feld}`, mit(nachSprache(zeile, true)))
 }
+/* Episoden und Simulcast in den echten Formen aus den 232 Artikeln (Bericht 07.11.2026): keine davon liest die Regel, jede geht an Claude – auch ohne Uhrzeit (dort fängt A2 nichts). */
+const ECHTE_FORMEN: [string, string][] = [
+  ['Episoden', 'Episoden: 12 (komplett)'], ['Episoden', 'Episoden: 52'], ['Episoden', 'Episoden: 1 auf Deutsch verfügbar'], ['Episoden', 'Episoden: 1 von 12 auf Deutsch verfügbar'],
+  ['Episoden', 'Episoden: unbekannt'], ['Episoden', 'Episoden: Folge 1 bis 3'], ['Episoden', 'Episoden: Staffel 2, Folge 14 bis 16'],
+  ['Simulcast', 'Simulcast: Jeden Samstag um 15:30 Uhr'], ['Simulcast', 'Simulcast: Jeden Freitag eine neue Episode'], ['Simulcast', 'Simulcast: Jeden Mittwoch'],
+]
+for (const [feld, zeile] of ECHTE_FORMEN) {
+  pruefe(`A1 echte Form „${zeile}“ im ersten Block: Claude, Feld ${feld}`, mit(nachSprache(zeile)).grund === `Feld ohne Regel: ${feld}`, mit(nachSprache(zeile)))
+  pruefe(`A1 echte Form „${zeile}“ im letzten Block: Claude, Feld ${feld}`, mit(nachSprache(zeile, true)).grund === `Feld ohne Regel: ${feld}`, mit(nachSprache(zeile, true)))
+}
 pruefe('A1 Feld Laufzeit bleibt erlaubt (Regel braucht es nicht, es trägt keine Aussage)', mit(nachSprache('Laufzeit: 24 Minuten')).weg === 'regel')
+/* A1 Allowlist: jede andere Zeile im Block geht an Claude, vor wie nach `Stream:` (das Zitat endet an der letzten Feldzeile, die Zeile dahinter liegt im Fenster). */
+const nachStream = (zeile: string, letzter = false): string => {
+  const zeilen = ok.text.split('\n')
+  const idx = letzter ? zeilen.map((z) => z.trim().startsWith('Stream:')).lastIndexOf(true) : zeilen.findIndex((z) => z.trim().startsWith('Stream:'))
+  zeilen.splice(idx + 1, 0, ` ${zeile}`)
+  return zeilen.join('\n')
+}
+pruefe('A1 Fall bereit: Stream-Zeile gefunden', nachStream('X').length === ok.text.length + 3 && nachStream('X', true) !== nachStream('X'))
+for (const [name, zeile] of [['Neue Folge', 'Neue Folge: Jeden Samstag'], ['Verfügbar bis', 'Verfügbar bis: unbekannt'], ['Folgen', 'Folgen: 12'], ['Noch nicht verfügbar', 'Noch nicht verfügbar: ab Dezember']] as const) {
+  for (const [wo, text] of [['vor Stream, erster Block', nachSprache(zeile)], ['vor Stream, letzter Block', nachSprache(zeile, true)], ['nach Stream, erster Block', nachStream(zeile)], ['nach Stream, letzter Block', nachStream(zeile, true)]] as const) {
+    pruefe(`A1 Allowlist „${zeile}“ ${wo}: Claude`, mit(text).grund === `Feld ohne Regel: ${name}`, mit(text))
+  }
+}
+/* Fenstergrenze: höchstens neun Zeilen unter dem Kopf; die Zitatlänge (Kopf, Sprache, Stream = 3) zählt mit, also liegt die Zeile nach 6 Fülltext-Zeilen noch drin, nach 7 nicht. */
+const mitFuell = (k: number): string => nachStream([...Array(k).fill('Fülltext ohne Feld.'), 'Neue Folge: Jeden Samstag'].join('\n'), true)
+pruefe('A1 Fenster: Name-Zeile nach 3 Fülltext-Zeilen liegt im Fenster: Claude', mit(mitFuell(3)).grund === 'Feld ohne Regel: Neue Folge', mit(mitFuell(3)))
+pruefe('A1 Fenster: Name-Zeile nach 6 Fülltext-Zeilen (neunte Zeile) liegt im Fenster: Claude', mit(mitFuell(6)).grund === 'Feld ohne Regel: Neue Folge', mit(mitFuell(6)))
+pruefe('A1 Fenster: Name-Zeile nach 7 Fülltext-Zeilen (zehnte Zeile) liegt außerhalb: erklärt', mit(mitFuell(7)).weg === 'regel', mit(mitFuell(7)))
+pruefe('A1 Allowlist: Zeile ohne Doppelpunkt im Zitat („Noch nicht verfügbar“ vor Stream): Claude', mit(nachSprache('Noch nicht verfügbar')).grund === 'Feld ohne Regel: Noch nicht verfügbar', mit(nachSprache('Noch nicht verfügbar')))
+for (const zeile of ['Laufzeit: 24 Minuten', 'Sprache: Deutsch', 'Stream: Crunchyroll', 'Handlung: Ein Junge zieht aus.']) {
+  pruefe(`A1 Allowlist Gegenfall: nur erlaubte Zeile „${zeile}“ nach Stream: erklärt`, mit(nachStream(zeile)).weg === 'regel', mit(nachStream(zeile)))
+  if (!zeile.startsWith('Handlung')) pruefe(`A1 Allowlist Gegenfall: nur erlaubte Zeile „${zeile}“ nach Sprache, letzter Block: erklärt`, mit(nachSprache(zeile, true)).weg === 'regel', mit(nachSprache(zeile, true)))
+}
+pruefe('A1 Allowlist: „Handlung:“ mitten im Zitat (vor Stream) ist nicht erlaubt: Claude', mit(nachSprache('Handlung: Ein Junge zieht aus.')).grund === 'Feld ohne Regel: Handlung')
+/* A2 (Prüfer R1): nur die Kopfzeile nennt den Titel, und der Titel trägt eine Uhrzeit – die Regel liest ihn, der Rest nach dem »Titel« gehört nicht ihr; die Kopfzeile zählt ab dem ersten », nicht ab dem letzten «. */
+const nurKopf = (titel: string): string => `Neue Titel auf Crunchyroll\nVeröffentlicht: 2026-10-24\n\n»${titel}« – Staffel 2\nSprache: Deutsch, Japanisch (UT)\nStream: Crunchyroll\n`
+const kopfMitZeit = entscheide({ id: '1', rubriken: ['Crunchyroll'], text: nurKopf('Mission 11:30') })
+pruefe('A2 Titel mit Uhrzeit nur in der Kopfzeile: Claude, nennt 11:30', kopfMitZeit.weg === 'claude' && kopfMitZeit.grund === 'Datum oder Uhrzeit außerhalb der Regel: 11:30', kopfMitZeit)
+const kopfOhneZeit = entscheide({ id: '1', rubriken: ['Crunchyroll'], text: nurKopf('Mission Alpha') })
+pruefe('A2 Titel ohne Datumsform nur in der Kopfzeile: erklärt', kopfOhneZeit.weg === 'regel', kopfOhneZeit)
 /* A2: Datum oder Uhrzeit außerhalb der gelesenen Stellen – unabhängig von der Anführung. */
 const satzFall = (satz: string): string => `${ok.text}\n${satz}\n`
 for (const [name, satz, treffer] of [
@@ -394,4 +444,4 @@ if (fehler) {
   console.error(`✖ ${fehler} Fehler`)
   process.exit(1)
 }
-console.log(`✓ Anime2You-Router: ${faelle.length} echte Artikel (echte Texte: 1 erklärt = 1 erspart, 15 Rest; ohne Simulcast/Hinweis-Zeilen 6 erklärt, 4 erspart, 2 Stichprobe, 10 Rest; Fehlbelege gegen Claude 0, Art mitgemessen), A1 Felder ohne Regel, A2 Datum/Uhrzeit außerhalb, Zusammenfassung nennt Regel-Artikel, Bedingungen einzeln, Rubrik-Leser, Schritt Schatten/scharf/Rückbau, Übernahme, Schattenzeile, Prozesse, Workflow`)
+console.log(`✓ Anime2You-Router: ${faelle.length} echte Artikel (echte Texte: 0 erklärt, 16 Rest; ohne Episoden/Simulcast/Hinweis-Zeilen 6 erklärt, 4 erspart, 2 Stichprobe, 10 Rest; TV-Guide/Disc: 3 echte Artikel an Claude; Fehlbelege gegen Claude 0, Art mitgemessen), A1 Felder ohne Regel, A2 Datum/Uhrzeit außerhalb, Zusammenfassung nennt Regel-Artikel, Bedingungen einzeln, Rubrik-Leser, Schritt Schatten/scharf/Rückbau, Übernahme, Schattenzeile, Prozesse, Workflow`)

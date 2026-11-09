@@ -18,13 +18,21 @@
         "titel": "A Wild Last Boss Appeared!",
         "art": "sprachfassung",
         "plattform": "crunchyroll",
-        "sprache": "deutsch+omu"
+        "sprache": "deutsch+omu",
+        "datum": null,
+        "uhrzeit": "15:30",
+        "wochentage": "Jeden Samstag",
+        "folgen": null
       },
       {
         "titel": "Die Tagebücher der Apothekerin",
         "art": "sprachfassung",
         "plattform": "crunchyroll",
-        "sprache": "deutsch+omu"
+        "sprache": "deutsch+omu",
+        "datum": null,
+        "uhrzeit": "17:00",
+        "wochentage": "Jeden Freitag",
+        "folgen": null
       }
     ]
   },
@@ -47,25 +55,41 @@
         "titel": "Aoashi – Staffel 2",
         "art": "start",
         "plattform": "crunchyroll",
-        "sprache": "deutsch+omu"
+        "sprache": "deutsch+omu",
+        "datum": null,
+        "uhrzeit": "11:00",
+        "wochentage": "Jeden Sonntag",
+        "folgen": "1"
       },
       {
         "titel": "Aoashi – Staffel 2",
         "art": "start",
         "plattform": "primevideo",
-        "sprache": "deutsch+omu"
+        "sprache": "deutsch+omu",
+        "datum": null,
+        "uhrzeit": "11:00",
+        "wochentage": "Jeden Sonntag",
+        "folgen": "1"
       },
       {
         "titel": "PSYREN",
         "art": "start",
         "plattform": "crunchyroll",
-        "sprache": "deutsch+omu"
+        "sprache": "deutsch+omu",
+        "datum": null,
+        "uhrzeit": "16:30",
+        "wochentage": "Jeden Montag",
+        "folgen": "1"
       },
       {
         "titel": "PSYREN",
         "art": "start",
         "plattform": "primevideo",
-        "sprache": "deutsch+omu"
+        "sprache": "deutsch+omu",
+        "datum": null,
+        "uhrzeit": "16:30",
+        "wochentage": "Jeden Montag",
+        "folgen": "1"
       }
     ]
   },
@@ -88,13 +112,21 @@
         "titel": "Magic Knight Rayearth",
         "art": "sprachfassung",
         "plattform": "crunchyroll",
-        "sprache": "deutsch+omu"
+        "sprache": "deutsch+omu",
+        "datum": null,
+        "uhrzeit": "17:15",
+        "wochentage": "Jeden Mittwoch",
+        "folgen": "1"
       },
       {
         "titel": "The Detective Is Already Dead – Staffel 2",
         "art": "sprachfassung",
         "plattform": "crunchyroll",
-        "sprache": "deutsch+omu"
+        "sprache": "deutsch+omu",
+        "datum": null,
+        "uhrzeit": "15:30",
+        "wochentage": "Jeden Mittwoch",
+        "folgen": "1"
       }
     ]
   },
@@ -118,19 +150,31 @@
         "titel": "Firefly Wedding",
         "art": "sprachfassung",
         "plattform": "crunchyroll",
-        "sprache": "deutsch+omu"
+        "sprache": "deutsch+omu",
+        "datum": null,
+        "uhrzeit": "18:00",
+        "wochentage": "Jeden Freitag",
+        "folgen": "1"
       },
       {
         "titel": "The Iceblade Sorcerer Shall Rule the World – Staffel 2",
         "art": "sprachfassung",
         "plattform": "crunchyroll",
-        "sprache": "deutsch+omu"
+        "sprache": "deutsch+omu",
+        "datum": null,
+        "uhrzeit": "19:00",
+        "wochentage": "Jeden Donnerstag",
+        "folgen": "1"
       },
       {
         "titel": "The Vermilion Mask",
         "art": "sprachfassung",
         "plattform": "crunchyroll",
-        "sprache": "deutsch+omu"
+        "sprache": "deutsch+omu",
+        "datum": null,
+        "uhrzeit": "11:30",
+        "wochentage": "Jeden Samstag",
+        "folgen": "1"
       }
     ]
   },
@@ -153,13 +197,21 @@
         "titel": "Der Held ohne Klasse: Der Aufstieg eines Talentlosen",
         "art": "start",
         "plattform": "netflix",
-        "sprache": "deutsch+omu"
+        "sprache": "deutsch+omu",
+        "datum": null,
+        "uhrzeit": null,
+        "wochentage": null,
+        "folgen": "12"
       },
       {
         "titel": "My Happy Marriage",
         "art": "folgen",
         "plattform": "netflix",
-        "sprache": "deutsch+omu"
+        "sprache": "deutsch+omu",
+        "datum": null,
+        "uhrzeit": null,
+        "wochentage": null,
+        "folgen": "14-16"
       }
     ]
   },
@@ -182,13 +234,21 @@
         "titel": "Avatar: Die sieben Häfen",
         "art": "start",
         "plattform": "primevideo",
-        "sprache": "deutsch"
+        "sprache": "deutsch",
+        "datum": null,
+        "uhrzeit": null,
+        "wochentage": null,
+        "folgen": "1"
       },
       {
         "titel": "Yoyo & Nene – Die magischen Schwestern",
         "art": "start",
         "plattform": "primevideo",
-        "sprache": "deutsch"
+        "sprache": "deutsch",
+        "datum": null,
+        "uhrzeit": null,
+        "wochentage": null,
+        "folgen": null
       }
     ]
   },
@@ -207,13 +267,21 @@
         "titel": "Iron Man: Rise of Technovore",
         "art": "abgang",
         "plattform": "netflix",
-        "sprache": "deutsch"
+        "sprache": "deutsch",
+        "datum": "2026-11-13",
+        "uhrzeit": null,
+        "wochentage": null,
+        "folgen": null
       },
       {
         "titel": "Berserk",
         "art": "abgang",
         "plattform": "netflix",
-        "sprache": "omu"
+        "sprache": "omu",
+        "datum": "2026-11-30",
+        "uhrzeit": null,
+        "wochentage": null,
+        "folgen": "25"
       }
     ]
   },
@@ -232,19 +300,31 @@
         "titel": "Berserk",
         "art": "sprachfassung",
         "plattform": "netflix",
-        "sprache": "omu"
+        "sprache": "omu",
+        "datum": null,
+        "uhrzeit": null,
+        "wochentage": null,
+        "folgen": null
       },
       {
         "titel": "Berserk",
         "art": "sprachfassung",
         "plattform": "aniverse",
-        "sprache": "deutsch"
+        "sprache": "deutsch",
+        "datum": null,
+        "uhrzeit": null,
+        "wochentage": null,
+        "folgen": null
       },
       {
         "titel": "Berserk",
         "art": "disc",
         "plattform": "disc",
-        "sprache": "unklar"
+        "sprache": "unklar",
+        "datum": null,
+        "uhrzeit": null,
+        "wochentage": null,
+        "folgen": null
       }
     ]
   },
@@ -263,43 +343,71 @@
         "titel": "I Parry Everything!",
         "art": "start",
         "plattform": "adn",
-        "sprache": "deutsch+omu"
+        "sprache": "deutsch+omu",
+        "datum": "2026-11-02",
+        "uhrzeit": null,
+        "wochentage": null,
+        "folgen": "12"
       },
       {
         "titel": "I Parry Everything!",
         "art": "start",
         "plattform": "primevideo",
-        "sprache": "deutsch+omu"
+        "sprache": "deutsch+omu",
+        "datum": "2026-11-02",
+        "uhrzeit": null,
+        "wochentage": null,
+        "folgen": "12"
       },
       {
         "titel": "Pretty Cure",
         "art": "start",
         "plattform": "adn",
-        "sprache": "omu"
+        "sprache": "omu",
+        "datum": "2026-11-04",
+        "uhrzeit": null,
+        "wochentage": null,
+        "folgen": "49"
       },
       {
         "titel": "Kotoura-san",
         "art": "start",
         "plattform": "adn",
-        "sprache": "omu"
+        "sprache": "omu",
+        "datum": "2026-11-11",
+        "uhrzeit": null,
+        "wochentage": null,
+        "folgen": "12"
       },
       {
         "titel": "KILL la KILL",
         "art": "start",
         "plattform": "adn",
-        "sprache": "deutsch+omu"
+        "sprache": "deutsch+omu",
+        "datum": "2026-11-18",
+        "uhrzeit": null,
+        "wochentage": null,
+        "folgen": "24"
       },
       {
         "titel": "Cross Game",
         "art": "start",
         "plattform": "adn",
-        "sprache": "omu"
+        "sprache": "omu",
+        "datum": "2026-11-25",
+        "uhrzeit": null,
+        "wochentage": null,
+        "folgen": "50"
       },
       {
         "titel": "Reborn!",
         "art": "folgen",
         "plattform": "adn",
-        "sprache": "omu"
+        "sprache": "omu",
+        "datum": "2026-11-28",
+        "uhrzeit": null,
+        "wochentage": null,
+        "folgen": "102–153"
       }
     ]
   },
@@ -318,43 +426,71 @@
         "titel": "M.A.S.K.",
         "art": "start",
         "plattform": "aniverse",
-        "sprache": "deutsch"
+        "sprache": "deutsch",
+        "datum": "2026-11-01",
+        "uhrzeit": null,
+        "wochentage": null,
+        "folgen": "73 (komplett)"
       },
       {
         "titel": "The Forsaken Saintess and Her Foodie Road Trip in Another World",
         "art": "start",
         "plattform": "aniverse",
-        "sprache": "omu"
+        "sprache": "omu",
+        "datum": "2026-11-01",
+        "uhrzeit": null,
+        "wochentage": null,
+        "folgen": "12 (komplett)"
       },
       {
         "titel": "Angel’s Egg",
         "art": "start",
         "plattform": "aniverse",
-        "sprache": "deutsch+omu"
+        "sprache": "deutsch+omu",
+        "datum": "2026-11-05",
+        "uhrzeit": null,
+        "wochentage": null,
+        "folgen": null
       },
       {
         "titel": "Shaman King – Staffel 4",
         "art": "start",
         "plattform": "aniverse",
-        "sprache": "deutsch"
+        "sprache": "deutsch",
+        "datum": "2026-11-12",
+        "uhrzeit": null,
+        "wochentage": null,
+        "folgen": "16 (komplett)"
       },
       {
         "titel": "Wolf Girl and Black Prince – Staffel 1",
         "art": "start",
         "plattform": "aniverse",
-        "sprache": "deutsch+omu"
+        "sprache": "deutsch+omu",
+        "datum": "2026-11-19",
+        "uhrzeit": null,
+        "wochentage": null,
+        "folgen": "12 (komplett)"
       },
       {
         "titel": "Call of the Night – Staffel 2",
         "art": "sprachfassung",
         "plattform": "aniverse",
-        "sprache": "deutsch"
+        "sprache": "deutsch",
+        "datum": "2026-11-20",
+        "uhrzeit": null,
+        "wochentage": null,
+        "folgen": "13 (komplett)"
       },
       {
         "titel": "The Most Heretical Last Boss Queen – Staffel 1",
         "art": "sprachfassung",
         "plattform": "aniverse",
-        "sprache": "deutsch"
+        "sprache": "deutsch",
+        "datum": "2026-11-26",
+        "uhrzeit": null,
+        "wochentage": null,
+        "folgen": "12 (komplett)"
       }
     ]
   },
@@ -373,7 +509,11 @@
         "titel": "Reborn as a Space Mercenary",
         "art": "start",
         "plattform": "crunchyroll",
-        "sprache": "deutsch+omu"
+        "sprache": "deutsch+omu",
+        "datum": "2026-10-03",
+        "uhrzeit": "16:00",
+        "wochentage": "jeden Sonntag",
+        "folgen": "13"
       }
     ]
   },
@@ -392,7 +532,11 @@
         "titel": "Cyberpunk: Edgerunners II",
         "art": "start",
         "plattform": "netflix",
-        "sprache": "deutsch+omu"
+        "sprache": "deutsch+omu",
+        "datum": "2026-10-20",
+        "uhrzeit": null,
+        "wochentage": null,
+        "folgen": null
       }
     ]
   },
@@ -411,61 +555,101 @@
         "titel": "Der Held ohne Klasse: Der Aufstieg eines Talentlosen",
         "art": "start",
         "plattform": "netflix",
-        "sprache": "unklar"
+        "sprache": "unklar",
+        "datum": "2026-11-01",
+        "uhrzeit": null,
+        "wochentage": null,
+        "folgen": "12 (komplett)"
       },
       {
         "titel": "Bass X Machina",
         "art": "start",
         "plattform": "netflix",
-        "sprache": "deutsch+omu"
+        "sprache": "deutsch+omu",
+        "datum": "2026-11-03",
+        "uhrzeit": null,
+        "wochentage": null,
+        "folgen": null
       },
       {
         "titel": "Fool Night",
         "art": "start",
         "plattform": "netflix",
-        "sprache": "omu"
+        "sprache": "omu",
+        "datum": "2026-11-26",
+        "uhrzeit": null,
+        "wochentage": null,
+        "folgen": null
       },
       {
         "titel": "The Ramparts of Ice",
         "art": "folgen",
         "plattform": "netflix",
-        "sprache": "deutsch+omu"
+        "sprache": "deutsch+omu",
+        "datum": null,
+        "uhrzeit": null,
+        "wochentage": "Jeden Donnerstag",
+        "folgen": null
       },
       {
         "titel": "STEEL BALL RUN: JoJo’s Bizarre Adventure",
         "art": "folgen",
         "plattform": "netflix",
-        "sprache": "deutsch+omu"
+        "sprache": "deutsch+omu",
+        "datum": null,
+        "uhrzeit": null,
+        "wochentage": "Jeden Freitag",
+        "folgen": null
       },
       {
         "titel": "Tougen Anki",
         "art": "folgen",
         "plattform": "netflix",
-        "sprache": "omu"
+        "sprache": "omu",
+        "datum": null,
+        "uhrzeit": null,
+        "wochentage": "Jeden Freitag",
+        "folgen": null
       },
       {
         "titel": "Das Band der Unterwelt",
         "art": "folgen",
         "plattform": "netflix",
-        "sprache": "deutsch+omu"
+        "sprache": "deutsch+omu",
+        "datum": null,
+        "uhrzeit": null,
+        "wochentage": "Jeden Samstag",
+        "folgen": null
       },
       {
         "titel": "Ranma 1/2",
         "art": "folgen",
         "plattform": "netflix",
-        "sprache": "deutsch+omu"
+        "sprache": "deutsch+omu",
+        "datum": null,
+        "uhrzeit": null,
+        "wochentage": "Jeden Samstag",
+        "folgen": null
       },
       {
         "titel": "Blue Box",
         "art": "folgen",
         "plattform": "netflix",
-        "sprache": "deutsch+omu"
+        "sprache": "deutsch+omu",
+        "datum": null,
+        "uhrzeit": null,
+        "wochentage": "Jeden Sonntag",
+        "folgen": null
       },
       {
         "titel": "Dragon Ball Super: Beerus",
         "art": "folgen",
         "plattform": "netflix",
-        "sprache": "omu"
+        "sprache": "omu",
+        "datum": null,
+        "uhrzeit": null,
+        "wochentage": "Jeden Sonntag",
+        "folgen": null
       }
     ]
   },
@@ -484,13 +668,21 @@
         "titel": "Honey Lemon Soda",
         "art": "start",
         "plattform": "disneyplus",
-        "sprache": "deutsch+omu"
+        "sprache": "deutsch+omu",
+        "datum": "2026-11-03",
+        "uhrzeit": null,
+        "wochentage": null,
+        "folgen": "12"
       },
       {
         "titel": "One Punch Man",
         "art": "start",
         "plattform": "disneyplus",
-        "sprache": "unklar"
+        "sprache": "unklar",
+        "datum": "2026-11-24",
+        "uhrzeit": null,
+        "wochentage": null,
+        "folgen": "24"
       }
     ]
   },
@@ -509,31 +701,51 @@
         "titel": "Demon Slayer: Entertainment District Arc",
         "art": "start",
         "plattform": "primevideo",
-        "sprache": "deutsch+omu"
+        "sprache": "deutsch+omu",
+        "datum": null,
+        "uhrzeit": null,
+        "wochentage": null,
+        "folgen": "11"
       },
       {
         "titel": "Demon Slayer: Hashira Training Arc",
         "art": "start",
         "plattform": "primevideo",
-        "sprache": "deutsch+omu"
+        "sprache": "deutsch+omu",
+        "datum": null,
+        "uhrzeit": null,
+        "wochentage": null,
+        "folgen": "8"
       },
       {
         "titel": "Demon Slayer: Mugen Train Arc",
         "art": "start",
         "plattform": "primevideo",
-        "sprache": "deutsch+omu"
+        "sprache": "deutsch+omu",
+        "datum": null,
+        "uhrzeit": null,
+        "wochentage": null,
+        "folgen": "7"
       },
       {
         "titel": "Demon Slayer: Swordsmith Village Arc",
         "art": "start",
         "plattform": "primevideo",
-        "sprache": "deutsch+omu"
+        "sprache": "deutsch+omu",
+        "datum": null,
+        "uhrzeit": null,
+        "wochentage": null,
+        "folgen": "11"
       },
       {
         "titel": "The Sky Crawlers",
         "art": "start",
         "plattform": "primevideo",
-        "sprache": "deutsch+omu"
+        "sprache": "deutsch+omu",
+        "datum": null,
+        "uhrzeit": null,
+        "wochentage": null,
+        "folgen": null
       }
     ]
   },
@@ -552,7 +764,11 @@
         "titel": "Disney Twisted-Wonderland – Staffel 2",
         "art": "start",
         "plattform": "disneyplus",
-        "sprache": "unklar"
+        "sprache": "unklar",
+        "datum": "2026-12-23",
+        "uhrzeit": null,
+        "wochentage": null,
+        "folgen": "8"
       }
     ]
   }
