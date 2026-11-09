@@ -879974,5 +879974,226 @@
       ]
     },
     "fetchedAt": "2026-11-06T06:01:58.531Z"
+  },
+  "219548": {
+    "anisearchId": 22095,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Spirit Circle",
+          "titleNative": "スピリットサークル",
+          "status": "Zukünftig",
+          "released": "12.2026 - ?"
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 18,
+      "episodesEstimated": true,
+      "season": "Winter 2026/27",
+      "studios": [
+        "EOTA Inc.",
+        "NAGOMI"
+      ],
+      "staff": [
+        {
+          "name": "Satoshi MIZUKAMI",
+          "role": "Original Work"
+        },
+        {
+          "name": "Tatsuo SATOU",
+          "role": "Direction"
+        },
+        {
+          "name": "Satoru FUJIMOTO",
+          "role": "Character Design"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/spiritcircle_pr"
+        },
+        {
+          "name": "Spiritcircle",
+          "url": "https://www.spiritcircle.jp/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-11-09T06:00:55.310Z"
+  },
+  "219618": {
+    "anisearchId": 22092,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Karada ni Ii Otoko",
+          "titleNative": "カラダにイイ男",
+          "status": "Zukünftig",
+          "released": "01.2027 - ?"
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "season": "Winter 2026/27",
+      "studios": [
+        "studio HOUKIBOSHI"
+      ],
+      "adaptedFrom": "Webtoon",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/karadanii_anime"
+        },
+        {
+          "name": "Karadaniiiotoko Af Original",
+          "url": "https://karadaniiiotoko.af-original.com"
+        }
+      ],
+      "synonyms": [
+        "He Does a Body Good"
+      ]
+    },
+    "fetchedAt": "2026-11-09T06:01:02.058Z"
+  },
+  "219621": {
+    "anisearchId": 22093,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Hagure Idol: Jigoku-hen",
+          "titleNative": "はぐれアイドル 地獄変",
+          "status": "Zukünftig",
+          "released": "01.2027 - ?"
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "season": "Winter 2026/27",
+      "studios": [
+        "Raiose"
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/hagure_anime"
+        },
+        {
+          "name": "Hagureidol Deregula",
+          "url": "https://hagureidol.deregula.com/"
+        }
+      ],
+      "synonyms": [
+        "Booty Royale: Never Go Down Without a Fight!"
+      ]
+    },
+    "fetchedAt": "2026-11-09T06:01:08.791Z"
+  },
+  "219679": {
+    "anisearchId": 22094,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Yuusha Party ni Kawaii Ko ga Ita no de, Kokuhaku Shite Mita. Dai 2 Ki",
+          "titleNative": "Yūsha Party ni Kawaii Ko ga Ita no de, Kokuhaku Shite Mita. Dai 2 Ki",
+          "status": "Zukünftig",
+          "released": "?"
+        }
+      ],
+      "format": "TV-Serie",
+      "staff": [
+        {
+          "name": "Ryou MIZOGAMI",
+          "role": "Original Work"
+        }
+      ],
+      "adaptedFrom": "Light Novel",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/yuukawa_anime"
+        },
+        {
+          "name": "Yuukawa Anime",
+          "url": "https://yuukawa-anime.com/"
+        }
+      ],
+      "synonyms": [
+        "There Was a Cute Girl in the Hero’s Party",
+        "So I Tried Confessing to Her: Season 2",
+        "There Was a Cute Girl in the Hero’s Party",
+        "So I Tried Confessing to Her: Staffel 2",
+        "There Was a Cute Girl in the Hero’s Party",
+        "So I Tried Confessing to Her : Saison 2",
+        "There Was a Cute Girl in the Hero’s Party",
+        "So I Tried Confessing to Her: Stagione 2"
+      ]
+    },
+    "fetchedAt": "2026-11-09T06:01:15.526Z"
+  },
+  "219714": {
+    "anisearchId": 22097,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Spy × Family: Season 4",
+          "titleNative": "スパイファミリー Season 4",
+          "status": "Zukünftig",
+          "released": "2027 - ?"
+        }
+      ],
+      "format": "TV-Serie",
+      "staff": [
+        {
+          "name": "Tatsuya ENDOU",
+          "role": "Original Work"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/spyfamily_anime"
+        },
+        {
+          "name": "X",
+          "url": "https://x.com/spyfamily_en"
+        },
+        {
+          "name": "Spy Family",
+          "url": "https://spy-family.net/"
+        }
+      ],
+      "synonyms": [
+        "Spy x Family: 4rd Season",
+        "Spy x Family: Season 4",
+        "Spy × Family: 4rd Season",
+        "Spy × Family: Staffel 4",
+        "Spy x Family: Staffel 4"
+      ]
+    },
+    "fetchedAt": "2026-11-09T06:01:22.258Z"
   }
 }
