@@ -87,6 +87,18 @@ pruefe('anderer Staffelnummer-Hinweis: ebenso kein neuer Beleg', neueBelegBloeck
 pruefe('andere Tonspuren in der Notiz bleiben ein neuer Beleg', neueBelegBloecke(altText, meldung({ note: mitHinweis(String(echt.note)).replace('Tonspuren: 日本語', 'Tonspuren: Deutsch, 日本語') })).neu.length === 1)
 pruefe('andere Adresse mit Adresshinweis bleibt ein neuer Beleg', neueBelegBloecke(altText, meldung({ url: 'https://www.amazon.de/gp/video/detail/B0CBKJKYM4' })).neu.length === 1)
 
+/* Handfelder staffeln, nichtImBestand, zweiteQuelle (09.11.2026): Wiederholmeldung ohne das Feld hängt nichts an. */
+const handFelder: Record<string, string[]> = {
+  staffeln: ['  staffeln:', '    - nr: 1', '      folgen: 12'],
+  nichtImBestand: ['  nichtImBestand: true'],
+  zweiteQuelle: ['  zweiteQuelle: https://example.invalid/zweite-quelle'],
+}
+for (const [feld, zeilen] of Object.entries(handFelder)) {
+  const mitFeld = messung(25, '2026-10-13', zeilen).join('\n') + '\n'
+  pruefe(`Wiederholmeldung ohne ${feld} wird nicht angehängt`, neueBelegBloecke(mitFeld, messung(25, '2026-10-31')).neu.length === 0)
+  pruefe(`${feld}: echte neue Messung wird weiter angehängt`, neueBelegBloecke(mitFeld, messung(24, '2026-10-31')).neu.length === 1)
+}
+
 /* Über den Schreibweg: die Datei bleibt Byte für Byte gleich, wenn nur der Hinweis neu ist. */
 const ordner = mkdtempSync(join(tmpdir(), 'sonderfolgen-'))
 const datei = join(ordner, 'dub-confirmed.yaml')
