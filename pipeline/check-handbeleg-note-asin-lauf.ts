@@ -42,7 +42,7 @@ const rot = lauf([900010, 900011], fremd)
 pruefe('Neuer Treffer: Exit 1', rot.status === 1, rot)
 pruefe('Neuer Treffer: Fehlerzeile mit Schlüssel', rot.aus.includes('✖ Neue Treffer') && rot.aus.includes('900010@B0SEITE011'), rot)
 pruefe('Neuer Treffer: Titelmarke für 900010, nicht für 900011', rot.aus.includes('"titleId":900010,"pruefung":"handbeleg-note-asin"') && !rot.aus.includes('"titleId":900011'), rot)
-pruefe('Neuer Treffer: Zählzeile nennt 1 neu', /1 Treffer, davon 0 Altfälle \(Ratsche 0, Ziel 0\), 1 neu/.test(rot.aus), rot)
+pruefe('Neuer Treffer: Zählzeile nennt 1 neu', /1 Treffer .(Ziel 0.)/.test(rot.aus), rot)
 
 const gruen = lauf([900010, 900011], block(900011, 'B0SEITE011', 'B0SEITE011') + block(900010, 'B0SEITE010', 'B0SEITE010'))
 pruefe('Eigene Seiten: Exit 0, keine Marke, 0 Treffer', gruen.status === 0 && !gruen.aus.includes('handbeleg-note-asin ') && /0 Treffer/.test(gruen.aus), gruen)
@@ -53,7 +53,7 @@ pruefe('Altfall des Notizseiten-Wächters: Exit 0, 0 Treffer', altfall.status ==
 
 // Anlassfall Goblin Slayer 2 (Ratsche seit 09.11.2026 leer): die Messung der Staffel-1-Seite an der Adresse von Staffel 2 ist ein neuer Treffer.
 const anlass = lauf([129188, 101165], block(101165, 'B0CFKZQ6FN', 'B0CFKZQ6FN') + block(129188, 'B0CFL5Y7XN', 'B0CFKZQ6FN'))
-pruefe('Anlassfall Goblin Slayer 2: Exit 1, neuer Treffer mit Marke für 129188', anlass.status === 1 && anlass.aus.includes('129188@B0CFKZQ6FN') && anlass.aus.includes('"titleId":129188,"pruefung":"handbeleg-note-asin"') && /1 Treffer, davon 0 Altfälle \(Ratsche 0, Ziel 0\), 1 neu/.test(anlass.aus), anlass)
+pruefe('Anlassfall Goblin Slayer 2: Exit 1, neuer Treffer mit Marke für 129188', anlass.status === 1 && anlass.aus.includes('129188@B0CFKZQ6FN') && anlass.aus.includes('"titleId":129188,"pruefung":"handbeleg-note-asin"') && /1 Treffer .(Ziel 0.)/.test(anlass.aus), anlass)
 
 const leer = lauf([], '')
 pruefe('Leere Belege: Exit 0', leer.status === 0 && /0 Treffer/.test(leer.aus), leer)

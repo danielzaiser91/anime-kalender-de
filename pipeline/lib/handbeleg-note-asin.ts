@@ -28,6 +28,3 @@ export function findeFremdeNoteAsins(belege: BlockSeite[]): string[] {
   }
   return [...treffer].sort()
 }
-
-/** Ratsche: Treffer des Bestands, die `check-handbeleg-notizseite-bestand.ts` nicht schon führt. Nur streichen; Stand 09.11.2026: 0 (Ziel erreicht, Goblin Slayer 2 bereinigt). */
-export const NOTE_ASIN_ALTFAELLE: string[] = []
