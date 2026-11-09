@@ -1,6 +1,6 @@
 # Prüfliste: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-11-08 · **196 offene Verweise** in **150 Zeilen**.
+Stand 2026-11-09 · **197 offene Verweise** in **150 Zeilen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Was geprüft ist, gehört
 nach `data/dub-confirmed.yaml`; beim nächsten Lauf verschwindet es hier.
@@ -34,8 +34,9 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | Offen je Anbieter | Verweise |
 |---|---|
 | [Netflix](07-netflix.md) | 176 |
-| [Prime Video](07-primevideo.md) | 18 |
+| [Prime Video](07-primevideo.md) | 17 |
 | [Disney+](07-disneyplus.md) | 2 |
+| [ADN](07-adn.md) | 2 |
 
 ## Zu prüfen
 
@@ -70,24 +71,24 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 27 | 2026-07-19 | Wistoria: Wand and Sword | [Hauptserie](https://www.netflix.com/title/81900358) · [Hauptserie](https://www.netflix.com/title/81900358) |
 | 28 | 2026-06-22 | Atelier of Witch Hat | [Hauptserie](https://www.netflix.com/title/82741721) |
 | 29 | 2026-03-10 | Touken Ranbu: Hanamaru | [Katsugeki: Touken Ranbu](https://www.netflix.com/title/80232868) |
-| 30 | 2025-04-09 | Possibly the Greatest Alchemist of All Time | [Hauptserie](https://www.netflix.com/title/82058586) |
-| 31 | 2025-04-03 | Devil May Cry | [Hauptserie](https://www.netflix.com/title/81506915) |
-| 32 | 2024-10-20 | Uzumaki | [Hauptserie](https://www.netflix.com/title/81943371) |
-| 33 | 2024-10-09 | Alya Sometimes Hides Her Feelings in Russian | [Hauptserie](https://www.netflix.com/title/81661821) |
-| 34 | 2024-09-20 | Overlord | [Movies](https://www.netflix.com/title/81285994) · [Der dunkle Held](https://www.netflix.com/title/81285995) · [The Sacred Kingdom](https://www.netflix.com/title/82040442) |
-| 35 | 2024-09-05 | Spy × Family | [Code: White](https://www.netflix.com/title/81924850) |
-| 36 | 2024-09-05 | Spy × Family | [Code: White](https://watch.amazon.de/detail?gti=amzn1.dv.gti.a3523598-4cd6-4004-8763-f4fbb45e0ac6) |
-| 37 | 2024-08-02 | My Hero Academia | [You’re Next](https://watch.amazon.de/detail?gti=amzn1.dv.gti.c903bcab-b4d5-4bdb-b418-70ab5650132e) |
-| 38 | 2024-07-19 | Wind Breaker | [Hauptserie](https://www.netflix.com/title/81771389) |
-| 39 | 2024-07-11 | Beyond the Boundary: Kyoukai no Kanata | [Hauptserie](https://www.netflix.com/title/80052668) |
-| 40 | 2024-06-30 | Captain Tsubasa: Die tollen Fußballstars | [Captain Tsubasa: Staffel 2 - Die Junioren](https://www.netflix.com/title/81003894) |
-| 41 | 2024-04-20 | Mashle: Magic and Muscles | [Hauptserie](https://www.netflix.com/title/81685164) · [The Divine Visionary Candidate Exam Arc](https://www.netflix.com/title/81685164) |
-| 42 | 2024-04-19 | Bluelock | [Blue Lock: The Movie - Episode Nagi](https://watch.amazon.de/detail?gti=amzn1.dv.gti.ae9245d5-07c5-41ce-ba90-d9f8779f046c) |
-| 43 | 2024-03-31 | Solo Leveling | [Hauptserie](https://www.netflix.com/title/81748512) |
-| 44 | 2024-02-16 | Haikyu!! | [Das Play-off der Müllhalde](https://watch.amazon.de/detail?gti=amzn1.dv.gti.467b800e-3262-4857-82b7-ed7a8634cb5b) |
-| 45 | 2024-01-30 | Zom 100: Bucket List of the Dead | [Hauptserie](https://www.netflix.com/title/81680101) |
-| 46 | 2024-01-17 | Bofuri: I Don’t Want to Get Hurt, So I’ll Max Out My Defense. | [Hauptserie](https://www.netflix.com/title/81234294) |
-| 47 | 2023-11-17 | GeGeGe no Kitaro | [The Birth of Kitaro: The Mystery of GeGeGe](https://www.amazon.de/gp/video/detail/0U2F1VC6MV5CHFW4ZP7GSM1RX0) |
+| 30 | 2025-12-23 | Sailor Moon: Das Mädchen mit den Zauberkräften | [Sailor Moon R Movie: Gefährliche Blumen](https://www.netflix.com/title/26588007) · [Sailor Moon S: Schneeprinzessin Kaguya](https://www.netflix.com/title/80116992) · [Pretty Guardian Sailor Moon Crystal](https://www.netflix.com/title/80145747) · [Pretty Guardian Sailor Moon Crystal Season III](https://www.netflix.com/title/80145747) |
+| 31 | 2025-04-09 | Possibly the Greatest Alchemist of All Time | [Hauptserie](https://www.netflix.com/title/82058586) |
+| 32 | 2025-04-03 | Devil May Cry | [Hauptserie](https://www.netflix.com/title/81506915) |
+| 33 | 2024-10-20 | Uzumaki | [Hauptserie](https://www.netflix.com/title/81943371) |
+| 34 | 2024-10-09 | Alya Sometimes Hides Her Feelings in Russian | [Hauptserie](https://www.netflix.com/title/81661821) |
+| 35 | 2024-09-20 | Overlord | [Movies](https://www.netflix.com/title/81285994) · [Der dunkle Held](https://www.netflix.com/title/81285995) · [The Sacred Kingdom](https://www.netflix.com/title/82040442) |
+| 36 | 2024-09-05 | Spy × Family | [Code: White](https://www.netflix.com/title/81924850) |
+| 37 | 2024-09-05 | Spy × Family | [Code: White](https://watch.amazon.de/detail?gti=amzn1.dv.gti.a3523598-4cd6-4004-8763-f4fbb45e0ac6) |
+| 38 | 2024-08-02 | My Hero Academia | [You’re Next](https://watch.amazon.de/detail?gti=amzn1.dv.gti.c903bcab-b4d5-4bdb-b418-70ab5650132e) |
+| 39 | 2024-07-19 | Wind Breaker | [Hauptserie](https://www.netflix.com/title/81771389) |
+| 40 | 2024-07-11 | Beyond the Boundary: Kyoukai no Kanata | [Hauptserie](https://www.netflix.com/title/80052668) |
+| 41 | 2024-06-30 | Captain Tsubasa: Die tollen Fußballstars | [Captain Tsubasa: Staffel 2 - Die Junioren](https://www.netflix.com/title/81003894) |
+| 42 | 2024-04-20 | Mashle: Magic and Muscles | [Hauptserie](https://www.netflix.com/title/81685164) · [The Divine Visionary Candidate Exam Arc](https://www.netflix.com/title/81685164) |
+| 43 | 2024-04-19 | Bluelock | [Blue Lock: The Movie - Episode Nagi](https://watch.amazon.de/detail?gti=amzn1.dv.gti.ae9245d5-07c5-41ce-ba90-d9f8779f046c) |
+| 44 | 2024-03-31 | Solo Leveling | [Hauptserie](https://www.netflix.com/title/81748512) |
+| 45 | 2024-02-16 | Haikyu!! | [Das Play-off der Müllhalde](https://watch.amazon.de/detail?gti=amzn1.dv.gti.467b800e-3262-4857-82b7-ed7a8634cb5b) |
+| 46 | 2024-01-30 | Zom 100: Bucket List of the Dead | [Hauptserie](https://www.netflix.com/title/81680101) |
+| 47 | 2024-01-17 | Bofuri: I Don’t Want to Get Hurt, So I’ll Max Out My Defense. | [Hauptserie](https://www.netflix.com/title/81234294) |
 | 48 | 2023-10-16 | Ayakashi Triangle | [Hauptserie](https://www.netflix.com/title/81680115) |
 | 49 | 2023-10-01 | Cautious Hero: The Hero Is Overpowered but Overly Cautious | [Hauptserie](https://www.netflix.com/title/81196818) |
 | 50 | 2023-09-18 | Masamune-kun’s Revenge | [Hauptserie](https://www.netflix.com/title/80165290) · [R](https://www.netflix.com/title/80165290) |
@@ -159,27 +160,27 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 116 | 2017-06-13 | Mutafukaz | [Hauptserie](https://www.netflix.com/title/81037697) |
 | 117 | 2017-03-31 | Scum’s Wish | [Hauptserie](https://www.netflix.com/title/80194878) |
 | 118 | 2016-12-22 | Küss ihn, nicht mich! | [Hauptserie](https://www.netflix.com/title/81107662) |
-| 119 | 2016-06-27 | Sailor Moon: Das Mädchen mit den Zauberkräften | [Sailor Moon R Movie: Gefährliche Blumen](https://www.netflix.com/title/26588007) · [Sailor Moon S: Schneeprinzessin Kaguya](https://www.netflix.com/title/80116992) · [Pretty Guardian Sailor Moon Crystal](https://www.netflix.com/title/80145747) · [Pretty Guardian Sailor Moon Crystal Season III](https://www.netflix.com/title/80145747) |
-| 120 | 2016-03-28 | Grimgar, Ashes and Illusions | [Hauptserie](https://www.netflix.com/title/80142717) |
-| 121 | 2016-03-26 | Gate | [Hauptserie](https://www.netflix.com/title/80182163) · [Teil 2](https://www.netflix.com/title/80182163) |
-| 122 | 2015-11-21 | Girls & Panzer | [Girls und Panzer: Der Film](https://www.netflix.com/title/80159876) |
-| 123 | 2015-03-29 | Aldnoah.Zero | [Hauptserie](https://www.netflix.com/title/80040104) · [2](https://www.netflix.com/title/80040104) |
-| 124 | 2014-09-26 | Terror in Tokio | [Hauptserie](https://www.netflix.com/title/80020759) |
-| 125 | 2014-09-22 | Shojo-Mangaka Nozaki-kun | [Hauptserie](https://www.netflix.com/title/80081848) |
-| 126 | 2014-07-31 | Dragon Nest: Die Chroniken von Altera | [Hauptserie](https://www.netflix.com/title/80084763) |
-| 127 | 2014-06-21 | Lupin III.: Teil 1 | [Lupin III.: Daisuke Jigens Grabstein](https://watch.amazon.de/detail?gti=amzn1.dv.gti.f783e7fb-3d94-40aa-88fb-2009fc9bfe2c) |
-| 128 | 2014-04-03 | Nagi no Asukara | [Hauptserie](https://www.netflix.com/title/80132218) |
-| 129 | 2014-03-30 | Magi: The Labyrinth of Magic | [Magi: The Kingdom of Magic](https://www.netflix.com/title/80028089) |
-| 130 | 2014-03-27 | Love, Chunibyo & Other Delusions! | [Hauptserie](https://www.netflix.com/title/80239860) · [Heart Throb](https://www.netflix.com/title/80239860) |
-| 131 | 2013-06-27 | The Devil Is a Part-Timer! | [Hauptserie](https://www.netflix.com/title/80006149) |
-| 132 | 2013-03-26 | Naruto | [Spin off! Rock Lee & seine Ninja-Kumpels](https://www.netflix.com/title/80151421) |
-| 133 | 2012-12-20 | Btooom! | [Hauptserie](https://www.netflix.com/title/80052713) |
-| 134 | 2012-03-27 | Another | [Hauptserie](https://www.netflix.com/title/80241072) |
-| 135 | 2011-07-02 | Gosick | [Hauptserie](https://www.netflix.com/title/80209888) |
-| 136 | 2011-05-07 | Die Reise nach Agartha | [Hauptserie](https://www.netflix.com/title/80104167) |
-| 137 | 2010-09-24 | Maid-sama | [Hauptserie](https://www.netflix.com/title/81104406) |
-| 138 | 2009-08-14 | TRAVA: FIST PLANET | [Redline](https://www.netflix.com/title/70153298) |
-| 139 | 2009-03-27 | Black Butler | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.6aad68c8-1e46-46e9-be1e-3d4de43488a5) |
+| 119 | 2016-03-28 | Grimgar, Ashes and Illusions | [Hauptserie](https://www.netflix.com/title/80142717) |
+| 120 | 2016-03-26 | Gate | [Hauptserie](https://www.netflix.com/title/80182163) · [Teil 2](https://www.netflix.com/title/80182163) |
+| 121 | 2015-11-21 | Girls & Panzer | [Girls und Panzer: Der Film](https://www.netflix.com/title/80159876) |
+| 122 | 2015-03-29 | Aldnoah.Zero | [Hauptserie](https://www.netflix.com/title/80040104) · [2](https://www.netflix.com/title/80040104) |
+| 123 | 2014-09-26 | Terror in Tokio | [Hauptserie](https://www.netflix.com/title/80020759) |
+| 124 | 2014-09-22 | Shojo-Mangaka Nozaki-kun | [Hauptserie](https://www.netflix.com/title/80081848) |
+| 125 | 2014-07-31 | Dragon Nest: Die Chroniken von Altera | [Hauptserie](https://www.netflix.com/title/80084763) |
+| 126 | 2014-06-21 | Lupin III.: Teil 1 | [Lupin III.: Daisuke Jigens Grabstein](https://watch.amazon.de/detail?gti=amzn1.dv.gti.f783e7fb-3d94-40aa-88fb-2009fc9bfe2c) |
+| 127 | 2014-04-03 | Nagi no Asukara | [Hauptserie](https://www.netflix.com/title/80132218) |
+| 128 | 2014-03-30 | Magi: The Labyrinth of Magic | [Magi: The Kingdom of Magic](https://www.netflix.com/title/80028089) |
+| 129 | 2014-03-27 | Love, Chunibyo & Other Delusions! | [Hauptserie](https://www.netflix.com/title/80239860) · [Heart Throb](https://www.netflix.com/title/80239860) |
+| 130 | 2013-06-27 | The Devil Is a Part-Timer! | [Hauptserie](https://www.netflix.com/title/80006149) |
+| 131 | 2013-03-26 | Naruto | [Spin off! Rock Lee & seine Ninja-Kumpels](https://www.netflix.com/title/80151421) |
+| 132 | 2012-12-20 | Btooom! | [Hauptserie](https://www.netflix.com/title/80052713) |
+| 133 | 2012-03-27 | Another | [Hauptserie](https://www.netflix.com/title/80241072) |
+| 134 | 2011-07-02 | Gosick | [Hauptserie](https://www.netflix.com/title/80209888) |
+| 135 | 2011-05-07 | Die Reise nach Agartha | [Hauptserie](https://www.netflix.com/title/80104167) |
+| 136 | 2010-09-24 | Maid-sama | [Hauptserie](https://www.netflix.com/title/81104406) |
+| 137 | 2009-08-14 | TRAVA: FIST PLANET | [Redline](https://www.netflix.com/title/70153298) |
+| 138 | 2009-03-27 | Black Butler | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.6aad68c8-1e46-46e9-be1e-3d4de43488a5) |
+| 139 | 2009-03-27 | Clannad | [Hauptserie](https://animationdigitalnetwork.de/video/clannad) · [After Story](https://animationdigitalnetwork.de/video/clannad-after-story-saison-2) |
 | 140 | 2008-07-16 | Clannad | [OVA - Das Tomoyo Kapitel](https://www.netflix.com/title/70204963) |
 | 141 | 2008-05-30 | Spice and Wolf | [Hauptserie](https://www.netflix.com/title/70205026) |
 | 142 | 2007-03-03 | 5 Centimeters per Second | [Hauptserie](https://www.netflix.com/title/70093699) |
@@ -194,6 +195,7 @@ Synchro und zweiter ohne, Zeile 4 tot.
 
 ## Warum die einzelnen Anbieter unsicher sind
 
+- **ADN:** Der Titel steht nicht im ADN-Bestand mit Sprachcode vde. Möglich, dass er inzwischen dazugekommen ist.
 - **Disney+:** Disney+ hat keine öffentliche Schnittstelle; die Sprachwahl steht nur im Player.
 - **Netflix:** Netflix veröffentlicht keinen maschinenlesbaren Katalog; die Sprachliste steht nur im eingeloggten Player.
 - **Prime Video:** Prime Video nennt die Tonspuren erst auf der Produktseite, und die ist ohne Anmeldung unvollständig.

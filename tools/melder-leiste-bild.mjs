@@ -32,6 +32,7 @@
  */
 import { chromium } from 'playwright'
 import { readFileSync } from 'node:fs'
+import { sperreNetz } from './netz-sperre.mjs'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -72,6 +73,7 @@ const seite = `
 
 const browser = await chromium.launch()
 const kontext = await browser.newContext({ viewport: { width: 1280, height: 720 } })
+await sperreNetz(kontext)
 const s = await kontext.newPage()
 /* Netflix' eigener dunkler Grund — sonst misst man weiß auf weiß. */
 await s.setContent(`<style>body{margin:0;background:#141414;height:720px}${css}</style>${seite}`)

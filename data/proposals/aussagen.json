@@ -1,6 +1,6 @@
 {
   "format": 2,
-  "stand": "2026-11-08",
+  "stand": "2026-11-09",
   "hinweis": "Vorschlagsmodus: nur gelesen, nie übernommen — docs/wissen/sammelartikel-poc.md (Abschnitt „Vorschlagslauf\"). Schreiber: pipeline/fetch-sammelartikel.ts",
   "aussagen": [
     {
@@ -13935,6 +13935,80 @@
         "bestand": {
           "status": "ohne-zuordnung"
         }
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1069021/joyn-yaiba-samurai-legend-und-mehr/|Akira||start|joyn",
+      "erstGesehen": "2026-11-09",
+      "fingerabdruck": "874952540109",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1069021/joyn-yaiba-samurai-legend-und-mehr/",
+          "veroeffentlicht": "2026-11-08",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Akira",
+        "art": "start",
+        "plattformen": [
+          "joyn"
+        ],
+        "datum": "2026-11-08",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "ja",
+        "konfidenz": 0.8,
+        "gruende": [
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»Akira« (kostenplichtig)\n»Akira«\nLaufzeit: 117 Minuten\nSprache: Deutsch\nStream: Joyn (kostenplichtig)",
+        "zuordnung": {
+          "anilistId": 47,
+          "name": "Akira",
+          "wie": "name-genau",
+          "abstandTage": 13994
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 358
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1069021/joyn-yaiba-samurai-legend-und-mehr/|YAIBA: Samurai Legend||start|joyn",
+      "erstGesehen": "2026-11-09",
+      "fingerabdruck": "b34ecb1ecf47",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1069021/joyn-yaiba-samurai-legend-und-mehr/",
+          "veroeffentlicht": "2026-11-08",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "YAIBA: Samurai Legend",
+        "art": "start",
+        "plattformen": [
+          "joyn"
+        ],
+        "datum": "2026-11-08",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "ja",
+        "konfidenz": 0.8,
+        "gruende": [
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»YAIBA: Samurai Legend« (kostenlos)\n»YAIBA: Samurai Legend«\nEpisoden: 2 von 24\nSprache: Deutsch\nHinweis: Neue Episoden erscheinen jeweils nach der TV-Ausstrahlung auf ProSieben MAXX (Montag bis Freitag um 18:30 Uhr)\nStream: Joyn (kostenlos)",
+        "zuordnung": {
+          "anilistId": 177476,
+          "name": "Yaiba: Samurai Legend",
+          "wie": "name-genau",
+          "abstandTage": 582
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 424
       }
     }
   ]

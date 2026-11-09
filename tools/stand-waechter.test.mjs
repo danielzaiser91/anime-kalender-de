@@ -190,3 +190,4 @@ assert.equal(w.waechter(winter('01:35', '2026-03-29', ' (Stand 29.03.2026 01:00;
 // Nur die erste „Aktualisiert“-Zeile zählt (Kopf); eine spätere in einem Zitat nicht
 const zwei = aktualisiert('12:00').replace('— x', '— x\nAktualisiert: 2026-10-20 12:30 — y')
 assert.equal(w.waechter(zwei, JETZT), '', 'nur erste Aktualisiert-Zeile')
+assert.equal(w.waechter(stand(FRISCH, ...hand(20)).replace('## Als Nächstes', '## Titel unterwegs\n- [Live 08.11. 14:38] Black Clover S2E1 — x\n'.repeat(3) + '## Als Nächstes'), JETZT), '', 'Titel unterwegs zählt nicht als Handzeile')
