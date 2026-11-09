@@ -58,7 +58,7 @@ export function plattformDesBlocks(stream: string | undefined, artikelPlattforme
   return genannt.length === 1 ? genannt[0] : undefined
 }
 
-const MONATE = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember']
+export const MONATE = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember']
 
 /** „1. November“ oder „01.11.“ vor dem Titel → ISO-Tag; das Jahr aus dem Veröffentlichungstag (Dezember-Artikel mit Januar-Tag: nächstes Jahr). */
 export function datumAusPraefix(praefix: string, veroeffentlicht: string): string | undefined {

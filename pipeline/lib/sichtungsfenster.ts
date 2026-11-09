@@ -5,6 +5,7 @@
  */
 import type { Release, Schedule } from '../../shared/types.ts'
 import '../../shared/sichtung.ts'
+import { addDays, diffDays } from '../../shared/time.ts'
 
 export const BELEGT_UNTER_MINUTEN = 60
 
@@ -23,6 +24,18 @@ export const ausnahmeAbgelaufen = (slug: string, heute: string, ausnahmen: Ausna
   return a !== undefined && heute > a.bis
 }
 
+/** So viele Tage vor `bis` warnt der Bau, damit jemand vor dem Ablauftag handelt. */
+export const VORWARNUNG_TAGE = 3
+
+/** Warnzeile, wenn die Ausnahme in den letzten `VORWARNUNG_TAGE` Tagen bis einschließlich `bis` liegt; sonst `undefined`. */
+export function ausnahmeVorwarnung(at: string, slug: string, heute: string, ausnahmen: Ausnahmen = FESTGELEGTE_ZEITEN): string | undefined {
+  const a = ausnahmen[slug]
+  if (!a) return undefined
+  const rest = diffDays(heute, a.bis)
+  if (rest < 0 || rest > VORWARNUNG_TAGE) return undefined
+  return `⚠ WARNUNG ${at}: Ausnahme FESTGELEGTE_ZEITEN läuft ab ${addDays(a.bis, 1)} als Fehler (noch ${rest} Tage gültig): Zeit messen und als timeSighting eintragen`
+}
+
 /** Streng ist die Frist lokal und im PR (`pull_request`); jeder andere CI-Lauf (Deploy, Wecker) warnt nur. */
 export const fristStrengIn = (env: Record<string, string | undefined>): boolean =>
   !env.GITHUB_ACTIONS || env.GITHUB_EVENT_NAME === 'pull_request'
@@ -38,9 +51,15 @@ export function zeitFehler(s: Schedule, heute: string, slug: string, fristStreng
 }
 
 /** Meldungen für `data:validate`: Fehler, bei abgelaufener Ausnahme im Deploy nur eine Warnung auf der Konsole. */
-export function zeitMeldungen(at: string, s: Schedule, slug: string, heute: string, env: Record<string, string | undefined>): string[] {
-  if (ausnahmeAbgelaufen(slug, heute) && !fristStrengIn(env)) console.warn(`WARNUNG ${at}: Ausnahme FESTGELEGTE_ZEITEN abgelaufen`)
-  return zeitFehler(s, heute, slug, fristStrengIn(env)).map((f) => `${at}: ${f}`)
+export function zeitMeldungen(
+  at: string, s: Schedule, slug: string, heute: string, env: Record<string, string | undefined>,
+  ausnahmen: Ausnahmen = FESTGELEGTE_ZEITEN, warne: (z: string) => void = console.warn,
+): string[] {
+  if (ausnahmeAbgelaufen(slug, heute, ausnahmen) && !fristStrengIn(env)) warne(`WARNUNG ${at}: Ausnahme FESTGELEGTE_ZEITEN abgelaufen`)
+  const nutztAusnahme = s.time && s.timeEstimated && !s.timeSighting
+  const vor = nutztAusnahme ? ausnahmeVorwarnung(at, slug, heute, ausnahmen) : undefined
+  if (vor) warne(vor)
+  return zeitFehler(s, heute, slug, fristStrengIn(env), ausnahmen).map((f) => `${at}: ${f}`)
 }
 
 /** Fenstermeldungen ohne Präfix; leer, wenn der Zeitplan keine Sichtung nennt oder alles stimmt. */

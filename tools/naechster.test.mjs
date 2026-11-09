@@ -135,6 +135,14 @@ try {
   const r1 = cli(stand(['- **Ohne** x'], []))
   assert.equal(r1.status, 1, 'fehlendes Kennzeichen: Exit 1')
   assert.match(r1.stdout, /FEHLER Zeile 3: Kennzeichen fehlt — - \*\*Ohne\*\* x/)
+  // „## Titel unterwegs“ trägt Zeilen ohne Kennzeichen und ist kein Fehler (wörtliche Zeile aus stand.md, 08.11.2026)
+  const unterwegs = '## Titel unterwegs (Zeilen `- [Status TT.MM. HH:MM] Titel SxEy — …`)\n- [Live 08.11. 14:38] Black Clover S2E1 — de Synchro seit 07.11.2026 (Crunchyroll) · im Bestand 07.11. 20:29 · live gemessen 08.11. 14:38\n'
+  const mitAbschnitt = stand([z('läuft', 'eigen', 'normal', '-', '01.11.')], []).replace('## In Arbeit', `${unterwegs}## In Arbeit`)
+  assert.deepEqual(K.pruefeKennzeichen(mitAbschnitt), [], 'Titel unterwegs: keine Kennzeichen-Fehler')
+  assert.deepEqual(titel(K.auswerten(mitAbschnitt, JETZT).laufend), ['läuft'], 'Titel unterwegs zählt nicht als laufend')
+  const r2 = cli(mitAbschnitt)
+  assert.equal(r2.status, 0, r2.stdout + r2.stderr)
+  assert.doesNotMatch(r2.stdout, /FEHLER|Black Clover/)
 } finally {
   rmSync(ordner, { recursive: true, force: true })
 }

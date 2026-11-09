@@ -309,7 +309,8 @@
         "refresh-data.yml",
         "refresh-hourly.yml",
         "refresh-weekly.yml",
-        "tonspuren-monatlich.yml"
+        "tonspuren-monatlich.yml",
+        "zug-fahrt.yml"
       ],
       "gueltig": {
         "text": "Läuft nicht ab; gilt, solange die App installiert ist",
@@ -343,7 +344,8 @@
         "refresh-data.yml",
         "refresh-hourly.yml",
         "refresh-weekly.yml",
-        "tonspuren-monatlich.yml"
+        "tonspuren-monatlich.yml",
+        "zug-fahrt.yml"
       ],
       "gueltig": {
         "text": "Läuft nicht ab; gilt, bis er in den App-Einstellungen widerrufen wird",
