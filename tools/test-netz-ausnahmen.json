@@ -1,5 +1,7 @@
 {
   "tools/handy-tempo.mjs": "Messung gegen die Live-Seite",
+  "tools/filter-tempo.mjs": "Messung gegen die Live-Seite (ohne --dist)",
+  "tools/bereich-auge-messen.mjs": "Messung gegen die Live-Seite (ohne --dist)",
   "tools/leistung-messen.mjs": "Messung gegen die Live-Seite",
   "tools/panel-stichprobe.mjs": "Stichprobe gegen die Live-Seite",
   "tools/testlink.mjs": "ruft Links von Hand ab",
