@@ -25,13 +25,13 @@
     "lastCount": 1156
   },
   "anime-offline-database": {
-    "lastOk": "2026-11-04T14:53:26.295Z",
-    "lastRun": "2026-11-04T14:53:26.295Z",
+    "lastOk": "2026-11-09T05:08:51.411Z",
+    "lastRun": "2026-11-09T05:08:51.411Z",
     "lastCount": 8876
   },
   "ann-voices": {
-    "lastOk": "2026-11-04T15:01:03.230Z",
-    "lastRun": "2026-11-04T15:01:03.230Z",
+    "lastOk": "2026-11-09T05:17:01.281Z",
+    "lastRun": "2026-11-09T05:17:01.281Z",
     "lastCount": 8876
   },
   "youtube-check": {
@@ -40,9 +40,10 @@
     "lastCount": 0
   },
   "anilist-voices": {
-    "lastOk": "2026-11-04T14:53:24.231Z",
-    "lastRun": "2026-11-04T14:53:24.231Z",
-    "lastCount": 3008
+    "lastOk": "2026-11-09T05:08:44.967Z",
+    "lastRun": "2026-11-09T05:08:44.967Z",
+    "lastCount": 0,
+    "leerSeit": "2026-11-09T05:08:44.967Z"
   },
   "link-check": {
     "lastOk": "2026-11-09T05:09:12.821Z",
