@@ -38096,6 +38096,20 @@
   dub: true
   checkedAt: '2026-11-08'
   note: "Anime2You-Automatik: Artikel https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/ (2026-11-03): „»Hyouka« Episoden: 23 (komplett) Sprache: Deutsch“ Aussage des Artikels; Seite des Anbieters nicht geprüft."
+
+- anilistId: 141821
+  title: "Chained Soldier"
+  platform: adn
+  dub: false
+  checkedAt: '2026-11-09'
+  note: "Daniel, 09.11.2026: alle 12 Folgen von ADN-Serie 1125 Staffel 1 im Player geprüft, Audio-Menü nur Japanisch. ADN führt S1F6 (Video 24139) trotzdem als vde — ein Fehler der Katalogdaten. Die Synchro über andere Anbieter bleibt unberührt."
+
+- anilistId: 176276
+  title: "Chained Soldier Season 2"
+  platform: adn
+  dub: false
+  checkedAt: '2026-11-09'
+  note: "Bericht der Erweiterung vom 09.11.2026 (ADN-Serie 1125 Staffel 2, 12 Folgen): alle Folgen vostde, keine vde; Daniel sah im Player nur Japanisch."
 # --- Aus dem Browser gemeldet, abgeholt am 2026-11-09 ---
 
 - anilistId: 21175
