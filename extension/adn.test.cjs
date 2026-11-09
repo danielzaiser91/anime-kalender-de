@@ -87,6 +87,9 @@ pruefe('Gegenprobe: zwei vde-Folgen bleiben deutsch', L.zaehle(L.ordne(demon([5,
 pruefe('Gegenprobe: Staffel beginnt mit Folge 1 deutsch (Vertonung läuft)', L.zaehle(L.ordne(demon([1])).zeilen).synchro === 1)
 pruefe('Gegenprobe: nur zwei Folgen ohne vde reichen nicht für ein Urteil', L.zaehle(L.ordne(demon([2], 3)).zeilen).synchro === 1)
 pruefe('Gegenprobe: eine einzelne Folge einer anderen Staffel bleibt deutsch', L.zaehle(L.ordne([...demon([6]), roh({ id: 9001, season: '2', languages: ['vostde', 'vde'] })]).zeilen).synchro === 1)
+const gemeinsam = JSON.parse(lies('adn-ausreisser.fixture.json'))
+const ausreisserIds = L.ordne(gemeinsam.videos).zeilen.filter((z) => z.ausreisser).map((z) => z.videoId).sort()
+pruefe('Gemeinsames Fixture mit dem Bau (EPS gegen vde-OAV, Vorschau, NC): dieselben Ausreißer', ausreisserIds.join() === gemeinsam.erwartet.join(), ausreisserIds)
 
 console.log('Meldung')
 const serie = L.serieAus(F['serie-synchro-s1'].videos)

@@ -54,7 +54,8 @@ function ergaenzeAdnTitelAusDaten({ titles, releases, titleByName, seenSlugs, ca
   let adnVerweiseErgaenzt = 0
   // ADN nennt in seiner Schnittstelle je Folge die Sprachfassung. Was dort als
   // `vde` steht, ist eine belegte deutsche Synchro mit belegter Uhrzeit — hier
-  // muss nichts abgeleitet werden. Kuratierte Einträge haben Vorrang: Wer eine
+  // muss nichts abgeleitet werden, außer bei einem Ausreißer (eine einzelne `vde`-
+  // Folge unter lauter `vostde`, `lib/adn-ausreisser.ts`): der belegt nichts. Kuratierte Einträge haben Vorrang: Wer eine
   // ADN-Adresse von Hand gepflegt hat, will keinen zweiten Eintrag daneben.
   const leer: AdnData = { scrapedAt: '', window: { from: '', to: '' }, shows: [] }
   const adnKalender = readJson<AdnData>('data/adn.json', leer)

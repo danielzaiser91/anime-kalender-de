@@ -15,6 +15,7 @@ import { resolve } from 'node:path'
 export interface AusreisserVideo {
   id?: number
   languages?: string[]
+  number?: string | null
   season?: string | null
   shortNumber?: string | null
   type?: string
@@ -24,12 +25,24 @@ const MIN_OHNE_VDE = 3
 /** Ab dieser Länge ist es keine gewöhnliche Staffel mehr (One Piece „Wano“: 208 Folgen, deutsch nur die erste der Liste, Daniel: ab 780 keine Synchro). */
 const LANGE_STAFFEL = 50
 
+const ganzzahl = (text: unknown) => /^\d+$/.test(String(text ?? '').trim())
+
+/** Gruppe wie in der Erweiterung (`staffelText|kennung`): Folgen einer Staffel zählen getrennt von OVAs, Filmen und Specials derselben Staffel. */
+function gruppe(v: AusreisserVideo): string {
+  const folge = v.type === 'EPS' && ganzzahl(v.shortNumber)
+  const kennung = !folge ? (v.type === 'EPS' ? 'special' : v.type) : !ganzzahl(v.season) && v.season ? String(v.season).slice(0, 40) : null
+  return `${v.season ? String(v.season) : null}|${kennung}`
+}
+
+/** Trailer, Vorschauen und „(NC)“-Fassungen sind keine Folgen (wie `zeile` in der Erweiterung). */
+const keineFolge = (v: AusreisserVideo) => v.type === 'PV' || /trailer|bande-annonce|\(NC\)/i.test(`${v.number ?? ''} ${v.shortNumber ?? ''}`)
+
 /** Die Kennungen der Videos, die als Ausreißer gelten: je Staffel höchstens eines. */
 export function vdeAusreisser(videos: readonly AusreisserVideo[]): Set<number> {
   const jeStaffel = new Map<string, AusreisserVideo[]>()
   for (const v of videos) {
-    if (v.type === 'PV' || v.id === undefined) continue
-    const schluessel = String(v.season ?? '')
+    if (keineFolge(v) || v.id === undefined) continue
+    const schluessel = gruppe(v)
     jeStaffel.set(schluessel, [...(jeStaffel.get(schluessel) ?? []), v])
   }
   const ausreisser = new Set<number>()

@@ -44,6 +44,11 @@ pruefe('Staffel von genau 50 Folgen, deutsch ab Folge 1: kein Ausreißer', staff
 pruefe('Staffel von 51 Folgen, nur die erste deutsch: Ausreißer (One Piece Wano)', staffel(...lang(51)) === 1)
 pruefe('Folge ohne Sprachangabe in der Staffel: kein Urteil', staffel(video(1, 1, nein), video(2, 2, nein), video(3, 3, ja), video(4, 4, nein), video(5, 5, [])) === 0)
 pruefe('zweite Staffel zählt für sich', vdeAusreisser([video(1, 1, ja, '1'), video(2, 2, ja, '1'), video(3, 1, nein, '2'), video(4, 2, nein, '2'), video(5, 3, ja, '2'), video(6, 4, nein, '2')]).has(5))
+const pv = (id: number, sprachen: string[]): AusreisserVideo => ({ ...video(id, id, sprachen), type: 'PV', number: 'Teaser' })
+const mitPv = [pv(1, nein), pv(2, nein), pv(3, ja), pv(4, nein)]
+pruefe('Vorschau-Videos (drei ohne, eines mit vde) sind kein Ausreißer', vdeAusreisser(mitPv).size === 0, [...vdeAusreisser(mitPv)])
+const fixture = JSON.parse(readFileSync(join(REPO, 'extension', 'adn-ausreisser.fixture.json'), 'utf8')) as { erwartet: number[]; videos: AusreisserVideo[] }
+pruefe('gemeinsames Fixture mit der Erweiterung: Staffel mit EPS und vde-OAV, Vorschau und NC', [...vdeAusreisser(fixture.videos)].sort().join() === fixture.erwartet.join(), [...vdeAusreisser(fixture.videos)])
 pruefe('Videokennung aus der Adresse', videoIdAusAdresse('https://animationdigitalnetwork.com/de/video/1125-demon-slave/24139-folge-6') === 24139)
 const serien = [{ showId: 1, episodes: [{ url: 'x/1-a/7-folge-1' }] }, { showId: 2, episodes: [{ url: 'x/2-b/8-folge-1' }, { url: 'x/2-b/9-folge-2' }] }]
 const bereinigt = ohneAusreisser(serien, new Set([7, 9]))
