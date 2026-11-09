@@ -1,5 +1,5 @@
 {
-  "stand": "2026-11-09T05:22:21.855Z",
+  "stand": "2026-11-09T05:58:54.383Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -7801,39 +7801,6 @@
       "letzterWeg": true
     },
     {
-      "titleId": 6793,
-      "titel": "Black Butler: Sein Butler - Eine Aufführung",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/series/GYQ43P3E6/black-butler",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-11-09",
-      "letzterWeg": true
-    },
-    {
-      "titleId": 20670,
-      "titel": "Black Butler: Book of Murder",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/series/GYQ43P3E6/black-butler",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-11-09",
-      "letzterWeg": true
-    },
-    {
-      "titleId": 21425,
-      "titel": "Black Butler: Book of the Atlantic",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/series/GYQ43P3E6/black-butler",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-11-09",
-      "letzterWeg": false
-    },
-    {
       "titleId": 102883,
       "titel": "JoJo’s Bizarre Adventure: Golden Wind",
       "plattform": "adn",
@@ -7922,6 +7889,50 @@
       "letzterWeg": false
     },
     {
+      "titleId": 141534,
+      "titel": "Mushoku Tensei: Jobless Reincarnation - Eris auf Goblinjagd",
+      "plattform": "netflix",
+      "url": "https://www.netflix.com/title/80987039",
+      "seriesId": null,
+      "grund": "der Anbieter führt 23 + 25 Folgen, und die belegten Titel füllen sie exakt — für 1 weitere ist dort kein Platz",
+      "geprueftAm": null,
+      "entferntAm": "2026-11-09",
+      "letzterWeg": false
+    },
+    {
+      "titleId": 6793,
+      "titel": "Black Butler: Sein Butler - Eine Aufführung",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GYQ43P3E6/black-butler",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-11-09",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 20670,
+      "titel": "Black Butler: Book of Murder",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GYQ43P3E6/black-butler",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-11-09",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 21425,
+      "titel": "Black Butler: Book of the Atlantic",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GYQ43P3E6/black-butler",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-11-09",
+      "letzterWeg": false
+    },
+    {
       "titleId": 10006990,
       "titel": "Black Butler 2: Making of Black Butler",
       "plattform": "crunchyroll",
@@ -7953,17 +7964,6 @@
       "geprueftAm": null,
       "entferntAm": "2026-11-09",
       "letzterWeg": true
-    },
-    {
-      "titleId": 141534,
-      "titel": "Mushoku Tensei: Jobless Reincarnation - Eris auf Goblinjagd",
-      "plattform": "netflix",
-      "url": "https://www.netflix.com/title/80987039",
-      "seriesId": null,
-      "grund": "der Anbieter führt 23 + 25 Folgen, und die belegten Titel füllen sie exakt — für 1 weitere ist dort kein Platz",
-      "geprueftAm": null,
-      "entferntAm": "2026-11-09",
-      "letzterWeg": false
     },
     {
       "titleId": 137612,
