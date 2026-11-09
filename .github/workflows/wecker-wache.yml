@@ -67,3 +67,33 @@ jobs:
       - name: Rot enden
         if: steps.nachholen.outputs.nachgeholt != '0'
         run: exit 1
+
+  # **Rot-Alarm ohne Claude-Sitzung** (09.11.2026): die Wachphase (`laeufe-aufraeumen`) läuft im 3-h-Takt, unabhängig vom Deploy und vom Nachholen oben;
+  # jede `ALARM `-Zeile wird zu einem GitHub-Issue mit Label `alarm` (GitHub mailt dem Inhaber), je Tag eines, vorbei = geschlossen (tools/alarm-issue.mjs).
+  # Dasselbe Aufräumen nimmt überholte rote Läufe aus der Laufstatus-App; ein Absturz davon verhindert den Alarm nicht (continue-on-error, always()).
+  alarm:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    permissions:
+      actions: read
+      contents: read
+      issues: write
+      pull-requests: read
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Wachphase und Aufräumen
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: |
+          code=0
+          node tools/laeufe-aufraeumen.mjs > "$RUNNER_TEMP/wachphase.txt" 2>&1 || code=$?
+          cat "$RUNNER_TEMP/wachphase.txt"
+          exit $code
+
+      - name: Alarm als Issue melden
+        if: always()
+        run: node tools/alarm-issue.mjs "$RUNNER_TEMP/wachphase.txt"
