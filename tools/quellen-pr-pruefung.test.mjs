@@ -94,6 +94,8 @@ async function szenario({ befehl, frist = 60, aenderung = true, labelKaputt = fa
       PATH: `${posix(bin)}:${process.env.PATH}`,
       GITHUB_OUTPUT: posix(ausgabeDatei),
       GITHUB_RUN_ID: '77',
+      /* In der CI gesetzt: sonst meldet sich quellen-pr.sh mit dem App-Token an und holt von github.com (hing 600 s). */
+      GITHUB_ACTIONS: '',
       GITHUB_WORKFLOW: 'Sammler Test',
       /* Fest gesetzt: In der CI trägt der Testlauf selbst einen GITHUB_JOB. Das App-Token darf die Prüfung nicht sehen (`quellen_pruefen`). */
       GITHUB_JOB: 'sammeln',
