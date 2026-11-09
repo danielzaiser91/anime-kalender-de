@@ -446,6 +446,86 @@ function gleichListe(a, b) {
   pruefe('Prozess ohne Argument: Exit 2 und Aufruf-Zeile (Startprüfung greift)', p.status === 2 && /Aufruf: node tools\/zug-fahrt\.mjs/.test(p.stdout), p.stdout)
 }
 
+console.log('echter Push (--schieben): Fast-Forward von main auf den Zug-Kopf, danach Bau und Deploy')
+const gitMitProtokoll = (w, aufgerufen, vorPush = () => {}) => (a) => {
+  if (a[0] === 'push') vorPush()
+  aufgerufen.push(a)
+  return w.git(a)
+}
+const ghGruen = (kopf) => fakeGh({ prs: { 'zug-fahrt': 7 }, lauf: { 9: { ...LAUF_GRUEN[9], headSha: kopf } } })
+const botCommitAufMain = (w) => {
+  w.git(['checkout', '-q', 'main'])
+  w.schreibe('daten.txt', 'neu\n', 'chore(data): Bot nach der Fahrt')
+  w.git(['push', '-q', 'origin', 'main'])
+}
+{
+  const { w, kopf } = weltMitFahrt()
+  const aufgerufen = []
+  const { gh, schreib } = ghGruen(kopf)
+  const c = ctx(w, gh, { git: gitMitProtokoll(w, aufgerufen), schieben: true })
+  pruefe('grün + --schieben → Exit 0', urteil(c, 'zug-fahrt', '9') === 0, c.zeilen)
+  pruefe('main auf origin steht genau auf dem Zug-Kopf (Fast-Forward, kein neuer Commit)', refOrigin(w, 'refs/heads/main') === kopf)
+  pruefe('Unter-PR-Commits sind in main enthalten', w.gitOrigin(['log', '--format=%s', 'main']).includes('feat(a): erster Unter-PR (#101)'))
+  const pushes = aufgerufen.filter((a) => a[0] === 'push')
+  pruefe('genau ein Push, ohne --force und ohne --dry-run', pushes.length === 1 && JSON.stringify(pushes[0]) === JSON.stringify(['push', 'origin', `${kopf}:refs/heads/main`]), pushes)
+  pruefe('Kommentar „Schritt geschoben“, danach Bau, dann Deploy', schreib.length === 3 && /^pr comment 7 .*Schritt geschoben/s.test(schreib[0]) && schreib[1] === 'workflow run bestand-bauen.yml --ref main' && schreib[2] === 'workflow run deploy.yml --ref main', schreib)
+}
+{
+  const { w, kopf } = weltMitFahrt()
+  const mainVorher = refOrigin(w, 'refs/heads/main')
+  const { gh, schreib } = ghGruen(kopf)
+  urteil(ctx(w, gh, { schieben: true, trocken: true }), 'zug-fahrt', '9')
+  pruefe('--schieben mit --trocken: main unverändert, kein Kommentar, kein Dispatch', refOrigin(w, 'refs/heads/main') === mainVorher && schreib.length === 0, schreib)
+}
+{
+  const { w, kopf } = weltMitFahrt()
+  const mainVorher = refOrigin(w, 'refs/heads/main')
+  const { gh, schreib } = ghGruen(kopf)
+  urteil(ctx(w, gh), 'zug-fahrt', '9')
+  pruefe('ohne --schieben (Standard im Workflow): main unverändert, nur der Kommentar, kein Dispatch', refOrigin(w, 'refs/heads/main') === mainVorher && schreib.length === 1 && /Schritt ff-pruefen/.test(schreib[0]), schreib)
+}
+{
+  const { w, kopf } = weltMitFahrt()
+  const aufgerufen = []
+  const { gh } = ghGruen(kopf)
+  main(['urteil', '--zweig', 'zug-fahrt', '--lauf', '9', '--schieben'], { gh, git: gitMitProtokoll(w, aufgerufen), melde: () => {} })
+  pruefe('Aufrufform: main() reicht --schieben bis zum Push durch', refOrigin(w, 'refs/heads/main') === kopf && aufgerufen.some((a) => a[0] === 'push' && !a.includes('--dry-run')), aufgerufen)
+}
+{
+  const { w, kopf } = weltMitFahrt()
+  botCommitAufMain(w)
+  const botKopf = refOrigin(w, 'refs/heads/main')
+  const aufgerufen = []
+  const { gh, schreib } = ghGruen(kopf)
+  urteil(ctx(w, gh, { git: gitMitProtokoll(w, aufgerufen), schieben: true }), 'zug-fahrt', '9')
+  pruefe('main schon weitergelaufen: kein Push, main bleibt beim Bot-Commit, kein Dispatch', refOrigin(w, 'refs/heads/main') === botKopf && !aufgerufen.some((a) => a[0] === 'push') && schreib.length === 1 && /Schritt main-holen/.test(schreib[0]), schreib)
+}
+{
+  const { w, kopf } = weltMitFahrt()
+  const { gh, schreib } = ghGruen(kopf)
+  let botKopf
+  const git = gitMitProtokoll(w, [], () => {
+    botCommitAufMain(w)
+    botKopf = refOrigin(w, 'refs/heads/main')
+  })
+  urteil(ctx(w, gh, { git, schieben: true }), 'zug-fahrt', '9')
+  pruefe('Rennen: main bewegt sich zwischen Prüfung und Push → der Server lehnt ab, nichts überschrieben, kein Dispatch', botKopf !== undefined && refOrigin(w, 'refs/heads/main') === botKopf && schreib.length === 1 && /Schritt main-holen \(Push abgelehnt/.test(schreib[0]), schreib)
+}
+{
+  const { w } = weltMitFahrt()
+  const mainVorher = refOrigin(w, 'refs/heads/main')
+  const { gh, schreib } = fakeGh({ prs: { 'zug-fahrt': 7 }, lauf: { 9: { ...LAUF_GRUEN[9], headSha: 'f'.repeat(40) } } })
+  urteil(ctx(w, gh, { schieben: true }), 'zug-fahrt', '9')
+  pruefe('Kette lief auf anderem Kopf → neu-fahren, nichts geschoben', refOrigin(w, 'refs/heads/main') === mainVorher && !schreib.some((s) => s.startsWith('workflow run')), schreib)
+}
+{
+  const { w, kopf } = weltMitFahrt()
+  const mainVorher = refOrigin(w, 'refs/heads/main')
+  const { gh, schreib } = fakeGh({ prs: { 'zug-fahrt': 7 }, lauf: { 9: { databaseId: 9, headSha: kopf, status: 'completed', conclusion: 'failure' } }, log: { 9: '' } })
+  urteil(ctx(w, gh, { schieben: true }), 'zug-fahrt', '9')
+  pruefe('rote Kette + --schieben: main unverändert, kein Bau', refOrigin(w, 'refs/heads/main') === mainVorher && !schreib.some((s) => s.startsWith('workflow run')), schreib)
+}
+
 rmSync(wurzel, { recursive: true, force: true })
 if (fehler.length > 0) {
   console.error(`zug-fahrt.test: ${fehler.length} Fehler`)

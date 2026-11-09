@@ -1,0 +1,18 @@
+[
+  { "name": "Kontrolle (unmutiert)", "aenderungen": [] },
+  { "name": "schiebeMain: nie dry-run (immer echt)", "aenderungen": [{ "datei": "tools/zug-fahrt.mjs", "suche": "...(echt ? [] : ['--dry-run'])", "ersetze": "...[]" }] },
+  { "name": "schiebeMain: immer dry-run (nie echt)", "aenderungen": [{ "datei": "tools/zug-fahrt.mjs", "suche": "...(echt ? [] : ['--dry-run'])", "ersetze": "...['--dry-run']" }] },
+  { "name": "schiebeMain: echter Push mit --force", "aenderungen": [{ "datei": "tools/zug-fahrt.mjs", "suche": "...(echt ? [] : ['--dry-run'])", "ersetze": "...(echt ? ['--force'] : ['--dry-run'])" }] },
+  { "name": "schiebeMain: trocken ignoriert", "aenderungen": [{ "datei": "tools/zug-fahrt.mjs", "suche": "const echt = schieben === true && !trocken", "ersetze": "const echt = schieben === true" }] },
+  { "name": "schiebeMain: schieben ignoriert", "aenderungen": [{ "datei": "tools/zug-fahrt.mjs", "suche": "const echt = schieben === true && !trocken", "ersetze": "const echt = !trocken" }] },
+  { "name": "schiebeMain: Ablehnung nicht erkannt", "aenderungen": [{ "datei": "tools/zug-fahrt.mjs", "suche": "if (ergebnis === null) return Object.assign", "ersetze": "if (false) return Object.assign" }] },
+  { "name": "schiebeMain: Ablehnung als geschoben", "aenderungen": [{ "datei": "tools/zug-fahrt.mjs", "suche": "art: 'main-holen', grund: `${echt ? 'Push' : 'Dry-Run'} abgelehnt", "ersetze": "art: 'geschoben', grund: `${echt ? 'Push' : 'Dry-Run'} abgelehnt" }] },
+  { "name": "schiebeMain: Erfolg nicht als geschoben", "aenderungen": [{ "datei": "tools/zug-fahrt.mjs", "suche": "{ art: 'geschoben', grund: 'main steht jetzt", "ersetze": "{ art: 'ff-pruefen', grund: 'main steht jetzt" }] },
+  { "name": "fahrtGruen: schiebeMain nie aufgerufen", "aenderungen": [{ "datei": "tools/zug-fahrt.mjs", "suche": "if (schritt.art === 'ff-pruefen') schiebeMain(ctx, zugKopf, schritt)", "ersetze": "if (false) schiebeMain(ctx, zugKopf, schritt)" }] },
+  { "name": "fahrtGruen: schiebeMain auch bei main-holen", "aenderungen": [{ "datei": "tools/zug-fahrt.mjs", "suche": "if (schritt.art === 'ff-pruefen') schiebeMain(ctx, zugKopf, schritt)", "ersetze": "schiebeMain(ctx, zugKopf, schritt)" }] },
+  { "name": "urteil: Bau und Deploy nie gestartet", "aenderungen": [{ "datei": "tools/zug-fahrt.mjs", "suche": "return schritt.art === 'geschoben' ? bauDeploy(ctx) : 0", "ersetze": "return 0" }] },
+  { "name": "urteil: Bau und Deploy immer gestartet", "aenderungen": [{ "datei": "tools/zug-fahrt.mjs", "suche": "return schritt.art === 'geschoben' ? bauDeploy(ctx) : 0", "ersetze": "return bauDeploy(ctx)" }] },
+  { "name": "main: --schieben immer an", "aenderungen": [{ "datei": "tools/zug-fahrt.mjs", "suche": "schieben: args.includes('--schieben')", "ersetze": "schieben: true" }] },
+  { "name": "main: --schieben nie durchgereicht", "aenderungen": [{ "datei": "tools/zug-fahrt.mjs", "suche": "schieben: args.includes('--schieben')", "ersetze": "schieben: false" }] },
+  { "name": "main: Flag falsch geschrieben", "aenderungen": [{ "datei": "tools/zug-fahrt.mjs", "suche": "args.includes('--schieben')", "ersetze": "args.includes('--schiebe')" }] }
+]
