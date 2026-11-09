@@ -61,9 +61,26 @@ Seitdem gilt:
   Minute mehr für die Basis. Messung 09.11.2026 (Bestandsbau seit 14.10.: 34 Rot-Folgen,
   19 mit nur Daten-Commits davor): Sendezeiten 12,5, Tagesquellen 2,5, Tiefendurchlauf 2,5,
   ADN 1, Anime2You 0,5 (je Folge geteilt, wenn mehrere Sammler davor lagen). Darum
-  haben Stunden-, Tages- und Wochenlauf den Probebau (Stundenlauf rund +4 Minuten je
-  Lauf); ADN laufende, Anime2You und die übrigen Einreicher noch nicht. Die anderen
+  haben Tages- (`refresh-data`) und Wochenlauf (`refresh-weekly`) den Probebau;
+  ADN laufende, Anime2You und die übrigen Einreicher noch nicht. Die anderen
   15 Rot-Folgen kamen von Code-Pushes oder hatten keinen Commit davor.
+  **Nicht im Stundenlauf (09.11.2026, Prüfer PR 3282):** `refresh-hourly` hat `timeout-minutes: 59`
+  bei 49 min Schrittgrenzen; Prüfung (bis 14 min) und Probebau (bis 15 + 10 min) passen im
+  ungünstigsten Fall nicht hinein (49 + 25 = 74 min), und ein Hänger frisst den nächsten
+  Stundenlauf. Der Wächter `sammler-pruefschritt-waechter` verlangt `bauprobe` an jedem
+  Einreicher von Tages- und Wochenlauf und verbietet es im Stundenlauf (die reine
+  Fristrechnung sieht den Stundenlauf nicht, sie zählt die Schrittgrenzen davor nicht mit).
+  Sendezeiten, mit 12,5 der 34 Rot-Folgen der größte Anteil, bleiben damit ohne Probebau;
+  ein leichter Probebau für den Stundenlauf wäre ein eigener Auftrag.
+  **Folgelauf bei rotem Probebau (09.11.2026, `tools/quellen-pr.sh`, `tools/rote-sammler-prs.mjs`):**
+  Der rote Fund wird als PR „[Prüfung rot]“ mit Label eingereicht und nicht gemergt; der Lauf
+  endet grün. Der Fund-Schlüssel (Workflow/Job/Nachricht) ist je Fund fest: ein neuer roter PR
+  desselben Funds schließt die älteren („Abgelöst durch …“, Zweig bleibt), es liegt je Fund
+  höchstens einer offen, kein Stau. Der nächste Lauf holt auf main alles neu (der rote Fund
+  ist dort nicht angekommen), legt einen eigenen Zweig an (Lauf-ID im Namen, kein Konflikt mit
+  dem alten) und ist wieder rot oder, wenn der Fehler auf main behoben ist, grün und gemergt.
+  In diesem Fall bleibt der alte rote PR offen, bis ihn die Wachphase (`rote-sammler-prs`,
+  `laeufe-aufraeumen.mjs`) meldet; er wird nicht automatisch geschlossen.
 - **Bleibt ein Pull Request wegen eines Konflikts offen, übernimmt
   `Claude — Daten-PR zusammenführen`** — der einzige Ort im Projekt, an dem ein
   Konflikt in Datendateien aufgelöst wird. Daniel dazu: „So ist es sicherer.
