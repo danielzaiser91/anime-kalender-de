@@ -52,6 +52,19 @@ console.log('liegegut: Urteile lesen')
   pruefe('„ok, Checks rot“ bleibt ein ok-Urteil (rot meldet Signal 4)', rot.length === 1 && rot[0].gut === true)
 }
 
+console.log('liegegut: Dirigenten-Abnahme hebt Ändern-Urteil auf (PR 3009)')
+{
+  const k9 = KOPF.slice(0, 9)
+  const lage = (c) => nummern(pr(40, { comments: [bot(40, KOPF, 'aendern'), c] }), 50)
+  const abn = (text) => daniel(30, text)
+  pruefe('Bot ändern, dann Abnahme mit Kopf → kein Signal 5', !lage(abn(`## Nachtrag (Abnahme Dirigent)\nA1 erfüllt, Kopf ${k9}`)).includes(5))
+  pruefe('Abnahme ohne Kopf → Signal 5 bleibt', lage(abn('## Nachtrag (Abnahme Dirigent)\nA1 erfüllt')).includes(5))
+  pruefe('Abnahme mit fremdem Kopf → Signal 5 bleibt', lage(abn(`## Nachtrag (Abnahme Dirigent)\n${ALT.slice(0, 9)}`)).includes(5))
+  pruefe('Kopf unter 9 Zeichen gilt nicht', lage(abn(`## Nachtrag (Abnahme Dirigent)\n${KOPF.slice(0, 8)}`)).includes(5))
+  pruefe('ohne Abnahme-Präfix zählt der Kommentar nicht', lage(abn(`Nachtrag (Abnahme Dirigent)\n${k9}`)).includes(5))
+  pruefe('Abnahme eines Fremden zählt nicht', lage({ author: { login: 'fremd' }, createdAt: h(30), body: `## Nachtrag (Abnahme Dirigent)\n${k9}` }).includes(5))
+}
+
 console.log('liegegut: Signal 1 Freigabe + grün + ruhend (Fall 1676)')
 {
   const frei = pr(1676, { comments: [bot(20, KOPF, 'ok')] })

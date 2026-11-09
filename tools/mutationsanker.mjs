@@ -5,7 +5,9 @@
  * Dieselbe Suche wie der Läufer (planeMutant), keine zweite Fassung.
  *
  * Aufruf: node tools/mutationsanker.mjs <liste.json>…   prüft genau diese Listen
- *         node tools/mutationsanker.mjs --alle          misst alle Listen (Messung, Exit 0)
+ *         node tools/mutationsanker.mjs --alle          prüft alle Listen, Exit 1 bei totem Anker
+ * tests-alle fährt dasselbe über tools/mutationsanker-alle.test.mjs für jeden PR (Merge-Ref = Stand von main):
+ * so fallen Rennen paralleler PRs auf, die der Diff-Filter unten nicht sieht.
  * Im PR prüft tools/pr-vorpruefung.mjs die Listen, die der Diff neu anlegt oder ändert, und jede Liste, deren
  * Mutanten eine Datei des Diffs nennen (der Code kann dorthin gewandert sein); übrige Listen bleiben unberührt.
  */
@@ -74,7 +76,7 @@ export function pruefeListen(listen, lies = leseDatei) {
 export const listenImDiff = (dateien) => dateien.filter(istMutationsliste)
 
 // Ohne Listenordner (Kulisse, Wegwerf-Repo) gibt es nichts zu prüfen.
-const listenAufPlatte = () => !existsSync(LISTEN_ORDNER) ? [] : readdirSync(LISTEN_ORDNER).filter((n) => n.endsWith('.json')).map((n) => LISTEN_ORDNER + n)
+export const listenAufPlatte = () => !existsSync(LISTEN_ORDNER) ? [] : readdirSync(LISTEN_ORDNER).filter((n) => n.endsWith('.json')).map((n) => LISTEN_ORDNER + n)
 
 /** Listen, deren Mutanten eine Datei des Diffs ändern: wandert der Code dorthin, stirbt sonst der Anker unbemerkt. */
 export function listenMitZiel(dateien, lies = leseDatei, alle = listenAufPlatte, cwd = process.cwd()) {
@@ -99,14 +101,15 @@ export function ankerRot(dateien, lies = leseDatei, alle = listenAufPlatte) {
 function main() {
   const args = process.argv.slice(2)
   if (args.includes('--alle')) {
-    const alle = readdirSync(LISTEN_ORDNER).filter((n) => n.endsWith('.json')).map((n) => LISTEN_ORDNER + n)
+    const alle = listenAufPlatte()
     for (const name of alle) {
       const { fehler, anzahl } = pruefeListen([name])
       console.log(`${name}: ${anzahl} Mutanten, ${fehler.length} ohne Anker`)
     }
     const gesamt = pruefeListen(alle)
-    console.log(`Mutationsanker (Messung): ${alle.length} Listen, ${gesamt.anzahl} Mutanten, ${gesamt.fehler.length} Anker nicht auffindbar`)
-    return 0
+    for (const f of gesamt.fehler) console.error(`  ✖ ${f}`)
+    console.log(`Mutationsanker (alle): ${alle.length} Listen, ${gesamt.anzahl} Mutanten, ${gesamt.fehler.length} Anker nicht auffindbar`)
+    return gesamt.fehler.length ? 1 : 0
   }
   if (!args.length) {
     const basis = execFileSync('git', ['merge-base', 'origin/main', 'HEAD'], { encoding: 'utf8' }).trim()

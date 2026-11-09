@@ -23,7 +23,7 @@ export interface KatalogTitel {
   titleDe?: string | null
   titleEn?: string | null
   titleRomaji?: string | null
-  streams?: { platform: string; dub?: boolean }[]
+  streams?: { platform: string; dub?: boolean; dubAbgeleitet?: string }[]
 }
 
 export interface AutoBeleg {
@@ -41,6 +41,13 @@ export interface Zurueckgestellt {
   titel: string
   artikelId: string
   grund: string
+  /** Zuordnungsfehler (Titel nicht im Katalog, mehrdeutig, Plattform nicht gebunden, mehrere Wege): die Ablehnung kann falsch sein. Alles andere ist berechtigt (`synchro-beleg-flaute.ts`). */
+  strittig: boolean
+}
+
+interface Grund {
+  text: string
+  strittig?: true
 }
 
 /**
@@ -66,12 +73,32 @@ export function nenntSynchro(zitat: string): boolean {
   return SYNCHRO_WORTLAUT.test(zitat.replace(/auf deutsch/gi, ' '))
 }
 
-/** Der einzige Katalogtitel mit diesem Namen; bei keinem oder mehreren der Grund als Text. */
-export function ordneTitelZu(titel: string, katalog: KatalogTitel[]): KatalogTitel | string {
-  const gesucht = name(titel)
+const ZAHL_WORT: Record<string, string> = { second: '2', third: '3', fourth: '4', fifth: '5' }
+
+/**
+ * Name mit einheitlicher Staffelzählung: „Second Season“, „2nd Season“, „Season 2“ und „Staffel 2“ werden alle zu „staffel 2“ –
+ * der Artikel schreibt anders als der Katalog (Black Clover Second Season gegen „Black Clover: Staffel 2“, Katalog 195604).
+ */
+export function staffelName(s: string | null | undefined): string {
+  const zaehlung = (s ?? '')
+    .toLowerCase()
+    .replace(/\b(?:(\d+)(?:st|nd|rd|th)|(second|third|fourth|fifth))\s+season\b/g, (_m, z?: string, w?: string) => `staffel ${z ?? ZAHL_WORT[w!]}`)
+    .replace(/\b(?:season|staffel)\s*(\d+)\b/g, (_m, z: string) => `staffel ${z}`)
+  return name(zaehlung)
+}
+
+/**
+ * Der einzige Katalogtitel mit diesem Namen; bei keinem oder mehreren der Grund als Text. Mit `plattform` entscheidet bei mehreren Namensgleichen
+ * der, dessen Weg dort schon ein Urteil trägt (Colorful: Film 8142 mit Joyn-Weg dub: true gegen die Kurzserie 841 ohne Wege); ein Weg ohne Urteil
+ * genügt nicht, sonst bekäme der Film den Beleg, den der Artikel der gleichnamigen Serie gibt.
+ */
+export function ordneTitelZu(titel: string, katalog: KatalogTitel[], plattform?: string): KatalogTitel | string {
+  const gesucht = staffelName(titel)
   if (!gesucht) return 'Titel ohne Buchstaben'
-  const treffer = katalog.filter((t) => [t.titleDe, t.titleEn, t.titleRomaji].some((n) => name(n) === gesucht))
+  const treffer = katalog.filter((t) => [t.titleDe, t.titleEn, t.titleRomaji].some((n) => staffelName(n) === gesucht))
   if (treffer.length === 1) return treffer[0]!
+  const mitWeg = treffer.filter((t) => (t.streams ?? []).some((s) => s.platform === plattform && s.dub !== undefined))
+  if (mitWeg.length === 1) return mitWeg[0]!
   return treffer.length ? `Titel mehrdeutig (${treffer.map((t) => t.id).join(', ')})` : 'Titel nicht im Katalog'
 }
 
@@ -89,21 +116,25 @@ export function plattformGebunden(v: Pick<GespeicherterVorschlag, 'plattform' | 
   return imTitel.length === 1 && imTitel[0] === v.plattform
 }
 
-function ersterGrund(v: GespeicherterVorschlag, heute: string): string | undefined {
-  if (!ARTEN.has(v.art)) return `Art ${v.art}`
-  if (v.warnungen.some((w) => !ANBIETER_NUR_IM_ARTIKEL.test(w))) return 'Warnung am Vorschlag'
-  if (v.unsicher) return 'Vorschlag ist als unsicher gekennzeichnet'
-  if (!v.plattform || KEIN_STREAM.has(v.plattform)) return 'keine Stream-Plattform im Datenmodell'
-  if (!plattformGebunden(v)) return `Plattform ${v.plattform} nicht eindeutig an die Synchro-Aussage gebunden (Zitat und Artikeltitel)`
-  if (v.datum && v.datum > heute) return `Tag ${v.datum} liegt in der Zukunft`
+function ersterGrund(v: GespeicherterVorschlag, heute: string): Grund | undefined {
+  if (!ARTEN.has(v.art)) return { text: `Art ${v.art}` }
+  if (v.warnungen.some((w) => !ANBIETER_NUR_IM_ARTIKEL.test(w))) return { text: 'Warnung am Vorschlag' }
+  if (v.unsicher) return { text: 'Vorschlag ist als unsicher gekennzeichnet' }
+  if (!v.plattform && v.anbieter) return { text: `keine Stream-Plattform im Datenmodell (Anbieter ${v.anbieter} hat keine Kennung)` }
+  if (!v.plattform || KEIN_STREAM.has(v.plattform)) return { text: 'keine Stream-Plattform im Datenmodell' }
+  if (!plattformGebunden(v)) return { text: `Plattform ${v.plattform} nicht eindeutig an die Synchro-Aussage gebunden (Zitat und Artikeltitel)`, strittig: true }
+  if (v.datum && v.datum > heute) return { text: `Tag ${v.datum} liegt in der Zukunft` }
   return undefined
 }
 
-function wegGrund(t: KatalogTitel, plattform: string, belegt: Belegstand, artikelTag: string): string | undefined {
+function wegGrund(t: KatalogTitel, plattform: string, belegt: Belegstand, artikelTag: string): Grund | undefined {
   const wege = (t.streams ?? []).filter((s) => s.platform === plattform)
-  if ((belegt.get(`${t.id}|${plattform}`) ?? '') >= artikelTag) return 'Handbeleg zu Titel und Plattform steht schon'
-  if (wege.length !== 1) return wege.length ? `${wege.length} Wege bei ${plattform}` : `kein Weg bei ${plattform}`
-  if (wege[0]!.dub !== undefined) return `Weg trägt schon dub: ${wege[0]!.dub}`
+  if ((belegt.get(`${t.id}|${plattform}`) ?? '') >= artikelTag) return { text: 'Handbeleg zu Titel und Plattform steht schon' }
+  if (wege.length > 1) return { text: `${wege.length} Wege bei ${plattform}`, strittig: true }
+  if (!wege.length) return { text: `kein Weg bei ${plattform} (wartet auf den Bestandsbau)` }
+  const w = wege[0]!
+  // Ein angenommenes Ja (joyn-pauschal, kanal-erbt) ersetzt der Artikel; ein gemessenes oder belegtes Urteil bleibt.
+  if (w.dub !== undefined && !(w.dub === true && w.dubAbgeleitet)) return { text: `Weg trägt schon dub: ${w.dub}` }
   return undefined
 }
 
@@ -122,16 +153,20 @@ export function waehleSynchroBelege(
   const zurueck: Zurueckgestellt[] = []
   const schluessel = new Map(belegt)
   for (const v of vorschlaege) {
-    if (!v.sprache.startsWith('deutsch') || !nenntSynchro(v.zitat)) continue
-    const lehne = (grund: string) => zurueck.push({ titel: v.titel, artikelId: v.artikelId, grund })
+    if (!v.sprache.startsWith('deutsch')) continue
+    const lehne = (g: Grund) => zurueck.push({ titel: v.titel, artikelId: v.artikelId, grund: g.text, strittig: g.strittig === true })
+    if (!nenntSynchro(v.zitat)) {
+      lehne({ text: 'Zitat nennt die Synchro nicht ausdrücklich' })
+      continue
+    }
     const grund = ersterGrund(v, heute)
     if (grund) {
       lehne(grund)
       continue
     }
-    const t = ordneTitelZu(v.titel, katalog)
+    const t = ordneTitelZu(v.titel, katalog, v.plattform!)
     if (typeof t === 'string') {
-      lehne(t)
+      lehne({ text: t, strittig: true })
       continue
     }
     const wegFehler = wegGrund(t, v.plattform!, schluessel, v.veroeffentlicht)
@@ -140,7 +175,7 @@ export function waehleSynchroBelege(
       continue
     }
     if (belege.length >= platzHeute) {
-      lehne(`Tageshöchstmenge von ${HOECHSTENS_AM_TAG} erreicht`)
+      lehne({ text: `Tageshöchstmenge von ${HOECHSTENS_AM_TAG} erreicht` })
       continue
     }
     schluessel.set(`${t.id}|${v.plattform}`, IMMER)

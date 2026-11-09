@@ -2,7 +2,7 @@
  * **Lese-Deckel für jede Anfrage** (15.10.2026).
  *
  * Bis heute zählte nur die Meldungs-Route (`mitTagesdeckel`) ihre gelesenen Zeilen. Die Lese-Routen liefen am
- * Zähler vorbei, darunter `GET /pruefung?token=` (`offenePruefungen`, rund 36.000 Zeilen je Aufruf), den die
+ * Zähler vorbei, darunter `GET /pruefung` (`offenePruefungen`, rund 36.000 Zeilen je Aufruf), den die
  * Erweiterung auf jeder Prime-Seite rief: Am 15.10.2026 waren um 12:48 MESZ 6,72 Mio. Zeilen gelesen, D1 stand
  * bis 02:00 MESZ.
  *
@@ -22,7 +22,7 @@
  * `BUCHEN_AB` Zeilen.
  */
 import { type Env } from './env.ts'
-import { tokenGleich, tokenMitUebergang } from './lauf-token.ts'
+import { tokenAusKopf, tokenGleich } from './lauf-token.ts'
 import { DECKEL_LESEN, deckelAntwort, heutigerStand, utcTag, verbuchen, zaehlendeDb } from './tagesdeckel.ts'
 
 export const BUCHEN_AB = 1_000
@@ -43,7 +43,7 @@ class DeckelErreicht extends Error {}
 export function istFrei(request: Request, env: Env): boolean {
   const url = new URL(request.url)
   if (!GEDECKELT.includes(url.pathname)) return true
-  const token = tokenMitUebergang(request)
+  const token = tokenAusKopf(request)
   return token !== '' && (tokenGleich(token, env.LAUF_TOKEN) || tokenGleich(token, env.DEBUG_TOKEN))
 }
 

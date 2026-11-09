@@ -1202,9 +1202,17 @@
       "am": "2026-11-03",
       "vorschlaege": 4
     },
+    "1067107": {
+      "am": "2026-11-09",
+      "vorschlaege": 1
+    },
     "1067138": {
       "am": "2026-11-04",
       "vorschlaege": 3
+    },
+    "1067143": {
+      "am": "2026-11-09",
+      "vorschlaege": 2
     },
     "1067183": {
       "am": "2026-11-04",
@@ -1213,6 +1221,10 @@
     "1067193": {
       "am": "2026-11-05",
       "vorschlaege": 2
+    },
+    "1067250": {
+      "am": "2026-11-09",
+      "vorschlaege": 0
     },
     "1067332": {
       "am": "2026-11-04",
@@ -1293,8 +1305,17 @@
       "am": "2026-11-05",
       "vorschlaege": 2
     },
+    "1067963": {
+      "am": "2026-11-08",
+      "vorschlaege": 0,
+      "uebersprungen": "kein Deutschland-Bezug"
+    },
     "1068002": {
       "am": "2026-11-05",
+      "vorschlaege": 0
+    },
+    "1068026": {
+      "am": "2026-11-08",
       "vorschlaege": 0
     },
     "1068059": {
@@ -1350,6 +1371,10 @@
       "am": "2026-11-06",
       "vorschlaege": 0,
       "uebersprungen": "kein Deutschland-Bezug"
+    },
+    "1068537": {
+      "am": "2026-11-09",
+      "vorschlaege": 0
     },
     "1068595": {
       "am": "2026-11-07",
@@ -1415,6 +1440,19 @@
     "1069032": {
       "am": "2026-11-08",
       "vorschlaege": 0
+    },
+    "1069058": {
+      "am": "2026-11-08",
+      "vorschlaege": 0,
+      "uebersprungen": "kein Deutschland-Bezug"
+    },
+    "1069089": {
+      "am": "2026-11-08",
+      "vorschlaege": 0
+    },
+    "1069143": {
+      "am": "2026-11-08",
+      "vorschlaege": 8
     }
   },
   "vorschlaege": [
@@ -3474,7 +3512,8 @@
       "warnungen": [
         "Uhrzeit widerspricht 18:30 (Artikel 1059541) – gegenlesen",
         "Uhrzeit widerspricht 18:30 (Artikel 1059541), 18:30 (Artikel 1066723) – gegenlesen",
-        "Uhrzeit widerspricht 18:30 (Artikel 1059541), 18:30 (Artikel 1066723), 18:30 (Artikel 1069021) – gegenlesen"
+        "Uhrzeit widerspricht 18:30 (Artikel 1059541), 18:30 (Artikel 1066723), 18:30 (Artikel 1069021) – gegenlesen",
+        "Uhrzeit widerspricht 18:30 (Artikel 1059541), 18:30 (Artikel 1066723), 18:30 (Artikel 1069021), 18:30 (Artikel 1069143) – gegenlesen"
       ],
       "artikelId": "1059480",
       "artikel": "Starttermin von »YAIBA: Samurai Legend« auf ProSieben MAXX",
@@ -11435,7 +11474,8 @@
       "wochentag": "Montag",
       "warnungen": [
         "Uhrzeit widerspricht 18:30 (Artikel 1066723) – gegenlesen",
-        "Uhrzeit widerspricht 18:30 (Artikel 1066723), 18:30 (Artikel 1069021) – gegenlesen"
+        "Uhrzeit widerspricht 18:30 (Artikel 1066723), 18:30 (Artikel 1069021) – gegenlesen",
+        "Uhrzeit widerspricht 18:30 (Artikel 1066723), 18:30 (Artikel 1069021), 18:30 (Artikel 1069143) – gegenlesen"
       ],
       "artikelId": "1068887",
       "artikel": "ProSieben MAXX startet zweiten werktäglichen Anime-Block",
@@ -11578,6 +11618,155 @@
       "quelle": "https://www.anime2you.de/news/1068991/bride-of-the-barrier-master-neue-teaser/",
       "veroeffentlicht": "2026-11-08",
       "gelesenAm": "2026-11-08"
+    },
+    {
+      "titel": "YAIBA: Samurai Legend",
+      "zitat": "YAIBA: Samurai Legend ProSieben MAXX · Folge 3-6 · Montag bis Donnerstag um 18:30 Uhr",
+      "art": "folgen",
+      "sprache": "unklar",
+      "plattform": "tv",
+      "datum": null,
+      "uhrzeit": "18:30",
+      "anbieter": null,
+      "sender": "ProSieben MAXX",
+      "wochentage": "Montag bis Donnerstag",
+      "folgen": "3-6",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "Uhrzeit widerspricht 18:25 (Artikel 1059480), 06:15 (Artikel 1068887) – gegenlesen"
+      ],
+      "artikelId": "1069143",
+      "artikel": "TV-Guide: Anime im deutschen Fernsehen in KW 46/2026",
+      "quelle": "https://www.anime2you.de/news/1069143/anime-tv-programm-46-2026/",
+      "veroeffentlicht": "2026-11-08",
+      "gelesenAm": "2026-11-08"
+    },
+    {
+      "titel": "Hell’s Paradise",
+      "zitat": "Hell’s Paradise ProSieben FUN · Folge 11-12 · Montag um 20:55 Uhr",
+      "art": "folgen",
+      "sprache": "unklar",
+      "plattform": "tv",
+      "datum": null,
+      "uhrzeit": "20:55",
+      "anbieter": null,
+      "sender": "ProSieben FUN",
+      "wochentage": "Montag",
+      "folgen": "11-12",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1069143",
+      "artikel": "TV-Guide: Anime im deutschen Fernsehen in KW 46/2026",
+      "quelle": "https://www.anime2you.de/news/1069143/anime-tv-programm-46-2026/",
+      "veroeffentlicht": "2026-11-08",
+      "gelesenAm": "2026-11-08"
+    },
+    {
+      "titel": "Dororo",
+      "zitat": "Dororo ProSieben FUN · Folge 11-12 · Montag um 21:45 Uhr",
+      "art": "folgen",
+      "sprache": "unklar",
+      "plattform": "tv",
+      "datum": null,
+      "uhrzeit": "21:45",
+      "anbieter": null,
+      "sender": "ProSieben FUN",
+      "wochentage": "Montag",
+      "folgen": "11-12",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1069143",
+      "artikel": "TV-Guide: Anime im deutschen Fernsehen in KW 46/2026",
+      "quelle": "https://www.anime2you.de/news/1069143/anime-tv-programm-46-2026/",
+      "veroeffentlicht": "2026-11-08",
+      "gelesenAm": "2026-11-08"
+    },
+    {
+      "titel": "Magical Girl Special Ops Asuka",
+      "zitat": "Magical Girl Special Ops Asuka ProSieben FUN · Ab Montag um 22:35 Uhr",
+      "art": "start",
+      "sprache": "unklar",
+      "plattform": "tv",
+      "datum": null,
+      "uhrzeit": "22:35",
+      "anbieter": null,
+      "sender": "ProSieben FUN",
+      "wochentage": "Montag",
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1069143",
+      "artikel": "TV-Guide: Anime im deutschen Fernsehen in KW 46/2026",
+      "quelle": "https://www.anime2you.de/news/1069143/anime-tv-programm-46-2026/",
+      "veroeffentlicht": "2026-11-08",
+      "gelesenAm": "2026-11-08"
+    },
+    {
+      "titel": "Neon Genesis Evangelion",
+      "zitat": "Die 26-teilige Original-Serie »Neon Genesis Evangelion« lief erstmals von Oktober 1995 bis März 1996 im japanischen Fernsehen und erschien hierzulande durch LEONINE Anime auf DVD und Blu-ray. Der Publisher bringt im Februar 2027 eine neue Komplettbox in den Handel.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "LEONINE Anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1067107",
+      "artikel": "Zwei neue »Evangelion«-Minifiguren von Rei und Asuka angekündigt",
+      "quelle": "https://www.anime2you.de/news/1067107/zwei-evangelion-minifiguren-rei-asuka/",
+      "veroeffentlicht": "2026-11-09",
+      "gelesenAm": "2026-11-09"
+    },
+    {
+      "titel": "Sailor Moon",
+      "zitat": "Crunchyroll bringt die Serie seit Oktober 2026 in einer neuen Steelbook-Edition auf DVD und Blu-ray in den Handel, während ADN diese auf Abruf anbietet.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1067143",
+      "artikel": "Offizieller »Sailor Moon«-Tischkalender für 2027 vorgestellt",
+      "quelle": "https://www.anime2you.de/news/1067143/sailor-moon-tischkalender-fuer-2027/",
+      "veroeffentlicht": "2026-11-09",
+      "gelesenAm": "2026-11-09"
+    },
+    {
+      "titel": "Sailor Moon",
+      "zitat": "Crunchyroll bringt die Serie seit Oktober 2026 in einer neuen Steelbook-Edition auf DVD und Blu-ray in den Handel, während ADN diese auf Abruf anbietet.",
+      "art": "start",
+      "sprache": "unklar",
+      "plattform": "adn",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "ADN",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1067143",
+      "artikel": "Offizieller »Sailor Moon«-Tischkalender für 2027 vorgestellt",
+      "quelle": "https://www.anime2you.de/news/1067143/sailor-moon-tischkalender-fuer-2027/",
+      "veroeffentlicht": "2026-11-09",
+      "gelesenAm": "2026-11-09"
     }
   ]
 }
