@@ -213,7 +213,7 @@ function nachschaerfungsFaelle(web) {
     ]),
     ['Handdatei data/kennungen.json: Grund ohne Klasse ist rot', { dateien: ['data/kennungen.json'], neu: [], beschreibung: keine('Fancy Nancy und elf weitere JustWatch-Kennungen') }, false],
     ['Handdatei data/kennungen.json: Grund mit Klasse ist grün', { dateien: ['data/kennungen.json'], neu: [], beschreibung: keine('Werkzeug, 0 Titel/Termine/Meldungen/Wege/Zeilen') }, true],
-    ['data/cache/ bleibt unsichtbar', { dateien: ['data/cache/x.json'], neu: [], beschreibung: '' }, true],
+    ['Sammler-Vorschläge unter proposals/ bleiben unsichtbar', { dateien: ['data/proposals/x.json'], neu: [], beschreibung: '' }, true],
     ['data/kennungen.json.bak ist keine Handdatei', { dateien: ['data/kennungen.jsonx', 'data/kennungenXjson'], neu: [], beschreibung: '' }, true],
   ]
 }
