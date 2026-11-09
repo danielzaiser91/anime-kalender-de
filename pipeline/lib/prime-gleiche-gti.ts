@@ -31,17 +31,13 @@ function waehleBleibenden(gruppe: StreamLink[]): StreamLink {
   return gruppe.find((s) => s.dubRanges?.length) ?? gruppe.find((s) => s.dub !== undefined && !s.dubAbgeleitet) ?? gruppe.find((s) => s.dub !== undefined) ?? gruppe[0]!
 }
 
-/** Felder, die der bleibende Weg von den anderen übernimmt, wenn er sie nicht selbst trägt. */
+/** Felder, die der bleibende Weg von den anderen übernimmt, wenn er sie nicht selbst trägt (Urteil und Bereiche nicht: die trägt schon der gewählte Weg). */
 const LUECKEN = ['kanal', 'zugang', 'seite', 'herkunft'] as const
 
 function uebernimm(bleibend: StreamLink, andere: StreamLink[]): void {
   for (const a of andere) {
     for (const feld of LUECKEN) {
       if (bleibend[feld] === undefined && a[feld] !== undefined) (bleibend as unknown as Record<string, unknown>)[feld] = a[feld]
-    }
-    if (bleibend.dub === undefined && a.dub !== undefined) {
-      bleibend.dub = a.dub
-      if (a.dubRanges) bleibend.dubRanges = a.dubRanges
     }
   }
 }

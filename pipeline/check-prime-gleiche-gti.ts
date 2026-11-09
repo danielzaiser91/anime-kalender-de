@@ -5,14 +5,14 @@
  * Aufruf: npm run check:logic (steckt darin) oder `tsx pipeline/check-prime-gleiche-gti.ts`
  */
 import { spawnSync } from 'node:child_process'
-import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import type { Release, StreamLink, Title } from '../shared/types.ts'
 import { schliesseWegeAb } from './bau/11-wege-abschluss.ts'
 import { adresseDesWegs } from './bau/13-1-termin-adressen.ts'
 import { suchadressenInTemp } from './lib/suchadressen-temp.ts'
-import { findeGleicheGti, fuehrePrimeWegeGleicherGtiZusammen, type GtiBelegt } from './lib/prime-gleiche-gti.ts'
+import { findeGleicheGti, fuehrePrimeGleicheGtiZusammen, fuehrePrimeWegeGleicherGtiZusammen, type GtiBelegt } from './lib/prime-gleiche-gti.ts'
 
 let verletzt = 0
 let faelle = 0
@@ -46,9 +46,9 @@ console.log('\nPrime-Wege gleicher gti:')
   fuehrePrimeWegeGleicherGtiZusammen(ohneUrteil, belegt)
   pruefe('ohne Urteil bleibt der erste', ohneUrteil.length === 1 && ohneUrteil[0]!.url.endsWith('B0CFL5Y7XN'), urls(ohneUrteil))
 
-  const luecken = [prime(seite('B0CFL5Y7XN'), { dub: true, dubRanges: [{ from: 1, to: 12, dub: true }] }), prime(seite('B0D98PQ1FW'), { kanal: 'aniverse', zugang: 'abo' })]
+  const luecken = [prime(seite('B0CFL5Y7XN'), { dub: true, dubRanges: [{ from: 1, to: 12, dub: true }] }), prime(seite('B0D98PQ1FW'), { kanal: 'aniverse', zugang: 'abo', seite: seite('B0AAAAAAAA'), herkunft: 'handbeleg' })]
   fuehrePrimeWegeGleicherGtiZusammen(luecken, belegt)
-  pruefe('fehlende Angaben (Kanal, Zugang) kommen vom entfernten Weg, das Urteil bleibt', luecken.length === 1 && luecken[0]!.kanal === 'aniverse' && luecken[0]!.zugang === 'abo' && luecken[0]!.dub === true && luecken[0]!.dubRanges?.length === 1, luecken)
+  pruefe('fehlende Angaben (Kanal, Zugang) kommen vom entfernten Weg, das Urteil bleibt', luecken.length === 1 && luecken[0]!.kanal === 'aniverse' && luecken[0]!.zugang === 'abo' && luecken[0]!.dub === true && luecken[0]!.dubRanges?.length === 1 && luecken[0]!.seite === seite('B0AAAAAAAA') && luecken[0]!.herkunft === 'handbeleg', luecken)
 
   const geerbt = [prime(seite('B0CFL5Y7XN'), { kanal: 'x' }), prime(seite('B0D98PQ1FW'), { dub: true, dubRanges: [{ from: 1, to: 3, dub: true }], kanal: 'y' })]
   fuehrePrimeWegeGleicherGtiZusammen(geerbt, belegt)
@@ -85,19 +85,27 @@ console.log('\nPrime-Wege gleicher gti:')
   const dn = fuehrePrimeWegeGleicherGtiZusammen(dreifach, belegt)
   pruefe('drei Wege einer gti und ein fremder: 2 bleiben (je gti einer)', dn === 2 && dreifach.length === 2 && dreifach.some((s) => s.url.endsWith('B0CFKZQ6FN')), urls(dreifach))
 
-  const ueberSeite = [prime(`https://watch.amazon.de/detail?gti=${GTI_A}`, { seite: seite('B0D98PQ1FW') }), prime(seite('B0CFL5Y7XN'))]
-  pruefe('gti in der Adresse (Brücke) und eine belegte ASIN-Adresse: ein Weg', fuehrePrimeWegeGleicherGtiZusammen(ueberSeite, belegt) === 1 && ueberSeite.length === 1)
+  const bruecke = [prime(`https://watch.amazon.de/detail?gti=${GTI_A}`, { seite: seite('B0D98PQ1FW') }), prime(seite('B0CFL5Y7XN'))]
+  pruefe('gti in der Adresse (Brücke) und eine belegte ASIN-Adresse: ein Weg', fuehrePrimeWegeGleicherGtiZusammen(bruecke, belegt) === 1 && bruecke.length === 1)
+
+  // Alle Titel: der Rückgabewert zählt die entfernten Wege über alle Titel, Titel ohne Doppelung zählen 0.
+  const titelA = { id: 1, streams: [prime(seite('B0CFL5Y7XN')), prime(seite('B0D98PQ1FW'))] } as unknown as Title
+  const titelB = { id: 2, streams: [prime(seite('B0CFKZQ6FN'))] } as unknown as Title
+  const titelC = { id: 3, streams: [prime(seite('B0CFL5Y7XN')), prime(seite('B0CFKZQ6FN')), prime(seite('B0D98PQ1FW'))] } as unknown as Title
+  pruefe('alle Titel: 2 entfernt (je einer bei Titel 1 und 3), Titel 2 unberührt', fuehrePrimeGleicheGtiZusammen([titelA, titelB, titelC], belegt) === 2 && titelA.streams.length === 1 && titelB.streams.length === 1 && titelC.streams.length === 2)
 }
 
 console.log('\nWege-Abschluss ruft die Zusammenführung (Termin behält die Adresse):')
 {
   suchadressenInTemp()
   const ID = 9000030
-  const gtiUrl = (zusatz: string) => `https://watch.amazon.de/detail?gti=${GTI_A}${zusatz}`
+  // Die zweite Adresse trägt nur die ASIN; ihre gti kennt `data/amazon-gti-belegt.json` (Goblin Slayer 2, B0D98PQ1FW).
+  const echteBelege = JSON.parse(readFileSync('data/amazon-gti-belegt.json', 'utf8')) as GtiBelegt
+  pruefe('Vorbedingung: die Belegdatei kennt B0D98PQ1FW mit der gti der Brücken-Adresse', echteBelege['amazon:b0d98pq1fw'] === GTI_A, echteBelege['amazon:b0d98pq1fw'])
   const titel = {
     id: ID,
     jpYear: 2023,
-    streams: [prime(gtiUrl(''), { kanal: 'aniverse', zugang: 'abo', herkunft: 'termin' }), prime(gtiUrl('&ref_=x'), { kanal: 'aniverse', zugang: 'abo', herkunft: 'termin' })],
+    streams: [prime(`https://watch.amazon.de/detail?gti=${GTI_A}`, { kanal: 'aniverse', zugang: 'abo', herkunft: 'termin' }), prime(seite('B0D98PQ1FW'), { kanal: 'aniverse', zugang: 'abo', herkunft: 'termin' })],
     keywords: [],
     genres: [],
     watchLinks: [],
