@@ -174,6 +174,15 @@ console.log('\nKalender-Plausibilität 4c: volle Liste (400 Plätze) kappt nach 
   })
   const voll = treffer('ereignisOhneNews', b(400))
   pruefe('401 Einträge: Start älter als Platz 400 (09-25) zählt nicht, Start im lückenlosen Teil (10-05) zählt', gleich(voll, [2]), voll)
+  // Gleichstand: Platz 400 liegt am 10-01 (398 Einträge am 10-02 davor, 3 am 10-01 auf Platz 399 bis 401), einer davon fällt
+  const rand = {
+    titles: [titel(1), titel(2)],
+    releases: [release(1, 'r1', { firstEpisodeDate: '2026-10-01' }), release(2, 'r2', { firstEpisodeDate: '2026-10-02' })],
+    news: [...Array.from({ length: 398 }, (_, i) => news('2026-10-02', 1000 + i)), ...Array.from({ length: 3 }, (_, i) => news('2026-10-01', 2000 + i))],
+    events: [ereignis(1, 's1', '2026-10-01', { staffelstart: true }), ereignis(2, 's2', '2026-10-02', { staffelstart: true })],
+  }
+  const gleichstand = treffer('ereignisOhneNews', rand)
+  pruefe('Start am Tag von Platz 400 zählt nicht (Gleichstand), Start am Tag danach zählt', gleich(gleichstand, [2]), gleichstand)
   const knapp = treffer('ereignisOhneNews', b(399))
   pruefe('400 Einträge (nichts gekappt): beide Starts zählen, Fenster beginnt bei der ältesten Meldung', gleich(knapp, [1, 2]), knapp)
 }

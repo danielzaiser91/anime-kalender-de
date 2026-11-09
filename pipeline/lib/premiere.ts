@@ -72,7 +72,7 @@ function fruehererTermin(r: Release, releases: Release[]): Release | undefined {
 
 /** Selber Tag, aber belegt: die TV-Premiere beginnt vor dem Stream-Termin (beide mit gemessener Uhrzeit), so Joyn „nach der Sendung“. */
 function tvVorStream(r: Release, x: Release): boolean {
-  if (r.platform !== 'tv' || x.platform === 'tv') return false
+  if (r.platform !== 'tv') return false
   const [a, b] = [r.schedule, x.schedule]
   return !!a.time && !!b.time && !a.timeEstimated && !b.timeEstimated && !a.estimated && !b.estimated && a.time < b.time
 }

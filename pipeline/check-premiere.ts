@@ -75,6 +75,13 @@ pruefe('gleiche Uhrzeit: keine Premiere', premiereFehler([tvPrem('18:25'), joyn(
 pruefe('Joyn-Zeit geschätzt: keine Premiere', premiereFehler([tvPrem('18:25'), joyn('18:50', { estimated: true })]).length === 1)
 pruefe('TV-Zeit fehlt: keine Premiere', premiereFehler([tvPrem(undefined), joyn('18:50')]).length === 1)
 pruefe('Joyn-Zeit fehlt: keine Premiere', premiereFehler([tvPrem('18:25'), joyn(undefined)]).length === 1)
+pruefe('TV-Zeit festgelegt (timeEstimated): keine Premiere', premiereFehler([tvPrem('18:25', { timeEstimated: true }), joyn('18:50')]).length === 1)
+pruefe('Joyn-Zeit festgelegt (timeEstimated): keine Premiere', premiereFehler([tvPrem('18:25'), joyn('18:50', { timeEstimated: true })]).length === 1)
+pruefe('TV-Termin geschätzt (estimated): keine Premiere', premiereFehler([tvPrem('18:25', { estimated: true }), joyn('18:50')]).length === 1)
+pruefe(
+  'Stream-Premiere (Joyn 18:25) vor TV 18:50 am selben Tag: bleibt ausgeschlossen, die Ausnahme gilt nur für die TV-Premiere',
+  premiereFehler([release('joyn', { ...zeit('joyn', '18:25'), premiere: { weg: 'stream', quelle: QUELLE } }), release('tv', zeit('tv', '18:50'))]).length === 1,
+)
 pruefe(
   'Stream-Premiere neben früherem TV am selben Tag bleibt ausgeschlossen',
   premiereFehler([release('joyn', { ...zeit('joyn', '18:50'), premiere: { weg: 'stream', quelle: QUELLE } }), release('tv', zeit('tv', '18:25'))]).length === 1,
