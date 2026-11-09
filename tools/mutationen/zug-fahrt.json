@@ -39,7 +39,7 @@
   { "name": "zug.mjs ratschenMeldung: Cover ohne Schlüssel (Teilseiten)", "aenderungen": [{ "datei": "tools/zug.mjs", "suche": ", schluessel: () => 'cover-standardbild:teilseiten' }", "ersetze": " }" }] },
   { "name": "zug.mjs basisGrenzen: Budget in Byte statt KB", "aenderungen": [{ "datei": "tools/zug.mjs", "suche": "grenzen['start-budget'] = Number(budget)", "ersetze": "grenzen['start-budget'] = Number(budget) * 1024" }] },
   { "name": "zug.mjs basisGrenzen: Umfang-Schlüssel ohne Art", "aenderungen": [{ "datei": "tools/zug.mjs", "suche": "grenzen[`umfang:${bereich}:${art}`] = wert", "ersetze": "grenzen[`umfang:${bereich}`] = wert" }] },
-  { "name": "zug.mjs ratschenMeldung: Link-Vorschau Pflicht", "aenderungen": [{ "datei": "tools/zug.mjs", "suche": "zeigen das Standardbild als Link-Vorschau, erlaubt höchstens (", "ersetze": "zeigen das Standardbild, erlaubt höchstens (" }] },
+  { "name": "zug.mjs ratschenMeldung: Link-Vorschau Pflicht", "aenderungen": [{ "datei": "tools/zug.mjs", "suche": "zeigen das Standardbild als Link-Vorschau, erlaubt höchstens (\\d+) \\(jüngste", "ersetze": "zeigen das Standardbild, erlaubt höchstens (\\d+) \\(jüngste" }] },
   { "name": "zug.mjs ratschenMeldung: Ketten-Schlüssel falsch", "aenderungen": [{ "datei": "tools/zug.mjs", "suche": "schluessel: (m) => `umfang:${m[1]}:ketten`", "ersetze": "schluessel: (m) => `umfang:${m[1]}:funktionen`" }] },
   { "name": "zug.mjs ratschenMeldung: Umfang-Art nur funktionen", "aenderungen": [{ "datei": "tools/zug.mjs", "suche": "Überlänge der (funktionen|dateien)", "ersetze": "Überlänge der (funktionen)" }] },
 
