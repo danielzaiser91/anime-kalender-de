@@ -29,6 +29,8 @@ import { rotAlarmText } from './bestand-rot-alarm.mjs'
 import { alarmZeilenMitFixPrs } from './fix-pr-hinweis.mjs'
 import { git, meldeLiegt } from './liegegut.mjs'
 import { prueferZeilen } from './pruefer-unfertig-wache.mjs'
+import { startBudgetZeilen } from './start-budget-wache.mjs'
+import { holeSynchroJson, synchroWartezeitZeilen } from './synchro-wartezeit.mjs'
 import { meldeRoteSammlerPrs } from './rote-sammler-prs.mjs'
 import { eskalationsText } from './wache-eskalation.mjs'
 import { wacheZeilen } from './wache-bilanz.mjs'
@@ -134,6 +136,10 @@ async function main() {
   // Ein roter Sammler-Fund lässt den Lauf grün; er bleibt als PR liegen und muss hier auffallen (tools/rote-sammler-prs.mjs).
   const erledigt = erledigtArgumente(args)
   if (erledigt.fehler) return fehlerAbbruch(erledigt.fehler)
+  // Erst laden, dann die synchronen gh-Aufrufe: sie blockieren die Ereignisschleife länger als die Abruffrist, und eine
+  // abgelaufene Frist verwirft die schon eingetroffene Antwort („Wartezeit nicht lesbar: timeout“, 09.11.2026).
+  // Ein hängender Server verzögert die ALARM-Zeilen dafür um höchstens 30 s; die Zeilen selbst erscheinen weiter nach allen Alarmen.
+  const synchroZeilen = await synchroWartezeitZeilen(holeSynchroJson, Date.now())
   meldeRoteSammlerPrs()
   meldeLiegt((a) => gh(...a), git, console.log, Date.now())
   await stillstandMelden()
@@ -143,11 +149,13 @@ async function main() {
   for (const zeile of quellenZeilen) console.log(zeile)
   for (const zeile of weichWache(ghStapel, REPO, wurzel(), Date.now(), weichSpeicher())) console.log(zeile)
   for (const zeile of prueferZeilen(gh, REPO)) console.log(zeile)
+  for (const zeile of startBudgetZeilen((a) => gh(...a), REPO)) console.log(zeile)
   for (const zeile of haengerWache((a) => gh(...a), REPO, wurzel(), Date.now(), haengerSpeicher(), { trocken: TROCKEN })) console.log(zeile)
   try {
     await laeufePruefen(erledigt)
   } finally {
-    for (const zeile of wacheZeilen(rotZeilen, quellenZeilen)) console.log(zeile)
+    for (const zeile of synchroZeilen) console.log(zeile)
+    for (const zeile of wacheZeilen([...rotZeilen, ...synchroZeilen], quellenZeilen)) console.log(zeile)
   }
 }
 

@@ -1,5 +1,5 @@
 import { type Env } from './env.ts'
-import { tokenGleich, tokenMitUebergang } from './lauf-token.ts'
+import { tokenAusKopf, tokenGleich } from './lauf-token.ts'
 import { ausSpeicher, FRIST_NAMEN_MS } from './export-speicher.ts'
 import { serientitelJeAdresse } from './pruefung-serientitel.ts'
 import { probeRohfolgen } from './rohfolgen-probe.ts'
@@ -13,7 +13,7 @@ export async function liefereRohfolgen({ request, env, antwort, ausCache }: {
   /** Hält eine erfolgreiche Antwort für 30 Minuten (`caches.default`, gleiche Adresse = gleiche Antwort). */
   ausCache: (bauen: () => Promise<Response>, sekunden?: number) => Promise<Response>
 }) {
-      const token = tokenMitUebergang(request)
+      const token = tokenAusKopf(request)
       if (!env.LAUF_TOKEN || !tokenGleich(token, env.LAUF_TOKEN)) {
         return antwort({ error: 'Token fehlt oder stimmt nicht' }, 403)
       }

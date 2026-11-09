@@ -8,106 +8,6 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:auto-15-tv-prosieben-maxx@2026-10-31#23@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261031T045500Z
-DTEND:20261031T052500Z
-SUMMARY:Eyeshield 21
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/6/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-15-tv-prosieben-maxx@2026-10-31#24@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261031T052000Z
-DTEND:20261031T055000Z
-SUMMARY:Eyeshield 21
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/6/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-15-tv-prosieben-maxx@2026-10-31#25@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261031T054500Z
-DTEND:20261031T061500Z
-SUMMARY:Eyeshield 21
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/6/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-15-tv-prosieben-maxx@2026-10-31#26@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261031T061000Z
-DTEND:20261031T064000Z
-SUMMARY:Eyeshield 21
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/6/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-158871-tv-super-rtl@2026-10-31@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261031T120000Z
-DTEND:20261031T123000Z
-SUMMARY:Pokémon Horizonte – Folge 133
-DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
- ails: https://anime-kalender.de/t/14839/
-CATEGORIES:Super RTL
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-158871-tv-toggo-plus@2026-10-31@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261031T130000Z
-DTEND:20261031T133000Z
-SUMMARY:Pokémon Horizonte – Folge 133
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/t/14839/
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-165159-tv-toggo-plus@2026-10-31@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261031T194500Z
-DTEND:20261031T201500Z
-SUMMARY:Beyblade X – Folge 122
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/t/15075/
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-5027-tv-disney-channel@2026-11-01#16@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261101T135000Z
-DTEND:20261101T142000Z
-SUMMARY:Yuna & Stitch
-DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/3342/
-CATEGORIES:Disney Channel
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-5027-tv-disney-channel@2026-11-01#17@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261101T141500Z
-DTEND:20261101T144500Z
-SUMMARY:Yuna & Stitch
-DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/3342/
-CATEGORIES:Disney Channel
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-5027-tv-disney-channel@2026-11-01#18@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261101T144500Z
-DTEND:20261101T151500Z
-SUMMARY:Yuna & Stitch
-DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/3342/
-CATEGORIES:Disney Channel
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-10012621-tv-super-rtl@2026-11-02#36@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261102T085000Z
@@ -774,10 +674,7 @@ DTSTART:20261106T172500Z
 DTEND:20261106T175500Z
 SUMMARY:YAIBA: Samurai Legend – Folge 2/24
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nErstmals im TV auf Deutsch.\nUhrzeit voraussichtlich\, nicht gemessen.\n
- Geschätzter Termin: kein vom Anbieter genannter Tag\, sondern aus Rhythmu
- s oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.de/t/
- 15908/
+ \nErstmals im TV auf Deutsch.\nDetails: https://anime-kalender.de/t/15908/
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
@@ -923,6 +820,56 @@ DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:Disney Channel
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-10012621-tv-super-rtl@2026-11-09#46@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261109T085000Z
+DTEND:20261109T092000Z
+SUMMARY:Super Wings
+DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
+ ails: https://anime-kalender.de/t/18191/
+CATEGORIES:Super RTL
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-10012621-tv-super-rtl@2026-11-09#47@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261109T090000Z
+DTEND:20261109T093000Z
+SUMMARY:Super Wings
+DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
+ ails: https://anime-kalender.de/t/18191/
+CATEGORIES:Super RTL
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-10012621-tv-toggo-plus@2026-11-09#46@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261109T095000Z
+DTEND:20261109T102000Z
+SUMMARY:Super Wings
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/18191/
+CATEGORIES:TOGGO plus
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-10012621-tv-toggo-plus@2026-11-09#47@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261109T100000Z
+DTEND:20261109T103000Z
+SUMMARY:Super Wings
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/18191/
+CATEGORIES:TOGGO plus
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-158871-tv-super-rtl@2026-11-09@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261109T151500Z
+DTEND:20261109T154500Z
+SUMMARY:Pokémon Horizonte – Folge 27
+DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
+ ails: https://anime-kalender.de/t/14839/
+CATEGORIES:Super RTL
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-118399-tv-prosieben-maxx@2026-11-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261109T154500Z
@@ -941,6 +888,16 @@ SUMMARY:Dragon Ball
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-158871-tv-toggo-plus@2026-11-09@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261109T161500Z
+DTEND:20261109T164500Z
+SUMMARY:Pokémon Horizonte – Folge 27
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/14839/
+CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-11-09#63@anime-kalender-de
@@ -969,10 +926,7 @@ DTSTART:20261109T172500Z
 DTEND:20261109T175500Z
 SUMMARY:YAIBA: Samurai Legend – Folge 3/24
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nErstmals im TV auf Deutsch.\nUhrzeit voraussichtlich\, nicht gemessen.\n
- Geschätzter Termin: kein vom Anbieter genannter Tag\, sondern aus Rhythmu
- s oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.de/t/
- 15908/
+ \nErstmals im TV auf Deutsch.\nDetails: https://anime-kalender.de/t/15908/
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
@@ -996,6 +950,16 @@ SUMMARY:Hell’s Paradise – Folge 11
 DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
  nDetails: https://anime-kalender.de/t/12442/
 CATEGORIES:ProSieben FUN
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-112153-tv-toggo-plus@2026-11-09@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261109T201500Z
+DTEND:20261109T204500Z
+SUMMARY:Pokémon Reisen: Die Serie
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/10852/
+CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-128893-tv-prosieben-fun@2026-11-09#12@anime-kalender-de
@@ -1074,10 +1038,7 @@ DTSTART:20261110T172500Z
 DTEND:20261110T175500Z
 SUMMARY:YAIBA: Samurai Legend – Folge 4/24
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nErstmals im TV auf Deutsch.\nUhrzeit voraussichtlich\, nicht gemessen.\n
- Geschätzter Termin: kein vom Anbieter genannter Tag\, sondern aus Rhythmu
- s oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.de/t/
- 15908/
+ \nErstmals im TV auf Deutsch.\nDetails: https://anime-kalender.de/t/15908/
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
@@ -1139,10 +1100,7 @@ DTSTART:20261111T172500Z
 DTEND:20261111T175500Z
 SUMMARY:YAIBA: Samurai Legend – Folge 5/24
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nErstmals im TV auf Deutsch.\nUhrzeit voraussichtlich\, nicht gemessen.\n
- Geschätzter Termin: kein vom Anbieter genannter Tag\, sondern aus Rhythmu
- s oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.de/t/
- 15908/
+ \nErstmals im TV auf Deutsch.\nDetails: https://anime-kalender.de/t/15908/
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
@@ -1204,10 +1162,7 @@ DTSTART:20261112T172500Z
 DTEND:20261112T175500Z
 SUMMARY:YAIBA: Samurai Legend – Folge 6/24
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nErstmals im TV auf Deutsch.\nUhrzeit voraussichtlich\, nicht gemessen.\n
- Geschätzter Termin: kein vom Anbieter genannter Tag\, sondern aus Rhythmu
- s oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.de/t/
- 15908/
+ \nErstmals im TV auf Deutsch.\nDetails: https://anime-kalender.de/t/15908/
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT

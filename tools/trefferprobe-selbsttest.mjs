@@ -5,6 +5,7 @@
  */
 import { chromium } from 'playwright'
 import { trefferprobe } from './trefferprobe-browser.mjs'
+import { sperreNetz } from './netz-sperre.mjs'
 import { AUSNAHMEN } from './trefferprobe-ausnahmen.mjs'
 
 const CSS = '<style>body{margin:0}.deck{position:absolute;left:0;top:0;width:100%;height:200px;background:#ccc}.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}.zeile{position:relative;height:60px}</style>'
@@ -40,6 +41,7 @@ async function pruefeFall(seite, f) {
 
 const browser = await chromium.launch()
 const seite = await browser.newPage({ viewport: { width: 360, height: 640 }, hasTouch: true, isMobile: true })
+await sperreNetz(seite)
 const fehler = []
 for (const f of FAELLE) {
   const e = await pruefeFall(seite, f)

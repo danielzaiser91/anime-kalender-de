@@ -2,11 +2,10 @@
  * Der Schluss von `fetch-rohfolgen.ts`: Prüflisten schreiben, die abzuhakenden Kennungen merken, dann zählen.
  * Ausgelagert (16.10.2026), damit der Zuordner nicht weiter wächst; Inhalt und Reihenfolge unverändert.
  */
-import { log, writeJson } from './util.ts'
+import { log, readJson, writeJson } from './util.ts'
 import { merkeZumQuittieren, ROHFOLGEN_ABHAKEN } from './spaeter-quittieren.ts'
 import { recordSource } from './health.ts'
 import { verschiebeKanalGruppen, type KanalAussortiert } from './kanal-aussortieren.ts'
-import { leseZugeordnet } from './prime-meldung-riegel.ts'
 import { trenneFremdImBestand } from './zuordnung-riegel.ts'
 
 /** Ein Fall, der geklärt werden muss, statt geraten zu werden. */
@@ -72,8 +71,9 @@ export function schliesseRohfolgenAb({
   const { eigene: zugeordnet, abgewiesen } = trenneFremdImBestand(gemeldet)
   offen.push(...abgewiesen)
   if (abgewiesen.length) log(`${abgewiesen.length} Adressen gehören einem anderen Eintrag (Cartoon, ohne Synchro, Handbeleg) und bleiben offen`)
-  const bisher = leseZugeordnet<(typeof zugeordnet)[string]>()
-  writeJson('data/prime-zugeordnet.json', leseZugeordnet({ ...bisher, ...zugeordnet }))
+  // Roh behalten: eine Sperre in belege-entfernt.yaml blendet nur beim Lesen aus (leseZugeordnet), sie löscht hier nichts.
+  const bisher = readJson<Record<string, (typeof zugeordnet)[string]>>('data/prime-zugeordnet.json', {})
+  writeJson('data/prime-zugeordnet.json', { ...bisher, ...zugeordnet })
   writeJson('data/prime-unzugeordnet.json', offen)
 
   /*

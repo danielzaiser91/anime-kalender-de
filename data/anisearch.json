@@ -7741,7 +7741,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-10-08T22:46:00.774Z"
+    "fetchedAt": "2026-11-08T04:01:03.079Z"
   },
   "106": {
     "anisearchId": 2151,
@@ -8419,7 +8419,7 @@
         "El Hazard TV 2"
       ]
     },
-    "fetchedAt": "2026-10-08T22:46:07.498Z"
+    "fetchedAt": "2026-11-08T04:01:10.036Z"
   },
   "116": {
     "anisearchId": 3348,
@@ -65772,7 +65772,7 @@
         "Harlock TV"
       ]
     },
-    "fetchedAt": "2026-10-08T22:46:14.225Z"
+    "fetchedAt": "2026-11-08T04:01:16.993Z"
   },
   "1001": {
     "anisearchId": 8407,
@@ -119453,7 +119453,7 @@
         "Las aventuras de Duke Fleed"
       ]
     },
-    "fetchedAt": "2026-10-08T22:46:20.954Z"
+    "fetchedAt": "2026-11-08T04:01:23.940Z"
   },
   "1986": {
     "anisearchId": 3425,
@@ -670485,7 +670485,7 @@
         "BeyWheelz: Powered by Beyblade"
       ]
     },
-    "fetchedAt": "2026-10-09T07:45:03.360Z"
+    "fetchedAt": "2026-11-09T04:01:15.942Z"
   },
   "136706": {
     "anisearchId": 16398,
@@ -714243,7 +714243,7 @@
         "Rick and Morty: The Anime Series"
       ]
     },
-    "fetchedAt": "2026-10-09T08:38:45.815Z"
+    "fetchedAt": "2026-11-09T04:01:22.801Z"
   },
   "150117": {
     "anisearchId": 17418,
@@ -753618,7 +753618,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-10-09T09:11:15.833Z"
+    "fetchedAt": "2026-11-09T04:01:29.663Z"
   },
   "163785": {
     "anisearchId": 19496,
@@ -776434,7 +776434,7 @@
         "Pioneer Log of the Storied Hot Springs “Alternate World’s Springs”: The Reincarnation Destination of an Onsen Fan (Who’s Around 40) Was a Relaxing Hot Spring Paradise"
       ]
     },
-    "fetchedAt": "2026-10-09T09:30:37.247Z"
+    "fetchedAt": "2026-11-09T04:00:48.400Z"
   },
   "171025": {
     "anisearchId": 18894,
@@ -821085,7 +821085,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-10-09T10:12:12.372Z"
+    "fetchedAt": "2026-11-09T04:01:36.527Z"
   },
   "185643": {
     "anisearchId": 20041,
@@ -832473,7 +832473,7 @@
       "episodes": 26,
       "season": "Sommer 2019"
     },
-    "fetchedAt": "2026-10-09T10:24:29.507Z"
+    "fetchedAt": "2026-11-09T04:01:43.386Z"
   },
   "188068": {
     "anisearchId": 17361,
@@ -843438,20 +843438,26 @@
   },
   "195571": {
     "anisearchId": 21216,
-    "streams": [],
+    "descriptionDe": "Maskenbauern sagt man nach, dass sie durch die Masken, die sie herstellen, mysteriöse Kräfte erlangen. Und um diese mit Macht aufgeladenen Masken anzufertigen, wird ein jahrelanges Training benötigt. Der berühmteste unter ihnen trägt den Namen Gaston Roux und sein Name ist in vielen Ländern bis heute bekannt. Doch vor sieben Jahren verstarb er, als sein talentierter Lehrling Peru d’Arrest im Bann der Maske des Kriegsgottes stand und daraufhin neben seinem Meister auch seine Freunde niedermetzelte. Seitdem bereist Per die gesamte Welt und versucht, jede Maske zu zerstören, die sein Meister einst geschaffen hat. Nur dass diese mittlerweile so viel wert sind wie ein kleines Land und die Polizei ihn daher als gesuchten Verbrecher behandelt. Trotzdem schließt er während dieser langen Reise zahlreiche neue Freundschaften und nach und nach schließen sich ihm Kameraden an, die bis zum Ende an seiner Seite kämpfen wollen, um die Sünden der Vergangenheit zu tilgen. \n\nQuelle: www.anisearch.de/anime/21216",
+    "streams": [
+      {
+        "provider": "crunchyroll",
+        "url": "https://www.crunchyroll.com/series/GT00384015"
+      }
+    ],
     "info": {
       "languages": [
         {
           "language": "Japanisch",
           "title": "Shuiro no Kamen",
           "titleNative": "朱色の仮面",
-          "status": "Zukünftig",
+          "status": "Laufend",
           "released": "10.10.2026 - ?"
         },
         {
           "language": "Englisch",
           "title": "The Vermilion Mask",
-          "status": "Zukünftig",
+          "status": "Laufend",
           "released": "10.10.2026 - ?",
           "publisher": [
             "Crunchyroll",
@@ -843461,7 +843467,8 @@
         {
           "language": "Deutsch",
           "title": "The Vermilion Mask",
-          "status": "Zukünftig",
+          "status": "Laufend",
+          "dubbed": true,
           "released": "10.10.2026 - ?",
           "publisher": [
             "Crunchyroll"
@@ -843470,7 +843477,7 @@
         {
           "language": "Spanisch",
           "title": "The Vermilion Mask",
-          "status": "Zukünftig",
+          "status": "Laufend",
           "released": "10.10.2026 - ?",
           "publisher": [
             "Crunchyroll"
@@ -843479,7 +843486,8 @@
         {
           "language": "Französisch",
           "title": "The Vermilion Mask",
-          "status": "Zukünftig",
+          "status": "Laufend",
+          "dubbed": true,
           "released": "10.10.2026 - ?",
           "publisher": [
             "Crunchyroll"
@@ -843488,7 +843496,7 @@
         {
           "language": "Italienisch",
           "title": "The Vermilion Mask",
-          "status": "Zukünftig",
+          "status": "Laufend",
           "released": "10.10.2026 - ?",
           "publisher": [
             "Crunchyroll"
@@ -843543,7 +843551,7 @@
       ],
       "broadcast": "Samstag 17:30 (JST)"
     },
-    "fetchedAt": "2026-10-09T10:35:30.572Z"
+    "fetchedAt": "2026-11-09T04:00:55.286Z"
   },
   "195600": {
     "anisearchId": 20717,
@@ -860935,7 +860943,13 @@
   },
   "205909": {
     "anisearchId": 21161,
-    "streams": [],
+    "descriptionDe": "Satoko Kirigaya gilt als außergewöhnliche Schönheit, begehrt und umworben, geboren in eine angesehene und wohlhabende Familie. Man könnte meinen, dass ihr Leben frei von Sorgen sein müsste – doch die Realität könnte kaum weiter davon entfernt sein. Aufgrund ihres schwachen Herzens und ihrer angeborenen, fragilen Konstitution prophezeien ihr die Ärzte ein kurzes Leben. Trotzdem weigert sie sich, in Resignation zu verfallen. Mit unbeirrbarer Hingabe versucht sie, sich für das Leben zu bedanken, das ihr ihre liebevollen Eltern geschenkt haben.\n\nSatoko weiß, dass sie einen Ehemann finden muss, wenn sie ihrem Vater weitere Sorgen ersparen möchte. Doch eine Ehe, die auf einer Lüge über ihren Gesundheitszustand basiert, kommt für sie nicht infrage. Während sie mit dieser inneren Zerrissenheit ringt, wird sie entführt. In die Enge getrieben und ohne Aussicht auf Rettung sieht sie nur einen einzigen Ausweg: Sie gibt dem mysteriösen Mann Shinpei – jenem, der sie eigentlich ermorden soll – ihr Eheversprechen. Sollte sie diese Entscheidung bereuen? Oder eröffnet ihr dieser verzweifelte Schwur eine Freiheit, die sie nie zu hoffen wagte? \n\nQuelle: www.anisearch.de/anime/21161",
+    "streams": [
+      {
+        "provider": "crunchyroll",
+        "url": "https://www.crunchyroll.com/series/GT00383999"
+      }
+    ],
     "info": {
       "languages": [
         {
@@ -860948,7 +860962,8 @@
         {
           "language": "Englisch",
           "title": "Firefly Wedding",
-          "status": "Pausiert",
+          "status": "Laufend",
+          "dubbed": true,
           "released": "21.09.2026 - ?",
           "publisher": [
             "Crunchyroll",
@@ -860959,6 +860974,7 @@
           "language": "Deutsch",
           "title": "Firefly Wedding",
           "status": "Laufend",
+          "dubbed": true,
           "released": "09.10.2026 - ?",
           "publisher": [
             "Crunchyroll"
@@ -860968,6 +860984,7 @@
           "language": "Spanisch",
           "title": "Firefly Wedding",
           "status": "Laufend",
+          "dubbed": true,
           "released": "09.10.2026 - ?",
           "publisher": [
             "Crunchyroll"
@@ -860977,6 +860994,7 @@
           "language": "Französisch",
           "title": "Firefly Wedding",
           "status": "Laufend",
+          "dubbed": true,
           "released": "09.10.2026 - ?",
           "publisher": [
             "Crunchyroll"
@@ -860986,6 +861004,7 @@
           "language": "Italienisch",
           "title": "Firefly Wedding",
           "status": "Laufend",
+          "dubbed": true,
           "released": "09.10.2026 - ?",
           "publisher": [
             "Crunchyroll"
@@ -861029,7 +861048,7 @@
       ],
       "broadcast": "Freitag 23:30 (JST)"
     },
-    "fetchedAt": "2026-10-09T10:50:19.861Z"
+    "fetchedAt": "2026-11-09T04:01:02.188Z"
   },
   "205962": {
     "anisearchId": 21191,
@@ -872135,7 +872154,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-10-09T10:59:05.270Z"
+    "fetchedAt": "2026-11-09T04:01:09.058Z"
   },
   "213458": {
     "anisearchId": 20159,
@@ -879955,5 +879974,226 @@
       ]
     },
     "fetchedAt": "2026-11-06T06:01:58.531Z"
+  },
+  "219548": {
+    "anisearchId": 22095,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Spirit Circle",
+          "titleNative": "スピリットサークル",
+          "status": "Zukünftig",
+          "released": "12.2026 - ?"
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 18,
+      "episodesEstimated": true,
+      "season": "Winter 2026/27",
+      "studios": [
+        "EOTA Inc.",
+        "NAGOMI"
+      ],
+      "staff": [
+        {
+          "name": "Satoshi MIZUKAMI",
+          "role": "Original Work"
+        },
+        {
+          "name": "Tatsuo SATOU",
+          "role": "Direction"
+        },
+        {
+          "name": "Satoru FUJIMOTO",
+          "role": "Character Design"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/spiritcircle_pr"
+        },
+        {
+          "name": "Spiritcircle",
+          "url": "https://www.spiritcircle.jp/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-11-09T06:00:55.310Z"
+  },
+  "219618": {
+    "anisearchId": 22092,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Karada ni Ii Otoko",
+          "titleNative": "カラダにイイ男",
+          "status": "Zukünftig",
+          "released": "01.2027 - ?"
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "season": "Winter 2026/27",
+      "studios": [
+        "studio HOUKIBOSHI"
+      ],
+      "adaptedFrom": "Webtoon",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/karadanii_anime"
+        },
+        {
+          "name": "Karadaniiiotoko Af Original",
+          "url": "https://karadaniiiotoko.af-original.com"
+        }
+      ],
+      "synonyms": [
+        "He Does a Body Good"
+      ]
+    },
+    "fetchedAt": "2026-11-09T06:01:02.058Z"
+  },
+  "219621": {
+    "anisearchId": 22093,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Hagure Idol: Jigoku-hen",
+          "titleNative": "はぐれアイドル 地獄変",
+          "status": "Zukünftig",
+          "released": "01.2027 - ?"
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "season": "Winter 2026/27",
+      "studios": [
+        "Raiose"
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/hagure_anime"
+        },
+        {
+          "name": "Hagureidol Deregula",
+          "url": "https://hagureidol.deregula.com/"
+        }
+      ],
+      "synonyms": [
+        "Booty Royale: Never Go Down Without a Fight!"
+      ]
+    },
+    "fetchedAt": "2026-11-09T06:01:08.791Z"
+  },
+  "219679": {
+    "anisearchId": 22094,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Yuusha Party ni Kawaii Ko ga Ita no de, Kokuhaku Shite Mita. Dai 2 Ki",
+          "titleNative": "Yūsha Party ni Kawaii Ko ga Ita no de, Kokuhaku Shite Mita. Dai 2 Ki",
+          "status": "Zukünftig",
+          "released": "?"
+        }
+      ],
+      "format": "TV-Serie",
+      "staff": [
+        {
+          "name": "Ryou MIZOGAMI",
+          "role": "Original Work"
+        }
+      ],
+      "adaptedFrom": "Light Novel",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/yuukawa_anime"
+        },
+        {
+          "name": "Yuukawa Anime",
+          "url": "https://yuukawa-anime.com/"
+        }
+      ],
+      "synonyms": [
+        "There Was a Cute Girl in the Hero’s Party",
+        "So I Tried Confessing to Her: Season 2",
+        "There Was a Cute Girl in the Hero’s Party",
+        "So I Tried Confessing to Her: Staffel 2",
+        "There Was a Cute Girl in the Hero’s Party",
+        "So I Tried Confessing to Her : Saison 2",
+        "There Was a Cute Girl in the Hero’s Party",
+        "So I Tried Confessing to Her: Stagione 2"
+      ]
+    },
+    "fetchedAt": "2026-11-09T06:01:15.526Z"
+  },
+  "219714": {
+    "anisearchId": 22097,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Spy × Family: Season 4",
+          "titleNative": "スパイファミリー Season 4",
+          "status": "Zukünftig",
+          "released": "2027 - ?"
+        }
+      ],
+      "format": "TV-Serie",
+      "staff": [
+        {
+          "name": "Tatsuya ENDOU",
+          "role": "Original Work"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/spyfamily_anime"
+        },
+        {
+          "name": "X",
+          "url": "https://x.com/spyfamily_en"
+        },
+        {
+          "name": "Spy Family",
+          "url": "https://spy-family.net/"
+        }
+      ],
+      "synonyms": [
+        "Spy x Family: 4rd Season",
+        "Spy x Family: Season 4",
+        "Spy × Family: 4rd Season",
+        "Spy × Family: Staffel 4",
+        "Spy x Family: Staffel 4"
+      ]
+    },
+    "fetchedAt": "2026-11-09T06:01:22.258Z"
   }
 }

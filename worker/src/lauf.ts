@@ -11,6 +11,7 @@ import { SQL_AUFRAEUMEN, SQL_EINE_ART, SQL_LAEUFE_LAUFEND, SQL_VERLAUF, LAUF_ART
 import { ereignisSenden } from './ereignisse.ts'
 import { ausEdgeCache } from './cache-kurz.ts'
 import { crZugangAuffrischen } from './cr-zugang.ts'
+import { tokenAusKopf, tokenGleich } from './lauf-token.ts'
 
 /**
  * **Was gerade läuft — und was die Kacheln sonst zeigen** (28.09.2026 umgebaut).
@@ -75,8 +76,8 @@ export async function handleLauf(request: Request, env: Env, ctx?: ExecutionCont
 
   // Ohne gesetztes Secret bleibt der Pfad lesbar, aber nicht beschreibbar —
   // sonst könnte jeder Beliebige falsche Läufe melden.
-  const token = request.headers.get('X-Lauf-Token') ?? ''
-  if (!env.LAUF_TOKEN || token !== env.LAUF_TOKEN) return antwort({ error: 'Nicht erlaubt' }, 403)
+  const token = tokenAusKopf(request)
+  if (!env.LAUF_TOKEN || !tokenGleich(token, env.LAUF_TOKEN)) return antwort({ error: 'Nicht erlaubt' }, 403)
 
   let daten: Record<string, string | undefined>
   try {

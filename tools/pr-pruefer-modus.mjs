@@ -15,9 +15,9 @@
  * Die Marke am Ende des CI-Kommentars (`<!-- pruefer-modus: voll|abnahme -->`) schreibt die Freigabe-Stufe; gelesen wird nur
  * die letzte Zeile, ein Zitat im Protokoll zählt nicht.
  */
-import { spawnSync } from 'node:child_process'
 import { writeFileSync } from 'node:fs'
 import { pathToFileURL } from 'node:url'
+import { ghApiJson } from './kind-mit-limit.mjs'
 
 const VERTRAUT = new Set(['OWNER', 'MEMBER', 'COLLABORATOR'])
 const CI_BOT = 'github-actions[bot]'
@@ -30,12 +30,17 @@ const FREIGABE = /freigeben/i
 const MAX_QUELLEN = 6
 const MAX_ZEICHEN = 20000
 
+// Beginn des Protokolls, das die Freigabe-Stufe (pr-pruefer.yml) bei einem Token-Muster einsetzt; das Review ist dann ein Fehlerfall, keine Prüfung.
+export const VERWORFEN_TEXT = 'Das Protokoll enthielt ein Token-Muster und wurde verworfen.'
+
 /** CI-Review -> { kopf, wort, modus, text } oder null; `wort` ist ok oder aendern (Zusatz nach dem Komma entfällt). */
 function leseCi(k) {
   if (k.user?.login !== CI_BOT) return null
   const body = String(k.body ?? '')
   const m = CI_URTEIL.exec(body)
   if (!m || m[2].startsWith('nicht beurteilt')) return null // „Kette lief noch“ ist kein Urteil: Modus und Auflagen bleiben die der Runde davor
+  // Im Abnahme-Modus steht die Zeile „Abnahme-Modus: …“ vor dem Protokoll, daher Zeilenanfang irgendwo statt Textanfang.
+  if (body.split('\n').some((zeile) => zeile.startsWith(VERWORFEN_TEXT))) return null
   const marke = MARKE.exec(body.trimEnd().split('\n').at(-1))
   return { kopf: m[1].slice(0, 9), wort: m[2].split(',')[0], modus: marke ? marke[1] : 'voll', text: body }
 }
@@ -47,6 +52,18 @@ function leseAgent(k) {
   return AGENT_URTEIL.test(body) && !FREIGABE.test(body.split('\n')[0]) ? body : null
 }
 
+/** Ein Abnahme-„aendern“ verbraucht `aendern-frei` nur, wenn zu seiner Zeit schon Auflagen vorlagen (sonst war es ein Altfall ohne Liste). */
+function verbrauchtAendernFrei(kommentare) {
+  let auflagen = 0
+  for (const k of kommentare) {
+    const c = leseCi(k)
+    if (c === null) auflagen += leseAgent(k) === null ? 0 : 1
+    else if (c.modus === 'voll' && c.wort === 'aendern') auflagen++
+    else if (c.modus === 'abnahme' && c.wort === 'aendern' && auflagen > 0) return true
+  }
+  return false
+}
+
 /**
  * Kommentare der GitHub-API -> { modus, vorher, aenderFrei, auflagen }.
  * `auflagen`: [{ quelle, text }] in Reihenfolge, höchstens MAX_QUELLEN, je MAX_ZEICHEN Zeichen.
@@ -54,7 +71,7 @@ function leseAgent(k) {
 export function bestimmeModus(kommentare, stufe) {
   const ci = kommentare.map(leseCi).filter(Boolean)
   const agent = kommentare.map(leseAgent).filter((t) => t !== null)
-  const abnahmeAendern = ci.some((c) => c.modus === 'abnahme' && c.wort === 'aendern')
+  const abnahmeAendern = verbrauchtAendernFrei(kommentare)
   const quellen = [
     // Die CI-Reviews zuerst: die Kappung auf MAX_QUELLEN schneidet dann nur überzählige Agent-Kommentare ab.
     ...ci.filter((c) => c.modus === 'voll' && c.wort === 'aendern').map((c) => ({ quelle: `CI-Review für ${c.kopf} (aendern)`, text: c.text })),
@@ -75,14 +92,8 @@ export function auflagenText(auflagen, vorher) {
   return kopf + auflagen.map((a) => `\n## ${a.quelle}\n\n${a.text}\n`).join('')
 }
 
-function gh(args) {
-  const r = spawnSync('gh', ['api', ...args], { encoding: 'utf8', maxBuffer: 1 << 28 })
-  if (r.status !== 0) throw new Error(r.stderr)
-  return JSON.parse(r.stdout)
-}
-
 /** Zeilen für $GITHUB_OUTPUT; schreibt <datei>. `api(args)` liefert das JSON von `gh api <args>`. */
-export function main(pr, stufe, datei, api = gh, repo = process.env.GITHUB_REPOSITORY) {
+export function main(pr, stufe, datei, api = ghApiJson, repo = process.env.GITHUB_REPOSITORY) {
   try {
     const kommentare = api(['--paginate', '--slurp', `repos/${repo}/issues/${pr}/comments`]).flat()
     const m = bestimmeModus(kommentare, stufe)

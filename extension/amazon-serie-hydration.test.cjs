@@ -178,7 +178,7 @@ pruefe('Beschreibung gelesen', (erste?.beschreibung ?? '').length > 40, (erste?.
  * sich nur dort prüfen — ein Sandkasten sähe nur das Ergebnis, nicht den Weg.
  */
 {
-  const amazon = readFileSync(resolve(__dirname, 'amazon.js'), 'utf8')
+  const amazon = readFileSync(resolve(__dirname, 'amazon-knopf-zeichnen.js'), 'utf8')
   const von = amazon.indexOf('function zeichnenRoh() {')
   pruefe('zeichnen() ist auffindbar', von > 0, von)
 

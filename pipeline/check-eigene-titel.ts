@@ -51,7 +51,7 @@ const wirft = (f: () => unknown, teil: string): boolean => {
 const schreibeDatei = (zeilen: string[]) => writeFileSync(join(bauOrdner, 'data', 'eigene-titel.yaml'), zeilen.join('\n'))
 const zeile = (nr: number, name: string, extra: string[] = []) => [
   `- nr: ${nr}`, `  name: ${name}`, '  format: MOVIE', '  anbieter: [joyn, primevideo]', '  tag: 2999-01-02',
-  '  sources: [https://example.org/artikel]', '  zitat: "Fixture-Zitat"', ...extra,
+  '  sources: [https://example.org/artikel]', '  zitat: "Fixture-Zitat"', '  coverGrund: Fixture', ...extra,
 ]
 const ID_FILM = EIGENE_ID_BASIS + 910001
 const ID_GEHEIMNIS = EIGENE_ID_BASIS + 910002
@@ -88,6 +88,21 @@ console.log('Handdatei prüfen')
   kaputt(zeile(910001, 'A').filter((z) => !z.includes('anbieter')), 'anbieter', 'fehlender Anbieter bricht ab')
   kaputt(zeile(910001, 'A').map((z) => z.replace('sources: [https://example.org/artikel]', 'sources: []')), 'sources', 'leere Quellenliste bricht ab')
   kaputt(zeile(910001, 'A').map((z) => z.replace('format: MOVIE', 'format: ')), 'format', 'fehlendes Format bricht ab')
+  const ohneCover = zeile(910001, 'A').filter((z) => !z.includes('coverGrund'))
+  kaputt(ohneCover, 'tmdb (Plakat) oder coverGrund fehlt', 'weder tmdb noch coverGrund bricht ab')
+  kaputt(zeile(910001, 'A').map((z) => z.replace('coverGrund: Fixture', 'coverGrund: ')), 'tmdb (Plakat) oder coverGrund fehlt', 'leerer coverGrund zählt nicht')
+  kaputt([...ohneCover, `  coverGrund: ' '`], 'tmdb (Plakat) oder coverGrund fehlt', 'coverGrund aus Leerzeichen zählt nicht')
+  kaputt([...ohneCover, '  tmdb: film/12'], 'tmdb muss', 'tmdb mit unbekannter Art bricht ab')
+  kaputt([...ohneCover, '  tmdb: movie/'], 'tmdb muss', 'tmdb ohne Kennung bricht ab')
+  kaputt([...ohneCover, '  tmdb: movie/12x'], 'tmdb muss', 'tmdb mit Buchstaben in der Kennung bricht ab')
+  schreibeDatei([...ohneCover, '  tmdb: movie/12'])
+  pruefe(ladeEigeneTitel(bauOrdner)[0]?.tmdb === 'movie/12', 'tmdb statt coverGrund genügt')
+  schreibeDatei([...ohneCover, '  zuId: 77'])
+  pruefe(ladeEigeneTitel(bauOrdner).length === 1, 'umgezogene Zeile (zuId) braucht kein Plakat')
+  schreibeDatei([...ohneCover, '  widerrufen: Fixture, 2999-01-03'])
+  pruefe(ladeEigeneTitel(bauOrdner).length === 1, 'widerrufene Zeile braucht kein Plakat')
+  schreibeDatei([...ohneCover, '  widerrufen: Fixture, 2999-01-03', '  tmdb: film/12'])
+  pruefe(wirft(() => ladeEigeneTitel(bauOrdner), 'tmdb muss'), 'auch eine widerrufene Zeile mit kaputtem tmdb bricht ab')
   schreibeDatei([''])
   pruefe(ladeEigeneTitel(bauOrdner).length === 0, 'leere Datei: keine Zeilen, kein Fehler')
   const echt = ladeEigeneTitel(join(import.meta.dirname, '..'))
@@ -112,7 +127,7 @@ console.log('Bau und Termin über releasesAus (Z wie Zorro, M.A.S.K.)')
     ...zeile(910001, 'Z wie Zorro – Der Film'),
     ...zeile(910002, 'Zorros Geheimnis'),
     '- nr: 910003', '  name: M.A.S.K.', '  format: TV', '  anbieter: [primevideo]', '  tag: 2999-01-01',
-    '  sources: [https://example.org/mask]', '  zitat: "Fixture-Zitat"',
+    '  sources: [https://example.org/mask]', '  zitat: "Fixture-Zitat"', '  tmdb: tv/4961',
   ])
   const serie = { id: 900081, idMal: null, title: { romaji: 'Z wie Zorro', english: 'Z wie Zorro', native: null }, format: 'TV', status: 'FINISHED', episodes: 52, duration: 24, season: 'FALL', seasonYear: 1996, startDate: { year: 1996, month: 10, day: 1 }, genres: [], tags: [], externalLinks: [], studios: { nodes: [] }, coverImage: { large: null, extraLarge: null }, bannerImage: null, averageScore: null, isAdult: false, description: null, countryOfOrigin: 'JP' } as unknown as AniListMedia
   const { titles } = baueTitel({ byMal: {}, byAniId: { 900081: serie }, confidenceRaw: {} })
@@ -280,7 +295,7 @@ console.log('Verdrahtung im Bau (Syntaxbaum)')
   const fehlerListe = [
     ...pruefeAufrufAnweisung(phasen, 'bauePhasenfolge', 'haengeEigeneUm', 'titles, releases', 'ergaenzeTermineAusNewsUndTv'),
     ...pruefeAufrufAnweisung(lies('13-6-kennungen.ts'), 'ergaenzeKennungen', 'schreibeEigeneZuAk', '', 'execFileSync'),
-    ...pruefeAufrufAnweisung(lies('11-wege-abschluss.ts'), 'schliesseWegeAb', 'begrenzeWegeAufBelege', 'titles.values(), alleChecks'),
+    ...pruefeAufrufAnweisung(lies('11-wege-abschluss.ts'), 'schliesseWegeAb', 'begrenzeWegeAufBelege', 'titles.values(), alleChecks, jwJoyn'),
   ]
   pruefe(fehlerListe.length === 0, `Phase 08 → Umhängen, Kennungen → zuAk und Wegebegrenzung stehen als eigene Anweisung am richtigen Platz: ${fehlerListe.join(' | ')}`)
   const mutant = (alt: string, neu: string) => pruefeAufrufAnweisung(phasen.replace(alt, neu), 'bauePhasenfolge', 'haengeEigeneUm', 'titles, releases', 'ergaenzeTermineAusNewsUndTv').length

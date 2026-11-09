@@ -271,7 +271,7 @@ function takten(takte, durchlaeufe = 5) {
 
 /* Wie im Manifest: `prime-stand.js` und `prime-such-bruecke.js` vor `amazon.js`, das beim Melden `akPrimeMeldungEintragen` und `akPrimeVermerk` aufruft. */
 function ladeSkripte(sandkasten) {
-  for (const datei of ['melde-sperre.js', 'pruefstand-zeit.js', 'prime-stand.js', 'prime-stand-ziele.js', 'prime-such-bruecke.js', 'prime-region.js', 'amazon.js']) vm.runInContext(readFileSync(`${__dirname}/${datei}`, 'utf8'), sandkasten)
+  for (const datei of ['melde-sperre.js', 'pruefstand-zeit.js', 'prime-stand.js', 'prime-stand-ziele.js', 'prime-such-bruecke.js', 'prime-region.js', 'amazon-knopf-zeichnen.js', 'amazon.js']) vm.runInContext(readFileSync(`${__dirname}/${datei}`, 'utf8'), sandkasten)
 }
 
 function starte(seitenAsin, gespeichert = {}, liste = TEST_LISTE, alsVideoSeite = true, weitere = {}) {
@@ -615,7 +615,7 @@ void (async () => {
   wachposten[0]()
   pruefe('und die Zahl der Intervalle bleibt gleich', takte.length === vorher, takte.length + ' statt ' + vorher)
 
-  const quellText = readFileSync(__dirname + '/amazon.js', 'utf8')
+  const quellText = readFileSync(__dirname + '/amazon-knopf-zeichnen.js', 'utf8') + readFileSync(__dirname + '/amazon.js', 'utf8')
   pruefe(
     'der Wachposten löst sofort einen Takt aus, statt auf den nächsten zu warten',
     /function adresseNeuPruefen\(\)[\s\S]{0,900}taktSchritt\(\)/.test(quellText),
@@ -1384,7 +1384,7 @@ void (async () => {
       ganze Aussage.
     */
     {
-      const quelle = readFileSync(__dirname + '/amazon.js', 'utf8')
+      const quelle = readFileSync(__dirname + '/amazon-knopf-zeichnen.js', 'utf8') + readFileSync(__dirname + '/amazon.js', 'utf8')
       const diagBlock = quelle.slice(quelle.indexOf("setzData(knopf, 'diag'"), quelle.indexOf("setzData(knopf, 'diag'") + 2000)
       pruefe(
         'die Diagnose am Knopf trägt keine Taktmesswerte mehr',
@@ -1801,7 +1801,7 @@ for (const pfad of ['/', '/gp/video/storefront']) {
  * wieder in einer Zeile zusammengesetzt werden.
  */
 {
-  const quelle = readFileSync(require('node:path').join(__dirname, 'amazon.js'), 'utf8')
+  const quelle = readFileSync(require('node:path').join(__dirname, 'amazon-knopf-zeichnen.js'), 'utf8') + readFileSync(require('node:path').join(__dirname, 'amazon.js'), 'utf8')
   pruefe(
     'der Fortschritt steht ausgeschrieben, nicht als Bruch',
     quelle.includes("stand.replace('/', ' von ')") && quelle.includes(' gemeldet`'),
