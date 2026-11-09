@@ -49,6 +49,7 @@ pipeline/check-handlung-eigen-bestand.ts
 pipeline/check-herkunftsland-bestand.ts
 pipeline/check-interne-angaben-bestand.ts
 pipeline/check-ja-hat-weg-bestand.ts
+pipeline/check-joyn-block-bestand.ts
 pipeline/check-joyn-luecke-bestand.ts
 pipeline/check-joyn-pille-bestand.ts
 pipeline/check-joyn-sender-bestand.ts
