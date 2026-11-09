@@ -10,6 +10,7 @@ pipeline/check-abruf-stempel.ts
 pipeline/check-abruf-stoerung-lauf.ts
 pipeline/check-abstand.ts
 pipeline/check-adn-anisearch.ts
+pipeline/check-adn-ausreisser.ts
 pipeline/check-adn-film.ts
 pipeline/check-adn-katalog-warteschlange.ts
 pipeline/check-adn-kennung.ts

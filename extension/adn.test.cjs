@@ -76,6 +76,18 @@ pruefe('Ohne Sprachangabe: nicht gemeldet, aber gezählt', (() => {
   return r.zeilen.length === 0 && r.ohneAngabe === 1
 })())
 
+console.log('Ausreißer: eine einzelne vde-Folge unter lauter vostde (Demon Slave, 09.11.2026)')
+const demon = (vdeNummern, anzahl = 12) =>
+  Array.from({ length: anzahl }, (_, i) => roh({ id: 24100 + i, number: `Folge ${i + 1}`, shortNumber: String(i + 1), languages: vdeNummern.includes(i + 1) ? ['vostde', 'vde'] : ['vostde'] }))
+const einzel = L.ordne(demon([6]))
+pruefe('Demon Slave S1F6 (vde, Rest vostde): gilt als nein', einzel.zeilen.length === 12 && einzel.zeilen.every((z) => z.tonDe === 'nein'), einzel.zeilen.map((z) => z.tonDe))
+pruefe('... samt Sprachen der Meldung (nur Japanisch) und Kennzeichen', einzel.zeilen.find((z) => z.nummer === 6).sprachen.join() === 'ja' && einzel.zeilen.find((z) => z.nummer === 6).ausreisser === true)
+pruefe('... die Box zählt keine deutsche Folge ("nur Untertitel")', L.zaehle(einzel.zeilen).synchro === 0)
+pruefe('Gegenprobe: zwei vde-Folgen bleiben deutsch', L.zaehle(L.ordne(demon([5, 6])).zeilen).synchro === 2)
+pruefe('Gegenprobe: Staffel beginnt mit Folge 1 deutsch (Vertonung läuft)', L.zaehle(L.ordne(demon([1])).zeilen).synchro === 1)
+pruefe('Gegenprobe: nur zwei Folgen ohne vde reichen nicht für ein Urteil', L.zaehle(L.ordne(demon([2], 3)).zeilen).synchro === 1)
+pruefe('Gegenprobe: eine einzelne Folge einer anderen Staffel bleibt deutsch', L.zaehle(L.ordne([...demon([6]), roh({ id: 9001, season: '2', languages: ['vostde', 'vde'] })]).zeilen).synchro === 1)
+
 console.log('Meldung')
 const serie = L.serieAus(F['serie-synchro-s1'].videos)
 const m = L.meldung(serie, 'https://animationdigitalnetwork.com/de/video/1375-dorohedoro', ordne('serie-synchro-s1').zeilen[2])

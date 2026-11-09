@@ -5,7 +5,8 @@ import {
   ordneBloeckeZuStaffeln,
   alsEinBlock,
 } from '../lib/adn.ts'
-import { readJson, log, warn } from '../lib/util.ts'
+import { readJson, log, warn, ROOT } from '../lib/util.ts'
+import { ausreisserAusArchiv, ohneAusreisser } from '../lib/adn-ausreisser.ts'
 import { normalizeTitle } from '../lib/crunchyroll.ts'
 import { adnSlug, adnBlockName, fskFromAdnAge, adnHinweis, werkTitel } from './titel-hilfen.ts'
 import { ADN_CALENDAR_URL, adnKatalogUrl } from './grundlagen.ts'
@@ -36,8 +37,11 @@ const LEER_ADN: AdnData = {
 /** ADN-Termine aus Kalender und Katalog; ein kuratierter Termin desselben Titels am selben Tag geht darin auf (`adn-kuratiert.ts`). */
 export function ergaenzeAdnTitel(eingabe: AdnEingabe) {
   const cartoonJeAdn = cartoonTitelJeAdn(readJson<Record<string, CartoonEintrag>>('data/cartoons.json', {}))
-  const ergebnis = ergaenzeAdnTitelAusDaten({ ...eingabe, cartoonJeAdn })
-  const shows = adnShowsAusKalenderUndKatalog(readJson<AdnData>('data/adn.json', LEER_ADN), ergebnis.adnKatalog)
+  /* Eine einzelne vde-Folge unter lauter vostde ist ein Katalogfehler und belegt keine Synchro (`lib/adn-ausreisser.ts`). */
+  const ausreisser = ausreisserAusArchiv(ROOT)
+  const ergebnis = ergaenzeAdnTitelAusDaten({ ...eingabe, cartoonJeAdn, ausreisser })
+  const alleShows = adnShowsAusKalenderUndKatalog(readJson<AdnData>('data/adn.json', LEER_ADN), ergebnis.adnKatalog)
+  const shows = ohneAusreisser(alleShows, ausreisser)
   const belegt = belegeTonKuratierterAdnTermine(eingabe.releases, eingabe.titles, shows, todayIso())
   if (belegt) log(`${belegt} ADN-Wege kuratierter Termine mit deutscher Synchro belegt (vde am Starttag laut ADN)`)
   const aufgegangen = verschmelzeAdnMitKuratiertem(eingabe.releases)
@@ -45,7 +49,7 @@ export function ergaenzeAdnTitel(eingabe: AdnEingabe) {
   return ergebnis
 }
 
-function ergaenzeAdnTitelAusDaten({ titles, releases, titleByName, seenSlugs, cartoonJeAdn }: AdnEingabe & { cartoonJeAdn: Map<number, Title> }) {
+function ergaenzeAdnTitelAusDaten({ titles, releases, titleByName, seenSlugs, cartoonJeAdn, ausreisser }: AdnEingabe & { cartoonJeAdn: Map<number, Title>; ausreisser: ReadonlySet<number> }) {
   /** ADN-Verweise, die aus einem ADN-Termin entstehen (der Termin belegt die Synchro). */
   let adnVerweiseErgaenzt = 0
   // ADN nennt in seiner Schnittstelle je Folge die Sprachfassung. Was dort als
@@ -73,7 +77,7 @@ function ergaenzeAdnTitelAusDaten({ titles, releases, titleByName, seenSlugs, ca
   const adn: AdnData = {
     ...adnKalender,
     // Der Kalender ist die frischere Quelle — was dort schon steht, gewinnt (die Katalog-`titleId` übernimmt er).
-    shows: adnShowsMitKatalogKennung(adnKalender.shows, adnKatalog.shows),
+    shows: ohneAusreisser(adnShowsMitKatalogKennung(adnKalender.shows, adnKatalog.shows), ausreisser),
   }
   const curatedAdnShows = new Set(
     releases
