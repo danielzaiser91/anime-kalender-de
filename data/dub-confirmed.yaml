@@ -22243,17 +22243,6 @@
       dub: true
   checkedAt: '2026-10-11'
   note: "Folgen 4–11 mit deutschem Ton — Anbieter zählt durch, hier auf die Staffel umgerechnet — Tonspuren: 日本語 — Amazon-Seite B0B7D5DRV2: alle 12 Folgen geprüft, Abos: Prime, aniversede, crunchyrollde, zugang=abo_und_kauf, gti=amzn1.dv.gti.30d69164-5a13-4547-80b7-4d7df334762a"
-- anilistId: 182587
-  title: "Oshi no Ko: Mein Star"
-  platform: primevideo
-  url: https://www.amazon.de/gp/video/detail/B0GFPBT6FG
-  dub: false
-  dubRanges:
-    - from: 1
-      to: 1
-      dub: false
-  checkedAt: '2026-10-11'
-  note: "Folge 1 ohne deutschen Ton — Anbieter zählt durch, hier auf die Staffel umgerechnet — Tonspuren: 日本語 — Amazon-Seite B0B7D5DRV2: alle 12 Folgen geprüft, Abos: Prime, aniversede, crunchyrollde, zugang=abo_und_kauf, gti=amzn1.dv.gti.30d69164-5a13-4547-80b7-4d7df334762a"
 - anilistId: -59427
   title: "Avengers - Gemeinsam unbesiegbar!"
   platform: disneyplus
