@@ -37222,6 +37222,7 @@
   platform: primevideo
   url: https://www.amazon.de/dp/B0CZSMKH71
   available: false
+  seiteNichtWerk: true
   checkedAt: '2026-10-28'
   note: "Daniels Urteil vom 13.09. gilt weiter: Die Seite ist die Hauptserie als Kauftitel, nicht das Special. Die Tonspurmessung vom 16.10. (12 Folgen) liest dieselbe Hauptserie und widerlegt das nicht."
 # --- Aus dem Browser gemeldet, abgeholt am 2026-10-28 ---
