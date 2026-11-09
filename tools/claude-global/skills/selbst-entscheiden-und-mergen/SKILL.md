@@ -97,3 +97,4 @@ Datei es erlaubt. Tatsachenzahlen (IDs, Termine, Uhrzeiten, Folgenzahlen, Synchr
 ## Ticket abnehmen gehört zum Merge (Daniel, 11.10.2026)
 
 Agenten erstellen nur PRs und setzen ihren Sub-Task im Board auf aktiv; die Hauptsitzung mergt und nimmt deshalb auch das Ticket ab: nach Merge und Live-Messung auf erledigt, bei Prüfer-„ändern“ oder roter Messung zurück auf offen mit Grund. Befehle stehen im README des Ticket-Boards (`C:/code/ai/ticket-board`).
+- **Prüfstufe 2 erst nach CI-Urteil in den Nachschub (09.11.2026):** Ein PR der Prüfstufe 2 kommt erst in den Nachschub der Merge-Reihe, wenn der CI-Prüfer auf demselben Kopf geurteilt hat.
