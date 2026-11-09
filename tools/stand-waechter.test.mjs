@@ -1,5 +1,5 @@
 /**
- * Test für `tools/claude-global/hooks/stand-waechter.js` und seine Verdrahtung in stand-prs.js: „## In Arbeit“ in stand.md
+ * Test für `.claude/hooks/stand-waechter.js` und seine Verdrahtung in stand-prs.js: „## In Arbeit“ in stand.md
  * darf höchstens 20 Handzeilen außerhalb des Auto-Blocks haben, und die Kopfzeile trägt einen Stand von höchstens 24 h.
  * Feste Zeit, Wegwerf-Dateien unter os.tmpdir().
  */
@@ -10,8 +10,8 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 
 const require = createRequire(import.meta.url)
-const w = require(join(import.meta.dirname, 'claude-global', 'hooks', 'stand-waechter.js'))
-const h = require(join(import.meta.dirname, 'claude-global', 'hooks', 'stand-prs.js'))
+const w = require(join(import.meta.dirname, '..', '.claude', 'hooks', 'stand-waechter.js'))
+const h = require(join(import.meta.dirname, '..', '.claude', 'hooks', 'stand-prs.js'))
 
 const AUF = h.AUF
 const ZU = h.ZU
