@@ -93,7 +93,7 @@ try {
   const ohneJw = titel(10_000_002, [weg('joyn', 'https://www.joyn.de/filme/a')])
   behalteNurHandbelegteWege(ohneJw, [])
   erwarte('Ohne JustWatch-Adressen fällt der Joyn-Weg wie bisher', ohneJw.streams.length === 0, ohneJw.streams)
-  const andere = titel(10_000_003, [weg('netflix', 'https://www.joyn.de/filme/a')])
+  const andere = titel(10_000_001, [weg('netflix', 'https://www.joyn.de/filme/a')])
   behalteNurHandbelegteWege(andere, [], adressen)
   erwarte('Dieselbe Adresse bei einer anderen Plattform trägt nichts', andere.streams.length === 0, andere.streams)
 

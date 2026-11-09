@@ -6,7 +6,7 @@ import { existsSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSy
 import { tmpdir } from "node:os"
 import { dirname, join } from "node:path"
 import { fileURLToPath } from "node:url"
-import { beiSignal, normalisierePfad, planeMutant, registriereSignale, SIGNALE } from "./mutationslaeufer.mjs"
+import { beiSignal, normalisierePfad, planeMutant, registriereSignale, schlusszeile, SIGNALE } from "./mutationslaeufer.mjs"
 
 const hier = dirname(fileURLToPath(import.meta.url))
 const laeufer = process.argv[2] ?? join(hier, "mutationslaeufer.mjs")
@@ -83,6 +83,10 @@ const erwartet = {
   Kontrolle: "GRÜN",
 }
 for (const [name, urteil] of Object.entries(erwartet)) assert.equal(urteilVon(r1.aus, name), urteil, `${name}: ${zeile(r1.aus, name)}`)
+assert.match(r1.aus, /mutationslaeufer: 5 rot, 4 überlebt, 2 Anker nicht gefunden, 1 mehrdeutig, 1 wirkungslos, 14 gesamt/)
+assert.equal(schlusszeile([{ urteil: "nicht gefunden" }, { urteil: "GRÜN", kontrolle: true }, { urteil: "rot" }]), "mutationslaeufer: 1 rot, 0 überlebt, 1 Anker nicht gefunden, 0 mehrdeutig, 0 wirkungslos, 3 gesamt")
+const ungleich = [..."rrr"].map(() => ({ urteil: "rot" })).concat({ urteil: "GRÜN", kontrolle: true }, { urteil: "GRÜN" }, { urteil: "nicht gefunden" }, [1, 2, 3].map(() => ({ urteil: "mehrdeutig" })), [1, 2].map(() => ({ urteil: "wirkungslos" })))
+assert.equal(schlusszeile(ungleich.flat()), "mutationslaeufer: 3 rot, 1 überlebt, 1 Anker nicht gefunden, 3 mehrdeutig, 2 wirkungslos, 11 gesamt")
 unversehrt()
 
 // 2. Alle rot (und Kontrolle grün): Exit 0; Test je Mutant überschreibt --test.
