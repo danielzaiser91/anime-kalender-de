@@ -1,6 +1,6 @@
 // Wache „Synchro-Wartezeit“: Fälle mit dem Black-Clover-Katalog vom 07.11.2026 (Folge 171, verfuegbarAb 16:00Z); kein Netz.
 import assert from 'node:assert/strict'
-import { spawn, spawnSync } from 'node:child_process'
+import { spawnSync } from 'node:child_process'
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
@@ -202,36 +202,40 @@ try {
   assert.match(ruhig.stdout, /^Synchro-Wartezeit: kein Alarm/m)
   assert.doesNotMatch(ruhig.stdout, /ALARM Synchro/)
 
-  // A1 Reihenfolge: Der Abruf der Wache startet sofort, wartet aber auf eine Freigabedatei, die der Test erst anlegt, wenn der
-  // ALARM des Bestandsbaus auf stdout erscheint. Wartete die Wache vor den Alarmen auf den Abruf, bliebe die Freigabe aus (KEINE-FREIGABE).
-  const freigabe = join(wegwerf, 'freigabe')
-  const wartend = `globalThis.fetch=async(u)=>{if(/crunchyroll-dub[.]json|[/]data[/]releases[.]json/.test(String(u))){const fs=await import("node:fs");for(let i=0;i<100;i++){if(fs.existsSync(${JSON.stringify(freigabe)})){console.error("FREIGABE");return new Response("{}",{status:500})}await new Promise((r)=>setTimeout(r,50))}console.error("KEINE-FREIGABE")}return new Response("{}",{status:500})}`
+  // A1 Reihenfolge: Die Synchro-Zeile steht weiter nach den ALARMen des Bestandsbaus (Server antwortet 500).
   const rot = [
     { status: 'completed', conclusion: 'success', createdAt: '2026-10-18T01:00:00Z', databaseId: 1 },
     { status: 'completed', conclusion: 'failure', createdAt: '2026-10-18T02:00:00Z', databaseId: 2 },
   ]
-  const kind = spawn(process.execPath, ['--import', stub(rot, wartend), aufraeumen, '--trocken', '--gesundheit', gesundheit], {
-    timeout: 60_000,
-    env: { ...process.env, LAUF_TOKEN: '', AK_SYNCHRO_QUELLE: '' },
-  })
-  let aus = ''
-  let fehl = ''
-  kind.stdout.on('data', (d) => {
-    aus += d
-    if (aus.includes('ALARM Bestandsbau')) writeFileSync(freigabe, 'ja')
-  })
-  kind.stderr.on('data', (d) => {
-    fehl += d
-  })
-  const status = await new Promise((fertig) => kind.on('close', fertig))
-  assert.equal(status, 0, fehl)
-  assert.match(fehl, /FREIGABE/)
-  assert.doesNotMatch(fehl, /KEINE-FREIGABE/, aus.slice(0, 600))
-  const bestand = aus.indexOf('ALARM Bestandsbau')
-  const synchro = aus.indexOf('SYNCHRO? Wartezeit nicht lesbar')
+  const ohneQuelle = (laeufe, fetchTeil) =>
+    spawnSync(process.execPath, ['--import', stub(laeufe, fetchTeil), aufraeumen, '--trocken', '--gesundheit', gesundheit], {
+      encoding: 'utf8',
+      timeout: 120_000,
+      env: { ...process.env, LAUF_TOKEN: '', AK_SYNCHRO_QUELLE: '' },
+    })
+  const nachAlarm = ohneQuelle(rot, SOFORT_500)
+  assert.equal(nachAlarm.status, 0, nachAlarm.stderr)
+  const bestand = nachAlarm.stdout.indexOf('ALARM Bestandsbau')
+  const synchro = nachAlarm.stdout.indexOf('SYNCHRO? Wartezeit nicht lesbar')
   assert.ok(bestand >= 0 && synchro > bestand, `Bestandsbau-ALARM (${bestand}) vor der Synchro-Zeile (${synchro})`)
-  assert.match(aus, /^WACHE nicht geprüft: Synchro-Wartezeit \(/m)
+  assert.match(nachAlarm.stdout, /^WACHE nicht geprüft: Synchro-Wartezeit \(/m)
+
+  // A2 blockierte Ereignisschleife (09.11.2026, „nicht lesbar: timeout“ bei 0,4 s Abruf): die Antwort kommt erst über setImmediate,
+  // die synchronen gh-Aufrufe (execFileSync-Attrappe) stehen 400 ms still, die Frist ist auf 100 ms gekürzt. Wer den Abruf
+  // nicht vor dem ersten synchronen Aufruf abschließt, sieht die Frist vor der Antwort ablaufen.
+  const blockiert = (frist) =>
+    `const e=AbortSignal.timeout;AbortSignal.timeout=()=>e.call(AbortSignal,${frist});` +
+    `globalThis.fetch=async(u,o)=>{await new Promise((r)=>setImmediate(r));if(o&&o.signal&&o.signal.aborted)throw o.signal.reason;` +
+    `const m=/crunchyroll-dub/.test(String(u))?"katalog":/releases[.]json/.test(String(u))?"releases":"";` +
+    `if(!m)return new Response("{}",{status:500});const fs=await import("node:fs");return new Response(fs.readFileSync(${JSON.stringify(join(wegwerf, 'quelle'))}+"/"+m+".json","utf8"))};` +
+    `const alt=cp.execFileSync;cp.execFileSync=(...a)=>{Atomics.wait(new Int32Array(new SharedArrayBuffer(4)),0,0,400);return alt(...a)};syncBuiltinESMExports();`
+  fahre([omu()]) // legt katalog.json und releases.json an
+  const geladen = ohneQuelle([], blockiert(100))
+  assert.equal(geladen.status, 0, geladen.stderr)
+  assert.match(geladen.stdout, /^ALARM Synchro-Wartezeit: Black Clover – Staffel 2/m)
+  assert.doesNotMatch(geladen.stdout, /SYNCHRO[?] Wartezeit nicht lesbar/)
+  console.log('A2: Abruf bei blockierter Ereignisschleife gelesen — ALARM Synchro-Wartezeit vorhanden')
 } finally {
   rmSync(wegwerf, { recursive: true, force: true })
 }
-console.log('synchro-wartezeit: ok (Grenze 89/90/91, Gegenstück, Staffel, 5 Namen des Prüfers, Winterrand, Zeilen, Frist 30 s + Abbruch, Reihenfolge nach den ALARMen, laeufe-aufraeumen als Prozess)')
+console.log('synchro-wartezeit: ok (Grenze 89/90/91, Gegenstück, Staffel, 5 Namen des Prüfers, Winterrand, Zeilen, Frist 30 s + Abbruch, Reihenfolge nach den ALARMen, blockierte Schleife, laeufe-aufraeumen als Prozess)')
