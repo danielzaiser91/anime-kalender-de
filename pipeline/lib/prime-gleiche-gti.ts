@@ -26,9 +26,9 @@ function widerspruchsfrei(gruppe: StreamLink[]): boolean {
   return urteile.size < 2
 }
 
-/** Der Weg, der bleibt: einer mit Deutsch-Urteil (samt seinen Begleitfeldern), sonst der erste. */
+/** Der Weg, der bleibt: einer mit Folgenbereichen (das feinere Urteil), dann einer mit Deutsch-Urteil, sonst der erste. */
 function waehleBleibenden(gruppe: StreamLink[]): StreamLink {
-  return gruppe.find((s) => s.dub !== undefined && !s.dubAbgeleitet) ?? gruppe.find((s) => s.dub !== undefined) ?? gruppe[0]!
+  return gruppe.find((s) => s.dubRanges?.length) ?? gruppe.find((s) => s.dub !== undefined && !s.dubAbgeleitet) ?? gruppe.find((s) => s.dub !== undefined) ?? gruppe[0]!
 }
 
 /** Felder, die der bleibende Weg von den anderen übernimmt, wenn er sie nicht selbst trägt. */

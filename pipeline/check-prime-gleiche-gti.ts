@@ -54,6 +54,16 @@ console.log('\nPrime-Wege gleicher gti:')
   fuehrePrimeWegeGleicherGtiZusammen(geerbt, belegt)
   pruefe('eigene Angaben des bleibenden Wegs werden nicht überschrieben', geerbt[0]!.kanal === 'y' && geerbt[0]!.dubRanges?.length === 1, geerbt)
 
+  // Trinity Seven (20631): ein Weg „deutsch“ ohne Bereiche (alle Folgen), einer mit Folge 1 ohne Deutsch. Der feinere Befund bleibt.
+  const bereiche = [{ from: 1, to: 1, dub: false }, { from: 2, to: 12, dub: true }]
+  const serienweg = () => prime(seite('B0CFL5Y7XN'), { dub: true })
+  const bereichsweg = () => prime(seite('B0D98PQ1FW'), { dub: true, dubRanges: bereiche })
+  for (const [name, reihe] of [['Serienweg zuerst', [serienweg(), bereichsweg()]], ['Bereichsweg zuerst', [bereichsweg(), serienweg()]]] as const) {
+    const s = [...reihe]
+    fuehrePrimeWegeGleicherGtiZusammen(s, belegt)
+    pruefe(`Weg mit Folgenbereichen bleibt, der ohne geht (${name})`, s.length === 1 && s[0]!.dubRanges?.length === 2 && s[0]!.url.endsWith('B0D98PQ1FW'), s)
+  }
+
   const verschieden = [prime(seite('B0CFKZQ6FN')), prime(seite('B0D98PQ1FW'))]
   pruefe('verschiedene gti: beide bleiben', fuehrePrimeWegeGleicherGtiZusammen(verschieden, belegt) === 0 && verschieden.length === 2)
 
