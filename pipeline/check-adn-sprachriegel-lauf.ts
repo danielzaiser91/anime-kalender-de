@@ -111,14 +111,14 @@ pruefe('--catalog: der alte Katalogeintrag der verworfenen Serie bleibt, es komm
 pruefe('--catalog: verworfene Serien stehen nicht im Abfrage-Stand', !('1433' in katalog.abfrageStand) && !('1375' in katalog.abfrageStand), katalog.abfrageStand)
 pruefe('--catalog: Bilanz zählt zwei', katalog.ausgabe.includes('ADN-Sprachriegel: 2 Serien'), katalog.ausgabe.slice(-400))
 
-// --catalog --limit: nur wer in diesem Lauf frisch und vollständig ohne Deutsch antwortete, fällt heraus.
+// --catalog --limit: eine Antwort ganz ohne Videos (404) ist keine Auskunft, der alte Eintrag bleibt (09.11.2026, elf Serien im Tiefendurchlauf verloren).
 const mitId = (showId: number) => ({ ...KATALOGSHOW, showId, title: `Serie ${showId}` })
 const ids = (l: { nachher: { katalog: Buffer } }) => (JSON.parse(l.nachher.katalog.toString()) as { shows: { showId: number }[] }).shows.map((s) => s.showId)
 const begrenzt = lauf('--catalog', [], [], { katalog: [mitId(3001), mitId(3002), mitId(3003)], args: ['--limit', '2'], status: '3001:500,3002:404' })
 pruefe('--catalog --limit: Serie mit 5xx bleibt (Abbruch ist keine Auskunft)', ids(begrenzt).includes(3001), ids(begrenzt))
 pruefe('--catalog --limit: Serie jenseits des Limits bleibt (nicht gefragt)', ids(begrenzt).includes(3003), ids(begrenzt))
-pruefe('--catalog --limit: Serie mit frischer Antwort ohne Deutsch (404) fällt heraus', !ids(begrenzt).includes(3002), ids(begrenzt))
-pruefe('--catalog --limit: Zähler je Weg in der Logzeile', begrenzt.ausgabe.includes('ADN-Katalog behalten: 1 nicht gefragt, 1 Abbruch, 1 entfernt'), begrenzt.ausgabe.slice(-500))
+pruefe('--catalog --limit: Serie mit 404 ohne Videos bleibt (leere Antwort ist keine Auskunft)', ids(begrenzt).includes(3002), ids(begrenzt))
+pruefe('--catalog --limit: Zähler je Weg in der Logzeile', begrenzt.ausgabe.includes('ADN-Katalog behalten: 1 nicht gefragt, 2 Abbruch, 0 entfernt'), begrenzt.ausgabe.slice(-500))
 pruefe('--catalog --limit: Serie mit 5xx steht nicht im Abfrage-Stand (kommt wieder dran)', !('3001' in begrenzt.abfrageStand), begrenzt.abfrageStand)
 
 // Stand-Schlüssel ohne Archivdatei und ohne Katalogeintrag („Gespenster“) kommen zusätzlich in die Schlange: 4001 antwortet mit 5xx (Versuch vermerkt), 4002 mit 404 (Antwortzeit gesetzt).
@@ -127,7 +127,7 @@ pruefe('--catalog --limit: Gespenst mit 5xx wird gefragt, Versuch vermerkt, Antw
 pruefe('--catalog --limit: Gespenst mit 404 wird gefragt, Antwortzeit neu', gespenster.abfrageStand['4002'] !== '2026-10-02T00:00:00.000Z' && gespenster.abfrageStand.v4002 === undefined, gespenster.abfrageStand)
 pruefe('--catalog --limit: Logzeile nennt gefragt und ohne Antwort', gespenster.ausgabe.includes('ADN-Katalog: 3 gefragt, davon 2 ohne Antwort'), gespenster.ausgabe.slice(-600))
 
-// Nur eindeutige Antworten (404/410 auf Seite 1) verneinen; Zeitüberschreitung, 429 und ein Fehler auf Seite 2 sind Nichtauskunft.
+// Auch 404/410 auf Seite 1 ohne Videos entfernen nichts mehr; Zeitüberschreitung, 429 und ein Fehler auf Seite 2 sind Nichtauskunft.
 const nichtauskunft = lauf('--catalog', [], [], {
   katalog: [mitId(3004), mitId(3005), mitId(3006), mitId(3007), mitId(3008), mitId(3009)],
   args: ['--limit', '6'],
@@ -137,12 +137,12 @@ const bleibt = ids(nichtauskunft)
 const stand2 = nichtauskunft.abfrageStand
 pruefe('--catalog: Zeitüberschreitung (fetch wirft) lässt die Serie im Katalog', bleibt.includes(3004), bleibt)
 pruefe('--catalog: 429 lässt die Serie im Katalog', bleibt.includes(3005), bleibt)
-pruefe('--catalog: 410 auf Seite 1 verneint', !bleibt.includes(3006), bleibt)
-pruefe('--catalog: 404 auf Seite 1 verneint', !bleibt.includes(3007), bleibt)
+pruefe('--catalog: 410 auf Seite 1 ohne Videos lässt die Serie im Katalog', bleibt.includes(3006), bleibt)
+pruefe('--catalog: 404 auf Seite 1 ohne Videos lässt die Serie im Katalog', bleibt.includes(3007), bleibt)
 pruefe('--catalog: 404 auf Seite 2 (Seite 1 voll) lässt die Serie im Katalog', bleibt.includes(3008), bleibt)
 pruefe('--catalog: 500 auf Seite 2 (Seite 1 voll) lässt die Serie im Katalog', bleibt.includes(3009), bleibt)
 pruefe('--catalog: Nichtauskunft steht nicht im Abfrage-Stand, Verneinung schon', !('3004' in stand2) && !('3005' in stand2) && !('3008' in stand2) && !('3009' in stand2) && '3006' in stand2 && '3007' in stand2, stand2)
-pruefe('--catalog: Zähler Nichtauskunft', nichtauskunft.ausgabe.includes('ADN-Katalog behalten: 0 nicht gefragt, 4 Abbruch, 2 entfernt'), nichtauskunft.ausgabe.slice(-500))
+pruefe('--catalog: Zähler Nichtauskunft', nichtauskunft.ausgabe.includes('ADN-Katalog behalten: 0 nicht gefragt, 6 Abbruch, 0 entfernt'), nichtauskunft.ausgabe.slice(-500))
 
 // Punkt 1: französische Sicht wird einmal nach Wartezeit erneut gefragt; erst die zweite zählt.
 const wieder = lauf('--laufend', [2001, 2002, 2003, 2004, 2005, 2006], [1433], { zweite: true })
