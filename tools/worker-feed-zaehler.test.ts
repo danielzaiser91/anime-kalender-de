@@ -36,6 +36,7 @@ type Stapel = { geschrieben: number; stapel: number; scheitert: boolean; verzoeg
 
 function umgebung(db: DatabaseSync, z: Stapel): Env {
   const anweisung = (sql: string, werte: unknown[] = []) => ({
+    sql,
     bind: (...w: unknown[]) => anweisung(sql, w),
     run: () => db.prepare(sql).run(...(werte as never[])),
     all: async () => ({ results: db.prepare(sql).all(...(werte as never[])) }),
@@ -45,6 +46,7 @@ function umgebung(db: DatabaseSync, z: Stapel): Env {
     DB: {
       prepare: (sql: string) => anweisung(sql),
       batch: async (liste: ReturnType<typeof anweisung>[]) => {
+        if (!liste.some((a) => a.sql.includes('feed_abrufe'))) return /* Stapel anderer Zähler (route_abrufe) zählen hier nicht */
         if (z.verzoegerung) await new Promise((fertig) => setTimeout(fertig, z.verzoegerung))
         if (z.scheitert) throw new Error('D1_ERROR: no such table: feed_abrufe')
         z.stapel++
