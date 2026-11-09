@@ -3,6 +3,7 @@ import { loadJson } from '../../lib/data.ts'
 import { Tooltip } from '../ui.tsx'
 import { DeFlaggeZeichen } from '../de-flagge.tsx'
 import { folgeIstDeutsch } from './stream-bereiche.ts'
+import { SERIENBELEG_HINWEIS, serienbelegOhneFolgenbeleg } from './serienbeleg-hinweis.ts'
 
 /**
  * **Die Folgenliste im Antwortkasten** (Daniel, 04.10.2026): Ein Pfeil klappt sie auf, der Kasten wächst mit,
@@ -56,7 +57,7 @@ export function useFolgenZaehlung(titleId: number): [number, number] | undefined
 }
 
 /** `laufzeitImKopf`: Die Laufzeit steht schon im Kopf des Panels — dann nicht noch einmal (mit anderem Wert) im Kasten. */
-export function FolgenBereich({ titleId, wege, erschienen, laufzeitImKopf }: { titleId: number; wege: { from: number; to: number }[]; erschienen?: number; laufzeitImKopf?: boolean }) {
+export function FolgenBereich({ titleId, wege, erschienen, laufzeitImKopf, serieBelegt }: { titleId: number; wege: { from: number; to: number }[]; erschienen?: number; laufzeitImKopf?: boolean; serieBelegt?: boolean }) {
   const [gibtEs, setGibtEs] = useState(false)
   const [offen, setOffen] = useState(false)
   const [liste, setListe] = useState<Liste>()
@@ -86,6 +87,7 @@ export function FolgenBereich({ titleId, wege, erschienen, laufzeitImKopf }: { t
   const sichtbar = folgen?.slice(paket * PAKET, paket * PAKET + PAKET) ?? []
   const ohneTitel = folgen !== undefined && folgen.length > 0 && folgen.every(([, titel]) => !titel)
   const deutsch = (nr: number) => folgeIstDeutsch(nr, liste?.de ?? [], wege)
+  const nurSerienbeleg = serienbelegOhneFolgenbeleg(Boolean(serieBelegt), folgen?.map(([nr]) => nr) ?? [], deutsch)
   return (
     <div className="mt-2 border-t border-slate-300 pt-1.5 text-t4 text-slate-700 dark:border-white/10 dark:text-slate-200">
       <button type="button" onClick={() => setOffen((o) => !o)} aria-expanded={offen} className="flex min-h-11 w-full cursor-pointer items-center gap-1.5 text-left text-t3 font-semibold">
@@ -115,6 +117,7 @@ export function FolgenBereich({ titleId, wege, erschienen, laufzeitImKopf }: { t
             {!folgen && <li className="text-slate-500 dark:text-slate-400">Lädt …</li>}
             {folgen && !folgen.length && <li className="text-slate-500 dark:text-slate-400">Keine Folgentitel bekannt.</li>}
             {ohneTitel && <li className="pb-1 text-slate-500 dark:text-slate-400">Die Folgentitel liegen noch nicht vor.</li>}
+            {nurSerienbeleg && <li className="pb-1 text-ak-leise">{SERIENBELEG_HINWEIS}</li>}
             {sichtbar.map(([nr, titel, min]) => (
               <li key={nr} className="flex items-baseline gap-2 py-px">
                 <span className="w-9 shrink-0 text-right tabular-nums text-slate-500 dark:text-slate-400">{nr}</span>
