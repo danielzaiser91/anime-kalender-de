@@ -1,14 +1,13 @@
 /**
  * Bestandszählung (Entscheidung 09.11.2026): Titel, deren Serien-Synchro belegt ist (`synchroBelegt`, z. B. MyDubList high), ohne dass eine Folge
  * die deutsche Flagge trägt. Keine Folgenflagge aus der Serienmarke zu erfinden gilt; der Folgenbereich sagt es dafür im Text
- * (`serienbeleg-hinweis.ts`). Nur Zahl und Kennungen, kein Rot. Untergrenze der Messung: weniger als 1000 Titel gelesen = Fehler.
+ * (`shared/folgen-flagge.ts`). Nur Zahl und Kennungen, kein Rot. Untergrenze der Messung: weniger als 1000 Titel gelesen = Fehler.
  */
 import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { synchroBelegt } from '../../shared/titles.ts'
 import type { Title } from '../../shared/types.ts'
-import { serienbelegOhneFolgenbeleg } from '../../web/src/components/detail/serienbeleg-hinweis.ts'
-import { deutscheBereicheDerWege, folgeIstDeutsch } from '../../web/src/components/detail/stream-bereiche.ts'
+import { deutscheBereicheDerWege, folgeIstDeutsch, serienbelegOhneFolgenbeleg } from '../../shared/folgen-flagge.ts'
 
 export interface FolgenListe { f: [number, string][]; de: [number, number][] }
 

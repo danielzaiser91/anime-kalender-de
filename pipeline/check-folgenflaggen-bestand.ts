@@ -4,7 +4,9 @@
  * `check:bestand` (läuft im Bestandsbau), nicht `check:logic`.
  */
 import { existsSync, readFileSync } from 'node:fs'
+import { fileURLToPath } from 'node:url'
 import type { Release, Title } from '../shared/types.ts'
+import { pruefeSerienbeleg } from './lib/serienbeleg-ohne-folgenflagge.ts'
 import { deutscheBereicheDerWege, folgeIstDeutsch, titelMitTerminBereichen } from '../web/src/components/detail/stream-bereiche.ts'
 
 const DATEN = new URL('../public/data/', import.meta.url)
@@ -39,6 +41,9 @@ if (folgen < 1000) {
   console.error(`FEHLER: nur ${folgen} Folgen aus den Bereichen der Wege geprüft — der Wächter misst nichts`)
 }
 
-console.log(`check-folgenflaggen-bestand: ${fehler ? `${fehler} Fehler` : 'ok'} (${listen} Folgenlisten, ${folgen} Folgen aus den Bereichen der Wege)`)
+/* Serienbeleg ohne Folgenflagge: nur Zählung, nie Rot (`lib/serienbeleg-ohne-folgenflagge.ts`). */
+fehler += pruefeSerienbeleg(fileURLToPath(new URL('../', import.meta.url)))
+
+console.log(`check-folgenflaggen-bestand:${fehler ? `${fehler} Fehler` : 'ok'} (${listen} Folgenlisten, ${folgen} Folgen aus den Bereichen der Wege)`)
 console.log(`VERSTÖSSE: ${fehler}`)
 process.exit(fehler ? 1 : 0)

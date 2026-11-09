@@ -4,13 +4,15 @@
  * Dazu die Zählung des Bestandswächters (`lib/serienbeleg-ohne-folgenflagge.ts`) über Fixtures. Läuft in `check:logic`.
  * Aufruf: npx tsx pipeline/check-serienbeleg-folgenbereich.ts
  */
-import { readFileSync } from 'node:fs'
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
 import { act, createElement as h } from 'react'
 import ts from 'typescript'
 import { createRoot } from 'react-dom/client'
 import type { Title } from '../shared/types.ts'
 import { attrappeUhr, ignoriereCss, installiereMiniDom, klicke, type MiniKnoten } from '../tools/mini-dom.ts'
-import { serienbelegOhneFlagge, type FolgenListe } from './lib/serienbeleg-ohne-folgenflagge.ts'
+import { pruefeSerienbeleg, serienbelegOhneFlagge, type FolgenListe } from './lib/serienbeleg-ohne-folgenflagge.ts'
 ignoriereCss()
 const { FolgenBereich } = await import('../web/src/components/detail/folgen-bereich.tsx')
 
@@ -72,6 +74,25 @@ const ids = serienbelegOhneFlagge(
 )
 pruefe('Wächter: nur der belegte Titel ohne jede Flagge zählt (900401); 900402/900405 geflaggt, 900403 leer, 900404 ohne Datei, 900406 nicht belegt', JSON.stringify(ids) === '[900401]', ids)
 
+/* Untergrenze: unter 1000 Titeln misst die Zählung nichts (Fehler), ab 1000 ohne Folgenlisten läuft sie durch (Wegwerf-Wurzel unter tmpdir). */
+function zaehleInWurzel(anzahl: number): number {
+  const wurzel = mkdtempSync(join(tmpdir(), 'serienbeleg-'))
+  mkdirSync(join(wurzel, 'public', 'data', 'folgen'), { recursive: true })
+  writeFileSync(join(wurzel, 'public', 'data', 'titles.json'), JSON.stringify(Array.from({ length: anzahl }, (_, i) => titel(910000 + i, 'high'))))
+  const [meldung, ausgabe] = [console.error, console.log]
+  console.error = () => undefined
+  console.log = () => undefined
+  try {
+    return pruefeSerienbeleg(wurzel)
+  } finally {
+    console.error = meldung
+    console.log = ausgabe
+    rmSync(wurzel, { recursive: true, force: true })
+  }
+}
+pruefe('Untergrenze: 999 Titel gelesen → Fehler (1)', zaehleInWurzel(999) === 1)
+pruefe('Untergrenze: 1000 Titel gelesen → in Ordnung (0)', zaehleInWurzel(1000) === 0)
+
 /* Verdrahtung: Panel → Nachleger-Zeilen → Folgenbereich reichen die Angabe durch (Syntaxbaum, wie check-folgenflaggen.ts). */
 function attribute(datei: string, element: string): Record<string, string> {
   const quelle = ts.createSourceFile(datei, readFileSync(new URL(`../web/src/components/detail/${datei}`, import.meta.url), 'utf8'), ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX)
@@ -87,6 +108,16 @@ function attribute(datei: string, element: string): Record<string, string> {
 }
 pruefe('Verdrahtung: Panel reicht synchroBelegt(title) weiter', attribute('antwort-bereich.tsx', 'FolgenMitNachlegern').serieBelegt === '{synchroBelegt(title)}')
 pruefe('Verdrahtung: Nachleger-Zeilen reichen serieBelegt durch', attribute('nachleger-zeilen.tsx', 'FolgenBereich').serieBelegt === '{serieBelegt}')
+
+/* Verdrahtung des Bestandstors: `fehler += pruefeSerienbeleg(…)` in check-folgenflaggen-bestand.ts (läuft nur gegen `public/data`, daher hier am Syntaxbaum). */
+const bestand = ts.createSourceFile('b.ts', readFileSync(new URL('./check-folgenflaggen-bestand.ts', import.meta.url), 'utf8'), ts.ScriptTarget.Latest, true)
+const aufrufe: string[] = []
+const suche = (n: ts.Node): void => {
+  if (ts.isBinaryExpression(n) && n.operatorToken.kind === ts.SyntaxKind.PlusEqualsToken && n.left.getText() === 'fehler' && n.right.getText().startsWith('pruefeSerienbeleg(')) aufrufe.push(n.getText())
+  ts.forEachChild(n, suche)
+}
+suche(bestand)
+pruefe('Verdrahtung: das Bestandstor zählt pruefeSerienbeleg zu den Fehlern', aufrufe.length === 1, aufrufe)
 
 console.log(`check-serienbeleg-folgenbereich: ${verletzt ? `${verletzt} Fehler` : 'ok'}`)
 process.exit(verletzt ? 1 : 0)

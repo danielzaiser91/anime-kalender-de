@@ -3,7 +3,7 @@ import { loadJson } from '../../lib/data.ts'
 import { Tooltip } from '../ui.tsx'
 import { DeFlaggeZeichen } from '../de-flagge.tsx'
 import { folgeIstDeutsch } from './stream-bereiche.ts'
-import { SERIENBELEG_HINWEIS, serienbelegOhneFolgenbeleg } from './serienbeleg-hinweis.ts'
+import { SERIENBELEG_HINWEIS, serienbelegOhneFolgenbeleg } from '@shared/folgen-flagge.ts'
 
 /**
  * **Die Folgenliste im Antwortkasten** (Daniel, 04.10.2026): Ein Pfeil klappt sie auf, der Kasten wächst mit,
