@@ -1,13 +1,13 @@
 # Was JustWatch zu offenen Verweisen sagt
 
-Stand: 2026-11-08. Erzeugt von `npm run data:justwatch`.
+Stand: 2026-11-09. Erzeugt von `npm run data:justwatch`.
 
 **Das sind Kandidaten, keine Belege.** Die Angabe gilt der **Serie**, nicht der
 einzelnen Folge — bei „Kill Blue" meldet JustWatch `de` für alle zwölf, belegt
 sind acht. Und ein fehlendes `de` belegt nichts: Netflix meldet dort gar keine
 Tonspur. Was hier steht, sagt, **wo sich das Nachsehen lohnt**.
 
-42 offene Verweise, zu denen JustWatch eine Tonspur nennt.
+43 offene Verweise, zu denen JustWatch eine Tonspur nennt.
 
 | Titel | Anbieter | JustWatch sagt | Tonspuren | Quelle |
 |---|---|---|---|---|
@@ -39,6 +39,7 @@ Tonspur. Was hier steht, sagt, **wo sich das Nachsehen lohnt**.
 | [undefined](https://anime-kalender.de/#/datenbank?t=-13247) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/Sylvanian-Families) |
 | [Bobby und Bill](https://anime-kalender.de/#/datenbank?t=-72376) | primevideo | 🇩🇪 **Deutsch dabei** | `de, en` | [JustWatch](https://www.justwatch.com/de/Serie/Bobby-und-Bill) |
 | [Bobby und Bill](https://anime-kalender.de/#/datenbank?t=-72376) | primevideo | 🇩🇪 **Deutsch dabei** | `de, en` | [JustWatch](https://www.justwatch.com/de/Serie/Bobby-und-Bill) |
+| [Der gestiefelte Kater – Abenteuer in San Lorenzo](https://anime-kalender.de/#/datenbank?t=-61886) | primevideo | 🇩🇪 **Deutsch dabei** | `de, en, es, pt` | [JustWatch](https://www.justwatch.com/de/Serie/The-Adventures-of-Puss-in-Boots) |
 | [My Little Pony - Freundschaft ist Magie](https://anime-kalender.de/#/datenbank?t=-33765) | primevideo | 🇩🇪 **Deutsch dabei** | `de, en` | [JustWatch](https://www.justwatch.com/de/Serie/My-Little-Pony-Friendship-Is-Magic) |
 | [My Little Pony - Freundschaft ist Magie](https://anime-kalender.de/#/datenbank?t=-33765) | primevideo | 🇩🇪 **Deutsch dabei** | `de, en` | [JustWatch](https://www.justwatch.com/de/Serie/My-Little-Pony-Friendship-Is-Magic) |
 | [My Little Pony - Freundschaft ist Magie](https://anime-kalender.de/#/datenbank?t=-33765) | primevideo | 🇩🇪 **Deutsch dabei** | `de, en` | [JustWatch](https://www.justwatch.com/de/Serie/My-Little-Pony-Friendship-Is-Magic) |

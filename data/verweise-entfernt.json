@@ -1,5 +1,5 @@
 {
-  "stand": "2026-11-09T00:09:44.874Z",
+  "stand": "2026-11-09T05:22:21.855Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -4347,6 +4347,17 @@
       "letzterWeg": true
     },
     {
+      "titleId": 106896,
+      "titel": "Persona 5 the Animation: Sterne und was unser ist",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/persona5-the-animation/persona5-the-animation-stars-and-ours-782566",
+      "seriesId": null,
+      "grund": "die Reihe führt 2 Staffeln, keine als SPECIAL und keine andere mit 1 Folge(n) — das Werk steht unter dieser Adresse nicht",
+      "geprueftAm": null,
+      "entferntAm": "2026-11-09",
+      "letzterWeg": true
+    },
+    {
       "titleId": 114622,
       "titel": "Dorohedoro: Teuflische Anekdoten",
       "plattform": "crunchyroll",
@@ -5093,6 +5104,17 @@
       "geprueftAm": null,
       "entferntAm": "2026-11-09",
       "letzterWeg": false
+    },
+    {
+      "titleId": 9136,
+      "titel": "Black Butler 2: Side Stories",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GYQ43P3E6/black-butler",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-11-09",
+      "letzterWeg": true
     },
     {
       "titleId": 9366,
@@ -7779,6 +7801,39 @@
       "letzterWeg": true
     },
     {
+      "titleId": 6793,
+      "titel": "Black Butler: Sein Butler - Eine Aufführung",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GYQ43P3E6/black-butler",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-11-09",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 20670,
+      "titel": "Black Butler: Book of Murder",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GYQ43P3E6/black-butler",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-11-09",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 21425,
+      "titel": "Black Butler: Book of the Atlantic",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GYQ43P3E6/black-butler",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-11-09",
+      "letzterWeg": false
+    },
+    {
       "titleId": 102883,
       "titel": "JoJo’s Bizarre Adventure: Golden Wind",
       "plattform": "adn",
@@ -7865,6 +7920,39 @@
       "geprueftAm": null,
       "entferntAm": "2026-11-09",
       "letzterWeg": false
+    },
+    {
+      "titleId": 10006990,
+      "titel": "Black Butler 2: Making of Black Butler",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GYQ43P3E6/black-butler",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-11-09",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 10006994,
+      "titel": "Black Butler 2: Ciel im Wunderland",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GYQ43P3E6/black-butler",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-11-09",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 10009670,
+      "titel": "Black Butler: The Story Thus Far",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GYQ43P3E6/black-butler",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-11-09",
+      "letzterWeg": true
     },
     {
       "titleId": 141534,
