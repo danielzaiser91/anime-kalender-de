@@ -1,0 +1,14 @@
+[
+  { "name": "Kontrolle (unmutiert)", "aenderungen": [] },
+  { "name": "Verdrahtung: belegeJoynTage nicht aufgerufen", "aenderungen": [{ "datei": "pipeline/bau/13-1-joyn-fenster.ts", "suche": "const belegt = belegeJoynTage(releases, gemessen)", "ersetze": "const belegt = 0 && belegeJoynTage(releases, gemessen)" }] },
+  { "name": "Verdrahtung: leere Tage übergeben", "aenderungen": [{ "datei": "pipeline/bau/13-1-joyn-fenster.ts", "suche": "belegeJoynTage(releases, gemessen)", "ersetze": "belegeJoynTage(releases, new Map())" }] },
+  { "name": "Quelle: Tag nicht gemerkt", "aenderungen": [{ "datei": "pipeline/bau/13-1-joyn-fenster.ts", "suche": "      merkeTag(gemessen, r.titleId, nr, abrufbar)\n", "ersetze": "" }] },
+  { "name": "Quelle: Tag der Sendung statt des Abrufs", "aenderungen": [{ "datei": "pipeline/bau/13-1-joyn-fenster.ts", "suche": "merkeTag(gemessen, r.titleId, nr, abrufbar)", "ersetze": "merkeTag(gemessen, r.titleId, nr, ab)" }] },
+  { "name": "Quelle: davor-Folgen zählen mit", "aenderungen": [{ "datei": "pipeline/bau/13-1-joyn-fenster.ts", "suche": "        fenster.push({ nr, ab: davor, ende })", "ersetze": "        fenster.push({ nr, ab: davor, ende })\n        merkeTag(gemessen, r.titleId, nr, davor)" }] },
+  { "name": "Tage: Titel nicht verglichen", "aenderungen": [{ "datei": "pipeline/bau/13-1-joyn-fenster.ts", "suche": "const tage = gemessen.get(r.titleId)", "ersetze": "const tage = [...gemessen.values()][0]" }] },
+  { "name": "Tage: Plattform nicht geprüft", "aenderungen": [{ "datei": "pipeline/bau/13-1-joyn-fenster.ts", "suche": "r.platform !== 'joyn' || ", "ersetze": "" }] },
+  { "name": "Tage: widerlegt nicht geprüft", "aenderungen": [{ "datei": "pipeline/bau/13-1-joyn-fenster.ts", "suche": " || r.widerlegt", "ersetze": "" }] },
+  { "name": "Tage: Plan nicht geprüft", "aenderungen": [{ "datei": "pipeline/bau/13-1-joyn-fenster.ts", "suche": " || !r.schedule", "ersetze": "" }] },
+  { "name": "Tage: eigene Beobachtung überschrieben", "aenderungen": [{ "datei": "pipeline/bau/13-1-joyn-fenster.ts", "suche": "      if (observed[nr]) continue\n", "ersetze": "" }] },
+  { "name": "Tage: Zähler zählt nicht", "aenderungen": [{ "datei": "pipeline/bau/13-1-joyn-fenster.ts", "suche": "      neu++\n", "ersetze": "" }] }
+]

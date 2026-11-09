@@ -22,6 +22,7 @@ export function setzeJoynFenster(allTitles: Title[], releases: Release[]): void 
   const plusMinuten = (ab: string, n: number) =>
     new Date(Date.parse(ab + ':00Z') + n * 60_000).toISOString().slice(0, 16)
   let joynFenster = 0
+  const gemessen = new Map<number, Map<number, string>>()
   for (const r of releases) {
     if (r.platform !== 'tv' || !r.folgenBelegt || !SENDER.has((r.sender ?? '').toLowerCase())) continue
     const t = titelNachId.get(r.titleId)
@@ -45,7 +46,9 @@ export function setzeJoynFenster(allTitles: Title[], releases: Release[]): void 
         Abrufbar ab dem **Sendeende**, nicht dem Sendebeginn: Joyns `airdate` ist der TV-Termin.
         Gemessen 22.09.2026 (Daniel): 128 lief 17:05–17:30, fehlte um 17:25 und 17:28, war um 17:31 da.
       */
-      fenster.push({ nr, ab: plusMinuten(ab, 25), ende })
+      const abrufbar = plusMinuten(ab, 25)
+      fenster.push({ nr, ab: abrufbar, ende })
+      merkeTag(gemessen, r.titleId, nr, abrufbar)
     }
     /*
       **Die 19 Folgen vor der ersten sicheren Sichtung** (Daniel, 22.09.2026: „die Folgen in der pill
@@ -72,5 +75,34 @@ export function setzeJoynFenster(allTitles: Title[], releases: Release[]): void 
     joyn.fenster = fenster
     joynFenster++
   }
+  const belegt = belegeJoynTage(releases, gemessen)
   if (joynFenster) log(`${joynFenster} Joyn-Weg(e) mit Abruffenstern aus dem ProSieben-MAXX-Programm`)
+  if (belegt) log(`${belegt} Joyn-Folgentag(e) aus den Abruffenstern belegt`)
+}
+
+function merkeTag(gemessen: Map<number, Map<number, string>>, titleId: number, nr: number, ab: string): void {
+  const tage = gemessen.get(titleId) ?? new Map<number, string>()
+  tage.set(nr, ab.slice(0, 10))
+  gemessen.set(titleId, tage)
+}
+
+/*
+  **Gemessene Joyn-Tage belegen die Folgen des Joyn-Termins** (09.11.2026, Daniel: „≈ 18:50“ bei Yaiba). Ein Joyn-Termin mit Sendetagen
+  ohne Beobachtung gilt ab der zweiten Folge als fortgeschrieben (`terminGeschaetzt`), obwohl die Fenster Tag und Uhrzeit der auf
+  ProSieben MAXX gesehenen Folgen belegen. Diese Folgen kommen in `observed`; spätere bleiben geschätzt. Nur Fenster aus Sichtungen
+  (nicht die 19 Folgen vor der ersten), eine eigene Beobachtung bleibt. Gibt die Zahl der neu belegten Folgen zurück.
+*/
+function belegeJoynTage(releases: Release[], gemessen: Map<number, Map<number, string>>): number {
+  let neu = 0
+  for (const r of releases) {
+    const tage = gemessen.get(r.titleId)
+    if (r.platform !== 'joyn' || r.widerlegt || !r.schedule || !tage) continue
+    const observed = (r.schedule.observed ??= {})
+    for (const [nr, tag] of tage) {
+      if (observed[nr]) continue
+      observed[nr] = tag
+      neu++
+    }
+  }
+  return neu
 }
