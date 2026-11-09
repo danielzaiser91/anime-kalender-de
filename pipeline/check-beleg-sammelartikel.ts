@@ -5,6 +5,7 @@
  */
 import { chromium } from 'playwright'
 import { belegAusschnitt } from './lib/beleg-bild.ts'
+import { sperreNetz } from '../tools/netz-sperre.mjs'
 import { fensterStart, terminMarken } from './lib/beleg-stelle.ts'
 import { gruppenJeAdresse, suchbegriffeJeAdresse, tageJeAdresse, zuordnungFuerLesen, type BestandLeser } from './lib/beleg-suche.ts'
 import type { NewsEintrag, Release, Title } from '../shared/types.ts'
@@ -38,6 +39,7 @@ const bildBreite = (bild: Buffer): number => (bild.toString('latin1', 12, 16) ==
 async function sammelartikelFall(zwischen: number): Promise<void> {
   const browser = await chromium.launch()
   const seite = await browser.newPage({ viewport: { width: 1280, height: 900 } })
+  await sperreNetz(seite)
   await seite.setContent(`<!doctype html><html><body style="margin:0">${sammelartikel(zwischen)}</body></html>`)
   const alleNamen = GRUPPEN.flatMap((g) => g.suchen)
   const b = await belegAusschnitt(seite, alleNamen, ['2026-10-02'], GRUPPEN)
@@ -102,6 +104,7 @@ function newsFaelle(): void {
 async function einzelFall(): Promise<void> {
   const browser = await chromium.launch()
   const seite = await browser.newPage({ viewport: { width: 1280, height: 900 } })
+  await sperreNetz(seite)
   const html = `<article><h1>Ein Titel im Artikel</h1><p>Vorspann.</p><div style="height:4500px">Anderes Zeug.</div>${ABSCHNITT(300, 'Einzeltitel Beispiel', 'Inhalt: Der einzige Titel dieses Artikels.')}</article>`
   await seite.setContent(`<!doctype html><html><body style="margin:0">${html}</body></html>`)
   const b = await belegAusschnitt(seite, ['Einzeltitel Beispiel'], [], [{ id: 1, suchen: ['Einzeltitel Beispiel'], tage: [] }])
@@ -120,6 +123,7 @@ const VERSCHIEBUNG = (mitTabelle: boolean): string => `<article><h1>Sechs Blu-ra
 async function verschiebungsFall(): Promise<void> {
   const browser = await chromium.launch()
   const seite = await browser.newPage({ viewport: { width: 1280, height: 900 } })
+  await sperreNetz(seite)
   const gruppe = { id: 1, suchen: ['Virgin Road – Vol. 1', 'Virgin Road'], tage: ['2026-09-11'] }
   const ohneTag = { id: 2, suchen: ['Wind Breaker – Vol. 2'], tage: ['2026-09-19'] }
   await seite.setContent(`<!doctype html><html><body style="margin:0">${VERSCHIEBUNG(false)}</body></html>`)
