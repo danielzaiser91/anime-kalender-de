@@ -89,6 +89,8 @@ pipeline/check-belegstaerke-forum.ts
 pipeline/check-belegstaerke-handbelegt.ts
 pipeline/check-belegstaerke-justwatch.ts
 pipeline/check-belegstaerke.ts
+pipeline/check-bereich-auge-lauf.ts
+pipeline/check-bereich-auge.ts
 pipeline/check-bestand-delta-entfernt.ts
 pipeline/check-bild-und-synchro.ts
 pipeline/check-bookworm-dublette.ts
@@ -523,6 +525,7 @@ pipeline/check-tote-adresse-runden.ts
 pipeline/check-tote-adressen-lauf.ts
 pipeline/check-trailer-auswahl.ts
 pipeline/check-trailer-lauf.ts
+pipeline/check-tv-premiere-merker.ts
 pipeline/check-tv-schaetzung.ts
 pipeline/check-tv-sichtungen-vor-start.ts
 pipeline/check-unsicheres-raus-ast.ts
