@@ -1,11 +1,11 @@
 {
-  "scrapedAt": "2026-11-09T16:02:12.316Z",
+  "scrapedAt": "2026-11-09T19:01:42.132Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 14,
-    "schon in einem Rubrik-Feed gelesen": 5,
+    "schon in einem Rubrik-Feed gelesen": 6,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 13,
     "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 1,
     "Sprachhinweis älter als 45 Tage": 6
   },
@@ -25,6 +25,21 @@
         }
       ],
       "dub": "nein",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Thalia startet große Rabattaktion mit zahlreichen Anime-Produkten",
+      "articleUrl": "https://www.anime2you.de/news/1069214/thalia-singles-day-2026-rabattaktion/",
+      "publishedAt": "2026-11-09",
+      "category": "disc",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-11-11",
+          "context": "mit Gutscheincode Mit dem Gutscheincode GESCHENK gibt es noch bis zum 11. November 2026 einen Preisnachlass von 15 % auf einen Großteil des"
+        }
+      ],
+      "dub": "unklar",
       "alreadyCurated": false
     },
     {
