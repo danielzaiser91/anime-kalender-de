@@ -144,7 +144,7 @@ curl "http://localhost:8787/__scheduled?cron=0+*+*+*+*"
 | `GET /unsubscribe?token=…` | löscht den Datensatz |
 | `GET /health` | Anzahl aktiver Abos |
 | `GET /status` | letzter Stand aller überwachten Seiten |
-| `GET /debug/digest` (Kopf `Authorization: Bearer <DEBUG_TOKEN>`; `?token=` nur bis 2026-11-07) | Newsletter-Versand von Hand auslösen |
+| `GET /debug/digest` (Kopf `Authorization: Bearer <DEBUG_TOKEN>`) | Newsletter-Versand von Hand auslösen |
 | `GET /debug/monitor` (ebenso) | Erreichbarkeitsprüfung von Hand auslösen |
 
 ## Erreichbarkeitsprüfung
