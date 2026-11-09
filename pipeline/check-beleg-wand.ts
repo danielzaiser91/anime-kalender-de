@@ -5,6 +5,7 @@
  */
 import { chromium, type Browser, type Page } from 'playwright'
 import { faelleMitFrischemBrowser, mitFrischemBrowser } from './lib/screenshot-wiederholen.ts'
+import { sperreNetz } from '../tools/netz-sperre.mjs'
 import { belegAusschnitt, istEinfarbig, stuetzbegriffe } from './lib/beleg-bild.ts'
 import { warteschlange, type BelegGedaechtnis } from './lib/beleg-lesung.ts'
 
@@ -43,6 +44,7 @@ type Fall = (typeof faelle)[number]
 /** Ein Fall auf frischer Seite; die Seite wird auch bei einem Fehler geschlossen, damit die Wiederholung neu beginnt. */
 async function pruefeFall(browser: Browser, f: Fall): Promise<boolean> {
   const seite = await browser.newPage({ viewport: { width: 1280, height: 900 } })
+  await sperreNetz(seite)
   try {
     return await pruefeAufSeite(seite, f)
   } finally {

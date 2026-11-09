@@ -26,6 +26,7 @@
  */
 import { chromium } from 'playwright'
 import { readFileSync, existsSync } from 'node:fs'
+import { sperreNetz } from './netz-sperre.mjs'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -168,6 +169,7 @@ const dialogSeite = `<!doctype html><meta charset="utf-8">
 
 const browser = await chromium.launch()
 const seiteObj = await browser.newPage({ viewport: { width: 520, height: 420 } })
+await sperreNetz(seiteObj)
 await seiteObj.setContent(seite)
 
 /* Gemessen wird die Lage, nicht der Eindruck — das Bild ist der Beleg dazu. */
@@ -253,6 +255,7 @@ await seiteObj.screenshot({ path: ziel })
   schmaler.
 */
 const langObj = await browser.newPage({ viewport: { width: 520, height: 420 } })
+await sperreNetz(langObj)
 /*
   Ersetzt wird über den Klassennamen, nicht über den Text: Ein Textvergleich
   hängt an Umlaut und Schreibweise der Kulisse und scheitert lautlos, sobald
@@ -276,6 +279,7 @@ await langObj.setContent(
   linke Text bricht dann um, statt den Nachbarn zu verdrängen.
 */
 const extremObj = await browser.newPage({ viewport: { width: 520, height: 420 } })
+await sperreNetz(extremObj)
 await extremObj.setContent(
   seite.replace(
     /(<button type="button" class="ak-uebersicht ak-uebersicht-innen">)[^<]*/,
@@ -357,6 +361,7 @@ const langeLage = await langObj.evaluate(() => {
 await langObj.close()
 
 const ohneAniObj = await browser.newPage({ viewport: { width: 520, height: 420 } })
+await sperreNetz(ohneAniObj)
 await ohneAniObj.setContent(
   seite.replace(/<span class="ak-such-fuss-rechts">[\s\S]*?<\/span>/, '<span class="ak-such-fuss-rechts"></span>'),
 )
@@ -373,6 +378,7 @@ await ohneAniObj.close()
 
 /* Dieselbe Messung für die Prüfliste. */
 const dialogObj = await browser.newPage({ viewport: { width: 800, height: 180 } })
+await sperreNetz(dialogObj)
 await dialogObj.setContent(dialogSeite)
 const dialogLage = await dialogObj.evaluate(() => {
   const zeile = document.querySelector('.ak-zeile.ak-abgehakt')
