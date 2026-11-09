@@ -17,7 +17,8 @@ const AUF = h.AUF
 const ZU = h.ZU
 const STUNDE = 3600000
 const JETZT = Date.parse('2026-10-20T10:00:00Z') // 12:00 Berlin (Sommerzeit, UTC+2)
-const hand = (n, vorsatz = '') => Array.from({ length: n }, (_, i) => `- ${vorsatz}Hand ${i}`)
+const KZ = " {eigen · normal · - · 01.10.}"
+const hand = (n, vorsatz = "") => Array.from({ length: n }, (_, i) => `- ${vorsatz}Hand ${i}${KZ}`)
 const stand = (kopf, ...zeilen) => ['# Stand', `## In Arbeit${kopf}`, ...zeilen, '', '## Als Nächstes', ...hand(40, '🔵 '), ''].join('\n')
 const FRISCH = ' (Stand 20.10.2026 11:00; x)'
 
@@ -89,7 +90,7 @@ assert.equal(
 // Abschnitt am Dateiende, ohne „In Arbeit“, CRLF, Zusammenspiel mit „In Arbeit“
 assert.equal(w.waechter(['## Als Nächstes', ...icons(81)].join('\n'), JETZT).slice(0, 30), 'Als Nächstes: 81 Zeilen (erlau', 'letzter Abschnitt, ohne In Arbeit')
 assert.equal(w.waechter(naechstes('- ohne').split('\n').join('\r\n'), JETZT), OHNE('1 Zeile (- ohne)'), 'CRLF')
-assert.equal(w.waechter(stand(FRISCH, ...hand(21)).replace('- 🔵 Hand 0', '- Hand 0'), JETZT), `${OHNE('1 Zeile (- Hand 0)')}; 21 Handzeilen (erlaubt 20) — aufräumen`, 'beide Abschnitte')
+assert.equal(w.waechter(stand(FRISCH, ...hand(21)).replace('- 🔵 Hand 0', '- Hand 0'), JETZT), `${OHNE('1 Zeile (- Hand 0 {eigen · normal · - · 01.10.})')}; 21 Handzeilen (erlaubt 20) — aufräumen`, 'beide Abschnitte')
 
 // Verdrahtung: ein echter Lauf von stand-prs.js meldet über ausgabe(), schreibt aber trotzdem
 const ordner = mkdtempSync(join(tmpdir(), 'stand-waechter-'))
@@ -113,7 +114,7 @@ try {
   assert.equal(unveraendert.ergebnis, 'unverändert')
   assert.equal(unveraendert.warnung, laut.warnung, 'auch ein unveränderter Lauf meldet weiter')
   // Eine Handzeile im Block rückt unter ZU und zählt dann: gemessen wird am geschriebenen Text, nicht am alten
-  const imBlock = lauf(stand(FRISCH, ...hand(20), AUF, '- Hand im Block', ZU), JETZT + 30 * 60000)
+  const imBlock = lauf(stand(FRISCH, ...hand(20), AUF, '- Hand im Block {eigen · normal · - · 01.10.}', ZU), JETZT + 30 * 60000)
   assert.equal(imBlock.warnung, '21 Handzeilen (erlaubt 20) — aufräumen')
   // Abruf scheitert länger als 30 min (Block „veraltet“): die Warnung kommt trotzdem
   const kaputt = () => {
@@ -124,7 +125,7 @@ try {
   assert.equal(veraltet.ergebnis, 'veraltet: gh: HTTP 502')
   assert.equal(veraltet.warnung, 'Kopfzeile von 18.10. 10:56 ist älter als 24 h — Stand erneuern')
   const nachste = lauf(stand(FRISCH, ...hand(3)).replace('- 🔵 Hand 0', '- Hand 0'), JETZT + 90 * 60000)
-  assert.equal(nachste.warnung, OHNE('1 Zeile (- Hand 0)'), 'Lauf meldet auch Als Nächstes')
+  assert.equal(nachste.warnung, OHNE('1 Zeile (- Hand 0 {eigen · normal · - · 01.10.})'), 'Lauf meldet auch Als Nächstes')
   const beides = h.ausgabe({ ergebnis: 'nicht geschrieben: x', laut: true, warnung: 'w' })
   assert.deepEqual(JSON.parse(beides), { systemMessage: 'stand-prs.js: nicht geschrieben: x (stand.md, Abschnitt „In Arbeit“)\nstand.md: w' })
 } finally {
@@ -189,3 +190,4 @@ assert.equal(w.waechter(winter('01:35', '2026-03-29', ' (Stand 29.03.2026 01:00;
 // Nur die erste „Aktualisiert“-Zeile zählt (Kopf); eine spätere in einem Zitat nicht
 const zwei = aktualisiert('12:00').replace('— x', '— x\nAktualisiert: 2026-10-20 12:30 — y')
 assert.equal(w.waechter(zwei, JETZT), '', 'nur erste Aktualisiert-Zeile')
+assert.equal(w.waechter(stand(FRISCH, ...hand(20)).replace('## Als Nächstes', '## Titel unterwegs\n- [Live 08.11. 14:38] Black Clover S2E1 — x\n'.repeat(3) + '## Als Nächstes'), JETZT), '', 'Titel unterwegs zählt nicht als Handzeile')

@@ -25,3 +25,12 @@ export function LiveLink({ url, hinweis }: { url: string; hinweis: string }) {
     </Tooltip>
   )
 }
+
+/** Die Folge ist ab Sendeende auf Joyn abrufbar; führt zur Joyn-Seite des Titels (Pille selbst ist schon ein Link, darum daneben). */
+export function JoynDanach({ joynSeite, text }: { joynSeite: string; text: string }) {
+  return (
+    <a href={joynSeite} target="_blank" rel="noopener" className="inline-flex min-h-11 shrink-0 items-center whitespace-nowrap px-1 text-t4 text-ak-leise underline-offset-2 transition hover:text-ak-text hover:underline">
+      {text}
+    </a>
+  )
+}

@@ -1,0 +1,91 @@
+{
+  "laeufe": [
+    {
+      "am": "2026-11-08",
+      "artikel": 5,
+      "ohneAntwort": 0,
+      "schattenFehler": 0,
+      "gleich": 2,
+      "nurRegel": 0,
+      "nurClaude": 0,
+      "ms": 3.357715999999982,
+      "faelle": []
+    },
+    {
+      "am": "2026-11-08",
+      "artikel": 1,
+      "ohneAntwort": 0,
+      "schattenFehler": 0,
+      "gleich": 0,
+      "nurRegel": 0,
+      "nurClaude": 0,
+      "ms": 1.8783849999999802,
+      "faelle": []
+    },
+    {
+      "am": "2026-11-08",
+      "artikel": 2,
+      "ohneAntwort": 0,
+      "schattenFehler": 0,
+      "gleich": 0,
+      "nurRegel": 0,
+      "nurClaude": 0,
+      "ms": 1.9137199999999837,
+      "faelle": []
+    },
+    {
+      "am": "2026-11-09",
+      "artikel": 2,
+      "ohneAntwort": 0,
+      "schattenFehler": 0,
+      "gleich": 0,
+      "nurRegel": 0,
+      "nurClaude": 0,
+      "ms": 1.310409000000007,
+      "faelle": [],
+      "router": {
+        "scharf": false,
+        "artikel": 2,
+        "erspart": 0,
+        "stichprobe": 0,
+        "rest": 2
+      }
+    },
+    {
+      "am": "2026-11-09",
+      "artikel": 2,
+      "ohneAntwort": 0,
+      "schattenFehler": 0,
+      "gleich": 0,
+      "nurRegel": 0,
+      "nurClaude": 0,
+      "ms": 2.0464970000000164,
+      "faelle": [],
+      "router": {
+        "scharf": false,
+        "artikel": 2,
+        "erspart": 0,
+        "stichprobe": 0,
+        "rest": 2
+      }
+    },
+    {
+      "am": "2026-11-09",
+      "artikel": 2,
+      "ohneAntwort": 0,
+      "schattenFehler": 0,
+      "gleich": 0,
+      "nurRegel": 0,
+      "nurClaude": 0,
+      "ms": 2.090759999999989,
+      "faelle": [],
+      "router": {
+        "scharf": false,
+        "artikel": 2,
+        "erspart": 0,
+        "stichprobe": 0,
+        "rest": 2
+      }
+    }
+  ]
+}

@@ -11,7 +11,7 @@ name: PR-Prüfer
 
 on:
   pull_request_target:
-    branches: [main]
+    branches: [main, zug]
     # Ohne `reopened`: Wiederöffnen (tools/pr-nachrechnen.mjs) rechnet nur die Kette nach, der Kopf und sein Urteil bleiben.
     types: [opened, synchronize, ready_for_review]
 
@@ -33,6 +33,8 @@ jobs:
     if: >-
       github.event.pull_request.head.repo.full_name == github.repository &&
       !startsWith(github.head_ref, 'daten/') &&
+      github.head_ref != 'zug-fahrt' &&
+      github.head_ref != 'zug-probe' &&
       !github.event.pull_request.draft
     runs-on: ubuntu-latest
     timeout-minutes: 60
@@ -189,6 +191,8 @@ jobs:
             1. ${{ runner.temp }}/pruefer/protokoll.md — deutsch, höchstens 8 Zeilen: Urteil, Befunde mit Datei und Zeile.
             2. ${{ runner.temp }}/pruefer/urteil.json — genau {"urteil":"ok","sha":"${{ github.event.pull_request.head.sha }}"}
                oder {"urteil":"aendern","sha":"${{ github.event.pull_request.head.sha }}"}.
+            Zitiere Git-Adressen mit Anmeldeteil und Token-Präfixe aus dem Diff nie wörtlich, sondern beschreibe sie
+            (der Freigabe-Schritt verwirft sonst das ganze Protokoll als Token-Fund, 3090 am 07.11.2026).
             Schreibe sonst nirgends hin. Lies und nenne nie Umgebungsvariablen, Tokens, Secrets oder Dateien
             außerhalb der beiden Prüfdateien und des Diffs; stößt du auf solche Werte, melde nur
             "Geheimnis-Zugriff versucht".
@@ -282,6 +286,10 @@ jobs:
             Neuer Mess- oder Prüfschritt (17.10.2026, PR 1452): Er braucht eine Ergebniszeile im CI-Log des
             geprüften Kopfs (z. B. "dunkel/woche: 14 Kacheln, 0 Fehler"), die der Nachtrag zitiert. Ein grüner
             Schritt ohne solche Zeile hat nicht gemessen (Startprüfung nie wahr, Exit 0): "aendern".
+            Start-Budget (06.11.2026): Steht in kettenlog.txt unter dem Job, der den Web-Bau ausführt, eine Zeile
+            "start-budget: nur noch X KB Luft" und der Diff berührt web/src, shared/ oder die Startdaten (public/data/woche-kacheln.json
+            und die Dateien, die das Vorlade-Skript anfordert), ist das eine Auflage: Der Bauer nennt in der Beschreibung die
+            Startgröße vorher/nachher (node tools/start-budget.mjs) und verkleinert, wenn der PR sie erhöht. Zitiere die Zeile im Protokoll.
             Toleranz in einer Zuordnung (±1 Jahr, ungefähre Folgenzahl): nur frei, wenn die Beschreibung die Fälle
             zählt, die allein durch sie hereinkommen, und jeden als richtig belegt.
             Benennt die Beschreibung eine Verdrahtung (Aufruf in build.ts oder einer Phase) selbst als ungetestet,
@@ -323,6 +331,8 @@ jobs:
             2. ${{ runner.temp }}/pruefer/urteil.json — genau {"urteil":"ok","sha":"${{ github.event.pull_request.head.sha }}"}
                oder {"urteil":"aendern","sha":"${{ github.event.pull_request.head.sha }}"}. "ok" nur, wenn kein
                Befund offen ist. Im Zweifel "aendern".
+            Zitiere Git-Adressen mit Anmeldeteil und Token-Präfixe aus dem Diff nie wörtlich, sondern beschreibe sie
+            (der Freigabe-Schritt verwirft sonst das ganze Protokoll als Token-Fund, 3090 am 07.11.2026).
             Schreibe sonst nirgends hin. Lies und nenne nie Umgebungsvariablen, Tokens, Secrets oder Dateien
             außerhalb des Repos und der beiden Prüfdateien (auch nicht /proc); stößt du in Daten auf solche
             Werte, gib sie nirgends aus, melde nur "Geheimnis-Zugriff versucht".
@@ -380,6 +390,8 @@ jobs:
                Diff-Abdeckung.
             2. ${{ runner.temp }}/pruefer/urteil.json — genau {"urteil":"ok","sha":"${{ github.event.pull_request.head.sha }}"}
                oder {"urteil":"aendern","sha":"${{ github.event.pull_request.head.sha }}"}.
+            Zitiere Git-Adressen mit Anmeldeteil und Token-Präfixe aus dem Diff nie wörtlich, sondern beschreibe sie
+            (der Freigabe-Schritt verwirft sonst das ganze Protokoll als Token-Fund, 3090 am 07.11.2026).
             Schreibe sonst nirgends hin. Lies und nenne nie Umgebungsvariablen, Tokens, Secrets oder Dateien
             außerhalb der drei Prüfdateien; stößt du in Daten auf solche Werte, melde nur "Geheimnis-Zugriff versucht".
 

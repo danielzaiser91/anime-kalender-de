@@ -1202,9 +1202,17 @@
       "am": "2026-11-03",
       "vorschlaege": 4
     },
+    "1067107": {
+      "am": "2026-11-09",
+      "vorschlaege": 1
+    },
     "1067138": {
       "am": "2026-11-04",
       "vorschlaege": 3
+    },
+    "1067143": {
+      "am": "2026-11-09",
+      "vorschlaege": 2
     },
     "1067183": {
       "am": "2026-11-04",
@@ -1213,6 +1221,10 @@
     "1067193": {
       "am": "2026-11-05",
       "vorschlaege": 2
+    },
+    "1067250": {
+      "am": "2026-11-09",
+      "vorschlaege": 0
     },
     "1067332": {
       "am": "2026-11-04",
@@ -1293,8 +1305,17 @@
       "am": "2026-11-05",
       "vorschlaege": 2
     },
+    "1067963": {
+      "am": "2026-11-08",
+      "vorschlaege": 0,
+      "uebersprungen": "kein Deutschland-Bezug"
+    },
     "1068002": {
       "am": "2026-11-05",
+      "vorschlaege": 0
+    },
+    "1068026": {
+      "am": "2026-11-08",
       "vorschlaege": 0
     },
     "1068059": {
@@ -1351,6 +1372,10 @@
       "vorschlaege": 0,
       "uebersprungen": "kein Deutschland-Bezug"
     },
+    "1068537": {
+      "am": "2026-11-09",
+      "vorschlaege": 0
+    },
     "1068595": {
       "am": "2026-11-07",
       "vorschlaege": 15
@@ -1395,6 +1420,47 @@
     "1068951": {
       "am": "2026-11-07",
       "vorschlaege": 3
+    },
+    "1068978": {
+      "am": "2026-11-08",
+      "vorschlaege": 0
+    },
+    "1068991": {
+      "am": "2026-11-08",
+      "vorschlaege": 1
+    },
+    "1069007": {
+      "am": "2026-11-08",
+      "vorschlaege": 1
+    },
+    "1069021": {
+      "am": "2026-11-08",
+      "vorschlaege": 3
+    },
+    "1069032": {
+      "am": "2026-11-08",
+      "vorschlaege": 0
+    },
+    "1069058": {
+      "am": "2026-11-08",
+      "vorschlaege": 0,
+      "uebersprungen": "kein Deutschland-Bezug"
+    },
+    "1069089": {
+      "am": "2026-11-08",
+      "vorschlaege": 0
+    },
+    "1069143": {
+      "am": "2026-11-08",
+      "vorschlaege": 8
+    },
+    "1069191": {
+      "am": "2026-11-09",
+      "vorschlaege": 1
+    },
+    "1069203": {
+      "am": "2026-11-09",
+      "vorschlaege": 1
     }
   },
   "vorschlaege": [
@@ -3453,7 +3519,9 @@
       "wochentag": "Donnerstag",
       "warnungen": [
         "Uhrzeit widerspricht 18:30 (Artikel 1059541) – gegenlesen",
-        "Uhrzeit widerspricht 18:30 (Artikel 1059541), 18:30 (Artikel 1066723) – gegenlesen"
+        "Uhrzeit widerspricht 18:30 (Artikel 1059541), 18:30 (Artikel 1066723) – gegenlesen",
+        "Uhrzeit widerspricht 18:30 (Artikel 1059541), 18:30 (Artikel 1066723), 18:30 (Artikel 1069021) – gegenlesen",
+        "Uhrzeit widerspricht 18:30 (Artikel 1059541), 18:30 (Artikel 1066723), 18:30 (Artikel 1069021), 18:30 (Artikel 1069143) – gegenlesen"
       ],
       "artikelId": "1059480",
       "artikel": "Starttermin von »YAIBA: Samurai Legend« auf ProSieben MAXX",
@@ -11413,7 +11481,9 @@
       "unsicher": "Artikel nennt die Uhrzeit nur als „circa“ (ungefähre Angabe).",
       "wochentag": "Montag",
       "warnungen": [
-        "Uhrzeit widerspricht 18:30 (Artikel 1066723) – gegenlesen"
+        "Uhrzeit widerspricht 18:30 (Artikel 1066723) – gegenlesen",
+        "Uhrzeit widerspricht 18:30 (Artikel 1066723), 18:30 (Artikel 1069021) – gegenlesen",
+        "Uhrzeit widerspricht 18:30 (Artikel 1066723), 18:30 (Artikel 1069021), 18:30 (Artikel 1069143) – gegenlesen"
       ],
       "artikelId": "1068887",
       "artikel": "ProSieben MAXX startet zweiten werktäglichen Anime-Block",
@@ -11443,6 +11513,310 @@
       "quelle": "https://www.anime2you.de/news/1068887/prosieben-maxx-zweiter-werktaeglicher-anime-block/",
       "veroeffentlicht": "2026-11-07",
       "gelesenAm": "2026-11-07"
+    },
+    {
+      "titel": "Akira",
+      "zitat": "Der Science-Fiction-Klassiker »Akira« aus dem Jahr 1988 kann ab sofort mit deutscher Synchronisation im kostenpflichtigen Plus-Abo von Joyn gestreamt werden.",
+      "art": "start",
+      "sprache": "deutsch",
+      "plattform": "joyn",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Joyn",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1069021",
+      "artikel": "Zwei weitere Anime-Neuzugänge ab sofort auf Joyn verfügbar",
+      "quelle": "https://www.anime2you.de/news/1069021/joyn-yaiba-samurai-legend-und-mehr/",
+      "veroeffentlicht": "2026-11-08",
+      "gelesenAm": "2026-11-08"
+    },
+    {
+      "titel": "YAIBA: Samurai Legend",
+      "zitat": "Darüber hinaus stehen die ersten beiden Episoden der 24-teiligen Actionserie »YAIBA: Samurai Legend« seit Kurzem kostenlos auf Deutsch zur Verfügung.",
+      "art": "start",
+      "sprache": "deutsch",
+      "plattform": "joyn",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Joyn",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "1–2",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „Joyn“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „joyn“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1069021",
+      "artikel": "Zwei weitere Anime-Neuzugänge ab sofort auf Joyn verfügbar",
+      "quelle": "https://www.anime2you.de/news/1069021/joyn-yaiba-samurai-legend-und-mehr/",
+      "veroeffentlicht": "2026-11-08",
+      "gelesenAm": "2026-11-08"
+    },
+    {
+      "titel": "YAIBA: Samurai Legend",
+      "zitat": "»YAIBA: Samurai Legend« Episoden: 2 von 24 Sprache: Deutsch Hinweis: Neue Episoden erscheinen jeweils nach der TV-Ausstrahlung auf ProSieben MAXX (Montag bis Freitag um 18:30 Uhr)",
+      "art": "folgen",
+      "sprache": "deutsch",
+      "plattform": "tv",
+      "datum": null,
+      "uhrzeit": "18:30",
+      "anbieter": null,
+      "sender": "ProSieben MAXX",
+      "wochentage": "Montag bis Freitag",
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "Uhrzeit widerspricht 18:25 (Artikel 1059480), 06:15 (Artikel 1068887) – gegenlesen"
+      ],
+      "artikelId": "1069021",
+      "artikel": "Zwei weitere Anime-Neuzugänge ab sofort auf Joyn verfügbar",
+      "quelle": "https://www.anime2you.de/news/1069021/joyn-yaiba-samurai-legend-und-mehr/",
+      "veroeffentlicht": "2026-11-08",
+      "gelesenAm": "2026-11-08"
+    },
+    {
+      "titel": "Sakamoto Days",
+      "zitat": "Der rund zweistündige Action-Film mit dem Titel »Sakamoto Days« steht ab sofort im japanischen Originalton mit deutschen Untertiteln auf Abruf zur Verfügung. Eine deutsche Synchronisation wird bislang nicht angeboten.",
+      "art": "start",
+      "sprache": "omu",
+      "plattform": "primevideo",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Prime Video",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": "Betrifft die Live-Action-Verfilmung, nicht die Anime-Serie.",
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „Prime Video“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „prime video“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1069007",
+      "artikel": "Live-Action-Adaption von »Sakamoto Days« ab sofort bei Prime Video",
+      "quelle": "https://www.anime2you.de/news/1069007/sakamoto-days-live-action-film-prime-video/",
+      "veroeffentlicht": "2026-11-08",
+      "gelesenAm": "2026-11-08"
+    },
+    {
+      "titel": "Bride of the Barrier Master",
+      "zitat": "Netflix zeigt den Fantasy-Anime ab Januar 2027 im Simulcast.",
+      "art": "ankuendigung",
+      "sprache": "unklar",
+      "plattform": "netflix",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Netflix",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1068991",
+      "artikel": "Neue Teaser zum Netflix-Anime »Bride of the Barrier Master« + Visuals",
+      "quelle": "https://www.anime2you.de/news/1068991/bride-of-the-barrier-master-neue-teaser/",
+      "veroeffentlicht": "2026-11-08",
+      "gelesenAm": "2026-11-08"
+    },
+    {
+      "titel": "YAIBA: Samurai Legend",
+      "zitat": "YAIBA: Samurai Legend ProSieben MAXX · Folge 3-6 · Montag bis Donnerstag um 18:30 Uhr",
+      "art": "folgen",
+      "sprache": "unklar",
+      "plattform": "tv",
+      "datum": null,
+      "uhrzeit": "18:30",
+      "anbieter": null,
+      "sender": "ProSieben MAXX",
+      "wochentage": "Montag bis Donnerstag",
+      "folgen": "3-6",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "Uhrzeit widerspricht 18:25 (Artikel 1059480), 06:15 (Artikel 1068887) – gegenlesen"
+      ],
+      "artikelId": "1069143",
+      "artikel": "TV-Guide: Anime im deutschen Fernsehen in KW 46/2026",
+      "quelle": "https://www.anime2you.de/news/1069143/anime-tv-programm-46-2026/",
+      "veroeffentlicht": "2026-11-08",
+      "gelesenAm": "2026-11-08"
+    },
+    {
+      "titel": "Hell’s Paradise",
+      "zitat": "Hell’s Paradise ProSieben FUN · Folge 11-12 · Montag um 20:55 Uhr",
+      "art": "folgen",
+      "sprache": "unklar",
+      "plattform": "tv",
+      "datum": null,
+      "uhrzeit": "20:55",
+      "anbieter": null,
+      "sender": "ProSieben FUN",
+      "wochentage": "Montag",
+      "folgen": "11-12",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1069143",
+      "artikel": "TV-Guide: Anime im deutschen Fernsehen in KW 46/2026",
+      "quelle": "https://www.anime2you.de/news/1069143/anime-tv-programm-46-2026/",
+      "veroeffentlicht": "2026-11-08",
+      "gelesenAm": "2026-11-08"
+    },
+    {
+      "titel": "Dororo",
+      "zitat": "Dororo ProSieben FUN · Folge 11-12 · Montag um 21:45 Uhr",
+      "art": "folgen",
+      "sprache": "unklar",
+      "plattform": "tv",
+      "datum": null,
+      "uhrzeit": "21:45",
+      "anbieter": null,
+      "sender": "ProSieben FUN",
+      "wochentage": "Montag",
+      "folgen": "11-12",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1069143",
+      "artikel": "TV-Guide: Anime im deutschen Fernsehen in KW 46/2026",
+      "quelle": "https://www.anime2you.de/news/1069143/anime-tv-programm-46-2026/",
+      "veroeffentlicht": "2026-11-08",
+      "gelesenAm": "2026-11-08"
+    },
+    {
+      "titel": "Magical Girl Special Ops Asuka",
+      "zitat": "Magical Girl Special Ops Asuka ProSieben FUN · Ab Montag um 22:35 Uhr",
+      "art": "start",
+      "sprache": "unklar",
+      "plattform": "tv",
+      "datum": null,
+      "uhrzeit": "22:35",
+      "anbieter": null,
+      "sender": "ProSieben FUN",
+      "wochentage": "Montag",
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1069143",
+      "artikel": "TV-Guide: Anime im deutschen Fernsehen in KW 46/2026",
+      "quelle": "https://www.anime2you.de/news/1069143/anime-tv-programm-46-2026/",
+      "veroeffentlicht": "2026-11-08",
+      "gelesenAm": "2026-11-08"
+    },
+    {
+      "titel": "Neon Genesis Evangelion",
+      "zitat": "Die 26-teilige Original-Serie »Neon Genesis Evangelion« lief erstmals von Oktober 1995 bis März 1996 im japanischen Fernsehen und erschien hierzulande durch LEONINE Anime auf DVD und Blu-ray. Der Publisher bringt im Februar 2027 eine neue Komplettbox in den Handel.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "LEONINE Anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1067107",
+      "artikel": "Zwei neue »Evangelion«-Minifiguren von Rei und Asuka angekündigt",
+      "quelle": "https://www.anime2you.de/news/1067107/zwei-evangelion-minifiguren-rei-asuka/",
+      "veroeffentlicht": "2026-11-09",
+      "gelesenAm": "2026-11-09"
+    },
+    {
+      "titel": "Sailor Moon",
+      "zitat": "Crunchyroll bringt die Serie seit Oktober 2026 in einer neuen Steelbook-Edition auf DVD und Blu-ray in den Handel, während ADN diese auf Abruf anbietet.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1067143",
+      "artikel": "Offizieller »Sailor Moon«-Tischkalender für 2027 vorgestellt",
+      "quelle": "https://www.anime2you.de/news/1067143/sailor-moon-tischkalender-fuer-2027/",
+      "veroeffentlicht": "2026-11-09",
+      "gelesenAm": "2026-11-09"
+    },
+    {
+      "titel": "Sailor Moon",
+      "zitat": "Crunchyroll bringt die Serie seit Oktober 2026 in einer neuen Steelbook-Edition auf DVD und Blu-ray in den Handel, während ADN diese auf Abruf anbietet.",
+      "art": "start",
+      "sprache": "unklar",
+      "plattform": "adn",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "ADN",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1067143",
+      "artikel": "Offizieller »Sailor Moon«-Tischkalender für 2027 vorgestellt",
+      "quelle": "https://www.anime2you.de/news/1067143/sailor-moon-tischkalender-fuer-2027/",
+      "veroeffentlicht": "2026-11-09",
+      "gelesenAm": "2026-11-09"
+    },
+    {
+      "titel": "Hirayasumi",
+      "zitat": "»Hirayasumi« wird ab Januar 2027 im japanischen Fernsehen ausgestrahlt sowie weltweit im Originalton mit Untertiteln bei Netflix im Simulcast gezeigt.",
+      "art": "ankuendigung",
+      "sprache": "omu",
+      "plattform": "netflix",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Netflix",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1069203",
+      "artikel": "Netflix zeigt Slice-of-Life-Anime »Hirayasumi« im Simulcast + Teaser",
+      "quelle": "https://www.anime2you.de/news/1069203/netflix-zeigt-hirayasumi-im-simulcast/",
+      "veroeffentlicht": "2026-11-09",
+      "gelesenAm": "2026-11-09"
+    },
+    {
+      "titel": "Reborn as a Goblin",
+      "zitat": "Die siebte Episode lief demzufolge nicht wie ursprünglich geplant am 9. November 2026, sondern ist erst am 16. November 2026 im japanischen Fernsehen und bei Crunchyroll im Simulcast zu sehen.",
+      "art": "pause",
+      "sprache": "unklar",
+      "plattform": "crunchyroll",
+      "datum": "2026-11-16",
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "7",
+      "unsicher": null,
+      "wochentag": "Montag",
+      "warnungen": [],
+      "artikelId": "1069191",
+      "artikel": "Siebte »Reborn as a Goblin«-Episode verschoben + Recap",
+      "quelle": "https://www.anime2you.de/news/1069191/reborn-as-a-goblin-episode-7-verschoben/",
+      "veroeffentlicht": "2026-11-09",
+      "gelesenAm": "2026-11-09"
     }
   ]
 }

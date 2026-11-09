@@ -22,7 +22,7 @@ const weg = (asin: string) => ({ platform: 'primevideo', url: `https://www.amazo
 const block = (id: number, asin: string) =>
   `- anilistId: ${id}\n  title: "T${id}"\n  platform: primevideo\n  url: https://www.amazon.de/gp/video/detail/${asin}\n  dub: true\n`
 
-function lauf(titel: object[], yamlText: string): { status: number | null; aus: string } {
+function lauf(titel: object[], yamlText: string, altfaelle: string[] = []): { status: number | null; aus: string } {
   const wurzel = mkdtempSync(join(tmpdir(), 'notizseite-'))
   try {
     mkdirSync(join(wurzel, 'public/data'), { recursive: true })
@@ -30,20 +30,20 @@ function lauf(titel: object[], yamlText: string): { status: number | null; aus: 
     writeFileSync(join(wurzel, 'public/data/titles.json'), JSON.stringify(titel))
     writeFileSync(join(wurzel, 'data/prime-zugeordnet.json'), '{}')
     writeFileSync(join(wurzel, 'data/dub-confirmed.yaml'), yamlText)
-    const r = spawnSync(process.execPath, [tsx, skript], { cwd: wurzel, encoding: 'utf8', timeout: 60000, windowsHide: true })
+    const r = spawnSync(process.execPath, [tsx, skript], { cwd: wurzel, encoding: 'utf8', timeout: 60000, windowsHide: true, env: { ...process.env, AK_NOTIZSEITE_ALTFAELLE: JSON.stringify(altfaelle) } })
     return { status: r.status, aus: `${r.stdout}${r.stderr}` }
   } finally {
     rmSync(wurzel, { recursive: true, force: true })
   }
 }
 
-const altfall = lauf([{ id: 900011, streams: [weg('B0CJC11GRB')] }], block(108511, 'B0CJC11GRB'))
-pruefe('Altfall (108511) in der Ratsche: Exit 0 und Zähler', altfall.status === 0 && /1 Treffer, davon 1 Altfälle/.test(altfall.aus), altfall)
+const altfall = lauf([{ id: 900013, streams: [weg('B09JV7CC61')] }], block(900012, 'B09JV7CC61'), ['900012@B09JV7CC61'])
+pruefe('Fixture-Altfall in der Ratsche: Exit 0 und Zähler', altfall.status === 0 && /1 Treffer, davon 1 Altfälle/.test(altfall.aus), altfall)
 
 const neu = lauf([{ id: 900011, streams: [weg('B0NEU00001')] }], block(900010, 'B0NEU00001'))
 pruefe('Neuer Treffer: Exit 1 mit Schlüssel im Text', neu.status === 1 && neu.aus.includes('900010@B0NEU00001'), neu)
 
-const sauber = lauf([{ id: 900011, streams: [weg('B0NEU00001')] }], block(900011, 'B0NEU00001'))
+const sauber = lauf([{ id: 900011, streams: [weg('B0NEU00001')] }], block(900011, 'B0NEU00001'), ['900099@B0ALT00001'])
 pruefe('Eigene Seite: Exit 0, kein Treffer, Altfall-Warnung', sauber.status === 0 && /0 Treffer/.test(sauber.aus) && sauber.aus.includes('⚠ WARNUNG'), sauber)
 
 pruefe('Schlusszeile VERSTÖSSE: Altfall 0', /^VERSTÖSSE: 0$/m.test(altfall.aus), altfall)

@@ -6,19 +6,22 @@ import { synchroBelegt } from '../../shared/titles.ts'
 import { loadDubChecks, type DubCheck } from './dub-confirmed.ts'
 import { loadSynchroVonHand } from './curated.ts'
 import { anisearchBruecke } from './anisearch-katalog-ids.ts'
-import { hatEigenenBeleg, ladeJustwatchDeutsch, sammeleintragTitel } from './anisearch-sammeleintrag.ts'
+import { hatEigenenBeleg, ladeJustwatchDeutsch, ladeJustwatchDeutschOhneAmazon, sammeleintragTitel } from './anisearch-sammeleintrag.ts'
 import { ROOT, log } from './util.ts'
 
 /**
  * **Belegstärke statt Quellenzahl** (Daniel, 09.10.2026): `dubConfidence` war die Zahl der MyDubList-Stimmen. Jetzt zählt die beste Quelle.
  * Stark: Synchronkartei-Eintrag, Anbieter-Tonspur (darin der Handbeleg aus `dub-confirmed.yaml`). Mittel: TV-Programmdaten, aniSearch-Marke
- * „Synchronisiert", Synchron-Forum-Liste (Stand 24.12.2023, 09.10.2026). Schwach (MyDubList, AniList-Sprecher, Händler) hebt nie über `low`.
+ * „Synchronisiert", Synchron-Forum-Liste (Stand 24.12.2023, 09.10.2026), JustWatch-Deutsch an einem Nicht-Amazon-Streaming-Angebot (titelweit, 05.11.2026; Amazons
+ * eigene Sprachangabe zählt nie, und es wird daraus nie ein Weg-`dub: true`). Schwach (MyDubList, AniList-Sprecher, Händler) hebt nie über `low`.
  */
 export type Belegsignale = {
   handbelegt: ReadonlySet<number>
   kartei: ReadonlySet<number>
   tv: ReadonlySet<number>
   forum: ReadonlySet<number>
+  /** Titel mit Deutsch an einem Nicht-Amazon-Streaming-Angebot laut JustWatch (`ladeJustwatchDeutschOhneAmazon`); fehlt = keine. */
+  justwatch?: ReadonlySet<number>
   /** Streams, deren `dub: true` nur aus der Streaming-Availability-API stammt (`motnTonSchluessel`); fehlt = keine. */
   motnTon?: ReadonlySet<string>
 }
@@ -40,7 +43,9 @@ export function belegstaerke(t: Kette, s: Belegsignale): DubConfidence {
   /* Nur die Streaming-Availability-API sagt Deutsch (Moonrise 150654): ihr Schweigen ist kein Nein, ihr Ja allein nur eine mittlere Quelle. */
   const nurApi = !anbieter && Boolean(t.streams?.some(mitTon))
   const stark = Number(anbieter) + Number(s.kartei.has(t.id))
-  const mittel = Number(s.tv.has(t.id)) + Number(Boolean(t.deErstausgabe?.synchro)) + Number(nurApi)
+  /* JustWatch-Deutsch zählt nur ohne Anbieter-Tonspur: sonst wäre es dieselbe Aussage doppelt und höbe 149 Titel fälschlich auf very-high (Messung 05.11.2026). */
+  const jwMittel = !anbieter && (s.justwatch?.has(t.id) ?? false)
+  const mittel = Number(s.tv.has(t.id)) + Number(Boolean(t.deErstausgabe?.synchro)) + Number(nurApi) + Number(jwMittel)
   const mitForum = mittel + Number(s.forum.has(t.id))
   if (stark && stark + mittel > 1) return 'very-high'
   if (stark || mitForum > 1) return 'high'
@@ -87,17 +92,18 @@ export function ladeBelegsignale(releases: Release[]): Belegsignale {
     kartei: karteiTitel(),
     tv: new Set(releases.filter((r) => r.platform === 'tv').map((r) => r.titleId)),
     forum: forumTitel(checks),
+    justwatch: ladeJustwatchDeutschOhneAmazon(),
   }
 }
 
 /**
- * Zusicherung für die ausgelieferten Titel: high oder very-high braucht eine starke Quelle oder (ohne sie) die aniSearch-Marke als eine der
+ * Zusicherung für die ausgelieferten Titel: high oder very-high braucht eine starke Quelle oder (ohne sie) die aniSearch-Marke oder JustWatch-Deutsch als eine der
  * zwei mittleren (die Forum-Liste allein belegt kein high). Die TV-Termine stehen zu diesem Zeitpunkt des Baus noch nicht in `releases.json`, deshalb prüft das nur die Untergrenze.
  */
-export function hochOhneBeleg(titel: Title[], s: Pick<Belegsignale, 'handbelegt' | 'kartei'>): number[] {
+export function hochOhneBeleg(titel: Title[], s: Pick<Belegsignale, 'handbelegt' | 'kartei' | 'justwatch'>): number[] {
   return titel
     .filter(synchroBelegt)
-    .filter((t) => !t.streams?.some((st) => st.dub === true) && !s.handbelegt.has(t.id) && !s.kartei.has(t.id) && !t.deErstausgabe?.synchro)
+    .filter((t) => !t.streams?.some((st) => st.dub === true) && !s.handbelegt.has(t.id) && !s.kartei.has(t.id) && !t.deErstausgabe?.synchro && !s.justwatch?.has(t.id))
     .map((t) => t.id)
 }
 

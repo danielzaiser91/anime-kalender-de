@@ -1,22 +1,58 @@
 {
- "erzeugtAm": "2026-11-07T16:32:57.296Z",
+ "erzeugtAm": "2026-11-09T05:22:45.860Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
-   "gemeldet": 927,
+   "gemeldet": 918,
    "gesamt": 1001,
-   "offen": 74,
-   "ohneSeite": 2,
+   "offen": 83,
+   "ohneSeite": 6,
    "suchAdressen": [
     "https://www.amazon.de/s?k=Super%20Wings&i=instant-video",
-    "https://www.amazon.de/s?k=Fischen%20Impossible%3A%20Eine%20tierische%20Rettungsaktion&i=instant-video"
+    "https://www.amazon.de/s?k=Pretty%20Cure&i=instant-video",
+    "https://www.amazon.de/s?k=The%20Birth%20Of%20Kitaro%20-%20Das%20Geheimnis%20von%20Gegege&i=instant-video",
+    "https://www.amazon.de/s?k=Fischen%20Impossible%3A%20Eine%20tierische%20Rettungsaktion&i=instant-video",
+    "https://www.amazon.de/s?k=Z%20wie%20Zorro%20%E2%80%93%20Der%20Film&i=instant-video",
+    "https://www.amazon.de/s?k=Miru%20Tights&i=instant-video"
    ],
-   "ziel": "https://www.amazon.de/gp/video/detail/B0D84DKFSH",
+   "ziel": "https://www.amazon.de/gp/video/detail/B09FRLPFK4",
    "ziele": [
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B09FRLPFK4",
+     "titel": "Do, Re & Mi",
+     "hinweis": "Staffeln unklar: TMDB zählt 23 Folgen insgesamt, der Anbieter kann sie anders schneiden"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/0TJR1ZN3C977PKPV9W05WCTI7Z",
+     "titel": "Kung Fu Panda: Die Tatzen des Schicksals (Kung Fu Panda: The Paws of Destiny)",
+     "hinweis": "Staffeln unklar: TMDB zählt 26 Folgen insgesamt, der Anbieter kann sie anders schneiden"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B0B1N7L61W",
+     "titel": "Blaze und die Monster-Maschinen (Blaze and the Monster Machines)",
+     "hinweis": "Staffeln unklar: TMDB zählt 179 Folgen insgesamt, der Anbieter kann sie anders schneiden"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B0D11XTMDJ",
+     "titel": "King Julien (All Hail King Julien)",
+     "hinweis": "Staffeln unklar: TMDB zählt 65 Folgen insgesamt, der Anbieter kann sie anders schneiden"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B09JLN6S1R",
+     "titel": "Detektiv Conan (Detective Conan)"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B0DNNFT23G",
+     "titel": "Shin-chan (Shin Chan)"
+    },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0D84DKFSH",
      "titel": "2.5 Dimensional Seduction (2.5-jigen no Ririsa 2nd Season)"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B0GFPBT6FG",
+     "titel": "Oshi no Ko: Mein Star (OSHI NO KO)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0H7YCRTJN",
@@ -65,10 +101,6 @@
     {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.c903bcab-b4d5-4bdb-b418-70ab5650132e",
      "titel": "My Hero Academia: You’re Next"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/0U2F1VC6MV5CHFW4ZP7GSM1RX0",
-     "titel": "The Birth of Kitaro: The Mystery of GeGeGe"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/0KXOMCNFCKPTA6Z6HNIJ0ESQ9P",
@@ -203,12 +235,20 @@
      "titel": "Bakemonogatari"
     },
     {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.6aad68c8-1e46-46e9-be1e-3d4de43488a5",
+     "titel": "Black Butler"
+    },
+    {
      "url": "https://www.amazon.de/gp/video/detail/B09KX2VLPR",
      "titel": "Higurashi no Naku Koro ni Kai (When They Cry Kai)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B09JZHRQ18",
      "titel": "Higurashi no Naku Koro ni (When They Cry)"
+    },
+    {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.1374d3dd-9d96-4d41-b0f8-38932f0c9145",
+     "titel": "Ikki Tousen: Dragon Girls (Battle Vixens: Ikki Tousen)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0GYDLTDD8",
@@ -219,12 +259,14 @@
      "titel": "Fushigi Yûgi New OVA: The Mysterious Play (Mysterious Play OVA 2)"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B09JLN6S1R",
-     "titel": "Detektiv Conan (Detective Conan)"
+     "url": "https://www.amazon.de/gp/video/detail/B0FQV7ZW7C",
+     "titel": "Hazbin Hotel",
+     "hinweis": "Staffeln unklar: TMDB zählt 16 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B0DNNFT23G",
-     "titel": "Shin-chan (Shin Chan)"
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.6cfb3be4-5a04-47ca-a6ac-e511a1b42ca4",
+     "titel": "Madagascar – Die kleine Wildnis (Madagascar: A Little Wild)",
+     "hinweis": "Staffeln unklar: TMDB zählt 52 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.5ba2d356-b885-4716-adfa-3a95cec98fff",
@@ -240,6 +282,11 @@
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.0cb8c40c-c316-369d-4c63-7adba44df4ab",
      "titel": "Bobby und Bill (Boule & Bill)",
      "hinweis": "Staffeln unklar: TMDB zählt 104 Folgen insgesamt, der Anbieter kann sie anders schneiden"
+    },
+    {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.fb67e1f8-cf3f-47e4-912b-87adb7d65b1b",
+     "titel": "Der gestiefelte Kater – Abenteuer in San Lorenzo (The Adventures of Puss in Boots)",
+     "hinweis": "Staffeln unklar: TMDB zählt 77 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.52b549b8-8258-0ee7-5674-d76be73f5363",
@@ -266,7 +313,7 @@
      "titel": "Zweite Prime-Ausgabe (B0DJ4FCM5H)"
     }
    ],
-   "naechster": "2.5 Dimensional Seduction (2.5-jigen no Ririsa 2nd Season)",
+   "naechster": "Do, Re & Mi",
    "bekannt": {
     "B0DGGZSKRM": 13,
     "B0FKZM9J6V": 25,
@@ -432,7 +479,7 @@
     "B0FJ7GC6S6": 10,
     "B0FDH3SLKB": 11,
     "B0DJWXLZ55": 12,
-    "B0HKFFGQ7F": 5,
+    "B0HKFFGQ7F": 6,
     "B0FN41VKQ5": 12,
     "B0DQ6SDQL2": 12,
     "B0H1QXQL33": 12,
@@ -444,9 +491,9 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 773,
+   "gemeldet": 766,
    "gesamt": 1082,
-   "offen": 309,
+   "offen": 316,
    "ohneSeite": 13,
    "ziel": "https://www.netflix.com/title/81608820",
    "ziele": [
@@ -457,6 +504,10 @@
     {
      "url": "https://www.netflix.com/title/81272431",
      "titel": "Numberblocks"
+    },
+    {
+     "url": "https://www.netflix.com/title/80107103",
+     "titel": "One Piece"
     },
     {
      "url": "https://www.netflix.com/title/81054853",

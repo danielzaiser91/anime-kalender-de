@@ -4051,5 +4051,70 @@
       "netflix"
     ],
     "inhaltAm": "2026-11-05"
+  },
+  "der-koenig-der-affen-limited-deluxe-edition-2022-11-25": {},
+  "die-wilden-schwaene-dvd-2024-11-08": {
+    "tmdbId": 46938,
+    "fsk": 6,
+    "inhaltAm": "2026-11-08"
+  },
+  "voltron-verteidiger-des-universums-collection-1-dvd-2008-03-31": {
+    "tmdbId": 9330
+  },
+  "voltron-verteidiger-des-universums-collection-2-dvd-2008-08-25": {
+    "tmdbId": 9330
+  },
+  "voltron-verteidiger-des-universums-collection-3-dvd-2008-10-06": {
+    "tmdbId": 9330
+  },
+  "voltron-verteidiger-des-universums-collection-4-dvd-2009-01-26": {
+    "tmdbId": 9330
+  },
+  "voltron-verteidiger-des-universums-collection-5-dvd-2010-05-28": {
+    "tmdbId": 9330
+  },
+  "voltron-verteidiger-des-universums-collection-6-dvd-2011-04-29": {
+    "tmdbId": 9330
+  },
+  "black-clover-s2-crunchyroll-synchro": {},
+  "devils-crest-primevideo": {
+    "tmdbId": 328010,
+    "justwatchUrl": "https://www.themoviedb.org/tv/328010/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Amazon Prime Video",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Prime Video with Ads",
+        "kind": "flatrate"
+      }
+    ],
+    "providers": [
+      "primevideo"
+    ],
+    "inhaltAm": "2026-11-08"
+  },
+  "pet-primevideo": {
+    "tmdbId": 93593,
+    "justwatchUrl": "https://www.themoviedb.org/tv/93593-pet/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Amazon Prime Video",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Prime Video with Ads",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Video",
+        "kind": "buy"
+      }
+    ],
+    "providers": [
+      "primevideo"
+    ],
+    "inhaltAm": "2026-11-08"
   }
 }

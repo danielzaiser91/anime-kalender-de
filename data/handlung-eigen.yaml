@@ -19,19 +19,6 @@
     - name: aniSearch
       url: https://www.anisearch.de/anime/13491
 
-- id: 195516 # Die Tagebücher der Apothekerin: Staffel 3 – Cour 1 (2026, TV, 12 Folgen)
-  umfang: reihe
-  lizenz: CC BY-SA 4.0
-  text: >-
-    Dritte Staffel, erster Teil mit zwölf Folgen, in Japan seit dem 2. Oktober 2026. Die Serie spielt an einem Kaiserhof, der dem alten China nachempfunden ist. Maomao, bei einem Apotheker ausgebildet, wurde entführt und als Dienstmagd in den Palast verkauft. Mit ihren Kenntnissen in Heilkunde und Giftkunde klärt sie dort rätselhafte Krankheits- und Todesfälle auf; der einflussreiche Eunuch Jinshi gibt ihr immer neue Fälle.
-  quellen:
-    - name: Wikipedia (DE)
-      url: https://de.wikipedia.org/wiki/Kusuriya_no_Hitorigoto
-    - name: Wikipedia (EN)
-      url: https://en.wikipedia.org/wiki/The_Apothecary_Diaries
-    - name: aniSearch
-      url: https://www.anisearch.de/anime/20704
-
 - id: 110265 # Persona 5 the Animation: Ein magischer Valentinstag (2019, OVA, 1 Folge (~30 min))
   umfang: titel
   lizenz: CC BY-SA 4.0
@@ -86,17 +73,6 @@
       url: https://en.wikipedia.org/wiki/Bakugan:_Battle_Planet
     - name: aniSearch
       url: https://www.anisearch.de/anime/18340
-
-- id: 198369 # Detektiv Conan: Der gefallene Engel des Highways (2026, Film, 109 min)
-  umfang: titel
-  lizenz: CC BY-SA 4.0
-  text: >-
-    Der 29. Kinofilm der Reihe „Detektiv Conan“, in Japan seit April 2026 (109 Minuten). Im Mittelpunkt steht die Polizistin Chihaya Hagiwara aus der Präfektur Kanagawa, die Schwester von Kenji Hagiwara. Mit dabei sind Conan, Ran und Kogoro Mori.
-  quellen:
-    - name: Wikipedia (EN)
-      url: https://en.wikipedia.org/wiki/Detective_Conan:_Fallen_Angel_of_the_Highway
-    - name: aniSearch
-      url: https://www.anisearch.de/anime/20864
 
 - id: 102501 # Shaolin Wuzang (2006, TV, 26 Folgen)
   umfang: titel
@@ -228,23 +204,6 @@
     - name: aniSearch (Staffel 1)
       url: https://www.anisearch.de/anime/15908
 
-- id: 178083 # Tokyo Revengers: War of the Three Titans (2026, TV; Folgenzahl: Bestand 13, aniSearch 12 — im Text nicht genannt)
-  umfang: reihe
-  lizenz: CC BY-SA 4.0
-  text: >-
-    Neue Staffel der Serie „Tokyo Revengers“ nach dem Manga von Ken Wakui (Liden Films), in Japan seit Oktober 2026. Der erwachsene Gelegenheitsarbeiter Takemichi Hanagaki erfährt, dass die Tokyo Manji Gang seine frühere Freundin Hinata und deren jüngeren Bruder Naoto umgebracht hat. Tags darauf stößt ihn jemand auf die Bahngleise, und er findet sich zwölf Jahre früher in seiner Schulzeit wieder. Er will die Zukunft ändern und reist dabei immer wieder zwischen den Zeiten hin und her.
-  quellen:
-    - name: Wikipedia (EN)
-      url: https://en.wikipedia.org/wiki/Tokyo_Revengers
-    - name: Wikipedia (DE)
-      url: https://de.wikipedia.org/wiki/Tokyo_Revengers
-    - name: aniSearch
-      url: https://www.anisearch.de/anime/19353
-    - name: aniSearch (Christmas Showdown)
-      url: https://www.anisearch.de/anime/16927
-    - name: aniSearch (Tenjiku Arc)
-      url: https://www.anisearch.de/anime/18331
-
 - id: 183423 # One Piece Log: Fish-Man Island Saga (2024, TV, 21 Folgen)
   umfang: reihe
   lizenz: CC BY-SA 4.0
@@ -274,36 +233,6 @@
       url: https://www.anisearch.de/anime/16582
     - name: aniSearch (Staffel 2)
       url: https://www.anisearch.de/anime/15059
-
-- id: 185756 # As a Reincarnated Aristocrat, I’ll Use My Appraisal Skill to Rise in the World: Staffel 3 (2026, TV)
-  umfang: reihe
-  lizenz: CC BY-SA 4.0
-  text: >-
-    Dritte Staffel der Isekai-Serie nach der Romanreihe von Miraijin A (GeyeG Pictures), in Japan seit September 2026. Ein Büroangestellter stirbt an Überarbeitung und kommt in einer anderen Welt als Ars Louvent, Spross einer Adelsfamilie im Somerforth Empire, zur Welt. Er besitzt die Fähigkeit, Talente und Werte anderer Menschen zu erkennen, ähnlich den Statuswerten eines Videospiels. Damit gewinnt er starke Verbündete für sich, denn im Reich droht ein Krieg um die Thronfolge.
-  quellen:
-    - name: Wikipedia (EN)
-      url: https://en.wikipedia.org/wiki/As_a_Reincarnated_Aristocrat%2C_I%27ll_Use_My_Appraisal_Skill_to_Rise_in_the_World
-    - name: aniSearch
-      url: https://www.anisearch.de/anime/19993
-    - name: aniSearch (Staffel 1)
-      url: https://www.anisearch.de/anime/18387
-    - name: aniSearch (Staffel 2)
-      url: https://www.anisearch.de/anime/19379
-
-- id: 189123 # Blue Box: Staffel 2 (2026, TV; Folgenzahl: Bestand 12)
-  umfang: reihe
-  lizenz: CC BY-SA 4.0
-  text: >-
-    Zweite Staffel von „Blue Box“ (Electric Circus und TMS Entertainment) nach dem Manga von Kouji Miura, in Japan seit Oktober 2026. Taiki Inomata spielt an der sportlich ausgerichteten Eimei-Schule Badminton und trainiert früh am Morgen in der Halle, wo oft schon die ein Jahr ältere Basketballspielerin Chinatsu Kano übt. In sie, den Star ihres Teams, ist er verliebt. Als ihre Eltern wegen der Arbeit ins Ausland gehen, zieht Chinatsu bei seiner Familie ein, und beide streben die nationalen Meisterschaften an.
-  quellen:
-    - name: Wikipedia (EN)
-      url: https://en.wikipedia.org/wiki/Blue_Box_(manga)
-    - name: Wikipedia (DE)
-      url: https://de.wikipedia.org/wiki/Blue_Box_(Manga)
-    - name: aniSearch
-      url: https://www.anisearch.de/anime/20376
-    - name: aniSearch (Staffel 1)
-      url: https://www.anisearch.de/anime/18873
 
 - id: 210482 # Steel Ball Run: Jojo’s Bizarre Adventure - Phase 2-3 (2026, ONA, 11 Folgen; aniSearch zählt 12)
   umfang: reihe
@@ -336,19 +265,6 @@
       url: https://www.anisearch.de/anime/19471
     - name: aniSearch (Staffel 3)
       url: https://www.anisearch.de/anime/17708
-
-- id: 204389 # A Wild Last Boss Appeared! Staffel 2 (2026, ONA)
-  umfang: reihe
-  lizenz: CC BY-SA 4.0
-  text: >-
-    Zweite Staffel der Fantasy-Serie nach der Romanreihe von Firehead (WAO World und Sorajima Studio), in Japan seit September 2026. Im Online-Spiel „Exgate Online“ gilt die schwarz geflügelte Tyrannin Lufas Maphaahl als Endgegnerin. Der junge Mann hinter dieser Figur lässt sich in einem letzten Kampf absichtlich besiegen. Danach bietet ihm das Spiel eine neue Rolle an, und er findet sich im Körper seiner Spielfigur wieder, 200 Jahre nach dem Kampf. Ihre früheren Gefolgsleute, die Zwölf Himmlischen Sterne, wüten ungebremst; Lufas, die weiterhin als gefürchtete Eroberin gilt, macht sich auf, sie aufzuhalten.
-  quellen:
-    - name: Wikipedia (EN)
-      url: https://en.wikipedia.org/wiki/A_Wild_Last_Boss_Appeared!
-    - name: aniSearch
-      url: https://www.anisearch.de/anime/21117
-    - name: aniSearch (Staffel 1)
-      url: https://www.anisearch.de/anime/19558
 
 - id: 209872 # Ranma 1/2: Staffel 3 (2026, TV)
   umfang: reihe
@@ -397,21 +313,6 @@
     - name: aniSearch (Staffel 1)
       url: https://www.anisearch.de/anime/16977
 
-- id: 185874 # Bleach: Thousand-Year Blood War - The Calamity (2026, TV, 10 Folgen)
-  umfang: reihe
-  lizenz: CC BY-SA 4.0
-  text: >-
-    Teil der Serie „Bleach“ nach dem Manga von Tite Kubo (Studio Pierrot): zehn Folgen, in Japan seit Juli 2026. Der Schüler Ichigo Kurosaki kann Geister sehen. Er begegnet der Shinigami Rukia Kuchiki, die Hollows jagt, verirrte Seelen in Ungeheuergestalt, die Lebende wie Tote bedrohen, und bekommt ihre Kräfte übertragen. Fortan ist er Ersatz-Shinigami: Er führt Verstorbene in die Soul Society und schützt die Lebenden. Diese Staffel setzt den Krieg der Shinigami gegen die Quincy unter Yhwachs Führung fort.
-  quellen:
-    - name: Wikipedia (EN)
-      url: https://en.wikipedia.org/wiki/Bleach_(manga)
-    - name: aniSearch
-      url: https://www.anisearch.de/anime/20029
-    - name: aniSearch (The Conflict)
-      url: https://www.anisearch.de/anime/18732
-    - name: aniSearch (The Separation)
-      url: https://www.anisearch.de/anime/17934
-
 - id: 195604 # Black Clover: Staffel 2 (2026, TV; Folgenzahl: Bestand offen, aniSearch 12 — im Text nicht genannt)
   umfang: reihe
   lizenz: CC BY-SA 4.0
@@ -428,23 +329,6 @@
       url: https://www.anisearch.de/anime/12131
     - name: aniSearch (Sword of the Wizard King)
       url: https://www.anisearch.de/anime/16102
-
-- id: 197474 # Gintama the Movie 2026: Yoshiwara in Flames (2026, Film)
-  umfang: reihe
-  lizenz: CC BY-SA 4.0
-  text: >-
-    Film zur Serie „Gintama“ nach dem Manga von Hideaki Sorachi (Bandai Namco Pictures), in Japan seit Februar 2026. Die Geschichte spielt in einer abgewandelten späten Edo-Zeit: Außerirdische, die Amanto, haben Japan unterworfen und den Samurai das Schwerttragen verboten. Der eigenwillige Samurai Gintoki Sakata schlägt sich mit Gelegenheitsaufträgen durch. Ihm helfen der junge Shinpachi Shimura und die bärenstarke Außerirdische Kagura; zu dritt führen sie die Yorozuya, eine Agentur für alle möglichen Jobs.
-  quellen:
-    - name: Wikipedia (EN)
-      url: https://en.wikipedia.org/wiki/Gintama
-    - name: Wikipedia (DE)
-      url: https://de.wikipedia.org/wiki/Gin_Tama
-    - name: aniSearch
-      url: https://www.anisearch.de/anime/20836
-    - name: aniSearch (Gintama, Film 1)
-      url: https://www.anisearch.de/anime/5828
-    - name: aniSearch (Gintama, Film 2)
-      url: https://www.anisearch.de/anime/8019
 
 - id: 10020916 # Devil May Cry: Staffel 2 (2026, ONA, 8 Folgen)
   umfang: reihe
@@ -883,19 +767,6 @@
     - name: "aniSearch (The Seven Deadly Sins: Four Knights of the Apocalypse — Season 2)"
       url: https://www.anisearch.de/anime/19154
 
-- id: 186716 # Princess Principal: Crown Handler - Chapter 4 (2025, Film; Quellen beschreiben die Filmreihe, kein Kapitel einzeln; Kapitelzahl im Text nicht genannt)
-  umfang: reihe
-  lizenz: CC BY-SA 4.0
-  text: >-
-    Film (2025) aus der Reihe „Crown Handler“ von Studio Actas; die Filme setzen die Serie „Princess Principal“ fort, deren Geschichte abgeschlossen ist. Das Team White Pigeon besteht aus Ange, Princess (ein Deckname), Dorothy, Beatrice und Chise, Agentinnen der Queen’s Mayfaire School. Ange gleicht Prinzessin Charlotte aufs Haar, und das Geheimnis der beiden ist womöglich schon aufgeflogen. Der Auftrag der Filmreihe: Bishop, ein Spion im Königshaus, steht im Verdacht, ein doppeltes Spiel zu treiben, und das Team soll herausfinden, auf wessen Seite er steht. Im Lauf der Filmreihe suchen die Agentinnen gestohlene Cavorite-Bomben.
-  quellen:
-    - name: Wikipedia (EN)
-      url: https://en.wikipedia.org/wiki/Princess_Principal%3A_Crown_Handler
-    - name: aniSearch
-      url: https://www.anisearch.de/anime/13597
-    - name: aniSearch (Princess Principal)
-      url: https://www.anisearch.de/anime/12338
-
 - id: 204584 # Princess Principal: Crown Handler - Chapter 5 (Film, Jahr im Bestand offen; Quellen beschreiben die Filmreihe, kein Kapitel einzeln)
   umfang: reihe
   lizenz: CC BY-SA 4.0
@@ -1294,3 +1165,16 @@
       url: https://www.anisearch.de/anime/14933
     - name: "aniSearch (Special 7: Special Crime Investigation Unit)"
       url: https://www.anisearch.de/anime/14278
+
+- id: 203275 # Devils' Crest (2026, ONA/TV laut Quelle, Folgenzahl offen)
+  umfang: titel
+  lizenz: CC BY-SA 4.0
+  text: >-
+    Fantasy-Serie (2026, Production I.G) nach der Light-Novel-Reihe von Reki Kawahara, dem Autor von „Sword Art Online“. Der Sechstklässler Yuuma Ashihara testet zusammen mit seiner Zwillingsschwester Sawa und Mitschülern das neuartige Online-Rollenspiel „Actual Magic“, das ganz in eine virtuelle Welt eintauchen lässt. Die Testaufgabe wirkt leicht: den Endgegner bezwingen und danach heil ausloggen. Doch kurz darauf verschmilzt das Spiel mit der Wirklichkeit, und Yuumas Klassenkameradin Sumika verwandelt sich in eines der Monster. Nun geht es ums Überleben.
+  quellen:
+    - name: Wikipedia (EN)
+      url: https://en.wikipedia.org/wiki/Demons%27_Crest
+    - name: Anime2You
+      url: https://www.anime2you.de/news/1056679/devils-crest-neuer-trailer/
+    - name: AniList
+      url: https://anilist.co/anime/203275

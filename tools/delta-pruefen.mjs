@@ -12,6 +12,7 @@
  * ohne Delta ist die Regel und sagt nichts.
  */
 import { existsSync, readFileSync } from 'node:fs'
+import { betroffenAusgabe } from '../pipeline/lib/bestand-betroffen.ts'
 import { ereignisse } from '../pipeline/lib/bestand-pendel.ts'
 import { stempelWarnungAusDatei } from './patchnotes-stempel-alter.mjs'
 import { vorratWarnungenAusOrdner } from './patchnotes-vorrat-alter.mjs'
@@ -84,6 +85,7 @@ for (const e of sichtbar) {
   console.log(`${zeit(z.zeitpunkt)}  ${(z.lauf ?? '?').slice(0, 22).padEnd(24)} ${teile.join(', ') || 'nichts'}`)
   if (e.erklaert.length) console.log(`${' '.repeat(12)}ℹ  erklärt, nicht rot: ${e.erklaert.join('; ')}`)
   if (e.auffaellig.length) console.log(`${' '.repeat(12)}⚠  ${e.netto ? 'netto gegen den Stand vor dem Pendeln: ' : ''}${e.auffaellig.join('; ')}`)
+  for (const t of betroffenAusgabe(z, e.auffaellig.length > 0)) console.log(t)
 }
 if (!gezeigt) console.log('Keiner dieser Läufe hat etwas verändert.')
 
