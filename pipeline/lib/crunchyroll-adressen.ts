@@ -67,7 +67,7 @@ export function crunchyrollNeinAbruf(
     const serie = crunchyrollSeriesId(r.platformUrl)
     if (!am || !serie || !r.platformUrl) continue
     adressen.add(r.platformUrl)
-    kachelSeit.set(serie, am)
+    if (am > (kachelSeit.get(serie) ?? '')) kachelSeit.set(serie, am)
   }
   return { adressen, kachelSeit }
 }

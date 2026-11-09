@@ -20,6 +20,7 @@ import { parseFeed } from './lib/feed.ts'
 import { log, readJson, ROOT, sleep, warn, writeJson } from './lib/util.ts'
 import { addDays, todayIso } from '../shared/time.ts'
 import { artikelText, lohntLesung, neueKandidaten, type Kandidat } from './lib/anime2you-artikel.ts'
+import { rubrikenAusHtml } from './lib/anime2you-router.ts'
 import { beschreibe, pruefeVorschlag } from './lib/anime2you-vorschlag.ts'
 import { ergaenzeBestand, mitWiderspruechen, type Bestand, type GelesenerArtikel, type GespeicherterVorschlag } from './lib/anime2you-bestand.ts'
 import { zusammenfassung, type Verworfen } from './lib/anime2you-bericht.ts'
@@ -39,6 +40,8 @@ const BELEG_FENSTER_TAGE = 7
 
 interface Auswahl {
   kandidaten: Kandidat[]
+  /** Vom Router (`anime2you-router.ts --scharf`) der Regel überlassen: ihre Antwortdatei liegt schon in `ergebnis/`, Claude liest sie nicht. */
+  regel?: Kandidat[]
   uebersprungen: { id: string; titel: string; grund: string }[]
 }
 
@@ -85,7 +88,7 @@ async function auswahl(ordner: string): Promise<void> {
       continue
     }
     writeFileSync(resolve(ordner, 'artikel', `${k.id}.txt`), `${k.titel}\nVeröffentlicht: ${k.veroeffentlicht}\n\n${text}\n`, 'utf8')
-    aus.kandidaten.push(k)
+    aus.kandidaten.push({ ...k, rubriken: rubrikenAusHtml(html ?? '') })
   }
   writeFileSync(resolve(ordner, 'auswahl.json'), JSON.stringify(aus, null, 2), 'utf8')
   log(`${aus.kandidaten.length} Artikel für Claude, ${aus.uebersprungen.length} übersprungen (von ${kandidaten.length} neuen)`)
@@ -118,7 +121,8 @@ function uebernehmen(ordner: string): void {
   const verworfen: Verworfen[] = []
   const ungelesen: string[] = []
   for (const u of plan.uebersprungen) gelesen[u.id] = { am: heute, vorschlaege: 0, uebersprungen: u.grund }
-  for (const k of plan.kandidaten) {
+  const regelIds = new Set((plan.regel ?? []).map((k) => k.id))
+  for (const k of [...plan.kandidaten, ...(plan.regel ?? [])]) {
     const antwort = leseAntwort(resolve(ordner, 'ergebnis', `${k.id}.json`))
     if (!antwort) {
       ungelesen.push(k.id)
@@ -130,11 +134,11 @@ function uebernehmen(ordner: string): void {
       if ('grund' in geprueft) verworfen.push({ artikelId: k.id, titel: k.titel, vorschlag: beschreibe(roh), grund: geprueft.grund })
       else neu.push({ ...geprueft.ok, artikelId: k.id, artikel: k.titel, quelle: k.url, veroeffentlicht: k.veroeffentlicht, gelesenAm: heute })
     }
-    gelesen[k.id] = { am: heute, vorschlaege: antwort.length }
+    gelesen[k.id] = { am: heute, vorschlaege: antwort.length, ...(regelIds.has(k.id) ? { durch: 'regel' as const } : {}) }
   }
   const neuer = ergaenzeBestand(bestand, neu, gelesen, heute)
   writeJson(DATEI, { ...neuer, vorschlaege: mitWiderspruechen(neuer.vorschlaege) }, true)
-  const md = zusammenfassung({ neu, verworfen, ungelesen, uebersprungen: plan.uebersprungen.length }, heute)
+  const md = zusammenfassung({ neu, verworfen, ungelesen, uebersprungen: plan.uebersprungen.length, regel: [...regelIds].filter((id) => !ungelesen.includes(id)) }, heute)
   writeFileSync(resolve(ordner, 'zusammenfassung.md'), md, 'utf8')
   log(md)
   if (process.env.GITHUB_STEP_SUMMARY) appendFileSync(process.env.GITHUB_STEP_SUMMARY, `${md}\n`)

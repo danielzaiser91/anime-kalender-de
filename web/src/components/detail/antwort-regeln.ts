@@ -203,13 +203,26 @@ export function fertigAntwort(
   belegteFolgen: number,
   events: ReleaseEvent[],
   heute?: string,
+  releases: Release[] = [],
 ): { art: 'fertig'; raus?: number; gesamt?: number; gesamtAbgeleitet: boolean; heuteOffen?: boolean } {
   const wochenplan = events.some((e) => e.releaseType === 'weekly' && e.platform !== 'tv' && e.platform !== 'disc')
   const belegt = Boolean(gesamt && belegteFolgen >= gesamt) || wochenplan
-  /* Nur wenn der ganze Katalogstart heute liegt; früherer Teil (z. B. 20.10.) heißt: "Alle N heute" wäre falsch. */
-  const katalog = events.filter(istKatalogstartOhneUhrzeit)
-  const heuteOffen = (katalog.length > 0 && katalog.every((e) => e.date === heute)) || undefined
+  const heuteOffen = katalogstartHeuteOffen(events, heute, releases) || undefined
   return { art: 'fertig', raus, gesamt, gesamtAbgeleitet: !belegt, heuteOffen }
+}
+
+/**
+ * Ein Release mit Katalogstart ohne Uhrzeit liegt ganz heute — je Release, nicht je Titel: weitere Starts desselben Titels
+ * an anderen Tagen (Disney+ 01.08. und 14.10.) blenden den Hinweis nicht aus. Setzt der heutige Start eine frühere
+ * Folgenreihe fort (`firstEpisodeNumber` > 1, Teil 2 nach Teil 1 am 20.10.), wäre "Alle N heute" falsch: dann zählt der ganze Titel.
+ */
+export function katalogstartHeuteOffen(events: ReleaseEvent[], heute: string | undefined, releases: Release[]): boolean {
+  const fortsetzung = new Set(releases.filter((r) => (r.schedule.firstEpisodeNumber ?? 1) > 1).map((r) => r.slug))
+  const katalog = events.filter(istKatalogstartOhneUhrzeit)
+  const jeRelease = new Map<string, ReleaseEvent[]>()
+  for (const e of katalog) jeRelease.set(e.releaseSlug, [...(jeRelease.get(e.releaseSlug) ?? []), e])
+  const ganzerTitelHeute = katalog.length > 0 && katalog.every((e) => e.date === heute)
+  return [...jeRelease.values()].some((liste) => liste.every((e) => e.date === heute) && (ganzerTitelHeute || !fortsetzung.has(liste[0]!.releaseSlug)))
 }
 
 /** Bis zu welcher Folge die Folgenliste „erschienen" kennt: Nur bei laufender Ausstrahlung ist `raus` eine Folgennummer; bei `fertig` ist es die Zahl der Ereignisse (One Piece: 10) und ließ ab Folge 11 alles ohne Flagge als „noch nicht erschienen" stehen. */
