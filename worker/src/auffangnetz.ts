@@ -2,6 +2,7 @@ import { DIENST_PAUSE } from '../../shared/dienst-pause.ts'
 import { EXPORT_PAUSE_SEKUNDEN, EXPORT_PAUSE_TEXT, istD1Export, istD1Tageslimit, sekundenBisMitternachtUtc } from './d1-limit.ts'
 import { type Env } from './env.ts'
 import { zaehleWennFeed } from './feed-zaehler.ts'
+import { zaehleRoute } from './route-zaehler.ts'
 import { mitLesedeckel } from './lesedeckel.ts'
 
 /** Pfade, die auch aus einer Datei (Ursprung `null`) gelesen werden und daher CORS `*` bekommen. */
@@ -57,6 +58,7 @@ export async function mitEingang(
   const pfad = new URL(request.url).pathname
   return await mitAuffangnetz(pfad, cors, async () => {
     await zaehleWennFeed(request, env, new Date())
+    await zaehleRoute(env, pfad, new Date())
     return mitLesedeckel(request, env, kopfFuer(pfad, cors), lauf)
   })
 }

@@ -7,7 +7,9 @@
  *
  * Wiedervorlage heißt: neu messen, nie löschen. Ein Handbeleg mit Nein bleibt gültig, bis eine Quelle ihn widerlegt.
  * Fällig ist ein Nein
- *  - nach `NEIN_FRIST_TAGE` Tagen seit dem Messdatum (`checkedAt` des jüngsten Belegs in `data/dub-confirmed.yaml`) oder
+ *  - nach `NEIN_FRIST_TAGE` Tagen seit dem Messdatum (`checkedAt` des jüngsten Belegs in `data/dub-confirmed.yaml`;
+ *    liegt `nachgemessenAm` später, zählt dieses: eine Kanal-Meldung „kein Deutsch“ nach dem Messdatum, die kein Beleg ist,
+ *    `pipeline/lib/nein-nachmessung.ts`) oder
  *  - sofort, wenn der Kalender oder der Anbieter nach dem Messdatum einen erschienenen, nicht geschätzten Termin
  *    (die „(Deutsch)“-Kachel, vgl. `web/src/lib/anbieter-kachel.ts`) für denselben Titel bei demselben Anbieter meldet.
  */
@@ -26,6 +28,8 @@ export interface NeinBeleg {
   available?: boolean
   url?: string
   checkedAt?: string
+  /** Tag der jüngsten Kanal-Meldung „kein Deutsch“: startet die Frist neu, ist aber kein Urteil und ändert die Kachel-Regel nicht. */
+  nachgemessenAm?: string
 }
 
 export interface NeinFall {
@@ -42,6 +46,11 @@ export interface NeinFall {
 }
 
 const tag = (b: NeinBeleg): string => String(b.checkedAt ?? '').slice(0, 10)
+/** Ab wann die Frist läuft: das spätere von Messdatum und Nachmessung. */
+const fristAb = (b: NeinBeleg): string => {
+  const nach = String(b.nachgemessenAm ?? '').slice(0, 10)
+  return nach > tag(b) ? nach : tag(b)
+}
 const hatUrteil = (b: NeinBeleg): boolean => b.dub !== undefined || b.available !== undefined
 const istNein = (b: NeinBeleg): boolean => b.dub === false || b.available === false
 
@@ -85,7 +94,7 @@ export function neinWiedervorlage(belege: NeinBeleg[], releases: Release[], jetz
     const messAm = tag(b)
     const alterTage = diffDays(messAm, heute)
     const kachelAm = ersteKachelNach(jeWeg.get(`${b.anilistId}|${b.platform}`) ?? [], messAm, heute)
-    if (!kachelAm && alterTage < NEIN_FRIST_TAGE) continue
+    if (!kachelAm && diffDays(fristAb(b), heute) < NEIN_FRIST_TAGE) continue
     faelle.push({
       titleId: b.anilistId,
       platform: b.platform as PlatformId,

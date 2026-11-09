@@ -1,5 +1,9 @@
 import { type Synopsis } from '../../lib/data.ts'
-import { type FranchiseMember } from '@shared/types.ts'
+import { type FranchiseMember, type Title } from '@shared/types.ts'
+import { erscheintErst } from '@shared/logic.ts'
+
+/** Ist der Titel gestartet? Ein laufender Titel (Start vorbei, Ende offen) ist erschienen. */
+export const titelGestartet = (t: Pick<Title, 'jpStart' | 'jpStatus' | 'jpYear'>, today: string): boolean => !erscheintErst(t, today)
 
 /**
  * **Ein Satz wie „Sequel to Tokyo Revengers: Tenjiku-hen." ist keine Handlung** (Daniel, 04.10.2026, an Tokyo Revengers S3: „wo ist die

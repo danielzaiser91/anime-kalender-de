@@ -37,6 +37,8 @@ interface Fall {
   eintrag?: Partial<Eintrag>
   /** Block im Dub-Bestand (Teil von `crDub.serien`). */
   serie?: object
+  /** Zweiter, älterer Katalogeintrag derselben Kennung unter anderer Adresse (steht im Bestand VOR dem frischen: erster Eintrag darf nicht allein urteilen). */
+  serieAlt?: object
   /** Soll des Verweises: `dub` danach. */
   dub: boolean | undefined
 }
@@ -47,6 +49,8 @@ const faelle: Fall[] = [
   { id: 900403, name: 'Kennungsrunde: Katalogeintrag ohne Folgen gibt kein Urteil', kennung: 'KRUNDE003', eintrag: { folgen: 0, audio: OHNE_DE }, dub: undefined },
   { id: 900404, name: 'Kennungsrunde: Franchise mit zwei Staffeln gibt kein Urteil', kennung: 'KRUNDE004', eintrag: { staffeln: 2 }, dub: undefined },
   { id: 900405, name: 'Kennungsrunde: Titel beginnt erst nach dem Katalogstand', kennung: 'KRUNDE005', dub: undefined },
+  { id: 900418, name: 'Doppeladresse: frischer Eintrag (laufend 5) vor dem Ende, älterer (53) dahinter – keine Sperre', kennung: 'KDOPPEL001', serie: { seriesId: 'KDOPPEL001', staffeln: block(5) }, serieAlt: { seriesId: 'KDOPPEL001', staffeln: block(53) }, dub: true },
+  { id: 900419, name: 'Doppeladresse: beide Einträge hinter dem Titelende – Sperre bleibt', kennung: 'KDOPPEL002', serie: { seriesId: 'KDOPPEL002', staffeln: block(53) }, serieAlt: { seriesId: 'KDOPPEL002', staffeln: block(60) }, dub: undefined },
   { id: 900406, name: 'Kennungsrunde: deutsche Folgen liegen hinter dem Titelende', kennung: 'KRUNDE006', serie: { seriesId: 'KRUNDE006', staffeln: block(53) }, dub: undefined },
   { id: 900407, name: 'Kennungsrunde: laufende Nummer vor dem Titelende zählt nicht als Sperre', kennung: 'KRUNDE007', serie: { seriesId: 'KRUNDE007', staffeln: block(5) }, dub: true },
   { id: 900408, name: 'Kennungsrunde: ein gesetztes Urteil bleibt', kennung: 'KRUNDE008', stream: { dub: true }, eintrag: { audio: OHNE_DE }, dub: true },
@@ -59,6 +63,7 @@ const faelle: Fall[] = [
   { id: 900415, name: 'Nachrunde: Prüfdatum fehlt, Stand des Dub-Bestands gilt', kennung: 'KNACHR005', stream: { dub: false }, serie: { seriesId: 'KNACHR005', staffeln: [] }, dub: false },
   { id: 900416, name: 'Nachrunde: Titel beginnt erst nach dem Katalogstand, Nein bleibt', kennung: 'KNACHR006', stream: { dub: false }, serie: { seriesId: 'KNACHR006', geprueftAm: '2026-10-01', staffeln: [] }, dub: false },
   { id: 900417, name: 'Nachrunde: Franchise mit zwei Staffeln, Nein bleibt', kennung: 'KNACHR007', stream: { dub: false }, eintrag: { staffeln: 2 }, serie: { seriesId: 'KNACHR007', geprueftAm: '2026-10-01', staffeln: [] }, dub: false },
+  { id: 900423, name: 'Nachrunde: Doppeladresse, frische Prüfung steht vor der alten – Katalog nicht jünger als die frische, Nein bleibt', kennung: 'KNACHR008', stream: { dub: false }, serieAlt: { seriesId: 'KNACHR008', geprueftAm: KATALOG_STAND, staffeln: [] }, serie: { seriesId: 'KNACHR008', geprueftAm: '2026-10-01', staffeln: [] }, dub: false },
 ]
 /* Ein Fall mit zwei Titeln an einer Serie: der Besitzer (12 Folgen) gehört dazu, der andere (6) ist fremd. */
 const BESITZER = 900420
@@ -120,6 +125,7 @@ try {
   const crDub = {
     scrapedAt: '2026-10-25T00:00:00Z',
     serien: [
+      ...faelle.filter((f) => f.serieAlt).map((f) => ({ url: `${adresse(f.kennung)}?alt`, ...f.serieAlt })),
       ...faelle.filter((f) => f.serie).map((f) => ({ url: adresse(f.kennung), ...f.serie })),
       { url: adresse('OUEBERHOL'), seriesId: 'OUEBERHOL', geprueftAm: '2026-10-10', staffeln: [{ name: 'Serie Staffel 2', folgen: 12, kacheln: 12, deutsch: 12, fremd: 0 }] },
     ],
