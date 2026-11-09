@@ -2883,6 +2883,13 @@ Die Angebote selbst holt der übliche Titel-Abruf (Abruf über TMDB-Kennung, Pau
 Joyn wird nichts abgerufen. Eine weitere Liste ist eine Zeile in `ANBIETERLISTEN` (`aktiv: false` bis zur
 Messung). Fällt der Listenabruf aus, läuft der Abruf wie bisher nach Alter.
 
+**Folge ab Sendeende, Yaiba: Samurai Legend (06.11.2026, Daniel von Hand):** Folge 2 lief am 06.11. ab 18:25 auf
+ProSieben MAXX; die Joyn-Übersicht zeigte sie um 18:48 noch nicht im HTML, um 18:52 als „Folge vom 06.11.2026“. Das
+bestätigt die Messung von Dragon Ball Super (Folge online ab Sendeende). Die Terminzeile eines MAXX-Termins
+(`lib/joyn-danach.ts`) trägt deshalb „Danach auf Joyn“ mit Link auf die Joyn-Seite aus `streams`. Bewusst ohne
+Uhrzeit: der Slot (hier rund 25 Minuten) ist länger als `runtimeMin`, eine Zeit aus Beginn plus Laufzeit läge vor dem
+Sendeende; die gerechneten Fenster (`fenster`, Beginn plus 25 Minuten) stehen an der Joyn-Pille.
+
 ## Kein Weg auf eine Datenbank — Videoload über die MagentaTV-Kennung (22.09.2026)
 
 Daniel an „Ame & Yuki": „videoload linkt auf tmdb, das ist falsch, es muss direkt zum anbieter
@@ -4298,6 +4305,14 @@ Alle vier ausgelieferten Seiten sind byte-gleich groß (Robot-Check-Seite, `capt
 - **Zwei Dateien, zwei Schlüssel:** `data/anisearch-dub-ids.json` ist nach **aniSearch-Kennung** geschlüsselt (alle Einträge mit Deutsch), `data/anisearch-dubs.json` nach **Titel-Kennung** (Auszug). Leser: `deutschMarke` / `dubsNachTitel` (`pipeline/lib/anisearch-marke.ts`), nie eine Datei mit der Kennung der anderen Art ansprechen.
 - **Wächter:** `pipeline/check-synchro-widerspruch-bestand.ts` (`check:bestand`, auf dem frisch gebauten Stand) ist rot, wenn ein Titel in `ohne-synchro.json` steht, dessen aniSearch-Marke `d`/`c` ist oder der einen Handbeleg `dub: true` trägt. Gemessen am Stand vom 07.11.2026: genau ein Treffer (Devils' Crest), 0 Fehlalarme. Regel: `pipeline/lib/synchro-widerspruch.ts`.
 - **Latenz Anime2You → Vorschlag:** `claude-anime2you-extraktion.yml` läuft seit 07.11.2026 stündlich (Weckplan, Abstand 50 min; wirkt erst nach `wrangler deploy` des Workers) statt täglich 12 Uhr UTC; vorher bis ~21 h, jetzt im Mittel unter 1 h (Feed-Leser stündlich, Extraktion stündlich). Ein Vorschlag wird weiter erst durch einen Handbeleg zum Termin. Wortlaut `deutsche(r/n) Sprachausgabe` und `Sprache: Deutsch` zählt seit 07.11.2026 als Synchro-Beleg (`SYNCHRO_WORTLAUT`).
+
+## Anime2You ohne Claude: Artikel-Router (07.11.2026)
+
+- **Was:** `pipeline/anime2you-router.ts` (Schritt vor dem Claude-Schritt in `claude-anime2you-extraktion.yml`) entscheidet je Artikel (`lib/anime2you-router.ts`), ob die Regel (`lib/anime2you-regel.ts`) ihn vollständig erklärt: Rubrik aus JSON-LD `articleSection` nur Streaming (Crunchyroll, Netflix, Prime Video, Disney+, Paramount+, ADN, aniverse), nur Block-Behauptungen (»Titel« / Sprache: / Stream:), jeder »Titel« im Text hat eine Behauptung, jede Behauptung besteht `pruefeVorschlag`. Jeder fünfte erklärte Artikel (Kennung durch 5 teilbar) geht trotzdem an Claude (Stichprobe, Vergleich im Schattenschritt).
+- **Schalter, Vorgabe AUS:** Ohne Repository-Variable `ANIME2YOU_ROUTER_SCHARF=ja` protokolliert der Router nur (`router.json` im Arbeitsordner, Zeile `Router (Schatten): …` im Lauf, `router` in `data/proposals/anime2you-schatten.json`); Claude liest alle. Scharf: `auswahl.json` führt die ersparten Artikel unter `regel`, ihre Antwortdatei schreibt der Router in Claudes Form, `--uebernehmen` prüft sie wie Claudes (Vermerk `durch: regel` in `gelesen`) und der Fluss in `data/proposals/anime2you-extraktion.json` bleibt derselbe (damit auch ein späterer `--belege`-Weg). Scheitert der Schritt, liest Claude alles.
+- **Gemessen vor der Prüfer-Runde 1** (232 Artikel: 129 Hauptmenge aus den Fund-Artefakten, 103 Holdout, Rubriken am 07.11.2026 von anime2you.de geholt; 232 von 232 haben eine Rubrik, eine als Objekt `{"1":"Netflix"}` statt Liste): 6 erklärt (2,6 %), 4 davon ohne Stichprobe erspart (1,7 %), 13 Regel-Belege, 0 ohne deutsches Claude-Gegenstück. Die Satz-Familie (zusätzlich erlaubt: +1 Artikel) und die Rubrik-Sperre (ohne sie dieselben 6) ändern die Zahl kaum; der Engpass ist „jeder Titel hat eine Behauptung“. Reichweite wächst mit den Regeln, nicht mit dem Router.
+- **Zusatzbedingungen (Prüfer-Runde 1, 07.11.2026):** Ein Block mit `Start:` oder `Hinweis:` geht an Claude, ebenso jeder Artikel mit einem Datum oder einer Uhrzeit außerhalb der Stellen, die die Regel liest (Überschrift, Veröffentlicht- und Autorenzeile, Tag vor dem »Titel«) – unabhängig von Claude und von der Anführung. Folge: `Simulcast: Jeden Samstag um 15:30 Uhr` schickt den Artikel zu Claude, die Regel liest weder Uhrzeit noch Rhythmus. An den 16 Fixture-Artikeln bleibt von den sechs oben genannten einer erklärt (1066144), also höchstens 1 von 232 (0,4 %, die 232 nicht neu gefahren; die Bedingungen verengen nur). Claude hatte auch dort `start`/`folgen` geschrieben (Episoden-Feld, Folge 14 bis 16), das die Regel nicht liest; offen.
+- **Einschalten:** Bedingung steht im Pull Request (Schatten-Urteil „ja“ nach `anime2you-schatten-auswerten.ts` plus Router-Zeile gegen den Schalter).
 
 ## Anime2You: Synchro-Aussagen werden Handbeleg ohne Handgriff (07.11.2026, F108 = A)
 

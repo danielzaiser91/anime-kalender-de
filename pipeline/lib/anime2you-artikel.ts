@@ -44,6 +44,8 @@ export interface Kandidat {
   url: string
   titel: string
   veroeffentlicht: string
+  /** Rubriken der Seite (JSON-LD `articleSection`); der Router (`anime2you-router.ts`) liest sie. */
+  rubriken?: string[]
 }
 
 /**

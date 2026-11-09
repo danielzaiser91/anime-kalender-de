@@ -15,6 +15,7 @@ import type { Title } from '../../shared/types.ts'
 import type { CrSerie } from './crunchyroll-dub.ts'
 import { zerlege } from './cr-staffel-nummer.ts'
 import { log } from './util.ts'
+import { gruppiereJeKennung } from './je-kennung.ts'
 
 export interface OffenerBefund {
   herkunft?: string
@@ -37,23 +38,33 @@ export function gleicherBlock(neinTitel: string, blockName: string): boolean {
   return !a.kern || !b.kern || a.kern.includes(b.kern) || b.kern.includes(a.kern)
 }
 
-export function serienNachKennung(serien: CrSerie[]): Map<string, CrSerie> {
-  const raus = new Map<string, CrSerie>()
-  for (const s of serien) if (s.seriesId) raus.set(s.seriesId, s)
-  return raus
+/** Alle Katalogeinträge je Serienkennung — eine Kennung steht oft unter zwei Adressen (verschieden frische Abrufe). */
+export function serienNachKennung(serien: CrSerie[]): Map<string, CrSerie[]> {
+  return gruppiereJeKennung(serien, (s) => s.seriesId)
 }
 
-export function neinUeberholt(b: OffenerBefund | undefined, serien: Map<string, CrSerie>): boolean {
+/** Ein Eintrag mit neuerem Abruf und deutschem Block genügt: der ältere Doppeleintrag darf das Urteil nicht verdecken. */
+export function neinUeberholt(b: OffenerBefund | undefined, serien: Map<string, CrSerie[]>): boolean {
   if (b?.dub !== false || !b.seriesId || !b.titel || !b.geprueftAm) return false
-  const serie = serien.get(b.seriesId)
-  if (!serie?.geprueftAm || serie.geprueftAm <= b.geprueftAm) return false
-  return (serie.staffeln ?? []).some((st) => (st.deutsch ?? 0) > 0 && gleicherBlock(b.titel!, st.name))
+  return (serien.get(b.seriesId) ?? []).some(
+    (serie) =>
+      !!serie.geprueftAm &&
+      serie.geprueftAm > b.geprueftAm! &&
+      (serie.staffeln ?? []).some((st) => (st.deutsch ?? 0) > 0 && gleicherBlock(b.titel!, st.name)),
+  )
 }
 
 /** Wie `neinUeberholt`, nennt aber jeden gekippten Fall im Bau-Protokoll (`titel` ist der Titel, dessen Verweis es trifft). */
-export function neinUeberholtMitLog(b: OffenerBefund, serien: Map<string, CrSerie>, titel: Title): boolean {
+export function neinUeberholtMitLog(b: OffenerBefund, serien: Map<string, CrSerie[]>, titel: Title): boolean {
   if (!neinUeberholt(b, serien)) return false
   const wer = titel.titleDe ?? titel.titleEn ?? titel.titleRomaji ?? titel.id
   log(`  ${wer}: Crunchyroll-Nein vom ${b.geprueftAm} (${b.titel}) vom Dub-Bestand überholt`)
   return true
+}
+
+/** Jüngster Prüftag je Kennung (ohne Datum am Eintrag gilt `rueckfall`): ein älterer Doppeleintrag darf ihn nicht senken. */
+export function juengstePruefungJeKennung(serien: Map<string, CrSerie[]>, rueckfall: string): Map<string, string> {
+  return new Map(
+    [...serien].map(([k, liste]) => [k, liste.map((s) => s.geprueftAm ?? rueckfall).reduce((a, b) => (b > a ? b : a))]),
+  )
 }

@@ -68,7 +68,7 @@ const post = (body: unknown) =>
     body: JSON.stringify(body),
   })
 const hole = async (env: never, suche: string) =>
-  (await handlePruefung(new Request(`https://worker.test/pruefung?rohfolgen=1&token=t&${suche}`), env).then((r) => r.json())) as {
+  (await handlePruefung(new Request(`https://worker.test/pruefung?rohfolgen=1&${suche}`, { headers: { 'X-Lauf-Token': "t" } }), env).then((r) => r.json())) as {
     folgen: Record<string, unknown>[]
     weiter: number | null
   }

@@ -70,7 +70,7 @@ function einStapel(stapel, liste) {
  * Alle Abrufe als Stapel; was scheitert (HTTP 502, Zeitüberschreitung), wird genau einmal wiederholt.
  * Ergebnis je Abruf: `{ wert }` oder `{ fehler }`; `lies` wandelt die Rohausgabe (Fehler dabei zählt als Abruffehler).
  */
-function abrufe(stapel, liste, lies) {
+export function abrufe(stapel, liste, lies) {
   const erst = einStapel(stapel, liste)
   const offen = erst.flatMap((r, i) => (r.ok ? [] : [i]))
   const zweit = offen.length ? einStapel(stapel, offen.map((i) => liste[i])) : []
@@ -88,7 +88,7 @@ function abrufe(stapel, liste, lies) {
 }
 
 /** Zwischenspeicher `{ [lauf-id]: Zeilen }`; fehlt die Datei oder ist sie kaputt, ist er leer (nur Kosten, kein Befund). */
-function ladeSpeicher(datei) {
+export function ladeSpeicher(datei) {
   try {
     const inhalt = JSON.parse(readFileSync(datei, 'utf8'))
     return inhalt && typeof inhalt === 'object' && !Array.isArray(inhalt) ? inhalt : {}
@@ -97,7 +97,7 @@ function ladeSpeicher(datei) {
   }
 }
 
-function speichere(datei, inhalt) {
+export function speichere(datei, inhalt) {
   try {
     mkdirSync(dirname(datei), { recursive: true })
     writeFileSync(datei, JSON.stringify(inhalt))

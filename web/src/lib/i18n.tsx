@@ -706,6 +706,7 @@ const TEXTE = {
   'tv.laeuft': 'Läuft',
   'tv.imProgramm': 'Im TV-Programm',
   'tv.live': 'Live auf {name}',
+  'tv.danachJoyn': 'Danach auf Joyn',
   'tv.quelle': 'Quelle des Termins: {name}',
   // Der Anbieter führt den Titel, die Adresse kennt nur TMDB — der Klick landet dort (22.09.2026).
   'detail.ueberTmdb': '{name} (über TMDB)',
