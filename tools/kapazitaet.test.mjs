@@ -11,6 +11,7 @@ import { GRENZE_ANFRAGEN, GRENZE_CRON_P99_MS, GRENZE_D1_GESCHRIEBEN, bewerteKapa
 import { readFileSync } from 'node:fs'
 import { parse } from 'yaml'
 import { berichtZeilen, lauf, messe } from './kapazitaet-messen.mjs'
+import { stundenTabelle, stundenZeilen } from './kapazitaet-stunden.mjs'
 
 /* Schwellen fest eingetragen, nicht aus dem Modul abgeleitet. */
 assert.equal(GRENZE_ANFRAGEN, 70_000)
@@ -46,11 +47,17 @@ assert.match(bewerteKapazitaet(woche).befunde[0], /2026-10-20/)
 assert.equal(befunde({ anfragen: 70_001, geschrieben: 70_001, cronP99Ms: 9 }).length, 3)
 
 /* ---- Messung gegen eine nachgebildete API ---- */
-function api({ ohne = [] } = {}) {
+function api({ ohne = [], stundenFehlt = false } = {}) {
   const log = []
   const holen = async (url, init) => {
     const { query, variables } = JSON.parse(init.body)
     log.push({ url, auth: init.headers.Authorization, variables })
+    if (query.includes('datetimeHour')) {
+      if (stundenFehlt) return { ok: true, json: async () => ({ errors: [{ message: 'unknown field datetimeHour' }] }) }
+      const std = [['newsletter', '2026-10-22T03:00:00Z', 3600], ['newsletter', '2026-10-22T04:00:00Z', 3500], ['board', '2026-10-22T03:00:00Z', 7]]
+      const zeilen = std.map(([scriptName, datetimeHour, requests]) => ({ dimensions: { scriptName, datetimeHour }, sum: { requests } }))
+      return { ok: true, json: async () => ({ data: { viewer: { accounts: [{ workersInvocationsAdaptive: zeilen }] } } }) }
+    }
     const name = ['workersInvocationsAdaptive', 'workersInvocationsScheduled', 'd1AnalyticsAdaptiveGroups'].find((n) => query.includes(n))
     if (ohne.includes(name)) return { ok: true, json: async () => ({ errors: [{ message: `unknown field ${name}` }] }) }
     const daten = {
@@ -73,7 +80,14 @@ const m = await messe({ token: 'T', konto: 'K', jetzt: JETZT, tage: 7, holen: a.
 assert.equal(m.tage.length, 7)
 assert.equal(m.tage[0].datum, '2026-10-17')
 assert.equal(m.tage[6].datum, '2026-10-23')
-assert.equal(a.log.length, 21, '3 Datensätze je Tag')
+assert.equal(a.log.length, 22, '3 Datensätze je Tag und eine Stundenabfrage über das ganze Fenster')
+const stundenAufruf = a.log.at(-1).variables
+assert.equal(stundenAufruf.von, '2026-10-17T00:00:00.000Z')
+assert.equal(stundenAufruf.bis, '2026-10-24T00:00:00.000Z')
+assert.equal(m.stundenFehler, null)
+assert.equal(m.stunden.newsletter['2026-10-22'][3], 3600)
+assert.equal(m.stunden.newsletter['2026-10-22'][4], 3500)
+assert.equal(m.stunden.board['2026-10-22'][3], 7)
 assert.ok(a.log.every((l) => l.auth === 'Bearer T' && l.variables.konto === 'K'))
 const t = m.tage[6]
 assert.equal(t.anfragen, 1042)
@@ -88,6 +102,23 @@ assert.equal(t.geschrieben, 321)
 assert.equal(m.nichtLesbar.length, 0)
 assert.equal(bewerteKapazitaet(m.tage).befunde.length, 1, 'nur Cron p99 8,2 ms ist über der Schwelle')
 assert.match(berichtZeilen(m).join('\n'), /Skript newsletter: 1\.002 Anfragen am 2026-10-23/)
+
+/* ---- Stundentabelle: Zeilen ohne Stunde/Skript übergangen, gleiche Stunde summiert, Zeilen nur bei Anfragen ---- */
+const tab = stundenTabelle([
+  { dimensions: { scriptName: 'x', datetimeHour: '2026-11-06T15:00:00Z' }, sum: { requests: 5 } },
+  { dimensions: { scriptName: 'x', datetimeHour: '2026-11-06T15:00:00Z' }, sum: { requests: 2 } },
+  { dimensions: { scriptName: 'x', datetimeHour: '2026-11-06T00:00:00Z' }, sum: { requests: 1 } },
+  { dimensions: { scriptName: 'x' }, sum: { requests: 99 } },
+  { dimensions: { datetimeHour: '2026-11-06T01:00:00Z' }, sum: { requests: 99 } },
+  { dimensions: { scriptName: 'y', datetimeHour: '2026-11-07T23:00:00Z' }, sum: { requests: 0 } },
+])
+assert.equal(tab.x['2026-11-06'][15], 7)
+assert.equal(tab.x['2026-11-06'][0], 1)
+assert.equal(tab.x['2026-11-06'].reduce((p, c) => p + c, 0), 8)
+assert.equal(tab.y['2026-11-07'][23], 0)
+assert.deepEqual(stundenZeilen(tab), ['Anfragen je Skript und UTC-Stunde:', '  Stunden x 2026-11-06 (00–23 UTC, gesamt 8): 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 7 0 0 0 0 0 0 0 0'])
+assert.deepEqual(stundenZeilen({}), [])
+assert.deepEqual(stundenTabelle(null), {})
 
 /* ---- Ein Datensatz fehlt: gemeldet, nicht als 0 gewertet ---- */
 const b = api({ ohne: ['workersInvocationsScheduled'] })
@@ -113,10 +144,20 @@ const sammle = () => {
 }
 const gut = sammle()
 assert.equal(await lauf({ token: 'T', konto: 'K', jetzt: JETZT, tage: 2, holen: api().holen, ausgabe: gut.ausgabe }), 1, 'Cron p99 8,2 ms ist über 8 ms')
+assert.ok(gut.zeilen.some((z) => z.startsWith('  Stunden newsletter 2026-10-22 (00–23 UTC, gesamt 7100): ')), 'Stundenzeilen stehen im Protokoll')
+assert.ok(!gut.zeilen.some((z) => z.startsWith('::warning::Kapazität: Stundenabfrage')))
 assert.ok(gut.zeilen.some((z) => z.startsWith('::error::Kapazität: Cron-CPU p99')))
 const fehlt = sammle()
 assert.equal(await lauf({ token: 'T', konto: 'K', jetzt: JETZT, tage: 2, holen: api({ ohne: ['workersInvocationsScheduled'] }).holen, ausgabe: fehlt.ausgabe }), 1, 'nicht lesbarer Datensatz = rot')
 assert.ok(fehlt.zeilen.some((z) => /^::error::Kapazität: Datensatz nicht lesbar \(cron: unknown field/.test(z)))
+/* ---- Stundenabfrage scheitert: nur Warnung, Exit-Code wie ohne sie ---- */
+const sf = sammle()
+const codeSf = await lauf({ token: 'T', konto: 'K', jetzt: JETZT, tage: 2, holen: api({ stundenFehlt: true }).holen, ausgabe: sf.ausgabe })
+assert.equal(codeSf, 1, 'Cron p99 8,2 ms bleibt der einzige Befund')
+assert.ok(sf.zeilen.some((z) => /^::warning::Kapazität: Stundenabfrage nicht lesbar \(unknown field datetimeHour\)/.test(z)))
+assert.ok(!sf.zeilen.some((z) => /^::error::.*Stunden/.test(z)))
+assert.equal(sf.zeilen.filter((z) => z.startsWith('::error::')).length, 1)
+
 const ohneToken = sammle()
 assert.equal(await lauf({ token: '', konto: 'K', jetzt: JETZT, holen: () => assert.fail('kein Abruf ohne Token'), ausgabe: ohneToken.ausgabe }), 0)
 assert.equal(await lauf({ token: 'T', konto: '', jetzt: JETZT, holen: () => assert.fail('kein Abruf ohne Konto'), ausgabe: ohneToken.ausgabe }), 0)
