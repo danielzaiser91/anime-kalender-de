@@ -102,9 +102,10 @@ const SCHRITT = [
 for (const [name, env, soll] of SCHRITT) fall(name, () => assert.deepEqual(aufrufe(env), soll))
 
 console.log('jeder Aufruf des Schritts ist für main() ein gültiger Aufruf (Exit 0, kein Aufruf-Fehler)')
+let laufZweig = ''
 const kulisse = {
   gh: (a) => {
-    if (a[0] === 'run' && a[1] === 'view') return JSON.stringify({ databaseId: 123, headSha: 'a'.repeat(40), status: 'in_progress', conclusion: '' })
+    if (a[0] === 'run' && a[1] === 'view') return JSON.stringify({ databaseId: 123, workflowName: 'PR-Prüfkette', headBranch: laufZweig, headSha: 'a'.repeat(40), status: 'in_progress', conclusion: '' })
     if (a[0] === 'pr' && a[1] === 'list') return '[]'
     throw new Error(`Attrappe kennt nicht: ${a.join(' ')}`)
   },
@@ -113,6 +114,7 @@ const kulisse = {
 for (const [name, args] of [['urteil', ['urteil', '--zweig', 'zug-probe', '--lauf', '123']], ['start --trocken', ['start', '--trocken']], ['start', ['start']], ['bau-deploy --trocken', ['bau-deploy', '--trocken']], ['urteil von Hand --trocken --schieben', ['urteil', '--zweig', 'zug-fahrt', '--lauf', '123', '--trocken', '--schieben']]]) {
   fall(`main(${name}) → 0`, () => {
     const zeilen = []
+    laufZweig = args[args.indexOf('--zweig') + 1] ?? ''
     assert.equal(main(args, { ...kulisse, melde: (z) => zeilen.push(z) }), 0, zeilen.join('\n'))
     assert.ok(!zeilen.some((z) => /Aufruf:|FEHLER/.test(z)), zeilen.join('\n'))
   })
