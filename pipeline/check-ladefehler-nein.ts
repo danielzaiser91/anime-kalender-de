@@ -88,6 +88,9 @@ pruefe('ein jüngeres Ja nach dem Ladefehler-Nein gilt', ein([NEIN, JA_NEU], 'ja
 /* A1: eine gemessene Regionssperre (Chaika, wörtlich aus der Datei) ist ein Nein und überstimmt das ältere Ja. */
 pruefe('Regionssperre (Chaika-Zeile): Nein bleibt Nein, kein Abo', ein([JA, NEIN_REGION], 'nein') && verneint([JA, NEIN_REGION]).length === 1, urteile([JA, NEIN_REGION]))
 pruefe('Regionssperre vor dem Ja in der Datei: ebenso Nein', ein([NEIN_REGION, JA], 'nein'), urteile([NEIN_REGION, JA]))
+const JA_BEREICH = JA.replace('  dub: true\n', '  dubRanges:\n    - from: 1\n      to: 10\n      dub: true\n')
+const bereich = lade([JA_BEREICH, NEIN])[0]
+pruefe('Ja nur mit Bereichen plus Ladefehler-Nein: kein dub: false im Ergebnis, Urteil ja', bereich?.dub === undefined && bereich !== undefined && urteilVon(bereich) === 'ja', bereich)
 
 /* Ladefehler ohne Urteil in der Nachbarzeile: bleibt stehen (Nein gilt). */
 pruefe('Zeile ohne Urteil plus Ladefehler-Nein: Nein bleibt', ein([NUR_ADRESSE, NEIN], 'nein'), urteile([NUR_ADRESSE, NEIN]))
