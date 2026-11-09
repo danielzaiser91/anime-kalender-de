@@ -133,6 +133,8 @@ Daniel 09.10. und 11.10.2026: „aus allem lernen … sodass zukünftige Arbeit 
 - **Vorratsdatei vor dem Start nach `laufend/` (31.10.2026, 2517):** Erst verschieben, dann den Agenten mit dem neuen Pfad starten — nach dem Start sperrt `vorrat-sperre.js` das Verschieben, und ein Pfad auf `laufend/` im Auftrag zeigt dann ins Leere. Nach dem Merge (bzw. Abnahme ohne PR) wird die Datei aus `laufend/` im selben Zug gelöscht (`# nach-bericht`) — am 01.11.2026 lagen dort 10 Aufträge, deren PRs längst gemergt waren.
 - **Vorratsdatei erst nach dem Bericht verschieben** (14.10.2026, zweimal knapp passiert): Solange ein Bauer läuft, der `vorrat/<n>.md` liest, bleibt die Datei liegen; verschoben wird beim Merge, nicht beim Start. Erneut verletzt 23.10.2026 (00-d gelöscht, Bauer bekam nur den Platzhalter `$(cat …)`): **Agent-Prompts sind wörtlich, Shell-Ausdrücke darin werden nie aufgelöst** — Auftragstext selbst in den Prompt kopieren oder einen Pfad nennen, der vor dem Start existiert.
 
+**Baut ein Auftrag auf gemergtem Code auf (P2c, 09.11.2026):** vor der Vergabe die tragende Stelle im Quelltext von `origin/main` lesen (Funktion, Anker, Export), nicht auf die Merge-Meldung verlassen.
+
 ## Was sich fast immer lohnt
 
 Untersuchungen mit offenem Ausgang; Abgleiche gegen die Außenwelt (je Plattform/Quelle ein Agent, alle in einer Nachricht); lange Recherche; Messungen über den ganzen Bestand; Umbauten mit klarem Zielzustand; Gegenproben. Mehrteilige Aufträge von Daniel sofort zerlegen und unabhängige Teile gleichzeitig starten.
