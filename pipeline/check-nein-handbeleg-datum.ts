@@ -140,6 +140,16 @@ try {
   pruefe('Anlassfall: dasselbe Nein mit und ohne Adresse (22.08.), Ja mit Adresse (10.10.): kein Nein', !sperrt(anlass, 39, FREMD) && !sperrt(anlass, 39, JA_ADR))
   pruefe('Kuroko: Ja ohne Adresse, dann Ja mit Adresse und Nein ohne Adresse am selben Tag: Nein gilt', sperrt([ohne(40, '2026-08-22', '  dub: true\n'), jaMitAdr(40, '2026-09-25'), ohne(40, '2026-09-25', '  available: false\n')], 40, FREMD))
 
+  /* Rohzeilen ohne Datum und mit mehreren Urteilen an einer Adresse. */
+  const rohOhneAdr = (d: string | undefined) => ({ anilistId: 42, platform: 'primevideo' as const, dub: false, ...(d ? { checkedAt: d } : {}) })
+  const rohJaAm = (d: string) => ({ anilistId: 42, platform: 'primevideo' as const, url: JA_ADR, dub: true, checkedAt: d })
+  const rohNeinAm = (d: string) => ({ anilistId: 42, platform: 'primevideo' as const, url: JA_ADR, dub: false, checkedAt: d })
+  const roh42 = (zeilen: Parameters<typeof neinHandbelege>[0]) => wegVerneint(neinHandbelege(zeilen), 42, 'primevideo', FREMD)
+  pruefe('Rohzeilen: Nein ohne Adresse ohne checkedAt, Ja mit Adresse datiert: Nein gilt', roh42([rohOhneAdr(undefined), rohJaAm('2026-09-10')]))
+  pruefe('Rohzeilen: Ja 10.09., Ja 01.09. an derselben Adresse, Nein ohne Adresse 05.09.: kein Nein (Maximum)', !roh42([rohJaAm('2026-09-10'), rohJaAm('2026-09-01'), rohOhneAdr('2026-09-05')]))
+  pruefe('Rohzeilen: Ja 01.09., Ja 10.09. an derselben Adresse, Nein ohne Adresse 05.09.: kein Nein (jüngstes, nicht erstes)', !roh42([rohJaAm('2026-09-01'), rohJaAm('2026-09-10'), rohOhneAdr('2026-09-05')]))
+  pruefe('Rohzeilen: Ja 01.09., Nein 20.09. an derselben Adresse, Nein ohne Adresse 05.09.: Nein gilt', roh42([rohJaAm('2026-09-01'), rohNeinAm('2026-09-20'), rohOhneAdr('2026-09-05')]))
+
   console.log('\nistSammelKern:')
   const sammel = ['amazon.de/s', 'amazon.de/s/ref=nb_sb_noss', 'crunchyroll.com', 'crunchyroll.com/de', 'crunchyroll.com/de-de', 'netflix.com/search', 'anbieter.de/suche']
   const echt = ['amazon:B0DNCGXVNT', 'amazon-gti:amzn1.dv.gti.70a9f6b2-e01c-dfe3-ef0c-dc0ae2d750a5', 'netflix.com/title/7', 'crunchyroll.com/series/g6nvw1fb5/titel', 'youtube.com/watch?v=RiuV5W30Xvc', 'crunchyroll.com/deutsch', 'anbieter.de/series', 'amazon.de/dp', '']

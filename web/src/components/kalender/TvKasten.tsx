@@ -10,6 +10,7 @@ import { buendeleTermine } from '../../lib/buendel.ts'
 import { coverBild } from '../../lib/cover.ts'
 import { useLang } from '../../lib/i18n.tsx'
 import { FernsehZeichen } from './Zeichen.tsx'
+import { BereichAuge, type Auge } from './BereichAuge.tsx'
 import { PremiereMarke } from './PremiereMarke.tsx'
 import { useHoverCover } from './HoverCover.tsx'
 import { TREFFER_24_HOCH } from '../detail/tippziel.ts'
@@ -35,6 +36,7 @@ export function TvKasten({
   jetzt,
   onOpen,
   kompakt,
+  auge,
 }: {
   termine: ReleaseEvent[]
   data: Dataset
@@ -46,6 +48,8 @@ export function TvKasten({
   onOpen: (ev: ReleaseEvent) => void
   /** In einer Schwebekarte: ohne eigenen Rahmen und Kopf. */
   kompakt?: boolean
+  /** Das Auge am Kopf (nur in der Woche): bei geschlossenem Auge bleibt der Kopf, die Einträge fehlen. */
+  auge?: Auge
 }) {
   const { t } = useLang()
   const gruppen = buendeleTermine(termine, (ev) => !!ev.verpasst || tvPremiere(ev, data))
@@ -80,8 +84,9 @@ export function TvKasten({
           {t('kal.imTv')}
           {!!stand?.linie.ersteIn && <ErsteSendung minuten={stand.linie.ersteIn} />}
         </span>
+        {auge && <BereichAuge auge={auge} bereich={t('kal.imTv')} klasse="text-ak-tv hover:text-ak-text" />}
       </h3>
-      {termine.length === 0 ? <p className="text-[13px] text-ak-sehr-leise">{t('kal.keineAusstrahlung')}</p> : liste}
+      {termine.length > 0 ? liste : auge?.an === false ? null : <p className="text-[13px] text-ak-sehr-leise">{t('kal.keineAusstrahlung')}</p>}
     </div>
   )
 }

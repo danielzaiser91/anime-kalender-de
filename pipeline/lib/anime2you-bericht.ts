@@ -15,6 +15,8 @@ export interface LaufErgebnis {
   /** Artikel, die Claude nicht als gelesen gemeldet hat – sie kommen morgen wieder. */
   ungelesen: string[]
   uebersprungen: number
+  /** Artikel, die die Regel statt Claude gelesen hat (Kennungen); fehlt oder leer ohne Router. */
+  regel?: string[]
 }
 
 const zelle = (s: string | null | undefined): string => (s ?? '–').replace(/[|\r\n[\]]+/g, ' ').trim()
@@ -35,6 +37,7 @@ export function zusammenfassung(e: LaufErgebnis, heute: string): string {
     `${e.neu.length} Vorschläge, ${e.verworfen.length} verworfen, ${e.ungelesen.length} Artikel ungelesen (morgen erneut), ${e.uebersprungen} ohne Deutschland-Bezug übersprungen.`,
     'Vorschläge sind keine Termine: Jeder braucht einen Handeintrag mit der Quelle. Wochentag und Uhrzeit vor der Übernahme gegenlesen. Entwurf: npx tsx pipeline/anime2you-entwurf.ts',
   ]
+  if (e.regel?.length) teile.push('', `Von der Regel gelesen, Claude hat sie nicht gelesen: ${e.regel.length} (${e.regel.join(', ')}).`)
   if (e.neu.length) teile.push('', ...kopf, ...e.neu.map(zeile))
   const ohneModell = e.neu.filter((v) => v.plattform === null && v.anbieter)
   if (ohneModell.length) teile.push('', `Offen: Anbieter ohne Plattform im Datenmodell – ${[...new Set(ohneModell.map((v) => v.anbieter))].join(', ')}.`)
