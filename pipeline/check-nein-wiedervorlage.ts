@@ -77,6 +77,10 @@ pruefe('Netflix-Adressen und fremde Hosts nicht', ohneKachel.adressen.size === 1
 pruefe('ohne Kachel keine Sofort-Frist', ohneKachel.kachelSeit.size === 0)
 const mitKachel = crunchyrollNeinAbruf(entfernt, kachel, [termin(3, 'crunchyroll', '2026-10-12', { episodeCount: 1 }, serie)])
 pruefe('mit Kachel: Serie sofort fällig, Adresse des Kalenders in der Liste', mitKachel.kachelSeit.get('GT00371869') === '2026-10-12' && mitKachel.adressen.has(serie), [...mitKachel.kachelSeit])
+const zweiTermine = [termin(11, 'crunchyroll', '2026-10-11', { episodeCount: 1 }, serie), termin(3, 'crunchyroll', '2026-10-05', { episodeCount: 1 }, serie)]
+const zweiKacheln = neinWiedervorlage([nein(3, 'crunchyroll', '2026-09-26'), nein(11, 'crunchyroll', '2026-09-26')], zweiTermine, JETZT)
+const beiKennung = crunchyrollNeinAbruf(entfernt, zweiKacheln, zweiTermine)
+pruefe('zwei Titel einer Serie: die jüngste Kachel zählt, nicht die zuletzt gelesene', beiKennung.kachelSeit.get('GT00371869') === '2026-10-11', [...beiKennung.kachelSeit])
 
 console.log('\nAnschluss im Abruf')
 const abruf = readFileSync(new URL('./scrape-crunchyroll-dub.ts', import.meta.url), 'utf8')

@@ -1,0 +1,13 @@
+[
+  {"name":"A1 Auswahl: immer der letzte","tests":["npx tsx pipeline/check-cr-kalender-auswahl.ts"],"aenderungen":[{"datei":"pipeline/lib/cr-kalender-auswahl.ts","suche":"if (termin > 0 || (termin === 0 && beobachtet >= 0)) beste = e","ersetze":"beste = e"}]},
+  {"name":"A2 Auswahl: immer der erste","tests":["npx tsx pipeline/check-cr-kalender-auswahl.ts"],"aenderungen":[{"datei":"pipeline/lib/cr-kalender-auswahl.ts","suche":"if (termin > 0 || (termin === 0 && beobachtet >= 0)) beste = e","ersetze":"if (false) beste = e"}]},
+  {"name":"A3 Auswahl: Termin zählt nicht","tests":["npx tsx pipeline/check-cr-kalender-auswahl.ts"],"aenderungen":[{"datei":"pipeline/lib/cr-kalender-auswahl.ts","suche":"if (termin > 0 || (termin === 0 && beobachtet >= 0)) beste = e","ersetze":"if (beobachtet >= 0) beste = e"}]},
+  {"name":"A4 Auswahl: Beobachtungen zählen nicht","tests":["npx tsx pipeline/check-cr-kalender-auswahl.ts"],"aenderungen":[{"datei":"pipeline/lib/cr-kalender-auswahl.ts","suche":"termin === 0 && beobachtet >= 0","ersetze":"termin === 0"}]},
+  {"name":"A5 Auswahl: Gleichstand wählt den ersten","tests":["npx tsx pipeline/check-cr-kalender-auswahl.ts"],"aenderungen":[{"datei":"pipeline/lib/cr-kalender-auswahl.ts","suche":"beobachtet >= 0","ersetze":"beobachtet > 0"}]},
+  {"name":"A6 Auswahl: weniger Beobachtungen gewinnen","tests":["npx tsx pipeline/check-cr-kalender-auswahl.ts"],"aenderungen":[{"datei":"pipeline/lib/cr-kalender-auswahl.ts","suche":"beobachtet >= 0","ersetze":"beobachtet <= 0"}]},
+  {"name":"A7 Auswahl: älterer Termin gewinnt","tests":["npx tsx pipeline/check-cr-kalender-auswahl.ts"],"aenderungen":[{"datei":"pipeline/lib/cr-kalender-auswahl.ts","suche":"termin > 0 ||","ersetze":"termin < 0 ||"}]},
+  {"name":"A8 Auswahl: erster Termin statt jüngster","tests":["npx tsx pipeline/check-cr-kalender-auswahl.ts"],"aenderungen":[{"datei":"pipeline/lib/cr-kalender-auswahl.ts","suche":".sort().at(-1)","ersetze":".sort().at(0)"}]},
+  {"name":"A9 Bau: Auswahl nicht verdrahtet (letzter)","tests":["npx tsx pipeline/check-cr-kalender-auswahl.ts"],"aenderungen":[{"datei":"pipeline/bau/04-cr-sendeplaetze.ts","suche":"waehleKalenderEintrag(liste)","ersetze":"liste[liste.length - 1]!"}]},
+  {"name":"A10 Bau: Auswahl nicht verdrahtet (erster)","tests":["npx tsx pipeline/check-cr-kalender-auswahl.ts"],"aenderungen":[{"datei":"pipeline/bau/04-cr-sendeplaetze.ts","suche":"waehleKalenderEintrag(liste)","ersetze":"liste[0]!"}]},
+  {"name":"Kontrolle","aenderungen":[],"tests":["npx tsx pipeline/check-cr-kalender-auswahl.ts"]}
+]
