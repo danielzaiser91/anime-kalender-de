@@ -36,6 +36,7 @@ assert.equal(meldeLinkCheckZwischenstand({ a: erst({}) }, 'h', () => {}), 0, 'Zw
 assert.equal(meldeLinkCheckZwischenstand({ a: erst({ erstes404: 'g' }) }, 'h', () => {}), 0, 'Zwischenstand: altes erstes404 bei heutiger Nichtauskunft zählt nicht')
 assert.equal(meldeLinkCheckZwischenstand({ a: erst({ erstes404: 'h', rausch: true }) }, 'h', () => {}), 0, 'Zwischenstand: Rauschbefund zählt nicht')
 assert.equal(meldeLinkCheckZwischenstand({ a: { status: 503, geprueftAm: 'h', erstes404: 'h' } }, 'h', () => {}), 0, 'Zwischenstand: 503 mit erstes404 zählt nicht')
+assert.equal(meldeLinkCheckZwischenstand({ a: { status: 200, geprueftAm: 'g' }, b: erst({ erstes404: 'h', geprueftAm: 'g' }) }, 'h', () => {}), 0, 'Zwischenstand: Einträge mit altem geprueftAm zählen nicht')
 assert.equal(istTot(404) && istTot('region') && !istTot(410) && !istTot(503) && !istTot(200), true, 'tot nur 404 und region')
 
 /* --- Echter Lauf bis zum Ende, Abruf per Attrappe; Wurzelordner als Argument --- */
