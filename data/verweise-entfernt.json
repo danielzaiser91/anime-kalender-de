@@ -1,5 +1,5 @@
 {
-  "stand": "2026-11-09T05:58:54.383Z",
+  "stand": "2026-11-09T21:50:56.165Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -4406,6 +4406,17 @@
       "titel": "One Piece",
       "plattform": "crunchyroll",
       "url": "http://www.crunchyroll.com/de/one-piece",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-11-09",
+      "letzterWeg": false
+    },
+    {
+      "titleId": 21,
+      "titel": "One Piece",
+      "plattform": "adn",
+      "url": "https://animationdigitalnetwork.com/de/video/561-one-piece",
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
