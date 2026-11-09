@@ -7,16 +7,12 @@ export type GtiBelegt = Record<string, string>
 
 const ASIN = /\/(?:dp|detail)\/([A-Z0-9]{10})(?:[/?]|$)/
 
-/** Die Amazon-Kennung (gti) eines Prime-Wegs: aus der Adresse, sonst über die ASIN von `url` oder `seite` (belegt). */
-export function primeGti(s: Pick<StreamLink, 'url' | 'seite'>, belegt: GtiBelegt): string | undefined {
+/** Die Amazon-Kennung (gti) eines Prime-Wegs: aus der Adresse (gti-Brücke), sonst über die belegte ASIN der Adresse. */
+export function primeGti(s: Pick<StreamLink, 'url'>, belegt: GtiBelegt): string | undefined {
   const direkt = gtiAus(s.url)
   if (direkt) return direkt
-  for (const u of [s.url, s.seite]) {
-    const asin = ASIN.exec(u ?? '')?.[1]
-    const g = asin ? belegt[`amazon:${asin.toLowerCase()}`] : undefined
-    if (g) return g
-  }
-  return undefined
+  const asin = ASIN.exec(s.url)?.[1]
+  return asin ? belegt[`amazon:${asin.toLowerCase()}`] : undefined
 }
 
 /** Prime-Wege eines Titels, die als Weg zählen (ein Vermerk „nicht mehr im Katalog“ ist keiner). */

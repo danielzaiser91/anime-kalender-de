@@ -76,7 +76,7 @@ console.log('\nPrime-Wege gleicher gti:')
   pruefe('drei Wege einer gti und ein fremder: 2 bleiben (je gti einer)', dn === 2 && dreifach.length === 2 && dreifach.some((s) => s.url.endsWith('B0CFKZQ6FN')), urls(dreifach))
 
   const ueberSeite = [prime(`https://watch.amazon.de/detail?gti=${GTI_A}`, { seite: seite('B0D98PQ1FW') }), prime(seite('B0CFL5Y7XN'))]
-  pruefe('gti in der Adresse und ASIN-Seite einer anderen: ein Weg', fuehrePrimeWegeGleicherGtiZusammen(ueberSeite, belegt) === 1 && ueberSeite.length === 1)
+  pruefe('gti in der Adresse (Brücke) und eine belegte ASIN-Adresse: ein Weg', fuehrePrimeWegeGleicherGtiZusammen(ueberSeite, belegt) === 1 && ueberSeite.length === 1)
 }
 
 console.log('\nWege-Abschluss ruft die Zusammenführung (Termin behält die Adresse):')
