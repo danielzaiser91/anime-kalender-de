@@ -46,7 +46,7 @@
  *
  * Aufruf: npm run check:handbelege
  */
-import { loadDubChecks, adressKern, neinHandbelege, type DubCheck } from './lib/dub-confirmed.ts'
+import { loadDubChecks, adressKern, neinHandbelege, ladefehlerNein, urteilVon, type DubCheck } from './lib/dub-confirmed.ts'
 import { readJson, log, warn, ROOT } from './lib/util.ts'
 import { resolve } from 'node:path'
 import { readFileSync } from 'node:fs'
@@ -93,6 +93,7 @@ const rohBelege = (yaml.load(readFileSync(resolve(ROOT, 'data/dub-confirmed.yaml
   url?: string
   dub?: boolean
   available?: boolean
+  note?: string
 }[]
 
 /** Alle Belege eines Verweises zusammen — ein Verweis, nicht ein Eintrag. */
@@ -293,7 +294,10 @@ log('✓ Jede eindeutige Handprüfung steht so im Datensatz, wie sie geprüft wu
     const gewaehlt = belege.find(
       (b) => `${b.anilistId}|${b.platform}|${adressKern(b.url)}` === k && aussage(b),
     )
-    if (gewaehlt && (gewaehlt.checkedAt ?? '') !== juengstes) {
+    /* Nur Ladefehler-Nein-Zeilen sind jünger als das geltende Ja: Nichtauskunft, `verschmelze` ignoriert sie. */
+    const nurLadefehlerJuenger = urteilVon(gewaehlt ?? {}) === 'ja' &&
+      gruppe.filter((g) => (g.checkedAt ?? '') > (gewaehlt?.checkedAt ?? '')).every((g) => ladefehlerNein(g as DubCheck))
+    if (gewaehlt && (gewaehlt.checkedAt ?? '') !== juengstes && !nurLadefehlerJuenger) {
       verschluckt.push(`${k}: es gilt ${gewaehlt.checkedAt}, jüngster Beleg ist ${juengstes}`)
     }
   }

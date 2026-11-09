@@ -278,6 +278,7 @@ export function ladeHandbelege(): DubCheck[] {
 export function verschmelze(a: DubCheck, b: DubCheck): DubCheck {
   // Ohne Datum verliert: Ein undatierter Eintrag verdrängt keinen datierten.
   const [alt, neu] = (a.checkedAt ?? '') <= (b.checkedAt ?? '') ? [a, b] : [b, a]
+  if (ladefehlerNein(neu) && urteilVon(alt) === 'ja') return { ...alt }
   const verschmolzen = {
     ...alt,
     ...Object.fromEntries(Object.entries(neu).filter(([, v]) => v !== undefined && v !== null)),
@@ -297,6 +298,11 @@ export function verschmelze(a: DubCheck, b: DubCheck): DubCheck {
   if (urteil === 'ja' && verschmolzen.available === false) delete verschmolzen.available
   if (kanalJaUeberholtNein(alt, neu)) delete verschmolzen.available
   return verschmolzen
+}
+
+/** Ein Nein aus einer Messung, die keine Folge gelesen hat („nur 0 von N Folgen geladen“): Nichtauskunft, hebt kein Ja auf (ein teilweises Lesen wie „6 von 8“ bleibt ein Urteil). */
+export function ladefehlerNein(c: DubCheck): boolean {
+  return urteilVon(c) === 'nein' && /nur 0 von \d+ Folgen geladen/.test(c.note ?? '')
 }
 
 type Urteil = Pick<DubCheck, 'dub' | 'available' | 'dubRanges' | 'juengstesUrteil'>
