@@ -12,6 +12,7 @@
  */
 import { chromium } from 'playwright'
 import { mkdirSync } from 'node:fs'
+import { sperreNetz } from './netz-sperre.mjs'
 import type { ReleaseEvent } from '../shared/types.ts'
 import { digestMail } from '../worker/src/templates.ts'
 
@@ -64,6 +65,7 @@ const mail = digestMail(termine, 'daily', 'https://anime-kalender.de/', 'https:/
 mkdirSync('docs', { recursive: true })
 const browser = await chromium.launch()
 const seite = await browser.newPage({ viewport: { width: 660, height: 900 }, deviceScaleFactor: 2 })
+await sperreNetz(seite)
 await seite.setContent(mail.html)
 await seite.screenshot({ path: 'docs/newsletter-probe.png', fullPage: true })
 await browser.close()
