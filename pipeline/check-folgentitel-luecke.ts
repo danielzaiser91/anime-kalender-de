@@ -17,6 +17,7 @@ import { mitCrTiteln, type CrArchiv, type CrSerie } from './bau/folgentitel-cr.t
 import { handFehler, ladeHandTitel } from './bau/folgentitel-hand.ts'
 import { rtlplusFolgentitel } from './bau/folgentitel-rtlplus.ts'
 import { mitFremdTiteln, type TitelQuellen } from './bau/folgentitel-stufen.ts'
+import { fremdtitelZahl, ohnePlatzhalterTitel } from './bau/folgentitel-zeilen.ts'
 import { pruefeLuecken as mainBestand, rtlplusFehlt } from './lib/folgentitel-luecke-bestand.ts'
 import { bewerteLuecken, leereImDeutschen, summe } from './lib/folgentitel-luecke.ts'
 
@@ -82,6 +83,18 @@ const zeilenLehn = [...zeilen.filter((z) => z.nr <= 65), { nr: 83, en: 'Partner'
 const imBauLehn = mitFremdTiteln(beyblade, zeilenLehn, { ...leer, rtlplus: { '165159': rtlLehn } })
 pruefe('im Bau: RTL+-Titel gleich dem englischen (Lehnwort „Partner“, „Supernova“) gilt als deutsch', imBauLehn?.find((x) => x.nr === 83)?.de === 'Partner' && imBauLehn.find((x) => x.nr === 99)?.de === 'Supernova', imBauLehn)
 pruefe('Kontrolle: derselbe Text aus Crunchyroll/TMDB (mitCrTiteln ohne nurDeutsch) bleibt „nicht deutsch“', mitCrTiteln([{ nr: 83, en: 'Partner' }, { nr: 84 }], karte([83, 'Partner'], [84, 'Anderer']))?.[0].de === undefined)
+pruefe('Wächter: Lehnwort, das RTL+ auf derselben Nummer führt, ist kein Fremdtitel', fremdtitelZahl([[83, 'Partner']], [{ nr: 83, en: 'Partner' }], karte([83, 'Partner'])) === 0)
+pruefe('Wächter: ohne RTL+-Beleg bleibt derselbe Text ein Fremdtitel (Kontrolle)', fremdtitelZahl([[83, 'Partner']], [{ nr: 83, en: 'Partner' }]) === 1)
+pruefe('Wächter: RTL+-Titel anderer Nummer oder anderen Texts entlastet nicht', fremdtitelZahl([[83, 'Partner']], [{ nr: 83, en: 'Partner' }], karte([84, 'Partner'], [83, 'Anderer'])) === 1)
+
+/* Platzhalter aus aniSearch: „Episode 4“ (Urusei Yatsura 155645, Folge 4) galt als Titel, keine Stufe lief, die Zeile blieb leer (Bestandsbau 09.11.2026). */
+const yatsura = { id: 155645, streams: [], episodes: 23 } as unknown as Title
+const zeilenYatsura = [{ nr: 1, de: 'Eins' }, { nr: 2, de: 'Zwei' }, { nr: 3, de: 'Drei' }, { nr: 4, de: 'Episode 4' }, { nr: 5, de: 'Fünf' }]
+const imBauPlatzhalter = mitFremdTiteln(yatsura, zeilenYatsura, { ...leer, hand: { '155645': karte([4, 'Die Liebhaber-Diebin']) } })
+pruefe('im Bau: Platzhalter „Episode 4“ aus aniSearch wird durch den Handtitel ersetzt', imBauPlatzhalter?.find((x) => x.nr === 4)?.de === 'Die Liebhaber-Diebin', imBauPlatzhalter)
+pruefe('im Bau: Titel neben dem Platzhalter bleiben', imBauPlatzhalter?.filter((x) => x.nr !== 4).map((x) => x.de).join('|') === 'Eins|Zwei|Drei|Fünf')
+pruefe('im Bau: ohne Quelle bleibt der Platzhalter ohne Titel (nie als Titel durchgereicht)', mitFremdTiteln(yatsura, zeilenYatsura, leer)?.find((x) => x.nr === 4)?.de === undefined)
+pruefe('ohnePlatzhalterTitel: andere Felder bleiben, ein echter Titel bleibt', JSON.stringify(ohnePlatzhalterTitel([{ nr: 1, de: 'Folge 1', en: 'One', minuten: 24 }, { nr: 2, de: 'Zwei' }])) === JSON.stringify([{ nr: 1, en: 'One', minuten: 24 }, { nr: 2, de: 'Zwei' }]) && ohnePlatzhalterTitel(undefined) === undefined)
 
 console.log('\nCrunchyroll: eine Staffel eines geteilten Verweises')
 const serieMit = (staffeln: { name: string; ab: string; von: number; bis: number }[]): CrSerie => ({

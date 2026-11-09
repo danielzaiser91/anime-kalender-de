@@ -8,6 +8,7 @@ import { tmdbTitelNachDatum } from './folgentitel-tmdb-datum.ts'
 import { mitKitsuTiteln, type KitsuEintrag } from './folgentitel-kitsu.ts'
 import { rtlplusFolgentitel, type RtlplusEintrag } from './folgentitel-rtlplus.ts'
 import { ladeHandTitel } from './folgentitel-hand.ts'
+import { ohnePlatzhalterTitel } from './folgentitel-zeilen.ts'
 
 interface Folge {
   nr: number
@@ -59,7 +60,8 @@ export function deutscheTitel(f: Folge[] | undefined): Map<number, string> {
  * Die aniSearch-Liste, wo sie Titel schuldig bleibt, nacheinander gefüllt: Crunchyroll, RTL+, TMDB, zuletzt die Handzuordnung. Ein vorhandener Titel bleibt;
  * die Archive werden nur geöffnet, wo es eine Lücke gibt.
  */
-export function mitFremdTiteln(t: Title, ausAs: Folge[] | undefined, q: TitelQuellen): Folge[] | undefined {
+export function mitFremdTiteln(t: Title, ausAsRoh: Folge[] | undefined, q: TitelQuellen): Folge[] | undefined {
+  const ausAs = ohnePlatzhalterTitel(ausAsRoh)
   const kitsu = q.kitsu[String(t.id)]
   if (!luecke(ausAs)) return mitKitsuTiteln(t, ausAs, kitsu)
   const crUrl = t.streams.find((s) => s.platform === 'crunchyroll')?.url
