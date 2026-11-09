@@ -70,6 +70,45 @@ console.log('\nTeil nur bei mehreren Teilen derselben Staffel:')
   }
 }
 
+{
+  /* Lupin III.: „Part N" ist die N-te Serie, nie Teil 2 der ersten — auch wenn der Reihenname („Lupin III.") jeden Part-Namen als Anfang trägt. Namen wörtlich aus `franchises.json`. */
+  const lupin = [
+    { id: 1412, name: 'Lupin III.: Part 1', jpStart: '1971-10-24' },
+    { id: 1425, name: 'Lupin the 3rd Part 2', jpStart: '1977-10-03' },
+    { id: 1426, name: 'Lupin the Third Part 3', jpStart: '1984-03-03' },
+    { id: 20906, name: 'Lupin III. Part 4', jpStart: '2015-08-29' },
+    { id: 100957, name: 'Lupin the 3rd Part V', jpStart: '2018-04-04' },
+    { id: 134623, name: 'Lupin III. Part 6', jpStart: '2021-10-10' },
+  ]
+  for (const reihe of ['Lupin III.', 'Lupin III', 'Lupin the 3rd', 'Lupin III.: Teil 1']) {
+    const stand = staffelStaende(lupin, reihe)
+    const gezaehlt = lupin.map((m) => `${stand.get(m.id)?.staffel}/${stand.get(m.id)?.teil}`).join(' ')
+    pruefe(`Lupin (Reihenname „${reihe}"): Part 1–6 sind Staffel 1–6 ohne Teil`, gezaehlt === '1/undefined 2/undefined 3/undefined 4/undefined 5/undefined 6/undefined', gezaehlt)
+  }
+  const be = staffelBeschriftungen(lupin, 'Lupin III.')
+  pruefe('Lupin: die Part-Namen bleiben sichtbar, keine „Staffel N"-Beschriftung', be.size === 0, [...be])
+  /* Part 1 am Anfang genügt nicht: zwei Part-Namen sind eine geteilte Staffel (Grenze: mindestens drei). */
+  const zwei = [
+    { id: 1, name: 'Foo: Part 1', jpStart: '2020-01-01' },
+    { id: 2, name: 'Foo: Part 2', jpStart: '2020-07-01' },
+    { id: 3, name: 'Foo: Staffel 2', jpStart: '2022-01-01' },
+  ]
+  const standZwei = staffelStaende(zwei, 'Foo')
+  pruefe('Zwei Part-Namen sind kein Part-Reihe: Part 2 bleibt Teil 2 der Staffel 1', standZwei.get(2)?.staffel === 1 && standZwei.get(2)?.teil === 2, [...standZwei])
+  /* Gegenfall: ohne „Part 1" am Anfang bleibt „Part N" die Hälfte einer Staffel (Kengan Ashura: Staffel 2 — Part.2). */
+  const kengan = [
+    { id: 1, name: 'Kengan Ashura', jpStart: '2019-07-31' },
+    { id: 2, name: 'Kengan Ashura: Part 2', jpStart: '2019-10-31' },
+    { id: 3, name: 'Kengan Ashura: Part 3', jpStart: '2021-01-01' },
+    { id: 4, name: 'Kengan Ashura: Staffel 2', jpStart: '2023-09-21' },
+  ]
+  const standK = staffelStaende(kengan, 'Kengan Ashura')
+  pruefe('Split-Cour: ohne „Part 1" am Anfang zählt „Part 2/3" als Teil der Staffel 1', standK.get(2)?.staffel === 1 && standK.get(3)?.staffel === 1 && standK.get(4)?.staffel === 2, [...standK])
+  /* Eine belegte deutsche Staffelnummer (`staffelQuelle`) schlägt die Part-Zählung. */
+  const quelle = lupin.map((m) => (m.id === 134623 ? { ...m, staffelQuelle: 9 } : m))
+  pruefe('staffelQuelle schlägt „Part N"', staffelStaende(quelle, 'Lupin III.').get(134623)?.staffel === 9, [...staffelStaende(quelle, 'Lupin III.')])
+}
+
 if (verletzt) {
   console.error(`\n${verletzt} Zusicherung(en) verletzt.`)
   process.exit(1)

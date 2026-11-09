@@ -6,6 +6,7 @@
  * Regel laufen auseinander — hier ist der eine Ort.
  */
 import type { Title } from './types.ts'
+import { partNummer, zaehltPartAlsStaffel } from './staffel-part.ts'
 
 /**
  * „Season" kommt nicht auf die Seite.
@@ -176,7 +177,14 @@ function zaehleStaffeln<T extends StaffelFeld>(staffeln: T[], reihenName: string
   const sortiert = staffeln.slice().sort((a, b) => ausstrahlungsZeit(a).localeCompare(ausstrahlungsZeit(b)) || a.id - b.id)
   const eintraege: StaffelEintrag[] = []
   let aktuell = 0
+  const partIstStaffel = zaehltPartAlsStaffel(sortiert.map((m) => eindeutschenStaffel(m.name)))
   for (const m of sortiert) {
+    /* Lupin III. Part 6 ist die sechste Serie, nicht Teil 2 der ersten; der Name bleibt als Beschriftung (`shared/staffel-part.ts`). */
+    const part = partIstStaffel && !m.staffelQuelle ? partNummer(eindeutschenStaffel(m.name)) : undefined
+    if (part) {
+      eintraege.push({ id: m.id, staffel: (aktuell = part), eigenerName: true })
+      continue
+    }
     /* Nennt die belegte deutsche Quelle eine Staffel, gilt sie (86: Eighty Six, 01.10.2026). */
     if (m.staffelQuelle) {
       eintraege.push({ id: m.id, staffel: (aktuell = m.staffelQuelle), eigenerName: false })
