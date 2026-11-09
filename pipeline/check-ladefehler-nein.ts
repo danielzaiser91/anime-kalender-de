@@ -23,7 +23,7 @@ function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
 const kulisse = mkdtempSync(join(tmpdir(), 'ak-ladefehler-nein-'))
 mkdirSync(join(kulisse, 'data'))
 process.env.AK_ROOT = kulisse
-const { ladeHandbelege, verschmelze, urteilVon, neinHandbelege, ladefehlerNein, nurLadefehlerJuenger } = await import('./lib/dub-confirmed.ts')
+const { ladeHandbelege, verschmelze, urteilVon, neinHandbelege, ladefehlerNein, nurLadefehlerJuenger, veralteterBeleg } = await import('./lib/dub-confirmed.ts')
 
 const JA = `- anilistId: 20462
   title: "Chaika, die Sargprinzessin"
@@ -118,6 +118,12 @@ pruefe('nurLadefehlerJuenger: gewählt ist selbst ein Ladefehler: Meldung', nurL
 pruefe('nurLadefehlerJuenger: nichts gewählt: Meldung', nurLadefehlerJuenger(undefined, [lf]) === false)
 pruefe('nurLadefehlerJuenger: keine jüngere Zeile: still (leere Menge)', nurLadefehlerJuenger(ja, [ja]) === true)
 pruefe('ladefehlerNein: Regionssperre ist keiner', ladefehlerNein({ ...lf, note: 'nur 0 von 12 Folgen geladen, regionsperre=x' }) === false)
+pruefe('veralteterBeleg: Ja gewählt, nur Ladefehler jünger: kein Fund', veralteterBeleg(ja, [ja, lf]) === false)
+pruefe('veralteterBeleg: Ja gewählt, echtes Nein jünger: Fund', veralteterBeleg(ja, [ja, echt]) === true)
+pruefe('veralteterBeleg: Ja gewählt, Ladefehler und echtes Nein jünger: Fund', veralteterBeleg(ja, [ja, lf, echt]) === true)
+pruefe('veralteterBeleg: echtes Nein gewählt, jüngeres Ja: Fund', veralteterBeleg(echt, [echt, { ...ja, checkedAt: '2026-10-01' }]) === true)
+pruefe('veralteterBeleg: jüngste Zeile gewählt: kein Fund', veralteterBeleg(lf, [ja, lf]) === false)
+pruefe('veralteterBeleg: nichts gewählt: kein Fund', veralteterBeleg(undefined, [ja, echt]) === false)
 
 const a = lade([JA])[0]!
 const b = { ...a, dub: false, checkedAt: '2026-09-28', note: 'Amazon-Seite X: nur 0 von 3 Folgen geladen — Rest ungeprüft' }

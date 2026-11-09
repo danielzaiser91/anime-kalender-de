@@ -46,7 +46,7 @@
  *
  * Aufruf: npm run check:handbelege
  */
-import { loadDubChecks, adressKern, neinHandbelege, nurLadefehlerJuenger, type DubCheck } from './lib/dub-confirmed.ts'
+import { loadDubChecks, adressKern, neinHandbelege, veralteterBeleg, type DubCheck } from './lib/dub-confirmed.ts'
 import { readJson, log, warn, ROOT } from './lib/util.ts'
 import { resolve } from 'node:path'
 import { readFileSync } from 'node:fs'
@@ -295,8 +295,8 @@ log('✓ Jede eindeutige Handprüfung steht so im Datensatz, wie sie geprüft wu
       (b) => `${b.anilistId}|${b.platform}|${adressKern(b.url)}` === k && aussage(b),
     )
     /* Nur Ladefehler-Nein-Zeilen sind jünger als das geltende Urteil: Nichtauskunft, `verschmelze` ignoriert sie. */
-    if (gewaehlt && (gewaehlt.checkedAt ?? '') !== juengstes && !nurLadefehlerJuenger(gewaehlt, gruppe as DubCheck[])) {
-      verschluckt.push(`${k}: es gilt ${gewaehlt.checkedAt}, jüngster Beleg ist ${juengstes}`)
+    if (veralteterBeleg(gewaehlt, gruppe as DubCheck[])) {
+      verschluckt.push(`${k}: es gilt ${gewaehlt?.checkedAt}, jüngster Beleg ist ${juengstes}`)
     }
   }
   if (verschluckt.length) {

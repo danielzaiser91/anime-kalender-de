@@ -326,6 +326,13 @@ export function nurLadefehlerJuenger(gewaehlt: DubCheck | undefined, gruppe: Dub
   return gruppe.filter((g) => (g.checkedAt ?? '') > (gewaehlt.checkedAt ?? '')).every((g) => ladefehlerNein(g))
 }
 
+/** Die gewählte Zeile ist nicht die jüngste der Gruppe (und nicht nur wegen Ladefehler-Nein-Zeilen): ein Beleg wurde verschluckt. */
+export function veralteterBeleg(gewaehlt: DubCheck | undefined, gruppe: DubCheck[]): boolean {
+  if (!gewaehlt) return false
+  const juengstes = gruppe.map((g) => g.checkedAt ?? '').sort().at(-1)
+  return (gewaehlt.checkedAt ?? '') !== juengstes && !nurLadefehlerJuenger(gewaehlt, gruppe)
+}
+
 type Urteil = Pick<DubCheck, 'dub' | 'available' | 'dubRanges' | 'juengstesUrteil'>
 
 /** Das Urteil einer Zeile: Nein (`dub: false`, `available: false`), Ja (`dub: true` oder deutscher Bereich, sofern verfügbar) oder keins. */
