@@ -1,0 +1,21 @@
+[
+  { "name": "Kontrolle (unmutiert)", "aenderungen": [] },
+  { "name": "botSprungAusnahme: kettenweit(d) -> true (alte Regel, alles Fremde entwertet)", "aenderungen": [{ "datei": "tools/pr-nachrechnen.mjs", "suche": "!ohneKetteLeser(d) && kettenweit(d))", "ersetze": "!ohneKetteLeser(d) && true)" }] },
+  { "name": "botSprungAusnahme: kettenweit(d) -> false (nichts entwertet ohne Leser)", "aenderungen": [{ "datei": "tools/pr-nachrechnen.mjs", "suche": "!ohneKetteLeser(d) && kettenweit(d))", "ersetze": "!ohneKetteLeser(d) && false)" }] },
+  { "name": "botSprungAusnahme: Berührungsprüfung entfernt", "aenderungen": [{ "datei": "tools/pr-nachrechnen.mjs", "suche": "const beruehrt = prDateien.find((p) => vergleich.dateien.includes(p))", "ersetze": "const beruehrt = undefined" }] },
+  { "name": "botSprungAusnahme: Leser bekommt keine Code-Dateien (nur data/)", "aenderungen": [{ "datei": "tools/pr-nachrechnen.mjs", "suche": "return liestBewegtes(vergleich.dateien.filter((d) => !istDatenpfad(d) && !ohneKetteLeser(d)), prDateien)", "ersetze": "return liestBewegtes(vergleich.dateien.filter((d) => !istDatenpfad(d) && !ohneKetteLeser(d) && d.startsWith('data/')), prDateien)" }] },
+  { "name": "kettenweit: LIEST_KETTE-Zweig entfernt", "aenderungen": [{ "datei": "tools/pr-nachrechnen.mjs", "suche": "datei === LIEST_KETTE || /^(", "ersetze": "/^(" }] },
+  { "name": "kettenweit: pr-pruefung.yml entfernt", "aenderungen": [{ "datei": "tools/pr-nachrechnen.mjs", "suche": "\\.github\\/workflows\\/pr-pruefung\\.yml|", "ersetze": "" }] },
+  { "name": "kettenweit: pr-pruefung.yml -> alle Workflows", "aenderungen": [{ "datei": "tools/pr-nachrechnen.mjs", "suche": "\\.github\\/workflows\\/pr-pruefung\\.yml|", "ersetze": "\\.github\\/workflows\\/[^/]+|" }] },
+  { "name": "kettenweit: package.json entfernt", "aenderungen": [{ "datei": "tools/pr-nachrechnen.mjs", "suche": "package(-lock)?\\.json|", "ersetze": "package-lock\\.json|" }] },
+  { "name": "kettenweit: package-lock entfernt", "aenderungen": [{ "datei": "tools/pr-nachrechnen.mjs", "suche": "package(-lock)?\\.json|", "ersetze": "package\\.json|" }] },
+  { "name": "kettenweit: tsconfig entfernt", "aenderungen": [{ "datei": "tools/pr-nachrechnen.mjs", "suche": "tsconfig[^/]*\\.json|", "ersetze": "" }] },
+  { "name": "kettenweit: eslint entfernt", "aenderungen": [{ "datei": "tools/pr-nachrechnen.mjs", "suche": "eslint\\.config\\.[^/]+|", "ersetze": "" }] },
+  { "name": "kettenweit: tools/check- entfernt", "aenderungen": [{ "datei": "tools/pr-nachrechnen.mjs", "suche": "check-[^/]*|[^/]*-liste", "ersetze": "[^/]*-liste" }] },
+  { "name": "kettenweit: tools/check- -> alle Werkzeuge", "aenderungen": [{ "datei": "tools/pr-nachrechnen.mjs", "suche": "check-[^/]*|[^/]*-liste", "ersetze": "[^/]*|[^/]*-liste" }] },
+  { "name": "kettenweit: tools/*-liste.txt entfernt", "aenderungen": [{ "datei": "tools/pr-nachrechnen.mjs", "suche": "[^/]*-liste\\.txt|", "ersetze": "" }] },
+  { "name": "kettenweit: umfang-grenzen.json entfernt", "aenderungen": [{ "datei": "tools/pr-nachrechnen.mjs", "suche": "|umfang-grenzen\\.json))$/", "ersetze": "))$/" }] },
+  { "name": "kettenweit: Anker ^ entfernt (Teilpfad trifft)", "aenderungen": [{ "datei": "tools/pr-nachrechnen.mjs", "suche": "|| /^(\\.github", "ersetze": "|| /(\\.github" }] },
+  { "name": "Anstöße 8 -> 7", "aenderungen": [{ "datei": "tools/nacht-merger-welt.mjs", "suche": "ANSTOESSE_HOECHSTENS = 8", "ersetze": "ANSTOESSE_HOECHSTENS = 7" }], "tests": ["node tools/nacht-merger.test.mjs"] },
+  { "name": "Anstöße 8 -> 9", "aenderungen": [{ "datei": "tools/nacht-merger-welt.mjs", "suche": "ANSTOESSE_HOECHSTENS = 8", "ersetze": "ANSTOESSE_HOECHSTENS = 9" }], "tests": ["node tools/nacht-merger.test.mjs"] }
+]

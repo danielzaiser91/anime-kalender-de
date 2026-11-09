@@ -11,7 +11,7 @@ import { parse } from 'yaml'
 import { BOT_DATEIEN_OHNE_LESER } from './pr-nachrechnen-bot-pfade.mjs'
 import { attrappe } from './pr-nachrechnen-leser-attrappe.mjs'
 import { gitLeser } from './pr-nachrechnen-leser-git.mjs'
-import { COMPARE_GRENZE, JOB, KETTE, REF_ABSTAND_MS, REF_PRUEFUNGEN, basisAusLog, botSprungAusnahme, datenpfadAusnahme, hindernis, main, nachrechnen, neuesterLauf, schlafe } from './pr-nachrechnen.mjs'
+import { COMPARE_GRENZE, JOB, KETTE, REF_ABSTAND_MS, REF_PRUEFUNGEN, basisAusLog, botSprungAusnahme, datenpfadAusnahme, hindernis, kettenweit, main, nachrechnen, neuesterLauf, schlafe } from './pr-nachrechnen.mjs'
 
 const fehler = []
 const pruefe = (name, ok, info) => {
@@ -66,7 +66,7 @@ const M_NEU = 'b2'.padEnd(40, '2')
 const JQ_VERGLEICH = '{status, anzahl: (.files | length), dateien: [.files[] | .filename, (.previous_filename // empty)], commitsGesamt: .total_commits, autoren: [.commits[] | .author.login // .commit.author.name]}'
 // Standard: ein Commit eines Menschen, damit die Bot-Sprung-Ausnahme (Merge-Fluss C) nur greift, wo ein Fall sie verlangt.
 const vergleich = (dateien, status = 'ahead', anzahl = dateien.length, autoren = ['danielzaiser91'], commitsGesamt = autoren.length) => JSON.stringify({ status, anzahl, dateien, commitsGesamt, autoren })
-function antworten({ nr = 7, pr = PR, mainSha = BASIS, laeufe, jobs, log = ECHTES_LOG, logFehler = false, mergeShas = [M_ALT, M_NEU], mainDateien = ['tools/x.mjs'], prDateien = 'src/a.ts\n', autoren } = {}) {
+function antworten({ nr = 7, pr = PR, mainSha = BASIS, laeufe, jobs, log = ECHTES_LOG, logFehler = false, mergeShas = [M_ALT, M_NEU], mainDateien = ['tools/check-x.mjs'], prDateien = 'src/a.ts\n', autoren } = {}) {
   return {
     [`api repos/{owner}/{repo}/compare/${BASIS}...${mainSha} --jq ${JQ_VERGLEICH}`]: { aus: Array.isArray(mainDateien) ? vergleich(mainDateien, 'ahead', mainDateien.length, autoren) : mainDateien.roh },
     [`api repos/{owner}/{repo}/pulls/${nr}/files --paginate --jq .[] | .filename, (.previous_filename // empty)`]: { aus: prDateien },
@@ -115,7 +115,7 @@ const schreibend = (aufrufe) => aufrufe.filter((a) => a.startsWith('pr close') |
   const ref = `api repos/{owner}/{repo}/pulls/7 --jq .merge_commit_sha`
   const folge = k.aufrufe.filter((a) => a === ref || schreibend([a]).length > 0)
   pruefe('veraltet, Merge-Commit alt -> 1, öffnen, neu gerechneten Merge-Commit abwarten, erneut öffnen', code === 1 && folge.join() === [ref, 'pr close 7', 'pr reopen 7', ref, 'pr close 7', 'pr reopen 7'].join() && k.gewartet.length === 0, k.aufrufe)
-  pruefe('veraltet: Meldung nennt beide Stände und den Grund', /NICHT AKTUELL \(Kette gegen 7a466acc8, main ist c0ffee000; main bewegte tools\/x\.mjs\)/.test(k.meldungen.join()), k.meldungen)
+  pruefe('veraltet: Meldung nennt beide Stände und den Grund', /NICHT AKTUELL \(Kette gegen 7a466acc8, main ist c0ffee000; main bewegte tools\/check-x.mjs\)/.test(k.meldungen.join()), k.meldungen)
 }
 {
   const k = kulisse(antworten({ mainSha: MAIN, mergeShas: [M_NEU] }))
@@ -224,7 +224,7 @@ const voll = (dateien, autoren = ['github-actions[bot]'], fehler) => {
 }
 for (const [name, v, prDateien, erwartet, text] of [
   ['300 Dateien, lokal alles Daten, PR ohne Leser', voll(VIELE), 'data/patchnotes/a.yaml\n', 0, /seitdem nur Daten bewegt/],
-  ['300 Dateien, lokal eine Datei mit Leser (tools/x.mjs)', voll([...VIELE, 'tools/x.mjs']), 'data/patchnotes/a.yaml\n', 1, /main bewegte tools\/x\.mjs/],
+  ['300 Dateien, lokal eine Datei mit Leser (tools/check-x.mjs)', voll([...VIELE, 'tools/check-x.mjs']), 'data/patchnotes/a.yaml\n', 1, /main bewegte tools\/check-x.mjs/],
   ['300 Dateien, lokal Datenpfad vom PR berührt', voll(VIELE), `${VIELE[399]}\n`, 1, /der PR berührt data\/cache\/q\/399\.json/],
   ['300 Dateien, git scheitert (Zeitlimit)', voll([], [], 'ETIMEDOUT'), 'data/patchnotes/a.yaml\n', 1, /evtl\. abgeschnitten \(lokales git: ETIMEDOUT\)/],
 ]) {
@@ -242,8 +242,8 @@ for (const [name, v, prDateien, erwartet, text] of [
 // Mehr Commits als die API-Liste (250) trägt: lokal gezählt, Autoren aus git.
 const bots300 = JSON.stringify({ status: 'ahead', anzahl: 1, dateien: ['data/a.json'], commitsGesamt: 300, autoren: ['github-actions[bot]'] })
 for (const [name, autoren, erwartet, text] of [
-  ['300 Commits, alles Bots, Leser sagt null', Array(300).fill('anime-kalender-daten[bot]'), 0, /nur Daten-Bots/],
-  ['300 Commits, einer davon ein Mensch (Autor zählt nicht)', [...Array(299).fill('github-actions[bot]'), 'danielzaiser91'], 0, /nur Daten-Bots/],
+  ['300 Commits, alles Bots, Leser sagt null', Array(300).fill('anime-kalender-daten[bot]'), 0, /nur Fremdes ohne Zusammenhang/],
+  ['300 Commits, einer davon ein Mensch (Autor zählt nicht)', [...Array(299).fill('github-actions[bot]'), 'danielzaiser91'], 0, /nur Fremdes ohne Zusammenhang/],
 ]) {
   const k = kulisse(antworten({ mainSha: MAIN, mainDateien: { roh: bots300 }, prDateien: 'tools/x.mjs\n' }))
   const code = main(['7'], k.gh, k.melde, k.warte, () => null, voll(['data/curated/a.yaml'], autoren))
@@ -286,7 +286,7 @@ const leserStub = (antwort) => {
   const k = kulisse(antworten({ mainSha: MAIN, mainDateien: BOT_MAIN, autoren: BOTS, prDateien: CODE_PR }))
   const code = main(['7'], k.gh, k.melde, k.warte, stub)
   pruefe('C: Leser sagt null -> 0, nichts geschlossen', code === 0 && schreibend(k.aufrufe).length === 0, { code, m: k.meldungen })
-  pruefe('C: Meldung nennt die Bot-Ausnahme', k.meldungen.join() === 'PR 7: aktuell, Kette gegen 7a466acc8, main ist c0ffee000, seitdem nur Daten-Bots unter data/, kein Code des PR liest die bewegten Dateien', k.meldungen)
+  pruefe('C: Meldung nennt die Bot-Ausnahme', k.meldungen.join() === 'PR 7: aktuell, Kette gegen 7a466acc8, main ist c0ffee000, seitdem nur Fremdes ohne Zusammenhang bewegt (Daten, Sammler, Werkzeuge außerhalb der Kette), kein Code des PR liest die bewegten Dateien', k.meldungen)
   const a = stub.aufrufe[0]
   pruefe('C: Leser bekommt bewegte Dateien ohne public/data, PR-Dateien und Stände', stub.aufrufe.length === 1 && a.bewegt.join() === 'data/crunchyroll-woche.json,data/curated/tv-2026.yaml' && a.pr.join() === CODE_PR.trim().split('\n').join() && JSON.stringify(a.refs) === JSON.stringify({ nummer: 7, kopf: KOPF, main: MAIN }), stub.aufrufe)
 }
@@ -338,14 +338,33 @@ for (const [name, autoren] of [['ein Mensch dazwischen', ['anime-kalender-daten[
   const k2 = kulisse(antworten({ mainSha: MAIN, mainDateien: ['data/patchnotes/_ueberarbeitet-bis.txt'], autoren, prDateien: CODE_PR }))
   const code2 = main(['7'], k2.gh, k2.melde, k2.warte, liest)
   pruefe(`C: ${name}, Datei mit Leser -> 1, neu angestoßen`, code2 === 1 && schreibend(k2.aufrufe).length === 4 && /der PR liest data\/patchnotes/.test(k2.meldungen.join()), { code2, m: k2.meldungen })
-  const k3 = kulisse(antworten({ mainSha: MAIN, mainDateien: [...BOT_MAIN, 'web/src/a.tsx'], autoren, prDateien: CODE_PR }))
+  const k3 = kulisse(antworten({ mainSha: MAIN, mainDateien: [...BOT_MAIN, 'tools/check-a.mjs'], autoren, prDateien: CODE_PR }))
   const code3 = main(['7'], k3.gh, k3.melde, k3.warte, leserStub(null))
-  pruefe(`C: ${name}, Code auf main bewegt -> 1`, code3 === 1 && /main bewegte web\/src\/a\.tsx/.test(k3.meldungen.join()), { code3, m: k3.meldungen })
+  pruefe(`C: ${name}, Wächter auf main bewegt -> 1`, code3 === 1 && /main bewegte tools\/check-a\.mjs/.test(k3.meldungen.join()), { code3, m: k3.meldungen })
 }
-for (const fremd of ['tools/umfang-grenzen.json', 'extension/a.json', 'datax/a.json']) {
+for (const fremd of ['tools/umfang-grenzen.json', 'tools/check-x.mjs', '.github/workflows/pr-pruefung.yml', 'package.json']) {
   const k = kulisse(antworten({ mainSha: MAIN, mainDateien: [...BOT_MAIN, fremd], autoren: BOTS, prDateien: CODE_PR }))
   const code = main(['7'], k.gh, k.melde, k.warte)
   pruefe(`C: main bewegte ${fremd} -> 1`, code === 1 && k.meldungen.join().includes(`; main bewegte ${fremd}`), { code, m: k.meldungen })
+}
+// 09.11.2026 (Nacht-Merger): fremde Dateien außerhalb der Kette (echte Fälle aus den Läufen 07.-09.11.) entwerten nur bei Zusammenhang mit dem PR.
+for (const fremd of ['.github/workflows/claude-animenyou-extraktion.yml', '.github/workflows/pr-pruefer.yml', 'tools/claude-global/agents/bauer.md', 'extension/manifest.json', 'tools/heute-neu.mjs']) {
+  const frei = leserStub(null)
+  const k = kulisse(antworten({ mainSha: MAIN, mainDateien: [...BOT_MAIN, fremd], autoren: BOTS, prDateien: CODE_PR }))
+  const code = main(['7'], k.gh, k.melde, k.warte, frei)
+  const nachbar = (file) => frei.aufrufe[0]?.bewegt.includes(file)
+  pruefe(`C: main bewegte ${fremd}, kein Zusammenhang -> 0, Leser bekommt die Datei`, code === 0 && schreibend(k.aufrufe).length === 0 && nachbar(fremd) === true, { code, m: k.meldungen })
+  const liest = leserStub(`der PR liest ${fremd} (tools/x.mjs)`)
+  const k2 = kulisse(antworten({ mainSha: MAIN, mainDateien: [...BOT_MAIN, fremd], autoren: BOTS, prDateien: CODE_PR }))
+  const code2 = main(['7'], k2.gh, k2.melde, k2.warte, liest)
+  pruefe(`C: main bewegte ${fremd}, Leser meldet Zusammenhang -> 1`, code2 === 1 && k2.meldungen.join().includes(`der PR liest ${fremd}`), { code2, m: k2.meldungen })
+  const k3 = kulisse(antworten({ mainSha: MAIN, mainDateien: [...BOT_MAIN, fremd], autoren: BOTS, prDateien: `${fremd}\n` }))
+  const stub3 = leserStub(null)
+  const code3 = main(['7'], k3.gh, k3.melde, k3.warte, stub3)
+  pruefe(`C: PR berührt ${fremd} selbst -> 1, Leser nicht gefragt`, code3 === 1 && stub3.aufrufe.length === 0 && k3.meldungen.join().includes(`der PR berührt ${fremd}`), { code3, m: k3.meldungen })
+}
+for (const [datei, erwartet] of [['.github/workflows/pr-pruefung.yml', true], ['.github/workflows/pr-pruefer.yml', false], ['package.json', true], ['package-lock.json', true], ['tsconfig.json', true], ['pipeline/check-x.ts', false], ['pipeline/bau/x.ts', false], ['tools/check-logic-liste.txt', true], ['tools/check-x.mjs', true], ['tools/x.mjs', false], ['tools/x.test.mjs', false], ['tools/umfang-grenzen.json', true], ['docs/wissen/design-regeln.md', true], ['extension/manifest.json', false], ['web/src/a.tsx', false]]) {
+  pruefe(`kettenweit(${datei}) = ${erwartet}`, kettenweit(datei) === erwartet)
 }
 {
   // Über 300 Dateien nicht unter public/data/ und data/cache/: nur der Leser-Weg (Merge-Fluss C) kann die Kette gelten lassen
