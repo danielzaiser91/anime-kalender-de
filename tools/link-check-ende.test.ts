@@ -30,6 +30,12 @@ for (const s of [500, 503, 503]) zaehleBefund(nurFuenfhundert, s)
 assert.deepEqual(nurFuenfhundert, { tot: 0, auskuenfte: 0 }, 'ein Lauf nur mit 5xx hat keine Auskunft')
 assert.deepEqual(linkCheckEnde(3, nurFuenfhundert.auskuenfte, false), [0, 'nur Nichtauskünfte', undefined, false, false], 'nur 5xx: Misserfolg')
 assert.equal(meldeLinkCheckZwischenstand({ a: { status: 503, geprueftAm: 'h' }, b: { status: 200, geprueftAm: 'h' } }, 'h', () => {}), 1, 'Zwischenstand: 503 zählt nicht')
+const erst = (extra: object) => ({ status: 'unklar', geprueftAm: 'h', ...extra })
+assert.equal(meldeLinkCheckZwischenstand({ a: erst({ erstes404: 'h' }) }, 'h', () => {}), 1, 'Zwischenstand: erstes Netflix-404 von heute ist Auskunft')
+assert.equal(meldeLinkCheckZwischenstand({ a: erst({}) }, 'h', () => {}), 0, 'Zwischenstand: unklar ohne erstes404 zählt nicht')
+assert.equal(meldeLinkCheckZwischenstand({ a: erst({ erstes404: 'g' }) }, 'h', () => {}), 0, 'Zwischenstand: altes erstes404 bei heutiger Nichtauskunft zählt nicht')
+assert.equal(meldeLinkCheckZwischenstand({ a: erst({ erstes404: 'h', rausch: true }) }, 'h', () => {}), 0, 'Zwischenstand: Rauschbefund zählt nicht')
+assert.equal(meldeLinkCheckZwischenstand({ a: { status: 503, geprueftAm: 'h', erstes404: 'h' } }, 'h', () => {}), 0, 'Zwischenstand: 503 mit erstes404 zählt nicht')
 assert.equal(istTot(404) && istTot('region') && !istTot(410) && !istTot(503) && !istTot(200), true, 'tot nur 404 und region')
 
 /* --- Echter Lauf bis zum Ende, Abruf per Attrappe; Wurzelordner als Argument --- */
