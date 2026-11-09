@@ -323,6 +323,7 @@ jobs:
             - Die Prüfkette muss vor dem Pull Request grün sein:
               `npm run check:vor-commit`
             - Vor dem Pull Request läuft zusätzlich `npm run check:umfang`: `check:vor-commit` enthält es nicht, und eine Änderung in einer Funktion über 80 Zeilen oder einer Datei über 800 Zeilen muss ausgelagert werden, nie die Grenze anheben (PR 1589).
+            - Ändert der Pull Request `data/curated/`, `data/dub-confirmed.yaml`, `shared/` oder `web/src/`, braucht er eine neue Datei `data/patchnotes/<slug>.yaml` (`kategorie: bugfix`, `text` höchstens 8 Wörter, `untertitel` höchstens 10, Nutzen für Besucher) — sonst ist die PR-Kette rot; lokal fällt das ohne Pull Request nicht auf (PR 3116 lag so 3 h, 07.11.2026).
             - Eingaben des roten Bestandsbaus: Wenn der Schritt „Eingaben des roten Baus laden" gelaufen ist (`${{ steps.eingaben.outcome }}`), liegt `data/cache/` des gescheiterten Laufs im Arbeitsverzeichnis, und du kannst den Bau damit nachstellen. Sonst fehlt der Cache.
             - Ist der Fehler ein Widerspruch im Datensatz (`pruefeErgebnis` bricht
               ab), dann ist der Melder **nicht** das Problem. Ihn weicher zu
