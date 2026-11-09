@@ -1,6 +1,13 @@
 {
-  "anzahl": 20,
+  "anzahl": 21,
   "serien": [
+    {
+      "showId": 336,
+      "title": "Magic Kaito 1412",
+      "originalTitle": "Magic Kaito 1412",
+      "grund": "titelliste-fehlt",
+      "kandidaten": []
+    },
     {
       "showId": 444,
       "title": "Jojo’s Bizarre Adventure",
@@ -31,13 +38,6 @@
       ]
     },
     {
-      "showId": 663,
-      "title": "Bob Morane",
-      "originalTitle": "Bob Morane",
-      "grund": "kein-kandidat",
-      "kandidaten": []
-    },
-    {
       "showId": 727,
       "title": "Lucky Luke",
       "originalTitle": "Lucky Luke",
@@ -65,10 +65,10 @@
       "kandidaten": []
     },
     {
-      "showId": 748,
-      "title": "Die unglaublichen Abenteuer des Kapitän Cousteau",
-      "originalTitle": "Les Aventures Fantastiques du Commandant Cousteau",
-      "grund": "kein-kandidat",
+      "showId": 734,
+      "title": "Tintin (Adventures)",
+      "originalTitle": "Les Aventures de Tintin",
+      "grund": "titelliste-fehlt",
       "kandidaten": []
     },
     {
@@ -90,6 +90,13 @@
       "title": "Dreamland",
       "originalTitle": "Dreamland",
       "grund": "kein-kandidat",
+      "kandidaten": []
+    },
+    {
+      "showId": 918,
+      "title": "Steins;Gate",
+      "originalTitle": "Steins;Gate",
+      "grund": "titelliste-fehlt",
       "kandidaten": []
     },
     {
@@ -135,16 +142,16 @@
       "kandidaten": []
     },
     {
-      "showId": 1263,
-      "title": "SamSam",
-      "originalTitle": "Samsam",
-      "grund": "kein-kandidat",
+      "showId": 1207,
+      "title": "I Parry Everything!",
+      "originalTitle": "Ore wa Subete o \"Parry\" Suru: Gyaku Kanchigai no Sekai Saikyō wa Bōken-sha ni Naritai",
+      "grund": "titelliste-fehlt",
       "kandidaten": []
     },
     {
-      "showId": 1265,
-      "title": "Billy & Buddy 3D",
-      "originalTitle": "Boule & Bill 3D",
+      "showId": 1263,
+      "title": "SamSam",
+      "originalTitle": "Samsam",
       "grund": "kein-kandidat",
       "kandidaten": []
     },

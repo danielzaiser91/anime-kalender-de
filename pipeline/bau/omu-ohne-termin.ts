@@ -32,3 +32,14 @@ export function nurOmuTitel(titles: Map<number, Title>, releases: Release[]): Se
   }
   return new Set([...sprachen.keys()].filter((id) => sprachen.get(id)!.every((s) => s === 'omu') && omuOhneDeutschBeleg(titles.get(id))))
 }
+
+/**
+ * **Ein `hinweis` an einem Release eines `nurOmuTitel` erreicht keinen Besucher**: Termine entfallen, der Titel steht nicht im
+ * Hauptbestand, und „ohne Synchro“ sagt dort dasselbe. Der Bau warnt, die YAML bleibt (Rascal, Beerus; 09.11.2026).
+ */
+export function hinweiseAnVerworfenen(titles: Map<number, Title>, releases: Release[]): string[] {
+  const verworfen = nurOmuTitel(titles, releases)
+  return releases
+    .filter((r) => r.hinweis && !r.widerlegt && verworfen.has(r.titleId))
+    .map((r) => `Hinweis an „${r.slug}“ erreicht keinen Besucher: nur Originalton-Termine, der Titel steht ohne Synchro.`)
+}

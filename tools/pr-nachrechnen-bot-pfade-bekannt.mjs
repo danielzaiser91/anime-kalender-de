@@ -65,7 +65,7 @@ const DOKU_NUR_GENANNT = {
   'pipeline/bau/09-4-4-termine.ts': ['CLAUDE.md'],
   'pipeline/bau/09-6-anisearch-wege.ts': ['CLAUDE.md'],
   'pipeline/bau/11-4-ausgaben.ts': ['docs/'],
-  'pipeline/bau/13-1-anreichern.ts': ['docs/'],
+  'pipeline/bau/13-1-joyn-fenster.ts': ['docs/'],
   'pipeline/bau/anisearch-titel.ts': ['docs/'],
   'pipeline/bau/jw-widerspruchs-liste.ts': ['docs/'],
   'pipeline/bau/nebendateien.ts': ['CLAUDE.md'],

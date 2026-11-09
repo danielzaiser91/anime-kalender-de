@@ -20,9 +20,9 @@ const tag = (b: Beleg) => String(b.checkedAt ?? '').slice(0, 10)
 const paar = (b: Beleg) => `${b.anilistId}|${b.platform}`
 
 /** Zeilenindex, an dem je ein Beleg („- …" am Zeilenanfang) beginnt. */
-const anfaenge = (zeilen: string[]) => zeilen.flatMap((z, i) => (z.startsWith('- ') ? [i] : []))
+export const anfaenge = (zeilen: string[]) => zeilen.flatMap((z, i) => (z.startsWith('- ') ? [i] : []))
 
-function lies(zeilen: string[]): Beleg | null {
+export function lies(zeilen: string[]): Beleg | null {
   try {
     const roh = (yaml.load(zeilen.join('\n')) as unknown[] | null)?.[0]
     return roh && typeof roh === 'object' ? (roh as Beleg) : null

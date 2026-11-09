@@ -17,6 +17,7 @@
  */
 import { pathToFileURL } from 'node:url'
 import { bewerteKapazitaet } from './kapazitaet-bewertung.mjs'
+import { STUNDEN_ABFRAGE, stundenTabelle, stundenZeilen } from './kapazitaet-stunden.mjs'
 
 const ENDPUNKT = 'https://api.cloudflare.com/client/v4/graphql'
 const TAG_MS = 86_400_000
@@ -73,7 +74,17 @@ export function tagesWerte(datum, { alle, cron, d1 }) {
   }
 }
 
-/** Misst die letzten `tage` UTC-Tage bis einschließlich dem von `jetzt`; Rückgabe: `{ tage, nichtLesbar }`. */
+/** Stundenwerte je Skript über das ganze Fenster; ein Fehler ist nur eine Warnung (Feld am echten Konto ungemessen). */
+async function messeStunden({ holen, token, konto, von, bis }) {
+  try {
+    const roh = await frage(holen, token, STUNDEN_ABFRAGE, { konto, von, bis })
+    return { stunden: stundenTabelle(roh), stundenFehler: null }
+  } catch (e) {
+    return { stunden: {}, stundenFehler: String(e.message).slice(0, 160) }
+  }
+}
+
+/** Misst die letzten `tage` UTC-Tage bis einschließlich dem von `jetzt`; Rückgabe: `{ tage, nichtLesbar, stunden, stundenFehler }`. */
 export async function messe({ token, konto, jetzt, tage = 7, holen = fetch }) {
   const heute = Date.UTC(jetzt.getUTCFullYear(), jetzt.getUTCMonth(), jetzt.getUTCDate())
   const ergebnis = []
@@ -94,7 +105,9 @@ export async function messe({ token, konto, jetzt, tage = 7, holen = fetch }) {
     }
     ergebnis.push(tagesWerte(datum, roh))
   }
-  return { tage: ergebnis, nichtLesbar }
+  const von = new Date(heute - (tage - 1) * TAG_MS).toISOString()
+  const stunden = await messeStunden({ holen, token, konto, von, bis: new Date(heute + TAG_MS).toISOString() })
+  return { tage: ergebnis, nichtLesbar, ...stunden }
 }
 
 const de = (n) => (n == null ? 'n/a' : n.toLocaleString('de-DE', { maximumFractionDigits: 1 }))
@@ -124,7 +137,8 @@ export async function lauf({ token, konto, jetzt, tage = 7, holen = fetch, ausga
     return 0
   }
   const messung = await messe({ token, konto, jetzt, tage, holen })
-  for (const z of berichtZeilen(messung)) ausgabe(z)
+  for (const z of [...berichtZeilen(messung), ...stundenZeilen(messung.stunden)]) ausgabe(z)
+  if (messung.stundenFehler) ausgabe(`::warning::Kapazität: Stundenabfrage nicht lesbar (${messung.stundenFehler})`)
   const { befunde, warnungen } = bewerteKapazitaet(messung.tage)
   for (const m of messung.nichtLesbar) befunde.push(`Kapazität: Datensatz nicht lesbar (${m}) — Messung unvollständig, Token-Rechte und Feldnamen prüfen`)
   for (const w of warnungen) ausgabe(`::warning::${w}`)

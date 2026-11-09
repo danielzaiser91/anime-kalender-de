@@ -14,7 +14,7 @@ import { sprecherRollen } from './sprecher-anisearch.ts'
 import { widerlegeDeutscheTermine } from './widerlegung-woche.ts'
 import { ohneVerschobene, verschiebeHinterToggle } from './hinter-toggle.ts'
 import { urteilSchliesstLuecken } from './urteil-schliesst-luecken.ts'
-import { ohneOmuTermine } from './omu-ohne-termin.ts'
+import { hinweiseAnVerworfenen, ohneOmuTermine } from './omu-ohne-termin.ts'
 
 /**
  * **Die zwei Auskünfte an den Termin schreiben** (28.09.2026, `shared/tv-signale.ts`).
@@ -99,6 +99,7 @@ export function rolleTermineAus({ releases, titles, jpStart }: {
    */
   const pruefung = pruefeErgebnis(releases, events, titles, todayIso())
   for (const w of pruefung.warnungen) warn(w)
+  for (const w of hinweiseAnVerworfenen(titles, releases)) warn(w)
   brichAbBeiWiderspruch(pruefung.fehler, 'Widersprüche im erzeugten Datensatz — nichts geschrieben.')
 
   // Welche Titel haben deutsche Sprechrollen? Nur der Merker wandert in den

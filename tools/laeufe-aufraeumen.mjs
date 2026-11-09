@@ -136,8 +136,10 @@ async function main() {
   // Ein roter Sammler-Fund lässt den Lauf grün; er bleibt als PR liegen und muss hier auffallen (tools/rote-sammler-prs.mjs).
   const erledigt = erledigtArgumente(args)
   if (erledigt.fehler) return fehlerAbbruch(erledigt.fehler)
-  // Die Abrufe starten sofort (Frist 30 s), ihre Zeilen kommen erst nach allen Alarmen: ein hängender Server verzögert keinen ALARM.
-  const synchroWartezeit = synchroWartezeitZeilen(holeSynchroJson, Date.now())
+  // Erst laden, dann die synchronen gh-Aufrufe: sie blockieren die Ereignisschleife länger als die Abruffrist, und eine
+  // abgelaufene Frist verwirft die schon eingetroffene Antwort („Wartezeit nicht lesbar: timeout“, 09.11.2026).
+  // Ein hängender Server verzögert die ALARM-Zeilen dafür um höchstens 30 s; die Zeilen selbst erscheinen weiter nach allen Alarmen.
+  const synchroZeilen = await synchroWartezeitZeilen(holeSynchroJson, Date.now())
   meldeRoteSammlerPrs()
   meldeLiegt((a) => gh(...a), git, console.log, Date.now())
   await stillstandMelden()
@@ -152,7 +154,6 @@ async function main() {
   try {
     await laeufePruefen(erledigt)
   } finally {
-    const synchroZeilen = await synchroWartezeit
     for (const zeile of synchroZeilen) console.log(zeile)
     for (const zeile of wacheZeilen([...rotZeilen, ...synchroZeilen], quellenZeilen)) console.log(zeile)
   }
