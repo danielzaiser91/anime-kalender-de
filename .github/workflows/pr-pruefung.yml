@@ -13,7 +13,7 @@ name: PR-Prüfkette
 
 on:
   pull_request:
-    branches: [main]
+    branches: [main, zug]
     types: [opened, synchronize, reopened, ready_for_review]
 
 permissions:
@@ -220,6 +220,10 @@ jobs:
             befehl: npm run check:suchhinweis
           - teil: Bühne-Fenster
             befehl: npm run check:buehne-fenster
+          - teil: Bühne-Messen
+            befehl: npm run check:buehne-messen
+          - teil: Bühne-Panel
+            befehl: npm run check:buehne-panel
           - teil: Melde-Kasten
             befehl: npm run check:kasten
     steps:
@@ -259,7 +263,11 @@ jobs:
           PFADE="$PFADE|^tools/bilder-ordner\.mjs$"
           PFADE="$PFADE|^tools/browser-weiche\.mjs$"
           PFADE="$PFADE|^tools/buehne-fenster-pruefen\.mjs$"
+          PFADE="$PFADE|^tools/buehne-messen\.mjs$"
+          PFADE="$PFADE|^tools/buehne-messung\.mjs$"
+          PFADE="$PFADE|^tools/buehne-panel-pruefen\.mjs$"
           PFADE="$PFADE|^tools/buehne-seite\.mjs$"
+          PFADE="$PFADE|^tools/buehne-zustand-pruefen\.mjs$"
           PFADE="$PFADE|^tools/cls-wechsel\.mjs$"
           PFADE="$PFADE|^tools/dist-frisch\.mjs$"
           PFADE="$PFADE|^tools/duell-urteil\.mjs$"

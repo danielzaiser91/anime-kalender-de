@@ -100,6 +100,8 @@ fall('permissions erweitert', (d) => { d.permissions = { contents: 'write' } }, 
 fall('permissions mit zusätzlichem Recht', (d) => { d.permissions = { contents: 'read', 'pull-requests': 'write' } }, /permissions/)
 fall('pull_request_target', (d) => { d.on = { pull_request_target: { branches: ['main'] } } }, /Workflow: on/)
 fall('types eingeschränkt', (d) => { d.on.pull_request.types = ['opened'] }, /Workflow: on/)
+fall('Zweig zug aus den Triggern entfernt', (d) => { d.on.pull_request.branches = ['main'] }, /Workflow: on/)
+fall('weiterer Zweig als Basis', (d) => { d.on.pull_request.branches = ['main', 'zug', 'x'] }, /Workflow: on/)
 fall('timeout über Obergrenze', (d) => { d.jobs.logik['timeout-minutes'] = 360 }, /timeout-minutes über/)
 fall('runs-on selbst gehostet', (d) => { d.jobs.logik['runs-on'] = 'self-hosted' }, /runs-on ist nicht/)
 fall('runs-on des Sammeljobs', (d) => { sammler(d)['runs-on'] = 'self-hosted' }, /runs-on ist nicht/)

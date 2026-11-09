@@ -2883,6 +2883,13 @@ Die Angebote selbst holt der übliche Titel-Abruf (Abruf über TMDB-Kennung, Pau
 Joyn wird nichts abgerufen. Eine weitere Liste ist eine Zeile in `ANBIETERLISTEN` (`aktiv: false` bis zur
 Messung). Fällt der Listenabruf aus, läuft der Abruf wie bisher nach Alter.
 
+**Folge ab Sendeende, Yaiba: Samurai Legend (06.11.2026, Daniel von Hand):** Folge 2 lief am 06.11. ab 18:25 auf
+ProSieben MAXX; die Joyn-Übersicht zeigte sie um 18:48 noch nicht im HTML, um 18:52 als „Folge vom 06.11.2026“. Das
+bestätigt die Messung von Dragon Ball Super (Folge online ab Sendeende). Die Terminzeile eines MAXX-Termins
+(`lib/joyn-danach.ts`) trägt deshalb „Danach auf Joyn“ mit Link auf die Joyn-Seite aus `streams`. Bewusst ohne
+Uhrzeit: der Slot (hier rund 25 Minuten) ist länger als `runtimeMin`, eine Zeit aus Beginn plus Laufzeit läge vor dem
+Sendeende; die gerechneten Fenster (`fenster`, Beginn plus 25 Minuten) stehen an der Joyn-Pille.
+
 ## Kein Weg auf eine Datenbank — Videoload über die MagentaTV-Kennung (22.09.2026)
 
 Daniel an „Ame & Yuki": „videoload linkt auf tmdb, das ist falsch, es muss direkt zum anbieter

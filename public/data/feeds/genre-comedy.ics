@@ -8,71 +8,6 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:auto-5027-tv-disney-channel@2026-11-01#16@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261101T135000Z
-DTEND:20261101T142000Z
-SUMMARY:Yuna & Stitch
-DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/3342/
-CATEGORIES:Disney Channel
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-5027-tv-disney-channel@2026-11-01#17@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261101T141500Z
-DTEND:20261101T144500Z
-SUMMARY:Yuna & Stitch
-DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/3342/
-CATEGORIES:Disney Channel
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-5027-tv-disney-channel@2026-11-01#18@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261101T144500Z
-DTEND:20261101T151500Z
-SUMMARY:Yuna & Stitch
-DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/3342/
-CATEGORIES:Disney Channel
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GT00384006@2026-11-01@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261101T150000Z
-DTEND:20261101T153000Z
-SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
- hip! Staffel 1 – Folge 5/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/16547/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GT00384004@2026-11-01@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261101T153000Z
-DTEND:20261101T160000Z
-SUMMARY:Overgeared Staffel 1 – Folge 6/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/17645/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-169969-netflix@2026-11-01@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261101
-DTEND;VALUE=DATE:20261102
-SUMMARY:Der Held ohne Klasse: Der Aufstieg eines Talentlosen (neu bei Netfl
- ix)
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nIm Angebot seit 
- diesem Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrzeit n
- och nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter genannter Ta
- g\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetails: https
- ://anime-kalender.de/t/15494/
-CATEGORIES:Netflix
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-11-02#52@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261102T160500Z
@@ -191,45 +126,6 @@ SUMMARY:Pokémon Reisen: Die Serie
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/10852/
 CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-2167-joyn@2026-11-03@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261103
-DTEND;VALUE=DATE:20261104
-SUMMARY:Clannad (neu bei Joyn)
-DESCRIPTION:Plattform: Joyn\nRelease-Art: Katalogtitel\nIm Angebot seit die
- sem Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrzeit noch
-  nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter genannter Tag\,
-  sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetails: https://
- anime-kalender.de/t/1865/
-CATEGORIES:Joyn
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-100179-joyn@2026-11-03@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261103
-DTEND;VALUE=DATE:20261104
-SUMMARY:Tada Never Falls in Love (neu bei Joyn)
-DESCRIPTION:Plattform: Joyn\nRelease-Art: Katalogtitel\nIm Angebot seit die
- sem Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrzeit noch
-  nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter genannter Tag\,
-  sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetails: https://
- anime-kalender.de/t/8821/
-CATEGORIES:Joyn
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-13663-joyn@2026-11-03@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261103
-DTEND;VALUE=DATE:20261104
-SUMMARY:To Love Ru: Darkness (neu bei Joyn)
-DESCRIPTION:Plattform: Joyn\nRelease-Art: Katalogtitel\nIm Angebot seit die
- sem Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrzeit noch
-  nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter genannter Tag\,
-  sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetails: https://
- anime-kalender.de/t/5916/
-CATEGORIES:Joyn
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-G24H1N334@2026-11-04@anime-kalender-de
@@ -570,6 +466,18 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-177476-joyn@2026-11-08@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261108
+DTEND;VALUE=DATE:20261109
+SUMMARY:Yaiba: Samurai Legend
+DESCRIPTION:Plattform: Joyn\nRelease-Art: Katalogtitel\nUhrzeit noch nicht 
+ bestätigt.\nGeschätzter Termin: kein vom Anbieter genannter Tag\, sonder
+ n aus Rhythmus oder Originalterminen abgeleitet.\nDetails: https://anime-k
+ alender.de/t/15908/
+CATEGORIES:Joyn
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-11-09#62@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261109T161000Z
@@ -620,6 +528,16 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
   Anbieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgel
  eitet.\nDetails: https://anime-kalender.de/t/12/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-112153-tv-toggo-plus@2026-11-09@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261109T201500Z
+DTEND:20261109T204500Z
+SUMMARY:Pokémon Reisen: Die Serie
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/10852/
+CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-11-10#64@anime-kalender-de
