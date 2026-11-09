@@ -95,15 +95,32 @@ console.log('\nTeil nur bei mehreren Teilen derselben Staffel:')
   ]
   const standZwei = staffelStaende(zwei, 'Foo')
   pruefe('Zwei Part-Namen sind kein Part-Reihe: Part 2 bleibt Teil 2 der Staffel 1', standZwei.get(2)?.staffel === 1 && standZwei.get(2)?.teil === 2, [...standZwei])
-  /* Gegenfall: ohne „Part 1" am Anfang bleibt „Part N" die Hälfte einer Staffel (Kengan Ashura: Staffel 2 — Part.2). */
+  /* Genau drei Part-Namen reichen; römische Zahl, Zusatz nach der Zahl und Staffelangabe zählen je für sich. */
+  const drei = [
+    { id: 1, name: 'Foo: Part 1', jpStart: '2020-01-01' },
+    { id: 2, name: 'Foo: Part 2', jpStart: '2021-01-01' },
+    { id: 3, name: 'Foo: Part 3', jpStart: '2022-01-01' },
+    { id: 4, name: 'Foo: Part V', jpStart: '2022-06-01' },
+    { id: 5, name: 'Foo: Part 2 Recap', jpStart: '2023-01-01' },
+    { id: 6, name: 'Foo: Staffel 8 - Part 2', jpStart: '2024-01-01' },
+    { id: 7, name: 'Foo: Der Neubeginn', jpStart: '2025-01-01' },
+  ]
+  const standD = staffelStaende(drei, 'Foo')
+  const gezaehltD = drei.map((m) => `${standD.get(m.id)?.staffel}/${standD.get(m.id)?.teil}`).join(' ')
+  pruefe('Foo: Part 1–3 = Staffel 1–3, „Part V" = 5, „Part 2 Recap" die nächste (6), „Staffel 8 - Part 2" = Staffel 8 wie bisher, danach 9', gezaehltD === '1/undefined 2/undefined 3/undefined 5/undefined 6/undefined 8/1 9/undefined', gezaehltD)
+  /* Genau drei Part-Namen genügen (Grenze der Schwelle). */
+  const genau = ['Foo: Part 1', 'Foo: Part 2', 'Foo: Part 3'].map((name, i) => ({ id: i + 1, name, jpStart: `202${i}-01-01` }))
+  pruefe('Genau drei Part-Namen: Staffel 1–3', [1, 2, 3].every((id) => staffelStaende(genau, 'Foo').get(id)?.staffel === id), [...staffelStaende(genau, 'Foo')])
+  /* Gegenfall: ohne „Part 1" am Anfang bleibt „Part N" die Hälfte einer Staffel (Kengan Ashura: Staffel 2 — Part.2), auch bei drei Part-Namen. */
   const kengan = [
     { id: 1, name: 'Kengan Ashura', jpStart: '2019-07-31' },
     { id: 2, name: 'Kengan Ashura: Part 2', jpStart: '2019-10-31' },
     { id: 3, name: 'Kengan Ashura: Part 3', jpStart: '2021-01-01' },
-    { id: 4, name: 'Kengan Ashura: Staffel 2', jpStart: '2023-09-21' },
+    { id: 4, name: 'Kengan Ashura: Part 4', jpStart: '2022-01-01' },
+    { id: 5, name: 'Kengan Ashura: Staffel 2', jpStart: '2023-09-21' },
   ]
   const standK = staffelStaende(kengan, 'Kengan Ashura')
-  pruefe('Split-Cour: ohne „Part 1" am Anfang zählt „Part 2/3" als Teil der Staffel 1', standK.get(2)?.staffel === 1 && standK.get(3)?.staffel === 1 && standK.get(4)?.staffel === 2, [...standK])
+  pruefe('Split-Cour: ohne „Part 1" am Anfang zählt „Part 2–4" als Teil der Staffel 1', [2, 3, 4].every((id) => standK.get(id)?.staffel === 1) && standK.get(5)?.staffel === 2, [...standK])
   /* Eine belegte deutsche Staffelnummer (`staffelQuelle`) schlägt die Part-Zählung. */
   const quelle = lupin.map((m) => (m.id === 134623 ? { ...m, staffelQuelle: 9 } : m))
   pruefe('staffelQuelle schlägt „Part N"', staffelStaende(quelle, 'Lupin III.').get(134623)?.staffel === 9, [...staffelStaende(quelle, 'Lupin III.')])
