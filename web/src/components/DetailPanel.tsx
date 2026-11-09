@@ -34,7 +34,7 @@ import { UnterDerAntwort } from './detail/unter-der-antwort.tsx'
 import { PanelBuehne } from './detail/buehne.tsx'
 import { sortiereNachZugang } from './detail/wege-sortieren.ts'
 import { SchlagworteAbschnitt } from './detail/Schlagworte.tsx'
-import { plotVon, eigenerAsZiel } from './detail/plot.ts'
+import { plotVon, eigenerAsZiel, titelGestartet } from './detail/plot.ts'
 import { reihenTeileVon, useReihe } from './detail/reihen-daten.ts'
 import { reihenNameVon, teilNameVon } from './detail/reihen-namen.ts'
 import { kastenNotizVon, wegeHinweisVon } from './detail/kasten-hinweise.ts'
@@ -424,7 +424,7 @@ export function DetailPanel({
 
   // nirgends eine deutsche Inhaltsangabe — dort wäre die Alternative eine
   // leere Fläche.
-  const { plot } = plotVon({ synopsis, anilistId: title.al, ersatz, erschienen: (title.jpEnd ?? '9999') < today })
+  const { plot } = plotVon({ synopsis, anilistId: title.al, ersatz, erschienen: titelGestartet(title, today) })
   const asZiel = eigenerAsZiel(plot, synopsis?.asUrl)
   const keywords = allKeywords ? title.keywords : title.keywords.slice(0, KEYWORD_PREVIEW)
 

@@ -89,6 +89,8 @@ pipeline/check-belegstaerke-forum.ts
 pipeline/check-belegstaerke-handbelegt.ts
 pipeline/check-belegstaerke-justwatch.ts
 pipeline/check-belegstaerke.ts
+pipeline/check-bereich-auge-lauf.ts
+pipeline/check-bereich-auge.ts
 pipeline/check-bestand-delta-entfernt.ts
 pipeline/check-bild-und-synchro.ts
 pipeline/check-bookworm-dublette.ts
@@ -125,9 +127,12 @@ pipeline/check-cr-film-wege.ts
 pipeline/check-cr-folgestaffel.ts
 pipeline/check-cr-frisch.ts
 pipeline/check-cr-ja-deckung.ts
+pipeline/check-cr-kalender-auswahl.ts
 pipeline/check-cr-katalog-ein-werk.ts
 pipeline/check-cr-katalogblock.ts
 pipeline/check-cr-kennung-gedaechtnis.ts
+pipeline/check-cr-kennung-maps-faelle.ts
+pipeline/check-cr-kennung-maps.ts
 pipeline/check-cr-kennwort.ts
 pipeline/check-cr-komplettabwurf.ts
 pipeline/check-cr-nein-ueberholt.ts
@@ -344,6 +349,7 @@ pipeline/check-nein-handbeleg-aufrufer.ts
 pipeline/check-nein-handbeleg-cr.ts
 pipeline/check-nein-handbeleg-datum.ts
 pipeline/check-nein-handbeleg.ts
+pipeline/check-nein-nachmessung.ts
 pipeline/check-nein-wiedervorlage.ts
 pipeline/check-netflix-404-gate.ts
 pipeline/check-netflix-fremde-meldung-lauf.ts
@@ -394,6 +400,7 @@ pipeline/check-patchnotes.ts
 pipeline/check-phasen-zustand.ts
 pipeline/check-phasenfolge.ts
 pipeline/check-pille-nur-untertitel.ts
+pipeline/check-plot-erschienen.ts
 pipeline/check-poster-karte-saal.ts
 pipeline/check-premiere.ts
 pipeline/check-prime-kanal.ts
@@ -519,6 +526,7 @@ pipeline/check-tote-adresse-runden.ts
 pipeline/check-tote-adressen-lauf.ts
 pipeline/check-trailer-auswahl.ts
 pipeline/check-trailer-lauf.ts
+pipeline/check-tv-premiere-merker.ts
 pipeline/check-tv-schaetzung.ts
 pipeline/check-tv-sichtungen-vor-start.ts
 pipeline/check-unsicheres-raus-ast.ts

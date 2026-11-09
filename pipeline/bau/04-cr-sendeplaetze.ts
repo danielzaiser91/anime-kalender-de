@@ -11,6 +11,8 @@ import { type Title } from '../../shared/types.ts'
 import { type KatalogEintrag } from '../lib/anilist.ts'
 import { ladeKatalogEintraege } from '../lib/katalog-eingefroren.ts'
 import { titelAusKatalogEintrag } from './katalog-titel.ts'
+import { gruppiereJeKennung } from '../lib/je-kennung.ts'
+import { waehleKalenderEintrag } from '../lib/cr-kalender-auswahl.ts'
 
 /**
  * Der letzte Tag mit deutscher Folge im Kalender, nie über den gelesenen Stand (`window.to`) hinaus: Seit 27.10.2026 legt das
@@ -42,10 +44,9 @@ export function indiziereCrSendeplaetze({ titles }: {
   const woche = readJson<{ uebernommen?: WochenFolgeRoh[] }>('data/crunchyroll-woche.json', {})
   const wocheAngehaengt = wocheAnhaengen(crunchyroll.german, woche.uebernommen ?? [])
   if (wocheAngehaengt) log(`Wochenprogramm: ${wocheAngehaengt} kommende Synchro-Folgen an den Crunchyroll-Kalender gehängt`)
-  const crBySeriesId = new Map<string, CrunchyrollEntry>()
-  for (const entry of Object.values(crunchyroll.german)) {
-    if (entry.seriesId) crBySeriesId.set(entry.seriesId, entry)
-  }
+  const crBySeriesId = new Map(
+    [...gruppiereJeKennung(Object.values(crunchyroll.german), (e) => e.seriesId)].map(([k, liste]) => [k, waehleKalenderEintrag(liste)]),
+  )
   /**
    * Wie weit der Kalender inhaltlich reicht — der letzte Tag, für den er
    * überhaupt eine deutsche Folge führt.
