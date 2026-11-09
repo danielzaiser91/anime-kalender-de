@@ -65,9 +65,80 @@ console.log('\nTeil nur bei mehreren Teilen derselben Staffel:')
     ]
     const stand = staffelStaende(teile, reihe)
     const be = staffelBeschriftungen(teile, reihe)
-    pruefe(`${reihe}: „(Cour 2)" behält den eigenen Namen`, stand.get(2)?.eigenerName === true && !be.has(2), [...stand])
-    pruefe(`${reihe}: erst das echte „Staffel 2" heißt Staffel 2`, be.get(3) === 'Staffel 2' && be.get(1) === 'Staffel 1', [...be])
+    pruefe(`${reihe}: „(Cour 2)" ist Teil 2 der Staffel 1`, stand.get(2)?.staffel === 1 && stand.get(2)?.teil === 2 && stand.get(1)?.teil === 1, [...stand])
+    pruefe(`${reihe}: erst das echte „Staffel 2" heißt Staffel 2`, be.get(3) === 'Staffel 2' && be.get(1) === 'Staffel 1 - Teil 1' && be.get(2) === 'Staffel 1 - Teil 2', [...be])
   }
+}
+
+{
+  /* Split-Cour mit eigenem Namen: „Part 2" / „Teil 2" / „Cour 2" gehört zur Staffel davor, auch wenn der Reihenname nicht am Namensanfang steht. Namen wörtlich aus `franchises.json`. */
+  const aot = [
+    { id: 16498, name: 'Attack on Titan', jpStart: '2013-04-07' },
+    { id: 20958, name: 'Attack on Titan: Staffel 2', jpStart: '2017-04-01' },
+    { id: 99147, name: 'Attack on Titan: Staffel 3', jpStart: '2018-07-23' },
+    { id: 104578, name: 'Attack on Titan: Staffel 3 – Teil 2', jpStart: '2019-04-29' },
+    { id: 110277, name: 'Attack on Titan: Final Season', jpStart: '2020-12-07' },
+    { id: 131681, name: 'Attack on Titan: Final Season Part 2', jpStart: '2022-01-10' },
+  ]
+  const standA = staffelStaende(aot, 'Attack on Titan')
+  pruefe('Attack on Titan: „Final Season Part 2" ist Teil 2 der Staffel 4, es gibt vier Staffeln', standA.get(131681)?.staffel === 4 && standA.get(131681)?.teil === 2 && standA.get(110277)?.teil === 1 && standA.get(131681)?.von === 4, [...standA])
+  const dr = [
+    { id: 105333, name: 'Dr. Stone', jpStart: '2019-07-05' },
+    { id: 113936, name: 'Dr. Stone: Stone Wars', jpStart: '2021-01-14' },
+    { id: 131518, name: 'Dr. Stone: New World', jpStart: '2023-04-06' },
+    { id: 162670, name: 'Dr. Stone: New World (Cour 2)', jpStart: '2023-10-12' },
+    { id: 172019, name: 'Dr. Stone: Science Future', jpStart: '2025-01-09' },
+    { id: 189117, name: 'Dr. Stone: Science Future - Cour 2', jpStart: '2025-07-10' },
+    { id: 199221, name: 'Dr. Stone: Science Future - Cour 3', jpStart: '2026-04-02' },
+  ]
+  const standD = staffelStaende(dr, 'Dr. Stone')
+  const sDr = dr.map((m) => `${standD.get(m.id)?.staffel}/${standD.get(m.id)?.teil}`).join(' ')
+  pruefe('Dr. Stone: Cour 2 und Cour 3 hängen an ihrer Staffel, vier Staffeln', sDr === '1/undefined 2/undefined 3/1 3/2 4/1 4/2 4/3', sDr)
+  const dan = [
+    { id: 129196, name: 'Danmachi: Is It Wrong to Try to Pick Up Girls in a Dungeon? Familia Myth IV', jpStart: '2022-07-21' },
+    { id: 155211, name: 'Danmachi: Is It Wrong to Try to Pick Up Girls in a Dungeon? Familia Myth IV – Teil 2', jpStart: '2023-01-05' },
+    { id: 170732, name: 'Is It Wrong to Try to Pick Up Girls in a Dungeon? Familia Myth V', jpStart: '2024-10-03' },
+  ]
+  const standDan = staffelStaende(dan, 'Danmachi: Is It Wrong to Try to Pick Up Girls in a Dungeon? Familia Myth')
+  pruefe('Danmachi IV: „Teil 2" gehört zu IV, die nächste Staffel ist V', standDan.get(155211)?.teil === 2 && standDan.get(155211)?.staffel === standDan.get(129196)?.staffel && standDan.get(170732)?.staffel === 2, [...standDan])
+  /* Wörter statt Reihenfolge: Saint Seiya und Hokuto no Ken nennen denselben Titel in anderer Wortfolge; Boruto steht hinter einem fremden Eintrag (Naruto 20th Anniversary ohne Datum). */
+  const seiya = [
+    { id: 1254, name: 'Saint Seiya: Knights of the Zodiac', jpStart: '1986-10-11' },
+    { id: 151659, name: 'Knights of the Zodiac: Saint Seiya - Battle for Sanctuary', jpStart: '2022-07-31' },
+    { id: 158988, name: 'Saint Seiya: Knights of the Zodiac - Battle for Sanctuary Part 2', jpStart: '2024-04-01' },
+  ]
+  const standS = staffelStaende(seiya, 'Saint Seiya: Knights of the Zodiac')
+  pruefe('Saint Seiya: „Battle for Sanctuary Part 2" ist Teil 2 trotz anderer Wortfolge', standS.get(158988)?.staffel === 2 && standS.get(158988)?.teil === 2, [...standS])
+  const naruto = [
+    { id: 97938, name: 'Boruto: Naruto Next Generations', jpStart: '2017-04-05' },
+    { id: 162561, name: 'Naruto 20th Anniversary Anime' },
+    { id: 165523, name: 'BORUTO: NARUTO NEXT GENERATIONS Part 2' },
+  ]
+  const standN = staffelStaende(naruto, 'Naruto')
+  pruefe('Boruto: Part 2 gehört zu Boruto, nicht zum Eintrag davor', standN.get(165523)?.staffel === 1 && standN.get(165523)?.teil === 2 && standN.get(162561)?.staffel === 2, [...standN])
+  /* Gegenfälle: ohne gleichnamigen früheren Eintrag bleibt „Part 2" eine neue Staffel (Pucca 3 Part 2); „Staffel N" im Namen schlägt die Regel; „Part 2" mit gleichem Namen wie ein fremder Eintrag der Reihe ist Teil 2 dieses Eintrags, nicht der letzten Staffel. */
+  const pucca = [
+    { id: 6609, name: 'Pucca', jpStart: '2006-09-08' },
+    { id: 135535, name: 'Pucca: Przepis na miłość', jpStart: '2018-12-10' },
+    { id: 135536, name: 'Pucca 3 Part 2', jpStart: '2019-08-01' },
+  ]
+  const standP = staffelStaende(pucca, 'Pucca')
+  pruefe('Pucca 3 Part 2: kein gleichnamiger früherer Eintrag, bleibt eigene Staffel 3', standP.get(135536)?.staffel === 3 && standP.get(135536)?.teil === undefined, [...standP])
+  const fremd = [
+    { id: 1, name: 'Foo', jpStart: '2020-01-01' },
+    { id: 2, name: 'Foo: Bar', jpStart: '2021-01-01' },
+    { id: 3, name: 'Foo: Baz', jpStart: '2022-01-01' },
+    { id: 4, name: 'Foo: Bar Part 2', jpStart: '2023-01-01' },
+  ]
+  const standF = staffelStaende(fremd, 'Foo')
+  pruefe('Foo: „Bar Part 2" hängt an „Bar" (Staffel 2), nicht an „Baz" (Staffel 3)', standF.get(4)?.staffel === 2 && standF.get(4)?.teil === 2 && standF.get(3)?.staffel === 3, [...standF])
+  const mitStaffel = [
+    { id: 1, name: 'Foo: Bar', jpStart: '2020-01-01' },
+    { id: 2, name: 'Foo: Baz', jpStart: '2021-01-01' },
+    { id: 3, name: 'Foo: Bar Staffel 2 Part 2', jpStart: '2022-01-01' },
+  ]
+  const standM = staffelStaende(mitStaffel, 'Foo')
+  pruefe('Foo: „Bar Staffel 2 Part 2" nennt eine Staffel, die Regel greift nicht (eigene Staffel 3)', standM.get(3)?.staffel === 3 && standM.get(3)?.teil === undefined, [...standM])
 }
 
 {
