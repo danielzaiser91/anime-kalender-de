@@ -493,6 +493,14 @@ const botCommitAufMain = (w) => {
 }
 {
   const { w, kopf } = weltMitFahrt()
+  const mainVorher = refOrigin(w, 'refs/heads/main')
+  const aufgerufen = []
+  const { gh, schreib } = ghGruen(kopf)
+  main(['urteil', '--zweig', 'zug-fahrt', '--lauf', '9'], { gh, git: gitMitProtokoll(w, aufgerufen), melde: () => {} })
+  pruefe('Aufrufform wie im Workflow (ohne --schieben): main unverändert, nur Dry-Run, kein Dispatch', refOrigin(w, 'refs/heads/main') === mainVorher && aufgerufen.some((a) => a[0] === 'push' && a.includes('--dry-run')) && !schreib.some((s) => s.startsWith('workflow run')), aufgerufen)
+}
+{
+  const { w, kopf } = weltMitFahrt()
   botCommitAufMain(w)
   const botKopf = refOrigin(w, 'refs/heads/main')
   const aufgerufen = []
