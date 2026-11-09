@@ -66,8 +66,15 @@ function fruehererTermin(r: Release, releases: Release[]): Release | undefined {
   return releases.find((x) => {
     if (x.titleId !== r.titleId || x === r || x.widerlegt || x.releaseType === 'disc' || x.platform === 'kino') return false
     const tag = x.schedule.firstEpisodeDate
-    return tag < start || (tag === start && wegKlasse(x) !== wegKlasse(r))
+    return tag < start || (tag === start && wegKlasse(x) !== wegKlasse(r) && !tvVorStream(r, x))
   })
+}
+
+/** Selber Tag, aber belegt: die TV-Premiere beginnt vor dem Stream-Termin (beide mit gemessener Uhrzeit), so Joyn „nach der Sendung“. */
+function tvVorStream(r: Release, x: Release): boolean {
+  if (r.platform !== 'tv' || x.platform === 'tv') return false
+  const [a, b] = [r.schedule, x.schedule]
+  return !!a.time && !!b.time && !a.timeEstimated && !b.timeEstimated && !a.estimated && !b.estimated && a.time < b.time
 }
 
 const ISO = /^\d{4}-\d{2}-\d{2}$/

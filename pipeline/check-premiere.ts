@@ -64,6 +64,22 @@ pruefe(
     premiereFehler([premStream, release('streamgleich', { platform: 'crunchyroll', schedule: { firstEpisodeDate: '2026-11-05' } })]).length === 0,
 )
 
+// Selber Tag, Reihenfolge durch Uhrzeit belegt (Yaiba: TV 18:25, Joyn 18:50)
+const zeit = (platform: string, time?: string, extra: Record<string, unknown> = {}) => ({ platform, schedule: { firstEpisodeDate: '2026-11-05', time, ...extra } }) as Partial<Release>
+const tvPrem = (time?: string, extra: Record<string, unknown> = {}) =>
+  release('tv', { ...zeit('tv', time, extra), premiere: { weg: 'tv', quelle: QUELLE } })
+const joyn = (time?: string, extra: Record<string, unknown> = {}) => release('joyn', zeit('joyn', time, extra))
+pruefe('TV 18:25 vor Joyn 18:50 am selben Tag: TV-Premiere bleibt', premiereFehler([tvPrem('18:25'), joyn('18:50')]).length === 0)
+pruefe('Joyn 18:00 vor TV 18:25: keine Premiere', premiereFehler([tvPrem('18:25'), joyn('18:00')]).length === 1)
+pruefe('gleiche Uhrzeit: keine Premiere', premiereFehler([tvPrem('18:25'), joyn('18:25')]).length === 1)
+pruefe('Joyn-Zeit geschätzt: keine Premiere', premiereFehler([tvPrem('18:25'), joyn('18:50', { estimated: true })]).length === 1)
+pruefe('TV-Zeit fehlt: keine Premiere', premiereFehler([tvPrem(undefined), joyn('18:50')]).length === 1)
+pruefe('Joyn-Zeit fehlt: keine Premiere', premiereFehler([tvPrem('18:25'), joyn(undefined)]).length === 1)
+pruefe(
+  'Stream-Premiere neben früherem TV am selben Tag bleibt ausgeschlossen',
+  premiereFehler([release('joyn', { ...zeit('joyn', '18:50'), premiere: { weg: 'stream', quelle: QUELLE } }), release('tv', zeit('tv', '18:25'))]).length === 1,
+)
+
 // Warnung: Handbeleg ohne vorher gegen ältere deutsche Erstausgabe
 const altTitel = { id: 1, deErstausgabe: { von: '2023-01-12', synchro: true } } as unknown as Title
 pruefe(
