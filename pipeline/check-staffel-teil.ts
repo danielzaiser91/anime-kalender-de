@@ -82,6 +82,27 @@ console.log('\nTeil nur bei mehreren Teilen derselben Staffel:')
   ]
   const standA = staffelStaende(aot, 'Attack on Titan')
   pruefe('Attack on Titan: „Final Season Part 2" ist Teil 2 der Staffel 4, es gibt vier Staffeln', standA.get(131681)?.staffel === 4 && standA.get(131681)?.teil === 2 && standA.get(110277)?.teil === 1 && standA.get(131681)?.von === 4, [...standA])
+  pruefe('Attack on Titan: der Teil 2 behält wie sein Teil 1 den eigenen Namen (Final Season)', standA.get(131681)?.eigenerName === true && standA.get(110277)?.eigenerName === true, [...standA])
+  /* Beastars: Teil 1 und Teil 2 tragen beide die Marke; römisch (Swordgai „Teil II"); gleichnamiger Eintrag zweimal in der Reihe — der jüngste zählt. */
+  const beast = [
+    { id: 1, name: 'Beastars', jpStart: '2019-10-10' },
+    { id: 2, name: 'Beastars Staffel 2', jpStart: '2021-01-07' },
+    { id: 3, name: 'Beastars Letzte Staffel – Teil 1', jpStart: '2024-12-05' },
+    { id: 4, name: 'Beastars Letzte Staffel – Teil 2', jpStart: '2026-03-07' },
+    { id: 5, name: 'Swordgai The Animation', jpStart: '2027-01-01' },
+    { id: 6, name: 'Swordgai The Animation: Teil II', jpStart: '2027-02-01' },
+  ]
+  const standB = staffelStaende(beast, 'Beastars')
+  pruefe('Beastars: „Letzte Staffel – Teil 2" hängt an „… – Teil 1" (Staffel 3)', standB.get(4)?.staffel === 3 && standB.get(4)?.teil === 2 && standB.get(3)?.teil === 1, [...standB])
+  pruefe('Swordgai: „Teil II" (römisch) ist Teil 2', standB.get(6)?.staffel === standB.get(5)?.staffel && standB.get(6)?.teil === 2, [...standB])
+  const zweimal = [
+    { id: 1, name: 'Foo: Bar', jpStart: '2020-01-01' },
+    { id: 2, name: 'Foo: Baz', jpStart: '2021-01-01' },
+    { id: 3, name: 'Foo: Bar', jpStart: '2022-01-01' },
+    { id: 4, name: 'Foo: Bar Part 2', jpStart: '2023-01-01' },
+  ]
+  const standZ = staffelStaende(zweimal, 'Foo')
+  pruefe('Foo: „Bar Part 2" hängt an dem jüngeren „Bar" (Staffel 3)', standZ.get(4)?.staffel === 3 && standZ.get(4)?.teil === 2, [...standZ])
   const dr = [
     { id: 105333, name: 'Dr. Stone', jpStart: '2019-07-05' },
     { id: 113936, name: 'Dr. Stone: Stone Wars', jpStart: '2021-01-14' },
