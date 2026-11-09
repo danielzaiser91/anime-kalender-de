@@ -58,6 +58,21 @@ for (const zeit of ['nachts', 'morgens', 'abends'] as const) {
 const folgetag = antwort('batch', 'folgetag')
 pruefe('batch ohne Uhrzeit, Folgetag: fertig ohne heuteOffen', folgetag?.art === 'fertig' && !folgetag.heuteOffen, `${folgetag?.art} ${folgetag?.heuteOffen}`)
 
+/* Mehrere Katalogstarts desselben Titels (Disney+ 01.08. und Prime am Starttag): der Hinweis gilt je Release, nicht je Titel. */
+function frueherer(slug: string, datum: string): Release {
+  const r = release('batch', 'disneyplus') as any
+  return { ...r, slug, schedule: { ...r.schedule, firstEpisodeDate: datum } } as Release
+}
+function antwortMehrere(releases: Release[]): any {
+  return berechneAntwort({ title: titel('TV', 6), releases, today: TAG, jetzt: new Date(UHREN.abends) })
+}
+const mitFrueherem = antwortMehrere([frueherer('katalogtag-frueher', '2026-08-01'), release('batch', 'netflix')])
+pruefe('zwei Starts, einer früher, einer heute: heuteOffen', mitFrueherem?.art === 'fertig' && mitFrueherem.heuteOffen === true, `${mitFrueherem?.art} ${mitFrueherem?.heuteOffen}`)
+const nurFrueher = antwortMehrere([frueherer('katalogtag-frueher', '2026-08-01'), frueherer('katalogtag-frueher2', '2026-09-01')])
+pruefe('zwei Starts, beide früher: kein heuteOffen', !nurFrueher?.heuteOffen, `${nurFrueher?.art} ${nurFrueher?.heuteOffen}`)
+const frueherMitZeit = antwortMehrere([frueherer('katalogtag-frueher', '2026-08-01'), release('batch', 'netflix', '09:00')])
+pruefe('zwei Starts, heutiger mit Uhrzeit: kein heuteOffen', !frueherMitZeit?.heuteOffen, `${frueherMitZeit?.art} ${frueherMitZeit?.heuteOffen}`)
+
 /* Mit belegter Uhrzeit (09:00): vorher noch nichts, danach normal fertig, nie die Zwischenform. */
 pruefe('batch 09:00, 00:30: noch nichts erschienen', antwort('batch', 'nachts', '09:00')?.art === 'laeuft' && antwort('batch', 'nachts', '09:00').raus === 0)
 pruefe('batch 09:00, 08:00: noch nichts erschienen', antwort('batch', 'morgens', '09:00')?.art === 'laeuft' && antwort('batch', 'morgens', '09:00').raus === 0)
