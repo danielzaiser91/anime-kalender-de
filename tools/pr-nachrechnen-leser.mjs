@@ -177,8 +177,9 @@ export function bewegtesGelesen({ bewegt, pr, leser, lies, liesMain = () => null
   const bewegterCode = bewegt.filter((b) => LESBAR.test(b) && !LISTE.test(b))
   // Bis zwei Importstufen vom Leser aus (Bauphase -> Helfer -> Kern). Tests und Werkzeuge unter tools/ außer tools/check-* nennen Daten
   // in Ausnahmelisten und Fixtures (workflows-beleg.mjs: crunchyroll-neu.json, Replay PR 3341), ohne sie zu lesen.
-  const rueckLeser = leser.filter((r) => ((!r.startsWith('tools/') || r.startsWith('tools/check-')) && !istTest(r)) || liestClaudeMd(r, bewegt, lies))
+  const rueckLeser = leser.filter((r) => (!r.startsWith('tools/') || r.startsWith('tools/check-')) && !istTest(r))
   const rueckwaerts = new Set(huelle([...rueckLeser, ...bewegterCode], lies, RUECK_TIEFE))
+  huelle(leser.filter((r) => liestClaudeMd(r, bewegt, lies)), lies, RUECK_TIEFE).forEach((n) => rueckwaerts.add(n))
   const p = start.find((x) => rueckwaerts.has(x))
   if (p !== undefined) return `${p} wird von Code genutzt, der bewegte Daten liest (bewegt: ${bewegt.join(', ')})`
   return null

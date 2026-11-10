@@ -28,8 +28,8 @@
   {
     "name": "rueckLeser: lesender Test ohne Rückweg (liestClaudeMd entfernt)",
     "datei": "tools/pr-nachrechnen-leser.mjs",
-    "suche": " || liestClaudeMd(r, bewegt, lies))",
-    "ersetze": ")",
+    "suche": "huelle(leser.filter((r) => liestClaudeMd(r, bewegt, lies)), lies, RUECK_TIEFE).forEach((n) => rueckwaerts.add(n))",
+    "ersetze": "0",
     "tests": ["npx tsx tools/pr-nachrechnen-claude-md.test.mjs"]
   },
   {
