@@ -13,7 +13,7 @@ export const grundKommentar = (basisKurz, mainKurz, grund) => `${KENNUNG} Kette 
 const KONTEN = ['danielzaiser91', 'github-actions']
 
 /** Zählt nur Kommentare dieser Konten und nur seit dem Kopf-Commit: nach einer Nachbesserung beginnt die Zählung neu. */
-const istDurchgang = (c, kopfZeit) => KONTEN.includes(c.author?.login) &&typeof c.body === 'string' && c.body.startsWith(KENNUNG) && Date.parse(c.createdAt) >= kopfZeit
+const istDurchgang = (c, kopfZeit) => KONTEN.includes(c.author?.login) && typeof c.body === 'string' && c.body.startsWith(KENNUNG) && Date.parse(c.createdAt) >= kopfZeit
 
 /** Signal 10 für `pr.comments`: höchstens ein Eintrag, `seit` = Zeit des jüngsten Durchgangs; kopfZeit = Commit-Zeit des Kopfs in ms. */
 export function schleifeSignal(pr, kopfZeit) {
