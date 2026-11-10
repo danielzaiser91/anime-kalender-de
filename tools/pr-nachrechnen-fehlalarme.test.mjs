@@ -57,6 +57,17 @@ pruefe('(d) Gegenfall: dasselbe readdir in tools/ -> Neustart mit Grund und Date
 const WB = { 'tools/workflows-beleg.mjs': "import { istDatenpfad } from './pr-nachrechnen.mjs'\nconst OHNE = ['amazon-gti-belegt.json']\n" }
 pruefe('PR ändert pr-nachrechnen.mjs, das nur ein Werkzeug (workflows-beleg.mjs) mit Datennennung importiert -> null', urteil(WB, { bewegt: ['data/amazon-gti-belegt.json'], leser: ['tools/workflows-beleg.mjs'], pr: ['tools/pr-nachrechnen.mjs'] }) === null)
 
+// Randfälle der Regel einzeln
+const T = (name, text) => new Map([[name, text]])
+pruefe('leserIn: Test, der eine Daten-Markdown nennt, ist kein Leser; Nicht-Test schon', leserIn(T('tools/x.test.mjs', `f('${MD}')\n`), [MD]).length === 0 && leserIn(T('tools/x.mjs', `f('${MD}')\n`), [MD]).length === 1)
+pruefe('leserIn: Test, der public/og/default.png nennt, ist kein Leser', leserIn(T('tools/x.test.mjs', "f('public/og/default.png')\n"), ['public/og/default.png']).length === 0)
+pruefe('leserIn: Test, der data/amazon-gti-belegt.json nennt, ist kein Leser', leserIn(T('tools/x.test.mjs', "f('data/amazon-gti-belegt.json')\n"), ['data/amazon-gti-belegt.json']).length === 0)
+pruefe('leserIn: Test, der bewegten Code nennt, ist ein Leser', leserIn(T('tools/x.test.mjs', "import './y.mjs'\n"), ['tools/y.mjs']).join() === 'tools/x.test.mjs')
+const RUECK = { 'pipeline/y.test.ts': "import './lib/a.ts'\n", 'pipeline/z.ts': "import './lib/a.ts'\nimport './lib/b.ts'\n" }
+pruefe('Rückrichtung: ein Test als Leser zieht den PR nicht hinein', urteil(RUECK, { bewegt: ['data/amazon-gti-belegt.json'], leser: ['pipeline/y.test.ts'], pr: ['pipeline/lib/a.ts'] }) === null)
+const zwei = urteil(RUECK, { bewegt: ['data/amazon-gti-belegt.json'], leser: ['pipeline/z.ts'], pr: ['pipeline/lib/b.ts', 'pipeline/lib/a.ts'] })
+pruefe('Rückrichtung: der Grund nennt die erste PR-Datei und die bewegten Dateien', /^pipeline\/lib\/b\.ts wird von Code genutzt, der bewegte Daten liest \(bewegt: data\/amazon-gti-belegt\.json\)$/.test(zwei), zwei)
+
 if (fehler.length > 0) {
   console.error(`pr-nachrechnen-fehlalarme.test: ${fehler.length} rot`)
   process.exit(1)
