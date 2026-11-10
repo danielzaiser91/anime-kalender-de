@@ -74,6 +74,35 @@ assert.deepEqual(beschreibeUnterschied('abo.ics', ics('Zwei'), ics('Zwei neu')),
 ])
 assert.deepEqual(beschreibeUnterschied('abo.ics', ics('Zwei'), ics('Zwei')), [], 'gleich: keine Zeile')
 
+// Randfälle der UID-Suche (Prüfer R1, Mutanten): je Fall verschiedene UID alt/neu oder eine Stelle außerhalb eines VEVENT.
+const zeilenIcs = (liste) => liste.join('\r\n') + '\r\n'
+const kopf = ['BEGIN:VCALENDAR', 'BEGIN:VEVENT', 'UID:a-1', 'SUMMARY:Eins', 'END:VEVENT', 'BEGIN:VEVENT', 'UID:b-2', 'SUMMARY:Zwei', 'END:VEVENT', 'END:VCALENDAR']
+const mit = (aendere) => zeilenIcs(kopf.map(aendere))
+const ab = (alt, neu) => beschreibeUnterschied('abo.ics', alt, neu)
+// UID selbst ändert sich: links alt, rechts neu (Mutant `uidUm(b, i)` → `uidUm(a, i)`).
+assert.equal(ab(zeilenIcs(kopf), mit((z) => (z === 'UID:b-2' ? 'UID:b-9' : z)))[0], '    erste Abweichung: Zeile 7, UID b-2 → b-9')
+// Zeile 1 weicht ab (Mutant `let i = 0` → `1`); davor kein VEVENT, daher keine UID, obwohl später eine kommt.
+assert.deepEqual(ab(zeilenIcs(kopf), mit((z) => (z === 'BEGIN:VCALENDAR' ? 'BEGIN:VCALENDAR2' : z))), ['    erste Abweichung: Zeile 1, UID — → —', '    - BEGIN:VCALENDAR', '    + BEGIN:VCALENDAR2'])
+// Abweichung zwischen zwei VEVENT: keine UID, auch nicht die des vorigen Ereignisses.
+const zwischen = [...kopf.slice(0, 5), 'X-ZWISCHEN:1', ...kopf.slice(5)]
+assert.equal(ab(zeilenIcs(zwischen), zeilenIcs(zwischen.map((z) => z.replace('X-ZWISCHEN:1', 'X-ZWISCHEN:2'))))[0], '    erste Abweichung: Zeile 6, UID — → —')
+// Abweichung auf der END-Zeile: gehört noch zum eigenen VEVENT, nicht zum folgenden (Mutanten `start <= i`, `start = i + 1`).
+const endAb = zeilenIcs(kopf.map((z, i) => (i === 4 ? 'END:VEVENT ' : z)))
+assert.equal(ab(zeilenIcs(kopf), endAb)[0], '    erste Abweichung: Zeile 5, UID a-1 → a-1')
+// VEVENT ohne UID: weder die des Nachbarn noch ein Fehler.
+const ohneUid = ['BEGIN:VCALENDAR', 'BEGIN:VEVENT', 'SUMMARY:Eins', 'END:VEVENT', 'BEGIN:VEVENT', 'UID:b-2', 'END:VEVENT', 'END:VCALENDAR']
+assert.equal(ab(zeilenIcs(ohneUid), zeilenIcs(ohneUid.map((z) => (z === 'SUMMARY:Eins' ? 'SUMMARY:Eins!' : z))))[0], '    erste Abweichung: Zeile 3, UID — → —')
+
+// Gefaltete Zeilen (RFC 5545) werden vor dem Vergleich entfaltet.
+const gefaltet = zeilenIcs(['BEGIN:VEVENT', 'UID:f-1', 'SUMMARY:Ein sehr langer', ' Titel', 'END:VEVENT'])
+const flach = zeilenIcs(['BEGIN:VEVENT', 'UID:f-1', 'SUMMARY:Ein sehr langerTitel', 'END:VEVENT'])
+assert.deepEqual(ab(gefaltet, flach), ['    nur Zeilenenden (CRLF/LF) oder Faltung verschieden'], 'andere Faltung, gleicher Inhalt')
+assert.deepEqual(ab(gefaltet, gefaltet.replace('Titel', 'Titel!')), ['    erste Abweichung: Zeile 3, UID f-1 → f-1', '    - SUMMARY:Ein sehr langerTitel', '    + SUMMARY:Ein sehr langerTitel!'], 'Änderung in der Fortsetzung zeigt die ganze Zeile')
+assert.deepEqual(ab(zeilenIcs(['A', 'B']), zeilenIcs(['A', ' B'])), ['    erste Abweichung: Zeile 1, UID — → —', '    - A', '    + AB'], 'Fortsetzung hängt an der vorigen Zeile')
+
+// Nur Zeilenenden (CRLF gegen LF): die Datei ist verschieden, also sagt eine Zeile es.
+assert.deepEqual(ab(zeilenIcs(kopf), zeilenIcs(kopf).replace(/\r\n/g, '\n')), ['    nur Zeilenenden (CRLF/LF) oder Faltung verschieden'])
+
 // Kennungen tragen den Titelnamen (deutsch, sonst englisch, sonst Romaji); ohne Namen bleibt es die nackte Kennung.
 const namenAlt = [
   { id: 2167, titleDe: 'Tokyo Revengers', titleEn: 'T', x: 1 },

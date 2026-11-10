@@ -109,13 +109,23 @@ function uidUm(zeilen, i) {
   return '—'
 }
 
-/** ICS: erste Zeile, an der beide Fassungen auseinandergehen, samt UID des umgebenden VEVENT (je Seite). */
+/** RFC 5545: eine Zeile, die mit Leerzeichen oder Tab beginnt, setzt die vorige fort; vor dem Vergleich wieder zusammenfügen. */
+function entfalte(text) {
+  const aus = []
+  for (const z of text.split(/\r?\n/)) {
+    if (aus.length > 0 && /^[ \t]/.test(z)) aus[aus.length - 1] += z.slice(1)
+    else aus.push(z)
+  }
+  return aus
+}
+
+/** ICS: erste Zeile, an der beide Fassungen auseinandergehen, samt UID des umgebenden VEVENT (je Seite). Zeilennummern zählen entfaltete Zeilen. */
 function icsUnterschied(textA, textB) {
-  const a = textA.split(/\r?\n/)
-  const b = textB.split(/\r?\n/)
+  const a = entfalte(textA)
+  const b = entfalte(textB)
   let i = 0
   while (i < Math.max(a.length, b.length) && a[i] === b[i]) i++
-  if (i >= Math.max(a.length, b.length)) return []
+  if (i >= Math.max(a.length, b.length)) return textA === textB ? [] : ['    nur Zeilenenden (CRLF/LF) oder Faltung verschieden']
   const zeige = (z) => (z === undefined ? '—' : z.slice(0, 160))
   return [`    erste Abweichung: Zeile ${i + 1}, UID ${uidUm(a, i)} → ${uidUm(b, i)}`, `    - ${zeige(a[i])}`, `    + ${zeige(b[i])}`]
 }
