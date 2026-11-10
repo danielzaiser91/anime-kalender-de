@@ -8,146 +8,6 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:cr-GT00371866@2026-11-02@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261102T143000Z
-DTEND:20261102T150000Z
-SUMMARY:PSYREN – Folge 2/≈12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/17232/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-158871-tv-super-rtl@2026-11-02@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261102T151500Z
-DTEND:20261102T154500Z
-SUMMARY:Pokémon Horizonte – Folge 22
-DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
- ails: https://anime-kalender.de/t/14839/
-CATEGORIES:Super RTL
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-118399-tv-prosieben-maxx@2026-11-02@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261102T154000Z
-DTEND:20261102T161000Z
-SUMMARY:Yashahime: Princess Half-Demon
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/11570/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-11-02#52@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261102T160500Z
-DTEND:20261102T163500Z
-SUMMARY:Dragon Ball
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-158871-tv-toggo-plus@2026-11-02@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261102T161500Z
-DTEND:20261102T164500Z
-SUMMARY:Pokémon Horizonte – Folge 22
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/t/14839/
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-11-02#53@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261102T163000Z
-DTEND:20261102T170000Z
-SUMMARY:Dragon Ball
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-235-tv-prosieben-maxx@2026-11-02@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261102T165500Z
-DTEND:20261102T172500Z
-SUMMARY:Detektiv Conan – Folge 166
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/204/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-11-02#53@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261102T172000Z
-DTEND:20261102T175000Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-11-02#54@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261102T175000Z
-DTEND:20261102T182000Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-128893-tv-prosieben-fun@2026-11-02#9@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261102T195500Z
-DTEND:20261102T202500Z
-SUMMARY:Hell’s Paradise – Folge 9
-DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
- nDetails: https://anime-kalender.de/t/12442/
-CATEGORIES:ProSieben FUN
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-112153-tv-toggo-plus@2026-11-02@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261102T201500Z
-DTEND:20261102T204500Z
-SUMMARY:Pokémon Reisen: Die Serie
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/t/10852/
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-128893-tv-prosieben-fun@2026-11-02#10@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261102T202000Z
-DTEND:20261102T205000Z
-SUMMARY:Hell’s Paradise – Folge 10
-DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
- nDetails: https://anime-kalender.de/t/12442/
-CATEGORIES:ProSieben FUN
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-101347-tv-prosieben-fun@2026-11-02#9@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261102T204500Z
-DTEND:20261102T211500Z
-SUMMARY:Dororo
-DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
- nDetails: https://anime-kalender.de/t/9059/
-CATEGORIES:ProSieben FUN
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-101347-tv-prosieben-fun@2026-11-02#10@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261102T211000Z
-DTEND:20261102T214000Z
-SUMMARY:Dororo
-DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
- nDetails: https://anime-kalender.de/t/9059/
-CATEGORIES:ProSieben FUN
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-158871-tv-super-rtl@2026-11-03@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261103T151500Z
@@ -761,18 +621,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-47-joyn@2026-11-08@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261108
-DTEND;VALUE=DATE:20261109
-SUMMARY:Akira
-DESCRIPTION:Plattform: Joyn\nRelease-Art: Film\nUhrzeit noch nicht bestäti
- gt.\nGeschätzter Termin: kein vom Anbieter genannter Tag\, sondern aus Rh
- ythmus oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.
- de/t/29/
-CATEGORIES:Joyn
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GT00371866@2026-11-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261109T143000Z
@@ -927,6 +775,16 @@ DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
 CATEGORIES:ProSieben FUN
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-158871-tv-super-rtl@2026-11-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261110T151500Z
+DTEND:20261110T154500Z
+SUMMARY:Pokémon Horizonte – Folge 28
+DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
+ ails: https://anime-kalender.de/t/14839/
+CATEGORIES:Super RTL
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-118399-tv-prosieben-maxx@2026-11-10@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261110T154500Z
@@ -945,6 +803,16 @@ SUMMARY:Dragon Ball
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-158871-tv-toggo-plus@2026-11-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261110T161500Z
+DTEND:20261110T164500Z
+SUMMARY:Pokémon Horizonte – Folge 28
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/14839/
+CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-11-10#65@anime-kalender-de
@@ -999,6 +867,16 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
   Anbieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgel
  eitet.\nDetails: https://anime-kalender.de/t/12/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-112153-tv-toggo-plus@2026-11-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261110T201500Z
+DTEND:20261110T204500Z
+SUMMARY:Pokémon Reisen: Die Serie
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/10852/
+CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-527-disc@2026-11-10@anime-kalender-de

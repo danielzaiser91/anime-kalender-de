@@ -8,66 +8,6 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-11-02#52@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261102T160500Z
-DTEND:20261102T163500Z
-SUMMARY:Dragon Ball
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-11-02#53@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261102T163000Z
-DTEND:20261102T170000Z
-SUMMARY:Dragon Ball
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-235-tv-prosieben-maxx@2026-11-02@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261102T165500Z
-DTEND:20261102T172500Z
-SUMMARY:Detektiv Conan – Folge 166
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/204/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-11-02#53@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261102T172000Z
-DTEND:20261102T175000Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-11-02#54@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261102T175000Z
-DTEND:20261102T182000Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-112153-tv-toggo-plus@2026-11-02@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261102T201500Z
-DTEND:20261102T204500Z
-SUMMARY:Pokémon Reisen: Die Serie
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/t/10852/
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-11-03#54@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261103T160500Z
@@ -624,6 +564,16 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
   Anbieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgel
  eitet.\nDetails: https://anime-kalender.de/t/12/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-112153-tv-toggo-plus@2026-11-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261110T201500Z
+DTEND:20261110T204500Z
+SUMMARY:Pokémon Reisen: Die Serie
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/10852/
+CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-527-disc@2026-11-10@anime-kalender-de

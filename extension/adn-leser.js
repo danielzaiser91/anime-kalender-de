@@ -100,10 +100,34 @@
     }
   }
 
+  /**
+   * Eine einzelne `vde`-Folge mitten in einer Staffel, deren übrige Folgen (mindestens drei) alle nur `vostde` tragen, ist ein Fehler
+   * in ADNs Katalogdaten: Demon Slave S1F6 (Video 24139) steht als `vde`, der Player bietet nur Japanisch (Daniel, 09.11.2026).
+   * Im Archiv (274 Serien) trifft das drei Staffeln (GTO, Demon Slave, One Piece Wano) mit je genau einer `vde`-Folge; echte
+   * Mischstaffeln haben 3 von 4 oder 12 von 13. Beginnt eine Staffel von höchstens 50 Folgen deutsch, bleibt sie unberührt (eine Vertonung fängt vorn an).
+   * Die Zeile gilt dann als `nein` und trägt `ausreisser`. Bau-Gegenstück: `vdeAusreisser` in `pipeline/lib/adn-ausreisser.ts`.
+   */
+  function korrigiereAusreisser(zeilen) {
+    const je = new Map()
+    for (const z of zeilen) {
+      const schluessel = `${z.staffelText}|${z.kennung}`
+      je.set(schluessel, [...(je.get(schluessel) ?? []), z])
+    }
+    for (const liste of je.values()) {
+      const ja = liste.filter((z) => z.tonDe === 'ja')
+      const nein = liste.filter((z) => z.tonDe === 'nein')
+      if (ja.length !== 1 || nein.length < 3 || nein.length + 1 !== liste.length) continue
+      const beginntDeutsch = ja[0].nummer <= Math.min(...nein.map((z) => z.nummer))
+      if (beginntDeutsch && liste.length <= 50) continue
+      Object.assign(ja[0], { tonDe: 'nein', sprachen: ['ja'], ausreisser: true })
+    }
+    return zeilen
+  }
+
   /** Alle Zeilen einer Serie, nach Staffel und Nummer — und die Videos, über die ADN nichts zur Sprache sagt. */
   function ordne(videos) {
     const alle = (videos ?? []).map(zeile).filter(Boolean)
-    const sortiert = alle.sort((a, b) => (a.staffel ?? 0) - (b.staffel ?? 0) || a.nummer - b.nummer || a.videoId - b.videoId)
+    const sortiert = korrigiereAusreisser(alle.sort((a, b) => (a.staffel ?? 0) - (b.staffel ?? 0) || a.nummer - b.nummer || a.videoId - b.videoId))
     return { zeilen: sortiert.filter((z) => z.tonDe), ohneAngabe: sortiert.filter((z) => !z.tonDe).length }
   }
 

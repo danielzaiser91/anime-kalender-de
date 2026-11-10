@@ -1,0 +1,14 @@
+[
+  { "name": "Kontrolle (unmutiert)", "aenderungen": [] },
+  { "name": "workflow: --schieben immer bei Hand-Urteil", "aenderungen": [{ "datei": ".github/workflows/zug-fahrt.yml", "suche": "if [ \"$SCHIEBEN\" = true ]; then args+=(--schieben); fi", "ersetze": "args+=(--schieben)" }] },
+  { "name": "workflow: --schieben nie bei Hand-Urteil", "aenderungen": [{ "datei": ".github/workflows/zug-fahrt.yml", "suche": "if [ \"$SCHIEBEN\" = true ]; then args+=(--schieben); fi", "ersetze": "if [ \"$SCHIEBEN\" = nie ]; then args+=(--schieben); fi" }] },
+  { "name": "workflow: --trocken fehlt beim Hand-Urteil", "aenderungen": [{ "datei": ".github/workflows/zug-fahrt.yml", "suche": "if [ \"$TROCKEN\" = true ]; then args+=(--trocken); fi", "ersetze": "" }] },
+  { "name": "workflow: Kettenlauf-Urteil schiebt", "aenderungen": [{ "datei": ".github/workflows/zug-fahrt.yml", "suche": "urteil --zweig \"$ZWEIG\" --lauf \"$LAUF\"", "ersetze": "urteil --zweig \"$ZWEIG\" --lauf \"$LAUF\" --schieben" }] },
+  { "name": "workflow: Hand-Urteil auf zug-probe", "aenderungen": [{ "datei": ".github/workflows/zug-fahrt.yml", "suche": "args=(urteil --zweig zug-fahrt ", "ersetze": "args=(urteil --zweig zug-probe " }] },
+  { "name": "workflow: Standard schieben an", "aenderungen": [{ "datei": ".github/workflows/zug-fahrt.yml", "suche": "        type: boolean\n        default: false\n", "ersetze": "        type: boolean\n        default: true\n" }] },
+  { "name": "workflow: Option urteil fehlt", "aenderungen": [{ "datei": ".github/workflows/zug-fahrt.yml", "suche": "options: [start, bau-deploy, urteil]", "ersetze": "options: [start, bau-deploy]" }] },
+  { "name": "workflow: SCHIEBEN immer true", "aenderungen": [{ "datei": ".github/workflows/zug-fahrt.yml", "suche": "SCHIEBEN: ${{ inputs.schieben }}", "ersetze": "SCHIEBEN: true" }] },
+  { "name": "workflow: KETTENLAUF aus falscher Eingabe", "aenderungen": [{ "datei": ".github/workflows/zug-fahrt.yml", "suche": "KETTENLAUF: ${{ inputs.lauf }}", "ersetze": "KETTENLAUF: ${{ inputs.modus }}" }] },
+  { "name": "workflow: start-Aufruf schiebt", "aenderungen": [{ "datei": ".github/workflows/zug-fahrt.yml", "suche": "            node tools/zug-fahrt.mjs \"$MODUS\"\n", "ersetze": "            node tools/zug-fahrt.mjs \"$MODUS\" --schieben\n" }] },
+  { "name": "workflow: urteil-Zweig nach dem trocken-Zweig", "aenderungen": [{ "datei": ".github/workflows/zug-fahrt.yml", "suche": "elif [ \"$MODUS\" = urteil ]; then", "ersetze": "elif [ \"$MODUS\" = urteil-aus ]; then" }] }
+]

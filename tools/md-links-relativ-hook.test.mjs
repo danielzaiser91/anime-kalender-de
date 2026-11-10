@@ -1,4 +1,4 @@
-/** Test für `tools/claude-global/hooks/md-links-relativ.js`: file:///-Links in Daniels .md-Dateien werden relativ. */
+/** Test für `.claude/hooks/md-links-relativ.js`: file:///-Links in Daniels .md-Dateien werden relativ. */
 import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
 import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
@@ -6,7 +6,7 @@ import { createRequire } from 'node:module'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 
-const hook = join(import.meta.dirname, 'claude-global', 'hooks', 'md-links-relativ.js')
+const hook = join(import.meta.dirname, '..', '.claude', 'hooks', 'md-links-relativ.js')
 const { relativ, umschreiben, betroffen } = createRequire(import.meta.url)(hook)
 
 const W = 'C:/code/ai/anime-kalender-de/daniel-zum-abarbeiten'

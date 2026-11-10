@@ -5,6 +5,7 @@
 import { LIMIT_SKRIPT_MS, LIMIT_STAPEL_MS, mitLimit } from './kind-mit-limit.mjs'
 import { existsSync, readFileSync } from 'node:fs'
 import { rotAlarmText } from './bestand-rot-alarm.mjs'
+import { mitWiederkehr, warteSynchron } from './wache-dossier-wiederkehr.mjs'
 
 const REPO = process.env.GITHUB_REPOSITORY || 'danielzaiser91/anime-kalender-de'
 const STUNDEN = 3600e3
@@ -122,14 +123,9 @@ const QUELLEN = [
 ]
 
 /** Alle Dossier-Dateien als [Name, Inhalt]; der Kopf trägt den Zeitpunkt. */
-export function sammle() {
-  return QUELLEN.map(([name, quelle]) => {
-    let inhalt
-    try {
-      inhalt = quelle()
-    } catch (fehler) {
-      inhalt = `FEHLER beim Sammeln: ${String(fehler.message).split('\n')[0]}`
-    }
-    return [name, `Stand: ${new Date().toISOString()}\n\n${inhalt}`]
+export function sammle(quellen = QUELLEN, jetzt = () => new Date(), warte = warteSynchron) {
+  return quellen.map(([name, quelle]) => {
+    const inhalt = mitWiederkehr(quelle, jetzt, warte)
+    return [name, `Stand: ${jetzt().toISOString()}\n\n${inhalt}`]
   })
 }

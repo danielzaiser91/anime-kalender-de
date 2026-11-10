@@ -54,6 +54,22 @@ pruefe('gelöschte oder nicht lesbare PR-Datei -> kein Absturz, null', grund(['t
 pruefe('keine bewegten Dateien -> null', bewegtesGelesen({ bewegt: [], pr: ['pipeline/bau/cr.ts'], leser: LESER, lies, paketSkripte: null }) === null)
 pruefe('Umbenennung: alter Name im PR zählt', /berührt/.test(grund(['tools/neu.mjs', F])))
 
+// Bewegter Code, den niemand nennt (Auflage Prüfer 3312 A1): die Rückwärtshülle startet auch bei ihm
+{
+  const text = {
+    'tools/neu-g1.test.mjs': "import { x } from '../shared/logic.ts'\n",
+    'pipeline/check-neu-g8.ts': "const d = readFileSync('data/dub-confirmed.yaml')\n",
+    'pipeline/check-neu-g13.ts': "import { a } from './lib/adn.ts'\n",
+    'tools/check-fremd-liste.txt': 'shared/logic.ts\n',
+  }
+  const mitBewegt = (bewegt, pr) => bewegtesGelesen({ bewegt, pr, leser: [], lies: (p) => text[p] ?? null, paketSkripte: null })
+  pruefe('G1: neuer Test importiert shared/logic.ts, PR ändert sie -> Grund', /shared\/logic\.ts wird von Code genutzt/.test(mitBewegt(['tools/neu-g1.test.mjs'], ['shared/logic.ts'])), mitBewegt(['tools/neu-g1.test.mjs'], ['shared/logic.ts']))
+  pruefe('G8: neuer Wächter liest data/dub-confirmed.yaml, PR ändert sie -> Grund', /data\/dub-confirmed\.yaml wird von Code genutzt/.test(mitBewegt(['pipeline/check-neu-g8.ts'], ['data/dub-confirmed.yaml'])), mitBewegt(['pipeline/check-neu-g8.ts'], ['data/dub-confirmed.yaml']))
+  pruefe('G13: neuer Wächter importiert pipeline/lib/adn.ts, PR ändert sie -> Grund', /pipeline\/lib\/adn\.ts wird von Code genutzt/.test(mitBewegt(['pipeline/check-neu-g13.ts'], ['pipeline/lib/adn.ts'])), mitBewegt(['pipeline/check-neu-g13.ts'], ['pipeline/lib/adn.ts']))
+  pruefe('bewegter Code ohne Bezug zum PR-Code -> null', mitBewegt(['tools/neu-g1.test.mjs'], ['tools/nachbar.mjs']) === null)
+  pruefe('bewegte -liste.txt startet keine Hülle -> null', mitBewegt(['tools/check-fremd-liste.txt'], ['shared/logic.ts']) === null)
+}
+
 // Importketten: beliebig tief, kein Zweifel durch Größe
 const kette = (n) => (p) => {
   const m = /^tools\/k(\d+)\.mjs$/.exec(p)
@@ -244,6 +260,20 @@ for (const [name, opt] of [['fetch scheitert', { fetchFehler: true }], ['ls-tree
   pruefe('gitAufruf: jeder Aufruf (fetch, ls-tree, cat-file) setzt das Zeitlimit von 120 s', GIT_TIMEOUT_MS === 120000 && optionen.length === 3 && optionen.every(([p, , t]) => p === 'git' && t === 120000), optionen)
   const abgelaufen = gitLeser(gitAufrufMit(() => { throw Object.assign(new Error('spawnSync git ETIMEDOUT'), { code: 'ETIMEDOUT' }) }))([F], ['tools/neu.mjs'], REFS)
   pruefe('gitLeser: Zeitlimit abgelaufen -> nicht ermittelbar', /^Leser nicht ermittelbar \(spawnSync git ETIMEDOUT\)$/.test(abgelaufen), abgelaufen)
+}
+
+// Fehlalarm PR 3310: Hooks unter .claude/ laufen nie in der Kette (Ordner-Leser und Namens-Leser dort zählen nicht)
+{
+  const HOOK_ORDNER = "const fs = require('fs')\nfs.readdirSync('data/')\n"
+  const HOOK_NAME = `const d = '${F}'\n`
+  const hook = (pfad, text) => bewegtesGelesen({ bewegt: [F], pr: [pfad], leser: LESER, lies: (p) => (p === pfad ? text : lies(p)), paketSkripte: null })
+  pruefe('ohneLeser: .claude/ ja, Namensvetter claude/ und tools/.claude nein', ohneLeser('.claude/hooks/a.js') && !ohneLeser('claude/hooks/a.js') && !ohneLeser('tools/.claude/a.js'))
+  pruefe('.claude/hooks mit readdir auf data/ -> null', hook('.claude/hooks/agenten-grenze.js', HOOK_ORDNER) === null, hook('.claude/hooks/agenten-grenze.js', HOOK_ORDNER))
+  pruefe('.claude/hooks nennt die bewegte Datei -> null', hook('.claude/hooks/a.js', HOOK_NAME) === null, hook('.claude/hooks/a.js', HOOK_NAME))
+  pruefe('Gegenprobe: dasselbe readdir in tools/ -> Ordner-Grund', /Verzeichnis nicht eindeutig/.test(hook('tools/sammler.mjs', HOOK_ORDNER)), hook('tools/sammler.mjs', HOOK_ORDNER))
+  pruefe('Gegenprobe: dieselbe Nennung in tools/ -> Grund', hook('tools/a.mjs', HOOK_NAME) === `der PR liest ${F} (tools/a.mjs)`, hook('tools/a.mjs', HOOK_NAME))
+  const gemischt = bewegtesGelesen({ bewegt: [F], pr: ['.claude/hooks/a.js', 'tools/a.mjs'], leser: LESER, lies: (p) => (p === 'tools/a.mjs' ? HOOK_NAME : lies(p)), paketSkripte: null })
+  pruefe('.claude/ zusammen mit echtem Leser im PR -> Grund bleibt', gemischt === `der PR liest ${F} (tools/a.mjs)`, gemischt)
 }
 
 if (fehler.length > 0) {

@@ -11,6 +11,7 @@ import { pruefeLuecken } from './lib/folgentitel-luecke-bestand.ts'
 const roh = JSON.parse(readFileSync('data/anisearch-folgen.json', 'utf8')) as Record<string, { folgen?: FolgeQuelle[] }>
 const kitsu = JSON.parse(readFileSync('data/kitsu-folgen.json', 'utf8')) as Record<string, { f?: [number, string, number][] }>
 const tmdb = JSON.parse(readFileSync('data/tmdb-folgen.json', 'utf8')) as Record<string, { folgen?: { en?: string | null }[] }>
+const rtl = (JSON.parse(readFileSync('data/rtlplus-folgen.json', 'utf8')) as { titel?: Record<string, { folgen?: { nr: number; dt: string }[] }> }).titel ?? {}
 const zuordnung = JSON.parse(readFileSync('data/anisearch.json', 'utf8')) as Record<string, { anisearchId?: number }>
 
 let listen = 0
@@ -20,7 +21,8 @@ for (const datei of readdirSync('public/data/folgen').filter((f) => /^\d+\.json$
   const id = datei.slice(0, -5)
   const liste = JSON.parse(readFileSync(`public/data/folgen/${datei}`, 'utf8')) as { f: [number, string][] }
   const asId = zuordnung[id]?.anisearchId
-  const zahl = fremdtitelZahl(liste.f, asId ? (roh[String(asId)]?.folgen ?? []) : [])
+  const rtlTitel = new Map((rtl[id]?.folgen ?? []).map((x) => [x.nr, x.dt] as const))
+  const zahl = fremdtitelZahl(liste.f, asId ? (roh[String(asId)]?.folgen ?? []) : [], rtlTitel)
   listen++
   titel += liste.f.filter(([, t]) => t).length
   fremd += zahl
