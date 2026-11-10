@@ -1,0 +1,17 @@
+[
+  { "name": "Kontrolle unmutiert", "aenderungen": [] },
+  { "name": "Lücke: Streams zählen nicht als Weg", "datei": "pipeline/lib/streaming-luecke.ts", "suche": "titles.filter((t) => !t.streams?.length && ", "ersetze": "titles.filter((t) => " },
+  { "name": "Lücke: jeder Bezugsweg zählt als Streaming-Weg", "datei": "pipeline/lib/streaming-luecke.ts", "suche": "(t.watchLinks ?? []).some((w) => w.kind === 'stream')", "ersetze": "(t.watchLinks ?? []).some(() => true)" },
+  { "name": "Lücke: Disc-Link nimmt den Titel nicht aus ohne-jeden-Weg", "datei": "pipeline/lib/streaming-luecke.ts", "suche": "!t.watchLinks?.length && !releaseTitelIds.has(t.id)", "ersetze": "!releaseTitelIds.has(t.id)" },
+  { "name": "Lücke: Ausgabe nimmt den Titel nicht aus ohne-jeden-Weg", "datei": "pipeline/lib/streaming-luecke.ts", "suche": "!t.watchLinks?.length && !releaseTitelIds.has(t.id)", "ersetze": "!t.watchLinks?.length" },
+  { "name": "Bilanz: neu ohne jeden Weg gegen die falsche Liste", "datei": "pipeline/lib/streaming-luecke.ts", "suche": "ist.ohneJedenWeg.filter((id) => !jeden.has(id))", "ersetze": "ist.ohneJedenWeg.filter((id) => !streaming.has(id))" },
+  { "name": "Bilanz: neu ohne Streaming-Weg gegen die falsche Liste", "datei": "pipeline/lib/streaming-luecke.ts", "suche": "ist.ohneStreamingWeg.filter((id) => !streaming.has(id))", "ersetze": "ist.ohneStreamingWeg.filter((id) => !jeden.has(id))" },
+  { "name": "Bilanz: erledigt zählt nur eine Liste", "datei": "pipeline/lib/streaming-luecke.ts", "suche": " + stand.ohneStreamingWeg.filter((id) => !istStreaming.has(id)).length", "ersetze": "" },
+  { "name": "Bilanz: erledigt zählt die falsche Menge", "datei": "pipeline/lib/streaming-luecke.ts", "suche": "stand.ohneJedenWeg.filter((id) => !istJeden.has(id)).length +", "ersetze": "stand.ohneJedenWeg.filter((id) => !istStreaming.has(id)).length +" },
+  { "name": "Wächter: Kürzen-Hinweis erst ab elf", "datei": "pipeline/check-streaming-luecke-bestand.ts", "suche": "if (b.erledigt >= 10)", "ersetze": "if (b.erledigt > 10)" },
+  { "name": "Wächter: Kürzen-Hinweis schon ab neun", "datei": "pipeline/check-streaming-luecke-bestand.ts", "suche": "if (b.erledigt >= 10)", "ersetze": "if (b.erledigt >= 9)" },
+  { "name": "Wächter: keine Warnung für neue Titel ohne Streaming-Weg", "datei": "pipeline/check-streaming-luecke-bestand.ts", "suche": "if (b.neuOhneStreamingWeg.length)", "ersetze": "if (false)" },
+  { "name": "Wächter: keine Warnung für neue Titel ohne jeden Weg", "datei": "pipeline/check-streaming-luecke-bestand.ts", "suche": "if (b.neuOhneJedenWeg.length)", "ersetze": "if (false)" },
+  { "name": "Wächter: Ausgaben ignoriert", "datei": "pipeline/check-streaming-luecke-bestand.ts", "suche": "new Set(releases.map((r) => r.titleId))", "ersetze": "new Set<number>()" },
+  { "name": "Wächter: Stand wird nicht gelesen", "datei": "pipeline/check-streaming-luecke-bestand.ts", "suche": "readJson<LueckenStand>('data/streaming-luecke-stand.json', { stand: '', ohneJedenWeg: [], ohneStreamingWeg: [] })", "ersetze": "{ stand: '', ohneJedenWeg: [], ohneStreamingWeg: [] } as LueckenStand" }
+]
