@@ -362,6 +362,7 @@ async function testAufraeumen() {
     ok('aufraeumen: cat > datei von agX beendet (samt Kette), sleep, Pipe-cat und fremde Agent-ID bleiben; Zeile aufgeraeumt')
     await testBeenden()
     await testNachAgentRaeumt(lebend)
+    await testGleicherText()
   } finally {
     raeumeTestshells(faelle.map(([id]) => id))
   }
@@ -403,6 +404,23 @@ async function testNachAgentRaeumt(lebend) {
     ok('SubagentStop: nach-agent.mjs beendet die leere cat-Shell des Agenten')
   } finally {
     raeumeTestshells(['toolu_LEERHOOK'])
+  }
+}
+
+/** Gleicher Befehlstext bei zwei Auslösern kurz hintereinander: keine Shell wird zugeordnet, auch nicht der Prozess des fremden Agenten. */
+async function testGleicherText() {
+  const cmd = `cat > ${TMP.replaceAll('\\', '/')}/g.mjs`
+  const zeitpunkt = Date.now()
+  const zeilen = [['toolu_GLEICH1', 'agG1'], ['toolu_GLEICH2', 'agG2']].map(([id, agent], i) => ({ t: new Date(zeitpunkt + i).toISOString(), ev: 'pre', id, agent, typ: 'bauer', cmd }))
+  fs.appendFileSync(reg.tagesdatei(), zeilen.map((z) => JSON.stringify(z)).join('\n') + '\n')
+  const kinder = [starteShell(cmd), starteShell(cmd)]
+  try {
+    await new Promise((r) => setTimeout(r, 2500))
+    const aus = execFileSync(process.execPath, [TOOL, 'aufraeumen', '--agent', 'agG1'], { env: process.env, encoding: 'utf8' })
+    assert.match(aus, /keine lebenden Prozesse von agG1/, `mehrdeutiger Text darf keinem Agenten zugeordnet werden: ${aus}`)
+    ok('aufraeumen: derselbe Befehlstext bei zwei Agenten kurz hintereinander bleibt unzugeordnet (fremder Prozess unberührt)')
+  } finally {
+    for (const k of kinder) k.stdin.end() // cat liest EOF und endet; taskkill /T erreichte es nicht
   }
 }
 
