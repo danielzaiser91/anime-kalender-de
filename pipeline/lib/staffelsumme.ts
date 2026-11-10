@@ -12,8 +12,8 @@ export const BESTAETIGT_VERMERK = 'bestätigt durch:'
 /** Der Vermerk nennt das Merkmal und seine Zählung ("bestätigt durch: Folgentitel (14 von 15, …"), nicht nur die Worte. */
 const BESTAETIGUNG = /bestätigt durch: [^(]*\(\d+ von \d+/
 
-/** Netflix-Adressen mit Liste ab Staffel > 1, deren Meldungen weder Summe noch Titel zuordnen (Stand 02.11.2026): Louds, Rainbow High. Darf nur sinken. Louds steht noch nicht in `anbieter-staffeln.json` (Meldungen unverarbeitet), dort greift der Abgleich erst mit dem Eintrag. */
-export const OFFEN_OHNE_ZUORDNUNG: readonly string[] = ['81186971', '81397437']
+/** Netflix-Adressen mit Liste ab Staffel > 1, deren Meldungen weder Summe noch Titel zuordnen (Stand 10.11.2026): Rainbow High. Darf nur sinken. Louds ist seit PR 2740 (Doppeltitel „A / B“ je Hälfte) zugeordnet. */
+export const OFFEN_OHNE_ZUORDNUNG: readonly string[] = ['81397437']
 
 export interface JwStaffel {
   nr: number
