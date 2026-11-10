@@ -24,7 +24,6 @@ async function fall(name, fn) {
     console.log(`  FEHL ${name}: ${e.message}`)
   }
 }
-const warte = (ms) => new Promise((r) => setTimeout(r, ms))
 
 await fall('Wortnähe: fünf gemeinsame Wörter fallen durch, Umformulierung besteht', () => {
   const quelle = { name: 'q', text: 'Maomao wurde entführt und als Dienstmagd an den kaiserlichen Hof verkauft.' }
@@ -96,18 +95,19 @@ function antwort(status, text = '', kopf = {}) {
 const TEST_ORDNER = `data/cache/handlung-fakten-test-${process.pid}`
 
 await fall('Abruf: Mindestabstand zwischen zwei Abrufen (ohne Pause rot)', async () => {
-  const zeiten = []
+  // Keine echte Uhr: Abrufe und verlangte Pausen landen in einer Reihenfolge.
+  const ablauf = []
   const fetchFn = async () => {
-    zeiten.push(Date.now())
+    ablauf.push('abruf')
     return antwort(200, 'Text')
   }
-  const hole = erstelleHoler({ fetchFn, warteFn: warte, pauseMs: 80, ordner: `${TEST_ORDNER}/pause` })
+  const warteFn = async (ms) => void ablauf.push(ms)
+  const hole = erstelleHoler({ fetchFn, warteFn, pauseMs: 80, ordner: `${TEST_ORDNER}/pause` })
   await hole('de', 'A')
   await hole('de', 'B')
   await hole('en', 'C')
-  assert.equal(zeiten.length, 3)
-  assert.ok(zeiten[1] - zeiten[0] >= 75, `Abstand ${zeiten[1] - zeiten[0]} ms`)
-  assert.ok(zeiten[2] - zeiten[1] >= 75, `Abstand ${zeiten[2] - zeiten[1]} ms`)
+  const form = ablauf.map((e) => (e === 'abruf' ? 'abruf' : e > 0 && e <= 80 ? 'pause' : `?${e}`))
+  assert.deepEqual(form, ['abruf', 'pause', 'abruf', 'pause', 'abruf'])
 })
 
 await fall('Abruf: Fehler bedeuten Pause und Wiederholung, am Ende „fehler“ statt Abbruch, nichts im Cache', async () => {
