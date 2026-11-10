@@ -27,7 +27,7 @@ const MODULE = [
   ['subagent-schreibsperre.js', 'grund'],
   // Vorrat-Sperre (25.10.2026, F63): vorrat/*.md erst nach Bericht löschen oder verschieben (Marke `# nach-bericht`).
   ['vorrat-sperre.js', 'grund'],
-  // Befehls-Register (13.10.2026): liefert nur updatedInput (Marke), nie eine Entscheidung.
+  // Befehls-Register (13.10.2026): protokolliert nur, ändert den Befehl nicht (seit 10.11.2026 ohne updatedInput) und entscheidet nie.
   ['befehlsregister.js', 'objekt'],
 ]
 
