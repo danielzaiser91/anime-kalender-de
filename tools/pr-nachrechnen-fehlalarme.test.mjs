@@ -68,6 +68,25 @@ pruefe('Rückrichtung: ein Test als Leser zieht den PR nicht hinein', urteil(RUE
 const zwei = urteil(RUECK, { bewegt: ['data/amazon-gti-belegt.json'], leser: ['pipeline/z.ts'], pr: ['pipeline/lib/b.ts', 'pipeline/lib/a.ts'] })
 pruefe('Rückrichtung: der Grund nennt die erste PR-Datei und die bewegten Dateien', /^pipeline\/lib\/b\.ts wird von Code genutzt, der bewegte Daten liest \(bewegt: data\/amazon-gti-belegt\.json\)$/.test(zwei), zwei)
 
+// Nachbesserung PR 3352 A1: ein Test, der die bewegte Datei wirklich liest (handbeleg-treffer.test.mjs, pruef-bestand.test.mjs), bleibt Leser
+const AMAZON = 'data/amazon-gti-belegt.json'
+const LIEST = { 'tools/handbeleg-treffer.test.mjs': "const t = readFileSync(new URL('../data/amazon-gti-belegt.json', import.meta.url), 'utf8')\n" }
+const FIXTURE = { 'tools/pr-nachrechnen.test.mjs': "const F = 'data/amazon-gti-belegt.json'\nconst y = readFileSync(new URL('../.github/workflows/pr-pruefung.yml', import.meta.url))\n" }
+pruefe('A1 Test liest die bewegte Datei per readFileSync(new URL(…, import.meta.url)) -> Neustart', /^der PR liest data\/amazon-gti-belegt\.json \(tools\/handbeleg-treffer\.test\.mjs\)$/.test(urteil(LIEST, { bewegt: [AMAZON], leser: [], pr: ['tools/handbeleg-treffer.test.mjs'] })))
+pruefe('A1 Test liest per resolve(…) -> Neustart', /^der PR liest data\/amazon-gti-belegt\.json/.test(urteil({ 'tools/a.test.mjs': "const p = resolve(root, 'data/amazon-gti-belegt.json')\n" }, { bewegt: [AMAZON], leser: [], pr: ['tools/a.test.mjs'] })))
+pruefe('A1 Test liest per readFileSync(\'data/…\') ohne URL und resolve -> Neustart', /^der PR liest/.test(urteil({ 'tools/a.test.mjs': "readFileSync('data/amazon-gti-belegt.json')\n" }, { bewegt: [AMAZON], leser: [], pr: ['tools/a.test.mjs'] })))
+pruefe('A1 Test bildet die Adresse per new URL(…, import.meta.url) -> Neustart', /^der PR liest/.test(urteil({ 'tools/a.test.mjs': "const u = new URL('../data/amazon-gti-belegt.json', import.meta.url)\n" }, { bewegt: [AMAZON], leser: [], pr: ['tools/a.test.mjs'] })))
+pruefe('A1 Fixture nur als String, ein anderer Lese-Aufruf in einer anderen Zeile -> null', urteil(FIXTURE, { bewegt: [AMAZON], leser: [], pr: ['tools/pr-nachrechnen.test.mjs'] }) === null)
+pruefe('A1 Lese-Aufruf nur im Kommentar -> null', urteil({ 'tools/a.test.mjs': "// readFileSync('data/amazon-gti-belegt.json')\n" }, { bewegt: [AMAZON], leser: [], pr: ['tools/a.test.mjs'] }) === null)
+pruefe('A1 leserIn: lesender Test ist Leser, Fixture-Test nicht', leserIn(new Map([...Object.entries(LIEST), ...Object.entries(FIXTURE)]), [AMAZON]).join() === 'tools/handbeleg-treffer.test.mjs')
+
+// Nachbesserung A2: Rückrichtung bis zwei Importstufen, auch von tools/check-*
+const TIEF = { 'pipeline/bau/a.ts': "import './b'\nconst f = 'amazon-gti-belegt.json'\n", 'pipeline/bau/b.ts': "import './c'\n", 'pipeline/bau/c.ts': "import './d'\n", 'pipeline/bau/d.ts': 'export {}\n' }
+pruefe('A2(a) Leser a.ts -> b.ts -> c.ts, PR ändert c.ts -> Neustart', /^pipeline\/bau\/c\.ts wird von Code genutzt/.test(urteil(TIEF, { bewegt: [AMAZON], leser: ['pipeline/bau/a.ts'], pr: ['pipeline/bau/c.ts'] })))
+pruefe('A2(a) Gegenfall: PR ändert d.ts (drei Importe vom Leser) -> null', urteil(TIEF, { bewegt: [AMAZON], leser: ['pipeline/bau/a.ts'], pr: ['pipeline/bau/d.ts'] }) === null)
+const CHECK = { 'tools/check-x.mjs': "import './lib.mjs'\nreadFileSync('data/amazon-gti-belegt.json')\n" }
+pruefe('A2(b) Leser tools/check-x.mjs liest die bewegte Datei und importiert tools/lib.mjs, PR ändert lib.mjs -> Neustart', /^tools\/lib\.mjs wird von Code genutzt/.test(urteil(CHECK, { bewegt: [AMAZON], leser: ['tools/check-x.mjs'], pr: ['tools/lib.mjs'] })))
+
 if (fehler.length > 0) {
   console.error(`pr-nachrechnen-fehlalarme.test: ${fehler.length} rot`)
   process.exit(1)

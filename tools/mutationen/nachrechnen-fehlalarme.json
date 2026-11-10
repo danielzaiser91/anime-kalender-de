@@ -1,40 +1,276 @@
 [
-  { "name": "Kontrolle unmutiert", "aenderungen": [] },
-  { "name": "trifft: auch Ordner-Präfix", "datei": "tools/pr-nachrechnen-leser.mjs", "suche": "export const trifft = (name, datei) => datei === name", "ersetze": "export const trifft = (name, datei) => datei === name || datei.startsWith(`${name}/`)" },
-  { "name": "trifft: nie", "datei": "tools/pr-nachrechnen-leser.mjs", "suche": "export const trifft = (name, datei) => datei === name", "ersetze": "export const trifft = (name, datei) => false" },
-  { "name": "istTest: nie ein Test", "datei": "tools/pr-nachrechnen-leser.mjs", "suche": "export const istTest = (datei) => /\\.test\\.[mc]?[jt]sx?$/.test(datei)", "ersetze": "export const istTest = (datei) => false" },
-  { "name": "istTest: jede Datei", "datei": "tools/pr-nachrechnen-leser.mjs", "suche": "export const istTest = (datei) => /\\.test\\.[mc]?[jt]sx?$/.test(datei)", "ersetze": "export const istTest = (datei) => true" },
-  { "name": "liestTestDatei: Test zählt immer", "datei": "tools/pr-nachrechnen-leser.mjs", "suche": "const liestTestDatei = (pfad, bewegt) => !istTest(pfad) || !/", "ersetze": "const liestTestDatei = (pfad, bewegt) => true || !/" },
-  { "name": "liestTestDatei: Test zählt nie", "datei": "tools/pr-nachrechnen-leser.mjs", "suche": "const liestTestDatei = (pfad, bewegt) => !istTest(pfad) || !/", "ersetze": "const liestTestDatei = (pfad, bewegt) => !istTest(pfad) && !/" },
-  { "name": "liestTestDatei: data/ zählt nicht als Daten", "datei": "tools/pr-nachrechnen-leser.mjs", "suche": "/^(data|public|daniel-zum-abarbeiten)\\//", "ersetze": "/^(public|daniel-zum-abarbeiten)\\//" },
-  { "name": "liestTestDatei: public/ zählt nicht als Daten", "datei": "tools/pr-nachrechnen-leser.mjs", "suche": "/^(data|public|daniel-zum-abarbeiten)\\//", "ersetze": "/^(data|daniel-zum-abarbeiten)\\//" },
-  { "name": "liestTestDatei: Daniel-Ordner zählt nicht als Daten", "datei": "tools/pr-nachrechnen-leser.mjs", "suche": "/^(data|public|daniel-zum-abarbeiten)\\//", "ersetze": "/^(data|public)\\//" },
-  { "name": "huelle: Tests geben Tokens weiter", "datei": "tools/pr-nachrechnen-leser.mjs", "suche": "...(startdatei && !istTest(datei) ? pfadTokens(text) : [])", "ersetze": "...(startdatei ? pfadTokens(text) : [])" },
-  { "name": "huelle: nie Tokens", "datei": "tools/pr-nachrechnen-leser.mjs", "suche": "...(startdatei && !istTest(datei) ? pfadTokens(text) : [])", "ersetze": "...([])" },
-  { "name": "huelle: Tiefe <= statt <", "datei": "tools/pr-nachrechnen-leser.mjs", "suche": "const text = tiefe < maxTiefe && LESBAR", "ersetze": "const text = tiefe <= maxTiefe && LESBAR" },
-  { "name": "huelle: Tiefe ohne Grenze", "datei": "tools/pr-nachrechnen-leser.mjs", "suche": "const text = tiefe < maxTiefe && LESBAR", "ersetze": "const text = true && LESBAR" },
-  { "name": "huelle: Tiefe nicht gezählt", "datei": "tools/pr-nachrechnen-leser.mjs", "suche": "offen.push([ziel, false, tiefe + 1])", "ersetze": "offen.push([ziel, false, tiefe])" },
-  { "name": "Rückrichtung: Standardtiefe statt 1", "datei": "tools/pr-nachrechnen-leser.mjs", "suche": "...bewegterCode], lies, 1))", "ersetze": "...bewegterCode], lies))" },
-  { "name": "Rückrichtung: Tiefe 2", "datei": "tools/pr-nachrechnen-leser.mjs", "suche": "...bewegterCode], lies, 1))", "ersetze": "...bewegterCode], lies, 2))" },
-  { "name": "Rückrichtung: tools/-Leser zählen", "datei": "tools/pr-nachrechnen-leser.mjs", "suche": "leser.filter((r) => !r.startsWith('tools/') && !istTest(r))", "ersetze": "leser.filter((r) => !istTest(r))" },
-  { "name": "Rückrichtung: Test-Leser zählen", "datei": "tools/pr-nachrechnen-leser.mjs", "suche": "leser.filter((r) => !r.startsWith('tools/') && !istTest(r))", "ersetze": "leser.filter((r) => !r.startsWith('tools/'))" },
-  { "name": "Rückrichtung: alle Leser", "datei": "tools/pr-nachrechnen-leser.mjs", "suche": "leser.filter((r) => !r.startsWith('tools/') && !istTest(r))", "ersetze": "leser" },
-  { "name": "Rückrichtung: keine Leser", "datei": "tools/pr-nachrechnen-leser.mjs", "suche": "leser.filter((r) => !r.startsWith('tools/') && !istTest(r))", "ersetze": "[]" },
-  { "name": "Rückrichtung: bewegter Code startet keine Hülle", "datei": "tools/pr-nachrechnen-leser.mjs", "suche": "huelle([...rueckLeser, ...bewegterCode], lies, 1)", "ersetze": "huelle([...rueckLeser], lies, 1)" },
-  { "name": "Rückrichtung: nur bewegter Code", "datei": "tools/pr-nachrechnen-leser.mjs", "suche": "huelle([...rueckLeser, ...bewegterCode], lies, 1)", "ersetze": "huelle([...bewegterCode], lies, 1)" },
-  { "name": "Rückrichtung: Treffer nie", "datei": "tools/pr-nachrechnen-leser.mjs", "suche": "const p = start.find((x) => rueckwaerts.has(x))", "ersetze": "const p = undefined" },
-  { "name": "Rückrichtung: letzter statt erster Treffer", "datei": "tools/pr-nachrechnen-leser.mjs", "suche": "const p = start.find((x) => rueckwaerts.has(x))", "ersetze": "const p = start.findLast((x) => rueckwaerts.has(x))" },
-  { "name": "Rückrichtung: Grundtext ohne bewegte Dateien", "datei": "tools/pr-nachrechnen-leser.mjs", "suche": "(bewegt: ${bewegt.join(', ')})", "ersetze": "" },
-  { "name": "leserIn: Liste zählt als Leser", "datei": "tools/pr-nachrechnen-leser.mjs", "suche": "([pfad, text]) => !LISTE.test(pfad) && bewegt", "ersetze": "([pfad, text]) => bewegt" },
-  { "name": "leserIn: nur Listen", "datei": "tools/pr-nachrechnen-leser.mjs", "suche": "([pfad, text]) => !LISTE.test(pfad) && bewegt", "ersetze": "([pfad, text]) => LISTE.test(pfad) && bewegt" },
-  { "name": "leserIn: Tests zählen für Daten", "datei": "tools/pr-nachrechnen-leser.mjs", "suche": "bewegt.some((b) => liestTestDatei(pfad, b) && nennt(text, b))", "ersetze": "bewegt.some((b) => nennt(text, b))" },
-  { "name": "leserIn: nennt entfällt", "datei": "tools/pr-nachrechnen-leser.mjs", "suche": "bewegt.some((b) => liestTestDatei(pfad, b) && nennt(text, b))", "ersetze": "bewegt.some((b) => liestTestDatei(pfad, b))" },
-  { "name": "PR-Liste: ganzer Text statt neue Einträge", "datei": "tools/pr-nachrechnen-leser.mjs", "suche": "const text = LISTE.test(p) ? neueEintraege(p, lies, liesMain).join('\\n') : lies(p)", "ersetze": "const text = lies(p)" },
-  { "name": "PR-Liste: main-Stand vertauscht", "datei": "tools/pr-nachrechnen-leser.mjs", "suche": "const text = LISTE.test(p) ? neueEintraege(p, lies, liesMain).join('\\n')", "ersetze": "const text = LISTE.test(p) ? neueEintraege(p, liesMain, lies).join('\\n')" },
-  { "name": "PR-Datei: Test zählt als Nenner", "datei": "tools/pr-nachrechnen-leser.mjs", "suche": "bewegt.find((x) => liestTestDatei(p, x) && nennt(text, x))", "ersetze": "bewegt.find((x) => nennt(text, x))" },
-  { "name": "PR-Datei: nennt entfällt", "datei": "tools/pr-nachrechnen-leser.mjs", "suche": "bewegt.find((x) => liestTestDatei(p, x) && nennt(text, x))", "ersetze": "bewegt.find((x) => liestTestDatei(p, x))" },
-  { "name": "PR-Datei: Test zählt als Ordner-Leser", "datei": "tools/pr-nachrechnen-leser.mjs", "suche": "ordnerLeser(text, bewegt.filter((x) => liestTestDatei(p, x)))", "ersetze": "ordnerLeser(text, bewegt)" },
-  { "name": "PR-Datei: Ordner-Leser aus", "datei": "tools/pr-nachrechnen-leser.mjs", "suche": "ordnerLeser(text, bewegt.filter((x) => liestTestDatei(p, x)))", "ersetze": "undefined" },
-  { "name": "Vorwärts: Hülle ohne Start", "datei": "tools/pr-nachrechnen-leser.mjs", "suche": "const vorwaerts = [...huelle(start, lies)]", "ersetze": "const vorwaerts = []" },
-  { "name": "Vorwärts: Tiefe 1", "datei": "tools/pr-nachrechnen-leser.mjs", "suche": "const vorwaerts = [...huelle(start, lies)]", "ersetze": "const vorwaerts = [...huelle(start, lies, 1)]" }
+  {
+    "name": "Kontrolle unmutiert",
+    "aenderungen": []
+  },
+  {
+    "name": "trifft: auch Ordner-Präfix",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "export const trifft = (name, datei) => datei === name",
+    "ersetze": "export const trifft = (name, datei) => datei === name || datei.startsWith(`${name}/`)"
+  },
+  {
+    "name": "trifft: nie",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "export const trifft = (name, datei) => datei === name",
+    "ersetze": "export const trifft = (name, datei) => false"
+  },
+  {
+    "name": "istTest: nie ein Test",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "export const istTest = (datei) => /\\.test\\.[mc]?[jt]sx?$/.test(datei)",
+    "ersetze": "export const istTest = (datei) => false"
+  },
+  {
+    "name": "istTest: jede Datei",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "export const istTest = (datei) => /\\.test\\.[mc]?[jt]sx?$/.test(datei)",
+    "ersetze": "export const istTest = (datei) => true"
+  },
+  {
+    "name": "liestTestDatei: Test zählt immer",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "if (!istTest(pfad) || !DATEN.test(bewegt)) return true",
+    "ersetze": "return true"
+  },
+  {
+    "name": "liestTestDatei: Fixture-Test zählt als Leser (Zeilenprüfung aus)",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "z.includes(name) && LESEN.test(z)",
+    "ersetze": "true"
+  },
+  {
+    "name": "liestTestDatei: Zeile ohne Dateiname zählt",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "z.includes(name) && LESEN.test(z)",
+    "ersetze": "LESEN.test(z)"
+  },
+  {
+    "name": "liestTestDatei: Zeile ohne Lese-Aufruf zählt",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "z.includes(name) && LESEN.test(z)",
+    "ersetze": "z.includes(name)"
+  },
+  {
+    "name": "liestTestDatei: ganzer Text statt Zeile",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "z.includes(name) && LESEN.test(z)",
+    "ersetze": "z.includes(name) || LESEN.test(z)"
+  },
+  {
+    "name": "liestTestDatei: data/ zählt nicht als Daten",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "/^(data|public|daniel-zum-abarbeiten)\\//",
+    "ersetze": "/^(public|daniel-zum-abarbeiten)\\//"
+  },
+  {
+    "name": "liestTestDatei: public/ zählt nicht als Daten",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "/^(data|public|daniel-zum-abarbeiten)\\//",
+    "ersetze": "/^(data|daniel-zum-abarbeiten)\\//"
+  },
+  {
+    "name": "liestTestDatei: Daniel-Ordner zählt nicht als Daten",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "/^(data|public|daniel-zum-abarbeiten)\\//",
+    "ersetze": "/^(data|public)\\//"
+  },
+  {
+    "name": "LESEN: readFile entfällt",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "/readFile|createReadStream|import\\.meta\\.url|\\bresolve\\(/",
+    "ersetze": "/createReadStream|import\\.meta\\.url|\\bresolve\\(/"
+  },
+  {
+    "name": "LESEN: import.meta.url entfällt",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "/readFile|createReadStream|import\\.meta\\.url|\\bresolve\\(/",
+    "ersetze": "/readFile|createReadStream|\\bresolve\\(/"
+  },
+  {
+    "name": "LESEN: resolve( entfällt",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "/readFile|createReadStream|import\\.meta\\.url|\\bresolve\\(/",
+    "ersetze": "/readFile|createReadStream|import\\.meta\\.url/"
+  },
+  {
+    "name": "huelle: Tests geben Tokens weiter",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "...(startdatei && !istTest(datei) ? pfadTokens(text) : [])",
+    "ersetze": "...(startdatei ? pfadTokens(text) : [])"
+  },
+  {
+    "name": "huelle: nie Tokens",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "...(startdatei && !istTest(datei) ? pfadTokens(text) : [])",
+    "ersetze": "...([])"
+  },
+  {
+    "name": "huelle: Tiefe <= statt <",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "const text = tiefe < maxTiefe && LESBAR",
+    "ersetze": "const text = tiefe <= maxTiefe && LESBAR"
+  },
+  {
+    "name": "huelle: Tiefe ohne Grenze",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "const text = tiefe < maxTiefe && LESBAR",
+    "ersetze": "const text = true && LESBAR"
+  },
+  {
+    "name": "huelle: Tiefe nicht gezählt",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "offen.push([ziel, false, tiefe + 1])",
+    "ersetze": "offen.push([ziel, false, tiefe])"
+  },
+  {
+    "name": "Rückrichtung: Tiefe 1 statt 2",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "const RUECK_TIEFE = 2",
+    "ersetze": "const RUECK_TIEFE = 1"
+  },
+  {
+    "name": "Rückrichtung: Tiefe 3 statt 2",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "const RUECK_TIEFE = 2",
+    "ersetze": "const RUECK_TIEFE = 3"
+  },
+  {
+    "name": "Rückrichtung: ohne Tiefengrenze",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "huelle([...rueckLeser, ...bewegterCode], lies, RUECK_TIEFE)",
+    "ersetze": "huelle([...rueckLeser, ...bewegterCode], lies)"
+  },
+  {
+    "name": "Rückrichtung: tools/-Leser zählen alle",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "leser.filter((r) => (!r.startsWith('tools/') || r.startsWith('tools/check-')) && !istTest(r))",
+    "ersetze": "leser.filter((r) => !istTest(r))"
+  },
+  {
+    "name": "Rückrichtung: tools/check-* zählt nicht",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "leser.filter((r) => (!r.startsWith('tools/') || r.startsWith('tools/check-')) && !istTest(r))",
+    "ersetze": "leser.filter((r) => !r.startsWith('tools/') && !istTest(r))"
+  },
+  {
+    "name": "Rückrichtung: Test-Leser zählen",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "leser.filter((r) => (!r.startsWith('tools/') || r.startsWith('tools/check-')) && !istTest(r))",
+    "ersetze": "leser.filter((r) => (!r.startsWith('tools/') || r.startsWith('tools/check-')))"
+  },
+  {
+    "name": "Rückrichtung: alle Leser",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "leser.filter((r) => (!r.startsWith('tools/') || r.startsWith('tools/check-')) && !istTest(r))",
+    "ersetze": "leser"
+  },
+  {
+    "name": "Rückrichtung: keine Leser",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "leser.filter((r) => (!r.startsWith('tools/') || r.startsWith('tools/check-')) && !istTest(r))",
+    "ersetze": "[]"
+  },
+  {
+    "name": "Rückrichtung: bewegter Code startet keine Hülle",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "huelle([...rueckLeser, ...bewegterCode], lies, RUECK_TIEFE)",
+    "ersetze": "huelle([...rueckLeser], lies, RUECK_TIEFE)"
+  },
+  {
+    "name": "Rückrichtung: nur bewegter Code",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "huelle([...rueckLeser, ...bewegterCode], lies, RUECK_TIEFE)",
+    "ersetze": "huelle([...bewegterCode], lies, RUECK_TIEFE)"
+  },
+  {
+    "name": "Rückrichtung: Treffer nie",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "const p = start.find((x) => rueckwaerts.has(x))",
+    "ersetze": "const p = undefined"
+  },
+  {
+    "name": "Rückrichtung: letzter statt erster Treffer",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "const p = start.find((x) => rueckwaerts.has(x))",
+    "ersetze": "const p = start.findLast((x) => rueckwaerts.has(x))"
+  },
+  {
+    "name": "Rückrichtung: Grundtext ohne bewegte Dateien",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "(bewegt: ${bewegt.join(', ')})",
+    "ersetze": ""
+  },
+  {
+    "name": "leserIn: Liste zählt als Leser",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "([pfad, text]) => !LISTE.test(pfad) && bewegt",
+    "ersetze": "([pfad, text]) => bewegt"
+  },
+  {
+    "name": "leserIn: nur Listen",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "([pfad, text]) => !LISTE.test(pfad) && bewegt",
+    "ersetze": "([pfad, text]) => LISTE.test(pfad) && bewegt"
+  },
+  {
+    "name": "leserIn: Tests zählen für Daten",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "bewegt.some((b) => liestTestDatei(pfad, text, b) && nennt(text, b))",
+    "ersetze": "bewegt.some((b) => nennt(text, b))"
+  },
+  {
+    "name": "leserIn: nennt entfällt",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "bewegt.some((b) => liestTestDatei(pfad, text, b) && nennt(text, b))",
+    "ersetze": "bewegt.some((b) => liestTestDatei(pfad, text, b))"
+  },
+  {
+    "name": "PR-Liste: ganzer Text statt neue Einträge",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "const text = LISTE.test(p) ? neueEintraege(p, lies, liesMain).join('\\n') : lies(p)",
+    "ersetze": "const text = lies(p)"
+  },
+  {
+    "name": "PR-Liste: main-Stand vertauscht",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "const text = LISTE.test(p) ? neueEintraege(p, lies, liesMain).join('\\n')",
+    "ersetze": "const text = LISTE.test(p) ? neueEintraege(p, liesMain, lies).join('\\n')"
+  },
+  {
+    "name": "PR-Datei: Test zählt als Nenner",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "bewegt.find((x) => liestTestDatei(p, text, x) && nennt(text, x))",
+    "ersetze": "bewegt.find((x) => nennt(text, x))"
+  },
+  {
+    "name": "PR-Datei: nennt entfällt",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "bewegt.find((x) => liestTestDatei(p, text, x) && nennt(text, x))",
+    "ersetze": "bewegt.find((x) => liestTestDatei(p, text, x))"
+  },
+  {
+    "name": "PR-Datei: Test zählt als Ordner-Leser",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "ordnerLeser(text, bewegt.filter((x) => !istTest(p) || !DATEN.test(x)))",
+    "ersetze": "ordnerLeser(text, bewegt)"
+  },
+  {
+    "name": "PR-Datei: Ordner-Leser aus",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "ordnerLeser(text, bewegt.filter((x) => !istTest(p) || !DATEN.test(x)))",
+    "ersetze": "undefined"
+  },
+  {
+    "name": "Vorwärts: Hülle ohne Start",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "const vorwaerts = [...huelle(start, lies)]",
+    "ersetze": "const vorwaerts = []"
+  },
+  {
+    "name": "Vorwärts: Tiefe 1",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "const vorwaerts = [...huelle(start, lies)]",
+    "ersetze": "const vorwaerts = [...huelle(start, lies, 1)]"
+  }
 ]

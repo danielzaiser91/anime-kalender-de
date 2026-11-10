@@ -80,7 +80,9 @@ pruefe('Importkette über 300 Dateien bis zum Leser -> Grund', /ruft tools\/k299
 pruefe('Importkette über 300 Dateien ohne Leser -> null', bewegtesGelesen({ bewegt: [F], pr: ['tools/k0.mjs'], leser: ['tools/fern.mjs'], lies: kette(300), paketSkripte: null }) === null)
 // Rückrichtung nur eine Stufe, und nie von Werkzeugen unter tools/ aus (PR 3341: workflows-beleg.mjs nennt crunchyroll-neu.json in einer Ausnahmeliste)
 pruefe('Rückrichtung: Leser importiert die PR-Datei selbst -> Grund', /pipeline\/k1\.ts wird von Code genutzt/.test(bewegtesGelesen({ bewegt: [F], pr: ['pipeline/k1.ts'], leser: ['pipeline/k0.ts'], lies: (p) => (p === 'pipeline/k0.ts' ? "import './k1.ts'\n" : null), paketSkripte: null })))
-pruefe('Rückrichtung: PR-Datei erst über zwei Importe vom Leser aus -> null', bewegtesGelesen({ bewegt: [F], pr: ['pipeline/k2.ts'], leser: ['pipeline/k0.ts'], lies: (p) => ({ 'pipeline/k0.ts': "import './k1.ts'\n", 'pipeline/k1.ts': "import './k2.ts'\n" })[p] ?? null, paketSkripte: null }) === null)
+const IMPORTKETTE = (p) => ({ 'pipeline/k0.ts': "import './k1.ts'\n", 'pipeline/k1.ts': "import './k2.ts'\n", 'pipeline/k2.ts': "import './k3.ts'\n" })[p] ?? null
+pruefe('Rückrichtung: PR-Datei über zwei Importe vom Leser aus -> Grund', /pipeline\/k2\.ts wird von Code genutzt/.test(bewegtesGelesen({ bewegt: [F], pr: ['pipeline/k2.ts'], leser: ['pipeline/k0.ts'], lies: IMPORTKETTE, paketSkripte: null })))
+pruefe('Rückrichtung: PR-Datei erst über drei Importe vom Leser aus -> null', bewegtesGelesen({ bewegt: [F], pr: ['pipeline/k3.ts'], leser: ['pipeline/k0.ts'], lies: IMPORTKETTE, paketSkripte: null }) === null)
 pruefe('Rückrichtung: Leser unter tools/ importiert die PR-Datei -> null', bewegtesGelesen({ bewegt: [F], pr: ['tools/k1.mjs'], leser: ['tools/k0.mjs'], lies: kette(2), paketSkripte: null }) === null)
 
 // Ausführungslisten: Inhalt zählt als Aufruf, die Liste selbst nutzt kein Leser (Anlass: PR 2099 änderte tools/check-logic-liste.txt)
