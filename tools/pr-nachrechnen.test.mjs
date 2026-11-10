@@ -83,6 +83,7 @@ function antworten({ nr = 7, pr = PR, mainSha = BASIS, laeufe, jobs, log = ECHTE
     'api repos/{owner}/{repo}/git/ref/heads/main --jq .object.sha': { aus: `${mainSha}\n` },
     [`pr close ${nr}`]: { aus: '' },
     [`pr reopen ${nr}`]: { aus: '' },
+    [`pr comment ${nr}`]: { aus: '' },
   }
 }
 function kulisse(daten, { reopenFehler = 0 } = {}) {
@@ -91,7 +92,7 @@ function kulisse(daten, { reopenFehler = 0 } = {}) {
   const gewartet = []
   let rest = reopenFehler
   const gh = (args) => {
-    const schluessel = args.join(' ')
+    const schluessel = (args[1] === 'comment' ? args.slice(0, 3) : args).join(' ')
     aufrufe.push(schluessel)
     if (schluessel === 'pr reopen 7' && rest-- > 0) throw new Error('auf')
     const a = daten[schluessel]
@@ -526,7 +527,7 @@ function prozess(daten, argv) {
 {
   const r = prozess(antworten({ nr: 1602, pr: { ...PR, number: 1602 }, mainSha: MAIN }), ['1602'])
   const args = r.aufrufe.map(([, a]) => a.join(' '))
-  pruefe('Prozess: Nummer aus argv (1602) reicht bis zum Schließen', r.status === 1 && args[0].startsWith('pr view 1602 ') && args.slice(-2).join() === 'pr close 1602,pr reopen 1602', { status: r.status, args })
+  pruefe('Prozess: Nummer aus argv (1602) reicht bis zum Schließen', r.status === 1 && args[0].startsWith('pr view 1602 ') && schreibend(args).slice(-2).join() === 'pr close 1602,pr reopen 1602', { status: r.status, args })
 }
 {
   // Ein Warten im echten Prozess: der Startblock reicht schlafe durch (fehlt es, scheitert der Aufruf mit Exit 2).
