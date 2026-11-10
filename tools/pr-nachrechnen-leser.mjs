@@ -137,7 +137,9 @@ export function bewegtesGelesen({ bewegt, pr, leser, lies, liesMain = () => null
   const vorwaerts = [...huelle(start, lies)]
   const l1 = leser.find((r) => vorwaerts.some((n) => trifft(n, r)))
   if (l1 !== undefined) return `der PR ruft ${l1} auf oder importiert es, das bewegte Daten liest`
-  const rueckwaerts = [...huelle(leser, lies)]
+  // Bewegter Code (neue Prüfung auf main) liest PR-Code oder -Daten, ohne dass ihn jemand nennt (tests-alle sammelt per readdir).
+  const bewegterCode = bewegt.filter((b) => LESBAR.test(b) && !LISTE.test(b))
+  const rueckwaerts = [...huelle([...leser, ...bewegterCode], lies)]
   for (const p of start) {
     const n = rueckwaerts.find((x) => trifft(x, p) || trifft(p, x))
     if (n !== undefined) return `${p} wird von Code genutzt, der bewegte Daten liest (${n})`

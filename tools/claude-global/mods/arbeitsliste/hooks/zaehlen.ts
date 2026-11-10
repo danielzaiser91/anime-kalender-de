@@ -187,14 +187,6 @@ export function kurzMitMarke(roh: string): Eintrag {
 
 const RANG: Record<Groesse, number> = { gross: 0, normal: 1, klein: 2 }
 
-// Große zuerst, kleine zuletzt; innerhalb einer Gruppe bleibt die Reihenfolge der Datei.
-export function sortiere(eintraege: Eintrag[]): Eintrag[] {
-  return eintraege
-    .map((e, i) => ({ e, i }))
-    .sort((a, b) => RANG[a.e.groesse] - RANG[b.e.groesse] || a.i - b.i)
-    .map(x => x.e)
-}
-
 const DRINGLICH_RANG: Record<Dringlichkeit, number> = { dringend: 0, heute: 1, bald: 2 }
 
 // Jetzt: nach Dringlichkeit, darin groß vor normal vor klein; sonst Reihenfolge der Datei.
@@ -211,30 +203,6 @@ export function zuLang(liste: Liste, vonDir: Eintrag[]): number {
   const titel = [...liste.inArbeit, ...liste.todo].map(e => e.titel)
   for (const e of vonDir) titel.push(e.titel)
   return titel.filter(t => t.length > KURZTITEL_MAX).length
-}
-
-export type LiveEintrag = Eintrag & { zeit: number }
-
-// Einträge verschwinden nach 2 Tagen (Daniel, 10.10.2026).
-export const LIVE_TAGE = 2
-
-// „## Neu und live testbar“: Zeilen „- [JJJJ-MM-TT HH:MM] Kurztext — [Link](https://…)“ (Ortszeit).
-// Zeitstempel nicht lesbar oder älter als LIVE_TAGE: nicht anzeigen; neueste zuerst.
-export function zaehleLive(text: string, jetzt: Date): LiveEintrag[] {
-  const aus: LiveEintrag[] = []
-  let drin = false
-  for (const zeile of text.split(/\r?\n/)) {
-    if (zeile.startsWith('## ')) drin = zeile.startsWith('## Neu und live testbar')
-    else if (drin) {
-      const m = /^- \[(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2})\]\s*(.+)/.exec(zeile)
-      if (!m) continue
-      const zeit = new Date(+m[1]!, +m[2]! - 1, +m[3]!, +m[4]!, +m[5]!).getTime()
-      const d = new Date(zeit)
-      if (d.getMonth() !== +m[2]! - 1 || d.getDate() !== +m[3]! || d.getHours() !== +m[4]! || jetzt.getTime() - zeit > LIVE_TAGE * 86_400_000) continue
-      aus.push({ ...kurzMitMarke(m[6]!), zeit })
-    }
-  }
-  return aus.sort((a, b) => b.zeit - a.zeit)
 }
 
 export const ORTE = ['pipeline', 'worker', 'warteliste', 'deploy'] as const

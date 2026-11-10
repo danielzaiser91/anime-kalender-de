@@ -1,0 +1,26 @@
+{
+ "hinweis": "Rohvideos im ADN-Format; Erweiterung (adn.test.cjs) und Bau (pipeline/check-adn-ausreisser.ts) müssen darauf dieselben Ausreißer-Kennungen liefern.",
+ "erwartet": [103, 201],
+ "videos": [
+  { "id": 101, "type": "EPS", "number": "Folge 1", "shortNumber": "1", "season": "1", "languages": ["vostde"] },
+  { "id": 102, "type": "EPS", "number": "Folge 2", "shortNumber": "2", "season": "1", "languages": ["vostde"] },
+  { "id": 103, "type": "EPS", "number": "Folge 3", "shortNumber": "3", "season": "1", "languages": ["vostde", "vde"] },
+  { "id": 104, "type": "EPS", "number": "Folge 4", "shortNumber": "4", "season": "1", "languages": ["vostde"] },
+  { "id": 105, "type": "OAV", "number": "OVA 1", "shortNumber": "OVA 1", "season": "1", "languages": ["vostde", "vde"] },
+  { "id": 106, "type": "PV", "number": "Teaser", "shortNumber": "Teaser", "season": "1", "languages": ["vostde"] },
+  { "id": 107, "type": "PV", "number": "Teaser", "shortNumber": "Teaser", "season": "1", "languages": ["vostde", "vde"] },
+  { "id": 108, "type": "EPS", "number": "Folge 4 (NC)", "shortNumber": "4 (NC)", "season": "1", "languages": [] },
+  { "id": 201, "type": "EPS", "number": "Folge 3", "shortNumber": "3", "season": "2", "languages": ["vostde", "vde"] },
+  { "id": 202, "type": "EPS", "number": "Folge 1", "shortNumber": "1", "season": "2", "languages": ["vostde"] },
+  { "id": 203, "type": "EPS", "number": "Folge 2", "shortNumber": "2", "season": "2", "languages": ["vostde"] },
+  { "id": 204, "type": "EPS", "number": "Folge 4", "shortNumber": "4", "season": "2", "languages": ["vostde"] },
+  { "id": 401, "type": "PV", "number": "Teaser", "shortNumber": "1", "season": "4", "languages": ["vostde"] },
+  { "id": 402, "type": "PV", "number": "Teaser", "shortNumber": "2", "season": "4", "languages": ["vostde"] },
+  { "id": 403, "type": "PV", "number": "Teaser", "shortNumber": "3", "season": "4", "languages": ["vostde", "vde"] },
+  { "id": 404, "type": "PV", "number": "Teaser", "shortNumber": "4", "season": "4", "languages": ["vostde"] },
+  { "id": 301, "type": "EPS", "number": "Folge 1", "shortNumber": "1", "season": "3", "languages": ["vostde", "vde"] },
+  { "id": 302, "type": "EPS", "number": "Folge 2", "shortNumber": "2", "season": "3", "languages": ["vostde"] },
+  { "id": 303, "type": "EPS", "number": "Folge 3", "shortNumber": "3", "season": "3", "languages": ["vostde"] },
+  { "id": 304, "type": "EPS", "number": "Folge 4", "shortNumber": "4", "season": "3", "languages": ["vostde"] }
+ ]
+}

@@ -1,16 +1,18 @@
 // Vorlader für pipeline/check-nein-datum.ts: ein Lauf von fetch-pruefungen.ts mit einer einzigen Disney+-Meldung „nichts da“ (weg).
 // NEIN_DATUM_ALT bestimmt, was `data/dub-confirmed.yaml` vorher enthält: 'nein' = dasselbe Nein vom 26.08.2026, 'ja' = Nein vom 26.08.
-// plus ein jüngeres Ja vom 15.09., sonst leer. Schreibzugriffe gehen als JSON-Zeilen (Pfad, Inhalt) an NEIN_DATUM_LOG, nicht auf die Platte.
+// plus ein jüngeres Ja vom 15.09., 'kanal' = Prime-Nein vom 26.08. und eine Kanal-Meldung „kein Deutsch“ vom 24.10. (ohne Beleg), sonst leer. Schreibzugriffe gehen als JSON-Zeilen (Pfad, Inhalt) an NEIN_DATUM_LOG, nicht auf die Platte.
 import fs from 'node:fs'
 import { syncBuiltinESMExports } from 'node:module'
 
 const ADRESSE = 'https://www.disneyplus.com/de-de/browse/entity-900010'
+const KANAL_ADRESSE = 'https://www.amazon.de/gp/video/detail/B0TESTKANAL'
 const NOTIZ = 'Disney+ meldet: nicht in deinem Gebiet verfügbar'
 const nein = ['- anilistId: 900010', '  title: "Testserie"', '  platform: disneyplus', `  url: ${ADRESSE}`, '  available: false', "  checkedAt: '2026-08-26'", `  note: "${NOTIZ}"`]
 const ja = ['- anilistId: 900010', '  title: "Testserie"', '  platform: disneyplus', '  dub: true', "  checkedAt: '2026-09-15'"]
-const alt = { nein: [...nein, ''], ja: [...nein, '', ...ja, ''], leer: [''] }[process.env.NEIN_DATUM_ALT ?? 'leer'].join('\n')
+const primeNein = ['- anilistId: 900010', '  title: "Testserie"', '  platform: primevideo', `  url: ${KANAL_ADRESSE}`, '  dub: false', "  checkedAt: '2026-08-26'", '  note: "Tonspuren: 日本語"']
+const alt = { nein: [...nein, ''], ja: [...nein, '', ...ja, ''], kanal: [...primeNein, ''], leer: [''] }[process.env.NEIN_DATUM_ALT ?? 'leer'].join('\n')
 
-const attrappe = { titles: [{ id: 900010, titleDe: 'Testserie', episodes: 12, streams: [{ platform: 'disneyplus', url: ADRESSE }] }], franchises: {}, cartoons: [] }
+const attrappe = { titles: [{ id: 900010, titleDe: 'Testserie', episodes: 12, streams: [{ platform: 'disneyplus', url: ADRESSE }, ...(process.env.NEIN_DATUM_ALT === 'kanal' ? [{ platform: 'primevideo', url: KANAL_ADRESSE }] : [])] }], franchises: {}, cartoons: [] }
 const bestandDatei = /(?:^|[\\/])public[\\/]data[\\/](titles|franchises|cartoons)\.json$/
 const belegDatei = /(?:^|[\\/])data[\\/]dub-confirmed\.yaml$/
 const echteLesung = fs.readFileSync
@@ -28,6 +30,7 @@ fs.mkdirSync = () => undefined
 fs.rmSync = () => undefined
 syncBuiltinESMExports()
 
+const kanalMeldung = { plattform: 'primevideo', url: KANAL_ADRESSE, befund: 'kein_dub', notiz: 'Kanal-Titel: Amazon zeigt die Sprachen des Kanals' }
 const meldung = {
   id: 900101,
   plattform: 'disneyplus',
@@ -47,6 +50,7 @@ const meldung = {
   seiten_kennung: null,
   titel_id: 900010,
   folge: null,
+  ...(process.env.NEIN_DATUM_ALT === 'kanal' ? kanalMeldung : {}),
 }
 
 globalThis.fetch = async (url, opt) => {

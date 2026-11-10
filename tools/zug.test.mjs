@@ -3,8 +3,10 @@
  * Ratschen-Zeilen wörtlich aus den roten Läufen vom 05./06.11.2026 (daniel-zum-abarbeiten/berichte/rot-nach-gruen-2026-11-06.md).
  * Kreislauf: Fahrt rot → Schuldsuche → Revert → nächste Fahrt, mit einem Orakel statt echter Ketten.
  */
-import { ffEntscheidung, halbierungVersuch, halbierungWeiter, ratschenFall, ratschenMeldung, revertPlan, schuldsuche, sperrGruende, verdaechtige, zugEintraege, zugPlan, zurueckholen } from './zug.mjs'
+import { basisGrenzen, basisRef, bauUndDeployBefehle, fahrtLog, fahrtSchritt, ketteArt, ratschenZustand, ffEntscheidung, halbierungVersuch, halbierungWeiter, ratschenFall, ratschenMeldung, revertPlan, schuldsuche, sperrGruende, verdaechtige, zugEintraege, zugPlan, zurueckholen } from './zug.mjs'
 import { logJobs, trocken } from './zug-trocken.mjs'
+import { standardTrotzCoverMaengel } from '../pipeline/lib/plakat-vorschau-wache.ts'
+import { coverVorschauBestandMangel } from '../pipeline/lib/cover-vorschau-bestand.ts'
 
 const fehler = []
 const pruefe = (name, ok, info) => {
@@ -81,11 +83,21 @@ pruefe('Nummer nicht im Zug → fehlt, kein Befehl', gleich(revertPlan(ZUG, [2, 
 pruefe('Main-Merge wird nie zurückgenommen', revertPlan(ZUG, [1, 2, 3]).befehle.length === 3)
 
 console.log('Ratschen: wörtliche Meldungen')
-const COVER = '471 Titel mit Cover zeigen das Standardbild, erlaubt höchstens 449'
+// Cover-Texte kommen aus den Erzeugerfunktionen der Wächter (check-teilseiten bzw. check-cover-vorschau-bestand), nicht von Hand getippt.
+const coverTeilseiten = (n, max) => standardTrotzCoverMaengel(Array.from({ length: n }, (_, i) => ({ slug: `s${i}`, coverImage: 'c', bild: 'https://x/og/default.jpg' })), 'https://x/', max)[0]
+const coverBestand = (n, max) => coverVorschauBestandMangel(Array.from({ length: n }, (_, i) => ({ id: i + 1 })), max)
+const COVER = coverTeilseiten(471, 449)
+const COVER_V = coverBestand(171, 170)
+pruefe('Cover-Texte der Erzeuger: Teilseiten ohne, Bestand mit Kennungs-Anhang', !COVER.includes('jüngste Kennungen') && COVER_V.endsWith('(jüngste Kennungen: 171)'), [COVER, COVER_V])
 const UMFANG = '  pipeline: Überlänge der funktionen 8986 statt höchstens 8964'
 const BUDGET = 'start-budget: 250.2 KB gzip, 0.2 KB über der Grenze von 250.0 KB (index 120.1)'
-pruefe('Cover', gleich(ratschenMeldung(COVER), { name: 'cover-standardbild', wert: 471, grenze: 449 }))
-pruefe('Umfang', gleich(ratschenMeldung(UMFANG), { name: 'umfang', wert: 8986, grenze: 8964 }))
+pruefe('Cover', gleich(ratschenMeldung(COVER), { name: 'cover-standardbild', wert: 471, grenze: 449, schluessel: 'cover-standardbild:teilseiten' }))
+pruefe('Umfang', gleich(ratschenMeldung(UMFANG), { name: 'umfang', wert: 8986, grenze: 8964, schluessel: 'umfang:pipeline:funktionen' }))
+pruefe('Umfang je Bereich und Art: web/src dateien', gleich(ratschenMeldung('web/src: Überlänge der dateien 300 statt höchstens 295'), { name: 'umfang', wert: 300, grenze: 295, schluessel: 'umfang:web/src:dateien' }))
+pruefe('Umfang Ketten', gleich(ratschenMeldung('shared: Ketten (mehrere Anweisungen/Felder/Einträge in einer Zeile) 37 statt höchstens 36'), { name: 'umfang', wert: 37, grenze: 36, schluessel: 'umfang:shared:ketten' }))
+pruefe('Cover aus der Bestandsprüfung (Anhang „jüngste Kennungen“)', gleich(ratschenMeldung(COVER_V), { name: 'cover-standardbild', wert: 171, grenze: 170, schluessel: 'cover-standardbild:vorschau' }))
+pruefe('Cover Teilseiten mit dreistelliger Grenze: Ziffern nicht abgeschnitten', gleich(ratschenMeldung(coverTeilseiten(1200, 1195)), { name: 'cover-standardbild', wert: 1200, grenze: 1195, schluessel: 'cover-standardbild:teilseiten' }))
+pruefe('Cover Bestand mit mehreren Kennungen im Anhang', ratschenMeldung(coverBestand(175, 170))?.schluessel === 'cover-standardbild:vorschau' && ratschenMeldung(coverBestand(175, 170))?.grenze === 170)
 pruefe('Start-Budget', gleich(ratschenMeldung(BUDGET), { name: 'start-budget', wert: 250.2, grenze: 250 }))
 pruefe('andere Meldung → null', ratschenMeldung('FEHL Fortsetzungsseite (nach > 0): auch ohne COUNT(*)') === null && ratschenMeldung('') === null)
 pruefe('wert ≤ Grenze → ok', ratschenFall({ wert: 449, grenze: 449 }, 500) === 'ok')
@@ -132,7 +144,7 @@ pruefe('Ratsche, Basisgrenze hält → ratsche (Anlass 4 von 7 Rot-nach-Grün-K�
 pruefe('Ratsche, Basisgrenze unbekannt → ratsche, fall ratsche-pruefen', s0({ fehlschlag: { jobs: [jobBau(COVER)] } }).fall === 'ratsche-pruefen')
 pruefe('Ratsche eingehalten (Wert = Grenze) → keine Ratsche, weiter zur Suche', s0({ fehlschlag: { jobs: [jobBau('pipeline: Überlänge der funktionen 8964 statt höchstens 8964')] }, grenzeBasis: { umfang: 9000 } }).art === 'halbieren')
 pruefe('Ratsche vom Zug selbst gerissen → keine Ratsche, weiter zur Suche', s0({ fehlschlag: { jobs: [jobBau(UMFANG)] }, grenzeBasis: { umfang: 8970 } }).art === 'halbieren')
-pruefe('Ratsche steht in einem von zwei Jobs → trotzdem ratsche', s0({ fehlschlag: { jobs: [{ name: 'Kette – Workflows', meldung: 'x' }, jobBau(COVER)] }, grenzeBasis: { 'cover-standardbild': 480 } }).art === 'ratsche')
+pruefe('Ratsche steht in einem von zwei Jobs → trotzdem ratsche', s0({ fehlschlag: { jobs: [{ name: 'Kette – Workflows', meldung: 'x' }, jobBau(COVER)] }, grenzeBasis: { 'cover-standardbild:teilseiten': 480 } }).art === 'ratsche')
 pruefe('genau ein Verdächtiger nach Job und Dateien → pr', gleich(s0({}), { art: 'pr', nr: 1, wie: 'job+dateien' }))
 pruefe('mehrere Verdächtige → halbieren über sie, der Rest bleibt', gleich(s0({ fehlschlag: { jobs: [{ name: 'Kette – Typen und Worker', meldung: 'x' }, { name: 'PR-Aussehen – a', meldung: 'y' }] }, zugPrs: [{ nr: 1, dateien: ['worker/a.ts'] }, { nr: 2, dateien: ['web/src/b.tsx'] }, { nr: 3, dateien: ['docs/c.md'] }] }).zustand, { bleibt: [3], verdacht: [1, 2], draussen: [] }))
 pruefe('kein Verdächtiger passt → alle werden halbiert', gleich(s0({ fehlschlag: JOBS_ROT, zugPrs: [{ nr: 4, dateien: ['docs/a.md'] }, { nr: 5, dateien: ['docs/b.md'] }] }).zustand, { bleibt: [], verdacht: [4, 5], draussen: [] }))
@@ -283,6 +295,48 @@ const exit3 = await trocken(['trocken'], (z) => aus3.push(z), { ghFn: () => { th
 pruefe('Abruffehler → Exit 2 mit Fehlerzeile, kein Plan', exit3 === 2 && /FEHLER HTTP 502/.test(aus3.join('\n')) && !/ZUG-PLAN/.test(aus3.join('\n')))
 const aus4 = []
 pruefe('falscher Aufruf → Exit 2', (await trocken(['los'], (z) => aus4.push(z), { ghFn: a1.ghFn, gitFn: a1.gitFn })) === 2 && /Aufruf:/.test(aus4[0]))
+
+console.log('basisGrenzen: Grenzen am Basisstand aus den Dateitexten')
+const DATEIEN = {
+  'pipeline/check-cover-vorschau-bestand.ts': 'import x\nexport const HOECHSTENS = 170\n',
+  'pipeline/check-teilseiten.ts': 'const STANDARD_TROTZ_COVER_HOECHSTENS = 168\n',
+  'tools/start-budget.mjs': 'const KB = 1024\nexport const GRENZE = 190 * KB\n',
+  'tools/umfang-grenzen.json': JSON.stringify({ ueberlaenge: { pipeline: { funktionen: 8907, dateien: 1030, ketten: 285 }, 'web/src': { funktionen: 3333 } } }),
+}
+const bg = basisGrenzen((d) => DATEIEN[d] ?? null)
+pruefe('Cover: je Wächter eine eigene Grenze (Vorschau 170, Teilseiten 168)', bg['cover-standardbild:vorschau'] === 170 && bg['cover-standardbild:teilseiten'] === 168)
+pruefe('Start-Budget in KB', bg['start-budget'] === 190)
+pruefe('Umfang je Bereich und Art', bg['umfang:pipeline:funktionen'] === 8907 && bg['umfang:pipeline:ketten'] === 285 && bg['umfang:web/src:funktionen'] === 3333)
+pruefe('Umfang: nichts erfunden', Object.keys(bg).length === 7, Object.keys(bg))
+pruefe('Datei fehlt am Basisstand → Schlüssel fehlt (kein Raten)', gleich(basisGrenzen(() => null), {}))
+pruefe('nur eine der Cover-Dateien da → nur deren Schlüssel', gleich(basisGrenzen((d) => (d === 'pipeline/check-teilseiten.ts' ? DATEIEN[d] : null)), { 'cover-standardbild:teilseiten': 168 }))
+pruefe('schuldsuche Cover Teilseiten: eigene Basisgrenze 480 hält 471 → ratsche (Minimum 170 hätte Zug gesagt)', s0({ fehlschlag: { jobs: [jobBau(COVER)] }, grenzeBasis: { 'cover-standardbild:teilseiten': 480, 'cover-standardbild:vorschau': 170 } }).art === 'ratsche')
+pruefe('schuldsuche Cover Vorschau: eigene Basisgrenze 175 hält 171 → ratsche (Minimum 168 hätte Zug gesagt)', s0({ fehlschlag: { jobs: [jobBau(COVER_V)] }, grenzeBasis: { 'cover-standardbild:vorschau': 175, 'cover-standardbild:teilseiten': 168 } }).art === 'ratsche')
+pruefe('schuldsuche Cover: Basisgrenze des anderen Wächters zählt nicht → Zug', s0({ fehlschlag: { jobs: [jobBau(COVER_V)] }, grenzeBasis: { 'cover-standardbild:vorschau': 170, 'cover-standardbild:teilseiten': 999 } }).art === 'halbieren')
+const zust = ratschenZustand([jobBau(COVER_V)], { 'cover-standardbild:vorschau': 175, 'cover-standardbild:teilseiten': 168 })
+pruefe('Fahrt-Log Cover: Name mit Wächter, Basis 175, Fall ratsche', zust[0].name === 'cover-standardbild:vorschau' && zust[0].basis === 175 && zust[0].fall === 'ratsche', zust)
+const UMF2 = 'web/src: Überlänge der funktionen 3340 statt höchstens 3333'
+pruefe('schuldsuche: Basisgrenze je Bereich, hält → ratsche', s0({ fehlschlag: { jobs: [jobBau(UMF2)] }, grenzeBasis: { 'umfang:web/src:funktionen': 3340, 'umfang:pipeline:funktionen': 1 } }).art === 'ratsche')
+pruefe('schuldsuche: Basisgrenze des anderen Bereichs zählt nicht → Zug', s0({ fehlschlag: { jobs: [jobBau(UMF2)] }, grenzeBasis: { 'umfang:web/src:funktionen': 3335, 'umfang:pipeline:funktionen': 9999 } }).art === 'halbieren')
+
+console.log('Fahrt: reine Regeln')
+for (const [status, conclusion, soll] of [['completed', 'success', 'gruen'], ['completed', 'failure', 'rot'], ['completed', 'timed_out', 'rot'], ['completed', 'cancelled', 'offen'], ['completed', 'skipped', 'offen'], ['in_progress', '', 'offen'], ['queued', 'success', 'offen']]) {
+  pruefe(`ketteArt ${status}/${conclusion || '-'} → ${soll}`, ketteArt({ status, conclusion }) === soll)
+}
+pruefe('Fahrt: Kette offen → abwarten', fahrtSchritt({ kette: 'offen' }).art === 'abwarten')
+pruefe('Fahrt: grün und ff → ff-pruefen', fahrtSchritt({ kette: 'gruen', ff: { art: 'ff', grund: 'x' } }).art === 'ff-pruefen')
+pruefe('Fahrt: grün, main weitergelaufen → main-holen mit Grund', gleich(fahrtSchritt({ kette: 'gruen', ff: { art: 'main-holen', grund: 'g' } }), { art: 'main-holen', grund: 'g' }))
+pruefe('Fahrt: rot ohne Probe → probe-starten, mit Probe (auch gruen) → schuldsuche', fahrtSchritt({ kette: 'rot' }).art === 'probe-starten' && fahrtSchritt({ kette: 'rot', mainAllein: 'gruen' }).art === 'schuldsuche' && fahrtSchritt({ kette: 'rot', mainAllein: 'rot' }).art === 'schuldsuche')
+pruefe('basisRef: Merge-Commit → Zug vor main, sonst main', basisRef(2) === 'origin/zug-fahrt^1' && basisRef(1) === 'origin/main')
+const ZST = ratschenZustand([{ name: 'Kette – Bau', meldung: UMFANG }, { name: 'Kette – Logik', meldung: 'FEHL anderes' }, { name: 'Kette – Aussehen', meldung: BUDGET }], { 'umfang:pipeline:funktionen': 8986, 'start-budget': 240 })
+pruefe('ratschenZustand: nur Jobs mit Ratsche, Basis je Schlüssel', ZST.length === 2 && gleich(ZST[0], { job: 'Kette – Bau', name: 'umfang:pipeline:funktionen', wert: 8986, grenze: 8964, basis: 8986, fall: 'ratsche' }) && ZST[1].fall === 'zug' && ZST[1].basis === 240, ZST)
+const OHNE_BASIS = ratschenZustand([{ name: 'j', meldung: UMFANG }], {})
+pruefe('ratschenZustand: Basisgrenze fehlt → null (nicht undefined) und ratsche-pruefen', OHNE_BASIS[0].basis === null && OHNE_BASIS[0].fall === 'ratsche-pruefen', OHNE_BASIS)
+pruefe('fahrtLog: unbekannte Basis steht als ? im Log', fahrtLog({ kopf: 'a', kette: 'rot', schritt: { art: 'schuldsuche' }, ratschen: OHNE_BASIS }).at(-1).includes('Basis ? → Basisgrenze unbekannt'))
+const FLOG = fahrtLog({ kopf: 'abcdef0123456789', kette: 'rot', schritt: { art: 'schuldsuche' }, ratschen: ZST, grenzeBasis: { 'start-budget': 240 }, urteil: { art: 'main' } })
+pruefe('fahrtLog: Kopf, Urteil, Ratschen-Stand und je Ratsche eine Zeile', FLOG[0] === '## Fahrt abcdef012: Kette rot, Schritt schuldsuche' && FLOG[1] === 'Schuldsuche: {"art":"main"}' && FLOG[2] === 'Ratschen am Basisstand: start-budget=240' && FLOG.length === 5 && /Wert 8986, Grenze main 8964, Basis 8986 → Senkung auf main/.test(FLOG[3]) && /→ vom Zug gerissen/.test(FLOG[4]), FLOG)
+pruefe('fahrtLog: ohne Grenzen und Ratschen sagt es beides', fahrtLog({ kopf: 'a', kette: 'grün', schritt: { art: 'ff-pruefen', grund: 'ok' } }).join('|') === '## Fahrt a: Kette grün, Schritt ff-pruefen (ok)|Ratschen am Basisstand: keine gelesen|Ratschen im Fehlschlag: keine gemeldet')
+pruefe('bauUndDeployBefehle: erst Bau, dann Deploy, beide auf main', gleich(bauUndDeployBefehle(), [['workflow', 'run', 'bestand-bauen.yml', '--ref', 'main'], ['workflow', 'run', 'deploy.yml', '--ref', 'main']]))
 
 if (fehler.length > 0) {
   console.error(`zug.test: ${fehler.length} Fehler`)

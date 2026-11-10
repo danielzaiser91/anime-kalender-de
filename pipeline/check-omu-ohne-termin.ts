@@ -13,7 +13,7 @@ mkdirSync(join(kulisse, 'data', 'curated'), { recursive: true })
 for (const datei of ['ohne-synchro-von-hand.yaml', 'kino-ankuendigungen.yaml']) writeFileSync(join(kulisse, 'data', datei), '[]\n')
 process.env.AK_ROOT = kulisse
 const { rolleTermineAus } = await import('./bau/10-termine.ts')
-const { ohneOmuTermine } = await import('./bau/omu-ohne-termin.ts')
+const { ohneOmuTermine, hinweiseAnVerworfenen } = await import('./bau/omu-ohne-termin.ts')
 const { setzeMarkenFuerPruefung } = await import('./lib/anisearch-marke.ts')
 
 let verletzt = 0
@@ -54,8 +54,9 @@ const gemischt = ohneOmuTermine([ev(900001, 'omu'), ev(900002, 'omu'), ev(900001
 pruefe('Reihenfolge und Rest bleiben', gemischt.join() === '900002@omu,900001@x', gemischt)
 
 /* Verdrahtung: der echte Bauschritt lässt die OmU-Termine weg, der Titel bleibt im Bestand. */
-const release = (titleId: number, slug: string): Release => ({
+const release = (titleId: number, slug: string, hinweis?: string): Release => ({
   slug,
+  ...(hinweis ? { hinweis } : {}),
   titleId,
   name: slug,
   platform: 'netflix',
@@ -66,11 +67,20 @@ const release = (titleId: number, slug: string): Release => ({
   sources: ['https://www.anime2you.de/news/1'],
   schedule: { firstEpisodeDate: '2099-01-02', episodeCount: 2, episodeCountAssumed: true },
 }) as unknown as Release
+const warnungen: string[] = []
+const warnOriginal = console.warn
+console.warn = (...a: unknown[]) => void warnungen.push(a.join(' '))
 const lauf = rolleTermineAus({
-  releases: [release(900001, 'ohne-beleg'), release(900002, 'mit-beleg')],
+  releases: [release(900001, 'ohne-beleg', 'Nicht geplant.'), release(900002, 'mit-beleg', 'Mit Beleg.'), release(900001, 'ohne-beleg-stumm')],
   titles: new Map([[900001, titles.get(900001)!], [900002, titles.get(900002)!]]),
   jpStart: new Map(),
 })
+console.warn = warnOriginal
+const hinweisWarnungen = warnungen.filter((w) => w.includes('erreicht keinen Besucher'))
+pruefe('Bauschritt warnt genau einmal: Hinweis am verworfenen Titel', hinweisWarnungen.length === 1 && hinweisWarnungen[0].includes('„ohne-beleg“'), hinweisWarnungen)
+const rein = hinweiseAnVerworfenen(titles, [release(900001, 'a', 'x'), release(900002, 'b', 'x'), release(900001, 'c'), { ...release(900001, 'd', 'x'), widerlegt: { am: '2026-11-01', grund: 'x', gemeldet: true } } as Release])
+pruefe('Wächter: nur Hinweis an Titel ohne Beleg, nicht widerlegt', rein.length === 1 && rein[0].includes('„a“'), rein)
+pruefe('Wächter: Weg ohne OmU hält den Titel im Bestand', hinweiseAnVerworfenen(titles, [release(900001, 'a', 'x'), { ...release(900001, 'e'), sprache: undefined } as Release]).length === 0)
 const verbleibend = [...new Set(lauf.events.map((e) => e.titleId))]
 pruefe('Bauschritt: nur der Titel mit Beleg behält Termine', verbleibend.join() === '900002', verbleibend)
 
@@ -79,4 +89,4 @@ if (verletzt) {
   console.error(`${verletzt} Verletzung(en).`)
   process.exit(1)
 }
-console.log('OmU-Termine: alle 13 Fälle in Ordnung.')
+console.log('OmU-Termine: alle 16 Fälle in Ordnung.')

@@ -337,7 +337,7 @@ pruefe('stufeVon: Müll, Fehler und Text gelten als 2', stufeVon(5, () => 'kaput
   const echtAufrufe = []
   const echt = echteWelt({ trocken: false, gh: veraltet(echtAufrufe), repo: 'o/r', zeileAus: () => {} }).nachrechnen(7)
   pruefe('Gegenprobe ohne Trockenlauf: derselbe PR wird geschlossen und geöffnet, Exit 1', echt.exit === 1 && echtAufrufe.includes('pr close 7') && echtAufrufe.includes('pr reopen 7'))
-  // Höchstmenge Anstöße je Lauf: fünf veraltete PRs (21..25) über dieselbe echteWelt, nur die ersten vier werden geschlossen und geöffnet
+  // Höchstmenge Anstöße je Lauf: neun veraltete PRs (21..29) über dieselbe echteWelt, nur die ersten acht werden geschlossen und geöffnet
   const viele = []
   let aktuell = 21
   const grundGh = veraltet([])
@@ -350,12 +350,12 @@ pruefe('stufeVon: Müll, Fehler und Text gelten als 2', stufeVon(5, () => 'kaput
     repo: 'o/r',
     zeileAus: () => {},
   })
-  const ergebnisse = [21, 22, 23, 24, 25].map((nr) => {
+  const ergebnisse = [21, 22, 23, 24, 25, 26, 27, 28, 29].map((nr) => {
     aktuell = nr
     return dieWelt.nachrechnen(nr)
   })
   const geschlossen = viele.filter((s) => s.startsWith('pr close')).join(',')
-  pruefe('Höchstmenge: vier Anstöße (Exit 1), der fünfte scheitert vor dem Schließen (Exit 2, Hinweis)', ergebnisse.map((e) => e.exit).join(',') === '1,1,1,1,2' && geschlossen === 'pr close 21,pr close 22,pr close 23,pr close 24' && ergebnisse[4].text.includes('Höchstmenge 4'))
+  pruefe('Höchstmenge: acht Anstöße (Exit 1), der neunte scheitert vor dem Schließen (Exit 2, Hinweis)', ergebnisse.map((e) => e.exit).join(',') === '1,1,1,1,1,1,1,1,2' && geschlossen === [21, 22, 23, 24, 25, 26, 27, 28].map((n) => `pr close ${n}`).join(',') && ergebnisse[8].text.includes('Höchstmenge 8'))
   // Der Riegel zählt je PR einmal: ein zweiter Aufruf für denselben PR (nach UNKNOWN-Wiederholung) verbraucht keinen weiteren Anstoß
   const eng = ghMitAnstossRiegel(() => '', 1)
   eng(['pr', 'close', '8'])
