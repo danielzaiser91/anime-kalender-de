@@ -1,5 +1,5 @@
 /**
- * Test für `tools/claude-global/hooks/merge-riegel.js` (PreToolUse auf Bash): `gh pr merge <N>` nur nach
+ * Test für `.claude/hooks/merge-riegel.js` (PreToolUse auf Bash): `gh pr merge <N>` nur nach
  * `node tools/pr-nachrechnen.mjs <N> &&` im selben Befehl; Lesen, Text in echo/Heredoc und merge-reihe.sh bleiben frei.
  */
 import assert from 'node:assert/strict'
@@ -7,7 +7,7 @@ import { spawnSync } from 'node:child_process'
 import { createRequire } from 'node:module'
 import { join } from 'node:path'
 
-const hook = join(import.meta.dirname, 'claude-global', 'hooks', 'merge-riegel.js')
+const hook = join(import.meta.dirname, '..', '.claude', 'hooks', 'merge-riegel.js')
 const { pruefe } = createRequire(import.meta.url)(hook)
 
 const lauf = (command, tool_name = 'Bash') => pruefe({ tool_name, tool_input: { command } })
