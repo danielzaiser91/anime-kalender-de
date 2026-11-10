@@ -60,6 +60,19 @@ async function pruefeStaffeln(melder) {
   g7.akNetflixEnde('x', new Map([['9', 'zurueck']]), new Set(['1']), 3, titel, new Set(['2']), (art, d) => gemeldet.push([art, d]))
   pruefe('Zählung geht als Vorfall an den Worker (genau ein Aufruf, Zahlen im Text)', gemeldet.length === 1 && gemeldet[0][0] === 'durchgang-zaehlung' && gemeldet[0][1].text === JSON.stringify({ besucht: 3, gemessen: 1, wartend: 1, uebersprungen: 1 }), gemeldet)
   pruefe('ohne Melder (Nichtauskunft) kein Fehler', g7.akNetflixEnde('x', new Map(), new Set(), 0, titel, new Set()).zaehlung.besucht === 0)
+  /* Kopfzeile (10.11.2026): Zahlen statt ~100 Namen; „besucht > 0, gemessen 0“ ist rot (Durchgang vom 09.11.: 103 besucht, 0 gemessen). */
+  const gruende = new Map([['1', 'keine Folgenliste in 20 s'], ['2', 'keine Folgenliste in 20 s'], ['3', 'Erinnern statt Folgenliste'], ['4', 'keine Folgenliste in 20 s'], ['5', 'Netflix zeigt ihn nicht (E103)']])
+  const null0 = g7.akNetflixEnde('abgebrochen', gruende, new Set(), 103, titel, new Set())
+  pruefe('Kopf: Zahl und Gründe gezählt, größter zuerst, keine Titelnamen', null0.uebersprungenText === ' · übersprungen: 5 (3× keine Folgenliste in 20 s, 1× Erinnern statt Folgenliste, 1× Netflix zeigt ihn nicht (E103))', null0.uebersprungenText)
+  pruefe('Kopf: besucht 103, gemessen 0 → rot, Warnung im Text', null0.rot === true && /⚠ NICHTS GEMESSEN/.test(null0.text), null0)
+  const eins = g7.akNetflixEnde('x', new Map(), new Set(['1']), 1, titel, new Set())
+  pruefe('Kopf: gemessen genau 1 → nicht rot, nichts übersprungen → leerer Zusatz', eins.rot === false && eins.uebersprungenText === '' && !/⚠/.test(eins.text), eins)
+  const nichtBesucht = g7.akNetflixEnde('x', new Map(), new Set(), 0, titel, new Set())
+  pruefe('Kopf: besucht 0 (nichts zu tun) → nicht rot', nichtBesucht.rot === false, nichtBesucht)
+  const einBesucht = g7.akNetflixEnde('x', new Map([['9', 'zurueck']]), new Set(), 1, titel, new Set())
+  pruefe('Kopf: besucht genau 1, gemessen 0 → rot (Schwelle > 0)', einBesucht.rot === true, einBesucht)
+  const kopf = melder.slice(melder.indexOf('function durchgangEndeZeigen()'), melder.indexOf('function laufStarten()'))
+  pruefe('melder.js: Kopfzeile nutzt uebersprungenText und färbt rot, keine Namensliste mehr', kopf.includes('durchgangEnde.uebersprungenText') && kopf.includes('ak-durchgang-rot') && !kopf.includes('namen.join'), kopf.length)
   pruefe('melder.js reicht vorfallMelden durch', melder.includes('selbstGezaehlt, offeneTitel, undefined, vorfallMelden)'))
 }
 

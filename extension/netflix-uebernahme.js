@@ -96,6 +96,19 @@ globalThis.akNetflixEnde = (grund, uebersprungen, fertigeTitel, besucht, offeneT
   globalThis.akProtokoll?.('durchgang-zaehlung', zaehlung)
   /* Meldeweg `/vorfall` (vorhanden, ohne neues Schema): die Zählung steht als Text; der Vorfall-Abruf listet sie. */
   void melden?.('durchgang-zaehlung', { text: JSON.stringify(zaehlung) })
-  const text = ` · besucht ${besucht}, gemessen ${zaehlung.gemessen}, wartet auf Übernahme ${wartend}`
-  return { grund, uebersprungen: nichtFertig, zaehlung, text }
+  const rot = akNetflixNullGemessen(zaehlung)
+  const text = ` · besucht ${besucht}, gemessen ${zaehlung.gemessen}, wartet auf Übernahme ${wartend}${rot ? ' · ⚠ NICHTS GEMESSEN — der Durchgang hat nichts geliefert, nicht „ok“ melden' : ''}`
+  return { grund, uebersprungen: nichtFertig, zaehlung, text, rot, uebersprungenText: akNetflixUebersprungenZahlen(nichtFertig, uebersprungen) }
+}
+
+/** Besucht, aber nichts gemessen: der Durchgang war wirkungslos (09.11.2026: 103 besucht, 0 gemessen, niemand merkte es). */
+const akNetflixNullGemessen = (zaehlung) => zaehlung.besucht > 0 && zaehlung.gemessen === 0
+
+/** Kopfzeile statt Namensliste (~100 Titel): Zahl je Grund, größte zuerst, gleiche Zahl nach Grund sortiert. */
+const akNetflixUebersprungenZahlen = (kennungen, gruende) => {
+  if (!kennungen.length) return ''
+  const je = new Map()
+  for (const k of kennungen) je.set(gruende.get(k), (je.get(gruende.get(k)) ?? 0) + 1)
+  const teile = [...je].sort((a, b) => b[1] - a[1] || String(a[0]).localeCompare(String(b[0]))).map(([g, n]) => `${n}× ${g}`)
+  return ` · übersprungen: ${kennungen.length} (${teile.join(', ')})`
 }
