@@ -1,7 +1,8 @@
 import type { Title } from '../../shared/types.ts'
 import type { AniListMedia } from '../lib/anilist.ts'
 import type { AnisearchEintrag } from './01-quellen.ts'
-import { FORMAT } from './anisearch-titel.ts'
+import { FORMAT, jpEndAusAnisearch } from './anisearch-titel.ts'
+import { jpEndAusAnilist } from './titel-hilfen.ts'
 
 /**
  * **aniSearch als zweite Spalte neben AniList** (Stufe B der AniList-Ablösung, 10.10.2026): dieselben Felder aus beiden Quellen, Feld für Feld
@@ -83,16 +84,13 @@ export function anisearchSpalte(e: AnisearchEintrag, mal: number[] = []): Spalte
     episodes: info?.episodes && info.episodes > 0 ? info.episodes : undefined,
     jpYear: jahr && Number.isFinite(jahr) ? jahr : undefined,
     jpSeason: winter?.saison ?? (saison ? SAISON[saison] : undefined),
-    jpEnd: bis ?? von,
+    jpEnd: jpEndAusAnisearch(bis, von, jp?.status === 'Abgeschlossen'),
     status: jp?.status ? STATUS[jp.status] : undefined,
     studios: info?.studios,
     synopsis: !!e.descriptionDe,
     malId: mal,
   }
 }
-
-const genau = (d: { year: number | null; month: number | null; day: number | null } | undefined): string | undefined =>
-  !d?.year ? undefined : [d.year, d.month, d.day].filter(Boolean).map((n, i) => String(n).padStart(i ? 2 : 4, '0')).join('-')
 
 /** Die AniList-Spalte: Titel-Felder aus dem fertigen `Title` (was die Seite zeigt), Status und genaue Daten aus dem Rohwert. */
 export function anilistSpalte(t: Title, media: AniListMedia | undefined): Spalte {
@@ -104,7 +102,7 @@ export function anilistSpalte(t: Title, media: AniListMedia | undefined): Spalte
     episodes: t.episodes,
     jpYear: t.jpYear,
     jpSeason: t.jpSeason,
-    jpEnd: genau(media?.endDate) ?? genau(media?.startDate),
+    jpEnd: media ? jpEndAusAnilist(media) : undefined,
     status: media?.status ?? undefined,
     studios: t.studios,
     synopsis: !!t.synopsis,

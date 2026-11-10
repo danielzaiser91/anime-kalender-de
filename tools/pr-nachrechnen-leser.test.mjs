@@ -262,6 +262,20 @@ for (const [name, opt] of [['fetch scheitert', { fetchFehler: true }], ['ls-tree
   pruefe('gitLeser: Zeitlimit abgelaufen -> nicht ermittelbar', /^Leser nicht ermittelbar \(spawnSync git ETIMEDOUT\)$/.test(abgelaufen), abgelaufen)
 }
 
+// Fehlalarm PR 3310: Hooks unter .claude/ laufen nie in der Kette (Ordner-Leser und Namens-Leser dort zählen nicht)
+{
+  const HOOK_ORDNER = "const fs = require('fs')\nfs.readdirSync('data/')\n"
+  const HOOK_NAME = `const d = '${F}'\n`
+  const hook = (pfad, text) => bewegtesGelesen({ bewegt: [F], pr: [pfad], leser: LESER, lies: (p) => (p === pfad ? text : lies(p)), paketSkripte: null })
+  pruefe('ohneLeser: .claude/ ja, Namensvetter claude/ und tools/.claude nein', ohneLeser('.claude/hooks/a.js') && !ohneLeser('claude/hooks/a.js') && !ohneLeser('tools/.claude/a.js'))
+  pruefe('.claude/hooks mit readdir auf data/ -> null', hook('.claude/hooks/agenten-grenze.js', HOOK_ORDNER) === null, hook('.claude/hooks/agenten-grenze.js', HOOK_ORDNER))
+  pruefe('.claude/hooks nennt die bewegte Datei -> null', hook('.claude/hooks/a.js', HOOK_NAME) === null, hook('.claude/hooks/a.js', HOOK_NAME))
+  pruefe('Gegenprobe: dasselbe readdir in tools/ -> Ordner-Grund', /Verzeichnis nicht eindeutig/.test(hook('tools/sammler.mjs', HOOK_ORDNER)), hook('tools/sammler.mjs', HOOK_ORDNER))
+  pruefe('Gegenprobe: dieselbe Nennung in tools/ -> Grund', hook('tools/a.mjs', HOOK_NAME) === `der PR liest ${F} (tools/a.mjs)`, hook('tools/a.mjs', HOOK_NAME))
+  const gemischt = bewegtesGelesen({ bewegt: [F], pr: ['.claude/hooks/a.js', 'tools/a.mjs'], leser: LESER, lies: (p) => (p === 'tools/a.mjs' ? HOOK_NAME : lies(p)), paketSkripte: null })
+  pruefe('.claude/ zusammen mit echtem Leser im PR -> Grund bleibt', gemischt === `der PR liest ${F} (tools/a.mjs)`, gemischt)
+}
+
 if (fehler.length > 0) {
   console.error(`pr-nachrechnen-leser.test: ${fehler.length} rot`)
   process.exit(1)
