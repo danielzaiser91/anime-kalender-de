@@ -51,9 +51,10 @@ async function main(): Promise<void> {
   const titel = readJson<Title[] | { titles?: Title[] }>('public/data/titles.json', [])
   const liste = Array.isArray(titel) ? titel : (titel.titles ?? [])
   const bestand = readJson<Record<string, Eintrag>>('data/kitsu-folgen.json', {})
-  const offen = liste
-    .filter((t) => (t.episodes ?? 0) >= 2 && (t.episodes ?? 0) <= 200 && t.malId && hatLuecke(t.id) && (ALLE || !(String(t.id) in bestand)))
-    .slice(0, LIMIT)
+  const kandidaten = liste.filter(
+    (t) => (t.episodes ?? 0) >= 2 && (t.episodes ?? 0) <= 200 && t.malId && hatLuecke(t.id) && (ALLE || !(String(t.id) in bestand)),
+  )
+  const offen = kandidaten.slice(0, LIMIT)
   log(`Kitsu-Folgen: ${offen.length} Titel abzufragen (${Object.keys(bestand).length} schon bekannt)`)
   let gefunden = 0
   let fehler = 0
@@ -81,7 +82,8 @@ async function main(): Promise<void> {
   }
   writeJson('data/kitsu-folgen.json', bestand)
   log(`${gefunden} von ${offen.length} Titeln mit Kitsu-Folgen, ${fehler} Fehler`)
-  recordSource('kitsu-folgen', gefunden)
+  /* Leer ist nur dann fertig, wenn die Titelliste geladen war und Titel mit MAL-Kennung führt; sonst ist es ein Ausfall. */
+  recordSource('kitsu-folgen', gefunden, undefined, undefined, liste.some((t) => t.malId) && kandidaten.length === 0)
 }
 
 await main()

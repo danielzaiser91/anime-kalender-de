@@ -1,5 +1,5 @@
 /**
- * Test für `tools/claude-global/hooks/stand-prs.js`: PR-Zeilen in stand.md unter „## In Arbeit“ ohne Handarbeit
+ * Test für `.claude/hooks/stand-prs.js`: PR-Zeilen in stand.md unter „## In Arbeit“ ohne Handarbeit
  * (Daniel 19.10.2026). Feste Zeit über JETZT, Wegwerf-Dateien unter os.tmpdir(), gh als Nachbau, der first/last/after
  * und die Sortierung der Abfrage selbst auswertet. Die Block-Fallliste steht in stand-prs-block.test.mjs.
  */
@@ -11,7 +11,7 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 
 const require = createRequire(import.meta.url)
-const HOOK = join(import.meta.dirname, 'claude-global', 'hooks', 'stand-prs.js')
+const HOOK = join(import.meta.dirname, '..', '.claude', 'hooks', 'stand-prs.js')
 const ATTRAPPE = join(import.meta.dirname, 'stand-prs-gh-attrappe.mjs')
 const ECHT = JSON.parse(readFileSync(join(import.meta.dirname, 'stand-prs-urteile-echt.json'), 'utf8')).prs
 const h = require(HOOK)
@@ -326,7 +326,7 @@ try {
   // Hook allein installiert (ohne mods/): lädt, pflegt den Block weiter, meldet nur keine Kennzeichen
   const allein = join(ordner, 'allein', 'hooks')
   mkdirSync(allein, { recursive: true })
-  for (const datei of ['stand-prs.js', 'stand-prs-block.js', 'stand-waechter.js']) copyFileSync(join(import.meta.dirname, 'claude-global', 'hooks', datei), join(allein, datei))
+  for (const datei of ['stand-prs.js', 'stand-prs-block.js', 'stand-waechter.js']) copyFileSync(join(import.meta.dirname, '..', '.claude', 'hooks', datei), join(allein, datei))
   const leerAntwort = JSON.stringify({ data: { repository: { offen: { pageInfo: { hasNextPage: false }, nodes: [] }, gemergt: { pageInfo: { hasNextPage: false }, nodes: [] } } } })
   const skript = join(ordner, 'allein', 'lauf.cjs')
   const lauf = [

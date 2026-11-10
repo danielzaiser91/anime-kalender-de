@@ -1202,6 +1202,10 @@
       "am": "2026-11-03",
       "vorschlaege": 4
     },
+    "1067077": {
+      "am": "2026-11-09",
+      "vorschlaege": 1
+    },
     "1067107": {
       "am": "2026-11-09",
       "vorschlaege": 1
@@ -1358,6 +1362,10 @@
       "am": "2026-11-06",
       "vorschlaege": 0
     },
+    "1068443": {
+      "am": "2026-11-09",
+      "vorschlaege": 1
+    },
     "1068473": {
       "am": "2026-11-06",
       "vorschlaege": 0,
@@ -1453,6 +1461,35 @@
     "1069143": {
       "am": "2026-11-08",
       "vorschlaege": 8
+    },
+    "1069191": {
+      "am": "2026-11-09",
+      "vorschlaege": 1
+    },
+    "1069203": {
+      "am": "2026-11-09",
+      "vorschlaege": 1
+    },
+    "1069214": {
+      "am": "2026-11-09",
+      "vorschlaege": 0
+    },
+    "1069231": {
+      "am": "2026-11-10",
+      "vorschlaege": 0,
+      "uebersprungen": "kein Deutschland-Bezug"
+    },
+    "1069314": {
+      "am": "2026-11-10",
+      "vorschlaege": 0
+    },
+    "1069349": {
+      "am": "2026-11-10",
+      "vorschlaege": 0
+    },
+    "1069473": {
+      "am": "2026-11-10",
+      "vorschlaege": 1
     }
   },
   "vorschlaege": [
@@ -11767,6 +11804,111 @@
       "quelle": "https://www.anime2you.de/news/1067143/sailor-moon-tischkalender-fuer-2027/",
       "veroeffentlicht": "2026-11-09",
       "gelesenAm": "2026-11-09"
+    },
+    {
+      "titel": "Hirayasumi",
+      "zitat": "»Hirayasumi« wird ab Januar 2027 im japanischen Fernsehen ausgestrahlt sowie weltweit im Originalton mit Untertiteln bei Netflix im Simulcast gezeigt.",
+      "art": "ankuendigung",
+      "sprache": "omu",
+      "plattform": "netflix",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Netflix",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1069203",
+      "artikel": "Netflix zeigt Slice-of-Life-Anime »Hirayasumi« im Simulcast + Teaser",
+      "quelle": "https://www.anime2you.de/news/1069203/netflix-zeigt-hirayasumi-im-simulcast/",
+      "veroeffentlicht": "2026-11-09",
+      "gelesenAm": "2026-11-09"
+    },
+    {
+      "titel": "Reborn as a Goblin",
+      "zitat": "Die siebte Episode lief demzufolge nicht wie ursprünglich geplant am 9. November 2026, sondern ist erst am 16. November 2026 im japanischen Fernsehen und bei Crunchyroll im Simulcast zu sehen.",
+      "art": "pause",
+      "sprache": "unklar",
+      "plattform": "crunchyroll",
+      "datum": "2026-11-16",
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "7",
+      "unsicher": null,
+      "wochentag": "Montag",
+      "warnungen": [],
+      "artikelId": "1069191",
+      "artikel": "Siebte »Reborn as a Goblin«-Episode verschoben + Recap",
+      "quelle": "https://www.anime2you.de/news/1069191/reborn-as-a-goblin-episode-7-verschoben/",
+      "veroeffentlicht": "2026-11-09",
+      "gelesenAm": "2026-11-09"
+    },
+    {
+      "titel": "Pokémon Horizonte",
+      "zitat": "Der aktuelle Anime mit dem Titel »Pokémon Horizonte« wird jeden Samstag um 12:55 Uhr mit neuen Folgen im TOGGO -Block auf SUPER RTL ausgestrahlt.",
+      "art": "folgen",
+      "sprache": "unklar",
+      "plattform": "tv",
+      "datum": null,
+      "uhrzeit": "12:55",
+      "anbieter": null,
+      "sender": "SUPER RTL",
+      "wochentage": "jeden Samstag",
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1068443",
+      "artikel": "Offizielles »Pokémon«-Kissen mit Evoli-Motiven vorgestellt",
+      "quelle": "https://www.anime2you.de/news/1068443/pokemon-kissen-mit-evoli-motiven/",
+      "veroeffentlicht": "2026-11-09",
+      "gelesenAm": "2026-11-09"
+    },
+    {
+      "titel": "Frieren: Beyond Journey's End",
+      "zitat": "Eine dritte Staffel startet im Oktober 2027.",
+      "art": "ankuendigung",
+      "sprache": "unklar",
+      "plattform": null,
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": "Artikel nennt für die dritte Staffel keinen Streaming-Anbieter; nur die zweite Staffel wird als Crunchyroll-Simulcast genannt.",
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1067077",
+      "artikel": "»Frieren«-Figuren von Frieren und Fern erhalten Neuauflage",
+      "quelle": "https://www.anime2you.de/news/1067077/zwei-frieren-sega-figuren-neuauflage/",
+      "veroeffentlicht": "2026-11-09",
+      "gelesenAm": "2026-11-09"
+    },
+    {
+      "titel": "Devils‘ Crest",
+      "zitat": "»Devils« Crest» wird demzufolge in zwei aufeinanderfolgenden Cours (sechs Monate am Stück) im japanischen Fernsehen ausgestrahlt und mit deutscher Sprachfassung sowie im Originalton mit Untertiteln bei Prime Video im Simulcast gezeigt.",
+      "art": "sprachfassung",
+      "sprache": "deutsch+omu",
+      "plattform": "primevideo",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Prime Video",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1069473",
+      "artikel": "Neuer Prime-Video-Anime »Devils‘ Crest« erhält zwei Cours",
+      "quelle": "https://www.anime2you.de/news/1069473/devils-crest-erhaelt-zwei-cours/",
+      "veroeffentlicht": "2026-11-10",
+      "gelesenAm": "2026-11-10"
     }
   ]
 }

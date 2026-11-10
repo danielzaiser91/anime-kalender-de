@@ -49,7 +49,7 @@ import { premiereBelegtTv } from '../../shared/premiere.ts'
 /** Wie lange eine Meldung auf der Seite steht. */
 const FENSTER_TAGE = 120
 /** Obergrenze, damit die Datei klein bleibt — sie wird bei jedem Seitenaufruf geladen. */
-const HOECHSTENS = 400
+export const HOECHSTENS = 400
 
 export interface NewsHistorie extends TerminGedaechtnis {
   /** Meldungsschlüssel → Tag, an dem die Meldung zum ersten Mal dastand. */

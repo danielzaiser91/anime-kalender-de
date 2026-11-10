@@ -8,26 +8,6 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-11-02#53@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261102T172000Z
-DTEND:20261102T175000Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-11-02#54@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261102T175000Z
-DTEND:20261102T182000Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-21-tv-prosieben-maxx@2026-11-03#55@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261103T172000Z
@@ -121,18 +101,6 @@ DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
  et.\nDetails: https://anime-kalender.de/t/17554/
 CATEGORIES:Prime Video
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-47-joyn@2026-11-08@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261108
-DTEND;VALUE=DATE:20261109
-SUMMARY:Akira
-DESCRIPTION:Plattform: Joyn\nRelease-Art: Film\nUhrzeit noch nicht bestäti
- gt.\nGeschätzter Termin: kein vom Anbieter genannter Tag\, sondern aus Rh
- ythmus oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.
- de/t/29/
-CATEGORIES:Joyn
 END:VEVENT
 BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2026-11-09@anime-kalender-de

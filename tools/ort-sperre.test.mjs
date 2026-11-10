@@ -1,5 +1,5 @@
 /**
- * Test für `tools/claude-global/hooks/ort-sperre.js` (über `pruefe` aus hauptordner-sperre.js, dem eingebundenen Hook):
+ * Test für `.claude/hooks/ort-sperre.js` (über `pruefe` aus hauptordner-sperre.js, dem eingebundenen Hook):
  * `git worktree add` nur unter C:/code/_worktrees/<repo>/<thema>; Write neuer Wegwerfdateien in Repo-Wurzeln unter C:/code verweigert.
  */
 import assert from 'node:assert/strict'
@@ -7,10 +7,10 @@ import { spawnSync } from 'node:child_process'
 import { createRequire } from 'node:module'
 import { join } from 'node:path'
 
-const hookDatei = join(import.meta.dirname, 'claude-global', 'hooks', 'hauptordner-sperre.js')
+const hookDatei = join(import.meta.dirname, '..', '.claude', 'hooks', 'hauptordner-sperre.js')
 const require = createRequire(import.meta.url)
 const { pruefe } = require(hookDatei)
-const ORT = require(join(import.meta.dirname, 'claude-global', 'hooks', 'ort-sperre.js'))
+const ORT = require(join(import.meta.dirname, '..', '.claude', 'hooks', 'ort-sperre.js'))
 
 const HAUPT = 'C:/code/ai/anime-kalender-de'
 const WT = 'C:/code/_worktrees/anime-kalender-de'

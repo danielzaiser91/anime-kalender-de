@@ -20,6 +20,7 @@ import { setzeProduktFelder } from './produkt-regel.ts'
 import { log, readJson } from '../lib/util.ts'
 import { entferneBezugswegeTrotzNein } from '../lib/handbeleg-bezugswege.ts'
 import { joynAdressenVonJw } from '../lib/handbeleg-weg.ts'
+import { fuehrePrimeGleicheGtiZusammen, type GtiBelegt } from '../lib/prime-gleiche-gti.ts'
 
 export function schliesseWegeAb({
   titles,
@@ -94,6 +95,8 @@ export function schliesseWegeAb({
   kennzeichneFreenetLautSchwester(titles)
 
   entferneBezugswegeTrotzNein(titles, alleChecks)
+
+  fuehrePrimeGleicheGtiZusammen(titles.values(), readJson<GtiBelegt>('data/amazon-gti-belegt.json', {}))
 
   // Das Cover steht nach allen Wege-Änderungen fest und vor `baueMeta`, damit Hauptbestand, Verschobene, Reihen und Meldungen dasselbe Bild sehen.
   setzeCoverNachRegel(titles)

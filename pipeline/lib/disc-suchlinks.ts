@@ -15,9 +15,13 @@ interface ReleaseKurz {
   slug: string
   releaseType: string
   buyUrl?: string
+  name?: string
+  schedule?: { firstEpisodeDate?: string }
 }
 export interface SuchlinkBilanz {
   anzahl: number
+  /** Alle gezählten Termine (für die Auflistung mit Titel und Datum). */
+  alle: ReleaseKurz[]
   /** Namenssuchen, die der Stand nicht kennt. */
   neu: ReleaseKurz[]
   /** Slugs des Standes, die keine Namenssuche mehr sind (Liste darf gekürzt werden). */
@@ -25,12 +29,14 @@ export interface SuchlinkBilanz {
   ueberGrenze: boolean
 }
 
-export function suchlinkBilanz(releases: ReleaseKurz[], stand: SuchlinkStand): SuchlinkBilanz {
-  const suchen = releases.filter((r) => r.releaseType === 'disc' && amazonLinkArt(r.buyUrl) === 'name')
+/** `art` 'name' = Namenssuchen (Standard), 'produkt' = Amazon-Handlinks ohne eindeutige EAN (Wächter `check-disc-handlinks-bestand.ts`). */
+export function suchlinkBilanz(releases: ReleaseKurz[], stand: SuchlinkStand, art: 'name' | 'produkt' = 'name'): SuchlinkBilanz {
+  const suchen = releases.filter((r) => r.releaseType === 'disc' && amazonLinkArt(r.buyUrl) === art)
   const bekannt = new Set(stand.slugs)
   const jetzt = new Set(suchen.map((r) => r.slug))
   return {
     anzahl: suchen.length,
+    alle: suchen,
     neu: suchen.filter((r) => !bekannt.has(r.slug)),
     erledigt: stand.slugs.filter((s) => !jetzt.has(s)),
     ueberGrenze: suchen.length > stand.hoechstens,

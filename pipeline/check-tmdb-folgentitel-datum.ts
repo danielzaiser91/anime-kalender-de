@@ -63,6 +63,15 @@ pruefe('Bau: Titel 91, 103 und 104 kommen an, 119 (Platzhalter) bleibt leer', im
 pruefe('Bau: ohne TMDB-Eintrag bleibt alles leer (Kontrolle)', mitFremdTiteln(serie, as, quellen(undefined))?.every((f) => !f.de) === true)
 pruefe('Bau: ein vorhandener aniSearch-Titel bleibt', mitFremdTiteln(serie, [af(91, 'The Spectral Express!', '2021-12-17', 'Aus aniSearch'), ...as.slice(1)], quellen({ folgen: tmdb }))?.[0].de === 'Aus aniSearch')
 
+console.log('\nMehrteiler: TMDB hängt „(n)“ an den englischen Titel (Abruf 09.11.2026, Pokémon Reisen 122 und 132)')
+const teil = [tm(25, 32, "It's... Champion Time! (1)", 'Es ist Champ-Time!', '2022-08-26'), tm(25, 42, 'Partners in Time! (4)', 'Partner gegen Partner!', '2022-11-11')]
+const teilAs = [af(122, 'It’s… Champion Time!', '2022-08-26'), af(132, 'Partners in Time!', '2022-11-11')]
+const teilAus = tmdbTitelNachDatum(teilAs, { folgen: teil })
+pruefe('Folge 122 und 132: der Zähler „(1)“/„(4)“ steht dem Treffer nicht im Weg', teilAus?.get(122) === 'Es ist Champ-Time!' && teilAus?.get(132) === 'Partner gegen Partner!', teilAus && [...teilAus])
+pruefe('Zähler nur am Ende: „(2)“ mitten im Titel bleibt ein anderer Titel', tmdbTitelNachDatum([af(1, 'Partners in Time!', '2022-11-11')], { folgen: [tm(25, 42, 'Partners (2) in Time!', 'Anderer Titel', '2022-11-11')] }) === undefined)
+pruefe('Kontrolle: anderer Titel trotz Zähler gibt nichts', tmdbTitelNachDatum([af(1, 'Another Time!', '2022-11-11')], { folgen: teil }) === undefined)
+pruefe('TMDB-Folge ohne englischen Titel (null) bricht nicht ab und gibt nichts', tmdbTitelNachDatum(teilAs, { folgen: [{ s: 25, e: 1, en: null, titel: 'Folge 1', datum: '2022-08-26' }] }) === undefined)
+
 if (verletzt) {
   console.error(`\n${verletzt} Zusicherung(en) verletzt.`)
   process.exit(1)
