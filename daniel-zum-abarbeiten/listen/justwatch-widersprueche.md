@@ -7,9 +7,9 @@ Abschnitt „JustWatch-Ton je Seite“. Unsere Messung (Handbeleg, Meldung der E
 <!-- anime:start -->
 ## Anime
 
-Flagge „Deutsch“: 93 Wege, nur Hinweis: 1.
+Flagge „Deutsch“: 93 Wege, nur Hinweis: 2.
 
-JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine Flagge): mehrere Staffeln 17, Mehrteiler 8.
+JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine Flagge): mehrere Staffeln 18, Mehrteiler 8.
 
 | Anbieter | mit eigener Messung | Widersprüche | Anteil | Anzeige |
 |---|---|---|---|---|
@@ -23,7 +23,7 @@ JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine
 |---|---|---|---|---|
 | Vampire Hunter D: Bloodlust (543) | primevideo | https://watch.amazon.de/detail?gti=amzn1.dv.gti.68239688-dba5-4abc-a3b5-5e554d51081f | de, Stand 2026-10-26 | Handbeleg 2026-10-31 |
 
-### Kandidaten für neue Wege (778)
+### Kandidaten für neue Wege (782)
 
 JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „Weg ohne Kennung“: ein Weg zum Anbieter steht, seine Adresse trägt aber keine Seitenkennung.
 
@@ -198,6 +198,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Blood-C: Die Serie (10490) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.d67ec152-07b3-4681-8901-26cfc3c31850 | ja |
 | Penguindrum (10721) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.8f04a958-2996-4d8e-b8d9-25aca51e011b | ja |
 | Hunter × Hunter (11061) | Amazon Prime Video | amazon:amzn1.dv.gti.6d0bf302-ad33-4caa-a192-447545ce85b8 | ja |
+| Black Rock Shooter (11285) | Amazon Prime Video | amazon:amzn1.dv.gti.654442b8-82b8-4968-910f-08d89912be54 | ja |
 | Sankarea: Undying Love (11499) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.0eb67270-d83b-933e-eb7e-4a5660d69c31 | nein |
 | Kokoro Connect (11887) | Crunchyroll | crunchyroll:G50UZ4DN8 | ja |
 | Kokoro Connect (11887) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.1be6f89b-2012-4149-bfd2-8d0eaa2d0d37 | ja |
@@ -219,6 +220,8 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Detektiv Conan: Detektiv auf hoher See (14735) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.8015f388-a711-4bab-9091-de3995b6960a | ja |
 | Detektiv Conan: Detektiv auf hoher See (14735) | Amazon Video | amazon:amzn1.dv.gti.18b90e10-94f8-6846-7c60-706a338f1ee3 | ja |
 | The Hentai Prince and the Stony Cat. (15225) | Amazon Prime Video | amazon:amzn1.dv.gti.ef6bed52-8218-44eb-9f69-711c9e185d46 | ja |
+| Samurai Girls 2: Samurai Bride (15377) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.16b6b212-4591-6c85-ab40-05ccb26f71a0 | ja |
+| Iron Man: Rise of Technovore (15847) | Amazon Video | amazon:amzn1.dv.gti.9d1df050-0849-4979-9b90-5f7f7513e808 | ja |
 | Aku no Hana: Die Blumen des Bösen (16201) | Crunchyroll | crunchyroll:G9DUEQDG8 | ja |
 | Aku no Hana: Die Blumen des Bösen (16201) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.68d9152f-b5e7-4466-afb3-4a370960b606 | ja |
 | Wie der Wind sich hebt (16662) | Amazon Video | amazon:amzn1.dv.gti.9af5c743-27c0-47c3-8454-c7aaff17b35c | ja |
@@ -236,6 +239,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Akuma no Riddle (19429) | Crunchyroll | crunchyroll:G14U43ENG | nein |
 | No Game No Life (19815) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.103dfcc1-f1a8-43dd-90e7-6cbe5d00ccf2 | ja |
 | Hunter × Hunter: The Movie - The Last Mission (19951) | Amazon Video | amazon:amzn1.dv.gti.58b5c51b-84df-b6e0-9e02-0b19456888a9 | ja |
+| Sword Art Online: Extra Edition (20021) | Anime Digital Network Amazon Channel | amazon:amzn1.dv.gti.570d73a3-73e7-40f4-a33a-e84d9be1871e | nein |
 | Bayonetta: Bloody Fate (20442) | Amazon Video | amazon:amzn1.dv.gti.a3bf885f-00ab-4aaf-8835-a42fb054fb39 | ja |
 | Black Bullet (20457) | Anime Digital Network Amazon Channel | amazon:amzn1.dv.gti.4771886c-55c1-4dcc-a663-40143210df17 | nein |
 | Love Stage!! (20520) | Crunchyroll | crunchyroll:G9DUE1ZZW | ja |
