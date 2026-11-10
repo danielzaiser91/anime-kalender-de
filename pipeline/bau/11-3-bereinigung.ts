@@ -1,6 +1,7 @@
 import { type IstTot } from '../lib/adresse-tot.ts'
 import { type WatchLink, type Title } from '../../shared/types.ts'
 import { providerName } from '../../shared/mappings.ts'
+import { adressKern } from '../../shared/adresse-kern.ts'
 import { log, readJson } from '../lib/util.ts'
 import { type AnisearchEintrag } from './01-quellen.ts'
 import { type EntfernterVerweis } from './grundlagen.ts'
@@ -222,21 +223,15 @@ export function bereinigeWege({
 
   let wegNachNein = 0
   {
-    const kern = (u: string): string =>
-      u
-        .replace(/^https?:\/\//, '')
-        .replace(/^www\./, '')
-        .split('?')[0]!
-        .replace(/\/$/, '')
-        .toLowerCase()
-    const raus = new Set(verweiseEntfernt.map((e) => kern(e.url ?? '')))
+    /* `adressKern` behält die Kennung im Parameter (Amazon `gti`, YouTube `v`): ein Nein zu einer Seite sperrt nicht alle Seiten des Anbieters. */
+    const raus = new Set(verweiseEntfernt.map((e) => adressKern(e.url)))
     for (const e of readJson<{ verweise?: { url?: string }[] }>('data/verweise-entfernt.json', {}).verweise ?? []) {
-      raus.add(kern(e.url ?? ''))
+      raus.add(adressKern(e.url))
     }
     for (const title of titles.values()) {
       if (!title.watchLinks?.length) continue
       const vorher = title.watchLinks.length
-      title.watchLinks = title.watchLinks.filter((w) => !raus.has(kern(w.url)))
+      title.watchLinks = title.watchLinks.filter((w) => !raus.has(adressKern(w.url)))
       wegNachNein += vorher - title.watchLinks.length
     }
   }
