@@ -106,8 +106,6 @@ async function messeRand(seite, selektor) {
   const nr = zeilen.reduce((best, p, i) => (abstandZu(p, grund) > abstandZu(zeilen[best], grund) ? i : best), 0)
   const yRand = von + nr
   const [ecke, ...darunter] = await seite.evaluate(lesePixel, { png, punkte: [[Math.ceil(r.x), yRand], [mitte, yRand + 1], [mitte, yRand + 2], [mitte, yRand + 3]] })
-  const sonde = await seite.evaluate(([x, y]) => { const t = document.elementFromPoint(x, y); const k = document.querySelector('[data-tv-zeile]'); return { t: t ? t.tagName + '.' + String(t.className).slice(0, 80) + '|' + (t.textContent || '').slice(0, 40) : null, k: k ? k.innerText.slice(0, 60) : null, kh: k ? k.getBoundingClientRect().height : null } }, [mitte, yRand + 2])
-  console.log('DBGTV', JSON.stringify({ r, yRand, grund, rand: zeilen[nr], ecke, darunter, sonde }))
   return { grund, rand: zeilen[nr], ecke, darunter }
 }
 
