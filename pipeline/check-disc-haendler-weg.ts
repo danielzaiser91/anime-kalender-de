@@ -55,6 +55,7 @@ try {
     titel(900605),
     titel(900606, { watchLinks: [] }),
     titel(900607),
+    titel(900608),
   ]
   ergaenzeDiscUndZugang({ titles: new Map(t.map((x) => [x.id, x as never])), anisearch: {}, releases: [], zugangJeAdresse: new Map() })
   const ws = (id: number) => (t.find((x) => x.id === id)!.watchLinks as { name: string; url: string; kind: string; zugang?: string }[])
@@ -70,6 +71,14 @@ try {
   pruefe('Artikel ohne EAN: kein Weg', ean(900605).length === 0, ws(900605))
   pruefe('Titel ohne Wege (hier: nur Disc-Weg aus Phase 11-1) bekommt die EAN-Suche der ersten Ausgabe', ws(900606).length === 2 && ws(900606)[1]!.url === 'https://www.amazon.de/s?k=4020628530846', ws(900606))
   pruefe('zwei Ausgaben am selben Tag, verschieden: keine eindeutige EAN, kein Weg', ean(900607).length === 0, ws(900607))
+  pruefe('Titel ohne Ausgabeliste (aniSearch von anderswo): kein EAN-Weg', ws(900608).length === 1 && ean(900608).length === 0, ws(900608))
+
+  console.log('\nZählung (ergaenzeEanHaendlerWege):')
+  const { ergaenzeEanHaendlerWege } = await import('./lib/disc-haendler-weg.ts')
+  const { discIndexLaden } = await import('./lib/disc-ean.ts')
+  const frisch = [titel(900601), titel(900605), titel(900608), titel(900602, { streams: [{ platform: 'netflix' }] }), titel(900602, { watchLinks: [] })]
+  const anzahl = ergaenzeEanHaendlerWege(frisch as never, discIndexLaden())
+  pruefe('zählt genau die Titel, die den Weg bekamen (1 von 5, auch ohne jeden Weg keiner)', anzahl === 1, anzahl)
 } finally {
   rmSync(wurzel, { recursive: true, force: true })
 }
