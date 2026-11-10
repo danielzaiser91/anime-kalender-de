@@ -5,10 +5,9 @@
     "lastCount": 11
   },
   "anime2you": {
-    "lastOk": "2026-11-10T14:19:13.156Z",
-    "lastRun": "2026-11-10T15:01:34.698Z",
-    "lastCount": 0,
-    "lastError": "Abruf gescheitert (alle Feeds): https://www.anime2you.de/streaming-news/feed/: HTTP 403"
+    "lastOk": "2026-11-10T15:19:46.036Z",
+    "lastRun": "2026-11-10T15:19:46.036Z",
+    "lastCount": 101
   },
   "anisearch": {
     "lastOk": "2026-11-10T14:08:53.961Z",
@@ -36,9 +35,10 @@
     "lastCount": 8876
   },
   "youtube-check": {
-    "lastOk": "2026-11-09T05:02:02.443Z",
-    "lastRun": "2026-11-09T05:02:02.443Z",
-    "lastCount": 1
+    "lastOk": "2026-11-10T15:19:05.572Z",
+    "lastRun": "2026-11-10T15:19:05.572Z",
+    "lastCount": 0,
+    "leerSeit": "2026-11-10T15:19:05.572Z"
   },
   "anilist-voices": {
     "lastOk": "2026-11-09T05:08:44.967Z",
@@ -73,9 +73,9 @@
     "lastCount": 3
   },
   "cinestar": {
-    "lastOk": "2026-11-09T05:01:51.488Z",
-    "lastRun": "2026-11-09T05:01:51.488Z",
-    "lastCount": 1
+    "lastOk": "2026-11-10T15:19:01.354Z",
+    "lastRun": "2026-11-10T15:19:01.354Z",
+    "lastCount": 2
   },
   "tmdb-folgen": {
     "lastOk": "2026-11-09T05:06:17.933Z",
@@ -134,8 +134,8 @@
     "lastCount": 1
   },
   "wikidata-titel": {
-    "lastOk": "2026-11-09T05:01:52.361Z",
-    "lastRun": "2026-11-09T05:01:52.361Z",
+    "lastOk": "2026-11-10T15:19:02.470Z",
+    "lastRun": "2026-11-10T15:19:02.470Z",
     "lastCount": 16
   },
   "tv-programm": {
@@ -160,14 +160,14 @@
     "lastCount": 9
   },
   "kinoheld": {
-    "lastOk": "2026-11-09T05:02:00.929Z",
-    "lastRun": "2026-11-09T05:02:00.929Z",
+    "lastOk": "2026-11-10T15:19:04.781Z",
+    "lastRun": "2026-11-10T15:19:04.781Z",
     "lastCount": 0,
     "leerSeit": "2026-11-09T05:02:00.929Z"
   },
   "wikidata-imdb": {
-    "lastOk": "2026-11-09T05:02:00.247Z",
-    "lastRun": "2026-11-09T05:02:00.247Z",
+    "lastOk": "2026-11-10T15:19:03.934Z",
+    "lastRun": "2026-11-10T15:19:03.934Z",
     "lastCount": 5367
   },
   "rtlplus-folgen": {

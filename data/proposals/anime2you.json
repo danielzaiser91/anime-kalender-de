@@ -1,17 +1,17 @@
 {
-  "scrapedAt": "2026-11-10T14:19:25.184Z",
+  "scrapedAt": "2026-11-10T15:19:57.747Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 40,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 61,
-    "schon in einem Rubrik-Feed gelesen": 24,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 59,
+    "schon in einem Rubrik-Feed gelesen": 27,
     "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 5,
     "Sprachhinweis älter als 45 Tage": 6
   },
   "proposals": [
     {
-      "articleTitle": "Neuer Prime-Video-Anime »Devils‘ Crest« erhält zwei Cours",
+      "articleTitle": "Neuer Fantasy-Anime »Devils‘ Crest« auf Prime Video erhält zwei Cours",
       "articleUrl": "https://www.anime2you.de/news/1069473/devils-crest-erhaelt-zwei-cours/",
       "publishedAt": "2026-11-10",
       "category": "allgemein",
@@ -22,6 +22,38 @@
       "dub": "ja",
       "hinweis": "sprache",
       "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Pluto TV nimmt zwei Anime-Neuzugänge auf Deutsch ins Programm",
+      "articleUrl": "https://www.anime2you.de/news/1069625/pluto-tv-shield-hero-und-mehr/",
+      "publishedAt": "2026-11-10",
+      "category": "streaming",
+      "platforms": [],
+      "dates": [],
+      "dub": "ja",
+      "alreadyCurated": false,
+      "sammel": [
+        {
+          "titel": "Dr. STONE",
+          "zusatz": "Staffel 2",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Pluto TV"
+          ]
+        },
+        {
+          "titel": "The Rising of the Shield Hero",
+          "zusatz": "Staffel 1",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Pluto TV"
+          ],
+          "folgen": 25
+        }
+      ],
+      "sammelGelesen": "2026-11-10"
     },
     {
       "articleTitle": "Netflix zeigt Slice-of-Life-Anime »Hirayasumi« im Simulcast + Teaser",
@@ -3679,7 +3711,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-03"
+      "sammelGelesen": "2026-11-10"
     },
     {
       "articleTitle": "Nutzer verlieren gekaufte Inhalte: Tapas bestätigt Abschaltung für 2027",
@@ -3812,7 +3844,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-02"
+      "sammelGelesen": "2026-11-10"
     },
     {
       "articleTitle": "Anime-Drama »A New Dawn« erscheint auf Blu-ray + Design",
@@ -3935,7 +3967,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-02"
+      "sammelGelesen": "2026-11-10"
     },
     {
       "articleTitle": "23 Blu-ray-Termine von AniMoon, Crunchyroll und peppermint verschoben",
@@ -4209,7 +4241,7 @@
           "folgen": 13
         }
       ],
-      "sammelGelesen": "2026-11-02"
+      "sammelGelesen": "2026-11-10"
     },
     {
       "articleTitle": "Drei Anime-Serien verlassen bald den Prime-Video-Katalog",
@@ -4320,7 +4352,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-03"
+      "sammelGelesen": "2026-11-10"
     },
     {
       "articleTitle": "Netflix startet große Werbeoffensive in 15 weiteren Ländern",
