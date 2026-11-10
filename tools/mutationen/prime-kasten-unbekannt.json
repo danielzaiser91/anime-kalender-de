@@ -1,5 +1,5 @@
 [
-  { "name": "Kontrolle (unmutiert)", "aenderungen": [] },
+  { "name": "Kontrolle (unmutiert)", "tests": ["node extension/meldekasten.test.cjs"], "aenderungen": [] },
 
   { "name": "Bau: eindeutiger Name zählt nicht", "tests": ["npx tsx pipeline/check-fetch-pruefungen-unbekannt.ts"],
     "aenderungen": [{ "datei": "pipeline/fetch-pruefungen.ts", "suche": "      if (unbekannt) unbekanntZaehler.eindeutig++", "ersetze": "      void unbekannt" }] },
@@ -55,9 +55,9 @@
     "aenderungen": [{ "datei": "extension/prime-region.js", "suche": "const kopf = unbekannt ? 'Nicht auf der Prüfliste:' : 'meldet:'", "ersetze": "const kopf = 'Nicht auf der Prüfliste:'" }] },
 
   { "name": "Seite: Knopf nie versteckt", "tests": ["node extension/meldekasten.test.cjs"],
-    "aenderungen": [{ "datei": "extension/amazon.js", "suche": "    if (meldenVersteckt()) {", "ersetze": "    if (false) {" }] },
+    "aenderungen": [{ "datei": "extension/amazon-knopf-zeichnen.js", "suche": "    if (meldenVersteckt()) {", "ersetze": "    if (false) {" }] },
   { "name": "Seite: Knopf immer versteckt", "tests": ["node extension/meldekasten.test.cjs"],
-    "aenderungen": [{ "datei": "extension/amazon.js", "suche": "    if (meldenVersteckt()) {", "ersetze": "    if (true) {" }] },
+    "aenderungen": [{ "datei": "extension/amazon-knopf-zeichnen.js", "suche": "    if (meldenVersteckt()) {", "ersetze": "    if (true) {" }] },
   { "name": "Seite: Kopfzeile trotz verstecktem Knopf", "tests": ["node extension/prime-kasten-unbekannt.test.cjs"],
     "aenderungen": [{ "datei": "extension/amazon.js", "suche": "if (meldenVersteckt()) return ''", "ersetze": "if (false) return ''" }] },
   { "name": "Seite: Liste immer geladen", "tests": ["node extension/meldekasten.test.cjs"],
@@ -73,9 +73,9 @@
   { "name": "Seite: bekannte Serie nie", "tests": ["node extension/meldekasten.test.cjs"],
     "aenderungen": [{ "datei": "extension/amazon.js", "suche": "      serieBekannt,\n      seiteGehtUnsAn,", "ersetze": "      serieBekannt: () => false,\n      seiteGehtUnsAn," }] },
   { "name": "Seite: Knopf ohne \"Sprache melden\"", "tests": ["node extension/meldekasten.test.cjs"],
-    "aenderungen": [{ "datei": "extension/amazon.js", "suche": ": eintrag.unbekannt ? ' · Sprache melden' : ' · melden'", "ersetze": ": ' · melden'" }] },
+    "aenderungen": [{ "datei": "extension/amazon-knopf-zeichnen.js", "suche": ": eintrag.unbekannt ? ' · Sprache melden' : ' · melden'", "ersetze": ": ' · melden'" }] },
   { "name": "Seite: Knopf immer \"Sprache melden\"", "tests": ["node extension/meldekasten.test.cjs"],
-    "aenderungen": [{ "datei": "extension/amazon.js", "suche": ": eintrag.unbekannt ? ' · Sprache melden' : ' · melden'", "ersetze": ": ' · Sprache melden'" }] },
+    "aenderungen": [{ "datei": "extension/amazon-knopf-zeichnen.js", "suche": ": eintrag.unbekannt ? ' · Sprache melden' : ' · melden'", "ersetze": ": ' · Sprache melden'" }] },
   { "name": "Seite: Meldung ohne Kennzeichen", "tests": ["node extension/amazon-melden-spa-wechsel.test.cjs"],
     "aenderungen": [{ "datei": "extension/amazon.js", "suche": "Titel von der Seite gelesen, unbekannt=1'", "ersetze": "Titel von der Seite gelesen'" }] },
   { "name": "Seite: Meldung immer mit Kennzeichen", "tests": ["node extension/amazon-melden-spa-wechsel.test.cjs"],
