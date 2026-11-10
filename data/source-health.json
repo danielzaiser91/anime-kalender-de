@@ -5,8 +5,8 @@
     "lastCount": 11
   },
   "anime2you": {
-    "lastOk": "2026-11-10T10:01:27.420Z",
-    "lastRun": "2026-11-10T10:01:27.420Z",
+    "lastOk": "2026-11-10T11:03:37.455Z",
+    "lastRun": "2026-11-10T11:03:37.455Z",
     "lastCount": 56
   },
   "anisearch": {
@@ -82,9 +82,9 @@
     "lastCount": 930
   },
   "rohfolgen": {
-    "lastOk": "2026-11-09T22:05:46.608Z",
-    "lastRun": "2026-11-09T22:05:46.608Z",
-    "lastCount": 85
+    "lastOk": "2026-11-10T11:18:36.520Z",
+    "lastRun": "2026-11-10T11:18:36.520Z",
+    "lastCount": 11
   },
   "anisearch-folgen": {
     "lastOk": "2026-11-09T05:07:09.129Z",
@@ -112,13 +112,14 @@
     "lastCount": 11
   },
   "vorfaelle": {
-    "lastOk": "2026-11-09T22:05:35.659Z",
-    "lastRun": "2026-11-09T22:05:35.659Z",
-    "lastCount": 8
+    "lastOk": "2026-11-10T11:18:32.423Z",
+    "lastRun": "2026-11-10T11:18:32.423Z",
+    "lastCount": 0,
+    "leerSeit": "2026-11-10T10:52:54.017Z"
   },
   "crunchyroll-neu": {
-    "lastOk": "2026-11-10T10:01:08.750Z",
-    "lastRun": "2026-11-10T10:01:08.750Z",
+    "lastOk": "2026-11-10T11:03:19.099Z",
+    "lastRun": "2026-11-10T11:03:19.099Z",
     "lastCount": 183
   },
   "cartoons": {
@@ -137,13 +138,13 @@
     "lastCount": 16
   },
   "tv-programm": {
-    "lastOk": "2026-11-10T10:03:02.290Z",
-    "lastRun": "2026-11-10T10:03:02.290Z",
-    "lastCount": 289
+    "lastOk": "2026-11-10T11:05:08.654Z",
+    "lastRun": "2026-11-10T11:05:08.654Z",
+    "lastCount": 288
   },
   "tv-de": {
     "lastOk": "2026-11-05T23:04:13.126Z",
-    "lastRun": "2026-11-10T10:03:02.290Z",
+    "lastRun": "2026-11-10T11:05:08.655Z",
     "lastCount": 0,
     "lastError": "keine Seite gelesen"
   },
@@ -174,8 +175,8 @@
     "lastCount": 3
   },
   "crunchyroll-woche": {
-    "lastOk": "2026-11-10T10:01:06.919Z",
-    "lastRun": "2026-11-10T10:01:06.919Z",
+    "lastOk": "2026-11-10T11:03:16.918Z",
+    "lastRun": "2026-11-10T11:03:16.918Z",
     "lastCount": 63
   },
   "adn-news": {
@@ -184,8 +185,8 @@
     "lastCount": 69
   },
   "messbelege": {
-    "lastOk": "2026-11-10T10:01:29.665Z",
-    "lastRun": "2026-11-10T10:01:29.665Z",
+    "lastOk": "2026-11-10T11:03:39.460Z",
+    "lastRun": "2026-11-10T11:03:39.460Z",
     "lastCount": 0,
     "leerSeit": "2026-11-06T18:01:33.610Z"
   },
