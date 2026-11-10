@@ -16,7 +16,7 @@
  */
 import { appendFileSync, existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { nichtGefuehrtZeilen } from './lib/beleg-nicht-gefuehrt.ts'
-import { mitWegVermerk, schreibtTonspurUrteil, wegGiltGanzerAdresse } from './lib/weg-entwerten.ts'
+import { mitWegVermerk, urteilsMeldung, urteilsZeilen, wegGiltGanzerAdresse } from './lib/weg-entwerten.ts'
 import { amazonTitelAdresse, echteAmazonAdresse } from './lib/amazon-adresse.js'
 import { wegAusMeldung } from './lib/weg-aus-meldung.js'
 import { resolve } from 'node:path'
@@ -1173,8 +1173,8 @@ for (const gruppe of jeAdresse.values()) {
           if (b.belegt.length) zeilen.push(`      checked: [${b.belegt.join(', ')}]`)
         }
       }
-    } else if (schreibtTonspurUrteil(p.befund)) {
-      zeilen.push(`  dub: ${p.befund === 'dub'}`)
+    } else {
+      zeilen.push(...urteilsZeilen(gruppe))
     }
     // Ortszeit, nicht UTC: Eine Meldung um 00:41 Uhr trug sonst das Datum
     // des Vortags (22.08.2026).
@@ -1185,7 +1185,7 @@ for (const gruppe of jeAdresse.values()) {
       verteilbar ? `Anbieter zählt durch, hier auf die Staffel umgerechnet` : '',
       sprachen.length ? `Tonspuren: ${sprachen.join(', ')}` : '',
       widersprueche.length ? `Widersprüchliche Meldungen zu Folge ${widersprueche.join(', ')}` : '',
-      mitWegVermerk(notizJeStaffel.get(id) ?? p.notiz ?? '', !weg && !eigene.length && !schreibtTonspurUrteil(p.befund)),
+      mitWegVermerk(notizJeStaffel.get(id) ?? p.notiz ?? '', !weg && !eigene.length && !urteilsMeldung(gruppe)),
       summe?.ok ? summe.vermerk : '',
     ]
       .filter(Boolean)

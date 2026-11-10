@@ -51,11 +51,18 @@ if (fremdeUrls.join() !== '  url: https://www.amazon.de/gp/video/detail/B0TESTFR
 
 /* Ein „weg", das nicht die ganze Adresse entwertet (jüngeres „dub" ohne Folge), schreibt kein Tonspur-Nein; ein „weg" für die ganze Seite bleibt `available: false`. */
 const wegAlt = lauf('wegalt', ['--trocken']).stdout
-if (belegTitel(wegAlt).length !== 3 || /^  dub: /m.test(wegAlt) || /^  available: /m.test(wegAlt) || !wegAlt.includes('gilt nicht für die ganze Adresse')) fehler.push(`Teil-weg: drei Belege ohne dub-/available-Zeile mit Vermerk erwartet: ${wegAlt.slice(0, 400)}`)
+/* Ist die letzte Meldung ein Teil-„weg", gilt das jüngste Urteil ohne „weg" nach Datum: dub vor Teil-weg bleibt dub, ohne Urteil entsteht keins (Vermerk). */
+const wegNur = lauf('nurweg', ['--trocken']).stdout
+if (belegTitel(wegAlt).length !== 3 || (wegAlt.match(/^  dub: true$/gm) ?? []).length !== 3 || /^  available: /m.test(wegAlt) || wegAlt.includes('gilt nicht für die ganze Adresse')) fehler.push(`dub vor Teil-weg: drei Belege mit dub true, ohne available und Vermerk erwartet: ${wegAlt.slice(0, 400)}`)
+if (belegTitel(wegNur).length < 1 || /^  dub: /m.test(wegNur) || /^  available: /m.test(wegNur) || !wegNur.includes('gilt nicht für die ganze Adresse')) fehler.push(`Nur Teil-weg: Belege ohne dub-/available-Zeile mit Vermerk erwartet: ${wegNur.slice(0, 400)}`)
+const keinDubWeg = lauf('keindubweg', ['--trocken']).stdout
+if (belegTitel(keinDubWeg).length !== 3 || (keinDubWeg.match(/^  dub: false$/gm) ?? []).length !== 3 || keinDubWeg.includes('gilt nicht für die ganze Adresse')) fehler.push(`kein_dub vor Teil-weg: drei Belege mit dub false erwartet: ${keinDubWeg.slice(0, 400)}`)
+const datumVorId = lauf('datumvorid', ['--trocken']).stdout
+if (belegTitel(datumVorId).length !== 3 || (datumVorId.match(/^  dub: false$/gm) ?? []).length !== 3) fehler.push(`Datum gegen Reihenfolge: das jüngere Datum (kein_dub) gilt, drei Belege mit dub false erwartet: ${datumVorId.slice(0, 400)}`)
 const wegGanz = lauf('wegganz', ['--trocken']).stdout
 if (belegTitel(wegGanz).length !== 3 || (wegGanz.match(/^  available: false$/gm) ?? []).length !== 3 || /^  dub: /m.test(wegGanz) || wegGanz.includes('gilt nicht für die ganze Adresse')) fehler.push(`Ganzes weg: drei Belege mit available false, ohne dub und Vermerk erwartet: ${wegGanz.slice(0, 400)}`)
 
-if (!wegAlt.includes('): Netflix-Seite: Staffeltest')) fehler.push(`Teil-weg: die Notiz der Meldung fehlt hinter dem Vermerk: ${wegAlt.slice(0, 400)}`)
+if (!wegNur.includes('): Netflix-Seite: Staffeltest')) fehler.push(`Teil-weg: die Notiz der Meldung fehlt hinter dem Vermerk: ${wegAlt.slice(0, 400)}`)
 /* Mit Folgenbefund schreibt der Folgen-Zweig sein Urteil und keinen Vermerk; ein „kein_dub" ohne Folge bleibt ein Nein. */
 const wegFolge = lauf('wegfolge', ['--trocken']).stdout
 if (!/^  dub: true$/m.test(wegFolge) || wegFolge.includes('gilt nicht für die ganze Adresse')) fehler.push(`Weg mit Folgenbefund: dub-Urteil ohne Vermerk erwartet: ${wegFolge.slice(0, 400)}`)
@@ -140,4 +147,4 @@ if (fehler.length) {
   console.error(`check-fetch-pruefungen-laufzeit: ${fehler.join('; ')}`)
   process.exit(1)
 }
-console.log('check-fetch-pruefungen-laufzeit: Staffel 2 an Staffelreihe 2 (nicht OVA), Staffel 1 und 2 getrennt, Beleg in dub-confirmed.yaml angehängt, Staffel ohne Zahl über Netflix\' Aufteilung verteilt, Notiz je Staffel, Staffelsumme (Beleg 29–40 mit Bestätigungsvermerk; verschobene Titel und fehlendes JustWatch lassen die Meldung liegen), Teil-weg ohne dub-Zeile mit Vermerk, ganzes weg als available false.')
+console.log('check-fetch-pruefungen-laufzeit: Staffel 2 an Staffelreihe 2 (nicht OVA), Staffel 1 und 2 getrennt, Beleg in dub-confirmed.yaml angehängt, Staffel ohne Zahl über Netflix\' Aufteilung verteilt, Notiz je Staffel, Staffelsumme (Beleg 29–40 mit Bestätigungsvermerk; verschobene Titel und fehlendes JustWatch lassen die Meldung liegen), Teil-weg: jüngstes Urteil nach Datum (dub, kein_dub, Datum gegen Reihenfolge), nur Teil-weg ohne dub-Zeile mit Vermerk, ganzes weg als available false.')

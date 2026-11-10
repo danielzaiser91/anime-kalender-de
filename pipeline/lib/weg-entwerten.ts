@@ -48,3 +48,21 @@ export function mitWegVermerk(notiz: string, teilWegOhneUrteil: boolean): string
   if (!teilWegOhneUrteil) return notiz
   return notiz ? `${WEG_VERMERK}: ${notiz}` : WEG_VERMERK
 }
+
+/**
+ * Die Meldung, aus der das Tonspur-Urteil der Gruppe stammt. Ist die letzte Meldung (`gruppe` nach ID geordnet) ein
+ * „weg", gilt das jüngste Urteil, das kein „weg" ist, nach `gemeldet_am` (bei gleichem Datum die höhere ID); gibt es
+ * keins, entsteht kein Urteil. Sonst gilt die letzte Meldung selbst.
+ */
+export function urteilsMeldung<T extends { id: number; befund: string; gemeldet_am: string }>(gruppe: T[]): T | undefined {
+  const letzte = gruppe[gruppe.length - 1]
+  if (!letzte || schreibtTonspurUrteil(letzte.befund)) return letzte
+  const ohneWeg = gruppe.filter((m) => schreibtTonspurUrteil(m.befund))
+  return ohneWeg.reduce<T | undefined>((neueste, m) => (!neueste || m.gemeldet_am > neueste.gemeldet_am || (m.gemeldet_am === neueste.gemeldet_am && m.id > neueste.id) ? m : neueste), undefined)
+}
+
+/** Die `dub`-Zeile des Belegs: leer, wenn es kein Urteil gibt (nur Teil-„weg"). */
+export function urteilsZeilen(gruppe: { id: number; befund: string; gemeldet_am: string }[]): string[] {
+  const urteil = urteilsMeldung(gruppe)
+  return urteil ? [`  dub: ${urteil.befund === 'dub'}`] : []
+}
