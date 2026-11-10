@@ -1,0 +1,11 @@
+[
+  {"name":"Kontrolle unmutiert","aenderungen":[]},
+  {"name":"Kettenlog: budgetHinweise nicht eingebunden","datei":"tools/pr-kettenlog.mjs","suche":"...budgetHinweise(jobs, (j) => bereinige(j.log ?? ''), sauber)","ersetze":"...[]"},
+  {"name":"Kettenlog: Namensbereiniger fehlt","datei":"tools/pr-kettenlog.mjs","suche":"bereinige(j.log ?? ''), sauber)]","ersetze":"bereinige(j.log ?? ''), (n) => n)]"},
+  {"name":"budgetHinweise: laufender Job zählt","datei":"tools/pr-kettenlog-budget.mjs","suche":"if (j.status !== 'completed') continue","ersetze":"if (false) continue"},
+  {"name":"budgetHinweise: Luft treffer[1] -> [2]","datei":"tools/pr-kettenlog-budget.mjs","suche":"nur noch ${treffer[1]} KB","ersetze":"nur noch ${treffer[2]} KB"},
+  {"name":"budgetHinweise: Schwelle treffer[2] -> [1]","datei":"tools/pr-kettenlog-budget.mjs","suche":"unter ${treffer[2]} KB)","ersetze":"unter ${treffer[1]} KB)"},
+  {"name":"budgetHinweise: Name ohne Bereiniger","datei":"tools/pr-kettenlog-budget.mjs","suche":"Job „${name(j.name)}“","ersetze":"Job „${j.name}“"},
+  {"name":"budgetHinweise: find -> nie","datei":"tools/pr-kettenlog-budget.mjs","suche":".find(Boolean)","ersetze":".find((x) => !x)"},
+  {"name":"budgetHinweise: Warnzeile nur ganze Zahlen","datei":"tools/pr-kettenlog-budget.mjs","suche":"nur noch (\\d+(?:\\.\\d+)?) KB","ersetze":"nur noch (\\d+) KB"}
+]

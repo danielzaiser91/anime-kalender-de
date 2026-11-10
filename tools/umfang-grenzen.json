@@ -2,9 +2,9 @@
   "_hinweis": "Wird nur von tools/umfang-pruefen.mjs --festschreiben gesenkt, nie von Hand erhöht. `ketten` (Ausgangswert 10.10.2026) zählt Anweisungen, Typ-Felder und Objekt-Einträge, die in der Zeile ihres Vorgängers beginnen.",
   "ueberlaenge": {
     "pipeline": {
-      "funktionen": 8907,
+      "funktionen": 8816,
       "dateien": 1030,
-      "ketten": 285
+      "ketten": 284
     },
     "shared": {
       "funktionen": 237,
@@ -23,7 +23,7 @@
     },
     "extension": {
       "funktionen": 7163,
-      "dateien": 15515,
+      "dateien": 15513,
       "ketten": 45
     },
     "tools": {

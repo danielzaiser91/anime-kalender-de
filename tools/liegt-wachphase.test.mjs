@@ -28,7 +28,7 @@ console.log('liegt-wachphase: Sammelzeile (rein)')
   pruefe('Sammelzeile mit Signalen und abgerundeten Stunden', liegtZeile(funde, JETZT) === 'LIEGT: 2377 (Konflikt 30 h, Stillstand 52 h), 1500 (Freigabe ruht 13 h)', liegtZeile(funde, JETZT))
   const aus = []
   meldeLiegt(() => { throw new Error('HTTP 502\nzweite Zeile') }, () => '', (t) => aus.push(t), JETZT)
-  pruefe('Abruffehler → eigene Zeile, erste Fehlerzeile, nichts geworfen', aus.at(-1) === 'LIEGT? liegegut nicht lesbar: HTTP 502' && aus.slice(0, -1).every((z) => /fehlt – entschiedene F-Nummern unbekannt/.test(z)), aus)
+  pruefe('Abruffehler → eigene Zeile, erste Fehlerzeile, nichts geworfen', aus.at(-1) === 'LIEGT? liegegut nicht lesbar: HTTP 502' && aus.slice(0, -1).every((z) => /stand\.md fehlt – offene F-Nummern unbekannt/.test(z)), aus)
 }
 
 console.log('liegt-wachphase: eigener Prozess laeufe-aufraeumen --trocken')

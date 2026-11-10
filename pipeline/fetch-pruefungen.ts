@@ -1185,7 +1185,7 @@ for (const gruppe of jeAdresse.values()) {
   else if (!erledigteIds.has(gruppe[0]!.id)) liegenGeblieben(offenGeblieben, ohneZuordnung, p, 'keine Folge der Meldung fällt in die Zielstaffeln', ids, 'Staffelaufteilung der Seite prüfen')
 }
 
-if (zeilen.length && !TROCKEN) haengeBelegeAn({ datei: resolve(ROOT, 'data/dub-confirmed.yaml'), zeilen, heute, log, warn })
+if (!TROCKEN) haengeBelegeAn({ datei: resolve(ROOT, 'data/dub-confirmed.yaml'), zeilen, meldungen: pruefungen, heute, log, warn })
 
 if (!TROCKEN) schreibeMeldungenListe(ohneZuordnung, liste, heute)
 

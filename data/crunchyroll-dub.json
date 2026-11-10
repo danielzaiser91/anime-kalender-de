@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-11-08T16:01:58.103Z",
+  "scrapedAt": "2026-11-09T16:01:55.357Z",
   "serien": [
     {
       "url": "http://www.crunchyroll.com/de/a-place-further-than-the-universe",
@@ -72077,7 +72077,7 @@
       "seriesId": "GRGG9798R",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-10-28",
+      "geprueftAm": "2026-11-09",
       "deutschImAngebot": true,
       "staffeln": [
         {
@@ -75856,7 +75856,7 @@
       "seriesId": "GT00378123",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-10-22",
+      "geprueftAm": "2026-11-09",
       "deutschImAngebot": true,
       "staffeln": [
         {
@@ -75951,6 +75951,15 @@
           "fremd": 12,
           "deutscheFassung": false
         }
+      ],
+      "neuFolgen": [
+        "GE00378914DEDE",
+        "GE00378913DEDE",
+        "GE00378912DEDE",
+        "GE00378911DEDE",
+        "GE00378910DEDE",
+        "GE00378909DEDE",
+        "GE00378908DEDE"
       ]
     },
     {
@@ -177880,15 +177889,15 @@
       "seriesId": "GT00371866",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-11-02",
+      "geprueftAm": "2026-11-09",
       "deutschImAngebot": true,
       "staffeln": [
         {
           "name": "Staffel 1",
           "staffelId": "GS00371867JAJP",
-          "folgen": 4,
-          "kacheln": 4,
-          "deutsch": 2,
+          "folgen": 5,
+          "kacheln": 5,
+          "deutsch": 3,
           "fremd": 1,
           "deutscheFassung": true,
           "deutscheFolgen": [
@@ -177903,11 +177912,18 @@
               "guid": "GE00384253DEDE",
               "laufend": 2,
               "verfuegbarAb": "2026-11-02T15:30:00Z"
+            },
+            {
+              "nummer": 3,
+              "guid": "GE00384254DEDE",
+              "laufend": 3,
+              "verfuegbarAb": "2026-11-09T15:30:00Z"
             }
           ]
         }
       ],
       "neuFolgen": [
+        "GE00384254DEDE",
         "GE00384253DEDE",
         "GE00384252DEDE"
       ]

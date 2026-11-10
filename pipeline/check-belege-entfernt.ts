@@ -13,7 +13,6 @@ import yaml from 'js-yaml'
 import { haengeBelegeAn } from './lib/belege-anhaengen.ts'
 import { ausSchluessel, blockIstEntfernt, istEntfernt, ladeBelegeEntfernt, toteAusnahmen } from './lib/belege-entfernt.ts'
 import { ALTFAELLE } from './lib/handbeleg-notizseite-altfaelle.ts'
-import { NOTE_ASIN_ALTFAELLE } from './lib/handbeleg-note-asin.ts'
 import { SAMMELSEITEN } from './lib/handbeleg-fremde-adresse.ts'
 import { ROOT } from './lib/util.ts'
 import { ohneGesperrteSeiten } from './lib/prime-meldung-riegel.ts'
@@ -140,7 +139,6 @@ erwarte('Ausnahme: Sperre einer anderen Kennung an derselben Seite ändert nicht
 n.faelle++
 const ausnahmen = [
   ...ausSchluessel('ALTFAELLE', ALTFAELLE),
-  ...ausSchluessel('NOTE_ASIN_ALTFAELLE', NOTE_ASIN_ALTFAELLE),
   ...Object.entries(SAMMELSEITEN).map(([id, s]) => ({ liste: 'SAMMELSEITEN', anilistId: Number(id), seite: s.url })),
 ]
 const tot = toteAusnahmen(ausnahmen, belege, liste)

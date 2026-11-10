@@ -54,6 +54,22 @@ pruefe('gelöschte oder nicht lesbare PR-Datei -> kein Absturz, null', grund(['t
 pruefe('keine bewegten Dateien -> null', bewegtesGelesen({ bewegt: [], pr: ['pipeline/bau/cr.ts'], leser: LESER, lies, paketSkripte: null }) === null)
 pruefe('Umbenennung: alter Name im PR zählt', /berührt/.test(grund(['tools/neu.mjs', F])))
 
+// Bewegter Code, den niemand nennt (Auflage Prüfer 3312 A1): die Rückwärtshülle startet auch bei ihm
+{
+  const text = {
+    'tools/neu-g1.test.mjs': "import { x } from '../shared/logic.ts'\n",
+    'pipeline/check-neu-g8.ts': "const d = readFileSync('data/dub-confirmed.yaml')\n",
+    'pipeline/check-neu-g13.ts': "import { a } from './lib/adn.ts'\n",
+    'tools/check-fremd-liste.txt': 'shared/logic.ts\n',
+  }
+  const mitBewegt = (bewegt, pr) => bewegtesGelesen({ bewegt, pr, leser: [], lies: (p) => text[p] ?? null, paketSkripte: null })
+  pruefe('G1: neuer Test importiert shared/logic.ts, PR ändert sie -> Grund', /shared\/logic\.ts wird von Code genutzt/.test(mitBewegt(['tools/neu-g1.test.mjs'], ['shared/logic.ts'])), mitBewegt(['tools/neu-g1.test.mjs'], ['shared/logic.ts']))
+  pruefe('G8: neuer Wächter liest data/dub-confirmed.yaml, PR ändert sie -> Grund', /data\/dub-confirmed\.yaml wird von Code genutzt/.test(mitBewegt(['pipeline/check-neu-g8.ts'], ['data/dub-confirmed.yaml'])), mitBewegt(['pipeline/check-neu-g8.ts'], ['data/dub-confirmed.yaml']))
+  pruefe('G13: neuer Wächter importiert pipeline/lib/adn.ts, PR ändert sie -> Grund', /pipeline\/lib\/adn\.ts wird von Code genutzt/.test(mitBewegt(['pipeline/check-neu-g13.ts'], ['pipeline/lib/adn.ts'])), mitBewegt(['pipeline/check-neu-g13.ts'], ['pipeline/lib/adn.ts']))
+  pruefe('bewegter Code ohne Bezug zum PR-Code -> null', mitBewegt(['tools/neu-g1.test.mjs'], ['tools/nachbar.mjs']) === null)
+  pruefe('bewegte -liste.txt startet keine Hülle -> null', mitBewegt(['tools/check-fremd-liste.txt'], ['shared/logic.ts']) === null)
+}
+
 // Importketten: beliebig tief, kein Zweifel durch Größe
 const kette = (n) => (p) => {
   const m = /^tools\/k(\d+)\.mjs$/.exec(p)

@@ -19,7 +19,7 @@ import type { TmdbOffer } from './lib/tmdb.ts'
 import { recordSource } from './lib/health.ts'
 import { findeGeteilteHauptserien, streicheZuordnungen } from './lib/tmdb-hauptserie.ts'
 import { nachAbruf, streicheAbgelaufenes, STREICH_TAGE } from './lib/tmdb-ablauf.ts'
-import { lookup } from './lib/tmdb-titel-lookup.ts'
+import { FILMSUCHE_SEIT, koennteFilmSein, lookup } from './lib/tmdb-titel-lookup.ts'
 import { uebernimmVonHand } from './lib/tmdb-von-hand.ts'
 import { faelligeTitel } from './lib/tmdb-faellig.ts'
 import type { Vermerk404 } from './lib/tmdb-folgen-404.ts'
@@ -112,6 +112,26 @@ function streicheAlteInhalte(cache: Record<string, TmdbTitle>): void {
   if (gestrichen.length) warn(`${gestrichen.length} Titel ohne TMDB-Inhalt: älter als ${STREICH_TAGE} Tage`)
 }
 
+/**
+ * Ältestes zuerst — und was noch nie geholt wurde, ganz nach vorn.
+ *
+ * Ein Eintrag ohne `fetchedAt` stammt aus der Zeit vor dieser Änderung; sein
+ * Alter ist unbekannt und damit im Zweifel groß.
+ */
+function faelligFuerLauf(titles: Title[], cache: Record<string, TmdbTitle>, handIds: Set<number>): Title[] {
+  const grenze = new Date(Date.now() - ALTER_TAGE * 86400_000).toISOString()
+  /* Ein Fehlschlag wird früher wiedervorgelegt als ein Treffer: eine andere Schreibweise kann beim nächsten Mal treffen (28.08.2026). */
+  return faelligeTitel(titles, cache, {
+    handIds,
+    nurOhneEintrag: NUR_OHNE_EINTRAG,
+    force: FORCE,
+    grenze,
+    grenzeFehlschlag: new Date(Date.now() - 7 * 86400_000).toISOString(),
+    tot: readJson<Record<string, Vermerk404>>('data/tmdb-folgen-404.json', {}),
+    filmNeusuche: { ids: new Set(titles.filter(koennteFilmSein).map((t) => t.id)), vor: FILMSUCHE_SEIT },
+  })
+}
+
 async function main(): Promise<void> {
   loadEnv()
   const apiKey = process.env.TMDB_API_KEY
@@ -144,22 +164,7 @@ async function main(): Promise<void> {
   }
   const handIds = new Set((vonHand ?? []).map((e) => e.anilistId))
 
-  /**
-   * Ältestes zuerst — und was noch nie geholt wurde, ganz nach vorn.
-   *
-   * Ein Eintrag ohne `fetchedAt` stammt aus der Zeit vor dieser Änderung; sein
-   * Alter ist unbekannt und damit im Zweifel groß.
-   */
-  const grenze = new Date(Date.now() - ALTER_TAGE * 86400_000).toISOString()
-  /* Ein Fehlschlag wird früher wiedervorgelegt als ein Treffer: eine andere Schreibweise kann beim nächsten Mal treffen (28.08.2026). */
-  const faellig = faelligeTitel(titles, cache, {
-    handIds,
-    nurOhneEintrag: NUR_OHNE_EINTRAG,
-    force: FORCE,
-    grenze,
-    grenzeFehlschlag: new Date(Date.now() - 7 * 86400_000).toISOString(),
-    tot: readJson<Record<string, Vermerk404>>('data/tmdb-folgen-404.json', {}),
-  })
+  const faellig = faelligFuerLauf(titles, cache, handIds)
   const todo = faellig.slice(0, LIMIT)
   const nie = faellig.filter((t) => !cache[t.id]).length
   log(
