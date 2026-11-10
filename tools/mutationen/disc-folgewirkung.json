@@ -12,8 +12,12 @@
   {
     "name": "11-2-2: nur Streams schließen den Riegel nicht",
     "datei": "pipeline/bau/11-2-2-wege-ohne-weg.ts",
-    "suche": "(title.streams ?? []).length || (title.watchLinks",
-    "ersetze": "(title.watchLinks"
+    "suche": "!(title.streams ?? []).length && (title.watchLinks",
+    "ersetze": "(title.watchLinks",
+    "tests": [
+      "npx tsx pipeline/check-disc-folgewirkung.ts",
+      "npx tsx pipeline/check-wege-je-anbieter.ts"
+    ]
   },
   {
     "name": "11-2-2: jeder Kauflink gilt als Disc-Weg",
