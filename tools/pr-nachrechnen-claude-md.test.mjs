@@ -81,9 +81,13 @@ pruefe('Leser: derselbe Fall, PR ohne Bezug zum Leser -> aktuell', aktuell(ln), 
 const nur = { ...LESER, 'tools/pr-kettenlog-budget.test.mjs': "import { budgetHinweise } from './pr-kettenlog-budget.mjs'\nconst n = 'pruefer.md'\n" }
 const lb = grund(nur, ['.claude/agents/pruefer.md'], ['tools/pr-kettenlog-budget.mjs'], 11)
 pruefe('Leser: Test nennt nur den Dateinamen pruefer.md -> aktuell (bloßer Name zählt nicht)', aktuell(lb), lb)
+// Der Test liest nur die Datendatei, die zugleich bewegt ist; die .claude-Datei nennt er nicht -> sein Import hängt nicht an ihr.
+const daten = { ...LESER, 'tools/pr-kettenlog-budget.test.mjs': "import { budgetHinweise } from './pr-kettenlog-budget.mjs'\nreadFileSync('../data/dub-confirmed.yaml')\n" }
+const ld = grund(daten, ['.claude/agents/pruefer.md', 'data/dub-confirmed.yaml'], ['tools/pr-kettenlog-budget.mjs'], 12)
+pruefe('Leser: Test liest nur die Datendatei, nicht die .claude-Datei -> aktuell (sein Import zählt nicht)', aktuell(ld), ld)
 
 if (fehler.length > 0) {
   console.error(`pr-nachrechnen-claude-md.test: ${fehler.length} rot`)
   process.exit(1)
 }
-console.log(`pr-nachrechnen-claude-md.test: grün (${FAELLE.length} Anlassfälle, 7 Gegenproben, 3 Leser-Fälle)`)
+console.log(`pr-nachrechnen-claude-md.test: grün (${FAELLE.length} Anlassfälle, 7 Gegenproben, 4 Leser-Fälle)`)
