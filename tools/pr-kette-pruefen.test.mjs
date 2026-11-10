@@ -128,6 +128,7 @@ fall('anderes Env am Schritt', (d) => { d.jobs.logik.steps.at(-1).env = { X: 1 }
 // Gut-Fall: die echte Datei trägt GH_TOKEN am Schritt check:logic (patchnotes-kommentar.mjs liest damit die PR-Kommentare) und ist grün (Zeile 16).
 assert.deepEqual(lesen().jobs.logik.steps.at(-1), { run: 'npm run check:logic', env: { GH_TOKEN: '${{ github.token }}' } }, 'GH_TOKEN fehlt am check:logic-Schritt')
 fall('GH_TOKEN in anderem Teiljob', (d) => { d.jobs.typen.steps.at(-1).env = { GH_TOKEN: '${{ github.token }}' } }, /GH_TOKEN am Schritt nur bei/)
+fall('GH_TOKEN an check:logic in anderem Teiljob', (d) => { d.jobs.typen.steps.push({ run: 'npm run check:logic', env: { GH_TOKEN: '${{ github.token }}' } }) }, /GH_TOKEN am Schritt nur bei/)
 fall('GH_TOKEN an anderem Schritt im Job logik', (d) => { d.jobs.logik.steps.push({ run: 'npm run check:umfang', env: { GH_TOKEN: '${{ github.token }}' } }) }, /GH_TOKEN am Schritt nur bei/)
 fall('GH_TOKEN mit fremdem Wert', (d) => { d.jobs.logik.steps.at(-1).env = { GH_TOKEN: '${{ secrets.X }}' } }, /env am Schritt nur/)
 fall('Upload in anderem Teiljob mit richtigem with', (d) => { d.jobs.typen.steps.push({ uses: 'actions/upload-pages-artifact@v3', with: { path: 'dist', 'retention-days': 3 } }) }, /nur im Job "bau"/)
