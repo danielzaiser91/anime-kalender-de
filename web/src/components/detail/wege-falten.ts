@@ -4,10 +4,24 @@ import type { Translate } from '../../lib/i18n.tsx'
 /**
  * **Wege je Staffel falten** (Cartoons, 14.10.2026): Der Bau legt einen Weg je Staffel an (`bau/cartoon-wege.ts`), Om Nom Stories
  * hätte 56 Pillen. Aneinander anschließende Teilwege desselben Anbieters mit derselben Aussage sind eine Pille („Flg. 1–71").
- * Was sich in Urteil, Hinweis oder Haken-Bereichen unterscheidet (Jack: je Buch ein eigener Beleg), bleibt getrennt.
+ * Was sich in Urteil, Hinweis oder Haken-Art (dub ja/nein je Bereich) unterscheidet, bleibt getrennt; die Haken-Bereiche selbst sind
+ * je Teilweg verschieden (Bau: eigene Folgen) und werden beim Falten vereinigt (Prinz der Drachen: 7 Pillen, 10.11.2026).
  */
+const hakenArt = (r: StreamLink['dubRanges']) => (r ? [...new Set(r.map((x) => x.dub))].sort().join() : undefined)
 const aussage = (w: StreamLink) =>
-  JSON.stringify([w.platform, w.url, w.zugang, w.kanal, w.dub, w.dubAbgeleitet, w.dubQuelle, w.dubHintOnly, w.dubRanges, w.entferntAm, w.sharedWith])
+  JSON.stringify([w.platform, w.url, w.zugang, w.kanal, w.dub, w.dubAbgeleitet, w.dubQuelle, w.dubHintOnly, hakenArt(w.dubRanges), w.entferntAm, w.sharedWith])
+
+/** Bereiche beider Wege hintereinander; gleichartige, lückenlos anschließende Bereiche werden zu einem. */
+export function vereinigeHaken(a: StreamLink['dubRanges'], b: StreamLink['dubRanges']): StreamLink['dubRanges'] {
+  if (!a || !b) return a ?? b
+  const aus: NonNullable<StreamLink['dubRanges']> = []
+  for (const r of [...a, ...b].sort((x, y) => x.from - y.from)) {
+    const l = aus[aus.length - 1]
+    if (l && l.dub === r.dub && l.to + 1 >= r.from) l.to = Math.max(l.to, r.to)
+    else aus.push({ ...r })
+  }
+  return aus
+}
 
 function schliesstAn(vorher: StreamLink | undefined, w: StreamLink): boolean {
   return Boolean(vorher?.teilBereich && w.teilBereich && vorher.teilBereich.bis + 1 === w.teilBereich.von && aussage(vorher) === aussage(w))
@@ -22,7 +36,8 @@ export function falteTeilwege(wege: StreamLink[]): StreamLink[] {
       continue
     }
     const stand = [vorher.dubStand, w.dubStand].filter(Boolean).sort()[0]
-    aus[aus.indexOf(vorher)] = { ...vorher, teilBereich: { von: vorher.teilBereich!.von, bis: w.teilBereich!.bis }, ...(stand ? { dubStand: stand } : {}) }
+    const haken = vereinigeHaken(vorher.dubRanges, w.dubRanges)
+    aus[aus.indexOf(vorher)] = { ...vorher, teilBereich: { von: vorher.teilBereich!.von, bis: w.teilBereich!.bis }, ...(haken ? { dubRanges: haken } : {}), ...(stand ? { dubStand: stand } : {}) }
   }
   return aus
 }
