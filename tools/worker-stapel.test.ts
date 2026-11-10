@@ -23,6 +23,10 @@ const protokoll: string[] = []
 console.error = (...a: unknown[]) => void protokoll.push(a.join(' '))
 console.warn = console.error
 
+/* Feste Uhr für Test und Worker: Die Marke wird je Isolate höchstens alle 60 s geschrieben (export-speicher.ts), jeder Aufruf bekommt seine eigene Minute. */
+let uhr = Date.parse('2026-10-12T00:00:00Z')
+Date.now = () => uhr
+
 /** R2 mit dem Limit „ein Schreibzugriff je Sekunde und Schlüssel"; `immer` lässt jeden scheitern. */
 function r2Attrappe(immer = false) {
   const zuletzt = new Map<string, number>()
@@ -33,8 +37,8 @@ function r2Attrappe(immer = false) {
       async put(schluessel: string) {
         stand.puts++
         const vorher = zuletzt.get(schluessel)
-        zuletzt.set(schluessel, Date.now())
-        if (immer || (vorher !== undefined && Date.now() - vorher < 1000)) throw new Error('429 Too Many Requests')
+        zuletzt.set(schluessel, uhr)
+        if (immer || (vorher !== undefined && uhr - vorher < 1000)) throw new Error('429 Too Many Requests')
       },
     },
   }
@@ -105,9 +109,6 @@ const post = (stapel: unknown[]) =>
     body: JSON.stringify({ stapel }),
   })
 
-/* Die Marke wird je Isolate höchstens alle 60 s geschrieben (export-speicher.ts): Jeder Aufruf bekommt seine eigene Minute. */
-let uhr = Date.parse('2026-10-12T00:00:00Z')
-Date.now = () => uhr
 
 async function sende(stapel: unknown[], r2: unknown) {
   uhr += 61_000
