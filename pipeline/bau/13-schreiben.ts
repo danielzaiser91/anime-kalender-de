@@ -76,7 +76,7 @@ export function schreibeDatensatz({
   })
 
   const joynBelegt = belegeJoynTermine(allTitles, releases, events)
-  if (joynBelegt) log(`${joynBelegt} Joyn-Termin(e) durch ein Abruffenster belegt (kein ≈)`)
+  if (joynBelegt) log(`${joynBelegt} Joyn-Termin(e) ohne ≈: Tag aus belegtem Plan, Uhrzeit = Sendeende (abgeleitet)`)
 
   const spaet = schliesseSpaeteLuecken(allTitles, releases)
   if (spaet) log(`${spaet} spät entstandene Weg(e) über das Urteil aus Stufe 3 belegt`)

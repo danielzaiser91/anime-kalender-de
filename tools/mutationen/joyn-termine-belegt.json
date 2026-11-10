@@ -14,5 +14,11 @@
   { "name": "wache: estimated nicht verlangt", "aenderungen": [{ "datei": "pipeline/lib/joyn-schaetzung-pruefung.ts", "suche": " || !e.estimated", "ersetze": "" }] },
   { "name": "wache: Folgennummer nicht verglichen", "aenderungen": [{ "datei": "pipeline/lib/joyn-schaetzung-pruefung.ts", "suche": "f.nr === e.episode && ", "ersetze": "" }] },
   { "name": "wache: Uhrzeit nicht verglichen", "aenderungen": [{ "datei": "pipeline/lib/joyn-schaetzung-pruefung.ts", "suche": "f.ab === `${e.date}T${e.time}`", "ersetze": "f.ab.slice(0, 10) === e.date" }] },
-  { "name": "wache: Tag nicht verglichen", "aenderungen": [{ "datei": "pipeline/lib/joyn-schaetzung-pruefung.ts", "suche": "f.ab === `${e.date}T${e.time}`", "ersetze": "f.ab.slice(11) === e.time" }] }
+  { "name": "wache: Tag nicht verglichen", "aenderungen": [{ "datei": "pipeline/lib/joyn-schaetzung-pruefung.ts", "suche": "f.ab === `${e.date}T${e.time}`", "ersetze": "f.ab.slice(11) === e.time" }] },
+  { "name": "belegteGesamtzahl: Joyn-Ausnahme weg", "aenderungen": [{ "datei": "pipeline/lib/folgenzahl-belegt.ts", "suche": "r.platform === 'joyn' || ", "ersetze": "" }] },
+  { "name": "sendeende: Grenze 4", "aenderungen": [{ "datei": "pipeline/lib/joyn-schaetzung-pruefung.ts", "suche": ">= 5", "ersetze": ">= 4" }] },
+  { "name": "sendeende: Grenze 6", "aenderungen": [{ "datei": "pipeline/lib/joyn-schaetzung-pruefung.ts", "suche": ">= 5", "ersetze": ">= 6" }] },
+  { "name": "sendeende: immer wahr", "aenderungen": [{ "datei": "pipeline/lib/joyn-schaetzung-pruefung.ts", "suche": "Number(ab.slice(11, 13)) >= 5", "ersetze": "true" }] },
+  { "name": "belegt: Nachtfenster nicht ausgeschlossen", "aenderungen": [{ "datei": "pipeline/bau/13-1-joyn-termine-belegt.ts", "suche": " || !istSendeende(f.ab)", "ersetze": "" }] },
+  { "name": "wache: Nachtfenster nicht ausgeschlossen", "aenderungen": [{ "datei": "pipeline/lib/joyn-schaetzung-pruefung.ts", "suche": "istSendeende(f.ab) && ", "ersetze": "" }] }
 ]

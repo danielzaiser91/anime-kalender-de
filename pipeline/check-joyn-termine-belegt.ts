@@ -40,6 +40,7 @@ const { ergaenzeTermineAusNewsUndTv } = await import('./bau/08-news-tv.ts')
 const { schreibeSynopsenUndReichereAn } = await import('./bau/13-1-anreichern.ts')
 const { belegeJoynTermine } = await import('./bau/13-1-joyn-termine-belegt.ts')
 const { joynTerminGeschaetztTrotzFenster } = await import('./lib/joyn-schaetzung-pruefung.ts')
+const { belegteGesamtzahl } = await import('./lib/folgenzahl-belegt.ts')
 const { unbedingteAufrufe } = await import('./lib/unbedingte-aufrufe.ts')
 const { expandEvents } = await import('../shared/logic.ts')
 type Release = import('../shared/types.ts').Release
@@ -138,6 +139,36 @@ const zaehlerG = belegeJoynTermine([...gegen.titles.values()], nachbau, evG)
 pruefe('Andere Plattform mit gleicher Uhrzeit: nichts belegt', anderePlattform.schedule.observed === undefined, anderePlattform.schedule.observed)
 pruefe('Ohne Sendetage: nichts belegt', ohneTage.schedule.observed === undefined, ohneTage.schedule.observed)
 pruefe('Plan einen Tag nach dem Fenster (gleiche Uhrzeit): nichts belegt', einTagSpaeter.schedule.observed === undefined && zaehlerG === 0, einTagSpaeter.schedule.observed)
+
+/* Die neu gesetzten Tage machen die handgepflegte Gesamtzahl nicht zur belegten (Fenster 1–3 decken episodeCount 3 lückenlos). */
+const drei = joynTermin()
+drei.schedule.episodeCount = 3
+bau([tvTermin(), drei])
+pruefe('Vorbedingung: Joyn-Release mit episodeCount 3 trägt observed 1 bis 3', Object.keys(drei.schedule.observed ?? {}).join() === '1,2,3', drei.schedule.observed)
+pruefe('belegteGesamtzahl bleibt für den Joyn-Release unbelegt (undefined)', belegteGesamtzahl(drei) === undefined, belegteGesamtzahl(drei))
+const dreiTv = { ...drei, platform: 'tv' } as Release
+pruefe('Kontrolle: derselbe Plan als TV-Release mit den Tagen wäre belegt (3) — die Ausnahme gilt nur für Joyn', belegteGesamtzahl(dreiTv) === 3, belegteGesamtzahl(dreiTv))
+
+/* Fenster ab 00:00 bis 04:59 („vor der ersten sicheren Sichtung“) belegt nichts, auch wenn der Plan dieselbe Zeit trägt. */
+const titelMitFenster2 = (ab: string): Title => {
+  const t = titel()
+  const weg = t.streams[0] as unknown as { fenster: unknown }
+  weg.fenster = [{ nr: 2, ab, ende: '2026-12-05T23:59' }]
+  return t
+}
+const nacht = joynTermin('00:00')
+const nachtTitel = titelMitFenster2('2026-11-06T00:00')
+const nachtEreignisse = expandEvents(nacht)
+const nachtZaehler = belegeJoynTermine([nachtTitel], [nacht], nachtEreignisse)
+pruefe('Fenster ab 00:00: nichts belegt, Folge 2 bleibt ≈', nachtZaehler === 0 && nacht.schedule.observed === undefined && marken(nachtEreignisse, nacht.slug).startsWith('1 2≈'), nachtZaehler)
+const nachtBefund = joynTerminGeschaetztTrotzFenster(expandEvents(joynTermin('00:00')), new Map([[177476, nachtTitel]]))
+pruefe('Wächter: Fenster ab 00:00 gegen Plan 00:00 ist kein Befund', nachtBefund.length === 0, nachtBefund)
+const frueh = joynTermin('04:59')
+const fruehTitel = titelMitFenster2('2026-11-06T04:59')
+pruefe('Grenze: 04:59 belegt nichts', belegeJoynTermine([fruehTitel], [frueh], expandEvents(frueh)) === 0)
+const fuenf = joynTermin('05:00')
+const fuenfTitel = titelMitFenster2('2026-11-06T05:00')
+pruefe('Grenze: 05:00 belegt Folge 2', belegeJoynTermine([fuenfTitel], [fuenf], expandEvents(fuenf)) === 1)
 
 /* Wächter über den Bestand (events + titles): dieselbe Lage ohne Belegung ist ein Befund. */
 const evWach = [tvTermin(), joynTermin()].flatMap((r) => expandEvents(r))
