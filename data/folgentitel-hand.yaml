@@ -77,3 +77,15 @@
 
 # The Iceblade Sorcerer Shall Rule the World Staffel 2: Crunchyroll-Staffel „Staffel 2“ (1 deutsche Folgen, ab 2026-10-29) — Jahr, Länge und Staffelzahl passen; zu wenig vorhandene Titel für den automatischen Abgleich.
 - {anilistId: 212503, folge: 1, titel: "Der junge stärkste Zauberer der Welt nimmt an einem Magiewettbewerb teil", quelle: "Crunchyroll de-DE Serie GDKHZEP21, Staffel 2, Folge 1 (data/crunchyroll-raw)"}
+
+# Nachtrag 09.11.2026 (Folgentitel-Lücken im deutschen Bereich): die neu erschienenen Folgen derselben Serien, Titel aus dem Crunchyroll-de-DE-Archiv bzw. TMDB (de), gleiche Zählung wie die schon eingetragenen Folgen.
+- {anilistId: 152677, folge: 2, titel: "Erzählungen über jenen Tag, die keiner kennt", quelle: "Crunchyroll de-DE Serie G24H1N334, Staffel 2, Folge 2 (data/crunchyroll-raw)"}
+- {anilistId: 178868, folge: 1, titel: "Aus einer anderen Welt", quelle: "Crunchyroll de-DE Serie GT00383994, Staffel 1, Folge 1 (data/crunchyroll-raw); TMDB-Serie 'Magic Knight Rayearth' (de) Staffel 1 Folge 1, 07.10.2026 gleichlautend"}
+- {anilistId: 178868, folge: 2, titel: "Der Beginn der Legende", quelle: "Crunchyroll de-DE Serie GT00383994, Staffel 1, Folge 2 (data/crunchyroll-raw); TMDB Staffel 1 Folge 2, 14.10.2026 gleichlautend"}
+- {anilistId: 185756, folge: 4, titel: "Kriegsende", quelle: "Crunchyroll de-DE Serie GG5H5XQMD, Staffel 3, Folge 4 (data/crunchyroll-raw)"}
+- {anilistId: 191788, folge: 3, titel: "7. Premier League Spiel: Gegen Handelsschule Kashiwa", quelle: "Crunchyroll de-DE Serie G4PH0WX5J, Staffel 2, Folge 3 (data/crunchyroll-raw)"}
+- {anilistId: 195516, folge: 3, titel: "Sollen sie Kuchen essen", quelle: "Crunchyroll de-DE Serie G3KHEVDJ7, Die Tagebücher der Apothekerin Staffel 3, Folge 51 (data/crunchyroll-raw); Staffel 3 beginnt bei Crunchyroll mit Folge 49 = unsere Folge 1"}
+- {anilistId: 204011, folge: 1, titel: "Eine urbane Legende", quelle: "Crunchyroll de-DE Serie GT00371866, Staffel 1, Folge 1 (data/crunchyroll-raw)"}
+- {anilistId: 204011, folge: 2, titel: "Die verbotene Art Tavoo", quelle: "Crunchyroll de-DE Serie GT00371866, Staffel 1, Folge 2 (data/crunchyroll-raw)"}
+- {anilistId: 204389, folge: 4, titel: "Der Schmiedekönig Mizar ist erschienen!", quelle: "Crunchyroll de-DE Serie GT00361955, Staffel 2, Folge 4 (data/crunchyroll-raw)"}
+- {anilistId: 212503, folge: 2, titel: "Der junge stärkste Zauberer der Welt zieht wieder eine Maske auf!", quelle: "Crunchyroll de-DE Serie GDKHZEP21, Staffel 2, Folge 2 (data/crunchyroll-raw)"}

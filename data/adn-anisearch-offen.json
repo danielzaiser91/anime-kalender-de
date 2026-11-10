@@ -1,5 +1,5 @@
 {
-  "anzahl": 21,
+  "anzahl": 24,
   "serien": [
     {
       "showId": 336,
@@ -38,6 +38,13 @@
       ]
     },
     {
+      "showId": 663,
+      "title": "Bob Morane",
+      "originalTitle": "Bob Morane",
+      "grund": "kein-kandidat",
+      "kandidaten": []
+    },
+    {
       "showId": 727,
       "title": "Lucky Luke",
       "originalTitle": "Lucky Luke",
@@ -69,6 +76,13 @@
       "title": "Tintin (Adventures)",
       "originalTitle": "Les Aventures de Tintin",
       "grund": "titelliste-fehlt",
+      "kandidaten": []
+    },
+    {
+      "showId": 748,
+      "title": "Die unglaublichen Abenteuer des Kapitän Cousteau",
+      "originalTitle": "Les Aventures Fantastiques du Commandant Cousteau",
+      "grund": "kein-kandidat",
       "kandidaten": []
     },
     {
@@ -152,6 +166,13 @@
       "showId": 1263,
       "title": "SamSam",
       "originalTitle": "Samsam",
+      "grund": "kein-kandidat",
+      "kandidaten": []
+    },
+    {
+      "showId": 1265,
+      "title": "Billy & Buddy 3D",
+      "originalTitle": "Boule & Bill 3D",
       "grund": "kein-kandidat",
       "kandidaten": []
     },

@@ -86,9 +86,10 @@ export function revertPlan(eintraege, nummern) {
 
 // Meldungen der Ratschen-Wächter, wörtlich aus den roten Läufen vom 05./06.11.2026 (rot-nach-gruen-2026-11-06.md). Jede liefert { wert, grenze }.
 // `schluessel` (nur Umfang: je Bereich und Art eine eigene Grenze in tools/umfang-grenzen.json) wählt die Basisgrenze in `grenzeBasis`.
-// Cover: zwei Wächter melden es, check-teilseiten („Standardbild, erlaubt“) und check-cover-vorschau-bestand („Standardbild als Link-Vorschau, erlaubt“).
+// Cover: beide Wächter melden denselben Text (standardTrotzCoverMaengel); nur der Bestandswächter hängt „ (jüngste Kennungen: …)“ an, daran ist er von check-teilseiten zu unterscheiden.
 const RATSCHEN = [
-  { name: 'cover-standardbild', suche: /(\d+) Titel mit Cover zeigen das Standardbild(?: als Link-Vorschau)?, erlaubt höchstens (\d+)/, wert: (m) => Number(m[1]), grenze: (m) => Number(m[2]) },
+  { name: 'cover-standardbild', suche: /(\d+) Titel mit Cover zeigen das Standardbild als Link-Vorschau, erlaubt höchstens (\d+) \(jüngste Kennungen:/, wert: (m) => Number(m[1]), grenze: (m) => Number(m[2]), schluessel: () => 'cover-standardbild:vorschau' },
+  { name: 'cover-standardbild', suche: /(\d+) Titel mit Cover zeigen das Standardbild als Link-Vorschau, erlaubt höchstens (\d+)(?!\d| \(jüngste Kennungen:)/, wert: (m) => Number(m[1]), grenze: (m) => Number(m[2]), schluessel: () => 'cover-standardbild:teilseiten' },
   { name: 'umfang', suche: /([\w/.-]+): Überlänge der (funktionen|dateien) (\d+) statt höchstens (\d+)/, wert: (m) => Number(m[3]), grenze: (m) => Number(m[4]), schluessel: (m) => `umfang:${m[1]}:${m[2]}` },
   { name: 'umfang', suche: /([\w/.-]+): Ketten \([^)]*\) (\d+) statt höchstens (\d+)/, wert: (m) => Number(m[2]), grenze: (m) => Number(m[3]), schluessel: (m) => `umfang:${m[1]}:ketten` },
   { name: 'start-budget', suche: /start-budget: ([\d.]+) KB[^\n]*?über der Grenze von ([\d.]+) KB/, wert: (m) => Number(m[1]), grenze: (m) => Number(m[2]) },
@@ -105,16 +106,18 @@ export function ratschenMeldung(text) {
 
 /**
  * Grenzen der Ratschen am Basisstand. `lies(datei)` liefert den Text der Datei am Basisstand (git show <basis>:<datei>) oder null.
- * Rückgabe: { 'cover-standardbild', 'start-budget' (KB), 'umfang:<bereich>:<art>' }; was am Basisstand fehlt, fehlt auch hier (dann 'ratsche-pruefen').
- * Cover steht in zwei Wächtern: die strengere (kleinere) zählt.
+ * Rückgabe: { 'cover-standardbild:vorschau', 'cover-standardbild:teilseiten', 'start-budget' (KB), 'umfang:<bereich>:<art>' }; was am Basisstand fehlt, fehlt auch hier (dann 'ratsche-pruefen').
+ * Cover steht in zwei Wächtern mit eigener Grenze; jede Meldung wird gegen die ihres Wächters gemessen (ratschenMeldung.schluessel).
  */
 export function basisGrenzen(lies) {
   const grenzen = {}
-  const cover = [
-    ['pipeline/check-cover-vorschau-bestand.ts', /export const HOECHSTENS = (\d+)/],
-    ['pipeline/check-teilseiten.ts', /const STANDARD_TROTZ_COVER_HOECHSTENS = (\d+)/],
-  ].map(([datei, muster]) => muster.exec(lies(datei) ?? '')?.[1]).filter((w) => w !== undefined).map(Number)
-  if (cover.length > 0) grenzen['cover-standardbild'] = Math.min(...cover)
+  for (const [schluessel, datei, muster] of [
+    ['cover-standardbild:vorschau', 'pipeline/check-cover-vorschau-bestand.ts', /export const HOECHSTENS = (\d+)/],
+    ['cover-standardbild:teilseiten', 'pipeline/check-teilseiten.ts', /const STANDARD_TROTZ_COVER_HOECHSTENS = (\d+)/],
+  ]) {
+    const wert = muster.exec(lies(datei) ?? '')?.[1]
+    if (wert !== undefined) grenzen[schluessel] = Number(wert)
+  }
   const budget = /export const GRENZE = (\d+(?:\.\d+)?) \* KB/.exec(lies('tools/start-budget.mjs') ?? '')?.[1]
   if (budget !== undefined) grenzen['start-budget'] = Number(budget)
   const umfang = lies('tools/umfang-grenzen.json')

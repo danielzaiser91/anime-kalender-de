@@ -91,7 +91,8 @@ const abstandZu = (a, b) => a.reduce((t, v, i) => t + Math.abs(v - b[i]), 0)
 async function messeRand(seite, selektor) {
   await seite.evaluate(setzeSichtbarkeitSchwebender, 'hidden')
   const kachel = seite.locator(`${selektor} [data-tv-zeile]`).first()
-  await kachel.scrollIntoViewIfNeeded()
+  /* Mittig: `scrollIntoViewIfNeeded` ließ die Kachel am Fensterrand stehen (Unterkante 779,5 von 780 px), die Pixelzeilen darunter lagen außerhalb des Bildes. */
+  await kachel.evaluate((el) => el.scrollIntoView({ block: 'center' }))
   /* Die Woche gleitet nach der Ankunft zum nächsten Termin; erst danach ist die Lage der Kachel fest. */
   await ruheAbwarten(seite)
   const r = await kachel.boundingBox()

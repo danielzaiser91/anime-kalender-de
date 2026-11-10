@@ -65,6 +65,15 @@ export const istDatenpfad = (datei) => DATENPFADE.some((p) => datei.startsWith(p
 const LIEST_KETTE = 'docs/wissen/design-regeln.md'
 const ohneKetteLeser = (datei) => (datei.startsWith('docs/') && datei !== LIEST_KETTE) || /^[^/]+\.md$/.test(datei) || datei === 'daniel-zum-abarbeiten/00-wache.md'
 
+/**
+ * Dateien auf main, die jeden PR entwerten, auch ohne Zusammenhang: sie legen fest, was die Kette prüft (Kettendefinition, Pakete, Wächter
+ * unter tools/check-*, Grenzen, das von `design-kontrast` gelesene Dokument). Alles andere Fremde (Sammler-Workflows, Agenten-Texte,
+ * Erweiterung, einzelne Werkzeuge, Ausführungslisten `tools/check-*-liste.txt`, einzelne Prüfungen und Tests unter pipeline/ und tools/) entwertet nur bei Zusammenhang
+ * mit dem PR (`bewegtesGelesen`: Berührung, Nennung, Import in beide Richtungen). Anlass: Nacht-Merger, 15 Merges in 59 Läufen,
+ * 148 Abweisungen „main bewegte …“ (Auswertung 09.11.2026).
+ */
+export const kettenweit = (datei) => datei === LIEST_KETTE || /^(\.github\/(workflows\/pr-pruefung\.yml|actions\/.+)|package(-lock)?\.json|tsconfig[^/]*\.json|eslint\.config\.[^/]+|tools\/(check-[^/]*\.(mjs|cjs|js|ts)|umfang-grenzen\.json))$/.test(datei)
+
 const lokal = (vergleich) => (vergleich.lokalFehler === undefined ? '' : ` (lokales git: ${vergleich.lokalFehler})`)
 
 /** null = Ausnahme gilt (main bewegte nur Datenpfade, der PR keinen); sonst der Grund, warum nicht. */
@@ -82,12 +91,12 @@ export function datenpfadAusnahme(vergleich, prDateien) {
  * Merge-Fluss C (23.10.2026): Ein Sprung nur unter `data/` entwertet keinen PR, dessen Code die bewegten Dateien nicht
  * liest (Leser-Regel `pr-nachrechnen-leser.mjs`, seit 26.10.2026; vorher galt jede Datei außer Doku als Leser); der Bestandsbau prüft
  * nach dem Merge den ganzen Datensatz. Der Autor zählt seit 27.10.2026 nicht mehr (PR 2165: Squash-Merge des Patchnotes-PR 2146
- * von Daniel entwertete einen Patchnotes-PR); entscheidend sind die bewegten Dateien: Code, Workflows und alles außerhalb von `data/` entwerten, `data/` nur mit Leser. `liestBewegtes(bewegt, prDateien)` -> null | Grund. null = Ausnahme gilt, sonst der Grund.
+ * von Daniel entwertete einen Patchnotes-PR); entscheidend sind die bewegten Dateien: kettenweite Dateien (`kettenweit`) entwerten immer, alles andere nur mit Leser (seit 09.11.2026 auch Code und Workflows außerhalb der Kette). `liestBewegtes(bewegt, prDateien)` -> null | Grund. null = Ausnahme gilt, sonst der Grund.
  */
 export function botSprungAusnahme(vergleich, prDateien, liestBewegtes) {
   if (vergleich.status !== 'ahead') return `main ist gegenüber der Kettenbasis ${vergleich.status}, nicht nur vorgerückt`
   if (!vergleich.vollstaendig && abgeschnitten(vergleich)) return `Vergleich evtl. abgeschnitten${lokal(vergleich)}`
-  const fremd = vergleich.dateien.find((d) => !d.startsWith('data/') && !istDatenpfad(d) && !ohneKetteLeser(d))
+  const fremd = vergleich.dateien.find((d) => !istDatenpfad(d) && !ohneKetteLeser(d) && kettenweit(d))
   if (fremd !== undefined) return `main bewegte ${fremd}`
   const beruehrt = prDateien.find((p) => vergleich.dateien.includes(p))
   if (beruehrt !== undefined) return `der PR berührt ${beruehrt}`
@@ -112,7 +121,7 @@ function datenpfadGrund(gh, pr, basis, main, leser, voll) {
   const daten = datenpfadAusnahme(vergleich, prDateien)
   if (daten === null) return { ausnahme: `nur Daten bewegt (${DATENPFADE.join(', ')}, ${BOT_DATEIEN_OHNE_LESER.length} Bot-Dateien ohne Leser)` }
   const bot = botSprungAusnahme(vergleich, prDateien, (bewegt, dateien) => leser(bewegt, dateien, { nummer: pr.number, kopf: pr.headRefOid, main }))
-  if (bot === null) return { ausnahme: 'nur Daten-Bots unter data/, kein Code des PR liest die bewegten Dateien' }
+  if (bot === null) return { ausnahme: 'nur Fremdes ohne Zusammenhang bewegt (Daten, Sammler, Werkzeuge außerhalb der Kette), kein Code des PR liest die bewegten Dateien' }
   return { grund: daten === bot ? daten : `${daten}; ${bot}` }
 }
 
