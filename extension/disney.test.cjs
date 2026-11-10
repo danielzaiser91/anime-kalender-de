@@ -353,6 +353,8 @@ pruefe('ein zweiter Abruf derselben Staffel verdoppelt nichts', folgen.size === 
       (u) => ({ u1: 'Titel Eins', u2: 'Titel Zwei' })[u],
     )
     pruefe('Endanzeige nennt Titel und Grund je Eintrag', /Titel Eins: nicht verfügbar \(Startseite\)/.test(text) && /Titel Zwei: kein Ergebnis nach 3 Minuten/.test(text), text)
+    pruefe('Kopf nennt die Zahl der übersprungenen Titel (Rot erklärt)', /^Durchgang fertig, 2 übersprungen · 3 Titel/.test(text), text)
+    pruefe('Ohne Übersprungenes bleibt der Kopf „fertig · 1 Titel“', ktx.akDisneyEndeText({ grund: 'nichts mehr offen', erledigt: 1, uebersprungen: [] }, String) === 'Durchgang fertig · 1 Titel')
     pruefe('Ohne Übersprungenes keine Zusatzzeile', !ktx.akDisneyEndeText({ grund: 'von Hand', erledigt: 1, uebersprungen: [] }, String).includes('übersprungen'))
   }
   /* Die Form selbst — an einer Kulisse, damit sie auch bei leerer Liste geprüft wird. */
