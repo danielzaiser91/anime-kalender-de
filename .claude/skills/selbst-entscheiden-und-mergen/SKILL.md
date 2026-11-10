@@ -36,6 +36,7 @@ Datei es erlaubt. Tatsachenzahlen (IDs, Termine, Uhrzeiten, Folgenzahlen, Synchr
   Der Merge-Commit enthält nur die Konfliktauflösung; eine Prüfer-Auflage kommt als eigener Commit danach (kein Evil Merge, 13.10.2026).
   Nach einem Auto-Merge prüfen, ob für den Merge-Commit ein Push-Workflow lief (`gh run list --limit 3`);
   sonst `gh workflow run deploy.yml` (PR 824, 11.10.2026: kein Deploy ausgelöst).
+- **Engpass (Dirigent, 10.11.2026):** Meldet `pr-nachrechnen.mjs` NICHT AKTUELL, wird der PR geschlossen und wieder geöffnet, und seine Kette startet neu. Bis sie grün ist und er gemergt wurde, merge ich keinen anderen PR. Ich schätze nicht ab, ob ein anderer Merge ihn entwertet; jeder Merge dazwischen kann ihn erneut veralten lassen und die Kette ein weiteres Mal kosten.
 - **Kein Merge auf main, solange ein Deploy einen erwarteten Live-Fix trägt (26.10.2026):** Ein push-Deploy bricht den laufenden ab (Gruppe `pages`); der Merge von PR 2108 warf den Appraisal-Deploy nach 10 min weg. Vorher `gh run list --workflow deploy.yml -L 1` — läuft er und wartet Daniel auf seinen Inhalt, Merge danach.
 - **Erste Zeile des CI-Prüfers (seit 18.10.2026):** „ok“ allein heißt Pflicht-Checks des Kopfes grün; „ok, Checks rot/laufen noch/Stand unbekannt“ ist keine Merge-Freigabe — erst den Check-Stand klären.
 - **Gesetzter Auto-Merge ist kein Merge (13.10.2026):** Der CI-Prüfer läuft nach jedem Push neu und kann
