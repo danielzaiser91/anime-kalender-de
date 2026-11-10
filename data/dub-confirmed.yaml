@@ -4760,13 +4760,6 @@
       dub: true
   checkedAt: '2026-08-23'
   note: "Tonspuren: Deutsch, {\"audioTrackId\":\"de-de_dialog_0, displayName\":\"Deutsch, languageCode\":\"de-de, audioSubtype\":\"dialog, trackGroupId\":\"29e6f7c7-89a1-32a1-9c12-43802b81b5a2\"} — Amazon-Seite B0CQ4VL364: alle 51 Folgen geprüft, Abos: Prime, aniversede"
-- anilistId: 150672
-  title: "OSHI NO KO"
-  platform: primevideo
-  url: https://www.amazon.de/gp/video/detail/B0GFPBT6FG
-  dub: true
-  checkedAt: '2026-08-23'
-  note: "Tonspuren: Deutsch, 日本語, {\"audioTrackId\":\"de-de_dialog_0, displayName\":\"Deutsch, languageCode\":\"de-de, audioSubtype\":\"dialog, trackGroupId\":\"29e6f7c7-89a1-32a1-9c12-43802b81b5a2\"}, {\"audioTrackId\":\"ja-jp_dialog_0, displayName\":\"日本語, languageCode\":\"ja-jp, {\"audioTrackId\":\"ja-de_dialog_0, languageCode\":\"ja-de — Amazon-Seite B0GFPBT6FG: alle 12 Folgen geprüft, Abos: Prime, aniversede, crunchyrollde"
 - anilistId: 166531
   title: "OSHI NO KO Season 2"
   platform: primevideo
@@ -21190,7 +21183,7 @@
 - anilistId: 150672
   title: "Oshi no Ko: Mein Star"
   platform: primevideo
-  url: https://www.amazon.de/gp/video/detail/B0GFPBT6FG
+  url: https://www.amazon.de/gp/video/detail/B0B7D5DRV2
   dub: true
   dubRanges:
     - from: 1
@@ -22222,7 +22215,7 @@
 - anilistId: 150672
   title: "Oshi no Ko: Mein Star"
   platform: primevideo
-  url: https://www.amazon.de/gp/video/detail/B0GFPBT6FG
+  url: https://www.amazon.de/gp/video/detail/B0B7D5DRV2
   dub: true
   dubRanges:
     - from: 1
@@ -22235,7 +22228,7 @@
 - anilistId: 150672
   title: "Oshi no Ko: Mein Star"
   platform: primevideo
-  url: https://www.amazon.de/gp/video/detail/B0GFPBT6FG
+  url: https://www.amazon.de/gp/video/detail/B0B7D5DRV2
   dub: true
   dubRanges:
     - from: 4
@@ -22243,17 +22236,6 @@
       dub: true
   checkedAt: '2026-10-11'
   note: "Folgen 4–11 mit deutschem Ton — Anbieter zählt durch, hier auf die Staffel umgerechnet — Tonspuren: 日本語 — Amazon-Seite B0B7D5DRV2: alle 12 Folgen geprüft, Abos: Prime, aniversede, crunchyrollde, zugang=abo_und_kauf, gti=amzn1.dv.gti.30d69164-5a13-4547-80b7-4d7df334762a"
-- anilistId: 182587
-  title: "Oshi no Ko: Mein Star"
-  platform: primevideo
-  url: https://www.amazon.de/gp/video/detail/B0GFPBT6FG
-  dub: false
-  dubRanges:
-    - from: 1
-      to: 1
-      dub: false
-  checkedAt: '2026-10-11'
-  note: "Folge 1 ohne deutschen Ton — Anbieter zählt durch, hier auf die Staffel umgerechnet — Tonspuren: 日本語 — Amazon-Seite B0B7D5DRV2: alle 12 Folgen geprüft, Abos: Prime, aniversede, crunchyrollde, zugang=abo_und_kauf, gti=amzn1.dv.gti.30d69164-5a13-4547-80b7-4d7df334762a"
 - anilistId: -59427
   title: "Avengers - Gemeinsam unbesiegbar!"
   platform: disneyplus
