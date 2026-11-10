@@ -272,6 +272,7 @@ pipeline/check-joyn-luecke.ts
 pipeline/check-joyn-premiere.ts
 pipeline/check-joyn-sender-bestand-lauf.ts
 pipeline/check-joyn-sender-luecke.ts
+pipeline/check-joyn-termine-belegt.ts
 pipeline/check-jpend-finished.ts
 pipeline/check-juengeres-ja-weg.ts
 pipeline/check-jw-ablauf.ts

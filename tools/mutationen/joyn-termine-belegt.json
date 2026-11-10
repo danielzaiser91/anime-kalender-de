@@ -1,0 +1,19 @@
+[
+  { "name": "Kontrolle (unmutiert)", "aenderungen": [] },
+  { "name": "belegt: Aufruf in 13-1-anreichern weg", "aenderungen": [{ "datei": "pipeline/bau/13-1-anreichern.ts", "suche": "const joynBelegt = belegeJoynTermineAusFenstern(allTitles, releases)", "ersetze": "const joynBelegt = 0" }] },
+  { "name": "belegt: Aufruf mit leeren Releases", "aenderungen": [{ "datei": "pipeline/bau/13-1-anreichern.ts", "suche": "belegeJoynTermineAusFenstern(allTitles, releases)", "ersetze": "belegeJoynTermineAusFenstern(allTitles, [])" }] },
+  { "name": "belegt: Plattform nicht geprüft", "aenderungen": [{ "datei": "pipeline/bau/13-1-joyn-termine-belegt.ts", "suche": "r.platform !== 'joyn' || ", "ersetze": "" }] },
+  { "name": "belegt: Wochentage nicht verlangt", "aenderungen": [{ "datei": "pipeline/bau/13-1-joyn-termine-belegt.ts", "suche": " || !r.schedule.wochentage?.length", "ersetze": "" }] },
+  { "name": "belegt: Uhrzeit nicht verglichen", "aenderungen": [{ "datei": "pipeline/bau/13-1-joyn-termine-belegt.ts", "suche": "`${geplant.date}T${geplant.time}` !== f.ab", "ersetze": "geplant.date !== f.ab.slice(0, 10)" }] },
+  { "name": "belegt: Tag nicht verglichen", "aenderungen": [{ "datei": "pipeline/bau/13-1-joyn-termine-belegt.ts", "suche": "`${geplant.date}T${geplant.time}` !== f.ab", "ersetze": "geplant.time !== f.ab.slice(11)" }] },
+  { "name": "belegt: Vergleich entfällt (alles belegt)", "aenderungen": [{ "datei": "pipeline/bau/13-1-joyn-termine-belegt.ts", "suche": "if (`${geplant.date}T${geplant.time}` !== f.ab) continue", "ersetze": "" }] },
+  { "name": "belegt: vorhandene Beobachtung überschrieben", "aenderungen": [{ "datei": "pipeline/bau/13-1-joyn-termine-belegt.ts", "suche": " || r.schedule.observed?.[f.nr]", "ersetze": "" }] },
+  { "name": "belegt: Zähler nicht erhöht", "aenderungen": [{ "datei": "pipeline/bau/13-1-joyn-termine-belegt.ts", "suche": "belegt++", "ersetze": "belegt += 0" }] },
+  { "name": "pruefung: Plattform nicht geprüft", "aenderungen": [{ "datei": "pipeline/lib/joyn-schaetzung-pruefung.ts", "suche": "e.platform !== 'joyn' || ", "ersetze": "" }] },
+  { "name": "pruefung: estimated nicht verlangt", "aenderungen": [{ "datei": "pipeline/lib/joyn-schaetzung-pruefung.ts", "suche": " || !e.estimated", "ersetze": "" }] },
+  { "name": "pruefung: Folgennummer nicht verglichen", "aenderungen": [{ "datei": "pipeline/lib/joyn-schaetzung-pruefung.ts", "suche": "f.nr === e.episode && ", "ersetze": "" }] },
+  { "name": "pruefung: Uhrzeit nicht verglichen", "aenderungen": [{ "datei": "pipeline/lib/joyn-schaetzung-pruefung.ts", "suche": "f.ab === `${e.date}T${e.time}`", "ersetze": "f.ab.slice(0, 10) === e.date" }] },
+  { "name": "pruefung: Tag nicht verglichen", "aenderungen": [{ "datei": "pipeline/lib/joyn-schaetzung-pruefung.ts", "suche": "f.ab === `${e.date}T${e.time}`", "ersetze": "f.ab.slice(11) === e.time" }] },
+  { "name": "pruefung: Verdrahtung in pruefung.ts weg", "aenderungen": [{ "datei": "pipeline/lib/pruefung.ts", "suche": "...joynTerminGeschaetztTrotzFenster(events, titles),", "ersetze": "" }] },
+  { "name": "pruefung: leere Events übergeben", "aenderungen": [{ "datei": "pipeline/lib/pruefung.ts", "suche": "joynTerminGeschaetztTrotzFenster(events, titles)", "ersetze": "joynTerminGeschaetztTrotzFenster([], titles)" }] }
+]

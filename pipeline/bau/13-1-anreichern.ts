@@ -4,6 +4,7 @@ import { amazonAdresseRichten } from '../lib/amazon-adresse.ts'
 import { richtePrimeWege } from './13-1-prime-richten.ts'
 import { richteTerminAdressen } from './13-1-termin-adressen.ts'
 import { setzeJoynFenster } from './13-1-joyn-fenster.ts'
+import { belegeJoynTermineAusFenstern } from './13-1-joyn-termine-belegt.ts'
 import { providerName } from '../../shared/mappings.ts'
 
 /** Handlung je Titel, mit belegter Herkunft der deutschen Fassung. */
@@ -113,6 +114,8 @@ export function schreibeSynopsenUndReichereAn({ allTitles, releases, kanalJeAdre
   }
 
   setzeJoynFenster(allTitles, releases)
+  const joynBelegt = belegeJoynTermineAusFenstern(allTitles, releases)
+  if (joynBelegt) log(`${joynBelegt} Joyn-Termin(e) durch ein Abruffenster belegt (kein ≈)`)
   let gerichtet = richtePrimeWege(allTitles, kanalJeAdresse)
   let kanalBenannt = 0
   for (const t of allTitles) {
