@@ -22,6 +22,7 @@ import { schreibeSuchadressenImEndzustand, type OffeneSuche } from './13-3-sucha
 import { baueAuslieferung } from './13-2-auslieferung.ts'
 import { anisearchKennungen } from './anisearch-kennung.ts'
 import { schreibeSynopsenUndReichereAn } from './13-1-anreichern.ts'
+import { belegeJoynTermine } from './13-1-joyn-termine-belegt.ts'
 import { mitBelegstaerke } from '../lib/belegstaerke.ts'
 import { ergaenzeEigeneHandlungen } from './handlung-eigen-einbinden.ts'
 import { ergaenzeDeutscheFolgenzahl } from './deutsche-folgenzahl-einbinden.ts'
@@ -73,6 +74,9 @@ export function schreibeDatensatz({
     releases,
     kanalJeAdresse,
   })
+
+  const joynBelegt = belegeJoynTermine(allTitles, releases, events)
+  if (joynBelegt) log(`${joynBelegt} Joyn-Termin(e) durch ein Abruffenster belegt (kein ≈)`)
 
   const spaet = schliesseSpaeteLuecken(allTitles, releases)
   if (spaet) log(`${spaet} spät entstandene Weg(e) über das Urteil aus Stufe 3 belegt`)

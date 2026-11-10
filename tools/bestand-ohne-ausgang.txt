@@ -11,6 +11,7 @@ pipeline/check-handbeleg-fast-doppel-bestand.ts	nur Warnung (⚠ WARNUNG, Exit 0
 pipeline/check-disc-anisearch-bestand.ts	nur Warnung (⚠ WARNUNG, Exit 0): der Auszug läuft vor dem Bau, ein heute neuer Titel hat bis zum nächsten Lauf keine Zeile, Rot würde den Bestandsbau stoppen; 06.11.2026
 pipeline/check-joyn-luecke-bestand.ts	nur Warnung (⚠ WARNUNG, Exit 0): die Linkprüfung kann jederzeit eine Joyn-Adresse als tot entfernen, Rot würde den Bestandsbau stoppen; 04.11.2026
 pipeline/check-joyn-pille-bestand.ts	nur Warnung (⚠ WARNUNG, Exit 0): eine leere Joyn-Pille ist kein falscher Datensatz, eine Marke stellte den Titel zurück; 08.11.2026
+pipeline/check-joyn-termine-bestand.ts	nur Warnung (⚠ WARNUNG, Exit 0): ein überflüssiges „≈“ ist kein falscher Termin, eine Marke stellte den Titel zurück; 10.11.2026
 pipeline/check-jw-ohne-tmdb-bestand.ts	nur Warnung (⚠ WARNUNG, Exit 0): neue aniSearch-Titel kommen täglich ohne TMDB-Kennung hinzu, Rot würde den Bestandsbau stoppen; 06.11.2026
 pipeline/check-disc-archiv-bestand.ts	nur Warnung (⚠ WARNUNG, Exit 0): eine neue Archivseite kann jederzeit eine Disc führen, die der Bau nicht eindeutig zuordnet, Rot würde den Bestandsbau stoppen; 06.11.2026
 pipeline/check-eingabe-stand-bestand.ts	nur Warnung (⚠ WARNUNG, Exit 0): ein zurückgenommener Sammler-Stand ist legitim, Rot würde den Bestandsbau stoppen; 07.11.2026
