@@ -1,0 +1,666 @@
+[
+  {
+    "name": "Kontrolle (unmutiert)",
+    "aenderungen": []
+  },
+  {
+    "name": "findeRueckschritte: < zu <= (Gleichstand wäre Befund)",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/eingabe-stand.ts",
+        "suche": "Date.parse(jetzt) < Date.parse(vorher)",
+        "ersetze": "Date.parse(jetzt) <= Date.parse(vorher)"
+      }
+    ]
+  },
+  {
+    "name": "findeRueckschritte: < zu > (Fortschritt wäre Befund)",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/eingabe-stand.ts",
+        "suche": "Date.parse(jetzt) < Date.parse(vorher)",
+        "ersetze": "Date.parse(jetzt) > Date.parse(vorher)"
+      }
+    ]
+  },
+  {
+    "name": "findeRueckschritte: Textvergleich statt Zeit",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/eingabe-stand.ts",
+        "suche": "Date.parse(jetzt) < Date.parse(vorher)",
+        "ersetze": "jetzt < vorher"
+      }
+    ]
+  },
+  {
+    "name": "findeRueckschritte: alt und neu vertauscht",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/eingabe-stand.ts",
+        "suche": "gefunden.push({ eingabe, alt: vorher, neu: jetzt })",
+        "ersetze": "gefunden.push({ eingabe, alt: jetzt, neu: vorher })"
+      }
+    ]
+  },
+  {
+    "name": "findeRueckschritte: fehlende Vorgängerdatei wirft",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/eingabe-stand.ts",
+        "suche": "Object.entries(alt ?? {})",
+        "ersetze": "Object.entries(alt!)"
+      }
+    ]
+  },
+  {
+    "name": "GLEICHWERTIG (überlebt erwartet): Guard fehlender neuer Eintrag entfernt (NaN < x ist false)",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/eingabe-stand.ts",
+        "suche": "jetzt !== undefined && ",
+        "ersetze": ""
+      }
+    ]
+  },
+  {
+    "name": "findeRueckschritte: Schleife leer",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/eingabe-stand.ts",
+        "suche": "Object.entries(alt ?? {})",
+        "ersetze": "[]"
+      }
+    ]
+  },
+  {
+    "name": "leseEingabeStand: Texttyp nicht geprüft",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/eingabe-stand.ts",
+        "suche": "typeof wert === 'string' && ",
+        "ersetze": ""
+      }
+    ]
+  },
+  {
+    "name": "leseEingabeStand: Datum nicht geprüft",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/eingabe-stand.ts",
+        "suche": " && !Number.isNaN(Date.parse(wert))",
+        "ersetze": ""
+      }
+    ]
+  },
+  {
+    "name": "leseEingabeStand: ?. entfernt (null wirft)",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/eingabe-stand.ts",
+        "suche": "null | undefined)?.[feld]",
+        "ersetze": "null | undefined)![feld]"
+      }
+    ]
+  },
+  {
+    "name": "schluesselVon: data/ bleibt",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/eingabe-stand.ts",
+        "suche": ".replace(/^data\\//, '')",
+        "ersetze": ""
+      }
+    ]
+  },
+  {
+    "name": "schluesselVon: .json bleibt",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/eingabe-stand.ts",
+        "suche": ".replace(/\\.json$/, '')",
+        "ersetze": ""
+      }
+    ]
+  },
+  {
+    "name": "EINGABEN: Cache-Datei gestrichen",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/eingabe-stand.ts",
+        "suche": "  { datei: 'data/cache/anilist-katalog.json', feld: 'geholtAm' },\n",
+        "ersetze": ""
+      }
+    ]
+  },
+  {
+    "name": "baueEingabeStandDatei: stand leer",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/eingabe-stand.ts",
+        "suche": "return { stand, zurueck:",
+        "ersetze": "return { stand: {}, zurueck:"
+      }
+    ]
+  },
+  {
+    "name": "baueEingabeStandDatei: vergleicht gegen sich selbst",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/eingabe-stand.ts",
+        "suche": "findeRueckschritte(vorige?.stand, stand)",
+        "ersetze": "findeRueckschritte(stand, stand)"
+      }
+    ]
+  },
+  {
+    "name": "baueEingabeStandDatei: vorige?.stand ohne ?. (null wirft)",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/eingabe-stand.ts",
+        "suche": "vorige?.stand",
+        "ersetze": "vorige!.stand"
+      }
+    ]
+  },
+  {
+    "name": "rueckschrittZeile: Marke „⚠ WARNUNG“ fehlt (keine Annotation)",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/eingabe-stand.ts",
+        "suche": "`⚠ WARNUNG Eingabestand zurück:",
+        "ersetze": "`Eingabestand zurück:"
+      }
+    ]
+  },
+  {
+    "name": "schreibeEingabeStand: Bau-Log-Zeile entfernt",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/eingabe-stand.ts",
+        "suche": "for (const r of datei.zurueck) log(rueckschrittZeile(r))",
+        "ersetze": "void datei.zurueck"
+      }
+    ]
+  },
+  {
+    "name": "schreibeEingabeStand: vorige Datei nicht gelesen",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/eingabe-stand.ts",
+        "suche": "readJson<Partial<EingabeStandDatei> | null>(pfad, null)",
+        "ersetze": "null"
+      }
+    ]
+  },
+  {
+    "name": "schreibeEingabeStand: Datei nicht geschrieben",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/eingabe-stand.ts",
+        "suche": "writeJson(pfad, datei, true)",
+        "ersetze": "void datei"
+      }
+    ]
+  },
+  {
+    "name": "Bau: Aufruf entfernt (0 &&)",
+    "aenderungen": [
+      {
+        "datei": "pipeline/bau/13-5-kerndateien.ts",
+        "suche": "  schreibeEingabeStand(",
+        "ersetze": "  0 && schreibeEingabeStand("
+      }
+    ]
+  },
+  {
+    "name": "Bau: andere Zieldatei",
+    "aenderungen": [
+      {
+        "datei": "pipeline/bau/13-5-kerndateien.ts",
+        "suche": "${OUT}/eingabe-stand.json",
+        "ersetze": "${OUT}/eingabe-stand-x.json"
+      }
+    ]
+  },
+  {
+    "name": "Bau: Stand landet in meta.json (Besucher laden sie)",
+    "aenderungen": [
+      {
+        "datei": "pipeline/bau/13-5-kerndateien.ts",
+        "suche": "  schreibeEingabeStand(`${OUT}/eingabe-stand.json`)\n",
+        "ersetze": "  schreibeEingabeStand(`${OUT}/eingabe-stand.json`)\n  meta.eingabeStand = {}\n"
+      }
+    ]
+  },
+  {
+    "name": "Wache: Datei fehlt gibt nichts aus",
+    "aenderungen": [
+      {
+        "datei": "pipeline/check-eingabe-stand-bestand.ts",
+        "suche": "inhalt === undefined) return ['",
+        "ersetze": "inhalt === null) return ['"
+      }
+    ]
+  },
+  {
+    "name": "Wache: Rückschritte nicht ausgegeben (immer ✓)",
+    "aenderungen": [
+      {
+        "datei": "pipeline/check-eingabe-stand-bestand.ts",
+        "suche": "return warnungen.length ? warnungen :",
+        "ersetze": "return false ? warnungen :"
+      }
+    ]
+  },
+  {
+    "name": "Wache: leerer Stand ohne Warnung",
+    "aenderungen": [
+      {
+        "datei": "pipeline/check-eingabe-stand-bestand.ts",
+        "suche": "eintraege === 0 || !Array.isArray",
+        "ersetze": "eintraege < 0 || !Array.isArray"
+      }
+    ]
+  },
+  {
+    "name": "Wache: zurueck-Liste ungeprüft",
+    "aenderungen": [
+      {
+        "datei": "pipeline/check-eingabe-stand-bestand.ts",
+        "suche": " || !Array.isArray(datei.zurueck)",
+        "ersetze": ""
+      }
+    ]
+  },
+  {
+    "name": "Wache: kaputte Datei ohne Warnung",
+    "aenderungen": [
+      {
+        "datei": "pipeline/check-eingabe-stand-bestand.ts",
+        "suche": "return ['  ⚠ WARNUNG Eingabestand: eingabe-stand.json nicht lesbar']",
+        "ersetze": "return ['  ✓ Eingabestand: nicht lesbar']"
+      }
+    ]
+  },
+  {
+    "name": "Wache: Ausgabeschleife entfernt",
+    "aenderungen": [
+      {
+        "datei": "pipeline/check-eingabe-stand-bestand.ts",
+        "suche": "console.log(z)\n  console.log",
+        "ersetze": "void z\n  console.log"
+      }
+    ]
+  },
+  {
+    "name": "A1 Feld data/cache/anilist-katalog.json geholtAm → x",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/eingabe-stand.ts",
+        "suche": "data/cache/anilist-katalog.json', feld: 'geholtAm'",
+        "ersetze": "data/cache/anilist-katalog.json', feld: 'x'"
+      }
+    ]
+  },
+  {
+    "name": "A1 Feld data/adn-catalog.json scrapedAt → x",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/eingabe-stand.ts",
+        "suche": "data/adn-catalog.json', feld: 'scrapedAt'",
+        "ersetze": "data/adn-catalog.json', feld: 'x'"
+      }
+    ]
+  },
+  {
+    "name": "A1 Feld data/adn-news.json geholtAm → x",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/eingabe-stand.ts",
+        "suche": "data/adn-news.json', feld: 'geholtAm'",
+        "ersetze": "data/adn-news.json', feld: 'x'"
+      }
+    ]
+  },
+  {
+    "name": "A1 Feld data/adn.json scrapedAt → x",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/eingabe-stand.ts",
+        "suche": "data/adn.json', feld: 'scrapedAt'",
+        "ersetze": "data/adn.json', feld: 'x'"
+      }
+    ]
+  },
+  {
+    "name": "A1 Feld data/anime-ids.json updatedAt → x",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/eingabe-stand.ts",
+        "suche": "data/anime-ids.json', feld: 'updatedAt'",
+        "ersetze": "data/anime-ids.json', feld: 'x'"
+      }
+    ]
+  },
+  {
+    "name": "A1 Feld data/ann-ids.json updatedAt → x",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/eingabe-stand.ts",
+        "suche": "data/ann-ids.json', feld: 'updatedAt'",
+        "ersetze": "data/ann-ids.json', feld: 'x'"
+      }
+    ]
+  },
+  {
+    "name": "A1 Feld data/cinestar.json geholtAm → x",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/eingabe-stand.ts",
+        "suche": "data/cinestar.json', feld: 'geholtAm'",
+        "ersetze": "data/cinestar.json', feld: 'x'"
+      }
+    ]
+  },
+  {
+    "name": "A1 Feld data/cr-katalog-de.json geholtAm → x",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/eingabe-stand.ts",
+        "suche": "data/cr-katalog-de.json', feld: 'geholtAm'",
+        "ersetze": "data/cr-katalog-de.json', feld: 'x'"
+      }
+    ]
+  },
+  {
+    "name": "A1 Feld data/crunchyroll-dub.json scrapedAt → x",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/eingabe-stand.ts",
+        "suche": "data/crunchyroll-dub.json', feld: 'scrapedAt'",
+        "ersetze": "data/crunchyroll-dub.json', feld: 'x'"
+      }
+    ]
+  },
+  {
+    "name": "A1 Feld data/crunchyroll-neu.json geholtAm → x",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/eingabe-stand.ts",
+        "suche": "data/crunchyroll-neu.json', feld: 'geholtAm'",
+        "ersetze": "data/crunchyroll-neu.json', feld: 'x'"
+      }
+    ]
+  },
+  {
+    "name": "A1 Feld data/crunchyroll-series-ids.json aufgeloestAm → x",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/eingabe-stand.ts",
+        "suche": "data/crunchyroll-series-ids.json', feld: 'aufgeloestAm'",
+        "ersetze": "data/crunchyroll-series-ids.json', feld: 'x'"
+      }
+    ]
+  },
+  {
+    "name": "A1 Feld data/crunchyroll-woche.json geholtAm → x",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/eingabe-stand.ts",
+        "suche": "data/crunchyroll-woche.json', feld: 'geholtAm'",
+        "ersetze": "data/crunchyroll-woche.json', feld: 'x'"
+      }
+    ]
+  },
+  {
+    "name": "A1 Feld data/crunchyroll.json scrapedAt → x",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/eingabe-stand.ts",
+        "suche": "data/crunchyroll.json', feld: 'scrapedAt'",
+        "ersetze": "data/crunchyroll.json', feld: 'x'"
+      }
+    ]
+  },
+  {
+    "name": "A1 Feld data/motn-changes.json fetchedAt → x",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/eingabe-stand.ts",
+        "suche": "data/motn-changes.json', feld: 'fetchedAt'",
+        "ersetze": "data/motn-changes.json', feld: 'x'"
+      }
+    ]
+  },
+  {
+    "name": "A1 Feld data/motn.json fetchedAt → x",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/eingabe-stand.ts",
+        "suche": "data/motn.json', feld: 'fetchedAt'",
+        "ersetze": "data/motn.json', feld: 'x'"
+      }
+    ]
+  },
+  {
+    "name": "A1 Feld data/rtlplus-folgen.json geholtAm → x",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/eingabe-stand.ts",
+        "suche": "data/rtlplus-folgen.json', feld: 'geholtAm'",
+        "ersetze": "data/rtlplus-folgen.json', feld: 'x'"
+      }
+    ]
+  },
+  {
+    "name": "A1 Feld data/toggo.json geholtAm → x",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/eingabe-stand.ts",
+        "suche": "data/toggo.json', feld: 'geholtAm'",
+        "ersetze": "data/toggo.json', feld: 'x'"
+      }
+    ]
+  },
+  {
+    "name": "A1 Feld data/tv-programm.json geholtAm → x",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/eingabe-stand.ts",
+        "suche": "data/tv-programm.json', feld: 'geholtAm'",
+        "ersetze": "data/tv-programm.json', feld: 'x'"
+      }
+    ]
+  },
+  {
+    "name": "A1 Feld data/wikipedia-folgen.json geholtAm → x",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/eingabe-stand.ts",
+        "suche": "data/wikipedia-folgen.json', feld: 'geholtAm'",
+        "ersetze": "data/wikipedia-folgen.json', feld: 'x'"
+      }
+    ]
+  },
+  {
+    "name": "A1 Datei data/adn-catalog.json umbenannt",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/eingabe-stand.ts",
+        "suche": "'data/adn-catalog.json', feld: 'scrapedAt'",
+        "ersetze": "'data/adn-catalog-x.json', feld: 'scrapedAt'"
+      }
+    ]
+  },
+  {
+    "name": "A1 Datei data/adn-news.json umbenannt",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/eingabe-stand.ts",
+        "suche": "'data/adn-news.json', feld: 'geholtAm'",
+        "ersetze": "'data/adn-news-x.json', feld: 'geholtAm'"
+      }
+    ]
+  },
+  {
+    "name": "A1 Datei data/adn.json umbenannt",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/eingabe-stand.ts",
+        "suche": "'data/adn.json', feld: 'scrapedAt'",
+        "ersetze": "'data/adn-x.json', feld: 'scrapedAt'"
+      }
+    ]
+  },
+  {
+    "name": "A1 Datei data/anime-ids.json umbenannt",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/eingabe-stand.ts",
+        "suche": "'data/anime-ids.json', feld: 'updatedAt'",
+        "ersetze": "'data/anime-ids-x.json', feld: 'updatedAt'"
+      }
+    ]
+  },
+  {
+    "name": "A1 Datei data/ann-ids.json umbenannt",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/eingabe-stand.ts",
+        "suche": "'data/ann-ids.json', feld: 'updatedAt'",
+        "ersetze": "'data/ann-ids-x.json', feld: 'updatedAt'"
+      }
+    ]
+  },
+  {
+    "name": "A1 Datei data/cinestar.json umbenannt",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/eingabe-stand.ts",
+        "suche": "'data/cinestar.json', feld: 'geholtAm'",
+        "ersetze": "'data/cinestar-x.json', feld: 'geholtAm'"
+      }
+    ]
+  },
+  {
+    "name": "A1 Datei data/cr-katalog-de.json umbenannt",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/eingabe-stand.ts",
+        "suche": "'data/cr-katalog-de.json', feld: 'geholtAm'",
+        "ersetze": "'data/cr-katalog-de-x.json', feld: 'geholtAm'"
+      }
+    ]
+  },
+  {
+    "name": "A1 Datei data/crunchyroll-dub.json umbenannt",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/eingabe-stand.ts",
+        "suche": "'data/crunchyroll-dub.json', feld: 'scrapedAt'",
+        "ersetze": "'data/crunchyroll-dub-x.json', feld: 'scrapedAt'"
+      }
+    ]
+  },
+  {
+    "name": "A1 Datei data/crunchyroll-neu.json umbenannt",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/eingabe-stand.ts",
+        "suche": "'data/crunchyroll-neu.json', feld: 'geholtAm'",
+        "ersetze": "'data/crunchyroll-neu-x.json', feld: 'geholtAm'"
+      }
+    ]
+  },
+  {
+    "name": "A1 Datei data/crunchyroll-series-ids.json umbenannt",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/eingabe-stand.ts",
+        "suche": "'data/crunchyroll-series-ids.json', feld: 'aufgeloestAm'",
+        "ersetze": "'data/crunchyroll-series-ids-x.json', feld: 'aufgeloestAm'"
+      }
+    ]
+  },
+  {
+    "name": "A1 Datei data/crunchyroll-woche.json umbenannt",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/eingabe-stand.ts",
+        "suche": "'data/crunchyroll-woche.json', feld: 'geholtAm'",
+        "ersetze": "'data/crunchyroll-woche-x.json', feld: 'geholtAm'"
+      }
+    ]
+  },
+  {
+    "name": "A1 Datei data/crunchyroll.json umbenannt",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/eingabe-stand.ts",
+        "suche": "'data/crunchyroll.json', feld: 'scrapedAt'",
+        "ersetze": "'data/crunchyroll-x.json', feld: 'scrapedAt'"
+      }
+    ]
+  },
+  {
+    "name": "A1 Datei data/motn-changes.json umbenannt",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/eingabe-stand.ts",
+        "suche": "'data/motn-changes.json', feld: 'fetchedAt'",
+        "ersetze": "'data/motn-changes-x.json', feld: 'fetchedAt'"
+      }
+    ]
+  },
+  {
+    "name": "A1 Datei data/motn.json umbenannt",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/eingabe-stand.ts",
+        "suche": "'data/motn.json', feld: 'fetchedAt'",
+        "ersetze": "'data/motn-x.json', feld: 'fetchedAt'"
+      }
+    ]
+  },
+  {
+    "name": "A1 Datei data/rtlplus-folgen.json umbenannt",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/eingabe-stand.ts",
+        "suche": "'data/rtlplus-folgen.json', feld: 'geholtAm'",
+        "ersetze": "'data/rtlplus-folgen-x.json', feld: 'geholtAm'"
+      }
+    ]
+  },
+  {
+    "name": "A1 Datei data/toggo.json umbenannt",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/eingabe-stand.ts",
+        "suche": "'data/toggo.json', feld: 'geholtAm'",
+        "ersetze": "'data/toggo-x.json', feld: 'geholtAm'"
+      }
+    ]
+  },
+  {
+    "name": "A1 Datei data/tv-programm.json umbenannt",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/eingabe-stand.ts",
+        "suche": "'data/tv-programm.json', feld: 'geholtAm'",
+        "ersetze": "'data/tv-programm-x.json', feld: 'geholtAm'"
+      }
+    ]
+  },
+  {
+    "name": "A1 Datei data/wikipedia-folgen.json umbenannt",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/eingabe-stand.ts",
+        "suche": "'data/wikipedia-folgen.json', feld: 'geholtAm'",
+        "ersetze": "'data/wikipedia-folgen-x.json', feld: 'geholtAm'"
+      }
+    ]
+  }
+]

@@ -8725,14 +8725,14 @@
   platform: disneyplus
   url: https://www.disneyplus.com/de-de/series/aoashi/27OVvACG0ySD
   available: false
-  checkedAt: '2026-08-26'
+  checkedAt: '2026-11-09'
   note: "Disney+ meldet: nicht in deinem Gebiet verfügbar"
 - anilistId: 127230
   title: "Chainsaw Man"
   platform: disneyplus
   url: https://www.disneyplus.com/de-de/series/chainsaw-man/2gMK1kC3JIEh
   available: false
-  checkedAt: '2026-08-26'
+  checkedAt: '2026-11-09'
   note: "Disney+ meldet: nicht in deinem Gebiet verfügbar"
 - anilistId: 103221
   title: "Children of the Sea"
@@ -8746,7 +8746,7 @@
   platform: disneyplus
   url: https://www.disneyplus.com/de-de/browse/entity-5973d358-1997-47d0-942d-e85b455ed9db
   available: false
-  checkedAt: '2026-08-26'
+  checkedAt: '2026-11-09'
   note: "Disney+ meldet: nicht in deinem Gebiet verfügbar"
 - anilistId: 161476
   title: "Ishura"
@@ -8760,7 +8760,7 @@
   platform: disneyplus
   url: https://www.disneyplus.com/de-de/browse/entity-54a25fcf-a472-4d40-9968-13e2957e5abf
   available: false
-  checkedAt: '2026-08-26'
+  checkedAt: '2026-11-09'
   note: "Disney+ meldet: nicht in deinem Gebiet verfügbar"
 - anilistId: 179813
   title: "Rooster Fighter"
@@ -8803,7 +8803,7 @@
   platform: disneyplus
   url: https://www.disneyplus.com/de-de/series/the-rising-of-the-shield-hero-aka-tate-no-yuusha-no/4lgHH2jdAefe
   available: false
-  checkedAt: '2026-08-26'
+  checkedAt: '2026-11-09'
   note: "Disney+ meldet: nicht in deinem Gebiet verfügbar"
 # --- Aus dem Browser gemeldet, abgeholt am 2026-08-26 ---
 
@@ -15336,6 +15336,7 @@
   url: https://watch.amazon.de/detail?gti=amzn1.dv.gti.5482d2e9-157c-411c-b5c3-7f3210286c90
   dub: false
   checkedAt: '2026-09-22'
+  nachgemessenAm: '2026-11-09'
   zweiteQuelle: "JustWatch 2026-09-16: Crunchyroll Amazon Channel — Ton es, it, ja, Deutsch nur als Untertitel"
   note: "Zwei Quellen ohne deutschen Ton: die Kanal-Meldung aus der Erweiterung (für sich kein Beleg, siehe CLAUDE.md) und JustWatch mit 1 Angebot(en), deren Tonspuren belegt sind und Deutsch nicht enthalten."
 # --- Aus dem Browser gemeldet, abgeholt am 2026-09-22 ---
@@ -37222,6 +37223,7 @@
   platform: primevideo
   url: https://www.amazon.de/dp/B0CZSMKH71
   available: false
+  seiteNichtWerk: true
   checkedAt: '2026-10-28'
   note: "Daniels Urteil vom 13.09. gilt weiter: Die Seite ist die Hauptserie als Kauftitel, nicht das Special. Die Tonspurmessung vom 16.10. (12 Folgen) liest dieselbe Hauptserie und widerlegt das nicht."
 # --- Aus dem Browser gemeldet, abgeholt am 2026-10-28 ---
@@ -38021,7 +38023,6 @@
       dub: true
   checkedAt: '2026-11-05'
   note: "Joyn-Serienseite (Daniel, 05.11.2026): Staffel 1, Folge 1 „Auftritt Yaiba“ vom 05.11.2026, Senderlogo ProSieben MAXX; die Folgen sind die deutsche TV-Ausstrahlung (Anime2You 1059480: deutsche TV-Premiere der ersten Staffel). Gesehen ist nur Folge 1; Folgen 2–24 sind die TV-Planung laut Anime2You."
-
 # --- Anime2You 1068059 (06.11.2026), Prime Video: beide Seiten sind die im Artikel verlinkten Adressen, nicht von uns abgerufen ---
 - anilistId: 203275
   title: "Devils' Crest"
@@ -38039,7 +38040,6 @@
   dub: true
   checkedAt: '2026-11-07'
   note: "Tonspuren: Deutsch — Amazon-Seite B0DMF65NY2: alle 13 Folgen geprüft, Abos: Prime — Staffel nicht im Bestand, Titel von der Seite gelesen, zugang=abo_und_kauf, gti=amzn1.dv.gti.0e5030e4-ec94-4f4f-a7c3-23162e7e52b8"
-
 # --- Anime2You-Automatik, 2026-11-08: Synchro-Aussage im Artikel, Titel und Weg eindeutig ---
 
 - anilistId: 20613
@@ -38048,59 +38048,872 @@
   dub: true
   checkedAt: '2026-11-08'
   note: "Anime2You-Automatik: Artikel https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/ (2026-11-03): „»Akame ga KILL!« Episoden: 24 (komplett) Sprache: Deutsch“ Aussage des Artikels; Seite des Anbieters nicht geprüft."
-
 - anilistId: 2167
   title: "Clannad"
   platform: joyn
   dub: true
   checkedAt: '2026-11-08'
   note: "Anime2You-Automatik: Artikel https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/ (2026-11-03): „»Clannad« Episoden: 49 (komplett) Sprache: Deutsch“ Aussage des Artikels; Seite des Anbieters nicht geprüft."
-
 - anilistId: 1723
   title: "Clannad: Der Film"
   platform: joyn
   dub: true
   checkedAt: '2026-11-08'
   note: "Anime2You-Automatik: Artikel https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/ (2026-11-03): „»Clannad: Der Film« Laufzeit: 93 Minuten Sprache: Deutsch“ Aussage des Artikels; Seite des Anbieters nicht geprüft."
-
 - anilistId: 8142
   title: "Colorful"
   platform: joyn
   dub: true
   checkedAt: '2026-11-08'
   note: "Anime2You-Automatik: Artikel https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/ (2026-11-03): „»Colorful« Laufzeit: 126 Minuten Sprache: Deutsch“ Aussage des Artikels; Seite des Anbieters nicht geprüft."
-
 - anilistId: 99938
   title: "Girls und Panzer - Das Finale: Teil 1"
   platform: joyn
   dub: true
   checkedAt: '2026-11-08'
   note: "Anime2You-Automatik: Artikel https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/ (2026-11-03): „»Girls und Panzer: Das Finale – Teil 1« Laufzeit: 48 Minuten Sprache: Deutsch“ Aussage des Artikels; Seite des Anbieters nicht geprüft."
-
 - anilistId: 107208
   title: "Girls und Panzer - Das Finale: Teil 2"
   platform: joyn
   dub: true
   checkedAt: '2026-11-08'
   note: "Anime2You-Automatik: Artikel https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/ (2026-11-03): „»Girls und Panzer: Das Finale – Teil 2« Laufzeit: 55 Minuten Sprache: Deutsch“ Aussage des Artikels; Seite des Anbieters nicht geprüft."
-
 - anilistId: 124115
   title: "Girls und Panzer - Das Finale: Teil 3"
   platform: joyn
   dub: true
   checkedAt: '2026-11-08'
   note: "Anime2You-Automatik: Artikel https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/ (2026-11-03): „»Girls und Panzer: Das Finale – Teil 3« Laufzeit: 48 Minuten Sprache: Deutsch“ Aussage des Artikels; Seite des Anbieters nicht geprüft."
-
 - anilistId: 8425
   title: "Gosick"
   platform: joyn
   dub: true
   checkedAt: '2026-11-08'
   note: "Anime2You-Automatik: Artikel https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/ (2026-11-03): „»Gosick« Episoden: 24 (komplett) Sprache: Deutsch“ Aussage des Artikels; Seite des Anbieters nicht geprüft."
-
 - anilistId: 12189
   title: "Hyouka"
   platform: joyn
   dub: true
   checkedAt: '2026-11-08'
   note: "Anime2You-Automatik: Artikel https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/ (2026-11-03): „»Hyouka« Episoden: 23 (komplett) Sprache: Deutsch“ Aussage des Artikels; Seite des Anbieters nicht geprüft."
+
+- anilistId: 141821
+  title: "Chained Soldier"
+  platform: adn
+  dub: false
+  checkedAt: '2026-11-09'
+  note: "Daniel, 09.11.2026: alle 12 Folgen von ADN-Serie 1125 Staffel 1 im Player geprüft, Audio-Menü nur Japanisch. ADN führt S1F6 (Video 24139) trotzdem als vde — ein Fehler der Katalogdaten. Die Synchro über andere Anbieter bleibt unberührt."
+
+- anilistId: 176276
+  title: "Chained Soldier Season 2"
+  platform: adn
+  dub: false
+  checkedAt: '2026-11-09'
+  note: "Bericht der Erweiterung vom 09.11.2026 (ADN-Serie 1125 Staffel 2, 12 Folgen): alle Folgen vostde, keine vde; Daniel sah im Player nur Japanisch."
+# --- Aus dem Browser gemeldet, abgeholt am 2026-11-09 ---
+
+- anilistId: 21175
+  title: "Dragon Ball Super"
+  platform: adn
+  url: https://animationdigitalnetwork.com/de/video/999-dragon-ball-super
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 18
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]
+  checkedAt: '2026-11-09'
+  note: "Folgen 1–18 mit deutschem Ton — Tonspuren: ja, de"
+- anilistId: 21175
+  title: "Dragon Ball Super"
+  platform: adn
+  url: https://animationdigitalnetwork.com/de/video/999-dragon-ball-super
+  dub: true
+  dubRanges:
+    - from: 19
+      to: 27
+      dub: true
+      checked: [19, 20, 21, 22, 23, 24, 25, 26, 27]
+  checkedAt: '2026-11-09'
+  note: "Folgen 19–27 mit deutschem Ton — Tonspuren: ja, de"
+- anilistId: 21175
+  title: "Dragon Ball Super"
+  platform: adn
+  url: https://animationdigitalnetwork.com/de/video/999-dragon-ball-super
+  dub: true
+  dubRanges:
+    - from: 28
+      to: 46
+      dub: true
+      checked: [28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46]
+  checkedAt: '2026-11-09'
+  note: "Folgen 28–46 mit deutschem Ton — Tonspuren: ja, de"
+- anilistId: 21175
+  title: "Dragon Ball Super"
+  platform: adn
+  url: https://animationdigitalnetwork.com/de/video/999-dragon-ball-super
+  dub: true
+  dubRanges:
+    - from: 47
+      to: 76
+      dub: true
+      checked: [47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76]
+  checkedAt: '2026-11-09'
+  note: "Folgen 47–76 mit deutschem Ton — Tonspuren: ja, de"
+- anilistId: 21175
+  title: "Dragon Ball Super"
+  platform: adn
+  url: https://animationdigitalnetwork.com/de/video/999-dragon-ball-super
+  dub: true
+  dubRanges:
+    - from: 77
+      to: 131
+      dub: true
+      checked: [77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131]
+  checkedAt: '2026-11-09'
+  note: "Folgen 77–131 mit deutschem Ton — Tonspuren: ja, de"
+- anilistId: 137822
+  title: "Bluelock"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0BZYQSDN8
+  dub: true
+  kanalMessung: ja
+  checkedAt: '2026-11-09'
+  note: "Tonspuren: Deutsch, English, Español (España), Español (Latinoamérica), Français, Italiano, Polski, Polski [Opis audio], Português (Brasil), 日本語 — Amazon-Seite B0BZYQSDN8: alle 24 Folgen geprüft, Abos: crunchyrollde, zugang=abo_und_kauf, gti=amzn1.dv.gti.5ffce646-76c7-439d-bf71-df531041cb0f — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+- anilistId: 100240
+  title: "Tokyo Ghoul:re"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CW5WH6XZ
+  dub: true
+  checkedAt: '2026-11-09'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0CW5WH6XZ: alle 12 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.a77f6e73-559f-48d2-a23f-ae7495f4af5f"
+- anilistId: 21
+  title: "One Piece"
+  platform: adn
+  url: https://animationdigitalnetwork.com/de/video/561-one-piece
+  dub: false
+  dubRanges:
+    - from: 1
+      to: 21
+      dub: false
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 17, 18, 19, 20, 21]
+  checkedAt: '2026-11-09'
+  note: "Folgen 1–21 ohne deutschen Ton — Tonspuren: ja"
+- anilistId: 21
+  title: "One Piece"
+  platform: adn
+  url: https://animationdigitalnetwork.com/de/video/561-one-piece
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 61
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61]
+  checkedAt: '2026-11-09'
+  note: "Folgen 1–61 mit deutschem Ton — Tonspuren: ja, de"
+- anilistId: 21
+  title: "One Piece"
+  platform: adn
+  url: https://animationdigitalnetwork.com/de/video/561-one-piece
+  dub: true
+  dubRanges:
+    - from: 62
+      to: 143
+      dub: true
+      checked: [62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143]
+  checkedAt: '2026-11-09'
+  note: "Folgen 62–143 mit deutschem Ton — Tonspuren: ja, de"
+- anilistId: 21
+  title: "One Piece"
+  platform: adn
+  url: https://animationdigitalnetwork.com/de/video/561-one-piece
+  dub: true
+  dubRanges:
+    - from: 144
+      to: 195
+      dub: true
+      checked: [144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191, 192, 193, 194, 195]
+  checkedAt: '2026-11-09'
+  note: "Folgen 144–195 mit deutschem Ton — Tonspuren: ja, de"
+- anilistId: 21
+  title: "One Piece"
+  platform: adn
+  url: https://animationdigitalnetwork.com/de/video/561-one-piece
+  dub: true
+  dubRanges:
+    - from: 196
+      to: 228
+      dub: true
+      checked: [196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223, 224, 225, 226, 227, 228]
+  checkedAt: '2026-11-09'
+  note: "Folgen 196–228 mit deutschem Ton — Tonspuren: ja, de"
+- anilistId: 21
+  title: "One Piece"
+  platform: adn
+  url: https://animationdigitalnetwork.com/de/video/561-one-piece
+  dub: true
+  dubRanges:
+    - from: 229
+      to: 325
+      dub: true
+      checked: [229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239, 240, 241, 242, 243, 244, 245, 246, 247, 248, 249, 250, 251, 252, 253, 254, 255, 256, 257, 258, 259, 260, 261, 262, 263, 264, 265, 266, 267, 268, 269, 270, 271, 272, 273, 274, 275, 276, 277, 278, 279, 280, 281, 282, 283, 284, 285, 286, 287, 288, 289, 290, 291, 292, 293, 294, 295, 296, 297, 298, 299, 300, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 311, 312, 313, 314, 315, 316, 317, 318, 319, 320, 321, 322, 323, 324, 325]
+  checkedAt: '2026-11-09'
+  note: "Folgen 229–325 mit deutschem Ton — Tonspuren: ja, de"
+- anilistId: 21
+  title: "One Piece"
+  platform: adn
+  url: https://animationdigitalnetwork.com/de/video/561-one-piece
+  dub: true
+  dubRanges:
+    - from: 326
+      to: 389
+      dub: true
+      checked: [326, 327, 328, 329, 330, 331, 332, 333, 334, 335, 336, 337, 338, 339, 340, 341, 342, 343, 344, 345, 346, 347, 348, 349, 350, 351, 352, 353, 354, 355, 356, 357, 358, 359, 360, 361, 362, 363, 364, 365, 366, 367, 368, 369, 370, 371, 372, 373, 374, 375, 376, 377, 378, 379, 380, 381, 382, 383, 384, 385, 386, 387, 388, 389]
+  checkedAt: '2026-11-09'
+  note: "Folgen 326–389 mit deutschem Ton — Tonspuren: ja, de"
+- anilistId: 21
+  title: "One Piece"
+  platform: adn
+  url: https://animationdigitalnetwork.com/de/video/561-one-piece
+  dub: true
+  dubRanges:
+    - from: 390
+      to: 516
+      dub: true
+      checked: [390, 391, 392, 393, 394, 395, 396, 397, 398, 399, 400, 401, 402, 403, 404, 405, 406, 407, 408, 409, 410, 411, 412, 413, 414, 415, 416, 417, 418, 419, 420, 421, 422, 423, 424, 425, 426, 427, 428, 429, 430, 431, 432, 433, 434, 435, 436, 437, 438, 439, 440, 441, 442, 443, 444, 445, 446, 447, 448, 449, 450, 451, 452, 453, 454, 455, 456, 457, 458, 459, 460, 461, 462, 463, 464, 465, 466, 467, 468, 469, 470, 471, 472, 473, 474, 475, 476, 477, 478, 479, 480, 481, 482, 483, 484, 485, 486, 487, 488, 489, 490, 491, 493, 494, 495, 496, 497, 498, 499, 500, 501, 502, 503, 504, 505, 506, 507, 508, 509, 510, 511, 512, 513, 514, 515, 516]
+  checkedAt: '2026-11-09'
+  note: "Folgen 390–516 mit deutschem Ton — Tonspuren: ja, de"
+- anilistId: 21
+  title: "One Piece"
+  platform: adn
+  url: https://animationdigitalnetwork.com/de/video/561-one-piece
+  dub: false
+  dubRanges:
+    - from: 780
+      to: 877
+      dub: false
+      checked: [780, 781, 782, 783, 784, 785, 786, 787, 788, 789, 790, 791, 792, 793, 794, 795, 796, 797, 798, 799, 800, 801, 802, 803, 804, 805, 806, 807, 808, 809, 810, 811, 812, 813, 814, 815, 816, 817, 818, 819, 820, 821, 822, 823, 824, 825, 826, 827, 828, 829, 830, 831, 832, 833, 834, 835, 836, 837, 838, 839, 840, 841, 842, 843, 844, 845, 846, 847, 848, 849, 850, 851, 852, 853, 854, 855, 856, 857, 858, 859, 860, 861, 862, 863, 864, 865, 866, 867, 868, 869, 870, 871, 872, 873, 874, 875, 876, 877]
+  checkedAt: '2026-11-09'
+  note: "Folgen 780–877 ohne deutschen Ton — Tonspuren: ja"
+- anilistId: 13161
+  title: "Aesthetica of a Rogue Hero"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0GVKRLHXX
+  dub: true
+  kanalMessung: ja
+  checkedAt: '2026-11-09'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0GVKRLHXX: alle 12 Folgen geprüft, Abos: animedigitalde, aniversede, zugang=abo, gti=amzn1.dv.gti.b65abc7b-c33d-4fcf-a652-78dea8dce6a7 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+- anilistId: 21
+  title: "One Piece"
+  platform: adn
+  url: https://animationdigitalnetwork.com/de/video/561-one-piece
+  dub: false
+  dubRanges:
+    - from: 878
+      to: 891
+      dub: false
+      checked: [878, 879, 880, 881, 882, 883, 884, 885, 886, 887, 888, 889, 890, 891]
+  checkedAt: '2026-11-09'
+  note: "Folgen 878–891 ohne deutschen Ton — Tonspuren: ja"
+- anilistId: 21
+  title: "One Piece"
+  platform: adn
+  url: https://animationdigitalnetwork.com/de/video/561-one-piece
+  dub: false
+  dubRanges:
+    - from: 892
+      to: 1013
+      dub: false
+      checked: [892, 893, 894, 895, 896, 897, 898, 899, 900, 901, 902, 903, 904, 905, 906, 907, 908, 909, 910, 911, 912, 913, 914, 915, 916, 917, 918, 919, 920, 921, 922, 923, 924, 925, 926, 927, 928, 929, 930, 931, 932, 933, 934, 935, 936, 937, 938, 939, 940, 941, 942, 943, 944, 945, 946, 947, 948, 949, 950, 951, 952, 953, 954, 955, 956, 957, 958, 959, 960, 961, 962, 963, 964, 965, 966, 967, 968, 969, 970, 971, 972, 973, 974, 975, 976, 977, 978, 979, 980, 981, 982, 983, 984, 985, 986, 987, 988, 989, 990, 991, 992, 993, 994, 995, 996, 997, 998, 999, 1000, 1001, 1002, 1003, 1004, 1005, 1006, 1008, 1009, 1010, 1013]
+  checkedAt: '2026-11-09'
+  note: "Folgen 892–1013 ohne deutschen Ton — Tonspuren: ja"
+
+- anilistId: 381
+  title: "Fushigi Yûgi New OVA: The Mysterious Play"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0CJYMLW6W
+  dub: false
+  checkedAt: '2026-09-19'
+  nachgemessenAm: '2026-11-09'
+  note: "Prime „Fushigi Yugi OVA“ (Crunchyroll-Kanal) = Staffel 1 TV-Serie 52 Folgen, Staffel 2 beide OVAs 3+6 = 9 Folgen (Daniel, Durchgang 19.09.2026). Amazons Sprachangabe ist beim Kanal kein Beleg; Beleg ist die Crunchyroll-API (DE-Katalog, Serie GRWE2W42R, 0 von 9 Folgen deutsch, gemessen 06.09.2026). Deutsch gibt es nur auf DVD (2005)."
+
+# --- Kanal-Meldungen mit zweiter Quelle belegt, 2026-09-09 ---
+- anilistId: 112444
+  title: "Appare-Ranman!"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B09MDQX4CW
+  dub: false
+  checkedAt: '2026-09-09'
+  nachgemessenAm: '2026-11-09'
+  zweiteQuelle: "JustWatch 2026-09-07: Crunchyroll, Crunchyroll Amazon Channel — Ton en, es, ja, pt, ru, Deutsch nur als Untertitel"
+  note: "Zwei Quellen ohne deutschen Ton: die Kanal-Meldung aus der Erweiterung (für sich kein Beleg, siehe CLAUDE.md) und JustWatch mit 2 Angebot(en), deren Tonspuren belegt sind und Deutsch nicht enthalten."
+
+- anilistId: 195153
+  title: "Dusk Beyond the End of the World"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0FP4BJZFG
+  dub: false
+  checkedAt: '2026-09-09'
+  nachgemessenAm: '2026-11-09'
+  zweiteQuelle: "JustWatch 2026-09-07: Aniverse Amazon Channel, Anime Digital Network Amazon Channel — Ton ja, Deutsch nur als Untertitel"
+  note: "Zwei Quellen ohne deutschen Ton: die Kanal-Meldung aus der Erweiterung (für sich kein Beleg, siehe CLAUDE.md) und JustWatch mit 2 Angebot(en), deren Tonspuren belegt sind und Deutsch nicht enthalten."
+
+- anilistId: 172453
+  title: "From Bureaucrat to Villainess: Dad’s Been Reincarnated!"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0DMKS6Y12
+  dub: false
+  checkedAt: '2026-09-09'
+  nachgemessenAm: '2026-11-09'
+  zweiteQuelle: "JustWatch 2026-09-07: Aniverse Amazon Channel, Anime Digital Network Amazon Channel — Ton ja, Deutsch nur als Untertitel"
+  note: "Zwei Quellen ohne deutschen Ton: die Kanal-Meldung aus der Erweiterung (für sich kein Beleg, siehe CLAUDE.md) und JustWatch mit 2 Angebot(en), deren Tonspuren belegt sind und Deutsch nicht enthalten."
+
+- anilistId: 5081
+  title: "Bakemonogatari"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0FRB2TRSF
+  dub: false
+  checkedAt: '2026-09-09'
+  nachgemessenAm: '2026-11-09'
+  zweiteQuelle: "JustWatch 2026-09-07: Anime Digital Network Amazon Channel, Zavvi — Ton ja, Deutsch nur als Untertitel"
+  note: "Zwei Quellen ohne deutschen Ton: die Kanal-Meldung aus der Erweiterung (für sich kein Beleg, siehe CLAUDE.md) und JustWatch mit 2 Angebot(en), deren Tonspuren belegt sind und Deutsch nicht enthalten."
+
+# --- Kanal-Meldungen mit zweiter Quelle belegt, 2026-09-21 ---
+- anilistId: 18507
+  title: "Free! Iwatobi Swim Club"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0CHN14W48
+  dub: false
+  checkedAt: '2026-09-21'
+  nachgemessenAm: '2026-11-09'
+  zweiteQuelle: "Handbeleg crunchyroll 2026-08-23: kein deutscher Ton"
+  note: "Zwei Quellen ohne deutschen Ton: die Kanal-Meldung aus der Erweiterung (für sich kein Beleg, siehe CLAUDE.md) und der Handbeleg beim Anbieter des Kanals für denselben Titel."
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-11-09 ---
+
+- anilistId: 21
+  title: "One Piece"
+  platform: adn
+  url: https://animationdigitalnetwork.com/de/video/561-one-piece
+  dub: true
+  dubRanges:
+    - from: 1007
+      to: 1087
+      dub: false
+      checked: [1007, 1011, 1012, 1014, 1015, 1016, 1017, 1018, 1019, 1020, 1021, 1022, 1023, 1024, 1025, 1026, 1027, 1028, 1029, 1030, 1031, 1032, 1033, 1034, 1035, 1036, 1037, 1038, 1039, 1040, 1041, 1042, 1043, 1044, 1045, 1046, 1047, 1048, 1049, 1050, 1051, 1052, 1053, 1054, 1055, 1056, 1057, 1058, 1059, 1060, 1061, 1062, 1063, 1064, 1065, 1066, 1067, 1068, 1069, 1070, 1071, 1072, 1073, 1074, 1075, 1076, 1077, 1078, 1079, 1080, 1081, 1082, 1083, 1084, 1085, 1086, 1087]
+    - from: 1088
+      to: 1088
+      dub: true
+      checked: [1088]
+  checkedAt: '2026-11-09'
+  note: "Folgen 1007–1087 ohne deutschen Ton, Folge 1088 mit deutschem Ton — Tonspuren: ja, de"
+
+- anilistId: 21
+  title: "One Piece"
+  platform: adn
+  url: https://animationdigitalnetwork.com/de/video/561-one-piece
+  dub: false
+  dubRanges:
+    - from: 1089
+      to: 1155
+      dub: false
+      checked: [1089, 1090, 1091, 1092, 1093, 1094, 1095, 1096, 1097, 1098, 1099, 1100, 1101, 1102, 1103, 1104, 1105, 1106, 1107, 1108, 1109, 1128, 1129, 1130, 1131, 1132, 1133, 1134, 1135, 1136, 1137, 1138, 1139, 1140, 1141, 1142, 1143, 1144, 1145, 1146, 1147, 1148, 1149, 1150, 1151, 1152, 1153, 1154, 1155]
+  checkedAt: '2026-11-09'
+  note: "Folgen 1089–1155 ohne deutschen Ton — Tonspuren: ja"
+
+- anilistId: 21
+  title: "One Piece"
+  platform: adn
+  url: https://animationdigitalnetwork.com/de/video/561-one-piece
+  dub: false
+  dubRanges:
+    - from: 1156
+      to: 1180
+      dub: false
+      checked: [1156, 1157, 1158, 1159, 1160, 1161, 1162, 1163, 1164, 1165, 1166, 1167, 1168, 1169, 1170, 1171, 1172, 1173, 1174, 1175, 1176, 1177, 1178, 1179, 1180]
+  checkedAt: '2026-11-09'
+  note: "Folgen 1156–1180 ohne deutschen Ton — Tonspuren: ja"
+
+- anilistId: 139587
+  title: "Reincarnated as a Sword"
+  platform: adn
+  url: https://animationdigitalnetwork.com/de/video/970-reincarnated-as-a-sword
+  dub: false
+  checkedAt: '2026-11-09'
+  note: "Folgen 1–12 ohne deutschen Ton — Tonspuren: ja"
+
+- anilistId: 166715
+  title: "Black Butler: Public School Arc"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CX261SM2
+  dub: true
+  kanalMessung: ja
+  checkedAt: '2026-11-09'
+  note: "Tonspuren: Deutsch, English, Español (Latinoamérica), Français, 日本語 — Amazon-Seite B0CX261SM2: alle 11 Folgen geprüft, Abos: crunchyrollde, zugang=abo, gti=amzn1.dv.gti.c91ac4b1-c321-45cf-a39b-78935d20aa47 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 197824
+  title: "Farming Life in Another World 2"
+  platform: adn
+  url: https://animationdigitalnetwork.com/de/video/1008-farming-life-in-another-world
+  dub: false
+  checkedAt: '2026-11-09'
+  note: "Folgen 1–12 ohne deutschen Ton — Tonspuren: ja"
+
+- anilistId: -64198
+  title: "Blaze und die Monster-Maschinen"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0FBKJJ7RQ
+  dub: true
+  checkedAt: '2026-11-09'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0FBKJJ7RQ: alle 20 Folgen geprüft, Abos: Prime, paramountplusde, wowfictionde — Staffel nicht im Bestand, Titel von der Seite gelesen, zugang=abo, gti=amzn1.dv.gti.d9954d13-747b-472b-8358-69c684556af0"
+
+- anilistId: -64198
+  title: "Blaze und die Monster-Maschinen"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B09S18JVBH
+  dub: true
+  kanalMessung: ja
+  checkedAt: '2026-11-09'
+  note: "Tonspuren: Deutsch, English — Amazon-Seite B09S18JVBH: alle 20 Folgen geprüft, Abos: paramountplusde, wowfictionde — Staffel nicht im Bestand, Titel von der Seite gelesen, zugang=abo, gti=amzn1.dv.gti.2abbd904-0413-a597-1562-f3e049abb92c — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: -64198
+  title: "Blaze und die Monster-Maschinen"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0B72LB1P9
+  dub: true
+  kanalMessung: ja
+  checkedAt: '2026-11-09'
+  note: "Tonspuren: Deutsch, English — Amazon-Seite B0B72LB1P9: alle 20 Folgen geprüft, Abos: paramountplusde, wowfictionde — Staffel nicht im Bestand, Titel von der Seite gelesen, zugang=abo, gti=amzn1.dv.gti.d0bc3f95-17cf-f2a4-0ce9-f2928a4e087e — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: -64198
+  title: "Blaze und die Monster-Maschinen"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B09SVX1TT1
+  dub: true
+  kanalMessung: ja
+  checkedAt: '2026-11-09'
+  note: "Tonspuren: Deutsch, English, English [Audio Description] — Amazon-Seite B09SVX1TT1: alle 20 Folgen geprüft, Abos: paramountplusde, wowfictionde — Staffel nicht im Bestand, Titel von der Seite gelesen, zugang=abo, gti=amzn1.dv.gti.184098d2-15db-4bdc-ae36-a43c053c64dd — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 11757
+  title: "Sword Art Online"
+  platform: adn
+  url: https://animationdigitalnetwork.com/de/video/442-sword-art-online
+  dub: true
+  checkedAt: '2026-11-09'
+  note: "Folgen 1–25 mit deutschem Ton — Anbieter zählt durch, hier auf die Staffel umgerechnet — Tonspuren: ja, de"
+
+- anilistId: 20594
+  title: "Sword Art Online II"
+  platform: adn
+  url: https://animationdigitalnetwork.com/de/video/442-sword-art-online
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 22
+      dub: true
+  checkedAt: '2026-11-09'
+  note: "Folgen 1–22 mit deutschem Ton — Anbieter zählt durch, hier auf die Staffel umgerechnet — Tonspuren: ja, de"
+
+- anilistId: -64198
+  title: "Blaze und die Monster-Maschinen"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B09ZL6FBW2
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 8
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8]
+    - from: 9
+      to: 9
+      dub: false
+      checked: [9]
+    - from: 10
+      to: 11
+      dub: true
+      checked: [10, 11]
+    - from: 12
+      to: 15
+      dub: false
+      checked: [12, 13, 14, 15]
+    - from: 16
+      to: 16
+      dub: true
+      checked: [16]
+    - from: 17
+      to: 17
+      dub: false
+      checked: [17]
+    - from: 18
+      to: 18
+      dub: true
+      checked: [18]
+    - from: 19
+      to: 19
+      dub: false
+      checked: [19]
+    - from: 20
+      to: 20
+      dub: true
+      checked: [20]
+    - from: 21
+      to: 21
+      dub: false
+      checked: [21]
+    - from: 22
+      to: 22
+      dub: true
+      checked: [22]
+    - from: 23
+      to: 23
+      dub: false
+      checked: [23]
+    - from: 24
+      to: 24
+      dub: true
+      checked: [24]
+    - from: 25
+      to: 25
+      dub: false
+      checked: [25]
+    - from: 26
+      to: 26
+      dub: true
+      checked: [26]
+  kanalMessung: ja
+  checkedAt: '2026-11-09'
+  note: "Folgen 1–8 mit deutschem Ton, Folge 9 ohne deutschen Ton, Folgen 10–11 mit deutschem Ton, Folgen 12–15 ohne deutschen Ton, Folge 16 mit deutschem Ton, Folge 17 ohne deutschen Ton, Folge 18 mit deutschem Ton, Folge 19 ohne deutschen Ton, Folge 20 mit deutschem Ton, Folge 21 ohne deutschen Ton, Folge 22 mit deutschem Ton, Folge 23 ohne deutschen Ton, Folge 24 mit deutschem Ton, Folge 25 ohne deutschen Ton, Folge 26 mit deutschem Ton — Tonspuren: Deutsch, English — Amazon-Seite B09ZL6FBW2: alle 26 Folgen geprüft, Abos: paramountplusde — Staffel nicht im Bestand, Titel von der Seite gelesen, zugang=abo, gti=amzn1.dv.gti.cff9ed7e-3e31-4a4c-a568-047acdfe0cab — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: -64198
+  title: "Blaze und die Monster-Maschinen"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0D1543X1S
+  dub: true
+  kanalMessung: ja
+  checkedAt: '2026-11-09'
+  note: "Tonspuren: Deutsch, English, English [Audio Description] — Amazon-Seite B0D1543X1S: alle 9 Folgen geprüft, 3 in der Region gesperrt, Abos: paramountplusde, zugang=abo, gti=amzn1.dv.gti.38e9c576-f29a-4408-bd38-2631168ee4ac, regionsperre=laut Seite nicht mehr im Abo — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: -64198
+  title: "Blaze und die Monster-Maschinen"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0CD3129X6
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 20
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+    - from: 21
+      to: 22
+      dub: false
+      checked: [21, 22]
+    - from: 23
+      to: 23
+      dub: true
+      checked: [23]
+    - from: 24
+      to: 26
+      dub: false
+      checked: [24, 25, 26]
+  kanalMessung: ja
+  checkedAt: '2026-11-09'
+  note: "Folgen 1–20 mit deutschem Ton, Folgen 21–22 ohne deutschen Ton, Folge 23 mit deutschem Ton, Folgen 24–26 ohne deutschen Ton — Tonspuren: English — Amazon-Seite B0CD3129X6: alle 26 Folgen geprüft, Abos: paramountplusde — Staffel nicht im Bestand, Titel von der Seite gelesen, zugang=abo, gti=amzn1.dv.gti.4273d196-b4f0-4421-b31b-34373d9032c9 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: -64198
+  title: "Blaze und die Monster-Maschinen"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0FBGH4VXX
+  available: false
+  checkedAt: '2026-11-09'
+  note: "Amazon-Seite B0FBGH4VXX: alle 0 Folgen geprüft, 9 in der Region gesperrt, Abos: keine Angabe, gti=amzn1.dv.gti.14917dc5-0cca-4199-b654-48de6db45628, regionsperre=laut Seite nicht mehr im Abo"
+
+- anilistId: 16498
+  title: "Attack on Titan"
+  platform: adn
+  url: https://animationdigitalnetwork.com/de/video/662-attack-on-titan
+  dub: true
+  checkedAt: '2026-11-09'
+  note: "Folgen 1–25 mit deutschem Ton — Tonspuren: ja, de"
+
+- anilistId: 163147
+  title: "Blue Lock: The Movie - Episode Nagi"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/0PHO5X6C9649QLGQ80LKAQOY24
+  dub: true
+  kanalMessung: ja
+  checkedAt: '2026-11-09'
+  note: "Tonspuren: Deutsch, English, English [Audio Description], Español (España), Español (Latinoamérica), Français, Italiano, Polski, Polski [Opis audio], Português (Brasil), Português (Brasil) [Descrição do áudio], 日本語 — Amazon-Seite 0PHO5X6C9649QLGQ80LKAQOY24: alle 1 Folge geprüft, Abos: crunchyrollde, zugang=abo_und_kauf, gti=amzn1.dv.gti.ae9245d5-07c5-41ce-ba90-d9f8779f046c — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 177474
+  title: "Tougen Anki"
+  platform: adn
+  url: https://animationdigitalnetwork.com/de/video/1311-tougen-anki
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 6
+      dub: false
+      checked: [1, 2, 3, 4, 5, 6]
+    - from: 7
+      to: 24
+      dub: true
+      checked: [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]
+  checkedAt: '2026-11-09'
+  note: "Folgen 1–6 ohne deutschen Ton, Folgen 7–24 mit deutschem Ton — Tonspuren: ja — Widersprüchliche Meldungen zu Folge 4, 3, 2, 1, 5, 6"
+
+- anilistId: 204650
+  platform: adn
+  url: https://animationdigitalnetwork.com/de/video/1311-tougen-anki
+  dub: false
+  dubRanges:
+    - from: 1
+      to: 2
+      dub: false
+      checked: [1, 2]
+  checkedAt: '2026-11-09'
+  note: "Folgen 1–2 ohne deutschen Ton — Tonspuren: ja"
+
+- anilistId: -72376
+  title: "Bobby und Bill"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/0FWQ1938VYZZ3S9FQ12FAWB7VV
+  dub: true
+  dubRanges:
+    - from: 13
+      to: 35
+      dub: true
+  checkedAt: '2026-11-09'
+  note: "Folgen 13–35 mit deutschem Ton — Anbieter zählt durch, hier auf die Staffel umgerechnet — Tonspuren: Deutsch, English — Amazon-Seite 0FWQ1938VYZZ3S9FQ12FAWB7VV: alle 29 Folgen geprüft, 23 in der Region gesperrt, Abos: Prime, zugang=abo, gti=amzn1.dv.gti.e6b8c409-6d3f-60a5-1f2f-0e11fe0d2ed3, regionsperre=laut Seite nicht mehr im Abo"
+
+- anilistId: -72376
+  title: "Bobby und Bill"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0DMHTQ6JD
+  dub: true
+  dubRanges:
+    - from: 13
+      to: 35
+      dub: true
+  checkedAt: '2026-11-09'
+  note: "Folgen 13–35 mit deutschem Ton — Anbieter zählt durch, hier auf die Staffel umgerechnet — Tonspuren: Deutsch, English — Amazon-Seite B0DMHTQ6JD: alle 29 Folgen geprüft, 23 in der Region gesperrt, Abos: Prime, zugang=abo, gti=amzn1.dv.gti.e6b8c409-6d3f-60a5-1f2f-0e11fe0d2ed3, regionsperre=laut Seite nicht mehr im Abo"
+
+- anilistId: -72376
+  title: "Bobby und Bill"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CB4D52G6
+  dub: false
+  checkedAt: '2026-11-09'
+  note: "Amazon-Seite B0CB4D52G6: alle 28 Folgen geprüft, 24 in der Region gesperrt, Abos: keine Angabe, gti=amzn1.dv.gti.e4b594f6-80c0-fd4f-f2e5-b22b71d21562, regionsperre=laut Seite nicht mehr im Abo"
+
+- anilistId: 184322
+  title: "My Gift Lvl 9999 Unlimited Gacha: Backstabbed in a Backwater Dungeon, I’m Out for Revenge!"
+  platform: adn
+  url: https://animationdigitalnetwork.com/de/video/1333-my-gift-lvl-9999-unlimited-gacha-backstabbed-in-a-backwater-dungeon-im-out-for-revenge
+  dub: true
+  checkedAt: '2026-11-09'
+  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: ja, de"
+
+- anilistId: 101811
+  title: "Code Geass: Lelouch of the Rebellion - Initiation"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/0PM9YYKNGX65L4B3SHM51A1Q1P
+  dub: true
+  checkedAt: '2026-11-09'
+  note: "Tonspuren: Deutsch — Amazon-Seite 0PM9YYKNGX65L4B3SHM51A1Q1P: alle 1 Folge geprüft, Abos: keine Angabe, zugang=kauf_oder_leihe, gti=amzn1.dv.gti.b0bb7dff-f320-0490-8aec-76f307a1f81d"
+
+- anilistId: 101813
+  title: "Code Geass: Lelouch of the Rebellion - Verherrlichung"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/0N90X1E4LJB9ZKVCGUP3KGTVG1
+  dub: true
+  checkedAt: '2026-11-09'
+  note: "Tonspuren: Deutsch — Amazon-Seite 0N90X1E4LJB9ZKVCGUP3KGTVG1: alle 1 Folge geprüft, Abos: keine Angabe, zugang=kauf_oder_leihe, gti=amzn1.dv.gti.88bb7e12-4a26-732f-eb5b-37733d139471"
+
+- anilistId: 15
+  title: "Eyeshield 21"
+  platform: adn
+  url: https://animationdigitalnetwork.com/de/video/329-eyeshield-21
+  dub: true
+  checkedAt: '2026-11-09'
+  note: "Folgen 1–145 mit deutschem Ton — Tonspuren: ja, de"
+
+- anilistId: -61886
+  title: "Der gestiefelte Kater – Abenteuer in San Lorenzo"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/0U1FDYAYTHJIX3QS9DMKKJ3ZTN
+  dub: true
+  checkedAt: '2026-11-09'
+  note: "Tonspuren: Deutsch, English, English Dialogue Boost: Medium, English Dialogue Boost: High — Amazon-Seite 0U1FDYAYTHJIX3QS9DMKKJ3ZTN: alle 13 Folgen geprüft, Abos: Prime, zugang=abo, gti=amzn1.dv.gti.4ee604dd-dc2e-4784-a9f1-cf9f070da1a3"
+
+- anilistId: 169969
+  title: "Der Held ohne Klasse: Der Aufstieg eines Talentlosen"
+  platform: adn
+  url: https://animationdigitalnetwork.com/de/video/1331-hero-without-a-class-who-even-needs-skills
+  dub: true
+  checkedAt: '2026-11-09'
+  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: ja, de"
+
+- anilistId: -61886
+  title: "Der gestiefelte Kater – Abenteuer in San Lorenzo"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0DSZQK8DH
+  dub: true
+  checkedAt: '2026-11-09'
+  note: "Tonspuren: Deutsch, English, English Dialogue Boost: Medium, English Dialogue Boost: High — Amazon-Seite B0DSZQK8DH: alle 13 Folgen geprüft, Abos: Prime — Staffel nicht im Bestand, Titel von der Seite gelesen, zugang=abo, gti=amzn1.dv.gti.4ee604dd-dc2e-4784-a9f1-cf9f070da1a3"
+
+- anilistId: -61886
+  title: "Der gestiefelte Kater – Abenteuer in San Lorenzo"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0DPBN43T2
+  available: false
+  checkedAt: '2026-11-09'
+  note: "Amazon-Seite B0DPBN43T2: alle 0 Folgen geprüft, 13 in der Region gesperrt, Abos: keine Angabe — Staffel nicht im Bestand, Titel von der Seite gelesen, gti=amzn1.dv.gti.eed323a7-3561-414e-a5cf-3c310b0a9c19, regionsperre=laut Seite nicht mehr im Abo"
+
+- anilistId: -61886
+  title: "Der gestiefelte Kater – Abenteuer in San Lorenzo"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0DYYWL7D5
+  available: false
+  checkedAt: '2026-11-09'
+  note: "Amazon-Seite B0DYYWL7D5: alle 0 Folgen geprüft, 13 in der Region gesperrt, Abos: keine Angabe — Staffel nicht im Bestand, Titel von der Seite gelesen, gti=amzn1.dv.gti.30408a17-d3cb-4821-b49b-50d4b2a56c1c, regionsperre=laut Seite nicht mehr im Abo"
+
+- anilistId: 130298
+  title: "The Eminence in Shadow"
+  platform: adn
+  url: https://animationdigitalnetwork.com/de/video/973-the-eminence-in-shadow
+  dub: false
+  checkedAt: '2026-11-09'
+  note: "Folgen 1–20 ohne deutschen Ton — Tonspuren: ja"
+
+- anilistId: -61886
+  title: "Der gestiefelte Kater – Abenteuer in San Lorenzo"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0DJSR55FT
+  dub: true
+  checkedAt: '2026-11-09'
+  note: "Tonspuren: Deutsch, English, English Dialogue Boost: Medium, English Dialogue Boost: High — Amazon-Seite B0DJSR55FT: alle 13 Folgen geprüft, Abos: Prime — Staffel nicht im Bestand, Titel von der Seite gelesen, zugang=abo, gti=amzn1.dv.gti.2bb2e433-e1a8-4b62-86bd-3da84763ff79"
+
+- anilistId: -61886
+  title: "Der gestiefelte Kater – Abenteuer in San Lorenzo"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0DQ218LQM
+  dub: true
+  checkedAt: '2026-11-09'
+  note: "Tonspuren: Deutsch, English, English Dialogue Boost: Medium, English Dialogue Boost: High — Amazon-Seite B0DQ218LQM: alle 13 Folgen geprüft, Abos: Prime — Staffel nicht im Bestand, Titel von der Seite gelesen, zugang=abo, gti=amzn1.dv.gti.b740e099-0792-4569-bd1a-17ef367edab3"
+
+- anilistId: -61886
+  title: "Der gestiefelte Kater – Abenteuer in San Lorenzo"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0DTDV3BZD
+  dub: true
+  checkedAt: '2026-11-09'
+  note: "Tonspuren: Deutsch, English, English Dialogue Boost: Medium, English Dialogue Boost: High — Amazon-Seite B0DTDV3BZD: alle 13 Folgen geprüft, Abos: Prime — Staffel nicht im Bestand, Titel von der Seite gelesen, zugang=abo, gti=amzn1.dv.gti.51e036bc-3bb7-4e9a-adcd-0e4c28d89c44"
+
+- anilistId: 173693
+  title: "Loner Life in Another World"
+  platform: adn
+  url: https://animationdigitalnetwork.com/de/video/1233-loner-life-in-another-world
+  dub: true
+  checkedAt: '2026-11-09'
+  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: ja, de"
+
+- anilistId: 20464
+  title: "Haikyu!!"
+  platform: adn
+  url: https://animationdigitalnetwork.com/de/video/461-haikyu
+  dub: true
+  checkedAt: '2026-11-09'
+  note: "Folgen 1–25 mit deutschem Ton — Tonspuren: ja, de"
+
+- anilistId: 20464
+  title: "Haikyu!!"
+  platform: adn
+  url: https://animationdigitalnetwork.com/de/video/461-haikyu
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 2
+      dub: true
+      checked: [1, 2]
+  checkedAt: '2026-11-09'
+  note: "Folgen 1–2 mit deutschem Ton — Tonspuren: ja, de"
+
+- anilistId: -74540
+  title: "Die Piratenfamilie"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/0U8ILK5UYO60DHJ13LZ8FCNATR
+  dub: true
+  checkedAt: '2026-11-09'
+  note: "Tonspuren: Deutsch — Amazon-Seite 0U8ILK5UYO60DHJ13LZ8FCNATR: alle 14 Folgen geprüft, Abos: Prime, zugang=abo, gti=amzn1.dv.gti.22bb6760-2a99-6bcf-f1d2-8b37e408f163"
+
+- anilistId: -74540
+  title: "Die Piratenfamilie"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0DND9JKDB
+  dub: true
+  checkedAt: '2026-11-09'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0DND9JKDB: alle 14 Folgen geprüft, Abos: Prime, zugang=abo, gti=amzn1.dv.gti.22bb6760-2a99-6bcf-f1d2-8b37e408f163"
+
+- anilistId: 530
+  title: "Sailor Moon: Das Mädchen mit den Zauberkräften"
+  platform: adn
+  url: https://animationdigitalnetwork.com/de/video/427-sailor-moon
+  dub: true
+  checkedAt: '2026-11-09'
+  note: "Folgen 1–46 mit deutschem Ton — Anbieter zählt durch, hier auf die Staffel umgerechnet — Tonspuren: ja, de"
+
+- anilistId: -8620
+  title: "Do, Re & Mi"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B09KWVKG2Q
+  available: false
+  checkedAt: '2026-11-09'
+  note: "Amazon-Seite B09KWVKG2Q: alle 0 Folgen geprüft, 1 in der Region gesperrt, Abos: FVOD, zugang=abo, gti=amzn1.dv.gti.237c16e0-202b-43b5-970a-088e68cee574 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: -8620
+  title: "Do, Re & Mi"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B09KFCBC3G
+  available: false
+  checkedAt: '2026-11-09'
+  note: "Amazon-Seite B09KFCBC3G: alle 0 Folgen geprüft, 5 in der Region gesperrt, Abos: FVOD, zugang=abo, gti=amzn1.dv.gti.f4bada48-db26-4277-9b2c-179f9ba205b9 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: -8620
+  title: "Do, Re & Mi"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B09S5V4P7S
+  available: false
+  checkedAt: '2026-11-09'
+  note: "Amazon-Seite B09S5V4P7S: alle 0 Folgen geprüft, 6 in der Region gesperrt, Abos: FVOD, zugang=abo, gti=amzn1.dv.gti.42e58131-8f14-48d0-9c1e-168cd547f310 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: -8620
+  title: "Do, Re & Mi"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B09KD5F1GG
+  available: false
+  checkedAt: '2026-11-09'
+  note: "Amazon-Seite B09KD5F1GG: alle 0 Folgen geprüft, 1 in der Region gesperrt, Abos: FVOD, zugang=abo, gti=amzn1.dv.gti.2e22c3e0-f391-4dd0-8b24-13e83fca8aee — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: -8620
+  title: "Do, Re & Mi"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B09TF8CXGN
+  available: false
+  checkedAt: '2026-11-09'
+  note: "Amazon-Seite B09TF8CXGN: alle 0 Folgen geprüft, 6 in der Region gesperrt, Abos: FVOD, zugang=abo, gti=amzn1.dv.gti.d9f64254-4ad9-4aba-845d-91eb27287bde — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 144932
+  title: "Edens Zero: Season 2"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/0KXOMCNFCKPTA6Z6HNIJ0ESQ9P
+  dub: false
+  checkedAt: '2026-11-09'
+  note: "Tonspuren: Français, Français Dialogue Boost: Medium, Français Dialogue Boost: High, 日本語 — Amazon-Seite 0KXOMCNFCKPTA6Z6HNIJ0ESQ9P: alle 25 Folgen geprüft, Abos: Prime, animedigitalde, zugang=abo, gti=amzn1.dv.gti.8d6bb894-720b-4a76-982d-b17c537a9fb8"
+
+- anilistId: 144932
+  title: "Edens Zero: Season 2"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0FD47PJBZ
+  dub: false
+  checkedAt: '2026-11-09'
+  note: "Tonspuren: Français, Français Dialogue Boost: Medium, Français Dialogue Boost: High, 日本語 — Amazon-Seite B0FD47PJBZ: alle 25 Folgen geprüft, Abos: Prime, animedigitalde, zugang=abo, gti=amzn1.dv.gti.8d6bb894-720b-4a76-982d-b17c537a9fb8"

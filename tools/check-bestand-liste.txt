@@ -29,6 +29,7 @@ pipeline/check-disc-archiv-bestand.ts
 pipeline/check-disc-handlinks-bestand.ts
 pipeline/check-disc-suchlinks-bestand.ts
 pipeline/check-eigene-titel-bestand.ts
+pipeline/check-eingabe-stand-bestand.ts
 pipeline/check-empfehlung-bestand.ts
 pipeline/check-empfehlung-kern-bestand.ts
 pipeline/check-favoriten-feed-bestand.ts
