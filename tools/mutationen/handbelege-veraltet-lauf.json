@@ -3,6 +3,5 @@
   { "name": "check-handbelege: Aufruf veralteterBeleg entfernt (0 &&)", "aenderungen": [{ "datei": "pipeline/check-handbelege.ts", "suche": "if (veralteterBeleg(gewaehlt, gruppe as DubCheck[])) {", "ersetze": "if (0 && veralteterBeleg(gewaehlt, gruppe as DubCheck[])) {" }] },
   { "name": "check-handbelege: Aufruf veralteterBeleg dauerhaft true", "aenderungen": [{ "datei": "pipeline/check-handbelege.ts", "suche": "if (veralteterBeleg(gewaehlt, gruppe as DubCheck[])) {", "ersetze": "if (true || veralteterBeleg(gewaehlt, gruppe as DubCheck[])) {" }] },
   { "name": "check-handbelege: leere Gruppe an veralteterBeleg", "aenderungen": [{ "datei": "pipeline/check-handbelege.ts", "suche": "veralteterBeleg(gewaehlt, gruppe as DubCheck[])", "ersetze": "veralteterBeleg(gewaehlt, [])" }] },
-  { "name": "veralteterBeleg: Ladefehler-Ausnahme aus", "aenderungen": [{ "datei": "pipeline/lib/dub-confirmed.ts", "suche": "&& !nurLadefehlerJuenger(gewaehlt, gruppe)", "ersetze": "&& true" }] },
-  { "name": "nurLadefehlerJuenger: every -> some", "aenderungen": [{ "datei": "pipeline/lib/dub-confirmed.ts", "suche": ".every((g) => ladefehlerNein(g))", "ersetze": ".some((g) => ladefehlerNein(g))" }] }
+  { "name": "veralteterBeleg: Ladefehler-Ausnahme aus", "aenderungen": [{ "datei": "pipeline/lib/dub-confirmed.ts", "suche": "&& !nurLadefehlerJuenger(gewaehlt, gruppe)", "ersetze": "&& true" }] }
 ]
