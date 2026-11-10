@@ -37,10 +37,27 @@ test('Knopf ohne savvy-Haken: kurzer Hinweis je Klick, nichts öffnet sich', asy
   await $.session.start({ cwd: 'C:/x', surface: 'terminal', isInteractive: true })
   const band = await $.ui.mount({ ...BAND, surface: 'terminal' })
   await klicke(band)
+  await new Promise(r => setTimeout(r, 1200))
   await klicke(band)
+  await new Promise(r => setTimeout(r, 1200))
   expect(log).toHaveLength(2)
   expect(log[0]).toMatch(/^toast:Agents-Pane: savvy-progress reagiert nicht/)
+  expect(log[0]).toContain('CLAUDE_CODE_PLUGIN_DIRS')
+  expect(log[0]).not.toContain('einrichten')
   expect(log[1]).toBe(log[0])
+  await band.unmount()
+})
+
+test('Savvy schaltet spät (nach 400 ms): kein Fehlalarm, Pane geht auf', async ($, on) => {
+  starte(on, null)
+  const log: string[] = []
+  const schalten = welt(on, log)
+  haengeAgentenKnopfHaken(on, () => { setTimeout(schalten, 400) })
+  await $.session.start({ cwd: 'C:/x', surface: 'terminal', isInteractive: true })
+  const band = await $.ui.mount({ ...BAND, surface: 'terminal' })
+  await klicke(band)
+  await new Promise(r => setTimeout(r, 1200))
+  expect(log).toEqual(['savvy:auf'])
   await band.unmount()
 })
 
