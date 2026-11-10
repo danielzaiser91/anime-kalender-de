@@ -32,3 +32,19 @@ export function wegGiltGanzerAdresse(
   const staffeln = new Set(wegMeldungen.map((m) => m.staffel))
   return staffeln.size >= titelAnDerAdresse
 }
+
+export const WEG_VERMERK = 'Meldung „Seite nicht erreichbar“ gilt nicht für die ganze Adresse (kein Urteil zur Tonspur)'
+
+/**
+ * Schreibt der Befund ein `dub`-Urteil? `dub` ergibt ja, `kein_dub` nein, `weg` keines: Ein „weg", das nicht die
+ * ganze Adresse entwertet, ist Verfügbarkeit und kein Tonspur-Nein (der Eintrag bleibt über seine Adresse gültig).
+ */
+export function schreibtTonspurUrteil(befund: string): boolean {
+  return befund !== 'weg'
+}
+
+/** Notiz mit Vermerk, wenn ein Teil-„weg" ohne Urteil geschrieben wurde. */
+export function mitWegVermerk(notiz: string, teilWegOhneUrteil: boolean): string {
+  if (!teilWegOhneUrteil) return notiz
+  return notiz ? `${WEG_VERMERK}: ${notiz}` : WEG_VERMERK
+}

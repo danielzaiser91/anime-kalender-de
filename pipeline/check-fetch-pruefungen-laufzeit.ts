@@ -49,6 +49,12 @@ if (primeGemischt.join() !== '900001') fehler.push(`Prime-Seite mit Staffel 1 un
 const fremdeUrls = lauf('fremdeseite', ['--trocken']).stdout.split('\n').filter((z) => z.startsWith('  url: '))
 if (fremdeUrls.join() !== '  url: https://www.amazon.de/gp/video/detail/B0TESTFREMD') fehler.push(`Staffel 1 fremde Seite: ${fremdeUrls.join(' | ') || 'keine url-Zeile'}`)
 
+/* Ein „weg", das nicht die ganze Adresse entwertet (jüngeres „dub" ohne Folge), schreibt kein Tonspur-Nein; ein „weg" für die ganze Seite bleibt `available: false`. */
+const wegAlt = lauf('wegalt', ['--trocken']).stdout
+if (belegTitel(wegAlt).length !== 3 || /^  dub: /m.test(wegAlt) || /^  available: /m.test(wegAlt) || !wegAlt.includes('gilt nicht für die ganze Adresse')) fehler.push(`Teil-weg: drei Belege ohne dub-/available-Zeile mit Vermerk erwartet: ${wegAlt.slice(0, 400)}`)
+const wegGanz = lauf('wegganz', ['--trocken']).stdout
+if (belegTitel(wegGanz).length !== 3 || (wegGanz.match(/^  available: false$/gm) ?? []).length !== 3 || /^  dub: /m.test(wegGanz) || wegGanz.includes('gilt nicht für die ganze Adresse')) fehler.push(`Ganzes weg: drei Belege mit available false, ohne dub und Vermerk erwartet: ${wegGanz.slice(0, 400)}`)
+
 /* Wegwerf-Wurzel, optional mit Netflix' Aufteilung (zwei Staffeln) für die Adresse der Attrappe. */
 function trockenIn(szenario: string, mitAufteilung: boolean) {
   const wurzelTmp = mkdtempSync(join(tmpdir(), 'fetch-pruefungen-trocken-'))
@@ -127,4 +133,4 @@ if (fehler.length) {
   console.error(`check-fetch-pruefungen-laufzeit: ${fehler.join('; ')}`)
   process.exit(1)
 }
-console.log('check-fetch-pruefungen-laufzeit: Staffel 2 an Staffelreihe 2 (nicht OVA), Staffel 1 und 2 getrennt, Beleg in dub-confirmed.yaml angehängt, Staffel ohne Zahl über Netflix\' Aufteilung verteilt, Notiz je Staffel, Staffelsumme (Beleg 29–40 mit Bestätigungsvermerk; verschobene Titel und fehlendes JustWatch lassen die Meldung liegen).')
+console.log('check-fetch-pruefungen-laufzeit: Staffel 2 an Staffelreihe 2 (nicht OVA), Staffel 1 und 2 getrennt, Beleg in dub-confirmed.yaml angehängt, Staffel ohne Zahl über Netflix\' Aufteilung verteilt, Notiz je Staffel, Staffelsumme (Beleg 29–40 mit Bestätigungsvermerk; verschobene Titel und fehlendes JustWatch lassen die Meldung liegen), Teil-weg ohne dub-Zeile mit Vermerk, ganzes weg als available false.')

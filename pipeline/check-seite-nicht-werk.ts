@@ -48,6 +48,10 @@ const MESSUNG_BEREICH = `${KOPF}  dub: true
   checkedAt: '2026-10-16'
   note: "Tonspuren: Deutsch — alle 12 Folgen geprüft"
 `
+const LADEFEHLER = `${KOPF}  dub: false
+  checkedAt: '2026-11-08'
+  note: "Amazon-Seite B0CZSMKH71: nur 0 von 12 Folgen geladen — Rest ungeprüft"
+`
 
 function geladen(zeilen: string[]) {
   writeFileSync(join(kulisse, 'data', 'dub-confirmed.yaml'), zeilen.join(''))
@@ -80,6 +84,17 @@ try {
     juenger.alle.length === 1 && urteilVon(juenger.check) === 'nein' && juenger.check.dub === undefined && juenger.check.seiteNichtWerk === true && juenger.verneint, juenger.check)
   const juengerRev = geladen([JUENGER, MESSUNG])
   pruefe('dieselben Zeilen in umgekehrter Dateireihenfolge: verneint', juengerRev.alle.length === 1 && juengerRev.verneint && urteilVon(juengerRev.check) === 'nein', juengerRev.check)
+
+  console.log('\nLadefehler-Nein (nur 0 von 12 geladen) neben dem Feld: das Feld bleibt, available false, kein dub')
+  for (const [name, zeilen] of [
+    ['Nein (Feld) und jüngerer Ladefehler', [NEIN_FELD, LADEFEHLER]],
+    ['Ladefehler vor Nein (Feld) in der Datei', [LADEFEHLER, NEIN_FELD]],
+    ['Nein (Feld), Messung, jüngerer Ladefehler', [NEIN_FELD, MESSUNG, LADEFEHLER]],
+  ] as const) {
+    const g = geladen([...zeilen])
+    pruefe(`${name}: ein Beleg, available false, Urteil nein, Feld bleibt, kein dub`, g.alle.length === 1 && g.check.available === false && urteilVon(g.check) === 'nein' && g.check.seiteNichtWerk === true && g.check.dub === undefined, g.check)
+    pruefe(`${name}: der Weg gilt als verneint`, g.verneint)
+  }
 
   console.log('\nAndere Adresse, gleicher Titel: ein echtes Ja bleibt unberührt')
   const ANDERE_URL = 'https://www.amazon.de/dp/B0AAAAAAAA'
