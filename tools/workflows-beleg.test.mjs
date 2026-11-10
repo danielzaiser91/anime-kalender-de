@@ -193,6 +193,8 @@ const suche = (laeufe, jobsVon, eigeneId = 9999, abdruck = 'abdruck-A') => suche
   ok(!pruefenGruen(pruefen('success', [schritt('Zusicherungen prüfen', 'success')])), 'letzter Prüfschritt fehlt: kein Beleg')
   ok(!pruefenGruen(pruefen('success', undefined)), 'Schritte fehlen in der Antwort: kein Beleg')
   ok(!pruefenGruen(pruefen('failure', geprueft)), 'Job rot trotz grünem Schritt: kein Beleg')
+  ok(!pruefenGruen(pruefen('cancelled', geprueft)), 'Job abgebrochen trotz grünem Schritt: kein Beleg')
+  ok(!pruefenGruen(pruefen('skipped', geprueft)), 'Job übersprungen trotz grünem Schritt: kein Beleg')
   ok(!pruefenGruen(pruefen('success', geprueft, 'build')), 'anderer Jobname mit demselben Schritt: kein Beleg')
 }
 
