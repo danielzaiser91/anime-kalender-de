@@ -1,12 +1,12 @@
 {
-  "scrapedAt": "2026-11-10T12:05:03.253Z",
+  "scrapedAt": "2026-11-10T14:19:25.184Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 40,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 14,
-    "schon in einem Rubrik-Feed gelesen": 5,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 1,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 61,
+    "schon in einem Rubrik-Feed gelesen": 24,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 5,
     "Sprachhinweis älter als 45 Tage": 6
   },
   "proposals": [
@@ -412,7 +412,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-11-07"
+      "sammelGelesen": "2026-11-10"
     },
     {
       "articleTitle": "Erster Trailer zum Netflix-Anime »Fool Night« + Visual",
@@ -724,7 +724,7 @@
           "folgen": 13
         }
       ],
-      "sammelGelesen": "2026-11-07"
+      "sammelGelesen": "2026-11-10"
     },
     {
       "articleTitle": "Sieben Disc-Neuheiten ab sofort im AKIBA PASS SHOP vorbestellbar",
@@ -1104,7 +1104,7 @@
           "folgen": 12
         }
       ],
-      "sammelGelesen": "2026-11-07"
+      "sammelGelesen": "2026-11-10"
     },
     {
       "articleTitle": "Disney+ nimmt zwei Anime-Neuzugänge ins Programm",
@@ -1143,7 +1143,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-07"
+      "sammelGelesen": "2026-11-10"
     },
     {
       "articleTitle": "Zwei Anime-Neuzugänge auf Deutsch bei Crunchyroll",
@@ -1193,7 +1193,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-07"
+      "sammelGelesen": "2026-11-10"
     },
     {
       "articleTitle": "Crunchyroll zeigt dritte »Mashle«-Staffel im Simulcast",
@@ -3399,7 +3399,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-02"
+      "sammelGelesen": "2026-11-10"
     },
     {
       "articleTitle": "AniMoon startet Online-Rabattaktion zur Frankfurter Buchmesse 2026",
