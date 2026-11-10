@@ -9,6 +9,7 @@ import type { PlatformId, Release, StreamLink, Title } from '../shared/types.ts'
 import { formatDate } from '../shared/time.ts'
 import { verlagIstAnbieter } from '../shared/verlag-anbieter.ts'
 import { angebotSeitZeileVon } from '../web/src/components/detail/kasten-hinweise.ts'
+import { seitOhneDoppelung } from '../web/src/components/detail/pille-unten.ts'
 import { streamZeilen, terminPillen } from '../web/src/components/detail/wege-zeilen.tsx'
 import { ausgabenOhneDeSichtbar, kanalTerminQuelle, kastenNenntSeit, seitDatumFuerPille, seitDatumVon, seitenKern } from '../web/src/components/detail/chips-regeln.ts'
 
@@ -185,6 +186,13 @@ const gleichTag = joynHtml('2026-11-05', 'Fg. 1 ab 05.11.')
 pruefe('Folgenangabe nennt den Starttag: kein zweites „ab 05.11.2026“', gleichTag.includes('Fg. 1 ab 05.11.') && !gleichTag.includes('detail.abDatum'), gleichTag.slice(-300))
 pruefe('anderer Tag (06.11. gegen 05.11.): beide Angaben bleiben', joynHtml('2026-11-06', 'Fg. 1 ab 05.11.').includes('detail.abDatum{&quot;d&quot;:&quot;06.11.2026&quot;}'))
 pruefe('Folgenangabe ohne Datum: das „ab“ bleibt', joynHtml('2026-11-05', '≈ Fg. 1').includes('detail.abDatum{&quot;d&quot;:&quot;05.11.2026&quot;}'))
+pruefe('gleicher Tag, anderer Monat (Fg. ab 05.12. gegen 05.11.): beide bleiben', joynHtml('2026-11-05', 'Fg. 1 ab 05.12.').includes('detail.abDatum{&quot;d&quot;:&quot;05.11.2026&quot;}'))
+pruefe('gleicher Monat, anderer Tag (Fg. ab 15.11. gegen 05.11.): beide bleiben', joynHtml('2026-11-05', 'Fg. 1 ab 15.11.').includes('detail.abDatum{&quot;d&quot;:&quot;05.11.2026&quot;}'))
+pruefe('Jahreswechsel: Fg. ab 05.01. gegen Seit 05.01.2026 (heute 04.11.2026): das Seit-Datum bleibt', joynHtml('2026-01-05', 'Fg. 1 ab 05.01.').includes('detail.seitDatum{&quot;d&quot;:&quot;05.01.2026&quot;}'))
+pruefe('Jahreswechsel: Fg. ab 05.01. gegen Datum 05.01.2027: entfällt', !joynHtml('2027-01-05', 'Fg. 1 ab 05.01.').includes('detail.abDatum'))
+pruefe('kein Seit-Datum: bleibt leer, kein Absturz', seitOhneDoppelung(undefined, 'Fg. 1 ab 05.11.', '2026-11-04') === undefined)
+pruefe('Datum nicht nach heute (04.11. gegen heute 04.11.): „seit“ bleibt', seitOhneDoppelung('2026-11-04', 'Fg. 1 ab 04.11.', '2026-11-04') === '2026-11-04' && seitOhneDoppelung('2026-11-05', 'Fg. 1 ab 05.11.', '2026-11-04') === undefined)
+pruefe('Tag ohne „ab“ in der Folgenangabe (bis 05.11.): „ab“ bleibt', joynHtml('2026-11-05', 'Fg. 1 bis 05.11.').includes('detail.abDatum{&quot;d&quot;:&quot;05.11.2026&quot;}'))
 
 if (verletzt) {
   console.error(`\n${verletzt} Prüfung(en) verletzt`)
