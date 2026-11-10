@@ -5,38 +5,52 @@
     "tests": ["npx tsx tools/pr-nachrechnen-claude-md.test.mjs"]
   },
   {
-    "name": "CLAUDE_MD: Regel entfernt (alter Stand)",
+    "name": "ohneKetteLeser: .claude-Markdown pauschal frei (alter Stand, Leser ignoriert)",
     "datei": "tools/pr-nachrechnen.mjs",
-    "suche": "|| CLAUDE_MD.test(datei) ||",
-    "ersetze": "||",
+    "suche": "|| /^[^/]+\\.md$/.test(datei) || datei === 'daniel-zum-abarbeiten/00-wache.md'",
+    "ersetze": "|| /^[^/]+\\.md$/.test(datei) || istClaudeMd(datei) || datei === 'daniel-zum-abarbeiten/00-wache.md'",
     "tests": ["npx tsx tools/pr-nachrechnen-claude-md.test.mjs"]
   },
   {
-    "name": "CLAUDE_MD: nur skills (Agenten und Regeln fehlen)",
-    "datei": "tools/pr-nachrechnen.mjs",
-    "suche": "const CLAUDE_MD = /^\\.claude\\/.+\\.md$/",
-    "ersetze": "const CLAUDE_MD = /^\\.claude\\/skills\\/.+\\.md$/",
+    "name": "nennt: volle-Pfad-Prüfung entfernt (bloßer Name zählt wieder)",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "includes(istClaudeMd(bewegt) ? bewegt : bewegt.split('/').pop())",
+    "ersetze": "includes(bewegt.split('/').pop())",
     "tests": ["npx tsx tools/pr-nachrechnen-claude-md.test.mjs"]
   },
   {
-    "name": "CLAUDE_MD: jede Datei unter .claude (Hooks zählen nicht mehr)",
-    "datei": "tools/pr-nachrechnen.mjs",
-    "suche": "const CLAUDE_MD = /^\\.claude\\/.+\\.md$/",
-    "ersetze": "const CLAUDE_MD = /^\\.claude\\/.+$/",
+    "name": "nennt: .claude-Markdown nie genannt (Leser zählt nie)",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "includes(istClaudeMd(bewegt) ? bewegt : bewegt.split('/').pop())",
+    "ersetze": "includes(istClaudeMd(bewegt) ? '\\0' : bewegt.split('/').pop())",
     "tests": ["npx tsx tools/pr-nachrechnen-claude-md.test.mjs"]
   },
   {
-    "name": "CLAUDE_MD: Endung nicht geprüft (Skripte unter skills zählen nicht mehr)",
-    "datei": "tools/pr-nachrechnen.mjs",
-    "suche": "const CLAUDE_MD = /^\\.claude\\/.+\\.md$/",
-    "ersetze": "const CLAUDE_MD = /^\\.claude\\/.+\\.(md|mjs)$/",
+    "name": "rueckLeser: lesender Test ohne Rückweg (liestClaudeMd entfernt)",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": " || liestClaudeMd(r, bewegt, lies))",
+    "ersetze": ")",
     "tests": ["npx tsx tools/pr-nachrechnen-claude-md.test.mjs"]
   },
   {
-    "name": "CLAUDE_MD: Anker fehlt (auch tools/.claude/x.md zählt als frei)",
-    "datei": "tools/pr-nachrechnen.mjs",
-    "suche": "const CLAUDE_MD = /^\\.claude\\/.+\\.md$/",
-    "ersetze": "const CLAUDE_MD = /\\.claude\\/.+\\.md$/",
+    "name": "liestClaudeMd: jeder Test zählt (Pfadnennung nicht geprüft)",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "bewegt.some((b) => istClaudeMd(b) && nennt(lies(datei) ?? '', b))",
+    "ersetze": "bewegt.some((b) => istClaudeMd(b))",
+    "tests": ["npx tsx tools/pr-nachrechnen-claude-md.test.mjs"]
+  },
+  {
+    "name": "istClaudeMd: nur skills (Agenten und Regeln fehlen)",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "/^\\.claude\\/.+\\.md$/.test(datei)",
+    "ersetze": "/^\\.claude\\/skills\\/.+\\.md$/.test(datei)",
+    "tests": ["npx tsx tools/pr-nachrechnen-claude-md.test.mjs"]
+  },
+  {
+    "name": "istClaudeMd: Anker fehlt (tools/.claude/x.md zählt auch)",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "/^\\.claude\\/.+\\.md$/.test(datei)",
+    "ersetze": "/\\.claude\\/.+\\.md$/.test(datei)",
     "tests": ["npx tsx tools/pr-nachrechnen-claude-md.test.mjs"]
   }
 ]

@@ -21,6 +21,7 @@ import { BOT_DATEIEN_OHNE_LESER, istBotBild, istBotDatei } from './pr-nachrechne
 import { gitAufruf, gitLeser } from './pr-nachrechnen-leser-git.mjs'
 import { standardPaare, standardVoll } from './pr-nachrechnen-vergleich-git.mjs'
 import { ZUG, istZugPr, leseZugAktiv } from './zug-aktiv.mjs'
+import { istClaudeMd } from './pr-nachrechnen-leser.mjs'
 import { erzeugteDatei } from './pr-nachrechnen-bot-erzeugt.mjs'
 import { ersetzer, ersetztMeldung } from './pr-ersetzt.mjs'
 import { grundKommentar, kommentiereGrund } from './nachrechnen-schleife.mjs'
@@ -68,9 +69,8 @@ export const istDatenpfad = (datei) => DATENPFADE.some((p) => datei.startsWith(p
  * Ausgenommen von `docs/`: `design-regeln.md`, das `tools/design-kontrast.mjs` liest (Prüfer 2123 R1); `dokuLeser` im Bot-Pfade-Test sucht den nächsten Leser.
  */
 const LIEST_KETTE = 'docs/wissen/design-regeln.md'
-/** Markdown unter `.claude/` (Skills, Agenten, Regeln) liest kein Kettenschritt (gemessen 10.11.2026: `QUELL_ENDUNG` in pr-stufe-kette.mjs und `LESBAR` kennen kein .md; Anlass PR 3272, 3117, 3241, 3343). Hooks (.js) lesen Tests, sie zählen weiter. */
-const CLAUDE_MD = /^\.claude\/.+\.md$/
-const ohneKetteLeser = (datei) => (datei.startsWith('docs/') && datei !== LIEST_KETTE) || /^[^/]+\.md$/.test(datei) || CLAUDE_MD.test(datei) || datei === 'daniel-zum-abarbeiten/00-wache.md'
+/** `.claude`-Markdown (Skills, Agenten, Regeln) steht nicht hier: nur ein Kettenleser, der den vollen Pfad nennt (`istClaudeMd`, `nennt`), macht es zum Grund; der bloße Name (`SKILL.md`) zählt nicht (Anlass PR 3272, 3117, 3241, 3343; Leser `pr-kettenlog-budget.test.mjs`, Prüfer 3413). */
+const ohneKetteLeser = (datei) => (datei.startsWith('docs/') && datei !== LIEST_KETTE) || /^[^/]+\.md$/.test(datei) || datei === 'daniel-zum-abarbeiten/00-wache.md'
 
 /**
  * Dateien auf main, die jeden PR entwerten, auch ohne Zusammenhang: sie legen fest, was die Kette prüft (Kettendefinition, Pakete, Wächter
@@ -115,7 +115,7 @@ export function botSprungAusnahme(vergleich, prDateien, liestBewegtes) {
 export const DATEN_KONTEN = ['anime-kalender-daten[bot]', 'github-actions[bot]', 'anime-kalender-bot']
 /** Agenten-Konto: schreibt auch Handdaten, Code und Fix-PRs (Prüfer 3384, A1); gilt nur für Wache-Berichte und Doku. */
 export const WACHE_KONTO = 'claude[bot]'
-const wacheDatei = (datei) => ohneKetteLeser(datei) || datei === 'daniel-zum-abarbeiten/00-wache-auswertung.md'
+const wacheDatei = (datei) => ohneKetteLeser(datei) || istClaudeMd(datei) || datei === 'daniel-zum-abarbeiten/00-wache-auswertung.md'
 /** Erzeugte Dateien der Läufe (Positivliste `pr-nachrechnen-bot-erzeugt.mjs`, fail-closed), Listen, Datenpfade der Kette-Ausnahme F55, Wache-Berichte. */
 const erzeugt = (datei) => erzeugteDatei(datei) || datei.startsWith('daniel-zum-abarbeiten/listen/') || istDatenpfad(datei) || wacheDatei(datei)
 /**

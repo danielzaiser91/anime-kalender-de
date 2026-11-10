@@ -112,8 +112,14 @@ export const ordnerLeser = (text, bewegt) => bewegt.find((b) => ordnerTokens(tex
 /** Dateien aus `texte` (Karte Pfad -> Inhalt), die den Namen einer bewegten Datei außerhalb von Kommentaren nennen, sortiert. */
 export const leserIn = (texte, bewegt) => [...texte].filter(([pfad, text]) => !LISTE.test(pfad) && bewegt.some((b) => liestTestDatei(pfad, text, b) && nennt(text, b))).map(([pfad]) => pfad).sort()
 
-/** Nennt der Text (ohne Kommentare) den Namen der Datei (der Pfad enthält ihn, `join(ordner, 'a.json')` nennt nur den Namen)? */
-export const nennt = (text, bewegt) => ohneKommentare(text).includes(bewegt.split('/').pop())
+/** Markdown unter `.claude/` (Skills, Agenten, Regeln): Namen wie `SKILL.md` und `bauer.md` stehen in vielem Code, ohne dass er die Datei liest. */
+export const istClaudeMd = (datei) => /^\.claude\/.+\.md$/.test(datei)
+
+/** Nennt der Text (ohne Kommentare) den Namen der Datei (der Pfad enthält ihn, `join(ordner, 'a.json')` nennt nur den Namen)? Bei `.claude`-Markdown zählt nur der volle Pfad. */
+export const nennt = (text, bewegt) => ohneKommentare(text).includes(istClaudeMd(bewegt) ? bewegt : bewegt.split('/').pop())
+
+/** Ein Test, der den vollen Pfad einer bewegten `.claude`-Markdown-Datei nennt, liest sie wirklich (kein Fixture-Name): er hängt dann an dem Code, den er importiert. */
+const liestClaudeMd = (datei, bewegt, lies) => bewegt.some((b) => istClaudeMd(b) && nennt(lies(datei) ?? '', b))
 
 /**
  * Daten, die der Bau mit der bewegten Datei in einem Lauf verarbeitet (kuratierte Daten, Handbelege, Sammlerdaten; Auflage CI-Prüfer
@@ -171,7 +177,7 @@ export function bewegtesGelesen({ bewegt, pr, leser, lies, liesMain = () => null
   const bewegterCode = bewegt.filter((b) => LESBAR.test(b) && !LISTE.test(b))
   // Bis zwei Importstufen vom Leser aus (Bauphase -> Helfer -> Kern). Tests und Werkzeuge unter tools/ außer tools/check-* nennen Daten
   // in Ausnahmelisten und Fixtures (workflows-beleg.mjs: crunchyroll-neu.json, Replay PR 3341), ohne sie zu lesen.
-  const rueckLeser = leser.filter((r) => (!r.startsWith('tools/') || r.startsWith('tools/check-')) && !istTest(r))
+  const rueckLeser = leser.filter((r) => ((!r.startsWith('tools/') || r.startsWith('tools/check-')) && !istTest(r)) || liestClaudeMd(r, bewegt, lies))
   const rueckwaerts = new Set(huelle([...rueckLeser, ...bewegterCode], lies, RUECK_TIEFE))
   const p = start.find((x) => rueckwaerts.has(x))
   if (p !== undefined) return `${p} wird von Code genutzt, der bewegte Daten liest (bewegt: ${bewegt.join(', ')})`

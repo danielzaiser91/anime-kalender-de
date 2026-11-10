@@ -68,8 +68,22 @@ pruefe('Gegenprobe: Skript unter .claude/skills von PR-Code genannt -> veraltet'
 const a = grund({ ...BAUM, 'extension/melder.js': "const A = 'NOTIZ.md'\n" }, ['tools/.claude/NOTIZ.md'], ['extension/melder.js'], 8)
 pruefe('Gegenprobe: Namensvetter tools/.claude/NOTIZ.md (kein .claude im Wurzelordner), vom PR-Code genannt -> veraltet', veraltet(a), a)
 
+// Echter Leser (Prüfer 3413, A1): ein Test liest `.claude/agents/pruefer.md` mit vollem Pfad und importiert den PR-Code.
+const LESER = {
+  ...BAUM,
+  'tools/pr-kettenlog-budget.mjs': 'export const budgetHinweise = () => []\n',
+  'tools/pr-kettenlog-budget.test.mjs': "import { budgetHinweise } from './pr-kettenlog-budget.mjs'\nconst p = new URL('../.claude/agents/pruefer.md', import.meta.url)\n",
+}
+const lz = grund(LESER, ['.claude/agents/pruefer.md'], ['tools/pr-kettenlog-budget.mjs'], 9)
+pruefe('Leser: Test liest .claude/agents/pruefer.md (voller Pfad), PR berührt seinen Import -> veraltet', veraltet(lz) && /pr-kettenlog-budget/.test(lz.grund), lz)
+const ln = grund(LESER, ['.claude/agents/pruefer.md'], ['extension/melder.js'], 10)
+pruefe('Leser: derselbe Fall, PR ohne Bezug zum Leser -> aktuell', aktuell(ln), ln)
+const nur = { ...LESER, 'tools/pr-kettenlog-budget.test.mjs': "import { budgetHinweise } from './pr-kettenlog-budget.mjs'\nconst n = 'pruefer.md'\n" }
+const lb = grund(nur, ['.claude/agents/pruefer.md'], ['tools/pr-kettenlog-budget.mjs'], 11)
+pruefe('Leser: Test nennt nur den Dateinamen pruefer.md -> aktuell (bloßer Name zählt nicht)', aktuell(lb), lb)
+
 if (fehler.length > 0) {
   console.error(`pr-nachrechnen-claude-md.test: ${fehler.length} rot`)
   process.exit(1)
 }
-console.log(`pr-nachrechnen-claude-md.test: grün (${FAELLE.length} Anlassfälle, 7 Gegenproben)`)
+console.log(`pr-nachrechnen-claude-md.test: grün (${FAELLE.length} Anlassfälle, 7 Gegenproben, 3 Leser-Fälle)`)
