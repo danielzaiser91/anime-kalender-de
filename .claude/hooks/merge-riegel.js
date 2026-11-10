@@ -14,6 +14,11 @@ const GH_MIT_WERT = new Set(['-R', '--repo', '--hostname'])
 
 /** Nummer, wenn die Tokens ab dem `gh`-Token `von` ein `pr merge <N>` sind; '' bei `pr merge` ohne Nummer; sonst null. */
 function mergeNummer(tokens, von) {
+  // Anderes Repo per --repo/-R: dort gibt es kein pr-nachrechnen (E53, Daniel 10.11.2026 „ja“).
+  const rest = tokens.slice(von + 1)
+  const r = rest.findIndex((t) => t === '-R' || t === '--repo' || t.startsWith('--repo='))
+  const repo = r < 0 ? null : rest[r].startsWith('--repo=') ? rest[r].slice(7) : rest[r + 1]
+  if (repo && !/(^|\/)anime-kalender-de$/.test(repo)) return null
   let i = von + 1
   for (; i < tokens.length; i++) {
     if (GH_MIT_WERT.has(tokens[i])) i++
