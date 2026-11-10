@@ -1,0 +1,7 @@
+[
+  {"name":"Kontrolle (unmutiert)","aenderungen":[]},
+  {"name":"check-handbelege: Aufruf veralteterBeleg entfernt (0 &&)","aenderungen":[{"datei":"pipeline/check-handbelege.ts","suche":"if (veralteterBeleg(gewaehlt, gruppe as DubCheck[])) {","ersetze":"if (0 && veralteterBeleg(gewaehlt, gruppe as DubCheck[])) {"}],"tests":["npx tsx pipeline/check-handbelege-veraltet-lauf.ts"]},
+  {"name":"check-handbelege: Aufruf veralteterBeleg dauerhaft true","aenderungen":[{"datei":"pipeline/check-handbelege.ts","suche":"if (veralteterBeleg(gewaehlt, gruppe as DubCheck[])) {","ersetze":"if (true || veralteterBeleg(gewaehlt, gruppe as DubCheck[])) {"}],"tests":["npx tsx pipeline/check-handbelege-veraltet-lauf.ts"]},
+  {"name":"check-handbelege: leere Gruppe an veralteterBeleg","aenderungen":[{"datei":"pipeline/check-handbelege.ts","suche":"veralteterBeleg(gewaehlt, gruppe as DubCheck[])","ersetze":"veralteterBeleg(gewaehlt, [])"}],"tests":["npx tsx pipeline/check-handbelege-veraltet-lauf.ts"]},
+  {"name":"veralteterBeleg: Ladefehler-Ausnahme aus","aenderungen":[{"datei":"pipeline/lib/dub-confirmed.ts","suche":"&& !nurLadefehlerJuenger(gewaehlt, gruppe)","ersetze":"&& true"}],"tests":["npx tsx pipeline/check-handbelege-veraltet-lauf.ts"]}
+]
