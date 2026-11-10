@@ -73,7 +73,7 @@ const liestTestDatei = (pfad, text, bewegt) => {
 /**
  * Alle von `start` aus erreichbaren Namen (Dateien und Pfad-Tokens). Pfad-Tokens (Aufrufe, Listen von Dateinamen) folgt nur die
  * Startdatei selbst: Tests und Ausnahmelisten nennen Dutzende Pfade, über mehrere Stufen wüchse jede Hülle auf den ganzen Baum
- * (gemessen 26.10.2026 an PR 2043); Importen folgt die Hülle bis `maxTiefe` (vorwärts ohne Grenze, rückwärts eine Stufe), Tests geben keine Tokens weiter.
+ * (gemessen 26.10.2026 an PR 2043); Importen folgt die Hülle bis `maxTiefe` (vorwärts ohne Grenze, rückwärts `RUECK_TIEFE`), Tests geben keine Tokens weiter.
  */
 export function huelle(start, lies, maxTiefe = Infinity) {
   const namen = new Set(start)
