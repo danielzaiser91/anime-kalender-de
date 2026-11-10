@@ -1,11 +1,11 @@
 /**
  * Fahrt des Sammelzugs (P2b): Ablauf für .github/workflows/zug-fahrt.yml. Entscheidungen stehen als reine Funktionen in tools/zug.mjs, hier nur git und gh.
  *   start     Zug plus main als Schnappschuss `zug-fahrt` bauen, pushen, PR zug-fahrt → main öffnen (die Kette läuft auf dem PR-Kopf)
- *   urteil    Kette auf `zug-fahrt` fertig: grün → Fast-Forward nur `--dry-run`; rot → Probe „main allein“ (`zug-probe`) starten.
+ *   urteil    Kette auf `zug-fahrt` fertig: grün → Fast-Forward nur `--dry-run`, mit `--schieben` echt (ohne --force, dann bau-deploy); rot → Probe „main allein“ (`zug-probe`) starten.
  *             Kette auf `zug-probe` fertig: Schuldsuche mit Ratschen gegen die Basisgrenzen; Ergebnis steht im Fahrt-Log, zurückgenommen wird nichts.
  *   bau-deploy  Bau und Deploy per workflow_dispatch (für P2c, nach dem echten Schieben; hier nicht verdrahtet)
  * Aufruf: node tools/zug-fahrt.mjs start|urteil|bau-deploy [--trocken] [--zweig zug-fahrt|zug-probe --lauf <Nr>]
- * `--trocken` schreibt nichts (kein Push, kein PR, kein Kommentar, kein Dispatch). Der echte Push von main ist P2c.
+ * `--trocken` schreibt nichts (kein Push, kein PR, kein Kommentar, kein Dispatch). main wird nur mit `--schieben` bewegt; zug-fahrt.yml übergibt es noch nicht.
  * Die App (GH_TOKEN) pusht, damit die Kette auf dem Zweig anläuft; Pushes mit dem Workflow-Token lösen keine Läufe aus.
  */
 import { appendFileSync } from 'node:fs'
@@ -15,6 +15,7 @@ import { logJobs } from './zug-trocken.mjs'
 import { FAHRT_ZWEIG, PROBE_ZWEIG, basisGrenzen, basisRef, bauUndDeployBefehle, fahrtLog, fahrtSchritt, ffEntscheidung, ketteArt, ratschenZustand, revertPlan, schuldsuche, zugEintraege } from './zug.mjs'
 
 const KETTE = 'pr-pruefung.yml'
+const KETTE_NAME = 'PR-Prüfkette'
 const GIT_LIMIT_MS = 120_000
 const PR_TEXT = 'Sammelfahrt des Zugs, wird von zug-fahrt.yml verwaltet, nicht von Hand mergen.\n\nPatch Notes: keine – CI: Fahrt-PR, die Unter-PRs tragen ihre eigenen Patch Notes, 0 Titel/Termine/Meldungen/Wege/Zeilen.'
 
@@ -137,17 +138,26 @@ function grenzenDerFahrt(git) {
   return basisGrenzen(liesAm(git, basisRef(eltern)))
 }
 
-/** Kette der Fahrt grün: Fast-Forward prüfen, nur als Trockenlauf des Pushs (der echte Push ist P2c). */
-function fahrtGruen({ git, melde }, lauf) {
+/**
+ * Fast-Forward von main auf den Zug-Kopf. Ohne `schieben` (und mit `trocken`) nur als Dry-Run; mit `schieben` der echte Push ohne `--force`:
+ * ist main nicht mehr Vorfahr, lehnt der Server ab und nichts bewegt sich ('main-holen'). Ändert `schritt` und gibt es zurück.
+ */
+function schiebeMain({ git, trocken, schieben }, zugKopf, schritt) {
+  const echt = schieben === true && !trocken
+  const ergebnis = versuche(() => git(['push', ...(echt ? [] : ['--dry-run']), 'origin', `${zugKopf}:refs/heads/main`]))
+  if (ergebnis === null) return Object.assign(schritt, { art: 'main-holen', grund: `${echt ? 'Push' : 'Dry-Run'} abgelehnt: main ist weitergelaufen` })
+  if (echt) return Object.assign(schritt, { art: 'geschoben', grund: 'main steht jetzt auf dem Zug-Kopf (Fast-Forward), Bau und Deploy werden gestartet' })
+  return Object.assign(schritt, { grund: 'Dry-Run ok, geschoben wird nur mit --schieben (der Dry-Run prüft das Ruleset nicht)' })
+}
+
+/** Kette der Fahrt grün: Fast-Forward prüfen und, nur mit `--schieben`, main wirklich auf den Zug-Kopf setzen. */
+function fahrtGruen(ctx, lauf) {
+  const { git } = ctx
   git(['fetch', '--quiet', 'origin', 'main', FAHRT_ZWEIG])
   const zugKopf = git(['rev-parse', `origin/${FAHRT_ZWEIG}`]).trim()
   const ff = ffEntscheidung({ mainImZug: istVorfahr(git, 'origin/main', `origin/${FAHRT_ZWEIG}`), kettenKopf: lauf.headSha, zugKopf })
   const schritt = fahrtSchritt({ kette: 'gruen', ff })
-  if (schritt.art === 'ff-pruefen') {
-    const trocken = versuche(() => git(['push', '--dry-run', 'origin', `${zugKopf}:refs/heads/main`]))
-    schritt.grund = trocken === null ? 'Dry-Run abgelehnt: main ist weitergelaufen' : 'Dry-Run ok, der echte Push folgt mit P2c (der Dry-Run prüft das Ruleset nicht)'
-    if (trocken === null) schritt.art = 'main-holen'
-  }
+  if (schritt.art === 'ff-pruefen') schiebeMain(ctx, zugKopf, schritt)
   const log = fahrtLog({ kopf: zugKopf, kette: 'grün', schritt, grenzeBasis: grenzenDerFahrt(git) })
   return { log, schritt }
 }
@@ -180,7 +190,8 @@ function probeFertig({ gh, git }, probe) {
 /** Kette auf einem Fahrt- oder Probe-Zweig ist fertig. `lauf`: Nummer des Kettenlaufs (workflow_run.id). */
 export function urteil(ctx, zweig, laufNr) {
   const { gh, melde, trocken } = ctx
-  const lauf = JSON.parse(gh(['run', 'view', String(laufNr), '--json', 'databaseId,headSha,status,conclusion']))
+  const lauf = JSON.parse(gh(['run', 'view', String(laufNr), '--json', 'databaseId,headSha,status,conclusion,workflowName,headBranch']))
+  if (lauf.workflowName !== KETTE_NAME || lauf.headBranch !== zweig) return ende(melde, `Lauf ${laufNr} ist nicht die Kette auf ${zweig} (${lauf.workflowName}/${lauf.headBranch}): kein Urteil, nichts geschoben`, 2)
   const kette = ketteArt(lauf)
   if (kette === 'offen') return ende(melde, `Kette ${laufNr} auf ${zweig}: kein Urteil (${lauf.status}/${lauf.conclusion || '-'})`)
   const pr = offenerPr(gh, FAHRT_ZWEIG)
@@ -192,9 +203,17 @@ export function urteil(ctx, zweig, laufNr) {
     return 0
   }
   if (kette === 'gruen') {
-    const { log } = fahrtGruen(ctx, lauf)
-    schreibeLog(log, { ...ctx, pr })
-    return 0
+    const { log, schritt } = fahrtGruen(ctx, lauf)
+    let kommentarFehler = null
+    try {
+      schreibeLog(log, { ...ctx, pr })
+    } catch (e) {
+      kommentarFehler = e
+    }
+    // Nach dem echten Push startet Bau/Deploy auch, wenn der Kommentar scheitert.
+    const exit = schritt.art === 'geschoben' ? bauDeploy(ctx) : 0
+    if (kommentarFehler) throw kommentarFehler
+    return exit
   }
   schreibeLog(fahrtLog({ kopf: lauf.headSha, kette: 'rot', schritt: fahrtSchritt({ kette: 'rot' }) }), { ...ctx, pr })
   return starteProbe(ctx)
@@ -213,7 +232,7 @@ const wert = (args, name) => (args.includes(name) ? args[args.indexOf(name) + 1]
 
 /** Einstieg; Rückgabe ist der Exit-Code (0 ok oder nichts zu tun, 1 Fahrt nicht möglich, 2 Aufruf oder Abruffehler). */
 export function main(args, { gh = ghIn(process.cwd()), git = gitIn(process.cwd()), melde = (z) => console.log(z) } = {}) {
-  const ctx = { gh, git, melde, trocken: args.includes('--trocken') }
+  const ctx = { gh, git, melde, trocken: args.includes('--trocken'), schieben: args.includes('--schieben') }
   try {
     if (args[0] === 'start') return start(ctx)
     if (args[0] === 'bau-deploy') return bauDeploy(ctx)
@@ -222,7 +241,7 @@ export function main(args, { gh = ghIn(process.cwd()), git = gitIn(process.cwd()
     melde(`zug-fahrt: FEHLER ${e.message}`)
     return 2
   }
-  melde('Aufruf: node tools/zug-fahrt.mjs start|bau-deploy|urteil --zweig zug-fahrt|zug-probe --lauf <Nr> [--trocken]')
+  melde('Aufruf: node tools/zug-fahrt.mjs start|bau-deploy|urteil --zweig zug-fahrt|zug-probe --lauf <Nr> [--trocken] [--schieben]')
   return 2
 }
 
