@@ -1,8 +1,8 @@
 // Ziele-Kasten (Daniel, 08.11.2026): Meilensteine aus `daniel-zum-abarbeiten/ziele.md` und „Gerade in Arbeit“ aus den Kennzeichen von stand.md.
 // ziele.md: `## <Zielname>`, darunter `- [erreicht|in Arbeit|offen] Meilenstein — [Beleg](…)`; die Reihenfolge ist die Reihenfolge der Meilensteine.
 import { auswerten } from './stand-kennzeichen.mjs'
-
-export type ZielStand = { name: string; erreicht: number; gesamt: number; naechster: string | null }
+import type { ZielStand } from '../types'
+export type { ZielStand }
 
 const BALKEN = 10
 const MAX_GERADE = 5

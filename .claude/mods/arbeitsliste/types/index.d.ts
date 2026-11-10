@@ -1,3 +1,4 @@
+export type ZielStand = { name: string; erreicht: number; gesamt: number; naechster: string | null }
 export type Groesse = 'gross' | 'normal' | 'klein'
 export type Eintrag = { titel: string; rest: string; groesse: Groesse }
 export type Liste = { inArbeit: Eintrag[]; todo: Eintrag[] }
@@ -39,6 +40,10 @@ declare module 'claude-code' {
       spar: boolean
       // Klickzähler des Agents-Knopfs: savvy-progress hört auf diesen Schreibvorgang und schaltet sein Pane (kein Slash-Befehl im Chat).
       agentenKnopf: number
+      // Fortschritt je Ziel aus ziele.md (Balken im Pane).
+      ziele: ZielStand[]
+      // „Gerade in Arbeit“ aus stand.md: sichtbare Titel und Zahl der übrigen.
+      gerade: { titel: string[]; mehr: number }
     }
   }
 }
