@@ -10,6 +10,9 @@ function dateienUnter(ordner: string, vorsatz = ''): string[] {
   return eintraege.flatMap((e) => (e.isDirectory() ? dateienUnter(ordner, `${vorsatz}${e.name}/`) : [`${vorsatz}${e.name}`]))
 }
 
+/** Diagnose-Dateien in `public/data`, die der Browser nie lädt: ohne Kennung, sonst kostet jeder Eintrag Bytes in jedem Seitenaufruf (`meta.json`). */
+export const NICHT_AUSGELIEFERT = ['eingabe-stand.json']
+
 /**
  * Inhalts-Kennung je Datendatei: jede `*.json` direkt in `ordner` einzeln (`titles.json`), jeder Unterordner als Ganzes (`voices/`).
  * `ausgenommen`: Dateien, die der Bau nach dem Kopieren noch umschreibt (`patchnotes.json`, `meta.json`); ihr Inhalt in `public/data` sagt nichts über die ausgelieferte Fassung.
@@ -24,7 +27,7 @@ export function dateiKennungen(ordner: string, ausgenommen: string[] = []): Reco
       const hash = createHash('sha256')
       for (const pfad of dateienUnter(ordner, `${e.name}/`)) hash.update(pfad).update(readFileSync(join(ordner, pfad)))
       ergebnis[`${e.name}/`] = kurz(hash)
-    } else if (e.name.endsWith('.json') && !ausgenommen.includes(e.name)) {
+    } else if (e.name.endsWith('.json') && !ausgenommen.includes(e.name) && !NICHT_AUSGELIEFERT.includes(e.name)) {
       ergebnis[e.name] = kurz(createHash('sha256').update(readFileSync(join(ordner, e.name))))
     }
   }
