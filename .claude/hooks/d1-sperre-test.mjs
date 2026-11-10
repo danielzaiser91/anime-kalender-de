@@ -1,8 +1,13 @@
 // Test für d1-sperre.js (Plan-Tor + Freigabe + Tagesbudget): node .claude/hooks/d1-sperre-test.mjs
 // Liest Schema und Migrationen aus C:/code/ai/anime-kalender-de/worker; Zustandsdateien in state/d1-test/ (danach gelöscht).
 import { createRequire } from 'node:module'
-import { mkdirSync, rmSync, writeFileSync, readFileSync } from 'node:fs'
-import { sqlHash } from 'file:///C:/code/ai/__assets/tools/d1-schutz/zustand.mjs'
+import { existsSync, mkdirSync, rmSync, writeFileSync, readFileSync } from 'node:fs'
+// Braucht Daniels Rechner (Werkzeug d1-schutz, Zustandsordner unter ~/.claude): in der CI übersprungen, die Zeile belegt es.
+if (!existsSync('C:/code/ai/__assets/tools/d1-schutz/zustand.mjs')) {
+  console.log('d1-sperre-test: übersprungen (C:/code/ai/__assets fehlt, läuft nur auf Daniels Rechner)')
+  process.exit(0)
+}
+const { sqlHash } = await import('file:///C:/code/ai/__assets/tools/d1-schutz/zustand.mjs')
 const { pruefe } = createRequire(import.meta.url)('./d1-sperre.js')
 
 const ORDNER = 'C:/Users/ih/.claude/hooks/state/d1-test'

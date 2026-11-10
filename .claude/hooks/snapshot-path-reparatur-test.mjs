@@ -39,7 +39,7 @@ ok('fehlendes Verzeichnis wirft nicht', hook.pruefe({ tool_name: 'Bash' }, path.
 
 // Ende-zu-Ende: Kopie eines echten schlechten Snapshots (falls noch einer vorhanden ist)
 const echt = path.join(os.homedir(), '.claude', 'shell-snapshots')
-const quelle = fs.readdirSync(echt)
+const quelle = (fs.existsSync(echt) ? fs.readdirSync(echt) : [])
   .map((n) => path.join(echt, n))
   .find((p) => /^export PATH='[A-Za-z]:\\/m.test(fs.readFileSync(p, 'utf8')))
 if (quelle) {

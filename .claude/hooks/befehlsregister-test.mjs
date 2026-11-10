@@ -9,6 +9,12 @@ import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 
+// Braucht Daniels Rechner (Werkzeug befehlsregister.mjs, Prozess-Inventur): in der CI übersprungen, die Zeile belegt es.
+if (!fs.existsSync('C:/code/ai/__assets/tools/befehlsregister.mjs')) {
+  console.log('befehlsregister-test: übersprungen (C:/code/ai/__assets fehlt, läuft nur auf Daniels Rechner)')
+  process.exit(0)
+}
+
 const HIER = path.dirname(fileURLToPath(import.meta.url))
 const TMP = fs.mkdtempSync(path.join(os.tmpdir(), 'befehlsregister-test-'))
 process.env.BR_DIR = path.join(TMP, 'befehle') // vor dem Laden der Module: sie lesen den Ort einmal
