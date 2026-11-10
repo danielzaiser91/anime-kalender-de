@@ -5,6 +5,9 @@ import type { PanelBuehne } from '../src/components/detail/buehne.tsx'
 import type { DbKopfbereich } from '../src/components/filter/DbWerkzeug.tsx'
 import type { TvKasten } from '../src/components/kalender/TvKasten.tsx'
 import type { ZeitMarke } from '../src/components/kalender/Marken.tsx'
+import type { TerminZeile } from '../src/components/detail/termin-zeile.tsx'
+import type { Pille } from '../src/components/detail/pille.tsx'
+import type { LiveLink } from '../src/components/detail/live-link.tsx'
 import type { discZeilen } from '../src/components/detail/wege-zeilen.tsx'
 import type { AntwortKastenMitMarke } from '../src/components/detail/kasten-marke.tsx'
 
@@ -23,6 +26,10 @@ export interface Ersatz {
   DbRaster: ComponentType<ComponentProps<typeof DbRaster>>
   DbLeer: ComponentType<ComponentProps<typeof DbLeer>>
   DbKopfzeile: ComponentType<ComponentProps<typeof DbKopfzeile>>
+  /** TV-Zeile im Panel: Terminzeile, Pille und Live-Knopf (Mockup `tv-knoepfe`). */
+  TerminZeile: ComponentType<ComponentProps<typeof TerminZeile>>
+  Pille: ComponentType<ComponentProps<typeof Pille>>
+  LiveLink: ComponentType<ComponentProps<typeof LiveLink>>
 }
 
 export const ErsatzKontext = createContext<Partial<Ersatz>>({})
