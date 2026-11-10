@@ -1,5 +1,5 @@
 /**
- * Trefferprobe der Hauptansichten am Handy (360 px, beide Themen): Woche, Datenbank-Liste und das offene Filterfenster
+ * Trefferprobe der Hauptansichten am Handy (360 px, beide Themen): Woche, Monat, Datenbank-Liste, News, Quellen und das offene Filterfenster
  * (Woche und Datenbank). Jedes sichtbare Bedienelement muss anklickbar sein (`trefferprobe-browser.mjs`); Ausnahmen stehen
  * benannt in `trefferprobe-ausnahmen.mjs`.
  */
@@ -9,6 +9,9 @@ import { trefferprobe } from './trefferprobe-browser.mjs'
 const ZUSTAENDE = [
   { name: 'Woche', route: 'woche', filter: false, wurzel: undefined },
   { name: 'Datenbank-Liste', route: 'datenbank', filter: false, wurzel: undefined },
+  { name: 'Monat', route: 'monat', filter: false, wurzel: undefined },
+  { name: 'News', route: 'news', filter: false, wurzel: undefined },
+  { name: 'Quellen', route: 'quellen', filter: false, wurzel: undefined },
   { name: 'Woche, Filterfenster offen', route: 'woche', filter: true, wurzel: '#ak-filter' },
   { name: 'Datenbank, Filterfenster offen', route: 'datenbank', filter: true, wurzel: '#ak-filter' },
 ]
