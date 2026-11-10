@@ -16,7 +16,7 @@ import { seitAbText } from './seit-datum.ts'
 import { kaufTextSchluessel, kurzeAusgabe } from './disc-ausgabe.ts'
 import { tvQuelle } from './tv-quelle.ts'
 import { liveAdresse } from '../../lib/live-adresse.ts'
-import { JoynDanach, LiveLink } from './live-link.tsx'
+import { LiveLink } from './live-link.tsx'
 
 type TvText = ReturnType<typeof tvAngabe>
 
@@ -250,7 +250,7 @@ function terminName(release: Release, titel: string | undefined, t: Translate, p
 }
 
 /** Ein Termin als Anbieterzeile: Sender oder Anbieter, Datum, Folge; bei TV mit Programm-Link, mit Kalenderknopf. */
-export function TerminZeile({ release, titel, today, tvText, deutsch, joynUrl }: {
+export function TerminZeile({ release, titel, today, tvText, deutsch }: {
   release: Release
   titel?: string
   today: string
@@ -258,8 +258,6 @@ export function TerminZeile({ release, titel, today, tvText, deutsch, joynUrl }:
   tvText?: TvText
   /** Ein Prime-Kanal-Termin, dessen Anbieter Deutsch belegt: die Blase „Deutsch“ und dessen Folgen statt der Zählung des Termins. */
   deutsch?: { folgen: string }
-  /** Joyn-Seite des Titels bei einem MAXX-Termin: die Folge ist ab Sendeende dort abrufbar (`lib/joyn-danach.ts`). */
-  joynUrl?: string
 }) {
   const { t } = useLang()
   const tv = release.platform === 'tv'
@@ -291,7 +289,6 @@ export function TerminZeile({ release, titel, today, tvText, deutsch, joynUrl }:
       aktion={
         <>
           {live && <LiveLink url={live.url} hinweis={t('tv.live', { name: live.name })} />}
-          {joynUrl && <JoynDanach joynSeite={joynUrl}text={t('tv.danachJoyn')} />}
           {tvLink && <ProgrammLink href={tvLink.href} hinweis={tvLink.hinweis} />}
           <MerkenKnopf release={release} today={today} zeile />
         </>
