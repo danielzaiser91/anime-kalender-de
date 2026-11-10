@@ -3,7 +3,7 @@
     "2026-08": 55,
     "2026-09": 68,
     "2026-10": 99,
-    "2026-11": 32
+    "2026-11": 30
   },
   "gesehen": {
     "26341901:netflix": {
@@ -1162,7 +1162,7 @@
       "imdbId": "tt9813792",
       "tmdbId": "tv/124364",
       "dienst": "prime",
-      "am": "2026-11-10",
+      "am": "2026-10-19",
       "deutsch": true,
       "deutschBeiDienst": false
     },
@@ -7405,9 +7405,8 @@
       "imdbId": "tt1474684",
       "tmdbId": "tv/1426",
       "dienst": "prime",
-      "am": "2026-11-10",
-      "deutsch": false,
-      "deutschBeiDienst": false
+      "am": "2026-10-10",
+      "deutsch": false
     },
     "removed:308:prime": {
       "art": "removed",
@@ -11119,40 +11118,7 @@
       "am": "2026-11-06",
       "deutsch": false,
       "deutschBeiDienst": false
-    },
-    "new:6805:netflix": {
-      "art": "new",
-      "titel": "Power Book III: Raising Kanan",
-      "originalTitel": "Power Book III: Raising Kanan",
-      "imdbId": "tt11761176",
-      "tmdbId": "tv/124394",
-      "dienst": "netflix",
-      "am": "2026-11-10",
-      "deutsch": false,
-      "deutschBeiDienst": false
-    },
-    "new:1034:netflix": {
-      "art": "new",
-      "titel": "Power",
-      "originalTitel": "Power",
-      "imdbId": "tt3281796",
-      "tmdbId": "tv/54650",
-      "dienst": "netflix",
-      "am": "2026-11-10",
-      "deutsch": false,
-      "deutschBeiDienst": false
-    },
-    "removed:5459516:netflix": {
-      "art": "removed",
-      "titel": "The Origin: Madam Koi-Koi",
-      "originalTitel": "The Origin: Madam Koi-Koi",
-      "imdbId": "tt27483643",
-      "tmdbId": "tv/239280",
-      "dienst": "netflix",
-      "am": "2026-11-10",
-      "deutsch": false,
-      "deutschBeiDienst": false
     }
   },
-  "fetchedAt": "2026-11-10T04:09:39.387Z"
+  "fetchedAt": "2026-11-09T04:09:16.022Z"
 }

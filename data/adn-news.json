@@ -1,26 +1,6 @@
 {
-  "geholtAm": "2026-11-10T04:08:30.066Z",
+  "geholtAm": "2026-11-09T02:00:55.243Z",
   "artikel": [
-    {
-      "titel": "ADN bringt TV-App heraus: Streame deine Anime auf Fernseher und Konsole!",
-      "url": "https://news.animationdigitalnetwork.com/de/2026/11/03/adn-bringt-tv-app-heraus-streame-anime-auf-fernseher-und-konsole/",
-      "datum": "2026-11-03",
-      "showIds": [
-        1432,
-        970,
-        1311,
-        887,
-        561,
-        999,
-        1160,
-        724,
-        319,
-        427,
-        662,
-        197,
-        1350
-      ]
-    },
     {
       "titel": "I Parry Everything jetzt auf Deutsch im Stream bei ADN!",
       "url": "https://news.animationdigitalnetwork.com/de/2026/11/02/i-parry-everything-jetzt-auf-deutsch-im-stream-bei-adn/",
@@ -681,6 +661,48 @@
         561,
         999,
         1160
+      ]
+    },
+    {
+      "titel": "Weitere Donghua aus China im Stream bei ADN verfügbar",
+      "url": "https://news.animationdigitalnetwork.com/de/2026/05/20/weitere-donghua-aus-china-im-stream-bei-adn-verfuegbar/",
+      "datum": "2026-05-20",
+      "showIds": [
+        1390,
+        1389,
+        1369,
+        1294,
+        1362,
+        1303,
+        1051,
+        1324,
+        1379,
+        1378,
+        1323
+      ]
+    },
+    {
+      "titel": "Neue Avatare zu Farming Life in Another World bei ADN",
+      "url": "https://news.animationdigitalnetwork.com/de/2026/05/19/neue-avatare-zu-farming-life-in-another-world-bei-adn/",
+      "datum": "2026-05-19",
+      "showIds": [
+        1008
+      ]
+    },
+    {
+      "titel": "Neue Avatare zu Reincarnated as a Dragon Hatchling bei ADN",
+      "url": "https://news.animationdigitalnetwork.com/de/2026/05/13/neue-avatare-zu-reincarnated-as-a-dragon-hatchling-bei-adn/",
+      "datum": "2026-05-13",
+      "showIds": [
+        1347
+      ]
+    },
+    {
+      "titel": "Horror-Anime Mononoke ab sofort im Stream bei ADN",
+      "url": "https://news.animationdigitalnetwork.com/de/2026/05/11/horror-anime-mononoke-ab-sofort-im-stream-bei-adn/",
+      "datum": "2026-05-11",
+      "showIds": [
+        1397
       ]
     }
   ]
