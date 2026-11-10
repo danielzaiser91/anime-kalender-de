@@ -378,6 +378,7 @@ gesperrt(`cd ${WT} && x | y || git merge x`, HAUPT, '|| nach der Pipe')
 gesperrt(`cd ${WT} | git merge x`, HAUPT, 'Pipe nach cd ohne &&')
 // Mutanten-Fälle (A2): Klammer-Zu, Zeilenumbruch nach |, Zeilenumbruch nach gefülltem Segment, pushd.
 frei(`cd ${WT} && (git status) && git merge x`, HAUPT, 'Klammer zu innerhalb der Kette')
+frei(`cd ${WT} && git status) && git merge x`, HAUPT, 'unpaariges ) : kein Kettenende (zu() mit Klammer-Marke)')
 frei(`cd ${WT} && git log |
 git merge x`, HAUPT, 'Zeilenumbruch nach | setzt die Kette fort')
 gesperrt(`cd ${WT} && git status 
