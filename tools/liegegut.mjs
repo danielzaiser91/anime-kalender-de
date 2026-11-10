@@ -277,7 +277,7 @@ export function kopfZeitVon(ghFn, pr, karte) {
 function bewertePr(ghFn, gitFn, pr, geteilt, jetzt, karte, stapel) {
   const kopfZeit = kopfZeitVon(ghFn, pr, karte)
   if (Number.isNaN(kopfZeit)) throw new Error(`PR ${pr.number}: Kopf-Zeit nicht lesbar`)
-  const signale = [...signaleEinzel(pr, kopfZeit, jetzt), ...stillstandSignal(pr, kopfZeit, jetzt), ...schleifeSignal(pr)]
+  const signale = [...signaleEinzel(pr, kopfZeit, jetzt), ...stillstandSignal(pr, kopfZeit, jetzt), ...schleifeSignal(pr, kopfZeit)]
   const texte = signale.map((s) => `${s.nr} ${s.text}`)
   const zeiten = signale.map((s) => s.seit)
   const nummern = signale.map((s) => s.nr)

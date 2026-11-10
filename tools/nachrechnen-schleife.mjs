@@ -9,11 +9,15 @@ export const SCHLEIFE_AB = 3
 /** Kommentartext: eine Zeile mit Kennung, Kettenstand, main-Stand und dem Grund aus `datenpfadGrund`. */
 export const grundKommentar = (basisKurz, mainKurz, grund) => `${KENNUNG} Kette gegen ${basisKurz}, main ist ${mainKurz}; ${grund}`
 
-const istDurchgang = (c) => typeof c.body === 'string' && c.body.startsWith(KENNUNG)
+/** Konten, unter denen pr-nachrechnen kommentiert: Daniels gh (lokal) und der Nacht-Merger (github-actions); fremde Konten zählen nicht (öffentliches Repo). */
+const KONTEN = ['danielzaiser91', 'github-actions']
 
-/** Signal 10 für `pr.comments`: höchstens ein Eintrag, `seit` = Zeit des jüngsten Durchgangs. */
-export function schleifeSignal(pr) {
-  const durchgaenge = pr.comments.filter(istDurchgang)
+/** Zählt nur Kommentare dieser Konten und nur seit dem Kopf-Commit: nach einer Nachbesserung beginnt die Zählung neu. */
+const istDurchgang = (c, kopfZeit) => KONTEN.includes(c.author?.login) &&typeof c.body === 'string' && c.body.startsWith(KENNUNG) && Date.parse(c.createdAt) >= kopfZeit
+
+/** Signal 10 für `pr.comments`: höchstens ein Eintrag, `seit` = Zeit des jüngsten Durchgangs; kopfZeit = Commit-Zeit des Kopfs in ms. */
+export function schleifeSignal(pr, kopfZeit) {
+  const durchgaenge = pr.comments.filter((c) => istDurchgang(c, kopfZeit))
   if (durchgaenge.length < SCHLEIFE_AB) return []
   const seit = Math.max(...durchgaenge.map((c) => Date.parse(c.createdAt)))
   return [{ nr: 10, text: `Nachrechnen ${durchgaenge.length}× NICHT AKTUELL (Grund in den Kommentaren)`, seit }]
