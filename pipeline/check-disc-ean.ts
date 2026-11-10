@@ -90,6 +90,8 @@ pruefe('zu kurze Ziffernfolge ist keine EAN', amazonLinkArt('https://www.amazon.
 pruefe('EAN mit Zusatz (&i=…) bleibt EAN', amazonLinkArt('https://www.amazon.de/s?k=7630017545978&i=dvd') === 'ean')
 pruefe('15 Ziffern oder Ziffern mit Buchstaben dahinter sind keine EAN', amazonLinkArt('https://www.amazon.de/s?k=123456789012345') === 'name' && amazonLinkArt('https://www.amazon.de/s?k=7630017545978abc') === 'name' && amazonLinkArt('https://www.amazon.de/s?k=abc7630017545978') === 'name')
 pruefe('Produktseite', amazonLinkArt(dp) === 'produkt')
+pruefe('Produktseite mit Titel im Pfad', amazonLinkArt(dpLang) === 'produkt')
+pruefe('Titel-Pfad ohne /dp/ und zwei Segmente vor /dp/ sind keine Produktseite', amazonLinkArt('https://www.amazon.de/Banana-Fish/B0H26RZXLW') === undefined && amazonLinkArt('https://www.amazon.de/a/b/dp/B0H26RZXLW') === undefined)
 pruefe('anderer Shop und leer', amazonLinkArt('https://www.akibapassshop.de/x') === undefined && amazonLinkArt(undefined) === undefined)
 
 console.log('\nTerminverschiebung (Phase 08, verschiebungenAnwenden):')

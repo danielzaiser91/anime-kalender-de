@@ -179,7 +179,8 @@
   }
   /** Der Text der Endanzeige: je übersprungenem Titel eine Zeile mit Grund — `titelFuer(url)` liefert den Namen. */
   function endeText({ grund, erledigt, uebersprungen, schon = [], gebiet = [], zurueck = [] }, titelFuer) {
-    const kopf = `Durchgang ${grund === 'nichts mehr offen' ? 'fertig' : 'beendet'} · ${erledigt} Titel${grund.startsWith('Tageslimit') ? ` — ${grund}` : ''}`
+    const rest = uebersprungen.length ? `, ${uebersprungen.length} übersprungen` : ''
+    const kopf = `Durchgang ${grund === 'nichts mehr offen' ? 'fertig' : 'beendet'}${rest} · ${erledigt} Titel${grund.startsWith('Tageslimit') ? ` — ${grund}` : ''}`
     const bereits =
       (schon.length ? `\n${schon.length} schon gemeldet: ${schon.map(titelFuer).join(', ')}` : '') +
       (gebiet.length ? `\n${gebiet.length} als „nicht in deinem Gebiet verfügbar“ gemeldet: ${gebiet.map(titelFuer).join(', ')}` : '') +
