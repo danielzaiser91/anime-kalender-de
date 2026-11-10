@@ -1,5 +1,5 @@
 {
-  "aufgeloestAm": "2026-11-09T16:01:55.410Z",
+  "aufgeloestAm": "2026-11-10T15:39:04.670Z",
   "adressen": {
     "http://www.crunchyroll.com/de/a-place-further-than-the-universe": {
       "seriesId": "GYK541EPR",
@@ -2871,7 +2871,7 @@
     },
     "https://www.crunchyroll.com/de/jungle-emperor-leo": {
       "ziel": "https://www.crunchyroll.com/de/watch/GRMGZJ1GR/jungle-emperor-leo",
-      "geprueftAm": "2026-11-02",
+      "geprueftAm": "2026-11-10",
       "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     "https://www.crunchyroll.com/de/origin-spirits-of-the-past": {
@@ -3505,7 +3505,7 @@
     },
     "http://www.crunchyroll.com/mobile-suit-gundam-wing-endless-waltz/mobile-suit-gundam-wing-endless-waltz-gundam-wing-endless-waltz-732801": {
       "ziel": "https://www.crunchyroll.com/de/watch/G71F4DJ24/endless-waltz",
-      "geprueftAm": "2026-11-02",
+      "geprueftAm": "2026-11-10",
       "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     "http://www.crunchyroll.com/my-first-girlfriend-is-a-gal/episode-1-my-first-time-begging-for-it-742283": {
