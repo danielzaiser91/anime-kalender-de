@@ -65,6 +65,8 @@ Vorschläge steigen, die Daniel-Funde sinken.
 - **Täglich, erste Wachphase des autonomen Modus:** ein Bereich aus der Rotation unten an einen
   Analysten (Sonnet, Bericht nach `daniel-zum-abarbeiten/berichte/prueftisch-<bereich>-<datum>.md`).
   Welcher Bereich dran ist, steht im Protokoll unten (ältester zuerst).
+- **Täglich, Testlauf (seit 10.11.2026):** `node C:/code/ai/__assets/tools/alle-tests.mjs` fährt alle Tests unter
+  `__assets/tools`; Rot bekommt einen Besitzer (Bauer-Auftrag oder Eintrag in `stand.md`).
 - **Bei jedem Daniel-Fund sofort:** der zuständige Bereich außer der Reihe.
 - **Wöchentlich (montags):** die Daniel-Funde der Woche zählen (Transkripte/`lehren.md`). Ziel ist
   null; steigt die Zahl, ist der Rhythmus zu dünn.
