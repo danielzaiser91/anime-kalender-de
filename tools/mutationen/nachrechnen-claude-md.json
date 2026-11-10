@@ -1,0 +1,42 @@
+[
+  {
+    "name": "Kontrolle unmutiert",
+    "aenderungen": [],
+    "tests": ["npx tsx tools/pr-nachrechnen-claude-md.test.mjs"]
+  },
+  {
+    "name": "CLAUDE_MD: Regel entfernt (alter Stand)",
+    "datei": "tools/pr-nachrechnen.mjs",
+    "suche": "|| CLAUDE_MD.test(datei) ||",
+    "ersetze": "||",
+    "tests": ["npx tsx tools/pr-nachrechnen-claude-md.test.mjs"]
+  },
+  {
+    "name": "CLAUDE_MD: nur skills (Agenten und Regeln fehlen)",
+    "datei": "tools/pr-nachrechnen.mjs",
+    "suche": "const CLAUDE_MD = /^\\.claude\\/.+\\.md$/",
+    "ersetze": "const CLAUDE_MD = /^\\.claude\\/skills\\/.+\\.md$/",
+    "tests": ["npx tsx tools/pr-nachrechnen-claude-md.test.mjs"]
+  },
+  {
+    "name": "CLAUDE_MD: jede Datei unter .claude (Hooks zählen nicht mehr)",
+    "datei": "tools/pr-nachrechnen.mjs",
+    "suche": "const CLAUDE_MD = /^\\.claude\\/.+\\.md$/",
+    "ersetze": "const CLAUDE_MD = /^\\.claude\\/.+$/",
+    "tests": ["npx tsx tools/pr-nachrechnen-claude-md.test.mjs"]
+  },
+  {
+    "name": "CLAUDE_MD: Endung nicht geprüft (Skripte unter skills zählen nicht mehr)",
+    "datei": "tools/pr-nachrechnen.mjs",
+    "suche": "const CLAUDE_MD = /^\\.claude\\/.+\\.md$/",
+    "ersetze": "const CLAUDE_MD = /^\\.claude\\/.+\\.(md|mjs)$/",
+    "tests": ["npx tsx tools/pr-nachrechnen-claude-md.test.mjs"]
+  },
+  {
+    "name": "CLAUDE_MD: Anker fehlt (auch tools/.claude/x.md zählt als frei)",
+    "datei": "tools/pr-nachrechnen.mjs",
+    "suche": "const CLAUDE_MD = /^\\.claude\\/.+\\.md$/",
+    "ersetze": "const CLAUDE_MD = /\\.claude\\/.+\\.md$/",
+    "tests": ["npx tsx tools/pr-nachrechnen-claude-md.test.mjs"]
+  }
+]

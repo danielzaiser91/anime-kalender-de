@@ -68,7 +68,9 @@ export const istDatenpfad = (datei) => DATENPFADE.some((p) => datei.startsWith(p
  * Ausgenommen von `docs/`: `design-regeln.md`, das `tools/design-kontrast.mjs` liest (Prüfer 2123 R1); `dokuLeser` im Bot-Pfade-Test sucht den nächsten Leser.
  */
 const LIEST_KETTE = 'docs/wissen/design-regeln.md'
-const ohneKetteLeser = (datei) => (datei.startsWith('docs/') && datei !== LIEST_KETTE) || /^[^/]+\.md$/.test(datei) || datei === 'daniel-zum-abarbeiten/00-wache.md'
+/** Markdown unter `.claude/` (Skills, Agenten, Regeln) liest kein Kettenschritt (gemessen 10.11.2026: `QUELL_ENDUNG` in pr-stufe-kette.mjs und `LESBAR` kennen kein .md; Anlass PR 3272, 3117, 3241, 3343). Hooks (.js) lesen Tests, sie zählen weiter. */
+const CLAUDE_MD = /^\.claude\/.+\.md$/
+const ohneKetteLeser = (datei) => (datei.startsWith('docs/') && datei !== LIEST_KETTE) || /^[^/]+\.md$/.test(datei) || CLAUDE_MD.test(datei) || datei === 'daniel-zum-abarbeiten/00-wache.md'
 
 /**
  * Dateien auf main, die jeden PR entwerten, auch ohne Zusammenhang: sie legen fest, was die Kette prüft (Kettendefinition, Pakete, Wächter
