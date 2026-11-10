@@ -125,6 +125,7 @@ pipeline/check-cr-block-zaehlung.ts
 pipeline/check-cr-blockkette-luecke.ts
 pipeline/check-cr-blockwahl.ts
 pipeline/check-cr-browser-start.ts
+pipeline/check-cr-datum-platzhalter.ts
 pipeline/check-cr-doppelt-weg.ts
 pipeline/check-cr-einzelwerk-urteil.ts
 pipeline/check-cr-film-wege.ts
