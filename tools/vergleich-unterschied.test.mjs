@@ -65,6 +65,15 @@ assert.equal(jsonUnterschiede([{ a: 1 }, { a: 1 }], [{ a: 1 }]).size, 1, 'eine D
 const text = beschreibeUnterschied('_protokoll.txt', 'gleich\nnur alt\n', 'gleich\nnur neu\n')
 assert.deepEqual(text, ['    - nur alt', '    + nur neu'])
 
+// ICS: erste abweichende Zeile samt UID des umgebenden VEVENT, nicht „END:VCALENDAR“.
+const ics = (summary2) => ['BEGIN:VCALENDAR', 'BEGIN:VEVENT', 'UID:a-1', 'SUMMARY:Eins', 'END:VEVENT', 'BEGIN:VEVENT', 'UID:b-2', `SUMMARY:${summary2}`, 'DTSTART:20261110', 'END:VEVENT', 'END:VCALENDAR', ''].join('\r\n')
+assert.deepEqual(beschreibeUnterschied('abo.ics', ics('Zwei'), ics('Zwei neu')), [
+  '    erste Abweichung: Zeile 8, UID b-2 → b-2',
+  '    - SUMMARY:Zwei',
+  '    + SUMMARY:Zwei neu',
+])
+assert.deepEqual(beschreibeUnterschied('abo.ics', ics('Zwei'), ics('Zwei')), [], 'gleich: keine Zeile')
+
 // Kennungen tragen den Titelnamen (deutsch, sonst englisch, sonst Romaji); ohne Namen bleibt es die nackte Kennung.
 const namenAlt = [
   { id: 2167, titleDe: 'Tokyo Revengers', titleEn: 'T', x: 1 },
