@@ -8,7 +8,7 @@
 // Fail-closed: steht an Programmstelle eine nicht auflösbare Variable (`G=$(command -v git)`), prüft die Sperre sie wie git
 // — `"$X" status` und `pull --ff-only` bleiben frei, `"$X" merge` im Hauptordner nicht.
 // Wirksames Verzeichnis: Bash-cwd, `cd`, `git -C`, `--work-tree`. Ein `cd` ohne folgendes `&&` kann scheitern: dann zählen beide
-// Möglichkeiten. Ein `cd … &&` schützt nur den Rest seiner `&&`-Kette; nach `;`, Zeilenumbruch, `||` oder `|` zählt das Verzeichnis
+// Möglichkeiten. Ein `cd … &&` schützt nur den Rest seiner `&&`-Kette (eine Pipe `|` darin beendet sie nicht); nach `;`, Zeilenumbruch oder `||` zählt das Verzeichnis
 // vor der Kette wieder mit (10.11.2026: `cd wt && git status; git merge` lief dreimal im Hauptordner). Nicht bestimmbare Ziele (`$X`, `~`) fallen auf das Startverzeichnis (cwd) zurück. Klammern halten ihr `cd` im Inneren.
 // „Im Hauptordner“ heißt: erster Vorfahr mit `.git` ist der Hauptordner selbst (eine `.git`-Datei oder ein anderer Treffer = eigener
 // Arbeitsbaum); noch nicht angelegte `HAUPT/.claude/worktrees/*` gelten vorab als Worktrees (ein vorhandener Ordner ohne `.git` nicht: Git läuft dort im Hauptordner).
@@ -130,6 +130,9 @@ function zerlege(roh) {
     else if (c === ';' || c === '\n') segEnde(';')
     else if (c === '&' && n === '&') {
       segEnde('&&')
+      i++
+    } else if (c === '|' && n === '|') {
+      segEnde('||')
       i++
     } else if (c === '|') segEnde('|')
     else if (c === '&' && befehl[i - 1] !== '>' && befehl[i - 1] !== '<' && n !== '>') segEnde(';')
@@ -281,9 +284,9 @@ function pruefeBefehl(befehl, cwd, haupt = HAUPT, vars = {}) {
   return null
 }
 
-/** Endet die `&&`-Kette (`;`, Zeilenumbruch, `||`, `|`), läuft der nächste Befehl auch dann, wenn ihr `cd` scheiterte: das Verzeichnis vor der Kette zählt wieder mit. */
+/** Endet die `&&`-Kette (`;`, Zeilenumbruch, `||`; eine Pipe `|` nicht), läuft der nächste Befehl auch dann, wenn ihr `cd` scheiterte: das Verzeichnis vor der Kette zählt wieder mit. */
 function erweitereNachKette({ op, klammer }, z) {
-  if (op === '&&' || klammer || !z.zurueck) return
+  if (op === '&&' || op === '|' || klammer || !z.zurueck) return
   z.moegliche = [...new Set([...z.moegliche, ...z.zurueck])]
   z.zurueck = null
 }

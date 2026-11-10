@@ -368,6 +368,27 @@ frei(`cd ${WT} && git fetch && git merge origin/main`, HAUPT, 'lange &&-Kette')
 frei(`cd ${WT} && cd web && git merge origin/main`, HAUPT, 'zwei cd mit &&')
 frei(`cd ${NE} && git merge origin/main`, HAUPT, 'nicht vorhandenes Ziel: && stoppt vor git')
 frei(`cd ${WT} && git status; git status`, HAUPT, 'Kette, danach nur Lesen')
+// Nachbesserung 3410: Pipe innerhalb der Kette beendet sie nicht (A1); `||` und `;` nach der Pipe schon.
+frei(`cd ${WT} && git status && git log | head -3 && git merge x`, HAUPT, 'Pipe mitten in der &&-Kette')
+frei(`cd ${WT} && git status && git log | head -3
+`, HAUPT, 'Pipe am Ende, nur Lesen')
+gesperrt(`cd ${WT} && git status || git merge x`, HAUPT, '|| beendet die Kette')
+gesperrt(`cd ${WT} && x | y; git merge x`, HAUPT, '; nach der Pipe')
+gesperrt(`cd ${WT} && x | y || git merge x`, HAUPT, '|| nach der Pipe')
+gesperrt(`cd ${WT} | git merge x`, HAUPT, 'Pipe nach cd ohne &&')
+// Mutanten-Fälle (A2): Klammer-Zu, Zeilenumbruch nach |, Zeilenumbruch nach gefülltem Segment, pushd.
+frei(`cd ${WT} && (git status) && git merge x`, HAUPT, 'Klammer zu innerhalb der Kette')
+frei(`cd ${WT} && git log |
+git merge x`, HAUPT, 'Zeilenumbruch nach | setzt die Kette fort')
+gesperrt(`cd ${WT} && git status 
+git merge x`, HAUPT, 'Zeilenumbruch nach gefülltem Segment beendet die Kette')
+gesperrt(`pushd ${WT} && git status; git merge x`, HAUPT, 'pushd wie cd')
+// A3: reale Agentenbefehle mit Pipe in einer &&-Kette, frei.
+frei(`cd ${WT} && npm test | tail -5 && git commit -m x`, HAUPT, 'npm test | tail && commit')
+frei(`cd ${WT} && git diff origin/main --stat | tail -3 && git push origin HEAD:zweig`, HAUPT, 'diff | tail && push')
+frei(`cd ${WT} && npx tsc --noEmit -p . 2>&1 | tail -5 && git add a.ts && git commit -q -m x`, HAUPT, 'tsc 2>&1 | tail && add && commit')
+frei(`cd ${WT} && git fetch -q origin && git log --oneline origin/main..HEAD | head -3 && git merge origin/main`, HAUPT, 'fetch && log | head && merge')
+frei(`cd ${WT} && node tools/umfang-pruefen.mjs | tail -2 && git status --short | head -5 && git commit -m x`, HAUPT, 'zwei Pipes in der Kette')
 frei(`cd ${WT} && (git merge x)`, HAUPT, 'Klammer innerhalb der Kette')
 frei(`cd ${WT} && (git status; git merge x)`, HAUPT, 'Klammer mit ; innerhalb der Kette: läuft nur nach gelungenem cd')
 frei(`cd ${WT} && git log $(git rev-parse HEAD) && git merge x`, HAUPT, 'Ersetzung innerhalb der Kette')
