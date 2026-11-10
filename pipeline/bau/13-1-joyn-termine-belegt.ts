@@ -1,5 +1,5 @@
 import { expandEvents } from '../../shared/logic.ts'
-import { istSendeende } from '../lib/joyn-schaetzung-pruefung.ts'
+import { beginntAm, istSendeende } from '../lib/joyn-schaetzung-pruefung.ts'
 import { type Release, type ReleaseEvent, type Title } from '../../shared/types.ts'
 
 /*
@@ -27,7 +27,7 @@ export function belegeJoynTermine(allTitles: Title[], releases: Release[], event
     for (const f of fenster) {
       const geplant = plan.get(f.nr)
       if (!geplant || r.schedule.observed?.[f.nr] || !istSendeende(f.ab)) continue
-      if (`${geplant.date}T${geplant.time}` !== f.ab) continue
+      if (!beginntAm(f.ab, geplant.date, geplant.time)) continue
       r.schedule.observed ??= {}
       r.schedule.observed[f.nr] = geplant.date
       belegt++
