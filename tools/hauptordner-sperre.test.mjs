@@ -356,6 +356,9 @@ gesperrt(`cd ${WT} && cd web; git merge origin/main`, HAUPT, 'zwei cd, dann ;')
 gesperrt(`(cd ${WT} && git status); git merge origin/main`, HAUPT, 'Klammer, dann ;')
 gesperrt(`cd ${WT} && git status | cat; git merge origin/main`, HAUPT, 'Pipe, dann ;')
 gesperrt(`sh -c "cd ${WT} && git status; git merge x"`, HAUPT, 'dasselbe in sh -c')
+gesperrt(`cd ${WT} && cd web && git status; git merge origin/main`, HAUPT, 'zwei cd mit &&, dann ;')
+gesperrt(`cd ${WT} && (git status)\ngit merge x`, HAUPT, 'Klammer, dann Zeilenumbruch')
+gesperrt(`cd ${WT} && ls\ngit merge x`, HAUPT, 'Befehl mit einem Wort, dann Zeilenumbruch')
 gesperrt(`cd ${WT} && (git status); git merge x`, HAUPT, 'Kette mit Klammer, dann ;')
 gesperrt(`cd ${WT} && git log $(git rev-parse HEAD); git merge x`, HAUPT, 'Kette mit Ersetzung, dann ;')
 // Gegenproben: alles, was wirklich nur im Worktree läuft, bleibt frei.
@@ -366,6 +369,7 @@ frei(`cd ${WT} && cd web && git merge origin/main`, HAUPT, 'zwei cd mit &&')
 frei(`cd ${NE} && git merge origin/main`, HAUPT, 'nicht vorhandenes Ziel: && stoppt vor git')
 frei(`cd ${WT} && git status; git status`, HAUPT, 'Kette, danach nur Lesen')
 frei(`cd ${WT} && (git merge x)`, HAUPT, 'Klammer innerhalb der Kette')
+frei(`cd ${WT} && (git status; git merge x)`, HAUPT, 'Klammer mit ; innerhalb der Kette: läuft nur nach gelungenem cd')
 frei(`cd ${WT} && git log $(git rev-parse HEAD) && git merge x`, HAUPT, 'Ersetzung innerhalb der Kette')
 frei(`cd ${WT} && git status; cd ${WT} && git merge x`, HAUPT, 'zweite Kette mit eigenem cd')
 frei(`git -C ${WT} merge origin/main`, HAUPT, 'git -C')
@@ -375,7 +379,7 @@ frei(`cd ${NE}; git merge origin/main`, WT, 'cwd ist Worktree, Ziel fehlt')
 // Die Meldung nennt beide sicheren Wege.
 assert.match(lauf(`cd ${WT}; git merge x`), /cd C:\/code\/_worktrees\/anime-kalender-de\/<thema> && ….*git -C C:\/code\/_worktrees\/anime-kalender-de\/<thema>/)
 // Echter Hook-Prozess mit dem Anlassfall.
-const anlass = spawnSync(process.execPath, [hook], { input: JSON.stringify({ tool_name: 'Bash', cwd: HAUPT, tool_input: { command: `cd ${WT} && git status; git merge origin/main` } }), encoding: 'utf8' })
+const anlass = spawnSync(process.execPath, [hook], { input: JSON.stringify({ tool_name: 'Bash', cwd: HAUPT, tool_input: { command: `cd ${WT} && git status; git merge origin/main` } }), encoding: 'utf8', timeout: 20000 })
 assert.equal(JSON.parse(anlass.stdout).hookSpecificOutput.permissionDecision, 'deny', 'Prozess sperrt Anlassfall')
 
 // Kaputtes JSON auf stdin: Prozess endet 0 ohne Ausgabe (fail-open).
