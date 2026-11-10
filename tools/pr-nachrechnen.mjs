@@ -9,7 +9,7 @@
  *   Exit 3: ein offener PR trägt „ersetzt PR <PR>“ (`pr-ersetzt.mjs`), vor allen anderen Urteilen, auch bei gemergtem <PR>: nicht mergen.
  *   Exit 0: der neueste Kettenlauf zum Kopf rechnete gegen den jetzigen main-HEAD, oder main bewegte sich seit dem Lauf nur unter
  *           `public/data/` und `data/cache/` und der PR berührt diese Pfade nicht (F55, 20.10.2026; `datenpfadAusnahme`), oder alle
- *           Commits seitdem stammen von Daten-Bots und bewegen nur `data/`, und der PR liest keine Daten (Merge-Fluss C; `botSprungAusnahme`).
+ *           Commits seitdem stammen von Daten-Bots und bewegen nur `data/`, und der PR liest keine Daten (Merge-Fluss C; `botSprungAusnahme`); bei einem reinen Bot-Datensprung (`reinerBotSprung`) genügt: der PR berührt keine bewegte Datei.
  *   Exit 1: nicht aktuell; der PR wurde geschlossen und wieder geöffnet, die Kette läuft neu (der Prüfer hört nicht auf `reopened`).
  *   Exit 2: nichts angestoßen (Konflikt, Mergebarkeit oder Test-Merge noch nicht berechnet, kein Lauf, Basis nicht lesbar, Fehler);
  *           die Meldung sagt, warum. Scheitert es erst nach dem Schließen, steht „SCHON ANGESTOSSEN“ in der Meldung.
@@ -19,8 +19,9 @@ import { LIMIT_STAPEL_MS, mitLimit } from './kind-mit-limit.mjs'
 import { pathToFileURL } from 'node:url'
 import { BOT_DATEIEN_OHNE_LESER, istBotBild, istBotDatei } from './pr-nachrechnen-bot-pfade.mjs'
 import { gitAufruf, gitLeser } from './pr-nachrechnen-leser-git.mjs'
-import { standardVoll } from './pr-nachrechnen-vergleich-git.mjs'
+import { standardPaare, standardVoll } from './pr-nachrechnen-vergleich-git.mjs'
 import { ZUG, istZugPr, leseZugAktiv } from './zug-aktiv.mjs'
+import { erzeugteDatei } from './pr-nachrechnen-bot-erzeugt.mjs'
 import { ersetzer, ersetztMeldung } from './pr-ersetzt.mjs'
 
 export const KETTE = 'pr-pruefung.yml'
@@ -99,11 +100,45 @@ export function datenpfadAusnahme(vergleich, prDateien) {
 export function botSprungAusnahme(vergleich, prDateien, liestBewegtes) {
   if (vergleich.status !== 'ahead') return `main ist gegenüber der Kettenbasis ${vergleich.status}, nicht nur vorgerückt`
   if (!vergleich.vollstaendig && abgeschnitten(vergleich)) return `Vergleich evtl. abgeschnitten${lokal(vergleich)}`
+  const beruehrt = prDateien.find((p) => vergleich.dateien.includes(p))
+  if (reinerBotSprung(vergleich, prDateien)) return beruehrt === undefined ? null : `der PR berührt ${beruehrt}`
   const fremd = vergleich.dateien.find((d) => !istDatenpfad(d) && !ohneKetteLeser(d) && kettenweit(d))
   if (fremd !== undefined) return `main bewegte ${fremd}`
-  const beruehrt = prDateien.find((p) => vergleich.dateien.includes(p))
   if (beruehrt !== undefined) return `der PR berührt ${beruehrt}`
   return liestBewegtes(vergleich.dateien.filter((d) => !istDatenpfad(d) && !ohneKetteLeser(d)), prDateien)
+}
+
+/** Konten der Datenläufe und des Bestandsbaus (Sammler, Wache-Skripte); sie gelten nur für ihre erzeugten Dateien (`datenKontoDatei`). */
+export const DATEN_KONTEN = ['anime-kalender-daten[bot]', 'github-actions[bot]', 'anime-kalender-bot']
+/** Agenten-Konto: schreibt auch Handdaten, Code und Fix-PRs (Prüfer 3384, A1); gilt nur für Wache-Berichte und Doku. */
+export const WACHE_KONTO = 'claude[bot]'
+const wacheDatei = (datei) => ohneKetteLeser(datei) || datei === 'daniel-zum-abarbeiten/00-wache-auswertung.md'
+/** Erzeugte Dateien der Läufe (Positivliste `pr-nachrechnen-bot-erzeugt.mjs`, fail-closed), Listen, Datenpfade der Kette-Ausnahme F55, Wache-Berichte. */
+const erzeugt = (datei) => erzeugteDatei(datei) || datei.startsWith('daniel-zum-abarbeiten/listen/') || istDatenpfad(datei) || wacheDatei(datei)
+/**
+ * Vom Bot erzeugt: Bestandsbau (`extension/offene-*.js`) und Versionszähler (`extension/manifest.json`). Bewusste Grenze (A3): Erweiterungstests
+ * lesen diese Dateien; berührt der PR `extension/` oder `tools/extension-*`, zählen sie nicht, und die Leser-Regel entscheidet. Ein Test außerhalb
+ * dieser Pfade, der sie liest, fällt nicht auf (Grenze, wie bei der Leser-Regel zur Laufzeit zusammengesetzte Pfade).
+ */
+const ERZEUGT_ERWEITERUNG = /^extension\/(offene-[^/]+\.js|manifest\.json)$/
+const beruehrtErweiterung = (datei) => datei.startsWith('extension/') || datei.startsWith('tools/extension-')
+const erlaubt = (autor, datei, erweiterungFrei) => (autor === WACHE_KONTO ? wacheDatei(datei) : DATEN_KONTEN.includes(autor) && (erzeugt(datei) || (erweiterungFrei && ERZEUGT_ERWEITERUNG.test(datei))))
+
+/**
+ * Reiner Bot-Datensprung (10.11.2026, Nachrechnen-Deadlock: main bekommt alle ~10 min einen Bot-Commit, die Kette braucht 25-30 min, kein PR
+ * wurde je „aktuell“). Die Ausnahme gilt je Konto und Pfadklasse (Prüfer 3384, A1/A2): ein Datenkonto nur für erzeugte Dateien, `claude[bot]`
+ * nur für Wache-Berichte und Doku; alles, was nicht auf den Listen steht, gilt als Änderung von Hand. Mit `vergleich.commits` (je Commit Autor
+ * und Dateien) wird je Commit geprüft; ohne sie nur, wenn kein `claude[bot]` dabei ist (sonst ließe sich ein Handdatenfix nicht von einem Wache-Bericht
+ * trennen). Dann entwertet nur die Berührung derselben Datei, auch ohne Leser-Regel (Entscheidung Dirigent, betrieb.md): der Bestandsbau prüft nach dem Merge
+ * den ganzen Datensatz, Sammler-PRs haben seit PR 3282 einen Probebau. Nur auf vollständigem Vergleich aufrufen (Autoren und Dateien lückenlos).
+ */
+export function reinerBotSprung(vergleich, prDateien) {
+  if (vergleich.autoren.length === 0 || vergleich.dateien.length === 0) return false
+  if (!vergleich.autoren.every((a) => a === WACHE_KONTO || DATEN_KONTEN.includes(a))) return false
+  const frei = !prDateien.some(beruehrtErweiterung)
+  if (vergleich.commits !== undefined) return vergleich.commits.every((c) => c.dateien.every((d) => erlaubt(c.autor, d, frei)))
+  if (vergleich.autoren.includes(WACHE_KONTO)) return false
+  return vergleich.dateien.every((d) => erlaubt(DATEN_KONTEN[0], d, frei))
 }
 
 const abgeschnitten = (v) => v.anzahl >= COMPARE_GRENZE || v.commitsGesamt !== v.autoren.length
@@ -116,14 +151,22 @@ function vervollstaendige(vergleich, basis, main, voll) {
   return { ...vergleich, ...r, vollstaendig: true }
 }
 
+/** Hängt je Commit Autor und Dateien an, wenn `claude[bot]` im Sprung ist (nur dann entscheidet die Paarung); scheitert git, bleibt es ohne (fail-closed). */
+function mitCommits(vergleich, basis, main, paare) {
+  if (vergleich.status !== 'ahead' || !vergleich.autoren.includes(WACHE_KONTO)) return vergleich
+  const r = paare(basis, main)
+  return r.fehler === undefined ? { ...vergleich, commits: r.commits } : vergleich
+}
+
 /** Rückgabe { ausnahme } (Kette gilt weiter, Text für die Meldung) oder { grund }. */
-function datenpfadGrund(gh, pr, basis, main, leser, voll) {
+export function datenpfadGrund(gh, pr, basis, main, leser, voll, paare) {
   const api = JSON.parse(gh(['api', `repos/{owner}/{repo}/compare/${basis}...${main}`, '--jq', '{status, anzahl: (.files | length), dateien: [.files[] | .filename, (.previous_filename // empty)], commitsGesamt: .total_commits, autoren: [.commits[] | .author.login // .commit.author.name]}']))
-  const vergleich = vervollstaendige(api, basis, main, voll)
+  const vergleich = mitCommits(vervollstaendige(api, basis, main, voll), basis, main, paare)
   const prDateien = gh(['api', `repos/{owner}/{repo}/pulls/${pr.number}/files`, '--paginate', '--jq', '.[] | .filename, (.previous_filename // empty)']).split(/\r?\n/).filter(Boolean)
   const daten = datenpfadAusnahme(vergleich, prDateien)
   if (daten === null) return { ausnahme: `nur Daten bewegt (${DATENPFADE.join(', ')}, ${BOT_DATEIEN_OHNE_LESER.length} Bot-Dateien ohne Leser)` }
   const bot = botSprungAusnahme(vergleich, prDateien, (bewegt, dateien) => leser(bewegt, dateien, { nummer: pr.number, kopf: pr.headRefOid, main }))
+  if (bot === null && reinerBotSprung(vergleich, prDateien)) return { ausnahme: 'nur Bot-Daten bewegt (erzeugte Dateien der Läufe, Listen, Wache-Berichte), der PR berührt keine davon' }
   if (bot === null) return { ausnahme: 'nur Fremdes ohne Zusammenhang bewegt (Daten, Sammler, Werkzeuge außerhalb der Kette), kein Code des PR liest die bewegten Dateien' }
   return { grund: daten === bot ? daten : `${daten}; ${bot}` }
 }
@@ -217,7 +260,7 @@ function basisDesLaufs(gh, pr) {
 }
 
 /** Ablauf für einen PR; `gh(args)` und `warte(ms)` sind eingespeist, `melde` schreibt eine Zeile. Rückgabe: Exit-Code (siehe Kopf). */
-export function nachrechnen(nummer, gh, melde, warte, leser = gitLeser(gitAufruf), voll = standardVoll, zugAktiv = leseZugAktiv()) {
+export function nachrechnen(nummer, gh, melde, warte, leser = gitLeser(gitAufruf), voll = standardVoll, paare = standardPaare, zugAktiv = leseZugAktiv()) {
   const pr = JSON.parse(gh(['pr', 'view', String(nummer), '--json', prFelder(zugAktiv)]))
   const ersatz = ersetzer(nummer, gh)
   if (ersatz !== null) {
@@ -243,7 +286,7 @@ export function nachrechnen(nummer, gh, melde, warte, leser = gitLeser(gitAufruf
     melde(`PR ${nummer}: aktuell, die Kette rechnete gegen main ${kurz(main)}`)
     return 0
   }
-  const urteil = datenpfadGrund(gh, pr, basis, main, leser, voll)
+  const urteil = datenpfadGrund(gh, pr, basis, main, leser, voll, paare)
   if (urteil.ausnahme !== undefined) {
     melde(`PR ${nummer}: aktuell, Kette gegen ${kurz(basis)}, main ist ${kurz(main)}, seitdem ${urteil.ausnahme}`)
     return 0
@@ -264,13 +307,13 @@ export function schlafe(ms) {
 }
 
 /** Startlogik: Argument prüfen, Fehler als Exit 2 (nie still grün). */
-export function main(argv, ausfuehrer, melde, warte, leser, voll) {
+export function main(argv, ausfuehrer, melde, warte, leser, voll, paare) {
   if (argv.length !== 1 || !/^\d+$/.test(argv[0])) {
     melde('Aufruf: node tools/pr-nachrechnen.mjs <PR-Nummer>')
     return 2
   }
   try {
-    return nachrechnen(Number(argv[0]), ausfuehrer, melde, warte, leser, voll)
+    return nachrechnen(Number(argv[0]), ausfuehrer, melde, warte, leser, voll, paare)
   } catch (e) {
     melde(`pr-nachrechnen: FEHLER ${e.message}`)
     return 2

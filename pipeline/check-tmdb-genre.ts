@@ -191,6 +191,18 @@ console.log('\nTMDB von Hand: Kitaro-Film (130622 Original, 10019697 Shinsei-ban
   const hIds = new Set(alle.map((e) => e.anilistId))
   const faellig = faelligeTitel([{ id: 130622 }, { id: 10019697 }, { id: 8 }], {}, { handIds: hIds, nurOhneEintrag: false, force: true, grenze: '2500', grenzeFehlschlag: '2500' })
   pruefe('Kitaro: der Namensabgleich fragt den Shinsei-ban nicht mehr ab', faellig.map((t) => t.id).join() === '8', faellig)
+
+  /* Tekkon Kinkreet Pilot (Wochenlauf 10.11.2026): TMDB 917696 trägt die Anbieterliste des Spielfilms 13754; der Eintrag aus dem Fund wörtlich. */
+  const pilot = alle.filter((e) => e.anilistId === 99717)
+  const pCache = (): Record<string, TmdbTitle> => ({
+    '99717': { tmdbId: 917696, kind: 'movie', jahr: 1999, offers: [{ name: 'MagentaTV', kind: 'rent' }, { name: 'Videoload', kind: 'rent' }], fetchedAt: 'alt' },
+    '2154': { tmdbId: 13754, kind: 'movie', jahr: 2006, offers: [{ name: 'MagentaTV', kind: 'rent' }, { name: 'Videoload', kind: 'rent' }], fetchedAt: 'alt' },
+  })
+  const p = pCache()
+  pruefe('Tekkon Kinkreet Pilot: Eintrag ohne Kennung, mit Grund', pilot.length === 1 && pilot[0].ohne === true && Boolean(pilot[0].grund), pilot)
+  pruefe('Tekkon Kinkreet Pilot: nur der Pilot verliert seine Kennung, der Spielfilm behält Kennung und Angebote', uebernimmVonHand(p, pilot, '2999-12-31T00:00:00Z') === 1 && !('99717' in p) && p['2154']?.tmdbId === 13754 && p['2154']?.offers?.length === 2, p)
+  const pFaellig = faelligeTitel([{ id: 99717 }, { id: 2154 }], {}, { handIds: hIds, nurOhneEintrag: false, force: true, grenze: '2500', grenzeFehlschlag: '2500' })
+  pruefe('Tekkon Kinkreet Pilot: der Namensabgleich sucht ihn nicht erneut (sonst käme 917696 wieder)', pFaellig.map((t) => t.id).join() === '2154', pFaellig)
 }
 
 console.log('\nTMDB-Genre: Prozess fetch-tmdb-genre.ts (Wegwerf-Wurzel, TMDB-Antwort aus Kulisse)')

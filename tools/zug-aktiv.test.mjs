@@ -66,7 +66,7 @@ function lauf(aktiv, prJson) {
   let code
   let wurf = null
   try {
-    code = nachrechnen(7, gh, (t) => meldungen.push(t), () => {}, undefined, undefined, aktiv)
+    code = nachrechnen(7, gh, (t) => meldungen.push(t), () => {}, undefined, undefined, undefined, aktiv)
   } catch (e) {
     wurf = e.message
   }
