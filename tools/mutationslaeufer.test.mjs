@@ -242,5 +242,33 @@ assert.equal(k6c.exit, 2, k6c.aus)
 assert.match(k6c.aus, /Kein Testbefehl/)
 unversehrt()
 
+// 6d. Zähler-Kulisse: test-x ist immer grün, test-y wird ab dem zweiten Lauf rot (Zähler-Datei). Die Kontrolle steht zuerst;
+// nur wer tatsächlich beide Tests fährt (Vereinigung), sieht Y rot. Tötet `.slice(0, 1)`, `!m.tests`, `global.length === 0` und „nur --test“.
+writeFileSync(join(ordner, "test-x.mjs"), "process.exit(0)\n")
+writeFileSync(join(ordner, "test-y.mjs"), 'import { appendFileSync, readFileSync } from "node:fs"\nappendFileSync("zaehler.txt", "x")\nif (readFileSync("zaehler.txt", "utf8").length >= 2) process.exit(1)\n')
+const testX = `${knoten} test-x.mjs`
+const testY = `${knoten} test-y.mjs`
+const mitX = { ...mut[9], name: "nur-A-x", tests: [testX] }
+const mitY = { ...mut[10], name: "nur-B-y", tests: [testY] }
+const zaehlerLauf = (liste, extra, tests) => {
+  rmSync(join(ordner, "zaehler.txt"), { force: true })
+  return lauf(liste, extra, tests)
+}
+// A1: Kontrolle ohne tests und ohne --test fährt die Vereinigung beider Tests: Y wird beim zweiten Lauf rot, Kontrolle rot, Exit 1.
+const k6d = zaehlerLauf([kontrolle, mitX, mitY], [], [])
+assert.equal(urteilVon(k6d.aus, "Kontrolle"), "rot", k6d.aus)
+assert.equal(k6d.exit, 1, k6d.aus)
+// A2: Kontrolle mit eigenen tests behält genau diese (nur X, bleibt grün); die Vereinigung würde Y zweimal fahren.
+const k6e = zaehlerLauf([{ ...kontrolle, tests: [testX] }, mitX, mitY], [], [])
+assert.equal(urteilVon(k6e.aus, "Kontrolle"), "GRÜN", k6e.aus)
+// A3: Kontrolle mit --test fährt --test (X, grün), nicht die Mutanten-tests (Y zweimal wäre rot).
+const k6f = zaehlerLauf([kontrolle, mitY], [], [testX])
+assert.equal(urteilVon(k6f.aus, "Kontrolle"), "GRÜN", k6f.aus)
+// A4: Liste nur aus der Kontrolle, ohne --test: Aufrufabbruch statt stillem Lauf ohne Tests.
+const k6g = lauf([kontrolle], [], [])
+assert.equal(k6g.exit, 2, k6g.aus)
+assert.match(k6g.aus, /Kein Testbefehl/)
+unversehrt()
+
 rmSync(ordner, { recursive: true, force: true })
 console.log("mutationslaeufer.test: ok")
