@@ -34,11 +34,9 @@ const repo = path.join(wurzel, 'repo')
 const roh = (ort, ...args) => execFileSync('git', ['-C', ort, '-c', 'user.name=t', '-c', 'user.email=t@t', '-c', 'core.autocrlf=false', ...args], { encoding: 'utf8' })
 const git = (...args) => roh(repo, ...args)
 const eintrag = (n, text) => writeFileSync(path.join(repo, 'data/patchnotes', `${n}.yaml`), text)
-const lauf = () => {
-  const start = Date.now()
-  const r = spawnSync(process.execPath, [werkzeug], { cwd: repo, encoding: 'utf8' })
-  return { ...r, dauer: Date.now() - start }
-}
+// Die Frist hält das Betriebssystem (Kindprozess-Timeout), der Test liest keine Uhr; bei Überschreitung ist `signal` gesetzt.
+const FRIST_MS = 2000
+const lauf = () => spawnSync(process.execPath, [werkzeug], { cwd: repo, encoding: 'utf8', timeout: FRIST_MS })
 
 try {
   mkdirSync(path.join(repo, 'data/patchnotes'), { recursive: true })
@@ -63,7 +61,7 @@ try {
   git('add', '-A')
   const gruen = lauf()
   assert.equal(gruen.status, 0, `korrigiert und gestagt: ${gruen.stderr}`)
-  assert.ok(gruen.dauer < 2000, `Pre-commit-Prüfung dauert ${gruen.dauer} ms (Grenze 2000)`)
+  assert.equal(gruen.signal, null, `Pre-commit-Prüfung bricht an der Frist von ${FRIST_MS} ms ab: ${gruen.signal}`)
 
   git('commit', '-q', '-m', 'ok')
   git('rm', '-q', 'data/patchnotes/kaputt.yaml')

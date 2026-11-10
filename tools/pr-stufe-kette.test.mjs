@@ -37,7 +37,7 @@ pruefe('von Kettenwerkzeug importiert → false', istHandwerkzeug('tools/helfer.
 pruefe('ohne eigenen Test → false', istHandwerkzeug('tools/ohnetest.mjs', kette), false)
 pruefe('Test eines Handwerkzeugs → true', istHandwerkzeug('tools/hand.test.mjs', kette), true)
 pruefe('Test eines Workflow-Werkzeugs → false', istHandwerkzeug('tools/wf.test.mjs', kette), false)
-pruefe('Unterordner → false', istHandwerkzeug('tools/claude-global/x.mjs', kette), false)
+pruefe('Unterordner → false', istHandwerkzeug('.claude/x.mjs', kette), false)
 pruefe('ohne Kette → false', istHandwerkzeug('tools/hand.mjs', null), false)
 pruefe('Namensteil (hand-x) zählt nicht als Aufruf von hand', istHandwerkzeug('tools/hand.mjs', { quellen: [{ pfad: 'a', text: 'tools/hand-x.mjs' }], tests: ['hand.test.mjs'] }), true)
 

@@ -3,9 +3,9 @@
  *   start     Zug plus main als Schnappschuss `zug-fahrt` bauen, pushen, PR zug-fahrt → main öffnen (die Kette läuft auf dem PR-Kopf)
  *   urteil    Kette auf `zug-fahrt` fertig: grün → Fast-Forward nur `--dry-run`, mit `--schieben` echt (ohne --force, dann bau-deploy); rot → Probe „main allein“ (`zug-probe`) starten.
  *             Kette auf `zug-probe` fertig: Schuldsuche mit Ratschen gegen die Basisgrenzen; Ergebnis steht im Fahrt-Log, zurückgenommen wird nichts.
- *   bau-deploy  Bau und Deploy per workflow_dispatch (für P2c, nach dem echten Schieben; hier nicht verdrahtet)
+ *   bau-deploy  Bau und Deploy per workflow_dispatch (nach dem echten Schieben; zug-fahrt.yml: modus bau-deploy; urteil --schieben startet es selbst)
  * Aufruf: node tools/zug-fahrt.mjs start|urteil|bau-deploy [--trocken] [--zweig zug-fahrt|zug-probe --lauf <Nr>]
- * `--trocken` schreibt nichts (kein Push, kein PR, kein Kommentar, kein Dispatch). main wird nur mit `--schieben` bewegt; zug-fahrt.yml übergibt es noch nicht.
+ * `--trocken` schreibt nichts (kein Push, kein PR, kein Kommentar, kein Dispatch). main wird nur mit `--schieben` bewegt; zug-fahrt.yml übergibt es nur beim Hand-Urteil (modus urteil).
  * Die App (GH_TOKEN) pusht, damit die Kette auf dem Zweig anläuft; Pushes mit dem Workflow-Token lösen keine Läufe aus.
  */
 import { appendFileSync } from 'node:fs'
@@ -219,7 +219,7 @@ export function urteil(ctx, zweig, laufNr) {
   return starteProbe(ctx)
 }
 
-/** Bau und Deploy starten (nach dem Schieben, P2c). */
+/** Bau und Deploy starten (nach dem Schieben). */
 export function bauDeploy({ gh, melde, trocken }) {
   for (const befehl of bauUndDeployBefehle()) {
     melde(`${trocken ? 'trocken: ' : ''}gh ${befehl.join(' ')}`)

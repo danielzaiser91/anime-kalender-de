@@ -1,0 +1,5 @@
+kategorie: bugfix
+text: Laufzeit-Ende nur noch, wenn es belegt ist
+untertitel: Du siehst kein geratenes Ende mehr
+wartetAuf: Bestandsbau nach PR 3211 — jpEnd in aniSearch-Spalte und -Titeln nur bei belegtem Ende
+seit: '2026-11-10'

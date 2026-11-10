@@ -407,10 +407,8 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261106T175000Z
 DTEND:20261106T182000Z
 SUMMARY:YAIBA: Samurai Legend – Folge 2/24
-DESCRIPTION:Plattform: Joyn\nRelease-Art: Wöchentlich (Simuldub)\nUhrzeit 
- voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom Anbieter 
- genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDe
- tails: https://anime-kalender.de/t/15908/
+DESCRIPTION:Plattform: Joyn\nRelease-Art: Wöchentlich (Simuldub)\nDetails:
+  https://anime-kalender.de/t/15908/
 CATEGORIES:Joyn
 END:VEVENT
 BEGIN:VEVENT
@@ -706,10 +704,8 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261109T175000Z
 DTEND:20261109T182000Z
 SUMMARY:YAIBA: Samurai Legend – Folge 3/24
-DESCRIPTION:Plattform: Joyn\nRelease-Art: Wöchentlich (Simuldub)\nUhrzeit 
- voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom Anbieter 
- genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDe
- tails: https://anime-kalender.de/t/15908/
+DESCRIPTION:Plattform: Joyn\nRelease-Art: Wöchentlich (Simuldub)\nDetails:
+  https://anime-kalender.de/t/15908/
 CATEGORIES:Joyn
 END:VEVENT
 BEGIN:VEVENT
@@ -775,6 +771,16 @@ DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
 CATEGORIES:ProSieben FUN
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-158871-tv-super-rtl@2026-11-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261110T151500Z
+DTEND:20261110T154500Z
+SUMMARY:Pokémon Horizonte – Folge 28
+DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
+ ails: https://anime-kalender.de/t/14839/
+CATEGORIES:Super RTL
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-118399-tv-prosieben-maxx@2026-11-10@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261110T154500Z
@@ -793,6 +799,16 @@ SUMMARY:Dragon Ball
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-158871-tv-toggo-plus@2026-11-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261110T161500Z
+DTEND:20261110T164500Z
+SUMMARY:Pokémon Horizonte – Folge 28
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/14839/
+CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-11-10#65@anime-kalender-de
@@ -830,10 +846,8 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261110T175000Z
 DTEND:20261110T182000Z
 SUMMARY:YAIBA: Samurai Legend – Folge 4/24
-DESCRIPTION:Plattform: Joyn\nRelease-Art: Wöchentlich (Simuldub)\nUhrzeit 
- voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom Anbieter 
- genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDe
- tails: https://anime-kalender.de/t/15908/
+DESCRIPTION:Plattform: Joyn\nRelease-Art: Wöchentlich (Simuldub)\nDetails:
+  https://anime-kalender.de/t/15908/
 CATEGORIES:Joyn
 END:VEVENT
 BEGIN:VEVENT
@@ -847,6 +861,16 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
   Anbieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgel
  eitet.\nDetails: https://anime-kalender.de/t/12/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-112153-tv-toggo-plus@2026-11-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261110T201500Z
+DTEND:20261110T204500Z
+SUMMARY:Pokémon Reisen: Die Serie
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/10852/
+CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-527-disc@2026-11-10@anime-kalender-de
@@ -864,10 +888,8 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261111T151500Z
 DTEND:20261111T154500Z
 SUMMARY:Magic Knight Rayearth – Folge 3/≈12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/16013/
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/t/16013/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -926,10 +948,8 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261111T175000Z
 DTEND:20261111T182000Z
 SUMMARY:YAIBA: Samurai Legend – Folge 5/24
-DESCRIPTION:Plattform: Joyn\nRelease-Art: Wöchentlich (Simuldub)\nUhrzeit 
- voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom Anbieter 
- genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDe
- tails: https://anime-kalender.de/t/15908/
+DESCRIPTION:Plattform: Joyn\nRelease-Art: Wöchentlich (Simuldub)\nDetails:
+  https://anime-kalender.de/t/15908/
 CATEGORIES:Joyn
 END:VEVENT
 BEGIN:VEVENT
@@ -990,10 +1010,8 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261112T170000Z
 DTEND:20261112T173000Z
 SUMMARY:The Iceblade Sorcerer Shall Rule the World II – Folge 3/≈12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/17631/
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/t/17631/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -1012,10 +1030,8 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261112T175000Z
 DTEND:20261112T182000Z
 SUMMARY:YAIBA: Samurai Legend – Folge 6/24
-DESCRIPTION:Plattform: Joyn\nRelease-Art: Wöchentlich (Simuldub)\nUhrzeit 
- voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom Anbieter 
- genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDe
- tails: https://anime-kalender.de/t/15908/
+DESCRIPTION:Plattform: Joyn\nRelease-Art: Wöchentlich (Simuldub)\nDetails:
+  https://anime-kalender.de/t/15908/
 CATEGORIES:Joyn
 END:VEVENT
 BEGIN:VEVENT

@@ -15,7 +15,7 @@ const PILLE_OHNE_MARKE = 'bg-ak-pille text-ak-text shadow-[inset_0_0_0_1px_rgba(
  * nächster Termin; der Sprachzustand sitzt als Blase oben rechts (`status`). Der Kalenderknopf (`aktion`) steht neben der Pille.
  * Mindesthöhe 52 px (Tippziel).
  */
-export function Pille({ name, farbe, url, unten, titel, icon, durchgestrichen, status, aktion }: {
+export function Pille({ name, farbe, url, unten, titel, icon, durchgestrichen, status, aktion, fuss }: {
   name: ReactNode
   farbe?: string
   url?: string
@@ -26,14 +26,19 @@ export function Pille({ name, farbe, url, unten, titel, icon, durchgestrichen, s
   durchgestrichen?: boolean
   status?: ReactNode
   aktion?: ReactNode
+  /** Knöpfe als Fußzeile in derselben Fläche; die Chip nimmt die ganze Breite, `aktion` entfällt. */
+  fuss?: ReactNode
 }) {
+  const flaeche = farbe ? PILLE_MARKE : PILLE_OHNE_MARKE
+  const form = fuss ? 'flex w-full rounded-b-none' : `inline-flex max-w-full ${flaeche}`
+  const marke = farbe ? ({ '--marke': farbe } as CSSProperties) : undefined
   const haupt = (
     <a
       href={url || undefined}
       target="_blank"
       rel="noreferrer noopener"
-      style={farbe ? ({ '--marke': farbe } as CSSProperties) : undefined}
-      className={`relative inline-flex min-h-[52px] min-w-0 max-w-full items-center gap-2.5 rounded-xl py-1.5 pl-3.5 pr-4 transition hover:bg-ak-pille-hover ${farbe ? PILLE_MARKE : PILLE_OHNE_MARKE}`}
+      style={fuss ? undefined : marke}
+      className={`relative min-h-[52px] min-w-0 items-center gap-2.5 rounded-xl py-1.5 pl-3.5 pr-4 transition hover:bg-ak-pille-hover ${form}`}
     >
       {icon && (
         <span className="flex shrink-0 items-center" style={farbe ? { color: farbe } : undefined}>
@@ -47,15 +52,24 @@ export function Pille({ name, farbe, url, unten, titel, icon, durchgestrichen, s
       {status}
     </a>
   )
+  const kopf = titel ? (
+    <Tooltip text={titel} seite="oben" className="min-w-0 max-w-full">
+      {haupt}
+    </Tooltip>
+  ) : (
+    haupt
+  )
+  if (fuss) {
+    return (
+      <div style={marke} className={`relative w-full max-w-full rounded-xl ${flaeche}`}>
+        {kopf}
+        <div className="mx-1 flex items-center gap-1 border-t border-ak-linie pb-1 pt-1">{fuss}</div>
+      </div>
+    )
+  }
   return (
     <div className={`flex max-w-full items-center gap-1 ${durchgestrichen ? 'opacity-70' : ''}`}>
-      {titel ? (
-        <Tooltip text={titel} seite="oben" className="min-w-0 max-w-full">
-          {haupt}
-        </Tooltip>
-      ) : (
-        haupt
-      )}
+      {kopf}
       {aktion}
     </div>
   )

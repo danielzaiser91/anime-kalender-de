@@ -1,6 +1,7 @@
 /**
- * Zusicherung zu „Danach auf Joyn" (06.11.2026): ein ProSieben-MAXX-Termin eines Titels mit Joyn-Weg trägt den Link
- * auf dessen Joyn-Seite; andere Sender, andere Plattformen und Titel ohne Joyn-Weg nicht. Gerendert wird `terminPillen`
+ * Zusicherung gegen eine Dublette im Detail-Panel (10.11.2026): „Danach auf Joyn" steht nicht in der TV-Zeile eines
+ * ProSieben-MAXX-Termins. Die Information trägt schon die Joyn-Pille des Titels (Link, Fenster „ab …"); in der Knopfzeile
+ * der TV-Box nahm der Text 102 px und quetschte den Sendernamen auf 48 px. Gerendert wird `terminPillen`
  * (`web/src/components/detail/wege-zeilen.tsx`), also der echte Weg bis in die Terminzeile. Aufruf: `npm run check:logic`.
  */
 import { createElement, Fragment } from 'react'
@@ -16,7 +17,7 @@ function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
 }
 
 const JOYN = 'https://www.joyn.de/serien/probe-yaiba'
-const ANDERE = 'https://www.joyn.de/serien/andere-seite'
+const NETFLIX = 'https://www.netflix.com/title/1'
 const stream = (platform: string, url: string) => ({ platform, name: platform, url, kind: 'stream' })
 const titel = (streams: unknown[]) => ({ id: 900001, slug: 'probe', format: 'TV', episodes: 26, streams, watchLinks: [] }) as unknown as Title
 const termin = (extra: Partial<Release>): Release =>
@@ -27,21 +28,17 @@ function html(r: Release, t: Title): string {
   return renderToStaticMarkup(createElement(Fragment, null, ...zeilen))
 }
 
-const mitJoyn = titel([stream('netflix', 'https://www.netflix.com/title/1'), stream('joyn', JOYN)])
-console.log('\nTerminzeile mit „Danach auf Joyn":')
+const mitJoyn = titel([stream('netflix', NETFLIX), stream('joyn', JOYN)])
+console.log('\nTV-Zeile eines MAXX-Termins mit Joyn-Weg:')
 const maxx = html(termin({}), mitJoyn)
-pruefe('MAXX-Termin: Link auf die Joyn-Seite des Titels', maxx.includes(`href="${JOYN}"`) && maxx.includes('Danach auf Joyn'), maxx.slice(0, 400))
-pruefe('Schreibweise des Senders egal', html(termin({ sender: ' prosieben maxx ' }), mitJoyn).includes(`href="${JOYN}"`))
-const mehrere = html(termin({}), titel([stream('joyn', JOYN), stream('joyn', ANDERE)]))
-pruefe('mehrere Joyn-Wege: der erste, nicht geraten', mehrere.includes(`href="${JOYN}"`) && !mehrere.includes(ANDERE))
-pruefe('anderer Sender (RTLZWEI): kein Link', !html(termin({ sender: 'RTLZWEI' }), mitJoyn).includes('Danach auf Joyn'))
-pruefe('Titel ohne Joyn-Weg: kein Link', !html(termin({}), titel([stream('netflix', 'https://www.netflix.com/title/1')])).includes('Danach auf Joyn'))
-pruefe('Joyn-Weg ohne Adresse: kein Link', !html(termin({}), titel([stream('joyn', '')])).includes('Danach auf Joyn'))
-pruefe('Joyn-Weg ohne Adresse davor: der Weg mit Adresse gilt', html(termin({}), titel([stream('joyn', ''), stream('joyn', JOYN)])).includes(`href="${JOYN}"`))
-pruefe('Termin auf einem Stream-Anbieter mit MAXX-Sendername: kein Link', !html(termin({ platform: 'netflix' }), mitJoyn).includes('Danach auf Joyn'))
+pruefe('Kontrolle: die Zeile ist gerendert (Livestream-Knopf da)', maxx.includes('aria-label="ProSieben MAXX live auf Joyn"'), maxx.slice(0, 400))
+pruefe('keine Dublette: kein „Danach auf Joyn"', !maxx.includes('Danach auf Joyn'), maxx.slice(0, 400))
+pruefe('keine Dublette: kein Link auf die Joyn-Seite des Titels (den trägt die Pille)', !maxx.includes(JOYN), maxx.slice(0, 400))
+pruefe('anderer Sender (RTLZWEI): auch kein „Danach auf Joyn"', !html(termin({ sender: 'RTLZWEI' }), mitJoyn).includes('Danach auf Joyn'))
+pruefe('Titel ohne Joyn-Weg: kein „Danach auf Joyn"', !html(termin({}), titel([stream('netflix', NETFLIX)])).includes('Danach auf Joyn'))
 
 if (verletzt) {
   console.error(`\n✖ check-joyn-danach: ${verletzt} verletzt`)
   process.exit(1)
 }
-console.log('✓ check-joyn-danach: 8 Fälle ok')
+console.log('✓ check-joyn-danach: 5 Fälle ok')

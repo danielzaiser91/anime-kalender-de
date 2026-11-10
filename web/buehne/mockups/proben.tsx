@@ -22,6 +22,15 @@ mockup({
   varianten: { A: { ersatz: {}, notiz: 'Probe ohne Änderung: der Fall „ohne Beleg“ zeigt den Kopf ohne Marke.' } },
 })
 
+// TV-Box eines MAXX-Termins mit Joyn-Weg: „Danach auf Joyn“ darf nur einmal im Panel stehen.
+mockup({
+  name: 'probe-tv-box',
+  titel: 'Probe – TV-Box mit Joyn',
+  ausschnitt: 'detailpanel',
+  faelle: ['yaiba-joyn'],
+  varianten: { A: { ersatz: {}, notiz: 'Probe ohne Änderung: Knopfzeile der TV-Box und Joyn-Pille.' } },
+})
+
 probe('filter', 'Filterfenster und Chips')
 probe('kachel', 'Kachelraster der Datenbank')
 probe('ganz', 'Ganze App')

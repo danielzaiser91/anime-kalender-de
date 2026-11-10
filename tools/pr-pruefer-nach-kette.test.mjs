@@ -99,7 +99,7 @@ gleich('Kopf fehlt: Exit 1', (() => { const m = console.log; console.log = () =>
 const wf = parse(fs.readFileSync(new URL('../.github/workflows/pr-pruefer-nachtrag.yml', import.meta.url), 'utf8'))
 const job = wf.jobs['nach-kette']
 const schritt = job.steps.find((s) => s.name === 'Prüfer nach Kettenende neu starten')
-gleich('Job nur beim Ende der Kette eines Pull-Request-Laufs', job.if, "github.event_name == 'workflow_run' && github.event.workflow_run.event == 'pull_request'")
+gleich('Job nur beim Ende der Kette eines Pull-Request-Laufs, nicht bei cancelled', job.if, "github.event_name == 'workflow_run' && github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.conclusion != 'cancelled'")
 gleich('Schritt ruft das Skript ohne Argumente', schritt.run, 'node tools/pr-pruefer-nach-kette.mjs')
 gleich('Kopf kommt aus workflow_run.head_sha, nur über env', schritt.env.KOPF_SHA, '${{ github.event.workflow_run.head_sha }}')
 gleich('run enthält keinen Ausdruck', schritt.run.includes('${{'), false)
@@ -107,7 +107,7 @@ const pausenMs = haengt.wartet.reduce((s, ms) => s + ms, 0)
 gleich('Zeitbudget: Pausen plus 2 min Reserve unter timeout-minutes', pausenMs + 120_000 <= job['timeout-minutes'] * 60_000, true)
 // Untergrenze: Prüfer-Job 30 min, Kettenlog nach 13 min -> mindestens 17 min Restdauer müssen abgedeckt sein.
 gleich('Wartezeit deckt die Restdauer des Prüfer-Laufs (≥ 17 min)', pausenMs >= 17 * 60_000, true)
-gleich('Gruppe trennt Nachtrag (PR-Nummer) und Kettenende (Kopf)', wf.concurrency.group, 'pr-pruefer-nachtrag-${{ github.event.issue.number || github.event.workflow_run.head_sha }}')
+gleich('Gruppe trennt Nachtrag (PR-Nummer) und Kettenende (Kopf), cancelled eigene Gruppe', wf.concurrency.group, "pr-pruefer-nachtrag-${{ github.event.issue.number || github.event.workflow_run.head_sha }}${{ github.event.workflow_run.conclusion == 'cancelled' && '-abgebrochen' || '' }}")
 gleich('Rechte unverändert: Aktionen schreiben, sonst lesen', wf.permissions, { contents: 'read', 'pull-requests': 'read', actions: 'write' })
 
 console.log(`Prüfer-Nachlauf: ${fehler.length === 0 ? 'alle Fälle grün' : fehler.length + ' Fälle rot'}`)

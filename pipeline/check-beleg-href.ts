@@ -39,7 +39,6 @@ const ERLAUBT: Record<string, Record<string, string>> = {
   'web/src/components/detail/hilfen.tsx': { url: 'blob:-Adresse der ICS-Datei aus URL.createObjectURL (downloadIcs), keine Adresse aus den Daten' },
   'web/src/components/detail/live-link.tsx': {
     url: 'Parameter von LiveLink; einziger Aufrufer übergibt liveAdresse().url (feste Tabelle in lib/live-adresse.ts)',
-    joynSeite: 'Parameter von JoynDanach: Joyn-Adresse des Titels aus title.streams (lib/joyn-danach.ts), keine Beleg-Quelle',
   },
   'web/src/components/detail/termin-zeile.tsx': {
     href: 'Parameter von ProgrammLink; einziger Aufrufer übergibt tvLink.href (Eintrag daneben)',

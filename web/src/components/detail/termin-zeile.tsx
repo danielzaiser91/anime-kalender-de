@@ -16,7 +16,7 @@ import { seitAbText } from './seit-datum.ts'
 import { kaufTextSchluessel, kurzeAusgabe } from './disc-ausgabe.ts'
 import { tvQuelle } from './tv-quelle.ts'
 import { liveAdresse } from '../../lib/live-adresse.ts'
-import { JoynDanach, LiveLink } from './live-link.tsx'
+import { LiveLink } from './live-link.tsx'
 
 type TvText = ReturnType<typeof tvAngabe>
 
@@ -243,14 +243,14 @@ function terminName(release: Release, titel: string | undefined, t: Translate, p
   return (
     <span className="flex min-w-0 flex-wrap items-center gap-x-1.5">
       {medium && <span className="shrink-0 rounded bg-black/10 px-1 py-px text-t5 uppercase tracking-[.08em] dark:bg-white/15">{medium}</span>}
-      <span className="truncate">{kurzerNameVon(release, titel, t)}</span>
+      <span data-termin-name className={release.platform === 'tv' ? '' : 'truncate'}>{kurzerNameVon(release, titel, t)}</span>
       {premiere && <PremiereFaehnchen release={release} />}
     </span>
   )
 }
 
 /** Ein Termin als Anbieterzeile: Sender oder Anbieter, Datum, Folge; bei TV mit Programm-Link, mit Kalenderknopf. */
-export function TerminZeile({ release, titel, today, tvText, deutsch, joynUrl }: {
+export function TerminZeile({ release, titel, today, tvText, deutsch }: {
   release: Release
   titel?: string
   today: string
@@ -258,8 +258,6 @@ export function TerminZeile({ release, titel, today, tvText, deutsch, joynUrl }:
   tvText?: TvText
   /** Ein Prime-Kanal-Termin, dessen Anbieter Deutsch belegt: die Blase „Deutsch“ und dessen Folgen statt der Zählung des Termins. */
   deutsch?: { folgen: string }
-  /** Joyn-Seite des Titels bei einem MAXX-Termin: die Folge ist ab Sendeende dort abrufbar (`lib/joyn-danach.ts`). */
-  joynUrl?: string
 }) {
   const { t } = useLang()
   const tv = release.platform === 'tv'
@@ -279,6 +277,13 @@ export function TerminZeile({ release, titel, today, tvText, deutsch, joynUrl }:
       </LangMitTooltip>
     </>
   )
+  const knoepfe = (
+    <>
+      {live && <LiveLink url={live.url} hinweis={release.sender ? t('tv.liveSender', { sender: release.sender, name: live.name }) : t('tv.live', { name: live.name })} sender={release.sender} />}
+      {tvLink && <ProgrammLink href={tvLink.href} hinweis={tvLink.hinweis} />}
+      <MerkenKnopf release={release} today={today} zeile />
+    </>
+  )
   return (
     <Pille
       name={terminName(release, titel, t, zeigtPremiere(release, tvText?.premiere))}
@@ -288,14 +293,8 @@ export function TerminZeile({ release, titel, today, tvText, deutsch, joynUrl }:
       icon={release.releaseType !== 'disc' ? <AnbieterIcon was={tv ? (release.sender ?? '') : release.platform} groesse={18} /> : undefined}
       unten={unten}
       status={deutsch ? <DubStatus art="belegt" /> : undefined}
-      aktion={
-        <>
-          {live && <LiveLink url={live.url} hinweis={t('tv.live', { name: live.name })} />}
-          {joynUrl && <JoynDanach joynSeite={joynUrl}text={t('tv.danachJoyn')} />}
-          {tvLink && <ProgrammLink href={tvLink.href} hinweis={tvLink.hinweis} />}
-          <MerkenKnopf release={release} today={today} zeile />
-        </>
-      }
+      aktion={live || tvLink ? undefined : knoepfe}
+      fuss={live || tvLink ? knoepfe : undefined}
     />
   )
 }

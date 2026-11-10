@@ -97,8 +97,42 @@ function jsonZeilen(aus, max, rest) {
   return zeilen
 }
 
+/** UID des VEVENT, in dem Zeile `i` liegt; `—` außerhalb eines VEVENT oder ohne UID. */
+function uidUm(zeilen, i) {
+  let start = i
+  while (start >= 0 && zeilen[start] !== 'BEGIN:VEVENT') {
+    if (zeilen[start] === 'END:VEVENT' && start < i) return '—'
+    start--
+  }
+  if (start < 0) return '—'
+  for (let j = start + 1; j < zeilen.length && zeilen[j] !== 'END:VEVENT'; j++) if (zeilen[j].startsWith('UID:')) return zeilen[j].slice(4)
+  return '—'
+}
+
+/** RFC 5545: eine Zeile, die mit Leerzeichen oder Tab beginnt, setzt die vorige fort; vor dem Vergleich wieder zusammenfügen. */
+function entfalte(text) {
+  const aus = []
+  for (const z of text.split(/\r?\n/)) {
+    if (aus.length > 0 && /^[ \t]/.test(z)) aus[aus.length - 1] += z.slice(1)
+    else aus.push(z)
+  }
+  return aus
+}
+
+/** ICS: erste Zeile, an der beide Fassungen auseinandergehen, samt UID des umgebenden VEVENT (je Seite). Zeilennummern zählen entfaltete Zeilen. */
+function icsUnterschied(textA, textB) {
+  const a = entfalte(textA)
+  const b = entfalte(textB)
+  let i = 0
+  while (i < Math.max(a.length, b.length) && a[i] === b[i]) i++
+  if (i >= Math.max(a.length, b.length)) return textA === textB ? [] : ['    nur Zeilenenden (CRLF/LF) oder Faltung verschieden']
+  const zeige = (z) => (z === undefined ? '—' : z.slice(0, 160))
+  return [`    erste Abweichung: Zeile ${i + 1}, UID ${uidUm(a, i)} → ${uidUm(b, i)}`, `    - ${zeige(a[i])}`, `    + ${zeige(b[i])}`]
+}
+
 /** Zeilen für die Ausgabe: je höchstens `max` entfernte und übrige Felder. Entfernte zuerst. */
 export function beschreibeUnterschied(name, textA, textB, max = 6) {
+  if (name.endsWith('.ics')) return icsUnterschied(textA, textB)
   if (name.endsWith('.json')) {
     try {
       const aus = [...jsonUnterschiede(JSON.parse(textA), JSON.parse(textB))]
