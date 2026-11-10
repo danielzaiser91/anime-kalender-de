@@ -26,8 +26,10 @@ pipeline/check-cr-teilseiten-bestand.ts
 pipeline/check-deutsche-folgenzahl-bestand.ts
 pipeline/check-disc-anisearch-bestand.ts
 pipeline/check-disc-archiv-bestand.ts
+pipeline/check-disc-handlinks-bestand.ts
 pipeline/check-disc-suchlinks-bestand.ts
 pipeline/check-eigene-titel-bestand.ts
+pipeline/check-eingabe-stand-bestand.ts
 pipeline/check-empfehlung-bestand.ts
 pipeline/check-empfehlung-kern-bestand.ts
 pipeline/check-favoriten-feed-bestand.ts
@@ -48,9 +50,11 @@ pipeline/check-handlung-eigen-bestand.ts
 pipeline/check-herkunftsland-bestand.ts
 pipeline/check-interne-angaben-bestand.ts
 pipeline/check-ja-hat-weg-bestand.ts
+pipeline/check-joyn-block-bestand.ts
 pipeline/check-joyn-luecke-bestand.ts
 pipeline/check-joyn-pille-bestand.ts
 pipeline/check-joyn-sender-bestand.ts
+pipeline/check-joyn-termine-bestand.ts
 pipeline/check-jw-ohne-tmdb-bestand.ts
 pipeline/check-jw-vertrauen-bestand.ts
 pipeline/check-kachel-buendel-bestand.ts
@@ -67,6 +71,7 @@ pipeline/check-news-einfrieren-bestand.ts
 pipeline/check-news-felder-bestand.ts
 pipeline/check-news-offiziell-bestand.ts
 pipeline/check-nur-omu-bestand.ts
+pipeline/check-prime-gleiche-gti-bestand.ts
 pipeline/check-prime-teilseiten-bestand.ts
 pipeline/check-reihen-namen-bestand.ts
 pipeline/check-reihen-teilname-bestand.ts
@@ -77,6 +82,7 @@ pipeline/check-schwester-shop-bestand.ts
 pipeline/check-shop-wege-falsches-ziel-bestand.ts
 pipeline/check-staffel-von-hand-bestand.ts
 pipeline/check-staffelzaehlung-bestand.ts
+pipeline/check-streaming-luecke-bestand.ts
 pipeline/check-synchro-widerspruch-bestand.ts
 pipeline/check-telekom-annahme-bestand.ts
 pipeline/check-tmdb-ablauf-bestand.ts

@@ -6,7 +6,8 @@
  */
 import type { Title } from '../shared/types.ts'
 import { faelligeTitel } from './lib/tmdb-faellig.ts'
-import { koennteFilmSein, lookup } from './lib/tmdb-titel-lookup.ts'
+import { nachAbruf } from './lib/tmdb-ablauf.ts'
+import { FILMSUCHE_SEIT, koennteFilmSein, lookup } from './lib/tmdb-titel-lookup.ts'
 
 let verletzt = 0
 let faelle = 0
@@ -101,6 +102,39 @@ console.log('\nFilm-Nachsuche: Wiedervorlage des Fehlschlags (Bright steht seit 
   const opt = { handIds: new Set<number>(), nurOhneEintrag: false, force: false, grenze: '2000-01-01T00:00:00.000Z', grenzeFehlschlag: '2999-01-01T00:00:00.000Z' }
   const cache = { '135432': { miss: true as const, fetchedAt: '2026-10-06T12:16:28.303Z' } }
   pruefe('der Fehlschlag ist nach der Wartezeit wieder fällig', faelligeTitel([{ id: 135432 }, { id: 5 }], cache, opt).map((t) => t.id).join() === '5,135432', faelligeTitel([{ id: 135432 }, { id: 5 }], cache, opt).map((t) => t.id))
+}
+
+console.log('\nFilm-Nachsuche: Fehlschläge von vor der Regel zuerst (Rückstau 856, Wochenlauf 400; 06.11.2026)')
+{
+  const jetzt = '2026-11-06T12:00:00.000Z'
+  const opt = { handIds: new Set<number>(), nurOhneEintrag: false, force: false, grenze: '2026-09-10T00:00:00.000Z', grenzeFehlschlag: '2026-10-30T00:00:00.000Z' }
+  const film = { ids: new Set([11, 12, 13, 15, 17]), vor: '2026-11-04' }
+  const tot = { 16: { tmdbId: 9, geprueft: '2026-11-05' } }
+  pruefe('die Film-Nachsuche gilt seit dem 04.11.2026', FILMSUCHE_SEIT === '2026-11-04', FILMSUCHE_SEIT)
+  /*
+    11 Film-Fehlschlag Oktober, 12 Film-Fehlschlag nach der Regel, 13 Film-Fehlschlag vom 01.11. (noch nicht 7 Tage alt), 14 Serien-Fehlschlag September,
+    15 Treffer August, 16 tote Kennung (Vermerk jünger als der Abruf), 17 Film-Fehlschlag ohne Zeitstempel (Alter unbekannt, im Zweifel groß).
+  */
+  const cache: Record<string, { miss?: true; tmdbId?: number; fetchedAt?: string }> = {
+    '11': { miss: true, fetchedAt: '2026-10-12T00:00:00.000Z' },
+    '12': { miss: true, fetchedAt: '2026-11-05T00:00:00.000Z' },
+    '13': { miss: true, fetchedAt: '2026-11-01T00:00:00.000Z' },
+    '14': { miss: true, fetchedAt: '2026-09-01T00:00:00.000Z' },
+    '15': { tmdbId: 7, fetchedAt: '2026-08-01T00:00:00.000Z' },
+    '16': { tmdbId: 9, fetchedAt: '2026-10-20T00:00:00.000Z' },
+    '17': { miss: true },
+  }
+  const titel = [11, 12, 13, 14, 15, 16, 17].map((id) => ({ id }))
+  const ids = (o: Parameters<typeof faelligeTitel>[2]): string => faelligeTitel(titel, cache, o).map((t) => t.id).join()
+  pruefe('ohne die Regel kommt der Film-Fehlschlag nach den älteren Einträgen und der vom 01.11. gar nicht', ids({ ...opt, tot }) === '16,17,15,14,11', ids({ ...opt, tot }))
+  pruefe('mit der Regel: tote Kennung zuerst, dann Film-Fehlschläge von vor der Regel, ältester zuerst', ids({ ...opt, tot, filmNeusuche: film }) === '16,17,11,13,15,14', ids({ ...opt, tot, filmNeusuche: film }))
+  pruefe('ein Film-Fehlschlag nach der Regel (12) bekommt keinen Vorrang', !ids({ ...opt, filmNeusuche: film }).includes('12'), ids({ ...opt, filmNeusuche: film }))
+  pruefe('ein Serien-Fehlschlag (14) bekommt keinen Vorrang', ids({ ...opt, filmNeusuche: { ids: new Set([11]), vor: '2026-11-04' } }).split(',').indexOf('14') > 0, ids({ ...opt, filmNeusuche: film }))
+  const limit = faelligeTitel(titel, cache, { ...opt, tot, filmNeusuche: film }).slice(0, 4).map((t) => t.id).join()
+  pruefe('ein kleines Limit trifft die Vorrang-Titel', limit === '16,17,11,13', limit)
+  /* Kreislauf: Lauf 1 sucht 11, 13 und 17 neu (wieder ohne Treffer), Lauf 2 sieht sie nicht mehr als Vorrang. */
+  for (const id of ['11', '13', '17']) cache[id] = nachAbruf(cache[id], { miss: true, fetchedAt: jetzt }, jetzt) as never
+  pruefe('nach der Neusuche sind 11, 13 und 17 nicht mehr fällig', ids({ ...opt, tot, filmNeusuche: film }) === '16,15,14', ids({ ...opt, tot, filmNeusuche: film }))
 }
 
 if (verletzt) {

@@ -1,6 +1,6 @@
 # Wache — Bestand und Briefkasten
 
-**⚠ Auffälligkeit** · letzter Befund vom 07.11.2026 um 15:03 Uhr
+**⚠ Auffälligkeit** · letzter Befund vom 10.11.2026 um 16:54 Uhr
 
 Diese Zeile nennt den letzten **Befund**, nicht den letzten Lauf: Seit dem 26.09.2026 wird nur noch
 ein Befund committet (Daniel: „Behalten, still bei Ruhe"). Ob die Wache täglich läuft, steht in
@@ -19,26 +19,34 @@ komisch vorkam. Das soll ihm keiner mehr abverlangen.
 
 ## Was aufgefallen ist
 
-- 2 Titel weniger
-- 3 Titel weniger
+- 4 Urteile verloren; primevideo: 4 Synchro-Belege weniger; primevideo: fehlt Trinity Seven (20631): https://www.amazon.de/gp/video/detail/B07NNTV2LR (link-check: {"status":200,"geprueftAm":"2026-09-21","prime":true} (jüngere Handprüfung widerspricht)); primevideo: fehlt Horimiya: The Missing Pieces (163132): https://www.amazon.de/gp/video/detail/B0CG8SW2YQ (link-check: {"status":200,"geprueftAm":"2026-10-26","prime":true}); primevideo: fehlt Wind Breaker (163270): https://www.amazon.de/gp/video/detail/B0D516QSYS (link-check: {"status":200,"geprueftAm":"2026-09-21","prime":true}); primevideo: fehlt Shangri-La Frontier: Staffel 2 (176508): https://www.amazon.de/gp/video/detail/B0DCNKVZ43 (link-check: {"status":200,"geprueftAm":"2026-10-26","prime":true})
+- 1 Titel ohne Synchro-Beleg; adn: 3 Synchro-Belege weniger (2 weitere sind begründet entfernt)
 
 ## Bestand — die letzten 24 Stunden
 
 ```
-46 Läufe in den letzten 1 Tagen (1958 insgesamt)
+23 Läufe in den letzten 1 Tagen (2078 insgesamt)
 
-06.11., 18:26  Bestand — zusammenführ   mitUrteil +1, ohneUrteil -1
-06.11., 20:51  Bestand — zusammenführ   titel -2
-            ⚠  2 Titel weniger
-06.11., 21:19  Bestand — zusammenführ   titel -3
-            ⚠  3 Titel weniger
-07.11., 09:46  Bestand — zusammenführ   titel +1, verweise +33, mitUrteil +7, ohneUrteil +26, titelMitSynchro +2, releases +5, termine +7
-07.11., 10:24  Bestand — zusammenführ   mitUrteil +1, ohneUrteil -1, titelMitSynchro +1, releases +1, termine +12
-07.11., 10:44  Bestand — zusammenführ   verweise +1, mitUrteil +1, releases +1, termine +1
-07.11., 13:10  Bestand — zusammenführ   releases +1, termine +1
+09.11., 18:55  Bestand — zusammenführ   verweise -19, mitUrteil -4, ohneUrteil -15
+            ⚠  4 Urteile verloren; primevideo: 4 Synchro-Belege weniger; primevideo: fehlt Trinity Seven (20631): https://www.amazon.de/gp/video/detail/B07NNTV2LR (link-check: {"status":200,"geprueftAm":"2026-09-21","prime":true} (jüngere Handprüfung widerspricht)); primevideo: fehlt Horimiya: The Missing Pieces (163132): https://www.amazon.de/gp/video/detail/B0CG8SW2YQ (link-check: {"status":200,"geprueftAm":"2026-10-26","prime":true}); primevideo: fehlt Wind Breaker (163270): https://www.amazon.de/gp/video/detail/B0D516QSYS (link-check: {"status":200,"geprueftAm":"2026-09-21","prime":true}); primevideo: fehlt Shangri-La Frontier: Staffel 2 (176508): https://www.amazon.de/gp/video/detail/B0DCNKVZ43 (link-check: {"status":200,"geprueftAm":"2026-10-26","prime":true})
+               • Trinity Seven (20631) · primevideo · Synchro-Beleg weg (link-check: 200 am 2026-09-21)
+               • Horimiya: The Missing Pieces (163132) · primevideo · Synchro-Beleg weg (link-check: 200 am 2026-10-26)
+               • Wind Breaker (163270) · primevideo · Synchro-Beleg weg (link-check: 200 am 2026-09-21)
+               • Shangri-La Frontier: Staffel 2 (176508) · primevideo · Synchro-Beleg weg (link-check: 200 am 2026-10-26)
+09.11., 19:20  Bestand — zusammenführ   termine +23
+09.11., 20:09  Bestand — zusammenführ   releases -1, termine -1
+09.11., 21:51  Bestand — zusammenführ   verweise +6, mitUrteil +15, ohneUrteil -9
+09.11., 22:06  Bestand — zusammenführ   verweise +4, mitUrteil +4, releases +11, termine +11
+10.11., 10:54  Bestand — zusammenführ   verweise +2, mitUrteil +1, ohneUrteil +1, titelMitSynchro -1, releases -1, termine -1
+            ⚠  1 Titel ohne Synchro-Beleg; adn: 3 Synchro-Belege weniger (2 weitere sind begründet entfernt)
+               • JoJo’s Bizarre Adventure (14719) · adn · Synchro-Beleg weg
+               • 86: Eighty Six (116589) · adn · Synchro-Beleg weg
+               • I Parry Everything! (170695) · adn · Synchro-Beleg weg
+10.11., 11:11  Bestand — zusammenführ   termine +7
+10.11., 14:41  Bestand — zusammenführ   termine -1
 
-Stand jetzt: 2923 Titel, 2108 Urteile, 492 offen
-Über den Zeitraum: Titel -4, Urteile +10, offen +24
+Stand jetzt: 2923 Titel, 2122 Urteile, 469 offen
+Über den Zeitraum: Titel 0, Urteile +16, offen -23
 
 ⚠  2 Lauf/Läufe mit Auffälligkeiten — siehe oben.
 ```
@@ -46,24 +54,24 @@ Stand jetzt: 2923 Titel, 2108 Urteile, 492 offen
 ## Briefkasten
 
 ```
-Briefkasten: 3976 Meldungen auf 209 Adressen (primevideo 512, disneyplus 2261, netflix 1203)
-Liste daniel-zum-abarbeiten/listen/11-meldungen-ohne-zuordnung.md: 394 Adressen
+Briefkasten: 4184 Meldungen auf 230 Adressen (primevideo 536, adn 158, disneyplus 2287, netflix 1203)
+Liste daniel-zum-abarbeiten/listen/11-meldungen-ohne-zuordnung.md: 426 Adressen
 Zurückgestellt (data/meldungen-zurueckgestellt.json): 0 Adressen im Briefkasten
 Alle Adressen sind gelistet.
-Übernahme: zuletzt 2026-11-07T10:01:27.677Z (data/meldungen-uebernahme.json)
+Übernahme: zuletzt 2026-11-10T10:49:02.647Z (data/meldungen-uebernahme.json)
 ✓ refresh-hourly.yml: letzter Erfolg vor 1 h (Frist 3 h)
-✓ refresh-data.yml: letzter Erfolg vor 10 h (Frist 36 h)
-✓ refresh-weekly.yml: letzter Erfolg vor 71 h (Frist 336 h)
-✓ daten-auf-abruf.yml: letzter Erfolg vor 6 h (Frist 36 h)
-✓ anisearch-katalog.yml: letzter Erfolg vor 8 h (Frist 36 h)
-✓ tonspuren-monatlich.yml: letzter Erfolg vor 10 h (Frist 1008 h)
+✓ refresh-data.yml: letzter Erfolg vor 2 h (Frist 36 h)
+✓ refresh-weekly.yml: letzter Erfolg vor 35 h (Frist 336 h)
+✓ daten-auf-abruf.yml: letzter Erfolg vor 7 h (Frist 36 h)
+✓ anisearch-katalog.yml: letzter Erfolg vor 10 h (Frist 36 h)
+✓ tonspuren-monatlich.yml: letzter Erfolg vor 84 h (Frist 1008 h)
 ✓ bestand-bauen.yml: letzter Erfolg vor 1 h (Frist 18 h)
-✓ d1-verbrauch.yml: letzter Erfolg vor 23 h (Frist 48 h)
-✓ claude-anime2you-extraktion.yml: letzter Erfolg vor 0 h (Frist 36 h)
-✓ claude-wache-urteil.yml: letzter Erfolg vor 5 h (Frist 36 h)
-✓ claude-verpasst-recherche.yml: letzter Erfolg vor 3 h (Frist 36 h)
-✓ claude-daten-merge.yml: letzter Erfolg vor 0 h (Frist 48 h)
-✓ GITHUB_WECKER_TOKEN: letzter Start durch den Wecker vor 0 h
+✓ d1-verbrauch.yml: letzter Erfolg vor 22 h (Frist 48 h)
+✓ claude-anime2you-extraktion.yml: letzter Erfolg vor 1 h (Frist 3 h)
+✓ claude-wache-urteil.yml: letzter Erfolg vor 7 h (Frist 36 h)
+✓ claude-verpasst-recherche.yml: letzter Erfolg vor 5 h (Frist 36 h)
+✓ claude-daten-merge.yml: letzter Erfolg vor 1 h (Frist 48 h)
+✓ GITHUB_WECKER_TOKEN: letzter Start durch den Wecker vor 1 h
 ℹ Ablaufdatum unbekannt (gueltigBis leer): CLAUDE_CODE_OAUTH_TOKEN, LAUF_TOKEN, CR_ZUGANG, ANISEARCH_TOKEN, ANILIST_TOKEN, TMDB_API_KEY, YOUTUBE_API_KEY, STREAMING_API_KEY, SERPER_API_KEY, DATEN_APP_KEY, DISCORD_WEBHOOK, CLOUDFLARE_API_TOKEN, CLOUDFLARE_ANALYTICS_TOKEN, NACHT_MERGER_TOKEN, GITHUB_WECKER_TOKEN, MAIL_API_KEY, WEICHE_TOKEN — Daniel liest es einmal im Konto ab und trägt es ins Register ein.
 
 Zugänge unauffällig.
@@ -78,7 +86,7 @@ Serien, für die keine Termine entstanden — je Grund, mit der Veränderung sei
  228  Blöcke und Titel verschieden viele (±0)
   43  Folgenzahl geht nicht auf (±0)
    4  deutscher Termin vor der japanischen Ausstrahlung (±0)
-(Vergleich mit dem Stand vom 2026-11-06)
+(Vergleich mit dem Stand vom 2026-11-09)
 ```
 
 ## Tagebuch
@@ -87,6 +95,8 @@ Die letzten 60 Läufe. Älteres hat seinen Zweck erfüllt.
 
 | Zeitpunkt | Titel / Urteile / offen | Veränderung | Befund |
 |---|---|---|---|
+| 10.11.2026 16:54 | 2923 / 2122 / 469 | Titel 0, Urteile +16, offen -23 | 4 Urteile verloren; primevideo: 4 Synchro-Belege weniger; primevideo: fehlt Trinity Seven (20631): https://www.amazon.de/gp/video/detail/B07NNTV2LR (link-check: {"status":200,"geprueftAm":"2026-09-21","prime":true} (jüngere Handprüfung widerspricht)); primevideo: fehlt Horimiya: The Missing Pieces (163132): https://www.amazon.de/gp/video/detail/B0CG8SW2YQ (link-check: {"status":200,"geprueftAm":"2026-10-26","prime":true}); primevideo: fehlt Wind Breaker (163270): https://www.amazon.de/gp/video/detail/B0D516QSYS (link-check: {"status":200,"geprueftAm":"2026-09-21","prime":true}); primevideo: fehlt Shangri-La Frontier: Staffel 2 (176508): https://www.amazon.de/gp/video/detail/B0DCNKVZ43 (link-check: {"status":200,"geprueftAm":"2026-10-26","prime":true}); 1 Titel ohne Synchro-Beleg; adn: 3 Synchro-Belege weniger (2 weitere sind begründet entfernt) |
+| 09.11.2026 18:30 | 2923 / 2106 / 492 | Titel 0, Urteile -7, offen -4 | 23 Termine weniger; adn: 3 Synchro-Belege weniger; adn: fehlt Sailor Moon Super S (1239): https://animationdigitalnetwork.com/de/video/427-sailor-moon?s=4 (kein link-check-Eintrag); adn: fehlt Clannad: Der Film (1723): https://animationdigitalnetwork.com/de/video/1201 (kein link-check-Eintrag); adn: fehlt Clannad (2167): https://animationdigitalnetwork.com/de/video/655?s=2 (kein link-check-Eintrag); adn: fehlt Rosario + Vampire (2993): https://animationdigitalnetwork.com/de/video/1139?s=1 (kein link-check-Eintrag); adn: fehlt Clannad: After Story (4181): https://animationdigitalnetwork.com/de/video/655?s=1 (kein link-check-Eintrag); adn: fehlt Rosario + Vampire Capu2 (4214): https://animationdigitalnetwork.com/de/video/1139?s=2 (kein link-check-Eintrag); adn: fehlt Steins;Gate (9253): https://animationdigitalnetwork.de/video/steins-gate (kein link-check-Eintrag); adn: fehlt Sword Art Online The Movie: Ordinal Scale (21403): https://animationdigitalnetwork.com/de/video/1309-sword-art-online-the-movie-ordinal-scale (kein link-check-Eintrag); adn: fehlt I Parry Everything! (170695): https://animationdigitalnetwork.de/video/i-parry-everything (kein link-check-Eintrag); joyn: 6 Synchro-Belege weniger |
 | 07.11.2026 15:03 | 2923 / 2108 / 492 | Titel -4, Urteile +10, offen +24 | 2 Titel weniger; 3 Titel weniger |
 | 06.11.2026 16:04 | 2927 / 2098 / 468 | Titel 0, Urteile +30, offen +114 | 1 Titel ohne Synchro-Beleg; 1 Titel weniger; adn: 1 Synchro-Belege weniger; crunchyroll: 1 Synchro-Belege weniger |
 | 05.11.2026 16:28 | 2927 / 2068 / 354 | Titel +4, Urteile 0, offen +13 | 1 Titel weniger; 7 Urteile verloren (1 weitere sind begründet entfernt); netflix: 13 Synchro-Belege weniger; 1 Urteile verloren; 1 Titel ohne Synchro-Beleg; netflix: 1 Synchro-Belege weniger |

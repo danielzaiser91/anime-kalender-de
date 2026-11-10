@@ -35,7 +35,7 @@ pruefe('ohneKommentare: //, *, /*, # fallen weg', ohneKommentare('a\n// b\n * c\
 pruefe('pfadTokens: Aufruf, Daten-Literal, Ordnerkopf', pfadTokens('run: node tools/x.mjs "data/a/b.json" pipeline/bau').join() === 'tools/x.mjs,data/a/b.json,pipeline/bau', pfadTokens('run: node tools/x.mjs "data/a/b.json" pipeline/bau'))
 pruefe('pfadTokens: URL und Namensteil zählen nicht', pfadTokens('https://x.de/data/a.json mydata/b.json').length === 0, pfadTokens('https://x.de/data/a.json mydata/b.json'))
 pruefe('pfadTokens: Kommentarzeile zählt nicht', pfadTokens('# tools/x.mjs').length === 0)
-pruefe('trifft: Datei, Ordner, Namensvetter', trifft('tools/sub', 'tools/sub/a') && trifft('data/a.json', 'data/a.json') && !trifft('tools/sub', 'tools/subx/a'))
+pruefe('trifft: nur dieselbe Datei, kein Ordner-, Präfix- oder Namensvetter-Treffer', trifft('data/a.json', 'data/a.json') && !trifft('tools/sub', 'tools/sub/a') && !trifft('tools/sub', 'tools/subx/a') && !trifft('data/a', 'data/a.json'))
 pruefe('importZiele: relativ zum Ordner der Datei, mit und ohne Endung', importZiele('tools/a/b.mjs', "import x from '../lib/h'").includes('tools/lib/h.ts') && importZiele('tools/a/b.mjs', "import x from '../lib/h'").includes('tools/lib/h'))
 pruefe('ohneLeser: Doku, Daniel, Patch Notes, Wurzel-Markdown; nicht web/README.md', ['docs/a.md', 'daniel-zum-abarbeiten/s.md', 'data/patchnotes/a.yaml', 'CLAUDE.md'].every(ohneLeser) && !ohneLeser('web/README.md') && !ohneLeser('docsx/a.md'))
 
@@ -45,7 +45,7 @@ pruefe('nur Doku -> null', grund(['docs/wissen/a.md', 'daniel-zum-abarbeiten/sta
 pruefe('Anlassfall: Workflow mit Kommentar-Nennung und Skript ohne Leser -> null', grund(['.github/workflows/bestand.yml', 'tools/anderes.mjs']) === null, grund(['.github/workflows/bestand.yml', 'tools/anderes.mjs']))
 pruefe('Workflow nennt die Datei literal -> Grund', grund(['.github/workflows/nennt.yml']) === `der PR liest ${F} (.github/workflows/nennt.yml)`, grund(['.github/workflows/nennt.yml']))
 pruefe('Workflow ruft Skript, das den Leser importiert -> Grund', /ruft pipeline\/bau\/cr\.ts auf/.test(grund(['.github/workflows/lesend.yml'])), grund(['.github/workflows/lesend.yml']))
-pruefe('Workflow nennt den Ordner des Lesers -> Grund', /ruft pipeline\/bau\/cr\.ts auf/.test(grund(['.github/workflows/ordner.yml'])), grund(['.github/workflows/ordner.yml']))
+pruefe('Workflow nennt nur den Ordner des Lesers (ls pipeline/bau) -> null (kein Ordner-Treffer)', grund(['.github/workflows/ordner.yml']) === null, grund(['.github/workflows/ordner.yml']))
 pruefe('PR ändert den Helfer des Lesers -> Grund (Rückrichtung)', /pipeline\/lib\/helfer\.ts wird von Code genutzt, der bewegte Daten liest/.test(grund(['pipeline/lib/helfer.ts'])), grund(['pipeline/lib/helfer.ts']))
 pruefe('PR ändert den Leser selbst -> Grund', grund(['pipeline/bau/cr.ts']) !== null)
 pruefe('PR ändert unbeteiligtes Skript -> null', grund(['tools/nachbar.mjs']) === null)
@@ -53,6 +53,22 @@ pruefe('ohne Leser auf main und unbeteiligter PR -> null', grund(['tools/anderes
 pruefe('gelöschte oder nicht lesbare PR-Datei -> kein Absturz, null', grund(['tools/weg.mjs']) === null)
 pruefe('keine bewegten Dateien -> null', bewegtesGelesen({ bewegt: [], pr: ['pipeline/bau/cr.ts'], leser: LESER, lies, paketSkripte: null }) === null)
 pruefe('Umbenennung: alter Name im PR zählt', /berührt/.test(grund(['tools/neu.mjs', F])))
+
+// Bewegter Code, den niemand nennt (Auflage Prüfer 3312 A1): die Rückwärtshülle startet auch bei ihm
+{
+  const text = {
+    'tools/neu-g1.test.mjs': "import { x } from '../shared/logic.ts'\n",
+    'pipeline/check-neu-g8.ts': "const d = readFileSync('data/dub-confirmed.yaml')\n",
+    'pipeline/check-neu-g13.ts': "import { a } from './lib/adn.ts'\n",
+    'tools/check-fremd-liste.txt': 'shared/logic.ts\n',
+  }
+  const mitBewegt = (bewegt, pr) => bewegtesGelesen({ bewegt, pr, leser: [], lies: (p) => text[p] ?? null, paketSkripte: null })
+  pruefe('G1: neuer Test importiert shared/logic.ts, PR ändert sie -> Grund', /shared\/logic\.ts wird von Code genutzt/.test(mitBewegt(['tools/neu-g1.test.mjs'], ['shared/logic.ts'])), mitBewegt(['tools/neu-g1.test.mjs'], ['shared/logic.ts']))
+  pruefe('G8: neuer Wächter liest data/dub-confirmed.yaml, PR ändert sie -> Grund', /data\/dub-confirmed\.yaml wird von Code genutzt/.test(mitBewegt(['pipeline/check-neu-g8.ts'], ['data/dub-confirmed.yaml'])), mitBewegt(['pipeline/check-neu-g8.ts'], ['data/dub-confirmed.yaml']))
+  pruefe('G13: neuer Wächter importiert pipeline/lib/adn.ts, PR ändert sie -> Grund', /pipeline\/lib\/adn\.ts wird von Code genutzt/.test(mitBewegt(['pipeline/check-neu-g13.ts'], ['pipeline/lib/adn.ts'])), mitBewegt(['pipeline/check-neu-g13.ts'], ['pipeline/lib/adn.ts']))
+  pruefe('bewegter Code ohne Bezug zum PR-Code -> null', mitBewegt(['tools/neu-g1.test.mjs'], ['tools/nachbar.mjs']) === null)
+  pruefe('bewegte -liste.txt startet keine Hülle -> null', mitBewegt(['tools/check-fremd-liste.txt'], ['shared/logic.ts']) === null)
+}
 
 // Importketten: beliebig tief, kein Zweifel durch Größe
 const kette = (n) => (p) => {
@@ -62,7 +78,12 @@ const kette = (n) => (p) => {
 }
 pruefe('Importkette über 300 Dateien bis zum Leser -> Grund', /ruft tools\/k299\.mjs auf/.test(bewegtesGelesen({ bewegt: [F], pr: ['tools/k0.mjs'], leser: ['tools/k299.mjs'], lies: kette(300), paketSkripte: null })))
 pruefe('Importkette über 300 Dateien ohne Leser -> null', bewegtesGelesen({ bewegt: [F], pr: ['tools/k0.mjs'], leser: ['tools/fern.mjs'], lies: kette(300), paketSkripte: null }) === null)
-pruefe('Rückrichtung über 300 Dateien: Leser am Anfang, PR-Datei am Ende -> Grund', /tools\/k299\.mjs wird von Code genutzt/.test(bewegtesGelesen({ bewegt: [F], pr: ['tools/k299.mjs'], leser: ['tools/k0.mjs'], lies: kette(300), paketSkripte: null })))
+// Rückrichtung nur eine Stufe, und nie von Werkzeugen unter tools/ aus (PR 3341: workflows-beleg.mjs nennt crunchyroll-neu.json in einer Ausnahmeliste)
+pruefe('Rückrichtung: Leser importiert die PR-Datei selbst -> Grund', /pipeline\/k1\.ts wird von Code genutzt/.test(bewegtesGelesen({ bewegt: [F], pr: ['pipeline/k1.ts'], leser: ['pipeline/k0.ts'], lies: (p) => (p === 'pipeline/k0.ts' ? "import './k1.ts'\n" : null), paketSkripte: null })))
+const IMPORTKETTE = (p) => ({ 'pipeline/k0.ts': "import './k1.ts'\n", 'pipeline/k1.ts': "import './k2.ts'\n", 'pipeline/k2.ts': "import './k3.ts'\n" })[p] ?? null
+pruefe('Rückrichtung: PR-Datei über zwei Importe vom Leser aus -> Grund', /pipeline\/k2\.ts wird von Code genutzt/.test(bewegtesGelesen({ bewegt: [F], pr: ['pipeline/k2.ts'], leser: ['pipeline/k0.ts'], lies: IMPORTKETTE, paketSkripte: null })))
+pruefe('Rückrichtung: PR-Datei erst über drei Importe vom Leser aus -> null', bewegtesGelesen({ bewegt: [F], pr: ['pipeline/k3.ts'], leser: ['pipeline/k0.ts'], lies: IMPORTKETTE, paketSkripte: null }) === null)
+pruefe('Rückrichtung: Leser unter tools/ importiert die PR-Datei -> null', bewegtesGelesen({ bewegt: [F], pr: ['tools/k1.mjs'], leser: ['tools/k0.mjs'], lies: kette(2), paketSkripte: null }) === null)
 
 // Ausführungslisten: Inhalt zählt als Aufruf, die Liste selbst nutzt kein Leser (Anlass: PR 2099 änderte tools/check-logic-liste.txt)
 {
@@ -128,14 +149,14 @@ pruefe('PR ändert eine Datei unter public/og (kein Datenkanal des Baus), Leser 
 pruefe('Nennung nur über den Dateinamen -> Grund', /liest data\/crunchyroll-woche\.json/.test(bewegtesGelesen({ bewegt: [F], pr: ['tools/b.mjs'], leser: [], lies: () => "join(ordner, 'crunchyroll-woche.json')", paketSkripte: null })))
 pruefe('geaenderteSkripte: package.json ohne scripts -> leer', geaenderteSkripte('{}', '{}') === '' && geaenderteSkripte('{}', pj({ a: 'x' })) === 'x')
 pruefe('package.json: Skript nennt Datei, die der Leser importiert -> Rückrichtung', /pipeline\/lib\/helfer\.ts wird von Code genutzt/.test(grund(['package.json'], { paketSkripte: 'node pipeline/lib/helfer.ts' })), grund(['package.json'], { paketSkripte: 'node pipeline/lib/helfer.ts' }))
-pruefe('package.json: Skript nennt den Ordner der importierten Datei -> Rückrichtung', /pipeline\/lib wird von Code genutzt/.test(grund(['package.json'], { paketSkripte: 'ls pipeline/lib' })), grund(['package.json'], { paketSkripte: 'ls pipeline/lib' }))
+pruefe('package.json: Skript nennt nur den Ordner der importierten Datei -> null (kein Ordner-Treffer)', grund(['package.json'], { paketSkripte: 'ls pipeline/lib' }) === null, grund(['package.json'], { paketSkripte: 'ls pipeline/lib' }))
 {
   // Der Leser nennt einen Ordner (Token ohne Endung); eine PR-Datei darin hängt mit dem Leser zusammen.
   const ordner = (p) => ({ 'tools/r.mjs': `const d = 'tools/sub'\nconst f = '${F}'\n` })[p] ?? null
-  pruefe('Rückrichtung: PR-Datei liegt im Ordner, den der Leser nennt -> Grund', /tools\/sub\/x\.mjs wird von Code genutzt/.test(bewegtesGelesen({ bewegt: [F], pr: ['tools/sub/x.mjs'], leser: ['tools/r.mjs'], lies: ordner, paketSkripte: null })))
+  pruefe('Rückrichtung: PR-Datei liegt nur im Ordner, den der Leser nennt -> null (kein Verzeichnis-Treffer)', bewegtesGelesen({ bewegt: [F], pr: ['tools/sub/x.mjs'], leser: ['tools/r.mjs'], lies: ordner, paketSkripte: null }) === null)
 }
 pruefe('Patch-Notes-YAML, die die Datei nennt, zählt nicht (ohne Leser)', bewegtesGelesen({ bewegt: [F], pr: ['data/patchnotes/neu.yaml'], leser: [], lies: () => `text: ${F}\n`, paketSkripte: null }) === null)
-pruefe('package.json: Ordner-Token in geändertem Skript trifft den Leser-Ordner', /ruft pipeline\/bau\/cr\.ts auf/.test(grund(['package.json'], { paketSkripte: 'ls pipeline/bau' })))
+pruefe('package.json: Ordner-Token in geändertem Skript trifft den Leser-Ordner nicht mehr -> null', grund(['package.json'], { paketSkripte: 'ls pipeline/bau' }) === null)
 
 // leserIn: Treffer in Code, nicht in Kommentaren, sortiert
 {
@@ -214,8 +235,8 @@ for (const [name, opt] of [['fetch scheitert', { fetchFehler: true }], ['ls-tree
 
 // A2 (Prüfer 2123 R1): PR-Code, der ein Verzeichnis liest oder Namen darunter zusammensetzt, ist Leser jeder bewegten Datei darunter.
 {
-  const mitText = (text, datei = 'tools/neu.test.mjs') => grund([datei], { lies: (p) => (p === datei ? text : lies(p)) })
-  const ordnerGrund = (text) => /^der PR liest einen Ordner mit data\/crunchyroll-woche\.json \(tools\/neu\.test\.mjs\)/.test(mitText(text) ?? '')
+  const mitText = (text, datei = 'tools/neu.mjs') => grund([datei], { lies: (p) => (p === datei ? text : lies(p)) })
+  const ordnerGrund = (text) => /^der PR liest einen Ordner mit data\/crunchyroll-woche\.json \(tools\/neu.mjs\)/.test(mitText(text) ?? '')
   pruefe('Ordner: readdirSync(data/) mit readFileSync(data/ + f) -> Grund', ordnerGrund("for (const f of fs.readdirSync('data/')) fs.readFileSync('data/' + f)\n"), mitText("fs.readdirSync('data/')\nreadFileSync('data/'+f)\n"))
   pruefe('Ordner: Template data/${n}.json ohne readdir -> Grund', ordnerGrund('readFileSync(`data/${n}.json`)\n'), mitText('readFileSync(`data/${n}.json`)\n'))
   pruefe('Ordner: readdirSync(data) als Literal ohne Schrägstrich -> Grund', ordnerGrund("fs.readdirSync('data')\n"), mitText("fs.readdirSync('data')\n"))
@@ -244,6 +265,20 @@ for (const [name, opt] of [['fetch scheitert', { fetchFehler: true }], ['ls-tree
   pruefe('gitAufruf: jeder Aufruf (fetch, ls-tree, cat-file) setzt das Zeitlimit von 120 s', GIT_TIMEOUT_MS === 120000 && optionen.length === 3 && optionen.every(([p, , t]) => p === 'git' && t === 120000), optionen)
   const abgelaufen = gitLeser(gitAufrufMit(() => { throw Object.assign(new Error('spawnSync git ETIMEDOUT'), { code: 'ETIMEDOUT' }) }))([F], ['tools/neu.mjs'], REFS)
   pruefe('gitLeser: Zeitlimit abgelaufen -> nicht ermittelbar', /^Leser nicht ermittelbar \(spawnSync git ETIMEDOUT\)$/.test(abgelaufen), abgelaufen)
+}
+
+// Fehlalarm PR 3310: Hooks unter .claude/ laufen nie in der Kette (Ordner-Leser und Namens-Leser dort zählen nicht)
+{
+  const HOOK_ORDNER = "const fs = require('fs')\nfs.readdirSync('data/')\n"
+  const HOOK_NAME = `const d = '${F}'\n`
+  const hook = (pfad, text) => bewegtesGelesen({ bewegt: [F], pr: [pfad], leser: LESER, lies: (p) => (p === pfad ? text : lies(p)), paketSkripte: null })
+  pruefe('ohneLeser: .claude/ ja, Namensvetter claude/ und tools/.claude nein', ohneLeser('.claude/hooks/a.js') && !ohneLeser('claude/hooks/a.js') && !ohneLeser('tools/.claude/a.js'))
+  pruefe('.claude/hooks mit readdir auf data/ -> null', hook('.claude/hooks/agenten-grenze.js', HOOK_ORDNER) === null, hook('.claude/hooks/agenten-grenze.js', HOOK_ORDNER))
+  pruefe('.claude/hooks nennt die bewegte Datei -> null', hook('.claude/hooks/a.js', HOOK_NAME) === null, hook('.claude/hooks/a.js', HOOK_NAME))
+  pruefe('Gegenprobe: dasselbe readdir in tools/ -> Ordner-Grund', /Verzeichnis nicht eindeutig/.test(hook('tools/sammler.mjs', HOOK_ORDNER)), hook('tools/sammler.mjs', HOOK_ORDNER))
+  pruefe('Gegenprobe: dieselbe Nennung in tools/ -> Grund', hook('tools/a.mjs', HOOK_NAME) === `der PR liest ${F} (tools/a.mjs)`, hook('tools/a.mjs', HOOK_NAME))
+  const gemischt = bewegtesGelesen({ bewegt: [F], pr: ['.claude/hooks/a.js', 'tools/a.mjs'], leser: LESER, lies: (p) => (p === 'tools/a.mjs' ? HOOK_NAME : lies(p)), paketSkripte: null })
+  pruefe('.claude/ zusammen mit echtem Leser im PR -> Grund bleibt', gemischt === `der PR liest ${F} (tools/a.mjs)`, gemischt)
 }
 
 if (fehler.length > 0) {

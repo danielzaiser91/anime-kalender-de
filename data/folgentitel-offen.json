@@ -116,8 +116,8 @@
     "grund": "kein TMDB-Eintrag (Abruf ausstehend oder TMDB kennt die Serie nicht), keine weitere erlaubte Quelle"
   },
   "112153": {
-    "offen": 46,
-    "grund": "kein TMDB-Eintrag (Abruf ausstehend oder TMDB kennt die Serie nicht), keine weitere erlaubte Quelle"
+    "offen": 5,
+    "grund": "TMDB führt für die Folgen 119, 121, 126, 128 und 131 nur Platzhalter („Folge N\"); keine weitere erlaubte Quelle"
   },
   "113917": {
     "offen": 3,
@@ -227,6 +227,10 @@
     "offen": 2,
     "grund": "kein TMDB-Eintrag; Crunchyroll-Archiv hat für diese Folgen keinen eindeutig zuzuordnenden deutschen Titel (Special oder Sonderstaffel)"
   },
+  "184492": {
+    "offen": 1,
+    "grund": "Folge 7 (Staffel 4): Crunchyroll de-DE und TMDB führen nur den englischen Titel „Lilith's Carpet\""
+  },
   "184951": {
     "offen": 2,
     "grund": "TMDB hat für diese Folgen nur Platzhalter (25 von 25 Einträgen mit Titel)"
@@ -244,12 +248,16 @@
     "grund": "kein TMDB-Eintrag (Abruf ausstehend oder TMDB kennt die Serie nicht), keine weitere erlaubte Quelle"
   },
   "189123": {
-    "offen": 5,
+    "offen": 6,
     "grund": "kein TMDB-Eintrag (Abruf ausstehend oder TMDB kennt die Serie nicht), keine weitere erlaubte Quelle"
   },
   "195539": {
     "offen": 10,
     "grund": "TMDB führt nur Platzhalter („Folge N\", englisch gleich); keine weitere erlaubte Quelle"
+  },
+  "203275": {
+    "offen": 1,
+    "grund": "Folge 1: kein Crunchyroll-Weg, TMDB-Folgenabruf für die Serie steht noch aus (nur Serieneintrag), keine weitere erlaubte Quelle"
   },
   "207254": {
     "offen": 4,
@@ -268,7 +276,7 @@
     "grund": "TMDB hat für diese Folgen nur Platzhalter (3 von 20 Einträgen mit Titel)"
   },
   "213805": {
-    "offen": 5,
+    "offen": 6,
     "grund": "kein TMDB-Eintrag (Abruf ausstehend oder TMDB kennt die Serie nicht), keine weitere erlaubte Quelle"
   }
 }

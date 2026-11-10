@@ -1,12 +1,12 @@
 /**
- * Test für `tools/claude-global/hooks/subagent-schreibsperre.js`: Subagenten (Hook-Eingabe mit agent_id) schreiben nicht im Hauptordner.
+ * Test für `.claude/hooks/subagent-schreibsperre.js`: Subagenten (Hook-Eingabe mit agent_id) schreiben nicht im Hauptordner.
  */
 import assert from 'node:assert/strict'
 import { createRequire } from 'node:module'
 import { join } from 'node:path'
 
 const require = createRequire(import.meta.url)
-const { pruefe } = require(join(import.meta.dirname, 'claude-global', 'hooks', 'subagent-schreibsperre.js'))
+const { pruefe } = require(join(import.meta.dirname, '..', '.claude', 'hooks', 'subagent-schreibsperre.js'))
 
 const HAUPT = 'C:/code/ai/anime-kalender-de'
 const WT = 'C:/code/_worktrees/anime-kalender-de/thema'

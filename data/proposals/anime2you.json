@@ -1,56 +1,105 @@
 {
-  "scrapedAt": "2026-11-09T05:02:52.972Z",
+  "scrapedAt": "2026-11-10T18:02:43.657Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 40,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 57,
-    "schon in einem Rubrik-Feed gelesen": 26,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 17,
+    "schon in einem Rubrik-Feed gelesen": 4,
     "Sprachhinweis älter als 45 Tage": 6
   },
   "proposals": [
     {
-      "articleTitle": "Zwei weitere Anime-Neuzugänge ab sofort auf Joyn verfügbar",
-      "articleUrl": "https://www.anime2you.de/news/1069021/joyn-yaiba-samurai-legend-und-mehr/",
-      "publishedAt": "2026-11-08",
-      "category": "streaming",
+      "articleTitle": "Neuer Fantasy-Anime »Devils‘ Crest« auf Prime Video erhält zwei Cours",
+      "articleUrl": "https://www.anime2you.de/news/1069473/devils-crest-erhaelt-zwei-cours/",
+      "publishedAt": "2026-11-10",
+      "category": "allgemein",
       "platforms": [
-        "joyn"
+        "primevideo"
       ],
       "dates": [],
       "dub": "ja",
-      "zeiten": [
-        {
-          "tag": "Freitag",
-          "zeit": "18:30",
-          "satz": "ins Chaos zu stürzen. »YAIBA: Samurai Legend« Episoden: 2 von 24 Sprache: Deutsch Hinweis: Neue Episoden erscheinen jeweils nach der TV-Ausstrahlung auf ProSieben MAXX (Montag bis Freitag um 18:30 Uhr) Stream: Joyn (kostenlos) Handlung: Yai"
-        }
-      ],
+      "hinweis": "sprache",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Pluto TV nimmt zwei Anime-Neuzugänge auf Deutsch ins Programm",
+      "articleUrl": "https://www.anime2you.de/news/1069625/pluto-tv-shield-hero-und-mehr/",
+      "publishedAt": "2026-11-10",
+      "category": "streaming",
+      "platforms": [],
+      "dates": [],
+      "dub": "ja",
       "alreadyCurated": false,
       "sammel": [
         {
-          "titel": "Akira",
+          "titel": "Dr. STONE",
+          "zusatz": "Staffel 2",
           "deutsch": true,
           "woechentlich": false,
           "stream": [
-            "Joyn (kostenplichtig)"
-          ],
-          "datum": "2026-11-08",
-          "datumGeschaetzt": true
+            "Pluto TV"
+          ]
         },
         {
-          "titel": "YAIBA: Samurai Legend",
+          "titel": "The Rising of the Shield Hero",
+          "zusatz": "Staffel 1",
           "deutsch": true,
           "woechentlich": false,
           "stream": [
-            "Joyn (kostenlos)"
+            "Pluto TV"
           ],
-          "datum": "2026-11-08",
-          "datumGeschaetzt": true
+          "folgen": 25
         }
       ],
-      "sammelGelesen": "2026-11-09"
+      "sammelGelesen": "2026-11-10"
+    },
+    {
+      "articleTitle": "Große Anime-Rabattaktion mit Serien und Filmen bei Amazon gestartet",
+      "articleUrl": "https://www.anime2you.de/news/1070093/amazon-grosse-serien-und-filme-rabattaktion/",
+      "publishedAt": "2026-11-10",
+      "category": "disc",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-11-30",
+          "context": "line-Händler Amazon bietet im Rahmen einer neuen Rabattaktion bis zum 30. November 2026 zahlreiche Anime-DVDs und -Blu-rays zu reduzierten P"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Netflix zeigt Slice-of-Life-Anime »Hirayasumi« im Simulcast + Teaser",
+      "articleUrl": "https://www.anime2you.de/news/1069203/netflix-zeigt-hirayasumi-im-simulcast/",
+      "publishedAt": "2026-11-09",
+      "category": "allgemein",
+      "platforms": [
+        "netflix"
+      ],
+      "dates": [
+        {
+          "month": "2027-01",
+          "context": "en Anime-Serie »Hirayasumi« gesichert hat. Wir fassen zusammen. Start im Januar 2027 »Hirayasumi« wird ab Januar 2027 im japanischen Fernseh"
+        }
+      ],
+      "dub": "nein",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Thalia startet große Rabattaktion mit zahlreichen Anime-Produkten",
+      "articleUrl": "https://www.anime2you.de/news/1069214/thalia-singles-day-2026-rabattaktion/",
+      "publishedAt": "2026-11-09",
+      "category": "disc",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-11-11",
+          "context": "mit Gutscheincode Mit dem Gutscheincode GESCHENK gibt es noch bis zum 11. November 2026 einen Preisnachlass von 15 % auf einen Großteil des"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
     },
     {
       "articleTitle": "Start der fünften »Minami-ke«-Staffel steht fest + Teaser",
@@ -409,7 +458,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-11-07"
+      "sammelGelesen": "2026-11-10"
     },
     {
       "articleTitle": "Erster Trailer zum Netflix-Anime »Fool Night« + Visual",
@@ -721,7 +770,7 @@
           "folgen": 13
         }
       ],
-      "sammelGelesen": "2026-11-07"
+      "sammelGelesen": "2026-11-10"
     },
     {
       "articleTitle": "Sieben Disc-Neuheiten ab sofort im AKIBA PASS SHOP vorbestellbar",
@@ -1101,7 +1150,7 @@
           "folgen": 12
         }
       ],
-      "sammelGelesen": "2026-11-07"
+      "sammelGelesen": "2026-11-10"
     },
     {
       "articleTitle": "Disney+ nimmt zwei Anime-Neuzugänge ins Programm",
@@ -1140,7 +1189,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-07"
+      "sammelGelesen": "2026-11-10"
     },
     {
       "articleTitle": "Zwei Anime-Neuzugänge auf Deutsch bei Crunchyroll",
@@ -1190,7 +1239,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-07"
+      "sammelGelesen": "2026-11-10"
     },
     {
       "articleTitle": "Crunchyroll zeigt dritte »Mashle«-Staffel im Simulcast",
@@ -3396,7 +3445,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-02"
+      "sammelGelesen": "2026-11-10"
     },
     {
       "articleTitle": "AniMoon startet Online-Rabattaktion zur Frankfurter Buchmesse 2026",
@@ -3676,7 +3725,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-03"
+      "sammelGelesen": "2026-11-10"
     },
     {
       "articleTitle": "Nutzer verlieren gekaufte Inhalte: Tapas bestätigt Abschaltung für 2027",
@@ -3809,7 +3858,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-02"
+      "sammelGelesen": "2026-11-10"
     },
     {
       "articleTitle": "Anime-Drama »A New Dawn« erscheint auf Blu-ray + Design",
@@ -3932,7 +3981,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-02"
+      "sammelGelesen": "2026-11-10"
     },
     {
       "articleTitle": "23 Blu-ray-Termine von AniMoon, Crunchyroll und peppermint verschoben",
@@ -4206,7 +4255,7 @@
           "folgen": 13
         }
       ],
-      "sammelGelesen": "2026-11-02"
+      "sammelGelesen": "2026-11-10"
     },
     {
       "articleTitle": "Drei Anime-Serien verlassen bald den Prime-Video-Katalog",
@@ -4317,7 +4366,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-03"
+      "sammelGelesen": "2026-11-10"
     },
     {
       "articleTitle": "Netflix startet große Werbeoffensive in 15 weiteren Ländern",
@@ -4401,7 +4450,7 @@
           "datum": "2026-10-01"
         }
       ],
-      "sammelGelesen": "2026-11-03"
+      "sammelGelesen": "2026-11-10"
     },
     {
       "articleTitle": "Neue Mehrwertsteuer-Aktion bei MediaMarkt und SATURN",
@@ -4544,7 +4593,7 @@
           "datum": "2026-10-06"
         }
       ],
-      "sammelGelesen": "2026-11-03"
+      "sammelGelesen": "2026-11-10"
     },
     {
       "articleTitle": "AKIBA PASS TV kündigt zwei neue Herbst-Simulcasts 2026 an",
@@ -4576,7 +4625,7 @@
           "datum": "2026-09-30"
         }
       ],
-      "sammelGelesen": "2026-11-03"
+      "sammelGelesen": "2026-11-10"
     },
     {
       "articleTitle": "Crunchyroll ergänzt drei Anime-Neuzugänge + Synchro",
@@ -4626,7 +4675,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-03"
+      "sammelGelesen": "2026-11-10"
     },
     {
       "articleTitle": "AniMoon-Angebot: »Higurashi GOU«-Komplettset zum Sonderpreis",

@@ -917,3 +917,7 @@
   url: https://www.amazon.de/gp/video/detail/B0FX4Q35V2
   grund: 'Seite hat eine Folge „The Birth of Kitaro: Das Geheimnis von GeGeGe“ (erschienen 18.11.2025, 105 min, polyband) = Shinsei-ban 2024 (10019697), nicht das Original von 2023'
   entferntAm: '2026-11-04'
+- anilistId: 182587
+  url: https://www.amazon.de/dp/B0B7D5DRV2
+  grund: 'Seite B0B7D5DRV2 ist Staffel 1 (150672, Zuordnung prime-zugeordnet.json); die Staffel-1-Meldungen an der Adresse B0GFPBT6FG nennen sie in der Notiz und wurden auch an 182587 gehängt (#3316, Bestandsbau 10.11.2026)'
+  entferntAm: '2026-11-10'
