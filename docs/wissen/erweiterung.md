@@ -997,8 +997,30 @@ und `akPrimeMeldungWiderspruch` wies den Klick ab, ohne dass der Besucher einen 
   („48 Prime-Titel · 2 Suchen offen · Liste veraltet") und eine so lange Beschriftung, dass es in jeder Schrift gilt.
 - **Diagnose:** `knopfLage.imKasten` fragte nach dem Elternelement des Knopfes (`ak-z-melden`) und meldete im Kasten
   stets `false`; jetzt `closest('.ak-amazon-suchhinweis')`.
-- **Offen (Entscheidung Daniel):** Eine unbekannte Prime-Seite (nicht in der ausgelieferten Prüfliste) zeigt weiter
-  keinen Knopf. Soll dort ein Kasten „nicht auf der Prüfliste" stehen? Das ist eine Änderung der Regel „Weg statt grau".
+- **Entschieden (Daniel, F109 = A, 07.11.2026):** Eine unbekannte Prime-Seite zeigt den Kasten, siehe nächster Abschnitt.
+
+## Unbekannte Prime-Seiten melden: „Nicht auf der Prüfliste" + „Sprache melden" (F109 = A, 07.11.2026)
+
+Die Regel „Weg statt grau" (27.08.2026) ist für Prime-Video-Seiten aufgehoben: Eine Seite, die weder in der Prüfliste steht
+noch Suchauftrag noch Staffel einer bekannten Serie ist, zeigt den Kasten mit der Kopfzeile „Nicht auf der Prüfliste: <Titel> · <Kennung>"
+und dem Knopf „… · Sprache melden". **Weg bleibt der Knopf** auf Seiten ohne Prime-Video-Merkmal (`seiteGehtUnsAn()`: `/gp/video/`,
+Hydration-Block, Folgen-Reiter) und solange die Prüfliste nicht geladen ist (leer) — sonst hieße jede Seite „unbekannt".
+Die Entscheidung steht in `meldenVersteckt()` (`amazon.js`, Regel `akPrimeKnopfVersteckt` in `prime-region.js`) und gilt für Knopf und Kopfzeile gemeinsam.
+
+- **Die Meldung trägt**, was jede Meldung trägt (Seitentitel als `titel`, Kennung als `seiten_kennung`, `gti=` in der Notiz, Sprachen, Staffel, Folgenzahl),
+  dazu in der Notiz `unbekannt=1` (vorher nur der Text „Staffel nicht im Bestand, Titel von der Seite gelesen"; „· neu" am Knopf entfällt).
+- **Der Bau (`fetch-pruefungen.ts`)** ordnet eine Meldung ohne `titelId` und ohne bekannte Adresse über den Namen zu (`ratePerName`,
+  `pipeline/lib/namens-zuordnung.ts`; nur ein **exakter** Treffer auf genau einen Titel in `titles.json` entscheidet selbst). Alles andere
+  bleibt im Briefkasten und steht in `daniel-zum-abarbeiten/listen/11-meldungen-ohne-zuordnung.md` mit Grund (`pipeline/lib/unbekannte-seite.ts`):
+  **mehrdeutig** (mehrere oder nur ähnliche Treffer im Bestand, Vorschläge), **Katalog ohne Synchro** (exakter Name in `ohne-synchro-namen.json`: das Werk ist bekannt, die
+  Synchro nicht belegt; hier wird nichts automatisch eingetragen), **ohne Treffer** (Kandidat für einen neuen Titel). Das Protokoll zählt jeden Ausgang:
+  `Unbekannte Prime-Seiten: N gemeldet — a über den Namen zugeordnet, b über die Adresse, c mehrdeutig, d im Katalog ohne Synchro, e ohne Treffer`.
+- **Prüffälle:** `extension/prime-kasten-unbekannt.test.cjs` (Regel mit jeder Teilbedingung allein, Kopfzeile), `extension/meldekasten.test.cjs` (echtes `zeichnenRoh()`),
+  `extension/amazon-melden-spa-wechsel.test.cjs` (echter Klick sendet mit `unbekannt=1`), `pipeline/check-fetch-pruefungen-unbekannt.ts` (Prozess gegen Wegwerf-Wurzel: alle Ausgänge).
+  Mutationsliste: `tools/mutationen/prime-kasten-unbekannt.json`.
+- **Messpunkte:** erste Meldung über den neuen Kasten, nach 5 Meldungen, nach einer Woche — jeweils die Zählzeile des Bauprotokolls (zugeordnet / mehrdeutig / Katalog / ohne Treffer).
+- **Offen:** Ob ein eindeutiger Treffer im Katalog ohne Synchro automatisch einen Synchro-Beleg bekommen soll (Titel kommt dann in den Hauptbestand), ist nicht
+  entschieden und nicht gebaut; bis dahin Handarbeit aus der Liste ohne Zuordnung.
 
 ## Wer einen Fehlalarm abstellt, muss sagen, was der Wächter noch fangen soll
 
