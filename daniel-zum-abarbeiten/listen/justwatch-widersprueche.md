@@ -15,7 +15,7 @@ JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine
 |---|---|---|---|---|
 | crunchyroll | 7 | 0 | 0.0 % | Flagge |
 | disneyplus | 14 | 0 | 0.0 % | Flagge |
-| primevideo | 138 | 1 | 0.7 % | Flagge |
+| primevideo | 139 | 1 | 0.7 % | Flagge |
 
 ### Widersprüche (1)
 
@@ -23,7 +23,7 @@ JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine
 |---|---|---|---|---|
 | Vampire Hunter D: Bloodlust (543) | primevideo | https://watch.amazon.de/detail?gti=amzn1.dv.gti.68239688-dba5-4abc-a3b5-5e554d51081f | de, Stand 2026-10-26 | Handbeleg 2026-10-31 |
 
-### Kandidaten für neue Wege (776)
+### Kandidaten für neue Wege (778)
 
 JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „Weg ohne Kennung“: ein Weg zum Anbieter steht, seine Adresse trägt aber keine Seitenkennung.
 
@@ -171,6 +171,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Pandora Hearts (5530) | Crunchyroll | crunchyroll:GJWU2JK1N | ja |
 | Pandora Hearts (5530) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.8b4efbde-c851-422e-931e-7598f45aff00 | nein |
 | Haruka und der Zauberspiegel (5998) | Amazon Prime Video | amazon:amzn1.dv.gti.51440b34-6eb4-4f4e-9d02-e0e011e6f577 | ja |
+| Lupin III. vs Detektiv Conan: The Special (6115) | Crunchyroll | crunchyroll:GX9UQKVVN | ja |
 | Pokémon: Arceus und das Juwel des Lebens (6178) | Amazon Video | amazon:amzn1.dv.gti.ccb90391-26fd-f040-35a7-f29568416e98 | ja |
 | Eden of the East: Der König von Eden (6372) | Amazon Video | amazon:amzn1.dv.gti.e4a9f6b0-ffc4-3419-4e89-2232ca094c33 | ja |
 | Detektiv Conan: Das verlorene Schiff im Himmel (6467) | Crunchyroll | crunchyroll:GZ7UVPD78 | ja |
@@ -184,6 +185,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Colorful (8142) | Amazon Prime Video | amazon:amzn1.dv.gti.0722b01c-a8e5-49a2-b7fc-1ddca7b06322 | ja |
 | Gosick (8425) | Amazon Prime Video | amazon:amzn1.dv.gti.91b75e17-bbb0-43d9-9d74-8ab7ed521338 | ja |
 | Fullmetal Alchemist: The Sacred Star of Milos (9135) | Amazon Video | amazon:amzn1.dv.gti.06ba5df2-b217-ab6a-5700-9958479f962c | ja |
+| Motto To Love-Ru: Trouble (9181) | Anime Digital Network Amazon Channel | amazon:amzn1.dv.gti.b736b2f5-0e9f-42f2-bd8b-a0c1ffd62b48 | ja |
 | Coppelion (9479) | Crunchyroll | crunchyroll:GZ7UVK717 | ja |
 | Coppelion (9479) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.64003626-91da-4425-98d7-0266a3c3451b | ja |
 | Resident Evil: Damnation (9544) | Amazon Video | amazon:amzn1.dv.gti.bca9f6e1-bd47-1678-b717-de78fbeabb5c | ja |
@@ -734,7 +736,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | May I Ask for One Final Thing? (181447) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.26996afa-102d-46d0-8778-b4fcf61904bb | nein |
 | Dark Moon: The Blood Altar (181443) | Crunchyroll | crunchyroll:GE00366126DEDE | nein |
 | Dark Moon: The Blood Altar (181443) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.233082bf-86cf-4248-a368-093ace5947b0 | nein |
-| Miss Kobayashi’s Dragon Maid: Ein einsamer Drache sehnt sich nach Liebe (181839) | Crunchyroll | crunchyroll:GMEE00351664JAJP | nein |
+| Miss Kobayashi’s Dragon Maid: Ein einsamer Drache sehnt sich nach Liebe (181839) | Crunchyroll | crunchyroll:GMEE00351664ES419 | nein |
 | Miss Kobayashi’s Dragon Maid: Ein einsamer Drache sehnt sich nach Liebe (181839) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.1e61a3d8-44c3-4dc0-ae7c-5c655deceff5 | nein |
 | City The Animation (181841) | Amazon Prime Video | amazon:amzn1.dv.gti.8c1f778c-d940-4c50-895a-f498c55101f3 | ja |
 | The Gorilla God’s Go-To Girl (182060) | Crunchyroll | crunchyroll:GD9UEGZVN | nein |
