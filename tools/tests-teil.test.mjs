@@ -39,6 +39,7 @@ assert.notDeepEqual(waehleTeil(namen, { k: 1, n: 2 }, []), eins, 'die Liste der 
 const ordner = mkdtempSync(join(tmpdir(), 'tests-teil-'))
 try {
   mkdirSync(join(ordner, 'tools'))
+  mkdirSync(join(ordner, '.claude', 'hooks'), { recursive: true })
   for (const f of readdirSync(join(WURZEL, 'tools'), { withFileTypes: true })) {
     if (f.isFile() && !f.name.includes('.test.') && /\.(mjs|cjs)$/.test(f.name)) copyFileSync(join(WURZEL, 'tools', f.name), join(ordner, 'tools', f.name))
   }
