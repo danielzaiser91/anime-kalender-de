@@ -51,7 +51,7 @@ console.log('  ✓ Erkennung')
 const S = { 'tools/a-pruefen.mjs': PROGRAMM }
 pruefe('ohne Aufrufer ist rot', S, 1)
 pruefe('package.json ruft auf', { ...S, 'package.json': paket('node tools/a-pruefen.mjs') }, 0)
-pruefe('package.json in Unterordner ruft auf', { ...S, 'tools/claude-global/hooks/package.json': paket('node tools/a-pruefen.mjs') }, 0)
+pruefe('package.json in Unterordner ruft auf', { ...S, '.claude/hooks/package.json': paket('node tools/a-pruefen.mjs') }, 0)
 pruefe('Workflow ruft auf', { ...S, '.github/workflows/w.yml': workflow('node tools/a-pruefen.mjs') }, 0)
 pruefe('Action ruft auf', { ...S, '.github/actions/a/action.yml': workflow('node tools/a-pruefen.mjs') }, 0)
 pruefe('Liste ruft auf', { ...S, 'tools/check-logic-liste.txt': 'tools/a-pruefen.mjs\n' }, 0)

@@ -244,6 +244,41 @@ export function namenIndex(): Map<string, number> {
   return namen
 }
 
+/**
+ * Liest je Tag und Sender die tv.de-Seite. Die erste Antwort 403 beendet den Abruf (Sperre seit 06.11.2026):
+ * weitere Seiten verlängern sie nur. Nichtauskunft, kein Befund.
+ */
+export async function tvDeSeitenLesen(
+  abruf: typeof fetch,
+  tage: string[],
+  slugs: string[],
+  verarbeite: (slug: string, tag: string, html: string) => void,
+  pause: () => Promise<void> = () => new Promise((ok) => setTimeout(ok, 1500)),
+): Promise<{ seiten: number; gesperrt: boolean }> {
+  let seiten = 0
+  for (const tag of tage) {
+    const [j, m, t] = tag.split('-')
+    for (const slug of slugs) {
+      try {
+        const antwort = await abruf(`https://tv.de/sender/${slug}/${t}.${m}.${j}/`, {
+          headers: { 'User-Agent': 'anime-kalender-de (https://anime-kalender.de; einmal am Tag, nur Anime)' },
+        })
+        if (antwort.status === 403) {
+          warn(`tv.de ${slug} ${tag}: HTTP 403 — Abruf beendet, nächster Versuch morgen`)
+          return { seiten, gesperrt: true }
+        }
+        if (!antwort.ok) throw new Error(`HTTP ${antwort.status}`)
+        seiten++
+        verarbeite(slug, tag, await antwort.text())
+      } catch (err) {
+        warn(`tv.de ${slug} ${tag}: ${err instanceof Error ? err.message : String(err)}`)
+      }
+      await pause()
+    }
+  }
+  return { seiten, gesperrt: false }
+}
+
 export async function main(): Promise<void> {
   /* Fällt eine Quelle aus, arbeitet die andere weiter — gemeldet wird trotzdem. */
   let sendungen: ReturnType<typeof sendungenAusSeite> = []
@@ -292,41 +327,31 @@ export async function main(): Promise<void> {
   let tvdeSeiten = 0
   const tvdeFaellig = datei.tvdeGeholtAm !== heute || process.argv.includes('--tvde')
   if (!tvdeFaellig) log(`tv.de heute schon geholt (${datei.tvdeGeholtAm}) — übersprungen.`)
-  for (let d = -1; tvdeFaellig && d <= 7; d++) {
-    const tag = new Date(Date.now() + d * 864e5).toISOString().slice(0, 10)
-    const [j, m, t] = tag.split('-')
-    for (const [slug, name] of Object.entries(TVDE_SENDER)) {
-      try {
-        const antwort = await fetch(`https://tv.de/sender/${slug}/${t}.${m}.${j}/`, {
-          headers: { 'User-Agent': 'anime-kalender-de (https://anime-kalender.de; einmal am Tag, nur Anime)' },
-        })
-        if (!antwort.ok) throw new Error(`HTTP ${antwort.status}`)
-        tvdeSeiten++
-        for (const s of tvDeSendungen(await antwort.text(), tag)) {
-          const titleId = titelZuordnen(s.titel, namen)
-          if (!titleId) continue
-          const kennung = `tvde_${slug}+${s.kennung}`
-          if (!bestand[kennung]) neu++
-          tvde++
-          bestand[kennung] = {
-            titleId,
-            titel: s.titel,
-            ...(s.folge ? { folge: s.folge } : {}),
-            sender: name,
-            start: s.start,
-            ende: s.ende,
-            gesehenAm: bestand[kennung]?.gesehenAm ?? heute,
-          }
-          log(`  ${name} ${s.start.slice(0, 16)} ${s.titel}${s.folge ? ` — ${s.folge}` : ''} → ${titleId} (tv.de)`)
-        }
-      } catch (err) {
-        warn(`tv.de ${slug} ${tag}: ${err instanceof Error ? err.message : String(err)}`)
+  const tage = Array.from({ length: 9 }, (_, i) => new Date(Date.now() + (i - 1) * 864e5).toISOString().slice(0, 10))
+  const lauf = await tvDeSeitenLesen(fetch, tvdeFaellig ? tage : [], Object.keys(TVDE_SENDER), (slug, tag, html) => {
+    const name = TVDE_SENDER[slug]!
+    for (const s of tvDeSendungen(html, tag)) {
+      const titleId = titelZuordnen(s.titel, namen)
+      if (!titleId) continue
+      const kennung = `tvde_${slug}+${s.kennung}`
+      if (!bestand[kennung]) neu++
+      tvde++
+      bestand[kennung] = {
+        titleId,
+        titel: s.titel,
+        ...(s.folge ? { folge: s.folge } : {}),
+        sender: name,
+        start: s.start,
+        ende: s.ende,
+        gesehenAm: bestand[kennung]?.gesehenAm ?? heute,
       }
-      await new Promise((ok) => setTimeout(ok, 1500))
+      log(`  ${name} ${s.start.slice(0, 16)} ${s.titel}${s.folge ? ` — ${s.folge}` : ''} → ${titleId} (tv.de)`)
     }
-  }
+  })
+  tvdeSeiten = lauf.seiten
+  const tvdeGesperrt = lauf.gesperrt
   /* Nachtblöcke: je gesichteter Reihe und Sender einmal die Detailseite mit „Bald im TV". */
-  if (tvdeFaellig) {
+  if (tvdeFaellig && !tvdeGesperrt) {
     const reihen = new Map<string, { slug: string; kennung: string; titel: string; titleId: number; sender: string }>()
     for (const [k, v] of Object.entries(bestand)) {
       const m = /^tvde_([^+]+)\+(\d+)$/.exec(k)
@@ -375,15 +400,22 @@ export async function main(): Promise<void> {
   if (TROCKEN) return
   writeJson(DATEI, {
     geholtAm: new Date().toISOString(),
-    tvdeGeholtAm: tvdeSeiten ? heute : datei.tvdeGeholtAm,
+    tvdeGeholtAm: tvdeMarke(tvdeSeiten, tvdeGesperrt, heute, datei.tvdeGeholtAm),
     sendungen: bestand,
   })
   if (sendungen.length) recordSource('tv-programm', sendungen.length)
-  if (tvdeFaellig) meldeTvDe(tvde, tvdeSeiten)
+  if (tvdeFaellig) meldeTvDe(tvde, tvdeSeiten, tvdeGesperrt)
+}
+
+/** Tagesmarke: nach Erfolg und nach einer Sperre (403) ruht tv.de bis morgen; sonst bleibt die alte stehen. */
+export function tvdeMarke(seiten: number, gesperrt: boolean, heute: string, alt: string | undefined): string | undefined {
+  return seiten > 0 || gesperrt ? heute : alt
 }
 
 /** Meldet den tv.de-Abruf. Seiten gelesen, aber keine Sendung erkannt = Markup geändert (05.10.2026: `tw-flex` wurde `tw:flex`, vier Tage lang null Sendungen bei grünem Lauf). */
-function meldeTvDe(sendungen: number, seiten: number): void {
+export function meldeTvDe(sendungen: number, seiten: number, gesperrt = false): void {
+  /* Auch eine Teilsperre (erst Seiten gelesen, dann 403) bleibt in der Health sichtbar: kein lastOk, Fehlertext bleibt. */
+  if (gesperrt) return recordSource('tv-de', 0, 'gesperrt (HTTP 403)', 0, false)
   const keineErkannt = seiten > 0 && sendungen === 0
   const fehler = seiten ? (keineErkannt ? 'Seiten gelesen, aber keine Sendung erkannt (Markup geändert?)' : undefined) : 'keine Seite gelesen'
   recordSource('tv-de', sendungen, fehler, keineErkannt ? 0 : seiten, seiten > 0 && !keineErkannt)

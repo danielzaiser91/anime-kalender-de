@@ -39,6 +39,7 @@ assert.notDeepEqual(waehleTeil(namen, { k: 1, n: 2 }, []), eins, 'die Liste der 
 const ordner = mkdtempSync(join(tmpdir(), 'tests-teil-'))
 try {
   mkdirSync(join(ordner, 'tools'))
+  mkdirSync(join(ordner, '.claude', 'hooks'), { recursive: true })
   for (const f of readdirSync(join(WURZEL, 'tools'), { withFileTypes: true })) {
     if (f.isFile() && !f.name.includes('.test.') && /\.(mjs|cjs)$/.test(f.name)) copyFileSync(join(WURZEL, 'tools', f.name), join(ordner, 'tools', f.name))
   }
@@ -61,6 +62,11 @@ try {
   const ganz = lauf()
   assert.equal(ganz.status, 0, ganz.stderr)
   assert.match(ganz.stdout, /tests-alle: 4 von 4 Tests grün\./, 'ohne --teil laufen alle vier')
+  writeFileSync(join(ordner, '.claude', 'hooks', 'h-test.mjs'), "console.log('h-lief')\n")
+  const mitHook = lauf()
+  assert.equal(mitHook.status, 0, mitHook.stderr)
+  assert.match(mitHook.stdout, /tests-alle: 5 von 5 Tests grün\./, 'Hook-Test unter .claude/hooks zählt mit')
+  assert.ok(mitHook.stdout.includes('h-lief'), 'Hook-Test läuft wirklich (Aufruf in tests-alle)')
   const falsch = lauf('--teil', '3/2')
   assert.notEqual(falsch.status, 0, '--teil 3/2: Exit ungleich 0')
   assert.match(falsch.stderr, /--teil verlangt k\/n/, '--teil 3/2: Meldung')

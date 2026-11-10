@@ -1,5 +1,5 @@
 {
-  "stand": "2026-11-10T09:21:18.746Z",
+  "stand": "2026-11-10T10:54:01.998Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -5242,6 +5242,17 @@
       "titel": "Naruto Spin off! Rock Lee & seine Ninja-Kumpels",
       "plattform": "crunchyroll",
       "url": "http://www.crunchyroll.com/de/naruto-spin-off-rock-lee-his-ninja-pals",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-11-10",
+      "letzterWeg": false
+    },
+    {
+      "titleId": 14719,
+      "titel": "JoJo’s Bizarre Adventure",
+      "plattform": "adn",
+      "url": "https://animationdigitalnetwork.com/de/video/444-jojo-s-bizarre-adventure",
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
