@@ -9,6 +9,7 @@ import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import type { Release } from '../shared/types.ts'
 import { TerminZeile } from '../web/src/components/detail/termin-zeile.tsx'
+import { LiveLink } from '../web/src/components/detail/live-link.tsx'
 import { kurzeAusgabe } from '../web/src/components/detail/disc-ausgabe.ts'
 import { tvQuelle } from '../web/src/components/detail/tv-quelle.ts'
 
@@ -110,6 +111,10 @@ const maxx = zeile(tvTermin(), { ...tvAngabe, programm: PROGRAMM })
 pruefe('ProSieben MAXX: Link zum Livestream, daneben das Programm', links(maxx).includes(LIVE) && links(maxx).includes(PROGRAMM), links(maxx))
 pruefe('… genau einmal, in neuem Tab, mit noopener und Hinweis „Live auf Joyn“', links(maxx).filter((l) => l === LIVE).length === 1 && maxx.includes('aria-label="Live auf Joyn"') && maxx.includes('rel="noopener"'))
 pruefe('Schreibweise egal: „PROSIEBEN MAXX“', links(zeile(tvTermin({ sender: 'PROSIEBEN MAXX' }), tvAngabe)).includes(LIVE))
+pruefe('Live-Knopf nennt den Sender der Zeile: „PROSIEBEN MAXX live“', text(zeile(tvTermin({ sender: 'PROSIEBEN MAXX' }), tvAngabe)).includes('PROSIEBEN MAXX live'))
+pruefe('Knöpfe sitzen als Fußzeile in der Fläche der Chip (eine Fläche)', maxx.split('border-ak-linie').length === 2 && maxx.indexOf('border-ak-linie') < maxx.indexOf(LIVE))
+pruefe('Live-Knopf ohne Sender: nur das Zeichen, 44 px', ((h) => !h.includes(' live') && h.includes('size-11'))(renderToStaticMarkup(createElement(LiveLink, { url: LIVE, hinweis: 'Live auf Joyn' }))))
+pruefe('anderer Sender: kein „live“-Text', !text(zeile(tvTermin({ sender: 'TOGGO' }), tvAngabe)).includes('TOGGO live'))
 pruefe('anderer Sender: kein Livestream-Link', !links(zeile(tvTermin({ sender: 'TOGGO' }), tvAngabe)).includes(LIVE))
 pruefe('MAXX-Name als Präfix („ProSieben MAXX HD“) trifft nicht', !links(zeile(tvTermin({ sender: 'ProSieben MAXX HD' }), tvAngabe)).includes(LIVE))
 pruefe('Stream-Termin ohne Sender: kein Livestream-Link', !links(zeile(tvTermin({ platform: 'primevideo', sender: undefined, releaseType: 'weekly' }))).includes(LIVE))

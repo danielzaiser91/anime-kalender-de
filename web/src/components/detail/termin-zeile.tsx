@@ -277,6 +277,13 @@ export function TerminZeile({ release, titel, today, tvText, deutsch }: {
       </LangMitTooltip>
     </>
   )
+  const knoepfe = (
+    <>
+      {live && <LiveLink url={live.url} hinweis={t('tv.live', { name: live.name })} sender={release.sender} />}
+      {tvLink && <ProgrammLink href={tvLink.href} hinweis={tvLink.hinweis} />}
+      <MerkenKnopf release={release} today={today} zeile />
+    </>
+  )
   return (
     <Pille
       name={terminName(release, titel, t, zeigtPremiere(release, tvText?.premiere))}
@@ -286,13 +293,8 @@ export function TerminZeile({ release, titel, today, tvText, deutsch }: {
       icon={release.releaseType !== 'disc' ? <AnbieterIcon was={tv ? (release.sender ?? '') : release.platform} groesse={18} /> : undefined}
       unten={unten}
       status={deutsch ? <DubStatus art="belegt" /> : undefined}
-      aktion={
-        <>
-          {live && <LiveLink url={live.url} hinweis={t('tv.live', { name: live.name })} />}
-          {tvLink && <ProgrammLink href={tvLink.href} hinweis={tvLink.hinweis} />}
-          <MerkenKnopf release={release} today={today} zeile />
-        </>
-      }
+      aktion={live || tvLink ? undefined : knoepfe}
+      fuss={live || tvLink ? knoepfe : undefined}
     />
   )
 }
