@@ -102,11 +102,11 @@ await fall('Abruf: Mindestabstand zwischen zwei Abrufen (ohne Pause rot)', async
     return antwort(200, 'Text')
   }
   const warteFn = async (ms) => void ablauf.push(ms)
-  const hole = erstelleHoler({ fetchFn, warteFn, pauseMs: 80, ordner: `${TEST_ORDNER}/pause` })
+  const hole = erstelleHoler({ fetchFn, warteFn, pauseMs: 60000, ordner: `${TEST_ORDNER}/pause` })
   await hole('de', 'A')
   await hole('de', 'B')
   await hole('en', 'C')
-  const form = ablauf.map((e) => (e === 'abruf' ? 'abruf' : e > 0 && e <= 80 ? 'pause' : `?${e}`))
+  const form = ablauf.map((e) => (e === 'abruf' ? 'abruf' : e >= 59000 && e <= 60000 ? 'pause' : `?${e}`))
   assert.deepEqual(form, ['abruf', 'pause', 'abruf', 'pause', 'abruf'])
 })
 
