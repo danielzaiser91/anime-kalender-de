@@ -63,6 +63,7 @@ erwarte('ein weiterer Beleg derselben Kennung ohne Löschung ist kein Wechsel', 
 erwarte('Adresse bleibt, anderer Block wird neu: kein Wechsel', urteil(alt, [...alt, { anilistId: 7, url: `${SEITE}B0DDDDDDDD` }]), { wechsel: 0, ungedeckt: [] })
 erwarte('Pauschalblock und umgehängter Block an derselben Adresse: ein Wechsel, ein Eintrag', urteil([alt[0], { ...alt[0], note: 'Amazon-Seite B0GFPBT6FG' }], neu), { wechsel: 1, ungedeckt: [ALTE] })
 erwarte('zwei Adresswechsel derselben Kennung: beide genannt', urteil([...alt, { ...alt[0], url: `${SEITE}B0EEEEEEEE` }], neu).ungedeckt, [ALTE, `150672 ${SEITE}B0EEEEEEEE`])
+erwarte('dieselbe Seite in dp-Form statt gp/video/detail ist kein Wechsel', urteil(alt, [{ ...alt[0], url: 'https://www.amazon.de/dp/B0GFPBT6FG' }, ...neu]), { wechsel: 0, ungedeckt: [] })
 erwarte('leere Listen', urteil([], []), { wechsel: 0, ungedeckt: [] })
 erwarte('Beleg ohne Adresse wird übergangen', urteil([{ anilistId: 1 }], neu), { wechsel: 0, ungedeckt: [] })
 
