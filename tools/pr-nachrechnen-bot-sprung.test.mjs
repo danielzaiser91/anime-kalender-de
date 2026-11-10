@@ -104,6 +104,7 @@ for (const d of HAND) {
 for (const d of ['data/ann-ids.json', 'data/anisearch-raw/1.json.gz', 'data/proposals/x.json']) pruefe(`A2: ${d} steht auf der Positivliste`, erzeugteDatei(d) === true)
 pruefe('A2: Positivliste enthält keine Handdatei (*.yaml, *hand*, von-hand)', ERZEUGTE_DATEIEN.every((n) => !/\.ya?ml$|hand|ankuendigungen|kanal-seiten|cartoon-umzug|curated-ids|zuordnung-fremd/.test(n)), ERZEUGTE_DATEIEN.filter((n) => /\.ya?ml$|hand|kanal-seiten/.test(n)))
 pruefe('A2: Positivliste ist sortiert und ohne Dubletten', ERZEUGTE_DATEIEN.every((n, i) => i === 0 || ERZEUGTE_DATEIEN[i - 1] < n))
+pruefe('A2: derselbe Name außerhalb von data/ (fünf beliebige Zeichen davor) zählt nicht', erzeugteDatei('abcdeann-ids.json') === false && erzeugteDatei('tools/ann-ids.json') === false && erzeugteDatei('data/unter/ann-ids.json') === false)
 // Weitere Gegenproben je Bedingung: Leser-Regel entscheidet, Urteil „veraltet“.
 for (const [name, commits] of [
   ['ein Mensch dazwischen', [...echt, { autor: 'danielzaiser91', dateien: ['data/ann-ids.json'] }]],
@@ -142,6 +143,8 @@ pruefe('botSprungAusnahme: umbenannt, alter Name in PR -> berührt', botSprungAu
   }
   const r = commitDateien(git)('b', 'm')
   pruefe('commitDateien: Autor und Dateien je Commit, Commit ohne Dateien bleibt', JSON.stringify(r.commits) === JSON.stringify([{ autor: 'claude[bot]', dateien: ['status.md'] }, { autor: 'anime-kalender-daten[bot]', dateien: ['data/ann-ids.json', 'public/data/events.json'] }, { autor: 'github-actions[bot]', dateien: [] }]), r)
+  const at = commitDateien((args) => (args[0] === 'fetch' ? '' : '@@claude[bot]\n\n@types/x.json\n@@github-actions[bot]\n\n'))('b', 'm')
+  pruefe('commitDateien: Datei mit einem @ am Anfang bleibt Datei (Marke ist @@)', JSON.stringify(at.commits) === JSON.stringify([{ autor: 'claude[bot]', dateien: ['@types/x.json'] }, { autor: 'github-actions[bot]', dateien: [] }]), at)
   const f = commitDateien(() => { throw new Error('kaputt\nzweite Zeile') })('b', 'm')
   pruefe('commitDateien: git scheitert -> fehler', f.fehler === 'kaputt' && f.commits === undefined, f)
   const g = commitDateien((args) => (args[0] === 'fetch' ? '' : 'status.md\n'))('b', 'm')

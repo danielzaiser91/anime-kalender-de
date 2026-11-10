@@ -298,6 +298,16 @@ const leserStub = (antwort) => {
   const code = main(['7'], k.gh, k.melde, k.warte, stub)
   pruefe('C: Leser nennt Grund -> 1, neu angestoßen, Meldung trägt den Grund', code === 1 && schreibend(k.aufrufe).length === 4 && k.meldungen.join().includes('der PR liest data/crunchyroll-woche.json (tools/x.mjs)'), { code, m: k.meldungen })
 }
+// Auflage A1 (PR 3384): mit claude[bot] im Sprung entscheidet die Paarung aus git, durch main -> nachrechnen -> datenpfadGrund gereicht.
+for (const [name, paare, code, text] of [
+  ['Wache von claude[bot], Daten vom Datenkonto', () => ({ commits: [{ autor: 'claude[bot]', dateien: ['status.md'] }, { autor: 'anime-kalender-daten[bot]', dateien: ['data/ann-ids.json'] }] }), 0, /nur Bot-Daten bewegt/],
+  ['claude[bot] schreibt Handdaten', () => ({ commits: [{ autor: 'claude[bot]', dateien: ['data/ann-ids.json'] }, { autor: 'anime-kalender-daten[bot]', dateien: ['status.md'] }] }), 1, /der PR ruft x auf/],
+  ['Paarung nicht lesbar', () => ({ fehler: 'kein git' }), 1, /der PR ruft x auf/],
+]) {
+  const k = kulisse(antworten({ mainSha: MAIN, mainDateien: ['data/ann-ids.json', 'status.md'], autoren: ['claude[bot]', 'anime-kalender-daten[bot]'], prDateien: 'tools/x.mjs\n' }))
+  const c = main(['7'], k.gh, k.melde, k.warte, leserStub('der PR ruft x auf'), undefined, paare)
+  pruefe(`A1 Verdrahtung: ${name} -> ${code}`, c === code && text.test(k.meldungen.join()), { c, m: k.meldungen })
+}
 for (const beruehrt of ['data/crunchyroll-woche.json', 'public/data/titles.json']) {
   const stub = leserStub(null)
   const k = kulisse(antworten({ mainSha: MAIN, mainDateien: BOT_MAIN, autoren: GEMISCHT, prDateien: `${CODE_PR}${beruehrt}\n` }))
