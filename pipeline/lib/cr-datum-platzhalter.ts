@@ -27,7 +27,7 @@ export function halteBelegteTermine(vorher: CrSerie | undefined, neu: CrSerie): 
     if (!st.deutscheFolgen) return st
     const deutscheFolgen = st.deutscheFolgen.map((f) => {
       const bisher = alt.get(f.guid)
-      if (!bisher || bisher === f.verfuegbarAb || !istTagesPlatzhalter(f.verfuegbarAb)) return f
+      if (!bisher || !istTagesPlatzhalter(f.verfuegbarAb)) return f
       gehalten++
       return { ...f, verfuegbarAb: bisher }
     })
