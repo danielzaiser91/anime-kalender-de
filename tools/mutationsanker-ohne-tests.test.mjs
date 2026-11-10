@@ -5,7 +5,7 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { ohneTestsEintrag, ratscheLuecken, testsLueckenZeilen } from './mutationsanker.mjs'
-import { BEKANNT_PFAD, basisBekannt, basisImOrdner, bestandPruefen, git, leseVonMain, ratscheRot } from './ratsche-basis.mjs'
+import { BEKANNT_PFAD, basisBekannt, basisImOrdner, basisZeile, bestandPruefen, git, leseVonMain, ratscheRot } from './ratsche-basis.mjs'
 
 const fehler = []
 const pruefe = (name, ok) => {
@@ -110,7 +110,9 @@ try {
 // Bestand: keine echte Liste über dem Stand von origin/main (ohne erreichbares main: über der eigenen Datei).
 const wurzelRepo = fileURLToPath(new URL('../', import.meta.url))
 const { eigen: bekannt, ist, basis, rot } = bestandPruefen(wurzelRepo)
-console.log(basis ? 'Ratsche-Basis: origin/main' : 'Ratsche-Basis: eigene Datei (origin/main nicht erreichbar)')
+console.log(basisZeile(basis))
+pruefe('Warnzeile: Rückfall auf die eigene Datei beginnt mit ⚠ WARNUNG', basisZeile(null).startsWith('⚠ WARNUNG Ratsche-Basis: eigene Datei'))
+pruefe('Warnzeile: erreichbares main ist keine Warnung', basisZeile({ 'a.json': 3 }) === 'Ratsche-Basis: origin/main')
 pruefe(`Bestand: Mutanten ohne tests nur sinkend (${rot.join('; ') || 'ok'})`, rot.length === 0)
 pruefe('Bestand: bekannte Liste existiert noch', Object.keys(bekannt).every((n) => n in ist))
 const summe = Object.values(ist).reduce((a, b) => a + b, 0)

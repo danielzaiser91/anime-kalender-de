@@ -49,6 +49,10 @@ export const angehobeneListen = (eigen, basis) =>
 /** Rote Zeilen der Ratsche: mit Basis gegen main (Ist und Datei dürfen nicht darüber), ohne Basis gegen die eigene Datei. */
 export const ratscheRot = (ist, eigen, basis) => (basis ? [...ratscheLuecken(ist, basis), ...angehobeneListen(eigen, basis)] : ratscheLuecken(ist, eigen))
 
+/** Logzeile zur Basis; der Rückfall auf die eigene Datei ist eine Warnung, damit ein gescheitertes Nachholen von main sichtbar bleibt. */
+export const basisZeile = (basis) =>
+  basis ? 'Ratsche-Basis: origin/main' : '⚠ WARNUNG Ratsche-Basis: eigene Datei (origin/main nicht erreichbar, die Datei im PR gilt als Erlaubnis)'
+
 /** Bestand eines Repo-Ordners: Ist je Liste, eigene Datei, Basis und die roten Zeilen. */
 export function bestandPruefen(wurzel) {
   const eigen = JSON.parse(readFileSync(join(wurzel, BEKANNT_PFAD), 'utf8'))
