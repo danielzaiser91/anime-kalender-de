@@ -82,6 +82,10 @@ Eine Verwerfungsliste mit Zähler genügt nicht, wenn sie normal hoch ist: `term
 
 Ein Abruf einer fremden Liste, die nie leer sein sollte (Soll > 0), warnt sichtbar bei 0 Treffern und bei einem gerissenen Seitenriegel — nicht nur bei einer Ausnahme. `?? []` auf eine geänderte Antwortform macht sonst aus „Quelle kaputt“ still „nichts zu tun“ (PR 2823, JW-Joyn-Liste: One Piece wäre wieder 28 Tage liegen geblieben). Der Test fährt eine Attrappe mit leerer Antwort und erwartet die Warnung.
 
+## Leere Eingabe ist kein Erfolg (09.11.2026)
+
+„Nichts zu tun“ zählt nur als ok, wenn die Eingabeliste nachweislich geladen und nicht leer war. `readJson(…, [])` als Rückfall verdeckt sonst den Ausfall: der Lauf meldet Null statt Fehler (PR 3299, A1).
+
 ## Verwandte Regeln
 
 - `pruefen-und-belegen`: misst, statt zu vermuten — hier geht es um das, was gar nicht erst
