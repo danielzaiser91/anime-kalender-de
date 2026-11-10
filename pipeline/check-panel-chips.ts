@@ -164,6 +164,28 @@ pruefe('Kasten: Verlag Amazon, Angebot bei Netflix — die Zeile bleibt', angebo
 pruefe('kastenNenntSeit: Angebot', kastenNenntSeit(angebot('crunchyroll', '2026-07-20') as never, 'crunchyroll', '2026-07-20') && !kastenNenntSeit(angebot('crunchyroll', '2026-07-20') as never, 'crunchyroll', '2026-07-21'))
 pruefe('seitDatumFuerPille: Datum, wenn der Kasten schweigt; sonst nichts', seitDatumFuerPille(titel(), 'crunchyroll', [termin()]) === '2026-07-20' && seitDatumFuerPille(titel(angebot('crunchyroll', '2026-07-20')), 'crunchyroll', [termin()]) === undefined)
 
+console.log('\nJoyn-Pille: dasselbe Datum nie zweimal (Yaiba, 10.11.2026):')
+const joynSeite = { platform: 'joyn', url: 'https://www.joyn.de/serien/x', dub: true, zugang: 'frei' } as unknown as StreamLink
+const joynHtml = (ab: string, folgen: string): string =>
+  html(
+    streamZeilen({
+      sortiertNachZugang: [{ plattformen: [joynSeite], streamWege: [] }] as never,
+      title: titel({ streams: [joynSeite] }),
+      t,
+      today: '2026-11-04',
+      folgenAngabeFuer: () => folgen,
+      dubZeilen: () => [],
+      releaseJePlattform: new Map(),
+      streamReleases: [],
+      releases: [termin({ platform: 'joyn', schedule: { firstEpisodeDate: ab } as never })],
+      tvVorbei: [],
+    }),
+  )
+const gleichTag = joynHtml('2026-11-05', 'Fg. 1 ab 05.11.')
+pruefe('Folgenangabe nennt den Starttag: kein zweites „ab 05.11.2026“', gleichTag.includes('Fg. 1 ab 05.11.') && !gleichTag.includes('detail.abDatum'), gleichTag.slice(-300))
+pruefe('anderer Tag (06.11. gegen 05.11.): beide Angaben bleiben', joynHtml('2026-11-06', 'Fg. 1 ab 05.11.').includes('detail.abDatum{&quot;d&quot;:&quot;06.11.2026&quot;}'))
+pruefe('Folgenangabe ohne Datum: das „ab“ bleibt', joynHtml('2026-11-05', '≈ Fg. 1').includes('detail.abDatum{&quot;d&quot;:&quot;05.11.2026&quot;}'))
+
 if (verletzt) {
   console.error(`\n${verletzt} Prüfung(en) verletzt`)
   process.exit(1)
