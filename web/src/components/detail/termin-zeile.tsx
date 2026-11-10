@@ -243,7 +243,7 @@ function terminName(release: Release, titel: string | undefined, t: Translate, p
   return (
     <span className="flex min-w-0 flex-wrap items-center gap-x-1.5">
       {medium && <span className="shrink-0 rounded bg-black/10 px-1 py-px text-t5 uppercase tracking-[.08em] dark:bg-white/15">{medium}</span>}
-      <span className="truncate">{kurzerNameVon(release, titel, t)}</span>
+      <span data-termin-name className={release.platform === 'tv' ? '' : 'truncate'}>{kurzerNameVon(release, titel, t)}</span>
       {premiere && <PremiereFaehnchen release={release} />}
     </span>
   )
