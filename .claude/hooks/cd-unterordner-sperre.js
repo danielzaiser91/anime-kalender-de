@@ -4,7 +4,7 @@
 // (auch relativ zum bis dahin verfolgten Verzeichnis). Frei: Ziel = Hauptordner selbst, Ziele außerhalb (Worktrees), nicht bestimmbare
 // Ziele (`$X`, `~`, `-`), `cd` in Klammern/`$(…)`/Backticks (wirkt nur dort), eigene Arbeitsbäume unter dem Hauptordner (`.git` vorhanden).
 // Erkennung Hauptsitzung: `agent_id`/`agent_type` fehlen nur dort (gleiche Annahme wie subagent-schreibsperre.js, befehlsregister.js);
-// Subagenten haben ihr eigenes Arbeitsverzeichnis und bleiben frei.
+// Subagenten haben ihr eigenes Arbeitsverzeichnis und bleiben frei. Nur Bash-Eingaben kommen an (Filter in hauptordner-sperre.js).
 const VORSATZ = new Set(['builtin', 'command'])
 
 /** Ziel-Token eines `cd`/`pushd`-Segments (Optionen wie -P/-L übersprungen), '' ohne Ziel, null wenn das Segment kein cd ist. */
@@ -38,7 +38,7 @@ function gesperrtesZiel(segmente, cwd, haupt, loese, imHaupt) {
 
 /** Grund (Text) oder null; `eingabe` ist die Hook-Eingabe, `werkzeug` die Hilfen aus hauptordner-sperre.js. */
 function pruefe(eingabe, haupt, werkzeug) {
-  if (eingabe.tool_name !== 'Bash' || eingabe.agent_id || eingabe.agent_type) return null
+  if (eingabe.agent_id || eingabe.agent_type) return null
   const befehl = String(eingabe.tool_input?.command ?? '')
   const { zerlege, ohneHeredoc, loese, imHaupt } = werkzeug
   const ziel = gesperrtesZiel(zerlege(ohneHeredoc(befehl)), eingabe.cwd, haupt, loese, imHaupt)
