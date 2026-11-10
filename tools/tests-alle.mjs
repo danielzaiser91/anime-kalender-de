@@ -1,5 +1,5 @@
 /**
- * Führt jede `tools/*.test.mjs` aus: bis zu 6 gleichzeitig (`tools/arbeiterpool.mjs`), Ausgabe je Test gepuffert und alphabetisch.
+ * Führt jede `tools/*.test.mjs` und `.claude/hooks/*-test.mjs` aus: bis zu 6 gleichzeitig (`tools/arbeiterpool.mjs`), Ausgabe je Test gepuffert und alphabetisch.
  * Die langsamsten Tests starten zuerst (sonst läuft am Ende einer allein, Messung 15.10.2026: zusammen 110 s).
  * Ohne `--alle` startet nach dem ersten roten Test keiner mehr; mit `--alle` laufen alle durch, am Ende steht die Liste der roten (Exit 1).
  * Alle Tests laufen unter der Bestandssperre (`tools/bestand-sperre.cjs`, wie `check:logic`); sie dürfen `public/data` nicht lesen.
@@ -7,16 +7,16 @@
  * Läuft in `npm run check:workflows`. Eine neue Test-Datei ist damit ohne Eintrag in `package.json` dabei:
  * die lange `&&`-Kette dort war die Stelle, an der jeder PR mit neuem Test mit den anderen kollidierte.
  */
-import { readdirSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { laufePool } from './arbeiterpool.mjs'
 import { sperreUmgebung } from './sperre-umgebung.mjs'
+import { findeTests } from './tests-liste.mjs'
 import { leseTeil, waehleTeil } from './tests-teil.mjs'
 
 const tools = dirname(fileURLToPath(import.meta.url))
 const wurzel = join(tools, '..')
-const alleTests = readdirSync(tools).filter((f) => f.endsWith('.test.mjs')).sort()
+const alleTests = findeTests(tools, wurzel)
 const alle = process.argv.includes('--alle')
 const LANGSAM = ['quellen-pr.test.mjs', 'quellen-pr-pruefung.test.mjs', 'bash-an-angehaengtes-log.test.mjs', 'commit-data.test.mjs', 'akroot-schreibziel.test.mjs']
 const teil = leseTeil(process.argv)

@@ -40,6 +40,7 @@ pipeline/check-angebot-termine.ts
 pipeline/check-anilist-cover-vorschau.ts
 pipeline/check-anilist-produkt.ts
 pipeline/check-anime2you-abruf.ts
+pipeline/check-anime2you-bleibt.ts
 pipeline/check-anime2you-entwurf.ts
 pipeline/check-anime2you-leicht.ts
 pipeline/check-anime2you-regel.ts
@@ -489,6 +490,7 @@ pipeline/check-streaming-luecke.ts
 pipeline/check-streaming-zaehlen.ts
 pipeline/check-studio-archiv.ts
 pipeline/check-stuetzpunkt-ueberholt.ts
+pipeline/check-stumme-quellen.ts
 pipeline/check-such-chip.ts
 pipeline/check-suchadressen-endzustand.ts
 pipeline/check-suchfeld-arten.ts

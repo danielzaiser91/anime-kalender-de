@@ -36,7 +36,7 @@ gleich('ohne Warnstufe keine Auflage-Quelle', baueDateien({ kopf: SHA, lauf, job
 gleich('Job-Name mit Steuerzeichen bleibt einzeilig', baueDateien({ kopf: SHA, lauf, jobs: [job('A\nB', WARN)] }).uebersicht.includes('„A B“'), true)
 
 // Prüfer-Regel (PR 3014) nennt die Zeile, auf die der Hinweis verweist
-const pruefer = readFileSync(new URL('./claude-global/agents/pruefer.md', import.meta.url), 'utf8')
+const pruefer = readFileSync(new URL('../.claude/agents/pruefer.md', import.meta.url), 'utf8')
 const regel = pruefer.split('\n').find((z) => z.includes('Start-Budget-Warnung')) ?? ''
 gleich('pruefer.md: Regelzeile nennt Zeile, Bedingung und Auflage', ['start-budget: nur noch', '`web/src`', 'Startdaten', 'ist das Auflage'].map((s) => regel.includes(s)), [true, true, true, true])
 

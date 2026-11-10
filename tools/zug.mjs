@@ -260,7 +260,7 @@ export function fahrtLog({ kopf, kette, schritt, ratschen = [], grenzeBasis = {}
   return zeilen
 }
 
-/** Nach dem Schieben (P2c): Bau und Deploy starten, weil bestand-bauen.yml und deploy.yml push-Läufe des Daten-App-Akteurs überspringen (Befund P0). Bau zuerst: sein Ende startet über workflow_run schon den nächsten Deploy; der eigene deckt den Fall, dass der Bau rot endet. */
+/** Nach dem Schieben: Bau und Deploy starten, weil bestand-bauen.yml und deploy.yml push-Läufe des Daten-App-Akteurs überspringen (Befund P0). Bau zuerst: sein Ende startet über workflow_run schon den nächsten Deploy; der eigene deckt den Fall, dass der Bau rot endet. */
 export const bauUndDeployBefehle = () => [
   ['workflow', 'run', 'bestand-bauen.yml', '--ref', 'main'],
   ['workflow', 'run', 'deploy.yml', '--ref', 'main'],

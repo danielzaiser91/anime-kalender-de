@@ -26,8 +26,11 @@ fall('nur diese Auslöser: workflow_run der Prüfkette auf zug-fahrt/zug-probe u
   const an = doc.on
   assert.deepEqual(Object.keys(an).sort(), ['workflow_dispatch', 'workflow_run'])
   assert.deepEqual(an.workflow_run, { workflows: ['PR-Prüfkette'], types: ['completed'], branches: ['zug-fahrt', 'zug-probe'] })
-  assert.deepEqual(an.workflow_dispatch.inputs.modus.options, ['start', 'bau-deploy'])
+  assert.deepEqual(an.workflow_dispatch.inputs.modus.options, ['start', 'bau-deploy', 'urteil'])
   assert.equal(an.workflow_dispatch.inputs.trocken.default, true, 'Standard von Hand ist trocken')
+  assert.equal(an.workflow_dispatch.inputs.schieben.default, false, 'Schieben ist standardmäßig aus')
+  assert.equal(an.workflow_dispatch.inputs.schieben.type, 'boolean')
+  assert.deepEqual(Object.keys(an.workflow_dispatch.inputs).sort(), ['lauf', 'modus', 'schieben', 'trocken'])
 })
 fall('ein Job, kein Lauf bricht einen anderen ab, Frist unter 10 Minuten, Rechte knapp', () => {
   assert.deepEqual(Object.keys(doc.jobs), ['fahrt'])
@@ -42,12 +45,14 @@ fall('Schritte in fester Reihenfolge; das App-Token sieht nur der Checkout (fetc
   assert.equal(text.split('steps.app.outputs.token').length - 1, 1, 'genau eine Nennung des App-Tokens')
   assert.match(schritte[2].run, /git fetch --quiet --unshallow origin/)
 })
-fall('Schritt Fahrt: env genau diese sechs, GH_TOKEN ist das Workflow-Token, kein Ausdruck im Skripttext', () => {
+fall('Schritt Fahrt: env genau diese acht, GH_TOKEN ist das Workflow-Token, kein Ausdruck im Skripttext', () => {
   assert.deepEqual(schritte[3].env, {
     GH_TOKEN: '${{ github.token }}',
     EREIGNIS: '${{ github.event_name }}',
     MODUS: '${{ inputs.modus }}',
     TROCKEN: '${{ inputs.trocken }}',
+    KETTENLAUF: '${{ inputs.lauf }}',
+    SCHIEBEN: '${{ inputs.schieben }}',
     ZWEIG: '${{ github.event.workflow_run.head_branch }}',
     LAUF: '${{ github.event.workflow_run.id }}',
   })
@@ -78,10 +83,17 @@ const aufrufe = (env) => {
   assert.equal(r.status, 0, r.stderr)
   return r.stdout.trim().split('\n')
 }
-assert.equal(run.split('node tools/zug-fahrt.mjs').length - 1, 3, 'drei Aufrufe: urteil, trocken, echt')
-const VOR = { EREIGNIS: 'workflow_dispatch', MODUS: 'start', TROCKEN: 'true', ZWEIG: '', LAUF: '' }
+assert.equal(run.split('node tools/zug-fahrt.mjs').length - 1, 4, 'vier Aufrufe: urteil (Kette), urteil (Hand), trocken, echt')
+assert.equal(run.split('--schieben').length - 1, 1, '--schieben steht genau einmal, im Hand-Urteil')
+const VOR = { EREIGNIS: 'workflow_dispatch', MODUS: 'start', TROCKEN: 'true', SCHIEBEN: 'false', KETTENLAUF: '', ZWEIG: '', LAUF: '' }
 const SCHRITT = [
   ['workflow_run → urteil mit Zweig und Lauf', { ...VOR, EREIGNIS: 'workflow_run', MODUS: '', TROCKEN: '', ZWEIG: 'zug-probe', LAUF: '123' }, ['ZUG urteil --zweig zug-probe --lauf 123']],
+  ['workflow_run schiebt nie, auch wenn SCHIEBEN gesetzt wäre', { ...VOR, EREIGNIS: 'workflow_run', MODUS: '', TROCKEN: 'false', SCHIEBEN: 'true', ZWEIG: 'zug-fahrt', LAUF: '55' }, ['ZUG urteil --zweig zug-fahrt --lauf 55']],
+  ['Hand, urteil, Standard (trocken, nicht schieben)', { ...VOR, MODUS: 'urteil', KETTENLAUF: '77' }, ['ZUG urteil --zweig zug-fahrt --lauf 77 --trocken']],
+  ['Hand, urteil, trocken und schieben → bleibt trocken, --schieben wird weitergereicht (der Dry-Run entscheidet im Werkzeug)', { ...VOR, MODUS: 'urteil', KETTENLAUF: '77', SCHIEBEN: 'true' }, ['ZUG urteil --zweig zug-fahrt --lauf 77 --trocken --schieben']],
+  ['Hand, urteil, nicht trocken, nicht schieben', { ...VOR, MODUS: 'urteil', KETTENLAUF: '77', TROCKEN: 'false' }, ['ZUG urteil --zweig zug-fahrt --lauf 77']],
+  ['Hand, urteil, nicht trocken, schieben', { ...VOR, MODUS: 'urteil', KETTENLAUF: '77', TROCKEN: 'false', SCHIEBEN: 'true' }, ['ZUG urteil --zweig zug-fahrt --lauf 77 --schieben']],
+  ['Hand, start mit gesetztem SCHIEBEN: kein --schieben', { ...VOR, TROCKEN: 'false', SCHIEBEN: 'true' }, ['ZUG start']],
   ['Hand, start, trocken', VOR, ['ZUG start --trocken']],
   ['Hand, start, echt', { ...VOR, TROCKEN: 'false' }, ['ZUG start']],
   ['Hand, bau-deploy, trocken', { ...VOR, MODUS: 'bau-deploy' }, ['ZUG bau-deploy --trocken']],
@@ -99,7 +111,7 @@ const kulisse = {
   },
   git: () => '', // ls-remote ohne Treffer: Zweig zug fehlt
 }
-for (const [name, args] of [['urteil', ['urteil', '--zweig', 'zug-probe', '--lauf', '123']], ['start --trocken', ['start', '--trocken']], ['start', ['start']], ['bau-deploy --trocken', ['bau-deploy', '--trocken']]]) {
+for (const [name, args] of [['urteil', ['urteil', '--zweig', 'zug-probe', '--lauf', '123']], ['start --trocken', ['start', '--trocken']], ['start', ['start']], ['bau-deploy --trocken', ['bau-deploy', '--trocken']], ['urteil von Hand --trocken --schieben', ['urteil', '--zweig', 'zug-fahrt', '--lauf', '123', '--trocken', '--schieben']]]) {
   fall(`main(${name}) → 0`, () => {
     const zeilen = []
     laufZweig = args[args.indexOf('--zweig') + 1] ?? ''
