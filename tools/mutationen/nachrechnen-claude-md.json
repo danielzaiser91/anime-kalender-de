@@ -8,7 +8,7 @@
     "name": "ohneKetteLeser: .claude-Markdown pauschal frei (alter Stand, Leser ignoriert)",
     "datei": "tools/pr-nachrechnen.mjs",
     "suche": "|| /^[^/]+\\.md$/.test(datei) || datei === 'daniel-zum-abarbeiten/00-wache.md'",
-    "ersetze": "|| /^[^/]+\\.md$/.test(datei) || istClaudeMd(datei) || datei === 'daniel-zum-abarbeiten/00-wache.md'",
+    "ersetze": "|| /^[^/]+\\.md$/.test(datei) || /^\\.claude\\/.+\\.md$/.test(datei) || datei === 'daniel-zum-abarbeiten/00-wache.md'",
     "tests": ["npx tsx tools/pr-nachrechnen-claude-md.test.mjs"]
   },
   {

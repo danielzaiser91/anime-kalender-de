@@ -21,7 +21,6 @@ import { BOT_DATEIEN_OHNE_LESER, istBotBild, istBotDatei } from './pr-nachrechne
 import { gitAufruf, gitLeser } from './pr-nachrechnen-leser-git.mjs'
 import { standardPaare, standardVoll } from './pr-nachrechnen-vergleich-git.mjs'
 import { ZUG, istZugPr, leseZugAktiv } from './zug-aktiv.mjs'
-import { istClaudeMd } from './pr-nachrechnen-leser.mjs'
 import { erzeugteDatei } from './pr-nachrechnen-bot-erzeugt.mjs'
 import { ersetzer, ersetztMeldung } from './pr-ersetzt.mjs'
 import { grundKommentar, kommentiereGrund } from './nachrechnen-schleife.mjs'
@@ -115,7 +114,7 @@ export function botSprungAusnahme(vergleich, prDateien, liestBewegtes) {
 export const DATEN_KONTEN = ['anime-kalender-daten[bot]', 'github-actions[bot]', 'anime-kalender-bot']
 /** Agenten-Konto: schreibt auch Handdaten, Code und Fix-PRs (Prüfer 3384, A1); gilt nur für Wache-Berichte und Doku. */
 export const WACHE_KONTO = 'claude[bot]'
-const wacheDatei = (datei) => ohneKetteLeser(datei) || istClaudeMd(datei) || datei === 'daniel-zum-abarbeiten/00-wache-auswertung.md'
+const wacheDatei = (datei) => ohneKetteLeser(datei) || datei === 'daniel-zum-abarbeiten/00-wache-auswertung.md'
 /** Erzeugte Dateien der Läufe (Positivliste `pr-nachrechnen-bot-erzeugt.mjs`, fail-closed), Listen, Datenpfade der Kette-Ausnahme F55, Wache-Berichte. */
 const erzeugt = (datei) => erzeugteDatei(datei) || datei.startsWith('daniel-zum-abarbeiten/listen/') || istDatenpfad(datei) || wacheDatei(datei)
 /**
