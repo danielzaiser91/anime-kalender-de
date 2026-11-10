@@ -113,6 +113,22 @@ async function haupt() {
   pruefe('… ohne Limit nichts davon', grundOffen(3) === 'nach 3 Versuchen noch offen')
   pruefe('Gegenprobe: ein Seitenwechsel beginnt die Wartezeit neu', warte({ seite: 'a', seit: 0 }, { seite: 'b', jetzt: 99, erinnern: true, frist: 20000 }, {}).seit === 99)
 
+  /* Diagnose (10.11.2026): beide Wege des Überspringens schreiben die Seitenmerkmale in die Spur. */
+  for (const [name, erinnernDa, jetzt] of [['Erinnern', true, 1_004_000], ['Frist', false, 1_021_000]]) {
+    const spuren = []
+    const tun = { spur: (was, dazu) => spuren.push([was, dazu]), uebersprungen: new Map(), weiter: () => {} }
+    const o = { seite: '1', reihe: '1', erinnern: erinnernDa, durchlauf: { folgen: [], listeFuer: '999' }, jetzt, frist: 20000, merkmale: () => ({ titel: 'Startseite – Netflix' }) }
+    warte({ seite: '1', seit: 1_000_000 }, o, tun)
+    pruefe(`Spur (${name}): Seitenmerkmale stehen dabei, listeFuer bleibt erhalten`, spuren.length === 1 && spuren[0][1].seite?.titel === 'Startseite – Netflix' && spuren[0][1].listeFuer === '999', spuren)
+    const ohne = []
+    warte({ seite: '1', seit: 1_000_000 }, { ...o, merkmale: undefined }, { ...tun, spur: (was, dazu) => ohne.push(dazu) })
+    pruefe(`Spur (${name}): ohne Merkmale-Helfer (Kulisse) kein Absturz`, ohne.length === 1 && ohne[0].seite === undefined, ohne)
+  }
+
+  const wo = melderQuelle.slice(melderQuelle.indexOf('async function selbstStartenSchritt()'))
+  pruefe('Verdrahtung: selbstStartenSchritt übergibt merkmale an die Wartefunktion', /merkmale: \(\) => akNetflixBericht\.seitenmerkmale\(document, location, history\)/.test(wo.slice(0, 3000)))
+  pruefe('Verdrahtung: der Bericht trägt die Seitenmerkmale', /seite: sicher\(\(\) => akNetflixBericht\.seitenmerkmale\(/.test(melderQuelle))
+
   /* Verdrahtung: `selbstStartenSchritt` ruft die Wartefunktion mit dem Merkmal des Knopfes. */
   const start = /\nasync function selbstStartenSchritt\(\)[\s\S]*?\n\}\n/.exec(melderQuelle)?.[0] ?? ''
   pruefe('selbstStartenSchritt fragt akNetflixListeWarten mit keineFolgeVorhanden()', /akNetflixListeWarten\(selbstWartet/.test(start) && /erinnern: keineFolgeVorhanden\(\)/.test(start))
