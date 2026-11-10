@@ -64,6 +64,7 @@ export function verweiseAufgeloest(releases: Release[], events: ReleaseEvent[], 
 /** Releases, deren Anbieter selbst ein nicht steigendes Folgendatum liefert (Quelle belegt, nicht unser Rechenfehler); jeder Eintrag mit Grund und Messdatum. */
 export const DATUM_VOM_ANBIETER: Record<string, string> = {
   'lycoris-recoil-crunchyroll-de-2022-07-23': 'Crunchyrolls Katalog datiert Folge 6 auf 2022-08-06T16:00Z, vor Folge 5 (gemessen 08.10.2026, data/crunchyroll-dub.json)',
+  'the-maid-i-hired-recently-is-mysterious-crunchyroll-de-2022-08-14': 'Crunchyrolls Katalog datiert die deutschen Folgen 6 bis 11 auf 2022-09-04 bis 2022-10-09 (premium_available_date 06:59Z), Folge 5 auf 2022-09-11 (gemessen 10.11.2026, data/crunchyroll-raw/GG5H5X092.de.json.gz)',
 }
 
 /** DD-01: Eine spätere Folge liegt vor einer früheren (Lycoris Recoil). TV-Sichtungen zeigen Wiederholungen in beliebiger Reihenfolge und zählen nicht. */
