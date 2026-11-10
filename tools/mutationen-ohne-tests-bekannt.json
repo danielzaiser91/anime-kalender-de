@@ -3,6 +3,7 @@
   "adn-news-serien.json": 30,
   "akroot-schreibziel.json": 5,
   "alarm-issue.json": 34,
+  "anime2you-bleibt.json": 21,
   "anime2you-regel.json": 84,
   "anime2you-router.json": 209,
   "anime2you-schatten.json": 95,
@@ -84,5 +85,7 @@
   "workflow-ohne-pakete.json": 19,
   "workflows-beleg.json": 69,
   "zug-fahrt.json": 41,
+  "zug-push.json": 22,
+  "zug-schalter.json": 11,
   "zug.json": 127
 }
