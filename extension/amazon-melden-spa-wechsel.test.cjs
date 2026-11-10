@@ -138,9 +138,10 @@ function grundZeigen(knopf, gruende) {
 console.log('SPA-Wechsel: Klick')
 const handler = ausschnitt(quelle, "knopf.addEventListener('click', meldeSperre.mitSperre(", '\n  }))\n').replace(/\)\)\n$/, '')
 
-async function klicken({ eintragTitel, listenKey, seitenTitelWert, verlassen, seitenKennung = A, geladen = 2, wechselt = false }) {
+async function klicken({ eintragTitel, listenKey, seitenTitelWert, verlassen, seitenKennung = A, geladen = 2, wechselt = false, unbekannt = false, tot = false }) {
   const knopf = knopfNeu()
   if (wechselt) knopf.dataset.wechselt = 'true'
+  if (tot) knopf.dataset.tot = 'true'
   const gruende = []
   const gesendet = []
   const abweisen = (g) => gruende.push(g)
@@ -161,7 +162,7 @@ async function klicken({ eintragTitel, listenKey, seitenTitelWert, verlassen, se
     sprachenAusFolgen: () => ['Deutsch'],
     seitenLage: () => ({ folgenLautSeite: 2 }),
     gesehen: { gesamt: 2, jeFolge: null },
-    eintrag: { url: `https://www.amazon.de/dp/${A}`, titel: eintragTitel },
+    eintrag: { url: `https://www.amazon.de/dp/${A}`, titel: eintragTitel, ...(unbekannt ? { unbekannt: true } : {}) },
     quelltextVonFruehererSeite: () => false,
     asinAusAdresse: () => A,
     asinAusSeite: () => seitenKennung,
@@ -198,6 +199,18 @@ async function haupt() {
   pruefe('mitten im Staffelwechsel: nichts gesendet, Grund am Knopf', mitten.gesendet.length === 0 && mitten.knopfText === '⚠ Staffelwechsel läuft', mitten)
   const leer = await klicken({ eintragTitel: TITEL_A, listenKey: A, seitenTitelWert: TITEL_A, verlassen, geladen: 0 })
   pruefe('keine Folge gelesen: nichts gesendet, Grund am Knopf', leer.gesendet.length === 0 && leer.knopfText === '⚠ keine Folge gelesen', leer)
+  /* F109 = A: eine Seite außerhalb der Prüfliste meldet Kennung, Seitentitel und das Kennzeichen „unbekannt" (der Bau liest es). */
+  const fremd = await klicken({ eintragTitel: null, listenKey: A, seitenTitelWert: TITEL_A, verlassen: null, unbekannt: true })
+  const koerper = fremd.gesendet[0] ?? ''
+  pruefe('unbekannte Seite: Klick sendet, ohne Grund der Abweisung', fremd.gesendet.length === 1 && fremd.gruende.length === 0, fremd)
+  pruefe('… die Meldung trägt Seitentitel, Kennung und „unbekannt=1"', koerper.includes(TITEL_A) && koerper.includes(A) && koerper.includes('unbekannt=1'), koerper.slice(0, 300))
+  const bekannt = await klicken({ eintragTitel: TITEL_A, listenKey: A, seitenTitelWert: TITEL_A, verlassen: null })
+  pruefe('Kontrolle: ein Eintrag der Prüfliste trägt kein „unbekannt=1"', bekannt.gesendet.length === 1 && !bekannt.gesendet[0].includes('unbekannt=1'), bekannt.gesendet[0]?.slice(0, 300))
+  /* A2: Auf einer unbekannten Seite geht „nicht abrufbar" ohne gelesene Folge nie als „weg" raus; der Prüflisten-Eintrag darf es weiter. */
+  const unbekanntTot = await klicken({ eintragTitel: null, listenKey: A, seitenTitelWert: TITEL_A, verlassen: null, unbekannt: true, geladen: 0, tot: true })
+  pruefe('unbekannte Seite, nicht abrufbar, keine Folge: nichts gesendet, Grund am Knopf', unbekanntTot.gesendet.length === 0 && unbekanntTot.knopfText === '⚠ keine Folge gelesen', unbekanntTot)
+  const bekanntTot = await klicken({ eintragTitel: TITEL_A, listenKey: A, seitenTitelWert: TITEL_A, verlassen: null, geladen: 0, tot: true })
+  pruefe('Kontrolle: Eintrag der Prüfliste, nicht abrufbar: „weg" geht weiter raus', bekanntTot.gesendet.length === 1 && bekanntTot.gesendet[0].includes('"nein"'), bekanntTot.gesendet[0]?.slice(0, 300))
   if (fehler.length) {
     console.error(`\n${fehler.length} Fehler`)
     process.exit(1)
