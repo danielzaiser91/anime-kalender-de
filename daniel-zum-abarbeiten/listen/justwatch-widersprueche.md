@@ -7,15 +7,15 @@ Abschnitt „JustWatch-Ton je Seite“. Unsere Messung (Handbeleg, Meldung der E
 <!-- anime:start -->
 ## Anime
 
-Flagge „Deutsch“: 93 Wege, nur Hinweis: 1.
+Flagge „Deutsch“: 93 Wege, nur Hinweis: 2.
 
-JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine Flagge): mehrere Staffeln 17, Mehrteiler 8.
+JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine Flagge): mehrere Staffeln 18, Mehrteiler 8.
 
 | Anbieter | mit eigener Messung | Widersprüche | Anteil | Anzeige |
 |---|---|---|---|---|
 | crunchyroll | 7 | 0 | 0.0 % | Flagge |
 | disneyplus | 14 | 0 | 0.0 % | Flagge |
-| primevideo | 138 | 1 | 0.7 % | Flagge |
+| primevideo | 139 | 1 | 0.7 % | Flagge |
 
 ### Widersprüche (1)
 
@@ -23,7 +23,7 @@ JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine
 |---|---|---|---|---|
 | Vampire Hunter D: Bloodlust (543) | primevideo | https://watch.amazon.de/detail?gti=amzn1.dv.gti.68239688-dba5-4abc-a3b5-5e554d51081f | de, Stand 2026-10-26 | Handbeleg 2026-10-31 |
 
-### Kandidaten für neue Wege (776)
+### Kandidaten für neue Wege (782)
 
 JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „Weg ohne Kennung“: ein Weg zum Anbieter steht, seine Adresse trägt aber keine Seitenkennung.
 
@@ -171,6 +171,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Pandora Hearts (5530) | Crunchyroll | crunchyroll:GJWU2JK1N | ja |
 | Pandora Hearts (5530) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.8b4efbde-c851-422e-931e-7598f45aff00 | nein |
 | Haruka und der Zauberspiegel (5998) | Amazon Prime Video | amazon:amzn1.dv.gti.51440b34-6eb4-4f4e-9d02-e0e011e6f577 | ja |
+| Lupin III. vs Detektiv Conan: The Special (6115) | Crunchyroll | crunchyroll:GX9UQKVVN | ja |
 | Pokémon: Arceus und das Juwel des Lebens (6178) | Amazon Video | amazon:amzn1.dv.gti.ccb90391-26fd-f040-35a7-f29568416e98 | ja |
 | Eden of the East: Der König von Eden (6372) | Amazon Video | amazon:amzn1.dv.gti.e4a9f6b0-ffc4-3419-4e89-2232ca094c33 | ja |
 | Detektiv Conan: Das verlorene Schiff im Himmel (6467) | Crunchyroll | crunchyroll:GZ7UVPD78 | ja |
@@ -184,6 +185,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Colorful (8142) | Amazon Prime Video | amazon:amzn1.dv.gti.0722b01c-a8e5-49a2-b7fc-1ddca7b06322 | ja |
 | Gosick (8425) | Amazon Prime Video | amazon:amzn1.dv.gti.91b75e17-bbb0-43d9-9d74-8ab7ed521338 | ja |
 | Fullmetal Alchemist: The Sacred Star of Milos (9135) | Amazon Video | amazon:amzn1.dv.gti.06ba5df2-b217-ab6a-5700-9958479f962c | ja |
+| Motto To Love-Ru: Trouble (9181) | Anime Digital Network Amazon Channel | amazon:amzn1.dv.gti.b736b2f5-0e9f-42f2-bd8b-a0c1ffd62b48 | ja |
 | Coppelion (9479) | Crunchyroll | crunchyroll:GZ7UVK717 | ja |
 | Coppelion (9479) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.64003626-91da-4425-98d7-0266a3c3451b | ja |
 | Resident Evil: Damnation (9544) | Amazon Video | amazon:amzn1.dv.gti.bca9f6e1-bd47-1678-b717-de78fbeabb5c | ja |
@@ -196,6 +198,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Blood-C: Die Serie (10490) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.d67ec152-07b3-4681-8901-26cfc3c31850 | ja |
 | Penguindrum (10721) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.8f04a958-2996-4d8e-b8d9-25aca51e011b | ja |
 | Hunter × Hunter (11061) | Amazon Prime Video | amazon:amzn1.dv.gti.6d0bf302-ad33-4caa-a192-447545ce85b8 | ja |
+| Black Rock Shooter (11285) | Amazon Prime Video | amazon:amzn1.dv.gti.654442b8-82b8-4968-910f-08d89912be54 | ja |
 | Sankarea: Undying Love (11499) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.0eb67270-d83b-933e-eb7e-4a5660d69c31 | nein |
 | Kokoro Connect (11887) | Crunchyroll | crunchyroll:G50UZ4DN8 | ja |
 | Kokoro Connect (11887) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.1be6f89b-2012-4149-bfd2-8d0eaa2d0d37 | ja |
@@ -217,6 +220,8 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Detektiv Conan: Detektiv auf hoher See (14735) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.8015f388-a711-4bab-9091-de3995b6960a | ja |
 | Detektiv Conan: Detektiv auf hoher See (14735) | Amazon Video | amazon:amzn1.dv.gti.18b90e10-94f8-6846-7c60-706a338f1ee3 | ja |
 | The Hentai Prince and the Stony Cat. (15225) | Amazon Prime Video | amazon:amzn1.dv.gti.ef6bed52-8218-44eb-9f69-711c9e185d46 | ja |
+| Samurai Girls 2: Samurai Bride (15377) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.16b6b212-4591-6c85-ab40-05ccb26f71a0 | ja |
+| Iron Man: Rise of Technovore (15847) | Amazon Video | amazon:amzn1.dv.gti.9d1df050-0849-4979-9b90-5f7f7513e808 | ja |
 | Aku no Hana: Die Blumen des Bösen (16201) | Crunchyroll | crunchyroll:G9DUEQDG8 | ja |
 | Aku no Hana: Die Blumen des Bösen (16201) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.68d9152f-b5e7-4466-afb3-4a370960b606 | ja |
 | Wie der Wind sich hebt (16662) | Amazon Video | amazon:amzn1.dv.gti.9af5c743-27c0-47c3-8454-c7aaff17b35c | ja |
@@ -234,6 +239,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Akuma no Riddle (19429) | Crunchyroll | crunchyroll:G14U43ENG | nein |
 | No Game No Life (19815) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.103dfcc1-f1a8-43dd-90e7-6cbe5d00ccf2 | ja |
 | Hunter × Hunter: The Movie - The Last Mission (19951) | Amazon Video | amazon:amzn1.dv.gti.58b5c51b-84df-b6e0-9e02-0b19456888a9 | ja |
+| Sword Art Online: Extra Edition (20021) | Anime Digital Network Amazon Channel | amazon:amzn1.dv.gti.570d73a3-73e7-40f4-a33a-e84d9be1871e | nein |
 | Bayonetta: Bloody Fate (20442) | Amazon Video | amazon:amzn1.dv.gti.a3bf885f-00ab-4aaf-8835-a42fb054fb39 | ja |
 | Black Bullet (20457) | Anime Digital Network Amazon Channel | amazon:amzn1.dv.gti.4771886c-55c1-4dcc-a663-40143210df17 | nein |
 | Love Stage!! (20520) | Crunchyroll | crunchyroll:G9DUE1ZZW | ja |
@@ -734,7 +740,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | May I Ask for One Final Thing? (181447) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.26996afa-102d-46d0-8778-b4fcf61904bb | nein |
 | Dark Moon: The Blood Altar (181443) | Crunchyroll | crunchyroll:GE00366126DEDE | nein |
 | Dark Moon: The Blood Altar (181443) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.233082bf-86cf-4248-a368-093ace5947b0 | nein |
-| Miss Kobayashi’s Dragon Maid: Ein einsamer Drache sehnt sich nach Liebe (181839) | Crunchyroll | crunchyroll:GMEE00351664JAJP | nein |
+| Miss Kobayashi’s Dragon Maid: Ein einsamer Drache sehnt sich nach Liebe (181839) | Crunchyroll | crunchyroll:GMEE00351664FRFR | nein |
 | Miss Kobayashi’s Dragon Maid: Ein einsamer Drache sehnt sich nach Liebe (181839) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.1e61a3d8-44c3-4dc0-ae7c-5c655deceff5 | nein |
 | City The Animation (181841) | Amazon Prime Video | amazon:amzn1.dv.gti.8c1f778c-d940-4c50-895a-f498c55101f3 | ja |
 | The Gorilla God’s Go-To Girl (182060) | Crunchyroll | crunchyroll:GD9UEGZVN | nein |

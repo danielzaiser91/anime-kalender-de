@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-11-10T13:17:36.440Z",
+  "generatedAt": "2026-11-10T17:07:55.524Z",
   "titleCount": 2923,
   "belegtCount": 2591,
-  "releaseCount": 867,
-  "eventCount": 4445,
+  "releaseCount": 869,
+  "eventCount": 4446,
   "genres": [
     "Action",
     "Adventure",
@@ -193,8 +193,8 @@
     "Akibapass",
     "Rakuten TV",
     "Sky Store",
-    "Amazon (DVD / Blu-ray)",
     "Videobuster",
+    "Amazon (DVD / Blu-ray)",
     "Rtl+",
     "Thalia",
     "TOGGO",
@@ -255,6 +255,7 @@
     "Plex Channel",
     "Plex Player",
     "Pokémon TV",
+    "Sun Nxt",
     "Vimeo"
   ],
   "years": [
