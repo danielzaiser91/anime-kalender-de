@@ -74,6 +74,7 @@ function antworten({ nr = 7, pr = PR, mainSha = BASIS, laeufe, jobs, log = ECHTE
     [`api repos/{owner}/{repo}/commits/${M_ALT} --jq .parents[0].sha`]: { aus: `${BASIS}\n` },
     [`api repos/{owner}/{repo}/commits/${M_NEU} --jq .parents[0].sha`]: { aus: `${MAIN}\n` },
     [`pr view ${nr} --json number,state,mergeable,headRefOid,headRefName`]: { aus: JSON.stringify(pr) },
+    'pr list --state open --limit 200 --json number,title,body': { aus: '[]' },
     [`run list --workflow ${KETTE} --event pull_request --branch fix/x --limit 20 --json databaseId,headSha,createdAt,conclusion,status`]: {
       aus: JSON.stringify(laeufe ?? [lauf(KOPF, '2026-10-19T10:00:00Z', 11), lauf(KOPF, '2026-10-19T12:00:00Z', 12), lauf(KOPF, '2026-10-19T11:00:00Z', 13)]),
     },
@@ -495,7 +496,7 @@ function prozess(daten, argv) {
   const r = prozess(antworten(), ['7'])
   pruefe('Prozess: aktuell -> Exit 0, Zeile auf stdout', r.status === 0 && /PR 7: aktuell/.test(r.aus), r)
   const optionen = r.aufrufe.map(([befehl, , o]) => `${befehl} ${o.encoding} ${o.windowsHide} ${o.maxBuffer}`)
-  pruefe('Prozess: jeder Aufruf ist gh, utf8, ohne Fenster, Puffer 64 MiB', optionen.length === 5 && optionen.every((o) => o === `gh utf8 true ${64 * 1024 * 1024}`), optionen)
+  pruefe('Prozess: jeder Aufruf ist gh, utf8, ohne Fenster, Puffer 64 MiB', optionen.length === 6 && optionen.every((o) => o === `gh utf8 true ${64 * 1024 * 1024}`), optionen)
 }
 {
   // Start-Guard: ein Import (z. B. aus einem Test) startet main() nicht — ohne Guard wäre es Exit 1 mit Aufrufhinweis.
