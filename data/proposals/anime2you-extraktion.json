@@ -1202,6 +1202,10 @@
       "am": "2026-11-03",
       "vorschlaege": 4
     },
+    "1067077": {
+      "am": "2026-11-09",
+      "vorschlaege": 1
+    },
     "1067107": {
       "am": "2026-11-09",
       "vorschlaege": 1
@@ -1221,6 +1225,10 @@
     "1067193": {
       "am": "2026-11-05",
       "vorschlaege": 2
+    },
+    "1067250": {
+      "am": "2026-11-09",
+      "vorschlaege": 0
     },
     "1067332": {
       "am": "2026-11-04",
@@ -1354,6 +1362,10 @@
       "am": "2026-11-06",
       "vorschlaege": 0
     },
+    "1068443": {
+      "am": "2026-11-09",
+      "vorschlaege": 1
+    },
     "1068473": {
       "am": "2026-11-06",
       "vorschlaege": 0,
@@ -1367,6 +1379,10 @@
       "am": "2026-11-06",
       "vorschlaege": 0,
       "uebersprungen": "kein Deutschland-Bezug"
+    },
+    "1068537": {
+      "am": "2026-11-09",
+      "vorschlaege": 0
     },
     "1068595": {
       "am": "2026-11-07",
@@ -1445,6 +1461,18 @@
     "1069143": {
       "am": "2026-11-08",
       "vorschlaege": 8
+    },
+    "1069191": {
+      "am": "2026-11-09",
+      "vorschlaege": 1
+    },
+    "1069203": {
+      "am": "2026-11-09",
+      "vorschlaege": 1
+    },
+    "1069214": {
+      "am": "2026-11-09",
+      "vorschlaege": 0
     }
   },
   "vorschlaege": [
@@ -11757,6 +11785,90 @@
       "artikelId": "1067143",
       "artikel": "Offizieller »Sailor Moon«-Tischkalender für 2027 vorgestellt",
       "quelle": "https://www.anime2you.de/news/1067143/sailor-moon-tischkalender-fuer-2027/",
+      "veroeffentlicht": "2026-11-09",
+      "gelesenAm": "2026-11-09"
+    },
+    {
+      "titel": "Hirayasumi",
+      "zitat": "»Hirayasumi« wird ab Januar 2027 im japanischen Fernsehen ausgestrahlt sowie weltweit im Originalton mit Untertiteln bei Netflix im Simulcast gezeigt.",
+      "art": "ankuendigung",
+      "sprache": "omu",
+      "plattform": "netflix",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Netflix",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1069203",
+      "artikel": "Netflix zeigt Slice-of-Life-Anime »Hirayasumi« im Simulcast + Teaser",
+      "quelle": "https://www.anime2you.de/news/1069203/netflix-zeigt-hirayasumi-im-simulcast/",
+      "veroeffentlicht": "2026-11-09",
+      "gelesenAm": "2026-11-09"
+    },
+    {
+      "titel": "Reborn as a Goblin",
+      "zitat": "Die siebte Episode lief demzufolge nicht wie ursprünglich geplant am 9. November 2026, sondern ist erst am 16. November 2026 im japanischen Fernsehen und bei Crunchyroll im Simulcast zu sehen.",
+      "art": "pause",
+      "sprache": "unklar",
+      "plattform": "crunchyroll",
+      "datum": "2026-11-16",
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "7",
+      "unsicher": null,
+      "wochentag": "Montag",
+      "warnungen": [],
+      "artikelId": "1069191",
+      "artikel": "Siebte »Reborn as a Goblin«-Episode verschoben + Recap",
+      "quelle": "https://www.anime2you.de/news/1069191/reborn-as-a-goblin-episode-7-verschoben/",
+      "veroeffentlicht": "2026-11-09",
+      "gelesenAm": "2026-11-09"
+    },
+    {
+      "titel": "Pokémon Horizonte",
+      "zitat": "Der aktuelle Anime mit dem Titel »Pokémon Horizonte« wird jeden Samstag um 12:55 Uhr mit neuen Folgen im TOGGO -Block auf SUPER RTL ausgestrahlt.",
+      "art": "folgen",
+      "sprache": "unklar",
+      "plattform": "tv",
+      "datum": null,
+      "uhrzeit": "12:55",
+      "anbieter": null,
+      "sender": "SUPER RTL",
+      "wochentage": "jeden Samstag",
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1068443",
+      "artikel": "Offizielles »Pokémon«-Kissen mit Evoli-Motiven vorgestellt",
+      "quelle": "https://www.anime2you.de/news/1068443/pokemon-kissen-mit-evoli-motiven/",
+      "veroeffentlicht": "2026-11-09",
+      "gelesenAm": "2026-11-09"
+    },
+    {
+      "titel": "Frieren: Beyond Journey's End",
+      "zitat": "Eine dritte Staffel startet im Oktober 2027.",
+      "art": "ankuendigung",
+      "sprache": "unklar",
+      "plattform": null,
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": "Artikel nennt für die dritte Staffel keinen Streaming-Anbieter; nur die zweite Staffel wird als Crunchyroll-Simulcast genannt.",
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1067077",
+      "artikel": "»Frieren«-Figuren von Frieren und Fern erhalten Neuauflage",
+      "quelle": "https://www.anime2you.de/news/1067077/zwei-frieren-sega-figuren-neuauflage/",
       "veroeffentlicht": "2026-11-09",
       "gelesenAm": "2026-11-09"
     }

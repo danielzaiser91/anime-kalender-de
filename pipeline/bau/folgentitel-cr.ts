@@ -80,10 +80,12 @@ interface Folge {
 /**
  * Die Liste aus aniSearch, wo sie keinen Titel hat, mit den Titeln aus Crunchyroll gefüllt; fehlt die Liste ganz, entsteht sie aus Crunchyroll
  * (mindestens zwei Folgen). Ein vorhandener Titel wird nie überschrieben; ein Titel, der dem englischen oder japanischen der Liste gleicht, gilt nicht als deutsch (TMDB-Folge 147: Text englisch, unter „de“).
+ * `nurDeutsch`: die Quelle führt ausschließlich deutsche Titel (RTL+), dann ist ein Titel gleich dem englischen ein Lehnwort („Partner“, „Supernova“).
  */
-export function mitCrTiteln(f: Folge[] | undefined, cr: Map<number, string> | undefined): Folge[] | undefined {
+export function mitCrTiteln(f: Folge[] | undefined, cr: Map<number, string> | undefined, nurDeutsch = false): Folge[] | undefined {
   if (!cr) return f
   const echt = [...cr].filter(([, t]) => !istPlatzhalter(t))
   if (!f || f.length < 2) return echt.length >= 2 ? echt.sort((a, b) => a[0] - b[0]).map(([nr, de]) => ({ nr, de })) : f
-  return f.map((x) => (x.de || !cr.has(x.nr) || [x.en, x.ja].includes(cr.get(x.nr)) || istPlatzhalter(cr.get(x.nr)!) ? x : { ...x, de: cr.get(x.nr) }))
+  const gleichFremd = (x: Folge) => !nurDeutsch && [x.en, x.ja].includes(cr.get(x.nr))
+  return f.map((x) => (x.de || !cr.has(x.nr) || gleichFremd(x) || istPlatzhalter(cr.get(x.nr)!) ? x : { ...x, de: cr.get(x.nr) }))
 }

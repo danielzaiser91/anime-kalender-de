@@ -194,7 +194,7 @@ async function frageSerie(showId: number): Promise<{ videos: AdnVideo[]; abbruch
       return { videos, abbruch: '400' }
     }
     if (!res.ok) {
-      // Nur 404/410 auf der ersten Seite verneinen („in Deutschland nicht im Angebot"); 429, 403, 5xx und jeder Fehler ab Seite 2 sind Nichtauskunft.
+      // Auf dieser Ebene verneinen nur 404/410 der ersten Seite („in Deutschland nicht im Angebot"); 429, 403, 5xx und Fehler ab Seite 2 sind Nichtauskunft. Im Katalog behält auch die Verneinung den Alteintrag (`auskunft.leer`).
       const verneint = offset === 0 && (res.status === 404 || res.status === 410)
       return { videos, abbruch: verneint ? undefined : String(res.status) }
     }

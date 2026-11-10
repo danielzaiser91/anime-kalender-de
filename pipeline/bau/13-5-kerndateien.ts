@@ -2,6 +2,7 @@ import { writeJson, readJson, log } from '../lib/util.ts'
 import { pruefeInvarianten, zaehlworteStimmen } from '../lib/invarianten.ts'
 import { zaehleBelegte } from '../lib/belegstaerke.ts'
 import { OUT } from './grundlagen.ts'
+import { schreibeEingabeStand } from '../lib/eingabe-stand.ts'
 import { schreibeReleasesJson } from '../lib/release-ohne-notiz.ts'
 import { brichAbBeiWiderspruch } from '../lib/bau-widerspruch.ts'
 import { cartoonsAusReleases } from './cartoon-kern.ts'
@@ -87,6 +88,7 @@ export function schreibeKernUndNews({ releases, events, titles, meta, bekannteSe
   meta.releaseCount = releases.length
   meta.eventCount = events.length
   meta.belegtCount = zaehleBelegte(readJson<Pick<Title, 'dubConfidence' | 'westlich' | 'streams'>[]>(`${OUT}/titles.json`, []))
+  schreibeEingabeStand(`${OUT}/eingabe-stand.json`)
   writeJson(`${OUT}/meta.json`, meta, true)
   bruecheBeiWiderspruchAb({ fehler: zaehlworteAusDateien(), warnungen: [] })
   return { newsFuerRss }
