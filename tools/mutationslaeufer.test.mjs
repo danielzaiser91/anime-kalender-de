@@ -229,5 +229,18 @@ if (process.platform === "win32") {
   assert.ok(!lebt, "Testprozess läuft nach dem Signal weiter")
 }
 
+// 6. Kontrolle ohne tests und ohne --test fährt die tests aller Mutanten; echter Mutant ohne Test bricht weiter ab.
+const kontrolle = { name: "Kontrolle", aenderungen: [] }
+const mitTests = { ...mut[0], tests: [`${knoten} test-f.mjs`] }
+const k6 = lauf([mitTests, kontrolle], [], [])
+assert.equal(k6.exit, 0, k6.aus)
+assert.equal(urteilVon(k6.aus, "Kontrolle"), "GRÜN", k6.aus)
+const k6b = lauf([mitTests, { ...kontrolle, tests: [`${knoten} test.mjs`] }], [], [])
+assert.equal(k6b.exit, 0, k6b.aus)
+const k6c = lauf([mut[0], kontrolle], [], [])
+assert.equal(k6c.exit, 2, k6c.aus)
+assert.match(k6c.aus, /Kein Testbefehl/)
+unversehrt()
+
 rmSync(ordner, { recursive: true, force: true })
 console.log("mutationslaeufer.test: ok")
