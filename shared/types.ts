@@ -102,7 +102,7 @@ export interface Schedule {
    * Tage Abstand. Wer solche Fälle in Siebener-Schritten erzwingt, verschiebt
    * entweder den Start oder alle Folgetermine.
    *
-   * Was hier steht, ist im Kalender gesehen worden und schlägt jede Rechnung.
+   * Gesichtet oder aus belegtem Plan/EPG (künftige tv-Tage, Joyn-Tage mit passendem Fenster); schlägt jede Rechnung.
    */
   observed?: Record<number, string>
   /**
