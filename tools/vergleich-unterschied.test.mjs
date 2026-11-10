@@ -99,6 +99,8 @@ const flach = zeilenIcs(['BEGIN:VEVENT', 'UID:f-1', 'SUMMARY:Ein sehr langerTite
 assert.deepEqual(ab(gefaltet, flach), ['    nur Zeilenenden (CRLF/LF) oder Faltung verschieden'], 'andere Faltung, gleicher Inhalt')
 assert.deepEqual(ab(gefaltet, gefaltet.replace('Titel', 'Titel!')), ['    erste Abweichung: Zeile 3, UID f-1 → f-1', '    - SUMMARY:Ein sehr langerTitel', '    + SUMMARY:Ein sehr langerTitel!'], 'Änderung in der Fortsetzung zeigt die ganze Zeile')
 assert.deepEqual(ab(zeilenIcs(['A', 'B']), zeilenIcs(['A', ' B'])), ['    erste Abweichung: Zeile 1, UID — → —', '    - A', '    + AB'], 'Fortsetzung hängt an der vorigen Zeile')
+assert.deepEqual(ab('A\r\n\tB\r\n', 'AB\r\n'), ['    nur Zeilenenden (CRLF/LF) oder Faltung verschieden'], 'Tab setzt ebenfalls fort')
+assert.deepEqual(ab(' X\r\n', 'Y\r\n'), ['    erste Abweichung: Zeile 1, UID — → —', '    -  X', '    + Y'], 'beginnt die Datei mit Fortsetzung, bleibt die Zeile erhalten')
 
 // Nur Zeilenenden (CRLF gegen LF): die Datei ist verschieden, also sagt eine Zeile es.
 assert.deepEqual(ab(zeilenIcs(kopf), zeilenIcs(kopf).replace(/\r\n/g, '\n')), ['    nur Zeilenenden (CRLF/LF) oder Faltung verschieden'])
