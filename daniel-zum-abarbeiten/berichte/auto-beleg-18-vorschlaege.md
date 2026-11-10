@@ -19,7 +19,7 @@ Das Log nennt 24 Vorschläge ohne Beleg (der Auftrag sprach von 18; die Zahl hä
 | Der Schatten über Anlegion | YouTube | Art ankuendigung | ja | Ankündigung, keine Synchro-Aussage zu einem Angebot; kein Katalogtitel |
 | Honey Lemon Soda | Disney+ | Handbeleg steht schon | ja | Handbeleg 04.11. (alle 12 Folgen mit deutschem Ton) |
 | Naruto Shippuden – Staffel 4 | Disney+ | Titel nicht im Katalog | ja | Ein Katalogtitel 1735 für alle Staffeln, Disney+-Weg trägt dub: true; ein „Staffel 4“-Beleg gälte dem ganzen Titel, bleibt abgelehnt |
-| Black Clover | – (Pluto TV) | keine Stream-Plattform im Datenmodell | ja | Pluto TV ist keine `PlatformId`; Titel 97940 hat keinen Pluto-Weg. Empfehlung: Plattform aufnehmen (eigener Auftrag) |
+| Black Clover | – (Pluto TV) | keine Stream-Plattform im Datenmodell | ja | Pluto TV ist keine `PlatformId`; Titel 97940 hat keinen Pluto-Weg. Plattform aufgenommen mit PR 3197 (08.11.) |
 | Dr. STONE | – (Pluto TV) | keine Stream-Plattform im Datenmodell | ja | wie Black Clover, Titel 105333 |
 | Tokyo Godfathers | – | als unsicher gekennzeichnet | ja | Vorschlag selbst unsicher (Plattform fehlt im Artikel); Titel 759 hat keine Wege |
 | Pet | Prime Video | Handbeleg steht schon | ja | Handbeleg 07.11. (Tonspur Deutsch, 13 Folgen) – kam einen Tag nach dem Artikel von Hand |
