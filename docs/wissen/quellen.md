@@ -1081,6 +1081,8 @@ Katalog-Runden in `build.ts` (Kennung mit genau einer Staffel und `de-DE`) es se
 `check:logic` zählt die Sperren. Wer ein Ja für Crunchyroll setzt, sucht vorher jede Stelle mit
 `stream.dub = true` für diese Plattform.
 
+Das Feld `katalog` (Typ `CrSerie`, `pipeline/lib/crunchyroll-dub.ts`) sagt, aus welchem Länderkatalog eine Lesung stammt: nur `de` ist ein deutscher Befund, leer oder `us` ist der US-Katalog und kein Deutsch-Nein (09.11.2026).
+
 ## Wer eine Abdeckung misst, zählt alle Quellen — nicht die eine, die am Verweis steht
 
 Am 14.09.2026 stand die Frage, wie viele deutsche Verweise eine belegte Folgenzahl je Anbieter haben. Meine erste Antwort war „93 von 1.982, 5 %" — gezählt hatte ich nur `dubRanges` am Verweis. Daniel: „guck nochmal genau in bestand ob wir evtl schon mehr wissen als die 5% die du ansprichst." Es waren **66 %**, und der Rest (682) sind abgeschlossene Serien, für die die Folgenzahl des Titels gilt:
