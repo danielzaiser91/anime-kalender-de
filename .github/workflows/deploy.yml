@@ -51,14 +51,15 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # **Zwei Wege zum Deploy** (Daniel, 08.10.2026): Bau und Prüfungen laufen in einem Job. **Hart** (Standard): Deployt wird erst, wenn der Job grün ist.
+  # **Zwei Wege zum Deploy** (Daniel, 08.10.2026): Der Bau und die Prüfungen laufen nebeneinander. **Hart** (Standard): Deployt wird erst, wenn beides grün ist.
   # **Schlank** (`[schlank]` in der Commit-Nachricht, gesetzt von `bash tools/pushen.sh --schlank`): Für kleine Änderungen, die lokal vollständig geprüft sind. Deployt wird
-  # auch bei roter Prüfung, sobald der Job fertig ist (Ausgabe `gebaut`); die Prüfung meldet sich rot, wenn doch etwas nicht stimmt.
+  # gleich nach dem Bau; die Prüfungen laufen weiter und melden sich rot, wenn doch etwas nicht stimmt.
   # **Deploy aus dem geprüften Build** (16.10.2026): Hat die PR-Prüfkette genau diesen Quelltext schon gebaut und geprüft, wird ihr Artefakt ausgeliefert
-  # (Beweis und Rückfälle: tools/deploy-aus-build.mjs, Baum in version.json). Dann entfallen alle Schritte nach „Artefakt für die Veröffentlichung hochladen“; ohne Treffer läuft alles wie bisher.
-  # **Ein Job statt drei** (10.11.2026): GitHub kennt keine Prioritäten, jeder Job reiht sich neu in die Runner-Warteschlange ein (Bericht CI-Stau).
-  # Herkunft, Bau und Prüfung stehen deshalb hintereinander in einem Job; die Berechtigungen sind die des früheren Jobs `herkunft` (weniger als `build`/`pruefen`: kein `pages`/`id-token`).
-  bau_pruefen:
+  # (Beweis und Rückfälle: tools/deploy-aus-build.mjs, Baum in version.json). Dann entfallen in `build` und `pruefen` alle Schritte nach dem Hochladen bzw. der Herkunftsprüfung; ohne Treffer läuft alles wie bisher.
+  # **Drei Hops statt sechs** (10.11.2026): GitHub kennt keine Prioritäten, jeder Job reiht sich neu in die Runner-Warteschlange ein (Bericht CI-Stau). Der frühere Job `herkunft`
+  # ist als Composite-Schritt (`.github/actions/herkunft-holen`) an den Anfang von `build` und `pruefen` gewandert; beide Jobs laufen weiter parallel. Das Artefakt lädt nur `build` hoch.
+  # Beide Jobs haben die Rechte des früheren `herkunft` (die Herkunftsprüfung liest Pull Requests und Läufe); `pages`/`id-token` brauchen nur die Deploy-Jobs.
+  build:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -72,9 +73,7 @@ jobs:
     env:
       LAUF_ZWECK: "Veröffentlicht den aktuellen Stand von anime-kalender.de"
       LAUF_ZIEL: "Prüfkette grün, neuer Stand auf GitHub Pages"
-      LAUF_SCHRITTE: '7'
-    outputs:
-      gebaut: ${{ steps.artefakt.outcome == 'success' && '1' || '' }}
+      LAUF_SCHRITTE: '6'
     # Ein gescheiterter Datenlauf soll nichts veröffentlichen. Bei den anderen
     # Auslösern (push, workflow_dispatch) ist das Feld leer, deshalb die
     # Oder-Bedingung — sonst würde der Deploy von Hand nie mehr starten.
@@ -107,12 +106,14 @@ jobs:
             --data-binary @/tmp/anmeldung.json > /dev/null || true
 
 
-      # Zunächst nur `tools` (Weg „Geprüften Bau holen“); Verlauf für den Logik-Beleg (tools/logik-beleg.mjs): Commit-Nachrichten der letzten 30, ohne ihre Inhalte.
+      # Zunächst nur `tools` mit Verlauf (Herkunftsprüfung braucht den Elterncommit).
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 30
+          fetch-depth: 2
           filter: blob:none
-          sparse-checkout: tools
+          sparse-checkout: |
+            tools
+            .github/actions
 
       # Meldet der Statusanzeige, dass hier etwas läuft. Ohne LAUF_TOKEN
       # passiert nichts — eine fehlende Meldung darf keinen Lauf rot machen.
@@ -134,19 +135,15 @@ jobs:
         run: bash "$MELDER" laeuft
 
       # `[schlank]` baut weiter selbst (Weg ohne Prüfkette). Jeder Fehler hier heißt nur „kein Treffer“.
-      - name: Geprüften Bau der PR-Prüfkette holen
-        id: holen
+      - name: Herkunft prüfen
+        id: herkunft
         timeout-minutes: 5
-        if: ${{ !contains(github.event.head_commit.message, '[schlank]') }}
-        continue-on-error: true
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: node tools/deploy-aus-build.mjs "$RUNNER_TEMP/artifact.tar"
+        uses: ./.github/actions/herkunft-holen
 
       - name: Artefakt für die Veröffentlichung hochladen
         id: hochladen
         continue-on-error: true
-        if: ${{ steps.holen.outputs.treffer == '1' }}
+        if: ${{ steps.herkunft.outputs.treffer == '1' }}
         uses: actions/upload-artifact@v4
         with:
           name: github-pages
@@ -154,7 +151,7 @@ jobs:
           retention-days: 1
           if-no-files-found: error
 
-      # Ab hier nur ohne Treffer: Bau, dann Prüfungen. Der Rest des Checkouts folgt erst jetzt (Blobs lädt Git nach).
+      # Ab hier nur ohne Treffer (oder wenn der Upload scheiterte). Der Rest des Checkouts folgt erst jetzt (Blobs lädt Git nach).
       - name: Vollständig auschecken
         if: ${{ steps.hochladen.outcome != 'success' }}
         run: git sparse-checkout disable
@@ -208,7 +205,6 @@ jobs:
       # zurück zum Kalender, und noindex.
 
       - uses: actions/upload-pages-artifact@v3
-        id: artefakt
         if: ${{ steps.hochladen.outcome != 'success' }}
         with:
           path: dist
@@ -220,30 +216,93 @@ jobs:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: bash "$MELDER" schritt "Artefakt hochgeladen"
 
+  pruefen:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
+      pull-requests: read
+    env:
+      LAUF_ZWECK: "Veröffentlicht den aktuellen Stand von anime-kalender.de"
+      LAUF_ZIEL: "Prüfkette grün, neuer Stand auf GitHub Pages"
+      LAUF_SCHRITTE: '6'
+    if: >-
+      (github.event_name != 'workflow_run' ||
+      github.event.workflow_run.conclusion == 'success') &&
+      !(github.event_name == 'push' && github.actor == 'anime-kalender-daten[bot]')
+    steps:
+      # Zunächst nur `tools` mit Verlauf für die Herkunftsprüfung und den Logik-Beleg (tools/logik-beleg.mjs): Commit-Nachrichten der letzten 30, ohne ihre Inhalte.
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 30
+          filter: blob:none
+          sparse-checkout: |
+            tools
+            .github/actions
+
+      # Dieselbe Prüfung wie in `build`; bei Treffer entfallen alle folgenden Schritte (der Job bleibt grün, die Prüfung der PR-Kette gilt).
+      - name: Herkunft prüfen
+        id: herkunft
+        timeout-minutes: 5
+        uses: ./.github/actions/herkunft-holen
+
+      - name: Vollständig auschecken
+        if: ${{ steps.herkunft.outputs.treffer != '1' }}
+        run: git sparse-checkout disable
+
       # Hat der Bestandsbau `check:logic` für genau diesen Inhalt (außerhalb der Datenpfade) schon grün gefahren, steht der Abdruck in
       # seiner Commit-Nachricht und der Lauf unten spart die ~3 min. Jeder Fehler hier heißt nur „nicht belegt“: dann läuft die Prüfung.
       - name: Logik-Beleg des Bestandsbaus lesen
         id: beleg
-        if: ${{ steps.hochladen.outcome != 'success' }}
+        if: ${{ steps.herkunft.outputs.treffer != '1' }}
         run: node tools/logik-beleg.mjs gueltig
 
-      # Hat ein früherer Deploy-Lauf für denselben Inhalt außerhalb der Datenpfade die Prüfungen grün gefahren (tools/workflows-beleg.mjs),
+      # Hat ein früherer Deploy-Lauf für denselben Inhalt außerhalb der Datenpfade `pruefen` grün gefahren (tools/workflows-beleg.mjs),
       # entfällt `check:workflows` (~7 min). Jeder Fehler hier heißt nur „nicht belegt“: dann läuft die Prüfung wie bisher.
       - name: Workflows-Beleg früherer Deploy-Läufe suchen
         id: wbeleg
-        if: ${{ steps.hochladen.outcome != 'success' }}
+        if: ${{ steps.herkunft.outputs.treffer != '1' }}
         env:
           GH_TOKEN: ${{ github.token }}
         run: node tools/workflows-beleg.mjs gueltig
 
+      # Meldet der Statusanzeige, dass hier etwas läuft. Ohne LAUF_TOKEN
+      # passiert nichts — eine fehlende Meldung darf keinen Lauf rot machen.
+      # Das Meldeskript an einen Ort legen, den kein Zweigwechsel wegnimmt.
+      #
+      # Am 21.08.2026 hat ein Auftrags-Lauf seinen eigenen Zweig angelegt und
+      # ist dorthin gewechselt — auf dem gab es `tools/lauf-melden.sh` noch
+      # nicht. Die Abmeldung scheiterte mit Exit 127 und machte einen Lauf rot,
+      # dessen Arbeit fertig und richtig war.
+      - name: Melder bereitlegen
+        run: |
+          cp tools/lauf-melden.sh "$RUNNER_TEMP/lauf-melden.sh"
+          echo "MELDER=$RUNNER_TEMP/lauf-melden.sh" >> "$GITHUB_ENV"
+
+      - uses: actions/setup-node@v4
+        if: ${{ steps.herkunft.outputs.treffer != '1' }}
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+        if: ${{ steps.herkunft.outputs.treffer != '1' }}
+
+      - name: Fortschritt — Abhängigkeiten installiert
+        if: ${{ steps.herkunft.outputs.treffer != '1' }}
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" schritt "Abhängigkeiten installiert"
+
       - name: Kuratierte Daten prüfen
-        if: ${{ steps.hochladen.outcome != 'success' }}
+        if: ${{ steps.herkunft.outputs.treffer != '1' }}
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:validate
 
       - name: Fortschritt — Kuratierte Daten geprüft
-        if: ${{ steps.hochladen.outcome != 'success' }}
+        if: ${{ steps.herkunft.outputs.treffer != '1' }}
         continue-on-error: true
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
@@ -253,13 +312,13 @@ jobs:
       # der Übersicht und läuft nie wieder. Diese Prüfung ist der einzige Ort,
       # der das bemerkt, bevor ein Nachtlauf ausbleibt.
       - name: Workflow-Dateien prüfen
-        if: ${{ steps.hochladen.outcome != 'success' && steps.wbeleg.outputs.gueltig != '1' }}
+        if: ${{ steps.herkunft.outputs.treffer != '1' && steps.wbeleg.outputs.gueltig != '1' }}
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run check:workflows
 
       - name: Fortschritt — Workflow-Dateien geprüft
-        if: ${{ steps.hochladen.outcome != 'success' }}
+        if: ${{ steps.herkunft.outputs.treffer != '1' }}
         continue-on-error: true
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
@@ -301,7 +360,7 @@ jobs:
       # Was hier bleibt, prüft den Quelltext und ist damit vollständig durch
       # den Commit bestimmt, der den Deploy ausgelöst hat.
       - name: Zusicherungen prüfen
-        if: ${{ steps.hochladen.outcome != 'success' }}
+        if: ${{ steps.herkunft.outputs.treffer != '1' }}
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
           LOGIK_BELEGT: ${{ steps.beleg.outputs.gueltig }}
@@ -315,7 +374,7 @@ jobs:
           npm run check:search
 
       - name: Fortschritt — Zusicherungen geprüft
-        if: ${{ steps.hochladen.outcome != 'success' }}
+        if: ${{ steps.herkunft.outputs.treffer != '1' }}
         continue-on-error: true
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
@@ -329,7 +388,7 @@ jobs:
       # hier steht sie eigens, damit der Lauf den Fehler beim Namen nennt
       # statt ihn als Baufehler zu melden.
       - name: Hooks-Regeln prüfen
-        if: ${{ steps.hochladen.outcome != 'success' }}
+        if: ${{ steps.herkunft.outputs.treffer != '1' }}
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run check:hooks
@@ -338,7 +397,7 @@ jobs:
       # keiner Kette und liefen deshalb genau einmal — an dem Tag, an dem sie
       # geschrieben wurden.
       - name: Erweiterung prüfen
-        if: ${{ steps.hochladen.outcome != 'success' }}
+        if: ${{ steps.herkunft.outputs.treffer != '1' }}
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run check:extension
@@ -346,18 +405,18 @@ jobs:
       # Die Zugangsart ist die einzige Angabe, bei der ein Fehler den Leser
       # Geld kostet — „kostenlos" vor einer Kasse.
       - name: Fortschritt — Hooks-Regeln geprüft
-        if: ${{ steps.hochladen.outcome != 'success' }}
+        if: ${{ steps.herkunft.outputs.treffer != '1' }}
         continue-on-error: true
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: bash "$MELDER" schritt "Hooks-Regeln geprüft"
 
-  # Treffer oder Bau und Prüfung grün: Das Artefakt liegt (Treffer: Schritt „Artefakt für die Veröffentlichung hochladen“, sonst „upload-pages-artifact“).
-  # `!cancelled()` ist nötig, weil ein übersprungener Job den Folgejob sonst mitüberspringt.
+  # Beide Jobs grün: Bau und Prüfung gelaufen oder (Treffer) das Artefakt der PR-Prüfkette liegt, dann entfallen die Schritte, die Jobs bleiben grün.
+  # `!cancelled()` ist nötig, weil übersprungene Needs den Job sonst mitüberspringen.
   deploy_hart:
-    needs: bau_pruefen
+    needs: [build, pruefen]
     if: >-
-      ${{ !cancelled() && needs.bau_pruefen.result == 'success' &&
+      ${{ !cancelled() && needs.build.result == 'success' && needs.pruefen.result == 'success' &&
       !contains(github.event.head_commit.message, '[schlank]') }}
     runs-on: ubuntu-latest
     environment:
@@ -367,10 +426,9 @@ jobs:
       - id: deployment
         uses: actions/deploy-pages@v4
 
-  # `[schlank]`: deployt, sobald der Job durch ist, auch bei roter Prüfung (nur wenn das Artefakt gebaut wurde: Ausgabe `gebaut`).
   deploy_schlank:
-    needs: bau_pruefen
-    if: ${{ !cancelled() && contains(github.event.head_commit.message, '[schlank]') && needs.bau_pruefen.outputs.gebaut == '1' }}
+    needs: build
+    if: ${{ contains(github.event.head_commit.message, '[schlank]') }}
     runs-on: ubuntu-latest
     environment:
       name: github-pages
@@ -382,17 +440,17 @@ jobs:
   # Abmeldung und Aufräumen nach allen Jobs: Sie brauchen das Meldeskript (Auscheckvorgang) und den Gesamtstand.
   # Danach (30.10.2026): Kachelränder an der ausgelieferten Seite, dieselbe Pixelmessung wie in der PR-Kette, aber gegen die echte Adresse (Service Worker gesperrt, fremde Bilder ersetzt).
   # Ein Befund macht nur diese Schritte rot (`continue-on-error`), nie den Deploy und nie die Abmeldung (sie steht davor). Der Job hält die Gruppe `pages`,
-  # daher die Fristen je Schritt: Abmeldung und Aufräumen höchstens 3 min (ein hängender Checkout hielt die Gruppe am 16.10.2026 sechs Minuten, normal unter einer);
+  # daher die Fristen je Schritt: Aufräumen höchstens 3 min (ein hängender Checkout hielt die Gruppe am 16.10.2026 sechs Minuten, normal unter einer);
   # Messung lokal gegen live 3 x ca. 117 s (30.10.2026) plus Einrichten, 8 min als Obergrenze.
   abschluss:
-    needs: [bau_pruefen, deploy_hart, deploy_schlank]
-    if: always() && needs.bau_pruefen.result != 'skipped'
+    needs: [build, pruefen, deploy_hart, deploy_schlank]
+    if: always() && needs.build.result != 'skipped'
     timeout-minutes: 14
     runs-on: ubuntu-latest
     env:
       LAUF_ZWECK: "Veröffentlicht den aktuellen Stand von anime-kalender.de"
       LAUF_ZIEL: "Prüfkette grün, neuer Stand auf GitHub Pages"
-      LAUF_SCHRITTE: '7'
+      LAUF_SCHRITTE: '6'
     steps:
       - uses: actions/checkout@v4
 

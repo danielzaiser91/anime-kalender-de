@@ -39,25 +39,23 @@ const gh = (tabelle, log = []) => (a) => {
 }
 const LISTE = 'run list --repo o/r --workflow deploy.yml --branch main --status success --limit 6 --json databaseId'
 const jobs = (...j) => ({ jobs: j })
-const bau = (id, conclusion = 'success') => ({ id, name: 'build', conclusion })
-
-// Seit 10.11.2026 baut der Job `bau_pruefen`; nur mit gelaufenem Schritt „Bauen“ zählt er (bei Treffer des geprüften Baus bleibt er grün, ohne zu bauen).
-const bauNeu = (id, schritte, conclusion = 'success') => ({ id, name: 'bau_pruefen', conclusion, steps: schritte })
 const BAUEN = { name: 'Bauen', conclusion: 'success' }
-gleich('bau_pruefen mit Schritt Bauen: Bau-Job', istBauJob(bauNeu(1, [BAUEN])), true)
-gleich('bau_pruefen, Bauen übersprungen (Treffer): kein Bau-Job', istBauJob(bauNeu(1, [{ name: 'Bauen', conclusion: 'skipped' }])), false)
-gleich('bau_pruefen ohne Schritt Bauen: kein Bau-Job', istBauJob(bauNeu(1, [{ name: 'Erweiterung prüfen', conclusion: 'success' }])), false)
-gleich('bau_pruefen ohne Schritte in der Antwort: kein Bau-Job', istBauJob(bauNeu(1, undefined)), false)
-gleich('bau_pruefen rot trotz grünem Bauen: kein Bau-Job', istBauJob(bauNeu(1, [BAUEN], 'failure')), false)
-gleich('Job build grün: Bau-Job (Läufe vor dem Umbau)', istBauJob(bau(1)), true)
+const bau = (id, conclusion = 'success', schritte = [{ name: 'Bauen', conclusion }]) => ({ id, name: 'build', conclusion, steps: schritte })
+
+// Seit 10.11.2026 ist `build` bei Treffer des geprüften Baus grün, ohne zu bauen: nur mit gelaufenem Schritt „Bauen“ zählt er.
+gleich('build mit Schritt Bauen: Bau-Job', istBauJob(bau(1)), true)
+gleich('build grün, Bauen übersprungen (Treffer): kein Bau-Job', istBauJob(bau(1, 'success', [{ name: 'Bauen', conclusion: 'skipped' }])), false)
+gleich('build ohne Schritt Bauen: kein Bau-Job', istBauJob(bau(1, 'success', [{ name: 'Erweiterung prüfen', conclusion: 'success' }])), false)
+gleich('build ohne Schritte in der Antwort: kein Bau-Job', istBauJob(bau(1, 'success', null)), false)
+gleich('build rot trotz grünem Bauen: kein Bau-Job', istBauJob(bau(1, 'failure', [BAUEN])), false)
 gleich('anderer Jobname mit Schritt Bauen: kein Bau-Job', istBauJob({ id: 1, name: 'pruefen', conclusion: 'success', steps: [BAUEN] }), false)
 const logNeu = []
 gleich(
-  'Lauf mit Treffer übersprungen, nächster Lauf mit bau_pruefen und Warnung',
-  startBudgetZeilen(gh({ [LISTE]: [{ databaseId: 10 }, { databaseId: 20 }], 'api repos/o/r/actions/runs/10/jobs': jobs(bauNeu(2, [{ name: 'Bauen', conclusion: 'skipped' }])), 'api repos/o/r/actions/runs/20/jobs': jobs(bauNeu(21, [BAUEN])), 'api repos/o/r/check-runs/21/annotations': [BUDGET] }, logNeu), REPO),
+  'Lauf mit Treffer (Bauen übersprungen) wird übersprungen, nächster Lauf mit Warnung',
+  startBudgetZeilen(gh({ [LISTE]: [{ databaseId: 10 }, { databaseId: 20 }], 'api repos/o/r/actions/runs/10/jobs': jobs(bau(2, 'success', [{ name: 'Bauen', conclusion: 'skipped' }])), 'api repos/o/r/actions/runs/20/jobs': jobs(bau(21)), 'api repos/o/r/check-runs/21/annotations': [BUDGET] }, logNeu), REPO),
   ['WARNUNG start-budget: 0.3 KB Luft (Deploy-Lauf 20); Startdateien verkleinern, bevor der nächste Datenlauf die Grenze reißt'],
 )
-gleich('bau_pruefen: Annotation des Jobs, der gebaut hat', logNeu.at(-1), 'api repos/o/r/check-runs/21/annotations')
+gleich('Annotation des Jobs, der gebaut hat', logNeu.at(-1), 'api repos/o/r/check-runs/21/annotations')
 
 const log1 = []
 const zeilen = startBudgetZeilen(gh({ [LISTE]: [{ databaseId: 10 }, { databaseId: 20 }], 'api repos/o/r/actions/runs/10/jobs': jobs({ id: 1, name: 'herkunft', conclusion: 'success' }, bau(2, 'skipped')), 'api repos/o/r/actions/runs/20/jobs': jobs(bau(21)), 'api repos/o/r/check-runs/21/annotations': [NODE20, BUDGET] }, log1), REPO)

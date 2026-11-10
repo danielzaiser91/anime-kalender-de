@@ -5,7 +5,7 @@
  * liest (Bestandsbau, Sammler unter `data/`), genügt der gleiche Abdruck (`abdruck` in `version.json`, tools/bau-eingaben.mjs, 17.10.2026).
  * Weicht beides ab, fehlt der Lauf, ist der Lauf nicht grün, das Artefakt abgelaufen oder hat der PR unter `.github/` mehr als fremde
  * Workflows geändert (`githubUnbedenklich`), bleibt der Treffer aus und der Deploy baut wie bisher.
- * Aufruf im Workflow `deploy.yml` (Job `bau_pruefen`): schreibt bei Treffer `treffer=1` nach $GITHUB_OUTPUT und `artifact.tar` ins Arbeitsverzeichnis.
+ * Aufruf im Workflow `deploy.yml` (Schritt „Herkunft prüfen“ in `build` und `pruefen`, Composite `.github/actions/herkunft-holen`): schreibt bei Treffer `treffer=1` nach $GITHUB_OUTPUT und `artifact.tar` ins Arbeitsverzeichnis.
  */
 import { execFileSync } from 'node:child_process'
 import { appendFileSync, copyFileSync, mkdtempSync } from 'node:fs'

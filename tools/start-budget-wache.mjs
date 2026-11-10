@@ -9,10 +9,10 @@ const ANZAHL_LAEUFE = 6
 const WARNUNG = /^start-budget: nur noch (\d+(?:\.\d+)?) KB Luft/
 
 /**
- * Erfolgreicher Bau-Job: früher der eigene Job `build`, seit 10.11.2026 der Job `bau_pruefen`, dessen Schritt „Bauen“ gelaufen sein muss
- * (bei Treffer des geprüften Baus ist der Job grün, ohne zu bauen).
+ * Erfolgreicher Bau-Job: `build` mit gelaufenem Schritt „Bauen“ (seit 10.11.2026 ist `build` bei Treffer des geprüften Baus grün, ohne zu bauen:
+ * die Herkunftsprüfung steht als Schritt in ihm, nicht mehr als eigener Job davor).
  */
-export const istBauJob = (j) => j.conclusion === 'success' && (j.name === 'build' || (j.name === 'bau_pruefen' && (j.steps ?? []).some((s) => s.name === 'Bauen' && s.conclusion === 'success')))
+export const istBauJob = (j) => j.name === 'build' && j.conclusion === 'success' && (j.steps ?? []).some((s) => s.name === 'Bauen' && s.conclusion === 'success')
 
 /** KB Luft aus den Annotationen eines Bau-Jobs, `null` ohne Warnung. */
 export function luftAusAnnotationen(annotationen) {
