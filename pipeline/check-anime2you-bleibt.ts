@@ -71,8 +71,9 @@ const tsx = createRequire(join(wurzel, 'package.json')).resolve('tsx/cli')
 const mock = pathToFileURL(join(wurzel, 'tools/anime2you-abruf-mock.mjs')).href
 const ak = mkdtempSync(join(tmpdir(), 'a2y-bleibt-'))
 try {
-  mkdirSync(join(ak, 'data/curated'), { recursive: true })
-  writeFileSync(join(ak, 'data/curated/kulisse.yaml'), 'quellen:\n  - https://www.anime2you.de/anderer-artikel/\n')
+  const kuratiert = join(ak, 'data', 'curated')
+  mkdirSync(kuratiert, { recursive: true })
+  writeFileSync(join(kuratiert, 'kulisse.yaml'), 'quellen:\n  - https://www.anime2you.de/anderer-artikel/\n')
   const r = spawnSync(process.execPath, [tsx, join(wurzel, 'pipeline/scrape-anime2you.ts')], {
     cwd: ak,
     env: { ...process.env, AK_ROOT: ak, AK_A2Y_MODUS: 'sprachhinweis-alt', NODE_OPTIONS: `--import ${mock}` },
