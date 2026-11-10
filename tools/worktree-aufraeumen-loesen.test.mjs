@@ -1,5 +1,5 @@
 /**
- * Test für `raeumeLosen` und `bewerteLosenPfad` in `tools/claude-global/hooks/worktree-aufraeumen.js`:
+ * Test für `raeumeLosen` und `bewerteLosenPfad` in `.claude/hooks/worktree-aufraeumen.js`:
  * Nebenläufige Datei beim Lösen, Haupt-Bestand verschwindet mitten im Lauf, unlesbarer und verschwundener Ordner.
  * Wegwerf-Ordner unter os.tmpdir(), nie unter dem Repo.
  */
@@ -9,7 +9,7 @@ import { chmodSync, existsSync, lstatSync, mkdirSync, mkdtempSync, renameSync, r
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 
-const H = createRequire(import.meta.url)(join(import.meta.dirname, 'claude-global', 'hooks', 'worktree-aufraeumen.js'))
+const H = createRequire(import.meta.url)(join(import.meta.dirname, '..', '.claude', 'hooks', 'worktree-aufraeumen.js'))
 
 const wurzel = mkdtempSync(join(tmpdir(), 'wt-loesen-'))
 const haupt = join(wurzel, 'haupt')

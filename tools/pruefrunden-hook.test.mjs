@@ -1,5 +1,5 @@
 /**
- * Test für `tools/claude-global/hooks/pruefrunden.js` (PreToolUse auf Agent): ab 3 Runden des Agent-Prüfers auf dem PR wird der Start
+ * Test für `.claude/hooks/pruefrunden.js` (PreToolUse auf Agent): ab 3 Runden des Agent-Prüfers auf dem PR wird der Start
  * eines weiteren Prüfers verweigert. gh ist eine Attrappe, die Unterbefehl, PR-Nummer, Repo und --json auswertet; ihr Urteil über
  * falsche Aufrufe steht außerhalb des Hooks (Liste bzw. Protokolldatei), weil der Hook Fehler der Attrappe abfängt.
  */
@@ -10,7 +10,7 @@ import { createRequire } from 'node:module'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 
-const hook = join(import.meta.dirname, 'claude-global', 'hooks', 'pruefrunden.js')
+const hook = join(import.meta.dirname, '..', '.claude', 'hooks', 'pruefrunden.js')
 const { pruefe, antwort, findePr, zaehleUrteile, leseStufe, grenzeFuer } = createRequire(import.meta.url)(hook)
 
 const AGENT = (r) => ({ author: { login: 'danielzaiser91' }, body: `Prüfer: ändern  Kopf: abc (Runde ${r}, Stufe 2)` })

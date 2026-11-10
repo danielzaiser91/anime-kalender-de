@@ -13,7 +13,6 @@ import yaml from 'js-yaml'
 import { haengeBelegeAn } from './lib/belege-anhaengen.ts'
 import { ausSchluessel, blockIstEntfernt, istEntfernt, ladeBelegeEntfernt, toteAusnahmen } from './lib/belege-entfernt.ts'
 import { ALTFAELLE } from './lib/handbeleg-notizseite-altfaelle.ts'
-import { NOTE_ASIN_ALTFAELLE } from './lib/handbeleg-note-asin.ts'
 import { SAMMELSEITEN } from './lib/handbeleg-fremde-adresse.ts'
 import { ROOT } from './lib/util.ts'
 import { ohneGesperrteSeiten } from './lib/prime-meldung-riegel.ts'
@@ -46,7 +45,8 @@ const NAGATORO = [
   "  checkedAt: '2026-09-28'",
 ]
 const mitKennung = (block: string[], id: number) => block.map((z, i) => (i === 0 ? `- anilistId: ${id}` : z))
-const mitUrl = (block: string[], url: string) => block.map((z) => (z.startsWith('  url: ') ? `  url: ${url}` : z))
+/* Ohne Notiz: sie nennt die gemessene Seite, und die zählt wie die Adresse (Oshi-Fälle unten). */
+const mitUrl = (block: string[], url: string) => block.filter((z) => !z.startsWith('  note: ')).map((z) => (z.startsWith('  url: ') ? `  url: ${url}` : z))
 
 const ordner = mkdtempSync(join(tmpdir(), 'belege-entfernt-'))
 const eintraege = (zeilen: string[]) => {
@@ -82,6 +82,24 @@ fall('Kontrolle: ein Beleg ohne Eintrag wird angehängt', NAGATORO, ['140596 B0C
 fall('Kontrolle: Heidi an einer anderen Disney+-Seite bleibt erlaubt', heidi('https://www.disneyplus.com/browse/entity-00000000-0000-0000-0000-000000000000'), ['2225 entity-00000000-0000-0000-0000-000000000000'])
 n.faelle++
 erwarte('Dopplung: derselbe Block zweimal ergibt nur einen', eintraege([...NAGATORO, '', ...NAGATORO]).alle, ['140596 B0CH4TWTLL'])
+/* Oshi no Ko S3 (182587): Block wörtlich wie ihn die Meldungen erzeugen (Adresse B0GFPBT6FG, gemessen an Staffel 1, B0B7D5DRV2); #3316 nahm ihn heraus, der Bestandsbau 10.11.2026 hängte ihn wieder an. */
+const OSHI_S1 = [
+  '- anilistId: 182587',
+  '  title: "Oshi no Ko: Mein Star"',
+  '  platform: primevideo',
+  '  url: https://www.amazon.de/gp/video/detail/B0GFPBT6FG',
+  '  dub: false',
+  '  dubRanges:',
+  '    - from: 1',
+  '      to: 1',
+  '      dub: false',
+  "  checkedAt: '2026-10-11'",
+  '  note: "Folge 1 ohne deutschen Ton — Anbieter zählt durch, hier auf die Staffel umgerechnet — Tonspuren: 日本語 — Amazon-Seite B0B7D5DRV2: alle 12 Folgen geprüft, Abos: Prime, aniversede, crunchyrollde, zugang=abo_und_kauf"',
+]
+const OSHI_S3 = OSHI_S1.map((z) => z.replace('Amazon-Seite B0B7D5DRV2', 'Amazon-Seite B0GFPBT6FG'))
+fall('Oshi no Ko S3 (182587): Block mit der Notizseite der Staffel 1 bleibt weg', OSHI_S1, [], /1 Beleg\(e\) stehen in belege-entfernt\.yaml/)
+fall('Kontrolle: derselbe Block bei Staffel 1 (150672) wird angehängt', mitKennung(OSHI_S1, 150672), ['150672 B0GFPBT6FG'])
+fall('Kontrolle: 182587 mit eigener Notizseite B0GFPBT6FG wird angehängt', OSHI_S3, ['182587 B0GFPBT6FG'])
 n.faelle += 2
 erwarte('Eintrag ohne Adresse sperrt keinen Beleg ohne Adresse', istEntfernt([{ anilistId: 1, url: '', grund: 'x', entferntAm: 'x' }], 1, undefined), false)
 erwarte('unlesbarer Block gilt nicht als entfernt', blockIstEntfernt([{ anilistId: 1, url: 'https://x.example/a', grund: 'x', entferntAm: 'x' }], ['- a: [', '  b: {']), false)
@@ -140,7 +158,6 @@ erwarte('Ausnahme: Sperre einer anderen Kennung an derselben Seite ändert nicht
 n.faelle++
 const ausnahmen = [
   ...ausSchluessel('ALTFAELLE', ALTFAELLE),
-  ...ausSchluessel('NOTE_ASIN_ALTFAELLE', NOTE_ASIN_ALTFAELLE),
   ...Object.entries(SAMMELSEITEN).map(([id, s]) => ({ liste: 'SAMMELSEITEN', anilistId: Number(id), seite: s.url })),
 ]
 const tot = toteAusnahmen(ausnahmen, belege, liste)
