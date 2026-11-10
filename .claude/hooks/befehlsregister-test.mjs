@@ -419,7 +419,9 @@ async function testGleicherText() {
     await new Promise((r) => setTimeout(r, 2500))
     const aus = execFileSync(process.execPath, [TOOL, 'aufraeumen', '--agent', 'agG1'], { env: process.env, encoding: 'utf8' })
     assert.match(aus, /keine lebenden Prozesse von agG1/, `mehrdeutiger Text darf keinem Agenten zugeordnet werden: ${aus}`)
-    ok('aufraeumen: derselbe Befehlstext bei zwei Agenten kurz hintereinander bleibt unzugeordnet (fremder Prozess unberührt)')
+    const ende = execFileSync(process.execPath, [TOOL, 'beenden', '--id', 'toolu_GLEICH1'], { env: process.env, encoding: 'utf8' })
+    assert.match(ende, /kein lebender msys-Prozess/, `beenden darf bei mehrdeutigem Text nichts treffen: ${ende}`)
+    ok('aufraeumen und beenden: derselbe Befehlstext bei zwei Agenten kurz hintereinander bleibt unzugeordnet (fremder Prozess unberührt)')
   } finally {
     for (const k of kinder) k.stdin.end() // cat liest EOF und endet; taskkill /T erreichte es nicht
   }
