@@ -1,11 +1,11 @@
 {
-  "scrapedAt": "2026-11-10T15:19:57.747Z",
+  "scrapedAt": "2026-11-10T16:14:25.433Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 40,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 59,
-    "schon in einem Rubrik-Feed gelesen": 27,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 60,
+    "schon in einem Rubrik-Feed gelesen": 25,
     "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 5,
     "Sprachhinweis älter als 45 Tage": 6
   },
@@ -4436,7 +4436,7 @@
           "datum": "2026-10-01"
         }
       ],
-      "sammelGelesen": "2026-11-03"
+      "sammelGelesen": "2026-11-10"
     },
     {
       "articleTitle": "Neue Mehrwertsteuer-Aktion bei MediaMarkt und SATURN",
@@ -4579,7 +4579,7 @@
           "datum": "2026-10-06"
         }
       ],
-      "sammelGelesen": "2026-11-03"
+      "sammelGelesen": "2026-11-10"
     },
     {
       "articleTitle": "AKIBA PASS TV kündigt zwei neue Herbst-Simulcasts 2026 an",
@@ -4611,7 +4611,7 @@
           "datum": "2026-09-30"
         }
       ],
-      "sammelGelesen": "2026-11-03"
+      "sammelGelesen": "2026-11-10"
     },
     {
       "articleTitle": "Crunchyroll ergänzt drei Anime-Neuzugänge + Synchro",
@@ -4661,7 +4661,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-03"
+      "sammelGelesen": "2026-11-10"
     },
     {
       "articleTitle": "AniMoon-Angebot: »Higurashi GOU«-Komplettset zum Sonderpreis",
