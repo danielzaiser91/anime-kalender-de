@@ -39122,3 +39122,23 @@
   available: false
   checkedAt: '2026-11-09'
   note: "Amazon-Seite B0H4P8WQP7: alle 0 Folgen geprüft, 5 in der Region gesperrt, Abos: keine Angabe, gti=amzn1.dv.gti.e1a3e195-ff7a-4620-b915-d725769a6d52, regionsperre=laut Seite nicht mehr im Abo"
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-11-10 ---
+
+- anilistId: 131518
+  title: "Dr. Stone: New World"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0F2NQFW8N
+  dub: true
+  kanalMessung: ja
+  checkedAt: '2026-09-28'
+  note: "Tonspuren: Deutsch, English, Español (España), Español (Latinoamérica), Français, Italiano, Português (Brasil), 日本語 — Amazon-Seite B0F2NQFW8N: alle 22 Folgen geprüft, Abos: crunchyrollde, zugang=abo, gti=amzn1.dv.gti.5a90860b-d626-4f87-9612-581acccc624f — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 162670
+  title: "Dr. Stone: New World (Cour 2)"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0F2NQFW8N
+  dub: true
+  kanalMessung: ja
+  checkedAt: '2026-09-28'
+  note: "Tonspuren: Deutsch, English, Español (España), Español (Latinoamérica), Français, Italiano, Português (Brasil), 日本語 — Amazon-Seite B0F2NQFW8N: alle 22 Folgen geprüft, Abos: crunchyrollde, zugang=abo, gti=amzn1.dv.gti.5a90860b-d626-4f87-9612-581acccc624f — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
