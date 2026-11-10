@@ -1,5 +1,5 @@
 {
-  "stand": "2026-11-10",
+  "stand": "2026-11-09",
   "eintraege": [
     {
       "titel": "M.A.S.K.",
@@ -119,13 +119,6 @@
       "anbieter": "unbekannt",
       "start": "2026-11-27",
       "seit": "2026-11-08"
-    },
-    {
-      "titel": "Nukitashi: Welcome to Love Island!",
-      "id": 174188,
-      "anbieter": "disc",
-      "start": "2026-12-10",
-      "seit": "2026-11-10"
     }
   ],
   "abgeloest": [],

@@ -81,6 +81,7 @@ pipeline/check-schwester-shop-bestand.ts
 pipeline/check-shop-wege-falsches-ziel-bestand.ts
 pipeline/check-staffel-von-hand-bestand.ts
 pipeline/check-staffelzaehlung-bestand.ts
+pipeline/check-streaming-luecke-bestand.ts
 pipeline/check-synchro-widerspruch-bestand.ts
 pipeline/check-telekom-annahme-bestand.ts
 pipeline/check-tmdb-ablauf-bestand.ts
