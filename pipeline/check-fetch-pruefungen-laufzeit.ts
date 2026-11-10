@@ -55,6 +55,13 @@ if (belegTitel(wegAlt).length !== 3 || /^  dub: /m.test(wegAlt) || /^  available
 const wegGanz = lauf('wegganz', ['--trocken']).stdout
 if (belegTitel(wegGanz).length !== 3 || (wegGanz.match(/^  available: false$/gm) ?? []).length !== 3 || /^  dub: /m.test(wegGanz) || wegGanz.includes('gilt nicht für die ganze Adresse')) fehler.push(`Ganzes weg: drei Belege mit available false, ohne dub und Vermerk erwartet: ${wegGanz.slice(0, 400)}`)
 
+if (!wegAlt.includes('): Netflix-Seite: Staffeltest')) fehler.push(`Teil-weg: die Notiz der Meldung fehlt hinter dem Vermerk: ${wegAlt.slice(0, 400)}`)
+/* Mit Folgenbefund schreibt der Folgen-Zweig sein Urteil und keinen Vermerk; ein „kein_dub" ohne Folge bleibt ein Nein. */
+const wegFolge = lauf('wegfolge', ['--trocken']).stdout
+if (!/^  dub: true$/m.test(wegFolge) || wegFolge.includes('gilt nicht für die ganze Adresse')) fehler.push(`Weg mit Folgenbefund: dub-Urteil ohne Vermerk erwartet: ${wegFolge.slice(0, 400)}`)
+const keinDub = lauf('keindub', ['--trocken']).stdout
+if ((keinDub.match(/^  dub: false$/gm) ?? []).length !== 3 || keinDub.includes('gilt nicht für die ganze Adresse')) fehler.push(`kein_dub ohne Folge: drei Belege mit dub false erwartet: ${keinDub.slice(0, 400)}`)
+
 /* Wegwerf-Wurzel, optional mit Netflix' Aufteilung (zwei Staffeln) für die Adresse der Attrappe. */
 function trockenIn(szenario: string, mitAufteilung: boolean) {
   const wurzelTmp = mkdtempSync(join(tmpdir(), 'fetch-pruefungen-trocken-'))
