@@ -4,6 +4,7 @@
  */
 import { aelteste, baueWarteschlange, fragWarteschlange, type LaufHilfen, mitTitelAusAntwort, standOhneKopf, warteschlangeZeile } from './lib/adn-katalog-warteschlange.ts'
 import type { AdnListenEintrag, AdnVideo } from './lib/adn-folgen.ts'
+import { mitUngepruftenAlten } from './lib/adn-sprachriegel.ts'
 
 let verletzt = 0
 function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
@@ -173,5 +174,17 @@ pruefe('Logzeile „N gefragt, davon M ohne Antwort“', zeilen.includes('ADN-Ka
   pruefe('beantwortete Serien (94, 99) sind entschieden, Fehlserien nicht', [...lauf.auskunft.entschieden].sort().join() === '94,99', [...lauf.auskunft.entschieden])
 }
 
-console.log(verletzt ? `✖ ${verletzt} Zusicherung(en) verletzt` : '✓ adn-katalog-warteschlange: 44 Zusicherungen erfüllt')
+// Leere Antwort (09.11.2026, 11 Serien mit Synchro aus dem Katalog gefallen): ohne ein einziges Video bleibt der alte Eintrag, nur eine echte Antwort ohne Deutsch entfernt.
+{
+  const alt = [655, 656, 657, 658].map((showId) => ({ showId, title: `Alt ${showId}` }))
+  const ohneDeutsch = { id: 5, languages: ['vostde'], releaseDate: '2026-10-01T10:00:00Z', show: { id: 656, title: 'Alt 656' } } as unknown as AdnVideo
+  const antworten = { 655: { videos: [] }, 656: { videos: [ohneDeutsch] }, 657: { videos: [ep(7, { id: 657, title: 'Neu 657' })] }, 658: { videos: [] } }
+  const lauf = await fragWarteschlange(alt.map((a) => ({ id: a.showId, title: a.title })), {}, hilfen(antworten, [], []))
+  const b = mitUngepruftenAlten(alt, lauf.shows, lauf.auskunft)
+  pruefe('leere Antwort: 655 und 658 bleiben, 657 kommt neu, nur 656 (echte Antwort ohne Deutsch) fällt heraus', b.shows.map((s) => s.showId).sort().join() === '655,657,658', b.shows.map((s) => s.showId))
+  pruefe('leere Antwort: Bilanz 1 entfernt, 2 als Abbruch behalten', b.entfernt === 1 && b.abbruch === 2 && b.nichtGefragt === 0, b)
+  pruefe('leere Antwort: der Eintrag 655 ist der alte (Metadaten aus dem Vorstand)', b.shows.find((s) => s.showId === 655)?.title === 'Alt 655')
+}
+
+console.log(verletzt ? `✖ ${verletzt} Zusicherung(en) verletzt` : '✓ adn-katalog-warteschlange: 47 Zusicherungen erfüllt')
 process.exit(verletzt ? 1 : 0)

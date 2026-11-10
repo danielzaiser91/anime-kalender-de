@@ -9,7 +9,7 @@ import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
-import { offenePrs, checkStand, entschiedeneFragen, geteilteEntscheidungen, kopfZeitVon, kopfZeiten, liegegut, main, meldeLiegt, hauptordner, stapelBasis, grepMain, neueBezeichner, naechsterSchritt, signaleEinzel, stillstandSignal, ueberholtTreffer, urteile, JQ_PATCHES } from './liegegut.mjs'
+import { offenePrs, checkStand, geteilteEntscheidungen, offeneEntscheidungen, kopfZeitVon, kopfZeiten, liegegut, main, meldeLiegt, hauptordner, standImProjekt, stapelBasis, grepMain, neueBezeichner, naechsterSchritt, signaleEinzel, stillstandSignal, ueberholtTreffer, urteile, JQ_PATCHES } from './liegegut.mjs'
 
 const fehler = []
 const pruefe = (name, ok, info) => {
@@ -116,6 +116,11 @@ console.log('liegegut: Signal 5 Ändern-Urteil ohne neuen Commit (Fall 1390)')
   pruefe('genau 24 h → noch nicht', nummern(pr(20, { comments: [bot(24, KOPF, 'aendern')] }), 40).length === 0)
   pruefe('neuer Commit nach dem Urteil: Urteil gilt nicht mehr', nummern(pr(21, { comments: [bot(30, ALT, 'aendern')] }), 2).length === 0)
   pruefe('Daniel ändern seit 25 h, danach Bot ok → kein Signal 5 (letztes Urteil ok)', !nummern(pr(22, { comments: [daniel(26, 'Prüfer: ändern'), bot(25, KOPF, 'ok')] }), 40).includes(5))
+  const review = (stunden, state) => ({ state, submittedAt: h(stunden), author: { login: 'danielzaiser91' } })
+  const ohneApprove = pr(3009, { comments: [bot(30, KOPF, 'aendern')] })
+  pruefe('Ändern seit 30 h, Approve jünger → kein Signal 5 (3009)', !nummern({ ...ohneApprove, reviews: [review(10, 'APPROVED')] }, 40).includes(5))
+  pruefe('Gegenfall: Approve älter als das Ändern → Signal 5 bleibt', nummern({ ...ohneApprove, reviews: [review(40, 'APPROVED')] }, 40).includes(5))
+  pruefe('Gegenfall: jüngeres Review ohne Approve (COMMENTED) → Signal 5 bleibt', nummern({ ...ohneApprove, reviews: [review(10, 'COMMENTED')] }, 40).includes(5))
 }
 
 console.log('liegegut: Signal 6 gleiche offene Entscheidung (Fälle 1508, 1513)')
@@ -133,6 +138,23 @@ console.log('liegegut: Signal 6 gleiche offene Entscheidung (Fälle 1508, 1513)'
   pruefe('Bot-Kommentar ohne Prüfer-Review (pr-stufe) zählt nicht', geteilteEntscheidungen([stufe, imDaniel]).size === 0)
   pruefe('Kommentar eines Fremden zählt nicht', geteilteEntscheidungen([pr(1515, { comments: [{ author: { login: 'fremd' }, createdAt: h(5), body: 'F39' }] }), imDaniel]).size === 0)
   pruefe('„F390“ ist nicht F39', geteilteEntscheidungen([a, pr(1601, { body: 'F390' })]).size === 0)
+}
+
+console.log('liegegut: Signal 6 nur für F-Nummern unter „### Jetzt“ in stand.md (F109 = A, 07.11.2026: 3141/3138/3117)')
+{
+  const stand = ['## Daniel-Todo', '### Jetzt', '- 🟠 **Frage** F39 offen', '', '### Später', '- ⏳ F40 wartet', '## Als Nächstes', '- F109 = A erledigt'].join('\n')
+  const offen = offeneEntscheidungen(stand)
+  pruefe('nur F39 steht unter Jetzt', JSON.stringify([...offen]) === '["F39"]', [...offen])
+  const a = pr(3117, { body: 'F109 und F39' })
+  const b = pr(3138, { body: 'F109 und F39' })
+  pruefe('F39 offen unter Jetzt → Signal in beiden PRs', JSON.stringify([...geteilteEntscheidungen([a, b], offen)]) === JSON.stringify([[3117, ['F39']], [3138, ['F39']]]))
+  const c = pr(3141, { body: 'F109' })
+  const d = pr(3142, { body: 'F109 F40' })
+  pruefe('F109 nur außerhalb von Jetzt → kein Signal', geteilteEntscheidungen([c, d], offen).size === 0)
+  pruefe('F40 unter Später zählt nicht', geteilteEntscheidungen([pr(1, { body: 'F40' }), pr(2, { body: 'F40' })], offen).size === 0)
+  pruefe('Datei fehlt (null) → keine Einschränkung', geteilteEntscheidungen([c, d], offeneEntscheidungen(null)).size === 2)
+  pruefe('Jetzt am Dateiende (ohne nächste Überschrift)', offeneEntscheidungen('### Jetzt\n- F7').has('F7'))
+  pruefe('ohne Abschnitt Jetzt → nichts offen', offeneEntscheidungen('## X\nF7').size === 0)
 }
 
 console.log('liegegut: Signal 7 Überholt über den Diff (Fehlalarme 07.11.2026: 7 von 7 nur wegen ähnlichem Titel)')
@@ -299,6 +321,11 @@ console.log('liegegut: Signal 8 Stillstand (48 h)')
   pruefe('nur Signal 8 → Schritt STILLSTAND, mit Signal 3 → NACHBESSERN', naechsterSchritt([8], [], false) === 'STILLSTAND' && naechsterSchritt([3, 8], [], false) === 'NACHBESSERN')
   const lauf = liegegut(attrappeGh([pr(11, { comments: [daniel(60, 'Hinweis')] })]), attrappeGit(), JETZT)
   pruefe('Gesamtlauf: still wartender PR bekommt eine Zeile', lauf.length === 1 && /^PR 11: STILLSTAND – Signal 8 Stillstand/.test(lauf[0]), lauf)
+  const zwei = () => [pr(21, { body: 'F109', comments: [daniel(2, 'frisch')] }), pr(22, { body: 'F109', comments: [daniel(2, 'frisch')] })]
+  const signal6 = (standText) => liegegut(attrappeGh(zwei()), attrappeGit(), JETZT, () => {}, standText).filter((z) => z.includes('Signal 6')).length
+  pruefe('Gesamtlauf: F109 nur außerhalb von Jetzt → kein Signal 6 (Verdrahtung)', signal6('### Jetzt\n### Später\n- F109 = A') === 0)
+  pruefe('Gesamtlauf: F109 unter Jetzt → Signal 6 in beiden PRs', signal6('### Jetzt\n- F109 offen\n### Später') === 2)
+  pruefe('Gesamtlauf: ohne stand.md → Signal 6 wie zuvor', signal6(null) === 2)
 }
 
 console.log('liegegut: Gesamtlauf mit Anlassfällen')
@@ -438,34 +465,12 @@ console.log('liegegut: Signal 9 Stapel-PR nach gesquashtem Basis-PR (Fall 3091, 
   pruefe('stapelBasis direkt: „erst nach #N“ ohne Konflikt → null, mit Konflikt → N', stapelBasis(mitMerged([]), sauber) === null && stapelBasis(mitMerged([]), { ...sauber, mergeable: 'CONFLICTING' }) === 3090)
 }
 
-console.log('liegegut: Signal 6 ohne entschiedene F-Nummern (Fall F39) und Leser fragen/F*.md')
+console.log('liegegut: Signal 6 liest stand.md aus dem Hauptordner (einzige Quelle, auch aus einem Worktree)')
 {
-  const a = pr(1508, { body: 'Entscheidung F39 offen' })
-  const b = pr(1513, { body: 'F39 und F40' })
-  const c = pr(1514, { body: 'F40' })
-  pruefe('F39 entschieden → nur F40 bleibt geteilt (b, c)', JSON.stringify([...geteilteEntscheidungen([a, b, c], new Set(['F39']))]) === JSON.stringify([[1513, ['F40']], [1514, ['F40']]]))
-  pruefe('ohne Entschiedene bleibt F39 geteilt (Kontrolle)', geteilteEntscheidungen([a, b]).size === 2)
-  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'liegegut-fragen-'))
-  fs.writeFileSync(path.join(dir, 'F39-uhrzeit.md'), '# F39\n\n**Entschieden: A (Daniel 19.10.).**\n')
-  fs.writeFileSync(path.join(dir, 'f108-synchro.md'), '# F108\n\nEntschieden 20.10.: ja\n')
-  fs.writeFileSync(path.join(dir, 'F44-offen.md'), '# F44\n\nB – Du drückst jetzt „Entschieden“: T-130 geht sofort\n')
-  fs.writeFileSync(path.join(dir, 'E29-mockup.md'), 'Entschieden: ja\n')
-  fs.writeFileSync(path.join(dir, 'F390-x.md'), '- Entschieden: nein\n')
-  fs.writeFileSync(path.join(dir, 'F77-fett.md'), '# F77\n\n**Entschieden** 20.10.: B\n')
-  const menge = entschiedeneFragen(dir)
-  pruefe('Leser: F39, F77 (fett), F108 (klein geschrieben) und F390 (Listenpunkt) entschieden; F44 (Wort mitten in der Zeile) und E29 nicht', JSON.stringify([...menge].sort()) === JSON.stringify(['F108', 'F39', 'F390', 'F77']), [...menge])
-  fs.writeFileSync(path.join(dir, 'F39-uhrzeit.md'), '# F39\n')
-  fs.rmSync(path.join(dir, 'F108-x.md'), { force: true })
-  const einzeln = (inhalt) => { fs.writeFileSync(path.join(dir, 'F55-einzeln.md'), inhalt); return entschiedeneFragen(dir).has('F55') }
-  pruefe('Leser einzeln: fett → ja, Listenpunkt → ja, Zitat „> Entschieden“ → ja, Fließtext → nein', einzeln('**Entschieden: A**\n') && einzeln('- Entschieden: A\n') && einzeln('> Entschieden: A\n') && !einzeln('Noch nicht Entschieden: A\n'))
-  fs.rmSync(dir, { recursive: true, force: true })
-  pruefe('Ordner fehlt → leere Menge', entschiedeneFragen(path.join(os.tmpdir(), 'liegegut-gibt-es-nicht')).size === 0)
-  const lauf = liegegut(attrappeGh([pr(1508, { body: 'F39', comments: [daniel(2, 'x')] }), pr(1513, { body: 'F39', comments: [daniel(2, 'x')] })]), attrappeGit(), JETZT, undefined, new Set(['F39']))
-  pruefe('Gesamtlauf: entschiedene F39 → keine DANIEL-Zeile', lauf.length === 0, lauf)
-  // Wachphase (meldeLiegt) liest die Fragen im Arbeitsordner
-  const arbeit = fs.mkdtempSync(path.join(os.tmpdir(), 'liegegut-wache-'))
-  fs.mkdirSync(path.join(arbeit, 'daniel-zum-abarbeiten', 'fragen'), { recursive: true })
   const zwei = [pr(1508, { body: 'F39', comments: [daniel(2, 'x')] }), pr(1513, { body: 'F39', comments: [daniel(2, 'x')] })]
+  const arbeit = fs.mkdtempSync(path.join(os.tmpdir(), 'liegegut-wache-'))
+  fs.mkdirSync(path.join(arbeit, 'daniel-zum-abarbeiten'), { recursive: true })
+  const standDatei = path.join(arbeit, 'daniel-zum-abarbeiten', 'stand.md')
   // Hauptordner kommt aus git (absolut), der Arbeitsordner dieses Tests ist ein anderer
   const gitMitHaupt = (haupt) => (a) => (a[0] === 'rev-parse' ? `${path.join(haupt, '.git')}\n` : attrappeGit()(a))
   const wache = (haupt) => {
@@ -473,13 +478,22 @@ console.log('liegegut: Signal 6 ohne entschiedene F-Nummern (Fall F39) und Leser
     meldeLiegt(attrappeGh(zwei), gitMitHaupt(haupt), (t) => aus.push(t), JETZT)
     return aus.join('\n')
   }
+  fs.writeFileSync(standDatei, '## Daniel-Todo\n### Jetzt\n- F39 offen\n### Später\n- F40\n')
   const offen = wache(arbeit)
-  fs.writeFileSync(path.join(arbeit, 'daniel-zum-abarbeiten', 'fragen', 'F39-x.md'), 'Entschieden: A\n')
+  fs.writeFileSync(standDatei, '## Daniel-Todo\n### Jetzt\n- F40 offen\n### Später\n- F39 erledigt\n')
   const entschieden = wache(arbeit)
-  const fehlt = wache(path.join(arbeit, 'gibt-es-nicht'))
+  fs.rmSync(standDatei)
+  const fehlt = wache(arbeit)
+  const hinweise = []
+  const ohne = standImProjekt(gitMitHaupt(arbeit), (t) => hinweise.push(t))
+  fs.writeFileSync(standDatei, '### Jetzt\n- F1\n')
+  const mit = standImProjekt(gitMitHaupt(arbeit), (t) => hinweise.push(t))
   fs.rmSync(arbeit, { recursive: true, force: true })
-  pruefe('Wachphase: F39 offen → LIEGT-Zeile, entschieden (anderer cwd) → keine Zeile', /gleiche Entscheidung/.test(offen) && entschieden === '', { offen, entschieden })
-  pruefe('Wachphase: Ordner fehlt → Hinweiszeile vor der LIEGT-Zeile', /^liegegut: .*fehlt – entschiedene F-Nummern unbekannt/.test(fehlt) && /LIEGT:/.test(fehlt), { fehlt })
+  pruefe('Wachphase: F39 unter Jetzt → LIEGT-Zeile; nur unter Später (anderer cwd) → keine Zeile', /gleiche Entscheidung/.test(offen) && entschieden === '', { offen, entschieden })
+  pruefe('Wachphase: stand.md fehlt → Hinweiszeile vor der LIEGT-Zeile, Signal 6 uneingeschränkt', /^liegegut: .*stand\.md fehlt – offene F-Nummern unbekannt/.test(fehlt) && /LIEGT:.*gleiche Entscheidung/.test(fehlt), { fehlt })
+  pruefe('standImProjekt: fehlt → null und genau ein Hinweis; vorhanden → Text ohne Hinweis', ohne === null && mit === '### Jetzt\n- F1\n' && hinweise.length === 1, { ohne, mit, hinweise })
+  const lauf = liegegut(attrappeGh(zwei), attrappeGit(), JETZT, undefined, '### Jetzt\n- F40\n')
+  pruefe('Gesamtlauf: F39 nicht unter Jetzt → keine DANIEL-Zeile', lauf.length === 0, lauf)
   // Echtes git: Hauptordner aus einem Worktree heraus (die attrappierte Ausgabe verdeckte Pfadfehler)
   const repo = fs.mkdtempSync(path.join(os.tmpdir(), 'liegegut-git-'))
   const haupt = path.join(repo, 'haupt')
@@ -531,25 +545,26 @@ console.log('liegegut: eigener Prozess (Vorlader tools/pr-nachrechnen-mock.mjs)'
   fs.writeFileSync(path.join(werk, 'daten.json'), JSON.stringify(leerDaten))
   const kaputt = spawnSync(process.execPath, ['--import', vorlader, skript], { encoding: 'utf8', env: { ...process.env, ATTRAPPE_LOG: path.join(werk, 'log.txt'), ATTRAPPE_DATEN: path.join(werk, 'daten.json') } })
   pruefe('Prozess: Abruffehler → Exit 2 mit FEHLER', kaputt.status === 2 && /liegegut: FEHLER/.test(kaputt.stdout), { s: kaputt.status, o: kaputt.stdout })
-  // Entschiedene F-Nummern: Arbeitsordner mit fragen/F39*.md, zwei PRs nennen F39 (Verdrahtung von main() zum Leser)
+  // Offene F-Nummern: stand.md im Hauptordner, zwei PRs nennen F39 (Verdrahtung von main() zum Leser)
   const zwei = [pr(1676, { body: 'F39', comments: [bot(1, KOPF, 'ok')] }), pr(1677, { body: 'F39', comments: [bot(1, KOPF, 'ok')] })]
   const mitF39 = { ...daten, 'rev-parse --git-common-dir': { aus: `${path.join(werk, 'arbeit', '.git')}\n` }, [`api repos/{owner}/{repo}/pulls/1677/files --paginate --jq ${JQ_PATCHES}`]: daten[`api repos/{owner}/{repo}/pulls/1676/files --paginate --jq ${JQ_PATCHES}`] }
   for (const k of Object.keys(mitF39)) if (k.startsWith('pr list')) mitF39[k] = { aus: JSON.stringify(zwei) }
   fs.writeFileSync(path.join(werk, 'daten.json'), JSON.stringify(mitF39))
-  const fragenOrdner = path.join(werk, 'arbeit', 'daniel-zum-abarbeiten', 'fragen')
-  fs.mkdirSync(fragenOrdner, { recursive: true })
-  // Arbeitsordner des Prozesses ist ein fremder (wie ein Worktree ohne fragen/); der Hauptordner kommt aus git rev-parse --git-common-dir
+  const standOrdner = path.join(werk, 'arbeit', 'daniel-zum-abarbeiten')
+  const standDatei = path.join(standOrdner, 'stand.md')
+  fs.mkdirSync(standOrdner, { recursive: true })
+  // Arbeitsordner des Prozesses ist ein fremder (wie ein Worktree ohne stand.md); der Hauptordner kommt aus git rev-parse --git-common-dir
   fs.mkdirSync(path.join(werk, 'fremd'), { recursive: true })
   const fahre = () => spawnSync(process.execPath, ['--import', vorlader, skript], { encoding: 'utf8', timeout: 60000, cwd: path.join(werk, 'fremd'), env: { ...process.env, ATTRAPPE_LOG: path.join(werk, 'log.txt'), ATTRAPPE_DATEN: path.join(werk, 'daten.json') } })
+  fs.writeFileSync(standDatei, '### Jetzt\n- F39 offen\n')
   const offen = fahre()
-  pruefe('Prozess: F39 ohne Entscheidung → Signal 6 (Kontrolle)', offen.status === 0 && /; 6 Gleiche offene Entscheidung F39/.test(offen.stdout), { o: offen.stdout, e: offen.stderr })
-  fs.writeFileSync(path.join(fragenOrdner, 'F39-x.md'), '# F39\n\nEntschieden: A\n')
-  const entschieden = fahre()
-  pruefe('Prozess: F39 entschieden → kein Signal 6', entschieden.status === 0 && !/6 Gleiche offene/.test(entschieden.stdout) && /liegegut: \d+ auffällige PRs/.test(entschieden.stdout), { o: entschieden.stdout, e: entschieden.stderr })
-  pruefe('Prozess: F39 entschieden im Hauptordner, Prozess läuft in fremdem Ordner → kein Signal 6, keine Hinweiszeile', !/fehlt – entschiedene/.test(entschieden.stdout))
-  fs.rmSync(fragenOrdner, { recursive: true, force: true })
-  const ohneOrdner = fahre()
-  pruefe('Prozess: fragen/ fehlt → sichtbare Hinweiszeile, Exit 0, Signal 6 wieder da', ohneOrdner.status === 0 && /liegegut: .*fragen.* fehlt – entschiedene F-Nummern unbekannt/.test(ohneOrdner.stdout) && /; 6 Gleiche offene/.test(ohneOrdner.stdout), { o: ohneOrdner.stdout, e: ohneOrdner.stderr })
+  pruefe('Prozess: F39 unter Jetzt → Signal 6, keine Hinweiszeile', offen.status === 0 && /; 6 Gleiche offene Entscheidung F39/.test(offen.stdout) && !/stand\.md fehlt/.test(offen.stdout), { o: offen.stdout, e: offen.stderr })
+  fs.writeFileSync(standDatei, '### Jetzt\n- F40 offen\n### Später\n- F39\n')
+  const erledigt = fahre()
+  pruefe('Prozess: F39 nicht mehr unter Jetzt (Hauptordner, Prozess in fremdem Ordner) → kein Signal 6', erledigt.status === 0 && !/6 Gleiche offene/.test(erledigt.stdout) && /liegegut: \d+ auffällige PRs/.test(erledigt.stdout), { o: erledigt.stdout, e: erledigt.stderr })
+  fs.rmSync(standDatei)
+  const ohneDatei = fahre()
+  pruefe('Prozess: stand.md fehlt → sichtbare Hinweiszeile, Exit 0, Signal 6 wieder da', ohneDatei.status === 0 && /liegegut: .*stand\.md fehlt – offene F-Nummern unbekannt/.test(ohneDatei.stdout) && /; 6 Gleiche offene/.test(ohneDatei.stdout), { o: ohneDatei.stdout, e: ohneDatei.stderr })
   fs.rmSync(werk, { recursive: true, force: true })
 }
 
@@ -557,4 +572,4 @@ if (fehler.length > 0) {
   console.error(`liegegut.test: ${fehler.length} Fehler`)
   process.exit(1)
 }
-console.log('liegegut.test: alle Fälle grün (9 Signale, Stapel, entschiedene F-Nummern, Grenzen, Gesamtlauf, Nichtauskunft, Prozess)')
+console.log('liegegut.test: alle Fälle grün (9 Signale, Stapel, offene F-Nummern aus stand.md, Grenzen, Gesamtlauf, Nichtauskunft, Prozess)')

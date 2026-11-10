@@ -137,6 +137,11 @@ export interface DubCheck {
    * (`verschmelze()`); wer die Regel lockert, liest das Urteil aus diesem Feld und nicht aus einem alten `dub: true` darunter.
    */
   kanalMessung?: 'ja' | 'nein'
+  /**
+   * Urteil „diese Seite ist nicht das Werk“ (z. B. Hauptserie statt Special). Bleibt auch nach einer jüngeren Messung derselben Adresse
+   * bestehen: `verschmelze` macht daraus `available: false` und löscht die Messwerte der falschen Seite.
+   */
+  seiteNichtWerk?: true
 }
 
 /** Zuhause ist `shared/adresse-kern.ts` (das Panel vergleicht Adressen ebenso); hier bleibt der Name für die Bau-Importe. */
@@ -296,7 +301,13 @@ export function verschmelze(a: DubCheck, b: DubCheck): DubCheck {
   // Ein jüngeres Ja hebt das ältere „nicht verfügbar“ auf (Spy × Family, Disney+: sonst fiel der Weg live weg).
   if (urteil === 'ja' && verschmolzen.available === false) delete verschmolzen.available
   if (kanalJaUeberholtNein(alt, neu)) delete verschmolzen.available
-  return verschmolzen
+  return alt.seiteNichtWerk || neu.seiteNichtWerk ? seiteNichtWerkUrteil(verschmolzen) : verschmolzen
+}
+
+/** Das Nein „Seite ist nicht das Werk“ gilt vor jeder Messung: Messwerte der falschen Seite fallen weg. */
+function seiteNichtWerkUrteil(c: DubCheck): DubCheck {
+  const { dub: _dub, dubRanges: _bereiche, ...rest } = c
+  return { ...rest, seiteNichtWerk: true, available: false, juengstesUrteil: 'nein' }
 }
 
 type Urteil = Pick<DubCheck, 'dub' | 'available' | 'dubRanges' | 'juengstesUrteil'>
