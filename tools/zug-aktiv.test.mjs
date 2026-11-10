@@ -60,6 +60,7 @@ function lauf(aktiv, prJson) {
   const gh = (args) => {
     aufrufe.push(args.join(' '))
     if (args[0] === 'pr' && args[1] === 'view') return JSON.stringify(prJson)
+    if (args[0] === 'pr' && args[1] === 'list') return '[]'
     throw new Error('STOPP nach pr view')
   }
   let code
@@ -74,12 +75,12 @@ function lauf(aktiv, prJson) {
 {
   const aus = lauf(false, zugPr)
   pruefe('aus: pr view mit den alten Feldern, ohne baseRefName', aus.aufrufe[0] === `pr view 7 --json ${FELDER_ALT}`, aus.aufrufe)
-  pruefe('aus: PR mit Basis zug läuft wie vorher weiter (nächster Aufruf = Kettenläufe lesen)', aus.wurf !== null && aus.aufrufe[1]?.startsWith('run list --workflow pr-pruefung.yml'), aus)
+  pruefe('aus: PR mit Basis zug läuft wie vorher weiter (nächster Aufruf = Kettenläufe lesen)', aus.wurf !== null && aus.aufrufe[2]?.startsWith('run list --workflow pr-pruefung.yml'), aus)
   const an = lauf(true, zugPr)
   pruefe('an: pr view fragt zusätzlich baseRefName', an.aufrufe[0] === `pr view 7 --json ${FELDER_ALT},baseRefName`, an.aufrufe)
-  pruefe('an + Basis zug: Exit 0, keine weiteren Aufrufe, Meldung nennt zug', an.code === 0 && an.aufrufe.length === 1 && /Basis zug, kein Nachrechnen/.test(an.meldungen.join()), an)
+  pruefe('an + Basis zug: Exit 0, keine weiteren Aufrufe, Meldung nennt zug', an.code === 0 && an.aufrufe.length === 2 && /Basis zug, kein Nachrechnen/.test(an.meldungen.join()), an)
   const main = lauf(true, { ...zugPr, baseRefName: 'main' })
-  pruefe('an + Basis main: weiter wie vorher (Kettenläufe lesen)', main.aufrufe[1]?.startsWith('run list --workflow pr-pruefung.yml'), main.aufrufe)
+  pruefe('an + Basis main: weiter wie vorher (Kettenläufe lesen)', main.aufrufe[2]?.startsWith('run list --workflow pr-pruefung.yml'), main.aufrufe)
   const konflikt = lauf(true, { ...zugPr, mergeable: 'CONFLICTING' })
   pruefe('an + Basis zug + Konflikt: Hindernis geht vor (Exit 2)', konflikt.code === 2 && /Konflikt/.test(konflikt.meldungen.join()), konflikt)
   const zu = lauf(true, { ...zugPr, state: 'CLOSED' })

@@ -5,11 +5,12 @@ name: Zug — Fahrt
 # (Entscheidungen als reine Funktionen in tools/zug.mjs), dieser Workflow reicht nur die Zugänge und das Ereignis durch.
 #
 # Auslöser:
-#  - workflow_run der PR-Prüfkette auf `zug-fahrt` oder `zug-probe`: Urteil. Grün → Fast-Forward nur als Dry-Run (der echte Push von main ist P2c, hier
-#    steht er nicht). Rot → Probe „main allein“ (`zug-probe`: main plus leerer Commit, Kette ohne Unter-PRs), danach Schuldsuche samt Ratschen-Stand im Fahrt-Log.
-#  - workflow_dispatch: `start` baut die nächste Fahrt, `bau-deploy` startet Bau und Deploy (nach dem Schieben, P2c; bestand-bauen.yml und deploy.yml
-#    überspringen Push-Läufe der Daten-App, sie laufen darum nicht von selbst). Standard ist `trocken`: nichts wird geschrieben.
-#  - Der Wecker (regelmäßiger `start`) und der echte Push folgen mit P2c.
+#  - workflow_run der PR-Prüfkette auf `zug-fahrt` oder `zug-probe`: Urteil. Grün → Fast-Forward nur als Dry-Run (dieser Pfad übergibt
+#    nie `--schieben`). Rot → Probe „main allein“ (`zug-probe`: main plus leerer Commit, Kette ohne Unter-PRs), danach Schuldsuche samt Ratschen-Stand im Fahrt-Log.
+#  - workflow_dispatch: `start` baut die nächste Fahrt, `bau-deploy` startet Bau und Deploy (bestand-bauen.yml und deploy.yml überspringen Push-Läufe
+#    der Daten-App, sie laufen darum nicht von selbst), `urteil` fällt das Urteil für den Kettenlauf `lauf` auf `zug-fahrt` von Hand. Nur dort schiebt `schieben`
+#    main wirklich (Fast-Forward, danach Bau und Deploy); dazu muss auch `trocken` aus sein. Standard ist `trocken`: nichts wird geschrieben.
+#  - Der Wecker (regelmäßiger `start`) folgt später.
 #
 # Zugänge: Das Token der Daten-App sieht nur der Checkout (Art `checkout` in tools/app-token-sperre.mjs); die App pusht, weil ein Push mit dem Workflow-Token keine
 # Kette startet. gh läuft mit dem Workflow-Token (PR anlegen und kommentieren, Läufe lesen, Bau und Deploy anstoßen). Ein PR, den dieses Token öffnet, startet
@@ -24,10 +25,18 @@ on:
   workflow_dispatch:
     inputs:
       modus:
-        description: 'start = Fahrt bauen, bau-deploy = Bau und Deploy starten'
+        description: 'start = Fahrt bauen, bau-deploy = Bau und Deploy starten, urteil = Urteil über den Kettenlauf `lauf` auf zug-fahrt'
         type: choice
-        options: [start, bau-deploy]
+        options: [start, bau-deploy, urteil]
         default: start
+      lauf:
+        description: 'Nur bei urteil: Nummer des Kettenlaufs auf zug-fahrt'
+        type: string
+        default: ''
+      schieben:
+        description: 'Nur bei urteil und nicht trocken: main bei Grün wirklich auf den Zug-Kopf schieben'
+        type: boolean
+        default: false
       trocken:
         description: 'Nur lesen und melden, nichts schreiben'
         type: boolean
@@ -81,11 +90,18 @@ jobs:
           EREIGNIS: ${{ github.event_name }}
           MODUS: ${{ inputs.modus }}
           TROCKEN: ${{ inputs.trocken }}
+          KETTENLAUF: ${{ inputs.lauf }}
+          SCHIEBEN: ${{ inputs.schieben }}
           ZWEIG: ${{ github.event.workflow_run.head_branch }}
           LAUF: ${{ github.event.workflow_run.id }}
         run: |
           if [ "$EREIGNIS" = workflow_run ]; then
             node tools/zug-fahrt.mjs urteil --zweig "$ZWEIG" --lauf "$LAUF"
+          elif [ "$MODUS" = urteil ]; then
+            args=(urteil --zweig zug-fahrt --lauf "$KETTENLAUF")
+            if [ "$TROCKEN" = true ]; then args+=(--trocken); fi
+            if [ "$SCHIEBEN" = true ]; then args+=(--schieben); fi
+            node tools/zug-fahrt.mjs "${args[@]}"
           elif [ "$TROCKEN" = true ]; then
             node tools/zug-fahrt.mjs "$MODUS" --trocken
           else

@@ -764,3 +764,14 @@ wer die Ursache dann noch kennt, hat Glück. Deshalb diese Datei.
 **Wo sind echte Risiken und Lücken?** `3bf23c4b` ließ `data/adn-catalog.json` von 4135 auf 3606 Titelzeilen schrumpfen (Shows 116 → 109) und trug in `data/adn-anisearch-offen.json` neue Einträge mit `grund: "titelliste-fehlt"` ein, darunter Steins;Gate (918), I Parry Everything! (1207), Magic Kaito 1412 (336). Die Adressen stammen aus `data/anisearch.json`, dort unverändert. **Nicht belegt:** ob die ADN-Zuordnung wegen der fehlenden Titelliste die Streams fallen ließ oder eine andere Bauphase; die Zeile im Bau habe ich nicht gefunden. Ein Abruf, der Titellisten verliert, bleibt grün und wird nur von der Wache bemerkt. Zu den 23 Terminen (08.11., 19:09 Berlin) und den 6 Joyn-Belegen habe ich keine Quelle gemessen.
 
 **Was läuft komplett falsch?** Nichts, was ich belegen kann: kein Fehlerschritt, der Lauf ist absichtlich rot. Kein Pull Request, da keine Codeursache belegt ist; Verdacht auf Abruf/Quelle (ADN-Tiefendurchlauf), Gegenprobe steht aus.
+
+
+## 10.11.2026 — Wache meldet „4 Urteile verloren, primevideo −4“ und „adn: 3 Synchro-Belege weniger“ (Lauf 42846045897, Issue #3374)
+
+**Was läuft korrekt.** Die Wache hat beide Sprünge gefunden, der Bau war grün. Gemessen über Git-Stände von `public/data/titles.json`: Die vier Prime-Adressen (Trinity Seven B07NNTV2LR, Wind Breaker B0D516QSYS u. a.) standen in `f16c0b24` und fehlen ab `436b5189` (09.11. 18:59 UTC). Dazwischen liegt PR #3295 („Prime-Wege gleicher gti am selben Titel werden ein Weg“, `f82e7732`, im `headSha` enthalten). Je Titel bleibt die zweite Adresse (z. B. Trinity Seven B07NNP4Z55) stehen: gewollte Zusammenführung, kein Verlust an Synchro-Belegen.
+
+**Wo ist Verbesserungspotenzial?** Die Wache kennt keine gewollten Zusammenführungen: Sie meldet „Synchro-Beleg weg“, obwohl derselbe Titel denselben Beleg unter einer Schwesteradresse behält. Ein Abgleich per gti vor dem Melden würde den Fall still lassen.
+
+**Wo sind echte Risiken und Lücken?** ADN: JoJo’s Bizarre Adventure (14719) hat den ADN-Weg (`…/444-jojo-s-bizarre-adventure?s=1`) bis `ea68c70d` (10.11. 10:43 UTC, Sammler-Rücknahme) und fehlt ab `d3bbd596` (10:59 UTC, „Bestand neu gebaut“); `data/adn-catalog.json` trägt die Serie weiterhin (Zeile 201, seit #3296). **Nicht belegt:** welche Bauphase den Weg dort fallen ließ; zwischen den beiden Ständen änderte sich keine ADN-Datei im Repo (nur `listen/07-adn.md` das Datum), also liegt es am nicht committeten Cache oder an der Zuordnung. Gleiche Lücke wie am 09.11.: ein Verlust im Bestand bleibt grün und fällt nur der Wache auf.
+
+**Was läuft komplett falsch?** Nichts Belegbares: kein Fehlerschritt, der Lauf ist absichtlich rot. Kein Pull Request, da keine Codeursache belegt ist; Gegenprobe (Bau mit dem Cache von `d3bbd596` nachstellen, ADN-Phase für 14719, 116589, 170695) steht aus.

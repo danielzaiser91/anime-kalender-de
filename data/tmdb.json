@@ -4116,5 +4116,29 @@
       "primevideo"
     ],
     "inhaltAm": "2026-11-08"
+  },
+  "yaiba-samurai-legend-joyn": {
+    "tmdbId": 254017,
+    "fsk": 12,
+    "justwatchUrl": "https://www.themoviedb.org/tv/254017-yaiba/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Animation Digital Network",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Anime Digital Network Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Akibapass",
+        "kind": "rent"
+      }
+    ],
+    "providers": [
+      "adn",
+      "primevideo"
+    ],
+    "inhaltAm": "2026-11-10"
   }
 }

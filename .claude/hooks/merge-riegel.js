@@ -12,8 +12,26 @@ const { zerlege, ohneHeredoc, eingebetteterBefehl, programmName } = require('./h
 /** `gh`-Optionen vor dem Unterbefehl, die einen Wert im nächsten Token nehmen. */
 const GH_MIT_WERT = new Set(['-R', '--repo', '--hostname'])
 
+/** Schalter von `gh pr merge` ohne Wert; nach jedem anderen Schalter ist das nächste Token dessen Wert. */
+const GH_OHNE_WERT = new Set(['--squash', '-s', '--merge', '-m', '--rebase', '-r', '--auto', '--admin', '--disable-auto', '--delete-branch', '-d'])
+
+/** Werte aller `--repo`/`-R`-Angaben; ein Token, das Wert eines anderen Schalters sein kann, zählt nicht (sonst sperrt der Riegel). */
+function repoAngaben(rest) {
+  const repos = []
+  for (let k = 0; k < rest.length; k++) {
+    const vor = rest[k - 1]
+    if (vor?.startsWith('-') && !vor.includes('=') && !GH_OHNE_WERT.has(vor)) continue
+    if (rest[k] === '-R' || rest[k] === '--repo') repos.push(rest[k + 1] ?? '')
+    else if (rest[k].startsWith('--repo=')) repos.push(rest[k].slice(7))
+  }
+  return repos
+}
+
 /** Nummer, wenn die Tokens ab dem `gh`-Token `von` ein `pr merge <N>` sind; '' bei `pr merge` ohne Nummer; sonst null. */
 function mergeNummer(tokens, von) {
+  // Anderes Repo per --repo/-R: dort gibt es kein pr-nachrechnen (E53, Daniel 10.11.2026 „ja“). Jede Angabe muss fremd sein.
+  const repos = repoAngaben(tokens.slice(von + 1))
+  if (repos.length && repos.every((r) => r && !/(^|\/)anime-kalender-de(\.git)?$/i.test(r))) return null
   let i = von + 1
   for (; i < tokens.length; i++) {
     if (GH_MIT_WERT.has(tokens[i])) i++

@@ -1473,6 +1473,35 @@
     "1069214": {
       "am": "2026-11-09",
       "vorschlaege": 0
+    },
+    "1069231": {
+      "am": "2026-11-10",
+      "vorschlaege": 0,
+      "uebersprungen": "kein Deutschland-Bezug"
+    },
+    "1069314": {
+      "am": "2026-11-10",
+      "vorschlaege": 0
+    },
+    "1069349": {
+      "am": "2026-11-10",
+      "vorschlaege": 0
+    },
+    "1069391": {
+      "am": "2026-11-10",
+      "vorschlaege": 2
+    },
+    "1069473": {
+      "am": "2026-11-10",
+      "vorschlaege": 1
+    },
+    "1069625": {
+      "am": "2026-11-10",
+      "vorschlaege": 2
+    },
+    "1069862": {
+      "am": "2026-11-10",
+      "vorschlaege": 1
     }
   },
   "vorschlaege": [
@@ -11871,6 +11900,136 @@
       "quelle": "https://www.anime2you.de/news/1067077/zwei-frieren-sega-figuren-neuauflage/",
       "veroeffentlicht": "2026-11-09",
       "gelesenAm": "2026-11-09"
+    },
+    {
+      "titel": "Devils‘ Crest",
+      "zitat": "»Devils« Crest» wird demzufolge in zwei aufeinanderfolgenden Cours (sechs Monate am Stück) im japanischen Fernsehen ausgestrahlt und mit deutscher Sprachfassung sowie im Originalton mit Untertiteln bei Prime Video im Simulcast gezeigt.",
+      "art": "sprachfassung",
+      "sprache": "deutsch+omu",
+      "plattform": "primevideo",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Prime Video",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1069473",
+      "artikel": "Neuer Prime-Video-Anime »Devils‘ Crest« erhält zwei Cours",
+      "quelle": "https://www.anime2you.de/news/1069473/devils-crest-erhaelt-zwei-cours/",
+      "veroeffentlicht": "2026-11-10",
+      "gelesenAm": "2026-11-10"
+    },
+    {
+      "titel": "One Piece",
+      "zitat": "Die Ausstrahlung neuer Episoden pausiert seit September 2026 und wird voraussichtlich erst 2027 fortgesetzt.",
+      "art": "pause",
+      "sprache": "unklar",
+      "plattform": null,
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": "„Voraussichtlich erst 2027“ ist nur eine Prognose, kein bestätigter Termin.",
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1069862",
+      "artikel": "13 neue Figuren zeigen »One Piece«-Charaktere als Gummienten",
+      "quelle": "https://www.anime2you.de/news/1069862/one-piece-gummienten-figuren/",
+      "veroeffentlicht": "2026-11-10",
+      "gelesenAm": "2026-11-10"
+    },
+    {
+      "titel": "Dr. STONE – Staffel 2",
+      "zitat": "»Dr. STONE« – Staffel 2 Episoden: 10 von 11 (Episode 3 fehlt) Sprache: Deutsch",
+      "art": "folgen",
+      "sprache": "deutsch",
+      "plattform": null,
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Pluto TV",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "10 von 11 (Episode 3 fehlt)",
+      "unsicher": "Episode 3 fehlt, die Staffel ist nicht vollständig verfügbar.",
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „Pluto TV“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1069625",
+      "artikel": "Pluto TV nimmt zwei Anime-Neuzugänge auf Deutsch ins Programm",
+      "quelle": "https://www.anime2you.de/news/1069625/pluto-tv-shield-hero-und-mehr/",
+      "veroeffentlicht": "2026-11-10",
+      "gelesenAm": "2026-11-10"
+    },
+    {
+      "titel": "The Rising of the Shield Hero – Staffel 1",
+      "zitat": "»The Rising of the Shield Hero« – Staffel 1 Episoden: 25 (komplett) Sprache: Deutsch",
+      "art": "start",
+      "sprache": "deutsch",
+      "plattform": null,
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Pluto TV",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "25 (komplett)",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „Pluto TV“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1069625",
+      "artikel": "Pluto TV nimmt zwei Anime-Neuzugänge auf Deutsch ins Programm",
+      "quelle": "https://www.anime2you.de/news/1069625/pluto-tv-shield-hero-und-mehr/",
+      "veroeffentlicht": "2026-11-10",
+      "gelesenAm": "2026-11-10"
+    },
+    {
+      "titel": "No Game No Life",
+      "zitat": "Die zwölfteilige Anime-Umsetzung von »No Game No Life« lief in der Frühjahr-Season 2014 im japanischen Fernsehen und ist hierzulande zusammen mit dem Prequel-Film »No Game No Life Zero« bei KSM Anime auf DVD und Blu-ray erhältlich.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "KSM Anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1069391",
+      "artikel": "Lebensgroße »No Game No Life«-Figur von Shiro vorgestellt",
+      "quelle": "https://www.anime2you.de/news/1069391/lebensgrosse-shiro-no-game-no-life-figur/",
+      "veroeffentlicht": "2026-11-10",
+      "gelesenAm": "2026-11-10"
+    },
+    {
+      "titel": "No Game No Life Zero",
+      "zitat": "Die zwölfteilige Anime-Umsetzung von »No Game No Life« lief in der Frühjahr-Season 2014 im japanischen Fernsehen und ist hierzulande zusammen mit dem Prequel-Film »No Game No Life Zero« bei KSM Anime auf DVD und Blu-ray erhältlich.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "KSM Anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1069391",
+      "artikel": "Lebensgroße »No Game No Life«-Figur von Shiro vorgestellt",
+      "quelle": "https://www.anime2you.de/news/1069391/lebensgrosse-shiro-no-game-no-life-figur/",
+      "veroeffentlicht": "2026-11-10",
+      "gelesenAm": "2026-11-10"
     }
   ]
 }

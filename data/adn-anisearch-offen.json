@@ -1,13 +1,6 @@
 {
-  "anzahl": 24,
+  "anzahl": 21,
   "serien": [
-    {
-      "showId": 336,
-      "title": "Magic Kaito 1412",
-      "originalTitle": "Magic Kaito 1412",
-      "grund": "titelliste-fehlt",
-      "kandidaten": []
-    },
     {
       "showId": 444,
       "title": "Jojo’s Bizarre Adventure",
@@ -75,7 +68,7 @@
       "showId": 734,
       "title": "Tintin (Adventures)",
       "originalTitle": "Les Aventures de Tintin",
-      "grund": "titelliste-fehlt",
+      "grund": "kein-kandidat",
       "kandidaten": []
     },
     {
@@ -104,13 +97,6 @@
       "title": "Dreamland",
       "originalTitle": "Dreamland",
       "grund": "kein-kandidat",
-      "kandidaten": []
-    },
-    {
-      "showId": 918,
-      "title": "Steins;Gate",
-      "originalTitle": "Steins;Gate",
-      "grund": "titelliste-fehlt",
       "kandidaten": []
     },
     {
@@ -153,13 +139,6 @@
       "title": "Babar",
       "originalTitle": "Babar",
       "grund": "kein-kandidat",
-      "kandidaten": []
-    },
-    {
-      "showId": 1207,
-      "title": "I Parry Everything!",
-      "originalTitle": "Ore wa Subete o \"Parry\" Suru: Gyaku Kanchigai no Sekai Saikyō wa Bōken-sha ni Naritai",
-      "grund": "titelliste-fehlt",
       "kandidaten": []
     },
     {
