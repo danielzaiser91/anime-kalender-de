@@ -2438,11 +2438,10 @@ function durchgangEndeZeigen() {
       el.className = 'ak-hinweis ak-durchgang-ende'
       zeile.appendChild(el)
     }
-    const namen = durchgangEnde.uebersprungen.map((r) => offeneTitel[r]?.titel ?? r)
-    const regulaer = durchgangEnde.grund === 'kein offener Auftrag mehr'
+    el.classList.toggle('ak-durchgang-rot', Boolean(durchgangEnde.rot))
     el.textContent =
-      (regulaer ? 'Durchgang fertig' : `Durchgang abgebrochen · ${durchgangEnde.grund}`) +
-      (namen.length ? ` · übersprungen: ${namen.join(', ')}` : '') +
+      (durchgangEnde.grund === 'kein offener Auftrag mehr' ? 'Durchgang fertig' : `Durchgang abgebrochen · ${durchgangEnde.grund}`) +
+      durchgangEnde.uebersprungenText +
       (selbstUebersprungen.zurueckText() + durchgangEnde.text)
     el.title = durchgangEnde.grund
   } catch {
@@ -2861,7 +2860,7 @@ async function selbstStartenSchritt() {
     DURCHLAUF.folgen.length === 1 && DURCHLAUF.folgen[0]?.film && String(DURCHLAUF.folgen[0].videoId) === seiteHier
   if (!DURCHLAUF.folgen.length || (!filmHier && String(DURCHLAUF.listeFuer ?? '') !== seiteHier)) {
     /* Kommt die Liste nicht, hängt der Durchgang nicht still auf dieser Seite; bei „Erinnern" geht er früh weiter (`netflix-erinnern.js`). */
-    const ort = { seite: seiteHier, reihe: String(reihe), erinnern: keineFolgeVorhanden(), frist: SELBST_LISTE_WARTEN, jetzt: Date.now(), durchlauf: DURCHLAUF }
+    const ort = { seite: seiteHier, reihe: String(reihe), erinnern: keineFolgeVorhanden(), frist: SELBST_LISTE_WARTEN, jetzt: Date.now(), durchlauf: DURCHLAUF, merkmale: () => akNetflixBericht.seitenmerkmale(document, location, history) }
     selbstWartet = akNetflixListeWarten(selbstWartet, ort, { spur, uebersprungen: selbstUebersprungen, weiter: selbstWeiter })
     return
   }
@@ -6271,6 +6270,7 @@ function nfBericht() {
       gesammelt: [...selbstGesammelt],
       spur: DURCHGANG_SPUR,
     })),
+    seite: sicher(() => akNetflixBericht.seitenmerkmale(document, location, history)),
     listeGesamt: sicher(() => Object.keys(offeneTitel).length),
     /* Was der Leser sieht — er kennt die GraphQL-Antworten. */
     /*
