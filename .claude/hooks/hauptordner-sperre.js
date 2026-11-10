@@ -22,6 +22,7 @@
 const fs = require('node:fs')
 const path = require('node:path')
 const ORT = require('./ort-sperre.js')
+const CD = require('./cd-unterordner-sperre.js')
 
 const HAUPT = 'c:/code/ai/anime-kalender-de'
 const SCHREIBEND = new Set(['checkout', 'switch', 'merge', 'rebase', 'commit', 'reset', 'cherry-pick', 'revert', 'restore', 'am', 'push', 'add', 'rm', 'mv', 'clean', 'apply', 'update-ref', 'update-index', 'symbolic-ref', 'read-tree', 'sparse-checkout', 'filter-branch', 'bisect'])
@@ -296,7 +297,7 @@ function pruefe(eingabe, existiert) {
   if (eingabe.tool_name === 'Write') return ORT.schreibGrund(eingabe, existiert)
   if (eingabe.tool_name !== 'Bash') return null
   const grund = pruefeBefehl(String(eingabe.tool_input?.command ?? ''), eingabe.cwd)
-  if (!grund) return null
+  if (!grund) return CD.pruefe(eingabe, HAUPT, { zerlege, ohneHeredoc, loese, imHaupt })
   if (grund.startsWith('git worktree add außerhalb')) return `„${grund}“ gesperrt. ${ORT.ZIEL_TEXT}`
   return `Hauptordner anime-kalender-de: „${grund}“ gesperrt (dort nur Lesen und git pull --ff-only). Arbeite in einem Worktree: git worktree add C:/code/_worktrees/anime-kalender-de/<thema> -b <zweig> origin/main, danach „cd C:/code/_worktrees/anime-kalender-de/<thema> && …“ mit && (nie mit ;, sonst läuft der Rest im Hauptordner, falls cd scheitert) oder git -C C:/code/_worktrees/anime-kalender-de/<thema> …`
 }
