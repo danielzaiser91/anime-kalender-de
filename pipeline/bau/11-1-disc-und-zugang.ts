@@ -2,6 +2,7 @@ import { readJson, log } from '../lib/util.ts'
 import { adressKern } from '../lib/dub-confirmed.ts'
 import { ausgabeZumDiscTermin, type DiscAusgabe } from '../lib/disc-termin.ts'
 import { discIndexLaden, kaufwegFuerDiscs } from '../lib/disc-ean.ts'
+import { ergaenzeEanHaendlerWege } from '../lib/disc-haendler-weg.ts'
 import { zugangsart } from '../../shared/zugangsart.ts'
 import { type Title, type Release } from '../../shared/types.ts'
 import { type AnisearchEintrag } from './01-quellen.ts'
@@ -214,6 +215,7 @@ function ergaenzeDiscWege(titles: Map<number, Title>, releases: Release[]) {
     discWege++
   }
   if (discWege) log(`${discWege} Titel haben jetzt ihre deutsche Disc-Ausgabe als Bezugsweg`)
+  log(`${ergaenzeEanHaendlerWege(titles.values(), discIndexLaden())} Titel bekamen neben dem aniSearch-Artikel die Amazon-Suche nach der EAN`)
 
   /* Ein Disc-Termin aus den News bekommt Namen und Ziel seiner Ausgabe — siehe `lib/disc-termin.ts`. */
   let verknuepft = 0

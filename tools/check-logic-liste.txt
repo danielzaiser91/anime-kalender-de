@@ -164,6 +164,7 @@ pipeline/check-disc-archiv.ts
 pipeline/check-disc-bereich.ts
 pipeline/check-disc-ean.ts
 pipeline/check-disc-folgewirkung.ts
+pipeline/check-disc-haendler-weg.ts
 pipeline/check-disc-handlinks.ts
 pipeline/check-disc-kaufweg-auto.ts
 pipeline/check-disc-reine-titel.ts
