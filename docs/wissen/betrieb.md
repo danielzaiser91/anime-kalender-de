@@ -752,6 +752,10 @@ es geht.
 `titles.json` nachgeladen, und nur so lässt sich ein Titel abbilden, der keinen
 Kalendereintrag hat.
 
+## Teilerfolg ist kein Erfolg: die Quellen-Health führt die Sperre (09.11.2026)
+
+Wer `seiten > 0` als Erfolg wertet, verschluckt einen Teilausfall (PR 3299, A2). Eine Sperre oder ein Teilausfall gehört trotzdem in die Health (`data/source-health.json`), sonst zeigt der Zeitstempel „frisch“, obwohl Seiten fehlen.
+
 ## Kein Prettier — das Projekt formatiert von Hand
 
 `npx prettier --write` auf eine Datei dieses Projekts formatiert **die ganze
