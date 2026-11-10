@@ -1,6 +1,6 @@
 /**
- * Kettenschritt `check:mod-tests`: fährt `claude plugin test` für die Mod `arbeitsliste` (tools/claude-global/mods/arbeitsliste).
- * Im PR-Ereignis nur, wenn der PR etwas unter `tools/claude-global/mods/` ändert (Basis = erster Elternteil des Merge-Commits,
+ * Kettenschritt `check:mod-tests`: fährt `claude plugin test` für die Mod `arbeitsliste` (.claude/mods/arbeitsliste).
+ * Im PR-Ereignis nur, wenn der PR etwas unter `.claude/mods/` ändert (Basis = erster Elternteil des Merge-Commits,
  * siehe tools/pr-basis.mjs); sonst (lokal, anderes Ereignis) immer. Ein Pfadfilter auf Workflow-Ebene ginge nicht: der Pflicht-Check
  * meldete sich nie. Ohne `claude` im PATH holt `npx` die auf VERSION festgelegte CLI (Messung 09.11.2026: 18 s inklusive Abruf).
  */
@@ -9,8 +9,8 @@ import { dirname, resolve } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { ladeBasis } from './pr-basis.mjs'
 
-export const MOD_ORDNER = 'tools/claude-global/mods/'
-export const MOD = 'tools/claude-global/mods/arbeitsliste'
+export const MOD_ORDNER = '.claude/mods/'
+export const MOD = '.claude/mods/arbeitsliste'
 export const VERSION = '2.1.319'
 
 /** Berührt die Dateiliste die Mods? */

@@ -6,10 +6,10 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { betrifftMods, testBefehl } from './mod-tests.mjs'
 
-assert.equal(betrifftMods(['tools/claude-global/mods/arbeitsliste/hooks/ziele.ts']), true)
-assert.equal(betrifftMods(['tools/claude-global/mods/arbeitsliste/types/index.d.ts']), true)
-assert.equal(betrifftMods(['tools/claude-global/rules/10.md', 'tools/claude-global/skills/x/SKILL.md']), false)
-assert.equal(betrifftMods(['xtools/claude-global/mods/a']), false)
+assert.equal(betrifftMods(['.claude/mods/arbeitsliste/hooks/ziele.ts']), true)
+assert.equal(betrifftMods(['.claude/mods/arbeitsliste/types/index.d.ts']), true)
+assert.equal(betrifftMods(['.claude/rules/10.md', '.claude/skills/x/SKILL.md']), false)
+assert.equal(betrifftMods(['x.claude/mods/a']), false)
 assert.equal(betrifftMods([]), false)
 
 const a = testBefehl(true, '/m')
@@ -45,5 +45,5 @@ g('merge', '-q', '--no-ff', '-m', 'merge', 'pr')
 const skript = join(import.meta.dirname, 'mod-tests.mjs')
 const lauf = spawnSync(process.execPath, [skript], { cwd: wurzel, encoding: 'utf8', windowsHide: true, timeout: 60000, env: { ...process.env, GITHUB_EVENT_NAME: 'pull_request' } })
 assert.equal(lauf.status, 0, lauf.stderr)
-assert.match(lauf.stdout, /mod-tests: übersprungen \(PR ändert nichts unter tools\/claude-global\/mods\/, 1 Dateien\)/)
+assert.match(lauf.stdout, /mod-tests: übersprungen \(PR ändert nichts unter \.claude\/mods\/, 1 Dateien\)/)
 console.log('✔ mod-tests.test: 5 Filterfälle, Befehlswahl, Prozessfall übersprungen')
