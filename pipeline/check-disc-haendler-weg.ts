@@ -1,7 +1,7 @@
 /**
  * Titel mit nur dem aniSearch-Artikel als Weg bekommen zusätzlich die Amazon-Suche nach der EAN derselben Ausgabe.
- * Läuft den echten Bauschritt `ergaenzeDiscUndZugang` gegen einen Wegwerf-Ordner (`AK_ROOT`); Ausgaben und Artikel sind Kulisse.
- * Ohne den Aufruf in `11-1` bleibt der Händler-Weg weg — dann wird dieser Test rot.
+ * Läuft den echten Abschluss `schliesseWegeAb` (11-wege-abschluss) gegen einen Wegwerf-Ordner (`AK_ROOT`); Ausgaben und Artikel sind Kulisse.
+ * Ohne den Aufruf im Abschluss — oder vor `bereinigeWege` — bleibt der Händler-Weg weg: dann wird dieser Test rot.
  */
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
@@ -9,6 +9,8 @@ import { join } from 'node:path'
 
 const wurzel = mkdtempSync(join(tmpdir(), 'disc-haendler-weg-'))
 process.env.AK_ROOT = wurzel
+const { suchadressenInTemp } = await import('./lib/suchadressen-temp.ts')
+suchadressenInTemp()
 
 let verletzt = 0
 let gesamt = 0
@@ -40,16 +42,18 @@ const artikel = {
 }
 const ani = { name: 'aniSearch', url: A1, kind: 'buy' as const, zugang: 'kauf' as const }
 const amazon = { name: 'Amazon', url: 'https://www.amazon.de/dp/B0HGB36K4K', kind: 'buy' as const, zugang: 'kauf' as const }
-const titel = (id: number, extra: object = {}) => ({ id, streams: [], watchLinks: [{ ...ani }], ...extra })
+const titel = (id: number, extra: object = {}) => ({ id, streams: [], keywords: [], genres: [], watchLinks: [{ ...ani }], ...extra })
 
 try {
-  mkdirSync(join(wurzel, 'data'))
+  mkdirSync(join(wurzel, 'data', 'curated'), { recursive: true })
   writeFileSync(join(wurzel, 'data', 'disc-ausgaben.json'), JSON.stringify(ausgaben))
   writeFileSync(join(wurzel, 'data', 'anisearch-artikel.json'), JSON.stringify(artikel))
-  const { ergaenzeDiscUndZugang } = await import('./bau/11-1-disc-und-zugang.ts')
+  // Handdateien, die der Abschluss ohne Rückfallwert liest: leer genügt.
+  for (const leer of ['kino-ankuendigungen.yaml', 'shop-wege-falsches-ziel.yaml']) writeFileSync(join(wurzel, 'data', leer), '[]\n')
+  const { schliesseWegeAb } = await import('./bau/11-wege-abschluss.ts')
   const t = [
     titel(900601),
-    titel(900602, { streams: [{ platform: 'netflix', url: 'https://www.netflix.com/title/1' }] }),
+    titel(900602, { streams: [{ platform: 'netflix', url: 'https://www.netflix.com/title/1', dub: true, zugang: 'abo' }] }),
     titel(900603, { watchLinks: [{ ...ani }, { ...amazon }] }),
     titel(900604, { watchLinks: [{ ...amazon }] }),
     titel(900605),
@@ -57,11 +61,28 @@ try {
     titel(900607),
     titel(900608),
   ]
-  ergaenzeDiscUndZugang({ titles: new Map(t.map((x) => [x.id, x as never])), anisearch: {}, releases: [], zugangJeAdresse: new Map() })
+  schliesseWegeAb({
+    titles: new Map(t.map((x) => [x.id, x as never])),
+    anisearch: {},
+    releases: [],
+    zugangJeAdresse: new Map(),
+    tmdbMehrdeutig: new Set(),
+    toteAdressen: new Set(),
+    linkBefunde: {},
+    // belegtes Nein für eine Amazon-Suche (wie im echten Bestand): `bereinigeWege` streicht jede Amazon-Suche, wenn der Weg davor steht
+    verweiseEntfernt: [{ url: 'https://www.amazon.de/s?k=etwas&i=instant-video' } as never],
+    crAdresseZu: () => undefined,
+    beantworteteSuchen: new Set(),
+    suchOffen: [],
+    alleChecks: [],
+    lautPruefungTot: () => false,
+    checksJePlattform: new Map(),
+    belegFuer: () => undefined,
+  })
   const ws = (id: number) => (t.find((x) => x.id === id)!.watchLinks as { name: string; url: string; kind: string; zugang?: string }[])
   const ean = (id: number) => ws(id).filter((w) => w.url.startsWith('https://www.amazon.de/s?k='))
 
-  console.log('\nBau (ergaenzeDiscUndZugang):')
+  console.log('\nBau (schliesseWegeAb):')
   pruefe('nur aniSearch, EAN der ersten Ausgabe: Amazon-Suche dahinter', ws(900601).length === 2 && ws(900601)[1]!.url === 'https://www.amazon.de/s?k=4020628530846', ws(900601))
   pruefe('Weg ist ein Kaufweg „Amazon“ mit Zugangsart kauf', ws(900601)[1]!.name === 'Amazon' && ws(900601)[1]!.kind === 'buy' && ws(900601)[1]!.zugang === 'kauf', ws(900601)[1])
   pruefe('aniSearch-Weg bleibt unverändert vorn', ws(900601)[0]!.url === A1, ws(900601)[0])

@@ -15,6 +15,7 @@ import { uebernehmeFskAusJustwatch } from './11-2-1-fsk-justwatch.ts'
 import { ergaenzeDiscUndZugang } from './11-1-disc-und-zugang.ts'
 import { entferneFremdeNachStaffeln, kennungAusAdresse, type CrStaffel } from './cr-serie-geteilt.ts'
 import { begrenzeWegeAufBelege } from './wege-begrenzen.ts'
+import { baueEanHaendlerWege } from '../lib/disc-haendler-weg.ts'
 import { setzeCoverNachRegel } from './cover-regel.ts'
 import { setzeProduktFelder } from './produkt-regel.ts'
 import { log, readJson } from '../lib/util.ts'
@@ -97,7 +98,7 @@ export function schliesseWegeAb({
   entferneBezugswegeTrotzNein(titles, alleChecks)
 
   fuehrePrimeGleicheGtiZusammen(titles.values(), readJson<GtiBelegt>('data/amazon-gti-belegt.json', {}))
-
+  baueEanHaendlerWege(titles)
   // Das Cover steht nach allen Wege-Änderungen fest und vor `baueMeta`, damit Hauptbestand, Verschobene, Reihen und Meldungen dasselbe Bild sehen.
   setzeCoverNachRegel(titles)
   setzeProduktFelder(titles)

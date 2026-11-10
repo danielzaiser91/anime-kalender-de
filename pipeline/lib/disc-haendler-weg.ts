@@ -10,11 +10,20 @@
  */
 import { amazonEanUrl } from '../../shared/plattform-suche.ts'
 import type { Title } from '../../shared/types.ts'
-import { discEan, type DiscIndex } from './disc-ean.ts'
+import { discEan, discIndexLaden, type DiscIndex } from './disc-ean.ts'
+import { log } from './util.ts'
 
 const nurAniSearch = (t: Title): boolean => {
   const w = t.watchLinks ?? []
   return !(t.streams ?? []).length && w.length > 0 && w.every((l) => l.name === 'aniSearch')
+}
+
+/**
+ * Bauschritt: läuft ganz hinten im Wege-Abschluss. Davor entfernt `bereinigeWege` jede Amazon-Suche als „belegtes Nein“
+ * (Adresse ohne Query), und die Händler-Ergänzung aus JustWatch weicht einem vorhandenen Händler.
+ */
+export function baueEanHaendlerWege(titles: Map<number, Title>): void {
+  log(`${ergaenzeEanHaendlerWege(titles.values(), discIndexLaden())} Titel bekamen neben dem aniSearch-Artikel die Amazon-Suche nach der EAN`)
 }
 
 /** Hängt den EAN-Weg an; Rückgabe = Anzahl der Titel, die ihn bekamen. */
