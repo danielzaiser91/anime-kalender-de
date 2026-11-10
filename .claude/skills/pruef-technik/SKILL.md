@@ -60,6 +60,8 @@ Ergänzt die Klasse K1 in `bauer.md`/`pruefer.md`; Anlässe stehen in `lehren.md
 
 **Mutationsskript räumt `.orig`-Reste selbst weg (Bauer 2526, 31.10.2026):** Wer Mutanten per Kopie `datei.orig` einsetzt, stellt im `finally` zurück und löscht die Kopie; vor dem Commit `git status --short | grep orig` muss leer sein.
 
+**Mutanten an zerstörendem Code nur mit leerer Auswahl (Bauer, Bau von PR 3400, 10.11.2026):** Code, der Prozesse beendet, Dateien löscht oder nach außen schreibt, wird nur mit LEERER Auswahl mutiert, nie mit invertiertem Filter („Wurzel-Filter invertiert“ beendete echte fremde Prozesse); vor dem Lauf die Trefferzahl der Auswahl ausgeben und bei > 0 abbrechen. Bash-Hilfsfunktionen mit Pfaden mit Leerzeichen quoten (`"$1"`), sonst zeigt die Probe falsches Rot (Prüfung von PR 3398, 10.11.2026).
+
 **Rückrechnung vergleicht Ergebnisse, nicht Zwischenelemente (Prüfer 2532, 31.10.2026):** Bei Gleichstand (gleiches Datum) wählen alt und neu verschiedene Elemente mit gleichem Termin; verglichen wird der erzeugte Termin (Beginn, Ende, Status), sonst entstehen Scheinabweichungen.
 
 - **Frist-Mutation (31.10.2026, PR 2533):** „Frist ignoriert“ überlebt, solange kein Testfall einen Befehl hat, der nach der Frist anders endet als in ihr — je Frist einen solchen Fall anlegen.
