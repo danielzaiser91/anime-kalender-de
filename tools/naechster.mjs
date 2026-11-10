@@ -2,7 +2,7 @@
 /**
  * Rangliste aus stand.md: liest die Kennzeichen `{Art · Dringlichkeit · Ziel · Eingang [· wartet: …]}` der Zeilen in
  * „In Arbeit“ und „Als Nächstes“ und gibt Rangliste, nächsten startbaren Punkt und „Gerade in Arbeit“ aus.
- * Rang: Art → Dringlichkeit → Ziel → älterer Eingang (Regeln: tools/claude-global/mods/arbeitsliste/hooks/stand-kennzeichen.mjs).
+ * Rang: Art → Dringlichkeit → Ziel → älterer Eingang (Regeln: .claude/mods/arbeitsliste/hooks/stand-kennzeichen.mjs).
  *
  *   node tools/naechster.mjs [--json] [--datei <stand.md>] [--jetzt <ISO-Zeit>]
  *
@@ -11,7 +11,7 @@
 import { readFileSync } from 'node:fs'
 import { pathToFileURL } from 'node:url'
 
-import { auswerten } from './claude-global/mods/arbeitsliste/hooks/stand-kennzeichen.mjs'
+import { auswerten } from '../.claude/mods/arbeitsliste/hooks/stand-kennzeichen.mjs'
 
 const STAND = 'C:/code/ai/anime-kalender-de/daniel-zum-abarbeiten/stand.md'
 

@@ -1,5 +1,5 @@
 /**
- * Test für `tools/claude-global/hooks/no-verify-sperre.js` (PreToolUse auf Bash): `git commit`/`git push` mit `--no-verify`
+ * Test für `.claude/hooks/no-verify-sperre.js` (PreToolUse auf Bash): `git commit`/`git push` mit `--no-verify`
  * (bei commit auch `-n`) wird abgewiesen, Lesen, Text in Nachrichten und Heredocs bleiben frei.
  */
 import assert from 'node:assert/strict'
@@ -7,7 +7,7 @@ import { spawnSync } from 'node:child_process'
 import { createRequire } from 'node:module'
 import { join } from 'node:path'
 
-const hook = join(import.meta.dirname, 'claude-global', 'hooks', 'no-verify-sperre.js')
+const hook = join(import.meta.dirname, '..', '.claude', 'hooks', 'no-verify-sperre.js')
 const { pruefe } = createRequire(import.meta.url)(hook)
 
 const lauf = (command, tool_name = 'Bash') => pruefe({ tool_name, tool_input: { command } })

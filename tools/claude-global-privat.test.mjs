@@ -1,5 +1,5 @@
 /**
- * Schwarzliste für `tools/claude-global/` (Repo ist öffentlich): Namen und Pfade privater Projekte, der Windows-Kontoname in
+ * Schwarzliste für `.claude/` (Repo ist öffentlich): Namen und Pfade privater Projekte, der Windows-Kontoname in
  * Skill-Pfaden und der Nachname dürfen nicht in den eingesammelten Dateien stehen. Die Suche ist ein reiner Textvergleich
  * (`findePrivates`), mit Fällen je Muster; danach läuft sie über alle Dateien des Ordners.
  */
@@ -39,10 +39,10 @@ assert.equal(fall('skills/a/SKILL.md', 'C:\\Users\\ih\\.claude'), 'Kontoname im 
 assert.equal(fall('hooks/h.js', 'C:/Users/ih/.claude/hooks'), '', 'Hooks und Mods brauchen den festen Pfad')
 assert.equal(fall('skills/a/SKILL.md', '~/.claude/skills und mein projekt'), '')
 
-const wurzel = join(import.meta.dirname, 'claude-global')
+const wurzel = join(import.meta.dirname, '..', '.claude')
 const verletzt = alleDateien(wurzel).flatMap((datei) => {
   const rel = relative(wurzel, datei).replace(/\\/g, '/')
   return findePrivates(rel, readFileSync(datei, 'utf8')).map((name) => `${rel}: ${name}`)
 })
-assert.deepEqual(verletzt, [], `Privates in tools/claude-global/:\n${verletzt.join('\n')}`)
+assert.deepEqual(verletzt, [], `Privates in .claude/:\n${verletzt.join('\n')}`)
 console.log(`claude-global-privat.test: ok (${MUSTER.length} Muster, ${alleDateien(wurzel).length} Dateien ohne Treffer)`)

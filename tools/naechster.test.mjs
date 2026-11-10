@@ -1,5 +1,5 @@
 /**
- * Test für tools/naechster.mjs und tools/claude-global/mods/arbeitsliste/hooks/stand-kennzeichen.mjs: Kennzeichen lesen, Rang
+ * Test für tools/naechster.mjs und .claude/mods/arbeitsliste/hooks/stand-kennzeichen.mjs: Kennzeichen lesen, Rang
  * (Art → Dringlichkeit → Ziel → älterer Eingang), „wartet“ überspringen, fehlendes Kennzeichen mit Zeile,
  * Verdrahtung im Hook (stand-prs.js) und CLI als Prozess. Feste Zeit, Wegwerf-Dateien unter os.tmpdir().
  */
@@ -13,8 +13,8 @@ import { join } from 'node:path'
 import { jsonVon, text } from './naechster.mjs'
 
 const require = createRequire(import.meta.url)
-const K = require(join(import.meta.dirname, 'claude-global', 'mods', 'arbeitsliste', 'hooks', 'stand-kennzeichen.mjs'))
-const h = require(join(import.meta.dirname, 'claude-global', 'hooks', 'stand-prs.js'))
+const K = require(join(import.meta.dirname, '..', '.claude', 'mods', 'arbeitsliste', 'hooks', 'stand-kennzeichen.mjs'))
+const h = require(join(import.meta.dirname, '..', '.claude', 'hooks', 'stand-prs.js'))
 const JETZT = Date.parse('2026-11-08T12:00:00Z')
 const z = (titel, art, dring, ziel, tag, wartet = '') => `- 🔵 **${titel}** {${art} · ${dring} · ${ziel} · ${tag}${wartet ? ` · wartet: ${wartet}` : ''}} Text`
 const stand = (arbeit, naechstes) => ['# Stand', '## In Arbeit (Stand 08.11.2026 12:00)', ...arbeit, '## Als Nächstes', ...naechstes, '## Anderes', '- ohne Kennzeichen, anderer Abschnitt'].join('\n')
