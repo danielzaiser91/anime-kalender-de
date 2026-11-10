@@ -279,7 +279,7 @@ export function TerminZeile({ release, titel, today, tvText, deutsch }: {
   )
   const knoepfe = (
     <>
-      {live && <LiveLink url={live.url} hinweis={t('tv.live', { name: live.name })} sender={release.sender} />}
+      {live && <LiveLink url={live.url} hinweis={release.sender ? t('tv.liveSender', { sender: release.sender, name: live.name }) : t('tv.live', { name: live.name })} sender={release.sender} />}
       {tvLink && <ProgrammLink href={tvLink.href} hinweis={tvLink.hinweis} />}
       <MerkenKnopf release={release} today={today} zeile />
     </>

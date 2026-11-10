@@ -53,7 +53,7 @@ export function Pille({ name, farbe, url, unten, titel, icon, durchgestrichen, s
     </a>
   )
   const kopf = titel ? (
-    <Tooltip text={titel} seite="oben" className={`min-w-0 max-w-full ${fuss ? 'block w-full' : ''}`}>
+    <Tooltip text={titel} seite="oben" className="min-w-0 max-w-full">
       {haupt}
     </Tooltip>
   ) : (
