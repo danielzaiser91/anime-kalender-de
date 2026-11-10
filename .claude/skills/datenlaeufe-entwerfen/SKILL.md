@@ -51,5 +51,5 @@ Wer `schedule` (oder einen anderen Auslöser) streicht oder ersetzt, sucht alle 
 
 Wer einen Sammler in einen häufigeren Lauf hebt (PR 2186, CR-Neu stündlich), listet **vor** dem PR jede Datei, die danach zwei Läufe schreiben (`tools/quellen-pr.sh`: wer gewinnt bei Überschneidung?), und was ein Scheitern des neuen Schritts in der Statusanzeige auslöst (`lauf-abmelden.sh`, eigener `$MELDER fehler`). Beides fand sonst erst der Prüfer (A2/A3). Eine Erhöhung gegen einen Dienst mit Nutzungsverbot ist Daniels Entscheidung (F90), nicht die des Dirigenten.
 
-## Beleglauf vom Zweig (`--ref`): nur das YAML ist vom Zweig (10.11.2026)
-`gh workflow run <datei> --ref <zweig>` nimmt nur das Workflow-YAML vom Zweig. Aktionen und Skripte holt `checkout ref: main`, deshalb belegt so ein Lauf Skriptänderungen erst nach dem Merge (vorher Prozesstest). Er reicht echte Daten-PRs ein, und der Sammler mergt die grünen selbst: das im Auftrag einplanen (PR 3282).
+## Beleglauf vom Zweig (`--ref`): was vom Zweig kommt, entscheidet der Checkout (10.11.2026)
+`gh workflow run <datei> --ref <zweig>` nimmt das Workflow-YAML vom Zweig. Skripte kommen nur dann auch vom Zweig, wenn `actions/checkout` ohne `ref` auscheckt (z. B. `d1-verbrauch.yml`); die Sammler checken mit `ref: main` aus, dort belegt so ein Lauf Skriptänderungen erst nach dem Merge (vorher Prozesstest). Vor dem Beleglauf den Checkout im YAML nachsehen. Er reicht echte Daten-PRs ein, und der Sammler mergt die grünen selbst: das im Auftrag einplanen (PR 3282).
