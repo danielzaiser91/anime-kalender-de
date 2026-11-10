@@ -150,6 +150,7 @@ pruefe('Wächter: andere Plattform ist kein Befund', joynTerminGeschaetztTrotzFe
 const nachTag = [{ ...joynTermin(), schedule: { ...joynTermin().schedule, firstEpisodeDate: '2026-11-06' } } as Release].flatMap((r) => expandEvents(r))
 pruefe('Wächter: Termin einen Tag nach dem Fenster (gleiche Uhrzeit) ist kein Befund', joynTerminGeschaetztTrotzFenster(nachTag, titelMitFenster).length === 0)
 const fremdeNr = new Map([[177476, { ...titel(), streams: [{ platform: 'joyn', fenster: [{ nr: 9, ab: '2026-11-06T18:50', ende: '2026-12-05T23:59' }] }] } as unknown as Title]])
+pruefe('Wächter: Termin 19:10 gegen Fenster 18:50 am selben Tag ist kein Befund', joynTerminGeschaetztTrotzFenster(expandEvents(joynTermin('19:10')), titelMitFenster).length === 0)
 pruefe('Wächter: Fenster mit anderer Folgennummer belegt den Termin nicht', joynTerminGeschaetztTrotzFenster(evWach, fremdeNr).length === 0)
 const ohneEstimated = evWach.map((e) => ({ ...e, estimated: undefined }))
 pruefe('Wächter: Termin ohne ≈ ist kein Befund', joynTerminGeschaetztTrotzFenster(ohneEstimated, titelMitFenster).length === 0)
