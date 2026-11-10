@@ -8,6 +8,12 @@
 const ANZAHL_LAEUFE = 6
 const WARNUNG = /^start-budget: nur noch (\d+(?:\.\d+)?) KB Luft/
 
+/**
+ * Erfolgreicher Bau-Job: früher der eigene Job `build`, seit 10.11.2026 der Job `bau_pruefen`, dessen Schritt „Bauen“ gelaufen sein muss
+ * (bei Treffer des geprüften Baus ist der Job grün, ohne zu bauen).
+ */
+export const istBauJob = (j) => j.conclusion === 'success' && (j.name === 'build' || (j.name === 'bau_pruefen' && (j.steps ?? []).some((s) => s.name === 'Bauen' && s.conclusion === 'success')))
+
 /** KB Luft aus den Annotationen eines Bau-Jobs, `null` ohne Warnung. */
 export function luftAusAnnotationen(annotationen) {
   for (const a of annotationen) {
@@ -23,7 +29,7 @@ export function startBudgetZeilen(gh, repo) {
     const laeufe = JSON.parse(gh(['run', 'list', '--repo', repo, '--workflow', 'deploy.yml', '--branch', 'main', '--status', 'success', '--limit', String(ANZAHL_LAEUFE), '--json', 'databaseId']))
     for (const lauf of laeufe) {
       const jobs = JSON.parse(gh(['api', `repos/${repo}/actions/runs/${lauf.databaseId}/jobs`])).jobs
-      const bau = jobs.find((j) => j.name === 'build' && j.conclusion === 'success')
+      const bau = jobs.find(istBauJob)
       if (!bau) continue
       const luft = luftAusAnnotationen(JSON.parse(gh(['api', `repos/${repo}/check-runs/${bau.id}/annotations`])))
       return luft === null ? [] : [`WARNUNG start-budget: ${luft} KB Luft (Deploy-Lauf ${lauf.databaseId}); Startdateien verkleinern, bevor der nächste Datenlauf die Grenze reißt`]

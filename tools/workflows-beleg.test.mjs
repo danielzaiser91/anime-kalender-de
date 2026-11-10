@@ -10,7 +10,7 @@ import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import yaml from 'js-yaml'
 import { ohneKommentare } from './pr-nachrechnen-leser.mjs'
-import { ECHT, JOBS_HOECHSTENS, LAEUFE_HOECHSTENS, ZAEHLT, abdruckAusBaum, gueltigkeit, main, pruefenGruen, sucheBeleg } from './workflows-beleg.mjs'
+import { ECHT, JOBS_HOECHSTENS, LAEUFE_HOECHSTENS, ZAEHLT, LETZTER_PRUEFSCHRITT, abdruckAusBaum, gueltigkeit, main, pruefenGruen, sucheBeleg } from './workflows-beleg.mjs'
 
 const tools = dirname(fileURLToPath(import.meta.url))
 const wegwerf = mkdtempSync(join(tmpdir(), 'workflows-beleg-'))
@@ -182,6 +182,20 @@ const suche = (laeufe, jobsVon, eigeneId = 9999, abdruck = 'abdruck-A') => suche
   ok(pruefenGruen(jobs('pruefen', 'success')) && !pruefenGruen(jobs('pruefen', 'neutral')), 'pruefenGruen: nur success')
 }
 
+// 2b. Seit 10.11.2026 liegen die Prüfungen im Job `bau_pruefen`; bei Treffer des geprüften Baus ist er grün, ohne zu prüfen (Schritte übersprungen).
+{
+  const schritt = (name, conclusion) => ({ name, conclusion })
+  const neu = (conclusion, schritte) => [{ name: 'bau_pruefen', conclusion, steps: schritte }]
+  const geprueft = [schritt('Zusicherungen prüfen', 'success'), schritt('Erweiterung prüfen', 'success')]
+  ok(pruefenGruen(neu('success', geprueft)), 'bau_pruefen grün, Erweiterung geprüft: Beleg')
+  ok(!pruefenGruen(neu('success', [schritt('Zusicherungen prüfen', 'skipped'), schritt('Erweiterung prüfen', 'skipped')])), 'bau_pruefen grün durch Treffer (Prüfschritte übersprungen): kein Beleg')
+  ok(!pruefenGruen(neu('success', [schritt('Zusicherungen prüfen', 'success'), schritt('Erweiterung prüfen', 'failure')])), 'letzter Prüfschritt rot: kein Beleg')
+  ok(!pruefenGruen(neu('success', [schritt('Zusicherungen prüfen', 'success')])), 'letzter Prüfschritt fehlt: kein Beleg')
+  ok(!pruefenGruen(neu('success', undefined)), 'Schritte fehlen in der Antwort: kein Beleg')
+  ok(!pruefenGruen(neu('failure', geprueft)), 'Job rot trotz grünem Schritt: kein Beleg')
+  ok(!pruefenGruen([{ name: 'build', conclusion: 'success', steps: geprueft }]), 'anderer Jobname mit demselben Schritt: kein Beleg')
+}
+
 // 3. gueltigkeit mit Kulisse (baum + api), jeder Fehler heißt "nicht gültig".
 const ROH = (name) => `100644 blob ${name.padEnd(40, 'a')}\ttools/x.mjs\0`
 const kulisse = (opt = {}) => ({
@@ -243,16 +257,20 @@ const ENV = { GITHUB_REPOSITORY: 'o/r', GITHUB_RUN_ID: '99' }
 // 5. Verdrahtung in deploy.yml (geparst): der Schritt läuft vor der Prüfung, die Prüfung hängt an seinem Ausgang.
 {
   const deploy = yaml.load(readFileSync(join(tools, '..', '.github/workflows/deploy.yml'), 'utf8'))
-  const schritte = deploy.jobs.pruefen.steps
+  const schritte = deploy.jobs.bau_pruefen.steps
+  const keinTreffer = "${{ steps.hochladen.outcome != 'success' }}"
   const beleg = schritte.find((s) => s.id === 'wbeleg')
   gleich(beleg.run, 'node tools/workflows-beleg.mjs gueltig', 'deploy.yml: Beleg-Schritt ruft workflows-beleg gueltig')
   gleich(beleg.env, { GH_TOKEN: '${{ github.token }}' }, 'deploy.yml: gh bekommt das Token, sonst nichts')
-  ok(beleg['continue-on-error'] === undefined && beleg.if === undefined, 'deploy.yml: Beleg-Schritt läuft immer (Fehler stecken im Skript)')
+  ok(beleg['continue-on-error'] === undefined && beleg.if === keinTreffer, 'deploy.yml: Beleg-Schritt läuft ohne Treffer des geprüften Baus (Fehler stecken im Skript)')
   const pruefung = schritte.find((s) => s.name === 'Workflow-Dateien prüfen')
   gleich(pruefung.run, 'npm run check:workflows', 'deploy.yml: die Prüfung bleibt npm run check:workflows')
-  gleich(pruefung.if, "steps.wbeleg.outputs.gueltig != '1'", 'deploy.yml: Prüfung nur ohne Beleg')
+  gleich(pruefung.if, "${{ steps.hochladen.outcome != 'success' && steps.wbeleg.outputs.gueltig != '1' }}", 'deploy.yml: Prüfung nur ohne Treffer und ohne Beleg')
+  const letzter = schritte.find((s) => s.name === LETZTER_PRUEFSCHRITT)
+  ok(letzter && letzter['continue-on-error'] === undefined && letzter.if === keinTreffer && schritte.indexOf(pruefung) < schritte.indexOf(letzter), 'deploy.yml: letzter Prüfschritt (Beleg-Kriterium) steht nach den Prüfungen, ohne continue-on-error, nur ohne Treffer')
   ok(schritte.indexOf(beleg) < schritte.indexOf(pruefung), 'deploy.yml: Beleg vor der Prüfung')
-  gleich(schritte[0].with, { 'fetch-depth': 30, filter: 'blob:none' }, 'deploy.yml: Checkout holt Verlauf und Bäume ohne Blobs')
+  gleich(schritte.find((s) => String(s.uses).startsWith('actions/checkout')).with, { 'fetch-depth': 30, filter: 'blob:none', 'sparse-checkout': 'tools' }, 'deploy.yml: Checkout holt Verlauf und Bäume ohne Blobs')
+  gleich(deploy.jobs.bau_pruefen.permissions.actions, 'read', 'deploy.yml: der Job darf Läufe lesen (gh api im Beleg)')
   gleich(deploy.permissions.actions, 'read', 'deploy.yml: Workflow darf Läufe lesen')
   gleich(schritte.filter((s) => String(s.run ?? '').includes('check:workflows')).length, 1, 'deploy.yml: genau ein Schritt fährt check:workflows')
 }

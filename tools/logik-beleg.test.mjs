@@ -306,11 +306,11 @@ const abdruckIn = (ordner) => {
 // 5. Verdrahtung: geparste Workflows und die Autor-Adresse in commit-data.sh.
 {
   const deploy = yaml.load(readFileSync(join(wurzel, '.github/workflows/deploy.yml'), 'utf8'))
-  const schritte = deploy.jobs.pruefen.steps
+  const schritte = deploy.jobs.bau_pruefen.steps
   const beleg = schritte.find((s) => s.id === 'beleg')
   gleich(beleg.run, 'node tools/logik-beleg.mjs gueltig', 'deploy.yml: Beleg-Schritt ruft logik-beleg gueltig')
   gleich(schritte.indexOf(beleg) < schritte.findIndex((s) => s.name === 'Zusicherungen prüfen'), true, 'deploy.yml: Beleg vor den Zusicherungen')
-  gleich(schritte[0].with, { 'fetch-depth': 30, filter: 'blob:none' }, 'deploy.yml: Checkout holt den Verlauf')
+  gleich(schritte.find((s) => String(s.uses).startsWith('actions/checkout')).with, { 'fetch-depth': 30, filter: 'blob:none', 'sparse-checkout': 'tools' }, 'deploy.yml: Checkout holt den Verlauf')
   const zusicherung = schritte.find((s) => s.name === 'Zusicherungen prüfen')
   gleich(zusicherung.env.LOGIK_BELEGT, '${{ steps.beleg.outputs.gueltig }}', 'deploy.yml: LOGIK_BELEGT kommt aus dem Beleg-Schritt')
   gleich(

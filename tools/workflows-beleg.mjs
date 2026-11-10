@@ -9,7 +9,7 @@
  * der Aufruf prüft sie am eigenen Lauf (API-`head_sha` gegen `git rev-parse HEAD`) und prüft sonst voll.
  * Ein Lauf, der selbst per Beleg übersprang, belegt weiter (gleicher Abdruck, transitiv); ein übersprungener Job `pruefen` zählt nicht.
  *
- * Aufruf im Workflow `deploy.yml` (Job `pruefen`): `node tools/workflows-beleg.mjs gueltig` schreibt bei Beleg `gueltig=1` nach $GITHUB_OUTPUT.
+ * Aufruf im Workflow `deploy.yml` (Job `bau_pruefen`): `node tools/workflows-beleg.mjs gueltig` schreibt bei Beleg `gueltig=1` nach $GITHUB_OUTPUT.
  */
 import { execFileSync } from 'node:child_process'
 import { appendFileSync } from 'node:fs'
@@ -30,6 +30,8 @@ export const OHNE_LESER_WORKFLOWS = ['anisearch-raw', 'crunchyroll-raw', 'crunch
 export const ZAEHLT = (pfad) => !istDatenpfad(pfad) && !OHNE_LESER_WORKFLOWS.some((p) => pfad === p || pfad.startsWith(`${p}/`))
 export const WORKFLOW = 'deploy.yml'
 export const JOB = 'pruefen'
+export const JOB_NEU = 'bau_pruefen'
+export const LETZTER_PRUEFSCHRITT = 'Erweiterung prüfen'
 /** Läufe, die der Abruf der Deploy-Historie höchstens liest (neueste zuerst); die Checkout-Tiefe (30 Commits) begrenzt ohnehin, was lokal lesbar ist. */
 export const LAEUFE_HOECHSTENS = 50
 /** Gleicher Abdruck, aber Job nicht grün: so viele solcher Läufe werden höchstens nach ihren Jobs gefragt. */
@@ -49,8 +51,12 @@ export function abdruckAusBaum(roh) {
   return abdruckVon(gezaehlt)
 }
 
-/** Ist der Job `pruefen` unter diesen Jobs erfolgreich (nicht übersprungen, nicht abgebrochen)? */
-export const pruefenGruen = (jobs) => jobs.some((j) => j.name === JOB && j.conclusion === 'success')
+/**
+ * Haben die Prüfungen unter diesen Jobs gelaufen und bestanden? Früher der Job `pruefen` (nicht übersprungen, nicht abgebrochen); seit 10.11.2026
+ * Teil des Jobs `bau_pruefen`, der bei Treffer des geprüften Baus grün ist, ohne zu prüfen: dort zählt der letzte Prüfschritt „Erweiterung prüfen“.
+ */
+export const pruefenGruen = (jobs) =>
+  jobs.some((j) => j.conclusion === 'success' && (j.name === JOB || (j.name === JOB_NEU && (j.steps ?? []).some((s) => s.name === LETZTER_PRUEFSCHRITT && s.conclusion === 'success'))))
 
 /**
  * Neuester Lauf (ohne den eigenen), dessen Stand denselben Abdruck hat und dessen Job `pruefen` grün war, sonst null.
