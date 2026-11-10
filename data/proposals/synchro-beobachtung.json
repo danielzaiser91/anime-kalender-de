@@ -1,5 +1,5 @@
 {
-  "stand": "2026-11-10",
+  "stand": "2026-11-11",
   "eintraege": [
     {
       "titel": "M.A.S.K.",
@@ -126,6 +126,20 @@
       "anbieter": "disc",
       "start": "2026-12-10",
       "seit": "2026-11-10"
+    },
+    {
+      "titel": "Die Tagebücher der Apothekerin: The Late Lady’s Treasure",
+      "id": 200929,
+      "anbieter": "unbekannt",
+      "start": "2026-12-11",
+      "seit": "2026-11-11"
+    },
+    {
+      "titel": "RAKSHASA STREET 5",
+      "id": 202846,
+      "anbieter": "unbekannt",
+      "start": "2026-12-11",
+      "seit": "2026-11-11"
     }
   ],
   "abgeloest": [],
