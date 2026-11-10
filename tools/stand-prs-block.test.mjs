@@ -1,5 +1,5 @@
 /**
- * Fallliste für `tools/claude-global/hooks/stand-prs-block.js` (Block zwischen den Marken in stand.md): kaputte und
+ * Fallliste für `.claude/hooks/stand-prs-block.js` (Block zwischen den Marken in stand.md): kaputte und
  * doppelte Marken, fremde Zeilen im Block, zwei Läufe, leere Datei. Unabhängiges Kriterium: jede nicht leere Zeile, die
  * nicht in Hook-Form ist, steht nach dem Lauf noch genau so oft in der Datei wie vorher.
  */
@@ -8,7 +8,7 @@ import { createRequire } from 'node:module'
 import { join } from 'node:path'
 
 const require = createRequire(import.meta.url)
-const b = require(join(import.meta.dirname, 'claude-global', 'hooks', 'stand-prs-block.js'))
+const b = require(join(import.meta.dirname, '..', '.claude', 'hooks', 'stand-prs-block.js'))
 const { AUF, ZU } = b
 const ADR = 'https://github.com/danielzaiser91/anime-kalender-de/pull/'
 const L = (n) => `[PR ${n}](${ADR}${n})`

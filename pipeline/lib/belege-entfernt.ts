@@ -9,6 +9,7 @@
 import { existsSync, readFileSync } from 'node:fs'
 import yaml from 'js-yaml'
 import { sperrKern, type BelegEntfernt } from './sperr-kern.ts'
+import { notizSeiteVon } from './handbeleg-notizseite.ts'
 
 export { sperrKern, type BelegEntfernt }
 
@@ -24,11 +25,16 @@ export function istEntfernt(liste: readonly BelegEntfernt[], anilistId: number |
   return !!kern && liste.some((e) => e.anilistId === anilistId && sperrKern(e.url) === kern)
 }
 
-/** Ein Beleg-Block (YAML-Zeilen eines `- anilistId: …`-Eintrags) gehört zu einem entfernten Beleg. */
+/**
+ * Ein Beleg-Block (YAML-Zeilen eines `- anilistId: …`-Eintrags) gehört zu einem entfernten Beleg: seine Adresse oder die
+ * gemessene Seite aus der Notiz („Amazon-Seite X“) ist für die Kennung gesperrt (Oshi no Ko S3: Block an der Adresse von
+ * B0GFPBT6FG, gemessen an B0B7D5DRV2, kam nach #3316 aus den Meldungen zurück).
+ */
 export function blockIstEntfernt(liste: readonly BelegEntfernt[], block: string[]): boolean {
   try {
-    const b = (yaml.load(block.join('\n')) as { anilistId?: number; url?: string }[] | null)?.[0]
-    return istEntfernt(liste, b?.anilistId, b?.url)
+    const b = (yaml.load(block.join('\n')) as { anilistId?: number; url?: string; note?: string }[] | null)?.[0]
+    const notizSeite = notizSeiteVon(b?.note)
+    return istEntfernt(liste, b?.anilistId, b?.url) || (!!notizSeite && istEntfernt(liste, b?.anilistId, `https://www.amazon.de/dp/${notizSeite}`))
   } catch {
     return false
   }

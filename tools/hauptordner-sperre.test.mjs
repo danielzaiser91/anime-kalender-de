@@ -1,5 +1,5 @@
 /**
- * Test für `tools/claude-global/hooks/hauptordner-sperre.js` (PreToolUse auf Bash): im Hauptordner nur Lesen und `git pull --ff-only`.
+ * Test für `.claude/hooks/hauptordner-sperre.js` (PreToolUse auf Bash): im Hauptordner nur Lesen und `git pull --ff-only`.
  * Befehlsformen wie in echten Sitzungen: Ketten mit `;` und `&&`, `cd` mit Windows- und /c/-Pfad, `git -C`, Unterordner, Worktrees.
  */
 import assert from 'node:assert/strict'
@@ -9,7 +9,7 @@ import { createRequire } from 'node:module'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 
-const hook = join(import.meta.dirname, 'claude-global', 'hooks', 'hauptordner-sperre.js')
+const hook = join(import.meta.dirname, '..', '.claude', 'hooks', 'hauptordner-sperre.js')
 const { pruefe, pruefeBefehl, loese } = createRequire(import.meta.url)(hook)
 
 const HAUPT = 'C:\\code\\ai\\anime-kalender-de'

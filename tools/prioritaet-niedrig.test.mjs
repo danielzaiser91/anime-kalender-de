@@ -1,5 +1,5 @@
 /**
- * Test für `tools/claude-global/hooks/prioritaet-niedrig.js` (SessionStart): Auswahl des Claude-Code-Vorfahren, nie die Desktop-App,
+ * Test für `.claude/hooks/prioritaet-niedrig.js` (SessionStart): Auswahl des Claude-Code-Vorfahren, nie die Desktop-App,
  * und als Prozess still mit Exit 0, wenn kein Claude-Code-Vorfahr da ist (hier: der Testprozess selbst ist node).
  */
 import assert from 'node:assert/strict'
@@ -7,7 +7,7 @@ import { spawnSync } from 'node:child_process'
 import { createRequire } from 'node:module'
 import { join } from 'node:path'
 
-const hook = join(import.meta.dirname, 'claude-global', 'hooks', 'prioritaet-niedrig.js')
+const hook = join(import.meta.dirname, '..', '.claude', 'hooks', 'prioritaet-niedrig.js')
 const { claudeCodeVorfahr, herabsetzen } = createRequire(import.meta.url)(hook)
 
 const CLI = 'C:\\Users\\ih\\AppData\\Roaming\\Claude\\claude-code\\2.1.299\\f0584be0fbaf\\claude.exe'

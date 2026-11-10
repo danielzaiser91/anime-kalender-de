@@ -9,7 +9,7 @@ Der Vorschlag stammt aus einem Namensvergleich und ist **kein Beleg**:
 gehört die gemeldete Adresse als zusätzlicher Verweis an den Titel; stimmt er
 nicht, gehört die Zeile gestrichen.
 
-Stand: 2026-11-09
+Stand: 2026-11-10
 
 ## Was hier zu tun ist
 
@@ -391,3 +391,19 @@ nicht. Vier Fälle, vier Handgriffe:
 | adn | https://animationdigitalnetwork.com/de/video/1432-dragon-ball-super-beerus | Dragon Ball Super: Beerus | kein_dub | — | Titel von Hand suchen |
 | adn | https://animationdigitalnetwork.com/de/video/1430-my-girlfriends-friend | My Girlfriend's Friend | kein_dub | — | Titel von Hand suchen |
 | adn | https://animationdigitalnetwork.com/de/video/1429-now-that-i-can-control-reality-with-a-mouse-cursor-im-gonna-click-away-on-the-girls | Now That I Can Control Reality With A Mouse Cursor, I’m Gonna Click Away On The Girls! | kein_dub | — | Titel von Hand suchen |
+| primevideo | https://www.amazon.de/gp/video/detail/B0CJYMLW6W | Fushigi Yûgi New OVA: The Mysterious Play (Mysterious Play OVA 2) | kein_dub | — | Titel von Hand suchen |
+| adn | https://animationdigitalnetwork.com/de/video/1428-even-the-student-council-has-its-holes | Even the Student Council Has Its Holes! | kein_dub | — | Titel von Hand suchen |
+| adn | https://animationdigitalnetwork.com/de/video/1125-demon-slave | Demon Slave | kein_dub | [Demon Slave: The Chained Soldier](https://anilist.co/anime/141821)<br>[Demon Slave: Staffel 2](https://anilist.co/anime/176276) | Vorschlag bestätigen, dann Adresse eintragen |
+| primevideo | https://www.amazon.de/gp/video/detail/B09JZHRQ18 | Higurashi no Naku Koro ni (When They Cry) | dub | — | Titel von Hand suchen |
+| primevideo | https://watch.amazon.de/detail?gti=amzn1.dv.gti.1374d3dd-9d96-4d41-b0f8-38932f0c9145 | Ikki Tousen: Dragon Girls (Battle Vixens: Ikki Tousen) — Staffel 2 in der Reihe nicht zu bestimmen | dub | [Ikki Tousen: Dragon Girls](https://anilist.co/anime/257) | Seite 0GB2R9DDV4G7EBUC1YO5TJDNWL als Verweis an den Titel von Staffel 2 eintragen |
+| primevideo | https://watch.amazon.de/detail?gti=amzn1.dv.gti.1374d3dd-9d96-4d41-b0f8-38932f0c9145 | Ikki Tousen: Dragon Girls (Battle Vixens: Ikki Tousen) — Staffel 3 in der Reihe nicht zu bestimmen | weg | [Ikki Tousen: Dragon Girls](https://anilist.co/anime/257) | Seite B0CHK596BV als Verweis an den Titel von Staffel 3 eintragen |
+| primevideo | https://watch.amazon.de/detail?gti=amzn1.dv.gti.1374d3dd-9d96-4d41-b0f8-38932f0c9145 | Ikki Tousen: Dragon Girls (Battle Vixens: Ikki Tousen) — Staffel 2 in der Reihe nicht zu bestimmen | dub | [Ikki Tousen: Dragon Girls](https://anilist.co/anime/257) | Seite B0CGRCY88G als Verweis an den Titel von Staffel 2 eintragen |
+| adn | https://animationdigitalnetwork.com/de/video/1381-rilakkuma | Rilakkuma | kein_dub | [Rilakkuma und Kaoru](https://anilist.co/anime/99230)<br>[Rilakkumas Abenteuer im Vergnügungspark](https://anilist.co/anime/125440) | Vorschlag bestätigen, dann Adresse eintragen |
+| primevideo | https://www.amazon.de/gp/video/detail/B0GFPBT6FG | Oshi no Ko: Mein Star (OSHI NO KO) — Staffel 1 der Seite B0B7D5DRV2 gehört nicht zum Auftragstitel | kein_dub | [Oshi no Ko: Mein Star](https://anilist.co/anime/182587) | Seite B0B7D5DRV2 als Verweis an ihren Staffel-Titel eintragen |
+| adn | https://animationdigitalnetwork.com/de/video/1379-the-daily-life-of-the-immortal-king | The Daily Life of the Immortal King | kein_dub | — | Titel von Hand suchen |
+| adn | https://animationdigitalnetwork.com/de/video/1369-b-king | B King | kein_dub | — | Titel von Hand suchen |
+| adn | https://animationdigitalnetwork.com/de/video/1323-the-new-chronicles-of-extraordinary-beings | The New Chronicles of Extraordinary Beings: Preface | kein_dub | — | Titel von Hand suchen |
+| primevideo | https://www.amazon.de/s?k=Super%20Wings&i=instant-video | Super Wings — Staffel 2 in der Reihe nicht zu bestimmen | weg | [Super Wings](https://anilist.co/anime/10012621) | Seite B0H43XDZTD als Verweis an den Titel von Staffel 2 eintragen |
+| primevideo | https://www.amazon.de/s?k=Super%20Wings&i=instant-video | Super Wings — Staffel 3 in der Reihe nicht zu bestimmen | weg | [Super Wings](https://anilist.co/anime/10012621) | Seite B0HF4H8H2F als Verweis an den Titel von Staffel 3 eintragen |
+| primevideo | https://www.amazon.de/s?k=Super%20Wings&i=instant-video | Super Wings — Staffel 4 in der Reihe nicht zu bestimmen | weg | [Super Wings](https://anilist.co/anime/10012621) | Seite B0H1P5JWC9 als Verweis an den Titel von Staffel 4 eintragen |
+| primevideo | https://www.amazon.de/s?k=Super%20Wings&i=instant-video | Super Wings — Staffel 7 in der Reihe nicht zu bestimmen | weg | [Super Wings](https://anilist.co/anime/10012621) | Seite B0H4GFV32Q als Verweis an den Titel von Staffel 7 eintragen |

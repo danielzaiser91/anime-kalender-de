@@ -1,15 +1,28 @@
 {
-  "scrapedAt": "2026-11-09T20:01:54.837Z",
+  "scrapedAt": "2026-11-10T12:05:03.253Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 13,
-    "schon in einem Rubrik-Feed gelesen": 6,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 14,
+    "schon in einem Rubrik-Feed gelesen": 5,
     "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 1,
     "Sprachhinweis älter als 45 Tage": 6
   },
   "proposals": [
+    {
+      "articleTitle": "Neuer Prime-Video-Anime »Devils‘ Crest« erhält zwei Cours",
+      "articleUrl": "https://www.anime2you.de/news/1069473/devils-crest-erhaelt-zwei-cours/",
+      "publishedAt": "2026-11-10",
+      "category": "allgemein",
+      "platforms": [
+        "primevideo"
+      ],
+      "dates": [],
+      "dub": "ja",
+      "hinweis": "sprache",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Netflix zeigt Slice-of-Life-Anime »Hirayasumi« im Simulcast + Teaser",
       "articleUrl": "https://www.anime2you.de/news/1069203/netflix-zeigt-hirayasumi-im-simulcast/",
