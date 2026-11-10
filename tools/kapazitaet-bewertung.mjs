@@ -4,7 +4,7 @@
  *
  * Free-Stufe: 100.000 Worker-Anfragen und 100.000 geschriebene D1-Zeilen je UTC-Tag und Konto. Rot ab
  * 70 % davon (Luft, bevor die Stufe wirklich sperrt) und bei einem Cron-CPU-p99 über 8 ms (Free-Limit
- * 10 ms je Aufruf). Bewertet wird der schlimmste Tag des Messfensters.
+ * 10 ms je Aufruf). Anfragen und D1-Schreiben zählen nur in den letzten zwei Tagen als Befund (09.11.2026), Cron-CPU über das ganze Fenster.
  */
 export const KONTINGENT_ANFRAGEN = 100_000
 export const KONTINGENT_D1_GESCHRIEBEN = 100_000
@@ -25,21 +25,46 @@ function schlimmster(tage, feld) {
   return best
 }
 
+/** Die letzten so vielen UTC-Tage des Fensters sind „frisch“: dort ist eine Überschreitung rot, davor nur eine Warnung. */
+export const FRISCHE_TAGE = 2
+
+/** Anfragen je Skript eines Tages; ohne `jeSkript` (ältere Messzeilen) gilt die Summe als ein Eintrag. */
+const jeSkript = (t) => (t.jeSkript && Object.keys(t.jeSkript).length ? t.jeSkript : { '(gesamt)': t.anfragen })
+
+/** Überschreitungen von Anfragen (je Skript) und D1-Schreiben je Tag: `{ frisch, alt }` mit fertigen Texten. */
+function ueberschreitungen(tage) {
+  const frisch = []
+  const alt = []
+  tage.forEach((t, i) => {
+    const liste = i >= tage.length - FRISCHE_TAGE ? frisch : alt
+    let einzelnUeber = false
+    for (const [name, n] of Object.entries(jeSkript(t))) {
+      if (n != null && n > GRENZE_ANFRAGEN) {
+        einzelnUeber = true
+        liste.push(`${zahl(n)} Worker-Anfragen im Skript ${name} am ${t.datum} über ${zahl(GRENZE_ANFRAGEN)} (70 % von ${zahl(KONTINGENT_ANFRAGEN)})`)
+      }
+    }
+    /* Das Kontolimit zählt die Summe aller Skripte; ein einzelnes Skript über der Grenze ist damit schon gemeldet. */
+    if (!einzelnUeber && t.anfragen != null && t.anfragen > GRENZE_ANFRAGEN) {
+      liste.push(`${zahl(t.anfragen)} Worker-Anfragen aller Skripte am ${t.datum} über ${zahl(GRENZE_ANFRAGEN)} (70 % von ${zahl(KONTINGENT_ANFRAGEN)})`)
+    }
+    if (t.geschrieben != null && t.geschrieben > GRENZE_D1_GESCHRIEBEN) {
+      liste.push(`${zahl(t.geschrieben)} D1-Zeilen geschrieben am ${t.datum} über ${zahl(GRENZE_D1_GESCHRIEBEN)} (70 % von ${zahl(KONTINGENT_D1_GESCHRIEBEN)})`)
+    }
+  })
+  return { frisch, alt }
+}
+
 /**
- * `tage`: `[{ datum, anfragen, geschrieben, cronP99Ms, ueberCpu }]` (fehlende Messung = `null`).
- * Gibt Befunde (rot) und Warnungen (gelb) zurück.
+ * `tage`: `[{ datum, anfragen, jeSkript, geschrieben, cronP99Ms, ueberCpu }]` (älteste zuerst; fehlende Messung = `null`).
+ * Gibt Befunde (rot) und Warnungen (gelb) zurück. Anfragen (Grenze je Skript, nicht die Summe, damit ein kleines
+ * fremdes Skript wie `ak-adn-gw` nichts mitzählt) und D1-Schreiben sind nur in den letzten `FRISCHE_TAGE` Tagen
+ * rot; eine abgeschlossene Spitze davor bleibt als Warnung mit Datum sichtbar, statt die Wache sieben Tage rot zu halten.
  */
 export function bewerteKapazitaet(tage) {
-  const befunde = []
-  const warnungen = []
-  const a = schlimmster(tage, 'anfragen')
-  if (a && a.anfragen > GRENZE_ANFRAGEN) {
-    befunde.push(`Kapazität: ${zahl(a.anfragen)} Worker-Anfragen am ${a.datum} über ${zahl(GRENZE_ANFRAGEN)} (70 % von ${zahl(KONTINGENT_ANFRAGEN)})`)
-  }
-  const g = schlimmster(tage, 'geschrieben')
-  if (g && g.geschrieben > GRENZE_D1_GESCHRIEBEN) {
-    befunde.push(`Kapazität: ${zahl(g.geschrieben)} D1-Zeilen geschrieben am ${g.datum} über ${zahl(GRENZE_D1_GESCHRIEBEN)} (70 % von ${zahl(KONTINGENT_D1_GESCHRIEBEN)})`)
-  }
+  const { frisch, alt } = ueberschreitungen(tage)
+  const befunde = frisch.map((m) => `Kapazität: ${m}`)
+  const warnungen = alt.map((m) => `Kapazität: ${m} (älter als ${FRISCHE_TAGE} Tage, nicht mehr rot)`)
   const c = schlimmster(tage, 'cronP99Ms')
   if (c && c.cronP99Ms > GRENZE_CRON_P99_MS) {
     befunde.push(`Kapazität: Cron-CPU p99 ${c.cronP99Ms.toFixed(1)} ms am ${c.datum} über ${GRENZE_CRON_P99_MS} ms (Free-Limit 10 ms)`)

@@ -1,10 +1,10 @@
 # Angekündigt, aber noch nicht im Datensatz
 
-Stand: 2026-11-08. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
+Stand: 2026-11-10. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
 
 ## Kuratierung: was noch fehlt
 
-50 Meldungen mit künftigem Termin sind noch nicht eingearbeitet.
+51 Meldungen mit künftigem Termin sind noch nicht eingearbeitet.
 
 | Termin | Plattform | Synchro | Meldung |
 |---|---|---|---|
@@ -24,15 +24,14 @@ Stand: 2026-11-08. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | 2026-11-05, 2026-11 (Monat) | ? | – unklar | [ProSieben MAXX wiederholt »Whole Cake Island«-Arc von »One Piece«](https://www.anime2you.de/news/1059541/prosieben-maxx-whole-cake-island-arc-one-piece/) |
 | 2026-11-26, 2026-11 (Monat) | netflix | ⚠️ offen | [Netflix-Termin des Thriller-Anime »Fool Night« + Teaser](https://www.anime2you.de/news/1043399/fool-night-netflix-termin/) |
 | 2026-11 (Monat) | kino | – unklar | [Deutscher Kinostart von »Godzilla Minus Zero« steht fest + Teaser](https://www.anime2you.de/news/1033172/godzilla-minus-zero-deutscher-kinostart/) |
-| 2026-11-08 | ? | – unklar | [TV-Guide: Anime im deutschen Fernsehen in KW 45/2026](https://www.anime2you.de/news/1066723/anime-tv-programm-45-2026/) |
-| 2026-11-08 | netflix | ✅ zugesagt | [Zweite »Blue Box«-Staffel legt Pause vor fünfter Episode ein](https://www.anime2you.de/news/1063658/blue-box-staffel-2-pause/) |
-| 2026-11-09 | crunchyroll | – unklar | [Nächste Episode von »PSYREN« erscheint später + Recap](https://www.anime2you.de/news/1064592/psyren-episode-5-verschoben/) |
 | 2026-11-13 | netflix | – unklar | [Netflix entfernt zwei Anime-Titel aus seinem Programm](https://www.anime2you.de/news/1066661/netflix-entfernt-berserk-und-mehr/) |
+| 2026-11-15 | ? | – unklar | [TV-Guide: Anime im deutschen Fernsehen in KW 46/2026](https://www.anime2you.de/news/1069143/anime-tv-programm-46-2026/) |
 | 2026-11-23 | ? | – unklar | [ProSieben MAXX startet zweiten werktäglichen Anime-Block](https://www.anime2you.de/news/1068887/prosieben-maxx-zweiter-werktaeglicher-anime-block/) |
 | 2026-12-13, 2026-12 (Monat) | ? | ✅ zugesagt | [Anime-Weihnachtsfilm »Tokyo Godfathers« bald erneut auf ZDFneo](https://www.anime2you.de/news/1068738/tokyo-godfathers-bald-erneut-auf-zdfneo/) |
 | 2026-12-04, 2026-12 (Monat) | ? | – unklar | [ProSieben MAXX zeigt »Wandering Witch: Elainas Reise« als TV-Premiere](https://www.anime2you.de/news/1066039/prosieben-maxx-zeigt-wandering-witch-elainas-reise/) |
 | 2026-12-23, 2026-12 (Monat) | disneyplus | – unklar | [Starttermin der zweiten »Disney Twisted-Wonderland«-Staffel + Visual](https://www.anime2you.de/news/1065177/disney-twisted-wonderland-staffel-2-starttermin/) |
 | 2026-12-13, 2026-12 (Monat) | kino | – unklar | [»Umamusume: Pretty Derby – Beginning of a New Era« kommt ins Kino](https://www.anime2you.de/news/1064556/umamusume-pretty-derby-film-im-kino/) |
+| 2027-01 (Monat) | netflix | ❌ nur Originalton | [Netflix zeigt Slice-of-Life-Anime »Hirayasumi« im Simulcast + Teaser](https://www.anime2you.de/news/1069203/netflix-zeigt-hirayasumi-im-simulcast/) |
 | 2027-01 (Monat) | crunchyroll | – unklar | [Crunchyroll zeigt dritte »Mashle«-Staffel im Simulcast](https://www.anime2you.de/news/1064990/crunchyroll-dritte-mashle-staffel/) |
 | 2027-01-26, 2027-01 (Monat) | crunchyroll, kino | ✅ zugesagt | [Neuer Teaser zum deutschen Kinostart von »Witch on the Holy Night«](https://www.anime2you.de/news/1064788/witch-on-the-holy-night-kinostart-neuer-teaser/) |
 | 2027-01 (Monat) | crunchyroll | ❌ nur Originalton | [Crunchyroll zeigt »BLESS« im Simulcast + Teaser](https://www.anime2you.de/news/1062951/crunchyroll-zeigt-bless-im-simulcast/) |
@@ -46,62 +45,63 @@ Stand: 2026-11-08. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | 2027-02 (Monat) | netflix | – unklar | [Netflix enthüllt neues Visual zur ersten Staffel von »THE ONE PIECE«](https://www.anime2you.de/news/1043291/the-one-piece-staffel-1-neues-visual/) |
 | 2027-03-31, 2027-03 (Monat) | ? | – unklar | [Nutzer verlieren gekaufte Inhalte: Tapas bestätigt Abschaltung für 2027](https://www.anime2you.de/news/1057381/tapas-bestaetigt-abschaltung-fuer-maerz-2027/) |
 | 2027-03-01 | netflix | – unklar | [Netflix startet große Werbeoffensive in 15 weiteren Ländern](https://www.anime2you.de/news/1055001/netflix-startet-grosse-werbeoffensive/) |
+| 2027-04 (Monat) | ? | – unklar | [Start der fünften »Minami-ke«-Staffel steht fest + Teaser](https://www.anime2you.de/news/1068978/minami-ke-staffel-5-start/) |
+| 2027-04 (Monat) | ? | – unklar | [Start des RomCom-Anime »My Crush’s Crush« steht fest + Teaser](https://www.anime2you.de/news/1069089/start-von-my-crushs-crush/) |
 | 2027-04 (Monat) | ? | – unklar | [Start des zweiten Teils von »Romelia War Chronicle« steht fest](https://www.anime2you.de/news/1066118/romelia-war-chronicle-part-2-start/) |
-| 2027-04 (Monat) | ? | – unklar | [Start von »ELECEED« nach Verschiebung steht fest + Teaser](https://www.anime2you.de/news/1062575/start-von-eleceed-nach-verschiebung/) |
 
-… und 10 weitere.
+… und 11 weitere.
 
-Dazu 58 Disc-Meldungen mit künftigem Termin; sie laufen über die Disc-Übersicht.
+Dazu 59 Disc-Meldungen mit künftigem Termin; sie laufen über die Disc-Übersicht.
 
 ## Quellen
 
 | Quelle | zuletzt erfolgreich | Treffer |
 |---|---|---|
 | adn | 0.0 Tage her | 11 |
-| adn-catalog | 3.5 Tage her | 112 |
-| adn-news | 0.1 Tage her | 71 |
-| anilist-voices | 3.6 Tage her | 3008 |
-| anime-offline-database | 3.6 Tage her | 8876 |
-| anime2you | 0.0 Tage her | 103 |
-| anisearch | 0.9 Tage her | 14874 |
-| anisearch-cover-eigen | 3.6 Tage her | 138 |
-| anisearch-dubs | 1.0 Tage her | 11941 |
-| anisearch-eintraege | 3.6 Tage her | 400 |
-| anisearch-folgen | 3.6 Tage her | 2719 |
-| anisearch-slugs | 3.6 Tage her | 14909 |
-| anisearch-zuordnung | 1.0 Tage her | 18505 |
-| ann-voices | 3.5 Tage her | 8876 |
-| beleg-lesungen | 0.0 Tage her | 59 |
-| cartoon-folgen | 3.6 Tage her | 365 |
+| adn-catalog | 0.9 Tage her | 109 |
+| adn-news | 0.0 Tage her | 69 |
+| anilist-voices | 1.0 Tage her | 0 |
+| anime-offline-database | 1.0 Tage her | 8876 |
+| anime2you | 0.0 Tage her | 101 |
+| anisearch | 0.9 Tage her | 5 |
+| anisearch-cover-eigen | 5.6 Tage her | 138 |
+| anisearch-dubs | 1.0 Tage her | 11945 |
+| anisearch-eintraege | 1.0 Tage her | 400 |
+| anisearch-folgen | 1.0 Tage her | 440 |
+| anisearch-slugs | 1.0 Tage her | 14910 |
+| anisearch-zuordnung | 1.0 Tage her | 18512 |
+| ann-voices | 1.0 Tage her | 8876 |
+| beleg-lesungen | 0.0 Tage her | 31 |
+| cartoon-folgen | 1.0 Tage her | 365 |
 | cartoon-reihen | 1.0 Tage her | 0 |
-| cartoons | 1.0 Tage her | 0 |
-| cinestar | 3.6 Tage her | 1 |
-| cr-einzelwerke | 18.6 Tage her | 6 |
-| cr-filmbloecke | 18.6 Tage her | 2 |
-| crunchyroll-dub | 0.3 Tage her | 1156 |
-| crunchyroll-neu | 0.0 Tage her | 178 |
-| crunchyroll-offene | 3.5 Tage her | 13 |
+| cartoons | 1.0 Tage her | 1 |
+| cinestar | 1.0 Tage her | 1 |
+| cr-einzelwerke | 20.6 Tage her | 6 |
+| cr-filmbloecke | 20.6 Tage her | 2 |
+| crunchyroll-dub | 0.5 Tage her | 1156 |
+| crunchyroll-neu | 0.0 Tage her | 183 |
+| crunchyroll-offene | 1.0 Tage her | 11 |
 | crunchyroll-woche | 0.0 Tage her | 63 |
-| justwatch-audio | 1.0 Tage her | 24 |
-| kinoheld | 3.6 Tage her | 0 |
-| kitsu-folgen | 3.6 Tage her | 1 |
-| link-check | 3.5 Tage her | 341 |
+| justwatch-audio | 1.0 Tage her | 64 |
+| kinoheld | 1.0 Tage her | 0 |
+| kitsu-folgen | 5.6 Tage her | 0 |
+| link-check | 1.0 Tage her | 207 |
 | messbelege | 0.0 Tage her | 0 |
-| motn | 1.0 Tage her | 2123 |
-| motn-changes | 0.0 Tage her | 0 |
-| rohfolgen | 0.8 Tage her | 0 |
-| rtlplus-folgen | 3.6 Tage her | 3 |
-| tmdb-banner | 3.6 Tage her | 4 |
-| tmdb-folgen | 3.6 Tage her | 908 |
-| tmdb-kino | 3.6 Tage her | 3 |
-| tmdb-poster | 3.6 Tage her | 353 |
-| tmdb-titles | 3.6 Tage her | 400 |
+| motn | 3.0 Tage her | 2123 |
+| motn-changes | 0.0 Tage her | 3 |
+| rohfolgen | 0.3 Tage her | 85 |
+| rtlplus-folgen | 1.0 Tage her | 3 |
+| tmdb-banner | 1.0 Tage her | 0 |
+| tmdb-folgen | 1.0 Tage her | 930 |
+| tmdb-kino | 1.0 Tage her | 3 |
+| tmdb-poster | 1.0 Tage her | 265 |
+| tmdb-titles | 1.0 Tage her | 400 |
 | toggo | 0.0 Tage her | 22 |
-| trailer | 1.0 Tage her | 2 |
-| tv-de | 2.2 Tage her | 0 |
-| tv-programm | 0.0 Tage her | 248 |
-| vorfaelle | 0.0 Tage her | 3 |
-| wikidata-imdb | 3.6 Tage her | 5366 |
-| wikidata-titel | 3.6 Tage her | 16 |
+| trailer | 1.0 Tage her | 1 |
+| tv-de | 4.2 Tage her | 0 |
+| tv-programm | 0.0 Tage her | 288 |
+| vorfaelle | 0.3 Tage her | 8 |
+| wikidata-imdb | 1.0 Tage her | 5367 |
+| wikidata-titel | 1.0 Tage her | 16 |
 | wikipedia-folgen | 0.0 Tage her | 9 |
-| youtube-check | 3.6 Tage her | 0 |
+| youtube-check | 1.0 Tage her | 1 |

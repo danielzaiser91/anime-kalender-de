@@ -1,32 +1,45 @@
 {
-  "scrapedAt": "2026-11-08T19:01:48.494Z",
+  "scrapedAt": "2026-11-09T20:01:54.837Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 10,
-    "schon in einem Rubrik-Feed gelesen": 8,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 13,
+    "schon in einem Rubrik-Feed gelesen": 6,
     "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 1,
     "Sprachhinweis älter als 45 Tage": 6
   },
   "proposals": [
     {
-      "articleTitle": "Zwei weitere Anime-Neuzugänge ab sofort auf Joyn verfügbar",
-      "articleUrl": "https://www.anime2you.de/news/1069021/joyn-yaiba-samurai-legend-und-mehr/",
-      "publishedAt": "2026-11-08",
-      "category": "streaming",
+      "articleTitle": "Netflix zeigt Slice-of-Life-Anime »Hirayasumi« im Simulcast + Teaser",
+      "articleUrl": "https://www.anime2you.de/news/1069203/netflix-zeigt-hirayasumi-im-simulcast/",
+      "publishedAt": "2026-11-09",
+      "category": "allgemein",
       "platforms": [
-        "joyn"
+        "netflix"
       ],
-      "dates": [],
-      "dub": "ja",
-      "zeiten": [
+      "dates": [
         {
-          "tag": "Freitag",
-          "zeit": "18:30",
-          "satz": "ins Chaos zu stürzen. »YAIBA: Samurai Legend« Episoden: 2 von 24 Sprache: Deutsch Hinweis: Neue Episoden erscheinen jeweils nach der TV-Ausstrahlung auf ProSieben MAXX (Montag bis Freitag um 18:30 Uhr) Stream: Joyn (kostenlos) Handlung: Yai"
+          "month": "2027-01",
+          "context": "en Anime-Serie »Hirayasumi« gesichert hat. Wir fassen zusammen. Start im Januar 2027 »Hirayasumi« wird ab Januar 2027 im japanischen Fernseh"
         }
       ],
+      "dub": "nein",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Thalia startet große Rabattaktion mit zahlreichen Anime-Produkten",
+      "articleUrl": "https://www.anime2you.de/news/1069214/thalia-singles-day-2026-rabattaktion/",
+      "publishedAt": "2026-11-09",
+      "category": "disc",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-11-11",
+          "context": "mit Gutscheincode Mit dem Gutscheincode GESCHENK gibt es noch bis zum 11. November 2026 einen Preisnachlass von 15 % auf einen Großteil des"
+        }
+      ],
+      "dub": "unklar",
       "alreadyCurated": false
     },
     {
@@ -898,7 +911,7 @@
           "folgen": 24
         }
       ],
-      "sammelGelesen": "2026-11-06"
+      "sammelGelesen": "2026-11-09"
     },
     {
       "articleTitle": "19,99 Euro pro Staffel: polyband startet große »Pokémon«-Rabattaktion",
@@ -1385,7 +1398,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-11-06"
+      "sammelGelesen": "2026-11-09"
     },
     {
       "articleTitle": "Crunchyroll ergänzt zwei weitere Anime-Neuzugänge auf Deutsch",
@@ -1940,7 +1953,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-11-06"
+      "sammelGelesen": "2026-11-09"
     },
     {
       "articleTitle": "ProSieben FUN zeigt »Akame ga KILL!« als Pay-TV-Premiere",
@@ -2171,7 +2184,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-11-06"
+      "sammelGelesen": "2026-11-09"
     },
     {
       "articleTitle": "Zwei Anime-Neuzugänge ab sofort auf Netflix verfügbar",
@@ -2208,7 +2221,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-05"
+      "sammelGelesen": "2026-11-09"
     },
     {
       "articleTitle": "Netflix nimmt Fantasy-Anime »Der Held ohne Klasse« ins Programm",
@@ -2259,7 +2272,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-06"
+      "sammelGelesen": "2026-11-09"
     },
     {
       "articleTitle": "Zehn neue Minifiguren zu »Lord of Mysteries« vorgestellt",
@@ -2349,7 +2362,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-04"
+      "sammelGelesen": "2026-11-09"
     },
     {
       "articleTitle": "»Lady Oscar« erscheint in einer neuen Blu-ray-Komplettbox",
@@ -2694,7 +2707,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-11-06"
+      "sammelGelesen": "2026-11-09"
     },
     {
       "articleTitle": "Blu-ray-Design von »My Love Story with Yamada-kun at Lv999« + Extras",
@@ -2776,7 +2789,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-02"
+      "sammelGelesen": "2026-11-09"
     },
     {
       "articleTitle": "Design der 30th Anniversary Edition von »Detektiv Conan«",
@@ -2895,7 +2908,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-04"
+      "sammelGelesen": "2026-11-09"
     },
     {
       "articleTitle": "»Black Clover« stellt neuen Crunchyroll-Bestwert für 2026 auf",
@@ -3042,7 +3055,7 @@
           "folgen": 54
         }
       ],
-      "sammelGelesen": "2026-11-02"
+      "sammelGelesen": "2026-11-09"
     },
     {
       "articleTitle": "Erste »Kaiju No. 8«-Staffel erscheint im limitierten Steelbook + Design",

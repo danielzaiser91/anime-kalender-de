@@ -5,6 +5,7 @@
  */
 import type { Env } from './env.ts'
 import { sendMail, type Mail, type MailEnv } from './mail.ts'
+import { leseRouten } from './route-zaehler.ts'
 import { fehlerLog } from './werte.ts'
 
 /** Der UTC-Tag, auf den auch das Kontingent zurückgesetzt wird (wie `utcTag` in tagesdeckel.ts, das nur die Deckel-Routen einbinden). */
@@ -36,14 +37,16 @@ export async function sendeUndZaehle(env: ZaehlerEnv, mail: Mail): Promise<void>
   await bucheMails(env, 1)
 }
 
-/** Der Tagesstand für `/health`: geschriebene und gelesene D1-Zeilen und versendete Mails; `null`, wenn der Zähler nicht lesbar ist. */
-export async function tagesstand(env: Pick<Env, 'DB'>, jetzt = new Date()): Promise<{ tag: string; geschrieben: number; gelesen: number; mails: number } | null> {
+export type Tagesstand = { tag: string; geschrieben: number; gelesen: number; mails: number; routen: { route: string; n: number }[] | null }
+
+/** Der Tagesstand für `/health`: D1-Zeilen, Mails und die häufigsten Routen (`route-zaehler.ts`); `null`, wenn der Zähler nicht lesbar ist. */
+export async function tagesstand(env: Pick<Env, 'DB'>, jetzt = new Date()): Promise<Tagesstand | null> {
   const tag = utcTag(jetzt)
   try {
     const z = await env.DB.prepare('SELECT zeilen, gelesen, mails FROM schreib_tag WHERE tag = ?1')
       .bind(tag)
       .first<{ zeilen: number; gelesen: number; mails: number }>()
-    return { tag, geschrieben: z?.zeilen ?? 0, gelesen: z?.gelesen ?? 0, mails: z?.mails ?? 0 }
+    return { tag, geschrieben: z?.zeilen ?? 0, gelesen: z?.gelesen ?? 0, mails: z?.mails ?? 0, routen: await leseRouten(env, tag) }
   } catch {
     return null
   }

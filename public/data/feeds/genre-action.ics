@@ -8,207 +8,6 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:cr-GT00384006@2026-11-01@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261101T150000Z
-DTEND:20261101T153000Z
-SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
- hip! Staffel 1 – Folge 5/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/16547/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:tank-chair-primevideo@2026-11-01@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261101T153000Z
-DTEND:20261101T160000Z
-SUMMARY:Tank Chair – Folge 5/≈12
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/17554/
-CATEGORIES:Prime Video
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GT00384004@2026-11-01@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261101T153000Z
-DTEND:20261101T160000Z
-SUMMARY:Overgeared Staffel 1 – Folge 6/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/17645/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-169969-netflix@2026-11-01@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261101
-DTEND;VALUE=DATE:20261102
-SUMMARY:Der Held ohne Klasse: Der Aufstieg eines Talentlosen (neu bei Netfl
- ix)
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nIm Angebot seit 
- diesem Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrzeit n
- och nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter genannter Ta
- g\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetails: https
- ://anime-kalender.de/t/15494/
-CATEGORIES:Netflix
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-129188-primevideo@2026-11-01@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261101
-DTEND;VALUE=DATE:20261102
-SUMMARY:Goblin Slayer 2 (neu bei Prime Video)
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nIm Angebot s
- eit diesem Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrze
- it noch nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter genannte
- r Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetails: h
- ttps://anime-kalender.de/t/12462/
-CATEGORIES:Prime Video
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GT00371866@2026-11-02@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261102T143000Z
-DTEND:20261102T150000Z
-SUMMARY:PSYREN – Folge 2/≈12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/17232/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-158871-tv-super-rtl@2026-11-02@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261102T151500Z
-DTEND:20261102T154500Z
-SUMMARY:Pokémon Horizonte – Folge 22
-DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
- ails: https://anime-kalender.de/t/14839/
-CATEGORIES:Super RTL
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-118399-tv-prosieben-maxx@2026-11-02@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261102T154000Z
-DTEND:20261102T161000Z
-SUMMARY:Yashahime: Princess Half-Demon
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/11570/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-11-02#52@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261102T160500Z
-DTEND:20261102T163500Z
-SUMMARY:Dragon Ball
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-158871-tv-toggo-plus@2026-11-02@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261102T161500Z
-DTEND:20261102T164500Z
-SUMMARY:Pokémon Horizonte – Folge 22
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/t/14839/
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-11-02#53@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261102T163000Z
-DTEND:20261102T170000Z
-SUMMARY:Dragon Ball
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-11-02#53@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261102T172000Z
-DTEND:20261102T175000Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-11-02#54@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261102T175000Z
-DTEND:20261102T182000Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-128893-tv-prosieben-fun@2026-11-02#9@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261102T195500Z
-DTEND:20261102T202500Z
-SUMMARY:Hell’s Paradise – Folge 9
-DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
- nDetails: https://anime-kalender.de/t/12442/
-CATEGORIES:ProSieben FUN
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-112153-tv-toggo-plus@2026-11-02@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261102T201500Z
-DTEND:20261102T204500Z
-SUMMARY:Pokémon Reisen: Die Serie
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/t/10852/
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-128893-tv-prosieben-fun@2026-11-02#10@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261102T202000Z
-DTEND:20261102T205000Z
-SUMMARY:Hell’s Paradise – Folge 10
-DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
- nDetails: https://anime-kalender.de/t/12442/
-CATEGORIES:ProSieben FUN
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-101347-tv-prosieben-fun@2026-11-02#9@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261102T204500Z
-DTEND:20261102T211500Z
-SUMMARY:Dororo
-DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
- nDetails: https://anime-kalender.de/t/9059/
-CATEGORIES:ProSieben FUN
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-101347-tv-prosieben-fun@2026-11-02#10@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261102T211000Z
-DTEND:20261102T214000Z
-SUMMARY:Dororo
-DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
- nDetails: https://anime-kalender.de/t/9059/
-CATEGORIES:ProSieben FUN
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-170695-adn@2026-11-02@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261102
-DTEND;VALUE=DATE:20261103
-SUMMARY:I Parry Everything! (neu bei ADN)
-DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nIm Angebot seit dies
- em Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrzeit noch 
- nicht bestätigt.\nDetails: https://anime-kalender.de/t/15542/
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-158871-tv-super-rtl@2026-11-03@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261103T151500Z
@@ -451,6 +250,16 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
+UID:yaiba-samurai-legend-joyn@2026-11-05@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261105T175000Z
+DTEND:20261105T182000Z
+SUMMARY:YAIBA: Samurai Legend – Folge 1/24
+DESCRIPTION:Plattform: Joyn\nRelease-Art: Wöchentlich (Simuldub)\nDetails:
+  https://anime-kalender.de/t/15908/
+CATEGORIES:Joyn
+END:VEVENT
+BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2026-11-05@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261105T175000Z
@@ -555,6 +364,18 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
+UID:yaiba-samurai-legend-joyn@2026-11-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261106T175000Z
+DTEND:20261106T182000Z
+SUMMARY:YAIBA: Samurai Legend – Folge 2/24
+DESCRIPTION:Plattform: Joyn\nRelease-Art: Wöchentlich (Simuldub)\nUhrzeit 
+ voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom Anbieter 
+ genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDe
+ tails: https://anime-kalender.de/t/15908/
+CATEGORIES:Joyn
+END:VEVENT
+BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2026-11-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261106T175000Z
@@ -645,6 +466,16 @@ SUMMARY:Clevatess (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/t/16014/
 CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-165159-rtlplus-staffel-3@2026-11-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261106
+DTEND;VALUE=DATE:20261107
+SUMMARY:Beyblade X Staffel 3 – Folge 124
+DESCRIPTION:Plattform: RTL+\nRelease-Art: Wöchentlich (Simuldub)\nUhrzeit 
+ noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/15075/
+CATEGORIES:RTL+
 END:VEVENT
 BEGIN:VEVENT
 UID:motn-1132-primevideo@2026-11-06@anime-kalender-de
@@ -851,11 +682,19 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261109T143000Z
 DTEND:20261109T150000Z
 SUMMARY:PSYREN – Folge 3/≈12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/17232/
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/t/17232/
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-158871-tv-super-rtl@2026-11-09@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261109T151500Z
+DTEND:20261109T154500Z
+SUMMARY:Pokémon Horizonte – Folge 27
+DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
+ ails: https://anime-kalender.de/t/14839/
+CATEGORIES:Super RTL
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-118399-tv-prosieben-maxx@2026-11-09@anime-kalender-de
@@ -878,6 +717,16 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-158871-tv-toggo-plus@2026-11-09@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261109T161500Z
+DTEND:20261109T164500Z
+SUMMARY:Pokémon Horizonte – Folge 27
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/14839/
+CATEGORIES:TOGGO plus
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-11-09#63@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261109T163500Z
@@ -896,6 +745,18 @@ SUMMARY:YAIBA: Samurai Legend – Folge 3/24
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nErstmals im TV auf Deutsch.\nDetails: https://anime-kalender.de/t/15908/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-joyn@2026-11-09@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261109T175000Z
+DTEND:20261109T182000Z
+SUMMARY:YAIBA: Samurai Legend – Folge 3/24
+DESCRIPTION:Plattform: Joyn\nRelease-Art: Wöchentlich (Simuldub)\nUhrzeit 
+ voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom Anbieter 
+ genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDe
+ tails: https://anime-kalender.de/t/15908/
+CATEGORIES:Joyn
 END:VEVENT
 BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2026-11-09@anime-kalender-de
@@ -918,6 +779,16 @@ SUMMARY:Hell’s Paradise – Folge 11
 DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
  nDetails: https://anime-kalender.de/t/12442/
 CATEGORIES:ProSieben FUN
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-112153-tv-toggo-plus@2026-11-09@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261109T201500Z
+DTEND:20261109T204500Z
+SUMMARY:Pokémon Reisen: Die Serie
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/10852/
+CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-128893-tv-prosieben-fun@2026-11-09#12@anime-kalender-de
@@ -990,6 +861,18 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
+UID:yaiba-samurai-legend-joyn@2026-11-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261110T175000Z
+DTEND:20261110T182000Z
+SUMMARY:YAIBA: Samurai Legend – Folge 4/24
+DESCRIPTION:Plattform: Joyn\nRelease-Art: Wöchentlich (Simuldub)\nUhrzeit 
+ voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom Anbieter 
+ genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDe
+ tails: https://anime-kalender.de/t/15908/
+CATEGORIES:Joyn
+END:VEVENT
+BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2026-11-10@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261110T175000Z
@@ -1050,6 +933,18 @@ SUMMARY:YAIBA: Samurai Legend – Folge 5/24
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nErstmals im TV auf Deutsch.\nDetails: https://anime-kalender.de/t/15908/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-joyn@2026-11-11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261111T175000Z
+DTEND:20261111T182000Z
+SUMMARY:YAIBA: Samurai Legend – Folge 5/24
+DESCRIPTION:Plattform: Joyn\nRelease-Art: Wöchentlich (Simuldub)\nUhrzeit 
+ voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom Anbieter 
+ genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDe
+ tails: https://anime-kalender.de/t/15908/
+CATEGORIES:Joyn
 END:VEVENT
 BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2026-11-11@anime-kalender-de
@@ -1116,6 +1011,18 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
+UID:yaiba-samurai-legend-joyn@2026-11-12@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261112T175000Z
+DTEND:20261112T182000Z
+SUMMARY:YAIBA: Samurai Legend – Folge 6/24
+DESCRIPTION:Plattform: Joyn\nRelease-Art: Wöchentlich (Simuldub)\nUhrzeit 
+ voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom Anbieter 
+ genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDe
+ tails: https://anime-kalender.de/t/15908/
+CATEGORIES:Joyn
+END:VEVENT
+BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2026-11-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261112T175000Z
@@ -1163,6 +1070,18 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  s oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.de/t/
  15908/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-joyn@2026-11-13@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261113T175000Z
+DTEND:20261113T182000Z
+SUMMARY:YAIBA: Samurai Legend – Folge 7/24
+DESCRIPTION:Plattform: Joyn\nRelease-Art: Wöchentlich (Simuldub)\nUhrzeit 
+ voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom Anbieter 
+ genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDe
+ tails: https://anime-kalender.de/t/15908/
+CATEGORIES:Joyn
 END:VEVENT
 BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2026-11-13@anime-kalender-de
@@ -1329,6 +1248,18 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
+UID:yaiba-samurai-legend-joyn@2026-11-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261116T175000Z
+DTEND:20261116T182000Z
+SUMMARY:YAIBA: Samurai Legend – Folge 8/24
+DESCRIPTION:Plattform: Joyn\nRelease-Art: Wöchentlich (Simuldub)\nUhrzeit 
+ voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom Anbieter 
+ genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDe
+ tails: https://anime-kalender.de/t/15908/
+CATEGORIES:Joyn
+END:VEVENT
+BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2026-11-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261116T175000Z
@@ -1352,6 +1283,18 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  s oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.de/t/
  15908/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-joyn@2026-11-17@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261117T175000Z
+DTEND:20261117T182000Z
+SUMMARY:YAIBA: Samurai Legend – Folge 9/24
+DESCRIPTION:Plattform: Joyn\nRelease-Art: Wöchentlich (Simuldub)\nUhrzeit 
+ voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom Anbieter 
+ genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDe
+ tails: https://anime-kalender.de/t/15908/
+CATEGORIES:Joyn
 END:VEVENT
 BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2026-11-17@anime-kalender-de
@@ -1390,6 +1333,18 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
+UID:yaiba-samurai-legend-joyn@2026-11-18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261118T175000Z
+DTEND:20261118T182000Z
+SUMMARY:YAIBA: Samurai Legend – Folge 10/24
+DESCRIPTION:Plattform: Joyn\nRelease-Art: Wöchentlich (Simuldub)\nUhrzeit 
+ voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom Anbieter 
+ genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDe
+ tails: https://anime-kalender.de/t/15908/
+CATEGORIES:Joyn
+END:VEVENT
+BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2026-11-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261118T175000Z
@@ -1425,6 +1380,18 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  s oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.de/t/
  15908/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-joyn@2026-11-19@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261119T175000Z
+DTEND:20261119T182000Z
+SUMMARY:YAIBA: Samurai Legend – Folge 11/24
+DESCRIPTION:Plattform: Joyn\nRelease-Art: Wöchentlich (Simuldub)\nUhrzeit 
+ voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom Anbieter 
+ genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDe
+ tails: https://anime-kalender.de/t/15908/
+CATEGORIES:Joyn
 END:VEVENT
 BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2026-11-19@anime-kalender-de
@@ -1583,6 +1550,18 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  s oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.de/t/
  15908/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-joyn@2026-11-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261120T175000Z
+DTEND:20261120T182000Z
+SUMMARY:YAIBA: Samurai Legend – Folge 12/24
+DESCRIPTION:Plattform: Joyn\nRelease-Art: Wöchentlich (Simuldub)\nUhrzeit 
+ voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom Anbieter 
+ genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDe
+ tails: https://anime-kalender.de/t/15908/
+CATEGORIES:Joyn
 END:VEVENT
 BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2026-11-20@anime-kalender-de
@@ -1833,6 +1812,18 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
+UID:yaiba-samurai-legend-joyn@2026-11-23@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261123T175000Z
+DTEND:20261123T182000Z
+SUMMARY:YAIBA: Samurai Legend – Folge 13/24
+DESCRIPTION:Plattform: Joyn\nRelease-Art: Wöchentlich (Simuldub)\nUhrzeit 
+ voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom Anbieter 
+ genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDe
+ tails: https://anime-kalender.de/t/15908/
+CATEGORIES:Joyn
+END:VEVENT
+BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2026-11-23@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261123T175000Z
@@ -1858,6 +1849,18 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
+UID:yaiba-samurai-legend-joyn@2026-11-24@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261124T175000Z
+DTEND:20261124T182000Z
+SUMMARY:YAIBA: Samurai Legend – Folge 14/24
+DESCRIPTION:Plattform: Joyn\nRelease-Art: Wöchentlich (Simuldub)\nUhrzeit 
+ voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom Anbieter 
+ genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDe
+ tails: https://anime-kalender.de/t/15908/
+CATEGORIES:Joyn
+END:VEVENT
+BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2026-11-24@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261124T175000Z
@@ -1881,6 +1884,18 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  s oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.de/t/
  15908/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-joyn@2026-11-25@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261125T175000Z
+DTEND:20261125T182000Z
+SUMMARY:YAIBA: Samurai Legend – Folge 15/24
+DESCRIPTION:Plattform: Joyn\nRelease-Art: Wöchentlich (Simuldub)\nUhrzeit 
+ voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom Anbieter 
+ genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDe
+ tails: https://anime-kalender.de/t/15908/
+CATEGORIES:Joyn
 END:VEVENT
 BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2026-11-25@anime-kalender-de
@@ -1918,6 +1933,18 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  s oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.de/t/
  15908/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-joyn@2026-11-26@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261126T175000Z
+DTEND:20261126T182000Z
+SUMMARY:YAIBA: Samurai Legend – Folge 16/24
+DESCRIPTION:Plattform: Joyn\nRelease-Art: Wöchentlich (Simuldub)\nUhrzeit 
+ voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom Anbieter 
+ genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDe
+ tails: https://anime-kalender.de/t/15908/
+CATEGORIES:Joyn
 END:VEVENT
 BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2026-11-26@anime-kalender-de
@@ -1967,6 +1994,18 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  s oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.de/t/
  15908/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-joyn@2026-11-27@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261127T175000Z
+DTEND:20261127T182000Z
+SUMMARY:YAIBA: Samurai Legend – Folge 17/24
+DESCRIPTION:Plattform: Joyn\nRelease-Art: Wöchentlich (Simuldub)\nUhrzeit 
+ voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom Anbieter 
+ genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDe
+ tails: https://anime-kalender.de/t/15908/
+CATEGORIES:Joyn
 END:VEVENT
 BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2026-11-27@anime-kalender-de
@@ -2144,6 +2183,18 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
+UID:yaiba-samurai-legend-joyn@2026-11-30@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261130T175000Z
+DTEND:20261130T182000Z
+SUMMARY:YAIBA: Samurai Legend – Folge 18/24
+DESCRIPTION:Plattform: Joyn\nRelease-Art: Wöchentlich (Simuldub)\nUhrzeit 
+ voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom Anbieter 
+ genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDe
+ tails: https://anime-kalender.de/t/15908/
+CATEGORIES:Joyn
+END:VEVENT
+BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2026-11-30@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261130T175000Z
@@ -2169,6 +2220,18 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
+UID:yaiba-samurai-legend-joyn@2026-12-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261201T175000Z
+DTEND:20261201T182000Z
+SUMMARY:YAIBA: Samurai Legend – Folge 19/24
+DESCRIPTION:Plattform: Joyn\nRelease-Art: Wöchentlich (Simuldub)\nUhrzeit 
+ voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom Anbieter 
+ genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDe
+ tails: https://anime-kalender.de/t/15908/
+CATEGORIES:Joyn
+END:VEVENT
+BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2026-12-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261201T175000Z
@@ -2192,6 +2255,18 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  s oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.de/t/
  15908/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-joyn@2026-12-02@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261202T175000Z
+DTEND:20261202T182000Z
+SUMMARY:YAIBA: Samurai Legend – Folge 20/24
+DESCRIPTION:Plattform: Joyn\nRelease-Art: Wöchentlich (Simuldub)\nUhrzeit 
+ voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom Anbieter 
+ genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDe
+ tails: https://anime-kalender.de/t/15908/
+CATEGORIES:Joyn
 END:VEVENT
 BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2026-12-02@anime-kalender-de
@@ -2229,6 +2304,18 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  s oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.de/t/
  15908/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-joyn@2026-12-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261203T175000Z
+DTEND:20261203T182000Z
+SUMMARY:YAIBA: Samurai Legend – Folge 21/24
+DESCRIPTION:Plattform: Joyn\nRelease-Art: Wöchentlich (Simuldub)\nUhrzeit 
+ voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom Anbieter 
+ genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDe
+ tails: https://anime-kalender.de/t/15908/
+CATEGORIES:Joyn
 END:VEVENT
 BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2026-12-03@anime-kalender-de
@@ -2278,6 +2365,18 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  s oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.de/t/
  15908/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-joyn@2026-12-04@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261204T175000Z
+DTEND:20261204T182000Z
+SUMMARY:YAIBA: Samurai Legend – Folge 22/24
+DESCRIPTION:Plattform: Joyn\nRelease-Art: Wöchentlich (Simuldub)\nUhrzeit 
+ voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom Anbieter 
+ genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDe
+ tails: https://anime-kalender.de/t/15908/
+CATEGORIES:Joyn
 END:VEVENT
 BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2026-12-04@anime-kalender-de
@@ -2466,6 +2565,18 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
+UID:yaiba-samurai-legend-joyn@2026-12-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261207T175000Z
+DTEND:20261207T182000Z
+SUMMARY:YAIBA: Samurai Legend – Folge 23/24
+DESCRIPTION:Plattform: Joyn\nRelease-Art: Wöchentlich (Simuldub)\nUhrzeit 
+ voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom Anbieter 
+ genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDe
+ tails: https://anime-kalender.de/t/15908/
+CATEGORIES:Joyn
+END:VEVENT
+BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2026-12-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261207T175000Z
@@ -2489,6 +2600,18 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  s oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.de/t/
  15908/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-joyn@2026-12-08@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261208T175000Z
+DTEND:20261208T182000Z
+SUMMARY:YAIBA: Samurai Legend – Folge 24/24
+DESCRIPTION:Plattform: Joyn\nRelease-Art: Wöchentlich (Simuldub)\nUhrzeit 
+ voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom Anbieter 
+ genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDe
+ tails: https://anime-kalender.de/t/15908/
+CATEGORIES:Joyn
 END:VEVENT
 BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2026-12-08@anime-kalender-de

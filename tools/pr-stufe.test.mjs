@@ -77,6 +77,12 @@ fall2('Moduswechsel einer Doku → 1', aus(diff('diff --git a/docs/a.md b/docs/a
 fall2('claude-global: Moduswechsel einer Regel-Markdown → 1', aus(diff('diff --git a/tools/claude-global/rules/a.md b/tools/claude-global/rules/a.md', 'old mode 100644', 'new mode 100755')), 1)
 fall2('Umbenennung pipeline → claude-global-Markdown → 2', aus(diff('diff --git a/pipeline/build.ts b/tools/claude-global/rules/b.md', 'similarity index 100%', 'rename from pipeline/build.ts', 'rename to tools/claude-global/rules/b.md')), 2)
 
+fall('Bühne: nur web/buehne → 1', [d('web/buehne/leiste.tsx', zeilen(40)), d('web/buehne/faelle.json', zeilen(10))], 1)
+fall('Bühne + pipeline → 2', [d('web/buehne/leiste.tsx', zeilen(5)), d('pipeline/lib/pruefung.ts', zeilen(5))], 2)
+fall('Bühne über 300 Zeilen → 2', [d('web/buehne/faelle.json', zeilen(301))], 2)
+fall('Bühne + Doku → 1', [d('web/buehne/leiste.tsx', zeilen(5)), d('docs/a.md')], 1)
+fall('Präfix web/buehnex → 2', [d('web/buehnex/a.ts', zeilen(5))], 2)
+
 // Nur Tests: höchstens Stufe 1 (PR 2018: 5 Zeilen in tools/check-logic-liste.test.mjs)
 fall('nur Test (PR 2018) → 1', [d('tools/check-logic-liste.test.mjs', zeilen(5))], 1)
 fall('nur Tests mehrerer Ordner → 1', [d('pipeline/lib/x.test.ts'), d('worker/src/y.spec.ts'), d('shared/z.test.tsx')], 1)

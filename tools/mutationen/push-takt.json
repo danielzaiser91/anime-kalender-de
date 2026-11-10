@@ -108,7 +108,7 @@
     "aenderungen": [
       {
         "datei": "worker/src/push-takt.ts",
-        "suche": "erschienen: (e: PushEreignis, zeit: Date) => boolean = istErschienen,\n): boolean",
+        "suche": "erschienen: (e: PushEreignis, zeit: Date) => boolean = pushIstErschienen,\n): boolean",
         "ersetze": "erschienen: (e: PushEreignis, zeit: Date) => boolean = () => true,\n): boolean"
       }
     ]

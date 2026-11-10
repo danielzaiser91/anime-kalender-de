@@ -7,6 +7,9 @@ interface Folge {
   datum?: string
 }
 
+/** TMDB hängt Mehrteilern „(1)“, „(2)“ an den englischen Titel, aniSearch nicht (Pokémon Reisen, Folgen 122–132). */
+const ohneTeilzaehler = (en: string | null | undefined): string => (en ?? '').replace(/\s*\(\d+\)\s*$/, '')
+
 /**
  * **Deutsche Folgentitel aus TMDB über Sendetag und englischen Titel** — für Serien, die TMDB nicht als eine Staffel mit unserer Folgenzahl führt
  * (Pokémon Reisen: unsere Folgen 1–136 liegen bei TMDB in der Staffel 23–25 des Franchise „Pokémon“, 02.11.2026: 46 Folgen ohne deutschen Titel).
@@ -18,7 +21,7 @@ export function tmdbTitelNachDatum(folgen: Folge[] | undefined, eintrag: TmdbEin
   const aus = new Map<number, string>()
   for (const x of folgen) {
     if (x.de || !x.datum || !x.en) continue
-    const treffer = eintrag.folgen.filter((f) => f.s >= 1 && f.datum === x.datum && tmdbName(f.en as string) === tmdbName(x.en as string))
+    const treffer = eintrag.folgen.filter((f) => f.s >= 1 && f.datum === x.datum && tmdbName(ohneTeilzaehler(f.en)) === tmdbName(x.en as string))
     const titel = treffer.length === 1 ? echterTitel(treffer[0]) : undefined
     if (titel) aus.set(x.nr, titel)
   }

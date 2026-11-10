@@ -41,7 +41,7 @@ export interface AusnahmeSchluessel {
   seite: string
 }
 
-/** `<Kennung>@<Seite>` wie in `ALTFAELLE` und `NOTE_ASIN_ALTFAELLE`. */
+/** `<Kennung>@<Seite>` wie in `ALTFAELLE`. */
 export function ausSchluessel(liste: string, schluessel: readonly string[]): AusnahmeSchluessel[] {
   return schluessel.map((s) => ({ liste, anilistId: Number(s.slice(0, s.indexOf('@'))), seite: s.slice(s.indexOf('@') + 1) }))
 }

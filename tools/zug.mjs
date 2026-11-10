@@ -85,19 +85,46 @@ export function revertPlan(eintraege, nummern) {
 }
 
 // Meldungen der Ratschen-Wächter, wörtlich aus den roten Läufen vom 05./06.11.2026 (rot-nach-gruen-2026-11-06.md). Jede liefert { wert, grenze }.
+// `schluessel` (nur Umfang: je Bereich und Art eine eigene Grenze in tools/umfang-grenzen.json) wählt die Basisgrenze in `grenzeBasis`.
+// Cover: beide Wächter melden denselben Text (standardTrotzCoverMaengel); nur der Bestandswächter hängt „ (jüngste Kennungen: …)“ an, daran ist er von check-teilseiten zu unterscheiden.
 const RATSCHEN = [
-  { name: 'cover-standardbild', suche: /(\d+) Titel mit Cover zeigen das Standardbild, erlaubt höchstens (\d+)/, wert: (m) => Number(m[1]), grenze: (m) => Number(m[2]) },
-  { name: 'umfang', suche: /Überlänge der funktionen (\d+) statt höchstens (\d+)/, wert: (m) => Number(m[1]), grenze: (m) => Number(m[2]) },
+  { name: 'cover-standardbild', suche: /(\d+) Titel mit Cover zeigen das Standardbild als Link-Vorschau, erlaubt höchstens (\d+) \(jüngste Kennungen:/, wert: (m) => Number(m[1]), grenze: (m) => Number(m[2]), schluessel: () => 'cover-standardbild:vorschau' },
+  { name: 'cover-standardbild', suche: /(\d+) Titel mit Cover zeigen das Standardbild als Link-Vorschau, erlaubt höchstens (\d+)(?!\d| \(jüngste Kennungen:)/, wert: (m) => Number(m[1]), grenze: (m) => Number(m[2]), schluessel: () => 'cover-standardbild:teilseiten' },
+  { name: 'umfang', suche: /([\w/.-]+): Überlänge der (funktionen|dateien) (\d+) statt höchstens (\d+)/, wert: (m) => Number(m[3]), grenze: (m) => Number(m[4]), schluessel: (m) => `umfang:${m[1]}:${m[2]}` },
+  { name: 'umfang', suche: /([\w/.-]+): Ketten \([^)]*\) (\d+) statt höchstens (\d+)/, wert: (m) => Number(m[2]), grenze: (m) => Number(m[3]), schluessel: (m) => `umfang:${m[1]}:ketten` },
   { name: 'start-budget', suche: /start-budget: ([\d.]+) KB[^\n]*?über der Grenze von ([\d.]+) KB/, wert: (m) => Number(m[1]), grenze: (m) => Number(m[2]) },
 ]
 
-/** Erste Ratschen-Meldung im Text oder null: { name, wert, grenze }. */
+/** Erste Ratschen-Meldung im Text oder null: { name, wert, grenze } (Umfang zusätzlich `schluessel`). */
 export function ratschenMeldung(text) {
   for (const r of RATSCHEN) {
     const m = r.suche.exec(text)
-    if (m) return { name: r.name, wert: r.wert(m), grenze: r.grenze(m) }
+    if (m) return { name: r.name, wert: r.wert(m), grenze: r.grenze(m), ...(r.schluessel ? { schluessel: r.schluessel(m) } : {}) }
   }
   return null
+}
+
+/**
+ * Grenzen der Ratschen am Basisstand. `lies(datei)` liefert den Text der Datei am Basisstand (git show <basis>:<datei>) oder null.
+ * Rückgabe: { 'cover-standardbild:vorschau', 'cover-standardbild:teilseiten', 'start-budget' (KB), 'umfang:<bereich>:<art>' }; was am Basisstand fehlt, fehlt auch hier (dann 'ratsche-pruefen').
+ * Cover steht in zwei Wächtern mit eigener Grenze; jede Meldung wird gegen die ihres Wächters gemessen (ratschenMeldung.schluessel).
+ */
+export function basisGrenzen(lies) {
+  const grenzen = {}
+  for (const [schluessel, datei, muster] of [
+    ['cover-standardbild:vorschau', 'pipeline/check-cover-vorschau-bestand.ts', /export const HOECHSTENS = (\d+)/],
+    ['cover-standardbild:teilseiten', 'pipeline/check-teilseiten.ts', /const STANDARD_TROTZ_COVER_HOECHSTENS = (\d+)/],
+  ]) {
+    const wert = muster.exec(lies(datei) ?? '')?.[1]
+    if (wert !== undefined) grenzen[schluessel] = Number(wert)
+  }
+  const budget = /export const GRENZE = (\d+(?:\.\d+)?) \* KB/.exec(lies('tools/start-budget.mjs') ?? '')?.[1]
+  if (budget !== undefined) grenzen['start-budget'] = Number(budget)
+  const umfang = lies('tools/umfang-grenzen.json')
+  for (const [bereich, werte] of Object.entries(umfang ? JSON.parse(umfang).ueberlaenge ?? {} : {})) {
+    for (const [art, wert] of Object.entries(werte)) grenzen[`umfang:${bereich}:${art}`] = wert
+  }
+  return grenzen
 }
 
 /**
@@ -139,7 +166,7 @@ export function schuldsuche({ zugPrs, fehlschlag, mainAllein, grenzeBasis = {}, 
   for (const job of fehlschlag.jobs) {
     const r = ratschenMeldung(job.meldung ?? '')
     if (!r) continue
-    const fall = ratschenFall(r, grenzeBasis[r.name])
+    const fall = ratschenFall(r, grenzeBasis[r.schluessel] ?? grenzeBasis[r.name])
     if (fall !== 'zug' && fall !== 'ok') return { art: 'ratsche', ratsche: r.name, fall, job: job.name }
   }
   const offen = zugPrs.filter((p) => !ausgeschlossen.includes(p.nr))
@@ -180,3 +207,61 @@ export function ffEntscheidung({ mainImZug, kettenKopf, zugKopf }) {
   if (!mainImZug) return { art: 'main-holen', grund: 'main ist weitergelaufen (Bots oder Direkt-Merge)' }
   return { art: 'ff', grund: 'main ist Vorfahr des Zug-Kopfs' }
 }
+
+// ── Fahrt (P2b): Zweige, Urteil über die Kette, Log. Die I/O liegt in tools/zug-fahrt.mjs, hier steht nur, was sich rechnen lässt. ──
+
+export const FAHRT_ZWEIG = 'zug-fahrt' // Schnappschuss: Zug plus main; die Kette läuft als PR zug-fahrt → main, der Zug nimmt währenddessen weiter Unter-PRs auf.
+export const PROBE_ZWEIG = 'zug-probe' // „main allein“: main-Kopf plus ein leerer Commit, Kette ohne Unter-PRs.
+
+/** Urteil eines Kettenlaufs (`gh run`: status, conclusion): 'gruen', 'rot' oder 'offen' (läuft, abgebrochen, übersprungen: kein Urteil). */
+export function ketteArt({ status, conclusion }) {
+  if (status !== 'completed') return 'offen'
+  if (conclusion === 'success') return 'gruen'
+  return conclusion === 'failure' || conclusion === 'timed_out' ? 'rot' : 'offen'
+}
+
+/**
+ * Nächster Schritt für das Ergebnis einer Fahrt-Kette. `ff`: Ergebnis von ffEntscheidung (nur bei grün gebraucht).
+ * Rot ohne Probe → 'probe-starten' (main allein prüfen, sonst ist die Schuldsuche blind); rot mit Probe → 'schuldsuche'.
+ */
+export function fahrtSchritt({ kette, ff, mainAllein }) {
+  if (kette === 'offen') return { art: 'abwarten' }
+  if (kette === 'gruen') return ff.art === 'ff' ? { art: 'ff-pruefen' } : { art: ff.art, grund: ff.grund }
+  return mainAllein === undefined ? { art: 'probe-starten' } : { art: 'schuldsuche' }
+}
+
+/** Basisstand für die Grenzen der Ratschen: der Zug vor dem Hereinholen von main (erster Elternteil des Merge-Commits), sonst main selbst. */
+export const basisRef = (kopfEltern) => (kopfEltern > 1 ? `origin/${FAHRT_ZWEIG}^1` : 'origin/main')
+
+/**
+ * Zustand jeder gemeldeten Ratsche der roten Jobs gegen die Basisgrenzen, für das Fahrt-Log.
+ * Rückgabe: [{ job, name, wert, grenze, basis, fall }]; `fall` wie ratschenFall ('ok', 'ratsche', 'zug', 'ratsche-pruefen').
+ */
+export function ratschenZustand(jobs, grenzeBasis) {
+  const zeilen = []
+  for (const job of jobs) {
+    const r = ratschenMeldung(job.meldung ?? '')
+    if (!r) continue
+    const basis = grenzeBasis[r.schluessel] ?? grenzeBasis[r.name]
+    zeilen.push({ job: job.name, name: r.schluessel ?? r.name, wert: r.wert, grenze: r.grenze, basis: basis ?? null, fall: ratschenFall(r, basis) })
+  }
+  return zeilen
+}
+
+const FALL_TEXT = { ok: 'eingehalten', ratsche: 'Senkung auf main (nicht der Zug)', zug: 'vom Zug gerissen', 'ratsche-pruefen': 'Basisgrenze unbekannt' }
+
+/** Zeilen für das Fahrt-Log (Schrittzusammenfassung und PR-Kommentar). `kopf`: Zug-Kopf der Fahrt; `urteil`: Ergebnis von schuldsuche oder null. */
+export function fahrtLog({ kopf, kette, schritt, ratschen = [], grenzeBasis = {}, urteil = null }) {
+  const zeilen = [`## Fahrt ${String(kopf).slice(0, 9)}: Kette ${kette}, Schritt ${schritt.art}${schritt.grund ? ` (${schritt.grund})` : ''}`]
+  if (urteil) zeilen.push(`Schuldsuche: ${JSON.stringify(urteil)}`)
+  zeilen.push(`Ratschen am Basisstand: ${Object.keys(grenzeBasis).length === 0 ? 'keine gelesen' : Object.entries(grenzeBasis).map(([k, v]) => `${k}=${v}`).join(', ')}`)
+  if (ratschen.length === 0) zeilen.push('Ratschen im Fehlschlag: keine gemeldet')
+  for (const r of ratschen) zeilen.push(`Ratsche ${r.name} (${r.job}): Wert ${r.wert}, Grenze main ${r.grenze}, Basis ${r.basis ?? '?'} → ${FALL_TEXT[r.fall] ?? r.fall}`)
+  return zeilen
+}
+
+/** Nach dem Schieben (P2c): Bau und Deploy starten, weil bestand-bauen.yml und deploy.yml push-Läufe des Daten-App-Akteurs überspringen (Befund P0). Bau zuerst: sein Ende startet über workflow_run schon den nächsten Deploy; der eigene deckt den Fall, dass der Bau rot endet. */
+export const bauUndDeployBefehle = () => [
+  ['workflow', 'run', 'bestand-bauen.yml', '--ref', 'main'],
+  ['workflow', 'run', 'deploy.yml', '--ref', 'main'],
+]

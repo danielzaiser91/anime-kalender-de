@@ -13,8 +13,8 @@
   { "name": "Riegel: PR zählt mehrfach", "datei": "tools/nacht-merger-welt.mjs", "suche": " && !angestossen.has(args[2])", "ersetze": "" },
   { "name": "Riegel: Zähler nie gesetzt", "datei": "tools/nacht-merger-welt.mjs", "suche": "      angestossen.add(args[2])\n", "ersetze": "" },
   { "name": "Riegel: zählt reopen statt close", "datei": "tools/nacht-merger-welt.mjs", "suche": "args[1] === 'close' &&", "ersetze": "args[1] === 'reopen' &&" },
-  { "name": "Riegel: Höchstmenge 5", "datei": "tools/nacht-merger-welt.mjs", "suche": "ANSTOESSE_HOECHSTENS = 4", "ersetze": "ANSTOESSE_HOECHSTENS = 5" },
-  { "name": "Riegel: Höchstmenge 3", "datei": "tools/nacht-merger-welt.mjs", "suche": "ANSTOESSE_HOECHSTENS = 4", "ersetze": "ANSTOESSE_HOECHSTENS = 3" },
+  { "name": "Riegel: Höchstmenge 9", "datei": "tools/nacht-merger-welt.mjs", "suche": "ANSTOESSE_HOECHSTENS = 8", "ersetze": "ANSTOESSE_HOECHSTENS = 9" },
+  { "name": "Riegel: Höchstmenge 7", "datei": "tools/nacht-merger-welt.mjs", "suche": "ANSTOESSE_HOECHSTENS = 8", "ersetze": "ANSTOESSE_HOECHSTENS = 7" },
   { "name": "Verdrahtung: nachrechnen ohne Riegel", "datei": "tools/nacht-merger-welt.mjs", "suche": "trocken ? ghLesend(gh) : ghMitAnstossRiegel(gh)", "ersetze": "trocken ? ghLesend(gh) : gh" },
   { "name": "Verdrahtung: Trockenlauf ohne Lesesperre", "datei": "tools/nacht-merger-welt.mjs", "suche": "trocken ? ghLesend(gh) : ghMitAnstossRiegel(gh)", "ersetze": "ghMitAnstossRiegel(gh)" },
   { "name": "Verdrahtung: Welt hat kein warte", "datei": "tools/nacht-merger-welt.mjs", "suche": "    warte: schlafe,\n", "ersetze": "" }

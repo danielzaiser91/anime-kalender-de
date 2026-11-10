@@ -121,23 +121,43 @@ export function tvAngabe(
  * TV-Schalter stellt („ausgeschaltet bleiben Premieren sichtbar") und die das Fähnchen an der
  * Kachel beantwortet. Eine Sichtung ohne Folgennummer ist nie eine.
  */
-export function tvPremiere(
-  e: ReleaseEvent,
-  data: { titleById: Map<number, Title>; releasesByTitle: Map<number, Release[]>; releaseBySlug: Map<string, Release> },
-): boolean {
+export function tvPremiere(e: ReleaseEvent, data: PremiereDaten): boolean {
   if (e.platform !== 'tv' || !e.episode || e.sichtung) return false
+  let merker = PREMIERE_MERKER.get(data.titleById)
+  if (!merker) PREMIERE_MERKER.set(data.titleById, (merker = new Map()))
+  const schluessel = `${e.id}|${e.date}|${e.time ?? ''}|${e.episode}`
+  let antwort = merker.get(schluessel)
+  if (antwort === undefined) merker.set(schluessel, (antwort = rechnePremiere(e, e.episode, data)))
+  return antwort
+}
+
+type PremiereDaten = { titleById: Map<number, Title>; releasesByTitle: Map<number, Release[]>; releaseBySlug: Map<string, Release> }
+
+/** Antworten je Datensatz (Schlüssel `titleById` wechselt mit dem Datensatz): die Frage ist teuer (`expandEvents` je Release) und käme bei jedem Zeichnen neu. */
+const PREMIERE_MERKER = new WeakMap<object, Map<string, boolean>>()
+
+/** Die Termine eines Release ändern sich nicht; ohne Merker zerlegt jede Premiere-Frage alle TV-Releases des Titels neu. */
+const TERMINE_MERKER = new WeakMap<Release, ReleaseEvent[]>()
+function termineMerken(r: Release): ReleaseEvent[] {
+  let termine = TERMINE_MERKER.get(r)
+  if (!termine) TERMINE_MERKER.set(r, (termine = expandEvents(r)))
+  return termine
+}
+
+function rechnePremiere(e: ReleaseEvent, folge: number, data: PremiereDaten): boolean {
   const titel = data.titleById.get(e.titleId)
   const release = data.releaseBySlug.get(e.releaseSlug)
   return Boolean(
     titel &&
       istPremiere(
-        e.episode,
+        folge,
         e.date,
         titel,
         data.releasesByTitle.get(e.titleId) ?? [],
         release?.ersteDeutsch,
         e.time,
         premiereBelegtTv(release),
+        termineMerken,
       ),
   )
 }

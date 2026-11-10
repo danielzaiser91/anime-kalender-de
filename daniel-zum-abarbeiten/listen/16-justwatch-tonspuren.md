@@ -1,13 +1,13 @@
 # Was JustWatch zu offenen Verweisen sagt
 
-Stand: 2026-11-08. Erzeugt von `npm run data:justwatch`.
+Stand: 2026-11-10. Erzeugt von `npm run data:justwatch`.
 
 **Das sind Kandidaten, keine Belege.** Die Angabe gilt der **Serie**, nicht der
 einzelnen Folge — bei „Kill Blue" meldet JustWatch `de` für alle zwölf, belegt
 sind acht. Und ein fehlendes `de` belegt nichts: Netflix meldet dort gar keine
 Tonspur. Was hier steht, sagt, **wo sich das Nachsehen lohnt**.
 
-42 offene Verweise, zu denen JustWatch eine Tonspur nennt.
+39 offene Verweise, zu denen JustWatch eine Tonspur nennt.
 
 | Titel | Anbieter | JustWatch sagt | Tonspuren | Quelle |
 |---|---|---|---|---|
@@ -19,7 +19,6 @@ Tonspur. Was hier steht, sagt, **wo sich das Nachsehen lohnt**.
 | [Arpeggio of Blue Steel: Ars Nova - Cadenza](https://anime-kalender.de/#/datenbank?t=20764) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Film/Arpeggio-of-Blue-Steel-Ars-Nova-Cadenza) |
 | [Steins;Gate 0](https://anime-kalender.de/#/datenbank?t=21127) | crunchyroll | 🇩🇪 **Deutsch dabei** | `de, en, es, ja, pt` | [JustWatch](https://www.justwatch.com/de/Serie/Steins-Gate-0) |
 | [Konosuba: God’s Blessing on This Wonderful World!](https://anime-kalender.de/#/datenbank?t=21202) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/KonoSuba-Gods-blessing-on-this-wonderful-world) |
-| [Black Butler: Book of the Atlantic](https://anime-kalender.de/#/datenbank?t=21425) | crunchyroll | kein Deutsch | `en, ja` | [JustWatch](https://www.justwatch.com/de/Film/Black-Butler-Book-of-the-Atlantic) |
 | [Grimgar, Ashes and Illusions](https://anime-kalender.de/#/datenbank?t=21428) | crunchyroll | 🇩🇪 **Deutsch dabei** | `de, en, ja` | [JustWatch](https://www.justwatch.com/de/Serie/Grimgar-Ashes-and-Illusions) |
 | [KonoSuba: God’s Blessing on This Wonderful World! 2](https://anime-kalender.de/#/datenbank?t=21699) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/KonoSuba-Gods-blessing-on-this-wonderful-world) |
 | [KonoSuba: God’s Blessing on This Wonderful World! The Movie - Legend of Crimson](https://anime-kalender.de/#/datenbank?t=102976) | primevideo | 🇩🇪 **Deutsch dabei** | `de, en, es, fr, ja, pt` | [JustWatch](https://www.justwatch.com/de/Film/Kono-Subarashii-Sekai-ni-Shukufuku-wo-Kurenai-Densetsu) |
@@ -38,7 +37,6 @@ Tonspur. Was hier steht, sagt, **wo sich das Nachsehen lohnt**.
 | [undefined](https://anime-kalender.de/#/datenbank?t=-13247) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/Sylvanian-Families) |
 | [undefined](https://anime-kalender.de/#/datenbank?t=-13247) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/Sylvanian-Families) |
 | [Bobby und Bill](https://anime-kalender.de/#/datenbank?t=-72376) | primevideo | 🇩🇪 **Deutsch dabei** | `de, en` | [JustWatch](https://www.justwatch.com/de/Serie/Bobby-und-Bill) |
-| [Bobby und Bill](https://anime-kalender.de/#/datenbank?t=-72376) | primevideo | 🇩🇪 **Deutsch dabei** | `de, en` | [JustWatch](https://www.justwatch.com/de/Serie/Bobby-und-Bill) |
 | [My Little Pony - Freundschaft ist Magie](https://anime-kalender.de/#/datenbank?t=-33765) | primevideo | 🇩🇪 **Deutsch dabei** | `de, en` | [JustWatch](https://www.justwatch.com/de/Serie/My-Little-Pony-Friendship-Is-Magic) |
 | [My Little Pony - Freundschaft ist Magie](https://anime-kalender.de/#/datenbank?t=-33765) | primevideo | 🇩🇪 **Deutsch dabei** | `de, en` | [JustWatch](https://www.justwatch.com/de/Serie/My-Little-Pony-Friendship-Is-Magic) |
 | [My Little Pony - Freundschaft ist Magie](https://anime-kalender.de/#/datenbank?t=-33765) | primevideo | 🇩🇪 **Deutsch dabei** | `de, en` | [JustWatch](https://www.justwatch.com/de/Serie/My-Little-Pony-Friendship-Is-Magic) |
@@ -48,7 +46,6 @@ Tonspur. Was hier steht, sagt, **wo sich das Nachsehen lohnt**.
 | [My Little Pony - Freundschaft ist Magie](https://anime-kalender.de/#/datenbank?t=-33765) | primevideo | 🇩🇪 **Deutsch dabei** | `de, en` | [JustWatch](https://www.justwatch.com/de/Serie/My-Little-Pony-Friendship-Is-Magic) |
 | [My Little Pony - Freundschaft ist Magie](https://anime-kalender.de/#/datenbank?t=-33765) | primevideo | 🇩🇪 **Deutsch dabei** | `de, en` | [JustWatch](https://www.justwatch.com/de/Serie/My-Little-Pony-Friendship-Is-Magic) |
 | [undefined](https://anime-kalender.de/#/datenbank?t=-61071) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/Yakari) |
-| [Die Piratenfamilie](https://anime-kalender.de/#/datenbank?t=-74540) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/Die-Piratenfamilie) |
 | [Tim & Struppi](https://anime-kalender.de/#/datenbank?t=-1570) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/Tim-und-Struppi) |
 | [Tim & Struppi](https://anime-kalender.de/#/datenbank?t=-1570) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/Tim-und-Struppi) |
 | [Tim & Struppi](https://anime-kalender.de/#/datenbank?t=-1570) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/Tim-und-Struppi) |

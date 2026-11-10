@@ -259,9 +259,9 @@ try {
     }
     return zeilen
   }
-  const zeile = (e: number, o: number, v: number, h: number, d = 0) => `OmU-Begleiter: ${e} erzeugt, ${o} ohne Block, ${v} mit Folgen nur vor dem OmU-Start, ${h} mit Gegenstück am Titel, ${d} ohne Synchro-Beleg am Weg`
+  const zeile = (e: number, o: number, v: number, h: number, d = 0, warum = '') => `OmU-Begleiter: ${e} erzeugt, ${o} ohne Block${warum}, ${v} mit Folgen nur vor dem OmU-Start, ${h} mit Gegenstück am Titel, ${d} ohne Synchro-Beleg am Weg`
   pruefe('Zählzeile: 1 erzeugt', zeilenVon([omuRelease()], crDub()).join('|') === zeile(1, 0, 0, 0))
-  pruefe('Zählzeile: nur „ohne Block“ (US-Katalog) steht im Log', zeilenVon([omuRelease()], us).join('|') === zeile(0, 1, 0, 0))
+  pruefe('Zählzeile: nur „ohne Block“ (US-Katalog) steht im Log', zeilenVon([omuRelease()], us).join('|') === zeile(0, 1, 0, 0, 0, ' (1× kein datierter deutscher Block)'))
   pruefe('Zählzeile: nur „vor dem OmU-Start“ steht im Log', zeilenVon([omuRelease()], crDub([block('Staffel 2', [folge(171, 1, '2026-10-02T15:00:00Z')])])).join('|') === zeile(0, 0, 1, 0))
   pruefe('Zählzeile: nur „Gegenstück am Titel“ steht im Log', zeilenVon([omuRelease(), handRelease()], crDub()).join('|') === zeile(0, 0, 0, 1))
   const ohneDubTitel = bcTitel()
@@ -283,8 +283,56 @@ try {
   pruefe('A2: dub nur abgeleitet (angenommen, nicht gemessen): kein Beleg, nichts erzeugt', JSON.stringify(legeOmuBegleiterAn([omuRelease()], abgeleitet, crDub())) === JSON.stringify({ ...Z0, ohneDub: 1 }))
   pruefe('A2: Zählzeile nennt „ohne Synchro-Beleg am Weg“', zeilenVon([omuRelease()], crDub()).join('|') === zeile(1, 0, 0, 0) && zeilenMitTitel([omuRelease()], ohneDubTitel).join('|') === zeile(0, 0, 0, 0, 1))
   pruefe('Zählzeile: ohne OmU-Termin keine Zeile', zeilenVon([handRelease()], crDub()).length === 0)
+
+  pruefeBlockOhneZahl()
 } finally {
   rmSync(wurzel, { recursive: true, force: true })
+}
+
+/** Blöcke ohne Zahl im Namen (Auftrag omu-blockname): einziger Block, Name, Folgenzahl, geteilte Serie — durch den echten Begleiter. */
+function pruefeBlockOhneZahl(): void {
+  const serie = (...staffeln: ReturnType<typeof block>[]) => ({ scrapedAt: '', serien: [{ url: URL_DE, seriesId: 'GRE50KV36', katalog: 'de', staffeln }] }) as never
+  const TAGE = ['2026-11-07', '2026-11-14', '2026-11-21', '2026-11-28', '2026-12-05', '2026-12-12', '2026-12-19', '2026-12-26', '2027-01-02', '2027-01-09', '2027-01-16', '2027-01-23']
+  const woche = (n: number) => TAGE.slice(0, n).map((tag, i) => folge(171 + i, 1 + i, `${tag}T16:00:00Z`))
+  const mitName = (titleEn: string, extra: object = {}) => new Map<number, Title>([[195604, { ...bcTitel().get(195604)!, titleEn, franchiseId: undefined, ...extra } as Title]])
+  const fremderWeg = { ...bcTitel().get(97940)!, id: 777, franchiseId: undefined, streams: [{ platform: 'crunchyroll', url: URL_DE, dub: true }] } as unknown as Title
+  const lauf = (titles: Map<number, Title>, dub: never, omu: Release = omuRelease()) => {
+    const rs = [omu]
+    const gruende: Record<string, number> = {}
+    const z = legeOmuBegleiterAn(rs, titles, dub, gruende)
+    return { rs, z, gruende }
+  }
+
+  const mitAnderem = mitName('Black Clover Season 2')
+  mitAnderem.set(888, { ...fremderWeg, id: 888, streams: [{ platform: 'crunchyroll', url: 'https://www.crunchyroll.com/de/series/ANDERE/x', dub: true }, { platform: 'netflix', url: URL_DE }] } as unknown as Title)
+  const einzig = lauf(mitAnderem, serie(block('Schwarzer Klee', [S2_ERSTE])))
+  pruefe('Blockname ohne Zahl, einziger Block der Serie: Termin entsteht', einzig.z.erzeugt === 1 && einzig.rs[1]?.slug === `${OMU_SLUG}-synchro` && einzig.rs[1]?.schedule.firstEpisodeDate === '2026-11-07', einzig.z)
+  const titelGeteilt = mitName('Black Clover Season 2')
+  titelGeteilt.set(777, fremderWeg)
+  const geteilt = lauf(titelGeteilt, serie(block('Schwarzer Klee', [S2_ERSTE])))
+  pruefe('…an einer Serie mit zweitem Titel: nichts, Grund „Serie geteilt, ein Block“ gezählt', geteilt.rs.length === 1 && geteilt.z.ohneBlock === 1 && geteilt.gruende['Serie geteilt, ein Block'] === 1, geteilt.gruende)
+  const zweiBloecke = serie(block('Schwarzer Klee Teil Eins', [folge(170, 16, '2026-10-01T16:00:00Z')]), block('Schwarzer Klee Teil Zwei', [S2_ERSTE]))
+  const nachName = lauf(mitName('Schwarzer Klee Teil Zwei'), zweiBloecke)
+  pruefe('Mehrere Blöcke ohne Zahl: der Titelname wählt (Teil Zwei, nicht der erste)', nachName.z.erzeugt === 1 && nachName.rs[1]?.herkunft?.includes('Schwarzer Klee Teil Zwei') === true, nachName.rs[1]?.herkunft)
+  const andererName = lauf(mitName('Ganz anderer Titel'), zweiBloecke)
+  pruefe('…ohne passenden Namen: nichts, Grund „mehrere Blöcke, keiner eindeutig“', andererName.rs.length === 1 && andererName.gruende['mehrere Blöcke, keiner eindeutig'] === 1, andererName.gruende)
+  const zahlBloecke = serie(block('Anderer Teil', woche(5)), block('Zusatz Teil', woche(12)))
+  const titelZusatz = mitName('Schwarzer Klee Zusatz Teil')
+  pruefe('Folgenzahl des OmU-Termins (12) und Namensende wählen „Zusatz Teil“', lauf(titelZusatz, zahlBloecke).z.erzeugt === 1)
+  const angenommen = omuRelease({ schedule: { firstEpisodeDate: '2026-10-03', estimated: true, episodeCount: 12, episodeCountAssumed: true } })
+  pruefe('…eine nur angenommene Zahl wählt nichts', lauf(titelZusatz, zahlBloecke, angenommen).z.erzeugt === 0)
+  const andereZahl = omuRelease({ schedule: { firstEpisodeDate: '2026-10-03', estimated: true, episodeCount: 7 } })
+  pruefe('…eine andere Zahl (7) wählt nichts', lauf(titelZusatz, zahlBloecke, andereZahl).z.erzeugt === 0)
+  pruefe('…ist die Zahl nur angenommen, zählt die Folgenzahl des Titels (12)', lauf(mitName('Schwarzer Klee Zusatz Teil', { episodes: 12 }), zahlBloecke, angenommen).z.erzeugt === 1)
+  pruefe('…die belegte Zahl des Termins (12) schlägt die des Titels (7)', lauf(mitName('Schwarzer Klee Zusatz Teil', { episodes: 7 }), zahlBloecke).z.erzeugt === 1)
+  const davor = lauf(mitName('Black Clover Season 2'), serie(block('Schwarzer Klee', [folge(170, 16, '2026-10-02T15:00:00Z')])))
+  pruefe('Block ohne Zahl, dessen Folgen alle vor dem OmU-Start liegen: nichts, Grund genannt', davor.z.erzeugt === 0 && davor.gruende['Blöcke haben deutsche Folgen vor dem OmU-Start'] === 1, davor.gruende)
+  const zuGross = lauf(mitName('Black Clover Season 2', { episodes: 3 }), serie(block('Schwarzer Klee', woche(12))), angenommen)
+  pruefe('Block mit mehr Folgen als der Titel (3): nichts, Grund genannt', zuGross.z.erzeugt === 0 && zuGross.gruende['Block hat mehr Folgen als der Titel'] === 1, zuGross.gruende)
+  const mitGrundname = serie(block('Schwarzer Klee Teil Eins', [S2_ERSTE]), block('Schwarzer Klee Teil Eins Fortsetzung', [folge(172, 2, '2026-11-14T16:00:00Z')]))
+  pruefe('Bau kennt die Reihe: der Grundname neben einem längeren Blocknamen bleibt wählbar', lauf(mitName('Schwarzer Klee Teil Eins'), mitGrundname).z.erzeugt === 1)
+  const staffel1 = lauf(mitName('Black Clover Season 2'), serie(block('Season 1 Part 4', [S2_ERSTE])))
+  pruefe('Block „Season 1 Part 4“ gilt nicht für Staffel 2: nichts', staffel1.rs.length === 1 && staffel1.z.erzeugt === 0, staffel1.z)
 }
 
 console.log(verletzt ? `\n${verletzt} Zusicherung(en) verletzt.` : '\nOmU-Begleiter: alle Zusicherungen halten.')
