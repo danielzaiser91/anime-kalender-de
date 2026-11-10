@@ -14,7 +14,7 @@ const wurzel = mkdtempSync(join(tmpdir(), 'wache-haenger-w-'))
 try {
   mkdirSync(join(wurzel, 'tools'))
   for (const f of ['wache-woechentlich.mjs', 'wache-fristen.mjs', 'kind-mit-limit.mjs']) copyFileSync(join(tools, f), join(wurzel, 'tools', f))
-  const env = { ...process.env, ...legeGhAttrappe(dir), WACHE_LIMIT_MS: '2000', npm_config_offline: 'true' }
+  const env = { ...process.env, ...legeGhAttrappe(dir), WACHE_LIMIT_MS: '2000', WACHE_WIEDERHOLUNG_PAUSE_MS: '0', npm_config_offline: 'true' }
   const lauf = (args, cwd) => spawnSync(process.execPath, args, { cwd, encoding: 'utf8', windowsHide: true, timeout: 60_000, env })
 
   // 1. pr-nachrechnen: erster gh-Aufruf hängt -> Exit 2 und FEHLER-Zeile.
@@ -48,6 +48,18 @@ try {
   assert.equal(kind.status, 0, kind.stderr)
   assert.match(kind.stdout, /^ERGEBNIS\[FEHLER: .*haengt\.mjs nach 2 s abgebrochen\]$/m)
   assert.doesNotMatch(kind.stdout, /Exit-Code/)
+
+  // 6. PR-Werkzeuge der Prüfkette: hängendes gh -> fail-soft mit FEHLER-Zeile statt Hänger bis zur Jobfrist.
+  const modus = lauf([join(tools, 'pr-pruefer-modus.mjs'), '1', '1', join(dir, 'auflagen.md')], tools)
+  assert.equal(modus.status, 0, `pr-pruefer-modus endet mit 0: ${modus.stderr}`)
+  assert.match(modus.stdout, /^modus=voll$/m)
+  assert.match(modus.stderr, /Prüfmodus nicht bestimmbar, voll geprüft: FEHLER: gh api --paginate nach 2 s abgebrochen/)
+  const beschreibung = join(dir, 'beschreibung.md')
+  writeFileSync(beschreibung, 'Text\n')
+  const nachtraege = spawnSync(process.execPath, [join(tools, 'pr-nachtraege.mjs'), '1', 'autor', beschreibung], { cwd: tools, encoding: 'utf8', windowsHide: true, timeout: 60_000, env: { ...env, GITHUB_REPOSITORY: 'a/b' } })
+  assert.equal(nachtraege.status, 0, `pr-nachtraege endet mit 0: ${nachtraege.stderr}`)
+  assert.match(nachtraege.stderr, /Nachträge nicht lesbar, Beschreibung ohne sie: FEHLER: gh api --paginate nach 2 s abgebrochen/)
+  assert.match(nachtraege.stderr, /Commits nicht lesbar, Beschreibung ohne sie: FEHLER: gh api --paginate nach 2 s abgebrochen/)
 } finally {
   rmSync(dir, { recursive: true, force: true })
   rmSync(wurzel, { recursive: true, force: true })

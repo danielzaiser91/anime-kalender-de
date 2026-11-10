@@ -1,5 +1,5 @@
 /**
- * Test für tools/naechster.mjs und tools/claude-global/mods/arbeitsliste/hooks/stand-kennzeichen.mjs: Kennzeichen lesen, Rang
+ * Test für tools/naechster.mjs und .claude/mods/arbeitsliste/hooks/stand-kennzeichen.mjs: Kennzeichen lesen, Rang
  * (Art → Dringlichkeit → Ziel → älterer Eingang), „wartet“ überspringen, fehlendes Kennzeichen mit Zeile,
  * Verdrahtung im Hook (stand-prs.js) und CLI als Prozess. Feste Zeit, Wegwerf-Dateien unter os.tmpdir().
  */
@@ -13,8 +13,8 @@ import { join } from 'node:path'
 import { jsonVon, text } from './naechster.mjs'
 
 const require = createRequire(import.meta.url)
-const K = require(join(import.meta.dirname, 'claude-global', 'mods', 'arbeitsliste', 'hooks', 'stand-kennzeichen.mjs'))
-const h = require(join(import.meta.dirname, 'claude-global', 'hooks', 'stand-prs.js'))
+const K = require(join(import.meta.dirname, '..', '.claude', 'mods', 'arbeitsliste', 'hooks', 'stand-kennzeichen.mjs'))
+const h = require(join(import.meta.dirname, '..', '.claude', 'hooks', 'stand-prs.js'))
 const JETZT = Date.parse('2026-11-08T12:00:00Z')
 const z = (titel, art, dring, ziel, tag, wartet = '') => `- 🔵 **${titel}** {${art} · ${dring} · ${ziel} · ${tag}${wartet ? ` · wartet: ${wartet}` : ''}} Text`
 const stand = (arbeit, naechstes) => ['# Stand', '## In Arbeit (Stand 08.11.2026 12:00)', ...arbeit, '## Als Nächstes', ...naechstes, '## Anderes', '- ohne Kennzeichen, anderer Abschnitt'].join('\n')
@@ -135,6 +135,14 @@ try {
   const r1 = cli(stand(['- **Ohne** x'], []))
   assert.equal(r1.status, 1, 'fehlendes Kennzeichen: Exit 1')
   assert.match(r1.stdout, /FEHLER Zeile 3: Kennzeichen fehlt — - \*\*Ohne\*\* x/)
+  // „## Titel unterwegs“ trägt Zeilen ohne Kennzeichen und ist kein Fehler (wörtliche Zeile aus stand.md, 08.11.2026)
+  const unterwegs = '## Titel unterwegs (Zeilen `- [Status TT.MM. HH:MM] Titel SxEy — …`)\n- [Live 08.11. 14:38] Black Clover S2E1 — de Synchro seit 07.11.2026 (Crunchyroll) · im Bestand 07.11. 20:29 · live gemessen 08.11. 14:38\n'
+  const mitAbschnitt = stand([z('läuft', 'eigen', 'normal', '-', '01.11.')], []).replace('## In Arbeit', `${unterwegs}## In Arbeit`)
+  assert.deepEqual(K.pruefeKennzeichen(mitAbschnitt), [], 'Titel unterwegs: keine Kennzeichen-Fehler')
+  assert.deepEqual(titel(K.auswerten(mitAbschnitt, JETZT).laufend), ['läuft'], 'Titel unterwegs zählt nicht als laufend')
+  const r2 = cli(mitAbschnitt)
+  assert.equal(r2.status, 0, r2.stdout + r2.stderr)
+  assert.doesNotMatch(r2.stdout, /FEHLER|Black Clover/)
 } finally {
   rmSync(ordner, { recursive: true, force: true })
 }

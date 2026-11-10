@@ -8,6 +8,7 @@ import { readFileSync } from 'node:fs'
 import { chromium, type Page } from 'playwright'
 import { mitNeuerSeite, mitRuecksetzung } from './lib/screenshot-wiederholen.ts'
 import { belegeFuehren, bilderAnlegen, zeileFotografieren } from './lib/woche-bild.ts'
+import { sperreNetz } from '../tools/netz-sperre.mjs'
 import { zeilenSchluessel, type WocheBelege } from './lib/woche-beleg.ts'
 import { eintraegeAus, rohLesen, type WochenEintrag } from './scrape-crunchyroll-woche.ts'
 
@@ -53,6 +54,7 @@ const masse = (s: Page, bild: Buffer) =>
 
 /** Alle Prüfungen auf einer Seite; bei einem Screenshot-Fehler läuft sie auf frischer Seite von vorn, darum setzt `mitRuecksetzung` den Zähler `fehler` je Versuch zurück. */
 async function pruefeAlles(s: Page): Promise<void> {
+  await sperreNetz(s)
   await s.addInitScript('window.__name = (f) => f')
   await s.setContent(kurz)
   const a = await zeileFotografieren(s, '0-0')

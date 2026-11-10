@@ -32,6 +32,7 @@ import { DISC_UEBERSICHT, leseDiscUebersicht, type DiscZeile } from './lib/disc-
 import { deutschlandBezug, dubBefund, type Sprachbefund } from './lib/sprachbefund.ts'
 import { vorschlaegeMitBestand } from './lib/proposals-bestand.ts'
 import { leerGrund } from './lib/anime2you-abruf.ts'
+import { waehleVorrat } from './lib/anime2you-bleibt.ts'
 import { leichteFeeds, volltextNoetig, vorschlaegeGeaendert } from './lib/anime2you-leicht.ts'
 
 const UA = 'Mozilla/5.0 (compatible; anime-kalender.de/1.0; +https://anime-kalender.de)'
@@ -463,15 +464,8 @@ async function main(): Promise<void> {
     return
   }
 
-  const all = mitBestand(proposals)
-    // Kuratiertes neu bewerten; Sammelartikel mit Tabelle bleiben — der Bau liest ihre Termine.
-    .map((p) => ({ ...p, alreadyCurated: curatedSources.has(p.articleUrl.replace(/\/$/, '')) }))
-    .filter((p) => {
-      const veraltet = p.hinweis === 'sprache' && p.publishedAt < addDays(today, -HINWEIS_TAGE)
-      if (veraltet) verwirf(`Sprachhinweis älter als ${HINWEIS_TAGE} Tage`)
-      return !veraltet
-    })
-    .filter((p) => p.dates.some((d) => (d.iso ?? `${d.month}-31`) >= today) || !p.alreadyCurated || p.verschiebungen?.length || p.sammel?.some((e) => (e.datum ?? '') >= today))
+  // Kuratiertes neu bewerten; Artikel mit Sammeleinträgen bleiben, auch mit vergangenem Datum — der Bau liest ihre Termine.
+  const all = waehleVorrat(mitBestand(proposals), curatedSources, today, HINWEIS_TAGE, verwirf)
     .sort((a, b) => b.publishedAt.localeCompare(a.publishedAt))
 
   await schreibeVorschlaege(all, verworfen, today)

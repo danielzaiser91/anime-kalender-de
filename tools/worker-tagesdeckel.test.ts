@@ -289,7 +289,7 @@ console.log('Wiederholte Meldung nach dem Abhaken schreibt keine neue pruefung-Z
   db.exec(`UPDATE pruefung SET gemeldet_am = '${gestern()}'`)
   pruefe((await gesendet(folge(1))) === 2, 'Zeile von gestern: nur ein UPDATE (Zeile + Tageszähler)')
   pruefe(anzahl() === 1 && anzahl('uebernommen = 0') === 1, '... dieselbe Zeile, wieder offen, damit der Bau das neue checkedAt sieht')
-  const offen = await handlePruefung(new Request('https://worker.test/pruefung?token=t'), env)
+  const offen = await handlePruefung(new Request('https://worker.test/pruefung', { headers: { 'X-Lauf-Token': 't' } }), env)
   const geliefert = ((await offen.json()) as { pruefungen: { gemeldet_am: string }[] }).pruefungen
   pruefe(geliefert.length === 1 && geliefert[0]!.gemeldet_am > gestern(), 'der Bau holt sie mit dem heutigen gemeldet_am ab')
   pruefe((await gesendet(folge(1))) === 0, 'offen + gleicher Inhalt, am selben Tag: weiter 0 Zeilen')
@@ -475,7 +475,7 @@ console.log('Lesezeilen: keine Gesamtzahl der Rohfolgen mehr (12.10.2026)')
   db.exec("UPDATE pruefung SET rohfolge = json_set(rohfolge, '$.vorhanden', 'nein') WHERE folge_nr = 3")
   const hole = async (nach: number) => {
     abfragen.length = 0
-    const r = await handlePruefung(new Request(`https://worker.test/pruefung?rohfolgen=1&token=t&nach=${nach}`), env)
+    const r = await handlePruefung(new Request(`https://worker.test/pruefung?rohfolgen=1&nach=${nach}`, { headers: { 'X-Lauf-Token': "t" } }), env)
     const inhalt = (await r.json()) as { folgen: unknown[]; gesamt?: number; weiter: number | null }
     return { inhalt, gezaehlt: abfragen.some((a) => /COUNT\(\*\)/.test(a.sql)) }
   }

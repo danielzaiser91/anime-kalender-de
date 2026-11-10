@@ -21,7 +21,8 @@
  * | Textdatei mit Tatsachenzahl in hinzugefügten Zeilen (Uhrzeit, Datum, Folgenzahl, ID ab 5 Ziffern) | 1 |
  * | mehrere CSS-Dateien, oder eine CSS über 30 Zeilen                           | 1       |
  * | Skill-Text: .claude/skills/**\/*.md (andere Dateien dort bleiben 2)           | 1       |
- * | tools/claude-global/** (Regeln, Skills, Hooks, Mods; steuern Daniels Agenten) | 1       |
+ * | web/buehne/** (Mockup-Bühne, nicht ausgeliefert; mit Stufe-2-Pfaden gemischt bleibt 2) | 1 |
+ * | .claude/(rules|agents|hooks|mods|commands)/** (steuern Daniels Agenten; settings.json bleibt 2) | 1       |
  * | Handwerkzeug tools/<name>.(mjs|cjs|js|ts) mit eigenem Test, dessen Name in .github, package.json, tools, pipeline, shared, web, worker, extension, .claude, Wurzeldateien nirgends (auch nicht in fremden Tests) vorkommt und kein Glob trifft (tools/pr-stufe-kette.mjs) | 1 |
  * | Doku: *.md, docs, daniel-zum-abarbeiten, mockups                            | 0       |
  * | Text: data/patchnotes/*.yaml, web/src/**\/i18n*.ts(x)                       | 0       |
@@ -49,8 +50,10 @@ const DOKU = /^([^/]+\.md|(docs|mockups|daniel-zum-abarbeiten)\/.+\.(md|png|svg|
 const DOKU_ANDERE_ENDUNG = /^(docs|mockups|daniel-zum-abarbeiten)\//
 // Skill-Texte steuern Agenten, ändern aber keinen Code: Stufe 1 (Prüfer liest den Diff), nie 0. Andere Dateien unter .claude/skills (Skripte) bleiben Stufe 2.
 const SKILL_TEXT = /^\.claude\/skills\/.+\.md$/
-// Daniels globale Claude-Konfiguration wirkt nicht auf die Website, steuert aber seine Agenten (wie Skill-Texte): immer Stufe 1.
-const CLAUDE_GLOBAL = /^tools\/claude-global\//
+// Die Claude-Konfiguration im Projekt (Regeln, Agenten, Hooks, Mods, Commands) wirkt nicht auf die Website, steuert aber Daniels Agenten (wie Skill-Texte): immer Stufe 1.
+const CLAUDE_GLOBAL = /^\.claude\/(rules|agents|hooks|mods|commands)\//
+// Bühne (Mockups, Rahmen der echten App für Bilder) läuft nie auf der Live-Seite: Stufe 1 statt „unbekannt“ → 2.
+const BUEHNE = /^web\/buehne\//
 const TEXT = /^(data\/patchnotes\/[^/]+\.yaml|web\/src\/(.*\/)?i18n[^/]*\.tsx?)$/
 const CSS = /^(web\/src|extension)\/.*\.css$/
 const WEB_CODE = /^web\/src\/.*\.tsx?$/
@@ -138,6 +141,7 @@ function stufeOhneModus(d, n, kette) {
   if (SKILL_TEXT.test(d.pfad)) return [1, 'Skill-Text']
   if (DOKU_ANDERE_ENDUNG.test(d.pfad)) return [1, 'Datei in docs/mockups mit anderer Endung']
   if (CLAUDE_GLOBAL.test(d.pfad)) return [1, 'globale Claude-Konfiguration (Regel, Skill, Hook, Mod)']
+  if (BUEHNE.test(d.pfad)) return [1, 'Bühne (nicht ausgeliefert)']
   if (STUFE_1.test(d.pfad)) return [1, 'UI-Logik, Handbeleg oder Datenwert']
   if (istHandwerkzeug(d.pfad, kette, kette?.diff)) return [1, 'Handwerkzeug unter tools/ (kein Workflow, npm-Skript, keine Liste oder Quelle ruft es auf, eigener Test)']
   return [2, 'Pfad ohne Herabstufungsregel (Pipeline, Logik, Workflow, Worker, Schema oder unbekannt)']
