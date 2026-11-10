@@ -238,6 +238,7 @@ assert.deepEqual([eins(FENSTER_MS), eins(FENSTER_MS + 1), eins(-SEKUNDEN_UNSCHAE
 // gekürzte Befehle (200 Zeichen) gelten als Anfang, kürzere müssen vollständig passen; maskierte als Anfang vor der Maske
 const lang = (n) => `echo ${'a'.repeat(n - 5)}`
 assert.deepEqual([zuord([shellZ(1, `${lang(200)}b`)], [zeile('t1', 'ag1', lang(200))]), zuord([shellZ(1, `${lang(199)}b`)], [zeile('t1', 'ag1', lang(199))])], [{ 1: 't1' }, {}], 'Länge 200 = gekürzt, 199 = vollständig')
+assert.deepEqual(zuord([shellZ(1, `echo x; ${lang(200)}b`)], [zeile('t1', 'ag1', lang(200))]), {}, 'gekürzter Befehl muss am Anfang des Befehlstextes stehen')
 assert.deepEqual(zuord([shellZ(1, 'tool --token geheim123 run')], [zeile('t1', 'ag1', 'tool --token ***')]), { 1: 't1' }, 'maskierter Befehl')
 // Auslöser: verschiedene Auslöser kurz hintereinander mit demselben Text bleiben unzugeordnet, sonst gewinnt die jüngste Zeile
 const P = (dt) => [shellZ(1, 'date', dt)]
