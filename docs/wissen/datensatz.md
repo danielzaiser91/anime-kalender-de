@@ -1185,6 +1185,8 @@ Wer einen Handbeleg aus `data/dub-confirmed.yaml` als falsch entfernt, trägt Ke
 
 **Stehen an derselben Adresse auch echte Ja-Blöcke des Titels, kommt kein Eintrag in `belege-entfernt.yaml`** (09.11.2026, PR 3288, Goblin Slayer 2): `istEntfernt` vergleicht nur Kennung und Adresse und sperrte die Ja-Blöcke mit, `check-belege-entfernt.ts` würde rot. Dann wird nur der falsche Block gelöscht und der PR begründet, warum er nicht wiederkehrt: die Meldung, die ihn schrieb, ist übernommen (Meldungskopie, `übernommen=1`), eine offene Meldung mit gleicher Seite wird benannt und ihre Folge (Ratsche, Titelmarke) erklärt.
 
+**Auch die Notizseite („Amazon-Seite X“) zählt** (10.11.2026, Oshi no Ko S3, 182587): Der Block lag an der Adresse B0GFPBT6FG, gemessen war B0B7D5DRV2 (Staffel 1). #3316 löschte ihn ohne Eintrag; der Bestandsbau liest alle Meldungen jeden Lauf neu (`übernommen=1` schützt nicht, nur der wörtliche Vergleich mit dem Bestand) und hängte ihn wieder an: `check-handbeleg-notizseite-bestand` rot. `blockIstEntfernt` sperrt deshalb auch Blöcke, deren Notizseite für die Kennung als `url: …/dp/<Seite>` eingetragen ist.
+
 ## Prime-Handbelege: `url` ist oft die Einstiegsseite (29.10.2026)
 
 Die `url` eines Prime-Handbelegs ist oft die Einstiegsseite; die gemessene Seite steht in der Notiz („Amazon-Seite X“, „Seitenadresse“). Die `asin` in `prime-zugeordnet.json` ist kein Seitenbeleg. Gleiche `gti` an zwei Adressen heißt: derselbe Inhalt. „Laut Adresse Staffel k“ in der Notiz belegt, zu welcher Staffel die Adresse gehört; ein Beleg mit abweichendem k ist falsch abgelegt und wird umgehängt oder in `belege-entfernt.yaml` eingetragen (Quelle: Analyse der 32 Fremdpaare, 29.10.2026).

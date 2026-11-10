@@ -7,7 +7,7 @@ einzelnen Folge — bei „Kill Blue" meldet JustWatch `de` für alle zwölf, be
 sind acht. Und ein fehlendes `de` belegt nichts: Netflix meldet dort gar keine
 Tonspur. Was hier steht, sagt, **wo sich das Nachsehen lohnt**.
 
-39 offene Verweise, zu denen JustWatch eine Tonspur nennt.
+28 offene Verweise, zu denen JustWatch eine Tonspur nennt.
 
 | Titel | Anbieter | JustWatch sagt | Tonspuren | Quelle |
 |---|---|---|---|---|
@@ -26,12 +26,6 @@ Tonspur. Was hier steht, sagt, **wo sich das Nachsehen lohnt**.
 | [Jujutsu Kaisen 0](https://anime-kalender.de/#/datenbank?t=131573) | crunchyroll | 🇩🇪 **Deutsch dabei** | `de, en, es, fr, it, ja, pl, pt, ru, th` | [JustWatch](https://www.justwatch.com/de/Film/jujutsu-kaisen-0) |
 | [undefined](https://anime-kalender.de/#/datenbank?t=-204084) | crunchyroll | kein Deutsch | `en, fr` | [JustWatch](https://www.justwatch.com/de/Serie/dreamland-2026) |
 | [undefined](https://anime-kalender.de/#/datenbank?t=-99777) | crunchyroll | 🇩🇪 **Deutsch dabei** | `de, en, es, fr, pt, ru` | [JustWatch](https://www.justwatch.com/de/Serie/Onyx-Equinox) |
-| [undefined](https://anime-kalender.de/#/datenbank?t=-89095) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/Polly-Pocket) |
-| [undefined](https://anime-kalender.de/#/datenbank?t=-89095) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/Polly-Pocket) |
-| [undefined](https://anime-kalender.de/#/datenbank?t=-89095) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/Polly-Pocket) |
-| [undefined](https://anime-kalender.de/#/datenbank?t=-89095) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/Polly-Pocket) |
-| [undefined](https://anime-kalender.de/#/datenbank?t=-89095) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/Polly-Pocket) |
-| [undefined](https://anime-kalender.de/#/datenbank?t=-89095) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/Polly-Pocket) |
 | [undefined](https://anime-kalender.de/#/datenbank?t=-13247) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/Sylvanian-Families) |
 | [undefined](https://anime-kalender.de/#/datenbank?t=-13247) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/Sylvanian-Families) |
 | [undefined](https://anime-kalender.de/#/datenbank?t=-13247) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/Sylvanian-Families) |
@@ -45,15 +39,10 @@ Tonspur. Was hier steht, sagt, **wo sich das Nachsehen lohnt**.
 | [My Little Pony - Freundschaft ist Magie](https://anime-kalender.de/#/datenbank?t=-33765) | primevideo | 🇩🇪 **Deutsch dabei** | `de, en` | [JustWatch](https://www.justwatch.com/de/Serie/My-Little-Pony-Friendship-Is-Magic) |
 | [My Little Pony - Freundschaft ist Magie](https://anime-kalender.de/#/datenbank?t=-33765) | primevideo | 🇩🇪 **Deutsch dabei** | `de, en` | [JustWatch](https://www.justwatch.com/de/Serie/My-Little-Pony-Friendship-Is-Magic) |
 | [My Little Pony - Freundschaft ist Magie](https://anime-kalender.de/#/datenbank?t=-33765) | primevideo | 🇩🇪 **Deutsch dabei** | `de, en` | [JustWatch](https://www.justwatch.com/de/Serie/My-Little-Pony-Friendship-Is-Magic) |
-| [undefined](https://anime-kalender.de/#/datenbank?t=-61071) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/Yakari) |
-| [Tim & Struppi](https://anime-kalender.de/#/datenbank?t=-1570) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/Tim-und-Struppi) |
-| [Tim & Struppi](https://anime-kalender.de/#/datenbank?t=-1570) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/Tim-und-Struppi) |
-| [Tim & Struppi](https://anime-kalender.de/#/datenbank?t=-1570) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/Tim-und-Struppi) |
-| [undefined](https://anime-kalender.de/#/datenbank?t=-65392) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/Lucky-Luke-1984) |
 
 ## Titel ganz ohne Bezugsweg
 
-266 Titel im Hauptbestand haben keinen einzigen Weg — hier nennt JustWatch einen.
+267 Titel im Hauptbestand haben keinen einzigen Weg — hier nennt JustWatch einen.
 Ein Titel im Hauptbestand hat per Definition eine belegte deutsche Synchro; das 🇩🇪 sagt,
 dass JustWatch für dieses Angebot auch eine deutsche Tonspur kennt.
 
@@ -165,6 +154,7 @@ dass JustWatch für dieses Angebot auch eine deutsche Tonspur kennt.
 | [undefined](https://anime-kalender.de/#/datenbank?t=-89456) | [HBO Max](https://www.hbomax.com/de/en/show/59dc1d55-bb08-4bb4-85dd-d03e64f4fef1/s1/e1-spear-and-fang/81e56a75-cd48-41d8-a97b-26c9071581fb), [HBO Max Amazon Channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.d6a95f30-643f-4518-be62-352be0bf6a47) 🇩🇪, [Amazon Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.f6ba7018-3ace-1dac-d85e-890d2cf57724), [Apple TV Store](https://tv.apple.com/de/show/primal/umc.cmc.6o1nbeapjj0k5cdqrsr44vekt?at=1000l3V2&ct=app_tv&itscg=30200&itsct=justwatch_tv) |
 | [Victor und Valentino](https://anime-kalender.de/#/datenbank?t=-88786) | [Amazon Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.6e99719a-6a77-48f4-88ee-8bfd557d179b), [Apple TV Store](https://tv.apple.com/de/show/victor-und-valentino/umc.cmc.5yxoccqywexmxqdwpze3pb0su?at=1000l3V2&ct=app_tv&itscg=30200&itsct=justwatch_tv) |
 | [undefined](https://anime-kalender.de/#/datenbank?t=-74440) | [HBO Max](https://www.hbomax.com/de/en/show/dc3552e4-32ed-4719-b3fb-7938b59b4658/s1/e1-til-death-do-us-part/706a1d3d-192f-4340-8558-d332417b4030), [HBO Max Amazon Channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.5b8c3468-056d-4bf2-994b-f924211ce0c1) 🇩🇪, [MagentaTV](https://www.magenta.tv/serie/harley-quinn/staffel-1/GN_SEASON_17472277_DE_1) 🇩🇪, [Apple TV Store](https://tv.apple.com/de/show/harley-quinn/umc.cmc.2r8u3jb6bfnv57ad7czuv46t7?at=1000l3V2&ct=app_tv&itscg=30200&itsct=justwatch_tv) |
+| [undefined](https://anime-kalender.de/#/datenbank?t=-219002) | [Amazon Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.ae7a8390-18ab-4b82-baff-30937cee1dd6) |
 | [Beccas Bande](https://anime-kalender.de/#/datenbank?t=-90474) | [Paramount Plus](https://www.paramountplus.com/shows/beccas-bunch/video/wYxeiuScczU4fcXgYaNTV2WyPlvl1TjQ/becca-s-bunch-beddy-set-go-mayor-for-a-day?searchReferral=), [Paramount+ Amazon Channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.32b9c951-a6f8-6eb1-2492-ce30c846f022) 🇩🇪, [Paramount Plus Apple TV channel](https://tv.apple.com) |
 | [undefined](https://anime-kalender.de/#/datenbank?t=-85000) | [Apple TV Store](https://tv.apple.com/de/show/the-shivering-truth/umc.cmc.6c0r4ek3nyibt9fugsyzf7pgb?at=1000l3V2&ct=app_tv&itscg=30200&itsct=justwatch_tv), [Amazon Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.955f63b5-7691-4a7a-9b7d-d28633a59eb2) |
 | [undefined](https://anime-kalender.de/#/datenbank?t=-83002) | [Amazon Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.dde564c0-aac1-4e05-93ac-9b9d3cfc7400) |
@@ -277,7 +267,7 @@ dass JustWatch für dieses Angebot auch eine deutsche Tonspur kennt.
 | [Meister Manny’s Werkzeugkiste](https://anime-kalender.de/#/datenbank?t=-10219) | [Apple TV Store](https://tv.apple.com/de/show/meister-mannys-werkzeugkiste/umc.cmc.4qslhj1dayd6jw9cu5ku11c3e?at=1000l3V2&ct=app_tv&itscg=30200&itsct=justwatch_tv), [Amazon Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.3aa9f6d7-390a-0c1e-dc28-4db9cba1409c), [Videobuster](https://www.videobuster.de/dvd-bluray-verleih/114763/meister-mannys-werkzeugkiste?campaign=vb50feed#rental&rental-dvd) |
 | [undefined](https://anime-kalender.de/#/datenbank?t=-6318) | [Apple TV Store](https://tv.apple.com/de/episode/die-geliebte-des-prasidenten/umc.cmc.1penpuwr18npgd8qfpcio0lae?at=1000l3V2&ct=app_tv&itscg=30200&itsct=justwatch_tv&playableId=tvs.sbd.9001%3A277723554&showId=umc.cmc.33xvatw3lxjbxdrrkyyjzs9gx), [Amazon Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.29d23e75-67de-4ade-acdd-d7564cea42a5) |
 | [undefined](https://anime-kalender.de/#/datenbank?t=-4738) | [Amazon Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.902a3bc4-f50a-49f4-8eb9-14f772df0d45) 🇩🇪, [Videobuster](https://www.videobuster.de/dvd-bluray-verleih/117686/di-gata-defenders-staffel-1?campaign=vb50feed#rental&rental-dvd) |
-| [Tauschrausch](https://anime-kalender.de/#/datenbank?t=-4627) | [Apple TV Store](https://tv.apple.com/de/show/disneys-tauschrausch/umc.cmc.7imvbr84siet0k8qitllrxbn3?at=1000l3V2&ct=app_tv&itscg=30200&itsct=justwatch_tv), [Amazon Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.152f172d-7029-4772-b167-b40a86e4be53) |
+| [Tauschrausch](https://anime-kalender.de/#/datenbank?t=-4627) | [Apple TV Store](https://tv.apple.com/de/show/disneys-tauschrausch/umc.cmc.7imvbr84siet0k8qitllrxbn3?at=1000l3V2&ct=app_tv&itscg=30200&itsct=justwatch_tv), [Amazon Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.152f172d-7029-4772-b167-b40a86e4be53) 🇩🇪 |
 | [Kuzcos Königsklasse](https://anime-kalender.de/#/datenbank?t=-4623) | [Apple TV Store](https://tv.apple.com/de/show/kuzcos-konigs-klasse/umc.cmc.5o6bc7gvu2yzaf7mzb3br2w3?at=1000l3V2&ct=app_tv&itscg=30200&itsct=justwatch_tv), [Amazon Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.4a620aa5-bd52-4a6f-9d3e-e901069ade52) 🇩🇪 |
 | [undefined](https://anime-kalender.de/#/datenbank?t=-3656) | [Kixi Select Amazon Channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.42bc2661-00ef-4d5e-b2b3-fb742ac3d3f2) 🇩🇪 |
 | [Creepie](https://anime-kalender.de/#/datenbank?t=-3031) | [Kixi Select Amazon Channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.42b7fe7f-06d4-5382-465f-b6e631ab29e4) 🇩🇪 |

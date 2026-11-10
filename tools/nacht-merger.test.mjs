@@ -322,6 +322,7 @@ pruefe('stufeVon: Müll, Fehler und Text gelten als 2', stufeVon(5, () => 'kaput
     aufrufe.push(s)
     if (s.startsWith('pr view 7 --json number,state')) return JSON.stringify({ number: 7, state: 'OPEN', mergeable: 'MERGEABLE', headRefOid: KOPF, headRefName: 'fix/a' })
     if (s.includes('git/ref/heads/main')) return `${MAIN}\n`
+    if (s.startsWith('pr list --state open --limit 200 --json number,title,body')) return '[]'
     if (s.startsWith('run list')) return JSON.stringify([{ databaseId: 1, headSha: KOPF, createdAt: '2026-11-01T01:00:00Z', conclusion: 'success' }])
     if (s.startsWith('run view 1')) return JSON.stringify({ jobs: [{ name: 'Kette – Workflows', status: 'completed', databaseId: 9 }] })
     if (s.includes('actions/jobs/9/logs')) return `HEAD is now at 1234567 Merge ${KOPF} into ${BASIS}\n`
