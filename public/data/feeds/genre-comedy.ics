@@ -8,66 +8,6 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-11-03#54@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261103T160500Z
-DTEND:20261103T163500Z
-SUMMARY:Dragon Ball
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-11-03#55@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261103T163000Z
-DTEND:20261103T170000Z
-SUMMARY:Dragon Ball
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-235-tv-prosieben-maxx@2026-11-03@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261103T165500Z
-DTEND:20261103T172500Z
-SUMMARY:Detektiv Conan – Folge 167
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/204/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-11-03#55@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261103T172000Z
-DTEND:20261103T175000Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-11-03#56@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261103T175000Z
-DTEND:20261103T182000Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-112153-tv-toggo-plus@2026-11-03@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261103T201500Z
-DTEND:20261103T204500Z
-SUMMARY:Pokémon Reisen: Die Serie
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/t/10852/
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-G24H1N334@2026-11-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261104T133000Z
