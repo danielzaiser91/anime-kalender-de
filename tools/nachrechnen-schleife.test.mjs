@@ -75,7 +75,7 @@ console.log('nachrechnen-schleife: Verdrahtung in pr-nachrechnen')
   }
   const kommentar = aufrufe.filter((a) => a[0] === 'pr' && a[1] === 'comment')
   const reihenfolge = aufrufe.map((a) => a.slice(0, 2).join(' ')).filter((a) => ['pr reopen', 'pr comment'].includes(a))
-  pruefe('NICHT AKTUELL -> Exit 1 und genau ein Kommentar mit Kennung und beiden Ständen', code === 1 && kommentar.length === 1 && kommentar[0].join(' ').includes(`${KENNUNG_TEST} Kette gegen 7a466acc8, main ist c0ffee000;`), { code, aufrufe: aufrufe.map((a) => a.join(' ')) })
+  pruefe('NICHT AKTUELL -> Exit 1 und genau ein Kommentar mit Kennung und beiden Ständen', code === 1 && kommentar.length === 1 && kommentar[0][2] === '7' && kommentar[0].join(' ').includes(`${KENNUNG_TEST} Kette gegen 7a466acc8, main ist c0ffee000;`), { code, aufrufe: aufrufe.map((a) => a.join(' ')) })
   pruefe('Kommentar kommt nach dem Wiederöffnen', reihenfolge.at(-1) === 'pr comment' && reihenfolge.includes('pr reopen'), reihenfolge)
 }
 
