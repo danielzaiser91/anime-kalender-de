@@ -126,6 +126,25 @@ pruefe('Prüfung: derselbe Termin mit belegten Tagen ist nicht rot', fehlerVon([
 const fremdeZeit = joynTermin('19:10')
 pruefe('Prüfung: Plan 19:10 gegen Fenster 18:50 ist nicht rot (Fenster belegt diesen Termin nicht)', fehlerVon([fremdeZeit]).length === 0)
 
+/* Gegenfälle: je Bedingung der beiden Prüfungen ein Fall, in dem nur sie den Ausschlag gibt. */
+const { belegeJoynTermineAusFenstern } = await import('./bau/13-1-joyn-termine-belegt.ts')
+const anderePlattform = { ...joynTermin(), platform: 'netflix' } as Release
+const ohneTage = joynTermin()
+delete ohneTage.schedule.wochentage
+const einTagSpaeter = joynTermin()
+einTagSpaeter.schedule.firstEpisodeDate = '2026-11-06'
+const nachbau = [anderePlattform, ohneTage, einTagSpaeter]
+const zaehler = belegeJoynTermineAusFenstern([...lage.titles.values()] as never, nachbau)
+pruefe('Andere Plattform mit gleicher Uhrzeit: nichts belegt', anderePlattform.schedule.observed === undefined, anderePlattform.schedule.observed)
+pruefe('Ohne Sendetage: nichts belegt', ohneTage.schedule.observed === undefined, ohneTage.schedule.observed)
+pruefe('Plan einen Tag nach dem Fenster (gleiche Uhrzeit): nichts belegt', einTagSpaeter.schedule.observed === undefined, einTagSpaeter.schedule.observed)
+pruefe('Rückgabe zählt die belegten Folgen (frisch 4, zweiter Lauf 0)', belegeJoynTermineAusFenstern([...lage.titles.values()] as never, [joynTermin()]) === 4 && zaehler === 0, zaehler)
+pruefe('Prüfung: Termin einer anderen Plattform mit passendem Fenster ist nicht rot', fehlerVon([anderePlattform]).length === 0, fehlerVon([anderePlattform]))
+pruefe('Prüfung: Termin einen Tag nach dem Fenster (gleiche Uhrzeit) ist nicht rot', fehlerVon([einTagSpaeter]).length === 0, fehlerVon([einTagSpaeter]))
+const andereNr = new Map([[177476, { ...titel(), streams: [{ platform: 'joyn', fenster: [{ nr: 9, ab: '2026-11-06T18:50', ende: '2026-12-05T23:59' }] }] }]])
+const nummernFehler = pruefeErgebnis([joynTermin()], expandEvents(joynTermin()), andereNr as never, '2026-11-10').fehler.filter((f) => f.startsWith('Joyn-Termin'))
+pruefe('Prüfung: Fenster mit anderer Folgennummer belegt den Termin nicht', nummernFehler.length === 0, nummernFehler)
+
 if (verletzt) {
   console.error(`FEHL check-joyn-termine-belegt: ${verletzt} von ${faelle} Prüfungen verletzt.`)
   process.exit(1)

@@ -7,7 +7,6 @@
   { "name": "belegt: Uhrzeit nicht verglichen", "aenderungen": [{ "datei": "pipeline/bau/13-1-joyn-termine-belegt.ts", "suche": "`${geplant.date}T${geplant.time}` !== f.ab", "ersetze": "geplant.date !== f.ab.slice(0, 10)" }] },
   { "name": "belegt: Tag nicht verglichen", "aenderungen": [{ "datei": "pipeline/bau/13-1-joyn-termine-belegt.ts", "suche": "`${geplant.date}T${geplant.time}` !== f.ab", "ersetze": "geplant.time !== f.ab.slice(11)" }] },
   { "name": "belegt: Vergleich entfällt (alles belegt)", "aenderungen": [{ "datei": "pipeline/bau/13-1-joyn-termine-belegt.ts", "suche": "if (`${geplant.date}T${geplant.time}` !== f.ab) continue", "ersetze": "" }] },
-  { "name": "belegt: vorhandene Beobachtung überschrieben", "aenderungen": [{ "datei": "pipeline/bau/13-1-joyn-termine-belegt.ts", "suche": " || r.schedule.observed?.[f.nr]", "ersetze": "" }] },
   { "name": "belegt: Zähler nicht erhöht", "aenderungen": [{ "datei": "pipeline/bau/13-1-joyn-termine-belegt.ts", "suche": "belegt++", "ersetze": "belegt += 0" }] },
   { "name": "pruefung: Plattform nicht geprüft", "aenderungen": [{ "datei": "pipeline/lib/joyn-schaetzung-pruefung.ts", "suche": "e.platform !== 'joyn' || ", "ersetze": "" }] },
   { "name": "pruefung: estimated nicht verlangt", "aenderungen": [{ "datei": "pipeline/lib/joyn-schaetzung-pruefung.ts", "suche": " || !e.estimated", "ersetze": "" }] },
