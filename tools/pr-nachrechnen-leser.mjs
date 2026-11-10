@@ -2,14 +2,21 @@
  * Leser-Regel für `pr-nachrechnen.mjs` (26.10.2026, Befund PR 2043: ein Workflow-PR wurde fünfmal durch reine Bot-Daten entwertet, weil
  * jede Datei außer Doku als „liest Daten“ galt). Ein Bot-Sprung entwertet einen PR nur, wenn er eine bewegte Datei berührt oder Code,
  * der sie liest, mit dem Code des PR zusammenhängt: der PR ruft den Leser auf bzw. importiert ihn, oder der Leser nutzt eine Datei des PR.
- * Verknüpfung (`huelle`): relative Importe, Pfade mit Ordnerkopf im Text (Aufrufe wie `node tools/x.mjs`, Daten-Literale). `npm run`
+ * Verknüpfung (`huelle`): relative Importe, Pfade mit Ordnerkopf im Text (Aufrufe wie `node tools/x.mjs`, Daten-Literale). Ein Pfad trifft nur
+ * genau diese Datei (kein Ordner-, Präfix- oder Listen-Treffer); Pfad-Tokens von Tests und Ausführungslisten verknüpfen nichts, von der Liste
+ * zählen nur neue Einträge. Vorwärts folgt die Hülle Importen ohne Grenze, rückwärts (Leser nutzt PR-Code) bis zwei Stufen und nur von Lesern
+ * außerhalb von Tests und von `tools/` (außer `tools/check-*`); ein Test ist für Daten nur Leser, wenn eine Zeile Dateiname und Lese-Aufruf
+ * nennt. Die Ordner-Regel (`readdir`, `'data/' + f`) gilt nicht für Tests. `npm run`
  * wird nicht aufgelöst; `package.json` zählt nur mit den Skripten, deren Wert der PR ändert. Im Zweifel (Git nicht lesbar, package.json nicht vergleichbar)
  * gilt der PR als betroffen. Grenze: ein zur Laufzeit zusammengesetzter Pfad fällt nicht auf.
  */
 import path from 'node:path'
 
-/** PR-Pfade ohne Leser in der Kette (Doku, Daniel-Dateien, Patch Notes, Markdown im Wurzelordner). */
-export const OHNE_DATENLESER = ['docs/', 'daniel-zum-abarbeiten/', 'data/patchnotes/']
+/**
+ * PR-Pfade ohne Leser in der Kette (Doku, Daniel-Dateien, Patch Notes, Markdown im Wurzelordner). `.claude/` (Agenten, Hooks, Regeln
+ * für die Sitzung des Nutzers) läuft nie in der PR-Kette; Anlass PR 3310: ein Hook mit `readdir` auf `data/` galt viermal als Ordner-Leser.
+ */
+export const OHNE_DATENLESER = ['docs/', 'daniel-zum-abarbeiten/', 'data/patchnotes/', '.claude/']
 export const ohneLeser = (datei) => OHNE_DATENLESER.some((p) => datei.startsWith(p)) || /^[^/]+\.md$/.test(datei)
 
 const ENDUNGEN = ['.ts', '.tsx', '.mjs', '.cjs', '.mts', '/index.ts']
@@ -38,25 +45,47 @@ export const pfadTokens = (text) => [...new Set([...ohneKommentare(text).matchAl
 
 const importeVon = (datei, text) => (CODE.test(datei) ? importZiele(datei, text) : [])
 
-/** Ein Name trifft eine Datei, wenn er sie selbst oder ihren Ordner meint (Token ohne Endung wie `data/cache`). */
-export const trifft = (name, datei) => datei === name || datei.startsWith(`${name}/`)
+/** Ein Name trifft nur genau diese Datei: Ordner-, Präfix- und Listen-Treffer waren Fehlalarme (10.11.2026, PR 3341/3347/3305). */
+export const trifft = (name, datei) => datei === name
+
+/**
+ * Tests nennen Pfade als Fixture-Text (`pipeline/build.ts`), ohne sie zu lesen: ihre Pfad-Tokens verknüpfen nichts
+ * (10.11.2026: der Test von PR 3341 führte über `pipeline/build.ts` bis `09-4-crunchyroll-dub.ts`). Ihre Importe zählen weiter.
+ */
+export const istTest = (datei) => /\.test\.[mc]?[jt]sx?$/.test(datei)
+
+const RUECK_TIEFE = 2
+const DATEN = /^(data|public|daniel-zum-abarbeiten)\//
+/** Lesender Aufruf (`readFileSync(new URL('../data/x.json', import.meta.url))`, `resolve(…)`) in derselben Zeile wie der Dateiname. */
+const LESEN = /readFile|createReadStream|import\.meta\.url|\bresolve\(/
+
+/**
+ * Ein Test, der eine Datendatei nur als String-Fixture nennt, ist dafür kein Leser; liest er sie wirklich (Zeile mit Dateiname und
+ * Lese-Aufruf, z. B. handbeleg-treffer.test.mjs mit data/dub-confirmed.yaml), bleibt er einer. Bewegten Code importiert oder startet er
+ * immer wirklich (PR 3269: wache-limit-haenger.test.mjs und pr-pruefer-modus.mjs). Grenze: ein Lese-Aufruf über mehrere Zeilen fällt nicht auf.
+ */
+const liestTestDatei = (pfad, text, bewegt) => {
+  if (!istTest(pfad) || !DATEN.test(bewegt)) return true
+  const name = bewegt.split('/').pop()
+  return ohneKommentare(text).split('\n').some((z) => z.includes(name) && LESEN.test(z))
+}
 
 /**
  * Alle von `start` aus erreichbaren Namen (Dateien und Pfad-Tokens). Pfad-Tokens (Aufrufe, Listen von Dateinamen) folgt nur die
  * Startdatei selbst: Tests und Ausnahmelisten nennen Dutzende Pfade, über mehrere Stufen wüchse jede Hülle auf den ganzen Baum
- * (gemessen 26.10.2026 an PR 2043); Importen folgt die Hülle ohne Grenze der Tiefe.
+ * (gemessen 26.10.2026 an PR 2043); Importen folgt die Hülle bis `maxTiefe` (vorwärts ohne Grenze, rückwärts `RUECK_TIEFE`), Tests geben keine Tokens weiter.
  */
-export function huelle(start, lies) {
+export function huelle(start, lies, maxTiefe = Infinity) {
   const namen = new Set(start)
-  const offen = start.map((datei) => [datei, true])
+  const offen = start.map((datei) => [datei, true, 0])
   while (offen.length > 0) {
-    const [datei, startdatei] = offen.pop()
-    const text = LESBAR.test(datei) ? lies(datei) : null
+    const [datei, startdatei, tiefe] = offen.shift()
+    const text = tiefe < maxTiefe && LESBAR.test(datei) ? lies(datei) : null
     if (text === null) continue
-    for (const ziel of [...importeVon(datei, text), ...(startdatei ? pfadTokens(text) : [])]) {
+    for (const ziel of [...importeVon(datei, text), ...(startdatei && !istTest(datei) ? pfadTokens(text) : [])]) {
       if (namen.has(ziel)) continue
       namen.add(ziel)
-      offen.push([ziel, false])
+      offen.push([ziel, false, tiefe + 1])
     }
   }
   return namen
@@ -81,7 +110,7 @@ export function ordnerTokens(text) {
 export const ordnerLeser = (text, bewegt) => bewegt.find((b) => ordnerTokens(text).some((t) => b.startsWith(`${t}/`)))
 
 /** Dateien aus `texte` (Karte Pfad -> Inhalt), die den Namen einer bewegten Datei außerhalb von Kommentaren nennen, sortiert. */
-export const leserIn = (texte, bewegt) => [...texte].filter(([, text]) => bewegt.some((b) => nennt(text, b))).map(([pfad]) => pfad).sort()
+export const leserIn = (texte, bewegt) => [...texte].filter(([pfad, text]) => !LISTE.test(pfad) && bewegt.some((b) => liestTestDatei(pfad, text, b) && nennt(text, b))).map(([pfad]) => pfad).sort()
 
 /** Nennt der Text (ohne Kommentare) den Namen der Datei (der Pfad enthält ihn, `join(ordner, 'a.json')` nennt nur den Namen)? */
 export const nennt = (text, bewegt) => ohneKommentare(text).includes(bewegt.split('/').pop())
@@ -128,19 +157,23 @@ export function bewegtesGelesen({ bewegt, pr, leser, lies, liesMain = () => null
     start = [...start, ...pfadTokens(paketSkripte)]
   }
   for (const p of eigene.filter((d) => LESBAR.test(d))) {
-    const text = lies(p)
-    const b = text === null ? undefined : bewegt.find((x) => nennt(text, x))
+    // Eine Ausführungsliste nennt jede Prüfung, nur ihre neuen Einträge sind PR-Code (10.11.2026: sonst entwertet jeder bewegte Wächter jeden Listen-PR).
+    const text = LISTE.test(p) ? neueEintraege(p, lies, liesMain).join('\n') : lies(p)
+    const b = text === null ? undefined : bewegt.find((x) => liestTestDatei(p, text, x) && nennt(text, x))
     if (b !== undefined) return `der PR liest ${b} (${p})`
-    const ordner = text === null ? undefined : ordnerLeser(text, bewegt)
+    const ordner = text === null ? undefined : ordnerLeser(text, bewegt.filter((x) => !istTest(p) || !DATEN.test(x)))
     if (ordner !== undefined) return `der PR liest einen Ordner mit ${ordner} (${p}), Verzeichnis nicht eindeutig`
   }
   const vorwaerts = [...huelle(start, lies)]
   const l1 = leser.find((r) => vorwaerts.some((n) => trifft(n, r)))
   if (l1 !== undefined) return `der PR ruft ${l1} auf oder importiert es, das bewegte Daten liest`
-  const rueckwaerts = [...huelle(leser, lies)]
-  for (const p of start) {
-    const n = rueckwaerts.find((x) => trifft(x, p) || trifft(p, x))
-    if (n !== undefined) return `${p} wird von Code genutzt, der bewegte Daten liest (${n})`
-  }
+  // Bewegter Code (neue Prüfung auf main) liest PR-Code oder -Daten, ohne dass ihn jemand nennt (tests-alle sammelt per readdir).
+  const bewegterCode = bewegt.filter((b) => LESBAR.test(b) && !LISTE.test(b))
+  // Bis zwei Importstufen vom Leser aus (Bauphase -> Helfer -> Kern). Tests und Werkzeuge unter tools/ außer tools/check-* nennen Daten
+  // in Ausnahmelisten und Fixtures (workflows-beleg.mjs: crunchyroll-neu.json, Replay PR 3341), ohne sie zu lesen.
+  const rueckLeser = leser.filter((r) => (!r.startsWith('tools/') || r.startsWith('tools/check-')) && !istTest(r))
+  const rueckwaerts = new Set(huelle([...rueckLeser, ...bewegterCode], lies, RUECK_TIEFE))
+  const p = start.find((x) => rueckwaerts.has(x))
+  if (p !== undefined) return `${p} wird von Code genutzt, der bewegte Daten liest (bewegt: ${bewegt.join(', ')})`
   return null
 }

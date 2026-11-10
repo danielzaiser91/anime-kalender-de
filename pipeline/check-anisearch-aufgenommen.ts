@@ -7,7 +7,7 @@ import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { baueTitel } from './bau/02-titel.ts'
-import { anisearchUmgezogen, dubNurHinterToggle, ergaenzeAnisearchTitel } from './bau/anisearch-titel.ts'
+import { alle, anisearchUmgezogen, dubNurHinterToggle, ergaenzeAnisearchTitel } from './bau/anisearch-titel.ts'
 import type { AniListMedia } from './lib/anilist.ts'
 import { aufgenommeneSeiten, leseAufgenommeneSeiten } from './lib/anisearch-aufgenommen.ts'
 import { ladeAkVon } from './lib/ausgabe-kennung.ts'
@@ -45,6 +45,12 @@ console.log('\nAnlegen der aniSearch-Zeilen (echte Einträge):')
     ergaenzeAnisearchTitel(t, new Map(), new Map())
     return t
   }
+  const alleZeilen = new Map<number, Title>()
+  ergaenzeAnisearchTitel(alleZeilen, new Map(), new Map())
+  const ohneBeleg = [...alleZeilen.values()].filter((x) => x.jpEnd !== undefined && !alle()[String(x.id - BASIS)]?.bis && x.format !== 'MOVIE' && x.episodes !== 1)
+  pruefe('kein aniSearch-Titel hat den Starttag als Ende, außer ein Film (Ende nur wenn belegt)', ohneBeleg.length === 0, ohneBeleg.slice(0, 3).map((x) => x.id))
+  const eineFolge = [...alleZeilen.values()].filter((x) => x.episodes === 1 && x.format !== 'MOVIE' && x.jpEnd !== undefined && !alle()[String(x.id - BASIS)]?.bis)
+  pruefe('Gegenprobe: ein Nicht-Film mit genau einer Folge und nur Starttag behält ihn als Ende', eineFolge.length > 0, eineFolge.length)
   const mit = zeilen([21778])
   pruefe('steht 21778 im Bestand, haben die beiden Seiten keine Zeile', !mit.has(BASIS + 13343) && !mit.has(BASIS + 14752))
   const ohne = zeilen([])

@@ -1,5 +1,5 @@
 /**
- * Test für `tools/claude-global/hooks/dispatch-pretooluse.js`: jedes Sperr-Modul im Repo (exportiert `pruefe`) hängt im
+ * Test für `.claude/hooks/dispatch-pretooluse.js`: jedes Sperr-Modul im Repo (exportiert `pruefe`) hängt im
  * Dispatcher; fehlende lokale Module werden übersprungen; als Prozess gibt ein deny die Hook-Ausgabe.
  */
 import assert from 'node:assert/strict'
@@ -9,13 +9,13 @@ import { createRequire } from 'node:module'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 
-const hooks = join(import.meta.dirname, 'claude-global', 'hooks')
+const hooks = join(import.meta.dirname, '..', '.claude', 'hooks')
 const require = createRequire(import.meta.url)
 const { MODULE } = require(join(hooks, 'dispatch-pretooluse.js'))
 const eingehaengt = new Set(MODULE.map(([name]) => name))
 
-// pruefrunden.js hat den Matcher Agent und einen eigenen Eintrag in settings.json, kein Teil des Bündels.
-const EIGENER_EINTRAG = new Set(['pruefrunden.js'])
+// pruefrunden.js und agenten-grenze.js haben den Matcher Agent, agenten-vorrat.js ist ein Stop-Hook; alle drei mit eigenem Eintrag in settings.json, kein Teil des Bündels.
+const EIGENER_EINTRAG = new Set(['pruefrunden.js', 'agenten-grenze.js', 'agenten-vorrat.js'])
 const sperren = readdirSync(hooks).filter((d) => d.endsWith('.js') && !EIGENER_EINTRAG.has(d) && typeof require(join(hooks, d)).pruefe === 'function')
 assert.ok(sperren.length >= 3, `Sperr-Module gefunden: ${sperren.join(', ')}`)
 for (const name of sperren) assert.ok(eingehaengt.has(name), `${name} exportiert pruefe, steht aber nicht im Dispatcher (MODULE)`)
@@ -25,6 +25,7 @@ try {
   const kopie = join(wurzel, 'hooks')
   mkdirSync(kopie)
   for (const d of readdirSync(hooks)) copyFileSync(join(hooks, d), join(kopie, d))
+  rmSync(join(kopie, 'guard.js'))
   const lauf = (input) => spawnSync(process.execPath, [join(kopie, 'dispatch-pretooluse.js')], { input: JSON.stringify(input), encoding: 'utf8', timeout: 30000, windowsHide: true })
 
   const harmlos = lauf({ tool_name: 'Bash', tool_input: { command: 'echo hallo' } })

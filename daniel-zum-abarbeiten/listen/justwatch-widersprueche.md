@@ -7,15 +7,15 @@ Abschnitt „JustWatch-Ton je Seite“. Unsere Messung (Handbeleg, Meldung der E
 <!-- anime:start -->
 ## Anime
 
-Flagge „Deutsch“: 102 Wege, nur Hinweis: 2.
+Flagge „Deutsch“: 93 Wege, nur Hinweis: 2.
 
-JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine Flagge): mehrere Staffeln 17, Mehrteiler 8.
+JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine Flagge): mehrere Staffeln 18, Mehrteiler 8.
 
 | Anbieter | mit eigener Messung | Widersprüche | Anteil | Anzeige |
 |---|---|---|---|---|
 | crunchyroll | 7 | 0 | 0.0 % | Flagge |
 | disneyplus | 14 | 0 | 0.0 % | Flagge |
-| primevideo | 138 | 1 | 0.7 % | Flagge |
+| primevideo | 139 | 1 | 0.7 % | Flagge |
 
 ### Widersprüche (1)
 
@@ -23,7 +23,7 @@ JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine
 |---|---|---|---|---|
 | Vampire Hunter D: Bloodlust (543) | primevideo | https://watch.amazon.de/detail?gti=amzn1.dv.gti.68239688-dba5-4abc-a3b5-5e554d51081f | de, Stand 2026-10-26 | Handbeleg 2026-10-31 |
 
-### Kandidaten für neue Wege (767)
+### Kandidaten für neue Wege (782)
 
 JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „Weg ohne Kennung“: ein Weg zum Anbieter steht, seine Adresse trägt aber keine Seitenkennung.
 
@@ -171,6 +171,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Pandora Hearts (5530) | Crunchyroll | crunchyroll:GJWU2JK1N | ja |
 | Pandora Hearts (5530) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.8b4efbde-c851-422e-931e-7598f45aff00 | nein |
 | Haruka und der Zauberspiegel (5998) | Amazon Prime Video | amazon:amzn1.dv.gti.51440b34-6eb4-4f4e-9d02-e0e011e6f577 | ja |
+| Lupin III. vs Detektiv Conan: The Special (6115) | Crunchyroll | crunchyroll:GX9UQKVVN | ja |
 | Pokémon: Arceus und das Juwel des Lebens (6178) | Amazon Video | amazon:amzn1.dv.gti.ccb90391-26fd-f040-35a7-f29568416e98 | ja |
 | Eden of the East: Der König von Eden (6372) | Amazon Video | amazon:amzn1.dv.gti.e4a9f6b0-ffc4-3419-4e89-2232ca094c33 | ja |
 | Detektiv Conan: Das verlorene Schiff im Himmel (6467) | Crunchyroll | crunchyroll:GZ7UVPD78 | ja |
@@ -184,6 +185,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Colorful (8142) | Amazon Prime Video | amazon:amzn1.dv.gti.0722b01c-a8e5-49a2-b7fc-1ddca7b06322 | ja |
 | Gosick (8425) | Amazon Prime Video | amazon:amzn1.dv.gti.91b75e17-bbb0-43d9-9d74-8ab7ed521338 | ja |
 | Fullmetal Alchemist: The Sacred Star of Milos (9135) | Amazon Video | amazon:amzn1.dv.gti.06ba5df2-b217-ab6a-5700-9958479f962c | ja |
+| Motto To Love-Ru: Trouble (9181) | Anime Digital Network Amazon Channel | amazon:amzn1.dv.gti.b736b2f5-0e9f-42f2-bd8b-a0c1ffd62b48 | ja |
 | Coppelion (9479) | Crunchyroll | crunchyroll:GZ7UVK717 | ja |
 | Coppelion (9479) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.64003626-91da-4425-98d7-0266a3c3451b | ja |
 | Resident Evil: Damnation (9544) | Amazon Video | amazon:amzn1.dv.gti.bca9f6e1-bd47-1678-b717-de78fbeabb5c | ja |
@@ -196,6 +198,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Blood-C: Die Serie (10490) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.d67ec152-07b3-4681-8901-26cfc3c31850 | ja |
 | Penguindrum (10721) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.8f04a958-2996-4d8e-b8d9-25aca51e011b | ja |
 | Hunter × Hunter (11061) | Amazon Prime Video | amazon:amzn1.dv.gti.6d0bf302-ad33-4caa-a192-447545ce85b8 | ja |
+| Black Rock Shooter (11285) | Amazon Prime Video | amazon:amzn1.dv.gti.654442b8-82b8-4968-910f-08d89912be54 | ja |
 | Sankarea: Undying Love (11499) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.0eb67270-d83b-933e-eb7e-4a5660d69c31 | nein |
 | Kokoro Connect (11887) | Crunchyroll | crunchyroll:G50UZ4DN8 | ja |
 | Kokoro Connect (11887) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.1be6f89b-2012-4149-bfd2-8d0eaa2d0d37 | ja |
@@ -206,7 +209,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Hyouka (12189) | Amazon Prime Video | amazon:amzn1.dv.gti.baedb50e-be46-46d1-98d4-5d9d1b3d0250 | ja |
 | Pokémon: Der Film - Kyurem gegen den Ritter der Redlichkeit (12671) | Amazon Video | amazon:amzn1.dv.gti.7ab9026f-04a7-0d0c-ca40-deb583abb63e | ja |
 | Naruto Spin off! Rock Lee & seine Ninja-Kumpels (12979) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.04b4fc6e-f38d-e4bc-e33d-6a767d423db6 | ja |
-| Aesthetica of a Rogue Hero (13161) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.daf038da-5a4a-4386-a05c-35f72edb73de | nein |
+| Aesthetica of a Rogue Hero (13161) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.daf038da-5a4a-4386-a05c-35f72edb73de | ja |
 | Lupin III.: The Woman Called Fujiko Mine (13203) | Crunchyroll | crunchyroll:GMKUXVWK3 | ja |
 | Lupin III.: The Woman Called Fujiko Mine (13203) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.e6b9ec12-2443-43ea-0022-c6f11b785c4e | nein |
 | Expelled from Paradise (13391) | Amazon Prime Video | amazon:amzn1.dv.gti.7ab53767-dd8f-b997-98f3-fd6af13aa81c | ja |
@@ -217,6 +220,8 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Detektiv Conan: Detektiv auf hoher See (14735) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.8015f388-a711-4bab-9091-de3995b6960a | ja |
 | Detektiv Conan: Detektiv auf hoher See (14735) | Amazon Video | amazon:amzn1.dv.gti.18b90e10-94f8-6846-7c60-706a338f1ee3 | ja |
 | The Hentai Prince and the Stony Cat. (15225) | Amazon Prime Video | amazon:amzn1.dv.gti.ef6bed52-8218-44eb-9f69-711c9e185d46 | ja |
+| Samurai Girls 2: Samurai Bride (15377) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.16b6b212-4591-6c85-ab40-05ccb26f71a0 | ja |
+| Iron Man: Rise of Technovore (15847) | Amazon Video | amazon:amzn1.dv.gti.9d1df050-0849-4979-9b90-5f7f7513e808 | ja |
 | Aku no Hana: Die Blumen des Bösen (16201) | Crunchyroll | crunchyroll:G9DUEQDG8 | ja |
 | Aku no Hana: Die Blumen des Bösen (16201) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.68d9152f-b5e7-4466-afb3-4a370960b606 | ja |
 | Wie der Wind sich hebt (16662) | Amazon Video | amazon:amzn1.dv.gti.9af5c743-27c0-47c3-8454-c7aaff17b35c | ja |
@@ -234,6 +239,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Akuma no Riddle (19429) | Crunchyroll | crunchyroll:G14U43ENG | nein |
 | No Game No Life (19815) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.103dfcc1-f1a8-43dd-90e7-6cbe5d00ccf2 | ja |
 | Hunter × Hunter: The Movie - The Last Mission (19951) | Amazon Video | amazon:amzn1.dv.gti.58b5c51b-84df-b6e0-9e02-0b19456888a9 | ja |
+| Sword Art Online: Extra Edition (20021) | Anime Digital Network Amazon Channel | amazon:amzn1.dv.gti.570d73a3-73e7-40f4-a33a-e84d9be1871e | nein |
 | Bayonetta: Bloody Fate (20442) | Amazon Video | amazon:amzn1.dv.gti.a3bf885f-00ab-4aaf-8835-a42fb054fb39 | ja |
 | Black Bullet (20457) | Anime Digital Network Amazon Channel | amazon:amzn1.dv.gti.4771886c-55c1-4dcc-a663-40143210df17 | nein |
 | Love Stage!! (20520) | Crunchyroll | crunchyroll:G9DUE1ZZW | ja |
@@ -256,6 +262,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Project Itoh: Genocidal Organ (20919) | Crunchyroll | crunchyroll:GPWUKQZMQ | ja |
 | Terror in Tokio (20661) | ProSieben Fun Amazon Channel | amazon:amzn1.dv.gti.59cfb2b8-d360-4a1e-a5aa-6fe11b12c051 | ja |
 | Lupin III.: Daisuke Jigens Grabstein (20978) | Crunchyroll | crunchyroll:GD9UVWE45 | ja |
+| Lupin III.: Daisuke Jigens Grabstein (20978) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.f783e7fb-3d94-40aa-88fb-2009fc9bfe2c | ja |
 | Strike Witches: Operation Victory Arrow (20650) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.de665b73-d5cd-4eb1-8c80-9a1eb06cd54e | ja |
 | Attack on Titan - Movie Teil 2: Flügel der Freiheit (20692) | Crunchyroll | crunchyroll:G7PU4W922 | nein |
 | Star Blazers 2199: Space Battleship Yamato - A Voyage to Remember (110732) | Amazon Prime Video | amazon:amzn1.dv.gti.580f82ab-f4f5-4ee9-9638-9b0f62f5d9cf | ja |
@@ -366,6 +373,8 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Detektiv Conan: Der purpurrote Liebesbrief (98222) | Crunchyroll | crunchyroll:GX9UQK8QZ | ja |
 | Detektiv Conan: Der purpurrote Liebesbrief (98222) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.40bac615-755d-a58b-2710-b3055435ed81 | ja |
 | Detektiv Conan: Der purpurrote Liebesbrief (98222) | Amazon Video | amazon:amzn1.dv.gti.76bbf9d7-f175-5ffb-1909-e35858275d89 | ja |
+| Code Geass: Lelouch of the Rebellion - Initiation (101811) | Amazon Video | amazon:amzn1.dv.gti.b0bb7dff-f320-0490-8aec-76f307a1f81d | ja |
+| Code Geass: Lelouch of the Rebellion - Verherrlichung (101813) | Amazon Video | amazon:amzn1.dv.gti.88bb7e12-4a26-732f-eb5b-37733d139471 | ja |
 | Death March to the Parallel World Rhapsody (97907) | Crunchyroll | crunchyroll:GZ7UVJNGW | ja |
 | Death March to the Parallel World Rhapsody (97907) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.d2a8f9c6-efec-4a29-babf-1826e48db86f | nein |
 | Fireworks: Alles eine Frage der Zeit (97908) | CineMix+ Amazon Channel | amazon:amzn1.dv.gti.dd48feef-643e-49cd-acfc-063463944fb9 | ja |
@@ -459,6 +468,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Hensuki: Are You Willing to Fall in Love with a Pervert, as Long as She’s a Cutie? (107961) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.5fdb621e-90f2-4219-b0ad-e2a9417037a4 | ja |
 | Gleipnir (108241) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.21f66934-f9cf-46e5-965c-32653a538223 | ja |
 | Lupin III.: Fujiko Mines Lüge (107313) | Crunchyroll | crunchyroll:GD9UVWEQW | ja |
+| Lupin III.: Fujiko Mines Lüge (107313) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.077c1435-754d-407d-9d26-9ddb34a272d0 | ja |
 | High School Prodigies Have It Easy Even in Another World! (108388) | Crunchyroll | crunchyroll:GPWUK5KXN | ja |
 | High School Prodigies Have It Easy Even in Another World! (108388) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.699d1b66-dba3-4f41-ac90-f8ed26b23755 | nein |
 | Given (108430) | Crunchyroll | crunchyroll:GE00379411JAJP | ja |
@@ -570,7 +580,8 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Fairy Tail: 100 Years Quest (139095) | Crunchyroll | crunchyroll:GZ7UVGEG4 | nein |
 | Fairy Tail: 100 Years Quest (139095) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.f0264417-5fbc-429e-a7f3-3152c9cfb882 | nein |
 | Mobile Suit Gundam: Cucuruz Doan’s Island (139273) | Crunchyroll | crunchyroll:GEVUZN090 | ja |
-| Mobile Suit Gundam: Cucuruz Doan’s Island (139273) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.649263c6-ed5d-4ac8-9be2-1474746c6848 | nein |
+| Mobile Suit Gundam: Cucuruz Doan’s Island (139273) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.649263c6-ed5d-4ac8-9be2-1474746c6848 | ja |
+| Mobile Suit Gundam: Cucuruz Doan’s Island (139273) | Amazon Video | amazon:amzn1.dv.gti.c38ba568-4a91-4796-ac66-2577e5c97b8a | ja |
 | Meine Wiedergeburt als Schleim in einer anderen Welt: Der Film - Feuerrote Bande (139498) | Crunchyroll | crunchyroll:G50UZ1M24 | nein |
 | Tribe Nine (139804) | Crunchyroll | crunchyroll:G50UZ0M02 | ja |
 | Disney Twisted-Wonderland: Die Serie - Episode of Heartslabyul (140291) | Disney Plus | disney:entity-83e74fdb-91c4-49d2-99b7-cb89d545fe97 | nein |
@@ -631,6 +642,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Die Parallelwelt-Chroniken des Aristokraten (153332) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.d5e9c805-7913-46d3-ab27-7d90a3205e91 | nein |
 | Sweet Reincarnation (153339) | Crunchyroll | crunchyroll:G7PU4MDWW | nein |
 | Sweet Reincarnation (153339) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.b0a5e1d0-8402-48d5-be7d-7042a46d8c15 | nein |
+| Haikyu!! Das Play-off der Müllhalde (153658) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.467b800e-3262-4857-82b7-ed7a8634cb5b | ja |
 | Psycho-Pass: Providence (153687) | Crunchyroll | crunchyroll:GWDU8JMJG | nein |
 | Giant Beasts of Ars (155089) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.6ba96cfe-be42-4801-ab27-a81dd63389df | ja |
 | The Great Cleric (155418) | Crunchyroll | crunchyroll:G50UZV2EJ | nein |
@@ -647,7 +659,8 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | I’m in Love with the Villainess (158704) | Crunchyroll | crunchyroll:GEVUW3N3G | nein |
 | I’m in Love with the Villainess (158704) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.18324b6d-9d3c-49e5-8fb9-23a9570cd28e | nein |
 | Spy × Family Code: White (158928) | Crunchyroll | crunchyroll:GMEE00335490PLPL | nein |
-| Spy × Family Code: White (158928) | RTL+ Max Amazon Channel | amazon:amzn1.dv.gti.2e2a0c36-d2b7-4184-9bf2-4f07370017fb | nein |
+| Spy × Family Code: White (158928) | RTL+ Max Amazon Channel | amazon:amzn1.dv.gti.2e2a0c36-d2b7-4184-9bf2-4f07370017fb | ja |
+| Spy × Family Code: White (158928) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.a3523598-4cd6-4004-8763-f4fbb45e0ac6 | ja |
 | Zom 100: Bucket List of the Dead (159831) | Crunchyroll | crunchyroll:GWDU82DWK | nein |
 | Zom 100: Bucket List of the Dead (159831) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.3897b241-11b5-472e-9a63-c60d7fcf00df | nein |
 | Ghost Cat Anzu (158641) | Amazon Prime Video | amazon:amzn1.dv.gti.45fb7e7b-9935-4bb7-abc3-5b6a4d04aa37 | ja |
@@ -660,6 +673,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Quality Assurance in Another World (163077) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.537114b5-6f9d-465d-98f3-d3ab7cebfc60 | nein |
 | Jellyfish Can’t Swim in the Night (163078) | Anime Digital Network Amazon Channel | amazon:amzn1.dv.gti.9af9483c-d95f-4d7c-9697-c42010e17f35 | nein |
 | Blue Lock: The Movie - Episode Nagi (163147) | Crunchyroll | crunchyroll:GPWU8N4WW | nein |
+| Blue Lock: The Movie - Episode Nagi (163147) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.ae9245d5-07c5-41ce-ba90-d9f8779f046c | ja |
 | Bucchigiri?! (165254) | Crunchyroll | crunchyroll:GN7UNK2EG | nein |
 | Bucchigiri?! (165254) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.c8836141-ea30-4a61-9895-b4256e22fc2b | nein |
 | A Sign of Affection (166794) | Crunchyroll | crunchyroll:GMKUXPJ1E | nein |
@@ -671,6 +685,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Sentenced to Be a Hero (167152) | Crunchyroll | crunchyroll:GE00356811ITIT | nein |
 | Sentenced to Be a Hero (167152) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.3bfcc30d-163b-4afd-b185-86940d5cc139 | nein |
 | My Hero Academia: You’re Next (168013) | Crunchyroll | crunchyroll:GG1UXVW0M | nein |
+| My Hero Academia: You’re Next (168013) | RTL+ Max Amazon Channel | amazon:amzn1.dv.gti.c903bcab-b4d5-4bdb-b418-70ab5650132e | ja |
 | I’ll Become a Villainess Who Goes Down in History (168139) | Crunchyroll | crunchyroll:G0DUMGPNN | nein |
 | I’ll Become a Villainess Who Goes Down in History (168139) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.702dd44b-54d8-45bd-9bed-c3381a87898a | nein |
 | Dungeon People (168345) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.4158d4ca-afed-48fa-a85e-a055a7d57409 | ja |
@@ -725,7 +740,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | May I Ask for One Final Thing? (181447) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.26996afa-102d-46d0-8778-b4fcf61904bb | nein |
 | Dark Moon: The Blood Altar (181443) | Crunchyroll | crunchyroll:GE00366126DEDE | nein |
 | Dark Moon: The Blood Altar (181443) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.233082bf-86cf-4248-a368-093ace5947b0 | nein |
-| Miss Kobayashi’s Dragon Maid: Ein einsamer Drache sehnt sich nach Liebe (181839) | Crunchyroll | crunchyroll:GMEE00351664JAJP | nein |
+| Miss Kobayashi’s Dragon Maid: Ein einsamer Drache sehnt sich nach Liebe (181839) | Crunchyroll | crunchyroll:GMEE00351664FRFR | nein |
 | Miss Kobayashi’s Dragon Maid: Ein einsamer Drache sehnt sich nach Liebe (181839) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.1e61a3d8-44c3-4dc0-ae7c-5c655deceff5 | nein |
 | City The Animation (181841) | Amazon Prime Video | amazon:amzn1.dv.gti.8c1f778c-d940-4c50-895a-f498c55101f3 | ja |
 | The Gorilla God’s Go-To Girl (182060) | Crunchyroll | crunchyroll:GD9UEGZVN | nein |
@@ -803,7 +818,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 
 Flagge „Deutsch“: 2 Wege, nur Hinweis: 0.
 
-JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine Flagge): mehrere Staffeln 21.
+JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine Flagge): mehrere Staffeln 14.
 
 | Anbieter | mit eigener Messung | Widersprüche | Anteil | Anzeige |
 |---|---|---|---|---|

@@ -79,7 +79,7 @@ export async function fragWarteschlange(
   h: LaufHilfen,
 ): Promise<{ shows: AdnShow[]; auskunft: KatalogAuskunft }> {
   const out: AdnShow[] = []
-  const auskunft: KatalogAuskunft = { gefragt: new Set(), entschieden: new Set() }
+  const auskunft: KatalogAuskunft = { gefragt: new Set(), entschieden: new Set(), leer: new Set() }
   let geprueft = 0
   let ohneAntwort = 0
   let fehlerInFolge = 0
@@ -105,6 +105,7 @@ export async function fragWarteschlange(
       stand[String(eintrag.id)] = h.jetzt()
       const videos = antwort.videos
       if (videos.length) h.archiviere(eintrag.id, videos)
+      else auskunft.leer?.add(eintrag.id)
       const mitTitel = mitTitelAusAntwort(eintrag, videos)
       const show = mitTitel.title ? katalogShowAus(mitTitel, videos) : undefined
       if (show) out.push(show)

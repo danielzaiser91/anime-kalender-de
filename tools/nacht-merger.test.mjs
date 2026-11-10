@@ -322,6 +322,7 @@ pruefe('stufeVon: Müll, Fehler und Text gelten als 2', stufeVon(5, () => 'kaput
     aufrufe.push(s)
     if (s.startsWith('pr view 7 --json number,state')) return JSON.stringify({ number: 7, state: 'OPEN', mergeable: 'MERGEABLE', headRefOid: KOPF, headRefName: 'fix/a' })
     if (s.includes('git/ref/heads/main')) return `${MAIN}\n`
+    if (s.startsWith('pr list --state open --limit 200 --json number,title,body')) return '[]'
     if (s.startsWith('run list')) return JSON.stringify([{ databaseId: 1, headSha: KOPF, createdAt: '2026-11-01T01:00:00Z', conclusion: 'success' }])
     if (s.startsWith('run view 1')) return JSON.stringify({ jobs: [{ name: 'Kette – Workflows', status: 'completed', databaseId: 9 }] })
     if (s.includes('actions/jobs/9/logs')) return `HEAD is now at 1234567 Merge ${KOPF} into ${BASIS}\n`
@@ -337,7 +338,7 @@ pruefe('stufeVon: Müll, Fehler und Text gelten als 2', stufeVon(5, () => 'kaput
   const echtAufrufe = []
   const echt = echteWelt({ trocken: false, gh: veraltet(echtAufrufe), repo: 'o/r', zeileAus: () => {} }).nachrechnen(7)
   pruefe('Gegenprobe ohne Trockenlauf: derselbe PR wird geschlossen und geöffnet, Exit 1', echt.exit === 1 && echtAufrufe.includes('pr close 7') && echtAufrufe.includes('pr reopen 7'))
-  // Höchstmenge Anstöße je Lauf: fünf veraltete PRs (21..25) über dieselbe echteWelt, nur die ersten vier werden geschlossen und geöffnet
+  // Höchstmenge Anstöße je Lauf: neun veraltete PRs (21..29) über dieselbe echteWelt, nur die ersten acht werden geschlossen und geöffnet
   const viele = []
   let aktuell = 21
   const grundGh = veraltet([])
@@ -350,12 +351,12 @@ pruefe('stufeVon: Müll, Fehler und Text gelten als 2', stufeVon(5, () => 'kaput
     repo: 'o/r',
     zeileAus: () => {},
   })
-  const ergebnisse = [21, 22, 23, 24, 25].map((nr) => {
+  const ergebnisse = [21, 22, 23, 24, 25, 26, 27, 28, 29].map((nr) => {
     aktuell = nr
     return dieWelt.nachrechnen(nr)
   })
   const geschlossen = viele.filter((s) => s.startsWith('pr close')).join(',')
-  pruefe('Höchstmenge: vier Anstöße (Exit 1), der fünfte scheitert vor dem Schließen (Exit 2, Hinweis)', ergebnisse.map((e) => e.exit).join(',') === '1,1,1,1,2' && geschlossen === 'pr close 21,pr close 22,pr close 23,pr close 24' && ergebnisse[4].text.includes('Höchstmenge 4'))
+  pruefe('Höchstmenge: acht Anstöße (Exit 1), der neunte scheitert vor dem Schließen (Exit 2, Hinweis)', ergebnisse.map((e) => e.exit).join(',') === '1,1,1,1,1,1,1,1,2' && geschlossen === [21, 22, 23, 24, 25, 26, 27, 28].map((n) => `pr close ${n}`).join(',') && ergebnisse[8].text.includes('Höchstmenge 8'))
   // Der Riegel zählt je PR einmal: ein zweiter Aufruf für denselben PR (nach UNKNOWN-Wiederholung) verbraucht keinen weiteren Anstoß
   const eng = ghMitAnstossRiegel(() => '', 1)
   eng(['pr', 'close', '8'])

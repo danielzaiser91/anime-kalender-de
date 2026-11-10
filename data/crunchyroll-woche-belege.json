@@ -466,5 +466,203 @@
       0.21861111111111112,
       0.12265917602996254
     ]
+  },
+  "GT00371866|3|3|2026-11-09|15:30": {
+    "seriesId": "GT00371866",
+    "titel": "PSYREN",
+    "von": 3,
+    "bis": 3,
+    "datum": "2026-11-09",
+    "zeit": "15:30",
+    "artikel": "https://www.crunchyroll.com/de/news/seasonal-lineup/2026/10/5/crunchyroll-wochenprogramm-herbst-2026",
+    "erstmalsAm": "2026-11-10T18:02:11.848Z",
+    "bild": "www.crunchyroll.com/wochenprogramm/gt00371866/2026-11-09-f3-2026-11-10-18-02.webp",
+    "bildAm": "2026-11-10T18:02:11.848Z",
+    "markierung": [
+      0.5138888888888888,
+      0.6697459584295612,
+      0.21861111111111112,
+      0.302540415704388
+    ]
+  },
+  "G24H1N334|3|3|2026-11-11|14:30": {
+    "seriesId": "G24H1N334",
+    "titel": "The Detective Is Already Dead Staffel 2",
+    "von": 3,
+    "bis": 3,
+    "datum": "2026-11-11",
+    "zeit": "14:30",
+    "artikel": "https://www.crunchyroll.com/de/news/seasonal-lineup/2026/10/5/crunchyroll-wochenprogramm-herbst-2026",
+    "erstmalsAm": "2026-11-10T18:02:11.848Z",
+    "bild": "www.crunchyroll.com/wochenprogramm/g24h1n334/2026-11-11-f3-2026-11-10-18-02.webp",
+    "bildAm": "2026-11-10T18:02:11.848Z",
+    "markierung": [
+      0.5138888888888888,
+      0.6697459584295612,
+      0.21861111111111112,
+      0.302540415704388
+    ]
+  },
+  "GT00383994|3|3|2026-11-11|16:15": {
+    "seriesId": "GT00383994",
+    "titel": "Magic Knight Rayearth",
+    "von": 3,
+    "bis": 3,
+    "datum": "2026-11-11",
+    "zeit": "16:15",
+    "artikel": "https://www.crunchyroll.com/de/news/seasonal-lineup/2026/10/5/crunchyroll-wochenprogramm-herbst-2026",
+    "erstmalsAm": "2026-11-10T18:02:11.848Z",
+    "bild": "www.crunchyroll.com/wochenprogramm/gt00383994/2026-11-11-f3-2026-11-10-18-02.webp",
+    "bildAm": "2026-11-10T18:02:11.848Z",
+    "markierung": [
+      0.021111111111111112,
+      0.814526588845655,
+      0.21861111111111112,
+      0.16990920881971466
+    ]
+  },
+  "GDKHZEP21|3|3|2026-11-12|18:00": {
+    "seriesId": "GDKHZEP21",
+    "titel": "The Iceblade Sorcerer Shall Rule the World II",
+    "von": 3,
+    "bis": 3,
+    "datum": "2026-11-12",
+    "zeit": "18:00",
+    "artikel": "https://www.crunchyroll.com/de/news/seasonal-lineup/2026/10/5/crunchyroll-wochenprogramm-herbst-2026",
+    "erstmalsAm": "2026-11-10T18:02:11.848Z",
+    "bild": "www.crunchyroll.com/wochenprogramm/gdkhzep21/2026-11-12-f3-2026-11-10-18-02.webp",
+    "bildAm": "2026-11-10T18:02:11.848Z",
+    "markierung": [
+      0.5138888888888888,
+      0.6697459584295612,
+      0.21861111111111112,
+      0.302540415704388
+    ]
+  },
+  "G3KHEVDJ7|52|52|2026-11-13|16:00": {
+    "seriesId": "G3KHEVDJ7",
+    "titel": "Die Tagebücher der Apothekerin (Staffel 3)",
+    "von": 52,
+    "bis": 52,
+    "datum": "2026-11-13",
+    "zeit": "16:00",
+    "artikel": "https://www.crunchyroll.com/de/news/seasonal-lineup/2026/10/5/crunchyroll-wochenprogramm-herbst-2026",
+    "erstmalsAm": "2026-11-10T18:02:11.848Z",
+    "bild": "www.crunchyroll.com/wochenprogramm/g3khevdj7/2026-11-13-f52-2026-11-10-18-02.webp",
+    "bildAm": "2026-11-10T18:02:11.848Z",
+    "markierung": [
+      0.021111111111111112,
+      0.6697459584295612,
+      0.21861111111111112,
+      0.302540415704388
+    ]
+  },
+  "GT00383999|3|3|2026-11-13|17:00": {
+    "seriesId": "GT00383999",
+    "titel": "Firefly Wedding",
+    "von": 3,
+    "bis": 3,
+    "datum": "2026-11-13",
+    "zeit": "17:00",
+    "artikel": "https://www.crunchyroll.com/de/news/seasonal-lineup/2026/10/5/crunchyroll-wochenprogramm-herbst-2026",
+    "erstmalsAm": "2026-11-10T18:02:11.848Z",
+    "bild": "www.crunchyroll.com/wochenprogramm/gt00383999/2026-11-13-f3-2026-11-10-18-02.webp",
+    "bildAm": "2026-11-10T18:02:11.848Z",
+    "markierung": [
+      0.7602777777777778,
+      0.6697459584295612,
+      0.21861111111111112,
+      0.302540415704388
+    ]
+  },
+  "GT00384015|3|3|2026-11-14|10:30": {
+    "seriesId": "GT00384015",
+    "titel": "The Vermilion Mask",
+    "von": 3,
+    "bis": 3,
+    "datum": "2026-11-14",
+    "zeit": "10:30",
+    "artikel": "https://www.crunchyroll.com/de/news/seasonal-lineup/2026/10/5/crunchyroll-wochenprogramm-herbst-2026",
+    "erstmalsAm": "2026-11-10T18:02:11.848Z",
+    "bild": "www.crunchyroll.com/wochenprogramm/gt00384015/2026-11-14-f3-2026-11-10-18-02.webp",
+    "bildAm": "2026-11-10T18:02:11.848Z",
+    "markierung": [
+      0.5138888888888888,
+      0.6697459584295612,
+      0.21861111111111112,
+      0.302540415704388
+    ]
+  },
+  "GT00361955|5|5|2026-11-14|14:30": {
+    "seriesId": "GT00361955",
+    "titel": "A Wild Last Boss Appeared! Staffel 2",
+    "von": 5,
+    "bis": 5,
+    "datum": "2026-11-14",
+    "zeit": "14:30",
+    "artikel": "https://www.crunchyroll.com/de/news/seasonal-lineup/2026/10/5/crunchyroll-wochenprogramm-herbst-2026",
+    "erstmalsAm": "2026-11-10T18:02:11.848Z",
+    "bild": "www.crunchyroll.com/wochenprogramm/gt00361955/2026-11-14-f5-2026-11-10-18-02.webp",
+    "bildAm": "2026-11-10T18:02:11.848Z",
+    "markierung": [
+      0.5138888888888888,
+      0.814526588845655,
+      0.21861111111111112,
+      0.16990920881971466
+    ]
+  },
+  "GT00384006|7|7|2026-11-15|15:00": {
+    "seriesId": "GT00384006",
+    "titel": "Reborn as a Space Mercenary",
+    "von": 7,
+    "bis": 7,
+    "datum": "2026-11-15",
+    "zeit": "15:00",
+    "artikel": "https://www.crunchyroll.com/de/news/seasonal-lineup/2026/10/5/crunchyroll-wochenprogramm-herbst-2026",
+    "erstmalsAm": "2026-11-10T18:02:11.848Z",
+    "bild": "www.crunchyroll.com/wochenprogramm/gt00384006/2026-11-15-f7-2026-11-10-18-02.webp",
+    "bildAm": "2026-11-10T18:02:11.848Z",
+    "markierung": [
+      0.021111111111111112,
+      0.8041095890410959,
+      0.21861111111111112,
+      0.17945205479452056
+    ]
+  },
+  "GT00384004|8|8|2026-11-15|15:30": {
+    "seriesId": "GT00384004",
+    "titel": "Overgeared",
+    "von": 8,
+    "bis": 8,
+    "datum": "2026-11-15",
+    "zeit": "15:30",
+    "artikel": "https://www.crunchyroll.com/de/news/seasonal-lineup/2026/10/5/crunchyroll-wochenprogramm-herbst-2026",
+    "erstmalsAm": "2026-11-10T18:02:11.848Z",
+    "bild": "www.crunchyroll.com/wochenprogramm/gt00384004/2026-11-15-f8-2026-11-10-18-02.webp",
+    "bildAm": "2026-11-10T18:02:11.848Z",
+    "markierung": [
+      0.2675,
+      0.8041095890410959,
+      0.21861111111111112,
+      0.17945205479452056
+    ]
+  },
+  "GG5H5XQMD|5|5|2026-11-15|17:00": {
+    "seriesId": "GG5H5XQMD",
+    "titel": "As a Reincarnated Aristocrat Staffel 3",
+    "von": 5,
+    "bis": 5,
+    "datum": "2026-11-15",
+    "zeit": "17:00",
+    "artikel": "https://www.crunchyroll.com/de/news/seasonal-lineup/2026/10/5/crunchyroll-wochenprogramm-herbst-2026",
+    "erstmalsAm": "2026-11-10T18:02:11.848Z",
+    "bild": "www.crunchyroll.com/wochenprogramm/gg5h5xqmd/2026-11-15-f5-2026-11-10-18-02.webp",
+    "bildAm": "2026-11-10T18:02:11.848Z",
+    "markierung": [
+      0.2675,
+      0.8661048689138576,
+      0.21861111111111112,
+      0.12265917602996254
+    ]
   }
 }

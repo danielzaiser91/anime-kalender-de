@@ -27,6 +27,12 @@ const ABSTAND_MIN = 8
 const ABSTAND_MAX = 40
 /** Mindesthöhe über einer Zeile, damit die Karte darüber Platz hat. */
 const VORSCHAU_PLATZ = VORSCHAU_HOEHE + 20
+/**
+ * So viele Zeilen der Ansicht kommen für den Randfall unten in Frage. Der TV-Kasten des heutigen Tages rollt in einer
+ * Spalte von Zeilenhöhe (WeekView `TvSpalte`): seine Zeilen liegen im Dokument weit oben oder sind weggeschnitten,
+ * erst die Kästen späterer Tage bieten eine Zeile mit Platz darüber — das sind schon mehr als zwölf Zeilen weiter.
+ */
+const KANDIDATEN_MAX = 80
 
 /** Dateiname eines Cover-Links ohne Größenordner und Abfrage: gleich für jede Größe desselben Bildes. */
 function bildName(url) {
@@ -153,17 +159,34 @@ function zeileTrifft(zeile) {
 }
 
 /**
+ * Liegt die Zeile in einer Liste mit eigenem Bildlauf (Fernsehen am Rechner), rückt das sie an deren Unterkante:
+ * sonst steckt sie je nach Tageszeit außerhalb des Ausschnitts, und der Zeiger träfe eine andere Zeile.
+ */
+function imInnerenBildlauf(zeile) {
+  return zeile.evaluate((el) => {
+    for (let p = el.parentElement; p && p !== document.documentElement; p = p.parentElement) {
+      if (!/auto|scroll/.test(getComputedStyle(p).overflowY) || p.scrollHeight <= p.clientHeight) continue
+      const r = el.getBoundingClientRect()
+      const pr = p.getBoundingClientRect()
+      p.scrollTop += r.bottom - pr.bottom + 2
+      return
+    }
+  })
+}
+
+/**
  * Fenster knapp unter einer Zeile: die Karte muss darüber. Liegt die gemessene Zeile im Dokument zu weit oben,
  * als dass die ganze Karte darüber passt, wird eine spätere Zeile der Liste mit Vorschau genommen.
  */
 async function messeUntenRand(seite, zeile, wahl) {
   const zeilen = seite.locator(wahl)
   const kandidaten = [zeile]
-  for (let i = 0; i < Math.min(await zeilen.count(), 12); i++) kandidaten.push(zeilen.nth(i))
+  for (let i = 0; i < Math.min(await zeilen.count(), KANDIDATEN_MAX); i++) kandidaten.push(zeilen.nth(i))
   for (const z of kandidaten) {
-    if ((await z.evaluate((el) => el.getBoundingClientRect().top + window.scrollY)) < VORSCHAU_PLATZ) continue
     await seite.setViewportSize(FENSTER)
     await seite.mouse.move(2, 2)
+    await imInnerenBildlauf(z)
+    if ((await z.evaluate((el) => el.getBoundingClientRect().top + window.scrollY)) < VORSCHAU_PLATZ) continue
     await z.evaluate((el, platz) => window.scrollBy(0, el.getBoundingClientRect().top - platz - 110), VORSCHAU_PLATZ)
     await ruheAbwarten(seite)
     const box = await z.boundingBox()

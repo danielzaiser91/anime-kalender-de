@@ -61,3 +61,5 @@
 {"datei":"tools/lueckenlisten.test.mjs","liest":"data/tmdb-staffel0.json","grund":"nur nicht leer und Schlüssel gleich denen von ladeStaffel0, kein fester Schlüssel"}
 {"datei":"tools/pruef-bestand.test.mjs","liest":"data/cartoon-jw-stichprobe.json","grund":"nimmt den ersten Eintrag der festen Stichprobe (100 Einträge, per Seed erzeugt, nur von Hand neu gezogen)"}
 {"datei":"pipeline/check-anilist-produkt.ts","liest":"data/tmdb-titles.json","grund":"nur im Bestandsmodus (check:anilist-bestand): Rückfall für die Menge der geteilten Filme, wenn der Bau sie nicht geschrieben hat; liest keine Sammlerdaten für Entscheidungen"}
+{"datei":"pipeline/check-prime-gleiche-gti.ts","liest":"data/amazon-gti-belegt.json","grund":"Abschluss-Lauf: die ASIN-Adresse B0D98PQ1FW muss ihre gti aus der echten Belegdatei bekommen (Vorbedingung im Test prüft den Eintrag), sonst läuft die Zusammenführung im Bau nie"}
+{"datei":"pipeline/check-adn-ausreisser.ts","liest":"data/adn-catalog.json","grund":"Verdrahtungsfall: die echte Serie Demon Slave (showId 1125) wird als Kulisse in eine Wegwerf-Wurzel kopiert; der Lauf braucht genau diesen Katalogeintrag"}

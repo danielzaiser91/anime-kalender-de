@@ -14,7 +14,7 @@ const wurzel = mkdtempSync(join(tmpdir(), 'wache-haenger-w-'))
 try {
   mkdirSync(join(wurzel, 'tools'))
   for (const f of ['wache-woechentlich.mjs', 'wache-fristen.mjs', 'kind-mit-limit.mjs']) copyFileSync(join(tools, f), join(wurzel, 'tools', f))
-  const env = { ...process.env, ...legeGhAttrappe(dir), WACHE_LIMIT_MS: '2000', npm_config_offline: 'true' }
+  const env = { ...process.env, ...legeGhAttrappe(dir), WACHE_LIMIT_MS: '2000', WACHE_WIEDERHOLUNG_PAUSE_MS: '0', npm_config_offline: 'true' }
   const lauf = (args, cwd) => spawnSync(process.execPath, args, { cwd, encoding: 'utf8', windowsHide: true, timeout: 60_000, env })
 
   // 1. pr-nachrechnen: erster gh-Aufruf hängt -> Exit 2 und FEHLER-Zeile.

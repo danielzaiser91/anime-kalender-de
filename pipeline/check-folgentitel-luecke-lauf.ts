@@ -49,6 +49,15 @@ try {
   schreibe(['data', 'folgentitel-offen.json'], { '7': { offen: 1, grund: 'Kulisse' } })
   const gelistet = lauf()
   pruefe('dieselbe Lücke gelistet: keine Warnzeile, ✓ mit einer Folge', gelistet.status === 0 && !gelistet.aus.includes('WARNUNG') && gelistet.aus.includes('✓ Folgentitel: 1 Folgen ohne deutschen Titel in 1 Titeln'), [gelistet.status, gelistet.aus.slice(-300)])
+  /* Lehnwort (Beyblade X 83 „Partner“): aniSearch führt es nur englisch, RTL+ deutsch — ohne RTL+-Beleg Fehler, mit Beleg keiner. */
+  schreibe(['public', 'data', 'folgen', '8.json'], { f: [[1, 'Eins'], ...Array.from({ length: 20 }, (_, i) => [i + 2, i === 2 ? 'Partner' : `Titel ${i + 2}`])], de: [[1, 21]] })
+  schreibe(['data', 'anisearch.json'], { '8': { anisearchId: 80 } })
+  schreibe(['data', 'anisearch-folgen.json'], { '80': { folgen: [{ nr: 4, en: 'Partner' }] } })
+  const lehnOhne = lauf()
+  pruefe('Lehnwort ohne RTL+-Beleg: Exit 1 und „englischer oder japanischer Quelle“ für 8', lehnOhne.status === 1 && lehnOhne.fehler.includes('8: 1 Folgentitel aus englischer oder japanischer Quelle'), [lehnOhne.status, lehnOhne.fehler.slice(0, 300)])
+  schreibe(['data', 'rtlplus-folgen.json'], { titel: { '8': { folgen: [{ nr: 4, dt: 'Partner' }] } } })
+  const lehnMit = lauf()
+  pruefe('Lehnwort mit RTL+-Titel auf derselben Nummer: Exit 0, kein Fremdtitel-Fehler', lehnMit.status === 0 && !lehnMit.fehler.includes('englischer oder japanischer Quelle') && lehnMit.aus.includes('check-folgentitel-sprache-bestand: ok'), [lehnMit.status, lehnMit.fehler.slice(0, 300), lehnMit.aus.slice(-200)])
 } finally {
   rmSync(kulisse, { recursive: true, force: true })
 }

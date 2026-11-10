@@ -1,6 +1,6 @@
 {
   "format": 2,
-  "stand": "2026-11-09",
+  "stand": "2026-11-10",
   "hinweis": "Vorschlagsmodus: nur gelesen, nie übernommen — docs/wissen/sammelartikel-poc.md (Abschnitt „Vorschlagslauf\"). Schreiber: pipeline/fetch-sammelartikel.ts",
   "aussagen": [
     {
@@ -14009,6 +14009,77 @@
           "hatSynchroBelege": true
         },
         "inhaltZeichen": 424
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1069625/pluto-tv-shield-hero-und-mehr/|Dr. STONE|Staffel 2|start|",
+      "erstGesehen": "2026-11-10",
+      "fingerabdruck": "434aa843c7f5",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1069625/pluto-tv-shield-hero-und-mehr/",
+          "veroeffentlicht": "2026-11-10",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Dr. STONE",
+        "zusatz": "Staffel 2",
+        "art": "start",
+        "plattformen": [],
+        "deutsch": "ja",
+        "konfidenz": 0.6,
+        "gruende": [
+          "Sprache: Deutsch",
+          "kein Tag genannt",
+          "kein Anbieter genannt"
+        ],
+        "zitat": "»Dr. STONE« – Staffel 2\nEpisoden: 10 von 11 (Episode 3 fehlt)\nSprache: Deutsch\nStream: Pluto TV",
+        "zuordnung": {
+          "anilistId": 113936,
+          "name": "Dr. Stone: Stone Wars",
+          "wie": "name-genau"
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 267
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1069625/pluto-tv-shield-hero-und-mehr/|The Rising of the Shield Hero|Staffel 1|start|",
+      "erstGesehen": "2026-11-10",
+      "fingerabdruck": "3dccb7f64b30",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1069625/pluto-tv-shield-hero-und-mehr/",
+          "veroeffentlicht": "2026-11-10",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "The Rising of the Shield Hero",
+        "zusatz": "Staffel 1",
+        "art": "start",
+        "plattformen": [],
+        "deutsch": "ja",
+        "folgen": 25,
+        "konfidenz": 0.6,
+        "gruende": [
+          "Sprache: Deutsch",
+          "kein Tag genannt",
+          "kein Anbieter genannt"
+        ],
+        "zitat": "»The Rising of the Shield Hero« – Staffel 1\nEpisoden: 25 (komplett)\nSprache: Deutsch\nStream: Pluto TV",
+        "zuordnung": {
+          "anilistId": 99263,
+          "name": "The Rising of the Shield Hero",
+          "wie": "name-genau"
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 324
       }
     }
   ]
