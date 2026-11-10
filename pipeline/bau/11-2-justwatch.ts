@@ -6,7 +6,7 @@ import { providerName, stripAffiliate } from '../../shared/mappings.ts'
 import { loadDubChecks, neinHandbelege } from '../lib/dub-confirmed.ts'
 import { setzeTelekomAnnahme, type JwAngebot } from '../lib/telekom-annahme.ts'
 import { providerToPlatform } from './titel-hilfen.ts'
-import { ergaenzeWegeOhneWeg, PHYSISCHE_SHOPS, type JwEintrag } from './11-2-2-wege-ohne-weg.ts'
+import { entfernteVerweise, ergaenzeWegeOhneWeg, PHYSISCHE_SHOPS, type JwEintrag } from './11-2-2-wege-ohne-weg.ts'
 import { ergaenzeAboWege, type JwAbo } from './11-2-3-abo-wege.ts'
 import { ergaenzeKaufWege, primeNeinTitel, type JwKauf } from './11-2-4-kauf-wege.ts'
 
@@ -25,6 +25,7 @@ function legeWegeAn({ titles, tmdbMehrdeutig, istTot }: Runde) {
     handNein,
     tmdbMehrdeutig,
     istTot,
+    entfernt: entfernteVerweise(),
   })
 
   ergaenzeAboWege({

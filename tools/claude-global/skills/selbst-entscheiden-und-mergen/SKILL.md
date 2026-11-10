@@ -42,6 +42,7 @@ Datei es erlaubt. Tatsachenzahlen (IDs, Termine, Uhrzeiten, Folgenzahlen, Synchr
   „aendern“ sagen; dann hängt der PR still auf BLOCKED (1069 und 1074 je 20 min). In der nächsten Wachphase
   `reviewDecision` lesen; bei CHANGES_REQUESTED den letzten Prüfprotokoll-Kommentar holen
   (`gh api repos/<repo>/issues/<N>/comments -q '.[-1].body'`). Bei DIRTY löst ein Merge von main den Konflikt, kein Rebase; danach vor dem Push `node tools/pr-vorpruefung.test.mjs` — ein konfliktfreier Merge kann `tools/check-*-liste.txt` unsortiert hinterlassen (2289, 28.10.2026: Kette rot, eine Prüfrunde verloren).
+  Ein PR, der eine Prüfung über das ganze Repo neu rot schaltet, wird nur gemergt, wenn seine Kette gegen den aktuellen main-Kopf lief, sonst erst main einmergen (09.11.2026: #2950 schaltete `mutationsanker --alle` rot, main nach #3196 war rot, Fix #3260).
   Der Check „Prüfer-Review“ steht auch bei „aendern“ auf **pass** — `gh pr checks` sagt darüber nichts (1133: 13 min
   für grün gehalten, 13.10.2026). Darum in jeder Wachphase statt `gh pr list` einmal:
   `gh pr list --json number,reviewDecision,mergeStateStatus -q '.[]|"\(.number) \(.reviewDecision) \(.mergeStateStatus)"'`.
@@ -62,8 +63,8 @@ Datei es erlaubt. Tatsachenzahlen (IDs, Termine, Uhrzeiten, Folgenzahlen, Synchr
 
 ## Regel
 
-- **PRs, die ich oder meine Subagenten erzeugt haben, merge ich selbst** (`gh pr merge <nr>
-  --squash --delete-branch`), nachdem ich den Bericht nachgeprüft habe (Diff angesehen,
+- **PRs, die ich oder meine Subagenten erzeugt haben, merge ich selbst** (`node tools/pr-nachrechnen.mjs <nr> && t=$(gh pr view <nr> --json title -q .title) && gh pr merge <nr>
+  --squash --subject "$t (#<nr>)"`), nachdem ich den Bericht nachgeprüft habe (Diff angesehen,
   Prüfkette grün, Lauf grün). Daniel wird dafür nie gebeten. **Ab Stufe 1 kein Merge ohne
   Urteil-Kommentar des Agent-Prüfers am PR** („Prüfer Runde N: freigeben“) — ein Urteil nur im
   Bericht an mich zählt der Rundenzähler-Hook nicht; fehlt er, poste ich das Urteil mit
@@ -97,3 +98,4 @@ Datei es erlaubt. Tatsachenzahlen (IDs, Termine, Uhrzeiten, Folgenzahlen, Synchr
 ## Ticket abnehmen gehört zum Merge (Daniel, 11.10.2026)
 
 Agenten erstellen nur PRs und setzen ihren Sub-Task im Board auf aktiv; die Hauptsitzung mergt und nimmt deshalb auch das Ticket ab: nach Merge und Live-Messung auf erledigt, bei Prüfer-„ändern“ oder roter Messung zurück auf offen mit Grund. Befehle stehen im README des Ticket-Boards (`C:/code/ai/ticket-board`).
+- **Prüfstufe 2 erst nach CI-Urteil in den Nachschub (09.11.2026):** Ein PR der Prüfstufe 2 kommt erst in den Nachschub der Merge-Reihe, wenn der CI-Prüfer auf demselben Kopf geurteilt hat.

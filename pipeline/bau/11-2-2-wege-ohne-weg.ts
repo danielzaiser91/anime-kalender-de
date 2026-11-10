@@ -1,11 +1,11 @@
 import { type IstTot } from '../lib/adresse-tot.ts'
-import { log } from '../lib/util.ts'
+import { log, readJson } from '../lib/util.ts'
 import { type Title, type WatchLink } from '../../shared/types.ts'
 import { providerName, stripAffiliate } from '../../shared/mappings.ts'
 import { wegVerneint } from '../lib/dub-confirmed.ts'
 import { plattformVon } from '../lib/cartoons.ts'
 
-export type JwEintrag = { ohneTreffer?: boolean; angebote?: { anbieter: string; art: string; url?: string }[] }
+export type JwEintrag = { ohneTreffer?: boolean; angebote?: { anbieter: string; art: string; url?: string; audio?: string[] }[] }
 
 /**
  * Händler, die bei JustWatch eine **Disc** verkaufen oder verleihen. Alle übrigen
@@ -38,33 +38,43 @@ const istAnisearchDisc = (w: WatchLink): boolean => w.kind === 'buy' && w.name =
  *
  * | Riegel | warum |
  * |---|---|
- * | nur Titel **ohne** jeden Weg | wo schon einer steht, ist die Frage beantwortet — und unsere Adresse ist die geprüfte |
+ * | nur Anbieter, die der Titel **noch nicht** hat (`vorhandeneAnbieter`) | unsere Adresse beim selben Anbieter ist die geprüfte; ein anderer Stream beantwortet die Frage nach Netflix oder Disney+ nicht (06.11.2026: 292 von 298 Titeln mit JustWatch-Angeboten blieben so ohne sie); gilt nur bei Titeln mit Stream, ohne Stream schließt jeder Bezugsweg außer dem aniSearch-Disc-Link (PR 3029, `check-disc-folgewirkung.ts`) |
  * | nichts, was einmal entfernt wurde | sonst kommt ein belegtes Nein über die Hintertür zurück |
  * | „JustWatch TV" fliegt raus | die Eigenwerbung des Dienstes, führt zurück auf justwatch.com |
  * | höchstens vier je Titel | eine Liste von zwölf Amazon-Varianten beantwortet keine Frage |
  */
-export function ergaenzeWegeOhneWeg({ titles, jw, handNein, tmdbMehrdeutig, istTot }: {
+export function ergaenzeWegeOhneWeg({ titles, jw, handNein, tmdbMehrdeutig, istTot, entfernt = new Set() }: {
   titles: Map<number, Title>
   jw: Record<string, JwEintrag>
   /** Nein-Handbelege (`neinHandbelege`): Ein Weg zu einem Anbieter, den eine Handprüfung verneint hat, wird nicht angelegt. */
   handNein: Set<string>
   tmdbMehrdeutig: Set<string>
   istTot: IstTot
+  /** `entfernteVerweise()`: Titel und Plattform, deren Verweis ein früherer Lauf entfernt hat; bei Titeln mit Wegen kommt dort nichts zurück. */
+  entfernt?: ReadonlySet<string>
 }) {
   let jwWege = 0
   for (const title of titles.values()) {
-    if ((title.streams ?? []).length || (title.watchLinks ?? []).some((w) => !istAnisearchDisc(w))) continue
+    /* Mit Stream gilt `vorhandeneAnbieter`; ohne Stream schließt jeder Bezugsweg außer dem aniSearch-Disc-Link den Riegel (PR 3029). */
+    if (!(title.streams ?? []).length && (title.watchLinks ?? []).some((w) => !istAnisearchDisc(w))) continue
     /* JustWatch findet den Titel über dieselbe TMDB-Kennung — mehrdeutig heißt auch hier: nicht verwenden. */
     if (tmdbMehrdeutig.has(String(title.id))) continue
     const b = jw[String(title.id)]
     if (!b || b.ohneTreffer || !b.angebote?.length) continue
     const wege: WatchLink[] = []
-    for (const a of b.angebote) {
+    const da = vorhandeneAnbieter(title)
+    /* Nur der aniSearch-Disc-Link am Titel (ohne Stream) gilt weiter als „ohne jeden Weg“ (PR 3029). */
+    const leer = !da.plattformen.size && [...da.namen].every((n) => n === 'aniSearch')
+    for (const a of nachArt(b.angebote)) {
       if (!a.url || /^justwatch/i.test(a.anbieter)) continue
       if (istTot(a.url)) continue
       const name = providerName(a.anbieter)
-      if (!name || wege.some((w) => w.name === name)) continue
+      if (!name || wege.some((w) => w.name === name) || da.namen.has(name)) continue
       const plattform = plattformVon(a.anbieter)
+      /* Amazon Video (Leihe, Kauf) führt zu derselben Seite wie der Prime-Weg. */
+      const gleich = plattform ?? (name === 'Amazon Video' ? 'primevideo' : undefined)
+      if (gleich && da.plattformen.has(gleich)) continue
+      if (!leer && gleich && entfernt.has(`${title.id}|${gleich}`)) continue
       if (plattform && wegVerneint(handNein, title.id, plattform, a.url)) continue
       /*
         **Ein Kino ist kein Bezugsweg** (Daniel, 19.09.2026: Cinestar führte nach Leipzig,
@@ -80,6 +90,9 @@ export function ergaenzeWegeOhneWeg({ titles, jw, handNein, tmdbMehrdeutig, istT
         Streamen — gemessen an 3.279 Kauf- und Leihangeboten im Bestand vom 16.09.2026.
       */
       const physisch = PHYSISCHE_SHOPS.test(a.anbieter)
+      /* Disc ist eine eigene Runde: ein Händler kommt nur zu Titeln ohne jeden Weg (wie bisher). */
+      if (physisch && !leer) continue
+      if (!leer && ohneBelegDeutsch(a)) continue
       wege.push({
         name,
         /* JustWatch hängt an Amazon-Links seine Partnerkennung (`tag=movie0c6-21`). */
@@ -95,5 +108,36 @@ export function ergaenzeWegeOhneWeg({ titles, jw, handNein, tmdbMehrdeutig, istT
     title.watchLinks = [...wege, ...(title.watchLinks ?? [])]
     jwWege += wege.length
   }
-  if (jwWege) log(`${jwWege} Bezugswege aus JustWatch für Titel ohne jeden Weg ergänzt`)
+  if (jwWege) log(`${jwWege} Bezugswege aus JustWatch für Anbieter ergänzt, die der Titel noch nicht hatte`)
+}
+
+/** Sub-Dienste mit eigener Sprachquelle (Crunchyroll, ADN, Aniverse): fehlt dort der Weg, ist das ein Befund, kein Loch. */
+const EIGENE_SPRACHQUELLE = /crunchyroll|animation digital network|anime digital network|aniverse/i
+
+/**
+ * Bei einem Titel, der schon Wege hat, kommt ein Angebot nicht dazu, wenn JustWatch die Tonspuren nennt und `de` fehlt,
+ * oder wenn der Dienst eine eigene Sprachquelle hat (Synchro ist nicht Untertitel).
+ */
+export function ohneBelegDeutsch(a: { anbieter: string; audio?: string[] }): boolean {
+  return EIGENE_SPRACHQUELLE.test(a.anbieter) || (!!a.audio?.length && !a.audio.includes('de'))
+}
+
+/** Abo und Gratis vor Leihe und Kauf, sonst füllen vier Kaufangebote die Reihe, bevor Netflix drankommt (stabil). */
+function nachArt<T extends { art: string }>(angebote: T[]): T[] {
+  const rang = (a: T) => (a.art === 'FLATRATE' || a.art === 'FREE' || a.art === 'ADS' ? 0 : 1)
+  return [...angebote].sort((x, y) => rang(x) - rang(y))
+}
+
+/** Titel und Plattform aus dem Gedächtnis der entfernten Verweise (`data/verweise-entfernt.json`), als `<titleId>|<plattform>`. */
+export function entfernteVerweise(datei = 'data/verweise-entfernt.json'): Set<string> {
+  const verweise = readJson<{ verweise?: { titleId?: number; plattform?: string }[] }>(datei, {}).verweise ?? []
+  return new Set(verweise.map((v) => `${v.titleId}|${v.plattform}`))
+}
+
+/** Anbieter, die der Titel schon trägt: Stream-Plattformen und Namen der Bezugswege. */
+export function vorhandeneAnbieter(title: Title): { plattformen: Set<string>; namen: Set<string> } {
+  return {
+    plattformen: new Set((title.streams ?? []).map((s) => s.platform)),
+    namen: new Set((title.watchLinks ?? []).map((w) => w.name)),
+  }
 }

@@ -10,6 +10,7 @@ pipeline/check-abruf-stempel.ts
 pipeline/check-abruf-stoerung-lauf.ts
 pipeline/check-abstand.ts
 pipeline/check-adn-anisearch.ts
+pipeline/check-adn-ausreisser.ts
 pipeline/check-adn-film.ts
 pipeline/check-adn-katalog-warteschlange.ts
 pipeline/check-adn-kennung.ts
@@ -185,6 +186,7 @@ pipeline/check-effekt-abhaengigkeiten.ts
 pipeline/check-eigene-titel-bestand-lauf.ts
 pipeline/check-eigene-titel.ts
 pipeline/check-eigene-tmdb-plakat-lauf.ts
+pipeline/check-eingabe-stand.ts
 pipeline/check-einzahl-folge.ts
 pipeline/check-empfehlung-ablage.ts
 pipeline/check-empfehlung-ablauf.ts
@@ -261,6 +263,7 @@ pipeline/check-install-stellen.ts
 pipeline/check-interne-angaben.ts
 pipeline/check-invarianten.ts
 pipeline/check-ja-hat-weg.ts
+pipeline/check-joyn-block-wache.ts
 pipeline/check-joyn-danach.ts
 pipeline/check-joyn-hand-tv.ts
 pipeline/check-joyn-luecke-lauf.ts
@@ -406,6 +409,7 @@ pipeline/check-pille-nur-untertitel.ts
 pipeline/check-plot-erschienen.ts
 pipeline/check-poster-karte-saal.ts
 pipeline/check-premiere.ts
+pipeline/check-prime-gleiche-gti.ts
 pipeline/check-prime-kanal.ts
 pipeline/check-prime-kaufweg-ablauf.ts
 pipeline/check-prime-kaufweg.ts
@@ -455,6 +459,7 @@ pipeline/check-sammler-lesezugriffe-faelle.ts
 pipeline/check-sammler-lesezugriffe.ts
 pipeline/check-schwester-shop.ts
 pipeline/check-screenshot-wiederholen.ts
+pipeline/check-seite-nicht-werk.ts
 pipeline/check-seiten-ansicht.ts
 pipeline/check-seiten-seo.ts
 pipeline/check-serien-vorsatz.ts
@@ -480,6 +485,7 @@ pipeline/check-staffelsumme.ts
 pipeline/check-staffelzaehlung.ts
 pipeline/check-stand-halten.ts
 pipeline/check-streaming-kleinfixes.ts
+pipeline/check-streaming-luecke.ts
 pipeline/check-streaming-zaehlen.ts
 pipeline/check-studio-archiv.ts
 pipeline/check-stuetzpunkt-ueberholt.ts
@@ -510,6 +516,7 @@ pipeline/check-titelwechsel.ts
 pipeline/check-tmdb-404-neusuche.ts
 pipeline/check-tmdb-ablauf.ts
 pipeline/check-tmdb-film-suche.ts
+pipeline/check-tmdb-film-vorrang-lauf.ts
 pipeline/check-tmdb-folgen-404-lauf.ts
 pipeline/check-tmdb-folgen-404.ts
 pipeline/check-tmdb-folgen-auswahl.ts
@@ -549,6 +556,7 @@ pipeline/check-vorfaelle-ablauf.ts
 pipeline/check-weg-adresse-bezugsweg.ts
 pipeline/check-weg-aus-meldung.ts
 pipeline/check-wege-aus-terminen.ts
+pipeline/check-wege-je-anbieter.ts
 pipeline/check-werbetarif-weg.ts
 pipeline/check-werk-doppelt.ts
 pipeline/check-widerlegung-de-folgen-bau.ts
