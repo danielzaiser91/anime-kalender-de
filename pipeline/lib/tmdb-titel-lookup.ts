@@ -30,6 +30,9 @@ function providerToPlatform(name: string): PlatformId | undefined {
   return undefined
 }
 
+/** Seit diesem Tag sucht `lookup` nach einem Fehlschlag auch den Film; ältere Fehlschläge solcher Titel wurden nie so gesucht. */
+export const FILMSUCHE_SEIT = '2026-11-04'
+
 /**
  * Ein einzelner Film von Netflix & Co. steht bei AniList als ONA, OVA oder Special mit einer Folge, bei TMDB aber als Film
  * (Bright: Samurai Soul, 04.11.2026: als Serie gesucht, nie gefunden). Die Serien-Suche bleibt zuerst; der Film kommt nur nach einem Fehlschlag.
