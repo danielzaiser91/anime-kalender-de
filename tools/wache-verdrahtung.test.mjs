@@ -10,7 +10,7 @@ import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 
 const WURZEL = resolve(import.meta.dirname, '..')
-const KOPIEN = ['check-logic-alle.mjs', 'tests-alle.mjs', 'tests-teil.mjs', 'arbeiterpool.mjs', 'git-stand-wache.mjs', 'sperre-umgebung.mjs', 'bau-umgebung.mjs', 'bestand-sperre.cjs', 'check-logic-vollstaendig.mjs', 'check-logic-historie.mjs', 'liste-pruefen.mjs', 'pr-basis.mjs']
+const KOPIEN = ['check-logic-alle.mjs', 'tests-alle.mjs', 'tests-teil.mjs', 'arbeiterpool.mjs', 'git-stand-wache.mjs', 'sperre-umgebung.mjs', 'bau-umgebung.mjs', 'bestand-sperre.cjs', 'check-logic-vollstaendig.mjs', 'check-logic-historie.mjs', 'liste-pruefen.mjs', 'pr-basis.mjs', 'tests-liste.mjs']
 const STILL = "console.log('still')\n"
 const SCHREIBT_GETRACKT = "import { writeFileSync } from 'node:fs'\nwriteFileSync('x.txt', 'zwei\\n')\n"
 const SCHREIBT_NEU = "import { writeFileSync } from 'node:fs'\nwriteFileSync('neu.txt', 'neu\\n')\n"
@@ -19,6 +19,7 @@ const SCHREIBT_NEU = "import { writeFileSync } from 'node:fs'\nwriteFileSync('ne
 function baueRepo(name, inhalt) {
   const ordner = mkdtempSync(join(tmpdir(), 'wache-verdrahtung-'))
   mkdirSync(join(ordner, 'tools'))
+  mkdirSync(join(ordner, '.claude', 'hooks'), { recursive: true })
   for (const k of KOPIEN) copyFileSync(join(WURZEL, 'tools', k), join(ordner, 'tools', k))
   copyFileSync(join(WURZEL, 'package.json'), join(ordner, 'package.json'))
   symlinkSync(join(WURZEL, 'node_modules'), join(ordner, 'node_modules'), 'junction')

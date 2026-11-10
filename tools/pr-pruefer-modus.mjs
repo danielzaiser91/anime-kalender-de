@@ -23,7 +23,7 @@ const VERTRAUT = new Set(['OWNER', 'MEMBER', 'COLLABORATOR'])
 const CI_BOT = 'github-actions[bot]'
 const CI_URTEIL = /^\*\*Prüfer-Review\*\* für ([0-9a-f]{7,40}) - Urteil: \*\*(.+?)\*\*/
 const MARKE = /^<!-- pruefer-modus: (voll|abnahme) -->$/
-// Gleiche Kopfzeile wie der Rundenzähler (tools/claude-global/hooks/pruefrunden.js): „Prüfer:“ oder „Prüfer Runde N:“.
+// Gleiche Kopfzeile wie der Rundenzähler (.claude/hooks/pruefrunden.js): „Prüfer:“ oder „Prüfer Runde N:“.
 const AGENT_URTEIL = /^[\s*_#>]*Prüfer(?: Runde \d+)?:/
 // Ein Freigabe-Urteil des Agent-Prüfers hat keine Auflagen.
 const FREIGABE = /freigeben/i

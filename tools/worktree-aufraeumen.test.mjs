@@ -1,5 +1,5 @@
 /**
- * Test für `tools/claude-global/hooks/worktree-aufraeumen.js` (+ `-logik.js`): Entscheidungen, Abbau auf einem Attrappen-Repo im Temp-Ordner
+ * Test für `.claude/hooks/worktree-aufraeumen.js` (+ `-logik.js`): Entscheidungen, Abbau auf einem Attrappen-Repo im Temp-Ordner
  * (nie das echte Repo, nie cwd = Repo), Sperre, Auslöser, Wächterzeile und Prozess-Verdrahtung (Attrappe statt Prozess-Register).
  */
 import assert from 'node:assert/strict'
@@ -9,7 +9,7 @@ import { existsSync, lstatSync, mkdirSync, mkdtempSync, readdirSync, readFileSyn
 import { tmpdir } from 'node:os'
 import { basename, join } from 'node:path'
 
-const hooks = join(import.meta.dirname, 'claude-global', 'hooks')
+const hooks = join(import.meta.dirname, '..', '.claude', 'hooks')
 const req = createRequire(import.meta.url)
 const L = req(join(hooks, 'worktree-aufraeumen-logik.js'))
 const H = req(join(hooks, 'worktree-aufraeumen.js'))

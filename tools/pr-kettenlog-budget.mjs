@@ -1,7 +1,7 @@
 /**
  * Auflage-Quelle „Startbudget“ für den CI-Prüfer: eine Zeile `start-budget: nur noch … KB Luft` im Kettenlog des Kopfs (Warnstufe
  * von `tools/start-budget.mjs`, im Lauf selbst unsichtbar) steht als eigene Zeile oben in `kettenlog.txt`. Ob der PR `web/` oder
- * Startdaten berührt, entscheidet der Prüfer am Diff (tools/claude-global/agents/pruefer.md).
+ * Startdaten berührt, entscheidet der Prüfer am Diff (.claude/agents/pruefer.md).
  */
 // Warnzeile wörtlich aus `tools/start-budget.mjs` (dort `::warning::`, im Job-Log mit `##[warning]`-Präfix).
 const WARNZEILE = /start-budget: nur noch (\d+(?:\.\d+)?) KB Luft \(Warnung unter (\d+(?:\.\d+)?) KB\)/
