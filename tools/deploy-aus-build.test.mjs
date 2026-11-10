@@ -3,6 +3,7 @@
  * Aufruf: node tools/deploy-aus-build.test.mjs
  */
 import assert from 'node:assert/strict'
+import { spawnSync } from 'node:child_process'
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { parse } from 'yaml'
@@ -135,4 +136,33 @@ assert.ok(hart.if.includes("!contains(github.event.head_commit.message, '[schlan
 assert.equal(jobs.deploy_schlank.needs, 'build', 'schlank wartet nur auf den Bau')
 assert.ok(jobs.abschluss.if.includes("needs.build.result != 'skipped'"), 'Abschluss hängt nicht am Deploy')
 assert.deepEqual([jobs.abschluss.needs].flat().sort(), ['build', 'deploy_hart', 'deploy_schlank', 'pruefen'])
+// A1 (Prüfer 3367): jeder Job hat eine Frist, und `abschluss` (hält die Gruppe `pages`) hat sie an jedem Schritt; die Summe bleibt unter der Job-Frist,
+// damit kein Job-Abbruch den Lauf rot macht. Einrichten und Messung der Kachelränder sind Befund, nie roter Lauf.
+for (const [id, job] of Object.entries(jobs)) assert.ok(Number.isInteger(job['timeout-minutes']) && job['timeout-minutes'] > 0, `Job ${id} hat timeout-minutes`)
+const abschlussSchritte = jobs.abschluss.steps
+for (const s of abschlussSchritte) assert.ok(Number.isInteger(s['timeout-minutes']) && s['timeout-minutes'] > 0, `abschluss: Schritt „${s.name ?? s.uses}“ hat timeout-minutes`)
+const fristSumme = abschlussSchritte.reduce((summe, s) => summe + s['timeout-minutes'], 0)
+assert.ok(fristSumme <= jobs.abschluss['timeout-minutes'], `abschluss: Summe der Schritt-Fristen (${fristSumme}) <= Job-Frist (${jobs.abschluss['timeout-minutes']})`)
+const messSchritte = abschlussSchritte.filter((s) => String(s.uses).endsWith('kette-einrichten') || s.name === 'Kachelränder live messen')
+assert.equal(messSchritte.length, 2, 'abschluss: Einrichten und Messung der Kachelränder')
+for (const s of messSchritte) assert.equal(s['continue-on-error'], true, `abschluss: „${s.name ?? s.uses}“ macht den Lauf nicht rot`)
+assert.equal(abschlussSchritte.find((s) => s.name === 'Lauf abmelden')['continue-on-error'], true, 'abschluss: Abmeldung macht den Lauf nicht rot')
+
+// A3 (Prüfer 3367): fail-closed, wenn build und pruefen die Herkunft verschieden beurteilen. Beide Jobs geben ihr Urteil aus, der erste Schritt von deploy_hart
+// vergleicht es vor dem Deploy; der Vergleich wird als echtes Skript ausgeführt (Wertepaare: gleich, build allein, pruefen allein).
+for (const id of ['build', 'pruefen']) assert.ok(jobs[id].outputs.treffer.includes('steps.herkunft.outputs.treffer'), `${id} gibt das Herkunftsurteil aus`)
+const vergleich = hart.steps[0]
+assert.equal(hart.steps.indexOf(vergleich) < hart.steps.findIndex((s) => s.id === 'deployment'), true, 'der Vergleich steht vor dem Deploy')
+assert.ok(vergleich.env.BAU_TREFFER.includes('needs.build.outputs.treffer') && vergleich.env.PRUEF_TREFFER.includes('needs.pruefen.outputs.treffer'), 'Vergleich liest die Urteile beider Jobs')
+assert.equal(vergleich['continue-on-error'], undefined, 'ein Widerspruch macht den Job rot')
+assert.equal(vergleich.if, undefined, 'der Vergleich läuft immer')
+assert.equal(hart.steps.find((s) => s.id === 'deployment').if, undefined, 'der Deploy läuft nur, wenn der Vergleich bestanden hat (kein always())')
+const vergleichLauf = (bau, pruef) => spawnSync('bash', ['-c', vergleich.run], { encoding: 'utf8', windowsHide: true, timeout: 20_000, env: { ...process.env, BAU_TREFFER: bau, PRUEF_TREFFER: pruef } })
+for (const [bau, pruef] of [['1', '1'], ['', '']]) assert.equal(vergleichLauf(bau, pruef).status, 0, `gleiches Urteil (build '${bau}', pruefen '${pruef}') deployt`)
+for (const [bau, pruef] of [['', '1'], ['1', '']]) {
+  const r = vergleichLauf(bau, pruef)
+  assert.equal(r.status, 1, `verschiedenes Urteil (build '${bau}', pruefen '${pruef}') ist rot`)
+  assert.ok(r.stdout.includes('::error::Kein Deploy'), 'mit Meldung')
+  assert.ok(r.stdout.includes(`build (Treffer '${bau}')`) && r.stdout.includes(`pruefen (Treffer '${pruef}')`), 'Meldung nennt beide Urteile')
+}
 console.log('deploy-aus-build.test: ok')

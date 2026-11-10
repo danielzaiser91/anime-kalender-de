@@ -61,6 +61,10 @@ jobs:
   # Beide Jobs haben die Rechte des früheren `herkunft` (die Herkunftsprüfung liest Pull Requests und Läufe); `pages`/`id-token` brauchen nur die Deploy-Jobs.
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
+    # Urteil der Herkunftsprüfung; `deploy_hart` verlangt, dass es mit dem von `pruefen` übereinstimmt (kein Deploy ohne Prüflauf).
+    outputs:
+      treffer: ${{ steps.herkunft.outputs.treffer }}
     permissions:
       contents: read
       actions: read
@@ -218,6 +222,9 @@ jobs:
 
   pruefen:
     runs-on: ubuntu-latest
+    timeout-minutes: 45
+    outputs:
+      treffer: ${{ steps.herkunft.outputs.treffer }}
     permissions:
       contents: read
       actions: read
@@ -419,10 +426,23 @@ jobs:
       ${{ !cancelled() && needs.build.result == 'success' && needs.pruefen.result == 'success' &&
       !contains(github.event.head_commit.message, '[schlank]') }}
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      # Fail-closed (Prüfer 3367 A3): Urteilen `build` und `pruefen` verschieden über die Herkunft (API-Ausfall nur in einem Job), ginge sonst ein
+      # selbst gebauter Stand ohne Prüflauf live. Dann kein Deploy, Lauf rot; ein neuer Lauf entscheidet erneut.
+      - name: Herkunft von build und pruefen vergleichen
+        env:
+          BAU_TREFFER: ${{ needs.build.outputs.treffer }}
+          PRUEF_TREFFER: ${{ needs.pruefen.outputs.treffer }}
+        run: |
+          if [ "$BAU_TREFFER" != "$PRUEF_TREFFER" ]; then
+            echo "::error::Kein Deploy: build (Treffer '${BAU_TREFFER}') und pruefen (Treffer '${PRUEF_TREFFER}') haben die Herkunft verschieden beurteilt. Lauf neu starten."
+            exit 1
+          fi
+
       - id: deployment
         uses: actions/deploy-pages@v4
 
@@ -430,6 +450,7 @@ jobs:
     needs: build
     if: ${{ contains(github.event.head_commit.message, '[schlank]') }}
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -440,12 +461,13 @@ jobs:
   # Abmeldung und Aufräumen nach allen Jobs: Sie brauchen das Meldeskript (Auscheckvorgang) und den Gesamtstand.
   # Danach (30.10.2026): Kachelränder an der ausgelieferten Seite, dieselbe Pixelmessung wie in der PR-Kette, aber gegen die echte Adresse (Service Worker gesperrt, fremde Bilder ersetzt).
   # Ein Befund macht nur diese Schritte rot (`continue-on-error`), nie den Deploy und nie die Abmeldung (sie steht davor). Der Job hält die Gruppe `pages`,
-  # daher die Fristen je Schritt: Aufräumen höchstens 3 min (ein hängender Checkout hielt die Gruppe am 16.10.2026 sechs Minuten, normal unter einer);
-  # Messung lokal gegen live 3 x ca. 117 s (30.10.2026) plus Einrichten, 8 min als Obergrenze.
+  # daher eine Frist an jedem Schritt (Test: deploy-aus-build.test.mjs): Checkout 2, Melder 1, Abmeldung 1, Aufräumen 3 (ein hängender Checkout hielt die Gruppe am 16.10.2026 sechs Minuten, normal unter einer),
+  # Einrichten 4, Messung 8 (lokal gegen live 3 x ca. 117 s, 30.10.2026) = 19 min, Job-Frist 20: die Job-Frist greift nie vor einer Schritt-Frist (kein Job-Abbruch, der den Lauf rot macht).
+  # Einrichten und Messung stehen auf `continue-on-error`: ein Hänger dort bleibt ein Befund der Messung, kein roter Lauf.
   abschluss:
     needs: [build, pruefen, deploy_hart, deploy_schlank]
     if: always() && needs.build.result != 'skipped'
-    timeout-minutes: 14
+    timeout-minutes: 20
     runs-on: ubuntu-latest
     env:
       LAUF_ZWECK: "Veröffentlicht den aktuellen Stand von anime-kalender.de"
@@ -453,13 +475,16 @@ jobs:
       LAUF_SCHRITTE: '6'
     steps:
       - uses: actions/checkout@v4
+        timeout-minutes: 2
 
       - name: Melder bereitlegen
+        timeout-minutes: 1
         run: |
           cp tools/lauf-melden.sh "$RUNNER_TEMP/lauf-melden.sh"
           echo "MELDER=$RUNNER_TEMP/lauf-melden.sh" >> "$GITHUB_ENV"
 
       - name: Lauf abmelden
+        timeout-minutes: 1
         continue-on-error: true
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
@@ -479,6 +504,7 @@ jobs:
 
       - uses: ./.github/actions/kette-einrichten
         if: ${{ !cancelled() && (needs.deploy_hart.result == 'success' || needs.deploy_schlank.result == 'success') }}
+        timeout-minutes: 4
         continue-on-error: true
         with:
           playwright: 'true'
