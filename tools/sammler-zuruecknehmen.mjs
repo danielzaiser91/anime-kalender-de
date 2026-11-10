@@ -16,24 +16,45 @@ export const SAMMLER = 'anime-kalender-daten[bot]'
 // Nur Eingabedaten, die ein Sammler liefert; Cache und Erzeugnisse nie.
 const gueltigerPfad = (p) => p.startsWith('data/') && !p.startsWith('data/cache/')
 
-/** Dateien, die in der Spanne nur von Sammler-Commits geändert wurden (sonst ginge fremde Arbeit verloren). */
-export function sammlerDateien(commits) {
+const RUECKNAHME_BETREFF = 'chore(data): Sammler-Stand zurückgenommen'
+const BAU_BOT = 'github-actions[bot]'
+
+/** Ein früherer Rücknahme-Commit dieses Werkzeugs: seine Dateien sind kein Zeichen fremder Arbeit. */
+export const istRuecknahme = (c) => c.autor === BAU_BOT && typeof c.betreff === 'string' && c.betreff.startsWith(RUECKNAHME_BETREFF)
+
+/**
+ * Dateien, die in der Spanne nur von Sammler-Commits geändert wurden (sonst ginge fremde Arbeit verloren).
+ * Jede nicht gewählte Datei steht mit ihrem Grund in der Antwort: `fremd` (anderer Autor außer Rücknahme), `keinDatenpfad`.
+ */
+export function sammlerAuswahl(commits) {
   const sammler = new Set()
   const fremd = new Set()
+  let ruecknahmen = 0
   for (const c of commits) {
+    if (istRuecknahme(c)) {
+      ruecknahmen++
+      continue
+    }
     for (const d of c.dateien) (c.autor === SAMMLER ? sammler : fremd).add(d)
   }
-  return [...sammler].filter((d) => gueltigerPfad(d) && !fremd.has(d)).sort()
+  return {
+    dateien: [...sammler].filter((d) => gueltigerPfad(d) && !fremd.has(d)).sort(),
+    fremd: [...sammler].filter((d) => gueltigerPfad(d) && fremd.has(d)).sort(),
+    keinDatenpfad: [...sammler].filter((d) => !gueltigerPfad(d)).sort(),
+    ruecknahmen,
+  }
 }
+
+export const sammlerDateien = (commits) => sammlerAuswahl(commits).dateien
 
 const git = (cwd, args) => execFileSync('git', args, { cwd, encoding: 'utf8', windowsHide: true, timeout: 120000, stdio: ['ignore', 'pipe', 'pipe'] })
 
-function commitsSeit(cwd, basis) {
-  const kopf = git(cwd, ['log', '--format=%H%x09%an', `${basis}..HEAD`]).split('\n').filter(Boolean)
+export function commitsSeit(cwd, basis) {
+  const kopf = git(cwd, ['log', '--format=%H%x09%an%x09%s', `${basis}..HEAD`]).split('\n').filter(Boolean)
   return kopf.map((zeile) => {
-    const [sha, autor] = zeile.split('\t')
+    const [sha, autor, betreff] = zeile.split('\t')
     const dateien = git(cwd, ['show', '--name-only', '--format=', '--no-renames', sha]).split('\n').filter(Boolean)
-    return { sha, autor, dateien }
+    return { sha, autor, betreff, dateien }
   })
 }
 
@@ -49,7 +70,7 @@ function stelleHer(cwd, ref, datei) {
 
 export function nachricht(commits, dateien) {
   const shas = commits.filter((c) => c.autor === SAMMLER && c.dateien.some((d) => dateien.includes(d))).map((c) => c.sha.slice(0, 8))
-  return `chore(data): Sammler-Stand zurückgenommen (${shas.join(', ')})`
+  return `${RUECKNAHME_BETREFF} (${shas.join(', ')})`
 }
 
 /**
@@ -58,16 +79,16 @@ export function nachricht(commits, dateien) {
  */
 export function zuruecknehmen({ cwd, basis, bauen, committen }) {
   const commits = commitsSeit(cwd, basis)
-  const dateien = sammlerDateien(commits)
-  if (dateien.length === 0) return { art: 'nichts', dateien }
+  const { dateien, ...ausgelassen } = sammlerAuswahl(commits)
+  if (dateien.length === 0) return { art: 'nichts', dateien, ausgelassen }
   // Reste früherer Schritte des roten Laufs (Meldungen, Rohfolgen, halbe Erzeugnisse) kämen sonst mit in den Commit.
   git(cwd, ['reset', '-q', '--hard', 'HEAD'])
   git(cwd, ['clean', '-fdq'])
   for (const d of dateien) stelleHer(cwd, basis, d)
-  if (bauen() && committen(nachricht(commits, dateien))) return { art: 'zurueckgenommen', dateien }
+  if (bauen() && committen(nachricht(commits, dateien))) return { art: 'zurueckgenommen', dateien, ausgelassen }
   // Die Ursache liegt woanders (oder der Bestand blieb rot): Sammler-Stand wieder herstellen, nichts verloren.
   for (const d of dateien) stelleHer(cwd, 'HEAD', d)
-  return { art: 'bleibt-rot', dateien }
+  return { art: 'bleibt-rot', dateien, ausgelassen }
 }
 
 // Der Job hat 45 min und ist schon gelaufen: Bau (gemessen 2–4 min) und Commit mit Prüfketten bekommen je eine Grenze darunter.
@@ -78,6 +99,12 @@ const lauf = (befehl, env, minuten) => {
   } catch {
     return false
   }
+}
+
+/** Jeder Verwerfungspfad mit Zahl und Namen: fremd geänderte Dateien bleiben stehen, `ruecknahmen` zählen nicht als fremd. */
+export function ausgelassenZeile({ fremd, keinDatenpfad, ruecknahmen }) {
+  const namen = (l) => (l.length ? `: ${l.join(', ')}` : '')
+  return `Sammler-Zurücknahme ausgelassen: ${fremd.length} Dateien mit fremder Änderung${namen(fremd)}; ${keinDatenpfad.length} außerhalb von data/ oder in data/cache${namen(keinDatenpfad)}; ${ruecknahmen} frühere Rücknahme-Commits nicht als fremd gezählt`
 }
 
 function main(argv, env) {
@@ -96,6 +123,7 @@ function main(argv, env) {
     committen: (text) => lauf(commitBefehl, { ...env, BAU_LAUF: '1', SZN_NACHRICHT: text }, 20),
   })
   console.log(`Sammler-Zurücknahme: ${erg.art} (${erg.dateien.length} Dateien: ${erg.dateien.join(', ') || '-'})`)
+  console.log(ausgelassenZeile(erg.ausgelassen))
   return 0
 }
 

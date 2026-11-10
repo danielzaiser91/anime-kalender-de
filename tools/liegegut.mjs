@@ -1,5 +1,5 @@
 /**
- * Liegegut-Wächter: findet offene PRs, die liegen geblieben sind (Freigabe ohne Merge, Konflikt, rote Checks, Ändern-Urteil ohne Commit,
+ * Liegegut-Wächter: findet offene PRs, die liegen geblieben sind (Freigabe ohne Merge, Konflikt, rote Checks, Ändern-Urteil ohne Commit (eine Dirigenten-Abnahme „## Nachtrag (Abnahme Dirigent“ mit Kopf hebt es auf),
  * widersprüchliche Urteile, gleiche offene Entscheidung, überholt). Hinweisgeber, kein Tor: Exit 0 auch mit Funden, Exit 2 nur bei
  * Abruffehler (nie stilles „nichts gefunden“). Aufruf: node tools/liegegut.mjs
  * Signale und Anlass: daniel-zum-abarbeiten/berichte/liegegut-2026-10-21.md (PR 1676 lag freigegeben und grün 20.10. bis 21.10.).
@@ -8,6 +8,7 @@ import { mitLimit } from './kind-mit-limit.mjs'
 import fs from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
+import { PRAEFIX as ABNAHME_PRAEFIX } from './abnahme-freigabe.mjs'
 
 const STUNDE = 3600 * 1000
 // Schwellen (Stand 21.10.2026, aus dem Liegegut-Bericht der 13 PRs vom 21.10.: kürzer meldet bei normalem Prüfer-Takt Fehlalarm).
@@ -20,7 +21,13 @@ export const STILLSTAND_H = 48 // Keine Aktivität (Commit, Kommentar, Review), 
 const GRUEN = new Set(['SUCCESS', 'NEUTRAL', 'SKIPPED'])
 const ROT = new Set(['FAILURE', 'TIMED_OUT', 'STARTUP_FAILURE', 'ERROR'])
 
-/** Urteile aus den Kommentaren: Bot „**Prüfer-Review** für <Kopf> - Urteil: **ok|aendern**“, Daniel „Prüfer …: freigeben|ändern“. */
+/** Köpfe (>= 9 Zeichen) einer Dirigenten-Abnahme; gleiche Erkennung wie tools/abnahme-freigabe.mjs, ohne Kopf keine. */
+function abnahmeKoepfe(text) {
+  if (typeof text !== 'string' || !text.startsWith(ABNAHME_PRAEFIX)) return []
+  return text.match(/\b[0-9a-f]{9,40}\b/g) ?? []
+}
+
+/** Urteile aus den Kommentaren: Bot „**Prüfer-Review** für <Kopf> - Urteil: **ok|aendern**“, Daniel „Prüfer …: freigeben|ändern“ und die Abnahme „## Nachtrag (Abnahme Dirigent“ mit Kopf (gut). */
 export function urteile(comments) {
   const aus = []
   for (const c of comments) {
@@ -29,6 +36,7 @@ export function urteile(comments) {
       const m = /\*\*Prüfer-Review\*\* für ([0-9a-f]{7,40})\b[\s\S]*?Urteil: \*\*(ok|aendern)\b/.exec(c.body)
       if (m) aus.push({ zeit: Date.parse(c.createdAt), quelle: 'bot', kopf: m[1], gut: m[2] === 'ok' })
     } else if (login === 'danielzaiser91') {
+      for (const kopf of abnahmeKoepfe(c.body)) aus.push({ zeit: Date.parse(c.createdAt), quelle: 'daniel', kopf, gut: true })
       const m = /^Prüfer(?!\p{L}).*?(?<!\p{L})(freigeben|ändern)(?!\p{L})/iu.exec(c.body)
       if (m) aus.push({ zeit: Date.parse(c.createdAt), quelle: 'daniel', kopf: /Kopf ([0-9a-f]{7,40})/.exec(c.body)?.[1] ?? null, gut: m[1].toLowerCase() === 'freigeben' })
     }
@@ -89,7 +97,8 @@ export function signaleEinzel(pr, kopfZeit, jetzt) {
   if (pr.mergeable === 'CONFLICTING' && stunden(ruhe, jetzt) > KONFLIKT_H) aus.push({ nr: 3, text: 'Konflikt liegt', seit: ruhe })
   if (checks.art === 'rot' && stunden(checks.seit, jetzt) > ROT_H) aus.push({ nr: 4, text: 'Checks rot auf dem Kopf', seit: checks.seit })
   const letztes = aufKopf.at(-1)
-  if (letztes && !letztes.gut && stunden(letztes.zeit, jetzt) > AENDERN_H) aus.push({ nr: 5, text: 'Ändern-Urteil ohne neuen Commit', seit: letztes.zeit })
+  const freigegeben = (pr.reviews ?? []).some((r) => r.state === 'APPROVED' && Date.parse(r.submittedAt) > letztes?.zeit)
+  if (letztes && !letztes.gut && !freigegeben && stunden(letztes.zeit, jetzt) > AENDERN_H) aus.push({ nr: 5, text: 'Ändern-Urteil ohne neuen Commit', seit: letztes.zeit })
   return aus
 }
 
@@ -100,13 +109,30 @@ export function stillstandSignal(pr, kopfZeit, jetzt) {
   return stunden(letzte, jetzt) > STILLSTAND_H ? [{ nr: 8, text: 'Stillstand', seit: letzte }] : []
 }
 
-/** Entschiedene F-Nummern („F44“) aus `fragen/F*.md`: eine Zeile, die mit „Entschieden“ beginnt (auch fett oder als Listenpunkt). Fehlt der Ordner, ist die Menge leer. */
-export function entschiedeneFragen(ordner, fsFn = fs) {
-  const aus = new Set()
-  if (!fsFn.existsSync(ordner)) return aus
-  for (const datei of fsFn.readdirSync(ordner)) {
-    const nr = /^f(\d+)(?!\d)/i.exec(datei)
-    if (nr && /^[\s*>-]*Entschieden/m.test(fsFn.readFileSync(path.join(ordner, datei), 'utf8'))) aus.add(`F${nr[1]}`)
+/**
+ * F-Nummern, die in `stand.md` unter „### Jetzt“ (bis zur nächsten Überschrift) stehen = offen. Reine Funktion; Text null/undefined → null
+ * (Datei fehlt, z. B. in CI: keine Einschränkung, Signal 6 bleibt wie zuvor, statt Entscheidungen still zu verschlucken).
+ */
+export function offeneEntscheidungen(standText) {
+  if (typeof standText !== 'string') return null
+  const zeilen = standText.split('\n')
+  const von = zeilen.findIndex((z) => /^### Jetzt\s*$/.test(z))
+  if (von < 0) return new Set()
+  const bis = zeilen.findIndex((z, i) => i > von && /^#{2,3}\s/.test(z))
+  return new Set(zeilen.slice(von + 1, bis < 0 ? undefined : bis).join('\n').match(/\bF\d+\b/g) ?? [])
+}
+
+/** Signal 6: F-Nummern (offene Entscheidungen), die mehr als ein PR nennt; `offen` (Set, null = alle) beschränkt auf noch offene. Rückgabe: Map PR-Nummer → Liste der geteilten F-Nummern. */
+export function geteilteEntscheidungen(prs, offen = null) {
+  const je = new Map()
+  for (const pr of prs) {
+    const text = [pr.title, pr.body, ...pr.comments.filter((c) => c.author?.login === 'danielzaiser91' || c.body.includes('**Prüfer-Review**')).map((c) => c.body)].join('\n')
+    for (const f of new Set(text.match(/\bF\d+\b/g) ?? [])) if (offen === null || offen.has(f)) je.set(f, [...(je.get(f) ?? []), pr.number])
+  }
+  const aus = new Map()
+  for (const [f, nummern] of je) {
+    if (nummern.length < 2) continue
+    for (const n of nummern) aus.set(n, [...(aus.get(n) ?? []), f])
   }
   return aus
 }
@@ -137,21 +163,6 @@ export function stapelBasen(ghFn, offen) {
   for (const pr of offen.filter(stapelKandidat)) {
     const basis = stapelBasis(ghFn, pr)
     if (basis) aus.set(pr.number, basis)
-  }
-  return aus
-}
-
-/** Signal 6: F-Nummern (offene Entscheidungen), die mehr als ein PR nennt; `entschieden` (Menge) zählt nicht mehr. Rückgabe: Map PR-Nummer → Liste der geteilten F-Nummern. */
-export function geteilteEntscheidungen(prs, entschieden = new Set()) {
-  const je = new Map()
-  for (const pr of prs) {
-    const text = [pr.title, pr.body, ...pr.comments.filter((c) => c.author?.login === 'danielzaiser91' || c.body.includes('**Prüfer-Review**')).map((c) => c.body)].join('\n')
-    for (const f of new Set(text.match(/\bF\d+\b/g) ?? [])) if (!entschieden.has(f)) je.set(f, [...(je.get(f) ?? []), pr.number])
-  }
-  const aus = new Map()
-  for (const [f, nummern] of je) {
-    if (nummern.length < 2) continue
-    for (const n of nummern) aus.set(n, [...(aus.get(n) ?? []), f])
   }
   return aus
 }
@@ -316,24 +327,25 @@ export function offenePrs(ghFn, hinweis = () => {}) {
 /** Hauptordner des Repos (auch aus einem Worktree): Elternordner des gemeinsamen .git. */
 export const hauptordner = (gitFn) => path.dirname(path.resolve(process.cwd(), gitFn(['rev-parse', '--git-common-dir']).trim()))
 
-/** Entschiedene Fragen aus dem Hauptordner (dort liegt das git-ausgeschlossene `daniel-zum-abarbeiten/fragen`); fehlt der Ordner, sagt `hinweis` es. */
-export function entschiedeneImProjekt(gitFn, hinweis) {
-  const ordner = path.join(hauptordner(gitFn), 'daniel-zum-abarbeiten', 'fragen')
-  if (!fs.existsSync(ordner)) hinweis(`liegegut: ${ordner} fehlt – entschiedene F-Nummern unbekannt (Signal 6 kann Fehlalarme zeigen)`)
-  return entschiedeneFragen(ordner)
+/** Text von `stand.md` aus dem Hauptordner (die Datei ist git-ausgeschlossen, im Worktree fehlt sie); fehlt sie, sagt `hinweis` es und Signal 6 bleibt uneingeschränkt (null). */
+export function standImProjekt(gitFn, hinweis) {
+  const datei = path.join(hauptordner(gitFn), 'daniel-zum-abarbeiten', 'stand.md')
+  if (fs.existsSync(datei)) return fs.readFileSync(datei, 'utf8')
+  hinweis(`liegegut: ${datei} fehlt – offene F-Nummern unbekannt (Signal 6 kann Fehlalarme zeigen)`)
+  return null
 }
 
-/** Holt die offenen PRs über gh/git (einspeisbar) und rechnet alle. `entschieden` = Menge entschiedener F-Nummern. Rückgabe: Funde { nr, signale, zeile }. */
-export function liegegutFunde(ghFn, gitFn, jetzt, hinweis, entschieden = new Set()) {
+/** Holt die offenen PRs über gh/git (einspeisbar) und rechnet alle. `standText` = Text von stand.md (null = keine Einschränkung bei Signal 6). Rückgabe: Funde { nr, signale, zeile }. */
+export function liegegutFunde(ghFn, gitFn, jetzt, hinweis, standText = null) {
   const offen = offenePrs(ghFn, hinweis).filter((p) => !p.isDraft)
-  const geteilt = geteilteEntscheidungen(offen, entschieden)
+  const geteilt = geteilteEntscheidungen(offen, offeneEntscheidungen(standText))
   const karte = kopfZeiten(ghFn)
   const stapel = stapelBasen(ghFn, offen)
   return offen.map((pr) => bewertePr(ghFn, gitFn, pr, geteilt.get(pr.number), jetzt, karte, stapel.get(pr.number))).filter((f) => f !== null)
 }
 
 /** Dieselben Funde als Textzeilen. */
-export const liegegut = (ghFn, gitFn, jetzt, hinweis, entschieden) => liegegutFunde(ghFn, gitFn, jetzt, hinweis, entschieden).map((f) => f.zeile)
+export const liegegut = (ghFn, gitFn, jetzt, hinweis, standText) => liegegutFunde(ghFn, gitFn, jetzt, hinweis, standText).map((f) => f.zeile)
 
 const KURZ = { 1: 'Freigabe ruht', 2: 'Urteile widersprechen', 3: 'Konflikt', 4: 'rot', 5: 'Ändern offen', 6: 'gleiche Entscheidung', 8: 'Stillstand', 9: 'Stapel' }
 
@@ -347,7 +359,7 @@ export function liegtZeile(funde, jetzt) {
 /** Wachphase: Sammelzeile oder eigene Fehlerzeile, wirft nie (kein stilles „nichts“). */
 export function meldeLiegt(ghFn, gitFn, log, jetzt) {
   try {
-    const zeile = liegtZeile(liegegutFunde(ghFn, gitFn, jetzt, undefined, entschiedeneImProjekt(gitFn, log)), jetzt)
+    const zeile = liegtZeile(liegegutFunde(ghFn, gitFn, jetzt, undefined, standImProjekt(gitFn, log)), jetzt)
     if (zeile) log(zeile)
   } catch (e) {
     log(`LIEGT? liegegut nicht lesbar: ${String(e.message).split('\n')[0]}`)
@@ -384,7 +396,7 @@ export function git(args) {
 /** Startlogik: Fehler als Exit 2, Funde als Exit 0. */
 export function main(ghFn, gitFn, melde, jetzt) {
   try {
-    const zeilen = liegegut(ghFn, gitFn, jetzt, melde, entschiedeneImProjekt(gitFn, melde))
+    const zeilen = liegegut(ghFn, gitFn, jetzt, melde, standImProjekt(gitFn, melde))
     for (const z of zeilen) melde(z)
     melde(`liegegut: ${zeilen.length} auffällige PRs`)
     return 0

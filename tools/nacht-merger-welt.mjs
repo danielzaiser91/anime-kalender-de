@@ -29,11 +29,11 @@ export const ghLesend = (gh) => (args) => {
 }
 
 /**
- * Höchstmenge neu angestoßener Ketten je Lauf (je PR zählt das erste `pr close`). Jede Kette kostet Actions-Minuten; 4 = Merge-Riegel (3) + 1,
- * gewählt, nicht gemessen: am 07.11.2026 stießen 2 von 4 Kandidaten an. Darüber wirft der Aufruf vor dem Schließen, der PR wird übersprungen
- * und kommt im nächsten Lauf (40 min später) dran.
+ * Höchstmenge neu angestoßener Ketten je Lauf (je PR zählt das erste `pr close`). Jede Kette kostet Actions-Minuten; 8 gemessen an den
+ * 59 Läufen vom 07. bis 09.11.2026: bei 4 traf der Riegel in 14 Läufen zu (bis 12 übersprungene PRs je Lauf). Darüber wirft der Aufruf
+ * vor dem Schließen, der PR wird übersprungen und kommt im nächsten Lauf (40 min später) dran.
  */
-export const ANSTOESSE_HOECHSTENS = 4
+export const ANSTOESSE_HOECHSTENS = 8
 export const ghMitAnstossRiegel = (gh, hoechstens = ANSTOESSE_HOECHSTENS) => {
   const angestossen = new Set()
   return (args) => {

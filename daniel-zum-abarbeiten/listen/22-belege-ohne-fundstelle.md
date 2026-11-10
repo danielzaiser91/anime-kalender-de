@@ -1,4 +1,4 @@
-# Belege ohne Fundstelle (109)
+# Belege ohne Fundstelle (111)
 
 Die Aussage war auf der Seite nicht zu finden. Von Hand prüfen: nennt der Artikel den Titel und den Termin? Wenn nein, ist der Beleg hinfällig und der Termin braucht eine andere Quelle.
 
@@ -34,6 +34,7 @@ Die Aussage war auf der Seite nicht zu finden. Von Hand prüfen: nennt der Artik
 - https://news.animationdigitalnetwork.com/de/2026/06/29/maedchen-mit-toedlichen-waffen-gunslinger-girl-jetzt-bei-adn/ (gelesen 2026-10-29) — Gunslinger Girl -Il Teatrino- (3231)
 - https://news.animationdigitalnetwork.com/de/2026/08/17/love-lies-jetzt-im-stream-bei-adn-dystopisches-romance-drama/ (gelesen 2026-10-29) — Love and Lies (98320)
 - https://news.animationdigitalnetwork.com/de/2026/07/20/sci-fi-donghua-ringing-fate-kommt-zu-adn/ (gelesen 2026-10-29) — Boku no Hero Academia (21459), My Hero Academia Season 2 (21856)
+- https://news.animationdigitalnetwork.com/de/2026/06/01/sailor-moon-sailor-stars-staffel-5-im-stream-bei-adn/ (gelesen 2026-10-29) — Sailor Moon: Das Mädchen mit den Zauberkräften (530), Bishoujo Senshi Sailor Moon R (740), Bishoujo Senshi Sailor Moon: Crystal - Death Busters-hen (21462)
 - https://www.anime2you.de/news/1044367/kaiju-no-8-staffel-2-disc-release/ (gelesen 2026-11-01) — Kaiju No. 8 – Staffel 2 – Komplettbox (178754)
 - https://www.anime2you.de/news/1056322/aniverse-oktober-2026-neuzugaenge/ (gelesen 2026-11-02) — Hands off: Sawaranaide Kotesashi-kun! (187331), Trinity Seven Movie - Tenkuu Toshokan to Shinku no Maou (103631), Your Forma (167142)
 - https://www.anime2you.de/news/1054791/prime-video-attack-on-titan-und-mehr/ (gelesen 2026-11-02) — Shingeki no Kyojin (16498)
@@ -64,14 +65,13 @@ Die Aussage war auf der Seite nicht zu finden. Von Hand prüfen: nennt der Artik
 - https://www.anime2you.de/news/1055887/ (gelesen 2026-11-08) — A Certain Magical Index (186742), Magic Repo Man: Dumped by My Party, I’ll Cash In With a Cute Support Fairy to Become the Strongest! (202250), Super Psychic Policeman Chojo (200294)
 - https://www.anime2you.de/news/1054748/ (gelesen 2026-11-08) — Tensei Shitara Dragon no Tamago Datta: Saikyou Igai Mezasa Nee (187941), Now That I Can Control Reality With A Mouse Cursor, I'm Gonna Click Away On The Girls! (206774), Suikoden: The Anime (187316)
 - https://www.anime2you.de/news/1054490/netflix-demon-slayer-infinity-castle-und-mehr/ (gelesen 2026-11-06) — Beelzebub (9513)
-- https://www.anime2you.de/news/1059441/netflix-snowball-earth-und-mehr/ (gelesen 2026-11-03) — Niwatori Fighter (179813)
-- https://www.anime2you.de/news/1056789/akiba-pass-shop-sailor-moon-und-mehr/ (gelesen 2026-11-03) — Sailor Moon: Das Mädchen mit den Zauberkräften (1239), Sailor Moon: Das Mädchen mit den Zauberkräften (740), Sailor Moon: Das Mädchen mit den Zauberkräften (996), Hanarokushou ga Akeru Hi ni (177132)
-- https://www.anime2you.de/news/1058465/fate-stay-night-heavens-feel-erscheint-als-komplettbox/ (gelesen 2026-11-03) — Fate/stay night [Heaven's Feel] – Gesamtausgabe (I. presage flower) (20791), Fate/stay night [Heaven's Feel] – Gesamtausgabe (II. lost butterfly) (21718), Fate/stay night [Heaven's Feel] – Gesamtausgabe (III. spring song) (21719)
-- https://www.anime2you.de/news/1058438/akiba-pass-shop-shield-hero-und-mehr/ (gelesen 2026-11-03) — The Rising of the Shield Hero – Staffel 4 – Vol. 2 (173780), Air Gear – Komplett-Bundle (857), D.Gray-man – Komplett-Bundle (1482), Love Hina – Komplett-Bundle (189), Ouran High School Host Club – Komplett-Bundle (853), Shakugan no Shana – Staffel 1 und 2 – Komplett-Bundle (355)
-- https://www.anime2you.de/news/1058300/20-blu-ray-neuheiten-bei-amazon-vorbestellbar/ (gelesen 2026-11-03) — Dr. STONE: Science Future – Teil 2 (189117), Air Gear – Komplett-Bundle (857), D.Gray-man – Komplett-Bundle (1482), Love Hina – Komplett-Bundle (189), Ouran High School Host Club – Komplett-Bundle (853), Shakugan no Shana – Staffel 1 und 2 – Komplett-Bundle (355), Shin Chan – Vol. 9-12 (966), As a Reincarnated Aristocrat, I’ll Use My Appraisal Skill to Rise in the World: Staffel 2 (178434), Re:Zero - Starting Life in Another World: Staffel 3 (163134)
-- https://www.anime2you.de/news/1046360/akiba-pass-shop-vier-polyband-neuheiten/ (gelesen 2026-11-03) — Pokémon: Die Anfänge – Staffel 1 und 2 (527), Pokémon: Schwarz und Weiß – Staffel 14 bis 16 (9107)
+- https://www.anime2you.de/news/1059441/netflix-snowball-earth-und-mehr/ (gelesen 2026-11-10) — Niwatori Fighter (179813)
+- https://www.anime2you.de/news/1056789/akiba-pass-shop-sailor-moon-und-mehr/ (gelesen 2026-11-10) — Sailor Moon: Das Mädchen mit den Zauberkräften (1239), Sailor Moon: Das Mädchen mit den Zauberkräften (740), Sailor Moon: Das Mädchen mit den Zauberkräften (996), Hanarokushou ga Akeru Hi ni (177132)
+- https://www.anime2you.de/news/1058465/fate-stay-night-heavens-feel-erscheint-als-komplettbox/ (gelesen 2026-11-10) — Fate/stay night [Heaven's Feel] – Gesamtausgabe (I. presage flower) (20791), Fate/stay night [Heaven's Feel] – Gesamtausgabe (II. lost butterfly) (21718), Fate/stay night [Heaven's Feel] – Gesamtausgabe (III. spring song) (21719)
+- https://www.anime2you.de/news/1058438/akiba-pass-shop-shield-hero-und-mehr/ (gelesen 2026-11-10) — The Rising of the Shield Hero – Staffel 4 – Vol. 2 (173780), Air Gear – Komplett-Bundle (857), D.Gray-man – Komplett-Bundle (1482), Love Hina – Komplett-Bundle (189), Ouran High School Host Club – Komplett-Bundle (853), Shakugan no Shana – Staffel 1 und 2 – Komplett-Bundle (355)
+- https://www.anime2you.de/news/1058300/20-blu-ray-neuheiten-bei-amazon-vorbestellbar/ (gelesen 2026-11-10) — Dr. STONE: Science Future – Teil 2 (189117), Air Gear – Komplett-Bundle (857), D.Gray-man – Komplett-Bundle (1482), Love Hina – Komplett-Bundle (189), Ouran High School Host Club – Komplett-Bundle (853), Shakugan no Shana – Staffel 1 und 2 – Komplett-Bundle (355), Shin Chan – Vol. 9-12 (966), As a Reincarnated Aristocrat, I’ll Use My Appraisal Skill to Rise in the World: Staffel 2 (178434), Re:Zero - Starting Life in Another World: Staffel 3 (163134)
+- https://www.anime2you.de/news/1046360/akiba-pass-shop-vier-polyband-neuheiten/ (gelesen 2026-11-10) — Pokémon: Die Anfänge – Staffel 1 und 2 (527), Pokémon: Schwarz und Weiß – Staffel 14 bis 16 (9107)
 - https://www.anime2you.de/news/1060073/apothecary-diaries-staffel-2-volume-2-termin/ (gelesen 2026-10-30) — Die Tagebücher der Apothekerin – Staffel 2 – Vol. 1 (176301)
-- https://www.anime2you.de/news/1053923/rtl-plus-dragon-ball-daima-und-mehr/ (gelesen 2026-10-14) — Dragon Ball DAIMA (170083)
 - https://www.anime2you.de/news/1059642/prime-video-weitere-demon-slayer-staffeln/ (gelesen 2026-11-06) — Demon Slayer: Kimetsu no Yaiba - Entertainment District Arc (142329), Demon Slayer: Kimetsu no Yaiba - Hashira Training Arc (166240), Demon Slayer: Kimetsu no Yaiba - Mugen Train Arc (129874), Demon Slayer: Kimetsu no Yaiba - Swordsmith Village Arc (145139)
 - https://www.anime2you.de/news/1058843/dragon-ball-super-beerus-bricht-netflix-rekord/ (gelesen 2026-10-30) — kein Titel zugeordnet
 - https://www.anime2you.de/news/1044599/prime-video-yu-gi-oh-5ds-und-mehr/ (gelesen 2026-11-03) — Concrete Revolutio: Choujin Gensou (21249)
@@ -89,14 +89,14 @@ Die Aussage war auf der Seite nicht zu finden. Von Hand prüfen: nennt der Artik
 - https://www.anime2you.de/news/1060717/crunchyroll-full-clearing-another-world-und-mehr/ (gelesen 2026-11-09) — Snowball Earth (196144)
 - https://www.anime2you.de/news/1060828/disney-plus-dragon-ball-super-beerus-und-mehr/ (gelesen 2026-11-09) — Snowball Earth (196144)
 - https://www.disneyplus.com/de-de/browse/entity-fc20b0bc-90b6-45b3-b56a-ad3a5cb2b855 (gelesen 2026-10-30) — kein Titel zugeordnet
-- https://www.anime2you.de/news/1061001/neun-animoon-crunchyroll-hardball-disc-verschiebungen/ (gelesen 2026-11-03) — Good Luck Girl! – Vol. 1 (13535), Kaiju No. 8 – Staffel 2 – Komplettbox (178754)
+- https://www.anime2you.de/news/1061001/neun-animoon-crunchyroll-hardball-disc-verschiebungen/ (gelesen 2026-11-10) — Good Luck Girl! – Vol. 1 (13535), Kaiju No. 8 – Staffel 2 – Komplettbox (178754)
 - https://www.anime2you.de/news/1047034/disney-plus-classroom-of-the-elite-und-mehr/ (gelesen 2026-11-03) — Bleach (269)
 - https://www.joyn.de/filme/naruto-shippuden-the-movie-the-lost-tower (gelesen 2026-10-20) — kein Titel zugeordnet
 - https://www.joyn.de/filme/naruto-shippuden-the-movie-blood-prison (gelesen 2026-10-31) — kein Titel zugeordnet
-- https://www.joyn.de/filme/the-last-naruto-the-movie (gelesen 2026-11-07) — The Last: Naruto the Movie (16870)
+- https://www.joyn.de/filme/the-last-naruto-the-movie (gelesen 2026-11-07) — kein Titel zugeordnet
 - https://news.animationdigitalnetwork.com/de/2026/10/26/die-1-euro-aktion-ist-zurueck-streame-anime-fuer-1e-bei-adn/ (gelesen 2026-11-02) — Shingeki no Kyojin (16498)
 - https://news.animationdigitalnetwork.com/de/2026/10/15/reincarnated-as-a-dragon-hatchling-cast-alle-infos-zur-deutschen-synchro/ (gelesen 2026-11-02) — Tensei Shitara Dragon no Tamago Datta: Saikyou Igai Mezasa Nee (187941)
-- https://www.anime2you.de/news/1064806/adn-neuzugaenge-im-november-2026/ (gelesen 2026-11-03) — Ore wa Subete wo [Parry] Suru: Gyaku Kanchigai no Sekai Saikyou wa Boukensha ni Naritai (170695)
+- https://www.anime2you.de/news/1064806/adn-neuzugaenge-im-november-2026/ (gelesen 2026-11-10) — Ore wa Subete wo [Parry] Suru: Gyaku Kanchigai no Sekai Saikyou wa Boukensha ni Naritai (170695)
 - https://www.anisearch.de/article/198024,virgin-road-die-henkerin-und-ihre-art-zu-leben-vol-1-3-limited-edition-blu-ray-sammelschuber (gelesen 2026-11-06) — Virgin Road: Die Henkerin und ihre Art zu leben (129193)
 - https://www.anisearch.de/article/201859,sakamoto-days-vol-1-4-limited-steelcase-edition-blu-ray-sammelschuber (gelesen 2026-11-06) — Sakamoto Days – Vol. 1 (177709)
 - https://www.anisearch.de/article/189533,nukitashi-welcome-to-love-island-vol-1-3-limited-mediabook-edition-blu-ray-sammelschuber (gelesen 2026-11-06) — Nukitashi: Welcome to Love Island! (174188)
@@ -109,5 +109,7 @@ Die Aussage war auf der Seite nicht zu finden. Von Hand prüfen: nennt der Artik
 - https://news.animationdigitalnetwork.com/de/2026/11/03/adn-bringt-tv-app-heraus-streame-anime-auf-fernseher-und-konsole/ (gelesen 2026-11-06) — Shingeki no Kyojin (16498)
 - https://www.anime2you.de/news/1067193/disney-plus-honey-lemon-soda-und-mehr-verfuegbar/ (gelesen 2026-11-09) — Boruto: Naruto Next Generations (97938)
 - https://www.joyn.de/serien/clannad-dpp0mkvw37d3 (gelesen 2026-11-07) — Clannad: Der Film (2167), Clannad: After Story (4181)
-- https://www.anime2you.de/news/1068595/28-blu-ray-verschiebungen/ (gelesen 2026-11-09) — Inazuma Eleven – Staffel 1 (5231), Infinite Dendrogram – Vol. 2 (107420), Nukitashi: Welcome to Love Island! (174188), Loner Life in Another World – Vol. 1 (173693), The Café Terrace and Its Goddesses Season 2 (166477)
-- https://www.anime2you.de/news/1068059/prime-video-devils-crest-und-mehr/ (gelesen 2026-11-09) — Devils' Crest (203275)
+- https://www.anime2you.de/news/1068595/28-blu-ray-verschiebungen/ (gelesen 2026-11-10) — Inazuma Eleven – Staffel 1 (5231), Infinite Dendrogram – Vol. 2 (107420), Nukitashi: Welcome to Love Island! (174188), Loner Life in Another World – Vol. 1 (173693), The Café Terrace and Its Goddesses Season 2 (166477)
+- https://www.anime2you.de/news/1068059/prime-video-devils-crest-und-mehr/ (gelesen 2026-11-10) — Devils' Crest (203275)
+- https://www.anime2you.de/news/1069021/joyn-yaiba-samurai-legend-und-mehr/ (gelesen 2026-11-10) — Shin Samurai-den YAIBA (177476)
+- https://news.animationdigitalnetwork.com/de/2026/11/02/i-parry-everything-jetzt-auf-deutsch-im-stream-bei-adn/ (gelesen 2026-11-10) — Ore wa Subete wo [Parry] Suru: Gyaku Kanchigai no Sekai Saikyou wa Boukensha ni Naritai (170695)

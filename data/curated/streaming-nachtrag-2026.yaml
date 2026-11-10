@@ -205,3 +205,21 @@
   schedule: { firstEpisodeDate: "2026-11-06", episodeCount: 13 }
   sources:
     - https://www.anime2you.de/news/1068059/prime-video-devils-crest-und-mehr/
+
+# YAIBA: Samurai Legend bei Joyn (Daniel, 09.11.2026): nach der Sendung auf ProSieben MAXX (Mo–Fr 18:25, tv-2026.yaml) ist jede Folge
+# ab 18:50 auf Joyn abrufbar. Zeit und Start aus den Joyn-Fenstern in titles.json (Folge 1–6 je ab 18:50, 05.11. bis 12.11.), 24 Folgen aus
+# Anime2You 1059480. Der Handtermin ersetzt den automatischen Block-Termin `auto-177476-joyn` (08.11., geschätzt) aus Anime2You 1069021.
+- slug: yaiba-samurai-legend-joyn
+  anilistId: 177476
+  platform: joyn
+  platformUrl: https://www.joyn.de/serien/yaiba-samurai-legend
+  releaseType: weekly
+  schedule:
+    firstEpisodeDate: "2026-11-05"
+    time: "18:50"
+    episodeCount: 24
+    wochentage: [1, 2, 3, 4, 5]
+  sources:
+    - https://www.joyn.de/serien/yaiba-samurai-legend
+    - https://www.anime2you.de/news/1059480/yaiba-samurai-legend-prosieben-maxx-termin/
+    - https://www.anime2you.de/news/1069021/joyn-yaiba-samurai-legend-und-mehr/

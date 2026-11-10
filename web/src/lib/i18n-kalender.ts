@@ -61,6 +61,8 @@ export const TEXTE_KALENDER = {
   'kal.keineAusstrahlung': 'Keine Ausstrahlung.',
   'kal.imTvZahl': '{n} im TV',
   'kal.imHandelZahl': '{n} im Handel',
+  'kal.imHandel': 'Im Handel',
+  'kal.augeBereich': '{bereich} anzeigen',
   'kal.buendelTv': '+{n}, zuletzt um {zeit}',
   'kal.buendelTvEine': '+1 um {zeit}',
   'kal.buendelTvOhneZeit': '+{n}',

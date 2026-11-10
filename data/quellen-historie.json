@@ -2146,7 +2146,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "vermutlich-ueberholt",
-      "gelesenAm": "2026-11-04",
+      "gelesenAm": "2026-11-09",
       "bestaetigt": "2026-08-17"
     },
     {
@@ -2797,7 +2797,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-04",
+      "gelesenAm": "2026-11-09",
       "bestaetigt": "2024-12-06"
     },
     {
@@ -2831,7 +2831,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-04",
+      "gelesenAm": "2026-11-09",
       "bestaetigt": "2024-06-13"
     }
   ],
@@ -2841,7 +2841,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-04",
+      "gelesenAm": "2026-11-09",
       "bestaetigt": "2024-06-13"
     }
   ],
@@ -2871,7 +2871,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-04",
+      "gelesenAm": "2026-11-09",
       "bestaetigt": "2024-06-13"
     }
   ],
@@ -3068,7 +3068,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-04",
+      "gelesenAm": "2026-11-09",
       "bestaetigt": "2026-06-01"
     },
     {
@@ -3185,7 +3185,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-04",
+      "gelesenAm": "2026-11-09",
       "bestaetigt": "2023-10-01"
     }
   ],
@@ -3195,7 +3195,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-04",
+      "gelesenAm": "2026-11-09",
       "bestaetigt": "2023-10-01"
     }
   ],
@@ -3408,7 +3408,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-04",
+      "gelesenAm": "2026-11-09",
       "bestaetigt": "2025-06-11"
     }
   ],
@@ -3610,7 +3610,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "vermutlich-ueberholt",
-      "gelesenAm": "2026-11-04",
+      "gelesenAm": "2026-11-09",
       "bestaetigt": "2026-08-24"
     },
     {
@@ -3777,7 +3777,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
       "stand": "vermutlich-ueberholt",
-      "gelesenAm": "2026-11-04",
+      "gelesenAm": "2026-11-09",
       "bestaetigt": "2026-09-01"
     },
     {
@@ -3794,7 +3794,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-26",
       "stand": "vermutlich-ueberholt",
-      "gelesenAm": "2026-11-04",
+      "gelesenAm": "2026-11-09",
       "bestaetigt": "2026-09-10"
     },
     {
@@ -3820,7 +3820,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-29",
       "stand": "vermutlich-ueberholt",
-      "gelesenAm": "2026-11-04",
+      "gelesenAm": "2026-11-09",
       "bestaetigt": "2026-09-17"
     },
     {
@@ -8006,7 +8006,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-31",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-04",
+      "gelesenAm": "2026-11-09",
       "bestaetigt": "2020-11-11"
     }
   ],
@@ -8136,7 +8136,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-31",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-04",
+      "gelesenAm": "2026-11-09",
       "bestaetigt": "2021-06-16"
     }
   ],
@@ -8165,7 +8165,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-11-02",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-04",
+      "gelesenAm": "2026-11-09",
       "bestaetigt": "2025-05-05"
     }
   ],
@@ -8793,6 +8793,26 @@
       "stand": "aktuell",
       "gelesenAm": "2026-11-09",
       "bestaetigt": "2024-07-04"
+    }
+  ],
+  "yaiba-samurai-legend-joyn": [
+    {
+      "url": "https://www.joyn.de/serien/yaiba-samurai-legend",
+      "name": "joyn.de",
+      "gesehenAm": "2026-11-09",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://www.anime2you.de/news/1059480/yaiba-samurai-legend-prosieben-maxx-termin/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-09",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://www.anime2you.de/news/1069021/joyn-yaiba-samurai-legend-und-mehr/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-09",
+      "stand": "aktuell"
     }
   ]
 }

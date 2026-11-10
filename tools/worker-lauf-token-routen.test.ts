@@ -1,6 +1,6 @@
 /**
  * Prüf-Token an den Routen `/land`, `/netzfund` (GET, POST), `/vorfall` (GET, POST, DELETE), `/debug/digest` und
- * `/debug/monitor`: Bearer gilt, `?token=` übergangsweise, falscher oder fehlender Token -> 403. Läuft über `worker.fetch`.
+ * `/debug/monitor`: Bearer gilt, `?token=` gilt nicht mehr, falscher oder fehlender Token -> 403. Läuft über `worker.fetch`.
  *
  * Aufruf: `npx tsx tools/worker-lauf-token-routen.test.ts`
  */
@@ -41,7 +41,7 @@ async function leseRoute(pfad: string, geheim: string) {
     faelle++
   }
   await nicht403(rufe(env, pfad, { Authorization: `Bearer ${geheim}` }), 'Bearer ok')
-  await nicht403(rufe(env, `${pfad}${mit}token=${geheim}`), 'Query übergangsweise ok')
+  await ist403(rufe(env, `${pfad}${mit}token=${geheim}`), 'richtiges Token in der Adresse wird abgelehnt')
   await ist403(rufe(env, pfad, { Authorization: 'Bearer falsch' }), 'falscher Bearer')
   await ist403(rufe(env, `${pfad}${mit}token=falsch`), 'falsche Query')
   await ist403(rufe(env, pfad), 'ohne Token')
@@ -73,7 +73,7 @@ await schreibRoute('/netzfund', 'POST')
 await schreibRoute('/vorfall', 'POST')
 await schreibRoute('/vorfall', 'DELETE')
 
-/** Schreibende Routen von `/pruefung`, `/lauf`, `/beleg` lesen den Kopf über `tokenAusKopf`: Bearer wie X-Lauf-Token. */
+/** Schreibende Routen von `/pruefung`, `/lauf`, `/beleg`, `/netzfund`, `/vorfall` lesen den Kopf über `tokenAusKopf`: Bearer wie X-Lauf-Token. */
 async function bearerRoute(pfad: string, methode: string) {
   const status = (e: Env, kopf: Record<string, string>) => rufe(e, pfad, kopf, methode)
   assert.notEqual(await status(env, { Authorization: 'Bearer lauf-1' }), 403, `${methode} ${pfad}: Bearer ok`)
@@ -88,5 +88,8 @@ await bearerRoute('/pruefung', 'POST')
 await bearerRoute('/pruefung', 'DELETE')
 await bearerRoute('/lauf', 'POST')
 await bearerRoute('/beleg', 'POST')
+await bearerRoute('/netzfund', 'POST')
+await bearerRoute('/vorfall', 'POST')
+await bearerRoute('/vorfall', 'DELETE')
 
 ausgabe(`worker-lauf-token-routen.test: ${faelle} Fälle grün (/land, /netzfund, /vorfall, /debug/digest, /debug/monitor, /pruefung, /lauf, /beleg)`)
