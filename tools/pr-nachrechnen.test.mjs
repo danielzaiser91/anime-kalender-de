@@ -247,7 +247,7 @@ for (const [name, autoren, erwartet, text] of [
   ['300 Commits, einer davon ein Mensch (Autor zählt nicht)', [...Array(299).fill('github-actions[bot]'), 'danielzaiser91'], 0, /nur Fremdes ohne Zusammenhang/],
 ]) {
   const k = kulisse(antworten({ mainSha: MAIN, mainDateien: { roh: bots300 }, prDateien: 'tools/x.mjs\n' }))
-  const code = main(['7'], k.gh, k.melde, k.warte, () => null, voll(['data/curated/a.yaml'], autoren))
+  const code = main(['7'], k.gh, k.melde, k.warte, () => null, voll(['data/ann-ids.json'], autoren))
   pruefe(`lokaler Vergleich: ${name} -> ${erwartet}`, code === erwartet && text.test(k.meldungen.join()), { code, m: k.meldungen })
 }
 // Abruffehler und Unsinn: Exit 2, nichts angestoßen, nie still 0.
