@@ -280,7 +280,9 @@ export function ladeHandbelege(): DubCheck[] {
  * `check-handbelege` schlug nicht an, weil es alle Zeilen eines Verweises
  * zusammen betrachtet und die Frage „welche gewinnt" gar nicht stellt.
  */
-export function verschmelze(a: DubCheck, b: DubCheck): DubCheck {
+export function verschmelze(a0: DubCheck, b0: DubCheck): DubCheck {
+  const a = ohneLadefehler(a0, b0)
+  const b = ohneLadefehler(b0, a0)
   // Ohne Datum verliert: Ein undatierter Eintrag verdrängt keinen datierten.
   const [alt, neu] = (a.checkedAt ?? '') <= (b.checkedAt ?? '') ? [a, b] : [b, a]
   const verschmolzen = {
@@ -308,6 +310,38 @@ export function verschmelze(a: DubCheck, b: DubCheck): DubCheck {
 function seiteNichtWerkUrteil(c: DubCheck): DubCheck {
   const { dub: _dub, dubRanges: _bereiche, ...rest } = c
   return { ...rest, seiteNichtWerk: true, available: false, juengstesUrteil: 'nein' }
+}
+
+/**
+ * Ein Nein aus einer Messung, die keine Folge gelesen hat („nur 0 von N Folgen geladen“): Nichtauskunft, hebt kein Urteil auf
+ * (ein teilweises Lesen wie „6 von 8“ bleibt ein Urteil). Mit `regionsperre=` ist es eine gemessene Sperre der Seite und gilt als Nein.
+ */
+export function ladefehlerNein(c: DubCheck): boolean {
+  const note = c.note ?? ''
+  return urteilVon(c) === 'nein' && /nur 0 von \d+ Folgen geladen/.test(note) && !note.includes('regionsperre=')
+}
+
+/**
+ * Die Zeile `c` für die Verschmelzung mit `partner`: Ein Ladefehler-Nein gegen eine Zeile mit eigenem Urteil (kein Ladefehler) trägt
+ * weder Urteil noch Datum bei, so ist das Ergebnis von der Reihenfolge mehrerer Zeilen unabhängig; ohne Partner-Urteil bleibt es stehen.
+ */
+function ohneLadefehler(c: DubCheck, partner: DubCheck): DubCheck {
+  if (!ladefehlerNein(c) || ladefehlerNein(partner) || urteilVon(partner) === undefined) return c
+  const { dub: _d, available: _a, dubRanges: _r, juengstesUrteil: _j, checkedAt: _c, note: _n, ...rest } = c
+  return rest as DubCheck
+}
+
+/** Jede Zeile, die jünger ist als die gewählte, ist ein Ladefehler-Nein (Prüfung „veralteter Beleg“ in `check-handbelege`). */
+export function nurLadefehlerJuenger(gewaehlt: DubCheck | undefined, gruppe: DubCheck[]): boolean {
+  if (!gewaehlt || ladefehlerNein(gewaehlt) || urteilVon(gewaehlt) === undefined) return false
+  return gruppe.filter((g) => (g.checkedAt ?? '') > (gewaehlt.checkedAt ?? '')).every((g) => ladefehlerNein(g))
+}
+
+/** Die gewählte Zeile ist nicht die jüngste der Gruppe (und nicht nur wegen Ladefehler-Nein-Zeilen): ein Beleg wurde verschluckt. */
+export function veralteterBeleg(gewaehlt: DubCheck | undefined, gruppe: DubCheck[]): boolean {
+  if (!gewaehlt) return false
+  const juengstes = gruppe.map((g) => g.checkedAt ?? '').sort().at(-1)
+  return (gewaehlt.checkedAt ?? '') !== juengstes && !nurLadefehlerJuenger(gewaehlt, gruppe)
 }
 
 type Urteil = Pick<DubCheck, 'dub' | 'available' | 'dubRanges' | 'juengstesUrteil'>

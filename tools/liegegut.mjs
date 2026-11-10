@@ -9,6 +9,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { istZugPr, leseZugAktiv } from './zug-aktiv.mjs'
+import { schleifeSignal } from './nachrechnen-schleife.mjs'
 import { PRAEFIX as ABNAHME_PRAEFIX } from './abnahme-freigabe.mjs'
 
 const STUNDE = 3600 * 1000
@@ -224,13 +225,14 @@ export function ueberholtTreffer(patches, grepFn) {
   return gesamt > 0 && funde.length === gesamt ? funde : []
 }
 
-const NAECHSTER = { STAPEL: 'STAPEL', STILLSTAND: 'STILLSTAND', UEBERHOLT: 'ÜBERHOLT?', DANIEL: 'DANIEL', MERGEN: 'MERGEN', ZUG: 'AUF ZUG MERGEN (merge-reihe-zug.sh)', NACHBESSERN: 'NACHBESSERN' }
+const NAECHSTER = { STAPEL: 'STAPEL', STILLSTAND: 'STILLSTAND', SCHLEIFE: 'SCHLEIFE (Nachrechnen-Gründe in den Kommentaren lesen)', UEBERHOLT: 'ÜBERHOLT?', DANIEL: 'DANIEL', MERGEN: 'MERGEN', ZUG: 'AUF ZUG MERGEN (merge-reihe-zug.sh)', NACHBESSERN: 'NACHBESSERN' }
 
 /** Nächster Schritt aus Signalen und Gegenprobe; `daniel` = Signal 6 oder Signal 2 mit Bot-Urteil als letztem (nur Daniel löst das). */
 export function naechsterSchritt(nummern, treffer, botLetzt, imZug = false) {
   const hat = (n) => nummern.includes(n)
   if (hat(9)) return NAECHSTER.STAPEL
   if (nummern.every((n) => n === 8)) return NAECHSTER.STILLSTAND
+  if (nummern.every((n) => n === 10 || n === 8)) return NAECHSTER.SCHLEIFE
   if (treffer.length > 0 && (hat(1) || hat(3) || hat(5))) return NAECHSTER.UEBERHOLT
   if (hat(6) || (hat(2) && botLetzt)) return NAECHSTER.DANIEL
   if (hat(1)) return imZug ? NAECHSTER.ZUG : NAECHSTER.MERGEN
@@ -276,7 +278,7 @@ export function kopfZeitVon(ghFn, pr, karte) {
 function bewertePr(ghFn, gitFn, pr, geteilt, jetzt, karte, stapel, imZug) {
   const kopfZeit = kopfZeitVon(ghFn, pr, karte)
   if (Number.isNaN(kopfZeit)) throw new Error(`PR ${pr.number}: Kopf-Zeit nicht lesbar`)
-  const signale = [...signaleEinzel(pr, kopfZeit, jetzt), ...stillstandSignal(pr, kopfZeit, jetzt)]
+  const signale = [...signaleEinzel(pr, kopfZeit, jetzt), ...stillstandSignal(pr, kopfZeit, jetzt), ...schleifeSignal(pr, kopfZeit)]
   const texte = signale.map((s) => `${s.nr} ${s.text}`)
   const zeiten = signale.map((s) => s.seit)
   const nummern = signale.map((s) => s.nr)
@@ -348,7 +350,7 @@ export function liegegutFunde(ghFn, gitFn, jetzt, hinweis, standText = null, zug
 /** Dieselben Funde als Textzeilen. */
 export const liegegut = (ghFn, gitFn, jetzt, hinweis, standText, zugAktiv) => liegegutFunde(ghFn, gitFn, jetzt, hinweis, standText, zugAktiv).map((f) => f.zeile)
 
-const KURZ = { 1: 'Freigabe ruht', 2: 'Urteile widersprechen', 3: 'Konflikt', 4: 'rot', 5: 'Ändern offen', 6: 'gleiche Entscheidung', 8: 'Stillstand', 9: 'Stapel' }
+const KURZ = { 1: 'Freigabe ruht', 2: 'Urteile widersprechen', 3: 'Konflikt', 4: 'rot', 5: 'Ändern offen', 6: 'gleiche Entscheidung', 8: 'Stillstand', 9: 'Stapel', 10: 'Nachrechnen-Schleife' }
 
 /** Eine Sammelzeile für die Wachphase: `LIEGT: 2377 (Konflikt 30 h, Stillstand 52 h), …`; null ohne Funde. */
 export function liegtZeile(funde, jetzt) {

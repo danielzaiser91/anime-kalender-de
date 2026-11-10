@@ -31,7 +31,7 @@ function html(r: Release, t: Title): string {
 const mitJoyn = titel([stream('netflix', NETFLIX), stream('joyn', JOYN)])
 console.log('\nTV-Zeile eines MAXX-Termins mit Joyn-Weg:')
 const maxx = html(termin({}), mitJoyn)
-pruefe('Kontrolle: die Zeile ist gerendert (Livestream-Knopf da)', maxx.includes('aria-label="Live auf Joyn"'), maxx.slice(0, 400))
+pruefe('Kontrolle: die Zeile ist gerendert (Livestream-Knopf da)', maxx.includes('aria-label="ProSieben MAXX live auf Joyn"'), maxx.slice(0, 400))
 pruefe('keine Dublette: kein „Danach auf Joyn"', !maxx.includes('Danach auf Joyn'), maxx.slice(0, 400))
 pruefe('keine Dublette: kein Link auf die Joyn-Seite des Titels (den trägt die Pille)', !maxx.includes(JOYN), maxx.slice(0, 400))
 pruefe('anderer Sender (RTLZWEI): auch kein „Danach auf Joyn"', !html(termin({ sender: 'RTLZWEI' }), mitJoyn).includes('Danach auf Joyn'))

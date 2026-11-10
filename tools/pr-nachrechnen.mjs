@@ -23,6 +23,7 @@ import { standardPaare, standardVoll } from './pr-nachrechnen-vergleich-git.mjs'
 import { ZUG, istZugPr, leseZugAktiv } from './zug-aktiv.mjs'
 import { erzeugteDatei } from './pr-nachrechnen-bot-erzeugt.mjs'
 import { ersetzer, ersetztMeldung } from './pr-ersetzt.mjs'
+import { grundKommentar, kommentiereGrund } from './nachrechnen-schleife.mjs'
 
 export const KETTE = 'pr-pruefung.yml'
 /** Kleiner Job der Kette mit Checkout ohne eigenes `ref` (prüft `pr-nachrechnen.test.mjs` an der YAML). */
@@ -292,6 +293,7 @@ export function nachrechnen(nummer, gh, melde, warte, leser = gitLeser(gitAufruf
     return 0
   }
   anstossen(gh, nummer, main, warte)
+  kommentiereGrund(gh, melde, nummer, grundKommentar(kurz(basis), kurz(main), urteil.grund))
   melde(`PR ${nummer}: NICHT AKTUELL (Kette gegen ${kurz(basis)}, main ist ${kurz(main)}; ${urteil.grund}), geschlossen und wieder geöffnet; Kette abwarten, dann erneut aufrufen`)
   return 1
 }

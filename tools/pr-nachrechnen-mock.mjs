@@ -15,6 +15,6 @@ const antworte = (befehl, args, optionen, schluessel) => {
   const n = (gezaehlt[schluessel] = (gezaehlt[schluessel] ?? 0) + 1)
   return Array.isArray(antwort.aus) ? antwort.aus[Math.min(n, antwort.aus.length) - 1] : antwort.aus
 }
-cp.execFileSync = (befehl, args, optionen) => antworte(befehl, args, optionen, args.join(' '))
+cp.execFileSync = (befehl, args, optionen) => antworte(befehl, args, optionen, (args[1] === 'comment' ? args.slice(0, 3) : args).join(' '))
 cp.execSync = (zeile, optionen) => antworte(zeile, [], optionen, zeile.replace(/^gh /, ''))
 syncBuiltinESMExports()
