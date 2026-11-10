@@ -24,6 +24,21 @@ gesperrt('gh pr merge --squash 3123', '3123')
 gesperrt('cd /c/x && gh pr merge 5 --squash', '5')
 gesperrt('gh -R danielzaiser91/anime-kalender-de pr merge 5 --squash', '5')
 gesperrt('gh pr merge 5 --auto --squash', '5')
+gesperrt('gh pr merge 5 --squash --repo danielzaiser91/anime-kalender-de', '5') // eigenes Repo hinter dem Unterbefehl
+gesperrt('gh pr merge 5 --repo=danielzaiser91/anime-kalender-de', '5')
+gesperrt('gh pr merge 5 -R anime-kalender-de', '5')
+gesperrt('gh pr merge 5 --body "--repo=x/y"', '5') // Wert eines anderen Schalters ist keine Repo-Angabe
+gesperrt('gh pr merge 5 --body --repo=x/y', '5')
+gesperrt('gh pr merge 5 --repo Danielzaiser91/Anime-Kalender-De', '5') // GitHub ignoriert Groß-/Kleinschreibung
+gesperrt('gh pr merge 5 --repo x/y --repo danielzaiser91/anime-kalender-de', '5') // jede Angabe muss fremd sein
+gesperrt('gh pr merge 5 --repo danielzaiser91/anime-kalender-de.git', '5')
+gesperrt('gh pr merge 5 -R', '5')
+gesperrt('gh pr merge 5 --repo=', '5')
+gesperrt('gh pr merge 4 --repo x/y; gh pr merge 6', '6')
+frei('gh pr merge 4 --squash --repo x/y --subject "t (#4)"')
+frei('gh pr merge 4 --repo danielzaiser91/anime-kalender-nativ --squash') // anderes Repo: pr-nachrechnen kennt es nicht
+frei('gh -R danielzaiser91/anime-kalender-nativ pr merge 4 --squash')
+frei('gh pr merge 4 --repo=danielzaiser91/anime-kalender-delta')
 gesperrt('"/c/Program Files/GitHub CLI/gh.exe" pr merge 7 --squash', '7')
 gesperrt('node tools/pr-nachrechnen.mjs 4 && gh pr merge 5 --squash', '5') // andere Nummer
 gesperrt('node tools/pr-nachrechnen.mjs 5; gh pr merge 5 --squash', '5') // `;`: Exit-Code bremst nicht
