@@ -1,6 +1,6 @@
 // Befehls-Register (13.10.2026): PreToolUse-Modul im Bündel dispatch-pretooluse.js und gemeinsame Bausteine für Post-Hook,
 // nach-agent.mjs und tools/befehlsregister.mjs. Je Bash-Befehl (Hauptsitzung und Subagenten) eine Zeile in
-// state/befehle/<Tag>.jsonl (voll: <Tag>.2.jsonl …); hängt dem Befehl `\n# br:<tool_use_id>` an, damit der Prozess über seine
+// state/befehle/<Tag>.jsonl (voll: <Tag>.2.jsonl …); setzt dem Befehl `# br:<tool_use_id>\n` voran, damit der Prozess über seine
 // Kommandozeile findbar ist. Bewusst OHNE permissionDecision (nur updatedInput): das Berechtigungssystem bleibt zuständig.
 // Skill: hintergrundprozesse.
 const fs = require('fs')
@@ -117,9 +117,12 @@ function pruefe(input) {
   if (input.tool_name !== 'Bash') return null
   const ti = input.tool_input || {}
   const cmd = String(ti.command || '')
-  schreibe(preZeile(input))
-  if (!input.tool_use_id || cmd.includes('# br:')) return null
-  return { updatedInput: { ...ti, command: `${cmd}\n# br:${input.tool_use_id}` } }
+  const aendern = Boolean(input.tool_use_id) && !cmd.includes('# br:')
+  schreibe(aendern ? { ...preZeile(input), mod: true } : preZeile(input))
+  if (!aendern) return null
+  // Präfix statt Suffix: Befehle, die auf `&&`, `|` oder `\` enden, blieben mit angehängter Kommentarzeile kaputt (10.11.2026).
+  // Offen: die Änderung nach der Auto-Modus-Prüfung kann parallele Aufrufe ablehnen („changed after auto mode reviewed it“).
+  return { updatedInput: { ...ti, command: `# br:${input.tool_use_id}\n${cmd}` } }
 }
 
 /** Vom Bündel gerufen, wenn ein anderes Modul den Befehl sperrt: dann folgt kein Post-Ereignis. */

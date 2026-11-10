@@ -55,14 +55,30 @@ ok(`Maskierung: ${MASK_FAELLE.length} Geheimnisformen ohne Klartext, harmlose Be
 leere()
 let d = entscheide(bash('echo hi', { ti: { timeout: 5000, description: 'x' } }))
 assert.deepEqual(Object.keys(d), ['updatedInput'])
-assert.equal(d.updatedInput.command, 'echo hi\n# br:toolu_T1')
+assert.equal(d.updatedInput.command, '# br:toolu_T1\necho hi')
 assert.equal(d.updatedInput.timeout, 5000)
 assert.equal(d.updatedInput.description, 'x')
 let z = lies()[0]
 assert.deepEqual([z.ev, z.agent, z.typ, z.id, z.sid, z.to, z.bg, z.cwd], ['pre', 'haupt', 'haupt', 'toolu_T1', 's1', 5000, undefined, undefined])
 reg.pruefe(bash(`echo ${'x'.repeat(5000)}`))
 assert.equal(lies().at(-1).cmd.length, 200, 'Befehl wird auf 200 Zeichen gekürzt (schlanke Zeile)')
-ok('Pre: Marke angehängt, kein permissionDecision, Hauptsitzung = haupt')
+assert.equal(z.mod, true, 'Pre-Zeile vermerkt die Änderung des Befehls')
+ok('Pre: Marke vorangestellt, kein permissionDecision, Hauptsitzung = haupt, mod: true')
+
+// 2b. Befehle mit offenem Ende (&&, |, Zeilenfortsetzung) bleiben mit Marke syntaktisch gültig, die Marke bleibt findbar
+// Die Fortsetzung ' cat' (gleiche Zeile) setzt den Befehl fort; eine angehängte Kommentarzeile würde sie verschlucken.
+const OFFENE_ENDEN = ['echo a &&', 'echo a |', 'echo a \\', 'echo a ||']
+for (const f of OFFENE_ENDEN) {
+  const neu = entscheide(bash(f)).updatedInput.command
+  assert.ok(neu.startsWith('# br:toolu_T1\n'), `Marke steht nicht vorn: ${JSON.stringify(neu)}`)
+  assert.ok(neu.endsWith(f), `Befehlsende verändert: ${JSON.stringify(neu)}`)
+  const mit = spawnSync('C:/Program Files/Git/usr/bin/bash.exe', ['-n'], { input: `${neu} cat`, encoding: 'utf8', windowsHide: true, timeout: 20000 })
+  assert.equal(mit.status, 0, `bash -n lehnt ${JSON.stringify(neu)} + Fortsetzung ab: ${mit.stderr}`)
+}
+leere()
+reg.pruefe(bash('# br:toolu_T1\necho a'))
+assert.equal(lies()[0].mod, undefined, 'unveränderter Befehl trägt kein mod')
+ok(`Pre: ${OFFENE_ENDEN.length} offene Befehlsenden syntaktisch wie ohne Marke`)
 
 leere()
 entscheide(bash('echo a', { rest: { agent_id: 'agent123', agent_type: 'bauer' }, ti: { run_in_background: true } }))
@@ -88,7 +104,7 @@ ok('Bündel: deny gewinnt, kein updatedInput')
 // 5. Nicht-Bash und bereits markierte Befehle
 leere()
 assert.equal(reg.pruefe({ tool_name: 'Read', tool_input: { file_path: 'x' } }), null)
-assert.equal(reg.pruefe(bash('echo a\n# br:toolu_T1')), null)
+assert.equal(reg.pruefe(bash('# br:toolu_T1\necho a')), null)
 assert.equal(reg.pruefe(bash('echo b', { rest: { tool_use_id: undefined } })), null)
 assert.equal(lies().filter((x) => x.cmd === 'echo b').length, 1, 'ohne tool_use_id wird trotzdem protokolliert')
 ok('Nicht-Bash ignoriert, keine doppelte Marke')
@@ -273,7 +289,7 @@ async function testAufraeumen() {
   leere()
   fs.mkdirSync(process.env.BR_DIR, { recursive: true })
   const T = TMP.replaceAll('\\', '/')
-  const shell = (cmd, id) => spawn('C:/Program Files/Git/usr/bin/bash.exe', ['-c', `eval '${cmd}\n# br:${id}' && pwd -P >| /dev/null`], { stdio: ['pipe', 'ignore', 'ignore'], windowsHide: true })
+  const shell = (cmd, id) => spawn('C:/Program Files/Git/usr/bin/bash.exe', ['-c', `eval '# br:${id}\n${cmd}' && pwd -P >| /dev/null`], { stdio: ['pipe', 'ignore', 'ignore'], windowsHide: true })
   const faelle = [
     ['toolu_LEERCAT', 'agX', `cat > ${T}/x.mjs 2>/dev/null; echo weiter > ${T}/weiter.txt`],
     ['toolu_LEERSLEEP', 'agX', 'sleep 60'],
