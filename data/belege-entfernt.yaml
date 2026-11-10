@@ -921,3 +921,7 @@
   url: https://www.amazon.de/dp/B0B7D5DRV2
   grund: 'Seite B0B7D5DRV2 ist Staffel 1 (150672, Zuordnung prime-zugeordnet.json); die Staffel-1-Meldungen an der Adresse B0GFPBT6FG nennen sie in der Notiz und wurden auch an 182587 gehängt (#3316, Bestandsbau 10.11.2026)'
   entferntAm: '2026-11-10'
+- anilistId: 150672
+  url: https://www.amazon.de/gp/video/detail/B0GFPBT6FG
+  grund: 'Kanal-Seite B0GFPBT6FG gehört Staffel 3 (182587); die Staffel-1-Meldungen an ihr nennen B0B7D5DRV2 in der Notiz und stehen seit #3339 an dieser Seite, die Meldungen hängten sie als Dubletten wieder an (10.11.2026)'
+  entferntAm: '2026-11-10'
