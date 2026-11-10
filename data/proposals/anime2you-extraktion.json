@@ -1491,9 +1491,18 @@
       "am": "2026-11-10",
       "vorschlaege": 2
     },
+    "1069401": {
+      "am": "2026-11-10",
+      "vorschlaege": 0,
+      "uebersprungen": "kein Deutschland-Bezug"
+    },
     "1069473": {
       "am": "2026-11-10",
       "vorschlaege": 1
+    },
+    "1069540": {
+      "am": "2026-11-10",
+      "vorschlaege": 0
     },
     "1069625": {
       "am": "2026-11-10",
@@ -1502,6 +1511,15 @@
     "1069862": {
       "am": "2026-11-10",
       "vorschlaege": 1
+    },
+    "1069949": {
+      "am": "2026-11-10",
+      "vorschlaege": 0,
+      "uebersprungen": "kein Deutschland-Bezug"
+    },
+    "1070093": {
+      "am": "2026-11-10",
+      "vorschlaege": 0
     }
   },
   "vorschlaege": [
