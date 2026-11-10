@@ -279,7 +279,12 @@ async function schalteSavvyPane($: EngineInterface): Promise<void> {
   const sichtbar = async () => (await $.ui.panes()).some(p => p.id === 'savvy-agents' && p.isShown)
   const vorher = await sichtbar()
   await update($, agentenKnopf, n => n + 1)
-  if ((await sichtbar()) === vorher) $.ui.toast('Agents-Pane: savvy-progress reagiert nicht (Hook fehlt in der Mod savvy-progress)')
+  // Die Pane-Liste zieht nach dem Umschalten nach (10.11.2026: Toast trotz geöffnetem Pane): bis ~1 s nachprüfen.
+  for (let i = 0; i < 10; i++) {
+    if ((await sichtbar()) !== vorher) return
+    await new Promise(r => setTimeout(r, 100))
+  }
+  $.ui.toast('Agents-Pane: savvy-progress reagiert nicht (CLAUDE_CODE_PLUGIN_DIRS in .claude/settings.json prüfen)')
 }
 
 // Eine Pane-Zeile: fester Präfix, daneben ein umbrechender Inhalt mit hängendem Einzug.
