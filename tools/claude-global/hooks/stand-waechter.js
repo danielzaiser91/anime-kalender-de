@@ -1,5 +1,6 @@
 // Wächter für „## Top-Prios“, „## In Arbeit“ und „## Als Nächstes“ in stand.md (gehört zu stand-prs.js): zu viele Handzeilen, Kopfzeile ohne frischen Stand, zu viele, zu lange oder icon-lose Zeilen, Erledigtes und Veraltetes im Top-Prio-Kasten.
 // Der Auto-Block (Marken AUF/ZU) zählt nicht, er pflegt sich selbst.
+const fs = require('node:fs')
 const MAX_ZEILEN = 20
 const MAX_NAECHSTES = 80
 const MAX_ZEICHEN = 400
@@ -113,8 +114,30 @@ function zukunft(zeilen, jetzt) {
   return [`Aktualisiert ${a[4]}:${a[5]} liegt in der Zukunft — Uhrzeit mit date lesen`]
 }
 
-/** Meldungstext oder '' (alles in Ordnung). */
-function waechter(text, jetzt) {
+const DATEI_LINK = /\]\((file:\/\/\/[A-Za-z]:\/[^)\s]*)\)/g
+
+/** Meldungen zu toten `file:///C:/…`-Links (Anker abgeschnitten, %20 dekodiert), eine je Dateiname; Vorrat-Dateien werden bei Blockade umbenannt. */
+function toteLinks(text, existiert) {
+  const namen = new Set()
+  for (const m of text.matchAll(DATEI_LINK)) {
+    let pfad
+    try {
+      pfad = decodeURIComponent(m[1].slice('file:///'.length).split('#')[0])
+    } catch {
+      continue
+    }
+    if (!existiert(pfad)) namen.add(pfad.split('/').pop())
+  }
+  return [...namen].map((n) => `Toter Link: ${n} — umbenannt? Link nachziehen`)
+}
+
+/** Meldungstext oder '' (alles in Ordnung). `existiert` prüft Dateipfade (Standard fs.existsSync). */
+function waechter(text, jetzt, existiert = fs.existsSync) {
+  return [waechterAbschnitte(text, jetzt), ...toteLinks(text, existiert)].filter(Boolean).join('; ')
+}
+
+/** Meldungen zu den Abschnitten von stand.md als ein Text oder ''. */
+function waechterAbschnitte(text, jetzt) {
   const zeilen = text.split(/\r?\n/)
   const meldungen = [...topPrios(zeilen, jetzt), ...jetztZeilen(zeilen), ...naechstes(zeilen), ...zukunft(zeilen, jetzt)]
   const kopf = zeilen.findIndex((z) => z.startsWith('## In Arbeit'))
