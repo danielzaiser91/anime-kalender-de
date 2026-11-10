@@ -57,7 +57,7 @@ pruefe('Block ohne Kennung zählt nicht', finde([{ platform: 'primevideo', url: 
 pruefe('Nur die erste Adresskennung der URL zählt (Suchparameter fremder Seiten stört nicht)', finde([block(10719, 'https://www.amazon.de/dp/B0EIGEN001?ref=B09JV7CC61')]).length === 0)
 
 const liste = (n: number) => Array.from({ length: n }, (_, i) => `${i}@B0X`)
-pruefe('Ratsche: die echte Altfall-Liste hat höchstens 7 Einträge', !ratscheVerletzt(ALTFAELLE, 7), ALTFAELLE.length)
+pruefe('Ratsche: die echte Altfall-Liste hat höchstens 6 Einträge', !ratscheVerletzt(ALTFAELLE, 6), ALTFAELLE.length)
 pruefe('Ratsche: genau an der Grenze ist grün', !ratscheVerletzt(liste(7), 7))
 pruefe('Ratsche: ein Fall mehr als die Grenze ist rot', ratscheVerletzt(liste(8), 7))
 pruefe('Ratsche: kürzere Liste ist grün', !ratscheVerletzt(liste(6), 7))

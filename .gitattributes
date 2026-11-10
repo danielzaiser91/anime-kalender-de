@@ -36,6 +36,9 @@ data/dub-confirmed.yaml merge=union
 tools/sammler-lesezugriffe.jsonl merge=union
 tools/bestand-ohne-ausgang.txt merge=union
 
+# Die Liste der Werkzeuge des Jobs "aussehen" (PR-Aussehen): jeder PR mit neuer Browser-Probe fügt eine Zeile ein.
+tools/pr-aussehen-pfade.txt merge=union
+
 # Binärdateien bleiben unangetastet.
 *.png binary
 *.jpg binary

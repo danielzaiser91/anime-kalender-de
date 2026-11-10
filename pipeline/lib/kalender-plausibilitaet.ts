@@ -9,6 +9,7 @@ import { addDays } from '../../shared/time.ts'
 import { stufeTitelEin } from '../../web/src/lib/db-relevanz.ts'
 import { istKeineTitelseite } from '../bau/11-7-wege-aus-terminen.ts'
 import { kanalSchluessel } from './kanal-titel.ts'
+import { HOECHSTENS } from './news.ts'
 import { ausloeserZeile } from './ausloeser-zeilen.ts'
 import { alleTermineGekennzeichnet } from './pruefung.ts'
 import { urteilDarfBelegen } from './urteil-weg.ts'
@@ -139,10 +140,22 @@ function meldungenJeReihe(b: Bestand): Map<number, { art: string; am: string }[]
 }
 
 /**
+ * Ist die Liste voll, kappt die Obergrenze nach Tagen: Einträge hinter Platz `HOECHSTENS` (nach Tag absteigend) bleiben nur als
+ * laufende Serie oder frische Ankündigung. Lückenlos ist dann erst der Tag nach dem Tag von Platz `HOECHSTENS` (JoJo Steel Ball Run, 09.11.2026).
+ */
+function abgeschnittenAb(news: NewsEintrag[]): string | undefined {
+  if (news.length <= HOECHSTENS) return undefined
+  const tag = news.map((n) => n.am).sort().reverse()[HOECHSTENS - 1]
+  return addDays(tag, 1)
+}
+
+/**
  * Ab diesem Tag ist `news.json` lückenlos: die Obergrenze (`news-obergrenze.ts`) kappt alles Ältere, nur offizielle Meldungen (365 Tage) bleiben
  * einzeln stehen. Darum zählt die älteste nicht-offizielle Meldung, nicht die älteste überhaupt (Black Torch, Start 04.07., 06.11.2026).
  */
 export function luckenlosAb(news: NewsEintrag[], heute: string): string {
+  const ersterAbgeschnitten = abgeschnittenAb(news)
+  if (ersterAbgeschnitten) return ersterAbgeschnitten
   return news.filter((n) => !traegtOffizielle(n)).map((n) => n.am).sort()[0] ?? heute
 }
 
