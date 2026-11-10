@@ -23,6 +23,10 @@ const protokoll: string[] = []
 console.error = (...a: unknown[]) => void protokoll.push(a.join(' '))
 console.warn = console.error
 
+/* Feste Uhr für Test und Worker: Die Marke wird je Isolate höchstens alle 60 s geschrieben (export-speicher.ts), jeder Aufruf bekommt seine eigene Minute. */
+let uhr = Date.parse('2026-10-12T00:00:00Z')
+Date.now = () => uhr
+
 /** R2 mit dem Limit „ein Schreibzugriff je Sekunde und Schlüssel"; `immer` lässt jeden scheitern. */
 function r2Attrappe(immer = false) {
   const zuletzt = new Map<string, number>()
@@ -33,8 +37,8 @@ function r2Attrappe(immer = false) {
       async put(schluessel: string) {
         stand.puts++
         const vorher = zuletzt.get(schluessel)
-        zuletzt.set(schluessel, Date.now())
-        if (immer || (vorher !== undefined && Date.now() - vorher < 1000)) throw new Error('429 Too Many Requests')
+        zuletzt.set(schluessel, uhr)
+        if (immer || (vorher !== undefined && uhr - vorher < 1000)) throw new Error('429 Too Many Requests')
       },
     },
   }
@@ -105,12 +109,8 @@ const post = (stapel: unknown[]) =>
     body: JSON.stringify({ stapel }),
   })
 
-/* Die Marke wird je Isolate höchstens alle 60 s geschrieben (export-speicher.ts): Jeder Aufruf bekommt seine eigene Minute. */
-let uhr = Date.parse('2026-10-12T00:00:00Z')
-Date.now = () => uhr
-
-async function sende(stapel: unknown[], r2: unknown) {
-  uhr += 61_000
+async function sende(stapel: unknown[], r2: unknown, schritt = 61_000) {
+  uhr += schritt
   const u = umgebung(r2)
   const r = await handlePruefung(post(stapel), u.env, u.ctx)
   await Promise.all(u.warten)
@@ -126,6 +126,15 @@ const nummern = (n: number, ab = 1) => Array.from({ length: n }, (_, i) => meldu
   pruefe(r.status === 200 && inhalt.ergebnisse?.length === 10, '10er-Stapel: Antwort 200 mit zehn Ergebnissen')
   pruefe(inhalt.ergebnisse?.every((e) => e.ok) === true, '10er-Stapel: jede Meldung bestätigt')
   pruefe(stand.puts === 1, `Marke einmal geschrieben (${stand.puts})`)
+}
+{
+  // Marke höchstens alle 60 s: 59.999 ms nach der ersten Marke keine zweite, genau 60.000 ms danach eine.
+  const { r2, stand } = r2Attrappe()
+  await sende(nummern(1), r2)
+  await sende(nummern(1, 2), r2, 59_999)
+  pruefe(stand.puts === 1, `Marke nach 59.999 ms nicht erneut geschrieben (${stand.puts})`)
+  await sende(nummern(1, 3), r2, 1)
+  pruefe(stand.puts === 2, `Marke nach 60.000 ms erneut geschrieben (${stand.puts})`)
 }
 {
   const { r2 } = r2Attrappe()
