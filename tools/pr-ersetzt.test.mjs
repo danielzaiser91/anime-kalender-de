@@ -27,6 +27,10 @@ pruefe('längere Zahl 32391 trifft nicht', findeErsetzer(3239, [p(5, 'ersetzt PR
 pruefe('kürzere Zahl 239 trifft nicht', findeErsetzer(239, [p(5, 'ersetzt PR 3239')]) === null)
 pruefe('bloße Nennung ohne „ersetzt“ trifft nicht', findeErsetzer(3239, [p(5, 'siehe PR 3239', 'PR 3239 schließen')]) === null)
 pruefe('PR ersetzt sich nicht selbst', findeErsetzer(3318, OFFEN) === null)
+pruefe('PR schreibt „ersetzt PR <eigene Nummer>“: kein Ersetzer', findeErsetzer(3239, [p(3239, 'x', 'ersetzt PR 3239')]) === null)
+pruefe('Selbstnennung wird übersprungen, der echte Ersetzer dahinter gefunden', findeErsetzer(3239, [p(3239, 'x', 'ersetzt PR 3239'), p(3318, 'y', 'ersetzt PR 3239')])?.number === 3318)
+// Bewusst: Verneinung zählt als Treffer (Falschtreffer kostet eine Rückfrage, ein verpasster Treffer einen Konflikt-PR).
+pruefe('„ersetzt PR 3239 nicht“ zählt bewusst als Treffer', findeErsetzer(3239, [p(5, 'x', 'Das ersetzt PR 3239 nicht.')])?.number === 5)
 pruefe('Titel null/Body null stört nicht', findeErsetzer(3239, [{ number: 1, title: null, body: null }]) === null)
 pruefe('Meldung im geforderten Wortlaut', ersetztMeldung(3239, { number: 3318 }) === 'PR 3239: ERSETZT durch PR 3318 — nicht mergen, schließen')
 
