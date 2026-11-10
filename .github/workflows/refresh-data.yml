@@ -216,7 +216,7 @@ jobs:
           ref: main
       - uses: ./.github/actions/einrichten
         with:
-          cache: 'aus'
+          cache: restore
 
       # Welche Titel aniSearch als deutsch vertont führt (API, ein Abruf je Tag; Limit mit Token 1 je Stunde). Vor allen anderen Abrufen dieses Jobs; vorher wöchentlich (15.10.2026).
       - name: aniSearch-Dub-Liste holen
