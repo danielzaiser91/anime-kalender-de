@@ -42,7 +42,7 @@ Tonspur. Was hier steht, sagt, **wo sich das Nachsehen lohnt**.
 
 ## Titel ganz ohne Bezugsweg
 
-266 Titel im Hauptbestand haben keinen einzigen Weg — hier nennt JustWatch einen.
+267 Titel im Hauptbestand haben keinen einzigen Weg — hier nennt JustWatch einen.
 Ein Titel im Hauptbestand hat per Definition eine belegte deutsche Synchro; das 🇩🇪 sagt,
 dass JustWatch für dieses Angebot auch eine deutsche Tonspur kennt.
 
@@ -154,6 +154,7 @@ dass JustWatch für dieses Angebot auch eine deutsche Tonspur kennt.
 | [undefined](https://anime-kalender.de/#/datenbank?t=-89456) | [HBO Max](https://www.hbomax.com/de/en/show/59dc1d55-bb08-4bb4-85dd-d03e64f4fef1/s1/e1-spear-and-fang/81e56a75-cd48-41d8-a97b-26c9071581fb), [HBO Max Amazon Channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.d6a95f30-643f-4518-be62-352be0bf6a47) 🇩🇪, [Amazon Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.f6ba7018-3ace-1dac-d85e-890d2cf57724), [Apple TV Store](https://tv.apple.com/de/show/primal/umc.cmc.6o1nbeapjj0k5cdqrsr44vekt?at=1000l3V2&ct=app_tv&itscg=30200&itsct=justwatch_tv) |
 | [Victor und Valentino](https://anime-kalender.de/#/datenbank?t=-88786) | [Amazon Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.6e99719a-6a77-48f4-88ee-8bfd557d179b), [Apple TV Store](https://tv.apple.com/de/show/victor-und-valentino/umc.cmc.5yxoccqywexmxqdwpze3pb0su?at=1000l3V2&ct=app_tv&itscg=30200&itsct=justwatch_tv) |
 | [undefined](https://anime-kalender.de/#/datenbank?t=-74440) | [HBO Max](https://www.hbomax.com/de/en/show/dc3552e4-32ed-4719-b3fb-7938b59b4658/s1/e1-til-death-do-us-part/706a1d3d-192f-4340-8558-d332417b4030), [HBO Max Amazon Channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.5b8c3468-056d-4bf2-994b-f924211ce0c1) 🇩🇪, [MagentaTV](https://www.magenta.tv/serie/harley-quinn/staffel-1/GN_SEASON_17472277_DE_1) 🇩🇪, [Apple TV Store](https://tv.apple.com/de/show/harley-quinn/umc.cmc.2r8u3jb6bfnv57ad7czuv46t7?at=1000l3V2&ct=app_tv&itscg=30200&itsct=justwatch_tv) |
+| [undefined](https://anime-kalender.de/#/datenbank?t=-219002) | [Amazon Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.ae7a8390-18ab-4b82-baff-30937cee1dd6) |
 | [Beccas Bande](https://anime-kalender.de/#/datenbank?t=-90474) | [Paramount Plus](https://www.paramountplus.com/shows/beccas-bunch/video/wYxeiuScczU4fcXgYaNTV2WyPlvl1TjQ/becca-s-bunch-beddy-set-go-mayor-for-a-day?searchReferral=), [Paramount+ Amazon Channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.32b9c951-a6f8-6eb1-2492-ce30c846f022) 🇩🇪, [Paramount Plus Apple TV channel](https://tv.apple.com) |
 | [undefined](https://anime-kalender.de/#/datenbank?t=-85000) | [Apple TV Store](https://tv.apple.com/de/show/the-shivering-truth/umc.cmc.6c0r4ek3nyibt9fugsyzf7pgb?at=1000l3V2&ct=app_tv&itscg=30200&itsct=justwatch_tv), [Amazon Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.955f63b5-7691-4a7a-9b7d-d28633a59eb2) |
 | [undefined](https://anime-kalender.de/#/datenbank?t=-83002) | [Amazon Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.dde564c0-aac1-4e05-93ac-9b9d3cfc7400) |
