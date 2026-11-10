@@ -86,6 +86,8 @@ try {
   git(['-c', 'user.name=t', '-c', 'user.email=t@t', 'commit', '-q', '-m', 'x'], quelle)
   git(['clone', '-q', '--depth=1', pathToFileURL(quelle).href, klon], gitWurzel)
   git(['update-ref', '-d', 'refs/remotes/origin/main'], klon)
+  // Enge Refspec wie beim Checkout der Kette: ohne ausdrückliches Ziel legt `fetch origin main` den Ref nicht an.
+  git(['config', 'remote.origin.fetch', '+refs/heads/nichts:refs/remotes/origin/nichts'], klon)
   pruefe('git: ohne origin/main-Ref nichts lesbar', leseVonMain(() => git(['show', `origin/main:${BEKANNT_PFAD}`], klon)) === null)
   pruefe('git: Nachholen im flachen Klon liefert den Stand von main', basisImOrdner(klon)?.['a.json'] === 3)
   git(['update-ref', '-d', 'refs/remotes/origin/main'], klon)
@@ -97,6 +99,7 @@ try {
   schreibeStand(klon, { 'a.json': 3 }, { 'a.json': 3, 'neu.json': 1 })
   pruefe('Verdrahtung: neue Liste mit Lücke = rot', bestandPruefen(klon).rot.length === 1)
   git(['remote', 'remove', 'origin'], klon)
+  git(['update-ref', '-d', 'refs/remotes/origin/main'], klon)
   schreibeStand(klon, { 'a.json': 5 }, { 'a.json': 5, 'neu.json': 0 })
   const ohneMain = bestandPruefen(klon)
   pruefe('Verdrahtung: main nicht erreichbar = Vergleich mit der eigenen Datei (grün bei gleicher Zahl)', ohneMain.basis === null && ohneMain.rot.length === 0)
