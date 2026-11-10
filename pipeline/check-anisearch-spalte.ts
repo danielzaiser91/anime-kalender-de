@@ -3,7 +3,10 @@
  * Die Liste `data/anisearch-abweichungen.json` schreibt der Bau; fehlt sie noch, entfällt der Teil „Bestand". Läuft in `check:logic`.
  */
 import { existsSync, readFileSync } from 'node:fs'
-import { FELDER, aniSearchDatum, aniSearchZeitraum, anisearchSpalte, winterAnilistArt, urteil } from './bau/anisearch-spalte.ts'
+import { FELDER, aniSearchDatum, aniSearchZeitraum, anilistSpalte, anisearchSpalte, winterAnilistArt, urteil } from './bau/anisearch-spalte.ts'
+import { jpEndAusAnisearch } from './bau/anisearch-titel.ts'
+import type { AniListMedia } from './lib/anilist.ts'
+import type { Title } from '../shared/types.ts'
 import { ABWEICHUNGEN_DATEI, type Bericht, type Paar, kuerzeBericht, malJeAnisearch, vergleichePaare } from './bau/anisearch-abweichungen.ts'
 import type { AnisearchEintrag } from './bau/01-quellen.ts'
 
@@ -32,6 +35,14 @@ const s = anisearchSpalte(eintrag, [121])
 pruefe('Spalte: Titel aus der japanischen Zeile, Englisch aus der englischen', s.titleRomaji === 'Hagane no Renkinjutsushi' && s.titleEn === 'Fullmetal Alchemist' && s.titleNative === '鋼の錬金術師')
 pruefe('Spalte: Format, Folgen, Saison, Jahr, Status, Ende, MAL abgebildet',
   s.format === 'TV' && s.episodes === 51 && s.jpSeason === 'FALL' && s.jpYear === 2003 && s.status === 'FINISHED' && s.jpEnd === '2004-10-02' && s.malId?.[0] === 121 && s.synopsis === true)
+const mitStatus = (status: string, released: string, ty = 'TV-Serie') => anisearchSpalte({ streams: [], info: { languages: [{ language: 'Japanisch', title: 'X', status, released }], format: ty } } as unknown as AnisearchEintrag)
+pruefe('Spalte: laufend nur mit Start hat kein Ende, abgeschlossen mit Start nur den Starttag, Ende gewinnt',
+  mitStatus('Laufend', '05.04.2024').jpEnd === undefined && mitStatus('Abgeschlossen', '05.04.2024').jpEnd === '2024-04-05' && mitStatus('Laufend', '05.04.2024 - 06.05.2024').jpEnd === '2024-05-06')
+pruefe('Titel: Ende nur bei belegtem Ende oder Einzeltermin (Film), sonst keins',
+  jpEndAusAnisearch(undefined, '2011-08-12', false) === undefined && jpEndAusAnisearch(undefined, '2011-08-12', true) === '2011-08-12' && jpEndAusAnisearch('2012-01-02', '2011-08-12', false) === '2012-01-02' && jpEndAusAnisearch(undefined, undefined, true) === undefined)
+pruefe('Spalte AniList: laufend ohne endDate hat kein Ende, FINISHED den Starttag',
+  anilistSpalte({} as Title, { status: 'RELEASING', startDate: { year: 2024, month: 4, day: 5 }, endDate: { year: null, month: null, day: null } } as AniListMedia).jpEnd === undefined &&
+  anilistSpalte({} as Title, { status: 'FINISHED', startDate: { year: 2024, month: 4, day: 5 }, endDate: { year: null, month: null, day: null } } as AniListMedia).jpEnd === '2024-04-05')
 pruefe('Spalte: Winter über den Jahreswechsel nach dem Beginn — Dezember = FALL des Startjahres (Rurouni-Kenshin-Film 20.12.1997), Januar/Februar = WINTER des Startjahres, ohne Beginn das spätere Jahr',
   JSON.stringify(winterAnilistArt('1997/98', '1997-12-20')) === '{"jahr":1997,"saison":"FALL"}' && JSON.stringify(winterAnilistArt('1997/98', '1998-01-07')) === '{"jahr":1998,"saison":"WINTER"}' &&
   JSON.stringify(winterAnilistArt('1999/00', undefined)) === '{"jahr":2000,"saison":"WINTER"}' && winterAnilistArt('2003', '2003-01-05') === undefined)
