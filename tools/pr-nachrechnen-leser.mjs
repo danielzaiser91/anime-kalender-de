@@ -8,8 +8,11 @@
  */
 import path from 'node:path'
 
-/** PR-Pfade ohne Leser in der Kette (Doku, Daniel-Dateien, Patch Notes, Markdown im Wurzelordner). */
-export const OHNE_DATENLESER = ['docs/', 'daniel-zum-abarbeiten/', 'data/patchnotes/']
+/**
+ * PR-Pfade ohne Leser in der Kette (Doku, Daniel-Dateien, Patch Notes, Markdown im Wurzelordner). `.claude/` (Agenten, Hooks, Regeln
+ * für die Sitzung des Nutzers) läuft nie in der PR-Kette; Anlass PR 3310: ein Hook mit `readdir` auf `data/` galt viermal als Ordner-Leser.
+ */
+export const OHNE_DATENLESER = ['docs/', 'daniel-zum-abarbeiten/', 'data/patchnotes/', '.claude/']
 export const ohneLeser = (datei) => OHNE_DATENLESER.some((p) => datei.startsWith(p)) || /^[^/]+\.md$/.test(datei)
 
 const ENDUNGEN = ['.ts', '.tsx', '.mjs', '.cjs', '.mts', '/index.ts']
