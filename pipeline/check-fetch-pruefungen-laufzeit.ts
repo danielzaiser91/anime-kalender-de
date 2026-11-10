@@ -59,6 +59,11 @@ const keinDubWeg = lauf('keindubweg', ['--trocken']).stdout
 if (belegTitel(keinDubWeg).length !== 3 || (keinDubWeg.match(/^  dub: false$/gm) ?? []).length !== 3 || keinDubWeg.includes('gilt nicht für die ganze Adresse')) fehler.push(`kein_dub vor Teil-weg: drei Belege mit dub false erwartet: ${keinDubWeg.slice(0, 400)}`)
 const datumVorId = lauf('datumvorid', ['--trocken']).stdout
 if (belegTitel(datumVorId).length !== 3 || (datumVorId.match(/^  dub: false$/gm) ?? []).length !== 3) fehler.push(`Datum gegen Reihenfolge: das jüngere Datum (kein_dub) gilt, drei Belege mit dub false erwartet: ${datumVorId.slice(0, 400)}`)
+const datumVorId2 = lauf('datumvorid2', ['--trocken']).stdout
+if (belegTitel(datumVorId2).length !== 3 || (datumVorId2.match(/^  dub: false$/gm) ?? []).length !== 3) fehler.push(`Datum gegen Reihenfolge, umgekehrt: das jüngere Datum (kein_dub) gilt, drei Belege mit dub false erwartet: ${datumVorId2.slice(0, 400)}`)
+/* Ohne „weg" gilt die letzte Meldung, auch wenn eine frühere das jüngere Datum trägt. */
+const letztesUrteil = lauf('letztesurteil', ['--trocken']).stdout
+if (belegTitel(letztesUrteil).length !== 3 || (letztesUrteil.match(/^  dub: false$/gm) ?? []).length !== 3) fehler.push(`Ohne weg gilt die letzte Meldung (kein_dub), drei Belege mit dub false erwartet: ${letztesUrteil.slice(0, 400)}`)
 const wegGanz = lauf('wegganz', ['--trocken']).stdout
 if (belegTitel(wegGanz).length !== 3 || (wegGanz.match(/^  available: false$/gm) ?? []).length !== 3 || /^  dub: /m.test(wegGanz) || wegGanz.includes('gilt nicht für die ganze Adresse')) fehler.push(`Ganzes weg: drei Belege mit available false, ohne dub und Vermerk erwartet: ${wegGanz.slice(0, 400)}`)
 

@@ -1185,7 +1185,7 @@ for (const gruppe of jeAdresse.values()) {
       verteilbar ? `Anbieter zählt durch, hier auf die Staffel umgerechnet` : '',
       sprachen.length ? `Tonspuren: ${sprachen.join(', ')}` : '',
       widersprueche.length ? `Widersprüchliche Meldungen zu Folge ${widersprueche.join(', ')}` : '',
-      mitWegVermerk(notizJeStaffel.get(id) ?? p.notiz ?? '', !weg && !eigene.length && !urteilsMeldung(gruppe)),
+      mitWegVermerk(notizJeStaffel.get(id) ?? p.notiz ?? '', !weg && !urteilsMeldung(gruppe)),
       summe?.ok ? summe.vermerk : '',
     ]
       .filter(Boolean)
