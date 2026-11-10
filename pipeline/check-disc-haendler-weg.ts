@@ -23,6 +23,8 @@ function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
 
 const A1 = 'https://www.anisearch.de/article/111,erste'
 const A2 = 'https://www.anisearch.de/article/222,zweite'
+const A4 = 'https://www.anisearch.de/article/444,nur-japanisch'
+const A5 = 'https://www.anisearch.de/article/555,ohne-audio'
 const A3 = 'https://www.anisearch.de/article/333,dritte'
 const aus = (datum: string, url: string, kurz: string) => ({ datum, url, format: 'Blu-ray', kurz, edition: kurz })
 const ausgaben = {
@@ -34,11 +36,17 @@ const ausgaben = {
   '900605': [aus('2020-01-10', A3, 'Ohne')],
   '900606': [aus('2020-01-10', A1, 'Box 1')],
   '900607': [aus('2020-01-10', A1, 'Box 1'), aus('2020-01-10', A2, 'Box 2')],
+  '900609': [aus('2020-01-10', A4, 'Box 3'), aus('2021-02-11', A2, 'Box 2')],
+  '900610': [aus('2020-01-10', A4, 'Box 3')],
+  '900611': [aus('2020-01-10', A5, 'Box 4')],
 }
+const de = ['Deutsch (Dolby Digital 5.1)', 'Japanisch (Dolby Digital 5.1)']
 const artikel = {
-  '111': { ean: '4020628530846', publisher: 'Crunchyroll', umfang: 'Box' },
-  '222': { ean: '7630017528209', publisher: 'Kazé', umfang: 'Box' },
-  '333': { publisher: 'Kazé', umfang: 'Box' },
+  '111': { ean: '4020628530846', publisher: 'Crunchyroll', umfang: 'Box', audio: de },
+  '222': { ean: '7630017528209', publisher: 'Kazé', umfang: 'Box', audio: de },
+  '333': { publisher: 'Kazé', umfang: 'Box', audio: de },
+  '444': { ean: '1111111111116', publisher: 'Kazé', umfang: 'Box', audio: ['Japanisch (Dolby Digital 2.0)', 'Englisch (Dolby Digital 2.0)'] },
+  '555': { ean: '2222222222222', publisher: 'Kazé', umfang: 'Box' },
 }
 const ani = { name: 'aniSearch', url: A1, kind: 'buy' as const, zugang: 'kauf' as const }
 const amazon = { name: 'Amazon', url: 'https://www.amazon.de/dp/B0HGB36K4K', kind: 'buy' as const, zugang: 'kauf' as const }
@@ -60,6 +68,9 @@ try {
     titel(900606, { watchLinks: [] }),
     titel(900607),
     titel(900608),
+    titel(900609),
+    titel(900610),
+    titel(900611),
   ]
   schliesseWegeAb({
     titles: new Map(t.map((x) => [x.id, x as never])),
@@ -92,6 +103,9 @@ try {
   pruefe('Artikel ohne EAN: kein Weg', ean(900605).length === 0, ws(900605))
   pruefe('Titel ohne Wege (hier: nur Disc-Weg aus Phase 11-1) bekommt die EAN-Suche der ersten Ausgabe', ws(900606).length === 2 && ws(900606)[1]!.url === 'https://www.amazon.de/s?k=4020628530846', ws(900606))
   pruefe('zwei Ausgaben am selben Tag, verschieden: keine eindeutige EAN, kein Weg', ean(900607).length === 0, ws(900607))
+  pruefe('erste Ausgabe nur Japanisch/Englisch, zweite Deutsch: EAN der deutschen', ean(900609).length === 1 && ean(900609)[0]!.url === 'https://www.amazon.de/s?k=7630017528209', ws(900609))
+  pruefe('Artikel nur Japanisch/Englisch: kein Weg', ean(900610).length === 0, ws(900610))
+  pruefe('Artikel ohne Audio-Feld: kein Weg', ean(900611).length === 0, ws(900611))
   pruefe('Titel ohne Ausgabeliste (aniSearch von anderswo): kein EAN-Weg', ws(900608).length === 1 && ean(900608).length === 0, ws(900608))
 
   console.log('\nZählung (ergaenzeEanHaendlerWege):')

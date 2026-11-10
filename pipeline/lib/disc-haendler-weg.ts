@@ -3,7 +3,7 @@
  *
  * Der Kauflink aus der EAN (`disc-ean.ts`) hing bisher nur an Disc-Terminen in `releases.json`. Ein Titel mit belegter
  * deutscher Disc-Ausgabe, aber ohne Termin, zeigte nur den aniSearch-Artikel. Hier bekommt er zusätzlich dieselbe
- * Amazon-Suche nach der EAN — für dieselbe Ausgabe, auf die der aniSearch-Weg zeigt (`ausgaben[0]`).
+ * Amazon-Suche nach der EAN einer deutschen Ausgabe (Tonspurzeile des Artikels nennt „Deutsch“; ohne Audio-Feld kein Weg).
  *
  * Kein Abruf und keine Aussage über Lieferbarkeit: Der Weg ist eine Suche („Bei Amazon suchen“), kein Angebot.
  * Nur Titel ohne Stream und ohne anderen Weg als aniSearch; wer schon einen Händler hat, behält ihn.
@@ -26,14 +26,25 @@ export function baueEanHaendlerWege(titles: Map<number, Title>): void {
   log(`${ergaenzeEanHaendlerWege(titles.values(), discIndexLaden())} Titel bekamen neben dem aniSearch-Artikel die Amazon-Suche nach der EAN`)
 }
 
+/** Artikel einer Ausgabe nennt in der Tonspurzeile „Deutsch“; ohne Audio-Feld gilt das nicht als belegt. */
+const mitDeutsch = (index: DiscIndex, url: string | undefined): boolean =>
+  (index.artikel[/article\/(\d+)/.exec(url ?? '')?.[1] ?? '']?.audio ?? []).some((z) => /deutsch/i.test(z))
+
+/** EAN der ersten Ausgabe des Titels mit deutscher Tonspur und eindeutiger EAN (bei mehreren Ausgaben eine deutsche, nicht zwingend die des aniSearch-Wegs). */
+function deutscheEan(titleId: number, index: DiscIndex): string | undefined {
+  for (const a of index.ausgaben[String(titleId)] ?? []) {
+    const ean = mitDeutsch(index, a.url) ? discEan(index, titleId, a.datum) : undefined
+    if (ean) return ean
+  }
+  return undefined
+}
+
 /** Hängt den EAN-Weg an; Rückgabe = Anzahl der Titel, die ihn bekamen. */
 export function ergaenzeEanHaendlerWege(titles: Iterable<Title>, index: DiscIndex): number {
   let n = 0
   for (const title of titles) {
     if (!nurAniSearch(title)) continue
-    const erste = index.ausgaben[String(title.id)]?.[0]
-    if (!erste) continue
-    const ean = discEan(index, title.id, erste.datum)
+    const ean = deutscheEan(title.id, index)
     if (!ean) continue
     title.watchLinks = [...(title.watchLinks ?? []), { name: 'Amazon', url: amazonEanUrl(ean), kind: 'buy', zugang: 'kauf' }]
     n++
