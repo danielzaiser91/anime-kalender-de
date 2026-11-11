@@ -1,0 +1,7 @@
+[
+  { "name": "Kontrolle (unmutiert)", "tests": ["cd .claude/mods/arbeitsliste && claude plugin test"], "aenderungen": [] },
+  { "name": "schalteSavvyPane: Klick zählt nicht hoch", "tests": ["cd .claude/mods/arbeitsliste && claude plugin test"], "aenderungen": [{ "datei": ".claude/mods/arbeitsliste/hooks/register.tsx", "suche": "const meine = ++klickNr", "ersetze": "const meine = klickNr" }] },
+  { "name": "schalteSavvyPane: Abbruch vor dem Toast entfällt", "tests": ["cd .claude/mods/arbeitsliste && claude plugin test"], "aenderungen": [{ "datei": ".claude/mods/arbeitsliste/hooks/register.tsx", "suche": "  if (meine !== klickNr) return\n  $.ui.toast(", "ersetze": "  $.ui.toast(" }] },
+  { "name": "schalteSavvyPane: Abbruch ohne Änderung (Toast nie)", "tests": ["cd .claude/mods/arbeitsliste && claude plugin test"], "aenderungen": [{ "datei": ".claude/mods/arbeitsliste/hooks/register.tsx", "suche": "  if (meine !== klickNr) return\n  $.ui.toast(", "ersetze": "  if (meine === klickNr) return\n  $.ui.toast(" }] },
+  { "name": "togglePane: Arbeitsliste-Klick zählt nicht", "tests": ["cd .claude/mods/arbeitsliste && claude plugin test"], "aenderungen": [{ "datei": ".claude/mods/arbeitsliste/hooks/register.tsx", "suche": "  klickNr++\n", "ersetze": "" }] }
+]
