@@ -4611,6 +4611,12 @@
   ],
   "sakamoto-days-teil-2-vol-3-2026-11-13": [
     {
+      "url": "https://www.anime2you.de/news/1068595/28-blu-ray-verschiebungen/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-11",
+      "stand": "aktuell"
+    },
+    {
       "url": "https://www.anisearch.de/article/201864,sakamoto-days-vol-3-4-limited-steelcase-edition-blu-ray",
       "name": "anisearch.de",
       "gesehenAm": "2026-10-02",
@@ -4620,11 +4626,18 @@
       "url": "sakamoto-days-vol-3-4-limited-steelcase-edition-blu-ray",
       "name": "sakamoto-days-vol-3-4-limited-steelcase-edition-blu-ray",
       "gesehenAm": "2026-10-01",
-      "stand": "vermutlich-ueberholt",
-      "sagt": "2026-11-13"
+      "stand": "ueberholt",
+      "sagt": "2026-11-13",
+      "grund": "Termin verschoben auf: 2027-01-29"
     }
   ],
   "sakamoto-days-teil-2-vol-4-2026-12-18": [
+    {
+      "url": "https://www.anime2you.de/news/1068595/28-blu-ray-verschiebungen/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-11",
+      "stand": "aktuell"
+    },
     {
       "url": "https://www.anisearch.de/article/201866,sakamoto-days-vol-4-4-limited-steelcase-edition-blu-ray",
       "name": "anisearch.de",
@@ -4635,15 +4648,17 @@
       "url": "sakamoto-days-vol-4-4-limited-steelcase-edition-blu-ray",
       "name": "sakamoto-days-vol-4-4-limited-steelcase-edition-blu-ray",
       "gesehenAm": "2026-10-01",
-      "stand": "vermutlich-ueberholt",
-      "sagt": "2026-12-25"
+      "stand": "ueberholt",
+      "sagt": "2026-12-25",
+      "grund": "Termin verschoben auf: 2027-03-05"
     },
     {
       "url": "https://www.anime2you.de/news/1052846/animoon-crunchyroll-ksm-25-verschiebungen/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-01",
-      "stand": "aktuell",
-      "sagt": "2026-12-25"
+      "stand": "ueberholt",
+      "sagt": "2026-12-25",
+      "grund": "Termin verschoben auf: 2027-03-05"
     }
   ],
   "my-gift-lvl-9999-unlimited-gacha-backstabbed-in-a-backwater-dungeon-i-m-out-for-": [
@@ -5040,8 +5055,9 @@
       "url": "miss-kobayashis-dragon-maid-gesamtausgabe-steelbook-blu-ray",
       "name": "miss-kobayashis-dragon-maid-gesamtausgabe-steelbook-blu-ray",
       "gesehenAm": "2026-10-01",
-      "stand": "vermutlich-ueberholt",
-      "sagt": "2026-11-06"
+      "stand": "ueberholt",
+      "sagt": "2026-11-06",
+      "grund": "Termin verschoben auf: 2026-12-04"
     }
   ],
   "sailor-moon-sailor-stars-2027-01-15": [
