@@ -4,6 +4,7 @@ import { type Title } from '../../shared/types.ts'
 import { moeglicheStaffeln, staffelFuehrt } from '../lib/jw-staffel-des-titels.ts'
 import { staffelDesTitels } from './widerlegung-staffel.ts'
 import { ergaenzeWegeOhneWeg, type JwAngebot, type JwEintrag } from './11-2-2-wege-ohne-weg.ts'
+import { mitFolgestaffelEintraegen } from './11-2-6-folgestaffel-eintraege.ts'
 
 /** Kennungen der Titel, die gerade mindestens einen Stream tragen. */
 export function titelMitStream(titles: ReadonlyMap<number, Title>): Set<number> {
@@ -18,6 +19,8 @@ export function titelMitStream(titles: ReadonlyMap<number, Title>): Set<number> 
  * blieben ohne den Crunchyroll-Amazon-Kanal, den JustWatch mit deutschem Ton führt (11.11.2026). Der zweite Durchgang betrifft nur Titel,
  * die davor einen Stream hatten und jetzt keinen mehr.
  *
+ * Die Folgestaffel-Einträge (`mitFolgestaffelEintraegen`) gelten hier wie in der ersten Runde: Eine Folgestaffel mit geratenem Stream verliert ihn erst in der Begrenzung.
+ *
  * Nein-Handbelege gibt er nicht weiter: `entferneBezugswegeTrotzNein` läuft danach im selben Abschluss über jeden Bezugsweg und nimmt ihn wieder heraus
  * (der Test `check-kanal-nach-begrenzung.ts` hält das mit einem Fall fest).
  */
@@ -30,7 +33,7 @@ export function ergaenzeWegeNachBegrenzung({ titles, hatteStream, tmdbMehrdeutig
   const verloren = new Map([...titles].filter(([id, t]) => hatteStream.has(id) && !(t.streams ?? []).length))
   ergaenzeWegeOhneWeg({
     titles: verloren,
-    jw: mitStaffelTreffer(readJson<Record<string, JwEintrag>>('data/justwatch-audio.json', {}), titles),
+    jw: mitFolgestaffelEintraegen(mitStaffelTreffer(readJson<Record<string, JwEintrag>>('data/justwatch-audio.json', {}), titles), titles),
     handNein: new Set<string>(),
     tmdbMehrdeutig,
     istTot,
