@@ -7,6 +7,7 @@ import { loadDubChecks, neinHandbelege } from '../lib/dub-confirmed.ts'
 import { setzeTelekomAnnahme, type JwAngebot } from '../lib/telekom-annahme.ts'
 import { providerToPlatform } from './titel-hilfen.ts'
 import { entfernteVerweise, ergaenzeWegeOhneWeg, PHYSISCHE_SHOPS, type JwEintrag } from './11-2-2-wege-ohne-weg.ts'
+import { mitStaffelTreffer } from './11-2-5-wege-nach-begrenzung.ts'
 import { ergaenzeAboWege, type JwAbo } from './11-2-3-abo-wege.ts'
 import { ergaenzeKaufWege, primeNeinTitel, type JwKauf } from './11-2-4-kauf-wege.ts'
 
@@ -21,7 +22,7 @@ function legeWegeAn({ titles, tmdbMehrdeutig, istTot }: Runde) {
   const handNein = neinHandbelege(loadDubChecks())
   ergaenzeWegeOhneWeg({
     titles,
-    jw: readJson<Record<string, JwEintrag>>('data/justwatch-audio.json', {}),
+    jw: mitStaffelTreffer(readJson<Record<string, JwEintrag>>('data/justwatch-audio.json', {}), titles),
     handNein,
     tmdbMehrdeutig,
     istTot,
