@@ -22,6 +22,7 @@
 import { execFileSync } from 'node:child_process'
 import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
+import { pathToFileURL } from 'node:url'
 import ts from 'typescript'
 import { findeKetten } from './umfang-ketten.mjs'
 
@@ -79,12 +80,15 @@ function funktionen(pfad, quelltext) {
   return gefunden
 }
 
-export function vermessen() {
+const lokalLesen = (pfad) => readFileSync(resolve(WURZEL, pfad), 'utf8')
+
+/** Vermisst `liste` (Pfade) mit `lies(pfad)`; so lässt sich auch ein Stand ohne Arbeitsbaum (Merge-Baum eines PR) messen. */
+export function vermessen(liste = dateien(), lies = lokalLesen) {
   const stand = {}
   const einzeln = []
-  for (const pfad of dateien()) {
+  for (const pfad of liste) {
     const bereich = BEREICHE.find((b) => pfad.startsWith(`${b}/`))
-    const text = readFileSync(resolve(WURZEL, pfad), 'utf8')
+    const text = lies(pfad)
     const zeilen = text.split('\n').length
     stand[bereich] ??= { funktionen: 0, dateien: 0, ketten: 0 }
     const ketten = findeKetten(pfad, text)
@@ -103,49 +107,59 @@ export function vermessen() {
   return { stand, einzeln }
 }
 
-const { stand, einzeln } = vermessen()
-const erlaubt = JSON.parse(readFileSync(GRENZEN, 'utf8'))
-
-if (process.argv.includes('--liste')) {
-  for (const e of einzeln.filter((e) => e.art !== 'Ketten').sort((a, b) => b.zeilen - a.zeilen).slice(0, 40)) console.log(`${String(e.zeilen).padStart(6)}  ${e.art.padEnd(8)} ${e.ort}`)
-  process.exit(0)
-}
-if (process.argv.includes('--ketten')) {
-  for (const e of einzeln.filter((e) => e.art === 'Ketten').sort((a, b) => b.zeilen - a.zeilen)) console.log(`${String(e.zeilen).padStart(4)}  ${e.ort}`)
-  process.exit(0)
-}
-
-const zuViel = []
-const neu = structuredClone(erlaubt)
-for (const [bereich, werte] of Object.entries(stand)) {
-  for (const art of ['funktionen', 'dateien', 'ketten']) {
-    const grenze = erlaubt.ueberlaenge[bereich]?.[art] ?? 0
-    const was = art === 'ketten' ? 'Ketten (mehrere Anweisungen/Felder/Einträge in einer Zeile)' : `Überlänge der ${art}`
-    if (werte[art] > grenze) zuViel.push(`${bereich}: ${was} ${werte[art]} statt höchstens ${grenze}`)
-    else if (werte[art] < grenze) (neu.ueberlaenge[bereich] ??= {})[art] = werte[art]
+/** Stand gegen die erlaubten Grenzen: { zuViel: Meldungen, neu: Grenzen mit gesunkenen Werten }. */
+export function gegenGrenzen(stand, erlaubt) {
+  const zuViel = []
+  const neu = structuredClone(erlaubt)
+  for (const [bereich, werte] of Object.entries(stand)) {
+    for (const art of ['funktionen', 'dateien', 'ketten']) {
+      const grenze = erlaubt.ueberlaenge[bereich]?.[art] ?? 0
+      const was = art === 'ketten' ? 'Ketten (mehrere Anweisungen/Felder/Einträge in einer Zeile)' : `Überlänge der ${art}`
+      if (werte[art] > grenze) zuViel.push(`${bereich}: ${was} ${werte[art]} statt höchstens ${grenze}`)
+      else if (werte[art] < grenze) (neu.ueberlaenge[bereich] ??= {})[art] = werte[art]
+    }
   }
+  return { zuViel, neu }
 }
 
-if (process.argv.includes('--festschreiben')) {
+function main() {
+  const { stand, einzeln } = vermessen()
+  const erlaubt = JSON.parse(readFileSync(GRENZEN, 'utf8'))
+
+  if (process.argv.includes('--liste')) {
+    for (const e of einzeln.filter((e) => e.art !== 'Ketten').sort((a, b) => b.zeilen - a.zeilen).slice(0, 40)) console.log(`${String(e.zeilen).padStart(6)}  ${e.art.padEnd(8)} ${e.ort}`)
+    process.exit(0)
+  }
+  if (process.argv.includes('--ketten')) {
+    for (const e of einzeln.filter((e) => e.art === 'Ketten').sort((a, b) => b.zeilen - a.zeilen)) console.log(`${String(e.zeilen).padStart(4)}  ${e.ort}`)
+    process.exit(0)
+  }
+
+  const { zuViel, neu } = gegenGrenzen(stand, erlaubt)
+
+  if (process.argv.includes('--festschreiben')) {
+    if (zuViel.length) {
+      console.error('Festschreiben erhöht nie. Erst die Überlänge abbauen:\n  ' + zuViel.join('\n  '))
+      process.exit(1)
+    }
+    writeFileSync(GRENZEN, JSON.stringify(neu, null, 2) + '\n')
+    console.log('Gesunkene Werte übernommen.')
+    process.exit(0)
+  }
+
   if (zuViel.length) {
-    console.error('Festschreiben erhöht nie. Erst die Überlänge abbauen:\n  ' + zuViel.join('\n  '))
+    console.error(
+      `✖ Code ist über die Grenzen gewachsen (Funktion > ${GRENZE_FUNKTION}, Datei > ${GRENZE_DATEI} Zeilen):\n  ` +
+        zuViel.join('\n  ') +
+        '\n\nNeues nicht in eine übergroße Funktion oder Datei schreiben, sondern als eigene Funktion' +
+        '\n(eigenes Modul) herauslösen. Die größten Stellen: node tools/umfang-pruefen.mjs --liste' +
+        '\nKetten: jede Anweisung, jedes Typ-Feld, jeder Objekt-Eintrag in eine eigene Zeile (Fundstellen: --ketten).' +
+        '\nDie Grenzen werden nicht angehoben — siehe CLAUDE.md, „Codegestalt".',
+    )
     process.exit(1)
   }
-  writeFileSync(GRENZEN, JSON.stringify(neu, null, 2) + '\n')
-  console.log('Gesunkene Werte übernommen.')
-  process.exit(0)
+  const gesunken = JSON.stringify(neu) !== JSON.stringify(erlaubt)
+  console.log(`Umfang in Ordnung.${gesunken ? ' Überlänge gesunken — der nächste Bestandsbau auf main übernimmt das; im PR nicht festschreiben.' : ''}`)
 }
 
-if (zuViel.length) {
-  console.error(
-    `✖ Code ist über die Grenzen gewachsen (Funktion > ${GRENZE_FUNKTION}, Datei > ${GRENZE_DATEI} Zeilen):\n  ` +
-      zuViel.join('\n  ') +
-      '\n\nNeues nicht in eine übergroße Funktion oder Datei schreiben, sondern als eigene Funktion' +
-      '\n(eigenes Modul) herauslösen. Die größten Stellen: node tools/umfang-pruefen.mjs --liste' +
-      '\nKetten: jede Anweisung, jedes Typ-Feld, jeder Objekt-Eintrag in eine eigene Zeile (Fundstellen: --ketten).' +
-      '\nDie Grenzen werden nicht angehoben — siehe CLAUDE.md, „Codegestalt".',
-  )
-  process.exit(1)
-}
-const gesunken = JSON.stringify(neu) !== JSON.stringify(erlaubt)
-console.log(`Umfang in Ordnung.${gesunken ? ' Überlänge gesunken — der nächste Bestandsbau auf main übernimmt das; im PR nicht festschreiben.' : ''}`)
+if (import.meta.url === pathToFileURL(process.argv[1]).href) main()
