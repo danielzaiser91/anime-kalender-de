@@ -19,6 +19,7 @@ const PR = { number: 7, state: 'OPEN', mergeable: 'MERGEABLE', headRefOid: KOPF,
 const JOBS = [
   { name: 'Kette – Logik', databaseId: 91, status: 'completed' },
   { name: 'Kette – Workflows', databaseId: 92, status: 'completed' },
+  { name: 'Kette – Offen', databaseId: 97, status: 'in_progress' },
   { name: 'Kette – Bau', databaseId: 93, status: 'completed' },
   { name: 'Kette – Typen', databaseId: 94, status: 'completed' },
   { name: 'Kette – Daten', databaseId: 95, status: 'completed' },
@@ -69,7 +70,7 @@ const fehl = { fehler: E502 }
 }
 {
   const r = lauf({ 92: [fehl], 91: [fehl], 93: [ECHT] })
-  pruefe('Hauptjob dauerhaft 502 -> Rückfall: erster Ersatzjob kaputt, zweiter trägt -> 0', r.code === 0 && r.logAufrufe(92) === 3 && r.logAufrufe(91) === 1 && r.logAufrufe(93) === 1 && r.logAufrufe(94) === 0, r)
+  pruefe('Hauptjob dauerhaft 502 -> Rückfall: erster Ersatzjob kaputt, zweiter trägt -> 0', r.code === 0 && r.logAufrufe(92) === 3 && r.logAufrufe(91) === 1 && r.logAufrufe(93) === 1 && r.logAufrufe(94) === 0 && r.logAufrufe(97) === 0, r)
 }
 {
   const r = lauf({ 92: [fehl], 91: [fehl], 93: [fehl], 94: [fehl], 95: [ECHT] })
