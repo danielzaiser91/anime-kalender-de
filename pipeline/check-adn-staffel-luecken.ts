@@ -42,7 +42,7 @@ const titel = [
   { id: 900007, titleRomaji: 'Anderer Anbieter', streams: [{ platform: 'netflix', url: 'https://animationdigitalnetwork.com/de/video/900970-x' }] },
   { id: 900008, titleRomaji: 'Staffel 2 allein', streams: [adnStream(900974)] },
 ]
-const alle = [jeStaffel, durchgezaehlt, nurEine, nurFilme, nurStaffel2, serie(900975, [{ season: 1, von: 1, bis: 2 }, { season: 2, von: 1, bis: 2 }])]
+const alle = [nurStaffel2, durchgezaehlt, nurEine, nurFilme, jeStaffel, serie(900975, [{ season: 1, von: 1, bis: 2 }, { season: 2, von: 1, bis: 2 }])]
 
 console.log('\nRohantwort zählt je Staffel?')
 pruefe('Staffel 2 beginnt bei Folge 1: ja', rohZaehltJeStaffel(jeStaffel))
@@ -64,6 +64,8 @@ pruefe('Handbeleg ohne Stream hängt den Titel an die Serie; eine Staffel zählt
 const beleg2 = [{ anilistId: 900006, platform: 'adn', url: 'https://animationdigitalnetwork.com/de/video/900974-y' }]
 const mitBeleg = adnStaffelLuecken(alle, titel, { 900008: '2' }, beleg2)
 pruefe('Handbeleg an einer Serie, deren Stream-Titel schon einen Eintrag hat: Serie bleibt gedeckt', mitBeleg.map((l) => l.showId).join() === '900970', mitBeleg)
+const doppelt = adnStaffelLuecken(alle, titel, {}, [{ anilistId: 900002, platform: 'adn', url: 'https://animationdigitalnetwork.com/de/video/900970-y' }])
+pruefe('Stream und Handbeleg desselben Titels an derselben Serie: der Titel steht nur einmal', doppelt[0]?.titel.join() === '900001,900002', doppelt)
 const nurBeleg = adnStaffelLuecken([jeStaffel], [titel[5]], {}, [{ anilistId: 900006, platform: 'adn', url: 'https://animationdigitalnetwork.com/de/video/900970-y' }])
 pruefe('Titel nur über Handbeleg (kein Stream) taucht auf', nurBeleg.length === 1 && nurBeleg[0].titel.join() === '900006', nurBeleg)
 pruefe('Handbeleg eines anderen Anbieters zählt nicht', adnStaffelLuecken([jeStaffel], [titel[5]], {}, [{ anilistId: 900006, platform: 'netflix', url: 'https://animationdigitalnetwork.com/de/video/900970-y' }]).length === 0)
