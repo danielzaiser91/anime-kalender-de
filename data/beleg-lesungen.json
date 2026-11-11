@@ -9386,7 +9386,7 @@
     ]
   },
   "https://news.animationdigitalnetwork.com/de/2026/06/01/sailor-moon-sailor-stars-staffel-5-im-stream-bei-adn/": {
-    "zuletzt": "2026-11-10",
+    "zuletzt": "2026-11-11",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -9446,17 +9446,25 @@
         "bildfassung": 3,
         "markierung": [
           0.057692307692307696,
-          0.3609481443276814,
+          0.6502264720684449,
           0.8846153846153846,
-          0.01859612174872313
+          0.03349979998193385
         ],
-        "markierungen": {},
+        "markierungen": {
+          "996": [
+            0.057692307692307696,
+            0.6502264720684449,
+            0.8846153846153846,
+            0.03349979998193385
+          ]
+        },
         "bild": "news.animationdigitalnetwork.com/0f2a10feb4c14a58/2026-10-29-2cc46dd1a6d54131.webp",
         "text": "news.animationdigitalnetwork.com/0f2a10feb4c14a58/2026-10-29-2cc46dd1a6d54131.txt.gz",
         "ohneMarke": {
           "530": "nicht-gefunden",
+          "532": "nicht-gefunden",
           "740": "nicht-gefunden",
-          "21462": "nicht-gefunden"
+          "1239": "nicht-gefunden"
         }
       }
     ]
@@ -9898,7 +9906,7 @@
     ]
   },
   "https://www.anime2you.de/news/1055673/rooster-fighter-bald-auf-netflix/": {
-    "zuletzt": "2026-11-04",
+    "zuletzt": "2026-11-11",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -9967,6 +9975,24 @@
         ],
         "bild": "www.anime2you.de/08c0e7426b173f7a/2026-11-04-92f26c6133daa116.webp",
         "text": "www.anime2you.de/08c0e7426b173f7a/2026-11-04-92f26c6133daa116.txt.gz"
+      },
+      {
+        "am": "2026-11-11",
+        "hash": "8d076679f0e95330",
+        "hf": 2,
+        "veroeffentlicht": "2026-09-29",
+        "aktualisiert": "2026-10-02",
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.038461538461538464,
+          0.7623364084960309,
+          0.8942307692307693,
+          0.20104770077951797
+        ],
+        "bild": "www.anime2you.de/08c0e7426b173f7a/2026-11-11-8d076679f0e95330.webp",
+        "text": "www.anime2you.de/08c0e7426b173f7a/2026-11-11-8d076679f0e95330.txt.gz"
       }
     ]
   },
@@ -21408,7 +21434,7 @@
     ]
   },
   "https://www.anime2you.de/news/1064672/venus-wars-blu-ray-termin/": {
-    "zuletzt": "2026-11-04",
+    "zuletzt": "2026-11-11",
     "lesungen": [
       {
         "am": "2026-10-28",
@@ -22139,7 +22165,7 @@
     ]
   },
   "https://news.animationdigitalnetwork.com/de/2026/09/18/dreamland-enthuellt-in-neuem-trailer-die-titelsongs/": {
-    "zuletzt": "2026-11-04",
+    "zuletzt": "2026-11-11",
     "lesungen": [
       {
         "am": "2026-11-01",
@@ -23168,7 +23194,7 @@
     ]
   },
   "https://www.anime2you.de/news/1068595/28-blu-ray-verschiebungen/": {
-    "zuletzt": "2026-11-10",
+    "zuletzt": "2026-11-11",
     "lesungen": [
       {
         "am": "2026-11-08",
@@ -23342,7 +23368,7 @@
     ]
   },
   "https://www.anime2you.de/news/1068059/prime-video-devils-crest-und-mehr/": {
-    "zuletzt": "2026-11-10",
+    "zuletzt": "2026-11-11",
     "lesungen": [
       {
         "am": "2026-11-08",
@@ -23432,7 +23458,7 @@
     ]
   },
   "https://www.anime2you.de/news/1068831/polyband-pokemon-rabattaktion-endet-bald/": {
-    "zuletzt": "2026-11-10",
+    "zuletzt": "2026-11-11",
     "lesungen": [
       {
         "am": "2026-11-08",
@@ -23488,7 +23514,7 @@
     ]
   },
   "https://www.joyn.de/serien/tico-ein-toller-freund-die-komplette-serie": {
-    "zuletzt": "2026-11-10",
+    "zuletzt": "2026-11-11",
     "lesungen": [
       {
         "am": "2026-11-08",
@@ -23508,7 +23534,7 @@
     ]
   },
   "https://www.joyn.de/serien/yaiba-samurai-legend": {
-    "zuletzt": "2026-11-10",
+    "zuletzt": "2026-11-11",
     "lesungen": [
       {
         "am": "2026-11-10",
@@ -23524,11 +23550,27 @@
         ],
         "bild": "www.joyn.de/17df3da595b79d78/2026-11-10-331500d8bbad7a61.webp",
         "text": "www.joyn.de/17df3da595b79d78/2026-11-10-331500d8bbad7a61.txt.gz"
+      },
+      {
+        "am": "2026-11-11",
+        "hash": "561452355cf88437",
+        "hf": 2,
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0.07692307692307693,
+          0.9121020884906385,
+          0.5307692307692308,
+          0.021407900700812384
+        ],
+        "bild": "www.joyn.de/17df3da595b79d78/2026-11-11-561452355cf88437.webp",
+        "text": "www.joyn.de/17df3da595b79d78/2026-11-11-561452355cf88437.txt.gz"
       }
     ]
   },
   "https://www.anime2you.de/news/1069021/joyn-yaiba-samurai-legend-und-mehr/": {
-    "zuletzt": "2026-11-10",
+    "zuletzt": "2026-11-11",
     "lesungen": [
       {
         "am": "2026-11-10",
@@ -23573,6 +23615,26 @@
         "bildfassung": 3,
         "bild": "news.animationdigitalnetwork.com/7a93dfa10e8c4cf6/2026-11-10-68e9afdbf7622b94.webp",
         "text": "news.animationdigitalnetwork.com/7a93dfa10e8c4cf6/2026-11-10-68e9afdbf7622b94.txt.gz"
+      }
+    ]
+  },
+  "https://www.joyn.de/serien/to-love-ru-darkness": {
+    "zuletzt": "2026-11-11",
+    "lesungen": [
+      {
+        "am": "2026-11-11",
+        "hash": "c1af88f52afc3e60",
+        "hf": 2,
+        "qs": "ok",
+        "bildfassung": 3,
+        "markierung": [
+          0,
+          0,
+          1,
+          0.04138214051214708
+        ],
+        "bild": "www.joyn.de/6693793e1c5f41da/2026-11-11-c1af88f52afc3e60.webp",
+        "text": "www.joyn.de/6693793e1c5f41da/2026-11-11-c1af88f52afc3e60.txt.gz"
       }
     ]
   }
