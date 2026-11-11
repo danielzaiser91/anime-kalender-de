@@ -127,6 +127,10 @@ try {
   const restZwei: typeof entfernt = []
   pruefe('zwei Wege, einer bleibt: letzterWeg falsch, der Ja-Weg bleibt stehen', entferneVerweiseMitNein(zwei, restZwei, new Set()) === 1 && restZwei[0]?.letzterWeg === false && zwei.streams.length === 1, restZwei)
 
+  const netflixWeg = mk(NETFLIX_REGION, 'netflix')
+  const restNetflix: typeof entfernt = []
+  pruefe('Region bei Netflix gesperrt, Netflix-Weg: Grund Regionssperre', entferneVerweiseMitNein(netflixWeg, restNetflix, region) === 1 && restNetflix[0]?.grund === GRUND_REGION, restNetflix)
+
   console.log('\nDer Helfer: Netflix-Sperre trifft Prime nicht')
   const netflix = mk(NETFLIX_REGION, 'primevideo')
   const rest: typeof entfernt = []
