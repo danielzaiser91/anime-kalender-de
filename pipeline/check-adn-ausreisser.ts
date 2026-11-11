@@ -1,7 +1,7 @@
 /**
  * Zusicherungen zu `lib/adn-ausreisser.ts` (09.11.2026, Demon Slave): Eine einzelne `vde`-Folge unter lauter `vostde` setzt keinen
  * ADN-Termin und kein `dub: true`. Die Auslöser stammen wörtlich aus dem Archiv (`data/adn-raw`): Demon Slave 1125, GTO 307,
- * One Piece 561 sind Ausreißer; Dreamland 887 (3 von 4), JoJo-Staffeln und Dorohedoro 1375 (S2 alle 11, S1 keine) sind es nicht.
+ * One Piece 561 (bis 10.11.2026, danach von ADN bereinigt) sind Ausreißer; Dreamland 887 (3 von 4), JoJo-Staffeln und Dorohedoro 1375 (S2 alle 11, S1 keine) sind es nicht.
  * Der Verdrahtungsteil lässt `ergaenzeAdnTitel` auf einer Kulisse im Temp-Ordner (`AK_ROOT`) laufen, mit und ohne Archivdatei.
  */
 import { copyFileSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
@@ -29,7 +29,8 @@ const ja = ['vostde', 'vde']
 console.log('\nEchte Archivfälle')
 pruefe('Demon Slave: genau Video 24139 (S1F6)', [...vdeAusreisser(videosVon(1125))].join() === '24139', [...vdeAusreisser(videosVon(1125))])
 pruefe('GTO: ein Ausreißer', vdeAusreisser(videosVon(307)).size === 1)
-pruefe('One Piece: Wano-Folge 1088 ist Ausreißer, die vollständig deutsche Saga 7 nicht', vdeAusreisser(videosVon(561)).size === 1)
+// ADN hat die Wano-Folge 1088 (Video 23955) am 11.11.2026 selbst bereinigt: Archiv 561 hat keine vde-Folge in Saga 14 mehr (vorher 1 von 208); der Fall bleibt über die Wano-Fixture unten belegt.
+pruefe('One Piece: Archiv ohne Wano-vde-Folge hat keinen Ausreißer, die vollständig deutsche Saga 7 auch nicht', vdeAusreisser(videosVon(561)).size === 0)
 pruefe('Dreamland (3 von 4 deutsch, ab Folge 1): kein Ausreißer', vdeAusreisser(videosVon(887)).size === 0)
 pruefe('Dorohedoro (S2 alle deutsch, S1 keine): kein Ausreißer', vdeAusreisser(videosVon(1375)).size === 0)
 
