@@ -5,8 +5,8 @@
     "lastCount": 11
   },
   "anime2you": {
-    "lastOk": "2026-11-11T15:12:29.963Z",
-    "lastRun": "2026-11-11T15:12:29.963Z",
+    "lastOk": "2026-11-11T17:05:36.717Z",
+    "lastRun": "2026-11-11T17:05:36.717Z",
     "lastCount": 51
   },
   "anisearch": {
@@ -20,8 +20,8 @@
     "lastCount": 120
   },
   "crunchyroll-dub": {
-    "lastOk": "2026-11-11T15:12:10.637Z",
-    "lastRun": "2026-11-11T15:12:10.637Z",
+    "lastOk": "2026-11-11T17:05:17.439Z",
+    "lastRun": "2026-11-11T17:05:17.439Z",
     "lastCount": 1156
   },
   "anime-offline-database": {
@@ -84,7 +84,7 @@
   },
   "rohfolgen": {
     "lastOk": "2026-11-10T11:18:36.520Z",
-    "lastRun": "2026-11-11T15:34:23.073Z",
+    "lastRun": "2026-11-11T17:03:13.061Z",
     "lastCount": 0
   },
   "anisearch-folgen": {
@@ -113,15 +113,15 @@
     "lastCount": 11
   },
   "vorfaelle": {
-    "lastOk": "2026-11-11T15:34:18.289Z",
-    "lastRun": "2026-11-11T15:34:18.289Z",
+    "lastOk": "2026-11-11T17:03:08.592Z",
+    "lastRun": "2026-11-11T17:03:08.592Z",
     "lastCount": 0,
-    "leerSeit": "2026-11-11T15:34:18.289Z"
+    "leerSeit": "2026-11-11T17:03:08.592Z"
   },
   "crunchyroll-neu": {
-    "lastOk": "2026-11-11T15:12:00.785Z",
-    "lastRun": "2026-11-11T15:12:00.785Z",
-    "lastCount": 184
+    "lastOk": "2026-11-11T17:05:09.802Z",
+    "lastRun": "2026-11-11T17:05:09.802Z",
+    "lastCount": 185
   },
   "cartoons": {
     "lastOk": "2026-11-11T04:11:08.004Z",
@@ -140,8 +140,8 @@
     "lastCount": 16
   },
   "tv-programm": {
-    "lastOk": "2026-11-11T15:12:33.687Z",
-    "lastRun": "2026-11-11T15:12:33.687Z",
+    "lastOk": "2026-11-11T17:05:40.885Z",
+    "lastRun": "2026-11-11T17:05:40.885Z",
     "lastCount": 292
   },
   "tv-de": {
@@ -177,10 +177,9 @@
     "lastCount": 3
   },
   "crunchyroll-woche": {
-    "lastOk": "2026-11-11T13:01:45.000Z",
-    "lastRun": "2026-11-11T15:11:57.590Z",
-    "lastCount": 0,
-    "lastError": "browserType.launch: Executable doesn't exist at /home/runner/.cache/ms-playwright/chromium_headless_shell-1234/chrome-headless-shell-linux64/chrome-headless-shell\n╔════════════════════════════════════════════════════════════╗\n║ Looks like Playwright was just installed or updated.       ║\n║ Please run the following command to download new browsers: ║\n║                                                            ║\n║     npx playwright install                                 ║\n║                                                            ║\n║ <3 Playwright Team                                         ║\n╚════════════════════════════════════════════════════════════╝"
+    "lastOk": "2026-11-11T17:05:03.657Z",
+    "lastRun": "2026-11-11T17:05:03.657Z",
+    "lastCount": 63
   },
   "adn-news": {
     "lastOk": "2026-11-11T02:00:55.860Z",
@@ -188,8 +187,8 @@
     "lastCount": 69
   },
   "messbelege": {
-    "lastOk": "2026-11-11T15:12:32.530Z",
-    "lastRun": "2026-11-11T15:12:32.530Z",
+    "lastOk": "2026-11-11T17:05:39.779Z",
+    "lastRun": "2026-11-11T17:05:39.779Z",
     "lastCount": 0,
     "leerSeit": "2026-11-06T18:01:33.610Z"
   },

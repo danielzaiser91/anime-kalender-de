@@ -786,3 +786,14 @@ wer die Ursache dann noch kennt, hat Glück. Deshalb diese Datei.
 **Wo sind echte Risiken und Lücken?** ADN: JoJo’s Bizarre Adventure (14719) hat den ADN-Weg (`…/444-jojo-s-bizarre-adventure?s=1`) bis `ea68c70d` (10.11. 10:43 UTC, Sammler-Rücknahme) und fehlt ab `d3bbd596` (10:59 UTC, „Bestand neu gebaut“); `data/adn-catalog.json` trägt die Serie weiterhin (Zeile 201, seit #3296). **Nicht belegt:** welche Bauphase den Weg dort fallen ließ; zwischen den beiden Ständen änderte sich keine ADN-Datei im Repo (nur `listen/07-adn.md` das Datum), also liegt es am nicht committeten Cache oder an der Zuordnung. Gleiche Lücke wie am 09.11.: ein Verlust im Bestand bleibt grün und fällt nur der Wache auf.
 
 **Was läuft komplett falsch?** Nichts Belegbares: kein Fehlerschritt, der Lauf ist absichtlich rot. Kein Pull Request, da keine Codeursache belegt ist; Gegenprobe (Bau mit dem Cache von `d3bbd596` nachstellen, ADN-Phase für 14719, 116589, 170695) steht aus.
+
+
+## 11.11.2026 — Wache meldet „1 Urteile verloren; 1 Titel ohne Synchro-Beleg; adn: 1 Synchro-Belege weniger“ (Lauf 43046099714, Issue #3470)
+
+**Was läuft korrekt.** Die Wache hat den Sprung gefunden (Bestandslauf 10.11. 16:55), der Bau war grün. Gemessen über `public/data/titles.json` (`46190f80` → `dcc9b722`): Titel 21462 (Sailor Moon Crystal – Death Busters-hen, 13 Folgen) verlor den ADN-Weg `427-sailor-moon?s=3` (vorher `sharedWith: 2`, zusammen mit Titel 532, Sailor Moon S). Davor lief der ADN-Tiefendurchlauf `a9d13018` (16:44 UTC), der `data/adn-catalog.json` neu schrieb; beide Stände liegen im `headSha`.
+
+**Wo ist Verbesserungspotenzial?** Die Wache kann nicht zwischen „Beleg verloren“ und „falsche Doppelzuordnung aufgelöst“ unterscheiden (wie schon am 10.11. bei Prime/gti). Ein Abgleich gegen `sharedWith` im Vorstand würde den Fall still lassen.
+
+**Wo sind echte Risiken und Lücken?** Gemessen: ADN-Staffel 3 von Sailor Moon hat im Katalog 38 Folgen (Staffeln 1–5: 46/43/38/39/34) — das passt zu Sailor Moon S (532, 38 Folgen), nicht zu Death Busters (13). Der frühere Weg an 21462 war also vermutlich eine falsche Mitzuordnung, der Verlust damit eine Korrektur. **Nicht belegt:** ob der alte Stand im Katalog eine andere Folgenzahl trug (der Katalog des Vorstands wurde nicht ausgezählt).
+
+**Was läuft komplett falsch?** Nichts Belegbares: kein Fehlerschritt, Lauf absichtlich rot. Kein Pull Request, da keine Codeursache belegt ist.
