@@ -22,7 +22,7 @@ function legeWegeAn({ titles, tmdbMehrdeutig, istTot }: Runde) {
   const handNein = neinHandbelege(loadDubChecks())
   ergaenzeWegeOhneWeg({
     titles,
-    jw: mitStaffelTreffer(readJson<Record<string, JwEintrag>>('data/justwatch-audio.json', {})),
+    jw: mitStaffelTreffer(readJson<Record<string, JwEintrag>>('data/justwatch-audio.json', {}), titles),
     handNein,
     tmdbMehrdeutig,
     istTot,

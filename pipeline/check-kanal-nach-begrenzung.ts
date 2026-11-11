@@ -39,6 +39,9 @@ const STAFFEL_EINE = 10_000_512
 /** Ohne Stream von Anfang an (erste Runde, nicht der zweite Durchgang), zwei Staffeln: der Kanal nur unter Staffel 2 / unter beiden. */
 const START_ANDERE = 10_000_513
 const START_BEIDE = 10_000_514
+/** Die Folgenzahl des Titels (12) passt zu genau einer JustWatch-Staffel: Staffel 1 führt den Kanal, Staffel 2 (24 Folgen) nicht; der Titel ist Staffel 1. */
+const PIN_ERSTE = 10_000_515
+const PIN_ZWEITE = 10_000_516
 
 const ANBIETER = ['Alpha Stream', 'Beta Stream', 'Gamma Stream', 'Delta Stream', 'Epsilon Stream']
 const fuenf = ANBIETER.map((anbieter, i) => ({ anbieter, art: 'FLATRATE', audio: ['de'], url: `https://www.example-${i}.de/titel/${BEHALTEN}` }))
@@ -56,6 +59,8 @@ const JW = {
   [STAFFEL_EINE]: { angebote: [kanal(STAFFEL_EINE)], staffeln: [{ nr: 1, angebote: [] }] },
   [STAFFEL_ANDERE]: { angebote: [kanal(STAFFEL_ANDERE), disc(STAFFEL_ANDERE)], staffeln: [{ nr: 1, angebote: [plain(STAFFEL_ANDERE)] }, { nr: 2, angebote: [kanal(STAFFEL_ANDERE)] }] },
   [START_ANDERE]: { angebote: [kanal(START_ANDERE), disc(START_ANDERE)], staffeln: [{ nr: 1, angebote: [plain(START_ANDERE)] }, { nr: 2, angebote: [kanal(START_ANDERE)] }] },
+  [PIN_ERSTE]: { jwId: 'ts-pin-erste', angebote: [kanal(PIN_ERSTE)], staffeln: [{ nr: 1, folgen: 12, angebote: [kanal(PIN_ERSTE)] }, { nr: 2, folgen: 24, angebote: [] }] },
+  [PIN_ZWEITE]: { jwId: 'ts-pin-zweite', angebote: [kanal(PIN_ZWEITE)], staffeln: [{ nr: 1, folgen: 12, angebote: [kanal(PIN_ZWEITE)] }, { nr: 2, folgen: 24, angebote: [] }] },
   [START_BEIDE]: { angebote: [kanal(START_BEIDE)], staffeln: [{ nr: 1, angebote: [kanal(START_BEIDE)] }, { nr: 2, angebote: [kanal(START_BEIDE)] }] },
 }
 
@@ -78,6 +83,8 @@ async function kind(): Promise<void> {
     [STAFFEL_EINE, titel(STAFFEL_EINE, geraten(STAFFEL_EINE))],
     [START_ANDERE, titel(START_ANDERE, [])],
     [START_BEIDE, titel(START_BEIDE, [])],
+    [PIN_ERSTE, { ...titel(PIN_ERSTE, []), episodes: 12 } as Title],
+    [PIN_ZWEITE, { ...titel(PIN_ZWEITE, geraten(PIN_ZWEITE)), episodes: 12 } as Title],
     [HAND_NEIN, titel(HAND_NEIN, geraten(HAND_NEIN))],
     [BEHALTEN, titel(BEHALTEN, [{ platform: 'netflix', url: 'https://www.netflix.com/title/81000000' }])],
   ])
@@ -148,6 +155,8 @@ if (process.argv[2] === '--kind') {
   pruefe('Titel, dessen erste Runde schon Wege lieferte: der zweite Durchgang legt nichts dazu (kein Kanal)', wege(BEHALTEN) === JSON.stringify(alle), erg)
   pruefe('ohne Stream von Anfang an, zwei Staffeln, Kanal nur unter Staffel 2: erste Runde legt nur den Disc-Händler an (Staffelbezug)', wege(START_ANDERE) === '["Thalia|buy"]', erg)
   pruefe('ohne Stream von Anfang an, Kanal unter beiden Staffeln: Weg bleibt', wege(START_BEIDE) === kanalWeg, erg)
+  pruefe('Folgenzahl des Titels passt nur zu Staffel 1, die den Kanal führt: Weg bleibt (erste Runde, Staffel des Titels)', wege(PIN_ERSTE) === kanalWeg, erg)
+  pruefe('dasselbe nach der Begrenzung (zweiter Durchgang)', wege(PIN_ZWEITE) === kanalWeg, erg)
   pruefe('zweiter Abschluss-Lauf ändert nichts', JSON.stringify(erg?.zweiter) === JSON.stringify(erg?.erster), erg)
 }
 

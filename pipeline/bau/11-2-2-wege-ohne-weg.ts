@@ -6,7 +6,7 @@ import { wegVerneint } from '../lib/dub-confirmed.ts'
 import { plattformVon } from '../lib/cartoons.ts'
 
 export type JwAngebot = { anbieter: string; art: string; url?: string; audio?: string[] }
-export type JwEintrag = { ohneTreffer?: boolean; angebote?: JwAngebot[]; staffeln?: { nr?: number; angebote?: JwAngebot[] }[] }
+export type JwEintrag = { ohneTreffer?: boolean; jwId?: string; angebote?: JwAngebot[]; staffeln?: { nr?: number; folgen?: number; angebote?: JwAngebot[] }[] }
 
 /**
  * Händler, die bei JustWatch eine **Disc** verkaufen oder verleihen. Alle übrigen

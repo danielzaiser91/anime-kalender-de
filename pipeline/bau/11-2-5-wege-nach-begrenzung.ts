@@ -1,6 +1,7 @@
 import { type IstTot } from '../lib/adresse-tot.ts'
 import { readJson } from '../lib/util.ts'
 import { type Title } from '../../shared/types.ts'
+import { staffelDesTitels, staffelFuehrt, zaehleTitelJeJwFolgen } from '../lib/jw-staffel-des-titels.ts'
 import { ergaenzeWegeOhneWeg, PHYSISCHE_SHOPS, type JwEintrag } from './11-2-2-wege-ohne-weg.ts'
 
 /** Kennungen der Titel, die gerade mindestens einen Stream tragen. */
@@ -28,7 +29,7 @@ export function ergaenzeWegeNachBegrenzung({ titles, hatteStream, tmdbMehrdeutig
   const verloren = new Map([...titles].filter(([id, t]) => hatteStream.has(id) && !(t.streams ?? []).length))
   ergaenzeWegeOhneWeg({
     titles: verloren,
-    jw: mitStaffelTreffer(readJson<Record<string, JwEintrag>>('data/justwatch-audio.json', {})),
+    jw: mitStaffelTreffer(readJson<Record<string, JwEintrag>>('data/justwatch-audio.json', {}), titles),
     handNein: new Set<string>(),
     tmdbMehrdeutig,
     istTot,
@@ -38,10 +39,13 @@ export function ergaenzeWegeNachBegrenzung({ titles, hatteStream, tmdbMehrdeutig
 /**
  * Bei einer Serie mit mehreren Staffeln gilt ein digitales Angebot nur, wenn JustWatch es unter **jeder** Staffel führt: Das gemischte Gesamtfeld
  * `angebote` nennt es auch, wenn es nur an einer anderen Staffel hängt (Goblin Slayer 101165: der Aniverse-Kanal steht nur unter Staffel 2, der Titel ist Staffel 1).
- * Welche Staffel ein Titel ist, steht nicht fest; „jede“ ist der sichere Wert. Disc-Händler laufen über ihre eigene Regel.
+ * Welche Staffel ein Titel ist, steht meist nicht fest; „jede“ ist der sichere Wert. Ausnahme: Hat nur eine Staffel bei JustWatch genau die Folgenzahl
+ * des Titels und kein Geschwistertitel dieselbe (`staffelDesTitels`), reicht das Angebot an dieser Staffel (Chaika 20462: Crunchyroll steht nur unter
+ * Staffel 1, der Titel ist Staffel 1). Disc-Händler laufen über ihre eigene Regel.
  */
-export function mitStaffelTreffer(jw: Record<string, JwEintrag>): Record<string, JwEintrag> {
+export function mitStaffelTreffer(jw: Record<string, JwEintrag>, titles: ReadonlyMap<number, Title>): Record<string, JwEintrag> {
   const out: Record<string, JwEintrag> = {}
+  const zaehler = zaehleTitelJeJwFolgen(titles.values(), jw)
   for (const [id, e] of Object.entries(jw)) {
     const staffeln = e.staffeln ?? []
     if (staffeln.length < 2) {
@@ -49,7 +53,8 @@ export function mitStaffelTreffer(jw: Record<string, JwEintrag>): Record<string,
       continue
     }
     const inJeder = (url?: string) => staffeln.every((s) => (s.angebote ?? []).some((a) => a.url === url))
-    out[id] = { ...e, angebote: (e.angebote ?? []).filter((a) => PHYSISCHE_SHOPS.test(a.anbieter) || inJeder(a.url)) }
+    const eigene = staffelDesTitels(e, titles.get(Number(id))?.episodes, zaehler)
+    out[id] = { ...e, angebote: (e.angebote ?? []).filter((a) => PHYSISCHE_SHOPS.test(a.anbieter) || inJeder(a.url) || (!!eigene && staffelFuehrt(eigene, a))) }
   }
   return out
 }
