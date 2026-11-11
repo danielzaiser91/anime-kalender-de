@@ -1,6 +1,7 @@
 /**
  * Bestandswache Folgestaffeln (11.11.2026), als Prozess gegen eine Wegwerf-Wurzel (`AK_ROOT`): Je Fall n Reihen mit zwei Titeln, die erste mit eigenem
- * JustWatch-Schlüssel (Staffel 2 führt einen Kanal), die zweite ohne Schlüssel; in `wirkend` Reihen trägt sie den Kanal schon als Bezugsweg.
+ * JustWatch-Schlüssel (Staffel 2 führt einen Kanal), die zweite ohne Schlüssel; in `wirkend` Reihen trägt sie den Kanal als Bezugsweg, sonst einen
+ * fremden Weg (ein Titel mit Wegen zählt nicht schon deshalb als wirkend).
  * Die Wache druckt die Warnzeile nur bei einem Sprung über 9 gegen den Stand 18, sperrt nie (Exit 0, „VERSTÖSSE: 0“).
  *
  * Aufruf: `npx tsx pipeline/check-jw-folgestaffel-bestand-lauf.ts`
@@ -29,7 +30,9 @@ function kulisse(reihen: number, wirkend: number): { titles: object[]; jw: Recor
     const serie = 900_000 + 2 * i
     const basis = { format: 'TV', episodes: 12, franchiseId: 8000 + i, titleEn: `Fixture ${i}` }
     titles.push({ ...basis, id: serie, jpYear: 2018 })
-    titles.push({ ...basis, id: serie + 1, jpYear: 2023, watchLinks: i < wirkend ? [{ name: 'Aniverse', kind: 'stream', url: kanalUrl(i) }] : [] })
+    const kanalWeg = { name: 'Aniverse', kind: 'stream', url: kanalUrl(i) }
+    const fremderWeg = { name: 'Apple TV', kind: 'stream', url: `https://tv.apple.com/de/show/fixture-${i}` }
+    titles.push({ ...basis, id: serie + 1, jpYear: 2023, watchLinks: [i < wirkend ? kanalWeg : fremderWeg] })
     jw[String(serie)] = { jwId: `ts-${i}`, staffeln: [{ nr: 1, folgen: 12, angebote: [] }, { nr: 2, folgen: 12, angebote: [kanal(i)] }] }
   }
   return { titles, jw }
