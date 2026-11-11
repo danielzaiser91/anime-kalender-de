@@ -26,6 +26,7 @@ pipeline/check-adn-spanne.ts
 pipeline/check-adn-sprache-offen.ts
 pipeline/check-adn-sprachriegel-lauf.ts
 pipeline/check-adn-sprachriegel.ts
+pipeline/check-adn-staffel-meldungen.ts
 pipeline/check-adn-titelliste-abruf.ts
 pipeline/check-adressen-schreiben.ts
 pipeline/check-adressen.ts
