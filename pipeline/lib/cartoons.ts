@@ -45,6 +45,8 @@ export interface CartoonEintrag {
   staffeln?: CartoonStaffel[]
   adnId?: number
   stand?: number
+  /** Tag, an dem TMDB die Kennung mit 404 beantwortete und keine neue eindeutig zu finden war; der Eintrag erscheint dann nicht. */
+  tmdbTot?: string
   geholtAm: string
 }
 

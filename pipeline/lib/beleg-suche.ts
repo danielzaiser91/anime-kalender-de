@@ -6,14 +6,16 @@ function titelJeAdresseAusNews(news: NewsEintrag[]): Map<string, Map<number, str
   for (const e of news)
     for (const m of e.meldungen) {
       const urls = new Set([...(m.belege ?? []).map((b) => b.url), ...(typeof m.quelle === 'string' && /^https?:\/\//.test(m.quelle) ? [m.quelle] : [])])
-      for (const url of urls) je.set(url, (je.get(url) ?? new Map<number, string>()).set(m.teilId ?? e.titelId, e.titel))
+      for (const url of urls) je.set(url, (je.get(url) ?? new Map<number, string>()).set(m.teilId ?? e.titelId, m.teil ?? e.titel))
     }
   return je
 }
 
-/** Die Namen eines Titels, den nur eine Meldung mit der Adresse verbindet. */
+/** Die Namen eines Titels, den nur eine Meldung mit der Adresse verbindet (`name` ist der Teilname der Meldung, sonst der Titel); dazu der Kopf vor dem Doppelpunkt wie bei Terminen (Girls und Panzer: „… OVA – …"). */
 function namenAusNews(name: string, t: Title | undefined): string[] {
-  return [name, t?.titleDe, t?.titleEn, t?.titleRomaji].filter((n): n is string => Boolean(n))
+  const namen = [name, t?.titleDe, t?.titleEn, t?.titleRomaji].filter((n): n is string => Boolean(n))
+  const koepfe = namen.map((n) => n.split(':')[0]!.trim()).filter((k) => k.length >= 5)
+  return [...new Set([...namen, ...koepfe])]
 }
 
 /**

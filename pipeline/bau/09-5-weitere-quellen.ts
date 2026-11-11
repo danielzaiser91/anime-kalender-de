@@ -16,6 +16,7 @@ import { ladeJustwatchDeutsch, ohneSammelSynchro, sammeleintragTitel } from '../
 import { handErstausgabe, ladeErstausgabeVonHand } from '../lib/erstausgabe-von-hand.ts'
 import { type EntfernterVerweis } from './grundlagen.ts'
 import { entferneVerweiseMitNein, regionGesperrteWege } from './verweis-grund.ts'
+import { ladeAdnStaffelzuordnung } from '../lib/adn-staffelzuordnung.ts'
 import { ladeHandbelege } from '../lib/dub-confirmed.ts'
 import { istNahAmJapanStart, japanStartTag } from '../lib/nah-am-japan-start.ts'
 import { joynZeile, setzeJoynDeutsch } from './joyn-pauschal.ts'
@@ -301,19 +302,7 @@ export function werteWeitereQuellenAus({ releases, titles, adnKatalog, adnVerwei
    * Staffel 2 achtundvierzig, Staffel 3 und 4 je 39 — die ersten drei unserer
    * fünf Titel sind damit eindeutig, die beiden 39er ausdrücklich nicht.
    */
-  const adnStaffeln: Record<number, string> = (() => {
-    try {
-      const roh = yaml.load(readFileSync(resolve(ROOT, 'data/adn-staffelzuordnung.yaml'), 'utf8'))
-      const raus: Record<number, string> = {}
-      for (const [k, v] of Object.entries((roh ?? {}) as Record<string, unknown>)) {
-        if (!Number.isFinite(Number(k)) || !Number.isFinite(Number(v))) continue
-        raus[Number(k)] = String(v)
-      }
-      return raus
-    } catch {
-      return {}
-    }
-  })()
+  const adnStaffeln = ladeAdnStaffelzuordnung()
   const katalogKennung = new Map<number, number>()
     // Derselbe Katalog wie oben, samt den dort verworfenen Zuordnungen.
     for (const s of adnKatalog.shows) {
