@@ -126,7 +126,7 @@ Auslöser sind unter anderem: eine neue Version der Erweiterung, ein Deploy, ein
 Datei zum Gegenlesen, eine Liste, eine Messung, ein Screenshot.
 
 Die Meldung besteht aus **drei** Angaben und steht **oben** in der Antwort, nicht
-im Footer:
+in `stand.md`:
 
 1. **Was fertig ist** — mit Versionsnummer oder Ort, damit er es findet.
 2. **Was er tun muss, um es zu sehen** („Erweiterung neu laden", der Link).

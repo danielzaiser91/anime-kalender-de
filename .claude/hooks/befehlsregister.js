@@ -1,8 +1,8 @@
 // Befehls-Register (13.10.2026): PreToolUse-Modul im Bündel dispatch-pretooluse.js und gemeinsame Bausteine für Post-Hook,
-// nach-agent.mjs und tools/befehlsregister.mjs. Je Bash-Befehl (Hauptsitzung und Subagenten) eine Zeile in
+// nach-agent.mjs und C:/code/ai/__assets/tools/befehlsregister.mjs. Je Bash-Befehl (Hauptsitzung und Subagenten) eine Zeile in
 // state/befehle/<Tag>.jsonl (voll: <Tag>.2.jsonl …). Der Befehl bleibt unverändert (seit 10.11.2026 kein updatedInput und keine
 // Marke: eine Änderung nach der Auto-Modus-Prüfung ließ parallele Aufrufe ablehnen); den Prozess findet
-// tools/befehlsregister-zuordnen.mjs über Befehlstext und Startzeit. Bewusst OHNE permissionDecision. Skill: hintergrundprozesse.
+// C:/code/ai/__assets/tools/befehlsregister-zuordnen.mjs über Befehlstext und Startzeit. Bewusst OHNE permissionDecision. Skill: hintergrundprozesse.
 const fs = require('fs')
 const os = require('os')
 const path = require('path')

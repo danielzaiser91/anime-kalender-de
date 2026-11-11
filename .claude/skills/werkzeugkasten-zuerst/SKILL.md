@@ -5,13 +5,13 @@ description: "Bevor ich ein Werkzeug suche, „das kann ich nicht“ sage oder D
 
 # Werkzeugkasten zuerst — die Anlässe
 
-Die Regel steht in `~/.claude/rules/40-wissen-und-werkzeuge.md`. Hier stehen die realen Fälle; sie wurden am 18.09.2026 aus der Regel hierher verschoben, damit die immer geladene Menge klein bleibt.
+Die Regel steht in `.claude/rules/40-wissen-und-werkzeuge.md`. Hier stehen die realen Fälle; sie wurden am 18.09.2026 aus der Regel hierher verschoben, damit die immer geladene Menge klein bleibt.
 
 **Subagenten (08.10.2026):** Sie kennen den Werkzeugkasten nicht. Der Auftrag nennt relevante Werkzeuge und Fallstricke aus `ai_agent_tools.md` (Vorlage im Skill `delegieren-und-parallelisieren`); in Bash fehlen git/gh/node im PATH, dort stehen die absoluten Aufrufe.
 
 ## Anlässe, aus der Regel verschoben (18.09.2026)
 
-Wortgleich aus `~/.claude/rules/`, damit die immer geladene Regel kurz bleibt.
+Wortgleich aus `.claude/rules/`, damit die immer geladene Regel kurz bleibt.
 
 <!-- aus 40-wissen-und-werkzeuge.md -->
 **Und „wo liegt eigentlich X?" ist eine Werkzeugfrage, keine Suchfrage.** Am

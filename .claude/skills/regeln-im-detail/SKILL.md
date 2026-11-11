@@ -1,11 +1,11 @@
 ---
 name: regeln-im-detail
-description: Volltext der Regeln aus ~/.claude/rules mit Anlässen, Zitaten und Beispielen. Laden, wenn eine Regel unklar ist, ein Grenzfall entschieden werden muss oder eine Regel geschärft wird.
+description: Volltext der Regeln aus .claude/rules mit Anlässen, Zitaten und Beispielen. Laden, wenn eine Regel unklar ist, ein Grenzfall entschieden werden muss oder eine Regel geschärft wird.
 ---
 
 # Regeln im Detail
 
-Die Dateien unter `~/.claude/rules/` sind seit dem 26.09.2026 **Kurzfassungen**: je Regel der
+Die Dateien unter `.claude/rules/ (Projekt)` sind seit dem 26.09.2026 **Kurzfassungen**: je Regel der
 Kern in ein bis drei Sätzen. Der vollständige Text vom Stand 26.09.2026 — mit Anlass, Daniels
 Zitaten, Beispielen und Begründung — liegt hier, je Regeldatei eine Datei gleichen Namens:
 
