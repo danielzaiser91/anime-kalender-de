@@ -310,7 +310,8 @@ const abdruckIn = (ordner) => {
   const beleg = schritte.find((s) => s.id === 'beleg')
   gleich(beleg.run, 'node tools/logik-beleg.mjs gueltig', 'deploy.yml: Beleg-Schritt ruft logik-beleg gueltig')
   gleich(schritte.indexOf(beleg) < schritte.findIndex((s) => s.name === 'Zusicherungen prüfen'), true, 'deploy.yml: Beleg vor den Zusicherungen')
-  gleich(schritte[0].with, { 'fetch-depth': 30, filter: 'blob:none' }, 'deploy.yml: Checkout holt den Verlauf')
+  const holen = schritte.find((s) => String(s.uses).startsWith('actions/checkout')).with
+  gleich([holen['fetch-depth'], holen.filter], [30, 'blob:none'], 'deploy.yml: Checkout holt den Verlauf')
   const zusicherung = schritte.find((s) => s.name === 'Zusicherungen prüfen')
   gleich(zusicherung.env.LOGIK_BELEGT, '${{ steps.beleg.outputs.gueltig }}', 'deploy.yml: LOGIK_BELEGT kommt aus dem Beleg-Schritt')
   gleich(

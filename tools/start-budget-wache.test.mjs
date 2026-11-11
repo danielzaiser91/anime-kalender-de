@@ -6,7 +6,7 @@ import { mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
-import { luftAusAnnotationen, startBudgetZeilen } from './start-budget-wache.mjs'
+import { istBauJob, luftAusAnnotationen, startBudgetZeilen } from './start-budget-wache.mjs'
 
 let faelle = 0
 const gleich = (name, ist, soll) => {
@@ -39,7 +39,23 @@ const gh = (tabelle, log = []) => (a) => {
 }
 const LISTE = 'run list --repo o/r --workflow deploy.yml --branch main --status success --limit 6 --json databaseId'
 const jobs = (...j) => ({ jobs: j })
-const bau = (id, conclusion = 'success') => ({ id, name: 'build', conclusion })
+const BAUEN = { name: 'Bauen', conclusion: 'success' }
+const bau = (id, conclusion = 'success', schritte = [{ name: 'Bauen', conclusion }]) => ({ id, name: 'build', conclusion, steps: schritte })
+
+// Seit 10.11.2026 ist `build` bei Treffer des geprüften Baus grün, ohne zu bauen: nur mit gelaufenem Schritt „Bauen“ zählt er.
+gleich('build mit Schritt Bauen: Bau-Job', istBauJob(bau(1)), true)
+gleich('build grün, Bauen übersprungen (Treffer): kein Bau-Job', istBauJob(bau(1, 'success', [{ name: 'Bauen', conclusion: 'skipped' }])), false)
+gleich('build ohne Schritt Bauen: kein Bau-Job', istBauJob(bau(1, 'success', [{ name: 'Erweiterung prüfen', conclusion: 'success' }])), false)
+gleich('build ohne Schritte in der Antwort: kein Bau-Job', istBauJob(bau(1, 'success', null)), false)
+gleich('build rot trotz grünem Bauen: kein Bau-Job', istBauJob(bau(1, 'failure', [BAUEN])), false)
+gleich('anderer Jobname mit Schritt Bauen: kein Bau-Job', istBauJob({ id: 1, name: 'pruefen', conclusion: 'success', steps: [BAUEN] }), false)
+const logNeu = []
+gleich(
+  'Lauf mit Treffer (Bauen übersprungen) wird übersprungen, nächster Lauf mit Warnung',
+  startBudgetZeilen(gh({ [LISTE]: [{ databaseId: 10 }, { databaseId: 20 }], 'api repos/o/r/actions/runs/10/jobs': jobs(bau(2, 'success', [{ name: 'Bauen', conclusion: 'skipped' }])), 'api repos/o/r/actions/runs/20/jobs': jobs(bau(21)), 'api repos/o/r/check-runs/21/annotations': [BUDGET] }, logNeu), REPO),
+  ['WARNUNG start-budget: 0.3 KB Luft (Deploy-Lauf 20); Startdateien verkleinern, bevor der nächste Datenlauf die Grenze reißt'],
+)
+gleich('Annotation des Jobs, der gebaut hat', logNeu.at(-1), 'api repos/o/r/check-runs/21/annotations')
 
 const log1 = []
 const zeilen = startBudgetZeilen(gh({ [LISTE]: [{ databaseId: 10 }, { databaseId: 20 }], 'api repos/o/r/actions/runs/10/jobs': jobs({ id: 1, name: 'herkunft', conclusion: 'success' }, bau(2, 'skipped')), 'api repos/o/r/actions/runs/20/jobs': jobs(bau(21)), 'api repos/o/r/check-runs/21/annotations': [NODE20, BUDGET] }, log1), REPO)
