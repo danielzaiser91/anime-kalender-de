@@ -18,6 +18,8 @@ export type PlatformId =
   | 'wow'
   | 'joyn'
   | 'rtlplus'
+  /** Kostenlos mit Werbung, auf Abruf (Serien, Filme); der lineare Kanalplan ist nicht gemeint. */
+  | 'plutotv'
   | 'youtube'
   | 'disc'
   | 'kino'
@@ -746,6 +748,7 @@ export const PLATFORMS: Record<PlatformId, { name: string; color: string; home: 
   wow: { name: 'WOW', color: '#00b1ff', home: 'https://www.wowtv.de/' },
   joyn: { name: 'Joyn', color: '#fa1b5a', home: 'https://www.joyn.de/' },
   rtlplus: { name: 'RTL+', color: '#e2001a', home: 'https://plus.rtl.de/' },
+  plutotv: { name: 'Pluto TV', color: '#c026d3', home: 'https://pluto.tv/de/' },
   youtube: { name: 'YouTube', color: '#ff0000', home: 'https://www.youtube.com/' },
   disc: { name: 'DVD / Blu-ray', color: '#16a34a', home: 'https://www.amazon.de/' },
   kino: { name: 'Kino', color: '#eab308', home: '' },
@@ -759,27 +762,7 @@ export function anbieterName(platform: PlatformId, sender?: string): string {
   return PLATFORMS[platform]?.name ?? platform
 }
 
-export const RELEASE_TYPES: Record<
-  ReleaseType,
-  { name: string; short: string; color: string; hint: string }
-> = {
-  weekly: {
-    name: 'Wöchentlich (Simuldub)',
-    short: 'Wöchentlich',
-    color: '#3b82f6',
-    hint: 'Folge für Folge, fester Wochentag',
-  },
-  batch: {
-    name: 'Katalogtitel',
-    short: 'Katalog',
-    color: '#a855f7',
-    hint: 'Ganze Staffel auf einen Schlag',
-  },
-  movie: { name: 'Film', short: 'Film', color: '#eab308', hint: 'Filmstart (Stream oder Kino)' },
-  disc: { name: 'DVD / Blu-ray', short: 'Disc', color: '#22c55e', hint: 'Kaufbarer Datenträger' },
-}
-
-export { STATUS_LABEL, FSK_COLORS } from './anzeige-konstanten.ts'
+export { STATUS_LABEL, FSK_COLORS, RELEASE_TYPES } from './anzeige-konstanten.ts'
 
 /**
  * **Was für eine Meldung das ist.**

@@ -23,6 +23,7 @@ const STREAMING = new Set<PlatformId>([
   'wow',
   'joyn',
   'rtlplus',
+  'plutotv',
   'youtube',
 ])
 

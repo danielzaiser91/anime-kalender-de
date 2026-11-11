@@ -17,6 +17,7 @@
 import { ANBIETER_NUR_IM_ARTIKEL, nenntName, PLATTFORM_NAMEN } from './anime2you-abgleich.ts'
 import type { GespeicherterVorschlag } from './anime2you-bestand.ts'
 import { SYNCHRO_WORTLAUT, VERNEINT } from './dub-aus-terminen.ts'
+import { folgenUrteil } from './synchro-beleg-folgen.ts'
 
 export interface KatalogTitel {
   id: number
@@ -35,6 +36,8 @@ export interface AutoBeleg {
   artikelId: string
   quelle: string
   veroeffentlicht: string
+  /** Nur diese Folgen nennt der Artikel (Zählung des Artikels); ohne: der ganze Titel. */
+  bereich?: { von: number; bis: number }
 }
 
 export interface Zurueckgestellt {
@@ -102,6 +105,18 @@ export function ordneTitelZu(titel: string, katalog: KatalogTitel[], plattform?:
   return treffer.length ? `Titel mehrdeutig (${treffer.map((t) => t.id).join(', ')})` : 'Titel nicht im Katalog'
 }
 
+/**
+ * Plattformen, die erst nach dem Lesen schon gespeicherter Artikel aufgenommen wurden: deren Vorschläge tragen nur den Anbieternamen („Pluto TV“,
+ * `plattform: null`). Bei jeder anderen Plattform ist ein `null` die Absicht des Lesers und bleibt es. Streichen, wenn der Bestand (90 Tage) vom 08.11.2026 abgelaufen ist.
+ */
+const NACHTRAEGLICH = new Set(['plutotv'])
+
+export function mitPlattformAusAnbieter(v: GespeicherterVorschlag): GespeicherterVorschlag {
+  if (v.plattform || !v.anbieter) return v
+  const id = Object.entries(PLATTFORM_NAMEN).find(([, n]) => n === v.anbieter!.trim().toLowerCase())?.[0]
+  return id && NACHTRAEGLICH.has(id) ? { ...v, plattform: id as GespeicherterVorschlag['plattform'] } : v
+}
+
 const plattformenIn = (text: string): string[] => Object.entries(PLATTFORM_NAMEN).filter(([, n]) => nenntName(text, n)).map(([id]) => id)
 
 /**
@@ -152,7 +167,8 @@ export function waehleSynchroBelege(
   const belege: AutoBeleg[] = []
   const zurueck: Zurueckgestellt[] = []
   const schluessel = new Map(belegt)
-  for (const v of vorschlaege) {
+  for (const roh of vorschlaege) {
+    const v = mitPlattformAusAnbieter(roh)
     if (!v.sprache.startsWith('deutsch')) continue
     const lehne = (g: Grund) => zurueck.push({ titel: v.titel, artikelId: v.artikelId, grund: g.text, strittig: g.strittig === true })
     if (!nenntSynchro(v.zitat)) {
@@ -162,6 +178,11 @@ export function waehleSynchroBelege(
     const grund = ersterGrund(v, heute)
     if (grund) {
       lehne(grund)
+      continue
+    }
+    const folgen = folgenUrteil(v.folgen, v.zitat)
+    if ('grund' in folgen) {
+      lehne({ text: folgen.grund })
       continue
     }
     const t = ordneTitelZu(v.titel, katalog, v.plattform!)
@@ -179,28 +200,35 @@ export function waehleSynchroBelege(
       continue
     }
     schluessel.set(`${t.id}|${v.plattform}`, IMMER)
-    belege.push({
-      anilistId: t.id,
-      titel: t.titleDe ?? t.titleEn ?? t.titleRomaji ?? v.titel,
-      plattform: v.plattform!,
-      zitat: v.zitat,
-      artikelId: v.artikelId,
-      quelle: v.quelle,
-      veroeffentlicht: v.veroeffentlicht,
-    })
+    belege.push(neuerBeleg(v, t, folgen))
   }
   return { belege, zurueck }
 }
 
+function neuerBeleg(v: GespeicherterVorschlag, t: KatalogTitel, folgen: { ganz: true } | { von: number; bis: number }): AutoBeleg {
+  return {
+    ...('von' in folgen ? { bereich: folgen } : {}),
+    anilistId: t.id,
+    titel: t.titleDe ?? t.titleEn ?? t.titleRomaji ?? v.titel,
+    plattform: v.plattform!,
+    zitat: v.zitat,
+    artikelId: v.artikelId,
+    quelle: v.quelle,
+    veroeffentlicht: v.veroeffentlicht,
+  }
+}
+
 /** Die Zeilen eines Belegs für `haengeBelegeAn`; Zeichenketten als JSON, damit Anführungszeichen im Zitat das YAML nicht brechen. */
 export function belegZeilen(b: AutoBeleg, heute: string): string[] {
-  const note = `${NOTIZ_MARKE}: Artikel ${b.quelle} (${b.veroeffentlicht}): „${b.zitat}“ Aussage des Artikels; Seite des Anbieters nicht geprüft.`
+  const teil = b.bereich ? ` Nur die Folgen ${b.bereich.von} bis ${b.bereich.bis} (Zählung des Artikels), die übrigen bleiben offen.` : ''
+  const note = `${NOTIZ_MARKE}: Artikel ${b.quelle} (${b.veroeffentlicht}): „${b.zitat}“ Aussage des Artikels;${teil} Seite des Anbieters nicht geprüft.`
   return [
     '',
     `- anilistId: ${b.anilistId}`,
     `  title: ${JSON.stringify(b.titel)}`,
     `  platform: ${b.plattform}`,
     '  dub: true',
+    ...(b.bereich ? ['  dubRanges:', `    - from: ${b.bereich.von}`, `      to: ${b.bereich.bis}`, '      dub: true'] : []),
     `  checkedAt: '${heute}'`,
     `  note: ${JSON.stringify(note)}`,
   ]
