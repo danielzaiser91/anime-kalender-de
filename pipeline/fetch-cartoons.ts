@@ -124,7 +124,7 @@ async function pruefeBestandsKennungen(bestand: Record<string, CartoonEintrag>, 
   const suche = async (begriff: string) => {
     await sleep(60)
     const j = (await holeJson(`${TMDB}/search/tv?api_key=${schluessel}&language=de-DE&query=${encodeURIComponent(begriff)}`)) as { results?: TmdbSuchtreffer[] } | null
-    return j?.results ?? []
+    return j ? (j.results ?? []) : []
   }
   const bilanz = await pruefeTote(
     bestand,
