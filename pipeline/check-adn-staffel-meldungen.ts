@@ -87,6 +87,13 @@ function pruefeWeitere(ordner: string, fehler: string[]): void {
   const sao = { url: `${ADN}442-sword-art-online`, titel: [[11757, 25, 2012, 'SUMMER'], [20594, 24, 2014, 'SUMMER'], [100182, 24, 2018, 'FALL'], [108759, 12, 2019, 'FALL'], [114308, 11, 2020, 'SPRING']] as Bestand['titel'] }
   const saoMeldungen = [...staffel(1, 25, true), ...staffel(2, 24, true), ...staffel(3, 47, true)]
   sicher('sao', lauf(ordner, 'sao', saoMeldungen, fehler, sao), { 11757: 'true', 20594: 'true', 100182: 'true', 108759: 'true', 114308: 'true' })
+  /* Gemischt: Folge 37 bis 47 der Staffel 3 ohne Ton ist nur der letzte Titel (11 Folgen), nicht der erste und nicht der zweite. */
+  const saoGemischt = [...staffel(1, 25, true), ...staffel(2, 24, true), ...staffel(3, 36, true), ...staffel(3, 47, false).slice(36)]
+  sicher('sao-gemischt', lauf(ordner, 'sao-gemischt', saoGemischt, fehler, sao), { 11757: 'true', 20594: 'true', 100182: 'true', 108759: 'true', 114308: 'false' })
+  /* Sailor Moon, fünf Staffeln, nur die dritte (532, 38 Folgen) ohne Ton: jede Nachbarstaffel behält ihr Ja. */
+  const mond = { url: `${ADN}427-sailor-moon`, titel: [[530, 46, 1992, 'WINTER'], [740, 43, 1993, 'FALL'], [532, 38, 1994, 'FALL'], [1239, 39, 1995, 'FALL'], [996, 34, 1996, 'FALL']] as Bestand['titel'] }
+  const mondMeldungen = [...staffel(1, 46, true), ...staffel(2, 43, true), ...staffel(3, 38, false), ...staffel(4, 39, true), ...staffel(5, 34, true)]
+  sicher('sailor-moon', lauf(ordner, 'sailor-moon', mondMeldungen, fehler, mond), { 530: 'true', 740: 'true', 532: 'false', 1239: 'true', 996: 'true' })
   /* Zählt eine Serie ohne Eintrag je Staffel, geht sie den alten Weg und der Lauf sagt es. */
   const ohneEintrag = { url: `${ADN}9999-ohne-eintrag`, titel: [[900001, 12, 2020, 'FALL'], [900002, 12, 2021, 'FALL']] as Bestand['titel'] }
   lauf(ordner, 'ohne-eintrag', [...staffel(1, 12, true), ...staffel(2, 12, false)], fehler, ohneEintrag)
