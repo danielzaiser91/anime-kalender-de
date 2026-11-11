@@ -34,6 +34,8 @@ const NUR_BEGRENZUNG = 10_000_511
 /** Zwei Staffeln: der Kanal steht unter beiden / nur unter Staffel 2 (Anlass Goblin Slayer 101165, Staffel 1 ohne Angebote). */
 const STAFFEL_BEIDE = 10_000_509
 const STAFFEL_ANDERE = 10_000_510
+/** Eine Staffel, die den Kanal nicht führt, das Gesamtfeld aber schon: ohne Mehrstaffel-Lage gilt das Gesamtfeld. */
+const STAFFEL_EINE = 10_000_512
 
 const ANBIETER = ['Alpha Stream', 'Beta Stream', 'Gamma Stream', 'Delta Stream', 'Epsilon Stream']
 const fuenf = ANBIETER.map((anbieter, i) => ({ anbieter, art: 'FLATRATE', audio: ['de'], url: `https://www.example-${i}.de/titel/${BEHALTEN}` }))
@@ -48,7 +50,8 @@ const JW = {
   [BEHALTEN]: { angebote: [kanal(BEHALTEN), ...fuenf] },
   [NUR_BEGRENZUNG]: { angebote: [kanal(NUR_BEGRENZUNG)] },
   [STAFFEL_BEIDE]: { angebote: [kanal(STAFFEL_BEIDE)], staffeln: [{ nr: 1, angebote: [kanal(STAFFEL_BEIDE)] }, { nr: 2, angebote: [kanal(STAFFEL_BEIDE)] }] },
-  [STAFFEL_ANDERE]: { angebote: [kanal(STAFFEL_ANDERE), disc(STAFFEL_ANDERE)], staffeln: [{ nr: 1, angebote: [] }, { nr: 2, angebote: [kanal(STAFFEL_ANDERE)] }] },
+  [STAFFEL_EINE]: { angebote: [kanal(STAFFEL_EINE)], staffeln: [{ nr: 1, angebote: [] }] },
+  [STAFFEL_ANDERE]: { angebote: [kanal(STAFFEL_ANDERE), disc(STAFFEL_ANDERE)], staffeln: [{ nr: 1, angebote: [plain(STAFFEL_ANDERE)] }, { nr: 2, angebote: [kanal(STAFFEL_ANDERE)] }] },
 }
 
 type Zeile = [number, string[], string[]]
@@ -64,9 +67,10 @@ async function kind(): Promise<void> {
     [MEHRDEUTIG, titel(MEHRDEUTIG, geraten(MEHRDEUTIG))],
     [TOT, titel(TOT, geraten(TOT))],
     [LINK_TOT, titel(LINK_TOT, [])],
-    [NUR_BEGRENZUNG, titel(NUR_BEGRENZUNG, [{ platform: 'netflix', url: 'https://www.netflix.com/title/81000011' }])],
+    [NUR_BEGRENZUNG, { ...titel(NUR_BEGRENZUNG, [{ platform: 'netflix', url: 'https://www.netflix.com/title/81000011' }]), jpYear: 2020 }],
     [STAFFEL_BEIDE, titel(STAFFEL_BEIDE, geraten(STAFFEL_BEIDE))],
     [STAFFEL_ANDERE, titel(STAFFEL_ANDERE, geraten(STAFFEL_ANDERE))],
+    [STAFFEL_EINE, titel(STAFFEL_EINE, geraten(STAFFEL_EINE))],
     [HAND_NEIN, titel(HAND_NEIN, geraten(HAND_NEIN))],
     [BEHALTEN, titel(BEHALTEN, [{ platform: 'netflix', url: 'https://www.netflix.com/title/81000000' }])],
   ])
@@ -129,6 +133,7 @@ if (process.argv[2] === '--kind') {
   pruefe('tote Adresse: kein Weg', wege(TOT) === '[]', erg)
   pruefe('Stream fällt erst durch die Begrenzung (nicht durch die Bereinigung): der Kanal-Weg kommt danach (Reihenfolge im Abschluss)', wege(NUR_BEGRENZUNG) === kanalWeg && von(NUR_BEGRENZUNG)?.[1].length === 0, erg)
   pruefe('zwei Staffeln, Kanal unter beiden: Weg bleibt', wege(STAFFEL_BEIDE) === kanalWeg, erg)
+  pruefe('eine Staffel ohne den Kanal, Gesamtfeld mit: Weg bleibt (kein Mehrstaffel-Fall)', wege(STAFFEL_EINE) === kanalWeg, erg)
   pruefe('zwei Staffeln, Kanal nur unter Staffel 2 (Goblin Slayer, Staffel 1): nur der Disc-Händler (Kauf), kein Kanal', wege(STAFFEL_ANDERE) === '["Thalia|buy"]', erg)
   pruefe('Titel ohne Stream, dessen Weg die Linkprüfung entfernt hat: der zweite Durchgang bringt ihn nicht zurück', wege(LINK_TOT) === '[]', erg)
   pruefe('Nein-Handbeleg für Crunchyroll: kein Weg', wege(HAND_NEIN) === '[]', erg)
