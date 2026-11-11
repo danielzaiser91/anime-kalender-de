@@ -73,6 +73,38 @@ console.log('Netflix-Bericht im Sandkasten\n')
   pruefe('offene: ohne offene Titel eine leere Liste', b.offene(titel, () => true).length === 0)
 }
 
+/* Seitenmerkmale (10.11.2026): Fake-DOM mit Titelkarte als Modal über der Startseite und „Erinnern“ im Hintergrund. */
+{
+  const el = (tag, uia, role, text, eltern = null, innerText = text) => ({
+    tagName: tag,
+    textContent: text,
+    innerText,
+    parentElement: eltern,
+    getAttribute: (n) => (n === 'data-uia' ? uia : n === 'role' ? role : null),
+  })
+  const billboard = el('DIV', 'billboard-title', null, '')
+  const erinnern = el('BUTTON', 'play-remind', null, ' Erinnern ', billboard)
+  const dialog = el('DIV', 'preview-modal', 'dialog', '', null, 'Chainsaw Man | Folgen | 1. Folge')
+  const alle = [el('DIV', 'title-card', null, ''), el('DIV', 'episode-item', null, ''), el('DIV', 'episode-item', null, ''), el('DIV', 'nav-bar', null, ''), erinnern, dialog]
+  const doc = {
+    title: 'Startseite – Netflix',
+    body: { innerText: 'x'.repeat(500) },
+    querySelectorAll: (wahl) => {
+      if (wahl === '[data-uia]') return alle.filter((e) => e.getAttribute('data-uia'))
+      if (wahl === '[data-uia*="episode"]') return alle.filter((e) => /episode/.test(e.getAttribute('data-uia')))
+      if (wahl === '[role="dialog"]') return [dialog]
+      return [erinnern, billboard, dialog]
+    },
+  }
+  const m = bericht(null).seitenmerkmale(doc, { pathname: '/title/81215627', search: '' }, { length: 7 })
+  pruefe('Seitenmerkmale: Adresse, Tab-Titel, Verlauf, Textlänge', m.pfad === '/title/81215627' && m.titel === 'Startseite – Netflix' && m.verlauf === 7 && m.textZeichen === 500, m)
+  pruefe('Seitenmerkmale: nur wichtige data-uia, mit Zahl (nav-bar fehlt, episode-item zweimal)', JSON.stringify(m.uia) === '{"title-card":1,"episode-item":2,"play-remind":1,"preview-modal":1}', m.uia)
+  pruefe('Seitenmerkmale: Folgenelemente und Dialog mit Textanfang', m.folgenElemente === 2 && m.dialoge.anzahl === 1 && m.dialoge.anfang.startsWith('Chainsaw Man'), [m.folgenElemente, m.dialoge])
+  pruefe('Seitenmerkmale: „Erinnern“ trägt seine Vorfahrenkette (woher der Text kommt)', m.erinnern.anzahl === 1 && JSON.stringify(m.erinnern.ketten[0]) === '["BUTTON|play-remind","DIV|billboard-title"]', m.erinnern)
+  const kaputt = bericht(null).seitenmerkmale({ querySelectorAll: () => { throw new Error('kaputt') } }, { pathname: '/' }, null)
+  pruefe('Seitenmerkmale: ein Fehler im DOM wird zum Eintrag, nie zum Absturz', kaputt.fehler === 'kaputt', kaputt)
+}
+
 if (fehler.length) {
   console.error(`\n${fehler.length} Zusicherung(en) verletzt.`)
   process.exit(1)

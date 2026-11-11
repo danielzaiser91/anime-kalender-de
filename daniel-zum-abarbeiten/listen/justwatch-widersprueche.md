@@ -23,7 +23,7 @@ JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine
 |---|---|---|---|---|
 | Vampire Hunter D: Bloodlust (543) | primevideo | https://watch.amazon.de/detail?gti=amzn1.dv.gti.68239688-dba5-4abc-a3b5-5e554d51081f | de, Stand 2026-10-26 | Handbeleg 2026-10-31 |
 
-### Kandidaten für neue Wege (782)
+### Kandidaten für neue Wege (783)
 
 JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „Weg ohne Kennung“: ein Weg zum Anbieter steht, seine Adresse trägt aber keine Seitenkennung.
 
@@ -308,6 +308,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Prison School (20807) | Anime Digital Network Amazon Channel | amazon:amzn1.dv.gti.b7fdfc11-3df4-4367-bda0-c446c832480b | nein |
 | A Chivalry of a Failed Knight (21092) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.c54bfd5d-5d96-4fb7-8690-df2e12111af5 | ja |
 | Doukyusei: Verliebt in meinen Mitschüler (21096) | Amazon Video | amazon:amzn1.dv.gti.0f1043c1-8cfb-479d-ad9f-1da59ca4cc3d | ja |
+| Tokyo Ghoul: Jack (21132) | Amazon Video | amazon:amzn1.dv.gti.30037827-705e-4c90-95ae-b19d54f3eda7 | ja |
 | Steins;Gate 0 (21127) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.b2a3feff-b154-4bb3-8b20-4c9dbb27a00d | nein |
 | Dragon Ball Super (21175) | Anime Digital Network Amazon Channel | amazon:amzn1.dv.gti.551721e6-4a44-43a3-9e01-c358dc4a369f | ja |
 | Ben: Abenteuer auf der Mäuseinsel (104162) | Amazon Prime Video | amazon:amzn1.dv.gti.6cf2df59-8db6-4d19-82d2-1962418bdece | ja |

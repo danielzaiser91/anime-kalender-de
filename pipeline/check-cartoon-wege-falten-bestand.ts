@@ -1,6 +1,6 @@
 /**
  * Bestandsteil zum Falten der Cartoon-Wege: Das Panel (`sortiereNachZugang`) zeigt für Om Nom Stories nicht mehr 56 Pillen,
- * und Jacks Bücher bleiben getrennte Pillen (jedes Rohstück trägt die Aussage seiner Pille); an jedem Cartoon gehen beim Falten keine Folgen verloren. Die Zeilen selbst (`streamZeilen`, Aufrufer von `teilAngaben`)
+ * und jedes Rohstück trägt die Aussage seiner Pille (Haken-Art gleich, Bereiche vereinigt); an jedem Cartoon gehen beim Falten keine Folgen verloren. Die Zeilen selbst (`streamZeilen`, Aufrufer von `teilAngaben`)
  * stehen einmal je Angabe da: Jack „Fg. 2–11 · Staffel 2", nie zusätzlich „Flg. 2–11". Fängt die Aufrufer, die
  * `check-cartoon-wege-falten.ts` nicht sieht. Läuft in `check:bestand`.
  */
@@ -61,9 +61,9 @@ function abgedeckt(wege: StreamLink[]): Map<string, Set<number>> {
   return je
 }
 
-/** Eigenes Orakel der Aussage einer Pille (bewusst nicht `aussage` aus wege-falten.ts): Urteil, Quelle, Haken-Bereiche, Zugang, Kanal, Entfernung, Teilung. */
+/** Eigenes Orakel der Aussage einer Pille (bewusst nicht `aussage` aus wege-falten.ts): Urteil, Quelle, Haken-Art (dub ja/nein; die Bereiche werden vereinigt), Zugang, Kanal, Entfernung, Teilung. */
 const aussageVon = (w: StreamLink) =>
-  JSON.stringify([w.dub, w.dubQuelle, w.dubHintOnly, JSON.stringify(w.dubRanges), w.zugang, w.kanal, w.entferntAm, w.sharedWith])
+  JSON.stringify([w.dub, w.dubQuelle, w.dubHintOnly, w.dubRanges === undefined ? null : [...new Set(w.dubRanges.map((r) => String(r.dub)))].sort().join(), w.zugang, w.kanal, w.entferntAm, w.sharedWith])
 
 const umfasst = (pille: StreamLink, roh: StreamLink) =>
   pille.platform === roh.platform && pille.teilBereich !== undefined && roh.teilBereich !== undefined &&

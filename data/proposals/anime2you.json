@@ -1,11 +1,12 @@
 {
-  "scrapedAt": "2026-11-10T18:02:43.657Z",
+  "scrapedAt": "2026-11-11T04:11:00.275Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
-    "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 40,
+    "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 8,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 17,
-    "schon in einem Rubrik-Feed gelesen": 4,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 61,
+    "schon in einem Rubrik-Feed gelesen": 24,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 5,
     "Sprachhinweis älter als 45 Tage": 6
   },
   "proposals": [
@@ -235,7 +236,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-11-08"
+      "sammelGelesen": "2026-11-11"
     },
     {
       "articleTitle": "ProSieben MAXX startet zweiten werktäglichen Anime-Block",
@@ -573,7 +574,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-08"
+      "sammelGelesen": "2026-11-11"
     },
     {
       "articleTitle": "Design der neuen »Neon Genesis Evangelion«-Komplettbox + Extras",
@@ -646,7 +647,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-08"
+      "sammelGelesen": "2026-11-11"
     },
     {
       "articleTitle": "AniMoon-Angebot: RomCom-Serie »Toradora!« zum Sonderpreis",
@@ -702,7 +703,7 @@
           "folgen": 13
         }
       ],
-      "sammelGelesen": "2026-11-08"
+      "sammelGelesen": "2026-11-11"
     },
     {
       "articleTitle": "ProSieben MAXX zeigt »Wandering Witch: Elainas Reise« als TV-Premiere",
@@ -1064,7 +1065,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-11-08"
+      "sammelGelesen": "2026-11-11"
     },
     {
       "articleTitle": "Neue Anime-Katalogtitel im November 2026 bei aniverse",
@@ -1491,7 +1492,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-11-08"
+      "sammelGelesen": "2026-11-11"
     },
     {
       "articleTitle": "Crunchyroll bringt besonderes »Black Clover«-Erlebnis nach Deutschland",
@@ -1977,7 +1978,7 @@
           "edition": "limited-edition sammelschuber"
         }
       ],
-      "discGelesen": "2026-11-08"
+      "discGelesen": "2026-11-11"
     },
     {
       "articleTitle": "Zwei Synchro-Neuzugänge ab sofort auf Crunchyroll verfügbar",

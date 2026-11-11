@@ -1,13 +1,13 @@
 # Was JustWatch zu offenen Verweisen sagt
 
-Stand: 2026-11-10. Erzeugt von `npm run data:justwatch`.
+Stand: 2026-11-11. Erzeugt von `npm run data:justwatch`.
 
 **Das sind Kandidaten, keine Belege.** Die Angabe gilt der **Serie**, nicht der
 einzelnen Folge — bei „Kill Blue" meldet JustWatch `de` für alle zwölf, belegt
 sind acht. Und ein fehlendes `de` belegt nichts: Netflix meldet dort gar keine
 Tonspur. Was hier steht, sagt, **wo sich das Nachsehen lohnt**.
 
-28 offene Verweise, zu denen JustWatch eine Tonspur nennt.
+29 offene Verweise, zu denen JustWatch eine Tonspur nennt.
 
 | Titel | Anbieter | JustWatch sagt | Tonspuren | Quelle |
 |---|---|---|---|---|
@@ -16,6 +16,7 @@ Tonspur. Was hier steht, sagt, **wo sich das Nachsehen lohnt**.
 | [Pokémon](https://anime-kalender.de/#/datenbank?t=527) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/Pokemon) |
 | [Sonic X](https://anime-kalender.de/#/datenbank?t=1816) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/Sonic-X) |
 | [A Certain Magical Index](https://anime-kalender.de/#/datenbank?t=4654) | primevideo | 🇩🇪 **Deutsch dabei** | `de, en, ja` | [JustWatch](https://www.justwatch.com/de/Serie/Toaru-Majutsu-no-Index) |
+| [To Love Ru: Darkness](https://anime-kalender.de/#/datenbank?t=13663) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/To-Love-Ru-Darkness) |
 | [Arpeggio of Blue Steel: Ars Nova - Cadenza](https://anime-kalender.de/#/datenbank?t=20764) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Film/Arpeggio-of-Blue-Steel-Ars-Nova-Cadenza) |
 | [Steins;Gate 0](https://anime-kalender.de/#/datenbank?t=21127) | crunchyroll | 🇩🇪 **Deutsch dabei** | `de, en, es, ja, pt` | [JustWatch](https://www.justwatch.com/de/Serie/Steins-Gate-0) |
 | [Konosuba: God’s Blessing on This Wonderful World!](https://anime-kalender.de/#/datenbank?t=21202) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/KonoSuba-Gods-blessing-on-this-wonderful-world) |

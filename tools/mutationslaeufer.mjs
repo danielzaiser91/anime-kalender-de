@@ -9,7 +9,8 @@
  *   { "name": "…", "aenderungen": [{ "datei": "a.ts", "suche": "…", "ersetze": "…", "nr": 2, "zeile": 14 }],
  *     "tests": ["…"] }      // tests je Mutant überschreibt --test
  *   { "datei": "a.ts", "suche": "…", "ersetze": "…" }   // Kurzform mit einer Änderung
- *   { "name": "Kontrolle", "aenderungen": [] }          // unmutierter Kontrollmutant, muss grün bleiben
+ *   { "name": "Kontrolle", "aenderungen": [] }          // unmutierter Kontrollmutant, muss grün bleiben;
+ *     // ohne tests und ohne --test fährt er die tests aller Mutanten der Liste
  * suche darf mehrzeilig sein (\n); kommt sie mehrfach vor, wählt nr (n-tes Vorkommen, ab 1) und/oder zeile
  * (Vorkommen auf dieser Zeile) aus, sonst gilt der Mutant als mehrdeutig. suche "@ENDE" hängt ersetze an.
  * Mehrere Änderungen einer Datei beziehen sich alle auf das Original (kein Verschieben der Anker).
@@ -251,13 +252,19 @@ export function registriereSignale(proc, abhaengigkeiten) {
   for (const sig of SIGNALE) proc.on(sig, () => beiSignal(abhaengigkeiten))
 }
 
+// Kontrolle ohne eigenes tests und ohne --test fährt die tests aller echten Mutanten (wie der Grundlauf).
+export function kontrollenMitTests(mutanten, global) {
+  const alle = [...new Set(mutanten.filter((m) => m.aenderungen.length > 0).flatMap((m) => m.tests ?? global))]
+  return mutanten.map((m) => (m.aenderungen.length === 0 && !m.tests && global.length === 0 ? { ...m, tests: alle } : m))
+}
+
 export async function main(argv) {
   const opt = parseArgs(argv)
   if (!opt.liste || !(opt.timeout > 0)) {
     console.error('Aufruf: mutationslaeufer.mjs <mutanten.json> --test "<befehl>" [--test …] [--cwd <ordner>] [--timeout <sek>] [--log <ordner>]')
     return 2
   }
-  const mutanten = normalisiereListe(parseListeText(readFileSync(normalisierePfad(opt.liste, process.cwd(), process.platform), "utf8")))
+  const mutanten = kontrollenMitTests(normalisiereListe(parseListeText(readFileSync(normalisierePfad(opt.liste, process.cwd(), process.platform), "utf8"))), opt.tests)
   if (mutanten.some((m) => (m.tests ?? opt.tests).length === 0)) {
     console.error("Kein Testbefehl: --test oder tests je Mutant angeben")
     return 2
