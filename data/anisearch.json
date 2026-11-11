@@ -880027,6 +880027,38 @@
     },
     "fetchedAt": "2026-11-09T06:00:55.310Z"
   },
+  "219616": {
+    "anisearchId": 22098,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "33-sai Dokushin Onna Kishi Taichou.",
+          "titleNative": "33-sai Dokushin Onna Kishi Taichō.",
+          "status": "Zukünftig",
+          "released": "2027 - ?"
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "Unbekannt",
+      "episodesEstimated": true,
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/33onakishianime"
+        }
+      ],
+      "synonyms": [
+        "33 Years Old Single Female Knight-Captain",
+        "33 Years Old Single Girl Knight-Captain"
+      ]
+    },
+    "fetchedAt": "2026-11-11T06:00:55.223Z"
+  },
   "219618": {
     "anisearchId": 22092,
     "streams": [],
