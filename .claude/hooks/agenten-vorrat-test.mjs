@@ -6,6 +6,7 @@ import { createRequire } from 'node:module'
 const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'vorrat-'))
 const ruhe = path.join(tmp, 'ruhemodus.txt')
 process.env.RUHE_MARKER = ruhe
+process.env.AGENTEN_JETZT = '2026-11-14T12:00:00+01:00' // Samstag: keine Arbeitszeit-Grenze
 const { pruefe, markerVon } = createRequire(import.meta.url)('./agenten-vorrat.js')
 // Grenzen aus dem Grenz-Hook lesen, damit eine geänderte Zahl den Test nicht rot macht.
 const { GRENZE, grenze } = createRequire(import.meta.url)('./agenten-grenze.js')
@@ -70,6 +71,23 @@ const ein = { transcript_path: transcript, cwd: path.join(projekt, '_wt-x'), ses
   pruef('Ruhemodus lässt Prüfer starten', start('pruefer') === null)
   fs.rmSync(ruhe)
   pruef('ohne Ruhemodus wieder volle Grenze', start('bauer') === null)
+}
+{
+  const { inArbeitszeit } = createRequire(import.meta.url)('./agenten-grenze.js')
+  const fall = (iso, soll) => pruef(`Arbeitszeit ${iso} → ${soll}`, inArbeitszeit(new Date(iso)) === soll)
+  fall('2026-11-12T08:00:00+01:00', true) // Do 8:00, Grenze eingeschlossen
+  fall('2026-11-12T07:59:00+01:00', false)
+  fall('2026-11-12T15:59:00+01:00', true)
+  fall('2026-11-12T16:00:00+01:00', false)
+  fall('2026-11-14T12:00:00+01:00', false) // Samstag
+  fall('2026-11-19T12:00:00+01:00', true) // letzter Probetag
+  fall('2026-11-20T12:00:00+01:00', false) // Urlaub ab Fr 20.11.
+  fall('2026-11-12T07:30:00Z', true) // 8:30 Berlin, Zeitzone zählt
+  const { grenze: g } = createRequire(import.meta.url)('./agenten-grenze.js')
+  fs.writeFileSync(ruhe, 'sanft')
+  pruef('Arbeitszeit schlägt Ruhemodus', g(ruhe, new Date('2026-11-12T10:00:00+01:00')) === 5)
+  pruef('außerhalb gilt Ruhemodus', g(ruhe, new Date('2026-11-12T17:00:00+01:00')) === 2)
+  fs.rmSync(ruhe)
 }
 pruef('ohne Vorrat-Ordner schweigt', pruefe({ ...ein, cwd: os.tmpdir() }) === null)
 pruef('nach Ende des Modus schweigt', pruefe(ein, Date.parse('2100-01-01')) === null)
