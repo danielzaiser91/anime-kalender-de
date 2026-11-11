@@ -239,7 +239,50 @@ function sagtFaelle(): void {
   pruefe('Tage je Adresse: alter und heutiger Tag, kein Text', t.get(alt)?.sort().join() === '2026-09-11,2026-11-06', JSON.stringify([...t]))
 }
 
+/** Offizielle japanische Seite (tokyo-revengers-anime.com/news/archives/4935, 05.10.2026): „東京リベンジャーズ』三天戦争編" — ohne `titleNative` blieb der Name „nicht im Text". */
+function nativeFaelle(): void {
+  const url = 'https://tokyo-revengers-anime.com/news/archives/4935'
+  const titles = [{ id: 178083, titleDe: 'Tokyo Revengers: War of the Three Titans', titleNative: '東京リベンジャーズ 三天戦争編' }, { id: 5, titleDe: 'Ohne Native', titleNative: '鬼滅 の刃' }, { id: 6, titleDe: 'Fuenf', titleNative: 'あいうえお かき' }] as unknown as Title[]
+  const release = { slug: 'tr', titleId: 178083, name: 'Tokyo Revengers: War of the Three Titans', sources: [url] } as unknown as Release
+  const andere = { slug: 'o', titleId: 5, name: 'Ohne Native', sources: ['https://example.org/o'] } as unknown as Release
+  const news = [{ am: '2026-10-05', titelId: 178083, titel: 'Tokyo Revengers', slug: 'n', meldungen: [{ quelle: 'https://example.org/n' }] }] as unknown as NewsEintrag[]
+  const fuenf = { slug: 'f', titleId: 6, name: 'Fuenf', sources: ['https://example.org/f'] } as unknown as Release
+  const s = suchbegriffeJeAdresse([release, andere, fuenf], titles, news)
+  const gruppe = gruppenJeAdresse([release, andere], titles, news)
+  pruefe('Native: der japanische Name steht in den Suchbegriffen des Termins', (s.get(url) ?? []).includes('東京リベンジャーズ 三天戦争編'))
+  pruefe('Native: der Kopf vor dem Leerzeichen steht darin („東京リベンジャーズ』…" trifft ihn)', (s.get(url) ?? []).includes('東京リベンジャーズ'))
+  pruefe('Native: auch die Gruppe des Titels trägt beide Namen', (gruppe.get(url)?.[0]?.suchen ?? []).includes('東京リベンジャーズ'))
+  const klein = s.get('https://example.org/o') ?? []
+  pruefe('Native: ein Kopf unter 5 Zeichen („鬼滅") steht nicht darin, der ganze Name schon', klein.includes('鬼滅 の刃') && !klein.includes('鬼滅'))
+  pruefe('Native: ein Kopf mit genau 5 Zeichen steht darin', (s.get('https://example.org/f') ?? []).includes('あいうえお'))
+  pruefe('Native: über die Meldung (ohne Termin) kommt er ebenfalls', (s.get('https://example.org/n') ?? []).includes('東京リベンジャーズ'))
+  nativeLateinFaelle()
+}
+
+/** Lateinische Native-Namen und Ein-Zeichen-Namen bleiben aus den Suchbegriffen: „BLACK" träfe per Teilstring jeden Artikel mit „black", „pet" den „carpet" (Prüfer 3495, A1/A2). */
+function nativeLateinFaelle(): void {
+  const natives: Record<number, string> = { 7: 'BLACK LAGOON', 8: 'K', 9: 'pet', 10: '鬼', 11: 'BLACK 東京リベンジャーズ', 12: 'SCHOOL DAYS', 13: '鬼滅', 14: '도굴왕', 15: 'ナルト', 16: 'あいうえ かき' }
+  const titles = Object.entries(natives).map(([id, titleNative]) => ({ id: Number(id), titleDe: `Titel${id}`, titleNative })) as unknown as Title[]
+  const releases = titles.map((t) => ({ slug: `l${t.id}`, titleId: t.id, name: `Titel${t.id}`, sources: [`https://example.org/l${t.id}`] })) as unknown as Release[]
+  const s = suchbegriffeJeAdresse(releases, titles)
+  const gruppen = gruppenJeAdresse(releases, titles)
+  const je = (id: number): string[] => s.get(`https://example.org/l${id}`) ?? []
+  const jeGruppe = (id: number): string[] => gruppen.get(`https://example.org/l${id}`)?.[0]?.suchen ?? []
+  pruefe('Native: „BLACK LAGOON" und sein Kopf „BLACK" stehen nicht in den Suchbegriffen', !je(7).some((n) => /black/i.test(n)) && !jeGruppe(7).some((n) => /black/i.test(n)))
+  pruefe('Native: ein lateinischer Name mit Kopf ab 5 Zeichen („SCHOOL DAYS") liefert weder Kopf noch Namen', !je(12).some((n) => /school/i.test(n)) && !jeGruppe(12).some((n) => /school/i.test(n)))
+  pruefe('Native: „K" steht nicht darin', !je(8).includes('K') && !jeGruppe(8).includes('K'))
+  pruefe('Native: „pet" steht nicht darin', !je(9).includes('pet') && !jeGruppe(9).includes('pet'))
+  pruefe('Native: ein einzelnes CJK-Zeichen („鬼") steht nicht darin', !je(10).includes('鬼') && !jeGruppe(10).includes('鬼'))
+  pruefe('Native: gemischter Name — der ganze Name ja, der lateinische Kopf „BLACK" nein', je(11).includes('BLACK 東京リベンジャーズ') && !je(11).includes('BLACK') && !jeGruppe(11).includes('BLACK'))
+  pruefe('Native: ein Name aus genau zwei Han-Zeichen („鬼滅") steht darin', je(13).includes('鬼滅') && jeGruppe(13).includes('鬼滅'))
+  pruefe('Native: ein koreanischer Name steht darin (Schrift Hangul)', je(14).includes('도굴왕'))
+  pruefe('Native: ein reiner Katakana-Name steht darin', je(15).includes('ナルト'))
+  pruefe('Native: ein CJK-Kopf mit 4 Zeichen („あいうえ") steht nicht darin, der ganze Name schon', je(16).includes('あいうえ かき') && !je(16).includes('あいうえ'))
+  pruefe('Native: ohne Native-Namen bleibt der Titel selbst Suchbegriff (Kontrolle)', je(7).includes('Titel7') && je(8).includes('Titel8'))
+}
+
 fensterFaelle()
+nativeFaelle()
 sagtFaelle()
 newsFaelle()
 teilFaelle()
