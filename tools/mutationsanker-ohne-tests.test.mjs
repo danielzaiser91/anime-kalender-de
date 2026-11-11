@@ -13,6 +13,7 @@ const pruefe = (name, ok) => {
   fehler.push(name)
   console.error(`  ✗ ${name}`)
 }
+const KEIN_EREIGNIS = {}
 const m = (name, extra = {}) => ({ name, datei: 'a.ts', suche: 'x', ersetze: 'y', ...extra })
 const text = (l) => JSON.stringify(l)
 
@@ -89,22 +90,83 @@ try {
   // Enge Refspec wie beim Checkout der Kette: ohne ausdrückliches Ziel legt `fetch origin main` den Ref nicht an.
   git(['config', 'remote.origin.fetch', '+refs/heads/nichts:refs/remotes/origin/nichts'], klon)
   pruefe('git: ohne origin/main-Ref nichts lesbar', leseVonMain(() => git(['show', `origin/main:${BEKANNT_PFAD}`], klon)) === null)
-  pruefe('git: Nachholen im flachen Klon liefert den Stand von main', basisImOrdner(klon)?.['a.json'] === 3)
+  pruefe('git: Nachholen im flachen Klon liefert den Stand von main', basisImOrdner(klon, KEIN_EREIGNIS)?.['a.json'] === 3)
   git(['update-ref', '-d', 'refs/remotes/origin/main'], klon)
   schreibeStand(klon, { 'a.json': 5 }, { 'a.json': 5 })
-  const angehoben = bestandPruefen(klon)
+  const angehoben = bestandPruefen(klon, KEIN_EREIGNIS)
   pruefe('Verdrahtung: PR hebt Datei und Liste an = rot gegen main', angehoben.rot.length === 2 && angehoben.basis?.['a.json'] === 3)
   schreibeStand(klon, { 'a.json': 2 }, { 'a.json': 2 })
-  pruefe('Verdrahtung: PR senkt = grün', bestandPruefen(klon).rot.length === 0)
+  pruefe('Verdrahtung: PR senkt = grün', bestandPruefen(klon, KEIN_EREIGNIS).rot.length === 0)
   schreibeStand(klon, { 'a.json': 3 }, { 'a.json': 3, 'neu.json': 1 })
-  pruefe('Verdrahtung: neue Liste mit Lücke = rot', bestandPruefen(klon).rot.length === 1)
+  pruefe('Verdrahtung: neue Liste mit Lücke = rot', bestandPruefen(klon, KEIN_EREIGNIS).rot.length === 1)
   git(['remote', 'remove', 'origin'], klon)
   git(['update-ref', '-d', 'refs/remotes/origin/main'], klon)
   schreibeStand(klon, { 'a.json': 5 }, { 'a.json': 5, 'neu.json': 0 })
-  const ohneMain = bestandPruefen(klon)
+  const ohneMain = bestandPruefen(klon, KEIN_EREIGNIS)
   pruefe('Verdrahtung: main nicht erreichbar = Vergleich mit der eigenen Datei (grün bei gleicher Zahl)', ohneMain.basis === null && ohneMain.rot.length === 0)
 } finally {
   rmSync(gitWurzel, { recursive: true, force: true })
+}
+
+// PR-Ereignis: Basis ist der erste Elternteil des Merge-Commits, auch wenn origin/main inzwischen weitergezogen ist (3481: 20 gegen 0).
+const merge = mkdtempSync(join(tmpdir(), 'ratsche-merge-'))
+const gitT = (args, cwd) => git(['-c', 'user.name=t', '-c', 'user.email=t@t', ...args], cwd)
+const festhalten = (cwd, nachricht) => {
+  gitT(['add', '.'], cwd)
+  gitT(['commit', '-q', '-m', nachricht], cwd)
+  return git(['rev-parse', 'HEAD'], cwd).trim()
+}
+/** Quelle mit main A (Grenze 20) → main B (Grenze 0) und Zweig `merge` = Merge-Commit aus A und einem PR-Commit; `prStand` ist die Grenze, die der PR setzt (null: berührt sie nicht). */
+const baueQuelle = (ordner, prStand) => {
+  git(['init', '-q', '-b', 'main'], ordner)
+  schreibeStand(ordner, { 'a.json': 20 }, { 'a.json': 20 })
+  const a = festhalten(ordner, 'A')
+  git(['checkout', '-q', '-b', 'pr'], ordner)
+  writeFileSync(join(ordner, 'pr.txt'), 'pr\n')
+  if (prStand) schreibeStand(ordner, { 'a.json': prStand }, { 'a.json': prStand })
+  festhalten(ordner, 'P')
+  git(['checkout', '-q', 'main'], ordner)
+  schreibeStand(ordner, { 'a.json': 0 }, { 'a.json': 0 })
+  festhalten(ordner, 'B')
+  git(['checkout', '-q', '-b', 'merge', a], ordner)
+  gitT(['merge', '-q', '--no-ff', '-m', 'M', 'pr'], ordner)
+  git(['checkout', '-q', 'main'], ordner)
+}
+const PR_EREIGNIS = { GITHUB_EVENT_NAME: 'pull_request' }
+try {
+  const q1 = join(merge, 'q1')
+  mkdirSync(q1)
+  baueQuelle(q1, null)
+  const voll = join(merge, 'voll')
+  git(['clone', '-q', pathToFileURL(q1).href, voll], merge)
+  git(['checkout', '-q', 'origin/merge'], voll)
+  const gruen = bestandPruefen(voll, PR_EREIGNIS)
+  pruefe('Merge-Basis: main schon bei B (0), Baum aus A (20): Basis ist A, grün', gruen.basis?.['a.json'] === 20 && gruen.rot.length === 0)
+  const heute = bestandPruefen(voll, KEIN_EREIGNIS)
+  pruefe('Merge-Basis: ohne PR-Ereignis zählt origin/main (0), derselbe Baum ist rot', heute.basis?.['a.json'] === 0 && heute.rot.length === 2)
+  const flach = join(merge, 'flach')
+  git(['clone', '-q', '--depth=1', '--branch', 'merge', pathToFileURL(q1).href, flach], merge)
+  git(['update-ref', '-d', 'refs/remotes/origin/main'], flach)
+  const flachBasis = bestandPruefen(flach, PR_EREIGNIS)
+  pruefe('Merge-Basis flach: erster Elternteil wird nachgeholt, grün', flachBasis.basis?.['a.json'] === 20 && flachBasis.rot.length === 0)
+  const q2 = join(merge, 'q2')
+  mkdirSync(q2)
+  baueQuelle(q2, 25)
+  const eigen = join(merge, 'eigen')
+  git(['clone', '-q', pathToFileURL(q2).href, eigen], merge)
+  git(['checkout', '-q', 'origin/merge'], eigen)
+  const rotPr = bestandPruefen(eigen, PR_EREIGNIS)
+  pruefe('Merge-Basis: PR hebt über A (20 auf 25) selbst an = rot (Datei und Ist)', rotPr.basis?.['a.json'] === 20 && rotPr.rot.length === 2)
+  const flachOhne = join(merge, 'flach-ohne')
+  git(['clone', '-q', '--depth=1', '--branch', 'merge', pathToFileURL(q2).href, flachOhne], merge)
+  git(['remote', 'set-url', 'origin', pathToFileURL(join(merge, 'gibt-es-nicht')).href], flachOhne)
+  const ohneBasis = bestandPruefen(flachOhne, PR_EREIGNIS)
+  pruefe('Merge-Basis: Elternteil flach nicht holbar = Rückfall auf eigene Datei (Basis null, Warnzeile)', ohneBasis.basis === null && basisZeile(ohneBasis.basis).startsWith('⚠ WARNUNG'))
+  git(['checkout', '-q', 'origin/main'], voll)
+  const kein = bestandPruefen(voll, PR_EREIGNIS)
+  pruefe('PR-Ereignis ohne Merge-Commit (HEAD = origin/main, 0): kein Rückgriff auf origin/main, Basis null', kein.basis === null)
+} finally {
+  rmSync(merge, { recursive: true, force: true })
 }
 
 // Bestand: keine echte Liste über dem Stand von origin/main (ohne erreichbares main: über der eigenen Datei).
@@ -112,7 +174,7 @@ const wurzelRepo = fileURLToPath(new URL('../', import.meta.url))
 const { eigen: bekannt, ist, basis, rot } = bestandPruefen(wurzelRepo)
 console.log(basisZeile(basis))
 pruefe('Warnzeile: Rückfall auf die eigene Datei beginnt mit ⚠ WARNUNG', basisZeile(null).startsWith('⚠ WARNUNG Ratsche-Basis: eigene Datei'))
-pruefe('Warnzeile: erreichbares main ist keine Warnung', basisZeile({ 'a.json': 3 }) === 'Ratsche-Basis: origin/main')
+pruefe('Warnzeile: erreichbares main ist keine Warnung', basisZeile({ 'a.json': 3 }) === 'Ratsche-Basis: main (erster Elternteil des Merge-Commits bzw. origin/main)')
 pruefe(`Bestand: Mutanten ohne tests nur sinkend (${rot.join('; ') || 'ok'})`, rot.length === 0)
 pruefe('Bestand: bekannte Liste existiert noch', Object.keys(bekannt).every((n) => n in ist))
 const summe = Object.values(ist).reduce((a, b) => a + b, 0)
