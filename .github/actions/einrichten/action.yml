@@ -60,4 +60,11 @@ runs:
     - name: Browser installieren
       if: inputs.playwright == 'true'
       shell: bash
-      run: npx playwright install --with-deps chromium || echo "::warning::Browser nicht installiert"
+      run: npx playwright install chromium || echo "::warning::Browser nicht installiert"
+
+    # Getrennt vom Download: Am 11.11.2026 war security.ubuntu.com über eine Stunde nicht erreichbar, `--with-deps` brach ab
+    # und der Browser fehlte ganz. Ob Chromium ohne diese Pakete startet, ist nicht gemessen; fehlt eine, scheitert sichtbar erst der Browserstart.
+    - name: Chromium-Systempakete
+      if: inputs.playwright == 'true'
+      shell: bash
+      run: npx playwright install-deps chromium || echo "::warning::Chromium-Systempakete nicht installiert (apt-Störung)"

@@ -48,11 +48,11 @@ jobs:
 
       - name: Chromium holen
         if: steps.chromium.outputs.cache-hit != 'true'
-        run: npx playwright install --with-deps chromium
+        run: npx playwright install chromium
 
+      # apt-Störung (security.ubuntu.com, 11.11.2026) darf die Messung nicht reißen; fehlt danach eine Bibliothek, scheitert sichtbar erst der Browserstart (nicht gemessen).
       - name: Systembibliotheken für Chromium
-        if: steps.chromium.outputs.cache-hit == 'true'
-        run: npx playwright install-deps chromium
+        run: npx playwright install-deps chromium || echo "::warning::Chromium-Systempakete nicht installiert (apt-Störung)"
 
       - name: Messen (nur messen, ohne Urteil)
         run: npm run check:ladezeiten -- --bauen --nur-messen --ausgabe ergebnis/ladezeiten.json
