@@ -5,8 +5,8 @@
     "lastCount": 11
   },
   "anime2you": {
-    "lastOk": "2026-11-11T15:12:29.963Z",
-    "lastRun": "2026-11-11T15:12:29.963Z",
+    "lastOk": "2026-11-11T16:20:27.297Z",
+    "lastRun": "2026-11-11T16:20:27.297Z",
     "lastCount": 51
   },
   "anisearch": {
@@ -119,8 +119,8 @@
     "leerSeit": "2026-11-11T15:34:18.289Z"
   },
   "crunchyroll-neu": {
-    "lastOk": "2026-11-11T15:12:00.785Z",
-    "lastRun": "2026-11-11T15:12:00.785Z",
+    "lastOk": "2026-11-11T16:20:07.567Z",
+    "lastRun": "2026-11-11T16:20:07.567Z",
     "lastCount": 184
   },
   "cartoons": {
@@ -140,8 +140,8 @@
     "lastCount": 16
   },
   "tv-programm": {
-    "lastOk": "2026-11-11T15:12:33.687Z",
-    "lastRun": "2026-11-11T15:12:33.687Z",
+    "lastOk": "2026-11-11T16:20:30.986Z",
+    "lastRun": "2026-11-11T16:20:30.986Z",
     "lastCount": 292
   },
   "tv-de": {
@@ -177,10 +177,9 @@
     "lastCount": 3
   },
   "crunchyroll-woche": {
-    "lastOk": "2026-11-11T13:01:45.000Z",
-    "lastRun": "2026-11-11T15:11:57.590Z",
-    "lastCount": 0,
-    "lastError": "browserType.launch: Executable doesn't exist at /home/runner/.cache/ms-playwright/chromium_headless_shell-1234/chrome-headless-shell-linux64/chrome-headless-shell\n╔════════════════════════════════════════════════════════════╗\n║ Looks like Playwright was just installed or updated.       ║\n║ Please run the following command to download new browsers: ║\n║                                                            ║\n║     npx playwright install                                 ║\n║                                                            ║\n║ <3 Playwright Team                                         ║\n╚════════════════════════════════════════════════════════════╝"
+    "lastOk": "2026-11-11T16:20:02.969Z",
+    "lastRun": "2026-11-11T16:20:02.969Z",
+    "lastCount": 63
   },
   "adn-news": {
     "lastOk": "2026-11-11T02:00:55.860Z",
@@ -188,8 +187,8 @@
     "lastCount": 69
   },
   "messbelege": {
-    "lastOk": "2026-11-11T15:12:32.530Z",
-    "lastRun": "2026-11-11T15:12:32.530Z",
+    "lastOk": "2026-11-11T16:20:29.784Z",
+    "lastRun": "2026-11-11T16:20:29.784Z",
     "lastCount": 0,
     "leerSeit": "2026-11-06T18:01:33.610Z"
   },
