@@ -75,16 +75,7 @@ export function schliesseWegeAb({
 
   streicheMagentaPartner(titles)
 
-  /*
-    **Titel nur bei aniSearch tragen keine Wege, die der Name erraten hat** (07.10.2026: „Sword Art Online II: Debriefing" und acht weitere bekamen über den Namen die Crunchyroll-Serie
-    ihrer Hauptfassung — samt „Neu auf Deutsch bei Crunchyroll" in den News). Eine Kennung bei aniSearch belegt, dass es den Titel gibt, nicht, wo er läuft.
-  */
-  const jwJoyn = joynAdressenVonJw(readJson('data/justwatch-audio.json', {}))
-  begrenzeWegeAufBelege(titles.values(), alleChecks, jwJoyn)
-
-  /* Die Wege aus JustWatch und aniSearch kommen nach der Katalog-Runde noch einmal dazu: Was keiner Staffel der Serie entspricht, fliegt hier endgültig (07.10.2026). */
-  const fremd = entferneFremdeNachStaffeln(titles, kennungAusAdresse())
-  if (fremd) log(`${fremd} Crunchyroll-Wege nach dem Abschluss entfernt: sie gehören keiner Staffel der Serie`)
+  begrenzeWege({ titles, alleChecks })
 
   fuehreAusgabenZusammen({ alleChecks, titles, tmdbMehrdeutig, anisearch, lautPruefungTot, checksJePlattform })
   kennzeichneDeutschLautJustwatch({ titles, tmdbMehrdeutig, alleChecks })
@@ -101,6 +92,20 @@ export function schliesseWegeAb({
   // Das Cover steht nach allen Wege-Änderungen fest und vor `baueMeta`, damit Hauptbestand, Verschobene, Reihen und Meldungen dasselbe Bild sehen.
   setzeCoverNachRegel(titles)
   setzeProduktFelder(titles)
+}
+
+/** Wege ohne Beleg und Crunchyroll-Wege ohne Staffel der Serie fliegen hier endgültig raus. */
+function begrenzeWege({ titles, alleChecks }: { titles: Map<number, Title>; alleChecks: DubCheck[] }) {
+  /*
+    **Titel nur bei aniSearch tragen keine Wege, die der Name erraten hat** (07.10.2026: „Sword Art Online II: Debriefing" und acht weitere bekamen über den Namen die Crunchyroll-Serie
+    ihrer Hauptfassung — samt „Neu auf Deutsch bei Crunchyroll" in den News). Eine Kennung bei aniSearch belegt, dass es den Titel gibt, nicht, wo er läuft.
+  */
+  const jwJoyn = joynAdressenVonJw(readJson('data/justwatch-audio.json', {}))
+  begrenzeWegeAufBelege(titles.values(), alleChecks, jwJoyn)
+
+  /* Die Wege aus JustWatch und aniSearch kommen nach der Katalog-Runde noch einmal dazu: Was keiner Staffel der Serie entspricht, fliegt hier endgültig (07.10.2026). */
+  const fremd = entferneFremdeNachStaffeln(titles, kennungAusAdresse())
+  if (fremd) log(`${fremd} Crunchyroll-Wege nach dem Abschluss entfernt: sie gehören keiner Staffel der Serie`)
 }
 
 /**
