@@ -4,6 +4,7 @@ import { providerName } from '../../shared/mappings.ts'
 import { log, readJson } from '../lib/util.ts'
 import { type AnisearchEintrag } from './01-quellen.ts'
 import { type EntfernterVerweis } from './grundlagen.ts'
+import { wegKern } from '../lib/weg-kern.ts'
 
 export function bereinigeWege({
   titles,
@@ -222,13 +223,7 @@ export function bereinigeWege({
 
   let wegNachNein = 0
   {
-    const kern = (u: string): string =>
-      u
-        .replace(/^https?:\/\//, '')
-        .replace(/^www\./, '')
-        .split('?')[0]!
-        .replace(/\/$/, '')
-        .toLowerCase()
+    const kern = wegKern
     const raus = new Set(verweiseEntfernt.map((e) => kern(e.url ?? '')))
     for (const e of readJson<{ verweise?: { url?: string }[] }>('data/verweise-entfernt.json', {}).verweise ?? []) {
       raus.add(kern(e.url ?? ''))
