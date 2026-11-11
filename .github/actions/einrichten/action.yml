@@ -63,7 +63,7 @@ runs:
       run: npx playwright install chromium || echo "::warning::Browser nicht installiert"
 
     # Getrennt vom Download: Am 11.11.2026 war security.ubuntu.com über eine Stunde nicht erreichbar, `--with-deps` brach ab
-    # und der Browser fehlte ganz. Das Runner-Abbild bringt Chromiums Bibliotheken mit, apt ergänzt vor allem Schriften.
+    # und der Browser fehlte ganz. Ob Chromium ohne diese Pakete startet, ist nicht gemessen; fehlt eine, scheitert sichtbar erst der Browserstart.
     - name: Chromium-Systempakete
       if: inputs.playwright == 'true'
       shell: bash

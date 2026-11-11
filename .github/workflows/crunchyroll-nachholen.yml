@@ -122,7 +122,7 @@ jobs:
       - name: Browser installieren
         run: npx playwright install chromium
 
-      # apt-Störung (security.ubuntu.com, 11.11.2026) darf den Lauf nicht reißen; das Runner-Abbild bringt die Bibliotheken mit.
+      # apt-Störung (security.ubuntu.com, 11.11.2026) darf den Lauf nicht reißen; fehlt danach eine Bibliothek, scheitert sichtbar erst der Browserstart (nicht gemessen).
       - name: Chromium-Systempakete
         run: npx playwright install-deps chromium || echo "::warning::Chromium-Systempakete nicht installiert (apt-Störung)"
 

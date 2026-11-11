@@ -50,7 +50,7 @@ jobs:
         if: steps.chromium.outputs.cache-hit != 'true'
         run: npx playwright install chromium
 
-      # apt-Störung (security.ubuntu.com, 11.11.2026) darf die Messung nicht reißen; das Runner-Abbild bringt die Bibliotheken mit.
+      # apt-Störung (security.ubuntu.com, 11.11.2026) darf die Messung nicht reißen; fehlt danach eine Bibliothek, scheitert sichtbar erst der Browserstart (nicht gemessen).
       - name: Systembibliotheken für Chromium
         run: npx playwright install-deps chromium || echo "::warning::Chromium-Systempakete nicht installiert (apt-Störung)"
 
