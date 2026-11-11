@@ -13,7 +13,8 @@ const { pruefe } = createRequire(import.meta.url)(hook)
 const HAUPT = 'C:/code/ai/anime-kalender-de'
 const WT = 'C:/code/_worktrees/anime-kalender-de/thema'
 const TMP = 'C:/Users/ih/AppData/Local/Temp/probe'
-process.env.HOME = 'C:/Users/ih' // feste Heimat, damit `$HOME/../..` auf jedem Rechner gleich aufgelöst wird
+const HEIM_ALT = process.env.HOME
+process.env.HOME = 'C:/Users/ih' // feste Heimat nur für die Fälle, damit `$HOME/../..` überall gleich aufgelöst wird; der Verteiler weiter unten schreibt unter HOME
 
 const lauf = (command, cwd = HAUPT, tool_name = 'Bash') => pruefe({ tool_name, tool_input: { command }, cwd })
 const gesperrt = (command, cwd) => assert.match(lauf(command, cwd) ?? '', /^„git (fetch|pull|clone) --depth“ gesperrt.*ohne --depth/s, `${command} @ ${cwd ?? HAUPT} gesperrt`)
@@ -126,6 +127,9 @@ for (const [c, cwd] of [
   ['git fetch --depth=1 --git-dir=C:/code/ai/anime-kalender-de/.git', TMP],
   ['git --git-dir=C:/PROGRA~1/../Users/ih/probe/.git fetch --depth=1', WT],
 ]) frei(c, cwd)
+
+if (HEIM_ALT === undefined) delete process.env.HOME
+else process.env.HOME = HEIM_ALT
 
 assert.equal(lauf('git fetch --depth=1', WT, 'Write'), null, 'Write frei')
 assert.equal(pruefe({ tool_name: 'Bash' }), null, 'ohne tool_input frei')
