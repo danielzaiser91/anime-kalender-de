@@ -1,11 +1,11 @@
 {
-  "scrapedAt": "2026-11-11T17:05:36.724Z",
+  "scrapedAt": "2026-11-11T18:01:48.094Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 8,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "schon in einem Rubrik-Feed gelesen": 4,
     "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 19,
+    "schon in einem Rubrik-Feed gelesen": 5,
     "Sprachhinweis älter als 45 Tage": 6
   },
   "proposals": [
@@ -28,6 +28,27 @@
         }
       ],
       "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Blu-ray-Termin der zweiten »Demon Slave«-Staffel + Vorbestellung",
+      "articleUrl": "https://www.anime2you.de/news/1070298/demon-slave-staffel-blu-ray-termin/",
+      "publishedAt": "2026-11-11",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2027-03-19",
+          "context": "den 1 bis 6 auf Deutsch und Japanisch kommt nach aktueller Planung am 19. März 2027 als […] Der Beitrag Blu-ray-Termin der zweiten »Demon"
+        },
+        {
+          "month": "2027-03",
+          "context": "»Mato Seihei no Slave«) verkündet. Wir fassen zusammen. Disc-Release ab März 2027 Das erste Volume mit den Episoden 1 bis 6 auf Deutsch und"
+        }
+      ],
+      "dub": "ja",
       "alreadyCurated": false
     },
     {
@@ -285,7 +306,7 @@
       "dates": [],
       "dub": "unklar",
       "pause": "verschoben",
-      "alreadyCurated": false,
+      "alreadyCurated": true,
       "verschiebungen": [
         {
           "titel": "Kaiju No.8 – Staffel 2 (Komplettbox)",

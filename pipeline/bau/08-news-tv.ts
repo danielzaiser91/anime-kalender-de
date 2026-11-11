@@ -3,6 +3,7 @@ import { ladeAnisearchAbruf } from '../lib/anisearch-verworfen.ts'
 import { type Vorschlag, leereVerluste, releasesAus, nurOriginaltonMeldungen } from '../lib/meldungen.ts'
 import { verlustZeile } from '../lib/meldungen-ohne-release-zeilen.ts'
 import { alsTitel, type CartoonEintrag } from '../lib/cartoons.ts'
+import { ohneTote } from '../lib/cartoon-aufnahme.ts'
 import { verschiebungenAnwenden } from '../lib/disc-verschiebungen.ts'
 import { discIndexLaden } from '../lib/disc-ean.ts'
 import { aniSearchDatumAnwenden, veroeffentlichungstage } from '../lib/disc-anisearch-datum.ts'
@@ -37,7 +38,7 @@ export function ergaenzeTermineAusNewsUndTv({ titles, releases }: {
     todayIso(),
     teilVerworfen,
     abgedeckt,
-    Object.values(readJson<Record<string, CartoonEintrag>>('data/cartoons.json', {})).map(alsTitel),
+    Object.values(ohneTote(readJson<Record<string, CartoonEintrag>>('data/cartoons.json', {}))).map(alsTitel),
     verluste,
     synonymeJeTitel([...titles.keys()]),
   )
