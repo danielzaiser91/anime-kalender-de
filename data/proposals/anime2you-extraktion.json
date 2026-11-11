@@ -1533,7 +1533,19 @@
       "am": "2026-11-11",
       "vorschlaege": 0
     },
+    "1070169": {
+      "am": "2026-11-11",
+      "vorschlaege": 1
+    },
+    "1070176": {
+      "am": "2026-11-11",
+      "vorschlaege": 1
+    },
     "1070197": {
+      "am": "2026-11-11",
+      "vorschlaege": 1
+    },
+    "1070214": {
       "am": "2026-11-11",
       "vorschlaege": 1
     }
@@ -12125,6 +12137,75 @@
       "artikelId": "1068262",
       "artikel": "Neue »Young Ladies Don’t Play Fighting Games«-Figur von Mio Yorue enthüllt",
       "quelle": "https://www.anime2you.de/news/1068262/young-ladies-dont-play-fighting-games-figur-mio-yorue/",
+      "veroeffentlicht": "2026-11-11",
+      "gelesenAm": "2026-11-11"
+    },
+    {
+      "titel": "Berserk of Gluttony",
+      "zitat": "Auf dem offiziellen X-Account der Anime-Umsetzung von »Berserk of Gluttony« (jap.: »Boushoku no Berserk«) wurde heute verkündet, dass die zweite Staffel der Serie im April 2027 startet.",
+      "art": "ankuendigung",
+      "sprache": "omu",
+      "plattform": "crunchyroll",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „Crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1070176",
+      "artikel": "Start der zweiten »Berserk of Gluttony«-Staffel + Visual",
+      "quelle": "https://www.anime2you.de/news/1070176/berserk-of-gluttony-staffel-2-start/",
+      "veroeffentlicht": "2026-11-11",
+      "gelesenAm": "2026-11-11"
+    },
+    {
+      "titel": "Mashle: Magic and Muscles",
+      "zitat": "Auf dem offiziellen X-Account der Anime-Adaption von »Mashle: Magic and Muscles« wurde heute verkündet, dass die dritte Staffel am 9. Januar 2027 startet.",
+      "art": "start",
+      "sprache": "omu",
+      "plattform": "crunchyroll",
+      "datum": "2027-01-09",
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Samstag",
+      "warnungen": [
+        "anbieter „Crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1070214",
+      "artikel": "Termin der dritten Staffel von »Mashle: Magic and Muscles« + Trailer",
+      "quelle": "https://www.anime2you.de/news/1070214/mashle-staffel-3-termin/",
+      "veroeffentlicht": "2026-11-11",
+      "gelesenAm": "2026-11-11"
+    },
+    {
+      "titel": "SSS-Class Revival Hunter",
+      "zitat": "Der Streaming-Dienst Crunchyroll zeigt die Actionserie ab Januar 2027 im Originalton mit Untertiteln im Simulcast.",
+      "art": "ankuendigung",
+      "sprache": "omu",
+      "plattform": "crunchyroll",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1070169",
+      "artikel": "Neuer Teaser zum Fantasy-Anime »SSS-Class Revival Hunter« + Visual",
+      "quelle": "https://www.anime2you.de/news/1070169/neuer-teaser-sss-class-revival-hunter/",
       "veroeffentlicht": "2026-11-11",
       "gelesenAm": "2026-11-11"
     }
