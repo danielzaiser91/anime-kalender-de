@@ -120,7 +120,11 @@ jobs:
         run: sudo grep -l packages.microsoft.com /etc/apt/sources.list.d/* | sudo xargs -r rm -fv || true
 
       - name: Browser installieren
-        run: npx playwright install --with-deps chromium
+        run: npx playwright install chromium
+
+      # apt-Störung (security.ubuntu.com, 11.11.2026) darf den Lauf nicht reißen; das Runner-Abbild bringt die Bibliotheken mit.
+      - name: Chromium-Systempakete
+        run: npx playwright install-deps chromium || echo "::warning::Chromium-Systempakete nicht installiert (apt-Störung)"
 
       # Frisches Zugangspaket über die Vercel-Weiche in Frankfurt (weiche-vercel/,
       # 16.09.2026) — das Secret CR_ZUGANG bleibt nur Rückfall, es lebt 24 Stunden.
