@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-11-11T13:29:39.230Z",
+ "erzeugtAm": "2026-11-11T14:23:05.567Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -1391,9 +1391,9 @@
   {
    "name": "Disney+",
    "plattform": "disneyplus",
-   "gemeldet": 179,
+   "gemeldet": 182,
    "gesamt": 341,
-   "offen": 162,
+   "offen": 159,
    "ohneSeite": 14,
    "ziel": "https://www.disneyplus.com/browse/entity-faa35b37-3287-4a7c-9d42-a3a5f9ad9185",
    "ziele": [
@@ -1457,11 +1457,6 @@
      "hinweis": "Staffeln unklar: TMDB zählt 19 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
-     "url": "https://www.disneyplus.com/browse/entity-7a60f8f2-c92d-4dbd-a230-d82794831d09",
-     "titel": "Waustelle - Alle Pfoten packen an",
-     "hinweis": "Staffeln unklar: TMDB zählt 99 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
      "url": "https://www.disneyplus.com/browse/entity-ca11edde-47ff-4740-898e-f3913afb88db",
      "titel": "Moon Girl und Devil Dinosaur",
      "hinweis": "Staffeln unklar: TMDB zählt 40 Folgen insgesamt, der Anbieter kann sie anders schneiden"
@@ -1480,11 +1475,6 @@
      "url": "https://www.disneyplus.com/browse/entity-72e27eeb-100d-47eb-b1dd-82f4b7ebfeaf",
      "titel": "Me & Mickey",
      "hinweis": "Staffeln unklar: TMDB zählt 120 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.disneyplus.com/browse/entity-22dc20c4-eaed-492d-887e-e087585c0532",
-     "titel": "Hit-Monkey",
-     "hinweis": "Staffeln unklar: TMDB zählt 20 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://www.disneyplus.com/browse/entity-c93113fb-94ec-43b6-9d38-308825f7cd94",
