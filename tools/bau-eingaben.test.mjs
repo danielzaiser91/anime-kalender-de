@@ -47,7 +47,20 @@ assert.notEqual(abdruckMit(mitte(0, zeile('data/a.json', undefined, '100755'))),
 assert.notEqual(abdruckMit(mitte(0, zeile('data/b.json'))), A, 'freie Datei umbenannt')
 assert.notEqual(abdruckMit(baum(...BASIS, zeile('data/neu.json'))), A, 'freie Datei hinzugekommen')
 assert.notEqual(abdruckMit(baum(...BASIS.slice(1))), A, 'freie Datei entfernt')
-assert.deepEqual(BAU_EINGABEN, ['data/cartoon-umzug.json', 'data/kennungen.json', 'data/patchnotes/'])
+assert.deepEqual(BAU_EINGABEN, [
+  'data/anilist-cover-masse.json',
+  'data/cartoon-cover-masse.json',
+  'data/cartoon-umzug.json',
+  'data/cover-eigen-masse.json',
+  'data/kennungen.json',
+  'data/patchnotes/',
+  'data/tmdb-poster.json',
+])
+// Seit #2987/#3460 liest der Seitenbau (Link-Vorschau, Cover) diese Dateien: ohne Eintrag fehlte `abdruck` in jedem Bau (Spur: „unerklärt“), und kein Deploy traf mehr.
+for (const datei of ['data/anilist-cover-masse.json', 'data/cartoon-cover-masse.json', 'data/cover-eigen-masse.json', 'data/tmdb-poster.json']) {
+  assert.deepEqual(unerklaert([`readFileSync\t${datei}`]), [], `${datei}: gelesen und erklärt`)
+  assert.notEqual(abdruckMit(baum(zeile(datei, NEU), ...BASIS)), abdruckMit(baum(zeile(datei), ...BASIS)), `${datei}: Inhalt geändert verschiebt den Abdruck`)
+}
 
 // Spur: unerklärt sind freie Pfade außerhalb der Eingaben, deren Inhalt berührt wurde (Namenslisten zählen nicht).
 const spur = [

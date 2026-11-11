@@ -23,7 +23,15 @@ export function frei(pfad) {
 }
 
 /** Freie Pfade, die der Seitenbau liest (gemessen per Spur); ein Eintrag mit `/` am Ende gilt für den ganzen Ordner. */
-export const BAU_EINGABEN = ['data/cartoon-umzug.json', 'data/kennungen.json', 'data/patchnotes/']
+export const BAU_EINGABEN = [
+  'data/anilist-cover-masse.json',
+  'data/cartoon-cover-masse.json',
+  'data/cartoon-umzug.json',
+  'data/cover-eigen-masse.json',
+  'data/kennungen.json',
+  'data/patchnotes/',
+  'data/tmdb-poster.json',
+]
 
 const eingabe = (pfad) => BAU_EINGABEN.some((e) => (e.endsWith('/') ? `${pfad}/`.startsWith(e) : pfad === e))
 
