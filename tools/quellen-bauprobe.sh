@@ -61,6 +61,12 @@ quellen_bauprobe() {
     rm -f "$protokoll"
     return 1
   fi
+  # Fehlt der Cache, scheitert auch die Basis: kein „main ist rot“, sondern eine Umgebung ohne Probebau (PR 3282: Job anisearch lief so leer durch).
+  if grep -q "data/cache/ ist leer" "$protokoll"; then
+    echo "Der Probebau konnte nicht laufen: data/cache/ ist leer (Umgebung, kein Befund zum Fund). Der Job muss den Cache holen (einrichten: cache restore)."
+    rm -f "$protokoll"
+    return 1
+  fi
   quellen_bauprobe_basis || basis=$?
   if [ "$basis" = 1 ]; then
     echo "::warning title=main ist schon rot::Der Bau scheitert auch auf main (HEAD^1); der Fund bringt keinen neuen Bauabbruch und wird wie bisher eingereicht." >&2

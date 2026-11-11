@@ -126,6 +126,7 @@ jobs:
       - name: TV-Programm von RTL+ lesen
         run: bash tools/schritt.sh --zeit 4m "TV-Programm" -- npm run data:tv-programm -- ${{ inputs.tvde && '--tvde' || '' }}
 
+      # Kein `bauprobe`: 49 min Schrittgrenzen + Probebau bis 25 min passen nicht in 59 min (`tools/sammler-pruefschritt-waechter.mjs`, betrieb.md „Probebau“).
       - name: Quellen als Pull Request einreichen
         if: always()
         uses: ./.github/actions/einreichen
