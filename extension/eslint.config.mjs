@@ -149,7 +149,7 @@ export default [
         seitenLage: 'readonly',
         seitenTitel: 'readonly',
         sendetGerade: 'readonly',
-        serieBekannt: 'readonly',
+        meldenVersteckt: 'readonly',
         setzData: 'readonly',
         sprachenAusFolgen: 'readonly',
         staffelAusAdresse: 'readonly',

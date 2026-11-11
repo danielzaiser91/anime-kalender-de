@@ -22,7 +22,8 @@ export function trefferprobe({ wurzel, ausnahmen = [] }) {
     const ziel = el.matches('input') && el.getBoundingClientRect().width < 8 ? (el.labels?.[0] ?? el) : el
     if (ziel.closest('[aria-hidden="true"]')) continue
     ziel.scrollIntoView({ block: 'center', inline: 'center' })
-    const r = ziel.getBoundingClientRect()
+    /* Ein umbrechender Inline-Link hat je Zeile ein Rechteck; die Mitte des Umrisses läge im Leerraum, also zählt das erste. */
+    const r = ziel.getClientRects().length > 1 ? ziel.getClientRects()[0] : ziel.getBoundingClientRect()
     if (r.width === 0 || r.height === 0) continue
     const x = r.left + r.width / 2
     const y = r.top + r.height / 2

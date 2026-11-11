@@ -38,7 +38,7 @@ Das gilt für **jeden** Bestand, auf dem Arbeit aufbaut:
 
 - `status.md` des Projekts — Aufgaben, Zahlen, Stände
 - `ai_agent_learnings.md`, `ai_agent_tools.md`, `ai_agent_projects.md`
-- Skills unter `~/.claude/skills/`, Regeln unter `~/.claude/rules/`
+- Skills unter `.claude/skills/`, Regeln unter `.claude/rules/`
 - `CLAUDE.md` und `ARCHITEKTUR.md` der Projekte
 - Das Memory unter `~/.claude/projects/*/memory/`
 - Erzeugte Arbeitslisten und Prüflisten in `data/`
@@ -96,7 +96,7 @@ Wenn die Antwort „weiß nicht" lautet, ist sie „nein".
 
 ## Anlässe, aus der Regel verschoben (18.09.2026)
 
-Wortgleich aus `~/.claude/rules/`, damit die immer geladene Regel kurz bleibt.
+Wortgleich aus `.claude/rules/`, damit die immer geladene Regel kurz bleibt.
 
 <!-- aus 20-arbeitsweise.md -->
 Anlass (23.08.2026): Fünf veraltete Einträge an einem Tag, darunter eine Aufgabe, die Daniel eine

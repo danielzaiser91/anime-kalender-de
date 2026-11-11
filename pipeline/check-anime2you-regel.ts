@@ -104,6 +104,7 @@ const MARKEN_FAELLE: [string, string][] = [
   ['Crunchyroll', 'crunchyroll'], ['Netflix', 'netflix'], ['Prime Video', 'primevideo'], ['Amazon Prime', 'primevideo'], ['Disney+', 'disneyplus'],
   ['Disney +', 'disneyplus'], ['Paramount+', 'paramountplus'], ['ADN', 'adn'], ['Anime Digital Network', 'adn'], ['aniverse', 'aniverse'],
   ['WOW', 'wow'], ['Joyn', 'joyn'], ['RTL+', 'rtlplus'], ['YouTube', 'youtube'],
+  ['Pluto TV', 'plutotv'], ['PlutoTV', 'plutotv'], ['pluto tv', 'plutotv'],
 ]
 for (const [text, id] of MARKEN_FAELLE) pruefe(`Wortmarke ${text}`, plattformen(`Läuft bei ${text} im Januar`).join() === id, plattformen(text))
 pruefe('Wortmarke ADN nur als Wort', plattformen('ADNA Madness').length === 0)

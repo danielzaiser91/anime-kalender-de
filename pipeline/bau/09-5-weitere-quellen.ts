@@ -15,6 +15,8 @@ import { anisearchBruecke } from '../lib/anisearch-katalog-ids.ts'
 import { ladeJustwatchDeutsch, ohneSammelSynchro, sammeleintragTitel } from '../lib/anisearch-sammeleintrag.ts'
 import { handErstausgabe, ladeErstausgabeVonHand } from '../lib/erstausgabe-von-hand.ts'
 import { type EntfernterVerweis } from './grundlagen.ts'
+import { entferneVerweiseMitNein, regionGesperrteWege } from './verweis-grund.ts'
+import { ladeHandbelege } from '../lib/dub-confirmed.ts'
 import { istNahAmJapanStart, japanStartTag } from '../lib/nah-am-japan-start.ts'
 import { joynZeile, setzeJoynDeutsch } from './joyn-pauschal.ts'
 
@@ -552,24 +554,9 @@ export function werteWeitereQuellenAus({ releases, titles, adnKatalog, adnVerwei
    * Normalfall und heißt „wir wissen es nicht", nicht „dort gibt es keine".
    */
   let ohneDeutsch = 0
+  const regionGesperrt = regionGesperrteWege(ladeHandbelege())
   for (const title of titles.values()) {
-    const raus = title.streams.filter((s) => s.dub === false)
-    if (!raus.length) continue
-    title.streams = title.streams.filter((s) => s.dub !== false)
-    ohneDeutsch += raus.length
-    for (const s of raus) {
-      verweiseEntfernt.push({
-        titleId: title.id,
-        titel: title.titleDe ?? title.titleEn ?? title.titleRomaji ?? String(title.id),
-        plattform: s.platform,
-        url: s.url,
-        seriesId: null,
-        grund: 'belegtes Nein: dort gibt es keine deutsche Tonspur',
-        geprueftAm: null,
-        entferntAm: todayIso(),
-        letzterWeg: title.streams.length === 0,
-      })
-    }
+    ohneDeutsch += entferneVerweiseMitNein(title, verweiseEntfernt, regionGesperrt)
     // `watchLinks` tragen keine Sprachangabe — sie sind Shops und Nischendienste,
     // zu denen niemand die Tonspur belegt. Sie bleiben unangetastet.
   }

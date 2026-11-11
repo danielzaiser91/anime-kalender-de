@@ -28,7 +28,7 @@ description: Einstieg in dieses Repo (anime-kalender-de) für Agenten — wo was
 ## Werkzeugfallen (Daniels Rechner, gemessen 02.10.2026)
 
 - Bash: `ls`, `wc`, `head`, `tail`, `cat` scheitern mit `rtk: command not found` (Hook); `node` fehlt im PATH. Stattdessen Read/Glob/Grep und
-  `"/c/Program Files/nodejs/node.exe" <skript>`; Wegwerfskripte ins Scratchpad. TypeScript: `node node_modules/tsx/dist/cli.mjs pipeline/x.ts`.
+  `"/c/Program Files/nodejs/node.exe" <skript>`; Wegwerfskripte ins Scratchpad. TypeScript: `node node_modules/tsx/dist/cli.mjs pipeline/<skript>.ts`.
 - `Glob` ohne Unterverzeichnis läuft in `worker/node_modules` — immer Pfad angeben.
 - Läuft ein Datenlauf, keine Datei aus `tools/quellen-liste.sh` committen (siehe `CLAUDE.md`).
 - Im Arbeitsverzeichnis liegen oft fremde, uncommittete Änderungen anderer Sitzungen: nur eigene Pfade stagen (`git add <pfad>`), nie `git add -A`.

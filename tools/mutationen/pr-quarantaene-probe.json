@@ -1,0 +1,68 @@
+[
+  {
+    "name": "Probe: Sperre des Gates ignoriert",
+    "aenderungen": [{ "datei": "tools/pr-quarantaene-probe.mjs", "suche": "if (urteil.sperre) return { ok: false, grund: urteil.sperre }", "ersetze": "if (false) return { ok: false, grund: urteil.sperre }" }],
+    "tests": ["node tools/pr-bestand-vergleich.test.mjs"]
+  },
+  {
+    "name": "Probe: grün auch bei neuem Rot nach dem Neubau",
+    "aenderungen": [{ "datei": "tools/pr-quarantaene-probe.mjs", "suche": "if (r.neu.length === 0) return { ok: true, liste }", "ersetze": "if (true) return { ok: true, liste }" }],
+    "tests": ["node tools/pr-bestand-vergleich.test.mjs"]
+  },
+  {
+    "name": "Probe: zweite Runde liest die alte Ausgabe",
+    "aenderungen": [{ "datei": "tools/pr-quarantaene-probe.mjs", "suche": "text = r.ausgabe", "ersetze": "text = ausgabe" }],
+    "tests": ["node tools/pr-bestand-vergleich.test.mjs"]
+  },
+  {
+    "name": "Probe: Ausgaben ohne Zeilenumbruch verbunden",
+    "aenderungen": [{ "datei": "tools/pr-quarantaene-probe.mjs", "suche": ".join('\\n')", "ersetze": ".join('')" }],
+    "tests": ["node tools/pr-bestand-vergleich.test.mjs"]
+  },
+  {
+    "name": "Vergleich: Quarantäne-Ergebnis bleibt rot",
+    "aenderungen": [{ "datei": "tools/pr-bestand-vergleich.mjs", "suche": "stellt nach dem Merge zurück (Titel-Quarantäne), der Rest des PR geht durch: ${warnText(q.liste)}`)\n    return 0", "ersetze": "stellt nach dem Merge zurück (Titel-Quarantäne), der Rest des PR geht durch: ${warnText(q.liste)}`)\n    return 1" }],
+    "tests": ["node tools/pr-bestand-vergleich.test.mjs"]
+  },
+  {
+    "name": "Vergleich: Neubau ohne Liste",
+    "aenderungen": [{ "datei": "tools/pr-bestand-vergleich.mjs", "suche": "ohneTitelPruefen(wurzel, liste, basisRot))", "ersetze": "ohneTitelPruefen(wurzel, [], basisRot))" }],
+    "tests": ["node tools/pr-bestand-vergleich.test.mjs"]
+  },
+  {
+    "name": "Vergleich: Marken auch aus geerbten Prüfungen",
+    "aenderungen": [{ "datei": "tools/pr-bestand-vergleich.mjs", "suche": "probeQuarantaene(ausgabeDerPruefungen(ausgaben, neu),", "ersetze": "probeQuarantaene(ausgabeDerPruefungen(ausgaben, [...prRot.keys()])," }],
+    "tests": ["node tools/pr-bestand-vergleich.test.mjs"]
+  },
+  {
+    "name": "Vergleich: Neubau ohne BAU_QUARANTAENE",
+    "aenderungen": [{ "datei": "tools/pr-bestand-vergleich.mjs", "suche": "{ ...process.env, BAU_QUARANTAENE: datei }", "ersetze": "{ ...process.env }" }],
+    "tests": ["node tools/pr-bestand-vergleich.test.mjs"]
+  },
+  {
+    "name": "Vergleich: nach dem Neubau zählt auch Geerbtes als neu",
+    "aenderungen": [{ "datei": "tools/pr-bestand-vergleich.mjs", "suche": "const { neu } = trenneGeerbtUndNeu(rot, basisRot)\n    return { ausgabe", "ersetze": "const neu = [...rot.keys()]\n    return { ausgabe" }],
+    "tests": ["node tools/pr-bestand-vergleich.test.mjs"]
+  },
+  {
+    "name": "Vergleich: gescheiterter Neubau gilt als grün",
+    "aenderungen": [{ "datei": "tools/pr-bestand-vergleich.mjs", "suche": "neu: ['data:build'] }", "ersetze": "neu: [] }" }],
+    "tests": ["node tools/pr-bestand-vergleich.test.mjs"]
+  },
+  {
+    "name": "Vergleich: Ausgabe der Listenprüfungen nicht festgehalten",
+    "aenderungen": [{ "datei": "tools/pr-bestand-vergleich.mjs", "suche": "for (const [d, text] of teile) ausgaben.set(d, text)", "ersetze": "" }],
+    "tests": ["node tools/pr-bestand-vergleich.test.mjs"]
+  },
+  {
+    "name": "Vergleich: Ausgabe der Rest-Skripte nicht festgehalten",
+    "aenderungen": [{ "datei": "tools/pr-bestand-vergleich.mjs", "suche": "ausgaben.set(skript, r.aus)", "ersetze": "" }],
+    "tests": ["node tools/pr-bestand-vergleich.test.mjs"]
+  },
+  {
+    "name": "Vergleich: Umgebung nicht an Kindprozesse (beide Zweige, Shell und ohne)",
+    "aenderungen": [{ "datei": "tools/pr-bestand-vergleich.mjs", "suche": "const optionen = { cwd, env }", "ersetze": "const optionen = { cwd }" }],
+    "tests": ["node tools/pr-bestand-vergleich.test.mjs"]
+  },
+  { "name": "Kontrolle ohne Änderung", "aenderungen": [], "tests": ["node tools/pr-bestand-vergleich.test.mjs"] }
+]

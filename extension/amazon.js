@@ -6385,6 +6385,17 @@ async function speicherSchreiben(werte) {
     return Object.values(liste).some((e) => passt(e?.serie) || passt(e?.titel))
   }
 
+  /** Eine Entscheidung für Knopf und Kopfzeile: bleibt „melden“ auf dieser Seite weg? */
+  function meldenVersteckt() {
+    return globalThis.akPrimeKnopfVersteckt({
+      listeGeladen: Object.keys(liste).length > 0,
+      inListe: Boolean(liste[listenId]),
+      ausSuche: Boolean(eintrag?.ausSuche),
+      serieBekannt,
+      seiteGehtUnsAn,
+    })
+  }
+
   function listenSchluessel(bisher) {
     const ausAdresse = asinAusAdresse()
     if (ausAdresse && liste[ausAdresse]) return ausAdresse
@@ -7163,7 +7174,6 @@ async function speicherSchreiben(werte) {
     get zugangsart() { return zugangsart },
     get staffelZahl() { return staffelZahl },
     get ueberKanal() { return ueberKanal },
-    get liste() { return liste },
     get suchauftrag() { return suchauftrag },
     get titelKern() { return titelKern },
     get gemeldetMarke() { return gemeldetMarke },
@@ -7186,7 +7196,7 @@ async function speicherSchreiben(werte) {
     get seiteOffen() { return seiteOffen },
     get istGemeldet() { return istGemeldet },
     get listenId() { return listenId },
-    get serieBekannt() { return serieBekannt },
+    get meldenVersteckt() { return meldenVersteckt },
     get eintrag() { return eintrag },
     get knopf() { return knopf },
     get gesehen() { return gesehen },
@@ -7797,15 +7807,11 @@ async function speicherSchreiben(werte) {
         })()
         const wasGemeldetWird = (() => {
           /*
-            **Keine Kopfzeile über einer leeren Meldezeile.** Auf einer Titelseite,
-            die nicht auf der Prüfliste steht, blendet der Takt den Knopf aus („Weg
-            statt grau", 27.08.2026). Die Kopfzeile „meldet: Vom Landei zum
-            Schwertheiligen · B0H1QXQL33" stand trotzdem da, darunter nichts
-            (Daniel, 13.09.2026, zweimal: „weder gemeldet ✅, noch ein klickbarer
-            button"). Was nicht gemeldet werden kann, wird auch nicht angekündigt.
+            **Keine Kopfzeile über einer leeren Meldezeile** (Daniel, 13.09.2026): Wo der Knopf wegbleibt,
+            wird auch nichts angekündigt — dieselbe Entscheidung wie beim Knopf.
           */
           try {
-            if (!liste[listenId] && !eintrag?.ausSuche && !serieBekannt()) return ''
+            if (meldenVersteckt()) return ''
           } catch {
             /* Ohne Auskunft bleibt es bei der Kopfzeile. */
           }
@@ -7824,11 +7830,7 @@ async function speicherSchreiben(werte) {
             }
           })()
           const name = e?.titel ?? ausAuftrag ?? seitenTitel() ?? null
-          return name
-            ? `meldet: ${name} · ${kennungJetzt}`
-            : kennungJetzt
-              ? `meldet: ${kennungJetzt}`
-              : ''
+          return globalThis.akPrimeMeldetZeile(Boolean(eintrag?.unbekannt), name, kennungJetzt)
         })()
         let z = meldetZeile.querySelector('.ak-meldet')
         if (wasGemeldetWird) {
@@ -8176,9 +8178,9 @@ async function speicherSchreiben(werte) {
     const nichtAbrufbar = knopf.dataset.tot === 'true'
     const sprachen = sprachenAusFolgen()
     const geladen = geladeneFolgen()
-    // Ein toter Verweis hat naturgemaess keine Folgen -- er ist der einzige
-    // Grund, hier ohne geladene Folgen weiterzugehen.
-    if (!geladen && !nichtAbrufbar) {
+    // Ein toter Verweis der Prüfliste hat naturgemäß keine Folgen; eine unbekannte Seite meldet ohne gelesene Folge nie "weg"
+    // (der Bau könnte sie per Namen einem Titel zuordnen und dessen Wege aufheben).
+    if (!geladen && (!nichtAbrufbar || eintrag.unbekannt)) {
       abweisenMitGrund('keine Folge gelesen')
       return
     }
@@ -8578,7 +8580,7 @@ async function speicherSchreiben(werte) {
                   (gesperrtN ? `, ${gesperrtN} in der Region gesperrt` : '')
               : `nur ${geladen} von ${gesehen.gesamt} Folgen geladen — Rest ungeprüft`) +
             `, Abos: ${abos().join(', ') || 'keine Angabe'}` +
-            (eintrag.unbekannt ? ' — Staffel nicht im Bestand, Titel von der Seite gelesen' : '') +
+            (eintrag.unbekannt ? ' — Staffel nicht im Bestand, Titel von der Seite gelesen, unbekannt=1' : '') +
             // Beide Kennungen, solange sie auseinandergehen können: Die eine
             // steht in der Adresse, die andere im Quelltext, und nur die
             // zweite meint die gezeigte Staffel.

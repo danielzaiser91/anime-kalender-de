@@ -67,11 +67,10 @@ Umkehr einer Entscheidung, Rechtsgrauzone.
 **Globale Sitzung = Projekte nur lesen.** Startet eine Sitzung ohne Projekt (Scratch-Ordner,
 `C:\code\ai`), schreibe, committe und deploye ich in keinem Projektordner — auch nicht
 „nur eine Notiz in `status.md`". Lesen und Messen sind frei; will die Arbeit ins Projekt,
-frage ich vorher und wechsle mit `change_directory`. Der Hook `projekt-sperre.js` erzwingt das
-(Verweigerung = Auftrag, Daniel zu fragen, kein Umgehen; Scope: `C:\code\ai\CLAUDE.md`).
+frage ich vorher und wechsle mit `change_directory`. Kein Hook erzwingt das; Scope: `C:\code\ai\CLAUDE.md`.
 
-**Eine Antwort endet erst, wenn nichts Grünes mehr offen ist.** Ein 🟢 im Footer der eigenen
-Endantwort ist ein Widerspruch; „als nächstes mache ich X" ist ein Abbruch — tun oder
+**Eine Antwort endet erst, wenn nichts Grünes mehr offen ist.** Wer in der Endantwort noch Erledigbares
+offen lässt, widerspricht sich; „als nächstes mache ich X" ist ein Abbruch — tun oder
 anfangen (Skill `bis-nichts-mehr-offen-ist`). Nie im Vordergrund auf einen Lauf warten
 (`run_in_background`), und wer einen Lauf anstößt, stellt im selben Zug den Beobachter. Ein
 Auftrag über einen Zeitraum braucht als Erstes einen Wecker (Skill `autonomer-modus`).
@@ -82,7 +81,7 @@ Auftrag über einen Zeitraum braucht als Erstes einen Wecker (Skill `autonomer-m
 
 **Prüfung nach Risiko (Daniel, 10.10.2026):** Jeder Task bekommt Risiko 0/1/2 und Umfang S/M/L; die Stufe eines PR ergibt sich mechanisch aus `node tools/pr-stufe.mjs <PR>` — Stufe 0 (Kleinigkeit) ohne Prüfer-Agent, Stufe 1 schlanker Prüfer, Stufe 2 voll (Skill `selbst-entscheiden-und-mergen`).
 
-**Keine vorgeschlagenen Aufgaben als Chip** — Nebenfunde in Footer und `status.md`.
+**Keine vorgeschlagenen Aufgaben als Chip** — Nebenfunde in `stand.md` und `status.md`.
 
 **Fragen blockieren nie (Daniel, 10.10.2026): kein `AskUserQuestion`, keine Klick-Abfrage — nach einer Filtersperre keine Variante versuchen, sofort E-Zeile (04.11.2026).** Jede Frage trägt ein Kürzel `F<n>` (13.10.2026), jeder Handgriff ohne Frage `E<n>` (20.10.2026), nennt kurz mit Verb den Grund, warum Daniel es tut und nicht ich — „kann nicht“ (Claude-Sicherheitsfilter sperrt), „darf nicht“ (Projektregel: Geld), „soll nicht“ (deine Entscheidung) (Daniel, 20.10.2026) — und sagt, ob ein „ja“ im Chat genügt, damit ich es selbst tue (auch gegen eine Filtersperre), oder ob es nur Daniel selbst kann, und kommt als Zeile
 unter `### Jetzt` in `stand.md`, verlinkt auf eine eigene kleine Datei mit genau dem, was er für

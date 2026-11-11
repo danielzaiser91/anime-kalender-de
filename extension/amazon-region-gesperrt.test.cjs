@@ -78,13 +78,13 @@ const klickCode = stueck("const nichtAbrufbar = knopf.dataset.tot === 'true'", '
 function klick({ tot = 'false', geladen, gesperrt, soll, deutsch = false, regionDom = [] }) {
   const knopf = { dataset: { tot }, textContent: '', title: '' }
   const f = new Function(
-    'knopf', 'sprachenAusFolgen', 'geladeneFolgen', 'deutschInFolgen', 'gesehen', 'seitenLage', 'ueberKanal', 'setTimeout', 'zeichnen', 'abweisen', 'abweisenMitGrund', 'globalThis',
+    'knopf', 'sprachenAusFolgen', 'geladeneFolgen', 'deutschInFolgen', 'gesehen', 'seitenLage', 'ueberKanal', 'setTimeout', 'zeichnen', 'abweisen', 'abweisenMitGrund', 'globalThis', 'eintrag',
     `let letzterStand = ''\n${klickCode}\nreturn 'weiter'`,
   )
   const ergebnis = f(
     knopf, () => [], () => geladen, () => deutsch,
     { gesamt: soll, gesperrt: gesperrt ? karte(gesperrt) : undefined },
-    () => ({ folgenLautSeite: 0, regionFolgen: regionDom }), () => false, () => 0, () => {}, () => {}, () => {}, kasten,
+    () => ({ folgenLautSeite: 0, regionFolgen: regionDom }), () => false, () => 0, () => {}, () => {}, () => {}, kasten, {},
   )
   return { ergebnis, text: knopf.textContent }
 }

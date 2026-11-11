@@ -6,6 +6,7 @@
  * Regel laufen auseinander — hier ist der eine Ort.
  */
 import type { Title } from './types.ts'
+import { partNummer, teilEinerFrueherenStaffel, zaehltPartAlsStaffel } from './staffel-part.ts'
 
 /**
  * „Season" kommt nicht auf die Seite.
@@ -148,6 +149,14 @@ export function ausstrahlungsZeit(m: { jpYear?: number; jpStart?: string }): str
   return m.jpStart ?? String(jahrZumSortieren(m.jpYear))
 }
 
+/** Split-Cour mit eigenem Namen („Final Season Part 2", „Cour 2"): zweiter Teil der früheren Staffel statt einer neuen (`shared/staffel-part.ts`). */
+function splitCourTeil(id: number, voll: string, sortiert: { name: string }[], eintraege: StaffelEintrag[]): StaffelEintrag | undefined {
+  const fruehere = eintraege.map((_, i) => ({ name: eindeutschenStaffel(sortiert[i]!.name), i }))
+  const treffer = teilEinerFrueherenStaffel(voll, fruehere)
+  const vorn = treffer && eintraege[treffer.eintrag.i]
+  return vorn && treffer ? { id, staffel: vorn.staffel, teil: treffer.nr, eigenerName: vorn.eigenerName } : undefined
+}
+
 /**
  * **Welche Staffel und welcher Teil ein Eintrag ist — gezählt, nicht an der Position abgelesen.**
  *
@@ -176,7 +185,14 @@ function zaehleStaffeln<T extends StaffelFeld>(staffeln: T[], reihenName: string
   const sortiert = staffeln.slice().sort((a, b) => ausstrahlungsZeit(a).localeCompare(ausstrahlungsZeit(b)) || a.id - b.id)
   const eintraege: StaffelEintrag[] = []
   let aktuell = 0
+  const partIstStaffel = zaehltPartAlsStaffel(sortiert.map((m) => eindeutschenStaffel(m.name)))
   for (const m of sortiert) {
+    /* Lupin III. Part 6 ist die sechste Serie, nicht Teil 2 der ersten; der Name bleibt als Beschriftung (`shared/staffel-part.ts`). */
+    const part = partIstStaffel && !m.staffelQuelle ? partNummer(eindeutschenStaffel(m.name)) : undefined
+    if (part) {
+      eintraege.push({ id: m.id, staffel: (aktuell = part), eigenerName: true })
+      continue
+    }
     /* Nennt die belegte deutsche Quelle eine Staffel, gilt sie (86: Eighty Six, 01.10.2026). */
     if (m.staffelQuelle) {
       eintraege.push({ id: m.id, staffel: (aktuell = m.staffelQuelle), eigenerName: false })
@@ -220,9 +236,14 @@ function zaehleStaffeln<T extends StaffelFeld>(staffeln: T[], reihenName: string
       if (teil === 1 || aktuell === 0) aktuell += 1
       eintraege.push({ id: m.id, staffel: aktuell, teil, eigenerName: false })
     } else {
-      aktuell += 1
       /* „Reihe (Teil 2)" ist die deutsche Marke der nächsten Staffel, kein eigener Name: Staffel 2 statt „Staffel 2 · (Teil 2)" (Bookworm, Daniel 11.10.2026). Nur im Originalnamen: „(Cour 2)" wird erst durch das Eindeutschen zu „(Teil 2)", ist aber die Hälfte einer Staffel (Spy × Family). */
       const staffelMarke = /^\(Teil\s+\d+\)$/i.test(rest) && /\(Teil\s+\d+\)\s*$/i.test(m.name)
+      const split = staffelMarke ? undefined : splitCourTeil(m.id, voll, sortiert, eintraege)
+      if (split) {
+        eintraege.push(split)
+        continue
+      }
+      aktuell += 1
       eintraege.push({ id: m.id, staffel: aktuell, eigenerName: rest !== '' && !staffelMarke })
     }
   }

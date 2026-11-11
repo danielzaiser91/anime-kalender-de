@@ -141,11 +141,11 @@ function plakatSeitenMaengel(titel: Title[]): string[] {
 }
 
 /**
- * Ratsche: Titel mit Cover, deren Link-Vorschau das Standardbild ist (Seiten im Bau; 06.11.2026, Datenstand 3266bdc89: vorher 471, mit gemessenen
- * AniList-Covern 158 = 83 Cover über 250 KB + 75 aniSearch-Kopien, 12 Luft). Dieselbe Grenze prüft `check-cover-vorschau-bestand.ts` schon vor dem
- * Seitenbau auf dem frisch gebauten Bestand (die Kette eines Code-PR sieht hier nur den eingecheckten Stand).
+ * Ratsche: Titel mit Cover, deren Link-Vorschau das Standardbild ist (Seiten im Bau; 11.11.2026, Datenstand e9a6a5a7d: 16 aniSearch-Kopien ohne
+ * Messung, 11 Luft; vorher 170 bei 158 am 06.11., als 83 große AniList-Cover noch dazugehörten). Dieselbe Grenze prüft `check-cover-vorschau-bestand.ts`
+ * schon vor dem Seitenbau auf dem frisch gebauten Bestand (die Kette eines Code-PR sieht hier nur den eingecheckten Stand).
  */
-const STANDARD_TROTZ_COVER_HOECHSTENS = 170
+const STANDARD_TROTZ_COVER_HOECHSTENS = 27
 
 function coverVorschauMaengel(titel: Title[]): string[] {
   const seiten = titel

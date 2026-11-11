@@ -25,9 +25,11 @@ export function fensterStart(oberkanten: number[], bisUnten: number, maxBisStell
  */
 export async function verdecktesMarkieren(seite: Page): Promise<void> {
   await seite.evaluate(() => {
+    /* Bei gesperrtem Scrollen (`body` fest, anime2you) misst `documentElement.scrollHeight` nur das Fenster; der Artikel steht in der Höhe von `body`. */
+    const seitenEnde = Math.max(document.documentElement.scrollHeight, document.body.getBoundingClientRect().bottom + window.scrollY)
     for (const e of document.querySelectorAll('p, li, tr, h2, h3')) {
       const r = e.getBoundingClientRect()
-      let weg = !r.width || !r.height || r.top + window.scrollY >= document.documentElement.scrollHeight
+      let weg = !r.width || !r.height || r.top + window.scrollY >= seitenEnde
       for (let a = e.parentElement; a && a !== document.body && !weg; a = a.parentElement) {
         if (!/hidden|clip/.test(getComputedStyle(a).overflowY)) continue
         const ar = a.getBoundingClientRect()

@@ -41,13 +41,14 @@ runs:
       shell: bash
       run: sudo grep -l packages.microsoft.com /etc/apt/sources.list.d/* | sudo xargs -r rm -fv || true
 
-    # Ohne Cache-Treffer lädt `install` den Browser samt Systempaketen; mit Treffer fehlen nur die Systempakete.
     - name: Chromium installieren
       if: inputs.playwright == 'true' && steps.pw.outputs.cache-hit != 'true'
       shell: bash
-      run: npx playwright install --with-deps chromium
+      run: npx playwright install chromium
 
+    # Das Runner-Abbild bringt Chromiums Bibliotheken schon mit, apt ergänzt vor allem Schriften. Am 11.11.2026 war security.ubuntu.com
+    # über eine Stunde nicht erreichbar und riss jede Kette ohne Codefehler; fehlt wirklich etwas, scheitert der Browser-Test selbst.
     - name: Chromium-Systempakete
-      if: inputs.playwright == 'true' && steps.pw.outputs.cache-hit == 'true'
+      if: inputs.playwright == 'true'
       shell: bash
-      run: npx playwright install-deps chromium
+      run: npx playwright install-deps chromium || echo "::warning::Chromium-Systempakete nicht installiert (apt-Störung); Browser-Tests laufen mit dem Runner-Abbild"

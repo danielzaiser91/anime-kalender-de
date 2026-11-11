@@ -24,8 +24,10 @@ permissions:
   actions: write
 
 # Ein Neustart je PR (Nachtrag) bzw. je Kopf (Kettenende) zur Zeit; ein wartender wird vom neueren ersetzt (der neue liest ohnehin alle Kommentare).
+# Ein abgebrochenes Kettenende (cancelled) hat eine eigene Gruppe: sein Lauf tut nichts (Job übersprungen) und darf darum keinen
+# wartenden Neustart desselben Kopfes verdrängen (Kette erneut gestartet, Ende success wartet, cancelled-Ereignis käme als Neueres).
 concurrency:
-  group: pr-pruefer-nachtrag-${{ github.event.issue.number || github.event.workflow_run.head_sha }}
+  group: pr-pruefer-nachtrag-${{ github.event.issue.number || github.event.workflow_run.head_sha }}${{ github.event.workflow_run.conclusion == 'cancelled' && '-abgebrochen' || '' }}
   cancel-in-progress: false
 
 jobs:
@@ -51,7 +53,9 @@ jobs:
 
   nach-kette:
     name: Prüfer nach Kettenende neu starten
-    if: github.event_name == 'workflow_run' && github.event.workflow_run.event == 'pull_request'
+    # Eine abgebrochene Kette (cancelled) startet nichts: Ein neuerer Kopf hat seine eigene Kette und sein eigenes Ende; wurde sie von Hand
+    # ohne Nachfolger abgebrochen, steht nichts zu beurteilen an, und der nächste Kettenlauf desselben Kopfes endet wieder hier (success/failure).
+    if: github.event_name == 'workflow_run' && github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.conclusion != 'cancelled'
     runs-on: ubuntu-latest
     # Wartet bis 28 min auf das Ende des Prüfer-Laufs (sein Kommentar entsteht erst am Schluss; er hat 30 min Frist und liest
     # das Kettenlog nach ~13 min), dann Abruf und Neustart. Ein Lauf je Kopf (Gruppe), der Runner schläft nur.

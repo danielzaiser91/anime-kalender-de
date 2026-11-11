@@ -38034,6 +38034,18 @@
   dub: true
   checkedAt: '2026-11-07'
   note: "Tonspuren: Deutsch — Amazon-Seite B0DMF65NY2: alle 13 Folgen geprüft, Abos: Prime — Staffel nicht im Bestand, Titel von der Seite gelesen, zugang=abo_und_kauf, gti=amzn1.dv.gti.0e5030e4-ec94-4f4f-a7c3-23162e7e52b8"
+# --- Anime2You 1068729 (06.11.2026), Pluto TV: Folgen 1-51 laut Artikel, nicht die ganze Serie (170) ---
+- anilistId: 97940
+  title: "Black Clover"
+  platform: plutotv
+  url: https://pluto.tv/gsa/shows/black-clover/
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 51
+      dub: true
+  checkedAt: '2026-11-08'
+  note: "Anime2You 1068729 (06.11.2026): „Damit sind alle 51 Episoden mit deutscher Synchronisation verfügbar.“ (erste Staffel; 35 Folgen seit Artikel 1066055 vom 31.10.2026, 16 ergänzt). Aussage des Artikels, Pluto-Seite nicht geprüft."
 # --- Anime2You-Automatik, 2026-11-08: Synchro-Aussage im Artikel, Titel und Weg eindeutig ---
 
 - anilistId: 20613
@@ -39122,3 +39134,51 @@
   available: false
   checkedAt: '2026-11-09'
   note: "Amazon-Seite B0H4P8WQP7: alle 0 Folgen geprüft, 5 in der Region gesperrt, Abos: keine Angabe, gti=amzn1.dv.gti.e1a3e195-ff7a-4620-b915-d725769a6d52, regionsperre=laut Seite nicht mehr im Abo"
+# --- Aus dem Browser gemeldet, abgeholt am 2026-11-10 ---
+
+- anilistId: 131518
+  title: "Dr. Stone: New World"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0F2NQFW8N
+  dub: true
+  kanalMessung: ja
+  checkedAt: '2026-09-28'
+  note: "Tonspuren: Deutsch, English, Español (España), Español (Latinoamérica), Français, Italiano, Português (Brasil), 日本語 — Amazon-Seite B0F2NQFW8N: alle 22 Folgen geprüft, Abos: crunchyrollde, zugang=abo, gti=amzn1.dv.gti.5a90860b-d626-4f87-9612-581acccc624f — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+- anilistId: 162670
+  title: "Dr. Stone: New World (Cour 2)"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0F2NQFW8N
+  dub: true
+  kanalMessung: ja
+  checkedAt: '2026-09-28'
+  note: "Tonspuren: Deutsch, English, Español (España), Español (Latinoamérica), Français, Italiano, Português (Brasil), 日本語 — Amazon-Seite B0F2NQFW8N: alle 22 Folgen geprüft, Abos: crunchyrollde, zugang=abo, gti=amzn1.dv.gti.5a90860b-d626-4f87-9612-581acccc624f — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+# --- Aus dem Browser gemeldet, abgeholt am 2026-11-11 ---
+
+- anilistId: -133903
+  title: "Hit-Monkey"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-939e4a8f-e1f7-48e5-9426-1f34e0bab1e1
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 10
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    - from: 11
+      to: 20
+      dub: false
+      checked: [11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+  checkedAt: '2026-10-11'
+  note: "Folgen 1–10 mit deutschem Ton, Folgen 11–20 ohne deutschen Ton — Tonspuren: en, es-419, pt-BR — Widersprüchliche Meldungen zu Folge 1, 2, 3, 4, 5, 6, 7, 8, 9, 10"
+- anilistId: -156616
+  title: "Waustelle - Alle Pfoten packen an"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-7a60f8f2-c92d-4dbd-a230-d82794831d09
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 50
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50]
+  checkedAt: '2026-10-11'
+  note: "Folgen 1–50 mit deutschem Ton — Tonspuren: cmn-TW, de, el, en, es-419, es-ES, he, id, ja, ko, ms, nl, pl, pt-BR, pt-PT, ro, th, yue"

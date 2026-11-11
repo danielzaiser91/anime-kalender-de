@@ -1,0 +1,12 @@
+[
+  { "name": "Kontrolle", "aenderungen": [], "tests": ["npx tsx pipeline/check-cartoon-wege-falten.ts"] },
+  { "name": "M1 Haken-Art: dub-Wert ignoriert", "datei": "web/src/components/detail/wege-falten.ts", "suche": "r.map((x) => x.dub)", "ersetze": "r.map((x) => true)", "tests": ["npx tsx pipeline/check-cartoon-wege-falten.ts"] },
+  { "name": "M2 Haken-Art: Bereiche wieder voll in der Aussage", "datei": "web/src/components/detail/wege-falten.ts", "suche": "hakenArt(w.dubRanges), w.entferntAm", "ersetze": "JSON.stringify(w.dubRanges), w.entferntAm", "tests": ["npx tsx pipeline/check-cartoon-wege-falten.ts"] },
+  { "name": "M3 Haken-Art: ohne Bereiche = leere Liste", "datei": "web/src/components/detail/wege-falten.ts", "suche": "(r ? [...new Set", "ersetze": "(true ? [...new Set", "tests": ["npx tsx pipeline/check-cartoon-wege-falten.ts"] },
+  { "name": "M4 Vereinigen: Bereiche nicht übernommen", "datei": "web/src/components/detail/wege-falten.ts", "suche": "...(haken ? { dubRanges: haken } : {}), ", "ersetze": "", "tests": ["npx tsx pipeline/check-cartoon-wege-falten.ts"] },
+  { "name": "M5 Vereinigen: Lücke wird überbrückt", "datei": "web/src/components/detail/wege-falten.ts", "suche": "l.to + 1 >= r.from", "ersetze": "true", "tests": ["npx tsx pipeline/check-cartoon-wege-falten.ts"] },
+  { "name": "M6 Vereinigen: Anschluss nur bei Überlappung", "datei": "web/src/components/detail/wege-falten.ts", "suche": "l.to + 1 >= r.from", "ersetze": "l.to >= r.from", "tests": ["npx tsx pipeline/check-cartoon-wege-falten.ts"] },
+  { "name": "M7 Vereinigen: dub-Art ignoriert", "datei": "web/src/components/detail/wege-falten.ts", "suche": "l.dub === r.dub && ", "ersetze": "", "tests": ["npx tsx pipeline/check-cartoon-wege-falten.ts"] },
+  { "name": "M8 Vereinigen: Ende nicht Maximum", "datei": "web/src/components/detail/wege-falten.ts", "suche": "l.to = Math.max(l.to, r.to)", "ersetze": "l.to = l.to", "tests": ["npx tsx pipeline/check-cartoon-wege-falten.ts"] },
+  { "name": "M9 Vereinigen: nur ein Weg mit Bereichen verliert sie", "datei": "web/src/components/detail/wege-falten.ts", "suche": "if (!a || !b) return a ?? b", "ersetze": "if (!a || !b) return undefined", "tests": ["npx tsx pipeline/check-cartoon-wege-falten.ts"] }
+]

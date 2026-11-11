@@ -1,6 +1,7 @@
 /**
- * Eine einzelne `vde`-Folge in einer Staffel, deren übrige Folgen alle nur `vostde` tragen, ist ein Fehler in ADNs Katalogdaten
- * und belegt keine Synchro (Demon Slave S1F6, Video 24139, 09.11.2026: Player bietet nur Japanisch). Der Bau setzte aus ihr
+ * Eine einzelne `vde`-Folge in einer Staffel, deren übrige Folgen alle eine Sprachangabe ohne `vde` tragen (`vostde`, aber auch
+ * französisch vertont wie `vostf`+`vf`, One Piece Wano 11.11.2026), ist ein Fehler in ADNs Katalogdaten. Eine Folge ohne
+ * `languages`-Feld oder mit leerer Liste zählt weder als „ja“ noch als „nein“ und verhindert das Urteil. Die Folge belegt keine Synchro (Demon Slave S1F6, Video 24139, 09.11.2026: Player bietet nur Japanisch). Der Bau setzte aus ihr
  * einen ADN-Termin mit `dub: true` — bei `07-adn.ts`.
  *
  * Klasse, gezählt über `data/adn-raw` (274 Serien, 09.11.2026): genau drei Staffeln haben genau eine `vde`-Folge unter
@@ -48,7 +49,8 @@ export function vdeAusreisser(videos: readonly AusreisserVideo[]): Set<number> {
   const ausreisser = new Set<number>()
   for (const liste of jeStaffel.values()) {
     const ja = liste.filter((v) => v.languages?.includes('vde'))
-    const nein = liste.filter((v) => !v.languages?.includes('vde') && v.languages?.includes('vostde'))
+    // „nein“ = Sprachangabe da, aber kein vde: auch französisch vertonte Folgen (vostf+vf) in der Wano-Staffel (11.11.2026) sind keine deutsche Synchro.
+    const nein = liste.filter((v) => !v.languages?.includes('vde') && v.languages && v.languages.length > 0)
     if (ja.length !== 1 || nein.length < MIN_OHNE_VDE || nein.length + 1 !== liste.length) continue
     const nummer = (v: AusreisserVideo) => Number(v.shortNumber)
     const beginntDeutsch = !(nummer(ja[0]) > Math.min(...nein.map(nummer)))

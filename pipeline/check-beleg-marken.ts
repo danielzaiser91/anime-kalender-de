@@ -4,7 +4,7 @@
  * Aufruf: npx tsx pipeline/check-beleg-marken.ts   (Exit 1 bei Verstoß)
  */
 import { braucheBild, entzieheBild, ohneMarkenJeTitel, type BelegGedaechtnis, type Lesung } from './lib/beleg-lesung.ts'
-import { markenLuecken, meldeMarkenLuecken, stilleLuecken } from './lib/beleg-marken.ts'
+import { markenLuecken, meldeMarkenLuecken, nameImTextOhneMarke, stilleLuecken } from './lib/beleg-marken.ts'
 import { markierungenJeTitel } from './lib/beleg-bild.ts'
 import { ohneFundstelle } from './lib/beleg-ohne-fundstelle.ts'
 import type { Gruppe } from './lib/beleg-suche.ts'
@@ -81,5 +81,27 @@ pruefe('Lauf-Ende: gelesene Adresse mit einem Titel wirft nicht', stilleLuecken(
 const liste = ohneFundstelle(ged(lesung23({ ohneMarke: { ...alleGruende([178868, 204011]), 178868: 'nicht-gefunden' } })), mapG)
 pruefe('Handliste: ein Titel außerhalb des Bildes steht nicht darauf, einer ohne Treffer schon', liste.length === 1 && liste[0]!.titel.length === 2 && liste[0]!.titel.some((t) => t.includes('178868')) && liste[0]!.titel.some((t) => t.includes('204011')) && !liste[0]!.titel.some((t) => t.includes('212503')))
 
-console.log(fehler ? `✖ ${fehler} Verstöße` : '✔ Marken je Titel: Lücken, Kreislauf, Aufnahme-Gründe, Lauf-Ende und Handliste in Ordnung')
+/* Klasse B (11.11.2026): Adressen ohne Titelgruppe stehen nicht mehr auf der Liste; die aniSearch-Kurzadresse zählt nicht neben ihrer Slug-Form. */
+const AS_KURZ = 'https://www.anisearch.de/article/216599'
+const AS_SLUG = `${AS_KURZ},miss-kobayashis-dragon-maid-s-steelbook-blu-ray`
+const asGruppe: Gruppe[] = [{ id: 107717, suchen: ['Kobayashi-san Chi no Maidragon S'], tage: [] }]
+const asLesung = lesung23({ markierung: undefined, markierungen: undefined })
+const asGed = (...urls: string[]): BelegGedaechtnis => Object.fromEntries(urls.map((u) => [u, { zuletzt: asLesung.am, lesungen: [asLesung] }]))
+pruefe('Handliste: eine Adresse ohne Titelgruppe und ohne Marke steht nicht darauf', ohneFundstelle(asGed(AS_KURZ), new Map()).length === 0)
+pruefe('Handliste: eine Adresse mit Titel ohne Marke steht darauf (Kontrolle)', ohneFundstelle(asGed(AS_KURZ), new Map([[AS_KURZ, asGruppe]])).length === 1)
+const beide = ohneFundstelle(asGed(AS_KURZ, AS_SLUG), new Map([[AS_KURZ, asGruppe], [AS_SLUG, asGruppe]]))
+pruefe('Handliste: Kurz- und Slug-Adresse derselben aniSearch-Seite zählen einmal, in der Slug-Form', beide.length === 1 && beide[0]!.url === AS_SLUG, beide.map((x) => x.url).join(' '))
+pruefe('Handliste: eine Kurzadresse ohne Slug-Zwilling bleibt', ohneFundstelle(asGed(AS_KURZ, 'https://www.anisearch.de/article/216598,x'), new Map([[AS_KURZ, asGruppe]])).map((x) => x.url).join() === AS_KURZ)
+
+/* Kennzahl „Name im Text, Marke fehlt" (anime2you, Klasse A): nur Titel mit Grund nicht-gefunden, dessen Name (und Termin) im Text steht. */
+const TEXT = 'Ab 08.10.: »86 EIGHTY-SIX« (Dub + Sub). Außerdem Kobayashi-san Chi no Maidragon S am 3. Dezember 2026.'
+const kn = (id: number, suchen: string, tage: string[] = []): Gruppe => ({ id, suchen: [suchen], tage })
+const nicht = (...ids: number[]): Record<string, 'nicht-gefunden'> => Object.fromEntries(ids.map((i) => [i, 'nicht-gefunden' as const]))
+pruefe('Name im Text: Name steht, Grund nicht-gefunden → Treffer; Name fehlt → keiner', nameImTextOhneMarke(TEXT, nicht(1, 2), [kn(1, '86 EIGHTY-SIX'), kn(2, 'Frieren')]).join() === '1')
+pruefe('Name im Text: ein Titel mit Marke oder Grund ausserhalb zählt nicht', nameImTextOhneMarke(TEXT, { 1: 'ausserhalb' }, [kn(1, '86 EIGHTY-SIX'), kn(2, 'Kobayashi-san Chi no Maidragon S')]).length === 0)
+pruefe('Name im Text: der Termin der Quelle muss im Text stehen (3. Dezember: ja, ein Tag im November: nein)', nameImTextOhneMarke(TEXT, nicht(1, 2), [kn(1, 'Kobayashi-san Chi no Maidragon S', ['2026-12-03']), kn(2, 'Kobayashi-san Chi no Maidragon S', ['2026-11-04'])]).join() === '1')
+pruefe('Name im Text: Namen bis drei Zeichen („Dub“ steht im Text) zählen nicht', nameImTextOhneMarke(TEXT, nicht(1), [kn(1, 'Dub')]).length === 0)
+pruefe('Name im Text: nur ganze Wörter, kein Teilstück („Maidrag“ steckt in „Maidragon“)', nameImTextOhneMarke(TEXT, nicht(1), [kn(1, 'Maidrag')]).length === 0)
+
+console.log(fehler ? `✖ ${fehler} Verstöße` : '✔ Marken je Titel: Lücken, Kreislauf, Aufnahme-Gründe, Lauf-Ende, Handliste (ohne Titel, Kurz-/Slug-Adresse) und Name im Text in Ordnung')
 process.exit(fehler ? 1 : 0)

@@ -33,7 +33,7 @@ export interface Behauptung {
 const MARKEN: [string, RegExp][] = [
   ['crunchyroll', /crunchyroll/i], ['netflix', /netflix/i], ['primevideo', /prime video|amazon prime/i],
   ['disneyplus', /disney\s?\+/i], ['paramountplus', /paramount\s?\+/i], ['adn', /\bADN\b|anime digital network/i],
-  ['aniverse', /aniverse/i], ['wow', /\bWOW\b/], ['joyn', /joyn/i], ['rtlplus', /rtl\s?\+/i], ['youtube', /youtube/i],
+  ['aniverse', /aniverse/i], ['wow', /\bWOW\b/], ['joyn', /joyn/i], ['rtlplus', /rtl\s?\+/i], ['plutotv', /pluto\s?tv/i], ['youtube', /youtube/i],
 ]
 export const plattformen = (s: string): string[] => MARKEN.filter(([, re]) => re.test(s)).map(([k]) => k)
 

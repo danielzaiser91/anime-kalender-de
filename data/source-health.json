@@ -1,18 +1,18 @@
 {
   "adn": {
-    "lastOk": "2026-11-10T16:10:59.453Z",
-    "lastRun": "2026-11-10T16:10:59.453Z",
-    "lastCount": 7
+    "lastOk": "2026-11-11T04:07:32.969Z",
+    "lastRun": "2026-11-11T04:07:32.969Z",
+    "lastCount": 11
   },
   "anime2you": {
-    "lastOk": "2026-11-10T16:14:17.605Z",
-    "lastRun": "2026-11-10T16:14:17.605Z",
-    "lastCount": 102
+    "lastOk": "2026-11-11T14:11:29.131Z",
+    "lastRun": "2026-11-11T14:11:29.131Z",
+    "lastCount": 51
   },
   "anisearch": {
-    "lastOk": "2026-11-10T16:13:05.806Z",
-    "lastRun": "2026-11-10T16:13:05.806Z",
-    "lastCount": 14879
+    "lastOk": "2026-11-11T06:01:01.533Z",
+    "lastRun": "2026-11-11T06:01:01.533Z",
+    "lastCount": 1
   },
   "adn-catalog": {
     "lastOk": "2026-11-10T16:37:34.678Z",
@@ -57,8 +57,8 @@
     "lastCount": 400
   },
   "motn-changes": {
-    "lastOk": "2026-11-10T16:11:00.821Z",
-    "lastRun": "2026-11-10T16:11:00.821Z",
+    "lastOk": "2026-11-11T04:07:33.992Z",
+    "lastRun": "2026-11-11T04:07:33.992Z",
     "lastCount": 0,
     "leerSeit": "2026-11-10T16:11:00.821Z"
   },
@@ -84,7 +84,7 @@
   },
   "rohfolgen": {
     "lastOk": "2026-11-10T11:18:36.520Z",
-    "lastRun": "2026-11-10T16:19:35.940Z",
+    "lastRun": "2026-11-11T14:22:04.993Z",
     "lastCount": 0
   },
   "anisearch-folgen": {
@@ -103,9 +103,9 @@
     "lastCount": 2
   },
   "justwatch-audio": {
-    "lastOk": "2026-11-10T16:17:47.404Z",
-    "lastRun": "2026-11-10T16:17:47.404Z",
-    "lastCount": 1
+    "lastOk": "2026-11-11T13:21:17.820Z",
+    "lastRun": "2026-11-11T13:21:17.820Z",
+    "lastCount": 770
   },
   "crunchyroll-offene": {
     "lastOk": "2026-11-09T05:14:10.154Z",
@@ -113,25 +113,24 @@
     "lastCount": 11
   },
   "vorfaelle": {
-    "lastOk": "2026-11-10T16:19:31.639Z",
-    "lastRun": "2026-11-10T16:19:31.639Z",
-    "lastCount": 0,
-    "leerSeit": "2026-11-10T10:52:54.017Z"
+    "lastOk": "2026-11-11T14:22:00.368Z",
+    "lastRun": "2026-11-11T14:22:00.368Z",
+    "lastCount": 1
   },
   "crunchyroll-neu": {
-    "lastOk": "2026-11-10T16:08:24.620Z",
-    "lastRun": "2026-11-10T16:08:24.620Z",
+    "lastOk": "2026-11-11T14:11:10.723Z",
+    "lastRun": "2026-11-11T14:11:10.723Z",
     "lastCount": 183
   },
   "cartoons": {
-    "lastOk": "2026-11-10T16:14:33.158Z",
-    "lastRun": "2026-11-10T16:14:33.158Z",
+    "lastOk": "2026-11-11T04:11:08.004Z",
+    "lastRun": "2026-11-11T04:11:08.004Z",
     "lastCount": 0,
     "leerSeit": "2026-11-10T16:14:33.158Z"
   },
   "trailer": {
-    "lastOk": "2026-11-10T16:14:43.633Z",
-    "lastRun": "2026-11-10T16:14:43.633Z",
+    "lastOk": "2026-11-11T04:12:29.983Z",
+    "lastRun": "2026-11-11T04:12:29.983Z",
     "lastCount": 1
   },
   "wikidata-titel": {
@@ -140,24 +139,24 @@
     "lastCount": 16
   },
   "tv-programm": {
-    "lastOk": "2026-11-10T16:05:48.893Z",
-    "lastRun": "2026-11-10T16:05:48.893Z",
-    "lastCount": 293
+    "lastOk": "2026-11-11T14:11:32.491Z",
+    "lastRun": "2026-11-11T14:11:32.491Z",
+    "lastCount": 292
   },
   "tv-de": {
     "lastOk": "2026-11-05T23:04:13.126Z",
-    "lastRun": "2026-11-10T14:10:34.817Z",
+    "lastRun": "2026-11-10T23:01:53.943Z",
     "lastCount": 0,
     "lastError": "gesperrt (HTTP 403)"
   },
   "toggo": {
-    "lastOk": "2026-11-10T16:11:48.239Z",
-    "lastRun": "2026-11-10T16:11:48.239Z",
+    "lastOk": "2026-11-11T04:08:19.899Z",
+    "lastRun": "2026-11-11T04:08:19.899Z",
     "lastCount": 22
   },
   "wikipedia-folgen": {
-    "lastOk": "2026-11-10T16:13:37.329Z",
-    "lastRun": "2026-11-10T16:13:37.329Z",
+    "lastOk": "2026-11-11T04:10:08.453Z",
+    "lastRun": "2026-11-11T04:10:08.453Z",
     "lastCount": 9
   },
   "kinoheld": {
@@ -177,29 +176,30 @@
     "lastCount": 3
   },
   "crunchyroll-woche": {
-    "lastOk": "2026-11-10T16:05:21.857Z",
-    "lastRun": "2026-11-10T16:05:21.857Z",
-    "lastCount": 63
+    "lastOk": "2026-11-11T13:01:45.000Z",
+    "lastRun": "2026-11-11T14:11:07.657Z",
+    "lastCount": 0,
+    "lastError": "browserType.launch: Executable doesn't exist at /home/runner/.cache/ms-playwright/chromium_headless_shell-1234/chrome-headless-shell-linux64/chrome-headless-shell\n╔════════════════════════════════════════════════════════════╗\n║ Looks like Playwright was just installed or updated.       ║\n║ Please run the following command to download new browsers: ║\n║                                                            ║\n║     npx playwright install                                 ║\n║                                                            ║\n║ <3 Playwright Team                                         ║\n╚════════════════════════════════════════════════════════════╝"
   },
   "adn-news": {
-    "lastOk": "2026-11-10T14:20:05.276Z",
-    "lastRun": "2026-11-10T14:20:05.276Z",
+    "lastOk": "2026-11-11T02:00:55.860Z",
+    "lastRun": "2026-11-11T02:00:55.860Z",
     "lastCount": 69
   },
   "messbelege": {
-    "lastOk": "2026-11-10T16:05:47.733Z",
-    "lastRun": "2026-11-10T16:05:47.733Z",
+    "lastOk": "2026-11-11T14:11:31.468Z",
+    "lastRun": "2026-11-11T14:11:31.468Z",
     "lastCount": 0,
     "leerSeit": "2026-11-06T18:01:33.610Z"
   },
   "beleg-lesungen": {
-    "lastOk": "2026-11-10T14:14:34.350Z",
-    "lastRun": "2026-11-10T16:09:49.826Z",
-    "lastCount": 0
+    "lastOk": "2026-11-11T04:06:25.659Z",
+    "lastRun": "2026-11-11T04:06:25.659Z",
+    "lastCount": 11
   },
   "anisearch-dubs": {
-    "lastOk": "2026-11-10T16:13:04.491Z",
-    "lastRun": "2026-11-10T16:13:04.491Z",
+    "lastOk": "2026-11-11T04:01:02.407Z",
+    "lastRun": "2026-11-11T04:01:02.407Z",
     "lastCount": 11949
   },
   "anisearch-eintraege": {
@@ -208,13 +208,13 @@
     "lastCount": 400
   },
   "anisearch-zuordnung": {
-    "lastOk": "2026-11-10T16:13:07.426Z",
-    "lastRun": "2026-11-10T16:13:07.426Z",
+    "lastOk": "2026-11-11T04:01:05.327Z",
+    "lastRun": "2026-11-11T04:01:05.327Z",
     "lastCount": 18513
   },
   "cartoon-reihen": {
-    "lastOk": "2026-11-10T16:14:34.286Z",
-    "lastRun": "2026-11-10T16:14:34.286Z",
+    "lastOk": "2026-11-11T04:11:09.067Z",
+    "lastRun": "2026-11-11T04:11:09.067Z",
     "lastCount": 0,
     "leerSeit": "2026-11-09T04:12:50.611Z"
   },

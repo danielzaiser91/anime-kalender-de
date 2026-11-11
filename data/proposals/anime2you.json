@@ -1,11 +1,11 @@
 {
-  "scrapedAt": "2026-11-10T16:14:25.433Z",
+  "scrapedAt": "2026-11-11T04:11:00.275Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 40,
-    "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
+    "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 8,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 60,
-    "schon in einem Rubrik-Feed gelesen": 25,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 61,
+    "schon in einem Rubrik-Feed gelesen": 24,
     "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 5,
     "Sprachhinweis älter als 45 Tage": 6
   },
@@ -54,6 +54,21 @@
         }
       ],
       "sammelGelesen": "2026-11-10"
+    },
+    {
+      "articleTitle": "Große Anime-Rabattaktion mit Serien und Filmen bei Amazon gestartet",
+      "articleUrl": "https://www.anime2you.de/news/1070093/amazon-grosse-serien-und-filme-rabattaktion/",
+      "publishedAt": "2026-11-10",
+      "category": "disc",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-11-30",
+          "context": "line-Händler Amazon bietet im Rahmen einer neuen Rabattaktion bis zum 30. November 2026 zahlreiche Anime-DVDs und -Blu-rays zu reduzierten P"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
     },
     {
       "articleTitle": "Netflix zeigt Slice-of-Life-Anime »Hirayasumi« im Simulcast + Teaser",
@@ -221,7 +236,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-11-08"
+      "sammelGelesen": "2026-11-11"
     },
     {
       "articleTitle": "ProSieben MAXX startet zweiten werktäglichen Anime-Block",
@@ -559,7 +574,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-08"
+      "sammelGelesen": "2026-11-11"
     },
     {
       "articleTitle": "Design der neuen »Neon Genesis Evangelion«-Komplettbox + Extras",
@@ -632,7 +647,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-08"
+      "sammelGelesen": "2026-11-11"
     },
     {
       "articleTitle": "AniMoon-Angebot: RomCom-Serie »Toradora!« zum Sonderpreis",
@@ -688,7 +703,7 @@
           "folgen": 13
         }
       ],
-      "sammelGelesen": "2026-11-08"
+      "sammelGelesen": "2026-11-11"
     },
     {
       "articleTitle": "ProSieben MAXX zeigt »Wandering Witch: Elainas Reise« als TV-Premiere",
@@ -1050,7 +1065,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-11-08"
+      "sammelGelesen": "2026-11-11"
     },
     {
       "articleTitle": "Neue Anime-Katalogtitel im November 2026 bei aniverse",
@@ -1477,7 +1492,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-11-08"
+      "sammelGelesen": "2026-11-11"
     },
     {
       "articleTitle": "Crunchyroll bringt besonderes »Black Clover«-Erlebnis nach Deutschland",
@@ -1963,7 +1978,7 @@
           "edition": "limited-edition sammelschuber"
         }
       ],
-      "discGelesen": "2026-11-08"
+      "discGelesen": "2026-11-11"
     },
     {
       "articleTitle": "Zwei Synchro-Neuzugänge ab sofort auf Crunchyroll verfügbar",

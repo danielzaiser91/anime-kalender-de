@@ -89,6 +89,7 @@ pruefe('--laufend: neue Serie mit französischer Antwort legt kein Archiv an', !
 pruefe('--laufend: Katalog bleibt byte-gleich', laufend.vorher.katalog.equals(laufend.nachher.katalog))
 pruefe('--laufend: verworfene neue Serie steht nicht im Abfrage-Stand (kommt im nächsten Lauf wieder dran)', !('1433' in laufend.abfrageStand), laufend.abfrageStand)
 pruefe('--laufend: Bilanz zählt sieben', laufend.ausgabe.includes('ADN-Sprachriegel: 7 Serien'), laufend.ausgabe.slice(-300))
+pruefe('--laufend: Bilanzzeile nennt die sieben Gefragten (Verdrahtung des Zählers)', laufend.ausgabe.includes('(Grenze 5, 7 gefragt)'), laufend.ausgabe.slice(-300))
 pruefe('--laufend: mehr als fünf Verwerfungen färben den Lauf rot', laufend.l.status === 1, laufend.l.status)
 
 // Genau eine Verwerfung bleibt grün.
