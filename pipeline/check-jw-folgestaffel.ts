@@ -53,5 +53,21 @@ const ohne = tabelle(titel(900601, 12, 7006, 2018), titel(900602, undefined, 700
 const ausOhne = mitFolgestaffelEintraegen({ 900601: { jwId: 'tsE', staffeln: staffeln([12, []], [12, [kanal]]) } } as never, ohne)
 pruefe('Titel ohne Folgenzahl oder ohne Reihe: kein Eintrag', !('900602' in ausOhne) && !('900603' in ausOhne), ausOhne)
 
+const eigen = { jwId: 'tsOwn', angebote: [], staffeln: staffeln([12, []], [12, []]) }
+const ausEigen = mitFolgestaffelEintraegen({ 900101: { ...eintrag }, 900102: eigen } as never, reihe)
+pruefe('Titel mit eigenem Schlüssel behält seinen Eintrag, auch wenn die Staffel der Reihe passt', ausEigen['900102'] === eigen, ausEigen['900102'])
+
+const ohneZahl = tabelle(titel(900701, 12, 7007, 2018), titel(900702, undefined, 7007, 2023))
+const ausOhneZahl = mitFolgestaffelEintraegen({ 900701: { jwId: 'tsF', staffeln: [{ nr: 1, angebote: [] }, { nr: 2, angebote: [kanal] }] } } as never, ohneZahl)
+pruefe('Titel ohne Folgenzahl, Staffel ohne Folgenzahl (undefined = undefined): kein Eintrag', !('900702' in ausOhneZahl), ausOhneZahl['900702'])
+
+const ova = { ...titel(900802, 12, 7008, 2023), format: 'OVA' } as Title
+const ausOva = mitFolgestaffelEintraegen({ 900801: { jwId: 'tsG', staffeln: [{ folgen: 12, angebote: [kanal] }] } } as never, tabelle(titel(900801, 12, 7008, 2018), ova))
+pruefe('Titel ohne Staffelnummer (OVA), Staffel ohne Nummer: kein Eintrag', !('900802' in ausOva), ausOva['900802'])
+
+const fremd = tabelle(titel(900901, 12, 7009, 2018), titel(900902, 12, 7009, 2023), titel(900903, 12, 7010, 2018))
+const ausFremd = mitFolgestaffelEintraegen({ 900903: { jwId: 'tsH', staffeln: staffeln([12, []], [12, [kanal]]) } } as never, fremd)
+pruefe('Verwandter aus einer anderen Reihe liefert nichts', !('900902' in ausFremd), ausFremd['900902'])
+
 console.log(verletzt ? `\n${verletzt} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(verletzt ? 1 : 0)
