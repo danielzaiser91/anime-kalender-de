@@ -13,6 +13,7 @@ const { pruefe } = createRequire(import.meta.url)(hook)
 const HAUPT = 'C:/code/ai/anime-kalender-de'
 const WT = 'C:/code/_worktrees/anime-kalender-de/thema'
 const TMP = 'C:/Users/ih/AppData/Local/Temp/probe'
+process.env.HOME = 'C:/Users/ih' // feste Heimat, damit `$HOME/../..` auf jedem Rechner gleich aufgelöst wird
 
 const lauf = (command, cwd = HAUPT, tool_name = 'Bash') => pruefe({ tool_name, tool_input: { command }, cwd })
 const gesperrt = (command, cwd) => assert.match(lauf(command, cwd) ?? '', /^„git (fetch|pull|clone) --depth“ gesperrt.*ohne --depth/s, `${command} @ ${cwd ?? HAUPT} gesperrt`)
@@ -63,6 +64,23 @@ for (const [c, cwd] of [
   ['GIT_WORK_TREE=C:/code/_worktrees/anime-kalender-de/thema git fetch --depth=1', TMP],
   ['env GIT_DIR=C:/code/ai/anime-kalender-de/.git git fetch --depth=1', TMP],
   ['export GIT_DIR=C:/code/ai/anime-kalender-de/.git && git fetch --depth=1', TMP],
+  // A1: Präfix-Zuweisung gilt nur für den eigenen Befehl; danach zählt das Startverzeichnis
+  [`GIT_DIR=${TMP}/.git true; git fetch --depth=1`, HAUPT],
+  [`GIT_DIR=${TMP}/.git git status; git fetch --depth=1`, HAUPT],
+  [`GIT_DIR=${TMP}/.git git status && git fetch --depth=1`, WT],
+  // allein stehende Zuweisung bleibt (vorsichtig) für Folgebefehle
+  ['GIT_DIR=C:/code/ai/anime-kalender-de/.git; git fetch --depth=1', TMP],
+  // A2: Pfadformen
+  ['git --git-dir=/mnt/c/code/ai/anime-kalender-de/.git fetch --depth=1', TMP],
+  ['git --git-dir=C:/PROGRA~1/../code/ai/anime-kalender-de/.git fetch --depth=1', TMP],
+  ['git --git-dir=$HOME/../../code/ai/anime-kalender-de/.git fetch --depth=1', TMP],
+  ['git -C /mnt/c/code/_worktrees/anime-kalender-de/thema fetch --depth=1', TMP],
+  ['git -C C:/Users/ih/../../code/ai/anime-kalender-de fetch --depth=1', TMP],
+  // A3: Mischformen
+  ['git -c k=v --git-dir=C:/code/ai/anime-kalender-de/.git fetch --depth=1', TMP],
+  ['git --git-dir=C:/code/ai/anime-kalender-de/.git -c k=v fetch --depth=1', TMP],
+  ['GIT_DIR=C:/code/ai/anime-kalender-de/.git git -C C:/Users/ih/AppData/Local/Temp/probe fetch --depth=1', TMP],
+  [`GIT_DIR=${TMP}/.git git -C C:/code/ai/anime-kalender-de --git-dir=C:/code/ai/anime-kalender-de/.git fetch --depth=1`, TMP],
 ]) gesperrt(c, cwd)
 
 for (const [c, cwd] of [
@@ -98,6 +116,15 @@ for (const [c, cwd] of [
   ['git --git-dir=C:/code/ai/anime-kalender-de-anderes/.git fetch --depth=1', TMP],
   ['npm run check', WT],
   ['', WT],
+  // A1: export bleibt für Folgebefehle, Präfix nicht in die Gegenrichtung
+  [`export GIT_DIR=${TMP}/.git; git fetch --depth=1`, HAUPT],
+  [`GIT_DIR=${TMP}/.git; git fetch --depth=1`, HAUPT],
+  ['GIT_DIR=C:/code/ai/anime-kalender-de/.git git status; git fetch --depth=1', TMP],
+  // A3: Mischformen frei; `--git-dir` hinter dem Unterbefehl ist kein gültiges Git (dokumentierte Grenze)
+  [`GIT_DIR=${TMP}/.git git -C C:/code/ai/anime-kalender-de fetch --depth=1`, TMP],
+  [`git -c k=v --git-dir=${TMP}/.git fetch --depth=1`, WT],
+  ['git fetch --depth=1 --git-dir=C:/code/ai/anime-kalender-de/.git', TMP],
+  ['git --git-dir=C:/PROGRA~1/../Users/ih/probe/.git fetch --depth=1', WT],
 ]) frei(c, cwd)
 
 assert.equal(lauf('git fetch --depth=1', WT, 'Write'), null, 'Write frei')

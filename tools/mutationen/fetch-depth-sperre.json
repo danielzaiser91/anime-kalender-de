@@ -1,0 +1,12 @@
+[
+  { "name": "A1 Zuweisung dauerhaft (Präfix gilt für Folgebefehle)", "aenderungen": [{ "datei": ".claude/hooks/fetch-depth-sperre.js", "suche": "if (bleibtGesetzt(tokens)) Object.assign(umgebung, segEnv)", "ersetze": "Object.assign(umgebung, segEnv)" }], "tests": ["node tools/fetch-depth-sperre.test.mjs"] },
+  { "name": "A1 Zuweisung nie dauerhaft (export wirkungslos)", "aenderungen": [{ "datei": ".claude/hooks/fetch-depth-sperre.js", "suche": "return tokens[0] === 'export' ||", "ersetze": "return false &&" }], "tests": ["node tools/fetch-depth-sperre.test.mjs"] },
+  { "name": "A1 allein stehende Zuweisung nicht dauerhaft", "aenderungen": [{ "datei": ".claude/hooks/fetch-depth-sperre.js", "suche": "|| tokens.every(", "ersetze": "|| false && tokens.every(" }], "tests": ["node tools/fetch-depth-sperre.test.mjs"] },
+  { "name": "A1 Präfix wirkt nicht auf den eigenen Befehl", "aenderungen": [{ "datei": ".claude/hooks/fetch-depth-sperre.js", "suche": "pruefeGit(tokens, i, verzeichnis, { ...umgebung, ...segEnv })", "ersetze": "pruefeGit(tokens, i, verzeichnis, umgebung)" }], "tests": ["node tools/fetch-depth-sperre.test.mjs"] },
+  { "name": "A2 /mnt/c nicht umgeschrieben", "aenderungen": [{ "datei": ".claude/hooks/fetch-depth-sperre.js", "suche": "'/$1/')", "ersetze": "'/mnt/$1/')" }], "tests": ["node tools/fetch-depth-sperre.test.mjs"] },
+  { "name": "A2 .. nicht vorab aufgelöst", "aenderungen": [{ "datei": ".claude/hooks/fetch-depth-sperre.js", "suche": "t = path.posix.normalize(t)", "ersetze": "t = t" }], "tests": ["node tools/fetch-depth-sperre.test.mjs"] },
+  { "name": "A2 $HOME nicht ersetzt", "aenderungen": [{ "datei": ".claude/hooks/fetch-depth-sperre.js", "suche": "$HOME|", "ersetze": "$HOMEX|" }], "tests": ["node tools/fetch-depth-sperre.test.mjs"] },
+  { "name": "A2 Heimat statt Wert leer", "aenderungen": [{ "datei": ".claude/hooks/fetch-depth-sperre.js", "suche": "process.env.HOME || os.homedir()", "ersetze": "'/nirgends'" }], "tests": ["node tools/fetch-depth-sperre.test.mjs"] },
+  { "name": "A3 -c überspringt keinen Wert", "aenderungen": [{ "datei": ".claude/hooks/fetch-depth-sperre.js", "suche": "else if (MIT_WERT.has(t)) i++", "ersetze": "else if (MIT_WERT.has(t)) i += 0" }], "tests": ["node tools/fetch-depth-sperre.test.mjs"] },
+  { "name": "Kontrolle unmutiert", "aenderungen": [], "tests": ["node tools/fetch-depth-sperre.test.mjs"] }
+]
