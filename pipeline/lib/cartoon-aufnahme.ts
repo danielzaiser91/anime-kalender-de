@@ -20,7 +20,8 @@ export function istWebkanal(netzwerk: string | undefined): boolean {
 }
 
 /** Ein Eintrag der ADN-Handliste (`adnId`) ist durch ADN belegt, auch ohne deutschen TMDB-Anbieter. */
-export function hatAufnahmeBeleg(e: Pick<CartoonEintrag, 'anbieterDe' | 'netzwerk' | 'studios' | 'adnId'>): boolean {
+export function hatAufnahmeBeleg(e: Pick<CartoonEintrag, 'anbieterDe' | 'netzwerk' | 'studios' | 'adnId' | 'tmdbTot'>): boolean {
+  if (e.tmdbTot) return false
   if (e.anbieterDe.length || e.adnId) return true
   if (istWebkanal(e.netzwerk)) return false
   return Boolean(e.netzwerk) || (e.studios ?? []).some((s) => !KEIN_STUDIO.includes(s.toLowerCase()))

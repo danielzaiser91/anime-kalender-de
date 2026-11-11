@@ -36,6 +36,7 @@ import { adnKennungGeaendert, handlisteLaden, loeseHandliste, mitAdnKennung, mit
 import { tmdbStaffeln, type TmdbStaffelRoh } from './lib/cartoon-staffeln.ts'
 import type { CartoonStaffel } from '../shared/cartoon-staffeln-typ.ts'
 import { todayIso } from '../shared/time.ts'
+import { pruefeTote, zaehlzeileTote, type TmdbStatus } from './lib/cartoon-tote.ts'
 
 const TMDB = 'https://api.themoviedb.org/3'
 const UA = 'anime-kalender.de/1.0 (+https://anime-kalender.de)'
@@ -84,6 +85,8 @@ export interface CartoonEintrag {
   adnId?: number
   /** Stand des Abrufs; ältere Einträge werden neu geholt (siehe `STAND`). */
   stand?: number
+  /** Siehe `lib/cartoon-tote.ts`. */
+  tmdbTot?: string
   geholtAm: string
 }
 
@@ -101,6 +104,36 @@ async function holeJson(url: string): Promise<unknown> {
   const antwort = await fetch(url, { headers: { 'User-Agent': UA } })
   if (!antwort.ok) return null
   return antwort.json()
+}
+
+/** Nur 404 heißt „tot“; 429, 5xx und Netzfehler sind keine Auskunft. */
+async function tmdbStatus(tmdbId: number, schluessel: string): Promise<TmdbStatus> {
+  await sleep(60)
+  try {
+    const antwort = await fetch(`${TMDB}/tv/${tmdbId}?api_key=${schluessel}`, { headers: { 'User-Agent': UA }, signal: AbortSignal.timeout(20_000) })
+    if (antwort.ok) return 'ok'
+    return antwort.status === 404 ? 'tot' : 'unklar'
+  } catch {
+    return 'unklar'
+  }
+}
+
+/** Bestandseinträge, die der Abruf heute nicht neu geholt hat, gegen TMDB prüfen (siehe `lib/cartoon-tote.ts`). */
+async function pruefeBestandsKennungen(bestand: Record<string, CartoonEintrag>, schluessel: string): Promise<void> {
+  const zuPruefen = Object.entries(bestand).filter(([, e]) => e.geholtAm !== todayIso()).map(([k]) => k)
+  const suche = async (begriff: string) => {
+    await sleep(60)
+    const j = (await holeJson(`${TMDB}/search/tv?api_key=${schluessel}&language=de-DE&query=${encodeURIComponent(begriff)}`)) as { results?: TmdbSuchtreffer[] } | null
+    return j?.results ?? []
+  }
+  const bilanz = await pruefeTote(
+    bestand,
+    zuPruefen,
+    { status: (id) => tmdbStatus(id, schluessel), suche, holen: (id) => einzelheiten(id, schluessel) },
+    todayIso(),
+    log,
+  )
+  log(zaehlzeileTote(bilanz))
 }
 
 /**
@@ -275,6 +308,8 @@ async function main(): Promise<void> {
     if (!bestand[String(e.id)]) neu++
     bestand[String(e.id)] = mitAdnKennung(e, adnJeTmdb.get(tmdbId))
   }
+
+  await pruefeBestandsKennungen(bestand, schluessel)
 
   writeJson('data/cartoons.json', bestand)
   const mitAnbieter = Object.values(bestand).filter((e) => e.anbieterDe.length).length
