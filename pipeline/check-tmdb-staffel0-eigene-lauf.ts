@@ -48,11 +48,13 @@ try {
   writeFileSync(join(wurzel, 'data', 'tmdb-banner.json'), JSON.stringify({ 900311: { p: '/s1.jpg' }, 900312: { p: '/s2.jpg' }, 900313: { p: '/s3.jpg' } }))
   const kulisse = join(wurzel, 'kulisse.mjs')
   writeFileSync(kulisse, KULISSE)
-  const r = spawnSync(
-    process.execPath,
-    ['--import', import.meta.resolve('tsx'), '--import', pathToFileURL(kulisse).href, fileURLToPath(new URL('./fetch-tmdb-titles.ts', import.meta.url))],
-    { cwd: wurzel, env: { ...process.env, AK_ROOT: wurzel, TMDB_API_KEY: 'kulisse' }, encoding: 'utf8', windowsHide: true, timeout: 60_000 },
-  )
+  const lauf = () =>
+    spawnSync(
+      process.execPath,
+      ['--import', import.meta.resolve('tsx'), '--import', pathToFileURL(kulisse).href, fileURLToPath(new URL('./fetch-tmdb-titles.ts', import.meta.url))],
+      { cwd: wurzel, env: { ...process.env, AK_ROOT: wurzel, TMDB_API_KEY: 'kulisse' }, encoding: 'utf8', windowsHide: true, timeout: 60_000 },
+    )
+  const r = lauf()
   const titles = lies(wurzel, 'tmdb-titles.json')
   const s0 = lies(wurzel, 'tmdb-staffel0.json')
   const poster = lies(wurzel, 'tmdb-poster.json')
@@ -65,6 +67,11 @@ try {
   pruefe('ein fremdes Plakat und das Banner des zweiten Titels bleiben', poster['900313']?.p === '/fremd.jpg' && banner['900313']?.p === '/s3.jpg', [poster['900313'], banner['900313']])
   pruefe('Bilder des Titels ohne Treffer bleiben', poster['900312']?.p === '/p2.jpg' && banner['900312']?.p === '/s2.jpg', [poster['900312'], banner['900312']])
   pruefe('Logzeile nennt die gestrichenen Titel', /2 Titel mit eigener Kennung aus der Staffel 0 genommen: 900311, 900313/.test(r.stdout + r.stderr), (r.stdout + r.stderr).slice(-400))
+  /* Genau ein Titel mit Kennung (Schwelle 1): zweiter Lauf, 900312 ist noch nicht wieder fällig. */
+  writeFileSync(join(wurzel, 'data', 'tmdb-staffel0.json'), JSON.stringify({ 900311: eintrag('/p1.jpg', '/s1.jpg'), 900312: eintrag('/p2.jpg', '/s2.jpg') }))
+  const r2 = lauf()
+  const s0b = lies(wurzel, 'tmdb-staffel0.json')
+  pruefe('zweiter Lauf: genau ein Titel mit Kennung wird gestrichen, der andere bleibt', r2.status === 0 && !('900311' in s0b) && '900312' in s0b, [r2.status, Object.keys(s0b)])
 } finally {
   rmSync(wurzel, { recursive: true, force: true })
 }
