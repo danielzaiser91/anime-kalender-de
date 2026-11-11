@@ -242,17 +242,19 @@ function sagtFaelle(): void {
 /** Offizielle japanische Seite (tokyo-revengers-anime.com/news/archives/4935, 05.10.2026): „東京リベンジャーズ』三天戦争編" — ohne `titleNative` blieb der Name „nicht im Text". */
 function nativeFaelle(): void {
   const url = 'https://tokyo-revengers-anime.com/news/archives/4935'
-  const titles = [{ id: 178083, titleDe: 'Tokyo Revengers: War of the Three Titans', titleNative: '東京リベンジャーズ 三天戦争編' }, { id: 5, titleDe: 'Ohne Native', titleNative: 'AB CDEFG' }] as unknown as Title[]
+  const titles = [{ id: 178083, titleDe: 'Tokyo Revengers: War of the Three Titans', titleNative: '東京リベンジャーズ 三天戦争編' }, { id: 5, titleDe: 'Ohne Native', titleNative: 'AB CDEFG' }, { id: 6, titleDe: 'Fuenf', titleNative: 'ABCDE FG' }] as unknown as Title[]
   const release = { slug: 'tr', titleId: 178083, name: 'Tokyo Revengers: War of the Three Titans', sources: [url] } as unknown as Release
   const andere = { slug: 'o', titleId: 5, name: 'Ohne Native', sources: ['https://example.org/o'] } as unknown as Release
   const news = [{ am: '2026-10-05', titelId: 178083, titel: 'Tokyo Revengers', slug: 'n', meldungen: [{ quelle: 'https://example.org/n' }] }] as unknown as NewsEintrag[]
-  const s = suchbegriffeJeAdresse([release, andere], titles, news)
+  const fuenf = { slug: 'f', titleId: 6, name: 'Fuenf', sources: ['https://example.org/f'] } as unknown as Release
+  const s = suchbegriffeJeAdresse([release, andere, fuenf], titles, news)
   const gruppe = gruppenJeAdresse([release, andere], titles, news)
   pruefe('Native: der japanische Name steht in den Suchbegriffen des Termins', (s.get(url) ?? []).includes('東京リベンジャーズ 三天戦争編'))
   pruefe('Native: der Kopf vor dem Leerzeichen steht darin („東京リベンジャーズ』…" trifft ihn)', (s.get(url) ?? []).includes('東京リベンジャーズ'))
   pruefe('Native: auch die Gruppe des Titels trägt beide Namen', (gruppe.get(url)?.[0]?.suchen ?? []).includes('東京リベンジャーズ'))
   const klein = s.get('https://example.org/o') ?? []
   pruefe('Native: ein Kopf unter 5 Zeichen („AB") steht nicht darin, der ganze Name schon', klein.includes('AB CDEFG') && !klein.includes('AB'))
+  pruefe('Native: ein Kopf mit genau 5 Zeichen steht darin', (s.get('https://example.org/f') ?? []).includes('ABCDE'))
   pruefe('Native: über die Meldung (ohne Termin) kommt er ebenfalls', (s.get('https://example.org/n') ?? []).includes('東京リベンジャーズ'))
 }
 
