@@ -9,7 +9,7 @@ Antworten steht in [07-alle-anbieter.md](07-alle-anbieter.md).
 
 | # | Datum | Reihe | Noch zu bestätigen |
 |---|---|---|---|
-| 1 | 2026-11-01 | M.A.S.K. | [Hauptserie]() |
+| 1 | 2026-11-01 | M.A.S.K. | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.eeb6197a-3602-ac84-206c-d5d2514ec5ef) |
 | 2 | 2026-10-15 | Sankarea: Undying Love | [Hauptserie]() |
 | 3 | 2026-10-10 | Demon Slayer: Kimetsu no Yaiba | [Mugen Train Arc]() · [Entertainment District Arc]() |
 | 4 | 2020-06-26 | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.amazon.de/gp/video/detail/B0FVF9T7ZP) |
