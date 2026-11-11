@@ -51,7 +51,7 @@ export const gitLeser = (git) => (bewegt, pr, refs) => {
     const lies = (pfad) => kopfTexte.get(pfad) ?? mainTexte.get(pfad) ?? null
     const paket = (ref) => inhalte(git, ref, ['package.json']).get('package.json') ?? null
     const paketSkripte = pr.includes('package.json') ? geaenderteSkripte(paket(refs.main), paket(refs.kopf)) : null
-    return bewegtesGelesen({ bewegt, pr, leser: leserIn(mainTexte, bewegt), lies, liesMain: (pfad) => mainTexte.get(pfad) ?? null, paketSkripte })
+    return bewegtesGelesen({ bewegt, pr, leser: leserIn(mainTexte, bewegt), lies, liesMain: (pfad) => mainTexte.get(pfad) ?? null, paketSkripte, botBewegt: refs.bot })
   } catch (e) {
     return `Leser nicht ermittelbar (${String(e.message).split('\n')[0].slice(0, 120)})`
   }

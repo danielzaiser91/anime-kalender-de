@@ -151,6 +151,32 @@ const istBauLeser = (datei) => !istTest(datei) && !datei.startsWith('.github/')
 const kernZuerst = (liste) => [...liste].sort((a, b) => Number(KERN.test(b)) - Number(KERN.test(a)))
 const KERN = /^(pipeline\/|shared\/|tools\/check-)/
 
+/** Bau-Leser, die eine der bewegten Dateien wirklich nennen, samt dieser Datei; Kern zuerst. Nicht lesbarer Text zählt als Leser (fail-closed). */
+const bauLeserMitDatei = (leser, bewegt, lies) => kernZuerst(leser.filter(istBauLeser)).flatMap((l) => {
+  const text = lies(l)
+  const b = text === null ? bewegt[0] : bewegt.find((x) => liestTestDatei(l, text, x) && nennt(text, x))
+  return b === undefined ? [] : [{ leser: l, bewegt: b }]
+})
+
+/** Leser, die mindestens eine Nicht-Bot-Datei nennen (nicht lesbarer Text bleibt, fail-closed). */
+const leserOhneBot = (leser, bewegt, botBewegt, lies) => {
+  const wirksam = bewegt.filter((b) => !botBewegt.includes(b))
+  return leser.filter((l) => lies(l) === null || wirksam.some((b) => liestTestDatei(l, lies(l), b) && nennt(lies(l), b)))
+}
+
+/**
+ * Dateien, die von Code genutzt werden, der bewegte Daten liest. Bewegter Code (neue Prüfung auf main) liest PR-Code oder -Daten, ohne dass ihn jemand
+ * nennt (tests-alle sammelt per readdir). Bis zwei Importstufen vom Leser aus (Bauphase -> Helfer -> Kern). Tests und Werkzeuge unter tools/ außer
+ * tools/check-* nennen Daten in Ausnahmelisten und Fixtures (workflows-beleg.mjs: crunchyroll-neu.json, Replay PR 3341), ohne sie zu lesen.
+ */
+const rueckMenge = (leser, bewegt, lies) => {
+  const bewegterCode = bewegt.filter((b) => LESBAR.test(b) && !LISTE.test(b))
+  const rueckLeser = leser.filter((r) => (!r.startsWith('tools/') || r.startsWith('tools/check-')) && !istTest(r))
+  const rueckwaerts = new Set(huelle([...rueckLeser, ...bewegterCode], lies, RUECK_TIEFE))
+  huelle(leser.filter((r) => liestClaudeMd(r, bewegt, lies)), lies, RUECK_TIEFE).forEach((n) => rueckwaerts.add(n))
+  return rueckwaerts
+}
+
 /** Einträge einer Ausführungsliste, die der PR neu aufnimmt (Pfade im Kopf, die main nicht hat): nur sie laufen neu gegen die Daten. */
 const neueEintraege = (liste, lies, liesMain) => {
   const alt = new Set(pfadTokens(liesMain(liste) ?? ''))
@@ -172,16 +198,17 @@ export function geaenderteSkripte(altJson, neuJson) {
  * null = kein Zusammenhang (Ausnahme gilt), sonst der Grund.
  * `bewegt`: die bewegten Dateien, die ein Leser sehen kann (ohne Bot-Dateien ohne Leser, public/data, data/cache).
  * `pr`: Dateien des PR. `leser`: Dateien auf main, die eine bewegte Datei im Code nennen. `lies(pfad)`: Text oder null (Kopf, sonst main).
+ * `botBewegt`: bewegte Bot-Dateien; im Datenkanal zählen sie nicht (wie im reinen Bot-Sprung entwertet nur ihre Berührung durch den PR; 11.11.2026, PR 3490/3474).
  * `paketSkripte`: geänderte Skripte aus package.json (null = nicht lesbar), nur gebraucht, wenn der PR package.json berührt.
  */
-export function bewegtesGelesen({ bewegt, pr, leser, lies, liesMain = () => null, paketSkripte }) {
+export function bewegtesGelesen({ bewegt, pr, leser, lies, liesMain = () => null, paketSkripte, botBewegt = [] }) {
   if (bewegt.length === 0) return null
   const treffer = pr.find((p) => bewegt.includes(p))
   if (treffer !== undefined) return `der PR berührt ${treffer}`
   const eigene = pr.filter((p) => !ohneLeser(p) && p !== 'package.json')
-  const bauLeser = kernZuerst(leser.filter(istBauLeser))
-  const daten = bauLeser.length === 0 ? undefined : eigene.find(aendertBauDaten)
-  if (daten !== undefined) return `der PR ändert ${daten}, das der Bau mit den bewegten Dateien zusammen liest (Leser: ${bauLeser[0]})`
+  const daten = eigene.find(aendertBauDaten)
+  const bauLeser = daten === undefined ? [] : bauLeserMitDatei(leser, bewegt.filter((b) => !botBewegt.includes(b)), lies)
+  if (bauLeser.length > 0) return `der PR ändert ${daten}, das der Bau mit den bewegten Dateien zusammen liest (Leser: ${bauLeser[0].leser}, nennt ${bauLeser[0].bewegt})`
   let start = eigene.flatMap((p) => (LISTE.test(p) ? neueEintraege(p, lies, liesMain) : [p]))
   if (pr.includes('package.json')) {
     if (paketSkripte === null) return 'package.json nicht vergleichbar'
@@ -198,14 +225,10 @@ export function bewegtesGelesen({ bewegt, pr, leser, lies, liesMain = () => null
   const vorwaerts = [...huelle(start, lies)]
   const l1 = kernZuerst(leser).find((r) => vorwaerts.some((n) => trifft(n, r)))
   if (l1 !== undefined) return `der PR ruft ${l1} auf oder importiert es, das bewegte Daten liest`
-  // Bewegter Code (neue Prüfung auf main) liest PR-Code oder -Daten, ohne dass ihn jemand nennt (tests-alle sammelt per readdir).
-  const bewegterCode = bewegt.filter((b) => LESBAR.test(b) && !LISTE.test(b))
-  // Bis zwei Importstufen vom Leser aus (Bauphase -> Helfer -> Kern). Tests und Werkzeuge unter tools/ außer tools/check-* nennen Daten
-  // in Ausnahmelisten und Fixtures (workflows-beleg.mjs: crunchyroll-neu.json, Replay PR 3341), ohne sie zu lesen.
-  const rueckLeser = leser.filter((r) => (!r.startsWith('tools/') || r.startsWith('tools/check-')) && !istTest(r))
-  const rueckwaerts = new Set(huelle([...rueckLeser, ...bewegterCode], lies, RUECK_TIEFE))
-  huelle(leser.filter((r) => liestClaudeMd(r, bewegt, lies)), lies, RUECK_TIEFE).forEach((n) => rueckwaerts.add(n))
-  const p = start.find((x) => rueckwaerts.has(x))
+  const rueckwaerts = rueckMenge(leser, bewegt, lies)
+  // Handdaten des PR kippen nur durch bewegte Nicht-Bot-Dateien (Bot-Dateien: nur Berührung, siehe `botBewegt`).
+  const ohneBot = botBewegt.length === 0 || !start.some(aendertBauDaten) ? rueckwaerts : rueckMenge(leserOhneBot(leser, bewegt, botBewegt, lies), bewegt.filter((b) => !botBewegt.includes(b)), lies)
+  const p = start.find((x) => (aendertBauDaten(x) ? ohneBot : rueckwaerts).has(x))
   if (p !== undefined) return `${p} wird von Code genutzt, der bewegte Daten liest (bewegt: ${bewegt.join(', ')})`
   return null
 }

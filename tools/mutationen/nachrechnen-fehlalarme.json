@@ -186,14 +186,14 @@
   {
     "name": "Rückrichtung: Treffer nie",
     "datei": "tools/pr-nachrechnen-leser.mjs",
-    "suche": "const p = start.find((x) => rueckwaerts.has(x))",
+    "suche": "const p = start.find((x) => (aendertBauDaten(x) ? ohneBot : rueckwaerts).has(x))",
     "ersetze": "const p = undefined"
   },
   {
     "name": "Rückrichtung: letzter statt erster Treffer",
     "datei": "tools/pr-nachrechnen-leser.mjs",
-    "suche": "const p = start.find((x) => rueckwaerts.has(x))",
-    "ersetze": "const p = start.findLast((x) => rueckwaerts.has(x))"
+    "suche": "const p = start.find((x) => (aendertBauDaten(x) ? ohneBot : rueckwaerts).has(x))",
+    "ersetze": "const p = start.findLast((x) => (aendertBauDaten(x) ? ohneBot : rueckwaerts).has(x))"
   },
   {
     "name": "Rückrichtung: Grundtext ohne bewegte Dateien",
@@ -305,8 +305,8 @@
   {
     "name": "Meldung Datenkanal: Dateireihenfolge statt Kern zuerst",
     "datei": "tools/pr-nachrechnen-leser.mjs",
-    "suche": "const bauLeser = kernZuerst(leser.filter(istBauLeser))",
-    "ersetze": "const bauLeser = leser.filter(istBauLeser)",
+    "suche": "kernZuerst(leser.filter(istBauLeser)).flatMap(",
+    "ersetze": "leser.filter(istBauLeser).flatMap(",
     "tests": ["node tools/pr-nachrechnen-leser.test.mjs"]
   },
   {
@@ -326,8 +326,8 @@
   {
     "name": "Datenkanal: jeder Leser zählt (bauLeser-Filter entfernt)",
     "datei": "tools/pr-nachrechnen-leser.mjs",
-    "suche": "const bauLeser = kernZuerst(leser.filter(istBauLeser))",
-    "ersetze": "const bauLeser = leser",
+    "suche": "kernZuerst(leser.filter(istBauLeser)).flatMap(",
+    "ersetze": "kernZuerst(leser).flatMap(",
     "tests": ["node tools/pr-nachrechnen-leser.test.mjs"]
   },
   {
@@ -356,5 +356,82 @@
     "datei": "tools/pr-nachrechnen-leser.mjs",
     "suche": "const vorwaerts = [...huelle(start, lies)]",
     "ersetze": "const vorwaerts = [...huelle(start, lies, 1)]"
+  },
+  {
+    "name": "Bot-Datei Datenkanal: bewegte Bot-Datei zählt wieder (PR 3490/3474)",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "bauLeserMitDatei(leser, bewegt.filter((b) => !botBewegt.includes(b)), lies)",
+    "ersetze": "bauLeserMitDatei(leser, bewegt, lies)",
+    "tests": ["node tools/pr-nachrechnen-leser.test.mjs"]
+  },
+  {
+    "name": "Grund nennt immer die erste bewegte Datei (nur erster)",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "const b = text === null ? bewegt[0] : bewegt.find((x) => liestTestDatei(l, text, x) && nennt(text, x))",
+    "ersetze": "const b = bewegt[0]",
+    "tests": ["node tools/pr-nachrechnen-leser.test.mjs"]
+  },
+  {
+    "name": "Datenkanal: nicht lesbarer Leser zählt nicht (fail-closed weg)",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "const b = text === null ? bewegt[0] : bewegt.find(",
+    "ersetze": "const b = text === null ? undefined : bewegt.find(",
+    "tests": ["node tools/pr-nachrechnen-leser.test.mjs"]
+  },
+  {
+    "name": "Bot-Datei Rückweg: ohneBot ist immer rueckwaerts",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "const ohneBot = botBewegt.length === 0 || !start.some(aendertBauDaten) ? rueckwaerts :",
+    "ersetze": "const ohneBot = true ? rueckwaerts :",
+    "tests": ["node tools/pr-nachrechnen-leser.test.mjs"]
+  },
+  {
+    "name": "Bot-Datei Rückweg: auch Code des PR nutzt ohneBot",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "const p = start.find((x) => (aendertBauDaten(x) ? ohneBot : rueckwaerts).has(x))",
+    "ersetze": "const p = start.find((x) => ohneBot.has(x))",
+    "tests": ["node tools/pr-nachrechnen-leser.test.mjs"]
+  },
+  {
+    "name": "Bot-Datei Rückweg: Leser der Bot-Datei bleiben im Filter",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "wirksam.some((b) => liestTestDatei(l, lies(l), b) && nennt(lies(l), b))",
+    "ersetze": "true",
+    "tests": ["node tools/pr-nachrechnen-leser.test.mjs"]
+  },
+  {
+    "name": "Bot-Datei Rückweg: wirksam enthält die Bot-Datei",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "const wirksam = bewegt.filter((b) => !botBewegt.includes(b))",
+    "ersetze": "const wirksam = bewegt",
+    "tests": ["node tools/pr-nachrechnen-leser.test.mjs"]
+  },
+  {
+    "name": "Verdrahtung: botSprungAusnahme gibt keine Bot-Dateien weiter",
+    "datei": "tools/pr-nachrechnen.mjs",
+    "suche": "liestBewegtes(bewegt, prDateien, bewegt.filter(erzeugteDatei))",
+    "ersetze": "liestBewegtes(bewegt, prDateien, [])",
+    "tests": ["node tools/pr-nachrechnen-bot-sprung.test.mjs"]
+  },
+  {
+    "name": "Verdrahtung: botSprungAusnahme gibt alle bewegten Dateien als Bot weiter",
+    "datei": "tools/pr-nachrechnen.mjs",
+    "suche": "liestBewegtes(bewegt, prDateien, bewegt.filter(erzeugteDatei))",
+    "ersetze": "liestBewegtes(bewegt, prDateien, bewegt)",
+    "tests": ["node tools/pr-nachrechnen-bot-sprung.test.mjs"]
+  },
+  {
+    "name": "Verdrahtung: datenpfadGrund reicht die Bot-Dateien nicht an den Git-Leser",
+    "datei": "tools/pr-nachrechnen.mjs",
+    "suche": "kopf: pr.headRefOid, main, bot })",
+    "ersetze": "kopf: pr.headRefOid, main })",
+    "tests": ["node tools/pr-nachrechnen.test.mjs"]
+  },
+  {
+    "name": "Verdrahtung: gitLeser reicht refs.bot nicht an bewegtesGelesen",
+    "datei": "tools/pr-nachrechnen-leser-git.mjs",
+    "suche": "paketSkripte, botBewegt: refs.bot })",
+    "ersetze": "paketSkripte })",
+    "tests": ["node tools/pr-nachrechnen-leser-git.test.mjs"]
   }
 ]

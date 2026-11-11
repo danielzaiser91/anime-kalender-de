@@ -113,7 +113,8 @@ export function botSprungAusnahme(vergleich, prDateien, liestBewegtes, umfang = 
   if (beruehrt !== undefined) return `der PR berührt ${beruehrt}`
   const umfangGrund = kette.includes(UMFANG_GRENZEN) ? umfang() : null
   if (umfangGrund !== null) return `main bewegte ${UMFANG_GRENZEN}; ${umfangGrund}`
-  return liestBewegtes(vergleich.dateien.filter((d) => !istDatenpfad(d) && !ohneKetteLeser(d) && d !== UMFANG_GRENZEN), prDateien)
+  const bewegt = vergleich.dateien.filter((d) => !istDatenpfad(d) && !ohneKetteLeser(d) && d !== UMFANG_GRENZEN)
+  return liestBewegtes(bewegt, prDateien, bewegt.filter(erzeugteDatei))
 }
 
 /** Konten der Datenläufe und des Bestandsbaus (Sammler, Wache-Skripte); sie gelten nur für ihre erzeugten Dateien (`datenKontoDatei`). */
@@ -173,7 +174,7 @@ export function datenpfadGrund(gh, pr, basis, main, leser, voll, paare, umfang =
   const prDateien = gh(['api', `repos/{owner}/{repo}/pulls/${pr.number}/files`, '--paginate', '--jq', '.[] | .filename, (.previous_filename // empty)']).split(/\r?\n/).filter(Boolean)
   const daten = datenpfadAusnahme(vergleich, prDateien)
   if (daten === null) return { ausnahme: `nur Daten bewegt (${DATENPFADE.join(', ')}, ${BOT_DATEIEN_OHNE_LESER.length} Bot-Dateien ohne Leser)` }
-  const bot = botSprungAusnahme(vergleich, prDateien, (bewegt, dateien) => leser(bewegt, dateien, { nummer: pr.number, kopf: pr.headRefOid, main }), () => umfang({ nummer: pr.number, kopf: pr.headRefOid, main, basis }))
+  const bot = botSprungAusnahme(vergleich, prDateien, (bewegt, dateien, bot) => leser(bewegt, dateien, { nummer: pr.number, kopf: pr.headRefOid, main, bot }), () => umfang({ nummer: pr.number, kopf: pr.headRefOid, main, basis }))
   if (bot === null && reinerBotSprung(vergleich, prDateien)) return { ausnahme: 'nur Bot-Daten bewegt (erzeugte Dateien der Läufe, Listen, Wache-Berichte), der PR berührt keine davon' }
   if (bot === null) return { ausnahme: 'nur Fremdes ohne Zusammenhang bewegt (Daten, Sammler, Werkzeuge außerhalb der Kette), kein Code des PR liest die bewegten Dateien' }
   return { grund: daten === bot ? daten : `${daten}; ${bot}` }
