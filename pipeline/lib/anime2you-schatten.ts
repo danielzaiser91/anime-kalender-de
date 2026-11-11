@@ -15,7 +15,7 @@ import type { RouterZeile } from './anime2you-router.ts'
 
 /** Wie im Bericht: deutsche Sprache, nicht unsicher, Art eines Starts, eine Stream-Plattform. */
 const BELEG_ARTEN = ['start', 'folgen', 'sprachfassung']
-const STREAM_PLATTFORMEN = ['crunchyroll', 'netflix', 'primevideo', 'disneyplus', 'paramountplus', 'adn', 'aniverse', 'wow', 'joyn', 'rtlplus', 'youtube']
+const STREAM_PLATTFORMEN = ['crunchyroll', 'netflix', 'primevideo', 'disneyplus', 'paramountplus', 'adn', 'aniverse', 'wow', 'joyn', 'rtlplus', 'plutotv', 'youtube']
 
 export interface Fall {
   titel: string

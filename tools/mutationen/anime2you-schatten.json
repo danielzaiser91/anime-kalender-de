@@ -15,7 +15,7 @@
   {"name":"BELEG_ARTEN ohne folgen","aenderungen":[{"datei":"pipeline/lib/anime2you-schatten.ts","suche":"['start', 'folgen', 'sprachfassung']","ersetze":"['start', 'sprachfassung']"}]},
   {"name":"BELEG_ARTEN ohne start","aenderungen":[{"datei":"pipeline/lib/anime2you-schatten.ts","suche":"['start', 'folgen', 'sprachfassung']","ersetze":"['folgen', 'sprachfassung']"}]},
   {"name":"liesRoh: Plattform egal","aenderungen":[{"datei":"pipeline/lib/anime2you-schatten.ts","suche":"STREAM_PLATTFORMEN.includes(v.plattform)","ersetze":"true"}]},
-  {"name":"STREAM_PLATTFORMEN mit tv","aenderungen":[{"datei":"pipeline/lib/anime2you-schatten.ts","suche":"'rtlplus', 'youtube']","ersetze":"'rtlplus', 'youtube', 'tv']"}]},
+  {"name":"STREAM_PLATTFORMEN mit tv","aenderungen":[{"datei":"pipeline/lib/anime2you-schatten.ts","suche":"'rtlplus', 'plutotv', 'youtube']","ersetze":"'rtlplus', 'plutotv', 'youtube', 'tv']"}]},
   {"name":"einmalJeSchluessel: keine Entdoppelung","aenderungen":[{"datei":"pipeline/lib/anime2you-schatten.ts","suche":"titelGleich(y.titel, x.titel)) === i)","ersetze":"titelGleich(y.titel, x.titel)) >= 0)"}]},
   {"name":"vergleiche: gleich ohne deutsch","aenderungen":[{"datei":"pipeline/lib/anime2you-schatten.ts","suche":"gleicher.some((r) => r.deutsch)","ersetze":"gleicher.length > 0"}]},
   {"name":"vergleiche: gleich nie","aenderungen":[{"datei":"pipeline/lib/anime2you-schatten.ts","suche":"gleicher.some((r) => r.deutsch)","ersetze":"false"}]},

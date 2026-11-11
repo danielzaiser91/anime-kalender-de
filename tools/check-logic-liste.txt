@@ -415,6 +415,7 @@ pipeline/check-patchnotes.ts
 pipeline/check-phasen-zustand.ts
 pipeline/check-phasenfolge.ts
 pipeline/check-pille-nur-untertitel.ts
+pipeline/check-plattform-rang.ts
 pipeline/check-plot-erschienen.ts
 pipeline/check-poster-karte-saal.ts
 pipeline/check-premiere.ts
@@ -506,6 +507,7 @@ pipeline/check-suchhinweis-bereich.ts
 pipeline/check-suchhinweis-lauf.ts
 pipeline/check-sw-cache-regeln.ts
 pipeline/check-synchro-beleg-auswahl.ts
+pipeline/check-synchro-beleg-folgen.ts
 pipeline/check-synchro-beleg-lauf.ts
 pipeline/check-synchro-beobachtung.ts
 pipeline/check-synchro-original.ts
