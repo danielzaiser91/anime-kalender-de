@@ -1,31 +1,23 @@
 import { readJson, writeJson } from './util.ts'
-import { ladeEigeneCover } from './cover-quelle.ts'
-import { BANNER_DATEI, type TmdbBanner } from './tmdb-banner.ts'
-import type { PlakatBestand } from './tmdb-plakat-suche.ts'
-import { STAFFEL0_DATEI, streiche, type Bestaende, type Staffel0Bestand } from './tmdb-staffel0-abruf.ts'
+import { STAFFEL0_DATEI, type Staffel0Bestand } from './tmdb-staffel0-abruf.ts'
+
+type Zuordnung = Record<string, { tmdbId?: number } | null | undefined>
 
 /**
  * Ein Titel hat genau eine TMDB-Zuordnung: Trägt er eine eigene Kennung (Serie oder Film in `data/tmdb-titles.json`), fällt sein Eintrag in der
- * Staffel 0 samt den Bildern weg, die dieser gesetzt hat (`streiche`). Gibt die gestrichenen Kennungen zurück.
+ * Staffel 0 weg. Plakat und Hintergrund bleiben stehen: Sie sind sein Cover, bis der Plakat-Lauf ihn über die eigene Kennung neu holt; ein Streichen
+ * ließe ihn bis dahin ohne TMDB-Bild (Ratsche `check:cover-vorschau-bestand`). Gibt die gestrichenen Kennungen zurück.
  */
-export function streicheStaffel0MitKennung(zuordnung: Record<string, { tmdbId?: number } | null | undefined>, bestaende: Bestaende): string[] {
-  const gestrichen = Object.keys(bestaende.eintraege).filter((id) => zuordnung[id]?.tmdbId)
-  for (const id of gestrichen) streiche(id, bestaende)
+export function streicheStaffel0MitKennung(zuordnung: Zuordnung, eintraege: Staffel0Bestand): string[] {
+  const gestrichen = Object.keys(eintraege).filter((id) => zuordnung[id]?.tmdbId)
+  for (const id of gestrichen) delete eintraege[id]
   return gestrichen
 }
 
-/** Wie `streicheStaffel0MitKennung`, aber über die Dateien; schreibt nur, wenn etwas wegfällt. */
-export function raeumeStaffel0Auf(zuordnung: Record<string, { tmdbId?: number } | null | undefined>): string[] {
-  const bestaende: Bestaende = {
-    eintraege: readJson<Staffel0Bestand>(STAFFEL0_DATEI, {}),
-    poster: readJson<PlakatBestand>('data/tmdb-poster.json', {}),
-    banner: readJson<TmdbBanner>(BANNER_DATEI, {}),
-    eigeneCover: ladeEigeneCover(),
-  }
-  const gestrichen = streicheStaffel0MitKennung(zuordnung, bestaende)
-  if (!gestrichen.length) return gestrichen
-  writeJson(STAFFEL0_DATEI, bestaende.eintraege)
-  writeJson('data/tmdb-poster.json', bestaende.poster)
-  writeJson(BANNER_DATEI, bestaende.banner)
+/** Wie `streicheStaffel0MitKennung`, aber über die Datei; schreibt nur, wenn etwas wegfällt. */
+export function raeumeStaffel0Auf(zuordnung: Zuordnung): string[] {
+  const eintraege = readJson<Staffel0Bestand>(STAFFEL0_DATEI, {})
+  const gestrichen = streicheStaffel0MitKennung(zuordnung, eintraege)
+  if (gestrichen.length) writeJson(STAFFEL0_DATEI, eintraege)
   return gestrichen
 }

@@ -1,6 +1,6 @@
 /**
  * Prozesstest: `fetch-tmdb-titles.ts` nimmt einen Titel, der in diesem Lauf eine eigene TMDB-Kennung (hier: Film) bekommt, aus der Staffel 0
- * (`data/tmdb-staffel0.json`) samt den Bildern, die dieser Eintrag gesetzt hat; ein fremdes Bild und Titel ohne Treffer bleiben unberührt.
+ * (`data/tmdb-staffel0.json`); seine Bilder bleiben als Cover stehen (sonst schlägt die Ratsche `check:cover-vorschau-bestand` an), Titel ohne Treffer bleiben unberührt.
  * Anlass: Sammler-PR 3457 (11.11.2026), 28 Titel mit Film-Kennung und Staffel-0-Eintrag zugleich → `check-tmdb-staffel0.ts` rot. Läuft in `check:logic`.
  */
 import { spawnSync } from 'node:child_process'
@@ -61,8 +61,8 @@ try {
   pruefe('Kulisse: 900311 und 900313 bekommen die Film-Kennung, 900312 nicht', titles['900311']?.tmdbId === 900755 && titles['900313']?.tmdbId === 900755 && !titles['900312']?.tmdbId, titles)
   pruefe('Titel mit eigener Kennung steht nicht mehr in der Staffel 0', !('900311' in s0) && !('900313' in s0), Object.keys(s0))
   pruefe('Titel ohne Treffer behält seinen Staffel-0-Eintrag', JSON.stringify(s0['900312']) === JSON.stringify(eintrag('/p2.jpg', '/s2.jpg')), s0['900312'])
-  pruefe('eigene Bilder des gestrichenen Eintrags fallen weg', !('900311' in poster) && !('900311' in banner), [poster, banner])
-  pruefe('ein fremdes Plakat bleibt, das eigene Banner des Eintrags fällt weg', poster['900313']?.p === '/fremd.jpg' && !('900313' in banner), [poster['900313'], banner['900313']])
+  pruefe('Plakat und Banner des gestrichenen Eintrags bleiben als Cover', poster['900311']?.p === '/p1.jpg' && banner['900311']?.p === '/s1.jpg', [poster['900311'], banner['900311']])
+  pruefe('ein fremdes Plakat und das Banner des zweiten Titels bleiben', poster['900313']?.p === '/fremd.jpg' && banner['900313']?.p === '/s3.jpg', [poster['900313'], banner['900313']])
   pruefe('Bilder des Titels ohne Treffer bleiben', poster['900312']?.p === '/p2.jpg' && banner['900312']?.p === '/s2.jpg', [poster['900312'], banner['900312']])
   pruefe('Logzeile nennt die gestrichenen Titel', /2 Titel mit eigener Kennung aus der Staffel 0 genommen: 900311, 900313/.test(r.stdout + r.stderr), (r.stdout + r.stderr).slice(-400))
 } finally {
