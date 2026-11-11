@@ -1,7 +1,8 @@
 import { type IstTot } from '../lib/adresse-tot.ts'
 import { readJson } from '../lib/util.ts'
 import { type Title } from '../../shared/types.ts'
-import { staffelDesTitels, staffelFuehrt, zaehleTitelJeJwFolgen } from '../lib/jw-staffel-des-titels.ts'
+import { moeglicheStaffeln, staffelFuehrt } from '../lib/jw-staffel-des-titels.ts'
+import { staffelDesTitels } from './widerlegung-staffel.ts'
 import { ergaenzeWegeOhneWeg, type JwAngebot, type JwEintrag } from './11-2-2-wege-ohne-weg.ts'
 
 /** Kennungen der Titel, die gerade mindestens einen Stream tragen. */
@@ -37,26 +38,24 @@ export function ergaenzeWegeNachBegrenzung({ titles, hatteStream, tmdbMehrdeutig
 }
 
 /**
- * Bei einer Serie mit mehreren Staffeln gilt ein digitales Angebot nur, wenn JustWatch es unter **jeder** Staffel führt: Das gemischte Gesamtfeld
- * `angebote` nennt es auch, wenn es nur an einer anderen Staffel hängt (Goblin Slayer 101165: der Aniverse-Kanal steht nur unter Staffel 2, der Titel ist Staffel 1).
- * Welche Staffel ein Titel ist, steht meist nicht fest; „jede“ ist der sichere Wert. Ausnahme: Hat nur eine Staffel bei JustWatch genau die Folgenzahl
- * des Titels und kein Geschwistertitel dieselbe (`staffelDesTitels`), reicht das Angebot an dieser Staffel (Chaika 20462: Crunchyroll steht nur unter
- * Staffel 1, der Titel ist Staffel 1). Kauf und Leihe, auch der Disc-Händler, stehen bei JustWatch nie unter einer Staffel
- * (Stand 11.11.2026: `staffeln[].angebote` kennt nur FLATRATE, ADS und FREE, 0 von 6.530 Einträgen BUY oder RENT): Ihr Fehlen dort ist keine Auskunft.
+ * Bei einer Serie mit mehreren Staffeln gilt ein digitales Angebot nur, wenn JustWatch es unter einer Staffel führt, die der Titel sein kann
+ * (`moeglicheStaffeln`, Staffelnummer aus `staffelDesTitels`): Das gemischte Gesamtfeld `angebote` nennt es auch, wenn es nur an einer anderen Staffel hängt (Goblin Slayer 101165: der
+ * Aniverse-Kanal steht nur unter Staffel 2, der Titel ist Staffel 1). Ist die Staffel nicht bestimmbar, genügt jede: leere Sonderstaffeln mit
+ * 1 bis 6 Folgen und Lücken der Staffelliste widerlegen nichts (Naruto, FLCL, Cardcaptor Sakura, M.A.S.K.: Prüfer 3463). Kauf und Leihe, auch der
+ * Disc-Händler, stehen bei JustWatch nie unter einer Staffel (Stand 11.11.2026: `staffeln[].angebote` kennt nur FLATRATE, ADS und FREE, 0 von 6.530
+ * Einträgen BUY oder RENT): Ihr Fehlen dort ist keine Auskunft.
  */
 export function mitStaffelTreffer(jw: Record<string, JwEintrag>, titles: ReadonlyMap<number, Title>): Record<string, JwEintrag> {
   const out: Record<string, JwEintrag> = {}
-  const zaehler = zaehleTitelJeJwFolgen(titles.values(), jw)
   for (const [id, e] of Object.entries(jw)) {
-    const staffeln = e.staffeln ?? []
-    if (staffeln.length < 2) {
+    if ((e.staffeln ?? []).length < 2) {
       out[id] = e
       continue
     }
-    const inJeder = (a: JwAngebot) => staffeln.every((s) => staffelFuehrt(s, a))
-    const eigene = staffelDesTitels(e, titles.get(Number(id))?.episodes, zaehler)
+    const titel = titles.get(Number(id))
+    const moegliche = moeglicheStaffeln(e, titel?.episodes, titel && staffelDesTitels(titel, titles.values()))
     const ohneAuskunft = (a: JwAngebot) => a.art === 'BUY' || a.art === 'RENT'
-    out[id] = { ...e, angebote: (e.angebote ?? []).filter((a) => ohneAuskunft(a) || inJeder(a) || (!!eigene && staffelFuehrt(eigene, a))) }
+    out[id] = { ...e, angebote: (e.angebote ?? []).filter((a) => ohneAuskunft(a) || moegliche.some((s) => staffelFuehrt(s, a))) }
   }
   return out
 }

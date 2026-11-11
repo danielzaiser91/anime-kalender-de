@@ -1,29 +1,18 @@
 import { providerName } from '../../shared/mappings.ts'
 
 type Angebot = { anbieter: string; url?: string }
-type Staffel = { folgen?: number; angebote?: Angebot[] }
-export type MitStaffeln = { jwId?: string; staffeln?: Staffel[] }
-
-/** Wie viele Titel mit derselben JustWatch-Serie dieselbe Folgenzahl haben, als `<jwId>|<Folgen>`. */
-export function zaehleTitelJeJwFolgen(titles: Iterable<{ id: number; episodes?: number | null }>, jw: Record<string, MitStaffeln>): Map<string, number> {
-  const zaehler = new Map<string, number>()
-  for (const t of titles) {
-    const jwId = jw[String(t.id)]?.jwId
-    if (!jwId || !t.episodes) continue
-    const schluessel = `${jwId}|${t.episodes}`
-    zaehler.set(schluessel, (zaehler.get(schluessel) ?? 0) + 1)
-  }
-  return zaehler
-}
+export type Staffel = { nr?: number; folgen?: number; angebote?: Angebot[] }
+export type MitStaffeln = { staffeln?: Staffel[] }
 
 /**
- * Die Staffel bei JustWatch, die genau dieser Titel ist: die einzige mit seiner Folgenzahl, und kein anderer Titel derselben Serie hat
- * dieselbe Zahl (Haganai und Komi hätten sonst die zweite Staffel bekommen, 11.11.2026). Sonst `undefined`: dann gilt „jede Staffel“.
+ * Die JustWatch-Staffeln, die dieser Titel sein kann. Genau eine, wenn die Staffelnummer des Titels in seiner Reihe (`staffelDesTitels`) bei JustWatch
+ * dieselbe Folgenzahl trägt wie der Titel (Goblin Slayer, Chaika, Last Exile); sonst alle: Eine Folgenzahl ohne Gegenstück, ein Cour oder eine Reihe ohne
+ * Nummer bestimmen keine Staffel, und eine Lücke der Staffelliste (leere Sonderstaffeln mit 1 bis 6 Folgen) widerlegt keinen Weg (11.11.2026).
  */
-export function staffelDesTitels(e: MitStaffeln, episodes: number | null | undefined, zaehler: ReadonlyMap<string, number>): Staffel | undefined {
-  if (!episodes || !e.jwId || (zaehler.get(`${e.jwId}|${episodes}`) ?? 0) > 1) return undefined
-  const passende = (e.staffeln ?? []).filter((s) => s.folgen === episodes)
-  return passende.length === 1 ? passende[0] : undefined
+export function moeglicheStaffeln(e: MitStaffeln, episodes: number | null | undefined, nummer: number | undefined): Staffel[] {
+  const alle = e.staffeln ?? []
+  const eigene = nummer && episodes ? alle.find((s) => s.nr === nummer && s.folgen === episodes) : undefined
+  return eigene ? [eigene] : alle
 }
 
 /** Führt die Staffel das Angebot: dieselbe Adresse oder derselbe Anbieter (die Adresse ist bei Crunchyroll je Staffel eine andere)? */

@@ -42,6 +42,14 @@ const START_BEIDE = 10_000_514
 /** Die Folgenzahl des Titels (12) passt zu genau einer JustWatch-Staffel: Staffel 1 führt den Kanal, Staffel 2 (24 Folgen) nicht; der Titel ist Staffel 1. */
 const PIN_ERSTE = 10_000_515
 const PIN_ZWEITE = 10_000_516
+/** Folgezeile der Reihe von START_ANDERE und STAFFEL_ANDERE (gleiche Folgenzahl, später): bestimmt, dass jene Titel Staffel 1 sind (Goblin Slayer II). */
+const START_ANDERE_FOLGE = 10_000_518
+const STAFFEL_ANDERE_FOLGE = 10_000_519
+/** Staffel 1 führt den Kanal, Staffel 2 ist eine leere Sonderstaffel mit 3 Folgen: der Kanal bleibt (Naruto, FLCL, Captain Tsubasa; Prüfer 3463). */
+const MINI_LEER = 10_000_520
+/** Folgenzahl 26 trifft nur Staffel 1 ohne Kanal; der Kanal steht nur unter Staffel 2 mit 23 Folgen: er fällt (Last Exile). */
+const LETZTE_STAFFEL = 10_000_521
+const LETZTE_FOLGE = 10_000_522
 
 const ANBIETER = ['Alpha Stream', 'Beta Stream', 'Gamma Stream', 'Delta Stream', 'Epsilon Stream']
 const fuenf = ANBIETER.map((anbieter, i) => ({ anbieter, art: 'FLATRATE', audio: ['de'], url: `https://www.example-${i}.de/titel/${BEHALTEN}` }))
@@ -57,8 +65,10 @@ const JW = {
   [NUR_BEGRENZUNG]: { angebote: [kanal(NUR_BEGRENZUNG)] },
   [STAFFEL_BEIDE]: { angebote: [kanal(STAFFEL_BEIDE)], staffeln: [{ nr: 1, angebote: [kanal(STAFFEL_BEIDE)] }, { nr: 2, angebote: [kanal(STAFFEL_BEIDE)] }] },
   [STAFFEL_EINE]: { angebote: [kanal(STAFFEL_EINE)], staffeln: [{ nr: 1, angebote: [] }] },
-  [STAFFEL_ANDERE]: { angebote: [kanal(STAFFEL_ANDERE), disc(STAFFEL_ANDERE)], staffeln: [{ nr: 1, angebote: [plain(STAFFEL_ANDERE)] }, { nr: 2, angebote: [kanal(STAFFEL_ANDERE)] }] },
-  [START_ANDERE]: { angebote: [kanal(START_ANDERE), disc(START_ANDERE)], staffeln: [{ nr: 1, angebote: [plain(START_ANDERE)] }, { nr: 2, angebote: [kanal(START_ANDERE)] }] },
+  [STAFFEL_ANDERE]: { angebote: [kanal(STAFFEL_ANDERE), disc(STAFFEL_ANDERE)], staffeln: [{ nr: 1, folgen: 12, angebote: [plain(STAFFEL_ANDERE)] }, { nr: 2, folgen: 12, angebote: [kanal(STAFFEL_ANDERE)] }] },
+  [START_ANDERE]: { angebote: [kanal(START_ANDERE), disc(START_ANDERE)], staffeln: [{ nr: 1, folgen: 12, angebote: [plain(START_ANDERE)] }, { nr: 2, folgen: 12, angebote: [kanal(START_ANDERE)] }] },
+  [MINI_LEER]: { angebote: [kanal(MINI_LEER)], staffeln: [{ nr: 1, folgen: 12, angebote: [kanal(MINI_LEER)] }, { nr: 2, folgen: 3, angebote: [] }] },
+  [LETZTE_STAFFEL]: { angebote: [kanal(LETZTE_STAFFEL), disc(LETZTE_STAFFEL)], staffeln: [{ nr: 1, folgen: 26, angebote: [] }, { nr: 2, folgen: 23, angebote: [kanal(LETZTE_STAFFEL)] }] },
   [PIN_ERSTE]: { jwId: 'ts-pin-erste', angebote: [kanal(PIN_ERSTE)], staffeln: [{ nr: 1, folgen: 12, angebote: [kanal(PIN_ERSTE)] }, { nr: 2, folgen: 24, angebote: [] }] },
   [PIN_ZWEITE]: { jwId: 'ts-pin-zweite', angebote: [kanal(PIN_ZWEITE)], staffeln: [{ nr: 1, folgen: 12, angebote: [kanal(PIN_ZWEITE)] }, { nr: 2, folgen: 24, angebote: [] }] },
   [START_BEIDE]: { angebote: [kanal(START_BEIDE)], staffeln: [{ nr: 1, angebote: [kanal(START_BEIDE)] }, { nr: 2, angebote: [kanal(START_BEIDE)] }] },
@@ -79,9 +89,14 @@ async function kind(): Promise<void> {
     [LINK_TOT, titel(LINK_TOT, [])],
     [NUR_BEGRENZUNG, { ...titel(NUR_BEGRENZUNG, [{ platform: 'netflix', url: 'https://www.netflix.com/title/81000011' }]), jpYear: 2020 }],
     [STAFFEL_BEIDE, titel(STAFFEL_BEIDE, geraten(STAFFEL_BEIDE))],
-    [STAFFEL_ANDERE, titel(STAFFEL_ANDERE, geraten(STAFFEL_ANDERE))],
+    [STAFFEL_ANDERE, { ...titel(STAFFEL_ANDERE, geraten(STAFFEL_ANDERE)), format: 'TV', titleEn: 'Fixture Serie', episodes: 12, franchiseId: 9102, jpYear: 2018 } as Title],
+    [STAFFEL_ANDERE_FOLGE, { ...titel(STAFFEL_ANDERE_FOLGE, []), format: 'TV', titleEn: 'Fixture Serie', episodes: 12, franchiseId: 9102, jpYear: 2023 } as Title],
     [STAFFEL_EINE, titel(STAFFEL_EINE, geraten(STAFFEL_EINE))],
-    [START_ANDERE, titel(START_ANDERE, [])],
+    [START_ANDERE, { ...titel(START_ANDERE, []), format: 'TV', titleEn: 'Fixture Serie', episodes: 12, franchiseId: 9101, jpYear: 2018 } as Title],
+    [START_ANDERE_FOLGE, { ...titel(START_ANDERE_FOLGE, []), format: 'TV', titleEn: 'Fixture Serie', episodes: 12, franchiseId: 9101, jpYear: 2023 } as Title],
+    [MINI_LEER, { ...titel(MINI_LEER, []), episodes: 12 } as Title],
+    [LETZTE_STAFFEL, { ...titel(LETZTE_STAFFEL, []), format: 'TV', titleEn: 'Fixture Serie', episodes: 26, franchiseId: 9103, jpYear: 2003 } as Title],
+    [LETZTE_FOLGE, { ...titel(LETZTE_FOLGE, []), format: 'TV', titleEn: 'Fixture Serie', episodes: 23, franchiseId: 9103, jpYear: 2008 } as Title],
     [START_BEIDE, titel(START_BEIDE, [])],
     [PIN_ERSTE, { ...titel(PIN_ERSTE, []), episodes: 12 } as Title],
     [PIN_ZWEITE, { ...titel(PIN_ZWEITE, geraten(PIN_ZWEITE)), episodes: 12 } as Title],
@@ -157,6 +172,8 @@ if (process.argv[2] === '--kind') {
   pruefe('ohne Stream von Anfang an, Kanal unter beiden Staffeln: Weg bleibt', wege(START_BEIDE) === kanalWeg, erg)
   pruefe('Folgenzahl des Titels passt nur zu Staffel 1, die den Kanal führt: Weg bleibt (erste Runde, Staffel des Titels)', wege(PIN_ERSTE) === kanalWeg, erg)
   pruefe('dasselbe nach der Begrenzung (zweiter Durchgang)', wege(PIN_ZWEITE) === kanalWeg, erg)
+  pruefe('leere Sonderstaffel (3 Folgen) widerlegt den Kanal nicht: Weg bleibt (erste Runde)', wege(MINI_LEER) === kanalWeg, erg)
+  pruefe('Folgenzahl trifft nur Staffel 1 ohne den Kanal (Last Exile): nur der Disc-Händler', wege(LETZTE_STAFFEL) === '["Thalia|buy"]', erg)
   pruefe('zweiter Abschluss-Lauf ändert nichts', JSON.stringify(erg?.zweiter) === JSON.stringify(erg?.erster), erg)
 }
 
