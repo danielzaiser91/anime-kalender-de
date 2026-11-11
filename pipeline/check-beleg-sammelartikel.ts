@@ -100,6 +100,32 @@ function newsFaelle(): void {
   pruefe('Suchbegriffe: ohne Meldungen fehlt er', !(suchbegriffeJeAdresse([release], titles).get(url) ?? []).includes('Psyren'))
 }
 
+/** Meldung zu einem Teil (`teil`, `teilId`): Der Artikel nennt den Teil, nicht den Reihentitel (A Certain Dark Item; Girls und Panzer: „… OVA – …"). */
+function teilFaelle(): void {
+  const url = 'https://www.anime2you.de/news/1/'
+  const meldung = (teilId: number, teil?: string) => ({ teilId, ...(teil ? { teil } : {}), quelle: url })
+  const news = [
+    { am: '2026-09-30', titelId: 4654, titel: 'A Certain Magical Index', slug: 'a', meldungen: [meldung(186742, 'A Certain Dark Item')] },
+    { am: '2026-09-30', titelId: 14131, titel: 'Girls & Panzer', slug: 'g', meldungen: [meldung(18619)] },
+    { am: '2026-09-30', titelId: 7001, titel: 'Serienname', slug: 's', meldungen: [meldung(7002, 'Serienname: Der Film')] },
+    { am: '2026-09-30', titelId: 7003, titel: 'Re: Zero', slug: 'r', meldungen: [meldung(7003)] },
+    { am: '2026-09-30', titelId: 7004, titel: 'Kono: Film', slug: 'k', meldungen: [meldung(7004)] },
+    { am: '2026-09-30', titelId: 7005, titel: 'Konoa: Film', slug: 'k5', meldungen: [meldung(7005)] },
+  ] as unknown as NewsEintrag[]
+  const titles = [{ id: 18619, titleDe: 'Girls & Panzer: This Is the Real Anzio Battle!', titleEn: 'Girls und Panzer: This is the Real Anzio Battle!' }] as unknown as Title[]
+  const g = gruppenJeAdresse([], titles, news).get(url) ?? []
+  const namen = (id: number): string[] => g.find((x) => x.id === id)?.suchen ?? []
+  pruefe('Teil: der Teilname der Meldung steht in den Suchnamen', namen(186742).includes('A Certain Dark Item'))
+  pruefe('Teil: ohne Teilname bleibt der Titel der Meldung', namen(18619).includes('Girls & Panzer') && !namen(186742).includes('A Certain Magical Index'))
+  pruefe('Teil: der Kopf vor dem Doppelpunkt steht darin (Artikel „Girls und Panzer OVA – …")', namen(18619).includes('Girls und Panzer'))
+  pruefe('Teil: der Kopf kommt auch aus dem Teilnamen der Meldung (ohne Titeleintrag)', namen(7002).includes('Serienname'))
+  pruefe('Teil: bekannte Grenze wie bei Terminen — ein Film mit Doppelpunkt wird auch über die Serie gefunden', namen(7002).includes('Serienname') && namen(7002).includes('Serienname: Der Film'))
+  pruefe('Teil: ein Kopf mit 2 Zeichen („Re") steht nicht in den Suchnamen', !namen(7003).includes('Re') && namen(7003).includes('Re: Zero'))
+  pruefe('Teil: ein Kopf mit 4 Zeichen steht nicht darin', !namen(7004).includes('Kono'))
+  pruefe('Teil: ein Kopf mit genau 5 Zeichen steht darin', namen(7005).includes('Konoa'))
+  pruefe('Teil: auch die Suchbegriffe tragen den Teilnamen', (suchbegriffeJeAdresse([], titles, news).get(url) ?? []).includes('A Certain Dark Item'))
+}
+
 /** Ein Artikel für einen Titel bleibt bei Fenster 3600 und doppelter Auflösung: Liegt die Fundstelle 4600 px unter dem Kopf, beginnt das Bild 500 px davor (Marke weit unten). */
 async function einzelFall(): Promise<void> {
   const browser = await chromium.launch()
@@ -216,6 +242,7 @@ function sagtFaelle(): void {
 fensterFaelle()
 sagtFaelle()
 newsFaelle()
+teilFaelle()
 await sammelartikelFall(0)
 await sammelartikelFall(2600)
 await einzelFall()
