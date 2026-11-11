@@ -24,7 +24,7 @@ import { recordSource } from './lib/health.ts'
 import { episodeAus, sortiereFolgen, toBerlin, type AdnListenEintrag, type AdnVideo } from './lib/adn-folgen.ts'
 import { adnWeg, herkunftZeile, wegZeile } from './lib/adn-weg.ts'
 import { holeAdnNews } from './lib/adn-news.ts'
-import { istFranzoesischeSicht, type KatalogAuskunft, katalogBilanzZeile, mitUngepruftenAlten, mitWiederholung, riegelBilanz, schreibeArchiv, verworfen, WIEDERHOLUNG_WARTE_MS } from './lib/adn-sprachriegel.ts'
+import { istFranzoesischeSicht, type KatalogAuskunft, katalogBilanzZeile, mitUngepruftenAlten, mitWiederholung, gefragt, riegelBilanz, schreibeArchiv, verworfen, WIEDERHOLUNG_WARTE_MS } from './lib/adn-sprachriegel.ts'
 import { baueWarteschlange, fragWarteschlange, warteschlangeZeile } from './lib/adn-katalog-warteschlange.ts'
 import { listeNenntNeuesVde } from './lib/adn-laufend-archiv.ts'
 import { fragNeuzugaenge } from './lib/adn-neuzugaenge.ts'
@@ -628,7 +628,7 @@ async function main(): Promise<void> {
 
 main()
   .then(() => {
-    const bilanz = riegelBilanz(verworfen.length)
+    const bilanz = riegelBilanz(verworfen.length, gefragt.length)
     log(bilanz.zeile)
     if (bilanz.rot) process.exitCode = 1
   })

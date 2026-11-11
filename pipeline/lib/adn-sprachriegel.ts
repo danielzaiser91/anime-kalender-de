@@ -11,8 +11,11 @@ import { gunzipSync, gzipSync } from 'node:zlib'
 
 type MitSprachen = { languages?: string[] }
 
-/** Mehr verworfene Serien je Lauf als diese Handvoll lassen den Schritt rot werden. */
+/** Mindestens diese Handvoll verworfener Serien je Lauf bleibt grün. */
 export const MAX_VERWORFEN = 5
+
+/** Bei großen Durchgängen (Katalog, ~540 Serien) gilt dieser Anteil der Gefragten, wenn er über der Handvoll liegt (10.11.2026: 11 von 536 = 2,1 %). */
+export const ANTEIL_VERWORFEN = 0.03
 
 const FRANZ = ['vostf', 'vf']
 const DEUTSCH = ['vostde', 'vde']
@@ -37,6 +40,9 @@ export function franzoesischeArchive(verzeichnis: string): string[] {
 
 /** Zähler der in diesem Lauf verworfenen Serien. */
 export const verworfen: number[] = []
+
+/** Eine Eintragung je gefragter Serie in diesem Lauf (Bezugsgröße der Grenze). */
+export const gefragt: number[] = []
 
 /** Prüft eine Antwort am Abruf: französische Sicht wird gezählt und gemeldet (true), nichts davon darf weiterverarbeitet werden. */
 export function verwirfFranzoesische(showId: number, videos: MitSprachen[]): boolean {
@@ -84,11 +90,17 @@ export function katalogBilanzZeile(b: { nichtGefragt: number; abbruch: number; e
   return `ADN-Katalog behalten: ${b.nichtGefragt} nicht gefragt, ${b.abbruch} Abbruch, ${b.entfernt} entfernt`
 }
 
-/** Schlusszeile des Laufs; `rot` heißt: mehr als eine Handvoll verworfen. */
-export function riegelBilanz(anzahl: number): { zeile: string; rot: boolean } {
+/** Grenze der Verwürfe: die Handvoll oder, bei vielen Gefragten, ihr Anteil — was größer ist. */
+export function verworfenGrenze(gefragtAnzahl: number): number {
+  return Math.max(MAX_VERWORFEN, Math.floor(gefragtAnzahl * ANTEIL_VERWORFEN))
+}
+
+/** Schlusszeile des Laufs; `rot` heißt: mehr verworfen als `verworfenGrenze` erlaubt. */
+export function riegelBilanz(anzahl: number, gefragtAnzahl = 0): { zeile: string; rot: boolean } {
+  const grenze = verworfenGrenze(gefragtAnzahl)
   return {
-    zeile: `ADN-Sprachriegel: ${anzahl} Serien wegen französischer Sprachkürzel verworfen (Grenze ${MAX_VERWORFEN})`,
-    rot: anzahl > MAX_VERWORFEN,
+    zeile: `ADN-Sprachriegel: ${anzahl} Serien wegen französischer Sprachkürzel verworfen (Grenze ${grenze}, ${gefragtAnzahl} gefragt)`,
+    rot: anzahl > grenze,
   }
 }
 
@@ -102,6 +114,7 @@ type Antwort<T extends MitSprachen> = { videos: T[]; abbruch?: string }
  * zweites Mal Französisch zählt als Verwurf (Bilanz, Fünf-in-Folge-Riegel); die Antwort trägt dann keine Videos.
  */
 export async function mitWiederholung<T extends MitSprachen>(showId: number, frage: () => Promise<Antwort<T>>, warte: () => Promise<void>): Promise<Antwort<T>> {
+  gefragt.push(showId)
   let antwort = await frage()
   if (antwort.abbruch === 'franzoesisch') {
     console.warn(`⚠  ADN ${showId}: französische Sicht — einmal erneut gefragt.`)
