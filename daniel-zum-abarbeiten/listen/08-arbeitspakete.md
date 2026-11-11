@@ -175,7 +175,7 @@ der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 | 113 | Netflix | 5 Centimeters per Second | [Hauptserie](https://www.netflix.com/title/70093699) |
 | 114 | Netflix | Rascal Does Not Dream of Bunny Girl Senpai | [Rascal Does Not Dream of a Dreaming Girl](https://www.netflix.com/title/81228006) · [Rascal Does Not Dream of a Sister Venturing Out](https://www.netflix.com/title/81765074) |
 | 115 | Netflix | A Silent Voice | [Hauptserie](https://www.netflix.com/title/80223226) |
-| 116 | Prime Video | M.A.S.K. | [Hauptserie]() |
+| 116 | Prime Video | M.A.S.K. | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.eeb6197a-3602-ac84-206c-d5d2514ec5ef) |
 | 117 | Netflix | Jujutsu Kaisen | [0](https://www.netflix.com/title/81602834) |
 | 118 | Netflix | Slam Dunk | [The First Slam Dunk](https://www.netflix.com/title/81765372) |
 | 119 | Netflix | Spy × Family | [Code: White](https://www.netflix.com/title/81924850) |

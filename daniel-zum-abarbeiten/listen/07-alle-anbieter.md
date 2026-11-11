@@ -45,7 +45,7 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 2 | 2026-11-06 | Failure Frame: I Became the Strongest and Annihilated Everything with Low-Level Spells | [Hauptserie](https://www.netflix.com/title/81910037) |
 | 3 | 2026-11-06 | Highschool D×D | [Hauptserie](https://www.netflix.com/title/80005873) · [New](https://www.netflix.com/title/80005873) · [BorN](https://www.netflix.com/title/80005873) |
 | 4 | 2026-11-06 | NieR:Automata Ver1.1a | [Hauptserie](https://www.netflix.com/title/81680344) |
-| 5 | 2026-11-01 | M.A.S.K. | [Hauptserie]() |
+| 5 | 2026-11-01 | M.A.S.K. | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.eeb6197a-3602-ac84-206c-d5d2514ec5ef) |
 | 6 | 2026-10-25 | Meine ganz besondere Hochzeit | [Special](https://www.netflix.com/title/82643530) |
 | 7 | 2026-10-15 | Sankarea: Undying Love | [Hauptserie]() |
 | 8 | 2026-10-11 | Ghost in the Shell: Stand Alone Complex | [Ghost in the Shell](https://www.netflix.com/title/540533) · [Hauptserie](https://www.netflix.com/title/70213091) · [2nd GIG](https://www.netflix.com/title/70213091) · [Solid State Society](https://www.netflix.com/title/70071919) |
