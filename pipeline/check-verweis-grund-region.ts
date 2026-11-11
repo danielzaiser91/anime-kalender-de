@@ -120,6 +120,13 @@ try {
   pruefe('Wege-Schritt: Chaika (Regionssperre): Grund Regionssperre', grund2(CHAIKA) === GRUND_REGION, entfernt2)
   pruefe('Wege-Schritt: Titel ohne Ton: Grund keine Tonspur', grund2(OHNE_TON) === GRUND_TON, entfernt2)
 
+  console.log('\nDer Helfer: letzter Weg und mehrere Wege')
+  pruefe('einziger Weg: letzterWeg wahr', entfernt.find((e) => e.titleId === CHAIKA)?.letzterWeg === true, entfernt)
+  const zwei = mk(CHAIKA + 200, 'primevideo')
+  zwei.streams.push({ platform: 'netflix', url: 'https://x.example/zwei', dub: true } as never)
+  const restZwei: typeof entfernt = []
+  pruefe('zwei Wege, einer bleibt: letzterWeg falsch, der Ja-Weg bleibt stehen', entferneVerweiseMitNein(zwei, restZwei, new Set()) === 1 && restZwei[0]?.letzterWeg === false && zwei.streams.length === 1, restZwei)
+
   console.log('\nDer Helfer: Netflix-Sperre trifft Prime nicht')
   const netflix = mk(NETFLIX_REGION, 'primevideo')
   const rest: typeof entfernt = []
