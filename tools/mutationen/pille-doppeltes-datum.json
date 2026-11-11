@@ -1,12 +1,12 @@
 [
-  { "name": "Kontrolle (unmutiert)", "aenderungen": [] },
-  { "name": "pille-unten: datum-Wächter && -> ||", "aenderungen": [{ "datei": "web/src/components/detail/pille-unten.ts", "suche": "return datum && datum > today", "ersetze": "return datum || datum > today" }] },
-  { "name": "pille-unten: Zukunftsbedingung > -> >=", "aenderungen": [{ "datei": "web/src/components/detail/pille-unten.ts", "suche": "datum > today", "ersetze": "datum >= today" }] },
-  { "name": "pille-unten: Zukunftsbedingung entfernt", "aenderungen": [{ "datei": "web/src/components/detail/pille-unten.ts", "suche": "datum && datum > today && folgenAngabe", "ersetze": "datum && folgenAngabe" }] },
-  { "name": "pille-unten: Zukunftsbedingung umgedreht", "aenderungen": [{ "datei": "web/src/components/detail/pille-unten.ts", "suche": "datum > today", "ersetze": "datum < today" }] },
-  { "name": "pille-unten: slice(0, 6) -> slice(0, 2)", "aenderungen": [{ "datei": "web/src/components/detail/pille-unten.ts", "suche": "slice(0, 6)", "ersetze": "slice(0, 2)" }] },
-  { "name": "pille-unten: ab im Muster gestrichen", "aenderungen": [{ "datei": "web/src/components/detail/pille-unten.ts", "suche": "`ab ${formatDate", "ersetze": "`${formatDate" }] },
-  { "name": "pille-unten: today nicht durchgereicht", "aenderungen": [{ "datei": "web/src/components/detail/pille-unten.ts", "suche": "folgenAngabe, today), today, t)", "ersetze": "folgenAngabe, '9999-12-31'), today, t)" }] },
-  { "name": "pille-unten: Aufruf entfernt", "aenderungen": [{ "datei": "web/src/components/detail/pille-unten.ts", "suche": "seitAbText(seitOhneDoppelung(seitDatumFuerPille(title, s.platform, releases, s.kanal), folgenAngabe, today), today, t)", "ersetze": "seitAbText(seitDatumFuerPille(title, s.platform, releases, s.kanal), today, t)" }] },
-  { "name": "pille-unten: Rückgabe gedreht", "aenderungen": [{ "datei": "web/src/components/detail/pille-unten.ts", "suche": "? undefined : datum", "ersetze": "? datum : undefined" }] }
+  { "name": "Kontrolle (unmutiert)", "aenderungen": [], "tests": ["npx tsx pipeline/check-panel-chips.ts"] },
+  { "name": "pille-unten: datum-Wächter && -> ||", "aenderungen": [{ "datei": "web/src/components/detail/pille-unten.ts", "suche": "return datum && datum > today", "ersetze": "return datum || datum > today" }], "tests": ["npx tsx pipeline/check-panel-chips.ts"] },
+  { "name": "pille-unten: Zukunftsbedingung > -> >=", "aenderungen": [{ "datei": "web/src/components/detail/pille-unten.ts", "suche": "datum > today", "ersetze": "datum >= today" }], "tests": ["npx tsx pipeline/check-panel-chips.ts"] },
+  { "name": "pille-unten: Zukunftsbedingung entfernt", "aenderungen": [{ "datei": "web/src/components/detail/pille-unten.ts", "suche": "datum && datum > today && folgenAngabe", "ersetze": "datum && folgenAngabe" }], "tests": ["npx tsx pipeline/check-panel-chips.ts"] },
+  { "name": "pille-unten: Zukunftsbedingung umgedreht", "aenderungen": [{ "datei": "web/src/components/detail/pille-unten.ts", "suche": "datum > today", "ersetze": "datum < today" }], "tests": ["npx tsx pipeline/check-panel-chips.ts"] },
+  { "name": "pille-unten: slice(0, 6) -> slice(0, 2)", "aenderungen": [{ "datei": "web/src/components/detail/pille-unten.ts", "suche": "slice(0, 6)", "ersetze": "slice(0, 2)" }], "tests": ["npx tsx pipeline/check-panel-chips.ts"] },
+  { "name": "pille-unten: ab im Muster gestrichen", "aenderungen": [{ "datei": "web/src/components/detail/pille-unten.ts", "suche": "`ab ${formatDate", "ersetze": "`${formatDate" }], "tests": ["npx tsx pipeline/check-panel-chips.ts"] },
+  { "name": "pille-unten: today nicht durchgereicht", "aenderungen": [{ "datei": "web/src/components/detail/pille-unten.ts", "suche": "folgenAngabe, today), today, t)", "ersetze": "folgenAngabe, '9999-12-31'), today, t)" }], "tests": ["npx tsx pipeline/check-panel-chips.ts"] },
+  { "name": "pille-unten: Aufruf entfernt", "aenderungen": [{ "datei": "web/src/components/detail/pille-unten.ts", "suche": "seitAbText(seitOhneDoppelung(seitDatumFuerPille(title, s.platform, releases, s.kanal), folgenAngabe, today), today, t)", "ersetze": "seitAbText(seitDatumFuerPille(title, s.platform, releases, s.kanal), today, t)" }], "tests": ["npx tsx pipeline/check-panel-chips.ts"] },
+  { "name": "pille-unten: Rückgabe gedreht", "aenderungen": [{ "datei": "web/src/components/detail/pille-unten.ts", "suche": "? undefined : datum", "ersetze": "? datum : undefined" }], "tests": ["npx tsx pipeline/check-panel-chips.ts"] }
 ]
