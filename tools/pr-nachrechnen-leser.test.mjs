@@ -131,6 +131,10 @@ pruefe('PR 3474 Gegenprobe: shared/-Leser bleibt Grund', /Leser: shared\/l\.ts\)
 for (const leser of ['tools/gen.mjs', 'web/src/lib/daten.ts', 'worker/src/feed.ts', 'extension/melder.js']) {
   pruefe(`PR ändert Handdatei, einziger Leser ${leser} -> Grund`, new RegExp(`Leser: ${leser.replace(/\./g, '\\.')}\\)$`).test(grund(['tools/nachbar.mjs', 'data/folgentitel-hand.yaml'], { leser: [...NICHT_BAU, leser] })))
 }
+// Prüfer 3486 (Hinweis): die Meldung nennt den Bau-Kern vor Werkzeug und Workflow, auch wenn der andere in der Liste vorn steht.
+pruefe('Meldung Datenkanal: Bau-Leser vor Werkzeug-Leser', /Leser: pipeline\/bau\/cr\.ts\)$/.test(grund(['tools/nachbar.mjs', 'data/folgentitel-hand.yaml'], { leser: ['tools/gen.mjs', 'pipeline/bau/cr.ts'] })))
+pruefe('Meldung Datenkanal: Bau-Leser vor Workflow-Leser', /Leser: tools\/check-x\.ts\)$/.test(grund(['tools/nachbar.mjs', 'data/folgentitel-hand.yaml'], { leser: ['.github/workflows/pr-pruefer.yml', 'tools/gen.mjs', 'tools/check-x.ts'] })))
+pruefe('Meldung Aufruf: Bau-Leser vor Werkzeug-Leser', /^der PR ruft pipeline\/bau\/cr\.ts auf/.test(grund(['.github/workflows/lesend.yml'], { leser: ['tools/cr-vorschau.ts', 'pipeline/bau/cr.ts'] })))
 pruefe('PR ändert nur Patch Notes (ohne Leser in der Kette), Leser vorhanden -> null', grund(['data/patchnotes/neu.yaml']) === null)
 pruefe('PR ändert Datei außerhalb von data/ mit Datenendung, Leser vorhanden -> null', grund(['tools/daten.json']) === null)
 pruefe('PR ändert Namensvetter datax/ (kein Ordner data/), Leser vorhanden -> null', grund(['datax/a.json']) === null)

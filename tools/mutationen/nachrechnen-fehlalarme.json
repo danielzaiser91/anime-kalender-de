@@ -303,9 +303,30 @@
     "tests": ["node tools/pr-nachrechnen-leser.test.mjs"]
   },
   {
+    "name": "Meldung Datenkanal: Dateireihenfolge statt Kern zuerst",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "const bauLeser = kernZuerst(leser.filter(istBauLeser))",
+    "ersetze": "const bauLeser = leser.filter(istBauLeser)",
+    "tests": ["node tools/pr-nachrechnen-leser.test.mjs"]
+  },
+  {
+    "name": "Meldung Aufruf: Dateireihenfolge statt Kern zuerst",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "const l1 = kernZuerst(leser).find(",
+    "ersetze": "const l1 = leser.find(",
+    "tests": ["node tools/pr-nachrechnen-leser.test.mjs"]
+  },
+  {
+    "name": "Meldung: Kern zuletzt statt zuerst",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "Number(KERN.test(b)) - Number(KERN.test(a))",
+    "ersetze": "Number(KERN.test(a)) - Number(KERN.test(b))",
+    "tests": ["node tools/pr-nachrechnen-leser.test.mjs"]
+  },
+  {
     "name": "Datenkanal: jeder Leser zählt (bauLeser-Filter entfernt)",
     "datei": "tools/pr-nachrechnen-leser.mjs",
-    "suche": "const bauLeser = leser.filter(istBauLeser)",
+    "suche": "const bauLeser = kernZuerst(leser.filter(istBauLeser))",
     "ersetze": "const bauLeser = leser",
     "tests": ["node tools/pr-nachrechnen-leser.test.mjs"]
   },
