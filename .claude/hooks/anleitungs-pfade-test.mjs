@@ -47,6 +47,10 @@ soll('fehlend rot', datei(D, `${B}tools/weg.mjs${B}`), [`${D}: tools/weg.mjs exi
 soll('fehlend neben vorhandenem', datei(D, `${B}tools/da.mjs${B} ${B}tools/weg.mjs${B}`), [`${D}: tools/weg.mjs existiert nicht`])
 soll('Pfad außerhalb des Repos (~/) frei', datei(D, `${B}~/.claude/server-freigaben.json${B}`), [])
 soll('~/.claude/rules/ verboten', datei(D, `Regel in ${B}~/.claude/rules/10-x.md${B}`).length, 1)
+soll('~/.claude/agents/ verboten', datei(D, `Regel in ${B}~/.claude/agents/bauer.md${B}`), [`${D}: verweist auf ~/.claude/agents/ (leer seit G4, liegt in .claude/agents/)`])
+soll('~/.claude/skills/ verboten', datei(D, `Skill ${B}~/.claude/skills/x/SKILL.md${B}`), [`${D}: verweist auf ~/.claude/skills/ (leer seit G4, liegt in .claude/skills/)`])
+soll('C:/Users/…/.claude/skills/ verboten', datei(D, `Skill ${B}C:/Users/abc/.claude/skills/x/SKILL.md${B}`), [`${D}: verweist auf ~/.claude/skills/ (leer seit G4, liegt in .claude/skills/)`])
+soll('~/.claude/ruhemodus.txt bleibt frei', datei(D, `${B}~/.claude/ruhemodus.txt${B}`), [])
 soll('Hook-Meldetext (js) rot', datei('.claude/skills/x/h.js', `'Regel (.claude/rules/30-gibt-es-nicht.md): nein'`), ['.claude/skills/x/h.js: .claude/rules/30-gibt-es-nicht.md existiert nicht'])
 
 // bewerte: Ratsche
@@ -63,4 +67,4 @@ if (fehler) {
   console.log(`✖ anleitungs-pfade-test: ${fehler} Fehler`)
   process.exit(1)
 }
-console.log('✔ anleitungs-pfade-test: 21 Fälle ok (Pfad-Erkennung, Existenz, Fremdpfade, Platzhalter, Ratsche, echtes Repo)')
+console.log('✔ anleitungs-pfade-test: 25 Fälle ok (Pfad-Erkennung, Existenz, Fremdpfade, Platzhalter, Ratsche, echtes Repo)')
