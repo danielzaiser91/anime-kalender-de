@@ -139,8 +139,9 @@ export const nennt = (text, bewegt) => ohneKommentare(text).includes(istClaudeMd
 const liestClaudeMd = (datei, bewegt, lies) => bewegt.some((b) => istClaudeMd(b) && nennt(lies(datei) ?? '', b))
 
 /**
- * Daten, die der Bau mit der bewegten Datei in einem Lauf verarbeitet (kuratierte Daten, Handbelege, Sammlerdaten; Auflage CI-Prüfer
- * 26.10.2026): ändert der PR sie und liest Code die bewegte Datei, kann die Kombination neu kippen, auch ohne dass der PR-Code sie nennt.
+ * Daten, die der Bau mit der bewegten Datei in einem Lauf verarbeitet (kuratierte Daten, Handbelege, Sammlerdaten): ändert der PR sie und
+ * liest ein Bau-Leser (`istBauLeser`) eine bewegte Nicht-Bot-Datei, kann die Kombination neu kippen, auch ohne dass der PR-Code sie nennt.
+ * Bewegte Bot-Dateien zählen hier nicht (`botBewegt`, seit 11.11.2026), bei einem reinen Bot-Sprung wird diese Regel gar nicht gefragt (`reinerBotSprung`).
  */
 const aendertBauDaten = (datei) => datei.startsWith('data/')
 
