@@ -55,6 +55,7 @@ pipeline/check-joyn-luecke-bestand.ts
 pipeline/check-joyn-pille-bestand.ts
 pipeline/check-joyn-sender-bestand.ts
 pipeline/check-joyn-termine-bestand.ts
+pipeline/check-jw-folgestaffel-bestand.ts
 pipeline/check-jw-ohne-tmdb-bestand.ts
 pipeline/check-jw-vertrauen-bestand.ts
 pipeline/check-kachel-buendel-bestand.ts
