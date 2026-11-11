@@ -44,6 +44,9 @@ pruefe('Staffel führt das Angebot mit derselben Adresse', staffelFuehrt({ angeb
 pruefe('andere Adresse beim selben Anbieter zählt (Crunchyroll hat je Staffel eine eigene)', staffelFuehrt({ angebote: [crAndereAdresse] }, cr))
 pruefe('anderer Anbieter, andere Adresse: nein (Kanal gegen Crunchyroll)', !staffelFuehrt({ angebote: [cr] }, kanal))
 pruefe('Staffel ohne Angebote: nein', !staffelFuehrt({}, cr))
+pruefe('dieselbe Adresse unter anderem Anbieternamen zählt', staffelFuehrt({ angebote: [{ anbieter: 'Alpha Name', url: 'https://a.example/x' }] }, { anbieter: 'Beta Name', url: 'https://a.example/x' }))
+pruefe('Anbieter ohne Namen und andere Adresse: nein', !staffelFuehrt({ angebote: [{ anbieter: '', url: 'https://a.example/1' }] }, { anbieter: '', url: 'https://a.example/2' }))
+pruefe('Staffel ohne Folgenzahl und Titel ohne Folgenzahl: keine Staffel (Tamako Market, Staffel 2 ohne Zahl)', staffelDesTitels({ jwId: 'ts9', staffeln: [{ folgen: undefined, angebote: [cr] }, { folgen: 12, angebote: [] }] }, undefined, new Map()) === undefined)
 pruefe('unbekannter Anbieter mit anderer Adresse: nein', !staffelFuehrt({ angebote: [{ anbieter: 'Zzz Unbekannt Eins', url: 'https://a.example/1' }] }, { anbieter: 'Zzz Unbekannt Zwei', url: 'https://a.example/2' }))
 
 console.log('\nmitStaffelTreffer (ganze Tabelle):')
