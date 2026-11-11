@@ -108,6 +108,8 @@ gleich('Nur ein Abnahme-aendern ohne Quelle (Verlauf unvollständig): voll, es g
 // „nicht beurteilt, Kette lief noch“ (pr-pruefer.yml) ist kein Urteil: der Neustart nach Kettenende prüft im Modus der Runde davor.
 const ausstehend = ci('aaaaaaaaa', 'nicht beurteilt, Kette lief noch', 'voll')
 gleich('Review aendern, dann „nicht beurteilt“ (Kette offen): weiter abnahme mit derselben Auflage', kurz(bestimmeModus([CI_R1, ausstehend], '2')), kurz(bestimmeModus([CI_R1], '2')))
+const basisOffen = ci('aaaaaaaaa', 'nicht beurteilt, Basis offen', 'voll')
+gleich('Review aendern, dann „nicht beurteilt, Basis offen“: weiter abnahme mit derselben Auflage', kurz(bestimmeModus([CI_R1, basisOffen], '2')), kurz(bestimmeModus([CI_R1], '2')))
 gleich('Erstes Urteil „nicht beurteilt“, sonst nichts: voll, keine Abnahme', bestimmeModus([ausstehend], '2').modus, 'voll')
 gleich('Abnahme-aendern, dann „nicht beurteilt“: Sperre bleibt (nicht frei)', bestimmeModus([CI_R1, abnahmeAendern, ausstehend], '2').aenderFrei, false)
 gleich('Ohne Auflagen steht der Hinweis in der Datei', auflagenText([], '999999999').includes('Keine Auflagen'), true)

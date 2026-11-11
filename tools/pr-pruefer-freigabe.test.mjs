@@ -10,6 +10,7 @@ import os from 'node:os'
 import path from 'node:path'
 import { parse } from 'yaml'
 import { baueDateien } from './pr-kettenlog.mjs'
+import { basisZeile } from './pr-pruefer-basis-offen.mjs'
 import { WORKFLOW, fuerSchnappschuss, leseSchnappschuss, meldung, schreibeSchnappschuss, unterschiede } from './pr-pruefer-schnappschuss.mjs'
 
 const fehler = []
@@ -87,6 +88,7 @@ function laufe(f) {
     // Das Werkzeug des Schritts liegt wie im Workflow unter tools/ des Arbeitsordners.
     fs.mkdirSync(path.join(ordner, 'tools'))
     fs.copyFileSync(new URL('./pr-pruefer-kette-offen.mjs', import.meta.url), path.join(ordner, 'tools', 'pr-pruefer-kette-offen.mjs'))
+    fs.copyFileSync(new URL('./pr-pruefer-basis-offen.mjs', import.meta.url), path.join(ordner, 'tools', 'pr-pruefer-basis-offen.mjs'))
     if (f.kettenlog) fs.writeFileSync(path.join(temp, 'pruefer', 'kettenlog.txt'), f.kettenlog)
     const skript = path.join(ordner, 'schritt.sh')
     fs.writeFileSync(skript, freigabe.run)
@@ -223,6 +225,19 @@ pruefe('Kette offen, Urteil aendern: nur Kommentar, kein Review, Titel „nicht 
 pruefe('Kette offen, Marke steht vor der Modus-Marke (der Modus liest die letzte Zeile)', marke(kOffen) === '<!-- pruefer-modus: voll -->', kOffen.kommentar)
 const kRot = laufe({ ...basis, urteil: urteil('aendern'), kettenlog: KETTE_ROT })
 pruefe('Gegenfall: Kette fertig und rot, Urteil aendern: Änderungswunsch wie bisher, keine Marke', JSON.stringify(kRot.aufrufe) === JSON.stringify(ABLEHNUNG.aufrufe) && ersteZeile(kRot).endsWith('Urteil: **aendern**') && !kRot.kommentar.includes('pruefer-kette-offen'), kRot)
+const KETTE_ROT_BASIS = baueDateien({ kopf: KOPF, lauf: { id: 9, status: 'completed', conclusion: 'failure' }, basis: basisZeile({ beschreibung: 'mergen nach #3435', lauf: { status: 'completed', conclusion: 'failure' }, basisStand: 'open' }), jobs: [{ name: 'Kette – Logik', status: 'completed', conclusion: 'failure', log: 'x: ok' }] }).uebersicht
+const BASIS_TITEL = '**Prüfer-Review** für ccccccccc - Urteil: **nicht beurteilt, Basis offen**'
+const BEFUND = 'Befund 1: Zeile 7 verliert Einträge (echter Fehler).\n'
+const kBasis = laufe({ ...basis, urteil: urteil('aendern'), protokoll: BEFUND, kettenlog: KETTE_ROT_BASIS })
+pruefe('Kette rot, Basis-PR offen, Urteil aendern: nur Kommentar „nicht beurteilt, Basis offen“ mit Marke, kein Review', nurKommentar(kBasis) && ersteZeile(kBasis) === BASIS_TITEL && kBasis.kommentar.includes('<!-- pruefer-kette-offen -->'), kBasis)
+// Gegenfall „echter Fehler in derselben Lage“: der Befund des Prüfers bleibt wörtlich sichtbar, gekennzeichnet als ungeprüft, und der Text lügt nicht über einen Selbststart.
+pruefe('Basis offen, echter Befund: Befund wörtlich im Kommentar, als „Ungeprüft, Basis offen“ gekennzeichnet', kBasis.kommentar.includes(BEFUND) && kBasis.kommentar.includes('Ungeprüft, Basis offen') && kBasis.kommentar.indexOf('Ungeprüft, Basis offen') < kBasis.kommentar.indexOf(BEFUND), kBasis)
+pruefe('Basis offen: Text sagt nicht „startet nach Kettenende von selbst neu“', !kBasis.kommentar.includes('nach Kettenende von selbst neu'), kBasis)
+pruefe('Unfertige Kette (ohne Basiszeile) behält Titel und Text „Kette lief noch“', ersteZeile(kOffen) === AUSSTEHEND && kOffen.kommentar.includes('nach Kettenende von selbst neu') && !kOffen.kommentar.includes('Basis offen'), kOffen)
+const kBasisOk = laufe({ ...basis, urteil: urteil('ok'), kettenlog: KETTE_ROT_BASIS })
+pruefe('Basis offen, Urteil ok: Freigabe wie bisher, kein „Basis offen“', JSON.stringify(kBasisOk.aufrufe) === JSON.stringify(FREIGABE.aufrufe) && !kBasisOk.kommentar.includes('Basis offen'), kBasisOk)
+const kBasisDiff = laufe({ ...basis, urteil: urteil('aendern'), zustand: 'unvollstaendig', protokoll: BEFUND, kettenlog: KETTE_ROT_BASIS })
+pruefe('Basis offen, Diff unvollständig: Änderungswunsch bleibt (Diff geht vor)', JSON.stringify(kBasisDiff.aufrufe) === JSON.stringify(ABLEHNUNG.aufrufe) && !kBasisDiff.kommentar.includes('Basis offen'), kBasisDiff)
 pruefe('Gegenfall: Kette fertig und grün, Urteil aendern: Änderungswunsch', JSON.stringify(laufe({ ...basis, urteil: urteil('aendern'), kettenlog: KETTE_GRUEN }).aufrufe) === JSON.stringify(ABLEHNUNG.aufrufe))
 pruefe('Kettenlog fehlt, Urteil aendern: Änderungswunsch (fail closed)', JSON.stringify(laufe({ ...basis, urteil: urteil('aendern') }).aufrufe) === JSON.stringify(ABLEHNUNG.aufrufe))
 const kOk = laufe({ ...basis, kettenlog: KETTE_LAEUFT })
