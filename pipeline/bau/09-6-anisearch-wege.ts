@@ -1,6 +1,6 @@
 import { type PlatformId, type Title } from '../../shared/types.ts'
 import { gehoertAnderem, crKatalog, kennungAusAdresse } from './cr-serie-geteilt.ts'
-import { dubKey, type DubCheck } from '../lib/dub-confirmed.ts'
+import { dubKey, ladeHandbelege, type DubCheck } from '../lib/dub-confirmed.ts'
 import { addDays, todayIso } from '../../shared/time.ts'
 import { NEIN_GILT_TAGE, NUR_DIESER_TITEL, type EntfernterVerweis } from './grundlagen.ts'
 import { readJson, log } from '../lib/util.ts'
@@ -10,7 +10,7 @@ import { providerName } from '../../shared/mappings.ts'
 import { kapitelImBlock, beurteile, type CrDubData } from '../lib/crunchyroll-dub.ts'
 import { beurteileAdnVerweis } from '../lib/adn-sprachen.ts'
 import { type AnisearchEintrag } from './01-quellen.ts'
-import { entferneVerweiseMitNein } from './verweis-grund.ts'
+import { entferneVerweiseMitNein, regionGesperrteWege } from './verweis-grund.ts'
 import type { AdnArchiv } from '../lib/adn-sprachen.ts'
 
 /** aniSearch-Anbieterkennung → unsere Plattform; was hier fehlt, legt keinen Weg an (Bilanz 06.11.2026: `animation-digital-network-(de)`, `aniverse` fehlten). */
@@ -472,6 +472,7 @@ export function ergaenzeAnisearchWege({
     const crNachUrl = new Map(crDub.serien.map((serie) => [serie.url, serie] as const))
     let nachJa = 0
     let nachNein = 0
+    const regionGesperrt = regionGesperrteWege(ladeHandbelege())
     for (const title of titles.values()) {
       for (const stream of title.streams) {
         if (stream.dub !== undefined) continue
@@ -557,7 +558,7 @@ export function ergaenzeAnisearchWege({
         Antwort darauf.
       */
       nachJa += title.streams.filter((s) => s.dub === true).length // dub-lesart: irgendwie – jeder Weg mit Ja zählt (Menge/Weiche), auch ein abgeleiteter
-      nachNein += entferneVerweiseMitNein(title, verweiseEntfernt)
+      nachNein += entferneVerweiseMitNein(title, verweiseEntfernt, regionGesperrt)
     }
     if (nachNein) log(`${nachNein} frisch ergänzte Verweise gleich wieder entfernt: dort gibt es keine deutsche Tonspur`)
   }

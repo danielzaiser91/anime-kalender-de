@@ -562,6 +562,7 @@ pipeline/check-us-nein-adresse.ts
 pipeline/check-verpasst-katalog.ts
 pipeline/check-verpasst-verdrahtung.ts
 pipeline/check-verteile-folgentitel.ts
+pipeline/check-verweis-grund-region.ts
 pipeline/check-verweis-ziel.ts
 pipeline/check-verweise-gedaechtnis.ts
 pipeline/check-verweise-von-hand.ts
