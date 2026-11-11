@@ -58,10 +58,10 @@ try {
   schreibe(join('public', 'data', 'titles.json'), '[]')
   schreibeD('tmdb-titles.json', JSON.stringify(titel()))
   schreibeD('tmdb-banner.json', JSON.stringify(bestand().banner))
-  schreibeD('tmdb-folgen.json', JSON.stringify(bestand().folgen))
+  schreibeD('tmdb-folgen.json', JSON.stringify({ ...bestand().folgen, 900404: { tmdbId: 4 } }))
   schreibeD('tmdb-staffel0.json', JSON.stringify(bestand().staffel0))
   schreibeD('tmdb-folgen-404.json', '{}')
-  schreibeD('tmdb-von-hand.yaml', '- anilistId: 900401\n  ohne: true\n- anilistId: 900402\n  tmdbId: 7\n  kind: tv\n')
+  schreibeD('tmdb-von-hand.yaml', '- anilistId: 900401\n  ohne: true\n- anilistId: 900402\n  tmdbId: 7\n  kind: tv\n- anilistId: 900404\n  ohne: true\n')
   const kulisse = join(wurzel, 'kulisse.mjs')
   schreibe('kulisse.mjs', "globalThis.fetch = async () => new Response(JSON.stringify({ results: [] }))\n")
   const r = spawnSync(
@@ -75,6 +75,7 @@ try {
   pruefe('Prozess endet mit 0', r.status === 0, [r.status, r.stderr.slice(0, 300)])
   pruefe('Banner: nur die Titel ohne Handzeile (und mit Staffel 0) bleiben', Object.keys(banner).join() === '900403,900404', Object.keys(banner))
   pruefe('Folgen: nur die Titel ohne Handzeile bleiben', Object.keys(folgen).join() === '900403,900405', Object.keys(folgen))
+  pruefe('Staffel 0 mit Handzeile ohne: Banner bleibt, Folgen fallen', '900404' in banner && !('900404' in folgen) && r.stdout.includes('Folgen 900404') && !r.stdout.includes('Banner 900404'), [Object.keys(banner), Object.keys(folgen)])
   pruefe('das Log nennt die verworfenen Einträge', r.stdout.includes('Banner 900401') && r.stdout.includes('Folgen 900402'), r.stdout.slice(0, 400))
 } finally {
   rmSync(wurzel, { recursive: true, force: true })

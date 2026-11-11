@@ -17,7 +17,10 @@ export interface Abgeleitet {
   verworfen: string[]
 }
 
-/** Streicht Banner (hängt ohne Kennung am Titel) und Folgen einer anderen Kennung als `neu`; `neu` leer = Kennung entfällt. */
+/**
+ * Streicht Banner (hängt ohne Kennung am Titel) und Folgen einer anderen Kennung als `neu`; `neu` leer = Kennung entfällt.
+ * Grenzen (Bestand 11.11.2026): Bekommt ein Staffel-0-Titel eine neue Kennung, bleibt sein Standbild (0 Fälle); ein Folgen-Eintrag ohne `tmdbId` entfällt bei `ohne` nicht (930 von 930 haben das Feld).
+ */
 function streicheAbgeleitet(id: number, neu: number | undefined, a: Abgeleitet): void {
   const k = String(id)
   if (k in a.banner && !(k in a.staffel0)) {
