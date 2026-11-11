@@ -27,7 +27,8 @@ import {
   ordneNachStaffelliste,
   type Staffeleintrag,
 } from './lib/folgenbereiche.ts'
-import { bereicheDerStaffel } from './lib/meldungen-bereiche.ts'
+import { bereicheDerStaffel, bereicheJeAdnTitel } from './lib/meldungen-bereiche.ts'
+import { ladeAdnStaffelzuordnung } from './lib/adn-staffelzuordnung.ts'
 import { leseAnbieterStaffeln, summeFuerGruppe } from './lib/staffelsumme-gruppe.ts'
 import { ergaenzeUmEntfernte, mitEntfernten, staffelnMitAdresse } from './lib/entfernte-verweise.ts'
 import { log, ROOT, warn } from './lib/util.ts'
@@ -978,7 +979,8 @@ for (const gruppe of jeAdresse.values()) {
     continue
   }
 
-  const verteilbar = bereiche.length > 0 && staffeln.length > 1 && !anbieterStaffeln
+  const adnJeTitel = p.plattform === 'adn' ? bereicheJeAdnTitel(gruppe, staffeln, ladeAdnStaffelzuordnung()) : undefined
+  const verteilbar = adnJeTitel !== undefined || (bereiche.length > 0 && staffeln.length > 1 && !anbieterStaffeln)
 
   for (const id of ids) {
     const t = liste.find((x) => x.id === id)
@@ -998,7 +1000,7 @@ for (const gruppe of jeAdresse.values()) {
       if (!meldungen?.length) continue
       eigene = bildeBereiche(meldungen).bereiche
     } else if (verteilbar) {
-      eigene = bereicheDerStaffel(bereiche, staffeln, id)
+      eigene = adnJeTitel ? (adnJeTitel.get(id) ?? []) : bereicheDerStaffel(bereiche, staffeln, id)
       // Keine geprüfte Folge in dieser Staffel — dann gibt es auch nichts zu
       // melden. Schweigen ist hier die richtige Antwort.
       if (!eigene.length) continue
@@ -1165,9 +1167,9 @@ for (const gruppe of jeAdresse.values()) {
     zeilen.push(`  checkedAt: '${berlinDatum(p.gemeldet_am)}'`)
     const notiz = [
       eigene.length ? beschreibeBereiche(eigene) : '',
-      verteilbar ? `Anbieter zählt durch, hier auf die Staffel umgerechnet` : '',
+      verteilbar && !adnJeTitel ? `Anbieter zählt durch, hier auf die Staffel umgerechnet` : '',
       sprachen.length ? `Tonspuren: ${sprachen.join(', ')}` : '',
-      widersprueche.length ? `Widersprüchliche Meldungen zu Folge ${widersprueche.join(', ')}` : '',
+      widersprueche.length && !adnJeTitel ? `Widersprüchliche Meldungen zu Folge ${widersprueche.join(', ')}` : '',
       mitWegVermerk(notizJeStaffel.get(id) ?? p.notiz ?? '', !weg && !urteilsMeldung(gruppe)),
       summe?.ok ? summe.vermerk : '',
     ]

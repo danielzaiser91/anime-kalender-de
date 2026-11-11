@@ -38894,23 +38894,16 @@
   title: "JoJo’s Bizarre Adventure"
   platform: adn
   url: https://animationdigitalnetwork.com/de/video/444-jojo-s-bizarre-adventure
-  dub: false
+  dub: true
   checkedAt: '2026-11-09'
-  note: "Folgen 1–26 ohne deutschen Ton — Anbieter zählt durch, hier auf die Staffel umgerechnet — Tonspuren: ja — Widersprüchliche Meldungen zu Folge 2, 5, 1, 6, 7, 3, 4, 12, 14, 16, 9, 10, 15, 17, 13, 8, 11, 22, 23, 20, 21, 25, 18, 24, 27, 26, 19, 28, 34, 30, 32, 33, 36, 35, 37, 29, 31, 39, 38"
+  note: "Folgen 1–26 mit deutschem Ton — ADN-Staffel 1 gegen unseren Titel, ADN zählt je Staffel neu — Tonspuren: ja"
 - anilistId: 20474
   title: "JoJo’s Bizarre Adventure: Stardust Crusaders"
   platform: adn
   url: https://animationdigitalnetwork.com/de/video/444-jojo-s-bizarre-adventure
   dub: true
-  dubRanges:
-    - from: 1
-      to: 13
-      dub: false
-    - from: 14
-      to: 22
-      dub: true
   checkedAt: '2026-11-09'
-  note: "Folgen 1–13 ohne deutschen Ton, Folgen 14–22 mit deutschem Ton — Anbieter zählt durch, hier auf die Staffel umgerechnet — Tonspuren: ja — Widersprüchliche Meldungen zu Folge 2, 5, 1, 6, 7, 3, 4, 12, 14, 16, 9, 10, 15, 17, 13, 8, 11, 22, 23, 20, 21, 25, 18, 24, 27, 26, 19, 28, 34, 30, 32, 33, 36, 35, 37, 29, 31, 39, 38"
+  note: "Folgen 1–24 mit deutschem Ton — ADN-Staffel 2 (48 Folgen) gegen unsere Titel 20474 und 20799, ADN zählt je Staffel neu — Tonspuren: ja"
 - anilistId: -94954
   title: "Hazbin Hotel"
   platform: primevideo
