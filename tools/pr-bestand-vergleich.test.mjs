@@ -11,6 +11,8 @@ import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { restSkripte } from './pr-bestand-vergleich.mjs'
+import { liesMarken } from './quarantaene.mjs'
+import { ausgabeDerPruefungen } from './pr-quarantaene-probe.mjs'
 import { fasseRoteZusammen, mitPraefix, teileListenAusgabe, trenneGeerbtUndNeu, zaehleOderMelde, zaehleVerstoesse } from './pr-bestand-zaehlen.mjs'
 
 const tools = dirname(fileURLToPath(import.meta.url))
@@ -54,6 +56,12 @@ assert.equal(mitPraefix('a\n\n::error::b\n', '[Basis x]'), '[Basis x] a\n\n[Basi
 assert.equal(mitPraefix('a\nb', ''), 'a\nb')
 assert.equal(fasseRoteZusammen(new Map([['x', 3], ['y', 1]]), ['y']), 'Rote Bestandsprüfungen insgesamt: 2 – x (3) [neu], y (1) [geerbt]')
 assert.equal(fasseRoteZusammen(new Map([['x', 3]])), 'Rote Bestandsprüfungen insgesamt: 1 – x (3) [neu]')
+
+// Quarantäne-Probe (tools/pr-quarantaene-probe.mjs): Ausgaben ohne Schlusszeilenumbruch verkleben nicht mit der Marke der nächsten Prüfung; fehlende Namen sind leer.
+const marke = 'QUARANTAENE {"titleId":5,"pruefung":"b","grund":"g"}'
+const verbunden = ausgabeDerPruefungen(new Map([['a', 'VERSTÖSSE: 1'], ['b', marke]]), ['a', 'b', 'fehlt'])
+assert.deepEqual(liesMarken(verbunden).map((m) => m.titleId), [5])
+assert.equal(ausgabeDerPruefungen(new Map(), ['x']), '')
 
 const k = mkdtempSync(join(tmpdir(), 'pr-bestand-vergleich-'))
 const spur = join(k, '..', `${k.split(/[\\/]/).at(-1)}-spur.txt`)

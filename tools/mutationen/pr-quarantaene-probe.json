@@ -64,5 +64,10 @@
     "aenderungen": [{ "datei": "tools/pr-bestand-vergleich.mjs", "suche": "{ cwd, shell, env }", "ersetze": "{ cwd, shell }" }],
     "tests": ["node tools/pr-bestand-vergleich.test.mjs"]
   },
+  {
+    "name": "Vergleich: Umgebung nicht an node/npm (Zweig ohne Shell)",
+    "aenderungen": [{ "datei": "tools/pr-bestand-vergleich.mjs", "suche": "spawn(befehl, args, { cwd, env })", "ersetze": "spawn(befehl, args, { cwd })" }],
+    "tests": ["node tools/pr-bestand-vergleich.test.mjs"]
+  },
   { "name": "Kontrolle ohne Änderung", "aenderungen": [], "tests": ["node tools/pr-bestand-vergleich.test.mjs"] }
 ]
