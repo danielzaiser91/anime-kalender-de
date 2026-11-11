@@ -49,6 +49,8 @@ export const FAELLE = [
   /* Synchro angekündigt und ein Crunchyroll-Weg da: der Anbieter steht in der Nebenzeile und als Pille (Mockup synchro-angekuendigt-kasten). */
   { slug: 'vermilion-mask', name: 'The Vermilion Mask (Synchro angekündigt, Crunchyroll-Weg)', titel: 195571 },
   { slug: 'firefly-wedding', name: 'Firefly Wedding (Synchro angekündigt, Crunchyroll-Weg)', titel: 205909 },
+  /* Synchro für die Serie belegt (MyDubList high), aber keine Folge geflaggt: Hinweis im Folgenbereich (Mockup panel-serienbeleg). */
+  { slug: 'hamtaro', name: 'Hamtaro (Serienbeleg, keine Folgenflagge)', titel: 508 },
   /* TV-Termin auf ProSieben MAXX mit Joyn-Weg: die TV-Box und die Joyn-Pille nennen dieselbe Folge (Mockup `probe-tv-box`). */
   { slug: 'yaiba-joyn', name: 'YAIBA (ProSieben MAXX, danach auf Joyn)', titel: 177476 },
 ]
