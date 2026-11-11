@@ -59,6 +59,7 @@ const ruhe = atom({ plugin: 'arbeitsliste', key: 'ruhe' } as const, null as Ruhe
 const SPAR_MARKER = 'C:/Users/ih/.claude/sparmodus.txt'
 const spar = atom({ plugin: 'arbeitsliste', key: 'spar' } as const, false)
 const offen = atom({ plugin: 'arbeitsliste', key: 'offen' } as const, null as number | null)
+let klickNr = 0 // zählt jeden Pane-Knopfdruck (Agents und Arbeitsliste)
 const agentenKnopf = atom({ plugin: 'arbeitsliste', key: 'agentenKnopf' } as const, 0)
 // Kennungen der ausgeklappten Bereiche („weitere“) und Gruppen (Kleinigkeiten).
 const aufgeklappt = atom({ plugin: 'arbeitsliste', key: 'aufgeklappt' } as const, [] as string[])
@@ -267,6 +268,7 @@ async function aktualisiere($: EngineInterface): Promise<void> {
 // Zu oder hinter einem anderen Tab: nach vorn holen und Fokus anfragen (nur eine Anfrage, die
 // Oberfläche darf ablehnen); vorn sichtbar: schließen.
 async function togglePane($: EngineInterface, id: string, title: string): Promise<void> {
+  klickNr++
   const zuVorderst = (await $.ui.panes()).some(p => p.id === id && p.isShown)
   if (zuVorderst) await $.ui.close({ id })
   else await $.ui.open({ id, title, focus: true })
@@ -276,14 +278,17 @@ async function togglePane($: EngineInterface, id: string, title: string): Promis
 // `$.command.run` schreibt Befehl und Antwort in den Chat (24.10.2026). Savvy hört auf diesen Zähler und schaltet selbst.
 // Ändert sich danach nichts am Pane, hört savvy nicht (Hook fehlt): kurzer Hinweis statt stillem Nichts.
 async function schalteSavvyPane($: EngineInterface): Promise<void> {
+  const meine = ++klickNr
   const sichtbar = async () => (await $.ui.panes()).some(p => p.id === 'savvy-agents' && p.isShown)
   const vorher = await sichtbar()
   await update($, agentenKnopf, n => n + 1)
   // Die Pane-Liste zieht nach dem Umschalten nach (10.11.2026: Toast trotz geöffnetem Pane): bis ~1 s nachprüfen.
+  // Ein neuerer Klick (11.11.2026) kann den Zustand zurückdrehen: dann ist diese Prüfung hinfällig, kein Hinweis.
   for (let i = 0; i < 10; i++) {
     if ((await sichtbar()) !== vorher) return
     await new Promise(r => setTimeout(r, 100))
   }
+  if (meine !== klickNr) return
   $.ui.toast('Agents-Pane: savvy-progress reagiert nicht (CLAUDE_CODE_PLUGIN_DIRS in .claude/settings.json prüfen)')
 }
 
