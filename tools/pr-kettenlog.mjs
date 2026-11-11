@@ -16,6 +16,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { budgetHinweise } from './pr-kettenlog-budget.mjs'
+import { basisNummer, basisZeile } from './pr-pruefer-basis-offen.mjs'
 import { baueZitateDatei, zitateAusBeschreibung } from './pr-kettenlog-zitate.mjs'
 
 const TAKT_MS = 15_000
@@ -66,8 +67,9 @@ export function kopfZeilen({ kopf, lauf, jobs, fehler = '' }) {
 }
 
 /** Beide Dateitexte aus Kopfdaten und den Logs der abgeschlossenen Jobs ({ name, status, conclusion, log }). */
-export function baueDateien({ kopf, lauf, jobs, fehler = '' }) {
-  const kopfz = [HINWEIS, ...kopfZeilen({ kopf, lauf, jobs, fehler })]
+export function baueDateien({ kopf, lauf, jobs, fehler = '', basis = '' }) {
+  // Die Basiszeile steht vor dem Lauf-Satz: kettenOffen liest nur die ersten drei Zeilen.
+  const kopfz = [HINWEIS, ...(basis ? [basis] : []), ...kopfZeilen({ kopf, lauf, jobs, fehler })]
   const uebersicht = [...kopfz, ...budgetHinweise(jobs, (j) => bereinige(j.log ?? ''), sauber)]
   const voll = [...kopfz]
   for (const j of jobs) {
@@ -167,14 +169,31 @@ export function diagnosezeile(jobs) {
   return `; ${ohne.length} von ${jobs.length} Job-Logs nicht abrufbar, erste Ursache: ${ohne[0].log.slice(FEHL_LOG.length).trim().slice(0, 250)}`
 }
 
+/** Text der Beschreibungsdatei; fehlende Datei = leer. */
+export function leseBeschreibung(beschreibungPfad) {
+  try {
+    return beschreibungPfad ? fs.readFileSync(beschreibungPfad, 'utf8') : ''
+  } catch {
+    return ''
+  }
+}
+
+/** Kopfzeile „Basis offen“ (leer, wenn die Beschreibung keinen offenen Basis-PR nennt oder die Kette nicht rot ist); Abruffehler = keine Zeile. */
+export function basisKopfzeile({ repo, lauf, beschreibung, gh }) {
+  const nr = basisNummer(beschreibung)
+  if (!nr || !lauf) return ''
+  let basisStand = ''
+  try {
+    basisStand = gh(['api', `repos/${repo}/pulls/${nr}`, '-q', '.state']).trim()
+  } catch {
+    basisStand = ''
+  }
+  return basisZeile({ beschreibung, lauf, basisStand })
+}
+
 /** `kettenlog-zitate.txt`: Zitate aus den Nachträgen der Beschreibungsdatei mit Treffern im vollen Log; fehlende Datei = keine Zitate. */
 export function zitateDatei(kopf, jobs, beschreibungPfad) {
-  let text = ''
-  try {
-    text = beschreibungPfad ? fs.readFileSync(beschreibungPfad, 'utf8') : ''
-  } catch {
-    text = ''
-  }
+  const text = leseBeschreibung(beschreibungPfad)
   return baueZitateDatei({ kopf, zitate: zitateAusBeschreibung(text), jobs, hinweis: HINWEIS, bereinigt: bereinige, fehlMarke: FEHL_LOG })
 }
 
@@ -188,7 +207,8 @@ export async function schreibeKettenlog({ repo, sha, ordner, frist, gh, warte, j
     frist,
   })
   const mitLog = lauf ? await mitLogs(repo, jobs, gh, warte) : []
-  const { uebersicht, voll } = baueDateien({ kopf: sha, lauf, jobs: mitLog, fehler })
+  const basis = basisKopfzeile({ repo, lauf, beschreibung: leseBeschreibung(beschreibung), gh })
+  const { uebersicht, voll } = baueDateien({ kopf: sha, lauf, jobs: mitLog, fehler, basis })
   fs.mkdirSync(ordner, { recursive: true })
   fs.writeFileSync(path.join(ordner, 'kettenlog.txt'), uebersicht)
   fs.writeFileSync(path.join(ordner, 'kettenlog-voll.txt'), voll)

@@ -1,0 +1,67 @@
+[
+  {
+    "name": "basisZeile: Basisstand nicht geprüft (gemergte Basis zählt als offen)",
+    "aenderungen": [{ "datei": "tools/pr-pruefer-basis-offen.mjs", "suche": "basisStand !== 'open'", "ersetze": "false" }],
+    "tests": ["node tools/pr-pruefer-basis-offen.test.mjs"]
+  },
+  {
+    "name": "basisZeile: grüne Kette zählt auch",
+    "aenderungen": [{ "datei": "tools/pr-pruefer-basis-offen.mjs", "suche": " || lauf.conclusion === 'success'", "ersetze": "" }],
+    "tests": ["node tools/pr-pruefer-basis-offen.test.mjs"]
+  },
+  {
+    "name": "basisZeile: laufende Kette zählt auch",
+    "aenderungen": [{ "datei": "tools/pr-pruefer-basis-offen.mjs", "suche": "lauf.status !== 'completed'", "ersetze": "false" }],
+    "tests": ["node tools/pr-pruefer-basis-offen.test.mjs"]
+  },
+  {
+    "name": "basisNummer: „erst nach“ nicht erkannt",
+    "aenderungen": [{ "datei": "tools/pr-pruefer-basis-offen.mjs", "suche": "(?:mergen|erst)", "ersetze": "(?:mergen)" }],
+    "tests": ["node tools/pr-pruefer-basis-offen.test.mjs"]
+  },
+  {
+    "name": "kettenOffen: Basiszeile wird nicht gelesen",
+    "aenderungen": [{ "datei": "tools/pr-pruefer-kette-offen.mjs", "suche": " || BASIS_ZEILE.test(z)", "ersetze": "" }],
+    "tests": ["node tools/pr-pruefer-basis-offen.test.mjs", "node tools/pr-pruefer-freigabe.test.mjs"]
+  },
+  {
+    "name": "kettenlog: Basiszeile nicht an baueDateien gereicht",
+    "aenderungen": [{ "datei": "tools/pr-kettenlog.mjs", "suche": "jobs: mitLog, fehler, basis })", "ersetze": "jobs: mitLog, fehler })" }],
+    "tests": ["node tools/pr-pruefer-basis-offen.test.mjs"]
+  },
+  {
+    "name": "kettenlog: Basiszeile hinter dem Lauf-Satz und den Jobs",
+    "aenderungen": [{ "datei": "tools/pr-kettenlog.mjs", "suche": "[HINWEIS, ...(basis ? [basis] : []), ...kopfZeilen({ kopf, lauf, jobs, fehler })]", "ersetze": "[HINWEIS, ...kopfZeilen({ kopf, lauf, jobs, fehler }), ...(basis ? [basis] : [])]" }],
+    "tests": ["node tools/pr-pruefer-basis-offen.test.mjs"]
+  },
+  {
+    "name": "kettenlog: Basisstand ohne Abruf als offen angenommen",
+    "aenderungen": [{ "datei": "tools/pr-kettenlog.mjs", "suche": "  let basisStand = ''", "ersetze": "  let basisStand = 'open'" }],
+    "tests": ["node tools/pr-pruefer-basis-offen.test.mjs"]
+  },
+  {
+    "name": "nach-kette: rote Kette bei offener Basis startet neu",
+    "aenderungen": [{ "datei": "tools/pr-pruefer-nach-kette.mjs", "suche": "if (basisOffen && kette?.conclusion !== 'success')", "ersetze": "if (false)" }],
+    "tests": ["node tools/pr-pruefer-basis-offen.test.mjs"]
+  },
+  {
+    "name": "nach-kette: Kettenlauf wird nicht abgefragt",
+    "aenderungen": [{ "datei": "tools/pr-pruefer-nach-kette.mjs", "suche": "basisOffen ? holeLauf(repo, kopf, gh) : null", "ersetze": "null" }],
+    "tests": ["node tools/pr-pruefer-basis-offen.test.mjs"]
+  },
+  {
+    "name": "nach-kette: gemergte Basis gilt als offen",
+    "aenderungen": [{ "datei": "tools/pr-pruefer-nach-kette.mjs", "suche": ".trim() === 'open'", "ersetze": ".trim() !== ''" }],
+    "tests": ["node tools/pr-pruefer-basis-offen.test.mjs"]
+  },
+  {
+    "name": "nach-kette: Abruffehler der Basis gilt als offen",
+    "aenderungen": [{ "datei": "tools/pr-pruefer-nach-kette.mjs", "suche": "  } catch {\n    return false\n  }\n}\n\n", "ersetze": "  } catch {\n    return true\n  }\n}\n\n" }],
+    "tests": ["node tools/pr-pruefer-basis-offen.test.mjs"]
+  },
+  {
+    "name": "Kontrolle unmutiert",
+    "aenderungen": [],
+    "tests": ["node tools/pr-pruefer-basis-offen.test.mjs", "node tools/pr-pruefer-freigabe.test.mjs"]
+  }
+]
