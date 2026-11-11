@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-11T10:10:21.236Z",
+  "generatedAt": "2026-11-11T10:47:10.881Z",
   "titleCount": 2923,
   "belegtCount": 2591,
   "releaseCount": 869,
@@ -182,6 +182,7 @@
   ],
   "providers": [
     "aniSearch",
+    "Amazon",
     "Amazon Prime (Crunchyroll)",
     "Apple TV",
     "maxdome",
@@ -246,7 +247,6 @@
     "Verleihshop (Leih-DVD)",
     "Videobuster (Leih-Disc)",
     "ZDF",
-    "Amazon",
     "Behind The Tree",
     "Buy Zoxs",
     "Hbo Max Amazon Channel",
