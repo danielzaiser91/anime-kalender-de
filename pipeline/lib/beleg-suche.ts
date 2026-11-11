@@ -11,11 +11,18 @@ function titelJeAdresseAusNews(news: NewsEintrag[]): Map<string, Map<number, str
   return je
 }
 
-/** Der japanische Name und sein Kopf vor dem ersten Leerzeichen („東京リベンジャーズ 三天戦争編" → „東京リベンジャーズ"): Offizielle Seiten nennen den Titel nur so (Tokyo Revengers, tokyo-revengers-anime.com/news/archives/4935). */
+const CJK = /[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Hangul}]/u
+const NATIVE_MIN_ZEICHEN = 2
+
+/**
+ * Der japanische Name und sein Kopf vor dem ersten Leerzeichen („東京リベンジャーズ 三天戦争編" → „東京リベンジャーズ"): Offizielle Seiten nennen den Titel nur so (Tokyo Revengers, tokyo-revengers-anime.com/news/archives/4935).
+ * Nur Namen mit CJK-Zeichen: ein lateinischer Native-Name („BLACK LAGOON", „K", „pet") wiederholt Englisch oder Romaji und träfe per Teilstring Allerweltswörter („carpet").
+ */
 function nativeNamen(native: string | undefined): string[] {
-  if (!native) return []
+  if (!native || !CJK.test(native)) return []
+  if (native.replace(/[^\p{L}\p{N}]+/gu, '').length < NATIVE_MIN_ZEICHEN) return []
   const kopf = native.split(/\s+/)[0]!
-  return [native, ...(kopf.length >= 5 ? [kopf] : [])]
+  return [native, ...(CJK.test(kopf) && kopf.length >= 5 ? [kopf] : [])]
 }
 
 /** Die Namen eines Titels, den nur eine Meldung mit der Adresse verbindet (`name` ist der Teilname der Meldung, sonst der Titel); dazu der Kopf vor dem Doppelpunkt wie bei Terminen (Girls und Panzer: „… OVA – …"). */
