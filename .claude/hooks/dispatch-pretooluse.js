@@ -21,6 +21,8 @@ const MODULE = [
   ['hauptordner-sperre.js', 'grund'],
   // No-verify-Sperre (01.11.2026, PR 2594): git commit/push ohne --no-verify und ohne core.hooksPath.
   ['no-verify-sperre.js', 'grund'],
+  // Fetch-Tiefe-Sperre (11.11.2026): kein git fetch/pull/clone --depth im Repo oder seinen Worktrees (teilen .git).
+  ['fetch-depth-sperre.js', 'grund'],
   // Merge-Riegel (09.11.2026, PR 3266): gh pr merge nur mit node tools/pr-nachrechnen.mjs davor.
   ['merge-riegel.js', 'grund'],
   // Subagenten-Schreibsperre (PR 2942): bauer, pruefer, analyst schreiben nie im Hauptordner.
