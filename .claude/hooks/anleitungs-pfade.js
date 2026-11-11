@@ -1,7 +1,7 @@
 // Prüft Pfade in Anleitungen (`.claude/**/*.md`, `CLAUDE.md`) und in Hook-Meldetexten auf Existenz (Anlass 11.11.2026:
 // Hook-Meldung und Skill zeigten auf das seit G4 leere `~/.claude/rules/`, eine Regel nannte einen Hook, den es nicht gibt).
 // Nicht im Repo liegt `daniel-zum-abarbeiten/` (lokal ausgeschlossen): nicht geprüft.
-// Geprüft werden nur Repo-Pfade mit bekannter Wurzel. Ausdrücklich frei: Platzhalter (`<…>`, `*`, `{…}`, `$`, `…`),
+// Geprüft werden nur Repo-Pfade mit bekannter Wurzel. Ausdrücklich frei: Platzhalter (`NN-`),
 // Pfade außerhalb des Repos (`~/`, `C:/`), erzeugte/ignorierte Ordner (`data/cache/`, `node_modules/`, `dist/`).
 // Verboten bleibt `~/.claude/rules/` — dort liegt seit G4 nichts mehr, die Regeln stehen im Projekt.
 const fs = require('node:fs')
@@ -32,7 +32,7 @@ function findePfade(text) {
   for (const m of text.matchAll(PFAD)) {
     const p = m[1].replace(/\.$/, '')
     if (!WURZELN.includes(p.split('/')[0])) continue
-    if (/[<>*{}$…]|(^|\/)NN[-.]/.test(p) || FREI.test(p)) continue
+    if (/(^|\/)NN[-.]/.test(p) || FREI.test(p)) continue
     if (!p.endsWith('/') && !ENDUNG.test(p)) continue
     fund.add(p)
   }
@@ -44,7 +44,7 @@ function pruefeDatei(wurzel, datei) {
   const text = fs.readFileSync(path.join(wurzel, datei), 'utf8')
   const fehler = []
   if (GLOBAL_REGELN.test(text)) fehler.push(`${datei}: verweist auf ~/.claude/rules/ (leer seit G4, Regeln liegen in .claude/rules/)`)
-  for (const p of findePfade(text.replace(/~\/[^\s`'")]*/g, ''))) {
+  for (const p of findePfade(text)) {
     if (!fs.existsSync(path.join(wurzel, p))) fehler.push(`${datei}: ${p} existiert nicht`)
   }
   return fehler
@@ -60,9 +60,9 @@ function sammle(wurzel, ordner, endungen, aus = []) {
   return aus
 }
 
-/** Alle geprüften Dateien: Markdown unter `.claude/` (ohne Mod-Fremdordner), `CLAUDE.md`, Hook-Skripte. */
+/** Alle geprüften Dateien: Markdown unter `.claude/` , `CLAUDE.md`, Hook-Skripte. */
 function anleitungsDateien(wurzel) {
-  const md = sammle(wurzel, '.claude', ['.md']).filter((f) => !f.startsWith('.claude/mods/') && !(f.startsWith('.claude/skills/regeln-im-detail/') && !f.endsWith('/SKILL.md')))
+  const md = sammle(wurzel, '.claude', ['.md']).filter((f) => !(f.startsWith('.claude/skills/regeln-im-detail/') && !f.endsWith('/SKILL.md')))
   const hooks = sammle(wurzel, '.claude/hooks', ['.js']).filter((f) => !f.endsWith('-test.js') && f !== '.claude/hooks/anleitungs-pfade.js')
   return ['CLAUDE.md', ...md, ...hooks]
 }
