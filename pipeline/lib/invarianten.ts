@@ -61,14 +61,29 @@ export function verweiseAufgeloest(releases: Release[], events: ReleaseEvent[], 
   return { fehler, warnungen: [] }
 }
 
-/** Releases, deren Anbieter selbst ein nicht steigendes Folgendatum liefert (Quelle belegt, nicht unser Rechenfehler); jeder Eintrag mit Grund und Messdatum. */
-export const DATUM_VOM_ANBIETER: Record<string, string> = {
-  'lycoris-recoil-crunchyroll-de-2022-07-23': 'Crunchyrolls Katalog datiert Folge 6 auf 2022-08-06T16:00Z, vor Folge 5 (gemessen 08.10.2026, data/crunchyroll-dub.json)',
+/**
+ * Releases, deren Anbieter selbst ein nicht steigendes Folgendatum liefert (Quelle belegt, nicht unser Rechenfehler); jeder Eintrag mit Grund und Messdatum.
+ * Schlüssel `<titleId>:<platform>` (`anbieterDatumSchluessel`), nie der Slug: er trägt das Datum der ersten Folge und wandert mit dem Datenstand.
+ * Leer: Lycoris Recoil und Maid lösen DD-01 im Bestand auf main nicht aus (gemessen 11.11.2026). Wächter: `check-anbieter-eintraege-bestand.ts`.
+ */
+export const DATUM_VOM_ANBIETER: Record<string, string> = {}
+
+export const anbieterDatumSchluessel = (r: Pick<Release, 'titleId' | 'platform'>): string => `${r.titleId}:${r.platform}`
+
+/** Ein Eintrag ohne Release im Bestand ist tot (Slug-Wechsel, Titel weg), einer mit mehr als einem Release zu weit (verdeckt den echten DD-01-Fund des zweiten); nur gegen den ganzen Bestand prüfbar. */
+export function anbieterEintragProbleme(releases: Release[], eintraege: Record<string, string> = DATUM_VOM_ANBIETER): string[] {
+  const je = new Map<string, number>()
+  for (const r of releases) je.set(anbieterDatumSchluessel(r), (je.get(anbieterDatumSchluessel(r)) ?? 0) + 1)
+  return Object.keys(eintraege).flatMap((k) => {
+    const n = je.get(k) ?? 0
+    if (n === 0) return [`DATUM_VOM_ANBIETER "${k}": kein Release im Bestand (Eintrag tot)`]
+    return n > 1 ? [`DATUM_VOM_ANBIETER "${k}": trifft ${n} Releases (Eintrag zu weit)`] : []
+  })
 }
 
 /** DD-01: Eine spätere Folge liegt vor einer früheren (Lycoris Recoil). TV-Sichtungen zeigen Wiederholungen in beliebiger Reihenfolge und zählen nicht. */
-export function folgenDatumSteigt(releases: Release[], events: ReleaseEvent[]): string[] {
-  const ausgenommen = new Set([...releases.filter((r) => r.releaseType === 'disc' || r.tvLetzteSichtung).map((r) => r.slug), ...Object.keys(DATUM_VOM_ANBIETER)])
+export function folgenDatumSteigt(releases: Release[], events: ReleaseEvent[], eintraege: Record<string, string> = DATUM_VOM_ANBIETER): string[] {
+  const ausgenommen = new Set(releases.filter((r) => r.releaseType === 'disc' || r.tvLetzteSichtung || anbieterDatumSchluessel(r) in eintraege).map((r) => r.slug))
   const je = new Map<string, ReleaseEvent[]>()
   for (const e of events) if (e.episode != null && !ausgenommen.has(e.releaseSlug)) (je.get(e.releaseSlug) ?? je.set(e.releaseSlug, []).get(e.releaseSlug)!).push(e)
   const fehler: string[] = []
