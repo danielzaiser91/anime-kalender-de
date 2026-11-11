@@ -7,7 +7,7 @@ import yaml from 'js-yaml'
 import type { Release, ReleaseEvent, Title } from '../shared/types.ts'
 import {
   deutschNichtVorJapan, filmOhneMehrereFolgen, folgenDatumSteigt, folgennummernEindeutig, pruefeInvarianten, slugsEindeutig,
-  terminKennungenEindeutig, verweiseAufgeloest, widerlegteOhneTermine, zaehlworteStimmen,
+  terminKennungenEindeutig, toteAnbieterEintraege, verweiseAufgeloest, widerlegteOhneTermine, zaehlworteStimmen,
 } from './lib/invarianten.ts'
 import { reihenVerweiseAufgeloest, synchroNichtHinterToggle, type SynchroQuellen } from './lib/invarianten-auslieferung.ts'
 import { geplantNichtDeutschHeute, ladeGeplantQuelle } from './lib/invarianten-geplant.ts'
@@ -90,6 +90,15 @@ console.log('\nHarte Regeln des Daten-Detektivs:')
     pruefe(`DD-01: das belegte Anbieterdatum von Maid gilt für ${slug}`, maidJe(slug, 149326).length === 0)
   }
 
+  // Wächter: ein Anbieter-Eintrag ohne Release im Bestand ist tot
+  const beide = [release('x', 143270), release('y', 149326)]
+  pruefe('DD-01: Anbieter-Einträge mit Release im Bestand sind nicht tot', toteAnbieterEintraege(beide).length === 0)
+  const nurLycoris = toteAnbieterEintraege([release('x', 143270)])
+  pruefe('DD-01: Eintrag ohne Release (Maid) wird als tot gemeldet', nurLycoris.length === 1 && nurLycoris[0].includes('149326:crunchyroll'), nurLycoris)
+  pruefe('DD-01: leerer Bestand meldet beide Einträge', toteAnbieterEintraege([]).length === 2)
+  pruefe('DD-01: gleiche Titelkennung auf anderer Plattform deckt den Eintrag nicht', toteAnbieterEintraege([release('x', 143270, 'netflix'), release('y', 149326)]).length === 1)
+  pruefe('DD-01: ein erfundener Eintrag wird gemeldet, die echten nicht', toteAnbieterEintraege(beide, { '1:crunchyroll': 'Grund', '143270:crunchyroll': 'Grund' }).length === 1)
+
   // DD-13: Boruto/The Last als „2 Folgen"
   const film = new Map<number, Title>([[1, titelMit({ id: 1, format: 'MOVIE', episodes: 1 })], [2, titelMit({ id: 2, format: 'ONA', episodes: 1 })]])
   const mitFolgen = (slug: string, titleId: number, n: number, releaseType = 'weekly'): Release => ({ ...release(slug, titleId, 'tv', releaseType), schedule: { firstEpisodeDate: '2026-10-09', episodeCount: n } }) as Release
@@ -160,6 +169,7 @@ if (process.argv.includes('--bestand')) {
     ...synchroNichtHinterToggle(auslieferung, { dubsAnilist: dubsNachTitel(), dubIds: dubIdsNachAnisearch(), handbelegteIds: handbelegt, handKeine, heute: todayIso() }),
     ...reihenVerweiseAufgeloest(auslieferung),
     ...geplantNichtDeutschHeute(releases, titles, ladeGeplantQuelle()),
+    ...toteAnbieterEintraege(releases),
     ...kanalFehler(titles.values(), releases),
     ...kanalWegeVorhanden(titles),
   ]

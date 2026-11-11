@@ -72,6 +72,12 @@ export const DATUM_VOM_ANBIETER: Record<string, string> = {
 
 export const anbieterDatumSchluessel = (r: Pick<Release, 'titleId' | 'platform'>): string => `${r.titleId}:${r.platform}`
 
+/** Ein Eintrag in `DATUM_VOM_ANBIETER` ohne Release im Bestand ist tot (Slug-Wechsel, Titel weg) und verdeckt dann einen echten DD-01-Fund; nur gegen den ganzen Bestand prüfbar. */
+export function toteAnbieterEintraege(releases: Release[], eintraege: Record<string, string> = DATUM_VOM_ANBIETER): string[] {
+  const vorhanden = new Set(releases.map(anbieterDatumSchluessel))
+  return Object.keys(eintraege).filter((k) => !vorhanden.has(k)).map((k) => `DATUM_VOM_ANBIETER "${k}": kein Release im Bestand (Eintrag tot)`)
+}
+
 /** DD-01: Eine spätere Folge liegt vor einer früheren (Lycoris Recoil). TV-Sichtungen zeigen Wiederholungen in beliebiger Reihenfolge und zählen nicht. */
 export function folgenDatumSteigt(releases: Release[], events: ReleaseEvent[]): string[] {
   const ausgenommen = new Set(releases.filter((r) => r.releaseType === 'disc' || r.tvLetzteSichtung || anbieterDatumSchluessel(r) in DATUM_VOM_ANBIETER).map((r) => r.slug))
