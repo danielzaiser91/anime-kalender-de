@@ -57,6 +57,8 @@ Der Auftrag ist vor dem Start vollständig (Umfang, Gegenproben, bekannte Fälle
 
 **Textanker statt Zeilennummer (01.11.2026, Prime-PoC):** Stellen in Dateien nennt der Auftrag mit einem zitierten Satzanfang, nicht mit „Zeile 318“ — main verschiebt Zeilen zwischen Auftrag und Start.
 
+**Anlass-Titel: Bau-Effekt messen (11.11.2026, PR 3484):** Nennt ein Auftrag einen Anlass-Titel, misst die Abnahme dessen Bau-Effekt (`bau-vergleich`), nicht nur die Funktion — von 139 Folgestaffel-Einträgen wirkten im Bau nur 18.
+
 **Widerspruch zweier Anzeigen: Frage statt Richtung (30.10.2026, 2427):** Zeigen Kachel und Panel Gegensätzliches, nennt der Auftrag nicht die Seite, die „recht hat“, sondern verlangt zuerst den Beleg, welche Aussage die Quelle stützt (widerlegter Termin ≠ widerlegte Ankündigung).
 
 Die Rollen laden ihre Regeln selbst (`.claude/agents/*.md`, Prüftechnik im Skill `pruef-technik`); der Auftrag nennt nur, was im Einzelfall gilt. Die alte Vorlage mit Anlässen: `auftragsvorlage-anlaesse.md` (gleicher Ordner).

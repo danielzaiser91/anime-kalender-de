@@ -1,0 +1,13 @@
+[
+  {"name":"Kontrolle (unmutiert)","aenderungen":[],"tests":["npx tsx pipeline/check-jw-folgestaffel-bestand-lauf.ts"]},
+  {"name":"Sprung: Grenze +1 (>= 10 statt > 9)","datei":"pipeline/lib/folgestaffel-wirkung.ts","suche":"FOLGESTAFFEL_SPRUNG = 9","ersetze":"FOLGESTAFFEL_SPRUNG = 10","tests":["npx tsx pipeline/check-jw-folgestaffel-bestand-lauf.ts"]},
+  {"name":"Sprung: Grenze -1","datei":"pipeline/lib/folgestaffel-wirkung.ts","suche":"FOLGESTAFFEL_SPRUNG = 9","ersetze":"FOLGESTAFFEL_SPRUNG = 8","tests":["npx tsx pipeline/check-jw-folgestaffel-bestand-lauf.ts"]},
+  {"name":"Stand +1","datei":"pipeline/lib/folgestaffel-wirkung.ts","suche":"FOLGESTAFFEL_WIRKEND_STAND = 18","ersetze":"FOLGESTAFFEL_WIRKEND_STAND = 19","tests":["npx tsx pipeline/check-jw-folgestaffel-bestand-lauf.ts"]},
+  {"name":"Stand -1","datei":"pipeline/lib/folgestaffel-wirkung.ts","suche":"FOLGESTAFFEL_WIRKEND_STAND = 18","ersetze":"FOLGESTAFFEL_WIRKEND_STAND = 17","tests":["npx tsx pipeline/check-jw-folgestaffel-bestand-lauf.ts"]},
+  {"name":"Sprung nur nach oben (Math.abs entfällt)","datei":"pipeline/lib/folgestaffel-wirkung.ts","suche":"Math.abs(wirkend - FOLGESTAFFEL_WIRKEND_STAND) <=","ersetze":"(wirkend - FOLGESTAFFEL_WIRKEND_STAND) <=","tests":["npx tsx pipeline/check-jw-folgestaffel-bestand-lauf.ts"]},
+  {"name":"Wirkend: Adresse der Staffel nicht verlangt (jeder Weg zählt)","datei":"pipeline/lib/folgestaffel-wirkung.ts","suche":".some((w) => urls.has(w.url))","ersetze":".length > 0","tests":["npx tsx pipeline/check-jw-folgestaffel-bestand-lauf.ts"]},
+  {"name":"Wirkend: schon eigene Schlüssel mitgezählt","datei":"pipeline/lib/folgestaffel-wirkung.ts","suche":".filter((id) => !(id in jw))","ersetze":"","tests":["npx tsx pipeline/check-jw-folgestaffel-bestand-lauf.ts"]},
+  {"name":"Gesperrt gleich Einträge","datei":"pipeline/check-jw-folgestaffel-bestand.ts","suche":"${eintraege - wirkend} gesperrt","ersetze":"${eintraege} gesperrt","tests":["npx tsx pipeline/check-jw-folgestaffel-bestand-lauf.ts"]},
+  {"name":"Verdrahtung: Warnzeile nie gedruckt","datei":"pipeline/check-jw-folgestaffel-bestand.ts","suche":"if (zeile) console.log(zeile)","ersetze":"if (false) console.log(zeile)","tests":["npx tsx pipeline/check-jw-folgestaffel-bestand-lauf.ts"]},
+  {"name":"Verdrahtung: leere Eingabe wird still gemessen","datei":"pipeline/check-jw-folgestaffel-bestand.ts","suche":"if (!titles.size || !Object.keys(jw).length) {","ersetze":"if (false) {","tests":["npx tsx pipeline/check-jw-folgestaffel-bestand-lauf.ts"]}
+]

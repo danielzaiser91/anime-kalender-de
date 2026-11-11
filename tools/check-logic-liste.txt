@@ -289,6 +289,7 @@ pipeline/check-juengeres-ja-weg.ts
 pipeline/check-jw-ablauf.ts
 pipeline/check-jw-anbieterliste.ts
 pipeline/check-jw-auswahl.ts
+pipeline/check-jw-folgestaffel-bestand-lauf.ts
 pipeline/check-jw-folgestaffel.ts
 pipeline/check-jw-frisch-lauf.ts
 pipeline/check-jw-kennung-fremd-lauf.ts
