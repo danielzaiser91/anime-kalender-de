@@ -83,6 +83,7 @@ const CBESTAND = { [PFAD]: [342, 513, 53648] } as const
 pruefe('cartoonPfad: w342 ja, w500, w780 und Fremdes nein', cartoonPfad(C342) === PFAD && cartoonPfad(C342.replace('w342', 'w500')) === undefined && cartoonPfad(C342.replace('image.tmdb.org', 'example.org')) === undefined && cartoonPfad(undefined) === undefined)
 pruefe('cartoonMasse: 342×513 brauchbar', cartoonMasse(CBESTAND).get(`cartoon:${PFAD}`)?.join() === '342,513')
 pruefe('cartoonMasse: 250.000 Byte gut, 250.001 nicht', cartoonMasse({ '/a.jpg': [342, 513, 250_000] }).size === 1 && cartoonMasse({ '/a.jpg': [342, 513, 250_001] }).size === 0)
+pruefe('cartoonPfad: Adresse mit fremdem Vorspann nicht', cartoonPfad(`https://example.org/?u=${C342}`) === undefined)
 pruefe('cartoonMasse: Breite 341 nicht (Kopf müsste 342 sagen), Höhe 0 nicht', cartoonMasse({ '/a.jpg': [341, 513, 1000] }).size === 0 && cartoonMasse({ '/a.jpg': [342, 0, 1000] }).size === 0)
 const vc = vorschauBild(undefined, C342, STANDARD, cartoonMasse(CBESTAND))
 pruefe('Cartoon-Cover: 342×513, kleine Karte, jpeg', vc.url === C342 && vc.breite === 342 && vc.hoehe === 513 && vc.karte === 'summary' && vc.typ === 'image/jpeg')
