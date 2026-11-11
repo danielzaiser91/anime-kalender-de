@@ -65,6 +65,11 @@ pruefe('Titel 3 (12 Folgen, einzige Staffel mit 12): Angebote bleiben', namen(3)
 pruefe('Titel 1 und 2 teilen Serie und Folgenzahl: keine Staffel, Angebote fallen (nicht jede Staffel führt sie)', namen(1) === '' && namen(2) === '', [namen(1), namen(2)])
 pruefe('Titel 4 (12 Folgen, keine Staffel mit 12): Angebote fallen', namen(4) === '', namen(4))
 pruefe('Titel 5 (24 Folgen, Staffel 2 führt Crunchyroll unter anderer Adresse, beide Staffeln): Angebot bleibt', namen(5) === 'Crunchyroll', namen(5))
+const kauf = { anbieter: 'Amazon Video', art: 'BUY', url: 'https://watch.amazon.de/detail?gti=amzn1.dv.gti.kauf' }
+const leihe = { anbieter: 'Apple TV', art: 'RENT', url: 'https://tv.apple.com/de/show/x' }
+const gesamtOnlyAbo = { anbieter: 'Joyn', art: 'FLATRATE', url: 'https://www.joyn.de/serien/x' }
+const ausKauf = mitStaffelTreffer({ 1: { jwId: 'tk', angebote: [kauf, leihe, gesamtOnlyAbo], staffeln: [{ folgen: 12, angebote: [] }, { folgen: 24, angebote: [] }] } } as never, new Map([[1, titel(1, 12)]]))
+pruefe('Kauf und Leihe stehen nie unter einer Staffel: sie bleiben (Fehlen dort ist keine Auskunft), das Abo nur im Gesamtfeld fällt', (ausKauf['1'].angebote ?? []).map((a) => a.anbieter).join(',') === 'Amazon Video,Apple TV', ausKauf['1'].angebote)
 pruefe('beide Staffeln führen Crunchyroll unter je eigener Adresse (Gundam 00, Isekai Quartet): Crunchyroll bleibt, der Kanal fällt', namen(8) === 'Crunchyroll', namen(8))
 
 console.log(verletzt ? `\n${verletzt} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
