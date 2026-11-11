@@ -11,7 +11,7 @@ import { ablegen } from './beleg-ablage.ts'
 import { neueStoerungen, ohneRuhende, seiteninfo } from './beleg-stoerung.ts'
 import { merkeFehlschlag, vergissFehlschlag, type Fehlschlaege } from './beleg-fehlschlag.ts'
 import { BILD_FASSUNG, belegAusschnitt } from './beleg-bild.ts'
-import { markenLuecken, meldeMarkenLuecken } from './beleg-marken.ts'
+import { MARKEN_FASSUNG, markenLuecken, meldeMarkenLuecken, meldeNameImText } from './beleg-marken.ts'
 import type { Gruppe } from './beleg-suche.ts'
 
 const STOERUNGEN_BIS_ABBRUCH = 3
@@ -101,6 +101,7 @@ export async function leseUndMerke(seite: Page, url: string, k: Lesekontext, les
   /* Derselbe Text hat dasselbe Bild — eine Lesung mit neuem Datum verweist darauf, statt es neu zu erzeugen. */
   if (letzte?.hash === hash) Object.assign(lesung, { bild: letzte.bild, text: letzte.text, html: letzte.html, markierung: letzte.markierung, markierungen: letzte.markierungen, bildfassung: letzte.bildfassung })
   if (letzte?.hash === hash) lesung.ohneMarke = letzte.ohneMarke
+  if (letzte?.hash === hash) lesung.markenfassung = letzte.markenfassung
   /* Ein neuer Stand bekommt sein Bild; fehlt es einem alten (Ablage war nicht erreichbar), wird es nachgeholt. */
   const ziel = letzte?.hash === hash ? letzte : lesung
   /* Auch ein Bild ohne Fundstelle wird neu gemacht (04.10.2026): Ältere Belege bekommen so ihre Markierung. */
@@ -114,9 +115,11 @@ export async function leseUndMerke(seite: Page, url: string, k: Lesekontext, les
     if (beleg === 'leer') throw new Error(`Aufnahme einfarbig — kein Beleg (${await leser.info(seite)})`)
     if (beleg) {
       ziel.qs = 'ok'; ziel.bildfassung = BILD_FASSUNG
+      ziel.markenfassung = lesung.markenfassung = MARKEN_FASSUNG
       if (beleg.markierung) ziel.markierung = lesung.markierung = beleg.markierung
       if (beleg.markierungen) ziel.markierungen = lesung.markierungen = beleg.markierungen
       if (beleg.ohneMarke) ziel.ohneMarke = lesung.ohneMarke = beleg.ohneMarke
+      meldeNameImText(url, g.text, beleg.ohneMarke, gruppen.get(url) ?? [], warn)
       ziel.bild = await leser.ablegen(`${basis}.webp`, beleg.bild, 'image/webp')
       ziel.text = await leser.ablegen(`${basis}.txt.gz`, beleg.text, 'application/gzip')
     }
