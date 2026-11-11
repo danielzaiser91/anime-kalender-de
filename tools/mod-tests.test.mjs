@@ -55,7 +55,8 @@ function main() {
         return pflicht ? 1 : 0
       }
       if (art === 'rot') {
-        console.error(`mod-tests: ${mod} ROT\n${ausgabe.slice(-3000)}`)
+        const rote = ausgabe.split('\n').filter((z) => !z.startsWith('(pass)'))
+        console.error(`mod-tests: ${mod} ROT\n${rote.join('\n').slice(-4000)}`)
         return 1
       }
       console.log(`mod-tests: ${mod} grün (${(ausgabe.match(/^\s*(\d+) pass/m) ?? [])[1]} Tests)`)
