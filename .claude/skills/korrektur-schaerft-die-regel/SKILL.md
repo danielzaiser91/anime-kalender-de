@@ -193,7 +193,7 @@ Jede Meldung durchläuft fünf Stufen. Jede steht im Auftrag an den Bauer und im
 5. **Warum ist es durchgerutscht?** Daniel, 16.10.2026: Es hätte dem Prüfer auffallen müssen.
    Für den PR, der den Fehler eingeführt hat (`git log -S`/`git blame`), wird geklärt: Hat der
    Prüfer-Agent oder der CI-Prüfer die Stelle gesehen? Hätte eine vorhandene Prüfung anschlagen
-   müssen? Die Antwort schärft `~/.claude/agents/pruefer.md`, die CI-Prüfervorgabe oder die
+   müssen? Die Antwort schärft `.claude/agents/pruefer.md`, die CI-Prüfervorgabe oder die
    Prüfkette, damit dieselbe Fehlerart beim nächsten PR auffällt.
 
 Erst wenn alle fünf Stufen erfüllt sind, gilt die Meldung als erledigt. Der Prüfer prüft alle
