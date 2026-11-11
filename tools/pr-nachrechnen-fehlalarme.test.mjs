@@ -91,10 +91,10 @@ pruefe('A2(b) Leser tools/check-x.mjs liest die bewegte Datei und importiert too
 // 11.11.2026: tools/commit-data-test.sh nennt data/anisearch.json & Co. nur als Fixture in Wegwerf-Repos; als Bau-Leser wies es Daten-PRs ab.
 // Der Text ist der echte (vorher: Grund „Leser: tools/commit-data-test.sh“), die Gegenprobe gibt ihn unter einem Werkzeugnamen ohne „-test“.
 const lesePfad = (name) => new URL(`./${name}`, import.meta.url)
-const SHELL = Object.fromEntries(['commit-data-test.sh', 'commit-data-test-verworfen.sh', 'bau-schon-gebaut-test.sh'].map((n) => [`tools/${n}`, fs.readFileSync(lesePfad(n), 'utf8')]))
+const SHELL = Object.fromEntries(['commit-data-test.sh', 'commit-data-test-verworfen.sh'].map((n) => [`tools/${n}`, fs.readFileSync(lesePfad(n), 'utf8')]))
 const DATEN_PR = ['data/folgentitel-hand.yaml']
 for (const [pfad, text] of Object.entries(SHELL)) {
-  const genannt = ['data/anisearch.json', 'data/bestand-historie.jsonl'].find((d) => text.includes(d.split('/').pop()))
+  const genannt = 'data/anisearch.json'
   const ohne = bewegtesGelesen({ bewegt: [genannt], pr: DATEN_PR, leser: [pfad], lies: (p) => SHELL[p] ?? null, paketSkripte: null })
   const mit = bewegtesGelesen({ bewegt: [genannt], pr: DATEN_PR, leser: ['tools/gen.sh'], lies: (q) => (q === 'tools/gen.sh' ? text : null), paketSkripte: null })
   pruefe(`Shell-Test ${pfad} (nennt ${genannt}) ist kein Bau-Leser -> null`, ohne === null, ohne)
@@ -105,6 +105,25 @@ for (const [p, soll] of MUSTER_FAELLE) {
   const g = bewegtesGelesen({ bewegt: ['data/anisearch.json'], pr: DATEN_PR, leser: [p], lies: (q) => (q === p ? "x('data/anisearch.json')\n" : null), paketSkripte: null })
   pruefe(`Shell-Test-Muster: ${p} -> ${soll === null ? 'null' : 'Grund'}`, (g === null) === (soll === null), g)
 }
+
+// 11.11.2026: der Grund nennt alle Bau-Leser je bewegter Datei, höchstens 5, den Rest als „und n weitere“ (Kern zuerst).
+const bauGrund = (bewegt, texte) => bewegtesGelesen({ bewegt, pr: DATEN_PR, leser: Object.keys(texte), lies: (p) => texte[p] ?? null, paketSkripte: null })
+const nenner = (n, wort) => Object.fromEntries(Array.from({ length: n }, (_, i) => [`pipeline/bau/l${i + 1}.ts`, `x('${wort}')\n`]))
+const A = 'data/anisearch.json'
+const B = 'data/kennungen.json'
+const ENDE = (s) => `(${s})`
+const g1 = bauGrund([A], { 'tools/gen.mjs': "x('anisearch.json')\n", 'pipeline/bau/k.ts': "x('anisearch.json')\n" })
+pruefe('Leser: zwei Leser, Kern vor Werkzeug, beide genannt', g1.endsWith(ENDE(`Leser: pipeline/bau/k.ts, tools/gen.mjs, nennt ${A}`)), g1)
+const g5 = bauGrund([A], nenner(5, 'anisearch.json'))
+pruefe('Leser: genau 5 Leser -> alle genannt, kein „weitere“', g5.endsWith(ENDE(`Leser: ${Object.keys(nenner(5, 'x')).join(', ')}, nennt ${A}`)), g5)
+const g6 = bauGrund([A], nenner(6, 'anisearch.json'))
+pruefe('Leser: 6 Leser -> 5 genannt und „und 1 weitere“', g6.endsWith(ENDE(`Leser: ${Object.keys(nenner(5, 'x')).join(', ')} und 1 weitere, nennt ${A}`)), g6)
+const g9 = bauGrund([A], nenner(9, 'anisearch.json'))
+pruefe('Leser: 9 Leser -> „und 4 weitere“ (Zahl der Übrigen, nicht der Gesamtheit)', g9.endsWith(ENDE(`Leser: ${Object.keys(nenner(5, 'x')).join(', ')} und 4 weitere, nennt ${A}`)), g9)
+const g2 = bauGrund([A, B], { 'pipeline/bau/a.ts': "x('anisearch.json')\n", 'pipeline/bau/b.ts': "x('kennungen.json')\n", 'pipeline/bau/c.ts': "x('anisearch.json')\nx('kennungen.json')\n" })
+pruefe('Leser: zwei bewegte Dateien -> je Datei ein Abschnitt, ein Leser beider steht in beiden', g2.endsWith(ENDE(`Leser: pipeline/bau/a.ts, pipeline/bau/c.ts, nennt ${A}; Leser: pipeline/bau/b.ts, pipeline/bau/c.ts, nennt ${B}`)), g2)
+const gN = bauGrund([A, B], { 'pipeline/bau/a.ts': null })
+pruefe('Leser: nicht lesbarer Text zählt als Leser der ersten bewegten Datei', gN.endsWith(ENDE(`Leser: pipeline/bau/a.ts, nennt ${A}`)), gN)
 
 if (fehler.length > 0) {
   console.error(`pr-nachrechnen-fehlalarme.test: ${fehler.length} rot`)

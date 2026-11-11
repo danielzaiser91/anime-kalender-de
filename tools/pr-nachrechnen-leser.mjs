@@ -154,12 +154,24 @@ const istBauLeser = (datei) => !istTest(datei) && !istShellTest(datei) && !datei
 const kernZuerst = (liste) => [...liste].sort((a, b) => Number(KERN.test(b)) - Number(KERN.test(a)))
 const KERN = /^(pipeline\/|shared\/|tools\/check-)/
 
-/** Bau-Leser, die eine der bewegten Dateien wirklich nennen, samt dieser Datei; Kern zuerst. Nicht lesbarer Text zählt als Leser (fail-closed). */
+/** Bau-Leser, die eine der bewegten Dateien wirklich nennen, je Leser und genannter Datei ein Paar; Kern zuerst. Nicht lesbarer Text zählt als Leser der ersten bewegten Datei (fail-closed). */
 const bauLeserMitDatei = (leser, bewegt, lies) => kernZuerst(leser.filter(istBauLeser)).flatMap((l) => {
   const text = lies(l)
-  const b = text === null ? bewegt[0] : bewegt.find((x) => liestTestDatei(l, text, x) && nennt(text, x))
-  return b === undefined ? [] : [{ leser: l, bewegt: b }]
+  if (text === null) return [{ leser: l, bewegt: bewegt[0] }]
+  return bewegt.filter((x) => liestTestDatei(l, text, x) && nennt(text, x)).map((x) => ({ leser: l, bewegt: x }))
 })
+
+/** Höchstens so viele Leser je bewegter Datei nennt der Grund, der Rest als „und n weitere“. */
+export const LESER_ANZEIGE = 5
+
+/** „Leser: a, b und 2 weitere, nennt F“, je bewegter Datei ein Abschnitt in Reihenfolge des ersten Auftretens. */
+export function leserText(paare) {
+  return [...new Set(paare.map((p) => p.bewegt))].map((datei) => {
+    const namen = paare.filter((p) => p.bewegt === datei).map((p) => p.leser)
+    const mehr = namen.length - LESER_ANZEIGE
+    return `Leser: ${namen.slice(0, LESER_ANZEIGE).join(', ')}${mehr > 0 ? ` und ${mehr} weitere` : ''}, nennt ${datei}`
+  }).join('; ')
+}
 
 /** Leser, die mindestens eine Nicht-Bot-Datei nennen (nicht lesbarer Text bleibt, fail-closed). */
 const leserOhneBot = (leser, bewegt, botBewegt, lies) => {
@@ -211,7 +223,7 @@ export function bewegtesGelesen({ bewegt, pr, leser, lies, liesMain = () => null
   const eigene = pr.filter((p) => !ohneLeser(p) && p !== 'package.json')
   const daten = eigene.find(aendertBauDaten)
   const bauLeser = daten === undefined ? [] : bauLeserMitDatei(leser, bewegt.filter((b) => !botBewegt.includes(b)), lies)
-  if (bauLeser.length > 0) return `der PR ändert ${daten}, das der Bau mit den bewegten Dateien zusammen liest (Leser: ${bauLeser[0].leser}, nennt ${bauLeser[0].bewegt})`
+  if (bauLeser.length > 0) return `der PR ändert ${daten}, das der Bau mit den bewegten Dateien zusammen liest (${leserText(bauLeser)})`
   let start = eigene.flatMap((p) => (LISTE.test(p) ? neueEintraege(p, lies, liesMain) : [p]))
   if (pr.includes('package.json')) {
     if (paketSkripte === null) return 'package.json nicht vergleichbar'
