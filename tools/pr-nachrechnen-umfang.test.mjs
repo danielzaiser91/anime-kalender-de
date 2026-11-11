@@ -34,6 +34,9 @@ const funktion = (name, n) => `export function ${name}() {\n${'  void 0\n'.repea
   const b = JSON.parse(grenzen(12))
   b.ueberlaenge.tools.ketten = 1
   pruefe('nur die Art `ketten` erhöht -> Erhöhung', grenzErhoehung(a, b) === 'tools ketten 0 -> 1')
+  const e = JSON.parse(grenzen(12))
+  e.ueberlaenge.tools.dateien = 1
+  pruefe('nur die Art `dateien` erhöht -> Erhöhung', grenzErhoehung(a, e) === 'tools dateien 0 -> 1')
   const c = JSON.parse(grenzen(12))
   c.ueberlaenge.web = { funktionen: 5, dateien: 0, ketten: 0 }
   pruefe('neuer Bereich mit Wert über 0 -> Erhöhung', grenzErhoehung(a, c) === 'web funktionen 0 -> 5')
