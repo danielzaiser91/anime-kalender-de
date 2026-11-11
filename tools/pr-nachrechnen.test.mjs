@@ -291,7 +291,7 @@ const leserStub = (antwort) => {
   pruefe('C: Leser sagt null -> 0, nichts geschlossen', code === 0 && schreibend(k.aufrufe).length === 0, { code, m: k.meldungen })
   pruefe('C: Meldung nennt die Bot-Ausnahme', k.meldungen.join() === 'PR 7: aktuell, Kette gegen 7a466acc8, main ist c0ffee000, seitdem nur Fremdes ohne Zusammenhang bewegt (Daten, Sammler, Werkzeuge außerhalb der Kette), kein Code des PR liest die bewegten Dateien', k.meldungen)
   const a = stub.aufrufe[0]
-  pruefe('C: Leser bekommt bewegte Dateien ohne public/data, PR-Dateien und Stände', stub.aufrufe.length === 1 && a.bewegt.join() === 'data/crunchyroll-woche.json,data/curated/tv-2026.yaml' && a.pr.join() === CODE_PR.trim().split('\n').join() && JSON.stringify(a.refs) === JSON.stringify({ nummer: 7, kopf: KOPF, main: MAIN }), stub.aufrufe)
+  pruefe('C: Leser bekommt bewegte Dateien ohne public/data, PR-Dateien und Stände', stub.aufrufe.length === 1 && a.bewegt.join() === 'data/crunchyroll-woche.json,data/curated/tv-2026.yaml' && a.pr.join() === CODE_PR.trim().split('\n').join() && JSON.stringify(a.refs) === JSON.stringify({ nummer: 7, kopf: KOPF, main: MAIN, bot: ['data/crunchyroll-woche.json'] }), stub.aufrufe)
 }
 {
   const stub = leserStub('der PR liest data/crunchyroll-woche.json (tools/x.mjs)')
@@ -318,7 +318,7 @@ for (const beruehrt of ['data/crunchyroll-woche.json', 'public/data/titles.json'
 // Verdrahtung mit dem echten Git-Anschluss: Anlassfall PR 2043 (nur ein Workflow) bleibt gültig, ein PR am Leser wird veraltet.
 const REPO = {
   main: {
-    'pipeline/bau/cr.ts': "import { x } from '../lib/helfer'\nconst d = 'data/crunchyroll-woche.json'\n",
+    'pipeline/bau/cr.ts': "import { x } from '../lib/helfer'\nconst d = 'data/crunchyroll-woche.json'\nconst e = 'data/curated/tv-2026.yaml'\n",
     'pipeline/lib/helfer.ts': 'export const x = 1\n',
     '.github/workflows/bestand-bauen.yml': 'steps:\n  - run: npm run data:build\n',
   },
