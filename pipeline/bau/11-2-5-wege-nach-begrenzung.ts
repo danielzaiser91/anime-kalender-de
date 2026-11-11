@@ -2,7 +2,7 @@ import { type IstTot } from '../lib/adresse-tot.ts'
 import { readJson } from '../lib/util.ts'
 import { type Title } from '../../shared/types.ts'
 import { staffelDesTitels, staffelFuehrt, zaehleTitelJeJwFolgen } from '../lib/jw-staffel-des-titels.ts'
-import { ergaenzeWegeOhneWeg, PHYSISCHE_SHOPS, type JwEintrag } from './11-2-2-wege-ohne-weg.ts'
+import { ergaenzeWegeOhneWeg, PHYSISCHE_SHOPS, type JwAngebot, type JwEintrag } from './11-2-2-wege-ohne-weg.ts'
 
 /** Kennungen der Titel, die gerade mindestens einen Stream tragen. */
 export function titelMitStream(titles: ReadonlyMap<number, Title>): Set<number> {
@@ -53,9 +53,9 @@ export function mitStaffelTreffer(jw: Record<string, JwEintrag>, titles: Readonl
       out[id] = e
       continue
     }
-    const inJeder = (url?: string) => staffeln.every((s) => (s.angebote ?? []).some((a) => a.url === url))
+    const inJeder = (a: JwAngebot) => staffeln.every((s) => staffelFuehrt(s, a))
     const eigene = staffelDesTitels(e, titles.get(Number(id))?.episodes, zaehler)
-    out[id] = { ...e, angebote: (e.angebote ?? []).filter((a) => PHYSISCHE_SHOPS.test(a.anbieter) || inJeder(a.url) || (!!eigene && staffelFuehrt(eigene, a))) }
+    out[id] = { ...e, angebote: (e.angebote ?? []).filter((a) => PHYSISCHE_SHOPS.test(a.anbieter) || inJeder(a) || (!!eigene && staffelFuehrt(eigene, a))) }
   }
   return out
 }
