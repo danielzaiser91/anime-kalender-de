@@ -51,7 +51,7 @@ function decide(input) {
     return {
       permissionDecision: 'deny',
       permissionDecisionReason:
-        'Regel „Kein PowerShell" (~/.claude/rules/30-system-und-sicherheit.md): ' +
+        'Regel „Kein PowerShell" (.claude/rules/30-system-und-sicherheit.md): ' +
         'PowerShell wird nicht aufgerufen. Für Shell-Operationen das Bash-Werkzeug, ' +
         'für Dateizugriffe Read/Write/Edit/Grep/Glob.',
     };
@@ -61,7 +61,7 @@ function decide(input) {
     return {
       permissionDecision: 'deny',
       permissionDecisionReason:
-        'Regel „Kein PowerShell" (~/.claude/rules/30-system-und-sicherheit.md): ' +
+        'Regel „Kein PowerShell" (.claude/rules/30-system-und-sicherheit.md): ' +
         'Der Befehl ruft powershell.exe/pwsh auf. Stattdessen in Bash lösen.',
     };
   }

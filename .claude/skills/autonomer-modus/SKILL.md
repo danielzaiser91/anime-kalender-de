@@ -123,7 +123,7 @@ Der Auftrag lautet „entscheide selbst, was dem Projekt am meisten hilft". Eine
 deshalb **kein** Grund aufzuhören, sondern der Anfang der eigentlichen Arbeit. In dieser
 Reihenfolge:
 
-1. **Offene Punkte im Footer**, die auf eine eigene Vorarbeit warten (🟡) — ist die Vorarbeit
+1. **Offene Punkte in `stand.md`**, die auf eine eigene Vorarbeit warten (🟡) — ist die Vorarbeit
    jetzt fertig?
 2. **Das Projektziel gegen den Bestand halten.** Die `CLAUDE.md` nennt es; wo klafft die größte
    Lücke, gemessen statt vermutet? So ist am 06.09.2026 die Detektiv-Conan-Lücke gefunden

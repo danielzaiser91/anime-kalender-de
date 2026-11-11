@@ -29,7 +29,7 @@ für alle Clients, diese Regel ist die gemessene Wahrheit über **diesen**.
 
 **Prüfgriff vor jedem Absenden:** Steht in der Antwort ein Link auf eine lokale Datei, muss er
 mit `file:///C:/` beginnen. Ein Link, der mit einem Buchstaben oder Punkt anfängt, ist tot.
-Das gilt besonders im **Footer**: Dort landen Verweise auf Aufgabenlisten fast automatisch, und
+Das gilt besonders in **Verweisen auf Aufgabenlisten**: Dort landen Verweise auf Aufgabenlisten fast automatisch, und
 dort fällt es Daniel zuerst auf.
 
 ## Ein eingebettetes Bild ist derselbe Fall — dritter Verstoß
