@@ -5,8 +5,8 @@
     "lastCount": 11
   },
   "anime2you": {
-    "lastOk": "2026-11-11T14:11:29.131Z",
-    "lastRun": "2026-11-11T14:11:29.131Z",
+    "lastOk": "2026-11-11T15:12:29.963Z",
+    "lastRun": "2026-11-11T15:12:29.963Z",
     "lastCount": 51
   },
   "anisearch": {
@@ -20,8 +20,8 @@
     "lastCount": 120
   },
   "crunchyroll-dub": {
-    "lastOk": "2026-11-09T16:01:55.425Z",
-    "lastRun": "2026-11-09T16:01:55.425Z",
+    "lastOk": "2026-11-11T15:12:10.637Z",
+    "lastRun": "2026-11-11T15:12:10.637Z",
     "lastCount": 1156
   },
   "anime-offline-database": {
@@ -118,9 +118,9 @@
     "lastCount": 1
   },
   "crunchyroll-neu": {
-    "lastOk": "2026-11-11T14:11:10.723Z",
-    "lastRun": "2026-11-11T14:11:10.723Z",
-    "lastCount": 183
+    "lastOk": "2026-11-11T15:12:00.785Z",
+    "lastRun": "2026-11-11T15:12:00.785Z",
+    "lastCount": 184
   },
   "cartoons": {
     "lastOk": "2026-11-11T04:11:08.004Z",
@@ -139,8 +139,8 @@
     "lastCount": 16
   },
   "tv-programm": {
-    "lastOk": "2026-11-11T14:11:32.491Z",
-    "lastRun": "2026-11-11T14:11:32.491Z",
+    "lastOk": "2026-11-11T15:12:33.687Z",
+    "lastRun": "2026-11-11T15:12:33.687Z",
     "lastCount": 292
   },
   "tv-de": {
@@ -177,7 +177,7 @@
   },
   "crunchyroll-woche": {
     "lastOk": "2026-11-11T13:01:45.000Z",
-    "lastRun": "2026-11-11T14:11:07.657Z",
+    "lastRun": "2026-11-11T15:11:57.590Z",
     "lastCount": 0,
     "lastError": "browserType.launch: Executable doesn't exist at /home/runner/.cache/ms-playwright/chromium_headless_shell-1234/chrome-headless-shell-linux64/chrome-headless-shell\n╔════════════════════════════════════════════════════════════╗\n║ Looks like Playwright was just installed or updated.       ║\n║ Please run the following command to download new browsers: ║\n║                                                            ║\n║     npx playwright install                                 ║\n║                                                            ║\n║ <3 Playwright Team                                         ║\n╚════════════════════════════════════════════════════════════╝"
   },
@@ -187,8 +187,8 @@
     "lastCount": 69
   },
   "messbelege": {
-    "lastOk": "2026-11-11T14:11:31.468Z",
-    "lastRun": "2026-11-11T14:11:31.468Z",
+    "lastOk": "2026-11-11T15:12:32.530Z",
+    "lastRun": "2026-11-11T15:12:32.530Z",
     "lastCount": 0,
     "leerSeit": "2026-11-06T18:01:33.610Z"
   },
