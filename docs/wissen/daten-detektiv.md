@@ -49,7 +49,7 @@ Disney+-Katalogaufnahmen als „Premiere" (DD-11); (5) acht News-Meldungen ohne 
 - **Hart — Bau bricht ab:** DD-01, DD-13, DD-14, DD-21, DD-23 in `pipeline/lib/invarianten.ts` (an Releases und Terminen), DD-06 und DD-15 in
   `pipeline/lib/invarianten-auslieferung.ts` (an den geschriebenen Dateien; Aufruf `bau/auslieferung-pruefen.ts` aus `13-5-kerndateien.ts`).
   Gegenprobe je Regel in `pipeline/check-invarianten.ts` (Teil von `check:logic`), `--bestand` fährt sie über `public/data`. Festlegungen:
-  DD-01 kennt eine Liste belegter Anbieterdaten (`DATUM_VOM_ANBIETER`: Lycoris Recoil und The Maid I Hired Recently Is Mysterious, Crunchyroll datiert Folge 6 vor Folge 5; geschlüsselt nach Titelkennung und Plattform, nicht nach dem Slug, der das Datum der ersten Folge trägt); DD-13 gilt für Format
+  DD-01 kennt eine Liste belegter Anbieterdaten (`DATUM_VOM_ANBIETER`, seit 11.11.2026 leer: Lycoris Recoil und Maid lösen es im Bestand nicht aus; Schlüssel Titelkennung:Plattform, nicht der Slug; `check-anbieter-eintraege-bestand.ts` in `check:bestand` meldet tote und zu weite Einträge); DD-13 gilt für Format
   `MOVIE` und Release-Typ Film, nicht für ein ONA mit falscher AniList-Zahl (Steel Ball Run); DD-06 nimmt den aniSearch-Zwilling im Hauptbestand,
   Handurteil „keine Synchro", künftigen Start und `nichtImBestand`-Handbelege aus. **Risiko:** Zwischen dem Dub-Schritt (`dub-ids`) und dem Eintrags-Schritt
   (`anisearch-eintraege`) kann eine neue `d`-Kennung kurz ohne Eintrag sein — ein Bau in dem Fenster bricht ab, bis der Eintrag geholt ist.

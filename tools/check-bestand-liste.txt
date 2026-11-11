@@ -4,6 +4,7 @@
 pipeline/check-adn-film-bestand.ts
 pipeline/check-adn-kennung-bestand.ts
 pipeline/check-adn-offen-bestand.ts
+pipeline/check-anbieter-eintraege-bestand.ts
 pipeline/check-angebot-bestand.ts
 pipeline/check-anisearch-dubletten-bestand.ts
 pipeline/check-anisearch-katalog-abgleich-bestand.ts

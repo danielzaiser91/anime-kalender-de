@@ -64,23 +64,26 @@ export function verweiseAufgeloest(releases: Release[], events: ReleaseEvent[], 
 /**
  * Releases, deren Anbieter selbst ein nicht steigendes Folgendatum liefert (Quelle belegt, nicht unser Rechenfehler); jeder Eintrag mit Grund und Messdatum.
  * Schlüssel `<titleId>:<platform>` (`anbieterDatumSchluessel`), nie der Slug: er trägt das Datum der ersten Folge und wandert mit dem Datenstand.
+ * Leer: Lycoris Recoil und Maid lösen DD-01 im Bestand auf main nicht aus (gemessen 11.11.2026). Wächter: `check-anbieter-eintraege-bestand.ts`.
  */
-export const DATUM_VOM_ANBIETER: Record<string, string> = {
-  '143270:crunchyroll': 'Lycoris Recoil: Crunchyrolls Katalog datiert Folge 6 auf 2022-08-06T16:00Z, vor Folge 5 (gemessen 08.10.2026, data/crunchyroll-dub.json)',
-  '149326:crunchyroll': 'The Maid I Hired Recently Is Mysterious: Crunchyrolls Katalog datiert Folge 6 bis 11 (2022-09-04 bis 2022-10-09) zwei Wochen vor ihre Wochenfolge, Folge 6 damit vor Folge 5 (2022-09-11) (gemessen 10.11.2026, data/crunchyroll-dub.json, Staffel GR8VCPW4J)',
-}
+export const DATUM_VOM_ANBIETER: Record<string, string> = {}
 
 export const anbieterDatumSchluessel = (r: Pick<Release, 'titleId' | 'platform'>): string => `${r.titleId}:${r.platform}`
 
-/** Ein Eintrag in `DATUM_VOM_ANBIETER` ohne Release im Bestand ist tot (Slug-Wechsel, Titel weg) und verdeckt dann einen echten DD-01-Fund; nur gegen den ganzen Bestand prüfbar. */
-export function toteAnbieterEintraege(releases: Release[], eintraege: Record<string, string> = DATUM_VOM_ANBIETER): string[] {
-  const vorhanden = new Set(releases.map(anbieterDatumSchluessel))
-  return Object.keys(eintraege).filter((k) => !vorhanden.has(k)).map((k) => `DATUM_VOM_ANBIETER "${k}": kein Release im Bestand (Eintrag tot)`)
+/** Ein Eintrag ohne Release im Bestand ist tot (Slug-Wechsel, Titel weg), einer mit mehr als einem Release zu weit (verdeckt den echten DD-01-Fund des zweiten); nur gegen den ganzen Bestand prüfbar. */
+export function anbieterEintragProbleme(releases: Release[], eintraege: Record<string, string> = DATUM_VOM_ANBIETER): string[] {
+  const je = new Map<string, number>()
+  for (const r of releases) je.set(anbieterDatumSchluessel(r), (je.get(anbieterDatumSchluessel(r)) ?? 0) + 1)
+  return Object.keys(eintraege).flatMap((k) => {
+    const n = je.get(k) ?? 0
+    if (n === 0) return [`DATUM_VOM_ANBIETER "${k}": kein Release im Bestand (Eintrag tot)`]
+    return n > 1 ? [`DATUM_VOM_ANBIETER "${k}": trifft ${n} Releases (Eintrag zu weit)`] : []
+  })
 }
 
 /** DD-01: Eine spätere Folge liegt vor einer früheren (Lycoris Recoil). TV-Sichtungen zeigen Wiederholungen in beliebiger Reihenfolge und zählen nicht. */
-export function folgenDatumSteigt(releases: Release[], events: ReleaseEvent[]): string[] {
-  const ausgenommen = new Set(releases.filter((r) => r.releaseType === 'disc' || r.tvLetzteSichtung || anbieterDatumSchluessel(r) in DATUM_VOM_ANBIETER).map((r) => r.slug))
+export function folgenDatumSteigt(releases: Release[], events: ReleaseEvent[], eintraege: Record<string, string> = DATUM_VOM_ANBIETER): string[] {
+  const ausgenommen = new Set(releases.filter((r) => r.releaseType === 'disc' || r.tvLetzteSichtung || anbieterDatumSchluessel(r) in eintraege).map((r) => r.slug))
   const je = new Map<string, ReleaseEvent[]>()
   for (const e of events) if (e.episode != null && !ausgenommen.has(e.releaseSlug)) (je.get(e.releaseSlug) ?? je.set(e.releaseSlug, []).get(e.releaseSlug)!).push(e)
   const fehler: string[] = []
