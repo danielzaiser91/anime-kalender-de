@@ -341,7 +341,7 @@
   # Von Hand (27.09.2026): Anime2You nennt den 25.12. statt des 18.12. und AniMoon als Verlag.
   # Von Hand (11.11.2026): zweite Verschiebung auf den 05.03.2027 (aniSearch; Anime2You, 06.11.).
   schedule: { firstEpisodeDate: "2027-03-05" }
-  sources: ["https://www.anisearch.de/article/201866,sakamoto-days-vol-4-4-limited-steelcase-edition-blu-ray", https://www.anime2you.de/news/1052846/animoon-crunchyroll-ksm-25-verschiebungen/, https://www.anime2you.de/news/1068595/28-blu-ray-verschiebungen/]
+  sources: ["https://www.anisearch.de/article/201866,sakamoto-days-vol-4-4-limited-steelcase-edition-blu-ray", https://www.anime2you.de/news/1068595/28-blu-ray-verschiebungen/]
 
 - slug: my-gift-lvl-9999-unlimited-gacha-backstabbed-in-a-backwater-dungeon-i-m-out-for-
   anilistId: 184322
