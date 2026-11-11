@@ -79,7 +79,7 @@ export function schliesseWegeAb({
   streicheMagentaPartner(titles)
 
   begrenzeWege({ titles, alleChecks })
-  ergaenzeWegeNachBegrenzung({ titles, hatteStream, alleChecks, tmdbMehrdeutig, istTot })
+  ergaenzeWegeNachBegrenzung({ titles, hatteStream, tmdbMehrdeutig, istTot })
 
   fuehreAusgabenZusammen({ alleChecks, titles, tmdbMehrdeutig, anisearch, lautPruefungTot, checksJePlattform })
   kennzeichneDeutschLautJustwatch({ titles, tmdbMehrdeutig, alleChecks })
