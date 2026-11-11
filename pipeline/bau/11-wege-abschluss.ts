@@ -8,6 +8,7 @@ import { bereinigeWege } from './11-3-bereinigung.ts'
 import { streicheMagentaPartner } from './11-5-magenta-partner.ts'
 import { kennzeichneDeutschLautJustwatch } from './11-6-jw-vertrauen.ts'
 import { ergaenzeWegeAusJustwatch } from './11-2-justwatch.ts'
+import { ergaenzeWegeNachBegrenzung, titelMitStream } from './11-2-5-wege-nach-begrenzung.ts'
 import { ergaenzeWegeAusTerminen } from './11-7-wege-aus-terminen.ts'
 import { kennzeichneFreenetLautSchwester } from './11-8-schwester-shop.ts'
 import { verwirfKapitelShopWege } from './11-9-kapitel-shop.ts'
@@ -59,6 +60,7 @@ export function schliesseWegeAb({
 
   const istTot = baueIstTot(toteAdressen, lautPruefungTot)
 
+  const hatteStream = titelMitStream(titles)
   fuelleWegeAusJustwatch({ titles, tmdbMehrdeutig, istTot })
   uebernehmeFskAusJustwatch({ titles, tmdbMehrdeutig })
 
@@ -76,6 +78,7 @@ export function schliesseWegeAb({
   streicheMagentaPartner(titles)
 
   begrenzeWege({ titles, alleChecks })
+  ergaenzeWegeNachBegrenzung({ titles, hatteStream, alleChecks, tmdbMehrdeutig, istTot })
 
   fuehreAusgabenZusammen({ alleChecks, titles, tmdbMehrdeutig, anisearch, lautPruefungTot, checksJePlattform })
   kennzeichneDeutschLautJustwatch({ titles, tmdbMehrdeutig, alleChecks })
