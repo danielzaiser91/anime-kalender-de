@@ -83,5 +83,5 @@ pruefe('Bilanz: ein Titel gewinnt einen Weg, einer bleibt gleich, einer ohne Weg
 pruefe('Bilanz ohne Einträge: alles 0', JSON.stringify(folgestaffelBilanz(new Map(), nachher)) === '{"eintraege":0,"wirkend":0,"gesperrt":0}')
 pruefe('Zeile nennt Runde, angelegt, wirken, gesperrt', folgestaffelZeile('erste Runde', { eintraege: 7, wirkend: 3, gesperrt: 4 }) === 'Folgestaffel-Einträge (erste Runde): 7 angelegt, 3 wirken, 4 gesperrt')
 
-console.log(verletzt ?`\n${verletzt} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
+console.log(verletzt ? `\n${verletzt} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(verletzt ? 1 : 0)
