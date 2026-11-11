@@ -127,6 +127,9 @@ const liestClaudeMd = (datei, bewegt, lies) => bewegt.some((b) => istClaudeMd(b)
  */
 const aendertBauDaten = (datei) => datei.startsWith('data/')
 
+/** Bau-Leser: Code, der mit den Daten in einem Lauf läuft (pipeline/, shared/, tools/check-*); Tests und Workflows lesen nur Fixtures oder Namen (PR 3474, 11.11.2026). */
+const istBauLeser = (datei) => /^(pipeline\/|shared\/|tools\/check-)/.test(datei) && !istTest(datei)
+
 /** Einträge einer Ausführungsliste, die der PR neu aufnimmt (Pfade im Kopf, die main nicht hat): nur sie laufen neu gegen die Daten. */
 const neueEintraege = (liste, lies, liesMain) => {
   const alt = new Set(pfadTokens(liesMain(liste) ?? ''))
@@ -155,8 +158,9 @@ export function bewegtesGelesen({ bewegt, pr, leser, lies, liesMain = () => null
   const treffer = pr.find((p) => bewegt.includes(p))
   if (treffer !== undefined) return `der PR berührt ${treffer}`
   const eigene = pr.filter((p) => !ohneLeser(p) && p !== 'package.json')
-  const daten = leser.length === 0 ? undefined : eigene.find(aendertBauDaten)
-  if (daten !== undefined) return `der PR ändert ${daten}, das der Bau mit den bewegten Dateien zusammen liest (Leser: ${leser[0]})`
+  const bauLeser = leser.filter(istBauLeser)
+  const daten = bauLeser.length === 0 ? undefined : eigene.find(aendertBauDaten)
+  if (daten !== undefined) return `der PR ändert ${daten}, das der Bau mit den bewegten Dateien zusammen liest (Leser: ${bauLeser[0]})`
   let start = eigene.flatMap((p) => (LISTE.test(p) ? neueEintraege(p, lies, liesMain) : [p]))
   if (pr.includes('package.json')) {
     if (paketSkripte === null) return 'package.json nicht vergleichbar'

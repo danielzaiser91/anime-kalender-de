@@ -122,6 +122,11 @@ for (const daten of ['data/curated/tv-2026.yaml', 'data/dub-confirmed.yaml', 'da
   pruefe(`PR ändert ${daten}, Leser der bewegten Datei vorhanden -> Grund`, /^der PR ändert .*, das der Bau mit den bewegten Dateien zusammen liest \(Leser: pipeline\/bau\/cr\.ts\)$/.test(g) && g.includes(daten), g)
   pruefe(`PR ändert ${daten}, kein Leser der bewegten Datei -> null`, grund(['tools/nachbar.mjs', daten], { leser: [] }) === null)
 }
+// PR 3474: bewegt waren nur ein Test und ein Workflow, der PR ändert Daten -> kein Bau liest sie mit der bewegten Datei zusammen.
+const NICHT_BAU = ['tools/mutationsprobe-workflow.test.mjs', '.github/workflows/mutationsprobe.yml', 'tools/nur-werkzeug.mjs', 'pipeline/check-x.test.ts']
+pruefe('PR 3474: PR ändert data/…yaml, Leser nur Test und Workflow -> null', grund(['tools/nachbar.mjs', 'data/folgentitel-hand.yaml'], { leser: NICHT_BAU }) === null, grund(['tools/nachbar.mjs', 'data/folgentitel-hand.yaml'], { leser: NICHT_BAU }))
+pruefe('PR 3474 Gegenprobe: ein Bau-Leser unter den Lesern bleibt Grund', /Leser: tools\/check-x\.ts\)$/.test(grund(['tools/nachbar.mjs', 'data/folgentitel-hand.yaml'], { leser: [...NICHT_BAU, 'tools/check-x.ts'] })))
+pruefe('PR 3474 Gegenprobe: shared/-Leser bleibt Grund', /Leser: shared\/l\.ts\)$/.test(grund(['tools/nachbar.mjs', 'data/folgentitel-hand.yaml'], { leser: ['shared/l.ts'] })))
 pruefe('PR ändert nur Patch Notes (ohne Leser in der Kette), Leser vorhanden -> null', grund(['data/patchnotes/neu.yaml']) === null)
 pruefe('PR ändert Datei außerhalb von data/ mit Datenendung, Leser vorhanden -> null', grund(['tools/daten.json']) === null)
 pruefe('PR ändert Namensvetter datax/ (kein Ordner data/), Leser vorhanden -> null', grund(['datax/a.json']) === null)

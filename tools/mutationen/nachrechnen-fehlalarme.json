@@ -268,6 +268,27 @@
     "ersetze": "const vorwaerts = []"
   },
   {
+    "name": "Datenkanal: jeder Leser zählt (bauLeser-Filter entfernt)",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "const bauLeser = leser.filter(istBauLeser)",
+    "ersetze": "const bauLeser = leser",
+    "tests": ["node tools/pr-nachrechnen-leser.test.mjs"]
+  },
+  {
+    "name": "Datenkanal: Tests zählen als Bau-Leser",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "tools\\/check-)/.test(datei) && !istTest(datei)",
+    "ersetze": "tools\\/check-)/.test(datei)",
+    "tests": ["node tools/pr-nachrechnen-leser.test.mjs"]
+  },
+  {
+    "name": "Datenkanal: shared/ kein Bau-Leser",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "/^(pipeline\\/|shared\\/|tools\\/check-)/",
+    "ersetze": "/^(pipeline\\/|tools\\/check-)/",
+    "tests": ["node tools/pr-nachrechnen-leser.test.mjs"]
+  },
+  {
     "name": "Vorwärts: Tiefe 1",
     "datei": "tools/pr-nachrechnen-leser.mjs",
     "suche": "const vorwaerts = [...huelle(start, lies)]",
