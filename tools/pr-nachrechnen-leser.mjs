@@ -106,8 +106,25 @@ export function ordnerTokens(text) {
   return [...new Set([...anhang, ...literal])]
 }
 
-/** Erste bewegte Datei, die unter einem Ordner-Token des Codes liegt (nicht der Token selbst als Datei). */
-export const ordnerLeser = (text, bewegt) => bewegt.find((b) => ordnerTokens(text).some((t) => b.startsWith(`${t}/`)))
+const ENDUNG_LITERAL = /endsWith\(\s*['"`]\.([\w.]+)['"`]|\}\.([\w.]+)['"`]/g
+const ENDUNG_REGEX = /\\\.(\([^)]*\)|[\w?|]+)\$\//g
+
+/**
+ * Endungs-Bedingungen des Codes (`.endsWith('.sh')`, `/\.ya?ml$/`, `` `tools/${n}.mjs` ``) als Dateinamen-Tests; leer, wenn er keine nennt.
+ * Ein Leser, der ein Verzeichnis nur über solche Namen liest, sieht eine Datei anderer Endung nicht (PR 3367/3282, 11.11.2026).
+ */
+export function endungsTests(code) {
+  const lit = [...code.matchAll(ENDUNG_LITERAL)].map((m) => (name) => name.endsWith(`.${m[1] ?? m[2]}`))
+  const reg = [...code.matchAll(ENDUNG_REGEX)].map((m) => (name) => new RegExp(`\\.(?:${m[1].replace(/^\(|\)$/g, '')})$`).test(name))
+  return [...lit, ...reg]
+}
+
+/** Erste bewegte Datei, die unter einem Ordner-Token des Codes liegt (nicht der Token selbst als Datei) und deren Endung der Code nicht ausschließt. */
+export function ordnerLeser(text, bewegt) {
+  const tests = endungsTests(ohneKommentare(text))
+  const sichtbar = (b) => tests.length === 0 || tests.some((t) => t(b))
+  return bewegt.find((b) => sichtbar(b) && ordnerTokens(text).some((t) => b.startsWith(`${t}/`)))
+}
 
 /** Dateien aus `texte` (Karte Pfad -> Inhalt), die den Namen einer bewegten Datei außerhalb von Kommentaren nennen, sortiert. */
 export const leserIn = (texte, bewegt) => [...texte].filter(([pfad, text]) => !LISTE.test(pfad) && bewegt.some((b) => liestTestDatei(pfad, text, b) && nennt(text, b))).map(([pfad]) => pfad).sort()
@@ -126,6 +143,13 @@ const liestClaudeMd = (datei, bewegt, lies) => bewegt.some((b) => istClaudeMd(b)
  * 26.10.2026): ändert der PR sie und liest Code die bewegte Datei, kann die Kombination neu kippen, auch ohne dass der PR-Code sie nennt.
  */
 const aendertBauDaten = (datei) => datei.startsWith('data/')
+
+/** Leser, die Daten wirklich lesen können: alles außer Tests und Workflows/Aktionen, die nur Fixtures oder Namen nennen (PR 3474, 11.11.2026). */
+const istBauLeser = (datei) => !istTest(datei) && !datei.startsWith('.github/')
+
+/** Der Bau-Kern (pipeline/, shared/, tools/check-*) steht in Meldungen vor Werkzeugen und Workflows: sonst liest man „Leser: pr-pruefer.yml“ als Fehlalarm (11.11.2026). */
+const kernZuerst = (liste) => [...liste].sort((a, b) => Number(KERN.test(b)) - Number(KERN.test(a)))
+const KERN = /^(pipeline\/|shared\/|tools\/check-)/
 
 /** Einträge einer Ausführungsliste, die der PR neu aufnimmt (Pfade im Kopf, die main nicht hat): nur sie laufen neu gegen die Daten. */
 const neueEintraege = (liste, lies, liesMain) => {
@@ -155,8 +179,9 @@ export function bewegtesGelesen({ bewegt, pr, leser, lies, liesMain = () => null
   const treffer = pr.find((p) => bewegt.includes(p))
   if (treffer !== undefined) return `der PR berührt ${treffer}`
   const eigene = pr.filter((p) => !ohneLeser(p) && p !== 'package.json')
-  const daten = leser.length === 0 ? undefined : eigene.find(aendertBauDaten)
-  if (daten !== undefined) return `der PR ändert ${daten}, das der Bau mit den bewegten Dateien zusammen liest (Leser: ${leser[0]})`
+  const bauLeser = kernZuerst(leser.filter(istBauLeser))
+  const daten = bauLeser.length === 0 ? undefined : eigene.find(aendertBauDaten)
+  if (daten !== undefined) return `der PR ändert ${daten}, das der Bau mit den bewegten Dateien zusammen liest (Leser: ${bauLeser[0]})`
   let start = eigene.flatMap((p) => (LISTE.test(p) ? neueEintraege(p, lies, liesMain) : [p]))
   if (pr.includes('package.json')) {
     if (paketSkripte === null) return 'package.json nicht vergleichbar'
@@ -171,7 +196,7 @@ export function bewegtesGelesen({ bewegt, pr, leser, lies, liesMain = () => null
     if (ordner !== undefined) return `der PR liest einen Ordner mit ${ordner} (${p}), Verzeichnis nicht eindeutig`
   }
   const vorwaerts = [...huelle(start, lies)]
-  const l1 = leser.find((r) => vorwaerts.some((n) => trifft(n, r)))
+  const l1 = kernZuerst(leser).find((r) => vorwaerts.some((n) => trifft(n, r)))
   if (l1 !== undefined) return `der PR ruft ${l1} auf oder importiert es, das bewegte Daten liest`
   // Bewegter Code (neue Prüfung auf main) liest PR-Code oder -Daten, ohne dass ihn jemand nennt (tests-alle sammelt per readdir).
   const bewegterCode = bewegt.filter((b) => LESBAR.test(b) && !LISTE.test(b))
