@@ -87,6 +87,13 @@ pruefe('Gegenprobe: zwei vde-Folgen bleiben deutsch', L.zaehle(L.ordne(demon([5,
 pruefe('Gegenprobe: Staffel beginnt mit Folge 1 deutsch (Vertonung läuft)', L.zaehle(L.ordne(demon([1])).zeilen).synchro === 1)
 pruefe('Gegenprobe: nur zwei Folgen ohne vde reichen nicht für ein Urteil', L.zaehle(L.ordne(demon([2], 3)).zeilen).synchro === 1)
 pruefe('Gegenprobe: eine einzelne Folge einer anderen Staffel bleibt deutsch', L.zaehle(L.ordne([...demon([6]), roh({ id: 9001, season: '2', languages: ['vostde', 'vde'] })]).zeilen).synchro === 1)
+const wano = (franz) =>
+  Array.from({ length: 12 }, (_, i) =>
+    roh({ id: 56100 + i, number: `Folge ${i + 1}`, shortNumber: String(i + 1), languages: i === 5 ? ['vde'] : i < franz ? ['vostf', 'vf'] : ['vostde'] }))
+pruefe('One Piece Wano: Folgen vostf+vf zählen als nein, die einzelne vde-Folge ist Ausreißer', L.ordne(wano(5)).zeilen.filter((z) => z.ausreisser).map((z) => z.nummer).join() === '6')
+pruefe('... und die Box zählt keine deutsche Folge', L.zaehle(L.ordne(wano(5)).zeilen).synchro === 0)
+const leere = Array.from({ length: 5 }, (_, i) => roh({ id: 7000 + i, number: `Folge ${i + 7}`, shortNumber: String(i + 7), languages: [] }))
+pruefe('Gegenprobe: leere Sprachangabe ist kein Urteil (2 nein + vde + 5 leere)', L.ordne([...wano(2).slice(0, 2), wano(0)[5], ...leere]).zeilen.filter((z) => z.ausreisser).length === 0)
 const gemeinsam = JSON.parse(lies('adn-ausreisser.fixture.json'))
 const ausreisserIds = L.ordne(gemeinsam.videos).zeilen.filter((z) => z.ausreisser).map((z) => z.videoId).sort()
 pruefe('Gemeinsames Fixture mit dem Bau (EPS gegen vde-OAV, Vorschau, NC): dieselben Ausreißer', ausreisserIds.join() === gemeinsam.erwartet.join(), ausreisserIds)
