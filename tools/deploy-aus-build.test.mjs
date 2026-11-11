@@ -7,7 +7,7 @@ import { spawnSync } from 'node:child_process'
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { parse } from 'yaml'
-import { KETTEN_WORKFLOWS, baumPasst, githubUnbedenklich, waehleLauf, waehlePR } from './deploy-aus-build.mjs'
+import { KETTEN_WORKFLOWS, baumPasst, githubUnbedenklich, laufe, waehleLauf, waehlePR } from './deploy-aus-build.mjs'
 
 const SHA = 'a'.repeat(40)
 const BAUM = 'b'.repeat(40)
@@ -86,6 +86,33 @@ assert.equal(yamlFall('jobs:\n  a:\n    steps: [{run: x}]\n  b:\n    uses: ./.gi
 assert.equal(yamlFall('jobs:\n  b:\n    uses: org/repo/.github/workflows/x.yml@v1\n'), 1, 'Job-Ebene fremd')
 assert.equal(yamlFall('jobs:\n  a:\n    steps:\n      - uses: ./.github/actions/../workflows/x.yml\n'), 1, 'aus actions/ heraus')
 assert.equal(yamlFall('jobs:\n  a:\n    steps:\n      - uses: ./tools/action\n'), 1, 'lokale Action außerhalb .github/actions/')
+// Lauf: je Aufruf genau eine Zeile „Treffer: …“ bzw. „kein Treffer: <Grund>“ im Log, Ausgang `treffer=1` nur bei Treffer (Kulisse mit drei Läufen, der richtige in der Mitte).
+const VERSION = JSON.stringify({ baum: BAUM })
+const kulisse = (zusatz = {}) => ({
+  git: (a) => (a[0] === 'rev-parse' ? BAUM : a[0] === 'diff' ? '' : ''),
+  api: (pfad) => (pfad.includes('/jobs') ? { jobs: [{ name: 'PR-Prüfkette', conclusion: 'success' }] } : pfad.includes('/pulls') ? [pr()] : { workflow_runs: [1, 2, 3].map((id) => ({ id: 900 + id, event: 'pull_request', head_sha: 'c'.repeat(40), head_repository: { full_name: 'o/r' } })) }),
+  laden: () => 'x.tar',
+  version: () => VERSION,
+  kopieren: () => {},
+  ...zusatz,
+})
+const probe = (w) => {
+  const zeilen = []
+  const ausgang = []
+  const ergebnis = laufe({ env: { GITHUB_REPOSITORY: 'o/r', GITHUB_SHA: SHA, GITHUB_OUTPUT: 'aus.txt' }, ziel: 'z.tar' }, w, (d, t) => ausgang.push(t), (z) => zeilen.push(z))
+  return { ergebnis, zeilen, ausgang }
+}
+const gut = probe(kulisse())
+assert.deepEqual([gut.ergebnis, gut.zeilen.length, gut.ausgang], [true, 1, ['treffer=1\n']], 'Treffer: eine Zeile, Ausgang gesetzt')
+assert.match(gut.zeilen[0], /^Treffer: PR #7, Lauf 903$/, 'neuester Lauf, Treffer-Zeile')
+const ohnePR = probe(kulisse({ api: () => [] }))
+assert.deepEqual([ohnePR.ergebnis, ohnePR.ausgang], [false, []], 'kein PR: kein Ausgang')
+assert.equal(ohnePR.zeilen.join('|'), 'kein Treffer: kein gemergter PR mit diesem Squash-Commit', 'Grund steht im Log')
+const abweichung = probe(kulisse({ version: () => JSON.stringify({ baum: 'e'.repeat(40) }) }))
+assert.match(abweichung.zeilen.join('|'), /^kein Treffer: Baum und Abdruck des Baus aus Lauf 903 weichen ab/, 'Baum weicht ab: Grund nennt den Lauf')
+assert.deepEqual(abweichung.ausgang, [], 'Abweichung: kein Ausgang')
+const abgelaufen = probe(kulisse({ laden: () => { throw new Error('weg') } }))
+assert.match(abgelaufen.zeilen.join('|'), /^kein Treffer: Artefakt von Lauf 903 nicht abrufbar/, 'Artefakt abgelaufen')
 for (const datei of KETTEN_WORKFLOWS) {
   const wf = parse(readFileSync(resolve(import.meta.dirname, '..', datei), 'utf8'))
   assert.deepEqual(unzulaessigeAufrufe(wf), [], `${datei} ruft etwas außerhalb von .github/actions/`)
