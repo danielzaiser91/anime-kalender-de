@@ -144,8 +144,8 @@ const liestClaudeMd = (datei, bewegt, lies) => bewegt.some((b) => istClaudeMd(b)
  */
 const aendertBauDaten = (datei) => datei.startsWith('data/')
 
-/** Bau-Leser: Code, der mit den Daten in einem Lauf läuft (pipeline/, shared/, tools/check-*); Tests und Workflows lesen nur Fixtures oder Namen (PR 3474, 11.11.2026). */
-const istBauLeser = (datei) => /^(pipeline\/|shared\/|tools\/check-)/.test(datei) && !istTest(datei)
+/** Leser, die Daten wirklich lesen können: alles außer Tests und Workflows/Aktionen, die nur Fixtures oder Namen nennen (PR 3474, 11.11.2026). */
+const istBauLeser = (datei) => !istTest(datei) && !datei.startsWith('.github/')
 
 /** Einträge einer Ausführungsliste, die der PR neu aufnimmt (Pfade im Kopf, die main nicht hat): nur sie laufen neu gegen die Daten. */
 const neueEintraege = (liste, lies, liesMain) => {

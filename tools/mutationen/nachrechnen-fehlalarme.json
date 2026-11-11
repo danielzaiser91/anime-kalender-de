@@ -312,15 +312,22 @@
   {
     "name": "Datenkanal: Tests zählen als Bau-Leser",
     "datei": "tools/pr-nachrechnen-leser.mjs",
-    "suche": "tools\\/check-)/.test(datei) && !istTest(datei)",
-    "ersetze": "tools\\/check-)/.test(datei)",
+    "suche": "const istBauLeser = (datei) => !istTest(datei) && ",
+    "ersetze": "const istBauLeser = (datei) => ",
     "tests": ["node tools/pr-nachrechnen-leser.test.mjs"]
   },
   {
-    "name": "Datenkanal: shared/ kein Bau-Leser",
+    "name": "Datenkanal: Workflows und Aktionen zählen als Leser",
     "datei": "tools/pr-nachrechnen-leser.mjs",
-    "suche": "/^(pipeline\\/|shared\\/|tools\\/check-)/",
-    "ersetze": "/^(pipeline\\/|tools\\/check-)/",
+    "suche": " && !datei.startsWith('.github/')",
+    "ersetze": "",
+    "tests": ["node tools/pr-nachrechnen-leser.test.mjs"]
+  },
+  {
+    "name": "Datenkanal: tools/-Werkzeuge außer check-* zählen nicht (alte Positivliste)",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "!istTest(datei) && !datei.startsWith('.github/')",
+    "ersetze": "/^(pipeline\\/|shared\\/|tools\\/check-)/.test(datei) && !istTest(datei)",
     "tests": ["node tools/pr-nachrechnen-leser.test.mjs"]
   },
   {

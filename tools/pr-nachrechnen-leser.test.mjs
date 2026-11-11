@@ -123,10 +123,14 @@ for (const daten of ['data/curated/tv-2026.yaml', 'data/dub-confirmed.yaml', 'da
   pruefe(`PR ändert ${daten}, kein Leser der bewegten Datei -> null`, grund(['tools/nachbar.mjs', daten], { leser: [] }) === null)
 }
 // PR 3474: bewegt waren nur ein Test und ein Workflow, der PR ändert Daten -> kein Bau liest sie mit der bewegten Datei zusammen.
-const NICHT_BAU = ['tools/mutationsprobe-workflow.test.mjs', '.github/workflows/mutationsprobe.yml', 'tools/nur-werkzeug.mjs', 'pipeline/check-x.test.ts']
+const NICHT_BAU = ['tools/mutationsprobe-workflow.test.mjs', '.github/workflows/mutationsprobe.yml', '.github/actions/herkunft-holen/action.yml', 'pipeline/check-x.test.ts']
 pruefe('PR 3474: PR ändert data/…yaml, Leser nur Test und Workflow -> null', grund(['tools/nachbar.mjs', 'data/folgentitel-hand.yaml'], { leser: NICHT_BAU }) === null, grund(['tools/nachbar.mjs', 'data/folgentitel-hand.yaml'], { leser: NICHT_BAU }))
 pruefe('PR 3474 Gegenprobe: ein Bau-Leser unter den Lesern bleibt Grund', /Leser: tools\/check-x\.ts\)$/.test(grund(['tools/nachbar.mjs', 'data/folgentitel-hand.yaml'], { leser: [...NICHT_BAU, 'tools/check-x.ts'] })))
 pruefe('PR 3474 Gegenprobe: shared/-Leser bleibt Grund', /Leser: shared\/l\.ts\)$/.test(grund(['tools/nachbar.mjs', 'data/folgentitel-hand.yaml'], { leser: ['shared/l.ts'] })))
+// Prüfer 3486 R1 (Befund 2): Generatoren und Sammler unter tools/, web/, worker/, extension/ lesen Daten wirklich und bleiben Leser.
+for (const leser of ['tools/gen.mjs', 'web/src/lib/daten.ts', 'worker/src/feed.ts', 'extension/melder.js']) {
+  pruefe(`PR ändert Handdatei, einziger Leser ${leser} -> Grund`, new RegExp(`Leser: ${leser.replace(/\./g, '\\.')}\\)$`).test(grund(['tools/nachbar.mjs', 'data/folgentitel-hand.yaml'], { leser: [...NICHT_BAU, leser] })))
+}
 pruefe('PR ändert nur Patch Notes (ohne Leser in der Kette), Leser vorhanden -> null', grund(['data/patchnotes/neu.yaml']) === null)
 pruefe('PR ändert Datei außerhalb von data/ mit Datenendung, Leser vorhanden -> null', grund(['tools/daten.json']) === null)
 pruefe('PR ändert Namensvetter datax/ (kein Ordner data/), Leser vorhanden -> null', grund(['datax/a.json']) === null)
