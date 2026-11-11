@@ -36,7 +36,7 @@ import { adnKennungGeaendert, handlisteLaden, loeseHandliste, mitAdnKennung, mit
 import { tmdbStaffeln, type TmdbStaffelRoh } from './lib/cartoon-staffeln.ts'
 import type { CartoonStaffel } from '../shared/cartoon-staffeln-typ.ts'
 import { todayIso } from '../shared/time.ts'
-import { pruefeTote, zaehlzeileTote, type TmdbStatus } from './lib/cartoon-tote.ts'
+import { pruefeTote, zaehlzeileTote, zusatzzeileTote, type TmdbStatus } from './lib/cartoon-tote.ts'
 
 const TMDB = 'https://api.themoviedb.org/3'
 const UA = 'anime-kalender.de/1.0 (+https://anime-kalender.de)'
@@ -123,17 +123,30 @@ async function pruefeBestandsKennungen(bestand: Record<string, CartoonEintrag>, 
   const zuPruefen = Object.entries(bestand).filter(([, e]) => e.geholtAm !== todayIso()).map(([k]) => k)
   const suche = async (begriff: string) => {
     await sleep(60)
-    const j = (await holeJson(`${TMDB}/search/tv?api_key=${schluessel}&language=de-DE&query=${encodeURIComponent(begriff)}`)) as { results?: TmdbSuchtreffer[] } | null
-    return j ? (j.results ?? []) : []
+    try {
+      const j = (await holeJson(`${TMDB}/search/tv?api_key=${schluessel}&language=de-DE&query=${encodeURIComponent(begriff)}`)) as { results?: TmdbSuchtreffer[] } | null
+      return j ? (j.results ?? []) : null
+    } catch {
+      return null
+    }
+  }
+  /* Ein Einzelabruf ohne Eintrag heißt nur dann „kein Animationseintrag“, wenn TMDB die Kennung kennt; sonst Nichtauskunft. */
+  const holen = async (id: number) => {
+    try {
+      return (await einzelheiten(id, schluessel)) ?? ((await tmdbStatus(id, schluessel)) === 'ok' ? null : 'unklar')
+    } catch {
+      return 'unklar' as const
+    }
   }
   const bilanz = await pruefeTote(
     bestand,
     zuPruefen,
-    { status: (id) => tmdbStatus(id, schluessel), suche, holen: (id) => einzelheiten(id, schluessel) },
+    { status: (id) => tmdbStatus(id, schluessel), suche, holen, pause: () => sleep(2000) },
     todayIso(),
     log,
   )
   log(zaehlzeileTote(bilanz))
+  log(zusatzzeileTote(bilanz))
 }
 
 /**
