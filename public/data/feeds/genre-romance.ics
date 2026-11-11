@@ -50,18 +50,6 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
-UID:miss-kobayashi-s-dragon-maid-valentinstag-und-onsen-erwartet-nicht-zu-v
- iel-2026-@2026-11-06@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261106
-DTEND;VALUE=DATE:20261107
-SUMMARY:Miss Kobayashi's Dragon Maid: Valentinstag und Onsen (Erwartet nich
- t zu viel!) (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/8559/
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
 UID:my-love-story-with-yamada-kun-vol1@2026-11-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261106
@@ -545,6 +533,18 @@ DTEND;VALUE=DATE:20261205
 SUMMARY:The Familiar of Zero (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/t/1055/
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:miss-kobayashi-s-dragon-maid-valentinstag-und-onsen-erwartet-nicht-zu-v
+ iel-2026-@2026-12-04@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261204
+DTEND;VALUE=DATE:20261205
+SUMMARY:Miss Kobayashi's Dragon Maid: Valentinstag und Onsen (Erwartet nich
+ t zu viel!) (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/8559/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
