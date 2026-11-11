@@ -409,9 +409,8 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: node tools/pr-checks-stand.mjs "$HEAD_SHA" 120 >> "$GITHUB_OUTPUT"
 
-      # „ok“ ohne Zusatz nur bei grünem Check-Stand; sonst „ok, Checks rot: …“ bzw. „ok, Checks laufen noch: …“. Die
-      # Freigabe bleibt: das Ruleset sperrt den Merge ohnehin, bis die PR-Prüfkette grün ist, und eine grüne
-      # Wiederholung der Kette braucht so keinen neuen Prüfer-Lauf.
+      # „ok“ ohne Zusatz nur bei grünem Check-Stand; sonst „ok, Checks rot: …“ (Freigabe bleibt, das Ruleset sperrt den
+      # Merge ohnehin). Laufen die Pflicht-Checks noch, ist es „nicht beurteilt“ ohne Review (Nachlauf nach Kettenende).
       - name: Protokoll und Freigabe
         if: always()
         env:
@@ -453,6 +452,14 @@ jobs:
               basis_offen=1
               hinweis='Ungeprüft, Basis offen: Der Basis-PR ist noch nicht gemergt und die Kette ist rot. Die Befunde unten sind echte Befunde des Prüfers, aber ungeprüft gegen den Stand mit Basis; sie bleiben gültig, bis eine grüne Kette sie widerlegt. Der Prüfer startet erst nach einer grünen Kette neu (Basis mergen, dann Kette des PR neu starten).'
             fi
+            { printf '%s\n\n' "$hinweis"; cat "$T/protokoll.md"; } > "$T/protokoll.neu"
+            mv "$T/protokoll.neu" "$T/protokoll.md"
+          fi
+          # Auch ein „ok“ ist bei noch laufender Pflicht-Kette kein Urteil (PRs 3478, 3475: „ok, Checks laufen noch“, Kette endete Sekunden
+          # danach): „nicht beurteilt“ mit Marke, kein Approve; der Nachlauf nach Kettenende holt das Urteil. Rot und unbekannt bleiben „ok, …“.
+          if [ "$art" = "ok" ] && [ "$art0" = "ok" ] && [ "${CHECKS:-}" != "${CHECKS#Checks laufen noch}" ]; then
+            art=offen
+            hinweis='Die PR-Prüfkette lief beim Urteil noch; das Urteil gilt erst nach Kettenende. Der Prüfer startet dann von selbst neu.'
             { printf '%s\n\n' "$hinweis"; cat "$T/protokoll.md"; } > "$T/protokoll.neu"
             mv "$T/protokoll.neu" "$T/protokoll.md"
           fi
