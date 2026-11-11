@@ -121,4 +121,4 @@ const d = entscheide({ tool_name: 'Bash', tool_input: { command: 'git fetch --de
 assert.equal(d?.permissionDecision, 'deny')
 assert.match(d.permissionDecisionReason, /git fetch --depth/)
 
-console.log('fetch-depth-sperre.test: ok (fetch/pull/clone, Abkürzung, -C, cd, bash -c, Ketten; frei: Wegwerf-Ordner, normaler Fetch, Text, Heredoc, Prozess, Verteiler)')
+console.log('fetch-depth-sperre.test: ok (fetch/pull/clone, Abkürzung, -C, --git-dir, --work-tree, GIT_DIR, cd, bash -c, Ketten; frei: Wegwerf-Ordner, normaler Fetch, Text, Heredoc, Prozess, Verteiler)')
