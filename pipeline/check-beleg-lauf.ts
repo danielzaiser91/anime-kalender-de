@@ -5,7 +5,7 @@
  */
 import type { Page } from 'playwright'
 import { fuehreLaufAus, type Leser, type Lauf } from './lib/beleg-lauf.ts'
-import { textHash, type BelegGedaechtnis, type Lesung } from './lib/beleg-lesung.ts'
+import { bildOhnePruefung, braucheBild, textHash, type BelegGedaechtnis, type Lesung } from './lib/beleg-lesung.ts'
 import type { Beleg } from './lib/beleg-bild.ts'
 import type { Gruppe } from './lib/beleg-suche.ts'
 
@@ -149,5 +149,32 @@ pruefe('Warnzeile: eine nicht erreichte Altlesung mit Lücke steht als einzeilig
 const log7 = await ausgabe(() => lauf([], { gedaechtnis: altlesung({ ohneMarke: { 2: 'ausserhalb', 3: 'nicht-gefunden' } }), gruppen: g3, limit: 0 }))
 pruefe('Warnzeile: mit Gründen für alle Titel keine Warnung', !log7.includes('WARNUNG'))
 
-console.log(fehler ? `✖ ${fehler} Verstöße` : '✔ Beleg-Lauf: Seitenwahl, Lesen, Fehlschläge, Obergrenze, Speichern und Marken je Titel (Kreislauf, Wächter, Nichtauskunft) in Ordnung')
+/* Kennzahl „Name im Text, Marke fehlt": Der Artikeltext der Attrappe nennt „Artikeltext" — Titel 3 heißt so, Titel 2 nicht. */
+const imText = new Map([[HERBST, [{ id: 1, suchen: ['Titel 1'], tage: [] }, { id: 2, suchen: ['Titel 2'], tage: [] }, { id: 3, suchen: ['Artikeltext'], tage: [] }]]])
+const warnungen = async (gruppen: typeof imText): Promise<string> => {
+  const alt = console.warn
+  const zeilen: string[] = []
+  console.warn = (...a: unknown[]) => { zeilen.push(a.join(' ')) }
+  try { await lauf([HERBST], { gedaechtnis: {}, gruppen, bild: mitMarken({ 1: M }, { 2: 'nicht-gefunden', 3: 'nicht-gefunden' }) }) } finally { console.warn = alt }
+  return zeilen.join('\n')
+}
+const w1 = await warnungen(imText)
+pruefe('Name im Text: der Lauf meldet genau den Titel, dessen Name im Seitentext steht, ohne den anderen', w1.includes('1 Titel stehen im Seitentext') && w1.includes('(3)') && !w1.includes('2)'), w1)
+const w2 = await warnungen(new Map([[HERBST, imText.get(HERBST)!.slice(0, 2)]]))
+pruefe('Name im Text: steht kein Name im Seitentext, bleibt der Lauf still', !w2.includes('Seitentext'), w2)
+
+/* Kreislauf der Markenfassung (11.11.2026): Lesung mit `nicht-gefunden` aus älterer Fassung → in der Schlange → neu aufgenommen und gestempelt → nicht wieder fällig → nur die alte Fassung kommt dran. */
+const aelter = altlesung({ ohneMarke: { 2: 'ausserhalb', 3: 'nicht-gefunden' } })
+const aktuell = altlesung({ ohneMarke: { 2: 'ausserhalb', 3: 'nicht-gefunden' }, markenfassung: 2 })
+const ohneNicht = altlesung({ ohneMarke: { 2: 'ausserhalb', 3: 'ausserhalb' } })
+pruefe('Markenfassung: nur die Lesung mit nicht-gefunden und älterer Fassung kommt vorn in die Schlange', bildOhnePruefung(aelter[HERBST]) && !bildOhnePruefung(aktuell[HERBST]) && !bildOhnePruefung(ohneNicht[HERBST]))
+const dMf = aelter
+const sMf = await lauf([HERBST], { gedaechtnis: dMf, gruppen: g3, bild: mitMarken({ 1: M }, { 2: 'ausserhalb', 3: 'nicht-gefunden' }) })
+pruefe('Markenfassung: die Lesung wird neu aufgenommen und trägt die Fassung 2', sMf.spur.seiten.length === 1 && dMf[HERBST]!.lesungen.at(-1)!.markenfassung === 2 && dMf[HERBST]!.lesungen[0]!.markenfassung === 2)
+pruefe('Markenfassung: danach ist sie nicht wieder fällig (kein zweiter Bau)', !bildOhnePruefung(dMf[HERBST]) && !braucheBild(dMf[HERBST]!.lesungen.at(-1)!, ['x'], titel(1, 2, 3)))
+const dMg = altlesung({ ohneMarke: { 2: 'ausserhalb', 3: 'nicht-gefunden' }, aktualisiert: '2026-10-02', markenfassung: 2 })
+await lauf([HERBST], { gedaechtnis: dMg, gruppen: g3 })
+pruefe('Markenfassung: gleicher Text, neue Lesung erbt die Fassung (sonst wäre sie sofort wieder veraltet)', dMg[HERBST]!.lesungen.length === 2 && dMg[HERBST]!.lesungen.at(-1)!.markenfassung === 2)
+
+console.log(fehler ? `✖ ${fehler} Verstöße` : '✔ Beleg-Lauf: Seitenwahl, Lesen, Fehlschläge, Obergrenze, Speichern, Marken je Titel (Kreislauf, Wächter, Nichtauskunft), Name im Text und Markenfassung in Ordnung')
 process.exit(fehler ? 1 : 0)

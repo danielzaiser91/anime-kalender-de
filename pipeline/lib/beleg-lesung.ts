@@ -12,7 +12,7 @@ import { hostVon } from '../../shared/quelle.ts'
 import { apiBelegMitInhalt } from './beleg-api.ts'
 import { releaseStatus } from '../../shared/logic.ts'
 import { inPause, type Fehlschlaege } from './beleg-fehlschlag.ts'
-import { markenLuecken, type OhneMarkeGrund } from './beleg-marken.ts'
+import { markenLuecken, markenVeraltet, type OhneMarkeGrund } from './beleg-marken.ts'
 import type { Gruppe } from './beleg-suche.ts'
 
 /** Fassung der Aufnahme: steigt sie, werden alle Bilder einmal neu aufgenommen (2 seit 07.10.2026: doppelte Auflösung; 3 seit 27.10.2026: Ausschnitt reicht bis zur obersten Titel-Überschrift). */
@@ -72,6 +72,8 @@ export interface Lesung {
   qs?: 'ok' | 'wand'
   /** Fassung der Aufnahme (`BILD_FASSUNG`): ältere Bilder werden neu aufgenommen. */
   bildfassung?: number
+  /** Fassung der Markensuche (`MARKEN_FASSUNG`): ältere Lesungen mit `nicht-gefunden` werden neu aufgenommen. */
+  markenfassung?: number
   /** Wo die Aussage im Bild steht: `[links, oben, Breite, Höhe]` als Anteile von 0 bis 1. */
   markierung?: [number, number, number, number]
   /** Bei einem Artikel für mehrere Titel: die Fundstelle je Titel-Kennung (`markierung` gilt dann keinem einzelnen). */
@@ -165,14 +167,14 @@ export const ohneMarkenJeTitel = (gedaechtnis: BelegGedaechtnis, gruppen: Map<st
 
 /** Ob die Lesung ein (neues) Bild braucht: keins, ohne Wand-Prüfung, ältere Fassung, ohne Fundstelle trotz Suchbegriffen oder — Sammelartikel — ein Titel ohne Marke und ohne Grund. */
 export function braucheBild(ziel: Lesung, suchbegriffe: string[], gruppen: Gruppe[]): boolean {
-  return !ziel.bild || !ziel.qs || (ziel.bildfassung ?? 1) < BILD_FASSUNG || (!ziel.markierung && suchbegriffe.length > 0) || markenLuecken(ziel, gruppen).length > 0
+  return !ziel.bild || !ziel.qs || (ziel.bildfassung ?? 1) < BILD_FASSUNG || (!ziel.markierung && suchbegriffe.length > 0) || markenLuecken(ziel, gruppen).length > 0 || markenVeraltet(ziel)
 }
 
 /** Altbestand ohne Wand-Prüfung (Bild, `qs` fehlt), entzogene Wände und Bilder älterer Fassung kommen zuerst wieder an die Reihe — sonst steht ein frisch gelesener Artikel am Ende der Warteschlange, hinter dem Limit. */
 export const bildOhnePruefung = (e: BelegGedaechtnis[string] | undefined): boolean => {
   /* Nur die jüngste Lesung zählt: Eine ältere in alter Fassung bleibt neben der neuen stehen und hielte den Artikel sonst für immer vorn in der Schlange (66 von 238 am 13.10.2026). */
   const l = e?.lesungen.at(-1)
-  return Boolean(l && ((l.bild && !l.qs) || l.qs === 'wand' || (l.bild && (l.bildfassung ?? 1) < BILD_FASSUNG)))
+  return Boolean(l && ((l.bild && !l.qs) || l.qs === 'wand' || (l.bild && (l.bildfassung ?? 1) < BILD_FASSUNG) || (l.bild && markenVeraltet(l))))
 }
 
 /** Eine Wand hinter dieser Adresse: Alle Bilder der Adresse werden entzogen (sie zeigen die Wand), die Lesungen tragen `qs: wand`. */

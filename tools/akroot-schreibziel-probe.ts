@@ -17,6 +17,6 @@ meldeAnClaude('sonde', 'hinweis', 'Sonde')
 for (let i = 0; i < 2; i++) {
   schreibeNurOriginalton(meldung)
   // @ts-expect-error Attrappe mit den gelesenen Feldern
-  schreibeOhneFundstelle(gedaechtnis, new Map())
+  schreibeOhneFundstelle(gedaechtnis, new Map([['https://sonde.invalid/b', [{ id: 'sonde', suchen: ['Sonde'] }]]]))
 }
 console.log(JSON.stringify({ voicesDir: VOICES_DIR }))
