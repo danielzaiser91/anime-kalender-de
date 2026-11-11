@@ -8,6 +8,7 @@ import { setzeTelekomAnnahme, type JwAngebot } from '../lib/telekom-annahme.ts'
 import { providerToPlatform } from './titel-hilfen.ts'
 import { entfernteVerweise, ergaenzeWegeOhneWeg, PHYSISCHE_SHOPS, type JwEintrag } from './11-2-2-wege-ohne-weg.ts'
 import { mitStaffelTreffer } from './11-2-5-wege-nach-begrenzung.ts'
+import { mitFolgestaffelEintraegen } from './11-2-6-folgestaffel-eintraege.ts'
 import { ergaenzeAboWege, type JwAbo } from './11-2-3-abo-wege.ts'
 import { ergaenzeKaufWege, primeNeinTitel, type JwKauf } from './11-2-4-kauf-wege.ts'
 
@@ -22,7 +23,7 @@ function legeWegeAn({ titles, tmdbMehrdeutig, istTot }: Runde) {
   const handNein = neinHandbelege(loadDubChecks())
   ergaenzeWegeOhneWeg({
     titles,
-    jw: mitStaffelTreffer(readJson<Record<string, JwEintrag>>('data/justwatch-audio.json', {}), titles),
+    jw: mitFolgestaffelEintraegen(mitStaffelTreffer(readJson<Record<string, JwEintrag>>('data/justwatch-audio.json', {}), titles), titles),
     handNein,
     tmdbMehrdeutig,
     istTot,
