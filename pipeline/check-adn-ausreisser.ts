@@ -1,13 +1,15 @@
 /**
  * Zusicherungen zu `lib/adn-ausreisser.ts` (09.11.2026, Demon Slave): Eine einzelne `vde`-Folge unter lauter `vostde` setzt keinen
- * ADN-Termin und kein `dub: true`. Die Auslöser stammen wörtlich aus dem Archiv (`data/adn-raw`): Demon Slave 1125, GTO 307,
- * One Piece 561 (bis 10.11.2026, danach von ADN bereinigt) sind Ausreißer; Dreamland 887 (3 von 4), JoJo-Staffeln und Dorohedoro 1375 (S2 alle 11, S1 keine) sind es nicht.
- * Der Verdrahtungsteil lässt `ergaenzeAdnTitel` auf einer Kulisse im Temp-Ordner (`AK_ROOT`) laufen, mit und ohne Archivdatei.
+ * ADN-Termin und kein `dub: true`. Die Auslöser stammen wörtlich aus dem Archiv (Stand 11.11.2026), eingefroren in
+ * `fixtures/adn-ausreisser-archiv.json` (nur die nötigen Videos, damit eine Bereinigung bei ADN den Wächter nicht kippt):
+ * Demon Slave 1125, GTO 307, One Piece 561 (Wano 1 von 208) sind Ausreißer; Dreamland 887 (3 von 4) und Dorohedoro 1375
+ * (S2 alle 11, S1 keine) sind es nicht. Der Verdrahtungsteil lässt `ergaenzeAdnTitel` auf einer Kulisse im Temp-Ordner
+ * (`AK_ROOT`) laufen, mit und ohne Archivdatei (aus dem Fixture geschrieben).
  */
-import { copyFileSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
-import { gunzipSync } from 'node:zlib'
+import { gzipSync } from 'node:zlib'
 import type { Release, Title } from '../shared/types.ts'
 import { vdeAusreisser, videoIdAusAdresse, ohneAusreisser, type AusreisserVideo } from './lib/adn-ausreisser.ts'
 
@@ -19,18 +21,17 @@ function pruefe(name: string, bedingung: boolean, gefunden?: unknown): void {
 }
 
 const REPO = resolve(import.meta.dirname, '..')
-const archivDatei = (id: number) => join(REPO, 'data', 'adn-raw', `${id}.json.gz`)
-const videosVon = (id: number): AusreisserVideo[] => JSON.parse(gunzipSync(readFileSync(archivDatei(id))).toString()).videos
+const archiv = JSON.parse(readFileSync(join(REPO, 'pipeline', 'fixtures', 'adn-ausreisser-archiv.json'), 'utf8')) as Record<string, AusreisserVideo[]>
+const videosVon = (id: number): AusreisserVideo[] => archiv[String(id)]
 
 const video = (id: number, nummer: number, sprachen: string[], staffel = '1'): AusreisserVideo => ({ id, shortNumber: String(nummer), languages: sprachen, season: staffel })
 const nein = ['vostde']
 const ja = ['vostde', 'vde']
 
-console.log('\nEchte Archivfälle')
+console.log('\nEingefrorene Archivfälle (Stand 11.11.2026)')
 pruefe('Demon Slave: genau Video 24139 (S1F6)', [...vdeAusreisser(videosVon(1125))].join() === '24139', [...vdeAusreisser(videosVon(1125))])
 pruefe('GTO: ein Ausreißer', vdeAusreisser(videosVon(307)).size === 1)
-// ADN hat die Wano-Folge 1088 (Video 23955) am 11.11.2026 selbst bereinigt: Archiv 561 hat keine vde-Folge in Saga 14 mehr (vorher 1 von 208); der Fall bleibt über die Wano-Fixture unten belegt.
-pruefe('One Piece: Archiv ohne Wano-vde-Folge hat keinen Ausreißer, die vollständig deutsche Saga 7 auch nicht', vdeAusreisser(videosVon(561)).size === 0)
+pruefe('One Piece: Wano-Folge 1088 ist Ausreißer, die vollständig deutsche Saga 7 nicht', vdeAusreisser(videosVon(561)).size === 1)
 pruefe('Dreamland (3 von 4 deutsch, ab Folge 1): kein Ausreißer', vdeAusreisser(videosVon(887)).size === 0)
 pruefe('Dorohedoro (S2 alle deutsch, S1 keine): kein Ausreißer', vdeAusreisser(videosVon(1375)).size === 0)
 
@@ -73,7 +74,7 @@ const { ergaenzeAdnTitel } = await import('./bau/07-adn.ts')
 const { normalizeTitle } = await import('./lib/crunchyroll.ts')
 async function baue(mitArchiv: boolean) {
   const kopie = join(wurzel, 'data', 'adn-raw', '1125.json.gz')
-  if (mitArchiv) copyFileSync(archivDatei(1125), kopie)
+  if (mitArchiv) writeFileSync(kopie, gzipSync(JSON.stringify({ videos: videosVon(1125) })))
   else rmSync(kopie, { force: true })
   const titel = { id: 900125, franchiseId: 900125, titleRomaji: 'Demon Slave Probe', titleEn: 'Demon Slave Probe', episodes: 12, keywords: [], genres: [], streams: [] } as unknown as Title
   const releases: Release[] = []

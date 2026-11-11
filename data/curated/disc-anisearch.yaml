@@ -201,7 +201,8 @@
   releaseType: disc
   publisher: "Crunchyroll"
   edition: "Gesamtausgabe Blu-ray"
-  schedule: { firstEpisodeDate: "2026-12-01" }
+  # 01.12.2026 stammt aus dem aniSearch-Archiv vom 01.10.; die Seite nannte am 04.10. „31. Dez 2027“ (aniSearch-Platzhalter), am 07.11. zeigte sie ein anderes Produkt. Keine zweite Quelle: Termin bleibt, als ≈ gekennzeichnet.
+  schedule: { firstEpisodeDate: "2026-12-01", estimated: true }
   sources: ["https://www.anisearch.de/article/185053,gods-games-we-play-gesamtausgabe-blu-ray"]
 
 - slug: memories-2026-11-18

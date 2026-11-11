@@ -8,11 +8,36 @@ export interface VonHandEintrag {
   ohne?: true
 }
 
+/** Tabellen, die je AniList-ID an der TMDB-Kennung hängen; `verworfen` sammelt, was die Handzeilen daraus gestrichen haben. */
+export interface Abgeleitet {
+  banner: Record<string, unknown>
+  folgen: Record<string, { tmdbId?: number }>
+  /** Ein Titel mit Staffel-0-Zuordnung trägt das Standbild seiner Folge, kein Serienbanner: sein Banner bleibt. */
+  staffel0: Record<string, unknown>
+  verworfen: string[]
+}
+
+/**
+ * Streicht Banner (hängt ohne Kennung am Titel) und Folgen einer anderen Kennung als `neu`; `neu` leer = Kennung entfällt.
+ * Grenzen (Bestand 11.11.2026): Bekommt ein Staffel-0-Titel eine neue Kennung, bleibt sein Standbild (0 Fälle); ein Folgen-Eintrag ohne `tmdbId` entfällt bei `ohne` nicht (930 von 930 haben das Feld).
+ */
+function streicheAbgeleitet(id: number, neu: number | undefined, a: Abgeleitet): void {
+  const k = String(id)
+  if (k in a.banner && !(k in a.staffel0)) {
+    delete a.banner[k]
+    a.verworfen.push(`Banner ${k}`)
+  }
+  if (a.folgen[k] && a.folgen[k]!.tmdbId !== neu) {
+    delete a.folgen[k]
+    a.verworfen.push(`Folgen ${k}`)
+  }
+}
+
 /**
  * Setzt die von Hand nachgesehenen Kennungen (`data/tmdb-von-hand.yaml`) in den Bestand; gibt die Zahl der geänderten Einträge zurück.
- * Wechselt die Kennung, entfallen die Genres der alten (der Genre-Nachtrag holt die der neuen).
+ * Wechselt die Kennung, entfallen die Genres der alten (der Genre-Nachtrag holt die der neuen); mit `abgeleitet` auch Banner und Folgen der alten.
  */
-export function uebernimmVonHand(cache: Record<string, TmdbTitle>, eintraege: VonHandEintrag[], jetzt: string): number {
+export function uebernimmVonHand(cache: Record<string, TmdbTitle>, eintraege: VonHandEintrag[], jetzt: string, abgeleitet?: Abgeleitet): number {
   let gesetzt = 0
   for (const e of eintraege) {
     if (!e?.anilistId) continue
@@ -21,12 +46,14 @@ export function uebernimmVonHand(cache: Record<string, TmdbTitle>, eintraege: Vo
         delete cache[e.anilistId]
         gesetzt++
       }
+      if (abgeleitet) streicheAbgeleitet(e.anilistId, undefined, abgeleitet)
       continue
     }
     if (!e.tmdbId) continue
     const alt = cache[e.anilistId]
     if (alt?.tmdbId === e.tmdbId) continue
     cache[e.anilistId] = { ...alt, genreIds: undefined, tmdbId: e.tmdbId, kind: e.kind ?? alt?.kind ?? 'tv', fetchedAt: jetzt }
+    if (abgeleitet) streicheAbgeleitet(e.anilistId, e.tmdbId, abgeleitet)
     gesetzt++
   }
   return gesetzt

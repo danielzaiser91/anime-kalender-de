@@ -133,6 +133,13 @@ pruefe('botSprungAusnahme: genau 300 Dateien -> abgeschnitten', /abgeschnitten/.
 pruefe('botSprungAusnahme: mehr Commits als Autoren -> abgeschnitten', /abgeschnitten/.test(botSprungAusnahme(v(['data/ann-ids.json'], ['github-actions[bot]'], { commitsGesamt: 2 }), ['x.ts'], () => null)))
 pruefe('botSprungAusnahme: 299 Dateien, Bots -> null', botSprungAusnahme(v(['data/ann-ids.json'], ['github-actions[bot]'], { anzahl: 299 }), ['x.ts'], () => 'Leser') === null)
 pruefe('botSprungAusnahme: umbenannt, alter Name in PR -> berührt', botSprungAusnahme(v(['data/alt.json', 'data/neu.json']), ['data/alt.json'], () => null) === 'der PR berührt data/alt.json')
+// Verdrahtung (PR 3490/3474): botSprungAusnahme reicht die bewegten Bot-Dateien als dritten Parameter an den Leser (Bot-Datei und Code gemischt).
+{
+  const empfangen = []
+  const lese = (bewegt, pr, bot) => (empfangen.push({ bewegt, bot }), null)
+  botSprungAusnahme(v(['.claude/agents/bauer.md', 'data/crunchyroll-woche.json', 'tools/x.mjs']), ['data/adn-staffelzuordnung.yaml'], lese)
+  pruefe('botSprungAusnahme: Leser bekommt die bewegten Bot-Dateien getrennt (nur crunchyroll-woche.json)', empfangen.length === 1 && empfangen[0].bot.join() === 'data/crunchyroll-woche.json' && empfangen[0].bewegt.length === 3, empfangen)
+}
 
 // Paarung aus git log: Ausgabe roh, Fehlerfall.
 {
