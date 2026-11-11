@@ -18,6 +18,7 @@ export function terminAusEintrag(e: EigenerEintrag, platform: string): Release {
     ...(e.kanal && platform === 'primevideo' ? { kanal: e.kanal } : {}),
     releaseType: film ? 'movie' : 'batch',
     schedule: { firstEpisodeDate: e.tag, ...(e.folgen && !film ? { episodeCount: e.folgen } : {}), ...(e.geschaetzt ? { estimated: true } : {}) },
+    automatisch: true,
     year: Number(e.tag.slice(0, 4)),
     herkunft: `Aus data/eigene-titel.yaml (Zeile ${e.nr}): ${e.zitat}`,
     sources: e.sources,

@@ -17,6 +17,7 @@ process.env.AK_ROOT = wurzel
 const { ladeEigeneTitel } = await import('./bau/eigene-titel.ts')
 const { termineAusEigenen } = await import('./bau/eigene-termine.ts')
 const { ergaenzeTermineAusNewsUndTv } = await import('./bau/08-news-tv.ts')
+const { zaehltAlsDeutscherTermin } = await import('./lib/news.ts')
 
 let fehler = 0
 let faelle = 0
@@ -34,22 +35,27 @@ const ID = 5_000_910
 
 try {
   console.log('Termine aus der Zeile')
-  datei([...zeile(910, 'Film Eins', 'MOVIE', 'joyn, primevideo', ['  geschaetzt: true']), ...zeile(911, 'Serie Zwei', 'TV', 'primevideo', ['  folgen: 73', '  kanal: Aniverse'])])
+  datei([...zeile(910, 'Film Eins', 'MOVIE', 'joyn, primevideo', ['  geschaetzt: true', '  folgen: 5']), ...zeile(911, 'Serie Zwei', 'TV', 'joyn, primevideo', ['  folgen: 73', '  kanal: Aniverse'])])
   const zeilen = ladeEigeneTitel(wurzel)
   const neu = termineAusEigenen(zeilen, [])
   const film = neu.filter((r) => r.titleId === ID)
-  const serie = neu.find((r) => r.titleId === ID + 1)
-  pruefe('je Anbieter ein Termin: Film bei Joyn und Prime Video, Serie bei Prime Video (3)', neu.length === 3 && film.map((r) => r.platform).join() === 'joyn,primevideo', neu.map((r) => r.platform))
-  pruefe('Film: movie, Tag aus der Zeile, ≈ (geschaetzt), keine Folgenzahl, keine Uhrzeit', film.every((r) => r.releaseType === 'movie' && r.schedule.firstEpisodeDate === '2999-01-02' && r.schedule.estimated === true && r.schedule.episodeCount === undefined && !r.schedule.time), film[0])
+  const serie = neu.find((r) => r.titleId === ID + 1 && r.platform === 'primevideo')
+  const serieJoyn = neu.find((r) => r.titleId === ID + 1 && r.platform === 'joyn')
+  pruefe('je Anbieter ein Termin: Film und Serie je bei Joyn und Prime Video (4)', neu.length === 4 && film.map((r) => r.platform).join() === 'joyn,primevideo', neu.map((r) => r.platform))
+  pruefe('Film (Zeile nennt folgen: 5): movie, Tag aus der Zeile, ≈ (geschaetzt), keine Folgenzahl, keine Uhrzeit', film.every((r) => r.releaseType === 'movie' && r.schedule.firstEpisodeDate === '2999-01-02' && r.schedule.estimated === true && r.schedule.episodeCount === undefined && !r.schedule.time), film[0])
   pruefe('Serie: batch mit 73 Folgen, Kanal Aniverse, nicht geschätzt', serie?.releaseType === 'batch' && serie.schedule.episodeCount === 73 && serie.kanal === 'Aniverse' && serie.schedule.estimated === undefined, serie)
+  pruefe('Kanal nur bei Prime Video: Serie mit kanal trägt ihn bei Prime Video, ihr Joyn-Termin keinen', serieJoyn !== undefined && serieJoyn.kanal === undefined && serie?.kanal === 'Aniverse', serieJoyn)
   pruefe('Kanal nur bei Prime Video: Film bei Joyn trägt keinen', film.every((r) => r.kanal === undefined))
+  pruefe('Alle Termine sind automatisch (Leser: news, joyn-block-wache, auto-release-pruefung)', neu.every((r) => r.automatisch === true))
+  const kanalTermin = zaehltAlsDeutscherTermin(serie!, { streams: [] } as never)
+  pruefe('Kanal-Termin ohne eigenes Ja zählt nicht als deutscher Start (news.ts, Regel 13.10.)', kanalTermin === false && zaehltAlsDeutscherTermin(serieJoyn!, { streams: [] } as never) === true, kanalTermin)
   pruefe('Quelle und Zitat stehen am Termin, Slug ohne Datum (auto-<Kennung>-<Anbieter>)', film[0]?.sources[0] === 'https://example.org/artikel' && film[0].herkunft?.includes('Fixture-Zitat') === true && film[0].slug === `auto-${ID}-joyn`, film[0])
   pruefe('Jahr aus dem Tag', film[0]?.year === 2999)
 
   console.log('Vorhandene Termine bleiben')
   const vorhanden = [{ titleId: ID, platform: 'joyn' }, { titleId: ID + 5, platform: 'primevideo' }] as Pick<Release, 'titleId' | 'platform'>[]
   const rest = termineAusEigenen(zeilen, vorhanden)
-  pruefe('Film bei Joyn aus der Meldung: nur Prime Video kommt dazu; ein fremder Titel bei Prime Video zählt nicht', rest.map((r) => `${r.titleId}/${r.platform}`).join() === `${ID}/primevideo,${ID + 1}/primevideo`, rest.map((r) => r.platform))
+  pruefe('Film bei Joyn aus der Meldung: nur Prime Video kommt dazu; ein fremder Titel bei Prime Video zählt nicht', rest.map((r) => `${r.titleId}/${r.platform}`).join() === `${ID}/primevideo,${ID + 1}/joyn,${ID + 1}/primevideo`, rest.map((r) => r.platform))
   pruefe('Zwei Läufe hintereinander: der zweite liefert nichts Neues', termineAusEigenen(zeilen, [...vorhanden, ...rest]).length === 0)
 
   console.log('Ausnahmen')
