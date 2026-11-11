@@ -35,8 +35,8 @@
     "tests": ["node tools/pr-pruefer-basis-offen.test.mjs"]
   },
   {
-    "name": "kettenlog: Basisstand ohne Abruf als offen angenommen",
-    "aenderungen": [{ "datei": "tools/pr-kettenlog.mjs", "suche": "  let basisStand = ''", "ersetze": "  let basisStand = 'open'" }],
+    "name": "kettenlog: Abruffehler der Basis gilt als offen",
+    "aenderungen": [{ "datei": "tools/pr-kettenlog.mjs", "suche": "  } catch {\n    basisStand = ''", "ersetze": "  } catch {\n    basisStand = 'open'" }],
     "tests": ["node tools/pr-pruefer-basis-offen.test.mjs"]
   },
   {
