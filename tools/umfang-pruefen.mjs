@@ -30,7 +30,9 @@ export const GRENZE_FUNKTION = 80
 export const GRENZE_DATEI = 800
 const WURZEL = resolve(import.meta.dirname, '..')
 const GRENZEN = resolve(WURZEL, 'tools/umfang-grenzen.json')
-const BEREICHE = ['pipeline', 'shared', 'web/src', 'worker/src', 'extension', 'tools']
+export const BEREICHE = ['pipeline', 'shared', 'web/src', 'worker/src', 'extension', 'tools']
+/** Quelldatei, die vermessen wird (Endung, keine Typdeklaration). */
+export const istVermessen = (p) => /\.(ts|tsx|js|mjs|cjs|mts)$/.test(p) && !p.endsWith('.d.ts')
 // Prüfsätze wachsen mit jedem Fehlerfall — bei ihnen zählt nur die Funktionslänge, nicht die Datei.
 const PRUEFSATZ = /(^pipeline\/check-|\.test\.|-pruefen)/
 
@@ -40,7 +42,7 @@ function dateien() {
     encoding: 'utf8',
   })
   return [...new Set(liste.split('\n'))].filter(
-    (p) => /\.(ts|tsx|js|mjs|cjs|mts)$/.test(p) && !p.endsWith('.d.ts') && existsSync(resolve(WURZEL, p)),
+    (p) => istVermessen(p) && existsSync(resolve(WURZEL, p)),
   )
 }
 
