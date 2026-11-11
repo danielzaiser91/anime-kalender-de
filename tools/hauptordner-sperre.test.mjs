@@ -340,6 +340,70 @@ frei('G=ls; sh -c "$G merge x"', HAUPT, 'A2 sh -c, harmlose Variable')
 frei('G=ls; H=$G; "$H" merge x', HAUPT, 'A4 Weitergabe, harmlos')
 gesperrt('"${UNBEKANNT}" merge a', HAUPT, 'unbekannte Variable mit geschweiften Klammern')
 
+// Gescheitertes cd (Anlass 10.11.2026: dreimal lief git merge im Hauptordner): ein cd schützt nur den Rest seiner &&-Kette.
+const NE = 'C:/code/_worktrees/anime-kalender-de/gibt-es-nicht'
+gesperrt(`cd ${WT}; git merge origin/main`, HAUPT, 'cd mit ;')
+gesperrt(`cd ${WT} || true; git merge origin/main`, HAUPT, 'cd || true')
+gesperrt(`cd ${WT}\ngit merge origin/main`, HAUPT, 'cd, Zeilenumbruch')
+gesperrt(`cd ${NE}; git merge origin/main`, HAUPT, 'nicht vorhandenes Ziel, ;')
+gesperrt(`cd ${NE} || git merge origin/main`, HAUPT, 'cd || git')
+gesperrt(`cd ${NE} && echo ok; git merge origin/main`, HAUPT, 'cd && echo, dann ;')
+gesperrt(`cd ${WT} && git status; git merge origin/main`, HAUPT, 'Kette mit ;, danach merge')
+gesperrt(`cd ${WT} && git fetch && git status; git merge origin/main`, HAUPT, 'lange Kette, danach ;')
+gesperrt(`cd ${WT} && git status || git merge origin/main`, HAUPT, 'Kette, dann ||')
+gesperrt(`cd ${WT} && git status\ngit merge origin/main`, HAUPT, 'Kette, dann Zeilenumbruch')
+gesperrt(`cd ${WT} && cd web; git merge origin/main`, HAUPT, 'zwei cd, dann ;')
+gesperrt(`(cd ${WT} && git status); git merge origin/main`, HAUPT, 'Klammer, dann ;')
+gesperrt(`cd ${WT} && git status | cat; git merge origin/main`, HAUPT, 'Pipe, dann ;')
+gesperrt(`sh -c "cd ${WT} && git status; git merge x"`, HAUPT, 'dasselbe in sh -c')
+gesperrt(`cd ${WT} && cd web && git status; git merge origin/main`, HAUPT, 'zwei cd mit &&, dann ;')
+gesperrt(`cd ${WT} && (git status)\ngit merge x`, HAUPT, 'Klammer, dann Zeilenumbruch')
+gesperrt(`cd ${WT} && ls\ngit merge x`, HAUPT, 'Befehl mit einem Wort, dann Zeilenumbruch')
+gesperrt(`cd ${WT} && (git status); git merge x`, HAUPT, 'Kette mit Klammer, dann ;')
+gesperrt(`cd ${WT} && git log $(git rev-parse HEAD); git merge x`, HAUPT, 'Kette mit Ersetzung, dann ;')
+// Gegenproben: alles, was wirklich nur im Worktree läuft, bleibt frei.
+frei(`cd ${WT} && git merge origin/main`, HAUPT, 'cd &&')
+frei(`cd ${WT} &&\n  git merge origin/main`, HAUPT, 'cd && Zeilenumbruch')
+frei(`cd ${WT} && git fetch && git merge origin/main`, HAUPT, 'lange &&-Kette')
+frei(`cd ${WT} && cd web && git merge origin/main`, HAUPT, 'zwei cd mit &&')
+frei(`cd ${NE} && git merge origin/main`, HAUPT, 'nicht vorhandenes Ziel: && stoppt vor git')
+frei(`cd ${WT} && git status; git status`, HAUPT, 'Kette, danach nur Lesen')
+// Nachbesserung 3410: Pipe innerhalb der Kette beendet sie nicht (A1); `||` und `;` nach der Pipe schon.
+frei(`cd ${WT} && git status && git log | head -3 && git merge x`, HAUPT, 'Pipe mitten in der &&-Kette')
+frei(`cd ${WT} && git status && git log | head -3
+`, HAUPT, 'Pipe am Ende, nur Lesen')
+gesperrt(`cd ${WT} && git status || git merge x`, HAUPT, '|| beendet die Kette')
+gesperrt(`cd ${WT} && x | y; git merge x`, HAUPT, '; nach der Pipe')
+gesperrt(`cd ${WT} && x | y || git merge x`, HAUPT, '|| nach der Pipe')
+gesperrt(`cd ${WT} | git merge x`, HAUPT, 'Pipe nach cd ohne &&')
+// Mutanten-Fälle (A2): Klammer-Zu, Zeilenumbruch nach |, Zeilenumbruch nach gefülltem Segment, pushd.
+frei(`cd ${WT} && (git status) && git merge x`, HAUPT, 'Klammer zu innerhalb der Kette')
+frei(`cd ${WT} && git status) && git merge x`, HAUPT, 'unpaariges ) : kein Kettenende (zu() mit Klammer-Marke)')
+frei(`cd ${WT} && git log |
+git merge x`, HAUPT, 'Zeilenumbruch nach | setzt die Kette fort')
+gesperrt(`cd ${WT} && git status 
+git merge x`, HAUPT, 'Zeilenumbruch nach gefülltem Segment beendet die Kette')
+gesperrt(`pushd ${WT} && git status; git merge x`, HAUPT, 'pushd wie cd')
+// A3: reale Agentenbefehle mit Pipe in einer &&-Kette, frei.
+frei(`cd ${WT} && npm test | tail -5 && git commit -m x`, HAUPT, 'npm test | tail && commit')
+frei(`cd ${WT} && git diff origin/main --stat | tail -3 && git push origin HEAD:zweig`, HAUPT, 'diff | tail && push')
+frei(`cd ${WT} && npx tsc --noEmit -p . 2>&1 | tail -5 && git add a.ts && git commit -q -m x`, HAUPT, 'tsc 2>&1 | tail && add && commit')
+frei(`cd ${WT} && git fetch -q origin && git log --oneline origin/main..HEAD | head -3 && git merge origin/main`, HAUPT, 'fetch && log | head && merge')
+frei(`cd ${WT} && node tools/umfang-pruefen.mjs | tail -2 && git status --short | head -5 && git commit -m x`, HAUPT, 'zwei Pipes in der Kette')
+frei(`cd ${WT} && (git merge x)`, HAUPT, 'Klammer innerhalb der Kette')
+frei(`cd ${WT} && (git status; git merge x)`, HAUPT, 'Klammer mit ; innerhalb der Kette: läuft nur nach gelungenem cd')
+frei(`cd ${WT} && git log $(git rev-parse HEAD) && git merge x`, HAUPT, 'Ersetzung innerhalb der Kette')
+frei(`cd ${WT} && git status; cd ${WT} && git merge x`, HAUPT, 'zweite Kette mit eigenem cd')
+frei(`git -C ${WT} merge origin/main`, HAUPT, 'git -C')
+frei('git pull --ff-only', HAUPT, 'pull --ff-only im Hauptordner')
+frei(`cd ${WT}; git merge origin/main`, WT, 'cwd ist Worktree, cd mit ;')
+frei(`cd ${NE}; git merge origin/main`, WT, 'cwd ist Worktree, Ziel fehlt')
+// Die Meldung nennt beide sicheren Wege.
+assert.match(lauf(`cd ${WT}; git merge x`), /cd C:\/code\/_worktrees\/anime-kalender-de\/<thema> && ….*git -C C:\/code\/_worktrees\/anime-kalender-de\/<thema>/)
+// Echter Hook-Prozess mit dem Anlassfall.
+const anlass = spawnSync(process.execPath, [hook], { input: JSON.stringify({ tool_name: 'Bash', cwd: HAUPT, tool_input: { command: `cd ${WT} && git status; git merge origin/main` } }), encoding: 'utf8', timeout: 20000 })
+assert.equal(JSON.parse(anlass.stdout).hookSpecificOutput.permissionDecision, 'deny', 'Prozess sperrt Anlassfall')
+
 // Kaputtes JSON auf stdin: Prozess endet 0 ohne Ausgabe (fail-open).
 const kaputt = spawnSync(process.execPath, [hook], { input: '{kaputt', encoding: 'utf8' })
 assert.equal(kaputt.status, 0)

@@ -25,7 +25,8 @@ export interface FolgenzahlUrteil {
  */
 export function belegteGesamtzahl(r: Release): number | undefined {
   const s = r.schedule
-  if (!s || s.episodeCountAssumed || (s.firstEpisodeNumber ?? 1) !== 1) return undefined
+  /* Joyn-Tage stammen aus abgeleiteten Fenstern (`belegeJoynTermine`), nicht aus Sichtungen; die Zahl dort ist nur die handgepflegte. */
+  if (!s || r.platform === 'joyn' || s.episodeCountAssumed || (s.firstEpisodeNumber ?? 1) !== 1) return undefined
   const nummern = Object.keys(s.observed ?? {})
     .map(Number)
     .sort((a, b) => a - b)

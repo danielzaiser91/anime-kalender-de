@@ -60,7 +60,7 @@
   "tools/news-historie-zusammenfuehren.test.mjs": 3,
   "tools/oder-true-wache.test.mjs": 1,
   "tools/ort-sperre.test.mjs": 1,
-  "tools/patchnotes-gestagt.test.mjs": 3,
+  "tools/patchnotes-gestagt.test.mjs": 2,
   "tools/pr-basis-vorab.test.mjs": 3,
   "tools/pr-basis.test.mjs": 3,
   "tools/pr-bestand-vergleich.test.mjs": 2,

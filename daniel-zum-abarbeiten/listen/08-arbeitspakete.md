@@ -1,7 +1,7 @@
 # Arbeitspakete: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-11-10 · **185 offene Verweise** in **140 Zeilen**,
-aufgeteilt in **7 Pakete** zu je 20.
+Stand 2026-11-11 · **186 offene Verweise** in **141 Zeilen**,
+aufgeteilt in **8 Pakete** zu je 20.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Derselbe Bestand wie in
 `dub-pruefliste.md`, nur nach Nutzen sortiert statt nach Datum: Was viele Folgen oder einen
@@ -160,48 +160,54 @@ der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 
 | # | Anbieter | Reihe | Noch zu bestätigen |
 |---|---|---|---|
-| 101 | Netflix | Btooom! | [Hauptserie](https://www.netflix.com/title/80052713) |
-| 102 | Netflix | Another | [Hauptserie](https://www.netflix.com/title/80241072) |
-| 103 | Netflix | Terror in Tokio | [Hauptserie](https://www.netflix.com/title/80020759) |
-| 104 | Netflix | Hellsing | [Ultimate OVA](https://www.netflix.com/title/80988066) |
-| 105 | Netflix | Ranking of Kings | [The Treasure Chest of Courage](https://www.netflix.com/title/81644043) |
-| 106 | Netflix | Devil May Cry | [Hauptserie](https://www.netflix.com/title/81506915) |
-| 107 | Netflix | Uzumaki | [Hauptserie](https://www.netflix.com/title/81943371) |
-| 108 | Netflix | One Piece | [Abenteuer in Alabasta - Die Wüstenprinzessin](https://www.netflix.com/title/70086565) · [Chopper und das Wunder der Winterkirschblüte](https://www.netflix.com/title/80998780) · [Z](https://www.netflix.com/title/80198443) · [3D2Y: Überwinde Ace’s Tod! Das Gelübde der Kameraden](https://www.netflix.com/title/81679587) |
-| 109 | Netflix | Haikyu!! | [Movie 1 - Ende und Anfang](https://www.netflix.com/title/80134173) · [Movie 2 - Gewinner und Verlierer](https://www.netflix.com/title/80134174) · [Movie 3 - Talent Und Gespür](https://www.netflix.com/title/81030151) · [Movie 4 - Ein Kampf der Konzepte](https://www.netflix.com/title/81030152) |
-| 110 | Netflix | Meine ganz besondere Hochzeit | [Special](https://www.netflix.com/title/82643530) |
-| 111 | Netflix | Overlord | [Movies](https://www.netflix.com/title/81285994) · [Der dunkle Held](https://www.netflix.com/title/81285995) · [The Sacred Kingdom](https://www.netflix.com/title/82040442) |
-| 112 | Netflix | 5 Centimeters per Second | [Hauptserie](https://www.netflix.com/title/70093699) |
-| 113 | Netflix | Rascal Does Not Dream of Bunny Girl Senpai | [Rascal Does Not Dream of a Dreaming Girl](https://www.netflix.com/title/81228006) · [Rascal Does Not Dream of a Sister Venturing Out](https://www.netflix.com/title/81765074) |
-| 114 | Netflix | A Silent Voice | [Hauptserie](https://www.netflix.com/title/80223226) |
-| 115 | Prime Video | M.A.S.K. | [Hauptserie]() |
-| 116 | Netflix | Jujutsu Kaisen | [0](https://www.netflix.com/title/81602834) |
-| 117 | Netflix | Slam Dunk | [The First Slam Dunk](https://www.netflix.com/title/81765372) |
-| 118 | Netflix | Spy × Family | [Code: White](https://www.netflix.com/title/81924850) |
-| 119 | Netflix | Resident Evil: Infinite Darkness | [Resident Evil: Death Island](https://www.netflix.com/title/81714596) |
-| 120 | Netflix | GREEN DA KA RA × Mirai no Mirai | [Mirai: Das Mädchen aus der Zukunft](https://www.netflix.com/title/81004268) |
+| 101 | Prime Video | To Love-Ru: Trouble | [To Love Ru: Darkness](https://watch.amazon.de/detail?gti=amzn1.dv.gti.cab713ed-8211-0b9a-e9f1-c02e9c6dd1b2) |
+| 102 | Netflix | Btooom! | [Hauptserie](https://www.netflix.com/title/80052713) |
+| 103 | Netflix | Another | [Hauptserie](https://www.netflix.com/title/80241072) |
+| 104 | Netflix | Terror in Tokio | [Hauptserie](https://www.netflix.com/title/80020759) |
+| 105 | Netflix | Hellsing | [Ultimate OVA](https://www.netflix.com/title/80988066) |
+| 106 | Netflix | Ranking of Kings | [The Treasure Chest of Courage](https://www.netflix.com/title/81644043) |
+| 107 | Netflix | Devil May Cry | [Hauptserie](https://www.netflix.com/title/81506915) |
+| 108 | Netflix | Uzumaki | [Hauptserie](https://www.netflix.com/title/81943371) |
+| 109 | Netflix | One Piece | [Abenteuer in Alabasta - Die Wüstenprinzessin](https://www.netflix.com/title/70086565) · [Chopper und das Wunder der Winterkirschblüte](https://www.netflix.com/title/80998780) · [Z](https://www.netflix.com/title/80198443) · [3D2Y: Überwinde Ace’s Tod! Das Gelübde der Kameraden](https://www.netflix.com/title/81679587) |
+| 110 | Netflix | Haikyu!! | [Movie 1 - Ende und Anfang](https://www.netflix.com/title/80134173) · [Movie 2 - Gewinner und Verlierer](https://www.netflix.com/title/80134174) · [Movie 3 - Talent Und Gespür](https://www.netflix.com/title/81030151) · [Movie 4 - Ein Kampf der Konzepte](https://www.netflix.com/title/81030152) |
+| 111 | Netflix | Meine ganz besondere Hochzeit | [Special](https://www.netflix.com/title/82643530) |
+| 112 | Netflix | Overlord | [Movies](https://www.netflix.com/title/81285994) · [Der dunkle Held](https://www.netflix.com/title/81285995) · [The Sacred Kingdom](https://www.netflix.com/title/82040442) |
+| 113 | Netflix | 5 Centimeters per Second | [Hauptserie](https://www.netflix.com/title/70093699) |
+| 114 | Netflix | Rascal Does Not Dream of Bunny Girl Senpai | [Rascal Does Not Dream of a Dreaming Girl](https://www.netflix.com/title/81228006) · [Rascal Does Not Dream of a Sister Venturing Out](https://www.netflix.com/title/81765074) |
+| 115 | Netflix | A Silent Voice | [Hauptserie](https://www.netflix.com/title/80223226) |
+| 116 | Prime Video | M.A.S.K. | [Hauptserie]() |
+| 117 | Netflix | Jujutsu Kaisen | [0](https://www.netflix.com/title/81602834) |
+| 118 | Netflix | Slam Dunk | [The First Slam Dunk](https://www.netflix.com/title/81765372) |
+| 119 | Netflix | Spy × Family | [Code: White](https://www.netflix.com/title/81924850) |
+| 120 | Netflix | Resident Evil: Infinite Darkness | [Resident Evil: Death Island](https://www.netflix.com/title/81714596) |
 
 ## Paket 7 — Zeilen 121 bis 140
 
 | # | Anbieter | Reihe | Noch zu bestätigen |
 |---|---|---|---|
-| 121 | Netflix | Blue Giant | [Hauptserie](https://www.netflix.com/title/81763062) |
-| 122 | Netflix | Josie, der Tiger und die Fische | [Hauptserie](https://www.netflix.com/title/81508630) |
-| 123 | Netflix | The Deer King | [Hauptserie](https://www.netflix.com/title/81700393) |
-| 124 | Netflix | Belle | [Hauptserie](https://www.netflix.com/title/81492822) |
-| 125 | Netflix | Lu over the Wall | [Hauptserie](https://www.netflix.com/title/80238911) |
-| 126 | Netflix | Demon Slayer: Kimetsu no Yaiba | [The Movie: Mugen Train](https://www.netflix.com/title/81410810) |
-| 127 | Netflix | Another World | [Hello World](https://www.netflix.com/title/81295070) |
-| 128 | Netflix | The Legend of Luoxiaohei | [The Legend of Hei: Die Kraft in dir](https://www.netflix.com/title/81427481) |
-| 129 | Netflix | Children of the Sea | [Hauptserie](https://www.netflix.com/title/81208104) |
-| 130 | Netflix | Okko’s Inn | [Okko und ihre Geisterfreunde](https://www.netflix.com/title/81037597) |
-| 131 | Netflix | I Want to Eat Your Pancreas | [Hauptserie](https://www.netflix.com/title/81037593) |
-| 132 | Netflix | Fireworks: Alles eine Frage der Zeit | [Hauptserie](https://www.netflix.com/title/81000505) |
-| 133 | Netflix | No Game No Life | [Zero](https://www.netflix.com/title/81068687) |
-| 134 | Netflix | Mutafukaz | [Hauptserie](https://www.netflix.com/title/81037697) |
-| 135 | Netflix | Girls & Panzer | [Girls und Panzer: Der Film](https://www.netflix.com/title/80159876) |
-| 136 | Netflix | Dragon Nest: Die Chroniken von Altera | [Hauptserie](https://www.netflix.com/title/80084763) |
-| 137 | Netflix | Die Reise nach Agartha | [Hauptserie](https://www.netflix.com/title/80104167) |
-| 138 | Netflix | TRAVA: FIST PLANET | [Redline](https://www.netflix.com/title/70153298) |
-| 139 | Netflix | Clannad | [OVA - Das Tomoyo Kapitel](https://www.netflix.com/title/70204963) |
-| 140 | Netflix | Appleseed: Kampf um die Freiheit | [Appleseed](https://www.netflix.com/title/70023531) |
+| 121 | Netflix | GREEN DA KA RA × Mirai no Mirai | [Mirai: Das Mädchen aus der Zukunft](https://www.netflix.com/title/81004268) |
+| 122 | Netflix | Blue Giant | [Hauptserie](https://www.netflix.com/title/81763062) |
+| 123 | Netflix | Josie, der Tiger und die Fische | [Hauptserie](https://www.netflix.com/title/81508630) |
+| 124 | Netflix | The Deer King | [Hauptserie](https://www.netflix.com/title/81700393) |
+| 125 | Netflix | Belle | [Hauptserie](https://www.netflix.com/title/81492822) |
+| 126 | Netflix | Lu over the Wall | [Hauptserie](https://www.netflix.com/title/80238911) |
+| 127 | Netflix | Demon Slayer: Kimetsu no Yaiba | [The Movie: Mugen Train](https://www.netflix.com/title/81410810) |
+| 128 | Netflix | Another World | [Hello World](https://www.netflix.com/title/81295070) |
+| 129 | Netflix | The Legend of Luoxiaohei | [The Legend of Hei: Die Kraft in dir](https://www.netflix.com/title/81427481) |
+| 130 | Netflix | Children of the Sea | [Hauptserie](https://www.netflix.com/title/81208104) |
+| 131 | Netflix | Okko’s Inn | [Okko und ihre Geisterfreunde](https://www.netflix.com/title/81037597) |
+| 132 | Netflix | I Want to Eat Your Pancreas | [Hauptserie](https://www.netflix.com/title/81037593) |
+| 133 | Netflix | Fireworks: Alles eine Frage der Zeit | [Hauptserie](https://www.netflix.com/title/81000505) |
+| 134 | Netflix | No Game No Life | [Zero](https://www.netflix.com/title/81068687) |
+| 135 | Netflix | Mutafukaz | [Hauptserie](https://www.netflix.com/title/81037697) |
+| 136 | Netflix | Girls & Panzer | [Girls und Panzer: Der Film](https://www.netflix.com/title/80159876) |
+| 137 | Netflix | Dragon Nest: Die Chroniken von Altera | [Hauptserie](https://www.netflix.com/title/80084763) |
+| 138 | Netflix | Die Reise nach Agartha | [Hauptserie](https://www.netflix.com/title/80104167) |
+| 139 | Netflix | TRAVA: FIST PLANET | [Redline](https://www.netflix.com/title/70153298) |
+| 140 | Netflix | Clannad | [OVA - Das Tomoyo Kapitel](https://www.netflix.com/title/70204963) |
+
+## Paket 8 — Zeilen 141 bis 141
+
+| # | Anbieter | Reihe | Noch zu bestätigen |
+|---|---|---|---|
+| 141 | Netflix | Appleseed: Kampf um die Freiheit | [Appleseed](https://www.netflix.com/title/70023531) |

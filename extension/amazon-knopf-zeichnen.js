@@ -533,19 +533,11 @@ with (globalThis.AK_ZEICHNEN_WELT) {
      * Listenschlüssel sucht sie auch über den Serientitel.
      */
     /*
-      **Ein Suchauftrag zählt wie ein Listeneintrag.** Der Knopf wurde in 3.44
-      ausgeblendet, sobald der Titel nicht auf der Prüfliste steht — und genau
-      das ist der Fall, für den der Sprung gebaut wurde: Die Titelseite hinter
-      einer Suchadresse steht nirgends. Damit sammelte und meldete dort nichts
-      mehr.
+      **Ein Suchauftrag zählt wie ein Listeneintrag; eine unbekannte Prime-Seite darf melden** (F109 = A, 07.11.2026,
+      vorher „Weg statt grau"): Der Bau ordnet sie zu oder legt sie in die Liste ohne Zuordnung. Weg bleibt der Knopf nur
+      auf Seiten ohne Prime-Video-Merkmal und ohne geladene Prüfliste (`akPrimeKnopfVersteckt`).
     */
-    if (!liste[listenId] && !eintrag?.ausSuche && !serieBekannt()) {
-      /*
-        **Weg statt grau.** Ein Knopf, der auf jeder fremden Titelseite „nicht
-        auf der Prüfliste" schreibt, ist auf 99 von 100 Seiten Störung ohne
-        Auskunft. Der Übersichts-Knopf bleibt —
-        über den kommt man an die Liste.
-      */
+    if (meldenVersteckt()) {
       knopf.style.display = 'none'
       return
     }
@@ -943,9 +935,6 @@ with (globalThis.AK_ZEICHNEN_WELT) {
             `${geladen} von ${gesehen.gesamt}, Rest nicht in Region`
           : `${geladen} von ${gesehen.gesamt}` +
             (wartet ? ' — lädt nach' : ' — Abschnitte selbst öffnen')
-    // Eine Staffel, die wir nicht führen, wird trotzdem gemeldet — der Knopf
-    // sagt es nur dazu, damit die Meldung nicht wie eine Zuordnung aussieht.
-    const woher = eintrag.unbekannt ? ' · neu' : ''
     // Bei einem Kanal-Titel ist die Angabe ein Hinweis, kein Beleg.
     const kanalHinweis = ueberKanal() ? ' · ⚠ Kanal' : ''
     // Die Zugangsart gehört an den Knopf — sonst meldet man sie blind mit.
@@ -1895,8 +1884,9 @@ with (globalThis.AK_ZEICHNEN_WELT) {
     */
     const zielTitel = eintrag?.ausSuche ? (eintrag.titel ?? '') : ''
     const kurz = zielTitel.length > 38 ? zielTitel.slice(0, 36) + '…' : zielTitel
-    const zielTeil = kurz ? ` · melden als „${kurz}"` : ' · melden'
-    const neuerText = `${sprachStand}${umfangTeil}${staffelText2 ?? ''}${zugang}${kanalHinweis}${woher}${zielTeil}`
+    // Eine Seite außerhalb der Prüfliste sagt es in der Kopfzeile des Kastens; am Knopf steht, was er tut.
+    const zielTeil = kurz ? ` · melden als „${kurz}"` : eintrag.unbekannt ? ' · Sprache melden' : ' · melden'
+    const neuerText = `${sprachStand}${umfangTeil}${staffelText2 ?? ''}${zugang}${kanalHinweis}${zielTeil}`
     /*
       **Jeder Wechsel der Beschriftung wird mitgeschrieben.**
 

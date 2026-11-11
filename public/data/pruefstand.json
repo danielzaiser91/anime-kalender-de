@@ -1,12 +1,12 @@
 {
- "erzeugtAm": "2026-11-10T10:54:23.436Z",
+ "erzeugtAm": "2026-11-10T20:59:35.628Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
-   "gemeldet": 962,
-   "gesamt": 997,
-   "offen": 35,
+   "gemeldet": 963,
+   "gesamt": 999,
+   "offen": 36,
    "ohneSeite": 6,
    "suchAdressen": [
     "https://www.amazon.de/s?k=Pretty%20Cure&i=instant-video",
@@ -107,6 +107,10 @@
     {
      "url": "https://www.amazon.de/gp/video/detail/B09ZJW8HGH",
      "titel": "Kuroko’s Basketball: 2nd Season (Kuroko's Basketball 2)"
+    },
+    {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.cab713ed-8211-0b9a-e9f1-c02e9c6dd1b2",
+     "titel": "To Love Ru: Darkness (To Love Ru Darkness)"
     },
     {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.6aad68c8-1e46-46e9-be1e-3d4de43488a5",

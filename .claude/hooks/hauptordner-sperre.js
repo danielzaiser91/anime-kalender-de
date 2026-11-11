@@ -8,7 +8,8 @@
 // Fail-closed: steht an Programmstelle eine nicht auflösbare Variable (`G=$(command -v git)`), prüft die Sperre sie wie git
 // — `"$X" status` und `pull --ff-only` bleiben frei, `"$X" merge` im Hauptordner nicht.
 // Wirksames Verzeichnis: Bash-cwd, `cd`, `git -C`, `--work-tree`. Ein `cd` ohne folgendes `&&` kann scheitern: dann zählen beide
-// Möglichkeiten. Nicht bestimmbare Ziele (`$X`, `~`) fallen auf das Startverzeichnis (cwd) zurück. Klammern halten ihr `cd` im Inneren.
+// Möglichkeiten. Ein `cd … &&` schützt nur den Rest seiner `&&`-Kette (eine Pipe `|` darin beendet sie nicht); nach `;`, Zeilenumbruch oder `||` zählt das Verzeichnis
+// vor der Kette wieder mit (10.11.2026: `cd wt && git status; git merge` lief dreimal im Hauptordner). Nicht bestimmbare Ziele (`$X`, `~`) fallen auf das Startverzeichnis (cwd) zurück. Klammern halten ihr `cd` im Inneren.
 // „Im Hauptordner“ heißt: erster Vorfahr mit `.git` ist der Hauptordner selbst (eine `.git`-Datei oder ein anderer Treffer = eigener
 // Arbeitsbaum); noch nicht angelegte `HAUPT/.claude/worktrees/*` gelten vorab als Worktrees (ein vorhandener Ordner ohne `.git` nicht: Git läuft dort im Hauptordner).
 // Worktrees selbst liegen seit 25.10.2026 unter C:/code/_worktrees/<repo>/<thema>, außerhalb des Hauptordners. Zwei weitere Prüfungen
@@ -21,6 +22,7 @@
 const fs = require('node:fs')
 const path = require('node:path')
 const ORT = require('./ort-sperre.js')
+const CD = require('./cd-unterordner-sperre.js')
 
 const HAUPT = 'c:/code/ai/anime-kalender-de'
 const SCHREIBEND = new Set(['checkout', 'switch', 'merge', 'rebase', 'commit', 'reset', 'cherry-pick', 'revert', 'restore', 'am', 'push', 'add', 'rm', 'mv', 'clean', 'apply', 'update-ref', 'update-index', 'symbolic-ref', 'read-tree', 'sparse-checkout', 'filter-branch', 'bisect'])
@@ -87,19 +89,19 @@ function zerlege(roh) {
     if (wort !== null) tokens.push(wort)
     wort = null
   }
-  const segEnde = (op) => {
+  const segEnde = (op, klammer = false) => {
     wortEnde()
-    segmente.push({ tokens, op })
+    segmente.push({ tokens, op, klammer })
     tokens = []
   }
   const auf = () => {
-    segEnde(';')
+    segEnde(';', true)
     gemerkt.push(quote)
     quote = null
     segmente.push({ auf: true })
   }
   const zu = () => {
-    segEnde(';')
+    segEnde(';', true)
     quote = gemerkt.pop() ?? null
     segmente.push({ zu: true })
   }
@@ -125,9 +127,13 @@ function zerlege(roh) {
       wort = wort ?? ''
     } else if (c === '(') auf()
     else if (c === ')') zu()
+    else if (c === '\n' && wort === null && !tokens.length && ['&&', '||', '|'].includes(segmente.at(-1)?.op)) continue
     else if (c === ';' || c === '\n') segEnde(';')
     else if (c === '&' && n === '&') {
       segEnde('&&')
+      i++
+    } else if (c === '|' && n === '|') {
+      segEnde('||')
       i++
     } else if (c === '|') segEnde('|')
     else if (c === '&' && befehl[i - 1] !== '>' && befehl[i - 1] !== '<' && n !== '>') segEnde(';')
@@ -234,6 +240,7 @@ function pruefeSegment({ tokens, op }, z, haupt) {
     if (p === 'echo' || p === 'printf') return null
     if (p === 'cd' || p === 'pushd') {
       const ziele = z.moegliche.map((v) => loese(v, mitVariablen(tokens[i + 1], z.vars)) ?? z.start)
+      if (op === '&&') z.zurueck = z.zurueck ?? z.moegliche
       z.moegliche = op === '&&' ? ziele : [...new Set([...z.moegliche, ...ziele])]
       return null
     }
@@ -262,17 +269,27 @@ function pruefeSegment({ tokens, op }, z, haupt) {
 /** Prüft einen Befehl ab Startverzeichnis `cwd`; liefert den Grund oder null. */
 function pruefeBefehl(befehl, cwd, haupt = HAUPT, vars = {}) {
   const start = loese(null, cwd)
-  const z = { moegliche: [start], start, vars: { ...vars } }
+  const z = { moegliche: [start], start, vars: { ...vars }, zurueck: null }
   const aussen = []
   for (const seg of zerlege(ohneHeredoc(befehl))) {
-    if (seg.auf) aussen.push(z.moegliche)
-    else if (seg.zu) z.moegliche = aussen.pop() ?? z.moegliche
+    if (seg.auf) {
+      aussen.push([z.moegliche, z.zurueck])
+      z.zurueck = null
+    } else if (seg.zu) [z.moegliche, z.zurueck] = aussen.pop() ?? [z.moegliche, z.zurueck]
     else {
       const grund = pruefeSegment(seg, z, haupt)
       if (grund) return grund
+      erweitereNachKette(seg, z)
     }
   }
   return null
+}
+
+/** Endet die `&&`-Kette (`;`, Zeilenumbruch, `||`; eine Pipe `|` nicht), läuft der nächste Befehl auch dann, wenn ihr `cd` scheiterte: das Verzeichnis vor der Kette zählt wieder mit. */
+function erweitereNachKette({ op, klammer }, z) {
+  if (op === '&&' || op === '|' || klammer || !z.zurueck) return
+  z.moegliche = [...new Set([...z.moegliche, ...z.zurueck])]
+  z.zurueck = null
 }
 
 /** Grund der Verweigerung (Text) oder null — Schnittstelle wie die Module des Verteilers. */
@@ -280,7 +297,7 @@ function pruefe(eingabe, existiert) {
   if (eingabe.tool_name === 'Write') return ORT.schreibGrund(eingabe, existiert)
   if (eingabe.tool_name !== 'Bash') return null
   const grund = pruefeBefehl(String(eingabe.tool_input?.command ?? ''), eingabe.cwd)
-  if (!grund) return null
+  if (!grund) return CD.pruefe(eingabe, HAUPT, { zerlege, ohneHeredoc, loese, imHaupt })
   if (grund.startsWith('git worktree add außerhalb')) return `„${grund}“ gesperrt. ${ORT.ZIEL_TEXT}`
   return `Hauptordner anime-kalender-de: „${grund}“ gesperrt (dort nur Lesen und git pull --ff-only). Arbeite in einem Worktree: git worktree add C:/code/_worktrees/anime-kalender-de/<thema> -b <zweig> origin/main, danach „cd C:/code/_worktrees/anime-kalender-de/<thema> && …“ mit && (nie mit ;, sonst läuft der Rest im Hauptordner, falls cd scheitert) oder git -C C:/code/_worktrees/anime-kalender-de/<thema> …`
 }

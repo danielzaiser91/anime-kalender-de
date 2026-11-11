@@ -17,6 +17,9 @@ const WEICHEN = [
   { importeur: '/web/src/components/db-bedienung.tsx', quelle: './db-kopfzeile.tsx', ziel: './weichen/db-kopfzeile.tsx' },
   { importeur: '/web/src/components/filter/DbWerkzeug.tsx', quelle: '../db-kopfzeile.tsx', ziel: './weichen/db-kopfzeile.tsx' },
   { importeur: '/web/src/components/detail/antwort-bereich.tsx', quelle: './wege-zeilen.tsx', ziel: './weichen/wege-zeilen.tsx' },
+  { importeur: '/web/src/components/detail/wege-zeilen.tsx', quelle: './termin-zeile.tsx', ziel: './weichen/termin-zeile.tsx' },
+  { importeur: '/web/src/components/detail/termin-zeile.tsx', quelle: './pille.tsx', ziel: './weichen/pille.tsx' },
+  { importeur: '/web/src/components/detail/termin-zeile.tsx', quelle: './live-link.tsx', ziel: './weichen/live-link.tsx' },
   { importeur: '/web/src/components/detail/kasten-folgen.tsx', quelle: './kasten-marke.tsx', ziel: './weichen/kasten-marke.tsx' },
 ]
 

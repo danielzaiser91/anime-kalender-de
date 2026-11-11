@@ -170,6 +170,8 @@ ja, ist es ein Rückfall, und die Tabelle sagt, was zu tun ist — nicht das Gef
 
 ## 4c · Daniels Fehlermeldung ist ein Befund über eine Lücke, nicht ein Symptom
 
+**Datenkorrektur zuerst allein (09.11.2026, Yaiba PR 3298):** Meldet Daniel einen falschen oder fehlenden Eintrag, geht die Datenkorrektur (`data/curated/…`) als eigener kleiner PR sofort raus; Wächter, Klasse und Tests folgen als zweiter PR (Ziel live unter 5 min; 3298 brauchte 47 min).
+
 Daniel, 16.10.2026: Gemeldete Fehler und Feedback müssen richtig erkannt und analysiert werden.
 Es reicht nicht, das Symptom zu beheben. Die echte Ursache wird gefunden, die Lücke dauerhaft
 geschlossen und dieselbe Fehlerart künftig verhindert. Anlass waren an einem Vormittag:

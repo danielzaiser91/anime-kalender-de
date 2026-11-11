@@ -8,16 +8,6 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:auto-118399-tv-prosieben-maxx@2026-11-03@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261103T154000Z
-DTEND:20261103T161000Z
-SUMMARY:Yashahime: Princess Half-Demon
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/11570/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-118399-tv-prosieben-maxx@2026-11-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261104T154000Z
@@ -189,10 +179,8 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261113T160000Z
 DTEND:20261113T163000Z
 SUMMARY:Firefly Wedding – Folge 3/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/17358/
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/t/17358/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT

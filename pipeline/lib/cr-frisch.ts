@@ -3,6 +3,8 @@
  * damit die Entscheidung ohne Browser und Abruf testbar ist).
  */
 import type { CrSerie } from './crunchyroll-dub.ts'
+import { halteBelegteTermine } from './cr-datum-platzhalter.ts'
+import { log } from './util.ts'
 
 /** Eine gelesene Serie samt den Folgenkennungen aus `data/crunchyroll-neu.json`, die beim Lesen schon vorlagen. */
 export type CrSerieMitFolgen = CrSerie & { neuFolgen?: string[] }
@@ -39,7 +41,9 @@ export function serieAblegen(
 ): 'abgelegt' | 'behalten' {
   const vorherige = bestand.get(url)
   if (serie.fehler && vorherige && !vorherige.fehler) return 'behalten'
-  bestand.set(url, merkeNeuFolgen(serie, neuFolgen.get(seriesId)))
+  const { serie: belegt, gehalten } = halteBelegteTermine(vorherige, serie)
+  if (gehalten) log(`  ${gehalten} deutsche Termine von ${seriesId} sind Tages-Platzhalter (23:59 Pacific), der zuvor gelesene Termin bleibt`)
+  bestand.set(url, merkeNeuFolgen(belegt, neuFolgen.get(seriesId)))
   return 'abgelegt'
 }
 
