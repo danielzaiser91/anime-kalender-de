@@ -24,7 +24,8 @@ import { recordSource } from './lib/health.ts'
 import { episodeAus, sortiereFolgen, toBerlin, type AdnListenEintrag, type AdnVideo } from './lib/adn-folgen.ts'
 import { adnWeg, herkunftZeile, wegZeile } from './lib/adn-weg.ts'
 import { holeAdnNews } from './lib/adn-news.ts'
-import { istFranzoesischeSicht, type KatalogAuskunft, katalogBilanzZeile, mitUngepruftenAlten, mitWiederholung, gefragt, riegelBilanz, schreibeArchiv, verworfen, WIEDERHOLUNG_WARTE_MS } from './lib/adn-sprachriegel.ts'
+import { istFranzoesischeSicht, type KatalogAuskunft, katalogBilanzZeile, mitWiederholung, gefragt, riegelBilanz, schreibeArchiv, verworfen, WIEDERHOLUNG_WARTE_MS } from './lib/adn-sprachriegel.ts'
+import { katalogMitFrist, type LeerZaehler } from './lib/adn-katalog-frist.ts'
 import { baueWarteschlange, fragWarteschlange, warteschlangeZeile } from './lib/adn-katalog-warteschlange.ts'
 import { listeNenntNeuesVde } from './lib/adn-laufend-archiv.ts'
 import { fragNeuzugaenge } from './lib/adn-neuzugaenge.ts'
@@ -122,6 +123,8 @@ const ARCHIV_DIR = resolve(ROOT, 'data/adn-raw')
 /** Wann welche Serie zuletzt im Katalog-Durchgang gefragt wurde (Warteschlange nach Alter, im Repo statt im Dateisystem). */
 const KATALOG_STAND = 'data/adn-katalog-stand.json'
 const KATALOG_DATEI = 'data/adn-catalog.json'
+/** Läufe in Folge mit leerer Antwort je Katalogserie (Ablauffrist, `lib/adn-katalog-frist.ts`). */
+const LEER_FOLGE = 'data/adn-leer-folge.json'
 
 /**
  * Legt die vollständige Antwort einer Serie gzip-komprimiert ab.
@@ -530,8 +533,12 @@ async function laufendLauf(): Promise<void> {
 async function katalogLauf(): Promise<void> {
   const alterKatalog = readJson<AdnData>(KATALOG_DATEI, { scrapedAt: '', window: { from: '', to: '' }, shows: [] }).shows
   const frisch = await fetchCatalog()
-  const { shows, ...zaehler } = mitUngepruftenAlten(alterKatalog, frisch.shows, frisch.auskunft)
+  const leerAlt = readJson<LeerZaehler>(LEER_FOLGE, {})
+  const { shows, zaehler: leerNeu, zeilen, rot, ...zaehler } = katalogMitFrist(alterKatalog, frisch.shows, frisch.auskunft, leerAlt)
   log(katalogBilanzZeile(zaehler))
+  for (const zeile of zeilen) (zeile.startsWith('⚠') ? warn : log)(zeile)
+  if (rot) process.exitCode = 1
+  writeJson(LEER_FOLGE, leerNeu)
   await ordneKatalogZuAnisearch(shows, alterKatalog)
   writeJson(
     'data/adn-catalog.json',

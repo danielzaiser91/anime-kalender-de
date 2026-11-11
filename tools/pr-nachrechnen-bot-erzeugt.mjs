@@ -10,6 +10,7 @@ export const ERZEUGTE_DATEIEN = [
   'adn-anisearch-offen.json',
   'adn-catalog.json',
   'adn-katalog-stand.json',
+  'adn-leer-folge.json',
   'adn-news.json',
   'adn-offen-seit.json',
   'adn-vde-historie.json',
