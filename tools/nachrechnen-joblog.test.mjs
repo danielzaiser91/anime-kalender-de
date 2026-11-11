@@ -3,7 +3,7 @@
  * Exit 2 mit klarer Meldung). Die Checkout-Zeile steht wie am echten Lauf 43094051879 (11.11.2026) in jedem Job der Kette.
  */
 import { nachrechnen } from './pr-nachrechnen.mjs'
-import { LOG_ABSTAND_MS, LOG_VERSUCHE, RUECKFALL_JOBS, fehlerKurz } from './nachrechnen-joblog.mjs'
+import { fehlerKurz } from './nachrechnen-joblog.mjs'
 
 const fehler = []
 const pruefe = (name, ok, info) => {
@@ -61,19 +61,19 @@ const fehl = { fehler: E502 }
 }
 {
   const r = lauf({ 92: [fehl, ECHT] })
-  pruefe('502, dann 200 am Hauptjob -> 0, zwei Abrufe, eine Pause', r.code === 0 && r.logAufrufe(92) === 2 && r.gewartet.join() === String(LOG_ABSTAND_MS) && r.logAufrufe(91) === 0, r)
+  pruefe('502, dann 200 am Hauptjob -> 0, zwei Abrufe, eine Pause', r.code === 0 && r.logAufrufe(92) === 2 && r.gewartet.join() === '3000' && r.logAufrufe(91) === 0, r)
 }
 {
   const r = lauf({ 92: [fehl, fehl, ECHT] })
-  pruefe('zwei 502, dritter Versuch trägt -> 0, kein Rückfall', r.code === 0 && r.logAufrufe(92) === LOG_VERSUCHE && r.logAufrufe(91) === 0 && r.gewartet.length === 2, r)
+  pruefe('zwei 502, dritter Versuch trägt -> 0, kein Rückfall', r.code === 0 && r.logAufrufe(92) === 3 && r.logAufrufe(91) === 0 && r.gewartet.length === 2, r)
 }
 {
   const r = lauf({ 92: [fehl], 91: [fehl], 93: [ECHT] })
-  pruefe('Hauptjob dauerhaft 502 -> Rückfall: erster Ersatzjob kaputt, zweiter trägt -> 0', r.code === 0 && r.logAufrufe(92) === LOG_VERSUCHE && r.logAufrufe(91) === 1 && r.logAufrufe(93) === 1 && r.logAufrufe(94) === 0, r)
+  pruefe('Hauptjob dauerhaft 502 -> Rückfall: erster Ersatzjob kaputt, zweiter trägt -> 0', r.code === 0 && r.logAufrufe(92) === 3 && r.logAufrufe(91) === 1 && r.logAufrufe(93) === 1 && r.logAufrufe(94) === 0, r)
 }
 {
   const r = lauf({ 92: [fehl], 91: [fehl], 93: [fehl], 94: [fehl], 95: [ECHT] })
-  pruefe(`Rückfall endet nach ${RUECKFALL_JOBS} Ersatzjobs (der vierte wird nicht mehr gefragt)`, r.code === 2 && r.logAufrufe(95) === 0 && r.logAufrufe(94) === 1, r)
+  pruefe(`Rückfall endet nach 3 Ersatzjobs (der vierte wird nicht mehr gefragt)`, r.code === 2 && r.logAufrufe(95) === 0 && r.logAufrufe(94) === 1, r)
 }
 {
   const r = lauf({ 92: [fehl], 91: [fehl], 93: [fehl], 94: [fehl] })
