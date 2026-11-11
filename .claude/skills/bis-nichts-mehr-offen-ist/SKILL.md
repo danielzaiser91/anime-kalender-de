@@ -147,7 +147,7 @@ Liste, keiner brauchte eine Auskunft von außen.
 
 ## Anlässe, aus der Regel verschoben (18.09.2026)
 
-Wortgleich aus `~/.claude/rules/`, damit die immer geladene Regel kurz bleibt.
+Wortgleich aus `.claude/rules/`, damit die immer geladene Regel kurz bleibt.
 
 <!-- aus 20-arbeitsweise.md -->
 **Der Satz „als nächstes mache ich X" ist ein Abbruch, kein Plan.** Zweimal am

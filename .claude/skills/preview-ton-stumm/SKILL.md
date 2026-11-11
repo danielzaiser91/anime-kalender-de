@@ -51,4 +51,4 @@ sie hören". Ton wird also **gemessen statt übersprungen**:
 
 Daniel wurde durch eine unerwartet abgespielte Tonspur im Preview erschreckt. Die Regel hat
 einen konkreten Ursprung und keinen theoretischen — deshalb ist sie in
-`~/.claude/rules/30-system-und-sicherheit.md` mit einem Auslöser verankert und nicht nur hier.
+`.claude/rules/30-system-und-sicherheit.md` mit einem Auslöser verankert und nicht nur hier.

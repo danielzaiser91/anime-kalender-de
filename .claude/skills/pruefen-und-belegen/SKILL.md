@@ -872,7 +872,7 @@ ein Tippfehler, eine Beschriftung, ein Datenpunkt.
 
 ## Anlässe, aus der Regel verschoben (18.09.2026)
 
-Wortgleich aus `~/.claude/rules/`, damit die immer geladene Regel kurz bleibt.
+Wortgleich aus `.claude/rules/`, damit die immer geladene Regel kurz bleibt.
 
 <!-- aus 20-arbeitsweise.md -->
 **Ein Bezeichner aus dem Gespräch ist noch nicht der richtige — er gehört zu einer Sache.**
