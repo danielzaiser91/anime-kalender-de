@@ -15,7 +15,7 @@ export function bereicheDerStaffel(
 }
 
 /** Wahr, wo eine spätere ADN-Staffel wieder bei Folge 1 beginnt (SAO, JoJo); Dorohedoro zählt durch (Staffel 2 ab Folge 13). */
-function zaehltJeStaffel(mit: { folge_nr: number | null; staffel: number | null }[]): boolean {
+export function zaehltJeStaffel(mit: { folge_nr: number | null; staffel: number | null }[]): boolean {
   const ersteJeStaffel = new Map<number, number>()
   for (const m of mit) ersteJeStaffel.set(m.staffel as number, Math.min(ersteJeStaffel.get(m.staffel as number) ?? Infinity, m.folge_nr as number))
   return [...ersteJeStaffel].some(([nr, erste]) => nr > 1 && erste === 1)
