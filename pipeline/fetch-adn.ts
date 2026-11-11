@@ -526,6 +526,25 @@ async function laufendLauf(): Promise<void> {
   await holeNeueSerien(liste)
 }
 
+/** Katalog-Durchgang `--catalog`: Warteschlange fragen, Katalog fortschreiben. */
+async function katalogLauf(): Promise<void> {
+  const alterKatalog = readJson<AdnData>(KATALOG_DATEI, { scrapedAt: '', window: { from: '', to: '' }, shows: [] }).shows
+  const frisch = await fetchCatalog()
+  const { shows, ...zaehler } = mitUngepruftenAlten(alterKatalog, frisch.shows, frisch.auskunft)
+  log(katalogBilanzZeile(zaehler))
+  await ordneKatalogZuAnisearch(shows, alterKatalog)
+  writeJson(
+    'data/adn-catalog.json',
+    { scrapedAt: new Date().toISOString(), window: { from: '', to: '' }, shows } satisfies AdnData,
+    true,
+  )
+  recordSource('adn-catalog', shows.length, shows.length ? undefined : 'keine Serie mit vde')
+  log(`ADN-Katalog: ${shows.length} Serien mit deutscher Synchro`)
+  for (const show of shows) {
+    log(`  · ${show.title} — ${show.episodes.length} Folgen ab ${show.episodes[0].date}`)
+  }
+}
+
 async function main(): Promise<void> {
   log(wegZeile(WEG))
   await holeAdnNews()
@@ -541,24 +560,7 @@ async function main(): Promise<void> {
     log(`ADN-Auffrischung: ${shows.length} Serien aktualisiert`)
     return
   }
-  if (args.includes('--catalog')) {
-    const alterKatalog = readJson<AdnData>(KATALOG_DATEI, { scrapedAt: '', window: { from: '', to: '' }, shows: [] }).shows
-    const frisch = await fetchCatalog()
-    const { shows, ...zaehler } = mitUngepruftenAlten(alterKatalog, frisch.shows, frisch.auskunft)
-    log(katalogBilanzZeile(zaehler))
-    await ordneKatalogZuAnisearch(shows, alterKatalog)
-    writeJson(
-      'data/adn-catalog.json',
-      { scrapedAt: new Date().toISOString(), window: { from: '', to: '' }, shows } satisfies AdnData,
-      true,
-    )
-    recordSource('adn-catalog', shows.length, shows.length ? undefined : 'keine Serie mit vde')
-    log(`ADN-Katalog: ${shows.length} Serien mit deutscher Synchro`)
-    for (const show of shows) {
-      log(`  · ${show.title} — ${show.episodes.length} Folgen ab ${show.episodes[0].date}`)
-    }
-    return
-  }
+  if (args.includes('--catalog')) return katalogLauf()
 
   const today = todayIso()
   const from = addDays(today, FROM)
