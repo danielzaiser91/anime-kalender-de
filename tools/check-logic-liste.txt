@@ -108,6 +108,8 @@ pipeline/check-cartoon-reihen.ts
 pipeline/check-cartoon-reihenteil-bau.ts
 pipeline/check-cartoon-staffeln.ts
 pipeline/check-cartoon-ton.ts
+pipeline/check-cartoon-tote-bau.ts
+pipeline/check-cartoon-tote.ts
 pipeline/check-cartoon-wege-falten-leer-lauf.ts
 pipeline/check-cartoon-wege-falten.ts
 pipeline/check-cartoon-wege.ts
