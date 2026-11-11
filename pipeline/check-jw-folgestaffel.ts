@@ -5,7 +5,7 @@
  *
  * Aufruf: `npx tsx pipeline/check-jw-folgestaffel.ts`
  */
-import { mitFolgestaffelEintraegen } from './bau/11-2-6-folgestaffel-eintraege.ts'
+import { folgestaffelBilanz, folgestaffelZeile, mitFolgestaffelEintraegen, neueFolgestaffelIds, wegeZahlen } from './bau/11-2-6-folgestaffel-eintraege.ts'
 import type { Title } from '../shared/types.ts'
 
 let verletzt = 0
@@ -69,5 +69,19 @@ const fremd = tabelle(titel(900901, 12, 7009, 2018), titel(900902, 12, 7009, 202
 const ausFremd = mitFolgestaffelEintraegen({ 900903: { jwId: 'tsH', staffeln: staffeln([12, []], [12, [kanal]]) } } as never, fremd)
 pruefe('Verwandter aus einer anderen Reihe liefert nichts', !('900902' in ausFremd), ausFremd['900902'])
 
-console.log(verletzt ? `\n${verletzt} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
+console.log('\nBilanz (Zähler im Baulog):')
+const basisJw = { 900101: eintrag } as never
+const mitJw = mitFolgestaffelEintraegen(basisJw, reihe)
+pruefe('neueFolgestaffelIds nennt nur die neu angelegten Kennungen', JSON.stringify(neueFolgestaffelIds(basisJw, mitJw)) === '["900102"]', neueFolgestaffelIds(basisJw, mitJw))
+const mitWegen = (t: Title, ...namen: string[]): Title => ({ ...t, watchLinks: namen.map((name) => ({ name })) }) as unknown as Title
+const nachher = tabelle(mitWegen(titel(900301, 12, 7003, 2018), 'A', 'B'), mitWegen(titel(900302, 12, 7003, 2020), 'A'), titel(900303, 12, 7003, 2022))
+const vorherZahl = new Map([['900301', 1], ['900302', 1], ['900303', 0]])
+const wz = [...wegeZahlen(['900301', '900303', '900999'], nachher)]
+pruefe('wegeZahlen zählt die Wege je Kennung (fehlende Titel und Wege: 0)', JSON.stringify(wz) === '[["900301",2],["900303",0],["900999",0]]', wz)
+const bilanz = folgestaffelBilanz(vorherZahl, nachher)
+pruefe('Bilanz: ein Titel gewinnt einen Weg, einer bleibt gleich, einer ohne Weg: 1 wirkt, 2 gesperrt', bilanz.eintraege === 3 && bilanz.wirkend === 1 && bilanz.gesperrt === 2, bilanz)
+pruefe('Bilanz ohne Einträge: alles 0', JSON.stringify(folgestaffelBilanz(new Map(), nachher)) === '{"eintraege":0,"wirkend":0,"gesperrt":0}')
+pruefe('Zeile nennt Runde, angelegt, wirken, gesperrt', folgestaffelZeile('erste Runde', { eintraege: 7, wirkend: 3, gesperrt: 4 }) === 'Folgestaffel-Einträge (erste Runde): 7 angelegt, 3 wirken, 4 gesperrt')
+
+console.log(verletzt ?`\n${verletzt} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(verletzt ? 1 : 0)

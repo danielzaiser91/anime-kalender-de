@@ -1,10 +1,10 @@
 import { type IstTot } from '../lib/adresse-tot.ts'
-import { readJson } from '../lib/util.ts'
+import { log, readJson } from '../lib/util.ts'
 import { type Title } from '../../shared/types.ts'
 import { moeglicheStaffeln, staffelFuehrt } from '../lib/jw-staffel-des-titels.ts'
 import { staffelDesTitels } from './widerlegung-staffel.ts'
 import { ergaenzeWegeOhneWeg, type JwAngebot, type JwEintrag } from './11-2-2-wege-ohne-weg.ts'
-import { mitFolgestaffelEintraegen } from './11-2-6-folgestaffel-eintraege.ts'
+import { folgestaffelBilanz, folgestaffelZeile, mitFolgestaffelEintraegen, neueFolgestaffelIds, wegeZahlen } from './11-2-6-folgestaffel-eintraege.ts'
 
 /** Kennungen der Titel, die gerade mindestens einen Stream tragen. */
 export function titelMitStream(titles: ReadonlyMap<number, Title>): Set<number> {
@@ -31,13 +31,11 @@ export function ergaenzeWegeNachBegrenzung({ titles, hatteStream, tmdbMehrdeutig
   istTot: IstTot
 }) {
   const verloren = new Map([...titles].filter(([id, t]) => hatteStream.has(id) && !(t.streams ?? []).length))
-  ergaenzeWegeOhneWeg({
-    titles: verloren,
-    jw: mitFolgestaffelEintraegen(mitStaffelTreffer(readJson<Record<string, JwEintrag>>('data/justwatch-audio.json', {}), titles), titles),
-    handNein: new Set<string>(),
-    tmdbMehrdeutig,
-    istTot,
-  })
+  const basis = mitStaffelTreffer(readJson<Record<string, JwEintrag>>('data/justwatch-audio.json', {}), titles)
+  const jw = mitFolgestaffelEintraegen(basis, titles)
+  const vorher = wegeZahlen(neueFolgestaffelIds(basis, jw).filter((id) => verloren.has(Number(id))), titles)
+  ergaenzeWegeOhneWeg({ titles: verloren, jw, handNein: new Set<string>(), tmdbMehrdeutig, istTot })
+  log(folgestaffelZeile('nach der Begrenzung', folgestaffelBilanz(vorher, titles)))
 }
 
 /**

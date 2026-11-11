@@ -62,10 +62,14 @@ const FOLGE_FALSCH = 10_000_533
 /** Wie FOLGESTAFFEL, aber mit geratenem Stream: er fällt erst in der Begrenzung, der Kanal muss im zweiten Durchgang kommen (Wirkung 11.11.2026). */
 const NACH_VORGAENGER = 10_000_534
 const NACH_FOLGE = 10_000_535
+/** Folgestaffel mit Eintrag, aber schon einem Bezugsweg ohne Stream: der Riegel sperrt sie (die Bilanz zählt sie nicht als wirkend, obwohl sie Wege trägt). */
+const BESTAND_VORGAENGER = 10_000_536
+const BESTAND_FOLGE = 10_000_537
 
 const JW = {
   [VORGAENGER]: { jwId: 'ts-folge-a', angebote: [kanal(VORGAENGER), disc(VORGAENGER)], staffeln: [{ nr: 1, folgen: 12, angebote: [] }, { nr: 2, folgen: 12, angebote: [kanal(VORGAENGER)] }] },
   [NACH_VORGAENGER]: { jwId: 'ts-folge-c', angebote: [kanal(NACH_VORGAENGER)], staffeln: [{ nr: 1, folgen: 12, angebote: [] }, { nr: 2, folgen: 12, angebote: [kanal(NACH_VORGAENGER)] }] },
+  [BESTAND_VORGAENGER]: { jwId: 'ts-folge-d', angebote: [kanal(BESTAND_VORGAENGER)], staffeln: [{ nr: 1, folgen: 12, angebote: [] }, { nr: 2, folgen: 12, angebote: [kanal(BESTAND_VORGAENGER)] }] },
   [SERIE_FALSCH]: { jwId: 'ts-folge-b', angebote: [kanal(SERIE_FALSCH)], staffeln: [{ nr: 1, folgen: 25, angebote: [] }, { nr: 2, folgen: 12, angebote: [kanal(SERIE_FALSCH)] }] },
   [ANLASS]: { angebote: [kanal(ANLASS)] },
   [OHNE_STREAM]: { angebote: [kanal(OHNE_STREAM)] },
@@ -114,6 +118,8 @@ async function kind(): Promise<void> {
     [FOLGESTAFFEL, { ...titel(FOLGESTAFFEL, []), format: 'TV', titleEn: 'Fixture Folge', episodes: 12, franchiseId: 9105, jpYear: 2023 } as Title],
     [NACH_VORGAENGER, { ...titel(NACH_VORGAENGER, []), format: 'TV', titleEn: 'Fixture Nach', episodes: 12, franchiseId: 9107, jpYear: 2018 } as Title],
     [NACH_FOLGE, { ...titel(NACH_FOLGE, geraten(NACH_FOLGE)), format: 'TV', titleEn: 'Fixture Nach', episodes: 12, franchiseId: 9107, jpYear: 2023 } as Title],
+    [BESTAND_VORGAENGER, { ...titel(BESTAND_VORGAENGER, []), format: 'TV', titleEn: 'Fixture Bestand', episodes: 12, franchiseId: 9108, jpYear: 2018 } as Title],
+    [BESTAND_FOLGE, { ...titel(BESTAND_FOLGE, []), format: 'TV', titleEn: 'Fixture Bestand', episodes: 12, franchiseId: 9108, jpYear: 2023, watchLinks: [{ name: 'Apple TV', kind: 'stream', url: 'https://tv.apple.com/de/show/fixture', zugang: 'kauf' }] } as Title],
     [SERIE_FALSCH, { ...titel(SERIE_FALSCH, []), format: 'TV', titleEn: 'Fixture Falsch', episodes: 25, franchiseId: 9106, jpYear: 2013 } as Title],
     [FOLGE_FALSCH, { ...titel(FOLGE_FALSCH, []), format: 'TV', titleEn: 'Fixture Falsch', episodes: 10, franchiseId: 9106, jpYear: 2018 } as Title],
     [PIN_ERSTE, { ...titel(PIN_ERSTE, []), episodes: 12 } as Title],
@@ -195,6 +201,13 @@ if (process.argv[2] === '--kind') {
   pruefe('Folgestaffel ohne eigenen Schlüssel (Goblin Slayer II): der Kanal aus Staffel 2 der Serie, Staffel 1 der Reihe bleibt ohne', wege(FOLGESTAFFEL) === kanalWeg && wege(VORGAENGER) === '["Thalia|buy"]', erg)
   pruefe('Folgestaffel, deren geratener Stream erst die Begrenzung entfernt: der Kanal kommt im zweiten Durchgang', wege(NACH_FOLGE) === kanalWeg && von(NACH_FOLGE)?.[1].length === 0, erg)
   pruefe('Folgenzahl trifft die Staffel der Nummer nicht (Shingeki 3): kein Weg', wege(FOLGE_FALSCH) === '[]', erg)
+  const zaehlzeilen = r.stdout.split('\n').filter((z) => z.includes('Folgestaffel-Einträge (')).map((z) => z.replace('[pipeline] ', '').trim())
+  pruefe('Baulog zählt die Folgestaffel-Einträge je Runde (6 angelegt: 4 wirken, NACH_FOLGE und BESTAND_FOLGE gesperrt, dann nach der Begrenzung 1; zweiter Lauf 0 wirkende)', JSON.stringify(zaehlzeilen) === JSON.stringify([
+    'Folgestaffel-Einträge (erste Runde): 6 angelegt, 4 wirken, 2 gesperrt',
+    'Folgestaffel-Einträge (nach der Begrenzung): 1 angelegt, 1 wirken, 0 gesperrt',
+    'Folgestaffel-Einträge (erste Runde): 6 angelegt, 0 wirken, 6 gesperrt',
+    'Folgestaffel-Einträge (nach der Begrenzung): 0 angelegt, 0 wirken, 0 gesperrt',
+  ]), zaehlzeilen)
   pruefe('zweiter Abschluss-Lauf ändert nichts', JSON.stringify(erg?.zweiter) === JSON.stringify(erg?.erster), erg)
 }
 
