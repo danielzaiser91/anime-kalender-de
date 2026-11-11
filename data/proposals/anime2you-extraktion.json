@@ -1569,6 +1569,11 @@
       "am": "2026-11-11",
       "vorschlaege": 1
     },
+    "1070243": {
+      "am": "2026-11-11",
+      "vorschlaege": 0,
+      "uebersprungen": "kein Deutschland-Bezug"
+    },
     "1070298": {
       "am": "2026-11-11",
       "vorschlaege": 2
@@ -1576,6 +1581,10 @@
     "1070311": {
       "am": "2026-11-11",
       "vorschlaege": 6
+    },
+    "1070341": {
+      "am": "2026-11-11",
+      "vorschlaege": 1
     }
   },
   "vorschlaege": [
@@ -12402,6 +12411,27 @@
       "artikelId": "1070298",
       "artikel": "Blu-ray-Termin der zweiten »Demon Slave«-Staffel + Vorbestellung",
       "quelle": "https://www.anime2you.de/news/1070298/demon-slave-staffel-blu-ray-termin/",
+      "veroeffentlicht": "2026-11-11",
+      "gelesenAm": "2026-11-11"
+    },
+    {
+      "titel": "Medaka Kuroiwa is Impervious to My Charms",
+      "zitat": "Die zweite Staffel von »Medaka Kuroiwa is Impervious to My Charms« startet nach aktueller Planung im Januar 2027 im japanischen Fernsehen sowie bei Crunchyroll in der japanischen Originalfassung mit deutschen Untertiteln im Simulcast.",
+      "art": "ankuendigung",
+      "sprache": "omu",
+      "plattform": "crunchyroll",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1070341",
+      "artikel": "Crunchyroll zeigt zweite »Medaka Kuroiwa«-Staffel im Simulcast",
+      "quelle": "https://www.anime2you.de/news/1070341/medaka-kuroiwa-staffel-2-crunchyroll/",
       "veroeffentlicht": "2026-11-11",
       "gelesenAm": "2026-11-11"
     }
