@@ -61,6 +61,8 @@ QUELLEN=(
   data/anilist-cover-masse.json
   # Maße und Größe der eigenen aniSearch-Kopien (10.11.2026), im selben Lauf gemessen.
   data/cover-eigen-masse.json
+  # Maße der w342-Cover der Cartoons (11.11.2026), im selben Lauf gemessen.
+  data/cartoon-cover-masse.json
   # TMDB-Zuordnung der Nur-AniList-Titel (11.10.2026), noch nicht im Bau; die Prüfliste der unsicheren Treffer liegt daneben.
   data/tmdb-katalog-zuordnung.json
   daniel-zum-abarbeiten/listen/tmdb-katalog-unsicher.md

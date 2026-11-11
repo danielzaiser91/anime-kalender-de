@@ -58,8 +58,21 @@ export function ungemessene(covers: (string | undefined)[], bestand: CoverMasse)
   for (const url of covers) {
     const datei = coverDatei(url)
     if (url && datei && !(datei in bestand)) offen.add(url)
+    const klein = mediumFassung(url)
+    const kleinDatei = coverDatei(klein)
+    if (klein && kleinDatei && unbrauchbar(bestand[datei ?? '']) && !(kleinDatei in bestand)) offen.add(klein)
   }
   return [...offen]
+}
+
+/** Die kleine Fassung (`medium/…`) desselben Covers, nur für eine `large/…`-Adresse. */
+export function mediumFassung(url: string | undefined): string | undefined {
+  return url && coverDatei(url)?.startsWith('large/') ? url.replace('/cover/large/', '/cover/medium/') : undefined
+}
+
+/** Gemessen, aber als Vorschau unbrauchbar (zu groß oder zu schmal). */
+function unbrauchbar(m: CoverMasse[string] | undefined): boolean {
+  return m !== undefined && (m[2] > MAX_BYTES || m[0] < MIN_BREITE)
 }
 
 /**
