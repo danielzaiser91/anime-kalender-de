@@ -100,7 +100,12 @@ for (const [pfad, text] of Object.entries(SHELL)) {
   pruefe(`Shell-Test ${pfad} (nennt ${genannt}) ist kein Bau-Leser -> null`, ohne === null, ohne)
   pruefe('Gegenprobe: derselbe Text als tools/gen.sh bleibt Bau-Leser -> Grund', /^der PR ändert data\/folgentitel-hand\.yaml, .*Leser: tools\/gen\.sh/.test(mit), mit)
 }
-const MUSTER_FAELLE = [['tools/commit-data-test-beleg.sh', null], ['tools/attest.sh', 'g'], ['tools/test-x.sh', 'g'], ['tools/a-test.mjs', 'g']]
+const MUSTER_FAELLE = [['tools/commit-data-test-beleg.sh', null], ['tools/attest.sh', 'g'], ['tools/test-x.sh', 'g'], ['tools/a-test.mjs', 'g'], ['tools/a-test.sh.bak', 'g']]
+// Echter Fall 11.11.2026 22:24 (PR 3495, Daten-PR disc-anisearch.yaml): main bewegte tools/nachrechnen-joblog.mjs (PR 3505), der Grund lautete
+// „Leser: tools/commit-data-test.sh, nennt tools/nachrechnen-joblog.mjs“ — die Kopierliste des Shell-Tests nennt das Werkzeug.
+const JOBLOG = 'tools/nachrechnen-joblog.mjs'
+const echt = bewegtesGelesen({ bewegt: [JOBLOG], pr: ['data/curated/disc-anisearch.yaml'], leser: ['tools/commit-data-test.sh'], lies: (q) => SHELL[q] ?? null, paketSkripte: null })
+pruefe('PR 3495: commit-data-test.sh nennt das bewegte Werkzeug nur in der Kopierliste -> null', SHELL['tools/commit-data-test.sh'].includes('nachrechnen-joblog.mjs') && echt === null, echt)
 for (const [p, soll] of MUSTER_FAELLE) {
   const g = bewegtesGelesen({ bewegt: ['data/anisearch.json'], pr: DATEN_PR, leser: [p], lies: (q) => (q === p ? "x('data/anisearch.json')\n" : null), paketSkripte: null })
   pruefe(`Shell-Test-Muster: ${p} -> ${soll === null ? 'null' : 'Grund'}`, (g === null) === (soll === null), g)
