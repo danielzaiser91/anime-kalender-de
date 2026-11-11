@@ -36,6 +36,9 @@ const STAFFEL_BEIDE = 10_000_509
 const STAFFEL_ANDERE = 10_000_510
 /** Eine Staffel, die den Kanal nicht führt, das Gesamtfeld aber schon: ohne Mehrstaffel-Lage gilt das Gesamtfeld. */
 const STAFFEL_EINE = 10_000_512
+/** Ohne Stream von Anfang an (erste Runde, nicht der zweite Durchgang), zwei Staffeln: der Kanal nur unter Staffel 2 / unter beiden. */
+const START_ANDERE = 10_000_513
+const START_BEIDE = 10_000_514
 
 const ANBIETER = ['Alpha Stream', 'Beta Stream', 'Gamma Stream', 'Delta Stream', 'Epsilon Stream']
 const fuenf = ANBIETER.map((anbieter, i) => ({ anbieter, art: 'FLATRATE', audio: ['de'], url: `https://www.example-${i}.de/titel/${BEHALTEN}` }))
@@ -52,6 +55,8 @@ const JW = {
   [STAFFEL_BEIDE]: { angebote: [kanal(STAFFEL_BEIDE)], staffeln: [{ nr: 1, angebote: [kanal(STAFFEL_BEIDE)] }, { nr: 2, angebote: [kanal(STAFFEL_BEIDE)] }] },
   [STAFFEL_EINE]: { angebote: [kanal(STAFFEL_EINE)], staffeln: [{ nr: 1, angebote: [] }] },
   [STAFFEL_ANDERE]: { angebote: [kanal(STAFFEL_ANDERE), disc(STAFFEL_ANDERE)], staffeln: [{ nr: 1, angebote: [plain(STAFFEL_ANDERE)] }, { nr: 2, angebote: [kanal(STAFFEL_ANDERE)] }] },
+  [START_ANDERE]: { angebote: [kanal(START_ANDERE), disc(START_ANDERE)], staffeln: [{ nr: 1, angebote: [plain(START_ANDERE)] }, { nr: 2, angebote: [kanal(START_ANDERE)] }] },
+  [START_BEIDE]: { angebote: [kanal(START_BEIDE)], staffeln: [{ nr: 1, angebote: [kanal(START_BEIDE)] }, { nr: 2, angebote: [kanal(START_BEIDE)] }] },
 }
 
 type Zeile = [number, string[], string[]]
@@ -71,6 +76,8 @@ async function kind(): Promise<void> {
     [STAFFEL_BEIDE, titel(STAFFEL_BEIDE, geraten(STAFFEL_BEIDE))],
     [STAFFEL_ANDERE, titel(STAFFEL_ANDERE, geraten(STAFFEL_ANDERE))],
     [STAFFEL_EINE, titel(STAFFEL_EINE, geraten(STAFFEL_EINE))],
+    [START_ANDERE, titel(START_ANDERE, [])],
+    [START_BEIDE, titel(START_BEIDE, [])],
     [HAND_NEIN, titel(HAND_NEIN, geraten(HAND_NEIN))],
     [BEHALTEN, titel(BEHALTEN, [{ platform: 'netflix', url: 'https://www.netflix.com/title/81000000' }])],
   ])
@@ -139,9 +146,9 @@ if (process.argv[2] === '--kind') {
   pruefe('Nein-Handbeleg für Crunchyroll: kein Weg', wege(HAND_NEIN) === '[]', erg)
   const alle = ANBIETER.map((a) => `${a}|stream`)
   pruefe('Titel, dessen erste Runde schon Wege lieferte: der zweite Durchgang legt nichts dazu (kein Kanal)', wege(BEHALTEN) === JSON.stringify(alle), erg)
-  /* Ausnahme STAFFEL_ANDERE: im zweiten Lauf ohne Stream fällt der Titel in die erste Runde (`ergaenzeWegeOhneWeg`), die Staffeln nicht kennt; der Bau läuft nur einmal je Stand. */
-  const ohneAndere = (z?: Zeile[]) => JSON.stringify(z?.filter(([i]) => i !== STAFFEL_ANDERE))
-  pruefe('zweiter Abschluss-Lauf ändert nichts', ohneAndere(erg?.zweiter) === ohneAndere(erg?.erster), erg)
+  pruefe('ohne Stream von Anfang an, zwei Staffeln, Kanal nur unter Staffel 2: erste Runde legt nur den Disc-Händler an (Staffelbezug)', wege(START_ANDERE) === '["Thalia|buy"]', erg)
+  pruefe('ohne Stream von Anfang an, Kanal unter beiden Staffeln: Weg bleibt', wege(START_BEIDE) === kanalWeg, erg)
+  pruefe('zweiter Abschluss-Lauf ändert nichts', JSON.stringify(erg?.zweiter) === JSON.stringify(erg?.erster), erg)
 }
 
 console.log(verletzt ? `\n${verletzt} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
