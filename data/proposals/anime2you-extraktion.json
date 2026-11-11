@@ -1516,13 +1516,25 @@
       "am": "2026-11-10",
       "vorschlaege": 2
     },
+    "1069646": {
+      "am": "2026-11-11",
+      "vorschlaege": 0
+    },
     "1069700": {
+      "am": "2026-11-11",
+      "vorschlaege": 0
+    },
+    "1069746": {
       "am": "2026-11-11",
       "vorschlaege": 0
     },
     "1069862": {
       "am": "2026-11-10",
       "vorschlaege": 1
+    },
+    "1069870": {
+      "am": "2026-11-11",
+      "vorschlaege": 0
     },
     "1069949": {
       "am": "2026-11-10",
@@ -1556,6 +1568,10 @@
     "1070214": {
       "am": "2026-11-11",
       "vorschlaege": 1
+    },
+    "1070298": {
+      "am": "2026-11-11",
+      "vorschlaege": 2
     },
     "1070311": {
       "am": "2026-11-11",
@@ -12344,6 +12360,48 @@
       "artikelId": "1070311",
       "artikel": "Neun Disc-Neuheiten ab sofort im AKIBA PASS SHOP vorbestellbar",
       "quelle": "https://www.anime2you.de/news/1070311/akiba-pass-shop-neun-blu-rays-vorbestellbar/",
+      "veroeffentlicht": "2026-11-11",
+      "gelesenAm": "2026-11-11"
+    },
+    {
+      "titel": "Demon Slave: The Chained Soldier",
+      "zitat": "Das erste Volume mit den Episoden 1 bis 6 auf Deutsch und Japanisch kommt nach aktueller Planung am 19. März 2027 als Blu-ray in den Handel, bevor das zweite Volume mit den Episoden 7 bis 12 am 21. Mai 2027 veröffentlicht wird.",
+      "art": "disc",
+      "sprache": "deutsch",
+      "plattform": "disc",
+      "datum": "2027-03-19",
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": null,
+      "wochentage": null,
+      "folgen": "1–6",
+      "unsicher": "Termin laut Artikel vorläufig (\"nach aktueller Planung\").",
+      "wochentag": "Freitag",
+      "warnungen": [],
+      "artikelId": "1070298",
+      "artikel": "Blu-ray-Termin der zweiten »Demon Slave«-Staffel + Vorbestellung",
+      "quelle": "https://www.anime2you.de/news/1070298/demon-slave-staffel-blu-ray-termin/",
+      "veroeffentlicht": "2026-11-11",
+      "gelesenAm": "2026-11-11"
+    },
+    {
+      "titel": "Demon Slave: The Chained Soldier",
+      "zitat": "Das erste Volume mit den Episoden 1 bis 6 auf Deutsch und Japanisch kommt nach aktueller Planung am 19. März 2027 als Blu-ray in den Handel, bevor das zweite Volume mit den Episoden 7 bis 12 am 21. Mai 2027 veröffentlicht wird.",
+      "art": "disc",
+      "sprache": "deutsch",
+      "plattform": "disc",
+      "datum": "2027-05-21",
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": null,
+      "wochentage": null,
+      "folgen": "7–12",
+      "unsicher": "Sprachangabe \"Deutsch und Japanisch\" steht im Zitat nur explizit beim ersten Volume; Termin laut Artikel vorläufig (\"nach aktueller Planung\").",
+      "wochentag": "Freitag",
+      "warnungen": [],
+      "artikelId": "1070298",
+      "artikel": "Blu-ray-Termin der zweiten »Demon Slave«-Staffel + Vorbestellung",
+      "quelle": "https://www.anime2you.de/news/1070298/demon-slave-staffel-blu-ray-termin/",
       "veroeffentlicht": "2026-11-11",
       "gelesenAm": "2026-11-11"
     }
