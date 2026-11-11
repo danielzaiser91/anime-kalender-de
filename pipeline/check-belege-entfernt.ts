@@ -98,7 +98,19 @@ const OSHI_S1 = [
 ]
 const OSHI_S3 = OSHI_S1.map((z) => z.replace('Amazon-Seite B0B7D5DRV2', 'Amazon-Seite B0GFPBT6FG'))
 fall('Oshi no Ko S3 (182587): Block mit der Notizseite der Staffel 1 bleibt weg', OSHI_S1, [], /1 Beleg\(e\) stehen in belege-entfernt\.yaml/)
-fall('Kontrolle: derselbe Block bei Staffel 1 (150672) wird angehängt', mitKennung(OSHI_S1, 150672), ['150672 B0GFPBT6FG'])
+/* Oshi no Ko S1 (150672): #3339 hängte die Blöcke von B0GFPBT6FG auf B0B7D5DRV2 um und löschte den Pauschalblock vom 23.08. (Notiz nennt B0GFPBT6FG selbst); die Meldungen tragen die alte Adresse weiter. */
+const OSHI_PAUSCHAL = [
+  '- anilistId: 150672',
+  '  title: "OSHI NO KO"',
+  '  platform: primevideo',
+  '  url: https://www.amazon.de/gp/video/detail/B0GFPBT6FG',
+  '  dub: true',
+  "  checkedAt: '2026-08-23'",
+  '  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0GFPBT6FG: alle 12 Folgen geprüft, Abos: Prime, aniversede, crunchyrollde"',
+]
+fall('Oshi no Ko S1 (150672): Block an der Kanal-Adresse mit Notizseite B0B7D5DRV2 bleibt weg', mitKennung(OSHI_S1, 150672), [], /1 Beleg\(e\) stehen in belege-entfernt\.yaml/)
+fall('Oshi no Ko S1 (150672): Pauschalblock an der Kanal-Adresse bleibt weg', OSHI_PAUSCHAL, [], /1 Beleg\(e\) stehen in belege-entfernt\.yaml/)
+fall('Kontrolle: 150672 an der eigenen Seite B0B7D5DRV2 wird angehängt', mitUrl(mitKennung(OSHI_S1, 150672), 'https://www.amazon.de/gp/video/detail/B0B7D5DRV2'), ['150672 B0B7D5DRV2'])
 fall('Kontrolle: 182587 mit eigener Notizseite B0GFPBT6FG wird angehängt', OSHI_S3, ['182587 B0GFPBT6FG'])
 n.faelle += 2
 erwarte('Eintrag ohne Adresse sperrt keinen Beleg ohne Adresse', istEntfernt([{ anilistId: 1, url: '', grund: 'x', entferntAm: 'x' }], 1, undefined), false)
