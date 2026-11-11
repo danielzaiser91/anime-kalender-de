@@ -75,6 +75,14 @@ console.log('\nHarte Regeln des Daten-Detektivs:')
   pruefe('DD-01: TV-Sichtung und Disc zählen nicht', folgenDatumSteigt([{ ...release('tv'), tvLetzteSichtung: '2026-09-01' } as Release, release('d', 1, 'disc', 'disc')], [termin('tv', 78, '2026-09-01'), termin('tv', 5, '2026-09-02'), termin('d', 2, '2026-09-01'), termin('d', 1, '2026-09-02')]).length === 0)
   pruefe('DD-01: das belegte Anbieterdatum von Lycoris Recoil ist eingetragen', Object.keys(DATUM_VOM_ANBIETER).includes('lycoris-recoil-crunchyroll-de-2022-07-23') && folgenDatumSteigt([release('lycoris-recoil-crunchyroll-de-2022-07-23')], lycoris.map((e) => ({ ...e, releaseSlug: 'lycoris-recoil-crunchyroll-de-2022-07-23' }))).length === 0)
 
+  // Maid (Wochenlauf 10.11.2026): Crunchyrolls Katalog datiert Folge 6 bis 11 zwei Wochen früher als Folge 5, Daten wörtlich aus crunchyroll-dub.json
+  const maidSlug = 'the-maid-i-hired-recently-is-mysterious-crunchyroll-de-2022-08-14'
+  const maidTage = ['2022-08-14', '2022-08-21', '2022-08-28', '2022-09-04', '2022-09-11', '2022-09-04', '2022-09-11', '2022-09-18', '2022-09-25', '2022-10-02', '2022-10-09']
+  const maid = maidTage.map((d, i) => termin(maidSlug, i + 1, d))
+  const maidOhneEintrag = folgenDatumSteigt([release('maid-ohne-eintrag')], maid.map((e) => ({ ...e, releaseSlug: 'maid-ohne-eintrag' })))
+  pruefe('DD-01: Maid-Folgenfolge ohne Anbietereintrag ist rot (Fund 10.11.)', maidOhneEintrag.length === 1 && maidOhneEintrag[0].includes('Folge 6 (2022-09-04) liegt vor Folge 5 (2022-09-11)'), maidOhneEintrag)
+  pruefe('DD-01: das belegte Anbieterdatum von Maid ist eingetragen', Object.keys(DATUM_VOM_ANBIETER).includes(maidSlug) && folgenDatumSteigt([release(maidSlug)], maid).length === 0)
+
   // DD-13: Boruto/The Last als „2 Folgen"
   const film = new Map<number, Title>([[1, titelMit({ id: 1, format: 'MOVIE', episodes: 1 })], [2, titelMit({ id: 2, format: 'ONA', episodes: 1 })]])
   const mitFolgen = (slug: string, titleId: number, n: number, releaseType = 'weekly'): Release => ({ ...release(slug, titleId, 'tv', releaseType), schedule: { firstEpisodeDate: '2026-10-09', episodeCount: n } }) as Release
