@@ -24,3 +24,28 @@ export function mitFolgestaffelEintraegen(jw: Record<string, JwEintrag>, titles:
   }
   return { ...jw, ...neu }
 }
+
+/** Kennungen, die `mitFolgestaffelEintraegen` neu angelegt hat (nicht schon in `basis` standen). */
+export function neueFolgestaffelIds(basis: Record<string, JwEintrag>, mit: Record<string, JwEintrag>): string[] {
+  return Object.keys(mit).filter((id) => !(id in basis))
+}
+
+/** Anzahl Bezugswege je Titel, vor der Runde, die sie anlegen könnte. */
+export function wegeZahlen(ids: readonly string[], titles: ReadonlyMap<number, Title>): Map<string, number> {
+  return new Map(ids.map((id) => [id, titles.get(Number(id))?.watchLinks?.length ?? 0]))
+}
+
+/**
+ * **Wie viele Folgestaffel-Einträge wirken, wie viele sperrt ein Riegel?** Wirkend heißt: Der Titel hat nach der Runde mehr Bezugswege als vorher.
+ * Gesperrt sind die übrigen (Stream samt Handbeleg, Nein-Handbeleg, Mehrdeutigkeit, schon vorhandene Anbieter): Sie schlafen und springen an,
+ * sobald sich Anbieterdaten ändern. Die Zeile steht im Baulog; einen Sprung gegen den Stand meldet die Bestandswache `check-jw-folgestaffel-bestand.ts`.
+ */
+export function folgestaffelBilanz(vorher: ReadonlyMap<string, number>, titles: ReadonlyMap<number, Title>): { eintraege: number; wirkend: number; gesperrt: number } {
+  const wirkend = [...vorher].filter(([id, n]) => (titles.get(Number(id))?.watchLinks?.length ?? 0) > n).length
+  return { eintraege: vorher.size, wirkend, gesperrt: vorher.size - wirkend }
+}
+
+/** Die Baulog-Zeile zur Bilanz einer Runde (`phase`: „erste Runde“ oder „nach der Begrenzung“). */
+export function folgestaffelZeile(phase: string, b: { eintraege: number; wirkend: number; gesperrt: number }): string {
+  return `Folgestaffel-Einträge (${phase}): ${b.eintraege} angelegt, ${b.wirkend} wirken, ${b.gesperrt} gesperrt`
+}

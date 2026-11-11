@@ -26,6 +26,7 @@ pipeline/check-adn-spanne.ts
 pipeline/check-adn-sprache-offen.ts
 pipeline/check-adn-sprachriegel-lauf.ts
 pipeline/check-adn-sprachriegel.ts
+pipeline/check-adn-staffel-luecken.ts
 pipeline/check-adn-staffel-meldungen.ts
 pipeline/check-adn-titelliste-abruf.ts
 pipeline/check-adressen-schreiben.ts
@@ -290,6 +291,7 @@ pipeline/check-juengeres-ja-weg.ts
 pipeline/check-jw-ablauf.ts
 pipeline/check-jw-anbieterliste.ts
 pipeline/check-jw-auswahl.ts
+pipeline/check-jw-folgestaffel-bestand-lauf.ts
 pipeline/check-jw-folgestaffel.ts
 pipeline/check-jw-frisch-lauf.ts
 pipeline/check-jw-kennung-fremd-lauf.ts

@@ -8,7 +8,7 @@ import { setzeTelekomAnnahme, type JwAngebot } from '../lib/telekom-annahme.ts'
 import { providerToPlatform } from './titel-hilfen.ts'
 import { entfernteVerweise, ergaenzeWegeOhneWeg, PHYSISCHE_SHOPS, type JwEintrag } from './11-2-2-wege-ohne-weg.ts'
 import { mitStaffelTreffer } from './11-2-5-wege-nach-begrenzung.ts'
-import { mitFolgestaffelEintraegen } from './11-2-6-folgestaffel-eintraege.ts'
+import { folgestaffelBilanz, folgestaffelZeile, mitFolgestaffelEintraegen, neueFolgestaffelIds, wegeZahlen } from './11-2-6-folgestaffel-eintraege.ts'
 import { ergaenzeAboWege, type JwAbo } from './11-2-3-abo-wege.ts'
 import { ergaenzeKaufWege, primeNeinTitel, type JwKauf } from './11-2-4-kauf-wege.ts'
 
@@ -21,14 +21,18 @@ type Runde = {
 /* Ein Nein-Handbeleg gilt für alle Runden, die Wege anlegen (Titel ohne Weg, Abo-Weg mit deutschem Ton, Prime-Kauf). */
 function legeWegeAn({ titles, tmdbMehrdeutig, istTot }: Runde) {
   const handNein = neinHandbelege(loadDubChecks())
+  const basis = mitStaffelTreffer(readJson<Record<string, JwEintrag>>('data/justwatch-audio.json', {}), titles)
+  const jw = mitFolgestaffelEintraegen(basis, titles)
+  const vorher = wegeZahlen(neueFolgestaffelIds(basis, jw), titles)
   ergaenzeWegeOhneWeg({
     titles,
-    jw: mitFolgestaffelEintraegen(mitStaffelTreffer(readJson<Record<string, JwEintrag>>('data/justwatch-audio.json', {}), titles), titles),
+    jw,
     handNein,
     tmdbMehrdeutig,
     istTot,
     entfernt: entfernteVerweise(),
   })
+  log(folgestaffelZeile('erste Runde', folgestaffelBilanz(vorher, titles)))
 
   ergaenzeAboWege({
     titles,
