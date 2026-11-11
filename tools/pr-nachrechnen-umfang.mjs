@@ -3,22 +3,25 @@
  * als kettenweite Datei machte das jeden liegenden PR NICHT AKTUELL (Messung 10.-11.11.: zwei von zwölf Abweisungen nur deswegen).
  * Hat main die Grenzen nur gesenkt, genügt es, `umfang-pruefen` auf dem Merge-Stand (PR-Kopf + main) zu rechnen: Merge-Baum aus
  * `git merge-tree`, Dateien aus dem Objektspeicher, ohne Arbeitsbaum. Eine Erhöhung auf main zählt weiter als Bewegung.
- * Ohne `typescript` (Nacht-Merger ohne `npm ci`) ist das Messen nicht möglich: Grund „nicht ermittelbar“, der PR gilt als veraltet.
+ * Das Messen läuft in einem Kindprozess (`umfang-baum-messen.mjs`): es braucht `typescript`, der Nacht-Merger läuft ohne `npm ci`
+ * (`workflow-ohne-pakete`); dort scheitert nur das Kind, der PR gilt als „nicht ermittelbar“ veraltet.
  */
+import { LIMIT_SKRIPT_MS, mitLimit } from './kind-mit-limit.mjs'
+import { fileURLToPath } from 'node:url'
 import { gitAufruf, inhalte } from './pr-nachrechnen-leser-git.mjs'
 
 export const UMFANG_GRENZEN = 'tools/umfang-grenzen.json'
 const ARTEN = ['funktionen', 'dateien', 'ketten']
+const MESSER = fileURLToPath(new URL('./umfang-baum-messen.mjs', import.meta.url))
 
-let messer = null
-let messerFehler = 'nicht geladen'
-try {
-  const m = await import('./umfang-pruefen.mjs')
-  messer = { BEREICHE: m.BEREICHE, istVermessen: m.istVermessen, vermessen: m.vermessen, gegenGrenzen: m.gegenGrenzen }
-} catch (e) {
-  messerFehler = String(e.message).split('\n')[0].slice(0, 100)
+/** Verstöße des Baums gegen die Grenzen auf main, gemessen im Kindprozess (Frist `LIMIT_SKRIPT_MS`); wirft mit der Ursache des Kindes. */
+export function standardMessen(baum, main) {
+  try {
+    return JSON.parse(mitLimit(process.execPath, [MESSER, baum, main], { encoding: 'utf8', maxBuffer: 16 * 1024 * 1024, stdio: ['ignore', 'pipe', 'pipe'] }, { limitMs: LIMIT_SKRIPT_MS }))
+  } catch (e) {
+    throw new Error(String(e.stderr || e.message).trim().split('\n')[0])
+  }
 }
-export const standardMesser = messer
 
 /** Erste Grenze, die `neu` gegenüber `alt` erhöht (auch neuer Bereich mit Wert > 0), sonst null. */
 export function grenzErhoehung(alt, neu) {
@@ -34,26 +37,17 @@ export function grenzErhoehung(alt, neu) {
 /** Merge-Baum von Kopf und main (ohne Arbeitsbaum); wirft bei Konflikt. */
 const mergeBaum = (git, main, kopf) => git(['merge-tree', '--write-tree', '--no-messages', main, kopf]).trim().split(/\r?\n/)[0]
 
-/** Dateien, die `umfang-pruefen` vermisst, im Baum `baum`. */
-function vermesseneDateien(git, baum, m) {
-  const roh = git(['ls-tree', '-r', '-z', '--name-only', baum, '--', ...m.BEREICHE])
-  return roh.split('\0').filter((p) => p !== '' && m.istVermessen(p))
-}
-
 /**
  * null = der PR hält auf dem Merge-Stand die Grenzen von main und main hat sie nicht erhöht (die Bewegung der Datei entwertet nichts);
- * sonst der Grund. `refs` { nummer, kopf, main, basis }; `git` wie in `gitLeser`, `m` der Messer (Standard: umfang-pruefen).
+ * sonst der Grund. `refs` { nummer, kopf, main, basis }; `git` wie in `gitLeser`, `messen(baum, main)` -> Verstöße (Standard: Kindprozess).
  */
-export function umfangGrund(refs, git = gitAufruf, m = standardMesser) {
-  if (m === null) return `Umfang nicht ermittelbar (umfang-pruefen nicht ladbar: ${messerFehler})`
+export function umfangGrund(refs, git = gitAufruf, messen = standardMessen) {
   try {
     git(['fetch', '-q', 'origin', `refs/pull/${refs.nummer}/head`, refs.main, refs.basis])
     const lies = (ref) => JSON.parse(inhalte(git, ref, [UMFANG_GRENZEN]).get(UMFANG_GRENZEN))
     const erhoeht = grenzErhoehung(lies(refs.basis), lies(refs.main))
     if (erhoeht !== null) return `main erhöhte die Umfang-Grenze (${erhoeht})`
-    const baum = mergeBaum(git, refs.main, refs.kopf)
-    const texte = inhalte(git, baum, vermesseneDateien(git, baum, m))
-    const { zuViel } = m.gegenGrenzen(m.vermessen([...texte.keys()], (p) => texte.get(p)).stand, lies(refs.main))
+    const zuViel = messen(mergeBaum(git, refs.main, refs.kopf), refs.main)
     return zuViel.length === 0 ? null : `der PR reißt auf dem Merge-Stand die Umfang-Grenzen von main: ${zuViel.join('; ')}`
   } catch (e) {
     return `Umfang nicht ermittelbar (${String(e.message).split('\n')[0].slice(0, 120)})`

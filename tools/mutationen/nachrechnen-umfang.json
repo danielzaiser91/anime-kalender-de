@@ -2,223 +2,323 @@
   {
     "name": "Kontrolle unmutiert",
     "aenderungen": [],
-    "tests": ["node tools/pr-nachrechnen-umfang.test.mjs"]
+    "tests": [
+      "node tools/pr-nachrechnen-umfang.test.mjs"
+    ]
   },
   {
     "name": "grenzErhoehung: gleiche Grenze zählt als Erhöhung (> zu >=)",
     "datei": "tools/pr-nachrechnen-umfang.mjs",
     "suche": "if ((werte[art] ?? 0) > vorher)",
     "ersetze": "if ((werte[art] ?? 0) >= vorher)",
-    "tests": ["node tools/pr-nachrechnen-umfang.test.mjs"]
+    "tests": [
+      "node tools/pr-nachrechnen-umfang.test.mjs"
+    ]
   },
   {
     "name": "grenzErhoehung: Erhöhung wird nie erkannt (> zu <)",
     "datei": "tools/pr-nachrechnen-umfang.mjs",
     "suche": "if ((werte[art] ?? 0) > vorher)",
     "ersetze": "if ((werte[art] ?? 0) < vorher)",
-    "tests": ["node tools/pr-nachrechnen-umfang.test.mjs"]
+    "tests": [
+      "node tools/pr-nachrechnen-umfang.test.mjs"
+    ]
   },
   {
     "name": "grenzErhoehung: fehlender Bereich zählt als 1 statt 0",
     "datei": "tools/pr-nachrechnen-umfang.mjs",
     "suche": "const vorher = alt.ueberlaenge[bereich]?.[art] ?? 0",
     "ersetze": "const vorher = alt.ueberlaenge[bereich]?.[art] ?? 1",
-    "tests": ["node tools/pr-nachrechnen-umfang.test.mjs"]
+    "tests": [
+      "node tools/pr-nachrechnen-umfang.test.mjs"
+    ]
   },
   {
     "name": "ARTEN: ketten wird nicht verglichen",
     "datei": "tools/pr-nachrechnen-umfang.mjs",
     "suche": "const ARTEN = ['funktionen', 'dateien', 'ketten']",
     "ersetze": "const ARTEN = ['funktionen', 'dateien']",
-    "tests": ["node tools/pr-nachrechnen-umfang.test.mjs"]
+    "tests": [
+      "node tools/pr-nachrechnen-umfang.test.mjs"
+    ]
   },
   {
     "name": "ARTEN: dateien wird nicht verglichen",
     "datei": "tools/pr-nachrechnen-umfang.mjs",
     "suche": "const ARTEN = ['funktionen', 'dateien', 'ketten']",
     "ersetze": "const ARTEN = ['funktionen', 'ketten']",
-    "tests": ["node tools/pr-nachrechnen-umfang.test.mjs"]
+    "tests": [
+      "node tools/pr-nachrechnen-umfang.test.mjs"
+    ]
   },
   {
     "name": "umfangGrund: Erhöhung auf main wird ignoriert",
     "datei": "tools/pr-nachrechnen-umfang.mjs",
     "suche": "if (erhoeht !== null) return",
     "ersetze": "if (false) return",
-    "tests": ["node tools/pr-nachrechnen-umfang.test.mjs"]
+    "tests": [
+      "node tools/pr-nachrechnen-umfang.test.mjs"
+    ]
   },
   {
     "name": "umfangGrund: Erhöhung gegen main statt Basis verglichen",
     "datei": "tools/pr-nachrechnen-umfang.mjs",
     "suche": "grenzErhoehung(lies(refs.basis), lies(refs.main))",
     "ersetze": "grenzErhoehung(lies(refs.main), lies(refs.main))",
-    "tests": ["node tools/pr-nachrechnen-umfang.test.mjs"]
+    "tests": [
+      "node tools/pr-nachrechnen-umfang.test.mjs"
+    ]
   },
   {
     "name": "umfangGrund: gemessen wird der Kopf allein statt des Merge-Stands",
     "datei": "tools/pr-nachrechnen-umfang.mjs",
-    "suche": "const baum = mergeBaum(git, refs.main, refs.kopf)",
-    "ersetze": "const baum = refs.kopf",
-    "tests": ["node tools/pr-nachrechnen-umfang.test.mjs"]
+    "suche": "const zuViel = messen(mergeBaum(git, refs.main, refs.kopf), refs.main)",
+    "ersetze": "const zuViel = messen(refs.kopf, refs.main)",
+    "tests": [
+      "node tools/pr-nachrechnen-umfang.test.mjs"
+    ]
   },
   {
     "name": "umfangGrund: Verstoß auf dem Merge-Stand wird nie gemeldet",
     "datei": "tools/pr-nachrechnen-umfang.mjs",
     "suche": "return zuViel.length === 0 ? null :",
     "ersetze": "return true ? null :",
-    "tests": ["node tools/pr-nachrechnen-umfang.test.mjs"]
+    "tests": [
+      "node tools/pr-nachrechnen-umfang.test.mjs"
+    ]
   },
   {
     "name": "umfangGrund: Verstoß wird immer gemeldet",
     "datei": "tools/pr-nachrechnen-umfang.mjs",
     "suche": "return zuViel.length === 0 ? null :",
     "ersetze": "return false ? null :",
-    "tests": ["node tools/pr-nachrechnen-umfang.test.mjs"]
+    "tests": [
+      "node tools/pr-nachrechnen-umfang.test.mjs"
+    ]
   },
   {
     "name": "umfangGrund: Messung gegen die Grenzen der Basis statt von main",
     "datei": "tools/pr-nachrechnen-umfang.mjs",
-    "suche": "vermessen([...texte.keys()], (p) => texte.get(p)).stand, lies(refs.main))",
-    "ersetze": "vermessen([...texte.keys()], (p) => texte.get(p)).stand, lies(refs.basis))",
-    "tests": ["node tools/pr-nachrechnen-umfang.test.mjs"]
+    "suche": "const zuViel = messen(mergeBaum(git, refs.main, refs.kopf), refs.main)",
+    "ersetze": "const zuViel = messen(mergeBaum(git, refs.main, refs.kopf), refs.basis)",
+    "tests": [
+      "node tools/pr-nachrechnen-umfang.test.mjs"
+    ]
   },
   {
     "name": "umfangGrund: Kopf des PR wird nicht abgerufen",
     "datei": "tools/pr-nachrechnen-umfang.mjs",
     "suche": "git(['fetch', '-q', 'origin', `refs/pull/${refs.nummer}/head`, refs.main, refs.basis])",
     "ersetze": "git(['fetch', '-q', 'origin', refs.main, refs.basis])",
-    "tests": ["node tools/pr-nachrechnen-umfang.test.mjs"]
+    "tests": [
+      "node tools/pr-nachrechnen-umfang.test.mjs"
+    ]
   },
   {
     "name": "umfangGrund: Fehler beim Messen gelten als in Ordnung (catch gibt null)",
     "datei": "tools/pr-nachrechnen-umfang.mjs",
     "suche": "return `Umfang nicht ermittelbar (${String(e.message).split('\\n')[0].slice(0, 120)})`",
     "ersetze": "return null",
-    "tests": ["node tools/pr-nachrechnen-umfang.test.mjs"]
-  },
-  {
-    "name": "umfangGrund: ohne Messer gilt als in Ordnung",
-    "datei": "tools/pr-nachrechnen-umfang.mjs",
-    "suche": "if (m === null) return `Umfang nicht ermittelbar (umfang-pruefen nicht ladbar: ${messerFehler})`",
-    "ersetze": "if (m === null) return null",
-    "tests": ["node tools/pr-nachrechnen-umfang.test.mjs"]
-  },
-  {
-    "name": "vermesseneDateien: Typdeklarationen und Textdateien nicht ausgefiltert",
-    "datei": "tools/pr-nachrechnen-umfang.mjs",
-    "suche": "filter((p) => p !== '' && m.istVermessen(p))",
-    "ersetze": "filter((p) => p !== '')",
-    "tests": ["node tools/pr-nachrechnen-umfang.test.mjs"]
-  },
-  {
-    "name": "vermesseneDateien: Ordner außerhalb der Bereiche mitgemessen",
-    "datei": "tools/pr-nachrechnen-umfang.mjs",
-    "suche": "'--name-only', baum, '--', ...m.BEREICHE])",
-    "ersetze": "'--name-only', baum])",
-    "tests": ["node tools/pr-nachrechnen-umfang.test.mjs"]
+    "tests": [
+      "node tools/pr-nachrechnen-umfang.test.mjs"
+    ]
   },
   {
     "name": "botSprungAusnahme: Umfang wird nie gefragt (null)",
     "datei": "tools/pr-nachrechnen.mjs",
     "suche": "const umfangGrund = kette.includes(UMFANG_GRENZEN) ? umfang() : null",
     "ersetze": "const umfangGrund = null",
-    "tests": ["node tools/pr-nachrechnen-umfang.test.mjs"]
+    "tests": [
+      "node tools/pr-nachrechnen-umfang.test.mjs"
+    ]
   },
   {
     "name": "botSprungAusnahme: Umfang wird immer gefragt, auch ohne bewegte Grenzen",
     "datei": "tools/pr-nachrechnen.mjs",
     "suche": "const umfangGrund = kette.includes(UMFANG_GRENZEN) ? umfang() : null",
     "ersetze": "const umfangGrund = umfang()",
-    "tests": ["node tools/pr-nachrechnen-umfang.test.mjs"]
+    "tests": [
+      "node tools/pr-nachrechnen-umfang.test.mjs"
+    ]
   },
   {
     "name": "botSprungAusnahme: Grenzdatei bleibt kettenweit (alter Stand)",
     "datei": "tools/pr-nachrechnen.mjs",
     "suche": "const fremd = kette.find((d) => d !== UMFANG_GRENZEN)",
     "ersetze": "const fremd = kette.find((d) => d !== '')",
-    "tests": ["node tools/pr-nachrechnen-umfang.test.mjs"]
+    "tests": [
+      "node tools/pr-nachrechnen-umfang.test.mjs"
+    ]
   },
   {
     "name": "botSprungAusnahme: Grenzdatei bleibt unter den Dateien für die Leser-Regel",
     "datei": "tools/pr-nachrechnen.mjs",
     "suche": "&& !ohneKetteLeser(d) && d !== UMFANG_GRENZEN), prDateien)",
     "ersetze": "&& !ohneKetteLeser(d)), prDateien)",
-    "tests": ["node tools/pr-nachrechnen-umfang.test.mjs"]
+    "tests": [
+      "node tools/pr-nachrechnen-umfang.test.mjs"
+    ]
   },
   {
     "name": "botSprungAusnahme: Umfang vor der Berührung des PR gefragt",
     "datei": "tools/pr-nachrechnen.mjs",
     "suche": "  if (beruehrt !== undefined) return `der PR berührt ${beruehrt}`\n  const umfangGrund = kette.includes(UMFANG_GRENZEN) ? umfang() : null",
     "ersetze": "  const umfangGrund = kette.includes(UMFANG_GRENZEN) ? umfang() : null\n  if (beruehrt !== undefined) return `der PR berührt ${beruehrt}`",
-    "tests": ["node tools/pr-nachrechnen-umfang.test.mjs"]
+    "tests": [
+      "node tools/pr-nachrechnen-umfang.test.mjs"
+    ]
   },
   {
     "name": "botSprungAusnahme: Grund des Umfangs wird verschluckt",
     "datei": "tools/pr-nachrechnen.mjs",
     "suche": "if (umfangGrund !== null) return `main bewegte ${UMFANG_GRENZEN}; ${umfangGrund}`",
     "ersetze": "if (umfangGrund !== null) return null",
-    "tests": ["node tools/pr-nachrechnen-umfang.test.mjs"]
+    "tests": [
+      "node tools/pr-nachrechnen-umfang.test.mjs"
+    ]
   },
   {
     "name": "botSprungAusnahme: Standard-Messer sagt ok statt Grund (nicht fail-closed)",
     "datei": "tools/pr-nachrechnen.mjs",
     "suche": "export function botSprungAusnahme(vergleich, prDateien, liestBewegtes, umfang = () => 'Umfang nicht geprüft') {",
     "ersetze": "export function botSprungAusnahme(vergleich, prDateien, liestBewegtes, umfang = () => null) {",
-    "tests": ["node tools/pr-nachrechnen-umfang.test.mjs"]
+    "tests": [
+      "node tools/pr-nachrechnen-umfang.test.mjs"
+    ]
   },
   {
     "name": "datenpfadGrund: Messer ohne Basis aufgerufen",
     "datei": "tools/pr-nachrechnen.mjs",
     "suche": "() => umfang({ nummer: pr.number, kopf: pr.headRefOid, main, basis }))",
     "ersetze": "() => umfang({ nummer: pr.number, kopf: pr.headRefOid, main }))",
-    "tests": ["node tools/pr-nachrechnen-umfang.test.mjs"]
+    "tests": [
+      "node tools/pr-nachrechnen-umfang.test.mjs"
+    ]
   },
   {
     "name": "datenpfadGrund: Messer wird nicht durchgereicht",
     "datei": "tools/pr-nachrechnen.mjs",
     "suche": "() => umfang({ nummer: pr.number, kopf: pr.headRefOid, main, basis }))",
     "ersetze": "() => null)",
-    "tests": ["node tools/pr-nachrechnen-umfang.test.mjs"]
+    "tests": [
+      "node tools/pr-nachrechnen-umfang.test.mjs"
+    ]
   },
   {
     "name": "nachrechnen: Messer wird nicht an datenpfadGrund gereicht",
     "datei": "tools/pr-nachrechnen.mjs",
     "suche": "datenpfadGrund(gh, pr, basis, main, leser, voll, paare, umfang)",
     "ersetze": "datenpfadGrund(gh, pr, basis, main, leser, voll, paare)",
-    "tests": ["node tools/pr-nachrechnen-umfang.test.mjs"]
+    "tests": [
+      "node tools/pr-nachrechnen-umfang.test.mjs"
+    ]
   },
   {
     "name": "nachrechnen: Standard-Messer sagt immer ok",
     "datei": "tools/pr-nachrechnen.mjs",
     "suche": "zugAktiv = leseZugAktiv(), umfang = standardUmfang)",
     "ersetze": "zugAktiv = leseZugAktiv(), umfang = () => null)",
-    "tests": ["node tools/pr-nachrechnen-umfang.test.mjs"]
+    "tests": [
+      "node tools/pr-nachrechnen-umfang.test.mjs"
+    ]
   },
   {
     "name": "umfang-pruefen gegenGrenzen: Gleichstand gilt als zu viel (> zu >=)",
     "datei": "tools/umfang-pruefen.mjs",
     "suche": "if (werte[art] > grenze) zuViel.push",
     "ersetze": "if (werte[art] >= grenze) zuViel.push",
-    "tests": ["node tools/pr-nachrechnen-umfang.test.mjs"]
+    "tests": [
+      "node tools/pr-nachrechnen-umfang.test.mjs"
+    ]
   },
   {
     "name": "umfang-pruefen gegenGrenzen: Überschreitung wird nie gemeldet",
     "datei": "tools/umfang-pruefen.mjs",
     "suche": "if (werte[art] > grenze) zuViel.push",
     "ersetze": "if (false) zuViel.push",
-    "tests": ["node tools/pr-nachrechnen-umfang.test.mjs"]
+    "tests": [
+      "node tools/pr-nachrechnen-umfang.test.mjs"
+    ]
   },
   {
     "name": "umfang-pruefen vermessen: lies wird ignoriert (Arbeitsbaum statt Baum)",
     "datei": "tools/umfang-pruefen.mjs",
     "suche": "    const text = lies(pfad)",
     "ersetze": "    const text = lokalLesen(pfad)",
-    "tests": ["node tools/pr-nachrechnen-umfang.test.mjs"]
+    "tests": [
+      "node tools/pr-nachrechnen-umfang.test.mjs"
+    ]
   },
   {
     "name": "umfang-pruefen istVermessen: Typdeklarationen zählen mit",
     "datei": "tools/umfang-pruefen.mjs",
     "suche": " && !p.endsWith('.d.ts')\n",
     "ersetze": "\n",
-    "tests": ["node tools/pr-nachrechnen-umfang.test.mjs"]
+    "tests": [
+      "node tools/pr-nachrechnen-umfang.test.mjs"
+    ]
+  },
+  {
+    "name": "standardMessen: Fehler des Kindprozesses gelten als in Ordnung",
+    "datei": "tools/pr-nachrechnen-umfang.mjs",
+    "suche": "throw new Error(String(e.stderr || e.message).trim().split('\\n')[0])",
+    "ersetze": "return []",
+    "tests": [
+      "node tools/pr-nachrechnen-umfang.test.mjs"
+    ]
+  },
+  {
+    "name": "standardMessen: Ursache aus stderr verloren (nur Befehlszeile)",
+    "datei": "tools/pr-nachrechnen-umfang.mjs",
+    "suche": "String(e.stderr || e.message)",
+    "ersetze": "String(e.message)",
+    "tests": [
+      "node tools/pr-nachrechnen-umfang.test.mjs"
+    ]
+  },
+  {
+    "name": "umfang-baum-messen: Typdeklarationen und Textdateien nicht ausgefiltert",
+    "datei": "tools/umfang-baum-messen.mjs",
+    "suche": "filter((p) => p !== '' && istVermessen(p))",
+    "ersetze": "filter((p) => p !== '')",
+    "tests": [
+      "node tools/pr-nachrechnen-umfang.test.mjs"
+    ]
+  },
+  {
+    "name": "umfang-baum-messen: Ordner außerhalb der Bereiche mitgemessen",
+    "datei": "tools/umfang-baum-messen.mjs",
+    "suche": "'--name-only', baum, '--', ...BEREICHE])",
+    "ersetze": "'--name-only', baum])",
+    "tests": [
+      "node tools/pr-nachrechnen-umfang.test.mjs"
+    ]
+  },
+  {
+    "name": "umfang-baum-messen: Verstöße werden nie ausgegeben",
+    "datei": "tools/umfang-baum-messen.mjs",
+    "suche": "console.log(JSON.stringify(verstoesse(gitAufruf, process.argv[2], process.argv[3])))",
+    "ersetze": "console.log(JSON.stringify([]))",
+    "tests": [
+      "node tools/pr-nachrechnen-umfang.test.mjs"
+    ]
+  },
+  {
+    "name": "umfang-baum-messen: Fehler gelten als in Ordnung (Exit 0)",
+    "datei": "tools/umfang-baum-messen.mjs",
+    "suche": "    process.exit(1)\n",
+    "ersetze": "    process.exit(0)\n",
+    "tests": [
+      "node tools/pr-nachrechnen-umfang.test.mjs"
+    ]
+  },
+  {
+    "name": "umfang-baum-messen: Grenzen vom Baum statt von main",
+    "datei": "tools/umfang-baum-messen.mjs",
+    "suche": "inhalte(git, main, [GRENZEN])",
+    "ersetze": "inhalte(git, baum, [GRENZEN])",
+    "tests": [
+      "node tools/pr-nachrechnen-umfang.test.mjs"
+    ]
   }
 ]

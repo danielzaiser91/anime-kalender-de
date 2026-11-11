@@ -11,7 +11,7 @@ import os from 'node:os'
 import path from 'node:path'
 import { botSprungAusnahme, datenpfadGrund, nachrechnen } from './pr-nachrechnen.mjs'
 import { gitAufruf, gitLeser } from './pr-nachrechnen-leser-git.mjs'
-import { grenzErhoehung, umfangGrund } from './pr-nachrechnen-umfang.mjs'
+import { grenzErhoehung, standardMessen, umfangGrund } from './pr-nachrechnen-umfang.mjs'
 
 const fehler = []
 const pruefe = (name, ok, info) => {
@@ -135,8 +135,33 @@ try {
     process.chdir(arbeit)
     const g = umfangGrund({ ...refs, nummer: 99 })
     pruefe('echtes git: Kopf nicht abrufbar (kein refs/pull/99/head) -> nicht ermittelbar', /^Umfang nicht ermittelbar \(/.test(g), g)
-    const k = umfangGrund(refs, gitAufruf, null)
-    pruefe('ohne Messer (typescript fehlt) -> nicht ermittelbar', /^Umfang nicht ermittelbar \(umfang-pruefen nicht ladbar/.test(k), k)
+    const fehlt = () => {
+      throw new Error("Cannot find package 'typescript'")
+    }
+    const k = umfangGrund(refs, gitAufruf, fehlt)
+    pruefe('Messer wirft (typescript fehlt wie im Nacht-Merger) -> nicht ermittelbar mit Ursache', k === "Umfang nicht ermittelbar (Cannot find package 'typescript')", k)
+    const leer = umfangGrund(refs, gitAufruf, () => [])
+    pruefe('Messer meldet keine Verstöße -> null', leer === null, leer)
+    const viel = umfangGrund(refs, gitAufruf, () => ['a: 3 statt 2', 'b: 5 statt 4'])
+    pruefe('Messer meldet zwei Verstöße -> beide im Grund', /: a: 3 statt 2; b: 5 statt 4$/.test(viel), viel)
+    let empfangen = null
+    umfangGrund(refs, gitAufruf, (baum, main) => {
+      empfangen = { baum, main }
+      return []
+    })
+    pruefe('Messer bekommt den Merge-Baum (nicht Kopf, nicht main) und main', /^[0-9a-f]{40}$/.test(empfangen.baum) && empfangen.baum !== refs.kopf && empfangen.baum !== refs.main && empfangen.main === refs.main, empfangen)
+  }
+  {
+    // Kindprozess ohne Attrappe: Fehlerpfad (Baum unbekannt) mit Ursache aus stderr, Erfolgspfad im ganzen Ablauf unten.
+    const { arbeit, refs } = baue({ prDateien: { 'tools/b.mjs': 'export const b = 1\n' } })
+    process.chdir(arbeit)
+    let wurf = ''
+    try {
+      standardMessen('0'.repeat(40), refs.main)
+    } catch (e) {
+      wurf = e.message
+    }
+    pruefe('Kindprozess: unbekannter Baum -> Exit 1, Ursache „umfang-baum-messen: …“ aus stderr', /^umfang-baum-messen: /.test(wurf), wurf)
   }
 
   // 3. Verdrahtung: botSprungAusnahme
