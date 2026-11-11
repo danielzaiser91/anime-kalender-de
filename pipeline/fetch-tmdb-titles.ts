@@ -20,7 +20,7 @@ import { recordSource } from './lib/health.ts'
 import { findeGeteilteHauptserien, streicheZuordnungen } from './lib/tmdb-hauptserie.ts'
 import { nachAbruf, streicheAbgelaufenes, STREICH_TAGE } from './lib/tmdb-ablauf.ts'
 import { FILMSUCHE_SEIT, koennteFilmSein, lookup } from './lib/tmdb-titel-lookup.ts'
-import { uebernimmVonHand } from './lib/tmdb-von-hand.ts'
+import { uebernimmVonHand, type Abgeleitet, type VonHandEintrag } from './lib/tmdb-von-hand.ts'
 import { faelligeTitel } from './lib/tmdb-faellig.ts'
 import { raeumeStaffel0Auf } from './lib/tmdb-staffel0-eigene.ts'
 import type { Vermerk404 } from './lib/tmdb-folgen-404.ts'
@@ -107,6 +107,23 @@ function speichereOhneGeteilteHauptserien(cache: Record<string, TmdbTitle>, titl
   writeJson(CACHE_PATH, cache)
 }
 
+/** Setzt die Handzeilen; Banner und Folgen der gestrichenen oder gewechselten Kennung entfallen im selben Lauf und stehen im Log. */
+function handKennungenSetzen(cache: Record<string, TmdbTitle>, vonHand: VonHandEintrag[]): number {
+  const abgeleitet: Abgeleitet = {
+    banner: readJson('data/tmdb-banner.json', {}),
+    folgen: readJson('data/tmdb-folgen.json', {}),
+    staffel0: readJson('data/tmdb-staffel0.json', {}),
+    verworfen: [],
+  }
+  const gesetzt = uebernimmVonHand(cache, vonHand, new Date().toISOString(), abgeleitet)
+  if (abgeleitet.verworfen.length) {
+    writeJson('data/tmdb-banner.json', abgeleitet.banner)
+    writeJson('data/tmdb-folgen.json', abgeleitet.folgen)
+    log(`${abgeleitet.verworfen.length} Banner/Folgen alter Kennungen verworfen (Handzeilen): ${abgeleitet.verworfen.join(', ')}`)
+  }
+  return gesetzt
+}
+
 /** TMDB-API-Bedingungen: Inhalte höchstens 6 Monate behalten (`lib/tmdb-ablauf.ts`). */
 function streicheAlteInhalte(cache: Record<string, TmdbTitle>): void {
   const gestrichen = streicheAbgelaufenes(cache, new Date())
@@ -158,7 +175,7 @@ async function main(): Promise<void> {
   const vonHand = yaml.load(readFileSync('data/tmdb-von-hand.yaml', 'utf8')) as
     | { anilistId: number; tmdbId: number; kind?: 'tv' | 'movie' }[]
     | null
-  const gesetzt = uebernimmVonHand(cache, vonHand ?? [], new Date().toISOString())
+  const gesetzt = handKennungenSetzen(cache, vonHand ?? [])
   if (gesetzt) {
     writeJson(CACHE_PATH, cache)
     log(`${gesetzt} Kennung(en) aus data/tmdb-von-hand.yaml gesetzt`)
