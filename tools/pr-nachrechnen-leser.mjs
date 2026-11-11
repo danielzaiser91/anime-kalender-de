@@ -151,6 +151,19 @@ const istBauLeser = (datei) => !istTest(datei) && !datei.startsWith('.github/')
 const kernZuerst = (liste) => [...liste].sort((a, b) => Number(KERN.test(b)) - Number(KERN.test(a)))
 const KERN = /^(pipeline\/|shared\/|tools\/check-)/
 
+/**
+ * Dateien, die von Code genutzt werden, der bewegte Daten liest. Bewegter Code (neue Prüfung auf main) liest PR-Code oder -Daten, ohne dass ihn jemand
+ * nennt (tests-alle sammelt per readdir). Bis zwei Importstufen vom Leser aus (Bauphase -> Helfer -> Kern). Tests und Werkzeuge unter tools/ außer
+ * tools/check-* nennen Daten in Ausnahmelisten und Fixtures (workflows-beleg.mjs: crunchyroll-neu.json, Replay PR 3341), ohne sie zu lesen.
+ */
+const rueckMenge = (leser, bewegt, lies) => {
+  const bewegterCode = bewegt.filter((b) => LESBAR.test(b) && !LISTE.test(b))
+  const rueckLeser = leser.filter((r) => (!r.startsWith('tools/') || r.startsWith('tools/check-')) && !istTest(r))
+  const rueckwaerts = new Set(huelle([...rueckLeser, ...bewegterCode], lies, RUECK_TIEFE))
+  huelle(leser.filter((r) => liestClaudeMd(r, bewegt, lies)), lies, RUECK_TIEFE).forEach((n) => rueckwaerts.add(n))
+  return rueckwaerts
+}
+
 /** Einträge einer Ausführungsliste, die der PR neu aufnimmt (Pfade im Kopf, die main nicht hat): nur sie laufen neu gegen die Daten. */
 const neueEintraege = (liste, lies, liesMain) => {
   const alt = new Set(pfadTokens(liesMain(liste) ?? ''))
@@ -198,13 +211,7 @@ export function bewegtesGelesen({ bewegt, pr, leser, lies, liesMain = () => null
   const vorwaerts = [...huelle(start, lies)]
   const l1 = kernZuerst(leser).find((r) => vorwaerts.some((n) => trifft(n, r)))
   if (l1 !== undefined) return `der PR ruft ${l1} auf oder importiert es, das bewegte Daten liest`
-  // Bewegter Code (neue Prüfung auf main) liest PR-Code oder -Daten, ohne dass ihn jemand nennt (tests-alle sammelt per readdir).
-  const bewegterCode = bewegt.filter((b) => LESBAR.test(b) && !LISTE.test(b))
-  // Bis zwei Importstufen vom Leser aus (Bauphase -> Helfer -> Kern). Tests und Werkzeuge unter tools/ außer tools/check-* nennen Daten
-  // in Ausnahmelisten und Fixtures (workflows-beleg.mjs: crunchyroll-neu.json, Replay PR 3341), ohne sie zu lesen.
-  const rueckLeser = leser.filter((r) => (!r.startsWith('tools/') || r.startsWith('tools/check-')) && !istTest(r))
-  const rueckwaerts = new Set(huelle([...rueckLeser, ...bewegterCode], lies, RUECK_TIEFE))
-  huelle(leser.filter((r) => liestClaudeMd(r, bewegt, lies)), lies, RUECK_TIEFE).forEach((n) => rueckwaerts.add(n))
+  const rueckwaerts = rueckMenge(leser, bewegt, lies)
   const p = start.find((x) => rueckwaerts.has(x))
   if (p !== undefined) return `${p} wird von Code genutzt, der bewegte Daten liest (bewegt: ${bewegt.join(', ')})`
   return null
