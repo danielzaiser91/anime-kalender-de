@@ -986,6 +986,7 @@ for (const gruppe of jeAdresse.values()) {
     const t = liste.find((x) => x.id === id)
     /** Die Bereiche dieser Staffel, in ihrer eigenen Zählung. */
     let eigene = bereiche
+    const widerspruch = adnJeTitel?.get(id)?.widersprueche ?? widersprueche
     if (nichtGefuehrt.has(id)) {
       // Der Anbieter führt diese Staffel nicht — dann ist der Verweis falsch,
       // und über den deutschen Ton ist damit nichts gesagt.
@@ -1000,7 +1001,7 @@ for (const gruppe of jeAdresse.values()) {
       if (!meldungen?.length) continue
       eigene = bildeBereiche(meldungen).bereiche
     } else if (verteilbar) {
-      eigene = adnJeTitel ? (adnJeTitel.get(id) ?? []) : bereicheDerStaffel(bereiche, staffeln, id)
+      eigene = adnJeTitel ? (adnJeTitel.get(id)?.bereiche ?? []) : bereicheDerStaffel(bereiche, staffeln, id)
       // Keine geprüfte Folge in dieser Staffel — dann gibt es auch nichts zu
       // melden. Schweigen ist hier die richtige Antwort.
       if (!eigene.length) continue
@@ -1169,7 +1170,7 @@ for (const gruppe of jeAdresse.values()) {
       eigene.length ? beschreibeBereiche(eigene) : '',
       verteilbar && !adnJeTitel ? `Anbieter zählt durch, hier auf die Staffel umgerechnet` : '',
       sprachen.length ? `Tonspuren: ${sprachen.join(', ')}` : '',
-      widersprueche.length && !adnJeTitel ? `Widersprüchliche Meldungen zu Folge ${widersprueche.join(', ')}` : '',
+      widerspruch.length ? `Widersprüchliche Meldungen zu Folge ${widerspruch.join(', ')}` : '',
       mitWegVermerk(notizJeStaffel.get(id) ?? p.notiz ?? '', !weg && !urteilsMeldung(gruppe)),
       summe?.ok ? summe.vermerk : '',
     ]

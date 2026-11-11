@@ -38487,18 +38487,14 @@
   url: https://animationdigitalnetwork.com/de/video/442-sword-art-online
   dub: true
   checkedAt: '2026-11-09'
-  note: "Folgen 1–25 mit deutschem Ton — Anbieter zählt durch, hier auf die Staffel umgerechnet — Tonspuren: ja, de"
+  note: "Folgen 1–25 mit deutschem Ton — ADN-Staffel 1 gegen unseren Titel, ADN zählt je Staffel neu — Tonspuren: ja, de"
 - anilistId: 20594
   title: "Sword Art Online II"
   platform: adn
   url: https://animationdigitalnetwork.com/de/video/442-sword-art-online
   dub: true
-  dubRanges:
-    - from: 1
-      to: 22
-      dub: true
   checkedAt: '2026-11-09'
-  note: "Folgen 1–22 mit deutschem Ton — Anbieter zählt durch, hier auf die Staffel umgerechnet — Tonspuren: ja, de"
+  note: "Folgen 1–24 mit deutschem Ton — ADN-Staffel 2 gegen unseren Titel, ADN zählt je Staffel neu — Tonspuren: ja, de"
 - anilistId: -64198
   title: "Blaze und die Monster-Maschinen"
   platform: primevideo
@@ -38628,17 +38624,8 @@
   platform: adn
   url: https://animationdigitalnetwork.com/de/video/1311-tougen-anki
   dub: true
-  dubRanges:
-    - from: 1
-      to: 6
-      dub: false
-      checked: [1, 2, 3, 4, 5, 6]
-    - from: 7
-      to: 24
-      dub: true
-      checked: [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]
   checkedAt: '2026-11-09'
-  note: "Folgen 1–6 ohne deutschen Ton, Folgen 7–24 mit deutschem Ton — Tonspuren: ja — Widersprüchliche Meldungen zu Folge 4, 3, 2, 1, 5, 6"
+  note: "Folgen 1–24 mit deutschem Ton — ADN-Staffel 1 (24 Folgen) gegen unseren Titel, ADN zählt je Staffel neu; die 6 Folgen der ADN-Staffel 2 haben keinen deutschen Ton und gehören nicht hierher — Tonspuren: ja"
 - anilistId: 204650
   platform: adn
   url: https://animationdigitalnetwork.com/de/video/1311-tougen-anki
@@ -38816,7 +38803,7 @@
   url: https://animationdigitalnetwork.com/de/video/427-sailor-moon
   dub: true
   checkedAt: '2026-11-09'
-  note: "Folgen 1–46 mit deutschem Ton — Anbieter zählt durch, hier auf die Staffel umgerechnet — Tonspuren: ja, de"
+  note: "Folgen 1–46 mit deutschem Ton — ADN-Staffel 1 gegen unseren Titel, ADN zählt je Staffel neu — Tonspuren: ja, de"
 - anilistId: -8620
   title: "Do, Re & Mi"
   platform: primevideo

@@ -1,10 +1,10 @@
 // Vorlader für pipeline/check-adn-staffel-meldungen.ts: Der Lauf von pipeline/fetch-pruefungen.ts schreibt wirklich, aber nur in eine Wegwerfdatei.
 // GET /pruefung liefert die Meldungen aus ADN_MOCK_MELDUNGEN (volle Zeilen); POST (Abhaken) tut nichts.
-// dub-confirmed.yaml liegt in ADN_MOCK_YAML. Der Bestand ist eine Attrappe mit den fünf JoJo-Titeln (Folgenzahl und Jahr wie in public/data).
+// dub-confirmed.yaml liegt in ADN_MOCK_YAML. Der Bestand ist ADN_MOCK_TITEL (JSON [id, Folgen, Jahr, Jahreszeit]) an ADN_MOCK_URL, ohne Angabe die fünf JoJo-Titel (Folgenzahl und Jahr wie in public/data).
 import fs from 'node:fs'
 import { syncBuiltinESMExports } from 'node:module'
 
-const URL_DER_MELDUNG = 'https://animationdigitalnetwork.com/de/video/444-jojo-s-bizarre-adventure'
+const URL_DER_MELDUNG = process.env.ADN_MOCK_URL ?? 'https://animationdigitalnetwork.com/de/video/444-jojo-s-bizarre-adventure'
 const titel = (id, episodes, jpYear, jpSeason) => ({
   id,
   titleDe: `JoJo ${id}`,
@@ -15,13 +15,13 @@ const titel = (id, episodes, jpYear, jpSeason) => ({
   streams: [{ platform: 'adn', url: URL_DER_MELDUNG }],
 })
 const attrappe = {
-  titles: [
+  titles: (process.env.ADN_MOCK_TITEL ? JSON.parse(process.env.ADN_MOCK_TITEL).map((t) => titel(...t)) : [
     titel(14719, 26, 2012, 'FALL'),
     titel(20474, 24, 2014, 'SPRING'),
     titel(20799, 24, 2015, 'WINTER'),
     titel(21450, 39, 2016, 'SPRING'),
     titel(102883, 39, 2018, 'FALL'),
-  ],
+  ]),
   franchises: {},
   cartoons: [],
 }
