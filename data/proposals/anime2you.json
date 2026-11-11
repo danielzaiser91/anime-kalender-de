@@ -1,15 +1,35 @@
 {
-  "scrapedAt": "2026-11-11T04:11:00.275Z",
+  "scrapedAt": "2026-11-11T17:05:36.724Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 40,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 8,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 61,
-    "schon in einem Rubrik-Feed gelesen": 24,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 5,
+    "schon in einem Rubrik-Feed gelesen": 4,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 19,
     "Sprachhinweis älter als 45 Tage": 6
   },
   "proposals": [
+    {
+      "articleTitle": "Neun Disc-Neuheiten ab sofort im AKIBA PASS SHOP vorbestellbar",
+      "articleUrl": "https://www.anime2you.de/news/1070311/akiba-pass-shop-neun-blu-rays-vorbestellbar/",
+      "publishedAt": "2026-11-11",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2027-03-19",
+          "context": "es der zweiten Staffel von »Demon Slave: The Chained Soldier«, die am 19. März 2027 und 21. Mai 2027 als Blu-ray erscheinen – zusätzlich […]"
+        },
+        {
+          "iso": "2027-05-21",
+          "context": "ffel von »Demon Slave: The Chained Soldier«, die am 19. März 2027 und 21. Mai 2027 als Blu-ray erscheinen – zusätzlich […] Der Beitrag Neu"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Neuer Fantasy-Anime »Devils‘ Crest« auf Prime Video erhält zwei Cours",
       "articleUrl": "https://www.anime2you.de/news/1069473/devils-crest-erhaelt-zwei-cours/",
