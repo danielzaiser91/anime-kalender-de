@@ -68,6 +68,7 @@ export const istDatenpfad = (datei) => DATENPFADE.some((p) => datei.startsWith(p
  * Ausgenommen von `docs/`: `design-regeln.md`, das `tools/design-kontrast.mjs` liest (Prüfer 2123 R1); `dokuLeser` im Bot-Pfade-Test sucht den nächsten Leser.
  */
 const LIEST_KETTE = 'docs/wissen/design-regeln.md'
+/** `.claude`-Markdown (Skills, Agenten, Regeln) steht nicht hier: nur ein Kettenleser, der den vollen Pfad nennt (`istClaudeMd`, `nennt`), macht es zum Grund; der bloße Name (`SKILL.md`) zählt nicht (Anlass PR 3272, 3117, 3241, 3343; Leser `pr-kettenlog-budget.test.mjs`, Prüfer 3413). */
 const ohneKetteLeser = (datei) => (datei.startsWith('docs/') && datei !== LIEST_KETTE) || /^[^/]+\.md$/.test(datei) || datei === 'daniel-zum-abarbeiten/00-wache.md'
 
 /**

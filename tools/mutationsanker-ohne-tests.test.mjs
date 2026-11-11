@@ -1,10 +1,11 @@
 /** Tests: Mutanten ohne `tests`-Eintrag werden gemeldet (Warnung) und die Zahl je Liste darf nur sinken (tools/mutationen-ohne-tests-bekannt.json). */
 import { spawnSync } from 'node:child_process'
-import { mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs'
+import { mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { fileURLToPath } from 'node:url'
+import { fileURLToPath, pathToFileURL } from 'node:url'
 import { ohneTestsEintrag, ratscheLuecken, testsLueckenZeilen } from './mutationsanker.mjs'
+import { BEKANNT_PFAD, basisBekannt, basisImOrdner, basisZeile, bestandPruefen, git, leseVonMain, ratscheRot } from './ratsche-basis.mjs'
 
 const fehler = []
 const pruefe = (name, ok) => {
@@ -45,11 +46,73 @@ try {
   rmSync(wurzel, { recursive: true, force: true })
 }
 
-// Bestand: keine echte Liste über ihrer Grenze (Datei neben diesem Test).
-const bekannt = JSON.parse(readFileSync(new URL('./mutationen-ohne-tests-bekannt.json', import.meta.url), 'utf8'))
-const ordner = fileURLToPath(new URL('./mutationen/', import.meta.url))
-const ist = Object.fromEntries(readdirSync(ordner).filter((n) => n.endsWith('.json')).map((n) => [n, ohneTestsEintrag(readFileSync(join(ordner, n), 'utf8')).length]))
-const rot = ratscheLuecken(ist, bekannt)
+// Basis main: Anheben gegenüber main rot, Senken grün, neue Liste mit Lücke rot (die eigene Datei zählt nicht als Erlaubnis).
+const main3 = { 'a.json': 3 }
+pruefe('Basis: Ist über main (Datei mit angehoben) = rot', ratscheRot({ 'a.json': 5 }, { 'a.json': 5 }, main3).length === 2)
+pruefe('Basis: nur die Datei angehoben, Ist gleich = rot', ratscheRot({ 'a.json': 3 }, { 'a.json': 4 }, main3).length === 1)
+pruefe('Basis: Senken = grün', ratscheRot({ 'a.json': 1 }, { 'a.json': 1 }, main3).length === 0)
+pruefe('Basis: gleich = grün', ratscheRot({ 'a.json': 3 }, { 'a.json': 3 }, main3).length === 0)
+pruefe('Basis: neue Liste mit Lücke = rot', ratscheRot({ 'neu.json': 1 }, { 'neu.json': 1 }, main3).length === 2)
+pruefe('Basis: neue Liste ohne Lücke = grün', ratscheRot({ 'neu.json': 0 }, {}, main3).length === 0)
+pruefe('ohne Basis: heutiger Vergleich mit der eigenen Datei', ratscheRot({ 'a.json': 5 }, { 'a.json': 4 }, null).length === 1 && ratscheRot({ 'a.json': 4 }, { 'a.json': 4 }, null).length === 0)
+
+const mainAlt = text({ 'a.json': 7 })
+pruefe('leseVonMain: Objekt', leseVonMain(() => mainAlt)?.['a.json'] === 7)
+pruefe('leseVonMain: Fehler, kaputtes JSON, Liste, null = null', [() => { throw new Error('x') }, () => '{ kaputt', () => '[1]', () => 'null'].every((z) => leseVonMain(z) === null))
+let geholt = 0
+pruefe('basisBekannt: direkt gelesen, nicht geholt', basisBekannt(() => ({ x: 1 }), () => { geholt++ })?.x === 1 && geholt === 0)
+let stand = null
+pruefe('basisBekannt: erst nach dem Holen lesbar', basisBekannt(() => stand, () => { geholt++; stand = { y: 2 } })?.y === 2 && geholt === 1)
+pruefe('basisBekannt: Holen scheitert = null', basisBekannt(() => null, () => { throw new Error('offline') }) === null)
+let halb = null
+pruefe('basisBekannt: Holen wirft nach dem Schreiben = null', basisBekannt(() => halb, () => { halb = { z: 3 }; throw new Error('abgebrochen') }) === null)
+pruefe('basisBekannt: auch nach dem Holen nichts = null', basisBekannt(() => null, () => {}) === null)
+
+// Echtes git (K20): flacher Klon ohne origin/main-Ref wie die Kette; `bestandPruefen` läuft über die echte Verdrahtung.
+const gitWurzel = mkdtempSync(join(tmpdir(), 'ratsche-basis-'))
+const luecken = (n) => text(Array.from({ length: n }, (_, i) => m(`m${i}`)))
+const schreibeStand = (wurzel, bekanntStand, anzahl) => {
+  mkdirSync(join(wurzel, 'tools', 'mutationen'), { recursive: true })
+  writeFileSync(join(wurzel, BEKANNT_PFAD), text(bekanntStand))
+  for (const [liste, n] of Object.entries(anzahl)) writeFileSync(join(wurzel, 'tools', 'mutationen', liste), luecken(n))
+}
+try {
+  const quelle = join(gitWurzel, 'quelle')
+  const klon = join(gitWurzel, 'klon')
+  mkdirSync(quelle, { recursive: true })
+  git(['init', '-q', '-b', 'main'], quelle)
+  schreibeStand(quelle, { 'a.json': 3 }, { 'a.json': 3 })
+  git(['add', '.'], quelle)
+  git(['-c', 'user.name=t', '-c', 'user.email=t@t', 'commit', '-q', '-m', 'x'], quelle)
+  git(['clone', '-q', '--depth=1', pathToFileURL(quelle).href, klon], gitWurzel)
+  git(['update-ref', '-d', 'refs/remotes/origin/main'], klon)
+  // Enge Refspec wie beim Checkout der Kette: ohne ausdrückliches Ziel legt `fetch origin main` den Ref nicht an.
+  git(['config', 'remote.origin.fetch', '+refs/heads/nichts:refs/remotes/origin/nichts'], klon)
+  pruefe('git: ohne origin/main-Ref nichts lesbar', leseVonMain(() => git(['show', `origin/main:${BEKANNT_PFAD}`], klon)) === null)
+  pruefe('git: Nachholen im flachen Klon liefert den Stand von main', basisImOrdner(klon)?.['a.json'] === 3)
+  git(['update-ref', '-d', 'refs/remotes/origin/main'], klon)
+  schreibeStand(klon, { 'a.json': 5 }, { 'a.json': 5 })
+  const angehoben = bestandPruefen(klon)
+  pruefe('Verdrahtung: PR hebt Datei und Liste an = rot gegen main', angehoben.rot.length === 2 && angehoben.basis?.['a.json'] === 3)
+  schreibeStand(klon, { 'a.json': 2 }, { 'a.json': 2 })
+  pruefe('Verdrahtung: PR senkt = grün', bestandPruefen(klon).rot.length === 0)
+  schreibeStand(klon, { 'a.json': 3 }, { 'a.json': 3, 'neu.json': 1 })
+  pruefe('Verdrahtung: neue Liste mit Lücke = rot', bestandPruefen(klon).rot.length === 1)
+  git(['remote', 'remove', 'origin'], klon)
+  git(['update-ref', '-d', 'refs/remotes/origin/main'], klon)
+  schreibeStand(klon, { 'a.json': 5 }, { 'a.json': 5, 'neu.json': 0 })
+  const ohneMain = bestandPruefen(klon)
+  pruefe('Verdrahtung: main nicht erreichbar = Vergleich mit der eigenen Datei (grün bei gleicher Zahl)', ohneMain.basis === null && ohneMain.rot.length === 0)
+} finally {
+  rmSync(gitWurzel, { recursive: true, force: true })
+}
+
+// Bestand: keine echte Liste über dem Stand von origin/main (ohne erreichbares main: über der eigenen Datei).
+const wurzelRepo = fileURLToPath(new URL('../', import.meta.url))
+const { eigen: bekannt, ist, basis, rot } = bestandPruefen(wurzelRepo)
+console.log(basisZeile(basis))
+pruefe('Warnzeile: Rückfall auf die eigene Datei beginnt mit ⚠ WARNUNG', basisZeile(null).startsWith('⚠ WARNUNG Ratsche-Basis: eigene Datei'))
+pruefe('Warnzeile: erreichbares main ist keine Warnung', basisZeile({ 'a.json': 3 }) === 'Ratsche-Basis: origin/main')
 pruefe(`Bestand: Mutanten ohne tests nur sinkend (${rot.join('; ') || 'ok'})`, rot.length === 0)
 pruefe('Bestand: bekannte Liste existiert noch', Object.keys(bekannt).every((n) => n in ist))
 const summe = Object.values(ist).reduce((a, b) => a + b, 0)

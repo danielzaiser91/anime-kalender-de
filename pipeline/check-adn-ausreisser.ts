@@ -42,6 +42,8 @@ pruefe('Vertonung fängt vorn an (Folge 1 deutsch): kein Ausreißer', staffel(vi
 const lang = (anzahl: number) => [video(1, 1, ja), ...Array.from({ length: anzahl - 1 }, (_, i) => video(i + 2, i + 2, nein))]
 pruefe('Staffel von genau 50 Folgen, deutsch ab Folge 1: kein Ausreißer', staffel(...lang(50)) === 0)
 pruefe('Staffel von 51 Folgen, nur die erste deutsch: Ausreißer (One Piece Wano)', staffel(...lang(51)) === 1)
+const franzoesisch = ['vostf', 'vf']
+pruefe('Staffel mit französisch vertonten Folgen (One Piece Wano 11.11.2026) und einer vde-Folge: Ausreißer', staffel(video(1, 1, nein), video(2, 2, nein), video(3, 3, franzoesisch), video(4, 4, franzoesisch), video(5, 5, ja)) === 1)
 pruefe('Folge ohne Sprachangabe in der Staffel: kein Urteil', staffel(video(1, 1, nein), video(2, 2, nein), video(3, 3, ja), video(4, 4, nein), video(5, 5, [])) === 0)
 pruefe('zweite Staffel zählt für sich', vdeAusreisser([video(1, 1, ja, '1'), video(2, 2, ja, '1'), video(3, 1, nein, '2'), video(4, 2, nein, '2'), video(5, 3, ja, '2'), video(6, 4, nein, '2')]).has(5))
 const pv = (id: number, sprachen: string[]): AusreisserVideo => ({ ...video(id, id, sprachen), type: 'PV', number: 'Teaser' })

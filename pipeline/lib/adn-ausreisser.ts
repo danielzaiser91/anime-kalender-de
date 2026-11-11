@@ -48,7 +48,8 @@ export function vdeAusreisser(videos: readonly AusreisserVideo[]): Set<number> {
   const ausreisser = new Set<number>()
   for (const liste of jeStaffel.values()) {
     const ja = liste.filter((v) => v.languages?.includes('vde'))
-    const nein = liste.filter((v) => !v.languages?.includes('vde') && v.languages?.includes('vostde'))
+    // „nein“ = Sprachangabe da, aber kein vde: auch französisch vertonte Folgen (vostf+vf) in der Wano-Staffel (11.11.2026) sind keine deutsche Synchro.
+    const nein = liste.filter((v) => !v.languages?.includes('vde') && v.languages && v.languages.length > 0)
     if (ja.length !== 1 || nein.length < MIN_OHNE_VDE || nein.length + 1 !== liste.length) continue
     const nummer = (v: AusreisserVideo) => Number(v.shortNumber)
     const beginntDeutsch = !(nummer(ja[0]) > Math.min(...nein.map(nummer)))
