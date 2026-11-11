@@ -8,6 +8,7 @@
  * ungemessene Cover, Titel ohne Bild) nimmt das Standardbild 1200×630.
  */
 import { coverDatei, coverSchluessel, MIN_BREITE } from './anilist-cover-masse.ts'
+import { eigeneDatei, eigenSchluessel } from './eigene-cover-masse.ts'
 
 export interface Vorschau {
   url: string
@@ -15,7 +16,7 @@ export interface Vorschau {
   hoehe: number
   /** Große Karte für breite Bilder, kleine (`summary`) für das hochformatige Plakat. */
   karte: 'summary_large_image' | 'summary'
-  typ: 'image/jpeg' | 'image/png'
+  typ: 'image/jpeg' | 'image/png' | 'image/webp'
 }
 
 /** Maße der Original-Plakate aus `data/tmdb-poster.json`, Schlüssel = Pfad (`/abc.jpg`). */
@@ -42,10 +43,18 @@ function anilistVorschau(cover: string | undefined, masse: PlakatMasse): Vorscha
   return { url: cover, breite: m[0], hoehe: m[1], karte: 'summary', typ: datei.endsWith('.png') ? 'image/png' : 'image/jpeg' }
 }
 
+/** Eigene Kopie eines aniSearch-Covers (Bucket der eigenen Domain), nur mit gemessenen Maßen (`eigene-cover-masse.ts`). */
+function eigeneVorschau(cover: string | undefined, masse: PlakatMasse): Vorschau | undefined {
+  const datei = eigeneDatei(cover)
+  const m = datei ? masse.get(eigenSchluessel(datei)) : undefined
+  if (!cover || !m) return undefined
+  return { url: cover, breite: m[0], hoehe: m[1], karte: 'summary', typ: 'image/webp' }
+}
+
 /**
  * Eigenes Bild mit wahren Maßen, sonst das Standardbild: erst das TMDB-Banner in w780 (780×439), dann das
- * TMDB-Plakat in w500 (Höhe aus den Originalmaßen, nur wenn sie vorliegen), dann das AniList-Cover mit gemessenen
- * Maßen, sonst Standard 1200×630.
+ * TMDB-Plakat in w500 (Höhe aus den Originalmaßen, nur wenn sie vorliegen), dann das AniList-Cover und die eigene
+ * aniSearch-Kopie mit gemessenen Maßen, sonst Standard 1200×630.
  */
 export function vorschauBild(banner: string | undefined, cover: string | undefined, standardUrl: string, masse: PlakatMasse): Vorschau {
   const b = banner ? TMDB_BANNER.exec(banner) : null
@@ -58,6 +67,8 @@ export function vorschauBild(banner: string | undefined, cover: string | undefin
   }
   const anilist = anilistVorschau(cover, masse)
   if (anilist) return anilist
+  const eigen = eigeneVorschau(cover, masse)
+  if (eigen) return eigen
   return { url: standardUrl, breite: 1200, hoehe: 630, karte: 'summary_large_image', typ: 'image/jpeg' }
 }
 
@@ -86,9 +97,10 @@ export function vorschauMaengel(html: string, site: string): string[] {
   const bild = /property="og:image" content="([^"]+)"/.exec(html)?.[1]
   const tmdb = bild ? ERLAUBT_TMDB.exec(bild) : null
   const anilist = coverDatei(bild) !== undefined
-  if (bild && !bild.startsWith(site) && !tmdb && !anilist) mangel.push(`og:image weder eigene Domain noch TMDB w780/w500 noch AniList-Cover: ${bild}`)
+  const eigen = eigeneDatei(bild) !== undefined
+  if (bild && !bild.startsWith(site) && !tmdb && !anilist && !eigen) mangel.push(`og:image weder eigene Domain noch TMDB w780/w500 noch AniList-Cover: ${bild}`)
   const breite = /property="og:image:width" content="(\d+)"/.exec(html)?.[1]
-  if (anilist && breite && Number(breite) < MIN_BREITE) mangel.push(`og:image:width ${breite} unter ${MIN_BREITE}: ${bild}`)
+  if ((anilist || eigen) && breite && Number(breite) < MIN_BREITE) mangel.push(`og:image:width ${breite} unter ${MIN_BREITE}: ${bild}`)
   if (tmdb && breite && Number(breite) !== BREITE_JE_GROESSE[tmdb[1]]) mangel.push(`og:image:width ${breite} passt nicht zu ${tmdb[1]}: ${bild}`)
   if (bild && !/property="og:image:width" content="\d+"/.test(html)) mangel.push('og:image:width fehlt')
   if (bild && !/property="og:image:height" content="\d+"/.test(html)) mangel.push('og:image:height fehlt')
