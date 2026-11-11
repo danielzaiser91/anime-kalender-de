@@ -2,7 +2,7 @@ import { type IstTot } from '../lib/adresse-tot.ts'
 import { readJson } from '../lib/util.ts'
 import { type Title } from '../../shared/types.ts'
 import { staffelDesTitels, staffelFuehrt, zaehleTitelJeJwFolgen } from '../lib/jw-staffel-des-titels.ts'
-import { ergaenzeWegeOhneWeg, PHYSISCHE_SHOPS, type JwAngebot, type JwEintrag } from './11-2-2-wege-ohne-weg.ts'
+import { ergaenzeWegeOhneWeg, type JwAngebot, type JwEintrag } from './11-2-2-wege-ohne-weg.ts'
 
 /** Kennungen der Titel, die gerade mindestens einen Stream tragen. */
 export function titelMitStream(titles: ReadonlyMap<number, Title>): Set<number> {
@@ -41,7 +41,7 @@ export function ergaenzeWegeNachBegrenzung({ titles, hatteStream, tmdbMehrdeutig
  * `angebote` nennt es auch, wenn es nur an einer anderen Staffel hängt (Goblin Slayer 101165: der Aniverse-Kanal steht nur unter Staffel 2, der Titel ist Staffel 1).
  * Welche Staffel ein Titel ist, steht meist nicht fest; „jede“ ist der sichere Wert. Ausnahme: Hat nur eine Staffel bei JustWatch genau die Folgenzahl
  * des Titels und kein Geschwistertitel dieselbe (`staffelDesTitels`), reicht das Angebot an dieser Staffel (Chaika 20462: Crunchyroll steht nur unter
- * Staffel 1, der Titel ist Staffel 1). Disc-Händler laufen über ihre eigene Regel. Kauf und Leihe stehen bei JustWatch nie unter einer Staffel
+ * Staffel 1, der Titel ist Staffel 1). Kauf und Leihe, auch der Disc-Händler, stehen bei JustWatch nie unter einer Staffel
  * (Stand 11.11.2026: `staffeln[].angebote` kennt nur FLATRATE, ADS und FREE, 0 von 6.530 Einträgen BUY oder RENT): Ihr Fehlen dort ist keine Auskunft.
  */
 export function mitStaffelTreffer(jw: Record<string, JwEintrag>, titles: ReadonlyMap<number, Title>): Record<string, JwEintrag> {
@@ -56,7 +56,7 @@ export function mitStaffelTreffer(jw: Record<string, JwEintrag>, titles: Readonl
     const inJeder = (a: JwAngebot) => staffeln.every((s) => staffelFuehrt(s, a))
     const eigene = staffelDesTitels(e, titles.get(Number(id))?.episodes, zaehler)
     const ohneAuskunft = (a: JwAngebot) => a.art === 'BUY' || a.art === 'RENT'
-    out[id] = { ...e, angebote: (e.angebote ?? []).filter((a) => PHYSISCHE_SHOPS.test(a.anbieter) || ohneAuskunft(a) || inJeder(a) || (!!eigene && staffelFuehrt(eigene, a))) }
+    out[id] = { ...e, angebote: (e.angebote ?? []).filter((a) => ohneAuskunft(a) || inJeder(a) || (!!eigene && staffelFuehrt(eigene, a))) }
   }
   return out
 }
