@@ -61,6 +61,40 @@ test('Savvy schaltet spät (nach 400 ms): kein Fehlalarm, Pane geht auf', async 
   await band.unmount()
 })
 
+test('Zweiter Klick dreht das Pane binnen 1 s zurück: kein Fehlalarm des ersten Klicks', async ($, on) => {
+  starte(on, null)
+  const log: string[] = []
+  const schalten = welt(on, log)
+  let aufrufe = 0
+  haengeAgentenKnopfHaken(on, () => {
+    aufrufe++
+    if (aufrufe < 2) return
+    schalten()
+    setTimeout(schalten, 50)
+  })
+  await $.session.start({ cwd: 'C:/x', surface: 'terminal', isInteractive: true })
+  const band = await $.ui.mount({ ...BAND, surface: 'terminal' })
+  await klicke(band)
+  await klicke(band)
+  await new Promise(r => setTimeout(r, 1300))
+  expect(log).toEqual(['savvy:auf', 'savvy:zu'])
+  await band.unmount()
+})
+
+test('Arbeitsliste-Klick binnen 1 s nach „Agents“: kein Fehlalarm des Agents-Klicks', async ($, on) => {
+  starte(on, null)
+  const log: string[] = []
+  welt(on, log)
+  on('ui.open', () => ({ value: undefined }) as never)
+  await $.session.start({ cwd: 'C:/x', surface: 'terminal', isInteractive: true })
+  const band = await $.ui.mount({ ...BAND, surface: 'terminal' })
+  await klicke(band)
+  await band.press({ key: 'oeffnen' })
+  await new Promise(r => setTimeout(r, 1300))
+  expect(log).toEqual([])
+  await band.unmount()
+})
+
 test('Neustart ohne Klick: kein Phantom-Schalten, der Zähler wird beim Start nicht geschrieben', async ($, on) => {
   starte(on, null)
   const log: string[] = []

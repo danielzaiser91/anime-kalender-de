@@ -27,6 +27,7 @@ const HOSTS: Record<PlatformId, string[]> = {
   joyn: ['joyn.de'],
   // TVNow ist der alte Name von RTL+; aniSearch führt beide Formen.
   rtlplus: ['rtlplus.com', 'rtl.de', 'tvnow.de'],
+  plutotv: ['pluto.tv'],
   youtube: ['youtube.com', 'youtu.be'],
   // Für diese drei gibt es keinen einen Host: Eine Disc wird bei jedem Händler
   // verkauft, ein Kinostart steht bei jedem Kino, und „unbekannt" ist gerade

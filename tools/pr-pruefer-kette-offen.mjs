@@ -7,18 +7,20 @@
  */
 import fs from 'node:fs'
 import { pathToFileURL } from 'node:url'
+import { BASIS_OFFEN_ZEILE } from './pr-pruefer-basis-offen.mjs'
 
 /** Marke im Kommentar „nicht beurteilt“; der Neustart nach Kettenende sucht sie. */
 export const MARKE_KETTE_OFFEN = '<!-- pruefer-kette-offen -->'
 
 /** Der Kettenlauf-Satz aus pr-kettenlog.mjs (`kopfZeilen`), nicht ein beliebiges „läuft noch“ eines Jobs im fertigen Lauf. */
 const OFFEN = /^Lauf \d+ der PR-Prüfkette für \S+: NOCH NICHT ABGESCHLOSSEN/
+const BASIS_ZEILE = new RegExp(`^${BASIS_OFFEN_ZEILE}\\d+ ist noch offen und die Kette ist rot`)
 // Nur der Kopf der Datei (HINWEIS, Lauf-Satz): alles danach sind Ausgaben des PR-Codes und könnte den Satz vortäuschen.
 const KOPF_ZEILEN = 3
 
-/** Ja, wenn die Übersicht den Kettenlauf als nicht abgeschlossen ausweist. */
+/** Ja, wenn die Übersicht den Kettenlauf als nicht abgeschlossen ausweist oder einen noch offenen Basis-PR meldet (tools/pr-pruefer-basis-offen.mjs). */
 export function kettenOffen(text) {
-  return String(text ?? '').split('\n').slice(0, KOPF_ZEILEN).some((z) => OFFEN.test(z))
+  return String(text ?? '').split('\n').slice(0, KOPF_ZEILEN).some((z) => OFFEN.test(z) || BASIS_ZEILE.test(z))
 }
 
 export function main(argv = process.argv.slice(2)) {

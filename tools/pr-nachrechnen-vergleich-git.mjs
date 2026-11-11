@@ -21,4 +21,24 @@ export const vollerVergleich = (git) => (basis, main) => {
   }
 }
 
+/**
+ * Je Commit Autor und Dateien (Prüfer 3384, A1: die Ausnahme gilt je Konto und Pfadklasse, dafür muss man Autor und Datei paaren).
+ * Rückgabe { commits: [{ autor, dateien }] } oder { fehler }. Marke `@@` vor dem Autor, Umbenennungen nennen beide Pfade (`--no-renames`).
+ */
+export const commitDateien = (git) => (basis, main) => {
+  try {
+    git(['fetch', '-q', 'origin', basis, main])
+    const aus = git(['-c', 'core.quotepath=false', 'log', '--format=@@%an', '--name-only', '--no-renames', `${basis}..${main}`])
+    const commits = []
+    for (const zeile of zeilen(aus)) {
+      if (zeile.startsWith('@@')) commits.push({ autor: zeile.slice(2), dateien: [] })
+      else commits.at(-1).dateien.push(zeile)
+    }
+    return { commits }
+  } catch (e) {
+    return { fehler: String(e.message).split('\n')[0].slice(0, 120) }
+  }
+}
+
 export const standardVoll = vollerVergleich(gitAufruf)
+export const standardPaare = commitDateien(gitAufruf)

@@ -76,6 +76,7 @@ pipeline/check-auf-deutsch-vorstart.ts
 pipeline/check-ausgeblieben-text.ts
 pipeline/check-ausloeser-zeilen.ts
 pipeline/check-auto-disc-handeintrag.ts
+pipeline/check-beleg-adresswechsel.ts
 pipeline/check-beleg-anbieter.ts
 pipeline/check-beleg-api-web.ts
 pipeline/check-beleg-api.ts
@@ -111,6 +112,7 @@ pipeline/check-cartoon-wege-falten-leer-lauf.ts
 pipeline/check-cartoon-wege-falten.ts
 pipeline/check-cartoon-wege.ts
 pipeline/check-cartoon-zwilling.ts
+pipeline/check-cover-klein-vorschau.ts
 pipeline/check-cover-luecken-bau.ts
 pipeline/check-cover-luecken-wache.ts
 pipeline/check-cover-masse-poster-lauf.ts
@@ -125,6 +127,7 @@ pipeline/check-cr-block-zaehlung.ts
 pipeline/check-cr-blockkette-luecke.ts
 pipeline/check-cr-blockwahl.ts
 pipeline/check-cr-browser-start.ts
+pipeline/check-cr-datum-platzhalter.ts
 pipeline/check-cr-doppelt-weg.ts
 pipeline/check-cr-einzelwerk-urteil.ts
 pipeline/check-cr-film-wege.ts
@@ -165,6 +168,7 @@ pipeline/check-disc-archiv.ts
 pipeline/check-disc-bereich.ts
 pipeline/check-disc-ean.ts
 pipeline/check-disc-folgewirkung.ts
+pipeline/check-disc-haendler-weg.ts
 pipeline/check-disc-handlinks.ts
 pipeline/check-disc-kaufweg-auto.ts
 pipeline/check-disc-reine-titel.ts
@@ -184,6 +188,7 @@ pipeline/check-dub-lesart-faelle.ts
 pipeline/check-dub-lesart.ts
 pipeline/check-ecchi-ausblenden.ts
 pipeline/check-effekt-abhaengigkeiten.ts
+pipeline/check-eigene-cover-vorschau.ts
 pipeline/check-eigene-titel-bestand-lauf.ts
 pipeline/check-eigene-titel.ts
 pipeline/check-eigene-tmdb-plakat-lauf.ts
@@ -211,6 +216,7 @@ pipeline/check-escape-hoerer.ts
 pipeline/check-escape-stapel.ts
 pipeline/check-favoriten-feed-faelle.ts
 pipeline/check-fetch-pruefungen-laufzeit.ts
+pipeline/check-fetch-pruefungen-unbekannt.ts
 pipeline/check-film-ohne-weg.ts
 pipeline/check-filter-genres.ts
 pipeline/check-filter-zyklus.ts
@@ -251,6 +257,7 @@ pipeline/check-handbeleg-serienton.ts
 pipeline/check-handbeleg-staffelzaehlung.ts
 pipeline/check-handbeleg-weg.ts
 pipeline/check-handbelege-anbieter-zaehlung-lauf.ts
+pipeline/check-handbelege-veraltet-lauf.ts
 pipeline/check-handlung-eigen-hinweis.ts
 pipeline/check-handlung-eigen.ts
 pipeline/check-herkunft-je-folge.ts
@@ -272,6 +279,7 @@ pipeline/check-joyn-luecke.ts
 pipeline/check-joyn-premiere.ts
 pipeline/check-joyn-sender-bestand-lauf.ts
 pipeline/check-joyn-sender-luecke.ts
+pipeline/check-joyn-termine-belegt.ts
 pipeline/check-jpend-finished.ts
 pipeline/check-juengeres-ja-weg.ts
 pipeline/check-jw-ablauf.ts
@@ -310,6 +318,7 @@ pipeline/check-kanal-merkliste-doppelt.ts
 pipeline/check-kanal-merkliste-gesperrt-lauf.ts
 pipeline/check-kanal-merkliste.ts
 pipeline/check-kanal-messung.ts
+pipeline/check-kanal-nach-begrenzung.ts
 pipeline/check-kanal-namen.ts
 pipeline/check-kanal-start.ts
 pipeline/check-kanal-verlust.ts
@@ -322,6 +331,7 @@ pipeline/check-katalogstart-tag.ts
 pipeline/check-kino-zuletzt.ts
 pipeline/check-kopf-menue.ts
 pipeline/check-kopfzeile-premiere.ts
+pipeline/check-ladefehler-nein.ts
 pipeline/check-laut-gleich.ts
 pipeline/check-lazy-rueckfall.ts
 pipeline/check-leere-liste.ts
@@ -407,6 +417,7 @@ pipeline/check-patchnotes.ts
 pipeline/check-phasen-zustand.ts
 pipeline/check-phasenfolge.ts
 pipeline/check-pille-nur-untertitel.ts
+pipeline/check-plattform-rang.ts
 pipeline/check-plot-erschienen.ts
 pipeline/check-poster-karte-saal.ts
 pipeline/check-premiere.ts
@@ -464,6 +475,7 @@ pipeline/check-seite-nicht-werk.ts
 pipeline/check-seiten-ansicht.ts
 pipeline/check-seiten-seo.ts
 pipeline/check-serien-vorsatz.ts
+pipeline/check-serienbeleg-folgenbereich.ts
 pipeline/check-share-pages-doppellauf.ts
 pipeline/check-sichtung-folge.ts
 pipeline/check-sichtungsfenster.ts
@@ -498,6 +510,7 @@ pipeline/check-suchhinweis-bereich.ts
 pipeline/check-suchhinweis-lauf.ts
 pipeline/check-sw-cache-regeln.ts
 pipeline/check-synchro-beleg-auswahl.ts
+pipeline/check-synchro-beleg-folgen.ts
 pipeline/check-synchro-beleg-lauf.ts
 pipeline/check-synchro-beobachtung.ts
 pipeline/check-synchro-original.ts
@@ -551,12 +564,14 @@ pipeline/check-us-nein-adresse.ts
 pipeline/check-verpasst-katalog.ts
 pipeline/check-verpasst-verdrahtung.ts
 pipeline/check-verteile-folgentitel.ts
+pipeline/check-verweis-grund-region.ts
 pipeline/check-verweis-ziel.ts
 pipeline/check-verweise-gedaechtnis.ts
 pipeline/check-verweise-von-hand.ts
 pipeline/check-vorfaelle-ablauf.ts
 pipeline/check-weg-adresse-bezugsweg.ts
 pipeline/check-weg-aus-meldung.ts
+pipeline/check-weg-nein-gti.ts
 pipeline/check-wege-aus-terminen.ts
 pipeline/check-wege-je-anbieter.ts
 pipeline/check-werbetarif-weg.ts

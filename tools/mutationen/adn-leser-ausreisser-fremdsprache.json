@@ -1,0 +1,8 @@
+[
+  { "name": "Kontrolle (unmutiert)", "tests": ["node extension/adn.test.cjs"], "aenderungen": [] },
+  { "name": "korrigiereAusreisser: nein nur vostde (alte Regel)", "tests": ["node extension/adn.test.cjs"], "aenderungen": [{ "datei": "extension/adn-leser.js", "suche": "z.tonDe !== 'ja' && z.sprachen.length > 0", "ersetze": "z.tonDe === 'nein'" }] },
+  { "name": "korrigiereAusreisser: leere Angabe zählt als nein", "tests": ["node extension/adn.test.cjs"], "aenderungen": [{ "datei": "extension/adn-leser.js", "suche": "z.tonDe !== 'ja' && z.sprachen.length > 0", "ersetze": "z.tonDe !== 'ja'" }] },
+  { "name": "korrigiereAusreisser: nur Folgen mit Angabe, vde ebenfalls nein", "tests": ["node extension/adn.test.cjs"], "aenderungen": [{ "datei": "extension/adn-leser.js", "suche": "z.tonDe !== 'ja' && z.sprachen.length > 0", "ersetze": "z.sprachen.length > 0" }] },
+  { "name": "korrigiereAusreisser: Schwelle 3 -> 2", "tests": ["node extension/adn.test.cjs"], "aenderungen": [{ "datei": "extension/adn-leser.js", "suche": "nein.length < 3", "ersetze": "nein.length < 2" }] },
+  { "name": "korrigiereAusreisser: Schwelle 3 -> 4", "tests": ["node extension/adn.test.cjs"], "aenderungen": [{ "datei": "extension/adn-leser.js", "suche": "nein.length < 3", "ersetze": "nein.length < 4" }] }
+]

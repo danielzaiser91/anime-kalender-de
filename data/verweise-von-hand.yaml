@@ -335,3 +335,20 @@
   url: https://www.amazon.de/gp/video/detail/B0HKFFGQ7F
   belegtAm: '2026-10-11'
   beleg: 'Daniel hat die Seite am 11.10.2026 bei Amazon gefunden (Kennung B0HKFFGQ7F). Anime2You (Artikel 1057488, 11.10.2026): „Stream: Prime Video, Crunchyroll", Sprache Deutsch und Japanisch (UT) — Prime ist hier der Crunchyroll-Kanal. Das Sprachurteil steht aus: Die Erweiterung prüft die Seite.'
+
+# Pluto TV (Anime2You 1066055 und 1068729, 31.10./06.11.2026): kostenlos mit Werbung, auf Abruf; die Adressen sind die im Artikel verlinkten Seiten.
+- anilistId: 97940
+  title: "Black Clover"
+  platform: plutotv
+  url: https://pluto.tv/gsa/shows/black-clover/
+  belegtAm: '2026-11-08'
+  zugang: kostenlos
+  beleg: 'Anime2You 1068729 (06.11.2026): „alle 51 Episoden mit deutscher Synchronisation verfügbar“ (erste Staffel); die im Artikel verlinkte Seite, von uns nicht abgerufen'
+
+- anilistId: 105333
+  title: "Dr. Stone"
+  platform: plutotv
+  url: https://pluto.tv/gsa/shows/dr-stone/
+  belegtAm: '2026-11-08'
+  zugang: kostenlos
+  beleg: 'Anime2You 1068729 (06.11.2026): erste Staffel „mit deutscher Sprachfassung auf Abruf“, 23 von 24 Folgen; die im Artikel verlinkte Seite, von uns nicht abgerufen'

@@ -1,0 +1,42 @@
+[
+  {
+    "name": "kontrollenMitTests: nur der erste Test (slice(0, 1))",
+    "datei": "tools/mutationslaeufer.mjs",
+    "suche": ".flatMap((m) => m.tests ?? global))]",
+    "ersetze": ".flatMap((m) => m.tests ?? global).slice(0, 1))]",
+    "tests": ["node tools/mutationslaeufer.test.mjs"]
+  },
+  {
+    "name": "kontrollenMitTests: eigene tests der Kontrolle überschrieben (!m.tests weg)",
+    "datei": "tools/mutationslaeufer.mjs",
+    "suche": "&& !m.tests && ",
+    "ersetze": "&& ",
+    "tests": ["node tools/mutationslaeufer.test.mjs"]
+  },
+  {
+    "name": "kontrollenMitTests: --test der Kontrolle überschrieben (global.length === 0 weg)",
+    "datei": "tools/mutationslaeufer.mjs",
+    "suche": " && global.length === 0 ? {",
+    "ersetze": " ? {",
+    "tests": ["node tools/mutationslaeufer.test.mjs"]
+  },
+  {
+    "name": "kontrollenMitTests: Vereinigung nur aus --test (flatMap(m => global))",
+    "datei": "tools/mutationslaeufer.mjs",
+    "suche": ".flatMap((m) => m.tests ?? global))]",
+    "ersetze": ".flatMap((m) => global))]",
+    "tests": ["node tools/mutationslaeufer.test.mjs"]
+  },
+  {
+    "name": "main: Aufruf kontrollenMitTests entfernt",
+    "datei": "tools/mutationslaeufer.mjs",
+    "suche": "const mutanten = kontrollenMitTests(",
+    "ersetze": "const mutanten = ((x) => x)(",
+    "tests": ["node tools/mutationslaeufer.test.mjs"]
+  },
+  {
+    "name": "Kontrolle (unmutiert)",
+    "aenderungen": [],
+    "tests": ["node tools/mutationslaeufer.test.mjs"]
+  }
+]

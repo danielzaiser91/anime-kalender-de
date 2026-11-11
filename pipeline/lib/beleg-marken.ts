@@ -4,6 +4,7 @@
  */
 import type { BelegGedaechtnis } from './beleg-lesung.ts'
 import type { Gruppe } from './beleg-suche.ts'
+import { terminMarken } from './beleg-stelle.ts'
 
 /** `nicht-gefunden`: Der Artikel nennt den Titel nicht (oder keine Zeile, die ihn nennt). `ausserhalb`: Die Fundstelle liegt außerhalb des Bild-Ausschnitts. */
 export type OhneMarkeGrund = 'nicht-gefunden' | 'ausserhalb'
@@ -41,4 +42,35 @@ export function meldeMarkenLuecken(gedaechtnis: BelegGedaechtnis, gruppen: Map<s
   const offen = Object.keys(gedaechtnis).filter((u) => markenLuecken(gedaechtnis[u]!.lesungen.at(-1) ?? {}, gruppen.get(u) ?? []).length > 0).length
   if (offen) console.log(`⚠ WARNUNG Belege: ${offen} Sammelartikel haben für einen Titel weder Marke noch Grund und werden neu gelesen`)
   return offen
+}
+
+const norm = (s: string): string => s.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').trim()
+
+/**
+ * Titel mit Grund `nicht-gefunden`, deren Name (und Termin, sofern die Quelle einen nennt) im gespeicherten Seitentext steht: Dort hat das Lesen die Marke verloren,
+ * der Artikel belegt den Titel (anime2you, 59 Adressen, 11.11.2026). Ziel 0; echte Fälle (Termin steht in einer anderen Zeile) gehören auf die Handliste.
+ */
+export function nameImTextOhneMarke(text: string, ohneMarke: Record<string, OhneMarkeGrund> | undefined, gruppen: Gruppe[]): number[] {
+  const t = ` ${norm(text)} `
+  const roh = text.toLowerCase()
+  return gruppen
+    .filter((g) => ohneMarke?.[g.id] === 'nicht-gefunden')
+    .filter((g) => g.suchen.some((s) => norm(s).length > 3 && t.includes(` ${norm(s)} `)))
+    .filter((g) => !g.tage.length || terminMarken(g.tage).some((m) => roh.includes(m)))
+    .map((g) => g.id)
+}
+
+/** Meldet die Titel aus `nameImTextOhneMarke` (eine Zeile je Adresse) und gibt ihre Zahl zurück. */
+export function meldeNameImText(url: string, text: string, ohneMarke: Record<string, OhneMarkeGrund> | undefined, gruppen: Gruppe[], melde: (zeile: string) => void): number {
+  const ids = nameImTextOhneMarke(text, ohneMarke, gruppen)
+  if (ids.length) melde(`Beleg ${url}: ${ids.length} Titel stehen im Seitentext, haben aber keine Marke (${ids.join(', ')}) — Lesefehler untersuchen`)
+  return ids.length
+}
+
+/** Fassung der Markensuche: steigt sie, werden Lesungen mit Grund `nicht-gefunden` einmal neu aufgenommen (2 seit 11.11.2026: Seitenende bei gesperrtem Scrollen, anime2you). */
+export const MARKEN_FASSUNG = 2
+
+/** Eine Lesung mit `nicht-gefunden` aus einer älteren Fassung der Markensuche: Der Grund kann ein Lesefehler sein und wird neu geprüft. */
+export function markenVeraltet(l: { markenfassung?: number; ohneMarke?: Record<string, OhneMarkeGrund> }): boolean {
+  return (l.markenfassung ?? 1) < MARKEN_FASSUNG && Object.values(l.ohneMarke ?? {}).includes('nicht-gefunden')
 }

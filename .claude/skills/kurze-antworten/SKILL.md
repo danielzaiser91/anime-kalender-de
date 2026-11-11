@@ -5,13 +5,13 @@ description: "Beim Formulieren jeder Endantwort, besonders nach langer Fehlersuc
 
 # Kurze Antworten — die Anlässe
 
-Die Regel steht in `~/.claude/rules/10-sprache-und-ausgabe.md` („Antworten sind kurz — Details nur auf Nachfrage“ und die Absätze danach). Hier stehen die realen Fälle, aus denen sie entstanden ist; sie wurden am 18.09.2026 aus der Regel hierher verschoben, damit die immer geladene Menge klein bleibt (Daniel hat das freigegeben).
+Die Regel steht in `.claude/rules/10-sprache-und-ausgabe.md` („Antworten sind kurz — Details nur auf Nachfrage“ und die Absätze danach). Hier stehen die realen Fälle, aus denen sie entstanden ist; sie wurden am 18.09.2026 aus der Regel hierher verschoben, damit die immer geladene Menge klein bleibt (Daniel hat das freigegeben).
 
 **Mit Subagenten (08.10.2026):** Berichte an mich sind höchstens zehn Zeilen (Ergebnis, Beleg, offene Frage); an Daniel gebe ich sie nicht durch, sondern melde, was jetzt anders ist und was er tun soll. Antworten bleiben kompakt und zielorientiert.
 
 ## Anlässe, aus der Regel verschoben (18.09.2026)
 
-Wortgleich aus `~/.claude/rules/`, damit die immer geladene Regel kurz bleibt.
+Wortgleich aus `.claude/rules/`, damit die immer geladene Regel kurz bleibt.
 
 <!-- aus 10-sprache-und-ausgabe.md -->
 Anlass war eine Antwort von rund 40 Zeilen mit drei Tabellen und zwei Auswahldialogen, an

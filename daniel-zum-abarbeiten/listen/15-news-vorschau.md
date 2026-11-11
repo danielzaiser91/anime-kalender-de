@@ -1,6 +1,6 @@
 # Angekündigt, aber noch nicht im Datensatz
 
-Stand: 2026-11-10. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
+Stand: 2026-11-11. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
 
 ## Kuratierung: was noch fehlt
 
@@ -51,57 +51,57 @@ Stand: 2026-11-10. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 
 … und 11 weitere.
 
-Dazu 59 Disc-Meldungen mit künftigem Termin; sie laufen über die Disc-Übersicht.
+Dazu 58 Disc-Meldungen mit künftigem Termin; sie laufen über die Disc-Übersicht.
 
 ## Quellen
 
 | Quelle | zuletzt erfolgreich | Treffer |
 |---|---|---|
-| adn | 0.0 Tage her | 7 |
-| adn-catalog | 1.4 Tage her | 109 |
+| adn | 0.0 Tage her | 11 |
+| adn-catalog | 0.5 Tage her | 120 |
 | adn-news | 0.1 Tage her | 69 |
-| anilist-voices | 0.0 Tage her | 3012 |
-| anime-offline-database | 0.0 Tage her | 8876 |
-| anime2you | 0.0 Tage her | 102 |
-| anisearch | 0.1 Tage her | 14879 |
-| anisearch-cover-eigen | 6.1 Tage her | 138 |
-| anisearch-dubs | 0.1 Tage her | 11949 |
-| anisearch-eintraege | 1.5 Tage her | 400 |
-| anisearch-folgen | 1.5 Tage her | 440 |
-| anisearch-slugs | 1.5 Tage her | 14910 |
-| anisearch-zuordnung | 0.1 Tage her | 18513 |
-| ann-voices | 0.0 Tage her | 8876 |
-| beleg-lesungen | 0.1 Tage her | 0 |
-| cartoon-folgen | 1.5 Tage her | 365 |
-| cartoon-reihen | 0.1 Tage her | 0 |
-| cartoons | 0.1 Tage her | 2 |
-| cinestar | 0.0 Tage her | 2 |
-| cr-einzelwerke | 21.1 Tage her | 6 |
-| cr-filmbloecke | 21.1 Tage her | 2 |
-| crunchyroll-dub | 1.0 Tage her | 1156 |
+| anilist-voices | 0.5 Tage her | 3012 |
+| anime-offline-database | 0.5 Tage her | 8876 |
+| anime2you | 0.0 Tage her | 100 |
+| anisearch | 0.5 Tage her | 14879 |
+| anisearch-cover-eigen | 6.6 Tage her | 138 |
+| anisearch-dubs | 0.5 Tage her | 11949 |
+| anisearch-eintraege | 2.0 Tage her | 400 |
+| anisearch-folgen | 0.5 Tage her | 2720 |
+| anisearch-slugs | 0.5 Tage her | 14915 |
+| anisearch-zuordnung | 0.5 Tage her | 18513 |
+| ann-voices | 0.5 Tage her | 8876 |
+| beleg-lesungen | 0.0 Tage her | 11 |
+| cartoon-folgen | 2.0 Tage her | 365 |
+| cartoon-reihen | 0.5 Tage her | 0 |
+| cartoons | 0.5 Tage her | 0 |
+| cinestar | 0.5 Tage her | 2 |
+| cr-einzelwerke | 21.6 Tage her | 6 |
+| cr-filmbloecke | 21.6 Tage her | 2 |
+| crunchyroll-dub | 1.5 Tage her | 1156 |
 | crunchyroll-neu | 0.0 Tage her | 183 |
-| crunchyroll-offene | 1.5 Tage her | 11 |
-| crunchyroll-woche | 0.1 Tage her | 63 |
-| justwatch-audio | 0.1 Tage her | 25 |
-| kinoheld | 0.0 Tage her | 0 |
-| kitsu-folgen | 6.1 Tage her | 0 |
-| link-check | 0.0 Tage her | 32 |
-| messbelege | 0.1 Tage her | 0 |
-| motn | 3.5 Tage her | 2123 |
+| crunchyroll-offene | 2.0 Tage her | 11 |
+| crunchyroll-woche | 0.0 Tage her | 63 |
+| justwatch-audio | 0.5 Tage her | 1 |
+| kinoheld | 0.5 Tage her | 0 |
+| kitsu-folgen | 6.6 Tage her | 0 |
+| link-check | 0.5 Tage her | 32 |
+| messbelege | 0.0 Tage her | 0 |
+| motn | 4.0 Tage her | 2123 |
 | motn-changes | 0.0 Tage her | 0 |
-| rohfolgen | 0.2 Tage her | 0 |
-| rtlplus-folgen | 0.0 Tage her | 3 |
-| tmdb-banner | 1.5 Tage her | 0 |
-| tmdb-folgen | 1.5 Tage her | 930 |
-| tmdb-kino | 1.5 Tage her | 3 |
-| tmdb-poster | 1.5 Tage her | 265 |
-| tmdb-titles | 1.5 Tage her | 400 |
+| rohfolgen | 0.7 Tage her | 0 |
+| rtlplus-folgen | 0.5 Tage her | 3 |
+| tmdb-banner | 2.0 Tage her | 0 |
+| tmdb-folgen | 2.0 Tage her | 930 |
+| tmdb-kino | 2.0 Tage her | 3 |
+| tmdb-poster | 2.0 Tage her | 265 |
+| tmdb-titles | 2.0 Tage her | 400 |
 | toggo | 0.0 Tage her | 22 |
-| trailer | 0.1 Tage her | 1 |
-| tv-de | 4.7 Tage her | 0 |
-| tv-programm | 0.1 Tage her | 292 |
-| vorfaelle | 0.0 Tage her | 0 |
-| wikidata-imdb | 0.0 Tage her | 5367 |
-| wikidata-titel | 0.0 Tage her | 16 |
+| trailer | 0.5 Tage her | 1 |
+| tv-de | 5.2 Tage her | 0 |
+| tv-programm | 0.0 Tage her | 291 |
+| vorfaelle | 0.0 Tage her | 5 |
+| wikidata-imdb | 0.5 Tage her | 5367 |
+| wikidata-titel | 0.5 Tage her | 16 |
 | wikipedia-folgen | 0.0 Tage her | 9 |
-| youtube-check | 0.0 Tage her | 0 |
+| youtube-check | 0.5 Tage her | 0 |

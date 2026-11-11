@@ -79,4 +79,44 @@ globalThis.akNetflixBericht = {
       }
     })
   },
+
+  /**
+   * Merkmale der Netflix-Seite für die Diagnose „keine Folgenliste" (10.11.2026): Der Durchgang vom 09.11.
+   * besuchte 103 Titel und maß 0, Tab-Titel blieb „Startseite – Netflix" auf `/title/<id>`. Ob Netflix die
+   * Titelkarte anders zeichnet (Modal, andere `data-uia`) oder unsere Navigation nichts mehr auslöst, ist nur an
+   * der echten Seite zu sehen — deshalb schreibt der Durchgang bei jedem Überspringen mit, was dort steht.
+   * Parameter statt Globals, damit ein Fake-DOM reicht.
+   */
+  seitenmerkmale(doc, loc, hist) {
+    try {
+      const wichtig = /title|modal|jawbone|preview|episode|season|billboard|remind|play|more|dialog|detail/i
+      const uia = {}
+      for (const el of doc.querySelectorAll('[data-uia]')) {
+        const name = el.getAttribute('data-uia')
+        if (wichtig.test(name)) uia[name] = (uia[name] ?? 0) + 1
+      }
+      const kette = (el) => {
+        const glieder = []
+        for (let e = el; e && glieder.length < 6; e = e.parentElement) {
+          glieder.push([e.tagName, e.getAttribute('data-uia'), e.getAttribute('role')].filter(Boolean).join('|'))
+        }
+        return glieder
+      }
+      const erinnern = [...doc.querySelectorAll('button, [role="button"], a')].filter((e) => /^(Erinnern|Remind me)$/.test((e.textContent ?? '').trim()))
+      const dialoge = [...doc.querySelectorAll('[role="dialog"]')]
+      return {
+        pfad: loc.pathname,
+        suche: loc.search,
+        titel: doc.title,
+        verlauf: hist?.length ?? null,
+        textZeichen: (doc.body?.innerText ?? '').length,
+        uia: Object.fromEntries(Object.entries(uia).slice(0, 40)),
+        folgenElemente: doc.querySelectorAll('[data-uia*="episode"]').length,
+        dialoge: { anzahl: dialoge.length, anfang: dialoge[0] ? (dialoge[0].innerText ?? '').slice(0, 120) : null },
+        erinnern: { anzahl: erinnern.length, ketten: erinnern.slice(0, 2).map(kette) },
+      }
+    } catch (e) {
+      return { fehler: String(e?.message ?? e) }
+    }
+  },
 }

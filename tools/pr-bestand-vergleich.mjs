@@ -13,6 +13,8 @@ import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, 
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { pathToFileURL } from 'node:url'
+import { warnText } from './quarantaene.mjs'
+import { ausgabeDerPruefungen, probeQuarantaene } from './pr-quarantaene-probe.mjs'
 import { fasseRoteZusammen, mitPraefix, teileListenAusgabe, trenneGeerbtUndNeu, zaehleOderMelde } from './pr-bestand-zaehlen.mjs'
 
 const LISTE = 'tools/check-bestand-liste.txt'
@@ -61,10 +63,11 @@ function stand(wurzel) {
 }
 
 /** `npm` braucht unter Windows die Shell (npm.cmd), dann als eine Zeile; `node` nie (Leerzeichen im Pfad). */
-function lauf(befehl, args, cwd) {
+function lauf(befehl, args, cwd, env = process.env) {
   const shell = befehl === 'npm' && process.platform === 'win32'
   return new Promise((fertig) => {
-    const kind = shell ? spawn([befehl, ...args].join(' '), { cwd, shell }) : spawn(befehl, args, { cwd })
+    const optionen = { cwd, env }
+    const kind = shell ? spawn([befehl, ...args].join(' '), { ...optionen, shell }) : spawn(befehl, args, optionen)
     let aus = ''
     kind.stdout.on('data', (d) => (aus += d))
     kind.stderr.on('data', (d) => (aus += d))
@@ -82,7 +85,7 @@ function melde(kennung, ergebnis, praefix) {
 const zaehleMit = (praefix) => (name, aus) => zaehleOderMelde(name, aus, (m) => console.log(mitPraefix(m, praefix)))
 
 /** Die Liste läuft über eine Kopie mit genau den gewünschten Zeilen (Reihenfolge der Liste, also weiter sortiert). */
-async function roteDerListe(wurzel, dateien, praefix) {
+async function roteDerListe(wurzel, dateien, praefix, ausgaben) {
   if (dateien.length === 0) return new Map()
   const ordner = mkdtempSync(join(tmpdir(), 'bestand-liste-'))
   const datei = join(ordner, 'liste.txt')
@@ -92,6 +95,8 @@ async function roteDerListe(wurzel, dateien, praefix) {
   melde(GANZE_LISTE, r, praefix)
   if (r.status === 0) return new Map()
   const teile = teileListenAusgabe(r.aus)
+  for (const [d, text] of teile) ausgaben.set(d, text)
+  ausgaben.set(GANZE_LISTE, r.aus)
   const rote = new Map(roteAusListe(r.aus).map((d) => [d, zaehleMit(praefix)(d, teile.get(d) ?? '')]))
   // Schreibt eine Prüfung ins Repo, meldet der Pool das neben roten Prüfungen nur im Text (tools/arbeiterpool.mjs); das ist nie geerbt.
   const schreibt = r.aus.includes('Der Lauf hat getrackte Dateien verändert')
@@ -100,11 +105,12 @@ async function roteDerListe(wurzel, dateien, praefix) {
 }
 
 /** Rote Prüfungen eines Stands mit der Zahl ihrer Verstöße: die Rest-Skripte nacheinander, die Liste daneben. */
-async function roteImStand(wurzel, { rest, liste }, praefix = '') {
-  const listenLauf = roteDerListe(wurzel, liste, praefix)
+async function roteImStand(wurzel, { rest, liste }, praefix = '', ausgaben = new Map()) {
+  const listenLauf = roteDerListe(wurzel, liste, praefix, ausgaben)
   const rote = new Map()
   for (const skript of rest) {
     const r = await lauf('npm', ['run', skript], wurzel)
+    ausgaben.set(skript, r.aus)
     melde(skript, r, praefix)
     if (r.status !== 0) rote.set(skript, zaehleMit(praefix)(skript, r.aus))
   }
@@ -118,10 +124,10 @@ function git(args, cwd) {
 }
 
 /** Bau samt Arbeitslisten, wie der PR-Bau ihn fährt (sonst läse die Basis die Listen von main statt ihre eigenen). */
-async function bauMitListen(ort) {
-  const bau = await lauf('npm', ['run', 'data:build'], ort)
+async function bauMitListen(ort, env) {
+  const bau = await lauf('npm', ['run', 'data:build'], ort, env)
   if (bau.status !== 0) return bau
-  return await lauf('npm', ['run', 'data:arbeitslisten'], ort)
+  return await lauf('npm', ['run', 'data:arbeitslisten'], ort, env)
 }
 
 /** Baut die Basis und fährt dort die auf dem PR roten Prüfungen; Rückgabe: die auch dort roten, `null` wenn der Basisbau scheitert. */
@@ -153,9 +159,30 @@ async function roteDerBasis(wurzel, basisRef, prRot) {
   }
 }
 
-/** Exit-Code des Schritts: 0, wenn jede rote Prüfung auch auf der Basis rot ist. */
+/** Baut den PR-Stand ohne die Titel der Liste (wie der Bestandsbau) und liefert die dann neuen roten Prüfungen samt Text. */
+async function ohneTitelPruefen(wurzel, liste, basisRot) {
+  const ordner = mkdtempSync(join(tmpdir(), 'bestand-quarantaene-'))
+  const datei = join(ordner, 'quarantaene.json')
+  writeFileSync(datei, JSON.stringify(liste))
+  try {
+    // Vorstand wie in tools/commit-data.sh: public/data von HEAD, nicht der erste Bau.
+    spawnSync('git', ['checkout', 'HEAD', '--', 'public/data'], { cwd: wurzel })
+    spawnSync('git', ['clean', '-fdq', '--', 'public/data'], { cwd: wurzel })
+    const bau = await bauMitListen(wurzel, { ...process.env, BAU_QUARANTAENE: datei })
+    if (bau.status !== 0) return { ausgabe: bau.aus, neu: ['data:build'] }
+    const ausgaben = new Map()
+    const rot = await roteImStand(wurzel, stand(wurzel), '', ausgaben)
+    const { neu } = trenneGeerbtUndNeu(rot, basisRot)
+    return { ausgabe: ausgabeDerPruefungen(ausgaben, neu), neu }
+  } finally {
+    rmSync(ordner, { recursive: true, force: true })
+  }
+}
+
+/** Exit-Code des Schritts: 0, wenn jede rote Prüfung auch auf der Basis rot ist oder der Bestandsbau die Titel dahinter zurückstellt. */
 async function vergleiche(wurzel, basisRef) {
-  const prRot = await roteImStand(wurzel, stand(wurzel))
+  const ausgaben = new Map()
+  const prRot = await roteImStand(wurzel, stand(wurzel), '', ausgaben)
   if (prRot.size === 0) {
     console.log('Bestandsprüfungen: alle grün.')
     return 0
@@ -172,6 +199,12 @@ async function vergleiche(wurzel, basisRef) {
   for (const k of geerbt) console.log(`::warning::${k} ist schon auf der Basis ${basisRef} rot (${prRot.get(k)} Verstöße, Basis ${basisRot.get(k)}; nicht diesem PR angelastet)`)
   if (neu.length === 0) return 0
   for (const k of neu) console.log(`${k}: ${prRot.get(k)} Verstöße auf dem PR, ${basisRot.get(k) ?? 'grün'} auf der Basis`)
+  const q = await probeQuarantaene(ausgabeDerPruefungen(ausgaben, neu), (liste) => ohneTitelPruefen(wurzel, liste, basisRot))
+  if (q.ok) {
+    console.log(`::warning::Der Bestandsbau stellt nach dem Merge zurück (Titel-Quarantäne), der Rest des PR geht durch: ${warnText(q.liste)}`)
+    return 0
+  }
+  console.log(`keine Quarantäne: ${q.grund}`)
   console.log(`::error::Der gebaute Bestand verletzt Zusicherungen, die auf der Basis nicht oder weniger verletzt sind: ${neu.join(', ')}`)
   return 1
 }

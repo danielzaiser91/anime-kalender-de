@@ -11,6 +11,7 @@ import { join } from 'node:path'
 import { gunzipSync, gzipSync } from 'node:zlib'
 import {
   franzoesischeArchive,
+  gefragt,
   istFranzoesischeSicht,
   MAX_VERWORFEN,
   katalogBilanzZeile,
@@ -19,6 +20,7 @@ import {
   riegelBilanz,
   schreibeArchiv,
   verworfen,
+  verworfenGrenze,
   WIEDERHOLUNG_WARTE_MS,
 } from './lib/adn-sprachriegel.ts'
 
@@ -116,6 +118,14 @@ pruefe(`${MAX_VERWORFEN + 1} verworfene Serien sind rot`, riegelBilanz(MAX_VERWO
 pruefe('24 verworfene Serien (28.10.2026) sind rot', riegelBilanz(24).rot)
 pruefe('Bilanzzeile nennt die Zahl', riegelBilanz(7).zeile.includes(' 7 Serien'), riegelBilanz(7).zeile)
 pruefe('Obergrenze ist eine Handvoll (5)', MAX_VERWORFEN === 5, MAX_VERWORFEN)
+// Relative Grenze (Wochenlauf 10.11.2026: 11 von 536 Serien, bei fester Grenze 5 rot).
+pruefe('11 von 536 (10.11.2026) sind nicht rot, Grenze 16', !riegelBilanz(11, 536).rot && verworfenGrenze(536) === 16, riegelBilanz(11, 536))
+pruefe('genau 16 von 536 sind nicht rot, 17 von 536 sind rot', !riegelBilanz(16, 536).rot && riegelBilanz(17, 536).rot)
+pruefe('echter Fremdsprachen-Müll bleibt rot: 24 von 536 und 536 von 536', riegelBilanz(24, 536).rot && riegelBilanz(536, 536).rot)
+pruefe('kleiner Durchgang: 6 von 40 rot, 5 von 40 grün (Handvoll gilt)', riegelBilanz(6, 40).rot && !riegelBilanz(5, 40).rot && verworfenGrenze(40) === 5)
+pruefe('ohne Angabe der Gefragten gilt die Handvoll', verworfenGrenze(0) === 5 && riegelBilanz(6).rot)
+pruefe('Grenze bei 200 Gefragten: 6; bei 199: 5', verworfenGrenze(200) === 6 && verworfenGrenze(199) === 5)
+pruefe('Bilanzzeile nennt Grenze und Gefragte', riegelBilanz(11, 536).zeile.endsWith('(Grenze 16, 536 gefragt)'), riegelBilanz(11, 536).zeile)
 
 // Wiederholung bei französischer Sicht: Antworten der Reihe nach, Wartezeit eingespritzt (zählt Aufrufe, wartet nicht).
 const FR = { videos: [{ languages: ['vostf'] }], abbruch: 'franzoesisch' }
@@ -131,6 +141,10 @@ const fd = await wiederholt([FR, DE])
 pruefe('Wiederholung: Französisch, dann Deutsch -> zweite Antwort, zwei Fragen, eine Wartezeit, nichts gezählt', fd.antwort === DE && fd.fragen === 2 && fd.gewartet === 1 && fd.gezaehlt === 0, fd)
 const ff = await wiederholt([FR, FR])
 pruefe('Wiederholung: zweimal Französisch -> Abbruch ohne Videos, genau einmal gezählt', ff.antwort.abbruch === 'franzoesisch' && ff.antwort.videos.length === 0 && ff.gezaehlt === 1 && ff.fragen === 2, ff)
+gefragt.length = 0
+await wiederholt([FR, FR])
+await wiederholt([DE])
+pruefe('Gefragte: je Serie einmal gezählt, auch mit Wiederholung (2 Serien -> 2)', gefragt.length === 2, gefragt)
 const dd = await wiederholt([DE])
 pruefe('Wiederholung: gleich Deutsch -> eine Frage, keine Wartezeit', dd.fragen === 1 && dd.gewartet === 0 && dd.gezaehlt === 0, dd)
 const fehlerZuerst = await wiederholt([{ videos: [], abbruch: '500' }])

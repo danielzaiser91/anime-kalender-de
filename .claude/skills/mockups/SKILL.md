@@ -19,6 +19,10 @@ Anlass: Der HTML-Nachbau (`mockups/basis/`, `archiv/…/detail-panel.js`) drifte
 
 Nach dem Umbau wird „Nachher" zur echten Komponente; das Bild muss dem Mockup-Bild gleichen — das Mockup ist der spätere Test.
 
+## Nach dem Bau
+
+Der Mockup-PR wird vor dem Bau-PR gemergt (er hält die Entscheidung fest). Nachbau-Teile (`web/buehne/mockups/*-teile.tsx`), die nach dem Bau nur noch die echte Komponente nachbilden, werden im Bau-PR oder direkt danach gelöscht. Desktop-Standardgerät der Bühne ist „Desktop 512“ (512 px breit, `web/buehne/geraete.ts`).
+
 ## Auftragsvorlage für Fable-Entwürfe (Fable entwirft, Sonnet setzt um)
 
 Ein Entwurfsauftrag nennt, was Fable nicht erraten kann, und verlangt als Ergebnis eine Bühnen-Datei, keinen HTML-Text. Auch eine neue Ansicht ohne Gegenstück in der App entsteht auf der Bühne (Ausschnitt `entwurf`, unten). Die frühere HTML-Ausnahme (Empfehlungen R3/R4, 19.10.2026) gilt seit 20.10.2026 nicht mehr (Daniel):

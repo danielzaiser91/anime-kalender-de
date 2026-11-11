@@ -156,3 +156,15 @@
   titel: 'The Birth of Kitaro: Das Geheimnis von GeGeGe (Shinsei-ban)'
   geprueftAm: '2026-11-04'
   grund: Suche auf themoviedb.org (Kitaro, GeGeGe Geheimnis, 真生版; nur Seite 1) fand keinen eigenen Eintrag; 904759 ist das Original 130622 und darf nicht an zwei Titeln hängen (Bericht daniel-zum-abarbeiten/berichte/kitaro-tmdb-zuordnung-2026-11-04.md).
+
+# Tekkon Kinkreet Pilot (AniList 99717, 1999, 4 min): TMDB 917696 ist der Eintrag des Pilotfilms, führt aber dieselben deutschen Shops (Videoload, MagentaTV, Apple, Amazon, Aniverse) wie der Spielfilm 13754 (AniList 2154, 2006, 103 min).
+# Der Pilot steht in keinem dieser Shops; ohne Kennung entsteht kein Telekom-Weg mit „Deutsch angenommen“ (`check-telekom-annahme-bestand`).
+- anilistId: 99717
+  ohne: true
+  kind: movie
+  titel: Tekkon Kinkreet Pilot
+  geprueftAm: '2026-11-10'
+  grund: >-
+    TMDB-API (10.11.2026) 917696 „鉄コン筋クリート“, 1999-01-01, 4 min, Alternativtitel „Tekkon Kinkreet Pilot“, 1 Stimme;
+    Anbieterliste DE (Apple TV Store, Amazon Video, MagentaTV, maxdome Store, Videoload, Freenet meinVOD, Aniverse Amazon Channel)
+    gleich der des Spielfilms 13754 (2006, 103 min). JustWatch kennt 917696 nicht (justwatch-audio.json ohneTreffer, Namenstreffer ist der Spielfilm).

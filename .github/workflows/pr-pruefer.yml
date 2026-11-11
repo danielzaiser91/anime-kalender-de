@@ -431,6 +431,7 @@ jobs:
           urteil=$(node -e 'const u=JSON.parse(require("fs").readFileSync(process.argv[1],"utf8"));console.log(u.urteil+" "+u.sha)' "$T/urteil.json") || { echo "::error::urteil.json unlesbar - keine Freigabe."; exit 1; }
           art=${urteil% *}; sha=${urteil#* }
           art0=$art
+          basis_offen=0
           if [ "$DIFF_ZUSTAND" != "ok" ] && [ "$art" = "ok" ]; then
             echo "Diff unvollständig - Urteil ok wird zu aendern."
             art=aendern
@@ -447,7 +448,12 @@ jobs:
           # Nur ein echtes Prüfer-„aendern“ bei vollständigem Diff; Überschreibungen (Diff, Token) bleiben „aendern“.
           if [ "$art" = "aendern" ] && [ "$art0" = "aendern" ] && [ "$DIFF_ZUSTAND" = "ok" ] && node tools/pr-pruefer-kette-offen.mjs "$T/kettenlog.txt"; then
             art=offen
-            { printf 'Die PR-Prüfkette lief beim Urteil noch; die Befunde unten sind nicht belegt. Der Prüfer startet nach Kettenende von selbst neu.\n\n'; cat "$T/protokoll.md"; } > "$T/protokoll.neu"
+            hinweis='Die PR-Prüfkette lief beim Urteil noch; die Befunde unten sind nicht belegt. Der Prüfer startet nach Kettenende von selbst neu.'
+            if sed -n 2p "$T/kettenlog.txt" | grep -q '^BASIS OFFEN: PR #'; then
+              basis_offen=1
+              hinweis='Ungeprüft, Basis offen: Der Basis-PR ist noch nicht gemergt und die Kette ist rot. Die Befunde unten sind echte Befunde des Prüfers, aber ungeprüft gegen den Stand mit Basis; sie bleiben gültig, bis eine grüne Kette sie widerlegt. Der Prüfer startet erst nach einer grünen Kette neu (Basis mergen, dann Kette des PR neu starten).'
+            fi
+            { printf '%s\n\n' "$hinweis"; cat "$T/protokoll.md"; } > "$T/protokoll.neu"
             mv "$T/protokoll.neu" "$T/protokoll.md"
           fi
           titel="$art"
@@ -455,6 +461,7 @@ jobs:
             titel="ok, ${CHECKS:-Checks-Stand unbekannt}"
           fi
           if [ "$art" = "offen" ]; then titel="nicht beurteilt, Kette lief noch"; fi
+          if [ "$art" = "offen" ] && [ "$basis_offen" = "1" ]; then titel="nicht beurteilt, Basis offen"; fi
           # Abnahme-Modus: "aendern" sperrt nur, solange es frei ist (Prüfstufe 2, einmal); sonst bleibt es bei einem Kommentar ohne Review, der Dirigent entscheidet.
           modus=voll
           if [ "${MODUS:-}" = "abnahme" ]; then modus=abnahme; fi

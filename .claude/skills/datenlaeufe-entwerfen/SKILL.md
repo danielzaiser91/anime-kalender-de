@@ -33,7 +33,7 @@ Dazu steht das Einreichen mit `if: always()` am Ende **jedes** Jobs: Ein hängen
 
 ## Vor jedem Push nach `.github/workflows/`
 
-1. `gh run list --status in_progress`: **Läuft ein Sammler, der noch einreichen muss, wird nicht gepusht** (aufgehoben ab Beleg, 07.11.2026: Zweig-Push mit App-Token, betrieb.md „Workflow-Sperre“; bis dahin gilt es). GitHub verweigert Zweigen mit abweichenden Workflow-Dateien den Push („refusing to allow
+1. `node tools/sammler-laeuft.mjs` (Exit 0 = kein Sammler läuft; Prüfkette, Prüfer, Deploy und Bestandsbau zählen nicht): **Läuft ein Sammler, der noch einreichen muss, wird nicht gepusht** (aufgehoben ab Beleg, 07.11.2026: Zweig-Push mit App-Token, betrieb.md „Workflow-Sperre“; bis dahin gilt es). GitHub verweigert Zweigen mit abweichenden Workflow-Dateien den Push („refusing to allow
    a GitHub App to create or update workflow …"); der Sammler verliert am letzten Schritt seine Arbeit. „Läufe nicht beenden" und „Workflow umbauen" schließen sich aus — dann vorher klären, nicht danach.
 2. `npm run check:workflows` **und** `npm run typecheck` (Wurzel). Ein Test, der den Worker importiert, bricht den Wurzel-Typecheck (Deploy zweimal rot).
 3. Nach dem Push einen Testlauf der kleinsten Variante (`workflow_dispatch`) und das Protokoll lesen, nicht nur die Farbe.
@@ -50,3 +50,6 @@ Wer `schedule` (oder einen anderen Auslöser) streicht oder ersetzt, sucht alle 
 ## Takt eines Sammlers erhöhen: gemeinsame Dateien und Statusanzeige zuerst (27.10.2026)
 
 Wer einen Sammler in einen häufigeren Lauf hebt (PR 2186, CR-Neu stündlich), listet **vor** dem PR jede Datei, die danach zwei Läufe schreiben (`tools/quellen-pr.sh`: wer gewinnt bei Überschneidung?), und was ein Scheitern des neuen Schritts in der Statusanzeige auslöst (`lauf-abmelden.sh`, eigener `$MELDER fehler`). Beides fand sonst erst der Prüfer (A2/A3). Eine Erhöhung gegen einen Dienst mit Nutzungsverbot ist Daniels Entscheidung (F90), nicht die des Dirigenten.
+
+## Beleglauf vom Zweig (`--ref`): was vom Zweig kommt, entscheidet der Checkout (10.11.2026)
+`gh workflow run <datei> --ref <zweig>` nimmt das Workflow-YAML vom Zweig. Skripte kommen nur dann auch vom Zweig, wenn `actions/checkout` ohne `ref` auscheckt (z. B. `d1-verbrauch.yml`); die Sammler checken mit `ref: main` aus, dort belegt so ein Lauf Skriptänderungen erst nach dem Merge (vorher Prozesstest). Vor dem Beleglauf den Checkout im YAML nachsehen. Er reicht echte Daten-PRs ein, und der Sammler mergt die grünen selbst: das im Auftrag einplanen (PR 3282).

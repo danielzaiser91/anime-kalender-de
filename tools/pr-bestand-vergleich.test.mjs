@@ -11,6 +11,8 @@ import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { restSkripte } from './pr-bestand-vergleich.mjs'
+import { liesMarken } from './quarantaene.mjs'
+import { ausgabeDerPruefungen } from './pr-quarantaene-probe.mjs'
 import { fasseRoteZusammen, mitPraefix, teileListenAusgabe, trenneGeerbtUndNeu, zaehleOderMelde, zaehleVerstoesse } from './pr-bestand-zaehlen.mjs'
 
 const tools = dirname(fileURLToPath(import.meta.url))
@@ -55,6 +57,12 @@ assert.equal(mitPraefix('a\nb', ''), 'a\nb')
 assert.equal(fasseRoteZusammen(new Map([['x', 3], ['y', 1]]), ['y']), 'Rote Bestandsprüfungen insgesamt: 2 – x (3) [neu], y (1) [geerbt]')
 assert.equal(fasseRoteZusammen(new Map([['x', 3]])), 'Rote Bestandsprüfungen insgesamt: 1 – x (3) [neu]')
 
+// Quarantäne-Probe (tools/pr-quarantaene-probe.mjs): Ausgaben ohne Schlusszeilenumbruch verkleben nicht mit der Marke der nächsten Prüfung; fehlende Namen sind leer.
+const marke = 'QUARANTAENE {"titleId":5,"pruefung":"b","grund":"g"}'
+const verbunden = ausgabeDerPruefungen(new Map([['a', 'VERSTÖSSE: 1'], ['b', marke]]), ['a', 'b', 'fehlt'])
+assert.deepEqual(liesMarken(verbunden).map((m) => m.titleId), [5])
+assert.equal(ausgabeDerPruefungen(new Map(), ['x']), '')
+
 const k = mkdtempSync(join(tmpdir(), 'pr-bestand-vergleich-'))
 const spur = join(k, '..', `${k.split(/[\\/]/).at(-1)}-spur.txt`)
 const schreibe = (pfad, text) => {
@@ -87,7 +95,10 @@ export function pruefe(name) {
   appendFileSync(${SPUR_JS}, (existsSync('ist-pr') ? 'pr:' : 'basis:') + name + '\\n')
   if (lies('aus/schreibt.txt').includes(name)) appendFileSync('getrackt.txt', name + '\\n')
   // Ein Name, der n-mal in der Rotliste steht, meldet n Verstöße (je eine Zeile).
-  const zahl = [...lies('aus/rot.txt'), ...lies(${JSON.stringify(`${CACHE}/rot.txt`)})].filter((n) => n === name).length
+  // Ein Eintrag „name@7“ ist rot wegen Titel 7 und druckt dessen Marke wie die Prüfungen mit \`melde\`.
+  const treffer = [...lies('aus/rot.txt'), ...lies(${JSON.stringify(`${CACHE}/rot.txt`)})].filter((n) => n.split('@')[0] === name)
+  const zahl = treffer.length
+  for (const n of treffer.filter((t) => t.includes('@'))) console.log('QUARANTAENE ' + JSON.stringify({ titleId: Number(n.split('@')[1]), pruefung: name, grund: 'Kulisse' }))
   // Ein Name in ohne-zeile.txt lässt die Schlusszeile weg (Prüfung ohne das Ausgabeformat).
   const ohneZeile = lies(${JSON.stringify(`${CACHE}/ohne-zeile.txt`)}).includes(name)
   if (zahl === 0) {
@@ -110,7 +121,13 @@ schreibe(
 appendFileSync(${SPUR_JS}, 'bau\\n')
 if (existsSync('bau-kaputt')) process.exit(1)
 mkdirSync('aus', { recursive: true })
-writeFileSync('aus/rot.txt', existsSync('bau-rot.txt') ? readFileSync('bau-rot.txt', 'utf8') : '')
+// Mit BAU_QUARANTAENE (wie im Bestandsbau) fehlen die Titel der Liste; auf dem PR-Stand (ist-pr) zeigt der Bau pr-rot.txt, nach einer Quarantäne zusätzlich pr-nach.txt.
+const lies = (p) => (existsSync(p) ? readFileSync(p, 'utf8').split(/\\s+/).filter(Boolean) : [])
+const ids = process.env.BAU_QUARANTAENE ? JSON.parse(readFileSync(process.env.BAU_QUARANTAENE, 'utf8')).map((e) => String(e.titleId)) : []
+if (ids.length) appendFileSync(${SPUR_JS}, 'ohne:' + ids.join(',') + '\\n')
+if (ids.length && existsSync('q-kaputt')) process.exit(1)
+const roh = existsSync('ist-pr') ? [...lies('pr-rot.txt'), ...(ids.length ? lies('pr-nach.txt') : [])] : lies('bau-rot.txt')
+writeFileSync('aus/rot.txt', roh.filter((n) => !ids.includes(n.split('@')[1])).join('\\n'))
 `,
 )
 // Arbeitslisten nach dem Bau: hinterlassen die Spur `listen`.
@@ -132,7 +149,7 @@ function paket(rest) {
 }
 const REST = ['r1', 'r2', 'r3']
 schreibe('package.json', paket(REST))
-schreibe('.gitignore', 'node_modules\naus/\ndata/cache/\nist-pr\n')
+schreibe('.gitignore', 'node_modules\naus/\ndata/cache/\nist-pr\npr-rot.txt\npr-nach.txt\nq-kaputt\n')
 schreibe('ist-pr', '')
 schreibe(`${CACHE}/marke.txt`, 'bleibt')
 schreibe('getrackt.txt', '')
@@ -141,7 +158,7 @@ const LISTE = ['pruef/a.mjs', 'pruef/b.mjs', 'pruef/c.mjs']
 git('init', '-q', '-b', 'main')
 
 /** Ein Basis-Commit (bauRot: was der Basisbau rot macht) und darauf der PR-Stand (prListe, prRot = Ausgabe des PR-Baus). */
-function fall({ bauRot = [], kaputt = false, cacheRot = [], prListe = LISTE, prRot = [], schreibt = [], restNeu = [], ohneZeile = [] }) {
+function fall({ bauRot = [], kaputt = false, cacheRot = [], prListe = LISTE, prRot = [], prNach = [], bauKaputtMitQuarantaene = false, schreibt = [], restNeu = [], ohneZeile = [] }) {
   schreibe('package.json', paket(REST))
   schreibe('tools/check-bestand-liste.txt', `# Kulisse\n${LISTE.join('\n')}\n`)
   schreibe('bau-rot.txt', bauRot.join('\n'))
@@ -155,6 +172,10 @@ function fall({ bauRot = [], kaputt = false, cacheRot = [], prListe = LISTE, prR
   git('add', '-A')
   git('commit', '-q', '--allow-empty', '-m', 'pr')
   schreibe('aus/rot.txt', prRot.join('\n'))
+  schreibe('pr-rot.txt', prRot.join('\n'))
+  schreibe('pr-nach.txt', prNach.join('\n'))
+  rmSync(join(k, 'q-kaputt'), { force: true })
+  if (bauKaputtMitQuarantaene) schreibe('q-kaputt', '')
   schreibe('aus/schreibt.txt', schreibt.join('\n'))
   schreibe(`${CACHE}/rot.txt`, cacheRot.join('\n'))
   schreibe(`${CACHE}/ohne-zeile.txt`, ohneZeile.join('\n'))
@@ -180,6 +201,7 @@ function fall({ bauRot = [], kaputt = false, cacheRot = [], prListe = LISTE, prR
       .map((z) => z.slice(6))
       .sort(),
     gebaut: zeilen.includes('bau'),
+    ohne: zeilen.filter((z) => z.startsWith('ohne:')).map((z) => z.slice(5)),
     listen: zeilen.includes('listen'),
   }
 }
@@ -299,6 +321,47 @@ try {
   assert.deepEqual(e.basis, [], 'check:r4 gibt es auf der Basis nicht')
   assert.match(e.aus, /::error::.*weniger verletzt sind: check:r4\n/)
   assert.doesNotMatch(e.aus, /::warning::check:r4/)
+
+  // Titel-Quarantäne (11.11.2026, Anlass 99717 in PR 3373): Ein neues Rot, das nur an einem Titel hängt, hält den PR nicht an; der Bestandsbau stellt ihn zurück.
+  e = fall({ prRot: ['pruef/b.mjs@77'] })
+  assert.equal(e.status, 0, e.aus)
+  assert.deepEqual(e.ohne, ['77'], 'der Neubau läuft genau ohne Titel 77')
+  assert.match(e.aus, /::warning::Der Bestandsbau stellt nach dem Merge zurück \(Titel-Quarantäne\).*: 1 Titel zurückgestellt: 77 \(pruef\/b\.mjs\)$/m)
+  assert.doesNotMatch(e.aus, /::error::/)
+  // Zwei Titel in zwei Prüfungen, höchstens drei: beide zusammen zurückgestellt (Obergrenze genau 3 gilt noch).
+  e = fall({ prRot: ['pruef/b.mjs@1', 'pruef/b.mjs@2', 'check:r2@3'] })
+  assert.equal(e.status, 0, e.aus)
+  assert.deepEqual(e.ohne, ['3,1,2'], 'Reihenfolge der Prüfungen: erst die Rest-Skripte, dann die Liste')
+  // Zweite Runde: Erst nach der Quarantäne zeigt sich ein weiterer Titel (Folgebefund), er kommt dazu und der Neubau läuft erneut.
+  e = fall({ prRot: ['pruef/b.mjs@77'], prNach: ['pruef/c.mjs@88'] })
+  assert.equal(e.status, 0, e.aus)
+  assert.deepEqual(e.ohne, ['77', '77,88'])
+  assert.match(e.aus, /2 Titel zurückgestellt: 77 \(pruef\/b\.mjs\), 88 \(pruef\/c\.mjs\)/)
+  // Gegenfälle: Der PR bleibt rot, wenn das Gate des Bestandsbaus sperrt.
+  e = fall({ prRot: ['pruef/b.mjs@1', 'pruef/b.mjs@2', 'pruef/b.mjs@3', 'pruef/b.mjs@4'] })
+  assert.equal(e.status, 1, e.aus)
+  assert.deepEqual(e.ohne, [], 'bei zu vielen Titeln wird nicht erst gebaut')
+  assert.match(e.aus, /keine Quarantäne: 4 Titel betroffen, zurückgestellt werden höchstens 3/)
+  assert.match(e.aus, /::error::.*verletzt sind: pruef\/b\.mjs\n/)
+  e = fall({ prRot: ['pruef/b.mjs'] })
+  assert.equal(e.status, 1, e.aus)
+  assert.match(e.aus, /keine Quarantäne: die Fehler tragen keine neue Titel-Kennung/)
+  e = fall({ prRot: ['pruef/b.mjs@-5'] })
+  assert.equal(e.status, 1, e.aus)
+  assert.match(e.aus, /keine Quarantäne: zurückgestellt werden nur Anime-Titel, nicht -5/)
+  // Ein zweites Rot ohne Titel (im Cache, bleibt nach dem Neubau): der Titel allein löst es nicht, der PR bleibt rot.
+  e = fall({ prRot: ['pruef/b.mjs@77', 'check:r2'], cacheRot: ['check:r2'] })
+  assert.equal(e.status, 1, e.aus)
+  assert.match(e.aus, /keine Quarantäne: die Fehler tragen keine neue Titel-Kennung/)
+  assert.match(e.aus, /::error::.*verletzt sind: .*check:r2/)
+  // Rot, das schon auf der Basis steht, zählt nicht mit: Marken einer geerbten Prüfung füllen die Quarantäne nicht.
+  e = fall({ bauRot: ['pruef/a.mjs@5', 'pruef/a.mjs@6', 'pruef/a.mjs@7', 'pruef/a.mjs@8'], prRot: ['pruef/a.mjs@5', 'pruef/a.mjs@6', 'pruef/a.mjs@7', 'pruef/a.mjs@8', 'pruef/b.mjs@77'] })
+  assert.equal(e.status, 0, e.aus)
+  assert.deepEqual(e.ohne, ['77'])
+  // Scheitert der Neubau ohne die Titel, bleibt der PR rot.
+  e = fall({ prRot: ['pruef/b.mjs@77'], bauKaputtMitQuarantaene: true })
+  assert.equal(e.status, 1, e.aus)
+  assert.match(e.aus, /keine Quarantäne: die Fehler tragen keine neue Titel-Kennung/)
 } finally {
   unlinkSync(join(k, 'node_modules'))
   rmSync(k, { recursive: true, force: true })
