@@ -9,7 +9,7 @@
  * tests-alle fährt dasselbe über tools/mutationsanker-alle.test.mjs für jeden PR (Merge-Ref = Stand von main):
  * so fallen Rennen paralleler PRs auf, die der Diff-Filter unten nicht sieht.
  * Mutanten ohne `tests`-Eintrag meldet der Aufruf mit Listen als Warnung (⚠, Exit unverändert); die Ratsche steht in
- * tools/mutationsanker-ohne-tests.test.mjs (Zahl je Liste darf nur sinken, neue Listen tragen `tests`).
+ * tools/mutationsanker-ohne-tests.test.mjs (Zahl je Liste darf nur unter den Stand von origin/main sinken, neue Listen tragen `tests`; tools/ratsche-basis.mjs).
  * Im PR prüft tools/pr-vorpruefung.mjs die Listen, die der Diff neu anlegt oder ändert, und jede Liste, deren
  * Mutanten eine Datei des Diffs nennen (der Code kann dorthin gewandert sein); übrige Listen bleiben unberührt.
  */
