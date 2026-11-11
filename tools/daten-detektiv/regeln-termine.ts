@@ -8,7 +8,7 @@ import { addDays } from '../../shared/time.ts'
 import type { Bestand } from './laden.ts'
 import { titelName } from './laden.ts'
 import { regel, type Regel, type Treffer } from './regel.ts'
-import { DATUM_VOM_ANBIETER } from '../../pipeline/lib/invarianten.ts'
+import { DATUM_VOM_ANBIETER, anbieterDatumSchluessel } from '../../pipeline/lib/invarianten.ts'
 
 const TAGE_OHNE_LEBENSZEICHEN = 60
 
@@ -24,7 +24,7 @@ export function datumMonoton(b: Bestand): Regel {
   const je = eventsJeRelease(b.events)
   for (const r of b.releases) {
     /* Eine TV-Sichtung zeigt Wiederholungen in beliebiger Reihenfolge — dort ist Folge 5 nach Folge 78 kein Widerspruch. */
-    if (r.releaseType === 'disc' || r.tvLetzteSichtung || r.slug in DATUM_VOM_ANBIETER) continue
+    if (r.releaseType === 'disc' || r.tvLetzteSichtung || anbieterDatumSchluessel(r) in DATUM_VOM_ANBIETER) continue
     const s = (je.get(r.slug) ?? []).filter((e) => e.episode != null).sort((a, c) => a.episode! - c.episode! || a.date.localeCompare(c.date))
     for (let i = 1; i < s.length; i++) {
       if (s[i].episode !== s[i - 1].episode && s[i].date < s[i - 1].date) {

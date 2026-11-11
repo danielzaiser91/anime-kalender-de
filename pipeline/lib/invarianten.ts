@@ -61,15 +61,20 @@ export function verweiseAufgeloest(releases: Release[], events: ReleaseEvent[], 
   return { fehler, warnungen: [] }
 }
 
-/** Releases, deren Anbieter selbst ein nicht steigendes Folgendatum liefert (Quelle belegt, nicht unser Rechenfehler); jeder Eintrag mit Grund und Messdatum. */
+/**
+ * Releases, deren Anbieter selbst ein nicht steigendes Folgendatum liefert (Quelle belegt, nicht unser Rechenfehler); jeder Eintrag mit Grund und Messdatum.
+ * Schlüssel `<titleId>:<platform>` (`anbieterDatumSchluessel`), nie der Slug: er trägt das Datum der ersten Folge und wandert mit dem Datenstand.
+ */
 export const DATUM_VOM_ANBIETER: Record<string, string> = {
-  'lycoris-recoil-crunchyroll-de-2022-07-23': 'Crunchyrolls Katalog datiert Folge 6 auf 2022-08-06T16:00Z, vor Folge 5 (gemessen 08.10.2026, data/crunchyroll-dub.json)',
-  'the-maid-i-hired-recently-is-mysterious-crunchyroll-de-2022-08-14': 'Crunchyrolls Katalog datiert Folge 6 bis 11 (2022-09-04 bis 2022-10-09) zwei Wochen vor ihre Wochenfolge, Folge 6 damit vor Folge 5 (2022-09-11) (gemessen 10.11.2026, data/crunchyroll-dub.json, Staffel GR8VCPW4J)',
+  '143270:crunchyroll': 'Lycoris Recoil: Crunchyrolls Katalog datiert Folge 6 auf 2022-08-06T16:00Z, vor Folge 5 (gemessen 08.10.2026, data/crunchyroll-dub.json)',
+  '149326:crunchyroll': 'The Maid I Hired Recently Is Mysterious: Crunchyrolls Katalog datiert Folge 6 bis 11 (2022-09-04 bis 2022-10-09) zwei Wochen vor ihre Wochenfolge, Folge 6 damit vor Folge 5 (2022-09-11) (gemessen 10.11.2026, data/crunchyroll-dub.json, Staffel GR8VCPW4J)',
 }
+
+export const anbieterDatumSchluessel = (r: Pick<Release, 'titleId' | 'platform'>): string => `${r.titleId}:${r.platform}`
 
 /** DD-01: Eine spätere Folge liegt vor einer früheren (Lycoris Recoil). TV-Sichtungen zeigen Wiederholungen in beliebiger Reihenfolge und zählen nicht. */
 export function folgenDatumSteigt(releases: Release[], events: ReleaseEvent[]): string[] {
-  const ausgenommen = new Set([...releases.filter((r) => r.releaseType === 'disc' || r.tvLetzteSichtung).map((r) => r.slug), ...Object.keys(DATUM_VOM_ANBIETER)])
+  const ausgenommen = new Set(releases.filter((r) => r.releaseType === 'disc' || r.tvLetzteSichtung || anbieterDatumSchluessel(r) in DATUM_VOM_ANBIETER).map((r) => r.slug))
   const je = new Map<string, ReleaseEvent[]>()
   for (const e of events) if (e.episode != null && !ausgenommen.has(e.releaseSlug)) (je.get(e.releaseSlug) ?? je.set(e.releaseSlug, []).get(e.releaseSlug)!).push(e)
   const fehler: string[] = []
