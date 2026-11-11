@@ -5,7 +5,8 @@ import { providerName, stripAffiliate } from '../../shared/mappings.ts'
 import { wegVerneint } from '../lib/dub-confirmed.ts'
 import { plattformVon } from '../lib/cartoons.ts'
 
-export type JwEintrag = { ohneTreffer?: boolean; angebote?: { anbieter: string; art: string; url?: string; audio?: string[] }[] }
+export type JwAngebot = { anbieter: string; art: string; url?: string; audio?: string[] }
+export type JwEintrag = { ohneTreffer?: boolean; angebote?: JwAngebot[]; staffeln?: { nr?: number; angebote?: JwAngebot[] }[] }
 
 /**
  * Händler, die bei JustWatch eine **Disc** verkaufen oder verleihen. Alle übrigen
