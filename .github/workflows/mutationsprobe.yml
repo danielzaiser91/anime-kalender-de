@@ -56,6 +56,7 @@ jobs:
         with:
           ref: ${{ inputs.zweig }}
       # Node, npm ci und Chromium (Browser-Tests wie check-beleg-sammelartikel) wie in den Datenläufen.
+      # cache: aus, weil die Mutantentests keine Rohdaten aus data/cache lesen (sie laufen auf dem Zweig-Stand).
       - uses: ./.github/actions/einrichten
         with:
           cache: aus
