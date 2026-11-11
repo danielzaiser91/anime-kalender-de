@@ -115,11 +115,11 @@
 - {anilistId: 189123, folge: 2, titel: "Bewunderung", quelle: "TMDB Serie 207347 (de) Staffel 1 Folge 27, 11.10.2026"}
 - {anilistId: 189123, folge: 3, titel: "Das ist ein und dasselbe", quelle: "TMDB Serie 207347 (de) Staffel 1 Folge 28, 18.10.2026"}
 - {anilistId: 189123, folge: 4, titel: "Liebe ist das stärkste Gefühl", quelle: "TMDB Serie 207347 (de) Staffel 1 Folge 29, 25.10.2026"}
-- {anilistId: 189123, folge: 5, titel: "Wieder da", quelle: "TMDB Serie 207347 (de) Staffel 1 Folge 30, 08.11.2026"}
+- {anilistId: 189123, folge: 5, titel: "Wieder da", quelle: "TMDB Serie 207347 (de) Staffel 1 Folge 30, 08.11.2026; Abruf 11.11.2026 (api.themoviedb.org/3/tv/207347/season/1?language=de-DE): de „Wieder da“, en „It's Back“; im Bestand vom 09.11. noch „Folge 30“"}
 
 # The Ramparts of Ice Staffel 2: TMDB-Serie „The Ramparts of Ice“ (283428) führt beide Staffeln als Staffel 1; Folge 15 am 2026-10-01 = Starttag unseres Titels (Netflix, wöchentlich). Folge 16 „Stop and Go“ gleicht dem englischen Titel und bleibt offen.
 - {anilistId: 213805, folge: 1, titel: "Wolken und Regen", quelle: "TMDB Serie 283428 (de) Staffel 1 Folge 15, 01.10.2026"}
 - {anilistId: 213805, folge: 3, titel: "Wahre Gefühle", quelle: "TMDB Serie 283428 (de) Staffel 1 Folge 17, 15.10.2026"}
 - {anilistId: 213805, folge: 4, titel: "Erleichterung", quelle: "TMDB Serie 283428 (de) Staffel 1 Folge 18, 22.10.2026"}
 - {anilistId: 213805, folge: 5, titel: "Wandel", quelle: "TMDB Serie 283428 (de) Staffel 1 Folge 19, 29.10.2026"}
-- {anilistId: 213805, folge: 6, titel: "Kulturfest", quelle: "TMDB Serie 283428 (de) Staffel 1 Folge 20, 05.11.2026"}
+- {anilistId: 213805, folge: 6, titel: "Kulturfest", quelle: "TMDB Serie 283428 (de) Staffel 1 Folge 20, 05.11.2026; Abruf 11.11.2026 (api.themoviedb.org/3/tv/283428/season/1?language=de-DE): de „Kulturfest“, en „Cultural Festival“; im Bestand vom 09.11. noch „Folge 20“"}
