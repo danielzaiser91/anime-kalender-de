@@ -1052,6 +1052,10 @@
       "am": "2026-10-31",
       "vorschlaege": 0
     },
+    "1065761": {
+      "am": "2026-11-11",
+      "vorschlaege": 1
+    },
     "1065814": {
       "am": "2026-11-05",
       "vorschlaege": 0
@@ -1349,6 +1353,10 @@
       "vorschlaege": 0,
       "uebersprungen": "kein Deutschland-Bezug"
     },
+    "1068262": {
+      "am": "2026-11-11",
+      "vorschlaege": 1
+    },
     "1068320": {
       "am": "2026-11-06",
       "vorschlaege": 0,
@@ -1520,6 +1528,14 @@
     "1070093": {
       "am": "2026-11-10",
       "vorschlaege": 0
+    },
+    "1070158": {
+      "am": "2026-11-11",
+      "vorschlaege": 0
+    },
+    "1070197": {
+      "am": "2026-11-11",
+      "vorschlaege": 1
     }
   },
   "vorschlaege": [
@@ -12048,6 +12064,69 @@
       "quelle": "https://www.anime2you.de/news/1069391/lebensgrosse-shiro-no-game-no-life-figur/",
       "veroeffentlicht": "2026-11-10",
       "gelesenAm": "2026-11-10"
+    },
+    {
+      "titel": "Red Riding Hood: A Detective Story",
+      "zitat": "Der Streaming-Dienst Crunchyroll zeigt die Mystery-Serie ab Januar 2027 im Originalton mit Untertiteln im Simulcast.",
+      "art": "start",
+      "sprache": "omu",
+      "plattform": "crunchyroll",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1070197",
+      "artikel": "Zwei neue Teaser zu »Red Riding Hood: A Detective Story« + Visual",
+      "quelle": "https://www.anime2you.de/news/1070197/red-riding-hood-zwei-neue-teaser/",
+      "veroeffentlicht": "2026-11-11",
+      "gelesenAm": "2026-11-11"
+    },
+    {
+      "titel": "Magic Repo Man: Dumped by My Party, I’ll Cash In With a Cute Support Fairy to Become the Strongest!",
+      "zitat": "Der Fantasy-Anime »Magic Repo Man« entsteht im Studio SynergySP und läuft seit dem 4. Oktober 2026 bei Crunchyroll auf Japanisch mit Untertiteln im Simulcast.",
+      "art": "start",
+      "sprache": "omu",
+      "plattform": "crunchyroll",
+      "datum": "2026-10-04",
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Sonntag",
+      "warnungen": [],
+      "artikelId": "1065761",
+      "artikel": "Neue Figur von Empee aus »Magic Repo Man« vorgestellt",
+      "quelle": "https://www.anime2you.de/news/1065761/magic-repo-man-empee-figur/",
+      "veroeffentlicht": "2026-11-11",
+      "gelesenAm": "2026-11-11"
+    },
+    {
+      "titel": "Young Ladies Don’t Play Fighting Games",
+      "zitat": "Der zwölfteilige Yuri-Anime »Young Ladies Don’t Play Fighting Games« wurde zwischen Juli und September 2026 in Japan ausgestrahlt und steht in der Originalvertonung mit deutschen Untertiteln bei Crunchyroll auf Abruf zur Verfügung.",
+      "art": "start",
+      "sprache": "omu",
+      "plattform": "crunchyroll",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1068262",
+      "artikel": "Neue »Young Ladies Don’t Play Fighting Games«-Figur von Mio Yorue enthüllt",
+      "quelle": "https://www.anime2you.de/news/1068262/young-ladies-dont-play-fighting-games-figur-mio-yorue/",
+      "veroeffentlicht": "2026-11-11",
+      "gelesenAm": "2026-11-11"
     }
   ]
 }
