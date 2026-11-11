@@ -34,6 +34,8 @@ pruefe('Nummer passt, Folgenzahl nicht (Cardcaptor Sakura 70): alle', moeglicheS
 pruefe('Folgenzahl passt zu einer anderen Staffel als die Nummer: alle', moeglicheStaffeln(drei, 24, 1).length === 3)
 pruefe('keine Nummer (Cour, einzige Staffel): alle', moeglicheStaffeln(drei, 12, undefined).length === 3)
 pruefe('Folgenzahl fehlt (M.A.S.K.): alle', moeglicheStaffeln(drei, undefined, 1).length === 3 && moeglicheStaffeln(drei, 0, 1).length === 3)
+pruefe('Staffel ohne Folgenzahl und Titel ohne Folgenzahl (Tamako Market): alle', moeglicheStaffeln({ staffeln: [{ nr: 1, angebote: [cr] }, { nr: 2, folgen: 12, angebote: [] }] }, undefined, 1).length === 2)
+pruefe('Staffel ohne Nummer und Titel ohne Nummer: alle', moeglicheStaffeln({ staffeln: [{ folgen: 12, angebote: [cr] }, { folgen: 24, angebote: [] }] }, 12, undefined).length === 2)
 pruefe('keine Staffelliste: leer', moeglicheStaffeln({}, 12, 1).length === 0)
 
 console.log('\nstaffelFuehrt:')
