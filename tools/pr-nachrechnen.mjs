@@ -23,6 +23,7 @@ import { standardPaare, standardVoll } from './pr-nachrechnen-vergleich-git.mjs'
 import { ZUG, istZugPr, leseZugAktiv } from './zug-aktiv.mjs'
 import { erzeugteDatei } from './pr-nachrechnen-bot-erzeugt.mjs'
 import { ersetzer, ersetztMeldung } from './pr-ersetzt.mjs'
+import { basisAusJobLogs } from './nachrechnen-joblog.mjs'
 import { grundKommentar, kommentiereGrund } from './nachrechnen-schleife.mjs'
 import { UMFANG_GRENZEN, umfangGrund as standardUmfang } from './pr-nachrechnen-umfang.mjs'
 
@@ -253,7 +254,7 @@ export function jobFehlt(nummer, lauf, jobs) {
 }
 
 /** Liest Basis des neuesten Kettenlaufs; Rückgabe { basis } oder { grund } (dann ist nichts zu entscheiden). */
-function basisDesLaufs(gh, pr) {
+function basisDesLaufs(gh, pr, warte) {
   const laeufe = JSON.parse(gh(['run', 'list', '--workflow', KETTE, '--event', 'pull_request', '--branch', pr.headRefName, '--limit', '20', '--json', 'databaseId,headSha,createdAt,conclusion,status']))
   const lauf = neuesterLauf(laeufe, pr.headRefOid)
   if (lauf === null) return { grund: `PR ${pr.number}: kein Kettenlauf zum Kopf ${kurz(pr.headRefOid)}` }
@@ -262,7 +263,9 @@ function basisDesLaufs(gh, pr) {
   const job = jobs.find((j) => j.name === JOB)
   if (job === undefined) return { grund: jobFehlt(pr.number, lauf, jobs) }
   if (job.status !== 'completed') return { grund: `PR ${pr.number}: Job „${JOB}“ läuft noch (Lauf ${lauf.databaseId}), sein Log gibt es erst nach Abschluss; später erneut aufrufen` }
-  const basis = basisAusLog(gh(['api', '--allow-escape-sequences', `repos/{owner}/{repo}/actions/jobs/${job.databaseId}/logs`]), pr.headRefOid)
+  const gelesen = basisAusJobLogs(gh, job, jobs, (log) => basisAusLog(log, pr.headRefOid), warte)
+  if (gelesen.lesefehler !== undefined) return { grund: `PR ${pr.number}: Log nicht lesbar (${gelesen.lesefehler}), später erneut` }
+  const basis = gelesen.basis
   if (basis === null) return { grund: `PR ${pr.number}: Basis nicht im Log von „${JOB}“ (Lauf ${lauf.databaseId}; läuft er noch, übersprungen?)` }
   return { basis }
 }
@@ -284,7 +287,7 @@ export function nachrechnen(nummer, gh, melde, warte, leser = gitLeser(gitAufruf
     melde(`PR ${nummer}: Basis ${ZUG}, kein Nachrechnen gegen main (die Fahrt rechnet den ganzen Zug)`)
     return 0
   }
-  const { basis, grund } = basisDesLaufs(gh, pr)
+  const { basis, grund } = basisDesLaufs(gh, pr, warte)
   if (grund !== undefined) {
     melde(grund)
     return 2
