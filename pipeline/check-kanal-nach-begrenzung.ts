@@ -53,8 +53,16 @@ const LETZTE_FOLGE = 10_000_522
 
 const ANBIETER = ['Alpha Stream', 'Beta Stream', 'Gamma Stream', 'Delta Stream', 'Epsilon Stream']
 const fuenf = ANBIETER.map((anbieter, i) => ({ anbieter, art: 'FLATRATE', audio: ['de'], url: `https://www.example-${i}.de/titel/${BEHALTEN}` }))
+/** Folgestaffel ohne eigenen JustWatch-Schlüssel (Goblin Slayer II 129188 unter 101165): die Serie steht unter VORGAENGER, der Kanal nur in Staffel 2. */
+const VORGAENGER = 10_000_530
+const FOLGESTAFFEL = 10_000_531
+/** Gleiche Lage, aber die Folgenzahl des Titels (10) trifft Staffel 2 (12) nicht: kein Weg (Shingeki 3). */
+const SERIE_FALSCH = 10_000_532
+const FOLGE_FALSCH = 10_000_533
 
 const JW = {
+  [VORGAENGER]: { jwId: 'ts-folge-a', angebote: [kanal(VORGAENGER), disc(VORGAENGER)], staffeln: [{ nr: 1, folgen: 12, angebote: [] }, { nr: 2, folgen: 12, angebote: [kanal(VORGAENGER)] }] },
+  [SERIE_FALSCH]: { jwId: 'ts-folge-b', angebote: [kanal(SERIE_FALSCH)], staffeln: [{ nr: 1, folgen: 25, angebote: [] }, { nr: 2, folgen: 12, angebote: [kanal(SERIE_FALSCH)] }] },
   [ANLASS]: { angebote: [kanal(ANLASS)] },
   [OHNE_STREAM]: { angebote: [kanal(OHNE_STREAM)] },
   [MEHRDEUTIG]: { angebote: [kanal(MEHRDEUTIG)] },
@@ -98,6 +106,10 @@ async function kind(): Promise<void> {
     [LETZTE_STAFFEL, { ...titel(LETZTE_STAFFEL, []), format: 'TV', titleEn: 'Fixture Serie', episodes: 26, franchiseId: 9103, jpYear: 2003 } as Title],
     [LETZTE_FOLGE, { ...titel(LETZTE_FOLGE, []), format: 'TV', titleEn: 'Fixture Serie', episodes: 23, franchiseId: 9103, jpYear: 2008 } as Title],
     [START_BEIDE, titel(START_BEIDE, [])],
+    [VORGAENGER, { ...titel(VORGAENGER, []), format: 'TV', titleEn: 'Fixture Folge', episodes: 12, franchiseId: 9105, jpYear: 2018 } as Title],
+    [FOLGESTAFFEL, { ...titel(FOLGESTAFFEL, []), format: 'TV', titleEn: 'Fixture Folge', episodes: 12, franchiseId: 9105, jpYear: 2023 } as Title],
+    [SERIE_FALSCH, { ...titel(SERIE_FALSCH, []), format: 'TV', titleEn: 'Fixture Falsch', episodes: 25, franchiseId: 9106, jpYear: 2013 } as Title],
+    [FOLGE_FALSCH, { ...titel(FOLGE_FALSCH, []), format: 'TV', titleEn: 'Fixture Falsch', episodes: 10, franchiseId: 9106, jpYear: 2018 } as Title],
     [PIN_ERSTE, { ...titel(PIN_ERSTE, []), episodes: 12 } as Title],
     [PIN_ZWEITE, { ...titel(PIN_ZWEITE, geraten(PIN_ZWEITE)), episodes: 12 } as Title],
     [HAND_NEIN, titel(HAND_NEIN, geraten(HAND_NEIN))],
@@ -174,6 +186,8 @@ if (process.argv[2] === '--kind') {
   pruefe('dasselbe nach der Begrenzung (zweiter Durchgang)', wege(PIN_ZWEITE) === kanalWeg, erg)
   pruefe('leere Sonderstaffel (3 Folgen) widerlegt den Kanal nicht: Weg bleibt (erste Runde)', wege(MINI_LEER) === kanalWeg, erg)
   pruefe('Folgenzahl trifft nur Staffel 1 ohne den Kanal (Last Exile): nur der Disc-Händler', wege(LETZTE_STAFFEL) === '["Thalia|buy"]', erg)
+  pruefe('Folgestaffel ohne eigenen Schlüssel (Goblin Slayer II): der Kanal aus Staffel 2 der Serie, Staffel 1 der Reihe bleibt ohne', wege(FOLGESTAFFEL) === kanalWeg && wege(VORGAENGER) === '["Thalia|buy"]', erg)
+  pruefe('Folgenzahl trifft die Staffel der Nummer nicht (Shingeki 3): kein Weg', wege(FOLGE_FALSCH) === '[]', erg)
   pruefe('zweiter Abschluss-Lauf ändert nichts', JSON.stringify(erg?.zweiter) === JSON.stringify(erg?.erster), erg)
 }
 

@@ -67,9 +67,10 @@
   publisher: "Crunchyroll"
   edition: "Gesamtausgabe: Limited Steelbook Edition, Blu-ray"
   # Von Hand (27.09.2026): Anime2You nennt den 04.12. statt des 06.11.; der zweite aniSearch-Eintrag
-  # (216599, 03.11.) war dieselbe Ausgabe und ist entfallen.
+  # (216599, 03.11.) war dieselbe Ausgabe und ist entfallen. Als Quelle gestrichen (11.11.): die Seite ist die
+  # englische Ausgabe (Sprache und Untertitel Englisch, EAN 0704400112058), kein deutsches Steelbook.
   schedule: { firstEpisodeDate: "2026-12-04" }
-  sources: ["https://www.anisearch.de/article/216798,miss-kobayashis-dragon-maid-s-gesamtausgabe-steelbook-blu-ray", "https://www.anisearch.de/article/216599,miss-kobayashis-dragon-maid-s-steelbook-blu-ray", https://www.anime2you.de/news/1044447/miss-kobayashis-dragon-maid-steelbook-edition/, https://www.anime2you.de/news/1052846/animoon-crunchyroll-ksm-25-verschiebungen/]
+  sources: ["https://www.anisearch.de/article/216798,miss-kobayashis-dragon-maid-s-gesamtausgabe-steelbook-blu-ray", https://www.anime2you.de/news/1044447/miss-kobayashis-dragon-maid-steelbook-edition/, https://www.anime2you.de/news/1052846/animoon-crunchyroll-ksm-25-verschiebungen/]
 
 - slug: the-quintessential-quintuplets-2-2026-09-18
   anilistId: 109261
@@ -326,8 +327,9 @@
   releaseType: disc
   publisher: "Netflix, Inc."
   edition: "Vol. 3/4: Limited Steelcase Edition Blu-ray · Vol. 3/4: Limited Steelcase Edition"
-  schedule: { firstEpisodeDate: "2026-11-13" }
-  sources: ["https://www.anisearch.de/article/201864,sakamoto-days-vol-3-4-limited-steelcase-edition-blu-ray"]
+  # Von Hand (11.11.2026): aniSearch nennt seit der Verschiebung den 29.01.2027, Anime2You („28 Blu-ray-Verschiebungen", 06.11.) ebenso.
+  schedule: { firstEpisodeDate: "2027-01-29" }
+  sources: ["https://www.anisearch.de/article/201864,sakamoto-days-vol-3-4-limited-steelcase-edition-blu-ray", https://www.anime2you.de/news/1068595/28-blu-ray-verschiebungen/]
 
 - slug: sakamoto-days-teil-2-vol-4-2026-12-18
   anilistId: 184237
@@ -337,8 +339,9 @@
   publisher: "AniMoon Publishing"
   edition: "Vol. 4/4: Limited Steelcase Edition Blu-ray · Vol. 4/4: Limited Steelcase Edition"
   # Von Hand (27.09.2026): Anime2You nennt den 25.12. statt des 18.12. und AniMoon als Verlag.
-  schedule: { firstEpisodeDate: "2026-12-25" }
-  sources: ["https://www.anisearch.de/article/201866,sakamoto-days-vol-4-4-limited-steelcase-edition-blu-ray", https://www.anime2you.de/news/1052846/animoon-crunchyroll-ksm-25-verschiebungen/]
+  # Von Hand (11.11.2026): zweite Verschiebung auf den 05.03.2027 (aniSearch; Anime2You, 06.11.).
+  schedule: { firstEpisodeDate: "2027-03-05" }
+  sources: ["https://www.anisearch.de/article/201866,sakamoto-days-vol-4-4-limited-steelcase-edition-blu-ray", https://www.anime2you.de/news/1068595/28-blu-ray-verschiebungen/]
 
 - slug: my-gift-lvl-9999-unlimited-gacha-backstabbed-in-a-backwater-dungeon-i-m-out-for-
   anilistId: 184322
@@ -506,7 +509,8 @@
   releaseType: disc
   publisher: "Crunchyroll"
   edition: "Gesamtausgabe: Steelbook Blu-ray"
-  schedule: { firstEpisodeDate: "2026-11-06" }
+  # Von Hand (11.11.2026): aniSearch nennt den 04.12.; Anime2You (22.09., Staffel 1: 06.11. auf 04.12.) ebenso.
+  schedule: { firstEpisodeDate: "2026-12-04" }
   sources: ["https://www.anisearch.de/article/216797,miss-kobayashis-dragon-maid-gesamtausgabe-steelbook-blu-ray"]
 
 - slug: sailor-moon-sailor-stars-2027-01-15
