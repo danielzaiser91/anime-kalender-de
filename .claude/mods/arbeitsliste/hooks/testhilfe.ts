@@ -103,7 +103,8 @@ export function starte(on: On, marker: string | null, status: (string | undefine
   if (engine) on('ui.render', { component: 'AbovePrompt' }, () => ({ type: 'engine', ref: 0 }) as never)
   on('fs.read', ($, e) => {
     // Der Pfad kommt mit Rückwärtsschrägstrichen an (Windows).
-    const pfad = e.path.replace(/\\/g, '/')
+    // Unter Linux (PR-Kette) steht vor „C:/…“ womöglich das Arbeitsverzeichnis: alles vor „C:/“ weg.
+    const pfad = e.path.replace(/\\/g, '/').replace(/^.*?(?=C:\/)/, '')
     if (pfad.endsWith('stand.md')) return { value: stand } as never
     if (ziele && pfad.endsWith('ziele.md')) return { value: ziele } as never
     if (marker !== null && pfad === `${MARKER_ORDNER}/${SITZUNG}.txt`) return { value: marker } as never
