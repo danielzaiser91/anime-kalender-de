@@ -261,7 +261,7 @@ function nativeFaelle(): void {
 
 /** Lateinische Native-Namen und Ein-Zeichen-Namen bleiben aus den Suchbegriffen: „BLACK" träfe per Teilstring jeden Artikel mit „black", „pet" den „carpet" (Prüfer 3495, A1/A2). */
 function nativeLateinFaelle(): void {
-  const natives: Record<number, string> = { 7: 'BLACK LAGOON', 8: 'K', 9: 'pet', 10: '鬼', 11: 'BLACK 東京リベンジャーズ', 12: 'SCHOOL DAYS' }
+  const natives: Record<number, string> = { 7: 'BLACK LAGOON', 8: 'K', 9: 'pet', 10: '鬼', 11: 'BLACK 東京リベンジャーズ', 12: 'SCHOOL DAYS', 13: '鬼滅', 14: '도굴왕', 15: 'ナルト' }
   const titles = Object.entries(natives).map(([id, titleNative]) => ({ id: Number(id), titleDe: `Titel${id}`, titleNative })) as unknown as Title[]
   const releases = titles.map((t) => ({ slug: `l${t.id}`, titleId: t.id, name: `Titel${t.id}`, sources: [`https://example.org/l${t.id}`] })) as unknown as Release[]
   const s = suchbegriffeJeAdresse(releases, titles)
@@ -274,6 +274,9 @@ function nativeLateinFaelle(): void {
   pruefe('Native: „pet" steht nicht darin', !je(9).includes('pet') && !jeGruppe(9).includes('pet'))
   pruefe('Native: ein einzelnes CJK-Zeichen („鬼") steht nicht darin', !je(10).includes('鬼') && !jeGruppe(10).includes('鬼'))
   pruefe('Native: gemischter Name — der ganze Name ja, der lateinische Kopf „BLACK" nein', je(11).includes('BLACK 東京リベンジャーズ') && !je(11).includes('BLACK') && !jeGruppe(11).includes('BLACK'))
+  pruefe('Native: ein Name aus genau zwei Han-Zeichen („鬼滅") steht darin', je(13).includes('鬼滅') && jeGruppe(13).includes('鬼滅'))
+  pruefe('Native: ein koreanischer Name steht darin (Schrift Hangul)', je(14).includes('도굴왕'))
+  pruefe('Native: ein reiner Katakana-Name steht darin', je(15).includes('ナルト'))
   pruefe('Native: ohne Native-Namen bleibt der Titel selbst Suchbegriff (Kontrolle)', je(7).includes('Titel7') && je(8).includes('Titel8'))
 }
 
