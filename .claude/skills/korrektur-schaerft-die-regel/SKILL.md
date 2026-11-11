@@ -7,7 +7,7 @@ description: "Wenn Daniel eine Arbeitsweise korrigiert, nachfragt oder einen Wid
 
 Wenn Daniel eine Arbeitsweise korrigiert, ist der Einzelfall die kleinere Hälfte.
 Die größere: **Irgendein Dokument hat diesen Fehler zugelassen** — eine Regel in
-`~/.claude/rules/`, ein Skill, eine `CLAUDE.md`, ein Memory. Solange dieses Dokument
+`.claude/rules/`, ein Skill, eine `CLAUDE.md`, ein Memory. Solange dieses Dokument
 unverändert bleibt, kommt derselbe Fehler wieder, und Daniel muss ihn ein zweites Mal
 melden.
 
@@ -73,7 +73,7 @@ Zuerst: **Welches Dokument hätte den Fehler verhindern müssen?**
 | Fehler betrifft … | Ziel |
 |---|---|
 | eine Ausgabeform, die in jeder Antwort auftaucht (Footer, Sprache, Links, Blöcke) | der zuständige **Skill**, und nur dort — die Regel verweist bloß |
-| eine ausnahmslos geltende Arbeitsweise | die passende Datei in `~/.claude/rules/` |
+| eine ausnahmslos geltende Arbeitsweise | die passende Datei in `.claude/rules/` |
 | etwas, das nur für dieses Projekt gilt | dessen `CLAUDE.md` |
 | eine Vorliebe oder Arbeitsweise von Daniel | Memory (`feedback`) |
 | ein Werkzeug, das anders arbeitet als angenommen | der Skill dieses Werkzeugs |
@@ -209,7 +209,7 @@ Erste zutreffende Stufe gilt: (1) Erzwingt schon ein Hook/Check/Test die Handlun
   Dokument nicht — und beim nächsten Mal steht derselbe Fehler wieder da.
 - **Die Regel an zwei Stellen schreiben.** Zwei Fassungen derselben Regel laufen
   garantiert auseinander (real passiert mit der Footer-Regel, 08.08.2026). Die Regel
-  in `~/.claude/rules/` bekommt einen Auslöser von ein, zwei Sätzen; der ganze Inhalt
+  in `.claude/rules/` bekommt einen Auslöser von ein, zwei Sätzen; der ganze Inhalt
   lebt im Skill.
 - **Vorher fragen, ob geschärft werden soll.** Wird nicht gefragt — siehe oben.
 - **Aufschieben.** Dieselbe Antwort, nicht „beim nächsten Aufräumen".

@@ -10,6 +10,8 @@ import { AUSNAHMEN } from './trefferprobe-ausnahmen.mjs'
 
 const CSS = '<style>body{margin:0}.deck{position:absolute;left:0;top:0;width:100%;height:200px;background:#ccc}.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}.zeile{position:relative;height:60px}</style>'
 const ALLE_ARTEN = '<a href="#x">a</a><button>b</button><div role="button" tabindex="0">r</div><input type="checkbox"><details><summary>s</summary></details>'
+/* Monospace 10 px, 200 px breit: „bb“ steht am Zeilenende rechts, „cc“ am Anfang der nächsten Zeile links; die Umrissmitte trifft den Rahmen. */
+const UMBRUCH = '<div style="width:200px;font:10px monospace">aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa <a href="#x">bb cc</a></div>'
 
 /** Jeder Fall: Name, Seiteninhalt, Optionen der Probe, erwartete Zahl geprüfter Elemente und Befunde. */
 const FAELLE = [
@@ -26,6 +28,8 @@ const FAELLE = [
 { name: 'echte Ausnahme: unsichtbarer Karten-Knopf bleibt frei', html: '<div class="zeile"><button class="ak-oeffnen sr-only">k</button><div class="deck"></div></div>', ausnahmen: AUSNAHMEN, geprueft: 0, befunde: 0 },  { name: 'echte Ausnahme gilt nicht für andere Knöpfe', html: '<div class="zeile"><button>a</button><button class="ak-oeffnen">b</button><button class="sr-only">c</button><div class="deck"></div></div>', ausnahmen: AUSNAHMEN, geprueft: 3, befunde: 3 },
   { name: 'weit unten (Scrollen) und höher als das Fenster', html: '<div style="height:3000px"></div><button>unten</button><button style="height:2000px;display:block">hoch</button>', geprueft: 2, befunde: 0 },
   { name: 'nur unter der Wurzel', html: '<div id="w"><button>drin</button></div><div class="zeile"><button>draussen</button><div class="deck"></div></div>', wurzel: '#w', geprueft: 1, befunde: 0 },
+  { name: 'umbrechender Inline-Link: Umrissmitte im Leerraum ist kein Befund', html: UMBRUCH, geprueft: 1, befunde: 0 },
+  { name: 'umbrechender Inline-Link unter Überzug bleibt Befund', html: `<div class="zeile">${UMBRUCH}<div class="deck"></div></div>`, geprueft: 1, befunde: 1 },
   { name: 'Größe null zählt nicht', html: '<a href="#x"></a><button>ok</button>', geprueft: 1, befunde: 0 },
   { name: 'fester Balken am Rand verdeckt nach dem Scrollen nichts', html: '<div style="position:fixed;bottom:0;left:0;right:0;height:100px;background:#ccc"></div><div style="height:3000px"></div><button>x</button><div style="height:3000px"></div>', geprueft: 1, befunde: 0 },
   { name: 'jeder verdeckte Knopf einzeln', html: '<div class="zeile"><button>gleich</button><div class="deck"></div></div>', wiederholt: 3, geprueft: 3, befunde: 3 },

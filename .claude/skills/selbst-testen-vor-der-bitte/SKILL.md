@@ -149,6 +149,6 @@ Antwort reicht: „ok" oder die Nummer, die nicht stimmt.
   Die Adresse stammt aus einer Werkzeugausgabe (`curl` → 200) und die Kennung aus den ausgelieferten Daten, nicht aus dem Kopf.
   **`ak` ist nicht das `id`-Feld in `titles.json`** (das ist die AniList-ID und öffnet „keine Metadaten“): ak = erstes Feld je Eintrag in `data/kennungen.json` → `titel`. Am sichersten `https://anime-kalender.de/t/<ak>/` — `curl -s … | grep -o '<title>[^<]*'` muss den Titelnamen zeigen, ein Hash-Link lässt sich per curl nicht prüfen (16.10.2026, zwei tote Links in einer Prüfliste).
 - **Reihenfolge spart Klicks:** erst alles auf einer Seite, dann die nächste; Punkte, die Zustand brauchen (angemeldet, Favorit gesetzt, Handy-Breite), sagen es in der ersten Zeile des Punkts.
-- **Nur Live-Zustand:** Läuft Bau oder Deploy noch, steht der Auftrag als 📅-Zeile im Footer („ab ca. 14:25 Uhr"), nicht im Text (Merkzettel `feedback-pruefauftrag-vorher-nachher`).
+- **Nur Live-Zustand:** Läuft Bau oder Deploy noch, steht der Auftrag als 📅-Zeile in `stand.md` („ab ca. 14:25 Uhr"), nicht im Text (Merkzettel `feedback-pruefauftrag-vorher-nachher`).
 - **Was ich selbst prüfen kann, prüfe ich vorher** und nenne es kurz („Ich habe … live gemessen"), damit seine Prüfung nur das enthält, was nur er sehen kann (Gefühl, Lesbarkeit, Inhalt).
-- **Mehrere Aufträge in einer Antwort:** eine nummerierte Liste, nicht Absätze; Entscheidungen (🙋) und Prüfungen (📅) bleiben im Footer getrennt.
+- **Mehrere Aufträge in einer Antwort:** eine nummerierte Liste, nicht Absätze; Entscheidungen (🙋) und Prüfungen (📅) bleiben in `stand.md` getrennt.

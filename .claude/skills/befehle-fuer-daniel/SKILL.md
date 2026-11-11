@@ -120,7 +120,7 @@ beim zweiten Mal nackt, als Erinnerung an einen offenen Punkt. Daniels Reaktion:
 „warum postest du messskript? soll ich es ausführen oder warum?" Ein Block ohne
 Satz sieht aus wie ein Zwischenstand meiner eigenen Arbeit — die Aufforderung
 geht dabei verloren. Wer einen Befehl erneut zeigt, schreibt den Zweck erneut
-dazu; wer nur erinnern will, nimmt eine Footer-Zeile statt eines Blocks.
+dazu; wer nur erinnern will, nimmt eine Zeile in `stand.md` statt eines Blocks.
 
 **Ein Block läuft beim Einfügen unverändert (17.10.2026).** Keine Platzhalter wie `<Token aus …>`: Bash liest
 `<` als Umleitung und scheitert („No such file or directory“). Geheime Werte fragt der Block selbst verdeckt ab
