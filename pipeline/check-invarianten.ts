@@ -6,7 +6,7 @@ import { readFileSync } from 'node:fs'
 import yaml from 'js-yaml'
 import type { Release, ReleaseEvent, Title } from '../shared/types.ts'
 import {
-  DATUM_VOM_ANBIETER, deutschNichtVorJapan, filmOhneMehrereFolgen, folgenDatumSteigt, folgennummernEindeutig, pruefeInvarianten, slugsEindeutig,
+  DATUM_VOM_ANBIETER, anbieterEintragProbleme, deutschNichtVorJapan, filmOhneMehrereFolgen, folgenDatumSteigt, folgennummernEindeutig, pruefeInvarianten, slugsEindeutig,
   terminKennungenEindeutig, verweiseAufgeloest, widerlegteOhneTermine, zaehlworteStimmen,
 } from './lib/invarianten.ts'
 import { reihenVerweiseAufgeloest, synchroNichtHinterToggle, type SynchroQuellen } from './lib/invarianten-auslieferung.ts'
@@ -73,7 +73,33 @@ console.log('\nHarte Regeln des Daten-Detektivs:')
   pruefe('DD-01: spätere Folge vor früherer wird gemeldet', folgenDatumSteigt([release('l')], lycoris).length === 1, folgenDatumSteigt([release('l')], lycoris))
   pruefe('DD-01: Folgen gleichen Tages und aufsteigende gehen durch', folgenDatumSteigt([release('l')], [termin('l', 1, '2026-09-01'), termin('l', 2, '2026-09-01'), termin('l', 3, '2026-09-08')]).length === 0)
   pruefe('DD-01: TV-Sichtung und Disc zählen nicht', folgenDatumSteigt([{ ...release('tv'), tvLetzteSichtung: '2026-09-01' } as Release, release('d', 1, 'disc', 'disc')], [termin('tv', 78, '2026-09-01'), termin('tv', 5, '2026-09-02'), termin('d', 2, '2026-09-01'), termin('d', 1, '2026-09-02')]).length === 0)
-  pruefe('DD-01: das belegte Anbieterdatum von Lycoris Recoil ist eingetragen', Object.keys(DATUM_VOM_ANBIETER).includes('lycoris-recoil-crunchyroll-de-2022-07-23') && folgenDatumSteigt([release('lycoris-recoil-crunchyroll-de-2022-07-23')], lycoris.map((e) => ({ ...e, releaseSlug: 'lycoris-recoil-crunchyroll-de-2022-07-23' }))).length === 0)
+  // Anbieter-Ausnahme: Schlüssel Titelkennung:Plattform, nicht der Slug (er trägt das Datum der ersten Folge und wandert mit dem Datenstand)
+  const eintrag: Record<string, string> = { '143270:crunchyroll': 'Grund' }
+  const lycorisJe = (slug: string, titleId: number, platform = 'crunchyroll', eintraege = eintrag) => folgenDatumSteigt([release(slug, titleId, platform)], lycoris.map((e) => ({ ...e, releaseSlug: slug })), eintraege)
+  for (const slug of ['lycoris-recoil-crunchyroll-de-2022-07-03', 'lycoris-recoil-crunchyroll-de-2022-07-23']) {
+    pruefe(`DD-01: der Eintrag nach Titelkennung gilt für ${slug}`, lycorisJe(slug, 143270).length === 0)
+  }
+  pruefe('DD-01: ohne Eintrag ist Lycoris Recoil rot', lycorisJe('l', 143270, 'crunchyroll', {}).length === 1)
+  pruefe('DD-01: Lycoris Recoil mit anderer Titelkennung ist rot', lycorisJe('l', 1).length === 1)
+  pruefe('DD-01: Lycoris Recoil bei anderer Plattform ist rot', lycorisJe('l', 143270, 'netflix').length === 1)
+  pruefe('DD-01: die Vorgabe ist auf main leer (Lycoris und Maid lösen DD-01 nicht aus)', Object.keys(DATUM_VOM_ANBIETER).length === 0)
+
+  // Wächter: ein Eintrag ohne Release ist tot, einer mit mehr als einem Release zu weit
+  const beide = [release('x', 143270), release('y', 149326)]
+  const zweiEintraege = { '143270:crunchyroll': 'Grund', '149326:crunchyroll': 'Grund' }
+  pruefe('DD-01: Einträge mit genau einem Release im Bestand sind in Ordnung', anbieterEintragProbleme(beide, zweiEintraege).length === 0)
+  const nurLycoris = anbieterEintragProbleme([release('x', 143270)], zweiEintraege)
+  pruefe('DD-01: Eintrag ohne Release wird als tot gemeldet', nurLycoris.length === 1 && nurLycoris[0].includes('149326:crunchyroll') && nurLycoris[0].includes('tot'), nurLycoris)
+  pruefe('DD-01: leerer Bestand meldet beide Einträge', anbieterEintragProbleme([], zweiEintraege).length === 2)
+  pruefe('DD-01: gleiche Titelkennung auf anderer Plattform deckt den Eintrag nicht', anbieterEintragProbleme([release('x', 143270, 'netflix'), release('y', 149326)], zweiEintraege).length === 1)
+  pruefe('DD-01: ein erfundener Eintrag wird gemeldet, der echte nicht', anbieterEintragProbleme(beide, { '1:crunchyroll': 'Grund', '143270:crunchyroll': 'Grund' }).length === 1)
+  const zuWeit = anbieterEintragProbleme([release('a', 143270), release('b', 143270), release('c', 149326)], zweiEintraege)
+  pruefe('DD-01: Eintrag, der zwei Releases trifft, wird als zu weit gemeldet', zuWeit.length === 1 && zuWeit[0].includes('143270:crunchyroll') && zuWeit[0].includes('2 Releases'), zuWeit)
+  // Zwei Releases je Schlüssel, das zweite mit echter Verletzung: die Ausnahme deckt beide, deshalb muss der Wächter rot sein
+  const zweiCours = [release('cour-1', 143270), release('cour-2', 143270)]
+  const zweiEvents = [...[1, 2, 3].map((i) => termin('cour-1', i, `2022-07-0${i}`)), termin('cour-2', 1, '2022-08-20'), termin('cour-2', 2, '2022-08-06')]
+  pruefe('DD-01: die Ausnahme verdeckt die echte Verletzung des zweiten Releases', folgenDatumSteigt(zweiCours, zweiEvents, eintrag).length === 0 && folgenDatumSteigt(zweiCours, zweiEvents, {}).length === 1)
+  pruefe('DD-01: genau diese Lage meldet der Wächter', anbieterEintragProbleme(zweiCours, eintrag).length === 1)
 
   // DD-13: Boruto/The Last als „2 Folgen"
   const film = new Map<number, Title>([[1, titelMit({ id: 1, format: 'MOVIE', episodes: 1 })], [2, titelMit({ id: 2, format: 'ONA', episodes: 1 })]])
