@@ -6,7 +6,7 @@
 import { chromium } from 'playwright'
 import { belegAusschnitt } from './lib/beleg-bild.ts'
 import { sperreNetz } from '../tools/netz-sperre.mjs'
-import { fensterStart, terminMarken } from './lib/beleg-stelle.ts'
+import { fensterStart, terminMarken, verdecktesMarkieren } from './lib/beleg-stelle.ts'
 import { gruppenJeAdresse, suchbegriffeJeAdresse, tageJeAdresse, zuordnungFuerLesen, type BestandLeser } from './lib/beleg-suche.ts'
 import type { NewsEintrag, Release, Title } from '../shared/types.ts'
 
@@ -162,6 +162,39 @@ async function verschiebungsFall(): Promise<void> {
   pruefe('Verschiebung: Sammelartikel — der Titel mit Datum hat seine Marke, der ohne Datum im Text den Grund', typeof zwei === 'object' && Boolean(zwei.markierungen?.['1']) && !zwei.markierungen?.['2'] && zwei.ohneMarke?.['2'] === 'nicht-gefunden', JSON.stringify(typeof zwei === 'object' ? [zwei.markierungen, zwei.ohneMarke] : zwei))
 }
 
+/* anime2you (11.11.2026): Scroll-Sperre setzt `body` auf `position: fixed; overflow: hidden`, dann misst `documentElement.scrollHeight` nur das Fenster (900) statt des 55 000 px langen Artikels. */
+const VD_FUELLER = '<div style="height:1500px">Anderes Zeug.</div>'
+const VD_SPERRE = 'margin:0;position:fixed;width:100%;overflow-y:hidden'
+const vdSeite = (bodyStil: string, innen: string): string => `<!doctype html><html style="overflow-y:scroll"><body style="${bodyStil}"><article>${innen}</article></body></html>`
+const VD_ARTIKEL = `<p id="oben">Absatz oben.</p>${VD_FUELLER}<p id="unten">Zeile bei 1500 px mit dem Titel.</p>${VD_FUELLER}`
+
+async function verdecktFall(html: string): Promise<{ sh: number; oben: boolean; unten: boolean }> {
+  const browser = await chromium.launch()
+  const seite = await browser.newPage({ viewport: { width: 520, height: 900 } })
+  await sperreNetz(seite)
+  await seite.setContent(html)
+  await verdecktesMarkieren(seite)
+  const r = await seite.evaluate(() => ({
+    sh: document.documentElement.scrollHeight,
+    oben: document.getElementById('oben')!.hasAttribute('data-beleg-verdeckt'),
+    unten: document.getElementById('unten')!.hasAttribute('data-beleg-verdeckt'),
+  }))
+  await browser.close()
+  return r
+}
+
+async function verdecktFaelle(): Promise<void> {
+  const gesperrt = await verdecktFall(vdSeite(VD_SPERRE, VD_ARTIKEL))
+  pruefe('Verdeckt: Kulisse — scrollHeight von html entspricht dem Fenster, nicht dem Artikel', gesperrt.sh <= 900, String(gesperrt.sh))
+  pruefe('Verdeckt: bei scrollHeight = Fenster ist die Zeile bei 1500 px nicht verdeckt', !gesperrt.unten && !gesperrt.oben, JSON.stringify(gesperrt))
+  const normal = await verdecktFall(`<!doctype html><html><body style="margin:0"><article>${VD_ARTIKEL}</article></body></html>`)
+  pruefe('Verdeckt: normale Seite, nichts verdeckt', !normal.unten && !normal.oben, JSON.stringify(normal))
+  const ende = await verdecktFall(vdSeite('margin:0;position:fixed;width:100%;height:900px;overflow-y:hidden', '<p id="oben">Absatz oben.</p><p id="unten" style="position:absolute;top:5000px">Hinter dem Seitenende.</p>'))
+  pruefe('Verdeckt: hinter dem Seitenende (Body schneidet ab) bleibt verdeckt, der Absatz oben nicht', ende.unten && !ende.oben, JSON.stringify(ende))
+  const paywall = await verdecktFall(vdSeite(VD_SPERRE, `<div style="max-height:200px;overflow:hidden"><p id="oben">Sichtbarer Anriss.</p><div style="height:600px"></div><p id="unten">Hinter der Paywall.</p></div>${VD_FUELLER}`))
+  pruefe('Verdeckt: Paywall (Container mit festem Rand), der Absatz dahinter bleibt verdeckt, der Anriss nicht', paywall.unten && !paywall.oben, JSON.stringify(paywall))
+}
+
 /** Eine überholte Quelle nennt ihren alten Tag: Er gehört zu den Tagen ihrer Adresse, ein Text statt eines Tags nicht. */
 function sagtFaelle(): void {
   const alt = 'https://www.anime2you.de/news/1042244/x/'
@@ -187,5 +220,6 @@ await sammelartikelFall(0)
 await sammelartikelFall(2600)
 await einzelFall()
 await verschiebungsFall()
-console.log(fehler ? `✖ ${fehler} Verstöße` : '✔ Sammelartikel-Zuschnitt: Fenster, Meldungstitel und Marken je Titel in Ordnung')
+await verdecktFaelle()
+console.log(fehler ? `✖ ${fehler} Verstöße` : '✔ Sammelartikel-Zuschnitt: Fenster, Meldungstitel, Marken je Titel und verdeckte Zeilen (Scroll-Sperre, Seitenende, Paywall) in Ordnung')
 process.exit(fehler ? 1 : 0)

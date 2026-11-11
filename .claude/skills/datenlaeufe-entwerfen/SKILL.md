@@ -33,7 +33,7 @@ Dazu steht das Einreichen mit `if: always()` am Ende **jedes** Jobs: Ein hängen
 
 ## Vor jedem Push nach `.github/workflows/`
 
-1. `gh run list --status in_progress`: **Läuft ein Sammler, der noch einreichen muss, wird nicht gepusht** (aufgehoben ab Beleg, 07.11.2026: Zweig-Push mit App-Token, betrieb.md „Workflow-Sperre“; bis dahin gilt es). GitHub verweigert Zweigen mit abweichenden Workflow-Dateien den Push („refusing to allow
+1. `node tools/sammler-laeuft.mjs` (Exit 0 = kein Sammler läuft; Prüfkette, Prüfer, Deploy und Bestandsbau zählen nicht): **Läuft ein Sammler, der noch einreichen muss, wird nicht gepusht** (aufgehoben ab Beleg, 07.11.2026: Zweig-Push mit App-Token, betrieb.md „Workflow-Sperre“; bis dahin gilt es). GitHub verweigert Zweigen mit abweichenden Workflow-Dateien den Push („refusing to allow
    a GitHub App to create or update workflow …"); der Sammler verliert am letzten Schritt seine Arbeit. „Läufe nicht beenden" und „Workflow umbauen" schließen sich aus — dann vorher klären, nicht danach.
 2. `npm run check:workflows` **und** `npm run typecheck` (Wurzel). Ein Test, der den Worker importiert, bricht den Wurzel-Typecheck (Deploy zweimal rot).
 3. Nach dem Push einen Testlauf der kleinsten Variante (`workflow_dispatch`) und das Protokoll lesen, nicht nur die Farbe.

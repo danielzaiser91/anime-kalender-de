@@ -3,7 +3,7 @@
 // Nicht im Repo liegt `daniel-zum-abarbeiten/` (lokal ausgeschlossen): nicht geprüft.
 // Geprüft werden nur Repo-Pfade mit bekannter Wurzel. Ausdrücklich frei: Platzhalter (`NN-`),
 // Pfade außerhalb des Repos (`~/`, `C:/`), erzeugte/ignorierte Ordner (`data/cache/`, `node_modules/`, `dist/`).
-// Verboten bleibt `~/.claude/rules/` — dort liegt seit G4 nichts mehr, die Regeln stehen im Projekt.
+// Verboten bleiben `~/.claude/rules|agents|skills/` (auch als `C:/Users/<name>/.claude/…`): seit G4 liegt dort nichts mehr, alles steht im Projekt.
 const fs = require('node:fs')
 const path = require('node:path')
 
@@ -12,9 +12,6 @@ const FREI = /^(\.claude\/settings\.local\.json|data\/cache\/|node_modules\/|dis
 // Bekannte Funde in Dateien, die dieser PR nicht anfasst (Bauer/Prüfer/Delegieren: PRs 3248/3413/3414) oder die absichtlich
 // ein Gegenbeispiel zeigen; die Liste darf nur sinken: ein Eintrag, der nicht mehr zutrifft, macht die Prüfung rot.
 const BEKANNT = [
-  '.claude/agents/bauer.md: extension/pruefstand.json existiert nicht',
-  '.claude/agents/bauer.md: pipeline/bau/ausgabe-kennung.ts existiert nicht',
-  '.claude/agents/pruefer.md: tools/sammler-lesezugriffe.json existiert nicht',
   // Gegenbeispiele und erzeugte Listen (nur lokal vorhanden), absichtlich genannt:
   '.claude/skills/links-im-windows-client/SKILL.md: data/dub-batches.md existiert nicht',
   '.claude/skills/links-im-windows-client/SKILL.md: data/youtube-pruefliste.md existiert nicht',
@@ -24,7 +21,7 @@ const BEKANNT = [
 ]
 const ENDUNG = /\.(md|js|mjs|cjs|ts|tsx|json|jsonl|yaml|yml|sh|txt|css|html)$/
 const PFAD = /(?:^|[\s`'"(])((?:[\w.-]+\/)+[\w.-]+\/?|CLAUDE\.md|ARCHITEKTUR\.md)(?=$|[\s`'"):,;.])/g
-const GLOBAL_REGELN = /~\/\.claude\/rules\//
+const GLOBAL_REGELN = /(?:~|C:\/Users\/[\w.-]+)\/\.claude\/(rules|agents|skills)\//
 
 /** Repo-Pfade aus einem Text (ohne Zeilen-Suffix `:54`, ohne Platzhalter und Fremdpfade). */
 function findePfade(text) {
@@ -39,11 +36,12 @@ function findePfade(text) {
   return [...fund]
 }
 
-/** Je Datei: fehlende Repo-Pfade und verbotene `~/.claude/rules/`-Verweise. */
+/** Je Datei: fehlende Repo-Pfade und verbotene globale `~/.claude/(rules|agents|skills)/`-Verweise. */
 function pruefeDatei(wurzel, datei) {
   const text = fs.readFileSync(path.join(wurzel, datei), 'utf8')
   const fehler = []
-  if (GLOBAL_REGELN.test(text)) fehler.push(`${datei}: verweist auf ~/.claude/rules/ (leer seit G4, Regeln liegen in .claude/rules/)`)
+  const global = GLOBAL_REGELN.exec(text)
+  if (global) fehler.push(`${datei}: verweist auf ~/.claude/${global[1]}/ (leer seit G4, liegt in .claude/${global[1]}/)`)
   for (const p of findePfade(text)) {
     if (!fs.existsSync(path.join(wurzel, p))) fehler.push(`${datei}: ${p} existiert nicht`)
   }

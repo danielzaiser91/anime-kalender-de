@@ -2144,7 +2144,7 @@ Pendelte der Bestandsbau zwischen zwei Ständen (18./19.10.2026, 16 Wechsel zwis
 
 **Freigabe:** Der Bau liest den Unterordner nicht. `npx tsx pipeline/patchnotes-vorrat.ts frei <name>` verschiebt die Datei in `data/patchnotes/` und streicht `wartetAuf`/`seit`; der Tag des Eintrags ist der Tag des Commits, der die verschobene Datei anlegt, also der Freigabetag (Anlagetag wie überall, `--no-renames`; Test mit echtem git in `pipeline/check-patchnotes-vorrat.ts`). `liste` zeigt, was wartet. Freigeben darf, wer die Wirkung am Datensatz belegt hat (Datei in `public/data/` lesen), im Zweifel der tägliche Patch-Notes-Lauf.
 
-**Wache:** `tools/delta-pruefen.mjs` (täglich in `delta-wache.yml`) wird rot und nennt Name und Wartegrund, wenn ein Eintrag länger als `VORRAT_MAX_TAGE` (7) Tage im Vorrat liegt. Der Skill `patchnotes-autor` (nicht im Repo, `~/.claude/skills/`) kennt den Vorrat noch nicht: im täglichen Lauf `pipeline/patchnotes-vorrat.ts liste` mitlesen.
+**Wache:** `tools/delta-pruefen.mjs` (täglich in `delta-wache.yml`) wird rot und nennt Name und Wartegrund, wenn ein Eintrag länger als `VORRAT_MAX_TAGE` (7) Tage im Vorrat liegt. Der Skill `patchnotes-autor` (`.claude/skills/`, Schritt 2b) liest den Vorrat im täglichen Lauf mit `pipeline/patchnotes-vorrat.ts liste`.
 
 ## Sammelzug: Unter-PRs auf `zug`, main per Fast-Forward (06.11.2026, F105 = B)
 
