@@ -6,5 +6,7 @@
   "web-design-guidelines": "Fremdinhalt (Lizenz ungeklärt)",
   "playwright-cli": "Fremdinhalt (Playwright-CLI-Anleitung, Lizenz ungeklärt)",
   "menschlich-schreiben": "enthält Zitate aus einem echten Bewerbungsanschreiben (Bewerbungsdaten)",
-  "edge-browser": "enthält den Rechnernamen des Geräts (Gerätedaten)"
+  "edge-browser": "enthält den Rechnernamen des Geräts (Gerätedaten)",
+  "flux-bildgenerierung": "enthält Prompts und Abrechnung aus einem privaten Spielprojekt",
+  "bildprompts-schreiben": "verweist auf Notizen und Prompts eines privaten Serienprojekts"
 }
