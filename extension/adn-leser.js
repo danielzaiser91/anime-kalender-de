@@ -101,7 +101,7 @@
   }
 
   /**
-   * Eine einzelne `vde`-Folge mitten in einer Staffel, deren übrige Folgen (mindestens drei) alle nur `vostde` tragen, ist ein Fehler
+   * Eine einzelne `vde`-Folge mitten in einer Staffel, deren übrige Folgen (mindestens drei) alle eine Sprachangabe ohne `vde` tragen (vostde, auch vostf+vf), ist ein Fehler
    * in ADNs Katalogdaten: Demon Slave S1F6 (Video 24139) steht als `vde`, der Player bietet nur Japanisch (Daniel, 09.11.2026).
    * Im Archiv (274 Serien) trifft das drei Staffeln (GTO, Demon Slave, One Piece Wano) mit je genau einer `vde`-Folge; echte
    * Mischstaffeln haben 3 von 4 oder 12 von 13. Beginnt eine Staffel von höchstens 50 Folgen deutsch, bleibt sie unberührt (eine Vertonung fängt vorn an).
@@ -115,7 +115,8 @@
     }
     for (const liste of je.values()) {
       const ja = liste.filter((z) => z.tonDe === 'ja')
-      const nein = liste.filter((z) => z.tonDe === 'nein')
+      // nein = Sprachangabe da, aber kein vde: auch französisch vertonte Folgen (vostf+vf, One Piece Wano, 11.11.2026); leere Angabe = kein Urteil
+      const nein = liste.filter((z) => z.tonDe !== 'ja' && z.sprachen.length > 0)
       if (ja.length !== 1 || nein.length < 3 || nein.length + 1 !== liste.length) continue
       const beginntDeutsch = ja[0].nummer <= Math.min(...nein.map((z) => z.nummer))
       if (beginntDeutsch && liste.length <= 50) continue
