@@ -1,7 +1,7 @@
 {
   "482": {
     "offen": 25,
-    "grund": "kein TMDB-Eintrag (Abruf ausstehend oder TMDB kennt die Serie nicht), keine weitere erlaubte Quelle"
+    "grund": "TMDB-Serie 12536 (geprüft 11.11.2026) führt Folge 156 bis 180 nur mit englischen Titeln (deutsch gleich englisch); Folge 1 bis 155 stehen; keine weitere erlaubte Quelle"
   },
   "527": {
     "offen": 1,
@@ -17,7 +17,7 @@
   },
   "2994": {
     "offen": 2,
-    "grund": "kein TMDB-Eintrag (Abruf ausstehend oder TMDB kennt die Serie nicht), keine weitere erlaubte Quelle"
+    "grund": "TMDB kennt Death Note: Relight nicht (Serien-Suche am 11.11.2026 ohne Treffer, nur Death Note 2006 und Verfilmungen); keine weitere erlaubte Quelle"
   },
   "3972": {
     "offen": 38,
@@ -49,7 +49,7 @@
   },
   "98497": {
     "offen": 4,
-    "grund": "kein TMDB-Eintrag (Abruf ausstehend oder TMDB kennt die Serie nicht), keine weitere erlaubte Quelle"
+    "grund": "TMDB führt ihn als Film (movie/460398, geprüft 11.11.2026), ohne Folgenliste; die Teile haben dort keine eigenen Titel, keine weitere erlaubte Quelle"
   },
   "99088": {
     "offen": 8,
@@ -57,7 +57,7 @@
   },
   "99470": {
     "offen": 3,
-    "grund": "kein TMDB-Eintrag (Abruf ausstehend oder TMDB kennt die Serie nicht), keine weitere erlaubte Quelle"
+    "grund": "TMDB führt ihn als Film (movie/601980, geprüft 11.11.2026), ohne Folgenliste; die Teile haben dort keine eigenen Titel, keine weitere erlaubte Quelle"
   },
   "100665": {
     "offen": 10,
@@ -65,19 +65,19 @@
   },
   "101231": {
     "offen": 3,
-    "grund": "kein TMDB-Eintrag (Abruf ausstehend oder TMDB kennt die Serie nicht), keine weitere erlaubte Quelle"
+    "grund": "TMDB führt ihn als Film (movie/513347, geprüft 11.11.2026), ohne Folgenliste; die Teile haben dort keine eigenen Titel, keine weitere erlaubte Quelle"
   },
   "101471": {
-    "offen": 1,
-    "grund": "kein TMDB-Eintrag (Abruf ausstehend oder TMDB kennt die Serie nicht), keine weitere erlaubte Quelle"
+    "offen": 3,
+    "grund": "TMDB-Serie 78239 (geprüft 11.11.2026) führt Staffel 2 nur als „Folge N“ ohne deutschen Titel; keine weitere erlaubte Quelle"
   },
   "102498": {
     "offen": 6,
-    "grund": "kein TMDB-Eintrag (Abruf ausstehend oder TMDB kennt die Serie nicht), keine weitere erlaubte Quelle"
+    "grund": "TMDB-Serie 77529 (geprüft 11.11.2026) führt Staffel 2 nur als „Folge N“ ohne deutschen Titel; keine weitere erlaubte Quelle"
   },
   "103887": {
     "offen": 3,
-    "grund": "kein TMDB-Eintrag (Abruf ausstehend oder TMDB kennt die Serie nicht), keine weitere erlaubte Quelle"
+    "grund": "TMDB führt ihn als Film (movie/514710, geprüft 11.11.2026), ohne Folgenliste; die Teile haben dort keine eigenen Titel, keine weitere erlaubte Quelle"
   },
   "105096": {
     "offen": 15,
@@ -89,19 +89,19 @@
   },
   "108725": {
     "offen": 11,
-    "grund": "kein TMDB-Eintrag (Abruf ausstehend oder TMDB kennt die Serie nicht), keine weitere erlaubte Quelle"
+    "grund": "TMDB-Serie 83097 (geprüft 11.11.2026) führt Staffel 2 nur als „Folge N“ ohne deutschen Titel; keine weitere erlaubte Quelle"
   },
   "108972": {
     "offen": 3,
-    "grund": "kein TMDB-Eintrag; Crunchyroll-Archiv hat für diese Folgen keinen eindeutig zuzuordnenden deutschen Titel (Special oder Sonderstaffel)"
+    "grund": "kein TMDB-Eintrag; Crunchyroll de-DE führt von Space Dandy nur die 26 Hauptfolgen, das Picture Drama fehlt dort"
   },
   "109002": {
     "offen": 4,
-    "grund": "kein TMDB-Eintrag; Crunchyroll-Archiv hat für diese Folgen keinen eindeutig zuzuordnenden deutschen Titel (Special oder Sonderstaffel)"
+    "grund": "kein TMDB-Eintrag; Crunchyroll de-DE führt Code Geass nur als Lelouch of the Rebellion (Staffel 1 und R2, je 25 Folgen), zum Picture Drama von Akito 2 steht dort nichts"
   },
   "109085": {
     "offen": 5,
-    "grund": "kein TMDB-Eintrag; Crunchyroll-Archiv hat für diese Folgen keinen eindeutig zuzuordnenden deutschen Titel (Special oder Sonderstaffel)"
+    "grund": "kein TMDB-Eintrag; Crunchyroll de-DE führt nur Cells at Work! (14 Folgen) und Cells at Work!! (8), keine der 5 Special-Folgen ist einer dieser Folgen eindeutig zuzuordnen"
   },
   "109217": {
     "offen": 4,
@@ -113,15 +113,11 @@
   },
   "110686": {
     "offen": 9,
-    "grund": "kein TMDB-Eintrag (Abruf ausstehend oder TMDB kennt die Serie nicht), keine weitere erlaubte Quelle"
+    "grund": "TMDB-Serie 84646 (geprüft 11.11.2026) führt Folge 16 bis 24 nur als „Folge N“ ohne deutschen Titel; keine weitere erlaubte Quelle"
   },
   "112153": {
     "offen": 5,
     "grund": "TMDB führt für die Folgen 119, 121, 126, 128 und 131 nur Platzhalter („Folge N\"); keine weitere erlaubte Quelle"
-  },
-  "113917": {
-    "offen": 3,
-    "grund": "kein TMDB-Eintrag; Crunchyroll-Archiv hat für diese Folgen keinen eindeutig zuzuordnenden deutschen Titel (Special oder Sonderstaffel)"
   },
   "116673": {
     "offen": 3,
@@ -145,11 +141,11 @@
   },
   "132477": {
     "offen": 13,
-    "grund": "kein TMDB-Eintrag (Abruf ausstehend oder TMDB kennt die Serie nicht), keine weitere erlaubte Quelle"
+    "grund": "TMDB-Serie 83248 (geprüft 11.11.2026) führt Staffel 2 nur als „Folge N“ ohne deutschen Titel; keine weitere erlaubte Quelle"
   },
   "135255": {
     "offen": 3,
-    "grund": "kein TMDB-Eintrag; Crunchyroll-Archiv hat für diese Folgen keinen eindeutig zuzuordnenden deutschen Titel (Special oder Sonderstaffel)"
+    "grund": "kein TMDB-Eintrag; Crunchyroll de-DE führt Crown Handler als vier Teile „I“ bis „IV“ (nur I und II deutsch, Titel nur das Zahlzeichen); unser Titel (Kapitel 1) hat 3 Folgen, keine eindeutige Zuordnung"
   },
   "135429": {
     "offen": 8,
@@ -169,7 +165,7 @@
   },
   "148149": {
     "offen": 2,
-    "grund": "kein TMDB-Eintrag (Abruf ausstehend oder TMDB kennt die Serie nicht), keine weitere erlaubte Quelle"
+    "grund": "TMDB führt ihn als Film (movie/968868, geprüft 11.11.2026), ohne Folgenliste; die Teile haben dort keine eigenen Titel, keine weitere erlaubte Quelle"
   },
   "153906": {
     "offen": 6,
@@ -177,7 +173,7 @@
   },
   "154982": {
     "offen": 5,
-    "grund": "kein TMDB-Eintrag (Abruf ausstehend oder TMDB kennt die Serie nicht), keine weitere erlaubte Quelle"
+    "grund": "TMDB-Serie 112160 (geprüft 11.11.2026) führt Staffel 2 nur als „Folge N“ ohne deutschen Titel; keine weitere erlaubte Quelle"
   },
   "160389": {
     "offen": 12,
@@ -186,10 +182,6 @@
   "163137": {
     "offen": 10,
     "grund": "TMDB führt nur Platzhalter („Folge N\", englisch gleich); keine weitere erlaubte Quelle"
-  },
-  "163327": {
-    "offen": 2,
-    "grund": "kein TMDB-Eintrag; Crunchyroll-Archiv hat für diese Folgen keinen eindeutig zuzuordnenden deutschen Titel (Special oder Sonderstaffel)"
   },
   "165159": {
     "offen": 1,
@@ -201,23 +193,19 @@
   },
   "176298": {
     "offen": 13,
-    "grund": "kein TMDB-Eintrag; Crunchyroll-Archiv hat für diese Folgen keinen eindeutig zuzuordnenden deutschen Titel (Special oder Sonderstaffel)"
+    "grund": "kein TMDB-Eintrag; Crunchyroll de-DE (Serie G79H23ZGP, Staffel 2) trägt für alle 13 Folgen nur „Episode N“ als Titel"
   },
   "176317": {
     "offen": 4,
-    "grund": "kein TMDB-Eintrag; Crunchyroll-Archiv hat für diese Folgen keinen eindeutig zuzuordnenden deutschen Titel (Special oder Sonderstaffel)"
+    "grund": "kein TMDB-Eintrag; Crunchyroll de-DE führt nur den Film „BLUE LOCK THE MOVIE -EPISODE NAGI-“ (1 Folge), unser Special hat 4 Folgen, keine eindeutige Zuordnung"
   },
   "177106": {
     "offen": 8,
     "grund": "TMDB führt nur Platzhalter („Folge N\", englisch gleich); keine weitere erlaubte Quelle"
   },
-  "177191": {
-    "offen": 2,
-    "grund": "kein TMDB-Eintrag; Crunchyroll-Archiv hat für diese Folgen keinen eindeutig zuzuordnenden deutschen Titel (Special oder Sonderstaffel)"
-  },
   "178083": {
     "offen": 2,
-    "grund": "kein TMDB-Eintrag (Abruf ausstehend oder TMDB kennt die Serie nicht), keine weitere erlaubte Quelle"
+    "grund": "TMDB-Serie 105009 (geprüft 11.11.2026) führt Folge 51 und 52 nur als „Folge N“ ohne deutschen Titel; keine weitere erlaubte Quelle"
   },
   "180436": {
     "offen": 2,
@@ -225,7 +213,7 @@
   },
   "181244": {
     "offen": 2,
-    "grund": "kein TMDB-Eintrag; Crunchyroll-Archiv hat für diese Folgen keinen eindeutig zuzuordnenden deutschen Titel (Special oder Sonderstaffel)"
+    "grund": "kein TMDB-Eintrag; Crunchyroll de-DE führt unter „OVAs“ nur die 2 älteren OVAs (2017), Staffel 3 hat keine deutsche Fassung; die Bonus Stage ist dort nicht zu finden"
   },
   "184492": {
     "offen": 1,
@@ -236,20 +224,20 @@
     "grund": "TMDB hat für diese Folgen nur Platzhalter (25 von 25 Einträgen mit Titel)"
   },
   "185874": {
-    "offen": 8,
-    "grund": "kein TMDB-Eintrag (Abruf ausstehend oder TMDB kennt die Serie nicht), keine weitere erlaubte Quelle"
+    "offen": 1,
+    "grund": "Folge 8: TMDB-Serie 30984 führt Staffel 2 Folge 48 nur als „Folge 48“; keine weitere erlaubte Quelle"
   },
   "187055": {
     "offen": 12,
-    "grund": "kein TMDB-Eintrag (Abruf ausstehend oder TMDB kennt die Serie nicht), keine weitere erlaubte Quelle"
+    "grund": "TMDB führt „Sylvanian Families: Mini Animations“ (Serie 290100, 14 Folgen, nur „Folge N“); sie ist Peony (12 Folgen) nicht eindeutig zuzuordnen; keine weitere erlaubte Quelle"
   },
   "188055": {
     "offen": 1,
-    "grund": "kein TMDB-Eintrag (Abruf ausstehend oder TMDB kennt die Serie nicht), keine weitere erlaubte Quelle"
+    "grund": "Folge 26: TMDB-Serie 45039 führt Staffel 2 Folge 26 nur als „Folge 26“ (englisch „Hana's Special Day“); keine weitere erlaubte Quelle"
   },
   "189123": {
-    "offen": 6,
-    "grund": "kein TMDB-Eintrag (Abruf ausstehend oder TMDB kennt die Serie nicht), keine weitere erlaubte Quelle"
+    "offen": 1,
+    "grund": "Folge 6: TMDB-Serie 207347 führt Folge 31 (Staffel 1 durchgezählt) nur als „Folge 31“; keine weitere erlaubte Quelle"
   },
   "195539": {
     "offen": 10,
@@ -269,14 +257,14 @@
   },
   "209872": {
     "offen": 4,
-    "grund": "kein TMDB-Eintrag (Abruf ausstehend oder TMDB kennt die Serie nicht), keine weitere erlaubte Quelle"
+    "grund": "TMDB-Serie 259140 (geprüft 11.11.2026) führt Folge 25 bis 28 nur als „Folge N“ ohne deutschen Titel; keine weitere erlaubte Quelle"
   },
   "212799": {
     "offen": 2,
     "grund": "TMDB hat für diese Folgen nur Platzhalter (3 von 20 Einträgen mit Titel)"
   },
   "213805": {
-    "offen": 6,
-    "grund": "kein TMDB-Eintrag (Abruf ausstehend oder TMDB kennt die Serie nicht), keine weitere erlaubte Quelle"
+    "offen": 1,
+    "grund": "Folge 2: TMDB-Serie 283428 führt Folge 16 als „Stop and Go“, gleich dem englischen Titel; keine weitere erlaubte Quelle"
   }
 }
