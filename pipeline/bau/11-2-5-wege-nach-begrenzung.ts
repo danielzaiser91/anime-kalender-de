@@ -48,8 +48,7 @@ export function mitStaffelTreffer(jw: Record<string, JwEintrag>, titles: Readonl
   const zaehler = zaehleTitelJeJwFolgen(titles.values(), jw)
   for (const [id, e] of Object.entries(jw)) {
     const staffeln = e.staffeln ?? []
-    /* Ein westlicher Titel (Cartoon) ist die ganze Serie mit allen Staffeln: jede Staffel mit dem Angebot genügt (M.A.S.K.: Aniverse nur in Staffel 1). */
-    if (staffeln.length < 2 || titles.get(Number(id))?.westlich) {
+    if (staffeln.length < 2) {
       out[id] = e
       continue
     }

@@ -53,20 +53,16 @@ const jw = {
   3: serie('ts3', [12, [cr, kanal]], [24, []]),
   4: serie('ts4', [13, [cr, kanal]], [24, []]),
   5: serie('ts5', [12, [crAndereAdresse]], [24, [crAndereAdresse]]),
-  6: serie('ts6', [30, [cr]], [40, [kanal]]),
-  7: serie('ts7', [30, [cr]], [40, [kanal]]),
   8: serie('ts8', [12, [cr]], [12, [crAndereAdresse]]),
 }
-const titles = new Map([1, 2, 3, 4, 5, 6, 7, 8].map((id) => [id, id === 6 ? ({ ...titel(id, 99), westlich: true } as Title) : titel(id, id === 5 ? 24 : id === 7 ? 99 : 12)] as const))
+const titles = new Map([1, 2, 3, 4, 5, 8].map((id) => [id, titel(id, id === 5 ? 24 : 12)] as const))
 const aus = mitStaffelTreffer(jw as never, titles)
 const namen = (id: number) => (aus[String(id)].angebote ?? []).map((a) => a.anbieter).join(',')
 pruefe('Titel 3 (12 Folgen, einzige Staffel mit 12): Angebote bleiben', namen(3) === 'Crunchyroll,Crunchyroll Amazon Channel', namen(3))
 pruefe('Titel 1 und 2 teilen Serie und Folgenzahl: keine Staffel, Angebote fallen (nicht jede Staffel führt sie)', namen(1) === '' && namen(2) === '', [namen(1), namen(2)])
 pruefe('Titel 4 (12 Folgen, keine Staffel mit 12): Angebote fallen', namen(4) === '', namen(4))
 pruefe('Titel 5 (24 Folgen, Staffel 2 führt Crunchyroll unter anderer Adresse, beide Staffeln): Angebot bleibt', namen(5) === 'Crunchyroll', namen(5))
-pruefe('westlicher Titel (ganze Serie): beide Angebote bleiben, auch wenn jede nur an einer Staffel hängt', namen(6) === 'Crunchyroll,Crunchyroll Amazon Channel', namen(6))
 pruefe('beide Staffeln führen Crunchyroll unter je eigener Adresse (Gundam 00, Isekai Quartet): Crunchyroll bleibt, der Kanal fällt', namen(8) === 'Crunchyroll', namen(8))
-pruefe('derselbe Fall ohne westlich: beide fallen (Kontrolle)', namen(7) === '', namen(7))
 
 console.log(verletzt ? `\n${verletzt} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(verletzt ? 1 : 0)
