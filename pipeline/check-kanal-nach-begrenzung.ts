@@ -16,6 +16,7 @@ import type { Title } from '../shared/types.ts'
 const CR = (id: number) => `https://www.crunchyroll.com/de/series/GTEST${id}/geraten`
 const GTI = (id: number) => `https://watch.amazon.de/detail?gti=amzn1.dv.gti.kanal-${id}`
 const kanal = (id: number) => ({ anbieter: 'Crunchyroll Amazon Channel', art: 'FLATRATE', audio: ['de', 'en', 'ja'], url: GTI(id) })
+const disc = (id: number) => ({ anbieter: 'Thalia', art: 'BUY', audio: [], url: `https://www.thalia.de/shop/home/artikeldetails/A${id}` })
 const plain = (id: number) => ({ anbieter: 'Crunchyroll', art: 'FLATRATE', audio: [], url: `https://www.crunchyroll.com/watch/GPLAIN${id}` })
 
 /** Ab 10.000.000 stehen aniSearch-Titel: dort entfernt die Begrenzung jeden Stream ohne Handbeleg. */
@@ -28,6 +29,11 @@ const HAND_NEIN = 10_000_505
 const LINK_TOT = 10_000_508
 /** Hatte einen Stream und bekam in der ersten Runde schon Wege (fünf Angebote, ein Kanal): der zweite Durchgang legt nichts dazu. */
 const BEHALTEN = 9_000_506
+/** aniSearch-Titel mit Netflix-Stream: nur die Begrenzung entfernt ihn (die Bereinigung lässt ihn stehen), das prüft die Reihenfolge im Abschluss. */
+const NUR_BEGRENZUNG = 10_000_511
+/** Zwei Staffeln: der Kanal steht unter beiden / nur unter Staffel 2 (Anlass Goblin Slayer 101165, Staffel 1 ohne Angebote). */
+const STAFFEL_BEIDE = 10_000_509
+const STAFFEL_ANDERE = 10_000_510
 
 const ANBIETER = ['Alpha Stream', 'Beta Stream', 'Gamma Stream', 'Delta Stream', 'Epsilon Stream']
 const fuenf = ANBIETER.map((anbieter, i) => ({ anbieter, art: 'FLATRATE', audio: ['de'], url: `https://www.example-${i}.de/titel/${BEHALTEN}` }))
@@ -40,6 +46,9 @@ const JW = {
   [LINK_TOT]: { angebote: [kanal(LINK_TOT)] },
   [HAND_NEIN]: { angebote: [plain(HAND_NEIN)] },
   [BEHALTEN]: { angebote: [kanal(BEHALTEN), ...fuenf] },
+  [NUR_BEGRENZUNG]: { angebote: [kanal(NUR_BEGRENZUNG)] },
+  [STAFFEL_BEIDE]: { angebote: [kanal(STAFFEL_BEIDE)], staffeln: [{ nr: 1, angebote: [kanal(STAFFEL_BEIDE)] }, { nr: 2, angebote: [kanal(STAFFEL_BEIDE)] }] },
+  [STAFFEL_ANDERE]: { angebote: [kanal(STAFFEL_ANDERE), disc(STAFFEL_ANDERE)], staffeln: [{ nr: 1, angebote: [] }, { nr: 2, angebote: [kanal(STAFFEL_ANDERE)] }] },
 }
 
 type Zeile = [number, string[], string[]]
@@ -55,6 +64,9 @@ async function kind(): Promise<void> {
     [MEHRDEUTIG, titel(MEHRDEUTIG, geraten(MEHRDEUTIG))],
     [TOT, titel(TOT, geraten(TOT))],
     [LINK_TOT, titel(LINK_TOT, [])],
+    [NUR_BEGRENZUNG, titel(NUR_BEGRENZUNG, [{ platform: 'netflix', url: 'https://www.netflix.com/title/81000011' }])],
+    [STAFFEL_BEIDE, titel(STAFFEL_BEIDE, geraten(STAFFEL_BEIDE))],
+    [STAFFEL_ANDERE, titel(STAFFEL_ANDERE, geraten(STAFFEL_ANDERE))],
     [HAND_NEIN, titel(HAND_NEIN, geraten(HAND_NEIN))],
     [BEHALTEN, titel(BEHALTEN, [{ platform: 'netflix', url: 'https://www.netflix.com/title/81000000' }])],
   ])
@@ -115,11 +127,16 @@ if (process.argv[2] === '--kind') {
   pruefe('Titel ohne Stream von Anfang an: derselbe Weg, genau einmal (erste Runde)', wege(OHNE_STREAM) === kanalWeg, erg)
   pruefe('mehrdeutige TMDB-Zuordnung: kein Weg', wege(MEHRDEUTIG) === '[]', erg)
   pruefe('tote Adresse: kein Weg', wege(TOT) === '[]', erg)
+  pruefe('Stream fällt erst durch die Begrenzung (nicht durch die Bereinigung): der Kanal-Weg kommt danach (Reihenfolge im Abschluss)', wege(NUR_BEGRENZUNG) === kanalWeg && von(NUR_BEGRENZUNG)?.[1].length === 0, erg)
+  pruefe('zwei Staffeln, Kanal unter beiden: Weg bleibt', wege(STAFFEL_BEIDE) === kanalWeg, erg)
+  pruefe('zwei Staffeln, Kanal nur unter Staffel 2 (Goblin Slayer, Staffel 1): nur der Disc-Händler (Kauf), kein Kanal', wege(STAFFEL_ANDERE) === '["Thalia|buy"]', erg)
   pruefe('Titel ohne Stream, dessen Weg die Linkprüfung entfernt hat: der zweite Durchgang bringt ihn nicht zurück', wege(LINK_TOT) === '[]', erg)
   pruefe('Nein-Handbeleg für Crunchyroll: kein Weg', wege(HAND_NEIN) === '[]', erg)
   const alle = ANBIETER.map((a) => `${a}|stream`)
   pruefe('Titel, dessen erste Runde schon Wege lieferte: der zweite Durchgang legt nichts dazu (kein Kanal)', wege(BEHALTEN) === JSON.stringify(alle), erg)
-  pruefe('zweiter Abschluss-Lauf ändert nichts', JSON.stringify(erg?.zweiter) === JSON.stringify(erg?.erster), erg)
+  /* Ausnahme STAFFEL_ANDERE: im zweiten Lauf ohne Stream fällt der Titel in die erste Runde (`ergaenzeWegeOhneWeg`), die Staffeln nicht kennt; der Bau läuft nur einmal je Stand. */
+  const ohneAndere = (z?: Zeile[]) => JSON.stringify(z?.filter(([i]) => i !== STAFFEL_ANDERE))
+  pruefe('zweiter Abschluss-Lauf ändert nichts', ohneAndere(erg?.zweiter) === ohneAndere(erg?.erster), erg)
 }
 
 console.log(verletzt ? `\n${verletzt} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
