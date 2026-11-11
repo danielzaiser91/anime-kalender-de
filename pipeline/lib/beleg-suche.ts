@@ -11,11 +11,18 @@ function titelJeAdresseAusNews(news: NewsEintrag[]): Map<string, Map<number, str
   return je
 }
 
+/** Der japanische Name und sein Kopf vor dem ersten Leerzeichen („東京リベンジャーズ 三天戦争編" → „東京リベンジャーズ"): Offizielle Seiten nennen den Titel nur so (Tokyo Revengers, tokyo-revengers-anime.com/news/archives/4935). */
+function nativeNamen(native: string | undefined): string[] {
+  if (!native) return []
+  const kopf = native.split(/\s+/)[0]!
+  return [native, ...(kopf.length >= 5 ? [kopf] : [])]
+}
+
 /** Die Namen eines Titels, den nur eine Meldung mit der Adresse verbindet (`name` ist der Teilname der Meldung, sonst der Titel); dazu der Kopf vor dem Doppelpunkt wie bei Terminen (Girls und Panzer: „… OVA – …"). */
 function namenAusNews(name: string, t: Title | undefined): string[] {
   const namen = [name, t?.titleDe, t?.titleEn, t?.titleRomaji].filter((n): n is string => Boolean(n))
   const koepfe = namen.map((n) => n.split(':')[0]!.trim()).filter((k) => k.length >= 5)
-  return [...new Set([...namen, ...koepfe])]
+  return [...new Set([...namen, ...koepfe, ...nativeNamen(t?.titleNative)])]
 }
 
 /**
@@ -27,7 +34,7 @@ export function suchbegriffeJeAdresse(releases: Release[], titles: Title[], news
   const je = new Map<string, Set<string>>()
   for (const r of releases) {
     const t = nachId.get(r.titleId)
-    const namen = [r.name, t?.titleDe, t?.titleEn, t?.titleRomaji].filter((n): n is string => Boolean(n))
+    const namen = [r.name, t?.titleDe, t?.titleEn, t?.titleRomaji, ...nativeNamen(t?.titleNative)].filter((n): n is string => Boolean(n))
     const urls = new Set([...(r.sources ?? []), ...(r.quellen ?? []).map((q) => q.url)])
     for (const url of urls) {
       const menge = je.get(url) ?? new Set<string>()
@@ -79,7 +86,7 @@ export function gruppenJeAdresse(releases: Release[], titles: Title[], news: New
     for (const url of urls) {
       const gruppen = je.get(url) ?? new Map()
       const g = gruppen.get(r.titleId) ?? { namen: new Set<string>(), tage: new Set<string>() }
-      for (const n of [r.name, t?.titleDe, t?.titleEn, t?.titleRomaji]) {
+      for (const n of [r.name, t?.titleDe, t?.titleEn, t?.titleRomaji, ...nativeNamen(t?.titleNative)]) {
         if (!n) continue
         g.namen.add(n)
         const kopf = n.split(':')[0]!.trim()
