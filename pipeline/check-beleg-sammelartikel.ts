@@ -100,6 +100,24 @@ function newsFaelle(): void {
   pruefe('Suchbegriffe: ohne Meldungen fehlt er', !(suchbegriffeJeAdresse([release], titles).get(url) ?? []).includes('Psyren'))
 }
 
+/** Meldung zu einem Teil (`teil`, `teilId`): Der Artikel nennt den Teil, nicht den Reihentitel (A Certain Dark Item; Girls und Panzer: „… OVA – …"). */
+function teilFaelle(): void {
+  const url = 'https://www.anime2you.de/news/1/'
+  const meldung = (teilId: number, teil?: string) => ({ teilId, ...(teil ? { teil } : {}), quelle: url })
+  const news = [
+    { am: '2026-09-30', titelId: 4654, titel: 'A Certain Magical Index', slug: 'a', meldungen: [meldung(186742, 'A Certain Dark Item')] },
+    { am: '2026-09-30', titelId: 14131, titel: 'Girls & Panzer', slug: 'g', meldungen: [meldung(18619)] },
+  ] as unknown as NewsEintrag[]
+  const titles = [{ id: 18619, titleDe: 'Girls & Panzer: This Is the Real Anzio Battle!', titleEn: 'Girls und Panzer: This is the Real Anzio Battle!' }] as unknown as Title[]
+  const g = gruppenJeAdresse([], titles, news).get(url) ?? []
+  const namen = (id: number): string[] => g.find((x) => x.id === id)?.suchen ?? []
+  pruefe('Teil: der Teilname der Meldung steht in den Suchnamen', namen(186742).includes('A Certain Dark Item'))
+  pruefe('Teil: ohne Teilname bleibt der Titel der Meldung', namen(18619).includes('Girls & Panzer') && !namen(186742).includes('A Certain Magical Index'))
+  pruefe('Teil: der Kopf vor dem Doppelpunkt steht darin (Artikel „Girls und Panzer OVA – …")', namen(18619).includes('Girls und Panzer'))
+  pruefe('Teil: jeder Name nur einmal', new Set(namen(18619)).size === namen(18619).length)
+  pruefe('Teil: auch die Suchbegriffe tragen den Teilnamen', (suchbegriffeJeAdresse([], titles, news).get(url) ?? []).includes('A Certain Dark Item'))
+}
+
 /** Ein Artikel für einen Titel bleibt bei Fenster 3600 und doppelter Auflösung: Liegt die Fundstelle 4600 px unter dem Kopf, beginnt das Bild 500 px davor (Marke weit unten). */
 async function einzelFall(): Promise<void> {
   const browser = await chromium.launch()
@@ -216,6 +234,7 @@ function sagtFaelle(): void {
 fensterFaelle()
 sagtFaelle()
 newsFaelle()
+teilFaelle()
 await sammelartikelFall(0)
 await sammelartikelFall(2600)
 await einzelFall()
