@@ -66,7 +66,8 @@ function stand(wurzel) {
 function lauf(befehl, args, cwd, env = process.env) {
   const shell = befehl === 'npm' && process.platform === 'win32'
   return new Promise((fertig) => {
-    const kind = shell ? spawn([befehl, ...args].join(' '), { cwd, shell, env }) : spawn(befehl, args, { cwd, env })
+    const optionen = { cwd, env }
+    const kind = shell ? spawn([befehl, ...args].join(' '), { ...optionen, shell }) : spawn(befehl, args, optionen)
     let aus = ''
     kind.stdout.on('data', (d) => (aus += d))
     kind.stderr.on('data', (d) => (aus += d))

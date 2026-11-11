@@ -60,13 +60,8 @@
     "tests": ["node tools/pr-bestand-vergleich.test.mjs"]
   },
   {
-    "name": "Vergleich: Umgebung nicht an npm (Windows-Zweig)",
-    "aenderungen": [{ "datei": "tools/pr-bestand-vergleich.mjs", "suche": "{ cwd, shell, env }", "ersetze": "{ cwd, shell }" }],
-    "tests": ["node tools/pr-bestand-vergleich.test.mjs"]
-  },
-  {
-    "name": "Vergleich: Umgebung nicht an node/npm (Zweig ohne Shell)",
-    "aenderungen": [{ "datei": "tools/pr-bestand-vergleich.mjs", "suche": "spawn(befehl, args, { cwd, env })", "ersetze": "spawn(befehl, args, { cwd })" }],
+    "name": "Vergleich: Umgebung nicht an Kindprozesse (beide Zweige, Shell und ohne)",
+    "aenderungen": [{ "datei": "tools/pr-bestand-vergleich.mjs", "suche": "const optionen = { cwd, env }", "ersetze": "const optionen = { cwd }" }],
     "tests": ["node tools/pr-bestand-vergleich.test.mjs"]
   },
   { "name": "Kontrolle ohne Änderung", "aenderungen": [], "tests": ["node tools/pr-bestand-vergleich.test.mjs"] }
