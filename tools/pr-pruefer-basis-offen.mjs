@@ -6,14 +6,25 @@
  *    „nicht beurteilt“ wertet; der Neustart nach grüner Kette steht in tools/pr-pruefer-nach-kette.mjs.
  * Nur Node-Bordmittel.
  */
-const BASIS = /(?:mergen|erst)\s+nach\s+(?:PR\s*)?#?(\d+)/i
+// „#“ oder „PR“ ist Pflicht: „erst nach 5 Minuten“ ist kein Hinweis.
+const BASIS = /(?:mergen|erst)\s+nach\s+(?:PR\s*#?|#)(\d+)/i
+
+/** Text ohne Codeblöcke, Inline-Code und Zitatzeilen: dort steht oft ein Beispielhinweis, kein echter. */
+function ohneZitate(text) {
+  return String(text ?? '')
+    .replace(/```[\s\S]*?(```|$)/g, '')
+    .replace(/`[^`\n]*`/g, '')
+    .split('\n')
+    .filter((z) => !z.trimStart().startsWith('>'))
+    .join('\n')
+}
 
 /** Zeilenanfang der Kopfzeile in kettenlog.txt; die Marke im Kommentar bleibt die der unfertigen Kette. */
 export const BASIS_OFFEN_ZEILE = 'BASIS OFFEN: PR #'
 
 /** Nummer des Basis-PR aus der Beschreibung oder null. */
 export function basisNummer(text) {
-  const m = BASIS.exec(String(text ?? ''))
+  const m = BASIS.exec(ohneZitate(text))
   return m ? Number(m[1]) : null
 }
 

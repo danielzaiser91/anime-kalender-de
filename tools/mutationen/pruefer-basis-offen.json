@@ -60,6 +60,46 @@
     "tests": ["node tools/pr-pruefer-basis-offen.test.mjs"]
   },
   {
+    "name": "yml: Basis-Titel nie gesetzt",
+    "aenderungen": [{ "datei": ".github/workflows/pr-pruefer.yml", "suche": "              basis_offen=1\n", "ersetze": "              basis_offen=0\n" }],
+    "tests": ["node tools/pr-pruefer-freigabe.test.mjs"]
+  },
+  {
+    "name": "yml: Basiszeile wird nicht erkannt",
+    "aenderungen": [{ "datei": ".github/workflows/pr-pruefer.yml", "suche": "grep -q '^BASIS OFFEN: PR #'", "ersetze": "grep -q '^NIE: PR #'" }],
+    "tests": ["node tools/pr-pruefer-freigabe.test.mjs"]
+  },
+  {
+    "name": "yml: Basis-Hinweis ohne Kennzeichnung ungeprüft",
+    "aenderungen": [{ "datei": ".github/workflows/pr-pruefer.yml", "suche": "hinweis='Ungeprüft, Basis offen: Der Basis-PR", "ersetze": "hinweis='Der Basis-PR" }],
+    "tests": ["node tools/pr-pruefer-freigabe.test.mjs"]
+  },
+  {
+    "name": "yml: Basis-Fall behält den Selbststart-Satz",
+    "aenderungen": [{ "datei": ".github/workflows/pr-pruefer.yml", "suche": "              basis_offen=1\n", "ersetze": "              basis_offen=1\n              hinweis=\"$hinweis Der Prüfer startet nach Kettenende von selbst neu.\"\n" }],
+    "tests": ["node tools/pr-pruefer-freigabe.test.mjs"]
+  },
+  {
+    "name": "basisNummer: „#“ oder „PR“ nicht mehr Pflicht",
+    "aenderungen": [{ "datei": "tools/pr-pruefer-basis-offen.mjs", "suche": "(?:PR\\s*#?|#)(\\d+)", "ersetze": "(?:PR\\s*#?|#)?(\\d+)" }],
+    "tests": ["node tools/pr-pruefer-basis-offen.test.mjs"]
+  },
+  {
+    "name": "ohneZitate: Zitatzeilen zählen mit",
+    "aenderungen": [{ "datei": "tools/pr-pruefer-basis-offen.mjs", "suche": ".filter((z) => !z.trimStart().startsWith('>'))", "ersetze": ".filter(() => true)" }],
+    "tests": ["node tools/pr-pruefer-basis-offen.test.mjs"]
+  },
+  {
+    "name": "ohneZitate: Codeblöcke zählen mit",
+    "aenderungen": [{ "datei": "tools/pr-pruefer-basis-offen.mjs", "suche": ".replace(/```[\\s\\S]*?(```|$)/g, '')", "ersetze": "" }],
+    "tests": ["node tools/pr-pruefer-basis-offen.test.mjs"]
+  },
+  {
+    "name": "ohneZitate: Inline-Code zählt mit",
+    "aenderungen": [{ "datei": "tools/pr-pruefer-basis-offen.mjs", "suche": ".replace(/`[^`\\n]*`/g, '')", "ersetze": "" }],
+    "tests": ["node tools/pr-pruefer-basis-offen.test.mjs"]
+  },
+  {
     "name": "Kontrolle unmutiert",
     "aenderungen": [],
     "tests": ["node tools/pr-pruefer-basis-offen.test.mjs", "node tools/pr-pruefer-freigabe.test.mjs"]
