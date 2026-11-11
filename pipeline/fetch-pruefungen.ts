@@ -25,9 +25,9 @@ import {
   begrenzeAufFolgenzahl,
   bildeBereiche,
   ordneNachStaffelliste,
-  verteileAufStaffeln,
   type Staffeleintrag,
 } from './lib/folgenbereiche.ts'
+import { bereicheDerStaffel } from './lib/meldungen-bereiche.ts'
 import { leseAnbieterStaffeln, summeFuerGruppe } from './lib/staffelsumme-gruppe.ts'
 import { ergaenzeUmEntfernte, mitEntfernten, staffelnMitAdresse } from './lib/entfernte-verweise.ts'
 import { log, ROOT, warn } from './lib/util.ts'
@@ -998,10 +998,7 @@ for (const gruppe of jeAdresse.values()) {
       if (!meldungen?.length) continue
       eigene = bildeBereiche(meldungen).bereiche
     } else if (verteilbar) {
-      eigene = bereiche
-        .flatMap((b) => verteileAufStaffeln(b, staffeln))
-        .filter((v) => v.staffel.id === id)
-        .map((v) => ({ von: v.von, bis: v.bis, dub: v.dub, belegt: [] as number[] }))
+      eigene = bereicheDerStaffel(bereiche, staffeln, id)
       // Keine geprüfte Folge in dieser Staffel — dann gibt es auch nichts zu
       // melden. Schweigen ist hier die richtige Antwort.
       if (!eigene.length) continue
