@@ -37,7 +37,16 @@ export function schrumpftZuStark(alt: number, neu: number): boolean {
   return alt > 0 && (alt - neu) / alt > SCHWUND_GRENZE
 }
 
-/** Der neue Katalog mit Ablauffrist, der fortgeschriebene Zähler und die Zeilen für das Laufprotokoll. */
+/** Wie viele Serien des alten Katalogs im neuen fehlen (brutto: Zugänge verdecken nichts). */
+function verloren<T extends { showId: number }>(alt: T[], shows: T[]): number {
+  const da = new Set(shows.map((s) => s.showId))
+  return alt.filter((s) => !da.has(s.showId)).length
+}
+
+/**
+ * Der neue Katalog mit Ablauffrist, der fortgeschriebene Zähler und die Zeilen für das Laufprotokoll. Verlöre er brutto mehr als `SCHWUND_GRENZE`
+ * (`rot`), wird nichts gestrichen: der Katalog bleibt ungekürzt (Nichtauskunft, etwa ein ausgefallenes Gateway, ist kein Befund), der Zähler läuft weiter.
+ */
 export function katalogMitFrist<T extends { showId: number }>(
   alt: T[],
   frisch: T[],
@@ -45,11 +54,15 @@ export function katalogMitFrist<T extends { showId: number }>(
   zaehler: Readonly<LeerZaehler>,
 ) {
   const fortschritt = zaehleLeereLaeufe(zaehler, new Set(alt.map((s) => s.showId)), auskunft)
-  const gestrichen = new Set(fortschritt.gestrichen)
-  const leer = new Set([...(auskunft.leer ?? [])].filter((id) => !gestrichen.has(id)))
-  const ergebnis = mitUngepruftenAlten(alt, frisch, { ...auskunft, leer })
-  const zeilen = [`ADN-Katalog: ${gestrichen.size} Serien nach ${LEERE_LAEUFE_BIS_STREICHUNG} leeren Antworten in Folge gestrichen${gestrichen.size ? ` (${[...gestrichen].join(', ')})` : ''}, ${Object.keys(fortschritt.zaehler).length} mit leerer Antwort vorgemerkt`]
-  const rot = schrumpftZuStark(alt.length, ergebnis.shows.length)
-  if (rot) zeilen.push(`⚠ ADN-Katalog schrumpft von ${alt.length} auf ${ergebnis.shows.length} Serien (mehr als ${SCHWUND_GRENZE * 100} %) — Lauf rot.`)
-  return { ...ergebnis, zaehler: fortschritt.zaehler, gestrichen: gestrichen.size, zeilen, rot }
+  const leer = new Set([...(auskunft.leer ?? [])].filter((id) => !fortschritt.gestrichen.includes(id)))
+  const mitStreichung = mitUngepruftenAlten(alt, frisch, { ...auskunft, leer })
+  const fehlt = verloren(alt, mitStreichung.shows)
+  const rot = schrumpftZuStark(alt.length, alt.length - fehlt)
+  const gestrichen = rot ? [] : fortschritt.gestrichen
+  const ergebnis = rot ? mitUngepruftenAlten(alt, frisch, auskunft) : mitStreichung
+  const neuerZaehler = { ...fortschritt.zaehler }
+  if (rot) for (const id of fortschritt.gestrichen) neuerZaehler[String(id)] = (zaehler[String(id)] ?? 0) + 1
+  const zeilen = [`ADN-Katalog: ${gestrichen.length} Serien nach ${LEERE_LAEUFE_BIS_STREICHUNG} leeren Antworten in Folge gestrichen${gestrichen.length ? ` (${gestrichen.join(', ')})` : ''}, ${Object.keys(neuerZaehler).length} mit leerer Antwort vorgemerkt`]
+  if (rot) zeilen.push(`⚠ ADN-Katalog verlöre ${fehlt} von ${alt.length} Serien (mehr als ${SCHWUND_GRENZE * 100} %) — nichts gestrichen, Lauf rot.`)
+  return { ...ergebnis, zaehler: neuerZaehler, gestrichen: gestrichen.length, zeilen, rot }
 }

@@ -88,9 +88,15 @@ pruefe('Abbruch (500) zwischen zwei leeren Antworten: Serie bleibt', d.ids.lengt
 pruefe('Abbruch (500): Zähler bleibt bei 1 (keine Auskunft)', JSON.stringify(d.zaehlerNachher) === '{"6001":1}', d.zaehlerNachher)
 
 const e = lauf(2, '6001:404,6002:404', { '6001': 1, '6002': 1 })
-pruefe('zwei Streichungen (10 % Schwund): Katalog wird 18', e.ids.length === 18, e.ids)
+pruefe('zwei Streichungen (10 % Schwund): nichts gestrichen, Katalog bleibt 20', e.ids.length === 20, e.ids)
 pruefe('mehr als 5 % Schwund: Lauf rot', e.l.status === 1, e.l.status)
-pruefe('mehr als 5 % Schwund: Laufprotokoll nennt Zahlen', e.ausgabe.includes('ADN-Katalog schrumpft von 20 auf 18 Serien'), e.ausgabe.slice(-600))
+pruefe('mehr als 5 % Schwund: Laufprotokoll nennt Zahlen', e.ausgabe.includes('ADN-Katalog verlöre 2 von 20 Serien'), e.ausgabe.slice(-600))
+pruefe('bei rot läuft der Zähler weiter (2), nichts Neues gestrichen', JSON.stringify(e.zaehlerNachher) === '{"6001":2,"6002":2}', e.zaehlerNachher)
+
+// Gateway-Ausfall: alle 20 antworten im zweiten Lauf leer, der Katalog darf nicht verschwinden.
+const alleLeer = lauf(20, ALLE.map((id) => `${id}:404`).join(','), Object.fromEntries(ALLE.map((id) => [String(id), 1])))
+pruefe('alle leer im zweiten Lauf: Katalog bleibt 20', alleLeer.ids.length === 20, alleLeer.ids.length)
+pruefe('alle leer im zweiten Lauf: Lauf rot', alleLeer.l.status === 1, alleLeer.l.status)
 
 console.log()
 if (fehler) {
