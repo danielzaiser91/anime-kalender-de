@@ -55,11 +55,11 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ inputs.zweig }}
-      - uses: actions/setup-node@v4
+      # Node, npm ci und Chromium (Browser-Tests wie check-beleg-sammelartikel) wie in den Datenläufen.
+      - uses: ./.github/actions/einrichten
         with:
-          node-version: 22
-          cache: npm
-      - run: npm ci
+          cache: aus
+          playwright: 'true'
       - name: Mutanten einspielen und Tests laufen lassen
         env:
           LISTE: ${{ inputs.liste }}
