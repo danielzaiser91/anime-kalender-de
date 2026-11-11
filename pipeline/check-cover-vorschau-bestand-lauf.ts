@@ -1,6 +1,6 @@
 /**
  * Prozesstest der Bestandswache `check-cover-vorschau-bestand.ts` (06.11.2026): Das Skript läuft als eigener Prozess gegen einen Wegwerf-Bestand
- * (`AK_ROOT`). Geprüft werden Exit-Code und Meldung an der Grenze 170 (Wert fest eingetragen), die Ausnahmen (Termin, Plakat, Cover mit Maßen,
+ * (`AK_ROOT`). Geprüft werden Exit-Code und Meldung an der Grenze 110 (Wert fest eingetragen), die Ausnahmen (Termin, Plakat, Cover mit Maßen,
  * Titel ohne Seite) und die Rechnung als reine Funktion. Anlass: PR 2872 verschob den Bestand von 449 auf 471, die Kette blieb grün.
  * Läuft in `check:logic`.
  */
@@ -65,14 +65,14 @@ function lauf(n: number, extra: Title[] = [], releases: unknown[] = [], ohneCove
     rmSync(wurzel, { recursive: true, force: true })
   }
 }
-const ok = lauf(170)
-pruefe('Prozess: 170 Titel (Grenze) grün, Schlusszeile da', ok.code === 0 && ok.out.includes('170 mit Standardbild') && ok.out.includes('VERSTÖSSE: 0'), ok.out + ok.err)
-const rot = lauf(171)
-pruefe('Prozess: 171 rot mit beiden Zahlen und der jüngsten Kennung', rot.code === 1 && rot.err.includes('171 Titel mit Cover zeigen das Standardbild als Link-Vorschau, erlaubt höchstens 170 (jüngste Kennungen: 1170)') && rot.err.includes('VERSTÖSSE: 1'), rot.err)
-const ausnahmen = lauf(170, [titel(2000, { coverImage: MIT_MASSE }), titel(2001, { coverImage: PLAKAT }), titel(2002), titel(2003, { ohneSynchro: true })], [{ slug: 'x', titleId: 2002 }, { titleId: 2003 }])
-pruefe('Prozess: Cover mit Maßen, Plakat, Titel mit Termin und Titel ohne Seite zählen nicht (170 grün)', ausnahmen.code === 0 && ausnahmen.out.includes('170 mit Standardbild'), ausnahmen.out + ausnahmen.err)
-const ohneTerminSlug = lauf(170, [titel(2002)], [{ titleId: 2002 }])
-pruefe('Prozess: Release ohne Seite (kein slug) nimmt dem Titel das Standardbild nicht ab (171 rot)', ohneTerminSlug.code === 1, ohneTerminSlug.out + ohneTerminSlug.err)
+const ok = lauf(110)
+pruefe('Prozess: 110 Titel (Grenze) grün, Schlusszeile da', ok.code === 0 && ok.out.includes('110 mit Standardbild') && ok.out.includes('VERSTÖSSE: 0'), ok.out + ok.err)
+const rot = lauf(111)
+pruefe('Prozess: 111 rot mit beiden Zahlen und der jüngsten Kennung', rot.code === 1 && rot.err.includes('111 Titel mit Cover zeigen das Standardbild als Link-Vorschau, erlaubt höchstens 110 (jüngste Kennungen: 1110)') && rot.err.includes('VERSTÖSSE: 1'), rot.err)
+const ausnahmen = lauf(110, [titel(2000, { coverImage: MIT_MASSE }), titel(2001, { coverImage: PLAKAT }), titel(2002), titel(2003, { ohneSynchro: true })], [{ slug: 'x', titleId: 2002 }, { titleId: 2003 }])
+pruefe('Prozess: Cover mit Maßen, Plakat, Titel mit Termin und Titel ohne Seite zählen nicht (110 grün)', ausnahmen.code === 0 && ausnahmen.out.includes('110 mit Standardbild'), ausnahmen.out + ausnahmen.err)
+const ohneTerminSlug = lauf(110, [titel(2002)], [{ titleId: 2002 }])
+pruefe('Prozess: Release ohne Seite (kein slug) nimmt dem Titel das Standardbild nicht ab (111 rot)', ohneTerminSlug.code === 1, ohneTerminSlug.out + ohneTerminSlug.err)
 const leer = lauf(5, [], [], true)
 pruefe('Prozess: kein Titel mit Cover ist rot (die Wache prüfte nichts)', leer.code === 1 && leer.err.includes('prüft nichts'), leer.err)
 
@@ -80,4 +80,4 @@ if (fehler) {
   console.error(`[cover-vorschau-bestand-lauf] ${fehler} von ${faelle} Fällen rot`)
   process.exit(1)
 }
-console.log(`[cover-vorschau-bestand-lauf] ${faelle} Fälle grün (Grenze 170 als Prozess, Termin/Plakat/Cover mit Maßen/ohne Seite zählen nicht, leerer Bestand rot)`)
+console.log(`[cover-vorschau-bestand-lauf] ${faelle} Fälle grün (Grenze 110 als Prozess, Termin/Plakat/Cover mit Maßen/ohne Seite zählen nicht, leerer Bestand rot)`)

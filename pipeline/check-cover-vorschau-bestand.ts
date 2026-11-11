@@ -1,8 +1,8 @@
 /**
  * Bestandswache: Titel mit Cover, deren Link-Vorschau das Standardbild wäre, dürfen nicht mehr werden (Ratsche, darf nur sinken).
- * Rechnung und Anlass in `lib/cover-vorschau-bestand.ts`; Grenze 06.11.2026 (Datenstand 3266bdc89, vorher 471): 158 Titel ohne Termin
- * (83 AniList-Cover über 250 KB, 75 aniSearch-Kopien), dieselbe Zahl wie die gebauten Seiten; 12 Luft für Titel, deren Cover der nächste
- * Messlauf (`lib/anilist-cover-lauf.ts`) erst nachträgt. Die Grenze wird nachgezogen, sobald der Bestand darunter liegt.
+ * Rechnung und Anlass in `lib/cover-vorschau-bestand.ts`; Grenze 10.11.2026 (Datenstand 2fca63758, vorher 170 bei 158 am 06.11.): 99 Titel ohne
+ * Termin (83 AniList-Cover über 250 KB, 16 aniSearch-Kopien, die im Bucket fehlen und deshalb nicht messbar sind); 11 Luft für Titel, deren
+ * Cover der nächste Messlauf (`lib/anilist-cover-lauf.ts`) erst nachträgt. Die Grenze wird nachgezogen, sobald der Bestand darunter liegt.
  * Rot bei Überschreitung und bei leerem Bestand (dann prüft die Wache nichts). Test: `check-cover-vorschau-bestand-lauf.ts`.
  */
 import { pathToFileURL } from 'node:url'
@@ -11,7 +11,7 @@ import { readJson } from './lib/util.ts'
 import { ladeVorschauMasse } from './lib/vorschau-masse.ts'
 import { coverVorschauBestandMangel, standardTrotzCoverTitel } from './lib/cover-vorschau-bestand.ts'
 
-export const HOECHSTENS = 170
+export const HOECHSTENS = 110
 
 export function main(): number {
   const titel = readJson<Title[]>('public/data/titles.json', [])
