@@ -1,6 +1,6 @@
 {
  "hinweis": "Rohvideos im ADN-Format; Erweiterung (adn.test.cjs) und Bau (pipeline/check-adn-ausreisser.ts) müssen darauf dieselben Ausreißer-Kennungen liefern.",
- "erwartet": [103, 201],
+ "erwartet": [103, 201, 404],
  "videos": [
   { "id": 101, "type": "EPS", "number": "Folge 1", "shortNumber": "1", "season": "1", "languages": ["vostde"] },
   { "id": 102, "type": "EPS", "number": "Folge 2", "shortNumber": "2", "season": "1", "languages": ["vostde"] },
@@ -21,6 +21,16 @@
   { "id": 301, "type": "EPS", "number": "Folge 1", "shortNumber": "1", "season": "3", "languages": ["vostde", "vde"] },
   { "id": 302, "type": "EPS", "number": "Folge 2", "shortNumber": "2", "season": "3", "languages": ["vostde"] },
   { "id": 303, "type": "EPS", "number": "Folge 3", "shortNumber": "3", "season": "3", "languages": ["vostde"] },
-  { "id": 304, "type": "EPS", "number": "Folge 4", "shortNumber": "4", "season": "3", "languages": ["vostde"] }
+  { "id": 304, "type": "EPS", "number": "Folge 4", "shortNumber": "4", "season": "3", "languages": ["vostde"] },
+  { "id": 401, "type": "EPS", "number": "Folge 1", "shortNumber": "1", "season": "4", "languages": ["vostf", "vf"] },
+  { "id": 402, "type": "EPS", "number": "Folge 2", "shortNumber": "2", "season": "4", "languages": ["vostf", "vf"] },
+  { "id": 403, "type": "EPS", "number": "Folge 3", "shortNumber": "3", "season": "4", "languages": ["vostf", "vf"] },
+  { "id": 404, "type": "EPS", "number": "Folge 4", "shortNumber": "4", "season": "4", "languages": ["vde"] },
+  { "id": 405, "type": "EPS", "number": "Folge 5", "shortNumber": "5", "season": "4", "languages": ["vostf"] },
+  { "id": 501, "type": "EPS", "number": "Folge 1", "shortNumber": "1", "season": "5", "languages": [] },
+  { "id": 502, "type": "EPS", "number": "Folge 2", "shortNumber": "2", "season": "5", "languages": [] },
+  { "id": 503, "type": "EPS", "number": "Folge 3", "shortNumber": "3", "season": "5", "languages": [] },
+  { "id": 504, "type": "EPS", "number": "Folge 4", "shortNumber": "4", "season": "5", "languages": ["vde"] },
+  { "id": 505, "type": "EPS", "number": "Folge 5", "shortNumber": "5", "season": "5", "languages": [] }
  ]
 }

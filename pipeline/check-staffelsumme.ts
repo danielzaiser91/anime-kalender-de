@@ -84,7 +84,7 @@ pruefe('Ratsche: gleiche Menge ist grün', verletzteRatsche(['1111', '3333'], ['
 pruefe('Ratsche: neue offene Adresse ist rot', verletzteRatsche(['1111', '3333', '4444'], ['1111', '3333'], listen).length === 1)
 pruefe('Ratsche: umgerechnete Adresse muss aus der Liste', verletzteRatsche(['1111'], ['1111', '3333'], listen).length === 1)
 pruefe('Ratsche: Eintrag ohne Staffelliste in dieser Welt zählt nicht', verletzteRatsche(['1111'], ['1111', '9999'], listen).length === 0)
-pruefe('Ratsche: Liste der offenen Fälle bleibt bei zwei (Stand 02.11.2026)', OFFEN_OHNE_ZUORDNUNG.join() === '81186971,81397437')
+pruefe('Ratsche: Liste der offenen Fälle bleibt bei einem (Stand 10.11.2026)', OFFEN_OHNE_ZUORDNUNG.join() === '81397437')
 
 /* Doppelfolgen (Shaun das Schaf, Netflix Staffel 4, wörtlich aus Meldungen und TMDB-Liste vom 02.11.2026): jede Netflix-Folge sind zwei unserer Kurzfolgen, die Summe 100 bestätigt kein Titel. */
 const shaunListe: UnsereFolge[] = [

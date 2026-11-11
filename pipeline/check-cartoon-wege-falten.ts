@@ -3,7 +3,7 @@
  * gleicher Aussage sind eine Pille, jede Abweichung (Hinweis, Haken, Anbieter, Lücke) trennt, „Staffel" steht nur, wo der
  * Ausschnitt genau Staffeln trifft, TMDB-Staffeln heißen „laut TMDB". Läuft in `check:logic`.
  */
-import { falteTeilwege, staffelSpanne, teilAngaben } from '../web/src/components/detail/wege-falten.ts'
+import { falteTeilwege, staffelSpanne, vereinigeHaken, teilAngaben } from '../web/src/components/detail/wege-falten.ts'
 import type { StreamLink } from '../shared/types.ts'
 import type { Translate } from '../web/src/lib/i18n.tsx'
 
@@ -26,9 +26,14 @@ const om = falteTeilwege([weg(1, 11), weg(12, 21), weg(22, 29), weg(30, 39, hinw
 pruefe('gleiche Aussage, anschließend: eine Pille', bereiche(om) === '1-29,30-50,51-61', bereiche(om))
 pruefe('Hinweis trennt von Teilwegen ohne Hinweis', om.length === 3 && om[1].dubQuelle === 'justwatch' && !om[0].dubQuelle)
 
-// Jack: je Buch ein eigener Beleg bleibt getrennt (andere Haken-Bereiche).
+// Haken-Bereiche je Teilweg (Bau: eigene Folgen) werden vereinigt; verschiedene Haken-Art (dub ja/nein) trennt.
 const jack = falteTeilwege([1, 2, 12].map((von, i) => weg(von, [1, 11, 21][i], { dub: true, dubRanges: [{ from: von, to: [1, 11, 21][i], dub: true }] })))
-pruefe('verschiedene Haken-Bereiche bleiben getrennt', jack.length === 3, bereiche(jack))
+pruefe('Haken-Bereiche je Teilweg werden vereinigt', jack.length === 1 && JSON.stringify(jack[0].dubRanges) === '[{"from":1,"to":21,"dub":true}]', JSON.stringify(jack))
+const prinz = falteTeilwege([1, 10, 19, 28, 37, 46, 55].map((von) => weg(von, von + 8, { dub: true, dubRanges: [{ from: von, to: von + 8, dub: true }] })))
+pruefe('Prinz der Drachen: sieben Teilwege, eine Pille Fg. 1–63', prinz.length === 1 && bereiche(prinz) === '1-63' && JSON.stringify(prinz[0].dubRanges) === '[{"from":1,"to":63,"dub":true}]', JSON.stringify(prinz))
+pruefe('Haken-Art dub ja/nein trennt', falteTeilwege([weg(1, 5, { dub: true, dubRanges: [{ from: 1, to: 5, dub: true }] }), weg(6, 9, { dub: true, dubRanges: [{ from: 6, to: 9, dub: false }] })]).length === 2)
+const luecke = falteTeilwege([weg(1, 5, { dubRanges: [{ from: 1, to: 3, dub: true }] }), weg(6, 9, { dubRanges: [{ from: 7, to: 9, dub: true }] })])
+pruefe('Haken-Lücke bleibt in den Bereichen sichtbar', luecke.length === 1 && JSON.stringify(luecke[0].dubRanges) === '[{"from":1,"to":3,"dub":true},{"from":7,"to":9,"dub":true}]', JSON.stringify(luecke))
 pruefe('Haken ohne Hinweis und mit Hinweis trennen', falteTeilwege([weg(1, 5, { dub: true, dubRanges: [{ from: 1, to: 5, dub: true }] }), weg(6, 9)]).length === 2)
 
 // Lücke, anderer Anbieter, andere Adresse, Weg ohne Ausschnitt.
@@ -36,6 +41,10 @@ pruefe('Lücke im Ausschnitt trennt', falteTeilwege([weg(1, 5), weg(7, 9)]).leng
 pruefe('andere Adresse trennt', falteTeilwege([weg(1, 5), { ...weg(6, 9), url: `${url}2` }]).length === 2)
 pruefe('anderer Anbieter trennt', falteTeilwege([weg(1, 5), { ...weg(6, 9), platform: 'disneyplus' }]).length === 2)
 pruefe('Zugangsart trennt', falteTeilwege([weg(1, 5, { zugang: 'abo' }), weg(6, 9, { zugang: 'kauf' })]).length === 2)
+const gemischt2 = falteTeilwege([weg(1, 5, { dubRanges: [{ from: 1, to: 2, dub: true }, { from: 3, to: 5, dub: false }] }), weg(6, 9, { dubRanges: [{ from: 6, to: 7, dub: true }, { from: 8, to: 9, dub: false }] })])
+pruefe('Vereinigen: ja/nein-Bereiche verschmelzen nicht untereinander', gemischt2.length === 1 && gemischt2[0].dubRanges?.length === 4, JSON.stringify(gemischt2))
+const hk = [{ from: 1, to: 2, dub: true }]
+pruefe('Vereinigen: nur eine Seite mit Bereichen behält sie', vereinigeHaken(hk, undefined) === hk && vereinigeHaken(undefined, hk) === hk && vereinigeHaken(undefined, undefined) === undefined)
 // Jedes Feld der Aussage einzeln: Ohne es in `aussage()` würden diese Wege falsch zu einem.
 pruefe('Kanal trennt', falteTeilwege([weg(1, 5, { kanal: 'Crunchyroll' }), weg(6, 9)]).length === 2)
 pruefe('Entfernt-am trennt', falteTeilwege([weg(1, 5, { entferntAm: '2026-09-01' }), weg(6, 9)]).length === 2)

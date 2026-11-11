@@ -125,6 +125,7 @@ pipeline/check-cr-block-zaehlung.ts
 pipeline/check-cr-blockkette-luecke.ts
 pipeline/check-cr-blockwahl.ts
 pipeline/check-cr-browser-start.ts
+pipeline/check-cr-datum-platzhalter.ts
 pipeline/check-cr-doppelt-weg.ts
 pipeline/check-cr-einzelwerk-urteil.ts
 pipeline/check-cr-film-wege.ts
@@ -212,6 +213,7 @@ pipeline/check-escape-hoerer.ts
 pipeline/check-escape-stapel.ts
 pipeline/check-favoriten-feed-faelle.ts
 pipeline/check-fetch-pruefungen-laufzeit.ts
+pipeline/check-fetch-pruefungen-unbekannt.ts
 pipeline/check-film-ohne-weg.ts
 pipeline/check-filter-genres.ts
 pipeline/check-filter-zyklus.ts
@@ -252,6 +254,7 @@ pipeline/check-handbeleg-serienton.ts
 pipeline/check-handbeleg-staffelzaehlung.ts
 pipeline/check-handbeleg-weg.ts
 pipeline/check-handbelege-anbieter-zaehlung-lauf.ts
+pipeline/check-handbelege-veraltet-lauf.ts
 pipeline/check-handlung-eigen-hinweis.ts
 pipeline/check-handlung-eigen.ts
 pipeline/check-herkunft-je-folge.ts
@@ -273,6 +276,7 @@ pipeline/check-joyn-luecke.ts
 pipeline/check-joyn-premiere.ts
 pipeline/check-joyn-sender-bestand-lauf.ts
 pipeline/check-joyn-sender-luecke.ts
+pipeline/check-joyn-termine-belegt.ts
 pipeline/check-jpend-finished.ts
 pipeline/check-juengeres-ja-weg.ts
 pipeline/check-jw-ablauf.ts
@@ -323,6 +327,7 @@ pipeline/check-katalogstart-tag.ts
 pipeline/check-kino-zuletzt.ts
 pipeline/check-kopf-menue.ts
 pipeline/check-kopfzeile-premiere.ts
+pipeline/check-ladefehler-nein.ts
 pipeline/check-laut-gleich.ts
 pipeline/check-lazy-rueckfall.ts
 pipeline/check-leere-liste.ts
@@ -558,6 +563,7 @@ pipeline/check-verweise-von-hand.ts
 pipeline/check-vorfaelle-ablauf.ts
 pipeline/check-weg-adresse-bezugsweg.ts
 pipeline/check-weg-aus-meldung.ts
+pipeline/check-weg-nein-gti.ts
 pipeline/check-wege-aus-terminen.ts
 pipeline/check-wege-je-anbieter.ts
 pipeline/check-werbetarif-weg.ts

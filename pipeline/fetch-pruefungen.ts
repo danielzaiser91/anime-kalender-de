@@ -16,7 +16,7 @@
  */
 import { appendFileSync, existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { nichtGefuehrtZeilen } from './lib/beleg-nicht-gefuehrt.ts'
-import { wegGiltGanzerAdresse } from './lib/weg-entwerten.ts'
+import { mitWegVermerk, urteilsMeldung, urteilsZeilen, wegGiltGanzerAdresse } from './lib/weg-entwerten.ts'
 import { amazonTitelAdresse, echteAmazonAdresse } from './lib/amazon-adresse.js'
 import { wegAusMeldung } from './lib/weg-aus-meldung.js'
 import { resolve } from 'node:path'
@@ -37,6 +37,8 @@ import { adressKern, loadDubChecks } from './lib/dub-confirmed.ts'
 import { haengeBelegeAn } from './lib/belege-anhaengen.ts'
 import { kanalJaAdressKerne, kanalOhneAussage } from './lib/kanal-titel.ts'
 import { schluesselAdresse, titelSchluessel } from './lib/zuordnung.ts'
+import { ratePerName } from './lib/namens-zuordnung.ts'
+import { istUnbekannteSeite, katalogTreffer, neuerZaehler, urteileUnbekannt, widerspruchZumTitel, zaehlzeile } from './lib/unbekannte-seite.ts'
 import { staffelNummern, type Reiheneintrag } from './lib/staffel-nummern.ts'
 import { verteileMeldungen } from './lib/meldungen-verteilen.ts'
 import { liegenGeblieben, schreibeMeldungenListe, type OhneZuordnung } from './lib/meldungen-liste.ts'
@@ -354,6 +356,8 @@ let ausSuchadresseZugeordnet = 0
 /** Wie viele Adressen die Meldung selbst zugeordnet hat — der Weg ohne Raten. */
 let ausMeldungZugeordnet = 0
 const offenGeblieben: string[] = []
+/** Meldungen aus dem Kasten „Nicht auf der Prüfliste" (`unbekannt=1`): wohin jede ging. */
+const unbekanntZaehler = neuerZaehler()
 /*
   **Was nach einem Fehler der Erweiterung aussieht, wird sichtbar** (Daniel,
   17.09.2026: „bau es so, das wir direkt mitbekommen wenn die extension schuld
@@ -540,51 +544,33 @@ for (const gruppe of jeAdresse.values()) {
       ausSuchadresseZugeordnet++
     }
   }
+  const unbekannt = istUnbekannteSeite(gruppe.map((m) => m.notiz))
+  if (unbekannt && ids.length) unbekanntZaehler.ueberAdresse++
   if (!ids.length) {
     // Der Titel ist die letzte Chance — und nur ein Vorschlag: Ein Name ist
     // eine Ähnlichkeit, kein Beleg.
     /**
-     * Der Namensvergleich darf unscharf sein — sonst findet er das Naheliegende
-     * nicht.
-     *
-     * Daniel meldete „Magi – Netflix" als verschwunden; wir führen den Titel als
-     * „Magi: The Labyrinth of Magic". Exakt verglichen passte nichts, und in der
-     * Liste stand „Titel von Hand suchen" — dabei war die Antwort schlicht, dass
-     * wir für diesen Titel gar keinen Netflix-Verweis haben und also nichts zu
-     * tun ist (23.08.2026: „warum soll ich das nochmal prüfen").
-     *
-     * Erst exakt, dann als Anfang eines längeren Namens. Der Vorschlag bleibt
-     * ein Vorschlag — er entscheidet nichts, er stellt nur die richtige Frage.
+     * Der Namensvergleich darf unscharf sein, der Vorschlag bleibt ein Vorschlag (`ratePerName`). Ein **exakter**
+     * Treffer auf genau einen Titel entscheidet selbst (Daniel, 23.08.2026: „NANA", „Saiki K."): da gibt es nichts
+     * zu entscheiden, nur etwas einzutragen. Vorgelegt wird, was mehrdeutig ist: mehrere Treffer, ein ungefährer, keiner.
      */
     const name = p.serientitel ?? p.titel ?? ''
-    const schluessel = name ? titelSchluessel(name) : ''
-    let geraten = schluessel ? (nachTitel.get(schluessel) ?? []) : []
-    if (!geraten.length && schluessel.length >= 4) {
-      for (const [k, ids] of nachTitel) {
-        // „magi" findet „magi the labyrinth of magic", nicht „imagination".
-        if (k === schluessel || k.startsWith(schluessel + ' ')) geraten = [...geraten, ...ids]
-      }
-    }
-    /**
-     * Ein **exakter** Namenstreffer auf genau einen Titel entscheidet selbst.
-     *
-     * Daniel am 23.08.2026: „was soll ich genau machen ... was genau soll denn
-     * verbunden werden". Bei „NANA", „The Disastrous Life of Saiki K." und „My
-     * Love Story with Yamada-kun at Lv999" hiess der gemeldete Name **genau** so
-     * wie unserer — da gibt es nichts zu entscheiden, nur etwas einzutragen.
-     *
-     * Vorgelegt wird nur noch, was mehrdeutig ist: mehrere Treffer, ein
-     * ungefährer, oder gar keiner.
-     */
-    const eindeutig = [...new Set(geraten)]
-    const unserName = eindeutig.length === 1 ? (liste.find((x) => x.id === eindeutig[0])?.titleDe ?? liste.find((x) => x.id === eindeutig[0])?.titleEn ?? '') : ''
-    if (eindeutig.length === 1 && unserName && titelSchluessel(name) === titelSchluessel(unserName)) {
+    const unserName = (id: number) => liste.find((x) => x.id === id)?.titleDe ?? liste.find((x) => x.id === id)?.titleEn ?? ''
+    const { treffer: eindeutig, exakt } = ratePerName(name, nachTitel, unserName)
+    // Seite ohne Auftrag (`unbekannt=1`): exakt zählt nur, wenn Folgenzahl, Format und Reihe passen (`widerspruchZumTitel`).
+    const gemeldet = Math.max(0, ...gruppe.map((x) => (typeof x.folgen === 'number' ? x.folgen : 0)))
+    const widerspruch = exakt && unbekannt ? widerspruchZumTitel(gemeldet, liste.find((x) => x.id === eindeutig[0]), reiheVon.get(eindeutig[0]!)?.length ?? 1) : null
+    if (exakt && !widerspruch) {
       // Der Name stimmt **genau** — da gibt es nichts zu entscheiden, nur
       // etwas einzutragen. Die Adresse ist neu und kommt gleich mit.
       ids = eindeutig
       selbstZugeordnet++
+      if (unbekannt) unbekanntZaehler.eindeutig++
     } else {
-      ohneZuordnung.push({ url: p.url, name, plattform: p.plattform, befund: p.befund, vorschlag: eindeutig })
+      // Kasten „Nicht auf der Prüfliste": Grund und Zähler statt der Standardzeile (`urteileUnbekannt`).
+      const urteil = unbekannt ? urteileUnbekannt(eindeutig, katalogTreffer(ROOT, name), widerspruch) : null
+      if (urteil) unbekanntZaehler[urteil.art]++
+      ohneZuordnung.push({ url: p.url, name, plattform: p.plattform, befund: p.befund, vorschlag: urteil?.vorschlag ?? eindeutig, ...(urteil && { zuTun: urteil.zuTun }) })
       offenGeblieben.push(
         `${p.url} — im Datensatz nicht gefunden${eindeutig.length ? ` (Vorschlag: ${eindeutig.join(', ')})` : ''}`,
       )
@@ -1174,7 +1160,7 @@ for (const gruppe of jeAdresse.values()) {
         }
       }
     } else {
-      zeilen.push(`  dub: ${p.befund === 'dub'}`)
+      zeilen.push(...urteilsZeilen(gruppe))
     }
     // Ortszeit, nicht UTC: Eine Meldung um 00:41 Uhr trug sonst das Datum
     // des Vortags (22.08.2026).
@@ -1185,7 +1171,7 @@ for (const gruppe of jeAdresse.values()) {
       verteilbar ? `Anbieter zählt durch, hier auf die Staffel umgerechnet` : '',
       sprachen.length ? `Tonspuren: ${sprachen.join(', ')}` : '',
       widersprueche.length ? `Widersprüchliche Meldungen zu Folge ${widersprueche.join(', ')}` : '',
-      notizJeStaffel.get(id) ?? p.notiz ?? '',
+      mitWegVermerk(notizJeStaffel.get(id) ?? p.notiz ?? '', !weg && !urteilsMeldung(gruppe)),
       summe?.ok ? summe.vermerk : '',
     ]
       .filter(Boolean)
@@ -1229,6 +1215,7 @@ log(
       ? `, ${ausgelassenKanal} Kanal-Meldung(en) ohne Urteil ausgelassen (sie würden nur einen jüngeren Beleg verdecken)`
       : ''),
 )
+if (zaehlzeile(unbekanntZaehler)) log(zaehlzeile(unbekanntZaehler))
 for (const o of offenGeblieben) warn(o)
 for (const a of auffaellig) warn(`Auffällig: ${a}`)
 if (!TROCKEN) {

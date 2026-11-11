@@ -8,6 +8,7 @@ import { baueFetchAttrappe, istMeldungsabruf, meldungsAntwort } from './fetch-at
 // `primegemischt` = je 12 Meldungen Staffel 1 und 2 an EINER Prime-Seite (eine Gruppe mit zwei Staffelnummern).
 // `fremdeseite` = 12 Meldungen Staffel 1 unter der Bestandsadresse, gelesen wurde aber die Seite B0TESTFREMD (Higurashi Kai, 02.11.2026).
 const FREMD = process.env.AK_SZENARIO === 'fremdeseite'
+const WEG = ['wegalt', 'wegganz', 'wegfolge', 'keindub', 'keindubweg', 'datumvorid', 'datumvorid2', 'letztesurteil', 'nurweg'].includes(process.env.AK_SZENARIO)
 const PRIME = process.env.AK_SZENARIO === 'primegemischt' || FREMD
 const PLATTFORM = PRIME ? 'primevideo' : 'netflix'
 const NETFLIX = PRIME ? 'https://www.amazon.de/gp/video/detail/B0TESTSTAFF' : 'https://www.netflix.com/title/81152346'
@@ -59,6 +60,18 @@ const zeile = (staffel, nr) => ({
   titel_id: 900001,
   folge: null,
 })
+// `wegalt` = ein älteres „weg" nach einem jüngeren „dub" ohne Folgennummer (die ganze Adresse gilt nicht als weg, kein Folgenbefund); `wegganz` = ein „weg" ohne Staffel (ganze Seite).
+const wegMeldung = (staffel) => ({ ...zeile(staffel ?? 0, 1), befund: 'weg', folge_nr: null, staffel, sprachen: null, titel_id: null })
+const jungesJa = { ...zeile(0, 1), staffel: null, folge_nr: null, titel_id: null, gemeldet_am: '2026-10-19T10:00:00.000Z' }
+const altesWeg = { ...wegMeldung(null), id: 930999, folge_nr: null, gemeldet_am: '2026-10-18T10:00:00.000Z' }
+// `wegfolge` = wie `wegalt`, das jüngere „dub" nennt aber Folge 1; `keindub` = ein „kein_dub" ohne Folge (bleibt `dub: false`).
+// `keindubweg` = „kein_dub" vor einem Teil-„weg"; `datumvorid` = zwei Urteile, deren Datumsreihenfolge der Meldungsreihenfolge widerspricht (das jüngere Datum ist „kein_dub"); `nurweg` = nur ein Teil-„weg" für Staffel 1.
+const keinDubJung = { ...jungesJa, befund: 'kein_dub' }
+const datumVorId = [keinDubJung, { ...jungesJa, id: 930002, gemeldet_am: '2026-10-18T10:00:00.000Z' }, { ...altesWeg, gemeldet_am: '2026-10-17T10:00:00.000Z' }]
+// `datumvorid2` = dasselbe in umgekehrter Reihenfolge (das jüngere Datum steht vorn nicht, sondern hinten, das ältere Urteil vorn); `letztesurteil` = ohne „weg" gilt die letzte Meldung, auch wenn eine frühere ein jüngeres Datum trägt.
+const datumVorId2 = [{ ...jungesJa, id: 930002, gemeldet_am: '2026-10-18T10:00:00.000Z' }, keinDubJung, datumVorId[2]]
+const letztesUrteil = [jungesJa, { ...keinDubJung, id: 930003, gemeldet_am: '2026-10-18T10:00:00.000Z' }]
+const wegAntwort = { wegalt: [jungesJa, altesWeg], wegganz: [wegMeldung(null)], wegfolge: [{ ...jungesJa, folge_nr: 1 }, altesWeg], keindub: [keinDubJung], keindubweg: [keinDubJung, altesWeg], datumvorid: datumVorId, datumvorid2: datumVorId2, letztesurteil: letztesUrteil, nurweg: [wegMeldung(1)] }
 const folgen = (staffel) => Array.from({ length: 12 }, (_, i) => zeile(staffel, i + 1))
 const aufteilung = JSON.stringify([{ seq: 1, name: 'Staffel 1', folgen: 12, erste: 1 }, { seq: 2, name: 'Staffel 2', folgen: 12, erste: 13 }])
 const durchgezaehlt = Array.from({ length: 24 }, (_, i) => ({ ...zeile(0, i + 1), staffel: null, staffeln: aufteilung, notiz: `Randprobe Folge ${i + 1}` }))
@@ -77,6 +90,7 @@ globalThis.fetch = baueFetchAttrappe(
     if (SUMME) return meldungsAntwort(['summerl2', 'summerl3'].includes(process.env.AK_SZENARIO) ? summeMeldungen2 : summeMeldungen)
     if (process.env.AK_SZENARIO === 'notizen') return meldungsAntwort(durchgezaehlt)
     if (FREMD) return meldungsAntwort(folgen(1))
+    if (WEG) return meldungsAntwort(wegAntwort[process.env.AK_SZENARIO])
     return meldungsAntwort(process.env.AK_SZENARIO !== 'zwei' && process.env.AK_SZENARIO !== 'ohnezahl' ? [...folgen(1), ...folgen(2)] : folgen(2))
   },
 )

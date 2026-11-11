@@ -7,7 +7,7 @@ description: "Wann eine Antwort enden darf: nicht, solange 🟢-Aufgaben ohne fr
 
 ## Die Regel
 
-**Eine Antwort endet erst, wenn der Footer keine 🟢-Zeile mehr hat.** Alles, was jetzt und ohne
+**Eine Antwort endet erst, wenn in `stand.md` nichts Erledigbares mehr offen ist (kein Footer in der Antwort).** Alles, was jetzt und ohne
 fremdes Zutun erledigt werden kann, wird in derselben Antwort erledigt — nicht angekündigt, nicht
 für den nächsten Prompt aufgehoben.
 
@@ -38,9 +38,9 @@ Nicht 🟢 sind:
 
 Vor **jeder** Antwort, die enden soll:
 
-1. Footer bauen und die 🟢-Zeile ansehen.
-2. Steht dort etwas? Dann nicht antworten, sondern arbeiten.
-3. Steht dort nichts? Gegenprüfen, ob wirklich nichts grün ist — oder ob etwas als 🟡 geführt
+1. `stand.md` und die eigene Aufgabenliste auf Erledigbares ansehen.
+2. Ist etwas offen? Dann nicht antworten, sondern arbeiten.
+3. Ist nichts offen? Gegenprüfen, ob wirklich nichts grün ist — oder ob etwas als 🟡 geführt
    wird, dessen Grundlage ich selbst bauen könnte. Wenn ja, ist es in Wahrheit grün.
 
 ## Die Ankündigung ist die häufigste Verkleidung
@@ -61,8 +61,8 @@ Futur über etwas, das ich selbst tun kann? Dann ist die Antwort nicht fertig. E
 es jetzt — oder der Satz ist falsch und der Punkt gehört als 🟡/🙋 eingeordnet, mit dem Grund.
 
 Die einzige zulässige Ankündigung ist die über einen **laufenden** Vorgang, den ich schon
-gestartet habe („der Lauf braucht noch zwanzig Minuten") — und die gehört ohnehin als ⚙️ in den
-Footer, nicht in den Fließtext.
+gestartet habe („der Lauf braucht noch zwanzig Minuten") — und die gehört ohnehin in `stand.md` unter „In Arbeit“,
+nicht im Fließtext.
 
 ### Und „zu groß für jetzt" ist die zweite Verkleidung
 
@@ -84,7 +84,7 @@ dem Fragen, nicht dem Anhalten.
 
 **Was stattdessen gilt:** Eine große Sache wird **angefangen**, nicht angekündigt.
 Der erste Schritt — die Messung, die Datei, die erste Funktion — gehört in
-dieselbe Antwort. Was danach kommt, steht als 🟢 im Footer und wird beim nächsten
+dieselbe Antwort. Was danach kommt, steht in `stand.md` und wird beim nächsten
 Zug fortgesetzt. Eine Antwort, die einen Umbau **beschreibt** statt ihn zu
 beginnen, hat nichts geliefert außer einer Absichtserklärung.
 
@@ -134,8 +134,8 @@ Der Unterschied liegt in der Strittigkeit, nie in der Menge.
 ## Berichten, ohne aufzuhören
 
 Ein Zwischenbericht ist erlaubt und oft gut — aber er ist **kein Ende der Antwort**. Erst
-weiterarbeiten, dann in derselben Antwort zusammenfassen. Der Footer am Ende zeigt dann, was
-wirklich noch offen ist, und in aller Regel steht dort keine grüne Zeile mehr.
+weiterarbeiten, dann in derselben Antwort zusammenfassen. `stand.md` zeigt dann, was
+wirklich noch offen ist; in aller Regel ist nichts Erledigbares mehr offen.
 
 ## Der Anlass
 
@@ -147,7 +147,7 @@ Liste, keiner brauchte eine Auskunft von außen.
 
 ## Anlässe, aus der Regel verschoben (18.09.2026)
 
-Wortgleich aus `~/.claude/rules/`, damit die immer geladene Regel kurz bleibt.
+Wortgleich aus `.claude/rules/`, damit die immer geladene Regel kurz bleibt.
 
 <!-- aus 20-arbeitsweise.md -->
 **Der Satz „als nächstes mache ich X" ist ein Abbruch, kein Plan.** Zweimal am

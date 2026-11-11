@@ -673,7 +673,7 @@ pruefe(
   )
   pruefe(
     'die Meldezeile nimmt ihre Kennung aus derselben Quelle wie die Meldung',
-    quelle.includes('const kennungJetzt = ') && quelle.includes('meldet: ${kennungJetzt}'),
+    quelle.includes('const kennungJetzt = ') && quelle.includes('akPrimeMeldetZeile(Boolean(eintrag?.unbekannt), name, kennungJetzt)'),
     'mit `id` hinkt sie dem Wechsel hinterher',
   )
 }

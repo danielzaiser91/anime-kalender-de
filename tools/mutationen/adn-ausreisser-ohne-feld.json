@@ -1,0 +1,18 @@
+[
+  {
+    "name": "Folge ohne languages-Feld zählt als nein",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/adn-ausreisser.ts",
+        "suche": "v.languages && v.languages.length > 0)",
+        "ersetze": "(v.languages?.length ?? 1) > 0)"
+      }
+    ],
+    "tests": ["npx tsx pipeline/check-adn-ausreisser.ts"]
+  },
+  {
+    "name": "Kontrolle unmutiert",
+    "aenderungen": [],
+    "tests": ["npx tsx pipeline/check-adn-ausreisser.ts"]
+  }
+]

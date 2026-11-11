@@ -1,17 +1,17 @@
 {
-  "scrapedAt": "2026-11-10T12:05:03.253Z",
+  "scrapedAt": "2026-11-11T04:11:00.275Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
-    "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 40,
+    "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 8,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 14,
-    "schon in einem Rubrik-Feed gelesen": 5,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 1,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 61,
+    "schon in einem Rubrik-Feed gelesen": 24,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 5,
     "Sprachhinweis älter als 45 Tage": 6
   },
   "proposals": [
     {
-      "articleTitle": "Neuer Prime-Video-Anime »Devils‘ Crest« erhält zwei Cours",
+      "articleTitle": "Neuer Fantasy-Anime »Devils‘ Crest« auf Prime Video erhält zwei Cours",
       "articleUrl": "https://www.anime2you.de/news/1069473/devils-crest-erhaelt-zwei-cours/",
       "publishedAt": "2026-11-10",
       "category": "allgemein",
@@ -21,6 +21,53 @@
       "dates": [],
       "dub": "ja",
       "hinweis": "sprache",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Pluto TV nimmt zwei Anime-Neuzugänge auf Deutsch ins Programm",
+      "articleUrl": "https://www.anime2you.de/news/1069625/pluto-tv-shield-hero-und-mehr/",
+      "publishedAt": "2026-11-10",
+      "category": "streaming",
+      "platforms": [],
+      "dates": [],
+      "dub": "ja",
+      "alreadyCurated": false,
+      "sammel": [
+        {
+          "titel": "Dr. STONE",
+          "zusatz": "Staffel 2",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Pluto TV"
+          ]
+        },
+        {
+          "titel": "The Rising of the Shield Hero",
+          "zusatz": "Staffel 1",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Pluto TV"
+          ],
+          "folgen": 25
+        }
+      ],
+      "sammelGelesen": "2026-11-10"
+    },
+    {
+      "articleTitle": "Große Anime-Rabattaktion mit Serien und Filmen bei Amazon gestartet",
+      "articleUrl": "https://www.anime2you.de/news/1070093/amazon-grosse-serien-und-filme-rabattaktion/",
+      "publishedAt": "2026-11-10",
+      "category": "disc",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-11-30",
+          "context": "line-Händler Amazon bietet im Rahmen einer neuen Rabattaktion bis zum 30. November 2026 zahlreiche Anime-DVDs und -Blu-rays zu reduzierten P"
+        }
+      ],
+      "dub": "unklar",
       "alreadyCurated": false
     },
     {
@@ -189,7 +236,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-11-08"
+      "sammelGelesen": "2026-11-11"
     },
     {
       "articleTitle": "ProSieben MAXX startet zweiten werktäglichen Anime-Block",
@@ -412,7 +459,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-11-07"
+      "sammelGelesen": "2026-11-10"
     },
     {
       "articleTitle": "Erster Trailer zum Netflix-Anime »Fool Night« + Visual",
@@ -527,7 +574,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-08"
+      "sammelGelesen": "2026-11-11"
     },
     {
       "articleTitle": "Design der neuen »Neon Genesis Evangelion«-Komplettbox + Extras",
@@ -600,7 +647,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-08"
+      "sammelGelesen": "2026-11-11"
     },
     {
       "articleTitle": "AniMoon-Angebot: RomCom-Serie »Toradora!« zum Sonderpreis",
@@ -656,7 +703,7 @@
           "folgen": 13
         }
       ],
-      "sammelGelesen": "2026-11-08"
+      "sammelGelesen": "2026-11-11"
     },
     {
       "articleTitle": "ProSieben MAXX zeigt »Wandering Witch: Elainas Reise« als TV-Premiere",
@@ -724,7 +771,7 @@
           "folgen": 13
         }
       ],
-      "sammelGelesen": "2026-11-07"
+      "sammelGelesen": "2026-11-10"
     },
     {
       "articleTitle": "Sieben Disc-Neuheiten ab sofort im AKIBA PASS SHOP vorbestellbar",
@@ -1018,7 +1065,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-11-08"
+      "sammelGelesen": "2026-11-11"
     },
     {
       "articleTitle": "Neue Anime-Katalogtitel im November 2026 bei aniverse",
@@ -1104,7 +1151,7 @@
           "folgen": 12
         }
       ],
-      "sammelGelesen": "2026-11-07"
+      "sammelGelesen": "2026-11-10"
     },
     {
       "articleTitle": "Disney+ nimmt zwei Anime-Neuzugänge ins Programm",
@@ -1143,7 +1190,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-07"
+      "sammelGelesen": "2026-11-10"
     },
     {
       "articleTitle": "Zwei Anime-Neuzugänge auf Deutsch bei Crunchyroll",
@@ -1193,7 +1240,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-07"
+      "sammelGelesen": "2026-11-10"
     },
     {
       "articleTitle": "Crunchyroll zeigt dritte »Mashle«-Staffel im Simulcast",
@@ -1445,7 +1492,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-11-08"
+      "sammelGelesen": "2026-11-11"
     },
     {
       "articleTitle": "Crunchyroll bringt besonderes »Black Clover«-Erlebnis nach Deutschland",
@@ -1931,7 +1978,7 @@
           "edition": "limited-edition sammelschuber"
         }
       ],
-      "discGelesen": "2026-11-08"
+      "discGelesen": "2026-11-11"
     },
     {
       "articleTitle": "Zwei Synchro-Neuzugänge ab sofort auf Crunchyroll verfügbar",
@@ -3399,7 +3446,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-02"
+      "sammelGelesen": "2026-11-10"
     },
     {
       "articleTitle": "AniMoon startet Online-Rabattaktion zur Frankfurter Buchmesse 2026",
@@ -3679,7 +3726,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-03"
+      "sammelGelesen": "2026-11-10"
     },
     {
       "articleTitle": "Nutzer verlieren gekaufte Inhalte: Tapas bestätigt Abschaltung für 2027",
@@ -3812,7 +3859,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-02"
+      "sammelGelesen": "2026-11-10"
     },
     {
       "articleTitle": "Anime-Drama »A New Dawn« erscheint auf Blu-ray + Design",
@@ -3935,7 +3982,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-02"
+      "sammelGelesen": "2026-11-10"
     },
     {
       "articleTitle": "23 Blu-ray-Termine von AniMoon, Crunchyroll und peppermint verschoben",
@@ -4209,7 +4256,7 @@
           "folgen": 13
         }
       ],
-      "sammelGelesen": "2026-11-02"
+      "sammelGelesen": "2026-11-10"
     },
     {
       "articleTitle": "Drei Anime-Serien verlassen bald den Prime-Video-Katalog",
@@ -4320,7 +4367,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-03"
+      "sammelGelesen": "2026-11-10"
     },
     {
       "articleTitle": "Netflix startet große Werbeoffensive in 15 weiteren Ländern",
@@ -4404,7 +4451,7 @@
           "datum": "2026-10-01"
         }
       ],
-      "sammelGelesen": "2026-11-03"
+      "sammelGelesen": "2026-11-10"
     },
     {
       "articleTitle": "Neue Mehrwertsteuer-Aktion bei MediaMarkt und SATURN",
@@ -4547,7 +4594,7 @@
           "datum": "2026-10-06"
         }
       ],
-      "sammelGelesen": "2026-11-03"
+      "sammelGelesen": "2026-11-10"
     },
     {
       "articleTitle": "AKIBA PASS TV kündigt zwei neue Herbst-Simulcasts 2026 an",
@@ -4579,7 +4626,7 @@
           "datum": "2026-09-30"
         }
       ],
-      "sammelGelesen": "2026-11-03"
+      "sammelGelesen": "2026-11-10"
     },
     {
       "articleTitle": "Crunchyroll ergänzt drei Anime-Neuzugänge + Synchro",
@@ -4629,7 +4676,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-03"
+      "sammelGelesen": "2026-11-10"
     },
     {
       "articleTitle": "AniMoon-Angebot: »Higurashi GOU«-Komplettset zum Sonderpreis",

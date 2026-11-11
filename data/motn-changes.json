@@ -3,7 +3,7 @@
     "2026-08": 55,
     "2026-09": 68,
     "2026-10": 99,
-    "2026-11": 30
+    "2026-11": 36
   },
   "gesehen": {
     "26341901:netflix": {
@@ -1162,7 +1162,7 @@
       "imdbId": "tt9813792",
       "tmdbId": "tv/124364",
       "dienst": "prime",
-      "am": "2026-10-19",
+      "am": "2026-11-10",
       "deutsch": true,
       "deutschBeiDienst": false
     },
@@ -7405,8 +7405,9 @@
       "imdbId": "tt1474684",
       "tmdbId": "tv/1426",
       "dienst": "prime",
-      "am": "2026-10-10",
-      "deutsch": false
+      "am": "2026-11-10",
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:308:prime": {
       "art": "removed",
@@ -11118,7 +11119,161 @@
       "am": "2026-11-06",
       "deutsch": false,
       "deutschBeiDienst": false
+    },
+    "new:34022:netflix": {
+      "art": "new",
+      "titel": "The Village: Achiara's Secret",
+      "originalTitel": "마을 - 아치아라의 비밀",
+      "imdbId": "tt5084004",
+      "tmdbId": "tv/63929",
+      "dienst": "netflix",
+      "am": "2026-11-10",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "new:22494:netflix": {
+      "art": "new",
+      "titel": "Temperature of Love",
+      "originalTitel": "사랑의 온도",
+      "imdbId": "tt7208182",
+      "tmdbId": "tv/73575",
+      "dienst": "netflix",
+      "am": "2026-11-10",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "new:64403:netflix": {
+      "art": "new",
+      "titel": "Mecha Builders",
+      "originalTitel": "Mecha Builders",
+      "imdbId": "tt14731416",
+      "tmdbId": "tv/194703",
+      "dienst": "netflix",
+      "am": "2026-11-10",
+      "deutsch": true,
+      "deutschBeiDienst": true
+    },
+    "new:13110:netflix": {
+      "art": "new",
+      "titel": "Defendant",
+      "originalTitel": "피고인",
+      "imdbId": "tt6256692",
+      "tmdbId": "tv/68890",
+      "dienst": "netflix",
+      "am": "2026-11-10",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "new:16449:netflix": {
+      "art": "new",
+      "titel": "Remember: War of the Son",
+      "originalTitel": "리멤버 - 아들의 전쟁",
+      "imdbId": "tt5260064",
+      "tmdbId": "tv/64487",
+      "dienst": "netflix",
+      "am": "2026-11-10",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "new:17496:netflix": {
+      "art": "new",
+      "titel": "My Strange Hero",
+      "originalTitel": "복수가 돌아왔다",
+      "imdbId": "tt9165992",
+      "tmdbId": "tv/84464",
+      "dienst": "netflix",
+      "am": "2026-11-10",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "new:16871:netflix": {
+      "art": "new",
+      "titel": "Do You Like Brahms?",
+      "originalTitel": "브람스를 좋아하세요",
+      "imdbId": "tt12867750",
+      "tmdbId": "tv/101857",
+      "dienst": "netflix",
+      "am": "2026-11-10",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "new:24862332:netflix": {
+      "art": "new",
+      "titel": "Bass X Machina",
+      "originalTitel": "Bass X Machina",
+      "imdbId": "tt39957390",
+      "tmdbId": "tv/314271",
+      "dienst": "netflix",
+      "am": "2026-11-10",
+      "deutsch": true,
+      "deutschBeiDienst": true
+    },
+    "new:22210:netflix": {
+      "art": "new",
+      "titel": "Come Back Alive",
+      "originalTitel": "돌아와요 아저씨",
+      "imdbId": "tt5497708",
+      "tmdbId": "tv/65412",
+      "dienst": "netflix",
+      "am": "2026-11-10",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "new:6805:netflix": {
+      "art": "new",
+      "titel": "Power Book III: Raising Kanan",
+      "originalTitel": "Power Book III: Raising Kanan",
+      "imdbId": "tt11761176",
+      "tmdbId": "tv/124394",
+      "dienst": "netflix",
+      "am": "2026-11-10",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "new:1034:netflix": {
+      "art": "new",
+      "titel": "Power",
+      "originalTitel": "Power",
+      "imdbId": "tt3281796",
+      "tmdbId": "tv/54650",
+      "dienst": "netflix",
+      "am": "2026-11-10",
+      "deutsch": true,
+      "deutschBeiDienst": true
+    },
+    "removed:7542608:netflix": {
+      "art": "removed",
+      "titel": "Love After Divorce",
+      "originalTitel": "돌싱글즈",
+      "imdbId": "tt28665617",
+      "tmdbId": "tv/128979",
+      "dienst": "netflix",
+      "am": "2026-11-10",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "removed:11714:netflix": {
+      "art": "removed",
+      "titel": "Black Space",
+      "originalTitel": "בלקספייס",
+      "imdbId": "tt13660638",
+      "tmdbId": "tv/116569",
+      "dienst": "netflix",
+      "am": "2026-11-10",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "removed:5459516:netflix": {
+      "art": "removed",
+      "titel": "The Origin: Madam Koi-Koi",
+      "originalTitel": "The Origin: Madam Koi-Koi",
+      "imdbId": "tt27483643",
+      "tmdbId": "tv/239280",
+      "dienst": "netflix",
+      "am": "2026-11-10",
+      "deutsch": false,
+      "deutschBeiDienst": false
     }
   },
-  "fetchedAt": "2026-11-09T04:09:16.022Z"
+  "fetchedAt": "2026-11-11T04:07:33.989Z"
 }

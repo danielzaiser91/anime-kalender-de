@@ -9,7 +9,7 @@ Der Vorschlag stammt aus einem Namensvergleich und ist **kein Beleg**:
 gehört die gemeldete Adresse als zusätzlicher Verweis an den Titel; stimmt er
 nicht, gehört die Zeile gestrichen.
 
-Stand: 2026-11-10
+Stand: 2026-11-11
 
 ## Was hier zu tun ist
 
@@ -44,7 +44,6 @@ nicht. Vier Fälle, vier Handgriffe:
 | primevideo | https://www.amazon.de/gp/video/detail/B0883CSMBB | Danmachi: Is It Wrong to Try to Pick Up Girls in a Dungeon? Familia Myth (Is It Wrong to Try to Pick Up Girls in a Dungeon?) — Staffel 4: 22 Folgen gemeldet, Zielstaffel hat 11 | dub | [Danmachi: Is It Wrong to Try to Pick Up Girls in a Dungeon? Familia Myth](https://anilist.co/anime/20920) | Staffel 4 prüfen: Folgenzahl passt nicht |
 | primevideo | https://www.amazon.de/gp/video/detail/B0883CSMBB | Danmachi: Is It Wrong to Try to Pick Up Girls in a Dungeon? Familia Myth (Is It Wrong to Try to Pick Up Girls in a Dungeon?) — Staffel 5 in der Reihe nicht zu bestimmen | dub | [Danmachi: Is It Wrong to Try to Pick Up Girls in a Dungeon? Familia Myth](https://anilist.co/anime/20920) | Seite B0D75XMMB1 als Verweis an den Titel von Staffel 5 eintragen |
 | primevideo | https://www.amazon.de/gp/video/detail/B0DNG8BDW3 | Die rothaarige Schneeprinzessin (Snow White with the Red Hair) — Staffel 2: 1 Folgen gemeldet, Zielstaffel hat 12 | kein_dub | [Die rothaarige Schneeprinzessin](https://anilist.co/anime/21058) | Staffel 2 prüfen: Folgenzahl passt nicht |
-| primevideo | https://www.amazon.de/gp/video/detail/B0DZCL6XMM | Dr. Stone — Staffel 3: 22 Folgen gemeldet, Zielstaffel hat 11 | dub | [Dr. Stone](https://anilist.co/anime/105333) | Staffel 3 prüfen: Folgenzahl passt nicht |
 | primevideo | https://www.amazon.de/gp/video/detail/B0DZCL6XMM | Dr. Stone — Staffel 4 in der Reihe nicht zu bestimmen | dub | [Dr. Stone](https://anilist.co/anime/105333) | Seite B0DSGD64QC als Verweis an den Titel von Staffel 4 eintragen |
 | primevideo | https://www.amazon.de/gp/video/detail/B0GDFC7BL6 | Fruits Basket Staffel 3 (Fruits Basket The Final Season) — Staffel 1 der Seite B0G55X7DZK gehört nicht zum Auftragstitel | kein_dub | [Fruits Basket Staffel 3](https://anilist.co/anime/124194) | Seite B0G55X7DZK als Verweis an ihren Staffel-Titel eintragen |
 | primevideo | https://www.amazon.de/gp/video/detail/B0CHBQ91TK | Golden Kamuy 3 (Golden Kamuy Season 3) — Staffel 1 der Seite B0CGW73DPG gehört nicht zum Auftragstitel | dub | [Golden Kamuy 3](https://anilist.co/anime/110355) | Seite B0CGW73DPG als Verweis an ihren Staffel-Titel eintragen |
