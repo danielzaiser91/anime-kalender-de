@@ -10,7 +10,7 @@ import { fileURLToPath } from 'node:url'
 // Worst-Case-Summe, wenn jeder gh der Wachphase hängt (laeufe-aufraeumen): rote Sammler-PRs 15 s + rotAlarmText
 // (Läufe 15 s + bis zu 5× `run view` 75 s + Deploy-Läufe 15 s = 105 s) + Stapel 30 s, nach einem Fehlschlag einmal wiederholt
 // 60 s = 180 s, dazu 15 s je roter Workflow-Art (letzterGruenJe). Fällt bereits der erste Abruf aus, entfallen die fünf
-// `run view`: dann 15 + 15 + 15 + 60 = 105 s. Frist des Aufrufers: Job „abschluss“ in deploy.yml, timeout-minutes 3 = 180 s
+// `run view`: dann 15 + 15 + 15 + 60 = 105 s. Frist des Aufrufers: Schritt „Überholte rote Läufe abnehmen“ (Job „abschluss“) in deploy.yml, timeout-minutes 3 = 180 s
 // (mit 60/120 s waren es über 480 s, die Wache wäre vor ihrer ALARM-Zeile abgebrochen worden).
 // Ein Timeout im Stapel beendet nur den Kind-`node`; seine `gh`-Enkel können unter Windows weiterlaufen (kein Prozessbaum-Kill),
 // sie enden spätestens an ihrem eigenen 60-s-Limit in gh-stapel.mjs.
