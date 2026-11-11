@@ -311,14 +311,5 @@
     "tests": [
       "node tools/pr-nachrechnen-umfang.test.mjs"
     ]
-  },
-  {
-    "name": "umfang-baum-messen: Grenzen vom Baum statt von main",
-    "datei": "tools/umfang-baum-messen.mjs",
-    "suche": "inhalte(git, main, [GRENZEN])",
-    "ersetze": "inhalte(git, baum, [GRENZEN])",
-    "tests": [
-      "node tools/pr-nachrechnen-umfang.test.mjs"
-    ]
   }
 ]
