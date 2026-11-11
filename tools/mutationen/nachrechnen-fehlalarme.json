@@ -268,6 +268,41 @@
     "ersetze": "const vorwaerts = []"
   },
   {
+    "name": "Ordner: Endungsfilter ignoriert",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "const sichtbar = (b) => tests.length === 0 || tests.some((t) => t(b))",
+    "ersetze": "const sichtbar = (b) => true",
+    "tests": ["node tools/pr-nachrechnen-leser.test.mjs"]
+  },
+  {
+    "name": "Ordner: Filter schließt nie aus (ohne Tests immer sichtbar, mit Tests nie)",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "const sichtbar = (b) => tests.length === 0 || tests.some((t) => t(b))",
+    "ersetze": "const sichtbar = (b) => tests.length === 0",
+    "tests": ["node tools/pr-nachrechnen-leser.test.mjs"]
+  },
+  {
+    "name": "Ordner: endsWith-Literal nicht erkannt",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "const lit = [...code.matchAll(ENDUNG_LITERAL)]",
+    "ersetze": "const lit = []",
+    "tests": ["node tools/pr-nachrechnen-leser.test.mjs"]
+  },
+  {
+    "name": "Ordner: Regex-Filter nicht erkannt",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "const reg = [...code.matchAll(ENDUNG_REGEX)]",
+    "ersetze": "const reg = []",
+    "tests": ["node tools/pr-nachrechnen-leser.test.mjs"]
+  },
+  {
+    "name": "Ordner: Endung exakt statt Ende (Dateiname enthält statt endet)",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "(name) => name.endsWith(`.${m[1] ?? m[2]}`)",
+    "ersetze": "(name) => name.includes(`.${m[1] ?? m[2]}`)",
+    "tests": ["node tools/pr-nachrechnen-leser.test.mjs"]
+  },
+  {
     "name": "Datenkanal: jeder Leser zählt (bauLeser-Filter entfernt)",
     "datei": "tools/pr-nachrechnen-leser.mjs",
     "suche": "const bauLeser = leser.filter(istBauLeser)",

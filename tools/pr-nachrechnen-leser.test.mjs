@@ -256,6 +256,21 @@ for (const [name, opt] of [['fetch scheitert', { fetchFehler: true }], ['ls-tree
   pruefe('Ordner: Markdown ist kein lesbarer Code -> null', mitText("readFileSync('data/' + f)\n", 'docs/x.md') === null)
   pruefe('ordnerLeser: nur eine Datei unter dem Token, nicht der Token selbst', ordnerLeser("x('data/' + f)\n", ['data/a/b.json']) === 'data/a/b.json' && ordnerLeser("x('data/a.json')\n", ['data/a.json']) === undefined)
   pruefe('ordnerLeser: Ordnername als Namensanfang (data/a gegen data/ab.json) -> kein Treffer', ordnerLeser("fs.readdirSync('data/a')\n", ['data/ab.json']) === undefined && ordnerLeser("fs.readdirSync('data/a')\n", ['data/a/b.json']) === 'data/a/b.json')
+  // PR 3367/3282 (11.11.2026): Zeilen wörtlich aus tools/sammler-pruefschritt-waechter.mjs und tools/logik-beleg.test.mjs; bewegt: die Ausführungsliste.
+  const LISTE_TXT = 'tools/check-logic-liste.txt'
+  const SAMMLER = "const skripte = Object.fromEntries(readdirSync(join(wurzel, 'tools')).filter((f) => f.endsWith('.sh')).map((f) => [f, lies(`tools/${f}`)]))\n"
+  const YAMLS = "const yamls = (ordner) => readdirSync(join(wurzel, ordner)).filter((f) => /\\.ya?ml$/.test(f))\nconst a = readdirSync('tools')\n"
+  const LOGIK = "  zeileOderGrund(r3.ordner, `tools/${n}.mjs`, 'x')\n"
+  const TEST_FILTER = "readdirSync('tools').filter((f) => f.endsWith('.test.mjs'))\n"
+  pruefe('Ordner 3367: Verzeichnis nur mit Filter .sh -> null, .sh bleibt Grund', ordnerLeser(SAMMLER, [LISTE_TXT]) === undefined && ordnerLeser(SAMMLER, [LISTE_TXT, 'tools/a.sh']) === 'tools/a.sh')
+  pruefe('Ordner 3367: Regex-Filter ya?ml -> .txt null, .yml und .yaml bleiben Grund', ordnerLeser(YAMLS, [LISTE_TXT]) === undefined && ordnerLeser(YAMLS, ['tools/a.yml']) === 'tools/a.yml' && ordnerLeser(YAMLS, ['tools/a.yaml']) === 'tools/a.yaml')
+  pruefe('Ordner 3367: Namen mit angehängter Endung (`tools/${n}.mjs`) -> .txt null, .mjs Grund', ordnerLeser(LOGIK, [LISTE_TXT]) === undefined && ordnerLeser(LOGIK, ['tools/x.mjs']) === 'tools/x.mjs')
+  pruefe('Ordner 3367: readdirSync ohne Filter bleibt Grund', ordnerLeser("readdirSync('tools')\n", [LISTE_TXT]) === LISTE_TXT)
+  pruefe('Ordner 3367: Filter auf die Endung der bewegten Datei (.txt) bleibt Grund', ordnerLeser("readdirSync('tools').filter((f) => f.endsWith('.txt'))\n", [LISTE_TXT]) === LISTE_TXT)
+  pruefe('Ordner 3367: mehrteilige Endung (.test.mjs) schließt .txt aus, nicht einen Test', ordnerLeser(TEST_FILTER, [LISTE_TXT]) === undefined && ordnerLeser(TEST_FILTER, ['tools/a.test.mjs']) === 'tools/a.test.mjs')
+  pruefe('Ordner 3367: Endung steht nur mitten im Namen (a.sh.bak) -> null', ordnerLeser(SAMMLER, ['tools/a.sh.bak']) === undefined)
+  pruefe('Ordner 3367: ganze Entscheidung (PR-Skript mit Sammler-Zeile, bewegt die Liste) -> null', bewegtesGelesen({ bewegt: [LISTE_TXT], pr: ['tools/neu.mjs'], leser: [], lies: (p) => (p === 'tools/neu.mjs' ? SAMMLER : null), paketSkripte: null }) === null)
+  pruefe('Ordner 3367: ganze Entscheidung ohne Filter -> Grund', /liest einen Ordner mit tools\/check-logic-liste\.txt/.test(bewegtesGelesen({ bewegt: [LISTE_TXT], pr: ['tools/neu.mjs'], leser: [], lies: (p) => (p === 'tools/neu.mjs' ? "readdirSync('tools')\n" : null), paketSkripte: null }) ?? ''))
 }
 
 // A3/A4 (Prüfer 2123 R1): leere oder abgelaufene git-Ausgabe ergibt nie „aktuell“.

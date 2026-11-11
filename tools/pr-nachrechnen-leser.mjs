@@ -106,8 +106,25 @@ export function ordnerTokens(text) {
   return [...new Set([...anhang, ...literal])]
 }
 
-/** Erste bewegte Datei, die unter einem Ordner-Token des Codes liegt (nicht der Token selbst als Datei). */
-export const ordnerLeser = (text, bewegt) => bewegt.find((b) => ordnerTokens(text).some((t) => b.startsWith(`${t}/`)))
+const ENDUNG_LITERAL = /endsWith\(\s*['"`]\.([\w.]+)['"`]|\}\.([\w.]+)['"`]/g
+const ENDUNG_REGEX = /\\\.(\([^)]*\)|[\w?|]+)\$\//g
+
+/**
+ * Endungs-Bedingungen des Codes (`.endsWith('.sh')`, `/\.ya?ml$/`, `` `tools/${n}.mjs` ``) als Dateinamen-Tests; leer, wenn er keine nennt.
+ * Ein Leser, der ein Verzeichnis nur über solche Namen liest, sieht eine Datei anderer Endung nicht (PR 3367/3282, 11.11.2026).
+ */
+export function endungsTests(code) {
+  const lit = [...code.matchAll(ENDUNG_LITERAL)].map((m) => (name) => name.endsWith(`.${m[1] ?? m[2]}`))
+  const reg = [...code.matchAll(ENDUNG_REGEX)].map((m) => (name) => new RegExp(`\\.(?:${m[1].replace(/^\(|\)$/g, '')})$`).test(name))
+  return [...lit, ...reg]
+}
+
+/** Erste bewegte Datei, die unter einem Ordner-Token des Codes liegt (nicht der Token selbst als Datei) und deren Endung der Code nicht ausschließt. */
+export function ordnerLeser(text, bewegt) {
+  const tests = endungsTests(ohneKommentare(text))
+  const sichtbar = (b) => tests.length === 0 || tests.some((t) => t(b))
+  return bewegt.find((b) => sichtbar(b) && ordnerTokens(text).some((t) => b.startsWith(`${t}/`)))
+}
 
 /** Dateien aus `texte` (Karte Pfad -> Inhalt), die den Namen einer bewegten Datei außerhalb von Kommentaren nennen, sortiert. */
 export const leserIn = (texte, bewegt) => [...texte].filter(([pfad, text]) => !LISTE.test(pfad) && bewegt.some((b) => liestTestDatei(pfad, text, b) && nennt(text, b))).map(([pfad]) => pfad).sort()
