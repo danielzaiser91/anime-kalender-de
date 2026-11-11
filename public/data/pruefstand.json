@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-11-11T14:23:05.567Z",
+ "erzeugtAm": "2026-11-11T15:35:24.471Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -7,11 +7,14 @@
    "gemeldet": 960,
    "gesamt": 999,
    "offen": 39,
-   "ohneSeite": 6,
+   "ohneSeite": 9,
    "suchAdressen": [
     "https://www.amazon.de/s?k=Pretty%20Cure&i=instant-video",
     "https://www.amazon.de/s?k=Demon%20Slave%3A%20The%20Chained%20Soldier&i=instant-video",
     "https://www.amazon.de/s?k=The%20Birth%20Of%20Kitaro%20-%20Das%20Geheimnis%20von%20Gegege&i=instant-video",
+    "https://www.amazon.de/s?k=Miraculous%20World%3A%20New%20York%2C%20United%20Heroez&i=instant-video",
+    "https://www.amazon.de/s?k=Miraculous%20World%3A%20Shanghai%2C%20die%20Legende%20von%20Ladydragon&i=instant-video",
+    "https://www.amazon.de/s?k=Detektiv%20Conan%3A%20Lovestory%20im%20Polizeihauptquartier%20-%20Am%20Abend%20vor%20der%20Hochzeit&i=instant-video",
     "https://www.amazon.de/s?k=Fischen%20Impossible%3A%20Eine%20tierische%20Rettungsaktion&i=instant-video",
     "https://www.amazon.de/s?k=Z%20wie%20Zorro%20%E2%80%93%20Der%20Film&i=instant-video",
     "https://www.amazon.de/s?k=Miru%20Tights&i=instant-video"

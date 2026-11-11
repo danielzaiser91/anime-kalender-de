@@ -159,7 +159,12 @@ jobs:
 
       - name: Browser für Crunchyroll-Tonspuren installieren
         if: ${{ inputs.lauf == 'data:cr-dub' }}
-        run: npx playwright install --with-deps chromium
+        run: npx playwright install chromium
+
+      # apt-Störung (security.ubuntu.com, 11.11.2026) darf den Lauf nicht reißen; fehlt danach eine Bibliothek, scheitert sichtbar erst der Browserstart (nicht gemessen).
+      - name: Chromium-Systempakete
+        if: ${{ inputs.lauf == 'data:cr-dub' }}
+        run: npx playwright install-deps chromium || echo "::warning::Chromium-Systempakete nicht installiert (apt-Störung)"
 
       # Vor dem Cover-Lauf: robots.txt von www.anisearch.de und cdn.anisearch.de wörtlich nach data/anisearch-robots.txt. Sperrt sie den Cover-Pfad, wird der Lauf rot
       # und lädt nichts; die Datei geht trotzdem in den Pull Request (der Schritt „Quellen als Pull Request einreichen“ läuft immer).

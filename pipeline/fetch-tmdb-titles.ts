@@ -22,6 +22,7 @@ import { nachAbruf, streicheAbgelaufenes, STREICH_TAGE } from './lib/tmdb-ablauf
 import { FILMSUCHE_SEIT, koennteFilmSein, lookup } from './lib/tmdb-titel-lookup.ts'
 import { uebernimmVonHand } from './lib/tmdb-von-hand.ts'
 import { faelligeTitel } from './lib/tmdb-faellig.ts'
+import { raeumeStaffel0Auf } from './lib/tmdb-staffel0-eigene.ts'
 import type { Vermerk404 } from './lib/tmdb-folgen-404.ts'
 import { readFileSync } from 'node:fs'
 import yaml from 'js-yaml'
@@ -193,6 +194,8 @@ async function main(): Promise<void> {
 
   streicheAlteInhalte(cache)
   speichereOhneGeteilteHauptserien(cache, titles, handIds)
+  const ausStaffel0 = raeumeStaffel0Auf(cache)
+  if (ausStaffel0.length) log(`${ausStaffel0.length} Titel mit eigener Kennung aus der Staffel 0 genommen: ${ausStaffel0.join(', ')}`)
   recordSource('tmdb-titles', done)
   const total = Object.values(cache).filter((c) => c.overviewDe).length
   log(`Fertig: ${done} abgefragt, ${total} Titel mit deutscher Handlung im Bestand`)
