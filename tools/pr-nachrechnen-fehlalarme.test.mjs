@@ -3,6 +3,7 @@
  * `pr-nachrechnen.mjs` kostete eine Kette von 20 min (PR 3341, 3346, 3347, 3269, 3305, 3310). Jeder Fall unten steht mit den echten
  * Pfaden des Anlasses im Fake-Baum; ein Neustart bleibt nur, wenn Code des PR die bewegte Datei nachweislich liest.
  */
+import fs from 'node:fs'
 import { bewegtesGelesen, leserIn } from './pr-nachrechnen-leser.mjs'
 
 const fehler = []
@@ -86,6 +87,24 @@ pruefe('A2(a) Leser a.ts -> b.ts -> c.ts, PR ändert c.ts -> Neustart', /^pipeli
 pruefe('A2(a) Gegenfall: PR ändert d.ts (drei Importe vom Leser) -> null', urteil(TIEF, { bewegt: [AMAZON], leser: ['pipeline/bau/a.ts'], pr: ['pipeline/bau/d.ts'] }) === null)
 const CHECK = { 'tools/check-x.mjs': "import './lib.mjs'\nreadFileSync('data/amazon-gti-belegt.json')\n" }
 pruefe('A2(b) Leser tools/check-x.mjs liest die bewegte Datei und importiert tools/lib.mjs, PR ändert lib.mjs -> Neustart', /^tools\/lib\.mjs wird von Code genutzt/.test(urteil(CHECK, { bewegt: [AMAZON], leser: ['tools/check-x.mjs'], pr: ['tools/lib.mjs'] })))
+
+// 11.11.2026: tools/commit-data-test.sh nennt data/anisearch.json & Co. nur als Fixture in Wegwerf-Repos; als Bau-Leser wies es Daten-PRs ab.
+// Der Text ist der echte (vorher: Grund „Leser: tools/commit-data-test.sh“), die Gegenprobe gibt ihn unter einem Werkzeugnamen ohne „-test“.
+const lesePfad = (name) => new URL(`./${name}`, import.meta.url)
+const SHELL = Object.fromEntries(['commit-data-test.sh', 'commit-data-test-verworfen.sh', 'bau-schon-gebaut-test.sh'].map((n) => [`tools/${n}`, fs.readFileSync(lesePfad(n), 'utf8')]))
+const DATEN_PR = ['data/folgentitel-hand.yaml']
+for (const [pfad, text] of Object.entries(SHELL)) {
+  const genannt = ['data/anisearch.json', 'data/bestand-historie.jsonl'].find((d) => text.includes(d.split('/').pop()))
+  const ohne = bewegtesGelesen({ bewegt: [genannt], pr: DATEN_PR, leser: [pfad], lies: (p) => SHELL[p] ?? null, paketSkripte: null })
+  const mit = bewegtesGelesen({ bewegt: [genannt], pr: DATEN_PR, leser: ['tools/gen.sh'], lies: (q) => (q === 'tools/gen.sh' ? text : null), paketSkripte: null })
+  pruefe(`Shell-Test ${pfad} (nennt ${genannt}) ist kein Bau-Leser -> null`, ohne === null, ohne)
+  pruefe('Gegenprobe: derselbe Text als tools/gen.sh bleibt Bau-Leser -> Grund', /^der PR ändert data\/folgentitel-hand\.yaml, .*Leser: tools\/gen\.sh/.test(mit), mit)
+}
+const MUSTER_FAELLE = [['tools/commit-data-test-beleg.sh', null], ['tools/attest.sh', 'g'], ['tools/test-x.sh', 'g'], ['tools/a-test.mjs', 'g']]
+for (const [p, soll] of MUSTER_FAELLE) {
+  const g = bewegtesGelesen({ bewegt: ['data/anisearch.json'], pr: DATEN_PR, leser: [p], lies: (q) => (q === p ? "x('data/anisearch.json')\n" : null), paketSkripte: null })
+  pruefe(`Shell-Test-Muster: ${p} -> ${soll === null ? 'null' : 'Grund'}`, (g === null) === (soll === null), g)
+}
 
 if (fehler.length > 0) {
   console.error(`pr-nachrechnen-fehlalarme.test: ${fehler.length} rot`)

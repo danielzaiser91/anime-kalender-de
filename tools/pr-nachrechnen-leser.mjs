@@ -144,8 +144,11 @@ const liestClaudeMd = (datei, bewegt, lies) => bewegt.some((b) => istClaudeMd(b)
  */
 const aendertBauDaten = (datei) => datei.startsWith('data/')
 
+/** Shell-Tests (`commit-data-test*.sh`, `bau-schon-gebaut-test.sh`) schreiben Fixtures in Wegwerf-Repos und lesen nie echte Daten (geprüft 11.11.2026). */
+const istShellTest = (datei) => /-test(-[\w-]+)?\.sh$/.test(datei)
+
 /** Leser, die Daten wirklich lesen können: alles außer Tests und Workflows/Aktionen, die nur Fixtures oder Namen nennen (PR 3474, 11.11.2026). */
-const istBauLeser = (datei) => !istTest(datei) && !datei.startsWith('.github/')
+const istBauLeser = (datei) => !istTest(datei) && !istShellTest(datei) && !datei.startsWith('.github/')
 
 /** Der Bau-Kern (pipeline/, shared/, tools/check-*) steht in Meldungen vor Werkzeugen und Workflows: sonst liest man „Leser: pr-pruefer.yml“ als Fehlalarm (11.11.2026). */
 const kernZuerst = (liste) => [...liste].sort((a, b) => Number(KERN.test(b)) - Number(KERN.test(a)))
