@@ -8,12 +8,14 @@
  *   node tools/check-patchnotes-pflicht.mjs
  *
  * Läuft immer die Gegenproben der Regel; die echte Prüfung nur im Ereignis `pull_request` (Beschreibung und Basis aus der
- * Ereignisdatei der Action, kein Workflow-Zusatz nötig). Lokal und auf main ist sie ein Nullbefehl. Hinweis: Die Beschreibung
- * stammt aus dem Ereignis; wer sie nachträglich ändert, stößt die Prüfkette mit einem neuen Commit erneut an.
+ * Ereignisdatei der Action). Lokal und auf main ist sie ein Nullbefehl. Hinweis: Die Beschreibung stammt aus dem Ereignis und bleibt
+ * unverändert; ein Kommentar mit Zeile „Patch Notes: …“ ersetzt sie (`patchnotes-kommentar.mjs`, liest per `gh api`, der Schritt in
+ * pr-pruefung.yml setzt GH_TOKEN) und wirkt ab dem nächsten Lauf (Rerun genügt).
  */
 import { execFileSync } from 'node:child_process'
 import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
+import { beschreibungMitKommentaren } from './patchnotes-kommentar.mjs'
 import { ladeBasis } from './pr-basis.mjs'
 
 const ORDNER = 'data/patchnotes/'
@@ -256,12 +258,13 @@ function gegenproben() {
 const git = (...args) => execFileSync('git', args, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] })
 
 /** Eingaben der Regel aus dem PR-Ereignis: geänderte und neu angelegte Dateien gegen die Basis, Beschreibung. */
-function ausEreignis() {
+export function ausEreignis(gitFn = git, api = undefined) {
   const pr = JSON.parse(readFileSync(process.env.GITHUB_EVENT_PATH, 'utf8')).pull_request
-  const basis = ladeBasis(git)
-  const nameStatus = git('diff', '--name-status', '--no-renames', basis, 'HEAD')
+  const basis = ladeBasis(gitFn)
+  const nameStatus = gitFn('diff', '--name-status', '--no-renames', basis, 'HEAD')
   const dateien = nameStatus.split('\n').filter(Boolean).map((z) => z.split('\t')[1])
-  return { dateien, neu: neueEintraege(nameStatus), vorrat: neueVorratEintraege(nameStatus), beschreibung: pr.body ?? '', zweig: pr.head.ref, titel: pr.title ?? '' }
+  const beschreibung = beschreibungMitKommentaren(pr, process.env.GITHUB_REPOSITORY, api)
+  return { dateien, neu: neueEintraege(nameStatus), vorrat: neueVorratEintraege(nameStatus), beschreibung, zweig: pr.head.ref, titel: pr.title ?? '' }
 }
 
 function main() {

@@ -67,6 +67,9 @@ const ERLAUBTE_ACTIONS = ['actions/checkout@v4', './.github/actions/kette-einric
 const BAU_JOB = 'bau'
 const UPLOAD_WITH = { path: 'dist', 'retention-days': 3 }
 const BAU_ENV = { PAGES_BASE: '/', VITE_NEWSLETTER_API: '${{ vars.NEWSLETTER_API_URL }}' }
+/** Einziger Schritt mit Token: `check:logic` im Job `logik` liest die PR-Kommentare (Ausweg der Patch-Notes-Pflicht). Das Token trägt nur `contents: read`; Kommentare eines öffentlichen Repos sind ohnehin öffentlich. */
+const LOGIK_JOB = 'logik'
+const LOGIK_ENV = { GH_TOKEN: '${{ github.token }}' }
 
 /** Unerlaubte Schlüssel eines Objekts (Whitelist statt Verbotsliste: neue Schalter fallen von selbst auf). */
 function fremdeSchluessel(objekt, erlaubt) {
@@ -125,10 +128,11 @@ function pruefeTeiljobSchritt(id, s, vorCommit) {
   if (name !== null && name !== 'check:vor-commit' && !vorCommit.includes(name)) {
     fehler.push(`Teiljob "${id}": run "${name}" gehört nicht zu check:vor-commit (kein fremdes Skript vor der Prüfung)`)
   }
-  const envErlaubt = [{ PAGES_BASE: '/' }, BAU_ENV].some((e) => JSON.stringify(s.env) === JSON.stringify(e))
+  const envErlaubt = [{ PAGES_BASE: '/' }, BAU_ENV, LOGIK_ENV].some((e) => JSON.stringify(s.env) === JSON.stringify(e))
   if (JSON.stringify(s.env) === JSON.stringify(BAU_ENV) && id !== BAU_JOB) fehler.push(`Teiljob "${id}": das Env des Baus (VITE_NEWSLETTER_API) nur im Job "${BAU_JOB}"`)
+  if (JSON.stringify(s.env) === JSON.stringify(LOGIK_ENV) && (id !== LOGIK_JOB || s.run !== 'npm run check:logic')) fehler.push(`Teiljob "${id}": GH_TOKEN am Schritt nur bei "npm run check:logic" im Job "${LOGIK_JOB}"`)
   if (s.uses === UPLOAD && id !== BAU_JOB) fehler.push(`Teiljob "${id}": ${UPLOAD} nur im Job "${BAU_JOB}"`)
-  if (s.env !== undefined && !envErlaubt) fehler.push(`Teiljob "${id}": env am Schritt nur PAGES_BASE: / (beim Bau zusätzlich VITE_NEWSLETTER_API) erlaubt`)
+  if (s.env !== undefined && !envErlaubt) fehler.push(`Teiljob "${id}": env am Schritt nur PAGES_BASE: / (beim Bau zusätzlich VITE_NEWSLETTER_API, bei check:logic GH_TOKEN) erlaubt`)
   if (s.uses === UPLOAD && JSON.stringify(s.with) !== JSON.stringify(UPLOAD_WITH)) fehler.push(`Teiljob "${id}": ${UPLOAD} nur mit with ${JSON.stringify(UPLOAD_WITH)}`)
   return fehler
 }

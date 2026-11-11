@@ -7,6 +7,8 @@
 import { execFileSync } from 'node:child_process'
 import { pathToFileURL } from 'node:url'
 import { CI_BOT } from './pr-nachtraege.mjs'
+import { holeLauf } from './pr-kettenlog.mjs'
+import { basisNummer } from './pr-pruefer-basis-offen.mjs'
 import { MARKE_KETTE_OFFEN } from './pr-pruefer-kette-offen.mjs'
 import { neuesterLauf, neustart } from './pr-pruefer-neustart.mjs'
 
@@ -25,7 +27,7 @@ export function letztesUrteil(kommentare, kopf) {
 }
 
 /** Ja/Nein samt Grund: ist ein Neustart fällig? `pr` = API-Antwort des PR, `lauf` = neuester Prüfer-Lauf des Kopfes. */
-export function entscheide({ kommentare, kopf, pr, lauf }) {
+export function entscheide({ kommentare, kopf, pr, lauf, basisOffen = false, kette = null }) {
   if (!pr) return { los: false, grund: 'kein offener PR zum Kopf' }
   if (pr.state !== 'open' || pr.draft) return { los: false, grund: 'PR nicht offen oder Entwurf' }
   if (pr.head?.sha !== kopf) return { los: false, grund: 'Kopf inzwischen ein anderer' }
@@ -35,7 +37,20 @@ export function entscheide({ kommentare, kopf, pr, lauf }) {
   const kurz = `**Prüfer-Review** für ${kopf.slice(0, 9)} `
   const bisher = kommentare.filter((k) => k.user?.login === CI_BOT && String(k.body ?? '').startsWith(kurz) && String(k.body).includes(MARKE_KETTE_OFFEN)).length
   if (bisher > MAX_NEUSTARTS) return { los: false, grund: `schon ${bisher} Mal „Kette offen“ (Grenze ${MAX_NEUSTARTS})` }
-  return { los: true, grund: 'Kette fertig, Prüfer sah sie unfertig' }
+  // Stapel-PR, Basis noch offen: eine rote Kette ist erwartet, der Prüfer urteilt erst nach grüner Kette (Marke „Basis offen“).
+  if (basisOffen && kette?.conclusion !== 'success') return { los: false, grund: 'Basis noch offen und Kette nicht grün' }
+  return { los: true, grund: basisOffen ? 'Basis gemergt oder Kette grün: Prüfer sah sie unfertig' : 'Kette fertig, Prüfer sah sie unfertig' }
+}
+
+/** Ist der in der PR-Beschreibung genannte Basis-PR noch offen? Abruffehler zählen als „nein“ (altes Verhalten). */
+function basisIstOffen(repo, pr, gh) {
+  const nr = basisNummer(pr.body)
+  if (!nr) return false
+  try {
+    return gh(['api', `repos/${repo}/pulls/${nr}`, '-q', '.state']).trim() === 'open'
+  } catch {
+    return false
+  }
 }
 
 function ghEcht(args) {
@@ -66,7 +81,9 @@ export function main(env = process.env, { gh = ghEcht, warte = (ms) => Atomics.w
     if (!pr) return console.log('Prüfer-Nachlauf: nein (kein offener PR zum Kopf)'), 0
     const lauf = fertigerLauf(repo, kopf, { gh, warte })
     const kommentare = JSON.parse(gh(['api', '--paginate', '--slurp', `repos/${repo}/issues/${pr.number}/comments`])).flat()
-    const urteil = entscheide({ kommentare, kopf, pr, lauf })
+    const basisOffen = basisIstOffen(repo, pr, gh)
+    const kette = basisOffen ? holeLauf(repo, kopf, gh) : null
+    const urteil = entscheide({ kommentare, kopf, pr, lauf, basisOffen, kette })
     if (!urteil.los) return console.log(`Prüfer-Nachlauf: nein (${urteil.grund})`), 0
     neustart(lauf, repo, { gh, warte })
     console.log(`Prüfer-Nachlauf: ja, Lauf ${lauf.id} für ${kopf.slice(0, 9)} neu gestartet (${urteil.grund})`)

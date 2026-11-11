@@ -1,0 +1,107 @@
+[
+  {
+    "name": "basisZeile: Basisstand nicht geprüft (gemergte Basis zählt als offen)",
+    "aenderungen": [{ "datei": "tools/pr-pruefer-basis-offen.mjs", "suche": "basisStand !== 'open'", "ersetze": "false" }],
+    "tests": ["node tools/pr-pruefer-basis-offen.test.mjs"]
+  },
+  {
+    "name": "basisZeile: grüne Kette zählt auch",
+    "aenderungen": [{ "datei": "tools/pr-pruefer-basis-offen.mjs", "suche": " || lauf.conclusion === 'success'", "ersetze": "" }],
+    "tests": ["node tools/pr-pruefer-basis-offen.test.mjs"]
+  },
+  {
+    "name": "basisZeile: laufende Kette zählt auch",
+    "aenderungen": [{ "datei": "tools/pr-pruefer-basis-offen.mjs", "suche": "lauf.status !== 'completed'", "ersetze": "false" }],
+    "tests": ["node tools/pr-pruefer-basis-offen.test.mjs"]
+  },
+  {
+    "name": "basisNummer: „erst nach“ nicht erkannt",
+    "aenderungen": [{ "datei": "tools/pr-pruefer-basis-offen.mjs", "suche": "(?:mergen|erst)", "ersetze": "(?:mergen)" }],
+    "tests": ["node tools/pr-pruefer-basis-offen.test.mjs"]
+  },
+  {
+    "name": "kettenOffen: Basiszeile wird nicht gelesen",
+    "aenderungen": [{ "datei": "tools/pr-pruefer-kette-offen.mjs", "suche": " || BASIS_ZEILE.test(z)", "ersetze": "" }],
+    "tests": ["node tools/pr-pruefer-basis-offen.test.mjs", "node tools/pr-pruefer-freigabe.test.mjs"]
+  },
+  {
+    "name": "kettenlog: Basiszeile nicht an baueDateien gereicht",
+    "aenderungen": [{ "datei": "tools/pr-kettenlog.mjs", "suche": "jobs: mitLog, fehler, basis })", "ersetze": "jobs: mitLog, fehler })" }],
+    "tests": ["node tools/pr-pruefer-basis-offen.test.mjs"]
+  },
+  {
+    "name": "kettenlog: Basiszeile hinter dem Lauf-Satz und den Jobs",
+    "aenderungen": [{ "datei": "tools/pr-kettenlog.mjs", "suche": "[HINWEIS, ...(basis ? [basis] : []), ...kopfZeilen({ kopf, lauf, jobs, fehler })]", "ersetze": "[HINWEIS, ...kopfZeilen({ kopf, lauf, jobs, fehler }), ...(basis ? [basis] : [])]" }],
+    "tests": ["node tools/pr-pruefer-basis-offen.test.mjs"]
+  },
+  {
+    "name": "kettenlog: Abruffehler der Basis gilt als offen",
+    "aenderungen": [{ "datei": "tools/pr-kettenlog.mjs", "suche": "  } catch {\n    basisStand = ''", "ersetze": "  } catch {\n    basisStand = 'open'" }],
+    "tests": ["node tools/pr-pruefer-basis-offen.test.mjs"]
+  },
+  {
+    "name": "nach-kette: rote Kette bei offener Basis startet neu",
+    "aenderungen": [{ "datei": "tools/pr-pruefer-nach-kette.mjs", "suche": "if (basisOffen && kette?.conclusion !== 'success')", "ersetze": "if (false)" }],
+    "tests": ["node tools/pr-pruefer-basis-offen.test.mjs"]
+  },
+  {
+    "name": "nach-kette: Kettenlauf wird nicht abgefragt",
+    "aenderungen": [{ "datei": "tools/pr-pruefer-nach-kette.mjs", "suche": "basisOffen ? holeLauf(repo, kopf, gh) : null", "ersetze": "null" }],
+    "tests": ["node tools/pr-pruefer-basis-offen.test.mjs"]
+  },
+  {
+    "name": "nach-kette: gemergte Basis gilt als offen",
+    "aenderungen": [{ "datei": "tools/pr-pruefer-nach-kette.mjs", "suche": ".trim() === 'open'", "ersetze": ".trim() !== ''" }],
+    "tests": ["node tools/pr-pruefer-basis-offen.test.mjs"]
+  },
+  {
+    "name": "nach-kette: Abruffehler der Basis gilt als offen",
+    "aenderungen": [{ "datei": "tools/pr-pruefer-nach-kette.mjs", "suche": "  } catch {\n    return false\n  }\n}\n\n", "ersetze": "  } catch {\n    return true\n  }\n}\n\n" }],
+    "tests": ["node tools/pr-pruefer-basis-offen.test.mjs"]
+  },
+  {
+    "name": "yml: Basis-Titel nie gesetzt",
+    "aenderungen": [{ "datei": ".github/workflows/pr-pruefer.yml", "suche": "              basis_offen=1\n", "ersetze": "              basis_offen=0\n" }],
+    "tests": ["node tools/pr-pruefer-freigabe.test.mjs"]
+  },
+  {
+    "name": "yml: Basiszeile wird nicht erkannt",
+    "aenderungen": [{ "datei": ".github/workflows/pr-pruefer.yml", "suche": "grep -q '^BASIS OFFEN: PR #'", "ersetze": "grep -q '^NIE: PR #'" }],
+    "tests": ["node tools/pr-pruefer-freigabe.test.mjs"]
+  },
+  {
+    "name": "yml: Basis-Hinweis ohne Kennzeichnung ungeprüft",
+    "aenderungen": [{ "datei": ".github/workflows/pr-pruefer.yml", "suche": "hinweis='Ungeprüft, Basis offen: Der Basis-PR", "ersetze": "hinweis='Der Basis-PR" }],
+    "tests": ["node tools/pr-pruefer-freigabe.test.mjs"]
+  },
+  {
+    "name": "yml: Basis-Fall behält den Selbststart-Satz",
+    "aenderungen": [{ "datei": ".github/workflows/pr-pruefer.yml", "suche": "              basis_offen=1\n", "ersetze": "              basis_offen=1\n              hinweis=\"$hinweis Der Prüfer startet nach Kettenende von selbst neu.\"\n" }],
+    "tests": ["node tools/pr-pruefer-freigabe.test.mjs"]
+  },
+  {
+    "name": "basisNummer: „#“ oder „PR“ nicht mehr Pflicht",
+    "aenderungen": [{ "datei": "tools/pr-pruefer-basis-offen.mjs", "suche": "(?:PR\\s*#?|#)(\\d+)", "ersetze": "(?:PR\\s*#?|#)?(\\d+)" }],
+    "tests": ["node tools/pr-pruefer-basis-offen.test.mjs"]
+  },
+  {
+    "name": "ohneZitate: Zitatzeilen zählen mit",
+    "aenderungen": [{ "datei": "tools/pr-pruefer-basis-offen.mjs", "suche": ".filter((z) => !z.trimStart().startsWith('>'))", "ersetze": ".filter(() => true)" }],
+    "tests": ["node tools/pr-pruefer-basis-offen.test.mjs"]
+  },
+  {
+    "name": "ohneZitate: Codeblöcke zählen mit",
+    "aenderungen": [{ "datei": "tools/pr-pruefer-basis-offen.mjs", "suche": ".replace(/```[\\s\\S]*?(```|$)/g, '')", "ersetze": "" }],
+    "tests": ["node tools/pr-pruefer-basis-offen.test.mjs"]
+  },
+  {
+    "name": "ohneZitate: Inline-Code zählt mit",
+    "aenderungen": [{ "datei": "tools/pr-pruefer-basis-offen.mjs", "suche": ".replace(/`[^`\\n]*`/g, '')", "ersetze": "" }],
+    "tests": ["node tools/pr-pruefer-basis-offen.test.mjs"]
+  },
+  {
+    "name": "Kontrolle unmutiert",
+    "aenderungen": [],
+    "tests": ["node tools/pr-pruefer-basis-offen.test.mjs", "node tools/pr-pruefer-freigabe.test.mjs"]
+  }
+]
