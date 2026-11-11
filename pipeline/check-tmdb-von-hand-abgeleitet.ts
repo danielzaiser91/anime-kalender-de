@@ -39,11 +39,10 @@ console.log('\nTMDB von Hand: reine Funktion')
   pruefe('Verworfenes ist gezählt und benannt', a.verworfen.length === 4 && a.verworfen.includes('Banner 900401') && a.verworfen.includes('Folgen 900402'), a.verworfen)
   pruefe('Rückgabe zählt Titeländerungen: 900401 ohne, 900402 neu', n === 2, n)
   const c = titel()
-  c['900402']!.tmdbId = 7
   const folgenNeu = bestand()
   folgenNeu.folgen['900402'] = { tmdbId: 7 }
   uebernimmVonHand(c, [{ anilistId: 900402, tmdbId: 7 }], 'x', folgenNeu)
-  pruefe('Folgen der neuen Kennung bleiben, auch bei schon gesetzter Kennung', folgenNeu.folgen['900402']?.tmdbId === 7, folgenNeu)
+  pruefe('Kennungswechsel: Folgen, die schon zur neuen Kennung gehören, bleiben', folgenNeu.folgen['900402']?.tmdbId === 7, folgenNeu)
   const leer = bestand()
   uebernimmVonHand({}, [{ anilistId: 900403, ohne: true }], 'x', leer)
   pruefe('ohne: auch ohne Bestandseintrag werden Altfälle gestrichen', !('900403' in leer.banner) && !('900403' in leer.folgen), leer)
