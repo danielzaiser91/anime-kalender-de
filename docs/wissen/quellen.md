@@ -4360,3 +4360,13 @@ Anlass: „Miraculous World: New York, United Heroez“ (10017058) zeigte keinen
 - **robots.txt (`https://pluto.tv/robots.txt`, abgerufen 08.11.2026):** `User-agent: *` sperrt `*/account/*`, `*path=*`, `*region=*`, `*redirectUrl=*`, `*term=*`. Titelseiten sind erlaubt; **eine Suchadresse gibt es nicht** (`term=` gesperrt), `PLATFORM_SEARCH` führt Pluto TV deshalb nicht. Es gibt kein Zeichen in `public/anbieter/` (kein geprüft freies Logo), die Pille trägt nur den Namen.
 - **Wege kommen von Hand** (`data/verweise-von-hand.yaml`), weil JustWatch Pluto-Angebote ohne Tonspur führt (`audio: []`, 9 Angebote, alle Yu-Gi-Oh!) und `providerToPlatform` Pluto bewusst nicht kennt: sonst verschwänden diese Bezugswege aus `watchLinks`, ohne dass ein Weg entsteht.
 - **Auto-Beleg:** `mitPlattformAusAnbieter` liest bei bereits gespeicherten Vorschlägen mit `plattform: null` und Anbieter „Pluto TV“ die Plattform nach (`NACHTRAEGLICH`, nur Pluto TV; zu streichen, wenn der 90-Tage-Bestand vom 08.11.2026 abgelaufen ist, also ab 06.02.2027). Neue Vorschläge tragen `plutotv` schon beim Lesen (Anleitung der Extraktion).
+
+## fernsehserien.de als TV-Quelle auf Anfrage (12.11.2026)
+
+Die Quelle mit dem besten Umfang für lineares Free-TV (MAXX, Folgennummer, Folgentitel, Ende), aber **nicht ohne schriftliche Genehmigung** nutzbar. Status: **Anfrage offen**; bis zur Antwort kein Abruf dieser Seiten, auch nicht zur Kontrolle.
+
+- **Impressum (https://www.fernsehserien.de/impressum, abgerufen 12.11.2026):** „Der Inhalt dieser Website ist nur zum privaten Gebrauch bestimmt; die Verwendung zu kommerziellen Zwecken oder Vervielfältigung jeglicher Art ist nur mit schriftlicher Genehmigung gestattet!“ Ansprechpartner laut Impressum: kontakt@fernsehserien.de.
+- **robots.txt (https://www.fernsehserien.de/robots.txt, 12.11.2026):** nur `User-agent: GPTBot` mit `Disallow: /`; sonst nichts gesperrt. Eine erlaubende robots.txt ersetzt die Genehmigung im Impressum nicht.
+- **Belegter Umfang (Stichprobe 12.11.2026, nur Detektiv Conan):** Sender „ProSieben MAXX“ im Quelltext; je Serie die Seite `/<serie>/sendetermine` mit Beginn–Ende, Folgennummer und Folgentitel (z. B. 12.11. 17:55–18:25, Nr. 185 „Rache verjährt nicht (1)“). Vorlauf rund drei Wochen (bis 02.12.2026 gelistet). Kein iCal, RSS oder API gefunden; Auslesen nur über HTML.
+- **Offen:** Stichprobe weiterer MAXX-Titel (z. B. One Piece) nicht gemessen. Ein Test aus einem Runner ist erst nach Genehmigung sinnvoll, weil Azure-Adressen gesperrt sein können; lokal liefert 200 keine Aussage.
+- **Bis zur Genehmigung kein Abruf, keine Übernahme.** wunschliste.de (gleicher Betreiber, gleicher Impressum-Wortlaut) gilt ebenso als „auf Anfrage“.
