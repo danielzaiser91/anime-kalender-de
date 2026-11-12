@@ -1,7 +1,10 @@
 import type { Release, ReleaseEvent, ReleaseStatus, Title } from './types.ts'
-import { addDays, todayIso, berlinToUtc, utcZeitInBerlin } from './time.ts'
+import { addDays, todayIso, berlinToUtc, utcZeitInBerlin, toIsoDate } from './time.ts'
 import { markiereNachLuecke, verpasstAnVorhandenes } from './luecken.ts'
 import { erstesFreiesDatum, folgeNachOriginal } from './synchro-original.ts'
+
+/** Berliner Kalendertag eines Vermerk-Zeitpunkts (`erwartetAm`, `neuErwartet` sind UTC). */
+const vermerkTag = (zeitpunkt: string): string => toIsoDate(new Date(zeitpunkt))
 
 /**
  * Beobachtete Folgen als Stützpunkte, aufsteigend nach Folgennummer.
@@ -27,7 +30,7 @@ function stuetzpunkte(s: Release['schedule']): { episode: number; date: string }
   */
   const ausRecherche = Object.entries(s.verpasst ?? {})
     .filter(([, v]) => v?.neuErwartet && !v.erschienenAm)
-    .map(([episode, v]) => ({ episode: Number(episode), date: String(v!.neuErwartet).slice(0, 10) }))
+    .map(([episode, v]) => ({ episode: Number(episode), date: vermerkTag(String(v!.neuErwartet)) }))
   const beobachtet = Object.entries(s.observed ?? {}).map(([episode, date]) => ({
     episode: Number(episode),
     date,
@@ -517,7 +520,7 @@ function termineAusPlan(release: Release): ReleaseEvent[] {
         den Vermerk, stünde der neue Termin durchgestrichen da.
       */
       verpasst:
-        s.verpasst?.[episode] && date === String(s.verpasst[episode].erwartetAm).slice(0, 10)
+        s.verpasst?.[episode] && date === vermerkTag(String(s.verpasst[episode].erwartetAm))
           ? s.verpasst[episode]
           : undefined,
     })
@@ -560,7 +563,7 @@ function termineAusPlan(release: Release): ReleaseEvent[] {
 
   for (const [nr, v] of Object.entries(s.verpasst ?? {})) {
     if (!v?.erwartetAm || v.erschienenAm) continue
-    const alterTag = String(v.erwartetAm).slice(0, 10)
+    const alterTag = vermerkTag(String(v.erwartetAm))
     const episode = ausstehendAm(alterTag, Number(nr))
     if (verpasstAnVorhandenes(events, alterTag, episode, v)) continue
     if (s.lastEpisodeDate && alterTag > s.lastEpisodeDate) continue
