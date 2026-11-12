@@ -8,6 +8,7 @@ import { execFileSync } from 'node:child_process'
 import type { Title } from '../../shared/types.ts'
 import { anzeigeName } from '../../shared/titles.ts'
 import type { LinkAbgang, LinkAbgaenge } from './bestand-delta.ts'
+import { andererBesitzer } from './bestand-betroffen.ts'
 import { adressGleich, adressKern, dubKey, type DubCheck } from './dub-confirmed.ts'
 import { handStichtGegenLink, istTot, juengsteJeKern, type LinkBefund } from './link-befund.ts'
 
@@ -36,7 +37,7 @@ export function linkAbgaenge(
 ): LinkAbgaenge {
   const neu = new Map(jetzt.map((t) => [t.id, new Set((t.streams ?? []).filter((s) => s.dub === true).map((s) => adressKern(s.url)))]))
   const jeKern = juengsteJeKern(link)
-  const aus: LinkAbgaenge = { begruendet: [], unerklaert: [] }
+  const aus = { begruendet: [], unerklaert: [], verschoben: [] } as Required<LinkAbgaenge>
   for (const t of vorher) {
     for (const s of t.streams ?? []) {
       if (s.dub !== true || neu.get(t.id)?.has(adressKern(s.url))) continue
@@ -47,7 +48,9 @@ export function linkAbgaenge(
         text: `${anzeigeName(t)} (${t.id}): ${s.url}`,
         befund: b ? `link-check: ${JSON.stringify(b)}${sticht ? ' (jüngere Handprüfung widerspricht)' : ''}` : undefined,
       }
+      const neuer = andererBesitzer(jetzt, s.platform, s.url, t.id)
       if (istTot(b?.status) && !sticht) aus.begruendet.push(eintrag)
+      else if (neuer) aus.verschoben.push({ ...eintrag, text: `${eintrag.text} → ${anzeigeName(neuer)} (${neuer.id})` })
       else aus.unerklaert.push(eintrag)
     }
   }

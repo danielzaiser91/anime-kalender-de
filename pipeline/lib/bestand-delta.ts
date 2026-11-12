@@ -16,6 +16,8 @@ export interface LinkAbgang {
 export interface LinkAbgaenge {
   begruendet: LinkAbgang[]
   unerklaert: LinkAbgang[]
+  /** Der Weg hängt jetzt mit gleichem Urteil an einem anderen Titel: Hinweis, nicht rot. */
+  verschoben?: LinkAbgang[]
 }
 
 export interface Kennzahlen {
@@ -313,14 +315,16 @@ function anbieterBefunde(
     belegGesamt += durchBeleg
     const durchLink = linkErklaerung(anbieter, weg - begruendet - durchBeleg, belege.link, befund)
     linkGesamt += durchLink
-    const rest = weg - begruendet - durchBeleg - durchLink
+    const durchVerschoben = verschobenErklaerung(anbieter, weg - begruendet - durchBeleg - durchLink, belege.link, befund)
+    linkGesamt += durchVerschoben
+    const rest = weg - begruendet - durchBeleg - durchLink - durchVerschoben
     const durchKanal = Math.min(kanal[anbieter] ?? 0, Math.max(0, rest))
     erklaertGesamt += durchKanal
     if (durchKanal) befund.erklaert.push(`${anbieter}: ${durchKanal} Synchro-Belege herabgestuft (Kanal-Titel, Amazons Sprachangabe)`)
     if (rest - durchKanal <= 0) continue
     befund.auffaellig.push(
       `${anbieter}: ${rest - durchKanal} Synchro-Belege weniger` +
-        (begruendet + durchBeleg + durchLink ? ` (${begruendet + durchBeleg + durchLink} weitere sind begründet entfernt)` : '') +
+        (weg - rest ? ` (${weg - rest} weitere sind begründet entfernt)` : '') +
         (durchKanal ? ` (${durchKanal} weitere durch Kanal-Titel herabgestuft)` : ''),
       ...belege.link.unerklaert.filter((a) => a.anbieter === anbieter).map((a) => `${anbieter}: fehlt ${a.text} (${a.befund ?? 'kein link-check-Eintrag'})`),
     )
@@ -340,6 +344,14 @@ function linkErklaerung(anbieter: string, rest: number, link: LinkAbgaenge, befu
   const eigene = link.begruendet.filter((a) => a.anbieter === anbieter)
   const n = Math.min(eigene.length, Math.max(0, rest))
   for (const a of eigene.slice(0, n)) befund.erklaert.push(`${anbieter}: Weg durch Linkprüfung entfernt – ${a.text} (${a.befund})`)
+  return n
+}
+
+/** Wie viele des Rückgangs `rest` bei diesem Anbieter nur den Titel gewechselt haben; Hinweis in `befund.erklaert`. */
+function verschobenErklaerung(anbieter: string, rest: number, link: LinkAbgaenge, befund: Befund): number {
+  const eigene = (link.verschoben ?? []).filter((a) => a.anbieter === anbieter)
+  const n = Math.min(eigene.length, Math.max(0, rest))
+  for (const a of eigene.slice(0, n)) befund.erklaert.push(`${anbieter}: Weg verschoben – ${a.text}`)
   return n
 }
 

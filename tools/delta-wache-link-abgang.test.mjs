@@ -41,7 +41,7 @@ assert.equal(timeout.unerklaert[0].befund, `link-check: ${JSON.stringify({ statu
 assert.equal(linkAbgaenge(vorher, jetzt, { [ANDERE]: REGION }).begruendet.length, 0, 'Befund einer anderen Adresse erklärt nichts')
 // Gleiche Adresse an einem anderen Titel zählt nicht als Verbleib; ein Weg ohne Ja zählt nicht als Verlust.
 assert.equal(linkAbgaenge([naruto(s('primevideo', NARUTO))], [fremd(s('primevideo', NARUTO)), naruto()], { [NARUTO]: REGION }).begruendet.length, 1)
-assert.deepEqual(linkAbgaenge([naruto(s('primevideo', NARUTO, false))], [naruto()], {}), { begruendet: [], unerklaert: [] })
+assert.deepEqual(linkAbgaenge([naruto(s('primevideo', NARUTO, false))], [naruto()], {}), { begruendet: [], unerklaert: [], verschoben: [] })
 // Jeder Status einzeln: nur 404 und region erklären.
 for (const [status, erklaert] of [[404, true], ['region', true], [200, false], [403, false], [429, false], [500, false], ['timeout', false], ['unklar', false]]) {
   const r = linkAbgaenge(vorher, jetzt, { [NARUTO]: { status, geprueftAm: '2026-11-03' } })
@@ -57,7 +57,7 @@ const dpGp = linkAbgaenge(dpVorher, dpJetzt, { [NARUTO]: REGION })
 assert.equal(dpGp.begruendet.length, 1, 'A1a: /dp/ fehlt, /gp/ steht auf region: begründet')
 assert.equal(dpGp.unerklaert.length, 0)
 // Bleibt die Seite unter der anderen Schreibweise erhalten, fehlt nichts.
-assert.deepEqual(linkAbgaenge(dpVorher, [naruto(s('primevideo', NARUTO), s('primevideo', ANDERE))], { [DP]: REGION }), { begruendet: [], unerklaert: [] })
+assert.deepEqual(linkAbgaenge(dpVorher, [naruto(s('primevideo', NARUTO), s('primevideo', ANDERE))], { [DP]: REGION }), { begruendet: [], unerklaert: [], verschoben: [] })
 // A1b: ein älterer Eintrag ist region, ein jüngerer desselben Kerns 200: der Bau entfernt nichts, die Wache erklärt nichts.
 const alterRegion = { [NARUTO]: { status: 'region', geprueftAm: '2026-09-01' }, [DP]: { status: 200, geprueftAm: '2026-11-02' } }
 const aelter = linkAbgaenge(dpVorher, dpJetzt, alterRegion)
@@ -105,7 +105,7 @@ assert.deepEqual(zweiWege.begruendet.map((a) => a.text), [`Fremder Titel (900001
 assert.deepEqual(zweiWege.unerklaert.map((a) => a.text), [`Fremder Titel (900001): ${NETFLIX_B}`])
 // Bleibt die Adresse stehen, hat aber das Ja verloren, fehlt der Beleg trotzdem (der Zähler zählt Ja, nicht Adressen).
 assert.equal(linkAbgaenge([naruto(s('primevideo', NARUTO))], [naruto(s('primevideo', NARUTO, false))], { [NARUTO]: REGION }).begruendet.length, 1)
-assert.deepEqual(linkAbgaenge(vorher, vorher, { [NARUTO]: REGION }), { begruendet: [], unerklaert: [] }, 'nichts fehlt')
+assert.deepEqual(linkAbgaenge(vorher, vorher, { [NARUTO]: REGION }), { begruendet: [], unerklaert: [], verschoben: [] }, 'nichts fehlt')
 
 // --- Urteil der Wache --------------------------------------------------------------------------------------------------
 /** Kennzahlen; Prime trägt 5 Ja, Netflix 3. */
