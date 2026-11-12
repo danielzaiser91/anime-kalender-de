@@ -68,7 +68,7 @@ export function seitentitelPasst(url: string, text: string, gruppen: Gruppe[], m
   const namen = gruppen.flatMap((g) => g.suchen).filter((s) => norm(s).length > 3)
   if (!/anisearch\.de\/article\//.test(url) || !namen.length) return true
   const t = ` ${norm(text)} `
-  if (namen.some((s) => t.includes(` ${norm(s)} `))) return true
+  if (namen.some((s) => t.includes(' ' + norm(s) + ' '))) return true
   melde(`WARNUNG Beleg ${url}: Seite nennt keinen Namen des Titels (${namen.slice(0, 3).join(' | ')}) — Erscheinungstag verworfen`)
   return false
 }
