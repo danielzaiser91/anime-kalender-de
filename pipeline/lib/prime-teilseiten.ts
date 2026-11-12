@@ -63,6 +63,17 @@ function keineMeldungHier(t: { id: number }, meldungen: [string, PrimeMeldung][]
 }
 
 /**
+ * Weitere Meldungen desselben Titels, die unter der Ablage-Adresse dieser Seite liegen, aber auf einer anderen Seite gemeldet wurden
+ * (Hyouka: Folgen 13–22 von der zweiten Staffelseite). Sie ergänzen nur eine schon auf dieser Seite gemeldete Gruppe; hat der Titel
+ * hier keine eigene Meldung, bleibt es bei „andere Seite, ungeklärt“. Die Nummern sind unsere Zählung, doppelte machen das Urteil offen.
+ */
+function ergaenzendeMeldungen(titleId: number, meldungen: [string, PrimeMeldung][], seite: string): PrimeMeldung[] {
+  return meldungen
+    .filter(([k, m]) => m.plattform === 'primevideo' && m.titleId === titleId && meldungsSeite(k, m) !== seite && adressKern(k.split('#')[0]) === seite)
+    .map(([, m]) => m)
+}
+
+/**
  * Je Titel auf einer geteilten Prime-Seite: Bereich oder Grund. Eindeutig heißt: genau eine Meldung des Titels zu dieser Seite,
  * jede deutsche Folge darin hat eine Nummer in 1 bis Folgenzahl, keine Nummer doppelt, und die Folgengruppe ist keinem anderen
  * Titel derselben Seite gemeldet worden. Ein Kanal-Titel (`kanal`) ist ausgenommen: Amazon zeigt dort die Sprachen des Kanals,
@@ -90,11 +101,12 @@ export function ordnePrimeSeiteZu(
       urteile.set(t.id, { grund: `${eigene.length} Meldungen des Titels zu dieser Seite, welche gilt, ist offen` })
       continue
     }
-    const m = eigene[0]![1]
-    const fremd = m.asin ? hier.find(([, o]) => o.titleId !== t.id && o.asin === m.asin) : undefined
+    const gruppen = [eigene[0]![1], ...ergaenzendeMeldungen(t.id, meldungen, seite)]
+    const fremd = gruppen.flatMap((g) => (g.asin ? hier.filter(([, o]) => o.titleId !== t.id && o.asin === g.asin) : []))[0]
+    const zusammen: PrimeMeldung = { ...gruppen[0]!, folgen: gruppen.flatMap((g) => g.folgen) }
     urteile.set(
       t.id,
-      fremd ? { grund: `dieselbe Folgengruppe (${m.asin}) ist auch Titel ${fremd[1].titleId} gemeldet` } : urteilEinerMeldung(m, t.episodes),
+      fremd ? { grund: `dieselbe Folgengruppe (${fremd[1].asin}) ist auch Titel ${fremd[1].titleId} gemeldet` } : urteilEinerMeldung(zusammen, t.episodes),
     )
   }
   return urteile

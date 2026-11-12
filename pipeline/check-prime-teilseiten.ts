@@ -86,6 +86,28 @@ pruefe('gemeldet auf anderer Seite: hier offen, Grund nennt die andere', bereich
 const hierher = [['https://www.amazon.de/gp/video/detail/B0ABLAGE01', meldung(1, 'A1', deutsch(reihe(1, 12)), { seite: 'B0SEITE001' })]] as [string, PrimeMeldung][]
 pruefe('gemeldete Seite gleich unserer: gilt, auch wenn die Ablage-Adresse eine andere ist', bereich(urteil(hierher, 1, 12)) === '1-12', bereich(urteil(hierher, 1, 12)))
 
+// 8. Hyouka (al 12189): erste Hälfte auf der Seite selbst, zweite Hälfte unter derselben Ablage-Adresse, aber von einer anderen Seite gemeldet.
+const HYOUKA = 'https://www.amazon.de/gp/video/detail/B0B5JVJKCD'
+const hyoukaErste = meldung(12189, 'B0B5HV9GG6', deutsch([1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12]), { seite: 'B0B5JVJKCD' })
+const hyoukaZweite = meldung(12189, 'B0DBRCH6C1', deutsch(reihe(13, 22)), { seite: 'B0DC75L8BJ' })
+const hyouka = (ms: [string, PrimeMeldung][], episodes = 22): string =>
+  bereich(ordnePrimeSeiteZu([{ id: 12189, episodes }], ms, 'amazon:b0b5jvjkcd', false).get(12189)!)
+const beide: [string, PrimeMeldung][] = [[`${HYOUKA}#0`, hyoukaErste], [HYOUKA, hyoukaZweite]]
+pruefe('Hyouka: beide Hälften zusammen, Folge 4 bleibt offen', hyouka(beide) === '1-3,5-22', hyouka(beide))
+pruefe('Hyouka: Reihenfolge der Meldungen egal', hyouka([beide[1]!, beide[0]!]) === '1-3,5-22', hyouka([beide[1]!, beide[0]!]))
+pruefe('Hyouka: nur die zweite Hälfte bleibt ungeklärt', hyouka([beide[1]!]).startsWith('offen:Meldung kam von einer anderen Seite (B0DC75L8BJ)'), hyouka([beide[1]!]))
+const ueberlapp: [string, PrimeMeldung][] = [beide[0]!, [HYOUKA, meldung(12189, 'B0DBRCH6C1', deutsch(reihe(12, 22)), { seite: 'B0DC75L8BJ' })]]
+pruefe('Hyouka: sich überschneidende Nummern machen es offen', hyouka(ueberlapp).startsWith('offen:eine unserer Folgennummern ist in der Meldung doppelt'), hyouka(ueberlapp))
+pruefe('Hyouka: Nummer über der Folgenzahl macht es offen', hyouka(beide, 20).startsWith('offen:Folgennummer 21'), hyouka(beide, 20))
+const fremdeZweite: [string, PrimeMeldung][] = [beide[0]!, [HYOUKA, meldung(7, 'B0DBRCH6C1', deutsch(reihe(1, 10)), { seite: 'B0DC75L8BJ' })]]
+pruefe('Hyouka: Zusatz-Meldung eines anderen Titels zählt nicht dazu', hyouka(fremdeZweite) === '1-3,5-12', hyouka(fremdeZweite))
+const andereAblage: [string, PrimeMeldung][] = [beide[0]!, ['https://www.amazon.de/gp/video/detail/B0ANDERE99', hyoukaZweite]]
+pruefe('Hyouka: Zusatz-Meldung unter fremder Ablage-Adresse zählt nicht dazu', hyouka(andereAblage) === '1-3,5-12', hyouka(andereAblage))
+const andererAnbieter: [string, PrimeMeldung][] = [beide[0]!, [HYOUKA, { ...hyoukaZweite, plattform: 'netflix' }]]
+pruefe('Hyouka: Zusatz-Meldung eines anderen Anbieters zählt nicht dazu', hyouka(andererAnbieter) === '1-3,5-12', hyouka(andererAnbieter))
+const gruppeGeteilt: [string, PrimeMeldung][] = [...beide, [`${HYOUKA}#1`, meldung(8, 'B0DBRCH6C1', deutsch(reihe(1, 10)), { seite: 'B0B5JVJKCD' })]]
+pruefe('Hyouka: Folgengruppe der Zusatz-Meldung auch einem anderen Titel der Seite gemeldet: offen', hyouka(gruppeGeteilt).startsWith('offen:dieselbe Folgengruppe (B0DBRCH6C1)'), hyouka(gruppeGeteilt))
+
 if (fehler) {
   console.error(`${fehler} Zusicherung(en) zu den geteilten Prime-Seiten verletzt`)
   process.exit(1)
