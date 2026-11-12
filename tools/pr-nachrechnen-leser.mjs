@@ -97,11 +97,18 @@ const ORDNER_ANHANG = new RegExp(`(?:^|[^\\w./-])(${WURZELN}(?:/[\\w./@-]*)?)/(?
 /** Ordnerpfad als eigenes Literal, nur zusammen mit einem Verzeichnis-Aufruf (`readdirSync('data')`, `glob`) ein Leser. */
 const ORDNER_LITERAL = new RegExp(`(?:^|[^\\w./-])(${WURZELN}(?:/[\\w./@-]*\\w)?)(?=['"\`])`, 'g')
 const VERZEICHNIS_AUFRUF = /readdir|opendir|scandir|\bglob(?:Sync)?\b/i
+/** Schreibender Aufruf vor dem Fund, ohne `;` dazwischen: ein Anhang darin legt eine Datei an, liest keine (PR 3541: `schreibe(`data/${leer}`, …)`). */
+const SCHREIB_AUFRUF = /\b(?:schreibe\w*|write\w*|append\w*|mkdir\w*|copyFile\w*|rm\w*)\([^;]*$/i
+
+function lesenderAnhang(code, m) {
+  const zeilenStart = code.lastIndexOf('\n', m.index) + 1
+  return !SCHREIB_AUFRUF.test(code.slice(zeilenStart, m.index))
+}
 
 /** Ordner-Tokens des Codes (ohne Kommentare), die ein Verzeichnis lesen oder einen Namen darunter zusammensetzen. */
 export function ordnerTokens(text) {
   const code = ohneKommentare(text)
-  const anhang = [...code.matchAll(ORDNER_ANHANG)].map((m) => m[1])
+  const anhang = [...code.matchAll(ORDNER_ANHANG)].filter((m) => lesenderAnhang(code, m)).map((m) => m[1])
   const literal = VERZEICHNIS_AUFRUF.test(code) ? [...code.matchAll(ORDNER_LITERAL)].map((m) => m[1]) : []
   return [...new Set([...anhang, ...literal])]
 }

@@ -288,6 +288,15 @@ for (const [name, opt] of [['fetch scheitert', { fetchFehler: true }], ['ls-tree
   pruefe('Ordner: Markdown ist kein lesbarer Code -> null', mitText("readFileSync('data/' + f)\n", 'docs/x.md') === null)
   pruefe('ordnerLeser: nur eine Datei unter dem Token, nicht der Token selbst', ordnerLeser("x('data/' + f)\n", ['data/a/b.json']) === 'data/a/b.json' && ordnerLeser("x('data/a.json')\n", ['data/a.json']) === undefined)
   pruefe('ordnerLeser: Ordnername als Namensanfang (data/a gegen data/ab.json) -> kein Treffer', ordnerLeser("fs.readdirSync('data/a')\n", ['data/ab.json']) === undefined && ordnerLeser("fs.readdirSync('data/a')\n", ['data/a/b.json']) === 'data/a/b.json')
+  // Schreibzugriff-Anhang (PR 3541, 12.11.2026): Quelltext wörtlich aus pipeline/check-anisearch-traeger-geplant.ts (Zeile mit `schreibe(`data/${leer}`…)`).
+  const TRAEGER = readFileSync('pipeline/check-anisearch-traeger-geplant.ts', 'utf8')
+  const PATCHNOTE = 'data/patchnotes/_ueberarbeitet-bis.txt'
+  pruefe('Schreibzugriff: echter Quelltext check-anisearch-traeger-geplant.ts liest keinen Ordner data/', ordnerLeser(TRAEGER, [PATCHNOTE]) === undefined, ordnerLeser(TRAEGER, [PATCHNOTE]))
+  pruefe('Schreibzugriff: schreibe(`data/${n}`) und writeFileSync(`data/${n}`) -> kein Treffer', ordnerLeser('schreibe(`data/${n}`, x)\n', [PATCHNOTE]) === undefined && ordnerLeser('writeFileSync(`data/${n}`, x)\n', [PATCHNOTE]) === undefined)
+  pruefe('Schreibzugriff: mkdirSync(join(w, `data/${n}`)) -> kein Treffer', ordnerLeser('mkdirSync(join(w, `data/${n}`))\n', [PATCHNOTE]) === undefined)
+  pruefe('Schreibzugriff: readdirSync(`data/${n}`) und readFileSync(`data/${n}`) bleiben Leser', ordnerLeser('readdirSync(`data/${n}`)\n', [PATCHNOTE]) === PATCHNOTE && ordnerLeser('readFileSync(`data/${n}`)\n', [PATCHNOTE]) === PATCHNOTE)
+  pruefe('Schreibzugriff: Schreiben und Lesen in einer Zeile (; dazwischen) -> Leser bleibt', ordnerLeser('schreibe(a, b); lies(`data/${n}`)\n', [PATCHNOTE]) === PATCHNOTE)
+  pruefe('Schreibzugriff: Schreiben in der Vorzeile entlastet die Leseszeile nicht', ordnerLeser('schreibe(a, b)\nlies(`data/${n}`)\n', [PATCHNOTE]) === PATCHNOTE)
   // PR 3367/3282 (11.11.2026): Zeilen wörtlich aus tools/sammler-pruefschritt-waechter.mjs und tools/logik-beleg.test.mjs; bewegt: die Ausführungsliste.
   const LISTE_TXT = 'tools/check-logic-liste.txt'
   const SAMMLER = "const skripte = Object.fromEntries(readdirSync(join(wurzel, 'tools')).filter((f) => f.endsWith('.sh')).map((f) => [f, lies(`tools/${f}`)]))\n"

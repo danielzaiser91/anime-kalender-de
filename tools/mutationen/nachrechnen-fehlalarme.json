@@ -857,5 +857,50 @@
     "tests": [
       "node tools/pr-nachrechnen.test.mjs"
     ]
+  },
+  {
+    "name": "Schreibzugriff: Anhang im Schreibaufruf zählt als Leser (Filter weg)",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": ".filter((m) => lesenderAnhang(code, m))",
+    "ersetze": "",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs"
+    ]
+  },
+  {
+    "name": "Schreibzugriff: lesenderAnhang nie lesend",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "return !SCHREIB_AUFRUF.test(code.slice(zeilenStart, m.index))",
+    "ersetze": "return false",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs"
+    ]
+  },
+  {
+    "name": "Schreibzugriff: Semikolon trennt nicht (Schreiben und Lesen in einer Zeile)",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "\\([^;]*$/i",
+    "ersetze": "\\([^]*$/i",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs"
+    ]
+  },
+  {
+    "name": "Schreibzugriff: Suche über die Zeile hinaus (Vorzeile entlastet)",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "const zeilenStart = code.lastIndexOf('\\n', m.index) + 1",
+    "ersetze": "const zeilenStart = 0",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs"
+    ]
+  },
+  {
+    "name": "Schreibzugriff: Lesen (read…) gilt als Schreiben",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "|copyFile\\w*|rm\\w*)",
+    "ersetze": "|copyFile\\w*|rm\\w*|read\\w*)",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs"
+    ]
   }
 ]
