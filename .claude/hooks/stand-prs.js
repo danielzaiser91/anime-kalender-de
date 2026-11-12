@@ -15,6 +15,7 @@ const path = require('node:path')
 const { execFileSync } = require('node:child_process')
 const B = require('./stand-prs-block.js')
 const { waechter } = require('./stand-waechter.js')
+const { vorratErledigt } = require('./vorrat-erledigt.js')
 // Fehlt die Mod-Datei (Hook allein installiert), entfällt nur die Kennzeichen-Meldung; die PR-Block-Pflege läuft weiter.
 let kennzeichenMeldung = () => ''
 try {
@@ -212,7 +213,8 @@ function sperre(datei, jetzt) {
 /** Neue PR-Reihen oder, wenn der Abruf scheitert, { fehler }. */
 function frischeReihen(gh, jetzt) {
   try {
-    return { reihen: reihen(holePrs(gh, jetzt), jetzt) }
+    const prs = holePrs(gh, jetzt)
+    return { reihen: reihen(prs, jetzt), gemergt: new Set(prs.gemergt.map((pr) => pr.number)) }
   } catch (e) {
     return { fehler: String(e.message).split('\n')[0] }
   }
@@ -236,9 +238,10 @@ function aktualisiere({ datei, gh, jetzt, erfolg }) {
     const hinweis = frisch.fehler ? hinweisZeile(erfolg, frisch.fehler) : ''
     const r = B.ersetzeBlock(vorher.split(eol).join('\n'), frisch.reihen ?? null, hinweis)
     if (r.fehler) return { ergebnis: `nicht geschrieben: ${r.fehler}`, laut: true }
-    const neu = r.text.split('\n').join(eol)
-    const warnung = [waechter(r.text, jetzt), kennzeichenMeldung(r.text)].filter(Boolean).join('; ')
-    const zusatz = warnung ? { warnung } : {}
+    const v = frisch.gemergt ? vorratErledigt({ ordner: path.join(path.dirname(datei), 'vorrat'), text: r.text, gemergt: frisch.gemergt }) : { text: r.text, zeilen: [] }
+    const neu = v.text.split('\n').join(eol)
+    const warnung = [waechter(v.text, jetzt), kennzeichenMeldung(v.text)].filter(Boolean).join('; ')
+    const zusatz = { ...(warnung ? { warnung } : {}), ...(v.zeilen.length ? { umbenannt: v.zeilen } : {}) }
     const fertig = frisch.fehler ? { ergebnis: `veraltet: ${frisch.fehler}`, laut: true, ...zusatz } : null
     if (neu === vorher) return fertig ?? { ergebnis: 'unverändert', erfolg: true, ...zusatz }
     const { atime, mtime } = fs.statSync(datei)
@@ -291,7 +294,7 @@ function lauf(input, { env = process.env, gh = ghAufruf, jetzt = Date.now() } = 
 
 /** Hook-Ausgabe: still, außer die Sitzung soll es erfahren (async-Hook: systemMessage erreicht sie beim nächsten Zug). */
 function ausgabe(r) {
-  const meldungen = [r.laut ? `stand-prs.js: ${r.ergebnis} (stand.md, Abschnitt „In Arbeit“)` : '', r.warnung ? `stand.md: ${r.warnung}` : ''].filter(Boolean)
+  const meldungen = [r.laut ? `stand-prs.js: ${r.ergebnis} (stand.md, Abschnitt „In Arbeit“)` : '', r.warnung ? `stand.md: ${r.warnung}` : '', ...(r.umbenannt ?? [])].filter(Boolean)
   return meldungen.length ? `${JSON.stringify({ systemMessage: meldungen.join('\n') })}\n` : ''
 }
 
