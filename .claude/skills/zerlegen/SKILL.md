@@ -73,5 +73,8 @@ Jeder läuft nur einmal gleichzeitig. `bau-vergleich` wartet der Reihe nach (Sch
 nicht abbrechen, keine eigene Wiederholschleife. **Exit 3** heißt dort „45 min nichts frei“ (Halter ansehen, dann erneut aufrufen);
 `panel-vergleich` bricht bei belegter Sperre sofort mit Exit 3 ab: warten und neu starten.
 Der Bau läuft im Vergleichsmodus (`BAU_VERGLEICH=1`): Invarianten-Widersprüche sind dort Warnungen im Protokoll — keine Invarianten von Hand abschalten, keinen Cache dazulegen. Die Ausgabe nennt die verschiedenen Felder.
+**Mitternacht Berlin (23/22 Uhr UTC) zwischen Basis- und Kandidatenbau** macht jede Datumsangabe
+verschieden (`stand`, `entferntAm`, Feeds; 12.11.2026: 50 Dateien) — die Basis-Ablage
+`$TMPDIR/bau-vergleich/<basis>-auf-<basis>-*` löschen und beide neu bauen lassen.
 Meldet einer „VERSCHIEDEN": nicht die Ausgabe erklären, sondern den Umbau korrigieren. Danach
 die volle Kette `npm run check:vor-commit`.
