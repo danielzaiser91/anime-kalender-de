@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-11-12T04:29:55.573Z",
+ "erzeugtAm": "2026-11-12T11:53:23.297Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -318,8 +318,8 @@
    "name": "Netflix",
    "plattform": "netflix",
    "gemeldet": 771,
-   "gesamt": 1088,
-   "offen": 317,
+   "gesamt": 1087,
+   "offen": 316,
    "ohneSeite": 13,
    "ziel": "https://www.netflix.com/title/81608820",
    "ziele": [
@@ -1044,10 +1044,6 @@
     {
      "url": "https://www.netflix.com/title/80116992",
      "titel": "Sailor Moon S: Schneeprinzessin Kaguya"
-    },
-    {
-     "url": "https://www.netflix.com/title/26588007",
-     "titel": "Sailor Moon R Movie: Gefährliche Blumen"
     },
     {
      "url": "https://www.netflix.com/title/81306317",
