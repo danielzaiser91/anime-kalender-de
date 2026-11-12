@@ -32,6 +32,19 @@ export function neuesterLauf(laeufe) {
   return (laeufe ?? []).find((l) => l.id) ?? null
 }
 
+/**
+ * Hat der neueste Lauf den Kommentar schon gelesen? Ja, wenn dieser Versuch nach dem Kommentar startete und nicht abgebrochen oder
+ * gescheitert ist: er liest die Kommentare erst im Schritt „Diff bereitlegen“. Ein zweiter Lauf auf demselben Kopf (12.11.2026, PR 3579:
+ * Hand-Rerun, dann Neustart wartete ihn ab und startete ihn erneut) lieferte ein zweites, widersprüchliches Urteil.
+ * Fehlt eine Zeit, gilt „nein“ (Neustart wie bisher).
+ */
+export function liestKommentarSchon(lauf, kommentarZeit) {
+  const kommentar = Date.parse(kommentarZeit ?? '')
+  const start = Date.parse(lauf.run_started_at ?? '')
+  if (!Number.isFinite(kommentar) || !Number.isFinite(start) || start <= kommentar) return false
+  return lauf.status !== 'completed' || lauf.conclusion === 'success'
+}
+
 /** Beendet einen laufenden Lauf (cancel + Warten), dann `rerun`. `gh(args)` und `warte(ms)` sind einspeisbar. */
 export function neustart(lauf, repo, { gh, warte }) {
   if (lauf.status !== 'completed') {
@@ -66,6 +79,7 @@ export function main(env = process.env, { gh = ghEcht, warte = (ms) => Atomics.w
     const liste = gh(['api', `repos/${repo}/actions/workflows/${PRUEFER_WORKFLOW}/runs?head_sha=${pr.head.sha}&per_page=10`, '-q', '.workflow_runs'])
     const lauf = neuesterLauf(JSON.parse(liste))
     if (!lauf) return console.log(`Prüfer-Neustart: kein Lauf für ${pr.head.sha.slice(0, 9)}, nichts zu tun`), 0
+    if (liestKommentarSchon(lauf, env.KOMMENTAR_ZEIT)) return console.log(`Prüfer-Neustart: nein (Lauf ${lauf.id} startete nach dem Kommentar)`), 0
     neustart(lauf, repo, { gh, warte })
     console.log(`Prüfer-Neustart: ja, Lauf ${lauf.id} für ${pr.head.sha.slice(0, 9)} neu gestartet (${urteil.grund})`)
   } catch (e) {
