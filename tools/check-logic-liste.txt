@@ -72,6 +72,7 @@ pipeline/check-anisearch-reihen.ts
 pipeline/check-anisearch-rohleser.ts
 pipeline/check-anisearch-spalte.ts
 pipeline/check-anisearch-sprecher.ts
+pipeline/check-anisearch-traeger-geplant.ts
 pipeline/check-ankuendigung-news.ts
 pipeline/check-ankuendigung-sichtbar.ts
 pipeline/check-ansicht-scroll.ts

@@ -6,6 +6,7 @@ import { ergaenzeEigeneTitel } from './eigene-titel.ts'
 import { anisearchCoverAusCache } from '../lib/anisearch-cover.ts'
 import { entferneSammeltitel, freizugebendeSeiten } from './mal-teilung.ts'
 import { haengeAnkuendigungAn } from './ankuendigung-an-titel.ts'
+import { holeTraegerGeplanterSynchro } from './anisearch-traeger-geplant.ts'
 import { ROOT } from '../lib/util.ts'
 
 export function baueTitel({ byMal, confidenceRaw, byAniId }: {
@@ -47,6 +48,7 @@ export function baueTitel({ byMal, confidenceRaw, byAniId }: {
     const genau = isoDatumGenau(media.startDate)
     if (genau) jpStartAnzeige.set(media.id, genau)
   }
+  holeTraegerGeplanterSynchro(titles, jpStart, jpStartAnzeige)
   ergaenzeAnisearchTitel(titles, jpStart, jpStartAnzeige, freizugebendeSeiten(titles))
   ergaenzeEigeneTitel(titles)
   entferneSammeltitel(titles, jpStart, jpStartAnzeige)

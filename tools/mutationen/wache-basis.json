@@ -1,0 +1,15 @@
+[
+  {"name":"Kontrolle","aenderungen":[],"tests":["npx tsx tools/delta-wache-basis.test.mjs"]},
+  {"name":"historie: basis nicht geschrieben","aenderungen":[{"datei":"pipeline/bestand-historie.ts","suche":"basis: kopfCommit(ROOT),","ersetze":"basis: undefined,"}],"tests":["npx tsx tools/delta-wache-basis.test.mjs"]},
+  {"name":"historie: Aufschlüsselung immer gegen HEAD","aenderungen":[{"datei":"pipeline/bestand-historie.ts","suche":"const stand = aufschluesselStand(ROOT, vorher)","ersetze":"const stand = 'HEAD'"}],"tests":["npx tsx tools/delta-wache-basis.test.mjs"]},
+  {"name":"historie: betroffen gegen HEAD","aenderungen":[{"datei":"pipeline/bestand-historie.ts","suche":"betroffeneZeilen(bestandAusCommit(ROOT, stand), ","ersetze":"betroffeneZeilen(bestandAusCommit(ROOT), "}],"tests":["npx tsx tools/delta-wache-basis.test.mjs"]},
+  {"name":"historie: Titelabgang gegen HEAD","aenderungen":[{"datei":"pipeline/bestand-historie.ts","suche":"const vorher = titelAusCommit(ROOT, stand)","ersetze":"const vorher = titelAusCommit(ROOT)"}],"tests":["npx tsx tools/delta-wache-basis.test.mjs"]},
+  {"name":"historie: Link-Abgang gegen HEAD","aenderungen":[{"datei":"pipeline/bestand-historie.ts","suche":"linkAbgaenge(bestandAusCommit(ROOT, stand), ","ersetze":"linkAbgaenge(bestandAusCommit(ROOT), "}],"tests":["npx tsx tools/delta-wache-basis.test.mjs"]},
+  {"name":"historie: betroffen nie gelesen","aenderungen":[{"datei":"pipeline/bestand-historie.ts","suche":"betroffenSeitCommit(!!vorher && auffaellig.length > 0, stand)","ersetze":"betroffenSeitCommit(false, stand)"}],"tests":["npx tsx tools/delta-wache-basis.test.mjs"]},
+  {"name":"basis: Hash nicht geprüft","aenderungen":[{"datei":"pipeline/lib/historie-basis.ts","suche":"typeof basis !== 'string' || !SHA.test(basis)","ersetze":"typeof basis !== 'string'"}],"tests":["npx tsx tools/delta-wache-basis.test.mjs"]},
+  {"name":"basis: Typ nicht geprüft","aenderungen":[{"datei":"pipeline/lib/historie-basis.ts","suche":"typeof basis !== 'string' || !SHA.test(basis)","ersetze":"!SHA.test(String(basis))"}],"tests":["npx tsx tools/delta-wache-basis.test.mjs"]},
+  {"name":"basis: Vorhandensein im Klon nicht geprüft","aenderungen":[{"datei":"pipeline/lib/historie-basis.ts","suche":"return git(wurzel, ['cat-file', '-e', `${basis}^{commit}`]) === undefined ? 'HEAD' : basis","ersetze":"return basis"}],"tests":["npx tsx tools/delta-wache-basis.test.mjs"]},
+  {"name":"basis: Rückfall nicht HEAD","aenderungen":[{"datei":"pipeline/lib/historie-basis.ts","suche":"=== undefined ? 'HEAD' : basis","ersetze":"=== undefined ? 'HEAD~1' : basis"}],"tests":["npx tsx tools/delta-wache-basis.test.mjs"]},
+  {"name":"basis: ohne basis nicht HEAD","aenderungen":[{"datei":"pipeline/lib/historie-basis.ts","suche":"return 'HEAD'\n  return git","ersetze":"return 'HEAD~1'\n  return git"}],"tests":["npx tsx tools/delta-wache-basis.test.mjs"]},
+  {"name":"basis: kopfCommit falscher Verweis","aenderungen":[{"datei":"pipeline/lib/historie-basis.ts","suche":"['rev-parse', 'HEAD']","ersetze":"['rev-parse', 'HEAD~1']"}],"tests":["npx tsx tools/delta-wache-basis.test.mjs"]}
+]
