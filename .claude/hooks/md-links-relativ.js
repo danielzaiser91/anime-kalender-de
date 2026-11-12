@@ -8,6 +8,8 @@ const fs = require('node:fs')
 const path = require('node:path')
 
 const WURZEL = (process.env.DANIEL_ORDNER || 'C:/code/ai/anime-kalender-de/daniel-zum-abarbeiten').replace(/\\/g, '/')
+// Übergabe-Notizen an Daniel (z. B. PayPal-Mitschnitt E58) öffnet er ebenso in VS Code (Daniel, 12.11.2026).
+const NOTIZEN = (process.env.NOTIZ_ORDNER || 'C:/code/ai/__assets/notes').replace(/\\/g, '/')
 const FRISCH = 2 * 60000
 const LINK = /\]\(file:\/\/\/([^)\s]+)\)/g
 
@@ -31,10 +33,11 @@ function umschreiben(datei, text) {
   return { text: neu, n }
 }
 
-/** Gehört die Datei zu Daniels Ordner (ohne stand.md an der Wurzel)? */
+/** Gehört die Datei zu Daniels Ordner (ohne stand.md an der Wurzel) oder zu den Notizen? */
 function betroffen(datei) {
   const d = datei.replace(/\\/g, '/')
-  return d.toLowerCase().startsWith(WURZEL.toLowerCase() + '/') && d.endsWith('.md') && d.toLowerCase() !== (WURZEL + '/stand.md').toLowerCase()
+  const unter = [WURZEL, NOTIZEN].some((w) => d.toLowerCase().startsWith(w.toLowerCase() + '/'))
+  return unter && d.endsWith('.md') && d.toLowerCase() !== (WURZEL + '/stand.md').toLowerCase()
 }
 
 /** Alle .md unter der Wurzel, die seit `seit` (ms) geändert wurden. */
