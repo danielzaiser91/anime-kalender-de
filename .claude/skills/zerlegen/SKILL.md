@@ -39,6 +39,9 @@ Verwendung), ergänzt Importe auf beiden Seiten und räumt sie auf. Zu wissen:
   der Ursprungsdatei herauslösen (Zieldatei = neue Datei), dann die große Funktion dorthin.
 - Zeilennummern nach jedem Schritt per `grep -n` auf einen Ankertext neu bestimmen — der neue
   Import kommt als eigene Zeile oder in einen vorhandenen Importsatz, die Verschiebung ist 0 oder 1.
+- **`<bis>` ist die letzte Zeile einer ganzen Anweisung**: Endet der Bereich auf `if (x)`, dessen
+  Rumpf in der nächsten Zeile steht, trennt das Werkzeug beide still (aus `x` wird eine Ausgabe,
+  das `if` bewacht danach das `return`). Vorher `sed -n "<bis>,+1p"` ansehen.
 - `ändert` (neu zugewiesene äußere `let`) meldet es nur — dann die Variable in die Funktion
   holen, die sie als einzige erhöht, und zurückgeben (so bei `adnVerweiseErgaenzt`).
 - Ein Abschnitt mit `return` muss mit `return` enden; der Aufruf wird `return await fn(…)`.
