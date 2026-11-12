@@ -178,7 +178,17 @@ export function datenpfadGrund(gh, pr, basis, main, leser, voll, paare, umfang =
   const bot = botSprungAusnahme(vergleich, prDateien, (bewegt, dateien, bot) => leser(bewegt, dateien, { nummer: pr.number, kopf: pr.headRefOid, main, bot }), () => umfang({ nummer: pr.number, kopf: pr.headRefOid, main, basis }))
   if (bot === null && reinerBotSprung(vergleich, prDateien)) return { ausnahme: 'nur Bot-Daten bewegt (erzeugte Dateien der Läufe, Listen, Wache-Berichte), der PR berührt keine davon' }
   if (bot === null) return { ausnahme: 'nur Fremdes ohne Zusammenhang bewegt (Daten, Sammler, Werkzeuge außerhalb der Kette), kein Code des PR liest die bewegten Dateien' }
-  return { grund: daten === bot ? daten : `${daten}; ${bot}` }
+  return { grund: grundText(daten, bot) }
+}
+
+/**
+ * Der Grund der feineren Stufe (`bot`) entscheidet; die grobe („main bewegte <erste Fremddatei>“) hat sonst nur den Namen der ersten Datei geliefert, die
+ * gar nicht der Grund war (12.11.2026: „main bewegte .claude/skills/…/SKILL.md“ stand vor dem echten Leser-Grund, PR 3481/3548/3556). Ein Grund, der selbst
+ * „main bewegte …“ lautet (kettenweite Datei), bleibt mit dem groben davor.
+ */
+const grundText = (daten, bot) => {
+  if (daten === bot) return daten
+  return daten.startsWith('main bewegte ') && !bot.startsWith('main bewegte ') ? bot : `${daten}; ${bot}`
 }
 
 const kurz = (sha) => sha.slice(0, 9)
