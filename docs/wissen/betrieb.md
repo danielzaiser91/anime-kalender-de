@@ -1100,7 +1100,7 @@ Daniel am 02.10.2026: Screenshots der Belege ja, aber **privat**.
   der alte Worker mit 404, und die Lesungen bleiben ohne Bild (das Bild wird nachgeholt).
 - **Leser:** `pipeline/belege-lesen.ts` im Schritt „Belege lesen" von `refresh-data.yml` —
   Artikel aus `releases.json` (Crunchyroll-News, Anime2You, aniSearch-Artikel, ADN-News; 144 am
-  02.10.2026), je Lauf höchstens 60 (`--limit`, Stand 14.10.2026), jeder alle 7 Tage. Gedächtnis `data/beleg-lesungen.json`.
+  02.10.2026), je Lauf höchstens 60 (`--limit`, Stand 14.10.2026), jeder alle 7 Tage. Gedächtnis `data/beleg-lesungen.json`; das Feld `text` dort ist ein R2-Pfad, nicht der Seitentext — wer Seitentexte auswertet, lädt sie aus R2 (PR 3567, 12.11.2026).
 - **Gemessen am 02.10.2026 (lokal):** Hash stabil über zwei Lesungen bei Anime2You, aniSearch und
   ADN. Der Text steht in `<article>` (Anime2You, Crunchyroll) oder `<main>` (aniSearch; ADN hat ein
   leeres `<article>`). **ADN liefert mit Desktop-UA eine leere Seite**, Crunchyroll braucht ihn —
