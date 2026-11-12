@@ -18,7 +18,7 @@ import { pathToFileURL } from 'node:url'
 
 const WURZEL = path.resolve(import.meta.dirname, '..')
 /** Was die Bühne zum Bauen braucht (Konfiguration, Quelle, Bühne, Pakete). */
-const BAU_PFADE = ['web', 'shared', 'vite.buehne.config.ts', 'package.json', 'tsconfig.json']
+export const BAU_PFADE = ['web', 'shared', 'public/anbieter', 'vite.buehne.config.ts', 'package.json', 'tsconfig.json']
 
 /** Führt einen Befehl mit Frist aus; `{ status }` (null bei Frist/Start-Fehler). */
 export function fuehreAus(befehl, args, optionen = {}) {

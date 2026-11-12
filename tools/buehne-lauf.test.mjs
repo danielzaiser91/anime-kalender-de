@@ -18,7 +18,7 @@ const crash = () => new Error('locator.evaluate: Page crashed')
  * nachher-375-hell, nachher-375-dunkel. Nachher-Zellen haben einen Kontrastbefund. `bricht(seitenName, variante, schluessel)`
  * sagt, ob die Messung bzw. das Bild dieser Zelle abstürzt.
  */
-function browser({ bricht, fremde = [], appBefund = false }) {
+function browser({ bricht, fremde = [], appBefund = false, appTipp = false, besucht = [] }) {
   const plan = { nr: 0 }
   const neueSeite = (name) => {
     const seite = { name, variante: '', teil: '', geschlossen: false }
@@ -34,7 +34,7 @@ function browser({ bricht, fremde = [], appBefund = false }) {
           if (appBefund) return schluessel.endsWith('hell') ? [{ schluessel: 'kopf', verhaeltnis: '2.5', soll: '4.5' }] : []
           return schluessel.startsWith('nachher') ?[{ schluessel: 'text', verhaeltnis: '2.5', soll: '4.5' }] : []
         }
-        return fn.name === 'tippzieleImRahmen' ? [] : undefined
+        return fn.name === 'tippzieleImRahmen' ? (appTipp ? [{ schluessel: 'knopf', w: 30, h: 30 }] : []) : undefined
       },
     })
     const handle = (schluessel) => ({
@@ -57,6 +57,7 @@ function browser({ bricht, fremde = [], appBefund = false }) {
         const [, abfrage] = decodeURIComponent(hash).split('?')
         const w = new URLSearchParams(abfrage ?? '')
         seite.variante = w.get('v') ?? ''
+        if (w.has('v')) besucht.push(seite.variante)
         seite.teil = w.get('teil') ?? ''
       },
       locator: () => ({
@@ -154,6 +155,26 @@ async function messeMit({ basis = null, schreibe = null, nurVorher = false, ...o
   assert.deepEqual(aus, [])
 }
 
+/** Nur-Vorher-Läufe öffnen nur die erste Variante (A), der volle Lauf beide: sonst kostet der Basis-Lauf die doppelte Zeit. */
+{
+  const nur = []
+  await messeMit({ bricht: () => false, besucht: nur, schreibe: () => {} })
+  assert.deepEqual(nur, ['A'])
+  const voll = []
+  await messeMit({ bricht: () => false, besucht: voll })
+  assert.deepEqual(voll, ['A', 'B'])
+}
+
+/** Tippziele hängen nicht vom Thema ab: Kennt die Basis den Knopf nur im dunklen Thema, ist er im hellen kein neuer Befund; fehlt er überall, schon. */
+{
+  const dunkel = { 'm1/f1/375-hell': { tipp: [], kontrast: [] }, 'm1/f1/375-dunkel': { tipp: [{ schluessel: 'knopf' }], kontrast: [] } }
+  assert.equal((await messeMit({ appTipp: true, basis: dunkel, nurVorher: true, bricht: () => false })).exit, undefined)
+  const keiner = { 'm1/f1/375-hell': { tipp: [], kontrast: [] }, 'm1/f1/375-dunkel': { tipp: [], kontrast: [] } }
+  const rot = await messeMit({ appTipp: true, basis: keiner, nurVorher: true, bricht: () => false })
+  assert.equal(rot.exit, 1)
+  assert.deepEqual(rot.aus.filter((z) => z.startsWith('    ')), ['    m1/f1 App-Basis 375-hell: knopf 30×30 px'])
+}
+
 async function bilderMit(optionen) {
   const ordner = await mkdtemp(path.join(os.tmpdir(), 'buehne-lauf-'))
   const aus = []
@@ -187,4 +208,4 @@ async function bilderMit(optionen) {
   assert.equal(exit, 1)
 }
 
-console.log('ok  buehne-lauf: 3 Fälle Messen (Kontrolle, Wiederholung ohne Doppelung, zweimal Absturz), 2 Fälle Basis (App-Befund gegen main rot/grün, Basis schreiben), 3 Fälle Bilder (Kontrolle, zweimal Absturz, fremde Anfrage)')
+console.log('ok  buehne-lauf: 3 Fälle Messen (Kontrolle, Wiederholung ohne Doppelung, zweimal Absturz), 6 Fälle Basis (App-Befund gegen main rot/grün, nur Vorher, erste Variante, Tippziel themenunabhängig, Basis schreiben), 3 Fälle Bilder (Kontrolle, zweimal Absturz, fremde Anfrage)')

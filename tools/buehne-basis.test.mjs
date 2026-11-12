@@ -9,7 +9,7 @@ import { spawnSync } from 'node:child_process'
 import { existsSync, mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
-import { fuehreAus, lauf } from './buehne-basis.mjs'
+import { BAU_PFADE, fuehreAus, lauf } from './buehne-basis.mjs'
 
 const wurzel = mkdtempSync(path.join(tmpdir(), 'buehne-basis-test-'))
 mkdirSync(path.join(wurzel, 'node_modules'))
@@ -78,7 +78,8 @@ assert.equal(lege({ fuehre: (b, args) => ({ status: b !== 'git' && b !== 'tar' &
   const git = (...a) => assert.equal(spawnSync('git', ['-C', repo, '-c', 'user.name=t', '-c', 'user.email=t@t', ...a], { windowsHide: true, timeout: 20000 }).status, 0)
   mkdirSync(path.join(repo, 'web'))
   mkdirSync(path.join(repo, 'shared'))
-  for (const d of ['web/a.txt', 'shared/b.txt', 'vite.buehne.config.ts', 'package.json', 'tsconfig.json']) writeFileSync(path.join(repo, d), 'basis')
+  mkdirSync(path.join(repo, 'public/anbieter'), { recursive: true })
+  for (const d of ['web/a.txt', 'shared/b.txt', 'public/anbieter/c.svg', 'vite.buehne.config.ts', 'package.json', 'tsconfig.json']) writeFileSync(path.join(repo, d), 'basis')
   git('init', '-q')
   git('add', '.')
   git('commit', '-q', '-m', 'basis')
@@ -86,15 +87,26 @@ assert.equal(lege({ fuehre: (b, args) => ({ status: b !== 'git' && b !== 'tar' &
   let gelesen
   const fuehre = (b, args, opt) => {
     if (b === 'git' || b === 'tar') return fuehreAus(b, args, { ...opt, stdio: 'ignore' })
-    if (args[0].endsWith('vite.js')) gelesen = ['web/a.txt', 'shared/b.txt'].map((d) => existsSync(path.join(opt.cwd, d)))
+    if (args[0].endsWith('vite.js')) gelesen = ['web/a.txt', 'shared/b.txt', 'public/anbieter/c.svg'].map((d) => existsSync(path.join(opt.cwd, d)))
     return { status: 0 }
   }
   mkdirSync(path.join(repo, 'node_modules'))
   const { code, aus } = lege({ fuehre, wurzel: repo, ref: 'HEAD' })
   assert.equal(code, 0)
-  assert.deepEqual(gelesen, [true, true], String(aus))
+  assert.deepEqual(gelesen, [true, true, true], String(aus))
   rmSync(repo, { recursive: true, force: true })
 }
 
+/** Jeder Bau-Pfad gibt es im echten Repo (der Test des Wegwerf-Repos allein ließ `public/anbieter` aus). */
+for (const p of BAU_PFADE) assert.ok(existsSync(path.join(import.meta.dirname, '..', p)), p)
+
+/** `BUEHNE_DIST` lenkt die Bühne um (echter Kindprozess); ohne die Variable bleibt es `buehne-dist/` im Repo. */
+{
+  const frage = (env) => spawnSync(process.execPath, ['--input-type=module', '-e', "import('./tools/buehne-seite.mjs').then((m) => console.log(m.BUEHNE))"], { cwd: path.join(import.meta.dirname, '..'), env, encoding: 'utf8', windowsHide: true, timeout: 60000 })
+  const { BUEHNE_DIST: _weg, ...ohne } = process.env
+  assert.equal(frage({ ...ohne, BUEHNE_DIST: wurzel }).stdout.trim(), path.resolve(wurzel))
+  assert.equal(frage(ohne).stdout.trim(), path.join(import.meta.dirname, '..', 'buehne-dist'))
+}
+
 rmSync(wurzel, { recursive: true, force: true })
-console.log('ok  buehne-basis: Reihenfolge Archiv/Entpacken/Bau/Messung/Kopf, 4 Rückfälle mit Warnzeile (je Schritt), Exit-Code des Kopfs, echtes git+tar im Wegwerf-Repo, node_modules unberührt')
+console.log('ok  buehne-basis: Reihenfolge Archiv/Entpacken/Bau/Messung/Kopf, 4 Rückfälle mit Warnzeile (je Schritt), --mockup, Exit-Code des Kopfs, echtes git+tar im Wegwerf-Repo, BUEHNE_DIST im Kindprozess, node_modules unberührt')
