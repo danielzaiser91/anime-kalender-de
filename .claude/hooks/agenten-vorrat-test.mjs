@@ -77,8 +77,11 @@ const ein = { transcript_path: transcript, cwd: path.join(projekt, '_wt-x'), ses
   const fall = (iso, soll) => pruef(`Arbeitszeit ${iso} → ${soll}`, inArbeitszeit(new Date(iso)) === soll)
   fall('2026-11-12T08:00:00+01:00', true) // Do 8:00, Grenze eingeschlossen
   fall('2026-11-12T07:59:00+01:00', false)
-  fall('2026-11-12T15:59:00+01:00', true)
-  fall('2026-11-12T16:00:00+01:00', false)
+  fall('2026-11-12T16:00:00+01:00', true) // donnerstags bis 18 Uhr
+  fall('2026-11-12T17:59:00+01:00', true)
+  fall('2026-11-12T18:00:00+01:00', false)
+  fall('2026-11-11T15:59:00+01:00', true) // Mittwoch bis 16 Uhr
+  fall('2026-11-11T16:00:00+01:00', false)
   fall('2026-11-14T12:00:00+01:00', false) // Samstag
   fall('2026-11-19T12:00:00+01:00', true) // letzter Probetag
   fall('2026-11-20T12:00:00+01:00', false) // Urlaub ab Fr 20.11.
@@ -86,7 +89,7 @@ const ein = { transcript_path: transcript, cwd: path.join(projekt, '_wt-x'), ses
   const { grenze: g } = createRequire(import.meta.url)('./agenten-grenze.js')
   fs.writeFileSync(ruhe, 'sanft')
   pruef('Arbeitszeit schlägt Ruhemodus', g(ruhe, new Date('2026-11-12T10:00:00+01:00')) === 5)
-  pruef('außerhalb gilt Ruhemodus', g(ruhe, new Date('2026-11-12T17:00:00+01:00')) === 2)
+  pruef('außerhalb gilt Ruhemodus', g(ruhe, new Date('2026-11-12T18:00:00+01:00')) === 2)
   fs.rmSync(ruhe)
 }
 pruef('ohne Vorrat-Ordner schweigt', pruefe({ ...ein, cwd: os.tmpdir() }) === null)

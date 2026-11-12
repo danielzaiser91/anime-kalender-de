@@ -1,5 +1,10 @@
 [
   { "name": "Kontrolle (unmutiert)", "aenderungen": [] },
+  { "name": "alter: WARN_TAGE 5 -> 4", "aenderungen": [{ "datei": "pipeline/lib/synchro-beobachtung-alter.ts", "suche": "WARN_TAGE = 5", "ersetze": "WARN_TAGE = 4" }], "tests": ["npx tsx pipeline/check-synchro-beobachtung.ts"] },
+  { "name": "alter: WARN_TAGE 5 -> 6", "aenderungen": [{ "datei": "pipeline/lib/synchro-beobachtung-alter.ts", "suche": "WARN_TAGE = 5", "ersetze": "WARN_TAGE = 6" }], "tests": ["npx tsx pipeline/check-synchro-beobachtung.ts"] },
+  { "name": "alter: Grenze >= statt >", "aenderungen": [{ "datei": "pipeline/lib/synchro-beobachtung-alter.ts", "suche": "> WARN_TAGE", "ersetze": ">= WARN_TAGE" }], "tests": ["npx tsx pipeline/check-synchro-beobachtung.ts"] },
+  { "name": "alter: Aufruf im Skript entfernt", "aenderungen": [{ "datei": "pipeline/synchro-beobachtung.ts", "suche": "of alterswarnungen(liste, heute))", "ersetze": "of alterswarnungen([], heute))" }], "tests": ["npx tsx pipeline/check-synchro-beobachtung.ts"] },
+  { "name": "alter: Alter ab Aufnahme statt Start", "aenderungen": [{ "datei": "pipeline/lib/synchro-beobachtung-alter.ts", "suche": "diffDays(e.start, heute) > WARN_TAGE", "ersetze": "diffDays(e.seit, heute) > WARN_TAGE" }], "tests": ["npx tsx pipeline/check-synchro-beobachtung.ts"] },
   { "name": "lib: VOR 7 -> 6", "aenderungen": [{ "datei": "pipeline/lib/synchro-beobachtung.ts", "suche": "const VOR = 7", "ersetze": "const VOR = 6" }] },
   { "name": "lib: VOR 7 -> 8", "aenderungen": [{ "datei": "pipeline/lib/synchro-beobachtung.ts", "suche": "const VOR = 7", "ersetze": "const VOR = 8" }] },
   { "name": "lib: NACH 30 -> 29", "aenderungen": [{ "datei": "pipeline/lib/synchro-beobachtung.ts", "suche": "const NACH = 30", "ersetze": "const NACH = 29" }] },

@@ -11,12 +11,14 @@ const AUSGENOMMEN = new Set(['pruefer'])
 // Ruhemodus (Daniel, 10.10.2026; Prüfer zählen auch dort nicht, 14.10.2026; auf 2 angehoben 14.10.2026 18:00, wieder 1 seit 22:31, 2 seit 17.10.2026 22:49): Markerdatei da → höchstens RUHE_GRENZE Agenten.
 const RUHE_MARKER = require('path').join(require('os').homedir(), '.claude', 'ruhemodus.txt')
 // Probe bis einschließlich Do 19.11.2026 (Daniel, 11.11.2026 21:58): Mo–Fr 8–16 Uhr arbeitet er selbst, dann dürfen 5 laufen.
+// Donnerstags bis 18 Uhr (Daniel, 12.11.2026: Schach).
 const ARBEITSZEIT_GRENZE = 5
 const PROBE_ENDE = '2026-11-19'
 function inArbeitszeit(jetzt) {
   const teile = Object.fromEntries(new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Berlin', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', hourCycle: 'h23', weekday: 'short' }).formatToParts(jetzt).map((t) => [t.type, t.value]))
   const tag = `${teile.year}-${teile.month}-${teile.day}`
-  return tag <= PROBE_ENDE && !['Sat', 'Sun'].includes(teile.weekday) && Number(teile.hour) >= 8 && Number(teile.hour) < 16
+  const ende = teile.weekday === 'Thu' ? 18 : 16
+  return tag <= PROBE_ENDE && !['Sat', 'Sun'].includes(teile.weekday) && Number(teile.hour) >= 8 && Number(teile.hour) < ende
 }
 // AGENTEN_JETZT (ISO) nur für Tests, damit sie nicht von der Uhrzeit abhängen.
 const jetztStandard = () => new Date(process.env.AGENTEN_JETZT || Date.now())
