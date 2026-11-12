@@ -4,7 +4,7 @@
  * Aufruf: npx tsx pipeline/check-beleg-marken.ts   (Exit 1 bei Verstoß)
  */
 import { braucheBild, entzieheBild, ohneMarkenJeTitel, type BelegGedaechtnis, type Lesung } from './lib/beleg-lesung.ts'
-import { markenLuecken, meldeMarkenLuecken, nameImTextOhneMarke, seitentitelPasst, stilleLuecken } from './lib/beleg-marken.ts'
+import { markenLuecken, meldeMarkenLuecken, meldeOhneNamen, nameImTextOhneMarke, seitentitelPasst, stilleLuecken } from './lib/beleg-marken.ts'
 import { markierungenJeTitel } from './lib/beleg-bild.ts'
 import { ohneFundstelle } from './lib/beleg-ohne-fundstelle.ts'
 import type { Gruppe } from './lib/beleg-suche.ts'
@@ -115,5 +115,22 @@ pruefe('Seitentitel: ein Name bis drei Zeichen („Dub“ steht im Text) beweist
 pruefe('Seitentitel: ohne Gruppen gilt die Seite', passt(AS, TEXT, []))
 pruefe('Seitentitel: eine andere Adresse als aniSearch-Produktseite wird nicht verglichen', passt('https://www.joyn.de/x', 'Märchen Boss', [kn(1, 'Gods Games We Play')]))
 
-console.log(fehler ? `✖ ${fehler} Verstöße` : '✔ Marken je Titel: Lücken, Kreislauf, Aufnahme-Gründe, Lauf-Ende, Handliste (ohne Titel, Kurz-/Slug-Adresse), Name im Text und Seitentitel in Ordnung')
+/* Schreibweisen (Prüfer-Runde 1): Apostroph ’ im Namen, ' im Text; ein japanischer Name allein; „Maid's“ gegen „Maids“ ist eine bekannte Lücke und fällt mit Warnzeile weg, nicht still. */
+pruefe('Seitentitel: Apostroph ’ im Namen, ' + "'" + ' im Text → gilt', passt(AS, "Gods' Games We Play - Gesamtausgabe", [kn(1, 'Gods’ Games We Play')]))
+pruefe('Seitentitel: japanischer Name steht im Text → gilt', passt(AS, '神々の遊びを… - Gesamtausgabe [Blu-ray]', [kn(1, '神々の遊びを…')]))
+const nJp = meldungen.length
+pruefe('Seitentitel: japanischer Name fehlt im Text → verworfen mit Meldung', !passt(AS, 'Märchen Boss - Bd. 02 [eBook]', [kn(1, '神々の遊びを…')]) && meldungen.length === nJp + 1)
+const nMaid = meldungen.length
+pruefe("Seitentitel: „Maid's“ gegen „Maids“ im Text wird verworfen (bekannte Lücke), aber mit Meldung", !passt(AS, 'Maids Staffel 2 [Blu-ray]', [kn(1, "Maid's Tale")]) && meldungen.length === nMaid + 1)
+
+/* Adressen ohne Namen: Zählung statt Stille (nur aniSearch-Produktseiten; Namen bis drei Zeichen zählen nicht als Namen). */
+const zeilen: string[] = []
+const ASX = 'https://www.anisearch.de/article/2,y'
+const gMap = new Map([[AS, [kn(1, 'Gods Games We Play')]], [ASX, [kn(2, 'Dub')]]])
+const nOhne = meldeOhneNamen([AS, ASX, 'https://www.anisearch.de/article/3,z', 'https://www.joyn.de/x'], gMap, (z) => zeilen.push(z))
+pruefe('Ohne Namen: zwei von drei aniSearch-Adressen (kurzer Name und unbekannte Adresse), die fremde Adresse zählt nicht', nOhne === 2 && zeilen.length === 1 && zeilen[0]!.includes('WARNUNG 2 von 3 gelesenen aniSearch-Adressen ohne Namen'), zeilen.join())
+pruefe('Ohne Namen: eine einzige Adresse ohne Namen wird gezählt (genau 1)', meldeOhneNamen([ASX], gMap, () => undefined) === 1)
+pruefe('Ohne Namen: alle bekannt → keine Zeile, Zahl 0', meldeOhneNamen([AS], gMap, (z) => zeilen.push(z)) === 0 && zeilen.length === 1)
+
+console.log(fehler ? `✖ ${fehler} Verstöße` : '✔ Marken je Titel: Lücken, Kreislauf, Aufnahme-Gründe, Lauf-Ende, Handliste (ohne Titel, Kurz-/Slug-Adresse), Name im Text, Seitentitel (Schreibweisen) und Adressen ohne Namen in Ordnung')
 process.exit(fehler ? 1 : 0)

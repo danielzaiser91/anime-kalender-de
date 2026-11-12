@@ -5,7 +5,7 @@
  */
 import type { Page } from 'playwright'
 import { fuehreLaufAus, type Gelesen, type Leser, type Lauf } from './lib/beleg-lauf.ts'
-import { bildOhnePruefung, braucheBild, textHash, type BelegGedaechtnis, type Lesung } from './lib/beleg-lesung.ts'
+import { belegeFuerAlle, bildOhnePruefung, braucheBild, mitArtikeldaten, textHash, type BelegGedaechtnis, type Lesung } from './lib/beleg-lesung.ts'
 import type { Beleg } from './lib/beleg-bild.ts'
 import type { Gruppe } from './lib/beleg-suche.ts'
 
@@ -221,5 +221,31 @@ const dG6: BelegGedaechtnis = { [GODS]: { zuletzt: '2026-10-01', lesungen: [{ am
 const log6b = await ausgabe(() => lauf([GODS], { gedaechtnis: dG6, gruppen: gods, gelesen: godsLesen(RICHTIG) }))
 pruefe('Seitentitel: passt die Seite, bleibt der gespeicherte Tag und es gibt keinen neuen Stand', letzteAusgabe(dG6, GODS) === '2027-03-05' && log6b.includes('1 gelesen, 0 mit neuem Stand'), log6b)
 
-console.log(fehler ? `✖ ${fehler} Verstöße` : '✔ Beleg-Lauf: Seitenwahl, Lesen, Fehlschläge, Obergrenze, Speichern, Marken je Titel (Kreislauf, Wächter, Nichtauskunft), Name im Text, Markenfassung und Seitentitel in Ordnung')
+/* Fremde Lesung (Prüfer-Runde 1): Bild und Tag einer Fremdseite gelten nicht für die Quelle, und ein einmaliger Fremdtext löscht nicht den Tag der vorigen, passenden Lesung. */
+const quelleVon = (d: BelegGedaechtnis): { bild?: string; ausgabeAm?: string } => mitArtikeldaten([{ url: GODS, name: 'aniSearch', gesehenAm: '' }], d, 7)[0]!
+const passend = (am: string): Lesung => ({ am, hash: textHash(RICHTIG), hf: 2, ausgabe: '2027-03-05', bild: 'alt.webp', text: 'alt.txt.gz', qs: 'ok', bildfassung: 3, markierung: M })
+const dG7: BelegGedaechtnis = { [GODS]: { zuletzt: '2026-10-01', lesungen: [passend('2026-10-01')] } }
+await lauf([GODS], { gedaechtnis: dG7, gruppen: gods, gelesen: godsLesen(EBOOK) })
+const q7 = quelleVon(dG7)
+pruefe('Fremdtext nach passender Lesung: zwei Lesungen, die Fremdlesung ist gekennzeichnet, die passende nicht', dG7[GODS]!.lesungen.length === 2 && dG7[GODS]!.lesungen[1]!.fremd === true && dG7[GODS]!.lesungen[0]!.fremd === undefined)
+pruefe('Fremdtext nach passender Lesung: die passende behält ihren Tag (einmaliger Fremdtext löscht ihn nicht)', dG7[GODS]!.lesungen[0]!.ausgabe === '2027-03-05' && q7.ausgabeAm === '2027-03-05')
+pruefe('Fremdtext nach passender Lesung: die Quelle zeigt das Bild der passenden, nicht das der Fremdseite', Boolean(dG7[GODS]!.lesungen[1]!.bild) && q7.bild === 'alt.webp', String(q7.bild))
+const dG8: BelegGedaechtnis = { [GODS]: { zuletzt: '2026-10-01', lesungen: [{ ...passend('2026-10-01'), hash: textHash(EBOOK) }] } }
+await lauf([GODS], { gedaechtnis: dG8, gruppen: gods, gelesen: godsLesen(EBOOK) })
+pruefe('Geheilte Fremdlesung (gleicher Text, Bild vorhanden): die Quelle zeigt weder Bild noch Tag', dG8[GODS]!.lesungen[0]!.fremd === true && dG8[GODS]!.lesungen[0]!.bild === 'alt.webp' && quelleVon(dG8).bild === undefined && quelleVon(dG8).ausgabeAm === undefined)
+dG8[GODS]!.zuletzt = '2026-10-01'
+const log8 = await ausgabe(() => lauf([GODS], { gedaechtnis: dG8, gruppen: gods, gelesen: godsLesen(EBOOK) }))
+pruefe('Geheilte Fremdlesung: ein zweiter Lauf ändert nichts mehr (nicht erneut als neuer Stand gezählt)', dG8[GODS]!.lesungen.length === 1 && log8.includes('1 gelesen, 0 mit neuem Stand'), log8)
+const news = [{ titelId: 7, meldungen: [{ belege: [{ url: GODS, name: 'aniSearch' }] }] }] as unknown as Parameters<typeof belegeFuerAlle>[0]
+const bildAm = (d: BelegGedaechtnis): string | undefined => (belegeFuerAlle(news, d)[0]!.meldungen[0]!.belege![0] as { bildAm?: string }).bildAm
+pruefe('Fremdtext nach passender Lesung: „Bild vom“ der Meldung nennt den Tag der passenden Lesung, nicht den der Fremdseite', bildAm(dG7) === '2026-10-01', String(bildAm(dG7)))
+
+/* Adressen ohne Namen bleiben nicht still (Prüfer-Runde 1, 15 solche aniSearch-Adressen im Bestand). */
+const NAMENLOS = 'https://www.anisearch.de/article/2,namenlos'
+const log9 = await ausgabe(() => lauf([GODS, NAMENLOS, JOYN], { gedaechtnis: {}, gruppen: new Map([[GODS, gods.get(GODS)!]]), gelesen: godsLesen(RICHTIG) }))
+pruefe('Ohne Namen: eine von zwei aniSearch-Adressen steht als WARNUNG mit Zählung im Lauf-Log (Joyn zählt nicht)', log9.includes('⚠ WARNUNG 1 von 2 gelesenen aniSearch-Adressen ohne Namen'), log9)
+const log10 = await ausgabe(() => lauf([GODS], { gedaechtnis: {}, gruppen: gods, gelesen: godsLesen(RICHTIG) }))
+pruefe('Ohne Namen: sind alle Namen bekannt, gibt es keine Zeile', !log10.includes('ohne Namen'), log10)
+
+console.log(fehler ? `✖ ${fehler} Verstöße` : '✔ Beleg-Lauf: Seitenwahl, Lesen, Fehlschläge, Obergrenze, Speichern, Marken je Titel (Kreislauf, Wächter, Nichtauskunft), Name im Text, Markenfassung, Seitentitel, Fremdlesung und Adressen ohne Namen in Ordnung')
 process.exit(fehler ? 1 : 0)

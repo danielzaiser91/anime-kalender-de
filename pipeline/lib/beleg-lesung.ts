@@ -60,6 +60,8 @@ export interface Lesung {
   aktualisiert?: string
   /** Produktseite: Erscheinungstag der Ausgabe (aniSearch-Artikel) — eine andere Aussage als ein Veröffentlichungsdatum. */
   ausgabe?: string
+  /** Die Seite zeigte einen anderen Titel als den der Adresse (aniSearch-Produktseite, `seitentitelPasst`): weder Tag noch Bild dieser Lesung gelten für die Quelle. */
+  fremd?: true
   /** Der Hash wechselte, ohne dass sich ein Datum änderte — jedes Mal eine Anomalie, die untersucht wird. */
   aenderungOhneDatum?: true
   /** Fassung der Hash-Regel (2 seit 05.10.2026: relative Zeitangaben zählen nicht). Hashes verschiedener Fassungen sind nicht vergleichbar. */
@@ -223,7 +225,7 @@ function markeFuer(l: Lesung, titelId: number | undefined): { markierung?: [numb
  */
 export function mitArtikeldaten(quellen: Quelle[], gedaechtnis: BelegGedaechtnis, titelId?: number): Quelle[] {
   return quellen.map((q) => {
-    const lesungen = gedaechtnis[q.url]?.lesungen ?? []
+    const lesungen = (gedaechtnis[q.url]?.lesungen ?? []).filter((l) => !l.fremd)
     if (!traegtArtikeldatum(q.url)) {
       const ausgabe = lesungen.map((l) => l.ausgabe).filter(Boolean).at(-1)
       const jüngste = lesungen.filter((l) => l.bild).at(-1)
@@ -262,7 +264,7 @@ export function belegeFuerAlle(eintraege: NewsEintrag[], gedaechtnis: BelegGedae
     const { bild, markierung, veroeffentlichtAm, aktualisiertAm, ausgabeAm } = mit!
     const eintrag = gedaechtnis[b.url]
     const lesungen = eintrag?.lesungen ?? []
-    const bildAm = lesungen.filter((l) => l.bild).at(-1)?.am
+    const bildAm = lesungen.filter((l) => l.bild && !l.fremd).at(-1)?.am
     const pruefung = eintrag ? { erstGeprueftAm: lesungen[0]?.am, zuletztGeprueftAm: eintrag.zuletzt, ...(bildAm ? { bildAm } : {}) } : {}
     return { ...b, ...pruefung, ...(b.bild || !bild ? {} : { bild, ...(markierung ? { markierung } : {}) }), ...(b.veroeffentlichtAm || !veroeffentlichtAm ? {} : { veroeffentlichtAm }), ...(b.aktualisiertAm || !aktualisiertAm ? {} : { aktualisiertAm }), ...(b.ausgabeAm || !ausgabeAm ? {} : { ausgabeAm }) }
   }

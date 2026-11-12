@@ -1,17 +1,275 @@
 [
-  { "name": "Kontrolle unmutiert", "aenderungen": [] },
-  { "name": "seitentitelPasst: Namen bis drei Zeichen zaehlen mit", "datei": "pipeline/lib/beleg-marken.ts", "suche": "filter((s) => norm(s).length > 3)\n  if (!/anisearch", "ersetze": "filter((s) => norm(s).length > 0)\n  if (!/anisearch", "tests": ["npx tsx pipeline/check-beleg-lauf.ts", "npx tsx pipeline/check-beleg-marken.ts"] },
-  { "name": "seitentitelPasst: Namen mit genau drei Zeichen zaehlen mit", "datei": "pipeline/lib/beleg-marken.ts", "suche": "filter((s) => norm(s).length > 3)\n  if (!/anisearch", "ersetze": "filter((s) => norm(s).length >= 3)\n  if (!/anisearch", "tests": ["npx tsx pipeline/check-beleg-lauf.ts", "npx tsx pipeline/check-beleg-marken.ts"] },
-  { "name": "seitentitelPasst: Teilwort genuegt", "datei": "pipeline/lib/beleg-marken.ts", "suche": "t.includes(' ' + norm(s) + ' ')", "ersetze": "t.includes(norm(s))", "tests": ["npx tsx pipeline/check-beleg-lauf.ts", "npx tsx pipeline/check-beleg-marken.ts"] },
-  { "name": "seitentitelPasst: alle Namen muessen stehen", "datei": "pipeline/lib/beleg-marken.ts", "suche": "namen.some((s) => t.includes(", "ersetze": "namen.every((s) => t.includes(", "tests": ["npx tsx pipeline/check-beleg-lauf.ts", "npx tsx pipeline/check-beleg-marken.ts"] },
-  { "name": "seitentitelPasst: auch fremde Adressen werden verglichen", "datei": "pipeline/lib/beleg-marken.ts", "suche": "if (!/anisearch\\.de\\/article\\//.test(url) || !namen.length) return true", "ersetze": "if (!namen.length) return true", "tests": ["npx tsx pipeline/check-beleg-lauf.ts", "npx tsx pipeline/check-beleg-marken.ts"] },
-  { "name": "seitentitelPasst: ohne Namen wird verworfen", "datei": "pipeline/lib/beleg-marken.ts", "suche": "if (!/anisearch\\.de\\/article\\//.test(url) || !namen.length) return true", "ersetze": "if (!/anisearch\\.de\\/article\\//.test(url)) return true", "tests": ["npx tsx pipeline/check-beleg-lauf.ts", "npx tsx pipeline/check-beleg-marken.ts"] },
-  { "name": "seitentitelPasst: Fehlschlag ergibt Gilt", "datei": "pipeline/lib/beleg-marken.ts", "suche": "Erscheinungstag verworfen`)\n  return false", "ersetze": "Erscheinungstag verworfen`)\n  return true", "tests": ["npx tsx pipeline/check-beleg-lauf.ts", "npx tsx pipeline/check-beleg-marken.ts"] },
-  { "name": "seitentitelPasst: keine Meldung beim Verwerfen", "datei": "pipeline/lib/beleg-marken.ts", "suche": "  melde(`WARNUNG Beleg", "ersetze": "  void (`WARNUNG Beleg", "tests": ["npx tsx pipeline/check-beleg-lauf.ts", "npx tsx pipeline/check-beleg-marken.ts"] },
-  { "name": "leseUndMerke: Erscheinungstag wird trotz Fremdseite gesetzt", "datei": "pipeline/lib/beleg-lauf.ts", "suche": "ausgabe: mitDatum || !seitePasst ? undefined", "ersetze": "ausgabe: mitDatum ? undefined", "tests": ["npx tsx pipeline/check-beleg-lauf.ts", "npx tsx pipeline/check-beleg-marken.ts"] },
-  { "name": "leseUndMerke: Seitentitel ohne Gruppen verglichen", "datei": "pipeline/lib/beleg-lauf.ts", "suche": "seitentitelPasst(url, g.text, gruppen.get(url) ?? [],", "ersetze": "seitentitelPasst(url, g.text, [],", "tests": ["npx tsx pipeline/check-beleg-lauf.ts", "npx tsx pipeline/check-beleg-marken.ts"] },
-  { "name": "leseUndMerke: Verwurf nicht im Log", "datei": "pipeline/lib/beleg-lauf.ts", "suche": "(z) => console.log(`⚠ ${z}`)", "ersetze": "() => undefined", "tests": ["npx tsx pipeline/check-beleg-lauf.ts", "npx tsx pipeline/check-beleg-marken.ts"] },
-  { "name": "leseUndMerke: gespeicherter fremder Tag bleibt", "datei": "pipeline/lib/beleg-lauf.ts", "suche": "const verworfen = !seitePasst && letzte?.ausgabe !== undefined && delete letzte.ausgabe", "ersetze": "const verworfen = false", "tests": ["npx tsx pipeline/check-beleg-lauf.ts", "npx tsx pipeline/check-beleg-marken.ts"] },
-  { "name": "leseUndMerke: Heilung zaehlt nicht als neuer Stand", "datei": "pipeline/lib/beleg-lauf.ts", "suche": "merkeLesung(gedaechtnis, url, lesung) || verworfen", "ersetze": "merkeLesung(gedaechtnis, url, lesung)", "tests": ["npx tsx pipeline/check-beleg-lauf.ts", "npx tsx pipeline/check-beleg-marken.ts"] },
-  { "name": "leseUndMerke: Heilung auch bei passender Seite", "datei": "pipeline/lib/beleg-lauf.ts", "suche": "const verworfen = !seitePasst && letzte", "ersetze": "const verworfen = letzte", "tests": ["npx tsx pipeline/check-beleg-lauf.ts", "npx tsx pipeline/check-beleg-marken.ts"] }
+  { "name": "Kontrolle unmutiert",
+    "aenderungen": []
+  },
+  { "name": "seitentitelPasst: Namen bis drei Zeichen zaehlen mit",
+    "datei": "pipeline/lib/beleg-marken.ts",
+    "suche": "g.suchen).filter((s) => norm(s).length > 3)",
+    "ersetze": "g.suchen).filter((s) => norm(s).length > 0)",
+    "tests": [
+      "npx tsx pipeline/check-beleg-lauf.ts",
+      "npx tsx pipeline/check-beleg-marken.ts"
+    ]
+  },
+  { "name": "seitentitelPasst: Namen mit genau drei Zeichen zaehlen mit",
+    "datei": "pipeline/lib/beleg-marken.ts",
+    "suche": "g.suchen).filter((s) => norm(s).length > 3)",
+    "ersetze": "g.suchen).filter((s) => norm(s).length >= 3)",
+    "tests": [
+      "npx tsx pipeline/check-beleg-lauf.ts",
+      "npx tsx pipeline/check-beleg-marken.ts"
+    ]
+  },
+  { "name": "seitentitelPasst: Teilwort genuegt",
+    "datei": "pipeline/lib/beleg-marken.ts",
+    "suche": "t.includes(' ' + norm(s) + ' ')",
+    "ersetze": "t.includes(norm(s))",
+    "tests": [
+      "npx tsx pipeline/check-beleg-lauf.ts",
+      "npx tsx pipeline/check-beleg-marken.ts"
+    ]
+  },
+  { "name": "seitentitelPasst: alle Namen muessen stehen",
+    "datei": "pipeline/lib/beleg-marken.ts",
+    "suche": "namen.some((s) => t.includes(",
+    "ersetze": "namen.every((s) => t.includes(",
+    "tests": [
+      "npx tsx pipeline/check-beleg-lauf.ts",
+      "npx tsx pipeline/check-beleg-marken.ts"
+    ]
+  },
+  { "name": "seitentitelPasst: auch fremde Adressen werden verglichen",
+    "datei": "pipeline/lib/beleg-marken.ts",
+    "suche": "if (!istAnisearchArtikel(url) || !namen.length) return true",
+    "ersetze": "if (!namen.length) return true",
+    "tests": [
+      "npx tsx pipeline/check-beleg-lauf.ts",
+      "npx tsx pipeline/check-beleg-marken.ts"
+    ]
+  },
+  { "name": "seitentitelPasst: ohne Namen wird verworfen",
+    "datei": "pipeline/lib/beleg-marken.ts",
+    "suche": "if (!istAnisearchArtikel(url) || !namen.length) return true",
+    "ersetze": "if (!istAnisearchArtikel(url)) return true",
+    "tests": [
+      "npx tsx pipeline/check-beleg-lauf.ts",
+      "npx tsx pipeline/check-beleg-marken.ts"
+    ]
+  },
+  { "name": "seitentitelPasst: Fehlschlag ergibt Gilt",
+    "datei": "pipeline/lib/beleg-marken.ts",
+    "suche": "Erscheinungstag verworfen`)\n  return false",
+    "ersetze": "Erscheinungstag verworfen`)\n  return true",
+    "tests": [
+      "npx tsx pipeline/check-beleg-lauf.ts",
+      "npx tsx pipeline/check-beleg-marken.ts"
+    ]
+  },
+  { "name": "seitentitelPasst: keine Meldung beim Verwerfen",
+    "datei": "pipeline/lib/beleg-marken.ts",
+    "suche": "  melde(`WARNUNG Beleg",
+    "ersetze": "  void (`WARNUNG Beleg",
+    "tests": [
+      "npx tsx pipeline/check-beleg-lauf.ts",
+      "npx tsx pipeline/check-beleg-marken.ts"
+    ]
+  },
+  { "name": "meldeOhneNamen: auch fremde Adressen zaehlen",
+    "datei": "pipeline/lib/beleg-marken.ts",
+    "suche": "const seiten = adressen.filter(istAnisearchArtikel)",
+    "ersetze": "const seiten = adressen",
+    "tests": [
+      "npx tsx pipeline/check-beleg-lauf.ts",
+      "npx tsx pipeline/check-beleg-marken.ts"
+    ]
+  },
+  { "name": "meldeOhneNamen: Adressen mit Namen zaehlen mit",
+    "datei": "pipeline/lib/beleg-marken.ts",
+    "suche": ".filter((u) => !vergleichsNamen(gruppen.get(u) ?? []).length).length",
+    "ersetze": ".filter((u) => vergleichsNamen(gruppen.get(u) ?? []).length >= 0).length",
+    "tests": [
+      "npx tsx pipeline/check-beleg-lauf.ts",
+      "npx tsx pipeline/check-beleg-marken.ts"
+    ]
+  },
+  { "name": "meldeOhneNamen: eine einzige Adresse meldet nicht",
+    "datei": "pipeline/lib/beleg-marken.ts",
+    "suche": "if (ohne) melde(`WARNUNG ${ohne}",
+    "ersetze": "if (ohne > 1) melde(`WARNUNG ${ohne}",
+    "tests": [
+      "npx tsx pipeline/check-beleg-lauf.ts",
+      "npx tsx pipeline/check-beleg-marken.ts"
+    ]
+  },
+  { "name": "meldeOhneNamen: Zahl der Adressen ohne Namen falsch angegeben",
+    "datei": "pipeline/lib/beleg-marken.ts",
+    "suche": "WARNUNG ${ohne} von ${seiten.length}",
+    "ersetze": "WARNUNG ${seiten.length} von ${ohne}",
+    "tests": [
+      "npx tsx pipeline/check-beleg-lauf.ts",
+      "npx tsx pipeline/check-beleg-marken.ts"
+    ]
+  },
+  { "name": "fuehreLaufAus: Zaehlung der Adressen ohne Namen nicht aufgerufen",
+    "datei": "pipeline/lib/beleg-lauf.ts",
+    "suche": "  meldeOhneNamen(gelesenAdressen, gruppen, (z) => console.log(`⚠ ${z}`))",
+    "ersetze": "  0 && meldeOhneNamen(gelesenAdressen, gruppen, (z) => console.log(`⚠ ${z}`))",
+    "tests": [
+      "npx tsx pipeline/check-beleg-lauf.ts",
+      "npx tsx pipeline/check-beleg-marken.ts"
+    ]
+  },
+  { "name": "fuehreLaufAus: Zaehlung ohne gelesene Adressen",
+    "datei": "pipeline/lib/beleg-lauf.ts",
+    "suche": "  meldeOhneNamen(gelesenAdressen, gruppen,",
+    "ersetze": "  meldeOhneNamen([], gruppen,",
+    "tests": [
+      "npx tsx pipeline/check-beleg-lauf.ts",
+      "npx tsx pipeline/check-beleg-marken.ts"
+    ]
+  },
+  { "name": "fuehreLaufAus: Zaehlung ohne Namen-Zuordnung",
+    "datei": "pipeline/lib/beleg-lauf.ts",
+    "suche": "  meldeOhneNamen(gelesenAdressen, gruppen,",
+    "ersetze": "  meldeOhneNamen(gelesenAdressen, new Map(),",
+    "tests": [
+      "npx tsx pipeline/check-beleg-lauf.ts",
+      "npx tsx pipeline/check-beleg-marken.ts"
+    ]
+  },
+  { "name": "fuehreLaufAus: Zaehlung nicht im Log",
+    "datei": "pipeline/lib/beleg-lauf.ts",
+    "suche": "  meldeOhneNamen(gelesenAdressen, gruppen, (z) => console.log(`⚠ ${z}`))",
+    "ersetze": "  meldeOhneNamen(gelesenAdressen, gruppen, () => undefined)",
+    "tests": [
+      "npx tsx pipeline/check-beleg-lauf.ts",
+      "npx tsx pipeline/check-beleg-marken.ts"
+    ]
+  },
+  { "name": "leseUndMerke: Erscheinungstag wird trotz Fremdseite gesetzt",
+    "datei": "pipeline/lib/beleg-lauf.ts",
+    "suche": "ausgabe: mitDatum || !seitePasst ? undefined",
+    "ersetze": "ausgabe: mitDatum ? undefined",
+    "tests": [
+      "npx tsx pipeline/check-beleg-lauf.ts",
+      "npx tsx pipeline/check-beleg-marken.ts"
+    ]
+  },
+  { "name": "leseUndMerke: Seitentitel ohne Gruppen verglichen",
+    "datei": "pipeline/lib/beleg-lauf.ts",
+    "suche": "seitentitelPasst(url, g.text, gruppen.get(url) ?? [],",
+    "ersetze": "seitentitelPasst(url, g.text, [],",
+    "tests": [
+      "npx tsx pipeline/check-beleg-lauf.ts",
+      "npx tsx pipeline/check-beleg-marken.ts"
+    ]
+  },
+  { "name": "leseUndMerke: Verwurf nicht im Log",
+    "datei": "pipeline/lib/beleg-lauf.ts",
+    "suche": "gruppen.get(url) ?? [], (z) => console.log(`⚠ ${z}`))",
+    "ersetze": "gruppen.get(url) ?? [], () => undefined)",
+    "tests": [
+      "npx tsx pipeline/check-beleg-lauf.ts",
+      "npx tsx pipeline/check-beleg-marken.ts"
+    ]
+  },
+  { "name": "leseUndMerke: neue Lesung einer Fremdseite nicht gekennzeichnet",
+    "datei": "pipeline/lib/beleg-lauf.ts",
+    "suche": "fremd: seitePasst ? undefined : true,",
+    "ersetze": "fremd: undefined,",
+    "tests": [
+      "npx tsx pipeline/check-beleg-lauf.ts",
+      "npx tsx pipeline/check-beleg-marken.ts"
+    ]
+  },
+  { "name": "verwirfFremde: nicht aufgerufen",
+    "datei": "pipeline/lib/beleg-lauf.ts",
+    "suche": "const verworfen = verwirfFremde(letzte, hash, seitePasst)",
+    "ersetze": "const verworfen = false",
+    "tests": [
+      "npx tsx pipeline/check-beleg-lauf.ts",
+      "npx tsx pipeline/check-beleg-marken.ts"
+    ]
+  },
+  { "name": "verwirfFremde: Heilung auch bei passender Seite",
+    "datei": "pipeline/lib/beleg-lauf.ts",
+    "suche": "if (seitePasst || letzte?.hash !== hash || letzte.fremd) return false",
+    "ersetze": "if (letzte?.hash !== hash || letzte.fremd) return false",
+    "tests": [
+      "npx tsx pipeline/check-beleg-lauf.ts",
+      "npx tsx pipeline/check-beleg-marken.ts"
+    ]
+  },
+  { "name": "verwirfFremde: ohne Hashbedingung (Fremdtext verwirft den Tag der vorigen Lesung)",
+    "datei": "pipeline/lib/beleg-lauf.ts",
+    "suche": "if (seitePasst || letzte?.hash !== hash || letzte.fremd) return false",
+    "ersetze": "if (seitePasst || !letzte || letzte.fremd) return false",
+    "tests": [
+      "npx tsx pipeline/check-beleg-lauf.ts",
+      "npx tsx pipeline/check-beleg-marken.ts"
+    ]
+  },
+  { "name": "verwirfFremde: schon gekennzeichnete Lesung zaehlt erneut",
+    "datei": "pipeline/lib/beleg-lauf.ts",
+    "suche": "if (seitePasst || letzte?.hash !== hash || letzte.fremd) return false",
+    "ersetze": "if (seitePasst || letzte?.hash !== hash) return false",
+    "tests": [
+      "npx tsx pipeline/check-beleg-lauf.ts",
+      "npx tsx pipeline/check-beleg-marken.ts"
+    ]
+  },
+  { "name": "verwirfFremde: Kennzeichen nicht gesetzt",
+    "datei": "pipeline/lib/beleg-lauf.ts",
+    "suche": "  letzte.fremd = true\n  delete letzte.ausgabe",
+    "ersetze": "  delete letzte.ausgabe",
+    "tests": [
+      "npx tsx pipeline/check-beleg-lauf.ts",
+      "npx tsx pipeline/check-beleg-marken.ts"
+    ]
+  },
+  { "name": "verwirfFremde: gespeicherter Tag bleibt",
+    "datei": "pipeline/lib/beleg-lauf.ts",
+    "suche": "  letzte.fremd = true\n  delete letzte.ausgabe",
+    "ersetze": "  letzte.fremd = true",
+    "tests": [
+      "npx tsx pipeline/check-beleg-lauf.ts",
+      "npx tsx pipeline/check-beleg-marken.ts"
+    ]
+  },
+  { "name": "verwirfFremde: Rueckgabe immer falsch",
+    "datei": "pipeline/lib/beleg-lauf.ts",
+    "suche": "  delete letzte.ausgabe\n  return true",
+    "ersetze": "  delete letzte.ausgabe\n  return false",
+    "tests": [
+      "npx tsx pipeline/check-beleg-lauf.ts",
+      "npx tsx pipeline/check-beleg-marken.ts"
+    ]
+  },
+  { "name": "leseUndMerke: Heilung zaehlt nicht als neuer Stand",
+    "datei": "pipeline/lib/beleg-lauf.ts",
+    "suche": "merkeLesung(gedaechtnis, url, lesung) || verworfen",
+    "ersetze": "merkeLesung(gedaechtnis, url, lesung)",
+    "tests": [
+      "npx tsx pipeline/check-beleg-lauf.ts",
+      "npx tsx pipeline/check-beleg-marken.ts"
+    ]
+  },
+  { "name": "mitArtikeldaten: Bild und Tag der Fremdlesung gelten",
+    "datei": "pipeline/lib/beleg-lesung.ts",
+    "suche": "(gedaechtnis[q.url]?.lesungen ?? []).filter((l) => !l.fremd)",
+    "ersetze": "(gedaechtnis[q.url]?.lesungen ?? [])",
+    "tests": [
+      "npx tsx pipeline/check-beleg-lauf.ts",
+      "npx tsx pipeline/check-beleg-marken.ts"
+    ]
+  },
+  { "name": "belegeFuerAlle: Bild-Tag der Fremdlesung",
+    "datei": "pipeline/lib/beleg-lesung.ts",
+    "suche": "lesungen.filter((l) => l.bild && !l.fremd).at(-1)?.am",
+    "ersetze": "lesungen.filter((l) => l.bild).at(-1)?.am",
+    "tests": [
+      "npx tsx pipeline/check-beleg-lauf.ts",
+      "npx tsx pipeline/check-beleg-marken.ts"
+    ]
+  }
 ]
