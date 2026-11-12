@@ -607,6 +607,7 @@ pipeline/check-wochen-packen.ts
 pipeline/check-wochenprogramm-sendetag.ts
 pipeline/check-workflow-browser.ts
 pipeline/check-write-json-atomar.ts
+pipeline/check-write-text-atomar.ts
 pipeline/check-zaehlung.ts
 pipeline/check-zeit-ausgabe.ts
 pipeline/check-zuordner-ablauf.ts
