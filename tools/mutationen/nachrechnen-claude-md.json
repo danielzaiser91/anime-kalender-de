@@ -66,12 +66,5 @@
     "suche": "return daten.startsWith('main bewegte ') && !bot.startsWith('main bewegte ') ? bot : `${daten}; ${bot}`",
     "ersetze": "return bot",
     "tests": ["node tools/pr-nachrechnen-claude-md.test.mjs"]
-  },
-  {
-    "name": "grundText: Leser-Grund behält den groben Vorspann (Bedingung auf daten allein falsch)",
-    "datei": "tools/pr-nachrechnen.mjs",
-    "suche": "daten.startsWith('main bewegte ') && !bot.startsWith('main bewegte ')",
-    "ersetze": "!bot.startsWith('main bewegte ')",
-    "tests": ["node tools/pr-nachrechnen-claude-md.test.mjs"]
   }
 ]
