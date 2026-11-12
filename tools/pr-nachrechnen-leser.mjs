@@ -182,7 +182,14 @@ const aendertBauDaten = (datei) => datei.startsWith('data/')
 const istShellTest = (datei) => /^tools\/[\w-]*-test(-[\w-]+)?\.sh$/.test(datei)
 
 /** Leser, die Daten wirklich lesen können: alles außer Tests und Workflows/Aktionen, die nur Fixtures oder Namen nennen (PR 3474, 11.11.2026). */
-const istBauLeser = (datei) => !istTest(datei) && !istShellTest(datei) && !datei.startsWith('.github/')
+const istBauLeser = (datei) => !istTest(datei) && !istShellTest(datei) && !istNachrechnenWerkzeug(datei) && !datei.startsWith('.github/')
+
+/**
+ * Nachrechnen-Werkzeuge nennen `data/…` nur als Muster oder Fixture, der Bau liest sie nie (12.11.2026: nach PR 3555 galten
+ * `tools/pr-nachrechnen-bot-pfade-leser.mjs` & Co. als Leser von `data/verweise-von-hand.yaml`). Grenze: andere `tools/*` bleiben Leser
+ * (`tools/pr-*` allgemein nicht: `pipeline/` importiert `tools/pr-basis.mjs`, gemessen 12.11.2026); die Familie ist nur `pr-nachrechnen*` und `nachrechnen-*`.
+ */
+const istNachrechnenWerkzeug = (datei) => /^tools\/(pr-nachrechnen|nachrechnen-)[\w.-]*$/.test(datei)
 
 /** Der Bau-Kern (pipeline/, shared/, tools/check-*) steht in Meldungen vor Werkzeugen und Workflows: sonst liest man „Leser: pr-pruefer.yml“ als Fehlalarm (11.11.2026). */
 const kernZuerst = (liste) => [...liste].sort((a, b) => Number(KERN.test(b)) - Number(KERN.test(a)))
