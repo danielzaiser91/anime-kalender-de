@@ -1,41 +1,21 @@
 {
- "erzeugtAm": "2026-11-12T02:20:32.920Z",
+ "erzeugtAm": "2026-11-12T03:13:27.356Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
-   "gemeldet": 960,
-   "gesamt": 1003,
-   "offen": 43,
-   "ohneSeite": 9,
+   "gemeldet": 972,
+   "gesamt": 1007,
+   "offen": 35,
+   "ohneSeite": 4,
    "suchAdressen": [
-    "https://www.amazon.de/s?k=Pretty%20Cure&i=instant-video",
-    "https://www.amazon.de/s?k=Demon%20Slave%3A%20The%20Chained%20Soldier&i=instant-video",
     "https://www.amazon.de/s?k=The%20Birth%20Of%20Kitaro%20-%20Das%20Geheimnis%20von%20Gegege&i=instant-video",
     "https://www.amazon.de/s?k=Miraculous%20World%3A%20New%20York%2C%20United%20Heroez&i=instant-video",
     "https://www.amazon.de/s?k=Miraculous%20World%3A%20Shanghai%2C%20die%20Legende%20von%20Ladydragon&i=instant-video",
-    "https://www.amazon.de/s?k=Detektiv%20Conan%3A%20Lovestory%20im%20Polizeihauptquartier%20-%20Am%20Abend%20vor%20der%20Hochzeit&i=instant-video",
-    "https://www.amazon.de/s?k=Fischen%20Impossible%3A%20Eine%20tierische%20Rettungsaktion&i=instant-video",
-    "https://www.amazon.de/s?k=Z%20wie%20Zorro%20%E2%80%93%20Der%20Film&i=instant-video",
-    "https://www.amazon.de/s?k=Miru%20Tights&i=instant-video"
+    "https://www.amazon.de/s?k=Detektiv%20Conan%3A%20Lovestory%20im%20Polizeihauptquartier%20-%20Am%20Abend%20vor%20der%20Hochzeit&i=instant-video"
    ],
-   "ziel": "https://www.amazon.de/gp/video/detail/0TJR1ZN3C977PKPV9W05WCTI7Z",
+   "ziel": "https://www.amazon.de/gp/video/detail/B09JLN6S1R",
    "ziele": [
-    {
-     "url": "https://www.amazon.de/gp/video/detail/0TJR1ZN3C977PKPV9W05WCTI7Z",
-     "titel": "Kung Fu Panda: Die Tatzen des Schicksals (Kung Fu Panda: The Paws of Destiny)",
-     "hinweis": "Staffeln unklar: TMDB zählt 26 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.amazon.de/dp/B0FBKJJ7RQ",
-     "titel": "Blaze und die Monster-Maschinen (Blaze and the Monster Machines)",
-     "hinweis": "Staffeln unklar: TMDB zählt 179 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0D11XTMDJ",
-     "titel": "King Julien (All Hail King Julien)",
-     "hinweis": "Staffeln unklar: TMDB zählt 65 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
     {
      "url": "https://www.amazon.de/gp/video/detail/B09JLN6S1R",
      "titel": "Detektiv Conan (Detective Conan)"
@@ -67,10 +47,6 @@
     {
      "url": "https://www.amazon.de/gp/video/detail/B0DJKGJQ7K",
      "titel": "Yandere Dark Elf: She Chased Me All the Way from Another World!"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/amzn1.dv.gti.234d22cb-bca3-4855-b0f7-04a79eecdbcd?tag=justat1218-21&token=491B3E20E8D6C755745FD7E34BCE779F25003CB2",
-     "titel": "Nukitashi: Welcome to Love Island! (Nukitashi THE ANIMATION)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CJRZY5ND",
@@ -125,10 +101,6 @@
      "titel": "Chaika, die Sargprinzessin (Chaika -The Coffin Princess-)"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B0D169XWP1",
-     "titel": "A Certain Magical Index: The Miracle of Endymion"
-    },
-    {
      "url": "https://www.amazon.de/gp/video/detail/B0CVFNLP9D",
      "titel": "A Certain Scientific Railgun S"
     },
@@ -137,12 +109,12 @@
      "titel": "Kuroko’s Basketball: 2nd Season (Kuroko's Basketball 2)"
     },
     {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.cab713ed-8211-0b9a-e9f1-c02e9c6dd1b2",
-     "titel": "To Love Ru: Darkness (To Love Ru Darkness)"
-    },
-    {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.6aad68c8-1e46-46e9-be1e-3d4de43488a5",
      "titel": "Black Butler"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B09JZHRQ18",
+     "titel": "Higurashi no Naku Koro ni Kai (When They Cry Kai)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B09KX2VLPR",
@@ -161,26 +133,12 @@
      "titel": "Future Boy Conan"
     },
     {
-     "url": "https://www.amazon.de/dp/B0CLM8GD65",
-     "titel": "Hazbin Hotel",
-     "hinweis": "Staffeln unklar: TMDB zählt 16 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.6cfb3be4-5a04-47ca-a6ac-e511a1b42ca4",
-     "titel": "Madagascar – Die kleine Wildnis (Madagascar: A Little Wild)",
-     "hinweis": "Staffeln unklar: TMDB zählt 52 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.44b69da7-d905-017f-c691-54059237c2a9",
      "titel": "Sylvanian Families",
      "hinweis": "Staffeln unklar: TMDB zählt 62 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.amazon.de/dp/B0DJ4FCM5H",
-     "titel": "Zweite Prime-Ausgabe (B0DJ4FCM5H)"
     }
    ],
-   "naechster": "Kung Fu Panda: Die Tatzen des Schicksals (Kung Fu Panda: The Paws of Destiny)",
+   "naechster": "Detektiv Conan (Detective Conan)",
    "bekannt": {
     "B0DGGZSKRM": 13,
     "B0FKZM9J6V": 25,
@@ -1418,9 +1376,9 @@
   {
    "name": "Disney+",
    "plattform": "disneyplus",
-   "gemeldet": 182,
-   "gesamt": 341,
-   "offen": 159,
+   "gemeldet": 183,
+   "gesamt": 340,
+   "offen": 157,
    "ohneSeite": 14,
    "ziel": "https://www.disneyplus.com/browse/entity-faa35b37-3287-4a7c-9d42-a3a5f9ad9185",
    "ziele": [
@@ -1455,18 +1413,8 @@
      "hinweis": "Staffeln unklar: TMDB zählt 88 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
-     "url": "https://www.disneyplus.com/de-de/series/bleach-thousand-year-blood-war/4Afet1Q421gy",
-     "titel": "Bleach: Thousand-Year Blood War",
-     "seit": "2026-11-07"
-    },
-    {
      "url": "https://www.disneyplus.com/browse/entity-b042544d-cd7d-40c6-9be4-db79666a1b51",
      "titel": "Welcome to Demon School! Iruma-kun"
-    },
-    {
-     "url": "https://www.disneyplus.com/de-de/movies/children-of-the-sea/PPmmokvapG3T",
-     "titel": "Children of the Sea",
-     "seit": "2026-08-26"
     },
     {
      "url": "https://www.disneyplus.com/browse/entity-dc471806-a107-436c-9bec-0e4455c7249c",

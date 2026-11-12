@@ -7,9 +7,9 @@ Abschnitt „JustWatch-Ton je Seite“. Unsere Messung (Handbeleg, Meldung der E
 <!-- anime:start -->
 ## Anime
 
-Flagge „Deutsch“: 93 Wege, nur Hinweis: 2.
+Flagge „Deutsch“: 93 Wege, nur Hinweis: 1.
 
-JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine Flagge): mehrere Staffeln 18, Mehrteiler 9.
+JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine Flagge): mehrere Staffeln 17, Mehrteiler 9.
 
 | Anbieter | mit eigener Messung | Widersprüche | Anteil | Anzeige |
 |---|---|---|---|---|
@@ -809,8 +809,8 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Reporter Blues (10003873) | Amazon Prime Video | amazon:amzn1.dv.gti.c4f1ebf2-aff4-40b9-b00f-f90501583590 | ja |
 | Operation: Nussknacker - Auf die Nüsse, fertig, los! (10009667) | Amazon Prime Video | amazon:amzn1.dv.gti.48b8e647-d786-3a45-f5fc-3142d0233dc5 | ja |
 | Operation: Nussknacker - Auf die Nüsse, fertig, los! (10009667) | Amazon Video | amazon:amzn1.dv.gti.46a9f6ca-b9f5-4ab1-602e-e1d0f52f985b | ja |
-| Fischen Impossible: Eine tierische Rettungsaktion (10011556) | Amazon Prime Video | amazon:amzn1.dv.gti.32ac38e0-8be2-b94b-399a-af7fa671fd1e | nein |
-| Fischen Impossible: Eine tierische Rettungsaktion (10011556) | Kixi Select Amazon Channel | amazon:amzn1.dv.gti.a511744f-6f1c-4fef-8b94-bae2f9b794a8 | nein |
+| Fischen Impossible: Eine tierische Rettungsaktion (10011556) | Amazon Prime Video | amazon:amzn1.dv.gti.32ac38e0-8be2-b94b-399a-af7fa671fd1e | ja |
+| Fischen Impossible: Eine tierische Rettungsaktion (10011556) | Kixi Select Amazon Channel | amazon:amzn1.dv.gti.a511744f-6f1c-4fef-8b94-bae2f9b794a8 | ja |
 | Prinz Ribbit: Ein Frosch auf Umwegen! (10011569) | Kixi Select Amazon Channel | amazon:amzn1.dv.gti.173ef223-b562-4f1a-a361-f8a85f8ba18d | ja |
 | Prinz Ribbit: Ein Frosch auf Umwegen! (10011569) | Amazon Video | amazon:amzn1.dv.gti.244e6fdd-f4a4-44c7-95d0-8829720b24c1 | ja |
 | Re:Zero - Starting Life in Another World: Bünde aus Eis (10013951) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.5d11c410-4b4b-4fef-8c75-b1c01805685e | nein |
@@ -823,7 +823,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 
 Flagge „Deutsch“: 2 Wege, nur Hinweis: 0.
 
-JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine Flagge): mehrere Staffeln 142, Mehrteiler 1.
+JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine Flagge): mehrere Staffeln 141, Mehrteiler 1.
 
 | Anbieter | mit eigener Messung | Widersprüche | Anteil | Anzeige |
 |---|---|---|---|---|

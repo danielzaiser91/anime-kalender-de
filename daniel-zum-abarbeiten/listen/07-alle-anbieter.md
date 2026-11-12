@@ -1,6 +1,6 @@
 # Prüfliste: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-11-11 · **187 offene Verweise** in **142 Zeilen**.
+Stand 2026-11-12 · **186 offene Verweise** in **141 Zeilen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Was geprüft ist, gehört
 nach `data/dub-confirmed.yaml`; beim nächsten Lauf verschwindet es hier.
@@ -33,8 +33,8 @@ Synchro und zweiter ohne, Zeile 4 tot.
 
 | Offen je Anbieter | Verweise |
 |---|---|
-| [Netflix](07-netflix.md) | 176 |
-| [Prime Video](07-primevideo.md) | 8 |
+| [Netflix](07-netflix.md) | 177 |
+| [Prime Video](07-primevideo.md) | 6 |
 | [Disney+](07-disneyplus.md) | 2 |
 | [Pluto TV](07-plutotv.md) | 1 |
 
@@ -42,11 +42,11 @@ Synchro und zweiter ohne, Zeile 4 tot.
 
 | # | Datum | Reihe | Noch zu bestätigen |
 |---|---|---|---|
-| 1 | 2026-11-06 | A Silent Voice | [Hauptserie](https://www.netflix.com/title/80223226) |
-| 2 | 2026-11-06 | Failure Frame: I Became the Strongest and Annihilated Everything with Low-Level Spells | [Hauptserie](https://www.netflix.com/title/81910037) |
-| 3 | 2026-11-06 | Highschool D×D | [Hauptserie](https://www.netflix.com/title/80005873) · [New](https://www.netflix.com/title/80005873) · [BorN](https://www.netflix.com/title/80005873) |
-| 4 | 2026-11-06 | NieR:Automata Ver1.1a | [Hauptserie](https://www.netflix.com/title/81680344) |
-| 5 | 2026-11-01 | M.A.S.K. | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.eeb6197a-3602-ac84-206c-d5d2514ec5ef) |
+| 1 | 2026-11-12 | InuYasha | [Yashahime: Princess Half-Demon](https://www.netflix.com/title/81336398) |
+| 2 | 2026-11-06 | A Silent Voice | [Hauptserie](https://www.netflix.com/title/80223226) |
+| 3 | 2026-11-06 | Failure Frame: I Became the Strongest and Annihilated Everything with Low-Level Spells | [Hauptserie](https://www.netflix.com/title/81910037) |
+| 4 | 2026-11-06 | Highschool D×D | [Hauptserie](https://www.netflix.com/title/80005873) · [New](https://www.netflix.com/title/80005873) · [BorN](https://www.netflix.com/title/80005873) |
+| 5 | 2026-11-06 | NieR:Automata Ver1.1a | [Hauptserie](https://www.netflix.com/title/81680344) |
 | 6 | 2026-10-25 | Meine ganz besondere Hochzeit | [Special](https://www.netflix.com/title/82643530) |
 | 7 | 2026-10-15 | Sankarea: Undying Love | [Hauptserie]() |
 | 8 | 2026-10-11 | Ghost in the Shell: Stand Alone Complex | [Ghost in the Shell](https://www.netflix.com/title/540533) · [Hauptserie](https://www.netflix.com/title/70213091) · [2nd GIG](https://www.netflix.com/title/70213091) · [Solid State Society](https://www.netflix.com/title/70071919) |
@@ -165,25 +165,24 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 121 | 2014-03-27 | Love, Chunibyo & Other Delusions! | [Hauptserie](https://www.netflix.com/title/80239860) · [Heart Throb](https://www.netflix.com/title/80239860) |
 | 122 | 2013-06-27 | The Devil Is a Part-Timer! | [Hauptserie](https://www.netflix.com/title/80006149) |
 | 123 | 2013-03-26 | Naruto | [Spin off! Rock Lee & seine Ninja-Kumpels](https://www.netflix.com/title/80151421) |
-| 124 | 2012-12-29 | To Love-Ru: Trouble | [To Love Ru: Darkness](https://watch.amazon.de/detail?gti=amzn1.dv.gti.cab713ed-8211-0b9a-e9f1-c02e9c6dd1b2) |
-| 125 | 2012-12-20 | Btooom! | [Hauptserie](https://www.netflix.com/title/80052713) |
-| 126 | 2012-03-27 | Another | [Hauptserie](https://www.netflix.com/title/80241072) |
-| 127 | 2011-07-02 | Gosick | [Hauptserie](https://www.netflix.com/title/80209888) |
-| 128 | 2011-05-07 | Die Reise nach Agartha | [Hauptserie](https://www.netflix.com/title/80104167) |
-| 129 | 2010-09-24 | Maid-sama | [Hauptserie](https://www.netflix.com/title/81104406) |
-| 130 | 2009-08-14 | TRAVA: FIST PLANET | [Redline](https://www.netflix.com/title/70153298) |
-| 131 | 2009-03-27 | Black Butler | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.6aad68c8-1e46-46e9-be1e-3d4de43488a5) |
-| 132 | 2008-07-16 | Clannad | [OVA - Das Tomoyo Kapitel](https://www.netflix.com/title/70204963) |
-| 133 | 2008-05-30 | Spice and Wolf | [Hauptserie](https://www.netflix.com/title/70205026) |
-| 134 | 2007-03-03 | 5 Centimeters per Second | [Hauptserie](https://www.netflix.com/title/70093699) |
-| 135 | 2006-07-03 | Die Melancholie der Haruhi Suzumiya | [Hauptserie](https://www.netflix.com/title/81056036) |
-| 136 | 2004-12-25 | Samurai 7 | [Hauptserie](https://www.netflix.com/title/70205019) |
-| 137 | 2004-05-18 | Paranoia Agent | [Hauptserie](https://www.netflix.com/title/70014551) |
-| 138 | 2004-04-17 | Appleseed: Kampf um die Freiheit | [Appleseed](https://www.netflix.com/title/70023531) |
-| 139 | 2004-03-28 | Sonic X | [Hauptserie](https://www.netflix.com/title/60036794) |
-| 140 | 2003-10-22 | Ikki Tousen: Dragon Girls | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.1374d3dd-9d96-4d41-b0f8-38932f0c9145) |
-| 141 | 2003-09-27 | Mobile Suit Gundam Seed | [Hauptserie](https://www.netflix.com/title/80146549) |
-| 142 | 2001-12-24 | Beyblade | [Hauptserie](https://www.netflix.com/title/70155614) |
+| 124 | 2012-12-20 | Btooom! | [Hauptserie](https://www.netflix.com/title/80052713) |
+| 125 | 2012-03-27 | Another | [Hauptserie](https://www.netflix.com/title/80241072) |
+| 126 | 2011-07-02 | Gosick | [Hauptserie](https://www.netflix.com/title/80209888) |
+| 127 | 2011-05-07 | Die Reise nach Agartha | [Hauptserie](https://www.netflix.com/title/80104167) |
+| 128 | 2010-09-24 | Maid-sama | [Hauptserie](https://www.netflix.com/title/81104406) |
+| 129 | 2009-08-14 | TRAVA: FIST PLANET | [Redline](https://www.netflix.com/title/70153298) |
+| 130 | 2009-03-27 | Black Butler | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.6aad68c8-1e46-46e9-be1e-3d4de43488a5) |
+| 131 | 2008-07-16 | Clannad | [OVA - Das Tomoyo Kapitel](https://www.netflix.com/title/70204963) |
+| 132 | 2008-05-30 | Spice and Wolf | [Hauptserie](https://www.netflix.com/title/70205026) |
+| 133 | 2007-03-03 | 5 Centimeters per Second | [Hauptserie](https://www.netflix.com/title/70093699) |
+| 134 | 2006-07-03 | Die Melancholie der Haruhi Suzumiya | [Hauptserie](https://www.netflix.com/title/81056036) |
+| 135 | 2004-12-25 | Samurai 7 | [Hauptserie](https://www.netflix.com/title/70205019) |
+| 136 | 2004-05-18 | Paranoia Agent | [Hauptserie](https://www.netflix.com/title/70014551) |
+| 137 | 2004-04-17 | Appleseed: Kampf um die Freiheit | [Appleseed](https://www.netflix.com/title/70023531) |
+| 138 | 2004-03-28 | Sonic X | [Hauptserie](https://www.netflix.com/title/60036794) |
+| 139 | 2003-10-22 | Ikki Tousen: Dragon Girls | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.1374d3dd-9d96-4d41-b0f8-38932f0c9145) |
+| 140 | 2003-09-27 | Mobile Suit Gundam Seed | [Hauptserie](https://www.netflix.com/title/80146549) |
+| 141 | 2001-12-24 | Beyblade | [Hauptserie](https://www.netflix.com/title/70155614) |
 
 ## Warum die einzelnen Anbieter unsicher sind
 
