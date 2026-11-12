@@ -733,6 +733,24 @@
     ]
   },
   {
+    "name": "Ordner-Leser: Ausführungsliste zählt als bewegte Datei (LISTE-Filter entfernt)",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "bewegt.filter((x) => !istTest(p) || (!DATEN.test(x) && !LISTE.test(x)))",
+    "ersetze": "bewegt.filter((x) => !istTest(p) || !DATEN.test(x))",
+    "tests": [
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
+  },
+  {
+    "name": "Shell-Test: Pfad nicht an tools/ verankert",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "/^tools\\/[\\w-]*-test(-[\\w-]+)?\\.sh$/.test(datei)",
+    "ersetze": "/-test(-[\\w-]+)?\\.sh$/.test(datei)",
+    "tests": [
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
+  },
+  {
     "name": "Shell-Test: zählt als Bau-Leser (istShellTest entfernt)",
     "datei": "tools/pr-nachrechnen-leser.mjs",
     "suche": "!istTest(datei) && !istShellTest(datei) && !datei.startsWith",

@@ -146,7 +146,7 @@ const liestClaudeMd = (datei, bewegt, lies) => bewegt.some((b) => istClaudeMd(b)
 const aendertBauDaten = (datei) => datei.startsWith('data/')
 
 /** Shell-Tests (`commit-data-test*.sh`, `bau-schon-gebaut-test.sh`) schreiben Fixtures in Wegwerf-Repos und lesen nie echte Daten (geprüft 11.11.2026). */
-const istShellTest = (datei) => /-test(-[\w-]+)?\.sh$/.test(datei)
+const istShellTest = (datei) => /^tools\/[\w-]*-test(-[\w-]+)?\.sh$/.test(datei)
 
 /** Leser, die Daten wirklich lesen können: alles außer Tests und Workflows/Aktionen, die nur Fixtures oder Namen nennen (PR 3474, 11.11.2026). */
 const istBauLeser = (datei) => !istTest(datei) && !istShellTest(datei) && !datei.startsWith('.github/')
@@ -235,7 +235,7 @@ export function bewegtesGelesen({ bewegt, pr, leser, lies, liesMain = () => null
     const text = LISTE.test(p) ? neueEintraege(p, lies, liesMain).join('\n') : lies(p)
     const b = text === null ? undefined : bewegt.find((x) => liestTestDatei(p, text, x) && nennt(text, x))
     if (b !== undefined) return `der PR liest ${b} (${p})`
-    const ordner = text === null ? undefined : ordnerLeser(text, bewegt.filter((x) => !istTest(p) || !DATEN.test(x)))
+    const ordner = text === null ? undefined : ordnerLeser(text, bewegt.filter((x) => !istTest(p) || (!DATEN.test(x) && !LISTE.test(x))))
     if (ordner !== undefined) return `der PR liest einen Ordner mit ${ordner} (${p}), Verzeichnis nicht eindeutig`
   }
   const vorwaerts = [...huelle(start, lies)]

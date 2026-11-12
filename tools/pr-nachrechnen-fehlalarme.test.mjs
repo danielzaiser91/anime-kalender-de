@@ -100,7 +100,7 @@ for (const [pfad, text] of Object.entries(SHELL)) {
   pruefe(`Shell-Test ${pfad} (nennt ${genannt}) ist kein Bau-Leser -> null`, ohne === null, ohne)
   pruefe('Gegenprobe: derselbe Text als tools/gen.sh bleibt Bau-Leser -> Grund', /^der PR ändert data\/folgentitel-hand\.yaml, .*Leser: tools\/gen\.sh/.test(mit), mit)
 }
-const MUSTER_FAELLE = [['tools/commit-data-test-beleg.sh', null], ['tools/attest.sh', 'g'], ['tools/test-x.sh', 'g'], ['tools/a-test.mjs', 'g'], ['tools/a-test.sh.bak', 'g']]
+const MUSTER_FAELLE = [['tools/commit-data-test-beleg.sh', null], ['tools/attest.sh', 'g'], ['tools/test-x.sh', 'g'], ['tools/a-test.mjs', 'g'], ['tools/a-test.sh.bak', 'g'], ['pipeline/x-test.sh', 'g'], ['tools/unter/x-test.sh', 'g']]
 // Echter Fall 11.11.2026 22:24 (PR 3495, Daten-PR disc-anisearch.yaml): main bewegte tools/nachrechnen-joblog.mjs (PR 3505), der Grund lautete
 // „Leser: tools/commit-data-test.sh, nennt tools/nachrechnen-joblog.mjs“ — die Kopierliste des Shell-Tests nennt das Werkzeug.
 const JOBLOG = 'tools/nachrechnen-joblog.mjs'
@@ -129,6 +129,15 @@ const g2 = bauGrund([A, B], { 'pipeline/bau/a.ts': "x('anisearch.json')\n", 'pip
 pruefe('Leser: zwei bewegte Dateien -> je Datei ein Abschnitt, ein Leser beider steht in beiden', g2.endsWith(ENDE(`Leser: pipeline/bau/a.ts, pipeline/bau/c.ts, nennt ${A}; Leser: pipeline/bau/b.ts, pipeline/bau/c.ts, nennt ${B}`)), g2)
 const gN = bauGrund([A, B], { 'pipeline/bau/a.ts': null })
 pruefe('Leser: nicht lesbarer Text zählt als Leser der ersten bewegten Datei', gN.endsWith(ENDE(`Leser: pipeline/bau/a.ts, nennt ${A}`)), gN)
+
+// 11.11.2026 (PR 3502/3509): Test-PR mit readdirSync und `tools/` trifft keine Ausführungsliste, aber weiter bewegten Code unter tools/.
+const ECHTER_TEST = 'tools/mutationsanker-ohne-tests.test.mjs'
+const echterText = fs.readFileSync(new URL('./mutationsanker-ohne-tests.test.mjs', import.meta.url), 'utf8')
+const ordnerFall = (bewegt) => bewegtesGelesen({ bewegt: [bewegt], pr: [ECHTER_TEST], leser: [], lies: (p) => (p === ECHTER_TEST ? echterText : null), paketSkripte: null })
+const listeGrund = ordnerFall('tools/check-logic-liste.txt')
+const codeGrund = ordnerFall('tools/pr-nachrechnen.mjs')
+pruefe('Ordner-Leser: echter Test mit readdirSync + tools/ trifft bewegte Ausführungsliste nicht', listeGrund === null, listeGrund)
+pruefe('Ordner-Leser: bewegte Code-Datei unter tools/ bleibt Grund', typeof codeGrund === 'string' && codeGrund.includes('einen Ordner mit tools/pr-nachrechnen.mjs'), codeGrund)
 
 if (fehler.length > 0) {
   console.error(`pr-nachrechnen-fehlalarme.test: ${fehler.length} rot`)
