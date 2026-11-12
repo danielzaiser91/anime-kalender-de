@@ -74,3 +74,14 @@ Sperren gesamt: 19 Zuordnungen (Paare 1, 3, 5, 6, 7, 8, 9, 10, 11, 13, 14, 17, 1
 ## Was zum Klären fehlt (alle 4 unklaren, Tendenzen)
 
 Seitenabruf (Staffeltitel und Erscheinungsjahr der Amazon-Staffelseite, Sprachwähler) für B0B6R47YQ3, B0H47T317D (Kuroko), B013PQIF2U/B013PTWL2W (Biene Maja), B0F3TCT3TG (KonoSuba); dazu Gegenprobe der Tokyo-Ghoul-Zuordnung an B0D83P6X34 und B0DB78FWK9, weil dort die Live-Seite betroffen ist.
+
+## Nachtrag 12.11.2026: Paare 15, 16, 24, 31
+
+Ein Seitenabruf entfiel: Amazon duldet keinen Agenten (`docs/wissen/quellen.md`, „Amazon duldet keinen Agenten“, robots.txt mit 19 namentlichen Sperren und `/gp/video/api`). Urteil aus den gespeicherten Daten (`data/prime-zugeordnet.json`, `data/dub-confirmed.yaml`).
+
+| # | Urteil | Fundstelle | Handlung |
+|---|---|---|---|
+| 15 | gehört zu B (20725), mittel-hoch | Zeile 16894@B0B6R47YQ3 ist Staffelwähler-Stummel der Serienseite B09ZJW8HGH (`unsere` null, `#2`); 16894 hat B0H47T317D mit 24 Folgen; Handbeleg 20725@B0B6R47YQ3 (28.09., 25 Folgen) | gesperrt (`data/belege-entfernt.yaml`), Bekannt-Zeile gestrichen |
+| 16 | gehört zu B (16894), mittel-hoch | Zeile 20725@B0H47T317D ist Stummel der Serienseite B0B6R47YQ3 (`#1`, `unsere` null); Handbeleg 16894@B0H47T317D (28.09., 25 Folgen, ausgaben=2) | gesperrt, Bekannt-Zeile gestrichen |
+| 24 | erledigt vor diesem PR | Beleg 21699@B0F3TCT3TG schon in `belege-entfernt.yaml` (31.10.2026, #2497) | nichts |
+| 31 | bleibt unklar | beide Seiten 52 Folgen Deutsch, Handbelege 8373@B013PQIF2U („Staffel 1“), 2571@B013PTWL2W („Staffel 2“); aniSearch nennt 8373 „Staffel 2“ (`docs/wissen/schattenlauf-anisearch.md`), Amazons Staffelnummer ist kein Titelbeweis. Live zeigt 2571 B013PTWL2W, 8373 B013PQIF2U; die Zuordnungszeile 2571@B013PQIF2U ist nicht sichtbar | Bekannt-Zeile bleibt; Seitentitel/Jahr müsste ein Mensch am Browser lesen |
