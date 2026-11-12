@@ -7,7 +7,8 @@ import { braucheBild, entzieheBild, ohneMarkenJeTitel, type BelegGedaechtnis, ty
 import { markenLuecken, meldeMarkenLuecken, meldeOhneNamen, nameImTextOhneMarke, seitentitelPasst, stilleLuecken } from './lib/beleg-marken.ts'
 import { markierungenJeTitel } from './lib/beleg-bild.ts'
 import { ohneFundstelle } from './lib/beleg-ohne-fundstelle.ts'
-import type { Gruppe } from './lib/beleg-suche.ts'
+import { markiereAbgeloeste } from './lib/beleg-abgeloest.ts'
+import { zuordnungFuerLesen, type Gruppe } from './lib/beleg-suche.ts'
 import type { Stelle } from './lib/beleg-stelle.ts'
 
 let fehler = 0
@@ -93,6 +94,29 @@ const beide = ohneFundstelle(asGed(AS_KURZ, AS_SLUG), new Map([[AS_KURZ, asGrupp
 pruefe('Handliste: Kurz- und Slug-Adresse derselben aniSearch-Seite zählen einmal, in der Slug-Form', beide.length === 1 && beide[0]!.url === AS_SLUG, beide.map((x) => x.url).join(' '))
 pruefe('Handliste: eine Kurzadresse ohne Slug-Zwilling bleibt', ohneFundstelle(asGed(AS_KURZ, 'https://www.anisearch.de/article/216598,x'), new Map([[AS_KURZ, asGruppe]])).map((x) => x.url).join() === AS_KURZ)
 
+/* Überholte Quellen (12.11.2026): Form aus dem Bestand — Bocchi Vol. 3, aniSearch-Seite „überholt“ (sagt 2027-01-15), heutiger Tag 2027-02-05 aus Anime2You „aktuell“. */
+const BOCCHI = 'https://www.anisearch.de/article/191584,bocchi-the-rock-staffel-1-vol-3-3-limited-edition-blu-ray'
+const HEUTE_A2Y = 'https://www.anime2you.de/news/1068595/28-blu-ray-verschiebungen/'
+const bocchiG = new Map<string, Gruppe[]>([[BOCCHI, [{ id: 130003, suchen: ['Bocchi the Rock! – Vol. 3'], tage: ['2027-02-05', '2027-01-15'] }]]])
+const bocchiGed: BelegGedaechtnis = { [BOCCHI]: { zuletzt: '2026-11-06', lesungen: [lesung23({ am: '2026-11-06', markierung: undefined, markierungen: undefined })] } }
+const quelle = (url: string, stand: string, sagt?: string): any => ({ url, name: 'x', gesehenAm: '2026-10-29', stand, ...(sagt ? { sagt } : {}) })
+const termin = (id: number, ...quellen: any[]): any => ({ titleId: id, quellen })
+const aufListe = (releases: any[]): number => ohneFundstelle(bocchiGed, markiereAbgeloeste(bocchiG, releases)).length
+const alt = quelle(BOCCHI, 'ueberholt', '2027-01-15')
+pruefe('Abgelöst: überholte aniSearch-Seite mit sagt und heutiger Quelle steht nicht auf der Liste', aufListe([termin(130003, quelle(HEUTE_A2Y, 'aktuell', '2027-02-05'), alt)]) === 0)
+pruefe('Abgelöst (Kontrolle): ohne die Markierung stünde derselbe Fall auf der Liste', ohneFundstelle(bocchiGed, bocchiG).length === 1)
+pruefe('Abgelöst: überholt, aber keine heutige Quelle am Termin → bleibt', aufListe([termin(130003, alt)]) === 1)
+pruefe('Abgelöst: überholt ohne sagt → bleibt', aufListe([termin(130003, quelle(HEUTE_A2Y, 'aktuell', '2027-02-05'), quelle(BOCCHI, 'ueberholt'))]) === 1)
+pruefe('Abgelöst: vermutlich-ueberholt → bleibt', aufListe([termin(130003, quelle(HEUTE_A2Y, 'aktuell', '2027-02-05'), quelle(BOCCHI, 'vermutlich-ueberholt', '2027-01-15'))]) === 1)
+pruefe('Abgelöst: aktuelle Quelle derselben Adresse ohne Marke → bleibt', aufListe([termin(130003, quelle(HEUTE_A2Y, 'aktuell', '2027-02-05'), quelle(BOCCHI, 'aktuell', '2027-02-05'))]) === 1)
+pruefe('Abgelöst: zweiter Termin des Titels mit aktueller Quelle dieser Adresse → bleibt', aufListe([termin(130003, quelle(HEUTE_A2Y, 'aktuell', '2027-02-05'), alt), termin(130003, quelle(BOCCHI, 'aktuell', '2027-02-05'))]) === 1)
+pruefe('Abgelöst: zweiter Termin des Titels ohne heutige Quelle → bleibt', aufListe([termin(130003, quelle(HEUTE_A2Y, 'aktuell', '2027-02-05'), alt), termin(130003, alt)]) === 1)
+pruefe('Abgelöst: ein anderer Titel derselben Adresse bleibt', ohneFundstelle(bocchiGed, markiereAbgeloeste(new Map([[BOCCHI, [{ id: 130003, suchen: ['A'], tage: [] }, { id: 7, suchen: ['B'], tage: [] }]]]), [termin(130003, quelle(HEUTE_A2Y, 'aktuell', '2027-02-05'), alt)])).flatMap((x) => x.titel).join().includes('(7)'))
+/* Verdrahtung: der Bestandsleser des Laufs liefert die Markierung mit. */
+const bestand = { 'public/data/releases.json': [{ ...termin(130003, quelle(HEUTE_A2Y, 'aktuell', '2027-02-05'), alt), sources: [BOCCHI] }], 'public/data/titles.json': [], 'public/data/news.json': [] }
+const lauf = zuordnungFuerLesen(<T>(pfad: string, vorgabe: T): T => ((bestand as Record<string, unknown>)[pfad] as T) ?? vorgabe)
+pruefe('Abgelöst: zuordnungFuerLesen markiert die Gruppe, die Liste bleibt leer', lauf.gruppen.get(BOCCHI)?.[0]?.abgeloest === true && ohneFundstelle(bocchiGed, lauf.gruppen).length === 0)
+
 /* Kennzahl „Name im Text, Marke fehlt" (anime2you, Klasse A): nur Titel mit Grund nicht-gefunden, dessen Name (und Termin) im Text steht. */
 const TEXT = 'Ab 08.10.: »86 EIGHTY-SIX« (Dub + Sub). Außerdem Kobayashi-san Chi no Maidragon S am 3. Dezember 2026.'
 const kn = (id: number, suchen: string, tage: string[] = []): Gruppe => ({ id, suchen: [suchen], tage })
@@ -132,5 +156,5 @@ pruefe('Ohne Namen: zwei von drei aniSearch-Adressen (kurzer Name und unbekannte
 pruefe('Ohne Namen: eine einzige Adresse ohne Namen wird gezählt (genau 1)', meldeOhneNamen([ASX], gMap, () => undefined) === 1)
 pruefe('Ohne Namen: alle bekannt → keine Zeile, Zahl 0', meldeOhneNamen([AS], gMap, (z) => zeilen.push(z)) === 0 && zeilen.length === 1)
 
-console.log(fehler ? `✖ ${fehler} Verstöße` : '✔ Marken je Titel: Lücken, Kreislauf, Aufnahme-Gründe, Lauf-Ende, Handliste (ohne Titel, Kurz-/Slug-Adresse), Name im Text, Seitentitel (Schreibweisen) und Adressen ohne Namen in Ordnung')
+console.log(fehler ? `✖ ${fehler} Verstöße` : '✔ Marken je Titel: Lücken, Kreislauf, Aufnahme-Gründe, Lauf-Ende, Handliste (ohne Titel, Kurz-/Slug-Adresse, abgelöste Quellen), Name im Text, Seitentitel (Schreibweisen) und Adressen ohne Namen in Ordnung')
 process.exit(fehler ? 1 : 0)
