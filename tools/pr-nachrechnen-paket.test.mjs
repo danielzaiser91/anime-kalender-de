@@ -94,6 +94,8 @@ for (const hook of ['precheck:a', 'postcheck:a']) {
   veraltet(`neuer Hook ${hook} eines Kettenskripts, PR trifft seine Datei`, aendere({ 'check:a': 'node tools/unter.mjs' }, { 'check:a': 'node tools/unter.mjs', [hook]: 'node tools/pre.mjs' }, ['tools/pre.mjs'], HAKEN), /Skript (?:pre|post)check:a ist ein Hook/)
   veraltet(`Hook ${hook} gilt kettenweit (PR-Datei fremd)`, aendere({ 'check:a': 'node tools/unter.mjs', [hook]: 'node tools/pre.mjs' }, { 'check:a': 'node tools/unter.mjs', [hook]: 'node tools/pre2.mjs' }, ['worker/a.ts'], HAKEN), /ist ein Hook/)
 }
+aktuell('Kettenskript mit Namen pre... ohne Grundskript (preview) ist kein Hook, PR-Datei fremd', aendere({ preview: 'node tools/unter.mjs' }, { preview: 'node tools/neu.mjs' }, ['worker/a.ts'], [...KETTE, '      - run: npm run preview\n']))
+aktuell('Wort mit Wurzelnamen als Anfang (worker-x) ist kein Ordner', aendere({ 'check:hooks': 'node tools/unter.mjs' }, { 'check:hooks': 'node tools/unter.mjs worker-x' }, ['worker/a.ts']))
 aktuell('Hook eines Skripts außerhalb der Kette (predata:bau)', aendere({}, { 'predata:bau': 'node tools/pre.mjs' }, ['tools/pre.mjs'], HAKEN))
 for (const name of ['preinstall', 'install', 'postinstall', 'prepare']) {
   veraltet(`Install-Lebenszyklus ${name} gilt kettenweit`, aendere({}, { [name]: 'node tools/x.mjs' }, ['worker/a.ts'], HAKEN), /Skript .* ist ein Hook/)
