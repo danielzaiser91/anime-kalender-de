@@ -46,6 +46,7 @@ pipeline/check-anilist-cover-vorschau.ts
 pipeline/check-anilist-produkt.ts
 pipeline/check-anime2you-abruf.ts
 pipeline/check-anime2you-bleibt.ts
+pipeline/check-anime2you-blockkopf.ts
 pipeline/check-anime2you-entwurf.ts
 pipeline/check-anime2you-leicht.ts
 pipeline/check-anime2you-regel.ts
